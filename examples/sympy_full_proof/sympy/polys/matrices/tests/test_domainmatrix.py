@@ -32,16 +32,23 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DM(), test_DM produces the expected output) over Any ║
+# ║ Path(test_DM(), A.shape == (2, 2) and A.domain == ZZ) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DM : Any → {Any | A.shape == (2, 2) and A.domain...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.shape == (2, 2)                              ║
+# ║   ensures:  A.domain == ZZ                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DM : Any → {Any | result satisfies: A.shape == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edca9d4d98b2600a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bedcbcb0d9a00641  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DM","kind":"function","src_hash":"645f27965123f959","in":{"base":"Any"},"out":{"base":"Any","pred":"A.shape == (2, 2) and A.domain == ZZ and A.rep == ddm and A.rep == ddm.to_dfm()"},"spec":{"lhs":"test_DM()","rhs":"test_DM produces the expected output","over":{"base":"Any"},"name":"test_DM_correct"},"guarantee":"test_DM produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DM_correct","statement":"Path(test_DM(x), test_DM produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edca9d4d98b2600a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DM","kind":"function","src_hash":"645f27965123f959","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.shape == (2, 2) and A.domain == ZZ"},"spec":{"lhs":"test_DM()","rhs":"A.shape == (2, 2) and A.domain == ZZ","over":{"base":"Any"},"name":"test_DM_correct"},"guarantee":"A.shape == (2, 2); A.domain == ZZ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DM_correct","statement":"Path(test_DM(x), A.shape == (2, 2); A.domain == ZZ)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bedcbcb0d9a00641","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.shape == (2, 2)","A.domain == ZZ"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DM():
     ddm = DDM([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     A = DM([[1, 2], [3, 4]], ZZ)
@@ -54,16 +61,24 @@ def test_DM():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_init(), test_DomainMatrix_init produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_init(), A.shape == (2, 2) and A.domain == ZZ and A.rep == sdm and was == lol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_init : Any → {Any | A.shape == (2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.shape == (2, 2)                              ║
+# ║   ensures:  A.domain == ZZ                                 ║
+# ║   ensures:  A.rep == sdm                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_init : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f31df9cda6a30cbe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d775b3b07cea640  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_init","kind":"function","src_hash":"1ad9be203d6fa4ab","in":{"base":"Any"},"out":{"base":"Any","pred":"A.shape == (2, 2) and A.domain == ZZ and A.rep == sdm and A.shape == (2, 2) and A.domain == ZZ and was == lol and A.rep == ddm and A.rep == ddm.to_dfm() and A.rep == rep and A.rep == rep"},"spec":{"lhs":"test_DomainMatrix_init()","rhs":"test_DomainMatrix_init produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_init_correct"},"guarantee":"test_DomainMatrix_init produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_init_correct","statement":"Path(test_DomainMatrix_init(x), test_DomainMatrix_init produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f31df9cda6a30cbe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_init","kind":"function","src_hash":"1ad9be203d6fa4ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.shape == (2, 2) and A.domain == ZZ and A.rep == sdm and was == lol"},"spec":{"lhs":"test_DomainMatrix_init()","rhs":"A.shape == (2, 2) and A.domain == ZZ and A.rep == sdm and was == lol","over":{"base":"Any"},"name":"test_DomainMatrix_init_correct"},"guarantee":"A.shape == (2, 2); A.domain == ZZ; A.rep == sdm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_init_correct","statement":"Path(test_DomainMatrix_init(x), A.shape == (2, 2); A.domain == ZZ; A.rep == sdm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d775b3b07cea640","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.shape == (2, 2)","A.domain == ZZ","A.rep == sdm","was == lol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_init():
     lol = [[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]]
     dod = {0: {0: ZZ(1), 1:ZZ(2)}, 1: {0:ZZ(3), 1:ZZ(4)}}
@@ -106,16 +121,24 @@ def test_DomainMatrix_init():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_from_rep(), test_DomainMatrix_from_rep produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_from_rep(), A.rep == ddm and A.shape == (2, 2) and A.domain == ZZ and A.rep == sdm) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_from_rep : Any → {Any | A.rep == dd...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.rep == ddm                                   ║
+# ║   ensures:  A.shape == (2, 2)                              ║
+# ║   ensures:  A.domain == ZZ                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_from_rep : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba22199de5284d87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fba6b596883d04b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_rep","kind":"function","src_hash":"5a5cec159c006b2f","in":{"base":"Any"},"out":{"base":"Any","pred":"A.rep == ddm and A.shape == (2, 2) and A.domain == ZZ and A.rep == sdm and A.shape == (2, 2) and A.domain == ZZ"},"spec":{"lhs":"test_DomainMatrix_from_rep()","rhs":"test_DomainMatrix_from_rep produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_from_rep_correct"},"guarantee":"test_DomainMatrix_from_rep produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_rep_correct","statement":"Path(test_DomainMatrix_from_rep(x), test_DomainMatrix_from_rep produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba22199de5284d87"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_rep","kind":"function","src_hash":"5a5cec159c006b2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.rep == ddm and A.shape == (2, 2) and A.domain == ZZ and A.rep == sdm"},"spec":{"lhs":"test_DomainMatrix_from_rep()","rhs":"A.rep == ddm and A.shape == (2, 2) and A.domain == ZZ and A.rep == sdm","over":{"base":"Any"},"name":"test_DomainMatrix_from_rep_correct"},"guarantee":"A.rep == ddm; A.shape == (2, 2); A.domain == ZZ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_rep_correct","statement":"Path(test_DomainMatrix_from_rep(x), A.rep == ddm; A.shape == (2, 2); A.domain == ZZ)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fba6b596883d04b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.rep == ddm","A.shape == (2, 2)","A.domain == ZZ","A.rep == sdm"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_from_rep():
     ddm = DDM([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     A = DomainMatrix.from_rep(ddm)
@@ -135,16 +158,24 @@ def test_DomainMatrix_from_rep():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_from_list(), test_DomainMatrix_from_list produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_from_list(), A.shape == (2, 2) and A.domain == ZZ and A.domain == dom and A.domain == QQ) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_from_list : Any → {Any | A.shape ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.shape == (2, 2)                              ║
+# ║   ensures:  A.domain == ZZ                                 ║
+# ║   ensures:  A.domain == dom                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_from_list : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 426cf25ee26de5d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10184d55b227291a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_list","kind":"function","src_hash":"cca59a69cee431fe","in":{"base":"Any"},"out":{"base":"Any","pred":"A.shape == (2, 2) and A.domain == ZZ and A.shape == (2, 2) and A.domain == dom and A.shape == (2, 2) and A.domain == dom and A.shape == (2, 2) and A.domain == QQ and A.rep == ddm and A.rep == ddm.to_dfm() and A.rep == ddm and A.rep == ddm.to_dfm() and A.rep == ddm and A.rep == ddm.to_dfm() and A.rep == ddm and A.rep == ddm.to_dfm()"},"spec":{"lhs":"test_DomainMatrix_from_list()","rhs":"test_DomainMatrix_from_list produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_from_list_correct"},"guarantee":"test_DomainMatrix_from_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_list_correct","statement":"Path(test_DomainMatrix_from_list(x), test_DomainMatrix_from_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"426cf25ee26de5d5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_list","kind":"function","src_hash":"cca59a69cee431fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.shape == (2, 2) and A.domain == ZZ and A.domain == dom and A.domain == QQ"},"spec":{"lhs":"test_DomainMatrix_from_list()","rhs":"A.shape == (2, 2) and A.domain == ZZ and A.domain == dom and A.domain == QQ","over":{"base":"Any"},"name":"test_DomainMatrix_from_list_correct"},"guarantee":"A.shape == (2, 2); A.domain == ZZ; A.domain == dom","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_list_correct","statement":"Path(test_DomainMatrix_from_list(x), A.shape == (2, 2); A.domain == ZZ; A.domain == dom)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10184d55b227291a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.shape == (2, 2)","A.domain == ZZ","A.domain == dom","A.domain == QQ"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_from_list():
     ddm = DDM([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     A = DomainMatrix.from_list([[1, 2], [3, 4]], ZZ)
@@ -186,16 +217,24 @@ def test_DomainMatrix_from_list():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_from_list_sympy(), test_DomainMatrix_from_list_sympy produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_from_list_sympy(), A.shape == (2, 2) and A.domain == ZZ and A.rep == ddm and A.domain == K) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_from_list_sympy : Any → {Any | A.sh...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.shape == (2, 2)                              ║
+# ║   ensures:  A.domain == ZZ                                 ║
+# ║   ensures:  A.rep == ddm                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_from_list_sympy : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a662b39dc931b89  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b52c336719586960  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_list_sympy","kind":"function","src_hash":"a95f12eecf9f9e18","in":{"base":"Any"},"out":{"base":"Any","pred":"A.shape == (2, 2) and A.domain == ZZ and A.rep == ddm and A.shape == (2, 2) and A.domain == K and A.rep == ddm and A.rep == ddm.to_dfm()"},"spec":{"lhs":"test_DomainMatrix_from_list_sympy()","rhs":"test_DomainMatrix_from_list_sympy produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_from_list_sympy_correct"},"guarantee":"test_DomainMatrix_from_list_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_list_sympy_correct","statement":"Path(test_DomainMatrix_from_list_sympy(x), test_DomainMatrix_from_list_sympy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a662b39dc931b89"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_list_sympy","kind":"function","src_hash":"a95f12eecf9f9e18","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.shape == (2, 2) and A.domain == ZZ and A.rep == ddm and A.domain == K"},"spec":{"lhs":"test_DomainMatrix_from_list_sympy()","rhs":"A.shape == (2, 2) and A.domain == ZZ and A.rep == ddm and A.domain == K","over":{"base":"Any"},"name":"test_DomainMatrix_from_list_sympy_correct"},"guarantee":"A.shape == (2, 2); A.domain == ZZ; A.rep == ddm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_list_sympy_correct","statement":"Path(test_DomainMatrix_from_list_sympy(x), A.shape == (2, 2); A.domain == ZZ; A.rep == ddm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b52c336719586960","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.shape == (2, 2)","A.domain == ZZ","A.rep == ddm","A.domain == K"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_from_list_sympy():
     ddm = DDM([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     A = DomainMatrix.from_list_sympy(2, 2, [[1, 2], [3, 4]])
@@ -222,16 +261,24 @@ def test_DomainMatrix_from_list_sympy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_from_dict_sympy(), test_DomainMatrix_from_dict_sympy produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_from_dict_sympy(), A.rep == sdm and A.shape == (2, 2) and A.domain == QQ) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_from_dict_sympy : Any → {Any | A.re...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.rep == sdm                                   ║
+# ║   ensures:  A.shape == (2, 2)                              ║
+# ║   ensures:  A.domain == QQ                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_from_dict_sympy : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fa9266a987431eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d07965aefa88f6e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_dict_sympy","kind":"function","src_hash":"f0f6a05bfaabc6b3","in":{"base":"Any"},"out":{"base":"Any","pred":"A.rep == sdm and A.shape == (2, 2) and A.domain == QQ"},"spec":{"lhs":"test_DomainMatrix_from_dict_sympy()","rhs":"test_DomainMatrix_from_dict_sympy produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_from_dict_sympy_correct"},"guarantee":"test_DomainMatrix_from_dict_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_dict_sympy_correct","statement":"Path(test_DomainMatrix_from_dict_sympy(x), test_DomainMatrix_from_dict_sympy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fa9266a987431eb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_dict_sympy","kind":"function","src_hash":"f0f6a05bfaabc6b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.rep == sdm and A.shape == (2, 2) and A.domain == QQ"},"spec":{"lhs":"test_DomainMatrix_from_dict_sympy()","rhs":"A.rep == sdm and A.shape == (2, 2) and A.domain == QQ","over":{"base":"Any"},"name":"test_DomainMatrix_from_dict_sympy_correct"},"guarantee":"A.rep == sdm; A.shape == (2, 2); A.domain == QQ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_dict_sympy_correct","statement":"Path(test_DomainMatrix_from_dict_sympy(x), A.rep == sdm; A.shape == (2, 2); A.domain == QQ)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d07965aefa88f6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.rep == sdm","A.shape == (2, 2)","A.domain == QQ"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_from_dict_sympy():
     sdm = SDM({0: {0: QQ(1, 2)}, 1: {1: QQ(2, 3)}}, (2, 2), QQ)
     sympy_dict = {0: {0: Rational(1, 2)}, 1: {1: Rational(2, 3)}}
@@ -246,16 +293,24 @@ def test_DomainMatrix_from_dict_sympy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_from_Matrix(), test_DomainMatrix_from_Matrix produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_from_Matrix(), A.rep == sdm and A.shape == (2, 2) and A.domain == ZZ and A.domain == K and A.domain == QQ) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_from_Matrix : Any → {Any | A.rep ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.rep == sdm                                   ║
+# ║   ensures:  A.shape == (2, 2)                              ║
+# ║   ensures:  A.domain == ZZ                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_from_Matrix : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a42e3c85dd67323  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10dd5450589ce512  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_Matrix","kind":"function","src_hash":"936409defeffacb3","in":{"base":"Any"},"out":{"base":"Any","pred":"A.rep == sdm and A.shape == (2, 2) and A.domain == ZZ and A.rep == sdm and A.shape == (2, 2) and A.domain == K and A.shape == (2, 2) and A.domain == QQ and A.rep == ddm and A.rep == ddm.to_dfm()"},"spec":{"lhs":"test_DomainMatrix_from_Matrix()","rhs":"test_DomainMatrix_from_Matrix produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_from_Matrix_correct"},"guarantee":"test_DomainMatrix_from_Matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_Matrix_correct","statement":"Path(test_DomainMatrix_from_Matrix(x), test_DomainMatrix_from_Matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a42e3c85dd67323"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_Matrix","kind":"function","src_hash":"936409defeffacb3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.rep == sdm and A.shape == (2, 2) and A.domain == ZZ and A.domain == K and A.domain == QQ"},"spec":{"lhs":"test_DomainMatrix_from_Matrix()","rhs":"A.rep == sdm and A.shape == (2, 2) and A.domain == ZZ and A.domain == K and A.domain == QQ","over":{"base":"Any"},"name":"test_DomainMatrix_from_Matrix_correct"},"guarantee":"A.rep == sdm; A.shape == (2, 2); A.domain == ZZ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_Matrix_correct","statement":"Path(test_DomainMatrix_from_Matrix(x), A.rep == sdm; A.shape == (2, 2); A.domain == ZZ)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10dd5450589ce512","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.rep == sdm","A.shape == (2, 2)","A.domain == ZZ","A.domain == K","A.domain == QQ"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_from_Matrix():
     sdm = SDM({0: {0: ZZ(1), 1: ZZ(2)}, 1: {0: ZZ(3), 1: ZZ(4)}}, (2, 2), ZZ)
     A = DomainMatrix.from_Matrix(Matrix([[1, 2], [3, 4]]))
@@ -289,16 +344,24 @@ def test_DomainMatrix_from_Matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_eq(), test_DomainMatrix_eq produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_eq(), A == A and A != B and A != C) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_eq : Any → {Any | A == A and A != B...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A == A                                         ║
+# ║   ensures:  A != B                                         ║
+# ║   ensures:  A != C                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_eq : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 545a89eac60cfb55  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e42707dcf781e55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eq","kind":"function","src_hash":"843b1c19dc70fb08","in":{"base":"Any"},"out":{"base":"Any","pred":"A == A and A != B and A != C"},"spec":{"lhs":"test_DomainMatrix_eq()","rhs":"test_DomainMatrix_eq produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_eq_correct"},"guarantee":"test_DomainMatrix_eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eq_correct","statement":"Path(test_DomainMatrix_eq(x), test_DomainMatrix_eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"545a89eac60cfb55"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eq","kind":"function","src_hash":"843b1c19dc70fb08","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A == A and A != B and A != C"},"spec":{"lhs":"test_DomainMatrix_eq()","rhs":"A == A and A != B and A != C","over":{"base":"Any"},"name":"test_DomainMatrix_eq_correct"},"guarantee":"A == A; A != B; A != C","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eq_correct","statement":"Path(test_DomainMatrix_eq(x), A == A; A != B; A != C)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e42707dcf781e55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A == A","A != B","A != C"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_eq():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     assert A == A
@@ -309,16 +372,24 @@ def test_DomainMatrix_eq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_unify_eq(), test_DomainMatrix_unify_eq produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_unify_eq(), A.unify_eq(B1) is True and A.unify_eq(B2) is False and A.unify_eq(B3) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_unify_eq : Any → {Any | A.unify_eq(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.unify_eq(B1) is True                         ║
+# ║   ensures:  A.unify_eq(B2) is False                        ║
+# ║   ensures:  A.unify_eq(B3) is False                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_unify_eq : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b15915920bbd654  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a489d8252c36cd12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_unify_eq","kind":"function","src_hash":"6783849b221e049d","in":{"base":"Any"},"out":{"base":"Any","pred":"A.unify_eq(B1) is True and A.unify_eq(B2) is False and A.unify_eq(B3) is False"},"spec":{"lhs":"test_DomainMatrix_unify_eq()","rhs":"test_DomainMatrix_unify_eq produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_unify_eq_correct"},"guarantee":"test_DomainMatrix_unify_eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_unify_eq_correct","statement":"Path(test_DomainMatrix_unify_eq(x), test_DomainMatrix_unify_eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b15915920bbd654"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_unify_eq","kind":"function","src_hash":"6783849b221e049d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.unify_eq(B1) is True and A.unify_eq(B2) is False and A.unify_eq(B3) is False"},"spec":{"lhs":"test_DomainMatrix_unify_eq()","rhs":"A.unify_eq(B1) is True and A.unify_eq(B2) is False and A.unify_eq(B3) is False","over":{"base":"Any"},"name":"test_DomainMatrix_unify_eq_correct"},"guarantee":"A.unify_eq(B1) is True; A.unify_eq(B2) is False; A.unify_eq(B3) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_unify_eq_correct","statement":"Path(test_DomainMatrix_unify_eq(x), A.unify_eq(B1) is True; A.unify_eq(B2) is False; A.unify_eq(B3) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a489d8252c36cd12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.unify_eq(B1) is True","A.unify_eq(B2) is False","A.unify_eq(B3) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_unify_eq():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     B1 = DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)
@@ -330,16 +401,24 @@ def test_DomainMatrix_unify_eq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_get_domain(), test_DomainMatrix_get_domain produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_get_domain(), items == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)] and K == ZZ and items == [QQ(1), QQ(2), QQ(3), QQ(1, 2)] and K == QQ) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_get_domain : Any → {Any | items == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  items == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]          ║
+# ║   ensures:  K == ZZ                                        ║
+# ║   ensures:  items == [QQ(1), QQ(2), QQ(3), QQ(1, 2)]       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_get_domain : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ed460493b21415e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 883705a85360dcd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_get_domain","kind":"function","src_hash":"2372139ea5a6873f","in":{"base":"Any"},"out":{"base":"Any","pred":"items == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)] and K == ZZ and items == [QQ(1), QQ(2), QQ(3), QQ(1, 2)] and K == QQ"},"spec":{"lhs":"test_DomainMatrix_get_domain()","rhs":"test_DomainMatrix_get_domain produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_get_domain_correct"},"guarantee":"test_DomainMatrix_get_domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_get_domain_correct","statement":"Path(test_DomainMatrix_get_domain(x), test_DomainMatrix_get_domain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ed460493b21415e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_get_domain","kind":"function","src_hash":"2372139ea5a6873f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: items == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)] and K == ZZ and items == [QQ(1), QQ(2), QQ(3), QQ(1, 2)] and K == QQ"},"spec":{"lhs":"test_DomainMatrix_get_domain()","rhs":"items == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)] and K == ZZ and items == [QQ(1), QQ(2), QQ(3), QQ(1, 2)] and K == QQ","over":{"base":"Any"},"name":"test_DomainMatrix_get_domain_correct"},"guarantee":"items == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]; K == ZZ; items == [QQ(1), QQ(2), QQ(3), QQ(1, 2)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_get_domain_correct","statement":"Path(test_DomainMatrix_get_domain(x), items == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]; K == ZZ; items == [QQ(1), QQ(2), QQ(3), QQ(1, 2)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"883705a85360dcd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["items == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]","K == ZZ","items == [QQ(1), QQ(2), QQ(3), QQ(1, 2)]","K == QQ"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_get_domain():
     K, items = DomainMatrix.get_domain([1, 2, 3, 4])
     assert items == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]
@@ -351,16 +430,22 @@ def test_DomainMatrix_get_domain():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_convert_to(), test_DomainMatrix_convert_to produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_convert_to(), Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_convert_to : Any → {Any | Aq == Dom...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_convert_to : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4e7a136ca61c134  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fd8f7587086bec9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_convert_to","kind":"function","src_hash":"047c9537c1807fe9","in":{"base":"Any"},"out":{"base":"Any","pred":"Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)"},"spec":{"lhs":"test_DomainMatrix_convert_to()","rhs":"test_DomainMatrix_convert_to produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_convert_to_correct"},"guarantee":"test_DomainMatrix_convert_to produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_convert_to_correct","statement":"Path(test_DomainMatrix_convert_to(x), test_DomainMatrix_convert_to produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4e7a136ca61c134"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_convert_to","kind":"function","src_hash":"047c9537c1807fe9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)"},"spec":{"lhs":"test_DomainMatrix_convert_to()","rhs":"Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)","over":{"base":"Any"},"name":"test_DomainMatrix_convert_to_correct"},"guarantee":"Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_convert_to_correct","statement":"Path(test_DomainMatrix_convert_to(x), Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fd8f7587086bec9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_convert_to():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     Aq = A.convert_to(QQ)
@@ -368,16 +453,24 @@ def test_DomainMatrix_convert_to():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_choose_domain(), test_DomainMatrix_choose_domain produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_choose_domain(), DM(A, QQ).choose_domain() == DM(A, ZZ) and DM(A, QQ).choose_domain(field=True) == DM(A, QQ) and DM(A, ZZ).choose_domain(field=True) == DM(A, QQ) and DM(B, QQ[x]).choose_domain(field=True) == DM(B, ZZ.frac_field(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_choose_domain : Any → {Any | DM(A, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DM(A, QQ).choose_domain() == DM(A, ZZ)         ║
+# ║   ensures:  DM(A, QQ).choose_domain(field=True) == DM...   ║
+# ║   ensures:  DM(A, ZZ).choose_domain(field=True) == DM...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_choose_domain : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebc8841a9172981b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a04c3ac9fe8e95a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_choose_domain","kind":"function","src_hash":"9a70c66a5cf61fb7","in":{"base":"Any"},"out":{"base":"Any","pred":"DM(A, QQ).choose_domain() == DM(A, ZZ) and DM(A, QQ).choose_domain(field=True) == DM(A, QQ) and DM(A, ZZ).choose_domain(field=True) == DM(A, QQ) and DM(B, QQ[x]).choose_domain(field=True) == DM(B, ZZ.frac_field(x))"},"spec":{"lhs":"test_DomainMatrix_choose_domain()","rhs":"test_DomainMatrix_choose_domain produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_choose_domain_correct"},"guarantee":"test_DomainMatrix_choose_domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_choose_domain_correct","statement":"Path(test_DomainMatrix_choose_domain(x), test_DomainMatrix_choose_domain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebc8841a9172981b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_choose_domain","kind":"function","src_hash":"9a70c66a5cf61fb7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DM(A, QQ).choose_domain() == DM(A, ZZ) and DM(A, QQ).choose_domain(field=True) == DM(A, QQ) and DM(A, ZZ).choose_domain(field=True) == DM(A, QQ) and DM(B, QQ[x]).choose_domain(field=True) == DM(B, ZZ.frac_field(x))"},"spec":{"lhs":"test_DomainMatrix_choose_domain()","rhs":"DM(A, QQ).choose_domain() == DM(A, ZZ) and DM(A, QQ).choose_domain(field=True) == DM(A, QQ) and DM(A, ZZ).choose_domain(field=True) == DM(A, QQ) and DM(B, QQ[x]).choose_domain(field=True) == DM(B, ZZ.frac_field(x))","over":{"base":"Any"},"name":"test_DomainMatrix_choose_domain_correct"},"guarantee":"DM(A, QQ).choose_domain() == DM(A, ZZ); DM(A, QQ).choose_domain(field=True) == DM(A, QQ); DM(A, ZZ).choose_domain(field=True) == DM(A, QQ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_choose_domain_correct","statement":"Path(test_DomainMatrix_choose_domain(x), DM(A, QQ).choose_domain() == DM(A, ZZ); DM(A, QQ).choose_domain(field=True) == DM(A, QQ); DM(A, ZZ).choose_domain(field=True) == DM(A, QQ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a04c3ac9fe8e95a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DM(A, QQ).choose_domain() == DM(A, ZZ)","DM(A, QQ).choose_domain(field=True) == DM(A, QQ)","DM(A, ZZ).choose_domain(field=True) == DM(A, QQ)","DM(B, QQ[x]).choose_domain(field=True) == DM(B, ZZ.frac_field(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_choose_domain():
     A = [[1, 2], [3, 0]]
     assert DM(A, QQ).choose_domain() == DM(A, ZZ)
@@ -390,16 +483,22 @@ def test_DomainMatrix_choose_domain():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_to_flat_nz(), test_DomainMatrix_to_flat_nz produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_to_flat_nz(), <unspecified:test_DomainMatrix_to_flat_nz>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DomainMatrix_to_flat_nz : Any → {Any | A.from_fl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee1b62a3a5acd9fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_flat_nz","kind":"function","src_hash":"bcf74964f7ba0b8b","in":{"base":"Any"},"out":{"base":"Any","pred":"A.from_flat_nz(elems, data, A.domain) == A and A.from_flat_nz(elemsq, data, QQ) == A.convert_to(QQ) and A.from_flat_nz(elems2, data, A.domain) == 2 * A"},"spec":{"lhs":"test_DomainMatrix_to_flat_nz()","rhs":"test_DomainMatrix_to_flat_nz produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_to_flat_nz_correct"},"guarantee":"test_DomainMatrix_to_flat_nz produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_flat_nz_correct","statement":"Path(test_DomainMatrix_to_flat_nz(x), test_DomainMatrix_to_flat_nz produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee1b62a3a5acd9fe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_flat_nz","kind":"function","src_hash":"bcf74964f7ba0b8b","in":{"base":"Any"},"out":{"base":"Any","pred":"A.from_flat_nz(elems, data, A.domain) == A and A.from_flat_nz(elemsq, data, QQ) == A.convert_to(QQ) and A.from_flat_nz(elems2, data, A.domain) == 2 * A"},"spec":{"lhs":"test_DomainMatrix_to_flat_nz()","rhs":"<unspecified:test_DomainMatrix_to_flat_nz>","over":{"base":"Any"},"name":"test_DomainMatrix_to_flat_nz_correct"},"guarantee":"test_DomainMatrix_to_flat_nz produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_flat_nz_correct","statement":"Path(test_DomainMatrix_to_flat_nz(x), test_DomainMatrix_to_flat_nz produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee1b62a3a5acd9fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_to_flat_nz():
     Adm = DM([[1, 2], [3, 0]], ZZ)
     Addm = Adm.rep.to_ddm()
@@ -414,32 +513,44 @@ def test_DomainMatrix_to_flat_nz():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_to_sympy(), test_DomainMatrix_to_sympy produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_to_sympy(), A.to_sympy() == A.convert_to(EXRAW)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_to_sympy : Any → {Any | A.to_sympy(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.to_sympy() == A.convert_to(EXRAW)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_to_sympy : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 440910c1a774346f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa13cc5481bfc6b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_sympy","kind":"function","src_hash":"c7c1e6d8d721b0cb","in":{"base":"Any"},"out":{"base":"Any","pred":"A.to_sympy() == A.convert_to(EXRAW)"},"spec":{"lhs":"test_DomainMatrix_to_sympy()","rhs":"test_DomainMatrix_to_sympy produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_to_sympy_correct"},"guarantee":"test_DomainMatrix_to_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_sympy_correct","statement":"Path(test_DomainMatrix_to_sympy(x), test_DomainMatrix_to_sympy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"440910c1a774346f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_sympy","kind":"function","src_hash":"c7c1e6d8d721b0cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.to_sympy() == A.convert_to(EXRAW)"},"spec":{"lhs":"test_DomainMatrix_to_sympy()","rhs":"A.to_sympy() == A.convert_to(EXRAW)","over":{"base":"Any"},"name":"test_DomainMatrix_to_sympy_correct"},"guarantee":"A.to_sympy() == A.convert_to(EXRAW)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_sympy_correct","statement":"Path(test_DomainMatrix_to_sympy(x), A.to_sympy() == A.convert_to(EXRAW))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa13cc5481bfc6b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.to_sympy() == A.convert_to(EXRAW)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_to_sympy():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     assert A.to_sympy() == A.convert_to(EXRAW)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_to_field(), test_DomainMatrix_to_field produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_to_field(), Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_to_field : Any → {Any | Aq == Domai...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_to_field : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fbf60f035369064  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91e77717977a14d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_field","kind":"function","src_hash":"b804e523feb47be0","in":{"base":"Any"},"out":{"base":"Any","pred":"Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)"},"spec":{"lhs":"test_DomainMatrix_to_field()","rhs":"test_DomainMatrix_to_field produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_to_field_correct"},"guarantee":"test_DomainMatrix_to_field produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_field_correct","statement":"Path(test_DomainMatrix_to_field(x), test_DomainMatrix_to_field produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fbf60f035369064"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_field","kind":"function","src_hash":"b804e523feb47be0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)"},"spec":{"lhs":"test_DomainMatrix_to_field()","rhs":"Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)","over":{"base":"Any"},"name":"test_DomainMatrix_to_field_correct"},"guarantee":"Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_field_correct","statement":"Path(test_DomainMatrix_to_field(x), Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91e77717977a14d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Aq == DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_to_field():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     Aq = A.to_field()
@@ -447,16 +558,22 @@ def test_DomainMatrix_to_field():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_to_sparse(), test_DomainMatrix_to_sparse produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_to_sparse(), A_sparse.rep == {0: {0: 1, 1: 2}, 1: {0: 3, 1: 4}}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_to_sparse : Any → {Any | A_sparse.r...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A_sparse.rep == {0: {0: 1, 1: 2}, 1: {0: ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_to_sparse : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37d6296b704a3bc2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 927c7455a221dd58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_sparse","kind":"function","src_hash":"795bb0e4e83cc11f","in":{"base":"Any"},"out":{"base":"Any","pred":"A_sparse.rep == {0: {0: 1, 1: 2}, 1: {0: 3, 1: 4}}"},"spec":{"lhs":"test_DomainMatrix_to_sparse()","rhs":"test_DomainMatrix_to_sparse produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_to_sparse_correct"},"guarantee":"test_DomainMatrix_to_sparse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_sparse_correct","statement":"Path(test_DomainMatrix_to_sparse(x), test_DomainMatrix_to_sparse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37d6296b704a3bc2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_sparse","kind":"function","src_hash":"795bb0e4e83cc11f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A_sparse.rep == {0: {0: 1, 1: 2}, 1: {0: 3, 1: 4}}"},"spec":{"lhs":"test_DomainMatrix_to_sparse()","rhs":"A_sparse.rep == {0: {0: 1, 1: 2}, 1: {0: 3, 1: 4}}","over":{"base":"Any"},"name":"test_DomainMatrix_to_sparse_correct"},"guarantee":"A_sparse.rep == {0: {0: 1, 1: 2}, 1: {0: 3, 1: 4}}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_sparse_correct","statement":"Path(test_DomainMatrix_to_sparse(x), A_sparse.rep == {0: {0: 1, 1: 2}, 1: {0: 3, 1: 4}})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"927c7455a221dd58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A_sparse.rep == {0: {0: 1, 1: 2}, 1: {0: 3, 1: 4}}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_to_sparse():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     A_sparse = A.to_sparse()
@@ -464,16 +581,22 @@ def test_DomainMatrix_to_sparse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_to_dense(), test_DomainMatrix_to_dense produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_to_dense(), <unspecified:test_DomainMatrix_to_dense>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DomainMatrix_to_dense : Any → {Any | A_dense.rep...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf427f52ba289364  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_dense","kind":"function","src_hash":"73a7c526d56989ce","in":{"base":"Any"},"out":{"base":"Any","pred":"A_dense.rep == ddm and A_dense.rep == ddm.to_dfm()"},"spec":{"lhs":"test_DomainMatrix_to_dense()","rhs":"test_DomainMatrix_to_dense produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_to_dense_correct"},"guarantee":"test_DomainMatrix_to_dense produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_dense_correct","statement":"Path(test_DomainMatrix_to_dense(x), test_DomainMatrix_to_dense produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf427f52ba289364"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_dense","kind":"function","src_hash":"73a7c526d56989ce","in":{"base":"Any"},"out":{"base":"Any","pred":"A_dense.rep == ddm and A_dense.rep == ddm.to_dfm()"},"spec":{"lhs":"test_DomainMatrix_to_dense()","rhs":"<unspecified:test_DomainMatrix_to_dense>","over":{"base":"Any"},"name":"test_DomainMatrix_to_dense_correct"},"guarantee":"test_DomainMatrix_to_dense produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_dense_correct","statement":"Path(test_DomainMatrix_to_dense(x), test_DomainMatrix_to_dense produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf427f52ba289364","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_to_dense():
     A = DomainMatrix({0: {0: 1, 1: 2}, 1: {0: 3, 1: 4}}, (2, 2), ZZ)
     A_dense = A.to_dense()
@@ -485,16 +608,24 @@ def test_DomainMatrix_to_dense():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_unify(), test_DomainMatrix_unify produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_unify(), Az.unify(Az) == (Az, Az) and Az.unify(Aq) == (Aq, Aq) and Aq.unify(Az) == (Aq, Aq) and Aq.unify(Aq) == (Aq, Aq) and As.unify(As) == (As, As) and Ad.unify(Ad) == (Ad, Ad) and Bs.rep == DDM([[0, 1], [2, 0]], (2, 2), ZZ).to_dfm_or_ddm() and Bd.rep == DDM([[1, 2], [3, 4]], (2, 2), ZZ).to_dfm_or_ddm() and Bs.rep == SDM({0: {1: 1}, 1: {0: 2}}, (2, 2), ZZ) and Bd.rep == SDM({0: {0: 1, 1: 2}, 1: {0: 3, 1: 4}}, (2, 2), ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_unify : Any → {Any | Az.unify(Az) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Az.unify(Az) == (Az, Az)                       ║
+# ║   ensures:  Az.unify(Aq) == (Aq, Aq)                       ║
+# ║   ensures:  Aq.unify(Az) == (Aq, Aq)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_unify : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c746fd7ad88dea7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a7ef4d186ea386a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_unify","kind":"function","src_hash":"fd03c0c437334da1","in":{"base":"Any"},"out":{"base":"Any","pred":"Az.unify(Az) == (Az, Az) and Az.unify(Aq) == (Aq, Aq) and Aq.unify(Az) == (Aq, Aq) and Aq.unify(Aq) == (Aq, Aq) and As.unify(As) == (As, As) and Ad.unify(Ad) == (Ad, Ad) and Bs.rep == DDM([[0, 1], [2, 0]], (2, 2), ZZ).to_dfm_or_ddm() and Bd.rep == DDM([[1, 2], [3, 4]], (2, 2), ZZ).to_dfm_or_ddm() and Bs.rep == SDM({0: {1: 1}, 1: {0: 2}}, (2, 2), ZZ) and Bd.rep == SDM({0: {0: 1, 1: 2}, 1: {0: 3, 1: 4}}, (2, 2), ZZ)"},"spec":{"lhs":"test_DomainMatrix_unify()","rhs":"test_DomainMatrix_unify produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_unify_correct"},"guarantee":"test_DomainMatrix_unify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_unify_correct","statement":"Path(test_DomainMatrix_unify(x), test_DomainMatrix_unify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c746fd7ad88dea7c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_unify","kind":"function","src_hash":"fd03c0c437334da1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Az.unify(Az) == (Az, Az) and Az.unify(Aq) == (Aq, Aq) and Aq.unify(Az) == (Aq, Aq) and Aq.unify(Aq) == (Aq, Aq) and As.unify(As) == (As, As) and Ad.unify(Ad) == (Ad, Ad) and Bs.rep == DDM([[0, 1], [2, 0]], (2, 2), ZZ).to_dfm_or_ddm() and Bd.rep == DDM([[1, 2], [3, 4]], (2, 2), ZZ).to_dfm_or_ddm() and Bs.rep == SDM({0: {1: 1}, 1: {0: 2}}, (2, 2), ZZ) and Bd.rep == SDM({0: {0: 1, 1: 2}, 1: {0: 3, 1: 4}}, (2, 2), ZZ)"},"spec":{"lhs":"test_DomainMatrix_unify()","rhs":"Az.unify(Az) == (Az, Az) and Az.unify(Aq) == (Aq, Aq) and Aq.unify(Az) == (Aq, Aq) and Aq.unify(Aq) == (Aq, Aq) and As.unify(As) == (As, As) and Ad.unify(Ad) == (Ad, Ad) and Bs.rep == DDM([[0, 1], [2, 0]], (2, 2), ZZ).to_dfm_or_ddm() and Bd.rep == DDM([[1, 2], [3, 4]], (2, 2), ZZ).to_dfm_or_ddm() and Bs.rep == SDM({0: {1: 1}, 1: {0: 2}}, (2, 2), ZZ) and Bd.rep == SDM({0: {0: 1, 1: 2}, 1: {0: 3, 1: 4}}, (2, 2), ZZ)","over":{"base":"Any"},"name":"test_DomainMatrix_unify_correct"},"guarantee":"Az.unify(Az) == (Az, Az); Az.unify(Aq) == (Aq, Aq); Aq.unify(Az) == (Aq, Aq)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_unify_correct","statement":"Path(test_DomainMatrix_unify(x), Az.unify(Az) == (Az, Az); Az.unify(Aq) == (Aq, Aq); Aq.unify(Az) == (Aq, Aq))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a7ef4d186ea386a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Az.unify(Az) == (Az, Az)","Az.unify(Aq) == (Aq, Aq)","Aq.unify(Az) == (Aq, Aq)","Aq.unify(Aq) == (Aq, Aq)","As.unify(As) == (As, As)","Ad.unify(Ad) == (Ad, Ad)","Bs.rep == DDM([[0, 1], [2, 0]], (2, 2), ZZ).to_dfm_or_ddm()","Bd.rep == DDM([[1, 2], [3, 4]], (2, 2), ZZ).to_dfm_or_ddm()","Bs.rep == SDM({0: {1: 1}, 1: {0: 2}}, (2, 2), ZZ)","Bd.rep == SDM({0: {0: 1, 1: 2}, 1: {0: 3, 1: 4}}, (2, 2), ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_unify():
     Az = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     Aq = DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)]], (2, 2), QQ)
@@ -521,16 +652,24 @@ def test_DomainMatrix_unify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_to_Matrix(), test_DomainMatrix_to_Matrix produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_to_Matrix(), A.to_Matrix() == A_Matrix and A.to_sparse().to_Matrix() == A_Matrix and A.convert_to(QQ).to_Matrix() == A_Matrix and A.convert_to(QQ.algebraic_field(sqrt(2))).to_Matrix() == A_Matrix) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_to_Matrix : Any → {Any | A.to_Matri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.to_Matrix() == A_Matrix                      ║
+# ║   ensures:  A.to_sparse().to_Matrix() == A_Matrix          ║
+# ║   ensures:  A.convert_to(QQ).to_Matrix() == A_Matrix       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_to_Matrix : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d282e7cd62ebe12  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fcda9afb1beccca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_Matrix","kind":"function","src_hash":"fd8b97161485119f","in":{"base":"Any"},"out":{"base":"Any","pred":"A.to_Matrix() == A_Matrix and A.to_sparse().to_Matrix() == A_Matrix and A.convert_to(QQ).to_Matrix() == A_Matrix and A.convert_to(QQ.algebraic_field(sqrt(2))).to_Matrix() == A_Matrix"},"spec":{"lhs":"test_DomainMatrix_to_Matrix()","rhs":"test_DomainMatrix_to_Matrix produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_to_Matrix_correct"},"guarantee":"test_DomainMatrix_to_Matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_Matrix_correct","statement":"Path(test_DomainMatrix_to_Matrix(x), test_DomainMatrix_to_Matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d282e7cd62ebe12"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_Matrix","kind":"function","src_hash":"fd8b97161485119f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.to_Matrix() == A_Matrix and A.to_sparse().to_Matrix() == A_Matrix and A.convert_to(QQ).to_Matrix() == A_Matrix and A.convert_to(QQ.algebraic_field(sqrt(2))).to_Matrix() == A_Matrix"},"spec":{"lhs":"test_DomainMatrix_to_Matrix()","rhs":"A.to_Matrix() == A_Matrix and A.to_sparse().to_Matrix() == A_Matrix and A.convert_to(QQ).to_Matrix() == A_Matrix and A.convert_to(QQ.algebraic_field(sqrt(2))).to_Matrix() == A_Matrix","over":{"base":"Any"},"name":"test_DomainMatrix_to_Matrix_correct"},"guarantee":"A.to_Matrix() == A_Matrix; A.to_sparse().to_Matrix() == A_Matrix; A.convert_to(QQ).to_Matrix() == A_Matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_Matrix_correct","statement":"Path(test_DomainMatrix_to_Matrix(x), A.to_Matrix() == A_Matrix; A.to_sparse().to_Matrix() == A_Matrix; A.convert_to(QQ).to_Matrix() == A_Matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fcda9afb1beccca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.to_Matrix() == A_Matrix","A.to_sparse().to_Matrix() == A_Matrix","A.convert_to(QQ).to_Matrix() == A_Matrix","A.convert_to(QQ.algebraic_field(sqrt(2))).to_Matrix() == A_Matrix"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_to_Matrix():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     A_Matrix = Matrix([[1, 2], [3, 4]])
@@ -541,64 +680,90 @@ def test_DomainMatrix_to_Matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_to_list(), test_DomainMatrix_to_list produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_to_list(), A.to_list() == [[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_to_list : Any → {Any | A.to_list() ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.to_list() == [[ZZ(1), ZZ(2)], [ZZ(3), Z...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_to_list : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c052760aad31c36d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 463c41c7a6ef9ec5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_list","kind":"function","src_hash":"f742dec94bba40b9","in":{"base":"Any"},"out":{"base":"Any","pred":"A.to_list() == [[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]]"},"spec":{"lhs":"test_DomainMatrix_to_list()","rhs":"test_DomainMatrix_to_list produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_to_list_correct"},"guarantee":"test_DomainMatrix_to_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_list_correct","statement":"Path(test_DomainMatrix_to_list(x), test_DomainMatrix_to_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c052760aad31c36d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_list","kind":"function","src_hash":"f742dec94bba40b9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.to_list() == [[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]]"},"spec":{"lhs":"test_DomainMatrix_to_list()","rhs":"A.to_list() == [[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]]","over":{"base":"Any"},"name":"test_DomainMatrix_to_list_correct"},"guarantee":"A.to_list() == [[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_list_correct","statement":"Path(test_DomainMatrix_to_list(x), A.to_list() == [[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"463c41c7a6ef9ec5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.to_list() == [[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_to_list():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     assert A.to_list() == [[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_to_list_flat(), test_DomainMatrix_to_list_flat produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_to_list_flat(), A.to_list_flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_to_list_flat : Any → {Any | A.to_li...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.to_list_flat() == [ZZ(1), ZZ(2), ZZ(3),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_to_list_flat : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 407b83cc791a4011  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8906ba93a06a112e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_list_flat","kind":"function","src_hash":"1a001043ff09c3e8","in":{"base":"Any"},"out":{"base":"Any","pred":"A.to_list_flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]"},"spec":{"lhs":"test_DomainMatrix_to_list_flat()","rhs":"test_DomainMatrix_to_list_flat produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_to_list_flat_correct"},"guarantee":"test_DomainMatrix_to_list_flat produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_list_flat_correct","statement":"Path(test_DomainMatrix_to_list_flat(x), test_DomainMatrix_to_list_flat produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"407b83cc791a4011"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_list_flat","kind":"function","src_hash":"1a001043ff09c3e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.to_list_flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]"},"spec":{"lhs":"test_DomainMatrix_to_list_flat()","rhs":"A.to_list_flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]","over":{"base":"Any"},"name":"test_DomainMatrix_to_list_flat_correct"},"guarantee":"A.to_list_flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_list_flat_correct","statement":"Path(test_DomainMatrix_to_list_flat(x), A.to_list_flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8906ba93a06a112e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.to_list_flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_to_list_flat():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     assert A.to_list_flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_flat(), test_DomainMatrix_flat produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_flat(), A.flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_flat : Any → {Any | A.flat() == [ZZ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_flat : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7e2172d05d93476  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6576dfa17a4b2cb1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_flat","kind":"function","src_hash":"49774fddc980f22d","in":{"base":"Any"},"out":{"base":"Any","pred":"A.flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]"},"spec":{"lhs":"test_DomainMatrix_flat()","rhs":"test_DomainMatrix_flat produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_flat_correct"},"guarantee":"test_DomainMatrix_flat produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_flat_correct","statement":"Path(test_DomainMatrix_flat(x), test_DomainMatrix_flat produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7e2172d05d93476"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_flat","kind":"function","src_hash":"49774fddc980f22d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]"},"spec":{"lhs":"test_DomainMatrix_flat()","rhs":"A.flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]","over":{"base":"Any"},"name":"test_DomainMatrix_flat_correct"},"guarantee":"A.flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_flat_correct","statement":"Path(test_DomainMatrix_flat(x), A.flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6576dfa17a4b2cb1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_flat():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     assert A.flat() == [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_from_list_flat(), test_DomainMatrix_from_list_flat produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_from_list_flat(), DomainMatrix.from_list_flat(nums, (2, 2), ZZ) == A and DDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_ddm() and SDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_sdm() and A == A.from_list_flat(A.to_list_flat(), A.shape, A.domain)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_from_list_flat : Any → {Any | Domai...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DomainMatrix.from_list_flat(nums, (2, 2),...   ║
+# ║   ensures:  DDM.from_list_flat(nums, (2, 2), ZZ) == A...   ║
+# ║   ensures:  SDM.from_list_flat(nums, (2, 2), ZZ) == A...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_from_list_flat : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56ea5b5890ed87a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f4959a4ddd71e39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_list_flat","kind":"function","src_hash":"746a3b2322f21575","in":{"base":"Any"},"out":{"base":"Any","pred":"DomainMatrix.from_list_flat(nums, (2, 2), ZZ) == A and DDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_ddm() and SDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_sdm() and A == A.from_list_flat(A.to_list_flat(), A.shape, A.domain)"},"spec":{"lhs":"test_DomainMatrix_from_list_flat()","rhs":"test_DomainMatrix_from_list_flat produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_from_list_flat_correct"},"guarantee":"test_DomainMatrix_from_list_flat produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_list_flat_correct","statement":"Path(test_DomainMatrix_from_list_flat(x), test_DomainMatrix_from_list_flat produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56ea5b5890ed87a6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_list_flat","kind":"function","src_hash":"746a3b2322f21575","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DomainMatrix.from_list_flat(nums, (2, 2), ZZ) == A and DDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_ddm() and SDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_sdm() and A == A.from_list_flat(A.to_list_flat(), A.shape, A.domain)"},"spec":{"lhs":"test_DomainMatrix_from_list_flat()","rhs":"DomainMatrix.from_list_flat(nums, (2, 2), ZZ) == A and DDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_ddm() and SDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_sdm() and A == A.from_list_flat(A.to_list_flat(), A.shape, A.domain)","over":{"base":"Any"},"name":"test_DomainMatrix_from_list_flat_correct"},"guarantee":"DomainMatrix.from_list_flat(nums, (2, 2), ZZ) == A; DDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_ddm(); SDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_sdm()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_list_flat_correct","statement":"Path(test_DomainMatrix_from_list_flat(x), DomainMatrix.from_list_flat(nums, (2, 2), ZZ) == A; DDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_ddm(); SDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_sdm())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f4959a4ddd71e39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DomainMatrix.from_list_flat(nums, (2, 2), ZZ) == A","DDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_ddm()","SDM.from_list_flat(nums, (2, 2), ZZ) == A.rep.to_sdm()","A == A.from_list_flat(A.to_list_flat(), A.shape, A.domain)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_from_list_flat():
     nums = [ZZ(1), ZZ(2), ZZ(3), ZZ(4)]
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
@@ -615,16 +780,23 @@ def test_DomainMatrix_from_list_flat():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_to_dod(), test_DomainMatrix_to_dod produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_to_dod(), A.to_dod() == {0: {0: ZZ(1), 1: ZZ(2)}, 1: {0: ZZ(3), 1: ZZ(4)}} and A.to_dod() == {0: {0: ZZ(1)}, 1: {1: ZZ(4)}}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_to_dod : Any → {Any | A.to_dod() ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.to_dod() == {0: {0: ZZ(1), 1: ZZ(2)}, 1...   ║
+# ║   ensures:  A.to_dod() == {0: {0: ZZ(1)}, 1: {1: ZZ(4)}}   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_to_dod : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e8b34420d7e2720  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 751b57b6590f3f36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_dod","kind":"function","src_hash":"ecfc3884e4071bef","in":{"base":"Any"},"out":{"base":"Any","pred":"A.to_dod() == {0: {0: ZZ(1), 1: ZZ(2)}, 1: {0: ZZ(3), 1: ZZ(4)}} and A.to_dod() == {0: {0: ZZ(1)}, 1: {1: ZZ(4)}}"},"spec":{"lhs":"test_DomainMatrix_to_dod()","rhs":"test_DomainMatrix_to_dod produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_to_dod_correct"},"guarantee":"test_DomainMatrix_to_dod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_dod_correct","statement":"Path(test_DomainMatrix_to_dod(x), test_DomainMatrix_to_dod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e8b34420d7e2720"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_dod","kind":"function","src_hash":"ecfc3884e4071bef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.to_dod() == {0: {0: ZZ(1), 1: ZZ(2)}, 1: {0: ZZ(3), 1: ZZ(4)}} and A.to_dod() == {0: {0: ZZ(1)}, 1: {1: ZZ(4)}}"},"spec":{"lhs":"test_DomainMatrix_to_dod()","rhs":"A.to_dod() == {0: {0: ZZ(1), 1: ZZ(2)}, 1: {0: ZZ(3), 1: ZZ(4)}} and A.to_dod() == {0: {0: ZZ(1)}, 1: {1: ZZ(4)}}","over":{"base":"Any"},"name":"test_DomainMatrix_to_dod_correct"},"guarantee":"A.to_dod() == {0: {0: ZZ(1), 1: ZZ(2)}, 1: {0: ZZ(3), 1: ZZ(4)}}; A.to_dod() == {0: {0: ZZ(1)}, 1: {1: ZZ(4)}}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_dod_correct","statement":"Path(test_DomainMatrix_to_dod(x), A.to_dod() == {0: {0: ZZ(1), 1: ZZ(2)}, 1: {0: ZZ(3), 1: ZZ(4)}}; A.to_dod() == {0: {0: ZZ(1)}, 1: {1: ZZ(4)}})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"751b57b6590f3f36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.to_dod() == {0: {0: ZZ(1), 1: ZZ(2)}, 1: {0: ZZ(3), 1: ZZ(4)}}","A.to_dod() == {0: {0: ZZ(1)}, 1: {1: ZZ(4)}}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_to_dod():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     assert A.to_dod() == {0: {0: ZZ(1), 1:ZZ(2)}, 1: {0:ZZ(3), 1:ZZ(4)}}
@@ -633,16 +805,24 @@ def test_DomainMatrix_to_dod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_from_dod(), test_DomainMatrix_from_dod produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_from_dod(), DomainMatrix.from_dod(items, (2, 2), ZZ) == A.to_sparse() and A.from_dod_like(items) == A and A.from_dod_like(items, QQ) == A.convert_to(QQ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_from_dod : Any → {Any | DomainMatri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DomainMatrix.from_dod(items, (2, 2), ZZ) ...   ║
+# ║   ensures:  A.from_dod_like(items) == A                    ║
+# ║   ensures:  A.from_dod_like(items, QQ) == A.convert_t...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_from_dod : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51fbbf958644373a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fdaa6e193a294fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_dod","kind":"function","src_hash":"56e8a3fbaf8dd6a5","in":{"base":"Any"},"out":{"base":"Any","pred":"DomainMatrix.from_dod(items, (2, 2), ZZ) == A.to_sparse() and A.from_dod_like(items) == A and A.from_dod_like(items, QQ) == A.convert_to(QQ)"},"spec":{"lhs":"test_DomainMatrix_from_dod()","rhs":"test_DomainMatrix_from_dod produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_from_dod_correct"},"guarantee":"test_DomainMatrix_from_dod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_dod_correct","statement":"Path(test_DomainMatrix_from_dod(x), test_DomainMatrix_from_dod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51fbbf958644373a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_dod","kind":"function","src_hash":"56e8a3fbaf8dd6a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DomainMatrix.from_dod(items, (2, 2), ZZ) == A.to_sparse() and A.from_dod_like(items) == A and A.from_dod_like(items, QQ) == A.convert_to(QQ)"},"spec":{"lhs":"test_DomainMatrix_from_dod()","rhs":"DomainMatrix.from_dod(items, (2, 2), ZZ) == A.to_sparse() and A.from_dod_like(items) == A and A.from_dod_like(items, QQ) == A.convert_to(QQ)","over":{"base":"Any"},"name":"test_DomainMatrix_from_dod_correct"},"guarantee":"DomainMatrix.from_dod(items, (2, 2), ZZ) == A.to_sparse(); A.from_dod_like(items) == A; A.from_dod_like(items, QQ) == A.convert_to(QQ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_dod_correct","statement":"Path(test_DomainMatrix_from_dod(x), DomainMatrix.from_dod(items, (2, 2), ZZ) == A.to_sparse(); A.from_dod_like(items) == A; A.from_dod_like(items, QQ) == A.convert_to(QQ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fdaa6e193a294fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DomainMatrix.from_dod(items, (2, 2), ZZ) == A.to_sparse()","A.from_dod_like(items) == A","A.from_dod_like(items, QQ) == A.convert_to(QQ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_from_dod():
     items = {0: {0: ZZ(1), 1:ZZ(2)}, 1: {0:ZZ(3), 1:ZZ(4)}}
     A = DM([[1, 2], [3, 4]], ZZ)
@@ -652,16 +832,24 @@ def test_DomainMatrix_from_dod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_to_dok(), test_DomainMatrix_to_dok produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_to_dok(), A.to_dok() == {(0, 0): ZZ(1), (0, 1): ZZ(2), (1, 0): ZZ(3), (1, 1): ZZ(4)} and A.to_dok() == dok and A.to_dense().to_dok() == dok and A.to_sparse().to_dok() == dok and A.rep.to_ddm().to_dok() == dok and A.rep.to_sdm().to_dok() == dok) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_to_dok : Any → {Any | A.to_dok() ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.to_dok() == {(0, 0): ZZ(1), (0, 1): ZZ(...   ║
+# ║   ensures:  A.to_dok() == dok                              ║
+# ║   ensures:  A.to_dense().to_dok() == dok                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_to_dok : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d6c3cbc782b1220  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e32d606bbe8da021  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_dok","kind":"function","src_hash":"0cc0bb4042efdbe2","in":{"base":"Any"},"out":{"base":"Any","pred":"A.to_dok() == {(0, 0): ZZ(1), (0, 1): ZZ(2), (1, 0): ZZ(3), (1, 1): ZZ(4)} and A.to_dok() == dok and A.to_dense().to_dok() == dok and A.to_sparse().to_dok() == dok and A.rep.to_ddm().to_dok() == dok and A.rep.to_sdm().to_dok() == dok"},"spec":{"lhs":"test_DomainMatrix_to_dok()","rhs":"test_DomainMatrix_to_dok produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_to_dok_correct"},"guarantee":"test_DomainMatrix_to_dok produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_dok_correct","statement":"Path(test_DomainMatrix_to_dok(x), test_DomainMatrix_to_dok produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d6c3cbc782b1220"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_dok","kind":"function","src_hash":"0cc0bb4042efdbe2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.to_dok() == {(0, 0): ZZ(1), (0, 1): ZZ(2), (1, 0): ZZ(3), (1, 1): ZZ(4)} and A.to_dok() == dok and A.to_dense().to_dok() == dok and A.to_sparse().to_dok() == dok and A.rep.to_ddm().to_dok() == dok and A.rep.to_sdm().to_dok() == dok"},"spec":{"lhs":"test_DomainMatrix_to_dok()","rhs":"A.to_dok() == {(0, 0): ZZ(1), (0, 1): ZZ(2), (1, 0): ZZ(3), (1, 1): ZZ(4)} and A.to_dok() == dok and A.to_dense().to_dok() == dok and A.to_sparse().to_dok() == dok and A.rep.to_ddm().to_dok() == dok and A.rep.to_sdm().to_dok() == dok","over":{"base":"Any"},"name":"test_DomainMatrix_to_dok_correct"},"guarantee":"A.to_dok() == {(0, 0): ZZ(1), (0, 1): ZZ(2), (1, 0): ZZ(3), (1, 1): ZZ(4)}; A.to_dok() == dok; A.to_dense().to_dok() == dok","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_to_dok_correct","statement":"Path(test_DomainMatrix_to_dok(x), A.to_dok() == {(0, 0): ZZ(1), (0, 1): ZZ(2), (1, 0): ZZ(3), (1, 1): ZZ(4)}; A.to_dok() == dok; A.to_dense().to_dok() == dok)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e32d606bbe8da021","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.to_dok() == {(0, 0): ZZ(1), (0, 1): ZZ(2), (1, 0): ZZ(3), (1, 1): ZZ(4)}","A.to_dok() == dok","A.to_dense().to_dok() == dok","A.to_sparse().to_dok() == dok","A.rep.to_ddm().to_dok() == dok","A.rep.to_sdm().to_dok() == dok"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_to_dok():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     assert A.to_dok() == {(0, 0):ZZ(1), (0, 1):ZZ(2), (1, 0):ZZ(3), (1, 1):ZZ(4)}
@@ -675,16 +863,24 @@ def test_DomainMatrix_to_dok():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_from_dok(), test_DomainMatrix_from_dok produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_from_dok(), DomainMatrix.from_dok(items, (2, 2), ZZ) == A.to_sparse() and DDM.from_dok(items, (2, 2), ZZ) == A.rep.to_ddm() and SDM.from_dok(items, (2, 2), ZZ) == A.rep.to_sdm()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_from_dok : Any → {Any | DomainMatri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DomainMatrix.from_dok(items, (2, 2), ZZ) ...   ║
+# ║   ensures:  DDM.from_dok(items, (2, 2), ZZ) == A.rep....   ║
+# ║   ensures:  SDM.from_dok(items, (2, 2), ZZ) == A.rep....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_from_dok : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d5dff847a9471dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc62ab48ec69489f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_dok","kind":"function","src_hash":"04b3bbcdc59d6f35","in":{"base":"Any"},"out":{"base":"Any","pred":"DomainMatrix.from_dok(items, (2, 2), ZZ) == A.to_sparse() and DDM.from_dok(items, (2, 2), ZZ) == A.rep.to_ddm() and SDM.from_dok(items, (2, 2), ZZ) == A.rep.to_sdm()"},"spec":{"lhs":"test_DomainMatrix_from_dok()","rhs":"test_DomainMatrix_from_dok produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_from_dok_correct"},"guarantee":"test_DomainMatrix_from_dok produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_dok_correct","statement":"Path(test_DomainMatrix_from_dok(x), test_DomainMatrix_from_dok produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d5dff847a9471dd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_dok","kind":"function","src_hash":"04b3bbcdc59d6f35","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DomainMatrix.from_dok(items, (2, 2), ZZ) == A.to_sparse() and DDM.from_dok(items, (2, 2), ZZ) == A.rep.to_ddm() and SDM.from_dok(items, (2, 2), ZZ) == A.rep.to_sdm()"},"spec":{"lhs":"test_DomainMatrix_from_dok()","rhs":"DomainMatrix.from_dok(items, (2, 2), ZZ) == A.to_sparse() and DDM.from_dok(items, (2, 2), ZZ) == A.rep.to_ddm() and SDM.from_dok(items, (2, 2), ZZ) == A.rep.to_sdm()","over":{"base":"Any"},"name":"test_DomainMatrix_from_dok_correct"},"guarantee":"DomainMatrix.from_dok(items, (2, 2), ZZ) == A.to_sparse(); DDM.from_dok(items, (2, 2), ZZ) == A.rep.to_ddm(); SDM.from_dok(items, (2, 2), ZZ) == A.rep.to_sdm()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_from_dok_correct","statement":"Path(test_DomainMatrix_from_dok(x), DomainMatrix.from_dok(items, (2, 2), ZZ) == A.to_sparse(); DDM.from_dok(items, (2, 2), ZZ) == A.rep.to_ddm(); SDM.from_dok(items, (2, 2), ZZ) == A.rep.to_sdm())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc62ab48ec69489f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DomainMatrix.from_dok(items, (2, 2), ZZ) == A.to_sparse()","DDM.from_dok(items, (2, 2), ZZ) == A.rep.to_ddm()","SDM.from_dok(items, (2, 2), ZZ) == A.rep.to_sdm()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_from_dok():
     items = {(0, 0): ZZ(1), (1, 1): ZZ(2)}
     A = DM([[1, 0], [0, 2]], ZZ)
@@ -694,32 +890,44 @@ def test_DomainMatrix_from_dok():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_repr(), test_DomainMatrix_repr produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_repr(), repr(A) == 'DomainMatrix([[1, 2], [3, 4]], (2, 2), ZZ)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_repr : Any → {Any | repr(A) == 'Dom...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  repr(A) == 'DomainMatrix([[1, 2], [3, 4]]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_repr : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b15148ab77cc4504  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5dac16558577bace  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_repr","kind":"function","src_hash":"a85200f9962b490d","in":{"base":"Any"},"out":{"base":"Any","pred":"repr(A) == 'DomainMatrix([[1, 2], [3, 4]], (2, 2), ZZ)'"},"spec":{"lhs":"test_DomainMatrix_repr()","rhs":"test_DomainMatrix_repr produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_repr_correct"},"guarantee":"test_DomainMatrix_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_repr_correct","statement":"Path(test_DomainMatrix_repr(x), test_DomainMatrix_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b15148ab77cc4504"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_repr","kind":"function","src_hash":"a85200f9962b490d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: repr(A) == 'DomainMatrix([[1, 2], [3, 4]], (2, 2), ZZ)'"},"spec":{"lhs":"test_DomainMatrix_repr()","rhs":"repr(A) == 'DomainMatrix([[1, 2], [3, 4]], (2, 2), ZZ)'","over":{"base":"Any"},"name":"test_DomainMatrix_repr_correct"},"guarantee":"repr(A) == 'DomainMatrix([[1, 2], [3, 4]], (2, 2), ZZ)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_repr_correct","statement":"Path(test_DomainMatrix_repr(x), repr(A) == 'DomainMatrix([[1, 2], [3, 4]], (2, 2), ZZ)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5dac16558577bace","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["repr(A) == 'DomainMatrix([[1, 2], [3, 4]], (2, 2), ZZ)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_repr():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     assert repr(A) == 'DomainMatrix([[1, 2], [3, 4]], (2, 2), ZZ)'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_transpose(), test_DomainMatrix_transpose produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_transpose(), A.transpose() == AT) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_transpose : Any → {Any | A.transpos...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.transpose() == AT                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_transpose : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 423231d3a27eef12  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 701a8509cb973c76  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_transpose","kind":"function","src_hash":"db59daa2cdb441f3","in":{"base":"Any"},"out":{"base":"Any","pred":"A.transpose() == AT"},"spec":{"lhs":"test_DomainMatrix_transpose()","rhs":"test_DomainMatrix_transpose produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_transpose_correct"},"guarantee":"test_DomainMatrix_transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_transpose_correct","statement":"Path(test_DomainMatrix_transpose(x), test_DomainMatrix_transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"423231d3a27eef12"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_transpose","kind":"function","src_hash":"db59daa2cdb441f3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.transpose() == AT"},"spec":{"lhs":"test_DomainMatrix_transpose()","rhs":"A.transpose() == AT","over":{"base":"Any"},"name":"test_DomainMatrix_transpose_correct"},"guarantee":"A.transpose() == AT","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_transpose_correct","statement":"Path(test_DomainMatrix_transpose(x), A.transpose() == AT)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"701a8509cb973c76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.transpose() == AT"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_transpose():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     AT = DomainMatrix([[ZZ(1), ZZ(3)], [ZZ(2), ZZ(4)]], (2, 2), ZZ)
@@ -727,16 +935,23 @@ def test_DomainMatrix_transpose():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_is_zero_matrix(), test_DomainMatrix_is_zero_matrix produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_is_zero_matrix(), A.is_zero_matrix is False and B.is_zero_matrix is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_is_zero_matrix : Any → {Any | A.is_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.is_zero_matrix is False                      ║
+# ║   ensures:  B.is_zero_matrix is True                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_is_zero_matrix : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8da5850f423af10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6b621b108919b53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_zero_matrix","kind":"function","src_hash":"20496438c5b7e370","in":{"base":"Any"},"out":{"base":"Any","pred":"A.is_zero_matrix is False and B.is_zero_matrix is True"},"spec":{"lhs":"test_DomainMatrix_is_zero_matrix()","rhs":"test_DomainMatrix_is_zero_matrix produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_is_zero_matrix_correct"},"guarantee":"test_DomainMatrix_is_zero_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_zero_matrix_correct","statement":"Path(test_DomainMatrix_is_zero_matrix(x), test_DomainMatrix_is_zero_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8da5850f423af10"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_zero_matrix","kind":"function","src_hash":"20496438c5b7e370","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.is_zero_matrix is False and B.is_zero_matrix is True"},"spec":{"lhs":"test_DomainMatrix_is_zero_matrix()","rhs":"A.is_zero_matrix is False and B.is_zero_matrix is True","over":{"base":"Any"},"name":"test_DomainMatrix_is_zero_matrix_correct"},"guarantee":"A.is_zero_matrix is False; B.is_zero_matrix is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_zero_matrix_correct","statement":"Path(test_DomainMatrix_is_zero_matrix(x), A.is_zero_matrix is False; B.is_zero_matrix is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6b621b108919b53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.is_zero_matrix is False","B.is_zero_matrix is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_is_zero_matrix():
     A = DomainMatrix([[ZZ(1)]], (1, 1), ZZ)
     B = DomainMatrix([[ZZ(0)]], (1, 1), ZZ)
@@ -745,16 +960,23 @@ def test_DomainMatrix_is_zero_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_is_upper(), test_DomainMatrix_is_upper produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_is_upper(), A.is_upper is True and B.is_upper is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_is_upper : Any → {Any | A.is_upper ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.is_upper is True                             ║
+# ║   ensures:  B.is_upper is False                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_is_upper : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | faeb364f9d9fb51a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb7e5df048f469ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_upper","kind":"function","src_hash":"400e5140948c879b","in":{"base":"Any"},"out":{"base":"Any","pred":"A.is_upper is True and B.is_upper is False"},"spec":{"lhs":"test_DomainMatrix_is_upper()","rhs":"test_DomainMatrix_is_upper produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_is_upper_correct"},"guarantee":"test_DomainMatrix_is_upper produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_upper_correct","statement":"Path(test_DomainMatrix_is_upper(x), test_DomainMatrix_is_upper produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"faeb364f9d9fb51a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_upper","kind":"function","src_hash":"400e5140948c879b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.is_upper is True and B.is_upper is False"},"spec":{"lhs":"test_DomainMatrix_is_upper()","rhs":"A.is_upper is True and B.is_upper is False","over":{"base":"Any"},"name":"test_DomainMatrix_is_upper_correct"},"guarantee":"A.is_upper is True; B.is_upper is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_upper_correct","statement":"Path(test_DomainMatrix_is_upper(x), A.is_upper is True; B.is_upper is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb7e5df048f469ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.is_upper is True","B.is_upper is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_is_upper():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(0), ZZ(4)]], (2, 2), ZZ)
     B = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
@@ -763,16 +985,23 @@ def test_DomainMatrix_is_upper():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_is_lower(), test_DomainMatrix_is_lower produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_is_lower(), A.is_lower is True and B.is_lower is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_is_lower : Any → {Any | A.is_lower ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.is_lower is True                             ║
+# ║   ensures:  B.is_lower is False                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_is_lower : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b75626b16da348fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c04ff0ba2490d893  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_lower","kind":"function","src_hash":"18d6d2b15f0317f6","in":{"base":"Any"},"out":{"base":"Any","pred":"A.is_lower is True and B.is_lower is False"},"spec":{"lhs":"test_DomainMatrix_is_lower()","rhs":"test_DomainMatrix_is_lower produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_is_lower_correct"},"guarantee":"test_DomainMatrix_is_lower produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_lower_correct","statement":"Path(test_DomainMatrix_is_lower(x), test_DomainMatrix_is_lower produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b75626b16da348fe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_lower","kind":"function","src_hash":"18d6d2b15f0317f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.is_lower is True and B.is_lower is False"},"spec":{"lhs":"test_DomainMatrix_is_lower()","rhs":"A.is_lower is True and B.is_lower is False","over":{"base":"Any"},"name":"test_DomainMatrix_is_lower_correct"},"guarantee":"A.is_lower is True; B.is_lower is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_lower_correct","statement":"Path(test_DomainMatrix_is_lower(x), A.is_lower is True; B.is_lower is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c04ff0ba2490d893","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.is_lower is True","B.is_lower is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_is_lower():
     A = DomainMatrix([[ZZ(1), ZZ(0)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     B = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
@@ -781,16 +1010,23 @@ def test_DomainMatrix_is_lower():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_is_diagonal(), test_DomainMatrix_is_diagonal produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_is_diagonal(), A.is_diagonal is A.to_sparse().is_diagonal is True and B.is_diagonal is B.to_sparse().is_diagonal is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_is_diagonal : Any → {Any | A.is_dia...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.is_diagonal is A.to_sparse().is_diagona...   ║
+# ║   ensures:  B.is_diagonal is B.to_sparse().is_diagona...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_is_diagonal : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2e56b22cac228e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4e9de7eeb22bf57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_diagonal","kind":"function","src_hash":"abcbe91879644b11","in":{"base":"Any"},"out":{"base":"Any","pred":"A.is_diagonal is A.to_sparse().is_diagonal is True and B.is_diagonal is B.to_sparse().is_diagonal is False"},"spec":{"lhs":"test_DomainMatrix_is_diagonal()","rhs":"test_DomainMatrix_is_diagonal produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_is_diagonal_correct"},"guarantee":"test_DomainMatrix_is_diagonal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_diagonal_correct","statement":"Path(test_DomainMatrix_is_diagonal(x), test_DomainMatrix_is_diagonal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2e56b22cac228e4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_diagonal","kind":"function","src_hash":"abcbe91879644b11","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.is_diagonal is A.to_sparse().is_diagonal is True and B.is_diagonal is B.to_sparse().is_diagonal is False"},"spec":{"lhs":"test_DomainMatrix_is_diagonal()","rhs":"A.is_diagonal is A.to_sparse().is_diagonal is True and B.is_diagonal is B.to_sparse().is_diagonal is False","over":{"base":"Any"},"name":"test_DomainMatrix_is_diagonal_correct"},"guarantee":"A.is_diagonal is A.to_sparse().is_diagonal is True; B.is_diagonal is B.to_sparse().is_diagonal is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_diagonal_correct","statement":"Path(test_DomainMatrix_is_diagonal(x), A.is_diagonal is A.to_sparse().is_diagonal is True; B.is_diagonal is B.to_sparse().is_diagonal is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4e9de7eeb22bf57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.is_diagonal is A.to_sparse().is_diagonal is True","B.is_diagonal is B.to_sparse().is_diagonal is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_is_diagonal():
     A = DM([[1, 0], [0, 4]], ZZ)
     B = DM([[1, 2], [3, 4]], ZZ)
@@ -799,16 +1035,23 @@ def test_DomainMatrix_is_diagonal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_is_square(), test_DomainMatrix_is_square produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_is_square(), A.is_square is True and B.is_square is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_is_square : Any → {Any | A.is_squar...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.is_square is True                            ║
+# ║   ensures:  B.is_square is False                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_is_square : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a701c12684d679a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2684832572993cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_square","kind":"function","src_hash":"43c41b7bfbd59811","in":{"base":"Any"},"out":{"base":"Any","pred":"A.is_square is True and B.is_square is False"},"spec":{"lhs":"test_DomainMatrix_is_square()","rhs":"test_DomainMatrix_is_square produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_is_square_correct"},"guarantee":"test_DomainMatrix_is_square produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_square_correct","statement":"Path(test_DomainMatrix_is_square(x), test_DomainMatrix_is_square produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a701c12684d679a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_square","kind":"function","src_hash":"43c41b7bfbd59811","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.is_square is True and B.is_square is False"},"spec":{"lhs":"test_DomainMatrix_is_square()","rhs":"A.is_square is True and B.is_square is False","over":{"base":"Any"},"name":"test_DomainMatrix_is_square_correct"},"guarantee":"A.is_square is True; B.is_square is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_is_square_correct","statement":"Path(test_DomainMatrix_is_square(x), A.is_square is True; B.is_square is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2684832572993cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.is_square is True","B.is_square is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_is_square():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     B = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)], [ZZ(5), ZZ(6)]], (3, 2), ZZ)
@@ -817,16 +1060,23 @@ def test_DomainMatrix_is_square():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_diagonal(), test_DomainMatrix_diagonal produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_diagonal(), A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(4)] and A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(5)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_diagonal : Any → {Any | A.diagonal(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.diagonal() == A.to_sparse().diagonal() ...   ║
+# ║   ensures:  A.diagonal() == A.to_sparse().diagonal() ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_diagonal : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3859099ac235a8b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e52582e7a3fd98ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_diagonal","kind":"function","src_hash":"210ee69632e6fb26","in":{"base":"Any"},"out":{"base":"Any","pred":"A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(4)] and A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(4)] and A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(5)]"},"spec":{"lhs":"test_DomainMatrix_diagonal()","rhs":"test_DomainMatrix_diagonal produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_diagonal_correct"},"guarantee":"test_DomainMatrix_diagonal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_diagonal_correct","statement":"Path(test_DomainMatrix_diagonal(x), test_DomainMatrix_diagonal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3859099ac235a8b7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_diagonal","kind":"function","src_hash":"210ee69632e6fb26","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(4)] and A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(5)]"},"spec":{"lhs":"test_DomainMatrix_diagonal()","rhs":"A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(4)] and A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(5)]","over":{"base":"Any"},"name":"test_DomainMatrix_diagonal_correct"},"guarantee":"A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(4)]; A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(5)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_diagonal_correct","statement":"Path(test_DomainMatrix_diagonal(x), A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(4)]; A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(5)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e52582e7a3fd98ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(4)]","A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(5)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_diagonal():
     A = DM([[1, 2], [3, 4]], ZZ)
     assert A.diagonal() == A.to_sparse().diagonal() == [ZZ(1), ZZ(4)]
@@ -837,32 +1087,46 @@ def test_DomainMatrix_diagonal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_rank(), test_DomainMatrix_rank produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_rank(), A.rank() == 2) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_rank : Any → {Any | A.rank() == 2}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.rank() == 2                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_rank : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3129720f8f6ee2ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c40594b6fac72ba0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_rank","kind":"function","src_hash":"322ab53f649257fd","in":{"base":"Any"},"out":{"base":"Any","pred":"A.rank() == 2"},"spec":{"lhs":"test_DomainMatrix_rank()","rhs":"test_DomainMatrix_rank produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_rank_correct"},"guarantee":"test_DomainMatrix_rank produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_rank_correct","statement":"Path(test_DomainMatrix_rank(x), test_DomainMatrix_rank produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3129720f8f6ee2ef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_rank","kind":"function","src_hash":"322ab53f649257fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.rank() == 2"},"spec":{"lhs":"test_DomainMatrix_rank()","rhs":"A.rank() == 2","over":{"base":"Any"},"name":"test_DomainMatrix_rank_correct"},"guarantee":"A.rank() == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_rank_correct","statement":"Path(test_DomainMatrix_rank(x), A.rank() == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c40594b6fac72ba0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.rank() == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_rank():
     A = DomainMatrix([[QQ(1), QQ(2)], [QQ(3), QQ(4)], [QQ(6), QQ(8)]], (3, 2), QQ)
     assert A.rank() == 2
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_add(), test_DomainMatrix_add produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_add(), A + A == A.add(A) == B and Az + Aq == Asum and Aq + Az == Asum and Asd == DomainMatrix([[1, 3], [5, 4]], (2, 2), ZZ) and Asd.rep == DDM([[1, 3], [5, 4]], (2, 2), ZZ).to_dfm_or_ddm() and Ads == DomainMatrix([[1, 3], [5, 4]], (2, 2), ZZ) and Ads.rep == DDM([[1, 3], [5, 4]], (2, 2), ZZ).to_dfm_or_ddm()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_add : Any → {Any | A + A == A.add(A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A + A == A.add(A) == B                         ║
+# ║   ensures:  Az + Aq == Asum                                ║
+# ║   ensures:  Aq + Az == Asum                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_add : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57170a2b45eb660e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e281dbd5e7c58a51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_add","kind":"function","src_hash":"637d73049345d933","in":{"base":"Any"},"out":{"base":"Any","pred":"A + A == A.add(A) == B and Az + Aq == Asum and Aq + Az == Asum and Asd == DomainMatrix([[1, 3], [5, 4]], (2, 2), ZZ) and Asd.rep == DDM([[1, 3], [5, 4]], (2, 2), ZZ).to_dfm_or_ddm() and Ads == DomainMatrix([[1, 3], [5, 4]], (2, 2), ZZ) and Ads.rep == DDM([[1, 3], [5, 4]], (2, 2), ZZ).to_dfm_or_ddm()"},"spec":{"lhs":"test_DomainMatrix_add()","rhs":"test_DomainMatrix_add produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_add_correct"},"guarantee":"test_DomainMatrix_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_add_correct","statement":"Path(test_DomainMatrix_add(x), test_DomainMatrix_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57170a2b45eb660e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_add","kind":"function","src_hash":"637d73049345d933","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A + A == A.add(A) == B and Az + Aq == Asum and Aq + Az == Asum and Asd == DomainMatrix([[1, 3], [5, 4]], (2, 2), ZZ) and Asd.rep == DDM([[1, 3], [5, 4]], (2, 2), ZZ).to_dfm_or_ddm() and Ads == DomainMatrix([[1, 3], [5, 4]], (2, 2), ZZ) and Ads.rep == DDM([[1, 3], [5, 4]], (2, 2), ZZ).to_dfm_or_ddm()"},"spec":{"lhs":"test_DomainMatrix_add()","rhs":"A + A == A.add(A) == B and Az + Aq == Asum and Aq + Az == Asum and Asd == DomainMatrix([[1, 3], [5, 4]], (2, 2), ZZ) and Asd.rep == DDM([[1, 3], [5, 4]], (2, 2), ZZ).to_dfm_or_ddm() and Ads == DomainMatrix([[1, 3], [5, 4]], (2, 2), ZZ) and Ads.rep == DDM([[1, 3], [5, 4]], (2, 2), ZZ).to_dfm_or_ddm()","over":{"base":"Any"},"name":"test_DomainMatrix_add_correct"},"guarantee":"A + A == A.add(A) == B; Az + Aq == Asum; Aq + Az == Asum","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_add_correct","statement":"Path(test_DomainMatrix_add(x), A + A == A.add(A) == B; Az + Aq == Asum; Aq + Az == Asum)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e281dbd5e7c58a51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A + A == A.add(A) == B","Az + Aq == Asum","Aq + Az == Asum","Asd == DomainMatrix([[1, 3], [5, 4]], (2, 2), ZZ)","Asd.rep == DDM([[1, 3], [5, 4]], (2, 2), ZZ).to_dfm_or_ddm()","Ads == DomainMatrix([[1, 3], [5, 4]], (2, 2), ZZ)","Ads.rep == DDM([[1, 3], [5, 4]], (2, 2), ZZ).to_dfm_or_ddm()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_add():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     B = DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ)
@@ -901,16 +1165,24 @@ def test_DomainMatrix_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_sub(), test_DomainMatrix_sub produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_sub(), A - A == A.sub(A) == B and Az - Aq == Adiff and Aq - Az == Adiff and Asd == DomainMatrix([[-1, -1], [-1, -4]], (2, 2), ZZ) and Asd.rep == DDM([[-1, -1], [-1, -4]], (2, 2), ZZ).to_dfm_or_ddm() and Asd == -Ads and Asd.rep == -Ads.rep) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_sub : Any → {Any | A - A == A.sub(A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A - A == A.sub(A) == B                         ║
+# ║   ensures:  Az - Aq == Adiff                               ║
+# ║   ensures:  Aq - Az == Adiff                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_sub : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b09a0214bf03b57f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db0b188ce34f0cff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_sub","kind":"function","src_hash":"31987b986880d359","in":{"base":"Any"},"out":{"base":"Any","pred":"A - A == A.sub(A) == B and Az - Aq == Adiff and Aq - Az == Adiff and Asd == DomainMatrix([[-1, -1], [-1, -4]], (2, 2), ZZ) and Asd.rep == DDM([[-1, -1], [-1, -4]], (2, 2), ZZ).to_dfm_or_ddm() and Asd == -Ads and Asd.rep == -Ads.rep"},"spec":{"lhs":"test_DomainMatrix_sub()","rhs":"test_DomainMatrix_sub produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_sub_correct"},"guarantee":"test_DomainMatrix_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_sub_correct","statement":"Path(test_DomainMatrix_sub(x), test_DomainMatrix_sub produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b09a0214bf03b57f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_sub","kind":"function","src_hash":"31987b986880d359","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A - A == A.sub(A) == B and Az - Aq == Adiff and Aq - Az == Adiff and Asd == DomainMatrix([[-1, -1], [-1, -4]], (2, 2), ZZ) and Asd.rep == DDM([[-1, -1], [-1, -4]], (2, 2), ZZ).to_dfm_or_ddm() and Asd == -Ads and Asd.rep == -Ads.rep"},"spec":{"lhs":"test_DomainMatrix_sub()","rhs":"A - A == A.sub(A) == B and Az - Aq == Adiff and Aq - Az == Adiff and Asd == DomainMatrix([[-1, -1], [-1, -4]], (2, 2), ZZ) and Asd.rep == DDM([[-1, -1], [-1, -4]], (2, 2), ZZ).to_dfm_or_ddm() and Asd == -Ads and Asd.rep == -Ads.rep","over":{"base":"Any"},"name":"test_DomainMatrix_sub_correct"},"guarantee":"A - A == A.sub(A) == B; Az - Aq == Adiff; Aq - Az == Adiff","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_sub_correct","statement":"Path(test_DomainMatrix_sub(x), A - A == A.sub(A) == B; Az - Aq == Adiff; Aq - Az == Adiff)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db0b188ce34f0cff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A - A == A.sub(A) == B","Az - Aq == Adiff","Aq - Az == Adiff","Asd == DomainMatrix([[-1, -1], [-1, -4]], (2, 2), ZZ)","Asd.rep == DDM([[-1, -1], [-1, -4]], (2, 2), ZZ).to_dfm_or_ddm()","Asd == -Ads","Asd.rep == -Ads.rep"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_sub():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     B = DomainMatrix([[ZZ(0), ZZ(0)], [ZZ(0), ZZ(0)]], (2, 2), ZZ)
@@ -948,16 +1220,22 @@ def test_DomainMatrix_sub():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_neg(), test_DomainMatrix_neg produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_neg(), -A == A.neg() == Aneg) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_neg : Any → {Any | -A == A.neg() ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  -A == A.neg() == Aneg                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_neg : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9a234942df6f742  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01e0a70adb127d94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_neg","kind":"function","src_hash":"feaf43b8a72954e9","in":{"base":"Any"},"out":{"base":"Any","pred":"-A == A.neg() == Aneg"},"spec":{"lhs":"test_DomainMatrix_neg()","rhs":"test_DomainMatrix_neg produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_neg_correct"},"guarantee":"test_DomainMatrix_neg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_neg_correct","statement":"Path(test_DomainMatrix_neg(x), test_DomainMatrix_neg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9a234942df6f742"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_neg","kind":"function","src_hash":"feaf43b8a72954e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: -A == A.neg() == Aneg"},"spec":{"lhs":"test_DomainMatrix_neg()","rhs":"-A == A.neg() == Aneg","over":{"base":"Any"},"name":"test_DomainMatrix_neg_correct"},"guarantee":"-A == A.neg() == Aneg","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_neg_correct","statement":"Path(test_DomainMatrix_neg(x), -A == A.neg() == Aneg)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01e0a70adb127d94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["-A == A.neg() == Aneg"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_neg():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     Aneg = DomainMatrix([[ZZ(-1), ZZ(-2)], [ZZ(-3), ZZ(-4)]], (2, 2), ZZ)
@@ -965,16 +1243,24 @@ def test_DomainMatrix_neg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_mul(), test_DomainMatrix_mul produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_mul(), A * A == A.matmul(A) == A2 and Az * Aq == Aprod and Aq * Az == Aprod and A * x == x * A == A.mul(x) == AA and A * x == x * A == A.mul(x).to_sparse() == AA and Asd == DomainMatrix([[3, 4], [2, 4]], (2, 2), ZZ) and Asd.rep == DDM([[3, 4], [2, 4]], (2, 2), ZZ).to_dfm_or_ddm() and Ads == DomainMatrix([[4, 1], [8, 3]], (2, 2), ZZ) and Ads.rep == DDM([[4, 1], [8, 3]], (2, 2), ZZ).to_dfm_or_ddm()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_mul : Any → {Any | A * A == A.matmu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A * A == A.matmul(A) == A2                     ║
+# ║   ensures:  Az * Aq == Aprod                               ║
+# ║   ensures:  Aq * Az == Aprod                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_mul : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83c49067d51e70a9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29bc0c1fad78d3e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_mul","kind":"function","src_hash":"74e9356b7d2e60b0","in":{"base":"Any"},"out":{"base":"Any","pred":"A * A == A.matmul(A) == A2 and Az * Aq == Aprod and Aq * Az == Aprod and A * x == x * A == A.mul(x) == AA and A * x == x * A == A.mul(x).to_sparse() == AA and Asd == DomainMatrix([[3, 4], [2, 4]], (2, 2), ZZ) and Asd.rep == DDM([[3, 4], [2, 4]], (2, 2), ZZ).to_dfm_or_ddm() and Ads == DomainMatrix([[4, 1], [8, 3]], (2, 2), ZZ) and Ads.rep == DDM([[4, 1], [8, 3]], (2, 2), ZZ).to_dfm_or_ddm()"},"spec":{"lhs":"test_DomainMatrix_mul()","rhs":"test_DomainMatrix_mul produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_mul_correct"},"guarantee":"test_DomainMatrix_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_mul_correct","statement":"Path(test_DomainMatrix_mul(x), test_DomainMatrix_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83c49067d51e70a9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_mul","kind":"function","src_hash":"74e9356b7d2e60b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A * A == A.matmul(A) == A2 and Az * Aq == Aprod and Aq * Az == Aprod and A * x == x * A == A.mul(x) == AA and A * x == x * A == A.mul(x).to_sparse() == AA and Asd == DomainMatrix([[3, 4], [2, 4]], (2, 2), ZZ) and Asd.rep == DDM([[3, 4], [2, 4]], (2, 2), ZZ).to_dfm_or_ddm() and Ads == DomainMatrix([[4, 1], [8, 3]], (2, 2), ZZ) and Ads.rep == DDM([[4, 1], [8, 3]], (2, 2), ZZ).to_dfm_or_ddm()"},"spec":{"lhs":"test_DomainMatrix_mul()","rhs":"A * A == A.matmul(A) == A2 and Az * Aq == Aprod and Aq * Az == Aprod and A * x == x * A == A.mul(x) == AA and A * x == x * A == A.mul(x).to_sparse() == AA and Asd == DomainMatrix([[3, 4], [2, 4]], (2, 2), ZZ) and Asd.rep == DDM([[3, 4], [2, 4]], (2, 2), ZZ).to_dfm_or_ddm() and Ads == DomainMatrix([[4, 1], [8, 3]], (2, 2), ZZ) and Ads.rep == DDM([[4, 1], [8, 3]], (2, 2), ZZ).to_dfm_or_ddm()","over":{"base":"Any"},"name":"test_DomainMatrix_mul_correct"},"guarantee":"A * A == A.matmul(A) == A2; Az * Aq == Aprod; Aq * Az == Aprod","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_mul_correct","statement":"Path(test_DomainMatrix_mul(x), A * A == A.matmul(A) == A2; Az * Aq == Aprod; Aq * Az == Aprod)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29bc0c1fad78d3e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A * A == A.matmul(A) == A2","Az * Aq == Aprod","Aq * Az == Aprod","A * x == x * A == A.mul(x) == AA","A * x == x * A == A.mul(x).to_sparse() == AA","Asd == DomainMatrix([[3, 4], [2, 4]], (2, 2), ZZ)","Asd.rep == DDM([[3, 4], [2, 4]], (2, 2), ZZ).to_dfm_or_ddm()","Ads == DomainMatrix([[4, 1], [8, 3]], (2, 2), ZZ)","Ads.rep == DDM([[4, 1], [8, 3]], (2, 2), ZZ).to_dfm_or_ddm()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_mul():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     A2 = DomainMatrix([[ZZ(7), ZZ(10)], [ZZ(15), ZZ(22)]], (2, 2), ZZ)
@@ -1015,16 +1301,23 @@ def test_DomainMatrix_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_mul_elementwise(), test_DomainMatrix_mul_elementwise produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_mul_elementwise(), A.mul_elementwise(B) == C and B.mul_elementwise(A) == C) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_mul_elementwise : Any → {Any | A.mu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.mul_elementwise(B) == C                      ║
+# ║   ensures:  B.mul_elementwise(A) == C                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_mul_elementwise : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 279461de562b4ed8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5732968b1081af7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_mul_elementwise","kind":"function","src_hash":"7aa141537178109f","in":{"base":"Any"},"out":{"base":"Any","pred":"A.mul_elementwise(B) == C and B.mul_elementwise(A) == C"},"spec":{"lhs":"test_DomainMatrix_mul_elementwise()","rhs":"test_DomainMatrix_mul_elementwise produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_mul_elementwise_correct"},"guarantee":"test_DomainMatrix_mul_elementwise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_mul_elementwise_correct","statement":"Path(test_DomainMatrix_mul_elementwise(x), test_DomainMatrix_mul_elementwise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"279461de562b4ed8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_mul_elementwise","kind":"function","src_hash":"7aa141537178109f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.mul_elementwise(B) == C and B.mul_elementwise(A) == C"},"spec":{"lhs":"test_DomainMatrix_mul_elementwise()","rhs":"A.mul_elementwise(B) == C and B.mul_elementwise(A) == C","over":{"base":"Any"},"name":"test_DomainMatrix_mul_elementwise_correct"},"guarantee":"A.mul_elementwise(B) == C; B.mul_elementwise(A) == C","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_mul_elementwise_correct","statement":"Path(test_DomainMatrix_mul_elementwise(x), A.mul_elementwise(B) == C; B.mul_elementwise(A) == C)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5732968b1081af7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.mul_elementwise(B) == C","B.mul_elementwise(A) == C"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_mul_elementwise():
     A = DomainMatrix([[ZZ(2), ZZ(2)], [ZZ(0), ZZ(0)]], (2, 2), ZZ)
     B = DomainMatrix([[ZZ(4), ZZ(0)], [ZZ(3), ZZ(0)]], (2, 2), ZZ)
@@ -1034,16 +1327,24 @@ def test_DomainMatrix_mul_elementwise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_pow(), test_DomainMatrix_pow produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_pow(), A ** 0 == A.pow(0) == eye and A ** 1 == A.pow(1) == A and A ** 2 == A.pow(2) == A2 and A ** 3 == A.pow(3) == A3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_pow : Any → {Any | A ** 0 == A.pow(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A ** 0 == A.pow(0) == eye                      ║
+# ║   ensures:  A ** 1 == A.pow(1) == A                        ║
+# ║   ensures:  A ** 2 == A.pow(2) == A2                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_pow : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7af63944a0faf896  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73d5fad6d885a6a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_pow","kind":"function","src_hash":"f9aed82ca17c7940","in":{"base":"Any"},"out":{"base":"Any","pred":"A ** 0 == A.pow(0) == eye and A ** 1 == A.pow(1) == A and A ** 2 == A.pow(2) == A2 and A ** 3 == A.pow(3) == A3"},"spec":{"lhs":"test_DomainMatrix_pow()","rhs":"test_DomainMatrix_pow produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_pow_correct"},"guarantee":"test_DomainMatrix_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_pow_correct","statement":"Path(test_DomainMatrix_pow(x), test_DomainMatrix_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7af63944a0faf896"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_pow","kind":"function","src_hash":"f9aed82ca17c7940","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A ** 0 == A.pow(0) == eye and A ** 1 == A.pow(1) == A and A ** 2 == A.pow(2) == A2 and A ** 3 == A.pow(3) == A3"},"spec":{"lhs":"test_DomainMatrix_pow()","rhs":"A ** 0 == A.pow(0) == eye and A ** 1 == A.pow(1) == A and A ** 2 == A.pow(2) == A2 and A ** 3 == A.pow(3) == A3","over":{"base":"Any"},"name":"test_DomainMatrix_pow_correct"},"guarantee":"A ** 0 == A.pow(0) == eye; A ** 1 == A.pow(1) == A; A ** 2 == A.pow(2) == A2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_pow_correct","statement":"Path(test_DomainMatrix_pow(x), A ** 0 == A.pow(0) == eye; A ** 1 == A.pow(1) == A; A ** 2 == A.pow(2) == A2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73d5fad6d885a6a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A ** 0 == A.pow(0) == eye","A ** 1 == A.pow(1) == A","A ** 2 == A.pow(2) == A2","A ** 3 == A.pow(3) == A3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_pow():
     eye = DomainMatrix.eye(2, ZZ)
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
@@ -1063,16 +1364,24 @@ def test_DomainMatrix_pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_clear_denoms(), test_DomainMatrix_clear_denoms produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_clear_denoms(), A.clear_denoms() == (den_Z, Anum_Q) and A.clear_denoms(convert=True) == (den_Z, Anum_Z) and A * den_Z == Anum_Q and A == Anum_Q / den_Z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_clear_denoms : Any → {Any | A.clear...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.clear_denoms() == (den_Z, Anum_Q)            ║
+# ║   ensures:  A.clear_denoms(convert=True) == (den_Z, A...   ║
+# ║   ensures:  A * den_Z == Anum_Q                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_clear_denoms : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6df330ab3dea7fcb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48071bfa44239a73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_clear_denoms","kind":"function","src_hash":"e31ab5c0f6329b97","in":{"base":"Any"},"out":{"base":"Any","pred":"A.clear_denoms() == (den_Z, Anum_Q) and A.clear_denoms(convert=True) == (den_Z, Anum_Z) and A * den_Z == Anum_Q and A == Anum_Q / den_Z"},"spec":{"lhs":"test_DomainMatrix_clear_denoms()","rhs":"test_DomainMatrix_clear_denoms produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_clear_denoms_correct"},"guarantee":"test_DomainMatrix_clear_denoms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_clear_denoms_correct","statement":"Path(test_DomainMatrix_clear_denoms(x), test_DomainMatrix_clear_denoms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6df330ab3dea7fcb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_clear_denoms","kind":"function","src_hash":"e31ab5c0f6329b97","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.clear_denoms() == (den_Z, Anum_Q) and A.clear_denoms(convert=True) == (den_Z, Anum_Z) and A * den_Z == Anum_Q and A == Anum_Q / den_Z"},"spec":{"lhs":"test_DomainMatrix_clear_denoms()","rhs":"A.clear_denoms() == (den_Z, Anum_Q) and A.clear_denoms(convert=True) == (den_Z, Anum_Z) and A * den_Z == Anum_Q and A == Anum_Q / den_Z","over":{"base":"Any"},"name":"test_DomainMatrix_clear_denoms_correct"},"guarantee":"A.clear_denoms() == (den_Z, Anum_Q); A.clear_denoms(convert=True) == (den_Z, Anum_Z); A * den_Z == Anum_Q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_clear_denoms_correct","statement":"Path(test_DomainMatrix_clear_denoms(x), A.clear_denoms() == (den_Z, Anum_Q); A.clear_denoms(convert=True) == (den_Z, Anum_Z); A * den_Z == Anum_Q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48071bfa44239a73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.clear_denoms() == (den_Z, Anum_Q)","A.clear_denoms(convert=True) == (den_Z, Anum_Z)","A * den_Z == Anum_Q","A == Anum_Q / den_Z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_clear_denoms():
     A = DM([[(1,2),(1,3)],[(1,4),(1,5)]], QQ)
 
@@ -1087,16 +1396,24 @@ def test_DomainMatrix_clear_denoms():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_clear_denoms_rowwise(), test_DomainMatrix_clear_denoms_rowwise produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_clear_denoms_rowwise(), A.clear_denoms_rowwise() == (den_Z, Anum_Q) and A.clear_denoms_rowwise(convert=True) == (den_Z, Anum_Z) and den_Z * A == Anum_Q and A == den_Z.to_field().inv() * Anum_Q) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.clear_denoms_rowwise() == (den_Z, Anum_Q)    ║
+# ║   ensures:  A.clear_denoms_rowwise(convert=True) == (...   ║
+# ║   ensures:  den_Z * A == Anum_Q                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DomainMatrix_clear_denoms_rowwise : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 409cae0fe0b1ee74  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2973255b4303f02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_clear_denoms_rowwise","kind":"function","src_hash":"6fa4ed2110ff0fa0","in":{"base":"Any"},"out":{"base":"Any","pred":"A.clear_denoms_rowwise() == (den_Z, Anum_Q) and A.clear_denoms_rowwise(convert=True) == (den_Z, Anum_Z) and den_Z * A == Anum_Q and A == den_Z.to_field().inv() * Anum_Q and A.clear_denoms_rowwise() == (den_Z, Anum_Q) and A.clear_denoms_rowwise(convert=True) == (den_Z, Anum_Z) and den_Z * A == Anum_Q and A == den_Z.to_field().inv() * Anum_Q"},"spec":{"lhs":"test_DomainMatrix_clear_denoms_rowwise()","rhs":"test_DomainMatrix_clear_denoms_rowwise produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_clear_denoms_rowwise_correct"},"guarantee":"test_DomainMatrix_clear_denoms_rowwise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_clear_denoms_rowwise_correct","statement":"Path(test_DomainMatrix_clear_denoms_rowwise(x), test_DomainMatrix_clear_denoms_rowwise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"409cae0fe0b1ee74"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_clear_denoms_rowwise","kind":"function","src_hash":"6fa4ed2110ff0fa0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.clear_denoms_rowwise() == (den_Z, Anum_Q) and A.clear_denoms_rowwise(convert=True) == (den_Z, Anum_Z) and den_Z * A == Anum_Q and A == den_Z.to_field().inv() * Anum_Q"},"spec":{"lhs":"test_DomainMatrix_clear_denoms_rowwise()","rhs":"A.clear_denoms_rowwise() == (den_Z, Anum_Q) and A.clear_denoms_rowwise(convert=True) == (den_Z, Anum_Z) and den_Z * A == Anum_Q and A == den_Z.to_field().inv() * Anum_Q","over":{"base":"Any"},"name":"test_DomainMatrix_clear_denoms_rowwise_correct"},"guarantee":"A.clear_denoms_rowwise() == (den_Z, Anum_Q); A.clear_denoms_rowwise(convert=True) == (den_Z, Anum_Z); den_Z * A == Anum_Q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_clear_denoms_rowwise_correct","statement":"Path(test_DomainMatrix_clear_denoms_rowwise(x), A.clear_denoms_rowwise() == (den_Z, Anum_Q); A.clear_denoms_rowwise(convert=True) == (den_Z, Anum_Z); den_Z * A == Anum_Q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2973255b4303f02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.clear_denoms_rowwise() == (den_Z, Anum_Q)","A.clear_denoms_rowwise(convert=True) == (den_Z, Anum_Z)","den_Z * A == Anum_Q","A == den_Z.to_field().inv() * Anum_Q"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_clear_denoms_rowwise():
     A = DM([[(1,2),(1,3)],[(1,4),(1,5)]], QQ)
 
@@ -1121,16 +1438,24 @@ def test_DomainMatrix_clear_denoms_rowwise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_cancel_denom(), test_DomainMatrix_cancel_denom produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_cancel_denom(), A.cancel_denom(ZZ(1)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(1)) and A.cancel_denom(ZZ(3)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(3)) and A.cancel_denom(ZZ(4)) == (DM([[1, 2], [3, 4]], ZZ), ZZ(2)) and A.cancel_denom(ZZ(2)) == (A, ZZ(2)) and A.cancel_denom(ZZ(-2)) == (-A, ZZ(2)) and A.cancel_denom(QQ_I(0, 2)) == (QQ_I(0, -1) * A, QQ_I(2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_cancel_denom : Any → {Any | A.cance...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.cancel_denom(ZZ(1)) == (DM([[2, 4], [6,...   ║
+# ║   ensures:  A.cancel_denom(ZZ(3)) == (DM([[2, 4], [6,...   ║
+# ║   ensures:  A.cancel_denom(ZZ(4)) == (DM([[1, 2], [3,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_cancel_denom : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69e7591002bda695  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fd479a4c6aed517  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_cancel_denom","kind":"function","src_hash":"1f320970e4677654","in":{"base":"Any"},"out":{"base":"Any","pred":"A.cancel_denom(ZZ(1)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(1)) and A.cancel_denom(ZZ(3)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(3)) and A.cancel_denom(ZZ(4)) == (DM([[1, 2], [3, 4]], ZZ), ZZ(2)) and A.cancel_denom(ZZ(2)) == (A, ZZ(2)) and A.cancel_denom(ZZ(-2)) == (-A, ZZ(2)) and A.cancel_denom(QQ_I(0, 2)) == (QQ_I(0, -1) * A, QQ_I(2))"},"spec":{"lhs":"test_DomainMatrix_cancel_denom()","rhs":"test_DomainMatrix_cancel_denom produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_cancel_denom_correct"},"guarantee":"test_DomainMatrix_cancel_denom produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_cancel_denom_correct","statement":"Path(test_DomainMatrix_cancel_denom(x), test_DomainMatrix_cancel_denom produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69e7591002bda695"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_cancel_denom","kind":"function","src_hash":"1f320970e4677654","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.cancel_denom(ZZ(1)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(1)) and A.cancel_denom(ZZ(3)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(3)) and A.cancel_denom(ZZ(4)) == (DM([[1, 2], [3, 4]], ZZ), ZZ(2)) and A.cancel_denom(ZZ(2)) == (A, ZZ(2)) and A.cancel_denom(ZZ(-2)) == (-A, ZZ(2)) and A.cancel_denom(QQ_I(0, 2)) == (QQ_I(0, -1) * A, QQ_I(2))"},"spec":{"lhs":"test_DomainMatrix_cancel_denom()","rhs":"A.cancel_denom(ZZ(1)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(1)) and A.cancel_denom(ZZ(3)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(3)) and A.cancel_denom(ZZ(4)) == (DM([[1, 2], [3, 4]], ZZ), ZZ(2)) and A.cancel_denom(ZZ(2)) == (A, ZZ(2)) and A.cancel_denom(ZZ(-2)) == (-A, ZZ(2)) and A.cancel_denom(QQ_I(0, 2)) == (QQ_I(0, -1) * A, QQ_I(2))","over":{"base":"Any"},"name":"test_DomainMatrix_cancel_denom_correct"},"guarantee":"A.cancel_denom(ZZ(1)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(1)); A.cancel_denom(ZZ(3)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(3)); A.cancel_denom(ZZ(4)) == (DM([[1, 2], [3, 4]], ZZ), ZZ(2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_cancel_denom_correct","statement":"Path(test_DomainMatrix_cancel_denom(x), A.cancel_denom(ZZ(1)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(1)); A.cancel_denom(ZZ(3)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(3)); A.cancel_denom(ZZ(4)) == (DM([[1, 2], [3, 4]], ZZ), ZZ(2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fd479a4c6aed517","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.cancel_denom(ZZ(1)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(1))","A.cancel_denom(ZZ(3)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(3))","A.cancel_denom(ZZ(4)) == (DM([[1, 2], [3, 4]], ZZ), ZZ(2))","A.cancel_denom(ZZ(2)) == (A, ZZ(2))","A.cancel_denom(ZZ(-2)) == (-A, ZZ(2))","A.cancel_denom(QQ_I(0, 2)) == (QQ_I(0, -1) * A, QQ_I(2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_cancel_denom():
     A = DM([[2, 4], [6, 8]], ZZ)
     assert A.cancel_denom(ZZ(1)) == (DM([[2, 4], [6, 8]], ZZ), ZZ(1))
@@ -1149,16 +1474,24 @@ def test_DomainMatrix_cancel_denom():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_cancel_denom_elementwise(), test_DomainMatrix_cancel_denom_elementwise produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_cancel_denom_elementwise(), numers == DM([[2, 4], [6, 8]], ZZ) and denoms == DM([[1, 1], [1, 1]], ZZ) and numers == DM([[1, 1], [3, 2]], ZZ) and denoms == DM([[2, 1], [2, 1]], ZZ)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  numers == DM([[2, 4], [6, 8]], ZZ)             ║
+# ║   ensures:  denoms == DM([[1, 1], [1, 1]], ZZ)             ║
+# ║   ensures:  numers == DM([[1, 1], [3, 2]], ZZ)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DomainMatrix_cancel_denom_elementwise : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8077226591f0222f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa1383f1716bea45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_cancel_denom_elementwise","kind":"function","src_hash":"133fec368a8a6cdc","in":{"base":"Any"},"out":{"base":"Any","pred":"numers == DM([[2, 4], [6, 8]], ZZ) and denoms == DM([[1, 1], [1, 1]], ZZ) and numers == DM([[1, 1], [3, 2]], ZZ) and denoms == DM([[2, 1], [2, 1]], ZZ)"},"spec":{"lhs":"test_DomainMatrix_cancel_denom_elementwise()","rhs":"test_DomainMatrix_cancel_denom_elementwise produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_cancel_denom_elementwise_correct"},"guarantee":"test_DomainMatrix_cancel_denom_elementwise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_cancel_denom_elementwise_correct","statement":"Path(test_DomainMatrix_cancel_denom_elementwise(x), test_DomainMatrix_cancel_denom_elementwise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8077226591f0222f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_cancel_denom_elementwise","kind":"function","src_hash":"133fec368a8a6cdc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: numers == DM([[2, 4], [6, 8]], ZZ) and denoms == DM([[1, 1], [1, 1]], ZZ) and numers == DM([[1, 1], [3, 2]], ZZ) and denoms == DM([[2, 1], [2, 1]], ZZ)"},"spec":{"lhs":"test_DomainMatrix_cancel_denom_elementwise()","rhs":"numers == DM([[2, 4], [6, 8]], ZZ) and denoms == DM([[1, 1], [1, 1]], ZZ) and numers == DM([[1, 1], [3, 2]], ZZ) and denoms == DM([[2, 1], [2, 1]], ZZ)","over":{"base":"Any"},"name":"test_DomainMatrix_cancel_denom_elementwise_correct"},"guarantee":"numers == DM([[2, 4], [6, 8]], ZZ); denoms == DM([[1, 1], [1, 1]], ZZ); numers == DM([[1, 1], [3, 2]], ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_cancel_denom_elementwise_correct","statement":"Path(test_DomainMatrix_cancel_denom_elementwise(x), numers == DM([[2, 4], [6, 8]], ZZ); denoms == DM([[1, 1], [1, 1]], ZZ); numers == DM([[1, 1], [3, 2]], ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa1383f1716bea45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["numers == DM([[2, 4], [6, 8]], ZZ)","denoms == DM([[1, 1], [1, 1]], ZZ)","numers == DM([[1, 1], [3, 2]], ZZ)","denoms == DM([[2, 1], [2, 1]], ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_cancel_denom_elementwise():
     A = DM([[2, 4], [6, 8]], ZZ)
     numers, denoms = A.cancel_denom_elementwise(ZZ(1))
@@ -1172,16 +1505,23 @@ def test_DomainMatrix_cancel_denom_elementwise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_content_primitive(), test_DomainMatrix_content_primitive produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_content_primitive(), A.content() == A_content and A.primitive() == (A_content, A_primitive)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_content_primitive : Any → {Any | A....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.content() == A_content                       ║
+# ║   ensures:  A.primitive() == (A_content, A_primitive)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_content_primitive : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a46f0806e5d574ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 754956188c6f9ab5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_content_primitive","kind":"function","src_hash":"3a9167794f9d6f6e","in":{"base":"Any"},"out":{"base":"Any","pred":"A.content() == A_content and A.primitive() == (A_content, A_primitive)"},"spec":{"lhs":"test_DomainMatrix_content_primitive()","rhs":"test_DomainMatrix_content_primitive produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_content_primitive_correct"},"guarantee":"test_DomainMatrix_content_primitive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_content_primitive_correct","statement":"Path(test_DomainMatrix_content_primitive(x), test_DomainMatrix_content_primitive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a46f0806e5d574ce"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_content_primitive","kind":"function","src_hash":"3a9167794f9d6f6e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.content() == A_content and A.primitive() == (A_content, A_primitive)"},"spec":{"lhs":"test_DomainMatrix_content_primitive()","rhs":"A.content() == A_content and A.primitive() == (A_content, A_primitive)","over":{"base":"Any"},"name":"test_DomainMatrix_content_primitive_correct"},"guarantee":"A.content() == A_content; A.primitive() == (A_content, A_primitive)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_content_primitive_correct","statement":"Path(test_DomainMatrix_content_primitive(x), A.content() == A_content; A.primitive() == (A_content, A_primitive))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"754956188c6f9ab5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.content() == A_content","A.primitive() == (A_content, A_primitive)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_content_primitive():
     A = DM([[2, 4], [6, 8]], ZZ)
     A_primitive = DM([[1, 2], [3, 4]], ZZ)
@@ -1191,16 +1531,22 @@ def test_DomainMatrix_content_primitive():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_scc(), test_DomainMatrix_scc produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_scc(), <unspecified:test_DomainMatrix_scc>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DomainMatrix_scc : Any → {Any | Ad.scc() == [[1]...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43a698a1bb32668b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_scc","kind":"function","src_hash":"07067e76917ba972","in":{"base":"Any"},"out":{"base":"Any","pred":"Ad.scc() == [[1], [0, 2]]"},"spec":{"lhs":"test_DomainMatrix_scc()","rhs":"test_DomainMatrix_scc produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_scc_correct"},"guarantee":"test_DomainMatrix_scc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_scc_correct","statement":"Path(test_DomainMatrix_scc(x), test_DomainMatrix_scc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43a698a1bb32668b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_scc","kind":"function","src_hash":"07067e76917ba972","in":{"base":"Any"},"out":{"base":"Any","pred":"Ad.scc() == [[1], [0, 2]]"},"spec":{"lhs":"test_DomainMatrix_scc()","rhs":"<unspecified:test_DomainMatrix_scc>","over":{"base":"Any"},"name":"test_DomainMatrix_scc_correct"},"guarantee":"test_DomainMatrix_scc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_scc_correct","statement":"Path(test_DomainMatrix_scc(x), test_DomainMatrix_scc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43a698a1bb32668b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_scc():
     Ad = DomainMatrix([[ZZ(1), ZZ(2), ZZ(3)],
                        [ZZ(0), ZZ(1), ZZ(0)],
@@ -1216,16 +1562,24 @@ def test_DomainMatrix_scc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_rref(), test_DomainMatrix_rref produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_rref(), A.rref() == (A, ()) and A.rref() == (A, (0,)) and Ar == DomainMatrix([[QQ(1), QQ(0)], [QQ(0), QQ(1)]], (2, 2), QQ) and pivots == (0, 1) and Ar == DomainMatrix([[QQ(0), QQ(1)], [QQ(0), QQ(0)]], (2, 2), QQ) and pivots == (1,)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_rref : Any → {Any | A.rref() == (A,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.rref() == (A, ())                            ║
+# ║   ensures:  A.rref() == (A, (0,))                          ║
+# ║   ensures:  Ar == DomainMatrix([[QQ(1), QQ(0)], [QQ(0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_rref : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aeaf4062d94ef49d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a915e861d14cb72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_rref","kind":"function","src_hash":"e6451853478c657a","in":{"base":"Any"},"out":{"base":"Any","pred":"A.rref() == (A, ()) and A.rref() == (A, (0,)) and A.rref() == (A, ()) and Ar == DomainMatrix([[QQ(1), QQ(0)], [QQ(0), QQ(1)]], (2, 2), QQ) and pivots == (0, 1) and Ar == DomainMatrix([[QQ(1), QQ(0)], [QQ(0), QQ(1)]], (2, 2), QQ) and pivots == (0, 1) and Ar == DomainMatrix([[QQ(0), QQ(1)], [QQ(0), QQ(0)]], (2, 2), QQ) and pivots == (1,) and Ar == DomainMatrix([[QQ(1), QQ(0)], [QQ(0), QQ(1)]], (2, 2), QQ) and pivots == (0, 1) and Ar == DomainMatrix([[QQ(1), QQ(0)], [QQ(0), QQ(1)]], (2, 2), QQ) and pivots == (0, 1)"},"spec":{"lhs":"test_DomainMatrix_rref()","rhs":"test_DomainMatrix_rref produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_rref_correct"},"guarantee":"test_DomainMatrix_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_rref_correct","statement":"Path(test_DomainMatrix_rref(x), test_DomainMatrix_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aeaf4062d94ef49d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_rref","kind":"function","src_hash":"e6451853478c657a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.rref() == (A, ()) and A.rref() == (A, (0,)) and Ar == DomainMatrix([[QQ(1), QQ(0)], [QQ(0), QQ(1)]], (2, 2), QQ) and pivots == (0, 1) and Ar == DomainMatrix([[QQ(0), QQ(1)], [QQ(0), QQ(0)]], (2, 2), QQ) and pivots == (1,)"},"spec":{"lhs":"test_DomainMatrix_rref()","rhs":"A.rref() == (A, ()) and A.rref() == (A, (0,)) and Ar == DomainMatrix([[QQ(1), QQ(0)], [QQ(0), QQ(1)]], (2, 2), QQ) and pivots == (0, 1) and Ar == DomainMatrix([[QQ(0), QQ(1)], [QQ(0), QQ(0)]], (2, 2), QQ) and pivots == (1,)","over":{"base":"Any"},"name":"test_DomainMatrix_rref_correct"},"guarantee":"A.rref() == (A, ()); A.rref() == (A, (0,)); Ar == DomainMatrix([[QQ(1), QQ(0)], [QQ(0), QQ(1)]], (2, 2), QQ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_rref_correct","statement":"Path(test_DomainMatrix_rref(x), A.rref() == (A, ()); A.rref() == (A, (0,)); Ar == DomainMatrix([[QQ(1), QQ(0)], [QQ(0), QQ(1)]], (2, 2), QQ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a915e861d14cb72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.rref() == (A, ())","A.rref() == (A, (0,))","Ar == DomainMatrix([[QQ(1), QQ(0)], [QQ(0), QQ(1)]], (2, 2), QQ)","pivots == (0, 1)","Ar == DomainMatrix([[QQ(0), QQ(1)], [QQ(0), QQ(0)]], (2, 2), QQ)","pivots == (1,)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_rref():
     # More tests in test_rref.py
     A = DomainMatrix([], (0, 1), QQ)
@@ -1269,16 +1623,22 @@ def test_DomainMatrix_rref():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_columnspace(), test_DomainMatrix_columnspace produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_columnspace(), A.columnspace() == Acol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_columnspace : Any → {Any | A.column...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.columnspace() == Acol                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_columnspace : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f691b03cb8effaa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b4eabf530368564  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_columnspace","kind":"function","src_hash":"6d28e423eee38e8e","in":{"base":"Any"},"out":{"base":"Any","pred":"A.columnspace() == Acol and A.columnspace() == Acol"},"spec":{"lhs":"test_DomainMatrix_columnspace()","rhs":"test_DomainMatrix_columnspace produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_columnspace_correct"},"guarantee":"test_DomainMatrix_columnspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_columnspace_correct","statement":"Path(test_DomainMatrix_columnspace(x), test_DomainMatrix_columnspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f691b03cb8effaa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_columnspace","kind":"function","src_hash":"6d28e423eee38e8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.columnspace() == Acol"},"spec":{"lhs":"test_DomainMatrix_columnspace()","rhs":"A.columnspace() == Acol","over":{"base":"Any"},"name":"test_DomainMatrix_columnspace_correct"},"guarantee":"A.columnspace() == Acol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_columnspace_correct","statement":"Path(test_DomainMatrix_columnspace(x), A.columnspace() == Acol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b4eabf530368564","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.columnspace() == Acol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_columnspace():
     A = DomainMatrix([[QQ(1), QQ(-1), QQ(1)], [QQ(2), QQ(-2), QQ(3)]], (2, 3), QQ)
     Acol = DomainMatrix([[QQ(1), QQ(1)], [QQ(2), QQ(3)]], (2, 2), QQ)
@@ -1293,16 +1653,22 @@ def test_DomainMatrix_columnspace():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_rowspace(), test_DomainMatrix_rowspace produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_rowspace(), A.rowspace() == A) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_rowspace : Any → {Any | A.rowspace(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.rowspace() == A                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_rowspace : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75114561edf90005  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2f306a51accf716  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_rowspace","kind":"function","src_hash":"3700b46e230690c7","in":{"base":"Any"},"out":{"base":"Any","pred":"A.rowspace() == A and A.rowspace() == A"},"spec":{"lhs":"test_DomainMatrix_rowspace()","rhs":"test_DomainMatrix_rowspace produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_rowspace_correct"},"guarantee":"test_DomainMatrix_rowspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_rowspace_correct","statement":"Path(test_DomainMatrix_rowspace(x), test_DomainMatrix_rowspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75114561edf90005"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_rowspace","kind":"function","src_hash":"3700b46e230690c7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.rowspace() == A"},"spec":{"lhs":"test_DomainMatrix_rowspace()","rhs":"A.rowspace() == A","over":{"base":"Any"},"name":"test_DomainMatrix_rowspace_correct"},"guarantee":"A.rowspace() == A","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_rowspace_correct","statement":"Path(test_DomainMatrix_rowspace(x), A.rowspace() == A)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2f306a51accf716","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.rowspace() == A"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_rowspace():
     A = DomainMatrix([[QQ(1), QQ(-1), QQ(1)], [QQ(2), QQ(-2), QQ(3)]], (2, 3), QQ)
     assert A.rowspace() == A
@@ -1315,16 +1681,24 @@ def test_DomainMatrix_rowspace():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_nullspace(), test_DomainMatrix_nullspace produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_nullspace(), A.nullspace() == Anull and den == ZZ(2) and Arref.nullspace_from_rref() == Anull and Arref.nullspace_from_rref(pivots) == Anull and Arref.to_sparse().nullspace_from_rref() == Anull.to_sparse() and Arref.to_sparse().nullspace_from_rref(pivots) == Anull.to_sparse()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_nullspace : Any → {Any | A.nullspac...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.nullspace() == Anull                         ║
+# ║   ensures:  den == ZZ(2)                                   ║
+# ║   ensures:  Arref.nullspace_from_rref() == Anull           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_nullspace : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b2fbfe06853c75b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a5cbfe0c22d0c88  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_nullspace","kind":"function","src_hash":"ba3d51cf0e8873e5","in":{"base":"Any"},"out":{"base":"Any","pred":"A.nullspace() == Anull and A.nullspace() == Anull and den == ZZ(2) and Arref.nullspace_from_rref() == Anull and Arref.nullspace_from_rref(pivots) == Anull and Arref.to_sparse().nullspace_from_rref() == Anull.to_sparse() and Arref.to_sparse().nullspace_from_rref(pivots) == Anull.to_sparse()"},"spec":{"lhs":"test_DomainMatrix_nullspace()","rhs":"test_DomainMatrix_nullspace produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_nullspace_correct"},"guarantee":"test_DomainMatrix_nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_nullspace_correct","statement":"Path(test_DomainMatrix_nullspace(x), test_DomainMatrix_nullspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b2fbfe06853c75b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_nullspace","kind":"function","src_hash":"ba3d51cf0e8873e5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.nullspace() == Anull and den == ZZ(2) and Arref.nullspace_from_rref() == Anull and Arref.nullspace_from_rref(pivots) == Anull and Arref.to_sparse().nullspace_from_rref() == Anull.to_sparse() and Arref.to_sparse().nullspace_from_rref(pivots) == Anull.to_sparse()"},"spec":{"lhs":"test_DomainMatrix_nullspace()","rhs":"A.nullspace() == Anull and den == ZZ(2) and Arref.nullspace_from_rref() == Anull and Arref.nullspace_from_rref(pivots) == Anull and Arref.to_sparse().nullspace_from_rref() == Anull.to_sparse() and Arref.to_sparse().nullspace_from_rref(pivots) == Anull.to_sparse()","over":{"base":"Any"},"name":"test_DomainMatrix_nullspace_correct"},"guarantee":"A.nullspace() == Anull; den == ZZ(2); Arref.nullspace_from_rref() == Anull","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_nullspace_correct","statement":"Path(test_DomainMatrix_nullspace(x), A.nullspace() == Anull; den == ZZ(2); Arref.nullspace_from_rref() == Anull)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a5cbfe0c22d0c88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.nullspace() == Anull","den == ZZ(2)","Arref.nullspace_from_rref() == Anull","Arref.nullspace_from_rref(pivots) == Anull","Arref.to_sparse().nullspace_from_rref() == Anull.to_sparse()","Arref.to_sparse().nullspace_from_rref(pivots) == Anull.to_sparse()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_nullspace():
     A = DomainMatrix([[QQ(1), QQ(1)], [QQ(1), QQ(1)]], (2, 2), QQ)
     Anull = DomainMatrix([[QQ(-1), QQ(1)]], (1, 2), QQ)
@@ -1348,16 +1722,22 @@ def test_DomainMatrix_nullspace():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_solve(), test_DomainMatrix_solve produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_solve(), A._solve(b) == (particular, nullspace)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_solve : Any → {Any | A._solve(b) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A._solve(b) == (particular, nullspace)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_solve : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de8b8da86abaf819  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa219b379e8d4f6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve","kind":"function","src_hash":"b1043f8d7e55042f","in":{"base":"Any"},"out":{"base":"Any","pred":"A._solve(b) == (particular, nullspace)"},"spec":{"lhs":"test_DomainMatrix_solve()","rhs":"test_DomainMatrix_solve produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_solve_correct"},"guarantee":"test_DomainMatrix_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_correct","statement":"Path(test_DomainMatrix_solve(x), test_DomainMatrix_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de8b8da86abaf819"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve","kind":"function","src_hash":"b1043f8d7e55042f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A._solve(b) == (particular, nullspace)"},"spec":{"lhs":"test_DomainMatrix_solve()","rhs":"A._solve(b) == (particular, nullspace)","over":{"base":"Any"},"name":"test_DomainMatrix_solve_correct"},"guarantee":"A._solve(b) == (particular, nullspace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_correct","statement":"Path(test_DomainMatrix_solve(x), A._solve(b) == (particular, nullspace))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa219b379e8d4f6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A._solve(b) == (particular, nullspace)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_solve():
     # XXX: Maybe the _solve method should be changed...
     A = DomainMatrix([[QQ(1), QQ(2)], [QQ(2), QQ(4)]], (2, 2), QQ)
@@ -1374,16 +1754,24 @@ def test_DomainMatrix_solve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_inv(), test_DomainMatrix_inv produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_inv(), A.inv() == A and A.inv() == Ainv and DM([[1, 2], [3, 4]], Z3).inv() == DM([[1, 1], [0, 1]], Z3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_inv : Any → {Any | A.inv() == A and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.inv() == A                                   ║
+# ║   ensures:  A.inv() == Ainv                                ║
+# ║   ensures:  DM([[1, 2], [3, 4]], Z3).inv() == DM([[1,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_inv : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da537420dbfe973d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28e64b330db3f153  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_inv","kind":"function","src_hash":"c1723b98a480b283","in":{"base":"Any"},"out":{"base":"Any","pred":"A.inv() == A and A.inv() == Ainv and DM([[1, 2], [3, 4]], Z3).inv() == DM([[1, 1], [0, 1]], Z3)"},"spec":{"lhs":"test_DomainMatrix_inv()","rhs":"test_DomainMatrix_inv produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_inv_correct"},"guarantee":"test_DomainMatrix_inv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_inv_correct","statement":"Path(test_DomainMatrix_inv(x), test_DomainMatrix_inv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da537420dbfe973d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_inv","kind":"function","src_hash":"c1723b98a480b283","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.inv() == A and A.inv() == Ainv and DM([[1, 2], [3, 4]], Z3).inv() == DM([[1, 1], [0, 1]], Z3)"},"spec":{"lhs":"test_DomainMatrix_inv()","rhs":"A.inv() == A and A.inv() == Ainv and DM([[1, 2], [3, 4]], Z3).inv() == DM([[1, 1], [0, 1]], Z3)","over":{"base":"Any"},"name":"test_DomainMatrix_inv_correct"},"guarantee":"A.inv() == A; A.inv() == Ainv; DM([[1, 2], [3, 4]], Z3).inv() == DM([[1, 1], [0, 1]], Z3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_inv_correct","statement":"Path(test_DomainMatrix_inv(x), A.inv() == A; A.inv() == Ainv; DM([[1, 2], [3, 4]], Z3).inv() == DM([[1, 1], [0, 1]], Z3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28e64b330db3f153","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.inv() == A","A.inv() == Ainv","DM([[1, 2], [3, 4]], Z3).inv() == DM([[1, 1], [0, 1]], Z3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_inv():
     A = DomainMatrix([], (0, 0), QQ)
     assert A.inv() == A
@@ -1409,16 +1797,24 @@ def test_DomainMatrix_inv():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_det(), test_DomainMatrix_det produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_det(), A.det() == 1 and A.det() == ZZ(-2) and A.det() == ZZ(-1) and A.det() == ZZ(0) and A.det() == QQ(-2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_det : Any → {Any | A.det() == 1 and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.det() == 1                                   ║
+# ║   ensures:  A.det() == ZZ(-2)                              ║
+# ║   ensures:  A.det() == ZZ(-1)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_det : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 740c26364e6d9da1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59afd27d6a499f4f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_det","kind":"function","src_hash":"4db03544586f1a0f","in":{"base":"Any"},"out":{"base":"Any","pred":"A.det() == 1 and A.det() == 1 and A.det() == ZZ(-2) and A.det() == ZZ(-1) and A.det() == ZZ(0) and A.det() == QQ(-2)"},"spec":{"lhs":"test_DomainMatrix_det()","rhs":"test_DomainMatrix_det produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_det_correct"},"guarantee":"test_DomainMatrix_det produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_det_correct","statement":"Path(test_DomainMatrix_det(x), test_DomainMatrix_det produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"740c26364e6d9da1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_det","kind":"function","src_hash":"4db03544586f1a0f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.det() == 1 and A.det() == ZZ(-2) and A.det() == ZZ(-1) and A.det() == ZZ(0) and A.det() == QQ(-2)"},"spec":{"lhs":"test_DomainMatrix_det()","rhs":"A.det() == 1 and A.det() == ZZ(-2) and A.det() == ZZ(-1) and A.det() == ZZ(0) and A.det() == QQ(-2)","over":{"base":"Any"},"name":"test_DomainMatrix_det_correct"},"guarantee":"A.det() == 1; A.det() == ZZ(-2); A.det() == ZZ(-1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_det_correct","statement":"Path(test_DomainMatrix_det(x), A.det() == 1; A.det() == ZZ(-2); A.det() == ZZ(-1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59afd27d6a499f4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.det() == 1","A.det() == ZZ(-2)","A.det() == ZZ(-1)","A.det() == ZZ(0)","A.det() == QQ(-2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_det():
     A = DomainMatrix([], (0, 0), ZZ)
     assert A.det() == 1
@@ -1443,16 +1839,24 @@ def test_DomainMatrix_det():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_eval_poly(), test_DomainMatrix_eval_poly produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_eval_poly(), dM.eval_poly(p) == result == p[0] * dM ** 2 + p[1] * dM + p[2] * dM ** 0 and dM.eval_poly([]) == dM.zeros(dM.shape, dM.domain) and dM.eval_poly([ZZ(2)]) == 2 * dM.eye(2, dM.domain)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_eval_poly : Any → {Any | dM.eval_po...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dM.eval_poly(p) == result == p[0] * dM **...   ║
+# ║   ensures:  dM.eval_poly([]) == dM.zeros(dM.shape, dM...   ║
+# ║   ensures:  dM.eval_poly([ZZ(2)]) == 2 * dM.eye(2, dM...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_eval_poly : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b9f3258cd22a196  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcd912e782606254  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eval_poly","kind":"function","src_hash":"bfd131e74fb3d91f","in":{"base":"Any"},"out":{"base":"Any","pred":"dM.eval_poly(p) == result == p[0] * dM ** 2 + p[1] * dM + p[2] * dM ** 0 and dM.eval_poly([]) == dM.zeros(dM.shape, dM.domain) and dM.eval_poly([ZZ(2)]) == 2 * dM.eye(2, dM.domain)"},"spec":{"lhs":"test_DomainMatrix_eval_poly()","rhs":"test_DomainMatrix_eval_poly produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_eval_poly_correct"},"guarantee":"test_DomainMatrix_eval_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eval_poly_correct","statement":"Path(test_DomainMatrix_eval_poly(x), test_DomainMatrix_eval_poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b9f3258cd22a196"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eval_poly","kind":"function","src_hash":"bfd131e74fb3d91f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dM.eval_poly(p) == result == p[0] * dM ** 2 + p[1] * dM + p[2] * dM ** 0 and dM.eval_poly([]) == dM.zeros(dM.shape, dM.domain) and dM.eval_poly([ZZ(2)]) == 2 * dM.eye(2, dM.domain)"},"spec":{"lhs":"test_DomainMatrix_eval_poly()","rhs":"dM.eval_poly(p) == result == p[0] * dM ** 2 + p[1] * dM + p[2] * dM ** 0 and dM.eval_poly([]) == dM.zeros(dM.shape, dM.domain) and dM.eval_poly([ZZ(2)]) == 2 * dM.eye(2, dM.domain)","over":{"base":"Any"},"name":"test_DomainMatrix_eval_poly_correct"},"guarantee":"dM.eval_poly(p) == result == p[0] * dM ** 2 + p[1] * dM + p[2] * dM ** 0; dM.eval_poly([]) == dM.zeros(dM.shape, dM.domain); dM.eval_poly([ZZ(2)]) == 2 * dM.eye(2, dM.domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eval_poly_correct","statement":"Path(test_DomainMatrix_eval_poly(x), dM.eval_poly(p) == result == p[0] * dM ** 2 + p[1] * dM + p[2] * dM ** 0; dM.eval_poly([]) == dM.zeros(dM.shape, dM.domain); dM.eval_poly([ZZ(2)]) == 2 * dM.eye(2, dM.domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcd912e782606254","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dM.eval_poly(p) == result == p[0] * dM ** 2 + p[1] * dM + p[2] * dM ** 0","dM.eval_poly([]) == dM.zeros(dM.shape, dM.domain)","dM.eval_poly([ZZ(2)]) == 2 * dM.eye(2, dM.domain)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_eval_poly():
     dM = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     p = [ZZ(1), ZZ(2), ZZ(3)]
@@ -1466,16 +1870,22 @@ def test_DomainMatrix_eval_poly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_eval_poly_mul(), test_DomainMatrix_eval_poly_mul produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_eval_poly_mul(), A.eval_poly_mul(p, b) == result == p[0] * A ** 2 * b + p[1] * A * b + p[2] * b) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_eval_poly_mul : Any → {Any | A.eval...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.eval_poly_mul(p, b) == result == p[0] *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_eval_poly_mul : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a2a43a804390616  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2ff6a9081755e4f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eval_poly_mul","kind":"function","src_hash":"8db78d99bf707dea","in":{"base":"Any"},"out":{"base":"Any","pred":"A.eval_poly_mul(p, b) == result == p[0] * A ** 2 * b + p[1] * A * b + p[2] * b"},"spec":{"lhs":"test_DomainMatrix_eval_poly_mul()","rhs":"test_DomainMatrix_eval_poly_mul produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_eval_poly_mul_correct"},"guarantee":"test_DomainMatrix_eval_poly_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eval_poly_mul_correct","statement":"Path(test_DomainMatrix_eval_poly_mul(x), test_DomainMatrix_eval_poly_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a2a43a804390616"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eval_poly_mul","kind":"function","src_hash":"8db78d99bf707dea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.eval_poly_mul(p, b) == result == p[0] * A ** 2 * b + p[1] * A * b + p[2] * b"},"spec":{"lhs":"test_DomainMatrix_eval_poly_mul()","rhs":"A.eval_poly_mul(p, b) == result == p[0] * A ** 2 * b + p[1] * A * b + p[2] * b","over":{"base":"Any"},"name":"test_DomainMatrix_eval_poly_mul_correct"},"guarantee":"A.eval_poly_mul(p, b) == result == p[0] * A ** 2 * b + p[1] * A * b + p[2] * b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eval_poly_mul_correct","statement":"Path(test_DomainMatrix_eval_poly_mul(x), A.eval_poly_mul(p, b) == result == p[0] * A ** 2 * b + p[1] * A * b + p[2] * b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2ff6a9081755e4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.eval_poly_mul(p, b) == result == p[0] * A ** 2 * b + p[1] * A * b + p[2] * b"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_eval_poly_mul():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     b = DomainMatrix([[ZZ(1)], [ZZ(2)]], (2, 1), ZZ)
@@ -1493,16 +1903,25 @@ def test_DomainMatrix_eval_poly_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_solve_den(A, ), internal helper behaves correctly) over Any ║
+# ║ Path(_check_solve_den(A, b, xnum), <unspecified:_check_solve_den>) over {Any | hasattr(A, 'to_sparse') and hasattr(xnum, 'to_sparse') and hasattr(b, 'to_sparse')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_solve_den : Any → {Any | Ai * xnum_i == xden *...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'to_sparse')                        ║
+# ║   requires: hasattr(xnum, 'to_sparse')                     ║
+# ║   requires: hasattr(b, 'to_sparse')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_solve_den : {Any | hasattr(A, 'to_sparse') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b0ae996c3b9a5d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix._check_solve_den","kind":"function","src_hash":"6ccaafda02de8b0e","in":{"base":"Any"},"out":{"base":"Any","pred":"Ai * xnum_i == xden * b_i and Ai.solve_den(b) in answers and Ai.solve_den(b, method='rref') in answers and Ai.solve_den_rref(b) in answers and Ai.solve_den(b_i, method='charpoly') == (xnum_i, xden) and Ai.solve_den_charpoly(b_i) == (xnum_i, xden)"},"spec":{"lhs":"_check_solve_den(A, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_solve_den_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix._check_solve_den_correct","statement":"Path(_check_solve_den(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b0ae996c3b9a5d7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix._check_solve_den","kind":"function","src_hash":"6ccaafda02de8b0e","in":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(xnum, 'to_sparse') and hasattr(b, 'to_sparse')"},"out":{"base":"Any","pred":"Ai * xnum_i == xden * b_i and Ai.solve_den(b) in answers and Ai.solve_den(b, method='rref') in answers and Ai.solve_den_rref(b) in answers and Ai.solve_den(b_i, method='charpoly') == (xnum_i, xden) and Ai.solve_den_charpoly(b_i) == (xnum_i, xden)"},"spec":{"lhs":"_check_solve_den(A, b, xnum)","rhs":"<unspecified:_check_solve_den>","over":{"base":"Any","pred":"hasattr(A, 'to_sparse') and hasattr(xnum, 'to_sparse') and hasattr(b, 'to_sparse')"},"name":"_check_solve_den_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix._check_solve_den_correct","statement":"Path(_check_solve_den(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b0ae996c3b9a5d7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'to_sparse')","hasattr(xnum, 'to_sparse')","hasattr(b, 'to_sparse')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.to_sparse","b.to_sparse","xnum.to_sparse"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _check_solve_den(A, b, xnum, xden):
     # Examples for solve_den, solve_den_charpoly, solve_den_rref should use
     # this so that all methods and types are tested.
@@ -1532,16 +1951,22 @@ def _check_solve_den(A, b, xnum, xden):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_solve_den(), test_DomainMatrix_solve_den produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_solve_den(), <unspecified:test_DomainMatrix_solve_den>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DomainMatrix_solve_den : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b826c5ab680e3f1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den","kind":"function","src_hash":"7aeff38b56b714cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_DomainMatrix_solve_den()","rhs":"test_DomainMatrix_solve_den produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_solve_den_correct"},"guarantee":"test_DomainMatrix_solve_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_correct","statement":"Path(test_DomainMatrix_solve_den(x), test_DomainMatrix_solve_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b826c5ab680e3f1b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den","kind":"function","src_hash":"7aeff38b56b714cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_DomainMatrix_solve_den()","rhs":"<unspecified:test_DomainMatrix_solve_den>","over":{"base":"Any"},"name":"test_DomainMatrix_solve_den_correct"},"guarantee":"test_DomainMatrix_solve_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_correct","statement":"Path(test_DomainMatrix_solve_den(x), test_DomainMatrix_solve_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b826c5ab680e3f1b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_solve_den():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     b = DomainMatrix([[ZZ(1)], [ZZ(2)]], (2, 1), ZZ)
@@ -1566,16 +1991,22 @@ def test_DomainMatrix_solve_den():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_solve_den_charpoly(), test_DomainMatrix_solve_den_charpoly produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_solve_den_charpoly(), <unspecified:test_DomainMatrix_solve_den_charpoly>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DomainMatrix_solve_den_charpoly : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dc57e0be4da91c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_charpoly","kind":"function","src_hash":"463a96f2eaca188c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_DomainMatrix_solve_den_charpoly()","rhs":"test_DomainMatrix_solve_den_charpoly produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_solve_den_charpoly_correct"},"guarantee":"test_DomainMatrix_solve_den_charpoly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_charpoly_correct","statement":"Path(test_DomainMatrix_solve_den_charpoly(x), test_DomainMatrix_solve_den_charpoly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dc57e0be4da91c1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_charpoly","kind":"function","src_hash":"463a96f2eaca188c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_DomainMatrix_solve_den_charpoly()","rhs":"<unspecified:test_DomainMatrix_solve_den_charpoly>","over":{"base":"Any"},"name":"test_DomainMatrix_solve_den_charpoly_correct"},"guarantee":"test_DomainMatrix_solve_den_charpoly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_charpoly_correct","statement":"Path(test_DomainMatrix_solve_den_charpoly(x), test_DomainMatrix_solve_den_charpoly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dc57e0be4da91c1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_solve_den_charpoly():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     b = DomainMatrix([[ZZ(1)], [ZZ(2)]], (2, 1), ZZ)
@@ -1588,16 +2019,23 @@ def test_DomainMatrix_solve_den_charpoly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_solve_den_charpoly_check(), test_DomainMatrix_solve_den_charpoly_check produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_solve_den_charpoly_check(), A.adjugate() * b == adjAb and A.solve_den_charpoly(b, check=False) == (adjAb, ZZ(0))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.adjugate() * b == adjAb                      ║
+# ║   ensures:  A.solve_den_charpoly(b, check=False) == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DomainMatrix_solve_den_charpoly_check : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2abc33d3731537bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6b270faa6c2344f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_charpoly_check","kind":"function","src_hash":"67b95adbb2b11f24","in":{"base":"Any"},"out":{"base":"Any","pred":"A.adjugate() * b == adjAb and A.solve_den_charpoly(b, check=False) == (adjAb, ZZ(0))"},"spec":{"lhs":"test_DomainMatrix_solve_den_charpoly_check()","rhs":"test_DomainMatrix_solve_den_charpoly_check produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_solve_den_charpoly_check_correct"},"guarantee":"test_DomainMatrix_solve_den_charpoly_check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_charpoly_check_correct","statement":"Path(test_DomainMatrix_solve_den_charpoly_check(x), test_DomainMatrix_solve_den_charpoly_check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2abc33d3731537bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_charpoly_check","kind":"function","src_hash":"67b95adbb2b11f24","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.adjugate() * b == adjAb and A.solve_den_charpoly(b, check=False) == (adjAb, ZZ(0))"},"spec":{"lhs":"test_DomainMatrix_solve_den_charpoly_check()","rhs":"A.adjugate() * b == adjAb and A.solve_den_charpoly(b, check=False) == (adjAb, ZZ(0))","over":{"base":"Any"},"name":"test_DomainMatrix_solve_den_charpoly_check_correct"},"guarantee":"A.adjugate() * b == adjAb; A.solve_den_charpoly(b, check=False) == (adjAb, ZZ(0))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_charpoly_check_correct","statement":"Path(test_DomainMatrix_solve_den_charpoly_check(x), A.adjugate() * b == adjAb; A.solve_den_charpoly(b, check=False) == (adjAb, ZZ(0)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6b270faa6c2344f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.adjugate() * b == adjAb","A.solve_den_charpoly(b, check=False) == (adjAb, ZZ(0))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_solve_den_charpoly_check():
     # Test check
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(2), ZZ(4)]], (2, 2), ZZ)
@@ -1609,16 +2047,22 @@ def test_DomainMatrix_solve_den_charpoly_check():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_solve_den_errors(), test_DomainMatrix_solve_den_errors produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_solve_den_errors(), <unspecified:test_DomainMatrix_solve_den_errors>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DomainMatrix_solve_den_errors : Any → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8848104883339087  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_errors","kind":"function","src_hash":"f8001e2679569625","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_DomainMatrix_solve_den_errors()","rhs":"test_DomainMatrix_solve_den_errors produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_solve_den_errors_correct"},"guarantee":"test_DomainMatrix_solve_den_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_errors_correct","statement":"Path(test_DomainMatrix_solve_den_errors(x), test_DomainMatrix_solve_den_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8848104883339087"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_errors","kind":"function","src_hash":"f8001e2679569625","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_DomainMatrix_solve_den_errors()","rhs":"<unspecified:test_DomainMatrix_solve_den_errors>","over":{"base":"Any"},"name":"test_DomainMatrix_solve_den_errors_correct"},"guarantee":"test_DomainMatrix_solve_den_errors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_errors_correct","statement":"Path(test_DomainMatrix_solve_den_errors(x), test_DomainMatrix_solve_den_errors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8848104883339087","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_solve_den_errors():
     A = DomainMatrix([[ZZ(1), ZZ(2)]], (1, 2), ZZ)
     b = DomainMatrix([[ZZ(1)], [ZZ(2)]], (2, 1), ZZ)
@@ -1644,16 +2088,22 @@ def test_DomainMatrix_solve_den_errors():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_solve_den_rref_underdetermined(), test_DomainMatrix_solve_den_rref_underdetermined produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_solve_den_rref_underdetermined(), <unspecified:test_DomainMatrix_solve_den_rref_underdetermined>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DomainMatrix_solve_den_rref_underdetermined : An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ba63a0dc7c997d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_rref_underdetermined","kind":"function","src_hash":"06f4b2d7e4912e2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_DomainMatrix_solve_den_rref_underdetermined()","rhs":"test_DomainMatrix_solve_den_rref_underdetermined produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_solve_den_rref_underdetermined_correct"},"guarantee":"test_DomainMatrix_solve_den_rref_underdetermined produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_rref_underdetermined_correct","statement":"Path(test_DomainMatrix_solve_den_rref_underdetermined(x), test_DomainMatrix_solve_den_rref_underdetermined produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ba63a0dc7c997d0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_rref_underdetermined","kind":"function","src_hash":"06f4b2d7e4912e2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_DomainMatrix_solve_den_rref_underdetermined()","rhs":"<unspecified:test_DomainMatrix_solve_den_rref_underdetermined>","over":{"base":"Any"},"name":"test_DomainMatrix_solve_den_rref_underdetermined_correct"},"guarantee":"test_DomainMatrix_solve_den_rref_underdetermined produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_solve_den_rref_underdetermined_correct","statement":"Path(test_DomainMatrix_solve_den_rref_underdetermined(x), test_DomainMatrix_solve_den_rref_underdetermined produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ba63a0dc7c997d0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_solve_den_rref_underdetermined():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(1), ZZ(2)]], (2, 2), ZZ)
     b = DomainMatrix([[ZZ(1)], [ZZ(1)]], (2, 1), ZZ)
@@ -1662,16 +2112,24 @@ def test_DomainMatrix_solve_den_rref_underdetermined():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_adj_poly_det(), test_DomainMatrix_adj_poly_det produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_adj_poly_det(), p == [ZZ(1), ZZ(-15), ZZ(-18)] and A.adjugate() == p[0] * A ** 2 + p[1] * A ** 1 + p[2] * A ** 0 == A.eval_poly(p) and A.det() == detA) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_adj_poly_det : Any → {Any | p == [Z...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == [ZZ(1), ZZ(-15), ZZ(-18)]                 ║
+# ║   ensures:  A.adjugate() == p[0] * A ** 2 + p[1] * A ...   ║
+# ║   ensures:  A.det() == detA                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_adj_poly_det : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73f60af6efb322ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5feeb8599f1dcb37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_adj_poly_det","kind":"function","src_hash":"ed6a4c9d49fcda64","in":{"base":"Any"},"out":{"base":"Any","pred":"p == [ZZ(1), ZZ(-15), ZZ(-18)] and A.adjugate() == p[0] * A ** 2 + p[1] * A ** 1 + p[2] * A ** 0 == A.eval_poly(p) and A.det() == detA"},"spec":{"lhs":"test_DomainMatrix_adj_poly_det()","rhs":"test_DomainMatrix_adj_poly_det produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_adj_poly_det_correct"},"guarantee":"test_DomainMatrix_adj_poly_det produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_adj_poly_det_correct","statement":"Path(test_DomainMatrix_adj_poly_det(x), test_DomainMatrix_adj_poly_det produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73f60af6efb322ef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_adj_poly_det","kind":"function","src_hash":"ed6a4c9d49fcda64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == [ZZ(1), ZZ(-15), ZZ(-18)] and A.adjugate() == p[0] * A ** 2 + p[1] * A ** 1 + p[2] * A ** 0 == A.eval_poly(p) and A.det() == detA"},"spec":{"lhs":"test_DomainMatrix_adj_poly_det()","rhs":"p == [ZZ(1), ZZ(-15), ZZ(-18)] and A.adjugate() == p[0] * A ** 2 + p[1] * A ** 1 + p[2] * A ** 0 == A.eval_poly(p) and A.det() == detA","over":{"base":"Any"},"name":"test_DomainMatrix_adj_poly_det_correct"},"guarantee":"p == [ZZ(1), ZZ(-15), ZZ(-18)]; A.adjugate() == p[0] * A ** 2 + p[1] * A ** 1 + p[2] * A ** 0 == A.eval_poly(p); A.det() == detA","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_adj_poly_det_correct","statement":"Path(test_DomainMatrix_adj_poly_det(x), p == [ZZ(1), ZZ(-15), ZZ(-18)]; A.adjugate() == p[0] * A ** 2 + p[1] * A ** 1 + p[2] * A ** 0 == A.eval_poly(p); A.det() == detA)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5feeb8599f1dcb37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == [ZZ(1), ZZ(-15), ZZ(-18)]","A.adjugate() == p[0] * A ** 2 + p[1] * A ** 1 + p[2] * A ** 0 == A.eval_poly(p)","A.det() == detA"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_adj_poly_det():
     A = DM([[ZZ(1), ZZ(2), ZZ(3)],
             [ZZ(4), ZZ(5), ZZ(6)],
@@ -1687,16 +2145,22 @@ def test_DomainMatrix_adj_poly_det():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_inv_den(), test_DomainMatrix_inv_den produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_inv_den(), A.inv_den() == (result, den)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_inv_den : Any → {Any | A.inv_den() ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.inv_den() == (result, den)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_inv_den : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e7d3fd439f47dc1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f7e0163f76ac6de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_inv_den","kind":"function","src_hash":"e1c37676f7b31ffc","in":{"base":"Any"},"out":{"base":"Any","pred":"A.inv_den() == (result, den)"},"spec":{"lhs":"test_DomainMatrix_inv_den()","rhs":"test_DomainMatrix_inv_den produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_inv_den_correct"},"guarantee":"test_DomainMatrix_inv_den produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_inv_den_correct","statement":"Path(test_DomainMatrix_inv_den(x), test_DomainMatrix_inv_den produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e7d3fd439f47dc1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_inv_den","kind":"function","src_hash":"e1c37676f7b31ffc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.inv_den() == (result, den)"},"spec":{"lhs":"test_DomainMatrix_inv_den()","rhs":"A.inv_den() == (result, den)","over":{"base":"Any"},"name":"test_DomainMatrix_inv_den_correct"},"guarantee":"A.inv_den() == (result, den)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_inv_den_correct","statement":"Path(test_DomainMatrix_inv_den(x), A.inv_den() == (result, den))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f7e0163f76ac6de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.inv_den() == (result, den)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_inv_den():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     den = ZZ(-2)
@@ -1705,16 +2169,22 @@ def test_DomainMatrix_inv_den():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_adjugate(), test_DomainMatrix_adjugate produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_adjugate(), A.adjugate() == result) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_adjugate : Any → {Any | A.adjugate(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.adjugate() == result                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_adjugate : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c8a77d819986d07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47bb8d4e2437537c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_adjugate","kind":"function","src_hash":"1459deb8d91c594e","in":{"base":"Any"},"out":{"base":"Any","pred":"A.adjugate() == result"},"spec":{"lhs":"test_DomainMatrix_adjugate()","rhs":"test_DomainMatrix_adjugate produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_adjugate_correct"},"guarantee":"test_DomainMatrix_adjugate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_adjugate_correct","statement":"Path(test_DomainMatrix_adjugate(x), test_DomainMatrix_adjugate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c8a77d819986d07"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_adjugate","kind":"function","src_hash":"1459deb8d91c594e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.adjugate() == result"},"spec":{"lhs":"test_DomainMatrix_adjugate()","rhs":"A.adjugate() == result","over":{"base":"Any"},"name":"test_DomainMatrix_adjugate_correct"},"guarantee":"A.adjugate() == result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_adjugate_correct","statement":"Path(test_DomainMatrix_adjugate(x), A.adjugate() == result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47bb8d4e2437537c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.adjugate() == result"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_adjugate():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     result = DomainMatrix([[ZZ(4), ZZ(-2)], [ZZ(-3), ZZ(1)]], (2, 2), ZZ)
@@ -1722,16 +2192,22 @@ def test_DomainMatrix_adjugate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_adj_det(), test_DomainMatrix_adj_det produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_adj_det(), A.adj_det() == (adjA, ZZ(-2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_adj_det : Any → {Any | A.adj_det() ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.adj_det() == (adjA, ZZ(-2))                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_adj_det : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0aa400b3830821d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9139908bb5ffefc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_adj_det","kind":"function","src_hash":"5ec78ab685dfe2ce","in":{"base":"Any"},"out":{"base":"Any","pred":"A.adj_det() == (adjA, ZZ(-2))"},"spec":{"lhs":"test_DomainMatrix_adj_det()","rhs":"test_DomainMatrix_adj_det produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_adj_det_correct"},"guarantee":"test_DomainMatrix_adj_det produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_adj_det_correct","statement":"Path(test_DomainMatrix_adj_det(x), test_DomainMatrix_adj_det produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0aa400b3830821d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_adj_det","kind":"function","src_hash":"5ec78ab685dfe2ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.adj_det() == (adjA, ZZ(-2))"},"spec":{"lhs":"test_DomainMatrix_adj_det()","rhs":"A.adj_det() == (adjA, ZZ(-2))","over":{"base":"Any"},"name":"test_DomainMatrix_adj_det_correct"},"guarantee":"A.adj_det() == (adjA, ZZ(-2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_adj_det_correct","statement":"Path(test_DomainMatrix_adj_det(x), A.adj_det() == (adjA, ZZ(-2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9139908bb5ffefc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.adj_det() == (adjA, ZZ(-2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_adj_det():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     adjA = DomainMatrix([[ZZ(4), ZZ(-2)], [ZZ(-3), ZZ(1)]], (2, 2), ZZ)
@@ -1739,16 +2215,24 @@ def test_DomainMatrix_adj_det():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_lu(), test_DomainMatrix_lu produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_lu(), A.lu() == (A, A, []) and A.lu() == (L, U, swaps) and A.lu() == (L, U, [])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_lu : Any → {Any | A.lu() == (A, A, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.lu() == (A, A, [])                           ║
+# ║   ensures:  A.lu() == (L, U, swaps)                        ║
+# ║   ensures:  A.lu() == (L, U, [])                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_lu : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 335a06541773f532  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d28b49e19f165893  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_lu","kind":"function","src_hash":"327c9034820805d8","in":{"base":"Any"},"out":{"base":"Any","pred":"A.lu() == (A, A, []) and A.lu() == (L, U, swaps) and A.lu() == (L, U, swaps) and A.lu() == (L, U, swaps) and A.lu() == (L, U, swaps) and A.lu() == (L, U, swaps) and A.lu() == (L, U, swaps) and A.lu() == (L, U, [])"},"spec":{"lhs":"test_DomainMatrix_lu()","rhs":"test_DomainMatrix_lu produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_lu_correct"},"guarantee":"test_DomainMatrix_lu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_lu_correct","statement":"Path(test_DomainMatrix_lu(x), test_DomainMatrix_lu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"335a06541773f532"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_lu","kind":"function","src_hash":"327c9034820805d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.lu() == (A, A, []) and A.lu() == (L, U, swaps) and A.lu() == (L, U, [])"},"spec":{"lhs":"test_DomainMatrix_lu()","rhs":"A.lu() == (A, A, []) and A.lu() == (L, U, swaps) and A.lu() == (L, U, [])","over":{"base":"Any"},"name":"test_DomainMatrix_lu_correct"},"guarantee":"A.lu() == (A, A, []); A.lu() == (L, U, swaps); A.lu() == (L, U, [])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_lu_correct","statement":"Path(test_DomainMatrix_lu(x), A.lu() == (A, A, []); A.lu() == (L, U, swaps); A.lu() == (L, U, []))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d28b49e19f165893","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.lu() == (A, A, [])","A.lu() == (L, U, swaps)","A.lu() == (L, U, [])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_lu():
     A = DomainMatrix([], (0, 0), QQ)
     assert A.lu() == (A, A, [])
@@ -1806,16 +2290,22 @@ def test_DomainMatrix_lu():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_lu_solve(), test_DomainMatrix_lu_solve produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_lu_solve(), A.lu_solve(b) == x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_lu_solve : Any → {Any | A.lu_solve(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.lu_solve(b) == x                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_lu_solve : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d51999cbe2946d11  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30fef822c975c4b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_lu_solve","kind":"function","src_hash":"9253488133d112a5","in":{"base":"Any"},"out":{"base":"Any","pred":"A.lu_solve(b) == x and A.lu_solve(b) == x and A.lu_solve(b) == x and A.lu_solve(b) == x"},"spec":{"lhs":"test_DomainMatrix_lu_solve()","rhs":"test_DomainMatrix_lu_solve produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_lu_solve_correct"},"guarantee":"test_DomainMatrix_lu_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_lu_solve_correct","statement":"Path(test_DomainMatrix_lu_solve(x), test_DomainMatrix_lu_solve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d51999cbe2946d11"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_lu_solve","kind":"function","src_hash":"9253488133d112a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.lu_solve(b) == x"},"spec":{"lhs":"test_DomainMatrix_lu_solve()","rhs":"A.lu_solve(b) == x","over":{"base":"Any"},"name":"test_DomainMatrix_lu_solve_correct"},"guarantee":"A.lu_solve(b) == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_lu_solve_correct","statement":"Path(test_DomainMatrix_lu_solve(x), A.lu_solve(b) == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30fef822c975c4b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.lu_solve(b) == x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_lu_solve():
     # Base case
     A = b = x = DomainMatrix([], (0, 0), QQ)
@@ -1866,16 +2356,23 @@ def test_DomainMatrix_lu_solve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_charpoly(), test_DomainMatrix_charpoly produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_charpoly(), A.charpoly() == p and A.to_sparse().charpoly() == p) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_charpoly : Any → {Any | A.charpoly(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.charpoly() == p                              ║
+# ║   ensures:  A.to_sparse().charpoly() == p                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_charpoly : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4a0f1e43fb6d24a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad0b0ddc3d003858  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_charpoly","kind":"function","src_hash":"b619eff8bfbce709","in":{"base":"Any"},"out":{"base":"Any","pred":"A.charpoly() == p and A.to_sparse().charpoly() == p and A.charpoly() == p and A.to_sparse().charpoly() == p and A.charpoly() == p and A.to_sparse().charpoly() == p and A.charpoly() == p and A.to_sparse().charpoly() == p and A.charpoly() == p and A.to_sparse().charpoly() == p and A.charpoly() == p and A.to_sparse().charpoly() == p"},"spec":{"lhs":"test_DomainMatrix_charpoly()","rhs":"test_DomainMatrix_charpoly produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_charpoly_correct"},"guarantee":"test_DomainMatrix_charpoly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_charpoly_correct","statement":"Path(test_DomainMatrix_charpoly(x), test_DomainMatrix_charpoly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4a0f1e43fb6d24a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_charpoly","kind":"function","src_hash":"b619eff8bfbce709","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.charpoly() == p and A.to_sparse().charpoly() == p"},"spec":{"lhs":"test_DomainMatrix_charpoly()","rhs":"A.charpoly() == p and A.to_sparse().charpoly() == p","over":{"base":"Any"},"name":"test_DomainMatrix_charpoly_correct"},"guarantee":"A.charpoly() == p; A.to_sparse().charpoly() == p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_charpoly_correct","statement":"Path(test_DomainMatrix_charpoly(x), A.charpoly() == p; A.to_sparse().charpoly() == p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad0b0ddc3d003858","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.charpoly() == p","A.to_sparse().charpoly() == p"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_charpoly():
     A = DomainMatrix([], (0, 0), ZZ)
     p = [ZZ(1)]
@@ -1923,16 +2420,24 @@ def test_DomainMatrix_charpoly():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_charpoly_factor_list(), test_DomainMatrix_charpoly_factor_list produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_charpoly_factor_list(), A.charpoly_factor_list() == [] and A.charpoly_factor_list() == [([ZZ(1), ZZ(-1)], 1)] and A.charpoly_factor_list() == [([ZZ(1), ZZ(-5), ZZ(-2)], 1)] and A.charpoly_factor_list() == [([ZZ(1), ZZ(-1)], 1), ([ZZ(1), ZZ(-5), ZZ(-2)], 1)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.charpoly_factor_list() == []                 ║
+# ║   ensures:  A.charpoly_factor_list() == [([ZZ(1), ZZ(...   ║
+# ║   ensures:  A.charpoly_factor_list() == [([ZZ(1), ZZ(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DomainMatrix_charpoly_factor_list : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4607687712d54b8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48959c6ec0c95126  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_charpoly_factor_list","kind":"function","src_hash":"7ed400d7c30a5e05","in":{"base":"Any"},"out":{"base":"Any","pred":"A.charpoly_factor_list() == [] and A.charpoly_factor_list() == [([ZZ(1), ZZ(-1)], 1)] and A.charpoly_factor_list() == [([ZZ(1), ZZ(-5), ZZ(-2)], 1)]"},"spec":{"lhs":"test_DomainMatrix_charpoly_factor_list()","rhs":"test_DomainMatrix_charpoly_factor_list produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_charpoly_factor_list_correct"},"guarantee":"test_DomainMatrix_charpoly_factor_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_charpoly_factor_list_correct","statement":"Path(test_DomainMatrix_charpoly_factor_list(x), test_DomainMatrix_charpoly_factor_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4607687712d54b8f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_charpoly_factor_list","kind":"function","src_hash":"7ed400d7c30a5e05","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.charpoly_factor_list() == [] and A.charpoly_factor_list() == [([ZZ(1), ZZ(-1)], 1)] and A.charpoly_factor_list() == [([ZZ(1), ZZ(-5), ZZ(-2)], 1)] and A.charpoly_factor_list() == [([ZZ(1), ZZ(-1)], 1), ([ZZ(1), ZZ(-5), ZZ(-2)], 1)]"},"spec":{"lhs":"test_DomainMatrix_charpoly_factor_list()","rhs":"A.charpoly_factor_list() == [] and A.charpoly_factor_list() == [([ZZ(1), ZZ(-1)], 1)] and A.charpoly_factor_list() == [([ZZ(1), ZZ(-5), ZZ(-2)], 1)] and A.charpoly_factor_list() == [([ZZ(1), ZZ(-1)], 1), ([ZZ(1), ZZ(-5), ZZ(-2)], 1)]","over":{"base":"Any"},"name":"test_DomainMatrix_charpoly_factor_list_correct"},"guarantee":"A.charpoly_factor_list() == []; A.charpoly_factor_list() == [([ZZ(1), ZZ(-1)], 1)]; A.charpoly_factor_list() == [([ZZ(1), ZZ(-5), ZZ(-2)], 1)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_charpoly_factor_list_correct","statement":"Path(test_DomainMatrix_charpoly_factor_list(x), A.charpoly_factor_list() == []; A.charpoly_factor_list() == [([ZZ(1), ZZ(-1)], 1)]; A.charpoly_factor_list() == [([ZZ(1), ZZ(-5), ZZ(-2)], 1)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48959c6ec0c95126","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.charpoly_factor_list() == []","A.charpoly_factor_list() == [([ZZ(1), ZZ(-1)], 1)]","A.charpoly_factor_list() == [([ZZ(1), ZZ(-5), ZZ(-2)], 1)]","A.charpoly_factor_list() == [([ZZ(1), ZZ(-1)], 1), ([ZZ(1), ZZ(-5), ZZ(-2)], 1)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_charpoly_factor_list():
     A = DomainMatrix([], (0, 0), ZZ)
     assert A.charpoly_factor_list() == []
@@ -1955,16 +2460,24 @@ def test_DomainMatrix_charpoly_factor_list():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_eye(), test_DomainMatrix_eye produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_eye(), A.rep == SDM.eye((3, 3), QQ) and A.shape == (3, 3) and A.domain == QQ) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_eye : Any → {Any | A.rep == SDM.eye...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.rep == SDM.eye((3, 3), QQ)                   ║
+# ║   ensures:  A.shape == (3, 3)                              ║
+# ║   ensures:  A.domain == QQ                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_eye : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a8f0dd6e9fffa73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb079a06dc93b38e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eye","kind":"function","src_hash":"78bfaef375f756a7","in":{"base":"Any"},"out":{"base":"Any","pred":"A.rep == SDM.eye((3, 3), QQ) and A.shape == (3, 3) and A.domain == QQ"},"spec":{"lhs":"test_DomainMatrix_eye()","rhs":"test_DomainMatrix_eye produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_eye_correct"},"guarantee":"test_DomainMatrix_eye produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eye_correct","statement":"Path(test_DomainMatrix_eye(x), test_DomainMatrix_eye produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a8f0dd6e9fffa73"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eye","kind":"function","src_hash":"78bfaef375f756a7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.rep == SDM.eye((3, 3), QQ) and A.shape == (3, 3) and A.domain == QQ"},"spec":{"lhs":"test_DomainMatrix_eye()","rhs":"A.rep == SDM.eye((3, 3), QQ) and A.shape == (3, 3) and A.domain == QQ","over":{"base":"Any"},"name":"test_DomainMatrix_eye_correct"},"guarantee":"A.rep == SDM.eye((3, 3), QQ); A.shape == (3, 3); A.domain == QQ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_eye_correct","statement":"Path(test_DomainMatrix_eye(x), A.rep == SDM.eye((3, 3), QQ); A.shape == (3, 3); A.domain == QQ)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb079a06dc93b38e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.rep == SDM.eye((3, 3), QQ)","A.shape == (3, 3)","A.domain == QQ"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_eye():
     A = DomainMatrix.eye(3, QQ)
     assert A.rep == SDM.eye((3, 3), QQ)
@@ -1973,16 +2486,24 @@ def test_DomainMatrix_eye():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_zeros(), test_DomainMatrix_zeros produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_zeros(), A.rep == SDM.zeros((1, 2), QQ) and A.shape == (1, 2) and A.domain == QQ) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_zeros : Any → {Any | A.rep == SDM.z...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.rep == SDM.zeros((1, 2), QQ)                 ║
+# ║   ensures:  A.shape == (1, 2)                              ║
+# ║   ensures:  A.domain == QQ                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_zeros : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 877a53843c7c45e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 686c931900bfed2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_zeros","kind":"function","src_hash":"675128f92dec0d8e","in":{"base":"Any"},"out":{"base":"Any","pred":"A.rep == SDM.zeros((1, 2), QQ) and A.shape == (1, 2) and A.domain == QQ"},"spec":{"lhs":"test_DomainMatrix_zeros()","rhs":"test_DomainMatrix_zeros produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_zeros_correct"},"guarantee":"test_DomainMatrix_zeros produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_zeros_correct","statement":"Path(test_DomainMatrix_zeros(x), test_DomainMatrix_zeros produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"877a53843c7c45e4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_zeros","kind":"function","src_hash":"675128f92dec0d8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.rep == SDM.zeros((1, 2), QQ) and A.shape == (1, 2) and A.domain == QQ"},"spec":{"lhs":"test_DomainMatrix_zeros()","rhs":"A.rep == SDM.zeros((1, 2), QQ) and A.shape == (1, 2) and A.domain == QQ","over":{"base":"Any"},"name":"test_DomainMatrix_zeros_correct"},"guarantee":"A.rep == SDM.zeros((1, 2), QQ); A.shape == (1, 2); A.domain == QQ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_zeros_correct","statement":"Path(test_DomainMatrix_zeros(x), A.rep == SDM.zeros((1, 2), QQ); A.shape == (1, 2); A.domain == QQ)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"686c931900bfed2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.rep == SDM.zeros((1, 2), QQ)","A.shape == (1, 2)","A.domain == QQ"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_zeros():
     A = DomainMatrix.zeros((1, 2), QQ)
     assert A.rep == SDM.zeros((1, 2), QQ)
@@ -1991,16 +2512,23 @@ def test_DomainMatrix_zeros():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_ones(), test_DomainMatrix_ones produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_ones(), A.shape == (2, 3) and A.domain == QQ) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_ones : Any → {Any | A.shape == (2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.shape == (2, 3)                              ║
+# ║   ensures:  A.domain == QQ                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_ones : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 687c8cd8a1eed222  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b190a77fbe9d783f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_ones","kind":"function","src_hash":"d6ccf5fc0930585b","in":{"base":"Any"},"out":{"base":"Any","pred":"A.shape == (2, 3) and A.domain == QQ and A.rep == DDM.ones((2, 3), QQ) and A.rep == SDM.ones((2, 3), QQ).to_dfm()"},"spec":{"lhs":"test_DomainMatrix_ones()","rhs":"test_DomainMatrix_ones produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_ones_correct"},"guarantee":"test_DomainMatrix_ones produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_ones_correct","statement":"Path(test_DomainMatrix_ones(x), test_DomainMatrix_ones produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"687c8cd8a1eed222"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_ones","kind":"function","src_hash":"d6ccf5fc0930585b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.shape == (2, 3) and A.domain == QQ"},"spec":{"lhs":"test_DomainMatrix_ones()","rhs":"A.shape == (2, 3) and A.domain == QQ","over":{"base":"Any"},"name":"test_DomainMatrix_ones_correct"},"guarantee":"A.shape == (2, 3); A.domain == QQ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_ones_correct","statement":"Path(test_DomainMatrix_ones(x), A.shape == (2, 3); A.domain == QQ)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b190a77fbe9d783f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.shape == (2, 3)","A.domain == QQ"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_ones():
     A = DomainMatrix.ones((2, 3), QQ)
     if GROUND_TYPES != 'flint':
@@ -2012,16 +2540,23 @@ def test_DomainMatrix_ones():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_diag(), test_DomainMatrix_diag produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_diag(), DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ) == A and DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ, (3, 4)) == A) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_diag : Any → {Any | DomainMatrix.di...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ) == A     ║
+# ║   ensures:  DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ, (3,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_diag : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e2a9447e4c38c40  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78ca7f2c7f46dfbd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_diag","kind":"function","src_hash":"1aea9b3321df7eca","in":{"base":"Any"},"out":{"base":"Any","pred":"DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ) == A and DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ, (3, 4)) == A"},"spec":{"lhs":"test_DomainMatrix_diag()","rhs":"test_DomainMatrix_diag produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_diag_correct"},"guarantee":"test_DomainMatrix_diag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_diag_correct","statement":"Path(test_DomainMatrix_diag(x), test_DomainMatrix_diag produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e2a9447e4c38c40"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_diag","kind":"function","src_hash":"1aea9b3321df7eca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ) == A and DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ, (3, 4)) == A"},"spec":{"lhs":"test_DomainMatrix_diag()","rhs":"DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ) == A and DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ, (3, 4)) == A","over":{"base":"Any"},"name":"test_DomainMatrix_diag_correct"},"guarantee":"DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ) == A; DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ, (3, 4)) == A","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_diag_correct","statement":"Path(test_DomainMatrix_diag(x), DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ) == A; DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ, (3, 4)) == A)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78ca7f2c7f46dfbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ) == A","DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ, (3, 4)) == A"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_diag():
     A = DomainMatrix({0:{0:ZZ(2)}, 1:{1:ZZ(3)}}, (2, 2), ZZ)
     assert DomainMatrix.diag([ZZ(2), ZZ(3)], ZZ) == A
@@ -2031,16 +2566,23 @@ def test_DomainMatrix_diag():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_hstack(), test_DomainMatrix_hstack produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_hstack(), A.hstack(B) == AB and A.hstack(B, C) == ABC) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_hstack : Any → {Any | A.hstack(B) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.hstack(B) == AB                              ║
+# ║   ensures:  A.hstack(B, C) == ABC                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_hstack : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db89c1147d3303fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 493a1ee65e05519d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_hstack","kind":"function","src_hash":"c5a0d82eefea1a9c","in":{"base":"Any"},"out":{"base":"Any","pred":"A.hstack(B) == AB and A.hstack(B, C) == ABC"},"spec":{"lhs":"test_DomainMatrix_hstack()","rhs":"test_DomainMatrix_hstack produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_hstack_correct"},"guarantee":"test_DomainMatrix_hstack produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_hstack_correct","statement":"Path(test_DomainMatrix_hstack(x), test_DomainMatrix_hstack produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db89c1147d3303fd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_hstack","kind":"function","src_hash":"c5a0d82eefea1a9c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.hstack(B) == AB and A.hstack(B, C) == ABC"},"spec":{"lhs":"test_DomainMatrix_hstack()","rhs":"A.hstack(B) == AB and A.hstack(B, C) == ABC","over":{"base":"Any"},"name":"test_DomainMatrix_hstack_correct"},"guarantee":"A.hstack(B) == AB; A.hstack(B, C) == ABC","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_hstack_correct","statement":"Path(test_DomainMatrix_hstack(x), A.hstack(B) == AB; A.hstack(B, C) == ABC)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"493a1ee65e05519d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.hstack(B) == AB","A.hstack(B, C) == ABC"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_hstack():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     B = DomainMatrix([[ZZ(5), ZZ(6)], [ZZ(7), ZZ(8)]], (2, 2), ZZ)
@@ -2057,16 +2599,23 @@ def test_DomainMatrix_hstack():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_vstack(), test_DomainMatrix_vstack produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_vstack(), A.vstack(B) == AB and A.vstack(B, C) == ABC) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_vstack : Any → {Any | A.vstack(B) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.vstack(B) == AB                              ║
+# ║   ensures:  A.vstack(B, C) == ABC                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_vstack : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c47bf7fca70507b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8dd568f38253df9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_vstack","kind":"function","src_hash":"443ab22b68968807","in":{"base":"Any"},"out":{"base":"Any","pred":"A.vstack(B) == AB and A.vstack(B, C) == ABC"},"spec":{"lhs":"test_DomainMatrix_vstack()","rhs":"test_DomainMatrix_vstack produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_vstack_correct"},"guarantee":"test_DomainMatrix_vstack produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_vstack_correct","statement":"Path(test_DomainMatrix_vstack(x), test_DomainMatrix_vstack produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c47bf7fca70507b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_vstack","kind":"function","src_hash":"443ab22b68968807","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.vstack(B) == AB and A.vstack(B, C) == ABC"},"spec":{"lhs":"test_DomainMatrix_vstack()","rhs":"A.vstack(B) == AB and A.vstack(B, C) == ABC","over":{"base":"Any"},"name":"test_DomainMatrix_vstack_correct"},"guarantee":"A.vstack(B) == AB; A.vstack(B, C) == ABC","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_vstack_correct","statement":"Path(test_DomainMatrix_vstack(x), A.vstack(B) == AB; A.vstack(B, C) == ABC)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dd568f38253df9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.vstack(B) == AB","A.vstack(B, C) == ABC"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_vstack():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     B = DomainMatrix([[ZZ(5), ZZ(6)], [ZZ(7), ZZ(8)]], (2, 2), ZZ)
@@ -2089,16 +2638,22 @@ def test_DomainMatrix_vstack():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_applyfunc(), test_DomainMatrix_applyfunc produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_applyfunc(), A.applyfunc(lambda x: 2 * x) == B) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_applyfunc : Any → {Any | A.applyfun...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.applyfunc(lambda x: 2 * x) == B              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_applyfunc : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e0054e5c22b32fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01de81c4dab0bf51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_applyfunc","kind":"function","src_hash":"d12f41c33c9406ab","in":{"base":"Any"},"out":{"base":"Any","pred":"A.applyfunc(lambda x: 2 * x) == B"},"spec":{"lhs":"test_DomainMatrix_applyfunc()","rhs":"test_DomainMatrix_applyfunc produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_applyfunc_correct"},"guarantee":"test_DomainMatrix_applyfunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_applyfunc_correct","statement":"Path(test_DomainMatrix_applyfunc(x), test_DomainMatrix_applyfunc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e0054e5c22b32fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_applyfunc","kind":"function","src_hash":"d12f41c33c9406ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.applyfunc(lambda x: 2 * x) == B"},"spec":{"lhs":"test_DomainMatrix_applyfunc()","rhs":"A.applyfunc(lambda x: 2 * x) == B","over":{"base":"Any"},"name":"test_DomainMatrix_applyfunc_correct"},"guarantee":"A.applyfunc(lambda x: 2 * x) == B","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_applyfunc_correct","statement":"Path(test_DomainMatrix_applyfunc(x), A.applyfunc(lambda x: 2 * x) == B)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01de81c4dab0bf51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.applyfunc(lambda x: 2 * x) == B"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_applyfunc():
     A = DomainMatrix([[ZZ(1), ZZ(2)]], (1, 2), ZZ)
     B = DomainMatrix([[ZZ(2), ZZ(4)]], (1, 2), ZZ)
@@ -2106,16 +2661,24 @@ def test_DomainMatrix_applyfunc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_scalarmul(), test_DomainMatrix_scalarmul produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_scalarmul(), A * lamda == DomainMatrix([[QQ(3, 2), QQ(3)], [QQ(9, 2), QQ(6)]], (2, 2), QQ) and A * 2 == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ) and 2 * A == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ) and A * DomainScalar(ZZ(0), ZZ) == DomainMatrix({}, (2, 2), ZZ) and A * DomainScalar(ZZ(1), ZZ) == A) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_scalarmul : Any → {Any | A * lamda ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A * lamda == DomainMatrix([[QQ(3, 2), QQ(...   ║
+# ║   ensures:  A * 2 == DomainMatrix([[ZZ(2), ZZ(4)], [Z...   ║
+# ║   ensures:  2 * A == DomainMatrix([[ZZ(2), ZZ(4)], [Z...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_scalarmul : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0d566dd610ce274  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 458689294cfcd03b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_scalarmul","kind":"function","src_hash":"1d535c1d276cac90","in":{"base":"Any"},"out":{"base":"Any","pred":"A * lamda == DomainMatrix([[QQ(3, 2), QQ(3)], [QQ(9, 2), QQ(6)]], (2, 2), QQ) and A * 2 == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ) and 2 * A == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ) and A * DomainScalar(ZZ(0), ZZ) == DomainMatrix({}, (2, 2), ZZ) and A * DomainScalar(ZZ(1), ZZ) == A"},"spec":{"lhs":"test_DomainMatrix_scalarmul()","rhs":"test_DomainMatrix_scalarmul produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_scalarmul_correct"},"guarantee":"test_DomainMatrix_scalarmul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_scalarmul_correct","statement":"Path(test_DomainMatrix_scalarmul(x), test_DomainMatrix_scalarmul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0d566dd610ce274"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_scalarmul","kind":"function","src_hash":"1d535c1d276cac90","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A * lamda == DomainMatrix([[QQ(3, 2), QQ(3)], [QQ(9, 2), QQ(6)]], (2, 2), QQ) and A * 2 == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ) and 2 * A == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ) and A * DomainScalar(ZZ(0), ZZ) == DomainMatrix({}, (2, 2), ZZ) and A * DomainScalar(ZZ(1), ZZ) == A"},"spec":{"lhs":"test_DomainMatrix_scalarmul()","rhs":"A * lamda == DomainMatrix([[QQ(3, 2), QQ(3)], [QQ(9, 2), QQ(6)]], (2, 2), QQ) and A * 2 == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ) and 2 * A == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ) and A * DomainScalar(ZZ(0), ZZ) == DomainMatrix({}, (2, 2), ZZ) and A * DomainScalar(ZZ(1), ZZ) == A","over":{"base":"Any"},"name":"test_DomainMatrix_scalarmul_correct"},"guarantee":"A * lamda == DomainMatrix([[QQ(3, 2), QQ(3)], [QQ(9, 2), QQ(6)]], (2, 2), QQ); A * 2 == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ); 2 * A == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_scalarmul_correct","statement":"Path(test_DomainMatrix_scalarmul(x), A * lamda == DomainMatrix([[QQ(3, 2), QQ(3)], [QQ(9, 2), QQ(6)]], (2, 2), QQ); A * 2 == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ); 2 * A == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"458689294cfcd03b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A * lamda == DomainMatrix([[QQ(3, 2), QQ(3)], [QQ(9, 2), QQ(6)]], (2, 2), QQ)","A * 2 == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ)","2 * A == DomainMatrix([[ZZ(2), ZZ(4)], [ZZ(6), ZZ(8)]], (2, 2), ZZ)","A * DomainScalar(ZZ(0), ZZ) == DomainMatrix({}, (2, 2), ZZ)","A * DomainScalar(ZZ(1), ZZ) == A"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_scalarmul():
     A = DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(3), ZZ(4)]], (2, 2), ZZ)
     lamda = DomainScalar(QQ(3)/QQ(2), QQ)
@@ -2129,16 +2692,24 @@ def test_DomainMatrix_scalarmul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_truediv(), test_DomainMatrix_truediv produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_truediv(), A / lamda == DomainMatrix({0: {0: QQ(2, 3), 1: QQ(4, 3)}, 1: {0: QQ(2), 1: QQ(8, 3)}}, (2, 2), QQ) and A / b == DomainMatrix({0: {0: QQ(1), 1: QQ(2)}, 1: {0: QQ(3), 1: QQ(4)}}, (2, 2), QQ) and A / 1 == DomainMatrix({0: {0: QQ(1), 1: QQ(2)}, 1: {0: QQ(3), 1: QQ(4)}}, (2, 2), QQ) and A / 2 == DomainMatrix({0: {0: QQ(1, 2), 1: QQ(1)}, 1: {0: QQ(3, 2), 1: QQ(2)}}, (2, 2), QQ) and A.to_field() / 2 == DomainMatrix([[QQ(1, 2), QQ(1)], [QQ(3, 2), QQ(2)]], (2, 2), QQ) and A / 2 == DomainMatrix([[QQ(1, 2), QQ(1)], [QQ(3, 2), QQ(2)]], (2, 2), QQ) and A.to_field() / QQ(2, 3) == DomainMatrix([[QQ(3, 2), QQ(3)], [QQ(9, 2), QQ(6)]], (2, 2), QQ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_truediv : Any → {Any | A / 2 == Dom...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A / lamda == DomainMatrix({0: {0: QQ(2, 3...   ║
+# ║   ensures:  A / b == DomainMatrix({0: {0: QQ(1), 1: Q...   ║
+# ║   ensures:  A / 1 == DomainMatrix({0: {0: QQ(1), 1: Q...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_truediv : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21828848ac9c24a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f1cdd21510b5193  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_truediv","kind":"function","src_hash":"9762bf876bc4a96c","in":{"base":"Any"},"out":{"base":"Any","pred":"A / 2 == DomainMatrix([[QQ(1, 2), QQ(1)], [QQ(3, 2), QQ(2)]], (2, 2), QQ)"},"spec":{"lhs":"test_DomainMatrix_truediv()","rhs":"test_DomainMatrix_truediv produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_truediv_correct"},"guarantee":"test_DomainMatrix_truediv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_truediv_correct","statement":"Path(test_DomainMatrix_truediv(x), test_DomainMatrix_truediv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21828848ac9c24a3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_truediv","kind":"function","src_hash":"9762bf876bc4a96c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A / lamda == DomainMatrix({0: {0: QQ(2, 3), 1: QQ(4, 3)}, 1: {0: QQ(2), 1: QQ(8, 3)}}, (2, 2), QQ) and A / b == DomainMatrix({0: {0: QQ(1), 1: QQ(2)}, 1: {0: QQ(3), 1: QQ(4)}}, (2, 2), QQ) and A / 1 == DomainMatrix({0: {0: QQ(1), 1: QQ(2)}, 1: {0: QQ(3), 1: QQ(4)}}, (2, 2), QQ) and A / 2 == DomainMatrix({0: {0: QQ(1, 2), 1: QQ(1)}, 1: {0: QQ(3, 2), 1: QQ(2)}}, (2, 2), QQ) and A.to_field() / 2 == DomainMatrix([[QQ(1, 2), QQ(1)], [QQ(3, 2), QQ(2)]], (2, 2), QQ) and A / 2 == DomainMatrix([[QQ(1, 2), QQ(1)], [QQ(3, 2), QQ(2)]], (2, 2), QQ) and A.to_field() / QQ(2, 3) == DomainMatrix([[QQ(3, 2), QQ(3)], [QQ(9, 2), QQ(6)]], (2, 2), QQ)"},"spec":{"lhs":"test_DomainMatrix_truediv()","rhs":"A / lamda == DomainMatrix({0: {0: QQ(2, 3), 1: QQ(4, 3)}, 1: {0: QQ(2), 1: QQ(8, 3)}}, (2, 2), QQ) and A / b == DomainMatrix({0: {0: QQ(1), 1: QQ(2)}, 1: {0: QQ(3), 1: QQ(4)}}, (2, 2), QQ) and A / 1 == DomainMatrix({0: {0: QQ(1), 1: QQ(2)}, 1: {0: QQ(3), 1: QQ(4)}}, (2, 2), QQ) and A / 2 == DomainMatrix({0: {0: QQ(1, 2), 1: QQ(1)}, 1: {0: QQ(3, 2), 1: QQ(2)}}, (2, 2), QQ) and A.to_field() / 2 == DomainMatrix([[QQ(1, 2), QQ(1)], [QQ(3, 2), QQ(2)]], (2, 2), QQ) and A / 2 == DomainMatrix([[QQ(1, 2), QQ(1)], [QQ(3, 2), QQ(2)]], (2, 2), QQ) and A.to_field() / QQ(2, 3) == DomainMatrix([[QQ(3, 2), QQ(3)], [QQ(9, 2), QQ(6)]], (2, 2), QQ)","over":{"base":"Any"},"name":"test_DomainMatrix_truediv_correct"},"guarantee":"A / lamda == DomainMatrix({0: {0: QQ(2, 3), 1: QQ(4, 3)}, 1: {0: QQ(2), 1: QQ(8, 3)}}, (2, 2), QQ); A / b == DomainMatrix({0: {0: QQ(1), 1: QQ(2)}, 1: {0: QQ(3), 1: QQ(4)}}, (2, 2), QQ); A / 1 == DomainMatrix({0: {0: QQ(1), 1: QQ(2)}, 1: {0: QQ(3), 1: QQ(4)}}, (2, 2), QQ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_truediv_correct","statement":"Path(test_DomainMatrix_truediv(x), A / lamda == DomainMatrix({0: {0: QQ(2, 3), 1: QQ(4, 3)}, 1: {0: QQ(2), 1: QQ(8, 3)}}, (2, 2), QQ); A / b == DomainMatrix({0: {0: QQ(1), 1: QQ(2)}, 1: {0: QQ(3), 1: QQ(4)}}, (2, 2), QQ); A / 1 == DomainMatrix({0: {0: QQ(1), 1: QQ(2)}, 1: {0: QQ(3), 1: QQ(4)}}, (2, 2), QQ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f1cdd21510b5193","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A / lamda == DomainMatrix({0: {0: QQ(2, 3), 1: QQ(4, 3)}, 1: {0: QQ(2), 1: QQ(8, 3)}}, (2, 2), QQ)","A / b == DomainMatrix({0: {0: QQ(1), 1: QQ(2)}, 1: {0: QQ(3), 1: QQ(4)}}, (2, 2), QQ)","A / 1 == DomainMatrix({0: {0: QQ(1), 1: QQ(2)}, 1: {0: QQ(3), 1: QQ(4)}}, (2, 2), QQ)","A / 2 == DomainMatrix({0: {0: QQ(1, 2), 1: QQ(1)}, 1: {0: QQ(3, 2), 1: QQ(2)}}, (2, 2), QQ)","A.to_field() / 2 == DomainMatrix([[QQ(1, 2), QQ(1)], [QQ(3, 2), QQ(2)]], (2, 2), QQ)","A / 2 == DomainMatrix([[QQ(1, 2), QQ(1)], [QQ(3, 2), QQ(2)]], (2, 2), QQ)","A.to_field() / QQ(2, 3) == DomainMatrix([[QQ(3, 2), QQ(3)], [QQ(9, 2), QQ(6)]], (2, 2), QQ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_truediv():
     A = DomainMatrix.from_Matrix(Matrix([[1, 2], [3, 4]]))
     lamda = DomainScalar(QQ(3)/QQ(2), QQ)
@@ -2160,16 +2731,24 @@ def test_DomainMatrix_truediv():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_getitem(), test_DomainMatrix_getitem produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_getitem(), dM[1:, :-2] == DomainMatrix([[ZZ(4)], [ZZ(7)]], (2, 1), ZZ) and dM[2, :-2] == DomainMatrix([[ZZ(7)]], (1, 1), ZZ) and dM[:-2, :-2] == DomainMatrix([[ZZ(1)]], (1, 1), ZZ) and dM[:-1, 0:2] == DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(4), ZZ(5)]], (2, 2), ZZ) and dM[:, -1] == DomainMatrix([[ZZ(3)], [ZZ(6)], [ZZ(9)]], (3, 1), ZZ) and dM[-1, :] == DomainMatrix([[ZZ(7), ZZ(8), ZZ(9)]], (1, 3), ZZ) and dM[::-1, :] == DomainMatrix([[ZZ(7), ZZ(8), ZZ(9)], [ZZ(4), ZZ(5), ZZ(6)], [ZZ(1), ZZ(2), ZZ(3)]], (3, 3), ZZ) and dM[1, 2] == DomainScalar(ZZ(6), ZZ) and dM[-2, 2] == DomainScalar(ZZ(6), ZZ) and dM[1, -2] == DomainScalar(ZZ(5), ZZ) and dM[-1, -3] == DomainScalar(ZZ(7), ZZ) and dM[5, 5] == DomainScalar(ZZ(0), ZZ) and dM[0, 0] == DomainScalar(ZZ(1), ZZ) and dM[0:, 0] == DomainMatrix({1: {0: 1}}, (2, 1), ZZ) and dM[:2, :2] == DomainMatrix({}, (2, 2), ZZ) and dM[2:, 2:] == DomainMatrix({0: {0: 1}, 2: {2: 1}}, (3, 3), ZZ) and dM[3:, 3:] == DomainMatrix({1: {1: 1}}, (2, 2), ZZ) and dM[2:, 6:] == DomainMatrix({}, (3, 0), ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_getitem : Any → {Any | dM[1:, :-2] ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dM[1:, :-2] == DomainMatrix([[ZZ(4)], [ZZ...   ║
+# ║   ensures:  dM[2, :-2] == DomainMatrix([[ZZ(7)]], (1,...   ║
+# ║   ensures:  dM[:-2, :-2] == DomainMatrix([[ZZ(1)]], (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_getitem : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f3277a7eab6ca4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4502e1362ece31a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_getitem","kind":"function","src_hash":"ce11b360c58fc130","in":{"base":"Any"},"out":{"base":"Any","pred":"dM[1:, :-2] == DomainMatrix([[ZZ(4)], [ZZ(7)]], (2, 1), ZZ) and dM[2, :-2] == DomainMatrix([[ZZ(7)]], (1, 1), ZZ) and dM[:-2, :-2] == DomainMatrix([[ZZ(1)]], (1, 1), ZZ) and dM[:-1, 0:2] == DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(4), ZZ(5)]], (2, 2), ZZ) and dM[:, -1] == DomainMatrix([[ZZ(3)], [ZZ(6)], [ZZ(9)]], (3, 1), ZZ) and dM[-1, :] == DomainMatrix([[ZZ(7), ZZ(8), ZZ(9)]], (1, 3), ZZ) and dM[1, 2] == DomainScalar(ZZ(6), ZZ) and dM[-2, 2] == DomainScalar(ZZ(6), ZZ) and dM[1, -2] == DomainScalar(ZZ(5), ZZ) and dM[-1, -3] == DomainScalar(ZZ(7), ZZ) and dM[5, 5] == DomainScalar(ZZ(0), ZZ) and dM[0, 0] == DomainScalar(ZZ(1), ZZ) and dM[0:, 0] == DomainMatrix({1: {0: 1}}, (2, 1), ZZ) and dM[:2, :2] == DomainMatrix({}, (2, 2), ZZ) and dM[2:, 2:] == DomainMatrix({0: {0: 1}, 2: {2: 1}}, (3, 3), ZZ) and dM[3:, 3:] == DomainMatrix({1: {1: 1}}, (2, 2), ZZ) and dM[2:, 6:] == DomainMatrix({}, (3, 0), ZZ)"},"spec":{"lhs":"test_DomainMatrix_getitem()","rhs":"test_DomainMatrix_getitem produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_getitem_correct"},"guarantee":"test_DomainMatrix_getitem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_getitem_correct","statement":"Path(test_DomainMatrix_getitem(x), test_DomainMatrix_getitem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f3277a7eab6ca4b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_getitem","kind":"function","src_hash":"ce11b360c58fc130","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dM[1:, :-2] == DomainMatrix([[ZZ(4)], [ZZ(7)]], (2, 1), ZZ) and dM[2, :-2] == DomainMatrix([[ZZ(7)]], (1, 1), ZZ) and dM[:-2, :-2] == DomainMatrix([[ZZ(1)]], (1, 1), ZZ) and dM[:-1, 0:2] == DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(4), ZZ(5)]], (2, 2), ZZ) and dM[:, -1] == DomainMatrix([[ZZ(3)], [ZZ(6)], [ZZ(9)]], (3, 1), ZZ) and dM[-1, :] == DomainMatrix([[ZZ(7), ZZ(8), ZZ(9)]], (1, 3), ZZ) and dM[::-1, :] == DomainMatrix([[ZZ(7), ZZ(8), ZZ(9)], [ZZ(4), ZZ(5), ZZ(6)], [ZZ(1), ZZ(2), ZZ(3)]], (3, 3), ZZ) and dM[1, 2] == DomainScalar(ZZ(6), ZZ) and dM[-2, 2] == DomainScalar(ZZ(6), ZZ) and dM[1, -2] == DomainScalar(ZZ(5), ZZ) and dM[-1, -3] == DomainScalar(ZZ(7), ZZ) and dM[5, 5] == DomainScalar(ZZ(0), ZZ) and dM[0, 0] == DomainScalar(ZZ(1), ZZ) and dM[0:, 0] == DomainMatrix({1: {0: 1}}, (2, 1), ZZ) and dM[:2, :2] == DomainMatrix({}, (2, 2), ZZ) and dM[2:, 2:] == DomainMatrix({0: {0: 1}, 2: {2: 1}}, (3, 3), ZZ) and dM[3:, 3:] == DomainMatrix({1: {1: 1}}, (2, 2), ZZ) and dM[2:, 6:] == DomainMatrix({}, (3, 0), ZZ)"},"spec":{"lhs":"test_DomainMatrix_getitem()","rhs":"dM[1:, :-2] == DomainMatrix([[ZZ(4)], [ZZ(7)]], (2, 1), ZZ) and dM[2, :-2] == DomainMatrix([[ZZ(7)]], (1, 1), ZZ) and dM[:-2, :-2] == DomainMatrix([[ZZ(1)]], (1, 1), ZZ) and dM[:-1, 0:2] == DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(4), ZZ(5)]], (2, 2), ZZ) and dM[:, -1] == DomainMatrix([[ZZ(3)], [ZZ(6)], [ZZ(9)]], (3, 1), ZZ) and dM[-1, :] == DomainMatrix([[ZZ(7), ZZ(8), ZZ(9)]], (1, 3), ZZ) and dM[::-1, :] == DomainMatrix([[ZZ(7), ZZ(8), ZZ(9)], [ZZ(4), ZZ(5), ZZ(6)], [ZZ(1), ZZ(2), ZZ(3)]], (3, 3), ZZ) and dM[1, 2] == DomainScalar(ZZ(6), ZZ) and dM[-2, 2] == DomainScalar(ZZ(6), ZZ) and dM[1, -2] == DomainScalar(ZZ(5), ZZ) and dM[-1, -3] == DomainScalar(ZZ(7), ZZ) and dM[5, 5] == DomainScalar(ZZ(0), ZZ) and dM[0, 0] == DomainScalar(ZZ(1), ZZ) and dM[0:, 0] == DomainMatrix({1: {0: 1}}, (2, 1), ZZ) and dM[:2, :2] == DomainMatrix({}, (2, 2), ZZ) and dM[2:, 2:] == DomainMatrix({0: {0: 1}, 2: {2: 1}}, (3, 3), ZZ) and dM[3:, 3:] == DomainMatrix({1: {1: 1}}, (2, 2), ZZ) and dM[2:, 6:] == DomainMatrix({}, (3, 0), ZZ)","over":{"base":"Any"},"name":"test_DomainMatrix_getitem_correct"},"guarantee":"dM[1:, :-2] == DomainMatrix([[ZZ(4)], [ZZ(7)]], (2, 1), ZZ); dM[2, :-2] == DomainMatrix([[ZZ(7)]], (1, 1), ZZ); dM[:-2, :-2] == DomainMatrix([[ZZ(1)]], (1, 1), ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_getitem_correct","statement":"Path(test_DomainMatrix_getitem(x), dM[1:, :-2] == DomainMatrix([[ZZ(4)], [ZZ(7)]], (2, 1), ZZ); dM[2, :-2] == DomainMatrix([[ZZ(7)]], (1, 1), ZZ); dM[:-2, :-2] == DomainMatrix([[ZZ(1)]], (1, 1), ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4502e1362ece31a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dM[1:, :-2] == DomainMatrix([[ZZ(4)], [ZZ(7)]], (2, 1), ZZ)","dM[2, :-2] == DomainMatrix([[ZZ(7)]], (1, 1), ZZ)","dM[:-2, :-2] == DomainMatrix([[ZZ(1)]], (1, 1), ZZ)","dM[:-1, 0:2] == DomainMatrix([[ZZ(1), ZZ(2)], [ZZ(4), ZZ(5)]], (2, 2), ZZ)","dM[:, -1] == DomainMatrix([[ZZ(3)], [ZZ(6)], [ZZ(9)]], (3, 1), ZZ)","dM[-1, :] == DomainMatrix([[ZZ(7), ZZ(8), ZZ(9)]], (1, 3), ZZ)","dM[::-1, :] == DomainMatrix([[ZZ(7), ZZ(8), ZZ(9)], [ZZ(4), ZZ(5), ZZ(6)], [ZZ(1), ZZ(2), ZZ(3)]], (3, 3), ZZ)","dM[1, 2] == DomainScalar(ZZ(6), ZZ)","dM[-2, 2] == DomainScalar(ZZ(6), ZZ)","dM[1, -2] == DomainScalar(ZZ(5), ZZ)","dM[-1, -3] == DomainScalar(ZZ(7), ZZ)","dM[5, 5] == DomainScalar(ZZ(0), ZZ)","dM[0, 0] == DomainScalar(ZZ(1), ZZ)","dM[0:, 0] == DomainMatrix({1: {0: 1}}, (2, 1), ZZ)","dM[:2, :2] == DomainMatrix({}, (2, 2), ZZ)","dM[2:, 2:] == DomainMatrix({0: {0: 1}, 2: {2: 1}}, (3, 3), ZZ)","dM[3:, 3:] == DomainMatrix({1: {1: 1}}, (2, 2), ZZ)","dM[2:, 6:] == DomainMatrix({}, (3, 0), ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_getitem():
     dM = DomainMatrix([
         [ZZ(1), ZZ(2), ZZ(3)],
@@ -2215,7 +2794,11 @@ def test_DomainMatrix_getitem():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_getitem_sympy(), test_DomainMatrix_getitem_sympy produces the expected output) over {Any | isinstance(val2, Integer)} ║
+# ║ Path(test_DomainMatrix_getitem_sympy(), val1 is S.Zero and val2 == 2 and isinstance(val2, Integer)) over {Any | isinstance(val2, Integer)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  val1 is S.Zero                                 ║
+# ║   ensures:  val2 == 2 and isinstance(val2, Integer)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DomainMatrix_getitem_sympy : {Any | isinstance(v...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2227,9 +2810,12 @@ def test_DomainMatrix_getitem():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 904a8894...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_getitem_sympy","kind":"function","src_hash":"bae7584780b93fe4","in":{"base":"Any","pred":"isinstance(val2, Integer)"},"out":{"base":"Any","pred":"val1 is S.Zero and val2 == 2 and isinstance(val2, Integer)"},"spec":{"lhs":"test_DomainMatrix_getitem_sympy()","rhs":"test_DomainMatrix_getitem_sympy produces the expected output","over":{"base":"Any","pred":"isinstance(val2, Integer)"},"name":"test_DomainMatrix_getitem_sympy_correct"},"guarantee":"test_DomainMatrix_getitem_sympy produces the expected output","fibers":[{"name":"Integer","pred":"isinstance(val2, Integer)","path":{"lhs":"test_DomainMatrix_getitem_sympy(x)","rhs":"test_DomainMatrix_getitem_sympy produces the expected output","over":{"base":"Integer","pred":"isinstance(val2, Integer)"},"name":"test_DomainMatrix_getitem_sympy_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_getitem_sympy_Integer_correct","statement":"test_DomainMatrix_getitem_sympy satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"904a88943caf7843"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_getitem_sympy","kind":"function","src_hash":"bae7584780b93fe4","in":{"base":"Any","pred":"isinstance(val2, Integer)"},"out":{"base":"Any","pred":"result satisfies: val1 is S.Zero and val2 == 2 and isinstance(val2, Integer)"},"spec":{"lhs":"test_DomainMatrix_getitem_sympy()","rhs":"val1 is S.Zero and val2 == 2 and isinstance(val2, Integer)","over":{"base":"Any","pred":"isinstance(val2, Integer)"},"name":"test_DomainMatrix_getitem_sympy_correct"},"guarantee":"val1 is S.Zero; val2 == 2 and isinstance(val2, Integer)","fibers":[{"name":"Integer","pred":"isinstance(val2, Integer)","path":{"lhs":"test_DomainMatrix_getitem_sympy(x)","rhs":"val1 is S.Zero; val2 == 2 and isinstance(val2, Integer)","over":{"base":"Integer","pred":"isinstance(val2, Integer)"},"name":"test_DomainMatrix_getitem_sympy_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_getitem_sympy_Integer_correct","statement":"test_DomainMatrix_getitem_sympy satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"904a88943caf7843","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["val1 is S.Zero","val2 == 2 and isinstance(val2, Integer)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def test_DomainMatrix_getitem_sympy():
     dM = DomainMatrix({2: {2: ZZ(2)}, 4: {4: ZZ(1)}}, (5, 5), ZZ)
     val1 = dM.getitem_sympy(0, 0)
@@ -2239,16 +2825,24 @@ def test_DomainMatrix_getitem_sympy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_extract(), test_DomainMatrix_extract produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_extract(), dM1.extract([0, 2], [0, 2]) == dM2 and dM1.to_sparse().extract([0, 2], [0, 2]) == dM2.to_sparse() and dM1.extract([0, -1], [0, -1]) == dM2 and dM1.to_sparse().extract([0, -1], [0, -1]) == dM2.to_sparse() and dM1.extract([0, 1, 1], [0, 1, 1]) == dM3 and dM1.to_sparse().extract([0, 1, 1], [0, 1, 1]) == dM3.to_sparse()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_extract : Any → {Any | dM1.extract(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dM1.extract([0, 2], [0, 2]) == dM2             ║
+# ║   ensures:  dM1.to_sparse().extract([0, 2], [0, 2]) =...   ║
+# ║   ensures:  dM1.extract([0, -1], [0, -1]) == dM2           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_extract : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d21f463e574a94c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c61228eef05f917a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_extract","kind":"function","src_hash":"9243169341ed34ac","in":{"base":"Any"},"out":{"base":"Any","pred":"dM1.extract([0, 2], [0, 2]) == dM2 and dM1.to_sparse().extract([0, 2], [0, 2]) == dM2.to_sparse() and dM1.extract([0, -1], [0, -1]) == dM2 and dM1.to_sparse().extract([0, -1], [0, -1]) == dM2.to_sparse() and dM1.extract([0, 1, 1], [0, 1, 1]) == dM3 and dM1.to_sparse().extract([0, 1, 1], [0, 1, 1]) == dM3.to_sparse() and dM1.extract(rows, cols) == DomainMatrix.zeros(size, ZZ).to_dense() and dM1.to_sparse().extract(rows, cols) == DomainMatrix.zeros(size, ZZ)"},"spec":{"lhs":"test_DomainMatrix_extract()","rhs":"test_DomainMatrix_extract produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_extract_correct"},"guarantee":"test_DomainMatrix_extract produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_extract_correct","statement":"Path(test_DomainMatrix_extract(x), test_DomainMatrix_extract produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d21f463e574a94c5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_extract","kind":"function","src_hash":"9243169341ed34ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dM1.extract([0, 2], [0, 2]) == dM2 and dM1.to_sparse().extract([0, 2], [0, 2]) == dM2.to_sparse() and dM1.extract([0, -1], [0, -1]) == dM2 and dM1.to_sparse().extract([0, -1], [0, -1]) == dM2.to_sparse() and dM1.extract([0, 1, 1], [0, 1, 1]) == dM3 and dM1.to_sparse().extract([0, 1, 1], [0, 1, 1]) == dM3.to_sparse()"},"spec":{"lhs":"test_DomainMatrix_extract()","rhs":"dM1.extract([0, 2], [0, 2]) == dM2 and dM1.to_sparse().extract([0, 2], [0, 2]) == dM2.to_sparse() and dM1.extract([0, -1], [0, -1]) == dM2 and dM1.to_sparse().extract([0, -1], [0, -1]) == dM2.to_sparse() and dM1.extract([0, 1, 1], [0, 1, 1]) == dM3 and dM1.to_sparse().extract([0, 1, 1], [0, 1, 1]) == dM3.to_sparse()","over":{"base":"Any"},"name":"test_DomainMatrix_extract_correct"},"guarantee":"dM1.extract([0, 2], [0, 2]) == dM2; dM1.to_sparse().extract([0, 2], [0, 2]) == dM2.to_sparse(); dM1.extract([0, -1], [0, -1]) == dM2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_extract_correct","statement":"Path(test_DomainMatrix_extract(x), dM1.extract([0, 2], [0, 2]) == dM2; dM1.to_sparse().extract([0, 2], [0, 2]) == dM2.to_sparse(); dM1.extract([0, -1], [0, -1]) == dM2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c61228eef05f917a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dM1.extract([0, 2], [0, 2]) == dM2","dM1.to_sparse().extract([0, 2], [0, 2]) == dM2.to_sparse()","dM1.extract([0, -1], [0, -1]) == dM2","dM1.to_sparse().extract([0, -1], [0, -1]) == dM2.to_sparse()","dM1.extract([0, 1, 1], [0, 1, 1]) == dM3","dM1.to_sparse().extract([0, 1, 1], [0, 1, 1]) == dM3.to_sparse()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_extract():
     dM1 = DomainMatrix([
         [ZZ(1), ZZ(2), ZZ(3)],
@@ -2286,16 +2880,22 @@ def test_DomainMatrix_extract():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_setitem(), test_DomainMatrix_setitem produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_setitem(), dM == DomainMatrix({2: {2: ZZ(2)}, 4: {4: ZZ(1)}}, (5, 5), ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_setitem : Any → {Any | dM == Domain...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dM == DomainMatrix({2: {2: ZZ(2)}, 4: {4:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_setitem : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0875191e47503c89  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a16715c204c87ed6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_setitem","kind":"function","src_hash":"a29fe6b1bdebeba7","in":{"base":"Any"},"out":{"base":"Any","pred":"dM == DomainMatrix({2: {2: ZZ(2)}, 4: {4: ZZ(1)}}, (5, 5), ZZ)"},"spec":{"lhs":"test_DomainMatrix_setitem()","rhs":"test_DomainMatrix_setitem produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_setitem_correct"},"guarantee":"test_DomainMatrix_setitem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_setitem_correct","statement":"Path(test_DomainMatrix_setitem(x), test_DomainMatrix_setitem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0875191e47503c89"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_setitem","kind":"function","src_hash":"a29fe6b1bdebeba7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dM == DomainMatrix({2: {2: ZZ(2)}, 4: {4: ZZ(1)}}, (5, 5), ZZ)"},"spec":{"lhs":"test_DomainMatrix_setitem()","rhs":"dM == DomainMatrix({2: {2: ZZ(2)}, 4: {4: ZZ(1)}}, (5, 5), ZZ)","over":{"base":"Any"},"name":"test_DomainMatrix_setitem_correct"},"guarantee":"dM == DomainMatrix({2: {2: ZZ(2)}, 4: {4: ZZ(1)}}, (5, 5), ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_setitem_correct","statement":"Path(test_DomainMatrix_setitem(x), dM == DomainMatrix({2: {2: ZZ(2)}, 4: {4: ZZ(1)}}, (5, 5), ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a16715c204c87ed6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dM == DomainMatrix({2: {2: ZZ(2)}, 4: {4: ZZ(1)}}, (5, 5), ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_setitem():
     dM = DomainMatrix({2: {2: ZZ(1)}, 4: {4: ZZ(1)}}, (5, 5), ZZ)
     dM[2, 2] = ZZ(2)
@@ -2307,16 +2907,22 @@ def test_DomainMatrix_setitem():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_pickling(), test_DomainMatrix_pickling produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_pickling(), pickle.loads(pickle.dumps(dM)) == dM) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_pickling : Any → {Any | pickle.load...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pickle.loads(pickle.dumps(dM)) == dM           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_pickling : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   pickle.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 2316c1e35ff2...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 118b7d26394d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_pickling","kind":"function","src_hash":"977f215e70b5f2a6","in":{"base":"Any"},"out":{"base":"Any","pred":"pickle.loads(pickle.dumps(dM)) == dM and pickle.loads(pickle.dumps(dM)) == dM"},"spec":{"lhs":"test_DomainMatrix_pickling()","rhs":"test_DomainMatrix_pickling produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_pickling_correct"},"guarantee":"test_DomainMatrix_pickling produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_pickling_correct","statement":"Path(test_DomainMatrix_pickling(x), test_DomainMatrix_pickling produces the expected output)"},"assumes":[],"trust":["pickle.__module__"],"compiled":true,"vhash":"2316c1e35ff27689"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_pickling","kind":"function","src_hash":"977f215e70b5f2a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pickle.loads(pickle.dumps(dM)) == dM"},"spec":{"lhs":"test_DomainMatrix_pickling()","rhs":"pickle.loads(pickle.dumps(dM)) == dM","over":{"base":"Any"},"name":"test_DomainMatrix_pickling_correct"},"guarantee":"pickle.loads(pickle.dumps(dM)) == dM","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_pickling_correct","statement":"Path(test_DomainMatrix_pickling(x), pickle.loads(pickle.dumps(dM)) == dM)"},"assumes":[],"trust":["pickle.__module__"],"compiled":true,"vhash":"118b7d26394d0f2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pickle.loads(pickle.dumps(dM)) == dM"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_pickling():
     import pickle
     dM = DomainMatrix({2: {2: ZZ(1)}, 4: {4: ZZ(1)}}, (5, 5), ZZ)
@@ -2326,16 +2932,24 @@ def test_DomainMatrix_pickling():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainMatrix_fflu(), test_DomainMatrix_fflu produces the expected output) over Any ║
+# ║ Path(test_DomainMatrix_fflu(), P.shape == A.shape and L.shape == A.shape and D.shape == A.shape and U.shape == A.shape and P == DM([[1, 0], [0, 1]], ZZ) and L == DM([[1, 0], [3, -2]], ZZ) and D == DM([[1, 0], [0, -2]], ZZ) and U == DM([[1, 2], [0, -2]], ZZ) and P.matmul(A).rmul(d) == L.matmul(di).matmul(U)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainMatrix_fflu : Any → {Any | P.shape == A.sh...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.shape == A.shape                             ║
+# ║   ensures:  L.shape == A.shape                             ║
+# ║   ensures:  D.shape == A.shape                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainMatrix_fflu : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2f6b266c793774f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecc17983d1115edb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_fflu","kind":"function","src_hash":"03b7eae9ea2fb4e4","in":{"base":"Any"},"out":{"base":"Any","pred":"P.shape == A.shape and L.shape == A.shape and D.shape == A.shape and U.shape == A.shape and P == DM([[1, 0], [0, 1]], ZZ) and L == DM([[1, 0], [3, -2]], ZZ) and D == DM([[1, 0], [0, -2]], ZZ) and U == DM([[1, 2], [0, -2]], ZZ) and P.matmul(A).rmul(d) == L.matmul(di).matmul(U)"},"spec":{"lhs":"test_DomainMatrix_fflu()","rhs":"test_DomainMatrix_fflu produces the expected output","over":{"base":"Any"},"name":"test_DomainMatrix_fflu_correct"},"guarantee":"test_DomainMatrix_fflu produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_fflu_correct","statement":"Path(test_DomainMatrix_fflu(x), test_DomainMatrix_fflu produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2f6b266c793774f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_fflu","kind":"function","src_hash":"03b7eae9ea2fb4e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.shape == A.shape and L.shape == A.shape and D.shape == A.shape and U.shape == A.shape and P == DM([[1, 0], [0, 1]], ZZ) and L == DM([[1, 0], [3, -2]], ZZ) and D == DM([[1, 0], [0, -2]], ZZ) and U == DM([[1, 2], [0, -2]], ZZ) and P.matmul(A).rmul(d) == L.matmul(di).matmul(U)"},"spec":{"lhs":"test_DomainMatrix_fflu()","rhs":"P.shape == A.shape and L.shape == A.shape and D.shape == A.shape and U.shape == A.shape and P == DM([[1, 0], [0, 1]], ZZ) and L == DM([[1, 0], [3, -2]], ZZ) and D == DM([[1, 0], [0, -2]], ZZ) and U == DM([[1, 2], [0, -2]], ZZ) and P.matmul(A).rmul(d) == L.matmul(di).matmul(U)","over":{"base":"Any"},"name":"test_DomainMatrix_fflu_correct"},"guarantee":"P.shape == A.shape; L.shape == A.shape; D.shape == A.shape","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainmatrix.test_DomainMatrix_fflu_correct","statement":"Path(test_DomainMatrix_fflu(x), P.shape == A.shape; L.shape == A.shape; D.shape == A.shape)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecc17983d1115edb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.shape == A.shape","L.shape == A.shape","D.shape == A.shape","U.shape == A.shape","P == DM([[1, 0], [0, 1]], ZZ)","L == DM([[1, 0], [3, -2]], ZZ)","D == DM([[1, 0], [0, -2]], ZZ)","U == DM([[1, 2], [0, -2]], ZZ)","P.matmul(A).rmul(d) == L.matmul(di).matmul(U)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_DomainMatrix_fflu():
     A = DM([[1, 2], [3, 4]], ZZ)
     P, L, D, U = A.fflu()

@@ -25,16 +25,22 @@ from sympy.utilities.misc import as_int
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symmetric_residue(a, ), return the residual mod m such that it is within half of the modulus) over Any ║
+# ║ Path(symmetric_residue(a, m), <unspecified:symmetric_residue>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symmetric_residue : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88959c6e751e6463  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.modular.symmetric_residue","kind":"function","src_hash":"a4b6c3048658a4d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetric_residue(a, )","rhs":"return the residual mod m such that it is within half of the modulus","over":{"base":"Any"},"name":"symmetric_residue_correct"},"guarantee":"return the residual mod m such that it is within half of the modulus","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.modular.symmetric_residue_correct","statement":"Path(symmetric_residue(x), return the residual mod m such that it is within half of the modulus)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88959c6e751e6463"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.modular.symmetric_residue","kind":"function","src_hash":"a4b6c3048658a4d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetric_residue(a, m)","rhs":"<unspecified:symmetric_residue>","over":{"base":"Any"},"name":"symmetric_residue_correct"},"guarantee":"return the residual mod m such that it is within half of the modulus","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.modular.symmetric_residue_correct","statement":"Path(symmetric_residue(x), return the residual mod m such that it is within half of the modulus)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88959c6e751e6463","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def symmetric_residue(a, m):
     """Return the residual mod m such that it is within half of the modulus.
 
@@ -50,16 +56,22 @@ def symmetric_residue(a, m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(crt(m, ), chinese remainder theorem) over Any         ║
+# ║ Path(crt(m, v, symmetric), <unspecified:crt>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ crt : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2967b2cbb3209582  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.modular.crt","kind":"function","src_hash":"2d1f3f9d10f2acdc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"crt(m, )","rhs":"chinese remainder theorem","over":{"base":"Any"},"name":"crt_correct"},"guarantee":"chinese remainder theorem","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.modular.crt_correct","statement":"Path(crt(x), chinese remainder theorem)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2967b2cbb3209582"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.modular.crt","kind":"function","src_hash":"2d1f3f9d10f2acdc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"crt(m, v, symmetric)","rhs":"<unspecified:crt>","over":{"base":"Any"},"name":"crt_correct"},"guarantee":"chinese remainder theorem","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.modular.crt_correct","statement":"Path(crt(x), chinese remainder theorem)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2967b2cbb3209582","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def crt(m, v, symmetric=False, check=True):
     r"""Chinese Remainder Theorem.
 
@@ -139,16 +151,22 @@ def crt(m, v, symmetric=False, check=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(crt1(m), first part of chinese remainder theorem, for multiple application) over Any ║
+# ║ Path(crt1(m), gf_crt1(m, ZZ)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_crt1(m, ZZ)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ crt1 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2dd468551d666ad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.modular.crt1","kind":"function","src_hash":"b9d6fe1f9db4db16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"crt1(m)","rhs":"first part of chinese remainder theorem, for multiple application","over":{"base":"Any"},"name":"crt1_correct"},"guarantee":"first part of chinese remainder theorem, for multiple application","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2dd468551d666ad"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.modular.crt1","kind":"function","src_hash":"b9d6fe1f9db4db16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"crt1(m)","rhs":"gf_crt1(m, ZZ)","over":{"base":"Any"},"name":"crt1_correct"},"guarantee":"returns gf_crt1(m, ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2dd468551d666ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_crt1(m, ZZ)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def crt1(m):
     """First part of Chinese Remainder Theorem, for multiple application.
 
@@ -191,16 +209,22 @@ def crt1(m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(crt2(m, ), id) over Any                               ║
+# ║ Path(crt2(m, v, mm), id) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ crt2 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 23054a9ddb125d0c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.modular.crt2","kind":"function","src_hash":"f24225a85aa4ca71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"crt2(m, )","rhs":"second part of chinese remainder theorem, for multiple application","over":{"base":"Any"},"name":"crt2_correct","kind":"composition"},"guarantee":"second part of chinese remainder theorem, for multiple application","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"symmetric_residue","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23054a9ddb125d0c"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.modular.crt2","kind":"function","src_hash":"f24225a85aa4ca71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"crt2(m, v, mm)","rhs":"<unspecified:crt2>","over":{"base":"Any"},"name":"crt2_correct","kind":"composition"},"guarantee":"second part of chinese remainder theorem, for multiple application","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"symmetric_residue","by":"library_axiom"},{"fn":"int","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23054a9ddb125d0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def crt2(m, v, mm, e, s, symmetric=False):
     """Second part of Chinese Remainder Theorem, for multiple application.
 
@@ -231,16 +255,22 @@ def crt2(m, v, mm, e, s, symmetric=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(solve_congruence(*re), compute the integer ``n`` that has the residual ``ai`` when it is divided by ``mi`` where the ``ai`` and ``mi`` are given as pairs to this function: ((a1, m1), (a2, m2), ...)) over Any ║
+# ║ Path(solve_congruence(*remainder_modulus_pairs, **hint), <unspecified:solve_congruence>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ solve_congruence : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f678db28bbdb6259  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.modular.solve_congruence","kind":"function","src_hash":"496f4fb213486d49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_congruence(*re)","rhs":"compute the integer ``n`` that has the residual ``ai`` when it is divided by ``mi`` where the ``ai`` and ``mi`` are given as pairs to this function: ((a1, m1), (a2, m2), ...)","over":{"base":"Any"},"name":"solve_congruence_correct"},"guarantee":"compute the integer ``n`` that has the residual ``ai`` when it is divided by ``mi`` where the ``ai`` and ``mi`` are given as pairs to this function: ((a1, m1), (a2, m2), ...)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.modular.solve_congruence_correct","statement":"Path(solve_congruence(x), compute the integer ``n`` that has the residual ``ai`` when it is divided by ``mi`` where the ``ai`` and ``mi`` are given as pairs to this function: ((a1, m1), (a2, m2), ...))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f678db28bbdb6259"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.modular.solve_congruence","kind":"function","src_hash":"496f4fb213486d49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"solve_congruence(*remainder_modulus_pairs, **hint)","rhs":"<unspecified:solve_congruence>","over":{"base":"Any"},"name":"solve_congruence_correct"},"guarantee":"compute the integer ``n`` that has the residual ``ai`` when it is divided by ``mi`` where the ``ai`` and ``mi`` are given as pairs to this function: ((a1, m1), (a2, m2), ...)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.modular.solve_congruence_correct","statement":"Path(solve_congruence(x), compute the integer ``n`` that has the residual ``ai`` when it is divided by ``mi`` where the ``ai`` and ``mi`` are given as pairs to this function: ((a1, m1), (a2, m2), ...))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f678db28bbdb6259","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*remainder_modulus_pairs', '**hint']"]}}
 def solve_congruence(*remainder_modulus_pairs, **hint):
     """Compute the integer ``n`` that has the residual ``ai`` when it is
     divided by ``mi`` where the ``ai`` and ``mi`` are given as pairs to

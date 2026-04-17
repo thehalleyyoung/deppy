@@ -21,16 +21,22 @@ from sympy.strategies.branch.core import (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(posdec(x), posdec produces the expected output) over Any ║
+# ║ Path(posdec(x), <unspecified:posdec>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ posdec : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 400bb59d4a176863  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.posdec","kind":"function","src_hash":"967ca529e9df4057","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"posdec(x)","rhs":"posdec produces the expected output","over":{"base":"Any"},"name":"posdec_correct"},"guarantee":"posdec produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.posdec_correct","statement":"Path(posdec(x), posdec produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"400bb59d4a176863"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.posdec","kind":"function","src_hash":"967ca529e9df4057","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"posdec(x)","rhs":"<unspecified:posdec>","over":{"base":"Any"},"name":"posdec_correct"},"guarantee":"posdec produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.posdec_correct","statement":"Path(posdec(x), posdec produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"400bb59d4a176863","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def posdec(x):
     if x > 0:
         yield x - 1
@@ -39,16 +45,22 @@ def posdec(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(branch5(x), branch5 produces the expected output) over Any ║
+# ║ Path(branch5(x), <unspecified:branch5>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ branch5 : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8a899c699e92dc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.branch5","kind":"function","src_hash":"a1489b945224d4b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"branch5(x)","rhs":"branch5 produces the expected output","over":{"base":"Any"},"name":"branch5_correct"},"guarantee":"branch5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.branch5_correct","statement":"Path(branch5(x), branch5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8a899c699e92dc5"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.branch5","kind":"function","src_hash":"a1489b945224d4b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"branch5(x)","rhs":"<unspecified:branch5>","over":{"base":"Any"},"name":"branch5_correct"},"guarantee":"branch5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.branch5_correct","statement":"Path(branch5(x), branch5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8a899c699e92dc5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def branch5(x):
     if 0 < x < 5:
         yield x - 1
@@ -62,61 +74,87 @@ def branch5(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(even(x), even produces the expected output) over Any  ║
+# ║ Path(even(x), x % 2 == 0) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  x % 2 == 0                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ even : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b31f35783c59737f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.even","kind":"function","src_hash":"eff43ecd237f4ef7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"even(x)","rhs":"even produces the expected output","over":{"base":"Any"},"name":"even_correct"},"guarantee":"even produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b31f35783c59737f"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.even","kind":"function","src_hash":"eff43ecd237f4ef7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"even(x)","rhs":"x % 2 == 0","over":{"base":"Any"},"name":"even_correct"},"guarantee":"returns x % 2 == 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b31f35783c59737f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"x % 2 == 0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def even(x):
     return x % 2 == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inc(x), inc produces the expected output) over Any    ║
+# ║ Path(inc(x), <unspecified:inc>) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inc : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4eefe9749acfaafb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.inc","kind":"function","src_hash":"867d92e6eb7894ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inc(x)","rhs":"inc produces the expected output","over":{"base":"Any"},"name":"inc_correct"},"guarantee":"inc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.inc_correct","statement":"Path(inc(x), inc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4eefe9749acfaafb"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.inc","kind":"function","src_hash":"867d92e6eb7894ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inc(x)","rhs":"<unspecified:inc>","over":{"base":"Any"},"name":"inc_correct"},"guarantee":"inc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.inc_correct","statement":"Path(inc(x), inc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4eefe9749acfaafb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def inc(x):
     yield x + 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(one_to_n(n), one_to_n produces the expected output) over Any ║
+# ║ Path(one_to_n(n), <unspecified:one_to_n>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ one_to_n : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfec744cd51e8b47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.one_to_n","kind":"function","src_hash":"fbbf2b0c6766e2da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"one_to_n(n)","rhs":"one_to_n produces the expected output","over":{"base":"Any"},"name":"one_to_n_correct"},"guarantee":"one_to_n produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.one_to_n_correct","statement":"Path(one_to_n(x), one_to_n produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfec744cd51e8b47"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.one_to_n","kind":"function","src_hash":"fbbf2b0c6766e2da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"one_to_n(n)","rhs":"<unspecified:one_to_n>","over":{"base":"Any"},"name":"one_to_n_correct"},"guarantee":"one_to_n produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.one_to_n_correct","statement":"Path(one_to_n(x), one_to_n produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfec744cd51e8b47","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def one_to_n(n):
     yield from range(n)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exhaust(), test_exhaust produces the expected output) over Any ║
+# ║ Path(test_exhaust(), set(brl(3)) == {0} and set(brl(7)) == {10} and set(brl(5)) == {0, 10}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exhaust : Any → {Any | set(brl(3)) == {0} and se...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(brl(3)) == {0}                             ║
+# ║   ensures:  set(brl(7)) == {10}                            ║
+# ║   ensures:  set(brl(5)) == {0, 10}                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exhaust : Any → {Any | result satisfies: set(brl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44c2521aeafb68be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 205e2605a9d57a5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_exhaust","kind":"function","src_hash":"6d05dbcc02417cea","in":{"base":"Any"},"out":{"base":"Any","pred":"set(brl(3)) == {0} and set(brl(7)) == {10} and set(brl(5)) == {0, 10}"},"spec":{"lhs":"test_exhaust()","rhs":"test_exhaust produces the expected output","over":{"base":"Any"},"name":"test_exhaust_correct"},"guarantee":"test_exhaust produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_exhaust_correct","statement":"Path(test_exhaust(x), test_exhaust produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44c2521aeafb68be"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_exhaust","kind":"function","src_hash":"6d05dbcc02417cea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(brl(3)) == {0} and set(brl(7)) == {10} and set(brl(5)) == {0, 10}"},"spec":{"lhs":"test_exhaust()","rhs":"set(brl(3)) == {0} and set(brl(7)) == {10} and set(brl(5)) == {0, 10}","over":{"base":"Any"},"name":"test_exhaust_correct"},"guarantee":"set(brl(3)) == {0}; set(brl(7)) == {10}; set(brl(5)) == {0, 10}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_exhaust_correct","statement":"Path(test_exhaust(x), set(brl(3)) == {0}; set(brl(7)) == {10}; set(brl(5)) == {0, 10})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"205e2605a9d57a5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(brl(3)) == {0}","set(brl(7)) == {10}","set(brl(5)) == {0, 10}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exhaust():
     brl = exhaust(branch5)
     assert set(brl(3)) == {0}
@@ -125,16 +163,24 @@ def test_exhaust():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_debug(), test_debug produces the expected output) over Any ║
+# ║ Path(test_debug(), posdec.__name__ in log and '5' in log and '4' in log) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_debug : Any → {Any | posdec.__name__ in log and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  posdec.__name__ in log                         ║
+# ║   ensures:  '5' in log                                     ║
+# ║   ensures:  '4' in log                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_debug : Any → {Any | result satisfies: posdec.__...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9367047600ce2d0f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f92be0e139f0bf9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_debug","kind":"function","src_hash":"35d47288532f9e90","in":{"base":"Any"},"out":{"base":"Any","pred":"posdec.__name__ in log and '5' in log and '4' in log"},"spec":{"lhs":"test_debug()","rhs":"test_debug produces the expected output","over":{"base":"Any"},"name":"test_debug_correct"},"guarantee":"test_debug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_debug_correct","statement":"Path(test_debug(x), test_debug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9367047600ce2d0f"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_debug","kind":"function","src_hash":"35d47288532f9e90","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: posdec.__name__ in log and '5' in log and '4' in log"},"spec":{"lhs":"test_debug()","rhs":"posdec.__name__ in log and '5' in log and '4' in log","over":{"base":"Any"},"name":"test_debug_correct"},"guarantee":"posdec.__name__ in log; '5' in log; '4' in log","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_debug_correct","statement":"Path(test_debug(x), posdec.__name__ in log; '5' in log; '4' in log)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f92be0e139f0bf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["posdec.__name__ in log","'5' in log","'4' in log"],"pure":false,"effects":{"effect_type":"io","calls_mutating":["file.close"],"io_operations":["file.close"]},"state_contract":{"modifies":["file.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_debug():
     from io import StringIO
     file = StringIO()
@@ -149,16 +195,24 @@ def test_debug():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiplex(), test_multiplex produces the expected output) over Any ║
+# ║ Path(test_multiplex(), set(brl(3)) == {2} and set(brl(7)) == {6, 8} and set(brl(5)) == {4, 6}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiplex : Any → {Any | set(brl(3)) == {2} and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(brl(3)) == {2}                             ║
+# ║   ensures:  set(brl(7)) == {6, 8}                          ║
+# ║   ensures:  set(brl(5)) == {4, 6}                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiplex : Any → {Any | result satisfies: set(b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f581e9d40618077  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b01fd2bc86fbbba0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_multiplex","kind":"function","src_hash":"68ef1d8ec1c3261c","in":{"base":"Any"},"out":{"base":"Any","pred":"set(brl(3)) == {2} and set(brl(7)) == {6, 8} and set(brl(5)) == {4, 6}"},"spec":{"lhs":"test_multiplex()","rhs":"test_multiplex produces the expected output","over":{"base":"Any"},"name":"test_multiplex_correct"},"guarantee":"test_multiplex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_multiplex_correct","statement":"Path(test_multiplex(x), test_multiplex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f581e9d40618077"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_multiplex","kind":"function","src_hash":"68ef1d8ec1c3261c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(brl(3)) == {2} and set(brl(7)) == {6, 8} and set(brl(5)) == {4, 6}"},"spec":{"lhs":"test_multiplex()","rhs":"set(brl(3)) == {2} and set(brl(7)) == {6, 8} and set(brl(5)) == {4, 6}","over":{"base":"Any"},"name":"test_multiplex_correct"},"guarantee":"set(brl(3)) == {2}; set(brl(7)) == {6, 8}; set(brl(5)) == {4, 6}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_multiplex_correct","statement":"Path(test_multiplex(x), set(brl(3)) == {2}; set(brl(7)) == {6, 8}; set(brl(5)) == {4, 6})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b01fd2bc86fbbba0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(brl(3)) == {2}","set(brl(7)) == {6, 8}","set(brl(5)) == {4, 6}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_multiplex():
     brl = multiplex(posdec, branch5)
     assert set(brl(3)) == {2}
@@ -167,16 +221,23 @@ def test_multiplex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_condition(), test_condition produces the expected output) over Any ║
+# ║ Path(test_condition(), set(brl(4)) == set(branch5(4)) and set(brl(5)) == set()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_condition : Any → {Any | set(brl(4)) == set(bran...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(brl(4)) == set(branch5(4))                 ║
+# ║   ensures:  set(brl(5)) == set()                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_condition : Any → {Any | result satisfies: set(b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc42091d2c60bd61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69142b66fd4885df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_condition","kind":"function","src_hash":"74d5de9552eea7dd","in":{"base":"Any"},"out":{"base":"Any","pred":"set(brl(4)) == set(branch5(4)) and set(brl(5)) == set()"},"spec":{"lhs":"test_condition()","rhs":"test_condition produces the expected output","over":{"base":"Any"},"name":"test_condition_correct"},"guarantee":"test_condition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_condition_correct","statement":"Path(test_condition(x), test_condition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc42091d2c60bd61"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_condition","kind":"function","src_hash":"74d5de9552eea7dd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(brl(4)) == set(branch5(4)) and set(brl(5)) == set()"},"spec":{"lhs":"test_condition()","rhs":"set(brl(4)) == set(branch5(4)) and set(brl(5)) == set()","over":{"base":"Any"},"name":"test_condition_correct"},"guarantee":"set(brl(4)) == set(branch5(4)); set(brl(5)) == set()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_condition_correct","statement":"Path(test_condition(x), set(brl(4)) == set(branch5(4)); set(brl(5)) == set())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69142b66fd4885df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(brl(4)) == set(branch5(4))","set(brl(5)) == set()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_condition():
     brl = condition(even, branch5)
     assert set(brl(4)) == set(branch5(4))
@@ -184,32 +245,45 @@ def test_condition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sfilter(), test_sfilter produces the expected output) over Any ║
+# ║ Path(test_sfilter(), set(brl(10)) == {0, 2, 4, 6, 8}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sfilter : Any → {Any | set(brl(10)) == {0, 2, 4,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(brl(10)) == {0, 2, 4, 6, 8}                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sfilter : Any → {Any | result satisfies: set(brl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad986955e9283c28  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 305f4c63bbc7626d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_sfilter","kind":"function","src_hash":"e61284352b3937b2","in":{"base":"Any"},"out":{"base":"Any","pred":"set(brl(10)) == {0, 2, 4, 6, 8}"},"spec":{"lhs":"test_sfilter()","rhs":"test_sfilter produces the expected output","over":{"base":"Any"},"name":"test_sfilter_correct"},"guarantee":"test_sfilter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_sfilter_correct","statement":"Path(test_sfilter(x), test_sfilter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad986955e9283c28"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_sfilter","kind":"function","src_hash":"e61284352b3937b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(brl(10)) == {0, 2, 4, 6, 8}"},"spec":{"lhs":"test_sfilter()","rhs":"set(brl(10)) == {0, 2, 4, 6, 8}","over":{"base":"Any"},"name":"test_sfilter_correct"},"guarantee":"set(brl(10)) == {0, 2, 4, 6, 8}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_sfilter_correct","statement":"Path(test_sfilter(x), set(brl(10)) == {0, 2, 4, 6, 8})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"305f4c63bbc7626d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(brl(10)) == {0, 2, 4, 6, 8}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sfilter():
     brl = sfilter(even, one_to_n)
     assert set(brl(10)) == {0, 2, 4, 6, 8}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_notempty(), test_notempty produces the expected output) over Any ║
+# ║ Path(test_notempty(), set(brl(4)) == {4} and set(brl(5)) == {5}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_notempty : Any → {Any | set(brl(4)) == {4} and s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(brl(4)) == {4}                             ║
+# ║   ensures:  set(brl(5)) == {5}                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_notempty : Any → {Any | result satisfies: set(br...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb6bb27533859022  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc93d33240f1dd13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_notempty","kind":"function","src_hash":"0baa81335367587a","in":{"base":"Any"},"out":{"base":"Any","pred":"set(brl(4)) == {4} and set(brl(5)) == {5}"},"spec":{"lhs":"test_notempty()","rhs":"test_notempty produces the expected output","over":{"base":"Any"},"name":"test_notempty_correct"},"guarantee":"test_notempty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_notempty_correct","statement":"Path(test_notempty(x), test_notempty produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb6bb27533859022"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_notempty","kind":"function","src_hash":"0baa81335367587a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(brl(4)) == {4} and set(brl(5)) == {5}"},"spec":{"lhs":"test_notempty()","rhs":"set(brl(4)) == {4} and set(brl(5)) == {5}","over":{"base":"Any"},"name":"test_notempty_correct"},"guarantee":"set(brl(4)) == {4}; set(brl(5)) == {5}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_notempty_correct","statement":"Path(test_notempty(x), set(brl(4)) == {4}; set(brl(5)) == {5})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc93d33240f1dd13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(brl(4)) == {4}","set(brl(5)) == {5}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_notempty():
     def ident_if_even(x):
         if even(x):
@@ -221,16 +295,24 @@ def test_notempty():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_chain(), test_chain produces the expected output) over Any ║
+# ║ Path(test_chain(), list(chain()(2)) == [2] and list(chain(inc, inc)(2)) == [4] and list(chain(branch5, inc)(4)) == [4] and set(chain(branch5, inc)(5)) == {5, 7} and list(chain(inc, branch5)(5)) == [7]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_chain : Any → {Any | list(chain()(2)) == [2] and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(chain()(2)) == [2]                        ║
+# ║   ensures:  list(chain(inc, inc)(2)) == [4]                ║
+# ║   ensures:  list(chain(branch5, inc)(4)) == [4]            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_chain : Any → {Any | result satisfies: list(chai...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47fa4bd1e6cbcd96  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea96692cfc10ac75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_chain","kind":"function","src_hash":"13bedeb55c8222de","in":{"base":"Any"},"out":{"base":"Any","pred":"list(chain()(2)) == [2] and list(chain(inc, inc)(2)) == [4] and list(chain(branch5, inc)(4)) == [4] and set(chain(branch5, inc)(5)) == {5, 7} and list(chain(inc, branch5)(5)) == [7]"},"spec":{"lhs":"test_chain()","rhs":"test_chain produces the expected output","over":{"base":"Any"},"name":"test_chain_correct"},"guarantee":"test_chain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_chain_correct","statement":"Path(test_chain(x), test_chain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47fa4bd1e6cbcd96"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_chain","kind":"function","src_hash":"13bedeb55c8222de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(chain()(2)) == [2] and list(chain(inc, inc)(2)) == [4] and list(chain(branch5, inc)(4)) == [4] and set(chain(branch5, inc)(5)) == {5, 7} and list(chain(inc, branch5)(5)) == [7]"},"spec":{"lhs":"test_chain()","rhs":"list(chain()(2)) == [2] and list(chain(inc, inc)(2)) == [4] and list(chain(branch5, inc)(4)) == [4] and set(chain(branch5, inc)(5)) == {5, 7} and list(chain(inc, branch5)(5)) == [7]","over":{"base":"Any"},"name":"test_chain_correct"},"guarantee":"list(chain()(2)) == [2]; list(chain(inc, inc)(2)) == [4]; list(chain(branch5, inc)(4)) == [4]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_chain_correct","statement":"Path(test_chain(x), list(chain()(2)) == [2]; list(chain(inc, inc)(2)) == [4]; list(chain(branch5, inc)(4)) == [4])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea96692cfc10ac75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(chain()(2)) == [2]","list(chain(inc, inc)(2)) == [4]","list(chain(branch5, inc)(4)) == [4]","set(chain(branch5, inc)(5)) == {5, 7}","list(chain(inc, branch5)(5)) == [7]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_chain():
     assert list(chain()(2)) == [2]  # identity
     assert list(chain(inc, inc)(2)) == [4]
@@ -240,16 +322,22 @@ def test_chain():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_onaction(), test_onaction produces the expected output) over Any ║
+# ║ Path(test_onaction(), L == [(2, 3)]) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_onaction : Any → {Any | L == [(2, 3)] and L == [...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  L == [(2, 3)]                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_onaction : Any → {Any | result satisfies: L == [...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82d80a8cfcaaeb38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f48855b6dd90fe87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_onaction","kind":"function","src_hash":"81759efef543195e","in":{"base":"Any"},"out":{"base":"Any","pred":"L == [(2, 3)] and L == [(2, 3)]"},"spec":{"lhs":"test_onaction()","rhs":"test_onaction produces the expected output","over":{"base":"Any"},"name":"test_onaction_correct"},"guarantee":"test_onaction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_onaction_correct","statement":"Path(test_onaction(x), test_onaction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82d80a8cfcaaeb38"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_onaction","kind":"function","src_hash":"81759efef543195e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: L == [(2, 3)]"},"spec":{"lhs":"test_onaction()","rhs":"L == [(2, 3)]","over":{"base":"Any"},"name":"test_onaction_correct"},"guarantee":"L == [(2, 3)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_onaction_correct","statement":"Path(test_onaction(x), L == [(2, 3)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f48855b6dd90fe87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["L == [(2, 3)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_onaction():
     L = []
 
@@ -264,32 +352,46 @@ def test_onaction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_yieldify(), test_yieldify produces the expected output) over Any ║
+# ║ Path(test_yieldify(), list(yinc(3)) == [4]) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_yieldify : Any → {Any | list(yinc(3)) == [4]}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(yinc(3)) == [4]                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_yieldify : Any → {Any | result satisfies: list(y...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b943a399fa28cec9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 444e1aa695216a68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_yieldify","kind":"function","src_hash":"9f4018149207e14d","in":{"base":"Any"},"out":{"base":"Any","pred":"list(yinc(3)) == [4]"},"spec":{"lhs":"test_yieldify()","rhs":"test_yieldify produces the expected output","over":{"base":"Any"},"name":"test_yieldify_correct"},"guarantee":"test_yieldify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_yieldify_correct","statement":"Path(test_yieldify(x), test_yieldify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b943a399fa28cec9"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_yieldify","kind":"function","src_hash":"9f4018149207e14d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(yinc(3)) == [4]"},"spec":{"lhs":"test_yieldify()","rhs":"list(yinc(3)) == [4]","over":{"base":"Any"},"name":"test_yieldify_correct"},"guarantee":"list(yinc(3)) == [4]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_yieldify_correct","statement":"Path(test_yieldify(x), list(yinc(3)) == [4])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"444e1aa695216a68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(yinc(3)) == [4]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_yieldify():
     yinc = yieldify(lambda x: x + 1)
     assert list(yinc(3)) == [4]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_do_one(), test_do_one produces the expected output) over Any ║
+# ║ Path(test_do_one(), list(do_one(inc)(3)) == [4] and list(do_one(inc, bad)(3)) == [4] and list(do_one(inc, posdec)(3)) == [4]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_do_one : Any → {Any | list(do_one(inc)(3)) == [4...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(do_one(inc)(3)) == [4]                    ║
+# ║   ensures:  list(do_one(inc, bad)(3)) == [4]               ║
+# ║   ensures:  list(do_one(inc, posdec)(3)) == [4]            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_do_one : Any → {Any | result satisfies: list(do_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a2806d074ff61e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b06e3c9a0b520fe2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_do_one","kind":"function","src_hash":"28460eb36ad96bc3","in":{"base":"Any"},"out":{"base":"Any","pred":"list(do_one(inc)(3)) == [4] and list(do_one(inc, bad)(3)) == [4] and list(do_one(inc, posdec)(3)) == [4]"},"spec":{"lhs":"test_do_one()","rhs":"test_do_one produces the expected output","over":{"base":"Any"},"name":"test_do_one_correct"},"guarantee":"test_do_one produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_do_one_correct","statement":"Path(test_do_one(x), test_do_one produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a2806d074ff61e3"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.tests.test_core.test_do_one","kind":"function","src_hash":"28460eb36ad96bc3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(do_one(inc)(3)) == [4] and list(do_one(inc, bad)(3)) == [4] and list(do_one(inc, posdec)(3)) == [4]"},"spec":{"lhs":"test_do_one()","rhs":"list(do_one(inc)(3)) == [4] and list(do_one(inc, bad)(3)) == [4] and list(do_one(inc, posdec)(3)) == [4]","over":{"base":"Any"},"name":"test_do_one_correct"},"guarantee":"list(do_one(inc)(3)) == [4]; list(do_one(inc, bad)(3)) == [4]; list(do_one(inc, posdec)(3)) == [4]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.tests.test_core.test_do_one_correct","statement":"Path(test_do_one(x), list(do_one(inc)(3)) == [4]; list(do_one(inc, bad)(3)) == [4]; list(do_one(inc, posdec)(3)) == [4])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b06e3c9a0b520fe2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(do_one(inc)(3)) == [4]","list(do_one(inc, bad)(3)) == [4]","list(do_one(inc, posdec)(3)) == [4]"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_do_one():
     def bad(expr):
         raise ValueError

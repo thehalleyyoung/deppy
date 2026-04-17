@@ -31,32 +31,47 @@ x, y, z = symbols('x,y,z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Integer(), test_Integer produces the expected output) over Any ║
+# ║ Path(test_Integer(), maple_code(Integer(67)) == '67' and maple_code(Integer(-1)) == '-1') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Integer : Any → {Any | maple_code(Integer(67)) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(Integer(67)) == '67'                ║
+# ║   ensures:  maple_code(Integer(-1)) == '-1'                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Integer : Any → {Any | result satisfies: maple_c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f348136e3d3c9362  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86e0425266e3d897  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Integer","kind":"function","src_hash":"3e52181b124f8983","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(Integer(67)) == '67' and maple_code(Integer(-1)) == '-1'"},"spec":{"lhs":"test_Integer()","rhs":"test_Integer produces the expected output","over":{"base":"Any"},"name":"test_Integer_correct"},"guarantee":"test_Integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Integer_correct","statement":"Path(test_Integer(x), test_Integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f348136e3d3c9362"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Integer","kind":"function","src_hash":"3e52181b124f8983","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(Integer(67)) == '67' and maple_code(Integer(-1)) == '-1'"},"spec":{"lhs":"test_Integer()","rhs":"maple_code(Integer(67)) == '67' and maple_code(Integer(-1)) == '-1'","over":{"base":"Any"},"name":"test_Integer_correct"},"guarantee":"maple_code(Integer(67)) == '67'; maple_code(Integer(-1)) == '-1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Integer_correct","statement":"Path(test_Integer(x), maple_code(Integer(67)) == '67'; maple_code(Integer(-1)) == '-1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86e0425266e3d897","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(Integer(67)) == '67'","maple_code(Integer(-1)) == '-1'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Integer():
     assert maple_code(Integer(67)) == "67"
     assert maple_code(Integer(-1)) == "-1"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Rational(), test_Rational produces the expected output) over Any ║
+# ║ Path(test_Rational(), maple_code(Rational(3, 7)) == '3/7' and maple_code(Rational(18, 9)) == '2' and maple_code(Rational(3, -7)) == '-3/7' and maple_code(Rational(-3, -7)) == '3/7' and maple_code(x + Rational(3, 7)) == 'x + 3/7' and maple_code(Rational(3, 7) * x) == '(3/7)*x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Rational : Any → {Any | maple_code(Rational(3, 7...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(Rational(3, 7)) == '3/7'            ║
+# ║   ensures:  maple_code(Rational(18, 9)) == '2'             ║
+# ║   ensures:  maple_code(Rational(3, -7)) == '-3/7'          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Rational : Any → {Any | result satisfies: maple_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f1057e4df8b99e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d0d35176f472edf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Rational","kind":"function","src_hash":"74963ec0e04ca945","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(Rational(3, 7)) == '3/7' and maple_code(Rational(18, 9)) == '2' and maple_code(Rational(3, -7)) == '-3/7' and maple_code(Rational(-3, -7)) == '3/7' and maple_code(x + Rational(3, 7)) == 'x + 3/7' and maple_code(Rational(3, 7) * x) == '(3/7)*x'"},"spec":{"lhs":"test_Rational()","rhs":"test_Rational produces the expected output","over":{"base":"Any"},"name":"test_Rational_correct"},"guarantee":"test_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Rational_correct","statement":"Path(test_Rational(x), test_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f1057e4df8b99e4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Rational","kind":"function","src_hash":"74963ec0e04ca945","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(Rational(3, 7)) == '3/7' and maple_code(Rational(18, 9)) == '2' and maple_code(Rational(3, -7)) == '-3/7' and maple_code(Rational(-3, -7)) == '3/7' and maple_code(x + Rational(3, 7)) == 'x + 3/7' and maple_code(Rational(3, 7) * x) == '(3/7)*x'"},"spec":{"lhs":"test_Rational()","rhs":"maple_code(Rational(3, 7)) == '3/7' and maple_code(Rational(18, 9)) == '2' and maple_code(Rational(3, -7)) == '-3/7' and maple_code(Rational(-3, -7)) == '3/7' and maple_code(x + Rational(3, 7)) == 'x + 3/7' and maple_code(Rational(3, 7) * x) == '(3/7)*x'","over":{"base":"Any"},"name":"test_Rational_correct"},"guarantee":"maple_code(Rational(3, 7)) == '3/7'; maple_code(Rational(18, 9)) == '2'; maple_code(Rational(3, -7)) == '-3/7'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Rational_correct","statement":"Path(test_Rational(x), maple_code(Rational(3, 7)) == '3/7'; maple_code(Rational(18, 9)) == '2'; maple_code(Rational(3, -7)) == '-3/7')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d0d35176f472edf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(Rational(3, 7)) == '3/7'","maple_code(Rational(18, 9)) == '2'","maple_code(Rational(3, -7)) == '-3/7'","maple_code(Rational(-3, -7)) == '3/7'","maple_code(x + Rational(3, 7)) == 'x + 3/7'","maple_code(Rational(3, 7) * x) == '(3/7)*x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Rational():
     assert maple_code(Rational(3, 7)) == "3/7"
     assert maple_code(Rational(18, 9)) == "2"
@@ -67,16 +82,24 @@ def test_Rational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Relational(), test_Relational produces the expected output) over Any ║
+# ║ Path(test_Relational(), maple_code(Eq(x, y)) == 'x = y' and maple_code(Ne(x, y)) == 'x <> y' and maple_code(Le(x, y)) == 'x <= y' and maple_code(Lt(x, y)) == 'x < y' and maple_code(Gt(x, y)) == 'x > y' and maple_code(Ge(x, y)) == 'x >= y') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Relational : Any → {Any | maple_code(Eq(x, y)) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(Eq(x, y)) == 'x = y'                ║
+# ║   ensures:  maple_code(Ne(x, y)) == 'x <> y'               ║
+# ║   ensures:  maple_code(Le(x, y)) == 'x <= y'               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Relational : Any → {Any | result satisfies: mapl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88a6a4c3615fa126  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 343120ccc697944d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Relational","kind":"function","src_hash":"005895e0a001b2b9","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(Eq(x, y)) == 'x = y' and maple_code(Ne(x, y)) == 'x <> y' and maple_code(Le(x, y)) == 'x <= y' and maple_code(Lt(x, y)) == 'x < y' and maple_code(Gt(x, y)) == 'x > y' and maple_code(Ge(x, y)) == 'x >= y'"},"spec":{"lhs":"test_Relational()","rhs":"test_Relational produces the expected output","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"test_Relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Relational_correct","statement":"Path(test_Relational(x), test_Relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88a6a4c3615fa126"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Relational","kind":"function","src_hash":"005895e0a001b2b9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(Eq(x, y)) == 'x = y' and maple_code(Ne(x, y)) == 'x <> y' and maple_code(Le(x, y)) == 'x <= y' and maple_code(Lt(x, y)) == 'x < y' and maple_code(Gt(x, y)) == 'x > y' and maple_code(Ge(x, y)) == 'x >= y'"},"spec":{"lhs":"test_Relational()","rhs":"maple_code(Eq(x, y)) == 'x = y' and maple_code(Ne(x, y)) == 'x <> y' and maple_code(Le(x, y)) == 'x <= y' and maple_code(Lt(x, y)) == 'x < y' and maple_code(Gt(x, y)) == 'x > y' and maple_code(Ge(x, y)) == 'x >= y'","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"maple_code(Eq(x, y)) == 'x = y'; maple_code(Ne(x, y)) == 'x <> y'; maple_code(Le(x, y)) == 'x <= y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Relational_correct","statement":"Path(test_Relational(x), maple_code(Eq(x, y)) == 'x = y'; maple_code(Ne(x, y)) == 'x <> y'; maple_code(Le(x, y)) == 'x <= y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"343120ccc697944d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(Eq(x, y)) == 'x = y'","maple_code(Ne(x, y)) == 'x <> y'","maple_code(Le(x, y)) == 'x <= y'","maple_code(Lt(x, y)) == 'x < y'","maple_code(Gt(x, y)) == 'x > y'","maple_code(Ge(x, y)) == 'x >= y'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Relational():
     assert maple_code(Eq(x, y)) == "x = y"
     assert maple_code(Ne(x, y)) == "x <> y"
@@ -87,16 +110,24 @@ def test_Relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Function(), test_Function produces the expected output) over Any ║
+# ║ Path(test_Function(), maple_code(sin(x) ** cos(x)) == 'sin(x)^cos(x)' and maple_code(abs(x)) == 'abs(x)' and maple_code(ceiling(x)) == 'ceil(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Function : Any → {Any | maple_code(sin(x) ** cos...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(sin(x) ** cos(x)) == 'sin(x)^c...   ║
+# ║   ensures:  maple_code(abs(x)) == 'abs(x)'                 ║
+# ║   ensures:  maple_code(ceiling(x)) == 'ceil(x)'            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Function : Any → {Any | result satisfies: maple_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef220b218477cdce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4640f1f9e7b7850  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Function","kind":"function","src_hash":"059e5184b2fdddb0","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(sin(x) ** cos(x)) == 'sin(x)^cos(x)' and maple_code(abs(x)) == 'abs(x)' and maple_code(ceiling(x)) == 'ceil(x)'"},"spec":{"lhs":"test_Function()","rhs":"test_Function produces the expected output","over":{"base":"Any"},"name":"test_Function_correct"},"guarantee":"test_Function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Function_correct","statement":"Path(test_Function(x), test_Function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef220b218477cdce"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Function","kind":"function","src_hash":"059e5184b2fdddb0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(sin(x) ** cos(x)) == 'sin(x)^cos(x)' and maple_code(abs(x)) == 'abs(x)' and maple_code(ceiling(x)) == 'ceil(x)'"},"spec":{"lhs":"test_Function()","rhs":"maple_code(sin(x) ** cos(x)) == 'sin(x)^cos(x)' and maple_code(abs(x)) == 'abs(x)' and maple_code(ceiling(x)) == 'ceil(x)'","over":{"base":"Any"},"name":"test_Function_correct"},"guarantee":"maple_code(sin(x) ** cos(x)) == 'sin(x)^cos(x)'; maple_code(abs(x)) == 'abs(x)'; maple_code(ceiling(x)) == 'ceil(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Function_correct","statement":"Path(test_Function(x), maple_code(sin(x) ** cos(x)) == 'sin(x)^cos(x)'; maple_code(abs(x)) == 'abs(x)'; maple_code(ceiling(x)) == 'ceil(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4640f1f9e7b7850","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(sin(x) ** cos(x)) == 'sin(x)^cos(x)'","maple_code(abs(x)) == 'abs(x)'","maple_code(ceiling(x)) == 'ceil(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Function():
     assert maple_code(sin(x) ** cos(x)) == "sin(x)^cos(x)"
     assert maple_code(abs(x)) == "abs(x)"
@@ -104,16 +135,24 @@ def test_Function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Pow(), test_Pow produces the expected output) over Any ║
+# ║ Path(test_Pow(), maple_code(x ** 3) == 'x^3' and maple_code(x ** y ** 3) == 'x^(y^3)' and maple_code((x ** 3) ** y) == '(x^3)^y' and maple_code(x ** Rational(2, 3)) == 'x^(2/3)' and maple_code(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x)^(-x + y^x)/(x^2 + y)' and maple_code(Mul(-2, x, Pow(Mul(y, y, evaluate=False), -1, evaluate=False), evaluate=False)) == '-2*x/(y*y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Pow : Any → {Any | maple_code(x ** 3) == 'x^3' a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(x ** 3) == 'x^3'                    ║
+# ║   ensures:  maple_code(x ** y ** 3) == 'x^(y^3)'           ║
+# ║   ensures:  maple_code((x ** 3) ** y) == '(x^3)^y'         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Pow : Any → {Any | result satisfies: maple_code(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a91e6729a8ae2890  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5af2dbf5f20ee3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Pow","kind":"function","src_hash":"9a8658a24386500b","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(x ** 3) == 'x^3' and maple_code(x ** y ** 3) == 'x^(y^3)' and maple_code((x ** 3) ** y) == '(x^3)^y' and maple_code(x ** Rational(2, 3)) == 'x^(2/3)'"},"spec":{"lhs":"test_Pow()","rhs":"test_Pow produces the expected output","over":{"base":"Any"},"name":"test_Pow_correct"},"guarantee":"test_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Pow_correct","statement":"Path(test_Pow(x), test_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a91e6729a8ae2890"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Pow","kind":"function","src_hash":"9a8658a24386500b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(x ** 3) == 'x^3' and maple_code(x ** y ** 3) == 'x^(y^3)' and maple_code((x ** 3) ** y) == '(x^3)^y' and maple_code(x ** Rational(2, 3)) == 'x^(2/3)' and maple_code(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x)^(-x + y^x)/(x^2 + y)' and maple_code(Mul(-2, x, Pow(Mul(y, y, evaluate=False), -1, evaluate=False), evaluate=False)) == '-2*x/(y*y)'"},"spec":{"lhs":"test_Pow()","rhs":"maple_code(x ** 3) == 'x^3' and maple_code(x ** y ** 3) == 'x^(y^3)' and maple_code((x ** 3) ** y) == '(x^3)^y' and maple_code(x ** Rational(2, 3)) == 'x^(2/3)' and maple_code(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x)^(-x + y^x)/(x^2 + y)' and maple_code(Mul(-2, x, Pow(Mul(y, y, evaluate=False), -1, evaluate=False), evaluate=False)) == '-2*x/(y*y)'","over":{"base":"Any"},"name":"test_Pow_correct"},"guarantee":"maple_code(x ** 3) == 'x^3'; maple_code(x ** y ** 3) == 'x^(y^3)'; maple_code((x ** 3) ** y) == '(x^3)^y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Pow_correct","statement":"Path(test_Pow(x), maple_code(x ** 3) == 'x^3'; maple_code(x ** y ** 3) == 'x^(y^3)'; maple_code((x ** 3) ** y) == '(x^3)^y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5af2dbf5f20ee3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(x ** 3) == 'x^3'","maple_code(x ** y ** 3) == 'x^(y^3)'","maple_code((x ** 3) ** y) == '(x^3)^y'","maple_code(x ** Rational(2, 3)) == 'x^(2/3)'","maple_code(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x)^(-x + y^x)/(x^2 + y)'","maple_code(Mul(-2, x, Pow(Mul(y, y, evaluate=False), -1, evaluate=False), evaluate=False)) == '-2*x/(y*y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Pow():
     assert maple_code(x ** 3) == "x^3"
     assert maple_code(x ** (y ** 3)) == "x^(y^3)"
@@ -130,16 +169,24 @@ def test_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic_ops(), test_basic_ops produces the expected output) over Any ║
+# ║ Path(test_basic_ops(), maple_code(x * y) == 'x*y' and maple_code(x + y) == 'x + y' and maple_code(x - y) == 'x - y' and maple_code(-x) == '-x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basic_ops : Any → {Any | maple_code(x * y) == 'x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(x * y) == 'x*y'                     ║
+# ║   ensures:  maple_code(x + y) == 'x + y'                   ║
+# ║   ensures:  maple_code(x - y) == 'x - y'                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basic_ops : Any → {Any | result satisfies: maple...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9aec0f00ed2a8d60  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c4ebe857a906242  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_basic_ops","kind":"function","src_hash":"b5873b8ffaab136f","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(x * y) == 'x*y' and maple_code(x + y) == 'x + y' and maple_code(x - y) == 'x - y' and maple_code(-x) == '-x'"},"spec":{"lhs":"test_basic_ops()","rhs":"test_basic_ops produces the expected output","over":{"base":"Any"},"name":"test_basic_ops_correct"},"guarantee":"test_basic_ops produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_basic_ops_correct","statement":"Path(test_basic_ops(x), test_basic_ops produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9aec0f00ed2a8d60"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_basic_ops","kind":"function","src_hash":"b5873b8ffaab136f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(x * y) == 'x*y' and maple_code(x + y) == 'x + y' and maple_code(x - y) == 'x - y' and maple_code(-x) == '-x'"},"spec":{"lhs":"test_basic_ops()","rhs":"maple_code(x * y) == 'x*y' and maple_code(x + y) == 'x + y' and maple_code(x - y) == 'x - y' and maple_code(-x) == '-x'","over":{"base":"Any"},"name":"test_basic_ops_correct"},"guarantee":"maple_code(x * y) == 'x*y'; maple_code(x + y) == 'x + y'; maple_code(x - y) == 'x - y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_basic_ops_correct","statement":"Path(test_basic_ops(x), maple_code(x * y) == 'x*y'; maple_code(x + y) == 'x + y'; maple_code(x - y) == 'x - y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c4ebe857a906242","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(x * y) == 'x*y'","maple_code(x + y) == 'x + y'","maple_code(x - y) == 'x - y'","maple_code(-x) == '-x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_basic_ops():
     assert maple_code(x * y) == "x*y"
     assert maple_code(x + y) == "x + y"
@@ -148,16 +195,24 @@ def test_basic_ops():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_1_over_x_and_sqrt(), test_1_over_x_and_sqrt produces the expected output) over Any ║
+# ║ Path(test_1_over_x_and_sqrt(), maple_code(1 / x) == '1/x' and maple_code(x ** (-1)) == maple_code(x ** (-1.0)) == '1/x' and maple_code(1 / sqrt(x)) == '1/sqrt(x)' and maple_code(x ** (-S.Half)) == maple_code(x ** (-0.5)) == '1/sqrt(x)' and maple_code(sqrt(x)) == 'sqrt(x)' and maple_code(x ** S.Half) == maple_code(x ** 0.5) == 'sqrt(x)' and maple_code(1 / pi) == '1/Pi' and maple_code(pi ** (-1)) == maple_code(pi ** (-1.0)) == '1/Pi' and maple_code(pi ** (-0.5)) == '1/sqrt(Pi)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_1_over_x_and_sqrt : Any → {Any | maple_code(1 / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(1 / x) == '1/x'                     ║
+# ║   ensures:  maple_code(x ** (-1)) == maple_code(x ** ...   ║
+# ║   ensures:  maple_code(1 / sqrt(x)) == '1/sqrt(x)'         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_1_over_x_and_sqrt : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81c9252a99b4d92a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6efff544f9beb4e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_1_over_x_and_sqrt","kind":"function","src_hash":"3053f453391e785d","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(1 / x) == '1/x' and maple_code(x ** (-1)) == maple_code(x ** (-1.0)) == '1/x' and maple_code(1 / sqrt(x)) == '1/sqrt(x)' and maple_code(x ** (-S.Half)) == maple_code(x ** (-0.5)) == '1/sqrt(x)' and maple_code(sqrt(x)) == 'sqrt(x)' and maple_code(x ** S.Half) == maple_code(x ** 0.5) == 'sqrt(x)' and maple_code(1 / pi) == '1/Pi' and maple_code(pi ** (-1)) == maple_code(pi ** (-1.0)) == '1/Pi' and maple_code(pi ** (-0.5)) == '1/sqrt(Pi)'"},"spec":{"lhs":"test_1_over_x_and_sqrt()","rhs":"test_1_over_x_and_sqrt produces the expected output","over":{"base":"Any"},"name":"test_1_over_x_and_sqrt_correct"},"guarantee":"test_1_over_x_and_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_1_over_x_and_sqrt_correct","statement":"Path(test_1_over_x_and_sqrt(x), test_1_over_x_and_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81c9252a99b4d92a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_1_over_x_and_sqrt","kind":"function","src_hash":"3053f453391e785d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(1 / x) == '1/x' and maple_code(x ** (-1)) == maple_code(x ** (-1.0)) == '1/x' and maple_code(1 / sqrt(x)) == '1/sqrt(x)' and maple_code(x ** (-S.Half)) == maple_code(x ** (-0.5)) == '1/sqrt(x)' and maple_code(sqrt(x)) == 'sqrt(x)' and maple_code(x ** S.Half) == maple_code(x ** 0.5) == 'sqrt(x)' and maple_code(1 / pi) == '1/Pi' and maple_code(pi ** (-1)) == maple_code(pi ** (-1.0)) == '1/Pi' and maple_code(pi ** (-0.5)) == '1/sqrt(Pi)'"},"spec":{"lhs":"test_1_over_x_and_sqrt()","rhs":"maple_code(1 / x) == '1/x' and maple_code(x ** (-1)) == maple_code(x ** (-1.0)) == '1/x' and maple_code(1 / sqrt(x)) == '1/sqrt(x)' and maple_code(x ** (-S.Half)) == maple_code(x ** (-0.5)) == '1/sqrt(x)' and maple_code(sqrt(x)) == 'sqrt(x)' and maple_code(x ** S.Half) == maple_code(x ** 0.5) == 'sqrt(x)' and maple_code(1 / pi) == '1/Pi' and maple_code(pi ** (-1)) == maple_code(pi ** (-1.0)) == '1/Pi' and maple_code(pi ** (-0.5)) == '1/sqrt(Pi)'","over":{"base":"Any"},"name":"test_1_over_x_and_sqrt_correct"},"guarantee":"maple_code(1 / x) == '1/x'; maple_code(x ** (-1)) == maple_code(x ** (-1.0)) == '1/x'; maple_code(1 / sqrt(x)) == '1/sqrt(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_1_over_x_and_sqrt_correct","statement":"Path(test_1_over_x_and_sqrt(x), maple_code(1 / x) == '1/x'; maple_code(x ** (-1)) == maple_code(x ** (-1.0)) == '1/x'; maple_code(1 / sqrt(x)) == '1/sqrt(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6efff544f9beb4e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(1 / x) == '1/x'","maple_code(x ** (-1)) == maple_code(x ** (-1.0)) == '1/x'","maple_code(1 / sqrt(x)) == '1/sqrt(x)'","maple_code(x ** (-S.Half)) == maple_code(x ** (-0.5)) == '1/sqrt(x)'","maple_code(sqrt(x)) == 'sqrt(x)'","maple_code(x ** S.Half) == maple_code(x ** 0.5) == 'sqrt(x)'","maple_code(1 / pi) == '1/Pi'","maple_code(pi ** (-1)) == maple_code(pi ** (-1.0)) == '1/Pi'","maple_code(pi ** (-0.5)) == '1/sqrt(Pi)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_1_over_x_and_sqrt():
     # 1.0 and 0.5 would do something different in regular StrPrinter,
     # but these are exact in IEEE floating point so no different here.
@@ -173,16 +228,24 @@ def test_1_over_x_and_sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mix_number_mult_symbols(), test_mix_number_mult_symbols produces the expected output) over Any ║
+# ║ Path(test_mix_number_mult_symbols(), maple_code(3 * x) == '3*x' and maple_code(pi * x) == 'Pi*x' and maple_code(3 / x) == '3/x' and maple_code(pi / x) == 'Pi/x' and maple_code(x / 3) == '(1/3)*x' and maple_code(x / pi) == 'x/Pi' and maple_code(x * y) == 'x*y' and maple_code(3 * x * y) == '3*x*y' and maple_code(3 * pi * x * y) == '3*Pi*x*y' and maple_code(x / y) == 'x/y' and maple_code(3 * x / y) == '3*x/y' and maple_code(x * y / z) == 'x*y/z' and maple_code(x / y * z) == 'x*z/y' and maple_code(1 / x / y) == '1/(x*y)' and maple_code(2 * pi * x / y / z) == '2*Pi*x/(y*z)' and maple_code(3 * pi / x) == '3*Pi/x' and maple_code(S(3) / 5) == '3/5' and maple_code(S(3) / 5 * x) == '(3/5)*x' and maple_code(x / y / z) == 'x/(y*z)' and maple_code((x + y) / z) == '(x + y)/z' and maple_code((x + y) / (z + x)) == '(x + y)/(x + z)' and maple_code((x + y) / EulerGamma) == '(x + y)/gamma' and maple_code(x / 3 / pi) == '(1/3)*x/Pi' and maple_code(S(3) / 5 * x * y / pi) == '(3/5)*x*y/Pi') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mix_number_mult_symbols : Any → {Any | maple_cod...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(3 * x) == '3*x'                     ║
+# ║   ensures:  maple_code(pi * x) == 'Pi*x'                   ║
+# ║   ensures:  maple_code(3 / x) == '3/x'                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mix_number_mult_symbols : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae37f1d32cb202d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1441a4d4a46c65f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_mix_number_mult_symbols","kind":"function","src_hash":"466c84b0af5b1ae6","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(3 * x) == '3*x' and maple_code(pi * x) == 'Pi*x' and maple_code(3 / x) == '3/x' and maple_code(pi / x) == 'Pi/x' and maple_code(x / 3) == '(1/3)*x' and maple_code(x / pi) == 'x/Pi' and maple_code(x * y) == 'x*y' and maple_code(3 * x * y) == '3*x*y' and maple_code(3 * pi * x * y) == '3*Pi*x*y' and maple_code(x / y) == 'x/y' and maple_code(3 * x / y) == '3*x/y' and maple_code(x * y / z) == 'x*y/z' and maple_code(x / y * z) == 'x*z/y' and maple_code(1 / x / y) == '1/(x*y)' and maple_code(2 * pi * x / y / z) == '2*Pi*x/(y*z)' and maple_code(3 * pi / x) == '3*Pi/x' and maple_code(S(3) / 5) == '3/5' and maple_code(S(3) / 5 * x) == '(3/5)*x' and maple_code(x / y / z) == 'x/(y*z)' and maple_code((x + y) / z) == '(x + y)/z' and maple_code((x + y) / (z + x)) == '(x + y)/(x + z)' and maple_code((x + y) / EulerGamma) == '(x + y)/gamma' and maple_code(x / 3 / pi) == '(1/3)*x/Pi' and maple_code(S(3) / 5 * x * y / pi) == '(3/5)*x*y/Pi'"},"spec":{"lhs":"test_mix_number_mult_symbols()","rhs":"test_mix_number_mult_symbols produces the expected output","over":{"base":"Any"},"name":"test_mix_number_mult_symbols_correct"},"guarantee":"test_mix_number_mult_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_mix_number_mult_symbols_correct","statement":"Path(test_mix_number_mult_symbols(x), test_mix_number_mult_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae37f1d32cb202d0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_mix_number_mult_symbols","kind":"function","src_hash":"466c84b0af5b1ae6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(3 * x) == '3*x' and maple_code(pi * x) == 'Pi*x' and maple_code(3 / x) == '3/x' and maple_code(pi / x) == 'Pi/x' and maple_code(x / 3) == '(1/3)*x' and maple_code(x / pi) == 'x/Pi' and maple_code(x * y) == 'x*y' and maple_code(3 * x * y) == '3*x*y' and maple_code(3 * pi * x * y) == '3*Pi*x*y' and maple_code(x / y) == 'x/y' and maple_code(3 * x / y) == '3*x/y' and maple_code(x * y / z) == 'x*y/z' and maple_code(x / y * z) == 'x*z/y' and maple_code(1 / x / y) == '1/(x*y)' and maple_code(2 * pi * x / y / z) == '2*Pi*x/(y*z)' and maple_code(3 * pi / x) == '3*Pi/x' and maple_code(S(3) / 5) == '3/5' and maple_code(S(3) / 5 * x) == '(3/5)*x' and maple_code(x / y / z) == 'x/(y*z)' and maple_code((x + y) / z) == '(x + y)/z' and maple_code((x + y) / (z + x)) == '(x + y)/(x + z)' and maple_code((x + y) / EulerGamma) == '(x + y)/gamma' and maple_code(x / 3 / pi) == '(1/3)*x/Pi' and maple_code(S(3) / 5 * x * y / pi) == '(3/5)*x*y/Pi'"},"spec":{"lhs":"test_mix_number_mult_symbols()","rhs":"maple_code(3 * x) == '3*x' and maple_code(pi * x) == 'Pi*x' and maple_code(3 / x) == '3/x' and maple_code(pi / x) == 'Pi/x' and maple_code(x / 3) == '(1/3)*x' and maple_code(x / pi) == 'x/Pi' and maple_code(x * y) == 'x*y' and maple_code(3 * x * y) == '3*x*y' and maple_code(3 * pi * x * y) == '3*Pi*x*y' and maple_code(x / y) == 'x/y' and maple_code(3 * x / y) == '3*x/y' and maple_code(x * y / z) == 'x*y/z' and maple_code(x / y * z) == 'x*z/y' and maple_code(1 / x / y) == '1/(x*y)' and maple_code(2 * pi * x / y / z) == '2*Pi*x/(y*z)' and maple_code(3 * pi / x) == '3*Pi/x' and maple_code(S(3) / 5) == '3/5' and maple_code(S(3) / 5 * x) == '(3/5)*x' and maple_code(x / y / z) == 'x/(y*z)' and maple_code((x + y) / z) == '(x + y)/z' and maple_code((x + y) / (z + x)) == '(x + y)/(x + z)' and maple_code((x + y) / EulerGamma) == '(x + y)/gamma' and maple_code(x / 3 / pi) == '(1/3)*x/Pi' and maple_code(S(3) / 5 * x * y / pi) == '(3/5)*x*y/Pi'","over":{"base":"Any"},"name":"test_mix_number_mult_symbols_correct"},"guarantee":"maple_code(3 * x) == '3*x'; maple_code(pi * x) == 'Pi*x'; maple_code(3 / x) == '3/x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_mix_number_mult_symbols_correct","statement":"Path(test_mix_number_mult_symbols(x), maple_code(3 * x) == '3*x'; maple_code(pi * x) == 'Pi*x'; maple_code(3 / x) == '3/x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1441a4d4a46c65f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(3 * x) == '3*x'","maple_code(pi * x) == 'Pi*x'","maple_code(3 / x) == '3/x'","maple_code(pi / x) == 'Pi/x'","maple_code(x / 3) == '(1/3)*x'","maple_code(x / pi) == 'x/Pi'","maple_code(x * y) == 'x*y'","maple_code(3 * x * y) == '3*x*y'","maple_code(3 * pi * x * y) == '3*Pi*x*y'","maple_code(x / y) == 'x/y'","maple_code(3 * x / y) == '3*x/y'","maple_code(x * y / z) == 'x*y/z'","maple_code(x / y * z) == 'x*z/y'","maple_code(1 / x / y) == '1/(x*y)'","maple_code(2 * pi * x / y / z) == '2*Pi*x/(y*z)'","maple_code(3 * pi / x) == '3*Pi/x'","maple_code(S(3) / 5) == '3/5'","maple_code(S(3) / 5 * x) == '(3/5)*x'","maple_code(x / y / z) == 'x/(y*z)'","maple_code((x + y) / z) == '(x + y)/z'","maple_code((x + y) / (z + x)) == '(x + y)/(x + z)'","maple_code((x + y) / EulerGamma) == '(x + y)/gamma'","maple_code(x / 3 / pi) == '(1/3)*x/Pi'","maple_code(S(3) / 5 * x * y / pi) == '(3/5)*x*y/Pi'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_mix_number_mult_symbols():
     assert maple_code(3 * x) == "3*x"
     assert maple_code(pi * x) == "Pi*x"
@@ -211,16 +274,24 @@ def test_mix_number_mult_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mix_number_pow_symbols(), test_mix_number_pow_symbols produces the expected output) over Any ║
+# ║ Path(test_mix_number_pow_symbols(), maple_code(pi ** 3) == 'Pi^3' and maple_code(x ** 2) == 'x^2' and maple_code(x ** pi ** 3) == 'x^(Pi^3)' and maple_code(x ** y) == 'x^y' and maple_code(x ** y ** z) == 'x^(y^z)' and maple_code((x ** y) ** z) == '(x^y)^z') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mix_number_pow_symbols : Any → {Any | maple_code...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(pi ** 3) == 'Pi^3'                  ║
+# ║   ensures:  maple_code(x ** 2) == 'x^2'                    ║
+# ║   ensures:  maple_code(x ** pi ** 3) == 'x^(Pi^3)'         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mix_number_pow_symbols : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61480f9dca6bcbbc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2caae0592174ff1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_mix_number_pow_symbols","kind":"function","src_hash":"49014b76101ea683","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(pi ** 3) == 'Pi^3' and maple_code(x ** 2) == 'x^2' and maple_code(x ** pi ** 3) == 'x^(Pi^3)' and maple_code(x ** y) == 'x^y' and maple_code(x ** y ** z) == 'x^(y^z)' and maple_code((x ** y) ** z) == '(x^y)^z'"},"spec":{"lhs":"test_mix_number_pow_symbols()","rhs":"test_mix_number_pow_symbols produces the expected output","over":{"base":"Any"},"name":"test_mix_number_pow_symbols_correct"},"guarantee":"test_mix_number_pow_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_mix_number_pow_symbols_correct","statement":"Path(test_mix_number_pow_symbols(x), test_mix_number_pow_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61480f9dca6bcbbc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_mix_number_pow_symbols","kind":"function","src_hash":"49014b76101ea683","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(pi ** 3) == 'Pi^3' and maple_code(x ** 2) == 'x^2' and maple_code(x ** pi ** 3) == 'x^(Pi^3)' and maple_code(x ** y) == 'x^y' and maple_code(x ** y ** z) == 'x^(y^z)' and maple_code((x ** y) ** z) == '(x^y)^z'"},"spec":{"lhs":"test_mix_number_pow_symbols()","rhs":"maple_code(pi ** 3) == 'Pi^3' and maple_code(x ** 2) == 'x^2' and maple_code(x ** pi ** 3) == 'x^(Pi^3)' and maple_code(x ** y) == 'x^y' and maple_code(x ** y ** z) == 'x^(y^z)' and maple_code((x ** y) ** z) == '(x^y)^z'","over":{"base":"Any"},"name":"test_mix_number_pow_symbols_correct"},"guarantee":"maple_code(pi ** 3) == 'Pi^3'; maple_code(x ** 2) == 'x^2'; maple_code(x ** pi ** 3) == 'x^(Pi^3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_mix_number_pow_symbols_correct","statement":"Path(test_mix_number_pow_symbols(x), maple_code(pi ** 3) == 'Pi^3'; maple_code(x ** 2) == 'x^2'; maple_code(x ** pi ** 3) == 'x^(Pi^3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2caae0592174ff1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(pi ** 3) == 'Pi^3'","maple_code(x ** 2) == 'x^2'","maple_code(x ** pi ** 3) == 'x^(Pi^3)'","maple_code(x ** y) == 'x^y'","maple_code(x ** y ** z) == 'x^(y^z)'","maple_code((x ** y) ** z) == '(x^y)^z'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mix_number_pow_symbols():
     assert maple_code(pi ** 3) == 'Pi^3'
     assert maple_code(x ** 2) == 'x^2'
@@ -233,16 +304,24 @@ def test_mix_number_pow_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_imag(), test_imag produces the expected output) over Any ║
+# ║ Path(test_imag(), maple_code(I) == 'I' and maple_code(5 * I) == '5*I' and maple_code(S(3) / 2 * I) == '(3/2)*I' and maple_code(3 + 4 * I) == '3 + 4*I') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_imag : Any → {Any | maple_code(I) == 'I' and map...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(I) == 'I'                           ║
+# ║   ensures:  maple_code(5 * I) == '5*I'                     ║
+# ║   ensures:  maple_code(S(3) / 2 * I) == '(3/2)*I'          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_imag : Any → {Any | result satisfies: maple_code...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a03712525bfc1241  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 860cbf96b2af2e91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_imag","kind":"function","src_hash":"e5db8dc73ae8bc94","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(I) == 'I' and maple_code(5 * I) == '5*I' and maple_code(S(3) / 2 * I) == '(3/2)*I' and maple_code(3 + 4 * I) == '3 + 4*I'"},"spec":{"lhs":"test_imag()","rhs":"test_imag produces the expected output","over":{"base":"Any"},"name":"test_imag_correct"},"guarantee":"test_imag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_imag_correct","statement":"Path(test_imag(x), test_imag produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a03712525bfc1241"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_imag","kind":"function","src_hash":"e5db8dc73ae8bc94","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(I) == 'I' and maple_code(5 * I) == '5*I' and maple_code(S(3) / 2 * I) == '(3/2)*I' and maple_code(3 + 4 * I) == '3 + 4*I'"},"spec":{"lhs":"test_imag()","rhs":"maple_code(I) == 'I' and maple_code(5 * I) == '5*I' and maple_code(S(3) / 2 * I) == '(3/2)*I' and maple_code(3 + 4 * I) == '3 + 4*I'","over":{"base":"Any"},"name":"test_imag_correct"},"guarantee":"maple_code(I) == 'I'; maple_code(5 * I) == '5*I'; maple_code(S(3) / 2 * I) == '(3/2)*I'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_imag_correct","statement":"Path(test_imag(x), maple_code(I) == 'I'; maple_code(5 * I) == '5*I'; maple_code(S(3) / 2 * I) == '(3/2)*I')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"860cbf96b2af2e91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(I) == 'I'","maple_code(5 * I) == '5*I'","maple_code(S(3) / 2 * I) == '(3/2)*I'","maple_code(3 + 4 * I) == '3 + 4*I'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_imag():
     I = S('I')
     assert maple_code(I) == "I"
@@ -253,16 +332,24 @@ def test_imag():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constants(), test_constants produces the expected output) over Any ║
+# ║ Path(test_constants(), maple_code(pi) == 'Pi' and maple_code(oo) == 'infinity' and maple_code(-oo) == '-infinity' and maple_code(S.NegativeInfinity) == '-infinity' and maple_code(S.NaN) == 'undefined' and maple_code(S.Exp1) == 'exp(1)' and maple_code(exp(1)) == 'exp(1)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_constants : Any → {Any | maple_code(pi) == 'Pi' ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(pi) == 'Pi'                         ║
+# ║   ensures:  maple_code(oo) == 'infinity'                   ║
+# ║   ensures:  maple_code(-oo) == '-infinity'                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_constants : Any → {Any | result satisfies: maple...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b7e29d232f0092c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c852c9112b858c13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_constants","kind":"function","src_hash":"9005807b13bd0a1d","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(pi) == 'Pi' and maple_code(oo) == 'infinity' and maple_code(-oo) == '-infinity' and maple_code(S.NegativeInfinity) == '-infinity' and maple_code(S.NaN) == 'undefined' and maple_code(S.Exp1) == 'exp(1)' and maple_code(exp(1)) == 'exp(1)'"},"spec":{"lhs":"test_constants()","rhs":"test_constants produces the expected output","over":{"base":"Any"},"name":"test_constants_correct"},"guarantee":"test_constants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_constants_correct","statement":"Path(test_constants(x), test_constants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b7e29d232f0092c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_constants","kind":"function","src_hash":"9005807b13bd0a1d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(pi) == 'Pi' and maple_code(oo) == 'infinity' and maple_code(-oo) == '-infinity' and maple_code(S.NegativeInfinity) == '-infinity' and maple_code(S.NaN) == 'undefined' and maple_code(S.Exp1) == 'exp(1)' and maple_code(exp(1)) == 'exp(1)'"},"spec":{"lhs":"test_constants()","rhs":"maple_code(pi) == 'Pi' and maple_code(oo) == 'infinity' and maple_code(-oo) == '-infinity' and maple_code(S.NegativeInfinity) == '-infinity' and maple_code(S.NaN) == 'undefined' and maple_code(S.Exp1) == 'exp(1)' and maple_code(exp(1)) == 'exp(1)'","over":{"base":"Any"},"name":"test_constants_correct"},"guarantee":"maple_code(pi) == 'Pi'; maple_code(oo) == 'infinity'; maple_code(-oo) == '-infinity'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_constants_correct","statement":"Path(test_constants(x), maple_code(pi) == 'Pi'; maple_code(oo) == 'infinity'; maple_code(-oo) == '-infinity')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c852c9112b858c13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(pi) == 'Pi'","maple_code(oo) == 'infinity'","maple_code(-oo) == '-infinity'","maple_code(S.NegativeInfinity) == '-infinity'","maple_code(S.NaN) == 'undefined'","maple_code(S.Exp1) == 'exp(1)'","maple_code(exp(1)) == 'exp(1)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_constants():
     assert maple_code(pi) == "Pi"
     assert maple_code(oo) == "infinity"
@@ -274,16 +361,24 @@ def test_constants():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constants_other(), test_constants_other produces the expected output) over Any ║
+# ║ Path(test_constants_other(), maple_code(2 * GoldenRatio) == '2*(1/2 + (1/2)*sqrt(5))' and maple_code(2 * Catalan) == '2*Catalan' and maple_code(2 * EulerGamma) == '2*gamma') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_constants_other : Any → {Any | maple_code(2 * Go...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(2 * GoldenRatio) == '2*(1/2 + ...   ║
+# ║   ensures:  maple_code(2 * Catalan) == '2*Catalan'         ║
+# ║   ensures:  maple_code(2 * EulerGamma) == '2*gamma'        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_constants_other : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ee21e0ccd0c3a95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ed7d59926754d84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_constants_other","kind":"function","src_hash":"441f60cb0aa928db","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(2 * GoldenRatio) == '2*(1/2 + (1/2)*sqrt(5))' and maple_code(2 * Catalan) == '2*Catalan' and maple_code(2 * EulerGamma) == '2*gamma'"},"spec":{"lhs":"test_constants_other()","rhs":"test_constants_other produces the expected output","over":{"base":"Any"},"name":"test_constants_other_correct"},"guarantee":"test_constants_other produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_constants_other_correct","statement":"Path(test_constants_other(x), test_constants_other produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ee21e0ccd0c3a95"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_constants_other","kind":"function","src_hash":"441f60cb0aa928db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(2 * GoldenRatio) == '2*(1/2 + (1/2)*sqrt(5))' and maple_code(2 * Catalan) == '2*Catalan' and maple_code(2 * EulerGamma) == '2*gamma'"},"spec":{"lhs":"test_constants_other()","rhs":"maple_code(2 * GoldenRatio) == '2*(1/2 + (1/2)*sqrt(5))' and maple_code(2 * Catalan) == '2*Catalan' and maple_code(2 * EulerGamma) == '2*gamma'","over":{"base":"Any"},"name":"test_constants_other_correct"},"guarantee":"maple_code(2 * GoldenRatio) == '2*(1/2 + (1/2)*sqrt(5))'; maple_code(2 * Catalan) == '2*Catalan'; maple_code(2 * EulerGamma) == '2*gamma'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_constants_other_correct","statement":"Path(test_constants_other(x), maple_code(2 * GoldenRatio) == '2*(1/2 + (1/2)*sqrt(5))'; maple_code(2 * Catalan) == '2*Catalan'; maple_code(2 * EulerGamma) == '2*gamma')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ed7d59926754d84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(2 * GoldenRatio) == '2*(1/2 + (1/2)*sqrt(5))'","maple_code(2 * Catalan) == '2*Catalan'","maple_code(2 * EulerGamma) == '2*gamma'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_constants_other():
     assert maple_code(2 * GoldenRatio) == '2*(1/2 + (1/2)*sqrt(5))'
     assert maple_code(2 * Catalan) == '2*Catalan'
@@ -291,16 +386,24 @@ def test_constants_other():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_boolean(), test_boolean produces the expected output) over Any ║
+# ║ Path(test_boolean(), maple_code(x & y) == 'x and y' and maple_code(x | y) == 'x or y' and maple_code(~x) == 'not x' and maple_code(x & y & z) == 'x and y and z' and maple_code(x | y | z) == 'x or y or z' and maple_code(x & y | z) == 'z or x and y' and maple_code((x | y) & z) == 'z and (x or y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_boolean : Any → {Any | maple_code(x & y) == 'x a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(x & y) == 'x and y'                 ║
+# ║   ensures:  maple_code(x | y) == 'x or y'                  ║
+# ║   ensures:  maple_code(~x) == 'not x'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_boolean : Any → {Any | result satisfies: maple_c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ff819bf025e8e51  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 927219ba740683c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_boolean","kind":"function","src_hash":"49bb402f5820c278","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(x & y) == 'x and y' and maple_code(x | y) == 'x or y' and maple_code(~x) == 'not x' and maple_code(x & y & z) == 'x and y and z' and maple_code(x | y | z) == 'x or y or z' and maple_code(x & y | z) == 'z or x and y' and maple_code((x | y) & z) == 'z and (x or y)'"},"spec":{"lhs":"test_boolean()","rhs":"test_boolean produces the expected output","over":{"base":"Any"},"name":"test_boolean_correct"},"guarantee":"test_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_boolean_correct","statement":"Path(test_boolean(x), test_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ff819bf025e8e51"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_boolean","kind":"function","src_hash":"49bb402f5820c278","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(x & y) == 'x and y' and maple_code(x | y) == 'x or y' and maple_code(~x) == 'not x' and maple_code(x & y & z) == 'x and y and z' and maple_code(x | y | z) == 'x or y or z' and maple_code(x & y | z) == 'z or x and y' and maple_code((x | y) & z) == 'z and (x or y)'"},"spec":{"lhs":"test_boolean()","rhs":"maple_code(x & y) == 'x and y' and maple_code(x | y) == 'x or y' and maple_code(~x) == 'not x' and maple_code(x & y & z) == 'x and y and z' and maple_code(x | y | z) == 'x or y or z' and maple_code(x & y | z) == 'z or x and y' and maple_code((x | y) & z) == 'z and (x or y)'","over":{"base":"Any"},"name":"test_boolean_correct"},"guarantee":"maple_code(x & y) == 'x and y'; maple_code(x | y) == 'x or y'; maple_code(~x) == 'not x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_boolean_correct","statement":"Path(test_boolean(x), maple_code(x & y) == 'x and y'; maple_code(x | y) == 'x or y'; maple_code(~x) == 'not x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"927219ba740683c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(x & y) == 'x and y'","maple_code(x | y) == 'x or y'","maple_code(~x) == 'not x'","maple_code(x & y & z) == 'x and y and z'","maple_code(x | y | z) == 'x or y or z'","maple_code(x & y | z) == 'z or x and y'","maple_code((x | y) & z) == 'z and (x or y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_boolean():
     assert maple_code(x & y) == "x and y"
     assert maple_code(x | y) == "x or y"
@@ -312,16 +415,24 @@ def test_boolean():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrices(), test_Matrices produces the expected output) over Any ║
+# ║ Path(test_Matrices(), maple_code(Matrix(1, 1, [10])) == 'Matrix([[10]], storage = rectangular)' and maple_code(A) == expected and maple_code(A[:, 0]) == 'Matrix([[1], [0], [0]], storage = rectangular)' and maple_code(A[0, :]) == 'Matrix([[1, sin((1/2)*x), abs(x)]], storage = rectangular)' and maple_code(Matrix([[x, x - y, -y]])) == 'Matrix([[x, x - y, -y]], storage = rectangular)' and maple_code(Matrix(0, 0, [])) == 'Matrix([], storage = rectangular)' and maple_code(Matrix(0, 3, [])) == 'Matrix([], storage = rectangular)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrices : Any → {Any | maple_code(Matrix(1, 1, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(Matrix(1, 1, [10])) == 'Matrix...   ║
+# ║   ensures:  maple_code(A) == expected                      ║
+# ║   ensures:  maple_code(A[:, 0]) == 'Matrix([[1], [0],...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrices : Any → {Any | result satisfies: maple_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 600b65f75a5483c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56280bd86fa526ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Matrices","kind":"function","src_hash":"836bfa91dd8722c5","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(Matrix(1, 1, [10])) == 'Matrix([[10]], storage = rectangular)' and maple_code(A) == expected and maple_code(A[:, 0]) == 'Matrix([[1], [0], [0]], storage = rectangular)' and maple_code(Matrix(0, 0, [])) == 'Matrix([], storage = rectangular)' and maple_code(Matrix(0, 3, [])) == 'Matrix([], storage = rectangular)'"},"spec":{"lhs":"test_Matrices()","rhs":"test_Matrices produces the expected output","over":{"base":"Any"},"name":"test_Matrices_correct"},"guarantee":"test_Matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Matrices_correct","statement":"Path(test_Matrices(x), test_Matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"600b65f75a5483c0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Matrices","kind":"function","src_hash":"836bfa91dd8722c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(Matrix(1, 1, [10])) == 'Matrix([[10]], storage = rectangular)' and maple_code(A) == expected and maple_code(A[:, 0]) == 'Matrix([[1], [0], [0]], storage = rectangular)' and maple_code(A[0, :]) == 'Matrix([[1, sin((1/2)*x), abs(x)]], storage = rectangular)' and maple_code(Matrix([[x, x - y, -y]])) == 'Matrix([[x, x - y, -y]], storage = rectangular)' and maple_code(Matrix(0, 0, [])) == 'Matrix([], storage = rectangular)' and maple_code(Matrix(0, 3, [])) == 'Matrix([], storage = rectangular)'"},"spec":{"lhs":"test_Matrices()","rhs":"maple_code(Matrix(1, 1, [10])) == 'Matrix([[10]], storage = rectangular)' and maple_code(A) == expected and maple_code(A[:, 0]) == 'Matrix([[1], [0], [0]], storage = rectangular)' and maple_code(A[0, :]) == 'Matrix([[1, sin((1/2)*x), abs(x)]], storage = rectangular)' and maple_code(Matrix([[x, x - y, -y]])) == 'Matrix([[x, x - y, -y]], storage = rectangular)' and maple_code(Matrix(0, 0, [])) == 'Matrix([], storage = rectangular)' and maple_code(Matrix(0, 3, [])) == 'Matrix([], storage = rectangular)'","over":{"base":"Any"},"name":"test_Matrices_correct"},"guarantee":"maple_code(Matrix(1, 1, [10])) == 'Matrix([[10]], storage = rectangular)'; maple_code(A) == expected; maple_code(A[:, 0]) == 'Matrix([[1], [0], [0]], storage = rectangular)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Matrices_correct","statement":"Path(test_Matrices(x), maple_code(Matrix(1, 1, [10])) == 'Matrix([[10]], storage = rectangular)'; maple_code(A) == expected; maple_code(A[:, 0]) == 'Matrix([[1], [0], [0]], storage = rectangular)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56280bd86fa526ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(Matrix(1, 1, [10])) == 'Matrix([[10]], storage = rectangular)'","maple_code(A) == expected","maple_code(A[:, 0]) == 'Matrix([[1], [0], [0]], storage = rectangular)'","maple_code(A[0, :]) == 'Matrix([[1, sin((1/2)*x), abs(x)]], storage = rectangular)'","maple_code(Matrix([[x, x - y, -y]])) == 'Matrix([[x, x - y, -y]], storage = rectangular)'","maple_code(Matrix(0, 0, [])) == 'Matrix([], storage = rectangular)'","maple_code(Matrix(0, 3, [])) == 'Matrix([], storage = rectangular)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Matrices():
     assert maple_code(Matrix(1, 1, [10])) == \
            'Matrix([[10]], storage = rectangular)'
@@ -352,31 +463,44 @@ def test_Matrices():
            'Matrix([], storage = rectangular)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SparseMatrices(), test_SparseMatrices produces the expected output) over Any ║
+# ║ Path(test_SparseMatrices(), maple_code(SparseMatrix(Identity(2))) == 'Matrix([[1, 0], [0, 1]], storage = sparse)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SparseMatrices : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(SparseMatrix(Identity(2))) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SparseMatrices : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c861f3b55bf9c307  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53ed5d544736b5a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_SparseMatrices","kind":"function","src_hash":"e9dda7e432540b86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_SparseMatrices()","rhs":"test_SparseMatrices produces the expected output","over":{"base":"Any"},"name":"test_SparseMatrices_correct"},"guarantee":"test_SparseMatrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_SparseMatrices_correct","statement":"Path(test_SparseMatrices(x), test_SparseMatrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c861f3b55bf9c307"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_SparseMatrices","kind":"function","src_hash":"e9dda7e432540b86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(SparseMatrix(Identity(2))) == 'Matrix([[1, 0], [0, 1]], storage = sparse)'"},"spec":{"lhs":"test_SparseMatrices()","rhs":"maple_code(SparseMatrix(Identity(2))) == 'Matrix([[1, 0], [0, 1]], storage = sparse)'","over":{"base":"Any"},"name":"test_SparseMatrices_correct"},"guarantee":"maple_code(SparseMatrix(Identity(2))) == 'Matrix([[1, 0], [0, 1]], storage = sparse)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_SparseMatrices_correct","statement":"Path(test_SparseMatrices(x), maple_code(SparseMatrix(Identity(2))) == 'Matrix([[1, 0], [0, 1]], storage = sparse)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53ed5d544736b5a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(SparseMatrix(Identity(2))) == 'Matrix([[1, 0], [0, 1]], storage = sparse)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_SparseMatrices():
     assert maple_code(SparseMatrix(Identity(2))) == 'Matrix([[1, 0], [0, 1]], storage = sparse)'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_entries_hadamard(), test_vector_entries_hadamard produces the expected output) over Any ║
+# ║ Path(test_vector_entries_hadamard(), maple_code(A) == 'Matrix([[1, sin(2/x), (3/5)*Pi/x]], storage = rectangular)' and maple_code(A.T) == 'Matrix([[1], [sin(2/x)], [(3/5)*Pi/x]], storage = rectangular)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_entries_hadamard : Any → {Any | maple_cod...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(A) == 'Matrix([[1, sin(2/x), (...   ║
+# ║   ensures:  maple_code(A.T) == 'Matrix([[1], [sin(2/x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_entries_hadamard : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6da0862580870878  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa426d819a47950d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_vector_entries_hadamard","kind":"function","src_hash":"589d6fa277c5c733","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(A) == 'Matrix([[1, sin(2/x), (3/5)*Pi/x]], storage = rectangular)'"},"spec":{"lhs":"test_vector_entries_hadamard()","rhs":"test_vector_entries_hadamard produces the expected output","over":{"base":"Any"},"name":"test_vector_entries_hadamard_correct"},"guarantee":"test_vector_entries_hadamard produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_vector_entries_hadamard_correct","statement":"Path(test_vector_entries_hadamard(x), test_vector_entries_hadamard produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6da0862580870878"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_vector_entries_hadamard","kind":"function","src_hash":"589d6fa277c5c733","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(A) == 'Matrix([[1, sin(2/x), (3/5)*Pi/x]], storage = rectangular)' and maple_code(A.T) == 'Matrix([[1], [sin(2/x)], [(3/5)*Pi/x]], storage = rectangular)'"},"spec":{"lhs":"test_vector_entries_hadamard()","rhs":"maple_code(A) == 'Matrix([[1, sin(2/x), (3/5)*Pi/x]], storage = rectangular)' and maple_code(A.T) == 'Matrix([[1], [sin(2/x)], [(3/5)*Pi/x]], storage = rectangular)'","over":{"base":"Any"},"name":"test_vector_entries_hadamard_correct"},"guarantee":"maple_code(A) == 'Matrix([[1, sin(2/x), (3/5)*Pi/x]], storage = rectangular)'; maple_code(A.T) == 'Matrix([[1], [sin(2/x)], [(3/5)*Pi/x]], storage = rectangular)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_vector_entries_hadamard_correct","statement":"Path(test_vector_entries_hadamard(x), maple_code(A) == 'Matrix([[1, sin(2/x), (3/5)*Pi/x]], storage = rectangular)'; maple_code(A.T) == 'Matrix([[1], [sin(2/x)], [(3/5)*Pi/x]], storage = rectangular)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa426d819a47950d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(A) == 'Matrix([[1, sin(2/x), (3/5)*Pi/x]], storage = rectangular)'","maple_code(A.T) == 'Matrix([[1], [sin(2/x)], [(3/5)*Pi/x]], storage = rectangular)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vector_entries_hadamard():
     # For a row or column, user might to use the other dimension
     A = Matrix([[1, sin(2 / x), 3 * pi / x / 5]])
@@ -387,16 +511,22 @@ def test_vector_entries_hadamard():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrices_entries_not_hadamard(), test_Matrices_entries_not_hadamard produces the expected output) over Any ║
+# ║ Path(test_Matrices_entries_not_hadamard(), maple_code(A) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrices_entries_not_hadamard : Any → {Any | map...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(A) == expected                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrices_entries_not_hadamard : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63c179e26c38d23a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a4b946ca390ed11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Matrices_entries_not_hadamard","kind":"function","src_hash":"772dfa8985c3a009","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(A) == expected"},"spec":{"lhs":"test_Matrices_entries_not_hadamard()","rhs":"test_Matrices_entries_not_hadamard produces the expected output","over":{"base":"Any"},"name":"test_Matrices_entries_not_hadamard_correct"},"guarantee":"test_Matrices_entries_not_hadamard produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Matrices_entries_not_hadamard_correct","statement":"Path(test_Matrices_entries_not_hadamard(x), test_Matrices_entries_not_hadamard produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63c179e26c38d23a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_Matrices_entries_not_hadamard","kind":"function","src_hash":"772dfa8985c3a009","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(A) == expected"},"spec":{"lhs":"test_Matrices_entries_not_hadamard()","rhs":"maple_code(A) == expected","over":{"base":"Any"},"name":"test_Matrices_entries_not_hadamard_correct"},"guarantee":"maple_code(A) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_Matrices_entries_not_hadamard_correct","statement":"Path(test_Matrices_entries_not_hadamard(x), maple_code(A) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a4b946ca390ed11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(A) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Matrices_entries_not_hadamard():
     A = Matrix([[1, sin(2 / x), 3 * pi / x / 5], [1, 2, x * y]])
     expected = \
@@ -406,16 +536,24 @@ def test_Matrices_entries_not_hadamard():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSymbol(), test_MatrixSymbol produces the expected output) over Any ║
+# ║ Path(test_MatrixSymbol(), maple_code(A * B) == 'A.B' and maple_code(B * A) == 'B.A' and maple_code(2 * A * B) == '2*A.B' and maple_code(B * 2 * A) == '2*B.A' and maple_code(A * (B + 3 * Identity(n))) == 'A.(3*Matrix(n, shape = identity) + B)' and maple_code(A ** x ** 2) == 'MatrixPower(A, x^2)' and maple_code(A ** 3) == 'MatrixPower(A, 3)' and maple_code(A ** S.Half) == 'MatrixPower(A, 1/2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixSymbol : Any → {Any | maple_code(A * B) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(A * B) == 'A.B'                     ║
+# ║   ensures:  maple_code(B * A) == 'B.A'                     ║
+# ║   ensures:  maple_code(2 * A * B) == '2*A.B'               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixSymbol : Any → {Any | result satisfies: ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c763ba18254d748  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c042faec4d73a96f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_MatrixSymbol","kind":"function","src_hash":"a4940bcb6f92ad22","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(A * B) == 'A.B' and maple_code(B * A) == 'B.A' and maple_code(2 * A * B) == '2*A.B' and maple_code(B * 2 * A) == '2*B.A' and maple_code(A ** x ** 2) == 'MatrixPower(A, x^2)' and maple_code(A ** 3) == 'MatrixPower(A, 3)' and maple_code(A ** S.Half) == 'MatrixPower(A, 1/2)'"},"spec":{"lhs":"test_MatrixSymbol()","rhs":"test_MatrixSymbol produces the expected output","over":{"base":"Any"},"name":"test_MatrixSymbol_correct"},"guarantee":"test_MatrixSymbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_MatrixSymbol_correct","statement":"Path(test_MatrixSymbol(x), test_MatrixSymbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c763ba18254d748"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_MatrixSymbol","kind":"function","src_hash":"a4940bcb6f92ad22","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(A * B) == 'A.B' and maple_code(B * A) == 'B.A' and maple_code(2 * A * B) == '2*A.B' and maple_code(B * 2 * A) == '2*B.A' and maple_code(A * (B + 3 * Identity(n))) == 'A.(3*Matrix(n, shape = identity) + B)' and maple_code(A ** x ** 2) == 'MatrixPower(A, x^2)' and maple_code(A ** 3) == 'MatrixPower(A, 3)' and maple_code(A ** S.Half) == 'MatrixPower(A, 1/2)'"},"spec":{"lhs":"test_MatrixSymbol()","rhs":"maple_code(A * B) == 'A.B' and maple_code(B * A) == 'B.A' and maple_code(2 * A * B) == '2*A.B' and maple_code(B * 2 * A) == '2*B.A' and maple_code(A * (B + 3 * Identity(n))) == 'A.(3*Matrix(n, shape = identity) + B)' and maple_code(A ** x ** 2) == 'MatrixPower(A, x^2)' and maple_code(A ** 3) == 'MatrixPower(A, 3)' and maple_code(A ** S.Half) == 'MatrixPower(A, 1/2)'","over":{"base":"Any"},"name":"test_MatrixSymbol_correct"},"guarantee":"maple_code(A * B) == 'A.B'; maple_code(B * A) == 'B.A'; maple_code(2 * A * B) == '2*A.B'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_MatrixSymbol_correct","statement":"Path(test_MatrixSymbol(x), maple_code(A * B) == 'A.B'; maple_code(B * A) == 'B.A'; maple_code(2 * A * B) == '2*A.B')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c042faec4d73a96f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(A * B) == 'A.B'","maple_code(B * A) == 'B.A'","maple_code(2 * A * B) == '2*A.B'","maple_code(B * 2 * A) == '2*B.A'","maple_code(A * (B + 3 * Identity(n))) == 'A.(3*Matrix(n, shape = identity) + B)'","maple_code(A ** x ** 2) == 'MatrixPower(A, x^2)'","maple_code(A ** 3) == 'MatrixPower(A, 3)'","maple_code(A ** S.Half) == 'MatrixPower(A, 1/2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_MatrixSymbol():
     n = Symbol('n', integer=True)
     A = MatrixSymbol('A', n, n)
@@ -434,32 +572,47 @@ def test_MatrixSymbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_special_matrices(), test_special_matrices produces the expected output) over Any ║
+# ║ Path(test_special_matrices(), maple_code(6 * Identity(3)) == '6*Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]], storage = sparse)' and maple_code(Identity(x)) == 'Matrix(x, shape = identity)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_special_matrices : Any → {Any | maple_code(Ident...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(6 * Identity(3)) == '6*Matrix(...   ║
+# ║   ensures:  maple_code(Identity(x)) == 'Matrix(x, sha...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_special_matrices : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b2a6304a1ae6783  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aab7bc44f10a4ce1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_special_matrices","kind":"function","src_hash":"83ddb807eb76fbbf","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(Identity(x)) == 'Matrix(x, shape = identity)'"},"spec":{"lhs":"test_special_matrices()","rhs":"test_special_matrices produces the expected output","over":{"base":"Any"},"name":"test_special_matrices_correct"},"guarantee":"test_special_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_special_matrices_correct","statement":"Path(test_special_matrices(x), test_special_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b2a6304a1ae6783"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_special_matrices","kind":"function","src_hash":"83ddb807eb76fbbf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(6 * Identity(3)) == '6*Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]], storage = sparse)' and maple_code(Identity(x)) == 'Matrix(x, shape = identity)'"},"spec":{"lhs":"test_special_matrices()","rhs":"maple_code(6 * Identity(3)) == '6*Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]], storage = sparse)' and maple_code(Identity(x)) == 'Matrix(x, shape = identity)'","over":{"base":"Any"},"name":"test_special_matrices_correct"},"guarantee":"maple_code(6 * Identity(3)) == '6*Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]], storage = sparse)'; maple_code(Identity(x)) == 'Matrix(x, shape = identity)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_special_matrices_correct","statement":"Path(test_special_matrices(x), maple_code(6 * Identity(3)) == '6*Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]], storage = sparse)'; maple_code(Identity(x)) == 'Matrix(x, shape = identity)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aab7bc44f10a4ce1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(6 * Identity(3)) == '6*Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]], storage = sparse)'","maple_code(Identity(x)) == 'Matrix(x, shape = identity)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_special_matrices():
     assert maple_code(6 * Identity(3)) == "6*Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]], storage = sparse)"
     assert maple_code(Identity(x)) == 'Matrix(x, shape = identity)'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_containers(), test_containers produces the expected output) over Any ║
+# ║ Path(test_containers(), maple_code([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '[1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]' and maple_code((1, 2, (3, 4))) == '[1, 2, [3, 4]]' and maple_code([1]) == '[1]' and maple_code((1,)) == '[1]' and maple_code(Tuple(*[1, 2, 3])) == '[1, 2, 3]' and maple_code((1, x * y, (3, x ** 2))) == '[1, x*y, [3, x^2]]' and maple_code((1, eye(3), Matrix(0, 0, []), [])) == '[1, Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]], storage = rectangular), Matrix([], storage = rectangular), []]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_containers : Any → {Any | maple_code((1, 2, (3, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code([1, 2, 3, [4, 5, [6, 7]], 8, [...   ║
+# ║   ensures:  maple_code((1, 2, (3, 4))) == '[1, 2, [3,...   ║
+# ║   ensures:  maple_code([1]) == '[1]'                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_containers : Any → {Any | result satisfies: mapl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adcd31702142a00a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80f227f324bc7f68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_containers","kind":"function","src_hash":"38b048ab4925455c","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code((1, 2, (3, 4))) == '[1, 2, [3, 4]]' and maple_code([1]) == '[1]' and maple_code((1,)) == '[1]' and maple_code(Tuple(*[1, 2, 3])) == '[1, 2, 3]' and maple_code((1, x * y, (3, x ** 2))) == '[1, x*y, [3, x^2]]'"},"spec":{"lhs":"test_containers()","rhs":"test_containers produces the expected output","over":{"base":"Any"},"name":"test_containers_correct"},"guarantee":"test_containers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_containers_correct","statement":"Path(test_containers(x), test_containers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adcd31702142a00a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_containers","kind":"function","src_hash":"38b048ab4925455c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '[1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]' and maple_code((1, 2, (3, 4))) == '[1, 2, [3, 4]]' and maple_code([1]) == '[1]' and maple_code((1,)) == '[1]' and maple_code(Tuple(*[1, 2, 3])) == '[1, 2, 3]' and maple_code((1, x * y, (3, x ** 2))) == '[1, x*y, [3, x^2]]' and maple_code((1, eye(3), Matrix(0, 0, []), [])) == '[1, Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]], storage = rectangular), Matrix([], storage = rectangular), []]'"},"spec":{"lhs":"test_containers()","rhs":"maple_code([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '[1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]' and maple_code((1, 2, (3, 4))) == '[1, 2, [3, 4]]' and maple_code([1]) == '[1]' and maple_code((1,)) == '[1]' and maple_code(Tuple(*[1, 2, 3])) == '[1, 2, 3]' and maple_code((1, x * y, (3, x ** 2))) == '[1, x*y, [3, x^2]]' and maple_code((1, eye(3), Matrix(0, 0, []), [])) == '[1, Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]], storage = rectangular), Matrix([], storage = rectangular), []]'","over":{"base":"Any"},"name":"test_containers_correct"},"guarantee":"maple_code([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '[1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]'; maple_code((1, 2, (3, 4))) == '[1, 2, [3, 4]]'; maple_code([1]) == '[1]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_containers_correct","statement":"Path(test_containers(x), maple_code([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '[1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]'; maple_code((1, 2, (3, 4))) == '[1, 2, [3, 4]]'; maple_code([1]) == '[1]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80f227f324bc7f68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '[1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]'","maple_code((1, 2, (3, 4))) == '[1, 2, [3, 4]]'","maple_code([1]) == '[1]'","maple_code((1,)) == '[1]'","maple_code(Tuple(*[1, 2, 3])) == '[1, 2, 3]'","maple_code((1, x * y, (3, x ** 2))) == '[1, x*y, [3, x^2]]'","maple_code((1, eye(3), Matrix(0, 0, []), [])) == '[1, Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]], storage = rectangular), Matrix([], storage = rectangular), []]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_containers():
     assert maple_code([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == \
            "[1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]"
@@ -476,16 +629,22 @@ def test_containers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_maple_noninline(), test_maple_noninline produces the expected output) over Any ║
+# ║ Path(test_maple_noninline(), source == expected) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_maple_noninline : Any → {Any | source == expected}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_maple_noninline : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ac5d595aa596cc7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21994138620a4178  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_noninline","kind":"function","src_hash":"4b1a7a0290c1e208","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_maple_noninline()","rhs":"test_maple_noninline produces the expected output","over":{"base":"Any"},"name":"test_maple_noninline_correct"},"guarantee":"test_maple_noninline produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_noninline_correct","statement":"Path(test_maple_noninline(x), test_maple_noninline produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ac5d595aa596cc7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_noninline","kind":"function","src_hash":"4b1a7a0290c1e208","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_maple_noninline()","rhs":"source == expected","over":{"base":"Any"},"name":"test_maple_noninline_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_noninline_correct","statement":"Path(test_maple_noninline(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21994138620a4178","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_maple_noninline():
     source = maple_code((x + y)/Catalan, assign_to='me', inline=False)
     expected = "me := (x + y)/Catalan"
@@ -494,16 +653,23 @@ def test_maple_noninline():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_maple_matrix_assign_to(), test_maple_matrix_assign_to produces the expected output) over Any ║
+# ║ Path(test_maple_matrix_assign_to(), maple_code(A, assign_to='a') == 'a := Matrix([[1, 2, 3]], storage = rectangular)' and maple_code(A, assign_to='A') == 'A := Matrix([[1, 2], [3, 4]], storage = rectangular)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_maple_matrix_assign_to : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(A, assign_to='a') == 'a := Mat...   ║
+# ║   ensures:  maple_code(A, assign_to='A') == 'A := Mat...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_maple_matrix_assign_to : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55ad60a51bbd1319  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 471d3f3d8c400e1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_matrix_assign_to","kind":"function","src_hash":"894b48daeab12b57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_maple_matrix_assign_to()","rhs":"test_maple_matrix_assign_to produces the expected output","over":{"base":"Any"},"name":"test_maple_matrix_assign_to_correct"},"guarantee":"test_maple_matrix_assign_to produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_matrix_assign_to_correct","statement":"Path(test_maple_matrix_assign_to(x), test_maple_matrix_assign_to produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55ad60a51bbd1319"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_matrix_assign_to","kind":"function","src_hash":"894b48daeab12b57","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(A, assign_to='a') == 'a := Matrix([[1, 2, 3]], storage = rectangular)' and maple_code(A, assign_to='A') == 'A := Matrix([[1, 2], [3, 4]], storage = rectangular)'"},"spec":{"lhs":"test_maple_matrix_assign_to()","rhs":"maple_code(A, assign_to='a') == 'a := Matrix([[1, 2, 3]], storage = rectangular)' and maple_code(A, assign_to='A') == 'A := Matrix([[1, 2], [3, 4]], storage = rectangular)'","over":{"base":"Any"},"name":"test_maple_matrix_assign_to_correct"},"guarantee":"maple_code(A, assign_to='a') == 'a := Matrix([[1, 2, 3]], storage = rectangular)'; maple_code(A, assign_to='A') == 'A := Matrix([[1, 2], [3, 4]], storage = rectangular)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_matrix_assign_to_correct","statement":"Path(test_maple_matrix_assign_to(x), maple_code(A, assign_to='a') == 'a := Matrix([[1, 2, 3]], storage = rectangular)'; maple_code(A, assign_to='A') == 'A := Matrix([[1, 2], [3, 4]], storage = rectangular)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"471d3f3d8c400e1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(A, assign_to='a') == 'a := Matrix([[1, 2, 3]], storage = rectangular)'","maple_code(A, assign_to='A') == 'A := Matrix([[1, 2], [3, 4]], storage = rectangular)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_maple_matrix_assign_to():
     A = Matrix([[1, 2, 3]])
     assert maple_code(A, assign_to='a') == "a := Matrix([[1, 2, 3]], storage = rectangular)"
@@ -512,16 +678,22 @@ def test_maple_matrix_assign_to():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_maple_matrix_assign_to_more(), test_maple_matrix_assign_to_more produces the expected output) over Any ║
+# ║ Path(test_maple_matrix_assign_to_more(), maple_code(A, assign_to=B) == 'B := Matrix([[1, 2, 3]], storage = rectangular)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_maple_matrix_assign_to_more : Any → {Any | maple...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(A, assign_to=B) == 'B := Matri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_maple_matrix_assign_to_more : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5773e1e3f204021d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1042d0468384da2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_matrix_assign_to_more","kind":"function","src_hash":"e50af23e7203a8af","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(A, assign_to=B) == 'B := Matrix([[1, 2, 3]], storage = rectangular)'"},"spec":{"lhs":"test_maple_matrix_assign_to_more()","rhs":"test_maple_matrix_assign_to_more produces the expected output","over":{"base":"Any"},"name":"test_maple_matrix_assign_to_more_correct"},"guarantee":"test_maple_matrix_assign_to_more produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_matrix_assign_to_more_correct","statement":"Path(test_maple_matrix_assign_to_more(x), test_maple_matrix_assign_to_more produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5773e1e3f204021d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_matrix_assign_to_more","kind":"function","src_hash":"e50af23e7203a8af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(A, assign_to=B) == 'B := Matrix([[1, 2, 3]], storage = rectangular)'"},"spec":{"lhs":"test_maple_matrix_assign_to_more()","rhs":"maple_code(A, assign_to=B) == 'B := Matrix([[1, 2, 3]], storage = rectangular)'","over":{"base":"Any"},"name":"test_maple_matrix_assign_to_more_correct"},"guarantee":"maple_code(A, assign_to=B) == 'B := Matrix([[1, 2, 3]], storage = rectangular)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_matrix_assign_to_more_correct","statement":"Path(test_maple_matrix_assign_to_more(x), maple_code(A, assign_to=B) == 'B := Matrix([[1, 2, 3]], storage = rectangular)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1042d0468384da2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(A, assign_to=B) == 'B := Matrix([[1, 2, 3]], storage = rectangular)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_maple_matrix_assign_to_more():
     # assigning to Symbol or MatrixSymbol requires lhs/rhs match
     A = Matrix([[1, 2, 3]])
@@ -533,32 +705,46 @@ def test_maple_matrix_assign_to_more():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_maple_matrix_1x1(), test_maple_matrix_1x1 produces the expected output) over Any ║
+# ║ Path(test_maple_matrix_1x1(), maple_code(A, assign_to='B') == 'B := Matrix([[3]], storage = rectangular)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_maple_matrix_1x1 : Any → {Any | maple_code(A, as...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(A, assign_to='B') == 'B := Mat...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_maple_matrix_1x1 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b592249e6e07a0a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d694e975ec49ddd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_matrix_1x1","kind":"function","src_hash":"4dd1abfd9ea7fbf8","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(A, assign_to='B') == 'B := Matrix([[3]], storage = rectangular)'"},"spec":{"lhs":"test_maple_matrix_1x1()","rhs":"test_maple_matrix_1x1 produces the expected output","over":{"base":"Any"},"name":"test_maple_matrix_1x1_correct"},"guarantee":"test_maple_matrix_1x1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_matrix_1x1_correct","statement":"Path(test_maple_matrix_1x1(x), test_maple_matrix_1x1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b592249e6e07a0a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_matrix_1x1","kind":"function","src_hash":"4dd1abfd9ea7fbf8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(A, assign_to='B') == 'B := Matrix([[3]], storage = rectangular)'"},"spec":{"lhs":"test_maple_matrix_1x1()","rhs":"maple_code(A, assign_to='B') == 'B := Matrix([[3]], storage = rectangular)'","over":{"base":"Any"},"name":"test_maple_matrix_1x1_correct"},"guarantee":"maple_code(A, assign_to='B') == 'B := Matrix([[3]], storage = rectangular)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_matrix_1x1_correct","statement":"Path(test_maple_matrix_1x1(x), maple_code(A, assign_to='B') == 'B := Matrix([[3]], storage = rectangular)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d694e975ec49ddd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(A, assign_to='B') == 'B := Matrix([[3]], storage = rectangular)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_maple_matrix_1x1():
     A = Matrix([[3]])
     assert maple_code(A, assign_to='B') == "B := Matrix([[3]], storage = rectangular)"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_maple_matrix_elements(), test_maple_matrix_elements produces the expected output) over Any ║
+# ║ Path(test_maple_matrix_elements(), maple_code(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x^2 + x*y + 2' and maple_code(AA) == 'AA' and maple_code(AA[0, 0] ** 2 + sin(AA[0, 1]) + AA[0, 2]) == 'sin(AA[1, 2]) + AA[1, 1]^2 + AA[1, 3]' and maple_code(sum(AA)) == 'AA[1, 1] + AA[1, 2] + AA[1, 3]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_maple_matrix_elements : Any → {Any | maple_code(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(A[0, 0] ** 2 + A[0, 1] + A[0, ...   ║
+# ║   ensures:  maple_code(AA) == 'AA'                         ║
+# ║   ensures:  maple_code(AA[0, 0] ** 2 + sin(AA[0, 1]) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_maple_matrix_elements : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61821a9a5c6f9a6a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c57418de64fe4cd0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_matrix_elements","kind":"function","src_hash":"02b4b14b707681de","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x^2 + x*y + 2' and maple_code(AA) == 'AA' and maple_code(sum(AA)) == 'AA[1, 1] + AA[1, 2] + AA[1, 3]'"},"spec":{"lhs":"test_maple_matrix_elements()","rhs":"test_maple_matrix_elements produces the expected output","over":{"base":"Any"},"name":"test_maple_matrix_elements_correct"},"guarantee":"test_maple_matrix_elements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_matrix_elements_correct","statement":"Path(test_maple_matrix_elements(x), test_maple_matrix_elements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61821a9a5c6f9a6a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_matrix_elements","kind":"function","src_hash":"02b4b14b707681de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x^2 + x*y + 2' and maple_code(AA) == 'AA' and maple_code(AA[0, 0] ** 2 + sin(AA[0, 1]) + AA[0, 2]) == 'sin(AA[1, 2]) + AA[1, 1]^2 + AA[1, 3]' and maple_code(sum(AA)) == 'AA[1, 1] + AA[1, 2] + AA[1, 3]'"},"spec":{"lhs":"test_maple_matrix_elements()","rhs":"maple_code(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x^2 + x*y + 2' and maple_code(AA) == 'AA' and maple_code(AA[0, 0] ** 2 + sin(AA[0, 1]) + AA[0, 2]) == 'sin(AA[1, 2]) + AA[1, 1]^2 + AA[1, 3]' and maple_code(sum(AA)) == 'AA[1, 1] + AA[1, 2] + AA[1, 3]'","over":{"base":"Any"},"name":"test_maple_matrix_elements_correct"},"guarantee":"maple_code(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x^2 + x*y + 2'; maple_code(AA) == 'AA'; maple_code(AA[0, 0] ** 2 + sin(AA[0, 1]) + AA[0, 2]) == 'sin(AA[1, 2]) + AA[1, 1]^2 + AA[1, 3]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_matrix_elements_correct","statement":"Path(test_maple_matrix_elements(x), maple_code(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x^2 + x*y + 2'; maple_code(AA) == 'AA'; maple_code(AA[0, 0] ** 2 + sin(AA[0, 1]) + AA[0, 2]) == 'sin(AA[1, 2]) + AA[1, 1]^2 + AA[1, 3]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c57418de64fe4cd0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x^2 + x*y + 2'","maple_code(AA) == 'AA'","maple_code(AA[0, 0] ** 2 + sin(AA[0, 1]) + AA[0, 2]) == 'sin(AA[1, 2]) + AA[1, 1]^2 + AA[1, 3]'","maple_code(sum(AA)) == 'AA[1, 1] + AA[1, 2] + AA[1, 3]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_maple_matrix_elements():
     A = Matrix([[x, 2, x * y]])
 
@@ -572,16 +758,24 @@ def test_maple_matrix_elements():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_maple_boolean(), test_maple_boolean produces the expected output) over Any ║
+# ║ Path(test_maple_boolean(), maple_code(True) == 'true' and maple_code(S.true) == 'true' and maple_code(False) == 'false' and maple_code(S.false) == 'false') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_maple_boolean : Any → {Any | maple_code(True) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(True) == 'true'                     ║
+# ║   ensures:  maple_code(S.true) == 'true'                   ║
+# ║   ensures:  maple_code(False) == 'false'                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_maple_boolean : Any → {Any | result satisfies: m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9c14b7ffa386d5f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8308d668bf66bbb9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_boolean","kind":"function","src_hash":"1767ed6c2e9dce5e","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(True) == 'true' and maple_code(S.true) == 'true' and maple_code(False) == 'false' and maple_code(S.false) == 'false'"},"spec":{"lhs":"test_maple_boolean()","rhs":"test_maple_boolean produces the expected output","over":{"base":"Any"},"name":"test_maple_boolean_correct"},"guarantee":"test_maple_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_boolean_correct","statement":"Path(test_maple_boolean(x), test_maple_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9c14b7ffa386d5f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_boolean","kind":"function","src_hash":"1767ed6c2e9dce5e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(True) == 'true' and maple_code(S.true) == 'true' and maple_code(False) == 'false' and maple_code(S.false) == 'false'"},"spec":{"lhs":"test_maple_boolean()","rhs":"maple_code(True) == 'true' and maple_code(S.true) == 'true' and maple_code(False) == 'false' and maple_code(S.false) == 'false'","over":{"base":"Any"},"name":"test_maple_boolean_correct"},"guarantee":"maple_code(True) == 'true'; maple_code(S.true) == 'true'; maple_code(False) == 'false'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_boolean_correct","statement":"Path(test_maple_boolean(x), maple_code(True) == 'true'; maple_code(S.true) == 'true'; maple_code(False) == 'false')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8308d668bf66bbb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(True) == 'true'","maple_code(S.true) == 'true'","maple_code(False) == 'false'","maple_code(S.false) == 'false'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_maple_boolean():
     assert maple_code(True) == "true"
     assert maple_code(S.true) == "true"
@@ -590,16 +784,22 @@ def test_maple_boolean():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sparse(), test_sparse produces the expected output) over Any ║
+# ║ Path(test_sparse(), maple_code(M) == 'Matrix([[0, 0, 0, 30, 0, 0], [0, 0, 20, 22, 0, 0], [0, 0, 10, 0, 0, 0], [x*y, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], storage = sparse)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sparse : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(M) == 'Matrix([[0, 0, 0, 30, 0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sparse : Any → {Any | result satisfies: maple_co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 840f61c2c84e520a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 317848883934ead0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_sparse","kind":"function","src_hash":"4c7cd4096f93b3ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_sparse()","rhs":"test_sparse produces the expected output","over":{"base":"Any"},"name":"test_sparse_correct"},"guarantee":"test_sparse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_sparse_correct","statement":"Path(test_sparse(x), test_sparse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"840f61c2c84e520a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_sparse","kind":"function","src_hash":"4c7cd4096f93b3ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(M) == 'Matrix([[0, 0, 0, 30, 0, 0], [0, 0, 20, 22, 0, 0], [0, 0, 10, 0, 0, 0], [x*y, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], storage = sparse)'"},"spec":{"lhs":"test_sparse()","rhs":"maple_code(M) == 'Matrix([[0, 0, 0, 30, 0, 0], [0, 0, 20, 22, 0, 0], [0, 0, 10, 0, 0, 0], [x*y, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], storage = sparse)'","over":{"base":"Any"},"name":"test_sparse_correct"},"guarantee":"maple_code(M) == 'Matrix([[0, 0, 0, 30, 0, 0], [0, 0, 20, 22, 0, 0], [0, 0, 10, 0, 0, 0], [x*y, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], storage = sparse)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_sparse_correct","statement":"Path(test_sparse(x), maple_code(M) == 'Matrix([[0, 0, 0, 30, 0, 0], [0, 0, 20, 22, 0, 0], [0, 0, 10, 0, 0, 0], [x*y, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], storage = sparse)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"317848883934ead0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(M) == 'Matrix([[0, 0, 0, 30, 0, 0], [0, 0, 20, 22, 0, 0], [0, 0, 10, 0, 0, 0], [x*y, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]], storage = sparse)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sparse():
     M = SparseMatrix(5, 6, {})
     M[2, 2] = 10
@@ -617,32 +817,46 @@ def test_sparse():
 
 # Not an important point.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_maple_not_supported(), test_maple_not_supported produces the expected output) over Any ║
+# ║ Path(test_maple_not_supported(), <unspecified:test_maple_not_supported>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_maple_not_supported : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42a635d01468e14d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_not_supported","kind":"function","src_hash":"e9418500bd195613","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_maple_not_supported()","rhs":"test_maple_not_supported produces the expected output","over":{"base":"Any"},"name":"test_maple_not_supported_correct"},"guarantee":"test_maple_not_supported produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_not_supported_correct","statement":"Path(test_maple_not_supported(x), test_maple_not_supported produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42a635d01468e14d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_not_supported","kind":"function","src_hash":"e9418500bd195613","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_maple_not_supported()","rhs":"<unspecified:test_maple_not_supported>","over":{"base":"Any"},"name":"test_maple_not_supported_correct"},"guarantee":"test_maple_not_supported produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_not_supported_correct","statement":"Path(test_maple_not_supported(x), test_maple_not_supported produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42a635d01468e14d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_maple_not_supported():
     with raises(NotImplementedError):
         maple_code(S.ComplexInfinity)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixElement_printing(), test_MatrixElement_printing produces the expected output) over Any ║
+# ║ Path(test_MatrixElement_printing(), maple_code(A[0, 0]) == 'A[1, 1]' and maple_code(3 * A[0, 0]) == '3*A[1, 1]' and maple_code(F[0, 0]) == 'A[1, 1] - B[1, 1]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixElement_printing : Any → {Any | maple_code...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(A[0, 0]) == 'A[1, 1]'               ║
+# ║   ensures:  maple_code(3 * A[0, 0]) == '3*A[1, 1]'         ║
+# ║   ensures:  maple_code(F[0, 0]) == 'A[1, 1] - B[1, 1]'     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixElement_printing : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 730c0331b2a5b02a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b767bb3219674849  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_MatrixElement_printing","kind":"function","src_hash":"783b69d20e59e422","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(A[0, 0]) == 'A[1, 1]' and maple_code(3 * A[0, 0]) == '3*A[1, 1]' and maple_code(F[0, 0]) == 'A[1, 1] - B[1, 1]'"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"test_MatrixElement_printing produces the expected output","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"test_MatrixElement_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), test_MatrixElement_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"730c0331b2a5b02a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_MatrixElement_printing","kind":"function","src_hash":"783b69d20e59e422","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(A[0, 0]) == 'A[1, 1]' and maple_code(3 * A[0, 0]) == '3*A[1, 1]' and maple_code(F[0, 0]) == 'A[1, 1] - B[1, 1]'"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"maple_code(A[0, 0]) == 'A[1, 1]' and maple_code(3 * A[0, 0]) == '3*A[1, 1]' and maple_code(F[0, 0]) == 'A[1, 1] - B[1, 1]'","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"maple_code(A[0, 0]) == 'A[1, 1]'; maple_code(3 * A[0, 0]) == '3*A[1, 1]'; maple_code(F[0, 0]) == 'A[1, 1] - B[1, 1]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), maple_code(A[0, 0]) == 'A[1, 1]'; maple_code(3 * A[0, 0]) == '3*A[1, 1]'; maple_code(F[0, 0]) == 'A[1, 1] - B[1, 1]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b767bb3219674849","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(A[0, 0]) == 'A[1, 1]'","maple_code(3 * A[0, 0]) == '3*A[1, 1]'","maple_code(F[0, 0]) == 'A[1, 1] - B[1, 1]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixElement_printing():
     # test cases for issue #11821
     A = MatrixSymbol("A", 1, 3)
@@ -657,16 +871,24 @@ def test_MatrixElement_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hadamard(), test_hadamard produces the expected output) over Any ║
+# ║ Path(test_hadamard(), maple_code(C) == 'A*B' and maple_code(C * v) == '(A*B).v' and maple_code(h * C * v) == 'h.(A*B).v' and maple_code(C * A) == '(A*B).A' and maple_code(C * x * y) == 'x*y*(A*B)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hadamard : Any → {Any | maple_code(C) == 'A*B' a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(C) == 'A*B'                         ║
+# ║   ensures:  maple_code(C * v) == '(A*B).v'                 ║
+# ║   ensures:  maple_code(h * C * v) == 'h.(A*B).v'           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hadamard : Any → {Any | result satisfies: maple_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97b325032331d492  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d262cc41f229d0c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_hadamard","kind":"function","src_hash":"2cd1f9c22f7d4d13","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(C) == 'A*B' and maple_code(C * v) == '(A*B).v' and maple_code(h * C * v) == 'h.(A*B).v' and maple_code(C * A) == '(A*B).A' and maple_code(C * x * y) == 'x*y*(A*B)'"},"spec":{"lhs":"test_hadamard()","rhs":"test_hadamard produces the expected output","over":{"base":"Any"},"name":"test_hadamard_correct"},"guarantee":"test_hadamard produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_hadamard_correct","statement":"Path(test_hadamard(x), test_hadamard produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97b325032331d492"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_hadamard","kind":"function","src_hash":"2cd1f9c22f7d4d13","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(C) == 'A*B' and maple_code(C * v) == '(A*B).v' and maple_code(h * C * v) == 'h.(A*B).v' and maple_code(C * A) == '(A*B).A' and maple_code(C * x * y) == 'x*y*(A*B)'"},"spec":{"lhs":"test_hadamard()","rhs":"maple_code(C) == 'A*B' and maple_code(C * v) == '(A*B).v' and maple_code(h * C * v) == 'h.(A*B).v' and maple_code(C * A) == '(A*B).A' and maple_code(C * x * y) == 'x*y*(A*B)'","over":{"base":"Any"},"name":"test_hadamard_correct"},"guarantee":"maple_code(C) == 'A*B'; maple_code(C * v) == '(A*B).v'; maple_code(h * C * v) == 'h.(A*B).v'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_hadamard_correct","statement":"Path(test_hadamard(x), maple_code(C) == 'A*B'; maple_code(C * v) == '(A*B).v'; maple_code(h * C * v) == 'h.(A*B).v')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d262cc41f229d0c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(C) == 'A*B'","maple_code(C * v) == '(A*B).v'","maple_code(h * C * v) == 'h.(A*B).v'","maple_code(C * A) == '(A*B).A'","maple_code(C * x * y) == 'x*y*(A*B)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_hadamard():
     A = MatrixSymbol('A', 3, 3)
     B = MatrixSymbol('B', 3, 3)
@@ -687,16 +909,24 @@ def test_hadamard():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_maple_piecewise(), test_maple_piecewise produces the expected output) over Any ║
+# ║ Path(test_maple_piecewise(), maple_code(expr) == 'piecewise(x < 1, x, x^2)' and maple_code(expr, assign_to='r') == 'r := piecewise(x < 1, x, x^2)' and maple_code(expr) == expected and maple_code(expr, assign_to='r') == 'r := ' + expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_maple_piecewise : Any → {Any | maple_code(expr) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(expr) == 'piecewise(x < 1, x, ...   ║
+# ║   ensures:  maple_code(expr, assign_to='r') == 'r := ...   ║
+# ║   ensures:  maple_code(expr) == expected                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_maple_piecewise : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c8cdff1150873ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f1d375fe526daab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_piecewise","kind":"function","src_hash":"c02b8c3e261f0e09","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(expr) == 'piecewise(x < 1, x, x^2)' and maple_code(expr, assign_to='r') == 'r := piecewise(x < 1, x, x^2)' and maple_code(expr) == expected and maple_code(expr, assign_to='r') == 'r := ' + expected"},"spec":{"lhs":"test_maple_piecewise()","rhs":"test_maple_piecewise produces the expected output","over":{"base":"Any"},"name":"test_maple_piecewise_correct"},"guarantee":"test_maple_piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_piecewise_correct","statement":"Path(test_maple_piecewise(x), test_maple_piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c8cdff1150873ee"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_piecewise","kind":"function","src_hash":"c02b8c3e261f0e09","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(expr) == 'piecewise(x < 1, x, x^2)' and maple_code(expr, assign_to='r') == 'r := piecewise(x < 1, x, x^2)' and maple_code(expr) == expected and maple_code(expr, assign_to='r') == 'r := ' + expected"},"spec":{"lhs":"test_maple_piecewise()","rhs":"maple_code(expr) == 'piecewise(x < 1, x, x^2)' and maple_code(expr, assign_to='r') == 'r := piecewise(x < 1, x, x^2)' and maple_code(expr) == expected and maple_code(expr, assign_to='r') == 'r := ' + expected","over":{"base":"Any"},"name":"test_maple_piecewise_correct"},"guarantee":"maple_code(expr) == 'piecewise(x < 1, x, x^2)'; maple_code(expr, assign_to='r') == 'r := piecewise(x < 1, x, x^2)'; maple_code(expr) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_piecewise_correct","statement":"Path(test_maple_piecewise(x), maple_code(expr) == 'piecewise(x < 1, x, x^2)'; maple_code(expr, assign_to='r') == 'r := piecewise(x < 1, x, x^2)'; maple_code(expr) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f1d375fe526daab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(expr) == 'piecewise(x < 1, x, x^2)'","maple_code(expr, assign_to='r') == 'r := piecewise(x < 1, x, x^2)'","maple_code(expr) == expected","maple_code(expr, assign_to='r') == 'r := ' + expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_maple_piecewise():
     expr = Piecewise((x, x < 1), (x ** 2, True))
 
@@ -715,16 +945,24 @@ def test_maple_piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_maple_piecewise_times_const(), test_maple_piecewise_times_const produces the expected output) over Any ║
+# ║ Path(test_maple_piecewise_times_const(), maple_code(2 * pw) == '2*piecewise(x < 1, x, x^2)' and maple_code(pw / x) == 'piecewise(x < 1, x, x^2)/x' and maple_code(pw / (x * y)) == 'piecewise(x < 1, x, x^2)/(x*y)' and maple_code(pw / 3) == '(1/3)*piecewise(x < 1, x, x^2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_maple_piecewise_times_const : Any → {Any | maple...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(2 * pw) == '2*piecewise(x < 1,...   ║
+# ║   ensures:  maple_code(pw / x) == 'piecewise(x < 1, x...   ║
+# ║   ensures:  maple_code(pw / (x * y)) == 'piecewise(x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_maple_piecewise_times_const : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c18ad5140c4f0b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de26f468839c0c95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_piecewise_times_const","kind":"function","src_hash":"97975909b26ca54e","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(2 * pw) == '2*piecewise(x < 1, x, x^2)' and maple_code(pw / x) == 'piecewise(x < 1, x, x^2)/x' and maple_code(pw / (x * y)) == 'piecewise(x < 1, x, x^2)/(x*y)' and maple_code(pw / 3) == '(1/3)*piecewise(x < 1, x, x^2)'"},"spec":{"lhs":"test_maple_piecewise_times_const()","rhs":"test_maple_piecewise_times_const produces the expected output","over":{"base":"Any"},"name":"test_maple_piecewise_times_const_correct"},"guarantee":"test_maple_piecewise_times_const produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_piecewise_times_const_correct","statement":"Path(test_maple_piecewise_times_const(x), test_maple_piecewise_times_const produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c18ad5140c4f0b0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_piecewise_times_const","kind":"function","src_hash":"97975909b26ca54e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(2 * pw) == '2*piecewise(x < 1, x, x^2)' and maple_code(pw / x) == 'piecewise(x < 1, x, x^2)/x' and maple_code(pw / (x * y)) == 'piecewise(x < 1, x, x^2)/(x*y)' and maple_code(pw / 3) == '(1/3)*piecewise(x < 1, x, x^2)'"},"spec":{"lhs":"test_maple_piecewise_times_const()","rhs":"maple_code(2 * pw) == '2*piecewise(x < 1, x, x^2)' and maple_code(pw / x) == 'piecewise(x < 1, x, x^2)/x' and maple_code(pw / (x * y)) == 'piecewise(x < 1, x, x^2)/(x*y)' and maple_code(pw / 3) == '(1/3)*piecewise(x < 1, x, x^2)'","over":{"base":"Any"},"name":"test_maple_piecewise_times_const_correct"},"guarantee":"maple_code(2 * pw) == '2*piecewise(x < 1, x, x^2)'; maple_code(pw / x) == 'piecewise(x < 1, x, x^2)/x'; maple_code(pw / (x * y)) == 'piecewise(x < 1, x, x^2)/(x*y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_piecewise_times_const_correct","statement":"Path(test_maple_piecewise_times_const(x), maple_code(2 * pw) == '2*piecewise(x < 1, x, x^2)'; maple_code(pw / x) == 'piecewise(x < 1, x, x^2)/x'; maple_code(pw / (x * y)) == 'piecewise(x < 1, x, x^2)/(x*y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de26f468839c0c95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(2 * pw) == '2*piecewise(x < 1, x, x^2)'","maple_code(pw / x) == 'piecewise(x < 1, x, x^2)/x'","maple_code(pw / (x * y)) == 'piecewise(x < 1, x, x^2)/(x*y)'","maple_code(pw / 3) == '(1/3)*piecewise(x < 1, x, x^2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_maple_piecewise_times_const():
     pw = Piecewise((x, x < 1), (x ** 2, True))
 
@@ -735,16 +973,23 @@ def test_maple_piecewise_times_const():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_maple_derivatives(), test_maple_derivatives produces the expected output) over Any ║
+# ║ Path(test_maple_derivatives(), maple_code(f(x).diff(x)) == 'diff(f(x), x)' and maple_code(f(x).diff(x, 2)) == 'diff(f(x), x$2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_maple_derivatives : Any → {Any | maple_code(f(x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(f(x).diff(x)) == 'diff(f(x), x)'    ║
+# ║   ensures:  maple_code(f(x).diff(x, 2)) == 'diff(f(x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_maple_derivatives : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ee3b98922acdfa9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87125bb7bbaa0d64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_derivatives","kind":"function","src_hash":"58621791a168bcfc","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(f(x).diff(x)) == 'diff(f(x), x)' and maple_code(f(x).diff(x, 2)) == 'diff(f(x), x$2)'"},"spec":{"lhs":"test_maple_derivatives()","rhs":"test_maple_derivatives produces the expected output","over":{"base":"Any"},"name":"test_maple_derivatives_correct"},"guarantee":"test_maple_derivatives produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_derivatives_correct","statement":"Path(test_maple_derivatives(x), test_maple_derivatives produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ee3b98922acdfa9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_maple_derivatives","kind":"function","src_hash":"58621791a168bcfc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(f(x).diff(x)) == 'diff(f(x), x)' and maple_code(f(x).diff(x, 2)) == 'diff(f(x), x$2)'"},"spec":{"lhs":"test_maple_derivatives()","rhs":"maple_code(f(x).diff(x)) == 'diff(f(x), x)' and maple_code(f(x).diff(x, 2)) == 'diff(f(x), x$2)'","over":{"base":"Any"},"name":"test_maple_derivatives_correct"},"guarantee":"maple_code(f(x).diff(x)) == 'diff(f(x), x)'; maple_code(f(x).diff(x, 2)) == 'diff(f(x), x$2)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_maple_derivatives_correct","statement":"Path(test_maple_derivatives(x), maple_code(f(x).diff(x)) == 'diff(f(x), x)'; maple_code(f(x).diff(x, 2)) == 'diff(f(x), x$2)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87125bb7bbaa0d64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(f(x).diff(x)) == 'diff(f(x), x)'","maple_code(f(x).diff(x, 2)) == 'diff(f(x), x$2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_maple_derivatives():
     f = Function('f')
     assert maple_code(f(x).diff(x)) == 'diff(f(x), x)'
@@ -752,32 +997,46 @@ def test_maple_derivatives():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_automatic_rewrites(), test_automatic_rewrites produces the expected output) over Any ║
+# ║ Path(test_automatic_rewrites(), maple_code(lucas(x)) == '(2^(-x)*((1 - sqrt(5))^x + (1 + sqrt(5))^x))' and maple_code(sinc(x)) == '(piecewise(x <> 0, sin(x)/x, 1))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_automatic_rewrites : Any → {Any | maple_code(luc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code(lucas(x)) == '(2^(-x)*((1 - sq...   ║
+# ║   ensures:  maple_code(sinc(x)) == '(piecewise(x <> 0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_automatic_rewrites : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f097c12342e09b6a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37c8595926b28812  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_automatic_rewrites","kind":"function","src_hash":"404ae427b092a06f","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code(lucas(x)) == '(2^(-x)*((1 - sqrt(5))^x + (1 + sqrt(5))^x))' and maple_code(sinc(x)) == '(piecewise(x <> 0, sin(x)/x, 1))'"},"spec":{"lhs":"test_automatic_rewrites()","rhs":"test_automatic_rewrites produces the expected output","over":{"base":"Any"},"name":"test_automatic_rewrites_correct"},"guarantee":"test_automatic_rewrites produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_automatic_rewrites_correct","statement":"Path(test_automatic_rewrites(x), test_automatic_rewrites produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f097c12342e09b6a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_automatic_rewrites","kind":"function","src_hash":"404ae427b092a06f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code(lucas(x)) == '(2^(-x)*((1 - sqrt(5))^x + (1 + sqrt(5))^x))' and maple_code(sinc(x)) == '(piecewise(x <> 0, sin(x)/x, 1))'"},"spec":{"lhs":"test_automatic_rewrites()","rhs":"maple_code(lucas(x)) == '(2^(-x)*((1 - sqrt(5))^x + (1 + sqrt(5))^x))' and maple_code(sinc(x)) == '(piecewise(x <> 0, sin(x)/x, 1))'","over":{"base":"Any"},"name":"test_automatic_rewrites_correct"},"guarantee":"maple_code(lucas(x)) == '(2^(-x)*((1 - sqrt(5))^x + (1 + sqrt(5))^x))'; maple_code(sinc(x)) == '(piecewise(x <> 0, sin(x)/x, 1))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_automatic_rewrites_correct","statement":"Path(test_automatic_rewrites(x), maple_code(lucas(x)) == '(2^(-x)*((1 - sqrt(5))^x + (1 + sqrt(5))^x))'; maple_code(sinc(x)) == '(piecewise(x <> 0, sin(x)/x, 1))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37c8595926b28812","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code(lucas(x)) == '(2^(-x)*((1 - sqrt(5))^x + (1 + sqrt(5))^x))'","maple_code(sinc(x)) == '(piecewise(x <> 0, sin(x)/x, 1))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_automatic_rewrites():
     assert maple_code(lucas(x)) == '(2^(-x)*((1 - sqrt(5))^x + (1 + sqrt(5))^x))'
     assert maple_code(sinc(x)) == '(piecewise(x <> 0, sin(x)/x, 1))'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_specfun(), test_specfun produces the expected output) over Any ║
+# ║ Path(test_specfun(), maple_code('asin(x)') == 'arcsin(x)' and maple_code(besseli(x, y)) == 'BesselI(x, y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_specfun : Any → {Any | maple_code('asin(x)') == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  maple_code('asin(x)') == 'arcsin(x)'           ║
+# ║   ensures:  maple_code(besseli(x, y)) == 'BesselI(x, y)'   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_specfun : Any → {Any | result satisfies: maple_c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 518bc4f40496648c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1ae4e05b345923d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_specfun","kind":"function","src_hash":"54121d7689d7ff72","in":{"base":"Any"},"out":{"base":"Any","pred":"maple_code('asin(x)') == 'arcsin(x)' and maple_code(besseli(x, y)) == 'BesselI(x, y)'"},"spec":{"lhs":"test_specfun()","rhs":"test_specfun produces the expected output","over":{"base":"Any"},"name":"test_specfun_correct"},"guarantee":"test_specfun produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_specfun_correct","statement":"Path(test_specfun(x), test_specfun produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"518bc4f40496648c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_maple.test_specfun","kind":"function","src_hash":"54121d7689d7ff72","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: maple_code('asin(x)') == 'arcsin(x)' and maple_code(besseli(x, y)) == 'BesselI(x, y)'"},"spec":{"lhs":"test_specfun()","rhs":"maple_code('asin(x)') == 'arcsin(x)' and maple_code(besseli(x, y)) == 'BesselI(x, y)'","over":{"base":"Any"},"name":"test_specfun_correct"},"guarantee":"maple_code('asin(x)') == 'arcsin(x)'; maple_code(besseli(x, y)) == 'BesselI(x, y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_maple.test_specfun_correct","statement":"Path(test_specfun(x), maple_code('asin(x)') == 'arcsin(x)'; maple_code(besseli(x, y)) == 'BesselI(x, y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1ae4e05b345923d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["maple_code('asin(x)') == 'arcsin(x)'","maple_code(besseli(x, y)) == 'BesselI(x, y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_specfun():
     assert maple_code('asin(x)') == 'arcsin(x)'
     assert maple_code(besseli(x, y)) == 'BesselI(x, y)'

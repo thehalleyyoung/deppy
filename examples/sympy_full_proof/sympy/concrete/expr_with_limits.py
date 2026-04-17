@@ -37,9 +37,15 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_common_new(cls), return either a special return value or the tuple, (function, limits, orientation)) over {Any | isinstance(function, Equality)} ║
+# ║ Path(_common_new(cls, function, *symbols), <unspecified:_common_new>) over {Any | isinstance(function, Equality) and hasattr(function, 'lhs') and hasattr(function, 'rhs') and hasattr(function, 'free_symbols') and hasattr(function, 'function') and hasattr(function, 'atoms') and hasattr(function, 'xreplace') and hasattr(function, 'limits') and hasattr(function, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _common_new : {Any | isinstance(function, Equality)} ...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(function, 'lhs')                       ║
+# ║   requires: hasattr(function, 'rhs')                       ║
+# ║   requires: hasattr(function, 'free_symbols')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _common_new : {Any | isinstance(function, Equality) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Equality: {isinstance(function, Equality)} → librar...   ║
@@ -49,9 +55,12 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e37b3ab6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits._common_new","kind":"function","src_hash":"16b38db1471831ef","in":{"base":"Any","pred":"isinstance(function, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"_common_new(cls)","rhs":"return either a special return value or the tuple, (function, limits, orientation)","over":{"base":"Any","pred":"isinstance(function, Equality)"},"name":"_common_new_correct"},"guarantee":"return either a special return value or the tuple, (function, limits, orientation)","fibers":[{"name":"Equality","pred":"isinstance(function, Equality)","path":{"lhs":"_common_new(x)","rhs":"return either a special return value or the tuple, (function, limits, orientation)","over":{"base":"Equality","pred":"isinstance(function, Equality)"},"name":"_common_new_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._common_new_Equality_correct","statement":"_common_new satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e37b3ab63563e32f"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits._common_new","kind":"function","src_hash":"16b38db1471831ef","in":{"base":"Any","pred":"isinstance(function, Equality) and hasattr(function, 'lhs') and hasattr(function, 'rhs') and hasattr(function, 'free_symbols') and hasattr(function, 'function') and hasattr(function, 'atoms') and hasattr(function, 'xreplace') and hasattr(function, 'limits') and hasattr(function, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_common_new(cls, function, *symbols)","rhs":"<unspecified:_common_new>","over":{"base":"Any","pred":"isinstance(function, Equality) and hasattr(function, 'lhs') and hasattr(function, 'rhs') and hasattr(function, 'free_symbols') and hasattr(function, 'function') and hasattr(function, 'atoms') and hasattr(function, 'xreplace') and hasattr(function, 'limits') and hasattr(function, 'subs')"},"name":"_common_new_correct"},"guarantee":"return either a special return value or the tuple, (function, limits, orientation)","fibers":[{"name":"Equality","pred":"isinstance(function, Equality)","path":{"lhs":"_common_new(x)","rhs":"return either a special return value or the tuple, (function, limits, orientation)","over":{"base":"Equality","pred":"isinstance(function, Equality)"},"name":"_common_new_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._common_new_Equality_correct","statement":"_common_new satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e37b3ab63563e32f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(function, 'lhs')","hasattr(function, 'rhs')","hasattr(function, 'free_symbols')","hasattr(function, 'function')","hasattr(function, 'atoms')","hasattr(function, 'xreplace')","hasattr(function, 'limits')","hasattr(function, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["function.atoms","function.free_symbols","function.function","function.lhs","function.limits","function.rhs","function.subs","function.xreplace"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['cls', 'function'], spec=['cls', 'function', '*symbols', 'discrete', '**assumptions']","Poor branch-fiber coverage: 0% (branches={'not (limits and all((len(limit) == 3 for limit in limits)))', 'len(free) != 1', 'isinstance(function, Equality)', 'len(li) == 4'}, fibers={'Equality'})"]}}
 def _common_new(cls, function, *symbols, discrete, **assumptions):
     """Return either a special return value or the tuple,
     (function, limits, orientation). This code is common to
@@ -124,7 +133,11 @@ def _common_new(cls, function, *symbols, discrete, **assumptions):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_process_limits(*sy), process the list of symbols and convert them to canonical limits, storing them as tuple(symbol, lower, upper)) over {Any | isinstance(V, (Relational, BooleanFunction)) and isinstance(V, Symbol) and isinstance(V, Idx)} ║
+# ║ Path(_process_limits(*symbols, discrete), (limits, orientation)) over {Any | isinstance(V, (Relational, BooleanFunction)) and isinstance(V, Symbol) and isinstance(V, Idx)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(limits) == old_len_limits + 1              ║
+# ║   returns:  (limits, orientation)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _process_limits : {Any | isinstance(V, (Relational, B...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -140,9 +153,12 @@ def _common_new(cls, function, *symbols, discrete, **assumptions):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?7 ✗16 VCs | 6.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 51e32631...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits._process_limits","kind":"function","src_hash":"95e9cc6bda816ab0","in":{"base":"Any","pred":"isinstance(V, (Relational, BooleanFunction)) and isinstance(V, Symbol) and isinstance(V, Idx)"},"out":{"base":"Any"},"spec":{"lhs":"_process_limits(*sy)","rhs":"process the list of symbols and convert them to canonical limits, storing them as tuple(symbol, lower, upper)","over":{"base":"Any","pred":"isinstance(V, (Relational, BooleanFunction)) and isinstance(V, Symbol) and isinstance(V, Idx)"},"name":"_process_limits_correct"},"guarantee":"process the list of symbols and convert them to canonical limits, storing them as tuple(symbol, lower, upper)","fibers":[{"name":"(Relational","pred":"isinstance(V, (Relational, BooleanFunction))","path":{"lhs":"_process_limits(x)","rhs":"process the list of symbols and convert them to canonical limits, storing them as tuple(symbol, lower, upper)","over":{"base":"(Relational","pred":"isinstance(V, (Relational, BooleanFunction))"},"name":"_process_limits_(Relational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_(Relational_correct","statement":"_process_limits satisfies spec on (Relational inputs"},"trust":"LIBRARY"},{"name":"Symbol","pred":"isinstance(V, Symbol)","path":{"lhs":"_process_limits(x)","rhs":"process the list of symbols and convert them to canonical limits, storing them as tuple(symbol, lower, upper)","over":{"base":"Symbol","pred":"isinstance(V, Symbol)"},"name":"_process_limits_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_Symbol_correct","statement":"_process_limits satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"Idx","pred":"isinstance(V, Idx)","path":{"lhs":"_process_limits(x)","rhs":"process the list of symbols and convert them to canonical limits, storing them as tuple(symbol, lower, upper)","over":{"base":"Idx","pred":"isinstance(V, Idx)"},"name":"_process_limits_Idx_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_Idx_correct","statement":"_process_limits satisfies spec on Idx inputs"},"trust":"LIBRARY"},{"name":"Set","pred":"isinstance(V, Set)","path":{"lhs":"_process_limits(x)","rhs":"process the list of symbols and convert them to canonical limits, storing them as tuple(symbol, lower, upper)","over":{"base":"Set","pred":"isinstance(V, Set)"},"name":"_process_limits_Set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_Set_correct","statement":"_process_limits satisfies spec on Set inputs"},"trust":"LIBRARY"},{"name":"Interval","pred":"isinstance(V[1], Interval)","path":{"lhs":"_process_limits(x)","rhs":"process the list of symbols and convert them to canonical limits, storing them as tuple(symbol, lower, upper)","over":{"base":"Interval","pred":"isinstance(V[1], Interval)"},"name":"_process_limits_Interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_Interval_correct","statement":"_process_limits satisfies spec on Interval inputs"},"trust":"LIBRARY"},{"name":"(Symbol","pred":"isinstance(V[0], (Symbol, Idx))","path":{"lhs":"_process_limits(x)","rhs":"process the list of symbols and convert them to canonical limits, storing them as tuple(symbol, lower, upper)","over":{"base":"(Symbol","pred":"isinstance(V[0], (Symbol, Idx))"},"name":"_process_limits_(Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_(Symbol_correct","statement":"_process_limits satisfies spec on (Symbol inputs"},"trust":"LIBRARY"},{"name":"Range","pred":"isinstance(V[1], Range)","path":{"lhs":"_process_limits(x)","rhs":"process the list of symbols and convert them to canonical limits, storing them as tuple(symbol, lower, upper)","over":{"base":"Range","pred":"isinstance(V[1], Range)"},"name":"_process_limits_Range_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_Range_correct","statement":"_process_limits satisfies spec on Range inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":7,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"51e326318d3b3903"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits._process_limits","kind":"function","src_hash":"95e9cc6bda816ab0","in":{"base":"Any","pred":"isinstance(V, (Relational, BooleanFunction)) and isinstance(V, Symbol) and isinstance(V, Idx)"},"out":{"base":"Any","pred":"result satisfies: result == ((limits, orientation))"},"spec":{"lhs":"_process_limits(*symbols, discrete)","rhs":"(limits, orientation)","over":{"base":"Any","pred":"isinstance(V, (Relational, BooleanFunction)) and isinstance(V, Symbol) and isinstance(V, Idx)"},"name":"_process_limits_correct"},"guarantee":"returns (limits, orientation); len(limits) == old_len_limits + 1","fibers":[{"name":"(Relational","pred":"isinstance(V, (Relational, BooleanFunction))","path":{"lhs":"_process_limits(x)","rhs":"returns (limits, orientation); len(limits) == old_len_limits + 1","over":{"base":"(Relational","pred":"isinstance(V, (Relational, BooleanFunction))"},"name":"_process_limits_(Relational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_(Relational_correct","statement":"_process_limits satisfies spec on (Relational inputs"},"trust":"LIBRARY"},{"name":"Symbol","pred":"isinstance(V, Symbol)","path":{"lhs":"_process_limits(x)","rhs":"returns (limits, orientation); len(limits) == old_len_limits + 1","over":{"base":"Symbol","pred":"isinstance(V, Symbol)"},"name":"_process_limits_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_Symbol_correct","statement":"_process_limits satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"Idx","pred":"isinstance(V, Idx)","path":{"lhs":"_process_limits(x)","rhs":"returns (limits, orientation); len(limits) == old_len_limits + 1","over":{"base":"Idx","pred":"isinstance(V, Idx)"},"name":"_process_limits_Idx_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_Idx_correct","statement":"_process_limits satisfies spec on Idx inputs"},"trust":"LIBRARY"},{"name":"Set","pred":"isinstance(V, Set)","path":{"lhs":"_process_limits(x)","rhs":"returns (limits, orientation); len(limits) == old_len_limits + 1","over":{"base":"Set","pred":"isinstance(V, Set)"},"name":"_process_limits_Set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_Set_correct","statement":"_process_limits satisfies spec on Set inputs"},"trust":"LIBRARY"},{"name":"Interval","pred":"isinstance(V[1], Interval)","path":{"lhs":"_process_limits(x)","rhs":"returns (limits, orientation); len(limits) == old_len_limits + 1","over":{"base":"Interval","pred":"isinstance(V[1], Interval)"},"name":"_process_limits_Interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_Interval_correct","statement":"_process_limits satisfies spec on Interval inputs"},"trust":"LIBRARY"},{"name":"(Symbol","pred":"isinstance(V[0], (Symbol, Idx))","path":{"lhs":"_process_limits(x)","rhs":"returns (limits, orientation); len(limits) == old_len_limits + 1","over":{"base":"(Symbol","pred":"isinstance(V[0], (Symbol, Idx))"},"name":"_process_limits_(Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_(Symbol_correct","statement":"_process_limits satisfies spec on (Symbol inputs"},"trust":"LIBRARY"},{"name":"Range","pred":"isinstance(V[1], Range)","path":{"lhs":"_process_limits(x)","rhs":"returns (limits, orientation); len(limits) == old_len_limits + 1","over":{"base":"Range","pred":"isinstance(V[1], Range)"},"name":"_process_limits_Range_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits._process_limits_Range_correct","statement":"_process_limits satisfies spec on Range inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":7,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"51e326318d3b3903","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(limits) == old_len_limits + 1"],"returns_expr":"(limits, orientation)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["limits.append"],"raises":["NotImplementedError","TypeError","ValueError"],"catches":["TypeError"]},"state_contract":{"modifies":["limits.*"],"old_bindings":{"old_len_limits":"len(limits)"},"post_ensures":["len(limits) == old_len_limits + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":30,"n_verified":7,"n_assumed":7,"n_failed":16,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.3,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*symbols', 'discrete']","Poor branch-fiber coverage: 0% (branches={'V[2] is None and V[1] is not None', 'lenV == 3', 'isinstance(V[1], Interval)', 'lenV == 2', 'len(V) == 3', 'isinstance(V, Idx)', 'discrete is None', \"isinstance(V[0], (Symbol, Idx)) or getattr(V[0], '_diff_wrt', False)\", 'V.lower is None or V.upper is None', 'hi is not None and (not bool(V[2] <= hi))', 'lenV == 4', 'isinstance(V, (Relational, BooleanFunction))', 'isinstance(V[1], Range)', 'len(V) == 2 and isinstance(V[1], Set)', \"isinstance(V, Symbol) or getattr(V, '_diff_wrt', False)\", 'lo is not None and (not bool(V[1] >= lo))', 'is_sequence(V) and (not isinstance(V, Set))', 'lenV == 1 or (lenV == 2 and V[1] is None)', 'isinstance(newsymbol, Idx)', 'not isinstance(newsymbol, Idx) or lenV == 3', 'dx == 1'}, fibers={'Idx', '(Symbol', 'Range', '(Relational', 'Set', 'Symbol', 'Interval'})"]}}
 def _process_limits(*symbols, discrete=None):
     """Process the list of symbols and convert them to canonical limits,
     storing them as Tuple(symbol, lower, upper). The orientation of
@@ -252,28 +268,43 @@ def _process_limits(*symbols, discrete=None):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ExprWithLimits instance) preserved by ExprWithLimits(*args) over {Any | isinstance(pre, tuple) and isinstance(old, (AppliedUndef, UndefinedFunction)) and isinstance(old, Symbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ExprWithLimits : {Any | isinstance(pre, tuple) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5943367d9f228ed4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits","kind":"class","src_hash":"2da6ad6238bdda35","in":{"base":"Any","pred":"isinstance(pre, tuple) and isinstance(old, (AppliedUndef, UndefinedFunction)) and isinstance(old, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"ExprWithLimits(*args)","rhs":"correctly constructs a ExprWithLimits instance","over":{"base":"Any","pred":"isinstance(pre, tuple) and isinstance(old, (AppliedUndef, UndefinedFunction)) and isinstance(old, Symbol)"},"name":"ExprWithLimits_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ExprWithLimits instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_number","pred":"self.is_number","kind":"class"}],"methods_preserving":["function","kind","limits","variables","bound_symbols","free_symbols","is_number","_eval_interval","_eval_subs","has_finite_limits","has_reversed_limits"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5943367d9f228ed4"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits","kind":"class","src_hash":"2da6ad6238bdda35","in":{"base":"Any","pred":"isinstance(pre, tuple) and isinstance(old, (AppliedUndef, UndefinedFunction)) and isinstance(old, Symbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"ExprWithLimits(*args)","rhs":"correctly constructs a ExprWithLimits instance","over":{"base":"Any","pred":"isinstance(pre, tuple) and isinstance(old, (AppliedUndef, UndefinedFunction)) and isinstance(old, Symbol)"},"name":"ExprWithLimits_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_number","pred":"self.is_number","kind":"class"}],"methods_preserving":["function","kind","limits","variables","bound_symbols","free_symbols","is_number","_eval_interval","_eval_subs","has_finite_limits","has_reversed_limits"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5943367d9f228ed4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ExprWithLimits not found in source"]}}
 class ExprWithLimits(Expr):
     __slots__ = ('is_commutative',)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, function, *symbols), <unspecified:__new__>) over {Any | not (any((len(l) != 3 or None in l for l in limits))) and hasattr(function, 'is_commutative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (any((len(l) != 3 or None in l for l ...   ║
+# ║   requires: hasattr(function, 'is_commutative')            ║
+# ║   fiber[tuple]: isinstance(pre, tuple)                     ║
+# ║   fiber[tuple]: not (isinstance(pre, tuple)) => pre        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (any((len(l) != 3 or None in l f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d5c73e38930987c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.__new__","kind":"method","src_hash":"385d858395bbb247","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5c73e38930987c9"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.__new__","kind":"method","src_hash":"385d858395bbb247","in":{"base":"Any","pred":"not (any((len(l) != 3 or None in l for l in limits))) and hasattr(function, 'is_commutative')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, function, *symbols)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (any((len(l) != 3 or None in l for l in limits))) and hasattr(function, 'is_commutative')"},"name":"__new___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5c73e38930987c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (any((len(l) != 3 or None in l for l in limits)))","hasattr(function, 'is_commutative')"],"fibers":[{"name":"tuple","guard":"isinstance(pre, tuple)","ensures":[],"decidability":"structural"},{"name":"tuple","guard":"not (isinstance(pre, tuple))","ensures":["result == pre"],"decidability":"structural","returns_expr":"pre"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["function.is_commutative"],"calls_mutating":["arglist.extend"],"raises":["ValueError"]},"state_contract":{"modifies":["arglist.*"],"old_bindings":{"old_len_arglist":"len(arglist)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, function, *symbols, **assumptions):
         from sympy.concrete.products import Product
         pre = _common_new(cls, function, *symbols,
@@ -298,16 +329,22 @@ class ExprWithLimits(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(function(), returns the function attribute) over Any  ║
+# ║ Path(function(), self._args[0]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ function : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c534a8c86cd13316           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.function","kind":"property","src_hash":"be1b6b8f54e57c46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"returns the function attribute","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns the function attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c534a8c86cd13316"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.function","kind":"property","src_hash":"be1b6b8f54e57c46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"self._args[0]","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns self._args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c534a8c86cd13316","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def function(self):
         """Return the function applied across limits.
 
@@ -328,31 +365,43 @@ class ExprWithLimits(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kind(), returns the kind attribute) over Any          ║
+# ║ Path(kind(), self.function.kind) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.function.kind                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kind : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2c09ddf8df4c6a76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.kind","kind":"property","src_hash":"dcbda683020b97b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"returns the kind attribute","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns the kind attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c09ddf8df4c6a76"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.kind","kind":"property","src_hash":"dcbda683020b97b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"self.function.kind","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns self.function.kind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c09ddf8df4c6a76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.function.kind","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kind(self):
         return self.function.kind
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(limits(), returns the limits attribute) over Any      ║
+# ║ Path(limits(), self._args[1:]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[1:]                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ limits : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d9ade70a19fe3c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.limits","kind":"property","src_hash":"12da4fd11f8594fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limits()","rhs":"returns the limits attribute","over":{"base":"Any"},"name":"limits_correct"},"guarantee":"returns the limits attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d9ade70a19fe3c9"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.limits","kind":"property","src_hash":"12da4fd11f8594fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limits()","rhs":"self._args[1:]","over":{"base":"Any"},"name":"limits_correct"},"guarantee":"returns self._args[1:]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d9ade70a19fe3c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[1:]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def limits(self):
         """Return the limits of expression.
 
@@ -373,16 +422,22 @@ class ExprWithLimits(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variables(), returns the variables attribute) over Any ║
+# ║ Path(variables(), [l[0] for l in self.limits]) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [l[0] for l in self.limits]                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ variables : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da3ba1460d9a3cd6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.variables","kind":"property","src_hash":"57abfde345cc1268","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"returns the variables attribute","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns the variables attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da3ba1460d9a3cd6"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.variables","kind":"property","src_hash":"57abfde345cc1268","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variables()","rhs":"[l[0] for l in self.limits]","over":{"base":"Any"},"name":"variables_correct"},"guarantee":"returns [l[0] for l in self.limits]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da3ba1460d9a3cd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[l[0] for l in self.limits]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def variables(self):
         """Return a list of the limit variables.
 
@@ -402,16 +457,22 @@ class ExprWithLimits(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bound_symbols(), returns the bound_symbols attribute) over Any ║
+# ║ Path(bound_symbols(), [l[0] for l in self.limits if len(l) != 1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [l[0] for l in self.limits if len(l) != 1]     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bound_symbols : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 61fa1bc87e4d53b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.bound_symbols","kind":"property","src_hash":"6c5167a6e5bd6152","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bound_symbols()","rhs":"returns the bound_symbols attribute","over":{"base":"Any"},"name":"bound_symbols_correct"},"guarantee":"returns the bound_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61fa1bc87e4d53b6"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.bound_symbols","kind":"property","src_hash":"6c5167a6e5bd6152","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bound_symbols()","rhs":"[l[0] for l in self.limits if len(l) != 1]","over":{"base":"Any"},"name":"bound_symbols_correct"},"guarantee":"returns [l[0] for l in self.limits if len(l) != 1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61fa1bc87e4d53b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[l[0] for l in self.limits if len(l) != 1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bound_symbols(self):
         """Return only variables that are dummy variables.
 
@@ -434,16 +495,22 @@ class ExprWithLimits(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), {reps.get(_, _) for _ in isyms}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {reps.get(_, _) for _ in isyms}                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8257413e72727a42           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.free_symbols","kind":"property","src_hash":"25fc231f04142c0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8257413e72727a42"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.free_symbols","kind":"property","src_hash":"25fc231f04142c0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"{reps.get(_, _) for _ in isyms}","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns {reps.get(_, _) for _ in isyms}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8257413e72727a42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{reps.get(_, _) for _ in isyms}","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         """
         This method returns the symbols in the object, excluding those
@@ -483,47 +550,69 @@ class ExprWithLimits(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_number(), returns the is_number attribute) over Any ║
+# ║ Path(is_number(), not self.free_symbols) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self.free_symbols                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_number : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa84f6e70fc7fdd3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.is_number","kind":"property","src_hash":"e148f5bb7125e58c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_number()","rhs":"returns the is_number attribute","over":{"base":"Any"},"name":"is_number_correct"},"guarantee":"returns the is_number attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa84f6e70fc7fdd3"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.is_number","kind":"property","src_hash":"e148f5bb7125e58c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_number()","rhs":"not self.free_symbols","over":{"base":"Any"},"name":"is_number_correct"},"guarantee":"returns not self.free_symbols","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa84f6e70fc7fdd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self.free_symbols","pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_number(self):
         """Return True if the Sum has no free symbols, else False."""
         return not self.free_symbols
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_interval(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_interval(x, a, b), self.func(integrand, *limits)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(integrand, *limits)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_interval : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8bbcf94c0faa09d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f428b8950adfdb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits._eval_interval","kind":"method","src_hash":"ec901a8d0912ef54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_interval(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_interval_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits.ExprWithLimits._eval_interval_correct","statement":"Path(_eval_interval(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8bbcf94c0faa09d"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits._eval_interval","kind":"method","src_hash":"ec901a8d0912ef54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_interval(x, a, b)","rhs":"self.func(integrand, *limits)","over":{"base":"Any"},"name":"_eval_interval_correct"},"guarantee":"returns self.func(integrand, *limits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits.ExprWithLimits._eval_interval_correct","statement":"Path(_eval_interval(x), returns self.func(integrand, *limits))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f428b8950adfdb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(integrand, *limits)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.func","self.function","self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_interval(self, x, a, b):
         limits = [(i if i[0] != x else (x, a, b)) for i in self.limits]
         integrand = self.function
         return self.func(integrand, *limits)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), perform substitutions over non-dummy variables of an expression with limits) over Any ║
+# ║ Path(_eval_subs(old, new), self.func(func, *limits)) over {Any | hasattr(old, 'free_symbols') and hasattr(new, '_diff_wrt') and hasattr(old, 'args') and hasattr(new, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_subs : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(old, 'free_symbols')                   ║
+# ║   requires: hasattr(new, '_diff_wrt')                      ║
+# ║   requires: hasattr(old, 'args')                           ║
+# ║   ensures:  len(limits) == old_len_limits                  ║
+# ║   returns:  self.func(func, *limits)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_subs : {Any | hasattr(old, 'free_symbols') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78d510e4c21de6ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0a38e44daaf1fad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits._eval_subs","kind":"method","src_hash":"c73eaf9780551555","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"perform substitutions over non-dummy variables of an expression with limits","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"perform substitutions over non-dummy variables of an expression with limits","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits.ExprWithLimits._eval_subs_correct","statement":"Path(_eval_subs(x), perform substitutions over non-dummy variables of an expression with limits)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78d510e4c21de6ec"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits._eval_subs","kind":"method","src_hash":"c73eaf9780551555","in":{"base":"Any","pred":"hasattr(old, 'free_symbols') and hasattr(new, '_diff_wrt') and hasattr(old, 'args') and hasattr(new, 'atoms')"},"out":{"base":"Any","pred":"result satisfies: result == (self.func(func, *limits))"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"self.func(func, *limits)","over":{"base":"Any","pred":"hasattr(old, 'free_symbols') and hasattr(new, '_diff_wrt') and hasattr(old, 'args') and hasattr(new, 'atoms')"},"name":"_eval_subs_correct"},"guarantee":"returns self.func(func, *limits); len(limits) == old_len_limits","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.expr_with_limits.ExprWithLimits._eval_subs_correct","statement":"Path(_eval_subs(x), returns self.func(func, *limits); len(limits) == old_len_limits)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0a38e44daaf1fad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(old, 'free_symbols')","hasattr(new, '_diff_wrt')","hasattr(old, 'args')","hasattr(new, 'atoms')"],"ensures":["len(limits) == old_len_limits"],"returns_expr":"self.func(func, *limits)","pure":false,"effects":{"effect_type":"reads_state","reads":["new._diff_wrt","new.atoms","old.args","old.free_symbols","self.free_symbols","self.func","self.function","self.limits","self.variables"],"calls_mutating":["limits.reverse"],"raises":["ValueError"]},"state_contract":{"modifies":["limits.*"],"old_bindings":{"old_len_limits":"len(limits)"},"post_ensures":["len(limits) == old_len_limits"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         """
         Perform substitutions over non-dummy variables
@@ -605,16 +694,22 @@ class ExprWithLimits(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_finite_limits(), returns the has_finite_limits attribute) over Any ║
+# ║ Path(has_finite_limits(), <unspecified:has_finite_limits>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_finite_limits : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b221032b913c4b5f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.has_finite_limits","kind":"property","src_hash":"f7483d06db79b392","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_finite_limits()","rhs":"returns the has_finite_limits attribute","over":{"base":"Any"},"name":"has_finite_limits_correct"},"guarantee":"returns the has_finite_limits attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b221032b913c4b5f"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.has_finite_limits","kind":"property","src_hash":"f7483d06db79b392","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_finite_limits()","rhs":"<unspecified:has_finite_limits>","over":{"base":"Any"},"name":"has_finite_limits_correct"},"guarantee":"returns the has_finite_limits attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b221032b913c4b5f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_finite_limits(self):
         """
         Returns True if the limits are known to be finite, either by the
@@ -667,16 +762,22 @@ class ExprWithLimits(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_reversed_limits(), returns the has_reversed_limits attribute) over Any ║
+# ║ Path(has_reversed_limits(), <unspecified:has_reversed_limits>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_reversed_limits : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e627b399bb4e59c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.has_reversed_limits","kind":"property","src_hash":"6c7c5127f0cac571","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_reversed_limits()","rhs":"returns the has_reversed_limits attribute","over":{"base":"Any"},"name":"has_reversed_limits_correct"},"guarantee":"returns the has_reversed_limits attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e627b399bb4e59c9"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.ExprWithLimits.has_reversed_limits","kind":"property","src_hash":"6c7c5127f0cac571","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_reversed_limits()","rhs":"<unspecified:has_reversed_limits>","over":{"base":"Any"},"name":"has_reversed_limits_correct"},"guarantee":"returns the has_reversed_limits attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e627b399bb4e59c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_reversed_limits(self):
         """
         Returns True if the limits are known to be in reversed order, either
@@ -734,14 +835,20 @@ class ExprWithLimits(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AddWithLimits(*args), correctly constructs a AddWithLimits instance) over {Any | isinstance(pre, tuple) and isinstance(summand, MatrixBase) and isinstance(summand, Mul)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ExprWithLimits)               ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AddWithLimits : {Any | isinstance(pre, tuple) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af667231198a9ed2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits","kind":"class","src_hash":"e26fbfa87687da02","in":{"base":"Any","pred":"isinstance(pre, tuple) and isinstance(summand, MatrixBase) and isinstance(summand, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"AddWithLimits(*args)","rhs":"correctly constructs a AddWithLimits instance","over":{"base":"Any","pred":"isinstance(pre, tuple) and isinstance(summand, MatrixBase) and isinstance(summand, Mul)"},"name":"AddWithLimits_class_invariant"},"guarantee":"correctly constructs a AddWithLimits instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af667231198a9ed2"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits","kind":"class","src_hash":"e26fbfa87687da02","in":{"base":"Any","pred":"isinstance(pre, tuple) and isinstance(summand, MatrixBase) and isinstance(summand, Mul)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ExprWithLimits)"},"spec":{"lhs":"AddWithLimits(*args)","rhs":"correctly constructs a AddWithLimits instance","over":{"base":"Any","pred":"isinstance(pre, tuple) and isinstance(summand, MatrixBase) and isinstance(summand, Mul)"},"name":"AddWithLimits_class_invariant"},"guarantee":"isinstance(self, ExprWithLimits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af667231198a9ed2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ExprWithLimits)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function AddWithLimits not found in source"]}}
 class AddWithLimits(ExprWithLimits):
     r"""Represents unevaluated oriented additions.
         Parent class for Integral and Sum.
@@ -750,16 +857,24 @@ class AddWithLimits(ExprWithLimits):
     __slots__ = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, function, *symbols), <unspecified:__new__>) over {Any | hasattr(function, 'is_commutative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(function, 'is_commutative')            ║
+# ║   fiber[tuple]: isinstance(pre, tuple)                     ║
+# ║   fiber[tuple]: not (isinstance(pre, tuple)) => pre        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(function, 'is_commutative')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4af42ac48210dfbf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits.__new__","kind":"method","src_hash":"5e61d1b97fddffe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4af42ac48210dfbf"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits.__new__","kind":"method","src_hash":"5e61d1b97fddffe7","in":{"base":"Any","pred":"hasattr(function, 'is_commutative')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, function, *symbols)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(function, 'is_commutative')"},"name":"__new___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4af42ac48210dfbf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(function, 'is_commutative')"],"fibers":[{"name":"tuple","guard":"isinstance(pre, tuple)","ensures":[],"decidability":"structural"},{"name":"tuple","guard":"not (isinstance(pre, tuple))","ensures":["result == pre"],"decidability":"structural","returns_expr":"pre"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, function, *symbols, **assumptions):
         from sympy.concrete.summations import Sum
         pre = _common_new(cls, function, *symbols,
@@ -780,14 +895,20 @@ class AddWithLimits(ExprWithLimits):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_adjoint(), id) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_adjoint : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 50e252874db0ecdb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits._eval_adjoint","kind":"method","src_hash":"b8fa6cdebd837af9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_adjoint_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"adjoint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50e252874db0ecdb"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits._eval_adjoint","kind":"method","src_hash":"b8fa6cdebd837af9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"<unspecified:_eval_adjoint>","over":{"base":"Any"},"name":"_eval_adjoint_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"adjoint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50e252874db0ecdb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.func","self.function","self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_adjoint(self):
         if all(x.is_real for x in flatten(self.limits)):
             return self.func(self.function.adjoint(), *self.limits)
@@ -796,14 +917,20 @@ class AddWithLimits(ExprWithLimits):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f3d42d2439842771   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits._eval_conjugate","kind":"method","src_hash":"43e1952c67e34b3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3d42d2439842771"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits._eval_conjugate","kind":"method","src_hash":"43e1952c67e34b3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"<unspecified:_eval_conjugate>","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3d42d2439842771","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.func","self.function","self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         if all(x.is_real for x in flatten(self.limits)):
             return self.func(self.function.conjugate(), *self.limits)
@@ -812,30 +939,42 @@ class AddWithLimits(ExprWithLimits):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_transpose(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_transpose : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 645d690d2da6db07   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits._eval_transpose","kind":"method","src_hash":"1565983ab87d8057","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_transpose_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"transpose","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"645d690d2da6db07"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits._eval_transpose","kind":"method","src_hash":"1565983ab87d8057","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"<unspecified:_eval_transpose>","over":{"base":"Any"},"name":"_eval_transpose_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"transpose","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"645d690d2da6db07","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.func","self.function","self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_transpose(self):
         if all(x.is_real for x in flatten(self.limits)):
             return self.func(self.function.transpose(), *self.limits)
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_factor(**h), id) over Any                       ║
+# ║ Path(_eval_factor(**hints), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_factor : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 839898c11b510c34   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits._eval_factor","kind":"method","src_hash":"4dd71c9f27927bde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_factor(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_factor_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"func","by":"library_axiom"},{"fn":"Mul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"839898c11b510c34"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits._eval_factor","kind":"method","src_hash":"4dd71c9f27927bde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_factor(**hints)","rhs":"<unspecified:_eval_factor>","over":{"base":"Any"},"name":"_eval_factor_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"func","by":"library_axiom"},{"fn":"Mul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"839898c11b510c34","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.func","self.function","self.limits","self.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_factor(self, **hints):
         if 1 == len(self.limits):
             summand = self.function.factor(**hints)
@@ -853,16 +992,26 @@ class AddWithLimits(ExprWithLimits):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_basic(**h), id) over Any                 ║
+# ║ Path(_eval_expand_basic(**hints), id) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_expand_basic : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Add(*[self.func(i, *self.limit...   ║
+# ║   ensures:  result == Add(*[self.func(i, *self.limits...   ║
+# ║   fiber[case_0]: summand.is_Add and (force or (summan...   ║
+# ║   fiber[MatrixBase]: isinstance(summand, MatrixBase) ...   ║
+# ║   fiber[case_2]: summand != self.function => self.fun...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_expand_basic : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a2ac7755a248b23c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits._eval_expand_basic","kind":"method","src_hash":"c01c8816965ea7b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_basic(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_basic_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2ac7755a248b23c"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.expr_with_limits.AddWithLimits._eval_expand_basic","kind":"method","src_hash":"c01c8816965ea7b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Add(*[self.func(i, *self.limits) for i in summand.args]) if summand.is_Add and (force or (summand.is_commutative and self.has_finite_limits is not False)) else summand.applyfunc(lambda x: self.func(x, *self.limits)) if isinstance(summand, MatrixBase) else self.func(summand, *self.limits)) and result == Add(*[self.func(i, *self.limits) for i in summand.args]) or result == summand.applyfunc(lambda x: self.func(x, *self.limits)) or result == self.func(summand, *self.limits)"},"spec":{"lhs":"_eval_expand_basic(**hints)","rhs":"result == (Add(*[self.func(i, *self.limits) for i in summand.args]) if summand.is_Add and (force or (summand.is_commutative and self.has_finite_limits is not False)) else summand.applyfunc(lambda x: self.func(x, *self.limits)) if isinstance(summand, MatrixBase) else self.func(summand, *self.limits)) and result == Add(*[self.func(i, *self.limits) for i in summand.args]) or result == summand.applyfunc(lambda x: self.func(x, *self.limits)) or result == self.func(summand, *self.limits)","over":{"base":"Any"},"name":"_eval_expand_basic_correct","kind":"composition"},"guarantee":"result == (Add(*[self.func(i, *self.limits) for i in summand.args]) if summand.is_Add and (force or (summand.is_commutative and self.has_finite_limits is not False)) else summand.applyfunc(lambda x: self.func(x, *self.limits)) if isinstance(summand, MatrixBase) else self.func(summand, *self.limits)); result == Add(*[self.func(i, *self.limits) for i in summand.args]) or result == summand.applyfunc(lambda x: self.func(x, *self.limits)) or result == self.func(summand, *self.limits); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2ac7755a248b23c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Add(*[self.func(i, *self.limits) for i in summand.args]) if summand.is_Add and (force or (summand.is_commutative and self.has_finite_limits is not False)) else summand.applyfunc(lambda x: self.func(x, *self.limits)) if isinstance(summand, MatrixBase) else self.func(summand, *self.limits))","result == Add(*[self.func(i, *self.limits) for i in summand.args]) or result == summand.applyfunc(lambda x: self.func(x, *self.limits)) or result == self.func(summand, *self.limits)"],"fibers":[{"name":"case_0","guard":"summand.is_Add and (force or (summand.is_commutative and self.has_finite_limits is not False))","ensures":["result == Add(*[self.func(i, *self.limits) for i in summand.args])"],"decidability":"library","returns_expr":"Add(*[self.func(i, *self.limits) for i in summand.args])"},{"name":"MatrixBase","guard":"isinstance(summand, MatrixBase)","ensures":["result == summand.applyfunc(lambda x: self.func(x, *self.limits))"],"decidability":"structural","returns_expr":"summand.applyfunc(lambda x: self.func(x, *self.limits))"},{"name":"case_2","guard":"summand != self.function","ensures":["result == self.func(summand, *self.limits)"],"decidability":"z3","returns_expr":"self.func(summand, *self.limits)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.func","self.function","self.has_finite_limits","self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_basic(self, **hints):
         summand = self.function.expand(**hints)
         force = hints.get('force', False)

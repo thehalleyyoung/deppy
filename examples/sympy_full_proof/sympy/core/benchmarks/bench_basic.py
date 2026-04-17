@@ -21,45 +21,63 @@ x, y = symbols('x,y')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Symbol_meth_lookup(), timeit_Symbol_meth_lookup produces the expected output) over Any ║
+# ║ Path(timeit_Symbol_meth_lookup(), <unspecified:timeit_Symbol_meth_lookup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Symbol_meth_lookup : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8b547cd81f8227f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_basic.timeit_Symbol_meth_lookup","kind":"function","src_hash":"b9ec3c1b159cca31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Symbol_meth_lookup()","rhs":"timeit_Symbol_meth_lookup produces the expected output","over":{"base":"Any"},"name":"timeit_Symbol_meth_lookup_correct"},"guarantee":"timeit_Symbol_meth_lookup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_basic.timeit_Symbol_meth_lookup_correct","statement":"Path(timeit_Symbol_meth_lookup(x), timeit_Symbol_meth_lookup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8b547cd81f8227f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_basic.timeit_Symbol_meth_lookup","kind":"function","src_hash":"b9ec3c1b159cca31","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Symbol_meth_lookup()","rhs":"<unspecified:timeit_Symbol_meth_lookup>","over":{"base":"Any"},"name":"timeit_Symbol_meth_lookup_correct"},"guarantee":"timeit_Symbol_meth_lookup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_basic.timeit_Symbol_meth_lookup_correct","statement":"Path(timeit_Symbol_meth_lookup(x), timeit_Symbol_meth_lookup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8b547cd81f8227f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Symbol_meth_lookup():
     x.diff  # no call, just method lookup
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_S_lookup(), timeit_S_lookup produces the expected output) over Any ║
+# ║ Path(timeit_S_lookup(), <unspecified:timeit_S_lookup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_S_lookup : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 114ffd36d2306b0e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_basic.timeit_S_lookup","kind":"function","src_hash":"7066a6d58b3657db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_S_lookup()","rhs":"timeit_S_lookup produces the expected output","over":{"base":"Any"},"name":"timeit_S_lookup_correct"},"guarantee":"timeit_S_lookup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_basic.timeit_S_lookup_correct","statement":"Path(timeit_S_lookup(x), timeit_S_lookup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"114ffd36d2306b0e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_basic.timeit_S_lookup","kind":"function","src_hash":"7066a6d58b3657db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_S_lookup()","rhs":"<unspecified:timeit_S_lookup>","over":{"base":"Any"},"name":"timeit_S_lookup_correct"},"guarantee":"timeit_S_lookup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_basic.timeit_S_lookup_correct","statement":"Path(timeit_S_lookup(x), timeit_S_lookup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"114ffd36d2306b0e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_S_lookup():
     S.Exp1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Symbol_eq_xy(), timeit_Symbol_eq_xy produces the expected output) over Any ║
+# ║ Path(timeit_Symbol_eq_xy(), <unspecified:timeit_Symbol_eq_xy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Symbol_eq_xy : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3d1647ef84dc5f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_basic.timeit_Symbol_eq_xy","kind":"function","src_hash":"aca9a283e325c30c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Symbol_eq_xy()","rhs":"timeit_Symbol_eq_xy produces the expected output","over":{"base":"Any"},"name":"timeit_Symbol_eq_xy_correct"},"guarantee":"timeit_Symbol_eq_xy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_basic.timeit_Symbol_eq_xy_correct","statement":"Path(timeit_Symbol_eq_xy(x), timeit_Symbol_eq_xy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3d1647ef84dc5f2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_basic.timeit_Symbol_eq_xy","kind":"function","src_hash":"aca9a283e325c30c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Symbol_eq_xy()","rhs":"<unspecified:timeit_Symbol_eq_xy>","over":{"base":"Any"},"name":"timeit_Symbol_eq_xy_correct"},"guarantee":"timeit_Symbol_eq_xy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_basic.timeit_Symbol_eq_xy_correct","statement":"Path(timeit_Symbol_eq_xy(x), timeit_Symbol_eq_xy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3d1647ef84dc5f2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Symbol_eq_xy():
     x == y

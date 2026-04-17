@@ -24,16 +24,23 @@ from sympy.physics.units.dimensions import DimensionSystem
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_extend(), test_extend produces the expected output) over Any ║
+# ║ Path(test_extend(), mks.base_dims == res.base_dims and mks.derived_dims == res.derived_dims) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_extend : Any → {Any | mks.base_dims == res.base_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mks.base_dims == res.base_dims                 ║
+# ║   ensures:  mks.derived_dims == res.derived_dims           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_extend : Any → {Any | result satisfies: mks.base...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 700c8bed99b58086  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1dd39f8f64ee67b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_extend","kind":"function","src_hash":"47761f98fd9b78b2","in":{"base":"Any"},"out":{"base":"Any","pred":"mks.base_dims == res.base_dims and mks.derived_dims == res.derived_dims"},"spec":{"lhs":"test_extend()","rhs":"test_extend produces the expected output","over":{"base":"Any"},"name":"test_extend_correct"},"guarantee":"test_extend produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_extend_correct","statement":"Path(test_extend(x), test_extend produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700c8bed99b58086"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_extend","kind":"function","src_hash":"47761f98fd9b78b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mks.base_dims == res.base_dims and mks.derived_dims == res.derived_dims"},"spec":{"lhs":"test_extend()","rhs":"mks.base_dims == res.base_dims and mks.derived_dims == res.derived_dims","over":{"base":"Any"},"name":"test_extend_correct"},"guarantee":"mks.base_dims == res.base_dims; mks.derived_dims == res.derived_dims","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_extend_correct","statement":"Path(test_extend(x), mks.base_dims == res.base_dims; mks.derived_dims == res.derived_dims)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1dd39f8f64ee67b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mks.base_dims == res.base_dims","mks.derived_dims == res.derived_dims"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_extend():
     ms = DimensionSystem((length, time), (velocity,))
 
@@ -45,16 +52,22 @@ def test_extend():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_list_dims(), test_list_dims produces the expected output) over Any ║
+# ║ Path(test_list_dims(), dimsys.list_can_dims == (length, mass, time)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_list_dims : Any → {Any | dimsys.list_can_dims ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dimsys.list_can_dims == (length, mass, time)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_list_dims : Any → {Any | result satisfies: dimsy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12de1f558d60846f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cca81b57759f86aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_list_dims","kind":"function","src_hash":"a6748c474bb82bee","in":{"base":"Any"},"out":{"base":"Any","pred":"dimsys.list_can_dims == (length, mass, time)"},"spec":{"lhs":"test_list_dims()","rhs":"test_list_dims produces the expected output","over":{"base":"Any"},"name":"test_list_dims_correct"},"guarantee":"test_list_dims produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_list_dims_correct","statement":"Path(test_list_dims(x), test_list_dims produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12de1f558d60846f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_list_dims","kind":"function","src_hash":"a6748c474bb82bee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dimsys.list_can_dims == (length, mass, time)"},"spec":{"lhs":"test_list_dims()","rhs":"dimsys.list_can_dims == (length, mass, time)","over":{"base":"Any"},"name":"test_list_dims_correct"},"guarantee":"dimsys.list_can_dims == (length, mass, time)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_list_dims_correct","statement":"Path(test_list_dims(x), dimsys.list_can_dims == (length, mass, time))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cca81b57759f86aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dimsys.list_can_dims == (length, mass, time)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_list_dims():
     dimsys = DimensionSystem((length, time, mass))
 
@@ -62,16 +75,24 @@ def test_list_dims():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dim_can_vector(), test_dim_can_vector produces the expected output) over Any ║
+# ║ Path(test_dim_can_vector(), dimsys.dim_can_vector(length) == Matrix([1, 0, 0]) and dimsys.dim_can_vector(velocity) == Matrix([1, 0, -1]) and dimsys.dim_can_vector(length) == Matrix([0, 1, 0]) and dimsys.dim_can_vector(velocity) == Matrix([0, 0, 1]) and dimsys.dim_can_vector(time) == Matrix([0, 1, -1]) and dimsys.dim_vector(length) == Matrix([1, 0, 0]) and dimsys.dim_vector(velocity) == Matrix([1, 0, -1])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dim_can_vector : Any → {Any | dimsys.dim_can_vec...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dimsys.dim_can_vector(length) == Matrix([...   ║
+# ║   ensures:  dimsys.dim_can_vector(velocity) == Matrix...   ║
+# ║   ensures:  dimsys.dim_can_vector(length) == Matrix([...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dim_can_vector : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce871ee707c18988  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dadaf4b2d48c5a5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_dim_can_vector","kind":"function","src_hash":"d9e1d3850a469a62","in":{"base":"Any"},"out":{"base":"Any","pred":"dimsys.dim_can_vector(length) == Matrix([1, 0, 0]) and dimsys.dim_can_vector(velocity) == Matrix([1, 0, -1]) and dimsys.dim_can_vector(length) == Matrix([0, 1, 0]) and dimsys.dim_can_vector(velocity) == Matrix([0, 0, 1]) and dimsys.dim_can_vector(time) == Matrix([0, 1, -1]) and dimsys.dim_vector(length) == Matrix([1, 0, 0]) and dimsys.dim_vector(velocity) == Matrix([1, 0, -1])"},"spec":{"lhs":"test_dim_can_vector()","rhs":"test_dim_can_vector produces the expected output","over":{"base":"Any"},"name":"test_dim_can_vector_correct"},"guarantee":"test_dim_can_vector produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_dim_can_vector_correct","statement":"Path(test_dim_can_vector(x), test_dim_can_vector produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce871ee707c18988"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_dim_can_vector","kind":"function","src_hash":"d9e1d3850a469a62","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dimsys.dim_can_vector(length) == Matrix([1, 0, 0]) and dimsys.dim_can_vector(velocity) == Matrix([1, 0, -1]) and dimsys.dim_can_vector(length) == Matrix([0, 1, 0]) and dimsys.dim_can_vector(velocity) == Matrix([0, 0, 1]) and dimsys.dim_can_vector(time) == Matrix([0, 1, -1]) and dimsys.dim_vector(length) == Matrix([1, 0, 0]) and dimsys.dim_vector(velocity) == Matrix([1, 0, -1])"},"spec":{"lhs":"test_dim_can_vector()","rhs":"dimsys.dim_can_vector(length) == Matrix([1, 0, 0]) and dimsys.dim_can_vector(velocity) == Matrix([1, 0, -1]) and dimsys.dim_can_vector(length) == Matrix([0, 1, 0]) and dimsys.dim_can_vector(velocity) == Matrix([0, 0, 1]) and dimsys.dim_can_vector(time) == Matrix([0, 1, -1]) and dimsys.dim_vector(length) == Matrix([1, 0, 0]) and dimsys.dim_vector(velocity) == Matrix([1, 0, -1])","over":{"base":"Any"},"name":"test_dim_can_vector_correct"},"guarantee":"dimsys.dim_can_vector(length) == Matrix([1, 0, 0]); dimsys.dim_can_vector(velocity) == Matrix([1, 0, -1]); dimsys.dim_can_vector(length) == Matrix([0, 1, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_dim_can_vector_correct","statement":"Path(test_dim_can_vector(x), dimsys.dim_can_vector(length) == Matrix([1, 0, 0]); dimsys.dim_can_vector(velocity) == Matrix([1, 0, -1]); dimsys.dim_can_vector(length) == Matrix([0, 1, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dadaf4b2d48c5a5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dimsys.dim_can_vector(length) == Matrix([1, 0, 0])","dimsys.dim_can_vector(velocity) == Matrix([1, 0, -1])","dimsys.dim_can_vector(length) == Matrix([0, 1, 0])","dimsys.dim_can_vector(velocity) == Matrix([0, 0, 1])","dimsys.dim_can_vector(time) == Matrix([0, 1, -1])","dimsys.dim_vector(length) == Matrix([1, 0, 0])","dimsys.dim_vector(velocity) == Matrix([1, 0, -1])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dim_can_vector():
     dimsys = DimensionSystem(
         [length, mass, time],
@@ -107,32 +128,45 @@ def test_dim_can_vector():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inv_can_transf_matrix(), test_inv_can_transf_matrix produces the expected output) over Any ║
+# ║ Path(test_inv_can_transf_matrix(), dimsys.inv_can_transf_matrix == eye(3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inv_can_transf_matrix : Any → {Any | dimsys.inv_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dimsys.inv_can_transf_matrix == eye(3)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inv_can_transf_matrix : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d93a17f5770cf9c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 402538c4c2255feb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_inv_can_transf_matrix","kind":"function","src_hash":"0356bafd305736bd","in":{"base":"Any"},"out":{"base":"Any","pred":"dimsys.inv_can_transf_matrix == eye(3)"},"spec":{"lhs":"test_inv_can_transf_matrix()","rhs":"test_inv_can_transf_matrix produces the expected output","over":{"base":"Any"},"name":"test_inv_can_transf_matrix_correct"},"guarantee":"test_inv_can_transf_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_inv_can_transf_matrix_correct","statement":"Path(test_inv_can_transf_matrix(x), test_inv_can_transf_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d93a17f5770cf9c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_inv_can_transf_matrix","kind":"function","src_hash":"0356bafd305736bd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dimsys.inv_can_transf_matrix == eye(3)"},"spec":{"lhs":"test_inv_can_transf_matrix()","rhs":"dimsys.inv_can_transf_matrix == eye(3)","over":{"base":"Any"},"name":"test_inv_can_transf_matrix_correct"},"guarantee":"dimsys.inv_can_transf_matrix == eye(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_inv_can_transf_matrix_correct","statement":"Path(test_inv_can_transf_matrix(x), dimsys.inv_can_transf_matrix == eye(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"402538c4c2255feb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dimsys.inv_can_transf_matrix == eye(3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_inv_can_transf_matrix():
     dimsys = DimensionSystem((length, mass, time))
     assert dimsys.inv_can_transf_matrix == eye(3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_can_transf_matrix(), test_can_transf_matrix produces the expected output) over Any ║
+# ║ Path(test_can_transf_matrix(), dimsys.can_transf_matrix == eye(3) and dimsys.can_transf_matrix == eye(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_can_transf_matrix : Any → {Any | dimsys.can_tran...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dimsys.can_transf_matrix == eye(3)             ║
+# ║   ensures:  dimsys.can_transf_matrix == eye(2)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_can_transf_matrix : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 839a91da49841acc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18636fa803da7796  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_can_transf_matrix","kind":"function","src_hash":"bda364144373b8b1","in":{"base":"Any"},"out":{"base":"Any","pred":"dimsys.can_transf_matrix == eye(3) and dimsys.can_transf_matrix == eye(3) and dimsys.can_transf_matrix == eye(2)"},"spec":{"lhs":"test_can_transf_matrix()","rhs":"test_can_transf_matrix produces the expected output","over":{"base":"Any"},"name":"test_can_transf_matrix_correct"},"guarantee":"test_can_transf_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_can_transf_matrix_correct","statement":"Path(test_can_transf_matrix(x), test_can_transf_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"839a91da49841acc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_can_transf_matrix","kind":"function","src_hash":"bda364144373b8b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dimsys.can_transf_matrix == eye(3) and dimsys.can_transf_matrix == eye(2)"},"spec":{"lhs":"test_can_transf_matrix()","rhs":"dimsys.can_transf_matrix == eye(3) and dimsys.can_transf_matrix == eye(2)","over":{"base":"Any"},"name":"test_can_transf_matrix_correct"},"guarantee":"dimsys.can_transf_matrix == eye(3); dimsys.can_transf_matrix == eye(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_can_transf_matrix_correct","statement":"Path(test_can_transf_matrix(x), dimsys.can_transf_matrix == eye(3); dimsys.can_transf_matrix == eye(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18636fa803da7796","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dimsys.can_transf_matrix == eye(3)","dimsys.can_transf_matrix == eye(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_can_transf_matrix():
     dimsys = DimensionSystem((length, mass, time))
     assert dimsys.can_transf_matrix == eye(3)
@@ -145,31 +179,43 @@ def test_can_transf_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_consistent(), test_is_consistent produces the expected output) over Any ║
+# ║ Path(test_is_consistent(), DimensionSystem((length, time)).is_consistent is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_consistent : Any → {Any | DimensionSystem((le...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  DimensionSystem((length, time)).is_consis...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_consistent : Any → {Any | result satisfies: D...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 835d42411d5f4995  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57fbc375fe478f43  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_is_consistent","kind":"function","src_hash":"834845b53139bf7f","in":{"base":"Any"},"out":{"base":"Any","pred":"DimensionSystem((length, time)).is_consistent is True"},"spec":{"lhs":"test_is_consistent()","rhs":"test_is_consistent produces the expected output","over":{"base":"Any"},"name":"test_is_consistent_correct"},"guarantee":"test_is_consistent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_is_consistent_correct","statement":"Path(test_is_consistent(x), test_is_consistent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"835d42411d5f4995"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_is_consistent","kind":"function","src_hash":"834845b53139bf7f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: DimensionSystem((length, time)).is_consistent is True"},"spec":{"lhs":"test_is_consistent()","rhs":"DimensionSystem((length, time)).is_consistent is True","over":{"base":"Any"},"name":"test_is_consistent_correct"},"guarantee":"DimensionSystem((length, time)).is_consistent is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_is_consistent_correct","statement":"Path(test_is_consistent(x), DimensionSystem((length, time)).is_consistent is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57fbc375fe478f43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["DimensionSystem((length, time)).is_consistent is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_is_consistent():
     assert DimensionSystem((length, time)).is_consistent is True
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_dim_base(), test_print_dim_base produces the expected output) over Any ║
+# ║ Path(test_print_dim_base(), mksa.print_dim_base(action) == L ** 2 * M / T) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_dim_base : Any → {Any | mksa.print_dim_bas...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mksa.print_dim_base(action) == L ** 2 * M...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_dim_base : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 904a324f64038acd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a32622abea81433  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_print_dim_base","kind":"function","src_hash":"945349623f7cb660","in":{"base":"Any"},"out":{"base":"Any","pred":"mksa.print_dim_base(action) == L ** 2 * M / T"},"spec":{"lhs":"test_print_dim_base()","rhs":"test_print_dim_base produces the expected output","over":{"base":"Any"},"name":"test_print_dim_base_correct"},"guarantee":"test_print_dim_base produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_print_dim_base_correct","statement":"Path(test_print_dim_base(x), test_print_dim_base produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"904a324f64038acd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_print_dim_base","kind":"function","src_hash":"945349623f7cb660","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mksa.print_dim_base(action) == L ** 2 * M / T"},"spec":{"lhs":"test_print_dim_base()","rhs":"mksa.print_dim_base(action) == L ** 2 * M / T","over":{"base":"Any"},"name":"test_print_dim_base_correct"},"guarantee":"mksa.print_dim_base(action) == L ** 2 * M / T","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_print_dim_base_correct","statement":"Path(test_print_dim_base(x), mksa.print_dim_base(action) == L ** 2 * M / T)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a32622abea81433","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mksa.print_dim_base(action) == L ** 2 * M / T"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_print_dim_base():
     mksa = DimensionSystem(
         (length, time, mass, current),
@@ -180,16 +226,22 @@ def test_print_dim_base():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dim(), test_dim produces the expected output) over Any ║
+# ║ Path(test_dim(), dimsys.dim == 3) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dim : Any → {Any | dimsys.dim == 3}                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dimsys.dim == 3                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dim : Any → {Any | result satisfies: dimsys.dim ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fecc47758cbc9818  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b53ab9b73f9c707e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_dim","kind":"function","src_hash":"dd43c955e497a170","in":{"base":"Any"},"out":{"base":"Any","pred":"dimsys.dim == 3"},"spec":{"lhs":"test_dim()","rhs":"test_dim produces the expected output","over":{"base":"Any"},"name":"test_dim_correct"},"guarantee":"test_dim produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_dim_correct","statement":"Path(test_dim(x), test_dim produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fecc47758cbc9818"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_dimensionsystem.test_dim","kind":"function","src_hash":"dd43c955e497a170","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dimsys.dim == 3"},"spec":{"lhs":"test_dim()","rhs":"dimsys.dim == 3","over":{"base":"Any"},"name":"test_dim_correct"},"guarantee":"dimsys.dim == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_dimensionsystem.test_dim_correct","statement":"Path(test_dim(x), dimsys.dim == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b53ab9b73f9c707e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dimsys.dim == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dim():
     dimsys = DimensionSystem(
         (length, mass, time),

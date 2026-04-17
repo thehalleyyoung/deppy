@@ -20,32 +20,45 @@ from sympy.assumptions.assume import assuming, global_assumptions
 from sympy.abc import x, y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_assuming(), test_assuming produces the expected output) over Any ║
+# ║ Path(test_assuming(), not ask(Q.integer(x))) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_assuming : Any → {Any | not ask(Q.integer(x)) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not ask(Q.integer(x))                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_assuming : Any → {Any | result satisfies: not as...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3abd7a713ece1bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3a2e8adb090f5b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_context.test_assuming","kind":"function","src_hash":"7b0f4bbf8b5257eb","in":{"base":"Any"},"out":{"base":"Any","pred":"not ask(Q.integer(x)) and ask(Q.integer(x))"},"spec":{"lhs":"test_assuming()","rhs":"test_assuming produces the expected output","over":{"base":"Any"},"name":"test_assuming_correct"},"guarantee":"test_assuming produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_context.test_assuming_correct","statement":"Path(test_assuming(x), test_assuming produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3abd7a713ece1bf"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_context.test_assuming","kind":"function","src_hash":"7b0f4bbf8b5257eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not ask(Q.integer(x))"},"spec":{"lhs":"test_assuming()","rhs":"not ask(Q.integer(x))","over":{"base":"Any"},"name":"test_assuming_correct"},"guarantee":"not ask(Q.integer(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_context.test_assuming_correct","statement":"Path(test_assuming(x), not ask(Q.integer(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3a2e8adb090f5b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not ask(Q.integer(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_assuming():
     with assuming(Q.integer(x)):
         assert ask(Q.integer(x))
     assert not ask(Q.integer(x))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_assuming_nested(), test_assuming_nested produces the expected output) over Any ║
+# ║ Path(test_assuming_nested(), not ask(Q.integer(x)) and not ask(Q.integer(y))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_assuming_nested : Any → {Any | not ask(Q.integer...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not ask(Q.integer(x))                          ║
+# ║   ensures:  not ask(Q.integer(y))                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_assuming_nested : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 342bcc92c3aa2bc3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55f863b9d0ccaef9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_context.test_assuming_nested","kind":"function","src_hash":"a32d8dec1a4263d5","in":{"base":"Any"},"out":{"base":"Any","pred":"not ask(Q.integer(x)) and not ask(Q.integer(y)) and not ask(Q.integer(x)) and not ask(Q.integer(y)) and ask(Q.integer(x)) and not ask(Q.integer(y)) and ask(Q.integer(x)) and not ask(Q.integer(y)) and ask(Q.integer(x)) and ask(Q.integer(y))"},"spec":{"lhs":"test_assuming_nested()","rhs":"test_assuming_nested produces the expected output","over":{"base":"Any"},"name":"test_assuming_nested_correct"},"guarantee":"test_assuming_nested produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_context.test_assuming_nested_correct","statement":"Path(test_assuming_nested(x), test_assuming_nested produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"342bcc92c3aa2bc3"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_context.test_assuming_nested","kind":"function","src_hash":"a32d8dec1a4263d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not ask(Q.integer(x)) and not ask(Q.integer(y))"},"spec":{"lhs":"test_assuming_nested()","rhs":"not ask(Q.integer(x)) and not ask(Q.integer(y))","over":{"base":"Any"},"name":"test_assuming_nested_correct"},"guarantee":"not ask(Q.integer(x)); not ask(Q.integer(y))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_context.test_assuming_nested_correct","statement":"Path(test_assuming_nested(x), not ask(Q.integer(x)); not ask(Q.integer(y)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55f863b9d0ccaef9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not ask(Q.integer(x))","not ask(Q.integer(y))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_assuming_nested():
     assert not ask(Q.integer(x))
     assert not ask(Q.integer(y))
@@ -61,16 +74,22 @@ def test_assuming_nested():
     assert not ask(Q.integer(y))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_finally(), test_finally produces the expected output) over Any ║
+# ║ Path(test_finally(), not ask(Q.integer(x))) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_finally : Any → {Any | not ask(Q.integer(x))}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not ask(Q.integer(x))                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_finally : Any → {Any | result satisfies: not ask...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64ccde41feeec9c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98e1778adf3c8366  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_context.test_finally","kind":"function","src_hash":"12e6f140f09e2dec","in":{"base":"Any"},"out":{"base":"Any","pred":"not ask(Q.integer(x))"},"spec":{"lhs":"test_finally()","rhs":"test_finally produces the expected output","over":{"base":"Any"},"name":"test_finally_correct"},"guarantee":"test_finally produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_context.test_finally_correct","statement":"Path(test_finally(x), test_finally produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64ccde41feeec9c8"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_context.test_finally","kind":"function","src_hash":"12e6f140f09e2dec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not ask(Q.integer(x))"},"spec":{"lhs":"test_finally()","rhs":"not ask(Q.integer(x))","over":{"base":"Any"},"name":"test_finally_correct"},"guarantee":"not ask(Q.integer(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_context.test_finally_correct","statement":"Path(test_finally(x), not ask(Q.integer(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98e1778adf3c8366","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not ask(Q.integer(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_finally():
     try:
         with assuming(Q.integer(x)):
@@ -80,16 +99,22 @@ def test_finally():
     assert not ask(Q.integer(x))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_remove_safe(), test_remove_safe produces the expected output) over Any ║
+# ║ Path(test_remove_safe(), ask(Q.integer(x))) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_remove_safe : Any → {Any | ask(Q.integer(x)) and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ask(Q.integer(x))                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_remove_safe : Any → {Any | result satisfies: ask...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01f1c3f7b642e1e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2136c93dce7a8cb1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_context.test_remove_safe","kind":"function","src_hash":"d6a32e326e48d08b","in":{"base":"Any"},"out":{"base":"Any","pred":"ask(Q.integer(x)) and ask(Q.integer(x)) and not ask(Q.integer(x))"},"spec":{"lhs":"test_remove_safe()","rhs":"test_remove_safe produces the expected output","over":{"base":"Any"},"name":"test_remove_safe_correct"},"guarantee":"test_remove_safe produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_context.test_remove_safe_correct","statement":"Path(test_remove_safe(x), test_remove_safe produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01f1c3f7b642e1e6"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_context.test_remove_safe","kind":"function","src_hash":"d6a32e326e48d08b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ask(Q.integer(x))"},"spec":{"lhs":"test_remove_safe()","rhs":"ask(Q.integer(x))","over":{"base":"Any"},"name":"test_remove_safe_correct"},"guarantee":"ask(Q.integer(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_context.test_remove_safe_correct","statement":"Path(test_remove_safe(x), ask(Q.integer(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2136c93dce7a8cb1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ask(Q.integer(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_remove_safe():
     global_assumptions.add(Q.integer(x))
     with assuming():

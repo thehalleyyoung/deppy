@@ -30,16 +30,29 @@ from sympy.utilities import numbered_symbols, take, xthreaded, public
 @xthreaded
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apart(f, ), compute partial fraction decomposition of a rational function) over Any ║
+# ║ Path(apart(f, x, full), len(c) == old_len_c + 1 and len(nc) == old_len_nc + 1 and len(reps) == old_len_reps + 1) over {Any | hasattr(f, 'is_Atom') and hasattr(f, 'as_numer_denom') and hasattr(f, 'is_commutative') and hasattr(f, 'is_Mul') and hasattr(f, 'cancel') and hasattr(f, 'is_Add') and hasattr(f, 'args_cnc') and hasattr(f, 'func') and hasattr(f, 'args') and hasattr(f, 'xreplace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apart : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'is_Atom')                          ║
+# ║   requires: hasattr(f, 'as_numer_denom')                   ║
+# ║   requires: hasattr(f, 'is_commutative')                   ║
+# ║   ensures:  len(c) == old_len_c + 1                        ║
+# ║   ensures:  len(nc) == old_len_nc + 1                      ║
+# ║   ensures:  len(reps) == old_len_reps + 1                  ║
+# ║   fiber[case_0]: f.is_Atom => f                            ║
+# ║   fiber[case_1]: not (f.is_Atom)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apart : {Any | hasattr(f, 'is_Atom') and hasattr(f, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85a26d6799c19510  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 568d12c7d36be136  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.partfrac.apart","kind":"function","src_hash":"abcc3eab5b829baf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apart(f, )","rhs":"compute partial fraction decomposition of a rational function","over":{"base":"Any"},"name":"apart_correct"},"guarantee":"compute partial fraction decomposition of a rational function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.partfrac.apart_correct","statement":"Path(apart(x), compute partial fraction decomposition of a rational function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85a26d6799c19510"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.partfrac.apart","kind":"function","src_hash":"abcc3eab5b829baf","in":{"base":"Any","pred":"hasattr(f, 'is_Atom') and hasattr(f, 'as_numer_denom') and hasattr(f, 'is_commutative') and hasattr(f, 'is_Mul') and hasattr(f, 'cancel') and hasattr(f, 'is_Add') and hasattr(f, 'args_cnc') and hasattr(f, 'func') and hasattr(f, 'args') and hasattr(f, 'xreplace')"},"out":{"base":"Any","pred":"result satisfies: len(c) == old_len_c + 1 and len(nc) == old_len_nc + 1 and len(reps) == old_len_reps + 1"},"spec":{"lhs":"apart(f, x, full)","rhs":"len(c) == old_len_c + 1 and len(nc) == old_len_nc + 1 and len(reps) == old_len_reps + 1","over":{"base":"Any","pred":"hasattr(f, 'is_Atom') and hasattr(f, 'as_numer_denom') and hasattr(f, 'is_commutative') and hasattr(f, 'is_Mul') and hasattr(f, 'cancel') and hasattr(f, 'is_Add') and hasattr(f, 'args_cnc') and hasattr(f, 'func') and hasattr(f, 'args') and hasattr(f, 'xreplace')"},"name":"apart_correct"},"guarantee":"len(c) == old_len_c + 1; len(nc) == old_len_nc + 1; len(reps) == old_len_reps + 1; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.partfrac.apart_correct","statement":"Path(apart(x), len(c) == old_len_c + 1; len(nc) == old_len_nc + 1; len(reps) == old_len_reps + 1; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"568d12c7d36be136","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'is_Atom')","hasattr(f, 'as_numer_denom')","hasattr(f, 'is_commutative')","hasattr(f, 'is_Mul')","hasattr(f, 'cancel')","hasattr(f, 'is_Add')","hasattr(f, 'args_cnc')","hasattr(f, 'func')","hasattr(f, 'args')","hasattr(f, 'xreplace')"],"ensures":["len(c) == old_len_c + 1","len(nc) == old_len_nc + 1","len(reps) == old_len_reps + 1"],"fibers":[{"name":"case_0","guard":"f.is_Atom","ensures":["result == f"],"decidability":"library","returns_expr":"f"},{"name":"case_1","guard":"not (f.is_Atom)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.args","f.args_cnc","f.as_numer_denom","f.cancel","f.func","f.is_Add","f.is_Atom","f.is_Mul","f.is_commutative","f.xreplace"],"calls_mutating":["c.append","nc.append","reps.append"],"raises":["NotImplementedError","PolynomialError"],"catches":["NotImplementedError","PolynomialError"]},"state_contract":{"modifies":["c.*","nc.*","reps.*"],"old_bindings":{"old_len_c":"len(c)","old_len_nc":"len(nc)","old_len_reps":"len(reps)"},"post_ensures":["len(c) == old_len_c + 1","len(nc) == old_len_nc + 1","len(reps) == old_len_reps + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"PolynomialError":["isinstance(raised, PolynomialError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['f', 'x', 'full'], spec=['f', 'x', 'full', '**options']"]}}
 def apart(f, x=None, full=False, **options):
     """
     Compute partial fraction decomposition of a rational function.
@@ -176,16 +189,25 @@ def apart(f, x=None, full=False, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apart_undetermined_coeffs(P, ), partial fractions via method of undetermined coefficients) over Any ║
+# ║ Path(apart_undetermined_coeffs(P, Q), <unspecified:apart_undetermined_coeffs>) over {Any | hasattr(Q, 'factor_list') and hasattr(Q, 'gen') and hasattr(Q, 'get_domain') and hasattr(P, 'nth')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apart_undetermined_coeffs : Any → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(Q, 'factor_list')                      ║
+# ║   requires: hasattr(Q, 'gen')                              ║
+# ║   requires: hasattr(Q, 'get_domain')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apart_undetermined_coeffs : {Any | hasattr(Q, 'factor...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61d3f0c4155a100b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.partfrac.apart_undetermined_coeffs","kind":"function","src_hash":"4343d11c32da240f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apart_undetermined_coeffs(P, )","rhs":"partial fractions via method of undetermined coefficients","over":{"base":"Any"},"name":"apart_undetermined_coeffs_correct"},"guarantee":"partial fractions via method of undetermined coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.partfrac.apart_undetermined_coeffs_correct","statement":"Path(apart_undetermined_coeffs(x), partial fractions via method of undetermined coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61d3f0c4155a100b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.partfrac.apart_undetermined_coeffs","kind":"function","src_hash":"4343d11c32da240f","in":{"base":"Any","pred":"hasattr(Q, 'factor_list') and hasattr(Q, 'gen') and hasattr(Q, 'get_domain') and hasattr(P, 'nth')"},"out":{"base":"Any"},"spec":{"lhs":"apart_undetermined_coeffs(P, Q)","rhs":"<unspecified:apart_undetermined_coeffs>","over":{"base":"Any","pred":"hasattr(Q, 'factor_list') and hasattr(Q, 'gen') and hasattr(Q, 'get_domain') and hasattr(P, 'nth')"},"name":"apart_undetermined_coeffs_correct"},"guarantee":"partial fractions via method of undetermined coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.partfrac.apart_undetermined_coeffs_correct","statement":"Path(apart_undetermined_coeffs(x), partial fractions via method of undetermined coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61d3f0c4155a100b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(Q, 'factor_list')","hasattr(Q, 'gen')","hasattr(Q, 'get_domain')","hasattr(P, 'nth')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def apart_undetermined_coeffs(P, Q):
     """Partial fractions via method of undetermined coefficients. """
     X = numbered_symbols(cls=Dummy)
@@ -226,16 +248,23 @@ def apart_undetermined_coeffs(P, Q):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apart_full_decomposition(P, ), bronstein's full partial fraction decomposition algorithm) over Any ║
+# ║ Path(apart_full_decomposition(P, Q), assemble_partfrac_list(apart_list(P / Q, P.gens[0]))) over {Any | hasattr(P, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apart_full_decomposition : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(P, 'gens')                             ║
+# ║   returns:  assemble_partfrac_list(apart_list(P / Q, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apart_full_decomposition : {Any | hasattr(P, 'gens')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f475e2fbd8a644a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.partfrac.apart_full_decomposition","kind":"function","src_hash":"6e79852ebf20e3b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apart_full_decomposition(P, )","rhs":"bronstein's full partial fraction decomposition algorithm","over":{"base":"Any"},"name":"apart_full_decomposition_correct"},"guarantee":"bronstein's full partial fraction decomposition algorithm","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f475e2fbd8a644a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.partfrac.apart_full_decomposition","kind":"function","src_hash":"6e79852ebf20e3b7","in":{"base":"Any","pred":"hasattr(P, 'gens')"},"out":{"base":"Any"},"spec":{"lhs":"apart_full_decomposition(P, Q)","rhs":"assemble_partfrac_list(apart_list(P / Q, P.gens[0]))","over":{"base":"Any","pred":"hasattr(P, 'gens')"},"name":"apart_full_decomposition_correct"},"guarantee":"returns assemble_partfrac_list(apart_list(P / Q, P.gens[0]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f475e2fbd8a644a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(P, 'gens')"],"returns_expr":"assemble_partfrac_list(apart_list(P / Q, P.gens[0]))","pure":false,"effects":{"effect_type":"reads_state","reads":["P.gens"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def apart_full_decomposition(P, Q):
     """
     Bronstein's full partial fraction decomposition algorithm.
@@ -260,16 +289,25 @@ def apart_full_decomposition(P, Q):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apart_list(f, ), compute partial fraction decomposition of a rational function and return the result in structured form) over Any ║
+# ║ Path(apart_list(f, x, dummies), <unspecified:apart_list>) over {Any | hasattr(f, 'is_Atom') and hasattr(f, 'as_numer_denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apart_list : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'is_Atom')                          ║
+# ║   requires: hasattr(f, 'as_numer_denom')                   ║
+# ║   fiber[case_0]: f.is_Atom => f                            ║
+# ║   fiber[case_1]: not (f.is_Atom)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apart_list : {Any | hasattr(f, 'is_Atom') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6257ac2b301cf116  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbb954cfe4bb7276  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.partfrac.apart_list","kind":"function","src_hash":"bce6491c99248174","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apart_list(f, )","rhs":"compute partial fraction decomposition of a rational function and return the result in structured form","over":{"base":"Any"},"name":"apart_list_correct"},"guarantee":"compute partial fraction decomposition of a rational function and return the result in structured form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.partfrac.apart_list_correct","statement":"Path(apart_list(x), compute partial fraction decomposition of a rational function and return the result in structured form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6257ac2b301cf116"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.partfrac.apart_list","kind":"function","src_hash":"bce6491c99248174","in":{"base":"Any","pred":"hasattr(f, 'is_Atom') and hasattr(f, 'as_numer_denom')"},"out":{"base":"Any"},"spec":{"lhs":"apart_list(f, x, dummies)","rhs":"<unspecified:apart_list>","over":{"base":"Any","pred":"hasattr(f, 'is_Atom') and hasattr(f, 'as_numer_denom')"},"name":"apart_list_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.partfrac.apart_list_correct","statement":"Path(apart_list(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbb954cfe4bb7276","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'is_Atom')","hasattr(f, 'as_numer_denom')"],"fibers":[{"name":"case_0","guard":"f.is_Atom","ensures":["result == f"],"decidability":"library","returns_expr":"f"},{"name":"case_1","guard":"not (f.is_Atom)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.as_numer_denom","f.is_Atom"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['f', 'x', 'dummies'], spec=['f', 'x', 'dummies', '**options']"]}}
 def apart_list(f, x=None, dummies=None, **options):
     """
     Compute partial fraction decomposition of a rational function
@@ -411,16 +449,25 @@ def apart_list(f, x=None, dummies=None, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apart_list_full_decomposition(P, ), bronstein's full partial fraction decomposition algorithm) over Any ║
+# ║ Path(apart_list_full_decomposition(P, Q, dummygen), <unspecified:apart_list_full_decomposition>) over {Any | hasattr(P, 'gen') and hasattr(Q, 'sqf_list_include') and hasattr(Q, 'subs') and hasattr(P, 'gcd') and hasattr(Q, 'half_gcdex') and hasattr(P, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apart_list_full_decomposition : Any → Any                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(P, 'gen')                              ║
+# ║   requires: hasattr(Q, 'sqf_list_include')                 ║
+# ║   requires: hasattr(Q, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apart_list_full_decomposition : {Any | hasattr(P, 'ge...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff8f694b8a1c7d8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.partfrac.apart_list_full_decomposition","kind":"function","src_hash":"d63e1aa2257febe6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apart_list_full_decomposition(P, )","rhs":"bronstein's full partial fraction decomposition algorithm","over":{"base":"Any"},"name":"apart_list_full_decomposition_correct"},"guarantee":"bronstein's full partial fraction decomposition algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.partfrac.apart_list_full_decomposition_correct","statement":"Path(apart_list_full_decomposition(x), bronstein's full partial fraction decomposition algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff8f694b8a1c7d8b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.partfrac.apart_list_full_decomposition","kind":"function","src_hash":"d63e1aa2257febe6","in":{"base":"Any","pred":"hasattr(P, 'gen') and hasattr(Q, 'sqf_list_include') and hasattr(Q, 'subs') and hasattr(P, 'gcd') and hasattr(Q, 'half_gcdex') and hasattr(P, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"apart_list_full_decomposition(P, Q, dummygen)","rhs":"<unspecified:apart_list_full_decomposition>","over":{"base":"Any","pred":"hasattr(P, 'gen') and hasattr(Q, 'sqf_list_include') and hasattr(Q, 'subs') and hasattr(P, 'gcd') and hasattr(Q, 'half_gcdex') and hasattr(P, 'subs')"},"name":"apart_list_full_decomposition_correct"},"guarantee":"bronstein's full partial fraction decomposition algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.partfrac.apart_list_full_decomposition_correct","statement":"Path(apart_list_full_decomposition(x), bronstein's full partial fraction decomposition algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff8f694b8a1c7d8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(P, 'gen')","hasattr(Q, 'sqf_list_include')","hasattr(Q, 'subs')","hasattr(P, 'gcd')","hasattr(Q, 'half_gcdex')","hasattr(P, 'subs')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def apart_list_full_decomposition(P, Q, dummygen):
     """
     Bronstein's full partial fraction decomposition algorithm.
@@ -490,7 +537,10 @@ def apart_list_full_decomposition(P, Q, dummygen):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(assemble_partfrac_list(par), reassemble a full partial fraction decomposition from a structured result obtained by the function ``apart_list``) over {Any | isinstance(r, Poly)} ║
+# ║ Path(assemble_partfrac_list(partial_list), common * pfd) over {Any | isinstance(r, Poly)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  common * pfd                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ assemble_partfrac_list : {Any | isinstance(r, Poly)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -502,9 +552,12 @@ def apart_list_full_decomposition(P, Q, dummygen):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8701d329...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.partfrac.assemble_partfrac_list","kind":"function","src_hash":"05c59eee96269087","in":{"base":"Any","pred":"isinstance(r, Poly)"},"out":{"base":"Any"},"spec":{"lhs":"assemble_partfrac_list(par)","rhs":"reassemble a full partial fraction decomposition from a structured result obtained by the function ``apart_list``","over":{"base":"Any","pred":"isinstance(r, Poly)"},"name":"assemble_partfrac_list_correct"},"guarantee":"reassemble a full partial fraction decomposition from a structured result obtained by the function ``apart_list``","fibers":[{"name":"Poly","pred":"isinstance(r, Poly)","path":{"lhs":"assemble_partfrac_list(x)","rhs":"reassemble a full partial fraction decomposition from a structured result obtained by the function ``apart_list``","over":{"base":"Poly","pred":"isinstance(r, Poly)"},"name":"assemble_partfrac_list_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.partfrac.assemble_partfrac_list_Poly_correct","statement":"assemble_partfrac_list satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8701d329263fa5c8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.partfrac.assemble_partfrac_list","kind":"function","src_hash":"05c59eee96269087","in":{"base":"Any","pred":"isinstance(r, Poly)"},"out":{"base":"Any"},"spec":{"lhs":"assemble_partfrac_list(partial_list)","rhs":"common * pfd","over":{"base":"Any","pred":"isinstance(r, Poly)"},"name":"assemble_partfrac_list_correct"},"guarantee":"returns common * pfd","fibers":[{"name":"Poly","pred":"isinstance(r, Poly)","path":{"lhs":"assemble_partfrac_list(x)","rhs":"returns common * pfd","over":{"base":"Poly","pred":"isinstance(r, Poly)"},"name":"assemble_partfrac_list_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.partfrac.assemble_partfrac_list_Poly_correct","statement":"assemble_partfrac_list satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8701d329263fa5c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"common * pfd","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(r, Poly)'}, fibers={'Poly'})"]}}
 def assemble_partfrac_list(partial_list):
     r"""Reassemble a full partial fraction decomposition
     from a structured result obtained by the function ``apart_list``.

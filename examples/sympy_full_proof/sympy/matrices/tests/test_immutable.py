@@ -35,16 +35,24 @@ ieye = ImmutableDenseMatrix(eye(3))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_creation(), test_creation produces the expected output) over Any ║
+# ║ Path(test_creation(), IM.shape == ISM.shape == (3, 3) and IM[1, 2] == ISM[1, 2] == 6 and IM[2, 2] == ISM[2, 2] == 9) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_creation : Any → {Any | IM.shape == ISM.shape ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  IM.shape == ISM.shape == (3, 3)                ║
+# ║   ensures:  IM[1, 2] == ISM[1, 2] == 6                     ║
+# ║   ensures:  IM[2, 2] == ISM[2, 2] == 9                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_creation : Any → {Any | result satisfies: IM.sha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3d0a8edbb2b0007  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ba732dd87947664  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_creation","kind":"function","src_hash":"1a99fca46759f923","in":{"base":"Any"},"out":{"base":"Any","pred":"IM.shape == ISM.shape == (3, 3) and IM[1, 2] == ISM[1, 2] == 6 and IM[2, 2] == ISM[2, 2] == 9"},"spec":{"lhs":"test_creation()","rhs":"test_creation produces the expected output","over":{"base":"Any"},"name":"test_creation_correct"},"guarantee":"test_creation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_creation_correct","statement":"Path(test_creation(x), test_creation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3d0a8edbb2b0007"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_creation","kind":"function","src_hash":"1a99fca46759f923","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: IM.shape == ISM.shape == (3, 3) and IM[1, 2] == ISM[1, 2] == 6 and IM[2, 2] == ISM[2, 2] == 9"},"spec":{"lhs":"test_creation()","rhs":"IM.shape == ISM.shape == (3, 3) and IM[1, 2] == ISM[1, 2] == 6 and IM[2, 2] == ISM[2, 2] == 9","over":{"base":"Any"},"name":"test_creation_correct"},"guarantee":"IM.shape == ISM.shape == (3, 3); IM[1, 2] == ISM[1, 2] == 6; IM[2, 2] == ISM[2, 2] == 9","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_creation_correct","statement":"Path(test_creation(x), IM.shape == ISM.shape == (3, 3); IM[1, 2] == ISM[1, 2] == 6; IM[2, 2] == ISM[2, 2] == 9)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ba732dd87947664","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["IM.shape == ISM.shape == (3, 3)","IM[1, 2] == ISM[1, 2] == 6","IM[2, 2] == ISM[2, 2] == 9"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_creation():
     assert IM.shape == ISM.shape == (3, 3)
     assert IM[1, 2] == ISM[1, 2] == 6
@@ -52,16 +60,22 @@ def test_creation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_immutability(), test_immutability produces the expected output) over Any ║
+# ║ Path(test_immutability(), <unspecified:test_immutability>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_immutability : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad4b325217585650  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_immutability","kind":"function","src_hash":"f2145144c8143010","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_immutability()","rhs":"test_immutability produces the expected output","over":{"base":"Any"},"name":"test_immutability_correct"},"guarantee":"test_immutability produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_immutability_correct","statement":"Path(test_immutability(x), test_immutability produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad4b325217585650"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_immutability","kind":"function","src_hash":"f2145144c8143010","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_immutability()","rhs":"<unspecified:test_immutability>","over":{"base":"Any"},"name":"test_immutability_correct"},"guarantee":"test_immutability produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_immutability_correct","statement":"Path(test_immutability(x), test_immutability produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad4b325217585650","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_immutability():
     with raises(TypeError):
         IM[2, 2] = 5
@@ -70,16 +84,24 @@ def test_immutability():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slicing(), test_slicing produces the expected output) over Any ║
+# ║ Path(test_slicing(), IM[1, :] == ImmutableDenseMatrix([[4, 5, 6]]) and IM[:2, :2] == ImmutableDenseMatrix([[1, 2], [4, 5]]) and ISM[1, :] == ImmutableSparseMatrix([[4, 5, 6]]) and ISM[:2, :2] == ImmutableSparseMatrix([[1, 2], [4, 5]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_slicing : Any → {Any | IM[1, :] == ImmutableDens...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  IM[1, :] == ImmutableDenseMatrix([[4, 5, ...   ║
+# ║   ensures:  IM[:2, :2] == ImmutableDenseMatrix([[1, 2...   ║
+# ║   ensures:  ISM[1, :] == ImmutableSparseMatrix([[4, 5...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_slicing : Any → {Any | result satisfies: IM[1, :...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e4af7ca9482a42f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea90ec9e8f9efb2f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_slicing","kind":"function","src_hash":"9b4b858db9e40c9c","in":{"base":"Any"},"out":{"base":"Any","pred":"IM[1, :] == ImmutableDenseMatrix([[4, 5, 6]]) and IM[:2, :2] == ImmutableDenseMatrix([[1, 2], [4, 5]]) and ISM[1, :] == ImmutableSparseMatrix([[4, 5, 6]]) and ISM[:2, :2] == ImmutableSparseMatrix([[1, 2], [4, 5]])"},"spec":{"lhs":"test_slicing()","rhs":"test_slicing produces the expected output","over":{"base":"Any"},"name":"test_slicing_correct"},"guarantee":"test_slicing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_slicing_correct","statement":"Path(test_slicing(x), test_slicing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e4af7ca9482a42f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_slicing","kind":"function","src_hash":"9b4b858db9e40c9c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: IM[1, :] == ImmutableDenseMatrix([[4, 5, 6]]) and IM[:2, :2] == ImmutableDenseMatrix([[1, 2], [4, 5]]) and ISM[1, :] == ImmutableSparseMatrix([[4, 5, 6]]) and ISM[:2, :2] == ImmutableSparseMatrix([[1, 2], [4, 5]])"},"spec":{"lhs":"test_slicing()","rhs":"IM[1, :] == ImmutableDenseMatrix([[4, 5, 6]]) and IM[:2, :2] == ImmutableDenseMatrix([[1, 2], [4, 5]]) and ISM[1, :] == ImmutableSparseMatrix([[4, 5, 6]]) and ISM[:2, :2] == ImmutableSparseMatrix([[1, 2], [4, 5]])","over":{"base":"Any"},"name":"test_slicing_correct"},"guarantee":"IM[1, :] == ImmutableDenseMatrix([[4, 5, 6]]); IM[:2, :2] == ImmutableDenseMatrix([[1, 2], [4, 5]]); ISM[1, :] == ImmutableSparseMatrix([[4, 5, 6]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_slicing_correct","statement":"Path(test_slicing(x), IM[1, :] == ImmutableDenseMatrix([[4, 5, 6]]); IM[:2, :2] == ImmutableDenseMatrix([[1, 2], [4, 5]]); ISM[1, :] == ImmutableSparseMatrix([[4, 5, 6]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea90ec9e8f9efb2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["IM[1, :] == ImmutableDenseMatrix([[4, 5, 6]])","IM[:2, :2] == ImmutableDenseMatrix([[1, 2], [4, 5]])","ISM[1, :] == ImmutableSparseMatrix([[4, 5, 6]])","ISM[:2, :2] == ImmutableSparseMatrix([[1, 2], [4, 5]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_slicing():
     assert IM[1, :] == ImmutableDenseMatrix([[4, 5, 6]])
     assert IM[:2, :2] == ImmutableDenseMatrix([[1, 2], [4, 5]])
@@ -88,16 +110,24 @@ def test_slicing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs(), test_subs produces the expected output) over Any ║
+# ║ Path(test_subs(), B.subs(x, 3) == A and (x * B).subs(x, 3) == 3 * A and (x * eye(2) + B).subs(x, 3) == 3 * eye(2) + A and C.subs([[x, -1], [y, -2]]) == A and C.subs([(x, -1), (y, -2)]) == A and C.subs({x: -1, y: -2}) == A and C.subs({x: y - 1, y: x - 1}, simultaneous=True) == ImmutableMatrix([[1 - y, (x - 1) * (y - 1)], [2 - x - y, (x - 1) ** 2]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs : Any → {Any | B.subs(x, 3) == A and (x * B...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.subs(x, 3) == A                              ║
+# ║   ensures:  (x * B).subs(x, 3) == 3 * A                    ║
+# ║   ensures:  (x * eye(2) + B).subs(x, 3) == 3 * eye(2)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs : Any → {Any | result satisfies: B.subs(x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3ad41239d09b4c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd3c89caf50b0ebd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_subs","kind":"function","src_hash":"4b76f7f906d952b6","in":{"base":"Any"},"out":{"base":"Any","pred":"B.subs(x, 3) == A and (x * B).subs(x, 3) == 3 * A and (x * eye(2) + B).subs(x, 3) == 3 * eye(2) + A and C.subs([[x, -1], [y, -2]]) == A and C.subs([(x, -1), (y, -2)]) == A and C.subs({x: -1, y: -2}) == A"},"spec":{"lhs":"test_subs()","rhs":"test_subs produces the expected output","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"test_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_subs_correct","statement":"Path(test_subs(x), test_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3ad41239d09b4c2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_subs","kind":"function","src_hash":"4b76f7f906d952b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.subs(x, 3) == A and (x * B).subs(x, 3) == 3 * A and (x * eye(2) + B).subs(x, 3) == 3 * eye(2) + A and C.subs([[x, -1], [y, -2]]) == A and C.subs([(x, -1), (y, -2)]) == A and C.subs({x: -1, y: -2}) == A and C.subs({x: y - 1, y: x - 1}, simultaneous=True) == ImmutableMatrix([[1 - y, (x - 1) * (y - 1)], [2 - x - y, (x - 1) ** 2]])"},"spec":{"lhs":"test_subs()","rhs":"B.subs(x, 3) == A and (x * B).subs(x, 3) == 3 * A and (x * eye(2) + B).subs(x, 3) == 3 * eye(2) + A and C.subs([[x, -1], [y, -2]]) == A and C.subs([(x, -1), (y, -2)]) == A and C.subs({x: -1, y: -2}) == A and C.subs({x: y - 1, y: x - 1}, simultaneous=True) == ImmutableMatrix([[1 - y, (x - 1) * (y - 1)], [2 - x - y, (x - 1) ** 2]])","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"B.subs(x, 3) == A; (x * B).subs(x, 3) == 3 * A; (x * eye(2) + B).subs(x, 3) == 3 * eye(2) + A","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_subs_correct","statement":"Path(test_subs(x), B.subs(x, 3) == A; (x * B).subs(x, 3) == 3 * A; (x * eye(2) + B).subs(x, 3) == 3 * eye(2) + A)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd3c89caf50b0ebd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.subs(x, 3) == A","(x * B).subs(x, 3) == 3 * A","(x * eye(2) + B).subs(x, 3) == 3 * eye(2) + A","C.subs([[x, -1], [y, -2]]) == A","C.subs([(x, -1), (y, -2)]) == A","C.subs({x: -1, y: -2}) == A","C.subs({x: y - 1, y: x - 1}, simultaneous=True) == ImmutableMatrix([[1 - y, (x - 1) * (y - 1)], [2 - x - y, (x - 1) ** 2]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_subs():
     A = ImmutableMatrix([[1, 2], [3, 4]])
     B = ImmutableMatrix([[1, 2], [x, 4]])
@@ -113,16 +143,23 @@ def test_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_as_immutable(), test_as_immutable produces the expected output) over Any ║
+# ║ Path(test_as_immutable(), sympify(X) == X.as_immutable() == ImmutableMatrix(data) and sympify(X) == X.as_immutable() == ImmutableSparseMatrix(2, 2, data)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_as_immutable : Any → {Any | sympify(X) == X.as_i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sympify(X) == X.as_immutable() == Immutab...   ║
+# ║   ensures:  sympify(X) == X.as_immutable() == Immutab...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_as_immutable : Any → {Any | result satisfies: sy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25b79db97750ea06  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 027de3e7986b9a1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_as_immutable","kind":"function","src_hash":"f05101807ff69589","in":{"base":"Any"},"out":{"base":"Any","pred":"sympify(X) == X.as_immutable() == ImmutableMatrix(data) and sympify(X) == X.as_immutable() == ImmutableSparseMatrix(2, 2, data)"},"spec":{"lhs":"test_as_immutable()","rhs":"test_as_immutable produces the expected output","over":{"base":"Any"},"name":"test_as_immutable_correct"},"guarantee":"test_as_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_as_immutable_correct","statement":"Path(test_as_immutable(x), test_as_immutable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25b79db97750ea06"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_as_immutable","kind":"function","src_hash":"f05101807ff69589","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sympify(X) == X.as_immutable() == ImmutableMatrix(data) and sympify(X) == X.as_immutable() == ImmutableSparseMatrix(2, 2, data)"},"spec":{"lhs":"test_as_immutable()","rhs":"sympify(X) == X.as_immutable() == ImmutableMatrix(data) and sympify(X) == X.as_immutable() == ImmutableSparseMatrix(2, 2, data)","over":{"base":"Any"},"name":"test_as_immutable_correct"},"guarantee":"sympify(X) == X.as_immutable() == ImmutableMatrix(data); sympify(X) == X.as_immutable() == ImmutableSparseMatrix(2, 2, data)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_as_immutable_correct","statement":"Path(test_as_immutable(x), sympify(X) == X.as_immutable() == ImmutableMatrix(data); sympify(X) == X.as_immutable() == ImmutableSparseMatrix(2, 2, data))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"027de3e7986b9a1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sympify(X) == X.as_immutable() == ImmutableMatrix(data)","sympify(X) == X.as_immutable() == ImmutableSparseMatrix(2, 2, data)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_as_immutable():
     data = [[1, 2], [3, 4]]
     X = Matrix(data)
@@ -134,16 +171,24 @@ def test_as_immutable():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_return_types(), test_function_return_types produces the expected output) over Any ║
+# ║ Path(test_function_return_types(), (type(q), type(r)) == (ImmutableMatrix, ImmutableMatrix) and type(X.LUsolve(Y)) == ImmutableMatrix and type(X.QRsolve(Y)) == ImmutableMatrix and X.T == X and X.is_symmetric and type(X.cholesky()) == ImmutableMatrix and (type(L), type(D)) == (ImmutableMatrix, ImmutableMatrix) and X.is_diagonalizable() and X.det() == -3 and X.norm(2) == 3 and type(X.eigenvects()[0][2][0]) == ImmutableMatrix and type(zeros(3, 3).as_immutable().nullspace()[0]) == ImmutableMatrix and type(X.lower_triangular_solve(Y)) == ImmutableMatrix and type(X.T.upper_triangular_solve(Y)) == ImmutableMatrix and type(X.minor_submatrix(0, 0)) == ImmutableMatrix) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_function_return_types : Any → {Any | (type(q), t...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (type(q), type(r)) == (ImmutableMatrix, I...   ║
+# ║   ensures:  type(X.LUsolve(Y)) == ImmutableMatrix          ║
+# ║   ensures:  type(X.QRsolve(Y)) == ImmutableMatrix          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_function_return_types : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 492ba1b72326ccab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5353e8e3f6f55f12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_function_return_types","kind":"function","src_hash":"3e5668ff2a3d8ed1","in":{"base":"Any"},"out":{"base":"Any","pred":"(type(q), type(r)) == (ImmutableMatrix, ImmutableMatrix) and type(X.LUsolve(Y)) == ImmutableMatrix and type(X.QRsolve(Y)) == ImmutableMatrix and X.T == X and X.is_symmetric and type(X.cholesky()) == ImmutableMatrix and (type(L), type(D)) == (ImmutableMatrix, ImmutableMatrix) and X.is_diagonalizable() and X.det() == -3 and X.norm(2) == 3 and type(X.eigenvects()[0][2][0]) == ImmutableMatrix and type(zeros(3, 3).as_immutable().nullspace()[0]) == ImmutableMatrix and type(X.lower_triangular_solve(Y)) == ImmutableMatrix and type(X.T.upper_triangular_solve(Y)) == ImmutableMatrix and type(X.minor_submatrix(0, 0)) == ImmutableMatrix"},"spec":{"lhs":"test_function_return_types()","rhs":"test_function_return_types produces the expected output","over":{"base":"Any"},"name":"test_function_return_types_correct"},"guarantee":"test_function_return_types produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_function_return_types_correct","statement":"Path(test_function_return_types(x), test_function_return_types produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"492ba1b72326ccab"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_function_return_types","kind":"function","src_hash":"3e5668ff2a3d8ed1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (type(q), type(r)) == (ImmutableMatrix, ImmutableMatrix) and type(X.LUsolve(Y)) == ImmutableMatrix and type(X.QRsolve(Y)) == ImmutableMatrix and X.T == X and X.is_symmetric and type(X.cholesky()) == ImmutableMatrix and (type(L), type(D)) == (ImmutableMatrix, ImmutableMatrix) and X.is_diagonalizable() and X.det() == -3 and X.norm(2) == 3 and type(X.eigenvects()[0][2][0]) == ImmutableMatrix and type(zeros(3, 3).as_immutable().nullspace()[0]) == ImmutableMatrix and type(X.lower_triangular_solve(Y)) == ImmutableMatrix and type(X.T.upper_triangular_solve(Y)) == ImmutableMatrix and type(X.minor_submatrix(0, 0)) == ImmutableMatrix"},"spec":{"lhs":"test_function_return_types()","rhs":"(type(q), type(r)) == (ImmutableMatrix, ImmutableMatrix) and type(X.LUsolve(Y)) == ImmutableMatrix and type(X.QRsolve(Y)) == ImmutableMatrix and X.T == X and X.is_symmetric and type(X.cholesky()) == ImmutableMatrix and (type(L), type(D)) == (ImmutableMatrix, ImmutableMatrix) and X.is_diagonalizable() and X.det() == -3 and X.norm(2) == 3 and type(X.eigenvects()[0][2][0]) == ImmutableMatrix and type(zeros(3, 3).as_immutable().nullspace()[0]) == ImmutableMatrix and type(X.lower_triangular_solve(Y)) == ImmutableMatrix and type(X.T.upper_triangular_solve(Y)) == ImmutableMatrix and type(X.minor_submatrix(0, 0)) == ImmutableMatrix","over":{"base":"Any"},"name":"test_function_return_types_correct"},"guarantee":"(type(q), type(r)) == (ImmutableMatrix, ImmutableMatrix); type(X.LUsolve(Y)) == ImmutableMatrix; type(X.QRsolve(Y)) == ImmutableMatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_function_return_types_correct","statement":"Path(test_function_return_types(x), (type(q), type(r)) == (ImmutableMatrix, ImmutableMatrix); type(X.LUsolve(Y)) == ImmutableMatrix; type(X.QRsolve(Y)) == ImmutableMatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5353e8e3f6f55f12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(type(q), type(r)) == (ImmutableMatrix, ImmutableMatrix)","type(X.LUsolve(Y)) == ImmutableMatrix","type(X.QRsolve(Y)) == ImmutableMatrix","X.T == X","X.is_symmetric","type(X.cholesky()) == ImmutableMatrix","(type(L), type(D)) == (ImmutableMatrix, ImmutableMatrix)","X.is_diagonalizable()","X.det() == -3","X.norm(2) == 3","type(X.eigenvects()[0][2][0]) == ImmutableMatrix","type(zeros(3, 3).as_immutable().nullspace()[0]) == ImmutableMatrix","type(X.lower_triangular_solve(Y)) == ImmutableMatrix","type(X.T.upper_triangular_solve(Y)) == ImmutableMatrix","type(X.minor_submatrix(0, 0)) == ImmutableMatrix"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_function_return_types():
     # Lets ensure that decompositions of immutable matrices remain immutable
     # I.e. do MatrixBase methods return the correct class?
@@ -183,7 +228,12 @@ def test_function_return_types():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_immutable_evaluation(), test_immutable_evaluation produces the expected output) over {Any | isinstance(X + A, ImmutableMatrix)} ║
+# ║ Path(test_immutable_evaluation(), isinstance(X + A, ImmutableMatrix) and isinstance(X * A, ImmutableMatrix) and isinstance(X * 2, ImmutableMatrix) and isinstance(2 * X, ImmutableMatrix) and isinstance(A ** 2, ImmutableMatrix)) over {Any | isinstance(X + A, ImmutableMatrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(X + A, ImmutableMatrix)             ║
+# ║   ensures:  isinstance(X * A, ImmutableMatrix)             ║
+# ║   ensures:  isinstance(X * 2, ImmutableMatrix)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_immutable_evaluation : {Any | isinstance(X + A, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -195,9 +245,12 @@ def test_function_return_types():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 11c52e84...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_immutable_evaluation","kind":"function","src_hash":"3b8e5f14c8b91964","in":{"base":"Any","pred":"isinstance(X + A, ImmutableMatrix)"},"out":{"base":"Any","pred":"isinstance(X + A, ImmutableMatrix) and isinstance(X * A, ImmutableMatrix) and isinstance(X * 2, ImmutableMatrix) and isinstance(2 * X, ImmutableMatrix) and isinstance(A ** 2, ImmutableMatrix)"},"spec":{"lhs":"test_immutable_evaluation()","rhs":"test_immutable_evaluation produces the expected output","over":{"base":"Any","pred":"isinstance(X + A, ImmutableMatrix)"},"name":"test_immutable_evaluation_correct"},"guarantee":"test_immutable_evaluation produces the expected output","fibers":[{"name":"ImmutableMatrix","pred":"isinstance(X + A, ImmutableMatrix)","path":{"lhs":"test_immutable_evaluation(x)","rhs":"test_immutable_evaluation produces the expected output","over":{"base":"ImmutableMatrix","pred":"isinstance(X + A, ImmutableMatrix)"},"name":"test_immutable_evaluation_ImmutableMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_immutable_evaluation_ImmutableMatrix_correct","statement":"test_immutable_evaluation satisfies spec on ImmutableMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"11c52e84f89f8a58"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_immutable_evaluation","kind":"function","src_hash":"3b8e5f14c8b91964","in":{"base":"Any","pred":"isinstance(X + A, ImmutableMatrix)"},"out":{"base":"Any","pred":"result satisfies: isinstance(X + A, ImmutableMatrix) and isinstance(X * A, ImmutableMatrix) and isinstance(X * 2, ImmutableMatrix) and isinstance(2 * X, ImmutableMatrix) and isinstance(A ** 2, ImmutableMatrix)"},"spec":{"lhs":"test_immutable_evaluation()","rhs":"isinstance(X + A, ImmutableMatrix) and isinstance(X * A, ImmutableMatrix) and isinstance(X * 2, ImmutableMatrix) and isinstance(2 * X, ImmutableMatrix) and isinstance(A ** 2, ImmutableMatrix)","over":{"base":"Any","pred":"isinstance(X + A, ImmutableMatrix)"},"name":"test_immutable_evaluation_correct"},"guarantee":"isinstance(X + A, ImmutableMatrix); isinstance(X * A, ImmutableMatrix); isinstance(X * 2, ImmutableMatrix)","fibers":[{"name":"ImmutableMatrix","pred":"isinstance(X + A, ImmutableMatrix)","path":{"lhs":"test_immutable_evaluation(x)","rhs":"isinstance(X + A, ImmutableMatrix); isinstance(X * A, ImmutableMatrix); isinstance(X * 2, ImmutableMatrix)","over":{"base":"ImmutableMatrix","pred":"isinstance(X + A, ImmutableMatrix)"},"name":"test_immutable_evaluation_ImmutableMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_immutable_evaluation_ImmutableMatrix_correct","statement":"test_immutable_evaluation satisfies spec on ImmutableMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"11c52e84f89f8a58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(X + A, ImmutableMatrix)","isinstance(X * A, ImmutableMatrix)","isinstance(X * 2, ImmutableMatrix)","isinstance(2 * X, ImmutableMatrix)","isinstance(A ** 2, ImmutableMatrix)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":true}}
 def test_immutable_evaluation():
     X = ImmutableMatrix(eye(3))
     A = ImmutableMatrix(3, 3, range(9))
@@ -209,31 +262,45 @@ def test_immutable_evaluation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deterimant(), test_deterimant produces the expected output) over Any ║
+# ║ Path(test_deterimant(), ImmutableMatrix(4, 4, lambda i, j: i + j).det() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_deterimant : Any → {Any | ImmutableMatrix(4, 4, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ImmutableMatrix(4, 4, lambda i, j: i + j)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_deterimant : Any → {Any | result satisfies: Immu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ae5a809ffcf422b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61ce5b6f3ba47799  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_deterimant","kind":"function","src_hash":"0f7dcb90c11c59ee","in":{"base":"Any"},"out":{"base":"Any","pred":"ImmutableMatrix(4, 4, lambda i, j: i + j).det() == 0"},"spec":{"lhs":"test_deterimant()","rhs":"test_deterimant produces the expected output","over":{"base":"Any"},"name":"test_deterimant_correct"},"guarantee":"test_deterimant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_deterimant_correct","statement":"Path(test_deterimant(x), test_deterimant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ae5a809ffcf422b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_deterimant","kind":"function","src_hash":"0f7dcb90c11c59ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ImmutableMatrix(4, 4, lambda i, j: i + j).det() == 0"},"spec":{"lhs":"test_deterimant()","rhs":"ImmutableMatrix(4, 4, lambda i, j: i + j).det() == 0","over":{"base":"Any"},"name":"test_deterimant_correct"},"guarantee":"ImmutableMatrix(4, 4, lambda i, j: i + j).det() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_deterimant_correct","statement":"Path(test_deterimant(x), ImmutableMatrix(4, 4, lambda i, j: i + j).det() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61ce5b6f3ba47799","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ImmutableMatrix(4, 4, lambda i, j: i + j).det() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_deterimant():
     assert ImmutableMatrix(4, 4, lambda i, j: i + j).det() == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Equality(), test_Equality produces the expected output) over Any ║
+# ║ Path(test_Equality(), Equality(IM, IM) is S.true and Unequality(IM, IM) is S.false and Equality(IM, IM.subs(1, 2)) is S.false and Unequality(IM, IM.subs(1, 2)) is S.true and Equality(IM, 2) is S.false and Unequality(IM, 2) is S.true and Equality(M, IM) is S.false and Unequality(M, IM) is S.true and Equality(M, M.subs(x, 2)).subs(x, 2) is S.true and Unequality(M, M.subs(x, 2)).subs(x, 2) is S.false and Equality(M, M.subs(x, 2)).subs(x, 3) is S.false and Unequality(M, M.subs(x, 2)).subs(x, 3) is S.true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Equality : Any → {Any | Equality(IM, IM) is S.tr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Equality(IM, IM) is S.true                     ║
+# ║   ensures:  Unequality(IM, IM) is S.false                  ║
+# ║   ensures:  Equality(IM, IM.subs(1, 2)) is S.false         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Equality : Any → {Any | result satisfies: Equali...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b444f3fe3051c91c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c504bcbab66c6372  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_Equality","kind":"function","src_hash":"2eaf656b0bdbd07f","in":{"base":"Any"},"out":{"base":"Any","pred":"Equality(IM, IM) is S.true and Unequality(IM, IM) is S.false and Equality(IM, IM.subs(1, 2)) is S.false and Unequality(IM, IM.subs(1, 2)) is S.true and Equality(IM, 2) is S.false and Unequality(IM, 2) is S.true and Equality(M, IM) is S.false and Unequality(M, IM) is S.true and Equality(M, M.subs(x, 2)).subs(x, 2) is S.true and Unequality(M, M.subs(x, 2)).subs(x, 2) is S.false and Equality(M, M.subs(x, 2)).subs(x, 3) is S.false and Unequality(M, M.subs(x, 2)).subs(x, 3) is S.true"},"spec":{"lhs":"test_Equality()","rhs":"test_Equality produces the expected output","over":{"base":"Any"},"name":"test_Equality_correct"},"guarantee":"test_Equality produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_Equality_correct","statement":"Path(test_Equality(x), test_Equality produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b444f3fe3051c91c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_Equality","kind":"function","src_hash":"2eaf656b0bdbd07f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Equality(IM, IM) is S.true and Unequality(IM, IM) is S.false and Equality(IM, IM.subs(1, 2)) is S.false and Unequality(IM, IM.subs(1, 2)) is S.true and Equality(IM, 2) is S.false and Unequality(IM, 2) is S.true and Equality(M, IM) is S.false and Unequality(M, IM) is S.true and Equality(M, M.subs(x, 2)).subs(x, 2) is S.true and Unequality(M, M.subs(x, 2)).subs(x, 2) is S.false and Equality(M, M.subs(x, 2)).subs(x, 3) is S.false and Unequality(M, M.subs(x, 2)).subs(x, 3) is S.true"},"spec":{"lhs":"test_Equality()","rhs":"Equality(IM, IM) is S.true and Unequality(IM, IM) is S.false and Equality(IM, IM.subs(1, 2)) is S.false and Unequality(IM, IM.subs(1, 2)) is S.true and Equality(IM, 2) is S.false and Unequality(IM, 2) is S.true and Equality(M, IM) is S.false and Unequality(M, IM) is S.true and Equality(M, M.subs(x, 2)).subs(x, 2) is S.true and Unequality(M, M.subs(x, 2)).subs(x, 2) is S.false and Equality(M, M.subs(x, 2)).subs(x, 3) is S.false and Unequality(M, M.subs(x, 2)).subs(x, 3) is S.true","over":{"base":"Any"},"name":"test_Equality_correct"},"guarantee":"Equality(IM, IM) is S.true; Unequality(IM, IM) is S.false; Equality(IM, IM.subs(1, 2)) is S.false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_Equality_correct","statement":"Path(test_Equality(x), Equality(IM, IM) is S.true; Unequality(IM, IM) is S.false; Equality(IM, IM.subs(1, 2)) is S.false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c504bcbab66c6372","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Equality(IM, IM) is S.true","Unequality(IM, IM) is S.false","Equality(IM, IM.subs(1, 2)) is S.false","Unequality(IM, IM.subs(1, 2)) is S.true","Equality(IM, 2) is S.false","Unequality(IM, 2) is S.true","Equality(M, IM) is S.false","Unequality(M, IM) is S.true","Equality(M, M.subs(x, 2)).subs(x, 2) is S.true","Unequality(M, M.subs(x, 2)).subs(x, 2) is S.false","Equality(M, M.subs(x, 2)).subs(x, 3) is S.false","Unequality(M, M.subs(x, 2)).subs(x, 3) is S.true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Equality():
     assert Equality(IM, IM) is S.true
     assert Unequality(IM, IM) is S.false
@@ -251,16 +318,23 @@ def test_Equality():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_integrate(), test_integrate produces the expected output) over Any ║
+# ║ Path(test_integrate(), intIM.shape == IM.shape and all((intIM[i, j] == (1 + j + 3 * i) * x for i, j in product(range(3), range(3))))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_integrate : Any → {Any | intIM.shape == IM.shape}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  intIM.shape == IM.shape                        ║
+# ║   ensures:  all((intIM[i, j] == (1 + j + 3 * i) * x f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_integrate : Any → {Any | result satisfies: intIM...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27618a2eaff81d56  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f68af7e4ff32ce9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_integrate","kind":"function","src_hash":"07c4cb8ef3f37554","in":{"base":"Any"},"out":{"base":"Any","pred":"intIM.shape == IM.shape"},"spec":{"lhs":"test_integrate()","rhs":"test_integrate produces the expected output","over":{"base":"Any"},"name":"test_integrate_correct"},"guarantee":"test_integrate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_integrate_correct","statement":"Path(test_integrate(x), test_integrate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27618a2eaff81d56"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_immutable.test_integrate","kind":"function","src_hash":"07c4cb8ef3f37554","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: intIM.shape == IM.shape and all((intIM[i, j] == (1 + j + 3 * i) * x for i, j in product(range(3), range(3))))"},"spec":{"lhs":"test_integrate()","rhs":"intIM.shape == IM.shape and all((intIM[i, j] == (1 + j + 3 * i) * x for i, j in product(range(3), range(3))))","over":{"base":"Any"},"name":"test_integrate_correct"},"guarantee":"intIM.shape == IM.shape; all((intIM[i, j] == (1 + j + 3 * i) * x for i, j in product(range(3), range(3))))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_immutable.test_integrate_correct","statement":"Path(test_integrate(x), intIM.shape == IM.shape; all((intIM[i, j] == (1 + j + 3 * i) * x for i, j in product(range(3), range(3)))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f68af7e4ff32ce9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["intIM.shape == IM.shape","all((intIM[i, j] == (1 + j + 3 * i) * x for i, j in product(range(3), range(3))))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_integrate():
     intIM = integrate(IM, x)
     assert intIM.shape == IM.shape

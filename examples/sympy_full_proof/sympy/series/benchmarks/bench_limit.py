@@ -23,15 +23,21 @@ x = Symbol('x')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_limit_1x(), timeit_limit_1x produces the expected output) over Any ║
+# ║ Path(timeit_limit_1x(), <unspecified:timeit_limit_1x>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_limit_1x : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 184dbe7183b7c7d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.benchmarks.bench_limit.timeit_limit_1x","kind":"function","src_hash":"e9b8d83c572b4f33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_limit_1x()","rhs":"timeit_limit_1x produces the expected output","over":{"base":"Any"},"name":"timeit_limit_1x_correct"},"guarantee":"timeit_limit_1x produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.benchmarks.bench_limit.timeit_limit_1x_correct","statement":"Path(timeit_limit_1x(x), timeit_limit_1x produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"184dbe7183b7c7d6"}
+# @cctt_verify {"v":2,"sym":"sympy.series.benchmarks.bench_limit.timeit_limit_1x","kind":"function","src_hash":"e9b8d83c572b4f33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_limit_1x()","rhs":"<unspecified:timeit_limit_1x>","over":{"base":"Any"},"name":"timeit_limit_1x_correct"},"guarantee":"timeit_limit_1x produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.benchmarks.bench_limit.timeit_limit_1x_correct","statement":"Path(timeit_limit_1x(x), timeit_limit_1x produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"184dbe7183b7c7d6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_limit_1x():
     limit(1/x, x, oo)

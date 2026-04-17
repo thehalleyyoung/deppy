@@ -27,16 +27,24 @@ from .utilities import extract_fundamental_discriminant
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_Dedekind_criterion(T, ), apply the "dedekind criterion" to test whether the order needs to be enlarged relative to a given prime *p*) over Any ║
+# ║ Path(_apply_Dedekind_criterion(T, p), (U_bar, m)) over {Any | hasattr(T, 'gen')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _apply_Dedekind_criterion : Any → {Any | lc == 1}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(T, 'gen')                              ║
+# ║   ensures:  lc == 1                                        ║
+# ║   returns:  (U_bar, m)                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _apply_Dedekind_criterion : {Any | hasattr(T, 'gen')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4dbb95e066ceeef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 302ea2a0bbe63949  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.basis._apply_Dedekind_criterion","kind":"function","src_hash":"91d6f58bde31e503","in":{"base":"Any"},"out":{"base":"Any","pred":"lc == 1"},"spec":{"lhs":"_apply_Dedekind_criterion(T, )","rhs":"apply the \"dedekind criterion\" to test whether the order needs to be enlarged relative to a given prime *p*","over":{"base":"Any"},"name":"_apply_Dedekind_criterion_correct"},"guarantee":"apply the \"dedekind criterion\" to test whether the order needs to be enlarged relative to a given prime *p*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.basis._apply_Dedekind_criterion_correct","statement":"Path(_apply_Dedekind_criterion(x), apply the \"dedekind criterion\" to test whether the order needs to be enlarged relative to a given prime *p*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4dbb95e066ceeef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.basis._apply_Dedekind_criterion","kind":"function","src_hash":"91d6f58bde31e503","in":{"base":"Any","pred":"hasattr(T, 'gen')"},"out":{"base":"Any","pred":"result satisfies: result == ((U_bar, m))"},"spec":{"lhs":"_apply_Dedekind_criterion(T, p)","rhs":"(U_bar, m)","over":{"base":"Any","pred":"hasattr(T, 'gen')"},"name":"_apply_Dedekind_criterion_correct"},"guarantee":"returns (U_bar, m); lc == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.basis._apply_Dedekind_criterion_correct","statement":"Path(_apply_Dedekind_criterion(x), returns (U_bar, m); lc == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"302ea2a0bbe63949","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(T, 'gen')"],"ensures":["lc == 1"],"returns_expr":"(U_bar, m)","pure":false,"effects":{"effect_type":"reads_state","reads":["T.gen"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _apply_Dedekind_criterion(T, p):
     r"""
     Apply the "Dedekind criterion" to test whether the order needs to be
@@ -63,16 +71,23 @@ def _apply_Dedekind_criterion(T, p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nilradical_mod_p(H, ), compute the nilradical mod *p* for a given order *h*, and prime *p*) over Any ║
+# ║ Path(nilradical_mod_p(H, p, q), phi.kernel(modulus=p)) over {Any | hasattr(H, 'n')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ nilradical_mod_p : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(H, 'n')                                ║
+# ║   returns:  phi.kernel(modulus=p)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ nilradical_mod_p : {Any | hasattr(H, 'n')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b21883afa21d3f6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2853813f1bb479ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.basis.nilradical_mod_p","kind":"function","src_hash":"2e890f3c2b5806e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nilradical_mod_p(H, )","rhs":"compute the nilradical mod *p* for a given order *h*, and prime *p*","over":{"base":"Any"},"name":"nilradical_mod_p_correct"},"guarantee":"compute the nilradical mod *p* for a given order *h*, and prime *p*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.basis.nilradical_mod_p_correct","statement":"Path(nilradical_mod_p(x), compute the nilradical mod *p* for a given order *h*, and prime *p*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b21883afa21d3f6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.basis.nilradical_mod_p","kind":"function","src_hash":"2e890f3c2b5806e7","in":{"base":"Any","pred":"hasattr(H, 'n')"},"out":{"base":"Any"},"spec":{"lhs":"nilradical_mod_p(H, p, q)","rhs":"phi.kernel(modulus=p)","over":{"base":"Any","pred":"hasattr(H, 'n')"},"name":"nilradical_mod_p_correct"},"guarantee":"returns phi.kernel(modulus=p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.basis.nilradical_mod_p_correct","statement":"Path(nilradical_mod_p(x), returns phi.kernel(modulus=p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2853813f1bb479ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(H, 'n')"],"returns_expr":"phi.kernel(modulus=p)","pure":false,"effects":{"effect_type":"reads_state","reads":["H.n"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def nilradical_mod_p(H, p, q=None):
     r"""
     Compute the nilradical mod *p* for a given order *H*, and prime *p*.
@@ -116,16 +131,25 @@ def nilradical_mod_p(H, p, q=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_second_enlargement(H, ), perform the second enlargement in the round two algorithm) over Any ║
+# ║ Path(_second_enlargement(H, p, q), (H1, Ip)) over {Any | hasattr(H, 'parent') and hasattr(H, 'matrix') and hasattr(H, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _second_enlargement : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(H, 'parent')                           ║
+# ║   requires: hasattr(H, 'matrix')                           ║
+# ║   requires: hasattr(H, 'denom')                            ║
+# ║   returns:  (H1, Ip)                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _second_enlargement : {Any | hasattr(H, 'parent') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09a24708fd1effeb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e783ce0bf5c370b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.basis._second_enlargement","kind":"function","src_hash":"9f673277ec05b594","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_second_enlargement(H, )","rhs":"perform the second enlargement in the round two algorithm","over":{"base":"Any"},"name":"_second_enlargement_correct"},"guarantee":"perform the second enlargement in the round two algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.basis._second_enlargement_correct","statement":"Path(_second_enlargement(x), perform the second enlargement in the round two algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09a24708fd1effeb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.basis._second_enlargement","kind":"function","src_hash":"9f673277ec05b594","in":{"base":"Any","pred":"hasattr(H, 'parent') and hasattr(H, 'matrix') and hasattr(H, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"_second_enlargement(H, p, q)","rhs":"(H1, Ip)","over":{"base":"Any","pred":"hasattr(H, 'parent') and hasattr(H, 'matrix') and hasattr(H, 'denom')"},"name":"_second_enlargement_correct"},"guarantee":"returns (H1, Ip)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.basis._second_enlargement_correct","statement":"Path(_second_enlargement(x), returns (H1, Ip))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e783ce0bf5c370b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(H, 'parent')","hasattr(H, 'matrix')","hasattr(H, 'denom')"],"returns_expr":"(H1, Ip)","pure":false,"effects":{"effect_type":"reads_state","reads":["H.denom","H.matrix","H.parent"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _second_enlargement(H, p, q):
     r"""
     Perform the second enlargement in the Round Two algorithm.
@@ -143,7 +167,13 @@ def _second_enlargement(H, p, q):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(round_two(T, ), zassenhaus's "round 2" algorithm) over {Any | isinstance(T, AlgebraicField) and isinstance(radicals, dict)} ║
+# ║ Path(round_two(T, radicals), (ZK, dK)) over {Any | isinstance(T, AlgebraicField) and isinstance(radicals, dict) and not (not T.is_univariate or not T.is_irreducible or T.domain not in [ZZ, QQ]) and hasattr(T, 'make_monic_over_integers_by_scaling_roots') and hasattr(T, 'degree') and hasattr(T, 'discriminant') and hasattr(T, 'is_univariate') and hasattr(T, 'is_irreducible') and hasattr(T, 'domain') and hasattr(T, 'ext')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not T.is_univariate or not T.is_irre...   ║
+# ║   requires: hasattr(T, 'make_monic_over_integers_by_s...   ║
+# ║   requires: hasattr(T, 'degree')                           ║
+# ║   returns:  (ZK, dK)                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ round_two : {Any | isinstance(T, AlgebraicField) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -156,9 +186,12 @@ def _second_enlargement(H, p, q):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 35268a28...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.basis.round_two","kind":"function","src_hash":"a68b15f97b08a9d4","in":{"base":"Any","pred":"isinstance(T, AlgebraicField) and isinstance(radicals, dict)"},"out":{"base":"Any"},"spec":{"lhs":"round_two(T, )","rhs":"zassenhaus's \"round 2\" algorithm","over":{"base":"Any","pred":"isinstance(T, AlgebraicField) and isinstance(radicals, dict)"},"name":"round_two_correct"},"guarantee":"zassenhaus's \"round 2\" algorithm","fibers":[{"name":"AlgebraicField","pred":"isinstance(T, AlgebraicField)","path":{"lhs":"round_two(x)","rhs":"zassenhaus's \"round 2\" algorithm","over":{"base":"AlgebraicField","pred":"isinstance(T, AlgebraicField)"},"name":"round_two_AlgebraicField_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.basis.round_two_AlgebraicField_correct","statement":"round_two satisfies spec on AlgebraicField inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(radicals, dict)","path":{"lhs":"round_two(x)","rhs":"zassenhaus's \"round 2\" algorithm","over":{"base":"dict","pred":"isinstance(radicals, dict)"},"name":"round_two_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.basis.round_two_dict_correct","statement":"round_two satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"35268a280ee9a327"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.numberfields.basis.round_two","kind":"function","src_hash":"a68b15f97b08a9d4","in":{"base":"Any","pred":"isinstance(T, AlgebraicField) and isinstance(radicals, dict) and not (not T.is_univariate or not T.is_irreducible or T.domain not in [ZZ, QQ]) and hasattr(T, 'make_monic_over_integers_by_scaling_roots') and hasattr(T, 'degree') and hasattr(T, 'discriminant') and hasattr(T, 'is_univariate') and hasattr(T, 'is_irreducible') and hasattr(T, 'domain') and hasattr(T, 'ext')"},"out":{"base":"Any"},"spec":{"lhs":"round_two(T, radicals)","rhs":"(ZK, dK)","over":{"base":"Any","pred":"isinstance(T, AlgebraicField) and isinstance(radicals, dict) and not (not T.is_univariate or not T.is_irreducible or T.domain not in [ZZ, QQ]) and hasattr(T, 'make_monic_over_integers_by_scaling_roots') and hasattr(T, 'degree') and hasattr(T, 'discriminant') and hasattr(T, 'is_univariate') and hasattr(T, 'is_irreducible') and hasattr(T, 'domain') and hasattr(T, 'ext')"},"name":"round_two_correct"},"guarantee":"returns (ZK, dK)","fibers":[{"name":"AlgebraicField","pred":"isinstance(T, AlgebraicField)","path":{"lhs":"round_two(x)","rhs":"returns (ZK, dK)","over":{"base":"AlgebraicField","pred":"isinstance(T, AlgebraicField)"},"name":"round_two_AlgebraicField_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.basis.round_two_AlgebraicField_correct","statement":"round_two satisfies spec on AlgebraicField inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(radicals, dict)","path":{"lhs":"round_two(x)","rhs":"returns (ZK, dK)","over":{"base":"dict","pred":"isinstance(radicals, dict)"},"name":"round_two_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.numberfields.basis.round_two_dict_correct","statement":"round_two satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"35268a280ee9a327","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not T.is_univariate or not T.is_irreducible or T.domain not in [ZZ, QQ])","hasattr(T, 'make_monic_over_integers_by_scaling_roots')","hasattr(T, 'degree')","hasattr(T, 'discriminant')","hasattr(T, 'is_univariate')","hasattr(T, 'is_irreducible')","hasattr(T, 'domain')","hasattr(T, 'ext')"],"returns_expr":"(ZK, dK)","pure":false,"effects":{"effect_type":"mutates_args","reads":["T.degree","T.discriminant","T.domain","T.ext","T.is_irreducible","T.is_univariate","T.make_monic_over_integers_by_scaling_roots"],"writes":["radicals[*]"],"calls_mutating":["F.popitem","H.add"],"raises":["ValueError"]},"state_contract":{"modifies":["F.*","H.*","radicals[*]"],"old_bindings":{"old_radicals_star":"radicals[*]"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'nilrad is not None and isinstance(radicals, dict)', 'isinstance(T, AlgebraicField)', 'e <= m', 'm == 0'}, fibers={'dict', 'AlgebraicField'})"]}}
 def round_two(T, radicals=None):
     r"""
     Zassenhaus's "Round 2" algorithm.

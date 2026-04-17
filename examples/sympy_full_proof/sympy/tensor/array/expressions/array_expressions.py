@@ -56,28 +56,40 @@ from sympy.core.sympify import _sympify
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_ArrayExpr(*args), correctly constructs a _ArrayExpr instance) over {Any | isinstance(item, collections.abc.Iterable)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _ArrayExpr : {Any | isinstance(item, collections.abc....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 839479366da96110  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._ArrayExpr","kind":"class","src_hash":"fd0a53717d44af86","in":{"base":"Any","pred":"isinstance(item, collections.abc.Iterable)"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayExpr(*args)","rhs":"correctly constructs a _ArrayExpr instance","over":{"base":"Any","pred":"isinstance(item, collections.abc.Iterable)"},"name":"_ArrayExpr_class_invariant"},"guarantee":"correctly constructs a _ArrayExpr instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"839479366da96110"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._ArrayExpr","kind":"class","src_hash":"fd0a53717d44af86","in":{"base":"Any","pred":"isinstance(item, collections.abc.Iterable)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"_ArrayExpr(*args)","rhs":"correctly constructs a _ArrayExpr instance","over":{"base":"Any","pred":"isinstance(item, collections.abc.Iterable)"},"name":"_ArrayExpr_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"839479366da96110","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function _ArrayExpr not found in source"]}}
 class _ArrayExpr(Expr):
     shape: tuple[Expr, ...]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ite), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(item), self._get(item)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._get(item)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8a66597bb8cab609           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._ArrayExpr.__getitem__","kind":"method","src_hash":"ba045edf3079dbe9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ite)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a66597bb8cab609"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._ArrayExpr.__getitem__","kind":"method","src_hash":"ba045edf3079dbe9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(item)","rhs":"self._get(item)","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self._get(item)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a66597bb8cab609","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._get(item)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, item):
         if not isinstance(item, collections.abc.Iterable):
             item = (item,)
@@ -85,16 +97,22 @@ class _ArrayExpr(Expr):
         return self._get(item)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get(ite), internal helper behaves correctly) over Any ║
+# ║ Path(_get(item), _get_array_element_or_slice(self, item)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _get_array_element_or_slice(self, item)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d8371f676a1a7d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._ArrayExpr._get","kind":"method","src_hash":"ba19f131378a84f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get(ite)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d8371f676a1a7d2"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._ArrayExpr._get","kind":"method","src_hash":"ba19f131378a84f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get(item)","rhs":"_get_array_element_or_slice(self, item)","over":{"base":"Any"},"name":"_get_correct"},"guarantee":"returns _get_array_element_or_slice(self, item)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d8371f676a1a7d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_get_array_element_or_slice(self, item)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get(self, item):
         return _get_array_element_or_slice(self, item)
 
@@ -102,14 +120,20 @@ class _ArrayExpr(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ArraySymbol(*args), correctly constructs a ArraySymbol instance) over {Any | isinstance(symbol, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ArraySymbol : {Any | isinstance(symbol, str)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _ArrayExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ArraySymbol : {Any | isinstance(symbol, str)} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dd3e6c3c273141a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArraySymbol","kind":"class","src_hash":"f663962a30304d05","in":{"base":"Any","pred":"isinstance(symbol, str)"},"out":{"base":"Any"},"spec":{"lhs":"ArraySymbol(*args)","rhs":"correctly constructs a ArraySymbol instance","over":{"base":"Any","pred":"isinstance(symbol, str)"},"name":"ArraySymbol_class_invariant"},"guarantee":"correctly constructs a ArraySymbol instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dd3e6c3c273141a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArraySymbol","kind":"class","src_hash":"f663962a30304d05","in":{"base":"Any","pred":"isinstance(symbol, str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _ArrayExpr)"},"spec":{"lhs":"ArraySymbol(*args)","rhs":"correctly constructs a ArraySymbol instance","over":{"base":"Any","pred":"isinstance(symbol, str)"},"name":"ArraySymbol_class_invariant"},"guarantee":"isinstance(self, _ArrayExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dd3e6c3c273141a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _ArrayExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function ArraySymbol not found in source"]}}
 class ArraySymbol(_ArrayExpr):
     """
     Symbol representing an array expression
@@ -118,16 +142,23 @@ class ArraySymbol(_ArrayExpr):
     _iterable = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, symbol, shape), <unspecified:__new__>) over {Any | isinstance(shape, typing.Iterable)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → 'ArraySymbol'                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(shape, typing.Iterable)             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(shape, typing.Iterable)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 749872e9834fe436           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArraySymbol.__new__","kind":"method","src_hash":"b9d50668da2319c8","in":{"base":"Any"},"out":{"base":"'ArraySymbol'"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"749872e9834fe436"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArraySymbol.__new__","kind":"method","src_hash":"b9d50668da2319c8","in":{"base":"Any","pred":"isinstance(shape, typing.Iterable)"},"out":{"base":"'ArraySymbol'"},"spec":{"lhs":"__new__(cls, symbol, shape)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"isinstance(shape, typing.Iterable)"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"749872e9834fe436","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(shape, typing.Iterable)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, symbol, shape: typing.Iterable) -> "ArraySymbol":
         if isinstance(symbol, str):
             symbol = Symbol(symbol)
@@ -138,45 +169,64 @@ class ArraySymbol(_ArrayExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self._args[0]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df3a599c5f17bec4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArraySymbol.name","kind":"property","src_hash":"281170d0d2bea28e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df3a599c5f17bec4"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArraySymbol.name","kind":"property","src_hash":"281170d0d2bea28e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self._args[0]","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self._args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df3a599c5f17bec4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return self._args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self._args[1]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 68e23408bc77287d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArraySymbol.shape","kind":"property","src_hash":"7c5b91e50b3eeaaa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68e23408bc77287d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArraySymbol.shape","kind":"property","src_hash":"7c5b91e50b3eeaaa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self._args[1]","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self._args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68e23408bc77287d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self._args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_explicit(), id) over Any                           ║
+# ║ Path(as_explicit(), id) over {Any | all((i.is_Integer for i in self.shape))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_explicit : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all((i.is_Integer for i in self.shape))        ║
+# ║   returns:  ImmutableDenseNDimArray(data).reshape(*se...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_explicit : {Any | all((i.is_Integer for i in self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6200d8ee365a0434   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArraySymbol.as_explicit","kind":"method","src_hash":"bc822f23ee5a8c6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"as_explicit produces the expected output","over":{"base":"Any"},"name":"as_explicit_correct","kind":"composition"},"guarantee":"as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ImmutableDenseNDimArray","by":"library_axiom"},{"fn":"reshape","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6200d8ee365a0434"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArraySymbol.as_explicit","kind":"method","src_hash":"bc822f23ee5a8c6a","in":{"base":"Any","pred":"all((i.is_Integer for i in self.shape))"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"ImmutableDenseNDimArray(data).reshape(*self.shape)","over":{"base":"Any","pred":"all((i.is_Integer for i in self.shape))"},"name":"as_explicit_correct","kind":"composition"},"guarantee":"returns ImmutableDenseNDimArray(data).reshape(*self.shape)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ImmutableDenseNDimArray","by":"library_axiom"},{"fn":"reshape","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6200d8ee365a0434","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all((i.is_Integer for i in self.shape))"],"returns_expr":"ImmutableDenseNDimArray(data).reshape(*self.shape)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_explicit(self):
         if not all(i.is_Integer for i in self.shape):
             raise ValueError("cannot express explicit array with symbolic shape")
@@ -187,14 +237,20 @@ class ArraySymbol(_ArrayExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ArrayElement(*args), correctly constructs a ArrayElement instance) over {Any | isinstance(name, str) and isinstance(indices, collections.abc.Iterable) and isinstance(s, ArrayElement)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ArrayElement : {Any | isinstance(name, str) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4fa892c9a3b0cec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElement","kind":"class","src_hash":"152c17a33e19a8b2","in":{"base":"Any","pred":"isinstance(name, str) and isinstance(indices, collections.abc.Iterable) and isinstance(s, ArrayElement)"},"out":{"base":"Any"},"spec":{"lhs":"ArrayElement(*args)","rhs":"correctly constructs a ArrayElement instance","over":{"base":"Any","pred":"isinstance(name, str) and isinstance(indices, collections.abc.Iterable) and isinstance(s, ArrayElement)"},"name":"ArrayElement_class_invariant"},"guarantee":"correctly constructs a ArrayElement instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4fa892c9a3b0cec"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElement","kind":"class","src_hash":"152c17a33e19a8b2","in":{"base":"Any","pred":"isinstance(name, str) and isinstance(indices, collections.abc.Iterable) and isinstance(s, ArrayElement)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"ArrayElement(*args)","rhs":"correctly constructs a ArrayElement instance","over":{"base":"Any","pred":"isinstance(name, str) and isinstance(indices, collections.abc.Iterable) and isinstance(s, ArrayElement)"},"name":"ArrayElement_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4fa892c9a3b0cec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function ArrayElement not found in source"]}}
 class ArrayElement(Expr):
     """
     An element of an array.
@@ -205,16 +261,22 @@ class ArrayElement(Expr):
     is_commutative = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, name, indices), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7703ba235b926b2e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElement.__new__","kind":"method","src_hash":"aba8e068595c90fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7703ba235b926b2e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElement.__new__","kind":"method","src_hash":"aba8e068595c90fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, indices)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7703ba235b926b2e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._check_shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, indices):
         if isinstance(name, str):
             name = Symbol(name)
@@ -228,16 +290,24 @@ class ArrayElement(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_shape(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_check_shape(cls, name, indices), <unspecified:_check_shape>) over {Any | not (any(((i < 0) == True for i in indices))) and hasattr(name, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_shape : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (any(((i < 0) == True for i in indice...   ║
+# ║   requires: hasattr(name, 'shape')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_shape : {Any | not (any(((i < 0) == True for i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f180b43b63990085  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElement._check_shape","kind":"classmethod","src_hash":"6cf2940d5a765920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_shape(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_shape_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayElement._check_shape_correct","statement":"Path(_check_shape(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f180b43b63990085"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElement._check_shape","kind":"classmethod","src_hash":"6cf2940d5a765920","in":{"base":"Any","pred":"not (any(((i < 0) == True for i in indices))) and hasattr(name, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_check_shape(cls, name, indices)","rhs":"<unspecified:_check_shape>","over":{"base":"Any","pred":"not (any(((i < 0) == True for i in indices))) and hasattr(name, 'shape')"},"name":"_check_shape_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayElement._check_shape_correct","statement":"Path(_check_shape(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f180b43b63990085","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (any(((i < 0) == True for i in indices)))","hasattr(name, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["name.shape"],"raises":["ValueError","index_error"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"],"index_error":["isinstance(raised, index_error)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_shape(cls, name, indices):
         indices = tuple(indices)
         if hasattr(name, "shape"):
@@ -251,45 +321,65 @@ class ArrayElement(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self._args[0]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f59bcb51473fb8df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElement.name","kind":"property","src_hash":"281170d0d2bea28e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f59bcb51473fb8df"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElement.name","kind":"property","src_hash":"281170d0d2bea28e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self._args[0]","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self._args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f59bcb51473fb8df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return self._args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(indices(), returns the indices attribute) over Any    ║
+# ║ Path(indices(), self._args[1]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ indices : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d10e553b7cc4774           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElement.indices","kind":"property","src_hash":"860b10f3b0140890","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indices()","rhs":"returns the indices attribute","over":{"base":"Any"},"name":"indices_correct"},"guarantee":"returns the indices attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d10e553b7cc4774"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElement.indices","kind":"property","src_hash":"860b10f3b0140890","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indices()","rhs":"self._args[1]","over":{"base":"Any"},"name":"indices_correct"},"guarantee":"returns self._args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d10e553b7cc4774","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def indices(self):
         return self._args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(s), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(s), <unspecified:_eval_derivative>) over {Any | hasattr(s, 'name') and hasattr(s, 'indices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_derivative : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'name')                             ║
+# ║   requires: hasattr(s, 'indices')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_derivative : {Any | hasattr(s, 'name') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b7375426c7e8d9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElement._eval_derivative","kind":"method","src_hash":"18950e56c1ad4efd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayElement._eval_derivative_correct","statement":"Path(_eval_derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b7375426c7e8d9a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElement._eval_derivative","kind":"method","src_hash":"18950e56c1ad4efd","in":{"base":"Any","pred":"hasattr(s, 'name') and hasattr(s, 'indices')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(s)","rhs":"<unspecified:_eval_derivative>","over":{"base":"Any","pred":"hasattr(s, 'name') and hasattr(s, 'indices')"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayElement._eval_derivative_correct","statement":"Path(_eval_derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b7375426c7e8d9a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'name')","hasattr(s, 'indices')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["s.indices","s.name","self.indices","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, s):
         if not isinstance(s, ArrayElement):
             return S.Zero
@@ -306,30 +396,42 @@ class ArrayElement(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ZeroArray(*args), correctly constructs a ZeroArray instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ZeroArray : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _ArrayExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ZeroArray : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c895bb27e3aec3a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ZeroArray","kind":"class","src_hash":"26573819bf2acb5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ZeroArray(*args)","rhs":"correctly constructs a ZeroArray instance","over":{"base":"Any"},"name":"ZeroArray_class_invariant"},"guarantee":"correctly constructs a ZeroArray instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c895bb27e3aec3a8"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ZeroArray","kind":"class","src_hash":"26573819bf2acb5b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _ArrayExpr)"},"spec":{"lhs":"ZeroArray(*args)","rhs":"correctly constructs a ZeroArray instance","over":{"base":"Any"},"name":"ZeroArray_class_invariant"},"guarantee":"isinstance(self, _ArrayExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c895bb27e3aec3a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _ArrayExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function ZeroArray not found in source"]}}
 class ZeroArray(_ArrayExpr):
     """
     Symbolic array of zeros. Equivalent to ``ZeroMatrix`` for matrices.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *shape), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bf318eacbfc2dbfe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ZeroArray.__new__","kind":"method","src_hash":"a22f565216e2a644","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf318eacbfc2dbfe"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ZeroArray.__new__","kind":"method","src_hash":"a22f565216e2a644","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *shape)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf318eacbfc2dbfe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *shape):
         if len(shape) == 0:
             return S.Zero
@@ -339,46 +441,65 @@ class ZeroArray(_ArrayExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self._args) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3bab300f62bb21d1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ZeroArray.shape","kind":"property","src_hash":"641f1ce0308edf78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3bab300f62bb21d1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ZeroArray.shape","kind":"property","src_hash":"641f1ce0308edf78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self._args","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self._args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3bab300f62bb21d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self._args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_explicit(), as_explicit produces the expected output) over Any ║
+# ║ Path(as_explicit(), ImmutableDenseNDimArray.zeros(*self.shape)) over {Any | all((i.is_Integer for i in self.shape))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_explicit : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all((i.is_Integer for i in self.shape))        ║
+# ║   returns:  ImmutableDenseNDimArray.zeros(*self.shape)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_explicit : {Any | all((i.is_Integer for i in self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef47a42aabef74e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 936ece86f4d87e23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ZeroArray.as_explicit","kind":"method","src_hash":"46ca6ab2aba039d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"as_explicit produces the expected output","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ZeroArray.as_explicit_correct","statement":"Path(as_explicit(x), as_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef47a42aabef74e3"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ZeroArray.as_explicit","kind":"method","src_hash":"46ca6ab2aba039d6","in":{"base":"Any","pred":"all((i.is_Integer for i in self.shape))"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"ImmutableDenseNDimArray.zeros(*self.shape)","over":{"base":"Any","pred":"all((i.is_Integer for i in self.shape))"},"name":"as_explicit_correct"},"guarantee":"returns ImmutableDenseNDimArray.zeros(*self.shape)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ZeroArray.as_explicit_correct","statement":"Path(as_explicit(x), returns ImmutableDenseNDimArray.zeros(*self.shape))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"936ece86f4d87e23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all((i.is_Integer for i in self.shape))"],"returns_expr":"ImmutableDenseNDimArray.zeros(*self.shape)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_explicit(self):
         if not all(i.is_Integer for i in self.shape):
             raise ValueError("Cannot return explicit form for symbolic shape.")
         return ImmutableDenseNDimArray.zeros(*self.shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get(ite), internal helper behaves correctly) over Any ║
+# ║ Path(_get(item), S.Zero) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Zero                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8eb0a2751ef9ee14           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ZeroArray._get","kind":"method","src_hash":"75b81eab41de259f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get(ite)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8eb0a2751ef9ee14"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ZeroArray._get","kind":"method","src_hash":"75b81eab41de259f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get(item)","rhs":"S.Zero","over":{"base":"Any"},"name":"_get_correct"},"guarantee":"returns S.Zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8eb0a2751ef9ee14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Zero","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get(self, item):
         return S.Zero
 
@@ -386,30 +507,42 @@ class ZeroArray(_ArrayExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(OneArray(*args), correctly constructs a OneArray instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ OneArray : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _ArrayExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ OneArray : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b767a8cd339a7fe7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.OneArray","kind":"class","src_hash":"963bb05ba1ce2f6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"OneArray(*args)","rhs":"correctly constructs a OneArray instance","over":{"base":"Any"},"name":"OneArray_class_invariant"},"guarantee":"correctly constructs a OneArray instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b767a8cd339a7fe7"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.OneArray","kind":"class","src_hash":"963bb05ba1ce2f6d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _ArrayExpr)"},"spec":{"lhs":"OneArray(*args)","rhs":"correctly constructs a OneArray instance","over":{"base":"Any"},"name":"OneArray_class_invariant"},"guarantee":"isinstance(self, _ArrayExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b767a8cd339a7fe7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _ArrayExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function OneArray not found in source"]}}
 class OneArray(_ArrayExpr):
     """
     Symbolic array of ones.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *shape), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d2936456555d5ed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.OneArray.__new__","kind":"method","src_hash":"e129c67ca21610c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d2936456555d5ed"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.OneArray.__new__","kind":"method","src_hash":"e129c67ca21610c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *shape)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d2936456555d5ed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *shape):
         if len(shape) == 0:
             return S.One
@@ -419,46 +552,65 @@ class OneArray(_ArrayExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self._args) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 256f1dccf072efc6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.OneArray.shape","kind":"property","src_hash":"641f1ce0308edf78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"256f1dccf072efc6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.OneArray.shape","kind":"property","src_hash":"641f1ce0308edf78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self._args","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self._args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"256f1dccf072efc6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self._args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_explicit(), as_explicit produces the expected output) over Any ║
+# ║ Path(as_explicit(), ImmutableDenseNDimArray([S.One for i in range(reduce(operator.mul, self.shape))]).reshape(*self.shape)) over {Any | all((i.is_Integer for i in self.shape))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_explicit : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all((i.is_Integer for i in self.shape))        ║
+# ║   returns:  ImmutableDenseNDimArray([S.One for i in r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_explicit : {Any | all((i.is_Integer for i in self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9e0d8e9e017a205  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e25cfb815ccd8b2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.OneArray.as_explicit","kind":"method","src_hash":"6b136bf2948c91dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"as_explicit produces the expected output","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.OneArray.as_explicit_correct","statement":"Path(as_explicit(x), as_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9e0d8e9e017a205"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.OneArray.as_explicit","kind":"method","src_hash":"6b136bf2948c91dc","in":{"base":"Any","pred":"all((i.is_Integer for i in self.shape))"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"ImmutableDenseNDimArray([S.One for i in range(reduce(operator.mul, self.shape))]).reshape(*self.shape)","over":{"base":"Any","pred":"all((i.is_Integer for i in self.shape))"},"name":"as_explicit_correct"},"guarantee":"returns ImmutableDenseNDimArray([S.One for i in range(reduce(operator.mul, self.shape))]).reshape(*self.shape)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.OneArray.as_explicit_correct","statement":"Path(as_explicit(x), returns ImmutableDenseNDimArray([S.One for i in range(reduce(operator.mul, self.shape))]).reshape(*self.shape))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e25cfb815ccd8b2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all((i.is_Integer for i in self.shape))"],"returns_expr":"ImmutableDenseNDimArray([S.One for i in range(reduce(operator.mul, self.shape))]).reshape(*self.shape)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_explicit(self):
         if not all(i.is_Integer for i in self.shape):
             raise ValueError("Cannot return explicit form for symbolic shape.")
         return ImmutableDenseNDimArray([S.One for i in range(reduce(operator.mul, self.shape))]).reshape(*self.shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get(ite), internal helper behaves correctly) over Any ║
+# ║ Path(_get(item), S.One) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.One                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 93f51a58ceb88bbf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.OneArray._get","kind":"method","src_hash":"d2caf3ce8f049d0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get(ite)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93f51a58ceb88bbf"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.OneArray._get","kind":"method","src_hash":"d2caf3ce8f049d0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get(item)","rhs":"S.One","over":{"base":"Any"},"name":"_get_correct"},"guarantee":"returns S.One","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93f51a58ceb88bbf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.One","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get(self, item):
         return S.One
 
@@ -466,28 +618,40 @@ class OneArray(_ArrayExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_CodegenArrayAbstract(*args), correctly constructs a _CodegenArrayAbstract instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _CodegenArrayAbstract : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _CodegenArrayAbstract : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 687411e1e8bd55cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._CodegenArrayAbstract","kind":"class","src_hash":"091f09db92a4ff6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_CodegenArrayAbstract(*args)","rhs":"correctly constructs a _CodegenArrayAbstract instance","over":{"base":"Any"},"name":"_CodegenArrayAbstract_class_invariant"},"guarantee":"correctly constructs a _CodegenArrayAbstract instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"687411e1e8bd55cf"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._CodegenArrayAbstract","kind":"class","src_hash":"091f09db92a4ff6c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"_CodegenArrayAbstract(*args)","rhs":"correctly constructs a _CodegenArrayAbstract instance","over":{"base":"Any"},"name":"_CodegenArrayAbstract_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"687411e1e8bd55cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function _CodegenArrayAbstract not found in source"]}}
 class _CodegenArrayAbstract(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subranks(), returns the subranks attribute) over Any  ║
+# ║ Path(subranks(), self._subranks[:]) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._subranks[:]                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subranks : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3fb577ec6b60051a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._CodegenArrayAbstract.subranks","kind":"property","src_hash":"e5d99818a98a9cca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subranks()","rhs":"returns the subranks attribute","over":{"base":"Any"},"name":"subranks_correct"},"guarantee":"returns the subranks attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3fb577ec6b60051a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._CodegenArrayAbstract.subranks","kind":"property","src_hash":"e5d99818a98a9cca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subranks()","rhs":"self._subranks[:]","over":{"base":"Any"},"name":"subranks_correct"},"guarantee":"returns self._subranks[:]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3fb577ec6b60051a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._subranks[:]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._subranks"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subranks(self):
         """
         Returns the ranks of the objects in the uppermost tensor product inside
@@ -516,16 +680,22 @@ class _CodegenArrayAbstract(Basic):
         return self._subranks[:]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subrank(), the sum of ``subranks``) over Any          ║
+# ║ Path(subrank(), sum(self.subranks)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum(self.subranks)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subrank : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b765a53d56b805f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._CodegenArrayAbstract.subrank","kind":"method","src_hash":"99cd95bdb583500e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subrank()","rhs":"the sum of ``subranks``","over":{"base":"Any"},"name":"subrank_correct"},"guarantee":"the sum of ``subranks``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b765a53d56b805f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._CodegenArrayAbstract.subrank","kind":"method","src_hash":"99cd95bdb583500e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subrank()","rhs":"sum(self.subranks)","over":{"base":"Any"},"name":"subrank_correct"},"guarantee":"returns sum(self.subranks)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b765a53d56b805f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum(self.subranks)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.subranks"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subrank(self):
         """
         The sum of ``subranks``.
@@ -534,30 +704,45 @@ class _CodegenArrayAbstract(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self._shape) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._shape                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f19d64d03d3eedb4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._CodegenArrayAbstract.shape","kind":"property","src_hash":"a8686880d0cee8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f19d64d03d3eedb4"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._CodegenArrayAbstract.shape","kind":"property","src_hash":"a8686880d0cee8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self._shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self._shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f19d64d03d3eedb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self._shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self._shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), id) over Any                               ║
+# ║ Path(doit(**hints), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doit : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.func(*[arg.doit(**hints) ...   ║
+# ║   ensures:  result == self.func(*[arg.doit(**hints) f...   ║
+# ║   fiber[case_0]: deep => self.func(*[arg.doit(**hints...   ║
+# ║   fiber[case_1]: not (deep) => self._canonicalize()        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doit : Any → {Any | result satisfies: result == (self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0fd6d42bc257c5fd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._CodegenArrayAbstract.doit","kind":"method","src_hash":"ce5f9c20f42b977a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct","kind":"composition"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"doit","by":"library_axiom"},{"fn":"_canonicalize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fd6d42bc257c5fd"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._CodegenArrayAbstract.doit","kind":"method","src_hash":"ce5f9c20f42b977a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.func(*[arg.doit(**hints) for arg in self.args])._canonicalize() if deep else self._canonicalize()) and result == self.func(*[arg.doit(**hints) for arg in self.args])._canonicalize() or result == self._canonicalize()"},"spec":{"lhs":"doit(**hints)","rhs":"result == (self.func(*[arg.doit(**hints) for arg in self.args])._canonicalize() if deep else self._canonicalize()) and result == self.func(*[arg.doit(**hints) for arg in self.args])._canonicalize() or result == self._canonicalize()","over":{"base":"Any"},"name":"doit_correct","kind":"composition"},"guarantee":"result == (self.func(*[arg.doit(**hints) for arg in self.args])._canonicalize() if deep else self._canonicalize()); result == self.func(*[arg.doit(**hints) for arg in self.args])._canonicalize() or result == self._canonicalize(); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"doit","by":"library_axiom"},{"fn":"_canonicalize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fd6d42bc257c5fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.func(*[arg.doit(**hints) for arg in self.args])._canonicalize() if deep else self._canonicalize())","result == self.func(*[arg.doit(**hints) for arg in self.args])._canonicalize() or result == self._canonicalize()"],"fibers":[{"name":"case_0","guard":"deep","ensures":["result == self.func(*[arg.doit(**hints) for arg in self.args])._canonicalize()"],"decidability":"library","returns_expr":"self.func(*[arg.doit(**hints) for arg in self.args])._canonicalize()"},{"name":"case_1","guard":"not (deep)","ensures":["result == self._canonicalize()"],"decidability":"library","returns_expr":"self._canonicalize()"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._canonicalize","self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         deep = hints.get("deep", True)
         if deep:
@@ -568,30 +753,42 @@ class _CodegenArrayAbstract(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ArrayTensorProduct(*args), correctly constructs a ArrayTensorProduct instance) over {Any | isinstance(arg, PermuteDims) and isinstance(arg, (ZeroArray, ZeroMatrix)) and isinstance(arg, ArrayContraction)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _CodegenArrayAbstract)        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ArrayTensorProduct : {Any | isinstance(arg, PermuteDi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff270ba269094844  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct","kind":"class","src_hash":"67f3c61cd72072f6","in":{"base":"Any","pred":"isinstance(arg, PermuteDims) and isinstance(arg, (ZeroArray, ZeroMatrix)) and isinstance(arg, ArrayContraction)"},"out":{"base":"Any"},"spec":{"lhs":"ArrayTensorProduct(*args)","rhs":"correctly constructs a ArrayTensorProduct instance","over":{"base":"Any","pred":"isinstance(arg, PermuteDims) and isinstance(arg, (ZeroArray, ZeroMatrix)) and isinstance(arg, ArrayContraction)"},"name":"ArrayTensorProduct_class_invariant"},"guarantee":"correctly constructs a ArrayTensorProduct instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff270ba269094844"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct","kind":"class","src_hash":"67f3c61cd72072f6","in":{"base":"Any","pred":"isinstance(arg, PermuteDims) and isinstance(arg, (ZeroArray, ZeroMatrix)) and isinstance(arg, ArrayContraction)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _CodegenArrayAbstract)"},"spec":{"lhs":"ArrayTensorProduct(*args)","rhs":"correctly constructs a ArrayTensorProduct instance","over":{"base":"Any","pred":"isinstance(arg, PermuteDims) and isinstance(arg, (ZeroArray, ZeroMatrix)) and isinstance(arg, ArrayContraction)"},"name":"ArrayTensorProduct_class_invariant"},"guarantee":"isinstance(self, _CodegenArrayAbstract)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff270ba269094844","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _CodegenArrayAbstract)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function ArrayTensorProduct not found in source"]}}
 class ArrayTensorProduct(_CodegenArrayAbstract):
     r"""
     Class to represent the tensor product of array-like objects.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 26388b4c6de6747a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct.__new__","kind":"method","src_hash":"4037bbde72344784","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26388b4c6de6747a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct.__new__","kind":"method","src_hash":"4037bbde72344784","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26388b4c6de6747a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         args = [_sympify(arg) for arg in args]
 
@@ -614,14 +811,20 @@ class ArrayTensorProduct(_CodegenArrayAbstract):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_canonicalize(), id) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _canonicalize : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | aafa8b850beb08d1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct._canonicalize","kind":"method","src_hash":"1422470f808166f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_canonicalize()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_canonicalize_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_permute_dims","by":"library_axiom"},{"fn":"_array_tensor_product","by":"library_axiom"},{"fn":"Permutation","by":"library_axiom"},{"fn":"sum","by":"library_axiom"},{"fn":"Permutation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aafa8b850beb08d1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct._canonicalize","kind":"method","src_hash":"1422470f808166f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_canonicalize()","rhs":"<unspecified:_canonicalize>","over":{"base":"Any"},"name":"_canonicalize_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_permute_dims","by":"library_axiom"},{"fn":"_array_tensor_product","by":"library_axiom"},{"fn":"Permutation","by":"library_axiom"},{"fn":"sum","by":"library_axiom"},{"fn":"Permutation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aafa8b850beb08d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _canonicalize(self):
         args = self.args
         args = self._flatten(args)
@@ -681,31 +884,44 @@ class ArrayTensorProduct(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_flatten(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_flatten(cls, args), args) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _flatten : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == args                                 ║
+# ║   returns:  args                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _flatten : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59cbb4488105939e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8037da003a8e75d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct._flatten","kind":"classmethod","src_hash":"6c13043fded28d60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_flatten(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_flatten_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct._flatten_correct","statement":"Path(_flatten(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59cbb4488105939e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct._flatten","kind":"classmethod","src_hash":"6c13043fded28d60","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (args)"},"spec":{"lhs":"_flatten(cls, args)","rhs":"args","over":{"base":"Any"},"name":"_flatten_correct"},"guarantee":"returns args; result == args","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct._flatten_correct","statement":"Path(_flatten(x), returns args; result == args)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8037da003a8e75d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == args"],"returns_expr":"args","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _flatten(cls, args):
         args = [i for arg in args for i in (arg.args if isinstance(arg, cls) else [arg])]
         return args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_explicit(), as_explicit produces the expected output) over Any ║
+# ║ Path(as_explicit(), tensorproduct(*[arg.as_explicit() if hasattr(arg, 'as_explicit') else arg for arg in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tensorproduct(*[arg.as_explicit() if hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_explicit : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8cd5a342135d1a89           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct.as_explicit","kind":"method","src_hash":"88577bc0900af315","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"as_explicit produces the expected output","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cd5a342135d1a89"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayTensorProduct.as_explicit","kind":"method","src_hash":"88577bc0900af315","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"tensorproduct(*[arg.as_explicit() if hasattr(arg, 'as_explicit') else arg for arg in self.args])","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"returns tensorproduct(*[arg.as_explicit() if hasattr(arg, 'as_explicit') else arg for arg in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cd5a342135d1a89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tensorproduct(*[arg.as_explicit() if hasattr(arg, 'as_explicit') else arg for arg in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_explicit(self):
         return tensorproduct(*[arg.as_explicit() if hasattr(arg, "as_explicit") else arg for arg in self.args])
 
@@ -713,30 +929,44 @@ class ArrayTensorProduct(_CodegenArrayAbstract):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ArrayAdd(*args), correctly constructs a ArrayAdd instance) over {Any | isinstance(arg, ArrayAdd) and isinstance(arg, (ZeroArray, ZeroMatrix))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _CodegenArrayAbstract)        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ArrayAdd : {Any | isinstance(arg, ArrayAdd) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54c8e1eb388fbd09  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayAdd","kind":"class","src_hash":"80b53082f93f2fee","in":{"base":"Any","pred":"isinstance(arg, ArrayAdd) and isinstance(arg, (ZeroArray, ZeroMatrix))"},"out":{"base":"Any"},"spec":{"lhs":"ArrayAdd(*args)","rhs":"correctly constructs a ArrayAdd instance","over":{"base":"Any","pred":"isinstance(arg, ArrayAdd) and isinstance(arg, (ZeroArray, ZeroMatrix))"},"name":"ArrayAdd_class_invariant"},"guarantee":"correctly constructs a ArrayAdd instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54c8e1eb388fbd09"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayAdd","kind":"class","src_hash":"80b53082f93f2fee","in":{"base":"Any","pred":"isinstance(arg, ArrayAdd) and isinstance(arg, (ZeroArray, ZeroMatrix))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _CodegenArrayAbstract)"},"spec":{"lhs":"ArrayAdd(*args)","rhs":"correctly constructs a ArrayAdd instance","over":{"base":"Any","pred":"isinstance(arg, ArrayAdd) and isinstance(arg, (ZeroArray, ZeroMatrix))"},"name":"ArrayAdd_class_invariant"},"guarantee":"isinstance(self, _CodegenArrayAbstract)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54c8e1eb388fbd09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _CodegenArrayAbstract)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function ArrayAdd not found in source"]}}
 class ArrayAdd(_CodegenArrayAbstract):
     r"""
     Class for elementwise array additions.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), len(kwargs) == old_len_kwargs - 1) over {Any | not (len(ranks) != 1) and len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(ranks) != 1)                          ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (len(ranks) != 1) and len(kwargs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cdd5ef8f4a2e83b4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayAdd.__new__","kind":"method","src_hash":"7e964fd02c87e176","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdd5ef8f4a2e83b4"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayAdd.__new__","kind":"method","src_hash":"7e964fd02c87e176","in":{"base":"Any","pred":"not (len(ranks) != 1) and len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(kwargs) == old_len_kwargs - 1"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"len(kwargs) == old_len_kwargs - 1","over":{"base":"Any","pred":"not (len(ranks) != 1) and len(kwargs) > 0"},"name":"__new___correct"},"guarantee":"len(kwargs) == old_len_kwargs - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdd5ef8f4a2e83b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(ranks) != 1)","len(kwargs) > 0"],"ensures":["len(kwargs) == old_len_kwargs - 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["kwargs.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["kwargs.*"],"old_bindings":{"old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         args = [_sympify(arg) for arg in args]
         ranks = [get_rank(arg) for arg in args]
@@ -760,16 +990,25 @@ class ArrayAdd(_CodegenArrayAbstract):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_canonicalize(), internal helper behaves correctly) over Any ║
+# ║ Path(_canonicalize(), result == (ZeroArray(*shapes[0]) if len(args) == 0 else args[0]) and result == ZeroArray(*shapes[0]) or result == args[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _canonicalize : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (ZeroArray(*shapes[0]) if len(a...   ║
+# ║   ensures:  result == ZeroArray(*shapes[0]) or result...   ║
+# ║   fiber[zero_or_none]: len(args) == 0 => ZeroArray(*s...   ║
+# ║   fiber[case_1]: len(args) == 1 => args[0]                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _canonicalize : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e92a57ab326bdf1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23ea1f6df2f0af37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayAdd._canonicalize","kind":"method","src_hash":"97c49663d6f2795e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_canonicalize()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_canonicalize_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayAdd._canonicalize_correct","statement":"Path(_canonicalize(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e92a57ab326bdf1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayAdd._canonicalize","kind":"method","src_hash":"97c49663d6f2795e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (ZeroArray(*shapes[0]) if len(args) == 0 else args[0]) and result == ZeroArray(*shapes[0]) or result == args[0]"},"spec":{"lhs":"_canonicalize()","rhs":"result == (ZeroArray(*shapes[0]) if len(args) == 0 else args[0]) and result == ZeroArray(*shapes[0]) or result == args[0]","over":{"base":"Any"},"name":"_canonicalize_correct"},"guarantee":"result == (ZeroArray(*shapes[0]) if len(args) == 0 else args[0]); result == ZeroArray(*shapes[0]) or result == args[0]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayAdd._canonicalize_correct","statement":"Path(_canonicalize(x), result == (ZeroArray(*shapes[0]) if len(args) == 0 else args[0]); result == ZeroArray(*shapes[0]) or result == args[0]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23ea1f6df2f0af37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (ZeroArray(*shapes[0]) if len(args) == 0 else args[0])","result == ZeroArray(*shapes[0]) or result == args[0]"],"fibers":[{"name":"zero_or_none","guard":"len(args) == 0","ensures":["result == ZeroArray(*shapes[0])"],"decidability":"z3","returns_expr":"ZeroArray(*shapes[0])"},{"name":"case_1","guard":"len(args) == 1","ensures":["result == args[0]"],"decidability":"z3","returns_expr":"args[0]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._flatten_args","self.args","self.func"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _canonicalize(self):
         args = self.args
 
@@ -788,16 +1027,22 @@ class ArrayAdd(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_flatten_args(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_flatten_args(cls, args), <unspecified:_flatten_args>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _flatten_args : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d49446888fbfa5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayAdd._flatten_args","kind":"classmethod","src_hash":"169c73589cdc83ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_flatten_args(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_flatten_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayAdd._flatten_args_correct","statement":"Path(_flatten_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d49446888fbfa5a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayAdd._flatten_args","kind":"classmethod","src_hash":"169c73589cdc83ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_flatten_args(cls, args)","rhs":"<unspecified:_flatten_args>","over":{"base":"Any"},"name":"_flatten_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayAdd._flatten_args_correct","statement":"Path(_flatten_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d49446888fbfa5a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _flatten_args(cls, args):
         new_args = []
         for arg in args:
@@ -808,16 +1053,22 @@ class ArrayAdd(_CodegenArrayAbstract):
         return new_args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_explicit(), as_explicit produces the expected output) over Any ║
+# ║ Path(as_explicit(), reduce(operator.add, [arg.as_explicit() if hasattr(arg, 'as_explicit') else arg for arg in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  reduce(operator.add, [arg.as_explicit() i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_explicit : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe150c635536d450  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f5a09678c8d3a5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayAdd.as_explicit","kind":"method","src_hash":"cb1d1d6822bcaeab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"as_explicit produces the expected output","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayAdd.as_explicit_correct","statement":"Path(as_explicit(x), as_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe150c635536d450"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayAdd.as_explicit","kind":"method","src_hash":"cb1d1d6822bcaeab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"reduce(operator.add, [arg.as_explicit() if hasattr(arg, 'as_explicit') else arg for arg in self.args])","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"returns reduce(operator.add, [arg.as_explicit() if hasattr(arg, 'as_explicit') else arg for arg in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayAdd.as_explicit_correct","statement":"Path(as_explicit(x), returns reduce(operator.add, [arg.as_explicit() if hasattr(arg, 'as_explicit') else arg for arg in self.args]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f5a09678c8d3a5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"reduce(operator.add, [arg.as_explicit() if hasattr(arg, 'as_explicit') else arg for arg in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_explicit(self):
         return reduce(
             operator.add,
@@ -827,14 +1078,20 @@ class ArrayAdd(_CodegenArrayAbstract):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PermuteDims(*args), correctly constructs a PermuteDims instance) over {Any | isinstance(expr, PermuteDims) and isinstance(expr, ArrayContraction) and isinstance(expr, ArrayTensorProduct)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _CodegenArrayAbstract)        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PermuteDims : {Any | isinstance(expr, PermuteDims) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f8706eb35241145  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims","kind":"class","src_hash":"6123309ae315e6a8","in":{"base":"Any","pred":"isinstance(expr, PermuteDims) and isinstance(expr, ArrayContraction) and isinstance(expr, ArrayTensorProduct)"},"out":{"base":"Any"},"spec":{"lhs":"PermuteDims(*args)","rhs":"correctly constructs a PermuteDims instance","over":{"base":"Any","pred":"isinstance(expr, PermuteDims) and isinstance(expr, ArrayContraction) and isinstance(expr, ArrayTensorProduct)"},"name":"PermuteDims_class_invariant"},"guarantee":"correctly constructs a PermuteDims instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f8706eb35241145"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims","kind":"class","src_hash":"6123309ae315e6a8","in":{"base":"Any","pred":"isinstance(expr, PermuteDims) and isinstance(expr, ArrayContraction) and isinstance(expr, ArrayTensorProduct)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _CodegenArrayAbstract)"},"spec":{"lhs":"PermuteDims(*args)","rhs":"correctly constructs a PermuteDims instance","over":{"base":"Any","pred":"isinstance(expr, PermuteDims) and isinstance(expr, ArrayContraction) and isinstance(expr, ArrayTensorProduct)"},"name":"PermuteDims_class_invariant"},"guarantee":"isinstance(self, _CodegenArrayAbstract)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f8706eb35241145","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _CodegenArrayAbstract)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function PermuteDims not found in source"]}}
 class PermuteDims(_CodegenArrayAbstract):
     r"""
     Class to represent permutation of axes of arrays.
@@ -910,16 +1167,24 @@ class PermuteDims(_CodegenArrayAbstract):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr, permutation), len(kwargs) == old_len_kwargs - 1) over {Any | hasattr(permutation, 'size') and len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(permutation, 'size')                   ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(permutation, 'size') and len...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6f6eb2b4310bb512           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims.__new__","kind":"method","src_hash":"4f4dc3bed13b1f71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f6eb2b4310bb512"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims.__new__","kind":"method","src_hash":"4f4dc3bed13b1f71","in":{"base":"Any","pred":"hasattr(permutation, 'size') and len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(kwargs) == old_len_kwargs - 1"},"spec":{"lhs":"__new__(cls, expr, permutation)","rhs":"len(kwargs) == old_len_kwargs - 1","over":{"base":"Any","pred":"hasattr(permutation, 'size') and len(kwargs) > 0"},"name":"__new___correct"},"guarantee":"len(kwargs) == old_len_kwargs - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f6eb2b4310bb512","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(permutation, 'size')","len(kwargs) > 0"],"ensures":["len(kwargs) == old_len_kwargs - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._get_permutation_from_arguments","permutation.size"],"calls_mutating":["kwargs.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["kwargs.*"],"old_bindings":{"old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr, permutation=None, index_order_old=None, index_order_new=None, **kwargs):
         from sympy.combinatorics import Permutation
         expr = _sympify(expr)
@@ -944,16 +1209,22 @@ class PermuteDims(_CodegenArrayAbstract):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_canonicalize(), internal helper behaves correctly) over Any ║
+# ║ Path(_canonicalize(), <unspecified:_canonicalize>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _canonicalize : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f5c22106e101170  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._canonicalize","kind":"method","src_hash":"8e895be9149d0e02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_canonicalize()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_canonicalize_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims._canonicalize_correct","statement":"Path(_canonicalize(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f5c22106e101170"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._canonicalize","kind":"method","src_hash":"8e895be9149d0e02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_canonicalize()","rhs":"<unspecified:_canonicalize>","over":{"base":"Any"},"name":"_canonicalize_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims._canonicalize_correct","statement":"Path(_canonicalize(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f5c22106e101170","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._PermuteDims_denestarg_ArrayContraction","self._PermuteDims_denestarg_ArrayTensorProduct","self.expr","self.func","self.permutation"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _canonicalize(self):
         expr = self.expr
         permutation = self.permutation
@@ -975,46 +1246,67 @@ class PermuteDims(_CodegenArrayAbstract):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 968d74b87c2dc106           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims.expr","kind":"property","src_hash":"8e47c443b9fdeae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"968d74b87c2dc106"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims.expr","kind":"property","src_hash":"8e47c443b9fdeae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"self.args[0]","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"968d74b87c2dc106","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(permutation(), returns the permutation attribute) over Any ║
+# ║ Path(permutation(), self.args[1]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ permutation : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ecb4fab9ab450859           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims.permutation","kind":"property","src_hash":"19ae0ed8053faf42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"permutation()","rhs":"returns the permutation attribute","over":{"base":"Any"},"name":"permutation_correct"},"guarantee":"returns the permutation attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ecb4fab9ab450859"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims.permutation","kind":"property","src_hash":"19ae0ed8053faf42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"permutation()","rhs":"self.args[1]","over":{"base":"Any"},"name":"permutation_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ecb4fab9ab450859","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def permutation(self):
         return self.args[1]
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_PermuteDims_denestarg_ArrayTensorProduct(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_PermuteDims_denestarg_ArrayTensorProduct(cls, expr, permutation), (_array_tensor_product(*args_sorted), new_permutation)) over {Any | hasattr(permutation, 'array_form') and hasattr(expr, 'args') and hasattr(expr, 'subranks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _PermuteDims_denestarg_ArrayTensorProduct : Any → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(permutation, 'array_form')             ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'subranks')                      ║
+# ║   returns:  (_array_tensor_product(*args_sorted), new...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _PermuteDims_denestarg_ArrayTensorProduct : {Any | ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed1e2ce1838625c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45381fef49788952  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._PermuteDims_denestarg_ArrayTensorProduct","kind":"classmethod","src_hash":"329f71cc1a2306f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_PermuteDims_denestarg_ArrayTensorProduct(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_PermuteDims_denestarg_ArrayTensorProduct_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims._PermuteDims_denestarg_ArrayTensorProduct_correct","statement":"Path(_PermuteDims_denestarg_ArrayTensorProduct(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed1e2ce1838625c6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._PermuteDims_denestarg_ArrayTensorProduct","kind":"classmethod","src_hash":"329f71cc1a2306f0","in":{"base":"Any","pred":"hasattr(permutation, 'array_form') and hasattr(expr, 'args') and hasattr(expr, 'subranks')"},"out":{"base":"Any"},"spec":{"lhs":"_PermuteDims_denestarg_ArrayTensorProduct(cls, expr, permutation)","rhs":"(_array_tensor_product(*args_sorted), new_permutation)","over":{"base":"Any","pred":"hasattr(permutation, 'array_form') and hasattr(expr, 'args') and hasattr(expr, 'subranks')"},"name":"_PermuteDims_denestarg_ArrayTensorProduct_correct"},"guarantee":"returns (_array_tensor_product(*args_sorted), new_permutation)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims._PermuteDims_denestarg_ArrayTensorProduct_correct","statement":"Path(_PermuteDims_denestarg_ArrayTensorProduct(x), returns (_array_tensor_product(*args_sorted), new_permutation))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45381fef49788952","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(permutation, 'array_form')","hasattr(expr, 'args')","hasattr(expr, 'subranks')"],"returns_expr":"(_array_tensor_product(*args_sorted), new_permutation)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _PermuteDims_denestarg_ArrayTensorProduct(cls, expr, permutation):
         # Get the permutation in its image-form:
         perm_image_form = _af_invert(permutation.array_form)
@@ -1041,16 +1333,25 @@ class PermuteDims(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_PermuteDims_denestarg_ArrayContraction(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_PermuteDims_denestarg_ArrayContraction(cls, expr, permutation), <unspecified:_PermuteDims_denestarg_ArrayContraction>) over {Any | hasattr(expr, 'contraction_indices') and hasattr(expr, 'expr') and hasattr(permutation, 'array_form') and hasattr(expr, '_push_indices_up') and hasattr(expr, 'subranks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _PermuteDims_denestarg_ArrayContraction : Any → Any        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'contraction_indices')           ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(permutation, 'array_form')             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _PermuteDims_denestarg_ArrayContraction : {Any | hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe90d974fffd589e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._PermuteDims_denestarg_ArrayContraction","kind":"classmethod","src_hash":"27229d45502e5d41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_PermuteDims_denestarg_ArrayContraction(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_PermuteDims_denestarg_ArrayContraction_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims._PermuteDims_denestarg_ArrayContraction_correct","statement":"Path(_PermuteDims_denestarg_ArrayContraction(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe90d974fffd589e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._PermuteDims_denestarg_ArrayContraction","kind":"classmethod","src_hash":"27229d45502e5d41","in":{"base":"Any","pred":"hasattr(expr, 'contraction_indices') and hasattr(expr, 'expr') and hasattr(permutation, 'array_form') and hasattr(expr, '_push_indices_up') and hasattr(expr, 'subranks')"},"out":{"base":"Any"},"spec":{"lhs":"_PermuteDims_denestarg_ArrayContraction(cls, expr, permutation)","rhs":"<unspecified:_PermuteDims_denestarg_ArrayContraction>","over":{"base":"Any","pred":"hasattr(expr, 'contraction_indices') and hasattr(expr, 'expr') and hasattr(permutation, 'array_form') and hasattr(expr, '_push_indices_up') and hasattr(expr, 'subranks')"},"name":"_PermuteDims_denestarg_ArrayContraction_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims._PermuteDims_denestarg_ArrayContraction_correct","statement":"Path(_PermuteDims_denestarg_ArrayContraction(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe90d974fffd589e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'contraction_indices')","hasattr(expr, 'expr')","hasattr(permutation, 'array_form')","hasattr(expr, '_push_indices_up')","hasattr(expr, 'subranks')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _PermuteDims_denestarg_ArrayContraction(cls, expr, permutation):
         if not isinstance(expr, ArrayContraction):
             return expr, permutation
@@ -1101,16 +1402,25 @@ class PermuteDims(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_permutation_mapping(cls), id) over Any         ║
+# ║ Path(_check_permutation_mapping(cls, expr, permutation), id) over {Any | hasattr(expr, 'subranks') and hasattr(expr, 'args') and hasattr(expr, 'subrank')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_permutation_mapping : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subranks')                      ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'subrank')                       ║
+# ║   returns:  (_array_tensor_product(*new_args), Permut...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_permutation_mapping : {Any | hasattr(expr, 'su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8873c91c5fb60698   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._check_permutation_mapping","kind":"classmethod","src_hash":"e95f3fbacd93faab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_permutation_mapping(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_permutation_mapping_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_array_tensor_product","by":"library_axiom"},{"fn":"Permutation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8873c91c5fb60698"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._check_permutation_mapping","kind":"classmethod","src_hash":"e95f3fbacd93faab","in":{"base":"Any","pred":"hasattr(expr, 'subranks') and hasattr(expr, 'args') and hasattr(expr, 'subrank')"},"out":{"base":"Any"},"spec":{"lhs":"_check_permutation_mapping(cls, expr, permutation)","rhs":"(_array_tensor_product(*new_args), Permutation(new_permutation2))","over":{"base":"Any","pred":"hasattr(expr, 'subranks') and hasattr(expr, 'args') and hasattr(expr, 'subrank')"},"name":"_check_permutation_mapping_correct","kind":"composition"},"guarantee":"returns (_array_tensor_product(*new_args), Permutation(new_permutation2))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_array_tensor_product","by":"library_axiom"},{"fn":"Permutation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8873c91c5fb60698","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subranks')","hasattr(expr, 'args')","hasattr(expr, 'subrank')"],"returns_expr":"(_array_tensor_product(*new_args), Permutation(new_permutation2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_permutation_mapping(cls, expr, permutation):
         subranks = expr.subranks
         index2arg = [i for i, arg in enumerate(expr.args) for j in range(expr.subranks[i])]
@@ -1181,16 +1491,25 @@ class PermuteDims(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_if_there_are_closed_cycles(cls), id) over Any  ║
+# ║ Path(_check_if_there_are_closed_cycles(cls, expr, permutation), id) over {Any | hasattr(expr, 'subranks') and hasattr(permutation, 'cyclic_form') and hasattr(expr, 'args') and hasattr(permutation, 'size')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_if_there_are_closed_cycles : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subranks')                      ║
+# ║   requires: hasattr(permutation, 'cyclic_form')            ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  (_array_tensor_product(*args), Permutatio...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_if_there_are_closed_cycles : {Any | hasattr(ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 233884aadd02eaaf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._check_if_there_are_closed_cycles","kind":"classmethod","src_hash":"62846a457014397c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_if_there_are_closed_cycles(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_if_there_are_closed_cycles_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_array_tensor_product","by":"library_axiom"},{"fn":"Permutation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"233884aadd02eaaf"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._check_if_there_are_closed_cycles","kind":"classmethod","src_hash":"62846a457014397c","in":{"base":"Any","pred":"hasattr(expr, 'subranks') and hasattr(permutation, 'cyclic_form') and hasattr(expr, 'args') and hasattr(permutation, 'size')"},"out":{"base":"Any"},"spec":{"lhs":"_check_if_there_are_closed_cycles(cls, expr, permutation)","rhs":"(_array_tensor_product(*args), Permutation(cyclic_keep, size=permutation.size))","over":{"base":"Any","pred":"hasattr(expr, 'subranks') and hasattr(permutation, 'cyclic_form') and hasattr(expr, 'args') and hasattr(permutation, 'size')"},"name":"_check_if_there_are_closed_cycles_correct","kind":"composition"},"guarantee":"returns (_array_tensor_product(*args), Permutation(cyclic_keep, size=permutation.size))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_array_tensor_product","by":"library_axiom"},{"fn":"Permutation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"233884aadd02eaaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subranks')","hasattr(permutation, 'cyclic_form')","hasattr(expr, 'args')","hasattr(permutation, 'size')"],"returns_expr":"(_array_tensor_product(*args), Permutation(cyclic_keep, size=permutation.size))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_if_there_are_closed_cycles(cls, expr, permutation):
         args = list(expr.args)
         subranks = expr.subranks
@@ -1212,16 +1531,22 @@ class PermuteDims(_CodegenArrayAbstract):
         return _array_tensor_product(*args), Permutation(cyclic_keep, size=permutation.size)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nest_permutation(), deprecated) over Any              ║
+# ║ Path(nest_permutation(), <unspecified:nest_permutation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nest_permutation : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e6f01920fad183e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims.nest_permutation","kind":"method","src_hash":"aba4947e68b51ed0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nest_permutation()","rhs":"deprecated","over":{"base":"Any"},"name":"nest_permutation_correct"},"guarantee":"deprecated","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims.nest_permutation_correct","statement":"Path(nest_permutation(x), deprecated)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e6f01920fad183e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims.nest_permutation","kind":"method","src_hash":"aba4947e68b51ed0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nest_permutation()","rhs":"<unspecified:nest_permutation>","over":{"base":"Any"},"name":"nest_permutation_correct"},"guarantee":"deprecated","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims.nest_permutation_correct","statement":"Path(nest_permutation(x), deprecated)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e6f01920fad183e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._nest_permutation","self.expr","self.permutation"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nest_permutation(self):
         r"""
         DEPRECATED.
@@ -1233,16 +1558,28 @@ class PermuteDims(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nest_permutation(cls), id) over Any                  ║
+# ║ Path(_nest_permutation(cls, expr, permutation), id) over {Any | hasattr(permutation, 'cyclic_form') and hasattr(expr, 'contraction_indices') and hasattr(expr, 'expr') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _nest_permutation : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(permutation, 'cyclic_form')            ║
+# ║   requires: hasattr(expr, 'contraction_indices')           ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   ensures:  result == _permute_dims(*cls._check_if_th...   ║
+# ║   fiber[ArrayTensorProduct]: isinstance(expr, ArrayTe...   ║
+# ║   fiber[ArrayContraction]: isinstance(expr, ArrayCont...   ║
+# ║   fiber[ArrayAdd]: isinstance(expr, ArrayAdd) => _arr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _nest_permutation : {Any | hasattr(permutation, 'cycl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 47da24b1d93cf27c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._nest_permutation","kind":"classmethod","src_hash":"c383c87c19af6875","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nest_permutation(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_nest_permutation_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_permute_dims","by":"library_axiom"},{"fn":"_check_if_there_are_closed_cycles","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47da24b1d93cf27c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._nest_permutation","kind":"classmethod","src_hash":"c383c87c19af6875","in":{"base":"Any","pred":"hasattr(permutation, 'cyclic_form') and hasattr(expr, 'contraction_indices') and hasattr(expr, 'expr') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == _permute_dims(*cls._check_if_there_are_closed_cycles(expr, permutation)) or result == _array_contraction(PermuteDims(expr.expr, newpermutation), *new_contr_indices) or result == _array_add(*[PermuteDims(arg, permutation) for arg in expr.args])"},"spec":{"lhs":"_nest_permutation(cls, expr, permutation)","rhs":"result == _permute_dims(*cls._check_if_there_are_closed_cycles(expr, permutation)) or result == _array_contraction(PermuteDims(expr.expr, newpermutation), *new_contr_indices) or result == _array_add(*[PermuteDims(arg, permutation) for arg in expr.args])","over":{"base":"Any","pred":"hasattr(permutation, 'cyclic_form') and hasattr(expr, 'contraction_indices') and hasattr(expr, 'expr') and hasattr(expr, 'args')"},"name":"_nest_permutation_correct","kind":"composition"},"guarantee":"result == _permute_dims(*cls._check_if_there_are_closed_cycles(expr, permutation)) or result == _array_contraction(PermuteDims(expr.expr, newpermutation), *new_contr_indices) or result == _array_add(*[PermuteDims(arg, permutation) for arg in expr.args]); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_permute_dims","by":"library_axiom"},{"fn":"_check_if_there_are_closed_cycles","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47da24b1d93cf27c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(permutation, 'cyclic_form')","hasattr(expr, 'contraction_indices')","hasattr(expr, 'expr')","hasattr(expr, 'args')"],"ensures":["result == _permute_dims(*cls._check_if_there_are_closed_cycles(expr, permutation)) or result == _array_contraction(PermuteDims(expr.expr, newpermutation), *new_contr_indices) or result == _array_add(*[PermuteDims(arg, permutation) for arg in expr.args])"],"fibers":[{"name":"ArrayTensorProduct","guard":"isinstance(expr, ArrayTensorProduct)","ensures":["result == _permute_dims(*cls._check_if_there_are_closed_cycles(expr, permutation))"],"decidability":"structural","returns_expr":"_permute_dims(*cls._check_if_there_are_closed_cycles(expr, permutation))"},{"name":"ArrayContraction","guard":"isinstance(expr, ArrayContraction)","ensures":["result == _array_contraction(PermuteDims(expr.expr, newpermutation), *new_contr_indices)"],"decidability":"structural","returns_expr":"_array_contraction(PermuteDims(expr.expr, newpermutation), *new_contr_indices)"},{"name":"ArrayAdd","guard":"isinstance(expr, ArrayAdd)","ensures":["result == _array_add(*[PermuteDims(arg, permutation) for arg in expr.args])"],"decidability":"structural","returns_expr":"_array_add(*[PermuteDims(arg, permutation) for arg in expr.args])"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._check_if_there_are_closed_cycles","expr.args","expr.contraction_indices","expr.expr","permutation.cyclic_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _nest_permutation(cls, expr, permutation):
         if isinstance(expr, ArrayTensorProduct):
             return _permute_dims(*cls._check_if_there_are_closed_cycles(expr, permutation))
@@ -1258,16 +1595,22 @@ class PermuteDims(_CodegenArrayAbstract):
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_explicit(), as_explicit produces the expected output) over Any ║
+# ║ Path(as_explicit(), permutedims(expr, self.permutation)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  permutedims(expr, self.permutation)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_explicit : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83373e0d1cf00ef3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9739afc654ccc55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims.as_explicit","kind":"method","src_hash":"f368c88df4784231","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"as_explicit produces the expected output","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims.as_explicit_correct","statement":"Path(as_explicit(x), as_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83373e0d1cf00ef3"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims.as_explicit","kind":"method","src_hash":"f368c88df4784231","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"permutedims(expr, self.permutation)","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"returns permutedims(expr, self.permutation)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims.as_explicit_correct","statement":"Path(as_explicit(x), returns permutedims(expr, self.permutation))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9739afc654ccc55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"permutedims(expr, self.permutation)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expr","self.permutation"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_explicit(self):
         expr = self.expr
         if hasattr(expr, "as_explicit"):
@@ -1276,16 +1619,25 @@ class PermuteDims(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_permutation_from_arguments(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_get_permutation_from_arguments(cls, permutation, index_order_old), result == (PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim) if permutation is None else permutation) and result == PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim) or result == permutation) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_permutation_from_arguments : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (PermuteDims._get_permutation_f...   ║
+# ║   ensures:  result == PermuteDims._get_permutation_fr...   ║
+# ║   fiber[zero_or_none]: permutation is None => Permute...   ║
+# ║   fiber[zero_or_none]: not (permutation is None) => p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_permutation_from_arguments : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d336cb045d1a1137  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7b0312117a7f765  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._get_permutation_from_arguments","kind":"classmethod","src_hash":"d6da999691918af4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_permutation_from_arguments(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_permutation_from_arguments_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims._get_permutation_from_arguments_correct","statement":"Path(_get_permutation_from_arguments(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d336cb045d1a1137"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._get_permutation_from_arguments","kind":"classmethod","src_hash":"d6da999691918af4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim) if permutation is None else permutation) and result == PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim) or result == permutation"},"spec":{"lhs":"_get_permutation_from_arguments(cls, permutation, index_order_old)","rhs":"result == (PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim) if permutation is None else permutation) and result == PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim) or result == permutation","over":{"base":"Any"},"name":"_get_permutation_from_arguments_correct"},"guarantee":"result == (PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim) if permutation is None else permutation); result == PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim) or result == permutation; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims._get_permutation_from_arguments_correct","statement":"Path(_get_permutation_from_arguments(x), result == (PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim) if permutation is None else permutation); result == PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim) or result == permutation; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7b0312117a7f765","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim) if permutation is None else permutation)","result == PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim) or result == permutation"],"fibers":[{"name":"zero_or_none","guard":"permutation is None","ensures":["result == PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim)"],"decidability":"structural","returns_expr":"PermuteDims._get_permutation_from_index_orders(index_order_old, index_order_new, dim)"},{"name":"zero_or_none","guard":"not (permutation is None)","ensures":["result == permutation"],"decidability":"structural","returns_expr":"permutation"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_permutation_from_arguments(cls, permutation, index_order_old, index_order_new, dim):
         if permutation is None:
             if index_order_new is None or index_order_old is None:
@@ -1300,16 +1652,25 @@ class PermuteDims(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_permutation_from_index_orders(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_get_permutation_from_index_orders(cls, index_order_old, index_order_new), <unspecified:_get_permutation_from_index_orders>) over {Any | not (len(set(index_order_new)) != dim) and not (len(set(index_order_old)) != dim) and not (len(set.symmetric_difference(set(index_order_new), set(index_order_old))) > 0) and hasattr(index_order_old, 'index')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_permutation_from_index_orders : Any → Any             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(set(index_order_new)) != dim)         ║
+# ║   requires: not (len(set(index_order_old)) != dim)         ║
+# ║   requires: not (len(set.symmetric_difference(set(ind...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_permutation_from_index_orders : {Any | not (len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19f7aea2893b23eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._get_permutation_from_index_orders","kind":"classmethod","src_hash":"1e1b4affc6125c1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_permutation_from_index_orders(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_permutation_from_index_orders_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims._get_permutation_from_index_orders_correct","statement":"Path(_get_permutation_from_index_orders(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19f7aea2893b23eb"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.PermuteDims._get_permutation_from_index_orders","kind":"classmethod","src_hash":"1e1b4affc6125c1c","in":{"base":"Any","pred":"not (len(set(index_order_new)) != dim) and not (len(set(index_order_old)) != dim) and not (len(set.symmetric_difference(set(index_order_new), set(index_order_old))) > 0) and hasattr(index_order_old, 'index')"},"out":{"base":"Any"},"spec":{"lhs":"_get_permutation_from_index_orders(cls, index_order_old, index_order_new)","rhs":"<unspecified:_get_permutation_from_index_orders>","over":{"base":"Any","pred":"not (len(set(index_order_new)) != dim) and not (len(set(index_order_old)) != dim) and not (len(set.symmetric_difference(set(index_order_new), set(index_order_old))) > 0) and hasattr(index_order_old, 'index')"},"name":"_get_permutation_from_index_orders_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.PermuteDims._get_permutation_from_index_orders_correct","statement":"Path(_get_permutation_from_index_orders(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19f7aea2893b23eb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(set(index_order_new)) != dim)","not (len(set(index_order_old)) != dim)","not (len(set.symmetric_difference(set(index_order_new), set(index_order_old))) > 0)","hasattr(index_order_old, 'index')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["index_order_old.index"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_permutation_from_index_orders(cls, index_order_old, index_order_new, dim):
         if len(set(index_order_new)) != dim:
             raise ValueError("wrong number of indices in index_order_new")
@@ -1324,14 +1685,20 @@ class PermuteDims(_CodegenArrayAbstract):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ArrayDiagonal(*args), correctly constructs a ArrayDiagonal instance) over {Any | isinstance(expr, ArrayAdd) and isinstance(expr, ArrayDiagonal) and isinstance(expr, PermuteDims)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _CodegenArrayAbstract)        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ArrayDiagonal : {Any | isinstance(expr, ArrayAdd) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d2a89bfee06c912  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal","kind":"class","src_hash":"a954602116c377cd","in":{"base":"Any","pred":"isinstance(expr, ArrayAdd) and isinstance(expr, ArrayDiagonal) and isinstance(expr, PermuteDims)"},"out":{"base":"Any"},"spec":{"lhs":"ArrayDiagonal(*args)","rhs":"correctly constructs a ArrayDiagonal instance","over":{"base":"Any","pred":"isinstance(expr, ArrayAdd) and isinstance(expr, ArrayDiagonal) and isinstance(expr, PermuteDims)"},"name":"ArrayDiagonal_class_invariant"},"guarantee":"correctly constructs a ArrayDiagonal instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d2a89bfee06c912"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal","kind":"class","src_hash":"a954602116c377cd","in":{"base":"Any","pred":"isinstance(expr, ArrayAdd) and isinstance(expr, ArrayDiagonal) and isinstance(expr, PermuteDims)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _CodegenArrayAbstract)"},"spec":{"lhs":"ArrayDiagonal(*args)","rhs":"correctly constructs a ArrayDiagonal instance","over":{"base":"Any","pred":"isinstance(expr, ArrayAdd) and isinstance(expr, ArrayDiagonal) and isinstance(expr, PermuteDims)"},"name":"ArrayDiagonal_class_invariant"},"guarantee":"isinstance(self, _CodegenArrayAbstract)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d2a89bfee06c912","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _CodegenArrayAbstract)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function ArrayDiagonal not found in source"]}}
 class ArrayDiagonal(_CodegenArrayAbstract):
     r"""
     Class to represent the diagonal operator.
@@ -1359,16 +1726,22 @@ class ArrayDiagonal(_CodegenArrayAbstract):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr, *diagonal_indices), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d3ebc3e5d17c6ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal.__new__","kind":"method","src_hash":"8054438069ceab05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d3ebc3e5d17c6ae"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal.__new__","kind":"method","src_hash":"8054438069ceab05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, expr, *diagonal_indices)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d3ebc3e5d17c6ae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._get_positions_shape","cls._validate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr, *diagonal_indices, **kwargs):
         expr = _sympify(expr)
         diagonal_indices = [Tuple(*sorted(i)) for i in diagonal_indices]
@@ -1394,14 +1767,20 @@ class ArrayDiagonal(_CodegenArrayAbstract):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_canonicalize(), id) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _canonicalize : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fcda14a145487108   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._canonicalize","kind":"method","src_hash":"f2e0f79829ca5d07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_canonicalize()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_canonicalize_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_permute_dims","by":"library_axiom"},{"fn":"_array_diagonal","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcda14a145487108"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._canonicalize","kind":"method","src_hash":"f2e0f79829ca5d07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_canonicalize()","rhs":"<unspecified:_canonicalize>","over":{"base":"Any"},"name":"_canonicalize_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_permute_dims","by":"library_axiom"},{"fn":"_array_diagonal","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcda14a145487108","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _canonicalize(self):
         expr = self.expr
         diagonal_indices = self.diagonal_indices
@@ -1442,16 +1821,22 @@ class ArrayDiagonal(_CodegenArrayAbstract):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_validate(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_validate(expr, *diagonal_indices, **kwargs), <unspecified:_validate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _validate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 443a5f5e3a4ded37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._validate","kind":"staticmethod","src_hash":"1d6952ec5c699570","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_validate(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_validate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._validate_correct","statement":"Path(_validate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"443a5f5e3a4ded37"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._validate","kind":"staticmethod","src_hash":"1d6952ec5c699570","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_validate(expr, *diagonal_indices, **kwargs)","rhs":"<unspecified:_validate>","over":{"base":"Any"},"name":"_validate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._validate_correct","statement":"Path(_validate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"443a5f5e3a4ded37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _validate(expr, *diagonal_indices, **kwargs):
         # Check that no diagonalization happens on indices with mismatched
         # dimensions:
@@ -1468,61 +1853,87 @@ class ArrayDiagonal(_CodegenArrayAbstract):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_remove_trivial_dimensions(sha), internal helper behaves correctly) over Any ║
+# ║ Path(_remove_trivial_dimensions(shape, *diagonal_indices), [tuple((j for j in i)) for i in diagonal_indices if shape[i[0]] != 1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [tuple((j for j in i)) for i in diagonal_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _remove_trivial_dimensions : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0cbf2599a78cc63b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._remove_trivial_dimensions","kind":"staticmethod","src_hash":"e5350637aa3f6ca5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_trivial_dimensions(sha)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_remove_trivial_dimensions_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0cbf2599a78cc63b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._remove_trivial_dimensions","kind":"staticmethod","src_hash":"e5350637aa3f6ca5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_trivial_dimensions(shape, *diagonal_indices)","rhs":"[tuple((j for j in i)) for i in diagonal_indices if shape[i[0]] != 1]","over":{"base":"Any"},"name":"_remove_trivial_dimensions_correct"},"guarantee":"returns [tuple((j for j in i)) for i in diagonal_indices if shape[i[0]] != 1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0cbf2599a78cc63b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[tuple((j for j in i)) for i in diagonal_indices if shape[i[0]] != 1]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _remove_trivial_dimensions(shape, *diagonal_indices):
         return [tuple(j for j in i) for i in diagonal_indices if shape[i[0]] != 1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5566e94758d353d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal.expr","kind":"property","src_hash":"8e47c443b9fdeae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5566e94758d353d2"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal.expr","kind":"property","src_hash":"8e47c443b9fdeae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"self.args[0]","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5566e94758d353d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diagonal_indices(), returns the diagonal_indices attribute) over Any ║
+# ║ Path(diagonal_indices(), self.args[1:]) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1:]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diagonal_indices : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28364de35121d8c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal.diagonal_indices","kind":"property","src_hash":"12879d3faa8a6e3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diagonal_indices()","rhs":"returns the diagonal_indices attribute","over":{"base":"Any"},"name":"diagonal_indices_correct"},"guarantee":"returns the diagonal_indices attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28364de35121d8c8"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal.diagonal_indices","kind":"property","src_hash":"12879d3faa8a6e3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diagonal_indices()","rhs":"self.args[1:]","over":{"base":"Any"},"name":"diagonal_indices_correct"},"guarantee":"returns self.args[1:]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28364de35121d8c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1:]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diagonal_indices(self):
         return self.args[1:]
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_flatten(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_flatten(expr, *outer_diagonal_indices), _array_diagonal(expr.expr, *diagonal_indices)) over {Any | hasattr(expr, 'diagonal_indices') and hasattr(expr, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _flatten : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'diagonal_indices')              ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   returns:  _array_diagonal(expr.expr, *diagonal_indi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _flatten : {Any | hasattr(expr, 'diagonal_indices') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acda83125123ebf9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65e1cf2ccb2aa08d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._flatten","kind":"staticmethod","src_hash":"63f768351c275e93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_flatten(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_flatten_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._flatten_correct","statement":"Path(_flatten(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acda83125123ebf9"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._flatten","kind":"staticmethod","src_hash":"63f768351c275e93","in":{"base":"Any","pred":"hasattr(expr, 'diagonal_indices') and hasattr(expr, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_flatten(expr, *outer_diagonal_indices)","rhs":"_array_diagonal(expr.expr, *diagonal_indices)","over":{"base":"Any","pred":"hasattr(expr, 'diagonal_indices') and hasattr(expr, 'expr')"},"name":"_flatten_correct"},"guarantee":"returns _array_diagonal(expr.expr, *diagonal_indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._flatten_correct","statement":"Path(_flatten(x), returns _array_diagonal(expr.expr, *diagonal_indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65e1cf2ccb2aa08d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'diagonal_indices')","hasattr(expr, 'expr')"],"returns_expr":"_array_diagonal(expr.expr, *diagonal_indices)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _flatten(expr, *outer_diagonal_indices):
         inner_diagonal_indices = expr.diagonal_indices
         all_inner = [j for i in inner_diagonal_indices for j in i]
@@ -1546,46 +1957,68 @@ class ArrayDiagonal(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ArrayDiagonal_denest_ArrayAdd(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_ArrayDiagonal_denest_ArrayAdd(cls, expr, *diagonal_indices), _array_add(*[_array_diagonal(arg, *diagonal_indices) for arg in expr.args])) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ArrayDiagonal_denest_ArrayAdd : Any → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  _array_add(*[_array_diagonal(arg, *diagon...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ArrayDiagonal_denest_ArrayAdd : {Any | hasattr(expr,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8acbbc9dc5cf0fc4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._ArrayDiagonal_denest_ArrayAdd","kind":"classmethod","src_hash":"70ef3a316843ad68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayDiagonal_denest_ArrayAdd(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ArrayDiagonal_denest_ArrayAdd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8acbbc9dc5cf0fc4"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._ArrayDiagonal_denest_ArrayAdd","kind":"classmethod","src_hash":"70ef3a316843ad68","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayDiagonal_denest_ArrayAdd(cls, expr, *diagonal_indices)","rhs":"_array_add(*[_array_diagonal(arg, *diagonal_indices) for arg in expr.args])","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_ArrayDiagonal_denest_ArrayAdd_correct"},"guarantee":"returns _array_add(*[_array_diagonal(arg, *diagonal_indices) for arg in expr.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8acbbc9dc5cf0fc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"_array_add(*[_array_diagonal(arg, *diagonal_indices) for arg in expr.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _ArrayDiagonal_denest_ArrayAdd(cls, expr, *diagonal_indices):
         return _array_add(*[_array_diagonal(arg, *diagonal_indices) for arg in expr.args])
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ArrayDiagonal_denest_ArrayDiagonal(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_ArrayDiagonal_denest_ArrayDiagonal(cls, expr, *diagonal_indices), cls._flatten(expr, *diagonal_indices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._flatten(expr, *diagonal_indices)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ArrayDiagonal_denest_ArrayDiagonal : Any → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 356e887d776af189           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._ArrayDiagonal_denest_ArrayDiagonal","kind":"classmethod","src_hash":"ad1e2612129d1908","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayDiagonal_denest_ArrayDiagonal(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ArrayDiagonal_denest_ArrayDiagonal_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"356e887d776af189"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._ArrayDiagonal_denest_ArrayDiagonal","kind":"classmethod","src_hash":"ad1e2612129d1908","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayDiagonal_denest_ArrayDiagonal(cls, expr, *diagonal_indices)","rhs":"cls._flatten(expr, *diagonal_indices)","over":{"base":"Any"},"name":"_ArrayDiagonal_denest_ArrayDiagonal_correct"},"guarantee":"returns cls._flatten(expr, *diagonal_indices)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"356e887d776af189","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._flatten(expr, *diagonal_indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._flatten"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _ArrayDiagonal_denest_ArrayDiagonal(cls, expr, *diagonal_indices):
         return cls._flatten(expr, *diagonal_indices)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ArrayDiagonal_denest_PermuteDims(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_ArrayDiagonal_denest_PermuteDims(cls, expr, *diagonal_indices), _permute_dims(_array_diagonal(expr.expr, *back_diagonal_indices), new_permutation)) over {Any | isinstance(expr, PermuteDims) and hasattr(expr, 'permutation') and hasattr(expr, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ArrayDiagonal_denest_PermuteDims : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, PermuteDims)                  ║
+# ║   requires: hasattr(expr, 'permutation')                   ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   returns:  _permute_dims(_array_diagonal(expr.expr, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ArrayDiagonal_denest_PermuteDims : {Any | isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7fba845e40daa26  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb3d84aea5ff7092  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._ArrayDiagonal_denest_PermuteDims","kind":"classmethod","src_hash":"0927346f649a4c63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayDiagonal_denest_PermuteDims(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ArrayDiagonal_denest_PermuteDims_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._ArrayDiagonal_denest_PermuteDims_correct","statement":"Path(_ArrayDiagonal_denest_PermuteDims(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7fba845e40daa26"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._ArrayDiagonal_denest_PermuteDims","kind":"classmethod","src_hash":"0927346f649a4c63","in":{"base":"Any","pred":"isinstance(expr, PermuteDims) and hasattr(expr, 'permutation') and hasattr(expr, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayDiagonal_denest_PermuteDims(cls, expr, *diagonal_indices)","rhs":"_permute_dims(_array_diagonal(expr.expr, *back_diagonal_indices), new_permutation)","over":{"base":"Any","pred":"isinstance(expr, PermuteDims) and hasattr(expr, 'permutation') and hasattr(expr, 'expr')"},"name":"_ArrayDiagonal_denest_PermuteDims_correct"},"guarantee":"returns _permute_dims(_array_diagonal(expr.expr, *back_diagonal_indices), new_permutation)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._ArrayDiagonal_denest_PermuteDims_correct","statement":"Path(_ArrayDiagonal_denest_PermuteDims(x), returns _permute_dims(_array_diagonal(expr.expr, *back_diagonal_indices), new_permutation))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb3d84aea5ff7092","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, PermuteDims)","hasattr(expr, 'permutation')","hasattr(expr, 'expr')"],"returns_expr":"_permute_dims(_array_diagonal(expr.expr, *back_diagonal_indices), new_permutation)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.permutation"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _ArrayDiagonal_denest_PermuteDims(cls, expr: PermuteDims, *diagonal_indices):
         back_diagonal_indices = [[expr.permutation(j) for j in i] for i in diagonal_indices]
         nondiag = [i for i in range(get_rank(expr)) if not any(i in j for j in diagonal_indices)]
@@ -1604,31 +2037,43 @@ class ArrayDiagonal(_CodegenArrayAbstract):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_push_indices_down_nonstatic(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_push_indices_down_nonstatic(indices), _apply_recursively_over_nested_lists(transform, indices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _apply_recursively_over_nested_lists(tran...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _push_indices_down_nonstatic : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad616a2f7f21e526  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 685d391c74e7fe15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_down_nonstatic","kind":"method","src_hash":"75596ed7c90e114e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_push_indices_down_nonstatic(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_push_indices_down_nonstatic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_down_nonstatic_correct","statement":"Path(_push_indices_down_nonstatic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad616a2f7f21e526"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_down_nonstatic","kind":"method","src_hash":"75596ed7c90e114e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_push_indices_down_nonstatic(indices)","rhs":"_apply_recursively_over_nested_lists(transform, indices)","over":{"base":"Any"},"name":"_push_indices_down_nonstatic_correct"},"guarantee":"returns _apply_recursively_over_nested_lists(transform, indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_down_nonstatic_correct","statement":"Path(_push_indices_down_nonstatic(x), returns _apply_recursively_over_nested_lists(transform, indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"685d391c74e7fe15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_apply_recursively_over_nested_lists(transform, indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._positions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _push_indices_down_nonstatic(self, indices):
         transform = lambda x: self._positions[x] if x < len(self._positions) else None
         return _apply_recursively_over_nested_lists(transform, indices)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_push_indices_up_nonstatic(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_push_indices_up_nonstatic(indices), <unspecified:_push_indices_up_nonstatic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _push_indices_up_nonstatic : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49d16a6d8ca850eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_up_nonstatic","kind":"method","src_hash":"5348c1bdc415ce6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_push_indices_up_nonstatic(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_push_indices_up_nonstatic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_up_nonstatic_correct","statement":"Path(_push_indices_up_nonstatic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49d16a6d8ca850eb"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_up_nonstatic","kind":"method","src_hash":"5348c1bdc415ce6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_push_indices_up_nonstatic(indices)","rhs":"<unspecified:_push_indices_up_nonstatic>","over":{"base":"Any"},"name":"_push_indices_up_nonstatic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_up_nonstatic_correct","statement":"Path(_push_indices_up_nonstatic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49d16a6d8ca850eb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._positions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _push_indices_up_nonstatic(self, indices):
 
         def transform(x):
@@ -1640,16 +2085,22 @@ class ArrayDiagonal(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_push_indices_down(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_push_indices_down(cls, diagonal_indices, indices), _apply_recursively_over_nested_lists(transform, indices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _apply_recursively_over_nested_lists(tran...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _push_indices_down : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2da3a311cbd506d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 418cfe1683242bf5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_down","kind":"classmethod","src_hash":"b18c10887e981cd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_push_indices_down(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_push_indices_down_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_down_correct","statement":"Path(_push_indices_down(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2da3a311cbd506d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_down","kind":"classmethod","src_hash":"b18c10887e981cd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_push_indices_down(cls, diagonal_indices, indices)","rhs":"_apply_recursively_over_nested_lists(transform, indices)","over":{"base":"Any"},"name":"_push_indices_down_correct"},"guarantee":"returns _apply_recursively_over_nested_lists(transform, indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_down_correct","statement":"Path(_push_indices_down(x), returns _apply_recursively_over_nested_lists(transform, indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"418cfe1683242bf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_apply_recursively_over_nested_lists(transform, indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._get_positions_shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _push_indices_down(cls, diagonal_indices, indices, rank):
         positions, shape = cls._get_positions_shape(range(rank), diagonal_indices)
         transform = lambda x: positions[x] if x < len(positions) else None
@@ -1657,16 +2108,22 @@ class ArrayDiagonal(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_push_indices_up(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_push_indices_up(cls, diagonal_indices, indices), <unspecified:_push_indices_up>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _push_indices_up : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ed2d03e2d081719  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_up","kind":"classmethod","src_hash":"a7538acd1d6301f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_push_indices_up(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_push_indices_up_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_up_correct","statement":"Path(_push_indices_up(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ed2d03e2d081719"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_up","kind":"classmethod","src_hash":"a7538acd1d6301f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_push_indices_up(cls, diagonal_indices, indices)","rhs":"<unspecified:_push_indices_up>","over":{"base":"Any"},"name":"_push_indices_up_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._push_indices_up_correct","statement":"Path(_push_indices_up(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ed2d03e2d081719","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._get_positions_shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _push_indices_up(cls, diagonal_indices, indices, rank):
         positions, shape = cls._get_positions_shape(range(rank), diagonal_indices)
 
@@ -1679,16 +2136,22 @@ class ArrayDiagonal(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_positions_shape(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_get_positions_shape(cls, shape, diagonal_indices), (positions, shape)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (positions, shape)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_positions_shape : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 194bf3f3b8ff3b3a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6511129352f43a53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._get_positions_shape","kind":"classmethod","src_hash":"358ed8397120b0e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_positions_shape(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_positions_shape_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._get_positions_shape_correct","statement":"Path(_get_positions_shape(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"194bf3f3b8ff3b3a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._get_positions_shape","kind":"classmethod","src_hash":"358ed8397120b0e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_positions_shape(cls, shape, diagonal_indices)","rhs":"(positions, shape)","over":{"base":"Any"},"name":"_get_positions_shape_correct"},"guarantee":"returns (positions, shape)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal._get_positions_shape_correct","statement":"Path(_get_positions_shape(x), returns (positions, shape))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6511129352f43a53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(positions, shape)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_positions_shape(cls, shape, diagonal_indices):
         data1 = tuple((i, shp) for i, shp in enumerate(shape) if not any(i in j for j in diagonal_indices))
         pos1, shp1 = zip(*data1) if data1 else ((), ())
@@ -1699,16 +2162,22 @@ class ArrayDiagonal(_CodegenArrayAbstract):
         return positions, shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_explicit(), as_explicit produces the expected output) over Any ║
+# ║ Path(as_explicit(), tensordiagonal(expr, *self.diagonal_indices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tensordiagonal(expr, *self.diagonal_indices)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_explicit : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b6262306137922d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5649157db8c3095a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal.as_explicit","kind":"method","src_hash":"0f25129d6152bab5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"as_explicit produces the expected output","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal.as_explicit_correct","statement":"Path(as_explicit(x), as_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b6262306137922d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal.as_explicit","kind":"method","src_hash":"0f25129d6152bab5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"tensordiagonal(expr, *self.diagonal_indices)","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"returns tensordiagonal(expr, *self.diagonal_indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayDiagonal.as_explicit_correct","statement":"Path(as_explicit(x), returns tensordiagonal(expr, *self.diagonal_indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5649157db8c3095a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tensordiagonal(expr, *self.diagonal_indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.diagonal_indices","self.expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_explicit(self):
         expr = self.expr
         if hasattr(expr, "as_explicit"):
@@ -1719,27 +2188,39 @@ class ArrayDiagonal(_CodegenArrayAbstract):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ArrayElementwiseApplyFunc(*args), correctly constructs a ArrayElementwiseApplyFunc instance) over {Any | isinstance(fdiff, Function) and isinstance(function, Lambda)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _CodegenArrayAbstract)        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ArrayElementwiseApplyFunc : {Any | isinstance(fdiff, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3170e4912171a799  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc","kind":"class","src_hash":"009a9a552291e724","in":{"base":"Any","pred":"isinstance(fdiff, Function) and isinstance(function, Lambda)"},"out":{"base":"Any"},"spec":{"lhs":"ArrayElementwiseApplyFunc(*args)","rhs":"correctly constructs a ArrayElementwiseApplyFunc instance","over":{"base":"Any","pred":"isinstance(fdiff, Function) and isinstance(function, Lambda)"},"name":"ArrayElementwiseApplyFunc_class_invariant"},"guarantee":"correctly constructs a ArrayElementwiseApplyFunc instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3170e4912171a799"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc","kind":"class","src_hash":"009a9a552291e724","in":{"base":"Any","pred":"isinstance(fdiff, Function) and isinstance(function, Lambda)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _CodegenArrayAbstract)"},"spec":{"lhs":"ArrayElementwiseApplyFunc(*args)","rhs":"correctly constructs a ArrayElementwiseApplyFunc instance","over":{"base":"Any","pred":"isinstance(fdiff, Function) and isinstance(function, Lambda)"},"name":"ArrayElementwiseApplyFunc_class_invariant"},"guarantee":"isinstance(self, _CodegenArrayAbstract)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3170e4912171a799","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _CodegenArrayAbstract)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ArrayElementwiseApplyFunc not found in source"]}}
 class ArrayElementwiseApplyFunc(_CodegenArrayAbstract):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, function, element), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 07ee98640fc7ce55           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc.__new__","kind":"method","src_hash":"e925e3ccbb219cd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07ee98640fc7ce55"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc.__new__","kind":"method","src_hash":"e925e3ccbb219cd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, function, element)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07ee98640fc7ce55","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, function, element):
 
         if not isinstance(function, Lambda):
@@ -1752,60 +2233,84 @@ class ArrayElementwiseApplyFunc(_CodegenArrayAbstract):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(function(), returns the function attribute) over Any  ║
+# ║ Path(function(), self.args[0]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ function : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e1daeb097667d7a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc.function","kind":"property","src_hash":"7a40acf2b57dabde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"returns the function attribute","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns the function attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e1daeb097667d7a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc.function","kind":"property","src_hash":"7a40acf2b57dabde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"self.args[0]","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e1daeb097667d7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def function(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), self.args[1]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ecf64b489c6cb5c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc.expr","kind":"property","src_hash":"284af1497ea82254","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ecf64b489c6cb5c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc.expr","kind":"property","src_hash":"284af1497ea82254","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"self.args[1]","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ecf64b489c6cb5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self.expr.shape) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.expr.shape                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f40d952219c66519           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc.shape","kind":"property","src_hash":"7c463f1fd3d8920e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f40d952219c66519"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc.shape","kind":"property","src_hash":"7c463f1fd3d8920e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self.expr.shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self.expr.shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f40d952219c66519","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.expr.shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self.expr.shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_function_fdiff(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_function_fdiff(), <unspecified:_get_function_fdiff>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_function_fdiff : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc6d6c0d08bb72f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc._get_function_fdiff","kind":"method","src_hash":"34533651f3c97728","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_function_fdiff()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_function_fdiff_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc._get_function_fdiff_correct","statement":"Path(_get_function_fdiff(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc6d6c0d08bb72f2"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc._get_function_fdiff","kind":"method","src_hash":"34533651f3c97728","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_function_fdiff()","rhs":"<unspecified:_get_function_fdiff>","over":{"base":"Any"},"name":"_get_function_fdiff_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc._get_function_fdiff_correct","statement":"Path(_get_function_fdiff(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc6d6c0d08bb72f2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_function_fdiff(self):
         d = Dummy("d")
         function = self.function(d)
@@ -1817,16 +2322,22 @@ class ArrayElementwiseApplyFunc(_CodegenArrayAbstract):
         return fdiff
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_explicit(), as_explicit produces the expected output) over Any ║
+# ║ Path(as_explicit(), expr.applyfunc(self.function)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  expr.applyfunc(self.function)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_explicit : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27b682e1536fcaa2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea85f65b972f19d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc.as_explicit","kind":"method","src_hash":"f484599b70175cb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"as_explicit produces the expected output","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc.as_explicit_correct","statement":"Path(as_explicit(x), as_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27b682e1536fcaa2"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc.as_explicit","kind":"method","src_hash":"f484599b70175cb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"expr.applyfunc(self.function)","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"returns expr.applyfunc(self.function)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayElementwiseApplyFunc.as_explicit_correct","statement":"Path(as_explicit(x), returns expr.applyfunc(self.function))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea85f65b972f19d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"expr.applyfunc(self.function)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expr","self.function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_explicit(self):
         expr = self.expr
         if hasattr(expr, "as_explicit"):
@@ -1837,14 +2348,20 @@ class ArrayElementwiseApplyFunc(_CodegenArrayAbstract):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ArrayContraction(*args), correctly constructs a ArrayContraction instance) over {Any | isinstance(expr, ArrayContraction) and isinstance(expr, (ZeroArray, ZeroMatrix)) and isinstance(expr, PermuteDims)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _CodegenArrayAbstract)        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ArrayContraction : {Any | isinstance(expr, ArrayContr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 517d482b57736f53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction","kind":"class","src_hash":"c22b3c0e1286372d","in":{"base":"Any","pred":"isinstance(expr, ArrayContraction) and isinstance(expr, (ZeroArray, ZeroMatrix)) and isinstance(expr, PermuteDims)"},"out":{"base":"Any","pred":"v.indices.index(None) == 1 - rel_ind"},"spec":{"lhs":"ArrayContraction(*args)","rhs":"correctly constructs a ArrayContraction instance","over":{"base":"Any","pred":"isinstance(expr, ArrayContraction) and isinstance(expr, (ZeroArray, ZeroMatrix)) and isinstance(expr, PermuteDims)"},"name":"ArrayContraction_class_invariant"},"guarantee":"correctly constructs a ArrayContraction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"517d482b57736f53"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction","kind":"class","src_hash":"c22b3c0e1286372d","in":{"base":"Any","pred":"isinstance(expr, ArrayContraction) and isinstance(expr, (ZeroArray, ZeroMatrix)) and isinstance(expr, PermuteDims)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _CodegenArrayAbstract)"},"spec":{"lhs":"ArrayContraction(*args)","rhs":"correctly constructs a ArrayContraction instance","over":{"base":"Any","pred":"isinstance(expr, ArrayContraction) and isinstance(expr, (ZeroArray, ZeroMatrix)) and isinstance(expr, PermuteDims)"},"name":"ArrayContraction_class_invariant"},"guarantee":"isinstance(self, _CodegenArrayAbstract)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"517d482b57736f53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _CodegenArrayAbstract)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function ArrayContraction not found in source"]}}
 class ArrayContraction(_CodegenArrayAbstract):
     r"""
     This class is meant to represent contractions of arrays in a form easily
@@ -1852,16 +2369,22 @@ class ArrayContraction(_CodegenArrayAbstract):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr, *contraction_indices), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 347fe97d5b2ef735           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.__new__","kind":"method","src_hash":"037d90da1a8afaac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"347fe97d5b2ef735"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.__new__","kind":"method","src_hash":"037d90da1a8afaac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, expr, *contraction_indices)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"347fe97d5b2ef735","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._validate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr, *contraction_indices, **kwargs):
         contraction_indices = _sort_contraction_indices(contraction_indices)
         expr = _sympify(expr)
@@ -1885,16 +2408,22 @@ class ArrayContraction(_CodegenArrayAbstract):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_canonicalize(), internal helper behaves correctly) over Any ║
+# ║ Path(_canonicalize(), <unspecified:_canonicalize>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _canonicalize : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64cb5a70c4f82e70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._canonicalize","kind":"method","src_hash":"323cd76e15a9678e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_canonicalize()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_canonicalize_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._canonicalize_correct","statement":"Path(_canonicalize(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64cb5a70c4f82e70"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._canonicalize","kind":"method","src_hash":"323cd76e15a9678e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_canonicalize()","rhs":"<unspecified:_canonicalize>","over":{"base":"Any"},"name":"_canonicalize_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._canonicalize_correct","statement":"Path(_canonicalize(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64cb5a70c4f82e70","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._ArrayContraction_denest_ArrayAdd","self._ArrayContraction_denest_ArrayContraction","self._ArrayContraction_denest_ArrayDiagonal","self._ArrayContraction_denest_PermuteDims","self._ArrayContraction_denest_ZeroArray","self._lower_contraction_to_addends","self._sort_fully_contracted_args","self.contraction_indices","self.expr","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _canonicalize(self):
         expr = self.expr
         contraction_indices = self.contraction_indices
@@ -1931,16 +2460,23 @@ class ArrayContraction(_CodegenArrayAbstract):
         return self.func(expr, *contraction_indices, canonicalize=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: other == 1 => self                        ║
+# ║   fiber[case_1]: not (other == 1)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 374d9c4aaea99f76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.__mul__","kind":"method","src_hash":"cda4059fa329bc74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"374d9c4aaea99f76"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.__mul__","kind":"method","src_hash":"cda4059fa329bc74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"374d9c4aaea99f76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"other == 1","ensures":["result == self"],"decidability":"z3","returns_expr":"self"},{"name":"case_1","guard":"not (other == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         if other == 1:
             return self
@@ -1948,16 +2484,23 @@ class ArrayContraction(_CodegenArrayAbstract):
             raise NotImplementedError("Product of N-dim arrays is not uniquely defined. Use another method.")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), <unspecified:__rmul__>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: other == 1 => self                        ║
+# ║   fiber[case_1]: not (other == 1)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d0d9b97e9065cd10           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.__rmul__","kind":"method","src_hash":"bb6a8ac7ca44de64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0d9b97e9065cd10"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.__rmul__","kind":"method","src_hash":"bb6a8ac7ca44de64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"<unspecified:__rmul__>","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0d9b97e9065cd10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"other == 1","ensures":["result == self"],"decidability":"z3","returns_expr":"self"},{"name":"case_1","guard":"not (other == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         if other == 1:
             return self
@@ -1966,16 +2509,22 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_validate(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_validate(expr, *contraction_indices), <unspecified:_validate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _validate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98b656e5e5f558a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._validate","kind":"staticmethod","src_hash":"4da2c87eee354375","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_validate(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_validate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._validate_correct","statement":"Path(_validate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98b656e5e5f558a4"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._validate","kind":"staticmethod","src_hash":"4da2c87eee354375","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_validate(expr, *contraction_indices)","rhs":"<unspecified:_validate>","over":{"base":"Any"},"name":"_validate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._validate_correct","statement":"Path(_validate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98b656e5e5f558a4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _validate(expr, *contraction_indices):
         shape = get_shape(expr)
         if shape is None:
@@ -1988,16 +2537,22 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_push_indices_down(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_push_indices_down(cls, contraction_indices, indices), _apply_recursively_over_nested_lists(transform, indices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _apply_recursively_over_nested_lists(tran...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _push_indices_down : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6224ea272bbeb59e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9049f10b4e364b28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._push_indices_down","kind":"classmethod","src_hash":"c08a2450f8ab4ef4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_push_indices_down(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_push_indices_down_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._push_indices_down_correct","statement":"Path(_push_indices_down(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6224ea272bbeb59e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._push_indices_down","kind":"classmethod","src_hash":"c08a2450f8ab4ef4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_push_indices_down(cls, contraction_indices, indices)","rhs":"_apply_recursively_over_nested_lists(transform, indices)","over":{"base":"Any"},"name":"_push_indices_down_correct"},"guarantee":"returns _apply_recursively_over_nested_lists(transform, indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._push_indices_down_correct","statement":"Path(_push_indices_down(x), returns _apply_recursively_over_nested_lists(transform, indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9049f10b4e364b28","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_apply_recursively_over_nested_lists(transform, indices)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _push_indices_down(cls, contraction_indices, indices):
         flattened_contraction_indices = [j for i in contraction_indices for j in i]
         flattened_contraction_indices.sort()
@@ -2006,16 +2561,22 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_push_indices_up(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_push_indices_up(cls, contraction_indices, indices), _apply_recursively_over_nested_lists(transform, indices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _apply_recursively_over_nested_lists(tran...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _push_indices_up : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdf550d413a178ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb7c415e26e061b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._push_indices_up","kind":"classmethod","src_hash":"2b461d8d3d6b431e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_push_indices_up(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_push_indices_up_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._push_indices_up_correct","statement":"Path(_push_indices_up(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdf550d413a178ba"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._push_indices_up","kind":"classmethod","src_hash":"2b461d8d3d6b431e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_push_indices_up(cls, contraction_indices, indices)","rhs":"_apply_recursively_over_nested_lists(transform, indices)","over":{"base":"Any"},"name":"_push_indices_up_correct"},"guarantee":"returns _apply_recursively_over_nested_lists(transform, indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._push_indices_up_correct","statement":"Path(_push_indices_up(x), returns _apply_recursively_over_nested_lists(transform, indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb7c415e26e061b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_apply_recursively_over_nested_lists(transform, indices)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _push_indices_up(cls, contraction_indices, indices):
         flattened_contraction_indices = [j for i in contraction_indices for j in i]
         flattened_contraction_indices.sort()
@@ -2024,16 +2585,25 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_lower_contraction_to_addends(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_lower_contraction_to_addends(cls, expr, contraction_indices), len(contraction_indices_remaining) == old_len_contraction_indices_remaining + 1) over {Any | not (isinstance(expr, ArrayAdd)) and hasattr(expr, 'subranks') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _lower_contraction_to_addends : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (isinstance(expr, ArrayAdd))               ║
+# ║   requires: hasattr(expr, 'subranks')                      ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  len(contraction_indices_remaining) == old...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _lower_contraction_to_addends : {Any | not (isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58f7429adfb9cb99  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45049d8deb5d8ce8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._lower_contraction_to_addends","kind":"classmethod","src_hash":"0322d61cc35d3656","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lower_contraction_to_addends(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_lower_contraction_to_addends_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._lower_contraction_to_addends_correct","statement":"Path(_lower_contraction_to_addends(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58f7429adfb9cb99"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._lower_contraction_to_addends","kind":"classmethod","src_hash":"0322d61cc35d3656","in":{"base":"Any","pred":"not (isinstance(expr, ArrayAdd)) and hasattr(expr, 'subranks') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(contraction_indices_remaining) == old_len_contraction_indices_remaining + 1"},"spec":{"lhs":"_lower_contraction_to_addends(cls, expr, contraction_indices)","rhs":"len(contraction_indices_remaining) == old_len_contraction_indices_remaining + 1","over":{"base":"Any","pred":"not (isinstance(expr, ArrayAdd)) and hasattr(expr, 'subranks') and hasattr(expr, 'args')"},"name":"_lower_contraction_to_addends_correct"},"guarantee":"len(contraction_indices_remaining) == old_len_contraction_indices_remaining + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._lower_contraction_to_addends_correct","statement":"Path(_lower_contraction_to_addends(x), len(contraction_indices_remaining) == old_len_contraction_indices_remaining + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45049d8deb5d8ce8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (isinstance(expr, ArrayAdd))","hasattr(expr, 'subranks')","hasattr(expr, 'args')"],"ensures":["len(contraction_indices_remaining) == old_len_contraction_indices_remaining + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.subranks"],"calls_mutating":["backshift.update","contraction_indices_remaining.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["backshift.*","contraction_indices_remaining.*"],"old_bindings":{"old_len_backshift":"len(backshift)","old_len_contraction_indices_remaining":"len(contraction_indices_remaining)"},"post_ensures":["len(contraction_indices_remaining) == old_len_contraction_indices_remaining + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _lower_contraction_to_addends(cls, expr, contraction_indices):
         if isinstance(expr, ArrayAdd):
             raise NotImplementedError()
@@ -2065,16 +2635,22 @@ class ArrayContraction(_CodegenArrayAbstract):
         return ret, contraction_indices_remaining
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(split_multiple_contractions(), recognize multiple contractions and attempt at rewriting them as paired-contractions) over Any ║
+# ║ Path(split_multiple_contractions(), editor.to_array_contraction()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  editor.to_array_contraction()                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ split_multiple_contractions : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64c045b67db4fb93  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 111363eab34c43e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.split_multiple_contractions","kind":"method","src_hash":"b568d0dd725f31ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"split_multiple_contractions()","rhs":"recognize multiple contractions and attempt at rewriting them as paired-contractions","over":{"base":"Any"},"name":"split_multiple_contractions_correct"},"guarantee":"recognize multiple contractions and attempt at rewriting them as paired-contractions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.split_multiple_contractions_correct","statement":"Path(split_multiple_contractions(x), recognize multiple contractions and attempt at rewriting them as paired-contractions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64c045b67db4fb93"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.split_multiple_contractions","kind":"method","src_hash":"b568d0dd725f31ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"split_multiple_contractions()","rhs":"editor.to_array_contraction()","over":{"base":"Any"},"name":"split_multiple_contractions_correct"},"guarantee":"returns editor.to_array_contraction()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.split_multiple_contractions_correct","statement":"Path(split_multiple_contractions(x), returns editor.to_array_contraction())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"111363eab34c43e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"editor.to_array_contraction()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def split_multiple_contractions(self):
         """
         Recognize multiple contractions and attempt at rewriting them as paired-contractions.
@@ -2176,16 +2752,22 @@ class ArrayContraction(_CodegenArrayAbstract):
         return editor.to_array_contraction()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flatten_contraction_of_diagonal(), flatten_contraction_of_diagonal produces the expected output) over Any ║
+# ║ Path(flatten_contraction_of_diagonal(), <unspecified:flatten_contraction_of_diagonal>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ flatten_contraction_of_diagonal : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a0957675bfb46f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.flatten_contraction_of_diagonal","kind":"method","src_hash":"1ec6f17254a632e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten_contraction_of_diagonal()","rhs":"flatten_contraction_of_diagonal produces the expected output","over":{"base":"Any"},"name":"flatten_contraction_of_diagonal_correct"},"guarantee":"flatten_contraction_of_diagonal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.flatten_contraction_of_diagonal_correct","statement":"Path(flatten_contraction_of_diagonal(x), flatten_contraction_of_diagonal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a0957675bfb46f9"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.flatten_contraction_of_diagonal","kind":"method","src_hash":"1ec6f17254a632e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten_contraction_of_diagonal()","rhs":"<unspecified:flatten_contraction_of_diagonal>","over":{"base":"Any"},"name":"flatten_contraction_of_diagonal_correct"},"guarantee":"flatten_contraction_of_diagonal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.flatten_contraction_of_diagonal_correct","statement":"Path(flatten_contraction_of_diagonal(x), flatten_contraction_of_diagonal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a0957675bfb46f9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def flatten_contraction_of_diagonal(self):
         if not isinstance(self.expr, ArrayDiagonal):
             return self
@@ -2211,16 +2793,22 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_free_indices_to_position_map(fre), internal helper behaves correctly) over Any ║
+# ║ Path(_get_free_indices_to_position_map(free_indices, contraction_indices), <unspecified:_get_free_indices_to_position_map>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_free_indices_to_position_map : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a74aa3a75aa8bd7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_free_indices_to_position_map","kind":"staticmethod","src_hash":"a04ebe5e1801750c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_free_indices_to_position_map(fre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_free_indices_to_position_map_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_free_indices_to_position_map_correct","statement":"Path(_get_free_indices_to_position_map(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a74aa3a75aa8bd7b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_free_indices_to_position_map","kind":"staticmethod","src_hash":"a04ebe5e1801750c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_free_indices_to_position_map(free_indices, contraction_indices)","rhs":"<unspecified:_get_free_indices_to_position_map>","over":{"base":"Any"},"name":"_get_free_indices_to_position_map_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_free_indices_to_position_map_correct","statement":"Path(_get_free_indices_to_position_map(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a74aa3a75aa8bd7b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_free_indices_to_position_map(free_indices, contraction_indices):
         free_indices_to_position = {}
         flattened_contraction_indices = [j for i in contraction_indices for j in i]
@@ -2234,16 +2822,23 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_index_shifts(exp), get the mapping of indices at the positions before the contraction occurs) over Any ║
+# ║ Path(_get_index_shifts(expr), <unspecified:_get_index_shifts>) over {Any | hasattr(expr, 'contraction_indices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_index_shifts : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'contraction_indices')           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_index_shifts : {Any | hasattr(expr, 'contraction...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9677d7d563d206f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_index_shifts","kind":"staticmethod","src_hash":"36f7883b301069df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_index_shifts(exp)","rhs":"get the mapping of indices at the positions before the contraction occurs","over":{"base":"Any"},"name":"_get_index_shifts_correct"},"guarantee":"get the mapping of indices at the positions before the contraction occurs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_index_shifts_correct","statement":"Path(_get_index_shifts(x), get the mapping of indices at the positions before the contraction occurs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9677d7d563d206f6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_index_shifts","kind":"staticmethod","src_hash":"36f7883b301069df","in":{"base":"Any","pred":"hasattr(expr, 'contraction_indices')"},"out":{"base":"Any"},"spec":{"lhs":"_get_index_shifts(expr)","rhs":"<unspecified:_get_index_shifts>","over":{"base":"Any","pred":"hasattr(expr, 'contraction_indices')"},"name":"_get_index_shifts_correct"},"guarantee":"get the mapping of indices at the positions before the contraction occurs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_index_shifts_correct","statement":"Path(_get_index_shifts(x), get the mapping of indices at the positions before the contraction occurs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9677d7d563d206f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'contraction_indices')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_index_shifts(expr):
         """
         Get the mapping of indices at the positions before the contraction
@@ -2284,16 +2879,22 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_convert_outer_indices_to_inner_indices(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_convert_outer_indices_to_inner_indices(expr, *outer_contraction_indices), <unspecified:_convert_outer_indices_to_inner_indices>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _convert_outer_indices_to_inner_indices : Any → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04fbe664000077b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._convert_outer_indices_to_inner_indices","kind":"staticmethod","src_hash":"e5d6097651ef4ac1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_outer_indices_to_inner_indices(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_convert_outer_indices_to_inner_indices_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._convert_outer_indices_to_inner_indices_correct","statement":"Path(_convert_outer_indices_to_inner_indices(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04fbe664000077b6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._convert_outer_indices_to_inner_indices","kind":"staticmethod","src_hash":"e5d6097651ef4ac1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_outer_indices_to_inner_indices(expr, *outer_contraction_indices)","rhs":"<unspecified:_convert_outer_indices_to_inner_indices>","over":{"base":"Any"},"name":"_convert_outer_indices_to_inner_indices_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._convert_outer_indices_to_inner_indices_correct","statement":"Path(_convert_outer_indices_to_inner_indices(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04fbe664000077b6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _convert_outer_indices_to_inner_indices(expr, *outer_contraction_indices):
         shifts = ArrayContraction._get_index_shifts(expr)
         outer_contraction_indices = tuple(tuple(shifts[j] + j for j in i) for i in outer_contraction_indices)
@@ -2301,16 +2902,24 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_flatten(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_flatten(expr, *outer_contraction_indices), _array_contraction(expr.expr, *contraction_indices)) over {Any | hasattr(expr, 'contraction_indices') and hasattr(expr, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _flatten : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'contraction_indices')           ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   returns:  _array_contraction(expr.expr, *contractio...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _flatten : {Any | hasattr(expr, 'contraction_indices'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71fd2c9c1d4c7232  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48269c3f66939049  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._flatten","kind":"staticmethod","src_hash":"38c7809a568fb2d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_flatten(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_flatten_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._flatten_correct","statement":"Path(_flatten(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71fd2c9c1d4c7232"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._flatten","kind":"staticmethod","src_hash":"38c7809a568fb2d6","in":{"base":"Any","pred":"hasattr(expr, 'contraction_indices') and hasattr(expr, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_flatten(expr, *outer_contraction_indices)","rhs":"_array_contraction(expr.expr, *contraction_indices)","over":{"base":"Any","pred":"hasattr(expr, 'contraction_indices') and hasattr(expr, 'expr')"},"name":"_flatten_correct"},"guarantee":"returns _array_contraction(expr.expr, *contraction_indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._flatten_correct","statement":"Path(_flatten(x), returns _array_contraction(expr.expr, *contraction_indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48269c3f66939049","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'contraction_indices')","hasattr(expr, 'expr')"],"returns_expr":"_array_contraction(expr.expr, *contraction_indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.contraction_indices","expr.expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _flatten(expr, *outer_contraction_indices):
         inner_contraction_indices = expr.contraction_indices
         outer_contraction_indices = ArrayContraction._convert_outer_indices_to_inner_indices(expr, *outer_contraction_indices)
@@ -2319,31 +2928,44 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ArrayContraction_denest_ArrayContraction(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_ArrayContraction_denest_ArrayContraction(cls, expr, *contraction_indices), cls._flatten(expr, *contraction_indices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls._flatten(expr, *contraction_indices)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ArrayContraction_denest_ArrayContraction : Any → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2daa4673e97e6287           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_ArrayContraction","kind":"classmethod","src_hash":"20cc612ef6b4e1c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayContraction_denest_ArrayContraction(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ArrayContraction_denest_ArrayContraction_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2daa4673e97e6287"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_ArrayContraction","kind":"classmethod","src_hash":"20cc612ef6b4e1c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayContraction_denest_ArrayContraction(cls, expr, *contraction_indices)","rhs":"cls._flatten(expr, *contraction_indices)","over":{"base":"Any"},"name":"_ArrayContraction_denest_ArrayContraction_correct"},"guarantee":"returns cls._flatten(expr, *contraction_indices)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2daa4673e97e6287","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls._flatten(expr, *contraction_indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._flatten"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _ArrayContraction_denest_ArrayContraction(cls, expr, *contraction_indices):
         return cls._flatten(expr, *contraction_indices)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ArrayContraction_denest_ZeroArray(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_ArrayContraction_denest_ZeroArray(cls, expr, *contraction_indices), ZeroArray(*shape)) over {Any | hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ArrayContraction_denest_ZeroArray : Any → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   returns:  ZeroArray(*shape)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ArrayContraction_denest_ZeroArray : {Any | hasattr(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 260778052b99a4bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 107e9ae0bfd64ba5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_ZeroArray","kind":"classmethod","src_hash":"226687d214d38393","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayContraction_denest_ZeroArray(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ArrayContraction_denest_ZeroArray_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_ZeroArray_correct","statement":"Path(_ArrayContraction_denest_ZeroArray(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"260778052b99a4bf"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_ZeroArray","kind":"classmethod","src_hash":"226687d214d38393","in":{"base":"Any","pred":"hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayContraction_denest_ZeroArray(cls, expr, *contraction_indices)","rhs":"ZeroArray(*shape)","over":{"base":"Any","pred":"hasattr(expr, 'shape')"},"name":"_ArrayContraction_denest_ZeroArray_correct"},"guarantee":"returns ZeroArray(*shape)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_ZeroArray_correct","statement":"Path(_ArrayContraction_denest_ZeroArray(x), returns ZeroArray(*shape))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"107e9ae0bfd64ba5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'shape')"],"returns_expr":"ZeroArray(*shape)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _ArrayContraction_denest_ZeroArray(cls, expr, *contraction_indices):
         contraction_indices_flat = [j for i in contraction_indices for j in i]
         shape = [e for i, e in enumerate(expr.shape) if i not in contraction_indices_flat]
@@ -2351,31 +2973,46 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ArrayContraction_denest_ArrayAdd(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_ArrayContraction_denest_ArrayAdd(cls, expr, *contraction_indices), _array_add(*[_array_contraction(i, *contraction_indices) for i in expr.args])) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ArrayContraction_denest_ArrayAdd : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  _array_add(*[_array_contraction(i, *contr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ArrayContraction_denest_ArrayAdd : {Any | hasattr(ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a5430f334d00f46           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_ArrayAdd","kind":"classmethod","src_hash":"ae0d8323372aa0bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayContraction_denest_ArrayAdd(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ArrayContraction_denest_ArrayAdd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a5430f334d00f46"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_ArrayAdd","kind":"classmethod","src_hash":"ae0d8323372aa0bc","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayContraction_denest_ArrayAdd(cls, expr, *contraction_indices)","rhs":"_array_add(*[_array_contraction(i, *contraction_indices) for i in expr.args])","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_ArrayContraction_denest_ArrayAdd_correct"},"guarantee":"returns _array_add(*[_array_contraction(i, *contraction_indices) for i in expr.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a5430f334d00f46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"_array_add(*[_array_contraction(i, *contraction_indices) for i in expr.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _ArrayContraction_denest_ArrayAdd(cls, expr, *contraction_indices):
         return _array_add(*[_array_contraction(i, *contraction_indices) for i in expr.args])
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ArrayContraction_denest_PermuteDims(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_ArrayContraction_denest_PermuteDims(cls, expr, *contraction_indices), _permute_dims(_array_contraction(expr.expr, *new_contraction_indices), Permutation(new_plist))) over {Any | hasattr(expr, 'permutation') and hasattr(expr, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ArrayContraction_denest_PermuteDims : Any → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'permutation')                   ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   returns:  _permute_dims(_array_contraction(expr.exp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ArrayContraction_denest_PermuteDims : {Any | hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 848408215a1ec66f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec77d7b72037fa58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_PermuteDims","kind":"classmethod","src_hash":"840562d3ded33caf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayContraction_denest_PermuteDims(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ArrayContraction_denest_PermuteDims_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_PermuteDims_correct","statement":"Path(_ArrayContraction_denest_PermuteDims(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"848408215a1ec66f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_PermuteDims","kind":"classmethod","src_hash":"840562d3ded33caf","in":{"base":"Any","pred":"hasattr(expr, 'permutation') and hasattr(expr, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayContraction_denest_PermuteDims(cls, expr, *contraction_indices)","rhs":"_permute_dims(_array_contraction(expr.expr, *new_contraction_indices), Permutation(new_plist))","over":{"base":"Any","pred":"hasattr(expr, 'permutation') and hasattr(expr, 'expr')"},"name":"_ArrayContraction_denest_PermuteDims_correct"},"guarantee":"returns _permute_dims(_array_contraction(expr.expr, *new_contraction_indices), Permutation(new_plist))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_PermuteDims_correct","statement":"Path(_ArrayContraction_denest_PermuteDims(x), returns _permute_dims(_array_contraction(expr.expr, *new_contraction_indices), Permutation(new_plist)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec77d7b72037fa58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'permutation')","hasattr(expr, 'expr')"],"returns_expr":"_permute_dims(_array_contraction(expr.expr, *new_contraction_indices), Permutation(new_plist))","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._push_indices_up","expr.expr","expr.permutation"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _ArrayContraction_denest_PermuteDims(cls, expr, *contraction_indices):
         permutation = expr.permutation
         plist = permutation.array_form
@@ -2389,16 +3026,25 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ArrayContraction_denest_ArrayDiagonal(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_ArrayContraction_denest_ArrayDiagonal(cls, expr, *contraction_indices), _array_diagonal(_array_contraction(expr.expr, *new_contraction_indices), *new_diagonal_indices)) over {Any | isinstance(expr, 'ArrayDiagonal') and hasattr(expr, 'diagonal_indices') and hasattr(expr, '_push_indices_down') and hasattr(expr, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ArrayContraction_denest_ArrayDiagonal : Any → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, 'ArrayDiagonal')              ║
+# ║   requires: hasattr(expr, 'diagonal_indices')              ║
+# ║   requires: hasattr(expr, '_push_indices_down')            ║
+# ║   returns:  _array_diagonal(_array_contraction(expr.e...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ArrayContraction_denest_ArrayDiagonal : {Any | isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81288afa4e6a0e57  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32df85292d5b9f26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_ArrayDiagonal","kind":"classmethod","src_hash":"b247f106c19f63cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayContraction_denest_ArrayDiagonal(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ArrayContraction_denest_ArrayDiagonal_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_ArrayDiagonal_correct","statement":"Path(_ArrayContraction_denest_ArrayDiagonal(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81288afa4e6a0e57"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_ArrayDiagonal","kind":"classmethod","src_hash":"b247f106c19f63cc","in":{"base":"Any","pred":"isinstance(expr, 'ArrayDiagonal') and hasattr(expr, 'diagonal_indices') and hasattr(expr, '_push_indices_down') and hasattr(expr, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_ArrayContraction_denest_ArrayDiagonal(cls, expr, *contraction_indices)","rhs":"_array_diagonal(_array_contraction(expr.expr, *new_contraction_indices), *new_diagonal_indices)","over":{"base":"Any","pred":"isinstance(expr, 'ArrayDiagonal') and hasattr(expr, 'diagonal_indices') and hasattr(expr, '_push_indices_down') and hasattr(expr, 'expr')"},"name":"_ArrayContraction_denest_ArrayDiagonal_correct"},"guarantee":"returns _array_diagonal(_array_contraction(expr.expr, *new_contraction_indices), *new_diagonal_indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._ArrayContraction_denest_ArrayDiagonal_correct","statement":"Path(_ArrayContraction_denest_ArrayDiagonal(x), returns _array_diagonal(_array_contraction(expr.expr, *new_contraction_indices), *new_diagonal_indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32df85292d5b9f26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, 'ArrayDiagonal')","hasattr(expr, 'diagonal_indices')","hasattr(expr, '_push_indices_down')","hasattr(expr, 'expr')"],"returns_expr":"_array_diagonal(_array_contraction(expr.expr, *new_contraction_indices), *new_diagonal_indices)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _ArrayContraction_denest_ArrayDiagonal(cls, expr: 'ArrayDiagonal', *contraction_indices):
         diagonal_indices = list(expr.diagonal_indices)
         down_contraction_indices = expr._push_indices_down(expr.diagonal_indices, contraction_indices, get_rank(expr.expr))
@@ -2424,16 +3070,25 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sort_fully_contracted_args(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_sort_fully_contracted_args(cls, expr, contraction_indices), <unspecified:_sort_fully_contracted_args>) over {Any | hasattr(expr, 'shape') and hasattr(expr, 'args') and hasattr(expr, 'subranks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sort_fully_contracted_args : Any → Any                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'subranks')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sort_fully_contracted_args : {Any | hasattr(expr, 's...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58d89df303701fb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._sort_fully_contracted_args","kind":"classmethod","src_hash":"7f2dc7b66d6369a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sort_fully_contracted_args(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sort_fully_contracted_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._sort_fully_contracted_args_correct","statement":"Path(_sort_fully_contracted_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58d89df303701fb3"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._sort_fully_contracted_args","kind":"classmethod","src_hash":"7f2dc7b66d6369a3","in":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, 'args') and hasattr(expr, 'subranks')"},"out":{"base":"Any"},"spec":{"lhs":"_sort_fully_contracted_args(cls, expr, contraction_indices)","rhs":"<unspecified:_sort_fully_contracted_args>","over":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, 'args') and hasattr(expr, 'subranks')"},"name":"_sort_fully_contracted_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._sort_fully_contracted_args_correct","statement":"Path(_sort_fully_contracted_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58d89df303701fb3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'shape')","hasattr(expr, 'args')","hasattr(expr, 'subranks')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.shape","expr.subranks"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sort_fully_contracted_args(cls, expr, contraction_indices):
         if expr.shape is None:
             return expr, contraction_indices
@@ -2450,16 +3105,22 @@ class ArrayContraction(_CodegenArrayAbstract):
         return _array_tensor_product(*new_args), new_contraction_indices
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_contraction_tuples(), return tuples containing the argument index and position within the argument of the index position) over Any ║
+# ║ Path(_get_contraction_tuples(), [[mapping[j] for j in i] for i in self.contraction_indices]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [[mapping[j] for j in i] for i in self.co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_contraction_tuples : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc201a3e9cd3b5d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c00f74c99ab507d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_contraction_tuples","kind":"method","src_hash":"e1e26e2f66abb57d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_contraction_tuples()","rhs":"return tuples containing the argument index and position within the argument of the index position","over":{"base":"Any"},"name":"_get_contraction_tuples_correct"},"guarantee":"return tuples containing the argument index and position within the argument of the index position","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_contraction_tuples_correct","statement":"Path(_get_contraction_tuples(x), return tuples containing the argument index and position within the argument of the index position)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc201a3e9cd3b5d5"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_contraction_tuples","kind":"method","src_hash":"e1e26e2f66abb57d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_contraction_tuples()","rhs":"[[mapping[j] for j in i] for i in self.contraction_indices]","over":{"base":"Any"},"name":"_get_contraction_tuples_correct"},"guarantee":"returns [[mapping[j] for j in i] for i in self.contraction_indices]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_contraction_tuples_correct","statement":"Path(_get_contraction_tuples(x), returns [[mapping[j] for j in i] for i in self.contraction_indices])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c00f74c99ab507d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[[mapping[j] for j in i] for i in self.contraction_indices]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._mapping","self.contraction_indices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_contraction_tuples(self):
         r"""
         Return tuples containing the argument index and position within the
@@ -2493,16 +3154,23 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contraction_tuples_to_contraction_indices(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_contraction_tuples_to_contraction_indices(expr, contraction_tuples), [tuple((cumulative_ranks[j] + k for j, k in i)) for i in contraction_tuples]) over {Any | hasattr(expr, 'subranks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _contraction_tuples_to_contraction_indices : Any → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subranks')                      ║
+# ║   returns:  [tuple((cumulative_ranks[j] + k for j, k ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _contraction_tuples_to_contraction_indices : {Any | h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be33d0ee9f633a23  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e02b6c65811e4ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._contraction_tuples_to_contraction_indices","kind":"staticmethod","src_hash":"eed3630d47ca5155","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contraction_tuples_to_contraction_indices(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contraction_tuples_to_contraction_indices_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._contraction_tuples_to_contraction_indices_correct","statement":"Path(_contraction_tuples_to_contraction_indices(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be33d0ee9f633a23"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._contraction_tuples_to_contraction_indices","kind":"staticmethod","src_hash":"eed3630d47ca5155","in":{"base":"Any","pred":"hasattr(expr, 'subranks')"},"out":{"base":"Any"},"spec":{"lhs":"_contraction_tuples_to_contraction_indices(expr, contraction_tuples)","rhs":"[tuple((cumulative_ranks[j] + k for j, k in i)) for i in contraction_tuples]","over":{"base":"Any","pred":"hasattr(expr, 'subranks')"},"name":"_contraction_tuples_to_contraction_indices_correct"},"guarantee":"returns [tuple((cumulative_ranks[j] + k for j, k in i)) for i in contraction_tuples]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._contraction_tuples_to_contraction_indices_correct","statement":"Path(_contraction_tuples_to_contraction_indices(x), returns [tuple((cumulative_ranks[j] + k for j, k in i)) for i in contraction_tuples])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e02b6c65811e4ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subranks')"],"returns_expr":"[tuple((cumulative_ranks[j] + k for j, k in i)) for i in contraction_tuples]","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.subranks"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contraction_tuples_to_contraction_indices(expr, contraction_tuples):
         # TODO: check that `expr` has `.subranks`:
         ranks = expr.subranks
@@ -2511,75 +3179,106 @@ class ArrayContraction(_CodegenArrayAbstract):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_indices(), returns the free_indices attribute) over Any ║
+# ║ Path(free_indices(), self._free_indices[:]) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._free_indices[:]                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_indices : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b6035848bcc11387           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.free_indices","kind":"property","src_hash":"afda9975ba8c58de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_indices()","rhs":"returns the free_indices attribute","over":{"base":"Any"},"name":"free_indices_correct"},"guarantee":"returns the free_indices attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6035848bcc11387"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.free_indices","kind":"property","src_hash":"afda9975ba8c58de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_indices()","rhs":"self._free_indices[:]","over":{"base":"Any"},"name":"free_indices_correct"},"guarantee":"returns self._free_indices[:]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6035848bcc11387","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._free_indices[:]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._free_indices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_indices(self):
         return self._free_indices[:]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_indices_to_position(), returns the free_indices_to_position attribute) over Any ║
+# ║ Path(free_indices_to_position(), dict(self._free_indices_to_position)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dict(self._free_indices_to_position)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_indices_to_position : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13f251f3476cdb9e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.free_indices_to_position","kind":"property","src_hash":"e033dcb060b8109c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_indices_to_position()","rhs":"returns the free_indices_to_position attribute","over":{"base":"Any"},"name":"free_indices_to_position_correct"},"guarantee":"returns the free_indices_to_position attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13f251f3476cdb9e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.free_indices_to_position","kind":"property","src_hash":"e033dcb060b8109c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_indices_to_position()","rhs":"dict(self._free_indices_to_position)","over":{"base":"Any"},"name":"free_indices_to_position_correct"},"guarantee":"returns dict(self._free_indices_to_position)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13f251f3476cdb9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dict(self._free_indices_to_position)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._free_indices_to_position"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_indices_to_position(self):
         return dict(self._free_indices_to_position)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eb5fe051f6ed94c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.expr","kind":"property","src_hash":"8e47c443b9fdeae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb5fe051f6ed94c8"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.expr","kind":"property","src_hash":"8e47c443b9fdeae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"self.args[0]","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb5fe051f6ed94c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contraction_indices(), returns the contraction_indices attribute) over Any ║
+# ║ Path(contraction_indices(), self.args[1:]) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1:]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ contraction_indices : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 313721aa51eacad8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.contraction_indices","kind":"property","src_hash":"c9c0b9b59c6985f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contraction_indices()","rhs":"returns the contraction_indices attribute","over":{"base":"Any"},"name":"contraction_indices_correct"},"guarantee":"returns the contraction_indices attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"313721aa51eacad8"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.contraction_indices","kind":"property","src_hash":"c9c0b9b59c6985f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contraction_indices()","rhs":"self.args[1:]","over":{"base":"Any"},"name":"contraction_indices_correct"},"guarantee":"returns self.args[1:]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"313721aa51eacad8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1:]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contraction_indices(self):
         return self.args[1:]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contraction_indices_to_components(), internal helper behaves correctly) over Any ║
+# ║ Path(_contraction_indices_to_components(), <unspecified:_contraction_indices_to_components>) over {Any | isinstance(expr, ArrayTensorProduct)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _contraction_indices_to_components : Any → Any             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, ArrayTensorProduct)           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _contraction_indices_to_components : {Any | isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94428541a4542b95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._contraction_indices_to_components","kind":"method","src_hash":"83d75ab5ac64a5b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contraction_indices_to_components()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contraction_indices_to_components_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._contraction_indices_to_components_correct","statement":"Path(_contraction_indices_to_components(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94428541a4542b95"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._contraction_indices_to_components","kind":"method","src_hash":"83d75ab5ac64a5b5","in":{"base":"Any","pred":"isinstance(expr, ArrayTensorProduct)"},"out":{"base":"Any"},"spec":{"lhs":"_contraction_indices_to_components()","rhs":"<unspecified:_contraction_indices_to_components>","over":{"base":"Any","pred":"isinstance(expr, ArrayTensorProduct)"},"name":"_contraction_indices_to_components_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._contraction_indices_to_components_correct","statement":"Path(_contraction_indices_to_components(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94428541a4542b95","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, ArrayTensorProduct)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.expr"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contraction_indices_to_components(self):
         expr = self.expr
         if not isinstance(expr, ArrayTensorProduct):
@@ -2594,16 +3293,22 @@ class ArrayContraction(_CodegenArrayAbstract):
         return mapping
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sort_args_by_name(), sort arguments in the tensor product so that their order is lexicographical) over Any ║
+# ║ Path(sort_args_by_name(), <unspecified:sort_args_by_name>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sort_args_by_name : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9524c9a9fc07fd59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.sort_args_by_name","kind":"method","src_hash":"5bee6a9210382cf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sort_args_by_name()","rhs":"sort arguments in the tensor product so that their order is lexicographical","over":{"base":"Any"},"name":"sort_args_by_name_correct"},"guarantee":"sort arguments in the tensor product so that their order is lexicographical","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.sort_args_by_name_correct","statement":"Path(sort_args_by_name(x), sort arguments in the tensor product so that their order is lexicographical)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9524c9a9fc07fd59"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.sort_args_by_name","kind":"method","src_hash":"5bee6a9210382cf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sort_args_by_name()","rhs":"<unspecified:sort_args_by_name>","over":{"base":"Any"},"name":"sort_args_by_name_correct"},"guarantee":"sort arguments in the tensor product so that their order is lexicographical","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.sort_args_by_name_correct","statement":"Path(sort_args_by_name(x), sort arguments in the tensor product so that their order is lexicographical)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9524c9a9fc07fd59","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._contraction_tuples_to_contraction_indices","self._get_contraction_tuples","self.expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sort_args_by_name(self):
         """
         Sort arguments in the tensor product so that their order is lexicographical.
@@ -2642,16 +3347,22 @@ class ArrayContraction(_CodegenArrayAbstract):
         return _array_contraction(c_tp, *new_contr_indices)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_contraction_links(), returns a dictionary of links between arguments in the tensor product being contracted) over Any ║
+# ║ Path(_get_contraction_links(), # HINT: _get_contraction_links may be idempotent: _get_contraction_links(_get_contraction_links(x)) == _get_contraction_links(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_contraction_links : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _get_contraction_links may be ide...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_contraction_links : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65896e2224667d7a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cfd2d405a46b0b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_contraction_links","kind":"method","src_hash":"ef2b2e5b40894309","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_contraction_links()","rhs":"returns a dictionary of links between arguments in the tensor product being contracted","over":{"base":"Any"},"name":"_get_contraction_links_correct"},"guarantee":"returns a dictionary of links between arguments in the tensor product being contracted","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_contraction_links_correct","statement":"Path(_get_contraction_links(x), returns a dictionary of links between arguments in the tensor product being contracted)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65896e2224667d7a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_contraction_links","kind":"method","src_hash":"ef2b2e5b40894309","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _get_contraction_links may be idempotent: _get_contraction_links(_get_contraction_links(x)) == _get_contraction_links(x)"},"spec":{"lhs":"_get_contraction_links()","rhs":"# HINT: _get_contraction_links may be idempotent: _get_contraction_links(_get_contraction_links(x)) == _get_contraction_links(x)","over":{"base":"Any"},"name":"_get_contraction_links_correct"},"guarantee":"# HINT: _get_contraction_links may be idempotent: _get_contraction_links(_get_contraction_links(x)) == _get_contraction_links(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction._get_contraction_links_correct","statement":"Path(_get_contraction_links(x), # HINT: _get_contraction_links may be idempotent: _get_contraction_links(_get_contraction_links(x)) == _get_contraction_links(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cfd2d405a46b0b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _get_contraction_links may be idempotent: _get_contraction_links(_get_contraction_links(x)) == _get_contraction_links(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.contraction_indices","self.subranks"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_contraction_links(self):
         r"""
         Returns a dictionary of links between arguments in the tensor product
@@ -2697,16 +3408,22 @@ class ArrayContraction(_CodegenArrayAbstract):
         return dlinks
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_explicit(), as_explicit produces the expected output) over Any ║
+# ║ Path(as_explicit(), tensorcontraction(expr, *self.contraction_indices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tensorcontraction(expr, *self.contraction...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_explicit : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e3b44b59367e186  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adf8b158d1f6343c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.as_explicit","kind":"method","src_hash":"a4ae427361aa766d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"as_explicit produces the expected output","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.as_explicit_correct","statement":"Path(as_explicit(x), as_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e3b44b59367e186"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.as_explicit","kind":"method","src_hash":"a4ae427361aa766d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"tensorcontraction(expr, *self.contraction_indices)","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"returns tensorcontraction(expr, *self.contraction_indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.ArrayContraction.as_explicit_correct","statement":"Path(as_explicit(x), returns tensorcontraction(expr, *self.contraction_indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adf8b158d1f6343c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tensorcontraction(expr, *self.contraction_indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.contraction_indices","self.expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_explicit(self):
         expr = self.expr
         if hasattr(expr, "as_explicit"):
@@ -2717,14 +3434,20 @@ class ArrayContraction(_CodegenArrayAbstract):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Reshape(*args), correctly constructs a Reshape instance) over {Any | isinstance(expr, (MatrixBase, NDimArray)) and isinstance(ee, MatrixBase) and isinstance(shape, Tuple)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _CodegenArrayAbstract)        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Reshape : {Any | isinstance(expr, (MatrixBase, NDimAr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 606121b5dfe812be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.Reshape","kind":"class","src_hash":"250cd2507075a1e9","in":{"base":"Any","pred":"isinstance(expr, (MatrixBase, NDimArray)) and isinstance(ee, MatrixBase) and isinstance(shape, Tuple)"},"out":{"base":"Any"},"spec":{"lhs":"Reshape(*args)","rhs":"correctly constructs a Reshape instance","over":{"base":"Any","pred":"isinstance(expr, (MatrixBase, NDimArray)) and isinstance(ee, MatrixBase) and isinstance(shape, Tuple)"},"name":"Reshape_class_invariant"},"guarantee":"correctly constructs a Reshape instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"606121b5dfe812be"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.Reshape","kind":"class","src_hash":"250cd2507075a1e9","in":{"base":"Any","pred":"isinstance(expr, (MatrixBase, NDimArray)) and isinstance(ee, MatrixBase) and isinstance(shape, Tuple)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _CodegenArrayAbstract)"},"spec":{"lhs":"Reshape(*args)","rhs":"correctly constructs a Reshape instance","over":{"base":"Any","pred":"isinstance(expr, (MatrixBase, NDimArray)) and isinstance(ee, MatrixBase) and isinstance(shape, Tuple)"},"name":"Reshape_class_invariant"},"guarantee":"isinstance(self, _CodegenArrayAbstract)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"606121b5dfe812be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _CodegenArrayAbstract)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Reshape not found in source"]}}
 class Reshape(_CodegenArrayAbstract):
     """
     Reshape the dimensions of an array expression.
@@ -2749,16 +3472,24 @@ class Reshape(_CodegenArrayAbstract):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, expr, shape), <unspecified:__new__>) over {Any | not (Equality(Mul.fromiter(expr.shape), Mul.fromiter(shape)) == False) and hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (Equality(Mul.fromiter(expr.shape), M...   ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (Equality(Mul.fromiter(expr.shap...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2fa5c769fc65b23e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.Reshape.__new__","kind":"method","src_hash":"7afcbae992444420","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2fa5c769fc65b23e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.Reshape.__new__","kind":"method","src_hash":"7afcbae992444420","in":{"base":"Any","pred":"not (Equality(Mul.fromiter(expr.shape), Mul.fromiter(shape)) == False) and hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, expr, shape)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (Equality(Mul.fromiter(expr.shape), Mul.fromiter(shape)) == False) and hasattr(expr, 'shape')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2fa5c769fc65b23e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (Equality(Mul.fromiter(expr.shape), Mul.fromiter(shape)) == False)","hasattr(expr, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, expr, shape):
         expr = _sympify(expr)
         if not isinstance(shape, Tuple):
@@ -2772,45 +3503,63 @@ class Reshape(_CodegenArrayAbstract):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self._shape) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._shape                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0bf050835dfd2edc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.Reshape.shape","kind":"property","src_hash":"a8686880d0cee8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0bf050835dfd2edc"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.Reshape.shape","kind":"property","src_hash":"a8686880d0cee8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self._shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self._shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0bf050835dfd2edc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self._shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self._shape
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), self._expr) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._expr                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 26a160f91a186f22           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.Reshape.expr","kind":"property","src_hash":"7c7041126980b3c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26a160f91a186f22"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.Reshape.expr","kind":"property","src_hash":"7c7041126980b3c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"self._expr","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns self._expr","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26a160f91a186f22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._expr","pure":false,"effects":{"effect_type":"reads_state","reads":["self._expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         return self._expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(*ar), doit produces the expected output) over Any ║
+# ║ Path(doit(*args, **kwargs), <unspecified:doit>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99bb9e4c1f231d29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.Reshape.doit","kind":"method","src_hash":"6ccd3b551e49ddb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(*ar)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.Reshape.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99bb9e4c1f231d29"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.Reshape.doit","kind":"method","src_hash":"6ccd3b551e49ddb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(*args, **kwargs)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.Reshape.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99bb9e4c1f231d29","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expr","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, *args, **kwargs):
         if kwargs.get("deep", True):
             expr = self.expr.doit(*args, **kwargs)
@@ -2821,16 +3570,22 @@ class Reshape(_CodegenArrayAbstract):
         return Reshape(expr, self.shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_explicit(), as_explicit produces the expected output) over Any ║
+# ║ Path(as_explicit(), <unspecified:as_explicit>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_explicit : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68921e63a1c4ebe3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.Reshape.as_explicit","kind":"method","src_hash":"b0f8c2328e6e286b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"as_explicit produces the expected output","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.Reshape.as_explicit_correct","statement":"Path(as_explicit(x), as_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68921e63a1c4ebe3"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.Reshape.as_explicit","kind":"method","src_hash":"b0f8c2328e6e286b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_explicit()","rhs":"<unspecified:as_explicit>","over":{"base":"Any"},"name":"as_explicit_correct"},"guarantee":"as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.Reshape.as_explicit_correct","statement":"Path(as_explicit(x), as_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68921e63a1c4ebe3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.expr","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_explicit(self):
         ee = self.expr
         if hasattr(ee, "as_explicit"):
@@ -2846,14 +3601,19 @@ class Reshape(_CodegenArrayAbstract):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a _ArgE instance) preserved by _ArgE(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _ArgE : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15c7db39fef1582c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._ArgE","kind":"class","src_hash":"253873484bdd564e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ArgE(*args)","rhs":"correctly constructs a _ArgE instance","over":{"base":"Any"},"name":"_ArgE_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a _ArgE instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'element') and hasattr(self, 'indices') and hasattr(self, 'indices')","kind":"class","induction":"structural on element, indices, indices"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15c7db39fef1582c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._ArgE","kind":"class","src_hash":"253873484bdd564e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ArgE(*args)","rhs":"correctly constructs a _ArgE instance","over":{"base":"Any"},"name":"_ArgE_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'element') and hasattr(self, 'indices') and hasattr(self, 'indices')","kind":"class","induction":"structural on element, indices, indices"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15c7db39fef1582c","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'element')","hasattr(self, 'indices')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _ArgE not found in source"]}}
 class _ArgE:
     """
     The ``_ArgE`` object contains references to the array expression
@@ -2873,16 +3633,24 @@ class _ArgE:
     indices: list[int | None]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ele), initializes the instance correctly) over Any ║
+# ║ Path(__init__(element, indices), self.element == element and self.indices == indices) over {Any | isinstance(indices, list[int | None] | None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(indices, list[int | None] | None)   ║
+# ║   ensures:  self.element == element                        ║
+# ║   ensures:  self.indices == indices                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(indices, list[int | None...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f13ec61dbd32f06d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._ArgE.__init__","kind":"method","src_hash":"18eb94662b47eb10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ele)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f13ec61dbd32f06d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._ArgE.__init__","kind":"method","src_hash":"18eb94662b47eb10","in":{"base":"Any","pred":"isinstance(indices, list[int | None] | None)"},"out":{"base":"Any","pred":"result satisfies: self.element == element and self.indices == indices"},"spec":{"lhs":"__init__(element, indices)","rhs":"self.element == element and self.indices == indices","over":{"base":"Any","pred":"isinstance(indices, list[int | None] | None)"},"name":"__init___correct"},"guarantee":"self.element == element; self.indices == indices","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f13ec61dbd32f06d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(indices, list[int | None] | None)"],"ensures":["self.element == element","self.indices == indices"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, element, indices: list[int | None] | None = None):
         self.element = element
         if indices is None:
@@ -2891,16 +3659,22 @@ class _ArgE:
             self.indices = indices
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '_ArgE(%s, %s)' % (self.element, self.indices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '_ArgE(%s, %s)' % (self.element, self.ind...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6dca4d50b686b1db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._ArgE.__str__","kind":"method","src_hash":"9688ef0d54b647ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6dca4d50b686b1db"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._ArgE.__str__","kind":"method","src_hash":"9688ef0d54b647ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'_ArgE(%s, %s)' % (self.element, self.indices)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '_ArgE(%s, %s)' % (self.element, self.indices)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6dca4d50b686b1db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'_ArgE(%s, %s)' % (self.element, self.indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.element","self.indices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "_ArgE(%s, %s)" % (self.element, self.indices)
 
@@ -2910,14 +3684,19 @@ class _ArgE:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a _IndPos instance) preserved by _IndPos(*args) over int ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _IndPos : int → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 751967d9c657941f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._IndPos","kind":"class","src_hash":"c0ea2be08da20609","in":{"base":"int"},"out":{"base":"Any"},"spec":{"lhs":"_IndPos(*args)","rhs":"correctly constructs a _IndPos instance","over":{"base":"int"},"name":"_IndPos_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a _IndPos instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'arg') and hasattr(self, 'rel')","kind":"class","induction":"structural on arg, rel"}],"methods_preserving":["__init__","__str__","__iter__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"751967d9c657941f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._IndPos","kind":"class","src_hash":"c0ea2be08da20609","in":{"base":"int"},"out":{"base":"Any"},"spec":{"lhs":"_IndPos(*args)","rhs":"correctly constructs a _IndPos instance","over":{"base":"int"},"name":"_IndPos_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'arg') and hasattr(self, 'rel')","kind":"class","induction":"structural on arg, rel"}],"methods_preserving":["__init__","__str__","__iter__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"751967d9c657941f","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'arg')","hasattr(self, 'rel')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _IndPos not found in source"]}}
 class _IndPos:
     """
     Index position, requiring two integers in the constructor:
@@ -2926,47 +3705,68 @@ class _IndPos:
     - rel: the relative position of the index inside the argument.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(arg), initializes the instance correctly) over Any ║
+# ║ Path(__init__(arg, rel), self.arg == arg and self.rel == rel) over {Any | isinstance(arg, int) and isinstance(rel, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(arg, int)                           ║
+# ║   requires: isinstance(rel, int)                           ║
+# ║   ensures:  self.arg == arg                                ║
+# ║   ensures:  self.rel == rel                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(arg, int) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ddc403225773e5a2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._IndPos.__init__","kind":"method","src_hash":"58913bdf6f8151a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(arg)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ddc403225773e5a2"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._IndPos.__init__","kind":"method","src_hash":"58913bdf6f8151a7","in":{"base":"Any","pred":"isinstance(arg, int) and isinstance(rel, int)"},"out":{"base":"Any","pred":"result satisfies: self.arg == arg and self.rel == rel"},"spec":{"lhs":"__init__(arg, rel)","rhs":"self.arg == arg and self.rel == rel","over":{"base":"Any","pred":"isinstance(arg, int) and isinstance(rel, int)"},"name":"__init___correct"},"guarantee":"self.arg == arg; self.rel == rel","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ddc403225773e5a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(arg, int)","isinstance(rel, int)"],"ensures":["self.arg == arg","self.rel == rel"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, arg: int, rel: int):
         self.arg = arg
         self.rel = rel
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '_IndPos(%i, %i)' % (self.arg, self.rel)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '_IndPos(%i, %i)' % (self.arg, self.rel)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dc0756ea1c608036           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._IndPos.__str__","kind":"method","src_hash":"8880ca18becb81ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc0756ea1c608036"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._IndPos.__str__","kind":"method","src_hash":"8880ca18becb81ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'_IndPos(%i, %i)' % (self.arg, self.rel)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '_IndPos(%i, %i)' % (self.arg, self.rel)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc0756ea1c608036","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'_IndPos(%i, %i)' % (self.arg, self.rel)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg","self.rel"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "_IndPos(%i, %i)" % (self.arg, self.rel)
 
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), <unspecified:__iter__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 16addf3ab455e289           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._IndPos.__iter__","kind":"method","src_hash":"fe3e3976b6b7356e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16addf3ab455e289"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._IndPos.__iter__","kind":"method","src_hash":"fe3e3976b6b7356e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"<unspecified:__iter__>","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16addf3ab455e289","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg","self.rel"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         yield from [self.arg, self.rel]
 
@@ -2974,14 +3774,20 @@ class _IndPos:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_EditArrayContraction(*args), correctly constructs a _EditArrayContraction instance) over {typing.Union[ArrayContraction, ArrayDiagonal, ArrayTensorProduct] | isinstance(base_array, ArrayContraction) and isinstance(expr, ArrayTensorProduct) and isinstance(base_array, ArrayDiagonal)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _EditArrayContraction : {typing.Union[ArrayContractio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e5b750b9618df02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction","kind":"class","src_hash":"1b8bfb0b716aff2b","in":{"base":"typing.Union[ArrayContraction, ArrayDiagonal, ArrayTensorProduct]","pred":"isinstance(base_array, ArrayContraction) and isinstance(expr, ArrayTensorProduct) and isinstance(base_array, ArrayDiagonal)"},"out":{"base":"Any"},"spec":{"lhs":"_EditArrayContraction(*args)","rhs":"correctly constructs a _EditArrayContraction instance","over":{"base":"typing.Union[ArrayContraction, ArrayDiagonal, ArrayTensorProduct]","pred":"isinstance(base_array, ArrayContraction) and isinstance(expr, ArrayTensorProduct) and isinstance(base_array, ArrayDiagonal)"},"name":"_EditArrayContraction_class_invariant"},"guarantee":"correctly constructs a _EditArrayContraction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e5b750b9618df02"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction","kind":"class","src_hash":"1b8bfb0b716aff2b","in":{"base":"typing.Union[ArrayContraction, ArrayDiagonal, ArrayTensorProduct]","pred":"isinstance(base_array, ArrayContraction) and isinstance(expr, ArrayTensorProduct) and isinstance(base_array, ArrayDiagonal)"},"out":{"base":"Any"},"spec":{"lhs":"_EditArrayContraction(*args)","rhs":"correctly constructs a _EditArrayContraction instance","over":{"base":"typing.Union[ArrayContraction, ArrayDiagonal, ArrayTensorProduct]","pred":"isinstance(base_array, ArrayContraction) and isinstance(expr, ArrayTensorProduct) and isinstance(base_array, ArrayDiagonal)"},"name":"_EditArrayContraction_class_invariant"},"guarantee":"correctly constructs a _EditArrayContraction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e5b750b9618df02","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _EditArrayContraction not found in source"]}}
 class _EditArrayContraction:
     """
     Utility class to help manipulate array contraction objects.
@@ -2998,16 +3804,25 @@ class _EditArrayContraction:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(bas), initializes the instance correctly) over Any ║
+# ║ Path(__init__(base_array), <unspecified:__init__>) over {Any | isinstance(base_array, typing.Union[ArrayContraction, ArrayDiagonal, ArrayTensorProduct]) and hasattr(base_array, 'expr') and hasattr(base_array, 'contraction_indices') and hasattr(base_array, 'subranks') and hasattr(base_array, 'diagonal_indices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(base_array, typing.Union[Array...   ║
+# ║   requires: hasattr(base_array, 'expr')                    ║
+# ║   requires: hasattr(base_array, 'contraction_indices')     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(base_array, typing.Union...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eadaf8c69ad2ac44           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.__init__","kind":"method","src_hash":"7f4aa00c4072334f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bas)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eadaf8c69ad2ac44"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.__init__","kind":"method","src_hash":"7f4aa00c4072334f","in":{"base":"Any","pred":"isinstance(base_array, typing.Union[ArrayContraction, ArrayDiagonal, ArrayTensorProduct]) and hasattr(base_array, 'expr') and hasattr(base_array, 'contraction_indices') and hasattr(base_array, 'subranks') and hasattr(base_array, 'diagonal_indices')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(base_array)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"isinstance(base_array, typing.Union[ArrayContraction, ArrayDiagonal, ArrayTensorProduct]) and hasattr(base_array, 'expr') and hasattr(base_array, 'contraction_indices') and hasattr(base_array, 'subranks') and hasattr(base_array, 'diagonal_indices')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eadaf8c69ad2ac44","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(base_array, typing.Union[ArrayContraction, ArrayDiagonal, ArrayTensorProduct])","hasattr(base_array, 'expr')","hasattr(base_array, 'contraction_indices')","hasattr(base_array, 'subranks')","hasattr(base_array, 'diagonal_indices')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["base_array.contraction_indices","base_array.diagonal_indices","base_array.expr","base_array.subranks","self.args_with_ind"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, base_array: typing.Union[ArrayContraction, ArrayDiagonal, ArrayTensorProduct]):
 
         expr: Basic
@@ -3066,46 +3881,66 @@ class _EditArrayContraction:
                 self.args_with_ind[arg_pos].indices[rel_pos] = -1 - i
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(insert_after(arg), insert_after produces the expected output) over Any ║
+# ║ Path(insert_after(arg, new_arg), <unspecified:insert_after>) over {Any | isinstance(arg, _ArgE) and isinstance(new_arg, _ArgE)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ insert_after : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(arg, _ArgE)                         ║
+# ║   requires: isinstance(new_arg, _ArgE)                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ insert_after : {Any | isinstance(arg, _ArgE) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15d527b0d7e02a9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.insert_after","kind":"method","src_hash":"7a9b92fbbdf31f5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"insert_after(arg)","rhs":"insert_after produces the expected output","over":{"base":"Any"},"name":"insert_after_correct"},"guarantee":"insert_after produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.insert_after_correct","statement":"Path(insert_after(x), insert_after produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15d527b0d7e02a9d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.insert_after","kind":"method","src_hash":"7a9b92fbbdf31f5c","in":{"base":"Any","pred":"isinstance(arg, _ArgE) and isinstance(new_arg, _ArgE)"},"out":{"base":"Any"},"spec":{"lhs":"insert_after(arg, new_arg)","rhs":"<unspecified:insert_after>","over":{"base":"Any","pred":"isinstance(arg, _ArgE) and isinstance(new_arg, _ArgE)"},"name":"insert_after_correct"},"guarantee":"insert_after produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.insert_after_correct","statement":"Path(insert_after(x), insert_after produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15d527b0d7e02a9d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(arg, _ArgE)","isinstance(new_arg, _ArgE)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.args_with_ind"],"calls_mutating":["self.args_with_ind.insert"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def insert_after(self, arg: _ArgE, new_arg: _ArgE):
         pos = self.args_with_ind.index(arg)
         self.args_with_ind.insert(pos + 1, new_arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_new_contraction_index(), get_new_contraction_index produces the expected output) over Any ║
+# ║ Path(get_new_contraction_index(), self.number_of_contraction_indices - 1) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.number_of_contraction_indices - 1         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_new_contraction_index : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5090a6b5c1844b8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 585c83118bb68302  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_new_contraction_index","kind":"method","src_hash":"a47666e1351ff21e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_new_contraction_index()","rhs":"get_new_contraction_index produces the expected output","over":{"base":"Any"},"name":"get_new_contraction_index_correct"},"guarantee":"get_new_contraction_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_new_contraction_index_correct","statement":"Path(get_new_contraction_index(x), get_new_contraction_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5090a6b5c1844b8f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_new_contraction_index","kind":"method","src_hash":"a47666e1351ff21e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_new_contraction_index()","rhs":"self.number_of_contraction_indices - 1","over":{"base":"Any"},"name":"get_new_contraction_index_correct"},"guarantee":"returns self.number_of_contraction_indices - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_new_contraction_index_correct","statement":"Path(get_new_contraction_index(x), returns self.number_of_contraction_indices - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"585c83118bb68302","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.number_of_contraction_indices - 1","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.number_of_contraction_indices"],"writes":["self.number_of_contraction_indices"]},"state_contract":{"modifies":["self.number_of_contraction_indices"],"old_bindings":{"old_self_number_of_contraction_indices":"self.number_of_contraction_indices"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_new_contraction_index(self):
         self.number_of_contraction_indices += 1
         return self.number_of_contraction_indices - 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refresh_indices(), refresh_indices produces the expected output) over Any ║
+# ║ Path(refresh_indices(), <unspecified:refresh_indices>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ refresh_indices : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa4e4e997c770fb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.refresh_indices","kind":"method","src_hash":"14ee3963ada45492","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refresh_indices()","rhs":"refresh_indices produces the expected output","over":{"base":"Any"},"name":"refresh_indices_correct"},"guarantee":"refresh_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.refresh_indices_correct","statement":"Path(refresh_indices(x), refresh_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa4e4e997c770fb2"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.refresh_indices","kind":"method","src_hash":"14ee3963ada45492","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refresh_indices()","rhs":"<unspecified:refresh_indices>","over":{"base":"Any"},"name":"refresh_indices_correct"},"guarantee":"refresh_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.refresh_indices_correct","statement":"Path(refresh_indices(x), refresh_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa4e4e997c770fb2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.args_with_ind"],"writes":["self.number_of_contraction_indices"],"calls_mutating":["updates.update"]},"state_contract":{"modifies":["self.number_of_contraction_indices","updates.*"],"old_bindings":{"old_self_number_of_contraction_indices":"self.number_of_contraction_indices","old_len_updates":"len(updates)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def refresh_indices(self):
         updates = {}
         for arg_with_ind in self.args_with_ind:
@@ -3117,16 +3952,23 @@ class _EditArrayContraction:
             arg_with_ind.indices = [updates.get(i, None) for i in arg_with_ind.indices]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(merge_scalars(), merge_scalars produces the expected output) over Any ║
+# ║ Path(merge_scalars(), len(scalars) == old_len_scalars + 1 and len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ merge_scalars : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(scalars) == old_len_scalars + 1            ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ merge_scalars : Any → {Any | result satisfies: len(sc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4123c1cc64148da1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d44edd1027b2e50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.merge_scalars","kind":"method","src_hash":"5824dcab3416ea39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"merge_scalars()","rhs":"merge_scalars produces the expected output","over":{"base":"Any"},"name":"merge_scalars_correct"},"guarantee":"merge_scalars produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.merge_scalars_correct","statement":"Path(merge_scalars(x), merge_scalars produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4123c1cc64148da1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.merge_scalars","kind":"method","src_hash":"5824dcab3416ea39","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(scalars) == old_len_scalars + 1 and len(self) == old_len_self + 1"},"spec":{"lhs":"merge_scalars()","rhs":"len(scalars) == old_len_scalars + 1 and len(self) == old_len_self + 1","over":{"base":"Any"},"name":"merge_scalars_correct"},"guarantee":"len(scalars) == old_len_scalars + 1; len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.merge_scalars_correct","statement":"Path(merge_scalars(x), len(scalars) == old_len_scalars + 1; len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d44edd1027b2e50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(scalars) == old_len_scalars + 1","len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.args_with_ind"],"calls_mutating":["scalars.append","self.args_with_ind.append","self.args_with_ind.remove"]},"state_contract":{"modifies":["scalars.*","self.*"],"old_bindings":{"old_len_scalars":"len(scalars)","old_len_self":"len(self)"},"post_ensures":["len(scalars) == old_len_scalars + 1","len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def merge_scalars(self):
         scalars = []
         for arg_with_ind in self.args_with_ind:
@@ -3142,16 +3984,22 @@ class _EditArrayContraction:
             self.args_with_ind[0].element = _a2m_tensor_product(scalar, self.args_with_ind[0].element)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_array_contraction(), to_array_contraction produces the expected output) over Any ║
+# ║ Path(to_array_contraction(), <unspecified:to_array_contraction>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_array_contraction : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8d92354e6789d2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.to_array_contraction","kind":"method","src_hash":"b481c9ee2119bf8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_array_contraction()","rhs":"to_array_contraction produces the expected output","over":{"base":"Any"},"name":"to_array_contraction_correct"},"guarantee":"to_array_contraction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.to_array_contraction_correct","statement":"Path(to_array_contraction(x), to_array_contraction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8d92354e6789d2d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.to_array_contraction","kind":"method","src_hash":"b481c9ee2119bf8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_array_contraction()","rhs":"<unspecified:to_array_contraction>","over":{"base":"Any"},"name":"to_array_contraction_correct"},"guarantee":"to_array_contraction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.to_array_contraction_correct","statement":"Path(to_array_contraction(x), to_array_contraction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8d92354e6789d2d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_array_contraction(self):
 
         # Count the ranks of the arguments:
@@ -3220,16 +4068,23 @@ class _EditArrayContraction:
         return expr3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_contraction_indices(), get_contraction_indices produces the expected output) over Any ║
+# ║ Path(get_contraction_indices(), isinstance(result, list) and all(isinstance(x, list[int) for x in result)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_contraction_indices : Any → list[list[int]]            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, list[int) for x in result)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_contraction_indices : Any → {list[list[int]] | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eadd21732ccda92e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 810053df213f83b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_contraction_indices","kind":"method","src_hash":"18502e5cd21e93de","in":{"base":"Any"},"out":{"base":"list[list[int]]"},"spec":{"lhs":"get_contraction_indices()","rhs":"get_contraction_indices produces the expected output","over":{"base":"Any"},"name":"get_contraction_indices_correct"},"guarantee":"get_contraction_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_contraction_indices_correct","statement":"Path(get_contraction_indices(x), get_contraction_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eadd21732ccda92e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_contraction_indices","kind":"method","src_hash":"18502e5cd21e93de","in":{"base":"Any"},"out":{"base":"list[list[int]]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, list[int) for x in result)"},"spec":{"lhs":"get_contraction_indices()","rhs":"isinstance(result, list) and all(isinstance(x, list[int) for x in result)","over":{"base":"Any"},"name":"get_contraction_indices_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, list[int) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_contraction_indices_correct","statement":"Path(get_contraction_indices(x), isinstance(result, list); all(isinstance(x, list[int) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"810053df213f83b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, list)","all(isinstance(x, list[int) for x in result)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args_with_ind","self.number_of_contraction_indices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_contraction_indices(self) -> list[list[int]]:
         contraction_indices: list[list[int]] = [[] for i in range(self.number_of_contraction_indices)]
         current_position: int = 0
@@ -3241,16 +4096,25 @@ class _EditArrayContraction:
         return contraction_indices
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_mapping_for_index(ind), get_mapping_for_index produces the expected output) over Any ║
+# ║ Path(get_mapping_for_index(ind), isinstance(result, list) and all(isinstance(x, _IndPos) for x in result) and len(positions) == old_len_positions + 1) over {Any | not (ind >= self.number_of_contraction_indices)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_mapping_for_index : Any → list[_IndPos]                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (ind >= self.number_of_contraction_in...   ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, _IndPos) for x in result)    ║
+# ║   ensures:  len(positions) == old_len_positions + 1        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_mapping_for_index : {Any | not (ind >= self.numbe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ce45a3ce9d7894a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 570867e059c01b34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_mapping_for_index","kind":"method","src_hash":"ffaca63f74ef5774","in":{"base":"Any"},"out":{"base":"list[_IndPos]"},"spec":{"lhs":"get_mapping_for_index(ind)","rhs":"get_mapping_for_index produces the expected output","over":{"base":"Any"},"name":"get_mapping_for_index_correct"},"guarantee":"get_mapping_for_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_mapping_for_index_correct","statement":"Path(get_mapping_for_index(x), get_mapping_for_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ce45a3ce9d7894a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_mapping_for_index","kind":"method","src_hash":"ffaca63f74ef5774","in":{"base":"Any","pred":"not (ind >= self.number_of_contraction_indices)"},"out":{"base":"list[_IndPos]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, _IndPos) for x in result) and len(positions) == old_len_positions + 1"},"spec":{"lhs":"get_mapping_for_index(ind)","rhs":"isinstance(result, list) and all(isinstance(x, _IndPos) for x in result) and len(positions) == old_len_positions + 1","over":{"base":"Any","pred":"not (ind >= self.number_of_contraction_indices)"},"name":"get_mapping_for_index_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, _IndPos) for x in result); len(positions) == old_len_positions + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_mapping_for_index_correct","statement":"Path(get_mapping_for_index(x), isinstance(result, list); all(isinstance(x, _IndPos) for x in result); len(positions) == old_len_positions + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"570867e059c01b34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (ind >= self.number_of_contraction_indices)"],"ensures":["isinstance(result, list)","all(isinstance(x, _IndPos) for x in result)","len(positions) == old_len_positions + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args_with_ind","self.number_of_contraction_indices"],"calls_mutating":["positions.append"],"raises":["ValueError"]},"state_contract":{"modifies":["positions.*"],"old_bindings":{"old_len_positions":"len(positions)"},"post_ensures":["len(positions) == old_len_positions + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_mapping_for_index(self, ind) -> list[_IndPos]:
         if ind >= self.number_of_contraction_indices:
             raise ValueError("index value exceeding the index range")
@@ -3262,16 +4126,23 @@ class _EditArrayContraction:
         return positions
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_contraction_indices_to_ind_rel_pos(), get_contraction_indices_to_ind_rel_pos produces the expected output) over Any ║
+# ║ Path(get_contraction_indices_to_ind_rel_pos(), isinstance(result, list) and all(isinstance(x, list[_IndPos) for x in result)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_contraction_indices_to_ind_rel_pos : Any → list[l...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, list[_IndPos) for x in ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_contraction_indices_to_ind_rel_pos : Any → {list[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 504faa73eef7c393  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cf615b5248fab51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_contraction_indices_to_ind_rel_pos","kind":"method","src_hash":"016a7da23a9a4aae","in":{"base":"Any"},"out":{"base":"list[list[_IndPos]]"},"spec":{"lhs":"get_contraction_indices_to_ind_rel_pos()","rhs":"get_contraction_indices_to_ind_rel_pos produces the expected output","over":{"base":"Any"},"name":"get_contraction_indices_to_ind_rel_pos_correct"},"guarantee":"get_contraction_indices_to_ind_rel_pos produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_contraction_indices_to_ind_rel_pos_correct","statement":"Path(get_contraction_indices_to_ind_rel_pos(x), get_contraction_indices_to_ind_rel_pos produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"504faa73eef7c393"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_contraction_indices_to_ind_rel_pos","kind":"method","src_hash":"016a7da23a9a4aae","in":{"base":"Any"},"out":{"base":"list[list[_IndPos]]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, list[_IndPos) for x in result)"},"spec":{"lhs":"get_contraction_indices_to_ind_rel_pos()","rhs":"isinstance(result, list) and all(isinstance(x, list[_IndPos) for x in result)","over":{"base":"Any"},"name":"get_contraction_indices_to_ind_rel_pos_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, list[_IndPos) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_contraction_indices_to_ind_rel_pos_correct","statement":"Path(get_contraction_indices_to_ind_rel_pos(x), isinstance(result, list); all(isinstance(x, list[_IndPos) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cf615b5248fab51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, list)","all(isinstance(x, list[_IndPos) for x in result)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args_with_ind","self.number_of_contraction_indices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_contraction_indices_to_ind_rel_pos(self) -> list[list[_IndPos]]:
         contraction_indices: list[list[_IndPos]] = [[] for i in range(self.number_of_contraction_indices)]
         for i, arg_with_ind in enumerate(self.args_with_ind):
@@ -3281,16 +4152,23 @@ class _EditArrayContraction:
         return contraction_indices
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(count_args_with_index(ind), count the number of arguments that have the given index) over Any ║
+# ║ Path(count_args_with_index(index), isinstance(result, int)) over {Any | isinstance(index, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ count_args_with_index : Any → int                          ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(index, int)                         ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ count_args_with_index : {Any | isinstance(index, int)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b5c25e3f9e5ee82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 224046238ddd05cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.count_args_with_index","kind":"method","src_hash":"007847268262b4eb","in":{"base":"Any"},"out":{"base":"int"},"spec":{"lhs":"count_args_with_index(ind)","rhs":"count the number of arguments that have the given index","over":{"base":"Any"},"name":"count_args_with_index_correct"},"guarantee":"count the number of arguments that have the given index","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.count_args_with_index_correct","statement":"Path(count_args_with_index(x), count the number of arguments that have the given index)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b5c25e3f9e5ee82"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.count_args_with_index","kind":"method","src_hash":"007847268262b4eb","in":{"base":"Any","pred":"isinstance(index, int)"},"out":{"base":"int","pred":"result satisfies: isinstance(result, int)"},"spec":{"lhs":"count_args_with_index(index)","rhs":"isinstance(result, int)","over":{"base":"Any","pred":"isinstance(index, int)"},"name":"count_args_with_index_correct"},"guarantee":"isinstance(result, int)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.count_args_with_index_correct","statement":"Path(count_args_with_index(x), isinstance(result, int))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"224046238ddd05cb","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(index, int)"],"ensures":["isinstance(result, int)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args_with_ind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def count_args_with_index(self, index: int) -> int:
         """
         Count the number of arguments that have the given index.
@@ -3302,16 +4180,24 @@ class _EditArrayContraction:
         return counter
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_args_with_index(ind), get a list of arguments having the given index) over Any ║
+# ║ Path(get_args_with_index(index), isinstance(result, list) and all(isinstance(x, _ArgE) for x in result)) over {Any | isinstance(index, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_args_with_index : Any → list[_ArgE]                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(index, int)                         ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, _ArgE) for x in result)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_args_with_index : {Any | isinstance(index, int)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bc22af5aca8c697  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 578d36269f10e89c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_args_with_index","kind":"method","src_hash":"bbe94117d8987d95","in":{"base":"Any"},"out":{"base":"list[_ArgE]"},"spec":{"lhs":"get_args_with_index(ind)","rhs":"get a list of arguments having the given index","over":{"base":"Any"},"name":"get_args_with_index_correct"},"guarantee":"get a list of arguments having the given index","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_args_with_index_correct","statement":"Path(get_args_with_index(x), get a list of arguments having the given index)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bc22af5aca8c697"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_args_with_index","kind":"method","src_hash":"bbe94117d8987d95","in":{"base":"Any","pred":"isinstance(index, int)"},"out":{"base":"list[_ArgE]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, _ArgE) for x in result)"},"spec":{"lhs":"get_args_with_index(index)","rhs":"isinstance(result, list) and all(isinstance(x, _ArgE) for x in result)","over":{"base":"Any","pred":"isinstance(index, int)"},"name":"get_args_with_index_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, _ArgE) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_args_with_index_correct","statement":"Path(get_args_with_index(x), isinstance(result, list); all(isinstance(x, _ArgE) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"578d36269f10e89c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(index, int)"],"ensures":["isinstance(result, list)","all(isinstance(x, _ArgE) for x in result)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args_with_ind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_args_with_index(self, index: int) -> list[_ArgE]:
         """
         Get a list of arguments having the given index.
@@ -3321,16 +4207,22 @@ class _EditArrayContraction:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(number_of_diagonal_indices(), returns the number_of_diagonal_indices attribute) over Any ║
+# ║ Path(number_of_diagonal_indices(), len(data)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(data)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ number_of_diagonal_indices : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f2b8912e4253df5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.number_of_diagonal_indices","kind":"property","src_hash":"12da7c31b1b1443b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"number_of_diagonal_indices()","rhs":"returns the number_of_diagonal_indices attribute","over":{"base":"Any"},"name":"number_of_diagonal_indices_correct"},"guarantee":"returns the number_of_diagonal_indices attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f2b8912e4253df5"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.number_of_diagonal_indices","kind":"property","src_hash":"12da7c31b1b1443b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"number_of_diagonal_indices()","rhs":"len(data)","over":{"base":"Any"},"name":"number_of_diagonal_indices_correct"},"guarantee":"returns len(data)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f2b8912e4253df5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(data)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def number_of_diagonal_indices(self):
         data = set()
         for arg in self.args_with_ind:
@@ -3338,16 +4230,24 @@ class _EditArrayContraction:
         return len(data)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(track_permutation_start(), track_permutation_start produces the expected output) over Any ║
+# ║ Path(track_permutation_start(), len(perm) == old_len_perm + 1 and len(perm_diag) == old_len_perm_diag + 1 and len(permutation) == old_len_permutation + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ track_permutation_start : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(perm) == old_len_perm + 1                  ║
+# ║   ensures:  len(perm_diag) == old_len_perm_diag + 1        ║
+# ║   ensures:  len(permutation) == old_len_permutation + 1    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ track_permutation_start : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbe2bae126c04af2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd10cb9c80eb1d30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.track_permutation_start","kind":"method","src_hash":"77d681a6b8005cc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"track_permutation_start()","rhs":"track_permutation_start produces the expected output","over":{"base":"Any"},"name":"track_permutation_start_correct"},"guarantee":"track_permutation_start produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.track_permutation_start_correct","statement":"Path(track_permutation_start(x), track_permutation_start produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbe2bae126c04af2"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.track_permutation_start","kind":"method","src_hash":"77d681a6b8005cc9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(perm) == old_len_perm + 1 and len(perm_diag) == old_len_perm_diag + 1 and len(permutation) == old_len_permutation + 1"},"spec":{"lhs":"track_permutation_start()","rhs":"len(perm) == old_len_perm + 1 and len(perm_diag) == old_len_perm_diag + 1 and len(permutation) == old_len_permutation + 1","over":{"base":"Any"},"name":"track_permutation_start_correct"},"guarantee":"len(perm) == old_len_perm + 1; len(perm_diag) == old_len_perm_diag + 1; len(permutation) == old_len_permutation + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.track_permutation_start_correct","statement":"Path(track_permutation_start(x), len(perm) == old_len_perm + 1; len(perm_diag) == old_len_perm_diag + 1; len(permutation) == old_len_permutation + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd10cb9c80eb1d30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(perm) == old_len_perm + 1","len(perm_diag) == old_len_perm_diag + 1","len(permutation) == old_len_permutation + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.args_with_ind"],"writes":["self._track_permutation"],"calls_mutating":["perm.append","perm_diag.append","permutation.append"]},"state_contract":{"modifies":["perm.*","perm_diag.*","permutation.*","self._track_permutation"],"old_bindings":{"old_self__track_permutation":"self._track_permutation","old_len_perm":"len(perm)","old_len_perm_diag":"len(perm_diag)","old_len_permutation":"len(permutation)"},"post_ensures":["len(perm) == old_len_perm + 1","len(perm_diag) == old_len_perm_diag + 1","len(permutation) == old_len_permutation + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def track_permutation_start(self):
         permutation = []
         perm_diag = []
@@ -3369,16 +4269,25 @@ class _EditArrayContraction:
         self._track_permutation = permutation + [perm_diag]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(track_permutation_merge(des), track_permutation_merge produces the expected output) over Any ║
+# ║ Path(track_permutation_merge(destination, from_element), len(self) == old_len_self - 1) over {Any | isinstance(destination, _ArgE) and isinstance(from_element, _ArgE) and len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ track_permutation_merge : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(destination, _ArgE)                 ║
+# ║   requires: isinstance(from_element, _ArgE)                ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ track_permutation_merge : {Any | isinstance(destinati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c084a4aa41bbb45  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a783f177d9e22a51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.track_permutation_merge","kind":"method","src_hash":"637570ab28f01e5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"track_permutation_merge(des)","rhs":"track_permutation_merge produces the expected output","over":{"base":"Any"},"name":"track_permutation_merge_correct"},"guarantee":"track_permutation_merge produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.track_permutation_merge_correct","statement":"Path(track_permutation_merge(x), track_permutation_merge produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c084a4aa41bbb45"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.track_permutation_merge","kind":"method","src_hash":"637570ab28f01e5b","in":{"base":"Any","pred":"isinstance(destination, _ArgE) and isinstance(from_element, _ArgE) and len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"track_permutation_merge(destination, from_element)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"isinstance(destination, _ArgE) and isinstance(from_element, _ArgE) and len(self) > 0"},"name":"track_permutation_merge_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.track_permutation_merge_correct","statement":"Path(track_permutation_merge(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a783f177d9e22a51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(destination, _ArgE)","isinstance(from_element, _ArgE)","len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._track_permutation","self.args_with_ind"],"calls_mutating":["self._track_permutation.pop"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def track_permutation_merge(self, destination: _ArgE, from_element: _ArgE):
         index_destination = self.args_with_ind.index(destination)
         index_element = self.args_with_ind.index(from_element)
@@ -3386,16 +4295,24 @@ class _EditArrayContraction:
         self._track_permutation.pop(index_element) # type: ignore
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_absolute_free_range(arg), return the range of the free indices of the arg as absolute positions among all free indices) over Any ║
+# ║ Path(get_absolute_free_range(arg), (counter, counter + number_free_indices)) over {Any | isinstance(arg, _ArgE)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_absolute_free_range : Any → typing.Tuple[int, int]     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(arg, _ArgE)                         ║
+# ║   ensures:  isinstance(result, typing.Tuple[int, int])     ║
+# ║   returns:  (counter, counter + number_free_indices)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_absolute_free_range : {Any | isinstance(arg, _Arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed0f9a9026714925  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7c4959c511a7d3d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_absolute_free_range","kind":"method","src_hash":"4b52387b1602b1c1","in":{"base":"Any"},"out":{"base":"typing.Tuple[int, int]"},"spec":{"lhs":"get_absolute_free_range(arg)","rhs":"return the range of the free indices of the arg as absolute positions among all free indices","over":{"base":"Any"},"name":"get_absolute_free_range_correct"},"guarantee":"return the range of the free indices of the arg as absolute positions among all free indices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_absolute_free_range_correct","statement":"Path(get_absolute_free_range(x), return the range of the free indices of the arg as absolute positions among all free indices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed0f9a9026714925"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_absolute_free_range","kind":"method","src_hash":"4b52387b1602b1c1","in":{"base":"Any","pred":"isinstance(arg, _ArgE)"},"out":{"base":"typing.Tuple[int, int]","pred":"result satisfies: result == ((counter, counter + number_free_indices))"},"spec":{"lhs":"get_absolute_free_range(arg)","rhs":"(counter, counter + number_free_indices)","over":{"base":"Any","pred":"isinstance(arg, _ArgE)"},"name":"get_absolute_free_range_correct"},"guarantee":"returns (counter, counter + number_free_indices); isinstance(result, typing.Tuple[int, int])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_absolute_free_range_correct","statement":"Path(get_absolute_free_range(x), returns (counter, counter + number_free_indices); isinstance(result, typing.Tuple[int, int]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7c4959c511a7d3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(arg, _ArgE)"],"ensures":["isinstance(result, typing.Tuple[int, int])"],"returns_expr":"(counter, counter + number_free_indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args_with_ind"],"raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_absolute_free_range(self, arg: _ArgE) -> typing.Tuple[int, int]:
         """
         Return the range of the free indices of the arg as absolute positions
@@ -3410,16 +4327,24 @@ class _EditArrayContraction:
         raise IndexError("argument not found")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_absolute_range(arg), return the absolute range of indices for arg, disregarding dummy indices) over Any ║
+# ║ Path(get_absolute_range(arg), (counter, counter + number_indices)) over {Any | isinstance(arg, _ArgE)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_absolute_range : Any → typing.Tuple[int, int]          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(arg, _ArgE)                         ║
+# ║   ensures:  isinstance(result, typing.Tuple[int, int])     ║
+# ║   returns:  (counter, counter + number_indices)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_absolute_range : {Any | isinstance(arg, _ArgE)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b279bdf380120cf5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71782da8063e5781  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_absolute_range","kind":"method","src_hash":"735be3f4af6f59c8","in":{"base":"Any"},"out":{"base":"typing.Tuple[int, int]"},"spec":{"lhs":"get_absolute_range(arg)","rhs":"return the absolute range of indices for arg, disregarding dummy indices","over":{"base":"Any"},"name":"get_absolute_range_correct"},"guarantee":"return the absolute range of indices for arg, disregarding dummy indices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_absolute_range_correct","statement":"Path(get_absolute_range(x), return the absolute range of indices for arg, disregarding dummy indices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b279bdf380120cf5"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_absolute_range","kind":"method","src_hash":"735be3f4af6f59c8","in":{"base":"Any","pred":"isinstance(arg, _ArgE)"},"out":{"base":"typing.Tuple[int, int]","pred":"result satisfies: result == ((counter, counter + number_indices))"},"spec":{"lhs":"get_absolute_range(arg)","rhs":"(counter, counter + number_indices)","over":{"base":"Any","pred":"isinstance(arg, _ArgE)"},"name":"get_absolute_range_correct"},"guarantee":"returns (counter, counter + number_indices); isinstance(result, typing.Tuple[int, int])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._EditArrayContraction.get_absolute_range_correct","statement":"Path(get_absolute_range(x), returns (counter, counter + number_indices); isinstance(result, typing.Tuple[int, int]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71782da8063e5781","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(arg, _ArgE)"],"ensures":["isinstance(result, typing.Tuple[int, int])"],"returns_expr":"(counter, counter + number_indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args_with_ind"],"raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_absolute_range(self, arg: _ArgE) -> typing.Tuple[int, int]:
         """
         Return the absolute range of indices for arg, disregarding dummy
@@ -3435,7 +4360,12 @@ class _EditArrayContraction:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_rank(exp), get_rank produces the expected output) over {Any | isinstance(expr, (MatrixExpr, MatrixElement)) and isinstance(expr, _CodegenArrayAbstract) and isinstance(expr, NDimArray)} ║
+# ║ Path(get_rank(expr), <unspecified:get_rank>) over {Any | isinstance(expr, (MatrixExpr, MatrixElement)) and isinstance(expr, _CodegenArrayAbstract) and isinstance(expr, NDimArray) and hasattr(expr, 'rank') and hasattr(expr, 'shape')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'rank')                          ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_rank : {Any | isinstance(expr, (MatrixExpr, Matri...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3451,9 +4381,12 @@ class _EditArrayContraction:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓11 ?5 ✗1 VCs | 6.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 50ecb787...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.get_rank","kind":"function","src_hash":"c0eab7c570d14ebb","in":{"base":"Any","pred":"isinstance(expr, (MatrixExpr, MatrixElement)) and isinstance(expr, _CodegenArrayAbstract) and isinstance(expr, NDimArray)"},"out":{"base":"Any"},"spec":{"lhs":"get_rank(exp)","rhs":"get_rank produces the expected output","over":{"base":"Any","pred":"isinstance(expr, (MatrixExpr, MatrixElement)) and isinstance(expr, _CodegenArrayAbstract) and isinstance(expr, NDimArray)"},"name":"get_rank_correct"},"guarantee":"get_rank produces the expected output","fibers":[{"name":"(MatrixExpr","pred":"isinstance(expr, (MatrixExpr, MatrixElement))","path":{"lhs":"get_rank(x)","rhs":"get_rank produces the expected output","over":{"base":"(MatrixExpr","pred":"isinstance(expr, (MatrixExpr, MatrixElement))"},"name":"get_rank_(MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.get_rank_(MatrixExpr_correct","statement":"get_rank satisfies spec on (MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"_CodegenArrayAbstract","pred":"isinstance(expr, _CodegenArrayAbstract)","path":{"lhs":"get_rank(x)","rhs":"get_rank produces the expected output","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(expr, _CodegenArrayAbstract)"},"name":"get_rank__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.get_rank__CodegenArrayAbstract_correct","statement":"get_rank satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"},{"name":"NDimArray","pred":"isinstance(expr, NDimArray)","path":{"lhs":"get_rank(x)","rhs":"get_rank produces the expected output","over":{"base":"NDimArray","pred":"isinstance(expr, NDimArray)"},"name":"get_rank_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.get_rank_NDimArray_correct","statement":"get_rank satisfies spec on NDimArray inputs"},"trust":"LIBRARY"},{"name":"Indexed","pred":"isinstance(expr, Indexed)","path":{"lhs":"get_rank(x)","rhs":"get_rank produces the expected output","over":{"base":"Indexed","pred":"isinstance(expr, Indexed)"},"name":"get_rank_Indexed_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.get_rank_Indexed_correct","statement":"get_rank satisfies spec on Indexed inputs"},"trust":"LIBRARY"},{"name":"IndexedBase","pred":"isinstance(expr, IndexedBase)","path":{"lhs":"get_rank(x)","rhs":"get_rank produces the expected output","over":{"base":"IndexedBase","pred":"isinstance(expr, IndexedBase)"},"name":"get_rank_IndexedBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.get_rank_IndexedBase_correct","statement":"get_rank satisfies spec on IndexedBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"50ecb78741e85acd"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.get_rank","kind":"function","src_hash":"c0eab7c570d14ebb","in":{"base":"Any","pred":"isinstance(expr, (MatrixExpr, MatrixElement)) and isinstance(expr, _CodegenArrayAbstract) and isinstance(expr, NDimArray) and hasattr(expr, 'rank') and hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"get_rank(expr)","rhs":"<unspecified:get_rank>","over":{"base":"Any","pred":"isinstance(expr, (MatrixExpr, MatrixElement)) and isinstance(expr, _CodegenArrayAbstract) and isinstance(expr, NDimArray) and hasattr(expr, 'rank') and hasattr(expr, 'shape')"},"name":"get_rank_correct"},"guarantee":"get_rank produces the expected output","fibers":[{"name":"(MatrixExpr","pred":"isinstance(expr, (MatrixExpr, MatrixElement))","path":{"lhs":"get_rank(x)","rhs":"get_rank produces the expected output","over":{"base":"(MatrixExpr","pred":"isinstance(expr, (MatrixExpr, MatrixElement))"},"name":"get_rank_(MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.get_rank_(MatrixExpr_correct","statement":"get_rank satisfies spec on (MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"_CodegenArrayAbstract","pred":"isinstance(expr, _CodegenArrayAbstract)","path":{"lhs":"get_rank(x)","rhs":"get_rank produces the expected output","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(expr, _CodegenArrayAbstract)"},"name":"get_rank__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.get_rank__CodegenArrayAbstract_correct","statement":"get_rank satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"},{"name":"NDimArray","pred":"isinstance(expr, NDimArray)","path":{"lhs":"get_rank(x)","rhs":"get_rank produces the expected output","over":{"base":"NDimArray","pred":"isinstance(expr, NDimArray)"},"name":"get_rank_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.get_rank_NDimArray_correct","statement":"get_rank satisfies spec on NDimArray inputs"},"trust":"LIBRARY"},{"name":"Indexed","pred":"isinstance(expr, Indexed)","path":{"lhs":"get_rank(x)","rhs":"get_rank produces the expected output","over":{"base":"Indexed","pred":"isinstance(expr, Indexed)"},"name":"get_rank_Indexed_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.get_rank_Indexed_correct","statement":"get_rank satisfies spec on Indexed inputs"},"trust":"LIBRARY"},{"name":"IndexedBase","pred":"isinstance(expr, IndexedBase)","path":{"lhs":"get_rank(x)","rhs":"get_rank produces the expected output","over":{"base":"IndexedBase","pred":"isinstance(expr, IndexedBase)"},"name":"get_rank_IndexedBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.get_rank_IndexedBase_correct","statement":"get_rank satisfies spec on IndexedBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"50ecb78741e85acd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'rank')","hasattr(expr, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.rank","expr.shape"]}},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":11,"n_assumed":5,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, IndexedBase)', 'isinstance(expr, Indexed)', 'shape is None', 'isinstance(expr, _CodegenArrayAbstract)', 'isinstance(expr, NDimArray)', 'isinstance(expr, (MatrixExpr, MatrixElement))'}, fibers={'IndexedBase', 'Indexed', '(MatrixExpr', '_CodegenArrayAbstract', 'NDimArray'})"]}}
 def get_rank(expr):
     if isinstance(expr, (MatrixExpr, MatrixElement)):
         return 2
@@ -3475,7 +4408,11 @@ def get_rank(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_subrank(exp), internal helper behaves correctly) over {Any | isinstance(expr, _CodegenArrayAbstract)} ║
+# ║ Path(_get_subrank(expr), <unspecified:_get_subrank>) over {Any | isinstance(expr, _CodegenArrayAbstract) and hasattr(expr, 'subrank')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'subrank')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_subrank : {Any | isinstance(expr, _CodegenArrayA...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3487,9 +4424,12 @@ def get_rank(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 49a5e036...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._get_subrank","kind":"function","src_hash":"9209d2461db5e76c","in":{"base":"Any","pred":"isinstance(expr, _CodegenArrayAbstract)"},"out":{"base":"Any"},"spec":{"lhs":"_get_subrank(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, _CodegenArrayAbstract)"},"name":"_get_subrank_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(expr, _CodegenArrayAbstract)","path":{"lhs":"_get_subrank(x)","rhs":"internal helper behaves correctly","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(expr, _CodegenArrayAbstract)"},"name":"_get_subrank__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._get_subrank__CodegenArrayAbstract_correct","statement":"_get_subrank satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"49a5e0361be43edf"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._get_subrank","kind":"function","src_hash":"9209d2461db5e76c","in":{"base":"Any","pred":"isinstance(expr, _CodegenArrayAbstract) and hasattr(expr, 'subrank')"},"out":{"base":"Any"},"spec":{"lhs":"_get_subrank(expr)","rhs":"<unspecified:_get_subrank>","over":{"base":"Any","pred":"isinstance(expr, _CodegenArrayAbstract) and hasattr(expr, 'subrank')"},"name":"_get_subrank_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(expr, _CodegenArrayAbstract)","path":{"lhs":"_get_subrank(x)","rhs":"internal helper behaves correctly","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(expr, _CodegenArrayAbstract)"},"name":"_get_subrank__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._get_subrank__CodegenArrayAbstract_correct","statement":"_get_subrank satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"49a5e0361be43edf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'subrank')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.subrank"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, _CodegenArrayAbstract)'}, fibers={'_CodegenArrayAbstract'})"]}}
 def _get_subrank(expr):
     if isinstance(expr, _CodegenArrayAbstract):
         return expr.subrank()
@@ -3497,7 +4437,14 @@ def _get_subrank(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_subranks(exp), internal helper behaves correctly) over {Any | isinstance(expr, _CodegenArrayAbstract)} ║
+# ║ Path(_get_subranks(expr), result == (expr.subranks if isinstance(expr, _CodegenArrayAbstract) else [get_rank(expr)]) and result == expr.subranks or result == [get_rank(expr)]) over {Any | isinstance(expr, _CodegenArrayAbstract) and hasattr(expr, 'subranks')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subranks')                      ║
+# ║   ensures:  result == (expr.subranks if isinstance(ex...   ║
+# ║   ensures:  result == expr.subranks or result == [get...   ║
+# ║   fiber[_CodegenArrayAbstract]: isinstance(expr, _Cod...   ║
+# ║   fiber[_CodegenArrayAbstract]: not (isinstance(expr,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_subranks : {Any | isinstance(expr, _CodegenArray...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3509,9 +4456,12 @@ def _get_subrank(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bbb35a65...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._get_subranks","kind":"function","src_hash":"6c515517f6b28e52","in":{"base":"Any","pred":"isinstance(expr, _CodegenArrayAbstract)"},"out":{"base":"Any"},"spec":{"lhs":"_get_subranks(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, _CodegenArrayAbstract)"},"name":"_get_subranks_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(expr, _CodegenArrayAbstract)","path":{"lhs":"_get_subranks(x)","rhs":"internal helper behaves correctly","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(expr, _CodegenArrayAbstract)"},"name":"_get_subranks__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._get_subranks__CodegenArrayAbstract_correct","statement":"_get_subranks satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bbb35a6571bbcb49"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._get_subranks","kind":"function","src_hash":"6c515517f6b28e52","in":{"base":"Any","pred":"isinstance(expr, _CodegenArrayAbstract) and hasattr(expr, 'subranks')"},"out":{"base":"Any","pred":"result satisfies: result == (expr.subranks if isinstance(expr, _CodegenArrayAbstract) else [get_rank(expr)]) and result == expr.subranks or result == [get_rank(expr)]"},"spec":{"lhs":"_get_subranks(expr)","rhs":"result == (expr.subranks if isinstance(expr, _CodegenArrayAbstract) else [get_rank(expr)]) and result == expr.subranks or result == [get_rank(expr)]","over":{"base":"Any","pred":"isinstance(expr, _CodegenArrayAbstract) and hasattr(expr, 'subranks')"},"name":"_get_subranks_correct"},"guarantee":"result == (expr.subranks if isinstance(expr, _CodegenArrayAbstract) else [get_rank(expr)]); result == expr.subranks or result == [get_rank(expr)]; 2-fiber decomposition","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(expr, _CodegenArrayAbstract)","path":{"lhs":"_get_subranks(x)","rhs":"result == (expr.subranks if isinstance(expr, _CodegenArrayAbstract) else [get_rank(expr)]); result == expr.subranks or result == [get_rank(expr)]; 2-fiber decomposition","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(expr, _CodegenArrayAbstract)"},"name":"_get_subranks__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions._get_subranks__CodegenArrayAbstract_correct","statement":"_get_subranks satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bbb35a6571bbcb49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subranks')"],"ensures":["result == (expr.subranks if isinstance(expr, _CodegenArrayAbstract) else [get_rank(expr)])","result == expr.subranks or result == [get_rank(expr)]"],"fibers":[{"name":"_CodegenArrayAbstract","guard":"isinstance(expr, _CodegenArrayAbstract)","ensures":["result == expr.subranks"],"decidability":"structural","returns_expr":"expr.subranks"},{"name":"_CodegenArrayAbstract","guard":"not (isinstance(expr, _CodegenArrayAbstract))","ensures":["result == [get_rank(expr)]"],"decidability":"structural","returns_expr":"[get_rank(expr)]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.subranks"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, _CodegenArrayAbstract)'}, fibers={'_CodegenArrayAbstract'})"]}}
 def _get_subranks(expr):
     if isinstance(expr, _CodegenArrayAbstract):
         return expr.subranks
@@ -3520,16 +4470,23 @@ def _get_subranks(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_shape(exp), get_shape produces the expected output) over Any ║
+# ║ Path(get_shape(expr), <unspecified:get_shape>) over {Any | hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_shape : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_shape : {Any | hasattr(expr, 'shape')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 346260ca645c0d93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.get_shape","kind":"function","src_hash":"3b190c1a02a3af6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_shape(exp)","rhs":"get_shape produces the expected output","over":{"base":"Any"},"name":"get_shape_correct"},"guarantee":"get_shape produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.get_shape_correct","statement":"Path(get_shape(x), get_shape produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"346260ca645c0d93"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.get_shape","kind":"function","src_hash":"3b190c1a02a3af6c","in":{"base":"Any","pred":"hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"get_shape(expr)","rhs":"<unspecified:get_shape>","over":{"base":"Any","pred":"hasattr(expr, 'shape')"},"name":"get_shape_correct"},"guarantee":"get_shape produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.get_shape_correct","statement":"Path(get_shape(x), get_shape produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"346260ca645c0d93","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def get_shape(expr):
     if hasattr(expr, "shape"):
         return expr.shape
@@ -3537,7 +4494,14 @@ def get_shape(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nest_permutation(exp), nest_permutation produces the expected output) over {Any | isinstance(expr, PermuteDims)} ║
+# ║ Path(nest_permutation(expr), result == (expr.nest_permutation() if isinstance(expr, PermuteDims) else expr) and result == expr.nest_permutation() or result == expr) over {Any | isinstance(expr, PermuteDims) and hasattr(expr, 'nest_permutation')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'nest_permutation')              ║
+# ║   ensures:  result == (expr.nest_permutation() if isi...   ║
+# ║   ensures:  result == expr.nest_permutation() or resu...   ║
+# ║   fiber[PermuteDims]: isinstance(expr, PermuteDims) =...   ║
+# ║   fiber[PermuteDims]: not (isinstance(expr, PermuteDi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nest_permutation : {Any | isinstance(expr, PermuteDim...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3549,9 +4513,12 @@ def get_shape(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 398e7ed0...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.nest_permutation","kind":"function","src_hash":"5f246cac949e2e4a","in":{"base":"Any","pred":"isinstance(expr, PermuteDims)"},"out":{"base":"Any"},"spec":{"lhs":"nest_permutation(exp)","rhs":"nest_permutation produces the expected output","over":{"base":"Any","pred":"isinstance(expr, PermuteDims)"},"name":"nest_permutation_correct"},"guarantee":"nest_permutation produces the expected output","fibers":[{"name":"PermuteDims","pred":"isinstance(expr, PermuteDims)","path":{"lhs":"nest_permutation(x)","rhs":"nest_permutation produces the expected output","over":{"base":"PermuteDims","pred":"isinstance(expr, PermuteDims)"},"name":"nest_permutation_PermuteDims_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.nest_permutation_PermuteDims_correct","statement":"nest_permutation satisfies spec on PermuteDims inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"398e7ed0f123aa38"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions.nest_permutation","kind":"function","src_hash":"5f246cac949e2e4a","in":{"base":"Any","pred":"isinstance(expr, PermuteDims) and hasattr(expr, 'nest_permutation')"},"out":{"base":"Any","pred":"result satisfies: result == (expr.nest_permutation() if isinstance(expr, PermuteDims) else expr) and result == expr.nest_permutation() or result == expr"},"spec":{"lhs":"nest_permutation(expr)","rhs":"result == (expr.nest_permutation() if isinstance(expr, PermuteDims) else expr) and result == expr.nest_permutation() or result == expr","over":{"base":"Any","pred":"isinstance(expr, PermuteDims) and hasattr(expr, 'nest_permutation')"},"name":"nest_permutation_correct"},"guarantee":"result == (expr.nest_permutation() if isinstance(expr, PermuteDims) else expr); result == expr.nest_permutation() or result == expr; 2-fiber decomposition","fibers":[{"name":"PermuteDims","pred":"isinstance(expr, PermuteDims)","path":{"lhs":"nest_permutation(x)","rhs":"result == (expr.nest_permutation() if isinstance(expr, PermuteDims) else expr); result == expr.nest_permutation() or result == expr; 2-fiber decomposition","over":{"base":"PermuteDims","pred":"isinstance(expr, PermuteDims)"},"name":"nest_permutation_PermuteDims_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.array_expressions.nest_permutation_PermuteDims_correct","statement":"nest_permutation satisfies spec on PermuteDims inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"398e7ed0f123aa38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'nest_permutation')"],"ensures":["result == (expr.nest_permutation() if isinstance(expr, PermuteDims) else expr)","result == expr.nest_permutation() or result == expr"],"fibers":[{"name":"PermuteDims","guard":"isinstance(expr, PermuteDims)","ensures":["result == expr.nest_permutation()"],"decidability":"structural","returns_expr":"expr.nest_permutation()"},{"name":"PermuteDims","guard":"not (isinstance(expr, PermuteDims))","ensures":["result == expr"],"decidability":"structural","returns_expr":"expr"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.nest_permutation"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, PermuteDims)'}, fibers={'PermuteDims'})"]}}
 def nest_permutation(expr):
     if isinstance(expr, PermuteDims):
         return expr.nest_permutation()
@@ -3560,90 +4527,126 @@ def nest_permutation(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_array_tensor_product(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_array_tensor_product(*args, **kwargs), ArrayTensorProduct(*args, canonicalize=True, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ArrayTensorProduct(*args, canonicalize=Tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _array_tensor_product : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 334fbbe0248ee5b0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._array_tensor_product","kind":"function","src_hash":"ac00b54b9a75eead","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_array_tensor_product(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_array_tensor_product_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"334fbbe0248ee5b0"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._array_tensor_product","kind":"function","src_hash":"ac00b54b9a75eead","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_array_tensor_product(*args, **kwargs)","rhs":"ArrayTensorProduct(*args, canonicalize=True, **kwargs)","over":{"base":"Any"},"name":"_array_tensor_product_correct"},"guarantee":"returns ArrayTensorProduct(*args, canonicalize=True, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"334fbbe0248ee5b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ArrayTensorProduct(*args, canonicalize=True, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', '**kwargs']"]}}
 def _array_tensor_product(*args, **kwargs):
     return ArrayTensorProduct(*args, canonicalize=True, **kwargs)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_array_contraction(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_array_contraction(expr, *contraction_indices, **kwargs), ArrayContraction(expr, *contraction_indices, canonicalize=True, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ArrayContraction(expr, *contraction_indic...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _array_contraction : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 529ce6a731045301           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._array_contraction","kind":"function","src_hash":"d8d499ee06c0f447","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_array_contraction(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_array_contraction_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"529ce6a731045301"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._array_contraction","kind":"function","src_hash":"d8d499ee06c0f447","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_array_contraction(expr, *contraction_indices, **kwargs)","rhs":"ArrayContraction(expr, *contraction_indices, canonicalize=True, **kwargs)","over":{"base":"Any"},"name":"_array_contraction_correct"},"guarantee":"returns ArrayContraction(expr, *contraction_indices, canonicalize=True, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"529ce6a731045301","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ArrayContraction(expr, *contraction_indices, canonicalize=True, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '*contraction_indices', '**kwargs']"]}}
 def _array_contraction(expr, *contraction_indices, **kwargs):
     return ArrayContraction(expr, *contraction_indices, canonicalize=True, **kwargs)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_array_diagonal(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_array_diagonal(expr, *diagonal_indices, **kwargs), ArrayDiagonal(expr, *diagonal_indices, canonicalize=True, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ArrayDiagonal(expr, *diagonal_indices, ca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _array_diagonal : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b090f8efc161a5a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._array_diagonal","kind":"function","src_hash":"df11207ce5cef322","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_array_diagonal(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_array_diagonal_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b090f8efc161a5a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._array_diagonal","kind":"function","src_hash":"df11207ce5cef322","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_array_diagonal(expr, *diagonal_indices, **kwargs)","rhs":"ArrayDiagonal(expr, *diagonal_indices, canonicalize=True, **kwargs)","over":{"base":"Any"},"name":"_array_diagonal_correct"},"guarantee":"returns ArrayDiagonal(expr, *diagonal_indices, canonicalize=True, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b090f8efc161a5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ArrayDiagonal(expr, *diagonal_indices, canonicalize=True, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '*diagonal_indices', '**kwargs']"]}}
 def _array_diagonal(expr, *diagonal_indices, **kwargs):
     return ArrayDiagonal(expr, *diagonal_indices, canonicalize=True, **kwargs)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_permute_dims(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_permute_dims(expr, permutation, **kwargs), PermuteDims(expr, permutation, canonicalize=True, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PermuteDims(expr, permutation, canonicali...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _permute_dims : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b43badb87d071c72           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._permute_dims","kind":"function","src_hash":"defebfd5db1851d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_permute_dims(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_permute_dims_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b43badb87d071c72"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._permute_dims","kind":"function","src_hash":"defebfd5db1851d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_permute_dims(expr, permutation, **kwargs)","rhs":"PermuteDims(expr, permutation, canonicalize=True, **kwargs)","over":{"base":"Any"},"name":"_permute_dims_correct"},"guarantee":"returns PermuteDims(expr, permutation, canonicalize=True, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b43badb87d071c72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PermuteDims(expr, permutation, canonicalize=True, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'permutation'], spec=['expr', 'permutation', '**kwargs']"]}}
 def _permute_dims(expr, permutation, **kwargs):
     return PermuteDims(expr, permutation, canonicalize=True, **kwargs)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_array_add(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_array_add(*args, **kwargs), ArrayAdd(*args, canonicalize=True, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ArrayAdd(*args, canonicalize=True, **kwargs)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _array_add : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 51b3f1d709bc846f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._array_add","kind":"function","src_hash":"affce2cca58d8ac5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_array_add(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_array_add_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51b3f1d709bc846f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._array_add","kind":"function","src_hash":"affce2cca58d8ac5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_array_add(*args, **kwargs)","rhs":"ArrayAdd(*args, canonicalize=True, **kwargs)","over":{"base":"Any"},"name":"_array_add_correct"},"guarantee":"returns ArrayAdd(*args, canonicalize=True, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51b3f1d709bc846f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ArrayAdd(*args, canonicalize=True, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', '**kwargs']"]}}
 def _array_add(*args, **kwargs):
     return ArrayAdd(*args, canonicalize=True, **kwargs)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_array_element_or_slice(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_get_array_element_or_slice(expr, indices), ArrayElement(expr, indices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ArrayElement(expr, indices)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_array_element_or_slice : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b58dd8fcde8bd95           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._get_array_element_or_slice","kind":"function","src_hash":"5fd12a7dc6b81414","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_array_element_or_slice(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_array_element_or_slice_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b58dd8fcde8bd95"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.array_expressions._get_array_element_or_slice","kind":"function","src_hash":"5fd12a7dc6b81414","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_array_element_or_slice(expr, indices)","rhs":"ArrayElement(expr, indices)","over":{"base":"Any"},"name":"_get_array_element_or_slice_correct"},"guarantee":"returns ArrayElement(expr, indices)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b58dd8fcde8bd95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ArrayElement(expr, indices)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _get_array_element_or_slice(expr, indices):
     return ArrayElement(expr, indices)

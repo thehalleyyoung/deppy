@@ -26,26 +26,38 @@ from sympy.ntheory.residue_ntheory import _sqrt_mod_prime_power
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SievePolynomial instance) preserved by SievePolynomial(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SievePolynomial : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1123a03e781a7543  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.SievePolynomial","kind":"class","src_hash":"445b131f48f62407","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SievePolynomial(*args)","rhs":"correctly constructs a SievePolynomial instance","over":{"base":"Any"},"name":"SievePolynomial_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SievePolynomial instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'a') and hasattr(self, 'b') and hasattr(self, 'a2') and hasattr(self, 'ab') and hasattr(self, 'b2')","kind":"class","induction":"structural on a, b, a2, ab"}],"methods_preserving":["__init__","eval_u","eval_v"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1123a03e781a7543"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.SievePolynomial","kind":"class","src_hash":"445b131f48f62407","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SievePolynomial(*args)","rhs":"correctly constructs a SievePolynomial instance","over":{"base":"Any"},"name":"SievePolynomial_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'a') and hasattr(self, 'b') and hasattr(self, 'a2') and hasattr(self, 'ab') and hasattr(self, 'b2')","kind":"class","induction":"structural on a, b, a2, ab"}],"methods_preserving":["__init__","eval_u","eval_v"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1123a03e781a7543","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'a')","hasattr(self, 'b')","hasattr(self, 'a2')","hasattr(self, 'ab')","hasattr(self, 'b2')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function SievePolynomial not found in source"]}}
 class SievePolynomial:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(a, ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(a, b, N), self.a == a and self.b == b) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.a == a                                    ║
+# ║   ensures:  self.b == b                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.a == a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c80d09bbdedb949           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.SievePolynomial.__init__","kind":"method","src_hash":"12f1d1d2a3d6cbcb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(a, )","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c80d09bbdedb949"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.SievePolynomial.__init__","kind":"method","src_hash":"12f1d1d2a3d6cbcb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.a == a and self.b == b"},"spec":{"lhs":"__init__(a, b, N)","rhs":"self.a == a and self.b == b","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.a == a; self.b == b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c80d09bbdedb949","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.a == a","self.b == b"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, a, b, N):
         """This class denotes the sieve polynomial.
         Provide methods to compute `(a*x + b)**2 - N` and
@@ -66,30 +78,42 @@ class SievePolynomial:
         self.b2 = b**2 - N
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_u(x), eval_u produces the expected output) over Any ║
+# ║ Path(eval_u(x), self.a * x + self.b) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.a * x + self.b                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval_u : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 30fc31e72847692a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.SievePolynomial.eval_u","kind":"method","src_hash":"746b9796beebb8c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_u(x)","rhs":"eval_u produces the expected output","over":{"base":"Any"},"name":"eval_u_correct"},"guarantee":"eval_u produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30fc31e72847692a"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.SievePolynomial.eval_u","kind":"method","src_hash":"746b9796beebb8c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_u(x)","rhs":"self.a * x + self.b","over":{"base":"Any"},"name":"eval_u_correct"},"guarantee":"returns self.a * x + self.b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30fc31e72847692a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.a * x + self.b","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval_u(self, x):
         return self.a*x + self.b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_v(x), eval_v produces the expected output) over Any ║
+# ║ Path(eval_v(x), (self.a2 * x + self.ab) * x + self.b2) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.a2 * x + self.ab) * x + self.b2          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval_v : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6c54330325adfd1d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.SievePolynomial.eval_v","kind":"method","src_hash":"fbd05c485886774d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_v(x)","rhs":"eval_v produces the expected output","over":{"base":"Any"},"name":"eval_v_correct"},"guarantee":"eval_v produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c54330325adfd1d"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.SievePolynomial.eval_v","kind":"method","src_hash":"fbd05c485886774d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_v(x)","rhs":"(self.a2 * x + self.ab) * x + self.b2","over":{"base":"Any"},"name":"eval_v_correct"},"guarantee":"returns (self.a2 * x + self.ab) * x + self.b2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6c54330325adfd1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.a2 * x + self.ab) * x + self.b2","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a2","self.ab","self.b2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval_v(self, x):
         return (self.a2*x + self.ab)*x + self.b2
 
@@ -97,28 +121,41 @@ class SievePolynomial:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FactorBaseElem instance) preserved by FactorBaseElem(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FactorBaseElem : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3ce3281095620d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.FactorBaseElem","kind":"class","src_hash":"5e6446fcb3c7d681","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FactorBaseElem(*args)","rhs":"correctly constructs a FactorBaseElem instance","over":{"base":"Any"},"name":"FactorBaseElem_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FactorBaseElem instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'prime') and hasattr(self, 'tmem_p') and hasattr(self, 'log_p') and hasattr(self, 'soln1') and hasattr(self, 'soln2') and hasattr(self, 'b_ainv')","kind":"class","induction":"structural on prime, tmem_p, log_p, soln1"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3ce3281095620d6"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.FactorBaseElem","kind":"class","src_hash":"5e6446fcb3c7d681","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FactorBaseElem(*args)","rhs":"correctly constructs a FactorBaseElem instance","over":{"base":"Any"},"name":"FactorBaseElem_class_invariant","kind":"invariant"},"guarantee":"preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'prime') and hasattr(self, 'tmem_p') and hasattr(self, 'log_p') and hasattr(self, 'soln1') and hasattr(self, 'soln2') and hasattr(self, 'b_ainv')","kind":"class","induction":"structural on prime, tmem_p, log_p, soln1"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3ce3281095620d6","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'prime')","hasattr(self, 'tmem_p')","hasattr(self, 'log_p')","hasattr(self, 'soln1')","hasattr(self, 'soln2')","hasattr(self, 'b_ainv')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function FactorBaseElem not found in source"]}}
 class FactorBaseElem:
     """This class stores an element of the `factor_base`.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pri), initializes the instance correctly) over Any ║
+# ║ Path(__init__(prime, tmem_p, log_p), self.prime == prime and self.tmem_p == tmem_p and self.log_p == log_p) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.prime == prime                            ║
+# ║   ensures:  self.tmem_p == tmem_p                          ║
+# ║   ensures:  self.log_p == log_p                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.prime ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ccba456c6e15ff66           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.FactorBaseElem.__init__","kind":"method","src_hash":"f17b7ba6dd09fa88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pri)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ccba456c6e15ff66"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.FactorBaseElem.__init__","kind":"method","src_hash":"f17b7ba6dd09fa88","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.prime == prime and self.tmem_p == tmem_p and self.log_p == log_p"},"spec":{"lhs":"__init__(prime, tmem_p, log_p)","rhs":"self.prime == prime and self.tmem_p == tmem_p and self.log_p == log_p","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.prime == prime; self.tmem_p == tmem_p; self.log_p == log_p","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ccba456c6e15ff66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.prime == prime","self.tmem_p == tmem_p","self.log_p == log_p"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, prime, tmem_p, log_p):
         """
         Initialization of factor_base_elem.
@@ -141,16 +178,22 @@ class FactorBaseElem:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_factor_base(pri), generate `factor_base` for quadratic sieve) over Any ║
+# ║ Path(_generate_factor_base(prime_bound, n), (idx_1000, idx_5000, factor_base)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (idx_1000, idx_5000, factor_base)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _generate_factor_base : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9fc9246b72c9e1e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0f441a16743c3e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs._generate_factor_base","kind":"function","src_hash":"92718f053e46fa9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_factor_base(pri)","rhs":"generate `factor_base` for quadratic sieve","over":{"base":"Any"},"name":"_generate_factor_base_correct"},"guarantee":"generate `factor_base` for quadratic sieve","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs._generate_factor_base_correct","statement":"Path(_generate_factor_base(x), generate `factor_base` for quadratic sieve)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9fc9246b72c9e1e"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs._generate_factor_base","kind":"function","src_hash":"92718f053e46fa9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_factor_base(prime_bound, n)","rhs":"(idx_1000, idx_5000, factor_base)","over":{"base":"Any"},"name":"_generate_factor_base_correct"},"guarantee":"returns (idx_1000, idx_5000, factor_base)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs._generate_factor_base_correct","statement":"Path(_generate_factor_base(x), returns (idx_1000, idx_5000, factor_base))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0f441a16743c3e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(idx_1000, idx_5000, factor_base)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _generate_factor_base(prime_bound, n):
     """Generate `factor_base` for Quadratic Sieve. The `factor_base`
     consists of all the points whose ``legendre_symbol(n, p) == 1``
@@ -181,16 +224,23 @@ def _generate_factor_base(prime_bound, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generate_polynomial(N, ), generate sieve polynomials indefinitely. information such as `soln1` in the `factor_base` associated with the polynomial is modified in place) over Any ║
+# ║ Path(_generate_polynomial(N, M, factor_base), len(B) == old_len_B + 1 and len(q) == old_len_q + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _generate_polynomial : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(B) == old_len_B + 1                        ║
+# ║   ensures:  len(q) == old_len_q + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _generate_polynomial : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3227170633edcbf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2259e36e11418f60  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs._generate_polynomial","kind":"function","src_hash":"3180a5c6738a25b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generate_polynomial(N, )","rhs":"generate sieve polynomials indefinitely. information such as `soln1` in the `factor_base` associated with the polynomial is modified in place","over":{"base":"Any"},"name":"_generate_polynomial_correct"},"guarantee":"generate sieve polynomials indefinitely. information such as `soln1` in the `factor_base` associated with the polynomial is modified in place","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs._generate_polynomial_correct","statement":"Path(_generate_polynomial(x), generate sieve polynomials indefinitely. information such as `soln1` in the `factor_base` associated with the polynomial is modified in place)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3227170633edcbf"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs._generate_polynomial","kind":"function","src_hash":"3180a5c6738a25b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(B) == old_len_B + 1 and len(q) == old_len_q + 1"},"spec":{"lhs":"_generate_polynomial(N, M, factor_base)","rhs":"len(B) == old_len_B + 1 and len(q) == old_len_q + 1","over":{"base":"Any"},"name":"_generate_polynomial_correct"},"guarantee":"len(B) == old_len_B + 1; len(q) == old_len_q + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs._generate_polynomial_correct","statement":"Path(_generate_polynomial(x), len(B) == old_len_B + 1; len(q) == old_len_q + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2259e36e11418f60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(B) == old_len_B + 1","len(q) == old_len_q + 1"],"pure":false,"effects":{"effect_type":"nondeterministic","calls_mutating":["B.append","q.append"],"nondeterministic_sources":["randint"]},"state_contract":{"modifies":["B.*","q.*"],"old_bindings":{"old_len_B":"len(B)","old_len_q":"len(q)"},"post_ensures":["len(B) == old_len_B + 1","len(q) == old_len_q + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _generate_polynomial(N, M, factor_base, idx_1000, idx_5000, randint):
     """ Generate sieve polynomials indefinitely.
     Information such as `soln1` in the `factor_base` associated with
@@ -267,16 +317,22 @@ def _generate_polynomial(N, M, factor_base, idx_1000, idx_5000, randint):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gen_sieve_array(M, ), sieve stage of the quadratic sieve) over Any ║
+# ║ Path(_gen_sieve_array(M, factor_base), <unspecified:_gen_sieve_array>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _gen_sieve_array : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f01b333d7f8e1282  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs._gen_sieve_array","kind":"function","src_hash":"704994dedbf78e76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gen_sieve_array(M, )","rhs":"sieve stage of the quadratic sieve","over":{"base":"Any"},"name":"_gen_sieve_array_correct"},"guarantee":"sieve stage of the quadratic sieve","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs._gen_sieve_array_correct","statement":"Path(_gen_sieve_array(x), sieve stage of the quadratic sieve)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f01b333d7f8e1282"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs._gen_sieve_array","kind":"function","src_hash":"704994dedbf78e76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gen_sieve_array(M, factor_base)","rhs":"<unspecified:_gen_sieve_array>","over":{"base":"Any"},"name":"_gen_sieve_array_correct"},"guarantee":"sieve stage of the quadratic sieve","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs._gen_sieve_array_correct","statement":"Path(_gen_sieve_array(x), sieve stage of the quadratic sieve)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f01b333d7f8e1282","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _gen_sieve_array(M, factor_base):
     """Sieve Stage of the Quadratic Sieve. For every prime in the factor_base
     that does not divide the coefficient `a` we add log_p over the sieve_array
@@ -305,16 +361,22 @@ def _gen_sieve_array(M, factor_base):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_smoothness(num), check if `num` is smooth with respect to the given `factor_base` and compute its factorization vector) over Any ║
+# ║ Path(_check_smoothness(num, factor_base), (vec, num)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (vec, num)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_smoothness : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa947b7b80585939  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6612b75bb4797f2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs._check_smoothness","kind":"function","src_hash":"ccf9dd3891904620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_smoothness(num)","rhs":"check if `num` is smooth with respect to the given `factor_base` and compute its factorization vector","over":{"base":"Any"},"name":"_check_smoothness_correct"},"guarantee":"check if `num` is smooth with respect to the given `factor_base` and compute its factorization vector","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs._check_smoothness_correct","statement":"Path(_check_smoothness(x), check if `num` is smooth with respect to the given `factor_base` and compute its factorization vector)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa947b7b80585939"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs._check_smoothness","kind":"function","src_hash":"ccf9dd3891904620","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_smoothness(num, factor_base)","rhs":"(vec, num)","over":{"base":"Any"},"name":"_check_smoothness_correct"},"guarantee":"returns (vec, num)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs._check_smoothness_correct","statement":"Path(_check_smoothness(x), returns (vec, num))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6612b75bb4797f2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(vec, num)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _check_smoothness(num, factor_base):
     r""" Check if `num` is smooth with respect to the given `factor_base`
     and compute its factorization vector.
@@ -344,16 +406,27 @@ def _check_smoothness(num, factor_base):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_trial_division_stage(N, ), trial division stage) over Any ║
+# ║ Path(_trial_division_stage(N, M, factor_base), (smooth_relations, proper_factor)) over {Any | hasattr(sieve_poly, 'eval_v') and hasattr(sieve_poly, 'eval_u') and len(partial_relations) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _trial_division_stage : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(sieve_poly, 'eval_v')                  ║
+# ║   requires: hasattr(sieve_poly, 'eval_u')                  ║
+# ║   requires: len(partial_relations) > 0                     ║
+# ║   ensures:  len(partial_relations) == old_len_partial...   ║
+# ║   ensures:  len(smooth_relations) == old_len_smooth_r...   ║
+# ║   returns:  (smooth_relations, proper_factor)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _trial_division_stage : {Any | hasattr(sieve_poly, 'e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1087d9ab29398d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 069d055c863c8f9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs._trial_division_stage","kind":"function","src_hash":"3fdc1fe26e70ad51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trial_division_stage(N, )","rhs":"trial division stage","over":{"base":"Any"},"name":"_trial_division_stage_correct"},"guarantee":"trial division stage","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs._trial_division_stage_correct","statement":"Path(_trial_division_stage(x), trial division stage)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1087d9ab29398d1"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs._trial_division_stage","kind":"function","src_hash":"3fdc1fe26e70ad51","in":{"base":"Any","pred":"hasattr(sieve_poly, 'eval_v') and hasattr(sieve_poly, 'eval_u') and len(partial_relations) > 0"},"out":{"base":"Any","pred":"result satisfies: result == ((smooth_relations, proper_factor))"},"spec":{"lhs":"_trial_division_stage(N, M, factor_base)","rhs":"(smooth_relations, proper_factor)","over":{"base":"Any","pred":"hasattr(sieve_poly, 'eval_v') and hasattr(sieve_poly, 'eval_u') and len(partial_relations) > 0"},"name":"_trial_division_stage_correct"},"guarantee":"returns (smooth_relations, proper_factor); len(partial_relations) == old_len_partial_relations - 1; len(smooth_relations) == old_len_smooth_relations + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs._trial_division_stage_correct","statement":"Path(_trial_division_stage(x), returns (smooth_relations, proper_factor); len(partial_relations) == old_len_partial_relations - 1; len(smooth_relations) == old_len_smooth_relations + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"069d055c863c8f9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(sieve_poly, 'eval_v')","hasattr(sieve_poly, 'eval_u')","len(partial_relations) > 0"],"ensures":["len(partial_relations) == old_len_partial_relations - 1","len(smooth_relations) == old_len_smooth_relations + 1"],"returns_expr":"(smooth_relations, proper_factor)","pure":false,"effects":{"effect_type":"mutates_args","reads":["partial_relations.pop","sieve_poly.eval_u","sieve_poly.eval_v"],"writes":["partial_relations[*]"],"calls_mutating":["partial_relations.pop","proper_factor.add","smooth_relations.append"]},"state_contract":{"modifies":["partial_relations.*","partial_relations[*]","proper_factor.*","smooth_relations.*"],"old_bindings":{"old_partial_relations_star":"partial_relations[*]","old_len_partial_relations":"len(partial_relations)","old_len_smooth_relations":"len(smooth_relations)"},"pre_requires":["len(partial_relations) > 0"],"post_ensures":["len(partial_relations) == old_len_partial_relations - 1","len(smooth_relations) == old_len_smooth_relations + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _trial_division_stage(N, M, factor_base, sieve_array, sieve_poly, partial_relations, ERROR_TERM):
     """Trial division stage. Here we trial divide the values generetated
     by sieve_poly in the sieve interval and if it is a smooth number then
@@ -405,16 +478,22 @@ def _trial_division_stage(N, M, factor_base, sieve_array, sieve_poly, partial_re
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_factor(N, ), finds proper factor of n using fast gaussian reduction for modulo 2 matrix) over Any ║
+# ║ Path(_find_factor(N, smooth_relations, col), <unspecified:_find_factor>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _find_factor : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7ba9c5baf51fc23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs._find_factor","kind":"function","src_hash":"868f34d0f1a364db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_factor(N, )","rhs":"finds proper factor of n using fast gaussian reduction for modulo 2 matrix","over":{"base":"Any"},"name":"_find_factor_correct"},"guarantee":"finds proper factor of n using fast gaussian reduction for modulo 2 matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs._find_factor_correct","statement":"Path(_find_factor(x), finds proper factor of n using fast gaussian reduction for modulo 2 matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7ba9c5baf51fc23"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs._find_factor","kind":"function","src_hash":"868f34d0f1a364db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_factor(N, smooth_relations, col)","rhs":"<unspecified:_find_factor>","over":{"base":"Any"},"name":"_find_factor_correct"},"guarantee":"finds proper factor of n using fast gaussian reduction for modulo 2 matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs._find_factor_correct","statement":"Path(_find_factor(x), finds proper factor of n using fast gaussian reduction for modulo 2 matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7ba9c5baf51fc23","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _find_factor(N, smooth_relations, col):
     """ Finds proper factor of N using fast gaussian reduction for modulo 2 matrix.
 
@@ -461,16 +540,22 @@ def _find_factor(N, smooth_relations, col):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(qs(N, ), performs factorization using self-initializing quadratic sieve. in siqs, let n be a number to be factored, and this n should not be a perfect power) over Any ║
+# ║ Path(qs(N, prime_bound, M), set(qs_factor(N, prime_bound, M, ERROR_TERM, seed))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set(qs_factor(N, prime_bound, M, ERROR_TE...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ qs : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 12d41c2ec0c466c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.qs","kind":"function","src_hash":"a094d74c62b09581","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qs(N, )","rhs":"performs factorization using self-initializing quadratic sieve. in siqs, let n be a number to be factored, and this n should not be a perfect power","over":{"base":"Any"},"name":"qs_correct"},"guarantee":"performs factorization using self-initializing quadratic sieve. in siqs, let n be a number to be factored, and this n should not be a perfect power","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12d41c2ec0c466c7"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.qs","kind":"function","src_hash":"a094d74c62b09581","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qs(N, prime_bound, M)","rhs":"set(qs_factor(N, prime_bound, M, ERROR_TERM, seed))","over":{"base":"Any"},"name":"qs_correct"},"guarantee":"returns set(qs_factor(N, prime_bound, M, ERROR_TERM, seed))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"12d41c2ec0c466c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set(qs_factor(N, prime_bound, M, ERROR_TERM, seed))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def qs(N, prime_bound, M, ERROR_TERM=25, seed=1234):
     """Performs factorization using Self-Initializing Quadratic Sieve.
     In SIQS, let N be a number to be factored, and this N should not be a
@@ -524,16 +609,23 @@ def qs(N, prime_bound, M, ERROR_TERM=25, seed=1234):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(qs_factor(N, ), performs factorization using self-initializing quadratic sieve) over Any ║
+# ║ Path(qs_factor(N, prime_bound, M), <unspecified:qs_factor>) over {Any | not (N < 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ qs_factor : Any → {Any | result satisfies: 1}`` if fa...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (N < 2)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ qs_factor : {Any | not (N < 2)} → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7851bce347b7244  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.qs_factor","kind":"function","src_hash":"7a091878528c8fca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 1}`` if factorization fails."},"spec":{"lhs":"qs_factor(N, )","rhs":"performs factorization using self-initializing quadratic sieve","over":{"base":"Any"},"name":"qs_factor_correct"},"guarantee":"performs factorization using self-initializing quadratic sieve","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs.qs_factor_correct","statement":"Path(qs_factor(x), performs factorization using self-initializing quadratic sieve)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7851bce347b7244"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.qs.qs_factor","kind":"function","src_hash":"7a091878528c8fca","in":{"base":"Any","pred":"not (N < 2)"},"out":{"base":"Any","pred":"result satisfies: 1}`` if factorization fails."},"spec":{"lhs":"qs_factor(N, prime_bound, M)","rhs":"<unspecified:qs_factor>","over":{"base":"Any","pred":"not (N < 2)"},"name":"qs_factor_correct"},"guarantee":"performs factorization using self-initializing quadratic sieve","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.qs.qs_factor_correct","statement":"Path(qs_factor(x), performs factorization using self-initializing quadratic sieve)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7851bce347b7244","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (N < 2)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def qs_factor(N, prime_bound, M, ERROR_TERM=25, seed=1234):
     """ Performs factorization using Self-Initializing Quadratic Sieve.
 

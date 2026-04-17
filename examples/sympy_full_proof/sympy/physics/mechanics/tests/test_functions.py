@@ -36,16 +36,22 @@ C = B.orientnew('C', 'Axis', [q3, B.y])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_momentum(), test_linear_momentum produces the expected output) over Any ║
+# ║ Path(test_linear_momentum(), linear_momentum(N, A, Pa) == 10 * N.x + 500 * N.y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_linear_momentum : Any → {Any | linear_momentum(N...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  linear_momentum(N, A, Pa) == 10 * N.x + 5...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_linear_momentum : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a11e92be4765dad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4792b4f48bc0b264  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_linear_momentum","kind":"function","src_hash":"b8a8f47f302d81c8","in":{"base":"Any"},"out":{"base":"Any","pred":"linear_momentum(N, A, Pa) == 10 * N.x + 500 * N.y"},"spec":{"lhs":"test_linear_momentum()","rhs":"test_linear_momentum produces the expected output","over":{"base":"Any"},"name":"test_linear_momentum_correct"},"guarantee":"test_linear_momentum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_linear_momentum_correct","statement":"Path(test_linear_momentum(x), test_linear_momentum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a11e92be4765dad"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_linear_momentum","kind":"function","src_hash":"b8a8f47f302d81c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: linear_momentum(N, A, Pa) == 10 * N.x + 500 * N.y"},"spec":{"lhs":"test_linear_momentum()","rhs":"linear_momentum(N, A, Pa) == 10 * N.x + 500 * N.y","over":{"base":"Any"},"name":"test_linear_momentum_correct"},"guarantee":"linear_momentum(N, A, Pa) == 10 * N.x + 500 * N.y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_linear_momentum_correct","statement":"Path(test_linear_momentum(x), linear_momentum(N, A, Pa) == 10 * N.x + 500 * N.y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4792b4f48bc0b264","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["linear_momentum(N, A, Pa) == 10 * N.x + 500 * N.y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_linear_momentum():
     N = ReferenceFrame('N')
     Ac = Point('Ac')
@@ -61,16 +67,23 @@ def test_linear_momentum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_angular_momentum_and_linear_momentum(), a rod with length 2l, centroidal inertia i, and mass m along with a particle of mass m fixed to the end of the rod rotate with an angular rate of omega about point o which is fixed to the non-particle) over Any ║
+# ║ Path(test_angular_momentum_and_linear_momentum(), linear_momentum(N, A, Pa) == expected and angular_momentum(O, N, A, Pa) == expected) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  linear_momentum(N, A, Pa) == expected          ║
+# ║   ensures:  angular_momentum(O, N, A, Pa) == expected      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_angular_momentum_and_linear_momentum : Any → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac4ccb1ec817ba4e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b1856ff35f433bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_angular_momentum_and_linear_momentum","kind":"function","src_hash":"13c241097f11afb3","in":{"base":"Any"},"out":{"base":"Any","pred":"linear_momentum(N, A, Pa) == expected and angular_momentum(O, N, A, Pa) == expected"},"spec":{"lhs":"test_angular_momentum_and_linear_momentum()","rhs":"a rod with length 2l, centroidal inertia i, and mass m along with a particle of mass m fixed to the end of the rod rotate with an angular rate of omega about point o which is fixed to the non-particle","over":{"base":"Any"},"name":"test_angular_momentum_and_linear_momentum_correct"},"guarantee":"a rod with length 2l, centroidal inertia i, and mass m along with a particle of mass m fixed to the end of the rod rotate with an angular rate of omega about point o which is fixed to the non-particle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_angular_momentum_and_linear_momentum_correct","statement":"Path(test_angular_momentum_and_linear_momentum(x), a rod with length 2l, centroidal inertia i, and mass m along with a particle of mass m fixed to the end of the rod rotate with an angular rate of omega about point o which is fixed to the non-particle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac4ccb1ec817ba4e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_angular_momentum_and_linear_momentum","kind":"function","src_hash":"13c241097f11afb3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: linear_momentum(N, A, Pa) == expected and angular_momentum(O, N, A, Pa) == expected"},"spec":{"lhs":"test_angular_momentum_and_linear_momentum()","rhs":"linear_momentum(N, A, Pa) == expected and angular_momentum(O, N, A, Pa) == expected","over":{"base":"Any"},"name":"test_angular_momentum_and_linear_momentum_correct"},"guarantee":"linear_momentum(N, A, Pa) == expected; angular_momentum(O, N, A, Pa) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_angular_momentum_and_linear_momentum_correct","statement":"Path(test_angular_momentum_and_linear_momentum(x), linear_momentum(N, A, Pa) == expected; angular_momentum(O, N, A, Pa) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b1856ff35f433bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["linear_momentum(N, A, Pa) == expected","angular_momentum(O, N, A, Pa) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_angular_momentum_and_linear_momentum():
     """A rod with length 2l, centroidal inertia I, and mass M along with a
     particle of mass m fixed to the end of the rod rotate with an angular rate
@@ -99,16 +112,22 @@ def test_angular_momentum_and_linear_momentum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_kinetic_energy(), test_kinetic_energy produces the expected output) over Any ║
+# ║ Path(test_kinetic_energy(), 0 == (kinetic_energy(N, Pa, A) - (M * l1 ** 2 * omega ** 2 / 2 + 2 * l1 ** 2 * m * omega ** 2 + omega ** 2 / 2)).expand()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_kinetic_energy : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  0 == (kinetic_energy(N, Pa, A) - (M * l1 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_kinetic_energy : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d34375c550f9cdb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91f55e16376bdc04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_kinetic_energy","kind":"function","src_hash":"3cd4e34966e71350","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_kinetic_energy()","rhs":"test_kinetic_energy produces the expected output","over":{"base":"Any"},"name":"test_kinetic_energy_correct"},"guarantee":"test_kinetic_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_kinetic_energy_correct","statement":"Path(test_kinetic_energy(x), test_kinetic_energy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d34375c550f9cdb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_kinetic_energy","kind":"function","src_hash":"3cd4e34966e71350","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 0 == (kinetic_energy(N, Pa, A) - (M * l1 ** 2 * omega ** 2 / 2 + 2 * l1 ** 2 * m * omega ** 2 + omega ** 2 / 2)).expand()"},"spec":{"lhs":"test_kinetic_energy()","rhs":"0 == (kinetic_energy(N, Pa, A) - (M * l1 ** 2 * omega ** 2 / 2 + 2 * l1 ** 2 * m * omega ** 2 + omega ** 2 / 2)).expand()","over":{"base":"Any"},"name":"test_kinetic_energy_correct"},"guarantee":"0 == (kinetic_energy(N, Pa, A) - (M * l1 ** 2 * omega ** 2 / 2 + 2 * l1 ** 2 * m * omega ** 2 + omega ** 2 / 2)).expand()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_kinetic_energy_correct","statement":"Path(test_kinetic_energy(x), 0 == (kinetic_energy(N, Pa, A) - (M * l1 ** 2 * omega ** 2 / 2 + 2 * l1 ** 2 * m * omega ** 2 + omega ** 2 / 2)).expand())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91f55e16376bdc04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["0 == (kinetic_energy(N, Pa, A) - (M * l1 ** 2 * omega ** 2 / 2 + 2 * l1 ** 2 * m * omega ** 2 + omega ** 2 / 2)).expand()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_kinetic_energy():
     m, M, l1 = symbols('m M l1')
     omega = dynamicsymbols('omega')
@@ -131,16 +150,22 @@ def test_kinetic_energy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_potential_energy(), test_potential_energy produces the expected output) over Any ║
+# ║ Path(test_potential_energy(), potential_energy(A, Pa) == m * g * h + M * g * H) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_potential_energy : Any → {Any | potential_energy...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  potential_energy(A, Pa) == m * g * h + M ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_potential_energy : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69037ceb97d83bb2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0ca9f6b236d8262  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_potential_energy","kind":"function","src_hash":"c9240db1ceda9a5d","in":{"base":"Any"},"out":{"base":"Any","pred":"potential_energy(A, Pa) == m * g * h + M * g * H"},"spec":{"lhs":"test_potential_energy()","rhs":"test_potential_energy produces the expected output","over":{"base":"Any"},"name":"test_potential_energy_correct"},"guarantee":"test_potential_energy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_potential_energy_correct","statement":"Path(test_potential_energy(x), test_potential_energy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69037ceb97d83bb2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_potential_energy","kind":"function","src_hash":"c9240db1ceda9a5d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: potential_energy(A, Pa) == m * g * h + M * g * H"},"spec":{"lhs":"test_potential_energy()","rhs":"potential_energy(A, Pa) == m * g * h + M * g * H","over":{"base":"Any"},"name":"test_potential_energy_correct"},"guarantee":"potential_energy(A, Pa) == m * g * h + M * g * H","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_potential_energy_correct","statement":"Path(test_potential_energy(x), potential_energy(A, Pa) == m * g * h + M * g * H)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0ca9f6b236d8262","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["potential_energy(A, Pa) == m * g * h + M * g * H"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_potential_energy():
     m, M, l1, g, h, H = symbols('m M l1 g h H')
     omega = dynamicsymbols('omega')
@@ -162,16 +187,22 @@ def test_potential_energy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Lagrangian(), test_Lagrangian produces the expected output) over Any ║
+# ║ Path(test_Lagrangian(), <unspecified:test_Lagrangian>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Lagrangian : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b97000dbd349b663  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_Lagrangian","kind":"function","src_hash":"e265078be9da9186","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Lagrangian()","rhs":"test_Lagrangian produces the expected output","over":{"base":"Any"},"name":"test_Lagrangian_correct"},"guarantee":"test_Lagrangian produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_Lagrangian_correct","statement":"Path(test_Lagrangian(x), test_Lagrangian produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b97000dbd349b663"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_Lagrangian","kind":"function","src_hash":"e265078be9da9186","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Lagrangian()","rhs":"<unspecified:test_Lagrangian>","over":{"base":"Any"},"name":"test_Lagrangian_correct"},"guarantee":"test_Lagrangian produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_Lagrangian_correct","statement":"Path(test_Lagrangian(x), test_Lagrangian produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b97000dbd349b663","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Lagrangian():
     M, m, g, h = symbols('M m g h')
     N = ReferenceFrame('N')
@@ -193,16 +224,24 @@ def test_Lagrangian():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_msubs(), test_msubs produces the expected output) over Any ║
+# ║ Path(test_msubs(), msubs(expr, sd) == sol and msubs(expr, sd, smart=True) == b + 1 and msubs(v, sd) == v_sol and msubs(d, sd) == d_sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_msubs : Any → {Any | msubs(expr, sd) == sol and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  msubs(expr, sd) == sol                         ║
+# ║   ensures:  msubs(expr, sd, smart=True) == b + 1           ║
+# ║   ensures:  msubs(v, sd) == v_sol                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_msubs : Any → {Any | result satisfies: msubs(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6b21854e4306cdd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90064e3fc53a5466  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_msubs","kind":"function","src_hash":"776539f403de4746","in":{"base":"Any"},"out":{"base":"Any","pred":"msubs(expr, sd) == sol and msubs(expr, sd, smart=True) == b + 1 and msubs(v, sd) == v_sol and msubs(d, sd) == d_sol"},"spec":{"lhs":"test_msubs()","rhs":"test_msubs produces the expected output","over":{"base":"Any"},"name":"test_msubs_correct"},"guarantee":"test_msubs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_msubs_correct","statement":"Path(test_msubs(x), test_msubs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6b21854e4306cdd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_msubs","kind":"function","src_hash":"776539f403de4746","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: msubs(expr, sd) == sol and msubs(expr, sd, smart=True) == b + 1 and msubs(v, sd) == v_sol and msubs(d, sd) == d_sol"},"spec":{"lhs":"test_msubs()","rhs":"msubs(expr, sd) == sol and msubs(expr, sd, smart=True) == b + 1 and msubs(v, sd) == v_sol and msubs(d, sd) == d_sol","over":{"base":"Any"},"name":"test_msubs_correct"},"guarantee":"msubs(expr, sd) == sol; msubs(expr, sd, smart=True) == b + 1; msubs(v, sd) == v_sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_msubs_correct","statement":"Path(test_msubs(x), msubs(expr, sd) == sol; msubs(expr, sd, smart=True) == b + 1; msubs(v, sd) == v_sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90064e3fc53a5466","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["msubs(expr, sd) == sol","msubs(expr, sd, smart=True) == b + 1","msubs(v, sd) == v_sol","msubs(d, sd) == d_sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_msubs():
     a, b = symbols('a, b')
     x, y, z = dynamicsymbols('x, y, z')
@@ -228,16 +267,24 @@ def test_msubs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_find_dynamicsymbols(), test_find_dynamicsymbols produces the expected output) over Any ║
+# ║ Path(test_find_dynamicsymbols(), find_dynamicsymbols(expr) == sol and find_dynamicsymbols(expr, exclude=exclude_list) == sol and find_dynamicsymbols(v, reference_frame=A) == sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_find_dynamicsymbols : Any → {Any | find_dynamics...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  find_dynamicsymbols(expr) == sol               ║
+# ║   ensures:  find_dynamicsymbols(expr, exclude=exclude...   ║
+# ║   ensures:  find_dynamicsymbols(v, reference_frame=A)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_find_dynamicsymbols : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d750b92875594ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d8cdac7ce36584b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_find_dynamicsymbols","kind":"function","src_hash":"560c4a23e9ad5615","in":{"base":"Any"},"out":{"base":"Any","pred":"find_dynamicsymbols(expr) == sol and find_dynamicsymbols(expr, exclude=exclude_list) == sol and find_dynamicsymbols(v, reference_frame=A) == sol"},"spec":{"lhs":"test_find_dynamicsymbols()","rhs":"test_find_dynamicsymbols produces the expected output","over":{"base":"Any"},"name":"test_find_dynamicsymbols_correct"},"guarantee":"test_find_dynamicsymbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_find_dynamicsymbols_correct","statement":"Path(test_find_dynamicsymbols(x), test_find_dynamicsymbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d750b92875594ee"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_find_dynamicsymbols","kind":"function","src_hash":"560c4a23e9ad5615","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: find_dynamicsymbols(expr) == sol and find_dynamicsymbols(expr, exclude=exclude_list) == sol and find_dynamicsymbols(v, reference_frame=A) == sol"},"spec":{"lhs":"test_find_dynamicsymbols()","rhs":"find_dynamicsymbols(expr) == sol and find_dynamicsymbols(expr, exclude=exclude_list) == sol and find_dynamicsymbols(v, reference_frame=A) == sol","over":{"base":"Any"},"name":"test_find_dynamicsymbols_correct"},"guarantee":"find_dynamicsymbols(expr) == sol; find_dynamicsymbols(expr, exclude=exclude_list) == sol; find_dynamicsymbols(v, reference_frame=A) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_find_dynamicsymbols_correct","statement":"Path(test_find_dynamicsymbols(x), find_dynamicsymbols(expr) == sol; find_dynamicsymbols(expr, exclude=exclude_list) == sol; find_dynamicsymbols(v, reference_frame=A) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d8cdac7ce36584b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["find_dynamicsymbols(expr) == sol","find_dynamicsymbols(expr, exclude=exclude_list) == sol","find_dynamicsymbols(v, reference_frame=A) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_find_dynamicsymbols():
     a, b = symbols('a, b')
     x, y, z = dynamicsymbols('x, y, z')
@@ -264,16 +311,22 @@ def test_find_dynamicsymbols():
 # that was added in PR #14758 to compute the center of
 # mass of a system of bodies.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_center_of_mass(), test_center_of_mass produces the expected output) over Any ║
+# ║ Path(test_center_of_mass(), point_o.pos_from(p1.point) - expr == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_center_of_mass : Any → {Any | point_o.pos_from(p...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  point_o.pos_from(p1.point) - expr == 0         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_center_of_mass : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebe7dfa1acfce2cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c80d1607b5922b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_center_of_mass","kind":"function","src_hash":"e5db0839b1ea3514","in":{"base":"Any"},"out":{"base":"Any","pred":"point_o.pos_from(p1.point) - expr == 0"},"spec":{"lhs":"test_center_of_mass()","rhs":"test_center_of_mass produces the expected output","over":{"base":"Any"},"name":"test_center_of_mass_correct"},"guarantee":"test_center_of_mass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_center_of_mass_correct","statement":"Path(test_center_of_mass(x), test_center_of_mass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebe7dfa1acfce2cc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_center_of_mass","kind":"function","src_hash":"e5db0839b1ea3514","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: point_o.pos_from(p1.point) - expr == 0"},"spec":{"lhs":"test_center_of_mass()","rhs":"point_o.pos_from(p1.point) - expr == 0","over":{"base":"Any"},"name":"test_center_of_mass_correct"},"guarantee":"point_o.pos_from(p1.point) - expr == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_center_of_mass_correct","statement":"Path(test_center_of_mass(x), point_o.pos_from(p1.point) - expr == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c80d1607b5922b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["point_o.pos_from(p1.point) - expr == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_center_of_mass():
     a = ReferenceFrame('a')
     m = symbols('m', real=True)
@@ -296,16 +349,22 @@ def test_center_of_mass():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_validate_coordinates(), test_validate_coordinates produces the expected output) over Any ║
+# ║ Path(test_validate_coordinates(), <unspecified:test_validate_coordinates>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_validate_coordinates : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e29955c79a50641f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_validate_coordinates","kind":"function","src_hash":"9db2e2e9d7614e95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_validate_coordinates()","rhs":"test_validate_coordinates produces the expected output","over":{"base":"Any"},"name":"test_validate_coordinates_correct"},"guarantee":"test_validate_coordinates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_validate_coordinates_correct","statement":"Path(test_validate_coordinates(x), test_validate_coordinates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e29955c79a50641f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_validate_coordinates","kind":"function","src_hash":"9db2e2e9d7614e95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_validate_coordinates()","rhs":"<unspecified:test_validate_coordinates>","over":{"base":"Any"},"name":"test_validate_coordinates_correct"},"guarantee":"test_validate_coordinates produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_validate_coordinates_correct","statement":"Path(test_validate_coordinates(x), test_validate_coordinates produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e29955c79a50641f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_validate_coordinates():
     q1, q2, q3, u1, u2, u3, ua1, ua2, ua3 = dynamicsymbols('q1:4 u1:4 ua1:4')
     s1, s2, s3 = symbols('s1:4')
@@ -358,16 +417,23 @@ def test_validate_coordinates():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parse_linear_solver(), test_parse_linear_solver produces the expected output) over Any ║
+# ║ Path(test_parse_linear_solver(), _parse_linear_solver(Matrix.LUsolve) == Matrix.LUsolve and _parse_linear_solver('LU')(A, b) == Matrix.LUsolve(A, b)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_parse_linear_solver : Any → {Any | _parse_linear...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _parse_linear_solver(Matrix.LUsolve) == M...   ║
+# ║   ensures:  _parse_linear_solver('LU')(A, b) == Matri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_parse_linear_solver : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e024c1db9d131fd9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fb42cb207d56dd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_parse_linear_solver","kind":"function","src_hash":"b23f454cc5f8a04c","in":{"base":"Any"},"out":{"base":"Any","pred":"_parse_linear_solver(Matrix.LUsolve) == Matrix.LUsolve and _parse_linear_solver('LU')(A, b) == Matrix.LUsolve(A, b)"},"spec":{"lhs":"test_parse_linear_solver()","rhs":"test_parse_linear_solver produces the expected output","over":{"base":"Any"},"name":"test_parse_linear_solver_correct"},"guarantee":"test_parse_linear_solver produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_parse_linear_solver_correct","statement":"Path(test_parse_linear_solver(x), test_parse_linear_solver produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e024c1db9d131fd9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_parse_linear_solver","kind":"function","src_hash":"b23f454cc5f8a04c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _parse_linear_solver(Matrix.LUsolve) == Matrix.LUsolve and _parse_linear_solver('LU')(A, b) == Matrix.LUsolve(A, b)"},"spec":{"lhs":"test_parse_linear_solver()","rhs":"_parse_linear_solver(Matrix.LUsolve) == Matrix.LUsolve and _parse_linear_solver('LU')(A, b) == Matrix.LUsolve(A, b)","over":{"base":"Any"},"name":"test_parse_linear_solver_correct"},"guarantee":"_parse_linear_solver(Matrix.LUsolve) == Matrix.LUsolve; _parse_linear_solver('LU')(A, b) == Matrix.LUsolve(A, b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_parse_linear_solver_correct","statement":"Path(test_parse_linear_solver(x), _parse_linear_solver(Matrix.LUsolve) == Matrix.LUsolve; _parse_linear_solver('LU')(A, b) == Matrix.LUsolve(A, b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fb42cb207d56dd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_parse_linear_solver(Matrix.LUsolve) == Matrix.LUsolve","_parse_linear_solver('LU')(A, b) == Matrix.LUsolve(A, b)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_parse_linear_solver():
     A, b = Matrix(3, 3, symbols('a:9')), Matrix(3, 2, symbols('b:6'))
     assert _parse_linear_solver(Matrix.LUsolve) == Matrix.LUsolve  # Test callable
@@ -375,16 +441,22 @@ def test_parse_linear_solver():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_moved_functions(), test_deprecated_moved_functions produces the expected output) over Any ║
+# ║ Path(test_deprecated_moved_functions(), <unspecified:test_deprecated_moved_functions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_moved_functions : Any → {Any | inerti...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b0c23e5e9653604  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_deprecated_moved_functions","kind":"function","src_hash":"189df22c6b576347","in":{"base":"Any"},"out":{"base":"Any","pred":"inertia(N, 0, 1, 0, 1) == (N.x | N.y) + (N.y | N.x) + (N.y | N.y) and gravity(-2 * N.z, p) == [(p.masscenter, -2 * p.mass * N.z)]"},"spec":{"lhs":"test_deprecated_moved_functions()","rhs":"test_deprecated_moved_functions produces the expected output","over":{"base":"Any"},"name":"test_deprecated_moved_functions_correct"},"guarantee":"test_deprecated_moved_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_deprecated_moved_functions_correct","statement":"Path(test_deprecated_moved_functions(x), test_deprecated_moved_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b0c23e5e9653604"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_functions.test_deprecated_moved_functions","kind":"function","src_hash":"189df22c6b576347","in":{"base":"Any"},"out":{"base":"Any","pred":"inertia(N, 0, 1, 0, 1) == (N.x | N.y) + (N.y | N.x) + (N.y | N.y) and gravity(-2 * N.z, p) == [(p.masscenter, -2 * p.mass * N.z)]"},"spec":{"lhs":"test_deprecated_moved_functions()","rhs":"<unspecified:test_deprecated_moved_functions>","over":{"base":"Any"},"name":"test_deprecated_moved_functions_correct"},"guarantee":"test_deprecated_moved_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_functions.test_deprecated_moved_functions_correct","statement":"Path(test_deprecated_moved_functions(x), test_deprecated_moved_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b0c23e5e9653604","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_deprecated_moved_functions():
     from sympy.physics.mechanics.functions import (
         inertia, inertia_of_point_mass, gravity)

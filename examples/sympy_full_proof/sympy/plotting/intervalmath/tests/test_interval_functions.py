@@ -31,16 +31,24 @@ if not np:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_interval_pow(), test_interval_pow produces the expected output) over Any ║
+# ║ Path(test_interval_pow(), a == (True, True) and a.is_valid is None and a.is_valid is False and ((-3) ** interval(1, 1) == interval(-3, -3)) == (True, True) and abs(a.start - 4) < 1e-10 and abs(a.end - 16) < 1e-10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_interval_pow : Any → {Any | a == (True, True) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a == (True, True)                              ║
+# ║   ensures:  a.is_valid is None                             ║
+# ║   ensures:  a.is_valid is False                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_interval_pow : Any → {Any | result satisfies: a ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65897db392d21dd4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b52a4e4a70c98c11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_interval_pow","kind":"function","src_hash":"9f6eebdfc5759974","in":{"base":"Any"},"out":{"base":"Any","pred":"a == (True, True) and a == (True, True) and a.is_valid is None and a.is_valid is False and a.is_valid is False and a.is_valid is None and a == (True, True) and a == (True, True) and a == (True, True) and a == (True, True) and a.is_valid is False and a.is_valid is False and a.is_valid is False and ((-3) ** interval(1, 1) == interval(-3, -3)) == (True, True) and abs(a.start - 4) < 1e-10 and abs(a.end - 16) < 1e-10 and abs(a.start - 4) < 1e-10 and abs(a.end - 16) < 1e-10"},"spec":{"lhs":"test_interval_pow()","rhs":"test_interval_pow produces the expected output","over":{"base":"Any"},"name":"test_interval_pow_correct"},"guarantee":"test_interval_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_interval_pow_correct","statement":"Path(test_interval_pow(x), test_interval_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65897db392d21dd4"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_interval_pow","kind":"function","src_hash":"9f6eebdfc5759974","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a == (True, True) and a.is_valid is None and a.is_valid is False and ((-3) ** interval(1, 1) == interval(-3, -3)) == (True, True) and abs(a.start - 4) < 1e-10 and abs(a.end - 16) < 1e-10"},"spec":{"lhs":"test_interval_pow()","rhs":"a == (True, True) and a.is_valid is None and a.is_valid is False and ((-3) ** interval(1, 1) == interval(-3, -3)) == (True, True) and abs(a.start - 4) < 1e-10 and abs(a.end - 16) < 1e-10","over":{"base":"Any"},"name":"test_interval_pow_correct"},"guarantee":"a == (True, True); a.is_valid is None; a.is_valid is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_interval_pow_correct","statement":"Path(test_interval_pow(x), a == (True, True); a.is_valid is None; a.is_valid is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b52a4e4a70c98c11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a == (True, True)","a.is_valid is None","a.is_valid is False","((-3) ** interval(1, 1) == interval(-3, -3)) == (True, True)","abs(a.start - 4) < 1e-10","abs(a.end - 16) < 1e-10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_interval_pow():
     a = 2**interval(1, 2) == interval(2, 4)
     assert a == (True, True)
@@ -81,16 +89,24 @@ def test_interval_pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp(), test_exp produces the expected output) over Any ║
+# ║ Path(test_exp(), a.start == np.exp(-np.inf) and a.end == np.exp(0) and a.start == np.exp(1) and a.end == np.exp(2) and a.end == np.exp(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp : Any → {Any | a.start == np.exp(-np.inf) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == np.exp(-np.inf)                     ║
+# ║   ensures:  a.end == np.exp(0)                             ║
+# ║   ensures:  a.start == np.exp(1)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp : Any → {Any | result satisfies: a.start == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78c3e12782f33ed8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cc8b92973c045bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_exp","kind":"function","src_hash":"b2e6a4c60673a6c0","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == np.exp(-np.inf) and a.end == np.exp(0) and a.start == np.exp(1) and a.end == np.exp(2) and a.start == np.exp(1) and a.end == np.exp(1)"},"spec":{"lhs":"test_exp()","rhs":"test_exp produces the expected output","over":{"base":"Any"},"name":"test_exp_correct"},"guarantee":"test_exp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_exp_correct","statement":"Path(test_exp(x), test_exp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78c3e12782f33ed8"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_exp","kind":"function","src_hash":"b2e6a4c60673a6c0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == np.exp(-np.inf) and a.end == np.exp(0) and a.start == np.exp(1) and a.end == np.exp(2) and a.end == np.exp(1)"},"spec":{"lhs":"test_exp()","rhs":"a.start == np.exp(-np.inf) and a.end == np.exp(0) and a.start == np.exp(1) and a.end == np.exp(2) and a.end == np.exp(1)","over":{"base":"Any"},"name":"test_exp_correct"},"guarantee":"a.start == np.exp(-np.inf); a.end == np.exp(0); a.start == np.exp(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_exp_correct","statement":"Path(test_exp(x), a.start == np.exp(-np.inf); a.end == np.exp(0); a.start == np.exp(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cc8b92973c045bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == np.exp(-np.inf)","a.end == np.exp(0)","a.start == np.exp(1)","a.end == np.exp(2)","a.end == np.exp(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp():
     a = exp(interval(-np.inf, 0))
     assert a.start == np.exp(-np.inf)
@@ -104,16 +120,24 @@ def test_exp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log(), test_log produces the expected output) over Any ║
+# ║ Path(test_log(), a.start == 0 and a.end == np.log(2) and a.is_valid is None and a.is_valid is False and a.start == np.log(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log : Any → {Any | a.start == 0 and a.end == np....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == 0                                   ║
+# ║   ensures:  a.end == np.log(2)                             ║
+# ║   ensures:  a.is_valid is None                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log : Any → {Any | result satisfies: a.start == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b5ef6ee59e0717d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 349dca0c85b0544e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_log","kind":"function","src_hash":"8440242828d8fd5c","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == 0 and a.end == np.log(2) and a.is_valid is None and a.is_valid is False and a.is_valid is False and a.start == np.log(2) and a.end == np.log(2)"},"spec":{"lhs":"test_log()","rhs":"test_log produces the expected output","over":{"base":"Any"},"name":"test_log_correct"},"guarantee":"test_log produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_log_correct","statement":"Path(test_log(x), test_log produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b5ef6ee59e0717d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_log","kind":"function","src_hash":"8440242828d8fd5c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == 0 and a.end == np.log(2) and a.is_valid is None and a.is_valid is False and a.start == np.log(2)"},"spec":{"lhs":"test_log()","rhs":"a.start == 0 and a.end == np.log(2) and a.is_valid is None and a.is_valid is False and a.start == np.log(2)","over":{"base":"Any"},"name":"test_log_correct"},"guarantee":"a.start == 0; a.end == np.log(2); a.is_valid is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_log_correct","statement":"Path(test_log(x), a.start == 0; a.end == np.log(2); a.is_valid is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"349dca0c85b0544e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == 0","a.end == np.log(2)","a.is_valid is None","a.is_valid is False","a.start == np.log(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log():
     a = log(interval(1, 2))
     assert a.start == 0
@@ -130,16 +154,24 @@ def test_log():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log10(), test_log10 produces the expected output) over Any ║
+# ║ Path(test_log10(), a.start == 0 and a.end == np.log10(2) and a.is_valid is None and a.is_valid is False and a.start == np.log10(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log10 : Any → {Any | a.start == 0 and a.end == n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == 0                                   ║
+# ║   ensures:  a.end == np.log10(2)                           ║
+# ║   ensures:  a.is_valid is None                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log10 : Any → {Any | result satisfies: a.start =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 007ad422c292ed69  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81cf09fb060c0f5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_log10","kind":"function","src_hash":"5061d7506bfc590b","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == 0 and a.end == np.log10(2) and a.is_valid is None and a.is_valid is False and a.is_valid is False and a.start == np.log10(2) and a.end == np.log10(2)"},"spec":{"lhs":"test_log10()","rhs":"test_log10 produces the expected output","over":{"base":"Any"},"name":"test_log10_correct"},"guarantee":"test_log10 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_log10_correct","statement":"Path(test_log10(x), test_log10 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"007ad422c292ed69"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_log10","kind":"function","src_hash":"5061d7506bfc590b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == 0 and a.end == np.log10(2) and a.is_valid is None and a.is_valid is False and a.start == np.log10(2)"},"spec":{"lhs":"test_log10()","rhs":"a.start == 0 and a.end == np.log10(2) and a.is_valid is None and a.is_valid is False and a.start == np.log10(2)","over":{"base":"Any"},"name":"test_log10_correct"},"guarantee":"a.start == 0; a.end == np.log10(2); a.is_valid is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_log10_correct","statement":"Path(test_log10(x), a.start == 0; a.end == np.log10(2); a.is_valid is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81cf09fb060c0f5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == 0","a.end == np.log10(2)","a.is_valid is None","a.is_valid is False","a.start == np.log10(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log10():
     a = log10(interval(1, 2))
     assert a.start == 0
@@ -156,16 +188,24 @@ def test_log10():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_atan(), test_atan produces the expected output) over Any ║
+# ║ Path(test_atan(), a.start == np.arctan(0) and a.end == np.arctan(1) and a.start == np.arctan(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_atan : Any → {Any | a.start == np.arctan(0) and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == np.arctan(0)                        ║
+# ║   ensures:  a.end == np.arctan(1)                          ║
+# ║   ensures:  a.start == np.arctan(1)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_atan : Any → {Any | result satisfies: a.start ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0c5ecdb809d0904  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 722fdced0e548830  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_atan","kind":"function","src_hash":"081c98772a7b7d50","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == np.arctan(0) and a.end == np.arctan(1) and a.start == np.arctan(1) and a.end == np.arctan(1)"},"spec":{"lhs":"test_atan()","rhs":"test_atan produces the expected output","over":{"base":"Any"},"name":"test_atan_correct"},"guarantee":"test_atan produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_atan_correct","statement":"Path(test_atan(x), test_atan produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0c5ecdb809d0904"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_atan","kind":"function","src_hash":"081c98772a7b7d50","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == np.arctan(0) and a.end == np.arctan(1) and a.start == np.arctan(1)"},"spec":{"lhs":"test_atan()","rhs":"a.start == np.arctan(0) and a.end == np.arctan(1) and a.start == np.arctan(1)","over":{"base":"Any"},"name":"test_atan_correct"},"guarantee":"a.start == np.arctan(0); a.end == np.arctan(1); a.start == np.arctan(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_atan_correct","statement":"Path(test_atan(x), a.start == np.arctan(0); a.end == np.arctan(1); a.start == np.arctan(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"722fdced0e548830","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == np.arctan(0)","a.end == np.arctan(1)","a.start == np.arctan(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_atan():
     a = atan(interval(0, 1))
     assert a.start == np.arctan(0)
@@ -176,16 +216,24 @@ def test_atan():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sin(), test_sin produces the expected output) over Any ║
+# ║ Path(test_sin(), a.start == np.sin(0) and a.end == np.sin(np.pi / 4) and a.start == np.sin(-np.pi / 4) and a.start == np.sin(np.pi / 4) and a.end == 1 and a.start == -1 and a.end == np.sin(7 * np.pi / 6) and a.is_valid is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sin : Any → {Any | a.start == np.sin(0) and a.en...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == np.sin(0)                           ║
+# ║   ensures:  a.end == np.sin(np.pi / 4)                     ║
+# ║   ensures:  a.start == np.sin(-np.pi / 4)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sin : Any → {Any | result satisfies: a.start == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b228d7f20902b7cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaffe632a4e017ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_sin","kind":"function","src_hash":"3f52acb3b9f5863d","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == np.sin(0) and a.end == np.sin(np.pi / 4) and a.start == np.sin(-np.pi / 4) and a.end == np.sin(np.pi / 4) and a.start == np.sin(np.pi / 4) and a.end == 1 and a.start == -1 and a.end == np.sin(7 * np.pi / 6) and a.start == -1 and a.end == 1 and a.start == -1 and a.end == 1 and a.start == np.sin(np.pi / 4) and a.end == np.sin(np.pi / 4) and a.is_valid is False"},"spec":{"lhs":"test_sin()","rhs":"test_sin produces the expected output","over":{"base":"Any"},"name":"test_sin_correct"},"guarantee":"test_sin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_sin_correct","statement":"Path(test_sin(x), test_sin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b228d7f20902b7cd"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_sin","kind":"function","src_hash":"3f52acb3b9f5863d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == np.sin(0) and a.end == np.sin(np.pi / 4) and a.start == np.sin(-np.pi / 4) and a.start == np.sin(np.pi / 4) and a.end == 1 and a.start == -1 and a.end == np.sin(7 * np.pi / 6) and a.is_valid is False"},"spec":{"lhs":"test_sin()","rhs":"a.start == np.sin(0) and a.end == np.sin(np.pi / 4) and a.start == np.sin(-np.pi / 4) and a.start == np.sin(np.pi / 4) and a.end == 1 and a.start == -1 and a.end == np.sin(7 * np.pi / 6) and a.is_valid is False","over":{"base":"Any"},"name":"test_sin_correct"},"guarantee":"a.start == np.sin(0); a.end == np.sin(np.pi / 4); a.start == np.sin(-np.pi / 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_sin_correct","statement":"Path(test_sin(x), a.start == np.sin(0); a.end == np.sin(np.pi / 4); a.start == np.sin(-np.pi / 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaffe632a4e017ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == np.sin(0)","a.end == np.sin(np.pi / 4)","a.start == np.sin(-np.pi / 4)","a.start == np.sin(np.pi / 4)","a.end == 1","a.start == -1","a.end == np.sin(7 * np.pi / 6)","a.is_valid is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_sin():
     a = sin(interval(0, np.pi / 4))
     assert a.start == np.sin(0)
@@ -220,16 +268,24 @@ def test_sin():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cos(), test_cos produces the expected output) over Any ║
+# ║ Path(test_cos(), a.start == np.cos(np.pi / 4) and a.end == 1 and a.start == np.cos(-np.pi / 4) and a.start == np.cos(3 * np.pi / 4) and a.end == np.cos(np.pi / 4) and a.start == -1 and a.end == np.cos(3 * np.pi / 4) and a.is_valid is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cos : Any → {Any | a.start == np.cos(np.pi / 4) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == np.cos(np.pi / 4)                   ║
+# ║   ensures:  a.end == 1                                     ║
+# ║   ensures:  a.start == np.cos(-np.pi / 4)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cos : Any → {Any | result satisfies: a.start == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f92fc098ec9afb1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0752a720b0c66921  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_cos","kind":"function","src_hash":"e641c68b53f8cdc7","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == np.cos(np.pi / 4) and a.end == 1 and a.start == np.cos(-np.pi / 4) and a.end == 1 and a.start == np.cos(3 * np.pi / 4) and a.end == np.cos(np.pi / 4) and a.start == -1 and a.end == np.cos(3 * np.pi / 4) and a.start == -1 and a.end == 1 and a.start == -1 and a.end == 1 and a.is_valid is False"},"spec":{"lhs":"test_cos()","rhs":"test_cos produces the expected output","over":{"base":"Any"},"name":"test_cos_correct"},"guarantee":"test_cos produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_cos_correct","statement":"Path(test_cos(x), test_cos produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f92fc098ec9afb1"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_cos","kind":"function","src_hash":"e641c68b53f8cdc7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == np.cos(np.pi / 4) and a.end == 1 and a.start == np.cos(-np.pi / 4) and a.start == np.cos(3 * np.pi / 4) and a.end == np.cos(np.pi / 4) and a.start == -1 and a.end == np.cos(3 * np.pi / 4) and a.is_valid is False"},"spec":{"lhs":"test_cos()","rhs":"a.start == np.cos(np.pi / 4) and a.end == 1 and a.start == np.cos(-np.pi / 4) and a.start == np.cos(3 * np.pi / 4) and a.end == np.cos(np.pi / 4) and a.start == -1 and a.end == np.cos(3 * np.pi / 4) and a.is_valid is False","over":{"base":"Any"},"name":"test_cos_correct"},"guarantee":"a.start == np.cos(np.pi / 4); a.end == 1; a.start == np.cos(-np.pi / 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_cos_correct","statement":"Path(test_cos(x), a.start == np.cos(np.pi / 4); a.end == 1; a.start == np.cos(-np.pi / 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0752a720b0c66921","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == np.cos(np.pi / 4)","a.end == 1","a.start == np.cos(-np.pi / 4)","a.start == np.cos(3 * np.pi / 4)","a.end == np.cos(np.pi / 4)","a.start == -1","a.end == np.cos(3 * np.pi / 4)","a.is_valid is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_cos():
     a = cos(interval(0, np.pi / 4))
     assert a.start == np.cos(np.pi / 4)
@@ -260,16 +316,24 @@ def test_cos():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tan(), test_tan produces the expected output) over Any ║
+# ║ Path(test_tan(), a.start == 0 and a.end == np.sin(np.pi / 4) / np.cos(np.pi / 4) and a.is_valid is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tan : Any → {Any | a.start == 0 and a.end == np....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == 0                                   ║
+# ║   ensures:  a.end == np.sin(np.pi / 4) / np.cos(np.pi...   ║
+# ║   ensures:  a.is_valid is None                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tan : Any → {Any | result satisfies: a.start == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34a2f612e8988066  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b13ab7887ce87bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_tan","kind":"function","src_hash":"f3aef58588ac7f9a","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == 0 and a.end == np.sin(np.pi / 4) / np.cos(np.pi / 4) and a.is_valid is None"},"spec":{"lhs":"test_tan()","rhs":"test_tan produces the expected output","over":{"base":"Any"},"name":"test_tan_correct"},"guarantee":"test_tan produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_tan_correct","statement":"Path(test_tan(x), test_tan produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34a2f612e8988066"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_tan","kind":"function","src_hash":"f3aef58588ac7f9a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == 0 and a.end == np.sin(np.pi / 4) / np.cos(np.pi / 4) and a.is_valid is None"},"spec":{"lhs":"test_tan()","rhs":"a.start == 0 and a.end == np.sin(np.pi / 4) / np.cos(np.pi / 4) and a.is_valid is None","over":{"base":"Any"},"name":"test_tan_correct"},"guarantee":"a.start == 0; a.end == np.sin(np.pi / 4) / np.cos(np.pi / 4); a.is_valid is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_tan_correct","statement":"Path(test_tan(x), a.start == 0; a.end == np.sin(np.pi / 4) / np.cos(np.pi / 4); a.is_valid is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b13ab7887ce87bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == 0","a.end == np.sin(np.pi / 4) / np.cos(np.pi / 4)","a.is_valid is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tan():
     a = tan(interval(0, np.pi / 4))
     assert a.start == 0
@@ -282,16 +346,24 @@ def test_tan():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sqrt(), test_sqrt produces the expected output) over Any ║
+# ║ Path(test_sqrt(), a.start == 1 and a.end == 2 and a.start == np.sqrt(0.01) and a.end == 1 and a.is_valid is None and a.is_valid is False and (a == interval(2, 2)) == (True, True)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sqrt : Any → {Any | a.start == 1 and a.end == 2 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == 1                                   ║
+# ║   ensures:  a.end == 2                                     ║
+# ║   ensures:  a.start == np.sqrt(0.01)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sqrt : Any → {Any | result satisfies: a.start ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 180d972dc2267e36  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 891be1d074ab10aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_sqrt","kind":"function","src_hash":"5a5065630b813806","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == 1 and a.end == 2 and a.start == np.sqrt(0.01) and a.end == 1 and a.is_valid is None and a.is_valid is False and (a == interval(2, 2)) == (True, True) and a.is_valid is False"},"spec":{"lhs":"test_sqrt()","rhs":"test_sqrt produces the expected output","over":{"base":"Any"},"name":"test_sqrt_correct"},"guarantee":"test_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_sqrt_correct","statement":"Path(test_sqrt(x), test_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"180d972dc2267e36"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_sqrt","kind":"function","src_hash":"5a5065630b813806","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == 1 and a.end == 2 and a.start == np.sqrt(0.01) and a.end == 1 and a.is_valid is None and a.is_valid is False and (a == interval(2, 2)) == (True, True)"},"spec":{"lhs":"test_sqrt()","rhs":"a.start == 1 and a.end == 2 and a.start == np.sqrt(0.01) and a.end == 1 and a.is_valid is None and a.is_valid is False and (a == interval(2, 2)) == (True, True)","over":{"base":"Any"},"name":"test_sqrt_correct"},"guarantee":"a.start == 1; a.end == 2; a.start == np.sqrt(0.01)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_sqrt_correct","statement":"Path(test_sqrt(x), a.start == 1; a.end == 2; a.start == np.sqrt(0.01))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"891be1d074ab10aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == 1","a.end == 2","a.start == np.sqrt(0.01)","a.end == 1","a.is_valid is None","a.is_valid is False","(a == interval(2, 2)) == (True, True)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sqrt():
     a = sqrt(interval(1, 4))
     assert a.start == 1
@@ -315,16 +387,24 @@ def test_sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_imin(), test_imin produces the expected output) over Any ║
+# ║ Path(test_imin(), a.start == -1 and a.end == 3 and a.start == -2 and a.end == -2 and a.start == 3 and a.end == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_imin : Any → {Any | a.start == -1 and a.end == 3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == -1                                  ║
+# ║   ensures:  a.end == 3                                     ║
+# ║   ensures:  a.start == -2                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_imin : Any → {Any | result satisfies: a.start ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63f89350cd488f9f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd49f743be02e894  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_imin","kind":"function","src_hash":"1a50ae9d73cb0cd6","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == -1 and a.end == 3 and a.start == -2 and a.end == -2 and a.start == 3 and a.end == 4"},"spec":{"lhs":"test_imin()","rhs":"test_imin produces the expected output","over":{"base":"Any"},"name":"test_imin_correct"},"guarantee":"test_imin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_imin_correct","statement":"Path(test_imin(x), test_imin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63f89350cd488f9f"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_imin","kind":"function","src_hash":"1a50ae9d73cb0cd6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == -1 and a.end == 3 and a.start == -2 and a.end == -2 and a.start == 3 and a.end == 4"},"spec":{"lhs":"test_imin()","rhs":"a.start == -1 and a.end == 3 and a.start == -2 and a.end == -2 and a.start == 3 and a.end == 4","over":{"base":"Any"},"name":"test_imin_correct"},"guarantee":"a.start == -1; a.end == 3; a.start == -2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_imin_correct","statement":"Path(test_imin(x), a.start == -1; a.end == 3; a.start == -2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd49f743be02e894","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == -1","a.end == 3","a.start == -2","a.end == -2","a.start == 3","a.end == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_imin():
     a = imin(interval(1, 3), interval(2, 5), interval(-1, 3))
     assert a.start == -1
@@ -340,16 +420,24 @@ def test_imin():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_imax(), test_imax produces the expected output) over Any ║
+# ║ Path(test_imax(), a.start == 2 and a.end == 9 and a.start == 8 and a.end == 8 and a.start == 3 and a.end == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_imax : Any → {Any | a.start == 2 and a.end == 9 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == 2                                   ║
+# ║   ensures:  a.end == 9                                     ║
+# ║   ensures:  a.start == 8                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_imax : Any → {Any | result satisfies: a.start ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89b01f35940df4a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ea2d510abf4b2a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_imax","kind":"function","src_hash":"3ca9830cb5981018","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == 2 and a.end == 9 and a.start == 8 and a.end == 8 and a.start == 3 and a.end == 4"},"spec":{"lhs":"test_imax()","rhs":"test_imax produces the expected output","over":{"base":"Any"},"name":"test_imax_correct"},"guarantee":"test_imax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_imax_correct","statement":"Path(test_imax(x), test_imax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89b01f35940df4a3"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_imax","kind":"function","src_hash":"3ca9830cb5981018","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == 2 and a.end == 9 and a.start == 8 and a.end == 8 and a.start == 3 and a.end == 4"},"spec":{"lhs":"test_imax()","rhs":"a.start == 2 and a.end == 9 and a.start == 8 and a.end == 8 and a.start == 3 and a.end == 4","over":{"base":"Any"},"name":"test_imax_correct"},"guarantee":"a.start == 2; a.end == 9; a.start == 8","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_imax_correct","statement":"Path(test_imax(x), a.start == 2; a.end == 9; a.start == 8)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ea2d510abf4b2a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == 2","a.end == 9","a.start == 8","a.end == 8","a.start == 3","a.end == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_imax():
     a = imax(interval(-2, 2), interval(2, 7), interval(-3, 9))
     assert a.start == 2
@@ -365,16 +453,24 @@ def test_imax():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sinh(), test_sinh produces the expected output) over Any ║
+# ║ Path(test_sinh(), a.start == np.sinh(-1) and a.end == np.sinh(1) and a.start == np.sinh(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sinh : Any → {Any | a.start == np.sinh(-1) and a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == np.sinh(-1)                         ║
+# ║   ensures:  a.end == np.sinh(1)                            ║
+# ║   ensures:  a.start == np.sinh(1)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sinh : Any → {Any | result satisfies: a.start ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d98bc1668880bf8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0c3eda1daf5e72b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_sinh","kind":"function","src_hash":"a94f85f8a46a2088","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == np.sinh(-1) and a.end == np.sinh(1) and a.start == np.sinh(1) and a.end == np.sinh(1)"},"spec":{"lhs":"test_sinh()","rhs":"test_sinh produces the expected output","over":{"base":"Any"},"name":"test_sinh_correct"},"guarantee":"test_sinh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_sinh_correct","statement":"Path(test_sinh(x), test_sinh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d98bc1668880bf8"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_sinh","kind":"function","src_hash":"a94f85f8a46a2088","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == np.sinh(-1) and a.end == np.sinh(1) and a.start == np.sinh(1)"},"spec":{"lhs":"test_sinh()","rhs":"a.start == np.sinh(-1) and a.end == np.sinh(1) and a.start == np.sinh(1)","over":{"base":"Any"},"name":"test_sinh_correct"},"guarantee":"a.start == np.sinh(-1); a.end == np.sinh(1); a.start == np.sinh(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_sinh_correct","statement":"Path(test_sinh(x), a.start == np.sinh(-1); a.end == np.sinh(1); a.start == np.sinh(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0c3eda1daf5e72b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == np.sinh(-1)","a.end == np.sinh(1)","a.start == np.sinh(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sinh():
     a = sinh(interval(-1, 1))
     assert a.start == np.sinh(-1)
@@ -386,16 +482,24 @@ def test_sinh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cosh(), test_cosh produces the expected output) over Any ║
+# ║ Path(test_cosh(), a.start == np.cosh(1) and a.end == np.cosh(2) and a.start == np.cosh(-1) and a.end == np.cosh(-2) and a.start == 1 and a.end == np.cosh(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cosh : Any → {Any | a.start == np.cosh(1) and a....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == np.cosh(1)                          ║
+# ║   ensures:  a.end == np.cosh(2)                            ║
+# ║   ensures:  a.start == np.cosh(-1)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cosh : Any → {Any | result satisfies: a.start ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b1525f7b3d05d40  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de29621805b69cba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_cosh","kind":"function","src_hash":"b805552e537cdba7","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == np.cosh(1) and a.end == np.cosh(2) and a.start == np.cosh(-1) and a.end == np.cosh(-2) and a.start == 1 and a.end == np.cosh(-2) and a.start == np.cosh(1) and a.end == np.cosh(1)"},"spec":{"lhs":"test_cosh()","rhs":"test_cosh produces the expected output","over":{"base":"Any"},"name":"test_cosh_correct"},"guarantee":"test_cosh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_cosh_correct","statement":"Path(test_cosh(x), test_cosh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b1525f7b3d05d40"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_cosh","kind":"function","src_hash":"b805552e537cdba7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == np.cosh(1) and a.end == np.cosh(2) and a.start == np.cosh(-1) and a.end == np.cosh(-2) and a.start == 1 and a.end == np.cosh(1)"},"spec":{"lhs":"test_cosh()","rhs":"a.start == np.cosh(1) and a.end == np.cosh(2) and a.start == np.cosh(-1) and a.end == np.cosh(-2) and a.start == 1 and a.end == np.cosh(1)","over":{"base":"Any"},"name":"test_cosh_correct"},"guarantee":"a.start == np.cosh(1); a.end == np.cosh(2); a.start == np.cosh(-1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_cosh_correct","statement":"Path(test_cosh(x), a.start == np.cosh(1); a.end == np.cosh(2); a.start == np.cosh(-1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de29621805b69cba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == np.cosh(1)","a.end == np.cosh(2)","a.start == np.cosh(-1)","a.end == np.cosh(-2)","a.start == 1","a.end == np.cosh(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_cosh():
     a = cosh(interval(1, 2))
     assert a.start == np.cosh(1)
@@ -414,16 +518,24 @@ def test_cosh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tanh(), test_tanh produces the expected output) over Any ║
+# ║ Path(test_tanh(), a.start == np.tanh(-3) and a.end == np.tanh(3) and a.start == np.tanh(3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tanh : Any → {Any | a.start == np.tanh(-3) and a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == np.tanh(-3)                         ║
+# ║   ensures:  a.end == np.tanh(3)                            ║
+# ║   ensures:  a.start == np.tanh(3)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tanh : Any → {Any | result satisfies: a.start ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f54ae8f882e431e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b365d480dcd6a462  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_tanh","kind":"function","src_hash":"3b2adb00256c7b1d","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == np.tanh(-3) and a.end == np.tanh(3) and a.start == np.tanh(3) and a.end == np.tanh(3)"},"spec":{"lhs":"test_tanh()","rhs":"test_tanh produces the expected output","over":{"base":"Any"},"name":"test_tanh_correct"},"guarantee":"test_tanh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_tanh_correct","statement":"Path(test_tanh(x), test_tanh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f54ae8f882e431e"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_tanh","kind":"function","src_hash":"3b2adb00256c7b1d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == np.tanh(-3) and a.end == np.tanh(3) and a.start == np.tanh(3)"},"spec":{"lhs":"test_tanh()","rhs":"a.start == np.tanh(-3) and a.end == np.tanh(3) and a.start == np.tanh(3)","over":{"base":"Any"},"name":"test_tanh_correct"},"guarantee":"a.start == np.tanh(-3); a.end == np.tanh(3); a.start == np.tanh(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_tanh_correct","statement":"Path(test_tanh(x), a.start == np.tanh(-3); a.end == np.tanh(3); a.start == np.tanh(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b365d480dcd6a462","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == np.tanh(-3)","a.end == np.tanh(3)","a.start == np.tanh(3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tanh():
     a = tanh(interval(-3, 3))
     assert a.start == np.tanh(-3)
@@ -435,16 +547,24 @@ def test_tanh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_asin(), test_asin produces the expected output) over Any ║
+# ║ Path(test_asin(), a.start == np.arcsin(-0.5) and a.end == np.arcsin(0.5) and a.is_valid is None and a.is_valid is False and a.start == np.arcsin(0.5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_asin : Any → {Any | a.start == np.arcsin(-0.5) a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == np.arcsin(-0.5)                     ║
+# ║   ensures:  a.end == np.arcsin(0.5)                        ║
+# ║   ensures:  a.is_valid is None                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_asin : Any → {Any | result satisfies: a.start ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dc2c4c13917f8ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 340ff5a77d8fbe48  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_asin","kind":"function","src_hash":"3a5c2a148f36f7c5","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == np.arcsin(-0.5) and a.end == np.arcsin(0.5) and a.is_valid is None and a.is_valid is False and a.is_valid is None and a.is_valid is False and a.start == np.arcsin(0.5) and a.end == np.arcsin(0.5) and a.is_valid is False"},"spec":{"lhs":"test_asin()","rhs":"test_asin produces the expected output","over":{"base":"Any"},"name":"test_asin_correct"},"guarantee":"test_asin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_asin_correct","statement":"Path(test_asin(x), test_asin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dc2c4c13917f8ea"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_asin","kind":"function","src_hash":"3a5c2a148f36f7c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == np.arcsin(-0.5) and a.end == np.arcsin(0.5) and a.is_valid is None and a.is_valid is False and a.start == np.arcsin(0.5)"},"spec":{"lhs":"test_asin()","rhs":"a.start == np.arcsin(-0.5) and a.end == np.arcsin(0.5) and a.is_valid is None and a.is_valid is False and a.start == np.arcsin(0.5)","over":{"base":"Any"},"name":"test_asin_correct"},"guarantee":"a.start == np.arcsin(-0.5); a.end == np.arcsin(0.5); a.is_valid is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_asin_correct","statement":"Path(test_asin(x), a.start == np.arcsin(-0.5); a.end == np.arcsin(0.5); a.is_valid is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"340ff5a77d8fbe48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == np.arcsin(-0.5)","a.end == np.arcsin(0.5)","a.is_valid is None","a.is_valid is False","a.start == np.arcsin(0.5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_asin():
     a = asin(interval(-0.5, 0.5))
     assert a.start == np.arcsin(-0.5)
@@ -470,16 +590,24 @@ def test_asin():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_acos(), test_acos produces the expected output) over Any ║
+# ║ Path(test_acos(), a.start == np.arccos(0.5) and a.end == np.arccos(-0.5) and a.is_valid is None and a.is_valid is False and a.end == np.arccos(0.5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_acos : Any → {Any | a.start == np.arccos(0.5) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == np.arccos(0.5)                      ║
+# ║   ensures:  a.end == np.arccos(-0.5)                       ║
+# ║   ensures:  a.is_valid is None                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_acos : Any → {Any | result satisfies: a.start ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 398d674474d9354b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71548fb2c57e83c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_acos","kind":"function","src_hash":"49cb1e44d769740b","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == np.arccos(0.5) and a.end == np.arccos(-0.5) and a.is_valid is None and a.is_valid is False and a.is_valid is None and a.is_valid is False and a.start == np.arccos(0.5) and a.end == np.arccos(0.5) and a.is_valid is False"},"spec":{"lhs":"test_acos()","rhs":"test_acos produces the expected output","over":{"base":"Any"},"name":"test_acos_correct"},"guarantee":"test_acos produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_acos_correct","statement":"Path(test_acos(x), test_acos produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"398d674474d9354b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_acos","kind":"function","src_hash":"49cb1e44d769740b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == np.arccos(0.5) and a.end == np.arccos(-0.5) and a.is_valid is None and a.is_valid is False and a.end == np.arccos(0.5)"},"spec":{"lhs":"test_acos()","rhs":"a.start == np.arccos(0.5) and a.end == np.arccos(-0.5) and a.is_valid is None and a.is_valid is False and a.end == np.arccos(0.5)","over":{"base":"Any"},"name":"test_acos_correct"},"guarantee":"a.start == np.arccos(0.5); a.end == np.arccos(-0.5); a.is_valid is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_acos_correct","statement":"Path(test_acos(x), a.start == np.arccos(0.5); a.end == np.arccos(-0.5); a.is_valid is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71548fb2c57e83c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == np.arccos(0.5)","a.end == np.arccos(-0.5)","a.is_valid is None","a.is_valid is False","a.end == np.arccos(0.5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_acos():
     a = acos(interval(-0.5, 0.5))
     assert a.start == np.arccos(0.5)
@@ -505,16 +633,24 @@ def test_acos():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ceil(), test_ceil produces the expected output) over Any ║
+# ║ Path(test_ceil(), a.start == 1 and a.end == 1 and a.end == 2 and a.is_valid is None and a.start == 6 and a.end == 6) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ceil : Any → {Any | a.start == 1 and a.end == 1 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == 1                                   ║
+# ║   ensures:  a.end == 1                                     ║
+# ║   ensures:  a.end == 2                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ceil : Any → {Any | result satisfies: a.start ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 755d3f69f06e10bb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d76a5bbaf725ed02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_ceil","kind":"function","src_hash":"d95ed38297928a85","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == 1 and a.end == 1 and a.start == 1 and a.end == 2 and a.is_valid is None and a.is_valid is None and a.start == 6 and a.end == 6"},"spec":{"lhs":"test_ceil()","rhs":"test_ceil produces the expected output","over":{"base":"Any"},"name":"test_ceil_correct"},"guarantee":"test_ceil produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_ceil_correct","statement":"Path(test_ceil(x), test_ceil produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"755d3f69f06e10bb"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_ceil","kind":"function","src_hash":"d95ed38297928a85","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == 1 and a.end == 1 and a.end == 2 and a.is_valid is None and a.start == 6 and a.end == 6"},"spec":{"lhs":"test_ceil()","rhs":"a.start == 1 and a.end == 1 and a.end == 2 and a.is_valid is None and a.start == 6 and a.end == 6","over":{"base":"Any"},"name":"test_ceil_correct"},"guarantee":"a.start == 1; a.end == 1; a.end == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_ceil_correct","statement":"Path(test_ceil(x), a.start == 1; a.end == 1; a.end == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d76a5bbaf725ed02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == 1","a.end == 1","a.end == 2","a.is_valid is None","a.start == 6","a.end == 6"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ceil():
     a = ceil(interval(0.2, 0.5))
     assert a.start == 1
@@ -534,16 +670,24 @@ def test_ceil():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_floor(), test_floor produces the expected output) over Any ║
+# ║ Path(test_floor(), a.start == 0 and a.end == 0 and a.end == 1 and a.is_valid is None and a.start == 5 and a.end == 5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_floor : Any → {Any | a.start == 0 and a.end == 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == 0                                   ║
+# ║   ensures:  a.end == 0                                     ║
+# ║   ensures:  a.end == 1                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_floor : Any → {Any | result satisfies: a.start =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eeb7f516d9f01441  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0118fe2eea817458  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_floor","kind":"function","src_hash":"ff19376b7a9c6d4c","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == 0 and a.end == 0 and a.start == 0 and a.end == 1 and a.is_valid is None and a.is_valid is None and a.start == 5 and a.end == 5"},"spec":{"lhs":"test_floor()","rhs":"test_floor produces the expected output","over":{"base":"Any"},"name":"test_floor_correct"},"guarantee":"test_floor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_floor_correct","statement":"Path(test_floor(x), test_floor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eeb7f516d9f01441"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_floor","kind":"function","src_hash":"ff19376b7a9c6d4c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == 0 and a.end == 0 and a.end == 1 and a.is_valid is None and a.start == 5 and a.end == 5"},"spec":{"lhs":"test_floor()","rhs":"a.start == 0 and a.end == 0 and a.end == 1 and a.is_valid is None and a.start == 5 and a.end == 5","over":{"base":"Any"},"name":"test_floor_correct"},"guarantee":"a.start == 0; a.end == 0; a.end == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_floor_correct","statement":"Path(test_floor(x), a.start == 0; a.end == 0; a.end == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0118fe2eea817458","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == 0","a.end == 0","a.end == 1","a.is_valid is None","a.start == 5","a.end == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_floor():
     a = floor(interval(0.2, 0.5))
     assert a.start == 0
@@ -563,16 +707,24 @@ def test_floor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_asinh(), test_asinh produces the expected output) over Any ║
+# ║ Path(test_asinh(), a.start == np.arcsinh(1) and a.end == np.arcsinh(2) and a.start == np.arcsinh(0.5) and a.end == np.arcsinh(0.5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_asinh : Any → {Any | a.start == np.arcsinh(1) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == np.arcsinh(1)                       ║
+# ║   ensures:  a.end == np.arcsinh(2)                         ║
+# ║   ensures:  a.start == np.arcsinh(0.5)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_asinh : Any → {Any | result satisfies: a.start =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26c142a298f6e87d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 046dcd364656f8bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_asinh","kind":"function","src_hash":"4b65bfef92dc7151","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == np.arcsinh(1) and a.end == np.arcsinh(2) and a.start == np.arcsinh(0.5) and a.end == np.arcsinh(0.5)"},"spec":{"lhs":"test_asinh()","rhs":"test_asinh produces the expected output","over":{"base":"Any"},"name":"test_asinh_correct"},"guarantee":"test_asinh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_asinh_correct","statement":"Path(test_asinh(x), test_asinh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26c142a298f6e87d"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_asinh","kind":"function","src_hash":"4b65bfef92dc7151","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == np.arcsinh(1) and a.end == np.arcsinh(2) and a.start == np.arcsinh(0.5) and a.end == np.arcsinh(0.5)"},"spec":{"lhs":"test_asinh()","rhs":"a.start == np.arcsinh(1) and a.end == np.arcsinh(2) and a.start == np.arcsinh(0.5) and a.end == np.arcsinh(0.5)","over":{"base":"Any"},"name":"test_asinh_correct"},"guarantee":"a.start == np.arcsinh(1); a.end == np.arcsinh(2); a.start == np.arcsinh(0.5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_asinh_correct","statement":"Path(test_asinh(x), a.start == np.arcsinh(1); a.end == np.arcsinh(2); a.start == np.arcsinh(0.5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"046dcd364656f8bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == np.arcsinh(1)","a.end == np.arcsinh(2)","a.start == np.arcsinh(0.5)","a.end == np.arcsinh(0.5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_asinh():
     a = asinh(interval(1, 2))
     assert a.start == np.arcsinh(1)
@@ -584,16 +736,24 @@ def test_asinh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_acosh(), test_acosh produces the expected output) over Any ║
+# ║ Path(test_acosh(), a.start == np.arccosh(3) and a.end == np.arccosh(5) and a.is_valid is None and a.is_valid is False and a.start == np.arccosh(2) and a.end == np.arccosh(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_acosh : Any → {Any | a.start == np.arccosh(3) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == np.arccosh(3)                       ║
+# ║   ensures:  a.end == np.arccosh(5)                         ║
+# ║   ensures:  a.is_valid is None                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_acosh : Any → {Any | result satisfies: a.start =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5220e7eb6cc9ceaf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5161c2aebb8d7da5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_acosh","kind":"function","src_hash":"aa337238e0c5cf47","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == np.arccosh(3) and a.end == np.arccosh(5) and a.is_valid is None and a.is_valid is False and a.is_valid is False and a.start == np.arccosh(2) and a.end == np.arccosh(2)"},"spec":{"lhs":"test_acosh()","rhs":"test_acosh produces the expected output","over":{"base":"Any"},"name":"test_acosh_correct"},"guarantee":"test_acosh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_acosh_correct","statement":"Path(test_acosh(x), test_acosh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5220e7eb6cc9ceaf"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_acosh","kind":"function","src_hash":"aa337238e0c5cf47","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == np.arccosh(3) and a.end == np.arccosh(5) and a.is_valid is None and a.is_valid is False and a.start == np.arccosh(2) and a.end == np.arccosh(2)"},"spec":{"lhs":"test_acosh()","rhs":"a.start == np.arccosh(3) and a.end == np.arccosh(5) and a.is_valid is None and a.is_valid is False and a.start == np.arccosh(2) and a.end == np.arccosh(2)","over":{"base":"Any"},"name":"test_acosh_correct"},"guarantee":"a.start == np.arccosh(3); a.end == np.arccosh(5); a.is_valid is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_acosh_correct","statement":"Path(test_acosh(x), a.start == np.arccosh(3); a.end == np.arccosh(5); a.is_valid is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5161c2aebb8d7da5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == np.arccosh(3)","a.end == np.arccosh(5)","a.is_valid is None","a.is_valid is False","a.start == np.arccosh(2)","a.end == np.arccosh(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_acosh():
     a = acosh(interval(3, 5))
     assert a.start == np.arccosh(3)
@@ -613,16 +773,24 @@ def test_acosh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_atanh(), test_atanh produces the expected output) over Any ║
+# ║ Path(test_atanh(), a.start == np.arctanh(-0.5) and a.end == np.arctanh(0.5) and a.is_valid is None and a.is_valid is False and a.start == np.arctanh(0.5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_atanh : Any → {Any | a.start == np.arctanh(-0.5)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.start == np.arctanh(-0.5)                    ║
+# ║   ensures:  a.end == np.arctanh(0.5)                       ║
+# ║   ensures:  a.is_valid is None                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_atanh : Any → {Any | result satisfies: a.start =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c09de35889671fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a5b1be1a5b18191  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_atanh","kind":"function","src_hash":"4a3f1a09bd43c5c1","in":{"base":"Any"},"out":{"base":"Any","pred":"a.start == np.arctanh(-0.5) and a.end == np.arctanh(0.5) and a.is_valid is None and a.is_valid is False and a.start == np.arctanh(0.5) and a.end == np.arctanh(0.5) and a.is_valid is False"},"spec":{"lhs":"test_atanh()","rhs":"test_atanh produces the expected output","over":{"base":"Any"},"name":"test_atanh_correct"},"guarantee":"test_atanh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_atanh_correct","statement":"Path(test_atanh(x), test_atanh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c09de35889671fb"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_atanh","kind":"function","src_hash":"4a3f1a09bd43c5c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.start == np.arctanh(-0.5) and a.end == np.arctanh(0.5) and a.is_valid is None and a.is_valid is False and a.start == np.arctanh(0.5)"},"spec":{"lhs":"test_atanh()","rhs":"a.start == np.arctanh(-0.5) and a.end == np.arctanh(0.5) and a.is_valid is None and a.is_valid is False and a.start == np.arctanh(0.5)","over":{"base":"Any"},"name":"test_atanh_correct"},"guarantee":"a.start == np.arctanh(-0.5); a.end == np.arctanh(0.5); a.is_valid is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_atanh_correct","statement":"Path(test_atanh(x), a.start == np.arctanh(-0.5); a.end == np.arctanh(0.5); a.is_valid is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a5b1be1a5b18191","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.start == np.arctanh(-0.5)","a.end == np.arctanh(0.5)","a.is_valid is None","a.is_valid is False","a.start == np.arctanh(0.5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_atanh():
     a = atanh(interval(-0.5, 0.5))
     assert a.start == np.arctanh(-0.5)
@@ -643,16 +811,24 @@ def test_atanh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Abs(), test_Abs produces the expected output) over Any ║
+# ║ Path(test_Abs(), (Abs(interval(-0.5, 0.5)) == interval(0, 0.5)) == (True, True) and (Abs(interval(-3, -2)) == interval(2, 3)) == (True, True) and (Abs(-3) == interval(3, 3)) == (True, True)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Abs : Any → {Any | (Abs(interval(-0.5, 0.5)) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (Abs(interval(-0.5, 0.5)) == interval(0, ...   ║
+# ║   ensures:  (Abs(interval(-3, -2)) == interval(2, 3))...   ║
+# ║   ensures:  (Abs(-3) == interval(3, 3)) == (True, True)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Abs : Any → {Any | result satisfies: (Abs(interv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e251da5a042a8946  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e85d41a1d590c291  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_Abs","kind":"function","src_hash":"c01b6f2f10ad602f","in":{"base":"Any"},"out":{"base":"Any","pred":"(Abs(interval(-0.5, 0.5)) == interval(0, 0.5)) == (True, True) and (Abs(interval(-3, -2)) == interval(2, 3)) == (True, True) and (Abs(-3) == interval(3, 3)) == (True, True)"},"spec":{"lhs":"test_Abs()","rhs":"test_Abs produces the expected output","over":{"base":"Any"},"name":"test_Abs_correct"},"guarantee":"test_Abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_Abs_correct","statement":"Path(test_Abs(x), test_Abs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e251da5a042a8946"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_Abs","kind":"function","src_hash":"c01b6f2f10ad602f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (Abs(interval(-0.5, 0.5)) == interval(0, 0.5)) == (True, True) and (Abs(interval(-3, -2)) == interval(2, 3)) == (True, True) and (Abs(-3) == interval(3, 3)) == (True, True)"},"spec":{"lhs":"test_Abs()","rhs":"(Abs(interval(-0.5, 0.5)) == interval(0, 0.5)) == (True, True) and (Abs(interval(-3, -2)) == interval(2, 3)) == (True, True) and (Abs(-3) == interval(3, 3)) == (True, True)","over":{"base":"Any"},"name":"test_Abs_correct"},"guarantee":"(Abs(interval(-0.5, 0.5)) == interval(0, 0.5)) == (True, True); (Abs(interval(-3, -2)) == interval(2, 3)) == (True, True); (Abs(-3) == interval(3, 3)) == (True, True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_Abs_correct","statement":"Path(test_Abs(x), (Abs(interval(-0.5, 0.5)) == interval(0, 0.5)) == (True, True); (Abs(interval(-3, -2)) == interval(2, 3)) == (True, True); (Abs(-3) == interval(3, 3)) == (True, True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e85d41a1d590c291","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(Abs(interval(-0.5, 0.5)) == interval(0, 0.5)) == (True, True)","(Abs(interval(-3, -2)) == interval(2, 3)) == (True, True)","(Abs(-3) == interval(3, 3)) == (True, True)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Abs():
     assert (Abs(interval(-0.5, 0.5)) == interval(0, 0.5)) == (True, True)
     assert (Abs(interval(-3, -2)) == interval(2, 3)) == (True, True)
@@ -660,16 +836,23 @@ def test_Abs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_And(), test_And produces the expected output) over Any ║
+# ║ Path(test_And(), And(*args) == (True, False) and And(*args) == (False, None)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_And : Any → {Any | And(*args) == (True, False) a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  And(*args) == (True, False)                    ║
+# ║   ensures:  And(*args) == (False, None)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_And : Any → {Any | result satisfies: And(*args) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7275d7c095e9127  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c13e20aa8ed4f49b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_And","kind":"function","src_hash":"70e76c9bee1127c2","in":{"base":"Any"},"out":{"base":"Any","pred":"And(*args) == (True, False) and And(*args) == (False, None)"},"spec":{"lhs":"test_And()","rhs":"test_And produces the expected output","over":{"base":"Any"},"name":"test_And_correct"},"guarantee":"test_And produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_And_correct","statement":"Path(test_And(x), test_And produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7275d7c095e9127"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_And","kind":"function","src_hash":"70e76c9bee1127c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: And(*args) == (True, False) and And(*args) == (False, None)"},"spec":{"lhs":"test_And()","rhs":"And(*args) == (True, False) and And(*args) == (False, None)","over":{"base":"Any"},"name":"test_And_correct"},"guarantee":"And(*args) == (True, False); And(*args) == (False, None)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_And_correct","statement":"Path(test_And(x), And(*args) == (True, False); And(*args) == (False, None))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c13e20aa8ed4f49b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["And(*args) == (True, False)","And(*args) == (False, None)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_And():
     args = [(True, True), (True, False), (True, None)]
     assert And(*args) == (True, False)
@@ -679,16 +862,23 @@ def test_And():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Or(), test_Or produces the expected output) over Any ║
+# ║ Path(test_Or(), Or(*args) == (True, True) and Or(*args) == (None, None)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Or : Any → {Any | Or(*args) == (True, True) and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Or(*args) == (True, True)                      ║
+# ║   ensures:  Or(*args) == (None, None)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Or : Any → {Any | result satisfies: Or(*args) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 600a912239d865af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ee7758ed3ad9cd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_Or","kind":"function","src_hash":"20c08be826764205","in":{"base":"Any"},"out":{"base":"Any","pred":"Or(*args) == (True, True) and Or(*args) == (None, None)"},"spec":{"lhs":"test_Or()","rhs":"test_Or produces the expected output","over":{"base":"Any"},"name":"test_Or_correct"},"guarantee":"test_Or produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_Or_correct","statement":"Path(test_Or(x), test_Or produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"600a912239d865af"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.tests.test_interval_functions.test_Or","kind":"function","src_hash":"20c08be826764205","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Or(*args) == (True, True) and Or(*args) == (None, None)"},"spec":{"lhs":"test_Or()","rhs":"Or(*args) == (True, True) and Or(*args) == (None, None)","over":{"base":"Any"},"name":"test_Or_correct"},"guarantee":"Or(*args) == (True, True); Or(*args) == (None, None)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.intervalmath.tests.test_interval_functions.test_Or_correct","statement":"Path(test_Or(x), Or(*args) == (True, True); Or(*args) == (None, None))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ee7758ed3ad9cd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Or(*args) == (True, True)","Or(*args) == (None, None)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Or():
     args = [(True, True), (True, False), (False, None)]
     assert Or(*args) == (True, True)

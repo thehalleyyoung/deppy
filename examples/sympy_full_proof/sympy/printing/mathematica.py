@@ -139,14 +139,20 @@ known_functions = {
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MCodePrinter instance) preserved by MCodePrinter(*args) over {Any | isinstance(v, list)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MCodePrinter : {Any | isinstance(v, list)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodePrinter)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MCodePrinter : {Any | isinstance(v, list)} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3a0dfe81e24360b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter","kind":"class","src_hash":"bcaef1651f0db026","in":{"base":"Any","pred":"isinstance(v, list)"},"out":{"base":"Any"},"spec":{"lhs":"MCodePrinter(*args)","rhs":"correctly constructs a MCodePrinter instance","over":{"base":"Any","pred":"isinstance(v, list)"},"name":"MCodePrinter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MCodePrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions')","kind":"class","induction":"structural on known_functions"}],"methods_preserving":["__init__","_format_code","_print_Pow","_print_Mul","_print_Relational","_print_Zero","_print_One","_print_NegativeOne","_print_Half","_print_ImaginaryUnit","_print_Infinity","_print_NegativeInfinity","_print_ComplexInfinity","_print_NaN","_print_Exp1","_print_Pi","_print_GoldenRatio","_print_TribonacciConstant","_print_EulerGamma","_print_Catalan","_print_list","_print_ImmutableDenseMatrix","_print_ImmutableSparseMatrix","_print_ImmutableDenseNDimArray","_print_ImmutableSparseNDimArray","_print_Function","_print_LambertW","_print_atan2","_print_Integral","_print_Sum","_print_Derivative","_get_comment"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3a0dfe81e24360b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter","kind":"class","src_hash":"bcaef1651f0db026","in":{"base":"Any","pred":"isinstance(v, list)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodePrinter)"},"spec":{"lhs":"MCodePrinter(*args)","rhs":"correctly constructs a MCodePrinter instance","over":{"base":"Any","pred":"isinstance(v, list)"},"name":"MCodePrinter_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodePrinter); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions')","kind":"class","induction":"structural on known_functions"}],"methods_preserving":["__init__","_format_code","_print_Pow","_print_Mul","_print_Relational","_print_Zero","_print_One","_print_NegativeOne","_print_Half","_print_ImaginaryUnit","_print_Infinity","_print_NegativeInfinity","_print_ComplexInfinity","_print_NaN","_print_Exp1","_print_Pi","_print_GoldenRatio","_print_TribonacciConstant","_print_EulerGamma","_print_Catalan","_print_list","_print_ImmutableDenseMatrix","_print_ImmutableSparseMatrix","_print_ImmutableDenseNDimArray","_print_ImmutableSparseNDimArray","_print_Function","_print_LambertW","_print_atan2","_print_Integral","_print_Sum","_print_Derivative","_get_comment"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3a0dfe81e24360b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodePrinter)"],"invariants":["hasattr(self, 'known_functions')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function MCodePrinter not found in source"]}}
 class MCodePrinter(CodePrinter):
     """A printer to convert Python expressions to
     strings of the Wolfram's Mathematica code
@@ -163,16 +169,23 @@ class MCodePrinter(CodePrinter):
     _not_supported: set[Basic] = set()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(set), initializes the instance correctly) over Any ║
+# ║ Path(__init__(settings), <unspecified:__init__>) over {Any | hasattr(settings, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(settings, 'get')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(settings, 'get')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 25050444c64a8d4e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter.__init__","kind":"method","src_hash":"f6659890511861a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(set)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25050444c64a8d4e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter.__init__","kind":"method","src_hash":"f6659890511861a4","in":{"base":"Any","pred":"hasattr(settings, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(settings)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(settings, 'get')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25050444c64a8d4e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(settings, 'get')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.known_functions","settings.get"],"writes":["self.known_functions"],"calls_mutating":["self.known_functions.update"]},"state_contract":{"modifies":["self.*","self.known_functions"],"old_bindings":{"old_self_known_functions":"self.known_functions"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, settings={}):
         """Register function mappings supplied by user"""
         CodePrinter.__init__(self, settings)
@@ -184,46 +197,69 @@ class MCodePrinter(CodePrinter):
         self.known_functions.update(userfuncs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_format_code(lin), internal helper behaves correctly) over Any ║
+# ║ Path(_format_code(lines), lines) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _format_code : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == lines                                ║
+# ║   returns:  lines                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _format_code : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 772ed3052d700515           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._format_code","kind":"method","src_hash":"f09c67d4f98f5def","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_format_code(lin)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"772ed3052d700515"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._format_code","kind":"method","src_hash":"f09c67d4f98f5def","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (lines)"},"spec":{"lhs":"_format_code(lines)","rhs":"lines","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"returns lines; result == lines","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"772ed3052d700515","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == lines"],"returns_expr":"lines","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _format_code(self, lines):
         return lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pow(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Pow(expr), '%s^%s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC))) over {Any | hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Pow : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   returns:  '%s^%s' % (self.parenthesize(expr.base, P...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Pow : {Any | hasattr(expr, 'base') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b49658b391f7bec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8346dd8655c7bc4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Pow","kind":"method","src_hash":"a263eb6dd3f30eea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_Pow_correct","statement":"Path(_print_Pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b49658b391f7bec"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Pow","kind":"method","src_hash":"a263eb6dd3f30eea","in":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(expr)","rhs":"'%s^%s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC))","over":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"_print_Pow_correct"},"guarantee":"returns '%s^%s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_Pow_correct","statement":"Path(_print_Pow(x), returns '%s^%s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8346dd8655c7bc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"returns_expr":"'%s^%s' % (self.parenthesize(expr.base, PREC), self.parenthesize(expr.exp, PREC))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pow(self, expr):
         PREC = precedence(expr)
         return '%s^%s' % (self.parenthesize(expr.base, PREC),
                           self.parenthesize(expr.exp, PREC))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Mul(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Mul(expr), <unspecified:_print_Mul>) over {Any | hasattr(expr, 'args_cnc') and hasattr(expr, 'func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Mul : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args_cnc')                      ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Mul : {Any | hasattr(expr, 'args_cnc') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12ca80486ac57df3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Mul","kind":"method","src_hash":"175279cac35bb3bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_Mul_correct","statement":"Path(_print_Mul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12ca80486ac57df3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Mul","kind":"method","src_hash":"175279cac35bb3bb","in":{"base":"Any","pred":"hasattr(expr, 'args_cnc') and hasattr(expr, 'func')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(expr)","rhs":"<unspecified:_print_Mul>","over":{"base":"Any","pred":"hasattr(expr, 'args_cnc') and hasattr(expr, 'func')"},"name":"_print_Mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_Mul_correct","statement":"Path(_print_Mul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12ca80486ac57df3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args_cnc')","hasattr(expr, 'func')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args_cnc","expr.func","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Mul(self, expr):
         PREC = precedence(expr)
         c, nc = expr.args_cnc()
@@ -234,16 +270,25 @@ class MCodePrinter(CodePrinter):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Relational(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Relational(expr), '{} {} {}'.format(lhs_code, op, rhs_code)) over {Any | hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Relational : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'rel_op')                        ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   returns:  '{} {} {}'.format(lhs_code, op, rhs_code)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Relational : {Any | hasattr(expr, 'rel_op') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e39a14bf019df7a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 099f8a304fa82148  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Relational","kind":"method","src_hash":"1c926c8323695775","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Relational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_Relational_correct","statement":"Path(_print_Relational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e39a14bf019df7a3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Relational","kind":"method","src_hash":"1c926c8323695775","in":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(expr)","rhs":"'{} {} {}'.format(lhs_code, op, rhs_code)","over":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"name":"_print_Relational_correct"},"guarantee":"returns '{} {} {}'.format(lhs_code, op, rhs_code)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_Relational_correct","statement":"Path(_print_Relational(x), returns '{} {} {}'.format(lhs_code, op, rhs_code))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"099f8a304fa82148","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'rel_op')","hasattr(expr, 'lhs')","hasattr(expr, 'rhs')"],"returns_expr":"'{} {} {}'.format(lhs_code, op, rhs_code)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.lhs","expr.rel_op","expr.rhs","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Relational(self, expr):
         lhs_code = self._print(expr.lhs)
         rhs_code = self._print(expr.rhs)
@@ -252,263 +297,375 @@ class MCodePrinter(CodePrinter):
 
     # Primitive numbers
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Zero(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Zero(expr), '0') over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '0'                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Zero : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bbeb9ef5b0c01c45           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Zero","kind":"method","src_hash":"ce3f45b73004cb18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Zero(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bbeb9ef5b0c01c45"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Zero","kind":"method","src_hash":"ce3f45b73004cb18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Zero(expr)","rhs":"'0'","over":{"base":"Any"},"name":"_print_Zero_correct"},"guarantee":"returns '0'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bbeb9ef5b0c01c45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'0'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Zero(self, expr):
         return '0'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_One(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_One(expr), '1') over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '1'                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_One : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d7934188cee8889           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_One","kind":"method","src_hash":"a380a7a871af620f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_One(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_One_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d7934188cee8889"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_One","kind":"method","src_hash":"a380a7a871af620f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_One(expr)","rhs":"'1'","over":{"base":"Any"},"name":"_print_One_correct"},"guarantee":"returns '1'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d7934188cee8889","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'1'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_One(self, expr):
         return '1'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NegativeOne(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NegativeOne(expr), '-1') over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '-1'                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_NegativeOne : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df0091c135bcdffb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_NegativeOne","kind":"method","src_hash":"d2d3fc510b79b930","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeOne(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NegativeOne_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df0091c135bcdffb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_NegativeOne","kind":"method","src_hash":"d2d3fc510b79b930","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeOne(expr)","rhs":"'-1'","over":{"base":"Any"},"name":"_print_NegativeOne_correct"},"guarantee":"returns '-1'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df0091c135bcdffb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'-1'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NegativeOne(self, expr):
         return '-1'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Half(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Half(expr), '1/2') over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '1/2'                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Half : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5cf14210a7bad048           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Half","kind":"method","src_hash":"adb44c6e1287931b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Half(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Half_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5cf14210a7bad048"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Half","kind":"method","src_hash":"adb44c6e1287931b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Half(expr)","rhs":"'1/2'","over":{"base":"Any"},"name":"_print_Half_correct"},"guarantee":"returns '1/2'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5cf14210a7bad048","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'1/2'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Half(self, expr):
         return '1/2'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ImaginaryUnit(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ImaginaryUnit(expr), 'I') over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'I'                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_ImaginaryUnit : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96da03a86754d3f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_ImaginaryUnit","kind":"method","src_hash":"600a6cc12a2f80e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImaginaryUnit(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ImaginaryUnit_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96da03a86754d3f2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_ImaginaryUnit","kind":"method","src_hash":"600a6cc12a2f80e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImaginaryUnit(expr)","rhs":"'I'","over":{"base":"Any"},"name":"_print_ImaginaryUnit_correct"},"guarantee":"returns 'I'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96da03a86754d3f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'I'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ImaginaryUnit(self, expr):
         return 'I'
 
 
     # Infinity and invalid numbers
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Infinity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Infinity(expr), 'Infinity') over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Infinity'                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Infinity : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5509d5b760917abe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Infinity","kind":"method","src_hash":"bb4e173ccd03b4e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Infinity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Infinity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5509d5b760917abe"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Infinity","kind":"method","src_hash":"bb4e173ccd03b4e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Infinity(expr)","rhs":"'Infinity'","over":{"base":"Any"},"name":"_print_Infinity_correct"},"guarantee":"returns 'Infinity'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5509d5b760917abe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Infinity'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Infinity(self, expr):
         return 'Infinity'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NegativeInfinity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NegativeInfinity(expr), '-Infinity') over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '-Infinity'                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_NegativeInfinity : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd53e15c9ad31d24           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_NegativeInfinity","kind":"method","src_hash":"7e59bed03102db59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeInfinity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NegativeInfinity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd53e15c9ad31d24"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_NegativeInfinity","kind":"method","src_hash":"7e59bed03102db59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeInfinity(expr)","rhs":"'-Infinity'","over":{"base":"Any"},"name":"_print_NegativeInfinity_correct"},"guarantee":"returns '-Infinity'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd53e15c9ad31d24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'-Infinity'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NegativeInfinity(self, expr):
         return '-Infinity'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ComplexInfinity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ComplexInfinity(expr), 'ComplexInfinity') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'ComplexInfinity'                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_ComplexInfinity : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 515f5e82556a23a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_ComplexInfinity","kind":"method","src_hash":"d6c62322aa51a78c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ComplexInfinity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ComplexInfinity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"515f5e82556a23a8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_ComplexInfinity","kind":"method","src_hash":"d6c62322aa51a78c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ComplexInfinity(expr)","rhs":"'ComplexInfinity'","over":{"base":"Any"},"name":"_print_ComplexInfinity_correct"},"guarantee":"returns 'ComplexInfinity'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"515f5e82556a23a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'ComplexInfinity'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ComplexInfinity(self, expr):
         return 'ComplexInfinity'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NaN(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NaN(expr), 'Indeterminate') over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Indeterminate'                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_NaN : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b0a8ac79ec677f16           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_NaN","kind":"method","src_hash":"d99eceed1236ede1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NaN(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NaN_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0a8ac79ec677f16"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_NaN","kind":"method","src_hash":"d99eceed1236ede1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NaN(expr)","rhs":"'Indeterminate'","over":{"base":"Any"},"name":"_print_NaN_correct"},"guarantee":"returns 'Indeterminate'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0a8ac79ec677f16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Indeterminate'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NaN(self, expr):
         return 'Indeterminate'
 
 
     # Mathematical constants
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Exp1(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Exp1(expr), 'E') over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'E'                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Exp1 : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a239bee87ba4c93           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Exp1","kind":"method","src_hash":"9413f2a512a9ffc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a239bee87ba4c93"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Exp1","kind":"method","src_hash":"9413f2a512a9ffc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(expr)","rhs":"'E'","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"returns 'E'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a239bee87ba4c93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'E'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Exp1(self, expr):
         return 'E'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pi(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Pi(expr), 'Pi') over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Pi'                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Pi : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 346ead65fd8a27e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Pi","kind":"method","src_hash":"b4721e3292b1fc18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pi(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"346ead65fd8a27e9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Pi","kind":"method","src_hash":"b4721e3292b1fc18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pi(expr)","rhs":"'Pi'","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"returns 'Pi'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"346ead65fd8a27e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Pi'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pi(self, expr):
         return 'Pi'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_GoldenRatio(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_GoldenRatio(expr), 'GoldenRatio') over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'GoldenRatio'                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_GoldenRatio : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 17bc43c1b3598043           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_GoldenRatio","kind":"method","src_hash":"834597cad7cd2dd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_GoldenRatio(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_GoldenRatio_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17bc43c1b3598043"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_GoldenRatio","kind":"method","src_hash":"834597cad7cd2dd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_GoldenRatio(expr)","rhs":"'GoldenRatio'","over":{"base":"Any"},"name":"_print_GoldenRatio_correct"},"guarantee":"returns 'GoldenRatio'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17bc43c1b3598043","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'GoldenRatio'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_GoldenRatio(self, expr):
         return 'GoldenRatio'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_TribonacciConstant(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_TribonacciConstant(expr), self.parenthesize(expanded, PREC)) over {Any | hasattr(expr, 'expand')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_TribonacciConstant : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'expand')                        ║
+# ║   returns:  self.parenthesize(expanded, PREC)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_TribonacciConstant : {Any | hasattr(expr, 'exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 307aded06b0d37f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4919ee4cbfa9ca9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_TribonacciConstant","kind":"method","src_hash":"638ed26cb9cc3d4e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_TribonacciConstant(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_TribonacciConstant_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_TribonacciConstant_correct","statement":"Path(_print_TribonacciConstant(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"307aded06b0d37f4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_TribonacciConstant","kind":"method","src_hash":"638ed26cb9cc3d4e","in":{"base":"Any","pred":"hasattr(expr, 'expand')"},"out":{"base":"Any"},"spec":{"lhs":"_print_TribonacciConstant(expr)","rhs":"self.parenthesize(expanded, PREC)","over":{"base":"Any","pred":"hasattr(expr, 'expand')"},"name":"_print_TribonacciConstant_correct"},"guarantee":"returns self.parenthesize(expanded, PREC)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_TribonacciConstant_correct","statement":"Path(_print_TribonacciConstant(x), returns self.parenthesize(expanded, PREC))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4919ee4cbfa9ca9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'expand')"],"returns_expr":"self.parenthesize(expanded, PREC)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expand","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_TribonacciConstant(self, expr):
         expanded = expr.expand(func=True)
         PREC = precedence(expr)
         return self.parenthesize(expanded, PREC)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_EulerGamma(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_EulerGamma(expr), 'EulerGamma') over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'EulerGamma'                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_EulerGamma : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5b3c2a21f0f9341           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_EulerGamma","kind":"method","src_hash":"89e9d1e62dfd18a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_EulerGamma(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_EulerGamma_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5b3c2a21f0f9341"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_EulerGamma","kind":"method","src_hash":"89e9d1e62dfd18a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_EulerGamma(expr)","rhs":"'EulerGamma'","over":{"base":"Any"},"name":"_print_EulerGamma_correct"},"guarantee":"returns 'EulerGamma'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5b3c2a21f0f9341","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'EulerGamma'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_EulerGamma(self, expr):
         return 'EulerGamma'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Catalan(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Catalan(expr), 'Catalan') over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Catalan'                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Catalan : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a05b3bcc139a5909           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Catalan","kind":"method","src_hash":"bb9b1b05b9252b1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Catalan(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Catalan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a05b3bcc139a5909"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Catalan","kind":"method","src_hash":"bb9b1b05b9252b1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Catalan(expr)","rhs":"'Catalan'","over":{"base":"Any"},"name":"_print_Catalan_correct"},"guarantee":"returns 'Catalan'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a05b3bcc139a5909","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Catalan'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Catalan(self, expr):
         return 'Catalan'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_list(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_list(expr), '{' + ', '.join((self.doprint(a) for a in expr)) + '}') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '{' + ', '.join((self.doprint(a) for a in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_list : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b88fb54fe322ce75           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_list","kind":"method","src_hash":"2c693eaf27a6b36b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_list(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b88fb54fe322ce75"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_list","kind":"method","src_hash":"2c693eaf27a6b36b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_list(expr)","rhs":"'{' + ', '.join((self.doprint(a) for a in expr)) + '}'","over":{"base":"Any"},"name":"_print_list_correct"},"guarantee":"returns '{' + ', '.join((self.doprint(a) for a in expr)) + '}'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b88fb54fe322ce75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'{' + ', '.join((self.doprint(a) for a in expr)) + '}'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.doprint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_list(self, expr):
         return '{' + ', '.join(self.doprint(a) for a in expr) + '}'
     _print_tuple = _print_list
     _print_Tuple = _print_list
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ImmutableDenseMatrix(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ImmutableDenseMatrix(expr), self.doprint(expr.tolist())) over {Any | hasattr(expr, 'tolist')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ImmutableDenseMatrix : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'tolist')                        ║
+# ║   returns:  self.doprint(expr.tolist())                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ImmutableDenseMatrix : {Any | hasattr(expr, 't...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d848f32d3315c723           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_ImmutableDenseMatrix","kind":"method","src_hash":"e8fa3e7811b6de42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImmutableDenseMatrix(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ImmutableDenseMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d848f32d3315c723"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_ImmutableDenseMatrix","kind":"method","src_hash":"e8fa3e7811b6de42","in":{"base":"Any","pred":"hasattr(expr, 'tolist')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImmutableDenseMatrix(expr)","rhs":"self.doprint(expr.tolist())","over":{"base":"Any","pred":"hasattr(expr, 'tolist')"},"name":"_print_ImmutableDenseMatrix_correct"},"guarantee":"returns self.doprint(expr.tolist())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d848f32d3315c723","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'tolist')"],"returns_expr":"self.doprint(expr.tolist())","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.tolist","self.doprint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ImmutableDenseMatrix(self, expr):
         return self.doprint(expr.tolist())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ImmutableSparseMatrix(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ImmutableSparseMatrix(expr), <unspecified:_print_ImmutableSparseMatrix>) over {Any | hasattr(expr, 'shape') and hasattr(expr, 'todok')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ImmutableSparseMatrix : Any → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   requires: hasattr(expr, 'todok')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ImmutableSparseMatrix : {Any | hasattr(expr, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4faffd8b3e4c3cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_ImmutableSparseMatrix","kind":"method","src_hash":"a64a58766d3fc501","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImmutableSparseMatrix(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ImmutableSparseMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_ImmutableSparseMatrix_correct","statement":"Path(_print_ImmutableSparseMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4faffd8b3e4c3cf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_ImmutableSparseMatrix","kind":"method","src_hash":"a64a58766d3fc501","in":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, 'todok')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImmutableSparseMatrix(expr)","rhs":"<unspecified:_print_ImmutableSparseMatrix>","over":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, 'todok')"},"name":"_print_ImmutableSparseMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_ImmutableSparseMatrix_correct","statement":"Path(_print_ImmutableSparseMatrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4faffd8b3e4c3cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'shape')","hasattr(expr, 'todok')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape","expr.todok","self.doprint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ImmutableSparseMatrix(self, expr):
 
         def print_rule(pos, val):
@@ -527,30 +684,46 @@ class MCodePrinter(CodePrinter):
         return 'SparseArray[{}, {}]'.format(print_data(), print_dims())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ImmutableDenseNDimArray(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ImmutableDenseNDimArray(expr), self.doprint(expr.tolist())) over {Any | hasattr(expr, 'tolist')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ImmutableDenseNDimArray : Any → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'tolist')                        ║
+# ║   returns:  self.doprint(expr.tolist())                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ImmutableDenseNDimArray : {Any | hasattr(expr,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57b8dd0091a0ec0e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_ImmutableDenseNDimArray","kind":"method","src_hash":"47f5963010477e58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImmutableDenseNDimArray(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ImmutableDenseNDimArray_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57b8dd0091a0ec0e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_ImmutableDenseNDimArray","kind":"method","src_hash":"47f5963010477e58","in":{"base":"Any","pred":"hasattr(expr, 'tolist')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImmutableDenseNDimArray(expr)","rhs":"self.doprint(expr.tolist())","over":{"base":"Any","pred":"hasattr(expr, 'tolist')"},"name":"_print_ImmutableDenseNDimArray_correct"},"guarantee":"returns self.doprint(expr.tolist())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57b8dd0091a0ec0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'tolist')"],"returns_expr":"self.doprint(expr.tolist())","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.tolist","self.doprint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ImmutableDenseNDimArray(self, expr):
         return self.doprint(expr.tolist())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ImmutableSparseNDimArray(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_ImmutableSparseNDimArray(expr), <unspecified:_print_ImmutableSparseNDimArray>) over {Any | hasattr(expr, 'shape') and hasattr(expr, '_get_tuple_index') and hasattr(expr, '_sparse_array')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ImmutableSparseNDimArray : Any → Any                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   requires: hasattr(expr, '_get_tuple_index')              ║
+# ║   requires: hasattr(expr, '_sparse_array')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ImmutableSparseNDimArray : {Any | hasattr(expr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95b1e2642cb66bce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_ImmutableSparseNDimArray","kind":"method","src_hash":"478089a566d9759e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImmutableSparseNDimArray(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ImmutableSparseNDimArray_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_ImmutableSparseNDimArray_correct","statement":"Path(_print_ImmutableSparseNDimArray(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95b1e2642cb66bce"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_ImmutableSparseNDimArray","kind":"method","src_hash":"478089a566d9759e","in":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, '_get_tuple_index') and hasattr(expr, '_sparse_array')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ImmutableSparseNDimArray(expr)","rhs":"<unspecified:_print_ImmutableSparseNDimArray>","over":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, '_get_tuple_index') and hasattr(expr, '_sparse_array')"},"name":"_print_ImmutableSparseNDimArray_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_ImmutableSparseNDimArray_correct","statement":"Path(_print_ImmutableSparseNDimArray(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95b1e2642cb66bce","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'shape')","hasattr(expr, '_get_tuple_index')","hasattr(expr, '_sparse_array')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr._get_tuple_index","expr._sparse_array","expr.shape","self.doprint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ImmutableSparseNDimArray(self, expr):
         def print_string_list(string_list):
             return '{' + ', '.join(a for a in string_list) + '}'
@@ -598,16 +771,25 @@ class MCodePrinter(CodePrinter):
         return 'SparseArray[{}, {}]'.format(print_data(), print_dims())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Function(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Function(expr), <unspecified:_print_Function>) over {Any | hasattr(expr, 'func') and hasattr(expr, 'args') and hasattr(expr, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Function : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'rewrite')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Function : {Any | hasattr(expr, 'func') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1684155ec1285c8c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Function","kind":"method","src_hash":"125071a8defa521b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_Function_correct","statement":"Path(_print_Function(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1684155ec1285c8c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Function","kind":"method","src_hash":"125071a8defa521b","in":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, 'args') and hasattr(expr, 'rewrite')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(expr)","rhs":"<unspecified:_print_Function>","over":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, 'args') and hasattr(expr, 'rewrite')"},"name":"_print_Function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_Function_correct","statement":"Path(_print_Function(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1684155ec1285c8c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'func')","hasattr(expr, 'args')","hasattr(expr, 'rewrite')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.func","expr.rewrite","self._can_print","self._print","self._rewriteable_functions","self.known_functions","self.stringify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Function(self, expr):
         if expr.func.__name__ in self.known_functions:
             cond_mfunc = self.known_functions[expr.func.__name__]
@@ -624,16 +806,23 @@ class MCodePrinter(CodePrinter):
     _print_MinMaxBase = _print_Function
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_LambertW(exp), id) over Any                    ║
+# ║ Path(_print_LambertW(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_LambertW : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_LambertW : {Any | hasattr(expr, 'args')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b5c2e534a66aef85   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_LambertW","kind":"method","src_hash":"2cf7882651b2840d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_LambertW(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_LambertW_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5c2e534a66aef85"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_LambertW","kind":"method","src_hash":"2cf7882651b2840d","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_LambertW(expr)","rhs":"<unspecified:_print_LambertW>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_LambertW_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5c2e534a66aef85","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_LambertW(self, expr):
         if len(expr.args) == 1:
             return "ProductLog[{}]".format(self._print(expr.args[0]))
@@ -641,31 +830,47 @@ class MCodePrinter(CodePrinter):
             self._print(expr.args[1]), self._print(expr.args[0]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_atan2(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_atan2(expr), 'ArcTan[{}, {}]'.format(self._print(expr.args[1]), self._print(expr.args[0]))) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_atan2 : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  'ArcTan[{}, {}]'.format(self._print(expr....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_atan2 : {Any | hasattr(expr, 'args')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d990074a5cd7e07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e15eded60bc51744  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_atan2","kind":"method","src_hash":"75f7acf6e1cfc3f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_atan2(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_atan2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_atan2_correct","statement":"Path(_print_atan2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d990074a5cd7e07"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_atan2","kind":"method","src_hash":"75f7acf6e1cfc3f0","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_atan2(expr)","rhs":"'ArcTan[{}, {}]'.format(self._print(expr.args[1]), self._print(expr.args[0]))","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_atan2_correct"},"guarantee":"returns 'ArcTan[{}, {}]'.format(self._print(expr.args[1]), self._print(expr.args[0]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.mathematica.MCodePrinter._print_atan2_correct","statement":"Path(_print_atan2(x), returns 'ArcTan[{}, {}]'.format(self._print(expr.args[1]), self._print(expr.args[0])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e15eded60bc51744","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'ArcTan[{}, {}]'.format(self._print(expr.args[1]), self._print(expr.args[0]))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_atan2(self, expr):
         return "ArcTan[{}, {}]".format(
             self._print(expr.args[1]), self._print(expr.args[0]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Integral(exp), id) over Any                    ║
+# ║ Path(_print_Integral(expr), id) over {Any | hasattr(expr, 'args') and hasattr(expr, 'variables') and hasattr(expr, 'limits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Integral : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'variables')                     ║
+# ║   requires: hasattr(expr, 'limits')                        ║
+# ║   returns:  'Hold[Integrate[' + ', '.join((self.dopri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Integral : {Any | hasattr(expr, 'args') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | df777862b014c1b6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Integral","kind":"method","src_hash":"d10244278c08bcc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Integral(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Integral_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"doprint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df777862b014c1b6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Integral","kind":"method","src_hash":"d10244278c08bcc6","in":{"base":"Any","pred":"hasattr(expr, 'args') and hasattr(expr, 'variables') and hasattr(expr, 'limits')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Integral(expr)","rhs":"'Hold[Integrate[' + ', '.join((self.doprint(a) for a in args)) + ']]'","over":{"base":"Any","pred":"hasattr(expr, 'args') and hasattr(expr, 'variables') and hasattr(expr, 'limits')"},"name":"_print_Integral_correct","kind":"composition"},"guarantee":"returns 'Hold[Integrate[' + ', '.join((self.doprint(a) for a in args)) + ']]'","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"doprint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df777862b014c1b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')","hasattr(expr, 'variables')","hasattr(expr, 'limits')"],"returns_expr":"'Hold[Integrate[' + ', '.join((self.doprint(a) for a in args)) + ']]'","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.limits","expr.variables","self.doprint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Integral(self, expr):
         if len(expr.variables) == 1 and not expr.limits[0][1:]:
             args = [expr.args[0], expr.variables[0]]
@@ -674,30 +879,45 @@ class MCodePrinter(CodePrinter):
         return "Hold[Integrate[" + ', '.join(self.doprint(a) for a in args) + "]]"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Sum(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Sum(expr), 'Hold[Sum[' + ', '.join((self.doprint(a) for a in expr.args)) + ']]') over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Sum : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  'Hold[Sum[' + ', '.join((self.doprint(a) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Sum : {Any | hasattr(expr, 'args')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8260e0e70e7d5a75           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Sum","kind":"method","src_hash":"7f41254cfd450eae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Sum(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Sum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8260e0e70e7d5a75"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Sum","kind":"method","src_hash":"7f41254cfd450eae","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Sum(expr)","rhs":"'Hold[Sum[' + ', '.join((self.doprint(a) for a in expr.args)) + ']]'","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Sum_correct"},"guarantee":"returns 'Hold[Sum[' + ', '.join((self.doprint(a) for a in expr.args)) + ']]'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8260e0e70e7d5a75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'Hold[Sum[' + ', '.join((self.doprint(a) for a in expr.args)) + ']]'","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self.doprint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Sum(self, expr):
         return "Hold[Sum[" + ', '.join(self.doprint(a) for a in expr.args) + "]]"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Derivative(exp), id) over Any                  ║
+# ║ Path(_print_Derivative(expr), id) over {Any | hasattr(expr, 'expr') and hasattr(expr, 'variable_count')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Derivative : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'variable_count')                ║
+# ║   returns:  'Hold[D[' + ', '.join((self.doprint(a) fo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Derivative : {Any | hasattr(expr, 'expr') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 56256c28068cd4aa   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Derivative","kind":"method","src_hash":"b15914281cd5f090","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Derivative_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"doprint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56256c28068cd4aa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._print_Derivative","kind":"method","src_hash":"b15914281cd5f090","in":{"base":"Any","pred":"hasattr(expr, 'expr') and hasattr(expr, 'variable_count')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(expr)","rhs":"'Hold[D[' + ', '.join((self.doprint(a) for a in [dexpr] + dvars)) + ']]'","over":{"base":"Any","pred":"hasattr(expr, 'expr') and hasattr(expr, 'variable_count')"},"name":"_print_Derivative_correct","kind":"composition"},"guarantee":"returns 'Hold[D[' + ', '.join((self.doprint(a) for a in [dexpr] + dvars)) + ']]'","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"doprint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56256c28068cd4aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'expr')","hasattr(expr, 'variable_count')"],"returns_expr":"'Hold[D[' + ', '.join((self.doprint(a) for a in [dexpr] + dvars)) + ']]'","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.variable_count","self.doprint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Derivative(self, expr):
         dexpr = expr.expr
         dvars = [i[0] if i[1] == 1 else i for i in expr.variable_count]
@@ -705,31 +925,43 @@ class MCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_comment(tex), internal helper behaves correctly) over Any ║
+# ║ Path(_get_comment(text), '(* {} *)'.format(text)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '(* {} *)'.format(text)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_comment : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c96aba0911773bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._get_comment","kind":"method","src_hash":"9906ecbcc38c03a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(tex)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c96aba0911773bd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.MCodePrinter._get_comment","kind":"method","src_hash":"9906ecbcc38c03a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(text)","rhs":"'(* {} *)'.format(text)","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"returns '(* {} *)'.format(text)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c96aba0911773bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'(* {} *)'.format(text)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_comment(self, text):
         return "(* {} *)".format(text)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mathematica_code(exp), converts an expr to a string of the wolfram mathematica code) over Any ║
+# ║ Path(mathematica_code(expr, **settings), MCodePrinter(settings).doprint(expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MCodePrinter(settings).doprint(expr)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mathematica_code : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 000e47b393b8004c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.mathematica_code","kind":"function","src_hash":"98b2d4aeb1701b59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mathematica_code(exp)","rhs":"converts an expr to a string of the wolfram mathematica code","over":{"base":"Any"},"name":"mathematica_code_correct"},"guarantee":"converts an expr to a string of the wolfram mathematica code","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"000e47b393b8004c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.mathematica.mathematica_code","kind":"function","src_hash":"98b2d4aeb1701b59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mathematica_code(expr, **settings)","rhs":"MCodePrinter(settings).doprint(expr)","over":{"base":"Any"},"name":"mathematica_code_correct"},"guarantee":"returns MCodePrinter(settings).doprint(expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"000e47b393b8004c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MCodePrinter(settings).doprint(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**settings']"]}}
 def mathematica_code(expr, **settings):
     r"""Converts an expr to a string of the Wolfram Mathematica code
 

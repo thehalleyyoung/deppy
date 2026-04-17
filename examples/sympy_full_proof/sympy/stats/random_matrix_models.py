@@ -51,16 +51,22 @@ __all__ = [
 
 @is_random.register(RandomMatrixSymbol)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(x), internal helper behaves correctly) over Any     ║
+# ║ Path(_(x), True) over Any                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a8edcc7f5b3f75de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models._","kind":"function","src_hash":"3f722a1541cca3d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8edcc7f5b3f75de"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models._","kind":"function","src_hash":"3f722a1541cca3d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(x)","rhs":"True","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8edcc7f5b3f75de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(x):
     return True
 
@@ -68,14 +74,20 @@ def _(x):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RandomMatrixEnsembleModel(*args), correctly constructs a RandomMatrixEnsembleModel instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RandomMatrixEnsembleModel : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RandomMatrixEnsembleModel : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d03a86dc143b1603  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.RandomMatrixEnsembleModel","kind":"class","src_hash":"3314bc1ede26c624","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RandomMatrixEnsembleModel(*args)","rhs":"correctly constructs a RandomMatrixEnsembleModel instance","over":{"base":"Any"},"name":"RandomMatrixEnsembleModel_class_invariant"},"guarantee":"correctly constructs a RandomMatrixEnsembleModel instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d03a86dc143b1603"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.RandomMatrixEnsembleModel","kind":"class","src_hash":"3314bc1ede26c624","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"RandomMatrixEnsembleModel(*args)","rhs":"correctly constructs a RandomMatrixEnsembleModel instance","over":{"base":"Any"},"name":"RandomMatrixEnsembleModel_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d03a86dc143b1603","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function RandomMatrixEnsembleModel not found in source"]}}
 class RandomMatrixEnsembleModel(Basic):
     """
     Base class for random matrix ensembles.
@@ -84,16 +96,24 @@ class RandomMatrixEnsembleModel(Basic):
     defined in sympy.stats.random_matrix_models.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, sym, dim), Basic.__new__(cls, sym, dim)) over {Any | not (dim.is_integer == False) and hasattr(dim, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (dim.is_integer == False)                  ║
+# ║   requires: hasattr(dim, 'is_integer')                     ║
+# ║   returns:  Basic.__new__(cls, sym, dim)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (dim.is_integer == False) and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2a55a3d86fdd7655           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.RandomMatrixEnsembleModel.__new__","kind":"method","src_hash":"cb534f1d977498c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a55a3d86fdd7655"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.RandomMatrixEnsembleModel.__new__","kind":"method","src_hash":"cb534f1d977498c2","in":{"base":"Any","pred":"not (dim.is_integer == False) and hasattr(dim, 'is_integer')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, sym, dim)","rhs":"Basic.__new__(cls, sym, dim)","over":{"base":"Any","pred":"not (dim.is_integer == False) and hasattr(dim, 'is_integer')"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, sym, dim)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a55a3d86fdd7655","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (dim.is_integer == False)","hasattr(dim, 'is_integer')"],"returns_expr":"Basic.__new__(cls, sym, dim)","pure":false,"effects":{"effect_type":"reads_state","reads":["dim.is_integer"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, sym, dim=None):
         sym, dim = _symbol_converter(sym), _sympify(dim)
         if dim.is_integer == False:
@@ -105,44 +125,62 @@ class RandomMatrixEnsembleModel(Basic):
     dimension = property(lambda self: self.args[1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(density(exp), density produces the expected output) over Any ║
+# ║ Path(density(expr), Density(expr)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Density(expr)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ density : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bcbc71ee52643e9a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.RandomMatrixEnsembleModel.density","kind":"method","src_hash":"b784ea4d53a925ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(exp)","rhs":"density produces the expected output","over":{"base":"Any"},"name":"density_correct"},"guarantee":"density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcbc71ee52643e9a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.RandomMatrixEnsembleModel.density","kind":"method","src_hash":"b784ea4d53a925ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(expr)","rhs":"Density(expr)","over":{"base":"Any"},"name":"density_correct"},"guarantee":"returns Density(expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcbc71ee52643e9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Density(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def density(self, expr):
         return Density(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(exp), correctly applies the callable) over Any ║
+# ║ Path(__call__(expr), self.density(expr)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.density(expr)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 86c46e511619f49f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.RandomMatrixEnsembleModel.__call__","kind":"method","src_hash":"25cf3526d2ed8e7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(exp)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86c46e511619f49f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.RandomMatrixEnsembleModel.__call__","kind":"method","src_hash":"25cf3526d2ed8e7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(expr)","rhs":"self.density(expr)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns self.density(expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86c46e511619f49f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.density(expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.density"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, expr):
         return self.density(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GaussianEnsembleModel(*args), correctly constructs a GaussianEnsembleModel instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GaussianEnsembleModel : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RandomMatrixEnsembleModel)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GaussianEnsembleModel : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bcf9bc887194a335  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianEnsembleModel","kind":"class","src_hash":"d4e9bb5c339c984c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianEnsembleModel(*args)","rhs":"correctly constructs a GaussianEnsembleModel instance","over":{"base":"Any"},"name":"GaussianEnsembleModel_class_invariant"},"guarantee":"correctly constructs a GaussianEnsembleModel instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcf9bc887194a335"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianEnsembleModel","kind":"class","src_hash":"d4e9bb5c339c984c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RandomMatrixEnsembleModel)"},"spec":{"lhs":"GaussianEnsembleModel(*args)","rhs":"correctly constructs a GaussianEnsembleModel instance","over":{"base":"Any"},"name":"GaussianEnsembleModel_class_invariant"},"guarantee":"isinstance(self, RandomMatrixEnsembleModel)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcf9bc887194a335","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RandomMatrixEnsembleModel)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function GaussianEnsembleModel not found in source"]}}
 class GaussianEnsembleModel(RandomMatrixEnsembleModel):
     """
     Abstract class for Gaussian ensembles.
@@ -156,16 +194,22 @@ class GaussianEnsembleModel(RandomMatrixEnsembleModel):
     .. [2] https://arxiv.org/pdf/1712.07903.pdf
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_normalization_constant(bet), helper function for computing normalization constant for joint probability density of eigen values of gaussian ensembles) over Any ║
+# ║ Path(_compute_normalization_constant(beta, n), term1 * term2 * term3) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  term1 * term2 * term3                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compute_normalization_constant : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c9932b556defca4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e923f3514a60ae0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianEnsembleModel._compute_normalization_constant","kind":"method","src_hash":"d8d8ae22e8bb179d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_normalization_constant(bet)","rhs":"helper function for computing normalization constant for joint probability density of eigen values of gaussian ensembles","over":{"base":"Any"},"name":"_compute_normalization_constant_correct"},"guarantee":"helper function for computing normalization constant for joint probability density of eigen values of gaussian ensembles","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianEnsembleModel._compute_normalization_constant_correct","statement":"Path(_compute_normalization_constant(x), helper function for computing normalization constant for joint probability density of eigen values of gaussian ensembles)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c9932b556defca4"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianEnsembleModel._compute_normalization_constant","kind":"method","src_hash":"d8d8ae22e8bb179d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_normalization_constant(beta, n)","rhs":"term1 * term2 * term3","over":{"base":"Any"},"name":"_compute_normalization_constant_correct"},"guarantee":"returns term1 * term2 * term3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianEnsembleModel._compute_normalization_constant_correct","statement":"Path(_compute_normalization_constant(x), returns term1 * term2 * term3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e923f3514a60ae0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"term1 * term2 * term3","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_normalization_constant(self, beta, n):
         """
         Helper function for computing normalization
@@ -186,16 +230,22 @@ class GaussianEnsembleModel(RandomMatrixEnsembleModel):
         return term1 * term2 * term3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_joint_eigen_distribution(bet), id) over Any  ║
+# ║ Path(_compute_joint_eigen_distribution(beta), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(tuple(syms), term1 * term2 / Zbn)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compute_joint_eigen_distribution : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5edd9afac3664a94   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianEnsembleModel._compute_joint_eigen_distribution","kind":"method","src_hash":"687c4b78fe21fb60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_joint_eigen_distribution(bet)","rhs":"helper function for computing the joint probability distribution of eigen values of the random matrix","over":{"base":"Any"},"name":"_compute_joint_eigen_distribution_correct","kind":"composition"},"guarantee":"helper function for computing the joint probability distribution of eigen values of the random matrix","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5edd9afac3664a94"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianEnsembleModel._compute_joint_eigen_distribution","kind":"method","src_hash":"687c4b78fe21fb60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_joint_eigen_distribution(beta)","rhs":"Lambda(tuple(syms), term1 * term2 / Zbn)","over":{"base":"Any"},"name":"_compute_joint_eigen_distribution_correct","kind":"composition"},"guarantee":"returns Lambda(tuple(syms), term1 * term2 / Zbn)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5edd9afac3664a94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(tuple(syms), term1 * term2 / Zbn)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._compute_normalization_constant","self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_joint_eigen_distribution(self, beta):
         """
         Helper function for computing the joint
@@ -217,42 +267,60 @@ class GaussianEnsembleModel(RandomMatrixEnsembleModel):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GaussianUnitaryEnsembleModel(*args), correctly constructs a GaussianUnitaryEnsembleModel instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GaussianUnitaryEnsembleModel : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GaussianEnsembleModel)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GaussianUnitaryEnsembleModel : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c37f3c785d52db88  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianUnitaryEnsembleModel","kind":"class","src_hash":"c8272db1140fd0e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianUnitaryEnsembleModel(*args)","rhs":"correctly constructs a GaussianUnitaryEnsembleModel instance","over":{"base":"Any"},"name":"GaussianUnitaryEnsembleModel_class_invariant"},"guarantee":"correctly constructs a GaussianUnitaryEnsembleModel instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c37f3c785d52db88"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianUnitaryEnsembleModel","kind":"class","src_hash":"c8272db1140fd0e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GaussianEnsembleModel)"},"spec":{"lhs":"GaussianUnitaryEnsembleModel(*args)","rhs":"correctly constructs a GaussianUnitaryEnsembleModel instance","over":{"base":"Any"},"name":"GaussianUnitaryEnsembleModel_class_invariant"},"guarantee":"isinstance(self, GaussianEnsembleModel)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c37f3c785d52db88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GaussianEnsembleModel)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function GaussianUnitaryEnsembleModel not found in source"]}}
 class GaussianUnitaryEnsembleModel(GaussianEnsembleModel):
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normalization_constant(), returns the normalization_constant attribute) over Any ║
+# ║ Path(normalization_constant(), 2 ** (S(n) / 2) * pi ** (S(n ** 2) / 2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 ** (S(n) / 2) * pi ** (S(n ** 2) / 2)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ normalization_constant : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0148387c212e4f43           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianUnitaryEnsembleModel.normalization_constant","kind":"property","src_hash":"fd97395a7856f3a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalization_constant()","rhs":"returns the normalization_constant attribute","over":{"base":"Any"},"name":"normalization_constant_correct"},"guarantee":"returns the normalization_constant attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0148387c212e4f43"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianUnitaryEnsembleModel.normalization_constant","kind":"property","src_hash":"fd97395a7856f3a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalization_constant()","rhs":"2 ** (S(n) / 2) * pi ** (S(n ** 2) / 2)","over":{"base":"Any"},"name":"normalization_constant_correct"},"guarantee":"returns 2 ** (S(n) / 2) * pi ** (S(n ** 2) / 2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0148387c212e4f43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 ** (S(n) / 2) * pi ** (S(n ** 2) / 2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normalization_constant(self):
         n = self.dimension
         return 2**(S(n)/2) * pi**(S(n**2)/2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(density(exp), id) over Any                            ║
+# ║ Path(density(expr), id) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(H, exp(-S(n) / 2 * Trace(H ** 2)) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ density : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a946de730882b972   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianUnitaryEnsembleModel.density","kind":"method","src_hash":"3477f7634735e503","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(exp)","rhs":"density produces the expected output","over":{"base":"Any"},"name":"density_correct","kind":"composition"},"guarantee":"density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"S","by":"library_axiom"},{"fn":"Trace","by":"library_axiom"},{"fn":"ZGUE","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a946de730882b972"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianUnitaryEnsembleModel.density","kind":"method","src_hash":"3477f7634735e503","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(expr)","rhs":"Lambda(H, exp(-S(n) / 2 * Trace(H ** 2)) / ZGUE)(expr)","over":{"base":"Any"},"name":"density_correct","kind":"composition"},"guarantee":"returns Lambda(H, exp(-S(n) / 2 * Trace(H ** 2)) / ZGUE)(expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"S","by":"library_axiom"},{"fn":"Trace","by":"library_axiom"},{"fn":"ZGUE","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a946de730882b972","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(H, exp(-S(n) / 2 * Trace(H ** 2)) / ZGUE)(expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension","self.normalization_constant"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def density(self, expr):
         n, ZGUE = self.dimension, self.normalization_constant
         h_pspace = RandomMatrixPSpace('P', model=self)
@@ -260,30 +328,42 @@ class GaussianUnitaryEnsembleModel(GaussianEnsembleModel):
         return Lambda(H, exp(-S(n)/2 * Trace(H**2))/ZGUE)(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(joint_eigen_distribution(), joint_eigen_distribution produces the expected output) over Any ║
+# ║ Path(joint_eigen_distribution(), self._compute_joint_eigen_distribution(S(2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._compute_joint_eigen_distribution(S(2))   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ joint_eigen_distribution : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5c4afbc541ef6793           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianUnitaryEnsembleModel.joint_eigen_distribution","kind":"method","src_hash":"641053219c4d22de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution()","rhs":"joint_eigen_distribution produces the expected output","over":{"base":"Any"},"name":"joint_eigen_distribution_correct"},"guarantee":"joint_eigen_distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c4afbc541ef6793"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianUnitaryEnsembleModel.joint_eigen_distribution","kind":"method","src_hash":"641053219c4d22de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution()","rhs":"self._compute_joint_eigen_distribution(S(2))","over":{"base":"Any"},"name":"joint_eigen_distribution_correct"},"guarantee":"returns self._compute_joint_eigen_distribution(S(2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c4afbc541ef6793","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._compute_joint_eigen_distribution(S(2))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._compute_joint_eigen_distribution"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def joint_eigen_distribution(self):
         return self._compute_joint_eigen_distribution(S(2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(level_spacing_distribution(), level_spacing_distribution produces the expected output) over Any ║
+# ║ Path(level_spacing_distribution(), Lambda(s, f)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(s, f)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ level_spacing_distribution : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 545ce1806bc5aabd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f413e0b637bed2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianUnitaryEnsembleModel.level_spacing_distribution","kind":"method","src_hash":"7326c0bdfdceaed0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"level_spacing_distribution()","rhs":"level_spacing_distribution produces the expected output","over":{"base":"Any"},"name":"level_spacing_distribution_correct"},"guarantee":"level_spacing_distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianUnitaryEnsembleModel.level_spacing_distribution_correct","statement":"Path(level_spacing_distribution(x), level_spacing_distribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"545ce1806bc5aabd"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianUnitaryEnsembleModel.level_spacing_distribution","kind":"method","src_hash":"7326c0bdfdceaed0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"level_spacing_distribution()","rhs":"Lambda(s, f)","over":{"base":"Any"},"name":"level_spacing_distribution_correct"},"guarantee":"returns Lambda(s, f)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianUnitaryEnsembleModel.level_spacing_distribution_correct","statement":"Path(level_spacing_distribution(x), returns Lambda(s, f))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f413e0b637bed2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(s, f)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def level_spacing_distribution(self):
         s = Dummy('s')
         f = (32/pi**2)*(s**2)*exp((-4/pi)*s**2)
@@ -292,43 +372,61 @@ class GaussianUnitaryEnsembleModel(GaussianEnsembleModel):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GaussianOrthogonalEnsembleModel(*args), correctly constructs a GaussianOrthogonalEnsembleModel instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GaussianOrthogonalEnsembleModel : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GaussianEnsembleModel)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GaussianOrthogonalEnsembleModel : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6a46d67029f6c0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsembleModel","kind":"class","src_hash":"b7cfb153aa6dc934","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianOrthogonalEnsembleModel(*args)","rhs":"correctly constructs a GaussianOrthogonalEnsembleModel instance","over":{"base":"Any"},"name":"GaussianOrthogonalEnsembleModel_class_invariant"},"guarantee":"correctly constructs a GaussianOrthogonalEnsembleModel instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6a46d67029f6c0b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsembleModel","kind":"class","src_hash":"b7cfb153aa6dc934","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GaussianEnsembleModel)"},"spec":{"lhs":"GaussianOrthogonalEnsembleModel(*args)","rhs":"correctly constructs a GaussianOrthogonalEnsembleModel instance","over":{"base":"Any"},"name":"GaussianOrthogonalEnsembleModel_class_invariant"},"guarantee":"isinstance(self, GaussianEnsembleModel)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6a46d67029f6c0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GaussianEnsembleModel)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function GaussianOrthogonalEnsembleModel not found in source"]}}
 class GaussianOrthogonalEnsembleModel(GaussianEnsembleModel):
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normalization_constant(), returns the normalization_constant attribute) over Any ║
+# ║ Path(normalization_constant(), Integral(exp(-S(n) / 4 * Trace(_H ** 2)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(exp(-S(n) / 4 * Trace(_H ** 2)))      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ normalization_constant : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96d8f68241e486f7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsembleModel.normalization_constant","kind":"property","src_hash":"43d2336996c5d2ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalization_constant()","rhs":"returns the normalization_constant attribute","over":{"base":"Any"},"name":"normalization_constant_correct"},"guarantee":"returns the normalization_constant attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96d8f68241e486f7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsembleModel.normalization_constant","kind":"property","src_hash":"43d2336996c5d2ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalization_constant()","rhs":"Integral(exp(-S(n) / 4 * Trace(_H ** 2)))","over":{"base":"Any"},"name":"normalization_constant_correct"},"guarantee":"returns Integral(exp(-S(n) / 4 * Trace(_H ** 2)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96d8f68241e486f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(exp(-S(n) / 4 * Trace(_H ** 2)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normalization_constant(self):
         n = self.dimension
         _H = MatrixSymbol('_H', n, n)
         return Integral(exp(-S(n)/4 * Trace(_H**2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(density(exp), id) over Any                            ║
+# ║ Path(density(expr), id) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(H, exp(-S(n) / 4 * Trace(H ** 2)) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ density : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9426835a31912477   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsembleModel.density","kind":"method","src_hash":"3d8ec92be7fc0079","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(exp)","rhs":"density produces the expected output","over":{"base":"Any"},"name":"density_correct","kind":"composition"},"guarantee":"density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"S","by":"library_axiom"},{"fn":"Trace","by":"library_axiom"},{"fn":"ZGOE","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9426835a31912477"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsembleModel.density","kind":"method","src_hash":"3d8ec92be7fc0079","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(expr)","rhs":"Lambda(H, exp(-S(n) / 4 * Trace(H ** 2)) / ZGOE)(expr)","over":{"base":"Any"},"name":"density_correct","kind":"composition"},"guarantee":"returns Lambda(H, exp(-S(n) / 4 * Trace(H ** 2)) / ZGOE)(expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"S","by":"library_axiom"},{"fn":"Trace","by":"library_axiom"},{"fn":"ZGOE","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9426835a31912477","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(H, exp(-S(n) / 4 * Trace(H ** 2)) / ZGOE)(expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension","self.normalization_constant"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def density(self, expr):
         n, ZGOE = self.dimension, self.normalization_constant
         h_pspace = RandomMatrixPSpace('P', model=self)
@@ -336,30 +434,42 @@ class GaussianOrthogonalEnsembleModel(GaussianEnsembleModel):
         return Lambda(H, exp(-S(n)/4 * Trace(H**2))/ZGOE)(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(joint_eigen_distribution(), joint_eigen_distribution produces the expected output) over Any ║
+# ║ Path(joint_eigen_distribution(), self._compute_joint_eigen_distribution(S.One)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._compute_joint_eigen_distribution(S....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ joint_eigen_distribution : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 82b640a567fad7d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsembleModel.joint_eigen_distribution","kind":"method","src_hash":"42ca038c76a651f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution()","rhs":"joint_eigen_distribution produces the expected output","over":{"base":"Any"},"name":"joint_eigen_distribution_correct"},"guarantee":"joint_eigen_distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82b640a567fad7d7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsembleModel.joint_eigen_distribution","kind":"method","src_hash":"42ca038c76a651f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution()","rhs":"self._compute_joint_eigen_distribution(S.One)","over":{"base":"Any"},"name":"joint_eigen_distribution_correct"},"guarantee":"returns self._compute_joint_eigen_distribution(S.One)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82b640a567fad7d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._compute_joint_eigen_distribution(S.One)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._compute_joint_eigen_distribution"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def joint_eigen_distribution(self):
         return self._compute_joint_eigen_distribution(S.One)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(level_spacing_distribution(), level_spacing_distribution produces the expected output) over Any ║
+# ║ Path(level_spacing_distribution(), Lambda(s, f)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(s, f)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ level_spacing_distribution : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b747ce79cd70f49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02b10954757eafa6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsembleModel.level_spacing_distribution","kind":"method","src_hash":"0afe9befadf6352f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"level_spacing_distribution()","rhs":"level_spacing_distribution produces the expected output","over":{"base":"Any"},"name":"level_spacing_distribution_correct"},"guarantee":"level_spacing_distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsembleModel.level_spacing_distribution_correct","statement":"Path(level_spacing_distribution(x), level_spacing_distribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b747ce79cd70f49"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsembleModel.level_spacing_distribution","kind":"method","src_hash":"0afe9befadf6352f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"level_spacing_distribution()","rhs":"Lambda(s, f)","over":{"base":"Any"},"name":"level_spacing_distribution_correct"},"guarantee":"returns Lambda(s, f)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsembleModel.level_spacing_distribution_correct","statement":"Path(level_spacing_distribution(x), returns Lambda(s, f))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02b10954757eafa6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(s, f)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def level_spacing_distribution(self):
         s = Dummy('s')
         f = (pi/2)*s*exp((-pi/4)*s**2)
@@ -368,43 +478,61 @@ class GaussianOrthogonalEnsembleModel(GaussianEnsembleModel):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GaussianSymplecticEnsembleModel(*args), correctly constructs a GaussianSymplecticEnsembleModel instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GaussianSymplecticEnsembleModel : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GaussianEnsembleModel)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GaussianSymplecticEnsembleModel : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03aca2c5d938f5ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianSymplecticEnsembleModel","kind":"class","src_hash":"f9100921044f0a3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianSymplecticEnsembleModel(*args)","rhs":"correctly constructs a GaussianSymplecticEnsembleModel instance","over":{"base":"Any"},"name":"GaussianSymplecticEnsembleModel_class_invariant"},"guarantee":"correctly constructs a GaussianSymplecticEnsembleModel instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03aca2c5d938f5ea"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianSymplecticEnsembleModel","kind":"class","src_hash":"f9100921044f0a3b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GaussianEnsembleModel)"},"spec":{"lhs":"GaussianSymplecticEnsembleModel(*args)","rhs":"correctly constructs a GaussianSymplecticEnsembleModel instance","over":{"base":"Any"},"name":"GaussianSymplecticEnsembleModel_class_invariant"},"guarantee":"isinstance(self, GaussianEnsembleModel)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03aca2c5d938f5ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GaussianEnsembleModel)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function GaussianSymplecticEnsembleModel not found in source"]}}
 class GaussianSymplecticEnsembleModel(GaussianEnsembleModel):
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normalization_constant(), returns the normalization_constant attribute) over Any ║
+# ║ Path(normalization_constant(), Integral(exp(-S(n) * Trace(_H ** 2)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(exp(-S(n) * Trace(_H ** 2)))          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ normalization_constant : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cec455de927a2585           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianSymplecticEnsembleModel.normalization_constant","kind":"property","src_hash":"1768888dd4e2e935","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalization_constant()","rhs":"returns the normalization_constant attribute","over":{"base":"Any"},"name":"normalization_constant_correct"},"guarantee":"returns the normalization_constant attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cec455de927a2585"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianSymplecticEnsembleModel.normalization_constant","kind":"property","src_hash":"1768888dd4e2e935","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalization_constant()","rhs":"Integral(exp(-S(n) * Trace(_H ** 2)))","over":{"base":"Any"},"name":"normalization_constant_correct"},"guarantee":"returns Integral(exp(-S(n) * Trace(_H ** 2)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cec455de927a2585","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(exp(-S(n) * Trace(_H ** 2)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normalization_constant(self):
         n = self.dimension
         _H = MatrixSymbol('_H', n, n)
         return Integral(exp(-S(n) * Trace(_H**2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(density(exp), id) over Any                            ║
+# ║ Path(density(expr), id) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(H, exp(-S(n) * Trace(H ** 2)) / ZG...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ density : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d5f9d6ad7b696255   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianSymplecticEnsembleModel.density","kind":"method","src_hash":"18f675afc04f26f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(exp)","rhs":"density produces the expected output","over":{"base":"Any"},"name":"density_correct","kind":"composition"},"guarantee":"density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"S","by":"library_axiom"},{"fn":"Trace","by":"library_axiom"},{"fn":"ZGSE","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5f9d6ad7b696255"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianSymplecticEnsembleModel.density","kind":"method","src_hash":"18f675afc04f26f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(expr)","rhs":"Lambda(H, exp(-S(n) * Trace(H ** 2)) / ZGSE)(expr)","over":{"base":"Any"},"name":"density_correct","kind":"composition"},"guarantee":"returns Lambda(H, exp(-S(n) * Trace(H ** 2)) / ZGSE)(expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"S","by":"library_axiom"},{"fn":"Trace","by":"library_axiom"},{"fn":"ZGSE","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5f9d6ad7b696255","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(H, exp(-S(n) * Trace(H ** 2)) / ZGSE)(expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension","self.normalization_constant"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def density(self, expr):
         n, ZGSE = self.dimension, self.normalization_constant
         h_pspace = RandomMatrixPSpace('P', model=self)
@@ -412,46 +540,64 @@ class GaussianSymplecticEnsembleModel(GaussianEnsembleModel):
         return Lambda(H, exp(-S(n) * Trace(H**2))/ZGSE)(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(joint_eigen_distribution(), joint_eigen_distribution produces the expected output) over Any ║
+# ║ Path(joint_eigen_distribution(), self._compute_joint_eigen_distribution(S(4))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._compute_joint_eigen_distribution(S(4))   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ joint_eigen_distribution : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e88e50ae9a11acc0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianSymplecticEnsembleModel.joint_eigen_distribution","kind":"method","src_hash":"7106f967148934c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution()","rhs":"joint_eigen_distribution produces the expected output","over":{"base":"Any"},"name":"joint_eigen_distribution_correct"},"guarantee":"joint_eigen_distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e88e50ae9a11acc0"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianSymplecticEnsembleModel.joint_eigen_distribution","kind":"method","src_hash":"7106f967148934c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution()","rhs":"self._compute_joint_eigen_distribution(S(4))","over":{"base":"Any"},"name":"joint_eigen_distribution_correct"},"guarantee":"returns self._compute_joint_eigen_distribution(S(4))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e88e50ae9a11acc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._compute_joint_eigen_distribution(S(4))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._compute_joint_eigen_distribution"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def joint_eigen_distribution(self):
         return self._compute_joint_eigen_distribution(S(4))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(level_spacing_distribution(), level_spacing_distribution produces the expected output) over Any ║
+# ║ Path(level_spacing_distribution(), Lambda(s, f)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(s, f)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ level_spacing_distribution : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71e7dd0873d80c34  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6226557aad16c0d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianSymplecticEnsembleModel.level_spacing_distribution","kind":"method","src_hash":"aa0a7a57628e75fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"level_spacing_distribution()","rhs":"level_spacing_distribution produces the expected output","over":{"base":"Any"},"name":"level_spacing_distribution_correct"},"guarantee":"level_spacing_distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianSymplecticEnsembleModel.level_spacing_distribution_correct","statement":"Path(level_spacing_distribution(x), level_spacing_distribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71e7dd0873d80c34"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianSymplecticEnsembleModel.level_spacing_distribution","kind":"method","src_hash":"aa0a7a57628e75fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"level_spacing_distribution()","rhs":"Lambda(s, f)","over":{"base":"Any"},"name":"level_spacing_distribution_correct"},"guarantee":"returns Lambda(s, f)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianSymplecticEnsembleModel.level_spacing_distribution_correct","statement":"Path(level_spacing_distribution(x), returns Lambda(s, f))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6226557aad16c0d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(s, f)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def level_spacing_distribution(self):
         s = Dummy('s')
         f = ((S(2)**18)/((S(3)**6)*(pi**3)))*(s**4)*exp((-64/(9*pi))*s**2)
         return Lambda(s, f)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(GaussianEnsemble(sym), GaussianEnsemble produces the expected output) over Any ║
+# ║ Path(GaussianEnsemble(sym, dim), RandomMatrixSymbol(sym, dim, dim, pspace=rmp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RandomMatrixSymbol(sym, dim, dim, pspace=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ GaussianEnsemble : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc40dd627e0c495e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba515c0cb7c3d82e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianEnsemble","kind":"function","src_hash":"691c8808f24cec15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianEnsemble(sym)","rhs":"GaussianEnsemble produces the expected output","over":{"base":"Any"},"name":"GaussianEnsemble_correct"},"guarantee":"GaussianEnsemble produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianEnsemble_correct","statement":"Path(GaussianEnsemble(x), GaussianEnsemble produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc40dd627e0c495e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianEnsemble","kind":"function","src_hash":"691c8808f24cec15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianEnsemble(sym, dim)","rhs":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","over":{"base":"Any"},"name":"GaussianEnsemble_correct"},"guarantee":"returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianEnsemble_correct","statement":"Path(GaussianEnsemble(x), returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba515c0cb7c3d82e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def GaussianEnsemble(sym, dim):
     sym, dim = _symbol_converter(sym), _sympify(dim)
     model = GaussianEnsembleModel(sym, dim)
@@ -459,16 +605,22 @@ def GaussianEnsemble(sym, dim):
     return RandomMatrixSymbol(sym, dim, dim, pspace=rmp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(GaussianUnitaryEnsemble(sym), represents gaussian unitary ensembles) over Any ║
+# ║ Path(GaussianUnitaryEnsemble(sym, dim), RandomMatrixSymbol(sym, dim, dim, pspace=rmp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RandomMatrixSymbol(sym, dim, dim, pspace=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ GaussianUnitaryEnsemble : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70e231d6e878d3e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 881ffd58257a08d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianUnitaryEnsemble","kind":"function","src_hash":"3866e3ffc1eed2db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianUnitaryEnsemble(sym)","rhs":"represents gaussian unitary ensembles","over":{"base":"Any"},"name":"GaussianUnitaryEnsemble_correct"},"guarantee":"represents gaussian unitary ensembles","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianUnitaryEnsemble_correct","statement":"Path(GaussianUnitaryEnsemble(x), represents gaussian unitary ensembles)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70e231d6e878d3e9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianUnitaryEnsemble","kind":"function","src_hash":"3866e3ffc1eed2db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianUnitaryEnsemble(sym, dim)","rhs":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","over":{"base":"Any"},"name":"GaussianUnitaryEnsemble_correct"},"guarantee":"returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianUnitaryEnsemble_correct","statement":"Path(GaussianUnitaryEnsemble(x), returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"881ffd58257a08d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def GaussianUnitaryEnsemble(sym, dim):
     """
     Represents Gaussian Unitary Ensembles.
@@ -489,16 +641,22 @@ def GaussianUnitaryEnsemble(sym, dim):
     return RandomMatrixSymbol(sym, dim, dim, pspace=rmp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(GaussianOrthogonalEnsemble(sym), represents gaussian orthogonal ensembles) over Any ║
+# ║ Path(GaussianOrthogonalEnsemble(sym, dim), RandomMatrixSymbol(sym, dim, dim, pspace=rmp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RandomMatrixSymbol(sym, dim, dim, pspace=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ GaussianOrthogonalEnsemble : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd899499a2ed7717  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2dc06d7d13a39eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsemble","kind":"function","src_hash":"37a8a710a2c2894c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianOrthogonalEnsemble(sym)","rhs":"represents gaussian orthogonal ensembles","over":{"base":"Any"},"name":"GaussianOrthogonalEnsemble_correct"},"guarantee":"represents gaussian orthogonal ensembles","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsemble_correct","statement":"Path(GaussianOrthogonalEnsemble(x), represents gaussian orthogonal ensembles)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd899499a2ed7717"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsemble","kind":"function","src_hash":"37a8a710a2c2894c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianOrthogonalEnsemble(sym, dim)","rhs":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","over":{"base":"Any"},"name":"GaussianOrthogonalEnsemble_correct"},"guarantee":"returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianOrthogonalEnsemble_correct","statement":"Path(GaussianOrthogonalEnsemble(x), returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2dc06d7d13a39eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def GaussianOrthogonalEnsemble(sym, dim):
     """
     Represents Gaussian Orthogonal Ensembles.
@@ -519,16 +677,22 @@ def GaussianOrthogonalEnsemble(sym, dim):
     return RandomMatrixSymbol(sym, dim, dim, pspace=rmp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(GaussianSymplecticEnsemble(sym), represents gaussian symplectic ensembles) over Any ║
+# ║ Path(GaussianSymplecticEnsemble(sym, dim), RandomMatrixSymbol(sym, dim, dim, pspace=rmp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RandomMatrixSymbol(sym, dim, dim, pspace=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ GaussianSymplecticEnsemble : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5abb46cbc25bb823  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16238418786b151a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianSymplecticEnsemble","kind":"function","src_hash":"62bf61daf696ff60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianSymplecticEnsemble(sym)","rhs":"represents gaussian symplectic ensembles","over":{"base":"Any"},"name":"GaussianSymplecticEnsemble_correct"},"guarantee":"represents gaussian symplectic ensembles","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianSymplecticEnsemble_correct","statement":"Path(GaussianSymplecticEnsemble(x), represents gaussian symplectic ensembles)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5abb46cbc25bb823"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.GaussianSymplecticEnsemble","kind":"function","src_hash":"62bf61daf696ff60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GaussianSymplecticEnsemble(sym, dim)","rhs":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","over":{"base":"Any"},"name":"GaussianSymplecticEnsemble_correct"},"guarantee":"returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.GaussianSymplecticEnsemble_correct","statement":"Path(GaussianSymplecticEnsemble(x), returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16238418786b151a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def GaussianSymplecticEnsemble(sym, dim):
     """
     Represents Gaussian Symplectic Ensembles.
@@ -551,14 +715,20 @@ def GaussianSymplecticEnsemble(sym, dim):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CircularEnsembleModel(*args), correctly constructs a CircularEnsembleModel instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CircularEnsembleModel : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RandomMatrixEnsembleModel)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CircularEnsembleModel : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b83a1ef57811c4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularEnsembleModel","kind":"class","src_hash":"b6e1a101e754672f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CircularEnsembleModel(*args)","rhs":"correctly constructs a CircularEnsembleModel instance","over":{"base":"Any"},"name":"CircularEnsembleModel_class_invariant"},"guarantee":"correctly constructs a CircularEnsembleModel instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b83a1ef57811c4c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularEnsembleModel","kind":"class","src_hash":"b6e1a101e754672f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RandomMatrixEnsembleModel)"},"spec":{"lhs":"CircularEnsembleModel(*args)","rhs":"correctly constructs a CircularEnsembleModel instance","over":{"base":"Any"},"name":"CircularEnsembleModel_class_invariant"},"guarantee":"isinstance(self, RandomMatrixEnsembleModel)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b83a1ef57811c4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RandomMatrixEnsembleModel)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function CircularEnsembleModel not found in source"]}}
 class CircularEnsembleModel(RandomMatrixEnsembleModel):
     """
     Abstract class for Circular ensembles.
@@ -571,16 +741,22 @@ class CircularEnsembleModel(RandomMatrixEnsembleModel):
     .. [1] https://en.wikipedia.org/wiki/Circular_ensemble
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(density(exp), density produces the expected output) over Any ║
+# ║ Path(density(expr), <unspecified:density>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ density : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afed72a430c76dc7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularEnsembleModel.density","kind":"method","src_hash":"c6740623581d6a4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(exp)","rhs":"density produces the expected output","over":{"base":"Any"},"name":"density_correct"},"guarantee":"density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.CircularEnsembleModel.density_correct","statement":"Path(density(x), density produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afed72a430c76dc7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularEnsembleModel.density","kind":"method","src_hash":"c6740623581d6a4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density(expr)","rhs":"<unspecified:density>","over":{"base":"Any"},"name":"density_correct"},"guarantee":"density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.CircularEnsembleModel.density_correct","statement":"Path(density(x), density produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afed72a430c76dc7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def density(self, expr):
         # TODO : Add support for Lie groups(as extensions of sympy.diffgeom)
         #        and define measures on them
@@ -589,16 +765,22 @@ class CircularEnsembleModel(RandomMatrixEnsembleModel):
                                   "%s cannot be computed."%(self))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_joint_eigen_distribution(bet), id) over Any  ║
+# ║ Path(_compute_joint_eigen_distribution(beta), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(tuple(syms), f / Zbn)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compute_joint_eigen_distribution : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 66730f4f473cb3d7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularEnsembleModel._compute_joint_eigen_distribution","kind":"method","src_hash":"9c729010216cb1c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_joint_eigen_distribution(bet)","rhs":"helper function to compute the joint distribution of phases of the complex eigen values of matrices belonging to any circular ensembles","over":{"base":"Any"},"name":"_compute_joint_eigen_distribution_correct","kind":"composition"},"guarantee":"helper function to compute the joint distribution of phases of the complex eigen values of matrices belonging to any circular ensembles","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66730f4f473cb3d7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularEnsembleModel._compute_joint_eigen_distribution","kind":"method","src_hash":"9c729010216cb1c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_joint_eigen_distribution(beta)","rhs":"Lambda(tuple(syms), f / Zbn)","over":{"base":"Any"},"name":"_compute_joint_eigen_distribution_correct","kind":"composition"},"guarantee":"returns Lambda(tuple(syms), f / Zbn)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66730f4f473cb3d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(tuple(syms), f / Zbn)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dimension"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_joint_eigen_distribution(self, beta):
         """
         Helper function to compute the joint distribution of phases
@@ -616,94 +798,136 @@ class CircularEnsembleModel(RandomMatrixEnsembleModel):
         return Lambda(tuple(syms), f/Zbn)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CircularUnitaryEnsembleModel(), correctly constructs a CircularUnitaryEnsembleModel instance) over Any ║
+# ║ Path(CircularUnitaryEnsembleModel(), isinstance(self, CircularEnsembleModel)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CircularUnitaryEnsembleModel : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CircularEnsembleModel)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CircularUnitaryEnsembleModel : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4cdef13de2054acd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularUnitaryEnsembleModel","kind":"class","src_hash":"8769d5cbbed85b5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CircularUnitaryEnsembleModel()","rhs":"correctly constructs a CircularUnitaryEnsembleModel instance","over":{"base":"Any"},"name":"CircularUnitaryEnsembleModel_correct"},"guarantee":"correctly constructs a CircularUnitaryEnsembleModel instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4cdef13de2054acd"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularUnitaryEnsembleModel","kind":"class","src_hash":"8769d5cbbed85b5d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CircularEnsembleModel)"},"spec":{"lhs":"CircularUnitaryEnsembleModel()","rhs":"isinstance(self, CircularEnsembleModel)","over":{"base":"Any"},"name":"CircularUnitaryEnsembleModel_correct"},"guarantee":"isinstance(self, CircularEnsembleModel)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4cdef13de2054acd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CircularEnsembleModel)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function CircularUnitaryEnsembleModel not found in source"]}}
 class CircularUnitaryEnsembleModel(CircularEnsembleModel):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(joint_eigen_distribution(), joint_eigen_distribution produces the expected output) over Any ║
+# ║ Path(joint_eigen_distribution(), self._compute_joint_eigen_distribution(S(2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._compute_joint_eigen_distribution(S(2))   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ joint_eigen_distribution : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 75954ff550a47f32           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularUnitaryEnsembleModel.joint_eigen_distribution","kind":"method","src_hash":"641053219c4d22de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution()","rhs":"joint_eigen_distribution produces the expected output","over":{"base":"Any"},"name":"joint_eigen_distribution_correct"},"guarantee":"joint_eigen_distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75954ff550a47f32"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularUnitaryEnsembleModel.joint_eigen_distribution","kind":"method","src_hash":"641053219c4d22de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution()","rhs":"self._compute_joint_eigen_distribution(S(2))","over":{"base":"Any"},"name":"joint_eigen_distribution_correct"},"guarantee":"returns self._compute_joint_eigen_distribution(S(2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75954ff550a47f32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._compute_joint_eigen_distribution(S(2))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._compute_joint_eigen_distribution"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def joint_eigen_distribution(self):
         return self._compute_joint_eigen_distribution(S(2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CircularOrthogonalEnsembleModel(), correctly constructs a CircularOrthogonalEnsembleModel instance) over Any ║
+# ║ Path(CircularOrthogonalEnsembleModel(), isinstance(self, CircularEnsembleModel)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CircularOrthogonalEnsembleModel : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CircularEnsembleModel)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CircularOrthogonalEnsembleModel : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d7ff40fee7d52df2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularOrthogonalEnsembleModel","kind":"class","src_hash":"ef3616cf9d11f2ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CircularOrthogonalEnsembleModel()","rhs":"correctly constructs a CircularOrthogonalEnsembleModel instance","over":{"base":"Any"},"name":"CircularOrthogonalEnsembleModel_correct"},"guarantee":"correctly constructs a CircularOrthogonalEnsembleModel instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d7ff40fee7d52df2"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularOrthogonalEnsembleModel","kind":"class","src_hash":"ef3616cf9d11f2ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CircularEnsembleModel)"},"spec":{"lhs":"CircularOrthogonalEnsembleModel()","rhs":"isinstance(self, CircularEnsembleModel)","over":{"base":"Any"},"name":"CircularOrthogonalEnsembleModel_correct"},"guarantee":"isinstance(self, CircularEnsembleModel)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d7ff40fee7d52df2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CircularEnsembleModel)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function CircularOrthogonalEnsembleModel not found in source"]}}
 class CircularOrthogonalEnsembleModel(CircularEnsembleModel):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(joint_eigen_distribution(), joint_eigen_distribution produces the expected output) over Any ║
+# ║ Path(joint_eigen_distribution(), self._compute_joint_eigen_distribution(S.One)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._compute_joint_eigen_distribution(S....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ joint_eigen_distribution : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6039f9907d85548c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularOrthogonalEnsembleModel.joint_eigen_distribution","kind":"method","src_hash":"42ca038c76a651f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution()","rhs":"joint_eigen_distribution produces the expected output","over":{"base":"Any"},"name":"joint_eigen_distribution_correct"},"guarantee":"joint_eigen_distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6039f9907d85548c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularOrthogonalEnsembleModel.joint_eigen_distribution","kind":"method","src_hash":"42ca038c76a651f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution()","rhs":"self._compute_joint_eigen_distribution(S.One)","over":{"base":"Any"},"name":"joint_eigen_distribution_correct"},"guarantee":"returns self._compute_joint_eigen_distribution(S.One)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6039f9907d85548c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._compute_joint_eigen_distribution(S.One)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._compute_joint_eigen_distribution"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def joint_eigen_distribution(self):
         return self._compute_joint_eigen_distribution(S.One)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CircularSymplecticEnsembleModel(), correctly constructs a CircularSymplecticEnsembleModel instance) over Any ║
+# ║ Path(CircularSymplecticEnsembleModel(), isinstance(self, CircularEnsembleModel)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CircularSymplecticEnsembleModel : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CircularEnsembleModel)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CircularSymplecticEnsembleModel : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 391efac17565a9b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularSymplecticEnsembleModel","kind":"class","src_hash":"a960be55fa34afa7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CircularSymplecticEnsembleModel()","rhs":"correctly constructs a CircularSymplecticEnsembleModel instance","over":{"base":"Any"},"name":"CircularSymplecticEnsembleModel_correct"},"guarantee":"correctly constructs a CircularSymplecticEnsembleModel instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"391efac17565a9b2"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularSymplecticEnsembleModel","kind":"class","src_hash":"a960be55fa34afa7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CircularEnsembleModel)"},"spec":{"lhs":"CircularSymplecticEnsembleModel()","rhs":"isinstance(self, CircularEnsembleModel)","over":{"base":"Any"},"name":"CircularSymplecticEnsembleModel_correct"},"guarantee":"isinstance(self, CircularEnsembleModel)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"391efac17565a9b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CircularEnsembleModel)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function CircularSymplecticEnsembleModel not found in source"]}}
 class CircularSymplecticEnsembleModel(CircularEnsembleModel):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(joint_eigen_distribution(), joint_eigen_distribution produces the expected output) over Any ║
+# ║ Path(joint_eigen_distribution(), self._compute_joint_eigen_distribution(S(4))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._compute_joint_eigen_distribution(S(4))   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ joint_eigen_distribution : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a32e975a360e385           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularSymplecticEnsembleModel.joint_eigen_distribution","kind":"method","src_hash":"7106f967148934c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution()","rhs":"joint_eigen_distribution produces the expected output","over":{"base":"Any"},"name":"joint_eigen_distribution_correct"},"guarantee":"joint_eigen_distribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a32e975a360e385"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularSymplecticEnsembleModel.joint_eigen_distribution","kind":"method","src_hash":"7106f967148934c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution()","rhs":"self._compute_joint_eigen_distribution(S(4))","over":{"base":"Any"},"name":"joint_eigen_distribution_correct"},"guarantee":"returns self._compute_joint_eigen_distribution(S(4))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a32e975a360e385","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._compute_joint_eigen_distribution(S(4))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._compute_joint_eigen_distribution"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def joint_eigen_distribution(self):
         return self._compute_joint_eigen_distribution(S(4))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CircularEnsemble(sym), CircularEnsemble produces the expected output) over Any ║
+# ║ Path(CircularEnsemble(sym, dim), RandomMatrixSymbol(sym, dim, dim, pspace=rmp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RandomMatrixSymbol(sym, dim, dim, pspace=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ CircularEnsemble : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33fa33c8127df4aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad8b18b80cfb1c3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularEnsemble","kind":"function","src_hash":"b99e4f06920e7787","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CircularEnsemble(sym)","rhs":"CircularEnsemble produces the expected output","over":{"base":"Any"},"name":"CircularEnsemble_correct"},"guarantee":"CircularEnsemble produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.CircularEnsemble_correct","statement":"Path(CircularEnsemble(x), CircularEnsemble produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33fa33c8127df4aa"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularEnsemble","kind":"function","src_hash":"b99e4f06920e7787","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CircularEnsemble(sym, dim)","rhs":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","over":{"base":"Any"},"name":"CircularEnsemble_correct"},"guarantee":"returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.CircularEnsemble_correct","statement":"Path(CircularEnsemble(x), returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad8b18b80cfb1c3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def CircularEnsemble(sym, dim):
     sym, dim = _symbol_converter(sym), _sympify(dim)
     model = CircularEnsembleModel(sym, dim)
@@ -711,16 +935,22 @@ def CircularEnsemble(sym, dim):
     return RandomMatrixSymbol(sym, dim, dim, pspace=rmp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CircularUnitaryEnsemble(sym), represents circular unitary ensembles) over Any ║
+# ║ Path(CircularUnitaryEnsemble(sym, dim), RandomMatrixSymbol(sym, dim, dim, pspace=rmp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RandomMatrixSymbol(sym, dim, dim, pspace=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ CircularUnitaryEnsemble : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf12ea8776138dc7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2da8dc1c25c5e9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularUnitaryEnsemble","kind":"function","src_hash":"19bf6ba67be3e96d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CircularUnitaryEnsemble(sym)","rhs":"represents circular unitary ensembles","over":{"base":"Any"},"name":"CircularUnitaryEnsemble_correct"},"guarantee":"represents circular unitary ensembles","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.CircularUnitaryEnsemble_correct","statement":"Path(CircularUnitaryEnsemble(x), represents circular unitary ensembles)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf12ea8776138dc7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularUnitaryEnsemble","kind":"function","src_hash":"19bf6ba67be3e96d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CircularUnitaryEnsemble(sym, dim)","rhs":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","over":{"base":"Any"},"name":"CircularUnitaryEnsemble_correct"},"guarantee":"returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.CircularUnitaryEnsemble_correct","statement":"Path(CircularUnitaryEnsemble(x), returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2da8dc1c25c5e9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def CircularUnitaryEnsemble(sym, dim):
     """
     Represents Circular Unitary Ensembles.
@@ -747,16 +977,22 @@ def CircularUnitaryEnsemble(sym, dim):
     return RandomMatrixSymbol(sym, dim, dim, pspace=rmp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CircularOrthogonalEnsemble(sym), represents circular orthogonal ensembles) over Any ║
+# ║ Path(CircularOrthogonalEnsemble(sym, dim), RandomMatrixSymbol(sym, dim, dim, pspace=rmp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RandomMatrixSymbol(sym, dim, dim, pspace=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ CircularOrthogonalEnsemble : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49132256446deb40  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f087cf16a0e00a2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularOrthogonalEnsemble","kind":"function","src_hash":"09667a5387b464c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CircularOrthogonalEnsemble(sym)","rhs":"represents circular orthogonal ensembles","over":{"base":"Any"},"name":"CircularOrthogonalEnsemble_correct"},"guarantee":"represents circular orthogonal ensembles","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.CircularOrthogonalEnsemble_correct","statement":"Path(CircularOrthogonalEnsemble(x), represents circular orthogonal ensembles)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49132256446deb40"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularOrthogonalEnsemble","kind":"function","src_hash":"09667a5387b464c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CircularOrthogonalEnsemble(sym, dim)","rhs":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","over":{"base":"Any"},"name":"CircularOrthogonalEnsemble_correct"},"guarantee":"returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.CircularOrthogonalEnsemble_correct","statement":"Path(CircularOrthogonalEnsemble(x), returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f087cf16a0e00a2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def CircularOrthogonalEnsemble(sym, dim):
     """
     Represents Circular Orthogonal Ensembles.
@@ -783,16 +1019,22 @@ def CircularOrthogonalEnsemble(sym, dim):
     return RandomMatrixSymbol(sym, dim, dim, pspace=rmp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CircularSymplecticEnsemble(sym), represents circular symplectic ensembles) over Any ║
+# ║ Path(CircularSymplecticEnsemble(sym, dim), RandomMatrixSymbol(sym, dim, dim, pspace=rmp)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RandomMatrixSymbol(sym, dim, dim, pspace=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ CircularSymplecticEnsemble : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da9db650ba2758b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e705bd1fe6b322d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularSymplecticEnsemble","kind":"function","src_hash":"758ba793dee0d1d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CircularSymplecticEnsemble(sym)","rhs":"represents circular symplectic ensembles","over":{"base":"Any"},"name":"CircularSymplecticEnsemble_correct"},"guarantee":"represents circular symplectic ensembles","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.CircularSymplecticEnsemble_correct","statement":"Path(CircularSymplecticEnsemble(x), represents circular symplectic ensembles)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da9db650ba2758b0"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.CircularSymplecticEnsemble","kind":"function","src_hash":"758ba793dee0d1d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CircularSymplecticEnsemble(sym, dim)","rhs":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","over":{"base":"Any"},"name":"CircularSymplecticEnsemble_correct"},"guarantee":"returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.CircularSymplecticEnsemble_correct","statement":"Path(CircularSymplecticEnsemble(x), returns RandomMatrixSymbol(sym, dim, dim, pspace=rmp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e705bd1fe6b322d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RandomMatrixSymbol(sym, dim, dim, pspace=rmp)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def CircularSymplecticEnsemble(sym, dim):
     """
     Represents Circular Symplectic Ensembles.
@@ -819,7 +1061,12 @@ def CircularSymplecticEnsemble(sym, dim):
     return RandomMatrixSymbol(sym, dim, dim, pspace=rmp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(joint_eigen_distribution(mat), for obtaining joint probability distribution of eigen values of random matrix) over {Any | isinstance(mat, RandomMatrixSymbol)} ║
+# ║ Path(joint_eigen_distribution(mat), mat.pspace.model.joint_eigen_distribution()) over {Any | isinstance(mat, RandomMatrixSymbol) and isinstance(mat, RandomMatrixSymbol) and hasattr(mat, 'pspace')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(mat, RandomMatrixSymbol)            ║
+# ║   requires: hasattr(mat, 'pspace')                         ║
+# ║   returns:  mat.pspace.model.joint_eigen_distribution()    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ joint_eigen_distribution : {Any | isinstance(mat, Ran...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -831,9 +1078,12 @@ def CircularSymplecticEnsemble(sym, dim):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0baa9924...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.joint_eigen_distribution","kind":"function","src_hash":"96ab989532cd66d7","in":{"base":"Any","pred":"isinstance(mat, RandomMatrixSymbol)"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution(mat)","rhs":"for obtaining joint probability distribution of eigen values of random matrix","over":{"base":"Any","pred":"isinstance(mat, RandomMatrixSymbol)"},"name":"joint_eigen_distribution_correct"},"guarantee":"for obtaining joint probability distribution of eigen values of random matrix","fibers":[{"name":"RandomMatrixSymbol","pred":"isinstance(mat, RandomMatrixSymbol)","path":{"lhs":"joint_eigen_distribution(x)","rhs":"for obtaining joint probability distribution of eigen values of random matrix","over":{"base":"RandomMatrixSymbol","pred":"isinstance(mat, RandomMatrixSymbol)"},"name":"joint_eigen_distribution_RandomMatrixSymbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.joint_eigen_distribution_RandomMatrixSymbol_correct","statement":"joint_eigen_distribution satisfies spec on RandomMatrixSymbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0baa992438a70865"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.joint_eigen_distribution","kind":"function","src_hash":"96ab989532cd66d7","in":{"base":"Any","pred":"isinstance(mat, RandomMatrixSymbol) and isinstance(mat, RandomMatrixSymbol) and hasattr(mat, 'pspace')"},"out":{"base":"Any"},"spec":{"lhs":"joint_eigen_distribution(mat)","rhs":"mat.pspace.model.joint_eigen_distribution()","over":{"base":"Any","pred":"isinstance(mat, RandomMatrixSymbol) and isinstance(mat, RandomMatrixSymbol) and hasattr(mat, 'pspace')"},"name":"joint_eigen_distribution_correct"},"guarantee":"returns mat.pspace.model.joint_eigen_distribution()","fibers":[{"name":"RandomMatrixSymbol","pred":"isinstance(mat, RandomMatrixSymbol)","path":{"lhs":"joint_eigen_distribution(x)","rhs":"returns mat.pspace.model.joint_eigen_distribution()","over":{"base":"RandomMatrixSymbol","pred":"isinstance(mat, RandomMatrixSymbol)"},"name":"joint_eigen_distribution_RandomMatrixSymbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.joint_eigen_distribution_RandomMatrixSymbol_correct","statement":"joint_eigen_distribution satisfies spec on RandomMatrixSymbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0baa992438a70865","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(mat, RandomMatrixSymbol)","hasattr(mat, 'pspace')"],"returns_expr":"mat.pspace.model.joint_eigen_distribution()","pure":false,"effects":{"effect_type":"reads_state","reads":["mat.pspace"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(mat, RandomMatrixSymbol)'}, fibers={'RandomMatrixSymbol'})"]}}
 def joint_eigen_distribution(mat):
     """
     For obtaining joint probability distribution
@@ -864,16 +1114,24 @@ def joint_eigen_distribution(mat):
     return mat.pspace.model.joint_eigen_distribution()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(JointEigenDistribution(mat), creates joint distribution of eigen values of matrices with random expressions) over Any ║
+# ║ Path(JointEigenDistribution(mat), JointDistributionHandmade(*eigenvals)) over {Any | all((is_random(eigenval) for eigenval in set(eigenvals))) and hasattr(mat, 'eigenvals')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ JointEigenDistribution : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all((is_random(eigenval) for eigenval in ...   ║
+# ║   requires: hasattr(mat, 'eigenvals')                      ║
+# ║   returns:  JointDistributionHandmade(*eigenvals)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ JointEigenDistribution : {Any | all((is_random(eigenv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4331272c2e298f27  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5568325a84b6bb91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.JointEigenDistribution","kind":"function","src_hash":"1a590270b62e6221","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"JointEigenDistribution(mat)","rhs":"creates joint distribution of eigen values of matrices with random expressions","over":{"base":"Any"},"name":"JointEigenDistribution_correct"},"guarantee":"creates joint distribution of eigen values of matrices with random expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.JointEigenDistribution_correct","statement":"Path(JointEigenDistribution(x), creates joint distribution of eigen values of matrices with random expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4331272c2e298f27"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.JointEigenDistribution","kind":"function","src_hash":"1a590270b62e6221","in":{"base":"Any","pred":"all((is_random(eigenval) for eigenval in set(eigenvals))) and hasattr(mat, 'eigenvals')"},"out":{"base":"Any"},"spec":{"lhs":"JointEigenDistribution(mat)","rhs":"JointDistributionHandmade(*eigenvals)","over":{"base":"Any","pred":"all((is_random(eigenval) for eigenval in set(eigenvals))) and hasattr(mat, 'eigenvals')"},"name":"JointEigenDistribution_correct"},"guarantee":"returns JointDistributionHandmade(*eigenvals)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.random_matrix_models.JointEigenDistribution_correct","statement":"Path(JointEigenDistribution(x), returns JointDistributionHandmade(*eigenvals))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5568325a84b6bb91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all((is_random(eigenval) for eigenval in set(eigenvals)))","hasattr(mat, 'eigenvals')"],"returns_expr":"JointDistributionHandmade(*eigenvals)","pure":false,"effects":{"effect_type":"reads_state","reads":["mat.eigenvals"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def JointEigenDistribution(mat):
     """
     Creates joint distribution of eigen values of matrices with random
@@ -909,16 +1167,23 @@ def JointEigenDistribution(mat):
     return JointDistributionHandmade(*eigenvals)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(level_spacing_distribution(mat), for obtaining distribution of level spacings) over Any ║
+# ║ Path(level_spacing_distribution(mat), mat.pspace.model.level_spacing_distribution()) over {Any | hasattr(mat, 'pspace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ level_spacing_distribution : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(mat, 'pspace')                         ║
+# ║   returns:  mat.pspace.model.level_spacing_distributi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ level_spacing_distribution : {Any | hasattr(mat, 'psp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 108e1e6f825717df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.level_spacing_distribution","kind":"function","src_hash":"b6dd2a3e10b3fb02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"level_spacing_distribution(mat)","rhs":"for obtaining distribution of level spacings","over":{"base":"Any"},"name":"level_spacing_distribution_correct"},"guarantee":"for obtaining distribution of level spacings","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"108e1e6f825717df"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.random_matrix_models.level_spacing_distribution","kind":"function","src_hash":"b6dd2a3e10b3fb02","in":{"base":"Any","pred":"hasattr(mat, 'pspace')"},"out":{"base":"Any"},"spec":{"lhs":"level_spacing_distribution(mat)","rhs":"mat.pspace.model.level_spacing_distribution()","over":{"base":"Any","pred":"hasattr(mat, 'pspace')"},"name":"level_spacing_distribution_correct"},"guarantee":"returns mat.pspace.model.level_spacing_distribution()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"108e1e6f825717df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(mat, 'pspace')"],"returns_expr":"mat.pspace.model.level_spacing_distribution()","pure":false,"effects":{"effect_type":"reads_state","reads":["mat.pspace"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def level_spacing_distribution(mat):
     """
     For obtaining distribution of level spacings.

@@ -28,16 +28,24 @@ from sympy.testing.pytest import slow
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qs_1(), test_qs_1 produces the expected output) over Any ║
+# ║ Path(test_qs_1(), qs(10009202107, 100, 10000) == {100043, 100049} and qs(211107295182713951054568361, 1000, 10000) == {13791315212531, 15307263442931} and qs(980835832582657 * 990377764891511, 2000, 10000) == {980835832582657, 990377764891511} and qs(18640889198609 * 20991129234731, 1000, 50000) == {18640889198609, 20991129234731}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qs_1 : Any → {Any | qs(10009202107, 100, 10000) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qs(10009202107, 100, 10000) == {100043, 1...   ║
+# ║   ensures:  qs(211107295182713951054568361, 1000, 100...   ║
+# ║   ensures:  qs(980835832582657 * 990377764891511, 200...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qs_1 : Any → {Any | result satisfies: qs(1000920...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4db9f3fee96315b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50aa09ae72b61ec4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_qs.test_qs_1","kind":"function","src_hash":"0490d7d8e1999d53","in":{"base":"Any"},"out":{"base":"Any","pred":"qs(10009202107, 100, 10000) == {100043, 100049}"},"spec":{"lhs":"test_qs_1()","rhs":"test_qs_1 produces the expected output","over":{"base":"Any"},"name":"test_qs_1_correct"},"guarantee":"test_qs_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_qs.test_qs_1_correct","statement":"Path(test_qs_1(x), test_qs_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4db9f3fee96315b5"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_qs.test_qs_1","kind":"function","src_hash":"0490d7d8e1999d53","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qs(10009202107, 100, 10000) == {100043, 100049} and qs(211107295182713951054568361, 1000, 10000) == {13791315212531, 15307263442931} and qs(980835832582657 * 990377764891511, 2000, 10000) == {980835832582657, 990377764891511} and qs(18640889198609 * 20991129234731, 1000, 50000) == {18640889198609, 20991129234731}"},"spec":{"lhs":"test_qs_1()","rhs":"qs(10009202107, 100, 10000) == {100043, 100049} and qs(211107295182713951054568361, 1000, 10000) == {13791315212531, 15307263442931} and qs(980835832582657 * 990377764891511, 2000, 10000) == {980835832582657, 990377764891511} and qs(18640889198609 * 20991129234731, 1000, 50000) == {18640889198609, 20991129234731}","over":{"base":"Any"},"name":"test_qs_1_correct"},"guarantee":"qs(10009202107, 100, 10000) == {100043, 100049}; qs(211107295182713951054568361, 1000, 10000) == {13791315212531, 15307263442931}; qs(980835832582657 * 990377764891511, 2000, 10000) == {980835832582657, 990377764891511}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_qs.test_qs_1_correct","statement":"Path(test_qs_1(x), qs(10009202107, 100, 10000) == {100043, 100049}; qs(211107295182713951054568361, 1000, 10000) == {13791315212531, 15307263442931}; qs(980835832582657 * 990377764891511, 2000, 10000) == {980835832582657, 990377764891511})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50aa09ae72b61ec4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qs(10009202107, 100, 10000) == {100043, 100049}","qs(211107295182713951054568361, 1000, 10000) == {13791315212531, 15307263442931}","qs(980835832582657 * 990377764891511, 2000, 10000) == {980835832582657, 990377764891511}","qs(18640889198609 * 20991129234731, 1000, 50000) == {18640889198609, 20991129234731}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qs_1():
     assert qs(10009202107, 100, 10000) == {100043, 100049}
     assert qs(211107295182713951054568361, 1000, 10000) == \
@@ -49,16 +57,24 @@ def test_qs_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qs_2(), test_qs_2 produces the expected output) over Any ║
+# ║ Path(test_qs_2(), sieve_poly.eval_v(10) == sieve_poly.eval_u(10) ** 2 - n == -10009169707 and sieve_poly.eval_v(5) == sieve_poly.eval_u(5) ** 2 - n == -10009185207 and idx_1000 == 82 and [factor_base[i].prime for i in range(15)] == [2, 3, 7, 11, 17, 19, 29, 31, 43, 59, 61, 67, 71, 73, 79] and [factor_base[i].tmem_p for i in range(15)] == [1, 1, 3, 5, 3, 6, 6, 14, 1, 16, 24, 22, 18, 22, 15] and [factor_base[i].log_p for i in range(5)] == [710, 1125, 1993, 2455, 2901] and g.a == 1133107 and g.b == 682543 and [factor_base[i].soln1 for i in range(15)] == [0, 0, 3, 7, 13, 0, 8, 19, 9, 43, 27, 25, 63, 29, 19] and [factor_base[i].soln2 for i in range(15)] == [0, 1, 1, 3, 12, 16, 15, 6, 15, 1, 56, 55, 61, 58, 16] and [factor_base[i].b_ainv for i in range(5)] == [[0, 0], [0, 2], [3, 0], [3, 9], [13, 13]] and g_1.a == 1133107 and g_1.b == 136765 and sieve_array[0:5] == [8424, 13603, 1835, 5335, 710] and _check_smoothness(9645, factor_base) == (36028797018963972, 5) and _check_smoothness(210313, factor_base) == (20992, 1) and partial_relations == {8699: (440, -10009008507, 75557863761098695507973), 166741: (490, -10008962007, 524341), 131449: (530, -10008921207, 664613997892457936451903530140172325), 6653: (550, -10008899607, 19342813113834066795307021)} and [smooth_relation[i][0] for i in range(5)] == [-250, 1064469, 72819, 231957, 44167] and [smooth_relation[i][1] for i in range(5)] == [-10009139607, 1133094251961, 5302606761, 53804049849, 1950723889] and smooth_relation[0][2] == 89213869829863962596973701078031812362502145 and proper_factor == set()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qs_2 : Any → {None | sieve_poly.eval_v(10) == si...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sieve_poly.eval_v(10) == sieve_poly.eval_...   ║
+# ║   ensures:  sieve_poly.eval_v(5) == sieve_poly.eval_u...   ║
+# ║   ensures:  idx_1000 == 82                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qs_2 : Any → {None | result satisfies: sieve_pol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e902d2e29a0a0713  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 517972d6bc403515  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_qs.test_qs_2","kind":"function","src_hash":"8aa5edd51111e137","in":{"base":"Any"},"out":{"base":"None","pred":"sieve_poly.eval_v(10) == sieve_poly.eval_u(10) ** 2 - n == -10009169707 and sieve_poly.eval_v(5) == sieve_poly.eval_u(5) ** 2 - n == -10009185207 and idx_1000 == 82 and [factor_base[i].log_p for i in range(5)] == [710, 1125, 1993, 2455, 2901] and g.a == 1133107 and g.b == 682543 and g_1.a == 1133107 and g_1.b == 136765 and sieve_array[0:5] == [8424, 13603, 1835, 5335, 710] and _check_smoothness(9645, factor_base) == (36028797018963972, 5) and _check_smoothness(210313, factor_base) == (20992, 1) and smooth_relation[0][2] == 89213869829863962596973701078031812362502145 and proper_factor == set()"},"spec":{"lhs":"test_qs_2()","rhs":"test_qs_2 produces the expected output","over":{"base":"Any"},"name":"test_qs_2_correct"},"guarantee":"test_qs_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_qs.test_qs_2_correct","statement":"Path(test_qs_2(x), test_qs_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e902d2e29a0a0713"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_qs.test_qs_2","kind":"function","src_hash":"8aa5edd51111e137","in":{"base":"Any"},"out":{"base":"None","pred":"result satisfies: sieve_poly.eval_v(10) == sieve_poly.eval_u(10) ** 2 - n == -10009169707 and sieve_poly.eval_v(5) == sieve_poly.eval_u(5) ** 2 - n == -10009185207 and idx_1000 == 82 and [factor_base[i].prime for i in range(15)] == [2, 3, 7, 11, 17, 19, 29, 31, 43, 59, 61, 67, 71, 73, 79] and [factor_base[i].tmem_p for i in range(15)] == [1, 1, 3, 5, 3, 6, 6, 14, 1, 16, 24, 22, 18, 22, 15] and [factor_base[i].log_p for i in range(5)] == [710, 1125, 1993, 2455, 2901] and g.a == 1133107 and g.b == 682543 and [factor_base[i].soln1 for i in range(15)] == [0, 0, 3, 7, 13, 0, 8, 19, 9, 43, 27, 25, 63, 29, 19] and [factor_base[i].soln2 for i in range(15)] == [0, 1, 1, 3, 12, 16, 15, 6, 15, 1, 56, 55, 61, 58, 16] and [factor_base[i].b_ainv for i in range(5)] == [[0, 0], [0, 2], [3, 0], [3, 9], [13, 13]] and g_1.a == 1133107 and g_1.b == 136765 and sieve_array[0:5] == [8424, 13603, 1835, 5335, 710] and _check_smoothness(9645, factor_base) == (36028797018963972, 5) and _check_smoothness(210313, factor_base) == (20992, 1) and partial_relations == {8699: (440, -10009008507, 75557863761098695507973), 166741: (490, -10008962007, 524341), 131449: (530, -10008921207, 664613997892457936451903530140172325), 6653: (550, -10008899607, 19342813113834066795307021)} and [smooth_relation[i][0] for i in range(5)] == [-250, 1064469, 72819, 231957, 44167] and [smooth_relation[i][1] for i in range(5)] == [-10009139607, 1133094251961, 5302606761, 53804049849, 1950723889] and smooth_relation[0][2] == 89213869829863962596973701078031812362502145 and proper_factor == set()"},"spec":{"lhs":"test_qs_2()","rhs":"sieve_poly.eval_v(10) == sieve_poly.eval_u(10) ** 2 - n == -10009169707 and sieve_poly.eval_v(5) == sieve_poly.eval_u(5) ** 2 - n == -10009185207 and idx_1000 == 82 and [factor_base[i].prime for i in range(15)] == [2, 3, 7, 11, 17, 19, 29, 31, 43, 59, 61, 67, 71, 73, 79] and [factor_base[i].tmem_p for i in range(15)] == [1, 1, 3, 5, 3, 6, 6, 14, 1, 16, 24, 22, 18, 22, 15] and [factor_base[i].log_p for i in range(5)] == [710, 1125, 1993, 2455, 2901] and g.a == 1133107 and g.b == 682543 and [factor_base[i].soln1 for i in range(15)] == [0, 0, 3, 7, 13, 0, 8, 19, 9, 43, 27, 25, 63, 29, 19] and [factor_base[i].soln2 for i in range(15)] == [0, 1, 1, 3, 12, 16, 15, 6, 15, 1, 56, 55, 61, 58, 16] and [factor_base[i].b_ainv for i in range(5)] == [[0, 0], [0, 2], [3, 0], [3, 9], [13, 13]] and g_1.a == 1133107 and g_1.b == 136765 and sieve_array[0:5] == [8424, 13603, 1835, 5335, 710] and _check_smoothness(9645, factor_base) == (36028797018963972, 5) and _check_smoothness(210313, factor_base) == (20992, 1) and partial_relations == {8699: (440, -10009008507, 75557863761098695507973), 166741: (490, -10008962007, 524341), 131449: (530, -10008921207, 664613997892457936451903530140172325), 6653: (550, -10008899607, 19342813113834066795307021)} and [smooth_relation[i][0] for i in range(5)] == [-250, 1064469, 72819, 231957, 44167] and [smooth_relation[i][1] for i in range(5)] == [-10009139607, 1133094251961, 5302606761, 53804049849, 1950723889] and smooth_relation[0][2] == 89213869829863962596973701078031812362502145 and proper_factor == set()","over":{"base":"Any"},"name":"test_qs_2_correct"},"guarantee":"sieve_poly.eval_v(10) == sieve_poly.eval_u(10) ** 2 - n == -10009169707; sieve_poly.eval_v(5) == sieve_poly.eval_u(5) ** 2 - n == -10009185207; idx_1000 == 82","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_qs.test_qs_2_correct","statement":"Path(test_qs_2(x), sieve_poly.eval_v(10) == sieve_poly.eval_u(10) ** 2 - n == -10009169707; sieve_poly.eval_v(5) == sieve_poly.eval_u(5) ** 2 - n == -10009185207; idx_1000 == 82)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"517972d6bc403515","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sieve_poly.eval_v(10) == sieve_poly.eval_u(10) ** 2 - n == -10009169707","sieve_poly.eval_v(5) == sieve_poly.eval_u(5) ** 2 - n == -10009185207","idx_1000 == 82","[factor_base[i].prime for i in range(15)] == [2, 3, 7, 11, 17, 19, 29, 31, 43, 59, 61, 67, 71, 73, 79]","[factor_base[i].tmem_p for i in range(15)] == [1, 1, 3, 5, 3, 6, 6, 14, 1, 16, 24, 22, 18, 22, 15]","[factor_base[i].log_p for i in range(5)] == [710, 1125, 1993, 2455, 2901]","g.a == 1133107","g.b == 682543","[factor_base[i].soln1 for i in range(15)] == [0, 0, 3, 7, 13, 0, 8, 19, 9, 43, 27, 25, 63, 29, 19]","[factor_base[i].soln2 for i in range(15)] == [0, 1, 1, 3, 12, 16, 15, 6, 15, 1, 56, 55, 61, 58, 16]","[factor_base[i].b_ainv for i in range(5)] == [[0, 0], [0, 2], [3, 0], [3, 9], [13, 13]]","g_1.a == 1133107","g_1.b == 136765","sieve_array[0:5] == [8424, 13603, 1835, 5335, 710]","_check_smoothness(9645, factor_base) == (36028797018963972, 5)","_check_smoothness(210313, factor_base) == (20992, 1)","partial_relations == {8699: (440, -10009008507, 75557863761098695507973), 166741: (490, -10008962007, 524341), 131449: (530, -10008921207, 664613997892457936451903530140172325), 6653: (550, -10008899607, 19342813113834066795307021)}","[smooth_relation[i][0] for i in range(5)] == [-250, 1064469, 72819, 231957, 44167]","[smooth_relation[i][1] for i in range(5)] == [-10009139607, 1133094251961, 5302606761, 53804049849, 1950723889]","smooth_relation[0][2] == 89213869829863962596973701078031812362502145","proper_factor == set()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_qs_2() -> None:
     n = 10009202107
     M = 50
@@ -117,16 +133,22 @@ def test_qs_2() -> None:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qs_3(), test_qs_3 produces the expected output) over Any ║
+# ║ Path(test_qs_3(), next(_find_factor(N, smooth_relations, 4)) == 23) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qs_3 : Any → {Any | next(_find_factor(N, smooth_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  next(_find_factor(N, smooth_relations, 4)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qs_3 : Any → {Any | result satisfies: next(_find...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9142b626f5c84417  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fc5d8960527a65a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_qs.test_qs_3","kind":"function","src_hash":"2a52c9a410071191","in":{"base":"Any"},"out":{"base":"Any","pred":"next(_find_factor(N, smooth_relations, 4)) == 23"},"spec":{"lhs":"test_qs_3()","rhs":"test_qs_3 produces the expected output","over":{"base":"Any"},"name":"test_qs_3_correct"},"guarantee":"test_qs_3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_qs.test_qs_3_correct","statement":"Path(test_qs_3(x), test_qs_3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9142b626f5c84417"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_qs.test_qs_3","kind":"function","src_hash":"2a52c9a410071191","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: next(_find_factor(N, smooth_relations, 4)) == 23"},"spec":{"lhs":"test_qs_3()","rhs":"next(_find_factor(N, smooth_relations, 4)) == 23","over":{"base":"Any"},"name":"test_qs_3_correct"},"guarantee":"next(_find_factor(N, smooth_relations, 4)) == 23","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_qs.test_qs_3_correct","statement":"Path(test_qs_3(x), next(_find_factor(N, smooth_relations, 4)) == 23)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fc5d8960527a65a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["next(_find_factor(N, smooth_relations, 4)) == 23"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qs_3():
     N = 1817
     smooth_relations = [
@@ -140,16 +162,22 @@ def test_qs_3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qs_4(), test_qs_4 produces the expected output) over Any ║
+# ║ Path(test_qs_4(), <unspecified:test_qs_4>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_qs_4 : Any → {Any | N % factor == 0}                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c41c8658e5531102  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_qs.test_qs_4","kind":"function","src_hash":"939644ebd7f2b763","in":{"base":"Any"},"out":{"base":"Any","pred":"N % factor == 0"},"spec":{"lhs":"test_qs_4()","rhs":"test_qs_4 produces the expected output","over":{"base":"Any"},"name":"test_qs_4_correct"},"guarantee":"test_qs_4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_qs.test_qs_4_correct","statement":"Path(test_qs_4(x), test_qs_4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c41c8658e5531102"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_qs.test_qs_4","kind":"function","src_hash":"939644ebd7f2b763","in":{"base":"Any"},"out":{"base":"Any","pred":"N % factor == 0"},"spec":{"lhs":"test_qs_4()","rhs":"<unspecified:test_qs_4>","over":{"base":"Any"},"name":"test_qs_4_correct"},"guarantee":"test_qs_4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_qs.test_qs_4_correct","statement":"Path(test_qs_4(x), test_qs_4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c41c8658e5531102","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qs_4():
     N = 10007**2 * 10009 * 10037**3 * 10039
     for factor in qs(N, 1000, 2000):
@@ -158,16 +186,24 @@ def test_qs_4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_qs_factor(), test_qs_factor produces the expected output) over Any ║
+# ║ Path(test_qs_factor(), qs_factor(1009 * 100003, 2000, 10000) == {1009: 1, 100003: 1} and len(factors) > 1 and math.prod((p ** e for p, e in factors.items())) == n) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_qs_factor : Any → {Any | qs_factor(1009 * 100003...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qs_factor(1009 * 100003, 2000, 10000) == ...   ║
+# ║   ensures:  len(factors) > 1                               ║
+# ║   ensures:  math.prod((p ** e for p, e in factors.ite...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_qs_factor : Any → {Any | result satisfies: qs_fa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2237f5e1dba428e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5663221817b17d79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_qs.test_qs_factor","kind":"function","src_hash":"62be4941ac24cc34","in":{"base":"Any"},"out":{"base":"Any","pred":"qs_factor(1009 * 100003, 2000, 10000) == {1009: 1, 100003: 1} and len(factors) > 1 and math.prod((p ** e for p, e in factors.items())) == n"},"spec":{"lhs":"test_qs_factor()","rhs":"test_qs_factor produces the expected output","over":{"base":"Any"},"name":"test_qs_factor_correct"},"guarantee":"test_qs_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_qs.test_qs_factor_correct","statement":"Path(test_qs_factor(x), test_qs_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2237f5e1dba428e"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_qs.test_qs_factor","kind":"function","src_hash":"62be4941ac24cc34","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qs_factor(1009 * 100003, 2000, 10000) == {1009: 1, 100003: 1} and len(factors) > 1 and math.prod((p ** e for p, e in factors.items())) == n"},"spec":{"lhs":"test_qs_factor()","rhs":"qs_factor(1009 * 100003, 2000, 10000) == {1009: 1, 100003: 1} and len(factors) > 1 and math.prod((p ** e for p, e in factors.items())) == n","over":{"base":"Any"},"name":"test_qs_factor_correct"},"guarantee":"qs_factor(1009 * 100003, 2000, 10000) == {1009: 1, 100003: 1}; len(factors) > 1; math.prod((p ** e for p, e in factors.items())) == n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_qs.test_qs_factor_correct","statement":"Path(test_qs_factor(x), qs_factor(1009 * 100003, 2000, 10000) == {1009: 1, 100003: 1}; len(factors) > 1; math.prod((p ** e for p, e in factors.items())) == n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5663221817b17d79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qs_factor(1009 * 100003, 2000, 10000) == {1009: 1, 100003: 1}","len(factors) > 1","math.prod((p ** e for p, e in factors.items())) == n"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_qs_factor():
     assert qs_factor(1009 * 100003, 2000, 10000) == {1009: 1, 100003: 1}
     n = 1009**2 * 2003**2*30011*400009
@@ -177,16 +213,22 @@ def test_qs_factor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_27616(), test_issue_27616 produces the expected output) over Any ║
+# ║ Path(test_issue_27616(), qs(N, 5000, 20000) is not None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_27616 : Any → {Any | qs(N, 5000, 20000) is...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qs(N, 5000, 20000) is not None                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_27616 : Any → {Any | result satisfies: qs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad3a07fdfaa38c04  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0e46b547757204d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_qs.test_issue_27616","kind":"function","src_hash":"2d14e5ea50e5d567","in":{"base":"Any"},"out":{"base":"Any","pred":"qs(N, 5000, 20000) is not None"},"spec":{"lhs":"test_issue_27616()","rhs":"test_issue_27616 produces the expected output","over":{"base":"Any"},"name":"test_issue_27616_correct"},"guarantee":"test_issue_27616 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_qs.test_issue_27616_correct","statement":"Path(test_issue_27616(x), test_issue_27616 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad3a07fdfaa38c04"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_qs.test_issue_27616","kind":"function","src_hash":"2d14e5ea50e5d567","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qs(N, 5000, 20000) is not None"},"spec":{"lhs":"test_issue_27616()","rhs":"qs(N, 5000, 20000) is not None","over":{"base":"Any"},"name":"test_issue_27616_correct"},"guarantee":"qs(N, 5000, 20000) is not None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_qs.test_issue_27616_correct","statement":"Path(test_issue_27616(x), qs(N, 5000, 20000) is not None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0e46b547757204d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qs(N, 5000, 20000) is not None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_27616():
     #https://github.com/sympy/sympy/issues/27616
     N = 9804659461513846513 + 1

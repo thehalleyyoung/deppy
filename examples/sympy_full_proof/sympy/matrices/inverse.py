@@ -23,16 +23,25 @@ from .utilities import _iszero
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pinv_full_rank(M), subroutine for full row or column rank matrices) over Any ║
+# ║ Path(_pinv_full_rank(M), <unspecified:_pinv_full_rank>) over {Any | hasattr(M, 'is_zero_matrix') and hasattr(M, 'H') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'multiply')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pinv_full_rank : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'is_zero_matrix')                   ║
+# ║   requires: hasattr(M, 'H')                                ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pinv_full_rank : {Any | hasattr(M, 'is_zero_matrix')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e96f0bb3737b1cb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._pinv_full_rank","kind":"function","src_hash":"7b6a67a7d09651a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pinv_full_rank(M)","rhs":"subroutine for full row or column rank matrices","over":{"base":"Any"},"name":"_pinv_full_rank_correct"},"guarantee":"subroutine for full row or column rank matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._pinv_full_rank_correct","statement":"Path(_pinv_full_rank(x), subroutine for full row or column rank matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e96f0bb3737b1cb4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._pinv_full_rank","kind":"function","src_hash":"7b6a67a7d09651a9","in":{"base":"Any","pred":"hasattr(M, 'is_zero_matrix') and hasattr(M, 'H') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'multiply')"},"out":{"base":"Any"},"spec":{"lhs":"_pinv_full_rank(M)","rhs":"<unspecified:_pinv_full_rank>","over":{"base":"Any","pred":"hasattr(M, 'is_zero_matrix') and hasattr(M, 'H') and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'multiply')"},"name":"_pinv_full_rank_correct"},"guarantee":"subroutine for full row or column rank matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._pinv_full_rank_correct","statement":"Path(_pinv_full_rank(x), subroutine for full row or column rank matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e96f0bb3737b1cb4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'is_zero_matrix')","hasattr(M, 'H')","hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'multiply')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.H","M.cols","M.is_zero_matrix","M.multiply","M.rows"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _pinv_full_rank(M):
     """Subroutine for full row or column rank matrices.
 
@@ -52,16 +61,25 @@ def _pinv_full_rank(M):
         return M.H.multiply(M.multiply(M.H).inv())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pinv_rank_decomposition(M), subroutine for rank decomposition) over Any ║
+# ║ Path(_pinv_rank_decomposition(M), <unspecified:_pinv_rank_decomposition>) over {Any | hasattr(M, 'is_zero_matrix') and hasattr(M, 'H') and hasattr(M, 'rank_decomposition')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pinv_rank_decomposition : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'is_zero_matrix')                   ║
+# ║   requires: hasattr(M, 'H')                                ║
+# ║   requires: hasattr(M, 'rank_decomposition')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pinv_rank_decomposition : {Any | hasattr(M, 'is_zero...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1489a7beac3a5630  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._pinv_rank_decomposition","kind":"function","src_hash":"846a04a4f1e967b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pinv_rank_decomposition(M)","rhs":"subroutine for rank decomposition","over":{"base":"Any"},"name":"_pinv_rank_decomposition_correct"},"guarantee":"subroutine for rank decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._pinv_rank_decomposition_correct","statement":"Path(_pinv_rank_decomposition(x), subroutine for rank decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1489a7beac3a5630"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._pinv_rank_decomposition","kind":"function","src_hash":"846a04a4f1e967b9","in":{"base":"Any","pred":"hasattr(M, 'is_zero_matrix') and hasattr(M, 'H') and hasattr(M, 'rank_decomposition')"},"out":{"base":"Any"},"spec":{"lhs":"_pinv_rank_decomposition(M)","rhs":"<unspecified:_pinv_rank_decomposition>","over":{"base":"Any","pred":"hasattr(M, 'is_zero_matrix') and hasattr(M, 'H') and hasattr(M, 'rank_decomposition')"},"name":"_pinv_rank_decomposition_correct"},"guarantee":"subroutine for rank decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._pinv_rank_decomposition_correct","statement":"Path(_pinv_rank_decomposition(x), subroutine for rank decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1489a7beac3a5630","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'is_zero_matrix')","hasattr(M, 'H')","hasattr(M, 'rank_decomposition')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.H","M.is_zero_matrix","M.rank_decomposition"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _pinv_rank_decomposition(M):
     """Subroutine for rank decomposition
 
@@ -81,16 +99,25 @@ def _pinv_rank_decomposition(M):
     return Cp.multiply(Bp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pinv_diagonalization(M), subroutine using diagonalization) over Any ║
+# ║ Path(_pinv_diagonalization(M), <unspecified:_pinv_diagonalization>) over {Any | hasattr(M, 'is_zero_matrix') and hasattr(M, 'H') and hasattr(M, 'rows') and hasattr(M, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pinv_diagonalization : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'is_zero_matrix')                   ║
+# ║   requires: hasattr(M, 'H')                                ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pinv_diagonalization : {Any | hasattr(M, 'is_zero_ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a828fc38d1b11709  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._pinv_diagonalization","kind":"function","src_hash":"14aa1d93549f4b41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pinv_diagonalization(M)","rhs":"subroutine using diagonalization","over":{"base":"Any"},"name":"_pinv_diagonalization_correct"},"guarantee":"subroutine using diagonalization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._pinv_diagonalization_correct","statement":"Path(_pinv_diagonalization(x), subroutine using diagonalization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a828fc38d1b11709"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._pinv_diagonalization","kind":"function","src_hash":"14aa1d93549f4b41","in":{"base":"Any","pred":"hasattr(M, 'is_zero_matrix') and hasattr(M, 'H') and hasattr(M, 'rows') and hasattr(M, 'cols')"},"out":{"base":"Any"},"spec":{"lhs":"_pinv_diagonalization(M)","rhs":"<unspecified:_pinv_diagonalization>","over":{"base":"Any","pred":"hasattr(M, 'is_zero_matrix') and hasattr(M, 'H') and hasattr(M, 'rows') and hasattr(M, 'cols')"},"name":"_pinv_diagonalization_correct"},"guarantee":"subroutine using diagonalization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._pinv_diagonalization_correct","statement":"Path(_pinv_diagonalization(x), subroutine using diagonalization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a828fc38d1b11709","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'is_zero_matrix')","hasattr(M, 'H')","hasattr(M, 'rows')","hasattr(M, 'cols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.H","M.cols","M.is_zero_matrix","M.rows"],"raises":["NotImplementedError"],"catches":["MatrixError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _pinv_diagonalization(M):
     """Subroutine using diagonalization
 
@@ -124,16 +151,24 @@ def _pinv_diagonalization(M):
             'diagonalization of A.H*A fails is not supported yet.')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pinv(M, ), calculate the moore-penrose pseudoinverse of the matrix) over Any ║
+# ║ Path(_pinv(M, method), <unspecified:_pinv>) over {Any | hasattr(M, 'is_zero_matrix') and hasattr(M, 'H')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pinv : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'is_zero_matrix')                   ║
+# ║   requires: hasattr(M, 'H')                                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pinv : {Any | hasattr(M, 'is_zero_matrix') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ced8b4317ef834e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._pinv","kind":"function","src_hash":"bba38edb58d32237","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pinv(M, )","rhs":"calculate the moore-penrose pseudoinverse of the matrix","over":{"base":"Any"},"name":"_pinv_correct"},"guarantee":"calculate the moore-penrose pseudoinverse of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._pinv_correct","statement":"Path(_pinv(x), calculate the moore-penrose pseudoinverse of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ced8b4317ef834e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._pinv","kind":"function","src_hash":"bba38edb58d32237","in":{"base":"Any","pred":"hasattr(M, 'is_zero_matrix') and hasattr(M, 'H')"},"out":{"base":"Any"},"spec":{"lhs":"_pinv(M, method)","rhs":"<unspecified:_pinv>","over":{"base":"Any","pred":"hasattr(M, 'is_zero_matrix') and hasattr(M, 'H')"},"name":"_pinv_correct"},"guarantee":"calculate the moore-penrose pseudoinverse of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._pinv_correct","statement":"Path(_pinv(x), calculate the moore-penrose pseudoinverse of the matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ced8b4317ef834e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'is_zero_matrix')","hasattr(M, 'H')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.H","M.is_zero_matrix"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _pinv(M, method='RD'):
     """Calculate the Moore-Penrose pseudoinverse of the matrix.
 
@@ -200,16 +235,25 @@ def _pinv(M, method='RD'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify_invertible(M, ), initial check to see if a matrix is invertible) over Any ║
+# ║ Path(_verify_invertible(M, iszerofunc), <unspecified:_verify_invertible>) over {Any | M.is_square and not (zero) and hasattr(M, 'is_square') and hasattr(M, 'det') and hasattr(M, 'rref')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _verify_invertible : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: not (zero)                                     ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _verify_invertible : {Any | M.is_square and not (zero...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67718395341746a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._verify_invertible","kind":"function","src_hash":"e9625a5e0d1a4557","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify_invertible(M, )","rhs":"initial check to see if a matrix is invertible","over":{"base":"Any"},"name":"_verify_invertible_correct"},"guarantee":"initial check to see if a matrix is invertible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._verify_invertible_correct","statement":"Path(_verify_invertible(x), initial check to see if a matrix is invertible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67718395341746a6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._verify_invertible","kind":"function","src_hash":"e9625a5e0d1a4557","in":{"base":"Any","pred":"M.is_square and not (zero) and hasattr(M, 'is_square') and hasattr(M, 'det') and hasattr(M, 'rref')"},"out":{"base":"Any"},"spec":{"lhs":"_verify_invertible(M, iszerofunc)","rhs":"<unspecified:_verify_invertible>","over":{"base":"Any","pred":"M.is_square and not (zero) and hasattr(M, 'is_square') and hasattr(M, 'det') and hasattr(M, 'rref')"},"name":"_verify_invertible_correct"},"guarantee":"initial check to see if a matrix is invertible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._verify_invertible_correct","statement":"Path(_verify_invertible(x), initial check to see if a matrix is invertible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67718395341746a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["M.is_square","not (zero)","hasattr(M, 'is_square')","hasattr(M, 'det')","hasattr(M, 'rref')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.det","M.is_square","M.rref"],"raises":["NonInvertibleMatrixError","NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonInvertibleMatrixError":["isinstance(raised, NonInvertibleMatrixError)"],"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _verify_invertible(M, iszerofunc=_iszero):
     """Initial check to see if a matrix is invertible. Raises or returns
     determinant for use in _inv_ADJ."""
@@ -230,16 +274,23 @@ def _verify_invertible(M, iszerofunc=_iszero):
     return d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inv_ADJ(M, ), calculates the inverse using the adjugate matrix and a determinant) over Any ║
+# ║ Path(_inv_ADJ(M, iszerofunc), M.adjugate() / d) over {Any | hasattr(M, 'adjugate')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inv_ADJ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'adjugate')                         ║
+# ║   returns:  M.adjugate() / d                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inv_ADJ : {Any | hasattr(M, 'adjugate')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4b2a88840b2ea81  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9abd099b262bae6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_ADJ","kind":"function","src_hash":"e8f04af01e5fd00e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inv_ADJ(M, )","rhs":"calculates the inverse using the adjugate matrix and a determinant","over":{"base":"Any"},"name":"_inv_ADJ_correct"},"guarantee":"calculates the inverse using the adjugate matrix and a determinant","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._inv_ADJ_correct","statement":"Path(_inv_ADJ(x), calculates the inverse using the adjugate matrix and a determinant)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4b2a88840b2ea81"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_ADJ","kind":"function","src_hash":"e8f04af01e5fd00e","in":{"base":"Any","pred":"hasattr(M, 'adjugate')"},"out":{"base":"Any"},"spec":{"lhs":"_inv_ADJ(M, iszerofunc)","rhs":"M.adjugate() / d","over":{"base":"Any","pred":"hasattr(M, 'adjugate')"},"name":"_inv_ADJ_correct"},"guarantee":"returns M.adjugate() / d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._inv_ADJ_correct","statement":"Path(_inv_ADJ(x), returns M.adjugate() / d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9abd099b262bae6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'adjugate')"],"returns_expr":"M.adjugate() / d","pure":false,"effects":{"effect_type":"reads_state","reads":["M.adjugate"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _inv_ADJ(M, iszerofunc=_iszero):
     """Calculates the inverse using the adjugate matrix and a determinant.
 
@@ -258,16 +309,25 @@ def _inv_ADJ(M, iszerofunc=_iszero):
     return M.adjugate() / d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inv_GE(M, ), calculates the inverse using gaussian elimination) over Any ║
+# ║ Path(_inv_GE(M, iszerofunc), M._new(red[:, big.rows:])) over {Any | M.is_square and not (any((iszerofunc(red[j, j]) for j in range(red.rows)))) and hasattr(M, 'is_square') and hasattr(M, '_new') and hasattr(M, 'as_mutable') and hasattr(M, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inv_GE : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: not (any((iszerofunc(red[j, j]) for j in ...   ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   returns:  M._new(red[:, big.rows:])                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inv_GE : {Any | M.is_square and not (any((iszerofunc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bab81814c3da2c29  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24cedc3692e76ad1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_GE","kind":"function","src_hash":"31cb5eb7dfaed937","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inv_GE(M, )","rhs":"calculates the inverse using gaussian elimination","over":{"base":"Any"},"name":"_inv_GE_correct"},"guarantee":"calculates the inverse using gaussian elimination","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._inv_GE_correct","statement":"Path(_inv_GE(x), calculates the inverse using gaussian elimination)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bab81814c3da2c29"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_GE","kind":"function","src_hash":"31cb5eb7dfaed937","in":{"base":"Any","pred":"M.is_square and not (any((iszerofunc(red[j, j]) for j in range(red.rows)))) and hasattr(M, 'is_square') and hasattr(M, '_new') and hasattr(M, 'as_mutable') and hasattr(M, 'rows')"},"out":{"base":"Any"},"spec":{"lhs":"_inv_GE(M, iszerofunc)","rhs":"M._new(red[:, big.rows:])","over":{"base":"Any","pred":"M.is_square and not (any((iszerofunc(red[j, j]) for j in range(red.rows)))) and hasattr(M, 'is_square') and hasattr(M, '_new') and hasattr(M, 'as_mutable') and hasattr(M, 'rows')"},"name":"_inv_GE_correct"},"guarantee":"returns M._new(red[:, big.rows:])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._inv_GE_correct","statement":"Path(_inv_GE(x), returns M._new(red[:, big.rows:]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24cedc3692e76ad1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","not (any((iszerofunc(red[j, j]) for j in range(red.rows))))","hasattr(M, 'is_square')","hasattr(M, '_new')","hasattr(M, 'as_mutable')","hasattr(M, 'rows')"],"returns_expr":"M._new(red[:, big.rows:])","pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.as_mutable","M.is_square","M.rows"],"raises":["NonInvertibleMatrixError","NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonInvertibleMatrixError":["isinstance(raised, NonInvertibleMatrixError)"],"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _inv_GE(M, iszerofunc=_iszero):
     """Calculates the inverse using Gaussian elimination.
 
@@ -295,16 +355,25 @@ def _inv_GE(M, iszerofunc=_iszero):
     return M._new(red[:, big.rows:])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inv_LU(M, ), id) over Any                            ║
+# ║ Path(_inv_LU(M, iszerofunc), id) over {Any | M.is_square and hasattr(M, 'free_symbols') and hasattr(M, 'is_square') and hasattr(M, 'LUsolve') and hasattr(M, 'eye') and hasattr(M, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inv_LU : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'free_symbols')                     ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   returns:  M.LUsolve(M.eye(M.rows), iszerofunc=_iszero)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inv_LU : {Any | M.is_square and hasattr(M, 'free_sym...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1b9e006f3342a743   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_LU","kind":"function","src_hash":"8f2c348aadc1c2d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inv_LU(M, )","rhs":"calculates the inverse using lu decomposition","over":{"base":"Any"},"name":"_inv_LU_correct","kind":"composition"},"guarantee":"calculates the inverse using lu decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"LUsolve","by":"library_axiom"},{"fn":"eye","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b9e006f3342a743"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_LU","kind":"function","src_hash":"8f2c348aadc1c2d3","in":{"base":"Any","pred":"M.is_square and hasattr(M, 'free_symbols') and hasattr(M, 'is_square') and hasattr(M, 'LUsolve') and hasattr(M, 'eye') and hasattr(M, 'rows')"},"out":{"base":"Any"},"spec":{"lhs":"_inv_LU(M, iszerofunc)","rhs":"M.LUsolve(M.eye(M.rows), iszerofunc=_iszero)","over":{"base":"Any","pred":"M.is_square and hasattr(M, 'free_symbols') and hasattr(M, 'is_square') and hasattr(M, 'LUsolve') and hasattr(M, 'eye') and hasattr(M, 'rows')"},"name":"_inv_LU_correct","kind":"composition"},"guarantee":"returns M.LUsolve(M.eye(M.rows), iszerofunc=_iszero)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"LUsolve","by":"library_axiom"},{"fn":"eye","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b9e006f3342a743","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","hasattr(M, 'free_symbols')","hasattr(M, 'is_square')","hasattr(M, 'LUsolve')","hasattr(M, 'eye')","hasattr(M, 'rows')"],"returns_expr":"M.LUsolve(M.eye(M.rows), iszerofunc=_iszero)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.LUsolve","M.eye","M.free_symbols","M.is_square","M.rows"],"raises":["NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _inv_LU(M, iszerofunc=_iszero):
     """Calculates the inverse using LU decomposition.
 
@@ -326,16 +395,25 @@ def _inv_LU(M, iszerofunc=_iszero):
     return M.LUsolve(M.eye(M.rows), iszerofunc=_iszero)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inv_CH(M, ), id) over Any                            ║
+# ║ Path(_inv_CH(M, iszerofunc), id) over {Any | hasattr(M, 'cholesky_solve') and hasattr(M, 'eye') and hasattr(M, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inv_CH : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'cholesky_solve')                   ║
+# ║   requires: hasattr(M, 'eye')                              ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   returns:  M.cholesky_solve(M.eye(M.rows))                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inv_CH : {Any | hasattr(M, 'cholesky_solve') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 43d46d72f9d10240   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_CH","kind":"function","src_hash":"05d2c0de882a6759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inv_CH(M, )","rhs":"calculates the inverse using cholesky decomposition","over":{"base":"Any"},"name":"_inv_CH_correct","kind":"composition"},"guarantee":"calculates the inverse using cholesky decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cholesky_solve","by":"library_axiom"},{"fn":"eye","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43d46d72f9d10240"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_CH","kind":"function","src_hash":"05d2c0de882a6759","in":{"base":"Any","pred":"hasattr(M, 'cholesky_solve') and hasattr(M, 'eye') and hasattr(M, 'rows')"},"out":{"base":"Any"},"spec":{"lhs":"_inv_CH(M, iszerofunc)","rhs":"M.cholesky_solve(M.eye(M.rows))","over":{"base":"Any","pred":"hasattr(M, 'cholesky_solve') and hasattr(M, 'eye') and hasattr(M, 'rows')"},"name":"_inv_CH_correct","kind":"composition"},"guarantee":"returns M.cholesky_solve(M.eye(M.rows))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cholesky_solve","by":"library_axiom"},{"fn":"eye","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43d46d72f9d10240","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'cholesky_solve')","hasattr(M, 'eye')","hasattr(M, 'rows')"],"returns_expr":"M.cholesky_solve(M.eye(M.rows))","pure":false,"effects":{"effect_type":"reads_state","reads":["M.cholesky_solve","M.eye","M.rows"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _inv_CH(M, iszerofunc=_iszero):
     """Calculates the inverse using cholesky decomposition.
 
@@ -354,16 +432,25 @@ def _inv_CH(M, iszerofunc=_iszero):
     return M.cholesky_solve(M.eye(M.rows))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inv_LDL(M, ), id) over Any                           ║
+# ║ Path(_inv_LDL(M, iszerofunc), id) over {Any | hasattr(M, 'LDLsolve') and hasattr(M, 'eye') and hasattr(M, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inv_LDL : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'LDLsolve')                         ║
+# ║   requires: hasattr(M, 'eye')                              ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   returns:  M.LDLsolve(M.eye(M.rows))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inv_LDL : {Any | hasattr(M, 'LDLsolve') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0746c46f63a0b0f3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_LDL","kind":"function","src_hash":"124a92af2309cf71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inv_LDL(M, )","rhs":"calculates the inverse using ldl decomposition","over":{"base":"Any"},"name":"_inv_LDL_correct","kind":"composition"},"guarantee":"calculates the inverse using ldl decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"LDLsolve","by":"library_axiom"},{"fn":"eye","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0746c46f63a0b0f3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_LDL","kind":"function","src_hash":"124a92af2309cf71","in":{"base":"Any","pred":"hasattr(M, 'LDLsolve') and hasattr(M, 'eye') and hasattr(M, 'rows')"},"out":{"base":"Any"},"spec":{"lhs":"_inv_LDL(M, iszerofunc)","rhs":"M.LDLsolve(M.eye(M.rows))","over":{"base":"Any","pred":"hasattr(M, 'LDLsolve') and hasattr(M, 'eye') and hasattr(M, 'rows')"},"name":"_inv_LDL_correct","kind":"composition"},"guarantee":"returns M.LDLsolve(M.eye(M.rows))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"LDLsolve","by":"library_axiom"},{"fn":"eye","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0746c46f63a0b0f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'LDLsolve')","hasattr(M, 'eye')","hasattr(M, 'rows')"],"returns_expr":"M.LDLsolve(M.eye(M.rows))","pure":false,"effects":{"effect_type":"reads_state","reads":["M.LDLsolve","M.eye","M.rows"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _inv_LDL(M, iszerofunc=_iszero):
     """Calculates the inverse using LDL decomposition.
 
@@ -382,16 +469,25 @@ def _inv_LDL(M, iszerofunc=_iszero):
     return M.LDLsolve(M.eye(M.rows))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inv_QR(M, ), id) over Any                            ║
+# ║ Path(_inv_QR(M, iszerofunc), id) over {Any | hasattr(M, 'QRsolve') and hasattr(M, 'eye') and hasattr(M, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inv_QR : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'QRsolve')                          ║
+# ║   requires: hasattr(M, 'eye')                              ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   returns:  M.QRsolve(M.eye(M.rows))                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inv_QR : {Any | hasattr(M, 'QRsolve') and hasattr(M,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ca00f358a7387e3e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_QR","kind":"function","src_hash":"f4435abf5898ae64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inv_QR(M, )","rhs":"calculates the inverse using qr decomposition","over":{"base":"Any"},"name":"_inv_QR_correct","kind":"composition"},"guarantee":"calculates the inverse using qr decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"QRsolve","by":"library_axiom"},{"fn":"eye","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca00f358a7387e3e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_QR","kind":"function","src_hash":"f4435abf5898ae64","in":{"base":"Any","pred":"hasattr(M, 'QRsolve') and hasattr(M, 'eye') and hasattr(M, 'rows')"},"out":{"base":"Any"},"spec":{"lhs":"_inv_QR(M, iszerofunc)","rhs":"M.QRsolve(M.eye(M.rows))","over":{"base":"Any","pred":"hasattr(M, 'QRsolve') and hasattr(M, 'eye') and hasattr(M, 'rows')"},"name":"_inv_QR_correct","kind":"composition"},"guarantee":"returns M.QRsolve(M.eye(M.rows))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"QRsolve","by":"library_axiom"},{"fn":"eye","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca00f358a7387e3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'QRsolve')","hasattr(M, 'eye')","hasattr(M, 'rows')"],"returns_expr":"M.QRsolve(M.eye(M.rows))","pure":false,"effects":{"effect_type":"reads_state","reads":["M.QRsolve","M.eye","M.rows"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _inv_QR(M, iszerofunc=_iszero):
     """Calculates the inverse using QR decomposition.
 
@@ -410,16 +506,27 @@ def _inv_QR(M, iszerofunc=_iszero):
     return M.QRsolve(M.eye(M.rows))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_try_DM(M, ), try to convert a matrix to a ``domainmatrix``) over Any ║
+# ║ Path(_try_DM(M, use_EX), result == (None if not use_EX and K.is_EXRAW else dM.convert_to(EX) if K.is_EXRAW else dM) and result == None or result == dM.convert_to(EX) or result == dM) over {Any | hasattr(M, 'to_DM')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _try_DM : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'to_DM')                            ║
+# ║   ensures:  result == (None if not use_EX and K.is_EX...   ║
+# ║   ensures:  result == None or result == dM.convert_to...   ║
+# ║   fiber[case_0]: not use_EX and K.is_EXRAW => None         ║
+# ║   fiber[case_1]: K.is_EXRAW => dM.convert_to(EX)           ║
+# ║   fiber[case_2]: not (not use_EX and K.is_EXRAW) and ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _try_DM : {Any | hasattr(M, 'to_DM')} → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2e5534dcd584265  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0807a44f55a17129  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._try_DM","kind":"function","src_hash":"88fe046cee4faf67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_try_DM(M, )","rhs":"try to convert a matrix to a ``domainmatrix``","over":{"base":"Any"},"name":"_try_DM_correct"},"guarantee":"try to convert a matrix to a ``domainmatrix``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._try_DM_correct","statement":"Path(_try_DM(x), try to convert a matrix to a ``domainmatrix``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2e5534dcd584265"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._try_DM","kind":"function","src_hash":"88fe046cee4faf67","in":{"base":"Any","pred":"hasattr(M, 'to_DM')"},"out":{"base":"Any","pred":"result satisfies: result == (None if not use_EX and K.is_EXRAW else dM.convert_to(EX) if K.is_EXRAW else dM) and result == None or result == dM.convert_to(EX) or result == dM"},"spec":{"lhs":"_try_DM(M, use_EX)","rhs":"result == (None if not use_EX and K.is_EXRAW else dM.convert_to(EX) if K.is_EXRAW else dM) and result == None or result == dM.convert_to(EX) or result == dM","over":{"base":"Any","pred":"hasattr(M, 'to_DM')"},"name":"_try_DM_correct"},"guarantee":"result == (None if not use_EX and K.is_EXRAW else dM.convert_to(EX) if K.is_EXRAW else dM); result == None or result == dM.convert_to(EX) or result == dM; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._try_DM_correct","statement":"Path(_try_DM(x), result == (None if not use_EX and K.is_EXRAW else dM.convert_to(EX) if K.is_EXRAW else dM); result == None or result == dM.convert_to(EX) or result == dM; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0807a44f55a17129","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'to_DM')"],"ensures":["result == (None if not use_EX and K.is_EXRAW else dM.convert_to(EX) if K.is_EXRAW else dM)","result == None or result == dM.convert_to(EX) or result == dM"],"fibers":[{"name":"case_0","guard":"not use_EX and K.is_EXRAW","ensures":["result == None"],"decidability":"library","returns_expr":"None"},{"name":"case_1","guard":"K.is_EXRAW","ensures":["result == dM.convert_to(EX)"],"decidability":"library","returns_expr":"dM.convert_to(EX)"},{"name":"case_2","guard":"not (not use_EX and K.is_EXRAW) and not (K.is_EXRAW)","ensures":["result == dM"],"decidability":"library","returns_expr":"dM"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.to_DM"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _try_DM(M, use_EX=False):
     """Try to convert a matrix to a ``DomainMatrix``."""
     dM = M.to_DM()
@@ -435,16 +542,28 @@ def _try_DM(M, use_EX=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_use_exact_domain(dom), check whether to convert to an exact domain) over Any ║
+# ║ Path(_use_exact_domain(dom), result == (False if dom.is_RR or dom.is_CC else not dom.is_Exact) and result == False or result == not dom.is_Exact) over {Any | hasattr(dom, 'is_RR') and hasattr(dom, 'is_CC') and hasattr(dom, 'is_Exact')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _use_exact_domain : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dom, 'is_RR')                          ║
+# ║   requires: hasattr(dom, 'is_CC')                          ║
+# ║   requires: hasattr(dom, 'is_Exact')                       ║
+# ║   ensures:  result == (False if dom.is_RR or dom.is_C...   ║
+# ║   ensures:  result == False or result == not dom.is_E...   ║
+# ║   fiber[case_0]: dom.is_RR or dom.is_CC => False           ║
+# ║   fiber[case_1]: not (dom.is_RR or dom.is_CC) => not ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _use_exact_domain : {Any | hasattr(dom, 'is_RR') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84ad2be11320a310  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d0018add9a683ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._use_exact_domain","kind":"function","src_hash":"5c7811cfecfdbd5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_use_exact_domain(dom)","rhs":"check whether to convert to an exact domain","over":{"base":"Any"},"name":"_use_exact_domain_correct"},"guarantee":"check whether to convert to an exact domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._use_exact_domain_correct","statement":"Path(_use_exact_domain(x), check whether to convert to an exact domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84ad2be11320a310"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._use_exact_domain","kind":"function","src_hash":"5c7811cfecfdbd5c","in":{"base":"Any","pred":"hasattr(dom, 'is_RR') and hasattr(dom, 'is_CC') and hasattr(dom, 'is_Exact')"},"out":{"base":"Any","pred":"result satisfies: result == (False if dom.is_RR or dom.is_CC else not dom.is_Exact) and result == False or result == not dom.is_Exact"},"spec":{"lhs":"_use_exact_domain(dom)","rhs":"result == (False if dom.is_RR or dom.is_CC else not dom.is_Exact) and result == False or result == not dom.is_Exact","over":{"base":"Any","pred":"hasattr(dom, 'is_RR') and hasattr(dom, 'is_CC') and hasattr(dom, 'is_Exact')"},"name":"_use_exact_domain_correct"},"guarantee":"result == (False if dom.is_RR or dom.is_CC else not dom.is_Exact); result == False or result == not dom.is_Exact; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._use_exact_domain_correct","statement":"Path(_use_exact_domain(x), result == (False if dom.is_RR or dom.is_CC else not dom.is_Exact); result == False or result == not dom.is_Exact; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d0018add9a683ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dom, 'is_RR')","hasattr(dom, 'is_CC')","hasattr(dom, 'is_Exact')"],"ensures":["result == (False if dom.is_RR or dom.is_CC else not dom.is_Exact)","result == False or result == not dom.is_Exact"],"fibers":[{"name":"case_0","guard":"dom.is_RR or dom.is_CC","ensures":["result == False"],"decidability":"library","returns_expr":"False"},{"name":"case_1","guard":"not (dom.is_RR or dom.is_CC)","ensures":["result == not dom.is_Exact"],"decidability":"library","returns_expr":"not dom.is_Exact"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["dom.is_CC","dom.is_Exact","dom.is_RR"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _use_exact_domain(dom):
     """Check whether to convert to an exact domain."""
     # DomainMatrix can handle RR and CC with partial pivoting. Other inexact
@@ -457,16 +576,25 @@ def _use_exact_domain(dom):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inv_DM(dM,), calculates the inverse using ``domainmatrix``) over Any ║
+# ║ Path(_inv_DM(dM, cancel), <unspecified:_inv_DM>) over {Any | not (m != n) and hasattr(dM, 'shape') and hasattr(dM, 'domain') and hasattr(dM, 'convert_to') and hasattr(dM, 'inv_den')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inv_DM : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (m != n)                                   ║
+# ║   requires: hasattr(dM, 'shape')                           ║
+# ║   requires: hasattr(dM, 'domain')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inv_DM : {Any | not (m != n) and hasattr(dM, 'shape'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37b5a93336c86ebd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_DM","kind":"function","src_hash":"dd6d837f8179b32f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inv_DM(dM,)","rhs":"calculates the inverse using ``domainmatrix``","over":{"base":"Any"},"name":"_inv_DM_correct"},"guarantee":"calculates the inverse using ``domainmatrix``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._inv_DM_correct","statement":"Path(_inv_DM(x), calculates the inverse using ``domainmatrix``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37b5a93336c86ebd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_DM","kind":"function","src_hash":"dd6d837f8179b32f","in":{"base":"Any","pred":"not (m != n) and hasattr(dM, 'shape') and hasattr(dM, 'domain') and hasattr(dM, 'convert_to') and hasattr(dM, 'inv_den')"},"out":{"base":"Any"},"spec":{"lhs":"_inv_DM(dM, cancel)","rhs":"<unspecified:_inv_DM>","over":{"base":"Any","pred":"not (m != n) and hasattr(dM, 'shape') and hasattr(dM, 'domain') and hasattr(dM, 'convert_to') and hasattr(dM, 'inv_den')"},"name":"_inv_DM_correct"},"guarantee":"calculates the inverse using ``domainmatrix``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._inv_DM_correct","statement":"Path(_inv_DM(x), calculates the inverse using ``domainmatrix``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37b5a93336c86ebd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (m != n)","hasattr(dM, 'shape')","hasattr(dM, 'domain')","hasattr(dM, 'convert_to')","hasattr(dM, 'inv_den')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dM.convert_to","dM.domain","dM.inv_den","dM.shape"],"raises":["NonInvertibleMatrixError","NonSquareMatrixError"],"catches":["DMNonInvertibleMatrixError"]},"state_contract":{"exceptional_post":{"NonInvertibleMatrixError":["isinstance(raised, NonInvertibleMatrixError)"],"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _inv_DM(dM, cancel=True):
     """Calculates the inverse using ``DomainMatrix``.
 
@@ -514,16 +642,24 @@ def _inv_DM(dM, cancel=True):
     return Mi
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inv_block(M, ), calculates the inverse using blockwise inversion) over Any ║
+# ║ Path(_inv_block(M, iszerofunc), # HINT: _inv_block may be idempotent: _inv_block(_inv_block(x)) == _inv_block(x)) over {Any | hasattr(M, 'shape') and hasattr(M, 'inv')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inv_block : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'shape')                            ║
+# ║   requires: hasattr(M, 'inv')                              ║
+# ║   ensures:  # HINT: _inv_block may be idempotent: _in...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inv_block : {Any | hasattr(M, 'shape') and hasattr(M...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e080e01e762e169  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0e4e1db7a1aff29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_block","kind":"function","src_hash":"29938dafc34f0c29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inv_block(M, )","rhs":"calculates the inverse using blockwise inversion","over":{"base":"Any"},"name":"_inv_block_correct"},"guarantee":"calculates the inverse using blockwise inversion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._inv_block_correct","statement":"Path(_inv_block(x), calculates the inverse using blockwise inversion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e080e01e762e169"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv_block","kind":"function","src_hash":"29938dafc34f0c29","in":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'inv')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _inv_block may be idempotent: _inv_block(_inv_block(x)) == _inv_block(x)"},"spec":{"lhs":"_inv_block(M, iszerofunc)","rhs":"# HINT: _inv_block may be idempotent: _inv_block(_inv_block(x)) == _inv_block(x)","over":{"base":"Any","pred":"hasattr(M, 'shape') and hasattr(M, 'inv')"},"name":"_inv_block_correct"},"guarantee":"# HINT: _inv_block may be idempotent: _inv_block(_inv_block(x)) == _inv_block(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._inv_block_correct","statement":"Path(_inv_block(x), # HINT: _inv_block may be idempotent: _inv_block(_inv_block(x)) == _inv_block(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0e4e1db7a1aff29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'shape')","hasattr(M, 'inv')"],"ensures":["# HINT: _inv_block may be idempotent: _inv_block(_inv_block(x)) == _inv_block(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.inv","M.shape"],"catches":["NonInvertibleMatrixError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _inv_block(M, iszerofunc=_iszero):
     """Calculates the inverse using BLOCKWISE inversion.
 
@@ -563,9 +699,15 @@ def _inv_block(M, iszerofunc=_iszero):
     return nn
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inv(M, ), return the inverse of a matrix using the method indicated) over {Any | isinstance(M, SparseMatrix)} ║
+# ║ Path(_inv(M, method, iszerofunc), len(r) == old_len_r + 1) over {Any | isinstance(M, SparseMatrix) and M.is_square and hasattr(M, 'is_square') and hasattr(M, '_new') and hasattr(M, 'get_diag_blocks') and hasattr(M, 'inverse_GE') and hasattr(M, 'inverse_LU') and hasattr(M, 'inverse_ADJ') and hasattr(M, 'inverse_CH') and hasattr(M, 'inverse_LDL') and hasattr(M, 'inverse_QR') and hasattr(M, 'inverse_BLOCK')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inv : {Any | isinstance(M, SparseMatrix)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, '_new')                             ║
+# ║   ensures:  len(r) == old_len_r + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inv : {Any | isinstance(M, SparseMatrix) and M.is_sq...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   SparseMatrix: {isinstance(M, SparseMatrix)} → libra...   ║
@@ -575,9 +717,12 @@ def _inv_block(M, iszerofunc=_iszero):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 56515839...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv","kind":"function","src_hash":"20bd26ec9c7d0cf9","in":{"base":"Any","pred":"isinstance(M, SparseMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"_inv(M, )","rhs":"return the inverse of a matrix using the method indicated","over":{"base":"Any","pred":"isinstance(M, SparseMatrix)"},"name":"_inv_correct"},"guarantee":"return the inverse of a matrix using the method indicated","fibers":[{"name":"SparseMatrix","pred":"isinstance(M, SparseMatrix)","path":{"lhs":"_inv(x)","rhs":"return the inverse of a matrix using the method indicated","over":{"base":"SparseMatrix","pred":"isinstance(M, SparseMatrix)"},"name":"_inv_SparseMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._inv_SparseMatrix_correct","statement":"_inv satisfies spec on SparseMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"56515839b19b44cd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.inverse._inv","kind":"function","src_hash":"20bd26ec9c7d0cf9","in":{"base":"Any","pred":"isinstance(M, SparseMatrix) and M.is_square and hasattr(M, 'is_square') and hasattr(M, '_new') and hasattr(M, 'get_diag_blocks') and hasattr(M, 'inverse_GE') and hasattr(M, 'inverse_LU') and hasattr(M, 'inverse_ADJ') and hasattr(M, 'inverse_CH') and hasattr(M, 'inverse_LDL') and hasattr(M, 'inverse_QR') and hasattr(M, 'inverse_BLOCK')"},"out":{"base":"Any","pred":"result satisfies: len(r) == old_len_r + 1"},"spec":{"lhs":"_inv(M, method, iszerofunc)","rhs":"len(r) == old_len_r + 1","over":{"base":"Any","pred":"isinstance(M, SparseMatrix) and M.is_square and hasattr(M, 'is_square') and hasattr(M, '_new') and hasattr(M, 'get_diag_blocks') and hasattr(M, 'inverse_GE') and hasattr(M, 'inverse_LU') and hasattr(M, 'inverse_ADJ') and hasattr(M, 'inverse_CH') and hasattr(M, 'inverse_LDL') and hasattr(M, 'inverse_QR') and hasattr(M, 'inverse_BLOCK')"},"name":"_inv_correct"},"guarantee":"len(r) == old_len_r + 1","fibers":[{"name":"SparseMatrix","pred":"isinstance(M, SparseMatrix)","path":{"lhs":"_inv(x)","rhs":"len(r) == old_len_r + 1","over":{"base":"SparseMatrix","pred":"isinstance(M, SparseMatrix)"},"name":"_inv_SparseMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.inverse._inv_SparseMatrix_correct","statement":"_inv satisfies spec on SparseMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"56515839b19b44cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","hasattr(M, 'is_square')","hasattr(M, '_new')","hasattr(M, 'get_diag_blocks')","hasattr(M, 'inverse_GE')","hasattr(M, 'inverse_LU')","hasattr(M, 'inverse_ADJ')","hasattr(M, 'inverse_CH')","hasattr(M, 'inverse_LDL')","hasattr(M, 'inverse_QR')","hasattr(M, 'inverse_BLOCK')"],"ensures":["len(r) == old_len_r + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.get_diag_blocks","M.inverse_ADJ","M.inverse_BLOCK","M.inverse_CH","M.inverse_GE","M.inverse_LDL","M.inverse_LU","M.inverse_QR","M.is_square"],"calls_mutating":["r.append"],"raises":["NonSquareMatrixError","ValueError"]},"state_contract":{"modifies":["r.*"],"old_bindings":{"old_len_r":"len(r)"},"post_ensures":["len(r) == old_len_r + 1"],"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"method == 'BLOCK'\", \"method == 'DM'\", \"method == 'ADJ'\", \"method == 'QR'\", \"method == 'GE'\", \"method == 'LDL'\", \"method == 'LU'\", 'method is None', 'method is None and iszerofunc is _iszero', 'isinstance(M, SparseMatrix)', \"method == 'CH'\", \"method == 'DMNC'\"}, fibers={'SparseMatrix'})"]}}
 def _inv(M, method=None, iszerofunc=_iszero, try_block_diag=False):
     """
     Return the inverse of a matrix using the method indicated. The default

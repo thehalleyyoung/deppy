@@ -24,16 +24,22 @@ from sympy.core.sympify import sympify
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(RecurrenceOperators(bas), returns an algebra of recurrence operators and the operator for shifting i.e) over Any ║
+# ║ Path(RecurrenceOperators(base, generator), (ring, ring.shift_operator)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (ring, ring.shift_operator)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ RecurrenceOperators : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f65a2db9ee7779cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63301a2468b73b4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperators","kind":"function","src_hash":"fca0f068007cc329","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RecurrenceOperators(bas)","rhs":"returns an algebra of recurrence operators and the operator for shifting i.e","over":{"base":"Any"},"name":"RecurrenceOperators_correct"},"guarantee":"returns an algebra of recurrence operators and the operator for shifting i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.recurrence.RecurrenceOperators_correct","statement":"Path(RecurrenceOperators(x), returns an algebra of recurrence operators and the operator for shifting i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f65a2db9ee7779cf"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperators","kind":"function","src_hash":"fca0f068007cc329","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RecurrenceOperators(base, generator)","rhs":"(ring, ring.shift_operator)","over":{"base":"Any"},"name":"RecurrenceOperators_correct"},"guarantee":"returns (ring, ring.shift_operator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.recurrence.RecurrenceOperators_correct","statement":"Path(RecurrenceOperators(x), returns (ring, ring.shift_operator))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63301a2468b73b4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(ring, ring.shift_operator)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def RecurrenceOperators(base, generator):
     """
     Returns an Algebra of Recurrence Operators and the operator for
@@ -59,14 +65,19 @@ def RecurrenceOperators(base, generator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a RecurrenceOperatorAlgebra instance) preserved by RecurrenceOperatorAlgebra(*args) over {Any | isinstance(generator, str) and isinstance(generator, Symbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RecurrenceOperatorAlgebra : {Any | isinstance(generat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbdc8869a63ed8b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperatorAlgebra","kind":"class","src_hash":"36c15af417f5be50","in":{"base":"Any","pred":"isinstance(generator, str) and isinstance(generator, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"RecurrenceOperatorAlgebra(*args)","rhs":"correctly constructs a RecurrenceOperatorAlgebra instance","over":{"base":"Any","pred":"isinstance(generator, str) and isinstance(generator, Symbol)"},"name":"RecurrenceOperatorAlgebra_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a RecurrenceOperatorAlgebra instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'base') and hasattr(self, 'shift_operator') and hasattr(self, 'gen_symbol') and hasattr(self, 'gen_symbol') and hasattr(self, 'gen_symbol')","kind":"class","induction":"structural on base, shift_operator, gen_symbol, gen_symbol"}],"methods_preserving":["__init__","__str__","__eq__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbdc8869a63ed8b2"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperatorAlgebra","kind":"class","src_hash":"36c15af417f5be50","in":{"base":"Any","pred":"isinstance(generator, str) and isinstance(generator, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"RecurrenceOperatorAlgebra(*args)","rhs":"correctly constructs a RecurrenceOperatorAlgebra instance","over":{"base":"Any","pred":"isinstance(generator, str) and isinstance(generator, Symbol)"},"name":"RecurrenceOperatorAlgebra_class_invariant","kind":"invariant"},"guarantee":"preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'base') and hasattr(self, 'shift_operator') and hasattr(self, 'gen_symbol') and hasattr(self, 'gen_symbol') and hasattr(self, 'gen_symbol')","kind":"class","induction":"structural on base, shift_operator, gen_symbol, gen_symbol"}],"methods_preserving":["__init__","__str__","__eq__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbdc8869a63ed8b2","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'base')","hasattr(self, 'shift_operator')","hasattr(self, 'gen_symbol')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function RecurrenceOperatorAlgebra not found in source"]}}
 class RecurrenceOperatorAlgebra:
     """
     A Recurrence Operator Algebra is a set of noncommutative polynomials
@@ -96,16 +107,25 @@ class RecurrenceOperatorAlgebra:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(bas), initializes the instance correctly) over Any ║
+# ║ Path(__init__(base, generator), self.base == base and self.gen_symbol == generator) over {Any | hasattr(base, 'zero') and hasattr(base, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(base, 'zero')                          ║
+# ║   requires: hasattr(base, 'one')                           ║
+# ║   ensures:  self.base == base                              ║
+# ║   ensures:  self.gen_symbol == generator                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(base, 'zero') and hasattr(b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 88b62d13ccc68fcb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperatorAlgebra.__init__","kind":"method","src_hash":"80d60ac0c3460f70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(bas)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"88b62d13ccc68fcb"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperatorAlgebra.__init__","kind":"method","src_hash":"80d60ac0c3460f70","in":{"base":"Any","pred":"hasattr(base, 'zero') and hasattr(base, 'one')"},"out":{"base":"Any","pred":"result satisfies: self.base == base and self.gen_symbol == generator"},"spec":{"lhs":"__init__(base, generator)","rhs":"self.base == base and self.gen_symbol == generator","over":{"base":"Any","pred":"hasattr(base, 'zero') and hasattr(base, 'one')"},"name":"__init___correct"},"guarantee":"self.base == base; self.gen_symbol == generator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"88b62d13ccc68fcb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(base, 'zero')","hasattr(base, 'one')"],"ensures":["self.base == base","self.gen_symbol == generator"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, base, generator):
         # the base ring for the algebra
         self.base = base
@@ -122,16 +142,22 @@ class RecurrenceOperatorAlgebra:
                 self.gen_symbol = generator
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a216660fa63ab2cb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperatorAlgebra.__str__","kind":"method","src_hash":"397ed87a7401cf7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a216660fa63ab2cb"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperatorAlgebra.__str__","kind":"method","src_hash":"397ed87a7401cf7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a216660fa63ab2cb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.gen_symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         string = 'Univariate Recurrence Operator Algebra in intermediate '\
             + sstr(self.gen_symbol) + ' over the base ring ' + \
@@ -142,16 +168,27 @@ class RecurrenceOperatorAlgebra:
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), result == (True if self.base == other.base and self.gen_symbol == other.gen_symbol else False) and result == True or result == False) over {Any | hasattr(other, 'base') and hasattr(other, 'gen_symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'base')                         ║
+# ║   requires: hasattr(other, 'gen_symbol')                   ║
+# ║   ensures:  result == (True if self.base == other.bas...   ║
+# ║   ensures:  result == True or result == False              ║
+# ║   fiber[case_0]: self.base == other.base and self.gen...   ║
+# ║   fiber[case_1]: not (self.base == other.base and sel...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'base') and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9cad3f3fa9e471c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperatorAlgebra.__eq__","kind":"method","src_hash":"38543dffb4fe2fca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cad3f3fa9e471c4"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperatorAlgebra.__eq__","kind":"method","src_hash":"38543dffb4fe2fca","in":{"base":"Any","pred":"hasattr(other, 'base') and hasattr(other, 'gen_symbol')"},"out":{"base":"Any","pred":"result satisfies: result == (True if self.base == other.base and self.gen_symbol == other.gen_symbol else False) and result == True or result == False"},"spec":{"lhs":"__eq__(other)","rhs":"result == (True if self.base == other.base and self.gen_symbol == other.gen_symbol else False) and result == True or result == False","over":{"base":"Any","pred":"hasattr(other, 'base') and hasattr(other, 'gen_symbol')"},"name":"__eq___correct"},"guarantee":"result == (True if self.base == other.base and self.gen_symbol == other.gen_symbol else False); result == True or result == False; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cad3f3fa9e471c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'base')","hasattr(other, 'gen_symbol')"],"ensures":["result == (True if self.base == other.base and self.gen_symbol == other.gen_symbol else False)","result == True or result == False"],"fibers":[{"name":"case_0","guard":"self.base == other.base and self.gen_symbol == other.gen_symbol","ensures":["result == True"],"decidability":"z3","returns_expr":"True"},{"name":"case_1","guard":"not (self.base == other.base and self.gen_symbol == other.gen_symbol)","ensures":["result == False"],"decidability":"z3","returns_expr":"False"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.base","other.gen_symbol","self.base","self.gen_symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if self.base == other.base and self.gen_symbol == other.gen_symbol:
             return True
@@ -160,16 +197,22 @@ class RecurrenceOperatorAlgebra:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_lists(lis), internal helper behaves correctly) over Any ║
+# ║ Path(_add_lists(list1, list2), <unspecified:_add_lists>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _add_lists : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 915677a35cb01315  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence._add_lists","kind":"function","src_hash":"92b3791070ad7167","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_lists(lis)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_add_lists_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.recurrence._add_lists_correct","statement":"Path(_add_lists(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"915677a35cb01315"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence._add_lists","kind":"function","src_hash":"92b3791070ad7167","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_lists(list1, list2)","rhs":"<unspecified:_add_lists>","over":{"base":"Any"},"name":"_add_lists_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.holonomic.recurrence._add_lists_correct","statement":"Path(_add_lists(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"915677a35cb01315","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _add_lists(list1, list2):
     if len(list1) <= len(list2):
         sol = [a + b for a, b in zip(list1, list2)] + list2[len(list1):]
@@ -181,14 +224,19 @@ def _add_lists(list1, list2):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a RecurrenceOperator instance) preserved by RecurrenceOperator(*args) over {Any | isinstance(list_of_poly, list) and isinstance(other, RecurrenceOperator) and isinstance(other, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RecurrenceOperator : {Any | isinstance(list_of_poly, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4ab6951dcab01c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator","kind":"class","src_hash":"548186598dbc74b9","in":{"base":"Any","pred":"isinstance(list_of_poly, list) and isinstance(other, RecurrenceOperator) and isinstance(other, int)"},"out":{"base":"Any"},"spec":{"lhs":"RecurrenceOperator(*args)","rhs":"correctly constructs a RecurrenceOperator instance","over":{"base":"Any","pred":"isinstance(list_of_poly, list) and isinstance(other, RecurrenceOperator) and isinstance(other, int)"},"name":"RecurrenceOperator_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a RecurrenceOperator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'parent') and hasattr(self, 'listofpoly') and hasattr(self, 'order')","kind":"class","induction":"structural on parent, listofpoly, order"}],"methods_preserving":["__init__","__mul__","__rmul__","__add__","__sub__","__rsub__","__pow__","__str__","__eq__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4ab6951dcab01c4"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator","kind":"class","src_hash":"548186598dbc74b9","in":{"base":"Any","pred":"isinstance(list_of_poly, list) and isinstance(other, RecurrenceOperator) and isinstance(other, int)"},"out":{"base":"Any"},"spec":{"lhs":"RecurrenceOperator(*args)","rhs":"correctly constructs a RecurrenceOperator instance","over":{"base":"Any","pred":"isinstance(list_of_poly, list) and isinstance(other, RecurrenceOperator) and isinstance(other, int)"},"name":"RecurrenceOperator_class_invariant","kind":"invariant"},"guarantee":"preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'parent') and hasattr(self, 'listofpoly') and hasattr(self, 'order')","kind":"class","induction":"structural on parent, listofpoly, order"}],"methods_preserving":["__init__","__mul__","__rmul__","__add__","__sub__","__rsub__","__pow__","__str__","__eq__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4ab6951dcab01c4","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'parent')","hasattr(self, 'order')","hasattr(self, 'listofpoly')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function RecurrenceOperator not found in source"]}}
 class RecurrenceOperator:
     """
     The Recurrence Operators are defined by a list of polynomials
@@ -230,16 +278,23 @@ class RecurrenceOperator:
     _op_priority = 20
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(lis), initializes the instance correctly) over Any ║
+# ║ Path(__init__(list_of_poly, parent), self.parent == parent and self.listofpoly == list_of_poly) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.parent == parent                          ║
+# ║   ensures:  self.listofpoly == list_of_poly                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.parent...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a3b95682ce4a495           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__init__","kind":"method","src_hash":"8e41941719239e1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(lis)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a3b95682ce4a495"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__init__","kind":"method","src_hash":"8e41941719239e1b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.parent == parent and self.listofpoly == list_of_poly"},"spec":{"lhs":"__init__(list_of_poly, parent)","rhs":"self.parent == parent and self.listofpoly == list_of_poly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.parent == parent; self.listofpoly == list_of_poly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a3b95682ce4a495","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.parent == parent","self.listofpoly == list_of_poly"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["self.listofpoly","self.parent"],"writes":["list_of_poly[*]","self.listofpoly","self.order","self.parent"]},"state_contract":{"modifies":["list_of_poly[*]","self.listofpoly","self.order","self.parent"],"old_bindings":{"old_list_of_poly_star":"list_of_poly[*]","old_self_listofpoly":"self.listofpoly","old_self_order":"self.order","old_self_parent":"self.parent"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, list_of_poly, parent):
         # the parent ring for this operator
         # must be an RecurrenceOperatorAlgebra object
@@ -258,16 +313,23 @@ class RecurrenceOperator:
         self.order = len(self.listofpoly) - 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'listofpoly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'listofpoly')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'listofpoly')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d29fc899749a237           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__mul__","kind":"method","src_hash":"54e8ea2eb7e28ba0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d29fc899749a237"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__mul__","kind":"method","src_hash":"54e8ea2eb7e28ba0","in":{"base":"Any","pred":"hasattr(other, 'listofpoly')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'listofpoly')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d29fc899749a237","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'listofpoly')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         """
         Multiplies two Operators and returns another
@@ -319,16 +381,22 @@ class RecurrenceOperator:
         return RecurrenceOperator(sol, self.parent)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), RecurrenceOperator(sol, self.parent)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RecurrenceOperator(sol, self.parent)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | caa7e2b4215581b8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__rmul__","kind":"method","src_hash":"c0816ab7e46fe448","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"caa7e2b4215581b8"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__rmul__","kind":"method","src_hash":"c0816ab7e46fe448","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"RecurrenceOperator(sol, self.parent)","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"returns RecurrenceOperator(sol, self.parent)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"caa7e2b4215581b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RecurrenceOperator(sol, self.parent)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.listofpoly","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         if not isinstance(other, RecurrenceOperator):
 
@@ -342,16 +410,26 @@ class RecurrenceOperator:
             return RecurrenceOperator(sol, self.parent)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), result == (RecurrenceOperator(sol, self.parent) if isinstance(other, RecurrenceOperator) else RecurrenceOperator(sol, self.parent)) and result == RecurrenceOperator(sol, self.parent)) over {Any | hasattr(other, 'listofpoly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'listofpoly')                   ║
+# ║   ensures:  result == (RecurrenceOperator(sol, self.p...   ║
+# ║   ensures:  result == RecurrenceOperator(sol, self.pa...   ║
+# ║   fiber[RecurrenceOperator]: isinstance(other, Recurr...   ║
+# ║   fiber[RecurrenceOperator]: not (isinstance(other, R...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'listofpoly')} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 077921efca598663           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__add__","kind":"method","src_hash":"6d1c0f68511b3577","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"077921efca598663"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__add__","kind":"method","src_hash":"6d1c0f68511b3577","in":{"base":"Any","pred":"hasattr(other, 'listofpoly')"},"out":{"base":"Any","pred":"result satisfies: result == (RecurrenceOperator(sol, self.parent) if isinstance(other, RecurrenceOperator) else RecurrenceOperator(sol, self.parent)) and result == RecurrenceOperator(sol, self.parent)"},"spec":{"lhs":"__add__(other)","rhs":"result == (RecurrenceOperator(sol, self.parent) if isinstance(other, RecurrenceOperator) else RecurrenceOperator(sol, self.parent)) and result == RecurrenceOperator(sol, self.parent)","over":{"base":"Any","pred":"hasattr(other, 'listofpoly')"},"name":"__add___correct"},"guarantee":"result == (RecurrenceOperator(sol, self.parent) if isinstance(other, RecurrenceOperator) else RecurrenceOperator(sol, self.parent)); result == RecurrenceOperator(sol, self.parent); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"077921efca598663","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'listofpoly')"],"ensures":["result == (RecurrenceOperator(sol, self.parent) if isinstance(other, RecurrenceOperator) else RecurrenceOperator(sol, self.parent))","result == RecurrenceOperator(sol, self.parent)"],"fibers":[{"name":"RecurrenceOperator","guard":"isinstance(other, RecurrenceOperator)","ensures":["result == RecurrenceOperator(sol, self.parent)"],"decidability":"structural","returns_expr":"RecurrenceOperator(sol, self.parent)"},{"name":"RecurrenceOperator","guard":"not (isinstance(other, RecurrenceOperator))","ensures":["result == RecurrenceOperator(sol, self.parent)"],"decidability":"structural","returns_expr":"RecurrenceOperator(sol, self.parent)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.listofpoly","self.listofpoly","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         if isinstance(other, RecurrenceOperator):
 
@@ -374,44 +452,62 @@ class RecurrenceOperator:
     __radd__ = __add__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self + -1 * other) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + -1 * other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aab20a596a04e14f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__sub__","kind":"method","src_hash":"e836a1b1017352d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aab20a596a04e14f"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__sub__","kind":"method","src_hash":"e836a1b1017352d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self + -1 * other","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self + -1 * other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aab20a596a04e14f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + -1 * other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self + (-1) * other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(other), -1 * self + other) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -1 * self + other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rsub__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e60e619b0e4ead50           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__rsub__","kind":"method","src_hash":"2796c119422e6c87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e60e619b0e4ead50"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__rsub__","kind":"method","src_hash":"2796c119422e6c87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(other)","rhs":"-1 * self + other","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"returns -1 * self + other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e60e619b0e4ead50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-1 * self + other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, other):
         return (-1) * self + other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(n), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(n), <unspecified:__pow__>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pow__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | adb481dd84339595           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__pow__","kind":"method","src_hash":"ce26fcbd2ffbefb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adb481dd84339595"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__pow__","kind":"method","src_hash":"ce26fcbd2ffbefb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"<unspecified:__pow__>","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adb481dd84339595","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.listofpoly","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, n):
         if n == 1:
             return self
@@ -433,16 +529,22 @@ class RecurrenceOperator:
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ce0bbaf88142ecff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__str__","kind":"method","src_hash":"327d430c62585774","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce0bbaf88142ecff"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__str__","kind":"method","src_hash":"327d430c62585774","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ce0bbaf88142ecff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.listofpoly","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         listofpoly = self.listofpoly
         print_str = ''
@@ -471,16 +573,24 @@ class RecurrenceOperator:
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'listofpoly') and hasattr(other, 'parent')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'listofpoly')                   ║
+# ║   requires: hasattr(other, 'parent')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'listofpoly') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | acbb70ad2295f81e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__eq__","kind":"method","src_hash":"292e91885095bddb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acbb70ad2295f81e"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.RecurrenceOperator.__eq__","kind":"method","src_hash":"292e91885095bddb","in":{"base":"Any","pred":"hasattr(other, 'listofpoly') and hasattr(other, 'parent')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'listofpoly') and hasattr(other, 'parent')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acbb70ad2295f81e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'listofpoly')","hasattr(other, 'parent')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.listofpoly","other.parent","self.listofpoly","self.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if isinstance(other, RecurrenceOperator):
             if self.listofpoly == other.listofpoly and self.parent == other.parent:
@@ -494,14 +604,19 @@ class RecurrenceOperator:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a HolonomicSequence instance) preserved by HolonomicSequence(*args) over {Any | isinstance(u0, list)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ HolonomicSequence : {Any | isinstance(u0, list)} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6eed86bb0aeea5d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.HolonomicSequence","kind":"class","src_hash":"aa6534e2d34edb52","in":{"base":"Any","pred":"isinstance(u0, list)"},"out":{"base":"Any"},"spec":{"lhs":"HolonomicSequence(*args)","rhs":"correctly constructs a HolonomicSequence instance","over":{"base":"Any","pred":"isinstance(u0, list)"},"name":"HolonomicSequence_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a HolonomicSequence instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'recurrence') and hasattr(self, 'u0') and hasattr(self, 'u0') and hasattr(self, '_have_init_cond') and hasattr(self, '_have_init_cond') and hasattr(self, 'n')","kind":"class","induction":"structural on recurrence, u0, u0, _have_init_cond"}],"methods_preserving":["__init__","__repr__","__eq__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6eed86bb0aeea5d2"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.HolonomicSequence","kind":"class","src_hash":"aa6534e2d34edb52","in":{"base":"Any","pred":"isinstance(u0, list)"},"out":{"base":"Any"},"spec":{"lhs":"HolonomicSequence(*args)","rhs":"correctly constructs a HolonomicSequence instance","over":{"base":"Any","pred":"isinstance(u0, list)"},"name":"HolonomicSequence_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'recurrence') and hasattr(self, 'u0') and hasattr(self, 'u0') and hasattr(self, '_have_init_cond') and hasattr(self, '_have_init_cond') and hasattr(self, 'n')","kind":"class","induction":"structural on recurrence, u0, u0, _have_init_cond"}],"methods_preserving":["__init__","__repr__","__eq__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6eed86bb0aeea5d2","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'recurrence')","hasattr(self, 'n')","hasattr(self, 'u0')","hasattr(self, '_have_init_cond')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function HolonomicSequence not found in source"]}}
 class HolonomicSequence:
     """
     A Holonomic Sequence is a type of sequence satisfying a linear homogeneous
@@ -510,16 +625,24 @@ class HolonomicSequence:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rec), initializes the instance correctly) over Any ║
+# ║ Path(__init__(recurrence, u0), self.recurrence == recurrence and self.u0 == u0) over {Any | hasattr(recurrence, 'parent')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(recurrence, 'parent')                  ║
+# ║   ensures:  self.recurrence == recurrence                  ║
+# ║   ensures:  self.u0 == u0                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(recurrence, 'parent')} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4b18105844b4a98           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.HolonomicSequence.__init__","kind":"method","src_hash":"a8a24d2de8e7032c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rec)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4b18105844b4a98"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.HolonomicSequence.__init__","kind":"method","src_hash":"a8a24d2de8e7032c","in":{"base":"Any","pred":"hasattr(recurrence, 'parent')"},"out":{"base":"Any","pred":"result satisfies: self.recurrence == recurrence and self.u0 == u0"},"spec":{"lhs":"__init__(recurrence, u0)","rhs":"self.recurrence == recurrence and self.u0 == u0","over":{"base":"Any","pred":"hasattr(recurrence, 'parent')"},"name":"__init___correct"},"guarantee":"self.recurrence == recurrence; self.u0 == u0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4b18105844b4a98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(recurrence, 'parent')"],"ensures":["self.recurrence == recurrence","self.u0 == u0"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, recurrence, u0=[]):
         self.recurrence = recurrence
         if not isinstance(u0, list):
@@ -534,16 +657,25 @@ class HolonomicSequence:
         self.n = recurrence.parent.base.gens[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), result == (str_sol if not self._have_init_cond else sol) and result == str_sol or result == sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __repr__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (str_sol if not self._have_init...   ║
+# ║   ensures:  result == str_sol or result == sol             ║
+# ║   fiber[case_0]: not self._have_init_cond => str_sol       ║
+# ║   fiber[case_1]: not (not self._have_init_cond) => sol     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __repr__ : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | caf64c9d7fc0c155           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.HolonomicSequence.__repr__","kind":"method","src_hash":"c751bd965cda881a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"caf64c9d7fc0c155"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.HolonomicSequence.__repr__","kind":"method","src_hash":"c751bd965cda881a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (str_sol if not self._have_init_cond else sol) and result == str_sol or result == sol"},"spec":{"lhs":"__repr__()","rhs":"result == (str_sol if not self._have_init_cond else sol) and result == str_sol or result == sol","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"result == (str_sol if not self._have_init_cond else sol); result == str_sol or result == sol; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"caf64c9d7fc0c155","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (str_sol if not self._have_init_cond else sol)","result == str_sol or result == sol"],"fibers":[{"name":"case_0","guard":"not self._have_init_cond","ensures":["result == str_sol"],"decidability":"library","returns_expr":"str_sol"},{"name":"case_1","guard":"not (not self._have_init_cond)","ensures":["result == sol"],"decidability":"library","returns_expr":"sol"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._have_init_cond","self.n","self.recurrence","self.u0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         str_sol = 'HolonomicSequence(%s, %s)' % ((self.recurrence).__repr__(), sstr(self.n))
         if not self._have_init_cond:
@@ -561,16 +693,25 @@ class HolonomicSequence:
     __str__ = __repr__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, '_have_init_cond') and hasattr(other, 'recurrence') and hasattr(other, 'n') and hasattr(other, 'u0')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, '_have_init_cond')              ║
+# ║   requires: hasattr(other, 'recurrence')                   ║
+# ║   requires: hasattr(other, 'n')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, '_have_init_cond') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f95a1504984efe1e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.HolonomicSequence.__eq__","kind":"method","src_hash":"69ab16b6494f6ff8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f95a1504984efe1e"}
+# @cctt_verify {"v":2,"sym":"sympy.holonomic.recurrence.HolonomicSequence.__eq__","kind":"method","src_hash":"69ab16b6494f6ff8","in":{"base":"Any","pred":"hasattr(other, '_have_init_cond') and hasattr(other, 'recurrence') and hasattr(other, 'n') and hasattr(other, 'u0')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, '_have_init_cond') and hasattr(other, 'recurrence') and hasattr(other, 'n') and hasattr(other, 'u0')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f95a1504984efe1e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, '_have_init_cond')","hasattr(other, 'recurrence')","hasattr(other, 'n')","hasattr(other, 'u0')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._have_init_cond","other.n","other.recurrence","other.u0","self._have_init_cond","self.n","self.recurrence","self.u0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if self.recurrence != other.recurrence or self.n != other.n:
             return False

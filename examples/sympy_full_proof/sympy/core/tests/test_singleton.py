@@ -20,16 +20,24 @@ from sympy.core.numbers import Rational
 from sympy.core.singleton import S, Singleton
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Singleton(), test_Singleton produces the expected output) over Any ║
+# ║ Path(test_Singleton(), MySingleton() is not Basic() and MySingleton() is MySingleton() and S.MySingleton is MySingleton() and MySingleton_sub() is not MySingleton() and MySingleton_sub() is MySingleton_sub()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Singleton : Any → {Any | MySingleton() is not Ba...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MySingleton() is not Basic()                   ║
+# ║   ensures:  MySingleton() is MySingleton()                 ║
+# ║   ensures:  S.MySingleton is MySingleton()                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Singleton : Any → {Any | result satisfies: MySin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7345bca11ccd3643  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6aeee8ad60a9ce4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_singleton.test_Singleton","kind":"function","src_hash":"ca5d61259ff72988","in":{"base":"Any"},"out":{"base":"Any","pred":"MySingleton() is not Basic() and MySingleton() is MySingleton() and S.MySingleton is MySingleton() and MySingleton_sub() is not MySingleton() and MySingleton_sub() is MySingleton_sub()"},"spec":{"lhs":"test_Singleton()","rhs":"test_Singleton produces the expected output","over":{"base":"Any"},"name":"test_Singleton_correct"},"guarantee":"test_Singleton produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_singleton.test_Singleton_correct","statement":"Path(test_Singleton(x), test_Singleton produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7345bca11ccd3643"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_singleton.test_Singleton","kind":"function","src_hash":"ca5d61259ff72988","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MySingleton() is not Basic() and MySingleton() is MySingleton() and S.MySingleton is MySingleton() and MySingleton_sub() is not MySingleton() and MySingleton_sub() is MySingleton_sub()"},"spec":{"lhs":"test_Singleton()","rhs":"MySingleton() is not Basic() and MySingleton() is MySingleton() and S.MySingleton is MySingleton() and MySingleton_sub() is not MySingleton() and MySingleton_sub() is MySingleton_sub()","over":{"base":"Any"},"name":"test_Singleton_correct"},"guarantee":"MySingleton() is not Basic(); MySingleton() is MySingleton(); S.MySingleton is MySingleton()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_singleton.test_Singleton_correct","statement":"Path(test_Singleton(x), MySingleton() is not Basic(); MySingleton() is MySingleton(); S.MySingleton is MySingleton())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6aeee8ad60a9ce4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MySingleton() is not Basic()","MySingleton() is MySingleton()","S.MySingleton is MySingleton()","MySingleton_sub() is not MySingleton()","MySingleton_sub() is MySingleton_sub()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Singleton():
 
     class MySingleton(Basic, metaclass=Singleton):
@@ -48,16 +56,22 @@ def test_Singleton():
     assert MySingleton_sub() is MySingleton_sub()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_singleton_redefinition(), test_singleton_redefinition produces the expected output) over Any ║
+# ║ Path(test_singleton_redefinition(), TestSingleton() is S.TestSingleton) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_singleton_redefinition : Any → {Any | TestSingle...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  TestSingleton() is S.TestSingleton             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_singleton_redefinition : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 300186ab860e7e84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 544ee0cc0a606c0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_singleton.test_singleton_redefinition","kind":"function","src_hash":"c1fa1212a2b9ff86","in":{"base":"Any"},"out":{"base":"Any","pred":"TestSingleton() is S.TestSingleton and TestSingleton() is S.TestSingleton"},"spec":{"lhs":"test_singleton_redefinition()","rhs":"test_singleton_redefinition produces the expected output","over":{"base":"Any"},"name":"test_singleton_redefinition_correct"},"guarantee":"test_singleton_redefinition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_singleton.test_singleton_redefinition_correct","statement":"Path(test_singleton_redefinition(x), test_singleton_redefinition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"300186ab860e7e84"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_singleton.test_singleton_redefinition","kind":"function","src_hash":"c1fa1212a2b9ff86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: TestSingleton() is S.TestSingleton"},"spec":{"lhs":"test_singleton_redefinition()","rhs":"TestSingleton() is S.TestSingleton","over":{"base":"Any"},"name":"test_singleton_redefinition_correct"},"guarantee":"TestSingleton() is S.TestSingleton","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_singleton.test_singleton_redefinition_correct","statement":"Path(test_singleton_redefinition(x), TestSingleton() is S.TestSingleton)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"544ee0cc0a606c0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["TestSingleton() is S.TestSingleton"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_singleton_redefinition():
     class TestSingleton(Basic, metaclass=Singleton):
         pass
@@ -70,7 +84,10 @@ def test_singleton_redefinition():
     assert TestSingleton() is S.TestSingleton
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_names_in_namespace(), test_names_in_namespace produces the expected output) over {Any | isinstance(getattr(S, name), Rational)} ║
+# ║ Path(test_names_in_namespace(), <unspecified:test_names_in_namespace>) over {Any | isinstance(getattr(S, name), Rational)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_names_in_namespace : {Any | isinstance(getattr(S...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -82,9 +99,12 @@ def test_singleton_redefinition():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d6899dc9...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_singleton.test_names_in_namespace","kind":"function","src_hash":"776f8b996086df26","in":{"base":"Any","pred":"isinstance(getattr(S, name), Rational)"},"out":{"base":"Any","pred":"any((getattr(S, name) is i for i in d.values()))"},"spec":{"lhs":"test_names_in_namespace()","rhs":"test_names_in_namespace produces the expected output","over":{"base":"Any","pred":"isinstance(getattr(S, name), Rational)"},"name":"test_names_in_namespace_correct"},"guarantee":"test_names_in_namespace produces the expected output","fibers":[{"name":"name","pred":"isinstance(getattr(S, name), Rational)","path":{"lhs":"test_names_in_namespace(x)","rhs":"test_names_in_namespace produces the expected output","over":{"base":"name","pred":"isinstance(getattr(S, name), Rational)"},"name":"test_names_in_namespace_name_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_singleton.test_names_in_namespace_name_correct","statement":"test_names_in_namespace satisfies spec on name inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d6899dc9cd160a6e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_singleton.test_names_in_namespace","kind":"function","src_hash":"776f8b996086df26","in":{"base":"Any","pred":"isinstance(getattr(S, name), Rational)"},"out":{"base":"Any","pred":"any((getattr(S, name) is i for i in d.values()))"},"spec":{"lhs":"test_names_in_namespace()","rhs":"<unspecified:test_names_in_namespace>","over":{"base":"Any","pred":"isinstance(getattr(S, name), Rational)"},"name":"test_names_in_namespace_correct"},"guarantee":"test_names_in_namespace produces the expected output","fibers":[{"name":"name","pred":"isinstance(getattr(S, name), Rational)","path":{"lhs":"test_names_in_namespace(x)","rhs":"test_names_in_namespace produces the expected output","over":{"base":"name","pred":"isinstance(getattr(S, name), Rational)"},"name":"test_names_in_namespace_name_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_singleton.test_names_in_namespace_name_correct","statement":"test_names_in_namespace satisfies spec on name inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d6899dc9cd160a6e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"name == 'register'\", \"name == 'NegativeInfinity'\", 'isinstance(getattr(S, name), Rational)'}, fibers={'name'})"]}}
 def test_names_in_namespace():
     # Every singleton name should be accessible from the 'from sympy import *'
     # namespace in addition to the S object. However, it does not need to be

@@ -41,14 +41,20 @@ from sympy.matrices.expressions.transpose import Transpose, transpose
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a BlockMatrix instance) preserved by BlockMatrix(*args) over {Any | isinstance(other, BlockMatrix)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ BlockMatrix : {Any | isinstance(other, BlockMatrix)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ba2359f82e80ee4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix","kind":"class","src_hash":"76a5c0968080fe0c","in":{"base":"Any","pred":"isinstance(other, BlockMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"BlockMatrix(*args)","rhs":"correctly constructs a BlockMatrix instance","over":{"base":"Any","pred":"isinstance(other, BlockMatrix)"},"name":"BlockMatrix_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a BlockMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_Identity","pred":"self.is_Identity","kind":"class"},{"name":"is_structurally_symmetric","pred":"self.is_structurally_symmetric","kind":"class"}],"methods_preserving":["shape","blockshape","blocks","rowblocksizes","colblocksizes","structurally_equal","_blockmul","_blockadd","_eval_transpose","_eval_adjoint","_eval_trace","_eval_determinant","_eval_as_real_imag","_eval_derivative","transpose","schur","LDUdecomposition","UDLdecomposition","LUdecomposition","_entry","is_Identity","is_structurally_symmetric","equals"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ba2359f82e80ee4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix","kind":"class","src_hash":"76a5c0968080fe0c","in":{"base":"Any","pred":"isinstance(other, BlockMatrix)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MatrixExpr)"},"spec":{"lhs":"BlockMatrix(*args)","rhs":"correctly constructs a BlockMatrix instance","over":{"base":"Any","pred":"isinstance(other, BlockMatrix)"},"name":"BlockMatrix_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_Identity","pred":"self.is_Identity","kind":"class"},{"name":"is_structurally_symmetric","pred":"self.is_structurally_symmetric","kind":"class"}],"methods_preserving":["shape","blockshape","blocks","rowblocksizes","colblocksizes","structurally_equal","_blockmul","_blockadd","_eval_transpose","_eval_adjoint","_eval_trace","_eval_determinant","_eval_as_real_imag","_eval_derivative","transpose","schur","LDUdecomposition","UDLdecomposition","LUdecomposition","_entry","is_Identity","is_structurally_symmetric","equals"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ba2359f82e80ee4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function BlockMatrix not found in source"]}}
 class BlockMatrix(MatrixExpr):
     """A BlockMatrix is a Matrix comprised of other matrices.
 
@@ -106,16 +112,23 @@ class BlockMatrix(MatrixExpr):
     sympy.matrices.matrixbase.MatrixBase.irregular
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over {Any | not (len(args) != 1 or not is_sequence(args[0]) or len({isMat(r) for r in args[0]}) != 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(args) != 1 or not is_sequence(ar...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (len(args) != 1 or not is_sequen...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9f48f0ca576a6d4b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.__new__","kind":"method","src_hash":"9f752a13f09553e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f48f0ca576a6d4b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.__new__","kind":"method","src_hash":"9f752a13f09553e8","in":{"base":"Any","pred":"not (len(args) != 1 or not is_sequence(args[0]) or len({isMat(r) for r in args[0]}) != 1)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (len(args) != 1 or not is_sequence(args[0]) or len({isMat(r) for r in args[0]}) != 1)"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f48f0ca576a6d4b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(args) != 1 or not is_sequence(args[0]) or len({isMat(r) for r in args[0]}) != 1)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         from sympy.matrices.immutable import ImmutableDenseMatrix
         isMat = lambda i: getattr(i, 'is_Matrix', False)
@@ -170,16 +183,22 @@ class BlockMatrix(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), (numrows, numcols)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (numrows, numcols)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 34cdd9fd69b78635           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.shape","kind":"property","src_hash":"b884b0d49cac00af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34cdd9fd69b78635"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.shape","kind":"property","src_hash":"b884b0d49cac00af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"(numrows, numcols)","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns (numrows, numcols)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34cdd9fd69b78635","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(numrows, numcols)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         numrows = numcols = 0
         M = self.blocks
@@ -191,75 +210,108 @@ class BlockMatrix(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(blockshape(), returns the blockshape attribute) over Any ║
+# ║ Path(blockshape(), self.blocks.shape) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.blocks.shape                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ blockshape : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e979215b18e89368           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.blockshape","kind":"property","src_hash":"f832d0bdef1ad8b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"blockshape()","rhs":"returns the blockshape attribute","over":{"base":"Any"},"name":"blockshape_correct"},"guarantee":"returns the blockshape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e979215b18e89368"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.blockshape","kind":"property","src_hash":"f832d0bdef1ad8b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"blockshape()","rhs":"self.blocks.shape","over":{"base":"Any"},"name":"blockshape_correct"},"guarantee":"returns self.blocks.shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e979215b18e89368","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.blocks.shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def blockshape(self):
         return self.blocks.shape
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(blocks(), returns the blocks attribute) over Any      ║
+# ║ Path(blocks(), self.args[0]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ blocks : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1199e22b1a4041ac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.blocks","kind":"property","src_hash":"e98cd6f7c1e7a8f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"blocks()","rhs":"returns the blocks attribute","over":{"base":"Any"},"name":"blocks_correct"},"guarantee":"returns the blocks attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1199e22b1a4041ac"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.blocks","kind":"property","src_hash":"e98cd6f7c1e7a8f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"blocks()","rhs":"self.args[0]","over":{"base":"Any"},"name":"blocks_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1199e22b1a4041ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def blocks(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rowblocksizes(), returns the rowblocksizes attribute) over Any ║
+# ║ Path(rowblocksizes(), [self.blocks[i, 0].rows for i in range(self.blockshape[0])]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.blocks[i, 0].rows for i in range(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rowblocksizes : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5fcd023d9ddba685           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.rowblocksizes","kind":"property","src_hash":"175773f34fe25f6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rowblocksizes()","rhs":"returns the rowblocksizes attribute","over":{"base":"Any"},"name":"rowblocksizes_correct"},"guarantee":"returns the rowblocksizes attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fcd023d9ddba685"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.rowblocksizes","kind":"property","src_hash":"175773f34fe25f6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rowblocksizes()","rhs":"[self.blocks[i, 0].rows for i in range(self.blockshape[0])]","over":{"base":"Any"},"name":"rowblocksizes_correct"},"guarantee":"returns [self.blocks[i, 0].rows for i in range(self.blockshape[0])]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fcd023d9ddba685","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.blocks[i, 0].rows for i in range(self.blockshape[0])]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks","self.blockshape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rowblocksizes(self):
         return [self.blocks[i, 0].rows for i in range(self.blockshape[0])]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(colblocksizes(), returns the colblocksizes attribute) over Any ║
+# ║ Path(colblocksizes(), [self.blocks[0, i].cols for i in range(self.blockshape[1])]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [self.blocks[0, i].cols for i in range(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ colblocksizes : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c2f8bcefd79817c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.colblocksizes","kind":"property","src_hash":"3d0e67ce055826b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"colblocksizes()","rhs":"returns the colblocksizes attribute","over":{"base":"Any"},"name":"colblocksizes_correct"},"guarantee":"returns the colblocksizes attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2f8bcefd79817c0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.colblocksizes","kind":"property","src_hash":"3d0e67ce055826b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"colblocksizes()","rhs":"[self.blocks[0, i].cols for i in range(self.blockshape[1])]","over":{"base":"Any"},"name":"colblocksizes_correct"},"guarantee":"returns [self.blocks[0, i].cols for i in range(self.blockshape[1])]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2f8bcefd79817c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[self.blocks[0, i].cols for i in range(self.blockshape[1])]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks","self.blockshape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def colblocksizes(self):
         return [self.blocks[0, i].cols for i in range(self.blockshape[1])]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(structurally_equal(oth), structurally_equal produces the expected output) over Any ║
+# ║ Path(structurally_equal(other), isinstance(other, BlockMatrix) and self.shape == other.shape and (self.blockshape == other.blockshape) and (self.rowblocksizes == other.rowblocksizes) and (self.colblocksizes == other.colblocksizes)) over {Any | hasattr(other, 'shape') and hasattr(other, 'blockshape') and hasattr(other, 'rowblocksizes') and hasattr(other, 'colblocksizes')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ structurally_equal : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'shape')                        ║
+# ║   requires: hasattr(other, 'blockshape')                   ║
+# ║   requires: hasattr(other, 'rowblocksizes')                ║
+# ║   returns:  isinstance(other, BlockMatrix) and self.s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ structurally_equal : {Any | hasattr(other, 'shape') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e03cc196ce138429  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d483799a4bbedc64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.structurally_equal","kind":"method","src_hash":"e5fbdb1a8b15dfae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"structurally_equal(oth)","rhs":"structurally_equal produces the expected output","over":{"base":"Any"},"name":"structurally_equal_correct"},"guarantee":"structurally_equal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix.structurally_equal_correct","statement":"Path(structurally_equal(x), structurally_equal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e03cc196ce138429"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.structurally_equal","kind":"method","src_hash":"e5fbdb1a8b15dfae","in":{"base":"Any","pred":"hasattr(other, 'shape') and hasattr(other, 'blockshape') and hasattr(other, 'rowblocksizes') and hasattr(other, 'colblocksizes')"},"out":{"base":"Any"},"spec":{"lhs":"structurally_equal(other)","rhs":"isinstance(other, BlockMatrix) and self.shape == other.shape and (self.blockshape == other.blockshape) and (self.rowblocksizes == other.rowblocksizes) and (self.colblocksizes == other.colblocksizes)","over":{"base":"Any","pred":"hasattr(other, 'shape') and hasattr(other, 'blockshape') and hasattr(other, 'rowblocksizes') and hasattr(other, 'colblocksizes')"},"name":"structurally_equal_correct"},"guarantee":"returns isinstance(other, BlockMatrix) and self.shape == other.shape and (self.blockshape == other.blockshape) and (self.rowblocksizes == other.rowblocksizes) and (self.colblocksizes == other.colblocksizes)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix.structurally_equal_correct","statement":"Path(structurally_equal(x), returns isinstance(other, BlockMatrix) and self.shape == other.shape and (self.blockshape == other.blockshape) and (self.rowblocksizes == other.rowblocksizes) and (self.colblocksizes == other.colblocksizes))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d483799a4bbedc64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'shape')","hasattr(other, 'blockshape')","hasattr(other, 'rowblocksizes')","hasattr(other, 'colblocksizes')"],"returns_expr":"isinstance(other, BlockMatrix) and self.shape == other.shape and (self.blockshape == other.blockshape) and (self.rowblocksizes == other.rowblocksizes) and (self.colblocksizes == other.colblocksizes)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.blockshape","other.colblocksizes","other.rowblocksizes","other.shape","self.blockshape","self.colblocksizes","self.rowblocksizes","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def structurally_equal(self, other):
         return (isinstance(other, BlockMatrix)
             and self.shape == other.shape
@@ -268,16 +320,24 @@ class BlockMatrix(MatrixExpr):
             and self.colblocksizes == other.colblocksizes)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_blockmul(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_blockmul(other), <unspecified:_blockmul>) over {Any | hasattr(other, 'rowblocksizes') and hasattr(other, 'blocks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _blockmul : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'rowblocksizes')                ║
+# ║   requires: hasattr(other, 'blocks')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _blockmul : {Any | hasattr(other, 'rowblocksizes') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08cb8bf78a1e039a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._blockmul","kind":"method","src_hash":"106936d60bfcfa5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_blockmul(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_blockmul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix._blockmul_correct","statement":"Path(_blockmul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08cb8bf78a1e039a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._blockmul","kind":"method","src_hash":"106936d60bfcfa5b","in":{"base":"Any","pred":"hasattr(other, 'rowblocksizes') and hasattr(other, 'blocks')"},"out":{"base":"Any"},"spec":{"lhs":"_blockmul(other)","rhs":"<unspecified:_blockmul>","over":{"base":"Any","pred":"hasattr(other, 'rowblocksizes') and hasattr(other, 'blocks')"},"name":"_blockmul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix._blockmul_correct","statement":"Path(_blockmul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08cb8bf78a1e039a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'rowblocksizes')","hasattr(other, 'blocks')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.blocks","other.rowblocksizes","self.blocks","self.colblocksizes"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _blockmul(self, other):
         if (isinstance(other, BlockMatrix) and
                 self.colblocksizes == other.rowblocksizes):
@@ -286,16 +346,23 @@ class BlockMatrix(MatrixExpr):
         return self * other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_blockadd(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_blockadd(other), <unspecified:_blockadd>) over {Any | hasattr(other, 'blocks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _blockadd : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'blocks')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _blockadd : {Any | hasattr(other, 'blocks')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83d7019307227421  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._blockadd","kind":"method","src_hash":"1cb9e768e77df4e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_blockadd(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_blockadd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix._blockadd_correct","statement":"Path(_blockadd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83d7019307227421"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._blockadd","kind":"method","src_hash":"1cb9e768e77df4e4","in":{"base":"Any","pred":"hasattr(other, 'blocks')"},"out":{"base":"Any"},"spec":{"lhs":"_blockadd(other)","rhs":"<unspecified:_blockadd>","over":{"base":"Any","pred":"hasattr(other, 'blocks')"},"name":"_blockadd_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix._blockadd_correct","statement":"Path(_blockadd(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83d7019307227421","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'blocks')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.blocks","self.blocks","self.structurally_equal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _blockadd(self, other):
         if (isinstance(other, BlockMatrix)
                 and self.structurally_equal(other)):
@@ -304,16 +371,22 @@ class BlockMatrix(MatrixExpr):
         return self + other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_transpose(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_transpose(), BlockMatrix(M)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  BlockMatrix(M)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_transpose : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f59b4ec3a4c806c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d6e5b3537fe111f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_transpose","kind":"method","src_hash":"bff201a2c928310f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_transpose_correct","statement":"Path(_eval_transpose(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f59b4ec3a4c806c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_transpose","kind":"method","src_hash":"bff201a2c928310f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"BlockMatrix(M)","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"returns BlockMatrix(M)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_transpose_correct","statement":"Path(_eval_transpose(x), returns BlockMatrix(M))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d6e5b3537fe111f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"BlockMatrix(M)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks","self.blockshape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_transpose(self):
         # Flip all the individual matrices
         matrices = [transpose(matrix) for matrix in self.blocks]
@@ -324,16 +397,22 @@ class BlockMatrix(MatrixExpr):
         return BlockMatrix(M)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_adjoint(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_adjoint(), BlockMatrix(Matrix(self.blockshape[0], self.blockshape[1], self.blocks).adjoint())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  BlockMatrix(Matrix(self.blockshape[0], se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_adjoint : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e36298c6e76f86d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bb5601709bf272f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_adjoint","kind":"method","src_hash":"a6c9177b45406449","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_adjoint_correct","statement":"Path(_eval_adjoint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e36298c6e76f86d6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_adjoint","kind":"method","src_hash":"a6c9177b45406449","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"BlockMatrix(Matrix(self.blockshape[0], self.blockshape[1], self.blocks).adjoint())","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"returns BlockMatrix(Matrix(self.blockshape[0], self.blockshape[1], self.blocks).adjoint())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_adjoint_correct","statement":"Path(_eval_adjoint(x), returns BlockMatrix(Matrix(self.blockshape[0], self.blockshape[1], self.blocks).adjoint()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bb5601709bf272f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"BlockMatrix(Matrix(self.blockshape[0], self.blockshape[1], self.blocks).adjoint())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks","self.blockshape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_adjoint(self):
         return BlockMatrix(
             Matrix(self.blockshape[0], self.blockshape[1], self.blocks).adjoint()
@@ -342,30 +421,42 @@ class BlockMatrix(MatrixExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_trace(), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*[trace(block) for block in blocks])       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_trace : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8ebfef85bb494f1e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_trace","kind":"method","src_hash":"2a6c72c5ba1b3ab8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"trace","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ebfef85bb494f1e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_trace","kind":"method","src_hash":"2a6c72c5ba1b3ab8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trace()","rhs":"Add(*[trace(block) for block in blocks])","over":{"base":"Any"},"name":"_eval_trace_correct","kind":"composition"},"guarantee":"returns Add(*[trace(block) for block in blocks])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"trace","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ebfef85bb494f1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*[trace(block) for block in blocks])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks","self.blockshape","self.colblocksizes","self.rowblocksizes"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_trace(self):
         if self.rowblocksizes == self.colblocksizes:
             blocks = [self.blocks[i, i] for i in range(self.blockshape[0])]
             return Add(*[trace(block) for block in blocks])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_determinant(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_determinant(), <unspecified:_eval_determinant>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_determinant : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55825c29bf0fa2b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_determinant","kind":"method","src_hash":"4d9f49a96d6554d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_determinant()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_determinant_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_determinant_correct","statement":"Path(_eval_determinant(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55825c29bf0fa2b9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_determinant","kind":"method","src_hash":"4d9f49a96d6554d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_determinant()","rhs":"<unspecified:_eval_determinant>","over":{"base":"Any"},"name":"_eval_determinant_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_determinant_correct","statement":"Path(_eval_determinant(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55825c29bf0fa2b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks","self.blockshape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_determinant(self):
         if self.blockshape == (1, 1):
             return det(self.blocks[0, 0])
@@ -381,14 +472,20 @@ class BlockMatrix(MatrixExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_as_real_imag(), id) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (BlockMatrix(real_matrices), BlockMatrix(...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_real_imag : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | deeffa569d4371e2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_as_real_imag","kind":"method","src_hash":"37824ff4bb4a823b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_real_imag()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_real_imag_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BlockMatrix","by":"library_axiom"},{"fn":"BlockMatrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"deeffa569d4371e2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_as_real_imag","kind":"method","src_hash":"37824ff4bb4a823b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_real_imag()","rhs":"(BlockMatrix(real_matrices), BlockMatrix(im_matrices))","over":{"base":"Any"},"name":"_eval_as_real_imag_correct","kind":"composition"},"guarantee":"returns (BlockMatrix(real_matrices), BlockMatrix(im_matrices))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BlockMatrix","by":"library_axiom"},{"fn":"BlockMatrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"deeffa569d4371e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(BlockMatrix(real_matrices), BlockMatrix(im_matrices))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks","self.blockshape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_real_imag(self):
         real_matrices = [re(matrix) for matrix in self.blocks]
         real_matrices = Matrix(self.blockshape[0], self.blockshape[1], real_matrices)
@@ -399,30 +496,42 @@ class BlockMatrix(MatrixExpr):
         return (BlockMatrix(real_matrices), BlockMatrix(im_matrices))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(x), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(x), BlockMatrix(self.blocks.diff(x))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  BlockMatrix(self.blocks.diff(x))               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a3483891f9299e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_derivative","kind":"method","src_hash":"55e2c4098c70aaeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a3483891f9299e8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._eval_derivative","kind":"method","src_hash":"55e2c4098c70aaeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"BlockMatrix(self.blocks.diff(x))","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"returns BlockMatrix(self.blocks.diff(x))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a3483891f9299e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"BlockMatrix(self.blocks.diff(x))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, x):
         return BlockMatrix(self.blocks.diff(x))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transpose(), return transpose of matrix) over Any     ║
+# ║ Path(transpose(), self._eval_transpose()) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_transpose()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transpose : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e11e270f5d79f278           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.transpose","kind":"method","src_hash":"19cfeeeba52c3aa7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose()","rhs":"return transpose of matrix","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"return transpose of matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e11e270f5d79f278"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.transpose","kind":"method","src_hash":"19cfeeeba52c3aa7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose()","rhs":"self._eval_transpose()","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"returns self._eval_transpose()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e11e270f5d79f278","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_transpose()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_transpose"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transpose(self):
         """Return transpose of matrix.
 
@@ -447,16 +556,22 @@ class BlockMatrix(MatrixExpr):
         return self._eval_transpose()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(schur(mat), return the schur complement of the 2x2 blockmatrix) over Any ║
+# ║ Path(schur(mat, generalized), <unspecified:schur>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ schur : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee5bd2bf8a64ddae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.schur","kind":"method","src_hash":"1f661fc07335c701","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"schur(mat)","rhs":"return the schur complement of the 2x2 blockmatrix","over":{"base":"Any"},"name":"schur_correct"},"guarantee":"return the schur complement of the 2x2 blockmatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix.schur_correct","statement":"Path(schur(x), return the schur complement of the 2x2 blockmatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee5bd2bf8a64ddae"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.schur","kind":"method","src_hash":"1f661fc07335c701","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"schur(mat, generalized)","rhs":"<unspecified:schur>","over":{"base":"Any"},"name":"schur_correct"},"guarantee":"return the schur complement of the 2x2 blockmatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix.schur_correct","statement":"Path(schur(x), return the schur complement of the 2x2 blockmatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee5bd2bf8a64ddae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks","self.blockshape"],"raises":["NonInvertibleMatrixError","ShapeError"],"catches":["NonInvertibleMatrixError"]},"state_contract":{"exceptional_post":{"NonInvertibleMatrixError":["isinstance(raised, NonInvertibleMatrixError)"],"ShapeError":["isinstance(raised, ShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def schur(self, mat = 'A', generalized = False):
         """Return the Schur Complement of the 2x2 BlockMatrix
 
@@ -549,16 +664,23 @@ class BlockMatrix(MatrixExpr):
             raise ShapeError('Schur Complement can only be calculated for 2x2 block matrices')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(LDUdecomposition(), returns the block ldu decomposition of a 2x2 block matrix) over Any ║
+# ║ Path(LDUdecomposition(), <unspecified:LDUdecomposition>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: self.blockshape == (2, 2) => (L, D, U)    ║
+# ║   fiber[case_1]: not (self.blockshape == (2, 2))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ LDUdecomposition : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 847441e7b1c14e92  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb1b298fb20a70c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.LDUdecomposition","kind":"method","src_hash":"bf3b7557284f5eb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LDUdecomposition()","rhs":"returns the block ldu decomposition of a 2x2 block matrix","over":{"base":"Any"},"name":"LDUdecomposition_correct"},"guarantee":"returns the block ldu decomposition of a 2x2 block matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix.LDUdecomposition_correct","statement":"Path(LDUdecomposition(x), returns the block ldu decomposition of a 2x2 block matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"847441e7b1c14e92"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.LDUdecomposition","kind":"method","src_hash":"bf3b7557284f5eb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LDUdecomposition()","rhs":"<unspecified:LDUdecomposition>","over":{"base":"Any"},"name":"LDUdecomposition_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix.LDUdecomposition_correct","statement":"Path(LDUdecomposition(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb1b298fb20a70c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"self.blockshape == (2, 2)","ensures":["result == (L, D, U)"],"decidability":"z3","returns_expr":"(L, D, U)"},{"name":"case_1","guard":"not (self.blockshape == (2, 2))","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks","self.blockshape","self.schur"],"raises":["NonInvertibleMatrixError","ShapeError"],"catches":["NonInvertibleMatrixError"]},"state_contract":{"exceptional_post":{"NonInvertibleMatrixError":["isinstance(raised, NonInvertibleMatrixError)"],"ShapeError":["isinstance(raised, ShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def LDUdecomposition(self):
         """Returns the Block LDU decomposition of
         a 2x2 Block Matrix
@@ -620,16 +742,23 @@ class BlockMatrix(MatrixExpr):
             raise ShapeError("Block LDU decomposition is supported only for 2x2 block matrices")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(UDLdecomposition(), returns the block udl decomposition of a 2x2 block matrix) over Any ║
+# ║ Path(UDLdecomposition(), <unspecified:UDLdecomposition>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: self.blockshape == (2, 2) => (U, D, L)    ║
+# ║   fiber[case_1]: not (self.blockshape == (2, 2))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ UDLdecomposition : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b42001706507fc5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad1e6b31df12a2ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.UDLdecomposition","kind":"method","src_hash":"eceb15aa88b9cb8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UDLdecomposition()","rhs":"returns the block udl decomposition of a 2x2 block matrix","over":{"base":"Any"},"name":"UDLdecomposition_correct"},"guarantee":"returns the block udl decomposition of a 2x2 block matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix.UDLdecomposition_correct","statement":"Path(UDLdecomposition(x), returns the block udl decomposition of a 2x2 block matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b42001706507fc5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.UDLdecomposition","kind":"method","src_hash":"eceb15aa88b9cb8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UDLdecomposition()","rhs":"<unspecified:UDLdecomposition>","over":{"base":"Any"},"name":"UDLdecomposition_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix.UDLdecomposition_correct","statement":"Path(UDLdecomposition(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad1e6b31df12a2ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"self.blockshape == (2, 2)","ensures":["result == (U, D, L)"],"decidability":"z3","returns_expr":"(U, D, L)"},{"name":"case_1","guard":"not (self.blockshape == (2, 2))","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks","self.blockshape","self.schur"],"raises":["NonInvertibleMatrixError","ShapeError"],"catches":["NonInvertibleMatrixError"]},"state_contract":{"exceptional_post":{"NonInvertibleMatrixError":["isinstance(raised, NonInvertibleMatrixError)"],"ShapeError":["isinstance(raised, ShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def UDLdecomposition(self):
         """Returns the Block UDL decomposition of
         a 2x2 Block Matrix
@@ -691,16 +820,23 @@ class BlockMatrix(MatrixExpr):
             raise ShapeError("Block UDL decomposition is supported only for 2x2 block matrices")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(LUdecomposition(), returns the block lu decomposition of a 2x2 block matrix) over Any ║
+# ║ Path(LUdecomposition(), <unspecified:LUdecomposition>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: self.blockshape == (2, 2) => (L, U)       ║
+# ║   fiber[case_1]: not (self.blockshape == (2, 2))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ LUdecomposition : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc437bbe10c2626a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0323e3ed83573de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.LUdecomposition","kind":"method","src_hash":"d41872ded2492c12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LUdecomposition()","rhs":"returns the block lu decomposition of a 2x2 block matrix","over":{"base":"Any"},"name":"LUdecomposition_correct"},"guarantee":"returns the block lu decomposition of a 2x2 block matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix.LUdecomposition_correct","statement":"Path(LUdecomposition(x), returns the block lu decomposition of a 2x2 block matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc437bbe10c2626a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.LUdecomposition","kind":"method","src_hash":"d41872ded2492c12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LUdecomposition()","rhs":"<unspecified:LUdecomposition>","over":{"base":"Any"},"name":"LUdecomposition_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix.LUdecomposition_correct","statement":"Path(LUdecomposition(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0323e3ed83573de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"self.blockshape == (2, 2)","ensures":["result == (L, U)"],"decidability":"z3","returns_expr":"(L, U)"},{"name":"case_1","guard":"not (self.blockshape == (2, 2))","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks","self.blockshape","self.schur"],"raises":["NonInvertibleMatrixError","ShapeError"],"catches":["NonInvertibleMatrixError"]},"state_contract":{"exceptional_post":{"NonInvertibleMatrixError":["isinstance(raised, NonInvertibleMatrixError)"],"ShapeError":["isinstance(raised, ShapeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def LUdecomposition(self):
         """Returns the Block LU decomposition of
         a 2x2 Block Matrix
@@ -760,16 +896,22 @@ class BlockMatrix(MatrixExpr):
             raise ShapeError("Block LU decomposition is supported only for 2x2 block matrices")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_entry(i, ), internal helper behaves correctly) over Any ║
+# ║ Path(_entry(i, j, **kwargs), <unspecified:_entry>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _entry : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afd4881573897555  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._entry","kind":"method","src_hash":"5a09b2dfa43bb97d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix._entry_correct","statement":"Path(_entry(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afd4881573897555"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix._entry","kind":"method","src_hash":"5a09b2dfa43bb97d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_entry(i, j, **kwargs)","rhs":"<unspecified:_entry>","over":{"base":"Any"},"name":"_entry_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix._entry_correct","statement":"Path(_entry(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afd4881573897555","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks","self.blockshape","self.colblocksizes","self.rowblocksizes"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _entry(self, i, j, **kwargs):
         # Find row entry
         orig_i, orig_j = i, j
@@ -794,16 +936,22 @@ class BlockMatrix(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_Identity(), returns the is_Identity attribute) over Any ║
+# ║ Path(is_Identity(), <unspecified:is_Identity>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_Identity : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dc0813bf1456be33           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.is_Identity","kind":"property","src_hash":"e26d3b0944bfb445","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Identity()","rhs":"returns the is_Identity attribute","over":{"base":"Any"},"name":"is_Identity_correct"},"guarantee":"returns the is_Identity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc0813bf1456be33"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.is_Identity","kind":"property","src_hash":"e26d3b0944bfb445","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_Identity()","rhs":"<unspecified:is_Identity>","over":{"base":"Any"},"name":"is_Identity_correct"},"guarantee":"returns the is_Identity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc0813bf1456be33","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.blocks","self.blockshape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_Identity(self):
         if self.blockshape[0] != self.blockshape[1]:
             return False
@@ -817,30 +965,43 @@ class BlockMatrix(MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_structurally_symmetric(), returns the is_structurally_symmetric attribute) over Any ║
+# ║ Path(is_structurally_symmetric(), self.rowblocksizes == self.colblocksizes) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rowblocksizes == self.colblocksizes       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_structurally_symmetric : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 64a52c338fa8763e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.is_structurally_symmetric","kind":"property","src_hash":"9b84383b5592031c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_structurally_symmetric()","rhs":"returns the is_structurally_symmetric attribute","over":{"base":"Any"},"name":"is_structurally_symmetric_correct"},"guarantee":"returns the is_structurally_symmetric attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64a52c338fa8763e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.is_structurally_symmetric","kind":"property","src_hash":"9b84383b5592031c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_structurally_symmetric()","rhs":"self.rowblocksizes == self.colblocksizes","over":{"base":"Any"},"name":"is_structurally_symmetric_correct"},"guarantee":"returns self.rowblocksizes == self.colblocksizes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64a52c338fa8763e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rowblocksizes == self.colblocksizes","pure":false,"effects":{"effect_type":"reads_state","reads":["self.colblocksizes","self.rowblocksizes"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_structurally_symmetric(self):
         return self.rowblocksizes == self.colblocksizes
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equals(oth), equals produces the expected output) over Any ║
+# ║ Path(equals(other), <unspecified:equals>) over {Any | hasattr(other, 'blocks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ equals : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'blocks')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ equals : {Any | hasattr(other, 'blocks')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f59ce68b4aed8026  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.equals","kind":"method","src_hash":"03c18b9bd45e7736","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(oth)","rhs":"equals produces the expected output","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"equals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix.equals_correct","statement":"Path(equals(x), equals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f59ce68b4aed8026"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockMatrix.equals","kind":"method","src_hash":"03c18b9bd45e7736","in":{"base":"Any","pred":"hasattr(other, 'blocks')"},"out":{"base":"Any"},"spec":{"lhs":"equals(other)","rhs":"<unspecified:equals>","over":{"base":"Any","pred":"hasattr(other, 'blocks')"},"name":"equals_correct"},"guarantee":"equals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.BlockMatrix.equals_correct","statement":"Path(equals(x), equals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f59ce68b4aed8026","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'blocks')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.blocks","self.blocks"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equals(self, other):
         if self == other:
             return True
@@ -852,14 +1013,20 @@ class BlockMatrix(MatrixExpr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BlockDiagMatrix(*args), correctly constructs a BlockDiagMatrix instance) over {Any | isinstance(other, BlockDiagMatrix)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BlockMatrix)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ BlockDiagMatrix : {Any | isinstance(other, BlockDiagM...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e15ad7ba93cae2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix","kind":"class","src_hash":"2aef378789d4dad0","in":{"base":"Any","pred":"isinstance(other, BlockDiagMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"BlockDiagMatrix(*args)","rhs":"correctly constructs a BlockDiagMatrix instance","over":{"base":"Any","pred":"isinstance(other, BlockDiagMatrix)"},"name":"BlockDiagMatrix_class_invariant"},"guarantee":"correctly constructs a BlockDiagMatrix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e15ad7ba93cae2b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix","kind":"class","src_hash":"2aef378789d4dad0","in":{"base":"Any","pred":"isinstance(other, BlockDiagMatrix)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BlockMatrix)"},"spec":{"lhs":"BlockDiagMatrix(*args)","rhs":"correctly constructs a BlockDiagMatrix instance","over":{"base":"Any","pred":"isinstance(other, BlockDiagMatrix)"},"name":"BlockDiagMatrix_class_invariant"},"guarantee":"isinstance(self, BlockMatrix)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e15ad7ba93cae2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BlockMatrix)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function BlockDiagMatrix not found in source"]}}
 class BlockDiagMatrix(BlockMatrix):
     """A sparse matrix with block matrices along its diagonals
 
@@ -887,46 +1054,64 @@ class BlockDiagMatrix(BlockMatrix):
     sympy.matrices.dense.diag
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *mats), Basic.__new__(BlockDiagMatrix, *[_sympify(m) for m in mats])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic.__new__(BlockDiagMatrix, *[_sympify...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 748ae8af8431dd13           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.__new__","kind":"method","src_hash":"5b57cf821a4feb48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"748ae8af8431dd13"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.__new__","kind":"method","src_hash":"5b57cf821a4feb48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *mats)","rhs":"Basic.__new__(BlockDiagMatrix, *[_sympify(m) for m in mats])","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(BlockDiagMatrix, *[_sympify(m) for m in mats])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"748ae8af8431dd13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic.__new__(BlockDiagMatrix, *[_sympify(m) for m in mats])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *mats):
         return Basic.__new__(BlockDiagMatrix, *[_sympify(m) for m in mats])
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diag(), returns the diag attribute) over Any          ║
+# ║ Path(diag(), self.args) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diag : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e51b14ed9b1ad7bf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.diag","kind":"property","src_hash":"1fd026e1d7a344fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diag()","rhs":"returns the diag attribute","over":{"base":"Any"},"name":"diag_correct"},"guarantee":"returns the diag attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e51b14ed9b1ad7bf"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.diag","kind":"property","src_hash":"1fd026e1d7a344fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diag()","rhs":"self.args","over":{"base":"Any"},"name":"diag_correct"},"guarantee":"returns self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e51b14ed9b1ad7bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diag(self):
         return self.args
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(blocks(), returns the blocks attribute) over Any      ║
+# ║ Path(blocks(), ImmutableDenseMatrix(data, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableDenseMatrix(data, evaluate=False)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ blocks : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3379ebde5f2b096e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.blocks","kind":"property","src_hash":"ac70d12531d7946c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"blocks()","rhs":"returns the blocks attribute","over":{"base":"Any"},"name":"blocks_correct"},"guarantee":"returns the blocks attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3379ebde5f2b096e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.blocks","kind":"property","src_hash":"ac70d12531d7946c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"blocks()","rhs":"ImmutableDenseMatrix(data, evaluate=False)","over":{"base":"Any"},"name":"blocks_correct"},"guarantee":"returns ImmutableDenseMatrix(data, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3379ebde5f2b096e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableDenseMatrix(data, evaluate=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def blocks(self):
         from sympy.matrices.immutable import ImmutableDenseMatrix
         mats = self.args
@@ -937,77 +1122,107 @@ class BlockDiagMatrix(BlockMatrix):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), (sum((block.rows for block in self.args)), sum((block.cols for block in self.args)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (sum((block.rows for block in self.args))...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d458e35d9f75f32           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.shape","kind":"property","src_hash":"8c36b58157740759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d458e35d9f75f32"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.shape","kind":"property","src_hash":"8c36b58157740759","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"(sum((block.rows for block in self.args)), sum((block.cols for block in self.args)))","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns (sum((block.rows for block in self.args)), sum((block.cols for block in self.args)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d458e35d9f75f32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(sum((block.rows for block in self.args)), sum((block.cols for block in self.args)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return (sum(block.rows for block in self.args),
                 sum(block.cols for block in self.args))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(blockshape(), returns the blockshape attribute) over Any ║
+# ║ Path(blockshape(), (n, n)) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (n, n)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ blockshape : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 001aaf65024895d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.blockshape","kind":"property","src_hash":"6b176cf4a876abc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"blockshape()","rhs":"returns the blockshape attribute","over":{"base":"Any"},"name":"blockshape_correct"},"guarantee":"returns the blockshape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"001aaf65024895d0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.blockshape","kind":"property","src_hash":"6b176cf4a876abc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"blockshape()","rhs":"(n, n)","over":{"base":"Any"},"name":"blockshape_correct"},"guarantee":"returns (n, n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"001aaf65024895d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(n, n)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def blockshape(self):
         n = len(self.args)
         return (n, n)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rowblocksizes(), returns the rowblocksizes attribute) over Any ║
+# ║ Path(rowblocksizes(), [block.rows for block in self.args]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [block.rows for block in self.args]            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rowblocksizes : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 02ef118405b56cf8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.rowblocksizes","kind":"property","src_hash":"2eb75a602d37bf49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rowblocksizes()","rhs":"returns the rowblocksizes attribute","over":{"base":"Any"},"name":"rowblocksizes_correct"},"guarantee":"returns the rowblocksizes attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"02ef118405b56cf8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.rowblocksizes","kind":"property","src_hash":"2eb75a602d37bf49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rowblocksizes()","rhs":"[block.rows for block in self.args]","over":{"base":"Any"},"name":"rowblocksizes_correct"},"guarantee":"returns [block.rows for block in self.args]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"02ef118405b56cf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[block.rows for block in self.args]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rowblocksizes(self):
         return [block.rows for block in self.args]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(colblocksizes(), returns the colblocksizes attribute) over Any ║
+# ║ Path(colblocksizes(), [block.cols for block in self.args]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [block.cols for block in self.args]            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ colblocksizes : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | edc77d62d495e647           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.colblocksizes","kind":"property","src_hash":"90b08fc888e6ea65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"colblocksizes()","rhs":"returns the colblocksizes attribute","over":{"base":"Any"},"name":"colblocksizes_correct"},"guarantee":"returns the colblocksizes attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edc77d62d495e647"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.colblocksizes","kind":"property","src_hash":"90b08fc888e6ea65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"colblocksizes()","rhs":"[block.cols for block in self.args]","over":{"base":"Any"},"name":"colblocksizes_correct"},"guarantee":"returns [block.cols for block in self.args]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edc77d62d495e647","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[block.cols for block in self.args]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def colblocksizes(self):
         return [block.cols for block in self.args]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_all_square_blocks(), returns true if all blocks are square) over Any ║
+# ║ Path(_all_square_blocks(), all((mat.is_square for mat in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((mat.is_square for mat in self.args))      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _all_square_blocks : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0bc263abe9ea2679           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix._all_square_blocks","kind":"method","src_hash":"437beba4494cbe81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_all_square_blocks()","rhs":"returns true if all blocks are square","over":{"base":"Any"},"name":"_all_square_blocks_correct"},"guarantee":"returns true if all blocks are square","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0bc263abe9ea2679"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix._all_square_blocks","kind":"method","src_hash":"437beba4494cbe81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_all_square_blocks()","rhs":"all((mat.is_square for mat in self.args))","over":{"base":"Any"},"name":"_all_square_blocks_correct"},"guarantee":"returns all((mat.is_square for mat in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0bc263abe9ea2679","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((mat.is_square for mat in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _all_square_blocks(self):
         """Returns true if all blocks are square"""
         return all(mat.is_square for mat in self.args)
@@ -1015,14 +1230,20 @@ class BlockDiagMatrix(BlockMatrix):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_determinant(), id) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_determinant : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e6d03e6df9febacf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix._eval_determinant","kind":"method","src_hash":"38cabbeff28d1934","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_determinant()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_determinant_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"det","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6d03e6df9febacf"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix._eval_determinant","kind":"method","src_hash":"38cabbeff28d1934","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_determinant()","rhs":"<unspecified:_eval_determinant>","over":{"base":"Any"},"name":"_eval_determinant_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Mul","by":"library_axiom"},{"fn":"det","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6d03e6df9febacf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._all_square_blocks","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_determinant(self):
         if self._all_square_blocks():
             return Mul(*[det(mat) for mat in self.args])
@@ -1031,16 +1252,22 @@ class BlockDiagMatrix(BlockMatrix):
         return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_inverse(exp), id) over Any                      ║
+# ║ Path(_eval_inverse(expand), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  BlockDiagMatrix(*[mat.inverse() for mat i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_inverse : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4136a053f7f6af05   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix._eval_inverse","kind":"method","src_hash":"1793df13ab882856","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_inverse_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BlockDiagMatrix","by":"library_axiom"},{"fn":"inverse","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4136a053f7f6af05"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix._eval_inverse","kind":"method","src_hash":"1793df13ab882856","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_inverse(expand)","rhs":"BlockDiagMatrix(*[mat.inverse() for mat in self.args])","over":{"base":"Any"},"name":"_eval_inverse_correct","kind":"composition"},"guarantee":"returns BlockDiagMatrix(*[mat.inverse() for mat in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BlockDiagMatrix","by":"library_axiom"},{"fn":"inverse","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4136a053f7f6af05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"BlockDiagMatrix(*[mat.inverse() for mat in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._all_square_blocks","self.args"],"raises":["NonInvertibleMatrixError"]},"state_contract":{"exceptional_post":{"NonInvertibleMatrixError":["isinstance(raised, NonInvertibleMatrixError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_inverse(self, expand='ignored'):
         if self._all_square_blocks():
             return BlockDiagMatrix(*[mat.inverse() for mat in self.args])
@@ -1048,30 +1275,47 @@ class BlockDiagMatrix(BlockMatrix):
         raise NonInvertibleMatrixError('Matrix det == 0; not invertible.')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_transpose(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_transpose(), BlockDiagMatrix(*[mat.transpose() for mat in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  BlockDiagMatrix(*[mat.transpose() for mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_transpose : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1f98ddee7470f05           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix._eval_transpose","kind":"method","src_hash":"b7c2569cb4befd52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1f98ddee7470f05"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix._eval_transpose","kind":"method","src_hash":"b7c2569cb4befd52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"BlockDiagMatrix(*[mat.transpose() for mat in self.args])","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"returns BlockDiagMatrix(*[mat.transpose() for mat in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1f98ddee7470f05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"BlockDiagMatrix(*[mat.transpose() for mat in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_transpose(self):
         return BlockDiagMatrix(*[mat.transpose() for mat in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_blockmul(oth), id) over Any                          ║
+# ║ Path(_blockmul(other), id) over {Any | hasattr(other, 'rowblocksizes') and hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _blockmul : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'rowblocksizes')                ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ensures:  result == (BlockDiagMatrix(*[a * b for a,...   ║
+# ║   ensures:  result == BlockDiagMatrix(*[a * b for a, ...   ║
+# ║   fiber[BlockDiagMatrix]: isinstance(other, BlockDiag...   ║
+# ║   fiber[BlockDiagMatrix]: not (isinstance(other, Bloc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _blockmul : {Any | hasattr(other, 'rowblocksizes') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 089f0b7068d172b6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix._blockmul","kind":"method","src_hash":"29da75d8da5d7f0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_blockmul(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_blockmul_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BlockDiagMatrix","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"089f0b7068d172b6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix._blockmul","kind":"method","src_hash":"29da75d8da5d7f0a","in":{"base":"Any","pred":"hasattr(other, 'rowblocksizes') and hasattr(other, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (BlockDiagMatrix(*[a * b for a, b in zip(self.args, other.args)]) if isinstance(other, BlockDiagMatrix) and self.colblocksizes == other.rowblocksizes else BlockMatrix._blockmul(self, other)) and result == BlockDiagMatrix(*[a * b for a, b in zip(self.args, other.args)]) or result == BlockMatrix._blockmul(self, other)"},"spec":{"lhs":"_blockmul(other)","rhs":"result == (BlockDiagMatrix(*[a * b for a, b in zip(self.args, other.args)]) if isinstance(other, BlockDiagMatrix) and self.colblocksizes == other.rowblocksizes else BlockMatrix._blockmul(self, other)) and result == BlockDiagMatrix(*[a * b for a, b in zip(self.args, other.args)]) or result == BlockMatrix._blockmul(self, other)","over":{"base":"Any","pred":"hasattr(other, 'rowblocksizes') and hasattr(other, 'args')"},"name":"_blockmul_correct","kind":"composition"},"guarantee":"result == (BlockDiagMatrix(*[a * b for a, b in zip(self.args, other.args)]) if isinstance(other, BlockDiagMatrix) and self.colblocksizes == other.rowblocksizes else BlockMatrix._blockmul(self, other)); result == BlockDiagMatrix(*[a * b for a, b in zip(self.args, other.args)]) or result == BlockMatrix._blockmul(self, other); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BlockDiagMatrix","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"089f0b7068d172b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'rowblocksizes')","hasattr(other, 'args')"],"ensures":["result == (BlockDiagMatrix(*[a * b for a, b in zip(self.args, other.args)]) if isinstance(other, BlockDiagMatrix) and self.colblocksizes == other.rowblocksizes else BlockMatrix._blockmul(self, other))","result == BlockDiagMatrix(*[a * b for a, b in zip(self.args, other.args)]) or result == BlockMatrix._blockmul(self, other)"],"fibers":[{"name":"BlockDiagMatrix","guard":"isinstance(other, BlockDiagMatrix) and self.colblocksizes == other.rowblocksizes","ensures":["result == BlockDiagMatrix(*[a * b for a, b in zip(self.args, other.args)])"],"decidability":"structural","returns_expr":"BlockDiagMatrix(*[a * b for a, b in zip(self.args, other.args)])"},{"name":"BlockDiagMatrix","guard":"not (isinstance(other, BlockDiagMatrix) and self.colblocksizes == other.rowblocksizes)","ensures":["result == BlockMatrix._blockmul(self, other)"],"decidability":"structural","returns_expr":"BlockMatrix._blockmul(self, other)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","other.rowblocksizes","self.args","self.colblocksizes"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _blockmul(self, other):
         if (isinstance(other, BlockDiagMatrix) and
                 self.colblocksizes == other.rowblocksizes):
@@ -1080,16 +1324,28 @@ class BlockDiagMatrix(BlockMatrix):
             return BlockMatrix._blockmul(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_blockadd(oth), id) over Any                          ║
+# ║ Path(_blockadd(other), id) over {Any | hasattr(other, 'blockshape') and hasattr(other, 'rowblocksizes') and hasattr(other, 'colblocksizes') and hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _blockadd : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'blockshape')                   ║
+# ║   requires: hasattr(other, 'rowblocksizes')                ║
+# ║   requires: hasattr(other, 'colblocksizes')                ║
+# ║   ensures:  result == (BlockDiagMatrix(*[a + b for a,...   ║
+# ║   ensures:  result == BlockDiagMatrix(*[a + b for a, ...   ║
+# ║   fiber[BlockDiagMatrix]: isinstance(other, BlockDiag...   ║
+# ║   fiber[BlockDiagMatrix]: not (isinstance(other, Bloc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _blockadd : {Any | hasattr(other, 'blockshape') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1a8a73c2a6b17a50   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix._blockadd","kind":"method","src_hash":"159963ca629da3c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_blockadd(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_blockadd_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BlockDiagMatrix","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a8a73c2a6b17a50"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix._blockadd","kind":"method","src_hash":"159963ca629da3c0","in":{"base":"Any","pred":"hasattr(other, 'blockshape') and hasattr(other, 'rowblocksizes') and hasattr(other, 'colblocksizes') and hasattr(other, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (BlockDiagMatrix(*[a + b for a, b in zip(self.args, other.args)]) if isinstance(other, BlockDiagMatrix) and self.blockshape == other.blockshape and (self.rowblocksizes == other.rowblocksizes) and (self.colblocksizes == other.colblocksizes) else BlockMatrix._blockadd(self, other)) and result == BlockDiagMatrix(*[a + b for a, b in zip(self.args, other.args)]) or result == BlockMatrix._blockadd(self, other)"},"spec":{"lhs":"_blockadd(other)","rhs":"result == (BlockDiagMatrix(*[a + b for a, b in zip(self.args, other.args)]) if isinstance(other, BlockDiagMatrix) and self.blockshape == other.blockshape and (self.rowblocksizes == other.rowblocksizes) and (self.colblocksizes == other.colblocksizes) else BlockMatrix._blockadd(self, other)) and result == BlockDiagMatrix(*[a + b for a, b in zip(self.args, other.args)]) or result == BlockMatrix._blockadd(self, other)","over":{"base":"Any","pred":"hasattr(other, 'blockshape') and hasattr(other, 'rowblocksizes') and hasattr(other, 'colblocksizes') and hasattr(other, 'args')"},"name":"_blockadd_correct","kind":"composition"},"guarantee":"result == (BlockDiagMatrix(*[a + b for a, b in zip(self.args, other.args)]) if isinstance(other, BlockDiagMatrix) and self.blockshape == other.blockshape and (self.rowblocksizes == other.rowblocksizes) and (self.colblocksizes == other.colblocksizes) else BlockMatrix._blockadd(self, other)); result == BlockDiagMatrix(*[a + b for a, b in zip(self.args, other.args)]) or result == BlockMatrix._blockadd(self, other); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BlockDiagMatrix","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a8a73c2a6b17a50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'blockshape')","hasattr(other, 'rowblocksizes')","hasattr(other, 'colblocksizes')","hasattr(other, 'args')"],"ensures":["result == (BlockDiagMatrix(*[a + b for a, b in zip(self.args, other.args)]) if isinstance(other, BlockDiagMatrix) and self.blockshape == other.blockshape and (self.rowblocksizes == other.rowblocksizes) and (self.colblocksizes == other.colblocksizes) else BlockMatrix._blockadd(self, other))","result == BlockDiagMatrix(*[a + b for a, b in zip(self.args, other.args)]) or result == BlockMatrix._blockadd(self, other)"],"fibers":[{"name":"BlockDiagMatrix","guard":"isinstance(other, BlockDiagMatrix) and self.blockshape == other.blockshape and (self.rowblocksizes == other.rowblocksizes) and (self.colblocksizes == other.colblocksizes)","ensures":["result == BlockDiagMatrix(*[a + b for a, b in zip(self.args, other.args)])"],"decidability":"structural","returns_expr":"BlockDiagMatrix(*[a + b for a, b in zip(self.args, other.args)])"},{"name":"BlockDiagMatrix","guard":"not (isinstance(other, BlockDiagMatrix) and self.blockshape == other.blockshape and (self.rowblocksizes == other.rowblocksizes) and (self.colblocksizes == other.colblocksizes))","ensures":["result == BlockMatrix._blockadd(self, other)"],"decidability":"structural","returns_expr":"BlockMatrix._blockadd(self, other)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","other.blockshape","other.colblocksizes","other.rowblocksizes","self.args","self.blockshape","self.colblocksizes","self.rowblocksizes"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _blockadd(self, other):
         if (isinstance(other, BlockDiagMatrix) and
                 self.blockshape == other.blockshape and
@@ -1100,16 +1356,22 @@ class BlockDiagMatrix(BlockMatrix):
             return BlockMatrix._blockadd(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_diag_blocks(), return the list of diagonal blocks of the matrix) over Any ║
+# ║ Path(get_diag_blocks(), self.args) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_diag_blocks : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b699f27b0042a40           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.get_diag_blocks","kind":"method","src_hash":"28614b2e87bf8fbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_diag_blocks()","rhs":"return the list of diagonal blocks of the matrix","over":{"base":"Any"},"name":"get_diag_blocks_correct"},"guarantee":"return the list of diagonal blocks of the matrix","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b699f27b0042a40"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.BlockDiagMatrix.get_diag_blocks","kind":"method","src_hash":"28614b2e87bf8fbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_diag_blocks()","rhs":"self.args","over":{"base":"Any"},"name":"get_diag_blocks_correct"},"guarantee":"returns self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b699f27b0042a40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_diag_blocks(self):
         """Return the list of diagonal blocks of the matrix.
 
@@ -1138,9 +1400,16 @@ class BlockDiagMatrix(BlockMatrix):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(block_collapse(exp), evaluates a block matrix expression) over {Any | isinstance(expr, MatrixExpr)} ║
+# ║ Path(block_collapse(expr), result == (doit() if doit is not None else result) and result == doit() or result == result) over {Any | isinstance(expr, MatrixExpr) and hasattr(expr, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ block_collapse : {Any | isinstance(expr, MatrixExpr)}...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   ensures:  result == (doit() if doit is not None els...   ║
+# ║   ensures:  result == doit() or result == result           ║
+# ║   fiber[case_0]: doit is not None => doit()                ║
+# ║   fiber[case_1]: not (doit is not None) => result          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ block_collapse : {Any | isinstance(expr, MatrixExpr) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   MatrixExpr: {isinstance(expr, MatrixExpr)} → librar...   ║
@@ -1150,9 +1419,12 @@ class BlockDiagMatrix(BlockMatrix):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 95e9359a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.block_collapse","kind":"function","src_hash":"761be1773421525a","in":{"base":"Any","pred":"isinstance(expr, MatrixExpr)"},"out":{"base":"Any"},"spec":{"lhs":"block_collapse(exp)","rhs":"evaluates a block matrix expression","over":{"base":"Any","pred":"isinstance(expr, MatrixExpr)"},"name":"block_collapse_correct"},"guarantee":"evaluates a block matrix expression","fibers":[{"name":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)","path":{"lhs":"block_collapse(x)","rhs":"evaluates a block matrix expression","over":{"base":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)"},"name":"block_collapse_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.block_collapse_MatrixExpr_correct","statement":"block_collapse satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"95e9359afb7c5ff2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.block_collapse","kind":"function","src_hash":"761be1773421525a","in":{"base":"Any","pred":"isinstance(expr, MatrixExpr) and hasattr(expr, 'has')"},"out":{"base":"Any","pred":"result satisfies: result == (doit() if doit is not None else result) and result == doit() or result == result"},"spec":{"lhs":"block_collapse(expr)","rhs":"result == (doit() if doit is not None else result) and result == doit() or result == result","over":{"base":"Any","pred":"isinstance(expr, MatrixExpr) and hasattr(expr, 'has')"},"name":"block_collapse_correct"},"guarantee":"result == (doit() if doit is not None else result); result == doit() or result == result; 2-fiber decomposition","fibers":[{"name":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)","path":{"lhs":"block_collapse(x)","rhs":"result == (doit() if doit is not None else result); result == doit() or result == result; 2-fiber decomposition","over":{"base":"MatrixExpr","pred":"isinstance(expr, MatrixExpr)"},"name":"block_collapse_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.block_collapse_MatrixExpr_correct","statement":"block_collapse satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"95e9359afb7c5ff2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'has')"],"ensures":["result == (doit() if doit is not None else result)","result == doit() or result == result"],"fibers":[{"name":"case_0","guard":"doit is not None","ensures":["result == doit()"],"decidability":"library","returns_expr":"doit()"},{"name":"case_1","guard":"not (doit is not None)","ensures":["result == result"],"decidability":"library","returns_expr":"result"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.has"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":true}}
 def block_collapse(expr):
     """Evaluates a block matrix expression
 
@@ -1205,25 +1477,37 @@ def block_collapse(expr):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_unpack(exp), bc_unpack produces the expected output) over Any ║
+# ║ Path(bc_unpack(expr), <unspecified:bc_unpack>) over {Any | hasattr(expr, 'blockshape') and hasattr(expr, 'blocks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bc_unpack : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'blockshape')                    ║
+# ║   requires: hasattr(expr, 'blocks')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bc_unpack : {Any | hasattr(expr, 'blockshape') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaccca5fdb91a9e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_unpack","kind":"function","src_hash":"795f6f9264d992d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_unpack(exp)","rhs":"bc_unpack produces the expected output","over":{"base":"Any"},"name":"bc_unpack_correct"},"guarantee":"bc_unpack produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_unpack_correct","statement":"Path(bc_unpack(x), bc_unpack produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaccca5fdb91a9e0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_unpack","kind":"function","src_hash":"795f6f9264d992d5","in":{"base":"Any","pred":"hasattr(expr, 'blockshape') and hasattr(expr, 'blocks')"},"out":{"base":"Any"},"spec":{"lhs":"bc_unpack(expr)","rhs":"<unspecified:bc_unpack>","over":{"base":"Any","pred":"hasattr(expr, 'blockshape') and hasattr(expr, 'blocks')"},"name":"bc_unpack_correct"},"guarantee":"bc_unpack produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_unpack_correct","statement":"Path(bc_unpack(x), bc_unpack produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaccca5fdb91a9e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'blockshape')","hasattr(expr, 'blocks')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.blocks","expr.blockshape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def bc_unpack(expr):
     if expr.blockshape == (1, 1):
         return expr.blocks[0, 0]
     return expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_matadd(exp), bc_matadd produces the expected output) over {Any | isinstance(M, BlockMatrix)} ║
+# ║ Path(bc_matadd(expr), <unspecified:bc_matadd>) over {Any | isinstance(M, BlockMatrix) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bc_matadd : {Any | isinstance(M, BlockMatrix)} → Any       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bc_matadd : {Any | isinstance(M, BlockMatrix) and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   BlockMatrix: {isinstance(M, BlockMatrix)} → library...   ║
@@ -1233,9 +1517,12 @@ def bc_unpack(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5bf3827f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_matadd","kind":"function","src_hash":"bd466e2806358d72","in":{"base":"Any","pred":"isinstance(M, BlockMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"bc_matadd(exp)","rhs":"bc_matadd produces the expected output","over":{"base":"Any","pred":"isinstance(M, BlockMatrix)"},"name":"bc_matadd_correct"},"guarantee":"bc_matadd produces the expected output","fibers":[{"name":"BlockMatrix","pred":"isinstance(M, BlockMatrix)","path":{"lhs":"bc_matadd(x)","rhs":"bc_matadd produces the expected output","over":{"base":"BlockMatrix","pred":"isinstance(M, BlockMatrix)"},"name":"bc_matadd_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_matadd_BlockMatrix_correct","statement":"bc_matadd satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5bf3827f53518ef6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_matadd","kind":"function","src_hash":"bd466e2806358d72","in":{"base":"Any","pred":"isinstance(M, BlockMatrix) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"bc_matadd(expr)","rhs":"<unspecified:bc_matadd>","over":{"base":"Any","pred":"isinstance(M, BlockMatrix) and hasattr(expr, 'args')"},"name":"bc_matadd_correct"},"guarantee":"bc_matadd produces the expected output","fibers":[{"name":"BlockMatrix","pred":"isinstance(M, BlockMatrix)","path":{"lhs":"bc_matadd(x)","rhs":"bc_matadd produces the expected output","over":{"base":"BlockMatrix","pred":"isinstance(M, BlockMatrix)"},"name":"bc_matadd_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_matadd_BlockMatrix_correct","statement":"bc_matadd satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5bf3827f53518ef6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def bc_matadd(expr):
     args = sift(expr.args, lambda M: isinstance(M, BlockMatrix))
     blocks = args[True]
@@ -1252,7 +1539,11 @@ def bc_matadd(expr):
         return block
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_block_plus_ident(exp), bc_block_plus_ident produces the expected output) over {Any | isinstance(arg, BlockMatrix)} ║
+# ║ Path(bc_block_plus_ident(expr), <unspecified:bc_block_plus_ident>) over {Any | isinstance(arg, BlockMatrix) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bc_block_plus_ident : {Any | isinstance(arg, BlockMat...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1264,9 +1555,12 @@ def bc_matadd(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 90f1a0b9...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_block_plus_ident","kind":"function","src_hash":"5ab3cdb941614411","in":{"base":"Any","pred":"isinstance(arg, BlockMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"bc_block_plus_ident(exp)","rhs":"bc_block_plus_ident produces the expected output","over":{"base":"Any","pred":"isinstance(arg, BlockMatrix)"},"name":"bc_block_plus_ident_correct"},"guarantee":"bc_block_plus_ident produces the expected output","fibers":[{"name":"BlockMatrix","pred":"isinstance(arg, BlockMatrix)","path":{"lhs":"bc_block_plus_ident(x)","rhs":"bc_block_plus_ident produces the expected output","over":{"base":"BlockMatrix","pred":"isinstance(arg, BlockMatrix)"},"name":"bc_block_plus_ident_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_block_plus_ident_BlockMatrix_correct","statement":"bc_block_plus_ident satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"90f1a0b9d40fcfb8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_block_plus_ident","kind":"function","src_hash":"5ab3cdb941614411","in":{"base":"Any","pred":"isinstance(arg, BlockMatrix) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"bc_block_plus_ident(expr)","rhs":"<unspecified:bc_block_plus_ident>","over":{"base":"Any","pred":"isinstance(arg, BlockMatrix) and hasattr(expr, 'args')"},"name":"bc_block_plus_ident_correct"},"guarantee":"bc_block_plus_ident produces the expected output","fibers":[{"name":"BlockMatrix","pred":"isinstance(arg, BlockMatrix)","path":{"lhs":"bc_block_plus_ident(x)","rhs":"bc_block_plus_ident produces the expected output","over":{"base":"BlockMatrix","pred":"isinstance(arg, BlockMatrix)"},"name":"bc_block_plus_ident_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_block_plus_ident_BlockMatrix_correct","statement":"bc_block_plus_ident satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"90f1a0b9d40fcfb8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def bc_block_plus_ident(expr):
     idents = [arg for arg in expr.args if arg.is_Identity]
     if not idents:
@@ -1283,7 +1577,11 @@ def bc_block_plus_ident(expr):
     return expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_dist(exp), turn a*[x, y] into [a*x, a*y]) over {Any | isinstance(unpacked, BlockDiagMatrix) and isinstance(unpacked, BlockMatrix)} ║
+# ║ Path(bc_dist(expr), <unspecified:bc_dist>) over {Any | isinstance(unpacked, BlockDiagMatrix) and isinstance(unpacked, BlockMatrix) and hasattr(expr, 'as_coeff_mmul')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'as_coeff_mmul')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bc_dist : {Any | isinstance(unpacked, BlockDiagMatrix...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1296,9 +1594,12 @@ def bc_block_plus_ident(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 04a52e5f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_dist","kind":"function","src_hash":"45677d345477b890","in":{"base":"Any","pred":"isinstance(unpacked, BlockDiagMatrix) and isinstance(unpacked, BlockMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"bc_dist(exp)","rhs":"turn a*[x, y] into [a*x, a*y]","over":{"base":"Any","pred":"isinstance(unpacked, BlockDiagMatrix) and isinstance(unpacked, BlockMatrix)"},"name":"bc_dist_correct"},"guarantee":"turn a*[x, y] into [a*x, a*y]","fibers":[{"name":"BlockDiagMatrix","pred":"isinstance(unpacked, BlockDiagMatrix)","path":{"lhs":"bc_dist(x)","rhs":"turn a*[x, y] into [a*x, a*y]","over":{"base":"BlockDiagMatrix","pred":"isinstance(unpacked, BlockDiagMatrix)"},"name":"bc_dist_BlockDiagMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_dist_BlockDiagMatrix_correct","statement":"bc_dist satisfies spec on BlockDiagMatrix inputs"},"trust":"LIBRARY"},{"name":"BlockMatrix","pred":"isinstance(unpacked, BlockMatrix)","path":{"lhs":"bc_dist(x)","rhs":"turn a*[x, y] into [a*x, a*y]","over":{"base":"BlockMatrix","pred":"isinstance(unpacked, BlockMatrix)"},"name":"bc_dist_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_dist_BlockMatrix_correct","statement":"bc_dist satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"04a52e5f05f4a080"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_dist","kind":"function","src_hash":"45677d345477b890","in":{"base":"Any","pred":"isinstance(unpacked, BlockDiagMatrix) and isinstance(unpacked, BlockMatrix) and hasattr(expr, 'as_coeff_mmul')"},"out":{"base":"Any"},"spec":{"lhs":"bc_dist(expr)","rhs":"<unspecified:bc_dist>","over":{"base":"Any","pred":"isinstance(unpacked, BlockDiagMatrix) and isinstance(unpacked, BlockMatrix) and hasattr(expr, 'as_coeff_mmul')"},"name":"bc_dist_correct"},"guarantee":"turn a*[x, y] into [a*x, a*y]","fibers":[{"name":"BlockDiagMatrix","pred":"isinstance(unpacked, BlockDiagMatrix)","path":{"lhs":"bc_dist(x)","rhs":"turn a*[x, y] into [a*x, a*y]","over":{"base":"BlockDiagMatrix","pred":"isinstance(unpacked, BlockDiagMatrix)"},"name":"bc_dist_BlockDiagMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_dist_BlockDiagMatrix_correct","statement":"bc_dist satisfies spec on BlockDiagMatrix inputs"},"trust":"LIBRARY"},{"name":"BlockMatrix","pred":"isinstance(unpacked, BlockMatrix)","path":{"lhs":"bc_dist(x)","rhs":"turn a*[x, y] into [a*x, a*y]","over":{"base":"BlockMatrix","pred":"isinstance(unpacked, BlockMatrix)"},"name":"bc_dist_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_dist_BlockMatrix_correct","statement":"bc_dist satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"04a52e5f05f4a080","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'as_coeff_mmul')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_coeff_mmul"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'factor == 1', 'isinstance(unpacked, BlockDiagMatrix)', 'isinstance(unpacked, BlockMatrix)'}, fibers={'BlockDiagMatrix', 'BlockMatrix'})"]}}
 def bc_dist(expr):
     """ Turn  a*[X, Y] into [a*X, a*Y] """
     factor, mat = expr.as_coeff_mmul()
@@ -1320,7 +1621,12 @@ def bc_dist(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_matmul(exp), bc_matmul produces the expected output) over {Any | isinstance(expr, MatPow) and isinstance(A, BlockMatrix)} ║
+# ║ Path(bc_matmul(expr), <unspecified:bc_matmul>) over {Any | isinstance(expr, MatPow) and isinstance(A, BlockMatrix) and hasattr(expr, 'as_coeff_matrices') and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'as_coeff_matrices')             ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bc_matmul : {Any | isinstance(expr, MatPow) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1333,9 +1639,12 @@ def bc_dist(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7753b978...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_matmul","kind":"function","src_hash":"c554660b3fd1b225","in":{"base":"Any","pred":"isinstance(expr, MatPow) and isinstance(A, BlockMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"bc_matmul(exp)","rhs":"bc_matmul produces the expected output","over":{"base":"Any","pred":"isinstance(expr, MatPow) and isinstance(A, BlockMatrix)"},"name":"bc_matmul_correct"},"guarantee":"bc_matmul produces the expected output","fibers":[{"name":"MatPow","pred":"isinstance(expr, MatPow)","path":{"lhs":"bc_matmul(x)","rhs":"bc_matmul produces the expected output","over":{"base":"MatPow","pred":"isinstance(expr, MatPow)"},"name":"bc_matmul_MatPow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_matmul_MatPow_correct","statement":"bc_matmul satisfies spec on MatPow inputs"},"trust":"LIBRARY"},{"name":"BlockMatrix","pred":"isinstance(A, BlockMatrix)","path":{"lhs":"bc_matmul(x)","rhs":"bc_matmul produces the expected output","over":{"base":"BlockMatrix","pred":"isinstance(A, BlockMatrix)"},"name":"bc_matmul_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_matmul_BlockMatrix_correct","statement":"bc_matmul satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7753b978633dde42"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_matmul","kind":"function","src_hash":"c554660b3fd1b225","in":{"base":"Any","pred":"isinstance(expr, MatPow) and isinstance(A, BlockMatrix) and hasattr(expr, 'as_coeff_matrices') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"bc_matmul(expr)","rhs":"<unspecified:bc_matmul>","over":{"base":"Any","pred":"isinstance(expr, MatPow) and isinstance(A, BlockMatrix) and hasattr(expr, 'as_coeff_matrices') and hasattr(expr, 'args')"},"name":"bc_matmul_correct"},"guarantee":"bc_matmul produces the expected output","fibers":[{"name":"MatPow","pred":"isinstance(expr, MatPow)","path":{"lhs":"bc_matmul(x)","rhs":"bc_matmul produces the expected output","over":{"base":"MatPow","pred":"isinstance(expr, MatPow)"},"name":"bc_matmul_MatPow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_matmul_MatPow_correct","statement":"bc_matmul satisfies spec on MatPow inputs"},"trust":"LIBRARY"},{"name":"BlockMatrix","pred":"isinstance(A, BlockMatrix)","path":{"lhs":"bc_matmul(x)","rhs":"bc_matmul produces the expected output","over":{"base":"BlockMatrix","pred":"isinstance(A, BlockMatrix)"},"name":"bc_matmul_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_matmul_BlockMatrix_correct","statement":"bc_matmul satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7753b978633dde42","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'as_coeff_matrices')","hasattr(expr, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(A, BlockMatrix)', 'isinstance(A, BlockMatrix) and isinstance(B, BlockMatrix)', 'isinstance(expr, MatPow)', 'expr.args[1].is_Integer and expr.args[1] > 0', 'isinstance(B, BlockMatrix)'}, fibers={'MatPow', 'BlockMatrix'})"]}}
 def bc_matmul(expr):
     if isinstance(expr, MatPow):
         if expr.args[1].is_Integer and expr.args[1] > 0:
@@ -1362,23 +1671,35 @@ def bc_matmul(expr):
     return MatMul(factor, *matrices).doit()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_transpose(exp), bc_transpose produces the expected output) over Any ║
+# ║ Path(bc_transpose(expr), collapse._eval_transpose()) over {Any | hasattr(expr, 'arg')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ bc_transpose : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'arg')                           ║
+# ║   returns:  collapse._eval_transpose()                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ bc_transpose : {Any | hasattr(expr, 'arg')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4659372c361d293  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a470b35b2c5bffb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_transpose","kind":"function","src_hash":"920783a9a84f6554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bc_transpose(exp)","rhs":"bc_transpose produces the expected output","over":{"base":"Any"},"name":"bc_transpose_correct"},"guarantee":"bc_transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_transpose_correct","statement":"Path(bc_transpose(x), bc_transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4659372c361d293"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_transpose","kind":"function","src_hash":"920783a9a84f6554","in":{"base":"Any","pred":"hasattr(expr, 'arg')"},"out":{"base":"Any"},"spec":{"lhs":"bc_transpose(expr)","rhs":"collapse._eval_transpose()","over":{"base":"Any","pred":"hasattr(expr, 'arg')"},"name":"bc_transpose_correct"},"guarantee":"returns collapse._eval_transpose()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_transpose_correct","statement":"Path(bc_transpose(x), returns collapse._eval_transpose())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a470b35b2c5bffb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'arg')"],"returns_expr":"collapse._eval_transpose()","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.arg"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def bc_transpose(expr):
     collapse = block_collapse(expr.arg)
     return collapse._eval_transpose()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bc_inverse(exp), bc_inverse produces the expected output) over {Any | isinstance(expr.arg, BlockDiagMatrix)} ║
+# ║ Path(bc_inverse(expr), <unspecified:bc_inverse>) over {Any | isinstance(expr.arg, BlockDiagMatrix) and hasattr(expr, 'arg') and hasattr(expr, 'inverse')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'arg')                           ║
+# ║   requires: hasattr(expr, 'inverse')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bc_inverse : {Any | isinstance(expr.arg, BlockDiagMat...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1390,9 +1711,12 @@ def bc_transpose(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c9e1aa22...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_inverse","kind":"function","src_hash":"2e1ec81e26c7fcd7","in":{"base":"Any","pred":"isinstance(expr.arg, BlockDiagMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"bc_inverse(exp)","rhs":"bc_inverse produces the expected output","over":{"base":"Any","pred":"isinstance(expr.arg, BlockDiagMatrix)"},"name":"bc_inverse_correct"},"guarantee":"bc_inverse produces the expected output","fibers":[{"name":"BlockDiagMatrix","pred":"isinstance(expr.arg, BlockDiagMatrix)","path":{"lhs":"bc_inverse(x)","rhs":"bc_inverse produces the expected output","over":{"base":"BlockDiagMatrix","pred":"isinstance(expr.arg, BlockDiagMatrix)"},"name":"bc_inverse_BlockDiagMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_inverse_BlockDiagMatrix_correct","statement":"bc_inverse satisfies spec on BlockDiagMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c9e1aa229803e2ee"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bc_inverse","kind":"function","src_hash":"2e1ec81e26c7fcd7","in":{"base":"Any","pred":"isinstance(expr.arg, BlockDiagMatrix) and hasattr(expr, 'arg') and hasattr(expr, 'inverse')"},"out":{"base":"Any"},"spec":{"lhs":"bc_inverse(expr)","rhs":"<unspecified:bc_inverse>","over":{"base":"Any","pred":"isinstance(expr.arg, BlockDiagMatrix) and hasattr(expr, 'arg') and hasattr(expr, 'inverse')"},"name":"bc_inverse_correct"},"guarantee":"bc_inverse produces the expected output","fibers":[{"name":"BlockDiagMatrix","pred":"isinstance(expr.arg, BlockDiagMatrix)","path":{"lhs":"bc_inverse(x)","rhs":"bc_inverse produces the expected output","over":{"base":"BlockDiagMatrix","pred":"isinstance(expr.arg, BlockDiagMatrix)"},"name":"bc_inverse_BlockDiagMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bc_inverse_BlockDiagMatrix_correct","statement":"bc_inverse satisfies spec on BlockDiagMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c9e1aa229803e2ee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'arg')","hasattr(expr, 'inverse')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.arg","expr.inverse"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'expr != expr2', 'isinstance(expr.arg, BlockDiagMatrix)'}, fibers={'BlockDiagMatrix'})"]}}
 def bc_inverse(expr):
     if isinstance(expr.arg, BlockDiagMatrix):
         return expr.inverse()
@@ -1403,7 +1727,11 @@ def bc_inverse(expr):
     return blockinverse_2x2(Inverse(reblock_2x2(expr.arg)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(blockinverse_1x1(exp), blockinverse_1x1 produces the expected output) over {Any | isinstance(expr.arg, BlockMatrix)} ║
+# ║ Path(blockinverse_1x1(expr), <unspecified:blockinverse_1x1>) over {Any | isinstance(expr.arg, BlockMatrix) and hasattr(expr, 'arg')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'arg')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ blockinverse_1x1 : {Any | isinstance(expr.arg, BlockM...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1415,9 +1743,12 @@ def bc_inverse(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5a596dd1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.blockinverse_1x1","kind":"function","src_hash":"ae77548b8f0aa023","in":{"base":"Any","pred":"isinstance(expr.arg, BlockMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"blockinverse_1x1(exp)","rhs":"blockinverse_1x1 produces the expected output","over":{"base":"Any","pred":"isinstance(expr.arg, BlockMatrix)"},"name":"blockinverse_1x1_correct"},"guarantee":"blockinverse_1x1 produces the expected output","fibers":[{"name":"BlockMatrix","pred":"isinstance(expr.arg, BlockMatrix)","path":{"lhs":"blockinverse_1x1(x)","rhs":"blockinverse_1x1 produces the expected output","over":{"base":"BlockMatrix","pred":"isinstance(expr.arg, BlockMatrix)"},"name":"blockinverse_1x1_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.blockinverse_1x1_BlockMatrix_correct","statement":"blockinverse_1x1 satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5a596dd170898c28"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.blockinverse_1x1","kind":"function","src_hash":"ae77548b8f0aa023","in":{"base":"Any","pred":"isinstance(expr.arg, BlockMatrix) and hasattr(expr, 'arg')"},"out":{"base":"Any"},"spec":{"lhs":"blockinverse_1x1(expr)","rhs":"<unspecified:blockinverse_1x1>","over":{"base":"Any","pred":"isinstance(expr.arg, BlockMatrix) and hasattr(expr, 'arg')"},"name":"blockinverse_1x1_correct"},"guarantee":"blockinverse_1x1 produces the expected output","fibers":[{"name":"BlockMatrix","pred":"isinstance(expr.arg, BlockMatrix)","path":{"lhs":"blockinverse_1x1(x)","rhs":"blockinverse_1x1 produces the expected output","over":{"base":"BlockMatrix","pred":"isinstance(expr.arg, BlockMatrix)"},"name":"blockinverse_1x1_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.blockinverse_1x1_BlockMatrix_correct","statement":"blockinverse_1x1 satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5a596dd170898c28","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'arg')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.arg"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr.arg, BlockMatrix) and expr.arg.blockshape == (1, 1)'}, fibers={'BlockMatrix'})"]}}
 def blockinverse_1x1(expr):
     if isinstance(expr.arg, BlockMatrix) and expr.arg.blockshape == (1, 1):
         mat = Matrix([[expr.arg.blocks[0].inverse()]])
@@ -1426,7 +1757,11 @@ def blockinverse_1x1(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(blockinverse_2x2(exp), blockinverse_2x2 produces the expected output) over {Any | isinstance(expr.arg, BlockMatrix)} ║
+# ║ Path(blockinverse_2x2(expr), <unspecified:blockinverse_2x2>) over {Any | isinstance(expr.arg, BlockMatrix) and hasattr(expr, 'arg')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'arg')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ blockinverse_2x2 : {Any | isinstance(expr.arg, BlockM...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1438,9 +1773,12 @@ def blockinverse_1x1(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 69161d0d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.blockinverse_2x2","kind":"function","src_hash":"357a0f78ffc3a522","in":{"base":"Any","pred":"isinstance(expr.arg, BlockMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"blockinverse_2x2(exp)","rhs":"blockinverse_2x2 produces the expected output","over":{"base":"Any","pred":"isinstance(expr.arg, BlockMatrix)"},"name":"blockinverse_2x2_correct"},"guarantee":"blockinverse_2x2 produces the expected output","fibers":[{"name":"BlockMatrix","pred":"isinstance(expr.arg, BlockMatrix)","path":{"lhs":"blockinverse_2x2(x)","rhs":"blockinverse_2x2 produces the expected output","over":{"base":"BlockMatrix","pred":"isinstance(expr.arg, BlockMatrix)"},"name":"blockinverse_2x2_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.blockinverse_2x2_BlockMatrix_correct","statement":"blockinverse_2x2 satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"69161d0d31d20918"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.blockinverse_2x2","kind":"function","src_hash":"357a0f78ffc3a522","in":{"base":"Any","pred":"isinstance(expr.arg, BlockMatrix) and hasattr(expr, 'arg')"},"out":{"base":"Any"},"spec":{"lhs":"blockinverse_2x2(expr)","rhs":"<unspecified:blockinverse_2x2>","over":{"base":"Any","pred":"isinstance(expr.arg, BlockMatrix) and hasattr(expr, 'arg')"},"name":"blockinverse_2x2_correct"},"guarantee":"blockinverse_2x2 produces the expected output","fibers":[{"name":"BlockMatrix","pred":"isinstance(expr.arg, BlockMatrix)","path":{"lhs":"blockinverse_2x2(x)","rhs":"blockinverse_2x2 produces the expected output","over":{"base":"BlockMatrix","pred":"isinstance(expr.arg, BlockMatrix)"},"name":"blockinverse_2x2_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.blockinverse_2x2_BlockMatrix_correct","statement":"blockinverse_2x2 satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"69161d0d31d20918","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'arg')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.arg"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'formula != None', 'isinstance(expr.arg, BlockMatrix) and expr.arg.blockshape == (2, 2)', \"formula == 'B'\", \"formula == 'D'\", \"formula == 'A'\", \"formula == 'C'\"}, fibers={'BlockMatrix'})"]}}
 def blockinverse_2x2(expr):
     if isinstance(expr.arg, BlockMatrix) and expr.arg.blockshape == (2, 2):
         # See: Inverses of 2x2 Block Matrices, Tzon-Tzer Lu and Sheng-Hua Shiou
@@ -1467,16 +1805,22 @@ def blockinverse_2x2(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_choose_2x2_inversion_formula(A, ), assuming [[a, b], [c, d]] would form a valid square block matrix, find which of the classical 2x2 block matrix inversion formulas would be best suited) over Any ║
+# ║ Path(_choose_2x2_inversion_formula(A, B, C), <unspecified:_choose_2x2_inversion_formula>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _choose_2x2_inversion_formula : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c42adc74af650ea6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix._choose_2x2_inversion_formula","kind":"function","src_hash":"85e1fdd7b7fc8acc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_choose_2x2_inversion_formula(A, )","rhs":"assuming [[a, b], [c, d]] would form a valid square block matrix, find which of the classical 2x2 block matrix inversion formulas would be best suited","over":{"base":"Any"},"name":"_choose_2x2_inversion_formula_correct"},"guarantee":"assuming [[a, b], [c, d]] would form a valid square block matrix, find which of the classical 2x2 block matrix inversion formulas would be best suited","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix._choose_2x2_inversion_formula_correct","statement":"Path(_choose_2x2_inversion_formula(x), assuming [[a, b], [c, d]] would form a valid square block matrix, find which of the classical 2x2 block matrix inversion formulas would be best suited)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c42adc74af650ea6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix._choose_2x2_inversion_formula","kind":"function","src_hash":"85e1fdd7b7fc8acc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_choose_2x2_inversion_formula(A, B, C)","rhs":"<unspecified:_choose_2x2_inversion_formula>","over":{"base":"Any"},"name":"_choose_2x2_inversion_formula_correct"},"guarantee":"assuming [[a, b], [c, d]] would form a valid square block matrix, find which of the classical 2x2 block matrix inversion formulas would be best suited","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix._choose_2x2_inversion_formula_correct","statement":"Path(_choose_2x2_inversion_formula(x), assuming [[a, b], [c, d]] would form a valid square block matrix, find which of the classical 2x2 block matrix inversion formulas would be best suited)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c42adc74af650ea6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _choose_2x2_inversion_formula(A, B, C, D):
     """
     Assuming [[A, B], [C, D]] would form a valid square block matrix, find
@@ -1514,9 +1858,13 @@ def _choose_2x2_inversion_formula(A, B, C, D):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deblock(B), flatten a blockmatrix of blockmatrices) over {Any | isinstance(B, BlockMatrix)} ║
+# ║ Path(deblock(B), <unspecified:deblock>) over {Any | isinstance(B, BlockMatrix) and hasattr(B, 'blocks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ deblock : {Any | isinstance(B, BlockMatrix)} → Any         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(B, 'blocks')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ deblock : {Any | isinstance(B, BlockMatrix) and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   BlockMatrix: {isinstance(B, BlockMatrix)} → library...   ║
@@ -1526,9 +1874,12 @@ def _choose_2x2_inversion_formula(A, B, C, D):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5e4e8cb6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.deblock","kind":"function","src_hash":"31c57a0d6efbe9ab","in":{"base":"Any","pred":"isinstance(B, BlockMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"deblock(B)","rhs":"flatten a blockmatrix of blockmatrices","over":{"base":"Any","pred":"isinstance(B, BlockMatrix)"},"name":"deblock_correct"},"guarantee":"flatten a blockmatrix of blockmatrices","fibers":[{"name":"BlockMatrix","pred":"isinstance(B, BlockMatrix)","path":{"lhs":"deblock(x)","rhs":"flatten a blockmatrix of blockmatrices","over":{"base":"BlockMatrix","pred":"isinstance(B, BlockMatrix)"},"name":"deblock_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.deblock_BlockMatrix_correct","statement":"deblock satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5e4e8cb644ecd0a3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.deblock","kind":"function","src_hash":"31c57a0d6efbe9ab","in":{"base":"Any","pred":"isinstance(B, BlockMatrix) and hasattr(B, 'blocks')"},"out":{"base":"Any"},"spec":{"lhs":"deblock(B)","rhs":"<unspecified:deblock>","over":{"base":"Any","pred":"isinstance(B, BlockMatrix) and hasattr(B, 'blocks')"},"name":"deblock_correct"},"guarantee":"flatten a blockmatrix of blockmatrices","fibers":[{"name":"BlockMatrix","pred":"isinstance(B, BlockMatrix)","path":{"lhs":"deblock(x)","rhs":"flatten a blockmatrix of blockmatrices","over":{"base":"BlockMatrix","pred":"isinstance(B, BlockMatrix)"},"name":"deblock_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.deblock_BlockMatrix_correct","statement":"deblock satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5e4e8cb644ecd0a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(B, 'blocks')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["B.blocks"],"catches":["ShapeError"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(B, BlockMatrix) or not B.blocks.has(BlockMatrix)'}, fibers={'BlockMatrix'})"]}}
 def deblock(B):
     """ Flatten a BlockMatrix of BlockMatrices """
     if not isinstance(B, BlockMatrix) or not B.blocks.has(BlockMatrix):
@@ -1550,9 +1901,14 @@ def deblock(B):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reblock_2x2(exp), reblock a blockmatrix so that it has 2x2 blocks of block matrices) over {Any | isinstance(expr, BlockMatrix)} ║
+# ║ Path(reblock_2x2(expr), <unspecified:reblock_2x2>) over {Any | isinstance(expr, BlockMatrix) and hasattr(expr, 'blockshape') and hasattr(expr, 'blocks')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reblock_2x2 : {Any | isinstance(expr, BlockMatrix)} →...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'blockshape')                    ║
+# ║   requires: hasattr(expr, 'blocks')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reblock_2x2 : {Any | isinstance(expr, BlockMatrix) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   BlockMatrix: {isinstance(expr, BlockMatrix)} → libr...   ║
@@ -1562,9 +1918,12 @@ def deblock(B):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b09b0a81...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.reblock_2x2","kind":"function","src_hash":"e665f48ebe7706e9","in":{"base":"Any","pred":"isinstance(expr, BlockMatrix)"},"out":{"base":"Any"},"spec":{"lhs":"reblock_2x2(exp)","rhs":"reblock a blockmatrix so that it has 2x2 blocks of block matrices","over":{"base":"Any","pred":"isinstance(expr, BlockMatrix)"},"name":"reblock_2x2_correct"},"guarantee":"reblock a blockmatrix so that it has 2x2 blocks of block matrices","fibers":[{"name":"BlockMatrix","pred":"isinstance(expr, BlockMatrix)","path":{"lhs":"reblock_2x2(x)","rhs":"reblock a blockmatrix so that it has 2x2 blocks of block matrices","over":{"base":"BlockMatrix","pred":"isinstance(expr, BlockMatrix)"},"name":"reblock_2x2_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.reblock_2x2_BlockMatrix_correct","statement":"reblock_2x2 satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b09b0a8120c5d664"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.reblock_2x2","kind":"function","src_hash":"e665f48ebe7706e9","in":{"base":"Any","pred":"isinstance(expr, BlockMatrix) and hasattr(expr, 'blockshape') and hasattr(expr, 'blocks')"},"out":{"base":"Any"},"spec":{"lhs":"reblock_2x2(expr)","rhs":"<unspecified:reblock_2x2>","over":{"base":"Any","pred":"isinstance(expr, BlockMatrix) and hasattr(expr, 'blockshape') and hasattr(expr, 'blocks')"},"name":"reblock_2x2_correct"},"guarantee":"reblock a blockmatrix so that it has 2x2 blocks of block matrices","fibers":[{"name":"BlockMatrix","pred":"isinstance(expr, BlockMatrix)","path":{"lhs":"reblock_2x2(x)","rhs":"reblock a blockmatrix so that it has 2x2 blocks of block matrices","over":{"base":"BlockMatrix","pred":"isinstance(expr, BlockMatrix)"},"name":"reblock_2x2_BlockMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.reblock_2x2_BlockMatrix_correct","statement":"reblock_2x2 satisfies spec on BlockMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b09b0a8120c5d664","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'blockshape')","hasattr(expr, 'blocks')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.blocks","expr.blockshape"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, BlockMatrix) or not all((d > 2 for d in expr.blockshape))'}, fibers={'BlockMatrix'})"]}}
 def reblock_2x2(expr):
     """
     Reblock a BlockMatrix so that it has 2x2 blocks of block matrices.  If
@@ -1595,16 +1954,22 @@ def reblock_2x2(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bounds(siz), convert sequence of numbers into pairs of low-high pairs) over Any ║
+# ║ Path(bounds(sizes), <unspecified:bounds>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bounds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 435292dc5d24a6bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bounds","kind":"function","src_hash":"91092d5d118803a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bounds(siz)","rhs":"convert sequence of numbers into pairs of low-high pairs","over":{"base":"Any"},"name":"bounds_correct"},"guarantee":"convert sequence of numbers into pairs of low-high pairs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bounds_correct","statement":"Path(bounds(x), convert sequence of numbers into pairs of low-high pairs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"435292dc5d24a6bc"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.bounds","kind":"function","src_hash":"91092d5d118803a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bounds(sizes)","rhs":"<unspecified:bounds>","over":{"base":"Any"},"name":"bounds_correct"},"guarantee":"convert sequence of numbers into pairs of low-high pairs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.blockmatrix.bounds_correct","statement":"Path(bounds(x), convert sequence of numbers into pairs of low-high pairs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"435292dc5d24a6bc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def bounds(sizes):
     """ Convert sequence of numbers into pairs of low-high pairs
 
@@ -1620,16 +1985,22 @@ def bounds(sizes):
     return rv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(blockcut(exp), id) over Any                           ║
+# ║ Path(blockcut(expr, rowsizes, colsizes), id) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  BlockMatrix([[MatrixSlice(expr, rowbound,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ blockcut : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 921ad72ce0310f26   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.blockcut","kind":"function","src_hash":"6ea4b8a0d2b1831b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"blockcut(exp)","rhs":"cut a matrix expression into blocks","over":{"base":"Any"},"name":"blockcut_correct","kind":"composition"},"guarantee":"cut a matrix expression into blocks","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BlockMatrix","by":"library_axiom"},{"fn":"MatrixSlice","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"921ad72ce0310f26"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.blockmatrix.blockcut","kind":"function","src_hash":"6ea4b8a0d2b1831b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"blockcut(expr, rowsizes, colsizes)","rhs":"BlockMatrix([[MatrixSlice(expr, rowbound, colbound) for colbound in colbounds] for rowbound in rowbounds])","over":{"base":"Any"},"name":"blockcut_correct","kind":"composition"},"guarantee":"returns BlockMatrix([[MatrixSlice(expr, rowbound, colbound) for colbound in colbounds] for rowbound in rowbounds])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"BlockMatrix","by":"library_axiom"},{"fn":"MatrixSlice","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"921ad72ce0310f26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"BlockMatrix([[MatrixSlice(expr, rowbound, colbound) for colbound in colbounds] for rowbound in rowbounds])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def blockcut(expr, rowsizes, colsizes):
     """ Cut a matrix expression into Blocks
 

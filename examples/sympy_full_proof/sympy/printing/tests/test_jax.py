@@ -55,16 +55,23 @@ if jax:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_piecewise_regression(), numpyprinter needs to print piecewise()'s choicelist as a list to avoid breaking compatibility with numpy 1.8) over Any ║
+# ║ Path(test_jax_piecewise_regression(), printer.doprint(p) == 'jax.numpy.select([jax.numpy.less(x, 0),True], [1,0], default=jax.numpy.nan)' and printer.module_imports == {'jax.numpy': {'select', 'less', 'nan'}}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_piecewise_regression : Any → {Any | printer....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  printer.doprint(p) == 'jax.numpy.select([...   ║
+# ║   ensures:  printer.module_imports == {'jax.numpy': {...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_piecewise_regression : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbd2452a0b86d0d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c87a3cd8e822615  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_piecewise_regression","kind":"function","src_hash":"45f28613bba49580","in":{"base":"Any"},"out":{"base":"Any","pred":"printer.module_imports == {'jax.numpy': {'select', 'less', 'nan'}}"},"spec":{"lhs":"test_jax_piecewise_regression()","rhs":"numpyprinter needs to print piecewise()'s choicelist as a list to avoid breaking compatibility with numpy 1.8","over":{"base":"Any"},"name":"test_jax_piecewise_regression_correct"},"guarantee":"numpyprinter needs to print piecewise()'s choicelist as a list to avoid breaking compatibility with numpy 1.8","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_piecewise_regression_correct","statement":"Path(test_jax_piecewise_regression(x), numpyprinter needs to print piecewise()'s choicelist as a list to avoid breaking compatibility with numpy 1.8)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbd2452a0b86d0d8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_piecewise_regression","kind":"function","src_hash":"45f28613bba49580","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: printer.doprint(p) == 'jax.numpy.select([jax.numpy.less(x, 0),True], [1,0], default=jax.numpy.nan)' and printer.module_imports == {'jax.numpy': {'select', 'less', 'nan'}}"},"spec":{"lhs":"test_jax_piecewise_regression()","rhs":"printer.doprint(p) == 'jax.numpy.select([jax.numpy.less(x, 0),True], [1,0], default=jax.numpy.nan)' and printer.module_imports == {'jax.numpy': {'select', 'less', 'nan'}}","over":{"base":"Any"},"name":"test_jax_piecewise_regression_correct"},"guarantee":"printer.doprint(p) == 'jax.numpy.select([jax.numpy.less(x, 0),True], [1,0], default=jax.numpy.nan)'; printer.module_imports == {'jax.numpy': {'select', 'less', 'nan'}}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_piecewise_regression_correct","statement":"Path(test_jax_piecewise_regression(x), printer.doprint(p) == 'jax.numpy.select([jax.numpy.less(x, 0),True], [1,0], default=jax.numpy.nan)'; printer.module_imports == {'jax.numpy': {'select', 'less', 'nan'}})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c87a3cd8e822615","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["printer.doprint(p) == 'jax.numpy.select([jax.numpy.less(x, 0),True], [1,0], default=jax.numpy.nan)'","printer.module_imports == {'jax.numpy': {'select', 'less', 'nan'}}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_piecewise_regression():
     """
     NumPyPrinter needs to print Piecewise()'s choicelist as a list to avoid
@@ -79,16 +86,23 @@ def test_jax_piecewise_regression():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_logaddexp(), test_jax_logaddexp produces the expected output) over Any ║
+# ║ Path(test_jax_logaddexp(), JaxPrinter().doprint(lae) == 'jax.numpy.logaddexp(a, b)' and JaxPrinter().doprint(lae2) == 'jax.numpy.logaddexp2(a, b)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_logaddexp : Any → {Any | JaxPrinter().doprin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  JaxPrinter().doprint(lae) == 'jax.numpy.l...   ║
+# ║   ensures:  JaxPrinter().doprint(lae2) == 'jax.numpy....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_logaddexp : Any → {Any | result satisfies: J...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33f3741c70ee8505  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70a1a994cd6e569e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_logaddexp","kind":"function","src_hash":"fad8850d388f0ca2","in":{"base":"Any"},"out":{"base":"Any","pred":"JaxPrinter().doprint(lae) == 'jax.numpy.logaddexp(a, b)' and JaxPrinter().doprint(lae2) == 'jax.numpy.logaddexp2(a, b)'"},"spec":{"lhs":"test_jax_logaddexp()","rhs":"test_jax_logaddexp produces the expected output","over":{"base":"Any"},"name":"test_jax_logaddexp_correct"},"guarantee":"test_jax_logaddexp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_logaddexp_correct","statement":"Path(test_jax_logaddexp(x), test_jax_logaddexp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33f3741c70ee8505"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_logaddexp","kind":"function","src_hash":"fad8850d388f0ca2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: JaxPrinter().doprint(lae) == 'jax.numpy.logaddexp(a, b)' and JaxPrinter().doprint(lae2) == 'jax.numpy.logaddexp2(a, b)'"},"spec":{"lhs":"test_jax_logaddexp()","rhs":"JaxPrinter().doprint(lae) == 'jax.numpy.logaddexp(a, b)' and JaxPrinter().doprint(lae2) == 'jax.numpy.logaddexp2(a, b)'","over":{"base":"Any"},"name":"test_jax_logaddexp_correct"},"guarantee":"JaxPrinter().doprint(lae) == 'jax.numpy.logaddexp(a, b)'; JaxPrinter().doprint(lae2) == 'jax.numpy.logaddexp2(a, b)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_logaddexp_correct","statement":"Path(test_jax_logaddexp(x), JaxPrinter().doprint(lae) == 'jax.numpy.logaddexp(a, b)'; JaxPrinter().doprint(lae2) == 'jax.numpy.logaddexp2(a, b)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70a1a994cd6e569e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["JaxPrinter().doprint(lae) == 'jax.numpy.logaddexp(a, b)'","JaxPrinter().doprint(lae2) == 'jax.numpy.logaddexp2(a, b)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_logaddexp():
     lae = logaddexp(a, b)
     assert JaxPrinter().doprint(lae) == 'jax.numpy.logaddexp(a, b)'
@@ -97,16 +111,23 @@ def test_jax_logaddexp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_sum(), test_jax_sum produces the expected output) over Any ║
+# ║ Path(test_jax_sum(), jax.numpy.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))) and jax.numpy.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_sum : Any → {Any | jax.numpy.allclose(f(a_, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jax.numpy.allclose(f(a_, b_, x_), sum((x_...   ║
+# ║   ensures:  jax.numpy.allclose(f(a_, b_, x_), sum((i_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_sum : Any → {Any | result satisfies: jax.num...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91c038c22dc229f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32c22863dc05abcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_sum","kind":"function","src_hash":"b3c52f0b5f4124e3","in":{"base":"Any"},"out":{"base":"Any","pred":"jax.numpy.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))) and jax.numpy.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))"},"spec":{"lhs":"test_jax_sum()","rhs":"test_jax_sum produces the expected output","over":{"base":"Any"},"name":"test_jax_sum_correct"},"guarantee":"test_jax_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_sum_correct","statement":"Path(test_jax_sum(x), test_jax_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91c038c22dc229f1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_sum","kind":"function","src_hash":"b3c52f0b5f4124e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jax.numpy.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))) and jax.numpy.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))"},"spec":{"lhs":"test_jax_sum()","rhs":"jax.numpy.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))) and jax.numpy.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))","over":{"base":"Any"},"name":"test_jax_sum_correct"},"guarantee":"jax.numpy.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))); jax.numpy.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_sum_correct","statement":"Path(test_jax_sum(x), jax.numpy.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1)))); jax.numpy.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1)))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32c22863dc05abcb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jax.numpy.allclose(f(a_, b_, x_), sum((x_ ** i_ for i_ in range(a_, b_ + 1))))","jax.numpy.allclose(f(a_, b_, x_), sum((i_ * x_ for i_ in range(a_, b_ + 1))))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_jax_sum():
     if not jax:
         skip("JAX not installed")
@@ -127,16 +148,22 @@ def test_jax_sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_multiple_sums(), test_jax_multiple_sums produces the expected output) over Any ║
+# ║ Path(test_jax_multiple_sums(), jax.numpy.allclose(f(a_, b_, c_, d_, x_), sum(((x_ + j_) * i_ for i_ in range(a_, b_ + 1) for j_ in range(c_, d_ + 1))))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_multiple_sums : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jax.numpy.allclose(f(a_, b_, c_, d_, x_),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_multiple_sums : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 937f8986883e5cb6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d6aa7a1b8c95756  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_multiple_sums","kind":"function","src_hash":"7d8328552b218de3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_jax_multiple_sums()","rhs":"test_jax_multiple_sums produces the expected output","over":{"base":"Any"},"name":"test_jax_multiple_sums_correct"},"guarantee":"test_jax_multiple_sums produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_multiple_sums_correct","statement":"Path(test_jax_multiple_sums(x), test_jax_multiple_sums produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"937f8986883e5cb6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_multiple_sums","kind":"function","src_hash":"7d8328552b218de3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jax.numpy.allclose(f(a_, b_, c_, d_, x_), sum(((x_ + j_) * i_ for i_ in range(a_, b_ + 1) for j_ in range(c_, d_ + 1))))"},"spec":{"lhs":"test_jax_multiple_sums()","rhs":"jax.numpy.allclose(f(a_, b_, c_, d_, x_), sum(((x_ + j_) * i_ for i_ in range(a_, b_ + 1) for j_ in range(c_, d_ + 1))))","over":{"base":"Any"},"name":"test_jax_multiple_sums_correct"},"guarantee":"jax.numpy.allclose(f(a_, b_, c_, d_, x_), sum(((x_ + j_) * i_ for i_ in range(a_, b_ + 1) for j_ in range(c_, d_ + 1))))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_multiple_sums_correct","statement":"Path(test_jax_multiple_sums(x), jax.numpy.allclose(f(a_, b_, c_, d_, x_), sum(((x_ + j_) * i_ for i_ in range(a_, b_ + 1) for j_ in range(c_, d_ + 1)))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d6aa7a1b8c95756","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jax.numpy.allclose(f(a_, b_, c_, d_, x_), sum(((x_ + j_) * i_ for i_ in range(a_, b_ + 1) for j_ in range(c_, d_ + 1))))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jax_multiple_sums():
     if not jax:
         skip("JAX not installed")
@@ -152,16 +179,22 @@ def test_jax_multiple_sums():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_codegen_einsum(), test_jax_codegen_einsum produces the expected output) over Any ║
+# ║ Path(test_jax_codegen_einsum(), (f(ma, mb) == jax.numpy.matmul(ma, mb)).all()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_codegen_einsum : Any → {Any | (f(ma, mb) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (f(ma, mb) == jax.numpy.matmul(ma, mb)).a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_codegen_einsum : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cda4e115ba679a38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ec1af798644f1a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_codegen_einsum","kind":"function","src_hash":"46bd1e1c7b205750","in":{"base":"Any"},"out":{"base":"Any","pred":"(f(ma, mb) == jax.numpy.matmul(ma, mb)).all()"},"spec":{"lhs":"test_jax_codegen_einsum()","rhs":"test_jax_codegen_einsum produces the expected output","over":{"base":"Any"},"name":"test_jax_codegen_einsum_correct"},"guarantee":"test_jax_codegen_einsum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_codegen_einsum_correct","statement":"Path(test_jax_codegen_einsum(x), test_jax_codegen_einsum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cda4e115ba679a38"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_codegen_einsum","kind":"function","src_hash":"46bd1e1c7b205750","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (f(ma, mb) == jax.numpy.matmul(ma, mb)).all()"},"spec":{"lhs":"test_jax_codegen_einsum()","rhs":"(f(ma, mb) == jax.numpy.matmul(ma, mb)).all()","over":{"base":"Any"},"name":"test_jax_codegen_einsum_correct"},"guarantee":"(f(ma, mb) == jax.numpy.matmul(ma, mb)).all()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_codegen_einsum_correct","statement":"Path(test_jax_codegen_einsum(x), (f(ma, mb) == jax.numpy.matmul(ma, mb)).all())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ec1af798644f1a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(f(ma, mb) == jax.numpy.matmul(ma, mb)).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jax_codegen_einsum():
     if not jax:
         skip("JAX not installed")
@@ -178,16 +211,24 @@ def test_jax_codegen_einsum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_codegen_extra(), test_jax_codegen_extra produces the expected output) over Any ║
+# ║ Path(test_jax_codegen_extra(), (f(ma, mb) == jax.numpy.einsum(ma, [0, 1], mb, [2, 3])).all() and (f(ma, mb) == ma + mb).all() and (f(ma, mb, mc) == ma + mb + mc).all() and (f(ma, mb, mc, md) == ma + mb + mc + md).all() and (f(ma) == ma.T).all() and (f(ma, mb) == jax.numpy.transpose(jax.numpy.einsum(ma, [0, 1], mb, [2, 3]), (1, 2, 3, 0))).all() and (f(ma, mb) == jax.numpy.diagonal(jax.numpy.einsum(ma, [0, 1], mb, [2, 3]), axis1=1, axis2=2)).all()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_codegen_extra : Any → {Any | (f(ma, mb) == j...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (f(ma, mb) == jax.numpy.einsum(ma, [0, 1]...   ║
+# ║   ensures:  (f(ma, mb) == ma + mb).all()                   ║
+# ║   ensures:  (f(ma, mb, mc) == ma + mb + mc).all()          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_codegen_extra : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 839edfca31faf1aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c4026ba9bdd6e75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_codegen_extra","kind":"function","src_hash":"de866b6b3f33c334","in":{"base":"Any"},"out":{"base":"Any","pred":"(f(ma, mb) == jax.numpy.einsum(ma, [0, 1], mb, [2, 3])).all() and (f(ma, mb) == ma + mb).all() and (f(ma, mb, mc) == ma + mb + mc).all() and (f(ma, mb, mc, md) == ma + mb + mc + md).all() and (f(ma) == ma.T).all()"},"spec":{"lhs":"test_jax_codegen_extra()","rhs":"test_jax_codegen_extra produces the expected output","over":{"base":"Any"},"name":"test_jax_codegen_extra_correct"},"guarantee":"test_jax_codegen_extra produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_codegen_extra_correct","statement":"Path(test_jax_codegen_extra(x), test_jax_codegen_extra produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"839edfca31faf1aa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_codegen_extra","kind":"function","src_hash":"de866b6b3f33c334","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (f(ma, mb) == jax.numpy.einsum(ma, [0, 1], mb, [2, 3])).all() and (f(ma, mb) == ma + mb).all() and (f(ma, mb, mc) == ma + mb + mc).all() and (f(ma, mb, mc, md) == ma + mb + mc + md).all() and (f(ma) == ma.T).all() and (f(ma, mb) == jax.numpy.transpose(jax.numpy.einsum(ma, [0, 1], mb, [2, 3]), (1, 2, 3, 0))).all() and (f(ma, mb) == jax.numpy.diagonal(jax.numpy.einsum(ma, [0, 1], mb, [2, 3]), axis1=1, axis2=2)).all()"},"spec":{"lhs":"test_jax_codegen_extra()","rhs":"(f(ma, mb) == jax.numpy.einsum(ma, [0, 1], mb, [2, 3])).all() and (f(ma, mb) == ma + mb).all() and (f(ma, mb, mc) == ma + mb + mc).all() and (f(ma, mb, mc, md) == ma + mb + mc + md).all() and (f(ma) == ma.T).all() and (f(ma, mb) == jax.numpy.transpose(jax.numpy.einsum(ma, [0, 1], mb, [2, 3]), (1, 2, 3, 0))).all() and (f(ma, mb) == jax.numpy.diagonal(jax.numpy.einsum(ma, [0, 1], mb, [2, 3]), axis1=1, axis2=2)).all()","over":{"base":"Any"},"name":"test_jax_codegen_extra_correct"},"guarantee":"(f(ma, mb) == jax.numpy.einsum(ma, [0, 1], mb, [2, 3])).all(); (f(ma, mb) == ma + mb).all(); (f(ma, mb, mc) == ma + mb + mc).all()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_codegen_extra_correct","statement":"Path(test_jax_codegen_extra(x), (f(ma, mb) == jax.numpy.einsum(ma, [0, 1], mb, [2, 3])).all(); (f(ma, mb) == ma + mb).all(); (f(ma, mb, mc) == ma + mb + mc).all())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c4026ba9bdd6e75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(f(ma, mb) == jax.numpy.einsum(ma, [0, 1], mb, [2, 3])).all()","(f(ma, mb) == ma + mb).all()","(f(ma, mb, mc) == ma + mb + mc).all()","(f(ma, mb, mc, md) == ma + mb + mc + md).all()","(f(ma) == ma.T).all()","(f(ma, mb) == jax.numpy.transpose(jax.numpy.einsum(ma, [0, 1], mb, [2, 3]), (1, 2, 3, 0))).all()","(f(ma, mb) == jax.numpy.diagonal(jax.numpy.einsum(ma, [0, 1], mb, [2, 3]), axis1=1, axis2=2)).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_jax_codegen_extra():
     if not jax:
         skip("JAX not installed")
@@ -231,16 +272,24 @@ def test_jax_codegen_extra():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_relational(), test_jax_relational produces the expected output) over Any ║
+# ║ Path(test_jax_relational(), jax.numpy.array_equal(f(x_), [False, True, False]) and jax.numpy.array_equal(f(x_), [True, False, True]) and jax.numpy.array_equal(f(x_), [True, False, False]) and jax.numpy.array_equal(f(x_), [True, True, False]) and jax.numpy.array_equal(f(x_), [False, False, True]) and jax.numpy.array_equal(f(x_), [False, True, True]) and jax.numpy.array_equal(f(x_), [True, True, True])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_relational : Any → {Any | jax.numpy.array_eq...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jax.numpy.array_equal(f(x_), [False, True...   ║
+# ║   ensures:  jax.numpy.array_equal(f(x_), [True, False...   ║
+# ║   ensures:  jax.numpy.array_equal(f(x_), [True, False...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_relational : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03d8aec1d21fcbcf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16276d2345858387  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_relational","kind":"function","src_hash":"5f666cdbaf0b1ed6","in":{"base":"Any"},"out":{"base":"Any","pred":"jax.numpy.array_equal(f(x_), [False, True, False]) and jax.numpy.array_equal(f(x_), [True, False, True]) and jax.numpy.array_equal(f(x_), [True, False, False]) and jax.numpy.array_equal(f(x_), [True, True, False]) and jax.numpy.array_equal(f(x_), [False, False, True]) and jax.numpy.array_equal(f(x_), [False, True, True]) and jax.numpy.array_equal(f(x_), [False, True, False]) and jax.numpy.array_equal(f(x_), [True, True, True])"},"spec":{"lhs":"test_jax_relational()","rhs":"test_jax_relational produces the expected output","over":{"base":"Any"},"name":"test_jax_relational_correct"},"guarantee":"test_jax_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_relational_correct","statement":"Path(test_jax_relational(x), test_jax_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03d8aec1d21fcbcf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_relational","kind":"function","src_hash":"5f666cdbaf0b1ed6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jax.numpy.array_equal(f(x_), [False, True, False]) and jax.numpy.array_equal(f(x_), [True, False, True]) and jax.numpy.array_equal(f(x_), [True, False, False]) and jax.numpy.array_equal(f(x_), [True, True, False]) and jax.numpy.array_equal(f(x_), [False, False, True]) and jax.numpy.array_equal(f(x_), [False, True, True]) and jax.numpy.array_equal(f(x_), [True, True, True])"},"spec":{"lhs":"test_jax_relational()","rhs":"jax.numpy.array_equal(f(x_), [False, True, False]) and jax.numpy.array_equal(f(x_), [True, False, True]) and jax.numpy.array_equal(f(x_), [True, False, False]) and jax.numpy.array_equal(f(x_), [True, True, False]) and jax.numpy.array_equal(f(x_), [False, False, True]) and jax.numpy.array_equal(f(x_), [False, True, True]) and jax.numpy.array_equal(f(x_), [True, True, True])","over":{"base":"Any"},"name":"test_jax_relational_correct"},"guarantee":"jax.numpy.array_equal(f(x_), [False, True, False]); jax.numpy.array_equal(f(x_), [True, False, True]); jax.numpy.array_equal(f(x_), [True, False, False])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_relational_correct","statement":"Path(test_jax_relational(x), jax.numpy.array_equal(f(x_), [False, True, False]); jax.numpy.array_equal(f(x_), [True, False, True]); jax.numpy.array_equal(f(x_), [True, False, False]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16276d2345858387","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jax.numpy.array_equal(f(x_), [False, True, False])","jax.numpy.array_equal(f(x_), [True, False, True])","jax.numpy.array_equal(f(x_), [True, False, False])","jax.numpy.array_equal(f(x_), [True, True, False])","jax.numpy.array_equal(f(x_), [False, False, True])","jax.numpy.array_equal(f(x_), [False, True, True])","jax.numpy.array_equal(f(x_), [True, True, True])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_jax_relational():
     if not jax:
         skip("JAX not installed")
@@ -293,16 +342,23 @@ def test_jax_relational():
     assert jax.numpy.array_equal(f(x_), [True, True, True])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_mod(), test_jax_mod produces the expected output) over Any ║
+# ║ Path(test_jax_mod(), jax.numpy.array_equal(f(a_, b_), [0, 1, 0, 1]) and jax.numpy.array_equal(f(a_, b_), [0, 0, 0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_mod : Any → {Any | jax.numpy.array_equal(f(a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jax.numpy.array_equal(f(a_, b_), [0, 1, 0...   ║
+# ║   ensures:  jax.numpy.array_equal(f(a_, b_), [0, 0, 0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_mod : Any → {Any | result satisfies: jax.num...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2df3e5df5457992  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f59f21416096956  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_mod","kind":"function","src_hash":"42e4d686ca8ce780","in":{"base":"Any"},"out":{"base":"Any","pred":"jax.numpy.array_equal(f(a_, b_), [0, 1, 0, 1]) and jax.numpy.array_equal(f(a_, b_), [0, 1, 0, 1]) and jax.numpy.array_equal(f(a_, b_), [0, 0, 0, 0])"},"spec":{"lhs":"test_jax_mod()","rhs":"test_jax_mod produces the expected output","over":{"base":"Any"},"name":"test_jax_mod_correct"},"guarantee":"test_jax_mod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_mod_correct","statement":"Path(test_jax_mod(x), test_jax_mod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2df3e5df5457992"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_mod","kind":"function","src_hash":"42e4d686ca8ce780","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jax.numpy.array_equal(f(a_, b_), [0, 1, 0, 1]) and jax.numpy.array_equal(f(a_, b_), [0, 0, 0, 0])"},"spec":{"lhs":"test_jax_mod()","rhs":"jax.numpy.array_equal(f(a_, b_), [0, 1, 0, 1]) and jax.numpy.array_equal(f(a_, b_), [0, 0, 0, 0])","over":{"base":"Any"},"name":"test_jax_mod_correct"},"guarantee":"jax.numpy.array_equal(f(a_, b_), [0, 1, 0, 1]); jax.numpy.array_equal(f(a_, b_), [0, 0, 0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_mod_correct","statement":"Path(test_jax_mod(x), jax.numpy.array_equal(f(a_, b_), [0, 1, 0, 1]); jax.numpy.array_equal(f(a_, b_), [0, 0, 0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f59f21416096956","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jax.numpy.array_equal(f(a_, b_), [0, 1, 0, 1])","jax.numpy.array_equal(f(a_, b_), [0, 0, 0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jax_mod():
     if not jax:
         skip("JAX not installed")
@@ -324,16 +380,22 @@ def test_jax_mod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_pow(), test_jax_pow produces the expected output) over Any ║
+# ║ Path(test_jax_pow(), f() == 0.5) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_pow : Any → {Any | f() == 0.5}                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f() == 0.5                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_pow : Any → {Any | result satisfies: f() == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3303995504aa2431  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90279da2894a0599  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_pow","kind":"function","src_hash":"9691b54a8bcccbd2","in":{"base":"Any"},"out":{"base":"Any","pred":"f() == 0.5"},"spec":{"lhs":"test_jax_pow()","rhs":"test_jax_pow produces the expected output","over":{"base":"Any"},"name":"test_jax_pow_correct"},"guarantee":"test_jax_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_pow_correct","statement":"Path(test_jax_pow(x), test_jax_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3303995504aa2431"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_pow","kind":"function","src_hash":"9691b54a8bcccbd2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f() == 0.5"},"spec":{"lhs":"test_jax_pow()","rhs":"f() == 0.5","over":{"base":"Any"},"name":"test_jax_pow_correct"},"guarantee":"f() == 0.5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_pow_correct","statement":"Path(test_jax_pow(x), f() == 0.5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90279da2894a0599","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f() == 0.5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_pow():
     if not jax:
         skip('JAX not installed')
@@ -344,16 +406,22 @@ def test_jax_pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_expm1(), test_jax_expm1 produces the expected output) over Any ║
+# ║ Path(test_jax_expm1(), abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * JAX_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_expm1 : Any → {Any | abs(f(1e-10) - 1e-10 - ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_expm1 : Any → {Any | result satisfies: abs(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76cab3ac12f3c4c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da643ff1278adef4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_expm1","kind":"function","src_hash":"60dd760f893805a7","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_expm1()","rhs":"test_jax_expm1 produces the expected output","over":{"base":"Any"},"name":"test_jax_expm1_correct"},"guarantee":"test_jax_expm1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_expm1_correct","statement":"Path(test_jax_expm1(x), test_jax_expm1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76cab3ac12f3c4c2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_expm1","kind":"function","src_hash":"60dd760f893805a7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_expm1()","rhs":"abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * JAX_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_jax_expm1_correct"},"guarantee":"abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * JAX_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_expm1_correct","statement":"Path(test_jax_expm1(x), abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * JAX_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da643ff1278adef4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(1e-10) - 1e-10 - 5e-21) <= 1e-10 * JAX_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_expm1():
     if not jax:
         skip("JAX not installed")
@@ -363,16 +431,22 @@ def test_jax_expm1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_log1p(), test_jax_log1p produces the expected output) over Any ║
+# ║ Path(test_jax_log1p(), abs(f(1e-99) - 1e-99) <= 1e-99 * JAX_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_log1p : Any → {Any | abs(f(1e-99) - 1e-99) <...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(f(1e-99) - 1e-99) <= 1e-99 * JAX_DEFA...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_log1p : Any → {Any | result satisfies: abs(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 962f9829b5b553a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35bf4baa90de4d9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_log1p","kind":"function","src_hash":"b1392abcca5470be","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(f(1e-99) - 1e-99) <= 1e-99 * JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_log1p()","rhs":"test_jax_log1p produces the expected output","over":{"base":"Any"},"name":"test_jax_log1p_correct"},"guarantee":"test_jax_log1p produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_log1p_correct","statement":"Path(test_jax_log1p(x), test_jax_log1p produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"962f9829b5b553a3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_log1p","kind":"function","src_hash":"b1392abcca5470be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(f(1e-99) - 1e-99) <= 1e-99 * JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_log1p()","rhs":"abs(f(1e-99) - 1e-99) <= 1e-99 * JAX_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_jax_log1p_correct"},"guarantee":"abs(f(1e-99) - 1e-99) <= 1e-99 * JAX_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_log1p_correct","statement":"Path(test_jax_log1p(x), abs(f(1e-99) - 1e-99) <= 1e-99 * JAX_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35bf4baa90de4d9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(f(1e-99) - 1e-99) <= 1e-99 * JAX_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_log1p():
     if not jax:
         skip("JAX not installed")
@@ -381,32 +455,44 @@ def test_jax_log1p():
     assert abs(f(1e-99) - 1e-99) <= 1e-99 * JAX_DEFAULT_EPSILON
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_hypot(), test_jax_hypot produces the expected output) over Any ║
+# ║ Path(test_jax_hypot(), abs(lambdify((a, b), hypot(a, b), 'jax')(3, 4) - 5) <= JAX_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_hypot : Any → {Any | abs(lambdify((a, b), hy...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lambdify((a, b), hypot(a, b), 'jax')(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_hypot : Any → {Any | result satisfies: abs(l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bad5fde8c3b3c13e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3cb4f6659a5301d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_hypot","kind":"function","src_hash":"ead7f6bd653cf474","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lambdify((a, b), hypot(a, b), 'jax')(3, 4) - 5) <= JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_hypot()","rhs":"test_jax_hypot produces the expected output","over":{"base":"Any"},"name":"test_jax_hypot_correct"},"guarantee":"test_jax_hypot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_hypot_correct","statement":"Path(test_jax_hypot(x), test_jax_hypot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bad5fde8c3b3c13e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_hypot","kind":"function","src_hash":"ead7f6bd653cf474","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lambdify((a, b), hypot(a, b), 'jax')(3, 4) - 5) <= JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_hypot()","rhs":"abs(lambdify((a, b), hypot(a, b), 'jax')(3, 4) - 5) <= JAX_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_jax_hypot_correct"},"guarantee":"abs(lambdify((a, b), hypot(a, b), 'jax')(3, 4) - 5) <= JAX_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_hypot_correct","statement":"Path(test_jax_hypot(x), abs(lambdify((a, b), hypot(a, b), 'jax')(3, 4) - 5) <= JAX_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3cb4f6659a5301d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lambdify((a, b), hypot(a, b), 'jax')(3, 4) - 5) <= JAX_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_hypot():
     if not jax:
         skip("JAX not installed")
     assert abs(lambdify((a, b), hypot(a, b), 'jax')(3, 4) - 5) <= JAX_DEFAULT_EPSILON
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_log10(), test_jax_log10 produces the expected output) over Any ║
+# ║ Path(test_jax_log10(), abs(lambdify((a,), log10(a), 'jax')(100) - 2) <= JAX_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_log10 : Any → {Any | abs(lambdify((a,), log1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lambdify((a,), log10(a), 'jax')(100) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_log10 : Any → {Any | result satisfies: abs(l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9185b306ee45b43  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38d0ec6915ab42d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_log10","kind":"function","src_hash":"ef6518da9544e32a","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lambdify((a,), log10(a), 'jax')(100) - 2) <= JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_log10()","rhs":"test_jax_log10 produces the expected output","over":{"base":"Any"},"name":"test_jax_log10_correct"},"guarantee":"test_jax_log10 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_log10_correct","statement":"Path(test_jax_log10(x), test_jax_log10 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9185b306ee45b43"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_log10","kind":"function","src_hash":"ef6518da9544e32a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lambdify((a,), log10(a), 'jax')(100) - 2) <= JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_log10()","rhs":"abs(lambdify((a,), log10(a), 'jax')(100) - 2) <= JAX_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_jax_log10_correct"},"guarantee":"abs(lambdify((a,), log10(a), 'jax')(100) - 2) <= JAX_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_log10_correct","statement":"Path(test_jax_log10(x), abs(lambdify((a,), log10(a), 'jax')(100) - 2) <= JAX_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38d0ec6915ab42d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lambdify((a,), log10(a), 'jax')(100) - 2) <= JAX_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_log10():
     if not jax:
         skip("JAX not installed")
@@ -415,16 +501,22 @@ def test_jax_log10():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_exp2(), test_jax_exp2 produces the expected output) over Any ║
+# ║ Path(test_jax_exp2(), abs(lambdify((a,), exp2(a), 'jax')(5) - 32) <= JAX_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_exp2 : Any → {Any | abs(lambdify((a,), exp2(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lambdify((a,), exp2(a), 'jax')(5) - 3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_exp2 : Any → {Any | result satisfies: abs(la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72845e18a5c73002  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7401fd3866efe10b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_exp2","kind":"function","src_hash":"63b56550bcd7cb0a","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lambdify((a,), exp2(a), 'jax')(5) - 32) <= JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_exp2()","rhs":"test_jax_exp2 produces the expected output","over":{"base":"Any"},"name":"test_jax_exp2_correct"},"guarantee":"test_jax_exp2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_exp2_correct","statement":"Path(test_jax_exp2(x), test_jax_exp2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72845e18a5c73002"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_exp2","kind":"function","src_hash":"63b56550bcd7cb0a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lambdify((a,), exp2(a), 'jax')(5) - 32) <= JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_exp2()","rhs":"abs(lambdify((a,), exp2(a), 'jax')(5) - 32) <= JAX_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_jax_exp2_correct"},"guarantee":"abs(lambdify((a,), exp2(a), 'jax')(5) - 32) <= JAX_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_exp2_correct","statement":"Path(test_jax_exp2(x), abs(lambdify((a,), exp2(a), 'jax')(5) - 32) <= JAX_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7401fd3866efe10b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lambdify((a,), exp2(a), 'jax')(5) - 32) <= JAX_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_exp2():
     if not jax:
         skip("JAX not installed")
@@ -432,16 +524,22 @@ def test_jax_exp2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_log2(), test_jax_log2 produces the expected output) over Any ║
+# ║ Path(test_jax_log2(), abs(lambdify((a,), log2(a), 'jax')(256) - 8) <= JAX_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_log2 : Any → {Any | abs(lambdify((a,), log2(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lambdify((a,), log2(a), 'jax')(256) -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_log2 : Any → {Any | result satisfies: abs(la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 561ca470159931c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3da92449d53634ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_log2","kind":"function","src_hash":"17cdca1f4d186b85","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lambdify((a,), log2(a), 'jax')(256) - 8) <= JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_log2()","rhs":"test_jax_log2 produces the expected output","over":{"base":"Any"},"name":"test_jax_log2_correct"},"guarantee":"test_jax_log2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_log2_correct","statement":"Path(test_jax_log2(x), test_jax_log2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"561ca470159931c2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_log2","kind":"function","src_hash":"17cdca1f4d186b85","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lambdify((a,), log2(a), 'jax')(256) - 8) <= JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_log2()","rhs":"abs(lambdify((a,), log2(a), 'jax')(256) - 8) <= JAX_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_jax_log2_correct"},"guarantee":"abs(lambdify((a,), log2(a), 'jax')(256) - 8) <= JAX_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_log2_correct","statement":"Path(test_jax_log2(x), abs(lambdify((a,), log2(a), 'jax')(256) - 8) <= JAX_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3da92449d53634ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lambdify((a,), log2(a), 'jax')(256) - 8) <= JAX_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_log2():
     if not jax:
         skip("JAX not installed")
@@ -449,16 +547,22 @@ def test_jax_log2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_Sqrt(), test_jax_Sqrt produces the expected output) over Any ║
+# ║ Path(test_jax_Sqrt(), abs(lambdify((a,), Sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_Sqrt : Any → {Any | abs(lambdify((a,), Sqrt(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lambdify((a,), Sqrt(a), 'jax')(4) - 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_Sqrt : Any → {Any | result satisfies: abs(la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e25f1449844d187f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86ae8259eb1878a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_Sqrt","kind":"function","src_hash":"a915c930982289a8","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lambdify((a,), Sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_Sqrt()","rhs":"test_jax_Sqrt produces the expected output","over":{"base":"Any"},"name":"test_jax_Sqrt_correct"},"guarantee":"test_jax_Sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_Sqrt_correct","statement":"Path(test_jax_Sqrt(x), test_jax_Sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e25f1449844d187f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_Sqrt","kind":"function","src_hash":"a915c930982289a8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lambdify((a,), Sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_Sqrt()","rhs":"abs(lambdify((a,), Sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_jax_Sqrt_correct"},"guarantee":"abs(lambdify((a,), Sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_Sqrt_correct","statement":"Path(test_jax_Sqrt(x), abs(lambdify((a,), Sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86ae8259eb1878a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lambdify((a,), Sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_Sqrt():
     if not jax:
         skip("JAX not installed")
@@ -466,16 +570,22 @@ def test_jax_Sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_sqrt(), test_jax_sqrt produces the expected output) over Any ║
+# ║ Path(test_jax_sqrt(), abs(lambdify((a,), sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_sqrt : Any → {Any | abs(lambdify((a,), sqrt(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(lambdify((a,), sqrt(a), 'jax')(4) - 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_sqrt : Any → {Any | result satisfies: abs(la...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02fc8f164007bb56  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 336521aa955a8844  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_sqrt","kind":"function","src_hash":"3401b8cb5bdcf122","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(lambdify((a,), sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_sqrt()","rhs":"test_jax_sqrt produces the expected output","over":{"base":"Any"},"name":"test_jax_sqrt_correct"},"guarantee":"test_jax_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_sqrt_correct","statement":"Path(test_jax_sqrt(x), test_jax_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02fc8f164007bb56"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_sqrt","kind":"function","src_hash":"3401b8cb5bdcf122","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(lambdify((a,), sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON"},"spec":{"lhs":"test_jax_sqrt()","rhs":"abs(lambdify((a,), sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON","over":{"base":"Any"},"name":"test_jax_sqrt_correct"},"guarantee":"abs(lambdify((a,), sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_sqrt_correct","statement":"Path(test_jax_sqrt(x), abs(lambdify((a,), sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"336521aa955a8844","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(lambdify((a,), sqrt(a), 'jax')(4) - 2) <= JAX_DEFAULT_EPSILON"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_sqrt():
     if not jax:
         skip("JAX not installed")
@@ -483,16 +593,23 @@ def test_jax_sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_matsolve(), test_jax_matsolve produces the expected output) over Any ║
+# ║ Path(test_jax_matsolve(), jax.numpy.linalg.matrix_rank(m0) == 3 and jax.numpy.allclose(f_matsolve(m0, x0), f(m0, x0))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_matsolve : Any → {Any | jax.numpy.linalg.mat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jax.numpy.linalg.matrix_rank(m0) == 3          ║
+# ║   ensures:  jax.numpy.allclose(f_matsolve(m0, x0), f(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_matsolve : Any → {Any | result satisfies: ja...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb3e2349d55805b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 143ea8593aa5b3cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_matsolve","kind":"function","src_hash":"4b16ddba619ed1d8","in":{"base":"Any"},"out":{"base":"Any","pred":"jax.numpy.linalg.matrix_rank(m0) == 3 and jax.numpy.allclose(f_matsolve(m0, x0), f(m0, x0))"},"spec":{"lhs":"test_jax_matsolve()","rhs":"test_jax_matsolve produces the expected output","over":{"base":"Any"},"name":"test_jax_matsolve_correct"},"guarantee":"test_jax_matsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_matsolve_correct","statement":"Path(test_jax_matsolve(x), test_jax_matsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb3e2349d55805b7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_matsolve","kind":"function","src_hash":"4b16ddba619ed1d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jax.numpy.linalg.matrix_rank(m0) == 3 and jax.numpy.allclose(f_matsolve(m0, x0), f(m0, x0))"},"spec":{"lhs":"test_jax_matsolve()","rhs":"jax.numpy.linalg.matrix_rank(m0) == 3 and jax.numpy.allclose(f_matsolve(m0, x0), f(m0, x0))","over":{"base":"Any"},"name":"test_jax_matsolve_correct"},"guarantee":"jax.numpy.linalg.matrix_rank(m0) == 3; jax.numpy.allclose(f_matsolve(m0, x0), f(m0, x0))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_matsolve_correct","statement":"Path(test_jax_matsolve(x), jax.numpy.linalg.matrix_rank(m0) == 3; jax.numpy.allclose(f_matsolve(m0, x0), f(m0, x0)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"143ea8593aa5b3cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jax.numpy.linalg.matrix_rank(m0) == 3","jax.numpy.allclose(f_matsolve(m0, x0), f(m0, x0))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jax_matsolve():
     if not jax:
         skip("JAX not installed")
@@ -515,16 +632,23 @@ def test_jax_matsolve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_16857(), test_16857 produces the expected output) over Any ║
+# ║ Path(test_16857(), A.shape == (20, 6) and printer.doprint(A) == 'jax.numpy.block([[a_1, a_2], [a_3, a_4]])') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_16857 : Any → {Any | A.shape == (20, 6) and prin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.shape == (20, 6)                             ║
+# ║   ensures:  printer.doprint(A) == 'jax.numpy.block([[...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_16857 : Any → {Any | result satisfies: A.shape =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e99c588930f4de19  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed6dc48ba98194b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_16857","kind":"function","src_hash":"4dfc98db9dbcb5ba","in":{"base":"Any"},"out":{"base":"Any","pred":"A.shape == (20, 6) and printer.doprint(A) == 'jax.numpy.block([[a_1, a_2], [a_3, a_4]])'"},"spec":{"lhs":"test_16857()","rhs":"test_16857 produces the expected output","over":{"base":"Any"},"name":"test_16857_correct"},"guarantee":"test_16857 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_16857_correct","statement":"Path(test_16857(x), test_16857 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e99c588930f4de19"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_16857","kind":"function","src_hash":"4dfc98db9dbcb5ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.shape == (20, 6) and printer.doprint(A) == 'jax.numpy.block([[a_1, a_2], [a_3, a_4]])'"},"spec":{"lhs":"test_16857()","rhs":"A.shape == (20, 6) and printer.doprint(A) == 'jax.numpy.block([[a_1, a_2], [a_3, a_4]])'","over":{"base":"Any"},"name":"test_16857_correct"},"guarantee":"A.shape == (20, 6); printer.doprint(A) == 'jax.numpy.block([[a_1, a_2], [a_3, a_4]])'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_16857_correct","statement":"Path(test_16857(x), A.shape == (20, 6); printer.doprint(A) == 'jax.numpy.block([[a_1, a_2], [a_3, a_4]])')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed6dc48ba98194b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.shape == (20, 6)","printer.doprint(A) == 'jax.numpy.block([[a_1, a_2], [a_3, a_4]])'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_16857():
     if not jax:
         skip("JAX not installed")
@@ -541,16 +665,22 @@ def test_16857():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17006(), test_issue_17006 produces the expected output) over Any ║
+# ║ Path(test_issue_17006(), (f(ma) == mr).all()) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17006 : Any → {Any | (f(ma) == mr).all()}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (f(ma) == mr).all()                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17006 : Any → {Any | result satisfies: (f(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c99d50e09652b0bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a68a5d22e31b123e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_issue_17006","kind":"function","src_hash":"c63abfb1513f4d3c","in":{"base":"Any"},"out":{"base":"Any","pred":"(f(ma) == mr).all()"},"spec":{"lhs":"test_issue_17006()","rhs":"test_issue_17006 produces the expected output","over":{"base":"Any"},"name":"test_issue_17006_correct"},"guarantee":"test_issue_17006 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_issue_17006_correct","statement":"Path(test_issue_17006(x), test_issue_17006 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c99d50e09652b0bc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_issue_17006","kind":"function","src_hash":"c63abfb1513f4d3c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (f(ma) == mr).all()"},"spec":{"lhs":"test_issue_17006()","rhs":"(f(ma) == mr).all()","over":{"base":"Any"},"name":"test_issue_17006_correct"},"guarantee":"(f(ma) == mr).all()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_issue_17006_correct","statement":"Path(test_issue_17006(x), (f(ma) == mr).all())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a68a5d22e31b123e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(f(ma) == mr).all()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_17006():
     if not jax:
         skip("JAX not installed")
@@ -570,32 +700,47 @@ def test_issue_17006():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_array(), test_jax_array produces the expected output) over Any ║
+# ║ Path(test_jax_array(), JaxPrinter().doprint(Array(((1, 2), (3, 5)))) == 'jax.numpy.array([[1, 2], [3, 5]])' and JaxPrinter().doprint(Array((1, 2))) == 'jax.numpy.array([1, 2])') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_array : Any → {Any | JaxPrinter().doprint(Ar...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  JaxPrinter().doprint(Array(((1, 2), (3, 5...   ║
+# ║   ensures:  JaxPrinter().doprint(Array((1, 2))) == 'j...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_array : Any → {Any | result satisfies: JaxPr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14874cf6ed84d7e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68580703eeff40f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_array","kind":"function","src_hash":"e28ee275f264f1fa","in":{"base":"Any"},"out":{"base":"Any","pred":"JaxPrinter().doprint(Array((1, 2))) == 'jax.numpy.array([1, 2])'"},"spec":{"lhs":"test_jax_array()","rhs":"test_jax_array produces the expected output","over":{"base":"Any"},"name":"test_jax_array_correct"},"guarantee":"test_jax_array produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_array_correct","statement":"Path(test_jax_array(x), test_jax_array produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14874cf6ed84d7e3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_array","kind":"function","src_hash":"e28ee275f264f1fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: JaxPrinter().doprint(Array(((1, 2), (3, 5)))) == 'jax.numpy.array([[1, 2], [3, 5]])' and JaxPrinter().doprint(Array((1, 2))) == 'jax.numpy.array([1, 2])'"},"spec":{"lhs":"test_jax_array()","rhs":"JaxPrinter().doprint(Array(((1, 2), (3, 5)))) == 'jax.numpy.array([[1, 2], [3, 5]])' and JaxPrinter().doprint(Array((1, 2))) == 'jax.numpy.array([1, 2])'","over":{"base":"Any"},"name":"test_jax_array_correct"},"guarantee":"JaxPrinter().doprint(Array(((1, 2), (3, 5)))) == 'jax.numpy.array([[1, 2], [3, 5]])'; JaxPrinter().doprint(Array((1, 2))) == 'jax.numpy.array([1, 2])'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_array_correct","statement":"Path(test_jax_array(x), JaxPrinter().doprint(Array(((1, 2), (3, 5)))) == 'jax.numpy.array([[1, 2], [3, 5]])'; JaxPrinter().doprint(Array((1, 2))) == 'jax.numpy.array([1, 2])')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68580703eeff40f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["JaxPrinter().doprint(Array(((1, 2), (3, 5)))) == 'jax.numpy.array([[1, 2], [3, 5]])'","JaxPrinter().doprint(Array((1, 2))) == 'jax.numpy.array([1, 2])'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_array():
     assert JaxPrinter().doprint(Array(((1, 2), (3, 5)))) == 'jax.numpy.array([[1, 2], [3, 5]])'
     assert JaxPrinter().doprint(Array((1, 2))) == 'jax.numpy.array([1, 2])'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_known_funcs_consts(), test_jax_known_funcs_consts produces the expected output) over Any ║
+# ║ Path(test_jax_known_funcs_consts(), _jax_known_constants['NaN'] == 'jax.numpy.nan' and _jax_known_constants['EulerGamma'] == 'jax.numpy.euler_gamma' and _jax_known_functions['acos'] == 'jax.numpy.arccos' and _jax_known_functions['log'] == 'jax.numpy.log') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_known_funcs_consts : Any → {Any | _jax_known...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _jax_known_constants['NaN'] == 'jax.numpy...   ║
+# ║   ensures:  _jax_known_constants['EulerGamma'] == 'ja...   ║
+# ║   ensures:  _jax_known_functions['acos'] == 'jax.nump...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_known_funcs_consts : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb6d81c550fb6306  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95b4c94b3931431f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_known_funcs_consts","kind":"function","src_hash":"81befed6f2886821","in":{"base":"Any"},"out":{"base":"Any","pred":"_jax_known_constants['NaN'] == 'jax.numpy.nan' and _jax_known_constants['EulerGamma'] == 'jax.numpy.euler_gamma' and _jax_known_functions['acos'] == 'jax.numpy.arccos' and _jax_known_functions['log'] == 'jax.numpy.log'"},"spec":{"lhs":"test_jax_known_funcs_consts()","rhs":"test_jax_known_funcs_consts produces the expected output","over":{"base":"Any"},"name":"test_jax_known_funcs_consts_correct"},"guarantee":"test_jax_known_funcs_consts produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_known_funcs_consts_correct","statement":"Path(test_jax_known_funcs_consts(x), test_jax_known_funcs_consts produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb6d81c550fb6306"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_known_funcs_consts","kind":"function","src_hash":"81befed6f2886821","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _jax_known_constants['NaN'] == 'jax.numpy.nan' and _jax_known_constants['EulerGamma'] == 'jax.numpy.euler_gamma' and _jax_known_functions['acos'] == 'jax.numpy.arccos' and _jax_known_functions['log'] == 'jax.numpy.log'"},"spec":{"lhs":"test_jax_known_funcs_consts()","rhs":"_jax_known_constants['NaN'] == 'jax.numpy.nan' and _jax_known_constants['EulerGamma'] == 'jax.numpy.euler_gamma' and _jax_known_functions['acos'] == 'jax.numpy.arccos' and _jax_known_functions['log'] == 'jax.numpy.log'","over":{"base":"Any"},"name":"test_jax_known_funcs_consts_correct"},"guarantee":"_jax_known_constants['NaN'] == 'jax.numpy.nan'; _jax_known_constants['EulerGamma'] == 'jax.numpy.euler_gamma'; _jax_known_functions['acos'] == 'jax.numpy.arccos'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_known_funcs_consts_correct","statement":"Path(test_jax_known_funcs_consts(x), _jax_known_constants['NaN'] == 'jax.numpy.nan'; _jax_known_constants['EulerGamma'] == 'jax.numpy.euler_gamma'; _jax_known_functions['acos'] == 'jax.numpy.arccos')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95b4c94b3931431f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_jax_known_constants['NaN'] == 'jax.numpy.nan'","_jax_known_constants['EulerGamma'] == 'jax.numpy.euler_gamma'","_jax_known_functions['acos'] == 'jax.numpy.arccos'","_jax_known_functions['log'] == 'jax.numpy.log'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_known_funcs_consts():
     assert _jax_known_constants['NaN'] == 'jax.numpy.nan'
     assert _jax_known_constants['EulerGamma'] == 'jax.numpy.euler_gamma'
@@ -605,16 +750,23 @@ def test_jax_known_funcs_consts():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_print_methods(), test_jax_print_methods produces the expected output) over Any ║
+# ║ Path(test_jax_print_methods(), hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_print_methods : Any → {Any | hasattr(prntr, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hasattr(prntr, '_print_acos')                  ║
+# ║   ensures:  hasattr(prntr, '_print_log')                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_print_methods : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cac071cc8064caae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10383369b3f53029  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_print_methods","kind":"function","src_hash":"640fbeab310fb9a4","in":{"base":"Any"},"out":{"base":"Any","pred":"hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log')"},"spec":{"lhs":"test_jax_print_methods()","rhs":"test_jax_print_methods produces the expected output","over":{"base":"Any"},"name":"test_jax_print_methods_correct"},"guarantee":"test_jax_print_methods produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_print_methods_correct","statement":"Path(test_jax_print_methods(x), test_jax_print_methods produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cac071cc8064caae"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_print_methods","kind":"function","src_hash":"640fbeab310fb9a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log')"},"spec":{"lhs":"test_jax_print_methods()","rhs":"hasattr(prntr, '_print_acos') and hasattr(prntr, '_print_log')","over":{"base":"Any"},"name":"test_jax_print_methods_correct"},"guarantee":"hasattr(prntr, '_print_acos'); hasattr(prntr, '_print_log')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_print_methods_correct","statement":"Path(test_jax_print_methods(x), hasattr(prntr, '_print_acos'); hasattr(prntr, '_print_log'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10383369b3f53029","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hasattr(prntr, '_print_acos')","hasattr(prntr, '_print_log')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_jax_print_methods():
     prntr = JaxPrinter()
     assert hasattr(prntr, '_print_acos')
@@ -622,16 +774,23 @@ def test_jax_print_methods():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_printmethod(), test_jax_printmethod produces the expected output) over Any ║
+# ║ Path(test_jax_printmethod(), hasattr(printer, 'printmethod') and printer.printmethod == '_jaxcode') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_printmethod : Any → {Any | hasattr(printer, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hasattr(printer, 'printmethod')                ║
+# ║   ensures:  printer.printmethod == '_jaxcode'              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_printmethod : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84004953b1c0e45e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f06229fbc4c42b6e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_printmethod","kind":"function","src_hash":"843301638e6b7614","in":{"base":"Any"},"out":{"base":"Any","pred":"hasattr(printer, 'printmethod') and printer.printmethod == '_jaxcode'"},"spec":{"lhs":"test_jax_printmethod()","rhs":"test_jax_printmethod produces the expected output","over":{"base":"Any"},"name":"test_jax_printmethod_correct"},"guarantee":"test_jax_printmethod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_printmethod_correct","statement":"Path(test_jax_printmethod(x), test_jax_printmethod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84004953b1c0e45e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_printmethod","kind":"function","src_hash":"843301638e6b7614","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hasattr(printer, 'printmethod') and printer.printmethod == '_jaxcode'"},"spec":{"lhs":"test_jax_printmethod()","rhs":"hasattr(printer, 'printmethod') and printer.printmethod == '_jaxcode'","over":{"base":"Any"},"name":"test_jax_printmethod_correct"},"guarantee":"hasattr(printer, 'printmethod'); printer.printmethod == '_jaxcode'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_printmethod_correct","statement":"Path(test_jax_printmethod(x), hasattr(printer, 'printmethod'); printer.printmethod == '_jaxcode')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f06229fbc4c42b6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hasattr(printer, 'printmethod')","printer.printmethod == '_jaxcode'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_jax_printmethod():
     printer = JaxPrinter()
     assert hasattr(printer, 'printmethod')
@@ -639,16 +798,23 @@ def test_jax_printmethod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jax_custom_print_method(), test_jax_custom_print_method produces the expected output) over Any ║
+# ║ Path(test_jax_custom_print_method(), printer._module_format(printer._module + '.' + function)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jax_custom_print_method : Any → {Any | printer.d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  printer.doprint(expm1(Symbol('x'))) == 'j...   ║
+# ║   returns:  printer._module_format(printer._module + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jax_custom_print_method : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ced11d65b38000d2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab3da6ae36877225  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_custom_print_method","kind":"function","src_hash":"51de2f12b24364c4","in":{"base":"Any"},"out":{"base":"Any","pred":"printer.doprint(expm1(Symbol('x'))) == 'jax.numpy.expm1(x)'"},"spec":{"lhs":"test_jax_custom_print_method()","rhs":"test_jax_custom_print_method produces the expected output","over":{"base":"Any"},"name":"test_jax_custom_print_method_correct"},"guarantee":"test_jax_custom_print_method produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_custom_print_method_correct","statement":"Path(test_jax_custom_print_method(x), test_jax_custom_print_method produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ced11d65b38000d2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jax.test_jax_custom_print_method","kind":"function","src_hash":"51de2f12b24364c4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (printer._module_format(printer._module + '.' + function))"},"spec":{"lhs":"test_jax_custom_print_method()","rhs":"printer._module_format(printer._module + '.' + function)","over":{"base":"Any"},"name":"test_jax_custom_print_method_correct"},"guarantee":"returns printer._module_format(printer._module + '.' + function); printer.doprint(expm1(Symbol('x'))) == 'jax.numpy.expm1(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jax.test_jax_custom_print_method_correct","statement":"Path(test_jax_custom_print_method(x), returns printer._module_format(printer._module + '.' + function); printer.doprint(expm1(Symbol('x'))) == 'jax.numpy.expm1(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab3da6ae36877225","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["printer.doprint(expm1(Symbol('x'))) == 'jax.numpy.expm1(x)'"],"returns_expr":"printer._module_format(printer._module + '.' + function)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jax_custom_print_method():
 
     class expm1(Function):

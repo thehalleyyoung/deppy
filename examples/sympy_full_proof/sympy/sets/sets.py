@@ -65,14 +65,21 @@ tfn = defaultdict(lambda: None, {
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Set instance) preserved by Set(*args) over {Any | isinstance(c, Contains) and isinstance(other, Set) and isinstance(self, ProductSet)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ║   ensures:  isinstance(self, EvalfMixin)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Set : {Any | isinstance(c, Contains) and isinstance(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f0f607b8f9e6860  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set","kind":"class","src_hash":"842a727137fb6ffa","in":{"base":"Any","pred":"isinstance(c, Contains) and isinstance(other, Set) and isinstance(self, ProductSet)"},"out":{"base":"Any","pred":"False and infimum.is_comparable"},"spec":{"lhs":"Set(*args)","rhs":"correctly constructs a Set instance","over":{"base":"Any","pred":"isinstance(c, Contains) and isinstance(other, Set) and isinstance(self, ProductSet)"},"name":"Set_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Set instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_open","pred":"self.is_open","kind":"class"},{"name":"is_closed","pred":"self.is_closed","kind":"class"}],"methods_preserving":["is_EmptySet","subs","subs","subs","subs","subs","subs","subs","simplify","evalf","union","intersect","intersection","is_disjoint","isdisjoint","complement","_complement","symmetric_difference","_symmetric_difference","inf","_inf","sup","_sup","contains","_contains","is_subset","_eval_is_subset","_eval_is_superset","issubset","is_proper_subset","is_superset","issuperset","is_proper_superset","_eval_powerset","powerset","measure","kind","boundary","is_open","is_closed","closure","interior","_boundary","_measure","_kind","_eval_evalf","__add__","__or__","__and__","__mul__","__xor__","__pow__","__sub__","__contains__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f0f607b8f9e6860"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set","kind":"class","src_hash":"842a727137fb6ffa","in":{"base":"Any","pred":"isinstance(c, Contains) and isinstance(other, Set) and isinstance(self, ProductSet)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic) and isinstance(self, EvalfMixin)"},"spec":{"lhs":"Set(*args)","rhs":"correctly constructs a Set instance","over":{"base":"Any","pred":"isinstance(c, Contains) and isinstance(other, Set) and isinstance(self, ProductSet)"},"name":"Set_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Basic); isinstance(self, EvalfMixin)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_open","pred":"self.is_open","kind":"class"},{"name":"is_closed","pred":"self.is_closed","kind":"class"}],"methods_preserving":["is_EmptySet","subs","subs","subs","subs","subs","subs","subs","simplify","evalf","union","intersect","intersection","is_disjoint","isdisjoint","complement","_complement","symmetric_difference","_symmetric_difference","inf","_inf","sup","_sup","contains","_contains","is_subset","_eval_is_subset","_eval_is_superset","issubset","is_proper_subset","is_superset","issuperset","is_proper_superset","_eval_powerset","powerset","measure","kind","boundary","is_open","is_closed","closure","interior","_boundary","_measure","_kind","_eval_evalf","__add__","__or__","__and__","__mul__","__xor__","__pow__","__sub__","__contains__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f0f607b8f9e6860","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)","isinstance(self, EvalfMixin)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Set not found in source"]}}
 class Set(Basic, EvalfMixin):
     """
     The base class for any kind of set.
@@ -116,16 +123,22 @@ class Set(Basic, EvalfMixin):
         active_deprecations_target="deprecated-is-emptyset",
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_EmptySet(), returns the is_EmptySet attribute) over Any ║
+# ║ Path(is_EmptySet(), None) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_EmptySet : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56c09d1a6cff7c71           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_EmptySet","kind":"property","src_hash":"60a037b3167206a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_EmptySet()","rhs":"returns the is_EmptySet attribute","over":{"base":"Any"},"name":"is_EmptySet_correct"},"guarantee":"returns the is_EmptySet attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56c09d1a6cff7c71"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_EmptySet","kind":"property","src_hash":"60a037b3167206a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_EmptySet()","rhs":"None","over":{"base":"Any"},"name":"is_EmptySet_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56c09d1a6cff7c71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_EmptySet(self):
         return None
 
@@ -163,16 +176,23 @@ class Set(Basic, EvalfMixin):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_infimum_key(exp), return infimum (if possible) else s.infinity) over Any ║
+# ║ Path(_infimum_key(expr), <unspecified:_infimum_key>) over {Any | hasattr(expr, 'inf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _infimum_key : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'inf')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _infimum_key : {Any | hasattr(expr, 'inf')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24b5e8273473a8cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._infimum_key","kind":"staticmethod","src_hash":"91280fa88e4f23b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_infimum_key(exp)","rhs":"return infimum (if possible) else s.infinity","over":{"base":"Any"},"name":"_infimum_key_correct"},"guarantee":"return infimum (if possible) else s.infinity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set._infimum_key_correct","statement":"Path(_infimum_key(x), return infimum (if possible) else s.infinity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24b5e8273473a8cb"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._infimum_key","kind":"staticmethod","src_hash":"91280fa88e4f23b4","in":{"base":"Any","pred":"hasattr(expr, 'inf')"},"out":{"base":"Any"},"spec":{"lhs":"_infimum_key(expr)","rhs":"<unspecified:_infimum_key>","over":{"base":"Any","pred":"hasattr(expr, 'inf')"},"name":"_infimum_key_correct"},"guarantee":"return infimum (if possible) else s.infinity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set._infimum_key_correct","statement":"Path(_infimum_key(x), return infimum (if possible) else s.infinity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24b5e8273473a8cb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'inf')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.inf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _infimum_key(expr):
         """
         Return infimum (if possible) else S.Infinity.
@@ -187,16 +207,22 @@ class Set(Basic, EvalfMixin):
         return infimum
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(union(oth), returns the union of ``self`` and ``other``) over Any ║
+# ║ Path(union(other), Union(self, other)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Union(self, other)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ union : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1ff4f90580028c96           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.union","kind":"method","src_hash":"24429f615d51266d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"union(oth)","rhs":"returns the union of ``self`` and ``other``","over":{"base":"Any"},"name":"union_correct"},"guarantee":"returns the union of ``self`` and ``other``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ff4f90580028c96"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.union","kind":"method","src_hash":"24429f615d51266d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"union(other)","rhs":"Union(self, other)","over":{"base":"Any"},"name":"union_correct"},"guarantee":"returns Union(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1ff4f90580028c96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Union(self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def union(self, other):
         """
         Returns the union of ``self`` and ``other``.
@@ -225,16 +251,22 @@ class Set(Basic, EvalfMixin):
         return Union(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersect(oth), returns the intersection of 'self' and 'other') over Any ║
+# ║ Path(intersect(other), Intersection(self, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Intersection(self, other)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ intersect : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b87dbeedff55b9c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.intersect","kind":"method","src_hash":"28b235392b186f1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersect(oth)","rhs":"returns the intersection of 'self' and 'other'","over":{"base":"Any"},"name":"intersect_correct"},"guarantee":"returns the intersection of 'self' and 'other'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b87dbeedff55b9c0"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.intersect","kind":"method","src_hash":"28b235392b186f1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersect(other)","rhs":"Intersection(self, other)","over":{"base":"Any"},"name":"intersect_correct"},"guarantee":"returns Intersection(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b87dbeedff55b9c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Intersection(self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersect(self, other):
         """
         Returns the intersection of 'self' and 'other'.
@@ -257,16 +289,22 @@ class Set(Basic, EvalfMixin):
         return Intersection(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(oth), alias for :meth:`intersect()`) over Any ║
+# ║ Path(intersection(other), self.intersect(other)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.intersect(other)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ intersection : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f8330a6c54aaa3e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.intersection","kind":"method","src_hash":"02032bb958fd12c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(oth)","rhs":"alias for :meth:`intersect()`","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"alias for :meth:`intersect()`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f8330a6c54aaa3e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.intersection","kind":"method","src_hash":"02032bb958fd12c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(other)","rhs":"self.intersect(other)","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"returns self.intersect(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f8330a6c54aaa3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.intersect(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.intersect"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersection(self, other):
         """
         Alias for :meth:`intersect()`
@@ -274,16 +312,22 @@ class Set(Basic, EvalfMixin):
         return self.intersect(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_disjoint(oth), returns true if ``self`` and ``other`` are disjoint) over Any ║
+# ║ Path(is_disjoint(other), self.intersect(other) == S.EmptySet) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.intersect(other) == S.EmptySet            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_disjoint : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 091d156aae4c9ddb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_disjoint","kind":"method","src_hash":"333ab42cdb5d9ea8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_disjoint(oth)","rhs":"returns true if ``self`` and ``other`` are disjoint","over":{"base":"Any"},"name":"is_disjoint_correct"},"guarantee":"returns true if ``self`` and ``other`` are disjoint","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"091d156aae4c9ddb"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_disjoint","kind":"method","src_hash":"333ab42cdb5d9ea8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_disjoint(other)","rhs":"self.intersect(other) == S.EmptySet","over":{"base":"Any"},"name":"is_disjoint_correct"},"guarantee":"returns self.intersect(other) == S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"091d156aae4c9ddb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.intersect(other) == S.EmptySet","pure":false,"effects":{"effect_type":"reads_state","reads":["self.intersect"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_disjoint(self, other):
         """
         Returns True if ``self`` and ``other`` are disjoint.
@@ -305,16 +349,22 @@ class Set(Basic, EvalfMixin):
         return self.intersect(other) == S.EmptySet
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(isdisjoint(oth), alias for :meth:`is_disjoint()`) over Any ║
+# ║ Path(isdisjoint(other), self.is_disjoint(other)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_disjoint(other)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ isdisjoint : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b1c43921129de32           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.isdisjoint","kind":"method","src_hash":"eccba79846c615f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"isdisjoint(oth)","rhs":"alias for :meth:`is_disjoint()`","over":{"base":"Any"},"name":"isdisjoint_correct"},"guarantee":"alias for :meth:`is_disjoint()`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b1c43921129de32"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.isdisjoint","kind":"method","src_hash":"eccba79846c615f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"isdisjoint(other)","rhs":"self.is_disjoint(other)","over":{"base":"Any"},"name":"isdisjoint_correct"},"guarantee":"returns self.is_disjoint(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b1c43921129de32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_disjoint(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_disjoint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def isdisjoint(self, other):
         """
         Alias for :meth:`is_disjoint()`
@@ -322,16 +372,22 @@ class Set(Basic, EvalfMixin):
         return self.is_disjoint(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(complement(uni), the complement of 'self' w.r.t the given universe) over Any ║
+# ║ Path(complement(universe), Complement(universe, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Complement(universe, self)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ complement : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f5650a19fab0e03f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.complement","kind":"method","src_hash":"b0c12b749d0d25bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"complement(uni)","rhs":"the complement of 'self' w.r.t the given universe","over":{"base":"Any"},"name":"complement_correct"},"guarantee":"the complement of 'self' w.r.t the given universe","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5650a19fab0e03f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.complement","kind":"method","src_hash":"b0c12b749d0d25bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"complement(universe)","rhs":"Complement(universe, self)","over":{"base":"Any"},"name":"complement_correct"},"guarantee":"returns Complement(universe, self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5650a19fab0e03f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Complement(universe, self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def complement(self, universe):
         r"""
         The complement of 'self' w.r.t the given universe.
@@ -350,16 +406,26 @@ class Set(Basic, EvalfMixin):
         return Complement(universe, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_complement(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_complement(other), <unspecified:_complement>) over {Any | hasattr(other, 'sets') and hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _complement : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'sets')                         ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   fiber[ProductSet]: isinstance(self, ProductSet) and...   ║
+# ║   fiber[Interval]: isinstance(other, Interval)             ║
+# ║   fiber[Union]: isinstance(other, Union) => Union(*(o...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _complement : {Any | hasattr(other, 'sets') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75649f7d55cc14be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e8feec52044892c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._complement","kind":"method","src_hash":"7f1005bc4a483a5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_complement(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_complement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set._complement_correct","statement":"Path(_complement(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75649f7d55cc14be"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._complement","kind":"method","src_hash":"7f1005bc4a483a5c","in":{"base":"Any","pred":"hasattr(other, 'sets') and hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_complement(other)","rhs":"<unspecified:_complement>","over":{"base":"Any","pred":"hasattr(other, 'sets') and hasattr(other, 'args')"},"name":"_complement_correct"},"guarantee":"6-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set._complement_correct","statement":"Path(_complement(x), 6-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e8feec52044892c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'sets')","hasattr(other, 'args')"],"fibers":[{"name":"ProductSet","guard":"isinstance(self, ProductSet) and isinstance(other, ProductSet)","ensures":["result == Union(*overlaps)"],"decidability":"structural","returns_expr":"Union(*overlaps)"},{"name":"Interval","guard":"isinstance(other, Interval)","ensures":[],"decidability":"structural"},{"name":"Union","guard":"isinstance(other, Union)","ensures":["result == Union(*(o - self for o in other.args))"],"decidability":"structural","returns_expr":"Union(*(o - self for o in other.args))"},{"name":"Complement","guard":"isinstance(other, Complement)","ensures":["result == Complement(other.args[0], Union(other.args[1], self), evaluate=False)"],"decidability":"structural","returns_expr":"Complement(other.args[0], Union(other.args[1], self), evaluate=False)"},{"name":"case_4","guard":"other is S.EmptySet","ensures":["result == S.EmptySet"],"decidability":"library","returns_expr":"S.EmptySet"},{"name":"FiniteSet","guard":"isinstance(other, FiniteSet)","ensures":["result == Union(FiniteSet(*sifted[False]), Complement(FiniteSet(*sifted[None]), self, evaluate=False) if sifted[None] else S.EmptySet)"],"decidability":"structural","returns_expr":"Union(FiniteSet(*sifted[False]), Complement(FiniteSet(*sifted[None]), self, evaluate=False) if sifted[None] else S.EmptySet)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _complement(self, other):
         # this behaves as other - self
         if isinstance(self, ProductSet) and isinstance(other, ProductSet):
@@ -397,16 +463,22 @@ class Set(Basic, EvalfMixin):
                 if sifted[None] else S.EmptySet)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symmetric_difference(oth), returns symmetric difference of ``self`` and ``other``) over Any ║
+# ║ Path(symmetric_difference(other), SymmetricDifference(self, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SymmetricDifference(self, other)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symmetric_difference : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 85d81f2cb89863f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.symmetric_difference","kind":"method","src_hash":"a57a73557ba7d6c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetric_difference(oth)","rhs":"returns symmetric difference of ``self`` and ``other``","over":{"base":"Any"},"name":"symmetric_difference_correct"},"guarantee":"returns symmetric difference of ``self`` and ``other``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85d81f2cb89863f6"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.symmetric_difference","kind":"method","src_hash":"a57a73557ba7d6c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetric_difference(other)","rhs":"SymmetricDifference(self, other)","over":{"base":"Any"},"name":"symmetric_difference_correct"},"guarantee":"returns SymmetricDifference(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85d81f2cb89863f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SymmetricDifference(self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def symmetric_difference(self, other):
         """
         Returns symmetric difference of ``self`` and ``other``.
@@ -432,31 +504,43 @@ class Set(Basic, EvalfMixin):
         return SymmetricDifference(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_symmetric_difference(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_symmetric_difference(other), Union(Complement(self, other), Complement(other, self))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Union(Complement(self, other), Complement...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _symmetric_difference : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e4b5dd404e8b693d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._symmetric_difference","kind":"method","src_hash":"00936b7b2d019bb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_symmetric_difference(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_symmetric_difference_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4b5dd404e8b693d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._symmetric_difference","kind":"method","src_hash":"00936b7b2d019bb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_symmetric_difference(other)","rhs":"Union(Complement(self, other), Complement(other, self))","over":{"base":"Any"},"name":"_symmetric_difference_correct"},"guarantee":"returns Union(Complement(self, other), Complement(other, self))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4b5dd404e8b693d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Union(Complement(self, other), Complement(other, self))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _symmetric_difference(self, other):
         return Union(Complement(self, other), Complement(other, self))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inf(), returns the inf attribute) over Any            ║
+# ║ Path(inf(), self._inf) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._inf                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 385f46c781bf36ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.inf","kind":"property","src_hash":"013fb362f0fea22e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inf()","rhs":"returns the inf attribute","over":{"base":"Any"},"name":"inf_correct"},"guarantee":"returns the inf attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"385f46c781bf36ba"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.inf","kind":"property","src_hash":"013fb362f0fea22e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inf()","rhs":"self._inf","over":{"base":"Any"},"name":"inf_correct"},"guarantee":"returns self._inf","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"385f46c781bf36ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._inf","pure":false,"effects":{"effect_type":"reads_state","reads":["self._inf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inf(self):
         """
         The infimum of ``self``.
@@ -475,31 +559,43 @@ class Set(Basic, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inf(), returns the _inf attribute) over Any          ║
+# ║ Path(_inf(), <unspecified:_inf>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inf : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 98554b73031855f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._inf","kind":"property","src_hash":"35aec2b758eba40e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inf()","rhs":"returns the _inf attribute","over":{"base":"Any"},"name":"_inf_correct"},"guarantee":"returns the _inf attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98554b73031855f4"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._inf","kind":"property","src_hash":"35aec2b758eba40e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inf()","rhs":"<unspecified:_inf>","over":{"base":"Any"},"name":"_inf_correct"},"guarantee":"returns the _inf attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"98554b73031855f4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _inf(self):
         raise NotImplementedError("(%s)._inf" % self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sup(), returns the sup attribute) over Any            ║
+# ║ Path(sup(), self._sup) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._sup                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sup : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 741f13cf9cc875a2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.sup","kind":"property","src_hash":"2e297e05e6a2aea0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sup()","rhs":"returns the sup attribute","over":{"base":"Any"},"name":"sup_correct"},"guarantee":"returns the sup attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"741f13cf9cc875a2"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.sup","kind":"property","src_hash":"2e297e05e6a2aea0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sup()","rhs":"self._sup","over":{"base":"Any"},"name":"sup_correct"},"guarantee":"returns self._sup","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"741f13cf9cc875a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._sup","pure":false,"effects":{"effect_type":"reads_state","reads":["self._sup"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sup(self):
         """
         The supremum of ``self``.
@@ -518,30 +614,42 @@ class Set(Basic, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sup(), returns the _sup attribute) over Any          ║
+# ║ Path(_sup(), <unspecified:_sup>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sup : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d91b0f5e5bf671b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._sup","kind":"property","src_hash":"1afba1be9428c87f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sup()","rhs":"returns the _sup attribute","over":{"base":"Any"},"name":"_sup_correct"},"guarantee":"returns the _sup attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d91b0f5e5bf671b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._sup","kind":"property","src_hash":"1afba1be9428c87f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sup()","rhs":"<unspecified:_sup>","over":{"base":"Any"},"name":"_sup_correct"},"guarantee":"returns the _sup attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d91b0f5e5bf671b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sup(self):
         raise NotImplementedError("(%s)._sup" % self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains(oth), returns a sympy value indicating whether ``other`` is contained in ``self``: ``true`` if it is, ``false`` if it is not, else an unevaluated ``contains`` expression (or, as in the case of conditionset ) over Any ║
+# ║ Path(contains(other), <unspecified:contains>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ contains : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ae615599737146a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.contains","kind":"method","src_hash":"3bb0a51f2bb99c06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(oth)","rhs":"returns a sympy value indicating whether ``other`` is contained in ``self``: ``true`` if it is, ``false`` if it is not, else an unevaluated ``contains`` expression (or, as in the case of conditionset ","over":{"base":"Any"},"name":"contains_correct"},"guarantee":"returns a sympy value indicating whether ``other`` is contained in ``self``: ``true`` if it is, ``false`` if it is not, else an unevaluated ``contains`` expression (or, as in the case of conditionset ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set.contains_correct","statement":"Path(contains(x), returns a sympy value indicating whether ``other`` is contained in ``self``: ``true`` if it is, ``false`` if it is not, else an unevaluated ``contains`` expression (or, as in the case of conditionset )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ae615599737146a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.contains","kind":"method","src_hash":"3bb0a51f2bb99c06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(other)","rhs":"<unspecified:contains>","over":{"base":"Any"},"name":"contains_correct"},"guarantee":"returns a sympy value indicating whether ``other`` is contained in ``self``: ``true`` if it is, ``false`` if it is not, else an unevaluated ``contains`` expression (or, as in the case of conditionset ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set.contains_correct","statement":"Path(contains(x), returns a sympy value indicating whether ``other`` is contained in ``self``: ``true`` if it is, ``false`` if it is not, else an unevaluated ``contains`` expression (or, as in the case of conditionset )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ae615599737146a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._contains"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains(self, other):
         """
         Returns a SymPy value indicating whether ``other`` is contained
@@ -591,16 +699,22 @@ class Set(Basic, EvalfMixin):
         return b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(oth), test if ``other`` is an element of the set ``self``) over Any ║
+# ║ Path(_contains(other), <unspecified:_contains>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains : Any → {Any | result satisfies: class:`con...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f15c48bad5aef017           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._contains","kind":"method","src_hash":"7bc504345d27e72b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`contains` expression."},"spec":{"lhs":"_contains(oth)","rhs":"test if ``other`` is an element of the set ``self``","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"test if ``other`` is an element of the set ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f15c48bad5aef017"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._contains","kind":"method","src_hash":"7bc504345d27e72b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: class:`contains` expression."},"spec":{"lhs":"_contains(other)","rhs":"<unspecified:_contains>","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"test if ``other`` is an element of the set ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f15c48bad5aef017","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, other):
         """Test if ``other`` is an element of the set ``self``.
 
@@ -632,16 +746,25 @@ class Set(Basic, EvalfMixin):
         raise NotImplementedError(f"{type(self).__name__}._contains")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_subset(oth), returns true if ``self`` is a subset of ``other``) over Any ║
+# ║ Path(is_subset(other), <unspecified:is_subset>) over {Any | isinstance(other, Set) and hasattr(other, 'is_finite_set') and hasattr(other, '_eval_is_superset') and hasattr(other, 'is_empty')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_subset : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(other, Set)                         ║
+# ║   requires: hasattr(other, 'is_finite_set')                ║
+# ║   requires: hasattr(other, '_eval_is_superset')            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_subset : {Any | isinstance(other, Set) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8be0c1a3651c4e7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_subset","kind":"method","src_hash":"e80d60ea3882700e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_subset(oth)","rhs":"returns true if ``self`` is a subset of ``other``","over":{"base":"Any"},"name":"is_subset_correct"},"guarantee":"returns true if ``self`` is a subset of ``other``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set.is_subset_correct","statement":"Path(is_subset(x), returns true if ``self`` is a subset of ``other``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8be0c1a3651c4e7c"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_subset","kind":"method","src_hash":"e80d60ea3882700e","in":{"base":"Any","pred":"isinstance(other, Set) and hasattr(other, 'is_finite_set') and hasattr(other, '_eval_is_superset') and hasattr(other, 'is_empty')"},"out":{"base":"Any"},"spec":{"lhs":"is_subset(other)","rhs":"<unspecified:is_subset>","over":{"base":"Any","pred":"isinstance(other, Set) and hasattr(other, 'is_finite_set') and hasattr(other, '_eval_is_superset') and hasattr(other, 'is_empty')"},"name":"is_subset_correct"},"guarantee":"returns true if ``self`` is a subset of ``other``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set.is_subset_correct","statement":"Path(is_subset(x), returns true if ``self`` is a subset of ``other``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8be0c1a3651c4e7c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(other, Set)","hasattr(other, 'is_finite_set')","hasattr(other, '_eval_is_superset')","hasattr(other, 'is_empty')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._eval_is_superset","other.is_empty","other.is_finite_set","self._eval_is_subset","self.intersect","self.is_empty","self.is_finite_set"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_subset(self, other):
         """
         Returns True if ``self`` is a subset of ``other``.
@@ -692,47 +815,65 @@ class Set(Basic, EvalfMixin):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_subset(oth), returns a fuzzy bool for whether self is a subset of other) over Any ║
+# ║ Path(_eval_is_subset(other), None) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_subset : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a91273304b543d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._eval_is_subset","kind":"method","src_hash":"87cd84d07794e291","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_subset(oth)","rhs":"returns a fuzzy bool for whether self is a subset of other","over":{"base":"Any"},"name":"_eval_is_subset_correct"},"guarantee":"returns a fuzzy bool for whether self is a subset of other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a91273304b543d7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._eval_is_subset","kind":"method","src_hash":"87cd84d07794e291","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_subset(other)","rhs":"None","over":{"base":"Any"},"name":"_eval_is_subset_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a91273304b543d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_subset(self, other):
         '''Returns a fuzzy bool for whether self is a subset of other.'''
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_superset(oth), returns a fuzzy bool for whether self is a subset of other) over Any ║
+# ║ Path(_eval_is_superset(other), None) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_superset : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 27566448d394e411           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._eval_is_superset","kind":"method","src_hash":"440a4c57d00261c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_superset(oth)","rhs":"returns a fuzzy bool for whether self is a subset of other","over":{"base":"Any"},"name":"_eval_is_superset_correct"},"guarantee":"returns a fuzzy bool for whether self is a subset of other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27566448d394e411"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._eval_is_superset","kind":"method","src_hash":"440a4c57d00261c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_superset(other)","rhs":"None","over":{"base":"Any"},"name":"_eval_is_superset_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27566448d394e411","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_superset(self, other):
         '''Returns a fuzzy bool for whether self is a subset of other.'''
         return None
 
     # This should be deprecated:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(issubset(oth), alias for :meth:`is_subset()`) over Any ║
+# ║ Path(issubset(other), self.is_subset(other)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_subset(other)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ issubset : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c62aaa968d835b43           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.issubset","kind":"method","src_hash":"d6c23eb941ba96aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"issubset(oth)","rhs":"alias for :meth:`is_subset()`","over":{"base":"Any"},"name":"issubset_correct"},"guarantee":"alias for :meth:`is_subset()`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c62aaa968d835b43"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.issubset","kind":"method","src_hash":"d6c23eb941ba96aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"issubset(other)","rhs":"self.is_subset(other)","over":{"base":"Any"},"name":"issubset_correct"},"guarantee":"returns self.is_subset(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c62aaa968d835b43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_subset(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_subset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def issubset(self, other):
         """
         Alias for :meth:`is_subset()`
@@ -740,16 +881,23 @@ class Set(Basic, EvalfMixin):
         return self.is_subset(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_proper_subset(oth), returns true if ``self`` is a proper subset of ``other``) over Any ║
+# ║ Path(is_proper_subset(other), <unspecified:is_proper_subset>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[Set]: isinstance(other, Set) => self != other...   ║
+# ║   fiber[Set]: not (isinstance(other, Set))                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_proper_subset : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c545eb569c19c53b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19ddbc67321f502d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_proper_subset","kind":"method","src_hash":"4d84d76ba16f5193","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_proper_subset(oth)","rhs":"returns true if ``self`` is a proper subset of ``other``","over":{"base":"Any"},"name":"is_proper_subset_correct"},"guarantee":"returns true if ``self`` is a proper subset of ``other``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set.is_proper_subset_correct","statement":"Path(is_proper_subset(x), returns true if ``self`` is a proper subset of ``other``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c545eb569c19c53b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_proper_subset","kind":"method","src_hash":"4d84d76ba16f5193","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_proper_subset(other)","rhs":"<unspecified:is_proper_subset>","over":{"base":"Any"},"name":"is_proper_subset_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set.is_proper_subset_correct","statement":"Path(is_proper_subset(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19ddbc67321f502d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"Set","guard":"isinstance(other, Set)","ensures":["result == self != other and self.is_subset(other)"],"decidability":"structural","returns_expr":"self != other and self.is_subset(other)"},{"name":"Set","guard":"not (isinstance(other, Set))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_subset"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_proper_subset(self, other):
         """
         Returns True if ``self`` is a proper subset of ``other``.
@@ -770,16 +918,24 @@ class Set(Basic, EvalfMixin):
             raise ValueError("Unknown argument '%s'" % other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_superset(oth), returns true if ``self`` is a superset of ``other``) over Any ║
+# ║ Path(is_superset(other), <unspecified:is_superset>) over {Any | hasattr(other, 'is_subset')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_superset : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'is_subset')                    ║
+# ║   fiber[Set]: isinstance(other, Set) => other.is_subs...   ║
+# ║   fiber[Set]: not (isinstance(other, Set))                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_superset : {Any | hasattr(other, 'is_subset')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bc1bae39ae21700  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78932a2fa2421614  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_superset","kind":"method","src_hash":"5da485882bcc8573","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_superset(oth)","rhs":"returns true if ``self`` is a superset of ``other``","over":{"base":"Any"},"name":"is_superset_correct"},"guarantee":"returns true if ``self`` is a superset of ``other``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set.is_superset_correct","statement":"Path(is_superset(x), returns true if ``self`` is a superset of ``other``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bc1bae39ae21700"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_superset","kind":"method","src_hash":"5da485882bcc8573","in":{"base":"Any","pred":"hasattr(other, 'is_subset')"},"out":{"base":"Any"},"spec":{"lhs":"is_superset(other)","rhs":"<unspecified:is_superset>","over":{"base":"Any","pred":"hasattr(other, 'is_subset')"},"name":"is_superset_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set.is_superset_correct","statement":"Path(is_superset(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78932a2fa2421614","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'is_subset')"],"fibers":[{"name":"Set","guard":"isinstance(other, Set)","ensures":["result == other.is_subset(self)"],"decidability":"structural","returns_expr":"other.is_subset(self)"},{"name":"Set","guard":"not (isinstance(other, Set))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_subset"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_superset(self, other):
         """
         Returns True if ``self`` is a superset of ``other``.
@@ -801,16 +957,22 @@ class Set(Basic, EvalfMixin):
 
     # This should be deprecated:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(issuperset(oth), alias for :meth:`is_superset()`) over Any ║
+# ║ Path(issuperset(other), self.is_superset(other)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_superset(other)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ issuperset : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed29daa461efb941           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.issuperset","kind":"method","src_hash":"927a41b8f4b2b21c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"issuperset(oth)","rhs":"alias for :meth:`is_superset()`","over":{"base":"Any"},"name":"issuperset_correct"},"guarantee":"alias for :meth:`is_superset()`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed29daa461efb941"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.issuperset","kind":"method","src_hash":"927a41b8f4b2b21c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"issuperset(other)","rhs":"self.is_superset(other)","over":{"base":"Any"},"name":"issuperset_correct"},"guarantee":"returns self.is_superset(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed29daa461efb941","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_superset(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_superset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def issuperset(self, other):
         """
         Alias for :meth:`is_superset()`
@@ -818,16 +980,23 @@ class Set(Basic, EvalfMixin):
         return self.is_superset(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_proper_superset(oth), returns true if ``self`` is a proper superset of ``other``) over Any ║
+# ║ Path(is_proper_superset(other), <unspecified:is_proper_superset>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[Set]: isinstance(other, Set) => self != other...   ║
+# ║   fiber[Set]: not (isinstance(other, Set))                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_proper_superset : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c305a6a459a1e73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3adb24035e354248  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_proper_superset","kind":"method","src_hash":"7fa33ec1687dbf9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_proper_superset(oth)","rhs":"returns true if ``self`` is a proper superset of ``other``","over":{"base":"Any"},"name":"is_proper_superset_correct"},"guarantee":"returns true if ``self`` is a proper superset of ``other``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set.is_proper_superset_correct","statement":"Path(is_proper_superset(x), returns true if ``self`` is a proper superset of ``other``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c305a6a459a1e73"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_proper_superset","kind":"method","src_hash":"7fa33ec1687dbf9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_proper_superset(other)","rhs":"<unspecified:is_proper_superset>","over":{"base":"Any"},"name":"is_proper_superset_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set.is_proper_superset_correct","statement":"Path(is_proper_superset(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3adb24035e354248","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"Set","guard":"isinstance(other, Set)","ensures":["result == self != other and self.is_superset(other)"],"decidability":"structural","returns_expr":"self != other and self.is_superset(other)"},{"name":"Set","guard":"not (isinstance(other, Set))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_superset"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_proper_superset(self, other):
         """
         Returns True if ``self`` is a proper superset of ``other``.
@@ -848,31 +1017,43 @@ class Set(Basic, EvalfMixin):
             raise ValueError("Unknown argument '%s'" % other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_powerset(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_powerset(), PowerSet(self)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PowerSet(self)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_powerset : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1968c70f1e68a169  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c717ca89204bfb58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._eval_powerset","kind":"method","src_hash":"9b0941477eef4032","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_powerset()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_powerset_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set._eval_powerset_correct","statement":"Path(_eval_powerset(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1968c70f1e68a169"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._eval_powerset","kind":"method","src_hash":"9b0941477eef4032","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_powerset()","rhs":"PowerSet(self)","over":{"base":"Any"},"name":"_eval_powerset_correct"},"guarantee":"returns PowerSet(self)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Set._eval_powerset_correct","statement":"Path(_eval_powerset(x), returns PowerSet(self))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c717ca89204bfb58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PowerSet(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_powerset(self):
         from .powerset import PowerSet
         return PowerSet(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(powerset(), find the power set of ``self``) over Any  ║
+# ║ Path(powerset(), self._eval_powerset()) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_powerset()                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ powerset : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c85634974d8cddad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.powerset","kind":"method","src_hash":"977118cba074a087","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"powerset()","rhs":"find the power set of ``self``","over":{"base":"Any"},"name":"powerset_correct"},"guarantee":"find the power set of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c85634974d8cddad"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.powerset","kind":"method","src_hash":"977118cba074a087","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"powerset()","rhs":"self._eval_powerset()","over":{"base":"Any"},"name":"powerset_correct"},"guarantee":"returns self._eval_powerset()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c85634974d8cddad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_powerset()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_powerset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def powerset(self):
         """
         Find the Power set of ``self``.
@@ -910,16 +1091,22 @@ class Set(Basic, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(measure(), returns the measure attribute) over Any    ║
+# ║ Path(measure(), self._measure) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._measure                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ measure : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8117f451513d0dfe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.measure","kind":"property","src_hash":"06f715d38617628f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"measure()","rhs":"returns the measure attribute","over":{"base":"Any"},"name":"measure_correct"},"guarantee":"returns the measure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8117f451513d0dfe"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.measure","kind":"property","src_hash":"06f715d38617628f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"measure()","rhs":"self._measure","over":{"base":"Any"},"name":"measure_correct"},"guarantee":"returns self._measure","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8117f451513d0dfe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._measure","pure":false,"effects":{"effect_type":"reads_state","reads":["self._measure"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def measure(self):
         """
         The (Lebesgue) measure of ``self``.
@@ -938,16 +1125,22 @@ class Set(Basic, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kind(), returns the kind attribute) over Any          ║
+# ║ Path(kind(), self._kind()) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._kind()                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kind : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2fb957648926f8d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.kind","kind":"property","src_hash":"3d4c7999eb23b1a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"returns the kind attribute","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns the kind attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2fb957648926f8d7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.kind","kind":"property","src_hash":"3d4c7999eb23b1a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"self._kind()","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns self._kind()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2fb957648926f8d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._kind()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._kind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kind(self):
         """
         The kind of a Set
@@ -1034,16 +1227,22 @@ class Set(Basic, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(boundary(), returns the boundary attribute) over Any  ║
+# ║ Path(boundary(), self._boundary) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._boundary                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ boundary : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 314de5a76933efc2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.boundary","kind":"property","src_hash":"124116d53968e48f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"boundary()","rhs":"returns the boundary attribute","over":{"base":"Any"},"name":"boundary_correct"},"guarantee":"returns the boundary attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"314de5a76933efc2"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.boundary","kind":"property","src_hash":"124116d53968e48f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"boundary()","rhs":"self._boundary","over":{"base":"Any"},"name":"boundary_correct"},"guarantee":"returns self._boundary","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"314de5a76933efc2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._boundary","pure":false,"effects":{"effect_type":"reads_state","reads":["self._boundary"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def boundary(self):
         """
         The boundary or frontier of a set.
@@ -1078,16 +1277,22 @@ class Set(Basic, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_open(), returns the is_open attribute) over Any    ║
+# ║ Path(is_open(), Intersection(self, self.boundary).is_empty) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Intersection(self, self.boundary).is_empty     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_open : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8fe6266b9d6fe608           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_open","kind":"property","src_hash":"a101841f9daf2e28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_open()","rhs":"returns the is_open attribute","over":{"base":"Any"},"name":"is_open_correct"},"guarantee":"returns the is_open attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fe6266b9d6fe608"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_open","kind":"property","src_hash":"a101841f9daf2e28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_open()","rhs":"Intersection(self, self.boundary).is_empty","over":{"base":"Any"},"name":"is_open_correct"},"guarantee":"returns Intersection(self, self.boundary).is_empty","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fe6266b9d6fe608","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Intersection(self, self.boundary).is_empty","pure":false,"effects":{"effect_type":"reads_state","reads":["self.boundary"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_open(self):
         """
         Property method to check whether a set is open.
@@ -1112,16 +1317,22 @@ class Set(Basic, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_closed(), returns the is_closed attribute) over Any ║
+# ║ Path(is_closed(), self.boundary.is_subset(self)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.boundary.is_subset(self)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_closed : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a3230774a3eba9a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_closed","kind":"property","src_hash":"cf0327252182de1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_closed()","rhs":"returns the is_closed attribute","over":{"base":"Any"},"name":"is_closed_correct"},"guarantee":"returns the is_closed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3230774a3eba9a6"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.is_closed","kind":"property","src_hash":"cf0327252182de1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_closed()","rhs":"self.boundary.is_subset(self)","over":{"base":"Any"},"name":"is_closed_correct"},"guarantee":"returns self.boundary.is_subset(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3230774a3eba9a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.boundary.is_subset(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.boundary"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_closed(self):
         """
         A property method to check whether a set is closed.
@@ -1143,16 +1354,22 @@ class Set(Basic, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(closure(), returns the closure attribute) over Any    ║
+# ║ Path(closure(), self + self.boundary) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self + self.boundary                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ closure : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e54a9f3554bc065b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.closure","kind":"property","src_hash":"345690c5a0dd15a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"closure()","rhs":"returns the closure attribute","over":{"base":"Any"},"name":"closure_correct"},"guarantee":"returns the closure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e54a9f3554bc065b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.closure","kind":"property","src_hash":"345690c5a0dd15a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"closure()","rhs":"self + self.boundary","over":{"base":"Any"},"name":"closure_correct"},"guarantee":"returns self + self.boundary","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e54a9f3554bc065b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self + self.boundary","pure":false,"effects":{"effect_type":"reads_state","reads":["self.boundary"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def closure(self):
         """
         Property method which returns the closure of a set.
@@ -1171,16 +1388,22 @@ class Set(Basic, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interior(), returns the interior attribute) over Any  ║
+# ║ Path(interior(), self - self.boundary) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self - self.boundary                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ interior : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1741c6b7abc04cd2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.interior","kind":"property","src_hash":"875acf664fc947dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interior()","rhs":"returns the interior attribute","over":{"base":"Any"},"name":"interior_correct"},"guarantee":"returns the interior attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1741c6b7abc04cd2"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.interior","kind":"property","src_hash":"875acf664fc947dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"interior()","rhs":"self - self.boundary","over":{"base":"Any"},"name":"interior_correct"},"guarantee":"returns self - self.boundary","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1741c6b7abc04cd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self - self.boundary","pure":false,"effects":{"effect_type":"reads_state","reads":["self.boundary"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def interior(self):
         """
         Property method which returns the interior of a set.
@@ -1199,150 +1422,212 @@ class Set(Basic, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_boundary(), returns the _boundary attribute) over Any ║
+# ║ Path(_boundary(), <unspecified:_boundary>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _boundary : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 70c6fba00dd83cbc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._boundary","kind":"property","src_hash":"60405609a8cb688f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_boundary()","rhs":"returns the _boundary attribute","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns the _boundary attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70c6fba00dd83cbc"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._boundary","kind":"property","src_hash":"60405609a8cb688f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_boundary()","rhs":"<unspecified:_boundary>","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns the _boundary attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70c6fba00dd83cbc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _boundary(self):
         raise NotImplementedError()
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_measure(), returns the _measure attribute) over Any  ║
+# ║ Path(_measure(), <unspecified:_measure>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _measure : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b4c9658f55ab86e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._measure","kind":"property","src_hash":"268357184b5a8285","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_measure()","rhs":"returns the _measure attribute","over":{"base":"Any"},"name":"_measure_correct"},"guarantee":"returns the _measure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b4c9658f55ab86e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._measure","kind":"property","src_hash":"268357184b5a8285","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_measure()","rhs":"<unspecified:_measure>","over":{"base":"Any"},"name":"_measure_correct"},"guarantee":"returns the _measure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b4c9658f55ab86e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _measure(self):
         raise NotImplementedError("(%s)._measure" % self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kind(), internal helper behaves correctly) over Any  ║
+# ║ Path(_kind(), SetKind(UndefinedKind)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SetKind(UndefinedKind)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _kind : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d968a92e2e81f744           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._kind","kind":"method","src_hash":"ff3085a19e67b5d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d968a92e2e81f744"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._kind","kind":"method","src_hash":"ff3085a19e67b5d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"SetKind(UndefinedKind)","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"returns SetKind(UndefinedKind)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d968a92e2e81f744","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SetKind(UndefinedKind)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kind(self):
         return SetKind(UndefinedKind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), id) over Any                        ║
+# ║ Path(_eval_evalf(prec), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*[arg.evalf(n=dps) for arg in s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9eb8d602f2448eb3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._eval_evalf","kind":"method","src_hash":"6d3b8300e1d7e9da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9eb8d602f2448eb3"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set._eval_evalf","kind":"method","src_hash":"6d3b8300e1d7e9da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"self.func(*[arg.evalf(n=dps) for arg in self.args])","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns self.func(*[arg.evalf(n=dps) for arg in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9eb8d602f2448eb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*[arg.evalf(n=dps) for arg in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         dps = prec_to_dps(prec)
         return self.func(*[arg.evalf(n=dps) for arg in self.args])
 
     @sympify_return([('other', 'Set')], NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), self.union(other)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.union(other)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dd833fe53130983b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__add__","kind":"method","src_hash":"c8d15ba9ad74f012","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd833fe53130983b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__add__","kind":"method","src_hash":"c8d15ba9ad74f012","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"self.union(other)","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns self.union(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd833fe53130983b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.union(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.union"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         return self.union(other)
 
     @sympify_return([('other', 'Set')], NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__or__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__or__(other), self.union(other)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.union(other)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __or__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 31a96d2c0ea40da4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__or__","kind":"method","src_hash":"281bd43518ab5175","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__or__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__or___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31a96d2c0ea40da4"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__or__","kind":"method","src_hash":"281bd43518ab5175","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__or__(other)","rhs":"self.union(other)","over":{"base":"Any"},"name":"__or___correct"},"guarantee":"returns self.union(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"31a96d2c0ea40da4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.union(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.union"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __or__(self, other):
         return self.union(other)
 
     @sympify_return([('other', 'Set')], NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__and__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__and__(other), self.intersect(other)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.intersect(other)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __and__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6059addcd6131ed3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__and__","kind":"method","src_hash":"dc184af54c6375da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__and__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__and___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6059addcd6131ed3"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__and__","kind":"method","src_hash":"dc184af54c6375da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__and__(other)","rhs":"self.intersect(other)","over":{"base":"Any"},"name":"__and___correct"},"guarantee":"returns self.intersect(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6059addcd6131ed3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.intersect(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.intersect"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __and__(self, other):
         return self.intersect(other)
 
     @sympify_return([('other', 'Set')], NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), ProductSet(self, other)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ProductSet(self, other)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 09a49df960521969           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__mul__","kind":"method","src_hash":"9418b9f7112a9c6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09a49df960521969"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__mul__","kind":"method","src_hash":"9418b9f7112a9c6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"ProductSet(self, other)","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns ProductSet(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09a49df960521969","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ProductSet(self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         return ProductSet(self, other)
 
     @sympify_return([('other', 'Set')], NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__xor__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__xor__(other), SymmetricDifference(self, other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SymmetricDifference(self, other)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __xor__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c3db3b7eba73de1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__xor__","kind":"method","src_hash":"89dde76d97da3f42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__xor__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__xor___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c3db3b7eba73de1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__xor__","kind":"method","src_hash":"89dde76d97da3f42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__xor__(other)","rhs":"SymmetricDifference(self, other)","over":{"base":"Any"},"name":"__xor___correct"},"guarantee":"returns SymmetricDifference(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c3db3b7eba73de1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SymmetricDifference(self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __xor__(self, other):
         return SymmetricDifference(self, other)
 
     @sympify_return([('exp', Expr)], NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(exp), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(exp), ProductSet(*[self] * exp)) over {Any | exp.is_Integer and exp >= 0 and hasattr(exp, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: exp.is_Integer and exp >= 0                    ║
+# ║   requires: hasattr(exp, 'is_Integer')                     ║
+# ║   returns:  ProductSet(*[self] * exp)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : {Any | exp.is_Integer and exp >= 0 and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2918e366c03125b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__pow__","kind":"method","src_hash":"08053f118845572a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2918e366c03125b7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__pow__","kind":"method","src_hash":"08053f118845572a","in":{"base":"Any","pred":"exp.is_Integer and exp >= 0 and hasattr(exp, 'is_Integer')"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(exp)","rhs":"ProductSet(*[self] * exp)","over":{"base":"Any","pred":"exp.is_Integer and exp >= 0 and hasattr(exp, 'is_Integer')"},"name":"__pow___correct"},"guarantee":"returns ProductSet(*[self] * exp)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2918e366c03125b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["exp.is_Integer and exp >= 0","hasattr(exp, 'is_Integer')"],"returns_expr":"ProductSet(*[self] * exp)","pure":false,"effects":{"effect_type":"reads_state","reads":["exp.is_Integer"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, exp):
         if not (exp.is_Integer and exp >= 0):
             raise ValueError("%s: Exponent must be a positive Integer" % exp)
@@ -1350,30 +1635,43 @@ class Set(Basic, EvalfMixin):
 
     @sympify_return([('other', 'Set')], NotImplemented)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), Complement(self, other)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Complement(self, other)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7e52098d201fd904           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__sub__","kind":"method","src_hash":"aa1af67cf362222e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e52098d201fd904"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__sub__","kind":"method","src_hash":"aa1af67cf362222e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"Complement(self, other)","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns Complement(self, other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e52098d201fd904","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Complement(self, other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return Complement(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(oth), correctly tests membership) over Any ║
+# ║ Path(__contains__(other), <unspecified:__contains__>) over {Any | not (b is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (b is None)                                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : {Any | not (b is None)} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a2b9582d0c2e5dc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__contains__","kind":"method","src_hash":"e88202a36f4c95c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(oth)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a2b9582d0c2e5dc"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Set.__contains__","kind":"method","src_hash":"e88202a36f4c95c4","in":{"base":"Any","pred":"not (b is None)"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(other)","rhs":"<unspecified:__contains__>","over":{"base":"Any","pred":"not (b is None)"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a2b9582d0c2e5dc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (b is None)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._contains"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, other):
         other = _sympify(other)
         c = self._contains(other)
@@ -1388,14 +1686,20 @@ class Set(Basic, EvalfMixin):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ProductSet instance) preserved by ProductSet(*args) over {Any | isinstance(sets[0], (Set, set)) and isinstance(element, Tuple) and isinstance(s, Set)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ProductSet : {Any | isinstance(sets[0], (Set, set)) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba1e316384bef8af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet","kind":"class","src_hash":"03cdcc83102b5c13","in":{"base":"Any","pred":"isinstance(sets[0], (Set, set)) and isinstance(element, Tuple) and isinstance(s, Set)"},"out":{"base":"Any"},"spec":{"lhs":"ProductSet(*args)","rhs":"correctly constructs a ProductSet instance","over":{"base":"Any","pred":"isinstance(sets[0], (Set, set)) and isinstance(element, Tuple) and isinstance(s, Set)"},"name":"ProductSet_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ProductSet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_iterable","pred":"self.is_iterable","kind":"class"},{"name":"is_empty","pred":"self.is_empty","kind":"class"},{"name":"is_finite_set","pred":"self.is_finite_set","kind":"class"}],"methods_preserving":["sets","flatten","_contains","as_relational","_boundary","is_iterable","__iter__","is_empty","is_finite_set","_measure","_kind","__len__","__bool__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba1e316384bef8af"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet","kind":"class","src_hash":"03cdcc83102b5c13","in":{"base":"Any","pred":"isinstance(sets[0], (Set, set)) and isinstance(element, Tuple) and isinstance(s, Set)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set)"},"spec":{"lhs":"ProductSet(*args)","rhs":"correctly constructs a ProductSet instance","over":{"base":"Any","pred":"isinstance(sets[0], (Set, set)) and isinstance(element, Tuple) and isinstance(s, Set)"},"name":"ProductSet_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_iterable","pred":"self.is_iterable","kind":"class"},{"name":"is_empty","pred":"self.is_empty","kind":"class"},{"name":"is_finite_set","pred":"self.is_finite_set","kind":"class"}],"methods_preserving":["sets","flatten","_contains","as_relational","_boundary","is_iterable","__iter__","is_empty","is_finite_set","_measure","_kind","__len__","__bool__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba1e316384bef8af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function ProductSet not found in source"]}}
 class ProductSet(Set):
     """
     Represents a Cartesian Product of Sets.
@@ -1446,16 +1750,22 @@ class ProductSet(Set):
     is_ProductSet = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *sets, **assumptions), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b2f5da484306212           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.__new__","kind":"method","src_hash":"5fee45244799f73e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b2f5da484306212"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.__new__","kind":"method","src_hash":"5fee45244799f73e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *sets, **assumptions)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b2f5da484306212","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *sets, **assumptions):
         if len(sets) == 1 and iterable(sets[0]) and not isinstance(sets[0], (Set, set)):
             sympy_deprecation_warning(
@@ -1483,30 +1793,42 @@ ProductSet(iterable) is deprecated. Use ProductSet(*iterable) instead.
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sets(), returns the sets attribute) over Any          ║
+# ║ Path(sets(), self.args) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sets : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2de5e20c4b29c319           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.sets","kind":"property","src_hash":"88eed58c9f6c9ba3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sets()","rhs":"returns the sets attribute","over":{"base":"Any"},"name":"sets_correct"},"guarantee":"returns the sets attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2de5e20c4b29c319"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.sets","kind":"property","src_hash":"88eed58c9f6c9ba3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sets()","rhs":"self.args","over":{"base":"Any"},"name":"sets_correct"},"guarantee":"returns self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2de5e20c4b29c319","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sets(self):
         return self.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(flatten(), id) over Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ProductSet(*_flatten(self.sets))               ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ flatten : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f5fc7aa034e50e8b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.flatten","kind":"method","src_hash":"673f6af64a26c3ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten()","rhs":"flatten produces the expected output","over":{"base":"Any"},"name":"flatten_correct","kind":"composition"},"guarantee":"flatten produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ProductSet","by":"library_axiom"},{"fn":"_flatten","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5fc7aa034e50e8b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.flatten","kind":"method","src_hash":"673f6af64a26c3ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten()","rhs":"ProductSet(*_flatten(self.sets))","over":{"base":"Any"},"name":"flatten_correct","kind":"composition"},"guarantee":"returns ProductSet(*_flatten(self.sets))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ProductSet","by":"library_axiom"},{"fn":"_flatten","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5fc7aa034e50e8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ProductSet(*_flatten(self.sets))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def flatten(self):
         def _flatten(sets):
             for s in sets:
@@ -1519,16 +1841,23 @@ ProductSet(iterable) is deprecated. Use ProductSet(*iterable) instead.
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(ele), ``in`` operator for productsets) over Any ║
+# ║ Path(_contains(element), <unspecified:_contains>) over {Any | hasattr(element, 'is_Symbol')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _contains : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(element, 'is_Symbol')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _contains : {Any | hasattr(element, 'is_Symbol')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5baaf1ce07cca526  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet._contains","kind":"method","src_hash":"83c39d7f4ea43640","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(ele)","rhs":"``in`` operator for productsets","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"``in`` operator for productsets","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.ProductSet._contains_correct","statement":"Path(_contains(x), ``in`` operator for productsets)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5baaf1ce07cca526"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet._contains","kind":"method","src_hash":"83c39d7f4ea43640","in":{"base":"Any","pred":"hasattr(element, 'is_Symbol')"},"out":{"base":"Any"},"spec":{"lhs":"_contains(element)","rhs":"<unspecified:_contains>","over":{"base":"Any","pred":"hasattr(element, 'is_Symbol')"},"name":"_contains_correct"},"guarantee":"``in`` operator for productsets","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.ProductSet._contains_correct","statement":"Path(_contains(x), ``in`` operator for productsets)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5baaf1ce07cca526","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(element, 'is_Symbol')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["element.is_Symbol","self.sets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, element):
         """
         ``in`` operator for ProductSets.
@@ -1554,16 +1883,23 @@ ProductSet(iterable) is deprecated. Use ProductSet(*iterable) instead.
         return And(*[s.contains(e) for s, e in zip(self.sets, element)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_relational(*sy), id) over Any                      ║
+# ║ Path(as_relational(*symbols), id) over {Any | not (len(symbols) != len(self.sets) or not all((i.is_Symbol for i in symbols)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_relational : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(symbols) != len(self.sets) or no...   ║
+# ║   returns:  And(*[s.as_relational(i) for s, i in zip(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_relational : {Any | not (len(symbols) != len(self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9f8f59afae998438   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.as_relational","kind":"method","src_hash":"6e03b94ddd3fefcb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(*sy)","rhs":"as_relational produces the expected output","over":{"base":"Any"},"name":"as_relational_correct","kind":"composition"},"guarantee":"as_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"And","by":"library_axiom"},{"fn":"as_relational","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f8f59afae998438"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.as_relational","kind":"method","src_hash":"6e03b94ddd3fefcb","in":{"base":"Any","pred":"not (len(symbols) != len(self.sets) or not all((i.is_Symbol for i in symbols)))"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(*symbols)","rhs":"And(*[s.as_relational(i) for s, i in zip(self.sets, symbols)])","over":{"base":"Any","pred":"not (len(symbols) != len(self.sets) or not all((i.is_Symbol for i in symbols)))"},"name":"as_relational_correct","kind":"composition"},"guarantee":"returns And(*[s.as_relational(i) for s, i in zip(self.sets, symbols)])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"And","by":"library_axiom"},{"fn":"as_relational","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f8f59afae998438","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(symbols) != len(self.sets) or not all((i.is_Symbol for i in symbols)))"],"returns_expr":"And(*[s.as_relational(i) for s, i in zip(self.sets, symbols)])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sets"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_relational(self, *symbols):
         symbols = [_sympify(s) for s in symbols]
         if len(symbols) != len(self.sets) or not all(
@@ -1574,16 +1910,22 @@ ProductSet(iterable) is deprecated. Use ProductSet(*iterable) instead.
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_boundary(), returns the _boundary attribute) over Any ║
+# ║ Path(_boundary(), Union(*(ProductSet(*(b + b.boundary if i != j else b.boundary for j, b in enumerate(self.sets))) for i, a in enumerate(self.sets)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Union(*(ProductSet(*(b + b.boundary if i ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _boundary : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 940c5d6c01e0d570           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet._boundary","kind":"property","src_hash":"5eca16f3d8a3c566","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_boundary()","rhs":"returns the _boundary attribute","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns the _boundary attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"940c5d6c01e0d570"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet._boundary","kind":"property","src_hash":"5eca16f3d8a3c566","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_boundary()","rhs":"Union(*(ProductSet(*(b + b.boundary if i != j else b.boundary for j, b in enumerate(self.sets))) for i, a in enumerate(self.sets)))","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns Union(*(ProductSet(*(b + b.boundary if i != j else b.boundary for j, b in enumerate(self.sets))) for i, a in enumerate(self.sets)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"940c5d6c01e0d570","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Union(*(ProductSet(*(b + b.boundary if i != j else b.boundary for j, b in enumerate(self.sets))) for i, a in enumerate(self.sets)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _boundary(self):
         return Union(*(ProductSet(*(b + b.boundary if i != j else b.boundary
                                 for j, b in enumerate(self.sets)))
@@ -1591,16 +1933,22 @@ ProductSet(iterable) is deprecated. Use ProductSet(*iterable) instead.
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_iterable(), returns the is_iterable attribute) over Any ║
+# ║ Path(is_iterable(), all((set.is_iterable for set in self.sets))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((set.is_iterable for set in self.sets))    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_iterable : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e9b12ae22aa518d1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.is_iterable","kind":"property","src_hash":"0d4408bc843e814f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_iterable()","rhs":"returns the is_iterable attribute","over":{"base":"Any"},"name":"is_iterable_correct"},"guarantee":"returns the is_iterable attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9b12ae22aa518d1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.is_iterable","kind":"property","src_hash":"0d4408bc843e814f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_iterable()","rhs":"all((set.is_iterable for set in self.sets))","over":{"base":"Any"},"name":"is_iterable_correct"},"guarantee":"returns all((set.is_iterable for set in self.sets))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9b12ae22aa518d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((set.is_iterable for set in self.sets))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_iterable(self):
         """
         A property method which tests whether a set is iterable or not.
@@ -1621,16 +1969,22 @@ ProductSet(iterable) is deprecated. Use ProductSet(*iterable) instead.
         return all(set.is_iterable for set in self.sets)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), iproduct(*self.sets)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iproduct(*self.sets)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b5e51ba7f268487           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.__iter__","kind":"method","src_hash":"7aef86285160879d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b5e51ba7f268487"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.__iter__","kind":"method","src_hash":"7aef86285160879d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"iproduct(*self.sets)","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns iproduct(*self.sets)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b5e51ba7f268487","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iproduct(*self.sets)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         """
         A method which implements is_iterable property method.
@@ -1641,47 +1995,65 @@ ProductSet(iterable) is deprecated. Use ProductSet(*iterable) instead.
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_empty(), returns the is_empty attribute) over Any  ║
+# ║ Path(is_empty(), fuzzy_or((s.is_empty for s in self.sets))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_or((s.is_empty for s in self.sets))      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_empty : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 94fbc3ef499cb3ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.is_empty","kind":"property","src_hash":"c7b696fd547a989d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_empty()","rhs":"returns the is_empty attribute","over":{"base":"Any"},"name":"is_empty_correct"},"guarantee":"returns the is_empty attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94fbc3ef499cb3ba"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.is_empty","kind":"property","src_hash":"c7b696fd547a989d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_empty()","rhs":"fuzzy_or((s.is_empty for s in self.sets))","over":{"base":"Any"},"name":"is_empty_correct"},"guarantee":"returns fuzzy_or((s.is_empty for s in self.sets))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94fbc3ef499cb3ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_or((s.is_empty for s in self.sets))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_empty(self):
         return fuzzy_or(s.is_empty for s in self.sets)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_finite_set(), returns the is_finite_set attribute) over Any ║
+# ║ Path(is_finite_set(), fuzzy_or([self.is_empty, all_finite])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_or([self.is_empty, all_finite])          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_finite_set : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9277c50e327a706c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.is_finite_set","kind":"property","src_hash":"a1c813a06a5d9f65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_finite_set()","rhs":"returns the is_finite_set attribute","over":{"base":"Any"},"name":"is_finite_set_correct"},"guarantee":"returns the is_finite_set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9277c50e327a706c"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.is_finite_set","kind":"property","src_hash":"a1c813a06a5d9f65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_finite_set()","rhs":"fuzzy_or([self.is_empty, all_finite])","over":{"base":"Any"},"name":"is_finite_set_correct"},"guarantee":"returns fuzzy_or([self.is_empty, all_finite])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9277c50e327a706c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_or([self.is_empty, all_finite])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_empty","self.sets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_finite_set(self):
         all_finite = fuzzy_and(s.is_finite_set for s in self.sets)
         return fuzzy_or([self.is_empty, all_finite])
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_measure(), returns the _measure attribute) over Any  ║
+# ║ Path(_measure(), <unspecified:_measure>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _measure : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee3430c35e29432d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet._measure","kind":"property","src_hash":"d8a3855cd370368d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_measure()","rhs":"returns the _measure attribute","over":{"base":"Any"},"name":"_measure_correct"},"guarantee":"returns the _measure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee3430c35e29432d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet._measure","kind":"property","src_hash":"d8a3855cd370368d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_measure()","rhs":"<unspecified:_measure>","over":{"base":"Any"},"name":"_measure_correct"},"guarantee":"returns the _measure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee3430c35e29432d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _measure(self):
         measure = 1
         for s in self.sets:
@@ -1689,44 +2061,62 @@ ProductSet(iterable) is deprecated. Use ProductSet(*iterable) instead.
         return measure
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kind(), internal helper behaves correctly) over Any  ║
+# ║ Path(_kind(), SetKind(TupleKind(*(i.kind.element_kind for i in self.args)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SetKind(TupleKind(*(i.kind.element_kind f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _kind : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cd401c3cba694f80           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet._kind","kind":"method","src_hash":"1a92f1c90ba33ed2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd401c3cba694f80"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet._kind","kind":"method","src_hash":"1a92f1c90ba33ed2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"SetKind(TupleKind(*(i.kind.element_kind for i in self.args)))","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"returns SetKind(TupleKind(*(i.kind.element_kind for i in self.args)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd401c3cba694f80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SetKind(TupleKind(*(i.kind.element_kind for i in self.args)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kind(self):
         return SetKind(TupleKind(*(i.kind.element_kind for i in self.args)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), reduce(lambda a, b: a * b, (len(s) for s in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  reduce(lambda a, b: a * b, (len(s) for s ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 390d9c80f21169cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.__len__","kind":"method","src_hash":"d66d5e6a0d0ce0d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"390d9c80f21169cf"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.__len__","kind":"method","src_hash":"d66d5e6a0d0ce0d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"reduce(lambda a, b: a * b, (len(s) for s in self.args))","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns reduce(lambda a, b: a * b, (len(s) for s in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"390d9c80f21169cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"reduce(lambda a, b: a * b, (len(s) for s in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return reduce(lambda a, b: a*b, (len(s) for s in self.args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__bool__(), correctly converts to boolean) over Any   ║
+# ║ Path(__bool__(), all(self.sets)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all(self.sets)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __bool__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 031cb1d46d38ef93           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.__bool__","kind":"method","src_hash":"f58ebebcd8d73e9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"correctly converts to boolean","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"correctly converts to boolean","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"031cb1d46d38ef93"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.ProductSet.__bool__","kind":"method","src_hash":"f58ebebcd8d73e9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"all(self.sets)","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"returns all(self.sets)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"031cb1d46d38ef93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all(self.sets)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __bool__(self):
         return all(self.sets)
 
@@ -1734,14 +2124,20 @@ ProductSet(iterable) is deprecated. Use ProductSet(*iterable) instead.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Interval instance) preserved by Interval(*args) over {Any | isinstance(other, FiniteSet) and isinstance(other, Interval) and isinstance(other, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Interval : {Any | isinstance(other, FiniteSet) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e741a9c6184a355  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval","kind":"class","src_hash":"7ef720e6b3f01fc3","in":{"base":"Any","pred":"isinstance(other, FiniteSet) and isinstance(other, Interval) and isinstance(other, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"Interval(*args)","rhs":"correctly constructs a Interval instance","over":{"base":"Any","pred":"isinstance(other, FiniteSet) and isinstance(other, Interval) and isinstance(other, Expr)"},"name":"Interval_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Interval instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_empty","pred":"self.is_empty","kind":"class"},{"name":"is_finite_set","pred":"self.is_finite_set","kind":"class"},{"name":"is_left_unbounded","pred":"self.is_left_unbounded","kind":"class"},{"name":"is_right_unbounded","pred":"self.is_right_unbounded","kind":"class"}],"methods_preserving":["start","end","left_open","right_open","_inf","_sup","left","right","is_empty","is_finite_set","_complement","_boundary","_contains","as_relational","_measure","_kind","to_mpi","_eval_evalf","_is_comparable","is_left_unbounded","is_right_unbounded","_eval_Eq"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e741a9c6184a355"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval","kind":"class","src_hash":"7ef720e6b3f01fc3","in":{"base":"Any","pred":"isinstance(other, FiniteSet) and isinstance(other, Interval) and isinstance(other, Expr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set)"},"spec":{"lhs":"Interval(*args)","rhs":"correctly constructs a Interval instance","over":{"base":"Any","pred":"isinstance(other, FiniteSet) and isinstance(other, Interval) and isinstance(other, Expr)"},"name":"Interval_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_empty","pred":"self.is_empty","kind":"class"},{"name":"is_finite_set","pred":"self.is_finite_set","kind":"class"},{"name":"is_left_unbounded","pred":"self.is_left_unbounded","kind":"class"},{"name":"is_right_unbounded","pred":"self.is_right_unbounded","kind":"class"}],"methods_preserving":["start","end","left_open","right_open","_inf","_sup","left","right","is_empty","is_finite_set","_complement","_boundary","_contains","as_relational","_measure","_kind","to_mpi","_eval_evalf","_is_comparable","is_left_unbounded","is_right_unbounded","_eval_Eq"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e741a9c6184a355","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Interval not found in source"]}}
 class Interval(Set):
     """
     Represents a real interval as a Set.
@@ -1787,16 +2183,23 @@ class Interval(Set):
     is_Interval = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, start, end), <unspecified:__new__>) over {Any | all((isinstance(a, (type(true), type(false))) for a in [left_open, right_open]))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: all((isinstance(a, (type(true), type(fals...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | all((isinstance(a, (type(true), type...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e884681818949d93           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.__new__","kind":"method","src_hash":"b8209e2bd5920fe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e884681818949d93"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.__new__","kind":"method","src_hash":"b8209e2bd5920fe7","in":{"base":"Any","pred":"all((isinstance(a, (type(true), type(false))) for a in [left_open, right_open]))"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, start, end)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"all((isinstance(a, (type(true), type(false))) for a in [left_open, right_open]))"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e884681818949d93","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["all((isinstance(a, (type(true), type(false))) for a in [left_open, right_open]))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, start, end, left_open=False, right_open=False):
 
         start = _sympify(start)
@@ -1839,16 +2242,22 @@ class Interval(Set):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start(), returns the start attribute) over Any        ║
+# ║ Path(start(), self._args[0]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a8140378f461e26           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.start","kind":"property","src_hash":"da814e4f483f8a29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"returns the start attribute","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns the start attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a8140378f461e26"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.start","kind":"property","src_hash":"da814e4f483f8a29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start()","rhs":"self._args[0]","over":{"base":"Any"},"name":"start_correct"},"guarantee":"returns self._args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a8140378f461e26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start(self):
         """
         The left end point of the interval.
@@ -1867,16 +2276,22 @@ class Interval(Set):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(end(), returns the end attribute) over Any            ║
+# ║ Path(end(), self._args[1]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ end : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b91dffd82b26733f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.end","kind":"property","src_hash":"42f29f7d9386b12d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"end()","rhs":"returns the end attribute","over":{"base":"Any"},"name":"end_correct"},"guarantee":"returns the end attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b91dffd82b26733f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.end","kind":"property","src_hash":"42f29f7d9386b12d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"end()","rhs":"self._args[1]","over":{"base":"Any"},"name":"end_correct"},"guarantee":"returns self._args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b91dffd82b26733f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def end(self):
         """
         The right end point of the interval.
@@ -1895,16 +2310,22 @@ class Interval(Set):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(left_open(), returns the left_open attribute) over Any ║
+# ║ Path(left_open(), self._args[2]) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[2]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ left_open : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8549c70a65fbd225           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.left_open","kind":"property","src_hash":"cada9ee3a458114f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left_open()","rhs":"returns the left_open attribute","over":{"base":"Any"},"name":"left_open_correct"},"guarantee":"returns the left_open attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8549c70a65fbd225"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.left_open","kind":"property","src_hash":"cada9ee3a458114f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left_open()","rhs":"self._args[2]","over":{"base":"Any"},"name":"left_open_correct"},"guarantee":"returns self._args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8549c70a65fbd225","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def left_open(self):
         """
         True if interval is left-open.
@@ -1923,16 +2344,22 @@ class Interval(Set):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(right_open(), returns the right_open attribute) over Any ║
+# ║ Path(right_open(), self._args[3]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[3]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ right_open : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f8d572c25312a95           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.right_open","kind":"property","src_hash":"6ec00c2e57059a3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"right_open()","rhs":"returns the right_open attribute","over":{"base":"Any"},"name":"right_open_correct"},"guarantee":"returns the right_open attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f8d572c25312a95"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.right_open","kind":"property","src_hash":"6ec00c2e57059a3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"right_open()","rhs":"self._args[3]","over":{"base":"Any"},"name":"right_open_correct"},"guarantee":"returns self._args[3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f8d572c25312a95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def right_open(self):
         """
         True if interval is right-open.
@@ -1951,124 +2378,172 @@ class Interval(Set):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(open(cls), return an interval including neither boundary) over Any ║
+# ║ Path(open(cls, a, b), cls(a, b, True, True)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(a, b, True, True)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ open : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 057877a6bf054f13           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.open","kind":"classmethod","src_hash":"efd9d4fee52b2942","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"open(cls)","rhs":"return an interval including neither boundary","over":{"base":"Any"},"name":"open_correct"},"guarantee":"return an interval including neither boundary","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"057877a6bf054f13"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.open","kind":"classmethod","src_hash":"efd9d4fee52b2942","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"open(cls, a, b)","rhs":"cls(a, b, True, True)","over":{"base":"Any"},"name":"open_correct"},"guarantee":"returns cls(a, b, True, True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"057877a6bf054f13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(a, b, True, True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def open(cls, a, b):
         """Return an interval including neither boundary."""
         return cls(a, b, True, True)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Lopen(cls), return an interval not including the left boundary) over Any ║
+# ║ Path(Lopen(cls, a, b), cls(a, b, True, False)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(a, b, True, False)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Lopen : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2cf74281108fffc8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.Lopen","kind":"classmethod","src_hash":"e2c1b03376217589","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Lopen(cls)","rhs":"return an interval not including the left boundary","over":{"base":"Any"},"name":"Lopen_correct"},"guarantee":"return an interval not including the left boundary","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2cf74281108fffc8"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.Lopen","kind":"classmethod","src_hash":"e2c1b03376217589","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Lopen(cls, a, b)","rhs":"cls(a, b, True, False)","over":{"base":"Any"},"name":"Lopen_correct"},"guarantee":"returns cls(a, b, True, False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2cf74281108fffc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(a, b, True, False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def Lopen(cls, a, b):
         """Return an interval not including the left boundary."""
         return cls(a, b, True, False)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Ropen(cls), return an interval not including the right boundary) over Any ║
+# ║ Path(Ropen(cls, a, b), cls(a, b, False, True)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(a, b, False, True)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Ropen : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ec6ad40d64970f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.Ropen","kind":"classmethod","src_hash":"a23c05b3fdb801f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Ropen(cls)","rhs":"return an interval not including the right boundary","over":{"base":"Any"},"name":"Ropen_correct"},"guarantee":"return an interval not including the right boundary","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ec6ad40d64970f9"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.Ropen","kind":"classmethod","src_hash":"a23c05b3fdb801f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Ropen(cls, a, b)","rhs":"cls(a, b, False, True)","over":{"base":"Any"},"name":"Ropen_correct"},"guarantee":"returns cls(a, b, False, True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ec6ad40d64970f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(a, b, False, True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def Ropen(cls, a, b):
         """Return an interval not including the right boundary."""
         return cls(a, b, False, True)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inf(), returns the _inf attribute) over Any          ║
+# ║ Path(_inf(), self.start) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.start                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inf : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21c176e5b9d99098           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._inf","kind":"property","src_hash":"4861c12885c2d239","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inf()","rhs":"returns the _inf attribute","over":{"base":"Any"},"name":"_inf_correct"},"guarantee":"returns the _inf attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21c176e5b9d99098"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._inf","kind":"property","src_hash":"4861c12885c2d239","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inf()","rhs":"self.start","over":{"base":"Any"},"name":"_inf_correct"},"guarantee":"returns self.start","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21c176e5b9d99098","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.start","pure":false,"effects":{"effect_type":"reads_state","reads":["self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _inf(self):
         return self.start
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sup(), returns the _sup attribute) over Any          ║
+# ║ Path(_sup(), self.end) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.end                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sup : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b9a6b68f3cf5bcee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._sup","kind":"property","src_hash":"161ac319be9cf6d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sup()","rhs":"returns the _sup attribute","over":{"base":"Any"},"name":"_sup_correct"},"guarantee":"returns the _sup attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9a6b68f3cf5bcee"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._sup","kind":"property","src_hash":"161ac319be9cf6d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sup()","rhs":"self.end","over":{"base":"Any"},"name":"_sup_correct"},"guarantee":"returns self.end","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b9a6b68f3cf5bcee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.end","pure":false,"effects":{"effect_type":"reads_state","reads":["self.end"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sup(self):
         return self.end
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(left(), returns the left attribute) over Any          ║
+# ║ Path(left(), self.start) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.start                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ left : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cde950c618972f32           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.left","kind":"property","src_hash":"c0e15d7d21ab4264","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left()","rhs":"returns the left attribute","over":{"base":"Any"},"name":"left_correct"},"guarantee":"returns the left attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cde950c618972f32"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.left","kind":"property","src_hash":"c0e15d7d21ab4264","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"left()","rhs":"self.start","over":{"base":"Any"},"name":"left_correct"},"guarantee":"returns self.start","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cde950c618972f32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.start","pure":false,"effects":{"effect_type":"reads_state","reads":["self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def left(self):
         return self.start
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(right(), returns the right attribute) over Any        ║
+# ║ Path(right(), self.end) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.end                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ right : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b1d0e80334fd7be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.right","kind":"property","src_hash":"744009b9dde07ae5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"right()","rhs":"returns the right attribute","over":{"base":"Any"},"name":"right_correct"},"guarantee":"returns the right attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b1d0e80334fd7be"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.right","kind":"property","src_hash":"744009b9dde07ae5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"right()","rhs":"self.end","over":{"base":"Any"},"name":"right_correct"},"guarantee":"returns self.end","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b1d0e80334fd7be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.end","pure":false,"effects":{"effect_type":"reads_state","reads":["self.end"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def right(self):
         return self.end
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_empty(), returns the is_empty attribute) over Any  ║
+# ║ Path(is_empty(), fuzzy_bool(cond)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_bool(cond)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_empty : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7561bc97349b3da9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.is_empty","kind":"property","src_hash":"fb2ae790f4925ba8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_empty()","rhs":"returns the is_empty attribute","over":{"base":"Any"},"name":"is_empty_correct"},"guarantee":"returns the is_empty attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7561bc97349b3da9"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.is_empty","kind":"property","src_hash":"fb2ae790f4925ba8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_empty()","rhs":"fuzzy_bool(cond)","over":{"base":"Any"},"name":"is_empty_correct"},"guarantee":"returns fuzzy_bool(cond)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7561bc97349b3da9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_bool(cond)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.end","self.left_open","self.right_open","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_empty(self):
         if self.left_open or self.right_open:
             cond = self.start >= self.end  # One/both bounds open
@@ -2078,30 +2553,43 @@ class Interval(Set):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_finite_set(), returns the is_finite_set attribute) over Any ║
+# ║ Path(is_finite_set(), self.measure.is_zero) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.measure.is_zero                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_finite_set : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d4b0e94e82c30565           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.is_finite_set","kind":"property","src_hash":"ded0486bbbc3e31a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_finite_set()","rhs":"returns the is_finite_set attribute","over":{"base":"Any"},"name":"is_finite_set_correct"},"guarantee":"returns the is_finite_set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4b0e94e82c30565"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.is_finite_set","kind":"property","src_hash":"ded0486bbbc3e31a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_finite_set()","rhs":"self.measure.is_zero","over":{"base":"Any"},"name":"is_finite_set_correct"},"guarantee":"returns self.measure.is_zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4b0e94e82c30565","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.measure.is_zero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.measure"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_finite_set(self):
         return self.measure.is_zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_complement(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_complement(other), <unspecified:_complement>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _complement : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _complement : {Any | hasattr(other, 'args')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed04fe136d7a52ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._complement","kind":"method","src_hash":"0cc3997bff2c60bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_complement(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_complement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Interval._complement_correct","statement":"Path(_complement(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed04fe136d7a52ca"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._complement","kind":"method","src_hash":"0cc3997bff2c60bc","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_complement(other)","rhs":"<unspecified:_complement>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"_complement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Interval._complement_correct","statement":"Path(_complement(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed04fe136d7a52ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.end","self.left_open","self.right_open","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _complement(self, other):
         if other == S.Reals:
             a = Interval(S.NegativeInfinity, self.start,
@@ -2118,32 +2606,46 @@ class Interval(Set):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_boundary(), returns the _boundary attribute) over Any ║
+# ║ Path(_boundary(), FiniteSet(*finite_points)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FiniteSet(*finite_points)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _boundary : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc7b79c724236430           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._boundary","kind":"property","src_hash":"7b786b992a68aa07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_boundary()","rhs":"returns the _boundary attribute","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns the _boundary attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc7b79c724236430"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._boundary","kind":"property","src_hash":"7b786b992a68aa07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_boundary()","rhs":"FiniteSet(*finite_points)","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns FiniteSet(*finite_points)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc7b79c724236430","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FiniteSet(*finite_points)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.end","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _boundary(self):
         finite_points = [p for p in (self.start, self.end)
                          if abs(p) != S.Infinity]
         return FiniteSet(*finite_points)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_contains(other), <unspecified:_contains>) over {Any | hasattr(other, 'is_real') and hasattr(other, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _contains : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_real')                      ║
+# ║   requires: hasattr(other, 'has')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _contains : {Any | hasattr(other, 'is_real') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46c11a722c80d6f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._contains","kind":"method","src_hash":"28356805936bbc45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Interval._contains_correct","statement":"Path(_contains(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46c11a722c80d6f0"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._contains","kind":"method","src_hash":"28356805936bbc45","in":{"base":"Any","pred":"hasattr(other, 'is_real') and hasattr(other, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"_contains(other)","rhs":"<unspecified:_contains>","over":{"base":"Any","pred":"hasattr(other, 'is_real') and hasattr(other, 'has')"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Interval._contains_correct","statement":"Path(_contains(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46c11a722c80d6f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_real')","hasattr(other, 'has')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.has","other.is_real","self.as_relational","self.end","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, other):
         if (not isinstance(other, Expr) or other is S.NaN
             or other.is_real is False or other.has(S.ComplexInfinity)):
@@ -2159,16 +2661,22 @@ class Interval(Set):
         return self.as_relational(d).subs(d, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_relational(x), rewrite an interval in terms of inequalities and logic operators) over Any ║
+# ║ Path(as_relational(x), And(left, right)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And(left, right)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_relational : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 507c695753ca5104  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7d8d09421b203bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.as_relational","kind":"method","src_hash":"9c3df40685fbc071","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(x)","rhs":"rewrite an interval in terms of inequalities and logic operators","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"rewrite an interval in terms of inequalities and logic operators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Interval.as_relational_correct","statement":"Path(as_relational(x), rewrite an interval in terms of inequalities and logic operators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"507c695753ca5104"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.as_relational","kind":"method","src_hash":"9c3df40685fbc071","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(x)","rhs":"And(left, right)","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"returns And(left, right)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Interval.as_relational_correct","statement":"Path(as_relational(x), returns And(left, right))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7d8d09421b203bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And(left, right)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.end","self.left_open","self.right_open","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_relational(self, x):
         """Rewrite an interval in terms of inequalities and logic operators."""
         x = sympify(x)
@@ -2184,74 +2692,106 @@ class Interval(Set):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_measure(), returns the _measure attribute) over Any  ║
+# ║ Path(_measure(), self.end - self.start) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.end - self.start                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _measure : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f3e4a4d95167a88           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._measure","kind":"property","src_hash":"47f721c9c257312b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_measure()","rhs":"returns the _measure attribute","over":{"base":"Any"},"name":"_measure_correct"},"guarantee":"returns the _measure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f3e4a4d95167a88"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._measure","kind":"property","src_hash":"47f721c9c257312b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_measure()","rhs":"self.end - self.start","over":{"base":"Any"},"name":"_measure_correct"},"guarantee":"returns self.end - self.start","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f3e4a4d95167a88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.end - self.start","pure":false,"effects":{"effect_type":"reads_state","reads":["self.end","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _measure(self):
         return self.end - self.start
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kind(), internal helper behaves correctly) over Any  ║
+# ║ Path(_kind(), SetKind(NumberKind)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SetKind(NumberKind)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _kind : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a0cbd3c6d8fc9bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._kind","kind":"method","src_hash":"3787701182e1ffe1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a0cbd3c6d8fc9bc"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._kind","kind":"method","src_hash":"3787701182e1ffe1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"SetKind(NumberKind)","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"returns SetKind(NumberKind)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a0cbd3c6d8fc9bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SetKind(NumberKind)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kind(self):
         return SetKind(NumberKind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_mpi(pre), id) over Any                             ║
+# ║ Path(to_mpi(prec), id) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  mpi(mpf(self.start._eval_evalf(prec)), mp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_mpi : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 950d662e5e89d771   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.to_mpi","kind":"method","src_hash":"47deb7278dc5de64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_mpi(pre)","rhs":"to_mpi produces the expected output","over":{"base":"Any"},"name":"to_mpi_correct","kind":"composition"},"guarantee":"to_mpi produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"mpi","by":"library_axiom"},{"fn":"mpf","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"950d662e5e89d771"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.to_mpi","kind":"method","src_hash":"47deb7278dc5de64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_mpi(prec)","rhs":"mpi(mpf(self.start._eval_evalf(prec)), mpf(self.end._eval_evalf(prec)))","over":{"base":"Any"},"name":"to_mpi_correct","kind":"composition"},"guarantee":"returns mpi(mpf(self.start._eval_evalf(prec)), mpf(self.end._eval_evalf(prec)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"mpi","by":"library_axiom"},{"fn":"mpf","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"950d662e5e89d771","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"mpi(mpf(self.start._eval_evalf(prec)), mpf(self.end._eval_evalf(prec)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.end","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_mpi(self, prec=53):
         return mpi(mpf(self.start._eval_evalf(prec)),
             mpf(self.end._eval_evalf(prec)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), id) over Any                        ║
+# ║ Path(_eval_evalf(prec), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Interval(self.left._evalf(prec), self.rig...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a249cdf954bd52c1   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._eval_evalf","kind":"method","src_hash":"d3203c2670dbf992","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Interval","by":"library_axiom"},{"fn":"_evalf","by":"library_axiom"},{"fn":"_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a249cdf954bd52c1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._eval_evalf","kind":"method","src_hash":"d3203c2670dbf992","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"Interval(self.left._evalf(prec), self.right._evalf(prec), left_open=self.left_open, right_open=self.right_open)","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns Interval(self.left._evalf(prec), self.right._evalf(prec), left_open=self.left_open, right_open=self.right_open)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Interval","by":"library_axiom"},{"fn":"_evalf","by":"library_axiom"},{"fn":"_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a249cdf954bd52c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Interval(self.left._evalf(prec), self.right._evalf(prec), left_open=self.left_open, right_open=self.right_open)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.left","self.left_open","self.right","self.right_open"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         return Interval(self.left._evalf(prec), self.right._evalf(prec),
             left_open=self.left_open, right_open=self.right_open)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_comparable(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_is_comparable(other), <unspecified:_is_comparable>) over {Any | hasattr(other, 'start') and hasattr(other, 'end')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_comparable : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'start')                        ║
+# ║   requires: hasattr(other, 'end')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_comparable : {Any | hasattr(other, 'start') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eda2f72407534918  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._is_comparable","kind":"method","src_hash":"07404200689c10b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_comparable(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_is_comparable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Interval._is_comparable_correct","statement":"Path(_is_comparable(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eda2f72407534918"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._is_comparable","kind":"method","src_hash":"07404200689c10b3","in":{"base":"Any","pred":"hasattr(other, 'start') and hasattr(other, 'end')"},"out":{"base":"Any"},"spec":{"lhs":"_is_comparable(other)","rhs":"<unspecified:_is_comparable>","over":{"base":"Any","pred":"hasattr(other, 'start') and hasattr(other, 'end')"},"name":"_is_comparable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Interval._is_comparable_correct","statement":"Path(_is_comparable(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eda2f72407534918","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'start')","hasattr(other, 'end')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.end","other.start","self.end","self.start"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _is_comparable(self, other):
         is_comparable = self.start.is_comparable
         is_comparable &= self.end.is_comparable
@@ -2262,47 +2802,65 @@ class Interval(Set):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_left_unbounded(), returns the is_left_unbounded attribute) over Any ║
+# ║ Path(is_left_unbounded(), self.left is S.NegativeInfinity or self.left == Float('-inf')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.left is S.NegativeInfinity or self.l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_left_unbounded : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28c144beba0a2e6b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.is_left_unbounded","kind":"property","src_hash":"752b9105b7dfceea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_left_unbounded()","rhs":"returns the is_left_unbounded attribute","over":{"base":"Any"},"name":"is_left_unbounded_correct"},"guarantee":"returns the is_left_unbounded attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28c144beba0a2e6b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.is_left_unbounded","kind":"property","src_hash":"752b9105b7dfceea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_left_unbounded()","rhs":"self.left is S.NegativeInfinity or self.left == Float('-inf')","over":{"base":"Any"},"name":"is_left_unbounded_correct"},"guarantee":"returns self.left is S.NegativeInfinity or self.left == Float('-inf')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28c144beba0a2e6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.left is S.NegativeInfinity or self.left == Float('-inf')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.left"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_left_unbounded(self):
         """Return ``True`` if the left endpoint is negative infinity. """
         return self.left is S.NegativeInfinity or self.left == Float("-inf")
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_right_unbounded(), returns the is_right_unbounded attribute) over Any ║
+# ║ Path(is_right_unbounded(), self.right is S.Infinity or self.right == Float('+inf')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.right is S.Infinity or self.right ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_right_unbounded : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57e4ea93d746e42f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.is_right_unbounded","kind":"property","src_hash":"f535b732ccba0843","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_right_unbounded()","rhs":"returns the is_right_unbounded attribute","over":{"base":"Any"},"name":"is_right_unbounded_correct"},"guarantee":"returns the is_right_unbounded attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57e4ea93d746e42f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval.is_right_unbounded","kind":"property","src_hash":"f535b732ccba0843","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_right_unbounded()","rhs":"self.right is S.Infinity or self.right == Float('+inf')","over":{"base":"Any"},"name":"is_right_unbounded_correct"},"guarantee":"returns self.right is S.Infinity or self.right == Float('+inf')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57e4ea93d746e42f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.right is S.Infinity or self.right == Float('+inf')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.right"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_right_unbounded(self):
         """Return ``True`` if the right endpoint is positive infinity. """
         return self.right is S.Infinity or self.right == Float("+inf")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_Eq(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_Eq(other), <unspecified:_eval_Eq>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_Eq : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 338a8db68b95c7df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._eval_Eq","kind":"method","src_hash":"10d4e1e301bd7f33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Eq(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_Eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Interval._eval_Eq_correct","statement":"Path(_eval_Eq(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"338a8db68b95c7df"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Interval._eval_Eq","kind":"method","src_hash":"10d4e1e301bd7f33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Eq(other)","rhs":"<unspecified:_eval_Eq>","over":{"base":"Any"},"name":"_eval_Eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Interval._eval_Eq_correct","statement":"Path(_eval_Eq(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"338a8db68b95c7df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_Eq(self, other):
         if not isinstance(other, Interval):
             if isinstance(other, FiniteSet):
@@ -2315,14 +2873,21 @@ class Interval(Set):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Union instance) preserved by Union(*args) over {Any | isinstance(i, Interval)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Union : {Any | isinstance(i, Interval)} → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ║   ensures:  isinstance(self, LatticeOp)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Union : {Any | isinstance(i, Interval)} → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd41e2f59cd9efa9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union","kind":"class","src_hash":"753a32ec2f85b259","in":{"base":"Any","pred":"isinstance(i, Interval)"},"out":{"base":"Any"},"spec":{"lhs":"Union(*args)","rhs":"correctly constructs a Union instance","over":{"base":"Any","pred":"isinstance(i, Interval)"},"name":"Union_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Union instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_empty","pred":"self.is_empty","kind":"class"},{"name":"is_finite_set","pred":"self.is_finite_set","kind":"class"},{"name":"is_iterable","pred":"self.is_iterable","kind":"class"}],"methods_preserving":["identity","zero","args","_complement","_inf","_sup","is_empty","is_finite_set","_measure","_kind","_boundary","_contains","is_subset","as_relational","is_iterable","__iter__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd41e2f59cd9efa9"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union","kind":"class","src_hash":"753a32ec2f85b259","in":{"base":"Any","pred":"isinstance(i, Interval)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set) and isinstance(self, LatticeOp)"},"spec":{"lhs":"Union(*args)","rhs":"correctly constructs a Union instance","over":{"base":"Any","pred":"isinstance(i, Interval)"},"name":"Union_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Set); isinstance(self, LatticeOp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_empty","pred":"self.is_empty","kind":"class"},{"name":"is_finite_set","pred":"self.is_finite_set","kind":"class"},{"name":"is_iterable","pred":"self.is_iterable","kind":"class"}],"methods_preserving":["identity","zero","args","_complement","_inf","_sup","is_empty","is_finite_set","_measure","_kind","_boundary","_contains","is_subset","as_relational","is_iterable","__iter__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd41e2f59cd9efa9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)","isinstance(self, LatticeOp)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Union not found in source"]}}
 class Union(Set, LatticeOp):
     """
     Represents a union of sets as a :class:`Set`.
@@ -2354,45 +2919,63 @@ class Union(Set, LatticeOp):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(identity(), returns the identity attribute) over Any  ║
+# ║ Path(identity(), S.EmptySet) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.EmptySet                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ identity : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4aacc44e9ea89b39           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.identity","kind":"property","src_hash":"49aa583d14c527b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity()","rhs":"returns the identity attribute","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"returns the identity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4aacc44e9ea89b39"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.identity","kind":"property","src_hash":"49aa583d14c527b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity()","rhs":"S.EmptySet","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"returns S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4aacc44e9ea89b39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.EmptySet","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def identity(self):
         return S.EmptySet
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zero(), returns the zero attribute) over Any          ║
+# ║ Path(zero(), S.UniversalSet) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.UniversalSet                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zero : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc4edf0b03acd84b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.zero","kind":"property","src_hash":"0162d0e38dbca1c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero()","rhs":"returns the zero attribute","over":{"base":"Any"},"name":"zero_correct"},"guarantee":"returns the zero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc4edf0b03acd84b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.zero","kind":"property","src_hash":"0162d0e38dbca1c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero()","rhs":"S.UniversalSet","over":{"base":"Any"},"name":"zero_correct"},"guarantee":"returns S.UniversalSet","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc4edf0b03acd84b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.UniversalSet","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zero(self):
         return S.UniversalSet
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d67f388e8250a2e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.__new__","kind":"method","src_hash":"258115fa9e38520e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d67f388e8250a2e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.__new__","kind":"method","src_hash":"258115fa9e38520e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d67f388e8250a2e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._new_args_filter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         evaluate = kwargs.get('evaluate', global_parameters.evaluate)
 
@@ -2412,46 +2995,64 @@ class Union(Set, LatticeOp):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(args(), returns the args attribute) over Any          ║
+# ║ Path(args(), self._args) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ args : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20d27ae29adfd79a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.args","kind":"property","src_hash":"941e041e051fc3ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"returns the args attribute","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns the args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20d27ae29adfd79a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.args","kind":"property","src_hash":"941e041e051fc3ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"self._args","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns self._args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20d27ae29adfd79a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def args(self):
         return self._args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_complement(uni), internal helper behaves correctly) over Any ║
+# ║ Path(_complement(universe), Intersection((s.complement(universe) for s in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Intersection((s.complement(universe) for ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _complement : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4eac167822bc75c1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._complement","kind":"method","src_hash":"9f1788720cad36f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_complement(uni)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_complement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4eac167822bc75c1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._complement","kind":"method","src_hash":"9f1788720cad36f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_complement(universe)","rhs":"Intersection((s.complement(universe) for s in self.args))","over":{"base":"Any"},"name":"_complement_correct"},"guarantee":"returns Intersection((s.complement(universe) for s in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4eac167822bc75c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Intersection((s.complement(universe) for s in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _complement(self, universe):
         # DeMorgan's Law
         return Intersection(s.complement(universe) for s in self.args)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inf(), returns the _inf attribute) over Any          ║
+# ║ Path(_inf(), Min(*[set.inf for set in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Min(*[set.inf for set in self.args])           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inf : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed525663dbc6d4e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._inf","kind":"property","src_hash":"f354f9e5f40687fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inf()","rhs":"returns the _inf attribute","over":{"base":"Any"},"name":"_inf_correct"},"guarantee":"returns the _inf attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed525663dbc6d4e9"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._inf","kind":"property","src_hash":"f354f9e5f40687fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inf()","rhs":"Min(*[set.inf for set in self.args])","over":{"base":"Any"},"name":"_inf_correct"},"guarantee":"returns Min(*[set.inf for set in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed525663dbc6d4e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Min(*[set.inf for set in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _inf(self):
         # We use Min so that sup is meaningful in combination with symbolic
         # interval end points.
@@ -2459,16 +3060,22 @@ class Union(Set, LatticeOp):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sup(), returns the _sup attribute) over Any          ║
+# ║ Path(_sup(), Max(*[set.sup for set in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Max(*[set.sup for set in self.args])           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sup : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1e64304e758a563           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._sup","kind":"property","src_hash":"23c3514822fa39f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sup()","rhs":"returns the _sup attribute","over":{"base":"Any"},"name":"_sup_correct"},"guarantee":"returns the _sup attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1e64304e758a563"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._sup","kind":"property","src_hash":"23c3514822fa39f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sup()","rhs":"Max(*[set.sup for set in self.args])","over":{"base":"Any"},"name":"_sup_correct"},"guarantee":"returns Max(*[set.sup for set in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1e64304e758a563","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Max(*[set.sup for set in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sup(self):
         # We use Max so that sup is meaningful in combination with symbolic
         # end points.
@@ -2476,46 +3083,64 @@ class Union(Set, LatticeOp):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_empty(), returns the is_empty attribute) over Any  ║
+# ║ Path(is_empty(), fuzzy_and((set.is_empty for set in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_and((set.is_empty for set in self.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_empty : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c78309c7b72166ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.is_empty","kind":"property","src_hash":"6218a593ad0aa613","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_empty()","rhs":"returns the is_empty attribute","over":{"base":"Any"},"name":"is_empty_correct"},"guarantee":"returns the is_empty attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c78309c7b72166ae"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.is_empty","kind":"property","src_hash":"6218a593ad0aa613","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_empty()","rhs":"fuzzy_and((set.is_empty for set in self.args))","over":{"base":"Any"},"name":"is_empty_correct"},"guarantee":"returns fuzzy_and((set.is_empty for set in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c78309c7b72166ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_and((set.is_empty for set in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_empty(self):
         return fuzzy_and(set.is_empty for set in self.args)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_finite_set(), returns the is_finite_set attribute) over Any ║
+# ║ Path(is_finite_set(), fuzzy_and((set.is_finite_set for set in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_and((set.is_finite_set for set in s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_finite_set : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d21675d8f56e004           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.is_finite_set","kind":"property","src_hash":"1854b57ba2b2dc4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_finite_set()","rhs":"returns the is_finite_set attribute","over":{"base":"Any"},"name":"is_finite_set_correct"},"guarantee":"returns the is_finite_set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d21675d8f56e004"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.is_finite_set","kind":"property","src_hash":"1854b57ba2b2dc4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_finite_set()","rhs":"fuzzy_and((set.is_finite_set for set in self.args))","over":{"base":"Any"},"name":"is_finite_set_correct"},"guarantee":"returns fuzzy_and((set.is_finite_set for set in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d21675d8f56e004","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_and((set.is_finite_set for set in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_finite_set(self):
         return fuzzy_and(set.is_finite_set for set in self.args)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_measure(), returns the _measure attribute) over Any  ║
+# ║ Path(_measure(), <unspecified:_measure>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _measure : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6c50b1fe5dac14f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._measure","kind":"property","src_hash":"5b81075634179558","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_measure()","rhs":"returns the _measure attribute","over":{"base":"Any"},"name":"_measure_correct"},"guarantee":"returns the _measure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6c50b1fe5dac14f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._measure","kind":"property","src_hash":"5b81075634179558","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_measure()","rhs":"<unspecified:_measure>","over":{"base":"Any"},"name":"_measure_correct"},"guarantee":"returns the _measure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6c50b1fe5dac14f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _measure(self):
         # Measure of a union is the sum of the measures of the sets minus
         # the sum of their pairwise intersections plus the sum of their
@@ -2560,16 +3185,26 @@ class Union(Set, LatticeOp):
         return measure
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kind(), internal helper behaves correctly) over Any  ║
+# ║ Path(_kind(), result == (SetKind() if not kinds else kinds[0] if all((i == kinds[0] for i in kinds)) else SetKind(UndefinedKind)) and result == SetKind() or result == kinds[0] or result == SetKind(UndefinedKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _kind : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (SetKind() if not kinds else ki...   ║
+# ║   ensures:  result == SetKind() or result == kinds[0]...   ║
+# ║   fiber[case_0]: not kinds => SetKind()                    ║
+# ║   fiber[case_1]: all((i == kinds[0] for i in kinds)) ...   ║
+# ║   fiber[case_2]: not (not kinds) and not (all((i == k...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _kind : Any → {Any | result satisfies: result == (Set...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | faf623f17f3f18a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3a82864a2111b78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._kind","kind":"method","src_hash":"05e89d9e3ba6c016","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Union._kind_correct","statement":"Path(_kind(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"faf623f17f3f18a5"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._kind","kind":"method","src_hash":"05e89d9e3ba6c016","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (SetKind() if not kinds else kinds[0] if all((i == kinds[0] for i in kinds)) else SetKind(UndefinedKind)) and result == SetKind() or result == kinds[0] or result == SetKind(UndefinedKind)"},"spec":{"lhs":"_kind()","rhs":"result == (SetKind() if not kinds else kinds[0] if all((i == kinds[0] for i in kinds)) else SetKind(UndefinedKind)) and result == SetKind() or result == kinds[0] or result == SetKind(UndefinedKind)","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"result == (SetKind() if not kinds else kinds[0] if all((i == kinds[0] for i in kinds)) else SetKind(UndefinedKind)); result == SetKind() or result == kinds[0] or result == SetKind(UndefinedKind); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Union._kind_correct","statement":"Path(_kind(x), result == (SetKind() if not kinds else kinds[0] if all((i == kinds[0] for i in kinds)) else SetKind(UndefinedKind)); result == SetKind() or result == kinds[0] or result == SetKind(UndefinedKind); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3a82864a2111b78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (SetKind() if not kinds else kinds[0] if all((i == kinds[0] for i in kinds)) else SetKind(UndefinedKind))","result == SetKind() or result == kinds[0] or result == SetKind(UndefinedKind)"],"fibers":[{"name":"case_0","guard":"not kinds","ensures":["result == SetKind()"],"decidability":"library","returns_expr":"SetKind()"},{"name":"case_1","guard":"all((i == kinds[0] for i in kinds))","ensures":["result == kinds[0]"],"decidability":"z3","returns_expr":"kinds[0]"},{"name":"case_2","guard":"not (not kinds) and not (all((i == kinds[0] for i in kinds)))","ensures":["result == SetKind(UndefinedKind)"],"decidability":"z3","returns_expr":"SetKind(UndefinedKind)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kind(self):
         kinds = tuple(arg.kind for arg in self.args if arg is not S.EmptySet)
         if not kinds:
@@ -2581,16 +3216,22 @@ class Union(Set, LatticeOp):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_boundary(), returns the _boundary attribute) over Any ║
+# ║ Path(_boundary(), <unspecified:_boundary>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _boundary : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f634dfa9b34e5a68           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._boundary","kind":"property","src_hash":"0b57a7559c555dc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_boundary()","rhs":"returns the _boundary attribute","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns the _boundary attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f634dfa9b34e5a68"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._boundary","kind":"property","src_hash":"0b57a7559c555dc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_boundary()","rhs":"<unspecified:_boundary>","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns the _boundary attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f634dfa9b34e5a68","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _boundary(self):
         def boundary_of_set(i):
             """ The boundary of set i minus interior of all other sets """
@@ -2602,44 +3243,62 @@ class Union(Set, LatticeOp):
         return Union(*map(boundary_of_set, range(len(self.args))))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_contains(other), Or(*[s.contains(other) for s in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Or(*[s.contains(other) for s in self.args])    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 04019a21a09fbd3a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._contains","kind":"method","src_hash":"b8ed89c0659fa812","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04019a21a09fbd3a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union._contains","kind":"method","src_hash":"b8ed89c0659fa812","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(other)","rhs":"Or(*[s.contains(other) for s in self.args])","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"returns Or(*[s.contains(other) for s in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04019a21a09fbd3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Or(*[s.contains(other) for s in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, other):
         return Or(*[s.contains(other) for s in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_subset(oth), is_subset produces the expected output) over Any ║
+# ║ Path(is_subset(other), fuzzy_and((s.is_subset(other) for s in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_and((s.is_subset(other) for s in se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_subset : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da819dd9951e6a84           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.is_subset","kind":"method","src_hash":"662987dc5a8ee9de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_subset(oth)","rhs":"is_subset produces the expected output","over":{"base":"Any"},"name":"is_subset_correct"},"guarantee":"is_subset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da819dd9951e6a84"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.is_subset","kind":"method","src_hash":"662987dc5a8ee9de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_subset(other)","rhs":"fuzzy_and((s.is_subset(other) for s in self.args))","over":{"base":"Any"},"name":"is_subset_correct"},"guarantee":"returns fuzzy_and((s.is_subset(other) for s in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da819dd9951e6a84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_and((s.is_subset(other) for s in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_subset(self, other):
         return fuzzy_and(s.is_subset(other) for s in self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_relational(sym), rewrite a union in terms of equalities and logic operators) over Any ║
+# ║ Path(as_relational(symbol), <unspecified:as_relational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_relational : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8405f3d9041e26bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.as_relational","kind":"method","src_hash":"b397149ad845da6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(sym)","rhs":"rewrite a union in terms of equalities and logic operators","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"rewrite a union in terms of equalities and logic operators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Union.as_relational_correct","statement":"Path(as_relational(x), rewrite a union in terms of equalities and logic operators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8405f3d9041e26bd"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.as_relational","kind":"method","src_hash":"b397149ad845da6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(symbol)","rhs":"<unspecified:as_relational>","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"rewrite a union in terms of equalities and logic operators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Union.as_relational_correct","statement":"Path(as_relational(x), rewrite a union in terms of equalities and logic operators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8405f3d9041e26bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_relational(self, symbol):
         """Rewrite a Union in terms of equalities and logic operators. """
         if (len(self.args) == 2 and
@@ -2659,30 +3318,42 @@ class Union(Set, LatticeOp):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_iterable(), returns the is_iterable attribute) over Any ║
+# ║ Path(is_iterable(), all((arg.is_iterable for arg in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((arg.is_iterable for arg in self.args))    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_iterable : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 75011306ddcaa081           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.is_iterable","kind":"property","src_hash":"365f419190dfcfa3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_iterable()","rhs":"returns the is_iterable attribute","over":{"base":"Any"},"name":"is_iterable_correct"},"guarantee":"returns the is_iterable attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75011306ddcaa081"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.is_iterable","kind":"property","src_hash":"365f419190dfcfa3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_iterable()","rhs":"all((arg.is_iterable for arg in self.args))","over":{"base":"Any"},"name":"is_iterable_correct"},"guarantee":"returns all((arg.is_iterable for arg in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75011306ddcaa081","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((arg.is_iterable for arg in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_iterable(self):
         return all(arg.is_iterable for arg in self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), roundrobin(*(iter(arg) for arg in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  roundrobin(*(iter(arg) for arg in self.ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 39c760dc6efb87f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.__iter__","kind":"method","src_hash":"0a1b15beefd7f404","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39c760dc6efb87f1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Union.__iter__","kind":"method","src_hash":"0a1b15beefd7f404","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"roundrobin(*(iter(arg) for arg in self.args))","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns roundrobin(*(iter(arg) for arg in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39c760dc6efb87f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"roundrobin(*(iter(arg) for arg in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return roundrobin(*(iter(arg) for arg in self.args))
 
@@ -2690,14 +3361,21 @@ class Union(Set, LatticeOp):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Intersection instance) preserved by Intersection(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Intersection : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ║   ensures:  isinstance(self, LatticeOp)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Intersection : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a68e4129b32c965e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection","kind":"class","src_hash":"5820bb0d48af0bee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Intersection(*args)","rhs":"correctly constructs a Intersection instance","over":{"base":"Any"},"name":"Intersection_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Intersection instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_iterable","pred":"self.is_iterable","kind":"class"},{"name":"is_finite_set","pred":"self.is_finite_set","kind":"class"}],"methods_preserving":["identity","zero","args","is_iterable","is_finite_set","_kind","_inf","_sup","_contains","__iter__","as_relational"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a68e4129b32c965e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection","kind":"class","src_hash":"5820bb0d48af0bee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set) and isinstance(self, LatticeOp)"},"spec":{"lhs":"Intersection(*args)","rhs":"correctly constructs a Intersection instance","over":{"base":"Any"},"name":"Intersection_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Set); isinstance(self, LatticeOp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_iterable","pred":"self.is_iterable","kind":"class"},{"name":"is_finite_set","pred":"self.is_finite_set","kind":"class"}],"methods_preserving":["identity","zero","args","is_iterable","is_finite_set","_kind","_inf","_sup","_contains","__iter__","as_relational"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a68e4129b32c965e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)","isinstance(self, LatticeOp)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Intersection not found in source"]}}
 class Intersection(Set, LatticeOp):
     """
     Represents an intersection of sets as a :class:`Set`.
@@ -2728,45 +3406,63 @@ class Intersection(Set, LatticeOp):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(identity(), returns the identity attribute) over Any  ║
+# ║ Path(identity(), S.UniversalSet) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.UniversalSet                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ identity : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 01f3c266638dd8f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.identity","kind":"property","src_hash":"95c5b85ac51368c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity()","rhs":"returns the identity attribute","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"returns the identity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01f3c266638dd8f4"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.identity","kind":"property","src_hash":"95c5b85ac51368c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity()","rhs":"S.UniversalSet","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"returns S.UniversalSet","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01f3c266638dd8f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.UniversalSet","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def identity(self):
         return S.UniversalSet
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zero(), returns the zero attribute) over Any          ║
+# ║ Path(zero(), S.EmptySet) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.EmptySet                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zero : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 555bcc6f96b655a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.zero","kind":"property","src_hash":"68c333a5c14ee92b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero()","rhs":"returns the zero attribute","over":{"base":"Any"},"name":"zero_correct"},"guarantee":"returns the zero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"555bcc6f96b655a1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.zero","kind":"property","src_hash":"68c333a5c14ee92b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero()","rhs":"S.EmptySet","over":{"base":"Any"},"name":"zero_correct"},"guarantee":"returns S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"555bcc6f96b655a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.EmptySet","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zero(self):
         return S.EmptySet
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, evaluate), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 19136b87facac722           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.__new__","kind":"method","src_hash":"f162cd94c44c5e28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19136b87facac722"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.__new__","kind":"method","src_hash":"f162cd94c44c5e28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, evaluate)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19136b87facac722","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._new_args_filter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args , evaluate=None):
         if evaluate is None:
             evaluate = global_parameters.evaluate
@@ -2787,61 +3483,89 @@ class Intersection(Set, LatticeOp):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(args(), returns the args attribute) over Any          ║
+# ║ Path(args(), self._args) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ args : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 75748b4e73e38641           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.args","kind":"property","src_hash":"941e041e051fc3ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"returns the args attribute","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns the args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75748b4e73e38641"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.args","kind":"property","src_hash":"941e041e051fc3ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"self._args","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns self._args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75748b4e73e38641","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def args(self):
         return self._args
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_iterable(), returns the is_iterable attribute) over Any ║
+# ║ Path(is_iterable(), any((arg.is_iterable for arg in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  any((arg.is_iterable for arg in self.args))    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_iterable : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 034d6a63231d4fd7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.is_iterable","kind":"property","src_hash":"2608f26336d8653c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_iterable()","rhs":"returns the is_iterable attribute","over":{"base":"Any"},"name":"is_iterable_correct"},"guarantee":"returns the is_iterable attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"034d6a63231d4fd7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.is_iterable","kind":"property","src_hash":"2608f26336d8653c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_iterable()","rhs":"any((arg.is_iterable for arg in self.args))","over":{"base":"Any"},"name":"is_iterable_correct"},"guarantee":"returns any((arg.is_iterable for arg in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"034d6a63231d4fd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"any((arg.is_iterable for arg in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_iterable(self):
         return any(arg.is_iterable for arg in self.args)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_finite_set(), returns the is_finite_set attribute) over Any ║
+# ║ Path(is_finite_set(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_finite_set : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 11f901d8ea50c99e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.is_finite_set","kind":"property","src_hash":"1cbeb968b60407f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_finite_set()","rhs":"returns the is_finite_set attribute","over":{"base":"Any"},"name":"is_finite_set_correct"},"guarantee":"returns the is_finite_set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11f901d8ea50c99e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.is_finite_set","kind":"property","src_hash":"1cbeb968b60407f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_finite_set()","rhs":"True","over":{"base":"Any"},"name":"is_finite_set_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11f901d8ea50c99e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_finite_set(self):
         if fuzzy_or(arg.is_finite_set for arg in self.args):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kind(), internal helper behaves correctly) over Any  ║
+# ║ Path(_kind(), result == (SetKind(UndefinedKind) if not kinds else kinds[0] if all((i == kinds[0] for i in kinds)) else SetKind()) and result == SetKind(UndefinedKind) or result == kinds[0] or result == SetKind()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _kind : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (SetKind(UndefinedKind) if not ...   ║
+# ║   ensures:  result == SetKind(UndefinedKind) or resul...   ║
+# ║   fiber[case_0]: not kinds => SetKind(UndefinedKind)       ║
+# ║   fiber[case_1]: all((i == kinds[0] for i in kinds)) ...   ║
+# ║   fiber[case_2]: not (not kinds) and not (all((i == k...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _kind : Any → {Any | result satisfies: result == (Set...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f38ae9dcf082c1fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0caa0c3a26fb6b5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection._kind","kind":"method","src_hash":"16df0c8556946431","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Intersection._kind_correct","statement":"Path(_kind(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f38ae9dcf082c1fa"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection._kind","kind":"method","src_hash":"16df0c8556946431","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (SetKind(UndefinedKind) if not kinds else kinds[0] if all((i == kinds[0] for i in kinds)) else SetKind()) and result == SetKind(UndefinedKind) or result == kinds[0] or result == SetKind()"},"spec":{"lhs":"_kind()","rhs":"result == (SetKind(UndefinedKind) if not kinds else kinds[0] if all((i == kinds[0] for i in kinds)) else SetKind()) and result == SetKind(UndefinedKind) or result == kinds[0] or result == SetKind()","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"result == (SetKind(UndefinedKind) if not kinds else kinds[0] if all((i == kinds[0] for i in kinds)) else SetKind()); result == SetKind(UndefinedKind) or result == kinds[0] or result == SetKind(); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Intersection._kind_correct","statement":"Path(_kind(x), result == (SetKind(UndefinedKind) if not kinds else kinds[0] if all((i == kinds[0] for i in kinds)) else SetKind()); result == SetKind(UndefinedKind) or result == kinds[0] or result == SetKind(); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0caa0c3a26fb6b5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (SetKind(UndefinedKind) if not kinds else kinds[0] if all((i == kinds[0] for i in kinds)) else SetKind())","result == SetKind(UndefinedKind) or result == kinds[0] or result == SetKind()"],"fibers":[{"name":"case_0","guard":"not kinds","ensures":["result == SetKind(UndefinedKind)"],"decidability":"library","returns_expr":"SetKind(UndefinedKind)"},{"name":"case_1","guard":"all((i == kinds[0] for i in kinds))","ensures":["result == kinds[0]"],"decidability":"z3","returns_expr":"kinds[0]"},{"name":"case_2","guard":"not (not kinds) and not (all((i == kinds[0] for i in kinds)))","ensures":["result == SetKind()"],"decidability":"z3","returns_expr":"SetKind()"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kind(self):
         kinds = tuple(arg.kind for arg in self.args if arg is not S.UniversalSet)
         if not kinds:
@@ -2853,59 +3577,85 @@ class Intersection(Set, LatticeOp):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inf(), returns the _inf attribute) over Any          ║
+# ║ Path(_inf(), <unspecified:_inf>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inf : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8bea75e7c372ef12           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection._inf","kind":"property","src_hash":"5104bc92a9e41b23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inf()","rhs":"returns the _inf attribute","over":{"base":"Any"},"name":"_inf_correct"},"guarantee":"returns the _inf attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bea75e7c372ef12"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection._inf","kind":"property","src_hash":"5104bc92a9e41b23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inf()","rhs":"<unspecified:_inf>","over":{"base":"Any"},"name":"_inf_correct"},"guarantee":"returns the _inf attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bea75e7c372ef12","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _inf(self):
         raise NotImplementedError()
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sup(), returns the _sup attribute) over Any          ║
+# ║ Path(_sup(), <unspecified:_sup>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sup : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3085f220b6a00734           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection._sup","kind":"property","src_hash":"a334482010d7b307","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sup()","rhs":"returns the _sup attribute","over":{"base":"Any"},"name":"_sup_correct"},"guarantee":"returns the _sup attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3085f220b6a00734"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection._sup","kind":"property","src_hash":"a334482010d7b307","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sup()","rhs":"<unspecified:_sup>","over":{"base":"Any"},"name":"_sup_correct"},"guarantee":"returns the _sup attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3085f220b6a00734","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sup(self):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_contains(other), And(*[set.contains(other) for set in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And(*[set.contains(other) for set in self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cab9b6cf0cbeb29c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection._contains","kind":"method","src_hash":"9115128974a1c803","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cab9b6cf0cbeb29c"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection._contains","kind":"method","src_hash":"9115128974a1c803","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(other)","rhs":"And(*[set.contains(other) for set in self.args])","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"returns And(*[set.contains(other) for set in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cab9b6cf0cbeb29c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And(*[set.contains(other) for set in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, other):
         return And(*[set.contains(other) for set in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), len(finite_candidates) == old_len_finite_candidates + 1 and len(finite_candidates) == old_len_finite_candidates and len(others) == old_len_others + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __iter__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(finite_candidates) == old_len_finite_...   ║
+# ║   ensures:  len(finite_candidates) == old_len_finite_...   ║
+# ║   ensures:  len(others) == old_len_others + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __iter__ : Any → {Any | result satisfies: len(finite_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 17ba93ca96bd08c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.__iter__","kind":"method","src_hash":"80c2aae6bfea7a01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17ba93ca96bd08c2"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.__iter__","kind":"method","src_hash":"80c2aae6bfea7a01","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(finite_candidates) == old_len_finite_candidates + 1 and len(finite_candidates) == old_len_finite_candidates and len(others) == old_len_others + 1"},"spec":{"lhs":"__iter__()","rhs":"len(finite_candidates) == old_len_finite_candidates + 1 and len(finite_candidates) == old_len_finite_candidates and len(others) == old_len_others + 1","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"len(finite_candidates) == old_len_finite_candidates + 1; len(finite_candidates) == old_len_finite_candidates; len(others) == old_len_others + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17ba93ca96bd08c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(finite_candidates) == old_len_finite_candidates + 1","len(finite_candidates) == old_len_finite_candidates","len(others) == old_len_others + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"calls_mutating":["finite_candidates.append","finite_candidates.sort","others.append"],"raises":["TypeError"],"catches":["TypeError"]},"state_contract":{"modifies":["finite_candidates.*","others.*"],"old_bindings":{"old_len_finite_candidates":"len(finite_candidates)","old_len_others":"len(others)"},"post_ensures":["len(finite_candidates) == old_len_finite_candidates + 1","len(finite_candidates) == old_len_finite_candidates","len(others) == old_len_others + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         sets_sift = sift(self.args, lambda x: x.is_iterable)
 
@@ -2946,16 +3696,22 @@ class Intersection(Set, LatticeOp):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_handle_finite_sets(arg), simplify intersection of one or more finitesets and other sets) over Any ║
+# ║ Path(_handle_finite_sets(args), <unspecified:_handle_finite_sets>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _handle_finite_sets : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edbbd8f55913259e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection._handle_finite_sets","kind":"staticmethod","src_hash":"a97c72dd676950cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_finite_sets(arg)","rhs":"simplify intersection of one or more finitesets and other sets","over":{"base":"Any"},"name":"_handle_finite_sets_correct"},"guarantee":"simplify intersection of one or more finitesets and other sets","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Intersection._handle_finite_sets_correct","statement":"Path(_handle_finite_sets(x), simplify intersection of one or more finitesets and other sets)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edbbd8f55913259e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection._handle_finite_sets","kind":"staticmethod","src_hash":"a97c72dd676950cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_finite_sets(args)","rhs":"<unspecified:_handle_finite_sets>","over":{"base":"Any"},"name":"_handle_finite_sets_correct"},"guarantee":"simplify intersection of one or more finitesets and other sets","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Intersection._handle_finite_sets_correct","statement":"Path(_handle_finite_sets(x), simplify intersection of one or more finitesets and other sets)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edbbd8f55913259e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _handle_finite_sets(args):
         '''Simplify intersection of one or more FiniteSets and other sets'''
 
@@ -3056,16 +3812,22 @@ class Intersection(Set, LatticeOp):
             return Intersection(*sets, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_relational(sym), rewrite an intersection in terms of equalities and logic operators) over Any ║
+# ║ Path(as_relational(symbol), And(*[set.as_relational(symbol) for set in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And(*[set.as_relational(symbol) for set i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_relational : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b44c3f28d9280122           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.as_relational","kind":"method","src_hash":"74ccf14c9b67fba6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(sym)","rhs":"rewrite an intersection in terms of equalities and logic operators","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"rewrite an intersection in terms of equalities and logic operators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b44c3f28d9280122"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Intersection.as_relational","kind":"method","src_hash":"74ccf14c9b67fba6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(symbol)","rhs":"And(*[set.as_relational(symbol) for set in self.args])","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"returns And(*[set.as_relational(symbol) for set in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b44c3f28d9280122","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And(*[set.as_relational(symbol) for set in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_relational(self, symbol):
         """Rewrite an Intersection in terms of equalities and logic operators"""
         return And(*[set.as_relational(symbol) for set in self.args])
@@ -3074,14 +3836,20 @@ class Intersection(Set, LatticeOp):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Complement instance) preserved by Complement(*args) over {Any | isinstance(B, Union)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Complement : {Any | isinstance(B, Union)} → Any            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Complement : {Any | isinstance(B, Union)} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3219e08fc2c04b8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement","kind":"class","src_hash":"2788f0ef4ccbc11b","in":{"base":"Any","pred":"isinstance(B, Union)"},"out":{"base":"Any"},"spec":{"lhs":"Complement(*args)","rhs":"correctly constructs a Complement instance","over":{"base":"Any","pred":"isinstance(B, Union)"},"name":"Complement_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Complement instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_iterable","pred":"self.is_iterable","kind":"class"},{"name":"is_finite_set","pred":"self.is_finite_set","kind":"class"}],"methods_preserving":["_contains","as_relational","_kind","is_iterable","is_finite_set","__iter__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3219e08fc2c04b8f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement","kind":"class","src_hash":"2788f0ef4ccbc11b","in":{"base":"Any","pred":"isinstance(B, Union)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set)"},"spec":{"lhs":"Complement(*args)","rhs":"correctly constructs a Complement instance","over":{"base":"Any","pred":"isinstance(B, Union)"},"name":"Complement_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_iterable","pred":"self.is_iterable","kind":"class"},{"name":"is_finite_set","pred":"self.is_finite_set","kind":"class"}],"methods_preserving":["_contains","as_relational","_kind","is_iterable","is_finite_set","__iter__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3219e08fc2c04b8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Complement not found in source"]}}
 class Complement(Set):
     r"""Represents the set difference or relative complement of a set with
     another set.
@@ -3110,16 +3878,22 @@ class Complement(Set):
     is_Complement = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, a, b), <unspecified:__new__>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 68841025b377932e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement.__new__","kind":"method","src_hash":"7643325de7a008bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68841025b377932e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement.__new__","kind":"method","src_hash":"7643325de7a008bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, a, b)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68841025b377932e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, a, b, evaluate=True):
         a, b = map(_sympify, (a, b))
         if evaluate:
@@ -3129,16 +3903,25 @@ class Complement(Set):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce(A, ), simplify a :class:`complement`) over Any ║
+# ║ Path(reduce(A, B), <unspecified:reduce>) over {Any | hasattr(B, '_complement') and hasattr(A, 'is_subset') and hasattr(B, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reduce : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(B, '_complement')                      ║
+# ║   requires: hasattr(A, 'is_subset')                        ║
+# ║   requires: hasattr(B, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reduce : {Any | hasattr(B, '_complement') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a39633575ff5874d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement.reduce","kind":"staticmethod","src_hash":"3c59ea5b262cc955","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce(A, )","rhs":"simplify a :class:`complement`","over":{"base":"Any"},"name":"reduce_correct"},"guarantee":"simplify a :class:`complement`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Complement.reduce_correct","statement":"Path(reduce(x), simplify a :class:`complement`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a39633575ff5874d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement.reduce","kind":"staticmethod","src_hash":"3c59ea5b262cc955","in":{"base":"Any","pred":"hasattr(B, '_complement') and hasattr(A, 'is_subset') and hasattr(B, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"reduce(A, B)","rhs":"<unspecified:reduce>","over":{"base":"Any","pred":"hasattr(B, '_complement') and hasattr(A, 'is_subset') and hasattr(B, 'args')"},"name":"reduce_correct"},"guarantee":"simplify a :class:`complement`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Complement.reduce_correct","statement":"Path(reduce(x), simplify a :class:`complement`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a39633575ff5874d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(B, '_complement')","hasattr(A, 'is_subset')","hasattr(B, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.is_subset","B._complement","B.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce(A, B):
         """
         Simplify a :class:`Complement`.
@@ -3157,32 +3940,44 @@ class Complement(Set):
             return Complement(A, B, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(oth), id) over Any                          ║
+# ║ Path(_contains(other), id) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And(A.contains(other), Not(B.contains(oth...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 77cbe154c6d12332   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement._contains","kind":"method","src_hash":"55438121c528f391","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"And","by":"library_axiom"},{"fn":"contains","by":"library_axiom"},{"fn":"Not","by":"library_axiom"},{"fn":"contains","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77cbe154c6d12332"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement._contains","kind":"method","src_hash":"55438121c528f391","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(other)","rhs":"And(A.contains(other), Not(B.contains(other)))","over":{"base":"Any"},"name":"_contains_correct","kind":"composition"},"guarantee":"returns And(A.contains(other), Not(B.contains(other)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"And","by":"library_axiom"},{"fn":"contains","by":"library_axiom"},{"fn":"Not","by":"library_axiom"},{"fn":"contains","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77cbe154c6d12332","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And(A.contains(other), Not(B.contains(other)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, other):
         A = self.args[0]
         B = self.args[1]
         return And(A.contains(other), Not(B.contains(other)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_relational(sym), rewrite a complement in terms of equalities and logic operators) over Any ║
+# ║ Path(as_relational(symbol), And(A_rel, B_rel)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And(A_rel, B_rel)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_relational : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 576ec68f3f2ae193  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54b3e288231a6377  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement.as_relational","kind":"method","src_hash":"22fdfc6afc67fe89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(sym)","rhs":"rewrite a complement in terms of equalities and logic operators","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"rewrite a complement in terms of equalities and logic operators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Complement.as_relational_correct","statement":"Path(as_relational(x), rewrite a complement in terms of equalities and logic operators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"576ec68f3f2ae193"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement.as_relational","kind":"method","src_hash":"22fdfc6afc67fe89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(symbol)","rhs":"And(A_rel, B_rel)","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"returns And(A_rel, B_rel)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.Complement.as_relational_correct","statement":"Path(as_relational(x), returns And(A_rel, B_rel))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54b3e288231a6377","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And(A_rel, B_rel)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_relational(self, symbol):
         """Rewrite a complement in terms of equalities and logic
         operators"""
@@ -3194,47 +3989,68 @@ class Complement(Set):
         return And(A_rel, B_rel)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kind(), internal helper behaves correctly) over Any  ║
+# ║ Path(_kind(), self.args[0].kind) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].kind                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _kind : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bab23654d4fb34ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement._kind","kind":"method","src_hash":"dc25bf8df78d31d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bab23654d4fb34ae"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement._kind","kind":"method","src_hash":"dc25bf8df78d31d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"self.args[0].kind","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"returns self.args[0].kind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bab23654d4fb34ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].kind","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kind(self):
         return self.args[0].kind
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_iterable(), returns the is_iterable attribute) over Any ║
+# ║ Path(is_iterable(), True) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_iterable : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a1d9720968462264           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement.is_iterable","kind":"property","src_hash":"7ba416bdc704be23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_iterable()","rhs":"returns the is_iterable attribute","over":{"base":"Any"},"name":"is_iterable_correct"},"guarantee":"returns the is_iterable attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1d9720968462264"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement.is_iterable","kind":"property","src_hash":"7ba416bdc704be23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_iterable()","rhs":"True","over":{"base":"Any"},"name":"is_iterable_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1d9720968462264","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_iterable(self):
         if self.args[0].is_iterable:
             return True
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_finite_set(), returns the is_finite_set attribute) over Any ║
+# ║ Path(is_finite_set(), result == (True if a_finite is True else False) and result == True or result == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_finite_set : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if a_finite is True else ...   ║
+# ║   ensures:  result == True or result == False              ║
+# ║   fiber[case_0]: a_finite is True => True                  ║
+# ║   fiber[case_1]: a_finite is False and B.is_finite_se...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_finite_set : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 04ace070ac6334eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement.is_finite_set","kind":"property","src_hash":"a2c44ad3da841047","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_finite_set()","rhs":"returns the is_finite_set attribute","over":{"base":"Any"},"name":"is_finite_set_correct"},"guarantee":"returns the is_finite_set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04ace070ac6334eb"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement.is_finite_set","kind":"property","src_hash":"a2c44ad3da841047","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if a_finite is True else False) and result == True or result == False"},"spec":{"lhs":"is_finite_set()","rhs":"result == (True if a_finite is True else False) and result == True or result == False","over":{"base":"Any"},"name":"is_finite_set_correct"},"guarantee":"result == (True if a_finite is True else False); result == True or result == False; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04ace070ac6334eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if a_finite is True else False)","result == True or result == False"],"fibers":[{"name":"case_0","guard":"a_finite is True","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_1","guard":"a_finite is False and B.is_finite_set","ensures":["result == False"],"decidability":"library","returns_expr":"False"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_finite_set(self):
         A, B = self.args
         a_finite = A.is_finite_set
@@ -3244,16 +4060,22 @@ class Complement(Set):
             return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), <unspecified:__iter__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 94c4544eab222d85           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement.__iter__","kind":"method","src_hash":"a8b25fa0a43e8158","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94c4544eab222d85"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.Complement.__iter__","kind":"method","src_hash":"a8b25fa0a43e8158","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"<unspecified:__iter__>","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94c4544eab222d85","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         A, B = self.args
         for a in A:
@@ -3266,14 +4088,20 @@ class Complement(Set):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(EmptySet(*args), correctly constructs a EmptySet instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ EmptySet : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ EmptySet : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0a0421b0acd6647  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet","kind":"class","src_hash":"13c00008195976e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"EmptySet(*args)","rhs":"correctly constructs a EmptySet instance","over":{"base":"Any"},"name":"EmptySet_class_invariant"},"guarantee":"correctly constructs a EmptySet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0a0421b0acd6647"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet","kind":"class","src_hash":"13c00008195976e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set)"},"spec":{"lhs":"EmptySet(*args)","rhs":"correctly constructs a EmptySet instance","over":{"base":"Any"},"name":"EmptySet_class_invariant"},"guarantee":"isinstance(self, Set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0a0421b0acd6647","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function EmptySet not found in source"]}}
 class EmptySet(Set, metaclass=Singleton):
     """
     Represents the empty set. The empty set is available as a singleton
@@ -3313,158 +4141,227 @@ class EmptySet(Set, metaclass=Singleton):
         active_deprecations_target="deprecated-is-emptyset",
     )
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_EmptySet(), returns the is_EmptySet attribute) over Any ║
+# ║ Path(is_EmptySet(), True) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_EmptySet : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c56fc6803352e2c1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet.is_EmptySet","kind":"property","src_hash":"baa17edff0eafe92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_EmptySet()","rhs":"returns the is_EmptySet attribute","over":{"base":"Any"},"name":"is_EmptySet_correct"},"guarantee":"returns the is_EmptySet attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c56fc6803352e2c1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet.is_EmptySet","kind":"property","src_hash":"baa17edff0eafe92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_EmptySet()","rhs":"True","over":{"base":"Any"},"name":"is_EmptySet_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c56fc6803352e2c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_EmptySet(self):
         return True
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_measure(), returns the _measure attribute) over Any  ║
+# ║ Path(_measure(), 0) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  0                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _measure : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb4851e2058faeb9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._measure","kind":"property","src_hash":"b94d4da13a31b267","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_measure()","rhs":"returns the _measure attribute","over":{"base":"Any"},"name":"_measure_correct"},"guarantee":"returns the _measure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb4851e2058faeb9"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._measure","kind":"property","src_hash":"b94d4da13a31b267","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_measure()","rhs":"0","over":{"base":"Any"},"name":"_measure_correct"},"guarantee":"returns 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb4851e2058faeb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _measure(self):
         return 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_contains(other), <unspecified:_contains>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a2dfa417c7a8028f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._contains","kind":"method","src_hash":"fba9f35b84063a0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2dfa417c7a8028f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._contains","kind":"method","src_hash":"fba9f35b84063a0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(other)","rhs":"<unspecified:_contains>","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2dfa417c7a8028f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, other):
         return false
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_relational(sym), as_relational produces the expected output) over Any ║
+# ║ Path(as_relational(symbol), <unspecified:as_relational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_relational : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f90f1d54fb44fd9d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet.as_relational","kind":"method","src_hash":"4d4aed931346d0c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(sym)","rhs":"as_relational produces the expected output","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"as_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f90f1d54fb44fd9d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet.as_relational","kind":"method","src_hash":"4d4aed931346d0c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(symbol)","rhs":"<unspecified:as_relational>","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"as_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f90f1d54fb44fd9d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_relational(self, symbol):
         return false
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), 0) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  0                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d130da42126e31d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet.__len__","kind":"method","src_hash":"e97d9279d3f304c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d130da42126e31d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet.__len__","kind":"method","src_hash":"e97d9279d3f304c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"0","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d130da42126e31d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), iter([])) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iter([])                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c44068352e02e594           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet.__iter__","kind":"method","src_hash":"d4e453e4851fadc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c44068352e02e594"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet.__iter__","kind":"method","src_hash":"d4e453e4851fadc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"iter([])","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns iter([])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c44068352e02e594","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iter([])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return iter([])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_powerset(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_powerset(), FiniteSet(self)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FiniteSet(self)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_powerset : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9e1c84ae38e65ae5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._eval_powerset","kind":"method","src_hash":"e3b519cab903fe33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_powerset()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_powerset_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e1c84ae38e65ae5"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._eval_powerset","kind":"method","src_hash":"e3b519cab903fe33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_powerset()","rhs":"FiniteSet(self)","over":{"base":"Any"},"name":"_eval_powerset_correct"},"guarantee":"returns FiniteSet(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9e1c84ae38e65ae5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FiniteSet(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_powerset(self):
         return FiniteSet(self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_boundary(), returns the _boundary attribute) over Any ║
+# ║ Path(_boundary(), self) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _boundary : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _boundary : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0f04e2c3b09239e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._boundary","kind":"property","src_hash":"a1515d6904fdbf04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_boundary()","rhs":"returns the _boundary attribute","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns the _boundary attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f04e2c3b09239e9"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._boundary","kind":"property","src_hash":"a1515d6904fdbf04","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"_boundary()","rhs":"self","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f04e2c3b09239e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _boundary(self):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_complement(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_complement(other), other) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _complement : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == other                                ║
+# ║   returns:  other                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _complement : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f6519f26846791c1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._complement","kind":"method","src_hash":"df4cc1485e36d9a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_complement(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_complement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6519f26846791c1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._complement","kind":"method","src_hash":"df4cc1485e36d9a7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (other)"},"spec":{"lhs":"_complement(other)","rhs":"other","over":{"base":"Any"},"name":"_complement_correct"},"guarantee":"returns other; result == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6519f26846791c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == other"],"returns_expr":"other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _complement(self, other):
         return other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kind(), internal helper behaves correctly) over Any  ║
+# ║ Path(_kind(), SetKind()) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SetKind()                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _kind : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9862626ce424cd7e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._kind","kind":"method","src_hash":"68df61e0da4a4217","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9862626ce424cd7e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._kind","kind":"method","src_hash":"68df61e0da4a4217","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"SetKind()","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"returns SetKind()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9862626ce424cd7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SetKind()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kind(self):
         return SetKind()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_symmetric_difference(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_symmetric_difference(other), other) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _symmetric_difference : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == other                                ║
+# ║   returns:  other                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _symmetric_difference : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 17a77623cc33e241           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._symmetric_difference","kind":"method","src_hash":"1cc7000ae2ffe81b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_symmetric_difference(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_symmetric_difference_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17a77623cc33e241"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.EmptySet._symmetric_difference","kind":"method","src_hash":"1cc7000ae2ffe81b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (other)"},"spec":{"lhs":"_symmetric_difference(other)","rhs":"other","over":{"base":"Any"},"name":"_symmetric_difference_correct"},"guarantee":"returns other; result == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17a77623cc33e241","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == other"],"returns_expr":"other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _symmetric_difference(self, other):
         return other
 
@@ -3472,14 +4369,20 @@ class EmptySet(Set, metaclass=Singleton):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(UniversalSet(*args), correctly constructs a UniversalSet instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ UniversalSet : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ UniversalSet : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24f6863f31bff8d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet","kind":"class","src_hash":"9e356c136c461ff7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"UniversalSet(*args)","rhs":"correctly constructs a UniversalSet instance","over":{"base":"Any"},"name":"UniversalSet_class_invariant"},"guarantee":"correctly constructs a UniversalSet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24f6863f31bff8d7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet","kind":"class","src_hash":"9e356c136c461ff7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set)"},"spec":{"lhs":"UniversalSet(*args)","rhs":"correctly constructs a UniversalSet instance","over":{"base":"Any"},"name":"UniversalSet_class_invariant"},"guarantee":"isinstance(self, Set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24f6863f31bff8d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function UniversalSet not found in source"]}}
 class UniversalSet(Set, metaclass=Singleton):
     """
     Represents the set of all things.
@@ -3511,102 +4414,145 @@ class UniversalSet(Set, metaclass=Singleton):
     is_finite_set = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_complement(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_complement(other), S.EmptySet) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.EmptySet                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _complement : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d015eb5f909656a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet._complement","kind":"method","src_hash":"0c53ecb05587f995","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_complement(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_complement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d015eb5f909656a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet._complement","kind":"method","src_hash":"0c53ecb05587f995","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_complement(other)","rhs":"S.EmptySet","over":{"base":"Any"},"name":"_complement_correct"},"guarantee":"returns S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d015eb5f909656a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.EmptySet","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _complement(self, other):
         return S.EmptySet
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_symmetric_difference(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_symmetric_difference(other), other) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _symmetric_difference : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == other                                ║
+# ║   returns:  other                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _symmetric_difference : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 555e570846f55c31           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet._symmetric_difference","kind":"method","src_hash":"1cc7000ae2ffe81b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_symmetric_difference(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_symmetric_difference_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"555e570846f55c31"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet._symmetric_difference","kind":"method","src_hash":"1cc7000ae2ffe81b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (other)"},"spec":{"lhs":"_symmetric_difference(other)","rhs":"other","over":{"base":"Any"},"name":"_symmetric_difference_correct"},"guarantee":"returns other; result == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"555e570846f55c31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == other"],"returns_expr":"other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _symmetric_difference(self, other):
         return other
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_measure(), returns the _measure attribute) over Any  ║
+# ║ Path(_measure(), S.Infinity) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Infinity                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _measure : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c39b09b5c80b56f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet._measure","kind":"property","src_hash":"89ce70feef75c7b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_measure()","rhs":"returns the _measure attribute","over":{"base":"Any"},"name":"_measure_correct"},"guarantee":"returns the _measure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c39b09b5c80b56f2"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet._measure","kind":"property","src_hash":"89ce70feef75c7b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_measure()","rhs":"S.Infinity","over":{"base":"Any"},"name":"_measure_correct"},"guarantee":"returns S.Infinity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c39b09b5c80b56f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Infinity","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _measure(self):
         return S.Infinity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kind(), internal helper behaves correctly) over Any  ║
+# ║ Path(_kind(), SetKind(UndefinedKind)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SetKind(UndefinedKind)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _kind : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9c3d1bcad145a9bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet._kind","kind":"method","src_hash":"ff3085a19e67b5d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c3d1bcad145a9bd"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet._kind","kind":"method","src_hash":"ff3085a19e67b5d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"SetKind(UndefinedKind)","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"returns SetKind(UndefinedKind)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c3d1bcad145a9bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SetKind(UndefinedKind)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kind(self):
         return SetKind(UndefinedKind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_contains(other), <unspecified:_contains>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f57d69649e80a867           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet._contains","kind":"method","src_hash":"2fac8ec55405dc02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f57d69649e80a867"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet._contains","kind":"method","src_hash":"2fac8ec55405dc02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(other)","rhs":"<unspecified:_contains>","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f57d69649e80a867","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, other):
         return true
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_relational(sym), as_relational produces the expected output) over Any ║
+# ║ Path(as_relational(symbol), <unspecified:as_relational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_relational : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0039fb9e6d66d601           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet.as_relational","kind":"method","src_hash":"bc3158fdd2370828","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(sym)","rhs":"as_relational produces the expected output","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"as_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0039fb9e6d66d601"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet.as_relational","kind":"method","src_hash":"bc3158fdd2370828","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(symbol)","rhs":"<unspecified:as_relational>","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"as_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0039fb9e6d66d601","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_relational(self, symbol):
         return true
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_boundary(), returns the _boundary attribute) over Any ║
+# ║ Path(_boundary(), S.EmptySet) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.EmptySet                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _boundary : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 993acafd235732d4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet._boundary","kind":"property","src_hash":"2893440b724f4845","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_boundary()","rhs":"returns the _boundary attribute","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns the _boundary attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"993acafd235732d4"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.UniversalSet._boundary","kind":"property","src_hash":"2893440b724f4845","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_boundary()","rhs":"S.EmptySet","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"993acafd235732d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.EmptySet","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _boundary(self):
         return S.EmptySet
 
@@ -3614,14 +4560,20 @@ class UniversalSet(Set, metaclass=Singleton):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FiniteSet(*args), correctly constructs a FiniteSet instance) over {Any | isinstance(other, Interval) and isinstance(other, (set, frozenset)) and isinstance(other, FiniteSet)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FiniteSet : {Any | isinstance(other, Interval) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb0dd47cabbd89f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet","kind":"class","src_hash":"db58bd70f6e94abb","in":{"base":"Any","pred":"isinstance(other, Interval) and isinstance(other, (set, frozenset)) and isinstance(other, FiniteSet)"},"out":{"base":"Any"},"spec":{"lhs":"FiniteSet(*args)","rhs":"correctly constructs a FiniteSet instance","over":{"base":"Any","pred":"isinstance(other, Interval) and isinstance(other, (set, frozenset)) and isinstance(other, FiniteSet)"},"name":"FiniteSet_class_invariant"},"guarantee":"correctly constructs a FiniteSet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb0dd47cabbd89f7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet","kind":"class","src_hash":"db58bd70f6e94abb","in":{"base":"Any","pred":"isinstance(other, Interval) and isinstance(other, (set, frozenset)) and isinstance(other, FiniteSet)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set)"},"spec":{"lhs":"FiniteSet(*args)","rhs":"correctly constructs a FiniteSet instance","over":{"base":"Any","pred":"isinstance(other, Interval) and isinstance(other, (set, frozenset)) and isinstance(other, FiniteSet)"},"name":"FiniteSet_class_invariant"},"guarantee":"isinstance(self, Set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb0dd47cabbd89f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function FiniteSet not found in source"]}}
 class FiniteSet(Set):
     """
     Represents a finite set of Sympy expressions.
@@ -3658,16 +4610,22 @@ class FiniteSet(Set):
     is_finite_set = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f4930ffa881497e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__new__","kind":"method","src_hash":"848b262d551f14ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f4930ffa881497e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__new__","kind":"method","src_hash":"848b262d551f14ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f4930ffa881497e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         evaluate = kwargs.get('evaluate', global_parameters.evaluate)
         if evaluate:
@@ -3697,30 +4655,44 @@ class FiniteSet(Set):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), iter(self.args)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iter(self.args)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5ceedd11c259d63e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__iter__","kind":"method","src_hash":"bc4bd12099820d6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ceedd11c259d63e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__iter__","kind":"method","src_hash":"bc4bd12099820d6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"iter(self.args)","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns iter(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ceedd11c259d63e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iter(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return iter(self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_complement(oth), id) over Any                        ║
+# ║ Path(_complement(other), id) over {Any | hasattr(other, 'contains')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _complement : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'contains')                     ║
+# ║   fiber[Interval]: isinstance(other, Interval)             ║
+# ║   fiber[FiniteSet]: isinstance(other, FiniteSet) => C...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _complement : {Any | hasattr(other, 'contains')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0ba16d37733058c2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._complement","kind":"method","src_hash":"fc7979fd4bb97aee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_complement(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_complement_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Complement","by":"library_axiom"},{"fn":"Union","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ba16d37733058c2"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._complement","kind":"method","src_hash":"fc7979fd4bb97aee","in":{"base":"Any","pred":"hasattr(other, 'contains')"},"out":{"base":"Any"},"spec":{"lhs":"_complement(other)","rhs":"<unspecified:_complement>","over":{"base":"Any","pred":"hasattr(other, 'contains')"},"name":"_complement_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Complement","by":"library_axiom"},{"fn":"Union","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ba16d37733058c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'contains')"],"fibers":[{"name":"Interval","guard":"isinstance(other, Interval)","ensures":[],"decidability":"structural"},{"name":"FiniteSet","guard":"isinstance(other, FiniteSet)","ensures":["result == Complement(FiniteSet(*not_true), unk)"],"decidability":"structural","returns_expr":"Complement(FiniteSet(*not_true), unk)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _complement(self, other):
         if isinstance(other, Interval):
             # Splitting in sub-intervals is only done for S.Reals;
@@ -3771,16 +4743,25 @@ class FiniteSet(Set):
         return Set._complement(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(oth), tests whether an element, other, is in the set) over Any ║
+# ║ Path(_contains(other), result == (S.true if other in self._args_set else Or(*[Eq(e, other, evaluate=True) for e in self.args])) and result == S.true or result == Or(*[Eq(e, other, evaluate=True) for e in self.args])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _contains : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.true if other in self._args_...   ║
+# ║   ensures:  result == S.true or result == Or(*[Eq(e, ...   ║
+# ║   fiber[case_0]: other in self._args_set => S.true         ║
+# ║   fiber[case_1]: not (other in self._args_set) => Or(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _contains : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0aba7bbd5ee4880a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 527c59b847746bfe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._contains","kind":"method","src_hash":"441ad974008aecb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(oth)","rhs":"tests whether an element, other, is in the set","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"tests whether an element, other, is in the set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.FiniteSet._contains_correct","statement":"Path(_contains(x), tests whether an element, other, is in the set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aba7bbd5ee4880a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._contains","kind":"method","src_hash":"441ad974008aecb7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.true if other in self._args_set else Or(*[Eq(e, other, evaluate=True) for e in self.args])) and result == S.true or result == Or(*[Eq(e, other, evaluate=True) for e in self.args])"},"spec":{"lhs":"_contains(other)","rhs":"result == (S.true if other in self._args_set else Or(*[Eq(e, other, evaluate=True) for e in self.args])) and result == S.true or result == Or(*[Eq(e, other, evaluate=True) for e in self.args])","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"result == (S.true if other in self._args_set else Or(*[Eq(e, other, evaluate=True) for e in self.args])); result == S.true or result == Or(*[Eq(e, other, evaluate=True) for e in self.args]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.FiniteSet._contains_correct","statement":"Path(_contains(x), result == (S.true if other in self._args_set else Or(*[Eq(e, other, evaluate=True) for e in self.args])); result == S.true or result == Or(*[Eq(e, other, evaluate=True) for e in self.args]); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"527c59b847746bfe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.true if other in self._args_set else Or(*[Eq(e, other, evaluate=True) for e in self.args]))","result == S.true or result == Or(*[Eq(e, other, evaluate=True) for e in self.args])"],"fibers":[{"name":"case_0","guard":"other in self._args_set","ensures":["result == S.true"],"decidability":"library","returns_expr":"S.true"},{"name":"case_1","guard":"not (other in self._args_set)","ensures":["result == Or(*[Eq(e, other, evaluate=True) for e in self.args])"],"decidability":"library","returns_expr":"Or(*[Eq(e, other, evaluate=True) for e in self.args])"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._args_set","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, other):
         """
         Tests whether an element, other, is in the set.
@@ -3810,90 +4791,132 @@ class FiniteSet(Set):
             return Or(*[Eq(e, other, evaluate=True) for e in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_subset(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_subset(other), fuzzy_and((other._contains(e) for e in self.args))) over {Any | hasattr(other, '_contains')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_subset : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_contains')                    ║
+# ║   returns:  fuzzy_and((other._contains(e) for e in se...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_subset : {Any | hasattr(other, '_contains')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fa04785a4c26335d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._eval_is_subset","kind":"method","src_hash":"5c590dfc748b0e09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_subset(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_subset_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa04785a4c26335d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._eval_is_subset","kind":"method","src_hash":"5c590dfc748b0e09","in":{"base":"Any","pred":"hasattr(other, '_contains')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_subset(other)","rhs":"fuzzy_and((other._contains(e) for e in self.args))","over":{"base":"Any","pred":"hasattr(other, '_contains')"},"name":"_eval_is_subset_correct"},"guarantee":"returns fuzzy_and((other._contains(e) for e in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa04785a4c26335d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_contains')"],"returns_expr":"fuzzy_and((other._contains(e) for e in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["other._contains","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_subset(self, other):
         return fuzzy_and(other._contains(e) for e in self.args)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_boundary(), returns the _boundary attribute) over Any ║
+# ║ Path(_boundary(), self) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _boundary : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _boundary : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1fe683c62b2a1ba6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._boundary","kind":"property","src_hash":"a1515d6904fdbf04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_boundary()","rhs":"returns the _boundary attribute","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns the _boundary attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fe683c62b2a1ba6"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._boundary","kind":"property","src_hash":"a1515d6904fdbf04","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"_boundary()","rhs":"self","over":{"base":"Any"},"name":"_boundary_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fe683c62b2a1ba6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _boundary(self):
         return self
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inf(), returns the _inf attribute) over Any          ║
+# ║ Path(_inf(), Min(*self)) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Min(*self)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inf : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3881a2fad5289e80           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._inf","kind":"property","src_hash":"94146bf0a022def4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inf()","rhs":"returns the _inf attribute","over":{"base":"Any"},"name":"_inf_correct"},"guarantee":"returns the _inf attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3881a2fad5289e80"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._inf","kind":"property","src_hash":"94146bf0a022def4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inf()","rhs":"Min(*self)","over":{"base":"Any"},"name":"_inf_correct"},"guarantee":"returns Min(*self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3881a2fad5289e80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Min(*self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _inf(self):
         return Min(*self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sup(), returns the _sup attribute) over Any          ║
+# ║ Path(_sup(), Max(*self)) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Max(*self)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sup : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | adba76948b3df3ec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._sup","kind":"property","src_hash":"7d84e1904fffa889","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sup()","rhs":"returns the _sup attribute","over":{"base":"Any"},"name":"_sup_correct"},"guarantee":"returns the _sup attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adba76948b3df3ec"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._sup","kind":"property","src_hash":"7d84e1904fffa889","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sup()","rhs":"Max(*self)","over":{"base":"Any"},"name":"_sup_correct"},"guarantee":"returns Max(*self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adba76948b3df3ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Max(*self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sup(self):
         return Max(*self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(measure(), returns the measure attribute) over Any    ║
+# ║ Path(measure(), 0) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  0                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ measure : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4e546b7c93e87aaa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.measure","kind":"property","src_hash":"3a6c25f8dc9fa433","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"measure()","rhs":"returns the measure attribute","over":{"base":"Any"},"name":"measure_correct"},"guarantee":"returns the measure attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e546b7c93e87aaa"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.measure","kind":"property","src_hash":"3a6c25f8dc9fa433","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"measure()","rhs":"0","over":{"base":"Any"},"name":"measure_correct"},"guarantee":"returns 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e546b7c93e87aaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def measure(self):
         return 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kind(), internal helper behaves correctly) over Any  ║
+# ║ Path(_kind(), result == (SetKind() if not self.args else SetKind(self.args[0].kind) if all((i.kind == self.args[0].kind for i in self.args)) else SetKind(UndefinedKind)) and result == SetKind() or result == SetKind(self.args[0].kind) or result == SetKind(UndefinedKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _kind : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (SetKind() if not self.args els...   ║
+# ║   ensures:  result == SetKind() or result == SetKind(...   ║
+# ║   fiber[case_0]: not self.args => SetKind()                ║
+# ║   fiber[case_1]: all((i.kind == self.args[0].kind for...   ║
+# ║   fiber[case_2]: not (not self.args) and not (all((i....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _kind : Any → {Any | result satisfies: result == (Set...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9a784f632216ea5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1dd7114cdc0456f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._kind","kind":"method","src_hash":"8f62b1cf0868b25c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.FiniteSet._kind_correct","statement":"Path(_kind(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9a784f632216ea5"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._kind","kind":"method","src_hash":"8f62b1cf0868b25c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (SetKind() if not self.args else SetKind(self.args[0].kind) if all((i.kind == self.args[0].kind for i in self.args)) else SetKind(UndefinedKind)) and result == SetKind() or result == SetKind(self.args[0].kind) or result == SetKind(UndefinedKind)"},"spec":{"lhs":"_kind()","rhs":"result == (SetKind() if not self.args else SetKind(self.args[0].kind) if all((i.kind == self.args[0].kind for i in self.args)) else SetKind(UndefinedKind)) and result == SetKind() or result == SetKind(self.args[0].kind) or result == SetKind(UndefinedKind)","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"result == (SetKind() if not self.args else SetKind(self.args[0].kind) if all((i.kind == self.args[0].kind for i in self.args)) else SetKind(UndefinedKind)); result == SetKind() or result == SetKind(self.args[0].kind) or result == SetKind(UndefinedKind); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.FiniteSet._kind_correct","statement":"Path(_kind(x), result == (SetKind() if not self.args else SetKind(self.args[0].kind) if all((i.kind == self.args[0].kind for i in self.args)) else SetKind(UndefinedKind)); result == SetKind() or result == SetKind(self.args[0].kind) or result == SetKind(UndefinedKind); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dd7114cdc0456f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (SetKind() if not self.args else SetKind(self.args[0].kind) if all((i.kind == self.args[0].kind for i in self.args)) else SetKind(UndefinedKind))","result == SetKind() or result == SetKind(self.args[0].kind) or result == SetKind(UndefinedKind)"],"fibers":[{"name":"case_0","guard":"not self.args","ensures":["result == SetKind()"],"decidability":"library","returns_expr":"SetKind()"},{"name":"case_1","guard":"all((i.kind == self.args[0].kind for i in self.args))","ensures":["result == SetKind(self.args[0].kind)"],"decidability":"z3","returns_expr":"SetKind(self.args[0].kind)"},{"name":"case_2","guard":"not (not self.args) and not (all((i.kind == self.args[0].kind for i in self.args)))","ensures":["result == SetKind(UndefinedKind)"],"decidability":"z3","returns_expr":"SetKind(UndefinedKind)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kind(self):
         if not self.args:
             return SetKind()
@@ -3903,118 +4926,166 @@ class FiniteSet(Set):
             return SetKind(UndefinedKind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self.args)) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.args)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 55edf707abb4ccc9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__len__","kind":"method","src_hash":"cb67a3b6f91a42fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55edf707abb4ccc9"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__len__","kind":"method","src_hash":"cb67a3b6f91a42fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"len(self.args)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55edf707abb4ccc9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return len(self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_relational(sym), rewrite a finiteset in terms of equalities and logic operators) over Any ║
+# ║ Path(as_relational(symbol), Or(*[Eq(symbol, elem) for elem in self])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Or(*[Eq(symbol, elem) for elem in self])       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_relational : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fbac3559fcd91a44           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.as_relational","kind":"method","src_hash":"0d624ce216357bf3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(sym)","rhs":"rewrite a finiteset in terms of equalities and logic operators","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"rewrite a finiteset in terms of equalities and logic operators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbac3559fcd91a44"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.as_relational","kind":"method","src_hash":"0d624ce216357bf3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(symbol)","rhs":"Or(*[Eq(symbol, elem) for elem in self])","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"returns Or(*[Eq(symbol, elem) for elem in self])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fbac3559fcd91a44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Or(*[Eq(symbol, elem) for elem in self])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_relational(self, symbol):
         """Rewrite a FiniteSet in terms of equalities and logic operators. """
         return Or(*[Eq(symbol, elem) for elem in self])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compare(oth), compare produces the expected output) over Any ║
+# ║ Path(compare(other), hash(self) - hash(other)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash(self) - hash(other)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compare : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee973b5e55769671           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.compare","kind":"method","src_hash":"1bbe56e03a3ed0ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compare(oth)","rhs":"compare produces the expected output","over":{"base":"Any"},"name":"compare_correct"},"guarantee":"compare produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee973b5e55769671"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.compare","kind":"method","src_hash":"1bbe56e03a3ed0ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compare(other)","rhs":"hash(self) - hash(other)","over":{"base":"Any"},"name":"compare_correct"},"guarantee":"returns hash(self) - hash(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee973b5e55769671","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash(self) - hash(other)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compare(self, other):
         return (hash(self) - hash(other))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), id) over Any                        ║
+# ║ Path(_eval_evalf(prec), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FiniteSet(*[elem.evalf(n=dps) for elem in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4fd6b156b1a5ef86   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._eval_evalf","kind":"method","src_hash":"a35dc9d47d6ba4d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"FiniteSet","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fd6b156b1a5ef86"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._eval_evalf","kind":"method","src_hash":"a35dc9d47d6ba4d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"FiniteSet(*[elem.evalf(n=dps) for elem in self])","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns FiniteSet(*[elem.evalf(n=dps) for elem in self])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"FiniteSet","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fd6b156b1a5ef86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FiniteSet(*[elem.evalf(n=dps) for elem in self])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         dps = prec_to_dps(prec)
         return FiniteSet(*[elem.evalf(n=dps) for elem in self])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), id) over Any                     ║
+# ║ Path(_eval_simplify(**kwargs), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FiniteSet(*[simplify(elem, **kwargs) for ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6178565782a5ac2a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._eval_simplify","kind":"method","src_hash":"3fa2b1ecd4341dc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"FiniteSet","by":"library_axiom"},{"fn":"simplify","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6178565782a5ac2a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._eval_simplify","kind":"method","src_hash":"3fa2b1ecd4341dc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"FiniteSet(*[simplify(elem, **kwargs) for elem in self])","over":{"base":"Any"},"name":"_eval_simplify_correct","kind":"composition"},"guarantee":"returns FiniteSet(*[simplify(elem, **kwargs) for elem in self])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"FiniteSet","by":"library_axiom"},{"fn":"simplify","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6178565782a5ac2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FiniteSet(*[simplify(elem, **kwargs) for elem in self])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         from sympy.simplify import simplify
         return FiniteSet(*[simplify(elem, **kwargs) for elem in self])
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sorted_args(), returns the _sorted_args attribute) over Any ║
+# ║ Path(_sorted_args(), self.args) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sorted_args : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 44010558da9fd5d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._sorted_args","kind":"property","src_hash":"b6b37b0e0bc6b715","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sorted_args()","rhs":"returns the _sorted_args attribute","over":{"base":"Any"},"name":"_sorted_args_correct"},"guarantee":"returns the _sorted_args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44010558da9fd5d0"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._sorted_args","kind":"property","src_hash":"b6b37b0e0bc6b715","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sorted_args()","rhs":"self.args","over":{"base":"Any"},"name":"_sorted_args_correct"},"guarantee":"returns self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44010558da9fd5d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sorted_args(self):
         return self.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_powerset(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_powerset(), self.func(*[self.func(*s) for s in subsets(self.args)])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*[self.func(*s) for s in subset...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_powerset : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 770a67f23970b1c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._eval_powerset","kind":"method","src_hash":"5b95eb0919588ec4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_powerset()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_powerset_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"770a67f23970b1c5"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._eval_powerset","kind":"method","src_hash":"5b95eb0919588ec4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_powerset()","rhs":"self.func(*[self.func(*s) for s in subsets(self.args)])","over":{"base":"Any"},"name":"_eval_powerset_correct"},"guarantee":"returns self.func(*[self.func(*s) for s in subsets(self.args)])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"770a67f23970b1c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*[self.func(*s) for s in subsets(self.args)])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_powerset(self):
         return self.func(*[self.func(*s) for s in subsets(self.args)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_PowerSet(*ar), rewriting method for a finite set to a power set) over Any ║
+# ║ Path(_eval_rewrite_as_PowerSet(*args, **kwargs), <unspecified:_eval_rewrite_as_PowerSet>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_PowerSet : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ed2985ee7bea1f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._eval_rewrite_as_PowerSet","kind":"method","src_hash":"425142a2af163556","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_PowerSet(*ar)","rhs":"rewriting method for a finite set to a power set","over":{"base":"Any"},"name":"_eval_rewrite_as_PowerSet_correct"},"guarantee":"rewriting method for a finite set to a power set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.FiniteSet._eval_rewrite_as_PowerSet_correct","statement":"Path(_eval_rewrite_as_PowerSet(x), rewriting method for a finite set to a power set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ed2985ee7bea1f1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet._eval_rewrite_as_PowerSet","kind":"method","src_hash":"425142a2af163556","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_PowerSet(*args, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_PowerSet>","over":{"base":"Any"},"name":"_eval_rewrite_as_PowerSet_correct"},"guarantee":"rewriting method for a finite set to a power set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.FiniteSet._eval_rewrite_as_PowerSet_correct","statement":"Path(_eval_rewrite_as_PowerSet(x), rewriting method for a finite set to a power set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ed2985ee7bea1f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_PowerSet(self, *args, **kwargs):
         """Rewriting method for a finite set to a power set."""
         from .powerset import PowerSet
@@ -4035,80 +5106,115 @@ class FiniteSet(Set):
         return PowerSet(biggest)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ge__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ge__(other), other.is_subset(self)) over {Any | isinstance(other, Set) and hasattr(other, 'is_subset')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __ge__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, Set)                         ║
+# ║   requires: hasattr(other, 'is_subset')                    ║
+# ║   returns:  other.is_subset(self)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __ge__ : {Any | isinstance(other, Set) and hasattr(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ebf73b3225ff92cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__ge__","kind":"method","src_hash":"c78e121cf755312e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ge___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebf73b3225ff92cc"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__ge__","kind":"method","src_hash":"c78e121cf755312e","in":{"base":"Any","pred":"isinstance(other, Set) and hasattr(other, 'is_subset')"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(other)","rhs":"other.is_subset(self)","over":{"base":"Any","pred":"isinstance(other, Set) and hasattr(other, 'is_subset')"},"name":"__ge___correct"},"guarantee":"returns other.is_subset(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebf73b3225ff92cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, Set)","hasattr(other, 'is_subset')"],"returns_expr":"other.is_subset(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_subset"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ge__(self, other):
         if not isinstance(other, Set):
             raise TypeError("Invalid comparison of set with %s" % func_name(other))
         return other.is_subset(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__gt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__gt__(other), self.is_proper_superset(other)) over {Any | isinstance(other, Set)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __gt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, Set)                         ║
+# ║   returns:  self.is_proper_superset(other)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __gt__ : {Any | isinstance(other, Set)} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e40e7a777f2a2e65           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__gt__","kind":"method","src_hash":"c8c9dc9cf1894745","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__gt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e40e7a777f2a2e65"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__gt__","kind":"method","src_hash":"c8c9dc9cf1894745","in":{"base":"Any","pred":"isinstance(other, Set)"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(other)","rhs":"self.is_proper_superset(other)","over":{"base":"Any","pred":"isinstance(other, Set)"},"name":"__gt___correct"},"guarantee":"returns self.is_proper_superset(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e40e7a777f2a2e65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, Set)"],"returns_expr":"self.is_proper_superset(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_proper_superset"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __gt__(self, other):
         if not isinstance(other, Set):
             raise TypeError("Invalid comparison of set with %s" % func_name(other))
         return self.is_proper_superset(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__le__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__le__(other), self.is_subset(other)) over {Any | isinstance(other, Set)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __le__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, Set)                         ║
+# ║   returns:  self.is_subset(other)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __le__ : {Any | isinstance(other, Set)} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5565a7f9157e6c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__le__","kind":"method","src_hash":"69b488f9978cce54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5565a7f9157e6c4"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__le__","kind":"method","src_hash":"69b488f9978cce54","in":{"base":"Any","pred":"isinstance(other, Set)"},"out":{"base":"Any"},"spec":{"lhs":"__le__(other)","rhs":"self.is_subset(other)","over":{"base":"Any","pred":"isinstance(other, Set)"},"name":"__le___correct"},"guarantee":"returns self.is_subset(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5565a7f9157e6c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, Set)"],"returns_expr":"self.is_subset(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_subset"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __le__(self, other):
         if not isinstance(other, Set):
             raise TypeError("Invalid comparison of set with %s" % func_name(other))
         return self.is_subset(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(other), self.is_proper_subset(other)) over {Any | isinstance(other, Set)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __lt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, Set)                         ║
+# ║   returns:  self.is_proper_subset(other)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __lt__ : {Any | isinstance(other, Set)} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a24fb1f1ab6e1e2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__lt__","kind":"method","src_hash":"65015cffa3d367f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a24fb1f1ab6e1e2"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__lt__","kind":"method","src_hash":"65015cffa3d367f9","in":{"base":"Any","pred":"isinstance(other, Set)"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"self.is_proper_subset(other)","over":{"base":"Any","pred":"isinstance(other, Set)"},"name":"__lt___correct"},"guarantee":"returns self.is_proper_subset(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a24fb1f1ab6e1e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, Set)"],"returns_expr":"self.is_proper_subset(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_proper_subset"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         if not isinstance(other, Set):
             raise TypeError("Invalid comparison of set with %s" % func_name(other))
         return self.is_proper_subset(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6b435b17fa5a97b9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__eq__","kind":"method","src_hash":"b95a3537bed92213","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b435b17fa5a97b9"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.FiniteSet.__eq__","kind":"method","src_hash":"b95a3537bed92213","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b435b17fa5a97b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args_set"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if isinstance(other, (set, frozenset)):
             return self._args_set == other
@@ -4123,14 +5229,20 @@ _sympy_converter[frozenset] = lambda x: FiniteSet(*x)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SymmetricDifference instance) preserved by SymmetricDifference(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SymmetricDifference : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SymmetricDifference : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a94da13a3c2ea83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SymmetricDifference","kind":"class","src_hash":"c9013ac7dc9d922a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SymmetricDifference(*args)","rhs":"correctly constructs a SymmetricDifference instance","over":{"base":"Any"},"name":"SymmetricDifference_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SymmetricDifference instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_iterable","pred":"self.is_iterable","kind":"class"}],"methods_preserving":["as_relational","is_iterable","__iter__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a94da13a3c2ea83"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SymmetricDifference","kind":"class","src_hash":"c9013ac7dc9d922a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set)"},"spec":{"lhs":"SymmetricDifference(*args)","rhs":"correctly constructs a SymmetricDifference instance","over":{"base":"Any"},"name":"SymmetricDifference_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_iterable","pred":"self.is_iterable","kind":"class"}],"methods_preserving":["as_relational","is_iterable","__iter__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a94da13a3c2ea83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SymmetricDifference not found in source"]}}
 class SymmetricDifference(Set):
     """Represents the set of elements which are in either of the
     sets and not in their intersection.
@@ -4156,16 +5268,22 @@ class SymmetricDifference(Set):
     is_SymmetricDifference = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, a, b), <unspecified:__new__>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | daaff511e77e6740           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SymmetricDifference.__new__","kind":"method","src_hash":"8795869d679b2ab0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"daaff511e77e6740"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SymmetricDifference.__new__","kind":"method","src_hash":"8795869d679b2ab0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, a, b)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"daaff511e77e6740","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, a, b, evaluate=True):
         if evaluate:
             return SymmetricDifference.reduce(a, b)
@@ -4174,16 +5292,26 @@ class SymmetricDifference(Set):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce(A, ), reduce produces the expected output) over Any ║
+# ║ Path(reduce(A, B), result == (result if result is not None else SymmetricDifference(A, B, evaluate=False)) and result == result or result == SymmetricDifference(A, B, evaluate=False)) over {Any | hasattr(B, '_symmetric_difference')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reduce : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(B, '_symmetric_difference')            ║
+# ║   ensures:  result == (result if result is not None e...   ║
+# ║   ensures:  result == result or result == SymmetricDi...   ║
+# ║   fiber[case_0]: result is not None => result              ║
+# ║   fiber[case_1]: not (result is not None) => Symmetri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reduce : {Any | hasattr(B, '_symmetric_difference')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9451d8703921fcd7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd30a4b70e69f596  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SymmetricDifference.reduce","kind":"staticmethod","src_hash":"9de15559d0ef1073","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce(A, )","rhs":"reduce produces the expected output","over":{"base":"Any"},"name":"reduce_correct"},"guarantee":"reduce produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.SymmetricDifference.reduce_correct","statement":"Path(reduce(x), reduce produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9451d8703921fcd7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SymmetricDifference.reduce","kind":"staticmethod","src_hash":"9de15559d0ef1073","in":{"base":"Any","pred":"hasattr(B, '_symmetric_difference')"},"out":{"base":"Any","pred":"result satisfies: result == (result if result is not None else SymmetricDifference(A, B, evaluate=False)) and result == result or result == SymmetricDifference(A, B, evaluate=False)"},"spec":{"lhs":"reduce(A, B)","rhs":"result == (result if result is not None else SymmetricDifference(A, B, evaluate=False)) and result == result or result == SymmetricDifference(A, B, evaluate=False)","over":{"base":"Any","pred":"hasattr(B, '_symmetric_difference')"},"name":"reduce_correct"},"guarantee":"result == (result if result is not None else SymmetricDifference(A, B, evaluate=False)); result == result or result == SymmetricDifference(A, B, evaluate=False); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.SymmetricDifference.reduce_correct","statement":"Path(reduce(x), result == (result if result is not None else SymmetricDifference(A, B, evaluate=False)); result == result or result == SymmetricDifference(A, B, evaluate=False); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd30a4b70e69f596","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(B, '_symmetric_difference')"],"ensures":["result == (result if result is not None else SymmetricDifference(A, B, evaluate=False))","result == result or result == SymmetricDifference(A, B, evaluate=False)"],"fibers":[{"name":"case_0","guard":"result is not None","ensures":["result == result"],"decidability":"library","returns_expr":"result"},{"name":"case_1","guard":"not (result is not None)","ensures":["result == SymmetricDifference(A, B, evaluate=False)"],"decidability":"library","returns_expr":"SymmetricDifference(A, B, evaluate=False)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["B._symmetric_difference"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce(A, B):
         result = B._symmetric_difference(A)
         if result is not None:
@@ -4192,16 +5320,22 @@ class SymmetricDifference(Set):
             return SymmetricDifference(A, B, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_relational(sym), rewrite a symmetric_difference in terms of equalities and logic operators) over Any ║
+# ║ Path(as_relational(symbol), Xor(A_rel, B_rel)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Xor(A_rel, B_rel)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_relational : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df340916d6cf084a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aafc215ee491628a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SymmetricDifference.as_relational","kind":"method","src_hash":"aecdfabbfbbb2199","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(sym)","rhs":"rewrite a symmetric_difference in terms of equalities and logic operators","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"rewrite a symmetric_difference in terms of equalities and logic operators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.SymmetricDifference.as_relational_correct","statement":"Path(as_relational(x), rewrite a symmetric_difference in terms of equalities and logic operators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df340916d6cf084a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SymmetricDifference.as_relational","kind":"method","src_hash":"aecdfabbfbbb2199","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(symbol)","rhs":"Xor(A_rel, B_rel)","over":{"base":"Any"},"name":"as_relational_correct"},"guarantee":"returns Xor(A_rel, B_rel)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.SymmetricDifference.as_relational_correct","statement":"Path(as_relational(x), returns Xor(A_rel, B_rel))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aafc215ee491628a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Xor(A_rel, B_rel)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_relational(self, symbol):
         """Rewrite a symmetric_difference in terms of equalities and
         logic operators"""
@@ -4214,31 +5348,43 @@ class SymmetricDifference(Set):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_iterable(), returns the is_iterable attribute) over Any ║
+# ║ Path(is_iterable(), True) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_iterable : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eb213bd425e73806           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SymmetricDifference.is_iterable","kind":"property","src_hash":"e5ccf04a3c5e558c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_iterable()","rhs":"returns the is_iterable attribute","over":{"base":"Any"},"name":"is_iterable_correct"},"guarantee":"returns the is_iterable attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb213bd425e73806"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SymmetricDifference.is_iterable","kind":"property","src_hash":"e5ccf04a3c5e558c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_iterable()","rhs":"True","over":{"base":"Any"},"name":"is_iterable_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb213bd425e73806","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_iterable(self):
         if all(arg.is_iterable for arg in self.args):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), <unspecified:__iter__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8bd24e7b1b239250           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SymmetricDifference.__iter__","kind":"method","src_hash":"cec77cb2069b13ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bd24e7b1b239250"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SymmetricDifference.__iter__","kind":"method","src_hash":"cec77cb2069b13ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"<unspecified:__iter__>","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bd24e7b1b239250","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
 
         args = self.args
@@ -4258,14 +5404,20 @@ class SymmetricDifference(Set):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DisjointUnion instance) preserved by DisjointUnion(*args) over {Any | isinstance(set_i, Set) and isinstance(element, Tuple)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DisjointUnion : {Any | isinstance(set_i, Set) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7c81b73a316bbe3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion","kind":"class","src_hash":"d6052b9c8dc1b0f4","in":{"base":"Any","pred":"isinstance(set_i, Set) and isinstance(element, Tuple)"},"out":{"base":"Any"},"spec":{"lhs":"DisjointUnion(*args)","rhs":"correctly constructs a DisjointUnion instance","over":{"base":"Any","pred":"isinstance(set_i, Set) and isinstance(element, Tuple)"},"name":"DisjointUnion_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DisjointUnion instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_empty","pred":"self.is_empty","kind":"class"},{"name":"is_finite_set","pred":"self.is_finite_set","kind":"class"},{"name":"is_iterable","pred":"self.is_iterable","kind":"class"}],"methods_preserving":["sets","is_empty","is_finite_set","is_iterable","_eval_rewrite_as_Union","_contains","_kind","__iter__","__len__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7c81b73a316bbe3"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion","kind":"class","src_hash":"d6052b9c8dc1b0f4","in":{"base":"Any","pred":"isinstance(set_i, Set) and isinstance(element, Tuple)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set)"},"spec":{"lhs":"DisjointUnion(*args)","rhs":"correctly constructs a DisjointUnion instance","over":{"base":"Any","pred":"isinstance(set_i, Set) and isinstance(element, Tuple)"},"name":"DisjointUnion_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_empty","pred":"self.is_empty","kind":"class"},{"name":"is_finite_set","pred":"self.is_finite_set","kind":"class"},{"name":"is_iterable","pred":"self.is_iterable","kind":"class"}],"methods_preserving":["sets","is_empty","is_finite_set","is_iterable","_eval_rewrite_as_Union","_contains","_kind","__iter__","__len__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7c81b73a316bbe3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function DisjointUnion not found in source"]}}
 class DisjointUnion(Set):
     """ Represents the disjoint union (also known as the external disjoint union)
     of a finite number of sets.
@@ -4293,16 +5445,22 @@ class DisjointUnion(Set):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *sets), len(dj_collection) == old_len_dj_collection + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(dj_collection) == old_len_dj_collecti...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : Any → {Any | result satisfies: len(dj_colle...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba0ca6e54322a44b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.__new__","kind":"method","src_hash":"744edccd6d122095","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba0ca6e54322a44b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.__new__","kind":"method","src_hash":"744edccd6d122095","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(dj_collection) == old_len_dj_collection + 1"},"spec":{"lhs":"__new__(cls, *sets)","rhs":"len(dj_collection) == old_len_dj_collection + 1","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"len(dj_collection) == old_len_dj_collection + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba0ca6e54322a44b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(dj_collection) == old_len_dj_collection + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["dj_collection.append"],"raises":["TypeError"]},"state_contract":{"modifies":["dj_collection.*"],"old_bindings":{"old_len_dj_collection":"len(dj_collection)"},"post_ensures":["len(dj_collection) == old_len_dj_collection + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *sets):
         dj_collection = []
         for set_i in sets:
@@ -4316,62 +5474,86 @@ class DisjointUnion(Set):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sets(), returns the sets attribute) over Any          ║
+# ║ Path(sets(), self.args) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sets : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8fdd3da8e44a67f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.sets","kind":"property","src_hash":"88eed58c9f6c9ba3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sets()","rhs":"returns the sets attribute","over":{"base":"Any"},"name":"sets_correct"},"guarantee":"returns the sets attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fdd3da8e44a67f5"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.sets","kind":"property","src_hash":"88eed58c9f6c9ba3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sets()","rhs":"self.args","over":{"base":"Any"},"name":"sets_correct"},"guarantee":"returns self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8fdd3da8e44a67f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sets(self):
         return self.args
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_empty(), returns the is_empty attribute) over Any  ║
+# ║ Path(is_empty(), fuzzy_and((s.is_empty for s in self.sets))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_and((s.is_empty for s in self.sets))     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_empty : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 83d9c22d5eaa6d9f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.is_empty","kind":"property","src_hash":"cee7ae834e16de11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_empty()","rhs":"returns the is_empty attribute","over":{"base":"Any"},"name":"is_empty_correct"},"guarantee":"returns the is_empty attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83d9c22d5eaa6d9f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.is_empty","kind":"property","src_hash":"cee7ae834e16de11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_empty()","rhs":"fuzzy_and((s.is_empty for s in self.sets))","over":{"base":"Any"},"name":"is_empty_correct"},"guarantee":"returns fuzzy_and((s.is_empty for s in self.sets))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83d9c22d5eaa6d9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_and((s.is_empty for s in self.sets))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_empty(self):
         return fuzzy_and(s.is_empty for s in self.sets)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_finite_set(), returns the is_finite_set attribute) over Any ║
+# ║ Path(is_finite_set(), fuzzy_or([self.is_empty, all_finite])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_or([self.is_empty, all_finite])          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_finite_set : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a597d1f7bf2fc4fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.is_finite_set","kind":"property","src_hash":"a1c813a06a5d9f65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_finite_set()","rhs":"returns the is_finite_set attribute","over":{"base":"Any"},"name":"is_finite_set_correct"},"guarantee":"returns the is_finite_set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a597d1f7bf2fc4fa"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.is_finite_set","kind":"property","src_hash":"a1c813a06a5d9f65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_finite_set()","rhs":"fuzzy_or([self.is_empty, all_finite])","over":{"base":"Any"},"name":"is_finite_set_correct"},"guarantee":"returns fuzzy_or([self.is_empty, all_finite])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a597d1f7bf2fc4fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_or([self.is_empty, all_finite])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_empty","self.sets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_finite_set(self):
         all_finite = fuzzy_and(s.is_finite_set for s in self.sets)
         return fuzzy_or([self.is_empty, all_finite])
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_iterable(), returns the is_iterable attribute) over Any ║
+# ║ Path(is_iterable(), <unspecified:is_iterable>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_iterable : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ea41eb75632e9d2a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.is_iterable","kind":"property","src_hash":"2e68a24104061804","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_iterable()","rhs":"returns the is_iterable attribute","over":{"base":"Any"},"name":"is_iterable_correct"},"guarantee":"returns the is_iterable attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea41eb75632e9d2a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.is_iterable","kind":"property","src_hash":"2e68a24104061804","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_iterable()","rhs":"<unspecified:is_iterable>","over":{"base":"Any"},"name":"is_iterable_correct"},"guarantee":"returns the is_iterable attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea41eb75632e9d2a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_empty","self.sets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_iterable(self):
         if self.is_empty:
             return False
@@ -4382,16 +5564,22 @@ class DisjointUnion(Set):
         return iter_flag
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Union(*se), rewrites the disjoint union as the union of (``set`` x {``i``}) where ``set`` is the element in ``sets`` at index = ``i``) over Any ║
+# ║ Path(_eval_rewrite_as_Union(*sets, **kwargs), <unspecified:_eval_rewrite_as_Union>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Union : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7368b63f0b83c13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion._eval_rewrite_as_Union","kind":"method","src_hash":"fee23767eb55749e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Union(*se)","rhs":"rewrites the disjoint union as the union of (``set`` x {``i``}) where ``set`` is the element in ``sets`` at index = ``i``","over":{"base":"Any"},"name":"_eval_rewrite_as_Union_correct"},"guarantee":"rewrites the disjoint union as the union of (``set`` x {``i``}) where ``set`` is the element in ``sets`` at index = ``i``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.DisjointUnion._eval_rewrite_as_Union_correct","statement":"Path(_eval_rewrite_as_Union(x), rewrites the disjoint union as the union of (``set`` x {``i``}) where ``set`` is the element in ``sets`` at index = ``i``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7368b63f0b83c13"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion._eval_rewrite_as_Union","kind":"method","src_hash":"fee23767eb55749e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Union(*sets, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_Union>","over":{"base":"Any"},"name":"_eval_rewrite_as_Union_correct"},"guarantee":"rewrites the disjoint union as the union of (``set`` x {``i``}) where ``set`` is the element in ``sets`` at index = ``i``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.DisjointUnion._eval_rewrite_as_Union_correct","statement":"Path(_eval_rewrite_as_Union(x), rewrites the disjoint union as the union of (``set`` x {``i``}) where ``set`` is the element in ``sets`` at index = ``i``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7368b63f0b83c13","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Union(self, *sets, **kwargs):
         """
         Rewrites the disjoint union as the union of (``set`` x {``i``})
@@ -4408,16 +5596,22 @@ class DisjointUnion(Set):
         return dj_union
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(ele), ``in`` operator for disjointunion) over Any ║
+# ║ Path(_contains(element), <unspecified:_contains>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5b81c9f5177743c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion._contains","kind":"method","src_hash":"0992c9854a325385","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(ele)","rhs":"``in`` operator for disjointunion","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"``in`` operator for disjointunion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.DisjointUnion._contains_correct","statement":"Path(_contains(x), ``in`` operator for disjointunion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5b81c9f5177743c"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion._contains","kind":"method","src_hash":"0992c9854a325385","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(element)","rhs":"<unspecified:_contains>","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"``in`` operator for disjointunion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.DisjointUnion._contains_correct","statement":"Path(_contains(x), ``in`` operator for disjointunion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5b81c9f5177743c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, element):
         """
         ``in`` operator for DisjointUnion
@@ -4450,16 +5644,26 @@ class DisjointUnion(Set):
         return self.sets[element[1]]._contains(element[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kind(), internal helper behaves correctly) over Any  ║
+# ║ Path(_kind(), result == (SetKind() if not self.args else self.args[0].kind if all((i.kind == self.args[0].kind for i in self.args)) else SetKind(UndefinedKind)) and result == SetKind() or result == self.args[0].kind or result == SetKind(UndefinedKind)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _kind : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (SetKind() if not self.args els...   ║
+# ║   ensures:  result == SetKind() or result == self.arg...   ║
+# ║   fiber[case_0]: not self.args => SetKind()                ║
+# ║   fiber[case_1]: all((i.kind == self.args[0].kind for...   ║
+# ║   fiber[case_2]: not (not self.args) and not (all((i....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _kind : Any → {Any | result satisfies: result == (Set...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d50690f3af341fee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d141cfef5b6091dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion._kind","kind":"method","src_hash":"d0fd14cf3e2c7043","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.DisjointUnion._kind_correct","statement":"Path(_kind(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d50690f3af341fee"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion._kind","kind":"method","src_hash":"d0fd14cf3e2c7043","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (SetKind() if not self.args else self.args[0].kind if all((i.kind == self.args[0].kind for i in self.args)) else SetKind(UndefinedKind)) and result == SetKind() or result == self.args[0].kind or result == SetKind(UndefinedKind)"},"spec":{"lhs":"_kind()","rhs":"result == (SetKind() if not self.args else self.args[0].kind if all((i.kind == self.args[0].kind for i in self.args)) else SetKind(UndefinedKind)) and result == SetKind() or result == self.args[0].kind or result == SetKind(UndefinedKind)","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"result == (SetKind() if not self.args else self.args[0].kind if all((i.kind == self.args[0].kind for i in self.args)) else SetKind(UndefinedKind)); result == SetKind() or result == self.args[0].kind or result == SetKind(UndefinedKind); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.DisjointUnion._kind_correct","statement":"Path(_kind(x), result == (SetKind() if not self.args else self.args[0].kind if all((i.kind == self.args[0].kind for i in self.args)) else SetKind(UndefinedKind)); result == SetKind() or result == self.args[0].kind or result == SetKind(UndefinedKind); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d141cfef5b6091dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (SetKind() if not self.args else self.args[0].kind if all((i.kind == self.args[0].kind for i in self.args)) else SetKind(UndefinedKind))","result == SetKind() or result == self.args[0].kind or result == SetKind(UndefinedKind)"],"fibers":[{"name":"case_0","guard":"not self.args","ensures":["result == SetKind()"],"decidability":"library","returns_expr":"SetKind()"},{"name":"case_1","guard":"all((i.kind == self.args[0].kind for i in self.args))","ensures":["result == self.args[0].kind"],"decidability":"z3","returns_expr":"self.args[0].kind"},{"name":"case_2","guard":"not (not self.args) and not (all((i.kind == self.args[0].kind for i in self.args)))","ensures":["result == SetKind(UndefinedKind)"],"decidability":"z3","returns_expr":"SetKind(UndefinedKind)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kind(self):
         if not self.args:
             return SetKind()
@@ -4469,16 +5673,24 @@ class DisjointUnion(Set):
             return SetKind(UndefinedKind)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), len(iters) == old_len_iters + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __iter__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(iters) == old_len_iters + 1                ║
+# ║   fiber[case_0]: self.is_iterable => iter(roundrobin(...   ║
+# ║   fiber[case_1]: not (self.is_iterable)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __iter__ : Any → {Any | result satisfies: len(iters) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8aa12d5c703d33b0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.__iter__","kind":"method","src_hash":"67f5dffd2910cd00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8aa12d5c703d33b0"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.__iter__","kind":"method","src_hash":"67f5dffd2910cd00","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(iters) == old_len_iters + 1"},"spec":{"lhs":"__iter__()","rhs":"len(iters) == old_len_iters + 1","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"len(iters) == old_len_iters + 1; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8aa12d5c703d33b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(iters) == old_len_iters + 1"],"fibers":[{"name":"case_0","guard":"self.is_iterable","ensures":["result == iter(roundrobin(*iters))"],"decidability":"library","returns_expr":"iter(roundrobin(*iters))"},{"name":"case_1","guard":"not (self.is_iterable)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_iterable","self.sets"],"calls_mutating":["iters.append"],"raises":["ValueError"]},"state_contract":{"modifies":["iters.*"],"old_bindings":{"old_len_iters":"len(iters)"},"post_ensures":["len(iters) == old_len_iters + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         if self.is_iterable:
 
@@ -4491,16 +5703,23 @@ class DisjointUnion(Set):
             raise ValueError("'%s' is not iterable." % self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), <unspecified:__len__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: self.is_finite_set => size                ║
+# ║   fiber[case_1]: not (self.is_finite_set)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6dea3de81ac32897           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.__len__","kind":"method","src_hash":"ab894dba1b6cf56b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6dea3de81ac32897"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.DisjointUnion.__len__","kind":"method","src_hash":"ab894dba1b6cf56b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"<unspecified:__len__>","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6dea3de81ac32897","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"self.is_finite_set","ensures":["result == size"],"decidability":"library","returns_expr":"size"},{"name":"case_1","guard":"not (self.is_finite_set)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_finite_set","self.sets"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         """
         Returns the length of the disjoint union, i.e., the number of elements in the set.
@@ -4532,7 +5751,11 @@ class DisjointUnion(Set):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(imageset(*ar), return an image of the set under transformation ``f``) over {Any | isinstance(f, Lambda) and isinstance(args[0], (Symbol, tuple)) and isinstance(r, ImageSet)} ║
+# ║ Path(imageset(*args), # HINT: imageset may be idempotent: imageset(imageset(x)) == imageset(x)) over {Any | isinstance(f, Lambda) and isinstance(args[0], (Symbol, tuple)) and isinstance(r, ImageSet) and not (len(args) < 2)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(args) < 2)                            ║
+# ║   ensures:  # HINT: imageset may be idempotent: image...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ imageset : {Any | isinstance(f, Lambda) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4547,9 +5770,12 @@ class DisjointUnion(Set):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?4 ✗7 VCs | 11.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 14fe289d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.imageset","kind":"function","src_hash":"0e4e5ced328f935e","in":{"base":"Any","pred":"isinstance(f, Lambda) and isinstance(args[0], (Symbol, tuple)) and isinstance(r, ImageSet)"},"out":{"base":"Any"},"spec":{"lhs":"imageset(*ar)","rhs":"return an image of the set under transformation ``f``","over":{"base":"Any","pred":"isinstance(f, Lambda) and isinstance(args[0], (Symbol, tuple)) and isinstance(r, ImageSet)"},"name":"imageset_correct"},"guarantee":"return an image of the set under transformation ``f``","fibers":[{"name":"Lambda","pred":"isinstance(f, Lambda)","path":{"lhs":"imageset(x)","rhs":"return an image of the set under transformation ``f``","over":{"base":"Lambda","pred":"isinstance(f, Lambda)"},"name":"imageset_Lambda_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.imageset_Lambda_correct","statement":"imageset satisfies spec on Lambda inputs"},"trust":"LIBRARY"},{"name":"(Symbol","pred":"isinstance(args[0], (Symbol, tuple))","path":{"lhs":"imageset(x)","rhs":"return an image of the set under transformation ``f``","over":{"base":"(Symbol","pred":"isinstance(args[0], (Symbol, tuple))"},"name":"imageset_(Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.imageset_(Symbol_correct","statement":"imageset satisfies spec on (Symbol inputs"},"trust":"LIBRARY"},{"name":"ImageSet","pred":"isinstance(r, ImageSet)","path":{"lhs":"imageset(x)","rhs":"return an image of the set under transformation ``f``","over":{"base":"ImageSet","pred":"isinstance(r, ImageSet)"},"name":"imageset_ImageSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.imageset_ImageSet_correct","statement":"imageset satisfies spec on ImageSet inputs"},"trust":"LIBRARY"},{"name":"Set","pred":"isinstance(s, Set)","path":{"lhs":"imageset(x)","rhs":"return an image of the set under transformation ``f``","over":{"base":"Set","pred":"isinstance(s, Set)"},"name":"imageset_Set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.imageset_Set_correct","statement":"imageset satisfies spec on Set inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"14fe289de450dfbf"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.imageset","kind":"function","src_hash":"0e4e5ced328f935e","in":{"base":"Any","pred":"isinstance(f, Lambda) and isinstance(args[0], (Symbol, tuple)) and isinstance(r, ImageSet) and not (len(args) < 2)"},"out":{"base":"Any","pred":"result satisfies: # HINT: imageset may be idempotent: imageset(imageset(x)) == imageset(x)"},"spec":{"lhs":"imageset(*args)","rhs":"# HINT: imageset may be idempotent: imageset(imageset(x)) == imageset(x)","over":{"base":"Any","pred":"isinstance(f, Lambda) and isinstance(args[0], (Symbol, tuple)) and isinstance(r, ImageSet) and not (len(args) < 2)"},"name":"imageset_correct"},"guarantee":"# HINT: imageset may be idempotent: imageset(imageset(x)) == imageset(x)","fibers":[{"name":"Lambda","pred":"isinstance(f, Lambda)","path":{"lhs":"imageset(x)","rhs":"# HINT: imageset may be idempotent: imageset(imageset(x)) == imageset(x)","over":{"base":"Lambda","pred":"isinstance(f, Lambda)"},"name":"imageset_Lambda_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.imageset_Lambda_correct","statement":"imageset satisfies spec on Lambda inputs"},"trust":"LIBRARY"},{"name":"(Symbol","pred":"isinstance(args[0], (Symbol, tuple))","path":{"lhs":"imageset(x)","rhs":"# HINT: imageset may be idempotent: imageset(imageset(x)) == imageset(x)","over":{"base":"(Symbol","pred":"isinstance(args[0], (Symbol, tuple))"},"name":"imageset_(Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.imageset_(Symbol_correct","statement":"imageset satisfies spec on (Symbol inputs"},"trust":"LIBRARY"},{"name":"ImageSet","pred":"isinstance(r, ImageSet)","path":{"lhs":"imageset(x)","rhs":"# HINT: imageset may be idempotent: imageset(imageset(x)) == imageset(x)","over":{"base":"ImageSet","pred":"isinstance(r, ImageSet)"},"name":"imageset_ImageSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.imageset_ImageSet_correct","statement":"imageset satisfies spec on ImageSet inputs"},"trust":"LIBRARY"},{"name":"Set","pred":"isinstance(s, Set)","path":{"lhs":"imageset(x)","rhs":"# HINT: imageset may be idempotent: imageset(imageset(x)) == imageset(x)","over":{"base":"Set","pred":"isinstance(s, Set)"},"name":"imageset_Set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.imageset_Set_correct","statement":"imageset satisfies spec on Set inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"14fe289de450dfbf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(args) < 2)"],"ensures":["# HINT: imageset may be idempotent: imageset(imageset(x)) == imageset(x)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError","TypeError","ValueError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":1,"n_assumed":4,"n_failed":7,"trust_level":"LIBRARY_ASSUMED","compile_ms":11.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']","Poor branch-fiber coverage: 0% (branches={'any((not isinstance(s, Set) for s in set_list))', 'len(set_list) == 1', 'isinstance(set, ImageSet)', 'isinstance(f, Lambda)', 'len(args) < 2', 'r is None', 'f.variables[0] == f.expr', 'len(nargs) != 1', 'N == 1', 'isinstance(r, ImageSet)', 'len(set.lamda.variables) == 1 and len(f.variables) == 1', 'isinstance(args[0], (Symbol, tuple)) and len(args) > 2'}, fibers={'Lambda', 'Set', '(Symbol', 'ImageSet'})"]}}
 def imageset(*args):
     r"""
     Return an image of the set under transformation ``f``.
@@ -4679,16 +5905,22 @@ def imageset(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_function_invertible_in_set(fun), checks whether function ``func`` is invertible when the domain is restricted to set ``setv``) over Any ║
+# ║ Path(is_function_invertible_in_set(func, setv), <unspecified:is_function_invertible_in_set>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_function_invertible_in_set : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de0099a3da51d350  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.is_function_invertible_in_set","kind":"function","src_hash":"74828259588917a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_function_invertible_in_set(fun)","rhs":"checks whether function ``func`` is invertible when the domain is restricted to set ``setv``","over":{"base":"Any"},"name":"is_function_invertible_in_set_correct"},"guarantee":"checks whether function ``func`` is invertible when the domain is restricted to set ``setv``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.is_function_invertible_in_set_correct","statement":"Path(is_function_invertible_in_set(x), checks whether function ``func`` is invertible when the domain is restricted to set ``setv``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de0099a3da51d350"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.is_function_invertible_in_set","kind":"function","src_hash":"74828259588917a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_function_invertible_in_set(func, setv)","rhs":"<unspecified:is_function_invertible_in_set>","over":{"base":"Any"},"name":"is_function_invertible_in_set_correct"},"guarantee":"checks whether function ``func`` is invertible when the domain is restricted to set ``setv``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.is_function_invertible_in_set_correct","statement":"Path(is_function_invertible_in_set(x), checks whether function ``func`` is invertible when the domain is restricted to set ``setv``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de0099a3da51d350","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_function_invertible_in_set(func, setv):
     """
     Checks whether function ``func`` is invertible when the domain is
@@ -4708,7 +5940,12 @@ def is_function_invertible_in_set(func, setv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify_union(arg), simplify a :class:`union` using known rules) over {Any | isinstance(arg, Set) and isinstance(new_set, set)} ║
+# ║ Path(simplify_union(args), len(args) == old_len_args - 1) over {Any | isinstance(arg, Set) and isinstance(new_set, set) and hasattr(args, 'pop') and len(args) > 0} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(args, 'pop')                           ║
+# ║   requires: len(args) > 0                                  ║
+# ║   ensures:  len(args) == old_len_args - 1                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simplify_union : {Any | isinstance(arg, Set) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4721,9 +5958,12 @@ def is_function_invertible_in_set(func, setv):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7cd1787c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.simplify_union","kind":"function","src_hash":"3302f589410fc815","in":{"base":"Any","pred":"isinstance(arg, Set) and isinstance(new_set, set)"},"out":{"base":"Any"},"spec":{"lhs":"simplify_union(arg)","rhs":"simplify a :class:`union` using known rules","over":{"base":"Any","pred":"isinstance(arg, Set) and isinstance(new_set, set)"},"name":"simplify_union_correct"},"guarantee":"simplify a :class:`union` using known rules","fibers":[{"name":"Set","pred":"isinstance(arg, Set)","path":{"lhs":"simplify_union(x)","rhs":"simplify a :class:`union` using known rules","over":{"base":"Set","pred":"isinstance(arg, Set)"},"name":"simplify_union_Set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.simplify_union_Set_correct","statement":"simplify_union satisfies spec on Set inputs"},"trust":"LIBRARY"},{"name":"set","pred":"isinstance(new_set, set)","path":{"lhs":"simplify_union(x)","rhs":"simplify a :class:`union` using known rules","over":{"base":"set","pred":"isinstance(new_set, set)"},"name":"simplify_union_set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.simplify_union_set_correct","statement":"simplify_union satisfies spec on set inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7cd1787cfba09d92"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.simplify_union","kind":"function","src_hash":"3302f589410fc815","in":{"base":"Any","pred":"isinstance(arg, Set) and isinstance(new_set, set) and hasattr(args, 'pop') and len(args) > 0"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args - 1"},"spec":{"lhs":"simplify_union(args)","rhs":"len(args) == old_len_args - 1","over":{"base":"Any","pred":"isinstance(arg, Set) and isinstance(new_set, set) and hasattr(args, 'pop') and len(args) > 0"},"name":"simplify_union_correct"},"guarantee":"len(args) == old_len_args - 1","fibers":[{"name":"Set","pred":"isinstance(arg, Set)","path":{"lhs":"simplify_union(x)","rhs":"len(args) == old_len_args - 1","over":{"base":"Set","pred":"isinstance(arg, Set)"},"name":"simplify_union_Set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.simplify_union_Set_correct","statement":"simplify_union satisfies spec on Set inputs"},"trust":"LIBRARY"},{"name":"set","pred":"isinstance(new_set, set)","path":{"lhs":"simplify_union(x)","rhs":"len(args) == old_len_args - 1","over":{"base":"set","pred":"isinstance(new_set, set)"},"name":"simplify_union_set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.simplify_union_set_correct","statement":"simplify_union satisfies spec on set inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7cd1787cfba09d92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(args, 'pop')","len(args) > 0"],"ensures":["len(args) == old_len_args - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["args.pop"],"calls_mutating":["args.pop"],"raises":["TypeError"]},"state_contract":{"modifies":["args.*"],"old_bindings":{"old_len_args":"len(args)"},"pre_requires":["len(args) > 0"],"post_ensures":["len(args) == old_len_args - 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(arg, Set)', 'len(args) == 1', 'len(finite_sets) > 1', 'not isinstance(new_set, set)'}, fibers={'Set', 'set'})"]}}
 def simplify_union(args):
     """
     Simplify a :class:`Union` using known rules.
@@ -4781,9 +6021,15 @@ def simplify_union(args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify_intersection(arg), simplify an intersection using known rules) over {Any | isinstance(arg, Set)} ║
+# ║ Path(simplify_intersection(args), len(args) == old_len_args - 1) over {Any | isinstance(arg, Set) and hasattr(args, 'pop') and hasattr(args, 'remove') and len(args) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ simplify_intersection : {Any | isinstance(arg, Set)} ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(args, 'pop')                           ║
+# ║   requires: hasattr(args, 'remove')                        ║
+# ║   requires: len(args) > 0                                  ║
+# ║   ensures:  len(args) == old_len_args - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ simplify_intersection : {Any | isinstance(arg, Set) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Set: {isinstance(arg, Set)} → library_axiom              ║
@@ -4793,9 +6039,12 @@ def simplify_union(args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b5803a48...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.simplify_intersection","kind":"function","src_hash":"0188dac9dad06d10","in":{"base":"Any","pred":"isinstance(arg, Set)"},"out":{"base":"Any"},"spec":{"lhs":"simplify_intersection(arg)","rhs":"simplify an intersection using known rules","over":{"base":"Any","pred":"isinstance(arg, Set)"},"name":"simplify_intersection_correct"},"guarantee":"simplify an intersection using known rules","fibers":[{"name":"Set","pred":"isinstance(arg, Set)","path":{"lhs":"simplify_intersection(x)","rhs":"simplify an intersection using known rules","over":{"base":"Set","pred":"isinstance(arg, Set)"},"name":"simplify_intersection_Set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.simplify_intersection_Set_correct","statement":"simplify_intersection satisfies spec on Set inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b5803a48cfeda162"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.simplify_intersection","kind":"function","src_hash":"0188dac9dad06d10","in":{"base":"Any","pred":"isinstance(arg, Set) and hasattr(args, 'pop') and hasattr(args, 'remove') and len(args) > 0"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args - 1"},"spec":{"lhs":"simplify_intersection(args)","rhs":"len(args) == old_len_args - 1","over":{"base":"Any","pred":"isinstance(arg, Set) and hasattr(args, 'pop') and hasattr(args, 'remove') and len(args) > 0"},"name":"simplify_intersection_correct"},"guarantee":"len(args) == old_len_args - 1","fibers":[{"name":"Set","pred":"isinstance(arg, Set)","path":{"lhs":"simplify_intersection(x)","rhs":"len(args) == old_len_args - 1","over":{"base":"Set","pred":"isinstance(arg, Set)"},"name":"simplify_intersection_Set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.simplify_intersection_Set_correct","statement":"simplify_intersection satisfies spec on Set inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b5803a48cfeda162","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(args, 'pop')","hasattr(args, 'remove')","len(args) > 0"],"ensures":["len(args) == old_len_args - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["args.pop","args.remove"],"calls_mutating":["args.pop","args.remove"],"raises":["TypeError"]},"state_contract":{"modifies":["args.*"],"old_bindings":{"old_len_args":"len(args)"},"pre_requires":["len(args) > 0"],"post_ensures":["len(args) == old_len_args - 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(arg, Set)', 'len(other_sets) > 0', 'len(args) == 1'}, fibers={'Set'})"]}}
 def simplify_intersection(args):
     """
     Simplify an intersection using known rules.
@@ -4875,7 +6124,14 @@ def simplify_intersection(args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_handle_finite_sets(op,), internal helper behaves correctly) over {Any | isinstance(x, FiniteSet)} ║
+# ║ Path(_handle_finite_sets(op, x, y), result == (FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]]) if len(fs_args) == 2 else Union(*sets) if len(fs_args) == 1 else None) and result == FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]]) or result == Union(*sets) or result == None) over {Any | isinstance(x, FiniteSet)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (FiniteSet(*[op(i, j) for i in ...   ║
+# ║   ensures:  result == FiniteSet(*[op(i, j) for i in f...   ║
+# ║   fiber[case_0]: len(fs_args) == 2 => FiniteSet(*[op(...   ║
+# ║   fiber[case_1]: len(fs_args) == 1 => Union(*sets)         ║
+# ║   fiber[case_2]: not (len(fs_args) == 2) and not (len...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _handle_finite_sets : {Any | isinstance(x, FiniteSet)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4887,9 +6143,12 @@ def simplify_intersection(args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f0c12f90...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets._handle_finite_sets","kind":"function","src_hash":"fdd2d2f348a1052d","in":{"base":"Any","pred":"isinstance(x, FiniteSet)"},"out":{"base":"Any"},"spec":{"lhs":"_handle_finite_sets(op,)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(x, FiniteSet)"},"name":"_handle_finite_sets_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"FiniteSet","pred":"isinstance(x, FiniteSet)","path":{"lhs":"_handle_finite_sets(x)","rhs":"internal helper behaves correctly","over":{"base":"FiniteSet","pred":"isinstance(x, FiniteSet)"},"name":"_handle_finite_sets_FiniteSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets._handle_finite_sets_FiniteSet_correct","statement":"_handle_finite_sets satisfies spec on FiniteSet inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f0c12f90b8afdc75"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets._handle_finite_sets","kind":"function","src_hash":"fdd2d2f348a1052d","in":{"base":"Any","pred":"isinstance(x, FiniteSet)"},"out":{"base":"Any","pred":"result satisfies: result == (FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]]) if len(fs_args) == 2 else Union(*sets) if len(fs_args) == 1 else None) and result == FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]]) or result == Union(*sets) or result == None"},"spec":{"lhs":"_handle_finite_sets(op, x, y)","rhs":"result == (FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]]) if len(fs_args) == 2 else Union(*sets) if len(fs_args) == 1 else None) and result == FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]]) or result == Union(*sets) or result == None","over":{"base":"Any","pred":"isinstance(x, FiniteSet)"},"name":"_handle_finite_sets_correct"},"guarantee":"result == (FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]]) if len(fs_args) == 2 else Union(*sets) if len(fs_args) == 1 else None); result == FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]]) or result == Union(*sets) or result == None; 3-fiber decomposition","fibers":[{"name":"FiniteSet","pred":"isinstance(x, FiniteSet)","path":{"lhs":"_handle_finite_sets(x)","rhs":"result == (FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]]) if len(fs_args) == 2 else Union(*sets) if len(fs_args) == 1 else None); result == FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]]) or result == Union(*sets) or result == None; 3-fiber decomposition","over":{"base":"FiniteSet","pred":"isinstance(x, FiniteSet)"},"name":"_handle_finite_sets_FiniteSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets._handle_finite_sets_FiniteSet_correct","statement":"_handle_finite_sets satisfies spec on FiniteSet inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f0c12f90b8afdc75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]]) if len(fs_args) == 2 else Union(*sets) if len(fs_args) == 1 else None)","result == FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]]) or result == Union(*sets) or result == None"],"fibers":[{"name":"case_0","guard":"len(fs_args) == 2","ensures":["result == FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]])"],"decidability":"z3","returns_expr":"FiniteSet(*[op(i, j) for i in fs_args[0] for j in fs_args[1]])"},{"name":"case_1","guard":"len(fs_args) == 1","ensures":["result == Union(*sets)"],"decidability":"z3","returns_expr":"Union(*sets)"},{"name":"case_2","guard":"not (len(fs_args) == 2) and not (len(fs_args) == 1)","ensures":["result == None"],"decidability":"z3","returns_expr":"None"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(fs_args) == 1', 'len(fs_args) == 2'}, fibers={'FiniteSet'})"]}}
 def _handle_finite_sets(op, x, y, commutative):
     # Handle finite sets:
     fs_args, other = sift([x, y], lambda x: isinstance(x, FiniteSet), binary=True)
@@ -4903,7 +6162,10 @@ def _handle_finite_sets(op, x, y, commutative):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_operation(op,), internal helper behaves correctly) over {Any | isinstance(x, Set)} ║
+# ║ Path(_apply_operation(op, x, y), <unspecified:_apply_operation>) over {Any | isinstance(x, Set)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_operation : {Any | isinstance(x, Set)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4915,9 +6177,12 @@ def _handle_finite_sets(op, x, y, commutative):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 29d40fd5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets._apply_operation","kind":"function","src_hash":"66e142b2eb12975c","in":{"base":"Any","pred":"isinstance(x, Set)"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operation(op,)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(x, Set)"},"name":"_apply_operation_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Set","pred":"isinstance(x, Set)","path":{"lhs":"_apply_operation(x)","rhs":"internal helper behaves correctly","over":{"base":"Set","pred":"isinstance(x, Set)"},"name":"_apply_operation_Set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets._apply_operation_Set_correct","statement":"_apply_operation satisfies spec on Set inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"29d40fd5827bd806"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets._apply_operation","kind":"function","src_hash":"66e142b2eb12975c","in":{"base":"Any","pred":"isinstance(x, Set)"},"out":{"base":"Any"},"spec":{"lhs":"_apply_operation(op, x, y)","rhs":"<unspecified:_apply_operation>","over":{"base":"Any","pred":"isinstance(x, Set)"},"name":"_apply_operation_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Set","pred":"isinstance(x, Set)","path":{"lhs":"_apply_operation(x)","rhs":"internal helper behaves correctly","over":{"base":"Set","pred":"isinstance(x, Set)"},"name":"_apply_operation_Set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets._apply_operation_Set_correct","statement":"_apply_operation satisfies spec on Set inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"29d40fd5827bd806","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, Set) and (not isinstance(y, Set))', 'not isinstance(x, Set) and isinstance(y, Set)', 'out is None and commutative', 'out is None'}, fibers={'Set'})"]}}
 def _apply_operation(op, x, y, commutative):
     from .fancysets import ImageSet
     d = Dummy('d')
@@ -4940,96 +6205,132 @@ def _apply_operation(op, x, y, commutative):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_add(x, ), set_add produces the expected output) over Any ║
+# ║ Path(set_add(x, y), _apply_operation(_set_add, x, y, commutative=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _apply_operation(_set_add, x, y, commutat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_add : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e824e2852d8821d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3993976db3c7ca7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.set_add","kind":"function","src_hash":"da8312e2487820c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_add(x, )","rhs":"set_add produces the expected output","over":{"base":"Any"},"name":"set_add_correct"},"guarantee":"set_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.set_add_correct","statement":"Path(set_add(x), set_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e824e2852d8821d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.set_add","kind":"function","src_hash":"da8312e2487820c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_add(x, y)","rhs":"_apply_operation(_set_add, x, y, commutative=True)","over":{"base":"Any"},"name":"set_add_correct"},"guarantee":"returns _apply_operation(_set_add, x, y, commutative=True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.set_add_correct","statement":"Path(set_add(x), returns _apply_operation(_set_add, x, y, commutative=True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3993976db3c7ca7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_apply_operation(_set_add, x, y, commutative=True)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def set_add(x, y):
     from sympy.sets.handlers.add import _set_add
     return _apply_operation(_set_add, x, y, commutative=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_sub(x, ), set_sub produces the expected output) over Any ║
+# ║ Path(set_sub(x, y), _apply_operation(_set_sub, x, y, commutative=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _apply_operation(_set_sub, x, y, commutat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_sub : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5f9b8602c031ad8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 077befbb4f0bcbfd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.set_sub","kind":"function","src_hash":"cd7100893af02963","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_sub(x, )","rhs":"set_sub produces the expected output","over":{"base":"Any"},"name":"set_sub_correct"},"guarantee":"set_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.set_sub_correct","statement":"Path(set_sub(x), set_sub produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5f9b8602c031ad8"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.set_sub","kind":"function","src_hash":"cd7100893af02963","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_sub(x, y)","rhs":"_apply_operation(_set_sub, x, y, commutative=False)","over":{"base":"Any"},"name":"set_sub_correct"},"guarantee":"returns _apply_operation(_set_sub, x, y, commutative=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.set_sub_correct","statement":"Path(set_sub(x), returns _apply_operation(_set_sub, x, y, commutative=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"077befbb4f0bcbfd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_apply_operation(_set_sub, x, y, commutative=False)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def set_sub(x, y):
     from sympy.sets.handlers.add import _set_sub
     return _apply_operation(_set_sub, x, y, commutative=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_mul(x, ), set_mul produces the expected output) over Any ║
+# ║ Path(set_mul(x, y), _apply_operation(_set_mul, x, y, commutative=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _apply_operation(_set_mul, x, y, commutat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_mul : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c7fa34e242448c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bae173802b945955  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.set_mul","kind":"function","src_hash":"1d53074b6b8c2948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_mul(x, )","rhs":"set_mul produces the expected output","over":{"base":"Any"},"name":"set_mul_correct"},"guarantee":"set_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.set_mul_correct","statement":"Path(set_mul(x), set_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c7fa34e242448c0"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.set_mul","kind":"function","src_hash":"1d53074b6b8c2948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_mul(x, y)","rhs":"_apply_operation(_set_mul, x, y, commutative=True)","over":{"base":"Any"},"name":"set_mul_correct"},"guarantee":"returns _apply_operation(_set_mul, x, y, commutative=True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.set_mul_correct","statement":"Path(set_mul(x), returns _apply_operation(_set_mul, x, y, commutative=True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bae173802b945955","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_apply_operation(_set_mul, x, y, commutative=True)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def set_mul(x, y):
     from sympy.sets.handlers.mul import _set_mul
     return _apply_operation(_set_mul, x, y, commutative=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_div(x, ), set_div produces the expected output) over Any ║
+# ║ Path(set_div(x, y), _apply_operation(_set_div, x, y, commutative=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _apply_operation(_set_div, x, y, commutat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_div : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9527d045d35fe7d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3957481bb0fb9c42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.set_div","kind":"function","src_hash":"bba1bf0fe157ae1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_div(x, )","rhs":"set_div produces the expected output","over":{"base":"Any"},"name":"set_div_correct"},"guarantee":"set_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.set_div_correct","statement":"Path(set_div(x), set_div produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9527d045d35fe7d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.set_div","kind":"function","src_hash":"bba1bf0fe157ae1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_div(x, y)","rhs":"_apply_operation(_set_div, x, y, commutative=False)","over":{"base":"Any"},"name":"set_div_correct"},"guarantee":"returns _apply_operation(_set_div, x, y, commutative=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.set_div_correct","statement":"Path(set_div(x), returns _apply_operation(_set_div, x, y, commutative=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3957481bb0fb9c42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_apply_operation(_set_div, x, y, commutative=False)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def set_div(x, y):
     from sympy.sets.handlers.mul import _set_div
     return _apply_operation(_set_div, x, y, commutative=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_pow(x, ), set_pow produces the expected output) over Any ║
+# ║ Path(set_pow(x, y), _apply_operation(_set_pow, x, y, commutative=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _apply_operation(_set_pow, x, y, commutat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_pow : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6b0a7c86b5d850a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f414faef85c7a4a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.set_pow","kind":"function","src_hash":"0600f9cb9e88f1a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_pow(x, )","rhs":"set_pow produces the expected output","over":{"base":"Any"},"name":"set_pow_correct"},"guarantee":"set_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.set_pow_correct","statement":"Path(set_pow(x), set_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6b0a7c86b5d850a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.set_pow","kind":"function","src_hash":"0600f9cb9e88f1a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_pow(x, y)","rhs":"_apply_operation(_set_pow, x, y, commutative=False)","over":{"base":"Any"},"name":"set_pow_correct"},"guarantee":"returns _apply_operation(_set_pow, x, y, commutative=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.set_pow_correct","statement":"Path(set_pow(x), returns _apply_operation(_set_pow, x, y, commutative=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f414faef85c7a4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_apply_operation(_set_pow, x, y, commutative=False)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def set_pow(x, y):
     from sympy.sets.handlers.power import _set_pow
     return _apply_operation(_set_pow, x, y, commutative=False)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_function(f, ), set_function produces the expected output) over Any ║
+# ║ Path(set_function(f, x), _set_function(f, x)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _set_function(f, x)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_function : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75b3bfbae0fd0946  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b1af70356b48170  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.set_function","kind":"function","src_hash":"e197603063727dcf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_function(f, )","rhs":"set_function produces the expected output","over":{"base":"Any"},"name":"set_function_correct"},"guarantee":"set_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.set_function_correct","statement":"Path(set_function(x), set_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75b3bfbae0fd0946"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.set_function","kind":"function","src_hash":"e197603063727dcf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_function(f, x)","rhs":"_set_function(f, x)","over":{"base":"Any"},"name":"set_function_correct"},"guarantee":"returns _set_function(f, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.sets.set_function_correct","statement":"Path(set_function(x), returns _set_function(f, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b1af70356b48170","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_set_function(f, x)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def set_function(f, x):
     from sympy.sets.handlers.functions import _set_function
     return _set_function(f, x)
@@ -5038,14 +6339,20 @@ def set_function(f, x):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SetKind(*args), correctly constructs a SetKind instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SetKind : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Kind)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SetKind : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28a66c37812d9aa5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SetKind","kind":"class","src_hash":"4ced30162bb11f81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SetKind(*args)","rhs":"correctly constructs a SetKind instance","over":{"base":"Any"},"name":"SetKind_class_invariant"},"guarantee":"correctly constructs a SetKind instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28a66c37812d9aa5"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SetKind","kind":"class","src_hash":"4ced30162bb11f81","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Kind)"},"spec":{"lhs":"SetKind(*args)","rhs":"correctly constructs a SetKind instance","over":{"base":"Any"},"name":"SetKind_class_invariant"},"guarantee":"isinstance(self, Kind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28a66c37812d9aa5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Kind)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function SetKind not found in source"]}}
 class SetKind(Kind):
     """
     SetKind is kind for all Sets
@@ -5083,32 +6390,47 @@ class SetKind(Kind):
     sympy.core.containers.TupleKind
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, element_kind), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b4b388b96d816220           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SetKind.__new__","kind":"method","src_hash":"f1329f3dd43eb685","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4b388b96d816220"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SetKind.__new__","kind":"method","src_hash":"f1329f3dd43eb685","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, element_kind)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4b388b96d816220","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, element_kind=None):
         obj = super().__new__(cls, element_kind)
         obj.element_kind = element_kind
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), result == ('SetKind()' if not self.element_kind else 'SetKind(%s)' % self.element_kind) and result == 'SetKind()' or result == 'SetKind(%s)' % self.element_kind) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __repr__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('SetKind()' if not self.elemen...   ║
+# ║   ensures:  result == 'SetKind()' or result == 'SetKi...   ║
+# ║   fiber[case_0]: not self.element_kind => 'SetKind()'      ║
+# ║   fiber[case_1]: not (not self.element_kind) => 'SetK...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __repr__ : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b98842717a4a0419           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SetKind.__repr__","kind":"method","src_hash":"dedd89bcd2916271","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b98842717a4a0419"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.sets.SetKind.__repr__","kind":"method","src_hash":"dedd89bcd2916271","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('SetKind()' if not self.element_kind else 'SetKind(%s)' % self.element_kind) and result == 'SetKind()' or result == 'SetKind(%s)' % self.element_kind"},"spec":{"lhs":"__repr__()","rhs":"result == ('SetKind()' if not self.element_kind else 'SetKind(%s)' % self.element_kind) and result == 'SetKind()' or result == 'SetKind(%s)' % self.element_kind","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"result == ('SetKind()' if not self.element_kind else 'SetKind(%s)' % self.element_kind); result == 'SetKind()' or result == 'SetKind(%s)' % self.element_kind; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b98842717a4a0419","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('SetKind()' if not self.element_kind else 'SetKind(%s)' % self.element_kind)","result == 'SetKind()' or result == 'SetKind(%s)' % self.element_kind"],"fibers":[{"name":"case_0","guard":"not self.element_kind","ensures":["result == 'SetKind()'"],"decidability":"library","returns_expr":"'SetKind()'"},{"name":"case_1","guard":"not (not self.element_kind)","ensures":["result == 'SetKind(%s)' % self.element_kind"],"decidability":"library","returns_expr":"'SetKind(%s)' % self.element_kind"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.element_kind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         if not self.element_kind:
             return "SetKind()"

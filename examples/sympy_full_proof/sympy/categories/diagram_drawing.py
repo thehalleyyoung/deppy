@@ -116,14 +116,19 @@ __doctest_requires__ = {('preview_diagram',): 'pyglet'}
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a _GrowableGrid instance) preserved by _GrowableGrid(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _GrowableGrid : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6fc7a8cacfce74b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid","kind":"class","src_hash":"b1346474800d4a8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_GrowableGrid(*args)","rhs":"correctly constructs a _GrowableGrid instance","over":{"base":"Any"},"name":"_GrowableGrid_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a _GrowableGrid instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_width') and hasattr(self, '_height') and hasattr(self, '_array')","kind":"class","induction":"structural on _width, _height, _array"}],"methods_preserving":["__init__","width","height","__getitem__","__setitem__","append_row","append_column","prepend_row","prepend_column"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6fc7a8cacfce74b"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid","kind":"class","src_hash":"b1346474800d4a8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_GrowableGrid(*args)","rhs":"correctly constructs a _GrowableGrid instance","over":{"base":"Any"},"name":"_GrowableGrid_class_invariant","kind":"invariant"},"guarantee":"preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_width') and hasattr(self, '_height') and hasattr(self, '_array')","kind":"class","induction":"structural on _width, _height, _array"}],"methods_preserving":["__init__","width","height","__getitem__","__setitem__","append_row","append_column","prepend_row","prepend_column"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6fc7a8cacfce74b","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_width')","hasattr(self, '_height')","hasattr(self, '_array')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function _GrowableGrid not found in source"]}}
 class _GrowableGrid:
     """
     Holds a growable grid of objects.
@@ -140,16 +145,23 @@ class _GrowableGrid:
     functionality with little attempt at optimisation.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(wid), initializes the instance correctly) over Any ║
+# ║ Path(__init__(width, height), self._width == width and self._height == height) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self._width == width                           ║
+# ║   ensures:  self._height == height                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self._width...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d72626c998aadcaf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.__init__","kind":"method","src_hash":"d9cfe58846e9ceab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(wid)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d72626c998aadcaf"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.__init__","kind":"method","src_hash":"d9cfe58846e9ceab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self._width == width and self._height == height"},"spec":{"lhs":"__init__(width, height)","rhs":"self._width == width and self._height == height","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self._width == width; self._height == height","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d72626c998aadcaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self._width == width","self._height == height"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, width, height):
         self._width = width
         self._height = height
@@ -158,45 +170,63 @@ class _GrowableGrid:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(width(), returns the width attribute) over Any        ║
+# ║ Path(width(), self._width) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._width                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ width : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8e9a6b457756af2a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.width","kind":"property","src_hash":"db61f6f07874935f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"width()","rhs":"returns the width attribute","over":{"base":"Any"},"name":"width_correct"},"guarantee":"returns the width attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e9a6b457756af2a"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.width","kind":"property","src_hash":"db61f6f07874935f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"width()","rhs":"self._width","over":{"base":"Any"},"name":"width_correct"},"guarantee":"returns self._width","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e9a6b457756af2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._width","pure":false,"effects":{"effect_type":"reads_state","reads":["self._width"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def width(self):
         return self._width
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(height(), returns the height attribute) over Any      ║
+# ║ Path(height(), self._height) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._height                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ height : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 725433606105696a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.height","kind":"property","src_hash":"b6948e754afe13bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"height()","rhs":"returns the height attribute","over":{"base":"Any"},"name":"height_correct"},"guarantee":"returns the height attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"725433606105696a"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.height","kind":"property","src_hash":"b6948e754afe13bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"height()","rhs":"self._height","over":{"base":"Any"},"name":"height_correct"},"guarantee":"returns self._height","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"725433606105696a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._height","pure":false,"effects":{"effect_type":"reads_state","reads":["self._height"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def height(self):
         return self._height
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(i_j), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(i_j), self._array[i][j]) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._array[i][j]                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2f5d3a8c9196dee8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.__getitem__","kind":"method","src_hash":"5d9071a4da5c0dd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i_j)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2f5d3a8c9196dee8"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.__getitem__","kind":"method","src_hash":"5d9071a4da5c0dd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i_j)","rhs":"self._array[i][j]","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self._array[i][j]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2f5d3a8c9196dee8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._array[i][j]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._array"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, i_j):
         """
         Returns the element located at in the i-th line and j-th
@@ -206,16 +236,22 @@ class _GrowableGrid:
         return self._array[i][j]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setitem__(i_j), correctly sets the element at the given index) over Any ║
+# ║ Path(__setitem__(i_j, newvalue), <unspecified:__setitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __setitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b79e24142361526           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.__setitem__","kind":"method","src_hash":"d9d32b8a3a646886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(i_j)","rhs":"correctly sets the element at the given index","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b79e24142361526"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.__setitem__","kind":"method","src_hash":"d9d32b8a3a646886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(i_j, newvalue)","rhs":"<unspecified:__setitem__>","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b79e24142361526","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._array"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setitem__(self, i_j, newvalue):
         """
         Sets the element located at in the i-th line and j-th
@@ -225,16 +261,22 @@ class _GrowableGrid:
         self._array[i][j] = newvalue
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(append_row(), appends an empty row to the grid) over Any ║
+# ║ Path(append_row(), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ append_row : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ append_row : Any → {Any | result satisfies: len(self)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83acb1e25700da21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab465d7902f695d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.append_row","kind":"method","src_hash":"300efbee99195ca0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"append_row()","rhs":"appends an empty row to the grid","over":{"base":"Any"},"name":"append_row_correct"},"guarantee":"appends an empty row to the grid","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing._GrowableGrid.append_row_correct","statement":"Path(append_row(x), appends an empty row to the grid)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83acb1e25700da21"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.append_row","kind":"method","src_hash":"300efbee99195ca0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"append_row()","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"append_row_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing._GrowableGrid.append_row_correct","statement":"Path(append_row(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab465d7902f695d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._array","self._width"],"writes":["self._height"],"calls_mutating":["self._array.append"]},"state_contract":{"modifies":["self.*","self._height"],"old_bindings":{"old_self__height":"self._height","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def append_row(self):
         """
         Appends an empty row to the grid.
@@ -243,16 +285,22 @@ class _GrowableGrid:
         self._array.append([None for j in range(self._width)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(append_column(), appends an empty column to the grid) over Any ║
+# ║ Path(append_column(), <unspecified:append_column>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ append_column : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73f905048c9d1c6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.append_column","kind":"method","src_hash":"af5fe21ee917afa6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"append_column()","rhs":"appends an empty column to the grid","over":{"base":"Any"},"name":"append_column_correct"},"guarantee":"appends an empty column to the grid","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing._GrowableGrid.append_column_correct","statement":"Path(append_column(x), appends an empty column to the grid)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73f905048c9d1c6d"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.append_column","kind":"method","src_hash":"af5fe21ee917afa6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"append_column()","rhs":"<unspecified:append_column>","over":{"base":"Any"},"name":"append_column_correct"},"guarantee":"appends an empty column to the grid","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing._GrowableGrid.append_column_correct","statement":"Path(append_column(x), appends an empty column to the grid)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73f905048c9d1c6d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._array","self._height"],"writes":["self._width"]},"state_contract":{"modifies":["self._width"],"old_bindings":{"old_self__width":"self._width"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def append_column(self):
         """
         Appends an empty column to the grid.
@@ -262,16 +310,22 @@ class _GrowableGrid:
             self._array[i].append(None)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prepend_row(), prepends the grid with an empty row) over Any ║
+# ║ Path(prepend_row(), <unspecified:prepend_row>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ prepend_row : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11c70c666a8ca73f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.prepend_row","kind":"method","src_hash":"335ffd476aa4bd9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prepend_row()","rhs":"prepends the grid with an empty row","over":{"base":"Any"},"name":"prepend_row_correct"},"guarantee":"prepends the grid with an empty row","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing._GrowableGrid.prepend_row_correct","statement":"Path(prepend_row(x), prepends the grid with an empty row)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11c70c666a8ca73f"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.prepend_row","kind":"method","src_hash":"335ffd476aa4bd9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prepend_row()","rhs":"<unspecified:prepend_row>","over":{"base":"Any"},"name":"prepend_row_correct"},"guarantee":"prepends the grid with an empty row","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing._GrowableGrid.prepend_row_correct","statement":"Path(prepend_row(x), prepends the grid with an empty row)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11c70c666a8ca73f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._array","self._width"],"writes":["self._height"],"calls_mutating":["self._array.insert"]},"state_contract":{"modifies":["self.*","self._height"],"old_bindings":{"old_self__height":"self._height"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def prepend_row(self):
         """
         Prepends the grid with an empty row.
@@ -280,16 +334,22 @@ class _GrowableGrid:
         self._array.insert(0, [None for j in range(self._width)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prepend_column(), prepends the grid with an empty column) over Any ║
+# ║ Path(prepend_column(), <unspecified:prepend_column>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ prepend_column : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec00f25b26b97bcc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.prepend_column","kind":"method","src_hash":"abfc051e78441627","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prepend_column()","rhs":"prepends the grid with an empty column","over":{"base":"Any"},"name":"prepend_column_correct"},"guarantee":"prepends the grid with an empty column","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing._GrowableGrid.prepend_column_correct","statement":"Path(prepend_column(x), prepends the grid with an empty column)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec00f25b26b97bcc"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing._GrowableGrid.prepend_column","kind":"method","src_hash":"abfc051e78441627","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prepend_column()","rhs":"<unspecified:prepend_column>","over":{"base":"Any"},"name":"prepend_column_correct"},"guarantee":"prepends the grid with an empty column","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing._GrowableGrid.prepend_column_correct","statement":"Path(prepend_column(x), prepends the grid with an empty column)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec00f25b26b97bcc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._array","self._height"],"writes":["self._width"]},"state_contract":{"modifies":["self._width"],"old_bindings":{"old_self__width":"self._width"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def prepend_column(self):
         """
         Prepends the grid with an empty column.
@@ -302,14 +362,19 @@ class _GrowableGrid:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DiagramGrid instance) preserved by DiagramGrid(*args) over {Any | isinstance(morphism, CompositeMorphism) and isinstance(groups, (dict, Dict)) and isinstance(group, FiniteSet)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DiagramGrid : {Any | isinstance(morphism, CompositeMo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 5.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a34816e631eb3cc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid","kind":"class","src_hash":"edd82082b4888fef","in":{"base":"Any","pred":"isinstance(morphism, CompositeMorphism) and isinstance(groups, (dict, Dict)) and isinstance(group, FiniteSet)"},"out":{"base":"Any"},"spec":{"lhs":"DiagramGrid(*args)","rhs":"correctly constructs a DiagramGrid instance","over":{"base":"Any","pred":"isinstance(morphism, CompositeMorphism) and isinstance(groups, (dict, Dict)) and isinstance(group, FiniteSet)"},"name":"DiagramGrid_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DiagramGrid instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_morphisms') and hasattr(self, '_grid') and hasattr(self, '_grid') and hasattr(self, '_grid') and hasattr(self, '_grid') and hasattr(self, '_grid')","kind":"class","induction":"structural on _morphisms, _grid, _grid, _grid"}],"methods_preserving":["__init__","width","height","__getitem__","morphisms","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a34816e631eb3cc3"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid","kind":"class","src_hash":"edd82082b4888fef","in":{"base":"Any","pred":"isinstance(morphism, CompositeMorphism) and isinstance(groups, (dict, Dict)) and isinstance(group, FiniteSet)"},"out":{"base":"Any"},"spec":{"lhs":"DiagramGrid(*args)","rhs":"correctly constructs a DiagramGrid instance","over":{"base":"Any","pred":"isinstance(morphism, CompositeMorphism) and isinstance(groups, (dict, Dict)) and isinstance(group, FiniteSet)"},"name":"DiagramGrid_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_morphisms') and hasattr(self, '_grid') and hasattr(self, '_grid') and hasattr(self, '_grid') and hasattr(self, '_grid') and hasattr(self, '_grid')","kind":"class","induction":"structural on _morphisms, _grid, _grid, _grid"}],"methods_preserving":["__init__","width","height","__getitem__","morphisms","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a34816e631eb3cc3","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_morphisms')","hasattr(self, '_grid')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function DiagramGrid not found in source"]}}
 class DiagramGrid:
     r"""
     Constructs and holds the fitting of the diagram into a grid.
@@ -443,16 +508,23 @@ class DiagramGrid:
     """
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplify_morphisms(mor), given a dictionary mapping morphisms to their properties, returns a new dictionary in which there are no morphisms which do not have properties, and which are compositions of other morphisms included ) over Any ║
+# ║ Path(_simplify_morphisms(morphisms), <unspecified:_simplify_morphisms>) over {Any | hasattr(morphisms, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _simplify_morphisms : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(morphisms, 'items')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _simplify_morphisms : {Any | hasattr(morphisms, 'item...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f74e6ad1561cf343  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._simplify_morphisms","kind":"staticmethod","src_hash":"c1ada95ce5775101","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_morphisms(mor)","rhs":"given a dictionary mapping morphisms to their properties, returns a new dictionary in which there are no morphisms which do not have properties, and which are compositions of other morphisms included ","over":{"base":"Any"},"name":"_simplify_morphisms_correct"},"guarantee":"given a dictionary mapping morphisms to their properties, returns a new dictionary in which there are no morphisms which do not have properties, and which are compositions of other morphisms included ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._simplify_morphisms_correct","statement":"Path(_simplify_morphisms(x), given a dictionary mapping morphisms to their properties, returns a new dictionary in which there are no morphisms which do not have properties, and which are compositions of other morphisms included )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f74e6ad1561cf343"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._simplify_morphisms","kind":"staticmethod","src_hash":"c1ada95ce5775101","in":{"base":"Any","pred":"hasattr(morphisms, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_morphisms(morphisms)","rhs":"<unspecified:_simplify_morphisms>","over":{"base":"Any","pred":"hasattr(morphisms, 'items')"},"name":"_simplify_morphisms_correct"},"guarantee":"given a dictionary mapping morphisms to their properties, returns a new dictionary in which there are no morphisms which do not have properties, and which are compositions of other morphisms included ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._simplify_morphisms_correct","statement":"Path(_simplify_morphisms(x), given a dictionary mapping morphisms to their properties, returns a new dictionary in which there are no morphisms which do not have properties, and which are compositions of other morphisms included )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f74e6ad1561cf343","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(morphisms, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["morphisms.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _simplify_morphisms(morphisms):
         """
         Given a dictionary mapping morphisms to their properties,
@@ -473,16 +545,24 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_merge_premises_conclusions(pre), given two dictionaries of morphisms and their properties, produces a single dictionary which includes elements from both dictionaries) over Any ║
+# ║ Path(_merge_premises_conclusions(premises, conclusions), dict(chain(premises.items(), conclusions.items()))) over {Any | hasattr(premises, 'items') and hasattr(conclusions, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _merge_premises_conclusions : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(premises, 'items')                     ║
+# ║   requires: hasattr(conclusions, 'items')                  ║
+# ║   returns:  dict(chain(premises.items(), conclusions....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _merge_premises_conclusions : {Any | hasattr(premises...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d9af22523d70e5b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._merge_premises_conclusions","kind":"staticmethod","src_hash":"3e4ba2b225bbc6b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_merge_premises_conclusions(pre)","rhs":"given two dictionaries of morphisms and their properties, produces a single dictionary which includes elements from both dictionaries","over":{"base":"Any"},"name":"_merge_premises_conclusions_correct"},"guarantee":"given two dictionaries of morphisms and their properties, produces a single dictionary which includes elements from both dictionaries","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d9af22523d70e5b"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._merge_premises_conclusions","kind":"staticmethod","src_hash":"3e4ba2b225bbc6b6","in":{"base":"Any","pred":"hasattr(premises, 'items') and hasattr(conclusions, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"_merge_premises_conclusions(premises, conclusions)","rhs":"dict(chain(premises.items(), conclusions.items()))","over":{"base":"Any","pred":"hasattr(premises, 'items') and hasattr(conclusions, 'items')"},"name":"_merge_premises_conclusions_correct"},"guarantee":"returns dict(chain(premises.items(), conclusions.items()))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d9af22523d70e5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(premises, 'items')","hasattr(conclusions, 'items')"],"returns_expr":"dict(chain(premises.items(), conclusions.items()))","pure":false,"effects":{"effect_type":"reads_state","reads":["conclusions.items","premises.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _merge_premises_conclusions(premises, conclusions):
         """
         Given two dictionaries of morphisms and their properties,
@@ -495,16 +575,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_juxtapose_edges(edg), if ``edge1`` and ``edge2`` have precisely one common endpoint, returns an edge which would form a triangle with ``edge1`` and ``edge2``) over Any ║
+# ║ Path(_juxtapose_edges(edge1, edge2), <unspecified:_juxtapose_edges>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _juxtapose_edges : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ca39478b374f895  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._juxtapose_edges","kind":"staticmethod","src_hash":"d22ba52549419429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_juxtapose_edges(edg)","rhs":"if ``edge1`` and ``edge2`` have precisely one common endpoint, returns an edge which would form a triangle with ``edge1`` and ``edge2``","over":{"base":"Any"},"name":"_juxtapose_edges_correct"},"guarantee":"if ``edge1`` and ``edge2`` have precisely one common endpoint, returns an edge which would form a triangle with ``edge1`` and ``edge2``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._juxtapose_edges_correct","statement":"Path(_juxtapose_edges(x), if ``edge1`` and ``edge2`` have precisely one common endpoint, returns an edge which would form a triangle with ``edge1`` and ``edge2``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ca39478b374f895"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._juxtapose_edges","kind":"staticmethod","src_hash":"d22ba52549419429","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_juxtapose_edges(edge1, edge2)","rhs":"<unspecified:_juxtapose_edges>","over":{"base":"Any"},"name":"_juxtapose_edges_correct"},"guarantee":"if ``edge1`` and ``edge2`` have precisely one common endpoint, returns an edge which would form a triangle with ``edge1`` and ``edge2``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._juxtapose_edges_correct","statement":"Path(_juxtapose_edges(x), if ``edge1`` and ``edge2`` have precisely one common endpoint, returns an edge which would form a triangle with ``edge1`` and ``edge2``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ca39478b374f895","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _juxtapose_edges(edge1, edge2):
         """
         If ``edge1`` and ``edge2`` have precisely one common endpoint,
@@ -527,16 +613,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_edge_append(dic), if ``edge`` is not in ``dictionary``, adds ``edge`` to the dictionary and sets its value to ``[elem]``) over Any ║
+# ║ Path(_add_edge_append(dictionary, edge, elem), <unspecified:_add_edge_append>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _add_edge_append : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 704e9c06dafc1294  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._add_edge_append","kind":"staticmethod","src_hash":"36c2fe1e44bdad70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_edge_append(dic)","rhs":"if ``edge`` is not in ``dictionary``, adds ``edge`` to the dictionary and sets its value to ``[elem]``","over":{"base":"Any"},"name":"_add_edge_append_correct"},"guarantee":"if ``edge`` is not in ``dictionary``, adds ``edge`` to the dictionary and sets its value to ``[elem]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._add_edge_append_correct","statement":"Path(_add_edge_append(x), if ``edge`` is not in ``dictionary``, adds ``edge`` to the dictionary and sets its value to ``[elem]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"704e9c06dafc1294"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._add_edge_append","kind":"staticmethod","src_hash":"36c2fe1e44bdad70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_edge_append(dictionary, edge, elem)","rhs":"<unspecified:_add_edge_append>","over":{"base":"Any"},"name":"_add_edge_append_correct"},"guarantee":"if ``edge`` is not in ``dictionary``, adds ``edge`` to the dictionary and sets its value to ``[elem]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._add_edge_append_correct","statement":"Path(_add_edge_append(x), if ``edge`` is not in ``dictionary``, adds ``edge`` to the dictionary and sets its value to ``[elem]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"704e9c06dafc1294","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","writes":["dictionary[*]"]},"state_contract":{"modifies":["dictionary[*]"],"old_bindings":{"old_dictionary_star":"dictionary[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add_edge_append(dictionary, edge, elem):
         """
         If ``edge`` is not in ``dictionary``, adds ``edge`` to the
@@ -552,16 +644,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_build_skeleton(mor), creates a dictionary which maps edges to corresponding morphisms) over Any ║
+# ║ Path(_build_skeleton(morphisms), <unspecified:_build_skeleton>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _build_skeleton : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f53dc1d79634a6fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._build_skeleton","kind":"staticmethod","src_hash":"7b2a952383d8ce9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_build_skeleton(mor)","rhs":"creates a dictionary which maps edges to corresponding morphisms","over":{"base":"Any"},"name":"_build_skeleton_correct"},"guarantee":"creates a dictionary which maps edges to corresponding morphisms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._build_skeleton_correct","statement":"Path(_build_skeleton(x), creates a dictionary which maps edges to corresponding morphisms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f53dc1d79634a6fa"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._build_skeleton","kind":"staticmethod","src_hash":"7b2a952383d8ce9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_build_skeleton(morphisms)","rhs":"<unspecified:_build_skeleton>","over":{"base":"Any"},"name":"_build_skeleton_correct"},"guarantee":"creates a dictionary which maps edges to corresponding morphisms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._build_skeleton_correct","statement":"Path(_build_skeleton(x), creates a dictionary which maps edges to corresponding morphisms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f53dc1d79634a6fa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _build_skeleton(morphisms):
         """
         Creates a dictionary which maps edges to corresponding
@@ -590,16 +688,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_list_triangles(edg), builds the set of triangles formed by the supplied edges) over Any ║
+# ║ Path(_list_triangles(edges), <unspecified:_list_triangles>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _list_triangles : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b6c520f75151090  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._list_triangles","kind":"staticmethod","src_hash":"819ee4a26b972639","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_list_triangles(edg)","rhs":"builds the set of triangles formed by the supplied edges","over":{"base":"Any"},"name":"_list_triangles_correct"},"guarantee":"builds the set of triangles formed by the supplied edges","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._list_triangles_correct","statement":"Path(_list_triangles(x), builds the set of triangles formed by the supplied edges)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b6c520f75151090"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._list_triangles","kind":"staticmethod","src_hash":"819ee4a26b972639","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_list_triangles(edges)","rhs":"<unspecified:_list_triangles>","over":{"base":"Any"},"name":"_list_triangles_correct"},"guarantee":"builds the set of triangles formed by the supplied edges","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._list_triangles_correct","statement":"Path(_list_triangles(x), builds the set of triangles formed by the supplied edges)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b6c520f75151090","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _list_triangles(edges):
         """
         Builds the set of triangles formed by the supplied edges.  The
@@ -618,16 +722,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_drop_redundant_triangles(tri), returns a list which contains only those triangles who have morphisms associated with at least two edges) over Any ║
+# ║ Path(_drop_redundant_triangles(triangles, skeleton), [tri for tri in triangles if len([e for e in tri if skeleton[e]]) >= 2]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [tri for tri in triangles if len([e for e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _drop_redundant_triangles : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c9515068502f415  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98f7f48e95e178ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._drop_redundant_triangles","kind":"staticmethod","src_hash":"94379d99a46a1266","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_drop_redundant_triangles(tri)","rhs":"returns a list which contains only those triangles who have morphisms associated with at least two edges","over":{"base":"Any"},"name":"_drop_redundant_triangles_correct"},"guarantee":"returns a list which contains only those triangles who have morphisms associated with at least two edges","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._drop_redundant_triangles_correct","statement":"Path(_drop_redundant_triangles(x), returns a list which contains only those triangles who have morphisms associated with at least two edges)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c9515068502f415"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._drop_redundant_triangles","kind":"staticmethod","src_hash":"94379d99a46a1266","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_drop_redundant_triangles(triangles, skeleton)","rhs":"[tri for tri in triangles if len([e for e in tri if skeleton[e]]) >= 2]","over":{"base":"Any"},"name":"_drop_redundant_triangles_correct"},"guarantee":"returns [tri for tri in triangles if len([e for e in tri if skeleton[e]]) >= 2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._drop_redundant_triangles_correct","statement":"Path(_drop_redundant_triangles(x), returns [tri for tri in triangles if len([e for e in tri if skeleton[e]]) >= 2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98f7f48e95e178ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[tri for tri in triangles if len([e for e in tri if skeleton[e]]) >= 2]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _drop_redundant_triangles(triangles, skeleton):
         """
         Returns a list which contains only those triangles who have
@@ -638,16 +748,27 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_morphism_length(mor), returns the length of a morphism) over Any ║
+# ║ Path(_morphism_length(morphism), result == (len(morphism.components) if isinstance(morphism, CompositeMorphism) else 1) and result == len(morphism.components) or result == 1 and result >= 0) over {Any | hasattr(morphism, 'components')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _morphism_length : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(morphism, 'components')                ║
+# ║   ensures:  result == (len(morphism.components) if is...   ║
+# ║   ensures:  result == len(morphism.components) or res...   ║
+# ║   ensures:  result >= 0                                    ║
+# ║   fiber[CompositeMorphism]: isinstance(morphism, Comp...   ║
+# ║   fiber[CompositeMorphism]: not (isinstance(morphism,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _morphism_length : {Any | hasattr(morphism, 'componen...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93d1d64537534cfb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9eb280739dbe354  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._morphism_length","kind":"staticmethod","src_hash":"6c33bc891f856ec2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_morphism_length(mor)","rhs":"returns the length of a morphism","over":{"base":"Any"},"name":"_morphism_length_correct"},"guarantee":"returns the length of a morphism","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._morphism_length_correct","statement":"Path(_morphism_length(x), returns the length of a morphism)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93d1d64537534cfb"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._morphism_length","kind":"staticmethod","src_hash":"6c33bc891f856ec2","in":{"base":"Any","pred":"hasattr(morphism, 'components')"},"out":{"base":"Any","pred":"result satisfies: result == (len(morphism.components) if isinstance(morphism, CompositeMorphism) else 1) and result == len(morphism.components) or result == 1 and result >= 0"},"spec":{"lhs":"_morphism_length(morphism)","rhs":"result == (len(morphism.components) if isinstance(morphism, CompositeMorphism) else 1) and result == len(morphism.components) or result == 1 and result >= 0","over":{"base":"Any","pred":"hasattr(morphism, 'components')"},"name":"_morphism_length_correct"},"guarantee":"result == (len(morphism.components) if isinstance(morphism, CompositeMorphism) else 1); result == len(morphism.components) or result == 1; result >= 0; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._morphism_length_correct","statement":"Path(_morphism_length(x), result == (len(morphism.components) if isinstance(morphism, CompositeMorphism) else 1); result == len(morphism.components) or result == 1; result >= 0; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9eb280739dbe354","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(morphism, 'components')"],"ensures":["result == (len(morphism.components) if isinstance(morphism, CompositeMorphism) else 1)","result == len(morphism.components) or result == 1","result >= 0"],"fibers":[{"name":"CompositeMorphism","guard":"isinstance(morphism, CompositeMorphism)","ensures":["result == len(morphism.components)"],"decidability":"structural","returns_expr":"len(morphism.components)"},{"name":"CompositeMorphism","guard":"not (isinstance(morphism, CompositeMorphism))","ensures":["result == 1"],"decidability":"structural","returns_expr":"1"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["morphism.components"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _morphism_length(morphism):
         """
         Returns the length of a morphism.  The length of a morphism is
@@ -661,16 +782,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_triangle_min_sizes(tri), returns a dictionary mapping triangles to their minimal sizes. the minimal size of a triangle is the sum of maximal lengths of morphisms associated to the sides of the triangle) over Any ║
+# ║ Path(_compute_triangle_min_sizes(triangles, edges), <unspecified:_compute_triangle_min_sizes>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compute_triangle_min_sizes : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1dfb73bcd42eb9b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._compute_triangle_min_sizes","kind":"staticmethod","src_hash":"dc8058796c4f708c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_triangle_min_sizes(tri)","rhs":"returns a dictionary mapping triangles to their minimal sizes. the minimal size of a triangle is the sum of maximal lengths of morphisms associated to the sides of the triangle","over":{"base":"Any"},"name":"_compute_triangle_min_sizes_correct"},"guarantee":"returns a dictionary mapping triangles to their minimal sizes. the minimal size of a triangle is the sum of maximal lengths of morphisms associated to the sides of the triangle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._compute_triangle_min_sizes_correct","statement":"Path(_compute_triangle_min_sizes(x), returns a dictionary mapping triangles to their minimal sizes. the minimal size of a triangle is the sum of maximal lengths of morphisms associated to the sides of the triangle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dfb73bcd42eb9b7"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._compute_triangle_min_sizes","kind":"staticmethod","src_hash":"dc8058796c4f708c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_triangle_min_sizes(triangles, edges)","rhs":"<unspecified:_compute_triangle_min_sizes>","over":{"base":"Any"},"name":"_compute_triangle_min_sizes_correct"},"guarantee":"returns a dictionary mapping triangles to their minimal sizes. the minimal size of a triangle is the sum of maximal lengths of morphisms associated to the sides of the triangle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._compute_triangle_min_sizes_correct","statement":"Path(_compute_triangle_min_sizes(x), returns a dictionary mapping triangles to their minimal sizes. the minimal size of a triangle is the sum of maximal lengths of morphisms associated to the sides of the triangle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dfb73bcd42eb9b7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_triangle_min_sizes(triangles, edges):
         r"""
         Returns a dictionary mapping triangles to their minimal sizes.
@@ -702,16 +829,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_triangle_objects(tri), given a triangle, returns the objects included in it) over Any ║
+# ║ Path(_triangle_objects(triangle), frozenset(chain(*tuple(triangle)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  frozenset(chain(*tuple(triangle)))             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _triangle_objects : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 97b16e3150d06620           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._triangle_objects","kind":"staticmethod","src_hash":"4efef96776c87e45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_triangle_objects(tri)","rhs":"given a triangle, returns the objects included in it","over":{"base":"Any"},"name":"_triangle_objects_correct"},"guarantee":"given a triangle, returns the objects included in it","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97b16e3150d06620"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._triangle_objects","kind":"staticmethod","src_hash":"4efef96776c87e45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_triangle_objects(triangle)","rhs":"frozenset(chain(*tuple(triangle)))","over":{"base":"Any"},"name":"_triangle_objects_correct"},"guarantee":"returns frozenset(chain(*tuple(triangle)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97b16e3150d06620","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"frozenset(chain(*tuple(triangle)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _triangle_objects(triangle):
         """
         Given a triangle, returns the objects included in it.
@@ -724,16 +857,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_other_vertex(tri), given a triangle and an edge of it, returns the vertex which opposes the edge) over Any ║
+# ║ Path(_other_vertex(triangle, edge), list(DiagramGrid._triangle_objects(triangle) - set(edge))[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(DiagramGrid._triangle_objects(triang...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _other_vertex : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | caad4b35368431ed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._other_vertex","kind":"staticmethod","src_hash":"ca5230fb745e1906","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_other_vertex(tri)","rhs":"given a triangle and an edge of it, returns the vertex which opposes the edge","over":{"base":"Any"},"name":"_other_vertex_correct"},"guarantee":"given a triangle and an edge of it, returns the vertex which opposes the edge","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"caad4b35368431ed"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._other_vertex","kind":"staticmethod","src_hash":"ca5230fb745e1906","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_other_vertex(triangle, edge)","rhs":"list(DiagramGrid._triangle_objects(triangle) - set(edge))[0]","over":{"base":"Any"},"name":"_other_vertex_correct"},"guarantee":"returns list(DiagramGrid._triangle_objects(triangle) - set(edge))[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"caad4b35368431ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(DiagramGrid._triangle_objects(triangle) - set(edge))[0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _other_vertex(triangle, edge):
         """
         Given a triangle and an edge of it, returns the vertex which
@@ -746,16 +885,24 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_empty_point(pt,), checks if the cell at coordinates ``pt`` is either empty or out of the bounds of the grid) over Any ║
+# ║ Path(_empty_point(pt, grid), <unspecified:_empty_point>) over {Any | hasattr(grid, 'height') and hasattr(grid, 'width')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _empty_point : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(grid, 'height')                        ║
+# ║   requires: hasattr(grid, 'width')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _empty_point : {Any | hasattr(grid, 'height') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e58a238050b859c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._empty_point","kind":"staticmethod","src_hash":"554e27e6635137c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_empty_point(pt,)","rhs":"checks if the cell at coordinates ``pt`` is either empty or out of the bounds of the grid","over":{"base":"Any"},"name":"_empty_point_correct"},"guarantee":"checks if the cell at coordinates ``pt`` is either empty or out of the bounds of the grid","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._empty_point_correct","statement":"Path(_empty_point(x), checks if the cell at coordinates ``pt`` is either empty or out of the bounds of the grid)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e58a238050b859c2"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._empty_point","kind":"staticmethod","src_hash":"554e27e6635137c4","in":{"base":"Any","pred":"hasattr(grid, 'height') and hasattr(grid, 'width')"},"out":{"base":"Any"},"spec":{"lhs":"_empty_point(pt, grid)","rhs":"<unspecified:_empty_point>","over":{"base":"Any","pred":"hasattr(grid, 'height') and hasattr(grid, 'width')"},"name":"_empty_point_correct"},"guarantee":"checks if the cell at coordinates ``pt`` is either empty or out of the bounds of the grid","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._empty_point_correct","statement":"Path(_empty_point(x), checks if the cell at coordinates ``pt`` is either empty or out of the bounds of the grid)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e58a238050b859c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(grid, 'height')","hasattr(grid, 'width')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["grid.height","grid.width"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _empty_point(pt, grid):
         """
         Checks if the cell at coordinates ``pt`` is either empty or
@@ -768,16 +915,25 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_put_object(coo), places an object at the coordinate ``cords`` in ``grid``, growing the grid and updating ``fringe``, if necessary. returns (0, 0) if no row or column has been prepended, (1, 0) if a row was prepended, ) over Any ║
+# ║ Path(_put_object(coords, obj, grid), <unspecified:_put_object>) over {Any | hasattr(grid, 'prepend_row') and hasattr(grid, 'height') and hasattr(grid, 'prepend_column') and hasattr(grid, 'width') and hasattr(grid, 'append_row') and hasattr(grid, 'append_column')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _put_object : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(grid, 'prepend_row')                   ║
+# ║   requires: hasattr(grid, 'height')                        ║
+# ║   requires: hasattr(grid, 'prepend_column')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _put_object : {Any | hasattr(grid, 'prepend_row') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc414005fae83e7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._put_object","kind":"staticmethod","src_hash":"246f55c04e237f47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_put_object(coo)","rhs":"places an object at the coordinate ``cords`` in ``grid``, growing the grid and updating ``fringe``, if necessary. returns (0, 0) if no row or column has been prepended, (1, 0) if a row was prepended, ","over":{"base":"Any"},"name":"_put_object_correct"},"guarantee":"places an object at the coordinate ``cords`` in ``grid``, growing the grid and updating ``fringe``, if necessary. returns (0, 0) if no row or column has been prepended, (1, 0) if a row was prepended, ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._put_object_correct","statement":"Path(_put_object(x), places an object at the coordinate ``cords`` in ``grid``, growing the grid and updating ``fringe``, if necessary. returns (0, 0) if no row or column has been prepended, (1, 0) if a row was prepended, )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc414005fae83e7c"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._put_object","kind":"staticmethod","src_hash":"246f55c04e237f47","in":{"base":"Any","pred":"hasattr(grid, 'prepend_row') and hasattr(grid, 'height') and hasattr(grid, 'prepend_column') and hasattr(grid, 'width') and hasattr(grid, 'append_row') and hasattr(grid, 'append_column')"},"out":{"base":"Any"},"spec":{"lhs":"_put_object(coords, obj, grid)","rhs":"<unspecified:_put_object>","over":{"base":"Any","pred":"hasattr(grid, 'prepend_row') and hasattr(grid, 'height') and hasattr(grid, 'prepend_column') and hasattr(grid, 'width') and hasattr(grid, 'append_row') and hasattr(grid, 'append_column')"},"name":"_put_object_correct"},"guarantee":"places an object at the coordinate ``cords`` in ``grid``, growing the grid and updating ``fringe``, if necessary. returns (0, 0) if no row or column has been prepended, (1, 0) if a row was prepended, ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._put_object_correct","statement":"Path(_put_object(x), places an object at the coordinate ``cords`` in ``grid``, growing the grid and updating ``fringe``, if necessary. returns (0, 0) if no row or column has been prepended, (1, 0) if a row was prepended, )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc414005fae83e7c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(grid, 'prepend_row')","hasattr(grid, 'height')","hasattr(grid, 'prepend_column')","hasattr(grid, 'width')","hasattr(grid, 'append_row')","hasattr(grid, 'append_column')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["grid.append_column","grid.append_row","grid.height","grid.prepend_column","grid.prepend_row","grid.width"],"writes":["fringe[*]","grid[*]"]},"state_contract":{"modifies":["fringe[*]","grid[*]"],"old_bindings":{"old_fringe_star":"fringe[*]","old_grid_star":"grid[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _put_object(coords, obj, grid, fringe):
         """
         Places an object at the coordinate ``cords`` in ``grid``,
@@ -813,16 +969,23 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_choose_target_cell(pt1), given two points, ``pt1`` and ``pt2``, and the welding edge ``edge``, chooses one of the two points to place the opposing vertex ``obj`` of the triangle) over Any ║
+# ║ Path(_choose_target_cell(pt1, pt2, edge), <unspecified:_choose_target_cell>) over {Any | hasattr(skeleton, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _choose_target_cell : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(skeleton, 'get')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _choose_target_cell : {Any | hasattr(skeleton, 'get')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c009d4dfaf78c699  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._choose_target_cell","kind":"staticmethod","src_hash":"a21a94d6f6654b90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_choose_target_cell(pt1)","rhs":"given two points, ``pt1`` and ``pt2``, and the welding edge ``edge``, chooses one of the two points to place the opposing vertex ``obj`` of the triangle","over":{"base":"Any"},"name":"_choose_target_cell_correct"},"guarantee":"given two points, ``pt1`` and ``pt2``, and the welding edge ``edge``, chooses one of the two points to place the opposing vertex ``obj`` of the triangle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._choose_target_cell_correct","statement":"Path(_choose_target_cell(x), given two points, ``pt1`` and ``pt2``, and the welding edge ``edge``, chooses one of the two points to place the opposing vertex ``obj`` of the triangle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c009d4dfaf78c699"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._choose_target_cell","kind":"staticmethod","src_hash":"a21a94d6f6654b90","in":{"base":"Any","pred":"hasattr(skeleton, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"_choose_target_cell(pt1, pt2, edge)","rhs":"<unspecified:_choose_target_cell>","over":{"base":"Any","pred":"hasattr(skeleton, 'get')"},"name":"_choose_target_cell_correct"},"guarantee":"given two points, ``pt1`` and ``pt2``, and the welding edge ``edge``, chooses one of the two points to place the opposing vertex ``obj`` of the triangle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._choose_target_cell_correct","statement":"Path(_choose_target_cell(x), given two points, ``pt1`` and ``pt2``, and the welding edge ``edge``, chooses one of the two points to place the opposing vertex ``obj`` of the triangle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c009d4dfaf78c699","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(skeleton, 'get')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["skeleton.get"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _choose_target_cell(pt1, pt2, edge, obj, skeleton, grid):
         """
         Given two points, ``pt1`` and ``pt2``, and the welding edge
@@ -854,16 +1017,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_triangle_to_weld(tri), finds, if possible, a triangle and an edge in the ``fringe`` to which the triangle could be attached) over Any ║
+# ║ Path(_find_triangle_to_weld(triangles, fringe, grid), <unspecified:_find_triangle_to_weld>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _find_triangle_to_weld : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c97f6b86af5d89f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._find_triangle_to_weld","kind":"staticmethod","src_hash":"fa672c55ef5ccbfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_triangle_to_weld(tri)","rhs":"finds, if possible, a triangle and an edge in the ``fringe`` to which the triangle could be attached","over":{"base":"Any"},"name":"_find_triangle_to_weld_correct"},"guarantee":"finds, if possible, a triangle and an edge in the ``fringe`` to which the triangle could be attached","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._find_triangle_to_weld_correct","statement":"Path(_find_triangle_to_weld(x), finds, if possible, a triangle and an edge in the ``fringe`` to which the triangle could be attached)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c97f6b86af5d89f1"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._find_triangle_to_weld","kind":"staticmethod","src_hash":"fa672c55ef5ccbfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_triangle_to_weld(triangles, fringe, grid)","rhs":"<unspecified:_find_triangle_to_weld>","over":{"base":"Any"},"name":"_find_triangle_to_weld_correct"},"guarantee":"finds, if possible, a triangle and an edge in the ``fringe`` to which the triangle could be attached","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._find_triangle_to_weld_correct","statement":"Path(_find_triangle_to_weld(x), finds, if possible, a triangle and an edge in the ``fringe`` to which the triangle could be attached)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c97f6b86af5d89f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _find_triangle_to_weld(triangles, fringe, grid):
         """
         Finds, if possible, a triangle and an edge in the ``fringe`` to
@@ -882,16 +1051,24 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_weld_triangle(tri), if possible, welds the triangle ``tri`` to ``fringe`` and returns ``false``) over Any ║
+# ║ Path(_weld_triangle(tri, welding_edge, fringe), <unspecified:_weld_triangle>) over {Any | hasattr(fringe, 'extend') and hasattr(fringe, 'remove')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _weld_triangle : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(fringe, 'extend')                      ║
+# ║   requires: hasattr(fringe, 'remove')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _weld_triangle : {Any | hasattr(fringe, 'extend') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a0beaef8123a417  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._weld_triangle","kind":"staticmethod","src_hash":"621f4b4915eec2c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_weld_triangle(tri)","rhs":"if possible, welds the triangle ``tri`` to ``fringe`` and returns ``false``","over":{"base":"Any"},"name":"_weld_triangle_correct"},"guarantee":"if possible, welds the triangle ``tri`` to ``fringe`` and returns ``false``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._weld_triangle_correct","statement":"Path(_weld_triangle(x), if possible, welds the triangle ``tri`` to ``fringe`` and returns ``false``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a0beaef8123a417"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._weld_triangle","kind":"staticmethod","src_hash":"621f4b4915eec2c2","in":{"base":"Any","pred":"hasattr(fringe, 'extend') and hasattr(fringe, 'remove')"},"out":{"base":"Any"},"spec":{"lhs":"_weld_triangle(tri, welding_edge, fringe)","rhs":"<unspecified:_weld_triangle>","over":{"base":"Any","pred":"hasattr(fringe, 'extend') and hasattr(fringe, 'remove')"},"name":"_weld_triangle_correct"},"guarantee":"if possible, welds the triangle ``tri`` to ``fringe`` and returns ``false``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._weld_triangle_correct","statement":"Path(_weld_triangle(x), if possible, welds the triangle ``tri`` to ``fringe`` and returns ``false``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a0beaef8123a417","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(fringe, 'extend')","hasattr(fringe, 'remove')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["fringe.extend","fringe.remove"],"calls_mutating":["fringe.extend","fringe.remove"]},"state_contract":{"modifies":["fringe.*"],"old_bindings":{"old_len_fringe":"len(fringe)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _weld_triangle(tri, welding_edge, fringe, grid, skeleton):
         """
         If possible, welds the triangle ``tri`` to ``fringe`` and
@@ -990,16 +1167,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_triangle_key(tri), returns a key for the supplied triangle) over Any ║
+# ║ Path(_triangle_key(tri, triangle_sizes), (triangle_sizes[tri], default_sort_key(objects))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (triangle_sizes[tri], default_sort_key(ob...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _triangle_key : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a63f3e1419bdacdd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 724749c0982870ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._triangle_key","kind":"staticmethod","src_hash":"5482e65bb0ec9325","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_triangle_key(tri)","rhs":"returns a key for the supplied triangle","over":{"base":"Any"},"name":"_triangle_key_correct"},"guarantee":"returns a key for the supplied triangle","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._triangle_key_correct","statement":"Path(_triangle_key(x), returns a key for the supplied triangle)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a63f3e1419bdacdd"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._triangle_key","kind":"staticmethod","src_hash":"5482e65bb0ec9325","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_triangle_key(tri, triangle_sizes)","rhs":"(triangle_sizes[tri], default_sort_key(objects))","over":{"base":"Any"},"name":"_triangle_key_correct"},"guarantee":"returns (triangle_sizes[tri], default_sort_key(objects))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._triangle_key_correct","statement":"Path(_triangle_key(x), returns (triangle_sizes[tri], default_sort_key(objects)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"724749c0982870ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(triangle_sizes[tri], default_sort_key(objects))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _triangle_key(tri, triangle_sizes):
         """
         Returns a key for the supplied triangle.  It should be the
@@ -1011,16 +1194,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pick_root_edge(tri), id) over Any                    ║
+# ║ Path(_pick_root_edge(tri, skeleton), id) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(sorted(sorted_candidates[0], key=de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _pick_root_edge : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e2289b640383122d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._pick_root_edge","kind":"staticmethod","src_hash":"b6c18d67298a3c7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pick_root_edge(tri)","rhs":"for a given triangle always picks the same root edge","over":{"base":"Any"},"name":"_pick_root_edge_correct","kind":"composition"},"guarantee":"for a given triangle always picks the same root edge","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"sorted","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2289b640383122d"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._pick_root_edge","kind":"staticmethod","src_hash":"b6c18d67298a3c7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pick_root_edge(tri, skeleton)","rhs":"tuple(sorted(sorted_candidates[0], key=default_sort_key))","over":{"base":"Any"},"name":"_pick_root_edge_correct","kind":"composition"},"guarantee":"returns tuple(sorted(sorted_candidates[0], key=default_sort_key))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"sorted","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2289b640383122d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(sorted(sorted_candidates[0], key=default_sort_key))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pick_root_edge(tri, skeleton):
         """
         For a given triangle always picks the same root edge.  The
@@ -1035,16 +1224,23 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_drop_irrelevant_triangles(tri), returns only those triangles whose set of objects is not completely included in ``placed_objects``) over Any ║
+# ║ Path(_drop_irrelevant_triangles(triangles, placed_objects), [tri for tri in triangles if not placed_objects.issuperset(DiagramGrid._triangle_objects(tri))]) over {Any | hasattr(placed_objects, 'issuperset')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _drop_irrelevant_triangles : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(placed_objects, 'issuperset')          ║
+# ║   returns:  [tri for tri in triangles if not placed_o...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _drop_irrelevant_triangles : {Any | hasattr(placed_ob...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39690bfe6095472a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f07fe163ecdf29d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._drop_irrelevant_triangles","kind":"staticmethod","src_hash":"469ce69968d404a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_drop_irrelevant_triangles(tri)","rhs":"returns only those triangles whose set of objects is not completely included in ``placed_objects``","over":{"base":"Any"},"name":"_drop_irrelevant_triangles_correct"},"guarantee":"returns only those triangles whose set of objects is not completely included in ``placed_objects``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._drop_irrelevant_triangles_correct","statement":"Path(_drop_irrelevant_triangles(x), returns only those triangles whose set of objects is not completely included in ``placed_objects``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39690bfe6095472a"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._drop_irrelevant_triangles","kind":"staticmethod","src_hash":"469ce69968d404a4","in":{"base":"Any","pred":"hasattr(placed_objects, 'issuperset')"},"out":{"base":"Any"},"spec":{"lhs":"_drop_irrelevant_triangles(triangles, placed_objects)","rhs":"[tri for tri in triangles if not placed_objects.issuperset(DiagramGrid._triangle_objects(tri))]","over":{"base":"Any","pred":"hasattr(placed_objects, 'issuperset')"},"name":"_drop_irrelevant_triangles_correct"},"guarantee":"returns [tri for tri in triangles if not placed_objects.issuperset(DiagramGrid._triangle_objects(tri))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._drop_irrelevant_triangles_correct","statement":"Path(_drop_irrelevant_triangles(x), returns [tri for tri in triangles if not placed_objects.issuperset(DiagramGrid._triangle_objects(tri))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f07fe163ecdf29d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(placed_objects, 'issuperset')"],"returns_expr":"[tri for tri in triangles if not placed_objects.issuperset(DiagramGrid._triangle_objects(tri))]","pure":false,"effects":{"effect_type":"reads_state","reads":["placed_objects.issuperset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _drop_irrelevant_triangles(triangles, placed_objects):
         """
         Returns only those triangles whose set of objects is not
@@ -1055,16 +1251,25 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_grow_pseudopod(tri), starting from an object in the existing structure on the ``grid``, adds an edge to which a triangle from ``triangles`` could be welded) over Any ║
+# ║ Path(_grow_pseudopod(triangles, fringe, grid), len(fringe) == old_len_fringe + 1) over {Any | hasattr(grid, 'height') and hasattr(grid, 'width') and hasattr(fringe, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _grow_pseudopod : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(grid, 'height')                        ║
+# ║   requires: hasattr(grid, 'width')                         ║
+# ║   requires: hasattr(fringe, 'append')                      ║
+# ║   ensures:  len(fringe) == old_len_fringe + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _grow_pseudopod : {Any | hasattr(grid, 'height') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fe123615a685bd6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a10501da0036edaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._grow_pseudopod","kind":"staticmethod","src_hash":"8e0382c5570da570","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_grow_pseudopod(tri)","rhs":"starting from an object in the existing structure on the ``grid``, adds an edge to which a triangle from ``triangles`` could be welded","over":{"base":"Any"},"name":"_grow_pseudopod_correct"},"guarantee":"starting from an object in the existing structure on the ``grid``, adds an edge to which a triangle from ``triangles`` could be welded","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._grow_pseudopod_correct","statement":"Path(_grow_pseudopod(x), starting from an object in the existing structure on the ``grid``, adds an edge to which a triangle from ``triangles`` could be welded)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fe123615a685bd6"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._grow_pseudopod","kind":"staticmethod","src_hash":"8e0382c5570da570","in":{"base":"Any","pred":"hasattr(grid, 'height') and hasattr(grid, 'width') and hasattr(fringe, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(fringe) == old_len_fringe + 1"},"spec":{"lhs":"_grow_pseudopod(triangles, fringe, grid)","rhs":"len(fringe) == old_len_fringe + 1","over":{"base":"Any","pred":"hasattr(grid, 'height') and hasattr(grid, 'width') and hasattr(fringe, 'append')"},"name":"_grow_pseudopod_correct"},"guarantee":"len(fringe) == old_len_fringe + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._grow_pseudopod_correct","statement":"Path(_grow_pseudopod(x), len(fringe) == old_len_fringe + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a10501da0036edaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(grid, 'height')","hasattr(grid, 'width')","hasattr(fringe, 'append')"],"ensures":["len(fringe) == old_len_fringe + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["fringe.append","grid.height","grid.width"],"calls_mutating":["fringe.append"]},"state_contract":{"modifies":["fringe.*"],"old_bindings":{"old_len_fringe":"len(fringe)"},"post_ensures":["len(fringe) == old_len_fringe + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _grow_pseudopod(triangles, fringe, grid, skeleton, placed_objects):
         """
         Starting from an object in the existing structure on the ``grid``,
@@ -1148,16 +1353,24 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_handle_groups(dia), given the slightly preprocessed morphisms of the diagram, produces a grid laid out according to ``groups``) over Any ║
+# ║ Path(_handle_groups(diagram, groups, merged_morphisms), <unspecified:_handle_groups>) over {Any | hasattr(groups, 'items') and hasattr(diagram, 'subdiagram_from_objects')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _handle_groups : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(groups, 'items')                       ║
+# ║   requires: hasattr(diagram, 'subdiagram_from_objects')    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _handle_groups : {Any | hasattr(groups, 'items') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbca8dd33209762c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._handle_groups","kind":"staticmethod","src_hash":"f80ff09f9c9d56b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_groups(dia)","rhs":"given the slightly preprocessed morphisms of the diagram, produces a grid laid out according to ``groups``","over":{"base":"Any"},"name":"_handle_groups_correct"},"guarantee":"given the slightly preprocessed morphisms of the diagram, produces a grid laid out according to ``groups``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._handle_groups_correct","statement":"Path(_handle_groups(x), given the slightly preprocessed morphisms of the diagram, produces a grid laid out according to ``groups``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbca8dd33209762c"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._handle_groups","kind":"staticmethod","src_hash":"f80ff09f9c9d56b1","in":{"base":"Any","pred":"hasattr(groups, 'items') and hasattr(diagram, 'subdiagram_from_objects')"},"out":{"base":"Any"},"spec":{"lhs":"_handle_groups(diagram, groups, merged_morphisms)","rhs":"<unspecified:_handle_groups>","over":{"base":"Any","pred":"hasattr(groups, 'items') and hasattr(diagram, 'subdiagram_from_objects')"},"name":"_handle_groups_correct"},"guarantee":"given the slightly preprocessed morphisms of the diagram, produces a grid laid out according to ``groups``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._handle_groups_correct","statement":"Path(_handle_groups(x), given the slightly preprocessed morphisms of the diagram, produces a grid laid out according to ``groups``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbca8dd33209762c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(groups, 'items')","hasattr(diagram, 'subdiagram_from_objects')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _handle_groups(diagram, groups, merged_morphisms, hints):
         """
         Given the slightly preprocessed morphisms of the diagram,
@@ -1295,16 +1508,24 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generic_layout(dia), produces the generic layout for the supplied diagram) over Any ║
+# ║ Path(_generic_layout(diagram, merged_morphisms), <unspecified:_generic_layout>) over {Any | hasattr(diagram, 'objects') and hasattr(diagram, 'subdiagram_from_objects')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _generic_layout : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(diagram, 'objects')                    ║
+# ║   requires: hasattr(diagram, 'subdiagram_from_objects')    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _generic_layout : {Any | hasattr(diagram, 'objects') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d7fb0bd49a34389  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._generic_layout","kind":"staticmethod","src_hash":"ac72e614709838d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generic_layout(dia)","rhs":"produces the generic layout for the supplied diagram","over":{"base":"Any"},"name":"_generic_layout_correct"},"guarantee":"produces the generic layout for the supplied diagram","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._generic_layout_correct","statement":"Path(_generic_layout(x), produces the generic layout for the supplied diagram)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d7fb0bd49a34389"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._generic_layout","kind":"staticmethod","src_hash":"ac72e614709838d7","in":{"base":"Any","pred":"hasattr(diagram, 'objects') and hasattr(diagram, 'subdiagram_from_objects')"},"out":{"base":"Any"},"spec":{"lhs":"_generic_layout(diagram, merged_morphisms)","rhs":"<unspecified:_generic_layout>","over":{"base":"Any","pred":"hasattr(diagram, 'objects') and hasattr(diagram, 'subdiagram_from_objects')"},"name":"_generic_layout_correct"},"guarantee":"produces the generic layout for the supplied diagram","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._generic_layout_correct","statement":"Path(_generic_layout(x), produces the generic layout for the supplied diagram)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d7fb0bd49a34389","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(diagram, 'objects')","hasattr(diagram, 'subdiagram_from_objects')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generic_layout(diagram, merged_morphisms):
         """
         Produces the generic layout for the supplied diagram.
@@ -1403,16 +1624,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_undirected_graph(obj), given the objects and the relevant morphisms of a diagram, returns the adjacency lists of the underlying undirected graph) over Any ║
+# ║ Path(_get_undirected_graph(objects, merged_morphisms), <unspecified:_get_undirected_graph>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_undirected_graph : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39370e55a9bc4ab6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._get_undirected_graph","kind":"staticmethod","src_hash":"897fa781a437c758","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_undirected_graph(obj)","rhs":"given the objects and the relevant morphisms of a diagram, returns the adjacency lists of the underlying undirected graph","over":{"base":"Any"},"name":"_get_undirected_graph_correct"},"guarantee":"given the objects and the relevant morphisms of a diagram, returns the adjacency lists of the underlying undirected graph","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._get_undirected_graph_correct","statement":"Path(_get_undirected_graph(x), given the objects and the relevant morphisms of a diagram, returns the adjacency lists of the underlying undirected graph)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39370e55a9bc4ab6"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._get_undirected_graph","kind":"staticmethod","src_hash":"897fa781a437c758","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_undirected_graph(objects, merged_morphisms)","rhs":"<unspecified:_get_undirected_graph>","over":{"base":"Any"},"name":"_get_undirected_graph_correct"},"guarantee":"given the objects and the relevant morphisms of a diagram, returns the adjacency lists of the underlying undirected graph","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._get_undirected_graph_correct","statement":"Path(_get_undirected_graph(x), given the objects and the relevant morphisms of a diagram, returns the adjacency lists of the underlying undirected graph)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39370e55a9bc4ab6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_undirected_graph(objects, merged_morphisms):
         """
         Given the objects and the relevant morphisms of a diagram,
@@ -1434,16 +1661,23 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sequential_layout(dia), lays out the diagram in "sequential" layout) over Any ║
+# ║ Path(_sequential_layout(diagram, merged_morphisms), <unspecified:_sequential_layout>) over {Any | hasattr(diagram, 'objects')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sequential_layout : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(diagram, 'objects')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sequential_layout : {Any | hasattr(diagram, 'objects...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a236377383034d82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._sequential_layout","kind":"staticmethod","src_hash":"3b2838b7f92826ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sequential_layout(dia)","rhs":"lays out the diagram in \"sequential\" layout","over":{"base":"Any"},"name":"_sequential_layout_correct"},"guarantee":"lays out the diagram in \"sequential\" layout","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._sequential_layout_correct","statement":"Path(_sequential_layout(x), lays out the diagram in \"sequential\" layout)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a236377383034d82"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._sequential_layout","kind":"staticmethod","src_hash":"3b2838b7f92826ca","in":{"base":"Any","pred":"hasattr(diagram, 'objects')"},"out":{"base":"Any"},"spec":{"lhs":"_sequential_layout(diagram, merged_morphisms)","rhs":"<unspecified:_sequential_layout>","over":{"base":"Any","pred":"hasattr(diagram, 'objects')"},"name":"_sequential_layout_correct"},"guarantee":"lays out the diagram in \"sequential\" layout","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._sequential_layout_correct","statement":"Path(_sequential_layout(x), lays out the diagram in \"sequential\" layout)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a236377383034d82","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(diagram, 'objects')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sequential_layout(diagram, merged_morphisms):
         r"""
         Lays out the diagram in "sequential" layout.  This method
@@ -1491,16 +1725,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_drop_inessential_morphisms(mer), removes those morphisms which should appear in the diagram, but which have no relevance to object layout) over Any ║
+# ║ Path(_drop_inessential_morphisms(merged_morphisms), <unspecified:_drop_inessential_morphisms>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _drop_inessential_morphisms : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c76ba2b36e1ee60  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._drop_inessential_morphisms","kind":"staticmethod","src_hash":"41aca39093694f06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_drop_inessential_morphisms(mer)","rhs":"removes those morphisms which should appear in the diagram, but which have no relevance to object layout","over":{"base":"Any"},"name":"_drop_inessential_morphisms_correct"},"guarantee":"removes those morphisms which should appear in the diagram, but which have no relevance to object layout","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._drop_inessential_morphisms_correct","statement":"Path(_drop_inessential_morphisms(x), removes those morphisms which should appear in the diagram, but which have no relevance to object layout)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c76ba2b36e1ee60"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._drop_inessential_morphisms","kind":"staticmethod","src_hash":"41aca39093694f06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_drop_inessential_morphisms(merged_morphisms)","rhs":"<unspecified:_drop_inessential_morphisms>","over":{"base":"Any"},"name":"_drop_inessential_morphisms_correct"},"guarantee":"removes those morphisms which should appear in the diagram, but which have no relevance to object layout","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._drop_inessential_morphisms_correct","statement":"Path(_drop_inessential_morphisms(x), removes those morphisms which should appear in the diagram, but which have no relevance to object layout)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c76ba2b36e1ee60","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _drop_inessential_morphisms(merged_morphisms):
         r"""
         Removes those morphisms which should appear in the diagram,
@@ -1514,16 +1754,22 @@ class DiagramGrid:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_connected_components(obj), given a container of morphisms, returns a list of connected components formed by these morphisms) over Any ║
+# ║ Path(_get_connected_components(objects, merged_morphisms), <unspecified:_get_connected_components>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_connected_components : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7edd4df00805150  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._get_connected_components","kind":"staticmethod","src_hash":"3ddea5bfeb349116","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_connected_components(obj)","rhs":"given a container of morphisms, returns a list of connected components formed by these morphisms","over":{"base":"Any"},"name":"_get_connected_components_correct"},"guarantee":"given a container of morphisms, returns a list of connected components formed by these morphisms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._get_connected_components_correct","statement":"Path(_get_connected_components(x), given a container of morphisms, returns a list of connected components formed by these morphisms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7edd4df00805150"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid._get_connected_components","kind":"staticmethod","src_hash":"3ddea5bfeb349116","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_connected_components(objects, merged_morphisms)","rhs":"<unspecified:_get_connected_components>","over":{"base":"Any"},"name":"_get_connected_components_correct"},"guarantee":"given a container of morphisms, returns a list of connected components formed by these morphisms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.DiagramGrid._get_connected_components_correct","statement":"Path(_get_connected_components(x), given a container of morphisms, returns a list of connected components formed by these morphisms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7edd4df00805150","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_connected_components(objects, merged_morphisms):
         """
         Given a container of morphisms, returns a list of connected
@@ -1586,16 +1832,25 @@ class DiagramGrid:
         return component_morphisms
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(dia), initializes the instance correctly) over Any ║
+# ║ Path(__init__(diagram, groups, **hints), <unspecified:__init__>) over {Any | hasattr(diagram, 'premises') and hasattr(diagram, 'conclusions') and hasattr(diagram, 'objects')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(diagram, 'premises')                   ║
+# ║   requires: hasattr(diagram, 'conclusions')                ║
+# ║   requires: hasattr(diagram, 'objects')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(diagram, 'premises') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 36bd4889895f68cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid.__init__","kind":"method","src_hash":"cfc36c34cb16af0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(dia)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36bd4889895f68cd"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid.__init__","kind":"method","src_hash":"cfc36c34cb16af0f","in":{"base":"Any","pred":"hasattr(diagram, 'premises') and hasattr(diagram, 'conclusions') and hasattr(diagram, 'objects')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(diagram, groups, **hints)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(diagram, 'premises') and hasattr(diagram, 'conclusions') and hasattr(diagram, 'objects')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36bd4889895f68cd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(diagram, 'premises')","hasattr(diagram, 'conclusions')","hasattr(diagram, 'objects')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, diagram, groups=None, **hints):
         premises = DiagramGrid._simplify_morphisms(diagram.premises)
         conclusions = DiagramGrid._simplify_morphisms(diagram.conclusions)
@@ -1662,16 +1917,22 @@ class DiagramGrid:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(width(), returns the width attribute) over Any        ║
+# ║ Path(width(), self._grid.width) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._grid.width                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ width : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 959c1c310864b0c6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid.width","kind":"property","src_hash":"b30cd619f1307391","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"width()","rhs":"returns the width attribute","over":{"base":"Any"},"name":"width_correct"},"guarantee":"returns the width attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"959c1c310864b0c6"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid.width","kind":"property","src_hash":"b30cd619f1307391","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"width()","rhs":"self._grid.width","over":{"base":"Any"},"name":"width_correct"},"guarantee":"returns self._grid.width","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"959c1c310864b0c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._grid.width","pure":false,"effects":{"effect_type":"reads_state","reads":["self._grid"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def width(self):
         """
         Returns the number of columns in this diagram layout.
@@ -1696,16 +1957,22 @@ class DiagramGrid:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(height(), returns the height attribute) over Any      ║
+# ║ Path(height(), self._grid.height) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._grid.height                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ height : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 56f07acbf8ac5eed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid.height","kind":"property","src_hash":"6e9a6c52b4ec62df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"height()","rhs":"returns the height attribute","over":{"base":"Any"},"name":"height_correct"},"guarantee":"returns the height attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56f07acbf8ac5eed"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid.height","kind":"property","src_hash":"6e9a6c52b4ec62df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"height()","rhs":"self._grid.height","over":{"base":"Any"},"name":"height_correct"},"guarantee":"returns self._grid.height","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"56f07acbf8ac5eed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._grid.height","pure":false,"effects":{"effect_type":"reads_state","reads":["self._grid"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def height(self):
         """
         Returns the number of rows in this diagram layout.
@@ -1729,16 +1996,22 @@ class DiagramGrid:
         return self._grid.height
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(i_j), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(i_j), self._grid[i, j]) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._grid[i, j]                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 01af8ada9fa3ee0e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid.__getitem__","kind":"method","src_hash":"70c363f4c3e28997","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i_j)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01af8ada9fa3ee0e"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid.__getitem__","kind":"method","src_hash":"70c363f4c3e28997","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i_j)","rhs":"self._grid[i, j]","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self._grid[i, j]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01af8ada9fa3ee0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._grid[i, j]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._grid"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, i_j):
         """
         Returns the object placed in the row ``i`` and column ``j``.
@@ -1767,16 +2040,22 @@ class DiagramGrid:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(morphisms(), returns the morphisms attribute) over Any ║
+# ║ Path(morphisms(), self._morphisms) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._morphisms                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ morphisms : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 72aa65a039a6e4cb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid.morphisms","kind":"property","src_hash":"ff2613299cb6b66b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"morphisms()","rhs":"returns the morphisms attribute","over":{"base":"Any"},"name":"morphisms_correct"},"guarantee":"returns the morphisms attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72aa65a039a6e4cb"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid.morphisms","kind":"property","src_hash":"ff2613299cb6b66b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"morphisms()","rhs":"self._morphisms","over":{"base":"Any"},"name":"morphisms_correct"},"guarantee":"returns self._morphisms","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72aa65a039a6e4cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._morphisms","pure":false,"effects":{"effect_type":"reads_state","reads":["self._morphisms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def morphisms(self):
         """
         Returns those morphisms (and their properties) which are
@@ -1802,16 +2081,22 @@ class DiagramGrid:
         return self._morphisms
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), repr(self._grid._array)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  repr(self._grid._array)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 416d88cb1b64d61b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid.__str__","kind":"method","src_hash":"aa9a6c28b97f1810","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"416d88cb1b64d61b"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.DiagramGrid.__str__","kind":"method","src_hash":"aa9a6c28b97f1810","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"repr(self._grid._array)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns repr(self._grid._array)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"416d88cb1b64d61b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"repr(self._grid._array)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._grid"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         """
         Produces a string representation of this class.
@@ -1842,14 +2127,19 @@ class DiagramGrid:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ArrowStringDescription instance) preserved by ArrowStringDescription(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ArrowStringDescription : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cabda217f96ea667  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.ArrowStringDescription","kind":"class","src_hash":"39e4b484bcfbd91f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ArrowStringDescription(*args)","rhs":"correctly constructs a ArrowStringDescription instance","over":{"base":"Any"},"name":"ArrowStringDescription_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ArrowStringDescription instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'unit') and hasattr(self, 'curving') and hasattr(self, 'curving_amount') and hasattr(self, 'looping_start') and hasattr(self, 'looping_end') and hasattr(self, 'horizontal_direction') and hasattr(self, 'vertical_direction') and hasattr(self, 'label_position')","kind":"class","induction":"structural on unit, curving, curving_amount, looping_start"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cabda217f96ea667"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.ArrowStringDescription","kind":"class","src_hash":"39e4b484bcfbd91f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ArrowStringDescription(*args)","rhs":"correctly constructs a ArrowStringDescription instance","over":{"base":"Any"},"name":"ArrowStringDescription_class_invariant","kind":"invariant"},"guarantee":"preserves 12 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'unit') and hasattr(self, 'curving') and hasattr(self, 'curving_amount') and hasattr(self, 'looping_start') and hasattr(self, 'looping_end') and hasattr(self, 'horizontal_direction') and hasattr(self, 'vertical_direction') and hasattr(self, 'label_position')","kind":"class","induction":"structural on unit, curving, curving_amount, looping_start"}],"methods_preserving":["__init__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cabda217f96ea667","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'unit')","hasattr(self, 'curving')","hasattr(self, 'curving_amount')","hasattr(self, 'looping_start')","hasattr(self, 'looping_end')","hasattr(self, 'horizontal_direction')","hasattr(self, 'vertical_direction')","hasattr(self, 'label_position')","hasattr(self, 'label')","hasattr(self, 'label_displacement')","hasattr(self, 'arrow_style')","hasattr(self, 'forced_label_position')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ArrowStringDescription not found in source"]}}
 class ArrowStringDescription:
     r"""
     Stores the information necessary for producing an Xy-pic
@@ -1949,16 +2239,24 @@ class ArrowStringDescription:
     .. [Xypic] https://xy-pic.sourceforge.net/
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(uni), initializes the instance correctly) over Any ║
+# ║ Path(__init__(unit, curving, curving_amount), self.unit == unit and self.curving == curving and self.curving_amount == curving_amount and self.looping_start == looping_start and self.looping_end == looping_end) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.unit == unit                              ║
+# ║   ensures:  self.curving == curving                        ║
+# ║   ensures:  self.curving_amount == curving_amount          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.unit =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38f59364be85b0fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.ArrowStringDescription.__init__","kind":"method","src_hash":"fb77fb08ac7ecd56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(uni)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38f59364be85b0fa"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.ArrowStringDescription.__init__","kind":"method","src_hash":"fb77fb08ac7ecd56","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.unit == unit and self.curving == curving and self.curving_amount == curving_amount and self.looping_start == looping_start and self.looping_end == looping_end"},"spec":{"lhs":"__init__(unit, curving, curving_amount)","rhs":"self.unit == unit and self.curving == curving and self.curving_amount == curving_amount and self.looping_start == looping_start and self.looping_end == looping_end","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.unit == unit; self.curving == curving; self.curving_amount == curving_amount","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38f59364be85b0fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.unit == unit","self.curving == curving","self.curving_amount == curving_amount","self.looping_start == looping_start","self.looping_end == looping_end"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, unit, curving, curving_amount, looping_start,
                  looping_end, horizontal_direction, vertical_direction,
                  label_position, label):
@@ -1981,16 +2279,22 @@ class ArrowStringDescription:
         self.forced_label_position = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '\\ar%s%s%s[%s%s]%s%s{%s}' % (curving_str, looping_str, style_str, self.horizontal_direction, self.vertical_direction, self.label_position, self.label_displacement, self.label)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\\ar%s%s%s[%s%s]%s%s{%s}' % (curving_str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | edbdd39193b2c049           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.ArrowStringDescription.__str__","kind":"method","src_hash":"252913e0aa76140e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edbdd39193b2c049"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.ArrowStringDescription.__str__","kind":"method","src_hash":"252913e0aa76140e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'\\\\ar%s%s%s[%s%s]%s%s{%s}' % (curving_str, looping_str, style_str, self.horizontal_direction, self.vertical_direction, self.label_position, self.label_displacement, self.label)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '\\\\ar%s%s%s[%s%s]%s%s{%s}' % (curving_str, looping_str, style_str, self.horizontal_direction, self.vertical_direction, self.label_position, self.label_displacement, self.label)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edbdd39193b2c049","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\\\ar%s%s%s[%s%s]%s%s{%s}' % (curving_str, looping_str, style_str, self.horizontal_direction, self.vertical_direction, self.label_position, self.label_displacement, self.label)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arrow_style","self.curving","self.curving_amount","self.horizontal_direction","self.label","self.label_displacement","self.label_position","self.looping_end","self.looping_start","self.unit","self.vertical_direction"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         if self.curving:
             curving_str = "@/%s%d%s/" % (self.curving, self.curving_amount,
@@ -2018,14 +2322,19 @@ class ArrowStringDescription:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a XypicDiagramDrawer instance) preserved by XypicDiagramDrawer(*args) over {Any | isinstance(morphism, IdentityMorphism) and isinstance(morphism, CompositeMorphism) and isinstance(morphism, NamedMorphism)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ XypicDiagramDrawer : {Any | isinstance(morphism, Iden...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 125a9c54cfa0980d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer","kind":"class","src_hash":"4528f0318369aae9","in":{"base":"Any","pred":"isinstance(morphism, IdentityMorphism) and isinstance(morphism, CompositeMorphism) and isinstance(morphism, NamedMorphism)"},"out":{"base":"Any"},"spec":{"lhs":"XypicDiagramDrawer(*args)","rhs":"correctly constructs a XypicDiagramDrawer instance","over":{"base":"Any","pred":"isinstance(morphism, IdentityMorphism) and isinstance(morphism, CompositeMorphism) and isinstance(morphism, NamedMorphism)"},"name":"XypicDiagramDrawer_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a XypicDiagramDrawer instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'unit') and hasattr(self, 'default_curving_amount') and hasattr(self, 'default_curving_step') and hasattr(self, 'arrow_formatters') and hasattr(self, 'default_arrow_formatter')","kind":"class","induction":"structural on unit, default_curving_amount, default_curving_step, arrow_formatters"}],"methods_preserving":["__init__","_process_morphism","_push_labels_out","draw"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"125a9c54cfa0980d"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer","kind":"class","src_hash":"4528f0318369aae9","in":{"base":"Any","pred":"isinstance(morphism, IdentityMorphism) and isinstance(morphism, CompositeMorphism) and isinstance(morphism, NamedMorphism)"},"out":{"base":"Any"},"spec":{"lhs":"XypicDiagramDrawer(*args)","rhs":"correctly constructs a XypicDiagramDrawer instance","over":{"base":"Any","pred":"isinstance(morphism, IdentityMorphism) and isinstance(morphism, CompositeMorphism) and isinstance(morphism, NamedMorphism)"},"name":"XypicDiagramDrawer_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'unit') and hasattr(self, 'default_curving_amount') and hasattr(self, 'default_curving_step') and hasattr(self, 'arrow_formatters') and hasattr(self, 'default_arrow_formatter')","kind":"class","induction":"structural on unit, default_curving_amount, default_curving_step, arrow_formatters"}],"methods_preserving":["__init__","_process_morphism","_push_labels_out","draw"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"125a9c54cfa0980d","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'unit')","hasattr(self, 'default_curving_amount')","hasattr(self, 'default_curving_step')","hasattr(self, 'arrow_formatters')","hasattr(self, 'default_arrow_formatter')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function XypicDiagramDrawer not found in source"]}}
 class XypicDiagramDrawer:
     r"""
     Given a :class:`~.Diagram` and the corresponding
@@ -2143,16 +2452,22 @@ class XypicDiagramDrawer:
     draw, ArrowStringDescription
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d223b9ddcdfdf753           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer.__init__","kind":"method","src_hash":"3a668139b434e7ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d223b9ddcdfdf753"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer.__init__","kind":"method","src_hash":"3a668139b434e7ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d223b9ddcdfdf753","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         self.unit = "mm"
         self.default_curving_amount = 3
@@ -2168,16 +2483,23 @@ class XypicDiagramDrawer:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_process_loop_morphism(i, ), produces the information required for constructing the string representation of a loop morphism) over Any ║
+# ║ Path(_process_loop_morphism(i, j, grid), (curving, label_pos, looping_start, looping_end)) over {Any | hasattr(morphisms_str_info, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _process_loop_morphism : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(morphisms_str_info, 'items')           ║
+# ║   returns:  (curving, label_pos, looping_start, loopi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _process_loop_morphism : {Any | hasattr(morphisms_str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7cdfac7ea09d927  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37ceccfe1229a966  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_loop_morphism","kind":"staticmethod","src_hash":"88ca796f28e0ef5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_process_loop_morphism(i, )","rhs":"produces the information required for constructing the string representation of a loop morphism","over":{"base":"Any"},"name":"_process_loop_morphism_correct"},"guarantee":"produces the information required for constructing the string representation of a loop morphism","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_loop_morphism_correct","statement":"Path(_process_loop_morphism(x), produces the information required for constructing the string representation of a loop morphism)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7cdfac7ea09d927"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_loop_morphism","kind":"staticmethod","src_hash":"88ca796f28e0ef5d","in":{"base":"Any","pred":"hasattr(morphisms_str_info, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"_process_loop_morphism(i, j, grid)","rhs":"(curving, label_pos, looping_start, looping_end)","over":{"base":"Any","pred":"hasattr(morphisms_str_info, 'items')"},"name":"_process_loop_morphism_correct"},"guarantee":"returns (curving, label_pos, looping_start, looping_end)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_loop_morphism_correct","statement":"Path(_process_loop_morphism(x), returns (curving, label_pos, looping_start, looping_end))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37ceccfe1229a966","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(morphisms_str_info, 'items')"],"returns_expr":"(curving, label_pos, looping_start, looping_end)","pure":false,"effects":{"effect_type":"reads_state","reads":["morphisms_str_info.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _process_loop_morphism(i, j, grid, morphisms_str_info, object_coords):
         """
         Produces the information required for constructing the string
@@ -2322,16 +2644,22 @@ class XypicDiagramDrawer:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_process_horizontal_morphism(i, ), produces the information required for constructing the string representation of a horizontal morphism) over Any ║
+# ║ Path(_process_horizontal_morphism(i, j, target_j), (curving, label_pos)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (curving, label_pos)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _process_horizontal_morphism : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c90e0525b28f7bb6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68f2fd22ddec1eec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_horizontal_morphism","kind":"staticmethod","src_hash":"f8a1688803bf3302","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_process_horizontal_morphism(i, )","rhs":"produces the information required for constructing the string representation of a horizontal morphism","over":{"base":"Any"},"name":"_process_horizontal_morphism_correct"},"guarantee":"produces the information required for constructing the string representation of a horizontal morphism","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_horizontal_morphism_correct","statement":"Path(_process_horizontal_morphism(x), produces the information required for constructing the string representation of a horizontal morphism)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c90e0525b28f7bb6"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_horizontal_morphism","kind":"staticmethod","src_hash":"f8a1688803bf3302","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_process_horizontal_morphism(i, j, target_j)","rhs":"(curving, label_pos)","over":{"base":"Any"},"name":"_process_horizontal_morphism_correct"},"guarantee":"returns (curving, label_pos)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_horizontal_morphism_correct","statement":"Path(_process_horizontal_morphism(x), returns (curving, label_pos))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68f2fd22ddec1eec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(curving, label_pos)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _process_horizontal_morphism(i, j, target_j, grid, morphisms_str_info,
                                      object_coords):
         """
@@ -2458,16 +2786,22 @@ class XypicDiagramDrawer:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_process_vertical_morphism(i, ), produces the information required for constructing the string representation of a vertical morphism) over Any ║
+# ║ Path(_process_vertical_morphism(i, j, target_i), (curving, label_pos)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (curving, label_pos)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _process_vertical_morphism : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b97fe5e02ca41748  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 848580a7f10e713f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_vertical_morphism","kind":"staticmethod","src_hash":"f8963997d157a43b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_process_vertical_morphism(i, )","rhs":"produces the information required for constructing the string representation of a vertical morphism","over":{"base":"Any"},"name":"_process_vertical_morphism_correct"},"guarantee":"produces the information required for constructing the string representation of a vertical morphism","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_vertical_morphism_correct","statement":"Path(_process_vertical_morphism(x), produces the information required for constructing the string representation of a vertical morphism)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b97fe5e02ca41748"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_vertical_morphism","kind":"staticmethod","src_hash":"f8963997d157a43b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_process_vertical_morphism(i, j, target_i)","rhs":"(curving, label_pos)","over":{"base":"Any"},"name":"_process_vertical_morphism_correct"},"guarantee":"returns (curving, label_pos)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_vertical_morphism_correct","statement":"Path(_process_vertical_morphism(x), returns (curving, label_pos))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"848580a7f10e713f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(curving, label_pos)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _process_vertical_morphism(i, j, target_i, grid, morphisms_str_info,
                                    object_coords):
         """
@@ -2575,16 +2909,25 @@ class XypicDiagramDrawer:
         return (curving, label_pos)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_process_morphism(dia), given the required information, produces the string representation of ``morphism``) over Any ║
+# ║ Path(_process_morphism(diagram, grid, morphism), <unspecified:_process_morphism>) over {Any | hasattr(morphism, 'domain') and hasattr(morphism, 'codomain') and hasattr(morphism, 'components') and hasattr(morphism, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _process_morphism : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(morphism, 'domain')                    ║
+# ║   requires: hasattr(morphism, 'codomain')                  ║
+# ║   requires: hasattr(morphism, 'components')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _process_morphism : {Any | hasattr(morphism, 'domain'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce02ee3b1711d530  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_morphism","kind":"method","src_hash":"33ca2f8e1788156f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_process_morphism(dia)","rhs":"given the required information, produces the string representation of ``morphism``","over":{"base":"Any"},"name":"_process_morphism_correct"},"guarantee":"given the required information, produces the string representation of ``morphism``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_morphism_correct","statement":"Path(_process_morphism(x), given the required information, produces the string representation of ``morphism``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce02ee3b1711d530"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_morphism","kind":"method","src_hash":"33ca2f8e1788156f","in":{"base":"Any","pred":"hasattr(morphism, 'domain') and hasattr(morphism, 'codomain') and hasattr(morphism, 'components') and hasattr(morphism, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_process_morphism(diagram, grid, morphism)","rhs":"<unspecified:_process_morphism>","over":{"base":"Any","pred":"hasattr(morphism, 'domain') and hasattr(morphism, 'codomain') and hasattr(morphism, 'components') and hasattr(morphism, 'name')"},"name":"_process_morphism_correct"},"guarantee":"given the required information, produces the string representation of ``morphism``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._process_morphism_correct","statement":"Path(_process_morphism(x), given the required information, produces the string representation of ``morphism``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce02ee3b1711d530","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(morphism, 'domain')","hasattr(morphism, 'codomain')","hasattr(morphism, 'components')","hasattr(morphism, 'name')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _process_morphism(self, diagram, grid, morphism, object_coords,
                           morphisms, morphisms_str_info):
         """
@@ -2686,16 +3029,23 @@ class XypicDiagramDrawer:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_free_space_horizontal(dom), for a horizontal morphism, checks whether there is free space (i.e., space not occupied by any objects) above the morphism or below it) over Any ║
+# ║ Path(_check_free_space_horizontal(dom_i, dom_j, cod_j), (free_up, free_down, backwards)) over {Any | hasattr(grid, 'height')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_free_space_horizontal : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(grid, 'height')                        ║
+# ║   returns:  (free_up, free_down, backwards)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_free_space_horizontal : {Any | hasattr(grid, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b601a2c67c2dcea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a678e704f890758  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._check_free_space_horizontal","kind":"staticmethod","src_hash":"5dbba14c4f95a4a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_free_space_horizontal(dom)","rhs":"for a horizontal morphism, checks whether there is free space (i.e., space not occupied by any objects) above the morphism or below it","over":{"base":"Any"},"name":"_check_free_space_horizontal_correct"},"guarantee":"for a horizontal morphism, checks whether there is free space (i.e., space not occupied by any objects) above the morphism or below it","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._check_free_space_horizontal_correct","statement":"Path(_check_free_space_horizontal(x), for a horizontal morphism, checks whether there is free space (i.e., space not occupied by any objects) above the morphism or below it)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b601a2c67c2dcea"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._check_free_space_horizontal","kind":"staticmethod","src_hash":"5dbba14c4f95a4a2","in":{"base":"Any","pred":"hasattr(grid, 'height')"},"out":{"base":"Any"},"spec":{"lhs":"_check_free_space_horizontal(dom_i, dom_j, cod_j)","rhs":"(free_up, free_down, backwards)","over":{"base":"Any","pred":"hasattr(grid, 'height')"},"name":"_check_free_space_horizontal_correct"},"guarantee":"returns (free_up, free_down, backwards)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._check_free_space_horizontal_correct","statement":"Path(_check_free_space_horizontal(x), returns (free_up, free_down, backwards))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a678e704f890758","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(grid, 'height')"],"returns_expr":"(free_up, free_down, backwards)","pure":false,"effects":{"effect_type":"reads_state","reads":["grid.height"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_free_space_horizontal(dom_i, dom_j, cod_j, grid):
         """
         For a horizontal morphism, checks whether there is free space
@@ -2727,16 +3077,23 @@ class XypicDiagramDrawer:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_free_space_vertical(dom), for a vertical morphism, checks whether there is free space (i.e., space not occupied by any objects) to the left of the morphism or to the right of it) over Any ║
+# ║ Path(_check_free_space_vertical(dom_i, cod_i, dom_j), (free_left, free_right, backwards)) over {Any | hasattr(grid, 'width')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_free_space_vertical : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(grid, 'width')                         ║
+# ║   returns:  (free_left, free_right, backwards)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_free_space_vertical : {Any | hasattr(grid, 'wi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b363eeee237d2d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a1e92544e6d8a1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._check_free_space_vertical","kind":"staticmethod","src_hash":"213436a2823b616e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_free_space_vertical(dom)","rhs":"for a vertical morphism, checks whether there is free space (i.e., space not occupied by any objects) to the left of the morphism or to the right of it","over":{"base":"Any"},"name":"_check_free_space_vertical_correct"},"guarantee":"for a vertical morphism, checks whether there is free space (i.e., space not occupied by any objects) to the left of the morphism or to the right of it","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._check_free_space_vertical_correct","statement":"Path(_check_free_space_vertical(x), for a vertical morphism, checks whether there is free space (i.e., space not occupied by any objects) to the left of the morphism or to the right of it)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b363eeee237d2d3"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._check_free_space_vertical","kind":"staticmethod","src_hash":"213436a2823b616e","in":{"base":"Any","pred":"hasattr(grid, 'width')"},"out":{"base":"Any"},"spec":{"lhs":"_check_free_space_vertical(dom_i, cod_i, dom_j)","rhs":"(free_left, free_right, backwards)","over":{"base":"Any","pred":"hasattr(grid, 'width')"},"name":"_check_free_space_vertical_correct"},"guarantee":"returns (free_left, free_right, backwards)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._check_free_space_vertical_correct","statement":"Path(_check_free_space_vertical(x), returns (free_left, free_right, backwards))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a1e92544e6d8a1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(grid, 'width')"],"returns_expr":"(free_left, free_right, backwards)","pure":false,"effects":{"effect_type":"reads_state","reads":["grid.width"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_free_space_vertical(dom_i, cod_i, dom_j, grid):
         """
         For a vertical morphism, checks whether there is free space
@@ -2767,16 +3124,22 @@ class XypicDiagramDrawer:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_free_space_diagonal(dom), for a diagonal morphism, checks whether there is free space (i.e., space not occupied by any objects) above the morphism or below it) over Any ║
+# ║ Path(_check_free_space_diagonal(dom_i, cod_i, dom_j), <unspecified:_check_free_space_diagonal>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_free_space_diagonal : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4130ab2b8302fc9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._check_free_space_diagonal","kind":"staticmethod","src_hash":"c4f0420f14a8285f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_free_space_diagonal(dom)","rhs":"for a diagonal morphism, checks whether there is free space (i.e., space not occupied by any objects) above the morphism or below it","over":{"base":"Any"},"name":"_check_free_space_diagonal_correct"},"guarantee":"for a diagonal morphism, checks whether there is free space (i.e., space not occupied by any objects) above the morphism or below it","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._check_free_space_diagonal_correct","statement":"Path(_check_free_space_diagonal(x), for a diagonal morphism, checks whether there is free space (i.e., space not occupied by any objects) above the morphism or below it)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4130ab2b8302fc9"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._check_free_space_diagonal","kind":"staticmethod","src_hash":"c4f0420f14a8285f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_free_space_diagonal(dom_i, cod_i, dom_j)","rhs":"<unspecified:_check_free_space_diagonal>","over":{"base":"Any"},"name":"_check_free_space_diagonal_correct"},"guarantee":"for a diagonal morphism, checks whether there is free space (i.e., space not occupied by any objects) above the morphism or below it","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._check_free_space_diagonal_correct","statement":"Path(_check_free_space_diagonal(x), for a diagonal morphism, checks whether there is free space (i.e., space not occupied by any objects) above the morphism or below it)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4130ab2b8302fc9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_free_space_diagonal(dom_i, cod_i, dom_j, cod_j, grid):
         """
         For a diagonal morphism, checks whether there is free space
@@ -2867,16 +3230,23 @@ class XypicDiagramDrawer:
         return (free_up, free_down, backwards)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_push_labels_out(mor), for all straight morphisms which form the visual boundary of the laid out diagram, puts their labels on their outer sides) over Any ║
+# ║ Path(_push_labels_out(morphisms_str_info, grid, object_coords), <unspecified:_push_labels_out>) over {Any | hasattr(morphisms_str_info, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _push_labels_out : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(morphisms_str_info, 'items')           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _push_labels_out : {Any | hasattr(morphisms_str_info,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b46ff8c7f61e1fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._push_labels_out","kind":"method","src_hash":"777eff88e65b8828","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_push_labels_out(mor)","rhs":"for all straight morphisms which form the visual boundary of the laid out diagram, puts their labels on their outer sides","over":{"base":"Any"},"name":"_push_labels_out_correct"},"guarantee":"for all straight morphisms which form the visual boundary of the laid out diagram, puts their labels on their outer sides","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._push_labels_out_correct","statement":"Path(_push_labels_out(x), for all straight morphisms which form the visual boundary of the laid out diagram, puts their labels on their outer sides)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b46ff8c7f61e1fd"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._push_labels_out","kind":"method","src_hash":"777eff88e65b8828","in":{"base":"Any","pred":"hasattr(morphisms_str_info, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"_push_labels_out(morphisms_str_info, grid, object_coords)","rhs":"<unspecified:_push_labels_out>","over":{"base":"Any","pred":"hasattr(morphisms_str_info, 'items')"},"name":"_push_labels_out_correct"},"guarantee":"for all straight morphisms which form the visual boundary of the laid out diagram, puts their labels on their outer sides","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._push_labels_out_correct","statement":"Path(_push_labels_out(x), for all straight morphisms which form the visual boundary of the laid out diagram, puts their labels on their outer sides)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b46ff8c7f61e1fd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(morphisms_str_info, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["morphisms_str_info.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _push_labels_out(self, morphisms_str_info, grid, object_coords):
         """
         For all straight morphisms which form the visual boundary of
@@ -2946,16 +3316,24 @@ class XypicDiagramDrawer:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_morphism_sort_key(mor), provides a morphism sorting key such that horizontal or vertical morphisms between neighbouring objects come first, then horizontal or vertical morphisms between more far away objects, and finally, al) over Any ║
+# ║ Path(_morphism_sort_key(morphism, object_coords), <unspecified:_morphism_sort_key>) over {Any | hasattr(morphism, 'domain') and hasattr(morphism, 'codomain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _morphism_sort_key : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(morphism, 'domain')                    ║
+# ║   requires: hasattr(morphism, 'codomain')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _morphism_sort_key : {Any | hasattr(morphism, 'domain...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 554ee494fa4b2a21  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._morphism_sort_key","kind":"staticmethod","src_hash":"1ffae37d6d833cbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_morphism_sort_key(mor)","rhs":"provides a morphism sorting key such that horizontal or vertical morphisms between neighbouring objects come first, then horizontal or vertical morphisms between more far away objects, and finally, al","over":{"base":"Any"},"name":"_morphism_sort_key_correct"},"guarantee":"provides a morphism sorting key such that horizontal or vertical morphisms between neighbouring objects come first, then horizontal or vertical morphisms between more far away objects, and finally, al","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._morphism_sort_key_correct","statement":"Path(_morphism_sort_key(x), provides a morphism sorting key such that horizontal or vertical morphisms between neighbouring objects come first, then horizontal or vertical morphisms between more far away objects, and finally, al)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"554ee494fa4b2a21"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._morphism_sort_key","kind":"staticmethod","src_hash":"1ffae37d6d833cbd","in":{"base":"Any","pred":"hasattr(morphism, 'domain') and hasattr(morphism, 'codomain')"},"out":{"base":"Any"},"spec":{"lhs":"_morphism_sort_key(morphism, object_coords)","rhs":"<unspecified:_morphism_sort_key>","over":{"base":"Any","pred":"hasattr(morphism, 'domain') and hasattr(morphism, 'codomain')"},"name":"_morphism_sort_key_correct"},"guarantee":"provides a morphism sorting key such that horizontal or vertical morphisms between neighbouring objects come first, then horizontal or vertical morphisms between more far away objects, and finally, al","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._morphism_sort_key_correct","statement":"Path(_morphism_sort_key(x), provides a morphism sorting key such that horizontal or vertical morphisms between neighbouring objects come first, then horizontal or vertical morphisms between more far away objects, and finally, al)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"554ee494fa4b2a21","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(morphism, 'domain')","hasattr(morphism, 'codomain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["morphism.codomain","morphism.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _morphism_sort_key(morphism, object_coords):
         """
         Provides a morphism sorting key such that horizontal or
@@ -2983,16 +3361,25 @@ class XypicDiagramDrawer:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_build_xypic_string(dia), given a collection of :class:`arrowstringdescription` describing the morphisms of a diagram and the object layout information of a diagram, produces the final xy-pic picture) over Any ║
+# ║ Path(_build_xypic_string(diagram, grid, morphisms), <unspecified:_build_xypic_string>) over {Any | hasattr(diagram, 'objects') and hasattr(grid, 'height') and hasattr(grid, 'width')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _build_xypic_string : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(diagram, 'objects')                    ║
+# ║   requires: hasattr(grid, 'height')                        ║
+# ║   requires: hasattr(grid, 'width')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _build_xypic_string : {Any | hasattr(diagram, 'object...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c337e5d154daded6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._build_xypic_string","kind":"staticmethod","src_hash":"105e074cb8f951c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_build_xypic_string(dia)","rhs":"given a collection of :class:`arrowstringdescription` describing the morphisms of a diagram and the object layout information of a diagram, produces the final xy-pic picture","over":{"base":"Any"},"name":"_build_xypic_string_correct"},"guarantee":"given a collection of :class:`arrowstringdescription` describing the morphisms of a diagram and the object layout information of a diagram, produces the final xy-pic picture","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._build_xypic_string_correct","statement":"Path(_build_xypic_string(x), given a collection of :class:`arrowstringdescription` describing the morphisms of a diagram and the object layout information of a diagram, produces the final xy-pic picture)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c337e5d154daded6"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer._build_xypic_string","kind":"staticmethod","src_hash":"105e074cb8f951c5","in":{"base":"Any","pred":"hasattr(diagram, 'objects') and hasattr(grid, 'height') and hasattr(grid, 'width')"},"out":{"base":"Any"},"spec":{"lhs":"_build_xypic_string(diagram, grid, morphisms)","rhs":"<unspecified:_build_xypic_string>","over":{"base":"Any","pred":"hasattr(diagram, 'objects') and hasattr(grid, 'height') and hasattr(grid, 'width')"},"name":"_build_xypic_string_correct"},"guarantee":"given a collection of :class:`arrowstringdescription` describing the morphisms of a diagram and the object layout information of a diagram, produces the final xy-pic picture","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer._build_xypic_string_correct","statement":"Path(_build_xypic_string(x), given a collection of :class:`arrowstringdescription` describing the morphisms of a diagram and the object layout information of a diagram, produces the final xy-pic picture)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c337e5d154daded6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(diagram, 'objects')","hasattr(grid, 'height')","hasattr(grid, 'width')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["diagram.objects","grid.height","grid.width"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _build_xypic_string(diagram, grid, morphisms,
                             morphisms_str_info, diagram_format):
         """
@@ -3034,16 +3421,25 @@ class XypicDiagramDrawer:
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw(dia), returns the xy-pic representation of ``diagram`` laid out in ``grid``) over Any ║
+# ║ Path(draw(diagram, grid, masked), XypicDiagramDrawer._build_xypic_string(diagram, grid, morphisms, morphisms_str_info, diagram_format)) over {Any | hasattr(grid, 'morphisms') and hasattr(grid, 'height') and hasattr(grid, 'width')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ draw : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(grid, 'morphisms')                     ║
+# ║   requires: hasattr(grid, 'height')                        ║
+# ║   requires: hasattr(grid, 'width')                         ║
+# ║   returns:  XypicDiagramDrawer._build_xypic_string(di...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ draw : {Any | hasattr(grid, 'morphisms') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 272bee9bbf180ff8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba2fe60303cc1269  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer.draw","kind":"method","src_hash":"a1d6aa04d8fbf9ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw(dia)","rhs":"returns the xy-pic representation of ``diagram`` laid out in ``grid``","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"returns the xy-pic representation of ``diagram`` laid out in ``grid``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer.draw_correct","statement":"Path(draw(x), returns the xy-pic representation of ``diagram`` laid out in ``grid``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"272bee9bbf180ff8"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.XypicDiagramDrawer.draw","kind":"method","src_hash":"a1d6aa04d8fbf9ac","in":{"base":"Any","pred":"hasattr(grid, 'morphisms') and hasattr(grid, 'height') and hasattr(grid, 'width')"},"out":{"base":"Any"},"spec":{"lhs":"draw(diagram, grid, masked)","rhs":"XypicDiagramDrawer._build_xypic_string(diagram, grid, morphisms, morphisms_str_info, diagram_format)","over":{"base":"Any","pred":"hasattr(grid, 'morphisms') and hasattr(grid, 'height') and hasattr(grid, 'width')"},"name":"draw_correct"},"guarantee":"returns XypicDiagramDrawer._build_xypic_string(diagram, grid, morphisms, morphisms_str_info, diagram_format)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.XypicDiagramDrawer.draw_correct","statement":"Path(draw(x), returns XypicDiagramDrawer._build_xypic_string(diagram, grid, morphisms, morphisms_str_info, diagram_format))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba2fe60303cc1269","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(grid, 'morphisms')","hasattr(grid, 'height')","hasattr(grid, 'width')"],"returns_expr":"XypicDiagramDrawer._build_xypic_string(diagram, grid, morphisms, morphisms_str_info, diagram_format)","pure":false,"effects":{"effect_type":"reads_state","reads":["grid.height","grid.morphisms","grid.width","self._process_morphism","self._push_labels_out","self.arrow_formatters","self.default_arrow_formatter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw(self, diagram, grid, masked=None, diagram_format=""):
         r"""
         Returns the Xy-pic representation of ``diagram`` laid out in
@@ -3172,16 +3568,22 @@ class XypicDiagramDrawer:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xypic_draw_diagram(dia), provides a shortcut combining :class:`diagramgrid` and :class:`xypicdiagramdrawer`) over Any ║
+# ║ Path(xypic_draw_diagram(diagram, masked, diagram_format), drawer.draw(diagram, grid, masked, diagram_format)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  drawer.draw(diagram, grid, masked, diagra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xypic_draw_diagram : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c5ae8412b437de0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86bdb899a324671d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.xypic_draw_diagram","kind":"function","src_hash":"d44514de9bbe9cf3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xypic_draw_diagram(dia)","rhs":"provides a shortcut combining :class:`diagramgrid` and :class:`xypicdiagramdrawer`","over":{"base":"Any"},"name":"xypic_draw_diagram_correct"},"guarantee":"provides a shortcut combining :class:`diagramgrid` and :class:`xypicdiagramdrawer`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.xypic_draw_diagram_correct","statement":"Path(xypic_draw_diagram(x), provides a shortcut combining :class:`diagramgrid` and :class:`xypicdiagramdrawer`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c5ae8412b437de0"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.xypic_draw_diagram","kind":"function","src_hash":"d44514de9bbe9cf3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xypic_draw_diagram(diagram, masked, diagram_format)","rhs":"drawer.draw(diagram, grid, masked, diagram_format)","over":{"base":"Any"},"name":"xypic_draw_diagram_correct"},"guarantee":"returns drawer.draw(diagram, grid, masked, diagram_format)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.xypic_draw_diagram_correct","statement":"Path(xypic_draw_diagram(x), returns drawer.draw(diagram, grid, masked, diagram_format))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86bdb899a324671d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"drawer.draw(diagram, grid, masked, diagram_format)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['diagram', 'masked', 'diagram_format', 'groups'], spec=['diagram', 'masked', 'diagram_format', 'groups', '**hints']"]}}
 def xypic_draw_diagram(diagram, masked=None, diagram_format="",
                        groups=None, **hints):
     r"""
@@ -3225,16 +3627,22 @@ def xypic_draw_diagram(diagram, masked=None, diagram_format="",
 
 @doctest_depends_on(exe=('latex', 'dvipng'), modules=('pyglet',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preview_diagram(dia), combines the functionality of ``xypic_draw_diagram`` and ``sympy.printing.preview``) over Any ║
+# ║ Path(preview_diagram(diagram, masked, diagram_format), <unspecified:preview_diagram>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ preview_diagram : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b1d328d9ec23c1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.preview_diagram","kind":"function","src_hash":"66f71aa5f7398a68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preview_diagram(dia)","rhs":"combines the functionality of ``xypic_draw_diagram`` and ``sympy.printing.preview``","over":{"base":"Any"},"name":"preview_diagram_correct"},"guarantee":"combines the functionality of ``xypic_draw_diagram`` and ``sympy.printing.preview``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.preview_diagram_correct","statement":"Path(preview_diagram(x), combines the functionality of ``xypic_draw_diagram`` and ``sympy.printing.preview``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b1d328d9ec23c1c"}
+# @cctt_verify {"v":2,"sym":"sympy.categories.diagram_drawing.preview_diagram","kind":"function","src_hash":"66f71aa5f7398a68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preview_diagram(diagram, masked, diagram_format)","rhs":"<unspecified:preview_diagram>","over":{"base":"Any"},"name":"preview_diagram_correct"},"guarantee":"combines the functionality of ``xypic_draw_diagram`` and ``sympy.printing.preview``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.categories.diagram_drawing.preview_diagram_correct","statement":"Path(preview_diagram(x), combines the functionality of ``xypic_draw_diagram`` and ``sympy.printing.preview``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b1d328d9ec23c1c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['diagram', 'masked', 'diagram_format', 'groups', 'output', 'viewer', 'euler'], spec=['diagram', 'masked', 'diagram_format', 'groups', 'output', 'viewer', 'euler', '**hints']"]}}
 def preview_diagram(diagram, masked=None, diagram_format="", groups=None,
                     output='png', viewer=None, euler=True, **hints):
     """

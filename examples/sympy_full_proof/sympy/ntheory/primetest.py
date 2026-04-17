@@ -41,16 +41,22 @@ MERSENNE_PRIME_EXPONENTS = (2, 3, 5, 7, 13, 17, 19, 31, 61, 89, 107, 127, 521, 6
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_fermat_pseudoprime(n, ), returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:) over Any ║
+# ║ Path(is_fermat_pseudoprime(n, a), <unspecified:is_fermat_pseudoprime>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_fermat_pseudoprime : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86011c10ed1611ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_fermat_pseudoprime","kind":"function","src_hash":"b4ed2e5c091fa203","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_fermat_pseudoprime(n, )","rhs":"returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:","over":{"base":"Any"},"name":"is_fermat_pseudoprime_correct"},"guarantee":"returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_fermat_pseudoprime_correct","statement":"Path(is_fermat_pseudoprime(x), returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86011c10ed1611ef"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_fermat_pseudoprime","kind":"function","src_hash":"b4ed2e5c091fa203","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_fermat_pseudoprime(n, a)","rhs":"<unspecified:is_fermat_pseudoprime>","over":{"base":"Any"},"name":"is_fermat_pseudoprime_correct"},"guarantee":"returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_fermat_pseudoprime_correct","statement":"Path(is_fermat_pseudoprime(x), returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86011c10ed1611ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_fermat_pseudoprime(n, a):
     r"""Returns True if ``n`` is prime or is an odd composite integer that
     is coprime to ``a`` and satisfy the modular arithmetic congruence relation:
@@ -99,16 +105,24 @@ def is_fermat_pseudoprime(n, a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_euler_pseudoprime(n, ), returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:) over Any ║
+# ║ Path(is_euler_pseudoprime(n, a), <unspecified:is_euler_pseudoprime>) over {Any | not (a < 1) and not (n < 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_euler_pseudoprime : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (a < 1)                                    ║
+# ║   requires: not (n < 1)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_euler_pseudoprime : {Any | not (a < 1) and not (n ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b51e84aea44d1cd4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_euler_pseudoprime","kind":"function","src_hash":"58a25355d65adbc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_euler_pseudoprime(n, )","rhs":"returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:","over":{"base":"Any"},"name":"is_euler_pseudoprime_correct"},"guarantee":"returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_euler_pseudoprime_correct","statement":"Path(is_euler_pseudoprime(x), returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b51e84aea44d1cd4"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_euler_pseudoprime","kind":"function","src_hash":"58a25355d65adbc4","in":{"base":"Any","pred":"not (a < 1) and not (n < 1)"},"out":{"base":"Any"},"spec":{"lhs":"is_euler_pseudoprime(n, a)","rhs":"<unspecified:is_euler_pseudoprime>","over":{"base":"Any","pred":"not (a < 1) and not (n < 1)"},"name":"is_euler_pseudoprime_correct"},"guarantee":"returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_euler_pseudoprime_correct","statement":"Path(is_euler_pseudoprime(x), returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b51e84aea44d1cd4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (a < 1)","not (n < 1)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def is_euler_pseudoprime(n, a):
     r"""Returns True if ``n`` is prime or is an odd composite integer that
     is coprime to ``a`` and satisfy the modular arithmetic congruence relation:
@@ -166,16 +180,22 @@ def is_euler_pseudoprime(n, a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_euler_jacobi_pseudoprime(n, ), returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:) over Any ║
+# ║ Path(is_euler_jacobi_pseudoprime(n, a), <unspecified:is_euler_jacobi_pseudoprime>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_euler_jacobi_pseudoprime : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c339a109ebf81964  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_euler_jacobi_pseudoprime","kind":"function","src_hash":"38d95aca425fbc1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_euler_jacobi_pseudoprime(n, )","rhs":"returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:","over":{"base":"Any"},"name":"is_euler_jacobi_pseudoprime_correct"},"guarantee":"returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_euler_jacobi_pseudoprime_correct","statement":"Path(is_euler_jacobi_pseudoprime(x), returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c339a109ebf81964"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_euler_jacobi_pseudoprime","kind":"function","src_hash":"38d95aca425fbc1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_euler_jacobi_pseudoprime(n, a)","rhs":"<unspecified:is_euler_jacobi_pseudoprime>","over":{"base":"Any"},"name":"is_euler_jacobi_pseudoprime_correct"},"guarantee":"returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_euler_jacobi_pseudoprime_correct","statement":"Path(is_euler_jacobi_pseudoprime(x), returns true if ``n`` is prime or is an odd composite integer that is coprime to ``a`` and satisfy the modular arithmetic congruence relation:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c339a109ebf81964","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_euler_jacobi_pseudoprime(n, a):
     r"""Returns True if ``n`` is prime or is an odd composite integer that
     is coprime to ``a`` and satisfy the modular arithmetic congruence relation:
@@ -222,16 +242,22 @@ def is_euler_jacobi_pseudoprime(n, a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_square(n, ), return true if n == a * a for some integer a, else false. if n is suspected of *not* being a square then this is a quick method of confirming that it is not) over Any ║
+# ║ Path(is_square(n, prep), <unspecified:is_square>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_square : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce3bbebbd59a93e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_square","kind":"function","src_hash":"5bb02f15995ab980","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_square(n, )","rhs":"return true if n == a * a for some integer a, else false. if n is suspected of *not* being a square then this is a quick method of confirming that it is not","over":{"base":"Any"},"name":"is_square_correct"},"guarantee":"return true if n == a * a for some integer a, else false. if n is suspected of *not* being a square then this is a quick method of confirming that it is not","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_square_correct","statement":"Path(is_square(x), return true if n == a * a for some integer a, else false. if n is suspected of *not* being a square then this is a quick method of confirming that it is not)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce3bbebbd59a93e0"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_square","kind":"function","src_hash":"5bb02f15995ab980","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_square(n, prep)","rhs":"<unspecified:is_square>","over":{"base":"Any"},"name":"is_square_correct"},"guarantee":"return true if n == a * a for some integer a, else false. if n is suspected of *not* being a square then this is a quick method of confirming that it is not","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_square_correct","statement":"Path(is_square(x), return true if n == a * a for some integer a, else false. if n is suspected of *not* being a square then this is a quick method of confirming that it is not)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce3bbebbd59a93e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_square(n, prep=True):
     """Return True if n == a * a for some integer a, else False.
     If n is suspected of *not* being a square then this is a
@@ -265,16 +291,22 @@ def is_square(n, prep=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test(n, ), miller-rabin strong pseudoprime test for one base. return false if n is definitely composite, true if n is probably prime, with a probability greater than 3/4) over Any ║
+# ║ Path(_test(n, base, s), <unspecified:_test>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _test : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38a7835f97c07d5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest._test","kind":"function","src_hash":"95ba4788e501ffa1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test(n, )","rhs":"miller-rabin strong pseudoprime test for one base. return false if n is definitely composite, true if n is probably prime, with a probability greater than 3/4","over":{"base":"Any"},"name":"_test_correct"},"guarantee":"miller-rabin strong pseudoprime test for one base. return false if n is definitely composite, true if n is probably prime, with a probability greater than 3/4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest._test_correct","statement":"Path(_test(x), miller-rabin strong pseudoprime test for one base. return false if n is definitely composite, true if n is probably prime, with a probability greater than 3/4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38a7835f97c07d5f"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest._test","kind":"function","src_hash":"95ba4788e501ffa1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test(n, base, s)","rhs":"<unspecified:_test>","over":{"base":"Any"},"name":"_test_correct"},"guarantee":"miller-rabin strong pseudoprime test for one base. return false if n is definitely composite, true if n is probably prime, with a probability greater than 3/4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest._test_correct","statement":"Path(_test(x), miller-rabin strong pseudoprime test for one base. return false if n is definitely composite, true if n is probably prime, with a probability greater than 3/4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38a7835f97c07d5f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _test(n, base, s, t):
     """Miller-Rabin strong pseudoprime test for one base.
     Return False if n is definitely composite, True if n is
@@ -296,16 +328,22 @@ def _test(n, base, s, t):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mr(n, ), perform a miller-rabin strong pseudoprime test on n using a given list of bases/witnesses) over Any ║
+# ║ Path(mr(n, bases), <unspecified:mr>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mr : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8302d7abdd65c550  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.mr","kind":"function","src_hash":"e88fc0fcbb94648c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mr(n, )","rhs":"perform a miller-rabin strong pseudoprime test on n using a given list of bases/witnesses","over":{"base":"Any"},"name":"mr_correct"},"guarantee":"perform a miller-rabin strong pseudoprime test on n using a given list of bases/witnesses","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.mr_correct","statement":"Path(mr(x), perform a miller-rabin strong pseudoprime test on n using a given list of bases/witnesses)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8302d7abdd65c550"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.mr","kind":"function","src_hash":"e88fc0fcbb94648c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mr(n, bases)","rhs":"<unspecified:mr>","over":{"base":"Any"},"name":"mr_correct"},"guarantee":"perform a miller-rabin strong pseudoprime test on n using a given list of bases/witnesses","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.mr_correct","statement":"Path(mr(x), perform a miller-rabin strong pseudoprime test on n using a given list of bases/witnesses)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8302d7abdd65c550","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def mr(n, bases):
     """Perform a Miller-Rabin strong pseudoprime test on n using a
     given list of bases/witnesses.
@@ -349,16 +387,22 @@ def mr(n, bases):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_lucas_extrastrong_params(n), calculates the "extra strong" parameters (d, p, q) for n) over Any ║
+# ║ Path(_lucas_extrastrong_params(n), <unspecified:_lucas_extrastrong_params>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _lucas_extrastrong_params : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e5721faf4133b74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest._lucas_extrastrong_params","kind":"function","src_hash":"c0d492396e4bd947","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lucas_extrastrong_params(n)","rhs":"calculates the \"extra strong\" parameters (d, p, q) for n","over":{"base":"Any"},"name":"_lucas_extrastrong_params_correct"},"guarantee":"calculates the \"extra strong\" parameters (d, p, q) for n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest._lucas_extrastrong_params_correct","statement":"Path(_lucas_extrastrong_params(x), calculates the \"extra strong\" parameters (d, p, q) for n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e5721faf4133b74"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest._lucas_extrastrong_params","kind":"function","src_hash":"c0d492396e4bd947","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lucas_extrastrong_params(n)","rhs":"<unspecified:_lucas_extrastrong_params>","over":{"base":"Any"},"name":"_lucas_extrastrong_params_correct"},"guarantee":"calculates the \"extra strong\" parameters (d, p, q) for n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest._lucas_extrastrong_params_correct","statement":"Path(_lucas_extrastrong_params(x), calculates the \"extra strong\" parameters (d, p, q) for n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e5721faf4133b74","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _lucas_extrastrong_params(n):
     """Calculates the "extra strong" parameters (D, P, Q) for n.
 
@@ -400,16 +444,22 @@ def _lucas_extrastrong_params(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_lucas_prp(n), standard lucas compositeness test with selfridge parameters) over Any ║
+# ║ Path(is_lucas_prp(n), <unspecified:is_lucas_prp>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_lucas_prp : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f48cd450f1196fa2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_lucas_prp","kind":"function","src_hash":"6346eb6c41e56d5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_lucas_prp(n)","rhs":"standard lucas compositeness test with selfridge parameters","over":{"base":"Any"},"name":"is_lucas_prp_correct"},"guarantee":"standard lucas compositeness test with selfridge parameters","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_lucas_prp_correct","statement":"Path(is_lucas_prp(x), standard lucas compositeness test with selfridge parameters)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f48cd450f1196fa2"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_lucas_prp","kind":"function","src_hash":"6346eb6c41e56d5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_lucas_prp(n)","rhs":"<unspecified:is_lucas_prp>","over":{"base":"Any"},"name":"is_lucas_prp_correct"},"guarantee":"standard lucas compositeness test with selfridge parameters","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_lucas_prp_correct","statement":"Path(is_lucas_prp(x), standard lucas compositeness test with selfridge parameters)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f48cd450f1196fa2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def is_lucas_prp(n):
     """Standard Lucas compositeness test with Selfridge parameters.  Returns
     False if n is definitely composite, and True if n is a Lucas probable
@@ -451,16 +501,22 @@ def is_lucas_prp(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_strong_lucas_prp(n), strong lucas compositeness test with selfridge parameters) over Any ║
+# ║ Path(is_strong_lucas_prp(n), <unspecified:is_strong_lucas_prp>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_strong_lucas_prp : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd8132e22c2dceec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_strong_lucas_prp","kind":"function","src_hash":"7234eafad9bfb188","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_strong_lucas_prp(n)","rhs":"strong lucas compositeness test with selfridge parameters","over":{"base":"Any"},"name":"is_strong_lucas_prp_correct"},"guarantee":"strong lucas compositeness test with selfridge parameters","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_strong_lucas_prp_correct","statement":"Path(is_strong_lucas_prp(x), strong lucas compositeness test with selfridge parameters)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd8132e22c2dceec"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_strong_lucas_prp","kind":"function","src_hash":"7234eafad9bfb188","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_strong_lucas_prp(n)","rhs":"<unspecified:is_strong_lucas_prp>","over":{"base":"Any"},"name":"is_strong_lucas_prp_correct"},"guarantee":"strong lucas compositeness test with selfridge parameters","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_strong_lucas_prp_correct","statement":"Path(is_strong_lucas_prp(x), strong lucas compositeness test with selfridge parameters)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd8132e22c2dceec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def is_strong_lucas_prp(n):
     """Strong Lucas compositeness test with Selfridge parameters.  Returns
     False if n is definitely composite, and True if n is a strong Lucas
@@ -500,16 +556,22 @@ def is_strong_lucas_prp(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_extra_strong_lucas_prp(n), extra strong lucas compositeness test) over Any ║
+# ║ Path(is_extra_strong_lucas_prp(n), <unspecified:is_extra_strong_lucas_prp>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_extra_strong_lucas_prp : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d99cceb45e2ba1b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_extra_strong_lucas_prp","kind":"function","src_hash":"e13b804958763f49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_extra_strong_lucas_prp(n)","rhs":"extra strong lucas compositeness test","over":{"base":"Any"},"name":"is_extra_strong_lucas_prp_correct"},"guarantee":"extra strong lucas compositeness test","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_extra_strong_lucas_prp_correct","statement":"Path(is_extra_strong_lucas_prp(x), extra strong lucas compositeness test)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d99cceb45e2ba1b5"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_extra_strong_lucas_prp","kind":"function","src_hash":"e13b804958763f49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_extra_strong_lucas_prp(n)","rhs":"<unspecified:is_extra_strong_lucas_prp>","over":{"base":"Any"},"name":"is_extra_strong_lucas_prp_correct"},"guarantee":"extra strong lucas compositeness test","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_extra_strong_lucas_prp_correct","statement":"Path(is_extra_strong_lucas_prp(x), extra strong lucas compositeness test)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d99cceb45e2ba1b5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def is_extra_strong_lucas_prp(n):
     """Extra Strong Lucas compositeness test.  Returns False if n is
     definitely composite, and True if n is an "extra strong" Lucas probable
@@ -583,16 +645,24 @@ def is_extra_strong_lucas_prp(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(proth_test(n), test if the proth number `n = k2^m + 1` is prime) over Any ║
+# ║ Path(proth_test(n), <unspecified:proth_test>) over {Any | not (n < 3) and not (m < k.bit_length())} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ proth_test : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 3)                                    ║
+# ║   requires: not (m < k.bit_length())                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ proth_test : {Any | not (n < 3) and not (m < k.bit_le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c04859e3fe00fd68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.proth_test","kind":"function","src_hash":"e8e51ee25fed3cb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"proth_test(n)","rhs":"test if the proth number `n = k2^m + 1` is prime","over":{"base":"Any"},"name":"proth_test_correct"},"guarantee":"test if the proth number `n = k2^m + 1` is prime","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.proth_test_correct","statement":"Path(proth_test(x), test if the proth number `n = k2^m + 1` is prime)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c04859e3fe00fd68"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.proth_test","kind":"function","src_hash":"e8e51ee25fed3cb4","in":{"base":"Any","pred":"not (n < 3) and not (m < k.bit_length())"},"out":{"base":"Any"},"spec":{"lhs":"proth_test(n)","rhs":"<unspecified:proth_test>","over":{"base":"Any","pred":"not (n < 3) and not (m < k.bit_length())"},"name":"proth_test_correct"},"guarantee":"test if the proth number `n = k2^m + 1` is prime","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.proth_test_correct","statement":"Path(proth_test(x), test if the proth number `n = k2^m + 1` is prime)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c04859e3fe00fd68","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 3)","not (m < k.bit_length())"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def proth_test(n):
     r""" Test if the Proth number `n = k2^m + 1` is prime. where k is a positive odd number and `2^m > k`.
 
@@ -653,16 +723,22 @@ def proth_test(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_lucas_lehmer_primality_test(p), test if the mersenne number `m_p = 2^p-1` is prime) over Any ║
+# ║ Path(_lucas_lehmer_primality_test(p), v == 0) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  v == 0                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _lucas_lehmer_primality_test : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4d5bd22c8d5dd5d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e51d6744eba33d7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest._lucas_lehmer_primality_test","kind":"function","src_hash":"f6a2c1d00dcb1999","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lucas_lehmer_primality_test(p)","rhs":"test if the mersenne number `m_p = 2^p-1` is prime","over":{"base":"Any"},"name":"_lucas_lehmer_primality_test_correct"},"guarantee":"test if the mersenne number `m_p = 2^p-1` is prime","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest._lucas_lehmer_primality_test_correct","statement":"Path(_lucas_lehmer_primality_test(x), test if the mersenne number `m_p = 2^p-1` is prime)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4d5bd22c8d5dd5d"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest._lucas_lehmer_primality_test","kind":"function","src_hash":"f6a2c1d00dcb1999","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_lucas_lehmer_primality_test(p)","rhs":"v == 0","over":{"base":"Any"},"name":"_lucas_lehmer_primality_test_correct"},"guarantee":"returns v == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest._lucas_lehmer_primality_test_correct","statement":"Path(_lucas_lehmer_primality_test(x), returns v == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e51d6744eba33d7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"v == 0","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _lucas_lehmer_primality_test(p):
     r""" Test if the Mersenne number `M_p = 2^p-1` is prime.
 
@@ -705,16 +781,23 @@ def _lucas_lehmer_primality_test(p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_mersenne_prime(n), returns true if ``n`` is a mersenne prime, else false) over Any ║
+# ║ Path(is_mersenne_prime(n), <unspecified:is_mersenne_prime>) over {Any | hasattr(n, 'bit_length')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_mersenne_prime : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'bit_length')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_mersenne_prime : {Any | hasattr(n, 'bit_length')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18eb8bf0c5979cb9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_mersenne_prime","kind":"function","src_hash":"a35ac66fed4f9d15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_mersenne_prime(n)","rhs":"returns true if ``n`` is a mersenne prime, else false","over":{"base":"Any"},"name":"is_mersenne_prime_correct"},"guarantee":"returns true if ``n`` is a mersenne prime, else false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_mersenne_prime_correct","statement":"Path(is_mersenne_prime(x), returns true if ``n`` is a mersenne prime, else false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18eb8bf0c5979cb9"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_mersenne_prime","kind":"function","src_hash":"a35ac66fed4f9d15","in":{"base":"Any","pred":"hasattr(n, 'bit_length')"},"out":{"base":"Any"},"spec":{"lhs":"is_mersenne_prime(n)","rhs":"<unspecified:is_mersenne_prime>","over":{"base":"Any","pred":"hasattr(n, 'bit_length')"},"name":"is_mersenne_prime_correct"},"guarantee":"returns true if ``n`` is a mersenne prime, else false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_mersenne_prime_correct","statement":"Path(is_mersenne_prime(x), returns true if ``n`` is a mersenne prime, else false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18eb8bf0c5979cb9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'bit_length')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.bit_length"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_mersenne_prime(n):
     """Returns True if  ``n`` is a Mersenne prime, else False.
 
@@ -785,16 +868,22 @@ _MR_BASES_32 = [15591, 2018, 166, 7429, 8064, 16045, 10503, 4399, 1949, 1295,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(isprime(n), test if n is a prime number (true) or not (false)) over Any ║
+# ║ Path(isprime(n), <unspecified:isprime>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ isprime : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a21183bcbc62ac0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.isprime","kind":"function","src_hash":"7f772f9d6467ca39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"isprime(n)","rhs":"test if n is a prime number (true) or not (false)","over":{"base":"Any"},"name":"isprime_correct"},"guarantee":"test if n is a prime number (true) or not (false)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.isprime_correct","statement":"Path(isprime(x), test if n is a prime number (true) or not (false))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a21183bcbc62ac0"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.isprime","kind":"function","src_hash":"7f772f9d6467ca39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"isprime(n)","rhs":"<unspecified:isprime>","over":{"base":"Any"},"name":"isprime_correct"},"guarantee":"test if n is a prime number (true) or not (false)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.isprime_correct","statement":"Path(isprime(x), test if n is a prime number (true) or not (false))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a21183bcbc62ac0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def isprime(n):
     """
     Test if n is a prime number (True) or not (False). For n < 2^64 the
@@ -980,16 +1069,26 @@ def isprime(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_gaussian_prime(num), test if num is a gaussian prime number) over Any ║
+# ║ Path(is_gaussian_prime(num), result == (isprime(b) and b % 4 == 3 if a == 0 else isprime(a) and a % 4 == 3) and result == isprime(b) and b % 4 == 3 or result == isprime(a) and a % 4 == 3) over {Any | hasattr(num, 'as_real_imag')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_gaussian_prime : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(num, 'as_real_imag')                   ║
+# ║   ensures:  result == (isprime(b) and b % 4 == 3 if a...   ║
+# ║   ensures:  result == isprime(b) and b % 4 == 3 or re...   ║
+# ║   fiber[zero_or_none]: a == 0 => isprime(b) and b % 4...   ║
+# ║   fiber[zero_or_none]: b == 0 => isprime(a) and a % 4...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_gaussian_prime : {Any | hasattr(num, 'as_real_imag...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8a9713fe8d470df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23854fcbc43b7e3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_gaussian_prime","kind":"function","src_hash":"85f8893a43823e95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_gaussian_prime(num)","rhs":"test if num is a gaussian prime number","over":{"base":"Any"},"name":"is_gaussian_prime_correct"},"guarantee":"test if num is a gaussian prime number","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_gaussian_prime_correct","statement":"Path(is_gaussian_prime(x), test if num is a gaussian prime number)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8a9713fe8d470df"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.primetest.is_gaussian_prime","kind":"function","src_hash":"85f8893a43823e95","in":{"base":"Any","pred":"hasattr(num, 'as_real_imag')"},"out":{"base":"Any","pred":"result satisfies: result == (isprime(b) and b % 4 == 3 if a == 0 else isprime(a) and a % 4 == 3) and result == isprime(b) and b % 4 == 3 or result == isprime(a) and a % 4 == 3"},"spec":{"lhs":"is_gaussian_prime(num)","rhs":"result == (isprime(b) and b % 4 == 3 if a == 0 else isprime(a) and a % 4 == 3) and result == isprime(b) and b % 4 == 3 or result == isprime(a) and a % 4 == 3","over":{"base":"Any","pred":"hasattr(num, 'as_real_imag')"},"name":"is_gaussian_prime_correct"},"guarantee":"result == (isprime(b) and b % 4 == 3 if a == 0 else isprime(a) and a % 4 == 3); result == isprime(b) and b % 4 == 3 or result == isprime(a) and a % 4 == 3; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.primetest.is_gaussian_prime_correct","statement":"Path(is_gaussian_prime(x), result == (isprime(b) and b % 4 == 3 if a == 0 else isprime(a) and a % 4 == 3); result == isprime(b) and b % 4 == 3 or result == isprime(a) and a % 4 == 3; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23854fcbc43b7e3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(num, 'as_real_imag')"],"ensures":["result == (isprime(b) and b % 4 == 3 if a == 0 else isprime(a) and a % 4 == 3)","result == isprime(b) and b % 4 == 3 or result == isprime(a) and a % 4 == 3"],"fibers":[{"name":"zero_or_none","guard":"a == 0","ensures":["result == isprime(b) and b % 4 == 3"],"decidability":"z3","returns_expr":"isprime(b) and b % 4 == 3"},{"name":"zero_or_none","guard":"b == 0","ensures":["result == isprime(a) and a % 4 == 3"],"decidability":"z3","returns_expr":"isprime(a) and a % 4 == 3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["num.as_real_imag"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_gaussian_prime(num):
     r"""Test if num is a Gaussian prime number.
 

@@ -44,16 +44,25 @@ from sympy.utilities.iterables import iterable
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(finite_diff_weights(ord), calculates the finite difference weights for an arbitrarily spaced one-dimensional grid (``x_list``) for derivatives at ``x0`` of order 0, 1, ..., up to ``order`` using a recursive formula) over Any ║
+# ║ Path(finite_diff_weights(order, x_list, x0), <unspecified:finite_diff_weights>) over {Any | order.is_number and not (order < 0) and not (int(order) != order) and hasattr(order, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ finite_diff_weights : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: order.is_number                                ║
+# ║   requires: not (order < 0)                                ║
+# ║   requires: not (int(order) != order)                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ finite_diff_weights : {Any | order.is_number and not ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9d069d83a1cb85b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.finite_diff.finite_diff_weights","kind":"function","src_hash":"818976849dcb8246","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"finite_diff_weights(ord)","rhs":"calculates the finite difference weights for an arbitrarily spaced one-dimensional grid (``x_list``) for derivatives at ``x0`` of order 0, 1, ..., up to ``order`` using a recursive formula","over":{"base":"Any"},"name":"finite_diff_weights_correct"},"guarantee":"calculates the finite difference weights for an arbitrarily spaced one-dimensional grid (``x_list``) for derivatives at ``x0`` of order 0, 1, ..., up to ``order`` using a recursive formula","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.finite_diff.finite_diff_weights_correct","statement":"Path(finite_diff_weights(x), calculates the finite difference weights for an arbitrarily spaced one-dimensional grid (``x_list``) for derivatives at ``x0`` of order 0, 1, ..., up to ``order`` using a recursive formula)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9d069d83a1cb85b"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.finite_diff.finite_diff_weights","kind":"function","src_hash":"818976849dcb8246","in":{"base":"Any","pred":"order.is_number and not (order < 0) and not (int(order) != order) and hasattr(order, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"finite_diff_weights(order, x_list, x0)","rhs":"<unspecified:finite_diff_weights>","over":{"base":"Any","pred":"order.is_number and not (order < 0) and not (int(order) != order) and hasattr(order, 'is_number')"},"name":"finite_diff_weights_correct"},"guarantee":"calculates the finite difference weights for an arbitrarily spaced one-dimensional grid (``x_list``) for derivatives at ``x0`` of order 0, 1, ..., up to ``order`` using a recursive formula","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.finite_diff.finite_diff_weights_correct","statement":"Path(finite_diff_weights(x), calculates the finite difference weights for an arbitrarily spaced one-dimensional grid (``x_list``) for derivatives at ``x0`` of order 0, 1, ..., up to ``order`` using a recursive formula)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9d069d83a1cb85b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["order.is_number","not (order < 0)","not (int(order) != order)","hasattr(order, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["order.is_number"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def finite_diff_weights(order, x_list, x0=S.One):
     """
     Calculates the finite difference weights for an arbitrarily spaced
@@ -222,16 +231,23 @@ def finite_diff_weights(order, x_list, x0=S.One):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_finite_diff(ord), calculates the finite difference approximation of the derivative of requested order at ``x0`` from points provided in ``x_list`` and ``y_list``) over Any ║
+# ║ Path(apply_finite_diff(order, x_list, y_list), <unspecified:apply_finite_diff>) over {Any | not (len(x_list) != len(y_list))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply_finite_diff : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(x_list) != len(y_list))               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply_finite_diff : {Any | not (len(x_list) != len(y_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4017ce210d9899c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.finite_diff.apply_finite_diff","kind":"function","src_hash":"15f4572f919ff6c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_finite_diff(ord)","rhs":"calculates the finite difference approximation of the derivative of requested order at ``x0`` from points provided in ``x_list`` and ``y_list``","over":{"base":"Any"},"name":"apply_finite_diff_correct"},"guarantee":"calculates the finite difference approximation of the derivative of requested order at ``x0`` from points provided in ``x_list`` and ``y_list``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.finite_diff.apply_finite_diff_correct","statement":"Path(apply_finite_diff(x), calculates the finite difference approximation of the derivative of requested order at ``x0`` from points provided in ``x_list`` and ``y_list``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4017ce210d9899c7"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.finite_diff.apply_finite_diff","kind":"function","src_hash":"15f4572f919ff6c7","in":{"base":"Any","pred":"not (len(x_list) != len(y_list))"},"out":{"base":"Any"},"spec":{"lhs":"apply_finite_diff(order, x_list, y_list)","rhs":"<unspecified:apply_finite_diff>","over":{"base":"Any","pred":"not (len(x_list) != len(y_list))"},"name":"apply_finite_diff_correct"},"guarantee":"calculates the finite difference approximation of the derivative of requested order at ``x0`` from points provided in ``x_list`` and ``y_list``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.finite_diff.apply_finite_diff_correct","statement":"Path(apply_finite_diff(x), calculates the finite difference approximation of the derivative of requested order at ``x0`` from points provided in ``x_list`` and ``y_list``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4017ce210d9899c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(x_list) != len(y_list))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def apply_finite_diff(order, x_list, y_list, x0=S.Zero):
     """
     Calculates the finite difference approximation of
@@ -320,16 +336,27 @@ def apply_finite_diff(order, x_list, y_list, x0=S.Zero):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_as_finite_diff(der), returns an approximation of a derivative of a function in the form of a finite difference formula) over Any ║
+# ║ Path(_as_finite_diff(derivative, points, x0), <unspecified:_as_finite_diff>) over {Any | hasattr(derivative, 'is_Derivative') and hasattr(derivative, 'is_Atom') and hasattr(derivative, 'variables') and hasattr(derivative, 'fromiter') and hasattr(points, 'args') and hasattr(points, 'subs') and hasattr(derivative, 'assumptions0') and hasattr(derivative, 'args') and hasattr(derivative, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _as_finite_diff : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(derivative, 'is_Derivative')           ║
+# ║   requires: hasattr(derivative, 'is_Atom')                 ║
+# ║   requires: hasattr(derivative, 'variables')               ║
+# ║   fiber[case_0]: derivative.is_Derivative                  ║
+# ║   fiber[case_1]: derivative.is_Atom => derivative          ║
+# ║   fiber[case_2]: not (derivative.is_Derivative) and n...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _as_finite_diff : {Any | hasattr(derivative, 'is_Deri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79a38b671ba580ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22384f93fdef9cf5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.finite_diff._as_finite_diff","kind":"function","src_hash":"742e56979211b33c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_finite_diff(der)","rhs":"returns an approximation of a derivative of a function in the form of a finite difference formula","over":{"base":"Any"},"name":"_as_finite_diff_correct"},"guarantee":"returns an approximation of a derivative of a function in the form of a finite difference formula","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.finite_diff._as_finite_diff_correct","statement":"Path(_as_finite_diff(x), returns an approximation of a derivative of a function in the form of a finite difference formula)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79a38b671ba580ce"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.finite_diff._as_finite_diff","kind":"function","src_hash":"742e56979211b33c","in":{"base":"Any","pred":"hasattr(derivative, 'is_Derivative') and hasattr(derivative, 'is_Atom') and hasattr(derivative, 'variables') and hasattr(derivative, 'fromiter') and hasattr(points, 'args') and hasattr(points, 'subs') and hasattr(derivative, 'assumptions0') and hasattr(derivative, 'args') and hasattr(derivative, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_as_finite_diff(derivative, points, x0)","rhs":"<unspecified:_as_finite_diff>","over":{"base":"Any","pred":"hasattr(derivative, 'is_Derivative') and hasattr(derivative, 'is_Atom') and hasattr(derivative, 'variables') and hasattr(derivative, 'fromiter') and hasattr(points, 'args') and hasattr(points, 'subs') and hasattr(derivative, 'assumptions0') and hasattr(derivative, 'args') and hasattr(derivative, 'expr')"},"name":"_as_finite_diff_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.finite_diff._as_finite_diff_correct","statement":"Path(_as_finite_diff(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22384f93fdef9cf5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(derivative, 'is_Derivative')","hasattr(derivative, 'is_Atom')","hasattr(derivative, 'variables')","hasattr(derivative, 'fromiter')","hasattr(points, 'args')","hasattr(points, 'subs')","hasattr(derivative, 'assumptions0')","hasattr(derivative, 'args')","hasattr(derivative, 'expr')"],"fibers":[{"name":"case_0","guard":"derivative.is_Derivative","ensures":[],"decidability":"library"},{"name":"case_1","guard":"derivative.is_Atom","ensures":["result == derivative"],"decidability":"library","returns_expr":"derivative"},{"name":"case_2","guard":"not (derivative.is_Derivative) and not (derivative.is_Atom)","ensures":["result == derivative.fromiter([_as_finite_diff(ar, points, x0, wrt) for ar in derivative.args], **derivative.assumptions0)"],"decidability":"library","returns_expr":"derivative.fromiter([_as_finite_diff(ar, points, x0, wrt) for ar in derivative.args], **derivative.assumptions0)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["derivative.args","derivative.assumptions0","derivative.expr","derivative.fromiter","derivative.is_Atom","derivative.is_Derivative","derivative.variables","points.args","points.subs"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _as_finite_diff(derivative, points=1, x0=None, wrt=None):
     """
     Returns an approximation of a derivative of a function in
@@ -455,9 +482,13 @@ def _as_finite_diff(derivative, points=1, x0=None, wrt=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(differentiate_finite(exp), differentiate expr and replace derivatives with finite differences) over {Any | isinstance(arg, Subs)} ║
+# ║ Path(differentiate_finite(expr, *symbols, points), <unspecified:differentiate_finite>) over {Any | isinstance(arg, Subs) and hasattr(expr, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ differentiate_finite : {Any | isinstance(arg, Subs)} ...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'diff')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ differentiate_finite : {Any | isinstance(arg, Subs) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Subs: {isinstance(arg, Subs)} → library_axiom            ║
@@ -467,9 +498,12 @@ def _as_finite_diff(derivative, points=1, x0=None, wrt=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 15ab1854...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.calculus.finite_diff.differentiate_finite","kind":"function","src_hash":"d166d5eb7897d8c6","in":{"base":"Any","pred":"isinstance(arg, Subs)"},"out":{"base":"Any"},"spec":{"lhs":"differentiate_finite(exp)","rhs":"differentiate expr and replace derivatives with finite differences","over":{"base":"Any","pred":"isinstance(arg, Subs)"},"name":"differentiate_finite_correct"},"guarantee":"differentiate expr and replace derivatives with finite differences","fibers":[{"name":"Subs","pred":"isinstance(arg, Subs)","path":{"lhs":"differentiate_finite(x)","rhs":"differentiate expr and replace derivatives with finite differences","over":{"base":"Subs","pred":"isinstance(arg, Subs)"},"name":"differentiate_finite_Subs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.finite_diff.differentiate_finite_Subs_correct","statement":"differentiate_finite satisfies spec on Subs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"15ab18547c1f957a"}
+# @cctt_verify {"v":2,"sym":"sympy.calculus.finite_diff.differentiate_finite","kind":"function","src_hash":"d166d5eb7897d8c6","in":{"base":"Any","pred":"isinstance(arg, Subs) and hasattr(expr, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"differentiate_finite(expr, *symbols, points)","rhs":"<unspecified:differentiate_finite>","over":{"base":"Any","pred":"isinstance(arg, Subs) and hasattr(expr, 'diff')"},"name":"differentiate_finite_correct"},"guarantee":"differentiate expr and replace derivatives with finite differences","fibers":[{"name":"Subs","pred":"isinstance(arg, Subs)","path":{"lhs":"differentiate_finite(x)","rhs":"differentiate expr and replace derivatives with finite differences","over":{"base":"Subs","pred":"isinstance(arg, Subs)"},"name":"differentiate_finite_Subs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.calculus.finite_diff.differentiate_finite_Subs_correct","statement":"differentiate_finite satisfies spec on Subs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"15ab18547c1f957a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'diff')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.diff"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '*symbols', 'points', 'x0', 'wrt', 'evaluate']"]}}
 def differentiate_finite(expr, *symbols,
                          points=1, x0=None, wrt=None, evaluate=False):
     r""" Differentiate expr and replace Derivatives with finite differences.

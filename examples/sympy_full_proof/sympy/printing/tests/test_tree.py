@@ -22,16 +22,22 @@ from sympy.testing.pytest import XFAIL
 # Remove this flag after making _assumptions cache deterministic.
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_tree_MatAdd(), test_print_tree_MatAdd produces the expected output) over Any ║
+# ║ Path(test_print_tree_MatAdd(), tree(A + B) == ''.join(test_str)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_tree_MatAdd : Any → {Any | tree(A + B) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tree(A + B) == ''.join(test_str)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_tree_MatAdd : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b2bd44c47f23d86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d7a0cd96e653543  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tree.test_print_tree_MatAdd","kind":"function","src_hash":"7b9771d745598752","in":{"base":"Any"},"out":{"base":"Any","pred":"tree(A + B) == ''.join(test_str)"},"spec":{"lhs":"test_print_tree_MatAdd()","rhs":"test_print_tree_MatAdd produces the expected output","over":{"base":"Any"},"name":"test_print_tree_MatAdd_correct"},"guarantee":"test_print_tree_MatAdd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tree.test_print_tree_MatAdd_correct","statement":"Path(test_print_tree_MatAdd(x), test_print_tree_MatAdd produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b2bd44c47f23d86"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tree.test_print_tree_MatAdd","kind":"function","src_hash":"7b9771d745598752","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tree(A + B) == ''.join(test_str)"},"spec":{"lhs":"test_print_tree_MatAdd()","rhs":"tree(A + B) == ''.join(test_str)","over":{"base":"Any"},"name":"test_print_tree_MatAdd_correct"},"guarantee":"tree(A + B) == ''.join(test_str)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tree.test_print_tree_MatAdd_correct","statement":"Path(test_print_tree_MatAdd(x), tree(A + B) == ''.join(test_str))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d7a0cd96e653543","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tree(A + B) == ''.join(test_str)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_print_tree_MatAdd():
     from sympy.matrices.expressions import MatrixSymbol
     A = MatrixSymbol('A', 3, 3)
@@ -205,16 +211,22 @@ def test_print_tree_MatAdd():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_print_tree_MatAdd_noassumptions(), test_print_tree_MatAdd_noassumptions produces the expected output) over Any ║
+# ║ Path(test_print_tree_MatAdd_noassumptions(), tree(A + B, assumptions=False) == test_str) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_print_tree_MatAdd_noassumptions : Any → {Any | t...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tree(A + B, assumptions=False) == test_str     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_print_tree_MatAdd_noassumptions : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b6dc8d7a83c6c90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29e1fd79ba6b5f94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tree.test_print_tree_MatAdd_noassumptions","kind":"function","src_hash":"bb8e17474a125fdf","in":{"base":"Any"},"out":{"base":"Any","pred":"tree(A + B, assumptions=False) == test_str"},"spec":{"lhs":"test_print_tree_MatAdd_noassumptions()","rhs":"test_print_tree_MatAdd_noassumptions produces the expected output","over":{"base":"Any"},"name":"test_print_tree_MatAdd_noassumptions_correct"},"guarantee":"test_print_tree_MatAdd_noassumptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tree.test_print_tree_MatAdd_noassumptions_correct","statement":"Path(test_print_tree_MatAdd_noassumptions(x), test_print_tree_MatAdd_noassumptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b6dc8d7a83c6c90"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_tree.test_print_tree_MatAdd_noassumptions","kind":"function","src_hash":"bb8e17474a125fdf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tree(A + B, assumptions=False) == test_str"},"spec":{"lhs":"test_print_tree_MatAdd_noassumptions()","rhs":"tree(A + B, assumptions=False) == test_str","over":{"base":"Any"},"name":"test_print_tree_MatAdd_noassumptions_correct"},"guarantee":"tree(A + B, assumptions=False) == test_str","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_tree.test_print_tree_MatAdd_noassumptions_correct","statement":"Path(test_print_tree_MatAdd_noassumptions(x), tree(A + B, assumptions=False) == test_str)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29e1fd79ba6b5f94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tree(A + B, assumptions=False) == test_str"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_print_tree_MatAdd_noassumptions():
     from sympy.matrices.expressions import MatrixSymbol
     A = MatrixSymbol('A', 3, 3)

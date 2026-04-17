@@ -47,14 +47,20 @@ x, y, z, t = [Dummy('plane_dummy') for i in range(4)]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Plane(*args), correctly constructs a Plane instance) over {Any | isinstance(o, (LinearEntity, LinearEntity3D)) and isinstance(o, LinearEntity3D) and isinstance(o, Plane)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GeometryEntity)               ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Plane : {Any | isinstance(o, (LinearEntity, LinearEnt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3935a91f78939d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane","kind":"class","src_hash":"bc2fa1ee6216e213","in":{"base":"Any","pred":"isinstance(o, (LinearEntity, LinearEntity3D)) and isinstance(o, LinearEntity3D) and isinstance(o, Plane)"},"out":{"base":"Any","pred":"isinstance(o, Segment3D) is True"},"spec":{"lhs":"Plane(*args)","rhs":"correctly constructs a Plane instance","over":{"base":"Any","pred":"isinstance(o, (LinearEntity, LinearEntity3D)) and isinstance(o, LinearEntity3D) and isinstance(o, Plane)"},"name":"Plane_class_invariant"},"guarantee":"correctly constructs a Plane instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3935a91f78939d2"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane","kind":"class","src_hash":"bc2fa1ee6216e213","in":{"base":"Any","pred":"isinstance(o, (LinearEntity, LinearEntity3D)) and isinstance(o, LinearEntity3D) and isinstance(o, Plane)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GeometryEntity)"},"spec":{"lhs":"Plane(*args)","rhs":"correctly constructs a Plane instance","over":{"base":"Any","pred":"isinstance(o, (LinearEntity, LinearEntity3D)) and isinstance(o, LinearEntity3D) and isinstance(o, Plane)"},"name":"Plane_class_invariant"},"guarantee":"isinstance(self, GeometryEntity)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3935a91f78939d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GeometryEntity)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Plane not found in source"]}}
 class Plane(GeometryEntity):
     """
     A plane is a flat, two-dimensional surface. A plane is the two-dimensional
@@ -83,16 +89,25 @@ class Plane(GeometryEntity):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, p1, a), GeometryEntity.__new__(cls, p1, normal_vector, **kwargs)) over {Any | hasattr(p1, 'direction_ratio') and len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p1, 'direction_ratio')                 ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ║   returns:  GeometryEntity.__new__(cls, p1, normal_ve...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(p1, 'direction_ratio') and l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7783ac191c3e08ac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.__new__","kind":"method","src_hash":"7cdfb74ea781e680","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7783ac191c3e08ac"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.__new__","kind":"method","src_hash":"7cdfb74ea781e680","in":{"base":"Any","pred":"hasattr(p1, 'direction_ratio') and len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (GeometryEntity.__new__(cls, p1, normal_vector, **kwargs))"},"spec":{"lhs":"__new__(cls, p1, a)","rhs":"GeometryEntity.__new__(cls, p1, normal_vector, **kwargs)","over":{"base":"Any","pred":"hasattr(p1, 'direction_ratio') and len(kwargs) > 0"},"name":"__new___correct"},"guarantee":"returns GeometryEntity.__new__(cls, p1, normal_vector, **kwargs); len(kwargs) == old_len_kwargs - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7783ac191c3e08ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p1, 'direction_ratio')","len(kwargs) > 0"],"ensures":["len(kwargs) == old_len_kwargs - 1"],"returns_expr":"GeometryEntity.__new__(cls, p1, normal_vector, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["p1.direction_ratio"],"calls_mutating":["kwargs.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["kwargs.*"],"old_bindings":{"old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, p1, a=None, b=None, **kwargs):
         p1 = Point3D(p1, dim=3)
         if a and b:
@@ -117,16 +132,24 @@ class Plane(GeometryEntity):
         return GeometryEntity.__new__(cls, p1, normal_vector, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(o), correctly tests membership) over Any ║
+# ║ Path(__contains__(o), <unspecified:__contains__>) over {Any | hasattr(o, 'arbitrary_point') and hasattr(o, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(o, 'arbitrary_point')                  ║
+# ║   requires: hasattr(o, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : {Any | hasattr(o, 'arbitrary_point') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e29fc9e4a98b487b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.__contains__","kind":"method","src_hash":"29b02c756650519a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(o)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e29fc9e4a98b487b"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.__contains__","kind":"method","src_hash":"29b02c756650519a","in":{"base":"Any","pred":"hasattr(o, 'arbitrary_point') and hasattr(o, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(o)","rhs":"<unspecified:__contains__>","over":{"base":"Any","pred":"hasattr(o, 'arbitrary_point') and hasattr(o, 'args')"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e29fc9e4a98b487b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(o, 'arbitrary_point')","hasattr(o, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.arbitrary_point","o.args","self.equation"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, o):
         k = self.equation(x, y, z)
         if isinstance(o, (LinearEntity, LinearEntity3D)):
@@ -141,16 +164,22 @@ class Plane(GeometryEntity):
             return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec, **options), self.func(pt, normal_vector=tup, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(pt, normal_vector=tup, evaluate...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8437ae0df129c0b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39b74ac03c6507f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane._eval_evalf","kind":"method","src_hash":"2c10fcf2b638ce2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane._eval_evalf_correct","statement":"Path(_eval_evalf(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8437ae0df129c0b3"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane._eval_evalf","kind":"method","src_hash":"2c10fcf2b638ce2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec, **options)","rhs":"self.func(pt, normal_vector=tup, evaluate=False)","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns self.func(pt, normal_vector=tup, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane._eval_evalf_correct","statement":"Path(_eval_evalf(x), returns self.func(pt, normal_vector=tup, evaluate=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39b74ac03c6507f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(pt, normal_vector=tup, evaluate=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec=15, **options):
         pt, tup = self.args
         dps = prec_to_dps(prec)
@@ -159,16 +188,24 @@ class Plane(GeometryEntity):
         return self.func(pt, normal_vector=tup, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angle_between(o), angle between the plane and other geometric entity) over Any ║
+# ║ Path(angle_between(o), <unspecified:angle_between>) over {Any | hasattr(o, 'direction_ratio') and hasattr(o, 'normal_vector')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ angle_between : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(o, 'direction_ratio')                  ║
+# ║   requires: hasattr(o, 'normal_vector')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ angle_between : {Any | hasattr(o, 'direction_ratio') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58b80e249eb4ecea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.angle_between","kind":"method","src_hash":"3460749d98b39599","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle_between(o)","rhs":"angle between the plane and other geometric entity","over":{"base":"Any"},"name":"angle_between_correct"},"guarantee":"angle between the plane and other geometric entity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.angle_between_correct","statement":"Path(angle_between(x), angle between the plane and other geometric entity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58b80e249eb4ecea"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.angle_between","kind":"method","src_hash":"3460749d98b39599","in":{"base":"Any","pred":"hasattr(o, 'direction_ratio') and hasattr(o, 'normal_vector')"},"out":{"base":"Any"},"spec":{"lhs":"angle_between(o)","rhs":"<unspecified:angle_between>","over":{"base":"Any","pred":"hasattr(o, 'direction_ratio') and hasattr(o, 'normal_vector')"},"name":"angle_between_correct"},"guarantee":"angle between the plane and other geometric entity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.angle_between_correct","statement":"Path(angle_between(x), angle between the plane and other geometric entity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58b80e249eb4ecea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(o, 'direction_ratio')","hasattr(o, 'normal_vector')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.direction_ratio","o.normal_vector","self.normal_vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angle_between(self, o):
         """Angle between the plane and other geometric entity.
 
@@ -217,16 +254,22 @@ class Plane(GeometryEntity):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(arbitrary_point(u, ), returns an arbitrary point on the plane) over Any ║
+# ║ Path(arbitrary_point(u, v), <unspecified:arbitrary_point>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ arbitrary_point : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a6e28917cdbda47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.arbitrary_point","kind":"method","src_hash":"e26429807583664c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arbitrary_point(u, )","rhs":"returns an arbitrary point on the plane","over":{"base":"Any"},"name":"arbitrary_point_correct"},"guarantee":"returns an arbitrary point on the plane","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.arbitrary_point_correct","statement":"Path(arbitrary_point(x), returns an arbitrary point on the plane)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a6e28917cdbda47"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.arbitrary_point","kind":"method","src_hash":"e26429807583664c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arbitrary_point(u, v)","rhs":"<unspecified:arbitrary_point>","over":{"base":"Any"},"name":"arbitrary_point_correct"},"guarantee":"returns an arbitrary point on the plane","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.arbitrary_point_correct","statement":"Path(arbitrary_point(x), returns an arbitrary point on the plane)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a6e28917cdbda47","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.normal_vector","self.p1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def arbitrary_point(self, u=None, v=None):
         """ Returns an arbitrary point on the Plane. If given two
         parameters, the point ranges over the entire plane. If given 1
@@ -287,16 +330,23 @@ class Plane(GeometryEntity):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(are_concurrent(*pl), is a sequence of planes concurrent?) over Any ║
+# ║ Path(are_concurrent(*planes), len(planes) == old_len_planes - 1) over {Any | len(planes) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ are_concurrent : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(planes) > 0                                ║
+# ║   ensures:  len(planes) == old_len_planes - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ are_concurrent : {Any | len(planes) > 0} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56f5bdb82ac82edc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51967f5b14ace4e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.are_concurrent","kind":"staticmethod","src_hash":"cdafd53d88e37956","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"are_concurrent(*pl)","rhs":"is a sequence of planes concurrent?","over":{"base":"Any"},"name":"are_concurrent_correct"},"guarantee":"is a sequence of planes concurrent?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.are_concurrent_correct","statement":"Path(are_concurrent(x), is a sequence of planes concurrent?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56f5bdb82ac82edc"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.are_concurrent","kind":"staticmethod","src_hash":"cdafd53d88e37956","in":{"base":"Any","pred":"len(planes) > 0"},"out":{"base":"Any","pred":"result satisfies: len(planes) == old_len_planes - 1"},"spec":{"lhs":"are_concurrent(*planes)","rhs":"len(planes) == old_len_planes - 1","over":{"base":"Any","pred":"len(planes) > 0"},"name":"are_concurrent_correct"},"guarantee":"len(planes) == old_len_planes - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.are_concurrent_correct","statement":"Path(are_concurrent(x), len(planes) == old_len_planes - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51967f5b14ace4e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(planes) > 0"],"ensures":["len(planes) == old_len_planes - 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["planes.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["planes.*"],"old_bindings":{"old_len_planes":"len(planes)"},"pre_requires":["len(planes) > 0"],"post_ensures":["len(planes) == old_len_planes - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def are_concurrent(*planes):
         """Is a sequence of Planes concurrent?
 
@@ -347,16 +397,24 @@ class Plane(GeometryEntity):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distance(o), distance between the plane and another geometric entity) over Any ║
+# ║ Path(distance(o), <unspecified:distance>) over {Any | hasattr(o, 'p1') and hasattr(o, 'p2')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ distance : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(o, 'p1')                               ║
+# ║   requires: hasattr(o, 'p2')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ distance : {Any | hasattr(o, 'p1') and hasattr(o, 'p2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 048ab430e3cc4d0e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.distance","kind":"method","src_hash":"b6ad7656f22d08a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distance(o)","rhs":"distance between the plane and another geometric entity","over":{"base":"Any"},"name":"distance_correct"},"guarantee":"distance between the plane and another geometric entity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.distance_correct","statement":"Path(distance(x), distance between the plane and another geometric entity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"048ab430e3cc4d0e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.distance","kind":"method","src_hash":"b6ad7656f22d08a1","in":{"base":"Any","pred":"hasattr(o, 'p1') and hasattr(o, 'p2')"},"out":{"base":"Any"},"spec":{"lhs":"distance(o)","rhs":"<unspecified:distance>","over":{"base":"Any","pred":"hasattr(o, 'p1') and hasattr(o, 'p2')"},"name":"distance_correct"},"guarantee":"distance between the plane and another geometric entity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.distance_correct","statement":"Path(distance(x), distance between the plane and another geometric entity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"048ab430e3cc4d0e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(o, 'p1')","hasattr(o, 'p2')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.p1","o.p2","self.distance","self.intersection","self.normal_vector","self.p1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def distance(self, o):
         """Distance between the plane and another geometric entity.
 
@@ -413,16 +471,26 @@ class Plane(GeometryEntity):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equals(o), id) over Any                               ║
+# ║ Path(equals(o), id) over {Any | hasattr(o, 'equation')}    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ equals : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(o, 'equation')                         ║
+# ║   ensures:  result == (cancel(a / b).is_constant() if...   ║
+# ║   ensures:  result == cancel(a / b).is_constant() or ...   ║
+# ║   fiber[Plane]: isinstance(o, Plane) => cancel(a / b)...   ║
+# ║   fiber[Plane]: not (isinstance(o, Plane)) => False        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ equals : {Any | hasattr(o, 'equation')} → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 314ce0aa0fcf628e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.equals","kind":"method","src_hash":"269c95369d9e9b46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(o)","rhs":"returns true if self and o are the same mathematical entities","over":{"base":"Any"},"name":"equals_correct","kind":"composition"},"guarantee":"returns true if self and o are the same mathematical entities","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cancel","by":"library_axiom"},{"fn":"is_constant","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"314ce0aa0fcf628e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.equals","kind":"method","src_hash":"269c95369d9e9b46","in":{"base":"Any","pred":"hasattr(o, 'equation')"},"out":{"base":"Any","pred":"result satisfies: result == (cancel(a / b).is_constant() if isinstance(o, Plane) else False) and result == cancel(a / b).is_constant() or result == False"},"spec":{"lhs":"equals(o)","rhs":"result == (cancel(a / b).is_constant() if isinstance(o, Plane) else False) and result == cancel(a / b).is_constant() or result == False","over":{"base":"Any","pred":"hasattr(o, 'equation')"},"name":"equals_correct","kind":"composition"},"guarantee":"result == (cancel(a / b).is_constant() if isinstance(o, Plane) else False); result == cancel(a / b).is_constant() or result == False; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cancel","by":"library_axiom"},{"fn":"is_constant","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"314ce0aa0fcf628e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(o, 'equation')"],"ensures":["result == (cancel(a / b).is_constant() if isinstance(o, Plane) else False)","result == cancel(a / b).is_constant() or result == False"],"fibers":[{"name":"Plane","guard":"isinstance(o, Plane)","ensures":["result == cancel(a / b).is_constant()"],"decidability":"structural","returns_expr":"cancel(a / b).is_constant()"},{"name":"Plane","guard":"not (isinstance(o, Plane))","ensures":["result == False"],"decidability":"structural","returns_expr":"False"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.equation","self.equation"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equals(self, o):
         """
         Returns True if self and o are the same mathematical entities.
@@ -450,16 +518,22 @@ class Plane(GeometryEntity):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equation(x, ), id) over Any                           ║
+# ║ Path(equation(x, y, z), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum((i * j for i, j in zip(b, c)))             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equation : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cd849eb5770b634b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.equation","kind":"method","src_hash":"730100cc57e10e09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equation(x, )","rhs":"the equation of the plane","over":{"base":"Any"},"name":"equation_correct","kind":"composition"},"guarantee":"the equation of the plane","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd849eb5770b634b"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.equation","kind":"method","src_hash":"730100cc57e10e09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equation(x, y, z)","rhs":"sum((i * j for i, j in zip(b, c)))","over":{"base":"Any"},"name":"equation_correct","kind":"composition"},"guarantee":"returns sum((i * j for i, j in zip(b, c)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd849eb5770b634b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum((i * j for i, j in zip(b, c)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.normal_vector","self.p1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equation(self, x=None, y=None, z=None):
         """The equation of the Plane.
 
@@ -483,16 +557,25 @@ class Plane(GeometryEntity):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(o), the intersection with other geometrical entity) over Any ║
+# ║ Path(intersection(o), <unspecified:intersection>) over {Any | hasattr(o, 'p1') and hasattr(o, 'p2') and hasattr(o, 'equation') and hasattr(o, 'arbitrary_point') and hasattr(o, 'normal_vector') and hasattr(o, 'func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ intersection : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(o, 'p1')                               ║
+# ║   requires: hasattr(o, 'p2')                               ║
+# ║   requires: hasattr(o, 'equation')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ intersection : {Any | hasattr(o, 'p1') and hasattr(o,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42d3d3e460eb6171  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.intersection","kind":"method","src_hash":"9a7ca9fa2aea00d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(o)","rhs":"the intersection with other geometrical entity","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"the intersection with other geometrical entity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.intersection_correct","statement":"Path(intersection(x), the intersection with other geometrical entity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42d3d3e460eb6171"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.intersection","kind":"method","src_hash":"9a7ca9fa2aea00d3","in":{"base":"Any","pred":"hasattr(o, 'p1') and hasattr(o, 'p2') and hasattr(o, 'equation') and hasattr(o, 'arbitrary_point') and hasattr(o, 'normal_vector') and hasattr(o, 'func')"},"out":{"base":"Any"},"spec":{"lhs":"intersection(o)","rhs":"<unspecified:intersection>","over":{"base":"Any","pred":"hasattr(o, 'p1') and hasattr(o, 'p2') and hasattr(o, 'equation') and hasattr(o, 'arbitrary_point') and hasattr(o, 'normal_vector') and hasattr(o, 'func')"},"name":"intersection_correct"},"guarantee":"the intersection with other geometrical entity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.intersection_correct","statement":"Path(intersection(x), the intersection with other geometrical entity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42d3d3e460eb6171","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(o, 'p1')","hasattr(o, 'p2')","hasattr(o, 'equation')","hasattr(o, 'arbitrary_point')","hasattr(o, 'normal_vector')","hasattr(o, 'func')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.arbitrary_point","o.equation","o.func","o.normal_vector","o.p1","o.p2","self.equals","self.equation","self.is_parallel","self.normal_vector","self.p1"],"raises":["Undecidable","ValueError"]},"state_contract":{"exceptional_post":{"Undecidable":["isinstance(raised, Undecidable)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersection(self, o):
         """ The intersection with other geometrical entity.
 
@@ -578,16 +661,23 @@ class Plane(GeometryEntity):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_coplanar(o), id) over Any                          ║
+# ║ Path(is_coplanar(o), id) over {Any | hasattr(o, 'equation')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_coplanar : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(o, 'equation')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_coplanar : {Any | hasattr(o, 'equation')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d64d3adde26abe1e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.is_coplanar","kind":"method","src_hash":"db12c0465db7afd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_coplanar(o)","rhs":"returns true if `o` is coplanar with self, else false","over":{"base":"Any"},"name":"is_coplanar_correct","kind":"composition"},"guarantee":"returns true if `o` is coplanar with self, else false","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cancel","by":"library_axiom"},{"fn":"equation","by":"library_axiom"},{"fn":"equation","by":"library_axiom"},{"fn":"has","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d64d3adde26abe1e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.is_coplanar","kind":"method","src_hash":"db12c0465db7afd6","in":{"base":"Any","pred":"hasattr(o, 'equation')"},"out":{"base":"Any"},"spec":{"lhs":"is_coplanar(o)","rhs":"<unspecified:is_coplanar>","over":{"base":"Any","pred":"hasattr(o, 'equation')"},"name":"is_coplanar_correct","kind":"composition"},"guarantee":"returns true if `o` is coplanar with self, else false","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cancel","by":"library_axiom"},{"fn":"equation","by":"library_axiom"},{"fn":"equation","by":"library_axiom"},{"fn":"has","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d64d3adde26abe1e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(o, 'equation')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.equation","self.equation","self.normal_vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_coplanar(self, o):
         """ Returns True if `o` is coplanar with self, else False.
 
@@ -614,16 +704,24 @@ class Plane(GeometryEntity):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_parallel(l), id) over Any                          ║
+# ║ Path(is_parallel(l), id) over {Any | hasattr(l, 'direction_ratio') and hasattr(l, 'normal_vector')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_parallel : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(l, 'direction_ratio')                  ║
+# ║   requires: hasattr(l, 'normal_vector')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_parallel : {Any | hasattr(l, 'direction_ratio') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | df6c04f452fca572   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.is_parallel","kind":"method","src_hash":"4255dc799a7aa165","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_parallel(l)","rhs":"is the given geometric entity parallel to the plane?","over":{"base":"Any"},"name":"is_parallel_correct","kind":"composition"},"guarantee":"is the given geometric entity parallel to the plane?","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df6c04f452fca572"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.is_parallel","kind":"method","src_hash":"4255dc799a7aa165","in":{"base":"Any","pred":"hasattr(l, 'direction_ratio') and hasattr(l, 'normal_vector')"},"out":{"base":"Any"},"spec":{"lhs":"is_parallel(l)","rhs":"<unspecified:is_parallel>","over":{"base":"Any","pred":"hasattr(l, 'direction_ratio') and hasattr(l, 'normal_vector')"},"name":"is_parallel_correct","kind":"composition"},"guarantee":"is the given geometric entity parallel to the plane?","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df6c04f452fca572","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(l, 'direction_ratio')","hasattr(l, 'normal_vector')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["l.direction_ratio","l.normal_vector","self.normal_vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_parallel(self, l):
         """Is the given geometric entity parallel to the plane?
 
@@ -658,16 +756,26 @@ class Plane(GeometryEntity):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_perpendicular(l), is the given geometric entity perpendicualar to the given plane?) over Any ║
+# ║ Path(is_perpendicular(l), <unspecified:is_perpendicular>) over {Any | hasattr(l, 'direction_ratio') and hasattr(l, 'normal_vector')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_perpendicular : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(l, 'direction_ratio')                  ║
+# ║   requires: hasattr(l, 'normal_vector')                    ║
+# ║   fiber[LinearEntity3D]: isinstance(l, LinearEntity3D)     ║
+# ║   fiber[Plane]: isinstance(l, Plane)                       ║
+# ║   fiber[LinearEntity3D]: not (isinstance(l, LinearEnt...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_perpendicular : {Any | hasattr(l, 'direction_ratio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 951e6e5bf54afc95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2808c3548c3ecd89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.is_perpendicular","kind":"method","src_hash":"95e1672e401a7d23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_perpendicular(l)","rhs":"is the given geometric entity perpendicualar to the given plane?","over":{"base":"Any"},"name":"is_perpendicular_correct"},"guarantee":"is the given geometric entity perpendicualar to the given plane?","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.is_perpendicular_correct","statement":"Path(is_perpendicular(x), is the given geometric entity perpendicualar to the given plane?)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"951e6e5bf54afc95"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.is_perpendicular","kind":"method","src_hash":"95e1672e401a7d23","in":{"base":"Any","pred":"hasattr(l, 'direction_ratio') and hasattr(l, 'normal_vector')"},"out":{"base":"Any"},"spec":{"lhs":"is_perpendicular(l)","rhs":"<unspecified:is_perpendicular>","over":{"base":"Any","pred":"hasattr(l, 'direction_ratio') and hasattr(l, 'normal_vector')"},"name":"is_perpendicular_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.is_perpendicular_correct","statement":"Path(is_perpendicular(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2808c3548c3ecd89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(l, 'direction_ratio')","hasattr(l, 'normal_vector')"],"fibers":[{"name":"LinearEntity3D","guard":"isinstance(l, LinearEntity3D)","ensures":[],"decidability":"structural"},{"name":"Plane","guard":"isinstance(l, Plane)","ensures":[],"decidability":"structural"},{"name":"LinearEntity3D","guard":"not (isinstance(l, LinearEntity3D)) and not (isinstance(l, Plane))","ensures":["result == False"],"decidability":"structural","returns_expr":"False"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["l.direction_ratio","l.normal_vector","self.normal_vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_perpendicular(self, l):
         """Is the given geometric entity perpendicualar to the given plane?
 
@@ -710,16 +818,22 @@ class Plane(GeometryEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normal_vector(), returns the normal_vector attribute) over Any ║
+# ║ Path(normal_vector(), self.args[1]) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ normal_vector : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5440e167f1bdc071           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.normal_vector","kind":"property","src_hash":"a32678381af3a72a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normal_vector()","rhs":"returns the normal_vector attribute","over":{"base":"Any"},"name":"normal_vector_correct"},"guarantee":"returns the normal_vector attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5440e167f1bdc071"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.normal_vector","kind":"property","src_hash":"a32678381af3a72a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normal_vector()","rhs":"self.args[1]","over":{"base":"Any"},"name":"normal_vector_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5440e167f1bdc071","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normal_vector(self):
         """Normal vector of the given plane.
 
@@ -739,16 +853,22 @@ class Plane(GeometryEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(p1(), returns the p1 attribute) over Any              ║
+# ║ Path(p1(), self.args[0]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ p1 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 97abcdcfa0a19e2c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.p1","kind":"property","src_hash":"07335fc0a6f90c5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p1()","rhs":"returns the p1 attribute","over":{"base":"Any"},"name":"p1_correct"},"guarantee":"returns the p1 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97abcdcfa0a19e2c"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.p1","kind":"property","src_hash":"07335fc0a6f90c5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"p1()","rhs":"self.args[0]","over":{"base":"Any"},"name":"p1_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97abcdcfa0a19e2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def p1(self):
         """The only defining point of the plane. Others can be obtained from the
         arbitrary_point method.
@@ -770,16 +890,22 @@ class Plane(GeometryEntity):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parallel_plane(pt), plane parallel to the given plane and passing through the point pt) over Any ║
+# ║ Path(parallel_plane(pt), Plane(pt, normal_vector=a)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Plane(pt, normal_vector=a)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parallel_plane : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bfd4f1222de3aad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e70a3f1f6ba1de8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.parallel_plane","kind":"method","src_hash":"8c5747c0aeb2ae4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parallel_plane(pt)","rhs":"plane parallel to the given plane and passing through the point pt","over":{"base":"Any"},"name":"parallel_plane_correct"},"guarantee":"plane parallel to the given plane and passing through the point pt","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.parallel_plane_correct","statement":"Path(parallel_plane(x), plane parallel to the given plane and passing through the point pt)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bfd4f1222de3aad"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.parallel_plane","kind":"method","src_hash":"8c5747c0aeb2ae4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parallel_plane(pt)","rhs":"Plane(pt, normal_vector=a)","over":{"base":"Any"},"name":"parallel_plane_correct"},"guarantee":"returns Plane(pt, normal_vector=a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.parallel_plane_correct","statement":"Path(parallel_plane(x), returns Plane(pt, normal_vector=a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e70a3f1f6ba1de8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Plane(pt, normal_vector=a)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.normal_vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parallel_plane(self, pt):
         """
         Plane parallel to the given plane and passing through the point pt.
@@ -807,16 +933,22 @@ class Plane(GeometryEntity):
         return Plane(pt, normal_vector=a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(perpendicular_line(pt), a line perpendicular to the given plane) over Any ║
+# ║ Path(perpendicular_line(pt), Line3D(pt, direction_ratio=a)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Line3D(pt, direction_ratio=a)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ perpendicular_line : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d90db5715fa1c73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9861d23194525823  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.perpendicular_line","kind":"method","src_hash":"49d67afcf231a340","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perpendicular_line(pt)","rhs":"a line perpendicular to the given plane","over":{"base":"Any"},"name":"perpendicular_line_correct"},"guarantee":"a line perpendicular to the given plane","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.perpendicular_line_correct","statement":"Path(perpendicular_line(x), a line perpendicular to the given plane)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d90db5715fa1c73"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.perpendicular_line","kind":"method","src_hash":"49d67afcf231a340","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perpendicular_line(pt)","rhs":"Line3D(pt, direction_ratio=a)","over":{"base":"Any"},"name":"perpendicular_line_correct"},"guarantee":"returns Line3D(pt, direction_ratio=a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.perpendicular_line_correct","statement":"Path(perpendicular_line(x), returns Line3D(pt, direction_ratio=a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9861d23194525823","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Line3D(pt, direction_ratio=a)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.normal_vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def perpendicular_line(self, pt):
         """A line perpendicular to the given plane.
 
@@ -843,16 +975,24 @@ class Plane(GeometryEntity):
         return Line3D(pt, direction_ratio=a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(perpendicular_plane(*pt), return a perpendicular passing through the given points) over Any ║
+# ║ Path(perpendicular_plane(*pts), Plane(p1, p2, p3)) over {Any | not (len(pts) > 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ perpendicular_plane : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(pts) > 2)                             ║
+# ║   ensures:  len(pts) == old_len_pts + 1                    ║
+# ║   returns:  Plane(p1, p2, p3)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ perpendicular_plane : {Any | not (len(pts) > 2)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 762cd3e81d5e4165  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b7e8bc60df5fff8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.perpendicular_plane","kind":"method","src_hash":"63962b0f6c7c6012","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"perpendicular_plane(*pt)","rhs":"return a perpendicular passing through the given points","over":{"base":"Any"},"name":"perpendicular_plane_correct"},"guarantee":"return a perpendicular passing through the given points","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.perpendicular_plane_correct","statement":"Path(perpendicular_plane(x), return a perpendicular passing through the given points)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"762cd3e81d5e4165"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.perpendicular_plane","kind":"method","src_hash":"63962b0f6c7c6012","in":{"base":"Any","pred":"not (len(pts) > 2)"},"out":{"base":"Any","pred":"result satisfies: result == (Plane(p1, p2, p3))"},"spec":{"lhs":"perpendicular_plane(*pts)","rhs":"Plane(p1, p2, p3)","over":{"base":"Any","pred":"not (len(pts) > 2)"},"name":"perpendicular_plane_correct"},"guarantee":"returns Plane(p1, p2, p3); len(pts) == old_len_pts + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.perpendicular_plane_correct","statement":"Path(perpendicular_plane(x), returns Plane(p1, p2, p3); len(pts) == old_len_pts + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b7e8bc60df5fff8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(pts) > 2)"],"ensures":["len(pts) == old_len_pts + 1"],"returns_expr":"Plane(p1, p2, p3)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.normal_vector","self.p1"],"calls_mutating":["pts.append"],"raises":["ValueError"]},"state_contract":{"modifies":["pts.*"],"old_bindings":{"old_len_pts":"len(pts)"},"post_ensures":["len(pts) == old_len_pts + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def perpendicular_plane(self, *pts):
         """
         Return a perpendicular passing through the given points. If the
@@ -920,16 +1060,25 @@ class Plane(GeometryEntity):
         return Plane(p1, p2, p3)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(projection_line(lin), project the given line onto the plane through the normal plane containing the line) over Any ║
+# ║ Path(projection_line(line), <unspecified:projection_line>) over {Any | isinstance(line, (LinearEntity, LinearEntity3D)) and hasattr(line, 'p1') and hasattr(line, 'p2')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ projection_line : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(line, (LinearEntity, LinearEnt...   ║
+# ║   requires: hasattr(line, 'p1')                            ║
+# ║   requires: hasattr(line, 'p2')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ projection_line : {Any | isinstance(line, (LinearEnti...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd403b98c7ac31e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.projection_line","kind":"method","src_hash":"1e3d1719649c8ac1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"projection_line(lin)","rhs":"project the given line onto the plane through the normal plane containing the line","over":{"base":"Any"},"name":"projection_line_correct"},"guarantee":"project the given line onto the plane through the normal plane containing the line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.projection_line_correct","statement":"Path(projection_line(x), project the given line onto the plane through the normal plane containing the line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd403b98c7ac31e4"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.projection_line","kind":"method","src_hash":"1e3d1719649c8ac1","in":{"base":"Any","pred":"isinstance(line, (LinearEntity, LinearEntity3D)) and hasattr(line, 'p1') and hasattr(line, 'p2')"},"out":{"base":"Any"},"spec":{"lhs":"projection_line(line)","rhs":"<unspecified:projection_line>","over":{"base":"Any","pred":"isinstance(line, (LinearEntity, LinearEntity3D)) and hasattr(line, 'p1') and hasattr(line, 'p2')"},"name":"projection_line_correct"},"guarantee":"project the given line onto the plane through the normal plane containing the line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.projection_line_correct","statement":"Path(projection_line(x), project the given line onto the plane through the normal plane containing the line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd403b98c7ac31e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(line, (LinearEntity, LinearEntity3D))","hasattr(line, 'p1')","hasattr(line, 'p2')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["line.p1","line.p2","self.projection"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def projection_line(self, line):
         """Project the given line onto the plane through the normal plane
         containing the line.
@@ -982,16 +1131,22 @@ class Plane(GeometryEntity):
             return Segment3D(a, b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(projection(pt), project the given point onto the plane along the plane normal) over Any ║
+# ║ Path(projection(pt), <unspecified:projection>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ projection : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9dfbb20e847f992e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.projection","kind":"method","src_hash":"acc6e6b42b49a868","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"projection(pt)","rhs":"project the given point onto the plane along the plane normal","over":{"base":"Any"},"name":"projection_correct"},"guarantee":"project the given point onto the plane along the plane normal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.projection_correct","statement":"Path(projection(x), project the given point onto the plane along the plane normal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dfbb20e847f992e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.projection","kind":"method","src_hash":"acc6e6b42b49a868","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"projection(pt)","rhs":"<unspecified:projection>","over":{"base":"Any"},"name":"projection_correct"},"guarantee":"project the given point onto the plane along the plane normal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.projection_correct","statement":"Path(projection(x), project the given point onto the plane along the plane normal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9dfbb20e847f992e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.intersection","self.normal_vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def projection(self, pt):
         """Project the given point onto the plane along the plane normal.
 
@@ -1032,16 +1187,22 @@ class Plane(GeometryEntity):
         return self.intersection(Line3D(rv, rv + Point3D(self.normal_vector)))[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random_point(see), id) over Any                       ║
+# ║ Path(random_point(seed), id) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.arbitrary_point(x, y).subs(params)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ random_point : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7d04b73627140027   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.random_point","kind":"method","src_hash":"5f60a81a709f9907","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_point(see)","rhs":"returns a random point on the plane","over":{"base":"Any"},"name":"random_point_correct","kind":"composition"},"guarantee":"returns a random point on the plane","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"arbitrary_point","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d04b73627140027"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.random_point","kind":"method","src_hash":"5f60a81a709f9907","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_point(seed)","rhs":"self.arbitrary_point(x, y).subs(params)","over":{"base":"Any"},"name":"random_point_correct","kind":"composition"},"guarantee":"returns self.arbitrary_point(x, y).subs(params)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"arbitrary_point","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d04b73627140027","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.arbitrary_point(x, y).subs(params)","pure":false,"effects":{"effect_type":"nondeterministic","reads":["self.arbitrary_point"],"nondeterministic_sources":["rng.gauss"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def random_point(self, seed=None):
         """ Returns a random point on the Plane.
 
@@ -1076,16 +1237,24 @@ class Plane(GeometryEntity):
         return self.arbitrary_point(x, y).subs(params)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parameter_value(oth), return the parameter(s) corresponding to the given point) over Any ║
+# ║ Path(parameter_value(other, u, v), <unspecified:parameter_value>) over {Any | isinstance(other, Point) and sol} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ parameter_value : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(other, Point)                       ║
+# ║   requires: sol                                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ parameter_value : {Any | isinstance(other, Point) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd53dc7b2187f11f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.parameter_value","kind":"method","src_hash":"b0711b46766d8aab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parameter_value(oth)","rhs":"return the parameter(s) corresponding to the given point","over":{"base":"Any"},"name":"parameter_value_correct"},"guarantee":"return the parameter(s) corresponding to the given point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.parameter_value_correct","statement":"Path(parameter_value(x), return the parameter(s) corresponding to the given point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd53dc7b2187f11f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.parameter_value","kind":"method","src_hash":"b0711b46766d8aab","in":{"base":"Any","pred":"isinstance(other, Point) and sol"},"out":{"base":"Any"},"spec":{"lhs":"parameter_value(other, u, v)","rhs":"<unspecified:parameter_value>","over":{"base":"Any","pred":"isinstance(other, Point) and sol"},"name":"parameter_value_correct"},"guarantee":"return the parameter(s) corresponding to the given point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.plane.Plane.parameter_value_correct","statement":"Path(parameter_value(x), return the parameter(s) corresponding to the given point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd53dc7b2187f11f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(other, Point)","sol"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.ambient_dimension","self.arbitrary_point","self.p1"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parameter_value(self, other, u, v=None):
         """Return the parameter(s) corresponding to the given point.
 
@@ -1145,15 +1314,21 @@ class Plane(GeometryEntity):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ambient_dimension(), returns the ambient_dimension attribute) over Any ║
+# ║ Path(ambient_dimension(), self.p1.ambient_dimension) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.p1.ambient_dimension                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ambient_dimension : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 34ad865d914fbd21           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.ambient_dimension","kind":"property","src_hash":"f22ded20b5f1f053","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"returns the ambient_dimension attribute","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns the ambient_dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34ad865d914fbd21"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.plane.Plane.ambient_dimension","kind":"property","src_hash":"f22ded20b5f1f053","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"self.p1.ambient_dimension","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns self.p1.ambient_dimension","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34ad865d914fbd21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.p1.ambient_dimension","pure":false,"effects":{"effect_type":"reads_state","reads":["self.p1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ambient_dimension(self):
         return self.p1.ambient_dimension

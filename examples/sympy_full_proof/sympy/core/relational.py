@@ -46,7 +46,10 @@ from .symbol import Symbol
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nontrivBool(sid), internal helper behaves correctly) over {Any | isinstance(side, Boolean) and isinstance(side, Atom)} ║
+# ║ Path(_nontrivBool(side), isinstance(side, Boolean) and (not isinstance(side, Atom))) over {Any | isinstance(side, Boolean) and isinstance(side, Atom)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  isinstance(side, Boolean) and (not isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _nontrivBool : {Any | isinstance(side, Boolean) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -59,9 +62,12 @@ from .symbol import Symbol
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 673c0cfd...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._nontrivBool","kind":"function","src_hash":"8d79e9440eb01850","in":{"base":"Any","pred":"isinstance(side, Boolean) and isinstance(side, Atom)"},"out":{"base":"Any"},"spec":{"lhs":"_nontrivBool(sid)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(side, Boolean) and isinstance(side, Atom)"},"name":"_nontrivBool_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Boolean","pred":"isinstance(side, Boolean)","path":{"lhs":"_nontrivBool(x)","rhs":"internal helper behaves correctly","over":{"base":"Boolean","pred":"isinstance(side, Boolean)"},"name":"_nontrivBool_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._nontrivBool_Boolean_correct","statement":"_nontrivBool satisfies spec on Boolean inputs"},"trust":"LIBRARY"},{"name":"Atom","pred":"isinstance(side, Atom)","path":{"lhs":"_nontrivBool(x)","rhs":"internal helper behaves correctly","over":{"base":"Atom","pred":"isinstance(side, Atom)"},"name":"_nontrivBool_Atom_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._nontrivBool_Atom_correct","statement":"_nontrivBool satisfies spec on Atom inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"673c0cfdef503e5e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._nontrivBool","kind":"function","src_hash":"8d79e9440eb01850","in":{"base":"Any","pred":"isinstance(side, Boolean) and isinstance(side, Atom)"},"out":{"base":"Any"},"spec":{"lhs":"_nontrivBool(side)","rhs":"isinstance(side, Boolean) and (not isinstance(side, Atom))","over":{"base":"Any","pred":"isinstance(side, Boolean) and isinstance(side, Atom)"},"name":"_nontrivBool_correct"},"guarantee":"returns isinstance(side, Boolean) and (not isinstance(side, Atom))","fibers":[{"name":"Boolean","pred":"isinstance(side, Boolean)","path":{"lhs":"_nontrivBool(x)","rhs":"returns isinstance(side, Boolean) and (not isinstance(side, Atom))","over":{"base":"Boolean","pred":"isinstance(side, Boolean)"},"name":"_nontrivBool_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._nontrivBool_Boolean_correct","statement":"_nontrivBool satisfies spec on Boolean inputs"},"trust":"LIBRARY"},{"name":"Atom","pred":"isinstance(side, Atom)","path":{"lhs":"_nontrivBool(x)","rhs":"returns isinstance(side, Boolean) and (not isinstance(side, Atom))","over":{"base":"Atom","pred":"isinstance(side, Atom)"},"name":"_nontrivBool_Atom_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._nontrivBool_Atom_correct","statement":"_nontrivBool satisfies spec on Atom inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"673c0cfdef503e5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"isinstance(side, Boolean) and (not isinstance(side, Atom))","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":true}}
 def _nontrivBool(side):
     return isinstance(side, Boolean) and \
            not isinstance(side, Atom)
@@ -73,16 +79,24 @@ def _nontrivBool(side):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_canonical(con), internal helper behaves correctly) over Any ║
+# ║ Path(_canonical(cond), cond.xreplace(reps)) over {Any | hasattr(cond, 'xreplace') and hasattr(cond, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _canonical : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(cond, 'xreplace')                      ║
+# ║   requires: hasattr(cond, 'atoms')                         ║
+# ║   returns:  cond.xreplace(reps)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _canonical : {Any | hasattr(cond, 'xreplace') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b455f09a15b76c68  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 814a988d474d2903  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._canonical","kind":"function","src_hash":"c819b77f6625c7cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_canonical(con)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_canonical_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._canonical_correct","statement":"Path(_canonical(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b455f09a15b76c68"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._canonical","kind":"function","src_hash":"c819b77f6625c7cf","in":{"base":"Any","pred":"hasattr(cond, 'xreplace') and hasattr(cond, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"_canonical(cond)","rhs":"cond.xreplace(reps)","over":{"base":"Any","pred":"hasattr(cond, 'xreplace') and hasattr(cond, 'atoms')"},"name":"_canonical_correct"},"guarantee":"returns cond.xreplace(reps)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._canonical_correct","statement":"Path(_canonical(x), returns cond.xreplace(reps))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"814a988d474d2903","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(cond, 'xreplace')","hasattr(cond, 'atoms')"],"returns_expr":"cond.xreplace(reps)","pure":false,"effects":{"effect_type":"reads_state","reads":["cond.atoms","cond.xreplace"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _canonical(cond):
     # return a condition in which all relationals are canonical
     reps = {r: r.canonical for r in cond.atoms(Relational)}
@@ -92,9 +106,15 @@ def _canonical(cond):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_canonical_coeff(rel), internal helper behaves correctly) over {Any | isinstance(rel.lhs, Expr)} ║
+# ║ Path(_canonical_coeff(rel), <unspecified:_canonical_coeff>) over {Any | isinstance(rel.lhs, Expr) and hasattr(rel, 'canonical') and hasattr(rel, 'reversed') and hasattr(rel, 'func') and hasattr(rel, 'is_Relational') and hasattr(rel, 'rhs') and hasattr(rel, 'lhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _canonical_coeff : {Any | isinstance(rel.lhs, Expr)} ...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rel, 'canonical')                      ║
+# ║   requires: hasattr(rel, 'reversed')                       ║
+# ║   requires: hasattr(rel, 'func')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _canonical_coeff : {Any | isinstance(rel.lhs, Expr) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(rel.lhs, Expr)} → library_axiom        ║
@@ -104,9 +124,12 @@ def _canonical(cond):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9b086e0d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._canonical_coeff","kind":"function","src_hash":"b5384149895e06ee","in":{"base":"Any","pred":"isinstance(rel.lhs, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_canonical_coeff(rel)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(rel.lhs, Expr)"},"name":"_canonical_coeff_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Expr","pred":"isinstance(rel.lhs, Expr)","path":{"lhs":"_canonical_coeff(x)","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(rel.lhs, Expr)"},"name":"_canonical_coeff_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._canonical_coeff_Expr_correct","statement":"_canonical_coeff satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9b086e0d40694ca9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._canonical_coeff","kind":"function","src_hash":"b5384149895e06ee","in":{"base":"Any","pred":"isinstance(rel.lhs, Expr) and hasattr(rel, 'canonical') and hasattr(rel, 'reversed') and hasattr(rel, 'func') and hasattr(rel, 'is_Relational') and hasattr(rel, 'rhs') and hasattr(rel, 'lhs')"},"out":{"base":"Any"},"spec":{"lhs":"_canonical_coeff(rel)","rhs":"<unspecified:_canonical_coeff>","over":{"base":"Any","pred":"isinstance(rel.lhs, Expr) and hasattr(rel, 'canonical') and hasattr(rel, 'reversed') and hasattr(rel, 'func') and hasattr(rel, 'is_Relational') and hasattr(rel, 'rhs') and hasattr(rel, 'lhs')"},"name":"_canonical_coeff_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Expr","pred":"isinstance(rel.lhs, Expr)","path":{"lhs":"_canonical_coeff(x)","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(rel.lhs, Expr)"},"name":"_canonical_coeff_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._canonical_coeff_Expr_correct","statement":"_canonical_coeff satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9b086e0d40694ca9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rel, 'canonical')","hasattr(rel, 'reversed')","hasattr(rel, 'func')","hasattr(rel, 'is_Relational')","hasattr(rel, 'rhs')","hasattr(rel, 'lhs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rel.canonical","rel.func","rel.is_Relational","rel.lhs","rel.reversed","rel.rhs"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'m < 0', 'not isinstance(rel.lhs, Expr)'}, fibers={'Expr'})"]}}
 def _canonical_coeff(rel):
     # return -2*x + 1 < 0 as x > 1/2
     # XXX make this part of Relational.canonical?
@@ -126,14 +149,21 @@ def _canonical_coeff(rel):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Relational(*args), correctly constructs a Relational instance) over {Any | isinstance(other, Relational) and isinstance(r.lhs, BooleanAtom) and isinstance(r.lhs, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Boolean)                      ║
+# ║   ensures:  isinstance(self, EvalfMixin)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Relational : {Any | isinstance(other, Relational) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 114021c03759467d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational","kind":"class","src_hash":"20aa28ca7858bc30","in":{"base":"Any","pred":"isinstance(other, Relational) and isinstance(r.lhs, BooleanAtom) and isinstance(r.lhs, Expr)"},"out":{"base":"Any","pred":"len(syms) == 1"},"spec":{"lhs":"Relational(*args)","rhs":"correctly constructs a Relational instance","over":{"base":"Any","pred":"isinstance(other, Relational) and isinstance(r.lhs, BooleanAtom) and isinstance(r.lhs, Expr)"},"name":"Relational_class_invariant"},"guarantee":"correctly constructs a Relational instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"114021c03759467d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational","kind":"class","src_hash":"20aa28ca7858bc30","in":{"base":"Any","pred":"isinstance(other, Relational) and isinstance(r.lhs, BooleanAtom) and isinstance(r.lhs, Expr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Boolean) and isinstance(self, EvalfMixin)"},"spec":{"lhs":"Relational(*args)","rhs":"correctly constructs a Relational instance","over":{"base":"Any","pred":"isinstance(other, Relational) and isinstance(r.lhs, BooleanAtom) and isinstance(r.lhs, Expr)"},"name":"Relational_class_invariant"},"guarantee":"isinstance(self, Boolean); isinstance(self, EvalfMixin)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"114021c03759467d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Boolean)","isinstance(self, EvalfMixin)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Relational not found in source"]}}
 class Relational(Boolean, EvalfMixin):
     """Base class for all relation types.
 
@@ -226,16 +256,23 @@ class Relational(Boolean, EvalfMixin):
     #   have not yet been defined
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, lhs, rhs), <unspecified:__new__>) over {Any | not (cls is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (cls is None)                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (cls is None)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d81f0044f449b00b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.__new__","kind":"method","src_hash":"cd492db8731e2042","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d81f0044f449b00b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.__new__","kind":"method","src_hash":"cd492db8731e2042","in":{"base":"Any","pred":"not (cls is None)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, lhs, rhs)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (cls is None)"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d81f0044f449b00b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (cls is None)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.ValidRelationOperator"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, lhs, rhs, rop=None, **assumptions):
         # If called by a subclass, do nothing special and pass on to Basic.
         if cls is not Relational:
@@ -266,48 +303,66 @@ class Relational(Boolean, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lhs(), returns the lhs attribute) over Any            ║
+# ║ Path(lhs(), self._args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lhs : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 447f6d5fe82c38a9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.lhs","kind":"property","src_hash":"e411fdec8dda04c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lhs()","rhs":"returns the lhs attribute","over":{"base":"Any"},"name":"lhs_correct"},"guarantee":"returns the lhs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"447f6d5fe82c38a9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.lhs","kind":"property","src_hash":"e411fdec8dda04c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lhs()","rhs":"self._args[0]","over":{"base":"Any"},"name":"lhs_correct"},"guarantee":"returns self._args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"447f6d5fe82c38a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lhs(self):
         """The left-hand side of the relation."""
         return self._args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rhs(), returns the rhs attribute) over Any            ║
+# ║ Path(rhs(), self._args[1]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rhs : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21051f10ad00fc8c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.rhs","kind":"property","src_hash":"0d96895e67c54944","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs()","rhs":"returns the rhs attribute","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns the rhs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21051f10ad00fc8c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.rhs","kind":"property","src_hash":"0d96895e67c54944","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs()","rhs":"self._args[1]","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns self._args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21051f10ad00fc8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rhs(self):
         """The right-hand side of the relation."""
         return self._args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reversed(), returns the reversed attribute) over Any  ║
+# ║ Path(reversed(), Relational.__new__(ops.get(self.func, self.func), b, a)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Relational.__new__(ops.get(self.func, sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reversed : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 59b68c4abf0dfdbb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.reversed","kind":"property","src_hash":"9434d4a8ff192b8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"returns the reversed attribute","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns the reversed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59b68c4abf0dfdbb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.reversed","kind":"property","src_hash":"9434d4a8ff192b8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"Relational.__new__(ops.get(self.func, self.func), b, a)","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns Relational.__new__(ops.get(self.func, self.func), b, a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59b68c4abf0dfdbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Relational.__new__(ops.get(self.func, self.func), b, a)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reversed(self):
         """Return the relationship with sides reversed.
 
@@ -331,16 +386,25 @@ class Relational(Boolean, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reversedsign(), returns the reversedsign attribute) over Any ║
+# ║ Path(reversedsign(), result == (Relational.__new__(ops.get(self.func, self.func), -a, -b) if not (isinstance(a, BooleanAtom) or isinstance(b, BooleanAtom)) else self) and result == Relational.__new__(ops.get(self.func, self.func), -a, -b) or result == self) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reversedsign : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Relational.__new__(ops.get(sel...   ║
+# ║   ensures:  result == Relational.__new__(ops.get(self...   ║
+# ║   fiber[BooleanAtom]: not (isinstance(a, BooleanAtom)...   ║
+# ║   fiber[BooleanAtom]: not (not (isinstance(a, Boolean...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reversedsign : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a59f813ec99c584d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.reversedsign","kind":"property","src_hash":"ae48def965003412","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversedsign()","rhs":"returns the reversedsign attribute","over":{"base":"Any"},"name":"reversedsign_correct"},"guarantee":"returns the reversedsign attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a59f813ec99c584d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.reversedsign","kind":"property","src_hash":"ae48def965003412","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Relational.__new__(ops.get(self.func, self.func), -a, -b) if not (isinstance(a, BooleanAtom) or isinstance(b, BooleanAtom)) else self) and result == Relational.__new__(ops.get(self.func, self.func), -a, -b) or result == self"},"spec":{"lhs":"reversedsign()","rhs":"result == (Relational.__new__(ops.get(self.func, self.func), -a, -b) if not (isinstance(a, BooleanAtom) or isinstance(b, BooleanAtom)) else self) and result == Relational.__new__(ops.get(self.func, self.func), -a, -b) or result == self","over":{"base":"Any"},"name":"reversedsign_correct"},"guarantee":"result == (Relational.__new__(ops.get(self.func, self.func), -a, -b) if not (isinstance(a, BooleanAtom) or isinstance(b, BooleanAtom)) else self); result == Relational.__new__(ops.get(self.func, self.func), -a, -b) or result == self; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a59f813ec99c584d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Relational.__new__(ops.get(self.func, self.func), -a, -b) if not (isinstance(a, BooleanAtom) or isinstance(b, BooleanAtom)) else self)","result == Relational.__new__(ops.get(self.func, self.func), -a, -b) or result == self"],"fibers":[{"name":"BooleanAtom","guard":"not (isinstance(a, BooleanAtom) or isinstance(b, BooleanAtom))","ensures":["result == Relational.__new__(ops.get(self.func, self.func), -a, -b)"],"decidability":"structural","returns_expr":"Relational.__new__(ops.get(self.func, self.func), -a, -b)"},{"name":"BooleanAtom","guard":"not (not (isinstance(a, BooleanAtom) or isinstance(b, BooleanAtom)))","ensures":["result == self"],"decidability":"structural","returns_expr":"self"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reversedsign(self):
         """Return the relationship with signs reversed.
 
@@ -367,16 +431,22 @@ class Relational(Boolean, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(negated(), returns the negated attribute) over Any    ║
+# ║ Path(negated(), Relational.__new__(ops.get(self.func), *self.args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Relational.__new__(ops.get(self.func), *s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ negated : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 071cc5add39dbd84           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.negated","kind":"property","src_hash":"a5ca6f414272eb77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"returns the negated attribute","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"071cc5add39dbd84"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.negated","kind":"property","src_hash":"a5ca6f414272eb77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"Relational.__new__(ops.get(self.func), *self.args)","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns Relational.__new__(ops.get(self.func), *self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"071cc5add39dbd84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Relational.__new__(ops.get(self.func), *self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def negated(self):
         """Return the negated relationship.
 
@@ -412,16 +482,23 @@ class Relational(Boolean, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(weak(), returns the weak attribute) over Any          ║
+# ║ Path(weak(), self) over Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ weak : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ weak : Any → {Any | result satisfies: result == (self)}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 190019cee89e8d99           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.weak","kind":"property","src_hash":"f0326aa422e88c4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"weak()","rhs":"returns the weak attribute","over":{"base":"Any"},"name":"weak_correct"},"guarantee":"returns the weak attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"190019cee89e8d99"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.weak","kind":"property","src_hash":"f0326aa422e88c4c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"weak()","rhs":"self","over":{"base":"Any"},"name":"weak_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"190019cee89e8d99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def weak(self):
         """return the non-strict version of the inequality or self
 
@@ -438,16 +515,23 @@ class Relational(Boolean, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(strict(), returns the strict attribute) over Any      ║
+# ║ Path(strict(), self) over Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ strict : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ strict : Any → {Any | result satisfies: result == (se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 420efff9b325b4cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.strict","kind":"property","src_hash":"4eccf657e35ca014","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strict()","rhs":"returns the strict attribute","over":{"base":"Any"},"name":"strict_correct"},"guarantee":"returns the strict attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"420efff9b325b4cd"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.strict","kind":"property","src_hash":"4eccf657e35ca014","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"strict()","rhs":"self","over":{"base":"Any"},"name":"strict_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"420efff9b325b4cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def strict(self):
         """return the strict version of the inequality or self
 
@@ -463,31 +547,43 @@ class Relational(Boolean, EvalfMixin):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), self.func(*[s._evalf(prec) for s in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*[s._evalf(prec) for s in self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b89ad6cb4bc189c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational._eval_evalf","kind":"method","src_hash":"97d3fc1f2bdf5938","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b89ad6cb4bc189c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational._eval_evalf","kind":"method","src_hash":"97d3fc1f2bdf5938","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"self.func(*[s._evalf(prec) for s in self.args])","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"returns self.func(*[s._evalf(prec) for s in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b89ad6cb4bc189c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*[s._evalf(prec) for s in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         return self.func(*[s._evalf(prec) for s in self.args])
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(canonical(), returns the canonical attribute) over Any ║
+# ║ Path(canonical(), <unspecified:canonical>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ canonical : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a352e59a9a48b56           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.canonical","kind":"property","src_hash":"0721a040564dbeff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"canonical()","rhs":"returns the canonical attribute","over":{"base":"Any"},"name":"canonical_correct"},"guarantee":"returns the canonical attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a352e59a9a48b56"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.canonical","kind":"property","src_hash":"0721a040564dbeff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"canonical()","rhs":"<unspecified:canonical>","over":{"base":"Any"},"name":"canonical_correct"},"guarantee":"returns the canonical attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a352e59a9a48b56","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def canonical(self):
         """Return a canonical form of the relational by putting a
         number on the rhs, canonically removing a sign or else
@@ -552,16 +648,22 @@ class Relational(Boolean, EvalfMixin):
         return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equals(oth), return true if the sides of the relationship are mathematically identical and the type of relationship is the same. if failing_expression is true, return the expression whose truth value was unknown) over Any ║
+# ║ Path(equals(other, failing_expression), <unspecified:equals>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equals : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46920e71ecf5d723  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.equals","kind":"method","src_hash":"b467d0015c85dd5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(oth)","rhs":"return true if the sides of the relationship are mathematically identical and the type of relationship is the same. if failing_expression is true, return the expression whose truth value was unknown","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"return true if the sides of the relationship are mathematically identical and the type of relationship is the same. if failing_expression is true, return the expression whose truth value was unknown","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Relational.equals_correct","statement":"Path(equals(x), return true if the sides of the relationship are mathematically identical and the type of relationship is the same. if failing_expression is true, return the expression whose truth value was unknown)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46920e71ecf5d723"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.equals","kind":"method","src_hash":"b467d0015c85dd5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(other, failing_expression)","rhs":"<unspecified:equals>","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"return true if the sides of the relationship are mathematically identical and the type of relationship is the same. if failing_expression is true, return the expression whose truth value was unknown","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Relational.equals_correct","statement":"Path(equals(x), return true if the sides of the relationship are mathematically identical and the type of relationship is the same. if failing_expression is true, return the expression whose truth value was unknown)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46920e71ecf5d723","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.reversed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equals(self, other, failing_expression=False):
         """Return True if the sides of the relationship are mathematically
         identical and the type of relationship is the same.
@@ -611,16 +713,22 @@ class Relational(Boolean, EvalfMixin):
                 return left
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), <unspecified:_eval_simplify>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 438138ca617912d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational._eval_simplify","kind":"method","src_hash":"b762cf3de81498c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Relational._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"438138ca617912d4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational._eval_simplify","kind":"method","src_hash":"b762cf3de81498c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"<unspecified:_eval_simplify>","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Relational._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"438138ca617912d4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         from .add import Add
         from .expr import Expr
@@ -712,46 +820,64 @@ class Relational(Boolean, EvalfMixin):
             return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_trigsimp(**o), id) over Any                     ║
+# ║ Path(_eval_trigsimp(**opts), id) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(trigsimp(self.lhs, **opts), tri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_trigsimp : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3ecfc05d687d9cfc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational._eval_trigsimp","kind":"method","src_hash":"646586b3b8d5f485","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trigsimp(**o)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_trigsimp_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"trigsimp","by":"library_axiom"},{"fn":"trigsimp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ecfc05d687d9cfc"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational._eval_trigsimp","kind":"method","src_hash":"646586b3b8d5f485","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_trigsimp(**opts)","rhs":"self.func(trigsimp(self.lhs, **opts), trigsimp(self.rhs, **opts))","over":{"base":"Any"},"name":"_eval_trigsimp_correct","kind":"composition"},"guarantee":"returns self.func(trigsimp(self.lhs, **opts), trigsimp(self.rhs, **opts))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"trigsimp","by":"library_axiom"},{"fn":"trigsimp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ecfc05d687d9cfc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(trigsimp(self.lhs, **opts), trigsimp(self.rhs, **opts))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.func","self.lhs","self.rhs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_trigsimp(self, **opts):
         from sympy.simplify.trigsimp import trigsimp
         return self.func(trigsimp(self.lhs, **opts), trigsimp(self.rhs, **opts))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expand(**k), expand produces the expected output) over Any ║
+# ║ Path(expand(**kwargs), self.func(*args)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*args)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expand : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc0e14d04e18e437  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4573d27186605005  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.expand","kind":"method","src_hash":"ee108215664469f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(**k)","rhs":"expand produces the expected output","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Relational.expand_correct","statement":"Path(expand(x), expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc0e14d04e18e437"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.expand","kind":"method","src_hash":"ee108215664469f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand(**kwargs)","rhs":"self.func(*args)","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"returns self.func(*args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Relational.expand_correct","statement":"Path(expand(x), returns self.func(*args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4573d27186605005","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expand(self, **kwargs):
         args = (arg.expand(**kwargs) for arg in self.args)
         return self.func(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__bool__(), correctly converts to boolean) over Any   ║
+# ║ Path(__bool__(), isinstance(result, bool)) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __bool__ : Any → bool                                      ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __bool__ : Any → {bool | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b4dbffead40370b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.__bool__","kind":"method","src_hash":"efce8d0edc05e959","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"__bool__()","rhs":"correctly converts to boolean","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"correctly converts to boolean","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b4dbffead40370b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.__bool__","kind":"method","src_hash":"efce8d0edc05e959","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: isinstance(result, bool)"},"spec":{"lhs":"__bool__()","rhs":"isinstance(result, bool)","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b4dbffead40370b","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, bool)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __bool__(self) -> bool:
         raise TypeError(
             LazyExceptionMessage(
@@ -760,16 +886,22 @@ class Relational(Boolean, EvalfMixin):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_set(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_set(), len(syms) == 1) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_as_set : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(syms) == 1                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_as_set : Any → {Any | result satisfies: len(sym...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fee8dce902cf5cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92b905333e65d35b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational._eval_as_set","kind":"method","src_hash":"a5e31fdf1c00ff0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_set()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_set_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Relational._eval_as_set_correct","statement":"Path(_eval_as_set(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fee8dce902cf5cd"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational._eval_as_set","kind":"method","src_hash":"a5e31fdf1c00ff0a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(syms) == 1"},"spec":{"lhs":"_eval_as_set()","rhs":"len(syms) == 1","over":{"base":"Any"},"name":"_eval_as_set_correct"},"guarantee":"len(syms) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Relational._eval_as_set_correct","statement":"Path(_eval_as_set(x), len(syms) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92b905333e65d35b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(syms) == 1"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_set(self):
         # self is univariate and periodicity(self, x) in (0, None)
         from sympy.solvers.inequalities import solve_univariate_inequality
@@ -787,16 +919,22 @@ class Relational(Boolean, EvalfMixin):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(binary_symbols(), returns the binary_symbols attribute) over Any ║
+# ║ Path(binary_symbols(), set()) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set()                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ binary_symbols : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 38922110437c53a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.binary_symbols","kind":"property","src_hash":"37bf3efc1313ceb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_symbols()","rhs":"returns the binary_symbols attribute","over":{"base":"Any"},"name":"binary_symbols_correct"},"guarantee":"returns the binary_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38922110437c53a3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Relational.binary_symbols","kind":"property","src_hash":"37bf3efc1313ceb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_symbols()","rhs":"set()","over":{"base":"Any"},"name":"binary_symbols_correct"},"guarantee":"returns set()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"38922110437c53a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def binary_symbols(self):
         # override where necessary
         return set()
@@ -808,14 +946,20 @@ Rel = Relational
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Equality(*args), correctly constructs a Equality instance) over {Any | isinstance(e, Equality) and isinstance(e.lhs, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Relational)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Equality : {Any | isinstance(e, Equality) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39c4cfca2efb00f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality","kind":"class","src_hash":"773556985d1dfc8b","in":{"base":"Any","pred":"isinstance(e, Equality) and isinstance(e.lhs, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"Equality(*args)","rhs":"correctly constructs a Equality instance","over":{"base":"Any","pred":"isinstance(e, Equality) and isinstance(e.lhs, Expr)"},"name":"Equality_class_invariant"},"guarantee":"correctly constructs a Equality instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39c4cfca2efb00f1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality","kind":"class","src_hash":"773556985d1dfc8b","in":{"base":"Any","pred":"isinstance(e, Equality) and isinstance(e.lhs, Expr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Relational)"},"spec":{"lhs":"Equality(*args)","rhs":"correctly constructs a Equality instance","over":{"base":"Any","pred":"isinstance(e, Equality) and isinstance(e.lhs, Expr)"},"name":"Equality_class_invariant"},"guarantee":"isinstance(self, Relational)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39c4cfca2efb00f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Relational)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Equality not found in source"]}}
 class Equality(Relational):
     """
     An equal relation between two objects.
@@ -893,16 +1037,22 @@ class Equality(Relational):
     is_Equality = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, lhs, rhs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 416e90591507b04b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality.__new__","kind":"method","src_hash":"e1360f4f3240c7d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"416e90591507b04b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality.__new__","kind":"method","src_hash":"e1360f4f3240c7d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, lhs, rhs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"416e90591507b04b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, lhs, rhs, **options):
         evaluate = options.pop('evaluate', global_parameters.evaluate)
         lhs = _sympify(lhs)
@@ -918,30 +1068,42 @@ class Equality(Relational):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_relation(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_relation(cls, lhs, rhs), _sympify(lhs == rhs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _sympify(lhs == rhs)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_relation : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8aef9ab79e3db56b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality._eval_relation","kind":"classmethod","src_hash":"fa1d032de076f99b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_relation(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_relation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8aef9ab79e3db56b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality._eval_relation","kind":"classmethod","src_hash":"fa1d032de076f99b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_relation(cls, lhs, rhs)","rhs":"_sympify(lhs == rhs)","over":{"base":"Any"},"name":"_eval_relation_correct"},"guarantee":"returns _sympify(lhs == rhs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8aef9ab79e3db56b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_sympify(lhs == rhs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_relation(cls, lhs, rhs):
         return _sympify(lhs == rhs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Add(L, ), return eq(l, r) as l - r) over Any ║
+# ║ Path(_eval_rewrite_as_Add(L, R, evaluate), <unspecified:_eval_rewrite_as_Add>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Add : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b051b93db6b099b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality._eval_rewrite_as_Add","kind":"method","src_hash":"5f4a8626105f7cbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Add(L, )","rhs":"return eq(l, r) as l - r","over":{"base":"Any"},"name":"_eval_rewrite_as_Add_correct"},"guarantee":"return eq(l, r) as l - r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Equality._eval_rewrite_as_Add_correct","statement":"Path(_eval_rewrite_as_Add(x), return eq(l, r) as l - r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b051b93db6b099b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality._eval_rewrite_as_Add","kind":"method","src_hash":"5f4a8626105f7cbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Add(L, R, evaluate)","rhs":"<unspecified:_eval_rewrite_as_Add>","over":{"base":"Any"},"name":"_eval_rewrite_as_Add_correct"},"guarantee":"return eq(l, r) as l - r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Equality._eval_rewrite_as_Add_correct","statement":"Path(_eval_rewrite_as_Add(x), return eq(l, r) as l - r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b051b93db6b099b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Add(self, L, R, evaluate=True, **kwargs):
         """
         return Eq(L, R) as L - R. To control the evaluation of
@@ -996,16 +1158,22 @@ class Equality(Relational):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(binary_symbols(), returns the binary_symbols attribute) over Any ║
+# ║ Path(binary_symbols(), <unspecified:binary_symbols>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ binary_symbols : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f948305966379041           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality.binary_symbols","kind":"property","src_hash":"15471e781994a665","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_symbols()","rhs":"returns the binary_symbols attribute","over":{"base":"Any"},"name":"binary_symbols_correct"},"guarantee":"returns the binary_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f948305966379041"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality.binary_symbols","kind":"property","src_hash":"15471e781994a665","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_symbols()","rhs":"<unspecified:binary_symbols>","over":{"base":"Any"},"name":"binary_symbols_correct"},"guarantee":"returns the binary_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f948305966379041","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.lhs","self.rhs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def binary_symbols(self):
         if S.true in self.args or S.false in self.args:
             if self.lhs.is_Symbol:
@@ -1015,16 +1183,22 @@ class Equality(Relational):
         return set()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), <unspecified:_eval_simplify>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0002b30eb3073876  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality._eval_simplify","kind":"method","src_hash":"c6742283b6cac0ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Equality._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0002b30eb3073876"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality._eval_simplify","kind":"method","src_hash":"c6742283b6cac0ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"<unspecified:_eval_simplify>","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Equality._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0002b30eb3073876","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         # standard simplify
         e = super()._eval_simplify(**kwargs)
@@ -1053,32 +1227,44 @@ class Equality(Relational):
         return e.canonical
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integrate(*ar), see the integrate function in sympy.integrals) over Any ║
+# ║ Path(integrate(*args, **kwargs), integrate(self, *args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  integrate(self, *args, **kwargs)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ integrate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 127cb58e4e538c98  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a69c10db9da255b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality.integrate","kind":"method","src_hash":"f77dcbd616f72c9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate(*ar)","rhs":"see the integrate function in sympy.integrals","over":{"base":"Any"},"name":"integrate_correct"},"guarantee":"see the integrate function in sympy.integrals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Equality.integrate_correct","statement":"Path(integrate(x), see the integrate function in sympy.integrals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"127cb58e4e538c98"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality.integrate","kind":"method","src_hash":"f77dcbd616f72c9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate(*args, **kwargs)","rhs":"integrate(self, *args, **kwargs)","over":{"base":"Any"},"name":"integrate_correct"},"guarantee":"returns integrate(self, *args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Equality.integrate_correct","statement":"Path(integrate(x), returns integrate(self, *args, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a69c10db9da255b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"integrate(self, *args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def integrate(self, *args, **kwargs):
         """See the integrate function in sympy.integrals"""
         from sympy.integrals.integrals import integrate
         return integrate(self, *args, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_poly(*ge), returns lhs-rhs as a poly) over Any     ║
+# ║ Path(as_poly(*gens, **kwargs), (self.lhs - self.rhs).as_poly(*gens, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.lhs - self.rhs).as_poly(*gens, **kw...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_poly : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c11e0c676e886ae6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality.as_poly","kind":"method","src_hash":"0899ea851f05d0b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_poly(*ge)","rhs":"returns lhs-rhs as a poly","over":{"base":"Any"},"name":"as_poly_correct"},"guarantee":"returns lhs-rhs as a poly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c11e0c676e886ae6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Equality.as_poly","kind":"method","src_hash":"0899ea851f05d0b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_poly(*gens, **kwargs)","rhs":"(self.lhs - self.rhs).as_poly(*gens, **kwargs)","over":{"base":"Any"},"name":"as_poly_correct"},"guarantee":"returns (self.lhs - self.rhs).as_poly(*gens, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c11e0c676e886ae6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.lhs - self.rhs).as_poly(*gens, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.lhs","self.rhs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_poly(self, *gens, **kwargs):
         '''Returns lhs-rhs as a Poly
 
@@ -1099,14 +1285,20 @@ Eq = Equality
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Unequality(*args), correctly constructs a Unequality instance) over {Any | isinstance(eq, Equality)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Unequality : {Any | isinstance(eq, Equality)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Relational)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Unequality : {Any | isinstance(eq, Equality)} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed85e36f7c59b295  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Unequality","kind":"class","src_hash":"50c3f2ae7cdc2a2f","in":{"base":"Any","pred":"isinstance(eq, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"Unequality(*args)","rhs":"correctly constructs a Unequality instance","over":{"base":"Any","pred":"isinstance(eq, Equality)"},"name":"Unequality_class_invariant"},"guarantee":"correctly constructs a Unequality instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed85e36f7c59b295"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Unequality","kind":"class","src_hash":"50c3f2ae7cdc2a2f","in":{"base":"Any","pred":"isinstance(eq, Equality)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Relational)"},"spec":{"lhs":"Unequality(*args)","rhs":"correctly constructs a Unequality instance","over":{"base":"Any","pred":"isinstance(eq, Equality)"},"name":"Unequality_class_invariant"},"guarantee":"isinstance(self, Relational)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed85e36f7c59b295","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Relational)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Unequality not found in source"]}}
 class Unequality(Relational):
     """An unequal relation between two objects.
 
@@ -1145,16 +1337,22 @@ class Unequality(Relational):
     __slots__ = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, lhs, rhs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6de6e13fe080c03a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Unequality.__new__","kind":"method","src_hash":"e028b13a12f92ddb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6de6e13fe080c03a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Unequality.__new__","kind":"method","src_hash":"e028b13a12f92ddb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, lhs, rhs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6de6e13fe080c03a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, lhs, rhs, **options):
         lhs = _sympify(lhs)
         rhs = _sympify(rhs)
@@ -1170,31 +1368,43 @@ class Unequality(Relational):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_relation(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_relation(cls, lhs, rhs), _sympify(lhs != rhs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _sympify(lhs != rhs)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_relation : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f4a4075766d85456           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Unequality._eval_relation","kind":"classmethod","src_hash":"1eada35ff9609109","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_relation(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_relation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4a4075766d85456"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Unequality._eval_relation","kind":"classmethod","src_hash":"1eada35ff9609109","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_relation(cls, lhs, rhs)","rhs":"_sympify(lhs != rhs)","over":{"base":"Any"},"name":"_eval_relation_correct"},"guarantee":"returns _sympify(lhs != rhs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4a4075766d85456","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_sympify(lhs != rhs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_relation(cls, lhs, rhs):
         return _sympify(lhs != rhs)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(binary_symbols(), returns the binary_symbols attribute) over Any ║
+# ║ Path(binary_symbols(), <unspecified:binary_symbols>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ binary_symbols : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a8c68e562f1f4931           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Unequality.binary_symbols","kind":"property","src_hash":"15471e781994a665","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_symbols()","rhs":"returns the binary_symbols attribute","over":{"base":"Any"},"name":"binary_symbols_correct"},"guarantee":"returns the binary_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8c68e562f1f4931"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Unequality.binary_symbols","kind":"property","src_hash":"15471e781994a665","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"binary_symbols()","rhs":"<unspecified:binary_symbols>","over":{"base":"Any"},"name":"binary_symbols_correct"},"guarantee":"returns the binary_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8c68e562f1f4931","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.lhs","self.rhs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def binary_symbols(self):
         if S.true in self.args or S.false in self.args:
             if self.lhs.is_Symbol:
@@ -1204,16 +1414,22 @@ class Unequality(Relational):
         return set()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_simplify(**kwargs), <unspecified:_eval_simplify>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ffa843035b8a191  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.Unequality._eval_simplify","kind":"method","src_hash":"0f1f89e495bb87be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Unequality._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ffa843035b8a191"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.Unequality._eval_simplify","kind":"method","src_hash":"0f1f89e495bb87be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"<unspecified:_eval_simplify>","over":{"base":"Any"},"name":"_eval_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.Unequality._eval_simplify_correct","statement":"Path(_eval_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ffa843035b8a191","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         # simplify as an equality
         eq = Equality(*self.args)._eval_simplify(**kwargs)
@@ -1229,14 +1445,20 @@ Ne = Unequality
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_Inequality(*args), correctly constructs a _Inequality instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _Inequality : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Relational)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _Inequality : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc6ed2aa8dce669c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._Inequality","kind":"class","src_hash":"1abbd6200d40e471","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Inequality(*args)","rhs":"correctly constructs a _Inequality instance","over":{"base":"Any"},"name":"_Inequality_class_invariant"},"guarantee":"correctly constructs a _Inequality instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc6ed2aa8dce669c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._Inequality","kind":"class","src_hash":"1abbd6200d40e471","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Relational)"},"spec":{"lhs":"_Inequality(*args)","rhs":"correctly constructs a _Inequality instance","over":{"base":"Any"},"name":"_Inequality_class_invariant"},"guarantee":"isinstance(self, Relational)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc6ed2aa8dce669c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Relational)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function _Inequality not found in source"]}}
 class _Inequality(Relational):
     """Internal base class for all *Than types.
 
@@ -1247,16 +1469,23 @@ class _Inequality(Relational):
     __slots__ = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, lhs, rhs), len(options) == old_len_options - 1) over {Any | len(options) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(options) > 0                               ║
+# ║   ensures:  len(options) == old_len_options - 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | len(options) > 0} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 15369ac7f0545948           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._Inequality.__new__","kind":"method","src_hash":"ca56b0d49e84b94b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15369ac7f0545948"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._Inequality.__new__","kind":"method","src_hash":"ca56b0d49e84b94b","in":{"base":"Any","pred":"len(options) > 0"},"out":{"base":"Any","pred":"result satisfies: len(options) == old_len_options - 1"},"spec":{"lhs":"__new__(cls, lhs, rhs)","rhs":"len(options) == old_len_options - 1","over":{"base":"Any","pred":"len(options) > 0"},"name":"__new___correct"},"guarantee":"len(options) == old_len_options - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15369ac7f0545948","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(options) > 0"],"ensures":["len(options) == old_len_options - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._eval_relation"],"calls_mutating":["options.pop"],"raises":["TypeError"],"catches":["SympifyError"]},"state_contract":{"modifies":["options.*"],"old_bindings":{"old_len_options":"len(options)"},"pre_requires":["len(options) > 0"],"post_ensures":["len(options) == old_len_options - 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, lhs, rhs, **options):
 
         try:
@@ -1287,16 +1516,25 @@ class _Inequality(Relational):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_relation(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_relation(cls, lhs, rhs), result == (cls(lhs, rhs, evaluate=False) if val is None else _sympify(val)) and result == cls(lhs, rhs, evaluate=False) or result == _sympify(val)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_relation : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (cls(lhs, rhs, evaluate=False) ...   ║
+# ║   ensures:  result == cls(lhs, rhs, evaluate=False) o...   ║
+# ║   fiber[zero_or_none]: val is None => cls(lhs, rhs, e...   ║
+# ║   fiber[zero_or_none]: not (val is None) => _sympify(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_relation : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 092b551d24b7386c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 254cfef2573aec72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._Inequality._eval_relation","kind":"classmethod","src_hash":"c2f07f721afd1c0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_relation(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_relation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._Inequality._eval_relation_correct","statement":"Path(_eval_relation(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"092b551d24b7386c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._Inequality._eval_relation","kind":"classmethod","src_hash":"c2f07f721afd1c0b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (cls(lhs, rhs, evaluate=False) if val is None else _sympify(val)) and result == cls(lhs, rhs, evaluate=False) or result == _sympify(val)"},"spec":{"lhs":"_eval_relation(cls, lhs, rhs)","rhs":"result == (cls(lhs, rhs, evaluate=False) if val is None else _sympify(val)) and result == cls(lhs, rhs, evaluate=False) or result == _sympify(val)","over":{"base":"Any"},"name":"_eval_relation_correct"},"guarantee":"result == (cls(lhs, rhs, evaluate=False) if val is None else _sympify(val)); result == cls(lhs, rhs, evaluate=False) or result == _sympify(val); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._Inequality._eval_relation_correct","statement":"Path(_eval_relation(x), result == (cls(lhs, rhs, evaluate=False) if val is None else _sympify(val)); result == cls(lhs, rhs, evaluate=False) or result == _sympify(val); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"254cfef2573aec72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (cls(lhs, rhs, evaluate=False) if val is None else _sympify(val))","result == cls(lhs, rhs, evaluate=False) or result == _sympify(val)"],"fibers":[{"name":"zero_or_none","guard":"val is None","ensures":["result == cls(lhs, rhs, evaluate=False)"],"decidability":"structural","returns_expr":"cls(lhs, rhs, evaluate=False)"},{"name":"zero_or_none","guard":"not (val is None)","ensures":["result == _sympify(val)"],"decidability":"structural","returns_expr":"_sympify(val)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._eval_fuzzy_relation"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_relation(cls, lhs, rhs, **options):
         val = cls._eval_fuzzy_relation(lhs, rhs)
         if val is None:
@@ -1308,14 +1546,20 @@ class _Inequality(Relational):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_Greater(*args), correctly constructs a _Greater instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _Greater : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _Inequality)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _Greater : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b1e466184e1868d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._Greater","kind":"class","src_hash":"3f08ab401aff4dc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Greater(*args)","rhs":"correctly constructs a _Greater instance","over":{"base":"Any"},"name":"_Greater_class_invariant"},"guarantee":"correctly constructs a _Greater instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b1e466184e1868d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._Greater","kind":"class","src_hash":"3f08ab401aff4dc8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _Inequality)"},"spec":{"lhs":"_Greater(*args)","rhs":"correctly constructs a _Greater instance","over":{"base":"Any"},"name":"_Greater_class_invariant"},"guarantee":"isinstance(self, _Inequality)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b1e466184e1868d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _Inequality)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _Greater not found in source"]}}
 class _Greater(_Inequality):
     """Not intended for general use
 
@@ -1327,31 +1571,43 @@ class _Greater(_Inequality):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gts(), returns the gts attribute) over Any            ║
+# ║ Path(gts(), self._args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gts : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8db70454ba76ddb1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._Greater.gts","kind":"property","src_hash":"0526b722bb28f20c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gts()","rhs":"returns the gts attribute","over":{"base":"Any"},"name":"gts_correct"},"guarantee":"returns the gts attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8db70454ba76ddb1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._Greater.gts","kind":"property","src_hash":"0526b722bb28f20c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gts()","rhs":"self._args[0]","over":{"base":"Any"},"name":"gts_correct"},"guarantee":"returns self._args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8db70454ba76ddb1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gts(self):
         return self._args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lts(), returns the lts attribute) over Any            ║
+# ║ Path(lts(), self._args[1]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lts : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | abfdfa775c14ab1c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._Greater.lts","kind":"property","src_hash":"9aa94e50f8aaaf63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lts()","rhs":"returns the lts attribute","over":{"base":"Any"},"name":"lts_correct"},"guarantee":"returns the lts attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abfdfa775c14ab1c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._Greater.lts","kind":"property","src_hash":"9aa94e50f8aaaf63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lts()","rhs":"self._args[1]","over":{"base":"Any"},"name":"lts_correct"},"guarantee":"returns self._args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"abfdfa775c14ab1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lts(self):
         return self._args[1]
 
@@ -1359,14 +1615,20 @@ class _Greater(_Inequality):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_Less(*args), correctly constructs a _Less instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _Less : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _Inequality)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _Less : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3fa588bdcdc7719  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._Less","kind":"class","src_hash":"7366401758f074f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Less(*args)","rhs":"correctly constructs a _Less instance","over":{"base":"Any"},"name":"_Less_class_invariant"},"guarantee":"correctly constructs a _Less instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3fa588bdcdc7719"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._Less","kind":"class","src_hash":"7366401758f074f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _Inequality)"},"spec":{"lhs":"_Less(*args)","rhs":"correctly constructs a _Less instance","over":{"base":"Any"},"name":"_Less_class_invariant"},"guarantee":"isinstance(self, _Inequality)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3fa588bdcdc7719","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _Inequality)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function _Less not found in source"]}}
 class _Less(_Inequality):
     """Not intended for general use.
 
@@ -1378,31 +1640,43 @@ class _Less(_Inequality):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gts(), returns the gts attribute) over Any            ║
+# ║ Path(gts(), self._args[1]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[1]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gts : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87e987f25332a191           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._Less.gts","kind":"property","src_hash":"3aae7e9375441515","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gts()","rhs":"returns the gts attribute","over":{"base":"Any"},"name":"gts_correct"},"guarantee":"returns the gts attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87e987f25332a191"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._Less.gts","kind":"property","src_hash":"3aae7e9375441515","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gts()","rhs":"self._args[1]","over":{"base":"Any"},"name":"gts_correct"},"guarantee":"returns self._args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87e987f25332a191","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gts(self):
         return self._args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lts(), returns the lts attribute) over Any            ║
+# ║ Path(lts(), self._args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._args[0]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lts : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7ecf4b52b206a836           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._Less.lts","kind":"property","src_hash":"2f42f493da7636eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lts()","rhs":"returns the lts attribute","over":{"base":"Any"},"name":"lts_correct"},"guarantee":"returns the lts attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ecf4b52b206a836"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._Less.lts","kind":"property","src_hash":"2f42f493da7636eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lts()","rhs":"self._args[0]","over":{"base":"Any"},"name":"lts_correct"},"guarantee":"returns self._args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7ecf4b52b206a836","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lts(self):
         return self._args[0]
 
@@ -1410,14 +1684,20 @@ class _Less(_Inequality):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GreaterThan(*args), correctly constructs a GreaterThan instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GreaterThan : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _Greater)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GreaterThan : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d2b868b782741fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.GreaterThan","kind":"class","src_hash":"affd8eafc08a6991","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GreaterThan(*args)","rhs":"correctly constructs a GreaterThan instance","over":{"base":"Any"},"name":"GreaterThan_class_invariant"},"guarantee":"correctly constructs a GreaterThan instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d2b868b782741fe"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.GreaterThan","kind":"class","src_hash":"affd8eafc08a6991","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _Greater)"},"spec":{"lhs":"GreaterThan(*args)","rhs":"correctly constructs a GreaterThan instance","over":{"base":"Any"},"name":"GreaterThan_class_invariant"},"guarantee":"isinstance(self, _Greater)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d2b868b782741fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _Greater)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function GreaterThan not found in source"]}}
 class GreaterThan(_Greater):
     r"""Class representations of inequalities.
 
@@ -1650,31 +1930,43 @@ class GreaterThan(_Greater):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_fuzzy_relation(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_fuzzy_relation(cls, lhs, rhs), is_ge(lhs, rhs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  is_ge(lhs, rhs)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_fuzzy_relation : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df218808dfe100eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.GreaterThan._eval_fuzzy_relation","kind":"classmethod","src_hash":"e871965861b20894","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_fuzzy_relation(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_fuzzy_relation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df218808dfe100eb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.GreaterThan._eval_fuzzy_relation","kind":"classmethod","src_hash":"e871965861b20894","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_fuzzy_relation(cls, lhs, rhs)","rhs":"is_ge(lhs, rhs)","over":{"base":"Any"},"name":"_eval_fuzzy_relation_correct"},"guarantee":"returns is_ge(lhs, rhs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df218808dfe100eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"is_ge(lhs, rhs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_fuzzy_relation(cls, lhs, rhs):
         return is_ge(lhs, rhs)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(strict(), returns the strict attribute) over Any      ║
+# ║ Path(strict(), Gt(*self.args)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Gt(*self.args)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ strict : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9002e3f138cc64c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.GreaterThan.strict","kind":"property","src_hash":"8b47f589e5f98f01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strict()","rhs":"returns the strict attribute","over":{"base":"Any"},"name":"strict_correct"},"guarantee":"returns the strict attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9002e3f138cc64c2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.GreaterThan.strict","kind":"property","src_hash":"8b47f589e5f98f01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strict()","rhs":"Gt(*self.args)","over":{"base":"Any"},"name":"strict_correct"},"guarantee":"returns Gt(*self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9002e3f138cc64c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Gt(*self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def strict(self):
         return Gt(*self.args)
 
@@ -1684,14 +1976,20 @@ Ge = GreaterThan
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LessThan(*args), correctly constructs a LessThan instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LessThan : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _Less)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LessThan : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98336078d80b4641  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.LessThan","kind":"class","src_hash":"406332a629d88407","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LessThan(*args)","rhs":"correctly constructs a LessThan instance","over":{"base":"Any"},"name":"LessThan_class_invariant"},"guarantee":"correctly constructs a LessThan instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98336078d80b4641"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.LessThan","kind":"class","src_hash":"406332a629d88407","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _Less)"},"spec":{"lhs":"LessThan(*args)","rhs":"correctly constructs a LessThan instance","over":{"base":"Any"},"name":"LessThan_class_invariant"},"guarantee":"isinstance(self, _Less)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98336078d80b4641","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _Less)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function LessThan not found in source"]}}
 class LessThan(_Less):
     __doc__ = GreaterThan.__doc__
     __slots__ = ()
@@ -1700,31 +1998,43 @@ class LessThan(_Less):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_fuzzy_relation(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_fuzzy_relation(cls, lhs, rhs), is_le(lhs, rhs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  is_le(lhs, rhs)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_fuzzy_relation : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b5411109e65f6e3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.LessThan._eval_fuzzy_relation","kind":"classmethod","src_hash":"d6a460deb944b33a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_fuzzy_relation(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_fuzzy_relation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b5411109e65f6e3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.LessThan._eval_fuzzy_relation","kind":"classmethod","src_hash":"d6a460deb944b33a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_fuzzy_relation(cls, lhs, rhs)","rhs":"is_le(lhs, rhs)","over":{"base":"Any"},"name":"_eval_fuzzy_relation_correct"},"guarantee":"returns is_le(lhs, rhs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b5411109e65f6e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"is_le(lhs, rhs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_fuzzy_relation(cls, lhs, rhs):
         return is_le(lhs, rhs)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(strict(), returns the strict attribute) over Any      ║
+# ║ Path(strict(), Lt(*self.args)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lt(*self.args)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ strict : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 260961214836712a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.LessThan.strict","kind":"property","src_hash":"bb9f03f3ccf95b8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strict()","rhs":"returns the strict attribute","over":{"base":"Any"},"name":"strict_correct"},"guarantee":"returns the strict attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"260961214836712a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.LessThan.strict","kind":"property","src_hash":"bb9f03f3ccf95b8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strict()","rhs":"Lt(*self.args)","over":{"base":"Any"},"name":"strict_correct"},"guarantee":"returns Lt(*self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"260961214836712a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lt(*self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def strict(self):
         return Lt(*self.args)
 
@@ -1734,14 +2044,20 @@ Le = LessThan
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(StrictGreaterThan(*args), correctly constructs a StrictGreaterThan instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ StrictGreaterThan : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _Greater)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ StrictGreaterThan : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51c831cd20fc3d9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.StrictGreaterThan","kind":"class","src_hash":"4378b34a1e22db89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"StrictGreaterThan(*args)","rhs":"correctly constructs a StrictGreaterThan instance","over":{"base":"Any"},"name":"StrictGreaterThan_class_invariant"},"guarantee":"correctly constructs a StrictGreaterThan instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51c831cd20fc3d9f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.StrictGreaterThan","kind":"class","src_hash":"4378b34a1e22db89","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _Greater)"},"spec":{"lhs":"StrictGreaterThan(*args)","rhs":"correctly constructs a StrictGreaterThan instance","over":{"base":"Any"},"name":"StrictGreaterThan_class_invariant"},"guarantee":"isinstance(self, _Greater)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51c831cd20fc3d9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _Greater)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function StrictGreaterThan not found in source"]}}
 class StrictGreaterThan(_Greater):
     __doc__ = GreaterThan.__doc__
     __slots__ = ()
@@ -1750,31 +2066,43 @@ class StrictGreaterThan(_Greater):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_fuzzy_relation(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_fuzzy_relation(cls, lhs, rhs), is_gt(lhs, rhs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  is_gt(lhs, rhs)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_fuzzy_relation : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 86b96b37675e948c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.StrictGreaterThan._eval_fuzzy_relation","kind":"classmethod","src_hash":"ec4d209e7b53a006","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_fuzzy_relation(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_fuzzy_relation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86b96b37675e948c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.StrictGreaterThan._eval_fuzzy_relation","kind":"classmethod","src_hash":"ec4d209e7b53a006","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_fuzzy_relation(cls, lhs, rhs)","rhs":"is_gt(lhs, rhs)","over":{"base":"Any"},"name":"_eval_fuzzy_relation_correct"},"guarantee":"returns is_gt(lhs, rhs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86b96b37675e948c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"is_gt(lhs, rhs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_fuzzy_relation(cls, lhs, rhs):
         return is_gt(lhs, rhs)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(weak(), returns the weak attribute) over Any          ║
+# ║ Path(weak(), Ge(*self.args)) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Ge(*self.args)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ weak : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 90530a475f0a6358           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.StrictGreaterThan.weak","kind":"property","src_hash":"ac5f669bbc6b4113","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"weak()","rhs":"returns the weak attribute","over":{"base":"Any"},"name":"weak_correct"},"guarantee":"returns the weak attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90530a475f0a6358"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.StrictGreaterThan.weak","kind":"property","src_hash":"ac5f669bbc6b4113","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"weak()","rhs":"Ge(*self.args)","over":{"base":"Any"},"name":"weak_correct"},"guarantee":"returns Ge(*self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90530a475f0a6358","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Ge(*self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def weak(self):
         return Ge(*self.args)
 
@@ -1785,14 +2113,20 @@ Gt = StrictGreaterThan
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(StrictLessThan(*args), correctly constructs a StrictLessThan instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ StrictLessThan : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _Less)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ StrictLessThan : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f58a452d48a1cf1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.StrictLessThan","kind":"class","src_hash":"798026d78ddff5b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"StrictLessThan(*args)","rhs":"correctly constructs a StrictLessThan instance","over":{"base":"Any"},"name":"StrictLessThan_class_invariant"},"guarantee":"correctly constructs a StrictLessThan instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f58a452d48a1cf1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.StrictLessThan","kind":"class","src_hash":"798026d78ddff5b9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _Less)"},"spec":{"lhs":"StrictLessThan(*args)","rhs":"correctly constructs a StrictLessThan instance","over":{"base":"Any"},"name":"StrictLessThan_class_invariant"},"guarantee":"isinstance(self, _Less)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f58a452d48a1cf1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _Less)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function StrictLessThan not found in source"]}}
 class StrictLessThan(_Less):
     __doc__ = GreaterThan.__doc__
     __slots__ = ()
@@ -1801,31 +2135,43 @@ class StrictLessThan(_Less):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_fuzzy_relation(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_fuzzy_relation(cls, lhs, rhs), is_lt(lhs, rhs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  is_lt(lhs, rhs)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_fuzzy_relation : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a08ffb7a107f2a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.StrictLessThan._eval_fuzzy_relation","kind":"classmethod","src_hash":"d0193c2a31e4d0df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_fuzzy_relation(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_fuzzy_relation_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a08ffb7a107f2a3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.StrictLessThan._eval_fuzzy_relation","kind":"classmethod","src_hash":"d0193c2a31e4d0df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_fuzzy_relation(cls, lhs, rhs)","rhs":"is_lt(lhs, rhs)","over":{"base":"Any"},"name":"_eval_fuzzy_relation_correct"},"guarantee":"returns is_lt(lhs, rhs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a08ffb7a107f2a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"is_lt(lhs, rhs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_fuzzy_relation(cls, lhs, rhs):
         return is_lt(lhs, rhs)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(weak(), returns the weak attribute) over Any          ║
+# ║ Path(weak(), Le(*self.args)) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Le(*self.args)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ weak : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | daca2623ab5e0ca2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.StrictLessThan.weak","kind":"property","src_hash":"6c1bc9018cabf77f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"weak()","rhs":"returns the weak attribute","over":{"base":"Any"},"name":"weak_correct"},"guarantee":"returns the weak attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"daca2623ab5e0ca2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.StrictLessThan.weak","kind":"property","src_hash":"6c1bc9018cabf77f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"weak()","rhs":"Le(*self.args)","over":{"base":"Any"},"name":"weak_correct"},"guarantee":"returns Le(*self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"daca2623ab5e0ca2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Le(*self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def weak(self):
         return Le(*self.args)
 
@@ -1853,16 +2199,24 @@ Relational.ValidRelationOperator = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_n2(a, ), return (a - b).evalf(2) if a and b are comparable, else none. this should only be used when a and b are already sympified) over Any ║
+# ║ Path(_n2(a, b), <unspecified:_n2>) over {Any | hasattr(a, 'is_comparable') and hasattr(b, 'is_comparable')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _n2 : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'is_comparable')                    ║
+# ║   requires: hasattr(b, 'is_comparable')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _n2 : {Any | hasattr(a, 'is_comparable') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3234f41fd19992f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._n2","kind":"function","src_hash":"44abdce48557fd91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_n2(a, )","rhs":"return (a - b).evalf(2) if a and b are comparable, else none. this should only be used when a and b are already sympified","over":{"base":"Any"},"name":"_n2_correct"},"guarantee":"return (a - b).evalf(2) if a and b are comparable, else none. this should only be used when a and b are already sympified","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._n2_correct","statement":"Path(_n2(x), return (a - b).evalf(2) if a and b are comparable, else none. this should only be used when a and b are already sympified)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3234f41fd19992f8"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._n2","kind":"function","src_hash":"44abdce48557fd91","in":{"base":"Any","pred":"hasattr(a, 'is_comparable') and hasattr(b, 'is_comparable')"},"out":{"base":"Any"},"spec":{"lhs":"_n2(a, b)","rhs":"<unspecified:_n2>","over":{"base":"Any","pred":"hasattr(a, 'is_comparable') and hasattr(b, 'is_comparable')"},"name":"_n2_correct"},"guarantee":"return (a - b).evalf(2) if a and b are comparable, else none. this should only be used when a and b are already sympified","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._n2_correct","statement":"Path(_n2(x), return (a - b).evalf(2) if a and b are comparable, else none. this should only be used when a and b are already sympified)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3234f41fd19992f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'is_comparable')","hasattr(b, 'is_comparable')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_comparable","b.is_comparable"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _n2(a, b):
     """Return (a - b).evalf(2) if a and b are comparable, else None.
     This should only be used when a and b are already sympified.
@@ -1877,96 +2231,132 @@ def _n2(a, b):
 
 @dispatch(Expr, Expr)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_ge(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_ge(lhs, rhs), None) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_ge : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b37e134a99d88cb0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._eval_is_ge","kind":"function","src_hash":"31ac39fbf2e2f0bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_ge_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b37e134a99d88cb0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._eval_is_ge","kind":"function","src_hash":"31ac39fbf2e2f0bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_ge(lhs, rhs)","rhs":"None","over":{"base":"Any"},"name":"_eval_is_ge_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b37e134a99d88cb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _eval_is_ge(lhs, rhs):
     return None
 
 
 @dispatch(Basic, Basic)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_eq(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_eq(lhs, rhs), None) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_eq : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 570185fb91cd6905           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._eval_is_eq","kind":"function","src_hash":"cc36980963d28f16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"570185fb91cd6905"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._eval_is_eq","kind":"function","src_hash":"cc36980963d28f16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs, rhs)","rhs":"None","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"570185fb91cd6905","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _eval_is_eq(lhs, rhs):
     return None
 
 
 @dispatch(Tuple, Expr) # type: ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_eq(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_eq(lhs, rhs), False) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_eq : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2052411e5e155525           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._eval_is_eq","kind":"function","src_hash":"9a1539596d22a087","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2052411e5e155525"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._eval_is_eq","kind":"function","src_hash":"9a1539596d22a087","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs, rhs)","rhs":"False","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2052411e5e155525","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _eval_is_eq(lhs, rhs):  # noqa:F811
     return False
 
 
 @dispatch(Tuple, AppliedUndef) # type: ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_eq(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_eq(lhs, rhs), None) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_eq : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 33c595a157de69d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._eval_is_eq","kind":"function","src_hash":"62fd9761b4876f42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33c595a157de69d0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._eval_is_eq","kind":"function","src_hash":"62fd9761b4876f42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs, rhs)","rhs":"None","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33c595a157de69d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _eval_is_eq(lhs, rhs):  # noqa:F811
     return None
 
 
 @dispatch(Tuple, Symbol) # type: ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_eq(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_eq(lhs, rhs), None) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_eq : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 33c595a157de69d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._eval_is_eq","kind":"function","src_hash":"62fd9761b4876f42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33c595a157de69d0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._eval_is_eq","kind":"function","src_hash":"62fd9761b4876f42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs, rhs)","rhs":"None","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"33c595a157de69d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _eval_is_eq(lhs, rhs):  # noqa:F811
     return None
 
 
 @dispatch(Tuple, Tuple) # type: ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_eq(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_eq(lhs, rhs), <unspecified:_eval_is_eq>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_eq : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acf0492d9f6891f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational._eval_is_eq","kind":"function","src_hash":"1e4780c56c800cb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._eval_is_eq_correct","statement":"Path(_eval_is_eq(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acf0492d9f6891f4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational._eval_is_eq","kind":"function","src_hash":"1e4780c56c800cb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_eq(lhs, rhs)","rhs":"<unspecified:_eval_is_eq>","over":{"base":"Any"},"name":"_eval_is_eq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational._eval_is_eq_correct","statement":"Path(_eval_is_eq(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acf0492d9f6891f4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _eval_is_eq(lhs, rhs):  # noqa:F811
     if len(lhs) != len(rhs):
         return False
@@ -1975,16 +2365,22 @@ def _eval_is_eq(lhs, rhs):  # noqa:F811
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_lt(lhs), fuzzy bool for lhs is strictly less than rhs) over Any ║
+# ║ Path(is_lt(lhs, rhs, assumptions), fuzzy_not(is_ge(lhs, rhs, assumptions))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_not(is_ge(lhs, rhs, assumptions))        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_lt : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ef6f97155e697aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.is_lt","kind":"function","src_hash":"680e78da282c0a35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_lt(lhs)","rhs":"fuzzy bool for lhs is strictly less than rhs","over":{"base":"Any"},"name":"is_lt_correct"},"guarantee":"fuzzy bool for lhs is strictly less than rhs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ef6f97155e697aa"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.is_lt","kind":"function","src_hash":"680e78da282c0a35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_lt(lhs, rhs, assumptions)","rhs":"fuzzy_not(is_ge(lhs, rhs, assumptions))","over":{"base":"Any"},"name":"is_lt_correct"},"guarantee":"returns fuzzy_not(is_ge(lhs, rhs, assumptions))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ef6f97155e697aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_not(is_ge(lhs, rhs, assumptions))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_lt(lhs, rhs, assumptions=None):
     """Fuzzy bool for lhs is strictly less than rhs.
 
@@ -1994,16 +2390,22 @@ def is_lt(lhs, rhs, assumptions=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_gt(lhs), fuzzy bool for lhs is strictly greater than rhs) over Any ║
+# ║ Path(is_gt(lhs, rhs, assumptions), fuzzy_not(is_le(lhs, rhs, assumptions))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_not(is_le(lhs, rhs, assumptions))        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_gt : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 433d4ea806742f54           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.is_gt","kind":"function","src_hash":"07b48882088f1788","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_gt(lhs)","rhs":"fuzzy bool for lhs is strictly greater than rhs","over":{"base":"Any"},"name":"is_gt_correct"},"guarantee":"fuzzy bool for lhs is strictly greater than rhs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"433d4ea806742f54"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.is_gt","kind":"function","src_hash":"07b48882088f1788","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_gt(lhs, rhs, assumptions)","rhs":"fuzzy_not(is_le(lhs, rhs, assumptions))","over":{"base":"Any"},"name":"is_gt_correct"},"guarantee":"returns fuzzy_not(is_le(lhs, rhs, assumptions))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"433d4ea806742f54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_not(is_le(lhs, rhs, assumptions))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_gt(lhs, rhs, assumptions=None):
     """Fuzzy bool for lhs is strictly greater than rhs.
 
@@ -2013,16 +2415,22 @@ def is_gt(lhs, rhs, assumptions=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_le(lhs), fuzzy bool for lhs is less than or equal to rhs) over Any ║
+# ║ Path(is_le(lhs, rhs, assumptions), is_ge(rhs, lhs, assumptions)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  is_ge(rhs, lhs, assumptions)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_le : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 217b252ce841cac9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.is_le","kind":"function","src_hash":"52d238804f6f882b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_le(lhs)","rhs":"fuzzy bool for lhs is less than or equal to rhs","over":{"base":"Any"},"name":"is_le_correct"},"guarantee":"fuzzy bool for lhs is less than or equal to rhs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"217b252ce841cac9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.is_le","kind":"function","src_hash":"52d238804f6f882b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_le(lhs, rhs, assumptions)","rhs":"is_ge(rhs, lhs, assumptions)","over":{"base":"Any"},"name":"is_le_correct"},"guarantee":"returns is_ge(rhs, lhs, assumptions)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"217b252ce841cac9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"is_ge(rhs, lhs, assumptions)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_le(lhs, rhs, assumptions=None):
     """Fuzzy bool for lhs is less than or equal to rhs.
 
@@ -2032,9 +2440,13 @@ def is_le(lhs, rhs, assumptions=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_ge(lhs), fuzzy bool for *lhs* is greater than or equal to *rhs*) over {Any | isinstance(lhs, Expr)} ║
+# ║ Path(is_ge(lhs, rhs, assumptions), <unspecified:is_ge>) over {Any | isinstance(lhs, Expr) and isinstance(lhs, Expr) and isinstance(rhs, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_ge : {Any | isinstance(lhs, Expr)} → Any                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(lhs, Expr) and isinstance(rhs,...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_ge : {Any | isinstance(lhs, Expr) and isinstance(l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(lhs, Expr)} → library_axiom            ║
@@ -2044,9 +2456,12 @@ def is_le(lhs, rhs, assumptions=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4166f813...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.is_ge","kind":"function","src_hash":"89560340262a515d","in":{"base":"Any","pred":"isinstance(lhs, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"is_ge(lhs)","rhs":"fuzzy bool for *lhs* is greater than or equal to *rhs*","over":{"base":"Any","pred":"isinstance(lhs, Expr)"},"name":"is_ge_correct"},"guarantee":"fuzzy bool for *lhs* is greater than or equal to *rhs*","fibers":[{"name":"Expr","pred":"isinstance(lhs, Expr)","path":{"lhs":"is_ge(x)","rhs":"fuzzy bool for *lhs* is greater than or equal to *rhs*","over":{"base":"Expr","pred":"isinstance(lhs, Expr)"},"name":"is_ge_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.is_ge_Expr_correct","statement":"is_ge satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4166f8138507c06f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.is_ge","kind":"function","src_hash":"89560340262a515d","in":{"base":"Any","pred":"isinstance(lhs, Expr) and isinstance(lhs, Expr) and isinstance(rhs, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"is_ge(lhs, rhs, assumptions)","rhs":"<unspecified:is_ge>","over":{"base":"Any","pred":"isinstance(lhs, Expr) and isinstance(lhs, Expr) and isinstance(rhs, Expr)"},"name":"is_ge_correct"},"guarantee":"fuzzy bool for *lhs* is greater than or equal to *rhs*","fibers":[{"name":"Expr","pred":"isinstance(lhs, Expr)","path":{"lhs":"is_ge(x)","rhs":"fuzzy bool for *lhs* is greater than or equal to *rhs*","over":{"base":"Expr","pred":"isinstance(lhs, Expr)"},"name":"is_ge_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.is_ge_Expr_correct","statement":"is_ge satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4166f8138507c06f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(lhs, Expr) and isinstance(rhs, Expr)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not (isinstance(lhs, Expr) and isinstance(rhs, Expr))'}, fibers={'Expr'})"]}}
 def is_ge(lhs, rhs, assumptions=None):
     """
     Fuzzy bool for *lhs* is greater than or equal to *rhs*.
@@ -2171,16 +2586,22 @@ def is_ge(lhs, rhs, assumptions=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_neq(lhs), fuzzy bool for lhs does not equal rhs) over Any ║
+# ║ Path(is_neq(lhs, rhs, assumptions), fuzzy_not(is_eq(lhs, rhs, assumptions))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_not(is_eq(lhs, rhs, assumptions))        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_neq : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0209fdfab86bebdd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.is_neq","kind":"function","src_hash":"4cf78d7838cec069","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_neq(lhs)","rhs":"fuzzy bool for lhs does not equal rhs","over":{"base":"Any"},"name":"is_neq_correct"},"guarantee":"fuzzy bool for lhs does not equal rhs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0209fdfab86bebdd"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.is_neq","kind":"function","src_hash":"4cf78d7838cec069","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_neq(lhs, rhs, assumptions)","rhs":"fuzzy_not(is_eq(lhs, rhs, assumptions))","over":{"base":"Any"},"name":"is_neq_correct"},"guarantee":"returns fuzzy_not(is_eq(lhs, rhs, assumptions))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0209fdfab86bebdd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_not(is_eq(lhs, rhs, assumptions))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_neq(lhs, rhs, assumptions=None):
     """Fuzzy bool for lhs does not equal rhs.
 
@@ -2190,7 +2611,12 @@ def is_neq(lhs, rhs, assumptions=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_eq(lhs), fuzzy bool representing mathematical equality between *lhs* and *rhs*) over {Any | isinstance(i, Expr) and isinstance(i, BooleanAtom) and isinstance(lhs, Boolean)} ║
+# ║ Path(is_eq(lhs, rhs, assumptions), # HINT: is_eq may be idempotent: is_eq(is_eq(x)) == is_eq(x)) over {Any | isinstance(i, Expr) and isinstance(i, BooleanAtom) and isinstance(lhs, Boolean) and hasattr(lhs, 'is_Symbol') and hasattr(rhs, 'is_Symbol')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(lhs, 'is_Symbol')                      ║
+# ║   requires: hasattr(rhs, 'is_Symbol')                      ║
+# ║   ensures:  # HINT: is_eq may be idempotent: is_eq(is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_eq : {Any | isinstance(i, Expr) and isinstance(i, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2204,9 +2630,12 @@ def is_neq(lhs, rhs, assumptions=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 8.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2eb34036...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.relational.is_eq","kind":"function","src_hash":"9e68588d774e0cd6","in":{"base":"Any","pred":"isinstance(i, Expr) and isinstance(i, BooleanAtom) and isinstance(lhs, Boolean)"},"out":{"base":"Any"},"spec":{"lhs":"is_eq(lhs)","rhs":"fuzzy bool representing mathematical equality between *lhs* and *rhs*","over":{"base":"Any","pred":"isinstance(i, Expr) and isinstance(i, BooleanAtom) and isinstance(lhs, Boolean)"},"name":"is_eq_correct"},"guarantee":"fuzzy bool representing mathematical equality between *lhs* and *rhs*","fibers":[{"name":"Expr","pred":"isinstance(i, Expr)","path":{"lhs":"is_eq(x)","rhs":"fuzzy bool representing mathematical equality between *lhs* and *rhs*","over":{"base":"Expr","pred":"isinstance(i, Expr)"},"name":"is_eq_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.is_eq_Expr_correct","statement":"is_eq satisfies spec on Expr inputs"},"trust":"LIBRARY"},{"name":"BooleanAtom","pred":"isinstance(i, BooleanAtom)","path":{"lhs":"is_eq(x)","rhs":"fuzzy bool representing mathematical equality between *lhs* and *rhs*","over":{"base":"BooleanAtom","pred":"isinstance(i, BooleanAtom)"},"name":"is_eq_BooleanAtom_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.is_eq_BooleanAtom_correct","statement":"is_eq satisfies spec on BooleanAtom inputs"},"trust":"LIBRARY"},{"name":"Boolean","pred":"isinstance(lhs, Boolean)","path":{"lhs":"is_eq(x)","rhs":"fuzzy bool representing mathematical equality between *lhs* and *rhs*","over":{"base":"Boolean","pred":"isinstance(lhs, Boolean)"},"name":"is_eq_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.is_eq_Boolean_correct","statement":"is_eq satisfies spec on Boolean inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2eb34036b219f39d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.relational.is_eq","kind":"function","src_hash":"9e68588d774e0cd6","in":{"base":"Any","pred":"isinstance(i, Expr) and isinstance(i, BooleanAtom) and isinstance(lhs, Boolean) and hasattr(lhs, 'is_Symbol') and hasattr(rhs, 'is_Symbol')"},"out":{"base":"Any","pred":"result satisfies: # HINT: is_eq may be idempotent: is_eq(is_eq(x)) == is_eq(x)"},"spec":{"lhs":"is_eq(lhs, rhs, assumptions)","rhs":"# HINT: is_eq may be idempotent: is_eq(is_eq(x)) == is_eq(x)","over":{"base":"Any","pred":"isinstance(i, Expr) and isinstance(i, BooleanAtom) and isinstance(lhs, Boolean) and hasattr(lhs, 'is_Symbol') and hasattr(rhs, 'is_Symbol')"},"name":"is_eq_correct"},"guarantee":"# HINT: is_eq may be idempotent: is_eq(is_eq(x)) == is_eq(x)","fibers":[{"name":"Expr","pred":"isinstance(i, Expr)","path":{"lhs":"is_eq(x)","rhs":"# HINT: is_eq may be idempotent: is_eq(is_eq(x)) == is_eq(x)","over":{"base":"Expr","pred":"isinstance(i, Expr)"},"name":"is_eq_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.is_eq_Expr_correct","statement":"is_eq satisfies spec on Expr inputs"},"trust":"LIBRARY"},{"name":"BooleanAtom","pred":"isinstance(i, BooleanAtom)","path":{"lhs":"is_eq(x)","rhs":"# HINT: is_eq may be idempotent: is_eq(is_eq(x)) == is_eq(x)","over":{"base":"BooleanAtom","pred":"isinstance(i, BooleanAtom)"},"name":"is_eq_BooleanAtom_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.is_eq_BooleanAtom_correct","statement":"is_eq satisfies spec on BooleanAtom inputs"},"trust":"LIBRARY"},{"name":"Boolean","pred":"isinstance(lhs, Boolean)","path":{"lhs":"is_eq(x)","rhs":"# HINT: is_eq may be idempotent: is_eq(is_eq(x)) == is_eq(x)","over":{"base":"Boolean","pred":"isinstance(lhs, Boolean)"},"name":"is_eq_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.relational.is_eq_Boolean_correct","statement":"is_eq satisfies spec on Boolean inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2eb34036b219f39d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(lhs, 'is_Symbol')","hasattr(rhs, 'is_Symbol')"],"ensures":["# HINT: is_eq may be idempotent: is_eq(is_eq(x)) == is_eq(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["lhs.is_Symbol","rhs.is_Symbol"]}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not (lhs.is_Symbol or rhs.is_Symbol) and isinstance(lhs, Boolean) != isinstance(rhs, Boolean)', 'all((isinstance(i, BooleanAtom) for i in (rhs, lhs)))', 'dispatch(type(lhs), type(rhs)) != dispatch(type(rhs), type(lhs))', 'args != [lhs, rhs]', 'lhs == rhs', 'not (arglhs == S.NaN and argrhs == S.NaN)', 'rv is None', 'all((isinstance(i, Expr) for i in (lhs, rhs)))'}, fibers={'BooleanAtom', 'Boolean', 'Expr'})"]}}
 def is_eq(lhs, rhs, assumptions=None):
     """
     Fuzzy bool representing mathematical equality between *lhs* and *rhs*.

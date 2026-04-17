@@ -57,14 +57,20 @@ from sympy.utilities.misc import debug
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a IntegralTransformError instance) preserved by IntegralTransformError(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IntegralTransformError : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, NotImplementedError)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IntegralTransformError : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e063b3dcb5431203  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransformError","kind":"class","src_hash":"d86658359156a39d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IntegralTransformError(*args)","rhs":"correctly constructs a IntegralTransformError instance","over":{"base":"Any"},"name":"IntegralTransformError_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a IntegralTransformError instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'function')","kind":"class","induction":"structural on function"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e063b3dcb5431203"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransformError","kind":"class","src_hash":"d86658359156a39d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, NotImplementedError)"},"spec":{"lhs":"IntegralTransformError(*args)","rhs":"correctly constructs a IntegralTransformError instance","over":{"base":"Any"},"name":"IntegralTransformError_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, NotImplementedError); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'function')","kind":"class","induction":"structural on function"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e063b3dcb5431203","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, NotImplementedError)"],"invariants":["hasattr(self, 'function')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function IntegralTransformError not found in source"]}}
 class IntegralTransformError(NotImplementedError):
     """
     Exception raised in relation to problems computing transforms.
@@ -80,16 +86,22 @@ class IntegralTransformError(NotImplementedError):
     computed.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(tra), initializes the instance correctly) over Any ║
+# ║ Path(__init__(transform, function, msg), self.function == function) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.function == function                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.functi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da0ffc40d44dc97a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransformError.__init__","kind":"method","src_hash":"dd53aaed9334f49a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(tra)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da0ffc40d44dc97a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransformError.__init__","kind":"method","src_hash":"dd53aaed9334f49a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.function == function"},"spec":{"lhs":"__init__(transform, function, msg)","rhs":"self.function == function","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.function == function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da0ffc40d44dc97a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.function == function"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, transform, function, msg):
         super().__init__(
             "%s Transform could not be computed: %s." % (transform, msg))
@@ -99,14 +111,20 @@ class IntegralTransformError(NotImplementedError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IntegralTransform(*args), correctly constructs a IntegralTransform instance) over {Any | isinstance(x, tuple)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IntegralTransform : {Any | isinstance(x, tuple)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Function)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IntegralTransform : {Any | isinstance(x, tuple)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5ea6dc1ee6a9fd3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform","kind":"class","src_hash":"96173a10ef138c01","in":{"base":"Any","pred":"isinstance(x, tuple)"},"out":{"base":"Any"},"spec":{"lhs":"IntegralTransform(*args)","rhs":"correctly constructs a IntegralTransform instance","over":{"base":"Any","pred":"isinstance(x, tuple)"},"name":"IntegralTransform_class_invariant"},"guarantee":"correctly constructs a IntegralTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5ea6dc1ee6a9fd3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform","kind":"class","src_hash":"96173a10ef138c01","in":{"base":"Any","pred":"isinstance(x, tuple)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Function)"},"spec":{"lhs":"IntegralTransform(*args)","rhs":"correctly constructs a IntegralTransform instance","over":{"base":"Any","pred":"isinstance(x, tuple)"},"name":"IntegralTransform_class_invariant"},"guarantee":"isinstance(self, Function)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5ea6dc1ee6a9fd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Function)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function IntegralTransform not found in source"]}}
 class IntegralTransform(Function):
     """
     Base class for integral transforms.
@@ -132,64 +150,88 @@ class IntegralTransform(Function):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(function(), returns the function attribute) over Any  ║
+# ║ Path(function(), self.args[0]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ function : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3aaae738e2977d04           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform.function","kind":"property","src_hash":"55f937b8ff4fe65b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"returns the function attribute","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns the function attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3aaae738e2977d04"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform.function","kind":"property","src_hash":"55f937b8ff4fe65b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function()","rhs":"self.args[0]","over":{"base":"Any"},"name":"function_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3aaae738e2977d04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def function(self):
         """ The function to be transformed. """
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(function_variable(), returns the function_variable attribute) over Any ║
+# ║ Path(function_variable(), self.args[1]) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ function_variable : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77034ce7162afe4d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform.function_variable","kind":"property","src_hash":"6175d3aaa875c314","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function_variable()","rhs":"returns the function_variable attribute","over":{"base":"Any"},"name":"function_variable_correct"},"guarantee":"returns the function_variable attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77034ce7162afe4d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform.function_variable","kind":"property","src_hash":"6175d3aaa875c314","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"function_variable()","rhs":"self.args[1]","over":{"base":"Any"},"name":"function_variable_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77034ce7162afe4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def function_variable(self):
         """ The dependent variable of the function to be transformed. """
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transform_variable(), returns the transform_variable attribute) over Any ║
+# ║ Path(transform_variable(), self.args[2]) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transform_variable : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a32635f07e10bf60           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform.transform_variable","kind":"property","src_hash":"b4c479e901cef177","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transform_variable()","rhs":"returns the transform_variable attribute","over":{"base":"Any"},"name":"transform_variable_correct"},"guarantee":"returns the transform_variable attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a32635f07e10bf60"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform.transform_variable","kind":"property","src_hash":"b4c479e901cef177","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transform_variable()","rhs":"self.args[2]","over":{"base":"Any"},"name":"transform_variable_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a32635f07e10bf60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transform_variable(self):
         """ The independent transform variable. """
         return self.args[2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), self.function.free_symbols.union({self.transform_variable}) - {self.function_variable}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.function.free_symbols.union({self.tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 29cff80f4c20f3d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform.free_symbols","kind":"property","src_hash":"38a70833b0c26cde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29cff80f4c20f3d7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform.free_symbols","kind":"property","src_hash":"38a70833b0c26cde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"self.function.free_symbols.union({self.transform_variable}) - {self.function_variable}","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns self.function.free_symbols.union({self.transform_variable}) - {self.function_variable}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29cff80f4c20f3d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.function.free_symbols.union({self.transform_variable}) - {self.function_variable}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.function_variable","self.transform_variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         """
         This method returns the symbols that will exist when the transform
@@ -199,44 +241,63 @@ class IntegralTransform(Function):
             - {self.function_variable}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_transform(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_compute_transform(f, x, s), <unspecified:_compute_transform>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compute_transform : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee1f76a82b4f616d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform._compute_transform","kind":"method","src_hash":"2c76cb05c6955f5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee1f76a82b4f616d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform._compute_transform","kind":"method","src_hash":"2c76cb05c6955f5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(f, x, s)","rhs":"<unspecified:_compute_transform>","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee1f76a82b4f616d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_transform(self, f, x, s, **hints):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_as_integral(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_as_integral(f, x, s), <unspecified:_as_integral>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _as_integral : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a94275c33f9753b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform._as_integral","kind":"method","src_hash":"e89a0baa52f2ad0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_as_integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a94275c33f9753b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform._as_integral","kind":"method","src_hash":"e89a0baa52f2ad0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(f, x, s)","rhs":"<unspecified:_as_integral>","over":{"base":"Any"},"name":"_as_integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a94275c33f9753b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _as_integral(self, f, x, s):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_collapse_extra(ext), internal helper behaves correctly) over Any ║
+# ║ Path(_collapse_extra(extra), <unspecified:_collapse_extra>) over {Any | not (cond == False)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _collapse_extra : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (cond == False)                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _collapse_extra : {Any | not (cond == False)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 389423a8a71a0d73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform._collapse_extra","kind":"method","src_hash":"8082d382870ceb10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_collapse_extra(ext)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_collapse_extra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.IntegralTransform._collapse_extra_correct","statement":"Path(_collapse_extra(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"389423a8a71a0d73"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform._collapse_extra","kind":"method","src_hash":"8082d382870ceb10","in":{"base":"Any","pred":"not (cond == False)"},"out":{"base":"Any"},"spec":{"lhs":"_collapse_extra(extra)","rhs":"<unspecified:_collapse_extra>","over":{"base":"Any","pred":"not (cond == False)"},"name":"_collapse_extra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.IntegralTransform._collapse_extra_correct","statement":"Path(_collapse_extra(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"389423a8a71a0d73","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (cond == False)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"],"raises":["IntegralTransformError"]},"state_contract":{"exceptional_post":{"IntegralTransformError":["isinstance(raised, IntegralTransformError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _collapse_extra(self, extra):
         cond = And(*extra)
         if cond == False:
@@ -244,16 +305,22 @@ class IntegralTransform(Function):
         return cond
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_try_directly(**h), internal helper behaves correctly) over Any ║
+# ║ Path(_try_directly(**hints), (fn, T)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (fn, T)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _try_directly : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60317c5f3a021cd5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2c77945a9762f60  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform._try_directly","kind":"method","src_hash":"3419c1db0888af4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_try_directly(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_try_directly_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.IntegralTransform._try_directly_correct","statement":"Path(_try_directly(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60317c5f3a021cd5"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform._try_directly","kind":"method","src_hash":"3419c1db0888af4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_try_directly(**hints)","rhs":"(fn, T)","over":{"base":"Any"},"name":"_try_directly_correct"},"guarantee":"returns (fn, T)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.IntegralTransform._try_directly_correct","statement":"Path(_try_directly(x), returns (fn, T))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2c77945a9762f60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(fn, T)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._compute_transform","self.function","self.function_variable","self.transform_variable"],"catches":["IntegralTransformError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _try_directly(self, **hints):
         T = None
         try_directly = not any(func.has(self.function_variable)
@@ -272,16 +339,25 @@ class IntegralTransform(Function):
         return fn, T
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), try to evaluate the transform in closed form) over Any ║
+# ║ Path(doit(**hints), len(extra) == old_len_extra + 1 and len(hints) == old_len_hints - 1 and len(ress) == old_len_ress + 1) over {Any | len(hints) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doit : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(hints) > 0                                 ║
+# ║   ensures:  len(extra) == old_len_extra + 1                ║
+# ║   ensures:  len(hints) == old_len_hints - 1                ║
+# ║   ensures:  len(ress) == old_len_ress + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doit : {Any | len(hints) > 0} → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f22767566fa74de3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf462dc03df7a316  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform.doit","kind":"method","src_hash":"ae1f5d1d30049462","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"try to evaluate the transform in closed form","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"try to evaluate the transform in closed form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.IntegralTransform.doit_correct","statement":"Path(doit(x), try to evaluate the transform in closed form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f22767566fa74de3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform.doit","kind":"method","src_hash":"ae1f5d1d30049462","in":{"base":"Any","pred":"len(hints) > 0"},"out":{"base":"Any","pred":"result satisfies: len(extra) == old_len_extra + 1 and len(hints) == old_len_hints - 1 and len(ress) == old_len_ress + 1"},"spec":{"lhs":"doit(**hints)","rhs":"len(extra) == old_len_extra + 1 and len(hints) == old_len_hints - 1 and len(ress) == old_len_ress + 1","over":{"base":"Any","pred":"len(hints) > 0"},"name":"doit_correct"},"guarantee":"len(extra) == old_len_extra + 1; len(hints) == old_len_hints - 1; len(ress) == old_len_ress + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.IntegralTransform.doit_correct","statement":"Path(doit(x), len(extra) == old_len_extra + 1; len(hints) == old_len_hints - 1; len(ress) == old_len_ress + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf462dc03df7a316","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(hints) > 0"],"ensures":["len(extra) == old_len_extra + 1","len(hints) == old_len_hints - 1","len(ress) == old_len_ress + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self._collapse_extra","self._try_directly","self.args","self.function","self.function_variable"],"calls_mutating":["extra.append","hints.pop","ress.append"],"raises":["IntegralTransformError"],"catches":["IntegralTransformError"]},"state_contract":{"modifies":["extra.*","hints.*","ress.*"],"old_bindings":{"old_len_extra":"len(extra)","old_len_hints":"len(hints)","old_len_ress":"len(ress)"},"pre_requires":["len(hints) > 0"],"post_ensures":["len(extra) == old_len_extra + 1","len(hints) == old_len_hints - 1","len(ress) == old_len_ress + 1"],"exceptional_post":{"IntegralTransformError":["isinstance(raised, IntegralTransformError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """
         Try to evaluate the transform in closed form.
@@ -355,46 +431,64 @@ class IntegralTransform(Function):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_integral(), returns the as_integral attribute) over Any ║
+# ║ Path(as_integral(), self._as_integral(self.function, self.function_variable, self.transform_variable)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._as_integral(self.function, self.fun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_integral : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 375dad6410f644aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform.as_integral","kind":"property","src_hash":"ae56992fb05e8a25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_integral()","rhs":"returns the as_integral attribute","over":{"base":"Any"},"name":"as_integral_correct"},"guarantee":"returns the as_integral attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"375dad6410f644aa"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform.as_integral","kind":"property","src_hash":"ae56992fb05e8a25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_integral()","rhs":"self._as_integral(self.function, self.function_variable, self.transform_variable)","over":{"base":"Any"},"name":"as_integral_correct"},"guarantee":"returns self._as_integral(self.function, self.function_variable, self.transform_variable)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"375dad6410f644aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._as_integral(self.function, self.function_variable, self.transform_variable)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._as_integral","self.function","self.function_variable","self.transform_variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_integral(self):
         return self._as_integral(self.function, self.function_variable,
                                  self.transform_variable)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Integral(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Integral(*args, **kwargs), self.as_integral) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.as_integral                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Integral : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab2211681f3e9429           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform._eval_rewrite_as_Integral","kind":"method","src_hash":"17ca77e545d71034","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab2211681f3e9429"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.IntegralTransform._eval_rewrite_as_Integral","kind":"method","src_hash":"17ca77e545d71034","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(*args, **kwargs)","rhs":"self.as_integral","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct"},"guarantee":"returns self.as_integral","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab2211681f3e9429","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.as_integral","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_integral"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Integral(self, *args, **kwargs):
         return self.as_integral
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplify(exp), id) over Any                          ║
+# ║ Path(_simplify(expr, doit), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _simplify : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6ff6e4588af49bb2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._simplify","kind":"function","src_hash":"4dcf137657bef4be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_simplify_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"simplify","by":"library_axiom"},{"fn":"powdenest","by":"library_axiom"},{"fn":"piecewise_fold","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ff6e4588af49bb2"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._simplify","kind":"function","src_hash":"4dcf137657bef4be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify(expr, doit)","rhs":"<unspecified:_simplify>","over":{"base":"Any"},"name":"_simplify_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"simplify","by":"library_axiom"},{"fn":"powdenest","by":"library_axiom"},{"fn":"piecewise_fold","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ff6e4588af49bb2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _simplify(expr, doit):
     if doit:
         from sympy.simplify import simplify
@@ -404,16 +498,22 @@ def _simplify(expr, doit):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_noconds_(def), this is a decorator generator for dropping convergence conditions) over Any ║
+# ║ Path(_noconds_(default), <unspecified:_noconds_>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _noconds_ : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec3a6106a00e3b9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._noconds_","kind":"function","src_hash":"fe0a810baa6083d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_noconds_(def)","rhs":"this is a decorator generator for dropping convergence conditions","over":{"base":"Any"},"name":"_noconds__correct"},"guarantee":"this is a decorator generator for dropping convergence conditions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._noconds__correct","statement":"Path(_noconds_(x), this is a decorator generator for dropping convergence conditions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec3a6106a00e3b9d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._noconds_","kind":"function","src_hash":"fe0a810baa6083d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_noconds_(default)","rhs":"<unspecified:_noconds_>","over":{"base":"Any"},"name":"_noconds__correct"},"guarantee":"this is a decorator generator for dropping convergence conditions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._noconds__correct","statement":"Path(_noconds_(x), this is a decorator generator for dropping convergence conditions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec3a6106a00e3b9d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _noconds_(default):
     """
     This is a decorator generator for dropping convergence conditions.
@@ -449,32 +549,46 @@ _noconds = _noconds_(False)
 ##########################################################################
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_default_integrator(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_default_integrator(f, x), integrate(f, (x, S.Zero, S.Infinity))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  integrate(f, (x, S.Zero, S.Infinity))          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _default_integrator : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cca017a05e2d7342           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._default_integrator","kind":"function","src_hash":"2b35d0201b2260b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_default_integrator(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_default_integrator_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cca017a05e2d7342"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._default_integrator","kind":"function","src_hash":"2b35d0201b2260b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_default_integrator(f, x)","rhs":"integrate(f, (x, S.Zero, S.Infinity))","over":{"base":"Any"},"name":"_default_integrator_correct"},"guarantee":"returns integrate(f, (x, S.Zero, S.Infinity))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cca017a05e2d7342","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"integrate(f, (x, S.Zero, S.Infinity))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _default_integrator(f, x):
     return integrate(f, (x, S.Zero, S.Infinity))
 
 
 @_noconds
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mellin_transform(f, ), id) over Any                  ║
+# ║ Path(_mellin_transform(f, x, s_), id) over {Any | F.is_Piecewise and hasattr(x, 'as_real_imag')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _mellin_transform : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: F.is_Piecewise                                 ║
+# ║   requires: hasattr(x, 'as_real_imag')                     ║
+# ║   ensures:  len(conds) == old_len_conds                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _mellin_transform : {Any | F.is_Piecewise and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ea1e8322710126fe   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._mellin_transform","kind":"function","src_hash":"6930ee18f783c9e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mellin_transform(f, )","rhs":"backend function to compute mellin transforms","over":{"base":"Any"},"name":"_mellin_transform_correct","kind":"composition"},"guarantee":"backend function to compute mellin transforms","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_simplify","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea1e8322710126fe"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._mellin_transform","kind":"function","src_hash":"6930ee18f783c9e0","in":{"base":"Any","pred":"F.is_Piecewise and hasattr(x, 'as_real_imag')"},"out":{"base":"Any","pred":"result satisfies: len(conds) == old_len_conds"},"spec":{"lhs":"_mellin_transform(f, x, s_)","rhs":"len(conds) == old_len_conds","over":{"base":"Any","pred":"F.is_Piecewise and hasattr(x, 'as_real_imag')"},"name":"_mellin_transform_correct","kind":"composition"},"guarantee":"len(conds) == old_len_conds","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_simplify","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea1e8322710126fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["F.is_Piecewise","hasattr(x, 'as_real_imag')"],"ensures":["len(conds) == old_len_conds"],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.as_real_imag"],"calls_mutating":["conds.sort"],"raises":["IntegralTransformError"]},"state_contract":{"modifies":["conds.*"],"old_bindings":{"old_len_conds":"len(conds)"},"post_ensures":["len(conds) == old_len_conds"],"exceptional_post":{"IntegralTransformError":["isinstance(raised, IntegralTransformError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _mellin_transform(f, x, s_, integrator=_default_integrator, simplify=True):
     """ Backend function to compute Mellin transforms. """
     # We use a fresh dummy, because assumptions on s might drop conditions on
@@ -546,14 +660,20 @@ def _mellin_transform(f, x, s_, integrator=_default_integrator, simplify=True):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MellinTransform(*args), correctly constructs a MellinTransform instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MellinTransform : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IntegralTransform)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MellinTransform : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1333fba031162f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.MellinTransform","kind":"class","src_hash":"bc42e710488f67f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MellinTransform(*args)","rhs":"correctly constructs a MellinTransform instance","over":{"base":"Any"},"name":"MellinTransform_class_invariant"},"guarantee":"correctly constructs a MellinTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1333fba031162f7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.MellinTransform","kind":"class","src_hash":"bc42e710488f67f3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IntegralTransform)"},"spec":{"lhs":"MellinTransform(*args)","rhs":"correctly constructs a MellinTransform instance","over":{"base":"Any"},"name":"MellinTransform_class_invariant"},"guarantee":"isinstance(self, IntegralTransform)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1333fba031162f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IntegralTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function MellinTransform not found in source"]}}
 class MellinTransform(IntegralTransform):
     """
     Class representing unevaluated Mellin transforms.
@@ -567,44 +687,62 @@ class MellinTransform(IntegralTransform):
     _name = 'Mellin'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_transform(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_compute_transform(f, x, s), _mellin_transform(f, x, s, **hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _mellin_transform(f, x, s, **hints)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compute_transform : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 55f17b52bfbcf982           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.MellinTransform._compute_transform","kind":"method","src_hash":"74745834c97b3ee0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55f17b52bfbcf982"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.MellinTransform._compute_transform","kind":"method","src_hash":"74745834c97b3ee0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(f, x, s)","rhs":"_mellin_transform(f, x, s, **hints)","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"returns _mellin_transform(f, x, s, **hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55f17b52bfbcf982","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_mellin_transform(f, x, s, **hints)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_transform(self, f, x, s, **hints):
         return _mellin_transform(f, x, s, **hints)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_as_integral(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_as_integral(f, x, s), Integral(f * x ** (s - 1), (x, S.Zero, S.Infinity))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(f * x ** (s - 1), (x, S.Zero, S....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _as_integral : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3d9836fc03ce4b30           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.MellinTransform._as_integral","kind":"method","src_hash":"1839db0d464c33d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_as_integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d9836fc03ce4b30"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.MellinTransform._as_integral","kind":"method","src_hash":"1839db0d464c33d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(f, x, s)","rhs":"Integral(f * x ** (s - 1), (x, S.Zero, S.Infinity))","over":{"base":"Any"},"name":"_as_integral_correct"},"guarantee":"returns Integral(f * x ** (s - 1), (x, S.Zero, S.Infinity))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d9836fc03ce4b30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(f * x ** (s - 1), (x, S.Zero, S.Infinity))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _as_integral(self, f, x, s):
         return Integral(f*x**(s - 1), (x, S.Zero, S.Infinity))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_collapse_extra(ext), internal helper behaves correctly) over Any ║
+# ║ Path(_collapse_extra(extra), <unspecified:_collapse_extra>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _collapse_extra : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aaa689df39d5094a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.MellinTransform._collapse_extra","kind":"method","src_hash":"7f80a37008cbff40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_collapse_extra(ext)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_collapse_extra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.MellinTransform._collapse_extra_correct","statement":"Path(_collapse_extra(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaa689df39d5094a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.MellinTransform._collapse_extra","kind":"method","src_hash":"7f80a37008cbff40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_collapse_extra(extra)","rhs":"<unspecified:_collapse_extra>","over":{"base":"Any"},"name":"_collapse_extra_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.MellinTransform._collapse_extra_correct","statement":"Path(_collapse_extra(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aaa689df39d5094a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["IntegralTransformError"]},"state_contract":{"exceptional_post":{"IntegralTransformError":["isinstance(raised, IntegralTransformError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _collapse_extra(self, extra):
         a = []
         b = []
@@ -621,16 +759,22 @@ class MellinTransform(IntegralTransform):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mellin_transform(f, ), compute the mellin transform `f(s)` of `f(x)`,) over Any ║
+# ║ Path(mellin_transform(f, x, s), MellinTransform(f, x, s).doit(**hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MellinTransform(f, x, s).doit(**hints)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mellin_transform : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2c7f67f18ebddd1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.mellin_transform","kind":"function","src_hash":"7e1d82361b48ed87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mellin_transform(f, )","rhs":"compute the mellin transform `f(s)` of `f(x)`,","over":{"base":"Any"},"name":"mellin_transform_correct"},"guarantee":"compute the mellin transform `f(s)` of `f(x)`,","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2c7f67f18ebddd1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.mellin_transform","kind":"function","src_hash":"7e1d82361b48ed87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mellin_transform(f, x, s)","rhs":"MellinTransform(f, x, s).doit(**hints)","over":{"base":"Any"},"name":"mellin_transform_correct"},"guarantee":"returns MellinTransform(f, x, s).doit(**hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2c7f67f18ebddd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MellinTransform(f, x, s).doit(**hints)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['f', 'x', 's'], spec=['f', 'x', 's', '**hints']"]}}
 def mellin_transform(f, x, s, **hints):
     r"""
     Compute the Mellin transform `F(s)` of `f(x)`,
@@ -676,16 +820,22 @@ def mellin_transform(f, x, s, **hints):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rewrite_sin(m_n), id) over Any                       ║
+# ║ Path(_rewrite_sin(m_n, s, a), id) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (gamma(m * s + n + r), gamma(1 - n - r - ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rewrite_sin : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2f9b947d7e2d7a72   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._rewrite_sin","kind":"function","src_hash":"81889f7dbb99d636","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_sin(m_n)","rhs":"re-write the sine function ``sin(m*s + n)`` as gamma functions, compatible with the strip (a, b)","over":{"base":"Any"},"name":"_rewrite_sin_correct","kind":"composition"},"guarantee":"re-write the sine function ``sin(m*s + n)`` as gamma functions, compatible with the strip (a, b)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f9b947d7e2d7a72"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._rewrite_sin","kind":"function","src_hash":"81889f7dbb99d636","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_sin(m_n, s, a)","rhs":"(gamma(m * s + n + r), gamma(1 - n - r - m * s), (-1) ** r * pi)","over":{"base":"Any"},"name":"_rewrite_sin_correct","kind":"composition"},"guarantee":"returns (gamma(m * s + n + r), gamma(1 - n - r - m * s), (-1) ** r * pi)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gamma","by":"library_axiom"},{"fn":"gamma","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f9b947d7e2d7a72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(gamma(m * s + n + r), gamma(1 - n - r - m * s), (-1) ** r * pi)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rewrite_sin(m_n, s, a, b):
     """
     Re-write the sine function ``sin(m*s + n)`` as gamma functions, compatible
@@ -732,16 +882,22 @@ def _rewrite_sin(m_n, s, a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(MellinTransformStripError(), correctly constructs a MellinTransformStripError instance) over Any ║
+# ║ Path(MellinTransformStripError(), isinstance(self, ValueError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MellinTransformStripError : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ValueError)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MellinTransformStripError : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e8c7833082d9b2f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.MellinTransformStripError","kind":"class","src_hash":"51c2ea3f9b847503","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MellinTransformStripError()","rhs":"correctly constructs a MellinTransformStripError instance","over":{"base":"Any"},"name":"MellinTransformStripError_correct"},"guarantee":"correctly constructs a MellinTransformStripError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8c7833082d9b2f8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.MellinTransformStripError","kind":"class","src_hash":"51c2ea3f9b847503","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ValueError)"},"spec":{"lhs":"MellinTransformStripError()","rhs":"isinstance(self, ValueError)","over":{"base":"Any"},"name":"MellinTransformStripError_correct"},"guarantee":"isinstance(self, ValueError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8c7833082d9b2f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ValueError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function MellinTransformStripError not found in source"]}}
 class MellinTransformStripError(ValueError):
     """
     Exception raised by _rewrite_gamma. Mainly for internal use.
@@ -750,7 +906,15 @@ class MellinTransformStripError(ValueError):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rewrite_gamma(f, ), try to rewrite the product f(s) as a product of gamma functions, so that the inverse mellin transform of f can be expressed as a meijer g function) over {Any | isinstance(fact, exp) and isinstance(fact, gamma) and isinstance(fact, sin)} ║
+# ║ Path(_rewrite_gamma(f, s, a), len(an) == old_len_an and len(ap) == old_len_ap and len(args) == old_len_args - 1 and len(bm) == old_len_bm and len(bq) == old_len_bq and len(gammas) == old_len_gammas - 1 and len(minus) == old_len_minus + 1 and len(plus) == old_len_plus + 1) over {Any | isinstance(fact, exp) and isinstance(fact, gamma) and isinstance(fact, sin) and hasattr(f, 'atoms') and hasattr(f, 'subs') and hasattr(f, 'as_numer_denom') and hasattr(a, 'is_Integer') and len(args) > 0 and len(gammas) > 0} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'atoms')                            ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   requires: hasattr(f, 'as_numer_denom')                   ║
+# ║   ensures:  len(an) == old_len_an                          ║
+# ║   ensures:  len(ap) == old_len_ap                          ║
+# ║   ensures:  len(args) == old_len_args - 1                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rewrite_gamma : {Any | isinstance(fact, exp) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -766,9 +930,12 @@ class MellinTransformStripError(ValueError):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓16 ?6 ✗1 VCs | 11.2ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2fde9f05...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._rewrite_gamma","kind":"function","src_hash":"cf1e55a20d2098e1","in":{"base":"Any","pred":"isinstance(fact, exp) and isinstance(fact, gamma) and isinstance(fact, sin)"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_gamma(f, )","rhs":"try to rewrite the product f(s) as a product of gamma functions, so that the inverse mellin transform of f can be expressed as a meijer g function","over":{"base":"Any","pred":"isinstance(fact, exp) and isinstance(fact, gamma) and isinstance(fact, sin)"},"name":"_rewrite_gamma_correct"},"guarantee":"try to rewrite the product f(s) as a product of gamma functions, so that the inverse mellin transform of f can be expressed as a meijer g function","fibers":[{"name":"exp","pred":"isinstance(fact, exp)","path":{"lhs":"_rewrite_gamma(x)","rhs":"try to rewrite the product f(s) as a product of gamma functions, so that the inverse mellin transform of f can be expressed as a meijer g function","over":{"base":"exp","pred":"isinstance(fact, exp)"},"name":"_rewrite_gamma_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._rewrite_gamma_exp_correct","statement":"_rewrite_gamma satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"gamma","pred":"isinstance(fact, gamma)","path":{"lhs":"_rewrite_gamma(x)","rhs":"try to rewrite the product f(s) as a product of gamma functions, so that the inverse mellin transform of f can be expressed as a meijer g function","over":{"base":"gamma","pred":"isinstance(fact, gamma)"},"name":"_rewrite_gamma_gamma_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._rewrite_gamma_gamma_correct","statement":"_rewrite_gamma satisfies spec on gamma inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(fact, sin)","path":{"lhs":"_rewrite_gamma(x)","rhs":"try to rewrite the product f(s) as a product of gamma functions, so that the inverse mellin transform of f can be expressed as a meijer g function","over":{"base":"sin","pred":"isinstance(fact, sin)"},"name":"_rewrite_gamma_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._rewrite_gamma_sin_correct","statement":"_rewrite_gamma satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"tan","pred":"isinstance(fact, tan)","path":{"lhs":"_rewrite_gamma(x)","rhs":"try to rewrite the product f(s) as a product of gamma functions, so that the inverse mellin transform of f can be expressed as a meijer g function","over":{"base":"tan","pred":"isinstance(fact, tan)"},"name":"_rewrite_gamma_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._rewrite_gamma_tan_correct","statement":"_rewrite_gamma satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(fact, cos)","path":{"lhs":"_rewrite_gamma(x)","rhs":"try to rewrite the product f(s) as a product of gamma functions, so that the inverse mellin transform of f can be expressed as a meijer g function","over":{"base":"cos","pred":"isinstance(fact, cos)"},"name":"_rewrite_gamma_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._rewrite_gamma_cos_correct","statement":"_rewrite_gamma satisfies spec on cos inputs"},"trust":"LIBRARY"},{"name":"cot","pred":"isinstance(fact, cot)","path":{"lhs":"_rewrite_gamma(x)","rhs":"try to rewrite the product f(s) as a product of gamma functions, so that the inverse mellin transform of f can be expressed as a meijer g function","over":{"base":"cot","pred":"isinstance(fact, cot)"},"name":"_rewrite_gamma_cot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._rewrite_gamma_cot_correct","statement":"_rewrite_gamma satisfies spec on cot inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2fde9f0570fc2006"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._rewrite_gamma","kind":"function","src_hash":"cf1e55a20d2098e1","in":{"base":"Any","pred":"isinstance(fact, exp) and isinstance(fact, gamma) and isinstance(fact, sin) and hasattr(f, 'atoms') and hasattr(f, 'subs') and hasattr(f, 'as_numer_denom') and hasattr(a, 'is_Integer') and len(args) > 0 and len(gammas) > 0"},"out":{"base":"Any","pred":"result satisfies: len(an) == old_len_an and len(ap) == old_len_ap and len(args) == old_len_args - 1 and len(bm) == old_len_bm and len(bq) == old_len_bq and len(gammas) == old_len_gammas - 1 and len(minus) == old_len_minus + 1 and len(plus) == old_len_plus + 1"},"spec":{"lhs":"_rewrite_gamma(f, s, a)","rhs":"len(an) == old_len_an and len(ap) == old_len_ap and len(args) == old_len_args - 1 and len(bm) == old_len_bm and len(bq) == old_len_bq and len(gammas) == old_len_gammas - 1 and len(minus) == old_len_minus + 1 and len(plus) == old_len_plus + 1","over":{"base":"Any","pred":"isinstance(fact, exp) and isinstance(fact, gamma) and isinstance(fact, sin) and hasattr(f, 'atoms') and hasattr(f, 'subs') and hasattr(f, 'as_numer_denom') and hasattr(a, 'is_Integer') and len(args) > 0 and len(gammas) > 0"},"name":"_rewrite_gamma_correct"},"guarantee":"len(an) == old_len_an; len(ap) == old_len_ap; len(args) == old_len_args - 1","fibers":[{"name":"exp","pred":"isinstance(fact, exp)","path":{"lhs":"_rewrite_gamma(x)","rhs":"len(an) == old_len_an; len(ap) == old_len_ap; len(args) == old_len_args - 1","over":{"base":"exp","pred":"isinstance(fact, exp)"},"name":"_rewrite_gamma_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._rewrite_gamma_exp_correct","statement":"_rewrite_gamma satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"gamma","pred":"isinstance(fact, gamma)","path":{"lhs":"_rewrite_gamma(x)","rhs":"len(an) == old_len_an; len(ap) == old_len_ap; len(args) == old_len_args - 1","over":{"base":"gamma","pred":"isinstance(fact, gamma)"},"name":"_rewrite_gamma_gamma_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._rewrite_gamma_gamma_correct","statement":"_rewrite_gamma satisfies spec on gamma inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(fact, sin)","path":{"lhs":"_rewrite_gamma(x)","rhs":"len(an) == old_len_an; len(ap) == old_len_ap; len(args) == old_len_args - 1","over":{"base":"sin","pred":"isinstance(fact, sin)"},"name":"_rewrite_gamma_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._rewrite_gamma_sin_correct","statement":"_rewrite_gamma satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"tan","pred":"isinstance(fact, tan)","path":{"lhs":"_rewrite_gamma(x)","rhs":"len(an) == old_len_an; len(ap) == old_len_ap; len(args) == old_len_args - 1","over":{"base":"tan","pred":"isinstance(fact, tan)"},"name":"_rewrite_gamma_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._rewrite_gamma_tan_correct","statement":"_rewrite_gamma satisfies spec on tan inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(fact, cos)","path":{"lhs":"_rewrite_gamma(x)","rhs":"len(an) == old_len_an; len(ap) == old_len_ap; len(args) == old_len_args - 1","over":{"base":"cos","pred":"isinstance(fact, cos)"},"name":"_rewrite_gamma_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._rewrite_gamma_cos_correct","statement":"_rewrite_gamma satisfies spec on cos inputs"},"trust":"LIBRARY"},{"name":"cot","pred":"isinstance(fact, cot)","path":{"lhs":"_rewrite_gamma(x)","rhs":"len(an) == old_len_an; len(ap) == old_len_ap; len(args) == old_len_args - 1","over":{"base":"cot","pred":"isinstance(fact, cot)"},"name":"_rewrite_gamma_cot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._rewrite_gamma_cot_correct","statement":"_rewrite_gamma satisfies spec on cot inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2fde9f0570fc2006","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'atoms')","hasattr(f, 'subs')","hasattr(f, 'as_numer_denom')","hasattr(a, 'is_Integer')","len(args) > 0","len(gammas) > 0"],"ensures":["len(an) == old_len_an","len(ap) == old_len_ap","len(args) == old_len_args - 1","len(bm) == old_len_bm","len(bq) == old_len_bq","len(gammas) == old_len_gammas - 1","len(minus) == old_len_minus + 1","len(plus) == old_len_plus + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_Integer","f.as_numer_denom","f.atoms","f.subs"],"calls_mutating":["an.sort","ap.sort","args.pop","bm.sort","bq.sort","gammas.pop","minus.append","plus.append"],"raises":["IntegralTransformError","MellinTransformStripError","NotImplementedError","TypeError","exception"]},"state_contract":{"modifies":["an.*","ap.*","args.*","bm.*","bq.*","gammas.*","minus.*","plus.*"],"old_bindings":{"old_len_an":"len(an)","old_len_ap":"len(ap)","old_len_args":"len(args)","old_len_bm":"len(bm)","old_len_bq":"len(bq)","old_len_gammas":"len(gammas)","old_len_minus":"len(minus)","old_len_plus":"len(plus)"},"pre_requires":["len(args) > 0","len(gammas) > 0"],"post_ensures":["len(an) == old_len_an","len(ap) == old_len_ap","len(args) == old_len_args - 1","len(bm) == old_len_bm","len(bq) == old_len_bq","len(gammas) == old_len_gammas - 1","len(minus) == old_len_minus + 1","len(plus) == old_len_plus + 1"],"exceptional_post":{"IntegralTransformError":["isinstance(raised, IntegralTransformError)"],"MellinTransformStripError":["isinstance(raised, MellinTransformStripError)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"],"exception":["isinstance(raised, exception)"]}}},"c4_verdict":{"valid":false,"n_vcs":23,"n_verified":16,"n_assumed":6,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":11.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'s_multiplier == common_coefficient', 'exp_ < 0', 'a > 0 and left(-b / a, is_numer) == False or (a < 0 and left(-b / a, is_numer) == True)', 'len(rs) != p.degree()', 'len(s_multipliers) == 0', 'b_ is None', 'a == +1', 'isinstance(fact, cot)', 'isinstance(fact, gamma)', 'a_ is None', '(c <= a_) == True', '(c >= b_) == True', 'fact.is_Pow or isinstance(fact, exp)', 'p.degree() != 1', 'isinstance(fact, cos)', 'a != -1 and a != +1', 'isinstance(fact, tan)', 'a_ is None and b_ is S.Infinity', 'isinstance(fact, sin)'}, fibers={'sin', 'exp', 'cos', 'tan', 'cot', 'gamma'})"]}}
 def _rewrite_gamma(f, s, a, b):
     """
     Try to rewrite the product f(s) as a product of gamma functions,
@@ -1070,16 +1237,23 @@ def _rewrite_gamma(f, s, a, b):
 
 @_noconds_(True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_mellin_transform(F, ), id) over Any          ║
+# ║ Path(_inverse_mellin_transform(F, s, x_), id) over {Any | hasattr(F, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inverse_mellin_transform : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(F, 'rewrite')                          ║
+# ║   ensures:  # HINT: _inverse_mellin_transform may be ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inverse_mellin_transform : {Any | hasattr(F, 'rewrit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d9ca6a55b7fab5b2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._inverse_mellin_transform","kind":"function","src_hash":"d1b162af8d48ad6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_mellin_transform(F, )","rhs":"a helper for the real inverse_mellin_transform function, this one here assumes x to be real and positive","over":{"base":"Any"},"name":"_inverse_mellin_transform_correct","kind":"composition"},"guarantee":"a helper for the real inverse_mellin_transform function, this one here assumes x to be real and positive","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"And","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9ca6a55b7fab5b2"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._inverse_mellin_transform","kind":"function","src_hash":"d1b162af8d48ad6e","in":{"base":"Any","pred":"hasattr(F, 'rewrite')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _inverse_mellin_transform may be idempotent: _inverse_mellin_transform(_inverse_mellin_transform(x)) == _inverse_mellin_transform(x)"},"spec":{"lhs":"_inverse_mellin_transform(F, s, x_)","rhs":"# HINT: _inverse_mellin_transform may be idempotent: _inverse_mellin_transform(_inverse_mellin_transform(x)) == _inverse_mellin_transform(x)","over":{"base":"Any","pred":"hasattr(F, 'rewrite')"},"name":"_inverse_mellin_transform_correct","kind":"composition"},"guarantee":"# HINT: _inverse_mellin_transform may be idempotent: _inverse_mellin_transform(_inverse_mellin_transform(x)) == _inverse_mellin_transform(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"And","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9ca6a55b7fab5b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(F, 'rewrite')"],"ensures":["# HINT: _inverse_mellin_transform may be idempotent: _inverse_mellin_transform(_inverse_mellin_transform(x)) == _inverse_mellin_transform(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["F.rewrite"],"raises":["IntegralTransformError"],"catches":["IntegralTransformError","NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"IntegralTransformError":["isinstance(raised, IntegralTransformError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _inverse_mellin_transform(F, s, x_, strip, as_meijerg=False):
     """ A helper for the real inverse_mellin_transform function, this one here
         assumes x to be real and positive. """
@@ -1144,14 +1318,20 @@ _allowed = None
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(InverseMellinTransform(*args), correctly constructs a InverseMellinTransform instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InverseMellinTransform : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IntegralTransform)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InverseMellinTransform : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efce495a3136ce9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseMellinTransform","kind":"class","src_hash":"d6246620fec1af46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InverseMellinTransform(*args)","rhs":"correctly constructs a InverseMellinTransform instance","over":{"base":"Any"},"name":"InverseMellinTransform_class_invariant"},"guarantee":"correctly constructs a InverseMellinTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efce495a3136ce9f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseMellinTransform","kind":"class","src_hash":"d6246620fec1af46","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IntegralTransform)"},"spec":{"lhs":"InverseMellinTransform(*args)","rhs":"correctly constructs a InverseMellinTransform instance","over":{"base":"Any"},"name":"InverseMellinTransform_class_invariant"},"guarantee":"isinstance(self, IntegralTransform)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efce495a3136ce9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IntegralTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function InverseMellinTransform not found in source"]}}
 class InverseMellinTransform(IntegralTransform):
     """
     Class representing unevaluated inverse Mellin transforms.
@@ -1167,16 +1347,22 @@ class InverseMellinTransform(IntegralTransform):
     _c = Dummy('c')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, F, s), IntegralTransform.__new__(cls, F, s, x, a, b, **opts)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  IntegralTransform.__new__(cls, F, s, x, a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87e3da9f9b6b41a2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseMellinTransform.__new__","kind":"method","src_hash":"811b85d265b53b75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87e3da9f9b6b41a2"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseMellinTransform.__new__","kind":"method","src_hash":"811b85d265b53b75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, F, s)","rhs":"IntegralTransform.__new__(cls, F, s, x, a, b, **opts)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns IntegralTransform.__new__(cls, F, s, x, a, b, **opts)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87e3da9f9b6b41a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"IntegralTransform.__new__(cls, F, s, x, a, b, **opts)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, F, s, x, a, b, **opts):
         if a is None:
             a = InverseMellinTransform._none_sentinel
@@ -1186,16 +1372,22 @@ class InverseMellinTransform(IntegralTransform):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fundamental_strip(), returns the fundamental_strip attribute) over Any ║
+# ║ Path(fundamental_strip(), (a, b)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (a, b)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fundamental_strip : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9aa881cc1eacdf7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseMellinTransform.fundamental_strip","kind":"property","src_hash":"6208b32cc9e9e688","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fundamental_strip()","rhs":"returns the fundamental_strip attribute","over":{"base":"Any"},"name":"fundamental_strip_correct"},"guarantee":"returns the fundamental_strip attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9aa881cc1eacdf7c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseMellinTransform.fundamental_strip","kind":"property","src_hash":"6208b32cc9e9e688","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fundamental_strip()","rhs":"(a, b)","over":{"base":"Any"},"name":"fundamental_strip_correct"},"guarantee":"returns (a, b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9aa881cc1eacdf7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(a, b)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fundamental_strip(self):
         a, b = self.args[3], self.args[4]
         if a is InverseMellinTransform._none_sentinel:
@@ -1205,16 +1397,24 @@ class InverseMellinTransform(IntegralTransform):
         return a, b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_transform(F, ), internal helper behaves correctly) over Any ║
+# ║ Path(_compute_transform(F, s, x), _inverse_mellin_transform(F, s, x, strip, **hints)) over {Any | len(hints) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compute_transform : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(hints) > 0                                 ║
+# ║   ensures:  len(hints) == old_len_hints - 1                ║
+# ║   returns:  _inverse_mellin_transform(F, s, x, strip,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compute_transform : {Any | len(hints) > 0} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9cddbf541f46f83  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9616923482d1d07a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseMellinTransform._compute_transform","kind":"method","src_hash":"102a6659a161c03d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(F, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.InverseMellinTransform._compute_transform_correct","statement":"Path(_compute_transform(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9cddbf541f46f83"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseMellinTransform._compute_transform","kind":"method","src_hash":"102a6659a161c03d","in":{"base":"Any","pred":"len(hints) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (_inverse_mellin_transform(F, s, x, strip, **hints))"},"spec":{"lhs":"_compute_transform(F, s, x)","rhs":"_inverse_mellin_transform(F, s, x, strip, **hints)","over":{"base":"Any","pred":"len(hints) > 0"},"name":"_compute_transform_correct"},"guarantee":"returns _inverse_mellin_transform(F, s, x, strip, **hints); len(hints) == old_len_hints - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.InverseMellinTransform._compute_transform_correct","statement":"Path(_compute_transform(x), returns _inverse_mellin_transform(F, s, x, strip, **hints); len(hints) == old_len_hints - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9616923482d1d07a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(hints) > 0"],"ensures":["len(hints) == old_len_hints - 1"],"returns_expr":"_inverse_mellin_transform(F, s, x, strip, **hints)","pure":false,"effects":{"effect_type":"mutates_global","reads":["self.fundamental_strip"],"calls_mutating":["hints.pop"],"raises":["IntegralTransformError"],"globals_read":["_allowed"],"globals_written":["_allowed"]},"state_contract":{"modifies":["hints.*"],"old_bindings":{"old_len_hints":"len(hints)"},"pre_requires":["len(hints) > 0"],"post_ensures":["len(hints) == old_len_hints - 1"],"exceptional_post":{"IntegralTransformError":["isinstance(raised, IntegralTransformError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_transform(self, F, s, x, **hints):
         # IntegralTransform's doit will cause this hint to exist, but
         # InverseMellinTransform should ignore it
@@ -1232,16 +1432,22 @@ class InverseMellinTransform(IntegralTransform):
         return _inverse_mellin_transform(F, s, x, strip, **hints)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_as_integral(F, ), internal helper behaves correctly) over Any ║
+# ║ Path(_as_integral(F, s, x), Integral(F * x ** (-s), (s, c - S.ImaginaryUnit * S.Infinity, c + S.ImaginaryUnit * S.Infinity)) / (2 * S.Pi * S.ImaginaryUnit)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(F * x ** (-s), (s, c - S.Imagina...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _as_integral : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0455f17566a00fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c05b1df8a24b25f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseMellinTransform._as_integral","kind":"method","src_hash":"6684f3ca63fac3f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(F, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_as_integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.InverseMellinTransform._as_integral_correct","statement":"Path(_as_integral(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0455f17566a00fc"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseMellinTransform._as_integral","kind":"method","src_hash":"6684f3ca63fac3f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(F, s, x)","rhs":"Integral(F * x ** (-s), (s, c - S.ImaginaryUnit * S.Infinity, c + S.ImaginaryUnit * S.Infinity)) / (2 * S.Pi * S.ImaginaryUnit)","over":{"base":"Any"},"name":"_as_integral_correct"},"guarantee":"returns Integral(F * x ** (-s), (s, c - S.ImaginaryUnit * S.Infinity, c + S.ImaginaryUnit * S.Infinity)) / (2 * S.Pi * S.ImaginaryUnit)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.InverseMellinTransform._as_integral_correct","statement":"Path(_as_integral(x), returns Integral(F * x ** (-s), (s, c - S.ImaginaryUnit * S.Infinity, c + S.ImaginaryUnit * S.Infinity)) / (2 * S.Pi * S.ImaginaryUnit))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c05b1df8a24b25f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(F * x ** (-s), (s, c - S.ImaginaryUnit * S.Infinity, c + S.ImaginaryUnit * S.Infinity)) / (2 * S.Pi * S.ImaginaryUnit)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _as_integral(self, F, s, x):
         c = self.__class__._c
         return Integral(F*x**(-s), (s, c - S.ImaginaryUnit*S.Infinity, c +
@@ -1249,16 +1455,22 @@ class InverseMellinTransform(IntegralTransform):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse_mellin_transform(F, ), compute the inverse mellin transform of `f(s)` over the fundamental strip given by ``strip=(a, b)``) over Any ║
+# ║ Path(inverse_mellin_transform(F, s, x), InverseMellinTransform(F, s, x, strip[0], strip[1]).doit(**hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  InverseMellinTransform(F, s, x, strip[0],...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse_mellin_transform : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 737e6b45917f5ab9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.inverse_mellin_transform","kind":"function","src_hash":"b99fe9bda09e37a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse_mellin_transform(F, )","rhs":"compute the inverse mellin transform of `f(s)` over the fundamental strip given by ``strip=(a, b)``","over":{"base":"Any"},"name":"inverse_mellin_transform_correct"},"guarantee":"compute the inverse mellin transform of `f(s)` over the fundamental strip given by ``strip=(a, b)``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"737e6b45917f5ab9"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.inverse_mellin_transform","kind":"function","src_hash":"b99fe9bda09e37a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse_mellin_transform(F, s, x)","rhs":"InverseMellinTransform(F, s, x, strip[0], strip[1]).doit(**hints)","over":{"base":"Any"},"name":"inverse_mellin_transform_correct"},"guarantee":"returns InverseMellinTransform(F, s, x, strip[0], strip[1]).doit(**hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"737e6b45917f5ab9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"InverseMellinTransform(F, s, x, strip[0], strip[1]).doit(**hints)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['F', 's', 'x', 'strip'], spec=['F', 's', 'x', 'strip', '**hints']"]}}
 def inverse_mellin_transform(F, s, x, strip, **hints):
     r"""
     Compute the inverse Mellin transform of `F(s)` over the fundamental
@@ -1321,16 +1533,24 @@ def inverse_mellin_transform(F, s, x, strip, **hints):
 
 @_noconds_(True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fourier_transform(f, ), compute a general fourier-type transform) over Any ║
+# ║ Path(_fourier_transform(f, x, k), <unspecified:_fourier_transform>) over {Any | not (integral_f in (S.NegativeInfinity, S.Infinity, S.NaN) or integral_f.has(Integral)) and F.is_Piecewise} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _fourier_transform : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (integral_f in (S.NegativeInfinity, S...   ║
+# ║   requires: F.is_Piecewise                                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _fourier_transform : {Any | not (integral_f in (S.Neg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16b030a53e55c234  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._fourier_transform","kind":"function","src_hash":"e54d3482ff07e8a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fourier_transform(f, )","rhs":"compute a general fourier-type transform","over":{"base":"Any"},"name":"_fourier_transform_correct"},"guarantee":"compute a general fourier-type transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._fourier_transform_correct","statement":"Path(_fourier_transform(x), compute a general fourier-type transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16b030a53e55c234"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._fourier_transform","kind":"function","src_hash":"e54d3482ff07e8a1","in":{"base":"Any","pred":"not (integral_f in (S.NegativeInfinity, S.Infinity, S.NaN) or integral_f.has(Integral)) and F.is_Piecewise"},"out":{"base":"Any"},"spec":{"lhs":"_fourier_transform(f, x, k)","rhs":"<unspecified:_fourier_transform>","over":{"base":"Any","pred":"not (integral_f in (S.NegativeInfinity, S.Infinity, S.NaN) or integral_f.has(Integral)) and F.is_Piecewise"},"name":"_fourier_transform_correct"},"guarantee":"compute a general fourier-type transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._fourier_transform_correct","statement":"Path(_fourier_transform(x), compute a general fourier-type transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16b030a53e55c234","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (integral_f in (S.NegativeInfinity, S.Infinity, S.NaN) or integral_f.has(Integral))","F.is_Piecewise"],"pure":false,"effects":{"effect_type":"reads_state","raises":["IntegralTransformError"]},"state_contract":{"exceptional_post":{"IntegralTransformError":["isinstance(raised, IntegralTransformError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _fourier_transform(f, x, k, a, b, name, simplify=True):
     r"""
     Compute a general Fourier-type transform
@@ -1364,74 +1584,104 @@ def _fourier_transform(f, x, k, a, b, name, simplify=True):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FourierTypeTransform(*args), correctly constructs a FourierTypeTransform instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FourierTypeTransform : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IntegralTransform)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FourierTypeTransform : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 630b1131bc1f2e92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTypeTransform","kind":"class","src_hash":"bf085de749e7c390","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FourierTypeTransform(*args)","rhs":"correctly constructs a FourierTypeTransform instance","over":{"base":"Any"},"name":"FourierTypeTransform_class_invariant"},"guarantee":"correctly constructs a FourierTypeTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"630b1131bc1f2e92"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTypeTransform","kind":"class","src_hash":"bf085de749e7c390","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IntegralTransform)"},"spec":{"lhs":"FourierTypeTransform(*args)","rhs":"correctly constructs a FourierTypeTransform instance","over":{"base":"Any"},"name":"FourierTypeTransform_class_invariant"},"guarantee":"isinstance(self, IntegralTransform)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"630b1131bc1f2e92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IntegralTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function FourierTypeTransform not found in source"]}}
 class FourierTypeTransform(IntegralTransform):
     """ Base class for Fourier transforms."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), a produces the expected output) over Any         ║
+# ║ Path(a(), <unspecified:a>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa1aa324394b84ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTypeTransform.a","kind":"method","src_hash":"dcc526fc43815df2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"a produces the expected output","over":{"base":"Any"},"name":"a_correct"},"guarantee":"a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.FourierTypeTransform.a_correct","statement":"Path(a(x), a produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa1aa324394b84ac"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTypeTransform.a","kind":"method","src_hash":"dcc526fc43815df2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"<unspecified:a>","over":{"base":"Any"},"name":"a_correct"},"guarantee":"a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.FourierTypeTransform.a_correct","statement":"Path(a(x), a produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa1aa324394b84ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         raise NotImplementedError(
             "Class %s must implement a(self) but does not" % self.__class__)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(b(), b produces the expected output) over Any         ║
+# ║ Path(b(), <unspecified:b>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ b : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cae8891267729c87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTypeTransform.b","kind":"method","src_hash":"b86495bc9d04afaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"b produces the expected output","over":{"base":"Any"},"name":"b_correct"},"guarantee":"b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.FourierTypeTransform.b_correct","statement":"Path(b(x), b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cae8891267729c87"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTypeTransform.b","kind":"method","src_hash":"b86495bc9d04afaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"<unspecified:b>","over":{"base":"Any"},"name":"b_correct"},"guarantee":"b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.FourierTypeTransform.b_correct","statement":"Path(b(x), b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cae8891267729c87","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def b(self):
         raise NotImplementedError(
             "Class %s must implement b(self) but does not" % self.__class__)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_transform(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_compute_transform(f, x, k), _fourier_transform(f, x, k, self.a(), self.b(), self.__class__._name, **hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _fourier_transform(f, x, k, self.a(), sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compute_transform : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d1e42aa2e6a2d61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1aba12ffa42dc3f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTypeTransform._compute_transform","kind":"method","src_hash":"9016d4621c55adbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.FourierTypeTransform._compute_transform_correct","statement":"Path(_compute_transform(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d1e42aa2e6a2d61"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTypeTransform._compute_transform","kind":"method","src_hash":"9016d4621c55adbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(f, x, k)","rhs":"_fourier_transform(f, x, k, self.a(), self.b(), self.__class__._name, **hints)","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"returns _fourier_transform(f, x, k, self.a(), self.b(), self.__class__._name, **hints)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.FourierTypeTransform._compute_transform_correct","statement":"Path(_compute_transform(x), returns _fourier_transform(f, x, k, self.a(), self.b(), self.__class__._name, **hints))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1aba12ffa42dc3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_fourier_transform(f, x, k, self.a(), self.b(), self.__class__._name, **hints)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_transform(self, f, x, k, **hints):
         return _fourier_transform(f, x, k,
                                   self.a(), self.b(),
                                   self.__class__._name, **hints)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_as_integral(f, ), id) over Any                       ║
+# ║ Path(_as_integral(f, x, k), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(a * f * exp(b * S.ImaginaryUnit ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _as_integral : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bbfea7287e5e6708   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTypeTransform._as_integral","kind":"method","src_hash":"567632af8228eeab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_as_integral_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbfea7287e5e6708"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTypeTransform._as_integral","kind":"method","src_hash":"567632af8228eeab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(f, x, k)","rhs":"Integral(a * f * exp(b * S.ImaginaryUnit * x * k), (x, S.NegativeInfinity, S.Infinity))","over":{"base":"Any"},"name":"_as_integral_correct","kind":"composition"},"guarantee":"returns Integral(a * f * exp(b * S.ImaginaryUnit * x * k), (x, S.NegativeInfinity, S.Infinity))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbfea7287e5e6708","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(a * f * exp(b * S.ImaginaryUnit * x * k), (x, S.NegativeInfinity, S.Infinity))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _as_integral(self, f, x, k):
         a = self.a()
         b = self.b()
@@ -1441,14 +1691,20 @@ class FourierTypeTransform(IntegralTransform):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FourierTransform(*args), correctly constructs a FourierTransform instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FourierTransform : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FourierTypeTransform)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FourierTransform : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00010f97ebe6fc27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTransform","kind":"class","src_hash":"a2b17e02ba9f0a3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FourierTransform(*args)","rhs":"correctly constructs a FourierTransform instance","over":{"base":"Any"},"name":"FourierTransform_class_invariant"},"guarantee":"correctly constructs a FourierTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00010f97ebe6fc27"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTransform","kind":"class","src_hash":"a2b17e02ba9f0a3a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FourierTypeTransform)"},"spec":{"lhs":"FourierTransform(*args)","rhs":"correctly constructs a FourierTransform instance","over":{"base":"Any"},"name":"FourierTransform_class_invariant"},"guarantee":"isinstance(self, FourierTypeTransform)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00010f97ebe6fc27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FourierTypeTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function FourierTransform not found in source"]}}
 class FourierTransform(FourierTypeTransform):
     """
     Class representing unevaluated Fourier transforms.
@@ -1462,45 +1718,63 @@ class FourierTransform(FourierTypeTransform):
     _name = 'Fourier'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), a produces the expected output) over Any         ║
+# ║ Path(a(), 1) over Any                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b805ea4ff0f944d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTransform.a","kind":"method","src_hash":"8335b2b8ef600d6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"a produces the expected output","over":{"base":"Any"},"name":"a_correct"},"guarantee":"a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b805ea4ff0f944d0"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTransform.a","kind":"method","src_hash":"8335b2b8ef600d6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"1","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b805ea4ff0f944d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         return 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(b(), b produces the expected output) over Any         ║
+# ║ Path(b(), -2 * S.Pi) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -2 * S.Pi                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ b : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f03166b770028376           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTransform.b","kind":"method","src_hash":"19efd6e08a49d8a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"b produces the expected output","over":{"base":"Any"},"name":"b_correct"},"guarantee":"b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f03166b770028376"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.FourierTransform.b","kind":"method","src_hash":"19efd6e08a49d8a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"-2 * S.Pi","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns -2 * S.Pi","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f03166b770028376","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-2 * S.Pi","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def b(self):
         return -2*S.Pi
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fourier_transform(f, ), compute the unitary, ordinary-frequency fourier transform of ``f``, defined as) over Any ║
+# ║ Path(fourier_transform(f, x, k), FourierTransform(f, x, k).doit(**hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FourierTransform(f, x, k).doit(**hints)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fourier_transform : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a14adf75de78c145           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.fourier_transform","kind":"function","src_hash":"127ac400b7c7a2ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fourier_transform(f, )","rhs":"compute the unitary, ordinary-frequency fourier transform of ``f``, defined as","over":{"base":"Any"},"name":"fourier_transform_correct"},"guarantee":"compute the unitary, ordinary-frequency fourier transform of ``f``, defined as","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a14adf75de78c145"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.fourier_transform","kind":"function","src_hash":"127ac400b7c7a2ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fourier_transform(f, x, k)","rhs":"FourierTransform(f, x, k).doit(**hints)","over":{"base":"Any"},"name":"fourier_transform_correct"},"guarantee":"returns FourierTransform(f, x, k).doit(**hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a14adf75de78c145","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FourierTransform(f, x, k).doit(**hints)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['f', 'x', 'k'], spec=['f', 'x', 'k', '**hints']"]}}
 def fourier_transform(f, x, k, **hints):
     r"""
     Compute the unitary, ordinary-frequency Fourier transform of ``f``, defined
@@ -1546,14 +1820,20 @@ def fourier_transform(f, x, k, **hints):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(InverseFourierTransform(*args), correctly constructs a InverseFourierTransform instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InverseFourierTransform : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FourierTypeTransform)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InverseFourierTransform : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1ddb29effceec52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseFourierTransform","kind":"class","src_hash":"f914ccf8d56b129a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InverseFourierTransform(*args)","rhs":"correctly constructs a InverseFourierTransform instance","over":{"base":"Any"},"name":"InverseFourierTransform_class_invariant"},"guarantee":"correctly constructs a InverseFourierTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1ddb29effceec52"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseFourierTransform","kind":"class","src_hash":"f914ccf8d56b129a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FourierTypeTransform)"},"spec":{"lhs":"InverseFourierTransform(*args)","rhs":"correctly constructs a InverseFourierTransform instance","over":{"base":"Any"},"name":"InverseFourierTransform_class_invariant"},"guarantee":"isinstance(self, FourierTypeTransform)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1ddb29effceec52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FourierTypeTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function InverseFourierTransform not found in source"]}}
 class InverseFourierTransform(FourierTypeTransform):
     """
     Class representing unevaluated inverse Fourier transforms.
@@ -1567,45 +1847,63 @@ class InverseFourierTransform(FourierTypeTransform):
     _name = 'Inverse Fourier'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), a produces the expected output) over Any         ║
+# ║ Path(a(), 1) over Any                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 15dbe88857c3944a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseFourierTransform.a","kind":"method","src_hash":"8335b2b8ef600d6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"a produces the expected output","over":{"base":"Any"},"name":"a_correct"},"guarantee":"a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15dbe88857c3944a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseFourierTransform.a","kind":"method","src_hash":"8335b2b8ef600d6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"1","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15dbe88857c3944a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         return 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(b(), b produces the expected output) over Any         ║
+# ║ Path(b(), 2 * S.Pi) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * S.Pi                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ b : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed7fb63eca9b02c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseFourierTransform.b","kind":"method","src_hash":"f4a5097ba466437a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"b produces the expected output","over":{"base":"Any"},"name":"b_correct"},"guarantee":"b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed7fb63eca9b02c5"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseFourierTransform.b","kind":"method","src_hash":"f4a5097ba466437a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"2 * S.Pi","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns 2 * S.Pi","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed7fb63eca9b02c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * S.Pi","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def b(self):
         return 2*S.Pi
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse_fourier_transform(F, ), compute the unitary, ordinary-frequency inverse fourier transform of `f`, defined as) over Any ║
+# ║ Path(inverse_fourier_transform(F, k, x), InverseFourierTransform(F, k, x).doit(**hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  InverseFourierTransform(F, k, x).doit(**h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse_fourier_transform : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c2a234f9ae39b85a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.inverse_fourier_transform","kind":"function","src_hash":"99837800c10f312f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse_fourier_transform(F, )","rhs":"compute the unitary, ordinary-frequency inverse fourier transform of `f`, defined as","over":{"base":"Any"},"name":"inverse_fourier_transform_correct"},"guarantee":"compute the unitary, ordinary-frequency inverse fourier transform of `f`, defined as","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2a234f9ae39b85a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.inverse_fourier_transform","kind":"function","src_hash":"99837800c10f312f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse_fourier_transform(F, k, x)","rhs":"InverseFourierTransform(F, k, x).doit(**hints)","over":{"base":"Any"},"name":"inverse_fourier_transform_correct"},"guarantee":"returns InverseFourierTransform(F, k, x).doit(**hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2a234f9ae39b85a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"InverseFourierTransform(F, k, x).doit(**hints)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['F', 'k', 'x'], spec=['F', 'k', 'x', '**hints']"]}}
 def inverse_fourier_transform(F, k, x, **hints):
     r"""
     Compute the unitary, ordinary-frequency inverse Fourier transform of `F`,
@@ -1654,16 +1952,24 @@ def inverse_fourier_transform(F, k, x, **hints):
 
 @_noconds_(True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sine_cosine_transform(f, ), compute a general sine or cosine-type transform f(k) = a int_0^oo b*sin(x*k) f(x) dx. f(k) = a int_0^oo b*cos(x*k) f(x) dx) over Any ║
+# ║ Path(_sine_cosine_transform(f, x, k), <unspecified:_sine_cosine_transform>) over {Any | F.is_Piecewise and not (F.has(Integral))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sine_cosine_transform : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: F.is_Piecewise                                 ║
+# ║   requires: not (F.has(Integral))                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sine_cosine_transform : {Any | F.is_Piecewise and no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 104ff2d2148f82c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._sine_cosine_transform","kind":"function","src_hash":"126023a513463dc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sine_cosine_transform(f, )","rhs":"compute a general sine or cosine-type transform f(k) = a int_0^oo b*sin(x*k) f(x) dx. f(k) = a int_0^oo b*cos(x*k) f(x) dx","over":{"base":"Any"},"name":"_sine_cosine_transform_correct"},"guarantee":"compute a general sine or cosine-type transform f(k) = a int_0^oo b*sin(x*k) f(x) dx. f(k) = a int_0^oo b*cos(x*k) f(x) dx","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._sine_cosine_transform_correct","statement":"Path(_sine_cosine_transform(x), compute a general sine or cosine-type transform f(k) = a int_0^oo b*sin(x*k) f(x) dx. f(k) = a int_0^oo b*cos(x*k) f(x) dx)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"104ff2d2148f82c0"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._sine_cosine_transform","kind":"function","src_hash":"126023a513463dc3","in":{"base":"Any","pred":"F.is_Piecewise and not (F.has(Integral))"},"out":{"base":"Any"},"spec":{"lhs":"_sine_cosine_transform(f, x, k)","rhs":"<unspecified:_sine_cosine_transform>","over":{"base":"Any","pred":"F.is_Piecewise and not (F.has(Integral))"},"name":"_sine_cosine_transform_correct"},"guarantee":"compute a general sine or cosine-type transform f(k) = a int_0^oo b*sin(x*k) f(x) dx. f(k) = a int_0^oo b*cos(x*k) f(x) dx","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._sine_cosine_transform_correct","statement":"Path(_sine_cosine_transform(x), compute a general sine or cosine-type transform f(k) = a int_0^oo b*sin(x*k) f(x) dx. f(k) = a int_0^oo b*cos(x*k) f(x) dx)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"104ff2d2148f82c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["F.is_Piecewise","not (F.has(Integral))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["IntegralTransformError"]},"state_contract":{"exceptional_post":{"IntegralTransformError":["isinstance(raised, IntegralTransformError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _sine_cosine_transform(f, x, k, a, b, K, name, simplify=True):
     """
     Compute a general sine or cosine-type transform
@@ -1691,14 +1997,20 @@ def _sine_cosine_transform(f, x, k, a, b, K, name, simplify=True):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SineCosineTypeTransform(*args), correctly constructs a SineCosineTypeTransform instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SineCosineTypeTransform : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IntegralTransform)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SineCosineTypeTransform : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a83071123ca3ef64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineCosineTypeTransform","kind":"class","src_hash":"2fb35c479778e481","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SineCosineTypeTransform(*args)","rhs":"correctly constructs a SineCosineTypeTransform instance","over":{"base":"Any"},"name":"SineCosineTypeTransform_class_invariant"},"guarantee":"correctly constructs a SineCosineTypeTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a83071123ca3ef64"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineCosineTypeTransform","kind":"class","src_hash":"2fb35c479778e481","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IntegralTransform)"},"spec":{"lhs":"SineCosineTypeTransform(*args)","rhs":"correctly constructs a SineCosineTypeTransform instance","over":{"base":"Any"},"name":"SineCosineTypeTransform_class_invariant"},"guarantee":"isinstance(self, IntegralTransform)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a83071123ca3ef64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IntegralTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function SineCosineTypeTransform not found in source"]}}
 class SineCosineTypeTransform(IntegralTransform):
     """
     Base class for sine and cosine transforms.
@@ -1706,47 +2018,65 @@ class SineCosineTypeTransform(IntegralTransform):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), a produces the expected output) over Any         ║
+# ║ Path(a(), <unspecified:a>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b981f421066b8053  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineCosineTypeTransform.a","kind":"method","src_hash":"dcc526fc43815df2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"a produces the expected output","over":{"base":"Any"},"name":"a_correct"},"guarantee":"a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.SineCosineTypeTransform.a_correct","statement":"Path(a(x), a produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b981f421066b8053"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineCosineTypeTransform.a","kind":"method","src_hash":"dcc526fc43815df2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"<unspecified:a>","over":{"base":"Any"},"name":"a_correct"},"guarantee":"a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.SineCosineTypeTransform.a_correct","statement":"Path(a(x), a produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b981f421066b8053","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         raise NotImplementedError(
             "Class %s must implement a(self) but does not" % self.__class__)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(b(), b produces the expected output) over Any         ║
+# ║ Path(b(), <unspecified:b>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ b : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d8c351fbf2dbc6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineCosineTypeTransform.b","kind":"method","src_hash":"b86495bc9d04afaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"b produces the expected output","over":{"base":"Any"},"name":"b_correct"},"guarantee":"b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.SineCosineTypeTransform.b_correct","statement":"Path(b(x), b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d8c351fbf2dbc6b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineCosineTypeTransform.b","kind":"method","src_hash":"b86495bc9d04afaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"<unspecified:b>","over":{"base":"Any"},"name":"b_correct"},"guarantee":"b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.SineCosineTypeTransform.b_correct","statement":"Path(b(x), b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d8c351fbf2dbc6b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def b(self):
         raise NotImplementedError(
             "Class %s must implement b(self) but does not" % self.__class__)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_transform(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_compute_transform(f, x, k), _sine_cosine_transform(f, x, k, self.a(), self.b(), self.__class__._kern, self.__class__._name, **hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _sine_cosine_transform(f, x, k, self.a(),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compute_transform : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88a4028b475c65ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aed0afc8c0ea356d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineCosineTypeTransform._compute_transform","kind":"method","src_hash":"315fe5f9fa95561a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.SineCosineTypeTransform._compute_transform_correct","statement":"Path(_compute_transform(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88a4028b475c65ae"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineCosineTypeTransform._compute_transform","kind":"method","src_hash":"315fe5f9fa95561a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(f, x, k)","rhs":"_sine_cosine_transform(f, x, k, self.a(), self.b(), self.__class__._kern, self.__class__._name, **hints)","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"returns _sine_cosine_transform(f, x, k, self.a(), self.b(), self.__class__._kern, self.__class__._name, **hints)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.SineCosineTypeTransform._compute_transform_correct","statement":"Path(_compute_transform(x), returns _sine_cosine_transform(f, x, k, self.a(), self.b(), self.__class__._kern, self.__class__._name, **hints))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aed0afc8c0ea356d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_sine_cosine_transform(f, x, k, self.a(), self.b(), self.__class__._kern, self.__class__._name, **hints)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_transform(self, f, x, k, **hints):
         return _sine_cosine_transform(f, x, k,
                                       self.a(), self.b(),
@@ -1754,16 +2084,22 @@ class SineCosineTypeTransform(IntegralTransform):
                                       self.__class__._name, **hints)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_as_integral(f, ), id) over Any                       ║
+# ║ Path(_as_integral(f, x, k), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(a * f * K(b * x * k), (x, S.Zero...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _as_integral : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | beed72578ad88b08   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineCosineTypeTransform._as_integral","kind":"method","src_hash":"5740cd9e071ab342","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_as_integral_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"K","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"beed72578ad88b08"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineCosineTypeTransform._as_integral","kind":"method","src_hash":"5740cd9e071ab342","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(f, x, k)","rhs":"Integral(a * f * K(b * x * k), (x, S.Zero, S.Infinity))","over":{"base":"Any"},"name":"_as_integral_correct","kind":"composition"},"guarantee":"returns Integral(a * f * K(b * x * k), (x, S.Zero, S.Infinity))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"K","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"beed72578ad88b08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(a * f * K(b * x * k), (x, S.Zero, S.Infinity))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _as_integral(self, f, x, k):
         a = self.a()
         b = self.b()
@@ -1774,14 +2110,20 @@ class SineCosineTypeTransform(IntegralTransform):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SineTransform(*args), correctly constructs a SineTransform instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SineTransform : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SineCosineTypeTransform)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SineTransform : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2aa96d62e24eee58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineTransform","kind":"class","src_hash":"e64cb077bee19d76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SineTransform(*args)","rhs":"correctly constructs a SineTransform instance","over":{"base":"Any"},"name":"SineTransform_class_invariant"},"guarantee":"correctly constructs a SineTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2aa96d62e24eee58"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineTransform","kind":"class","src_hash":"e64cb077bee19d76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SineCosineTypeTransform)"},"spec":{"lhs":"SineTransform(*args)","rhs":"correctly constructs a SineTransform instance","over":{"base":"Any"},"name":"SineTransform_class_invariant"},"guarantee":"isinstance(self, SineCosineTypeTransform)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2aa96d62e24eee58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SineCosineTypeTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function SineTransform not found in source"]}}
 class SineTransform(SineCosineTypeTransform):
     """
     Class representing unevaluated sine transforms.
@@ -1796,45 +2138,63 @@ class SineTransform(SineCosineTypeTransform):
     _kern = sin
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), a produces the expected output) over Any         ║
+# ║ Path(a(), sqrt(2) / sqrt(pi)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(2) / sqrt(pi)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 958c2d3ccd42e44e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineTransform.a","kind":"method","src_hash":"cab79554294e986a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"a produces the expected output","over":{"base":"Any"},"name":"a_correct"},"guarantee":"a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"958c2d3ccd42e44e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineTransform.a","kind":"method","src_hash":"cab79554294e986a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"sqrt(2) / sqrt(pi)","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns sqrt(2) / sqrt(pi)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"958c2d3ccd42e44e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(2) / sqrt(pi)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         return sqrt(2)/sqrt(pi)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(b(), b produces the expected output) over Any         ║
+# ║ Path(b(), S.One) over Any                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.One                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ b : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0729c360daeba4f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineTransform.b","kind":"method","src_hash":"17fae228a7bf22e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"b produces the expected output","over":{"base":"Any"},"name":"b_correct"},"guarantee":"b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0729c360daeba4f2"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.SineTransform.b","kind":"method","src_hash":"17fae228a7bf22e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"S.One","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns S.One","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0729c360daeba4f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.One","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def b(self):
         return S.One
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sine_transform(f, ), compute the unitary, ordinary-frequency sine transform of `f`, defined as) over Any ║
+# ║ Path(sine_transform(f, x, k), SineTransform(f, x, k).doit(**hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SineTransform(f, x, k).doit(**hints)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sine_transform : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 70f5dcdca3c41c41           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.sine_transform","kind":"function","src_hash":"b4a87e3598ffc28e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sine_transform(f, )","rhs":"compute the unitary, ordinary-frequency sine transform of `f`, defined as","over":{"base":"Any"},"name":"sine_transform_correct"},"guarantee":"compute the unitary, ordinary-frequency sine transform of `f`, defined as","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70f5dcdca3c41c41"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.sine_transform","kind":"function","src_hash":"b4a87e3598ffc28e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sine_transform(f, x, k)","rhs":"SineTransform(f, x, k).doit(**hints)","over":{"base":"Any"},"name":"sine_transform_correct"},"guarantee":"returns SineTransform(f, x, k).doit(**hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"70f5dcdca3c41c41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SineTransform(f, x, k).doit(**hints)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['f', 'x', 'k'], spec=['f', 'x', 'k', '**hints']"]}}
 def sine_transform(f, x, k, **hints):
     r"""
     Compute the unitary, ordinary-frequency sine transform of `f`, defined
@@ -1877,14 +2237,20 @@ def sine_transform(f, x, k, **hints):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(InverseSineTransform(*args), correctly constructs a InverseSineTransform instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InverseSineTransform : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SineCosineTypeTransform)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InverseSineTransform : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a296fbde983ea04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseSineTransform","kind":"class","src_hash":"aeb82f0ccf602bfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InverseSineTransform(*args)","rhs":"correctly constructs a InverseSineTransform instance","over":{"base":"Any"},"name":"InverseSineTransform_class_invariant"},"guarantee":"correctly constructs a InverseSineTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a296fbde983ea04"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseSineTransform","kind":"class","src_hash":"aeb82f0ccf602bfb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SineCosineTypeTransform)"},"spec":{"lhs":"InverseSineTransform(*args)","rhs":"correctly constructs a InverseSineTransform instance","over":{"base":"Any"},"name":"InverseSineTransform_class_invariant"},"guarantee":"isinstance(self, SineCosineTypeTransform)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a296fbde983ea04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SineCosineTypeTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function InverseSineTransform not found in source"]}}
 class InverseSineTransform(SineCosineTypeTransform):
     """
     Class representing unevaluated inverse sine transforms.
@@ -1899,45 +2265,63 @@ class InverseSineTransform(SineCosineTypeTransform):
     _kern = sin
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), a produces the expected output) over Any         ║
+# ║ Path(a(), sqrt(2) / sqrt(pi)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(2) / sqrt(pi)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e471644334f39e80           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseSineTransform.a","kind":"method","src_hash":"cab79554294e986a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"a produces the expected output","over":{"base":"Any"},"name":"a_correct"},"guarantee":"a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e471644334f39e80"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseSineTransform.a","kind":"method","src_hash":"cab79554294e986a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"sqrt(2) / sqrt(pi)","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns sqrt(2) / sqrt(pi)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e471644334f39e80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(2) / sqrt(pi)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         return sqrt(2)/sqrt(pi)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(b(), b produces the expected output) over Any         ║
+# ║ Path(b(), S.One) over Any                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.One                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ b : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e7a8b61672c80e16           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseSineTransform.b","kind":"method","src_hash":"17fae228a7bf22e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"b produces the expected output","over":{"base":"Any"},"name":"b_correct"},"guarantee":"b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7a8b61672c80e16"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseSineTransform.b","kind":"method","src_hash":"17fae228a7bf22e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"S.One","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns S.One","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7a8b61672c80e16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.One","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def b(self):
         return S.One
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse_sine_transform(F, ), compute the unitary, ordinary-frequency inverse sine transform of `f`, defined as) over Any ║
+# ║ Path(inverse_sine_transform(F, k, x), InverseSineTransform(F, k, x).doit(**hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  InverseSineTransform(F, k, x).doit(**hints)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse_sine_transform : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1d9ab5e2615b8e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.inverse_sine_transform","kind":"function","src_hash":"6f96a08779246255","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse_sine_transform(F, )","rhs":"compute the unitary, ordinary-frequency inverse sine transform of `f`, defined as","over":{"base":"Any"},"name":"inverse_sine_transform_correct"},"guarantee":"compute the unitary, ordinary-frequency inverse sine transform of `f`, defined as","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1d9ab5e2615b8e1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.inverse_sine_transform","kind":"function","src_hash":"6f96a08779246255","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse_sine_transform(F, k, x)","rhs":"InverseSineTransform(F, k, x).doit(**hints)","over":{"base":"Any"},"name":"inverse_sine_transform_correct"},"guarantee":"returns InverseSineTransform(F, k, x).doit(**hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1d9ab5e2615b8e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"InverseSineTransform(F, k, x).doit(**hints)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['F', 'k', 'x'], spec=['F', 'k', 'x', '**hints']"]}}
 def inverse_sine_transform(F, k, x, **hints):
     r"""
     Compute the unitary, ordinary-frequency inverse sine transform of `F`,
@@ -1981,14 +2365,20 @@ def inverse_sine_transform(F, k, x, **hints):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CosineTransform(*args), correctly constructs a CosineTransform instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CosineTransform : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SineCosineTypeTransform)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CosineTransform : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62cd8ff969e1c56c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.CosineTransform","kind":"class","src_hash":"7aa8b331398103a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CosineTransform(*args)","rhs":"correctly constructs a CosineTransform instance","over":{"base":"Any"},"name":"CosineTransform_class_invariant"},"guarantee":"correctly constructs a CosineTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62cd8ff969e1c56c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.CosineTransform","kind":"class","src_hash":"7aa8b331398103a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SineCosineTypeTransform)"},"spec":{"lhs":"CosineTransform(*args)","rhs":"correctly constructs a CosineTransform instance","over":{"base":"Any"},"name":"CosineTransform_class_invariant"},"guarantee":"isinstance(self, SineCosineTypeTransform)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62cd8ff969e1c56c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SineCosineTypeTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CosineTransform not found in source"]}}
 class CosineTransform(SineCosineTypeTransform):
     """
     Class representing unevaluated cosine transforms.
@@ -2003,45 +2393,63 @@ class CosineTransform(SineCosineTypeTransform):
     _kern = cos
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), a produces the expected output) over Any         ║
+# ║ Path(a(), sqrt(2) / sqrt(pi)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(2) / sqrt(pi)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a02782dcb929f281           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.CosineTransform.a","kind":"method","src_hash":"cab79554294e986a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"a produces the expected output","over":{"base":"Any"},"name":"a_correct"},"guarantee":"a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a02782dcb929f281"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.CosineTransform.a","kind":"method","src_hash":"cab79554294e986a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"sqrt(2) / sqrt(pi)","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns sqrt(2) / sqrt(pi)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a02782dcb929f281","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(2) / sqrt(pi)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         return sqrt(2)/sqrt(pi)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(b(), b produces the expected output) over Any         ║
+# ║ Path(b(), S.One) over Any                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.One                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ b : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 897065277ba0a5f3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.CosineTransform.b","kind":"method","src_hash":"17fae228a7bf22e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"b produces the expected output","over":{"base":"Any"},"name":"b_correct"},"guarantee":"b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"897065277ba0a5f3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.CosineTransform.b","kind":"method","src_hash":"17fae228a7bf22e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"S.One","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns S.One","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"897065277ba0a5f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.One","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def b(self):
         return S.One
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cosine_transform(f, ), compute the unitary, ordinary-frequency cosine transform of `f`, defined as) over Any ║
+# ║ Path(cosine_transform(f, x, k), CosineTransform(f, x, k).doit(**hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  CosineTransform(f, x, k).doit(**hints)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cosine_transform : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c177d62152d2710e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.cosine_transform","kind":"function","src_hash":"551aba01b316f7fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cosine_transform(f, )","rhs":"compute the unitary, ordinary-frequency cosine transform of `f`, defined as","over":{"base":"Any"},"name":"cosine_transform_correct"},"guarantee":"compute the unitary, ordinary-frequency cosine transform of `f`, defined as","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c177d62152d2710e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.cosine_transform","kind":"function","src_hash":"551aba01b316f7fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cosine_transform(f, x, k)","rhs":"CosineTransform(f, x, k).doit(**hints)","over":{"base":"Any"},"name":"cosine_transform_correct"},"guarantee":"returns CosineTransform(f, x, k).doit(**hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c177d62152d2710e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"CosineTransform(f, x, k).doit(**hints)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['f', 'x', 'k'], spec=['f', 'x', 'k', '**hints']"]}}
 def cosine_transform(f, x, k, **hints):
     r"""
     Compute the unitary, ordinary-frequency cosine transform of `f`, defined
@@ -2084,14 +2492,20 @@ def cosine_transform(f, x, k, **hints):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(InverseCosineTransform(*args), correctly constructs a InverseCosineTransform instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InverseCosineTransform : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SineCosineTypeTransform)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InverseCosineTransform : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 733c6181347f5717  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseCosineTransform","kind":"class","src_hash":"43e53fc00e1d05a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InverseCosineTransform(*args)","rhs":"correctly constructs a InverseCosineTransform instance","over":{"base":"Any"},"name":"InverseCosineTransform_class_invariant"},"guarantee":"correctly constructs a InverseCosineTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"733c6181347f5717"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseCosineTransform","kind":"class","src_hash":"43e53fc00e1d05a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SineCosineTypeTransform)"},"spec":{"lhs":"InverseCosineTransform(*args)","rhs":"correctly constructs a InverseCosineTransform instance","over":{"base":"Any"},"name":"InverseCosineTransform_class_invariant"},"guarantee":"isinstance(self, SineCosineTypeTransform)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"733c6181347f5717","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SineCosineTypeTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function InverseCosineTransform not found in source"]}}
 class InverseCosineTransform(SineCosineTypeTransform):
     """
     Class representing unevaluated inverse cosine transforms.
@@ -2106,45 +2520,63 @@ class InverseCosineTransform(SineCosineTypeTransform):
     _kern = cos
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), a produces the expected output) over Any         ║
+# ║ Path(a(), sqrt(2) / sqrt(pi)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(2) / sqrt(pi)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0670fc3b9a8b4a99           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseCosineTransform.a","kind":"method","src_hash":"cab79554294e986a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"a produces the expected output","over":{"base":"Any"},"name":"a_correct"},"guarantee":"a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0670fc3b9a8b4a99"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseCosineTransform.a","kind":"method","src_hash":"cab79554294e986a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"sqrt(2) / sqrt(pi)","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns sqrt(2) / sqrt(pi)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0670fc3b9a8b4a99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(2) / sqrt(pi)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         return sqrt(2)/sqrt(pi)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(b(), b produces the expected output) over Any         ║
+# ║ Path(b(), S.One) over Any                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.One                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ b : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a72ae645eed971f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseCosineTransform.b","kind":"method","src_hash":"17fae228a7bf22e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"b produces the expected output","over":{"base":"Any"},"name":"b_correct"},"guarantee":"b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a72ae645eed971f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseCosineTransform.b","kind":"method","src_hash":"17fae228a7bf22e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"S.One","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns S.One","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a72ae645eed971f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.One","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def b(self):
         return S.One
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse_cosine_transform(F, ), compute the unitary, ordinary-frequency inverse cosine transform of `f`, defined as) over Any ║
+# ║ Path(inverse_cosine_transform(F, k, x), InverseCosineTransform(F, k, x).doit(**hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  InverseCosineTransform(F, k, x).doit(**hi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse_cosine_transform : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77d4dd49935dbc0c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.inverse_cosine_transform","kind":"function","src_hash":"0d6913699195740a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse_cosine_transform(F, )","rhs":"compute the unitary, ordinary-frequency inverse cosine transform of `f`, defined as","over":{"base":"Any"},"name":"inverse_cosine_transform_correct"},"guarantee":"compute the unitary, ordinary-frequency inverse cosine transform of `f`, defined as","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77d4dd49935dbc0c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.inverse_cosine_transform","kind":"function","src_hash":"0d6913699195740a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse_cosine_transform(F, k, x)","rhs":"InverseCosineTransform(F, k, x).doit(**hints)","over":{"base":"Any"},"name":"inverse_cosine_transform_correct"},"guarantee":"returns InverseCosineTransform(F, k, x).doit(**hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77d4dd49935dbc0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"InverseCosineTransform(F, k, x).doit(**hints)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['F', 'k', 'x'], spec=['F', 'k', 'x', '**hints']"]}}
 def inverse_cosine_transform(F, k, x, **hints):
     r"""
     Compute the unitary, ordinary-frequency inverse cosine transform of `F`,
@@ -2190,16 +2622,24 @@ def inverse_cosine_transform(F, k, x, **hints):
 
 @_noconds_(True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_hankel_transform(f, ), compute a general hankel transform) over Any ║
+# ║ Path(_hankel_transform(f, r, k), <unspecified:_hankel_transform>) over {Any | F.is_Piecewise and not (F.has(Integral))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _hankel_transform : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: F.is_Piecewise                                 ║
+# ║   requires: not (F.has(Integral))                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _hankel_transform : {Any | F.is_Piecewise and not (F....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e54c5d7d909d36ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._hankel_transform","kind":"function","src_hash":"e8d53c529b89cc89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_hankel_transform(f, )","rhs":"compute a general hankel transform","over":{"base":"Any"},"name":"_hankel_transform_correct"},"guarantee":"compute a general hankel transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._hankel_transform_correct","statement":"Path(_hankel_transform(x), compute a general hankel transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e54c5d7d909d36ad"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms._hankel_transform","kind":"function","src_hash":"e8d53c529b89cc89","in":{"base":"Any","pred":"F.is_Piecewise and not (F.has(Integral))"},"out":{"base":"Any"},"spec":{"lhs":"_hankel_transform(f, r, k)","rhs":"<unspecified:_hankel_transform>","over":{"base":"Any","pred":"F.is_Piecewise and not (F.has(Integral))"},"name":"_hankel_transform_correct"},"guarantee":"compute a general hankel transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms._hankel_transform_correct","statement":"Path(_hankel_transform(x), compute a general hankel transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e54c5d7d909d36ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["F.is_Piecewise","not (F.has(Integral))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["IntegralTransformError"]},"state_contract":{"exceptional_post":{"IntegralTransformError":["isinstance(raised, IntegralTransformError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _hankel_transform(f, r, k, nu, name, simplify=True):
     r"""
     Compute a general Hankel transform
@@ -2224,30 +2664,42 @@ def _hankel_transform(f, r, k, nu, name, simplify=True):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(HankelTypeTransform(*args), correctly constructs a HankelTypeTransform instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HankelTypeTransform : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IntegralTransform)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HankelTypeTransform : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f1c9d1bb50428f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.HankelTypeTransform","kind":"class","src_hash":"837ab39d6fad380c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HankelTypeTransform(*args)","rhs":"correctly constructs a HankelTypeTransform instance","over":{"base":"Any"},"name":"HankelTypeTransform_class_invariant"},"guarantee":"correctly constructs a HankelTypeTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f1c9d1bb50428f1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.HankelTypeTransform","kind":"class","src_hash":"837ab39d6fad380c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IntegralTransform)"},"spec":{"lhs":"HankelTypeTransform(*args)","rhs":"correctly constructs a HankelTypeTransform instance","over":{"base":"Any"},"name":"HankelTypeTransform_class_invariant"},"guarantee":"isinstance(self, IntegralTransform)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f1c9d1bb50428f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IntegralTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function HankelTypeTransform not found in source"]}}
 class HankelTypeTransform(IntegralTransform):
     """
     Base class for Hankel transforms.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), self._compute_transform(self.function, self.function_variable, self.transform_variable, self.args[3], **hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._compute_transform(self.function, se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88be2ce4130d2a3e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 643ceb0f2080c98e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.HankelTypeTransform.doit","kind":"method","src_hash":"d2095d0a50f1eff0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.HankelTypeTransform.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88be2ce4130d2a3e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.HankelTypeTransform.doit","kind":"method","src_hash":"d2095d0a50f1eff0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"self._compute_transform(self.function, self.function_variable, self.transform_variable, self.args[3], **hints)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns self._compute_transform(self.function, self.function_variable, self.transform_variable, self.args[3], **hints)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.transforms.HankelTypeTransform.doit_correct","statement":"Path(doit(x), returns self._compute_transform(self.function, self.function_variable, self.transform_variable, self.args[3], **hints))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"643ceb0f2080c98e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._compute_transform(self.function, self.function_variable, self.transform_variable, self.args[3], **hints)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._compute_transform","self.args","self.function","self.function_variable","self.transform_variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         return self._compute_transform(self.function,
                                        self.function_variable,
@@ -2256,45 +2708,63 @@ class HankelTypeTransform(IntegralTransform):
                                        **hints)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_transform(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_compute_transform(f, r, k), _hankel_transform(f, r, k, nu, self._name, **hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _hankel_transform(f, r, k, nu, self._name...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compute_transform : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 23afc7e025010a5a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.HankelTypeTransform._compute_transform","kind":"method","src_hash":"423b212b35753d26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23afc7e025010a5a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.HankelTypeTransform._compute_transform","kind":"method","src_hash":"423b212b35753d26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(f, r, k)","rhs":"_hankel_transform(f, r, k, nu, self._name, **hints)","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"returns _hankel_transform(f, r, k, nu, self._name, **hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23afc7e025010a5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_hankel_transform(f, r, k, nu, self._name, **hints)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_transform(self, f, r, k, nu, **hints):
         return _hankel_transform(f, r, k, nu, self._name, **hints)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_as_integral(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_as_integral(f, r, k), Integral(f * besselj(nu, k * r) * r, (r, S.Zero, S.Infinity))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(f * besselj(nu, k * r) * r, (r, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _as_integral : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a7872d8f80c1177c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.HankelTypeTransform._as_integral","kind":"method","src_hash":"e6208168eb1b8501","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_as_integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7872d8f80c1177c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.HankelTypeTransform._as_integral","kind":"method","src_hash":"e6208168eb1b8501","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(f, r, k)","rhs":"Integral(f * besselj(nu, k * r) * r, (r, S.Zero, S.Infinity))","over":{"base":"Any"},"name":"_as_integral_correct"},"guarantee":"returns Integral(f * besselj(nu, k * r) * r, (r, S.Zero, S.Infinity))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7872d8f80c1177c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(f * besselj(nu, k * r) * r, (r, S.Zero, S.Infinity))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _as_integral(self, f, r, k, nu):
         return Integral(f*besselj(nu, k*r)*r, (r, S.Zero, S.Infinity))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_integral(), returns the as_integral attribute) over Any ║
+# ║ Path(as_integral(), self._as_integral(self.function, self.function_variable, self.transform_variable, self.args[3])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._as_integral(self.function, self.fun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_integral : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6cdb621bcce2f73a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.HankelTypeTransform.as_integral","kind":"property","src_hash":"d64a77192c697b73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_integral()","rhs":"returns the as_integral attribute","over":{"base":"Any"},"name":"as_integral_correct"},"guarantee":"returns the as_integral attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cdb621bcce2f73a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.HankelTypeTransform.as_integral","kind":"property","src_hash":"d64a77192c697b73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_integral()","rhs":"self._as_integral(self.function, self.function_variable, self.transform_variable, self.args[3])","over":{"base":"Any"},"name":"as_integral_correct"},"guarantee":"returns self._as_integral(self.function, self.function_variable, self.transform_variable, self.args[3])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6cdb621bcce2f73a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._as_integral(self.function, self.function_variable, self.transform_variable, self.args[3])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._as_integral","self.args","self.function","self.function_variable","self.transform_variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_integral(self):
         return self._as_integral(self.function,
                                  self.function_variable,
@@ -2303,16 +2773,22 @@ class HankelTypeTransform(IntegralTransform):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(HankelTransform(), correctly constructs a HankelTransform instance) over Any ║
+# ║ Path(HankelTransform(), isinstance(self, HankelTypeTransform)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ HankelTransform : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HankelTypeTransform)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ HankelTransform : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae3b31f69c5afa90           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.HankelTransform","kind":"class","src_hash":"6675d549785462c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"HankelTransform()","rhs":"correctly constructs a HankelTransform instance","over":{"base":"Any"},"name":"HankelTransform_correct"},"guarantee":"correctly constructs a HankelTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae3b31f69c5afa90"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.HankelTransform","kind":"class","src_hash":"6675d549785462c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HankelTypeTransform)"},"spec":{"lhs":"HankelTransform()","rhs":"isinstance(self, HankelTypeTransform)","over":{"base":"Any"},"name":"HankelTransform_correct"},"guarantee":"isinstance(self, HankelTypeTransform)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae3b31f69c5afa90","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HankelTypeTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function HankelTransform not found in source"]}}
 class HankelTransform(HankelTypeTransform):
     """
     Class representing unevaluated Hankel transforms.
@@ -2327,16 +2803,22 @@ class HankelTransform(HankelTypeTransform):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hankel_transform(f, ), compute the hankel transform of `f`, defined as) over Any ║
+# ║ Path(hankel_transform(f, r, k), HankelTransform(f, r, k, nu).doit(**hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  HankelTransform(f, r, k, nu).doit(**hints)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hankel_transform : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ae2cf9a5ac59b19           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.hankel_transform","kind":"function","src_hash":"45d77dd36e3e1e65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hankel_transform(f, )","rhs":"compute the hankel transform of `f`, defined as","over":{"base":"Any"},"name":"hankel_transform_correct"},"guarantee":"compute the hankel transform of `f`, defined as","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ae2cf9a5ac59b19"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.hankel_transform","kind":"function","src_hash":"45d77dd36e3e1e65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hankel_transform(f, r, k)","rhs":"HankelTransform(f, r, k, nu).doit(**hints)","over":{"base":"Any"},"name":"hankel_transform_correct"},"guarantee":"returns HankelTransform(f, r, k, nu).doit(**hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ae2cf9a5ac59b19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"HankelTransform(f, r, k, nu).doit(**hints)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['f', 'r', 'k', 'nu'], spec=['f', 'r', 'k', 'nu', '**hints']"]}}
 def hankel_transform(f, r, k, nu, **hints):
     r"""
     Compute the Hankel transform of `f`, defined as
@@ -2387,16 +2869,22 @@ def hankel_transform(f, r, k, nu, **hints):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(InverseHankelTransform(), correctly constructs a InverseHankelTransform instance) over Any ║
+# ║ Path(InverseHankelTransform(), isinstance(self, HankelTypeTransform)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InverseHankelTransform : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, HankelTypeTransform)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InverseHankelTransform : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 276fbce32b451cbc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseHankelTransform","kind":"class","src_hash":"97e54eda7be1cde5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InverseHankelTransform()","rhs":"correctly constructs a InverseHankelTransform instance","over":{"base":"Any"},"name":"InverseHankelTransform_correct"},"guarantee":"correctly constructs a InverseHankelTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"276fbce32b451cbc"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.InverseHankelTransform","kind":"class","src_hash":"97e54eda7be1cde5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, HankelTypeTransform)"},"spec":{"lhs":"InverseHankelTransform()","rhs":"isinstance(self, HankelTypeTransform)","over":{"base":"Any"},"name":"InverseHankelTransform_correct"},"guarantee":"isinstance(self, HankelTypeTransform)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"276fbce32b451cbc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, HankelTypeTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function InverseHankelTransform not found in source"]}}
 class InverseHankelTransform(HankelTypeTransform):
     """
     Class representing unevaluated inverse Hankel transforms.
@@ -2411,16 +2899,22 @@ class InverseHankelTransform(HankelTypeTransform):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse_hankel_transform(F, ), compute the inverse hankel transform of `f` defined as) over Any ║
+# ║ Path(inverse_hankel_transform(F, k, r), InverseHankelTransform(F, k, r, nu).doit(**hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  InverseHankelTransform(F, k, r, nu).doit(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse_hankel_transform : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9055e9603bc825e3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.inverse_hankel_transform","kind":"function","src_hash":"4b34c7691aac77ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse_hankel_transform(F, )","rhs":"compute the inverse hankel transform of `f` defined as","over":{"base":"Any"},"name":"inverse_hankel_transform_correct"},"guarantee":"compute the inverse hankel transform of `f` defined as","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9055e9603bc825e3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.transforms.inverse_hankel_transform","kind":"function","src_hash":"4b34c7691aac77ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse_hankel_transform(F, k, r)","rhs":"InverseHankelTransform(F, k, r, nu).doit(**hints)","over":{"base":"Any"},"name":"inverse_hankel_transform_correct"},"guarantee":"returns InverseHankelTransform(F, k, r, nu).doit(**hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9055e9603bc825e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"InverseHankelTransform(F, k, r, nu).doit(**hints)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['F', 'k', 'r', 'nu'], spec=['F', 'k', 'r', 'nu', '**hints']"]}}
 def inverse_hankel_transform(F, k, r, nu, **hints):
     r"""
     Compute the inverse Hankel transform of `F` defined as

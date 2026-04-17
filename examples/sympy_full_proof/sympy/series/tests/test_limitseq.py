@@ -35,16 +35,23 @@ n, m, k = symbols('n m k', integer=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_difference_delta(), test_difference_delta produces the expected output) over Any ║
+# ║ Path(test_difference_delta(), dd(e) == 2 * n + 2 and dd(e2, n, 2) == k * (4 * n + 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_difference_delta : Any → {Any | dd(e) == 2 * n +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dd(e) == 2 * n + 2                             ║
+# ║   ensures:  dd(e2, n, 2) == k * (4 * n + 6)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_difference_delta : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f7a928f8a6acbd5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3299a01245671438  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_difference_delta","kind":"function","src_hash":"21e052643d34bb79","in":{"base":"Any"},"out":{"base":"Any","pred":"dd(e) == 2 * n + 2 and dd(e2, n, 2) == k * (4 * n + 6)"},"spec":{"lhs":"test_difference_delta()","rhs":"test_difference_delta produces the expected output","over":{"base":"Any"},"name":"test_difference_delta_correct"},"guarantee":"test_difference_delta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_difference_delta_correct","statement":"Path(test_difference_delta(x), test_difference_delta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f7a928f8a6acbd5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_difference_delta","kind":"function","src_hash":"21e052643d34bb79","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dd(e) == 2 * n + 2 and dd(e2, n, 2) == k * (4 * n + 6)"},"spec":{"lhs":"test_difference_delta()","rhs":"dd(e) == 2 * n + 2 and dd(e2, n, 2) == k * (4 * n + 6)","over":{"base":"Any"},"name":"test_difference_delta_correct"},"guarantee":"dd(e) == 2 * n + 2; dd(e2, n, 2) == k * (4 * n + 6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_difference_delta_correct","statement":"Path(test_difference_delta(x), dd(e) == 2 * n + 2; dd(e2, n, 2) == k * (4 * n + 6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3299a01245671438","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dd(e) == 2 * n + 2","dd(e2, n, 2) == k * (4 * n + 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_difference_delta():
     e = n*(n + 1)
     e2 = e * k
@@ -57,16 +64,24 @@ def test_difference_delta():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_difference_delta__Sum(), test_difference_delta__Sum produces the expected output) over Any ║
+# ║ Path(test_difference_delta__Sum(), dd(e, n) == 1 / (n + 1) and dd(e, n, 5) == Add(*[1 / (i + n + 1) for i in range(5)]) and dd(e, n) == Add(*[1 / (i + 3 * n + 1) for i in range(3)]) and dd(e, n) == 1 + Sum(1 / k, (k, 1, n)) and dd(e, n) == harmonic(n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_difference_delta__Sum : Any → {Any | dd(e, n) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dd(e, n) == 1 / (n + 1)                        ║
+# ║   ensures:  dd(e, n, 5) == Add(*[1 / (i + n + 1) for ...   ║
+# ║   ensures:  dd(e, n) == Add(*[1 / (i + 3 * n + 1) for...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_difference_delta__Sum : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab9e0c71bcca0934  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab0effc3470fe3dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_difference_delta__Sum","kind":"function","src_hash":"2efd726cc73edcd1","in":{"base":"Any"},"out":{"base":"Any","pred":"dd(e, n) == 1 / (n + 1) and dd(e, n, 5) == Add(*[1 / (i + n + 1) for i in range(5)]) and dd(e, n) == Add(*[1 / (i + 3 * n + 1) for i in range(3)]) and dd(e, n) == 1 + Sum(1 / k, (k, 1, n)) and dd(e, n) == harmonic(n)"},"spec":{"lhs":"test_difference_delta__Sum()","rhs":"test_difference_delta__Sum produces the expected output","over":{"base":"Any"},"name":"test_difference_delta__Sum_correct"},"guarantee":"test_difference_delta__Sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_difference_delta__Sum_correct","statement":"Path(test_difference_delta__Sum(x), test_difference_delta__Sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab9e0c71bcca0934"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_difference_delta__Sum","kind":"function","src_hash":"2efd726cc73edcd1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dd(e, n) == 1 / (n + 1) and dd(e, n, 5) == Add(*[1 / (i + n + 1) for i in range(5)]) and dd(e, n) == Add(*[1 / (i + 3 * n + 1) for i in range(3)]) and dd(e, n) == 1 + Sum(1 / k, (k, 1, n)) and dd(e, n) == harmonic(n)"},"spec":{"lhs":"test_difference_delta__Sum()","rhs":"dd(e, n) == 1 / (n + 1) and dd(e, n, 5) == Add(*[1 / (i + n + 1) for i in range(5)]) and dd(e, n) == Add(*[1 / (i + 3 * n + 1) for i in range(3)]) and dd(e, n) == 1 + Sum(1 / k, (k, 1, n)) and dd(e, n) == harmonic(n)","over":{"base":"Any"},"name":"test_difference_delta__Sum_correct"},"guarantee":"dd(e, n) == 1 / (n + 1); dd(e, n, 5) == Add(*[1 / (i + n + 1) for i in range(5)]); dd(e, n) == Add(*[1 / (i + 3 * n + 1) for i in range(3)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_difference_delta__Sum_correct","statement":"Path(test_difference_delta__Sum(x), dd(e, n) == 1 / (n + 1); dd(e, n, 5) == Add(*[1 / (i + n + 1) for i in range(5)]); dd(e, n) == Add(*[1 / (i + 3 * n + 1) for i in range(3)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab0effc3470fe3dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dd(e, n) == 1 / (n + 1)","dd(e, n, 5) == Add(*[1 / (i + n + 1) for i in range(5)])","dd(e, n) == Add(*[1 / (i + 3 * n + 1) for i in range(3)])","dd(e, n) == 1 + Sum(1 / k, (k, 1, n))","dd(e, n) == harmonic(n)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_difference_delta__Sum():
     e = Sum(1/k, (k, 1, n))
     assert dd(e, n) == 1/(n + 1)
@@ -83,16 +98,24 @@ def test_difference_delta__Sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_difference_delta__Add(), test_difference_delta__Add produces the expected output) over Any ║
+# ║ Path(test_difference_delta__Add(), dd(e, n) == 2 * n + 3 and dd(e, n, 2) == 4 * n + 8 and dd(e, n) == 1 + 1 / (n + 1) and dd(e, n, 5) == 5 + Add(*[1 / (i + n + 1) for i in range(5)])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_difference_delta__Add : Any → {Any | dd(e, n) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dd(e, n) == 2 * n + 3                          ║
+# ║   ensures:  dd(e, n, 2) == 4 * n + 8                       ║
+# ║   ensures:  dd(e, n) == 1 + 1 / (n + 1)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_difference_delta__Add : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50c8877c79b861be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 674c6bcd34de13e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_difference_delta__Add","kind":"function","src_hash":"06fbb92324851b44","in":{"base":"Any"},"out":{"base":"Any","pred":"dd(e, n) == 2 * n + 3 and dd(e, n, 2) == 4 * n + 8 and dd(e, n) == 1 + 1 / (n + 1) and dd(e, n, 5) == 5 + Add(*[1 / (i + n + 1) for i in range(5)])"},"spec":{"lhs":"test_difference_delta__Add()","rhs":"test_difference_delta__Add produces the expected output","over":{"base":"Any"},"name":"test_difference_delta__Add_correct"},"guarantee":"test_difference_delta__Add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_difference_delta__Add_correct","statement":"Path(test_difference_delta__Add(x), test_difference_delta__Add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50c8877c79b861be"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_difference_delta__Add","kind":"function","src_hash":"06fbb92324851b44","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dd(e, n) == 2 * n + 3 and dd(e, n, 2) == 4 * n + 8 and dd(e, n) == 1 + 1 / (n + 1) and dd(e, n, 5) == 5 + Add(*[1 / (i + n + 1) for i in range(5)])"},"spec":{"lhs":"test_difference_delta__Add()","rhs":"dd(e, n) == 2 * n + 3 and dd(e, n, 2) == 4 * n + 8 and dd(e, n) == 1 + 1 / (n + 1) and dd(e, n, 5) == 5 + Add(*[1 / (i + n + 1) for i in range(5)])","over":{"base":"Any"},"name":"test_difference_delta__Add_correct"},"guarantee":"dd(e, n) == 2 * n + 3; dd(e, n, 2) == 4 * n + 8; dd(e, n) == 1 + 1 / (n + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_difference_delta__Add_correct","statement":"Path(test_difference_delta__Add(x), dd(e, n) == 2 * n + 3; dd(e, n, 2) == 4 * n + 8; dd(e, n) == 1 + 1 / (n + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"674c6bcd34de13e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dd(e, n) == 2 * n + 3","dd(e, n, 2) == 4 * n + 8","dd(e, n) == 1 + 1 / (n + 1)","dd(e, n, 5) == 5 + Add(*[1 / (i + n + 1) for i in range(5)])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_difference_delta__Add():
     e = n + n*(n + 1)
     assert dd(e, n) == 2*n + 3
@@ -104,16 +127,24 @@ def test_difference_delta__Add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_difference_delta__Pow(), test_difference_delta__Pow produces the expected output) over Any ║
+# ║ Path(test_difference_delta__Pow(), dd(e, n) == 3 * 4 ** n and dd(e, n, 2) == 15 * 4 ** n and dd(e, n) == 15 * 4 ** (2 * n) and dd(e, n, 2) == 255 * 4 ** (2 * n) and dd(e, n) == (n + 1) ** 4 - n ** 4 and dd(e, n) == (n + 1) ** (n + 1) - n ** n) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_difference_delta__Pow : Any → {Any | dd(e, n) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dd(e, n) == 3 * 4 ** n                         ║
+# ║   ensures:  dd(e, n, 2) == 15 * 4 ** n                     ║
+# ║   ensures:  dd(e, n) == 15 * 4 ** (2 * n)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_difference_delta__Pow : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc1c254f5a731a62  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb33af37da3bc69f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_difference_delta__Pow","kind":"function","src_hash":"08141cf3a3631176","in":{"base":"Any"},"out":{"base":"Any","pred":"dd(e, n) == 3 * 4 ** n and dd(e, n, 2) == 15 * 4 ** n and dd(e, n) == 15 * 4 ** (2 * n) and dd(e, n, 2) == 255 * 4 ** (2 * n) and dd(e, n) == (n + 1) ** 4 - n ** 4 and dd(e, n) == (n + 1) ** (n + 1) - n ** n"},"spec":{"lhs":"test_difference_delta__Pow()","rhs":"test_difference_delta__Pow produces the expected output","over":{"base":"Any"},"name":"test_difference_delta__Pow_correct"},"guarantee":"test_difference_delta__Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_difference_delta__Pow_correct","statement":"Path(test_difference_delta__Pow(x), test_difference_delta__Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc1c254f5a731a62"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_difference_delta__Pow","kind":"function","src_hash":"08141cf3a3631176","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dd(e, n) == 3 * 4 ** n and dd(e, n, 2) == 15 * 4 ** n and dd(e, n) == 15 * 4 ** (2 * n) and dd(e, n, 2) == 255 * 4 ** (2 * n) and dd(e, n) == (n + 1) ** 4 - n ** 4 and dd(e, n) == (n + 1) ** (n + 1) - n ** n"},"spec":{"lhs":"test_difference_delta__Pow()","rhs":"dd(e, n) == 3 * 4 ** n and dd(e, n, 2) == 15 * 4 ** n and dd(e, n) == 15 * 4 ** (2 * n) and dd(e, n, 2) == 255 * 4 ** (2 * n) and dd(e, n) == (n + 1) ** 4 - n ** 4 and dd(e, n) == (n + 1) ** (n + 1) - n ** n","over":{"base":"Any"},"name":"test_difference_delta__Pow_correct"},"guarantee":"dd(e, n) == 3 * 4 ** n; dd(e, n, 2) == 15 * 4 ** n; dd(e, n) == 15 * 4 ** (2 * n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_difference_delta__Pow_correct","statement":"Path(test_difference_delta__Pow(x), dd(e, n) == 3 * 4 ** n; dd(e, n, 2) == 15 * 4 ** n; dd(e, n) == 15 * 4 ** (2 * n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb33af37da3bc69f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dd(e, n) == 3 * 4 ** n","dd(e, n, 2) == 15 * 4 ** n","dd(e, n) == 15 * 4 ** (2 * n)","dd(e, n, 2) == 255 * 4 ** (2 * n)","dd(e, n) == (n + 1) ** 4 - n ** 4","dd(e, n) == (n + 1) ** (n + 1) - n ** n"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_difference_delta__Pow():
     e = 4**n
     assert dd(e, n) == 3*4**n
@@ -131,16 +162,24 @@ def test_difference_delta__Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_limit_seq(), test_limit_seq produces the expected output) over Any ║
+# ║ Path(test_limit_seq(), limit_seq(e) == S(3) / 4 and limit_seq(e, m) == e and limit_seq(e, n) == S(5) / 3 and limit_seq(e, n) == 1 and limit_seq(e, n) == 4 and limit_seq(e, n) == S(84375) / 83351 and limit_seq(e, n) == S.One / 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_limit_seq : Any → {Any | limit_seq(e) == S(3) / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit_seq(e) == S(3) / 4                       ║
+# ║   ensures:  limit_seq(e, m) == e                           ║
+# ║   ensures:  limit_seq(e, n) == S(5) / 3                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_limit_seq : Any → {Any | result satisfies: limit...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d757f34c1bcc30bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f5c15f0bcc570f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_limit_seq","kind":"function","src_hash":"cddcfdc5bdb2ae17","in":{"base":"Any"},"out":{"base":"Any","pred":"limit_seq(e) == S(3) / 4 and limit_seq(e, m) == e and limit_seq(e, n) == S(5) / 3 and limit_seq(e, n) == 1 and limit_seq(e, n) == 4 and limit_seq(e, n) == S(84375) / 83351 and limit_seq(e, n) == S.One / 3"},"spec":{"lhs":"test_limit_seq()","rhs":"test_limit_seq produces the expected output","over":{"base":"Any"},"name":"test_limit_seq_correct"},"guarantee":"test_limit_seq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_limit_seq_correct","statement":"Path(test_limit_seq(x), test_limit_seq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d757f34c1bcc30bf"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_limit_seq","kind":"function","src_hash":"cddcfdc5bdb2ae17","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit_seq(e) == S(3) / 4 and limit_seq(e, m) == e and limit_seq(e, n) == S(5) / 3 and limit_seq(e, n) == 1 and limit_seq(e, n) == 4 and limit_seq(e, n) == S(84375) / 83351 and limit_seq(e, n) == S.One / 3"},"spec":{"lhs":"test_limit_seq()","rhs":"limit_seq(e) == S(3) / 4 and limit_seq(e, m) == e and limit_seq(e, n) == S(5) / 3 and limit_seq(e, n) == 1 and limit_seq(e, n) == 4 and limit_seq(e, n) == S(84375) / 83351 and limit_seq(e, n) == S.One / 3","over":{"base":"Any"},"name":"test_limit_seq_correct"},"guarantee":"limit_seq(e) == S(3) / 4; limit_seq(e, m) == e; limit_seq(e, n) == S(5) / 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_limit_seq_correct","statement":"Path(test_limit_seq(x), limit_seq(e) == S(3) / 4; limit_seq(e, m) == e; limit_seq(e, n) == S(5) / 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f5c15f0bcc570f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit_seq(e) == S(3) / 4","limit_seq(e, m) == e","limit_seq(e, n) == S(5) / 3","limit_seq(e, n) == 1","limit_seq(e, n) == 4","limit_seq(e, n) == S(84375) / 83351","limit_seq(e, n) == S.One / 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_limit_seq():
     e = binomial(2*n, n) / Sum(binomial(2*k, k), (k, 1, n))
     assert limit_seq(e) == S(3) / 4
@@ -166,16 +205,24 @@ def test_limit_seq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_alternating_sign(), test_alternating_sign produces the expected output) over Any ║
+# ║ Path(test_alternating_sign(), limit_seq((-1) ** n / n ** 2, n) == 0 and limit_seq((-2) ** (n + 1) / (n + 3 ** n), n) == 0 and limit_seq((2 * n + (-1) ** n) / (n + 1), n) == 2 and limit_seq(sin(pi * n), n) == 0 and limit_seq(cos(2 * pi * n), n) == 1 and limit_seq((S.NegativeOne / 5) ** n, n) == 0 and limit_seq(Rational(-1, 5) ** n, n) == 0 and limit_seq((I / 3) ** n, n) == 0 and limit_seq(sqrt(n) * (I / 2) ** n, n) == 0 and limit_seq(n ** 7 * (I / 3) ** n, n) == 0 and limit_seq(n / (n + 1) + (I / 2) ** n, n) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_alternating_sign : Any → {Any | limit_seq((-1) *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit_seq((-1) ** n / n ** 2, n) == 0          ║
+# ║   ensures:  limit_seq((-2) ** (n + 1) / (n + 3 ** n),...   ║
+# ║   ensures:  limit_seq((2 * n + (-1) ** n) / (n + 1), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_alternating_sign : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5d5b4a7056b31c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a1f855604c0d638  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_alternating_sign","kind":"function","src_hash":"1a277348bc8d8d0e","in":{"base":"Any"},"out":{"base":"Any","pred":"limit_seq((-1) ** n / n ** 2, n) == 0 and limit_seq((-2) ** (n + 1) / (n + 3 ** n), n) == 0 and limit_seq((2 * n + (-1) ** n) / (n + 1), n) == 2 and limit_seq(sin(pi * n), n) == 0 and limit_seq(cos(2 * pi * n), n) == 1 and limit_seq((S.NegativeOne / 5) ** n, n) == 0 and limit_seq(Rational(-1, 5) ** n, n) == 0 and limit_seq((I / 3) ** n, n) == 0 and limit_seq(sqrt(n) * (I / 2) ** n, n) == 0 and limit_seq(n ** 7 * (I / 3) ** n, n) == 0 and limit_seq(n / (n + 1) + (I / 2) ** n, n) == 1"},"spec":{"lhs":"test_alternating_sign()","rhs":"test_alternating_sign produces the expected output","over":{"base":"Any"},"name":"test_alternating_sign_correct"},"guarantee":"test_alternating_sign produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_alternating_sign_correct","statement":"Path(test_alternating_sign(x), test_alternating_sign produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5d5b4a7056b31c1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_alternating_sign","kind":"function","src_hash":"1a277348bc8d8d0e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit_seq((-1) ** n / n ** 2, n) == 0 and limit_seq((-2) ** (n + 1) / (n + 3 ** n), n) == 0 and limit_seq((2 * n + (-1) ** n) / (n + 1), n) == 2 and limit_seq(sin(pi * n), n) == 0 and limit_seq(cos(2 * pi * n), n) == 1 and limit_seq((S.NegativeOne / 5) ** n, n) == 0 and limit_seq(Rational(-1, 5) ** n, n) == 0 and limit_seq((I / 3) ** n, n) == 0 and limit_seq(sqrt(n) * (I / 2) ** n, n) == 0 and limit_seq(n ** 7 * (I / 3) ** n, n) == 0 and limit_seq(n / (n + 1) + (I / 2) ** n, n) == 1"},"spec":{"lhs":"test_alternating_sign()","rhs":"limit_seq((-1) ** n / n ** 2, n) == 0 and limit_seq((-2) ** (n + 1) / (n + 3 ** n), n) == 0 and limit_seq((2 * n + (-1) ** n) / (n + 1), n) == 2 and limit_seq(sin(pi * n), n) == 0 and limit_seq(cos(2 * pi * n), n) == 1 and limit_seq((S.NegativeOne / 5) ** n, n) == 0 and limit_seq(Rational(-1, 5) ** n, n) == 0 and limit_seq((I / 3) ** n, n) == 0 and limit_seq(sqrt(n) * (I / 2) ** n, n) == 0 and limit_seq(n ** 7 * (I / 3) ** n, n) == 0 and limit_seq(n / (n + 1) + (I / 2) ** n, n) == 1","over":{"base":"Any"},"name":"test_alternating_sign_correct"},"guarantee":"limit_seq((-1) ** n / n ** 2, n) == 0; limit_seq((-2) ** (n + 1) / (n + 3 ** n), n) == 0; limit_seq((2 * n + (-1) ** n) / (n + 1), n) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_alternating_sign_correct","statement":"Path(test_alternating_sign(x), limit_seq((-1) ** n / n ** 2, n) == 0; limit_seq((-2) ** (n + 1) / (n + 3 ** n), n) == 0; limit_seq((2 * n + (-1) ** n) / (n + 1), n) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a1f855604c0d638","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit_seq((-1) ** n / n ** 2, n) == 0","limit_seq((-2) ** (n + 1) / (n + 3 ** n), n) == 0","limit_seq((2 * n + (-1) ** n) / (n + 1), n) == 2","limit_seq(sin(pi * n), n) == 0","limit_seq(cos(2 * pi * n), n) == 1","limit_seq((S.NegativeOne / 5) ** n, n) == 0","limit_seq(Rational(-1, 5) ** n, n) == 0","limit_seq((I / 3) ** n, n) == 0","limit_seq(sqrt(n) * (I / 2) ** n, n) == 0","limit_seq(n ** 7 * (I / 3) ** n, n) == 0","limit_seq(n / (n + 1) + (I / 2) ** n, n) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_alternating_sign():
     assert limit_seq((-1)**n/n**2, n) == 0
     assert limit_seq((-2)**(n+1)/(n + 3**n), n) == 0
@@ -191,16 +238,24 @@ def test_alternating_sign():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_accum_bounds(), test_accum_bounds produces the expected output) over Any ║
+# ║ Path(test_accum_bounds(), limit_seq((-1) ** n, n) == AccumulationBounds(-1, 1) and limit_seq(cos(pi * n), n) == AccumulationBounds(-1, 1) and limit_seq(sin(pi * n / 2) ** 2, n) == AccumulationBounds(0, 1) and limit_seq(2 * (-3) ** n / (n + 3 ** n), n) == AccumulationBounds(-2, 2) and limit_seq(3 * n / (n + 1) + 2 * (-1) ** n, n) == AccumulationBounds(1, 5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_accum_bounds : Any → {Any | limit_seq((-1) ** n,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit_seq((-1) ** n, n) == AccumulationBo...   ║
+# ║   ensures:  limit_seq(cos(pi * n), n) == Accumulation...   ║
+# ║   ensures:  limit_seq(sin(pi * n / 2) ** 2, n) == Acc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_accum_bounds : Any → {Any | result satisfies: li...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06e1d8ef3fded02b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69dc1de6078137aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_accum_bounds","kind":"function","src_hash":"02092d93f553ffe6","in":{"base":"Any"},"out":{"base":"Any","pred":"limit_seq((-1) ** n, n) == AccumulationBounds(-1, 1) and limit_seq(cos(pi * n), n) == AccumulationBounds(-1, 1) and limit_seq(sin(pi * n / 2) ** 2, n) == AccumulationBounds(0, 1) and limit_seq(2 * (-3) ** n / (n + 3 ** n), n) == AccumulationBounds(-2, 2) and limit_seq(3 * n / (n + 1) + 2 * (-1) ** n, n) == AccumulationBounds(1, 5)"},"spec":{"lhs":"test_accum_bounds()","rhs":"test_accum_bounds produces the expected output","over":{"base":"Any"},"name":"test_accum_bounds_correct"},"guarantee":"test_accum_bounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_accum_bounds_correct","statement":"Path(test_accum_bounds(x), test_accum_bounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06e1d8ef3fded02b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_accum_bounds","kind":"function","src_hash":"02092d93f553ffe6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit_seq((-1) ** n, n) == AccumulationBounds(-1, 1) and limit_seq(cos(pi * n), n) == AccumulationBounds(-1, 1) and limit_seq(sin(pi * n / 2) ** 2, n) == AccumulationBounds(0, 1) and limit_seq(2 * (-3) ** n / (n + 3 ** n), n) == AccumulationBounds(-2, 2) and limit_seq(3 * n / (n + 1) + 2 * (-1) ** n, n) == AccumulationBounds(1, 5)"},"spec":{"lhs":"test_accum_bounds()","rhs":"limit_seq((-1) ** n, n) == AccumulationBounds(-1, 1) and limit_seq(cos(pi * n), n) == AccumulationBounds(-1, 1) and limit_seq(sin(pi * n / 2) ** 2, n) == AccumulationBounds(0, 1) and limit_seq(2 * (-3) ** n / (n + 3 ** n), n) == AccumulationBounds(-2, 2) and limit_seq(3 * n / (n + 1) + 2 * (-1) ** n, n) == AccumulationBounds(1, 5)","over":{"base":"Any"},"name":"test_accum_bounds_correct"},"guarantee":"limit_seq((-1) ** n, n) == AccumulationBounds(-1, 1); limit_seq(cos(pi * n), n) == AccumulationBounds(-1, 1); limit_seq(sin(pi * n / 2) ** 2, n) == AccumulationBounds(0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_accum_bounds_correct","statement":"Path(test_accum_bounds(x), limit_seq((-1) ** n, n) == AccumulationBounds(-1, 1); limit_seq(cos(pi * n), n) == AccumulationBounds(-1, 1); limit_seq(sin(pi * n / 2) ** 2, n) == AccumulationBounds(0, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69dc1de6078137aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit_seq((-1) ** n, n) == AccumulationBounds(-1, 1)","limit_seq(cos(pi * n), n) == AccumulationBounds(-1, 1)","limit_seq(sin(pi * n / 2) ** 2, n) == AccumulationBounds(0, 1)","limit_seq(2 * (-3) ** n / (n + 3 ** n), n) == AccumulationBounds(-2, 2)","limit_seq(3 * n / (n + 1) + 2 * (-1) ** n, n) == AccumulationBounds(1, 5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_accum_bounds():
     assert limit_seq((-1)**n, n) == AccumulationBounds(-1, 1)
     assert limit_seq(cos(pi*n), n) == AccumulationBounds(-1, 1)
@@ -210,16 +265,24 @@ def test_accum_bounds():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_limitseq_sum(), test_limitseq_sum produces the expected output) over Any ║
+# ║ Path(test_limitseq_sum(), limit_seq(Sum(1 / x, (x, 1, y)) - log(y), y) == S.EulerGamma and limit_seq(Sum(1 / x, (x, 1, y)) - 1 / y, y) is S.Infinity and limit_seq(binomial(2 * x, x) / Sum(binomial(2 * y, y), (y, 1, x)), x) == S(3) / 4 and limit_seq(Sum(y ** 2 * Sum(2 ** z / z, (z, 1, y)), (y, 1, x)) / (2 ** x * x), x) == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_limitseq_sum : Any → {Any | limit_seq(Sum(1 / x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit_seq(Sum(1 / x, (x, 1, y)) - log(y),...   ║
+# ║   ensures:  limit_seq(Sum(1 / x, (x, 1, y)) - 1 / y, ...   ║
+# ║   ensures:  limit_seq(binomial(2 * x, x) / Sum(binomi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_limitseq_sum : Any → {Any | result satisfies: li...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 460c16ea78fbe643  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6dc77f0f575dc887  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_limitseq_sum","kind":"function","src_hash":"f727b409e7745412","in":{"base":"Any"},"out":{"base":"Any","pred":"limit_seq(Sum(1 / x, (x, 1, y)) - log(y), y) == S.EulerGamma and limit_seq(Sum(1 / x, (x, 1, y)) - 1 / y, y) is S.Infinity"},"spec":{"lhs":"test_limitseq_sum()","rhs":"test_limitseq_sum produces the expected output","over":{"base":"Any"},"name":"test_limitseq_sum_correct"},"guarantee":"test_limitseq_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_limitseq_sum_correct","statement":"Path(test_limitseq_sum(x), test_limitseq_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"460c16ea78fbe643"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_limitseq_sum","kind":"function","src_hash":"f727b409e7745412","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit_seq(Sum(1 / x, (x, 1, y)) - log(y), y) == S.EulerGamma and limit_seq(Sum(1 / x, (x, 1, y)) - 1 / y, y) is S.Infinity and limit_seq(binomial(2 * x, x) / Sum(binomial(2 * y, y), (y, 1, x)), x) == S(3) / 4 and limit_seq(Sum(y ** 2 * Sum(2 ** z / z, (z, 1, y)), (y, 1, x)) / (2 ** x * x), x) == 4"},"spec":{"lhs":"test_limitseq_sum()","rhs":"limit_seq(Sum(1 / x, (x, 1, y)) - log(y), y) == S.EulerGamma and limit_seq(Sum(1 / x, (x, 1, y)) - 1 / y, y) is S.Infinity and limit_seq(binomial(2 * x, x) / Sum(binomial(2 * y, y), (y, 1, x)), x) == S(3) / 4 and limit_seq(Sum(y ** 2 * Sum(2 ** z / z, (z, 1, y)), (y, 1, x)) / (2 ** x * x), x) == 4","over":{"base":"Any"},"name":"test_limitseq_sum_correct"},"guarantee":"limit_seq(Sum(1 / x, (x, 1, y)) - log(y), y) == S.EulerGamma; limit_seq(Sum(1 / x, (x, 1, y)) - 1 / y, y) is S.Infinity; limit_seq(binomial(2 * x, x) / Sum(binomial(2 * y, y), (y, 1, x)), x) == S(3) / 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_limitseq_sum_correct","statement":"Path(test_limitseq_sum(x), limit_seq(Sum(1 / x, (x, 1, y)) - log(y), y) == S.EulerGamma; limit_seq(Sum(1 / x, (x, 1, y)) - 1 / y, y) is S.Infinity; limit_seq(binomial(2 * x, x) / Sum(binomial(2 * y, y), (y, 1, x)), x) == S(3) / 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6dc77f0f575dc887","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit_seq(Sum(1 / x, (x, 1, y)) - log(y), y) == S.EulerGamma","limit_seq(Sum(1 / x, (x, 1, y)) - 1 / y, y) is S.Infinity","limit_seq(binomial(2 * x, x) / Sum(binomial(2 * y, y), (y, 1, x)), x) == S(3) / 4","limit_seq(Sum(y ** 2 * Sum(2 ** z / z, (z, 1, y)), (y, 1, x)) / (2 ** x * x), x) == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_limitseq_sum():
     from sympy.abc import x, y, z
     assert limit_seq(Sum(1/x, (x, 1, y)) - log(y), y) == S.EulerGamma
@@ -231,62 +294,86 @@ def test_limitseq_sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9308(), test_issue_9308 produces the expected output) over Any ║
+# ║ Path(test_issue_9308(), limit_seq(subfactorial(n) / factorial(n), n) == exp(-1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9308 : Any → {Any | limit_seq(subfactorial...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit_seq(subfactorial(n) / factorial(n),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9308 : Any → {Any | result satisfies: limi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 781d5a577ffb43a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9485af538b50db0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_issue_9308","kind":"function","src_hash":"7cb94b7e041eab36","in":{"base":"Any"},"out":{"base":"Any","pred":"limit_seq(subfactorial(n) / factorial(n), n) == exp(-1)"},"spec":{"lhs":"test_issue_9308()","rhs":"test_issue_9308 produces the expected output","over":{"base":"Any"},"name":"test_issue_9308_correct"},"guarantee":"test_issue_9308 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_issue_9308_correct","statement":"Path(test_issue_9308(x), test_issue_9308 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"781d5a577ffb43a1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_issue_9308","kind":"function","src_hash":"7cb94b7e041eab36","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit_seq(subfactorial(n) / factorial(n), n) == exp(-1)"},"spec":{"lhs":"test_issue_9308()","rhs":"limit_seq(subfactorial(n) / factorial(n), n) == exp(-1)","over":{"base":"Any"},"name":"test_issue_9308_correct"},"guarantee":"limit_seq(subfactorial(n) / factorial(n), n) == exp(-1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_issue_9308_correct","statement":"Path(test_issue_9308(x), limit_seq(subfactorial(n) / factorial(n), n) == exp(-1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9485af538b50db0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit_seq(subfactorial(n) / factorial(n), n) == exp(-1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_9308():
     assert limit_seq(subfactorial(n)/factorial(n), n) == exp(-1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10382(), test_issue_10382 produces the expected output) over Any ║
+# ║ Path(test_issue_10382(), limit_seq(fibonacci(n + 1) / fibonacci(n), n).together() == S.GoldenRatio) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10382 : Any → {Any | limit_seq(fibonacci(n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit_seq(fibonacci(n + 1) / fibonacci(n)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10382 : Any → {Any | result satisfies: lim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f4dd4cfd7a68880  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f00e1cf8d1b5291  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_issue_10382","kind":"function","src_hash":"5c131bd0874ea023","in":{"base":"Any"},"out":{"base":"Any","pred":"limit_seq(fibonacci(n + 1) / fibonacci(n), n).together() == S.GoldenRatio"},"spec":{"lhs":"test_issue_10382()","rhs":"test_issue_10382 produces the expected output","over":{"base":"Any"},"name":"test_issue_10382_correct"},"guarantee":"test_issue_10382 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_issue_10382_correct","statement":"Path(test_issue_10382(x), test_issue_10382 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f4dd4cfd7a68880"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_issue_10382","kind":"function","src_hash":"5c131bd0874ea023","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit_seq(fibonacci(n + 1) / fibonacci(n), n).together() == S.GoldenRatio"},"spec":{"lhs":"test_issue_10382()","rhs":"limit_seq(fibonacci(n + 1) / fibonacci(n), n).together() == S.GoldenRatio","over":{"base":"Any"},"name":"test_issue_10382_correct"},"guarantee":"limit_seq(fibonacci(n + 1) / fibonacci(n), n).together() == S.GoldenRatio","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_issue_10382_correct","statement":"Path(test_issue_10382(x), limit_seq(fibonacci(n + 1) / fibonacci(n), n).together() == S.GoldenRatio)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f00e1cf8d1b5291","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit_seq(fibonacci(n + 1) / fibonacci(n), n).together() == S.GoldenRatio"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_10382():
     n = Symbol('n', integer=True)
     assert limit_seq(fibonacci(n+1)/fibonacci(n), n).together() == S.GoldenRatio
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11672(), test_issue_11672 produces the expected output) over Any ║
+# ║ Path(test_issue_11672(), limit_seq(Rational(-1, 2) ** n, n) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11672 : Any → {Any | limit_seq(Rational(-1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit_seq(Rational(-1, 2) ** n, n) == 0        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11672 : Any → {Any | result satisfies: lim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de5026604b6b929c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aabcd1eddd911793  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_issue_11672","kind":"function","src_hash":"b025064c9e348c02","in":{"base":"Any"},"out":{"base":"Any","pred":"limit_seq(Rational(-1, 2) ** n, n) == 0"},"spec":{"lhs":"test_issue_11672()","rhs":"test_issue_11672 produces the expected output","over":{"base":"Any"},"name":"test_issue_11672_correct"},"guarantee":"test_issue_11672 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_issue_11672_correct","statement":"Path(test_issue_11672(x), test_issue_11672 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de5026604b6b929c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_issue_11672","kind":"function","src_hash":"b025064c9e348c02","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit_seq(Rational(-1, 2) ** n, n) == 0"},"spec":{"lhs":"test_issue_11672()","rhs":"limit_seq(Rational(-1, 2) ** n, n) == 0","over":{"base":"Any"},"name":"test_issue_11672_correct"},"guarantee":"limit_seq(Rational(-1, 2) ** n, n) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_issue_11672_correct","statement":"Path(test_issue_11672(x), limit_seq(Rational(-1, 2) ** n, n) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aabcd1eddd911793","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit_seq(Rational(-1, 2) ** n, n) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_11672():
     assert limit_seq(Rational(-1, 2)**n, n) == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14196(), test_issue_14196 produces the expected output) over Any ║
+# ║ Path(test_issue_14196(), limit_seq(Sum(m ** k, (m, 1, n)).doit() / n ** (k + 1), n) == 1 / (k + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14196 : Any → {Any | limit_seq(Sum(m ** k,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit_seq(Sum(m ** k, (m, 1, n)).doit() /...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14196 : Any → {Any | result satisfies: lim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e43521322c9d364  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29bb7ec50db33bbd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_issue_14196","kind":"function","src_hash":"8e632b60a21004c0","in":{"base":"Any"},"out":{"base":"Any","pred":"limit_seq(Sum(m ** k, (m, 1, n)).doit() / n ** (k + 1), n) == 1 / (k + 1)"},"spec":{"lhs":"test_issue_14196()","rhs":"test_issue_14196 produces the expected output","over":{"base":"Any"},"name":"test_issue_14196_correct"},"guarantee":"test_issue_14196 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_issue_14196_correct","statement":"Path(test_issue_14196(x), test_issue_14196 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e43521322c9d364"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_issue_14196","kind":"function","src_hash":"8e632b60a21004c0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit_seq(Sum(m ** k, (m, 1, n)).doit() / n ** (k + 1), n) == 1 / (k + 1)"},"spec":{"lhs":"test_issue_14196()","rhs":"limit_seq(Sum(m ** k, (m, 1, n)).doit() / n ** (k + 1), n) == 1 / (k + 1)","over":{"base":"Any"},"name":"test_issue_14196_correct"},"guarantee":"limit_seq(Sum(m ** k, (m, 1, n)).doit() / n ** (k + 1), n) == 1 / (k + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_issue_14196_correct","statement":"Path(test_issue_14196(x), limit_seq(Sum(m ** k, (m, 1, n)).doit() / n ** (k + 1), n) == 1 / (k + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29bb7ec50db33bbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit_seq(Sum(m ** k, (m, 1, n)).doit() / n ** (k + 1), n) == 1 / (k + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14196():
     k, n  = symbols('k, n', positive=True)
     m = Symbol('m')
@@ -294,47 +381,67 @@ def test_issue_14196():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_16735(), test_issue_16735 produces the expected output) over Any ║
+# ║ Path(test_issue_16735(), limit_seq(5 ** n / factorial(n), n) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_16735 : Any → {Any | limit_seq(5 ** n / fa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit_seq(5 ** n / factorial(n), n) == 0       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_16735 : Any → {Any | result satisfies: lim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58fd29ec94c1941e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8a17f5bb4b08ce2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_issue_16735","kind":"function","src_hash":"536e1c27de353bc3","in":{"base":"Any"},"out":{"base":"Any","pred":"limit_seq(5 ** n / factorial(n), n) == 0"},"spec":{"lhs":"test_issue_16735()","rhs":"test_issue_16735 produces the expected output","over":{"base":"Any"},"name":"test_issue_16735_correct"},"guarantee":"test_issue_16735 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_issue_16735_correct","statement":"Path(test_issue_16735(x), test_issue_16735 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58fd29ec94c1941e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_issue_16735","kind":"function","src_hash":"536e1c27de353bc3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit_seq(5 ** n / factorial(n), n) == 0"},"spec":{"lhs":"test_issue_16735()","rhs":"limit_seq(5 ** n / factorial(n), n) == 0","over":{"base":"Any"},"name":"test_issue_16735_correct"},"guarantee":"limit_seq(5 ** n / factorial(n), n) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_issue_16735_correct","statement":"Path(test_issue_16735(x), limit_seq(5 ** n / factorial(n), n) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8a17f5bb4b08ce2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit_seq(5 ** n / factorial(n), n) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_16735():
     assert limit_seq(5**n/factorial(n), n) == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19868(), test_issue_19868 produces the expected output) over Any ║
+# ║ Path(test_issue_19868(), limit_seq(1 / gamma(n + S.One / 2), n) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19868 : Any → {Any | limit_seq(1 / gamma(n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit_seq(1 / gamma(n + S.One / 2), n) == 0    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19868 : Any → {Any | result satisfies: lim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7aa6c32ade2fad8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 859d2e95f4d4749d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_issue_19868","kind":"function","src_hash":"05c459c48d205bc5","in":{"base":"Any"},"out":{"base":"Any","pred":"limit_seq(1 / gamma(n + S.One / 2), n) == 0"},"spec":{"lhs":"test_issue_19868()","rhs":"test_issue_19868 produces the expected output","over":{"base":"Any"},"name":"test_issue_19868_correct"},"guarantee":"test_issue_19868 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_issue_19868_correct","statement":"Path(test_issue_19868(x), test_issue_19868 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7aa6c32ade2fad8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_issue_19868","kind":"function","src_hash":"05c459c48d205bc5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit_seq(1 / gamma(n + S.One / 2), n) == 0"},"spec":{"lhs":"test_issue_19868()","rhs":"limit_seq(1 / gamma(n + S.One / 2), n) == 0","over":{"base":"Any"},"name":"test_issue_19868_correct"},"guarantee":"limit_seq(1 / gamma(n + S.One / 2), n) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_issue_19868_correct","statement":"Path(test_issue_19868(x), limit_seq(1 / gamma(n + S.One / 2), n) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"859d2e95f4d4749d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit_seq(1 / gamma(n + S.One / 2), n) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_19868():
     assert limit_seq(1/gamma(n + S.One/2), n) == 0
 
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_limit_seq_fail(), test_limit_seq_fail produces the expected output) over Any ║
+# ║ Path(test_limit_seq_fail(), limit_seq(e, n) == 2 and limit_seq(e, n) == S(3) / 7 and limit_seq(e, n) == 1 and limit_seq(e, n) == S(3) / 16) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_limit_seq_fail : Any → {Any | limit_seq(e, n) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  limit_seq(e, n) == 2                           ║
+# ║   ensures:  limit_seq(e, n) == S(3) / 7                    ║
+# ║   ensures:  limit_seq(e, n) == 1                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_limit_seq_fail : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2be55b9ca56ed5a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 860e57dc9865301d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_limit_seq_fail","kind":"function","src_hash":"1c8abf16232ffe0b","in":{"base":"Any"},"out":{"base":"Any","pred":"limit_seq(e, n) == 2 and limit_seq(e, n) == S(3) / 7 and limit_seq(e, n) == 2 and limit_seq(e, n) == 1 and limit_seq(e, n) == S(3) / 16"},"spec":{"lhs":"test_limit_seq_fail()","rhs":"test_limit_seq_fail produces the expected output","over":{"base":"Any"},"name":"test_limit_seq_fail_correct"},"guarantee":"test_limit_seq_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_limit_seq_fail_correct","statement":"Path(test_limit_seq_fail(x), test_limit_seq_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2be55b9ca56ed5a5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_limitseq.test_limit_seq_fail","kind":"function","src_hash":"1c8abf16232ffe0b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: limit_seq(e, n) == 2 and limit_seq(e, n) == S(3) / 7 and limit_seq(e, n) == 1 and limit_seq(e, n) == S(3) / 16"},"spec":{"lhs":"test_limit_seq_fail()","rhs":"limit_seq(e, n) == 2 and limit_seq(e, n) == S(3) / 7 and limit_seq(e, n) == 1 and limit_seq(e, n) == S(3) / 16","over":{"base":"Any"},"name":"test_limit_seq_fail_correct"},"guarantee":"limit_seq(e, n) == 2; limit_seq(e, n) == S(3) / 7; limit_seq(e, n) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_limitseq.test_limit_seq_fail_correct","statement":"Path(test_limit_seq_fail(x), limit_seq(e, n) == 2; limit_seq(e, n) == S(3) / 7; limit_seq(e, n) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"860e57dc9865301d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["limit_seq(e, n) == 2","limit_seq(e, n) == S(3) / 7","limit_seq(e, n) == 1","limit_seq(e, n) == S(3) / 16"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_limit_seq_fail():
     # improve Summation algorithm or add ad-hoc criteria
     e = (harmonic(n)**3 * Sum(1/harmonic(k), (k, 1, n)) /

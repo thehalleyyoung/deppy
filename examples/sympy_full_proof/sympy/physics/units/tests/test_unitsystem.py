@@ -27,16 +27,24 @@ from sympy.physics.units.util import convert_to
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_definition(), test_definition produces the expected output) over Any ║
+# ║ Path(test_definition(), set(ms._base_units) == set(base) and set(ms._units) == {m, s, c, dm} and ms.name == 'MS' and ms.descr == 'MS system') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_definition : Any → {Any | set(ms._base_units) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(ms._base_units) == set(base)               ║
+# ║   ensures:  set(ms._units) == {m, s, c, dm}                ║
+# ║   ensures:  ms.name == 'MS'                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_definition : Any → {Any | result satisfies: set(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d290ace787bae178  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25d7ba0bca9d435b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_definition","kind":"function","src_hash":"cfecf3c4b64450ef","in":{"base":"Any"},"out":{"base":"Any","pred":"set(ms._base_units) == set(base) and set(ms._units) == {m, s, c, dm} and ms.name == 'MS' and ms.descr == 'MS system'"},"spec":{"lhs":"test_definition()","rhs":"test_definition produces the expected output","over":{"base":"Any"},"name":"test_definition_correct"},"guarantee":"test_definition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_definition_correct","statement":"Path(test_definition(x), test_definition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d290ace787bae178"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_definition","kind":"function","src_hash":"cfecf3c4b64450ef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(ms._base_units) == set(base) and set(ms._units) == {m, s, c, dm} and ms.name == 'MS' and ms.descr == 'MS system'"},"spec":{"lhs":"test_definition()","rhs":"set(ms._base_units) == set(base) and set(ms._units) == {m, s, c, dm} and ms.name == 'MS' and ms.descr == 'MS system'","over":{"base":"Any"},"name":"test_definition_correct"},"guarantee":"set(ms._base_units) == set(base); set(ms._units) == {m, s, c, dm}; ms.name == 'MS'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_definition_correct","statement":"Path(test_definition(x), set(ms._base_units) == set(base); set(ms._units) == {m, s, c, dm}; ms.name == 'MS')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25d7ba0bca9d435b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(ms._base_units) == set(base)","set(ms._units) == {m, s, c, dm}","ms.name == 'MS'","ms.descr == 'MS system'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_definition():
     # want to test if the system can have several units of the same dimension
     dm = Quantity("dm")
@@ -54,16 +62,24 @@ def test_definition():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_str_repr(), test_str_repr produces the expected output) over Any ║
+# ║ Path(test_str_repr(), str(UnitSystem((m, s), name='MS')) == 'MS' and str(UnitSystem((m, s))) == 'UnitSystem((meter, second))' and repr(UnitSystem((m, s))) == '<UnitSystem: (%s, %s)>' % (m, s)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_str_repr : Any → {Any | str(UnitSystem((m, s), n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(UnitSystem((m, s), name='MS')) == 'MS'     ║
+# ║   ensures:  str(UnitSystem((m, s))) == 'UnitSystem((m...   ║
+# ║   ensures:  repr(UnitSystem((m, s))) == '<UnitSystem:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_str_repr : Any → {Any | result satisfies: str(Un...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b14a953a8813b445  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c57d26169382b940  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_str_repr","kind":"function","src_hash":"fff6a40f4128818f","in":{"base":"Any"},"out":{"base":"Any","pred":"str(UnitSystem((m, s), name='MS')) == 'MS' and str(UnitSystem((m, s))) == 'UnitSystem((meter, second))' and repr(UnitSystem((m, s))) == '<UnitSystem: (%s, %s)>' % (m, s)"},"spec":{"lhs":"test_str_repr()","rhs":"test_str_repr produces the expected output","over":{"base":"Any"},"name":"test_str_repr_correct"},"guarantee":"test_str_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_str_repr_correct","statement":"Path(test_str_repr(x), test_str_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b14a953a8813b445"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_str_repr","kind":"function","src_hash":"fff6a40f4128818f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(UnitSystem((m, s), name='MS')) == 'MS' and str(UnitSystem((m, s))) == 'UnitSystem((meter, second))' and repr(UnitSystem((m, s))) == '<UnitSystem: (%s, %s)>' % (m, s)"},"spec":{"lhs":"test_str_repr()","rhs":"str(UnitSystem((m, s), name='MS')) == 'MS' and str(UnitSystem((m, s))) == 'UnitSystem((meter, second))' and repr(UnitSystem((m, s))) == '<UnitSystem: (%s, %s)>' % (m, s)","over":{"base":"Any"},"name":"test_str_repr_correct"},"guarantee":"str(UnitSystem((m, s), name='MS')) == 'MS'; str(UnitSystem((m, s))) == 'UnitSystem((meter, second))'; repr(UnitSystem((m, s))) == '<UnitSystem: (%s, %s)>' % (m, s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_str_repr_correct","statement":"Path(test_str_repr(x), str(UnitSystem((m, s), name='MS')) == 'MS'; str(UnitSystem((m, s))) == 'UnitSystem((meter, second))'; repr(UnitSystem((m, s))) == '<UnitSystem: (%s, %s)>' % (m, s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c57d26169382b940","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(UnitSystem((m, s), name='MS')) == 'MS'","str(UnitSystem((m, s))) == 'UnitSystem((meter, second))'","repr(UnitSystem((m, s))) == '<UnitSystem: (%s, %s)>' % (m, s)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_str_repr():
     assert str(UnitSystem((m, s), name="MS")) == "MS"
     assert str(UnitSystem((m, s))) == "UnitSystem((meter, second))"
@@ -72,16 +88,22 @@ def test_str_repr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_convert_to(), test_convert_to produces the expected output) over Any ║
+# ║ Path(test_convert_to(), convert_to(Js, mksa._base_units) == m ** 2 * kg * s ** (-1) / 1000) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_convert_to : Any → {Any | convert_to(Js, mksa._b...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  convert_to(Js, mksa._base_units) == m ** ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_convert_to : Any → {Any | result satisfies: conv...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6edf6e9b3e753075  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8e8492516e62848  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_convert_to","kind":"function","src_hash":"1ddf7ce50f8174f3","in":{"base":"Any"},"out":{"base":"Any","pred":"convert_to(Js, mksa._base_units) == m ** 2 * kg * s ** (-1) / 1000"},"spec":{"lhs":"test_convert_to()","rhs":"test_convert_to produces the expected output","over":{"base":"Any"},"name":"test_convert_to_correct"},"guarantee":"test_convert_to produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_convert_to_correct","statement":"Path(test_convert_to(x), test_convert_to produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6edf6e9b3e753075"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_convert_to","kind":"function","src_hash":"1ddf7ce50f8174f3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: convert_to(Js, mksa._base_units) == m ** 2 * kg * s ** (-1) / 1000"},"spec":{"lhs":"test_convert_to()","rhs":"convert_to(Js, mksa._base_units) == m ** 2 * kg * s ** (-1) / 1000","over":{"base":"Any"},"name":"test_convert_to_correct"},"guarantee":"convert_to(Js, mksa._base_units) == m ** 2 * kg * s ** (-1) / 1000","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_convert_to_correct","statement":"Path(test_convert_to(x), convert_to(Js, mksa._base_units) == m ** 2 * kg * s ** (-1) / 1000)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8e8492516e62848","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["convert_to(Js, mksa._base_units) == m ** 2 * kg * s ** (-1) / 1000"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_convert_to():
     A = Quantity("A")
     A.set_global_relative_scale_factor(S.One, ampere)
@@ -94,16 +116,23 @@ def test_convert_to():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_extend(), test_extend produces the expected output) over Any ║
+# ║ Path(test_extend(), set(mks._base_units) == set(res._base_units) and set(mks._units) == set(res._units)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_extend : Any → {Any | set(mks._base_units) == se...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(mks._base_units) == set(res._base_units)   ║
+# ║   ensures:  set(mks._units) == set(res._units)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_extend : Any → {Any | result satisfies: set(mks....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45404d54224120e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a25ae49335fccc16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_extend","kind":"function","src_hash":"a0049251b4815db6","in":{"base":"Any"},"out":{"base":"Any","pred":"set(mks._base_units) == set(res._base_units) and set(mks._units) == set(res._units)"},"spec":{"lhs":"test_extend()","rhs":"test_extend produces the expected output","over":{"base":"Any"},"name":"test_extend_correct"},"guarantee":"test_extend produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_extend_correct","statement":"Path(test_extend(x), test_extend produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45404d54224120e7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_extend","kind":"function","src_hash":"a0049251b4815db6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(mks._base_units) == set(res._base_units) and set(mks._units) == set(res._units)"},"spec":{"lhs":"test_extend()","rhs":"set(mks._base_units) == set(res._base_units) and set(mks._units) == set(res._units)","over":{"base":"Any"},"name":"test_extend_correct"},"guarantee":"set(mks._base_units) == set(res._base_units); set(mks._units) == set(res._units)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_extend_correct","statement":"Path(test_extend(x), set(mks._base_units) == set(res._base_units); set(mks._units) == set(res._units))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a25ae49335fccc16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(mks._base_units) == set(res._base_units)","set(mks._units) == set(res._units)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_extend():
     ms = UnitSystem((m, s), (c,))
     Js = Quantity("Js")
@@ -116,32 +145,44 @@ def test_extend():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dim(), test_dim produces the expected output) over Any ║
+# ║ Path(test_dim(), dimsys.dim == 3) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dim : Any → {Any | dimsys.dim == 3}                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dimsys.dim == 3                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dim : Any → {Any | result satisfies: dimsys.dim ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2b0fde925cfba7a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8420820793d66036  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_dim","kind":"function","src_hash":"cb076004391c50ae","in":{"base":"Any"},"out":{"base":"Any","pred":"dimsys.dim == 3"},"spec":{"lhs":"test_dim()","rhs":"test_dim produces the expected output","over":{"base":"Any"},"name":"test_dim_correct"},"guarantee":"test_dim produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_dim_correct","statement":"Path(test_dim(x), test_dim produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2b0fde925cfba7a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_dim","kind":"function","src_hash":"cb076004391c50ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dimsys.dim == 3"},"spec":{"lhs":"test_dim()","rhs":"dimsys.dim == 3","over":{"base":"Any"},"name":"test_dim_correct"},"guarantee":"dimsys.dim == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_dim_correct","statement":"Path(test_dim(x), dimsys.dim == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8420820793d66036","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dimsys.dim == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_dim():
     dimsys = UnitSystem((m, kg, s), (c,))
     assert dimsys.dim == 3
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_consistent(), test_is_consistent produces the expected output) over Any ║
+# ║ Path(test_is_consistent(), us.is_consistent == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_consistent : Any → {Any | us.is_consistent ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  us.is_consistent == True                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_consistent : Any → {Any | result satisfies: u...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 512d21fb889b0d8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2192c78a1164cc62  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_is_consistent","kind":"function","src_hash":"cfa40b7bc7ed68d6","in":{"base":"Any"},"out":{"base":"Any","pred":"us.is_consistent == True"},"spec":{"lhs":"test_is_consistent()","rhs":"test_is_consistent produces the expected output","over":{"base":"Any"},"name":"test_is_consistent_correct"},"guarantee":"test_is_consistent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_is_consistent_correct","statement":"Path(test_is_consistent(x), test_is_consistent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"512d21fb889b0d8f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_is_consistent","kind":"function","src_hash":"cfa40b7bc7ed68d6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: us.is_consistent == True"},"spec":{"lhs":"test_is_consistent()","rhs":"us.is_consistent == True","over":{"base":"Any"},"name":"test_is_consistent_correct"},"guarantee":"us.is_consistent == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_is_consistent_correct","statement":"Path(test_is_consistent(x), us.is_consistent == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2192c78a1164cc62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["us.is_consistent == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_consistent():
     dimension_system = DimensionSystem([length, time])
     us = UnitSystem([m, s], dimension_system=dimension_system)
@@ -149,7 +190,11 @@ def test_is_consistent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_units_non_prefixed(), test_get_units_non_prefixed produces the expected output) over {Any | isinstance(unit, Quantity)} ║
+# ║ Path(test_get_units_non_prefixed(), volt in units and ohm in units) over {Any | isinstance(unit, Quantity)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  volt in units                                  ║
+# ║   ensures:  ohm in units                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_get_units_non_prefixed : {Any | isinstance(unit,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -161,9 +206,12 @@ def test_is_consistent():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 59fe106d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_get_units_non_prefixed","kind":"function","src_hash":"22a35c140393ce2b","in":{"base":"Any","pred":"isinstance(unit, Quantity)"},"out":{"base":"Any","pred":"volt in units and ohm in units and isinstance(unit, Quantity) and not unit.is_prefixed and not unit.is_physical_constant and not unit.name.name.startswith(prefix)"},"spec":{"lhs":"test_get_units_non_prefixed()","rhs":"test_get_units_non_prefixed produces the expected output","over":{"base":"Any","pred":"isinstance(unit, Quantity)"},"name":"test_get_units_non_prefixed_correct"},"guarantee":"test_get_units_non_prefixed produces the expected output","fibers":[{"name":"Quantity","pred":"isinstance(unit, Quantity)","path":{"lhs":"test_get_units_non_prefixed(x)","rhs":"test_get_units_non_prefixed produces the expected output","over":{"base":"Quantity","pred":"isinstance(unit, Quantity)"},"name":"test_get_units_non_prefixed_Quantity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_get_units_non_prefixed_Quantity_correct","statement":"test_get_units_non_prefixed satisfies spec on Quantity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"59fe106da9a929e3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_get_units_non_prefixed","kind":"function","src_hash":"22a35c140393ce2b","in":{"base":"Any","pred":"isinstance(unit, Quantity)"},"out":{"base":"Any","pred":"result satisfies: volt in units and ohm in units"},"spec":{"lhs":"test_get_units_non_prefixed()","rhs":"volt in units and ohm in units","over":{"base":"Any","pred":"isinstance(unit, Quantity)"},"name":"test_get_units_non_prefixed_correct"},"guarantee":"volt in units; ohm in units","fibers":[{"name":"Quantity","pred":"isinstance(unit, Quantity)","path":{"lhs":"test_get_units_non_prefixed(x)","rhs":"volt in units; ohm in units","over":{"base":"Quantity","pred":"isinstance(unit, Quantity)"},"name":"test_get_units_non_prefixed_Quantity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_get_units_non_prefixed_Quantity_correct","statement":"test_get_units_non_prefixed satisfies spec on Quantity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"59fe106da9a929e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["volt in units","ohm in units"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_get_units_non_prefixed():
     from sympy.physics.units import volt, ohm
     unit_system = UnitSystem.get_unit_system("SI")
@@ -178,16 +226,22 @@ def test_get_units_non_prefixed():
     assert ohm in units
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derived_units_must_exist_in_unit_system(), test_derived_units_must_exist_in_unit_system produces the expected output) over Any ║
+# ║ Path(test_derived_units_must_exist_in_unit_system(), <unspecified:test_derived_units_must_exist_in_unit_system>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_derived_units_must_exist_in_unit_system : Any → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2ca2a7c7f052ee9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_derived_units_must_exist_in_unit_system","kind":"function","src_hash":"a499fc8a06f3015b","in":{"base":"Any"},"out":{"base":"Any","pred":"unit in unit_system._units"},"spec":{"lhs":"test_derived_units_must_exist_in_unit_system()","rhs":"test_derived_units_must_exist_in_unit_system produces the expected output","over":{"base":"Any"},"name":"test_derived_units_must_exist_in_unit_system_correct"},"guarantee":"test_derived_units_must_exist_in_unit_system produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_derived_units_must_exist_in_unit_system_correct","statement":"Path(test_derived_units_must_exist_in_unit_system(x), test_derived_units_must_exist_in_unit_system produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2ca2a7c7f052ee9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.tests.test_unitsystem.test_derived_units_must_exist_in_unit_system","kind":"function","src_hash":"a499fc8a06f3015b","in":{"base":"Any"},"out":{"base":"Any","pred":"unit in unit_system._units"},"spec":{"lhs":"test_derived_units_must_exist_in_unit_system()","rhs":"<unspecified:test_derived_units_must_exist_in_unit_system>","over":{"base":"Any"},"name":"test_derived_units_must_exist_in_unit_system_correct"},"guarantee":"test_derived_units_must_exist_in_unit_system produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.tests.test_unitsystem.test_derived_units_must_exist_in_unit_system_correct","statement":"Path(test_derived_units_must_exist_in_unit_system(x), test_derived_units_must_exist_in_unit_system produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2ca2a7c7f052ee9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_derived_units_must_exist_in_unit_system():
     for unit_system in UnitSystem._unit_systems.values():
         for preferred_unit in unit_system.derived_units.values():

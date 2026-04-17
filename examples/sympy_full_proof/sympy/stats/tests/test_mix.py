@@ -42,7 +42,12 @@ from sympy.stats.rv import pspace, density
 from sympy.testing.pytest import ignore_warnings
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_density(), test_density produces the expected output) over {Any | isinstance(pspace(X), CompoundPSpace)} ║
+# ║ Path(test_density(), isinstance(pspace(X), CompoundPSpace) and density(X, Eq(rate, rate.symbol)) == PoissonDistribution(l) and density(N2)(0).doit() == sqrt(10) / (10 * sqrt(pi)) and simplify(density(N2, Eq(N1, 1))(x)) == sqrt(2) * exp(-(x - 1) ** 2 / 8) / (4 * sqrt(pi)) and simplify(density(N2)(x)) == sqrt(10) * exp(-x ** 2 / 10) / (10 * sqrt(pi))) over {Any | isinstance(pspace(X), CompoundPSpace)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(pspace(X), CompoundPSpace)          ║
+# ║   ensures:  density(X, Eq(rate, rate.symbol)) == Pois...   ║
+# ║   ensures:  density(N2)(0).doit() == sqrt(10) / (10 *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_density : {Any | isinstance(pspace(X), CompoundP...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -54,9 +59,12 @@ from sympy.testing.pytest import ignore_warnings
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cddb753f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_mix.test_density","kind":"function","src_hash":"1d61bbdbeea1ddbb","in":{"base":"Any","pred":"isinstance(pspace(X), CompoundPSpace)"},"out":{"base":"Any","pred":"isinstance(pspace(X), CompoundPSpace) and density(X, Eq(rate, rate.symbol)) == PoissonDistribution(l) and density(N2)(0).doit() == sqrt(10) / (10 * sqrt(pi)) and simplify(density(N2)(x)) == sqrt(10) * exp(-x ** 2 / 10) / (10 * sqrt(pi))"},"spec":{"lhs":"test_density()","rhs":"test_density produces the expected output","over":{"base":"Any","pred":"isinstance(pspace(X), CompoundPSpace)"},"name":"test_density_correct"},"guarantee":"test_density produces the expected output","fibers":[{"name":"CompoundPSpace","pred":"isinstance(pspace(X), CompoundPSpace)","path":{"lhs":"test_density(x)","rhs":"test_density produces the expected output","over":{"base":"CompoundPSpace","pred":"isinstance(pspace(X), CompoundPSpace)"},"name":"test_density_CompoundPSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_mix.test_density_CompoundPSpace_correct","statement":"test_density satisfies spec on CompoundPSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cddb753fda6e8c06"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_mix.test_density","kind":"function","src_hash":"1d61bbdbeea1ddbb","in":{"base":"Any","pred":"isinstance(pspace(X), CompoundPSpace)"},"out":{"base":"Any","pred":"result satisfies: isinstance(pspace(X), CompoundPSpace) and density(X, Eq(rate, rate.symbol)) == PoissonDistribution(l) and density(N2)(0).doit() == sqrt(10) / (10 * sqrt(pi)) and simplify(density(N2, Eq(N1, 1))(x)) == sqrt(2) * exp(-(x - 1) ** 2 / 8) / (4 * sqrt(pi)) and simplify(density(N2)(x)) == sqrt(10) * exp(-x ** 2 / 10) / (10 * sqrt(pi))"},"spec":{"lhs":"test_density()","rhs":"isinstance(pspace(X), CompoundPSpace) and density(X, Eq(rate, rate.symbol)) == PoissonDistribution(l) and density(N2)(0).doit() == sqrt(10) / (10 * sqrt(pi)) and simplify(density(N2, Eq(N1, 1))(x)) == sqrt(2) * exp(-(x - 1) ** 2 / 8) / (4 * sqrt(pi)) and simplify(density(N2)(x)) == sqrt(10) * exp(-x ** 2 / 10) / (10 * sqrt(pi))","over":{"base":"Any","pred":"isinstance(pspace(X), CompoundPSpace)"},"name":"test_density_correct"},"guarantee":"isinstance(pspace(X), CompoundPSpace); density(X, Eq(rate, rate.symbol)) == PoissonDistribution(l); density(N2)(0).doit() == sqrt(10) / (10 * sqrt(pi))","fibers":[{"name":"CompoundPSpace","pred":"isinstance(pspace(X), CompoundPSpace)","path":{"lhs":"test_density(x)","rhs":"isinstance(pspace(X), CompoundPSpace); density(X, Eq(rate, rate.symbol)) == PoissonDistribution(l); density(N2)(0).doit() == sqrt(10) / (10 * sqrt(pi))","over":{"base":"CompoundPSpace","pred":"isinstance(pspace(X), CompoundPSpace)"},"name":"test_density_CompoundPSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_mix.test_density_CompoundPSpace_correct","statement":"test_density satisfies spec on CompoundPSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cddb753fda6e8c06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(pspace(X), CompoundPSpace)","density(X, Eq(rate, rate.symbol)) == PoissonDistribution(l)","density(N2)(0).doit() == sqrt(10) / (10 * sqrt(pi))","simplify(density(N2, Eq(N1, 1))(x)) == sqrt(2) * exp(-(x - 1) ** 2 / 8) / (4 * sqrt(pi))","simplify(density(N2)(x)) == sqrt(10) * exp(-x ** 2 / 10) / (10 * sqrt(pi))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":true}}
 def test_density():
     x = Symbol('x')
     l = Symbol('l', positive=True)
@@ -72,16 +80,22 @@ def test_density():
     assert simplify(density(N2)(x)) == sqrt(10)*exp(-x**2/10)/(10*sqrt(pi))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MarginalDistribution(), test_MarginalDistribution produces the expected output) over Any ║
+# ║ Path(test_MarginalDistribution(), MGR(C) == mgrc) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MarginalDistribution : Any → {Any | MGR(C) == mgrc}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MGR(C) == mgrc                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MarginalDistribution : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3094a7c29fc26985  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28c02145e2608644  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_mix.test_MarginalDistribution","kind":"function","src_hash":"311f3d5a12aacf49","in":{"base":"Any"},"out":{"base":"Any","pred":"MGR(C) == mgrc"},"spec":{"lhs":"test_MarginalDistribution()","rhs":"test_MarginalDistribution produces the expected output","over":{"base":"Any"},"name":"test_MarginalDistribution_correct"},"guarantee":"test_MarginalDistribution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_mix.test_MarginalDistribution_correct","statement":"Path(test_MarginalDistribution(x), test_MarginalDistribution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3094a7c29fc26985"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_mix.test_MarginalDistribution","kind":"function","src_hash":"311f3d5a12aacf49","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MGR(C) == mgrc"},"spec":{"lhs":"test_MarginalDistribution()","rhs":"MGR(C) == mgrc","over":{"base":"Any"},"name":"test_MarginalDistribution_correct"},"guarantee":"MGR(C) == mgrc","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_mix.test_MarginalDistribution_correct","statement":"Path(test_MarginalDistribution(x), MGR(C) == mgrc)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28c02145e2608644","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MGR(C) == mgrc"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_MarginalDistribution():
     a1, p1, p2 = symbols('a1 p1 p2', positive=True)
     C = Multinomial('C', 2, p1, p2)
@@ -106,7 +120,12 @@ def test_MarginalDistribution():
     assert MGR(C) == mgrc
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_compound_distribution(), test_compound_distribution produces the expected output) over {Any | isinstance(pspace(Z), CompoundPSpace) and isinstance(pspace(Z).distribution, CompoundDistribution)} ║
+# ║ Path(test_compound_distribution(), isinstance(pspace(Z), CompoundPSpace) and isinstance(pspace(Z).distribution, CompoundDistribution) and Z.pspace.distribution.pdf(1).doit() == exp(-2) * exp(exp(-1))) over {Any | isinstance(pspace(Z), CompoundPSpace) and isinstance(pspace(Z).distribution, CompoundDistribution)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(pspace(Z), CompoundPSpace)          ║
+# ║   ensures:  isinstance(pspace(Z).distribution, Compou...   ║
+# ║   ensures:  Z.pspace.distribution.pdf(1).doit() == ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_compound_distribution : {Any | isinstance(pspace...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -119,9 +138,12 @@ def test_MarginalDistribution():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cf810c89...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_mix.test_compound_distribution","kind":"function","src_hash":"ad1f89f3505a6ad1","in":{"base":"Any","pred":"isinstance(pspace(Z), CompoundPSpace) and isinstance(pspace(Z).distribution, CompoundDistribution)"},"out":{"base":"Any","pred":"isinstance(pspace(Z), CompoundPSpace) and isinstance(pspace(Z).distribution, CompoundDistribution) and Z.pspace.distribution.pdf(1).doit() == exp(-2) * exp(exp(-1))"},"spec":{"lhs":"test_compound_distribution()","rhs":"test_compound_distribution produces the expected output","over":{"base":"Any","pred":"isinstance(pspace(Z), CompoundPSpace) and isinstance(pspace(Z).distribution, CompoundDistribution)"},"name":"test_compound_distribution_correct"},"guarantee":"test_compound_distribution produces the expected output","fibers":[{"name":"CompoundPSpace","pred":"isinstance(pspace(Z), CompoundPSpace)","path":{"lhs":"test_compound_distribution(x)","rhs":"test_compound_distribution produces the expected output","over":{"base":"CompoundPSpace","pred":"isinstance(pspace(Z), CompoundPSpace)"},"name":"test_compound_distribution_CompoundPSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_mix.test_compound_distribution_CompoundPSpace_correct","statement":"test_compound_distribution satisfies spec on CompoundPSpace inputs"},"trust":"LIBRARY"},{"name":"CompoundDistribution","pred":"isinstance(pspace(Z).distribution, CompoundDistribution)","path":{"lhs":"test_compound_distribution(x)","rhs":"test_compound_distribution produces the expected output","over":{"base":"CompoundDistribution","pred":"isinstance(pspace(Z).distribution, CompoundDistribution)"},"name":"test_compound_distribution_CompoundDistribution_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_mix.test_compound_distribution_CompoundDistribution_correct","statement":"test_compound_distribution satisfies spec on CompoundDistribution inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cf810c89aaf2f40a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_mix.test_compound_distribution","kind":"function","src_hash":"ad1f89f3505a6ad1","in":{"base":"Any","pred":"isinstance(pspace(Z), CompoundPSpace) and isinstance(pspace(Z).distribution, CompoundDistribution)"},"out":{"base":"Any","pred":"result satisfies: isinstance(pspace(Z), CompoundPSpace) and isinstance(pspace(Z).distribution, CompoundDistribution) and Z.pspace.distribution.pdf(1).doit() == exp(-2) * exp(exp(-1))"},"spec":{"lhs":"test_compound_distribution()","rhs":"isinstance(pspace(Z), CompoundPSpace) and isinstance(pspace(Z).distribution, CompoundDistribution) and Z.pspace.distribution.pdf(1).doit() == exp(-2) * exp(exp(-1))","over":{"base":"Any","pred":"isinstance(pspace(Z), CompoundPSpace) and isinstance(pspace(Z).distribution, CompoundDistribution)"},"name":"test_compound_distribution_correct"},"guarantee":"isinstance(pspace(Z), CompoundPSpace); isinstance(pspace(Z).distribution, CompoundDistribution); Z.pspace.distribution.pdf(1).doit() == exp(-2) * exp(exp(-1))","fibers":[{"name":"CompoundPSpace","pred":"isinstance(pspace(Z), CompoundPSpace)","path":{"lhs":"test_compound_distribution(x)","rhs":"isinstance(pspace(Z), CompoundPSpace); isinstance(pspace(Z).distribution, CompoundDistribution); Z.pspace.distribution.pdf(1).doit() == exp(-2) * exp(exp(-1))","over":{"base":"CompoundPSpace","pred":"isinstance(pspace(Z), CompoundPSpace)"},"name":"test_compound_distribution_CompoundPSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_mix.test_compound_distribution_CompoundPSpace_correct","statement":"test_compound_distribution satisfies spec on CompoundPSpace inputs"},"trust":"LIBRARY"},{"name":"CompoundDistribution","pred":"isinstance(pspace(Z).distribution, CompoundDistribution)","path":{"lhs":"test_compound_distribution(x)","rhs":"isinstance(pspace(Z), CompoundPSpace); isinstance(pspace(Z).distribution, CompoundDistribution); Z.pspace.distribution.pdf(1).doit() == exp(-2) * exp(exp(-1))","over":{"base":"CompoundDistribution","pred":"isinstance(pspace(Z).distribution, CompoundDistribution)"},"name":"test_compound_distribution_CompoundDistribution_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_mix.test_compound_distribution_CompoundDistribution_correct","statement":"test_compound_distribution satisfies spec on CompoundDistribution inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cf810c89aaf2f40a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(pspace(Z), CompoundPSpace)","isinstance(pspace(Z).distribution, CompoundDistribution)","Z.pspace.distribution.pdf(1).doit() == exp(-2) * exp(exp(-1))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"failed","binding":true}}
 def test_compound_distribution():
     Y = Poisson('Y', 1)
     Z = Poisson('Z', Y)
@@ -130,16 +152,23 @@ def test_compound_distribution():
     assert Z.pspace.distribution.pdf(1).doit() == exp(-2)*exp(exp(-1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mix_expression(), test_mix_expression produces the expected output) over Any ║
+# ║ Path(test_mix_expression(), P(Eq(Y + E, 1)) == 0 and P(Ne(Y + E, 2)) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mix_expression : Any → {Any | P(Eq(Y + E, 1)) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P(Eq(Y + E, 1)) == 0                           ║
+# ║   ensures:  P(Ne(Y + E, 2)) == 1                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mix_expression : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9c1c5360b17e1ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56ea57b502758104  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_mix.test_mix_expression","kind":"function","src_hash":"5e758a7fcee46c2e","in":{"base":"Any"},"out":{"base":"Any","pred":"P(Eq(Y + E, 1)) == 0 and P(Ne(Y + E, 2)) == 1 and P(E + Y < 2, evaluate=False).rewrite(Integral).dummy_eq(expr1) and P(E + Y > 2, evaluate=False).rewrite(Integral).dummy_eq(expr2)"},"spec":{"lhs":"test_mix_expression()","rhs":"test_mix_expression produces the expected output","over":{"base":"Any"},"name":"test_mix_expression_correct"},"guarantee":"test_mix_expression produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_mix.test_mix_expression_correct","statement":"Path(test_mix_expression(x), test_mix_expression produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9c1c5360b17e1ca"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_mix.test_mix_expression","kind":"function","src_hash":"5e758a7fcee46c2e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P(Eq(Y + E, 1)) == 0 and P(Ne(Y + E, 2)) == 1"},"spec":{"lhs":"test_mix_expression()","rhs":"P(Eq(Y + E, 1)) == 0 and P(Ne(Y + E, 2)) == 1","over":{"base":"Any"},"name":"test_mix_expression_correct"},"guarantee":"P(Eq(Y + E, 1)) == 0; P(Ne(Y + E, 2)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_mix.test_mix_expression_correct","statement":"Path(test_mix_expression(x), P(Eq(Y + E, 1)) == 0; P(Ne(Y + E, 2)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56ea57b502758104","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P(Eq(Y + E, 1)) == 0","P(Ne(Y + E, 2)) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_mix_expression():
     Y, E = Poisson('Y', 1), Exponential('E', 1)
     k = Dummy('k')

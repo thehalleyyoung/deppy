@@ -39,16 +39,22 @@ __all__ = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kmp_table(wor), build the 'partial match' table of the knuth-morris-pratt algorithm) over Any ║
+# ║ Path(kmp_table(word), <unspecified:kmp_table>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kmp_table : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89eb123bf74922cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.kmp_table","kind":"function","src_hash":"28a7c697359dbc72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kmp_table(wor)","rhs":"build the 'partial match' table of the knuth-morris-pratt algorithm","over":{"base":"Any"},"name":"kmp_table_correct"},"guarantee":"build the 'partial match' table of the knuth-morris-pratt algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.kmp_table_correct","statement":"Path(kmp_table(x), build the 'partial match' table of the knuth-morris-pratt algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89eb123bf74922cc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.kmp_table","kind":"function","src_hash":"28a7c697359dbc72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kmp_table(word)","rhs":"<unspecified:kmp_table>","over":{"base":"Any"},"name":"kmp_table_correct"},"guarantee":"build the 'partial match' table of the knuth-morris-pratt algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.kmp_table_correct","statement":"Path(kmp_table(x), build the 'partial match' table of the knuth-morris-pratt algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89eb123bf74922cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def kmp_table(word):
     """Build the 'partial match' table of the Knuth-Morris-Pratt algorithm.
 
@@ -82,9 +88,14 @@ def kmp_table(word):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_subcircuit(cir), finds the subcircuit in circuit, if it exists) over {Any | isinstance(circuit, Mul)} ║
+# ║ Path(find_subcircuit(circuit, subcircuit, start), <unspecified:find_subcircuit>) over {Any | isinstance(circuit, Mul) and hasattr(circuit, 'args') and hasattr(subcircuit, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ find_subcircuit : {Any | isinstance(circuit, Mul)} → Any   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(circuit, 'args')                       ║
+# ║   requires: hasattr(subcircuit, 'args')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ find_subcircuit : {Any | isinstance(circuit, Mul) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Mul: {isinstance(circuit, Mul)} → library_axiom          ║
@@ -94,9 +105,12 @@ def kmp_table(word):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5522f2de...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.find_subcircuit","kind":"function","src_hash":"07bb4d2577a8cc56","in":{"base":"Any","pred":"isinstance(circuit, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"find_subcircuit(cir)","rhs":"finds the subcircuit in circuit, if it exists","over":{"base":"Any","pred":"isinstance(circuit, Mul)"},"name":"find_subcircuit_correct"},"guarantee":"finds the subcircuit in circuit, if it exists","fibers":[{"name":"Mul","pred":"isinstance(circuit, Mul)","path":{"lhs":"find_subcircuit(x)","rhs":"finds the subcircuit in circuit, if it exists","over":{"base":"Mul","pred":"isinstance(circuit, Mul)"},"name":"find_subcircuit_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.find_subcircuit_Mul_correct","statement":"find_subcircuit satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5522f2de0474d953"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.find_subcircuit","kind":"function","src_hash":"07bb4d2577a8cc56","in":{"base":"Any","pred":"isinstance(circuit, Mul) and hasattr(circuit, 'args') and hasattr(subcircuit, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"find_subcircuit(circuit, subcircuit, start)","rhs":"<unspecified:find_subcircuit>","over":{"base":"Any","pred":"isinstance(circuit, Mul) and hasattr(circuit, 'args') and hasattr(subcircuit, 'args')"},"name":"find_subcircuit_correct"},"guarantee":"finds the subcircuit in circuit, if it exists","fibers":[{"name":"Mul","pred":"isinstance(circuit, Mul)","path":{"lhs":"find_subcircuit(x)","rhs":"finds the subcircuit in circuit, if it exists","over":{"base":"Mul","pred":"isinstance(circuit, Mul)"},"name":"find_subcircuit_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.find_subcircuit_Mul_correct","statement":"find_subcircuit satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5522f2de0474d953","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(circuit, 'args')","hasattr(subcircuit, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["circuit.args","subcircuit.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'index == len(subcircuit)', 'isinstance(circuit, Mul)', 'isinstance(subcircuit, Mul)', 'end < 1', 'subcircuit[index] == circuit[pos + index]', 'len(subcircuit) == 0 or len(subcircuit) > len(circuit)'}, fibers={'Mul'})"]}}
 def find_subcircuit(circuit, subcircuit, start=0, end=0):
     """Finds the subcircuit in circuit, if it exists.
 
@@ -186,9 +200,16 @@ def find_subcircuit(circuit, subcircuit, start=0, end=0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(replace_subcircuit(cir), replaces a subcircuit with another subcircuit in circuit, if it exists) over {Any | isinstance(circuit, Mul)} ║
+# ║ Path(replace_subcircuit(circuit, subcircuit, replace), circuit) over {Any | isinstance(circuit, Mul) and hasattr(circuit, 'args') and hasattr(subcircuit, 'args') and hasattr(replace, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ replace_subcircuit : {Any | isinstance(circuit, Mul)}...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(circuit, 'args')                       ║
+# ║   requires: hasattr(subcircuit, 'args')                    ║
+# ║   requires: hasattr(replace, 'args')                       ║
+# ║   ensures:  result == circuit                              ║
+# ║   returns:  circuit                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ replace_subcircuit : {Any | isinstance(circuit, Mul) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Mul: {isinstance(circuit, Mul)} → library_axiom          ║
@@ -198,9 +219,12 @@ def find_subcircuit(circuit, subcircuit, start=0, end=0):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c18acc8d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.replace_subcircuit","kind":"function","src_hash":"ca4dcbcd2f483726","in":{"base":"Any","pred":"isinstance(circuit, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"replace_subcircuit(cir)","rhs":"replaces a subcircuit with another subcircuit in circuit, if it exists","over":{"base":"Any","pred":"isinstance(circuit, Mul)"},"name":"replace_subcircuit_correct"},"guarantee":"replaces a subcircuit with another subcircuit in circuit, if it exists","fibers":[{"name":"Mul","pred":"isinstance(circuit, Mul)","path":{"lhs":"replace_subcircuit(x)","rhs":"replaces a subcircuit with another subcircuit in circuit, if it exists","over":{"base":"Mul","pred":"isinstance(circuit, Mul)"},"name":"replace_subcircuit_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.replace_subcircuit_Mul_correct","statement":"replace_subcircuit satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c18acc8d2dd499e1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.replace_subcircuit","kind":"function","src_hash":"ca4dcbcd2f483726","in":{"base":"Any","pred":"isinstance(circuit, Mul) and hasattr(circuit, 'args') and hasattr(subcircuit, 'args') and hasattr(replace, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (circuit)"},"spec":{"lhs":"replace_subcircuit(circuit, subcircuit, replace)","rhs":"circuit","over":{"base":"Any","pred":"isinstance(circuit, Mul) and hasattr(circuit, 'args') and hasattr(subcircuit, 'args') and hasattr(replace, 'args')"},"name":"replace_subcircuit_correct"},"guarantee":"returns circuit; result == circuit","fibers":[{"name":"Mul","pred":"isinstance(circuit, Mul)","path":{"lhs":"replace_subcircuit(x)","rhs":"returns circuit; result == circuit","over":{"base":"Mul","pred":"isinstance(circuit, Mul)"},"name":"replace_subcircuit_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.replace_subcircuit_Mul_correct","statement":"replace_subcircuit satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c18acc8d2dd499e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(circuit, 'args')","hasattr(subcircuit, 'args')","hasattr(replace, 'args')"],"ensures":["result == circuit"],"returns_expr":"circuit","pure":false,"effects":{"effect_type":"reads_state","reads":["circuit.args","replace.args","subcircuit.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'replace is None', 'isinstance(circuit, Mul)', 'isinstance(subcircuit, Mul)', 'pos < 0', 'loc > -1', 'isinstance(replace, Mul)'}, fibers={'Mul'})"]}}
 def replace_subcircuit(circuit, subcircuit, replace=None, pos=0):
     """Replaces a subcircuit with another subcircuit in circuit,
     if it exists.
@@ -287,16 +311,22 @@ def replace_subcircuit(circuit, subcircuit, replace=None, pos=0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympify_qubit_map(map), internal helper behaves correctly) over Any ║
+# ║ Path(_sympify_qubit_map(mapping), <unspecified:_sympify_qubit_map>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympify_qubit_map : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27e2ad90f1215602  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils._sympify_qubit_map","kind":"function","src_hash":"78acda91a3397505","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympify_qubit_map(map)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympify_qubit_map_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils._sympify_qubit_map_correct","statement":"Path(_sympify_qubit_map(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27e2ad90f1215602"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils._sympify_qubit_map","kind":"function","src_hash":"78acda91a3397505","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympify_qubit_map(mapping)","rhs":"<unspecified:_sympify_qubit_map>","over":{"base":"Any"},"name":"_sympify_qubit_map_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils._sympify_qubit_map_correct","statement":"Path(_sympify_qubit_map(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27e2ad90f1215602","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _sympify_qubit_map(mapping):
     new_map = {}
     for key in mapping:
@@ -305,7 +335,11 @@ def _sympify_qubit_map(mapping):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_to_symbolic_indices(seq), returns the circuit with symbolic indices and the dictionary mapping symbolic indices to real indices) over {Any | isinstance(seq, Mul) and isinstance(item, Gate) and isinstance(start, Symbol)} ║
+# ║ Path(convert_to_symbolic_indices(seq, start, gen), # HINT: convert_to_symbolic_indices may be idempotent: convert_to_symbolic_indices(convert_to_symbolic_indices(x)) == convert_to_symbolic_indices(x)) over {Any | isinstance(seq, Mul) and isinstance(item, Gate) and isinstance(start, Symbol) and hasattr(seq, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(seq, 'args')                           ║
+# ║   ensures:  # HINT: convert_to_symbolic_indices may b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convert_to_symbolic_indices : {Any | isinstance(seq, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -321,9 +355,12 @@ def _sympify_qubit_map(mapping):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?6 ✗15 VCs | 40.5ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bd8c34e8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices","kind":"function","src_hash":"291d91fe8436e28b","in":{"base":"Any","pred":"isinstance(seq, Mul) and isinstance(item, Gate) and isinstance(start, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"convert_to_symbolic_indices(seq)","rhs":"returns the circuit with symbolic indices and the dictionary mapping symbolic indices to real indices","over":{"base":"Any","pred":"isinstance(seq, Mul) and isinstance(item, Gate) and isinstance(start, Symbol)"},"name":"convert_to_symbolic_indices_correct"},"guarantee":"returns the circuit with symbolic indices and the dictionary mapping symbolic indices to real indices","fibers":[{"name":"Mul","pred":"isinstance(seq, Mul)","path":{"lhs":"convert_to_symbolic_indices(x)","rhs":"returns the circuit with symbolic indices and the dictionary mapping symbolic indices to real indices","over":{"base":"Mul","pred":"isinstance(seq, Mul)"},"name":"convert_to_symbolic_indices_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices_Mul_correct","statement":"convert_to_symbolic_indices satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Gate","pred":"isinstance(item, Gate)","path":{"lhs":"convert_to_symbolic_indices(x)","rhs":"returns the circuit with symbolic indices and the dictionary mapping symbolic indices to real indices","over":{"base":"Gate","pred":"isinstance(item, Gate)"},"name":"convert_to_symbolic_indices_Gate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices_Gate_correct","statement":"convert_to_symbolic_indices satisfies spec on Gate inputs"},"trust":"LIBRARY"},{"name":"Symbol","pred":"isinstance(start, Symbol)","path":{"lhs":"convert_to_symbolic_indices(x)","rhs":"returns the circuit with symbolic indices and the dictionary mapping symbolic indices to real indices","over":{"base":"Symbol","pred":"isinstance(start, Symbol)"},"name":"convert_to_symbolic_indices_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices_Symbol_correct","statement":"convert_to_symbolic_indices satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"numbered_symbols()___class__","pred":"isinstance(gen, numbered_symbols().__class__)","path":{"lhs":"convert_to_symbolic_indices(x)","rhs":"returns the circuit with symbolic indices and the dictionary mapping symbolic indices to real indices","over":{"base":"numbered_symbols().__class__","pred":"isinstance(gen, numbered_symbols().__class__)"},"name":"convert_to_symbolic_indices_numbered_symbols().__class___case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices_numbered_symbols().__class___correct","statement":"convert_to_symbolic_indices satisfies spec on numbered_symbols().__class__ inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(qubit_map, dict)","path":{"lhs":"convert_to_symbolic_indices(x)","rhs":"returns the circuit with symbolic indices and the dictionary mapping symbolic indices to real indices","over":{"base":"dict","pred":"isinstance(qubit_map, dict)"},"name":"convert_to_symbolic_indices_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices_dict_correct","statement":"convert_to_symbolic_indices satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(item, (tuple, Tuple))","path":{"lhs":"convert_to_symbolic_indices(x)","rhs":"returns the circuit with symbolic indices and the dictionary mapping symbolic indices to real indices","over":{"base":"(tuple","pred":"isinstance(item, (tuple, Tuple))"},"name":"convert_to_symbolic_indices_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices_(tuple_correct","statement":"convert_to_symbolic_indices satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bd8c34e8fd699693"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices","kind":"function","src_hash":"291d91fe8436e28b","in":{"base":"Any","pred":"isinstance(seq, Mul) and isinstance(item, Gate) and isinstance(start, Symbol) and hasattr(seq, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: convert_to_symbolic_indices may be idempotent: convert_to_symbolic_indices(convert_to_symbolic_indices(x)) == convert_to_symbolic_indices(x)"},"spec":{"lhs":"convert_to_symbolic_indices(seq, start, gen)","rhs":"# HINT: convert_to_symbolic_indices may be idempotent: convert_to_symbolic_indices(convert_to_symbolic_indices(x)) == convert_to_symbolic_indices(x)","over":{"base":"Any","pred":"isinstance(seq, Mul) and isinstance(item, Gate) and isinstance(start, Symbol) and hasattr(seq, 'args')"},"name":"convert_to_symbolic_indices_correct"},"guarantee":"# HINT: convert_to_symbolic_indices may be idempotent: convert_to_symbolic_indices(convert_to_symbolic_indices(x)) == convert_to_symbolic_indices(x)","fibers":[{"name":"Mul","pred":"isinstance(seq, Mul)","path":{"lhs":"convert_to_symbolic_indices(x)","rhs":"# HINT: convert_to_symbolic_indices may be idempotent: convert_to_symbolic_indices(convert_to_symbolic_indices(x)) == convert_to_symbolic_indices(x)","over":{"base":"Mul","pred":"isinstance(seq, Mul)"},"name":"convert_to_symbolic_indices_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices_Mul_correct","statement":"convert_to_symbolic_indices satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Gate","pred":"isinstance(item, Gate)","path":{"lhs":"convert_to_symbolic_indices(x)","rhs":"# HINT: convert_to_symbolic_indices may be idempotent: convert_to_symbolic_indices(convert_to_symbolic_indices(x)) == convert_to_symbolic_indices(x)","over":{"base":"Gate","pred":"isinstance(item, Gate)"},"name":"convert_to_symbolic_indices_Gate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices_Gate_correct","statement":"convert_to_symbolic_indices satisfies spec on Gate inputs"},"trust":"LIBRARY"},{"name":"Symbol","pred":"isinstance(start, Symbol)","path":{"lhs":"convert_to_symbolic_indices(x)","rhs":"# HINT: convert_to_symbolic_indices may be idempotent: convert_to_symbolic_indices(convert_to_symbolic_indices(x)) == convert_to_symbolic_indices(x)","over":{"base":"Symbol","pred":"isinstance(start, Symbol)"},"name":"convert_to_symbolic_indices_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices_Symbol_correct","statement":"convert_to_symbolic_indices satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"numbered_symbols()___class__","pred":"isinstance(gen, numbered_symbols().__class__)","path":{"lhs":"convert_to_symbolic_indices(x)","rhs":"# HINT: convert_to_symbolic_indices may be idempotent: convert_to_symbolic_indices(convert_to_symbolic_indices(x)) == convert_to_symbolic_indices(x)","over":{"base":"numbered_symbols().__class__","pred":"isinstance(gen, numbered_symbols().__class__)"},"name":"convert_to_symbolic_indices_numbered_symbols().__class___case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices_numbered_symbols().__class___correct","statement":"convert_to_symbolic_indices satisfies spec on numbered_symbols().__class__ inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(qubit_map, dict)","path":{"lhs":"convert_to_symbolic_indices(x)","rhs":"# HINT: convert_to_symbolic_indices may be idempotent: convert_to_symbolic_indices(convert_to_symbolic_indices(x)) == convert_to_symbolic_indices(x)","over":{"base":"dict","pred":"isinstance(qubit_map, dict)"},"name":"convert_to_symbolic_indices_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices_dict_correct","statement":"convert_to_symbolic_indices satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(item, (tuple, Tuple))","path":{"lhs":"convert_to_symbolic_indices(x)","rhs":"# HINT: convert_to_symbolic_indices may be idempotent: convert_to_symbolic_indices(convert_to_symbolic_indices(x)) == convert_to_symbolic_indices(x)","over":{"base":"(tuple","pred":"isinstance(item, (tuple, Tuple))"},"name":"convert_to_symbolic_indices_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_symbolic_indices_(tuple_correct","statement":"convert_to_symbolic_indices satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bd8c34e8fd699693","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(seq, 'args')"],"ensures":["# HINT: convert_to_symbolic_indices may be idempotent: convert_to_symbolic_indices(convert_to_symbolic_indices(x)) == convert_to_symbolic_indices(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","seq.args"],"calls_mutating":["ndx_map.update"],"raises":["TypeError"]},"state_contract":{"modifies":["ndx_map.*"],"old_bindings":{"old_len_ndx_map":"len(ndx_map)"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":23,"n_verified":2,"n_assumed":6,"n_failed":15,"trust_level":"LIBRARY_ASSUMED","compile_ms":40.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(item, (tuple, Tuple))', 'isinstance(seq, Mul)', 'not isinstance(qubit_map, dict)', 'isinstance(item, Gate)', 'not isinstance(start, Symbol)', 'not isinstance(gen, numbered_symbols().__class__)'}, fibers={'(tuple', 'Gate', 'dict', 'Symbol', 'numbered_symbols()___class__', 'Mul'})"]}}
 def convert_to_symbolic_indices(seq, start=None, gen=None, qubit_map=None):
     """Returns the circuit with symbolic indices and the
     dictionary mapping symbolic indices to real indices.
@@ -422,7 +459,11 @@ def convert_to_symbolic_indices(seq, start=None, gen=None, qubit_map=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_to_real_indices(seq), returns the circuit with real indices) over {Any | isinstance(seq, Mul) and isinstance(qubit_map, dict) and isinstance(item, Gate)} ║
+# ║ Path(convert_to_real_indices(seq, qubit_map), # HINT: convert_to_real_indices may be idempotent: convert_to_real_indices(convert_to_real_indices(x)) == convert_to_real_indices(x)) over {Any | isinstance(seq, Mul) and isinstance(qubit_map, dict) and isinstance(item, Gate) and hasattr(seq, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(seq, 'args')                           ║
+# ║   ensures:  # HINT: convert_to_real_indices may be id...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convert_to_real_indices : {Any | isinstance(seq, Mul)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -437,9 +478,12 @@ def convert_to_symbolic_indices(seq, start=None, gen=None, qubit_map=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?4 ✗6 VCs | 14.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cffe0f66...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.convert_to_real_indices","kind":"function","src_hash":"9e95de58040347f4","in":{"base":"Any","pred":"isinstance(seq, Mul) and isinstance(qubit_map, dict) and isinstance(item, Gate)"},"out":{"base":"Any"},"spec":{"lhs":"convert_to_real_indices(seq)","rhs":"returns the circuit with real indices","over":{"base":"Any","pred":"isinstance(seq, Mul) and isinstance(qubit_map, dict) and isinstance(item, Gate)"},"name":"convert_to_real_indices_correct"},"guarantee":"returns the circuit with real indices","fibers":[{"name":"Mul","pred":"isinstance(seq, Mul)","path":{"lhs":"convert_to_real_indices(x)","rhs":"returns the circuit with real indices","over":{"base":"Mul","pred":"isinstance(seq, Mul)"},"name":"convert_to_real_indices_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_real_indices_Mul_correct","statement":"convert_to_real_indices satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(qubit_map, dict)","path":{"lhs":"convert_to_real_indices(x)","rhs":"returns the circuit with real indices","over":{"base":"dict","pred":"isinstance(qubit_map, dict)"},"name":"convert_to_real_indices_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_real_indices_dict_correct","statement":"convert_to_real_indices satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"Gate","pred":"isinstance(item, Gate)","path":{"lhs":"convert_to_real_indices(x)","rhs":"returns the circuit with real indices","over":{"base":"Gate","pred":"isinstance(item, Gate)"},"name":"convert_to_real_indices_Gate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_real_indices_Gate_correct","statement":"convert_to_real_indices satisfies spec on Gate inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(item, (tuple, Tuple))","path":{"lhs":"convert_to_real_indices(x)","rhs":"returns the circuit with real indices","over":{"base":"(tuple","pred":"isinstance(item, (tuple, Tuple))"},"name":"convert_to_real_indices_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_real_indices_(tuple_correct","statement":"convert_to_real_indices satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cffe0f664f50234e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.convert_to_real_indices","kind":"function","src_hash":"9e95de58040347f4","in":{"base":"Any","pred":"isinstance(seq, Mul) and isinstance(qubit_map, dict) and isinstance(item, Gate) and hasattr(seq, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: convert_to_real_indices may be idempotent: convert_to_real_indices(convert_to_real_indices(x)) == convert_to_real_indices(x)"},"spec":{"lhs":"convert_to_real_indices(seq, qubit_map)","rhs":"# HINT: convert_to_real_indices may be idempotent: convert_to_real_indices(convert_to_real_indices(x)) == convert_to_real_indices(x)","over":{"base":"Any","pred":"isinstance(seq, Mul) and isinstance(qubit_map, dict) and isinstance(item, Gate) and hasattr(seq, 'args')"},"name":"convert_to_real_indices_correct"},"guarantee":"# HINT: convert_to_real_indices may be idempotent: convert_to_real_indices(convert_to_real_indices(x)) == convert_to_real_indices(x)","fibers":[{"name":"Mul","pred":"isinstance(seq, Mul)","path":{"lhs":"convert_to_real_indices(x)","rhs":"# HINT: convert_to_real_indices may be idempotent: convert_to_real_indices(convert_to_real_indices(x)) == convert_to_real_indices(x)","over":{"base":"Mul","pred":"isinstance(seq, Mul)"},"name":"convert_to_real_indices_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_real_indices_Mul_correct","statement":"convert_to_real_indices satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(qubit_map, dict)","path":{"lhs":"convert_to_real_indices(x)","rhs":"# HINT: convert_to_real_indices may be idempotent: convert_to_real_indices(convert_to_real_indices(x)) == convert_to_real_indices(x)","over":{"base":"dict","pred":"isinstance(qubit_map, dict)"},"name":"convert_to_real_indices_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_real_indices_dict_correct","statement":"convert_to_real_indices satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"Gate","pred":"isinstance(item, Gate)","path":{"lhs":"convert_to_real_indices(x)","rhs":"# HINT: convert_to_real_indices may be idempotent: convert_to_real_indices(convert_to_real_indices(x)) == convert_to_real_indices(x)","over":{"base":"Gate","pred":"isinstance(item, Gate)"},"name":"convert_to_real_indices_Gate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_real_indices_Gate_correct","statement":"convert_to_real_indices satisfies spec on Gate inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(item, (tuple, Tuple))","path":{"lhs":"convert_to_real_indices(x)","rhs":"# HINT: convert_to_real_indices may be idempotent: convert_to_real_indices(convert_to_real_indices(x)) == convert_to_real_indices(x)","over":{"base":"(tuple","pred":"isinstance(item, (tuple, Tuple))"},"name":"convert_to_real_indices_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.convert_to_real_indices_(tuple_correct","statement":"convert_to_real_indices satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cffe0f664f50234e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(seq, 'args')"],"ensures":["# HINT: convert_to_real_indices may be idempotent: convert_to_real_indices(convert_to_real_indices(x)) == convert_to_real_indices(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","seq.args"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":2,"n_assumed":4,"n_failed":6,"trust_level":"LIBRARY_ASSUMED","compile_ms":14.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(item, Gate)', 'not isinstance(qubit_map, dict)', 'isinstance(item, (tuple, Tuple))', 'isinstance(seq, Mul)'}, fibers={'(tuple', 'dict', 'Gate', 'Mul'})"]}}
 def convert_to_real_indices(seq, qubit_map):
     """Returns the circuit with real indices.
 
@@ -494,9 +538,14 @@ def convert_to_real_indices(seq, qubit_map):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random_reduce(cir), shorten the length of a quantum circuit) over {Any | isinstance(circuit, Mul)} ║
+# ║ Path(random_reduce(circuit, gate_ids, seed), len(ids) == old_len_ids - 1) over {Any | isinstance(circuit, Mul) and hasattr(circuit, 'args') and len(ids) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ random_reduce : {Any | isinstance(circuit, Mul)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(circuit, 'args')                       ║
+# ║   requires: len(ids) > 0                                   ║
+# ║   ensures:  len(ids) == old_len_ids - 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ random_reduce : {Any | isinstance(circuit, Mul) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Mul: {isinstance(circuit, Mul)} → library_axiom          ║
@@ -506,9 +555,12 @@ def convert_to_real_indices(seq, qubit_map):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7595080c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.random_reduce","kind":"function","src_hash":"225cef550f22d7dd","in":{"base":"Any","pred":"isinstance(circuit, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"random_reduce(cir)","rhs":"shorten the length of a quantum circuit","over":{"base":"Any","pred":"isinstance(circuit, Mul)"},"name":"random_reduce_correct"},"guarantee":"shorten the length of a quantum circuit","fibers":[{"name":"Mul","pred":"isinstance(circuit, Mul)","path":{"lhs":"random_reduce(x)","rhs":"shorten the length of a quantum circuit","over":{"base":"Mul","pred":"isinstance(circuit, Mul)"},"name":"random_reduce_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.random_reduce_Mul_correct","statement":"random_reduce satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7595080c4d74cbdb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.random_reduce","kind":"function","src_hash":"225cef550f22d7dd","in":{"base":"Any","pred":"isinstance(circuit, Mul) and hasattr(circuit, 'args') and len(ids) > 0"},"out":{"base":"Any","pred":"result satisfies: len(ids) == old_len_ids - 1"},"spec":{"lhs":"random_reduce(circuit, gate_ids, seed)","rhs":"len(ids) == old_len_ids - 1","over":{"base":"Any","pred":"isinstance(circuit, Mul) and hasattr(circuit, 'args') and len(ids) > 0"},"name":"random_reduce_correct"},"guarantee":"len(ids) == old_len_ids - 1","fibers":[{"name":"Mul","pred":"isinstance(circuit, Mul)","path":{"lhs":"random_reduce(x)","rhs":"len(ids) == old_len_ids - 1","over":{"base":"Mul","pred":"isinstance(circuit, Mul)"},"name":"random_reduce_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.random_reduce_Mul_correct","statement":"random_reduce satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7595080c4d74cbdb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(circuit, 'args')","len(ids) > 0"],"ensures":["len(ids) == old_len_ids - 1"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["circuit.args"],"calls_mutating":["ids.pop"],"nondeterministic_sources":["randrange"]},"state_contract":{"modifies":["ids.*"],"old_bindings":{"old_len_ids":"len(ids)"},"pre_requires":["len(ids) > 0"],"post_ensures":["len(ids) == old_len_ids - 1"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'find_subcircuit(circuit, id) != -1', 'isinstance(circuit, Mul)'}, fibers={'Mul'})"]}}
 def random_reduce(circuit, gate_ids, seed=None):
     """Shorten the length of a quantum circuit.
 
@@ -560,9 +612,13 @@ def random_reduce(circuit, gate_ids, seed=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random_insert(cir), insert a circuit into another quantum circuit) over {Any | isinstance(circuit, Mul)} ║
+# ║ Path(random_insert(circuit, choices, seed), <unspecified:random_insert>) over {Any | isinstance(circuit, Mul) and hasattr(circuit, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ random_insert : {Any | isinstance(circuit, Mul)} → Any     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(circuit, 'args')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ random_insert : {Any | isinstance(circuit, Mul) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Mul: {isinstance(circuit, Mul)} → library_axiom          ║
@@ -572,9 +628,12 @@ def random_reduce(circuit, gate_ids, seed=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 01e4ce35...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.random_insert","kind":"function","src_hash":"b1e0e3b13dc5fb3b","in":{"base":"Any","pred":"isinstance(circuit, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"random_insert(cir)","rhs":"insert a circuit into another quantum circuit","over":{"base":"Any","pred":"isinstance(circuit, Mul)"},"name":"random_insert_correct"},"guarantee":"insert a circuit into another quantum circuit","fibers":[{"name":"Mul","pred":"isinstance(circuit, Mul)","path":{"lhs":"random_insert(x)","rhs":"insert a circuit into another quantum circuit","over":{"base":"Mul","pred":"isinstance(circuit, Mul)"},"name":"random_insert_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.random_insert_Mul_correct","statement":"random_insert satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"01e4ce357f9bba3f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.random_insert","kind":"function","src_hash":"b1e0e3b13dc5fb3b","in":{"base":"Any","pred":"isinstance(circuit, Mul) and hasattr(circuit, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"random_insert(circuit, choices, seed)","rhs":"<unspecified:random_insert>","over":{"base":"Any","pred":"isinstance(circuit, Mul) and hasattr(circuit, 'args')"},"name":"random_insert_correct"},"guarantee":"insert a circuit into another quantum circuit","fibers":[{"name":"Mul","pred":"isinstance(circuit, Mul)","path":{"lhs":"random_insert(x)","rhs":"insert a circuit into another quantum circuit","over":{"base":"Mul","pred":"isinstance(circuit, Mul)"},"name":"random_insert_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.random_insert_Mul_correct","statement":"random_insert satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"01e4ce357f9bba3f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(circuit, 'args')"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["circuit.args"],"writes":["circuit[*]"],"nondeterministic_sources":["randrange"]},"state_contract":{"modifies":["circuit[*]"],"old_bindings":{"old_circuit_star":"circuit[*]"}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(circuit, Mul)'}, fibers={'Mul'})"]}}
 def random_insert(circuit, choices, seed=None):
     """Insert a circuit into another quantum circuit.
 
@@ -623,16 +682,23 @@ def random_insert(circuit, choices, seed=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flatten_ids(ids), flatten_ids produces the expected output) over Any ║
+# ║ Path(flatten_ids(ids), len(ids) == old_len_ids) over {Any | hasattr(ids, 'sort')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ flatten_ids : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ids, 'sort')                           ║
+# ║   ensures:  len(ids) == old_len_ids                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ flatten_ids : {Any | hasattr(ids, 'sort')} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7176071385ca2845  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4f536089c88dbba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.flatten_ids","kind":"function","src_hash":"29c78f0e7b9b505a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten_ids(ids)","rhs":"flatten_ids produces the expected output","over":{"base":"Any"},"name":"flatten_ids_correct"},"guarantee":"flatten_ids produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.flatten_ids_correct","statement":"Path(flatten_ids(x), flatten_ids produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7176071385ca2845"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.circuitutils.flatten_ids","kind":"function","src_hash":"29c78f0e7b9b505a","in":{"base":"Any","pred":"hasattr(ids, 'sort')"},"out":{"base":"Any","pred":"result satisfies: len(ids) == old_len_ids"},"spec":{"lhs":"flatten_ids(ids)","rhs":"len(ids) == old_len_ids","over":{"base":"Any","pred":"hasattr(ids, 'sort')"},"name":"flatten_ids_correct"},"guarantee":"len(ids) == old_len_ids","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.circuitutils.flatten_ids_correct","statement":"Path(flatten_ids(x), len(ids) == old_len_ids)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4f536089c88dbba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ids, 'sort')"],"ensures":["len(ids) == old_len_ids"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["ids.sort"],"calls_mutating":["ids.sort"]},"state_contract":{"modifies":["ids.*"],"old_bindings":{"old_len_ids":"len(ids)"},"post_ensures":["len(ids) == old_len_ids"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def flatten_ids(ids):
     collapse = lambda acc, an_id: acc + sorted(an_id.equivalent_ids,
                                         key=default_sort_key)

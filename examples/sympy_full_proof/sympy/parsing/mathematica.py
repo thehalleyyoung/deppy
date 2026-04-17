@@ -34,16 +34,22 @@ from sympy.utilities.exceptions import sympy_deprecation_warning
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mathematica(s, ), id) over Any                        ║
+# ║ Path(mathematica(s, additional_translations), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sympify(parser._parse_old(s))                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mathematica : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 698a7f5dcec229a9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.mathematica","kind":"function","src_hash":"0470b9d1ed71aafe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mathematica(s, )","rhs":"mathematica produces the expected output","over":{"base":"Any"},"name":"mathematica_correct","kind":"composition"},"guarantee":"mathematica produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sympify","by":"library_axiom"},{"fn":"_parse_old","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"698a7f5dcec229a9"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.mathematica","kind":"function","src_hash":"0470b9d1ed71aafe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mathematica(s, additional_translations)","rhs":"sympify(parser._parse_old(s))","over":{"base":"Any"},"name":"mathematica_correct","kind":"composition"},"guarantee":"returns sympify(parser._parse_old(s))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sympify","by":"library_axiom"},{"fn":"_parse_old","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"698a7f5dcec229a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sympify(parser._parse_old(s))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def mathematica(s, additional_translations=None):
     sympy_deprecation_warning(
         """The ``mathematica`` function for the Mathematica parser is now
@@ -58,16 +64,22 @@ The parameter ``additional_translation`` can be replaced by SymPy's
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parse_mathematica(s), translate a string containing a wolfram mathematica expression to a sympy expression) over Any ║
+# ║ Path(parse_mathematica(s), parser.parse(s)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  parser.parse(s)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parse_mathematica : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1969c0f184b88c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ea5354370feb2d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.parse_mathematica","kind":"function","src_hash":"889826df3fc92317","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parse_mathematica(s)","rhs":"translate a string containing a wolfram mathematica expression to a sympy expression","over":{"base":"Any"},"name":"parse_mathematica_correct"},"guarantee":"translate a string containing a wolfram mathematica expression to a sympy expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.parse_mathematica_correct","statement":"Path(parse_mathematica(x), translate a string containing a wolfram mathematica expression to a sympy expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1969c0f184b88c0"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.parse_mathematica","kind":"function","src_hash":"889826df3fc92317","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parse_mathematica(s)","rhs":"parser.parse(s)","over":{"base":"Any"},"name":"parse_mathematica_correct"},"guarantee":"returns parser.parse(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.parse_mathematica_correct","statement":"Path(parse_mathematica(x), returns parser.parse(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ea5354370feb2d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"parser.parse(s)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def parse_mathematica(s):
     """
     Translate a string containing a Wolfram Mathematica expression to a SymPy
@@ -123,7 +135,12 @@ def parse_mathematica(s):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parse_Function(*ar), internal helper behaves correctly) over {Any | isinstance(number_of_arguments, Integer)} ║
+# ║ Path(_parse_Function(*args), <unspecified:_parse_Function>) over {Any | isinstance(number_of_arguments, Integer)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: len(args) == 1 => Lambda((), arg)         ║
+# ║   fiber[case_1]: len(args) == 2 => Lambda(variables, ...   ║
+# ║   fiber[case_2]: not (len(args) == 1) and not (len(ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _parse_Function : {Any | isinstance(number_of_argumen...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -135,9 +152,12 @@ def parse_mathematica(s):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 56ac5f47...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica._parse_Function","kind":"function","src_hash":"e97fcb72ee3163e3","in":{"base":"Any","pred":"isinstance(number_of_arguments, Integer)"},"out":{"base":"Any"},"spec":{"lhs":"_parse_Function(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(number_of_arguments, Integer)"},"name":"_parse_Function_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Integer","pred":"isinstance(number_of_arguments, Integer)","path":{"lhs":"_parse_Function(x)","rhs":"internal helper behaves correctly","over":{"base":"Integer","pred":"isinstance(number_of_arguments, Integer)"},"name":"_parse_Function_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica._parse_Function_Integer_correct","statement":"_parse_Function satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"56ac5f47dff9d9d6"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica._parse_Function","kind":"function","src_hash":"e97fcb72ee3163e3","in":{"base":"Any","pred":"isinstance(number_of_arguments, Integer)"},"out":{"base":"Any"},"spec":{"lhs":"_parse_Function(*args)","rhs":"<unspecified:_parse_Function>","over":{"base":"Any","pred":"isinstance(number_of_arguments, Integer)"},"name":"_parse_Function_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"Integer","pred":"isinstance(number_of_arguments, Integer)","path":{"lhs":"_parse_Function(x)","rhs":"3-fiber decomposition","over":{"base":"Integer","pred":"isinstance(number_of_arguments, Integer)"},"name":"_parse_Function_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica._parse_Function_Integer_correct","statement":"_parse_Function satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"56ac5f47dff9d9d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"len(args) == 1","ensures":["result == Lambda((), arg)"],"decidability":"z3","returns_expr":"Lambda((), arg)"},{"name":"case_1","guard":"len(args) == 2","ensures":["result == Lambda(variables, body)"],"decidability":"z3","returns_expr":"Lambda(variables, body)"},{"name":"case_2","guard":"not (len(args) == 1) and not (len(args) == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["SyntaxError"]},"state_contract":{"exceptional_post":{"SyntaxError":["isinstance(raised, SyntaxError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']","Poor branch-fiber coverage: 0% (branches={'len(args) == 1', 'len(args) == 2', 'isinstance(number_of_arguments, Integer)'}, fibers={'Integer'})"]}}
 def _parse_Function(*args):
     if len(args) == 1:
         arg = args[0]
@@ -158,16 +178,23 @@ def _parse_Function(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_deco(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_deco(cls), cls) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _deco : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == cls                                  ║
+# ║   returns:  cls                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _deco : Any → {Any | result satisfies: result == (cls)}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9611d0ba2b0738b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1afd98c04c2b8a89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica._deco","kind":"function","src_hash":"b7a5e9eaaee77cb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_deco(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_deco_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica._deco_correct","statement":"Path(_deco(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9611d0ba2b0738b2"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica._deco","kind":"function","src_hash":"b7a5e9eaaee77cb3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (cls)"},"spec":{"lhs":"_deco(cls)","rhs":"cls","over":{"base":"Any"},"name":"_deco_correct"},"guarantee":"returns cls; result == cls","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica._deco_correct","statement":"Path(_deco(x), returns cls; result == cls)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1afd98c04c2b8a89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == cls"],"returns_expr":"cls","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._initialize_class"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _deco(cls):
     cls._initialize_class()
     return cls
@@ -177,14 +204,19 @@ def _deco(cls):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MathematicaParser instance) preserved by MathematicaParser(*args) over {Any | isinstance(token, list) and isinstance(additional_translations, dict) and isinstance(x, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MathematicaParser : {Any | isinstance(token, list) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 7.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8386e23f9c60fe25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser","kind":"class","src_hash":"4254a569042319b5","in":{"base":"Any","pred":"isinstance(token, list) and isinstance(additional_translations, dict) and isinstance(x, str)"},"out":{"base":"Any"},"spec":{"lhs":"MathematicaParser(*args)","rhs":"correctly constructs a MathematicaParser instance","over":{"base":"Any","pred":"isinstance(token, list) and isinstance(additional_translations, dict) and isinstance(x, str)"},"name":"MathematicaParser_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MathematicaParser instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'translations')","kind":"class","induction":"structural on translations"}],"methods_preserving":["__init__","_convert_function","_convert_one_function","_parse_old","parse","_get_tokenizer","_from_mathematica_to_tokens","_is_op","_is_valid_star1","_is_valid_star2","_from_tokens_to_fullformlist","_util_remove_newlines","_util_add_missing_asterisks","_parse_after_braces","_check_op_compatible","_from_fullform_to_fullformlist","_from_fullformlist_to_fullformsympy","_from_fullformlist_to_sympy","_from_fullformsympy_to_sympy"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8386e23f9c60fe25"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser","kind":"class","src_hash":"4254a569042319b5","in":{"base":"Any","pred":"isinstance(token, list) and isinstance(additional_translations, dict) and isinstance(x, str)"},"out":{"base":"Any"},"spec":{"lhs":"MathematicaParser(*args)","rhs":"correctly constructs a MathematicaParser instance","over":{"base":"Any","pred":"isinstance(token, list) and isinstance(additional_translations, dict) and isinstance(x, str)"},"name":"MathematicaParser_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'translations')","kind":"class","induction":"structural on translations"}],"methods_preserving":["__init__","_convert_function","_convert_one_function","_parse_old","parse","_get_tokenizer","_from_mathematica_to_tokens","_is_op","_is_valid_star1","_is_valid_star2","_from_tokens_to_fullformlist","_util_remove_newlines","_util_add_missing_asterisks","_parse_after_braces","_check_op_compatible","_from_fullform_to_fullformlist","_from_fullformlist_to_fullformsympy","_from_fullformlist_to_sympy","_from_fullformsympy_to_sympy"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8386e23f9c60fe25","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'translations')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function MathematicaParser not found in source"]}}
 class MathematicaParser:
     """
     An instance of this class converts a string of a Wolfram Mathematica
@@ -323,32 +355,44 @@ class MathematicaParser:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_initialize_class(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_initialize_class(cls), <unspecified:_initialize_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _initialize_class : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c32a9fc31a003149  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._initialize_class","kind":"classmethod","src_hash":"1cc30a711bae8d8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_initialize_class(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_initialize_class_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._initialize_class_correct","statement":"Path(_initialize_class(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c32a9fc31a003149"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._initialize_class","kind":"classmethod","src_hash":"1cc30a711bae8d8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_initialize_class(cls)","rhs":"<unspecified:_initialize_class>","over":{"base":"Any"},"name":"_initialize_class_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._initialize_class_correct","statement":"Path(_initialize_class(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c32a9fc31a003149","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","reads":["cls.CORRESPONDENCES","cls.TRANSLATIONS","cls._compile_dictionary"],"calls_mutating":["cls.TRANSLATIONS.update"]},"state_contract":{"modifies":["cls.*"],"old_bindings":{"old_len_cls":"len(cls)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _initialize_class(cls):
         # get a transformed CORRESPONDENCES dictionary
         d = cls._compile_dictionary(cls.CORRESPONDENCES)
         cls.TRANSLATIONS.update(d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(add), initializes the instance correctly) over Any ║
+# ║ Path(__init__(additional_translations), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d6c483dc2996a4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser.__init__","kind":"method","src_hash":"99af79d36a3a4038","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(add)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d6c483dc2996a4c"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser.__init__","kind":"method","src_hash":"99af79d36a3a4038","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(additional_translations)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d6c483dc2996a4c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["*.__class__","self.TRANSLATIONS","self.__class__","self._compile_dictionary","self.translations"],"writes":["self.translations"],"calls_mutating":["self.translations.update"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*","self.translations"],"old_bindings":{"old_self_translations":"self.translations"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, additional_translations=None):
         self.translations = {}
 
@@ -375,16 +419,23 @@ class MathematicaParser:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compile_dictionary(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_compile_dictionary(cls, dic), <unspecified:_compile_dictionary>) over {Any | hasattr(dic, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compile_dictionary : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dic, 'items')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compile_dictionary : {Any | hasattr(dic, 'items')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0845b975901bfd67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._compile_dictionary","kind":"classmethod","src_hash":"b9197a6cf3a41f40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compile_dictionary(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compile_dictionary_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._compile_dictionary_correct","statement":"Path(_compile_dictionary(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0845b975901bfd67"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._compile_dictionary","kind":"classmethod","src_hash":"b9197a6cf3a41f40","in":{"base":"Any","pred":"hasattr(dic, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"_compile_dictionary(cls, dic)","rhs":"<unspecified:_compile_dictionary>","over":{"base":"Any","pred":"hasattr(dic, 'items')"},"name":"_compile_dictionary_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._compile_dictionary_correct","statement":"Path(_compile_dictionary(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0845b975901bfd67","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dic, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.ARGS_PATTERN_TEMPLATE","cls.FM_PATTERN","cls._apply_rules","cls._check_input","cls._get_args","cls._replace","dic.items"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compile_dictionary(cls, dic):
         # for return
         d = {}
@@ -449,16 +500,22 @@ class MathematicaParser:
         return d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_convert_function(s), parse mathematica function to sympy one) over Any ║
+# ║ Path(_convert_function(s), <unspecified:_convert_function>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _convert_function : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03102606907bcd18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._convert_function","kind":"method","src_hash":"73e5b6ca26180cb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_function(s)","rhs":"parse mathematica function to sympy one","over":{"base":"Any"},"name":"_convert_function_correct"},"guarantee":"parse mathematica function to sympy one","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._convert_function_correct","statement":"Path(_convert_function(x), parse mathematica function to sympy one)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03102606907bcd18"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._convert_function","kind":"method","src_hash":"73e5b6ca26180cb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_function(s)","rhs":"<unspecified:_convert_function>","over":{"base":"Any"},"name":"_convert_function_correct"},"guarantee":"parse mathematica function to sympy one","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._convert_function_correct","statement":"Path(_convert_function(x), parse mathematica function to sympy one)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03102606907bcd18","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.FM_PATTERN","self._convert_one_function","self._get_args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _convert_function(self, s):
         '''Parse Mathematica function to SymPy one'''
 
@@ -499,16 +556,23 @@ class MathematicaParser:
         return scanned
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_convert_one_function(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_convert_one_function(s, fm, args), s) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _convert_one_function : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == s                                    ║
+# ║   returns:  s                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _convert_one_function : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b0987a339c31a8d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c6e66fe8a0f74d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._convert_one_function","kind":"method","src_hash":"abf344f60e0fd489","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_one_function(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_convert_one_function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._convert_one_function_correct","statement":"Path(_convert_one_function(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b0987a339c31a8d"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._convert_one_function","kind":"method","src_hash":"abf344f60e0fd489","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (s)"},"spec":{"lhs":"_convert_one_function(s, fm, args)","rhs":"s","over":{"base":"Any"},"name":"_convert_one_function_correct"},"guarantee":"returns s; result == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._convert_one_function_correct","statement":"Path(_convert_one_function(x), returns s; result == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c6e66fe8a0f74d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == s"],"returns_expr":"s","pure":false,"effects":{"effect_type":"reads_state","reads":["self.translations"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _convert_one_function(self, s, fm, args, bgn, end):
         # no variable-length argument
         if (fm, len(args)) in self.translations:
@@ -577,16 +641,24 @@ class MathematicaParser:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_args(cls), get arguments of a mathematica function) over Any ║
+# ║ Path(_get_args(cls, m), (args, func_end)) over {Any | hasattr(m, 'string') and hasattr(m, 'end')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_args : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'string')                           ║
+# ║   requires: hasattr(m, 'end')                              ║
+# ║   returns:  (args, func_end)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_args : {Any | hasattr(m, 'string') and hasattr(m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 766433580b2af876  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63b700cc23fa3421  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._get_args","kind":"classmethod","src_hash":"983a12f894b0e5b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_args(cls)","rhs":"get arguments of a mathematica function","over":{"base":"Any"},"name":"_get_args_correct"},"guarantee":"get arguments of a mathematica function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._get_args_correct","statement":"Path(_get_args(x), get arguments of a mathematica function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"766433580b2af876"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._get_args","kind":"classmethod","src_hash":"983a12f894b0e5b3","in":{"base":"Any","pred":"hasattr(m, 'string') and hasattr(m, 'end')"},"out":{"base":"Any"},"spec":{"lhs":"_get_args(cls, m)","rhs":"(args, func_end)","over":{"base":"Any","pred":"hasattr(m, 'string') and hasattr(m, 'end')"},"name":"_get_args_correct"},"guarantee":"returns (args, func_end)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._get_args_correct","statement":"Path(_get_args(x), returns (args, func_end))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63b700cc23fa3421","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'string')","hasattr(m, 'end')"],"returns_expr":"(args, func_end)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_args(cls, m):
         '''Get arguments of a Mathematica function'''
 
@@ -626,16 +698,24 @@ class MathematicaParser:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_replace(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_replace(cls, s, bef), s) over {Any | hasattr(s, 'replace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _replace : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'replace')                          ║
+# ║   ensures:  result == s                                    ║
+# ║   returns:  s                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _replace : {Any | hasattr(s, 'replace')} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 964c9dcbb2bf0165  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6457d488fcb2918a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._replace","kind":"classmethod","src_hash":"38a57fc6b3f0065c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_replace(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_replace_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._replace_correct","statement":"Path(_replace(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"964c9dcbb2bf0165"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._replace","kind":"classmethod","src_hash":"38a57fc6b3f0065c","in":{"base":"Any","pred":"hasattr(s, 'replace')"},"out":{"base":"Any","pred":"result satisfies: result == (s)"},"spec":{"lhs":"_replace(cls, s, bef)","rhs":"s","over":{"base":"Any","pred":"hasattr(s, 'replace')"},"name":"_replace_correct"},"guarantee":"returns s; result == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._replace_correct","statement":"Path(_replace(x), returns s; result == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6457d488fcb2918a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'replace')"],"ensures":["result == s"],"returns_expr":"s","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.REPLACEMENTS","s.replace"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _replace(cls, s, bef):
         aft = cls.REPLACEMENTS[bef]
         s = s.replace(bef, aft)
@@ -643,32 +723,45 @@ class MathematicaParser:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_rules(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_apply_rules(cls, s, bef), pat.sub(aft, s)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pat.sub(aft, s)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_rules : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b61586c46ebcf90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec8d7b2ad4580080  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._apply_rules","kind":"classmethod","src_hash":"6e50a7ef2de83bb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_rules(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_apply_rules_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._apply_rules_correct","statement":"Path(_apply_rules(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b61586c46ebcf90"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._apply_rules","kind":"classmethod","src_hash":"6e50a7ef2de83bb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_apply_rules(cls, s, bef)","rhs":"pat.sub(aft, s)","over":{"base":"Any"},"name":"_apply_rules_correct"},"guarantee":"returns pat.sub(aft, s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._apply_rules_correct","statement":"Path(_apply_rules(x), returns pat.sub(aft, s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec8d7b2ad4580080","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pat.sub(aft, s)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.RULES"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _apply_rules(cls, s, bef):
         pat, aft = cls.RULES[bef]
         return pat.sub(aft, s)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_input(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_check_input(cls, s), <unspecified:_check_input>) over {Any | hasattr(s, 'count')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_input : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'count')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_input : {Any | hasattr(s, 'count')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fc7b134b60f79c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._check_input","kind":"classmethod","src_hash":"35cb4705fe39b8c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_input(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_input_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._check_input_correct","statement":"Path(_check_input(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fc7b134b60f79c7"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._check_input","kind":"classmethod","src_hash":"35cb4705fe39b8c6","in":{"base":"Any","pred":"hasattr(s, 'count')"},"out":{"base":"Any"},"spec":{"lhs":"_check_input(cls, s)","rhs":"<unspecified:_check_input>","over":{"base":"Any","pred":"hasattr(s, 'count')"},"name":"_check_input_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._check_input_correct","statement":"Path(_check_input(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fc7b134b60f79c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'count')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["s.count"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_input(cls, s):
         for bracket in (('[', ']'), ('{', '}'), ('(', ')')):
             if s.count(bracket[0]) != s.count(bracket[1]):
@@ -680,16 +773,22 @@ class MathematicaParser:
             raise ValueError(err)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parse_old(s), internal helper behaves correctly) over Any ║
+# ║ Path(_parse_old(s), <unspecified:_parse_old>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _parse_old : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afd262cd64e53bca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._parse_old","kind":"method","src_hash":"aa55f6b412d18af4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_parse_old(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_parse_old_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._parse_old_correct","statement":"Path(_parse_old(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afd262cd64e53bca"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._parse_old","kind":"method","src_hash":"aa55f6b412d18af4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_parse_old(s)","rhs":"<unspecified:_parse_old>","over":{"base":"Any"},"name":"_parse_old_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._parse_old_correct","statement":"Path(_parse_old(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afd262cd64e53bca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _parse_old(self, s):
         # input check
         self._check_input(s)
@@ -720,16 +819,22 @@ class MathematicaParser:
         return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parse(s), parse produces the expected output) over Any ║
+# ║ Path(parse(s), <unspecified:parse>) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parse : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d6fd18164d5aa41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser.parse","kind":"method","src_hash":"5a383b03ff0d45d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parse(s)","rhs":"parse produces the expected output","over":{"base":"Any"},"name":"parse_correct"},"guarantee":"parse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser.parse_correct","statement":"Path(parse(x), parse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d6fd18164d5aa41"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser.parse","kind":"method","src_hash":"5a383b03ff0d45d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parse(s)","rhs":"<unspecified:parse>","over":{"base":"Any"},"name":"parse_correct"},"guarantee":"parse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser.parse_correct","statement":"Path(parse(x), parse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d6fd18164d5aa41","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._from_fullformlist_to_sympy","self._from_mathematica_to_tokens","self._from_tokens_to_fullformlist"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parse(self, s):
         s2 = self._from_mathematica_to_tokens(s)
         s3 = self._from_tokens_to_fullformlist(s2)
@@ -794,47 +899,67 @@ class MathematicaParser:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_neg(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_get_neg(cls, x), f'-{x}' if isinstance(x, str) and re.match(MathematicaParser._number, x) else ['Times', '-1', x]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'-{x}' if isinstance(x, str) and re.matc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_neg : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1842be5d0bfe7081           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._get_neg","kind":"classmethod","src_hash":"0b83a8c2b5b311be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_neg(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_neg_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1842be5d0bfe7081"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._get_neg","kind":"classmethod","src_hash":"0b83a8c2b5b311be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_neg(cls, x)","rhs":"f'-{x}' if isinstance(x, str) and re.match(MathematicaParser._number, x) else ['Times', '-1', x]","over":{"base":"Any"},"name":"_get_neg_correct"},"guarantee":"returns f'-{x}' if isinstance(x, str) and re.match(MathematicaParser._number, x) else ['Times', '-1', x]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1842be5d0bfe7081","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'-{x}' if isinstance(x, str) and re.match(MathematicaParser._number, x) else ['Times', '-1', x]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_neg(cls, x):
         return f"-{x}" if isinstance(x, str) and re.match(MathematicaParser._number, x) else ["Times", "-1", x]
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_inv(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_get_inv(cls, x), ['Power', x, '-1']) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ['Power', x, '-1']                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_inv : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d3f63b0cf930a64           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._get_inv","kind":"classmethod","src_hash":"70d9941ce4e01e56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_inv(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_inv_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d3f63b0cf930a64"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._get_inv","kind":"classmethod","src_hash":"70d9941ce4e01e56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_inv(cls, x)","rhs":"['Power', x, '-1']","over":{"base":"Any"},"name":"_get_inv_correct"},"guarantee":"returns ['Power', x, '-1']","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d3f63b0cf930a64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"['Power', x, '-1']","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_inv(cls, x):
         return ["Power", x, "-1"]
 
     _regex_tokenizer = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_tokenizer(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_tokenizer(), len(tokens) == old_len_tokens + 1 and len(tokens_escape) == old_len_tokens_escape + 1 and len(tokens_escape) == old_len_tokens_escape) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_tokenizer : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(tokens) == old_len_tokens + 1              ║
+# ║   ensures:  len(tokens_escape) == old_len_tokens_esca...   ║
+# ║   ensures:  len(tokens_escape) == old_len_tokens_escape    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_tokenizer : Any → {Any | result satisfies: len(t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fdb3ff324d38c22  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cef252df941a525  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._get_tokenizer","kind":"method","src_hash":"1e8648a2762bf646","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_tokenizer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_tokenizer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._get_tokenizer_correct","statement":"Path(_get_tokenizer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fdb3ff324d38c22"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._get_tokenizer","kind":"method","src_hash":"1e8648a2762bf646","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(tokens) == old_len_tokens + 1 and len(tokens_escape) == old_len_tokens_escape + 1 and len(tokens_escape) == old_len_tokens_escape"},"spec":{"lhs":"_get_tokenizer()","rhs":"len(tokens) == old_len_tokens + 1 and len(tokens_escape) == old_len_tokens_escape + 1 and len(tokens_escape) == old_len_tokens_escape","over":{"base":"Any"},"name":"_get_tokenizer_correct"},"guarantee":"len(tokens) == old_len_tokens + 1; len(tokens_escape) == old_len_tokens_escape + 1; len(tokens_escape) == old_len_tokens_escape","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._get_tokenizer_correct","statement":"Path(_get_tokenizer(x), len(tokens) == old_len_tokens + 1; len(tokens_escape) == old_len_tokens_escape + 1; len(tokens_escape) == old_len_tokens_escape)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cef252df941a525","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(tokens) == old_len_tokens + 1","len(tokens_escape) == old_len_tokens_escape + 1","len(tokens_escape) == old_len_tokens_escape"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._enclosure_close","self._enclosure_open","self._literal","self._mathematica_op_precedence","self._number","self._regex_tokenizer"],"writes":["self._regex_tokenizer"],"calls_mutating":["tokens.append","tokens.extend","tokens_escape.append","tokens_escape.sort"]},"state_contract":{"modifies":["self._regex_tokenizer","tokens.*","tokens_escape.*"],"old_bindings":{"old_self__regex_tokenizer":"self._regex_tokenizer","old_len_tokens":"len(tokens)","old_len_tokens_escape":"len(tokens_escape)"},"post_ensures":["len(tokens) == old_len_tokens + 1","len(tokens_escape) == old_len_tokens_escape + 1","len(tokens_escape) == old_len_tokens_escape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_tokenizer(self):
         if self._regex_tokenizer is not None:
             # Check if the regular expression has already been compiled:
@@ -853,16 +978,26 @@ class MathematicaParser:
         return self._regex_tokenizer
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_from_mathematica_to_tokens(cod), internal helper behaves correctly) over Any ║
+# ║ Path(_from_mathematica_to_tokens(code), len(code_splits) == old_len_code_splits + 1 and len(tokens) == old_len_tokens - 1) over {Any | isinstance(code, str) and hasattr(code, 'find') and len(tokens) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _from_mathematica_to_tokens : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(code, str)                          ║
+# ║   requires: hasattr(code, 'find')                          ║
+# ║   requires: len(tokens) > 0                                ║
+# ║   ensures:  len(code_splits) == old_len_code_splits + 1    ║
+# ║   ensures:  len(tokens) == old_len_tokens - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _from_mathematica_to_tokens : {Any | isinstance(code,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8513b2e24ca5422  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c8e81563957741f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._from_mathematica_to_tokens","kind":"method","src_hash":"a53005195986f51d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_mathematica_to_tokens(cod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_from_mathematica_to_tokens_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._from_mathematica_to_tokens_correct","statement":"Path(_from_mathematica_to_tokens(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8513b2e24ca5422"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._from_mathematica_to_tokens","kind":"method","src_hash":"a53005195986f51d","in":{"base":"Any","pred":"isinstance(code, str) and hasattr(code, 'find') and len(tokens) > 0"},"out":{"base":"Any","pred":"result satisfies: len(code_splits) == old_len_code_splits + 1 and len(tokens) == old_len_tokens - 1"},"spec":{"lhs":"_from_mathematica_to_tokens(code)","rhs":"len(code_splits) == old_len_code_splits + 1 and len(tokens) == old_len_tokens - 1","over":{"base":"Any","pred":"isinstance(code, str) and hasattr(code, 'find') and len(tokens) > 0"},"name":"_from_mathematica_to_tokens_correct"},"guarantee":"len(code_splits) == old_len_code_splits + 1; len(tokens) == old_len_tokens - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._from_mathematica_to_tokens_correct","statement":"Path(_from_mathematica_to_tokens(x), len(code_splits) == old_len_code_splits + 1; len(tokens) == old_len_tokens - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c8e81563957741f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(code, str)","hasattr(code, 'find')","len(tokens) > 0"],"ensures":["len(code_splits) == old_len_code_splits + 1","len(tokens) == old_len_tokens - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["code.find","self._get_tokenizer"],"calls_mutating":["code_splits.append","tokens.pop"],"raises":["SyntaxError"]},"state_contract":{"modifies":["code_splits.*","tokens.*"],"old_bindings":{"old_len_code_splits":"len(code_splits)","old_len_tokens":"len(tokens)"},"pre_requires":["len(tokens) > 0"],"post_ensures":["len(code_splits) == old_len_code_splits + 1","len(tokens) == old_len_tokens - 1"],"exceptional_post":{"SyntaxError":["isinstance(raised, SyntaxError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _from_mathematica_to_tokens(self, code: str):
         tokenizer = self._get_tokenizer()
 
@@ -911,16 +1046,23 @@ class MathematicaParser:
         return tokens
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_op(tok), internal helper behaves correctly) over Any ║
+# ║ Path(_is_op(token), isinstance(result, bool)) over {Any | isinstance(token, str | list)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_op : Any → bool                                        ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(token, str | list)                  ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_op : {Any | isinstance(token, str | list)} → {boo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6119b718dc02f5c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 066b24be0328a9b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._is_op","kind":"method","src_hash":"e0ed13302cb52c96","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"_is_op(tok)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_is_op_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._is_op_correct","statement":"Path(_is_op(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6119b718dc02f5c"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._is_op","kind":"method","src_hash":"e0ed13302cb52c96","in":{"base":"Any","pred":"isinstance(token, str | list)"},"out":{"base":"bool","pred":"result satisfies: isinstance(result, bool)"},"spec":{"lhs":"_is_op(token)","rhs":"isinstance(result, bool)","over":{"base":"Any","pred":"isinstance(token, str | list)"},"name":"_is_op_correct"},"guarantee":"isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._is_op_correct","statement":"Path(_is_op(x), isinstance(result, bool))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"066b24be0328a9b0","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(token, str | list)"],"ensures":["isinstance(result, bool)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._literal","self._number"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _is_op(self, token: str | list) -> bool:
         if isinstance(token, list):
             return False
@@ -931,48 +1073,74 @@ class MathematicaParser:
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_valid_star1(tok), internal helper behaves correctly) over Any ║
+# ║ Path(_is_valid_star1(token), isinstance(result, bool)) over {Any | isinstance(token, str | list)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_valid_star1 : Any → bool                               ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(token, str | list)                  ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_valid_star1 : {Any | isinstance(token, str | list...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ecb175a6b09a2e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 512fc732c46be5b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._is_valid_star1","kind":"method","src_hash":"9880f9c9c8eed698","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"_is_valid_star1(tok)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_is_valid_star1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._is_valid_star1_correct","statement":"Path(_is_valid_star1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ecb175a6b09a2e5"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._is_valid_star1","kind":"method","src_hash":"9880f9c9c8eed698","in":{"base":"Any","pred":"isinstance(token, str | list)"},"out":{"base":"bool","pred":"result satisfies: isinstance(result, bool)"},"spec":{"lhs":"_is_valid_star1(token)","rhs":"isinstance(result, bool)","over":{"base":"Any","pred":"isinstance(token, str | list)"},"name":"_is_valid_star1_correct"},"guarantee":"isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._is_valid_star1_correct","statement":"Path(_is_valid_star1(x), isinstance(result, bool))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"512fc732c46be5b0","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(token, str | list)"],"ensures":["isinstance(result, bool)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _is_valid_star1(self, token: str | list) -> bool:
         if token in (")", "}"):
             return True
         return not self._is_op(token)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_valid_star2(tok), internal helper behaves correctly) over Any ║
+# ║ Path(_is_valid_star2(token), isinstance(result, bool)) over {Any | isinstance(token, str | list)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_valid_star2 : Any → bool                               ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(token, str | list)                  ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_valid_star2 : {Any | isinstance(token, str | list...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30ee04931e2b82ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b397bc035df4b6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._is_valid_star2","kind":"method","src_hash":"642a66c45574078c","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"_is_valid_star2(tok)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_is_valid_star2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._is_valid_star2_correct","statement":"Path(_is_valid_star2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30ee04931e2b82ba"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._is_valid_star2","kind":"method","src_hash":"642a66c45574078c","in":{"base":"Any","pred":"isinstance(token, str | list)"},"out":{"base":"bool","pred":"result satisfies: isinstance(result, bool)"},"spec":{"lhs":"_is_valid_star2(token)","rhs":"isinstance(result, bool)","over":{"base":"Any","pred":"isinstance(token, str | list)"},"name":"_is_valid_star2_correct"},"guarantee":"isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._is_valid_star2_correct","statement":"Path(_is_valid_star2(x), isinstance(result, bool))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b397bc035df4b6f","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(token, str | list)"],"ensures":["isinstance(result, bool)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _is_valid_star2(self, token: str | list) -> bool:
         if token in ("(", "{"):
             return True
         return not self._is_op(token)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_from_tokens_to_fullformlist(tok), internal helper behaves correctly) over Any ║
+# ║ Path(_from_tokens_to_fullformlist(tokens), self._parse_after_braces(stack[0])) over {Any | isinstance(tokens, list) and not (len(stack) != 1) and hasattr(tokens, 'insert') and len(open_seq) > 0 and len(stack) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _from_tokens_to_fullformlist : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(tokens, list)                       ║
+# ║   requires: not (len(stack) != 1)                          ║
+# ║   requires: hasattr(tokens, 'insert')                      ║
+# ║   ensures:  len(new_stack_element) == old_len_new_sta...   ║
+# ║   ensures:  len(new_stack_element) == old_len_new_sta...   ║
+# ║   ensures:  len(open_seq) == old_len_open_seq + 1          ║
+# ║   returns:  self._parse_after_braces(stack[0])             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _from_tokens_to_fullformlist : {Any | isinstance(toke...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85eb7d0cbb8379b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55bf3e9b98d5c115  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._from_tokens_to_fullformlist","kind":"method","src_hash":"cec2b3e7c236cf64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_tokens_to_fullformlist(tok)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_from_tokens_to_fullformlist_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._from_tokens_to_fullformlist_correct","statement":"Path(_from_tokens_to_fullformlist(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85eb7d0cbb8379b9"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._from_tokens_to_fullformlist","kind":"method","src_hash":"cec2b3e7c236cf64","in":{"base":"Any","pred":"isinstance(tokens, list) and not (len(stack) != 1) and hasattr(tokens, 'insert') and len(open_seq) > 0 and len(stack) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (self._parse_after_braces(stack[0]))"},"spec":{"lhs":"_from_tokens_to_fullformlist(tokens)","rhs":"self._parse_after_braces(stack[0])","over":{"base":"Any","pred":"isinstance(tokens, list) and not (len(stack) != 1) and hasattr(tokens, 'insert') and len(open_seq) > 0 and len(stack) > 0"},"name":"_from_tokens_to_fullformlist_correct"},"guarantee":"returns self._parse_after_braces(stack[0]); len(new_stack_element) == old_len_new_stack_element + 1; len(new_stack_element) == old_len_new_stack_element; len(open_seq) == old_len_open_seq + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._from_tokens_to_fullformlist_correct","statement":"Path(_from_tokens_to_fullformlist(x), returns self._parse_after_braces(stack[0]); len(new_stack_element) == old_len_new_stack_element + 1; len(new_stack_element) == old_len_new_stack_element; len(open_seq) == old_len_open_seq + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55bf3e9b98d5c115","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(tokens, list)","not (len(stack) != 1)","hasattr(tokens, 'insert')","len(open_seq) > 0","len(stack) > 0"],"ensures":["len(new_stack_element) == old_len_new_stack_element + 1","len(new_stack_element) == old_len_new_stack_element","len(open_seq) == old_len_open_seq + 1","len(open_seq) == old_len_open_seq - 1","len(stack) == old_len_stack + 1","len(stack) == old_len_stack - 1"],"returns_expr":"self._parse_after_braces(stack[0])","pure":false,"effects":{"effect_type":"mutates_args","reads":["self._enclosure_close","self._enclosure_open","self._parse_after_braces","tokens.insert"],"writes":["tokens[*]"],"calls_mutating":["new_stack_element.append","new_stack_element.reverse","open_seq.append","open_seq.pop","stack.append","stack.pop","tokens.insert"],"raises":["RuntimeError","SyntaxError","unmatched_enclosure"]},"state_contract":{"modifies":["new_stack_element.*","open_seq.*","stack.*","tokens.*","tokens[*]"],"old_bindings":{"old_tokens_star":"tokens[*]","old_len_new_stack_element":"len(new_stack_element)","old_len_open_seq":"len(open_seq)","old_len_stack":"len(stack)"},"pre_requires":["len(open_seq) > 0","len(stack) > 0"],"post_ensures":["len(new_stack_element) == old_len_new_stack_element + 1","len(new_stack_element) == old_len_new_stack_element","len(open_seq) == old_len_open_seq + 1","len(open_seq) == old_len_open_seq - 1","len(stack) == old_len_stack + 1","len(stack) == old_len_stack - 1"],"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"],"SyntaxError":["isinstance(raised, SyntaxError)"],"unmatched_enclosure":["isinstance(raised, unmatched_enclosure)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _from_tokens_to_fullformlist(self, tokens: list):
         stack: list[list] = [[]]
         open_seq = []
@@ -1029,16 +1197,26 @@ class MathematicaParser:
         return self._parse_after_braces(stack[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_util_remove_newlines(lin), internal helper behaves correctly) over Any ║
+# ║ Path(_util_remove_newlines(lines, tokens, inside_enclosure), len(lines) == old_len_lines + 1 and len(tokens) == old_len_tokens - 1) over {Any | isinstance(lines, list) and isinstance(tokens, list) and isinstance(inside_enclosure, bool) and hasattr(tokens, 'pop') and hasattr(lines, 'extend') and hasattr(lines, 'append') and len(tokens) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _util_remove_newlines : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(lines, list)                        ║
+# ║   requires: isinstance(tokens, list)                       ║
+# ║   requires: isinstance(inside_enclosure, bool)             ║
+# ║   ensures:  len(lines) == old_len_lines + 1                ║
+# ║   ensures:  len(tokens) == old_len_tokens - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _util_remove_newlines : {Any | isinstance(lines, list...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 986d7185f07d7b78  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 864ef97aeed64464  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._util_remove_newlines","kind":"method","src_hash":"660c9ef18ad93683","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_util_remove_newlines(lin)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_util_remove_newlines_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._util_remove_newlines_correct","statement":"Path(_util_remove_newlines(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"986d7185f07d7b78"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._util_remove_newlines","kind":"method","src_hash":"660c9ef18ad93683","in":{"base":"Any","pred":"isinstance(lines, list) and isinstance(tokens, list) and isinstance(inside_enclosure, bool) and hasattr(tokens, 'pop') and hasattr(lines, 'extend') and hasattr(lines, 'append') and len(tokens) > 0"},"out":{"base":"Any","pred":"result satisfies: len(lines) == old_len_lines + 1 and len(tokens) == old_len_tokens - 1"},"spec":{"lhs":"_util_remove_newlines(lines, tokens, inside_enclosure)","rhs":"len(lines) == old_len_lines + 1 and len(tokens) == old_len_tokens - 1","over":{"base":"Any","pred":"isinstance(lines, list) and isinstance(tokens, list) and isinstance(inside_enclosure, bool) and hasattr(tokens, 'pop') and hasattr(lines, 'extend') and hasattr(lines, 'append') and len(tokens) > 0"},"name":"_util_remove_newlines_correct"},"guarantee":"len(lines) == old_len_lines + 1; len(tokens) == old_len_tokens - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._util_remove_newlines_correct","statement":"Path(_util_remove_newlines(x), len(lines) == old_len_lines + 1; len(tokens) == old_len_tokens - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"864ef97aeed64464","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(lines, list)","isinstance(tokens, list)","isinstance(inside_enclosure, bool)","hasattr(tokens, 'pop')","hasattr(lines, 'extend')","hasattr(lines, 'append')","len(tokens) > 0"],"ensures":["len(lines) == old_len_lines + 1","len(tokens) == old_len_tokens - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["lines.append","lines.extend","self._parse_after_braces","tokens.pop"],"calls_mutating":["lines.append","lines.extend","tokens.pop"],"catches":["SyntaxError"]},"state_contract":{"modifies":["lines.*","tokens.*"],"old_bindings":{"old_len_lines":"len(lines)","old_len_tokens":"len(tokens)"},"pre_requires":["len(tokens) > 0"],"post_ensures":["len(lines) == old_len_lines + 1","len(tokens) == old_len_tokens - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _util_remove_newlines(self, lines: list, tokens: list, inside_enclosure: bool):
         pointer = 0
         size = len(tokens)
@@ -1075,16 +1253,24 @@ class MathematicaParser:
             pointer += 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_util_add_missing_asterisks(tok), internal helper behaves correctly) over Any ║
+# ║ Path(_util_add_missing_asterisks(tokens), <unspecified:_util_add_missing_asterisks>) over {Any | isinstance(tokens, list) and hasattr(tokens, 'insert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _util_add_missing_asterisks : Any → Any                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(tokens, list)                       ║
+# ║   requires: hasattr(tokens, 'insert')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _util_add_missing_asterisks : {Any | isinstance(token...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1d6fd50abfc4304  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._util_add_missing_asterisks","kind":"method","src_hash":"cc76f9a3805bbcab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_util_add_missing_asterisks(tok)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_util_add_missing_asterisks_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._util_add_missing_asterisks_correct","statement":"Path(_util_add_missing_asterisks(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1d6fd50abfc4304"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._util_add_missing_asterisks","kind":"method","src_hash":"cc76f9a3805bbcab","in":{"base":"Any","pred":"isinstance(tokens, list) and hasattr(tokens, 'insert')"},"out":{"base":"Any"},"spec":{"lhs":"_util_add_missing_asterisks(tokens)","rhs":"<unspecified:_util_add_missing_asterisks>","over":{"base":"Any","pred":"isinstance(tokens, list) and hasattr(tokens, 'insert')"},"name":"_util_add_missing_asterisks_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._util_add_missing_asterisks_correct","statement":"Path(_util_add_missing_asterisks(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1d6fd50abfc4304","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(tokens, list)","hasattr(tokens, 'insert')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["self._is_valid_star1","self._is_valid_star2","tokens.insert"],"writes":["tokens[*]"],"calls_mutating":["tokens.insert"]},"state_contract":{"modifies":["tokens.*","tokens[*]"],"old_bindings":{"old_tokens_star":"tokens[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _util_add_missing_asterisks(self, tokens: list):
         size: int = len(tokens)
         pointer: int = 0
@@ -1107,16 +1293,27 @@ class MathematicaParser:
             pointer += 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parse_after_braces(tok), internal helper behaves correctly) over Any ║
+# ║ Path(_parse_after_braces(tokens, inside_enclosure), len(node) == old_len_node + 1 and len(node) == 0 and len(node_p) == old_len_node_p + 1 and len(tokens) == old_len_tokens - 1) over {Any | isinstance(tokens, list) and isinstance(inside_enclosure, bool) and hasattr(tokens, 'pop') and len(tokens) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _parse_after_braces : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(tokens, list)                       ║
+# ║   requires: isinstance(inside_enclosure, bool)             ║
+# ║   requires: hasattr(tokens, 'pop')                         ║
+# ║   ensures:  len(node) == old_len_node + 1                  ║
+# ║   ensures:  len(node) == 0                                 ║
+# ║   ensures:  len(node_p) == old_len_node_p + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _parse_after_braces : {Any | isinstance(tokens, list)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a84240f94e3ca63  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4539882f73ec308  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._parse_after_braces","kind":"method","src_hash":"141138e0272956f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_parse_after_braces(tok)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_parse_after_braces_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._parse_after_braces_correct","statement":"Path(_parse_after_braces(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a84240f94e3ca63"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._parse_after_braces","kind":"method","src_hash":"141138e0272956f1","in":{"base":"Any","pred":"isinstance(tokens, list) and isinstance(inside_enclosure, bool) and hasattr(tokens, 'pop') and len(tokens) > 0"},"out":{"base":"Any","pred":"result satisfies: len(node) == old_len_node + 1 and len(node) == 0 and len(node_p) == old_len_node_p + 1 and len(tokens) == old_len_tokens - 1"},"spec":{"lhs":"_parse_after_braces(tokens, inside_enclosure)","rhs":"len(node) == old_len_node + 1 and len(node) == 0 and len(node_p) == old_len_node_p + 1 and len(tokens) == old_len_tokens - 1","over":{"base":"Any","pred":"isinstance(tokens, list) and isinstance(inside_enclosure, bool) and hasattr(tokens, 'pop') and len(tokens) > 0"},"name":"_parse_after_braces_correct"},"guarantee":"len(node) == old_len_node + 1; len(node) == 0; len(node_p) == old_len_node_p + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._parse_after_braces_correct","statement":"Path(_parse_after_braces(x), len(node) == old_len_node + 1; len(node) == 0; len(node_p) == old_len_node_p + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4539882f73ec308","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(tokens, list)","isinstance(inside_enclosure, bool)","hasattr(tokens, 'pop')","len(tokens) > 0"],"ensures":["len(node) == old_len_node + 1","len(node) == 0","len(node_p) == old_len_node_p + 1","len(tokens) == old_len_tokens - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["self.FLAT","self.INFIX","self.LEFT","self.POSTFIX","self.PREFIX","self.RIGHT","self._check_op_compatible","self._get_inv","self._get_neg","self._is_op","self._mathematica_op_precedence","self._missing_arguments_default","self._parse_after_braces","self._util_add_missing_asterisks","self._util_remove_newlines","tokens.pop"],"writes":["tokens[*]"],"calls_mutating":["node.append","node.clear","node.extend","node_p.append","tokens.pop"],"raises":["SyntaxError","TypeError"]},"state_contract":{"modifies":["node.*","node_p.*","tokens.*","tokens[*]"],"old_bindings":{"old_tokens_star":"tokens[*]","old_len_node":"len(node)","old_len_node_p":"len(node_p)","old_len_tokens":"len(tokens)"},"pre_requires":["len(tokens) > 0"],"post_ensures":["len(node) == old_len_node + 1","len(node) == 0","len(node_p) == old_len_node_p + 1","len(tokens) == old_len_tokens - 1"],"exceptional_post":{"SyntaxError":["isinstance(raised, SyntaxError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _parse_after_braces(self, tokens: list, inside_enclosure: bool = False):
         op_dict: dict
         changed: bool = False
@@ -1239,16 +1436,24 @@ class MathematicaParser:
         return tokens[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_op_compatible(op1), internal helper behaves correctly) over Any ║
+# ║ Path(_check_op_compatible(op1, op2), <unspecified:_check_op_compatible>) over {Any | isinstance(op1, str) and isinstance(op2, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_op_compatible : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(op1, str)                           ║
+# ║   requires: isinstance(op2, str)                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_op_compatible : {Any | isinstance(op1, str) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff371d754c74d037  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._check_op_compatible","kind":"method","src_hash":"670c1222e133ac4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_op_compatible(op1)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_op_compatible_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._check_op_compatible_correct","statement":"Path(_check_op_compatible(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff371d754c74d037"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._check_op_compatible","kind":"method","src_hash":"670c1222e133ac4b","in":{"base":"Any","pred":"isinstance(op1, str) and isinstance(op2, str)"},"out":{"base":"Any"},"spec":{"lhs":"_check_op_compatible(op1, op2)","rhs":"<unspecified:_check_op_compatible>","over":{"base":"Any","pred":"isinstance(op1, str) and isinstance(op2, str)"},"name":"_check_op_compatible_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._check_op_compatible_correct","statement":"Path(_check_op_compatible(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff371d754c74d037","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(op1, str)","isinstance(op2, str)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_op_compatible(self, op1: str, op2: str):
         if op1 == op2:
             return True
@@ -1261,16 +1466,23 @@ class MathematicaParser:
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_from_fullform_to_fullformlist(wme), parses fullform[downvalues[]] generated by mathematica) over Any ║
+# ║ Path(_from_fullform_to_fullformlist(wmexpr), out[0]) over {Any | isinstance(wmexpr, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _from_fullform_to_fullformlist : Any → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(wmexpr, str)                        ║
+# ║   returns:  out[0]                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _from_fullform_to_fullformlist : {Any | isinstance(wm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a329e6013b06fd3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52da68eb5885761a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._from_fullform_to_fullformlist","kind":"method","src_hash":"c31190ecfa357434","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_fullform_to_fullformlist(wme)","rhs":"parses fullform[downvalues[]] generated by mathematica","over":{"base":"Any"},"name":"_from_fullform_to_fullformlist_correct"},"guarantee":"parses fullform[downvalues[]] generated by mathematica","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._from_fullform_to_fullformlist_correct","statement":"Path(_from_fullform_to_fullformlist(x), parses fullform[downvalues[]] generated by mathematica)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a329e6013b06fd3"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._from_fullform_to_fullformlist","kind":"method","src_hash":"c31190ecfa357434","in":{"base":"Any","pred":"isinstance(wmexpr, str)"},"out":{"base":"Any"},"spec":{"lhs":"_from_fullform_to_fullformlist(wmexpr)","rhs":"out[0]","over":{"base":"Any","pred":"isinstance(wmexpr, str)"},"name":"_from_fullform_to_fullformlist_correct"},"guarantee":"returns out[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._from_fullform_to_fullformlist_correct","statement":"Path(_from_fullform_to_fullformlist(x), returns out[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52da68eb5885761a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(wmexpr, str)"],"returns_expr":"out[0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _from_fullform_to_fullformlist(self, wmexpr: str):
         """
         Parses FullForm[Downvalues[]] generated by Mathematica
@@ -1299,16 +1511,23 @@ class MathematicaParser:
         return out[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_from_fullformlist_to_fullformsympy(pyl), id) over Any ║
+# ║ Path(_from_fullformlist_to_fullformsympy(pylist), id) over {Any | isinstance(pylist, list)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _from_fullformlist_to_fullformsympy : Any → Any            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(pylist, list)                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _from_fullformlist_to_fullformsympy : {Any | isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 28f5bc25845bb180   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._from_fullformlist_to_fullformsympy","kind":"method","src_hash":"f39e38f04969a624","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_fullformlist_to_fullformsympy(pyl)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_from_fullformlist_to_fullformsympy_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Function","by":"library_axiom"},{"fn":"head","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28f5bc25845bb180"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._from_fullformlist_to_fullformsympy","kind":"method","src_hash":"f39e38f04969a624","in":{"base":"Any","pred":"isinstance(pylist, list)"},"out":{"base":"Any"},"spec":{"lhs":"_from_fullformlist_to_fullformsympy(pylist)","rhs":"<unspecified:_from_fullformlist_to_fullformsympy>","over":{"base":"Any","pred":"isinstance(pylist, list)"},"name":"_from_fullformlist_to_fullformsympy_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Function","by":"library_axiom"},{"fn":"head","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28f5bc25845bb180","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(pylist, list)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _from_fullformlist_to_fullformsympy(self, pylist: list):
         from sympy import Function, Symbol
 
@@ -1416,16 +1635,22 @@ class MathematicaParser:
     }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_from_fullformlist_to_sympy(ful), id) over Any        ║
+# ║ Path(_from_fullformlist_to_sympy(full_form_list), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _from_fullformlist_to_sympy : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 39dd613e2b222ef3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._from_fullformlist_to_sympy","kind":"method","src_hash":"812f3333ead3a3f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_fullformlist_to_sympy(ful)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_from_fullformlist_to_sympy_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"head","by":"library_axiom"},{"fn":"recurse","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39dd613e2b222ef3"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._from_fullformlist_to_sympy","kind":"method","src_hash":"812f3333ead3a3f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_fullformlist_to_sympy(full_form_list)","rhs":"<unspecified:_from_fullformlist_to_sympy>","over":{"base":"Any"},"name":"_from_fullformlist_to_sympy_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"head","by":"library_axiom"},{"fn":"recurse","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39dd613e2b222ef3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._atom_conversions","self._node_conversions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _from_fullformlist_to_sympy(self, full_form_list):
 
         def recurse(expr):
@@ -1441,16 +1666,22 @@ class MathematicaParser:
         return recurse(full_form_list)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_from_fullformsympy_to_sympy(mfo), internal helper behaves correctly) over Any ║
+# ║ Path(_from_fullformsympy_to_sympy(mform), <unspecified:_from_fullformsympy_to_sympy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _from_fullformsympy_to_sympy : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ae1183d8da13144  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._from_fullformsympy_to_sympy","kind":"method","src_hash":"a1aaa779a19a6e26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_fullformsympy_to_sympy(mfo)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_from_fullformsympy_to_sympy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._from_fullformsympy_to_sympy_correct","statement":"Path(_from_fullformsympy_to_sympy(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ae1183d8da13144"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.mathematica.MathematicaParser._from_fullformsympy_to_sympy","kind":"method","src_hash":"a1aaa779a19a6e26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_fullformsympy_to_sympy(mform)","rhs":"<unspecified:_from_fullformsympy_to_sympy>","over":{"base":"Any"},"name":"_from_fullformsympy_to_sympy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.mathematica.MathematicaParser._from_fullformsympy_to_sympy_correct","statement":"Path(_from_fullformsympy_to_sympy(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ae1183d8da13144","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._node_conversions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _from_fullformsympy_to_sympy(self, mform):
 
         expr = mform

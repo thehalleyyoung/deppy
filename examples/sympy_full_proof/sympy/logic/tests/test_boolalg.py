@@ -48,16 +48,24 @@ a, b, c, d, e, w, x, y, z = symbols('a:e w:z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_overloading(), test that |, & are overloaded as expected) over Any ║
+# ║ Path(test_overloading(), A & B == And(A, B) and A | B == Or(A, B) and A & B | C == Or(And(A, B), C) and A >> B == Implies(A, B) and A << B == Implies(B, A) and ~A == Not(A) and A ^ B == Xor(A, B)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_overloading : Any → {Any | A & B == And(A, B) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A & B == And(A, B)                             ║
+# ║   ensures:  A | B == Or(A, B)                              ║
+# ║   ensures:  A & B | C == Or(And(A, B), C)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_overloading : Any → {Any | result satisfies: A &...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2882a539bd507d42  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9197b4ae3035aee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_overloading","kind":"function","src_hash":"f175f345eea3752e","in":{"base":"Any"},"out":{"base":"Any","pred":"A & B == And(A, B) and A | B == Or(A, B) and A & B | C == Or(And(A, B), C) and A >> B == Implies(A, B) and A << B == Implies(B, A) and ~A == Not(A) and A ^ B == Xor(A, B)"},"spec":{"lhs":"test_overloading()","rhs":"test that |, & are overloaded as expected","over":{"base":"Any"},"name":"test_overloading_correct"},"guarantee":"test that |, & are overloaded as expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_overloading_correct","statement":"Path(test_overloading(x), test that |, & are overloaded as expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2882a539bd507d42"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_overloading","kind":"function","src_hash":"f175f345eea3752e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A & B == And(A, B) and A | B == Or(A, B) and A & B | C == Or(And(A, B), C) and A >> B == Implies(A, B) and A << B == Implies(B, A) and ~A == Not(A) and A ^ B == Xor(A, B)"},"spec":{"lhs":"test_overloading()","rhs":"A & B == And(A, B) and A | B == Or(A, B) and A & B | C == Or(And(A, B), C) and A >> B == Implies(A, B) and A << B == Implies(B, A) and ~A == Not(A) and A ^ B == Xor(A, B)","over":{"base":"Any"},"name":"test_overloading_correct"},"guarantee":"A & B == And(A, B); A | B == Or(A, B); A & B | C == Or(And(A, B), C)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_overloading_correct","statement":"Path(test_overloading(x), A & B == And(A, B); A | B == Or(A, B); A & B | C == Or(And(A, B), C))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9197b4ae3035aee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A & B == And(A, B)","A | B == Or(A, B)","A & B | C == Or(And(A, B), C)","A >> B == Implies(A, B)","A << B == Implies(B, A)","~A == Not(A)","A ^ B == Xor(A, B)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_overloading():
     """Test that |, & are overloaded as expected"""
 
@@ -71,16 +79,24 @@ def test_overloading():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_And(), test_And produces the expected output) over Any ║
+# ║ Path(test_And(), And() is true and And(A) == A and And(True) is true and And(False) is false and And(True, True) is true and And(True, False) is false and And(False, False) is false and And(True, A) == A and And(False, A) is false and And(True, True, True) is true and And(True, True, A) == A and And(True, False, A) is false and And(1, A) == A and And(A < 1, A >= 1) is false and And(e, e.canonical) == e.canonical and And(g, l, ge, le) == And(ge, g) and {And(*i) for i in permutations((l, g, le, ge))} == {And(ge, g)} and And(And(Eq(a, 0), Eq(b, 0)), And(Ne(a, 0), Eq(c, 0))) is false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_And : Any → {Any | And() is true and And(A) == A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  And() is true                                  ║
+# ║   ensures:  And(A) == A                                    ║
+# ║   ensures:  And(True) is true                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_And : Any → {Any | result satisfies: And() is tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9e9c5ac39ce22e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c923302d9ef2887e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_And","kind":"function","src_hash":"f6850b8d776bf4e6","in":{"base":"Any"},"out":{"base":"Any","pred":"And() is true and And(A) == A and And(True) is true and And(False) is false and And(True, True) is true and And(True, False) is false and And(False, False) is false and And(True, A) == A and And(False, A) is false and And(True, True, True) is true and And(True, True, A) == A and And(True, False, A) is false and And(1, A) == A and And(A < 1, A >= 1) is false and And(e, e.canonical) == e.canonical and And(g, l, ge, le) == And(ge, g) and {And(*i) for i in permutations((l, g, le, ge))} == {And(ge, g)} and And(And(Eq(a, 0), Eq(b, 0)), And(Ne(a, 0), Eq(c, 0))) is false"},"spec":{"lhs":"test_And()","rhs":"test_And produces the expected output","over":{"base":"Any"},"name":"test_And_correct"},"guarantee":"test_And produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_And_correct","statement":"Path(test_And(x), test_And produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9e9c5ac39ce22e6"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_And","kind":"function","src_hash":"f6850b8d776bf4e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: And() is true and And(A) == A and And(True) is true and And(False) is false and And(True, True) is true and And(True, False) is false and And(False, False) is false and And(True, A) == A and And(False, A) is false and And(True, True, True) is true and And(True, True, A) == A and And(True, False, A) is false and And(1, A) == A and And(A < 1, A >= 1) is false and And(e, e.canonical) == e.canonical and And(g, l, ge, le) == And(ge, g) and {And(*i) for i in permutations((l, g, le, ge))} == {And(ge, g)} and And(And(Eq(a, 0), Eq(b, 0)), And(Ne(a, 0), Eq(c, 0))) is false"},"spec":{"lhs":"test_And()","rhs":"And() is true and And(A) == A and And(True) is true and And(False) is false and And(True, True) is true and And(True, False) is false and And(False, False) is false and And(True, A) == A and And(False, A) is false and And(True, True, True) is true and And(True, True, A) == A and And(True, False, A) is false and And(1, A) == A and And(A < 1, A >= 1) is false and And(e, e.canonical) == e.canonical and And(g, l, ge, le) == And(ge, g) and {And(*i) for i in permutations((l, g, le, ge))} == {And(ge, g)} and And(And(Eq(a, 0), Eq(b, 0)), And(Ne(a, 0), Eq(c, 0))) is false","over":{"base":"Any"},"name":"test_And_correct"},"guarantee":"And() is true; And(A) == A; And(True) is true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_And_correct","statement":"Path(test_And(x), And() is true; And(A) == A; And(True) is true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c923302d9ef2887e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["And() is true","And(A) == A","And(True) is true","And(False) is false","And(True, True) is true","And(True, False) is false","And(False, False) is false","And(True, A) == A","And(False, A) is false","And(True, True, True) is true","And(True, True, A) == A","And(True, False, A) is false","And(1, A) == A","And(A < 1, A >= 1) is false","And(e, e.canonical) == e.canonical","And(g, l, ge, le) == And(ge, g)","{And(*i) for i in permutations((l, g, le, ge))} == {And(ge, g)}","And(And(Eq(a, 0), Eq(b, 0)), And(Ne(a, 0), Eq(c, 0))) is false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_And():
     assert And() is true
     assert And(A) == A
@@ -106,16 +122,24 @@ def test_And():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Or(), test_Or produces the expected output) over Any ║
+# ║ Path(test_Or(), Or() is false and Or(A) == A and Or(True) is true and Or(False) is false and Or(True, True) is true and Or(True, False) is true and Or(False, False) is false and Or(True, A) is true and Or(False, A) == A and Or(True, False, False) is true and Or(True, False, A) is true and Or(False, False, A) == A and Or(1, A) is true and Or(A < 1, A >= 1) is true and Or(e, e.canonical) == e and Or(g, l, ge, le) == Or(g, ge)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Or : Any → {Any | Or() is false and Or(A) == A a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Or() is false                                  ║
+# ║   ensures:  Or(A) == A                                     ║
+# ║   ensures:  Or(True) is true                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Or : Any → {Any | result satisfies: Or() is fals...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be08c71eda3ed452  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e36e35153f899b8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Or","kind":"function","src_hash":"146bc993bec3c803","in":{"base":"Any"},"out":{"base":"Any","pred":"Or() is false and Or(A) == A and Or(True) is true and Or(False) is false and Or(True, True) is true and Or(True, False) is true and Or(False, False) is false and Or(True, A) is true and Or(False, A) == A and Or(True, False, False) is true and Or(True, False, A) is true and Or(False, False, A) == A and Or(1, A) is true and Or(A < 1, A >= 1) is true and Or(e, e.canonical) == e and Or(g, l, ge, le) == Or(g, ge)"},"spec":{"lhs":"test_Or()","rhs":"test_Or produces the expected output","over":{"base":"Any"},"name":"test_Or_correct"},"guarantee":"test_Or produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Or_correct","statement":"Path(test_Or(x), test_Or produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be08c71eda3ed452"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Or","kind":"function","src_hash":"146bc993bec3c803","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Or() is false and Or(A) == A and Or(True) is true and Or(False) is false and Or(True, True) is true and Or(True, False) is true and Or(False, False) is false and Or(True, A) is true and Or(False, A) == A and Or(True, False, False) is true and Or(True, False, A) is true and Or(False, False, A) == A and Or(1, A) is true and Or(A < 1, A >= 1) is true and Or(e, e.canonical) == e and Or(g, l, ge, le) == Or(g, ge)"},"spec":{"lhs":"test_Or()","rhs":"Or() is false and Or(A) == A and Or(True) is true and Or(False) is false and Or(True, True) is true and Or(True, False) is true and Or(False, False) is false and Or(True, A) is true and Or(False, A) == A and Or(True, False, False) is true and Or(True, False, A) is true and Or(False, False, A) == A and Or(1, A) is true and Or(A < 1, A >= 1) is true and Or(e, e.canonical) == e and Or(g, l, ge, le) == Or(g, ge)","over":{"base":"Any"},"name":"test_Or_correct"},"guarantee":"Or() is false; Or(A) == A; Or(True) is true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Or_correct","statement":"Path(test_Or(x), Or() is false; Or(A) == A; Or(True) is true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e36e35153f899b8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Or() is false","Or(A) == A","Or(True) is true","Or(False) is false","Or(True, True) is true","Or(True, False) is true","Or(False, False) is false","Or(True, A) is true","Or(False, A) == A","Or(True, False, False) is true","Or(True, False, A) is true","Or(False, False, A) == A","Or(1, A) is true","Or(A < 1, A >= 1) is true","Or(e, e.canonical) == e","Or(g, l, ge, le) == Or(g, ge)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Or():
     assert Or() is false
     assert Or(A) == A
@@ -139,7 +163,12 @@ def test_Or():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Xor(), test_Xor produces the expected output) over {Any | isinstance(Xor(A, B), Xor)} ║
+# ║ Path(test_Xor(), Xor() is false and Xor(A) == A and Xor(A, A) is false and Xor(True, A, A) is true and Xor(A, A, A, A, A) == A and Xor(True, False, False, A, B) == ~Xor(A, B) and Xor(True) is true and Xor(False) is false and Xor(True, True) is false and Xor(True, False) is true and Xor(False, False) is false and Xor(True, A) == ~A and Xor(False, A) == A and Xor(True, False, False) is true and Xor(True, False, A) == ~A and Xor(False, False, A) == A and isinstance(Xor(A, B), Xor) and Xor(A, B, Xor(C, D)) == Xor(A, B, C, D) and Xor(A, B, Xor(B, C)) == Xor(A, C) and Xor(A < 1, A >= 1, B) == Xor(0, 1, B) == Xor(1, 0, B) and Xor(e, e.canonical) == Xor(0, 0) == Xor(1, 1)) over {Any | isinstance(Xor(A, B), Xor)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Xor() is false                                 ║
+# ║   ensures:  Xor(A) == A                                    ║
+# ║   ensures:  Xor(A, A) is false                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Xor : {Any | isinstance(Xor(A, B), Xor)} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -151,9 +180,12 @@ def test_Or():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7c263dba...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Xor","kind":"function","src_hash":"8875a321f5be3a2c","in":{"base":"Any","pred":"isinstance(Xor(A, B), Xor)"},"out":{"base":"Any","pred":"Xor() is false and Xor(A) == A and Xor(A, A) is false and Xor(True, A, A) is true and Xor(A, A, A, A, A) == A and Xor(True, False, False, A, B) == ~Xor(A, B) and Xor(True) is true and Xor(False) is false and Xor(True, True) is false and Xor(True, False) is true and Xor(False, False) is false and Xor(True, A) == ~A and Xor(False, A) == A and Xor(True, False, False) is true and Xor(True, False, A) == ~A and Xor(False, False, A) == A and isinstance(Xor(A, B), Xor) and Xor(A, B, Xor(C, D)) == Xor(A, B, C, D) and Xor(A, B, Xor(B, C)) == Xor(A, C) and Xor(A < 1, A >= 1, B) == Xor(0, 1, B) == Xor(1, 0, B) and Xor(e, e.canonical) == Xor(0, 0) == Xor(1, 1)"},"spec":{"lhs":"test_Xor()","rhs":"test_Xor produces the expected output","over":{"base":"Any","pred":"isinstance(Xor(A, B), Xor)"},"name":"test_Xor_correct"},"guarantee":"test_Xor produces the expected output","fibers":[{"name":"B","pred":"isinstance(Xor(A, B), Xor)","path":{"lhs":"test_Xor(x)","rhs":"test_Xor produces the expected output","over":{"base":"B","pred":"isinstance(Xor(A, B), Xor)"},"name":"test_Xor_B_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Xor_B_correct","statement":"test_Xor satisfies spec on B inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7c263dba7be8cde7"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Xor","kind":"function","src_hash":"8875a321f5be3a2c","in":{"base":"Any","pred":"isinstance(Xor(A, B), Xor)"},"out":{"base":"Any","pred":"result satisfies: Xor() is false and Xor(A) == A and Xor(A, A) is false and Xor(True, A, A) is true and Xor(A, A, A, A, A) == A and Xor(True, False, False, A, B) == ~Xor(A, B) and Xor(True) is true and Xor(False) is false and Xor(True, True) is false and Xor(True, False) is true and Xor(False, False) is false and Xor(True, A) == ~A and Xor(False, A) == A and Xor(True, False, False) is true and Xor(True, False, A) == ~A and Xor(False, False, A) == A and isinstance(Xor(A, B), Xor) and Xor(A, B, Xor(C, D)) == Xor(A, B, C, D) and Xor(A, B, Xor(B, C)) == Xor(A, C) and Xor(A < 1, A >= 1, B) == Xor(0, 1, B) == Xor(1, 0, B) and Xor(e, e.canonical) == Xor(0, 0) == Xor(1, 1)"},"spec":{"lhs":"test_Xor()","rhs":"Xor() is false and Xor(A) == A and Xor(A, A) is false and Xor(True, A, A) is true and Xor(A, A, A, A, A) == A and Xor(True, False, False, A, B) == ~Xor(A, B) and Xor(True) is true and Xor(False) is false and Xor(True, True) is false and Xor(True, False) is true and Xor(False, False) is false and Xor(True, A) == ~A and Xor(False, A) == A and Xor(True, False, False) is true and Xor(True, False, A) == ~A and Xor(False, False, A) == A and isinstance(Xor(A, B), Xor) and Xor(A, B, Xor(C, D)) == Xor(A, B, C, D) and Xor(A, B, Xor(B, C)) == Xor(A, C) and Xor(A < 1, A >= 1, B) == Xor(0, 1, B) == Xor(1, 0, B) and Xor(e, e.canonical) == Xor(0, 0) == Xor(1, 1)","over":{"base":"Any","pred":"isinstance(Xor(A, B), Xor)"},"name":"test_Xor_correct"},"guarantee":"Xor() is false; Xor(A) == A; Xor(A, A) is false","fibers":[{"name":"B","pred":"isinstance(Xor(A, B), Xor)","path":{"lhs":"test_Xor(x)","rhs":"Xor() is false; Xor(A) == A; Xor(A, A) is false","over":{"base":"B","pred":"isinstance(Xor(A, B), Xor)"},"name":"test_Xor_B_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Xor_B_correct","statement":"test_Xor satisfies spec on B inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7c263dba7be8cde7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Xor() is false","Xor(A) == A","Xor(A, A) is false","Xor(True, A, A) is true","Xor(A, A, A, A, A) == A","Xor(True, False, False, A, B) == ~Xor(A, B)","Xor(True) is true","Xor(False) is false","Xor(True, True) is false","Xor(True, False) is true","Xor(False, False) is false","Xor(True, A) == ~A","Xor(False, A) == A","Xor(True, False, False) is true","Xor(True, False, A) == ~A","Xor(False, False, A) == A","isinstance(Xor(A, B), Xor)","Xor(A, B, Xor(C, D)) == Xor(A, B, C, D)","Xor(A, B, Xor(B, C)) == Xor(A, C)","Xor(A < 1, A >= 1, B) == Xor(0, 1, B) == Xor(1, 0, B)","Xor(e, e.canonical) == Xor(0, 0) == Xor(1, 1)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":true}}
 def test_Xor():
     assert Xor() is false
     assert Xor(A) == A
@@ -180,80 +212,112 @@ def test_Xor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rewrite_as_And(), test_rewrite_as_And produces the expected output) over Any ║
+# ║ Path(test_rewrite_as_And(), expr.rewrite(And) == (x | y) & (~x | ~y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rewrite_as_And : Any → {Any | expr.rewrite(And) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.rewrite(And) == (x | y) & (~x | ~y)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rewrite_as_And : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60d37397ad16b50d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b80f553eba853dbd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_rewrite_as_And","kind":"function","src_hash":"d668def4bb548304","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.rewrite(And) == (x | y) & (~x | ~y)"},"spec":{"lhs":"test_rewrite_as_And()","rhs":"test_rewrite_as_And produces the expected output","over":{"base":"Any"},"name":"test_rewrite_as_And_correct"},"guarantee":"test_rewrite_as_And produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_rewrite_as_And_correct","statement":"Path(test_rewrite_as_And(x), test_rewrite_as_And produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60d37397ad16b50d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_rewrite_as_And","kind":"function","src_hash":"d668def4bb548304","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.rewrite(And) == (x | y) & (~x | ~y)"},"spec":{"lhs":"test_rewrite_as_And()","rhs":"expr.rewrite(And) == (x | y) & (~x | ~y)","over":{"base":"Any"},"name":"test_rewrite_as_And_correct"},"guarantee":"expr.rewrite(And) == (x | y) & (~x | ~y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_rewrite_as_And_correct","statement":"Path(test_rewrite_as_And(x), expr.rewrite(And) == (x | y) & (~x | ~y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b80f553eba853dbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.rewrite(And) == (x | y) & (~x | ~y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_rewrite_as_And():
     expr = x ^ y
     assert expr.rewrite(And) == (x | y) & (~x | ~y)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rewrite_as_Or(), test_rewrite_as_Or produces the expected output) over Any ║
+# ║ Path(test_rewrite_as_Or(), expr.rewrite(Or) == x & ~y | y & ~x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rewrite_as_Or : Any → {Any | expr.rewrite(Or) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.rewrite(Or) == x & ~y | y & ~x            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rewrite_as_Or : Any → {Any | result satisfies: e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d4b80c8c6ba3a04  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6791c72f92cb8823  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_rewrite_as_Or","kind":"function","src_hash":"af058da601e9b6a1","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.rewrite(Or) == x & ~y | y & ~x"},"spec":{"lhs":"test_rewrite_as_Or()","rhs":"test_rewrite_as_Or produces the expected output","over":{"base":"Any"},"name":"test_rewrite_as_Or_correct"},"guarantee":"test_rewrite_as_Or produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_rewrite_as_Or_correct","statement":"Path(test_rewrite_as_Or(x), test_rewrite_as_Or produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d4b80c8c6ba3a04"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_rewrite_as_Or","kind":"function","src_hash":"af058da601e9b6a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.rewrite(Or) == x & ~y | y & ~x"},"spec":{"lhs":"test_rewrite_as_Or()","rhs":"expr.rewrite(Or) == x & ~y | y & ~x","over":{"base":"Any"},"name":"test_rewrite_as_Or_correct"},"guarantee":"expr.rewrite(Or) == x & ~y | y & ~x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_rewrite_as_Or_correct","statement":"Path(test_rewrite_as_Or(x), expr.rewrite(Or) == x & ~y | y & ~x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6791c72f92cb8823","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.rewrite(Or) == x & ~y | y & ~x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_rewrite_as_Or():
     expr = x ^ y
     assert expr.rewrite(Or) == (x & ~y) | (y & ~x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rewrite_as_Nand(), test_rewrite_as_Nand produces the expected output) over Any ║
+# ║ Path(test_rewrite_as_Nand(), expr.rewrite(Nand) == ~(~(y & z) & ~(z & ~w))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rewrite_as_Nand : Any → {Any | expr.rewrite(Nand...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.rewrite(Nand) == ~(~(y & z) & ~(z & ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rewrite_as_Nand : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76baeb2d43bd2d67  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63b347cbf66abc04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_rewrite_as_Nand","kind":"function","src_hash":"e73703593fe84440","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.rewrite(Nand) == ~(~(y & z) & ~(z & ~w))"},"spec":{"lhs":"test_rewrite_as_Nand()","rhs":"test_rewrite_as_Nand produces the expected output","over":{"base":"Any"},"name":"test_rewrite_as_Nand_correct"},"guarantee":"test_rewrite_as_Nand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_rewrite_as_Nand_correct","statement":"Path(test_rewrite_as_Nand(x), test_rewrite_as_Nand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76baeb2d43bd2d67"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_rewrite_as_Nand","kind":"function","src_hash":"e73703593fe84440","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.rewrite(Nand) == ~(~(y & z) & ~(z & ~w))"},"spec":{"lhs":"test_rewrite_as_Nand()","rhs":"expr.rewrite(Nand) == ~(~(y & z) & ~(z & ~w))","over":{"base":"Any"},"name":"test_rewrite_as_Nand_correct"},"guarantee":"expr.rewrite(Nand) == ~(~(y & z) & ~(z & ~w))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_rewrite_as_Nand_correct","statement":"Path(test_rewrite_as_Nand(x), expr.rewrite(Nand) == ~(~(y & z) & ~(z & ~w)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63b347cbf66abc04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.rewrite(Nand) == ~(~(y & z) & ~(z & ~w))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rewrite_as_Nand():
     expr = (y & z) | (z & ~w)
     assert expr.rewrite(Nand) == ~(~(y & z) & ~(z & ~w))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rewrite_as_Nor(), test_rewrite_as_Nor produces the expected output) over Any ║
+# ║ Path(test_rewrite_as_Nor(), expr.rewrite(Nor) == ~(~z | ~(y | ~w))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rewrite_as_Nor : Any → {Any | expr.rewrite(Nor) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.rewrite(Nor) == ~(~z | ~(y | ~w))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rewrite_as_Nor : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87df83d3096f2eb2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77452464c1119b53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_rewrite_as_Nor","kind":"function","src_hash":"7c5aabb28f7fd98c","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.rewrite(Nor) == ~(~z | ~(y | ~w))"},"spec":{"lhs":"test_rewrite_as_Nor()","rhs":"test_rewrite_as_Nor produces the expected output","over":{"base":"Any"},"name":"test_rewrite_as_Nor_correct"},"guarantee":"test_rewrite_as_Nor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_rewrite_as_Nor_correct","statement":"Path(test_rewrite_as_Nor(x), test_rewrite_as_Nor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87df83d3096f2eb2"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_rewrite_as_Nor","kind":"function","src_hash":"7c5aabb28f7fd98c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.rewrite(Nor) == ~(~z | ~(y | ~w))"},"spec":{"lhs":"test_rewrite_as_Nor()","rhs":"expr.rewrite(Nor) == ~(~z | ~(y | ~w))","over":{"base":"Any"},"name":"test_rewrite_as_Nor_correct"},"guarantee":"expr.rewrite(Nor) == ~(~z | ~(y | ~w))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_rewrite_as_Nor_correct","statement":"Path(test_rewrite_as_Nor(x), expr.rewrite(Nor) == ~(~z | ~(y | ~w)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77452464c1119b53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.rewrite(Nor) == ~(~z | ~(y | ~w))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rewrite_as_Nor():
     expr = z & (y | ~w)
     assert expr.rewrite(Nor) == ~(~z | ~(y | ~w))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Not(), test_Not produces the expected output) over Any ║
+# ║ Path(test_Not(), Not(True) is false and Not(False) is true and Not(0) is true and Not(1) is false and Not(2) is false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Not : Any → {Any | Not(True) is false and Not(Fa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Not(True) is false                             ║
+# ║   ensures:  Not(False) is true                             ║
+# ║   ensures:  Not(0) is true                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Not : Any → {Any | result satisfies: Not(True) i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90e6ff28ed223cb6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fee4783f34aa139  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Not","kind":"function","src_hash":"27831baf72f1dd50","in":{"base":"Any"},"out":{"base":"Any","pred":"Not(True) is false and Not(False) is true and Not(0) is true and Not(1) is false and Not(2) is false"},"spec":{"lhs":"test_Not()","rhs":"test_Not produces the expected output","over":{"base":"Any"},"name":"test_Not_correct"},"guarantee":"test_Not produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Not_correct","statement":"Path(test_Not(x), test_Not produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90e6ff28ed223cb6"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Not","kind":"function","src_hash":"27831baf72f1dd50","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Not(True) is false and Not(False) is true and Not(0) is true and Not(1) is false and Not(2) is false"},"spec":{"lhs":"test_Not()","rhs":"Not(True) is false and Not(False) is true and Not(0) is true and Not(1) is false and Not(2) is false","over":{"base":"Any"},"name":"test_Not_correct"},"guarantee":"Not(True) is false; Not(False) is true; Not(0) is true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Not_correct","statement":"Path(test_Not(x), Not(True) is false; Not(False) is true; Not(0) is true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fee4783f34aa139","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Not(True) is false","Not(False) is true","Not(0) is true","Not(1) is false","Not(2) is false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Not():
     raises(TypeError, lambda: Not(True, False))
     assert Not(True) is false
@@ -264,16 +328,24 @@ def test_Not():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Nand(), test_Nand produces the expected output) over Any ║
+# ║ Path(test_Nand(), Nand() is false and Nand(A) == ~A and Nand(True) is false and Nand(False) is true and Nand(True, True) is false and Nand(True, False) is true and Nand(False, False) is true and Nand(True, A) == ~A and Nand(False, A) is true and Nand(True, True, True) is false and Nand(True, True, A) == ~A and Nand(True, False, A) is true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Nand : Any → {Any | Nand() is false and Nand(A) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Nand() is false                                ║
+# ║   ensures:  Nand(A) == ~A                                  ║
+# ║   ensures:  Nand(True) is false                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Nand : Any → {Any | result satisfies: Nand() is ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afaa2e9b8d795b46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59aa95967585e8fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Nand","kind":"function","src_hash":"35ff3a319a90559b","in":{"base":"Any"},"out":{"base":"Any","pred":"Nand() is false and Nand(A) == ~A and Nand(True) is false and Nand(False) is true and Nand(True, True) is false and Nand(True, False) is true and Nand(False, False) is true and Nand(True, A) == ~A and Nand(False, A) is true and Nand(True, True, True) is false and Nand(True, True, A) == ~A and Nand(True, False, A) is true"},"spec":{"lhs":"test_Nand()","rhs":"test_Nand produces the expected output","over":{"base":"Any"},"name":"test_Nand_correct"},"guarantee":"test_Nand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Nand_correct","statement":"Path(test_Nand(x), test_Nand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afaa2e9b8d795b46"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Nand","kind":"function","src_hash":"35ff3a319a90559b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Nand() is false and Nand(A) == ~A and Nand(True) is false and Nand(False) is true and Nand(True, True) is false and Nand(True, False) is true and Nand(False, False) is true and Nand(True, A) == ~A and Nand(False, A) is true and Nand(True, True, True) is false and Nand(True, True, A) == ~A and Nand(True, False, A) is true"},"spec":{"lhs":"test_Nand()","rhs":"Nand() is false and Nand(A) == ~A and Nand(True) is false and Nand(False) is true and Nand(True, True) is false and Nand(True, False) is true and Nand(False, False) is true and Nand(True, A) == ~A and Nand(False, A) is true and Nand(True, True, True) is false and Nand(True, True, A) == ~A and Nand(True, False, A) is true","over":{"base":"Any"},"name":"test_Nand_correct"},"guarantee":"Nand() is false; Nand(A) == ~A; Nand(True) is false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Nand_correct","statement":"Path(test_Nand(x), Nand() is false; Nand(A) == ~A; Nand(True) is false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59aa95967585e8fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Nand() is false","Nand(A) == ~A","Nand(True) is false","Nand(False) is true","Nand(True, True) is false","Nand(True, False) is true","Nand(False, False) is true","Nand(True, A) == ~A","Nand(False, A) is true","Nand(True, True, True) is false","Nand(True, True, A) == ~A","Nand(True, False, A) is true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Nand():
     assert Nand() is false
     assert Nand(A) == ~A
@@ -290,16 +362,24 @@ def test_Nand():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Nor(), test_Nor produces the expected output) over Any ║
+# ║ Path(test_Nor(), Nor() is true and Nor(A) == ~A and Nor(True) is false and Nor(False) is true and Nor(True, True) is false and Nor(True, False) is false and Nor(False, False) is true and Nor(True, A) is false and Nor(False, A) == ~A and Nor(True, True, True) is false and Nor(True, True, A) is false and Nor(True, False, A) is false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Nor : Any → {Any | Nor() is true and Nor(A) == ~...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Nor() is true                                  ║
+# ║   ensures:  Nor(A) == ~A                                   ║
+# ║   ensures:  Nor(True) is false                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Nor : Any → {Any | result satisfies: Nor() is tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6b524c139af82ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ae9d67e4447bcdf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Nor","kind":"function","src_hash":"62e08edf9a961938","in":{"base":"Any"},"out":{"base":"Any","pred":"Nor() is true and Nor(A) == ~A and Nor(True) is false and Nor(False) is true and Nor(True, True) is false and Nor(True, False) is false and Nor(False, False) is true and Nor(True, A) is false and Nor(False, A) == ~A and Nor(True, True, True) is false and Nor(True, True, A) is false and Nor(True, False, A) is false"},"spec":{"lhs":"test_Nor()","rhs":"test_Nor produces the expected output","over":{"base":"Any"},"name":"test_Nor_correct"},"guarantee":"test_Nor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Nor_correct","statement":"Path(test_Nor(x), test_Nor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6b524c139af82ad"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Nor","kind":"function","src_hash":"62e08edf9a961938","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Nor() is true and Nor(A) == ~A and Nor(True) is false and Nor(False) is true and Nor(True, True) is false and Nor(True, False) is false and Nor(False, False) is true and Nor(True, A) is false and Nor(False, A) == ~A and Nor(True, True, True) is false and Nor(True, True, A) is false and Nor(True, False, A) is false"},"spec":{"lhs":"test_Nor()","rhs":"Nor() is true and Nor(A) == ~A and Nor(True) is false and Nor(False) is true and Nor(True, True) is false and Nor(True, False) is false and Nor(False, False) is true and Nor(True, A) is false and Nor(False, A) == ~A and Nor(True, True, True) is false and Nor(True, True, A) is false and Nor(True, False, A) is false","over":{"base":"Any"},"name":"test_Nor_correct"},"guarantee":"Nor() is true; Nor(A) == ~A; Nor(True) is false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Nor_correct","statement":"Path(test_Nor(x), Nor() is true; Nor(A) == ~A; Nor(True) is false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ae9d67e4447bcdf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Nor() is true","Nor(A) == ~A","Nor(True) is false","Nor(False) is true","Nor(True, True) is false","Nor(True, False) is false","Nor(False, False) is true","Nor(True, A) is false","Nor(False, A) == ~A","Nor(True, True, True) is false","Nor(True, True, A) is false","Nor(True, False, A) is false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Nor():
     assert Nor() is true
     assert Nor(A) == ~A
@@ -316,16 +396,24 @@ def test_Nor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Xnor(), test_Xnor produces the expected output) over Any ║
+# ║ Path(test_Xnor(), Xnor() is true and Xnor(A) == ~A and Xnor(A, A) is true and Xnor(True, A, A) is false and Xnor(A, A, A, A, A) == ~A and Xnor(True) is false and Xnor(False) is true and Xnor(True, True) is true and Xnor(True, False) is false and Xnor(False, False) is true and Xnor(True, A) == A and Xnor(False, A) == ~A and Xnor(True, False, False) is false and Xnor(True, False, A) == A and Xnor(False, False, A) == ~A) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Xnor : Any → {Any | Xnor() is true and Xnor(A) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Xnor() is true                                 ║
+# ║   ensures:  Xnor(A) == ~A                                  ║
+# ║   ensures:  Xnor(A, A) is true                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Xnor : Any → {Any | result satisfies: Xnor() is ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ddd75f56ea46770  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2caa83f292e952be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Xnor","kind":"function","src_hash":"4bc7dec42736e6a8","in":{"base":"Any"},"out":{"base":"Any","pred":"Xnor() is true and Xnor(A) == ~A and Xnor(A, A) is true and Xnor(True, A, A) is false and Xnor(A, A, A, A, A) == ~A and Xnor(True) is false and Xnor(False) is true and Xnor(True, True) is true and Xnor(True, False) is false and Xnor(False, False) is true and Xnor(True, A) == A and Xnor(False, A) == ~A and Xnor(True, False, False) is false and Xnor(True, False, A) == A and Xnor(False, False, A) == ~A"},"spec":{"lhs":"test_Xnor()","rhs":"test_Xnor produces the expected output","over":{"base":"Any"},"name":"test_Xnor_correct"},"guarantee":"test_Xnor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Xnor_correct","statement":"Path(test_Xnor(x), test_Xnor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ddd75f56ea46770"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Xnor","kind":"function","src_hash":"4bc7dec42736e6a8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Xnor() is true and Xnor(A) == ~A and Xnor(A, A) is true and Xnor(True, A, A) is false and Xnor(A, A, A, A, A) == ~A and Xnor(True) is false and Xnor(False) is true and Xnor(True, True) is true and Xnor(True, False) is false and Xnor(False, False) is true and Xnor(True, A) == A and Xnor(False, A) == ~A and Xnor(True, False, False) is false and Xnor(True, False, A) == A and Xnor(False, False, A) == ~A"},"spec":{"lhs":"test_Xnor()","rhs":"Xnor() is true and Xnor(A) == ~A and Xnor(A, A) is true and Xnor(True, A, A) is false and Xnor(A, A, A, A, A) == ~A and Xnor(True) is false and Xnor(False) is true and Xnor(True, True) is true and Xnor(True, False) is false and Xnor(False, False) is true and Xnor(True, A) == A and Xnor(False, A) == ~A and Xnor(True, False, False) is false and Xnor(True, False, A) == A and Xnor(False, False, A) == ~A","over":{"base":"Any"},"name":"test_Xnor_correct"},"guarantee":"Xnor() is true; Xnor(A) == ~A; Xnor(A, A) is true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Xnor_correct","statement":"Path(test_Xnor(x), Xnor() is true; Xnor(A) == ~A; Xnor(A, A) is true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2caa83f292e952be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Xnor() is true","Xnor(A) == ~A","Xnor(A, A) is true","Xnor(True, A, A) is false","Xnor(A, A, A, A, A) == ~A","Xnor(True) is false","Xnor(False) is true","Xnor(True, True) is true","Xnor(True, False) is false","Xnor(False, False) is true","Xnor(True, A) == A","Xnor(False, A) == ~A","Xnor(True, False, False) is false","Xnor(True, False, A) == A","Xnor(False, False, A) == ~A"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Xnor():
     assert Xnor() is true
     assert Xnor(A) == ~A
@@ -345,16 +433,24 @@ def test_Xnor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Implies(), test_Implies produces the expected output) over Any ║
+# ║ Path(test_Implies(), Implies(True, True) is true and Implies(True, False) is false and Implies(False, True) is true and Implies(False, False) is true and Implies(0, A) is true and Implies(1, 1) is true and Implies(1, 0) is false and A >> B == B << A and (A < 1) >> (A >= 1) == (A >= 1) and (A < 1) >> (S.One > A) is true and A >> A is true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Implies : Any → {Any | Implies(True, True) is tr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Implies(True, True) is true                    ║
+# ║   ensures:  Implies(True, False) is false                  ║
+# ║   ensures:  Implies(False, True) is true                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Implies : Any → {Any | result satisfies: Implies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ecfdf625463c9d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f412df5968b7fa5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Implies","kind":"function","src_hash":"7dba3f401a768d4e","in":{"base":"Any"},"out":{"base":"Any","pred":"Implies(True, True) is true and Implies(True, False) is false and Implies(False, True) is true and Implies(False, False) is true and Implies(0, A) is true and Implies(1, 1) is true and Implies(1, 0) is false and A >> B == B << A and (A < 1) >> (A >= 1) == (A >= 1) and (A < 1) >> (S.One > A) is true and A >> A is true"},"spec":{"lhs":"test_Implies()","rhs":"test_Implies produces the expected output","over":{"base":"Any"},"name":"test_Implies_correct"},"guarantee":"test_Implies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Implies_correct","statement":"Path(test_Implies(x), test_Implies produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ecfdf625463c9d6"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Implies","kind":"function","src_hash":"7dba3f401a768d4e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Implies(True, True) is true and Implies(True, False) is false and Implies(False, True) is true and Implies(False, False) is true and Implies(0, A) is true and Implies(1, 1) is true and Implies(1, 0) is false and A >> B == B << A and (A < 1) >> (A >= 1) == (A >= 1) and (A < 1) >> (S.One > A) is true and A >> A is true"},"spec":{"lhs":"test_Implies()","rhs":"Implies(True, True) is true and Implies(True, False) is false and Implies(False, True) is true and Implies(False, False) is true and Implies(0, A) is true and Implies(1, 1) is true and Implies(1, 0) is false and A >> B == B << A and (A < 1) >> (A >= 1) == (A >= 1) and (A < 1) >> (S.One > A) is true and A >> A is true","over":{"base":"Any"},"name":"test_Implies_correct"},"guarantee":"Implies(True, True) is true; Implies(True, False) is false; Implies(False, True) is true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Implies_correct","statement":"Path(test_Implies(x), Implies(True, True) is true; Implies(True, False) is false; Implies(False, True) is true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f412df5968b7fa5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Implies(True, True) is true","Implies(True, False) is false","Implies(False, True) is true","Implies(False, False) is true","Implies(0, A) is true","Implies(1, 1) is true","Implies(1, 0) is false","A >> B == B << A","(A < 1) >> (A >= 1) == (A >= 1)","(A < 1) >> (S.One > A) is true","A >> A is true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Implies():
     raises(ValueError, lambda: Implies(A, B, C))
     assert Implies(True, True) is true
@@ -371,16 +467,24 @@ def test_Implies():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Equivalent(), test_Equivalent produces the expected output) over Any ║
+# ║ Path(test_Equivalent(), Equivalent(A, B) == Equivalent(B, A) == Equivalent(A, B, A) and Equivalent() is true and Equivalent(A, A) == Equivalent(A) is true and Equivalent(True, True) == Equivalent(False, False) is true and Equivalent(True, False) == Equivalent(False, True) is false and Equivalent(A, True) == A and Equivalent(A, False) == Not(A) and Equivalent(A, B, True) == A & B and Equivalent(A, B, False) == ~A & ~B and Equivalent(1, A) == A and Equivalent(0, A) == Not(A) and Equivalent(A, Equivalent(B, C)) != Equivalent(Equivalent(A, B), C) and Equivalent(A < 1, A >= 1) is false and Equivalent(A < 1, A >= 1, 0) is false and Equivalent(A < 1, A >= 1, 1) is false and Equivalent(A < 1, S.One > A) == Equivalent(1, 1) == Equivalent(0, 0) and Equivalent(Equality(A, B), Equality(B, A)) is true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Equivalent : Any → {Any | Equivalent(A, B) == Eq...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Equivalent(A, B) == Equivalent(B, A) == E...   ║
+# ║   ensures:  Equivalent() is true                           ║
+# ║   ensures:  Equivalent(A, A) == Equivalent(A) is true      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Equivalent : Any → {Any | result satisfies: Equi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63fdab8181fe8e31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 217e07e24ae12ed8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Equivalent","kind":"function","src_hash":"d4ba22ec2466ba54","in":{"base":"Any"},"out":{"base":"Any","pred":"Equivalent(A, B) == Equivalent(B, A) == Equivalent(A, B, A) and Equivalent() is true and Equivalent(A, A) == Equivalent(A) is true and Equivalent(True, True) == Equivalent(False, False) is true and Equivalent(True, False) == Equivalent(False, True) is false and Equivalent(A, True) == A and Equivalent(A, False) == Not(A) and Equivalent(A, B, True) == A & B and Equivalent(A, B, False) == ~A & ~B and Equivalent(1, A) == A and Equivalent(0, A) == Not(A) and Equivalent(A, Equivalent(B, C)) != Equivalent(Equivalent(A, B), C) and Equivalent(A < 1, A >= 1) is false and Equivalent(A < 1, A >= 1, 0) is false and Equivalent(A < 1, A >= 1, 1) is false and Equivalent(A < 1, S.One > A) == Equivalent(1, 1) == Equivalent(0, 0) and Equivalent(Equality(A, B), Equality(B, A)) is true"},"spec":{"lhs":"test_Equivalent()","rhs":"test_Equivalent produces the expected output","over":{"base":"Any"},"name":"test_Equivalent_correct"},"guarantee":"test_Equivalent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Equivalent_correct","statement":"Path(test_Equivalent(x), test_Equivalent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63fdab8181fe8e31"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Equivalent","kind":"function","src_hash":"d4ba22ec2466ba54","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Equivalent(A, B) == Equivalent(B, A) == Equivalent(A, B, A) and Equivalent() is true and Equivalent(A, A) == Equivalent(A) is true and Equivalent(True, True) == Equivalent(False, False) is true and Equivalent(True, False) == Equivalent(False, True) is false and Equivalent(A, True) == A and Equivalent(A, False) == Not(A) and Equivalent(A, B, True) == A & B and Equivalent(A, B, False) == ~A & ~B and Equivalent(1, A) == A and Equivalent(0, A) == Not(A) and Equivalent(A, Equivalent(B, C)) != Equivalent(Equivalent(A, B), C) and Equivalent(A < 1, A >= 1) is false and Equivalent(A < 1, A >= 1, 0) is false and Equivalent(A < 1, A >= 1, 1) is false and Equivalent(A < 1, S.One > A) == Equivalent(1, 1) == Equivalent(0, 0) and Equivalent(Equality(A, B), Equality(B, A)) is true"},"spec":{"lhs":"test_Equivalent()","rhs":"Equivalent(A, B) == Equivalent(B, A) == Equivalent(A, B, A) and Equivalent() is true and Equivalent(A, A) == Equivalent(A) is true and Equivalent(True, True) == Equivalent(False, False) is true and Equivalent(True, False) == Equivalent(False, True) is false and Equivalent(A, True) == A and Equivalent(A, False) == Not(A) and Equivalent(A, B, True) == A & B and Equivalent(A, B, False) == ~A & ~B and Equivalent(1, A) == A and Equivalent(0, A) == Not(A) and Equivalent(A, Equivalent(B, C)) != Equivalent(Equivalent(A, B), C) and Equivalent(A < 1, A >= 1) is false and Equivalent(A < 1, A >= 1, 0) is false and Equivalent(A < 1, A >= 1, 1) is false and Equivalent(A < 1, S.One > A) == Equivalent(1, 1) == Equivalent(0, 0) and Equivalent(Equality(A, B), Equality(B, A)) is true","over":{"base":"Any"},"name":"test_Equivalent_correct"},"guarantee":"Equivalent(A, B) == Equivalent(B, A) == Equivalent(A, B, A); Equivalent() is true; Equivalent(A, A) == Equivalent(A) is true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Equivalent_correct","statement":"Path(test_Equivalent(x), Equivalent(A, B) == Equivalent(B, A) == Equivalent(A, B, A); Equivalent() is true; Equivalent(A, A) == Equivalent(A) is true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"217e07e24ae12ed8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Equivalent(A, B) == Equivalent(B, A) == Equivalent(A, B, A)","Equivalent() is true","Equivalent(A, A) == Equivalent(A) is true","Equivalent(True, True) == Equivalent(False, False) is true","Equivalent(True, False) == Equivalent(False, True) is false","Equivalent(A, True) == A","Equivalent(A, False) == Not(A)","Equivalent(A, B, True) == A & B","Equivalent(A, B, False) == ~A & ~B","Equivalent(1, A) == A","Equivalent(0, A) == Not(A)","Equivalent(A, Equivalent(B, C)) != Equivalent(Equivalent(A, B), C)","Equivalent(A < 1, A >= 1) is false","Equivalent(A < 1, A >= 1, 0) is false","Equivalent(A < 1, A >= 1, 1) is false","Equivalent(A < 1, S.One > A) == Equivalent(1, 1) == Equivalent(0, 0)","Equivalent(Equality(A, B), Equality(B, A)) is true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Equivalent():
     assert Equivalent(A, B) == Equivalent(B, A) == Equivalent(A, B, A)
     assert Equivalent() is true
@@ -402,16 +506,24 @@ def test_Equivalent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Exclusive(), test_Exclusive produces the expected output) over Any ║
+# ║ Path(test_Exclusive(), Exclusive(False, False, False) is true and Exclusive(True, False, False) is true and Exclusive(True, True, False) is false and Exclusive(True, True, True) is false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Exclusive : Any → {Any | Exclusive(False, False,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Exclusive(False, False, False) is true         ║
+# ║   ensures:  Exclusive(True, False, False) is true          ║
+# ║   ensures:  Exclusive(True, True, False) is false          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Exclusive : Any → {Any | result satisfies: Exclu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb2ee150ca0ed454  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5063eda5f6721f09  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Exclusive","kind":"function","src_hash":"b92e4ff2e866e9f2","in":{"base":"Any"},"out":{"base":"Any","pred":"Exclusive(False, False, False) is true and Exclusive(True, False, False) is true and Exclusive(True, True, False) is false and Exclusive(True, True, True) is false"},"spec":{"lhs":"test_Exclusive()","rhs":"test_Exclusive produces the expected output","over":{"base":"Any"},"name":"test_Exclusive_correct"},"guarantee":"test_Exclusive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Exclusive_correct","statement":"Path(test_Exclusive(x), test_Exclusive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb2ee150ca0ed454"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_Exclusive","kind":"function","src_hash":"b92e4ff2e866e9f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Exclusive(False, False, False) is true and Exclusive(True, False, False) is true and Exclusive(True, True, False) is false and Exclusive(True, True, True) is false"},"spec":{"lhs":"test_Exclusive()","rhs":"Exclusive(False, False, False) is true and Exclusive(True, False, False) is true and Exclusive(True, True, False) is false and Exclusive(True, True, True) is false","over":{"base":"Any"},"name":"test_Exclusive_correct"},"guarantee":"Exclusive(False, False, False) is true; Exclusive(True, False, False) is true; Exclusive(True, True, False) is false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_Exclusive_correct","statement":"Path(test_Exclusive(x), Exclusive(False, False, False) is true; Exclusive(True, False, False) is true; Exclusive(True, True, False) is false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5063eda5f6721f09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Exclusive(False, False, False) is true","Exclusive(True, False, False) is true","Exclusive(True, True, False) is false","Exclusive(True, True, True) is false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Exclusive():
     assert Exclusive(False, False, False) is true
     assert Exclusive(True, False, False) is true
@@ -420,16 +532,24 @@ def test_Exclusive():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equals(), test_equals produces the expected output) over Any ║
+# ║ Path(test_equals(), Not(Or(A, B)).equals(And(Not(A), Not(B))) is True and Equivalent(A, B).equals(A >> B & B >> A) is True and ((A | ~B) & (~A | B)).equals(~A & ~B | A & B) is True and (A >> B).equals(~A >> ~B) is False and (A >> (B >> A)).equals(A >> (C >> A)) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_equals : Any → {Any | Not(Or(A, B)).equals(And(N...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Not(Or(A, B)).equals(And(Not(A), Not(B)))...   ║
+# ║   ensures:  Equivalent(A, B).equals(A >> B & B >> A) ...   ║
+# ║   ensures:  ((A | ~B) & (~A | B)).equals(~A & ~B | A ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_equals : Any → {Any | result satisfies: Not(Or(A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62818932bf3d2e72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c1131ce8f0aba89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_equals","kind":"function","src_hash":"e8b16ff5b19e265a","in":{"base":"Any"},"out":{"base":"Any","pred":"Not(Or(A, B)).equals(And(Not(A), Not(B))) is True and Equivalent(A, B).equals(A >> B & B >> A) is True and ((A | ~B) & (~A | B)).equals(~A & ~B | A & B) is True and (A >> B).equals(~A >> ~B) is False and (A >> (B >> A)).equals(A >> (C >> A)) is False"},"spec":{"lhs":"test_equals()","rhs":"test_equals produces the expected output","over":{"base":"Any"},"name":"test_equals_correct"},"guarantee":"test_equals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_equals_correct","statement":"Path(test_equals(x), test_equals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62818932bf3d2e72"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_equals","kind":"function","src_hash":"e8b16ff5b19e265a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Not(Or(A, B)).equals(And(Not(A), Not(B))) is True and Equivalent(A, B).equals(A >> B & B >> A) is True and ((A | ~B) & (~A | B)).equals(~A & ~B | A & B) is True and (A >> B).equals(~A >> ~B) is False and (A >> (B >> A)).equals(A >> (C >> A)) is False"},"spec":{"lhs":"test_equals()","rhs":"Not(Or(A, B)).equals(And(Not(A), Not(B))) is True and Equivalent(A, B).equals(A >> B & B >> A) is True and ((A | ~B) & (~A | B)).equals(~A & ~B | A & B) is True and (A >> B).equals(~A >> ~B) is False and (A >> (B >> A)).equals(A >> (C >> A)) is False","over":{"base":"Any"},"name":"test_equals_correct"},"guarantee":"Not(Or(A, B)).equals(And(Not(A), Not(B))) is True; Equivalent(A, B).equals(A >> B & B >> A) is True; ((A | ~B) & (~A | B)).equals(~A & ~B | A & B) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_equals_correct","statement":"Path(test_equals(x), Not(Or(A, B)).equals(And(Not(A), Not(B))) is True; Equivalent(A, B).equals(A >> B & B >> A) is True; ((A | ~B) & (~A | B)).equals(~A & ~B | A & B) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c1131ce8f0aba89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Not(Or(A, B)).equals(And(Not(A), Not(B))) is True","Equivalent(A, B).equals(A >> B & B >> A) is True","((A | ~B) & (~A | B)).equals(~A & ~B | A & B) is True","(A >> B).equals(~A >> ~B) is False","(A >> (B >> A)).equals(A >> (C >> A)) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_equals():
     assert Not(Or(A, B)).equals(And(Not(A), Not(B))) is True
     assert Equivalent(A, B).equals((A >> B) & (B >> A)) is True
@@ -440,16 +560,24 @@ def test_equals():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplification_boolalg(), test working of simplification methods) over Any ║
+# ║ Path(test_simplification_boolalg(), SOPform([x, y, z], set1) == Or(And(Not(x), z), And(Not(z), x)) and Not(SOPform([x, y, z], set2)) == Not(Or(And(Not(x), Not(z)), And(x, z))) and POSform([x, y, z], set1 + set2) is true and SOPform([x, y, z], set1 + set2) is true and SOPform([Dummy(), Dummy(), Dummy()], set1 + set2) is true and SOPform([w, x, y, z], minterms, dontcares) == Or(And(y, z), And(Not(w), Not(x))) and POSform([w, x, y, z], minterms, dontcares) == And(Or(Not(w), y), z) and simplify_logic(A & (B | C)) == ans and simplify_logic(A & B | A & C) == ans and simplify_logic(Implies(A, B)) == Or(Not(A), B) and simplify_logic(Equivalent(A, B)) == Or(And(A, B), And(Not(A), Not(B))) and simplify_logic(And(Equality(A, 2), C)) == And(Equality(A, 2), C) and simplify_logic(And(Equality(A, 2), A)) == And(Equality(A, 2), A) and simplify_logic(And(Equality(A, B), C)) == And(Equality(A, B), C) and simplify_logic(Or(And(Equality(A, 3), B), And(Equality(A, 3), C))) == And(Equality(A, 3), Or(B, C)) and simplify_logic(e) == A & ~x & ~y and simplify(Or(x <= y, And(x < y, z))) == (x <= y) and simplify(Or(x <= y, And(y > x, z))) == (x <= y) and simplify(Or(x >= y, And(y < x, z))) == (x >= y) and simplify_logic(expr) == expr and simplify_logic(a & b | c | d, dontcare=a & b) == c | d and SOPform([x, y], [[1, 0]]) == ans and POSform([x, y], [[1, 0]]) == ans and SOPform([x], [[1]], [[0]]) is true and SOPform([x], [[0]], [[1]]) is true and SOPform([x], [], []) is false and POSform([x], [[1]], [[0]]) is true and POSform([x], [[0]], [[1]]) is true and POSform([x], [], []) is false and simplify(A & B | A & C) == And(A, Or(B, C)) and simplify(And(x, Not(x))) == False and simplify(Or(x, Not(x))) == True and simplify(And(Eq(x, 0), Eq(x, y))) == And(Eq(x, 0), Eq(y, 0)) and And(Eq(x - 1, 0), Eq(x, y)).simplify() == And(Eq(x, 1), Eq(y, 1)) and And(Ne(x - 1, 0), Ne(x, y)).simplify() == And(Ne(x, 1), Ne(x, y)) and And(Eq(x - 1, 0), Ne(x, y)).simplify() == And(Eq(x, 1), Ne(y, 1)) and And(Eq(x - 1, 0), Eq(x, z + y), Eq(y + x, 0)).simplify() == And(Eq(x, 1), Eq(y, -1), Eq(z, 2)) and And(Eq(x - 1, 0), Eq(x + 2, 3)).simplify() == Eq(x, 1) and And(Ne(x - 1, 0), Ne(x + 2, 3)).simplify() == Ne(x, 1) and And(Eq(x - 1, 0), Eq(x + 2, 2)).simplify() == False and And(Ne(x - 1, 0), Ne(x + 2, 2)).simplify() == And(Ne(x, 1), Ne(x, 0)) and simplify(Xor(x, ~x)) == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplification_boolalg : Any → {Any | SOPform([x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  SOPform([x, y, z], set1) == Or(And(Not(x)...   ║
+# ║   ensures:  Not(SOPform([x, y, z], set2)) == Not(Or(A...   ║
+# ║   ensures:  POSform([x, y, z], set1 + set2) is true        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplification_boolalg : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b0586b5d9d00a19  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cb915ebbf6006d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_simplification_boolalg","kind":"function","src_hash":"366a8fcdd9da3846","in":{"base":"Any"},"out":{"base":"Any","pred":"SOPform([x, y, z], set1) == Or(And(Not(x), z), And(Not(z), x)) and Not(SOPform([x, y, z], set2)) == Not(Or(And(Not(x), Not(z)), And(x, z))) and POSform([x, y, z], set1 + set2) is true and SOPform([x, y, z], set1 + set2) is true and SOPform([Dummy(), Dummy(), Dummy()], set1 + set2) is true and POSform([w, x, y, z], minterms, dontcares) == And(Or(Not(w), y), z) and POSform([w, x, y, z], minterms, dontcares) == And(Or(Not(w), y), z) and POSform([w, x, y, z], minterms, dontcares) == And(Or(Not(w), y), z) and POSform([w, x, y, z], minterms, dontcares) == And(Or(Not(w), y), z) and simplify_logic(A & (B | C)) == ans and simplify_logic(A & B | A & C) == ans and simplify_logic(Implies(A, B)) == Or(Not(A), B) and simplify_logic(Equivalent(A, B)) == Or(And(A, B), And(Not(A), Not(B))) and simplify_logic(And(Equality(A, 2), C)) == And(Equality(A, 2), C) and simplify_logic(And(Equality(A, 2), A)) == And(Equality(A, 2), A) and simplify_logic(And(Equality(A, B), C)) == And(Equality(A, B), C) and simplify_logic(e) == A & ~x & ~y and simplify(Or(x <= y, And(x < y, z))) == (x <= y) and simplify(Or(x <= y, And(y > x, z))) == (x <= y) and simplify(Or(x >= y, And(y < x, z))) == (x >= y) and simplify_logic(expr) == expr and simplify_logic(a & b | c | d, dontcare=a & b) == c | d and SOPform([x, y], [[1, 0]]) == ans and POSform([x, y], [[1, 0]]) == ans and SOPform([x], [[1]], [[0]]) is true and SOPform([x], [[0]], [[1]]) is true and SOPform([x], [], []) is false and POSform([x], [[1]], [[0]]) is true and POSform([x], [[0]], [[1]]) is true and POSform([x], [], []) is false and simplify(A & B | A & C) == And(A, Or(B, C)) and simplify(And(x, Not(x))) == False and simplify(Or(x, Not(x))) == True and simplify(And(Eq(x, 0), Eq(x, y))) == And(Eq(x, 0), Eq(y, 0)) and And(Eq(x - 1, 0), Eq(x, y)).simplify() == And(Eq(x, 1), Eq(y, 1)) and And(Ne(x - 1, 0), Ne(x, y)).simplify() == And(Ne(x, 1), Ne(x, y)) and And(Eq(x - 1, 0), Ne(x, y)).simplify() == And(Eq(x, 1), Ne(y, 1)) and And(Eq(x - 1, 0), Eq(x + 2, 3)).simplify() == Eq(x, 1) and And(Ne(x - 1, 0), Ne(x + 2, 3)).simplify() == Ne(x, 1) and And(Eq(x - 1, 0), Eq(x + 2, 2)).simplify() == False and And(Ne(x - 1, 0), Ne(x + 2, 2)).simplify() == And(Ne(x, 1), Ne(x, 0)) and simplify(Xor(x, ~x)) == True"},"spec":{"lhs":"test_simplification_boolalg()","rhs":"test working of simplification methods","over":{"base":"Any"},"name":"test_simplification_boolalg_correct"},"guarantee":"test working of simplification methods","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_simplification_boolalg_correct","statement":"Path(test_simplification_boolalg(x), test working of simplification methods)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b0586b5d9d00a19"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_simplification_boolalg","kind":"function","src_hash":"366a8fcdd9da3846","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: SOPform([x, y, z], set1) == Or(And(Not(x), z), And(Not(z), x)) and Not(SOPform([x, y, z], set2)) == Not(Or(And(Not(x), Not(z)), And(x, z))) and POSform([x, y, z], set1 + set2) is true and SOPform([x, y, z], set1 + set2) is true and SOPform([Dummy(), Dummy(), Dummy()], set1 + set2) is true and SOPform([w, x, y, z], minterms, dontcares) == Or(And(y, z), And(Not(w), Not(x))) and POSform([w, x, y, z], minterms, dontcares) == And(Or(Not(w), y), z) and simplify_logic(A & (B | C)) == ans and simplify_logic(A & B | A & C) == ans and simplify_logic(Implies(A, B)) == Or(Not(A), B) and simplify_logic(Equivalent(A, B)) == Or(And(A, B), And(Not(A), Not(B))) and simplify_logic(And(Equality(A, 2), C)) == And(Equality(A, 2), C) and simplify_logic(And(Equality(A, 2), A)) == And(Equality(A, 2), A) and simplify_logic(And(Equality(A, B), C)) == And(Equality(A, B), C) and simplify_logic(Or(And(Equality(A, 3), B), And(Equality(A, 3), C))) == And(Equality(A, 3), Or(B, C)) and simplify_logic(e) == A & ~x & ~y and simplify(Or(x <= y, And(x < y, z))) == (x <= y) and simplify(Or(x <= y, And(y > x, z))) == (x <= y) and simplify(Or(x >= y, And(y < x, z))) == (x >= y) and simplify_logic(expr) == expr and simplify_logic(a & b | c | d, dontcare=a & b) == c | d and SOPform([x, y], [[1, 0]]) == ans and POSform([x, y], [[1, 0]]) == ans and SOPform([x], [[1]], [[0]]) is true and SOPform([x], [[0]], [[1]]) is true and SOPform([x], [], []) is false and POSform([x], [[1]], [[0]]) is true and POSform([x], [[0]], [[1]]) is true and POSform([x], [], []) is false and simplify(A & B | A & C) == And(A, Or(B, C)) and simplify(And(x, Not(x))) == False and simplify(Or(x, Not(x))) == True and simplify(And(Eq(x, 0), Eq(x, y))) == And(Eq(x, 0), Eq(y, 0)) and And(Eq(x - 1, 0), Eq(x, y)).simplify() == And(Eq(x, 1), Eq(y, 1)) and And(Ne(x - 1, 0), Ne(x, y)).simplify() == And(Ne(x, 1), Ne(x, y)) and And(Eq(x - 1, 0), Ne(x, y)).simplify() == And(Eq(x, 1), Ne(y, 1)) and And(Eq(x - 1, 0), Eq(x, z + y), Eq(y + x, 0)).simplify() == And(Eq(x, 1), Eq(y, -1), Eq(z, 2)) and And(Eq(x - 1, 0), Eq(x + 2, 3)).simplify() == Eq(x, 1) and And(Ne(x - 1, 0), Ne(x + 2, 3)).simplify() == Ne(x, 1) and And(Eq(x - 1, 0), Eq(x + 2, 2)).simplify() == False and And(Ne(x - 1, 0), Ne(x + 2, 2)).simplify() == And(Ne(x, 1), Ne(x, 0)) and simplify(Xor(x, ~x)) == True"},"spec":{"lhs":"test_simplification_boolalg()","rhs":"SOPform([x, y, z], set1) == Or(And(Not(x), z), And(Not(z), x)) and Not(SOPform([x, y, z], set2)) == Not(Or(And(Not(x), Not(z)), And(x, z))) and POSform([x, y, z], set1 + set2) is true and SOPform([x, y, z], set1 + set2) is true and SOPform([Dummy(), Dummy(), Dummy()], set1 + set2) is true and SOPform([w, x, y, z], minterms, dontcares) == Or(And(y, z), And(Not(w), Not(x))) and POSform([w, x, y, z], minterms, dontcares) == And(Or(Not(w), y), z) and simplify_logic(A & (B | C)) == ans and simplify_logic(A & B | A & C) == ans and simplify_logic(Implies(A, B)) == Or(Not(A), B) and simplify_logic(Equivalent(A, B)) == Or(And(A, B), And(Not(A), Not(B))) and simplify_logic(And(Equality(A, 2), C)) == And(Equality(A, 2), C) and simplify_logic(And(Equality(A, 2), A)) == And(Equality(A, 2), A) and simplify_logic(And(Equality(A, B), C)) == And(Equality(A, B), C) and simplify_logic(Or(And(Equality(A, 3), B), And(Equality(A, 3), C))) == And(Equality(A, 3), Or(B, C)) and simplify_logic(e) == A & ~x & ~y and simplify(Or(x <= y, And(x < y, z))) == (x <= y) and simplify(Or(x <= y, And(y > x, z))) == (x <= y) and simplify(Or(x >= y, And(y < x, z))) == (x >= y) and simplify_logic(expr) == expr and simplify_logic(a & b | c | d, dontcare=a & b) == c | d and SOPform([x, y], [[1, 0]]) == ans and POSform([x, y], [[1, 0]]) == ans and SOPform([x], [[1]], [[0]]) is true and SOPform([x], [[0]], [[1]]) is true and SOPform([x], [], []) is false and POSform([x], [[1]], [[0]]) is true and POSform([x], [[0]], [[1]]) is true and POSform([x], [], []) is false and simplify(A & B | A & C) == And(A, Or(B, C)) and simplify(And(x, Not(x))) == False and simplify(Or(x, Not(x))) == True and simplify(And(Eq(x, 0), Eq(x, y))) == And(Eq(x, 0), Eq(y, 0)) and And(Eq(x - 1, 0), Eq(x, y)).simplify() == And(Eq(x, 1), Eq(y, 1)) and And(Ne(x - 1, 0), Ne(x, y)).simplify() == And(Ne(x, 1), Ne(x, y)) and And(Eq(x - 1, 0), Ne(x, y)).simplify() == And(Eq(x, 1), Ne(y, 1)) and And(Eq(x - 1, 0), Eq(x, z + y), Eq(y + x, 0)).simplify() == And(Eq(x, 1), Eq(y, -1), Eq(z, 2)) and And(Eq(x - 1, 0), Eq(x + 2, 3)).simplify() == Eq(x, 1) and And(Ne(x - 1, 0), Ne(x + 2, 3)).simplify() == Ne(x, 1) and And(Eq(x - 1, 0), Eq(x + 2, 2)).simplify() == False and And(Ne(x - 1, 0), Ne(x + 2, 2)).simplify() == And(Ne(x, 1), Ne(x, 0)) and simplify(Xor(x, ~x)) == True","over":{"base":"Any"},"name":"test_simplification_boolalg_correct"},"guarantee":"SOPform([x, y, z], set1) == Or(And(Not(x), z), And(Not(z), x)); Not(SOPform([x, y, z], set2)) == Not(Or(And(Not(x), Not(z)), And(x, z))); POSform([x, y, z], set1 + set2) is true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_simplification_boolalg_correct","statement":"Path(test_simplification_boolalg(x), SOPform([x, y, z], set1) == Or(And(Not(x), z), And(Not(z), x)); Not(SOPform([x, y, z], set2)) == Not(Or(And(Not(x), Not(z)), And(x, z))); POSform([x, y, z], set1 + set2) is true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cb915ebbf6006d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["SOPform([x, y, z], set1) == Or(And(Not(x), z), And(Not(z), x))","Not(SOPform([x, y, z], set2)) == Not(Or(And(Not(x), Not(z)), And(x, z)))","POSform([x, y, z], set1 + set2) is true","SOPform([x, y, z], set1 + set2) is true","SOPform([Dummy(), Dummy(), Dummy()], set1 + set2) is true","SOPform([w, x, y, z], minterms, dontcares) == Or(And(y, z), And(Not(w), Not(x)))","POSform([w, x, y, z], minterms, dontcares) == And(Or(Not(w), y), z)","simplify_logic(A & (B | C)) == ans","simplify_logic(A & B | A & C) == ans","simplify_logic(Implies(A, B)) == Or(Not(A), B)","simplify_logic(Equivalent(A, B)) == Or(And(A, B), And(Not(A), Not(B)))","simplify_logic(And(Equality(A, 2), C)) == And(Equality(A, 2), C)","simplify_logic(And(Equality(A, 2), A)) == And(Equality(A, 2), A)","simplify_logic(And(Equality(A, B), C)) == And(Equality(A, B), C)","simplify_logic(Or(And(Equality(A, 3), B), And(Equality(A, 3), C))) == And(Equality(A, 3), Or(B, C))","simplify_logic(e) == A & ~x & ~y","simplify(Or(x <= y, And(x < y, z))) == (x <= y)","simplify(Or(x <= y, And(y > x, z))) == (x <= y)","simplify(Or(x >= y, And(y < x, z))) == (x >= y)","simplify_logic(expr) == expr","simplify_logic(a & b | c | d, dontcare=a & b) == c | d","SOPform([x, y], [[1, 0]]) == ans","POSform([x, y], [[1, 0]]) == ans","SOPform([x], [[1]], [[0]]) is true","SOPform([x], [[0]], [[1]]) is true","SOPform([x], [], []) is false","POSform([x], [[1]], [[0]]) is true","POSform([x], [[0]], [[1]]) is true","POSform([x], [], []) is false","simplify(A & B | A & C) == And(A, Or(B, C))","simplify(And(x, Not(x))) == False","simplify(Or(x, Not(x))) == True","simplify(And(Eq(x, 0), Eq(x, y))) == And(Eq(x, 0), Eq(y, 0))","And(Eq(x - 1, 0), Eq(x, y)).simplify() == And(Eq(x, 1), Eq(y, 1))","And(Ne(x - 1, 0), Ne(x, y)).simplify() == And(Ne(x, 1), Ne(x, y))","And(Eq(x - 1, 0), Ne(x, y)).simplify() == And(Eq(x, 1), Ne(y, 1))","And(Eq(x - 1, 0), Eq(x, z + y), Eq(y + x, 0)).simplify() == And(Eq(x, 1), Eq(y, -1), Eq(z, 2))","And(Eq(x - 1, 0), Eq(x + 2, 3)).simplify() == Eq(x, 1)","And(Ne(x - 1, 0), Ne(x + 2, 3)).simplify() == Ne(x, 1)","And(Eq(x - 1, 0), Eq(x + 2, 2)).simplify() == False","And(Ne(x - 1, 0), Ne(x + 2, 2)).simplify() == And(Ne(x, 1), Ne(x, 0))","simplify(Xor(x, ~x)) == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"assumed","binding":true}}
 def test_simplification_boolalg():
     """
     Test working of simplification methods.
@@ -567,16 +695,24 @@ def test_simplification_boolalg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bool_map(), test working of bool_map function) over Any ║
+# ║ Path(test_bool_map(), bool_map(Not(Not(a)), a) == (a, {a: a}) and bool_map(SOPform([w, x, y, z], minterms), POSform([w, x, y, z], minterms)) == (And(Or(Not(w), y), Or(Not(x), y), z), {x: x, w: w, z: z, y: y}) and bool_map(SOPform([x, z, y], [[1, 0, 1]]), SOPform([a, b, c], [[1, 0, 1]])) != False and bool_map(function1, function2) == (function1, {y: a, z: b}) and bool_map(Xor(x, y), ~Xor(x, y)) == False and bool_map(And(x, y), Or(x, y)) is None and bool_map(And(x, y), And(x, y, z)) is None and bool_map(Xor(x, y, z), ~Xor(x, y, z)) == False and bool_map(Xor(a, x, y, z), ~Xor(a, x, y, z)) == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bool_map : Any → {Any | bool_map(Not(Not(a)), a)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bool_map(Not(Not(a)), a) == (a, {a: a})        ║
+# ║   ensures:  bool_map(SOPform([w, x, y, z], minterms),...   ║
+# ║   ensures:  bool_map(SOPform([x, z, y], [[1, 0, 1]]),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bool_map : Any → {Any | result satisfies: bool_m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f71c3c4d19fc0134  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5de3cbd48a6b3967  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_bool_map","kind":"function","src_hash":"0f7d7315fba66183","in":{"base":"Any"},"out":{"base":"Any","pred":"bool_map(Not(Not(a)), a) == (a, {a: a}) and bool_map(function1, function2) == (function1, {y: a, z: b}) and bool_map(Xor(x, y), ~Xor(x, y)) == False and bool_map(And(x, y), Or(x, y)) is None and bool_map(And(x, y), And(x, y, z)) is None and bool_map(Xor(x, y, z), ~Xor(x, y, z)) == False and bool_map(Xor(a, x, y, z), ~Xor(a, x, y, z)) == False"},"spec":{"lhs":"test_bool_map()","rhs":"test working of bool_map function","over":{"base":"Any"},"name":"test_bool_map_correct"},"guarantee":"test working of bool_map function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_bool_map_correct","statement":"Path(test_bool_map(x), test working of bool_map function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f71c3c4d19fc0134"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_bool_map","kind":"function","src_hash":"0f7d7315fba66183","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bool_map(Not(Not(a)), a) == (a, {a: a}) and bool_map(SOPform([w, x, y, z], minterms), POSform([w, x, y, z], minterms)) == (And(Or(Not(w), y), Or(Not(x), y), z), {x: x, w: w, z: z, y: y}) and bool_map(SOPform([x, z, y], [[1, 0, 1]]), SOPform([a, b, c], [[1, 0, 1]])) != False and bool_map(function1, function2) == (function1, {y: a, z: b}) and bool_map(Xor(x, y), ~Xor(x, y)) == False and bool_map(And(x, y), Or(x, y)) is None and bool_map(And(x, y), And(x, y, z)) is None and bool_map(Xor(x, y, z), ~Xor(x, y, z)) == False and bool_map(Xor(a, x, y, z), ~Xor(a, x, y, z)) == False"},"spec":{"lhs":"test_bool_map()","rhs":"bool_map(Not(Not(a)), a) == (a, {a: a}) and bool_map(SOPform([w, x, y, z], minterms), POSform([w, x, y, z], minterms)) == (And(Or(Not(w), y), Or(Not(x), y), z), {x: x, w: w, z: z, y: y}) and bool_map(SOPform([x, z, y], [[1, 0, 1]]), SOPform([a, b, c], [[1, 0, 1]])) != False and bool_map(function1, function2) == (function1, {y: a, z: b}) and bool_map(Xor(x, y), ~Xor(x, y)) == False and bool_map(And(x, y), Or(x, y)) is None and bool_map(And(x, y), And(x, y, z)) is None and bool_map(Xor(x, y, z), ~Xor(x, y, z)) == False and bool_map(Xor(a, x, y, z), ~Xor(a, x, y, z)) == False","over":{"base":"Any"},"name":"test_bool_map_correct"},"guarantee":"bool_map(Not(Not(a)), a) == (a, {a: a}); bool_map(SOPform([w, x, y, z], minterms), POSform([w, x, y, z], minterms)) == (And(Or(Not(w), y), Or(Not(x), y), z), {x: x, w: w, z: z, y: y}); bool_map(SOPform([x, z, y], [[1, 0, 1]]), SOPform([a, b, c], [[1, 0, 1]])) != False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_bool_map_correct","statement":"Path(test_bool_map(x), bool_map(Not(Not(a)), a) == (a, {a: a}); bool_map(SOPform([w, x, y, z], minterms), POSform([w, x, y, z], minterms)) == (And(Or(Not(w), y), Or(Not(x), y), z), {x: x, w: w, z: z, y: y}); bool_map(SOPform([x, z, y], [[1, 0, 1]]), SOPform([a, b, c], [[1, 0, 1]])) != False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5de3cbd48a6b3967","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bool_map(Not(Not(a)), a) == (a, {a: a})","bool_map(SOPform([w, x, y, z], minterms), POSform([w, x, y, z], minterms)) == (And(Or(Not(w), y), Or(Not(x), y), z), {x: x, w: w, z: z, y: y})","bool_map(SOPform([x, z, y], [[1, 0, 1]]), SOPform([a, b, c], [[1, 0, 1]])) != False","bool_map(function1, function2) == (function1, {y: a, z: b})","bool_map(Xor(x, y), ~Xor(x, y)) == False","bool_map(And(x, y), Or(x, y)) is None","bool_map(And(x, y), And(x, y, z)) is None","bool_map(Xor(x, y, z), ~Xor(x, y, z)) == False","bool_map(Xor(a, x, y, z), ~Xor(a, x, y, z)) == False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_bool_map():
     """
     Test working of bool_map function.
@@ -603,16 +739,24 @@ def test_bool_map():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bool_symbol(), test that mixing symbols with boolean values works as expected) over Any ║
+# ║ Path(test_bool_symbol(), And(A, True) == A and And(A, True, True) == A and And(A, False) is false and And(A, True, False) is false and Or(A, True) is true and Or(A, False) == A) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bool_symbol : Any → {Any | And(A, True) == A and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  And(A, True) == A                              ║
+# ║   ensures:  And(A, True, True) == A                        ║
+# ║   ensures:  And(A, False) is false                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bool_symbol : Any → {Any | result satisfies: And...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfdf5213f6752a54  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 123b255b10667bac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_bool_symbol","kind":"function","src_hash":"1c56dcca2b71e100","in":{"base":"Any"},"out":{"base":"Any","pred":"And(A, True) == A and And(A, True, True) == A and And(A, False) is false and And(A, True, False) is false and Or(A, True) is true and Or(A, False) == A"},"spec":{"lhs":"test_bool_symbol()","rhs":"test that mixing symbols with boolean values works as expected","over":{"base":"Any"},"name":"test_bool_symbol_correct"},"guarantee":"test that mixing symbols with boolean values works as expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_bool_symbol_correct","statement":"Path(test_bool_symbol(x), test that mixing symbols with boolean values works as expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfdf5213f6752a54"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_bool_symbol","kind":"function","src_hash":"1c56dcca2b71e100","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: And(A, True) == A and And(A, True, True) == A and And(A, False) is false and And(A, True, False) is false and Or(A, True) is true and Or(A, False) == A"},"spec":{"lhs":"test_bool_symbol()","rhs":"And(A, True) == A and And(A, True, True) == A and And(A, False) is false and And(A, True, False) is false and Or(A, True) is true and Or(A, False) == A","over":{"base":"Any"},"name":"test_bool_symbol_correct"},"guarantee":"And(A, True) == A; And(A, True, True) == A; And(A, False) is false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_bool_symbol_correct","statement":"Path(test_bool_symbol(x), And(A, True) == A; And(A, True, True) == A; And(A, False) is false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"123b255b10667bac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["And(A, True) == A","And(A, True, True) == A","And(A, False) is false","And(A, True, False) is false","Or(A, True) is true","Or(A, False) == A"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bool_symbol():
     """Test that mixing symbols with boolean values
     works as expected"""
@@ -626,9 +770,16 @@ def test_bool_symbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_boolean(), test_is_boolean produces the expected output) over {Any | isinstance(A, Boolean)} ║
+# ║ Path(test_is_boolean(), isinstance(True, Boolean) is False and isinstance(true, Boolean) is True and 1 != true and (1 == true) is False and 0 != false and (0 == false) is False and true.is_Boolean is True and (A & B).is_Boolean and (A | B).is_Boolean and (~A).is_Boolean and (A ^ B).is_Boolean and A.is_Boolean != isinstance(A, Boolean) and isinstance(A, Boolean)) over {Any | isinstance(A, Boolean) and 1 == True and 0 == False} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_boolean : {Any | isinstance(A, Boolean)} → {A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: 1 == True                                      ║
+# ║   requires: 0 == False                                     ║
+# ║   ensures:  isinstance(True, Boolean) is False             ║
+# ║   ensures:  isinstance(true, Boolean) is True              ║
+# ║   ensures:  1 != true                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_boolean : {Any | isinstance(A, Boolean) and 1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Boolean: {isinstance(A, Boolean)} → library_axiom        ║
@@ -638,9 +789,12 @@ def test_bool_symbol():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c17326a8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_is_boolean","kind":"function","src_hash":"c12019edbe8dc114","in":{"base":"Any","pred":"isinstance(A, Boolean)"},"out":{"base":"Any","pred":"isinstance(True, Boolean) is False and isinstance(true, Boolean) is True and 1 == True and 1 != true and (1 == true) is False and 0 == False and 0 != false and (0 == false) is False and true.is_Boolean is True and (A & B).is_Boolean and (A | B).is_Boolean and (~A).is_Boolean and (A ^ B).is_Boolean and A.is_Boolean != isinstance(A, Boolean) and isinstance(A, Boolean)"},"spec":{"lhs":"test_is_boolean()","rhs":"test_is_boolean produces the expected output","over":{"base":"Any","pred":"isinstance(A, Boolean)"},"name":"test_is_boolean_correct"},"guarantee":"test_is_boolean produces the expected output","fibers":[{"name":"Boolean","pred":"isinstance(A, Boolean)","path":{"lhs":"test_is_boolean(x)","rhs":"test_is_boolean produces the expected output","over":{"base":"Boolean","pred":"isinstance(A, Boolean)"},"name":"test_is_boolean_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_is_boolean_Boolean_correct","statement":"test_is_boolean satisfies spec on Boolean inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c17326a803fe5d79"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_is_boolean","kind":"function","src_hash":"c12019edbe8dc114","in":{"base":"Any","pred":"isinstance(A, Boolean) and 1 == True and 0 == False"},"out":{"base":"Any","pred":"result satisfies: isinstance(True, Boolean) is False and isinstance(true, Boolean) is True and 1 != true and (1 == true) is False and 0 != false and (0 == false) is False and true.is_Boolean is True and (A & B).is_Boolean and (A | B).is_Boolean and (~A).is_Boolean and (A ^ B).is_Boolean and A.is_Boolean != isinstance(A, Boolean) and isinstance(A, Boolean)"},"spec":{"lhs":"test_is_boolean()","rhs":"isinstance(True, Boolean) is False and isinstance(true, Boolean) is True and 1 != true and (1 == true) is False and 0 != false and (0 == false) is False and true.is_Boolean is True and (A & B).is_Boolean and (A | B).is_Boolean and (~A).is_Boolean and (A ^ B).is_Boolean and A.is_Boolean != isinstance(A, Boolean) and isinstance(A, Boolean)","over":{"base":"Any","pred":"isinstance(A, Boolean) and 1 == True and 0 == False"},"name":"test_is_boolean_correct"},"guarantee":"isinstance(True, Boolean) is False; isinstance(true, Boolean) is True; 1 != true","fibers":[{"name":"Boolean","pred":"isinstance(A, Boolean)","path":{"lhs":"test_is_boolean(x)","rhs":"isinstance(True, Boolean) is False; isinstance(true, Boolean) is True; 1 != true","over":{"base":"Boolean","pred":"isinstance(A, Boolean)"},"name":"test_is_boolean_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_is_boolean_Boolean_correct","statement":"test_is_boolean satisfies spec on Boolean inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c17326a803fe5d79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["1 == True","0 == False"],"ensures":["isinstance(True, Boolean) is False","isinstance(true, Boolean) is True","1 != true","(1 == true) is False","0 != false","(0 == false) is False","true.is_Boolean is True","(A & B).is_Boolean","(A | B).is_Boolean","(~A).is_Boolean","(A ^ B).is_Boolean","A.is_Boolean != isinstance(A, Boolean)","isinstance(A, Boolean)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_is_boolean():
     assert isinstance(True, Boolean) is False
     assert isinstance(true, Boolean) is True
@@ -660,16 +814,24 @@ def test_is_boolean():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs(), test_subs produces the expected output) over Any ║
+# ║ Path(test_subs(), (A & B).subs(A, True) == B and (A & B).subs(A, False) is false and (A & B).subs(B, True) == A and (A & B).subs(B, False) is false and (A & B).subs({A: True, B: True}) is true and (A | B).subs(A, True) is true and (A | B).subs(A, False) == B and (A | B).subs(B, True) is true and (A | B).subs(B, False) == A and (A | B).subs({A: True, B: True}) is true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs : Any → {Any | (A & B).subs(A, True) == B a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (A & B).subs(A, True) == B                     ║
+# ║   ensures:  (A & B).subs(A, False) is false                ║
+# ║   ensures:  (A & B).subs(B, True) == A                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs : Any → {Any | result satisfies: (A & B).su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c9987f52e249bba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e83125d9a7b2fd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_subs","kind":"function","src_hash":"2b33cf5ef41ad904","in":{"base":"Any"},"out":{"base":"Any","pred":"(A & B).subs(A, True) == B and (A & B).subs(A, False) is false and (A & B).subs(B, True) == A and (A & B).subs(B, False) is false and (A & B).subs({A: True, B: True}) is true and (A | B).subs(A, True) is true and (A | B).subs(A, False) == B and (A | B).subs(B, True) is true and (A | B).subs(B, False) == A and (A | B).subs({A: True, B: True}) is true"},"spec":{"lhs":"test_subs()","rhs":"test_subs produces the expected output","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"test_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_subs_correct","statement":"Path(test_subs(x), test_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c9987f52e249bba"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_subs","kind":"function","src_hash":"2b33cf5ef41ad904","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (A & B).subs(A, True) == B and (A & B).subs(A, False) is false and (A & B).subs(B, True) == A and (A & B).subs(B, False) is false and (A & B).subs({A: True, B: True}) is true and (A | B).subs(A, True) is true and (A | B).subs(A, False) == B and (A | B).subs(B, True) is true and (A | B).subs(B, False) == A and (A | B).subs({A: True, B: True}) is true"},"spec":{"lhs":"test_subs()","rhs":"(A & B).subs(A, True) == B and (A & B).subs(A, False) is false and (A & B).subs(B, True) == A and (A & B).subs(B, False) is false and (A & B).subs({A: True, B: True}) is true and (A | B).subs(A, True) is true and (A | B).subs(A, False) == B and (A | B).subs(B, True) is true and (A | B).subs(B, False) == A and (A | B).subs({A: True, B: True}) is true","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"(A & B).subs(A, True) == B; (A & B).subs(A, False) is false; (A & B).subs(B, True) == A","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_subs_correct","statement":"Path(test_subs(x), (A & B).subs(A, True) == B; (A & B).subs(A, False) is false; (A & B).subs(B, True) == A)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e83125d9a7b2fd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(A & B).subs(A, True) == B","(A & B).subs(A, False) is false","(A & B).subs(B, True) == A","(A & B).subs(B, False) is false","(A & B).subs({A: True, B: True}) is true","(A | B).subs(A, True) is true","(A | B).subs(A, False) == B","(A | B).subs(B, True) is true","(A | B).subs(B, False) == A","(A | B).subs({A: True, B: True}) is true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_subs():
     assert (A & B).subs(A, True) == B
     assert (A & B).subs(A, False) is false
@@ -690,16 +852,23 @@ see https://en.wikipedia.org/wiki/Boolean_algebra_(structure)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_commutative(), test for commutativity of and and or) over Any ║
+# ║ Path(test_commutative(), A & B == B & A and A | B == B | A) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_commutative : Any → {Any | A & B == B & A and A ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A & B == B & A                                 ║
+# ║   ensures:  A | B == B | A                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_commutative : Any → {Any | result satisfies: A &...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e9e2f306f4cb663  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0d4de6a226d2472  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_commutative","kind":"function","src_hash":"11dcde8f38f1799f","in":{"base":"Any"},"out":{"base":"Any","pred":"A & B == B & A and A | B == B | A"},"spec":{"lhs":"test_commutative()","rhs":"test for commutativity of and and or","over":{"base":"Any"},"name":"test_commutative_correct"},"guarantee":"test for commutativity of and and or","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_commutative_correct","statement":"Path(test_commutative(x), test for commutativity of and and or)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e9e2f306f4cb663"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_commutative","kind":"function","src_hash":"11dcde8f38f1799f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A & B == B & A and A | B == B | A"},"spec":{"lhs":"test_commutative()","rhs":"A & B == B & A and A | B == B | A","over":{"base":"Any"},"name":"test_commutative_correct"},"guarantee":"A & B == B & A; A | B == B | A","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_commutative_correct","statement":"Path(test_commutative(x), A & B == B & A; A | B == B | A)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0d4de6a226d2472","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A & B == B & A","A | B == B | A"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_commutative():
     """Test for commutativity of And and Or"""
     A, B = map(Boolean, symbols('A,B'))
@@ -709,16 +878,22 @@ def test_commutative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_and_associativity(), test for associativity of and) over Any ║
+# ║ Path(test_and_associativity(), A & B & C == A & (B & C)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_and_associativity : Any → {Any | A & B & C == A ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A & B & C == A & (B & C)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_and_associativity : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af0d3c927b761cd3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e8a92cda6e740e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_and_associativity","kind":"function","src_hash":"0bd1baf02addc941","in":{"base":"Any"},"out":{"base":"Any","pred":"A & B & C == A & (B & C)"},"spec":{"lhs":"test_and_associativity()","rhs":"test for associativity of and","over":{"base":"Any"},"name":"test_and_associativity_correct"},"guarantee":"test for associativity of and","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_and_associativity_correct","statement":"Path(test_and_associativity(x), test for associativity of and)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af0d3c927b761cd3"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_and_associativity","kind":"function","src_hash":"0bd1baf02addc941","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A & B & C == A & (B & C)"},"spec":{"lhs":"test_and_associativity()","rhs":"A & B & C == A & (B & C)","over":{"base":"Any"},"name":"test_and_associativity_correct"},"guarantee":"A & B & C == A & (B & C)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_and_associativity_correct","statement":"Path(test_and_associativity(x), A & B & C == A & (B & C))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e8a92cda6e740e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A & B & C == A & (B & C)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_and_associativity():
     """Test for associativity of And"""
 
@@ -726,31 +901,43 @@ def test_and_associativity():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_or_assicativity(), test_or_assicativity produces the expected output) over Any ║
+# ║ Path(test_or_assicativity(), A | B | C == A | (B | C)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_or_assicativity : Any → {Any | A | B | C == A | ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A | B | C == A | (B | C)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_or_assicativity : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3036182567f50384  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1a2ead7e34c7805  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_or_assicativity","kind":"function","src_hash":"d992ea81b26905da","in":{"base":"Any"},"out":{"base":"Any","pred":"A | B | C == A | (B | C)"},"spec":{"lhs":"test_or_assicativity()","rhs":"test_or_assicativity produces the expected output","over":{"base":"Any"},"name":"test_or_assicativity_correct"},"guarantee":"test_or_assicativity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_or_assicativity_correct","statement":"Path(test_or_assicativity(x), test_or_assicativity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3036182567f50384"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_or_assicativity","kind":"function","src_hash":"d992ea81b26905da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A | B | C == A | (B | C)"},"spec":{"lhs":"test_or_assicativity()","rhs":"A | B | C == A | (B | C)","over":{"base":"Any"},"name":"test_or_assicativity_correct"},"guarantee":"A | B | C == A | (B | C)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_or_assicativity_correct","statement":"Path(test_or_assicativity(x), A | B | C == A | (B | C))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1a2ead7e34c7805","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A | B | C == A | (B | C)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_or_assicativity():
     assert ((A | B) | C) == (A | (B | C))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_double_negation(), test_double_negation produces the expected output) over Any ║
+# ║ Path(test_double_negation(), ~~a == a) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_double_negation : Any → {Any | ~~a == a}              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ~~a == a                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_double_negation : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a7ace81debf8279  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c336e425ebc833cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_double_negation","kind":"function","src_hash":"19a24b90add1aab5","in":{"base":"Any"},"out":{"base":"Any","pred":"~~a == a"},"spec":{"lhs":"test_double_negation()","rhs":"test_double_negation produces the expected output","over":{"base":"Any"},"name":"test_double_negation_correct"},"guarantee":"test_double_negation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_double_negation_correct","statement":"Path(test_double_negation(x), test_double_negation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a7ace81debf8279"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_double_negation","kind":"function","src_hash":"19a24b90add1aab5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ~~a == a"},"spec":{"lhs":"test_double_negation()","rhs":"~~a == a","over":{"base":"Any"},"name":"test_double_negation_correct"},"guarantee":"~~a == a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_double_negation_correct","statement":"Path(test_double_negation(x), ~~a == a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c336e425ebc833cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["~~a == a"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_double_negation():
     a = Boolean()
     assert ~(~a) == a
@@ -759,16 +946,24 @@ def test_double_negation():
 # test methods
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eliminate_implications(), test_eliminate_implications produces the expected output) over Any ║
+# ║ Path(test_eliminate_implications(), eliminate_implications(Implies(A, B, evaluate=False)) == ~A | B and eliminate_implications(A >> (C >> Not(B))) == Or(Or(Not(B), Not(C)), Not(A)) and eliminate_implications(Equivalent(A, B, C, D)) == (~A | B) & (~B | C) & (~C | D) & (~D | A)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eliminate_implications : Any → {Any | eliminate_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eliminate_implications(Implies(A, B, eval...   ║
+# ║   ensures:  eliminate_implications(A >> (C >> Not(B))...   ║
+# ║   ensures:  eliminate_implications(Equivalent(A, B, C...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eliminate_implications : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b618e0e295905d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96e7aac46b3774aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_eliminate_implications","kind":"function","src_hash":"29c1ebd37ec7fac2","in":{"base":"Any"},"out":{"base":"Any","pred":"eliminate_implications(Implies(A, B, evaluate=False)) == ~A | B and eliminate_implications(A >> (C >> Not(B))) == Or(Or(Not(B), Not(C)), Not(A))"},"spec":{"lhs":"test_eliminate_implications()","rhs":"test_eliminate_implications produces the expected output","over":{"base":"Any"},"name":"test_eliminate_implications_correct"},"guarantee":"test_eliminate_implications produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_eliminate_implications_correct","statement":"Path(test_eliminate_implications(x), test_eliminate_implications produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b618e0e295905d9"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_eliminate_implications","kind":"function","src_hash":"29c1ebd37ec7fac2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eliminate_implications(Implies(A, B, evaluate=False)) == ~A | B and eliminate_implications(A >> (C >> Not(B))) == Or(Or(Not(B), Not(C)), Not(A)) and eliminate_implications(Equivalent(A, B, C, D)) == (~A | B) & (~B | C) & (~C | D) & (~D | A)"},"spec":{"lhs":"test_eliminate_implications()","rhs":"eliminate_implications(Implies(A, B, evaluate=False)) == ~A | B and eliminate_implications(A >> (C >> Not(B))) == Or(Or(Not(B), Not(C)), Not(A)) and eliminate_implications(Equivalent(A, B, C, D)) == (~A | B) & (~B | C) & (~C | D) & (~D | A)","over":{"base":"Any"},"name":"test_eliminate_implications_correct"},"guarantee":"eliminate_implications(Implies(A, B, evaluate=False)) == ~A | B; eliminate_implications(A >> (C >> Not(B))) == Or(Or(Not(B), Not(C)), Not(A)); eliminate_implications(Equivalent(A, B, C, D)) == (~A | B) & (~B | C) & (~C | D) & (~D | A)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_eliminate_implications_correct","statement":"Path(test_eliminate_implications(x), eliminate_implications(Implies(A, B, evaluate=False)) == ~A | B; eliminate_implications(A >> (C >> Not(B))) == Or(Or(Not(B), Not(C)), Not(A)); eliminate_implications(Equivalent(A, B, C, D)) == (~A | B) & (~B | C) & (~C | D) & (~D | A))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96e7aac46b3774aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eliminate_implications(Implies(A, B, evaluate=False)) == ~A | B","eliminate_implications(A >> (C >> Not(B))) == Or(Or(Not(B), Not(C)), Not(A))","eliminate_implications(Equivalent(A, B, C, D)) == (~A | B) & (~B | C) & (~C | D) & (~D | A)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_eliminate_implications():
     assert eliminate_implications(Implies(A, B, evaluate=False)) == (~A) | B
     assert eliminate_implications(
@@ -778,16 +973,24 @@ def test_eliminate_implications():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_conjuncts(), test_conjuncts produces the expected output) over Any ║
+# ║ Path(test_conjuncts(), conjuncts(A & B & C) == {A, B, C} and conjuncts((A | B) & C) == {A | B, C} and conjuncts(A) == {A} and conjuncts(True) == {True} and conjuncts(False) == {False}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_conjuncts : Any → {Any | conjuncts(A & B & C) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  conjuncts(A & B & C) == {A, B, C}              ║
+# ║   ensures:  conjuncts((A | B) & C) == {A | B, C}           ║
+# ║   ensures:  conjuncts(A) == {A}                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_conjuncts : Any → {Any | result satisfies: conju...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7091614fa2fc0c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25200ff9a934f58f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_conjuncts","kind":"function","src_hash":"951c42baa4918f54","in":{"base":"Any"},"out":{"base":"Any","pred":"conjuncts(A & B & C) == {A, B, C} and conjuncts((A | B) & C) == {A | B, C} and conjuncts(A) == {A} and conjuncts(True) == {True} and conjuncts(False) == {False}"},"spec":{"lhs":"test_conjuncts()","rhs":"test_conjuncts produces the expected output","over":{"base":"Any"},"name":"test_conjuncts_correct"},"guarantee":"test_conjuncts produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_conjuncts_correct","statement":"Path(test_conjuncts(x), test_conjuncts produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7091614fa2fc0c0"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_conjuncts","kind":"function","src_hash":"951c42baa4918f54","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: conjuncts(A & B & C) == {A, B, C} and conjuncts((A | B) & C) == {A | B, C} and conjuncts(A) == {A} and conjuncts(True) == {True} and conjuncts(False) == {False}"},"spec":{"lhs":"test_conjuncts()","rhs":"conjuncts(A & B & C) == {A, B, C} and conjuncts((A | B) & C) == {A | B, C} and conjuncts(A) == {A} and conjuncts(True) == {True} and conjuncts(False) == {False}","over":{"base":"Any"},"name":"test_conjuncts_correct"},"guarantee":"conjuncts(A & B & C) == {A, B, C}; conjuncts((A | B) & C) == {A | B, C}; conjuncts(A) == {A}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_conjuncts_correct","statement":"Path(test_conjuncts(x), conjuncts(A & B & C) == {A, B, C}; conjuncts((A | B) & C) == {A | B, C}; conjuncts(A) == {A})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25200ff9a934f58f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["conjuncts(A & B & C) == {A, B, C}","conjuncts((A | B) & C) == {A | B, C}","conjuncts(A) == {A}","conjuncts(True) == {True}","conjuncts(False) == {False}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_conjuncts():
     assert conjuncts(A & B & C) == {A, B, C}
     assert conjuncts((A | B) & C) == {A | B, C}
@@ -797,16 +1000,24 @@ def test_conjuncts():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_disjuncts(), test_disjuncts produces the expected output) over Any ║
+# ║ Path(test_disjuncts(), disjuncts(A | B | C) == {A, B, C} and disjuncts((A | B) & C) == {(A | B) & C} and disjuncts(A) == {A} and disjuncts(True) == {True} and disjuncts(False) == {False}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_disjuncts : Any → {Any | disjuncts(A | B | C) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  disjuncts(A | B | C) == {A, B, C}              ║
+# ║   ensures:  disjuncts((A | B) & C) == {(A | B) & C}        ║
+# ║   ensures:  disjuncts(A) == {A}                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_disjuncts : Any → {Any | result satisfies: disju...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63a4551e146500e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9957d5b0ac60073f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_disjuncts","kind":"function","src_hash":"1c80cf0dd79942dd","in":{"base":"Any"},"out":{"base":"Any","pred":"disjuncts(A | B | C) == {A, B, C} and disjuncts((A | B) & C) == {(A | B) & C} and disjuncts(A) == {A} and disjuncts(True) == {True} and disjuncts(False) == {False}"},"spec":{"lhs":"test_disjuncts()","rhs":"test_disjuncts produces the expected output","over":{"base":"Any"},"name":"test_disjuncts_correct"},"guarantee":"test_disjuncts produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_disjuncts_correct","statement":"Path(test_disjuncts(x), test_disjuncts produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63a4551e146500e4"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_disjuncts","kind":"function","src_hash":"1c80cf0dd79942dd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: disjuncts(A | B | C) == {A, B, C} and disjuncts((A | B) & C) == {(A | B) & C} and disjuncts(A) == {A} and disjuncts(True) == {True} and disjuncts(False) == {False}"},"spec":{"lhs":"test_disjuncts()","rhs":"disjuncts(A | B | C) == {A, B, C} and disjuncts((A | B) & C) == {(A | B) & C} and disjuncts(A) == {A} and disjuncts(True) == {True} and disjuncts(False) == {False}","over":{"base":"Any"},"name":"test_disjuncts_correct"},"guarantee":"disjuncts(A | B | C) == {A, B, C}; disjuncts((A | B) & C) == {(A | B) & C}; disjuncts(A) == {A}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_disjuncts_correct","statement":"Path(test_disjuncts(x), disjuncts(A | B | C) == {A, B, C}; disjuncts((A | B) & C) == {(A | B) & C}; disjuncts(A) == {A})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9957d5b0ac60073f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["disjuncts(A | B | C) == {A, B, C}","disjuncts((A | B) & C) == {(A | B) & C}","disjuncts(A) == {A}","disjuncts(True) == {True}","disjuncts(False) == {False}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_disjuncts():
     assert disjuncts(A | B | C) == {A, B, C}
     assert disjuncts((A | B) & C) == {(A | B) & C}
@@ -816,16 +1027,24 @@ def test_disjuncts():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_distribute(), test_distribute produces the expected output) over Any ║
+# ║ Path(test_distribute(), distribute_and_over_or(Or(And(A, B), C)) == And(Or(A, C), Or(B, C)) and distribute_or_over_and(And(A, Or(B, C))) == Or(And(A, B), And(A, C)) and distribute_xor_over_and(And(A, Xor(B, C))) == Xor(And(A, B), And(A, C))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_distribute : Any → {Any | distribute_and_over_or...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  distribute_and_over_or(Or(And(A, B), C)) ...   ║
+# ║   ensures:  distribute_or_over_and(And(A, Or(B, C))) ...   ║
+# ║   ensures:  distribute_xor_over_and(And(A, Xor(B, C))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_distribute : Any → {Any | result satisfies: dist...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05650672163fca8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b69a25d795743724  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_distribute","kind":"function","src_hash":"38674a70ba0c09fa","in":{"base":"Any"},"out":{"base":"Any","pred":"distribute_and_over_or(Or(And(A, B), C)) == And(Or(A, C), Or(B, C)) and distribute_or_over_and(And(A, Or(B, C))) == Or(And(A, B), And(A, C)) and distribute_xor_over_and(And(A, Xor(B, C))) == Xor(And(A, B), And(A, C))"},"spec":{"lhs":"test_distribute()","rhs":"test_distribute produces the expected output","over":{"base":"Any"},"name":"test_distribute_correct"},"guarantee":"test_distribute produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_distribute_correct","statement":"Path(test_distribute(x), test_distribute produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05650672163fca8f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_distribute","kind":"function","src_hash":"38674a70ba0c09fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: distribute_and_over_or(Or(And(A, B), C)) == And(Or(A, C), Or(B, C)) and distribute_or_over_and(And(A, Or(B, C))) == Or(And(A, B), And(A, C)) and distribute_xor_over_and(And(A, Xor(B, C))) == Xor(And(A, B), And(A, C))"},"spec":{"lhs":"test_distribute()","rhs":"distribute_and_over_or(Or(And(A, B), C)) == And(Or(A, C), Or(B, C)) and distribute_or_over_and(And(A, Or(B, C))) == Or(And(A, B), And(A, C)) and distribute_xor_over_and(And(A, Xor(B, C))) == Xor(And(A, B), And(A, C))","over":{"base":"Any"},"name":"test_distribute_correct"},"guarantee":"distribute_and_over_or(Or(And(A, B), C)) == And(Or(A, C), Or(B, C)); distribute_or_over_and(And(A, Or(B, C))) == Or(And(A, B), And(A, C)); distribute_xor_over_and(And(A, Xor(B, C))) == Xor(And(A, B), And(A, C))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_distribute_correct","statement":"Path(test_distribute(x), distribute_and_over_or(Or(And(A, B), C)) == And(Or(A, C), Or(B, C)); distribute_or_over_and(And(A, Or(B, C))) == Or(And(A, B), And(A, C)); distribute_xor_over_and(And(A, Xor(B, C))) == Xor(And(A, B), And(A, C)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b69a25d795743724","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["distribute_and_over_or(Or(And(A, B), C)) == And(Or(A, C), Or(B, C))","distribute_or_over_and(And(A, Or(B, C))) == Or(And(A, B), And(A, C))","distribute_xor_over_and(And(A, Xor(B, C))) == Xor(And(A, B), And(A, C))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_distribute():
     assert distribute_and_over_or(Or(And(A, B), C)) == And(Or(A, C), Or(B, C))
     assert distribute_or_over_and(And(A, Or(B, C))) == Or(And(A, B), And(A, C))
@@ -833,16 +1052,24 @@ def test_distribute():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_anf(), test_to_anf produces the expected output) over Any ║
+# ║ Path(test_to_anf(), to_anf(And(x, y)) == And(x, y) and to_anf(Or(x, y)) == Xor(x, y, And(x, y)) and to_anf(Or(Implies(x, y), And(x, y), y)) == Xor(x, True, x & y, remove_true=False) and to_anf(Or(Nand(x, y), Nor(x, y), Xnor(x, y), Implies(x, y))) == True and to_anf(Or(x, Not(y), Nor(x, z), And(x, y), Nand(y, z))) == Xor(True, And(y, z), And(x, y, z), remove_true=False) and to_anf(Xor(x, y)) == Xor(x, y) and to_anf(Not(x)) == Xor(x, True, remove_true=False) and to_anf(Nand(x, y)) == Xor(True, And(x, y), remove_true=False) and to_anf(Nor(x, y)) == Xor(x, y, True, And(x, y), remove_true=False) and to_anf(Implies(x, y)) == Xor(x, True, And(x, y), remove_true=False) and to_anf(Equivalent(x, y)) == Xor(x, y, True, remove_true=False) and to_anf(Nand(x | y, x >> y), deep=False) == Xor(True, And(Or(x, y), Implies(x, y)), remove_true=False) and to_anf(Nor(x ^ y, x & y), deep=False) == Xor(True, Or(Xor(x, y), And(x, y)), remove_true=False) and to_anf(x ^ ~(x ^ y ^ ~y)) == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_anf : Any → {Any | to_anf(And(x, y)) == And(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  to_anf(And(x, y)) == And(x, y)                 ║
+# ║   ensures:  to_anf(Or(x, y)) == Xor(x, y, And(x, y))       ║
+# ║   ensures:  to_anf(Or(Implies(x, y), And(x, y), y)) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_anf : Any → {Any | result satisfies: to_anf(A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bca3f0fc10448243  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54f8c8d47912ce29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_to_anf","kind":"function","src_hash":"cb7658830ea4606b","in":{"base":"Any"},"out":{"base":"Any","pred":"to_anf(And(x, y)) == And(x, y) and to_anf(Or(x, y)) == Xor(x, y, And(x, y)) and to_anf(Or(Nand(x, y), Nor(x, y), Xnor(x, y), Implies(x, y))) == True and to_anf(Xor(x, y)) == Xor(x, y) and to_anf(Not(x)) == Xor(x, True, remove_true=False) and to_anf(Nand(x, y)) == Xor(True, And(x, y), remove_true=False) and to_anf(Nor(x, y)) == Xor(x, y, True, And(x, y), remove_true=False) and to_anf(Implies(x, y)) == Xor(x, True, And(x, y), remove_true=False) and to_anf(Equivalent(x, y)) == Xor(x, y, True, remove_true=False) and to_anf(x ^ ~(x ^ y ^ ~y)) == False"},"spec":{"lhs":"test_to_anf()","rhs":"test_to_anf produces the expected output","over":{"base":"Any"},"name":"test_to_anf_correct"},"guarantee":"test_to_anf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_to_anf_correct","statement":"Path(test_to_anf(x), test_to_anf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bca3f0fc10448243"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_to_anf","kind":"function","src_hash":"cb7658830ea4606b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: to_anf(And(x, y)) == And(x, y) and to_anf(Or(x, y)) == Xor(x, y, And(x, y)) and to_anf(Or(Implies(x, y), And(x, y), y)) == Xor(x, True, x & y, remove_true=False) and to_anf(Or(Nand(x, y), Nor(x, y), Xnor(x, y), Implies(x, y))) == True and to_anf(Or(x, Not(y), Nor(x, z), And(x, y), Nand(y, z))) == Xor(True, And(y, z), And(x, y, z), remove_true=False) and to_anf(Xor(x, y)) == Xor(x, y) and to_anf(Not(x)) == Xor(x, True, remove_true=False) and to_anf(Nand(x, y)) == Xor(True, And(x, y), remove_true=False) and to_anf(Nor(x, y)) == Xor(x, y, True, And(x, y), remove_true=False) and to_anf(Implies(x, y)) == Xor(x, True, And(x, y), remove_true=False) and to_anf(Equivalent(x, y)) == Xor(x, y, True, remove_true=False) and to_anf(Nand(x | y, x >> y), deep=False) == Xor(True, And(Or(x, y), Implies(x, y)), remove_true=False) and to_anf(Nor(x ^ y, x & y), deep=False) == Xor(True, Or(Xor(x, y), And(x, y)), remove_true=False) and to_anf(x ^ ~(x ^ y ^ ~y)) == False"},"spec":{"lhs":"test_to_anf()","rhs":"to_anf(And(x, y)) == And(x, y) and to_anf(Or(x, y)) == Xor(x, y, And(x, y)) and to_anf(Or(Implies(x, y), And(x, y), y)) == Xor(x, True, x & y, remove_true=False) and to_anf(Or(Nand(x, y), Nor(x, y), Xnor(x, y), Implies(x, y))) == True and to_anf(Or(x, Not(y), Nor(x, z), And(x, y), Nand(y, z))) == Xor(True, And(y, z), And(x, y, z), remove_true=False) and to_anf(Xor(x, y)) == Xor(x, y) and to_anf(Not(x)) == Xor(x, True, remove_true=False) and to_anf(Nand(x, y)) == Xor(True, And(x, y), remove_true=False) and to_anf(Nor(x, y)) == Xor(x, y, True, And(x, y), remove_true=False) and to_anf(Implies(x, y)) == Xor(x, True, And(x, y), remove_true=False) and to_anf(Equivalent(x, y)) == Xor(x, y, True, remove_true=False) and to_anf(Nand(x | y, x >> y), deep=False) == Xor(True, And(Or(x, y), Implies(x, y)), remove_true=False) and to_anf(Nor(x ^ y, x & y), deep=False) == Xor(True, Or(Xor(x, y), And(x, y)), remove_true=False) and to_anf(x ^ ~(x ^ y ^ ~y)) == False","over":{"base":"Any"},"name":"test_to_anf_correct"},"guarantee":"to_anf(And(x, y)) == And(x, y); to_anf(Or(x, y)) == Xor(x, y, And(x, y)); to_anf(Or(Implies(x, y), And(x, y), y)) == Xor(x, True, x & y, remove_true=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_to_anf_correct","statement":"Path(test_to_anf(x), to_anf(And(x, y)) == And(x, y); to_anf(Or(x, y)) == Xor(x, y, And(x, y)); to_anf(Or(Implies(x, y), And(x, y), y)) == Xor(x, True, x & y, remove_true=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54f8c8d47912ce29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["to_anf(And(x, y)) == And(x, y)","to_anf(Or(x, y)) == Xor(x, y, And(x, y))","to_anf(Or(Implies(x, y), And(x, y), y)) == Xor(x, True, x & y, remove_true=False)","to_anf(Or(Nand(x, y), Nor(x, y), Xnor(x, y), Implies(x, y))) == True","to_anf(Or(x, Not(y), Nor(x, z), And(x, y), Nand(y, z))) == Xor(True, And(y, z), And(x, y, z), remove_true=False)","to_anf(Xor(x, y)) == Xor(x, y)","to_anf(Not(x)) == Xor(x, True, remove_true=False)","to_anf(Nand(x, y)) == Xor(True, And(x, y), remove_true=False)","to_anf(Nor(x, y)) == Xor(x, y, True, And(x, y), remove_true=False)","to_anf(Implies(x, y)) == Xor(x, True, And(x, y), remove_true=False)","to_anf(Equivalent(x, y)) == Xor(x, y, True, remove_true=False)","to_anf(Nand(x | y, x >> y), deep=False) == Xor(True, And(Or(x, y), Implies(x, y)), remove_true=False)","to_anf(Nor(x ^ y, x & y), deep=False) == Xor(True, Or(Xor(x, y), And(x, y)), remove_true=False)","to_anf(x ^ ~(x ^ y ^ ~y)) == False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_to_anf():
     x, y, z = symbols('x,y,z')
     assert to_anf(And(x, y)) == And(x, y)
@@ -867,16 +1094,24 @@ def test_to_anf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_nnf(), test_to_nnf produces the expected output) over Any ║
+# ║ Path(test_to_nnf(), to_nnf(true) is true and to_nnf(false) is false and to_nnf(A) == A and to_nnf(A | ~A | B) is true and to_nnf(A & ~A & B) is false and to_nnf(A >> B) == ~A | B and to_nnf(Equivalent(A, B, C)) == (~A | B) & (~B | C) & (~C | A) and to_nnf(A ^ B ^ C) == (A | B | C) & (~A | ~B | C) & (A | ~B | ~C) & (~A | B | ~C) and to_nnf(ITE(A, B, C)) == (~A | B) & (A | C) and to_nnf(Not(A | B | C)) == ~A & ~B & ~C and to_nnf(Not(A & B & C)) == ~A | ~B | ~C and to_nnf(Not(A >> B)) == A & ~B and to_nnf(Not(Equivalent(A, B, C))) == And(Or(A, B, C), Or(~A, ~B, ~C)) and to_nnf(Not(A ^ B ^ C)) == (~A | B | C) & (A | ~B | C) & (A | B | ~C) & (~A | ~B | ~C) and to_nnf(Not(ITE(A, B, C))) == (~A | ~B) & (A | ~C) and to_nnf(A >> B ^ B >> A) == A & ~B | ~A & B and to_nnf(A >> B ^ B >> A, False) == (~A | ~B | A | B) & (A & ~B | ~A & B) and ITE(A, 1, 0).to_nnf() == A and ITE(A, 0, 1).to_nnf() == ~A) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_nnf : Any → {Any | to_nnf(true) is true and t...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  to_nnf(true) is true                           ║
+# ║   ensures:  to_nnf(false) is false                         ║
+# ║   ensures:  to_nnf(A) == A                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_nnf : Any → {Any | result satisfies: to_nnf(t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab4b0efe3ef3b275  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d62889f253ccc16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_to_nnf","kind":"function","src_hash":"020a212ba745ccd1","in":{"base":"Any"},"out":{"base":"Any","pred":"to_nnf(true) is true and to_nnf(false) is false and to_nnf(A) == A and to_nnf(A | ~A | B) is true and to_nnf(A & ~A & B) is false and to_nnf(A >> B) == ~A | B and to_nnf(Equivalent(A, B, C)) == (~A | B) & (~B | C) & (~C | A) and to_nnf(ITE(A, B, C)) == (~A | B) & (A | C) and to_nnf(Not(A | B | C)) == ~A & ~B & ~C and to_nnf(Not(A & B & C)) == ~A | ~B | ~C and to_nnf(Not(A >> B)) == A & ~B and to_nnf(Not(Equivalent(A, B, C))) == And(Or(A, B, C), Or(~A, ~B, ~C)) and to_nnf(Not(ITE(A, B, C))) == (~A | ~B) & (A | ~C) and to_nnf(A >> B ^ B >> A) == A & ~B | ~A & B and to_nnf(A >> B ^ B >> A, False) == (~A | ~B | A | B) & (A & ~B | ~A & B) and ITE(A, 1, 0).to_nnf() == A and ITE(A, 0, 1).to_nnf() == ~A"},"spec":{"lhs":"test_to_nnf()","rhs":"test_to_nnf produces the expected output","over":{"base":"Any"},"name":"test_to_nnf_correct"},"guarantee":"test_to_nnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_to_nnf_correct","statement":"Path(test_to_nnf(x), test_to_nnf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab4b0efe3ef3b275"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_to_nnf","kind":"function","src_hash":"020a212ba745ccd1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: to_nnf(true) is true and to_nnf(false) is false and to_nnf(A) == A and to_nnf(A | ~A | B) is true and to_nnf(A & ~A & B) is false and to_nnf(A >> B) == ~A | B and to_nnf(Equivalent(A, B, C)) == (~A | B) & (~B | C) & (~C | A) and to_nnf(A ^ B ^ C) == (A | B | C) & (~A | ~B | C) & (A | ~B | ~C) & (~A | B | ~C) and to_nnf(ITE(A, B, C)) == (~A | B) & (A | C) and to_nnf(Not(A | B | C)) == ~A & ~B & ~C and to_nnf(Not(A & B & C)) == ~A | ~B | ~C and to_nnf(Not(A >> B)) == A & ~B and to_nnf(Not(Equivalent(A, B, C))) == And(Or(A, B, C), Or(~A, ~B, ~C)) and to_nnf(Not(A ^ B ^ C)) == (~A | B | C) & (A | ~B | C) & (A | B | ~C) & (~A | ~B | ~C) and to_nnf(Not(ITE(A, B, C))) == (~A | ~B) & (A | ~C) and to_nnf(A >> B ^ B >> A) == A & ~B | ~A & B and to_nnf(A >> B ^ B >> A, False) == (~A | ~B | A | B) & (A & ~B | ~A & B) and ITE(A, 1, 0).to_nnf() == A and ITE(A, 0, 1).to_nnf() == ~A"},"spec":{"lhs":"test_to_nnf()","rhs":"to_nnf(true) is true and to_nnf(false) is false and to_nnf(A) == A and to_nnf(A | ~A | B) is true and to_nnf(A & ~A & B) is false and to_nnf(A >> B) == ~A | B and to_nnf(Equivalent(A, B, C)) == (~A | B) & (~B | C) & (~C | A) and to_nnf(A ^ B ^ C) == (A | B | C) & (~A | ~B | C) & (A | ~B | ~C) & (~A | B | ~C) and to_nnf(ITE(A, B, C)) == (~A | B) & (A | C) and to_nnf(Not(A | B | C)) == ~A & ~B & ~C and to_nnf(Not(A & B & C)) == ~A | ~B | ~C and to_nnf(Not(A >> B)) == A & ~B and to_nnf(Not(Equivalent(A, B, C))) == And(Or(A, B, C), Or(~A, ~B, ~C)) and to_nnf(Not(A ^ B ^ C)) == (~A | B | C) & (A | ~B | C) & (A | B | ~C) & (~A | ~B | ~C) and to_nnf(Not(ITE(A, B, C))) == (~A | ~B) & (A | ~C) and to_nnf(A >> B ^ B >> A) == A & ~B | ~A & B and to_nnf(A >> B ^ B >> A, False) == (~A | ~B | A | B) & (A & ~B | ~A & B) and ITE(A, 1, 0).to_nnf() == A and ITE(A, 0, 1).to_nnf() == ~A","over":{"base":"Any"},"name":"test_to_nnf_correct"},"guarantee":"to_nnf(true) is true; to_nnf(false) is false; to_nnf(A) == A","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_to_nnf_correct","statement":"Path(test_to_nnf(x), to_nnf(true) is true; to_nnf(false) is false; to_nnf(A) == A)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d62889f253ccc16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["to_nnf(true) is true","to_nnf(false) is false","to_nnf(A) == A","to_nnf(A | ~A | B) is true","to_nnf(A & ~A & B) is false","to_nnf(A >> B) == ~A | B","to_nnf(Equivalent(A, B, C)) == (~A | B) & (~B | C) & (~C | A)","to_nnf(A ^ B ^ C) == (A | B | C) & (~A | ~B | C) & (A | ~B | ~C) & (~A | B | ~C)","to_nnf(ITE(A, B, C)) == (~A | B) & (A | C)","to_nnf(Not(A | B | C)) == ~A & ~B & ~C","to_nnf(Not(A & B & C)) == ~A | ~B | ~C","to_nnf(Not(A >> B)) == A & ~B","to_nnf(Not(Equivalent(A, B, C))) == And(Or(A, B, C), Or(~A, ~B, ~C))","to_nnf(Not(A ^ B ^ C)) == (~A | B | C) & (A | ~B | C) & (A | B | ~C) & (~A | ~B | ~C)","to_nnf(Not(ITE(A, B, C))) == (~A | ~B) & (A | ~C)","to_nnf(A >> B ^ B >> A) == A & ~B | ~A & B","to_nnf(A >> B ^ B >> A, False) == (~A | ~B | A | B) & (A & ~B | ~A & B)","ITE(A, 1, 0).to_nnf() == A","ITE(A, 0, 1).to_nnf() == ~A"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_to_nnf():
     assert to_nnf(true) is true
     assert to_nnf(false) is false
@@ -906,16 +1141,24 @@ def test_to_nnf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_cnf(), test_to_cnf produces the expected output) over Any ║
+# ║ Path(test_to_cnf(), to_cnf(~(B | C)) == And(Not(B), Not(C)) and to_cnf(A & B | C) == And(Or(A, C), Or(B, C)) and to_cnf(A >> B) == ~A | B and to_cnf(A >> (B & C)) == (~A | B) & (~A | C) and to_cnf(A & (B | C) | ~A & (B | C), True) == B | C and to_cnf(A & B) == And(A, B) and to_cnf(Equivalent(A, B)) == And(Or(A, Not(B)), Or(B, Not(A))) and to_cnf(Equivalent(A, B & C)) == (~A | B) & (~A | C) & (~B | ~C | A) and to_cnf(Equivalent(A, B | C), True) == And(Or(Not(B), A), Or(Not(C), A), Or(B, C, Not(A))) and to_cnf(A + 1) == A + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_cnf : Any → {Any | to_cnf(~(B | C)) == And(No...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  to_cnf(~(B | C)) == And(Not(B), Not(C))        ║
+# ║   ensures:  to_cnf(A & B | C) == And(Or(A, C), Or(B, C))   ║
+# ║   ensures:  to_cnf(A >> B) == ~A | B                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_cnf : Any → {Any | result satisfies: to_cnf(~...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a73bb8d97c2e7e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0b05b0468932d11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_to_cnf","kind":"function","src_hash":"cca2c8d0e289b8ae","in":{"base":"Any"},"out":{"base":"Any","pred":"to_cnf(~(B | C)) == And(Not(B), Not(C)) and to_cnf(A & B | C) == And(Or(A, C), Or(B, C)) and to_cnf(A >> B) == ~A | B and to_cnf(A >> (B & C)) == (~A | B) & (~A | C) and to_cnf(A & (B | C) | ~A & (B | C), True) == B | C and to_cnf(A & B) == And(A, B) and to_cnf(Equivalent(A, B)) == And(Or(A, Not(B)), Or(B, Not(A))) and to_cnf(Equivalent(A, B & C)) == (~A | B) & (~A | C) & (~B | ~C | A) and to_cnf(A + 1) == A + 1"},"spec":{"lhs":"test_to_cnf()","rhs":"test_to_cnf produces the expected output","over":{"base":"Any"},"name":"test_to_cnf_correct"},"guarantee":"test_to_cnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_to_cnf_correct","statement":"Path(test_to_cnf(x), test_to_cnf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a73bb8d97c2e7e3"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_to_cnf","kind":"function","src_hash":"cca2c8d0e289b8ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: to_cnf(~(B | C)) == And(Not(B), Not(C)) and to_cnf(A & B | C) == And(Or(A, C), Or(B, C)) and to_cnf(A >> B) == ~A | B and to_cnf(A >> (B & C)) == (~A | B) & (~A | C) and to_cnf(A & (B | C) | ~A & (B | C), True) == B | C and to_cnf(A & B) == And(A, B) and to_cnf(Equivalent(A, B)) == And(Or(A, Not(B)), Or(B, Not(A))) and to_cnf(Equivalent(A, B & C)) == (~A | B) & (~A | C) & (~B | ~C | A) and to_cnf(Equivalent(A, B | C), True) == And(Or(Not(B), A), Or(Not(C), A), Or(B, C, Not(A))) and to_cnf(A + 1) == A + 1"},"spec":{"lhs":"test_to_cnf()","rhs":"to_cnf(~(B | C)) == And(Not(B), Not(C)) and to_cnf(A & B | C) == And(Or(A, C), Or(B, C)) and to_cnf(A >> B) == ~A | B and to_cnf(A >> (B & C)) == (~A | B) & (~A | C) and to_cnf(A & (B | C) | ~A & (B | C), True) == B | C and to_cnf(A & B) == And(A, B) and to_cnf(Equivalent(A, B)) == And(Or(A, Not(B)), Or(B, Not(A))) and to_cnf(Equivalent(A, B & C)) == (~A | B) & (~A | C) & (~B | ~C | A) and to_cnf(Equivalent(A, B | C), True) == And(Or(Not(B), A), Or(Not(C), A), Or(B, C, Not(A))) and to_cnf(A + 1) == A + 1","over":{"base":"Any"},"name":"test_to_cnf_correct"},"guarantee":"to_cnf(~(B | C)) == And(Not(B), Not(C)); to_cnf(A & B | C) == And(Or(A, C), Or(B, C)); to_cnf(A >> B) == ~A | B","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_to_cnf_correct","statement":"Path(test_to_cnf(x), to_cnf(~(B | C)) == And(Not(B), Not(C)); to_cnf(A & B | C) == And(Or(A, C), Or(B, C)); to_cnf(A >> B) == ~A | B)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0b05b0468932d11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["to_cnf(~(B | C)) == And(Not(B), Not(C))","to_cnf(A & B | C) == And(Or(A, C), Or(B, C))","to_cnf(A >> B) == ~A | B","to_cnf(A >> (B & C)) == (~A | B) & (~A | C)","to_cnf(A & (B | C) | ~A & (B | C), True) == B | C","to_cnf(A & B) == And(A, B)","to_cnf(Equivalent(A, B)) == And(Or(A, Not(B)), Or(B, Not(A)))","to_cnf(Equivalent(A, B & C)) == (~A | B) & (~A | C) & (~B | ~C | A)","to_cnf(Equivalent(A, B | C), True) == And(Or(Not(B), A), Or(Not(C), A), Or(B, C, Not(A)))","to_cnf(A + 1) == A + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_to_cnf():
     assert to_cnf(~(B | C)) == And(Not(B), Not(C))
     assert to_cnf((A & B) | C) == And(Or(A, C), Or(B, C))
@@ -933,16 +1176,22 @@ def test_to_cnf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18904(), test_issue_18904 produces the expected output) over Any ║
+# ║ Path(test_issue_18904(), is_cnf(to_cnf(eq))) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18904 : Any → {Any | is_cnf(to_cnf(eq)) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_cnf(to_cnf(eq))                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18904 : Any → {Any | result satisfies: is_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d674bc14f77bd69  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78a7188d23e194db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_18904","kind":"function","src_hash":"84ebbca192c50495","in":{"base":"Any"},"out":{"base":"Any","pred":"is_cnf(to_cnf(eq)) and t(eq, simplify=True, force=True) == eq"},"spec":{"lhs":"test_issue_18904()","rhs":"test_issue_18904 produces the expected output","over":{"base":"Any"},"name":"test_issue_18904_correct"},"guarantee":"test_issue_18904 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_18904_correct","statement":"Path(test_issue_18904(x), test_issue_18904 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d674bc14f77bd69"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_18904","kind":"function","src_hash":"84ebbca192c50495","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_cnf(to_cnf(eq))"},"spec":{"lhs":"test_issue_18904()","rhs":"is_cnf(to_cnf(eq))","over":{"base":"Any"},"name":"test_issue_18904_correct"},"guarantee":"is_cnf(to_cnf(eq))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_18904_correct","statement":"Path(test_issue_18904(x), is_cnf(to_cnf(eq)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78a7188d23e194db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_cnf(to_cnf(eq))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_18904():
     x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15 = symbols('x1:16')
     eq = ((x1 & x2 & x3 & x4 & x5 & x6 & x7 & x8 & x9) |
@@ -957,31 +1206,45 @@ def test_issue_18904():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9949(), test_issue_9949 produces the expected output) over Any ║
+# ║ Path(test_issue_9949(), is_cnf(to_cnf((b > -5) | (a > 2) & (a < 4)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9949 : Any → {Any | is_cnf(to_cnf((b > -5)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_cnf(to_cnf((b > -5) | (a > 2) & (a < 4)))   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9949 : Any → {Any | result satisfies: is_c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62c1e0265bfc5831  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a912518c53952052  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_9949","kind":"function","src_hash":"261273b7df18bbb7","in":{"base":"Any"},"out":{"base":"Any","pred":"is_cnf(to_cnf((b > -5) | (a > 2) & (a < 4)))"},"spec":{"lhs":"test_issue_9949()","rhs":"test_issue_9949 produces the expected output","over":{"base":"Any"},"name":"test_issue_9949_correct"},"guarantee":"test_issue_9949 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_9949_correct","statement":"Path(test_issue_9949(x), test_issue_9949 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62c1e0265bfc5831"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_9949","kind":"function","src_hash":"261273b7df18bbb7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_cnf(to_cnf((b > -5) | (a > 2) & (a < 4)))"},"spec":{"lhs":"test_issue_9949()","rhs":"is_cnf(to_cnf((b > -5) | (a > 2) & (a < 4)))","over":{"base":"Any"},"name":"test_issue_9949_correct"},"guarantee":"is_cnf(to_cnf((b > -5) | (a > 2) & (a < 4)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_9949_correct","statement":"Path(test_issue_9949(x), is_cnf(to_cnf((b > -5) | (a > 2) & (a < 4))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a912518c53952052","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_cnf(to_cnf((b > -5) | (a > 2) & (a < 4)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_9949():
     assert is_cnf(to_cnf((b > -5) | (a > 2) & (a < 4)))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_CNF(), test_to_CNF produces the expected output) over Any ║
+# ║ Path(test_to_CNF(), CNF.CNF_to_cnf(CNF.to_CNF(~(B | C))) == to_cnf(~(B | C)) and CNF.CNF_to_cnf(CNF.to_CNF(A & B | C)) == to_cnf(A & B | C) and CNF.CNF_to_cnf(CNF.to_CNF(A >> B)) == to_cnf(A >> B) and CNF.CNF_to_cnf(CNF.to_CNF(A >> (B & C))) == to_cnf(A >> (B & C)) and CNF.CNF_to_cnf(CNF.to_CNF(A & (B | C) | ~A & (B | C))) == to_cnf(A & (B | C) | ~A & (B | C)) and CNF.CNF_to_cnf(CNF.to_CNF(A & B)) == to_cnf(A & B)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_CNF : Any → {Any | CNF.CNF_to_cnf(CNF.to_CNF(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  CNF.CNF_to_cnf(CNF.to_CNF(~(B | C))) == t...   ║
+# ║   ensures:  CNF.CNF_to_cnf(CNF.to_CNF(A & B | C)) == ...   ║
+# ║   ensures:  CNF.CNF_to_cnf(CNF.to_CNF(A >> B)) == to_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_CNF : Any → {Any | result satisfies: CNF.CNF_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b95a30164deae38b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cec64ada70676e9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_to_CNF","kind":"function","src_hash":"d65bb6e8e8857348","in":{"base":"Any"},"out":{"base":"Any","pred":"CNF.CNF_to_cnf(CNF.to_CNF(~(B | C))) == to_cnf(~(B | C)) and CNF.CNF_to_cnf(CNF.to_CNF(A & B | C)) == to_cnf(A & B | C) and CNF.CNF_to_cnf(CNF.to_CNF(A >> B)) == to_cnf(A >> B) and CNF.CNF_to_cnf(CNF.to_CNF(A >> (B & C))) == to_cnf(A >> (B & C)) and CNF.CNF_to_cnf(CNF.to_CNF(A & B)) == to_cnf(A & B)"},"spec":{"lhs":"test_to_CNF()","rhs":"test_to_CNF produces the expected output","over":{"base":"Any"},"name":"test_to_CNF_correct"},"guarantee":"test_to_CNF produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_to_CNF_correct","statement":"Path(test_to_CNF(x), test_to_CNF produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b95a30164deae38b"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_to_CNF","kind":"function","src_hash":"d65bb6e8e8857348","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: CNF.CNF_to_cnf(CNF.to_CNF(~(B | C))) == to_cnf(~(B | C)) and CNF.CNF_to_cnf(CNF.to_CNF(A & B | C)) == to_cnf(A & B | C) and CNF.CNF_to_cnf(CNF.to_CNF(A >> B)) == to_cnf(A >> B) and CNF.CNF_to_cnf(CNF.to_CNF(A >> (B & C))) == to_cnf(A >> (B & C)) and CNF.CNF_to_cnf(CNF.to_CNF(A & (B | C) | ~A & (B | C))) == to_cnf(A & (B | C) | ~A & (B | C)) and CNF.CNF_to_cnf(CNF.to_CNF(A & B)) == to_cnf(A & B)"},"spec":{"lhs":"test_to_CNF()","rhs":"CNF.CNF_to_cnf(CNF.to_CNF(~(B | C))) == to_cnf(~(B | C)) and CNF.CNF_to_cnf(CNF.to_CNF(A & B | C)) == to_cnf(A & B | C) and CNF.CNF_to_cnf(CNF.to_CNF(A >> B)) == to_cnf(A >> B) and CNF.CNF_to_cnf(CNF.to_CNF(A >> (B & C))) == to_cnf(A >> (B & C)) and CNF.CNF_to_cnf(CNF.to_CNF(A & (B | C) | ~A & (B | C))) == to_cnf(A & (B | C) | ~A & (B | C)) and CNF.CNF_to_cnf(CNF.to_CNF(A & B)) == to_cnf(A & B)","over":{"base":"Any"},"name":"test_to_CNF_correct"},"guarantee":"CNF.CNF_to_cnf(CNF.to_CNF(~(B | C))) == to_cnf(~(B | C)); CNF.CNF_to_cnf(CNF.to_CNF(A & B | C)) == to_cnf(A & B | C); CNF.CNF_to_cnf(CNF.to_CNF(A >> B)) == to_cnf(A >> B)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_to_CNF_correct","statement":"Path(test_to_CNF(x), CNF.CNF_to_cnf(CNF.to_CNF(~(B | C))) == to_cnf(~(B | C)); CNF.CNF_to_cnf(CNF.to_CNF(A & B | C)) == to_cnf(A & B | C); CNF.CNF_to_cnf(CNF.to_CNF(A >> B)) == to_cnf(A >> B))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cec64ada70676e9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["CNF.CNF_to_cnf(CNF.to_CNF(~(B | C))) == to_cnf(~(B | C))","CNF.CNF_to_cnf(CNF.to_CNF(A & B | C)) == to_cnf(A & B | C)","CNF.CNF_to_cnf(CNF.to_CNF(A >> B)) == to_cnf(A >> B)","CNF.CNF_to_cnf(CNF.to_CNF(A >> (B & C))) == to_cnf(A >> (B & C))","CNF.CNF_to_cnf(CNF.to_CNF(A & (B | C) | ~A & (B | C))) == to_cnf(A & (B | C) | ~A & (B | C))","CNF.CNF_to_cnf(CNF.to_CNF(A & B)) == to_cnf(A & B)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_to_CNF():
     assert CNF.CNF_to_cnf(CNF.to_CNF(~(B | C))) == to_cnf(~(B | C))
     assert CNF.CNF_to_cnf(CNF.to_CNF((A & B) | C)) == to_cnf((A & B) | C)
@@ -992,16 +1255,24 @@ def test_to_CNF():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_to_dnf(), test_to_dnf produces the expected output) over Any ║
+# ║ Path(test_to_dnf(), to_dnf(~(B | C)) == And(Not(B), Not(C)) and to_dnf(A & (B | C)) == Or(And(A, B), And(A, C)) and to_dnf(A >> B) == ~A | B and to_dnf(A >> (B & C)) == ~A | B & C and to_dnf(A | B) == A | B and to_dnf(Equivalent(A, B), True) == Or(And(A, B), And(Not(A), Not(B))) and to_dnf(Equivalent(A, B & C), True) == Or(And(A, B, C), And(Not(A), Not(B)), And(Not(A), Not(C))) and to_dnf(A + 1) == A + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_dnf : Any → {Any | to_dnf(~(B | C)) == And(No...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  to_dnf(~(B | C)) == And(Not(B), Not(C))        ║
+# ║   ensures:  to_dnf(A & (B | C)) == Or(And(A, B), And(...   ║
+# ║   ensures:  to_dnf(A >> B) == ~A | B                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_dnf : Any → {Any | result satisfies: to_dnf(~...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fa1c7ac6446ac3b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d3f0fbdf39f8a0e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_to_dnf","kind":"function","src_hash":"9298b0f70fadbd1e","in":{"base":"Any"},"out":{"base":"Any","pred":"to_dnf(~(B | C)) == And(Not(B), Not(C)) and to_dnf(A & (B | C)) == Or(And(A, B), And(A, C)) and to_dnf(A >> B) == ~A | B and to_dnf(A >> (B & C)) == ~A | B & C and to_dnf(A | B) == A | B and to_dnf(Equivalent(A, B), True) == Or(And(A, B), And(Not(A), Not(B))) and to_dnf(A + 1) == A + 1"},"spec":{"lhs":"test_to_dnf()","rhs":"test_to_dnf produces the expected output","over":{"base":"Any"},"name":"test_to_dnf_correct"},"guarantee":"test_to_dnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_to_dnf_correct","statement":"Path(test_to_dnf(x), test_to_dnf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fa1c7ac6446ac3b"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_to_dnf","kind":"function","src_hash":"9298b0f70fadbd1e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: to_dnf(~(B | C)) == And(Not(B), Not(C)) and to_dnf(A & (B | C)) == Or(And(A, B), And(A, C)) and to_dnf(A >> B) == ~A | B and to_dnf(A >> (B & C)) == ~A | B & C and to_dnf(A | B) == A | B and to_dnf(Equivalent(A, B), True) == Or(And(A, B), And(Not(A), Not(B))) and to_dnf(Equivalent(A, B & C), True) == Or(And(A, B, C), And(Not(A), Not(B)), And(Not(A), Not(C))) and to_dnf(A + 1) == A + 1"},"spec":{"lhs":"test_to_dnf()","rhs":"to_dnf(~(B | C)) == And(Not(B), Not(C)) and to_dnf(A & (B | C)) == Or(And(A, B), And(A, C)) and to_dnf(A >> B) == ~A | B and to_dnf(A >> (B & C)) == ~A | B & C and to_dnf(A | B) == A | B and to_dnf(Equivalent(A, B), True) == Or(And(A, B), And(Not(A), Not(B))) and to_dnf(Equivalent(A, B & C), True) == Or(And(A, B, C), And(Not(A), Not(B)), And(Not(A), Not(C))) and to_dnf(A + 1) == A + 1","over":{"base":"Any"},"name":"test_to_dnf_correct"},"guarantee":"to_dnf(~(B | C)) == And(Not(B), Not(C)); to_dnf(A & (B | C)) == Or(And(A, B), And(A, C)); to_dnf(A >> B) == ~A | B","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_to_dnf_correct","statement":"Path(test_to_dnf(x), to_dnf(~(B | C)) == And(Not(B), Not(C)); to_dnf(A & (B | C)) == Or(And(A, B), And(A, C)); to_dnf(A >> B) == ~A | B)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d3f0fbdf39f8a0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["to_dnf(~(B | C)) == And(Not(B), Not(C))","to_dnf(A & (B | C)) == Or(And(A, B), And(A, C))","to_dnf(A >> B) == ~A | B","to_dnf(A >> (B & C)) == ~A | B & C","to_dnf(A | B) == A | B","to_dnf(Equivalent(A, B), True) == Or(And(A, B), And(Not(A), Not(B)))","to_dnf(Equivalent(A, B & C), True) == Or(And(A, B, C), And(Not(A), Not(B)), And(Not(A), Not(C)))","to_dnf(A + 1) == A + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_to_dnf():
     assert to_dnf(~(B | C)) == And(Not(B), Not(C))
     assert to_dnf(A & (B | C)) == Or(And(A, B), And(A, C))
@@ -1019,14 +1290,21 @@ def test_to_dnf():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_to_int_repr(), id) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_to_int_repr : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sorted_recursive(to_int_repr([x | y, z | ...   ║
+# ║   ensures:  sorted_recursive(to_int_repr([x | y, z | ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_to_int_repr : Any → {Any | result satisfies: sor...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 293aecb2ef97ddf7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_to_int_repr","kind":"function","src_hash":"f6607619d0a8a6f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_to_int_repr()","rhs":"test_to_int_repr produces the expected output","over":{"base":"Any"},"name":"test_to_int_repr_correct","kind":"composition"},"guarantee":"test_to_int_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"sorted_recursive","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"293aecb2ef97ddf7"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_to_int_repr","kind":"function","src_hash":"f6607619d0a8a6f3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sorted_recursive(to_int_repr([x | y, z | x], [x, y, z])) == sorted_recursive([[1, 2], [1, 3]]) and sorted_recursive(to_int_repr([x | y, z | ~x], [x, y, z])) == sorted_recursive([[1, 2], [3, -1]])"},"spec":{"lhs":"test_to_int_repr()","rhs":"sorted_recursive(to_int_repr([x | y, z | x], [x, y, z])) == sorted_recursive([[1, 2], [1, 3]]) and sorted_recursive(to_int_repr([x | y, z | ~x], [x, y, z])) == sorted_recursive([[1, 2], [3, -1]])","over":{"base":"Any"},"name":"test_to_int_repr_correct","kind":"composition"},"guarantee":"sorted_recursive(to_int_repr([x | y, z | x], [x, y, z])) == sorted_recursive([[1, 2], [1, 3]]); sorted_recursive(to_int_repr([x | y, z | ~x], [x, y, z])) == sorted_recursive([[1, 2], [3, -1]])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"sorted_recursive","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"293aecb2ef97ddf7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sorted_recursive(to_int_repr([x | y, z | x], [x, y, z])) == sorted_recursive([[1, 2], [1, 3]])","sorted_recursive(to_int_repr([x | y, z | ~x], [x, y, z])) == sorted_recursive([[1, 2], [3, -1]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_to_int_repr():
     x, y, z = map(Boolean, symbols('x,y,z'))
 
@@ -1043,16 +1321,24 @@ def test_to_int_repr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_anf(), test_is_anf produces the expected output) over Any ║
+# ║ Path(test_is_anf(), is_anf(true) is True and is_anf(false) is True and is_anf(x) is True and is_anf(And(x, y)) is True and is_anf(Xor(x, y, And(x, y))) is True and is_anf(Xor(x, y, Or(x, y))) is False and is_anf(Xor(Not(x), y)) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_anf : Any → {Any | is_anf(true) is True and i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_anf(true) is True                           ║
+# ║   ensures:  is_anf(false) is True                          ║
+# ║   ensures:  is_anf(x) is True                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_anf : Any → {Any | result satisfies: is_anf(t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77e8417f13a3379b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d912f51077f05b52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_is_anf","kind":"function","src_hash":"9d055f3c5d981ab9","in":{"base":"Any"},"out":{"base":"Any","pred":"is_anf(true) is True and is_anf(false) is True and is_anf(x) is True and is_anf(And(x, y)) is True and is_anf(Xor(x, y, And(x, y))) is True and is_anf(Xor(x, y, Or(x, y))) is False and is_anf(Xor(Not(x), y)) is False"},"spec":{"lhs":"test_is_anf()","rhs":"test_is_anf produces the expected output","over":{"base":"Any"},"name":"test_is_anf_correct"},"guarantee":"test_is_anf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_is_anf_correct","statement":"Path(test_is_anf(x), test_is_anf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77e8417f13a3379b"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_is_anf","kind":"function","src_hash":"9d055f3c5d981ab9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_anf(true) is True and is_anf(false) is True and is_anf(x) is True and is_anf(And(x, y)) is True and is_anf(Xor(x, y, And(x, y))) is True and is_anf(Xor(x, y, Or(x, y))) is False and is_anf(Xor(Not(x), y)) is False"},"spec":{"lhs":"test_is_anf()","rhs":"is_anf(true) is True and is_anf(false) is True and is_anf(x) is True and is_anf(And(x, y)) is True and is_anf(Xor(x, y, And(x, y))) is True and is_anf(Xor(x, y, Or(x, y))) is False and is_anf(Xor(Not(x), y)) is False","over":{"base":"Any"},"name":"test_is_anf_correct"},"guarantee":"is_anf(true) is True; is_anf(false) is True; is_anf(x) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_is_anf_correct","statement":"Path(test_is_anf(x), is_anf(true) is True; is_anf(false) is True; is_anf(x) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d912f51077f05b52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_anf(true) is True","is_anf(false) is True","is_anf(x) is True","is_anf(And(x, y)) is True","is_anf(Xor(x, y, And(x, y))) is True","is_anf(Xor(x, y, Or(x, y))) is False","is_anf(Xor(Not(x), y)) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_anf():
     x, y = symbols('x,y')
     assert is_anf(true) is True
@@ -1065,16 +1351,24 @@ def test_is_anf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_nnf(), test_is_nnf produces the expected output) over Any ║
+# ║ Path(test_is_nnf(), is_nnf(true) is True and is_nnf(A) is True and is_nnf(~A) is True and is_nnf(A & B) is True and is_nnf(A & B | ~A & A | ~B & B | ~A & ~B, False) is True and is_nnf((A | B) & (~A | ~B)) is True and is_nnf(Not(Or(A, B))) is False and is_nnf(A ^ B) is False and is_nnf(A & B | ~A & A | ~B & B | ~A & ~B, True) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_nnf : Any → {Any | is_nnf(true) is True and i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_nnf(true) is True                           ║
+# ║   ensures:  is_nnf(A) is True                              ║
+# ║   ensures:  is_nnf(~A) is True                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_nnf : Any → {Any | result satisfies: is_nnf(t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd049bd5f13670cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 038b9457740bb225  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_is_nnf","kind":"function","src_hash":"58e76766e7e002d3","in":{"base":"Any"},"out":{"base":"Any","pred":"is_nnf(true) is True and is_nnf(A) is True and is_nnf(~A) is True and is_nnf(A & B) is True and is_nnf(A & B | ~A & A | ~B & B | ~A & ~B, False) is True and is_nnf((A | B) & (~A | ~B)) is True and is_nnf(Not(Or(A, B))) is False and is_nnf(A ^ B) is False and is_nnf(A & B | ~A & A | ~B & B | ~A & ~B, True) is False"},"spec":{"lhs":"test_is_nnf()","rhs":"test_is_nnf produces the expected output","over":{"base":"Any"},"name":"test_is_nnf_correct"},"guarantee":"test_is_nnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_is_nnf_correct","statement":"Path(test_is_nnf(x), test_is_nnf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd049bd5f13670cc"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_is_nnf","kind":"function","src_hash":"58e76766e7e002d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_nnf(true) is True and is_nnf(A) is True and is_nnf(~A) is True and is_nnf(A & B) is True and is_nnf(A & B | ~A & A | ~B & B | ~A & ~B, False) is True and is_nnf((A | B) & (~A | ~B)) is True and is_nnf(Not(Or(A, B))) is False and is_nnf(A ^ B) is False and is_nnf(A & B | ~A & A | ~B & B | ~A & ~B, True) is False"},"spec":{"lhs":"test_is_nnf()","rhs":"is_nnf(true) is True and is_nnf(A) is True and is_nnf(~A) is True and is_nnf(A & B) is True and is_nnf(A & B | ~A & A | ~B & B | ~A & ~B, False) is True and is_nnf((A | B) & (~A | ~B)) is True and is_nnf(Not(Or(A, B))) is False and is_nnf(A ^ B) is False and is_nnf(A & B | ~A & A | ~B & B | ~A & ~B, True) is False","over":{"base":"Any"},"name":"test_is_nnf_correct"},"guarantee":"is_nnf(true) is True; is_nnf(A) is True; is_nnf(~A) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_is_nnf_correct","statement":"Path(test_is_nnf(x), is_nnf(true) is True; is_nnf(A) is True; is_nnf(~A) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"038b9457740bb225","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_nnf(true) is True","is_nnf(A) is True","is_nnf(~A) is True","is_nnf(A & B) is True","is_nnf(A & B | ~A & A | ~B & B | ~A & ~B, False) is True","is_nnf((A | B) & (~A | ~B)) is True","is_nnf(Not(Or(A, B))) is False","is_nnf(A ^ B) is False","is_nnf(A & B | ~A & A | ~B & B | ~A & ~B, True) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_is_nnf():
     assert is_nnf(true) is True
     assert is_nnf(A) is True
@@ -1088,16 +1382,24 @@ def test_is_nnf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_cnf(), test_is_cnf produces the expected output) over Any ║
+# ║ Path(test_is_cnf(), is_cnf(x) is True and is_cnf(x | y | z) is True and is_cnf(x & y & z) is True and is_cnf((x | y) & z) is True and is_cnf(x & y | z) is False and is_cnf(~(x & y) | z) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_cnf : Any → {Any | is_cnf(x) is True and is_c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_cnf(x) is True                              ║
+# ║   ensures:  is_cnf(x | y | z) is True                      ║
+# ║   ensures:  is_cnf(x & y & z) is True                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_cnf : Any → {Any | result satisfies: is_cnf(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b90f46344f0622c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20ece9d2fda84421  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_is_cnf","kind":"function","src_hash":"1bcc570cabacd3a3","in":{"base":"Any"},"out":{"base":"Any","pred":"is_cnf(x) is True and is_cnf(x | y | z) is True and is_cnf(x & y & z) is True and is_cnf((x | y) & z) is True and is_cnf(x & y | z) is False and is_cnf(~(x & y) | z) is False"},"spec":{"lhs":"test_is_cnf()","rhs":"test_is_cnf produces the expected output","over":{"base":"Any"},"name":"test_is_cnf_correct"},"guarantee":"test_is_cnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_is_cnf_correct","statement":"Path(test_is_cnf(x), test_is_cnf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b90f46344f0622c"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_is_cnf","kind":"function","src_hash":"1bcc570cabacd3a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_cnf(x) is True and is_cnf(x | y | z) is True and is_cnf(x & y & z) is True and is_cnf((x | y) & z) is True and is_cnf(x & y | z) is False and is_cnf(~(x & y) | z) is False"},"spec":{"lhs":"test_is_cnf()","rhs":"is_cnf(x) is True and is_cnf(x | y | z) is True and is_cnf(x & y & z) is True and is_cnf((x | y) & z) is True and is_cnf(x & y | z) is False and is_cnf(~(x & y) | z) is False","over":{"base":"Any"},"name":"test_is_cnf_correct"},"guarantee":"is_cnf(x) is True; is_cnf(x | y | z) is True; is_cnf(x & y & z) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_is_cnf_correct","statement":"Path(test_is_cnf(x), is_cnf(x) is True; is_cnf(x | y | z) is True; is_cnf(x & y & z) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20ece9d2fda84421","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_cnf(x) is True","is_cnf(x | y | z) is True","is_cnf(x & y & z) is True","is_cnf((x | y) & z) is True","is_cnf(x & y | z) is False","is_cnf(~(x & y) | z) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_cnf():
     assert is_cnf(x) is True
     assert is_cnf(x | y | z) is True
@@ -1108,16 +1410,24 @@ def test_is_cnf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_dnf(), test_is_dnf produces the expected output) over Any ║
+# ║ Path(test_is_dnf(), is_dnf(x) is True and is_dnf(x | y | z) is True and is_dnf(x & y & z) is True and is_dnf(x & y | z) is True and is_dnf((x | y) & z) is False and is_dnf(~(x | y) & z) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_dnf : Any → {Any | is_dnf(x) is True and is_d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_dnf(x) is True                              ║
+# ║   ensures:  is_dnf(x | y | z) is True                      ║
+# ║   ensures:  is_dnf(x & y & z) is True                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_dnf : Any → {Any | result satisfies: is_dnf(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdd0e19835aa487e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee2fe2032fac6c0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_is_dnf","kind":"function","src_hash":"943c0b566ba45243","in":{"base":"Any"},"out":{"base":"Any","pred":"is_dnf(x) is True and is_dnf(x | y | z) is True and is_dnf(x & y & z) is True and is_dnf(x & y | z) is True and is_dnf((x | y) & z) is False and is_dnf(~(x | y) & z) is False"},"spec":{"lhs":"test_is_dnf()","rhs":"test_is_dnf produces the expected output","over":{"base":"Any"},"name":"test_is_dnf_correct"},"guarantee":"test_is_dnf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_is_dnf_correct","statement":"Path(test_is_dnf(x), test_is_dnf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdd0e19835aa487e"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_is_dnf","kind":"function","src_hash":"943c0b566ba45243","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_dnf(x) is True and is_dnf(x | y | z) is True and is_dnf(x & y & z) is True and is_dnf(x & y | z) is True and is_dnf((x | y) & z) is False and is_dnf(~(x | y) & z) is False"},"spec":{"lhs":"test_is_dnf()","rhs":"is_dnf(x) is True and is_dnf(x | y | z) is True and is_dnf(x & y & z) is True and is_dnf(x & y | z) is True and is_dnf((x | y) & z) is False and is_dnf(~(x | y) & z) is False","over":{"base":"Any"},"name":"test_is_dnf_correct"},"guarantee":"is_dnf(x) is True; is_dnf(x | y | z) is True; is_dnf(x & y & z) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_is_dnf_correct","statement":"Path(test_is_dnf(x), is_dnf(x) is True; is_dnf(x | y | z) is True; is_dnf(x & y & z) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee2fe2032fac6c0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_dnf(x) is True","is_dnf(x | y | z) is True","is_dnf(x & y & z) is True","is_dnf(x & y | z) is True","is_dnf((x | y) & z) is False","is_dnf(~(x | y) & z) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_dnf():
     assert is_dnf(x) is True
     assert is_dnf(x | y | z) is True
@@ -1128,7 +1438,12 @@ def test_is_dnf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ITE(), test_ITE produces the expected output) over {Any | isinstance(ITE(A, B, C), ITE)} ║
+# ║ Path(test_ITE(), ITE(True, False, True) is false and ITE(True, True, False) is true and ITE(False, True, False) is false and ITE(False, False, True) is true and isinstance(ITE(A, B, C), ITE) and ITE(A, B, C) == B and ITE(A, B, C) == C and ITE(And(A, B), B, C) == C and ITE(Or(A, False), And(B, True), False) is false and ITE(x, A, B) == Not(x) and ITE(x, B, A) == x and ITE(1, x, y) == x and ITE(0, x, y) == y and ITE(1, 1, 1) is S.true and isinstance(ITE(1, 1, 1, evaluate=False), ITE) and ITE(Eq(x, True), y, x) == ITE(x, y, x) and ITE(Eq(x, False), y, x) == ITE(~x, y, x) and ITE(Ne(x, True), y, x) == ITE(~x, y, x) and ITE(Ne(x, False), y, x) == ITE(x, y, x) and ITE(Eq(S.true, x), y, x) == ITE(x, y, x) and ITE(Eq(S.false, x), y, x) == ITE(~x, y, x) and ITE(Ne(S.true, x), y, x) == ITE(~x, y, x) and ITE(Ne(S.false, x), y, x) == ITE(x, y, x) and ITE(Eq(x, 0), y, x) == x and ITE(Eq(x, 1), y, x) == x and ITE(Ne(x, 0), y, x) == y and ITE(Ne(x, 1), y, x) == y and ITE(Eq(x, 0), y, z).subs(x, 0) == y and ITE(Eq(x, 0), y, z).subs(x, 1) == z) over {Any | isinstance(ITE(A, B, C), ITE)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ITE(True, False, True) is false                ║
+# ║   ensures:  ITE(True, True, False) is true                 ║
+# ║   ensures:  ITE(False, True, False) is false               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ITE : {Any | isinstance(ITE(A, B, C), ITE)} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1140,9 +1455,12 @@ def test_is_dnf():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 86f7230d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_ITE","kind":"function","src_hash":"633ff606d31e7dc2","in":{"base":"Any","pred":"isinstance(ITE(A, B, C), ITE)"},"out":{"base":"Any","pred":"ITE(True, False, True) is false and ITE(True, True, False) is true and ITE(False, True, False) is false and ITE(False, False, True) is true and isinstance(ITE(A, B, C), ITE) and ITE(A, B, C) == B and ITE(A, B, C) == C and ITE(And(A, B), B, C) == C and ITE(Or(A, False), And(B, True), False) is false and ITE(x, A, B) == Not(x) and ITE(x, B, A) == x and ITE(1, x, y) == x and ITE(0, x, y) == y and ITE(1, 1, 1) is S.true and isinstance(ITE(1, 1, 1, evaluate=False), ITE) and ITE(Eq(x, True), y, x) == ITE(x, y, x) and ITE(Eq(x, False), y, x) == ITE(~x, y, x) and ITE(Ne(x, True), y, x) == ITE(~x, y, x) and ITE(Ne(x, False), y, x) == ITE(x, y, x) and ITE(Eq(S.true, x), y, x) == ITE(x, y, x) and ITE(Eq(S.false, x), y, x) == ITE(~x, y, x) and ITE(Ne(S.true, x), y, x) == ITE(~x, y, x) and ITE(Ne(S.false, x), y, x) == ITE(x, y, x) and ITE(Eq(x, 0), y, x) == x and ITE(Eq(x, 1), y, x) == x and ITE(Ne(x, 0), y, x) == y and ITE(Ne(x, 1), y, x) == y and ITE(Eq(x, 0), y, z).subs(x, 0) == y and ITE(Eq(x, 0), y, z).subs(x, 1) == z"},"spec":{"lhs":"test_ITE()","rhs":"test_ITE produces the expected output","over":{"base":"Any","pred":"isinstance(ITE(A, B, C), ITE)"},"name":"test_ITE_correct"},"guarantee":"test_ITE produces the expected output","fibers":[{"name":"B","pred":"isinstance(ITE(A, B, C), ITE)","path":{"lhs":"test_ITE(x)","rhs":"test_ITE produces the expected output","over":{"base":"B","pred":"isinstance(ITE(A, B, C), ITE)"},"name":"test_ITE_B_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_ITE_B_correct","statement":"test_ITE satisfies spec on B inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"86f7230d3a203bb2"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_ITE","kind":"function","src_hash":"633ff606d31e7dc2","in":{"base":"Any","pred":"isinstance(ITE(A, B, C), ITE)"},"out":{"base":"Any","pred":"result satisfies: ITE(True, False, True) is false and ITE(True, True, False) is true and ITE(False, True, False) is false and ITE(False, False, True) is true and isinstance(ITE(A, B, C), ITE) and ITE(A, B, C) == B and ITE(A, B, C) == C and ITE(And(A, B), B, C) == C and ITE(Or(A, False), And(B, True), False) is false and ITE(x, A, B) == Not(x) and ITE(x, B, A) == x and ITE(1, x, y) == x and ITE(0, x, y) == y and ITE(1, 1, 1) is S.true and isinstance(ITE(1, 1, 1, evaluate=False), ITE) and ITE(Eq(x, True), y, x) == ITE(x, y, x) and ITE(Eq(x, False), y, x) == ITE(~x, y, x) and ITE(Ne(x, True), y, x) == ITE(~x, y, x) and ITE(Ne(x, False), y, x) == ITE(x, y, x) and ITE(Eq(S.true, x), y, x) == ITE(x, y, x) and ITE(Eq(S.false, x), y, x) == ITE(~x, y, x) and ITE(Ne(S.true, x), y, x) == ITE(~x, y, x) and ITE(Ne(S.false, x), y, x) == ITE(x, y, x) and ITE(Eq(x, 0), y, x) == x and ITE(Eq(x, 1), y, x) == x and ITE(Ne(x, 0), y, x) == y and ITE(Ne(x, 1), y, x) == y and ITE(Eq(x, 0), y, z).subs(x, 0) == y and ITE(Eq(x, 0), y, z).subs(x, 1) == z"},"spec":{"lhs":"test_ITE()","rhs":"ITE(True, False, True) is false and ITE(True, True, False) is true and ITE(False, True, False) is false and ITE(False, False, True) is true and isinstance(ITE(A, B, C), ITE) and ITE(A, B, C) == B and ITE(A, B, C) == C and ITE(And(A, B), B, C) == C and ITE(Or(A, False), And(B, True), False) is false and ITE(x, A, B) == Not(x) and ITE(x, B, A) == x and ITE(1, x, y) == x and ITE(0, x, y) == y and ITE(1, 1, 1) is S.true and isinstance(ITE(1, 1, 1, evaluate=False), ITE) and ITE(Eq(x, True), y, x) == ITE(x, y, x) and ITE(Eq(x, False), y, x) == ITE(~x, y, x) and ITE(Ne(x, True), y, x) == ITE(~x, y, x) and ITE(Ne(x, False), y, x) == ITE(x, y, x) and ITE(Eq(S.true, x), y, x) == ITE(x, y, x) and ITE(Eq(S.false, x), y, x) == ITE(~x, y, x) and ITE(Ne(S.true, x), y, x) == ITE(~x, y, x) and ITE(Ne(S.false, x), y, x) == ITE(x, y, x) and ITE(Eq(x, 0), y, x) == x and ITE(Eq(x, 1), y, x) == x and ITE(Ne(x, 0), y, x) == y and ITE(Ne(x, 1), y, x) == y and ITE(Eq(x, 0), y, z).subs(x, 0) == y and ITE(Eq(x, 0), y, z).subs(x, 1) == z","over":{"base":"Any","pred":"isinstance(ITE(A, B, C), ITE)"},"name":"test_ITE_correct"},"guarantee":"ITE(True, False, True) is false; ITE(True, True, False) is true; ITE(False, True, False) is false","fibers":[{"name":"B","pred":"isinstance(ITE(A, B, C), ITE)","path":{"lhs":"test_ITE(x)","rhs":"ITE(True, False, True) is false; ITE(True, True, False) is true; ITE(False, True, False) is false","over":{"base":"B","pred":"isinstance(ITE(A, B, C), ITE)"},"name":"test_ITE_B_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_ITE_B_correct","statement":"test_ITE satisfies spec on B inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"86f7230d3a203bb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ITE(True, False, True) is false","ITE(True, True, False) is true","ITE(False, True, False) is false","ITE(False, False, True) is true","isinstance(ITE(A, B, C), ITE)","ITE(A, B, C) == B","ITE(A, B, C) == C","ITE(And(A, B), B, C) == C","ITE(Or(A, False), And(B, True), False) is false","ITE(x, A, B) == Not(x)","ITE(x, B, A) == x","ITE(1, x, y) == x","ITE(0, x, y) == y","ITE(1, 1, 1) is S.true","isinstance(ITE(1, 1, 1, evaluate=False), ITE)","ITE(Eq(x, True), y, x) == ITE(x, y, x)","ITE(Eq(x, False), y, x) == ITE(~x, y, x)","ITE(Ne(x, True), y, x) == ITE(~x, y, x)","ITE(Ne(x, False), y, x) == ITE(x, y, x)","ITE(Eq(S.true, x), y, x) == ITE(x, y, x)","ITE(Eq(S.false, x), y, x) == ITE(~x, y, x)","ITE(Ne(S.true, x), y, x) == ITE(~x, y, x)","ITE(Ne(S.false, x), y, x) == ITE(x, y, x)","ITE(Eq(x, 0), y, x) == x","ITE(Eq(x, 1), y, x) == x","ITE(Ne(x, 0), y, x) == y","ITE(Ne(x, 1), y, x) == y","ITE(Eq(x, 0), y, z).subs(x, 0) == y","ITE(Eq(x, 0), y, z).subs(x, 1) == z"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"failed","binding":true}}
 def test_ITE():
     A, B, C = symbols('A:C')
     assert ITE(True, False, True) is false
@@ -1190,16 +1508,24 @@ def test_ITE():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_literal(), test_is_literal produces the expected output) over Any ║
+# ║ Path(test_is_literal(), is_literal(True) is True and is_literal(False) is True and is_literal(A) is True and is_literal(~A) is True and is_literal(Or(A, B)) is False and is_literal(Q.zero(A)) is True and is_literal(Not(Q.zero(A))) is True and is_literal(And(Q.zero(A), Q.zero(B))) is False and is_literal(x < 3) and not is_literal(x + y < 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_literal : Any → {Any | is_literal(True) is Tr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_literal(True) is True                       ║
+# ║   ensures:  is_literal(False) is True                      ║
+# ║   ensures:  is_literal(A) is True                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_literal : Any → {Any | result satisfies: is_l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd5d3533c381de16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 773cea64094d9dea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_is_literal","kind":"function","src_hash":"acdd37fe12ec7933","in":{"base":"Any"},"out":{"base":"Any","pred":"is_literal(True) is True and is_literal(False) is True and is_literal(A) is True and is_literal(~A) is True and is_literal(Or(A, B)) is False and is_literal(Q.zero(A)) is True and is_literal(Not(Q.zero(A))) is True and is_literal(Or(A, B)) is False and is_literal(And(Q.zero(A), Q.zero(B))) is False and is_literal(x < 3) and not is_literal(x + y < 3)"},"spec":{"lhs":"test_is_literal()","rhs":"test_is_literal produces the expected output","over":{"base":"Any"},"name":"test_is_literal_correct"},"guarantee":"test_is_literal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_is_literal_correct","statement":"Path(test_is_literal(x), test_is_literal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd5d3533c381de16"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_is_literal","kind":"function","src_hash":"acdd37fe12ec7933","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_literal(True) is True and is_literal(False) is True and is_literal(A) is True and is_literal(~A) is True and is_literal(Or(A, B)) is False and is_literal(Q.zero(A)) is True and is_literal(Not(Q.zero(A))) is True and is_literal(And(Q.zero(A), Q.zero(B))) is False and is_literal(x < 3) and not is_literal(x + y < 3)"},"spec":{"lhs":"test_is_literal()","rhs":"is_literal(True) is True and is_literal(False) is True and is_literal(A) is True and is_literal(~A) is True and is_literal(Or(A, B)) is False and is_literal(Q.zero(A)) is True and is_literal(Not(Q.zero(A))) is True and is_literal(And(Q.zero(A), Q.zero(B))) is False and is_literal(x < 3) and not is_literal(x + y < 3)","over":{"base":"Any"},"name":"test_is_literal_correct"},"guarantee":"is_literal(True) is True; is_literal(False) is True; is_literal(A) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_is_literal_correct","statement":"Path(test_is_literal(x), is_literal(True) is True; is_literal(False) is True; is_literal(A) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"773cea64094d9dea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_literal(True) is True","is_literal(False) is True","is_literal(A) is True","is_literal(~A) is True","is_literal(Or(A, B)) is False","is_literal(Q.zero(A)) is True","is_literal(Not(Q.zero(A))) is True","is_literal(And(Q.zero(A), Q.zero(B))) is False","is_literal(x < 3)","not is_literal(x + y < 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_is_literal():
     assert is_literal(True) is True
     assert is_literal(False) is True
@@ -1215,16 +1541,24 @@ def test_is_literal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_operators(), test_operators produces the expected output) over Any ║
+# ║ Path(test_operators(), True & A == A & True == A and False & A == A & False == False and A & B == And(A, B) and True | A == A | True == True and False | A == A | False == A and A | B == Or(A, B) and ~A == Not(A) and True >> A == A << True == A and False >> A == A << False == True and A >> True == True << A == True and A >> False == False << A == ~A and A >> B == B << A == Implies(A, B) and True ^ A == A ^ True == ~A and False ^ A == A ^ False == A and A ^ B == Xor(A, B)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_operators : Any → {Any | True & A == A & True ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  True & A == A & True == A                      ║
+# ║   ensures:  False & A == A & False == False                ║
+# ║   ensures:  A & B == And(A, B)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_operators : Any → {Any | result satisfies: True ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81dbb5561212d598  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c83d91c53ae7981f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_operators","kind":"function","src_hash":"aeefe4513bf4215b","in":{"base":"Any"},"out":{"base":"Any","pred":"True & A == A & True == A and False & A == A & False == False and A & B == And(A, B) and True | A == A | True == True and False | A == A | False == A and A | B == Or(A, B) and ~A == Not(A) and True >> A == A << True == A and False >> A == A << False == True and A >> True == True << A == True and A >> False == False << A == ~A and A >> B == B << A == Implies(A, B) and True ^ A == A ^ True == ~A and False ^ A == A ^ False == A and A ^ B == Xor(A, B)"},"spec":{"lhs":"test_operators()","rhs":"test_operators produces the expected output","over":{"base":"Any"},"name":"test_operators_correct"},"guarantee":"test_operators produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_operators_correct","statement":"Path(test_operators(x), test_operators produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81dbb5561212d598"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_operators","kind":"function","src_hash":"aeefe4513bf4215b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: True & A == A & True == A and False & A == A & False == False and A & B == And(A, B) and True | A == A | True == True and False | A == A | False == A and A | B == Or(A, B) and ~A == Not(A) and True >> A == A << True == A and False >> A == A << False == True and A >> True == True << A == True and A >> False == False << A == ~A and A >> B == B << A == Implies(A, B) and True ^ A == A ^ True == ~A and False ^ A == A ^ False == A and A ^ B == Xor(A, B)"},"spec":{"lhs":"test_operators()","rhs":"True & A == A & True == A and False & A == A & False == False and A & B == And(A, B) and True | A == A | True == True and False | A == A | False == A and A | B == Or(A, B) and ~A == Not(A) and True >> A == A << True == A and False >> A == A << False == True and A >> True == True << A == True and A >> False == False << A == ~A and A >> B == B << A == Implies(A, B) and True ^ A == A ^ True == ~A and False ^ A == A ^ False == A and A ^ B == Xor(A, B)","over":{"base":"Any"},"name":"test_operators_correct"},"guarantee":"True & A == A & True == A; False & A == A & False == False; A & B == And(A, B)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_operators_correct","statement":"Path(test_operators(x), True & A == A & True == A; False & A == A & False == False; A & B == And(A, B))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c83d91c53ae7981f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["True & A == A & True == A","False & A == A & False == False","A & B == And(A, B)","True | A == A | True == True","False | A == A | False == A","A | B == Or(A, B)","~A == Not(A)","True >> A == A << True == A","False >> A == A << False == True","A >> True == True << A == True","A >> False == False << A == ~A","A >> B == B << A == Implies(A, B)","True ^ A == A ^ True == ~A","False ^ A == A ^ False == A","A ^ B == Xor(A, B)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_operators():
     # Mostly test __and__, __rand__, and so on
     assert True & A == A & True == A
@@ -1245,7 +1579,12 @@ def test_operators():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_true_false(), test_true_false produces the expected output) over {Any | isinstance(true, BooleanAtom) and isinstance(true, bool)} ║
+# ║ Path(test_true_false(), true is S.true and false is S.false and true is not True and false is not False and true and not false and true == True and false == False and not true == False and not false == True and not true == false and hash(true) == hash(True) and hash(false) == hash(False) and len({true, True}) == len({false, False}) == 1 and isinstance(true, BooleanAtom) and isinstance(false, BooleanAtom) and not isinstance(true, bool) and not isinstance(false, bool) and Not(true) is false and Not(True) is false and Not(false) is true and Not(False) is true and ~true is false and ~false is true and all((i.simplify(1, 2) is i for i in (S.true, S.false)))) over {Any | isinstance(true, BooleanAtom) and isinstance(true, bool)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  true is S.true                                 ║
+# ║   ensures:  false is S.false                               ║
+# ║   ensures:  true is not True                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_true_false : {Any | isinstance(true, BooleanAtom...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1258,9 +1597,12 @@ def test_operators():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 3.9ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d17b876e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_true_false","kind":"function","src_hash":"a214d9fac9a3dbc0","in":{"base":"Any","pred":"isinstance(true, BooleanAtom) and isinstance(true, bool)"},"out":{"base":"Any","pred":"true is S.true and false is S.false and true is not True and false is not False and true and not false and true == True and false == False and not true == False and not false == True and not true == false and hash(true) == hash(True) and hash(false) == hash(False) and len({true, True}) == len({false, False}) == 1 and isinstance(true, BooleanAtom) and isinstance(false, BooleanAtom) and not isinstance(true, bool) and not isinstance(false, bool) and Not(true) is false and Not(True) is false and Not(false) is true and Not(False) is true and ~true is false and ~false is true and all((i.simplify(1, 2) is i for i in (S.true, S.false))) and And(T, F) is false and And(F, T) is false and And(F, F) is false and And(T, T) is true and And(T, x) == x and And(F, x) is false and Or(T, F) is true and Or(F, T) is true and Or(F, F) is false and Or(T, T) is true and Or(T, x) is true and Or(F, x) == x and Xor(T, F) is true and Xor(F, T) is true and Xor(F, F) is false and Xor(T, T) is false and Xor(T, x) == ~x and Xor(F, x) == x and Nand(T, F) is true and Nand(F, T) is true and Nand(F, F) is true and Nand(T, T) is false and Nand(T, x) == ~x and Nand(F, x) is true and Nor(T, F) is false and Nor(F, T) is false and Nor(F, F) is true and Nor(T, T) is false and Nor(T, x) is false and Nor(F, x) == ~x and Implies(T, F) is false and Implies(F, T) is true and Implies(F, F) is true and Implies(T, T) is true and Implies(T, x) == x and Implies(F, x) is true and Implies(x, T) is true and Implies(x, F) == ~x and Equivalent(T, F) is false and Equivalent(F, T) is false and Equivalent(F, F) is true and Equivalent(T, T) is true and Equivalent(T, x) == x and Equivalent(F, x) == ~x and Equivalent(x, T) == x and Equivalent(x, F) == ~x and ITE(T, T, T) is true and ITE(T, T, F) is true and ITE(T, F, T) is false and ITE(T, F, F) is false and ITE(F, T, T) is true and ITE(F, T, F) is false and ITE(F, F, T) is true and ITE(F, F, F) is false and T & F is false and F & T is false and F & F is false and T & T is true and T | F is true and F | T is true and F | F is false and T | T is true and T ^ F is true and F ^ T is true and F ^ F is false and T ^ T is false and T >> F is false and F << T is false and F >> T is true and T << F is true and F >> F is true and F << F is true and T >> T is true and T << T is true"},"spec":{"lhs":"test_true_false()","rhs":"test_true_false produces the expected output","over":{"base":"Any","pred":"isinstance(true, BooleanAtom) and isinstance(true, bool)"},"name":"test_true_false_correct"},"guarantee":"test_true_false produces the expected output","fibers":[{"name":"BooleanAtom","pred":"isinstance(true, BooleanAtom)","path":{"lhs":"test_true_false(x)","rhs":"test_true_false produces the expected output","over":{"base":"BooleanAtom","pred":"isinstance(true, BooleanAtom)"},"name":"test_true_false_BooleanAtom_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_true_false_BooleanAtom_correct","statement":"test_true_false satisfies spec on BooleanAtom inputs"},"trust":"LIBRARY"},{"name":"bool","pred":"isinstance(true, bool)","path":{"lhs":"test_true_false(x)","rhs":"test_true_false produces the expected output","over":{"base":"bool","pred":"isinstance(true, bool)"},"name":"test_true_false_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_true_false_bool_correct","statement":"test_true_false satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d17b876e6dea9583"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_true_false","kind":"function","src_hash":"a214d9fac9a3dbc0","in":{"base":"Any","pred":"isinstance(true, BooleanAtom) and isinstance(true, bool)"},"out":{"base":"Any","pred":"result satisfies: true is S.true and false is S.false and true is not True and false is not False and true and not false and true == True and false == False and not true == False and not false == True and not true == false and hash(true) == hash(True) and hash(false) == hash(False) and len({true, True}) == len({false, False}) == 1 and isinstance(true, BooleanAtom) and isinstance(false, BooleanAtom) and not isinstance(true, bool) and not isinstance(false, bool) and Not(true) is false and Not(True) is false and Not(false) is true and Not(False) is true and ~true is false and ~false is true and all((i.simplify(1, 2) is i for i in (S.true, S.false)))"},"spec":{"lhs":"test_true_false()","rhs":"true is S.true and false is S.false and true is not True and false is not False and true and not false and true == True and false == False and not true == False and not false == True and not true == false and hash(true) == hash(True) and hash(false) == hash(False) and len({true, True}) == len({false, False}) == 1 and isinstance(true, BooleanAtom) and isinstance(false, BooleanAtom) and not isinstance(true, bool) and not isinstance(false, bool) and Not(true) is false and Not(True) is false and Not(false) is true and Not(False) is true and ~true is false and ~false is true and all((i.simplify(1, 2) is i for i in (S.true, S.false)))","over":{"base":"Any","pred":"isinstance(true, BooleanAtom) and isinstance(true, bool)"},"name":"test_true_false_correct"},"guarantee":"true is S.true; false is S.false; true is not True","fibers":[{"name":"BooleanAtom","pred":"isinstance(true, BooleanAtom)","path":{"lhs":"test_true_false(x)","rhs":"true is S.true; false is S.false; true is not True","over":{"base":"BooleanAtom","pred":"isinstance(true, BooleanAtom)"},"name":"test_true_false_BooleanAtom_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_true_false_BooleanAtom_correct","statement":"test_true_false satisfies spec on BooleanAtom inputs"},"trust":"LIBRARY"},{"name":"bool","pred":"isinstance(true, bool)","path":{"lhs":"test_true_false(x)","rhs":"true is S.true; false is S.false; true is not True","over":{"base":"bool","pred":"isinstance(true, bool)"},"name":"test_true_false_bool_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_true_false_bool_correct","statement":"test_true_false satisfies spec on bool inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d17b876e6dea9583","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["true is S.true","false is S.false","true is not True","false is not False","true","not false","true == True","false == False","not true == False","not false == True","not true == false","hash(true) == hash(True)","hash(false) == hash(False)","len({true, True}) == len({false, False}) == 1","isinstance(true, BooleanAtom)","isinstance(false, BooleanAtom)","not isinstance(true, bool)","not isinstance(false, bool)","Not(true) is false","Not(True) is false","Not(false) is true","Not(False) is true","~true is false","~false is true","all((i.simplify(1, 2) is i for i in (S.true, S.false)))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.9,"verdict_class":"failed","binding":true}}
 def test_true_false():
     assert true is S.true
     assert false is S.false
@@ -1396,16 +1738,24 @@ def test_true_false():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bool_as_set(), test_bool_as_set produces the expected output) over Any ║
+# ║ Path(test_bool_as_set(), ITE(y <= 0, False, y >= 1).as_set() == Interval(1, oo) and And(x <= 2, x >= -2).as_set() == Interval(-2, 2) and Or(x >= 2, x <= -2).as_set() == Interval(-oo, -2) + Interval(2, oo) and Not(x > 2).as_set() == Interval(-oo, 2) and Not(And(x > 2, x < 3)).as_set() == Union(Interval(-oo, 2), Interval(3, oo)) and true.as_set() == S.UniversalSet and false.as_set() is S.EmptySet and x.as_set() == S.UniversalSet and And(Or(x < 1, x > 3), x < 2).as_set() == Interval.open(-oo, 1) and And(x < 1, sin(x) < 3).as_set() == (x < 1).as_set() and Eq(-1, cos(2 * x) ** 2 / sin(2 * x) ** 2).as_set() is S.EmptySet) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bool_as_set : Any → {Any | ITE(y <= 0, False, y ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ITE(y <= 0, False, y >= 1).as_set() == In...   ║
+# ║   ensures:  And(x <= 2, x >= -2).as_set() == Interval...   ║
+# ║   ensures:  Or(x >= 2, x <= -2).as_set() == Interval(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bool_as_set : Any → {Any | result satisfies: ITE...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e858d7552338bb5c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d2d795d31ebc070  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_bool_as_set","kind":"function","src_hash":"52379726b3a5e547","in":{"base":"Any"},"out":{"base":"Any","pred":"ITE(y <= 0, False, y >= 1).as_set() == Interval(1, oo) and And(x <= 2, x >= -2).as_set() == Interval(-2, 2) and Or(x >= 2, x <= -2).as_set() == Interval(-oo, -2) + Interval(2, oo) and Not(x > 2).as_set() == Interval(-oo, 2) and Not(And(x > 2, x < 3)).as_set() == Union(Interval(-oo, 2), Interval(3, oo)) and true.as_set() == S.UniversalSet and false.as_set() is S.EmptySet and x.as_set() == S.UniversalSet and And(Or(x < 1, x > 3), x < 2).as_set() == Interval.open(-oo, 1) and And(x < 1, sin(x) < 3).as_set() == (x < 1).as_set() and Eq(-1, cos(2 * x) ** 2 / sin(2 * x) ** 2).as_set() is S.EmptySet"},"spec":{"lhs":"test_bool_as_set()","rhs":"test_bool_as_set produces the expected output","over":{"base":"Any"},"name":"test_bool_as_set_correct"},"guarantee":"test_bool_as_set produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_bool_as_set_correct","statement":"Path(test_bool_as_set(x), test_bool_as_set produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e858d7552338bb5c"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_bool_as_set","kind":"function","src_hash":"52379726b3a5e547","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ITE(y <= 0, False, y >= 1).as_set() == Interval(1, oo) and And(x <= 2, x >= -2).as_set() == Interval(-2, 2) and Or(x >= 2, x <= -2).as_set() == Interval(-oo, -2) + Interval(2, oo) and Not(x > 2).as_set() == Interval(-oo, 2) and Not(And(x > 2, x < 3)).as_set() == Union(Interval(-oo, 2), Interval(3, oo)) and true.as_set() == S.UniversalSet and false.as_set() is S.EmptySet and x.as_set() == S.UniversalSet and And(Or(x < 1, x > 3), x < 2).as_set() == Interval.open(-oo, 1) and And(x < 1, sin(x) < 3).as_set() == (x < 1).as_set() and Eq(-1, cos(2 * x) ** 2 / sin(2 * x) ** 2).as_set() is S.EmptySet"},"spec":{"lhs":"test_bool_as_set()","rhs":"ITE(y <= 0, False, y >= 1).as_set() == Interval(1, oo) and And(x <= 2, x >= -2).as_set() == Interval(-2, 2) and Or(x >= 2, x <= -2).as_set() == Interval(-oo, -2) + Interval(2, oo) and Not(x > 2).as_set() == Interval(-oo, 2) and Not(And(x > 2, x < 3)).as_set() == Union(Interval(-oo, 2), Interval(3, oo)) and true.as_set() == S.UniversalSet and false.as_set() is S.EmptySet and x.as_set() == S.UniversalSet and And(Or(x < 1, x > 3), x < 2).as_set() == Interval.open(-oo, 1) and And(x < 1, sin(x) < 3).as_set() == (x < 1).as_set() and Eq(-1, cos(2 * x) ** 2 / sin(2 * x) ** 2).as_set() is S.EmptySet","over":{"base":"Any"},"name":"test_bool_as_set_correct"},"guarantee":"ITE(y <= 0, False, y >= 1).as_set() == Interval(1, oo); And(x <= 2, x >= -2).as_set() == Interval(-2, 2); Or(x >= 2, x <= -2).as_set() == Interval(-oo, -2) + Interval(2, oo)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_bool_as_set_correct","statement":"Path(test_bool_as_set(x), ITE(y <= 0, False, y >= 1).as_set() == Interval(1, oo); And(x <= 2, x >= -2).as_set() == Interval(-2, 2); Or(x >= 2, x <= -2).as_set() == Interval(-oo, -2) + Interval(2, oo))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d2d795d31ebc070","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ITE(y <= 0, False, y >= 1).as_set() == Interval(1, oo)","And(x <= 2, x >= -2).as_set() == Interval(-2, 2)","Or(x >= 2, x <= -2).as_set() == Interval(-oo, -2) + Interval(2, oo)","Not(x > 2).as_set() == Interval(-oo, 2)","Not(And(x > 2, x < 3)).as_set() == Union(Interval(-oo, 2), Interval(3, oo))","true.as_set() == S.UniversalSet","false.as_set() is S.EmptySet","x.as_set() == S.UniversalSet","And(Or(x < 1, x > 3), x < 2).as_set() == Interval.open(-oo, 1)","And(x < 1, sin(x) < 3).as_set() == (x < 1).as_set()","Eq(-1, cos(2 * x) ** 2 / sin(2 * x) ** 2).as_set() is S.EmptySet"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_bool_as_set():
     assert ITE(y <= 0, False, y >= 1).as_set() == Interval(1, oo)
     assert And(x <= 2, x >= -2).as_set() == Interval(-2, 2)
@@ -1426,16 +1776,23 @@ def test_bool_as_set():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multivariate_bool_as_set(), test_multivariate_bool_as_set produces the expected output) over Any ║
+# ║ Path(test_multivariate_bool_as_set(), And(x >= 0, y >= 0).as_set() == Interval(0, oo) * Interval(0, oo) and Or(x >= 0, y >= 0).as_set() == S.Reals * S.Reals - Interval(-oo, 0, True, True) * Interval(-oo, 0, True, True)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multivariate_bool_as_set : Any → {Any | And(x >=...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  And(x >= 0, y >= 0).as_set() == Interval(...   ║
+# ║   ensures:  Or(x >= 0, y >= 0).as_set() == S.Reals * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multivariate_bool_as_set : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80ab54a3fe3f2dc1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc9600b909f3e228  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_multivariate_bool_as_set","kind":"function","src_hash":"326fd41464799245","in":{"base":"Any"},"out":{"base":"Any","pred":"And(x >= 0, y >= 0).as_set() == Interval(0, oo) * Interval(0, oo)"},"spec":{"lhs":"test_multivariate_bool_as_set()","rhs":"test_multivariate_bool_as_set produces the expected output","over":{"base":"Any"},"name":"test_multivariate_bool_as_set_correct"},"guarantee":"test_multivariate_bool_as_set produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_multivariate_bool_as_set_correct","statement":"Path(test_multivariate_bool_as_set(x), test_multivariate_bool_as_set produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80ab54a3fe3f2dc1"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_multivariate_bool_as_set","kind":"function","src_hash":"326fd41464799245","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: And(x >= 0, y >= 0).as_set() == Interval(0, oo) * Interval(0, oo) and Or(x >= 0, y >= 0).as_set() == S.Reals * S.Reals - Interval(-oo, 0, True, True) * Interval(-oo, 0, True, True)"},"spec":{"lhs":"test_multivariate_bool_as_set()","rhs":"And(x >= 0, y >= 0).as_set() == Interval(0, oo) * Interval(0, oo) and Or(x >= 0, y >= 0).as_set() == S.Reals * S.Reals - Interval(-oo, 0, True, True) * Interval(-oo, 0, True, True)","over":{"base":"Any"},"name":"test_multivariate_bool_as_set_correct"},"guarantee":"And(x >= 0, y >= 0).as_set() == Interval(0, oo) * Interval(0, oo); Or(x >= 0, y >= 0).as_set() == S.Reals * S.Reals - Interval(-oo, 0, True, True) * Interval(-oo, 0, True, True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_multivariate_bool_as_set_correct","statement":"Path(test_multivariate_bool_as_set(x), And(x >= 0, y >= 0).as_set() == Interval(0, oo) * Interval(0, oo); Or(x >= 0, y >= 0).as_set() == S.Reals * S.Reals - Interval(-oo, 0, True, True) * Interval(-oo, 0, True, True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc9600b909f3e228","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["And(x >= 0, y >= 0).as_set() == Interval(0, oo) * Interval(0, oo)","Or(x >= 0, y >= 0).as_set() == S.Reals * S.Reals - Interval(-oo, 0, True, True) * Interval(-oo, 0, True, True)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_multivariate_bool_as_set():
     x, y = symbols('x,y')
 
@@ -1445,16 +1802,22 @@ def test_multivariate_bool_as_set():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_all_or_nothing(), test_all_or_nothing produces the expected output) over Any ║
+# ║ Path(test_all_or_nothing(), <unspecified:test_all_or_nothing>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_all_or_nothing : Any → {Any | len(v.args) == len...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73390d3b59831e2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_all_or_nothing","kind":"function","src_hash":"8f225b9fc664c7aa","in":{"base":"Any"},"out":{"base":"Any","pred":"len(v.args) == len(args) - args.count(S.true) and v == True and len(v.args) == 2 and v == True"},"spec":{"lhs":"test_all_or_nothing()","rhs":"test_all_or_nothing produces the expected output","over":{"base":"Any"},"name":"test_all_or_nothing_correct"},"guarantee":"test_all_or_nothing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_all_or_nothing_correct","statement":"Path(test_all_or_nothing(x), test_all_or_nothing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73390d3b59831e2d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_all_or_nothing","kind":"function","src_hash":"8f225b9fc664c7aa","in":{"base":"Any"},"out":{"base":"Any","pred":"len(v.args) == len(args) - args.count(S.true) and v == True and len(v.args) == 2 and v == True"},"spec":{"lhs":"test_all_or_nothing()","rhs":"<unspecified:test_all_or_nothing>","over":{"base":"Any"},"name":"test_all_or_nothing_correct"},"guarantee":"test_all_or_nothing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_all_or_nothing_correct","statement":"Path(test_all_or_nothing(x), test_all_or_nothing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73390d3b59831e2d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_all_or_nothing():
     x = symbols('x', extended_real=True)
     args = x >= -oo, x <= oo
@@ -1471,48 +1834,70 @@ def test_all_or_nothing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonical_atoms(), test_canonical_atoms produces the expected output) over Any ║
+# ║ Path(test_canonical_atoms(), true.canonical == true and false.canonical == false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonical_atoms : Any → {Any | true.canonical ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  true.canonical == true                         ║
+# ║   ensures:  false.canonical == false                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonical_atoms : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e15a89cac19dd6d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ad2ffdadcecae78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_canonical_atoms","kind":"function","src_hash":"737fe83f1e0634e3","in":{"base":"Any"},"out":{"base":"Any","pred":"true.canonical == true and false.canonical == false"},"spec":{"lhs":"test_canonical_atoms()","rhs":"test_canonical_atoms produces the expected output","over":{"base":"Any"},"name":"test_canonical_atoms_correct"},"guarantee":"test_canonical_atoms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_canonical_atoms_correct","statement":"Path(test_canonical_atoms(x), test_canonical_atoms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e15a89cac19dd6d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_canonical_atoms","kind":"function","src_hash":"737fe83f1e0634e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: true.canonical == true and false.canonical == false"},"spec":{"lhs":"test_canonical_atoms()","rhs":"true.canonical == true and false.canonical == false","over":{"base":"Any"},"name":"test_canonical_atoms_correct"},"guarantee":"true.canonical == true; false.canonical == false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_canonical_atoms_correct","statement":"Path(test_canonical_atoms(x), true.canonical == true; false.canonical == false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ad2ffdadcecae78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["true.canonical == true","false.canonical == false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_canonical_atoms():
     assert true.canonical == true
     assert false.canonical == false
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_negated_atoms(), test_negated_atoms produces the expected output) over Any ║
+# ║ Path(test_negated_atoms(), true.negated == false and false.negated == true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_negated_atoms : Any → {Any | true.negated == fal...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  true.negated == false                          ║
+# ║   ensures:  false.negated == true                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_negated_atoms : Any → {Any | result satisfies: t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7590a740d5a868e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38e6669702d88cdb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_negated_atoms","kind":"function","src_hash":"90bf242ba312843f","in":{"base":"Any"},"out":{"base":"Any","pred":"true.negated == false and false.negated == true"},"spec":{"lhs":"test_negated_atoms()","rhs":"test_negated_atoms produces the expected output","over":{"base":"Any"},"name":"test_negated_atoms_correct"},"guarantee":"test_negated_atoms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_negated_atoms_correct","statement":"Path(test_negated_atoms(x), test_negated_atoms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7590a740d5a868e"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_negated_atoms","kind":"function","src_hash":"90bf242ba312843f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: true.negated == false and false.negated == true"},"spec":{"lhs":"test_negated_atoms()","rhs":"true.negated == false and false.negated == true","over":{"base":"Any"},"name":"test_negated_atoms_correct"},"guarantee":"true.negated == false; false.negated == true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_negated_atoms_correct","statement":"Path(test_negated_atoms(x), true.negated == false; false.negated == true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38e6669702d88cdb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["true.negated == false","false.negated == true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_negated_atoms():
     assert true.negated == false
     assert false.negated == true
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8777(), test_issue_8777 produces the expected output) over Any ║
+# ║ Path(test_issue_8777(), And(x > 2, x < oo).as_set() == Interval(2, oo, left_open=True) and And(x >= 1, x < oo).as_set() == Interval(1, oo) and (x < oo).as_set() == Interval(-oo, oo) and (x > -oo).as_set() == Interval(-oo, oo)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8777 : Any → {Any | And(x > 2, x < oo).as_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  And(x > 2, x < oo).as_set() == Interval(2...   ║
+# ║   ensures:  And(x >= 1, x < oo).as_set() == Interval(...   ║
+# ║   ensures:  (x < oo).as_set() == Interval(-oo, oo)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8777 : Any → {Any | result satisfies: And(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad7e512de0217e1d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7f23a67bbcc94f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_8777","kind":"function","src_hash":"7992b65a16fdc9a8","in":{"base":"Any"},"out":{"base":"Any","pred":"And(x > 2, x < oo).as_set() == Interval(2, oo, left_open=True) and And(x >= 1, x < oo).as_set() == Interval(1, oo) and (x < oo).as_set() == Interval(-oo, oo) and (x > -oo).as_set() == Interval(-oo, oo)"},"spec":{"lhs":"test_issue_8777()","rhs":"test_issue_8777 produces the expected output","over":{"base":"Any"},"name":"test_issue_8777_correct"},"guarantee":"test_issue_8777 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_8777_correct","statement":"Path(test_issue_8777(x), test_issue_8777 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad7e512de0217e1d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_8777","kind":"function","src_hash":"7992b65a16fdc9a8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: And(x > 2, x < oo).as_set() == Interval(2, oo, left_open=True) and And(x >= 1, x < oo).as_set() == Interval(1, oo) and (x < oo).as_set() == Interval(-oo, oo) and (x > -oo).as_set() == Interval(-oo, oo)"},"spec":{"lhs":"test_issue_8777()","rhs":"And(x > 2, x < oo).as_set() == Interval(2, oo, left_open=True) and And(x >= 1, x < oo).as_set() == Interval(1, oo) and (x < oo).as_set() == Interval(-oo, oo) and (x > -oo).as_set() == Interval(-oo, oo)","over":{"base":"Any"},"name":"test_issue_8777_correct"},"guarantee":"And(x > 2, x < oo).as_set() == Interval(2, oo, left_open=True); And(x >= 1, x < oo).as_set() == Interval(1, oo); (x < oo).as_set() == Interval(-oo, oo)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_8777_correct","statement":"Path(test_issue_8777(x), And(x > 2, x < oo).as_set() == Interval(2, oo, left_open=True); And(x >= 1, x < oo).as_set() == Interval(1, oo); (x < oo).as_set() == Interval(-oo, oo))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7f23a67bbcc94f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["And(x > 2, x < oo).as_set() == Interval(2, oo, left_open=True)","And(x >= 1, x < oo).as_set() == Interval(1, oo)","(x < oo).as_set() == Interval(-oo, oo)","(x > -oo).as_set() == Interval(-oo, oo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8777():
     assert And(x > 2, x < oo).as_set() == Interval(2, oo, left_open=True)
     assert And(x >= 1, x < oo).as_set() == Interval(1, oo)
@@ -1521,48 +1906,69 @@ def test_issue_8777():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8975(), test_issue_8975 produces the expected output) over Any ║
+# ║ Path(test_issue_8975(), Or(And(-oo < x, x <= -2), And(2 <= x, x < oo)).as_set() == Interval(-oo, -2) + Interval(2, oo)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8975 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Or(And(-oo < x, x <= -2), And(2 <= x, x <...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8975 : Any → {Any | result satisfies: Or(A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 536a46605add93f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80d4e2861f72add1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_8975","kind":"function","src_hash":"2d43535d4dd1ee52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_8975()","rhs":"test_issue_8975 produces the expected output","over":{"base":"Any"},"name":"test_issue_8975_correct"},"guarantee":"test_issue_8975 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_8975_correct","statement":"Path(test_issue_8975(x), test_issue_8975 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"536a46605add93f4"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_8975","kind":"function","src_hash":"2d43535d4dd1ee52","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Or(And(-oo < x, x <= -2), And(2 <= x, x < oo)).as_set() == Interval(-oo, -2) + Interval(2, oo)"},"spec":{"lhs":"test_issue_8975()","rhs":"Or(And(-oo < x, x <= -2), And(2 <= x, x < oo)).as_set() == Interval(-oo, -2) + Interval(2, oo)","over":{"base":"Any"},"name":"test_issue_8975_correct"},"guarantee":"Or(And(-oo < x, x <= -2), And(2 <= x, x < oo)).as_set() == Interval(-oo, -2) + Interval(2, oo)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_8975_correct","statement":"Path(test_issue_8975(x), Or(And(-oo < x, x <= -2), And(2 <= x, x < oo)).as_set() == Interval(-oo, -2) + Interval(2, oo))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80d4e2861f72add1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Or(And(-oo < x, x <= -2), And(2 <= x, x < oo)).as_set() == Interval(-oo, -2) + Interval(2, oo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8975():
     assert Or(And(-oo < x, x <= -2), And(2 <= x, x < oo)).as_set() == \
            Interval(-oo, -2) + Interval(2, oo)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_term_to_integer(), test_term_to_integer produces the expected output) over Any ║
+# ║ Path(test_term_to_integer(), term_to_integer([1, 0, 1, 0, 0, 1, 0]) == 82 and term_to_integer('0010101000111001') == 10809) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_term_to_integer : Any → {Any | term_to_integer([...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  term_to_integer([1, 0, 1, 0, 0, 1, 0]) == 82   ║
+# ║   ensures:  term_to_integer('0010101000111001') == 10809   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_term_to_integer : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 466bc2416e7804cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 133bdd4d1588d16d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_term_to_integer","kind":"function","src_hash":"b851615ed1cb8816","in":{"base":"Any"},"out":{"base":"Any","pred":"term_to_integer([1, 0, 1, 0, 0, 1, 0]) == 82 and term_to_integer('0010101000111001') == 10809"},"spec":{"lhs":"test_term_to_integer()","rhs":"test_term_to_integer produces the expected output","over":{"base":"Any"},"name":"test_term_to_integer_correct"},"guarantee":"test_term_to_integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_term_to_integer_correct","statement":"Path(test_term_to_integer(x), test_term_to_integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"466bc2416e7804cb"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_term_to_integer","kind":"function","src_hash":"b851615ed1cb8816","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: term_to_integer([1, 0, 1, 0, 0, 1, 0]) == 82 and term_to_integer('0010101000111001') == 10809"},"spec":{"lhs":"test_term_to_integer()","rhs":"term_to_integer([1, 0, 1, 0, 0, 1, 0]) == 82 and term_to_integer('0010101000111001') == 10809","over":{"base":"Any"},"name":"test_term_to_integer_correct"},"guarantee":"term_to_integer([1, 0, 1, 0, 0, 1, 0]) == 82; term_to_integer('0010101000111001') == 10809","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_term_to_integer_correct","statement":"Path(test_term_to_integer(x), term_to_integer([1, 0, 1, 0, 0, 1, 0]) == 82; term_to_integer('0010101000111001') == 10809)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"133bdd4d1588d16d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["term_to_integer([1, 0, 1, 0, 0, 1, 0]) == 82","term_to_integer('0010101000111001') == 10809"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_term_to_integer():
     assert term_to_integer([1, 0, 1, 0, 0, 1, 0]) == 82
     assert term_to_integer('0010101000111001') == 10809
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21971(), test_issue_21971 produces the expected output) over Any ║
+# ║ Path(test_issue_21971(), f.subs(a & c, d) == b & d | d and f.subs(a & b & c, d) == a & c | d and f.subs(a | c, d) == (b | d) & d and f.subs(a | b | c, d) == (a | c) & d and f.subs(a ^ c, d) == (b ^ d) & d and f.subs(a ^ b ^ c, d) == (a ^ c) & d) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21971 : Any → {Any | f.subs(a & c, d) == b...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.subs(a & c, d) == b & d | d                  ║
+# ║   ensures:  f.subs(a & b & c, d) == a & c | d              ║
+# ║   ensures:  f.subs(a | c, d) == (b | d) & d                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21971 : Any → {Any | result satisfies: f.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b47e70f3af822497  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f847ea73ca7831f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_21971","kind":"function","src_hash":"ab970ab972f04d16","in":{"base":"Any"},"out":{"base":"Any","pred":"f.subs(a & c, d) == b & d | d and f.subs(a & b & c, d) == a & c | d and f.subs(a | c, d) == (b | d) & d and f.subs(a | b | c, d) == (a | c) & d and f.subs(a ^ c, d) == (b ^ d) & d and f.subs(a ^ b ^ c, d) == (a ^ c) & d"},"spec":{"lhs":"test_issue_21971()","rhs":"test_issue_21971 produces the expected output","over":{"base":"Any"},"name":"test_issue_21971_correct"},"guarantee":"test_issue_21971 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_21971_correct","statement":"Path(test_issue_21971(x), test_issue_21971 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b47e70f3af822497"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_21971","kind":"function","src_hash":"ab970ab972f04d16","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.subs(a & c, d) == b & d | d and f.subs(a & b & c, d) == a & c | d and f.subs(a | c, d) == (b | d) & d and f.subs(a | b | c, d) == (a | c) & d and f.subs(a ^ c, d) == (b ^ d) & d and f.subs(a ^ b ^ c, d) == (a ^ c) & d"},"spec":{"lhs":"test_issue_21971()","rhs":"f.subs(a & c, d) == b & d | d and f.subs(a & b & c, d) == a & c | d and f.subs(a | c, d) == (b | d) & d and f.subs(a | b | c, d) == (a | c) & d and f.subs(a ^ c, d) == (b ^ d) & d and f.subs(a ^ b ^ c, d) == (a ^ c) & d","over":{"base":"Any"},"name":"test_issue_21971_correct"},"guarantee":"f.subs(a & c, d) == b & d | d; f.subs(a & b & c, d) == a & c | d; f.subs(a | c, d) == (b | d) & d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_21971_correct","statement":"Path(test_issue_21971(x), f.subs(a & c, d) == b & d | d; f.subs(a & b & c, d) == a & c | d; f.subs(a | c, d) == (b | d) & d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f847ea73ca7831f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.subs(a & c, d) == b & d | d","f.subs(a & b & c, d) == a & c | d","f.subs(a | c, d) == (b | d) & d","f.subs(a | b | c, d) == (a | c) & d","f.subs(a ^ c, d) == (b ^ d) & d","f.subs(a ^ b ^ c, d) == (a ^ c) & d"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_21971():
     a, b, c, d = symbols('a b c d')
     f = a & b & c | a & c
@@ -1579,16 +1985,24 @@ def test_issue_21971():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_truth_table(), test_truth_table produces the expected output) over Any ║
+# ║ Path(test_truth_table(), list(truth_table(And(x, y), [x, y], input=False)) == [False, False, False, True] and list(truth_table(x | y, [x, y], input=False)) == [False, True, True, True] and list(truth_table(x >> y, [x, y], input=False)) == [True, True, False, True] and list(truth_table(And(x, y), [x, y])) == [([0, 0], False), ([0, 1], False), ([1, 0], False), ([1, 1], True)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_truth_table : Any → {Any | list(truth_table(x | ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(truth_table(And(x, y), [x, y], input...   ║
+# ║   ensures:  list(truth_table(x | y, [x, y], input=Fal...   ║
+# ║   ensures:  list(truth_table(x >> y, [x, y], input=Fa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_truth_table : Any → {Any | result satisfies: lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a292094c43ed238  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c2b537d8ac830d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_truth_table","kind":"function","src_hash":"0c3734f64c236503","in":{"base":"Any"},"out":{"base":"Any","pred":"list(truth_table(x | y, [x, y], input=False)) == [False, True, True, True] and list(truth_table(x >> y, [x, y], input=False)) == [True, True, False, True]"},"spec":{"lhs":"test_truth_table()","rhs":"test_truth_table produces the expected output","over":{"base":"Any"},"name":"test_truth_table_correct"},"guarantee":"test_truth_table produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_truth_table_correct","statement":"Path(test_truth_table(x), test_truth_table produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a292094c43ed238"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_truth_table","kind":"function","src_hash":"0c3734f64c236503","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(truth_table(And(x, y), [x, y], input=False)) == [False, False, False, True] and list(truth_table(x | y, [x, y], input=False)) == [False, True, True, True] and list(truth_table(x >> y, [x, y], input=False)) == [True, True, False, True] and list(truth_table(And(x, y), [x, y])) == [([0, 0], False), ([0, 1], False), ([1, 0], False), ([1, 1], True)]"},"spec":{"lhs":"test_truth_table()","rhs":"list(truth_table(And(x, y), [x, y], input=False)) == [False, False, False, True] and list(truth_table(x | y, [x, y], input=False)) == [False, True, True, True] and list(truth_table(x >> y, [x, y], input=False)) == [True, True, False, True] and list(truth_table(And(x, y), [x, y])) == [([0, 0], False), ([0, 1], False), ([1, 0], False), ([1, 1], True)]","over":{"base":"Any"},"name":"test_truth_table_correct"},"guarantee":"list(truth_table(And(x, y), [x, y], input=False)) == [False, False, False, True]; list(truth_table(x | y, [x, y], input=False)) == [False, True, True, True]; list(truth_table(x >> y, [x, y], input=False)) == [True, True, False, True]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_truth_table_correct","statement":"Path(test_truth_table(x), list(truth_table(And(x, y), [x, y], input=False)) == [False, False, False, True]; list(truth_table(x | y, [x, y], input=False)) == [False, True, True, True]; list(truth_table(x >> y, [x, y], input=False)) == [True, True, False, True])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c2b537d8ac830d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(truth_table(And(x, y), [x, y], input=False)) == [False, False, False, True]","list(truth_table(x | y, [x, y], input=False)) == [False, True, True, True]","list(truth_table(x >> y, [x, y], input=False)) == [True, True, False, True]","list(truth_table(And(x, y), [x, y])) == [([0, 0], False), ([0, 1], False), ([1, 0], False), ([1, 1], True)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_truth_table():
     assert list(truth_table(And(x, y), [x, y], input=False)) == \
            [False, False, False, True]
@@ -1601,16 +2015,22 @@ def test_truth_table():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8571(), test_issue_8571 produces the expected output) over Any ║
+# ║ Path(test_issue_8571(), <unspecified:test_issue_8571>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_8571 : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a34193d34fd990e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_8571","kind":"function","src_hash":"b0550b4239bfe679","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_8571()","rhs":"test_issue_8571 produces the expected output","over":{"base":"Any"},"name":"test_issue_8571_correct"},"guarantee":"test_issue_8571 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_8571_correct","statement":"Path(test_issue_8571(x), test_issue_8571 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a34193d34fd990e3"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_8571","kind":"function","src_hash":"b0550b4239bfe679","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_8571()","rhs":"<unspecified:test_issue_8571>","over":{"base":"Any"},"name":"test_issue_8571_correct"},"guarantee":"test_issue_8571 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_8571_correct","statement":"Path(test_issue_8571(x), test_issue_8571 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a34193d34fd990e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_8571():
     for t in (S.true, S.false):
         raises(TypeError, lambda: +t)
@@ -1631,16 +2051,24 @@ def test_issue_8571():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_expand_relational(), test_expand_relational produces the expected output) over Any ║
+# ║ Path(test_expand_relational(), r is not S.false and r.expand() is S.false and (q > 0).expand() is S.true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_expand_relational : Any → {Any | r is not S.fals...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r is not S.false                               ║
+# ║   ensures:  r.expand() is S.false                          ║
+# ║   ensures:  (q > 0).expand() is S.true                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_expand_relational : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11cd1d24f2b1c493  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad48cf950033325f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_expand_relational","kind":"function","src_hash":"96a770da7a7a6f72","in":{"base":"Any"},"out":{"base":"Any","pred":"r is not S.false and r.expand() is S.false and (q > 0).expand() is S.true"},"spec":{"lhs":"test_expand_relational()","rhs":"test_expand_relational produces the expected output","over":{"base":"Any"},"name":"test_expand_relational_correct"},"guarantee":"test_expand_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_expand_relational_correct","statement":"Path(test_expand_relational(x), test_expand_relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11cd1d24f2b1c493"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_expand_relational","kind":"function","src_hash":"96a770da7a7a6f72","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r is not S.false and r.expand() is S.false and (q > 0).expand() is S.true"},"spec":{"lhs":"test_expand_relational()","rhs":"r is not S.false and r.expand() is S.false and (q > 0).expand() is S.true","over":{"base":"Any"},"name":"test_expand_relational_correct"},"guarantee":"r is not S.false; r.expand() is S.false; (q > 0).expand() is S.true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_expand_relational_correct","statement":"Path(test_expand_relational(x), r is not S.false; r.expand() is S.false; (q > 0).expand() is S.true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad48cf950033325f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r is not S.false","r.expand() is S.false","(q > 0).expand() is S.true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_expand_relational():
     n = symbols('n', negative=True)
     p, q = symbols('p q', positive=True)
@@ -1651,32 +2079,47 @@ def test_expand_relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12717(), test_issue_12717 produces the expected output) over Any ║
+# ║ Path(test_issue_12717(), S.true.is_Atom == True and S.false.is_Atom == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12717 : Any → {Any | S.true.is_Atom == Tru...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  S.true.is_Atom == True                         ║
+# ║   ensures:  S.false.is_Atom == True                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12717 : Any → {Any | result satisfies: S.t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93b5de15f1033e5d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6121670caa4a646  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_12717","kind":"function","src_hash":"e7701ffa8aa78164","in":{"base":"Any"},"out":{"base":"Any","pred":"S.true.is_Atom == True and S.false.is_Atom == True"},"spec":{"lhs":"test_issue_12717()","rhs":"test_issue_12717 produces the expected output","over":{"base":"Any"},"name":"test_issue_12717_correct"},"guarantee":"test_issue_12717 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_12717_correct","statement":"Path(test_issue_12717(x), test_issue_12717 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93b5de15f1033e5d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_12717","kind":"function","src_hash":"e7701ffa8aa78164","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: S.true.is_Atom == True and S.false.is_Atom == True"},"spec":{"lhs":"test_issue_12717()","rhs":"S.true.is_Atom == True and S.false.is_Atom == True","over":{"base":"Any"},"name":"test_issue_12717_correct"},"guarantee":"S.true.is_Atom == True; S.false.is_Atom == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_12717_correct","statement":"Path(test_issue_12717(x), S.true.is_Atom == True; S.false.is_Atom == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6121670caa4a646","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["S.true.is_Atom == True","S.false.is_Atom == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_12717():
     assert S.true.is_Atom == True
     assert S.false.is_Atom == True
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_as_Boolean(), test_as_Boolean produces the expected output) over Any ║
+# ║ Path(test_as_Boolean(), all((as_Boolean(i) is S.true for i in (True, S.true, 1, nz))) and all((as_Boolean(i) is S.false for i in (False, S.false, 0, z))) and all((as_Boolean(i) == i for i in (x, x < 0)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_as_Boolean : Any → {Any | all((as_Boolean(i) is ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((as_Boolean(i) is S.true for i in (Tr...   ║
+# ║   ensures:  all((as_Boolean(i) is S.false for i in (F...   ║
+# ║   ensures:  all((as_Boolean(i) == i for i in (x, x < ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_as_Boolean : Any → {Any | result satisfies: all(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a49c2579be9fc99  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8abdeb20850720b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_as_Boolean","kind":"function","src_hash":"0a7fbf12eb671119","in":{"base":"Any"},"out":{"base":"Any","pred":"all((as_Boolean(i) is S.true for i in (True, S.true, 1, nz))) and all((as_Boolean(i) is S.false for i in (False, S.false, 0, z))) and all((as_Boolean(i) == i for i in (x, x < 0)))"},"spec":{"lhs":"test_as_Boolean()","rhs":"test_as_Boolean produces the expected output","over":{"base":"Any"},"name":"test_as_Boolean_correct"},"guarantee":"test_as_Boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_as_Boolean_correct","statement":"Path(test_as_Boolean(x), test_as_Boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a49c2579be9fc99"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_as_Boolean","kind":"function","src_hash":"0a7fbf12eb671119","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((as_Boolean(i) is S.true for i in (True, S.true, 1, nz))) and all((as_Boolean(i) is S.false for i in (False, S.false, 0, z))) and all((as_Boolean(i) == i for i in (x, x < 0)))"},"spec":{"lhs":"test_as_Boolean()","rhs":"all((as_Boolean(i) is S.true for i in (True, S.true, 1, nz))) and all((as_Boolean(i) is S.false for i in (False, S.false, 0, z))) and all((as_Boolean(i) == i for i in (x, x < 0)))","over":{"base":"Any"},"name":"test_as_Boolean_correct"},"guarantee":"all((as_Boolean(i) is S.true for i in (True, S.true, 1, nz))); all((as_Boolean(i) is S.false for i in (False, S.false, 0, z))); all((as_Boolean(i) == i for i in (x, x < 0)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_as_Boolean_correct","statement":"Path(test_as_Boolean(x), all((as_Boolean(i) is S.true for i in (True, S.true, 1, nz))); all((as_Boolean(i) is S.false for i in (False, S.false, 0, z))); all((as_Boolean(i) == i for i in (x, x < 0))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8abdeb20850720b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((as_Boolean(i) is S.true for i in (True, S.true, 1, nz)))","all((as_Boolean(i) is S.false for i in (False, S.false, 0, z)))","all((as_Boolean(i) == i for i in (x, x < 0)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_as_Boolean():
     nz = symbols('nz', nonzero=True)
     assert all(as_Boolean(i) is S.true for i in (True, S.true, 1, nz))
@@ -1688,16 +2131,24 @@ def test_as_Boolean():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_binary_symbols(), test_binary_symbols produces the expected output) over Any ║
+# ║ Path(test_binary_symbols(), ITE(x < 1, y, z).binary_symbols == {y, z} and S.true.binary_symbols == set() and S.false.binary_symbols == set() and x.binary_symbols == {x} and And(x, Eq(y, False), Eq(z, 1)).binary_symbols == {x, y} and Q.prime(x).binary_symbols == set() and Q.lt(x, 1).binary_symbols == set() and Q.is_true(x).binary_symbols == {x} and Q.eq(x, True).binary_symbols == {x}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_binary_symbols : Any → {Any | ITE(x < 1, y, z).b...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ITE(x < 1, y, z).binary_symbols == {y, z}      ║
+# ║   ensures:  S.true.binary_symbols == set()                 ║
+# ║   ensures:  S.false.binary_symbols == set()                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_binary_symbols : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c67ead677c5ae99b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 585546ea51e06cc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_binary_symbols","kind":"function","src_hash":"ee711c5e95393c5c","in":{"base":"Any"},"out":{"base":"Any","pred":"ITE(x < 1, y, z).binary_symbols == {y, z} and S.true.binary_symbols == set() and S.false.binary_symbols == set() and x.binary_symbols == {x} and And(x, Eq(y, False), Eq(z, 1)).binary_symbols == {x, y} and Q.prime(x).binary_symbols == set() and Q.lt(x, 1).binary_symbols == set() and Q.is_true(x).binary_symbols == {x} and Q.eq(x, True).binary_symbols == {x} and Q.prime(x).binary_symbols == set() and f(x, 1).binary_symbols == set() and f(x, True).binary_symbols == {x} and f(x, False).binary_symbols == {x}"},"spec":{"lhs":"test_binary_symbols()","rhs":"test_binary_symbols produces the expected output","over":{"base":"Any"},"name":"test_binary_symbols_correct"},"guarantee":"test_binary_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_binary_symbols_correct","statement":"Path(test_binary_symbols(x), test_binary_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c67ead677c5ae99b"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_binary_symbols","kind":"function","src_hash":"ee711c5e95393c5c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ITE(x < 1, y, z).binary_symbols == {y, z} and S.true.binary_symbols == set() and S.false.binary_symbols == set() and x.binary_symbols == {x} and And(x, Eq(y, False), Eq(z, 1)).binary_symbols == {x, y} and Q.prime(x).binary_symbols == set() and Q.lt(x, 1).binary_symbols == set() and Q.is_true(x).binary_symbols == {x} and Q.eq(x, True).binary_symbols == {x}"},"spec":{"lhs":"test_binary_symbols()","rhs":"ITE(x < 1, y, z).binary_symbols == {y, z} and S.true.binary_symbols == set() and S.false.binary_symbols == set() and x.binary_symbols == {x} and And(x, Eq(y, False), Eq(z, 1)).binary_symbols == {x, y} and Q.prime(x).binary_symbols == set() and Q.lt(x, 1).binary_symbols == set() and Q.is_true(x).binary_symbols == {x} and Q.eq(x, True).binary_symbols == {x}","over":{"base":"Any"},"name":"test_binary_symbols_correct"},"guarantee":"ITE(x < 1, y, z).binary_symbols == {y, z}; S.true.binary_symbols == set(); S.false.binary_symbols == set()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_binary_symbols_correct","statement":"Path(test_binary_symbols(x), ITE(x < 1, y, z).binary_symbols == {y, z}; S.true.binary_symbols == set(); S.false.binary_symbols == set())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"585546ea51e06cc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ITE(x < 1, y, z).binary_symbols == {y, z}","S.true.binary_symbols == set()","S.false.binary_symbols == set()","x.binary_symbols == {x}","And(x, Eq(y, False), Eq(z, 1)).binary_symbols == {x, y}","Q.prime(x).binary_symbols == set()","Q.lt(x, 1).binary_symbols == set()","Q.is_true(x).binary_symbols == {x}","Q.eq(x, True).binary_symbols == {x}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_binary_symbols():
     assert ITE(x < 1, y, z).binary_symbols == {y, z}
     for f in (Eq, Ne):
@@ -1716,31 +2167,45 @@ def test_binary_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BooleanFunction_diff(), test_BooleanFunction_diff produces the expected output) over Any ║
+# ║ Path(test_BooleanFunction_diff(), And(x, y).diff(x) == Piecewise((0, Eq(y, False)), (1, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_BooleanFunction_diff : Any → {Any | And(x, y).di...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  And(x, y).diff(x) == Piecewise((0, Eq(y, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_BooleanFunction_diff : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3111cfe1f0b55d3b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 913923d009c62638  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_BooleanFunction_diff","kind":"function","src_hash":"9276bb9fe7a04c64","in":{"base":"Any"},"out":{"base":"Any","pred":"And(x, y).diff(x) == Piecewise((0, Eq(y, False)), (1, True))"},"spec":{"lhs":"test_BooleanFunction_diff()","rhs":"test_BooleanFunction_diff produces the expected output","over":{"base":"Any"},"name":"test_BooleanFunction_diff_correct"},"guarantee":"test_BooleanFunction_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_BooleanFunction_diff_correct","statement":"Path(test_BooleanFunction_diff(x), test_BooleanFunction_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3111cfe1f0b55d3b"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_BooleanFunction_diff","kind":"function","src_hash":"9276bb9fe7a04c64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: And(x, y).diff(x) == Piecewise((0, Eq(y, False)), (1, True))"},"spec":{"lhs":"test_BooleanFunction_diff()","rhs":"And(x, y).diff(x) == Piecewise((0, Eq(y, False)), (1, True))","over":{"base":"Any"},"name":"test_BooleanFunction_diff_correct"},"guarantee":"And(x, y).diff(x) == Piecewise((0, Eq(y, False)), (1, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_BooleanFunction_diff_correct","statement":"Path(test_BooleanFunction_diff(x), And(x, y).diff(x) == Piecewise((0, Eq(y, False)), (1, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"913923d009c62638","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["And(x, y).diff(x) == Piecewise((0, Eq(y, False)), (1, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_BooleanFunction_diff():
     assert And(x, y).diff(x) == Piecewise((0, Eq(y, False)), (1, True))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14700(), test_issue_14700 produces the expected output) over Any ║
+# ║ Path(test_issue_14700(), simplify_logic(q, 'dnf') == soldnf and simplify_logic(q, 'cnf') == solcnf and SOPform([w, x, y, z], minterms) == x & ~w | y & z & ~x and SOPform([w, x, y, z], minterms, dontcares) == x & ~w | y & z & ~x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14700 : Any → {Any | simplify_logic(q, 'dn...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify_logic(q, 'dnf') == soldnf             ║
+# ║   ensures:  simplify_logic(q, 'cnf') == solcnf             ║
+# ║   ensures:  SOPform([w, x, y, z], minterms) == x & ~w...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14700 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a719dd938d755a7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd02710ef7f49dab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_14700","kind":"function","src_hash":"ffd7152c97236008","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify_logic(q, 'dnf') == soldnf and simplify_logic(q, 'cnf') == solcnf and SOPform([w, x, y, z], minterms) == x & ~w | y & z & ~x and SOPform([w, x, y, z], minterms, dontcares) == x & ~w | y & z & ~x"},"spec":{"lhs":"test_issue_14700()","rhs":"test_issue_14700 produces the expected output","over":{"base":"Any"},"name":"test_issue_14700_correct"},"guarantee":"test_issue_14700 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_14700_correct","statement":"Path(test_issue_14700(x), test_issue_14700 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a719dd938d755a7"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_14700","kind":"function","src_hash":"ffd7152c97236008","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify_logic(q, 'dnf') == soldnf and simplify_logic(q, 'cnf') == solcnf and SOPform([w, x, y, z], minterms) == x & ~w | y & z & ~x and SOPform([w, x, y, z], minterms, dontcares) == x & ~w | y & z & ~x"},"spec":{"lhs":"test_issue_14700()","rhs":"simplify_logic(q, 'dnf') == soldnf and simplify_logic(q, 'cnf') == solcnf and SOPform([w, x, y, z], minterms) == x & ~w | y & z & ~x and SOPform([w, x, y, z], minterms, dontcares) == x & ~w | y & z & ~x","over":{"base":"Any"},"name":"test_issue_14700_correct"},"guarantee":"simplify_logic(q, 'dnf') == soldnf; simplify_logic(q, 'cnf') == solcnf; SOPform([w, x, y, z], minterms) == x & ~w | y & z & ~x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_14700_correct","statement":"Path(test_issue_14700(x), simplify_logic(q, 'dnf') == soldnf; simplify_logic(q, 'cnf') == solcnf; SOPform([w, x, y, z], minterms) == x & ~w | y & z & ~x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd02710ef7f49dab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify_logic(q, 'dnf') == soldnf","simplify_logic(q, 'cnf') == solcnf","SOPform([w, x, y, z], minterms) == x & ~w | y & z & ~x","SOPform([w, x, y, z], minterms, dontcares) == x & ~w | y & z & ~x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_issue_14700():
     A, B, C, D, E, F, G, H = symbols('A B C D E F G H')
     q = ((B & D & H & ~F) | (B & H & ~C & ~D) | (B & H & ~C & ~F) |
@@ -1771,16 +2236,22 @@ def test_issue_14700():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_25115(), test_issue_25115 produces the expected output) over Any ║
+# ║ Path(test_issue_25115(), simplify_logic(cond) == cond) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_25115 : Any → {Any | simplify_logic(cond) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify_logic(cond) == cond                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_25115 : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b07be94f46313a5c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e962252f2e73a32a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_25115","kind":"function","src_hash":"31ed206e7b7ecb7e","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify_logic(cond) == cond"},"spec":{"lhs":"test_issue_25115()","rhs":"test_issue_25115 produces the expected output","over":{"base":"Any"},"name":"test_issue_25115_correct"},"guarantee":"test_issue_25115 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_25115_correct","statement":"Path(test_issue_25115(x), test_issue_25115 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b07be94f46313a5c"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_25115","kind":"function","src_hash":"31ed206e7b7ecb7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify_logic(cond) == cond"},"spec":{"lhs":"test_issue_25115()","rhs":"simplify_logic(cond) == cond","over":{"base":"Any"},"name":"test_issue_25115_correct"},"guarantee":"simplify_logic(cond) == cond","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_25115_correct","statement":"Path(test_issue_25115(x), simplify_logic(cond) == cond)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e962252f2e73a32a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify_logic(cond) == cond"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_25115():
     cond = Contains(x, S.Integers)
     # Previously this raised an exception:
@@ -1788,16 +2259,24 @@ def test_issue_25115():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_relational_simplification(), test_relational_simplification produces the expected output) over Any ║
+# ║ Path(test_relational_simplification(), Or(x >= y, x < y).simplify() == S.true and Or(x >= y, y > x).simplify() == S.true and Or(x >= y, -x > -y).simplify() == S.true and Or(x >= y, -y < -x).simplify() == S.true and Or(-x <= -y, x < y).simplify() == S.true and Or(-x <= -y, -x > -y).simplify() == S.true and Or(-x <= -y, y > x).simplify() == S.true and Or(-x <= -y, -y < -x).simplify() == S.true and Or(y <= x, x < y).simplify() == S.true and Or(y <= x, y > x).simplify() == S.true and Or(y <= x, -x > -y).simplify() == S.true and Or(y <= x, -y < -x).simplify() == S.true and Or(-y >= -x, x < y).simplify() == S.true and Or(-y >= -x, y > x).simplify() == S.true and Or(-y >= -x, -x > -y).simplify() == S.true and Or(-y >= -x, -y < -x).simplify() == S.true and Or(x < y, x >= y).simplify() == S.true and Or(y > x, x >= y).simplify() == S.true and Or(-x > -y, x >= y).simplify() == S.true and Or(-y < -x, x >= y).simplify() == S.true and Or(x < y, -x <= -y).simplify() == S.true and Or(-x > -y, -x <= -y).simplify() == S.true and Or(y > x, -x <= -y).simplify() == S.true and Or(-y < -x, -x <= -y).simplify() == S.true and Or(x < y, y <= x).simplify() == S.true and Or(y > x, y <= x).simplify() == S.true and Or(-x > -y, y <= x).simplify() == S.true and Or(-y < -x, y <= x).simplify() == S.true and Or(x < y, -y >= -x).simplify() == S.true and Or(y > x, -y >= -x).simplify() == S.true and Or(-x > -y, -y >= -x).simplify() == S.true and Or(-y < -x, -y >= -x).simplify() == S.true and Or(x >= y, w < z, x <= y).simplify() == S.true and And(x >= y, x < y).simplify() == S.false and Or(x >= y, Eq(y, x)).simplify() == (x >= y) and And(x >= y, Eq(y, x)).simplify() == Eq(x, y) and And(Eq(x, y), x >= 1, 2 < y, y >= 5, z < y).simplify() == Eq(x, y) & (x >= 1) & (y >= 5) & (y > z) and Or(Eq(x, y), x >= y, w < y, z < y).simplify() == (x >= y) | (y > z) | (w < y) and And(Eq(x, y), x >= y, w < y, y >= z, z < y).simplify() == Eq(x, y) & (y > z) & (w < y) and (Eq(x, y) & Eq(d, e) & (x >= y) & (d >= e)).simplify() == Eq(x, y) & Eq(d, e) & (d >= e) and And(Eq(x, y), Eq(x, -y)).simplify() == And(Eq(x, 0), Eq(y, 0)) and Xor(x >= y, x <= y).simplify() == Ne(x, y) and And(x > 1, x < -1, Eq(x, y)).simplify() == S.false and And(x >= y, Eq(y, 0)).simplify() == And(x >= 0, Eq(y, 0)) and Or(Ne(x, 1), Ne(x, 2)).simplify() == S.true and And(Eq(x, 1), Ne(2, x)).simplify() == Eq(x, 1) and Or(Eq(x, 1), Ne(2, x)).simplify() == Ne(x, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_relational_simplification : Any → {Any | Or(x >=...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Or(x >= y, x < y).simplify() == S.true         ║
+# ║   ensures:  Or(x >= y, y > x).simplify() == S.true         ║
+# ║   ensures:  Or(x >= y, -x > -y).simplify() == S.true       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_relational_simplification : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e088ce6e33e936cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 192523da0998d23e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_relational_simplification","kind":"function","src_hash":"5cadffc93f61ff1c","in":{"base":"Any"},"out":{"base":"Any","pred":"Or(x >= y, x < y).simplify() == S.true and Or(x >= y, y > x).simplify() == S.true and Or(x >= y, -x > -y).simplify() == S.true and Or(x >= y, -y < -x).simplify() == S.true and Or(-x <= -y, x < y).simplify() == S.true and Or(-x <= -y, -x > -y).simplify() == S.true and Or(-x <= -y, y > x).simplify() == S.true and Or(-x <= -y, -y < -x).simplify() == S.true and Or(y <= x, x < y).simplify() == S.true and Or(y <= x, y > x).simplify() == S.true and Or(y <= x, -x > -y).simplify() == S.true and Or(y <= x, -y < -x).simplify() == S.true and Or(-y >= -x, x < y).simplify() == S.true and Or(-y >= -x, y > x).simplify() == S.true and Or(-y >= -x, -x > -y).simplify() == S.true and Or(-y >= -x, -y < -x).simplify() == S.true and Or(x < y, x >= y).simplify() == S.true and Or(y > x, x >= y).simplify() == S.true and Or(-x > -y, x >= y).simplify() == S.true and Or(-y < -x, x >= y).simplify() == S.true and Or(x < y, -x <= -y).simplify() == S.true and Or(-x > -y, -x <= -y).simplify() == S.true and Or(y > x, -x <= -y).simplify() == S.true and Or(-y < -x, -x <= -y).simplify() == S.true and Or(x < y, y <= x).simplify() == S.true and Or(y > x, y <= x).simplify() == S.true and Or(-x > -y, y <= x).simplify() == S.true and Or(-y < -x, y <= x).simplify() == S.true and Or(x < y, -y >= -x).simplify() == S.true and Or(y > x, -y >= -x).simplify() == S.true and Or(-x > -y, -y >= -x).simplify() == S.true and Or(-y < -x, -y >= -x).simplify() == S.true and Or(x >= y, w < z, x <= y).simplify() == S.true and And(x >= y, x < y).simplify() == S.false and Or(x >= y, Eq(y, x)).simplify() == (x >= y) and And(x >= y, Eq(y, x)).simplify() == Eq(x, y) and Or(Eq(x, y), x >= y, w < y, z < y).simplify() == (x >= y) | (y > z) | (w < y) and And(Eq(x, y), Eq(x, -y)).simplify() == And(Eq(x, 0), Eq(y, 0)) and Xor(x >= y, x <= y).simplify() == Ne(x, y) and And(x > 1, x < -1, Eq(x, y)).simplify() == S.false and And(x >= y, Eq(y, 0)).simplify() == And(x >= 0, Eq(y, 0)) and Or(Ne(x, 1), Ne(x, 2)).simplify() == S.true and And(Eq(x, 1), Ne(2, x)).simplify() == Eq(x, 1) and Or(Eq(x, 1), Ne(2, x)).simplify() == Ne(x, 2)"},"spec":{"lhs":"test_relational_simplification()","rhs":"test_relational_simplification produces the expected output","over":{"base":"Any"},"name":"test_relational_simplification_correct"},"guarantee":"test_relational_simplification produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_relational_simplification_correct","statement":"Path(test_relational_simplification(x), test_relational_simplification produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e088ce6e33e936cf"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_relational_simplification","kind":"function","src_hash":"5cadffc93f61ff1c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Or(x >= y, x < y).simplify() == S.true and Or(x >= y, y > x).simplify() == S.true and Or(x >= y, -x > -y).simplify() == S.true and Or(x >= y, -y < -x).simplify() == S.true and Or(-x <= -y, x < y).simplify() == S.true and Or(-x <= -y, -x > -y).simplify() == S.true and Or(-x <= -y, y > x).simplify() == S.true and Or(-x <= -y, -y < -x).simplify() == S.true and Or(y <= x, x < y).simplify() == S.true and Or(y <= x, y > x).simplify() == S.true and Or(y <= x, -x > -y).simplify() == S.true and Or(y <= x, -y < -x).simplify() == S.true and Or(-y >= -x, x < y).simplify() == S.true and Or(-y >= -x, y > x).simplify() == S.true and Or(-y >= -x, -x > -y).simplify() == S.true and Or(-y >= -x, -y < -x).simplify() == S.true and Or(x < y, x >= y).simplify() == S.true and Or(y > x, x >= y).simplify() == S.true and Or(-x > -y, x >= y).simplify() == S.true and Or(-y < -x, x >= y).simplify() == S.true and Or(x < y, -x <= -y).simplify() == S.true and Or(-x > -y, -x <= -y).simplify() == S.true and Or(y > x, -x <= -y).simplify() == S.true and Or(-y < -x, -x <= -y).simplify() == S.true and Or(x < y, y <= x).simplify() == S.true and Or(y > x, y <= x).simplify() == S.true and Or(-x > -y, y <= x).simplify() == S.true and Or(-y < -x, y <= x).simplify() == S.true and Or(x < y, -y >= -x).simplify() == S.true and Or(y > x, -y >= -x).simplify() == S.true and Or(-x > -y, -y >= -x).simplify() == S.true and Or(-y < -x, -y >= -x).simplify() == S.true and Or(x >= y, w < z, x <= y).simplify() == S.true and And(x >= y, x < y).simplify() == S.false and Or(x >= y, Eq(y, x)).simplify() == (x >= y) and And(x >= y, Eq(y, x)).simplify() == Eq(x, y) and And(Eq(x, y), x >= 1, 2 < y, y >= 5, z < y).simplify() == Eq(x, y) & (x >= 1) & (y >= 5) & (y > z) and Or(Eq(x, y), x >= y, w < y, z < y).simplify() == (x >= y) | (y > z) | (w < y) and And(Eq(x, y), x >= y, w < y, y >= z, z < y).simplify() == Eq(x, y) & (y > z) & (w < y) and (Eq(x, y) & Eq(d, e) & (x >= y) & (d >= e)).simplify() == Eq(x, y) & Eq(d, e) & (d >= e) and And(Eq(x, y), Eq(x, -y)).simplify() == And(Eq(x, 0), Eq(y, 0)) and Xor(x >= y, x <= y).simplify() == Ne(x, y) and And(x > 1, x < -1, Eq(x, y)).simplify() == S.false and And(x >= y, Eq(y, 0)).simplify() == And(x >= 0, Eq(y, 0)) and Or(Ne(x, 1), Ne(x, 2)).simplify() == S.true and And(Eq(x, 1), Ne(2, x)).simplify() == Eq(x, 1) and Or(Eq(x, 1), Ne(2, x)).simplify() == Ne(x, 2)"},"spec":{"lhs":"test_relational_simplification()","rhs":"Or(x >= y, x < y).simplify() == S.true and Or(x >= y, y > x).simplify() == S.true and Or(x >= y, -x > -y).simplify() == S.true and Or(x >= y, -y < -x).simplify() == S.true and Or(-x <= -y, x < y).simplify() == S.true and Or(-x <= -y, -x > -y).simplify() == S.true and Or(-x <= -y, y > x).simplify() == S.true and Or(-x <= -y, -y < -x).simplify() == S.true and Or(y <= x, x < y).simplify() == S.true and Or(y <= x, y > x).simplify() == S.true and Or(y <= x, -x > -y).simplify() == S.true and Or(y <= x, -y < -x).simplify() == S.true and Or(-y >= -x, x < y).simplify() == S.true and Or(-y >= -x, y > x).simplify() == S.true and Or(-y >= -x, -x > -y).simplify() == S.true and Or(-y >= -x, -y < -x).simplify() == S.true and Or(x < y, x >= y).simplify() == S.true and Or(y > x, x >= y).simplify() == S.true and Or(-x > -y, x >= y).simplify() == S.true and Or(-y < -x, x >= y).simplify() == S.true and Or(x < y, -x <= -y).simplify() == S.true and Or(-x > -y, -x <= -y).simplify() == S.true and Or(y > x, -x <= -y).simplify() == S.true and Or(-y < -x, -x <= -y).simplify() == S.true and Or(x < y, y <= x).simplify() == S.true and Or(y > x, y <= x).simplify() == S.true and Or(-x > -y, y <= x).simplify() == S.true and Or(-y < -x, y <= x).simplify() == S.true and Or(x < y, -y >= -x).simplify() == S.true and Or(y > x, -y >= -x).simplify() == S.true and Or(-x > -y, -y >= -x).simplify() == S.true and Or(-y < -x, -y >= -x).simplify() == S.true and Or(x >= y, w < z, x <= y).simplify() == S.true and And(x >= y, x < y).simplify() == S.false and Or(x >= y, Eq(y, x)).simplify() == (x >= y) and And(x >= y, Eq(y, x)).simplify() == Eq(x, y) and And(Eq(x, y), x >= 1, 2 < y, y >= 5, z < y).simplify() == Eq(x, y) & (x >= 1) & (y >= 5) & (y > z) and Or(Eq(x, y), x >= y, w < y, z < y).simplify() == (x >= y) | (y > z) | (w < y) and And(Eq(x, y), x >= y, w < y, y >= z, z < y).simplify() == Eq(x, y) & (y > z) & (w < y) and (Eq(x, y) & Eq(d, e) & (x >= y) & (d >= e)).simplify() == Eq(x, y) & Eq(d, e) & (d >= e) and And(Eq(x, y), Eq(x, -y)).simplify() == And(Eq(x, 0), Eq(y, 0)) and Xor(x >= y, x <= y).simplify() == Ne(x, y) and And(x > 1, x < -1, Eq(x, y)).simplify() == S.false and And(x >= y, Eq(y, 0)).simplify() == And(x >= 0, Eq(y, 0)) and Or(Ne(x, 1), Ne(x, 2)).simplify() == S.true and And(Eq(x, 1), Ne(2, x)).simplify() == Eq(x, 1) and Or(Eq(x, 1), Ne(2, x)).simplify() == Ne(x, 2)","over":{"base":"Any"},"name":"test_relational_simplification_correct"},"guarantee":"Or(x >= y, x < y).simplify() == S.true; Or(x >= y, y > x).simplify() == S.true; Or(x >= y, -x > -y).simplify() == S.true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_relational_simplification_correct","statement":"Path(test_relational_simplification(x), Or(x >= y, x < y).simplify() == S.true; Or(x >= y, y > x).simplify() == S.true; Or(x >= y, -x > -y).simplify() == S.true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"192523da0998d23e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Or(x >= y, x < y).simplify() == S.true","Or(x >= y, y > x).simplify() == S.true","Or(x >= y, -x > -y).simplify() == S.true","Or(x >= y, -y < -x).simplify() == S.true","Or(-x <= -y, x < y).simplify() == S.true","Or(-x <= -y, -x > -y).simplify() == S.true","Or(-x <= -y, y > x).simplify() == S.true","Or(-x <= -y, -y < -x).simplify() == S.true","Or(y <= x, x < y).simplify() == S.true","Or(y <= x, y > x).simplify() == S.true","Or(y <= x, -x > -y).simplify() == S.true","Or(y <= x, -y < -x).simplify() == S.true","Or(-y >= -x, x < y).simplify() == S.true","Or(-y >= -x, y > x).simplify() == S.true","Or(-y >= -x, -x > -y).simplify() == S.true","Or(-y >= -x, -y < -x).simplify() == S.true","Or(x < y, x >= y).simplify() == S.true","Or(y > x, x >= y).simplify() == S.true","Or(-x > -y, x >= y).simplify() == S.true","Or(-y < -x, x >= y).simplify() == S.true","Or(x < y, -x <= -y).simplify() == S.true","Or(-x > -y, -x <= -y).simplify() == S.true","Or(y > x, -x <= -y).simplify() == S.true","Or(-y < -x, -x <= -y).simplify() == S.true","Or(x < y, y <= x).simplify() == S.true","Or(y > x, y <= x).simplify() == S.true","Or(-x > -y, y <= x).simplify() == S.true","Or(-y < -x, y <= x).simplify() == S.true","Or(x < y, -y >= -x).simplify() == S.true","Or(y > x, -y >= -x).simplify() == S.true","Or(-x > -y, -y >= -x).simplify() == S.true","Or(-y < -x, -y >= -x).simplify() == S.true","Or(x >= y, w < z, x <= y).simplify() == S.true","And(x >= y, x < y).simplify() == S.false","Or(x >= y, Eq(y, x)).simplify() == (x >= y)","And(x >= y, Eq(y, x)).simplify() == Eq(x, y)","And(Eq(x, y), x >= 1, 2 < y, y >= 5, z < y).simplify() == Eq(x, y) & (x >= 1) & (y >= 5) & (y > z)","Or(Eq(x, y), x >= y, w < y, z < y).simplify() == (x >= y) | (y > z) | (w < y)","And(Eq(x, y), x >= y, w < y, y >= z, z < y).simplify() == Eq(x, y) & (y > z) & (w < y)","(Eq(x, y) & Eq(d, e) & (x >= y) & (d >= e)).simplify() == Eq(x, y) & Eq(d, e) & (d >= e)","And(Eq(x, y), Eq(x, -y)).simplify() == And(Eq(x, 0), Eq(y, 0))","Xor(x >= y, x <= y).simplify() == Ne(x, y)","And(x > 1, x < -1, Eq(x, y)).simplify() == S.false","And(x >= y, Eq(y, 0)).simplify() == And(x >= 0, Eq(y, 0))","Or(Ne(x, 1), Ne(x, 2)).simplify() == S.true","And(Eq(x, 1), Ne(2, x)).simplify() == Eq(x, 1)","Or(Eq(x, 1), Ne(2, x)).simplify() == Ne(x, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":true}}
 def test_relational_simplification():
     w, x, y, z = symbols('w x y z', real=True)
     d, e = symbols('d e', real=False)
@@ -1866,16 +2345,24 @@ def test_relational_simplification():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8373(), test_issue_8373 produces the expected output) over Any ║
+# ║ Path(test_issue_8373(), Or(x < 1, x > -1).simplify() == S.true and Or(x < 1, x >= 1).simplify() == S.true and And(x < 1, x >= 1).simplify() == S.false and Or(x <= 1, x >= 1).simplify() == S.true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8373 : Any → {Any | Or(x < 1, x > -1).simp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Or(x < 1, x > -1).simplify() == S.true         ║
+# ║   ensures:  Or(x < 1, x >= 1).simplify() == S.true         ║
+# ║   ensures:  And(x < 1, x >= 1).simplify() == S.false       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8373 : Any → {Any | result satisfies: Or(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34e82017ea826ca7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d10e3c20ef9368ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_8373","kind":"function","src_hash":"cc936b41098989d3","in":{"base":"Any"},"out":{"base":"Any","pred":"Or(x < 1, x > -1).simplify() == S.true and Or(x < 1, x >= 1).simplify() == S.true and And(x < 1, x >= 1).simplify() == S.false and Or(x <= 1, x >= 1).simplify() == S.true"},"spec":{"lhs":"test_issue_8373()","rhs":"test_issue_8373 produces the expected output","over":{"base":"Any"},"name":"test_issue_8373_correct"},"guarantee":"test_issue_8373 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_8373_correct","statement":"Path(test_issue_8373(x), test_issue_8373 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34e82017ea826ca7"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_8373","kind":"function","src_hash":"cc936b41098989d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Or(x < 1, x > -1).simplify() == S.true and Or(x < 1, x >= 1).simplify() == S.true and And(x < 1, x >= 1).simplify() == S.false and Or(x <= 1, x >= 1).simplify() == S.true"},"spec":{"lhs":"test_issue_8373()","rhs":"Or(x < 1, x > -1).simplify() == S.true and Or(x < 1, x >= 1).simplify() == S.true and And(x < 1, x >= 1).simplify() == S.false and Or(x <= 1, x >= 1).simplify() == S.true","over":{"base":"Any"},"name":"test_issue_8373_correct"},"guarantee":"Or(x < 1, x > -1).simplify() == S.true; Or(x < 1, x >= 1).simplify() == S.true; And(x < 1, x >= 1).simplify() == S.false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_8373_correct","statement":"Path(test_issue_8373(x), Or(x < 1, x > -1).simplify() == S.true; Or(x < 1, x >= 1).simplify() == S.true; And(x < 1, x >= 1).simplify() == S.false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d10e3c20ef9368ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Or(x < 1, x > -1).simplify() == S.true","Or(x < 1, x >= 1).simplify() == S.true","And(x < 1, x >= 1).simplify() == S.false","Or(x <= 1, x >= 1).simplify() == S.true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8373():
     x = symbols('x', real=True)
     assert Or(x < 1, x > -1).simplify() == S.true
@@ -1885,16 +2372,22 @@ def test_issue_8373():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7950(), test_issue_7950 produces the expected output) over Any ║
+# ║ Path(test_issue_7950(), And(Eq(x, 1), Eq(x, 2)).simplify() == S.false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7950 : Any → {Any | And(Eq(x, 1), Eq(x, 2)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  And(Eq(x, 1), Eq(x, 2)).simplify() == S.f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7950 : Any → {Any | result satisfies: And(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 125500b442b90d70  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 953e8b30426865ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_7950","kind":"function","src_hash":"7a1f77266ef176ff","in":{"base":"Any"},"out":{"base":"Any","pred":"And(Eq(x, 1), Eq(x, 2)).simplify() == S.false"},"spec":{"lhs":"test_issue_7950()","rhs":"test_issue_7950 produces the expected output","over":{"base":"Any"},"name":"test_issue_7950_correct"},"guarantee":"test_issue_7950 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_7950_correct","statement":"Path(test_issue_7950(x), test_issue_7950 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"125500b442b90d70"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_7950","kind":"function","src_hash":"7a1f77266ef176ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: And(Eq(x, 1), Eq(x, 2)).simplify() == S.false"},"spec":{"lhs":"test_issue_7950()","rhs":"And(Eq(x, 1), Eq(x, 2)).simplify() == S.false","over":{"base":"Any"},"name":"test_issue_7950_correct"},"guarantee":"And(Eq(x, 1), Eq(x, 2)).simplify() == S.false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_7950_correct","statement":"Path(test_issue_7950(x), And(Eq(x, 1), Eq(x, 2)).simplify() == S.false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"953e8b30426865ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["And(Eq(x, 1), Eq(x, 2)).simplify() == S.false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7950():
     x = symbols('x', real=True)
     assert And(Eq(x, 1), Eq(x, 2)).simplify() == S.false
@@ -1902,16 +2395,22 @@ def test_issue_7950():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_relational_simplification_numerically(), test_relational_simplification_numerically produces the expected output) over Any ║
+# ║ Path(test_relational_simplification_numerically(), <unspecified:test_relational_simplification_numerically>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_relational_simplification_numerically : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ce835d28947b5fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_relational_simplification_numerically","kind":"function","src_hash":"382c8be092ba835f","in":{"base":"Any"},"out":{"base":"Any","pred":"originalvalue == simplifiedvalue"},"spec":{"lhs":"test_relational_simplification_numerically()","rhs":"test_relational_simplification_numerically produces the expected output","over":{"base":"Any"},"name":"test_relational_simplification_numerically_correct"},"guarantee":"test_relational_simplification_numerically produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_relational_simplification_numerically_correct","statement":"Path(test_relational_simplification_numerically(x), test_relational_simplification_numerically produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ce835d28947b5fd"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_relational_simplification_numerically","kind":"function","src_hash":"382c8be092ba835f","in":{"base":"Any"},"out":{"base":"Any","pred":"originalvalue == simplifiedvalue"},"spec":{"lhs":"test_relational_simplification_numerically()","rhs":"<unspecified:test_relational_simplification_numerically>","over":{"base":"Any"},"name":"test_relational_simplification_numerically_correct"},"guarantee":"test_relational_simplification_numerically produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_relational_simplification_numerically_correct","statement":"Path(test_relational_simplification_numerically(x), test_relational_simplification_numerically produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ce835d28947b5fd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_relational_simplification_numerically():
     def test_simplification_numerically_function(original, simplified):
         symb = original.free_symbols
@@ -1943,16 +2442,22 @@ def test_relational_simplification_numerically():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_relational_simplification_patterns_numerically(), test_relational_simplification_patterns_numerically produces the expected output) over Any ║
+# ║ Path(test_relational_simplification_patterns_numerically(), <unspecified:test_relational_simplification_patterns_numerically>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_relational_simplification_patterns_numerically :...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4b01a0276472432  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_relational_simplification_patterns_numerically","kind":"function","src_hash":"06c3a44bedd2bd14","in":{"base":"Any"},"out":{"base":"Any","pred":"originalvalue == simplifiedvalue"},"spec":{"lhs":"test_relational_simplification_patterns_numerically()","rhs":"test_relational_simplification_patterns_numerically produces the expected output","over":{"base":"Any"},"name":"test_relational_simplification_patterns_numerically_correct"},"guarantee":"test_relational_simplification_patterns_numerically produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_relational_simplification_patterns_numerically_correct","statement":"Path(test_relational_simplification_patterns_numerically(x), test_relational_simplification_patterns_numerically produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4b01a0276472432"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_relational_simplification_patterns_numerically","kind":"function","src_hash":"06c3a44bedd2bd14","in":{"base":"Any"},"out":{"base":"Any","pred":"originalvalue == simplifiedvalue"},"spec":{"lhs":"test_relational_simplification_patterns_numerically()","rhs":"<unspecified:test_relational_simplification_patterns_numerically>","over":{"base":"Any"},"name":"test_relational_simplification_patterns_numerically_correct"},"guarantee":"test_relational_simplification_patterns_numerically produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_relational_simplification_patterns_numerically_correct","statement":"Path(test_relational_simplification_patterns_numerically(x), test_relational_simplification_patterns_numerically produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4b01a0276472432","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_relational_simplification_patterns_numerically():
     from sympy.core import Wild
     from sympy.logic.boolalg import _simplify_patterns_and, \
@@ -1981,16 +2486,22 @@ def test_relational_simplification_patterns_numerically():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_16803(), test_issue_16803 produces the expected output) over Any ║
+# ║ Path(test_issue_16803(), ((n > 3) | (n < 0) | (n > 0) & (n < 3)).simplify() == (n > 3) | (n < 0) | (n > 0) & (n < 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_16803 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ((n > 3) | (n < 0) | (n > 0) & (n < 3)).s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_16803 : Any → {Any | result satisfies: ((n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db4746acb9878be2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7a0f2b289806f1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_16803","kind":"function","src_hash":"5033bd46730746f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_16803()","rhs":"test_issue_16803 produces the expected output","over":{"base":"Any"},"name":"test_issue_16803_correct"},"guarantee":"test_issue_16803 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_16803_correct","statement":"Path(test_issue_16803(x), test_issue_16803 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db4746acb9878be2"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_16803","kind":"function","src_hash":"5033bd46730746f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ((n > 3) | (n < 0) | (n > 0) & (n < 3)).simplify() == (n > 3) | (n < 0) | (n > 0) & (n < 3)"},"spec":{"lhs":"test_issue_16803()","rhs":"((n > 3) | (n < 0) | (n > 0) & (n < 3)).simplify() == (n > 3) | (n < 0) | (n > 0) & (n < 3)","over":{"base":"Any"},"name":"test_issue_16803_correct"},"guarantee":"((n > 3) | (n < 0) | (n > 0) & (n < 3)).simplify() == (n > 3) | (n < 0) | (n > 0) & (n < 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_16803_correct","statement":"Path(test_issue_16803(x), ((n > 3) | (n < 0) | (n > 0) & (n < 3)).simplify() == (n > 3) | (n < 0) | (n > 0) & (n < 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7a0f2b289806f1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["((n > 3) | (n < 0) | (n > 0) & (n < 3)).simplify() == (n > 3) | (n < 0) | (n > 0) & (n < 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_16803():
     n = symbols('n')
     # No simplification done, but should not raise an exception
@@ -1999,16 +2510,23 @@ def test_issue_16803():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17530(), test_issue_17530 produces the expected output) over Any ║
+# ║ Path(test_issue_17530(), Or(x + y > 0, x - y < 0).subs(r) and not And(x + y < 0, x - y < 0).subs(r)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17530 : Any → {Any | Or(x + y > 0, x - y <...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Or(x + y > 0, x - y < 0).subs(r)               ║
+# ║   ensures:  not And(x + y < 0, x - y < 0).subs(r)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17530 : Any → {Any | result satisfies: Or(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25111d58eff55ec5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acade6a7d0d097f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_17530","kind":"function","src_hash":"7f0c16195369b899","in":{"base":"Any"},"out":{"base":"Any","pred":"Or(x + y > 0, x - y < 0).subs(r) and not And(x + y < 0, x - y < 0).subs(r)"},"spec":{"lhs":"test_issue_17530()","rhs":"test_issue_17530 produces the expected output","over":{"base":"Any"},"name":"test_issue_17530_correct"},"guarantee":"test_issue_17530 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_17530_correct","statement":"Path(test_issue_17530(x), test_issue_17530 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25111d58eff55ec5"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_17530","kind":"function","src_hash":"7f0c16195369b899","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Or(x + y > 0, x - y < 0).subs(r) and not And(x + y < 0, x - y < 0).subs(r)"},"spec":{"lhs":"test_issue_17530()","rhs":"Or(x + y > 0, x - y < 0).subs(r) and not And(x + y < 0, x - y < 0).subs(r)","over":{"base":"Any"},"name":"test_issue_17530_correct"},"guarantee":"Or(x + y > 0, x - y < 0).subs(r); not And(x + y < 0, x - y < 0).subs(r)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_17530_correct","statement":"Path(test_issue_17530(x), Or(x + y > 0, x - y < 0).subs(r); not And(x + y < 0, x - y < 0).subs(r))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acade6a7d0d097f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Or(x + y > 0, x - y < 0).subs(r)","not And(x + y < 0, x - y < 0).subs(r)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_17530():
     r = {x: oo, y: oo}
     assert Or(x + y > 0, x - y < 0).subs(r)
@@ -2019,16 +2537,24 @@ def test_issue_17530():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_anf_coeffs(), test_anf_coeffs produces the expected output) over Any ║
+# ║ Path(test_anf_coeffs(), anf_coeffs([1, 0]) == [1, 1] and anf_coeffs([0, 0, 0, 1]) == [0, 0, 0, 1] and anf_coeffs([0, 1, 1, 1]) == [0, 1, 1, 1] and anf_coeffs([1, 1, 1, 0]) == [1, 0, 0, 1] and anf_coeffs([1, 0, 0, 0]) == [1, 1, 1, 1] and anf_coeffs([1, 0, 0, 1]) == [1, 1, 1, 0] and anf_coeffs([1, 1, 0, 1]) == [1, 0, 1, 1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_anf_coeffs : Any → {Any | anf_coeffs([1, 0]) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  anf_coeffs([1, 0]) == [1, 1]                   ║
+# ║   ensures:  anf_coeffs([0, 0, 0, 1]) == [0, 0, 0, 1]       ║
+# ║   ensures:  anf_coeffs([0, 1, 1, 1]) == [0, 1, 1, 1]       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_anf_coeffs : Any → {Any | result satisfies: anf_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f9ec9ec58cf6cdc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a76fcce2cde4c8e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_anf_coeffs","kind":"function","src_hash":"53835af6452161b6","in":{"base":"Any"},"out":{"base":"Any","pred":"anf_coeffs([1, 0]) == [1, 1] and anf_coeffs([0, 0, 0, 1]) == [0, 0, 0, 1] and anf_coeffs([0, 1, 1, 1]) == [0, 1, 1, 1] and anf_coeffs([1, 1, 1, 0]) == [1, 0, 0, 1] and anf_coeffs([1, 0, 0, 0]) == [1, 1, 1, 1] and anf_coeffs([1, 0, 0, 1]) == [1, 1, 1, 0] and anf_coeffs([1, 1, 0, 1]) == [1, 0, 1, 1]"},"spec":{"lhs":"test_anf_coeffs()","rhs":"test_anf_coeffs produces the expected output","over":{"base":"Any"},"name":"test_anf_coeffs_correct"},"guarantee":"test_anf_coeffs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_anf_coeffs_correct","statement":"Path(test_anf_coeffs(x), test_anf_coeffs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f9ec9ec58cf6cdc"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_anf_coeffs","kind":"function","src_hash":"53835af6452161b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: anf_coeffs([1, 0]) == [1, 1] and anf_coeffs([0, 0, 0, 1]) == [0, 0, 0, 1] and anf_coeffs([0, 1, 1, 1]) == [0, 1, 1, 1] and anf_coeffs([1, 1, 1, 0]) == [1, 0, 0, 1] and anf_coeffs([1, 0, 0, 0]) == [1, 1, 1, 1] and anf_coeffs([1, 0, 0, 1]) == [1, 1, 1, 0] and anf_coeffs([1, 1, 0, 1]) == [1, 0, 1, 1]"},"spec":{"lhs":"test_anf_coeffs()","rhs":"anf_coeffs([1, 0]) == [1, 1] and anf_coeffs([0, 0, 0, 1]) == [0, 0, 0, 1] and anf_coeffs([0, 1, 1, 1]) == [0, 1, 1, 1] and anf_coeffs([1, 1, 1, 0]) == [1, 0, 0, 1] and anf_coeffs([1, 0, 0, 0]) == [1, 1, 1, 1] and anf_coeffs([1, 0, 0, 1]) == [1, 1, 1, 0] and anf_coeffs([1, 1, 0, 1]) == [1, 0, 1, 1]","over":{"base":"Any"},"name":"test_anf_coeffs_correct"},"guarantee":"anf_coeffs([1, 0]) == [1, 1]; anf_coeffs([0, 0, 0, 1]) == [0, 0, 0, 1]; anf_coeffs([0, 1, 1, 1]) == [0, 1, 1, 1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_anf_coeffs_correct","statement":"Path(test_anf_coeffs(x), anf_coeffs([1, 0]) == [1, 1]; anf_coeffs([0, 0, 0, 1]) == [0, 0, 0, 1]; anf_coeffs([0, 1, 1, 1]) == [0, 1, 1, 1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a76fcce2cde4c8e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["anf_coeffs([1, 0]) == [1, 1]","anf_coeffs([0, 0, 0, 1]) == [0, 0, 0, 1]","anf_coeffs([0, 1, 1, 1]) == [0, 1, 1, 1]","anf_coeffs([1, 1, 1, 0]) == [1, 0, 0, 1]","anf_coeffs([1, 0, 0, 0]) == [1, 1, 1, 1]","anf_coeffs([1, 0, 0, 1]) == [1, 1, 1, 0]","anf_coeffs([1, 1, 0, 1]) == [1, 0, 1, 1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_anf_coeffs():
     assert anf_coeffs([1, 0]) == [1, 1]
     assert anf_coeffs([0, 0, 0, 1]) == [0, 0, 0, 1]
@@ -2040,16 +2566,24 @@ def test_anf_coeffs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ANFform(), test_ANFform produces the expected output) over Any ║
+# ║ Path(test_ANFform(), ANFform([x], [1, 1]) == True and ANFform([x], [0, 0]) == False and ANFform([x], [1, 0]) == Xor(x, True, remove_true=False) and ANFform([x, y], [1, 1, 1, 0]) == Xor(True, And(x, y), remove_true=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ANFform : Any → {Any | ANFform([x], [1, 1]) == T...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ANFform([x], [1, 1]) == True                   ║
+# ║   ensures:  ANFform([x], [0, 0]) == False                  ║
+# ║   ensures:  ANFform([x], [1, 0]) == Xor(x, True, remo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ANFform : Any → {Any | result satisfies: ANFform...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc6dc58c545a77b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e029053728f4bf9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_ANFform","kind":"function","src_hash":"56d1db5d73f7eb6a","in":{"base":"Any"},"out":{"base":"Any","pred":"ANFform([x], [1, 1]) == True and ANFform([x], [0, 0]) == False and ANFform([x], [1, 0]) == Xor(x, True, remove_true=False) and ANFform([x, y], [1, 1, 1, 0]) == Xor(True, And(x, y), remove_true=False)"},"spec":{"lhs":"test_ANFform()","rhs":"test_ANFform produces the expected output","over":{"base":"Any"},"name":"test_ANFform_correct"},"guarantee":"test_ANFform produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_ANFform_correct","statement":"Path(test_ANFform(x), test_ANFform produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc6dc58c545a77b1"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_ANFform","kind":"function","src_hash":"56d1db5d73f7eb6a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ANFform([x], [1, 1]) == True and ANFform([x], [0, 0]) == False and ANFform([x], [1, 0]) == Xor(x, True, remove_true=False) and ANFform([x, y], [1, 1, 1, 0]) == Xor(True, And(x, y), remove_true=False)"},"spec":{"lhs":"test_ANFform()","rhs":"ANFform([x], [1, 1]) == True and ANFform([x], [0, 0]) == False and ANFform([x], [1, 0]) == Xor(x, True, remove_true=False) and ANFform([x, y], [1, 1, 1, 0]) == Xor(True, And(x, y), remove_true=False)","over":{"base":"Any"},"name":"test_ANFform_correct"},"guarantee":"ANFform([x], [1, 1]) == True; ANFform([x], [0, 0]) == False; ANFform([x], [1, 0]) == Xor(x, True, remove_true=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_ANFform_correct","statement":"Path(test_ANFform(x), ANFform([x], [1, 1]) == True; ANFform([x], [0, 0]) == False; ANFform([x], [1, 0]) == Xor(x, True, remove_true=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e029053728f4bf9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ANFform([x], [1, 1]) == True","ANFform([x], [0, 0]) == False","ANFform([x], [1, 0]) == Xor(x, True, remove_true=False)","ANFform([x, y], [1, 1, 1, 0]) == Xor(True, And(x, y), remove_true=False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ANFform():
     x, y = symbols('x,y')
     assert ANFform([x], [1, 1]) == True
@@ -2060,16 +2594,23 @@ def test_ANFform():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bool_minterm(), test_bool_minterm produces the expected output) over Any ║
+# ║ Path(test_bool_minterm(), bool_minterm(3, [x, y]) == And(x, y) and bool_minterm([1, 0], [x, y]) == And(Not(y), x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bool_minterm : Any → {Any | bool_minterm(3, [x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bool_minterm(3, [x, y]) == And(x, y)           ║
+# ║   ensures:  bool_minterm([1, 0], [x, y]) == And(Not(y...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bool_minterm : Any → {Any | result satisfies: bo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f576f580ea3e178d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 880762f531ea0bda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_bool_minterm","kind":"function","src_hash":"54fb5f6d5bb9d2cd","in":{"base":"Any"},"out":{"base":"Any","pred":"bool_minterm(3, [x, y]) == And(x, y) and bool_minterm([1, 0], [x, y]) == And(Not(y), x)"},"spec":{"lhs":"test_bool_minterm()","rhs":"test_bool_minterm produces the expected output","over":{"base":"Any"},"name":"test_bool_minterm_correct"},"guarantee":"test_bool_minterm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_bool_minterm_correct","statement":"Path(test_bool_minterm(x), test_bool_minterm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f576f580ea3e178d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_bool_minterm","kind":"function","src_hash":"54fb5f6d5bb9d2cd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bool_minterm(3, [x, y]) == And(x, y) and bool_minterm([1, 0], [x, y]) == And(Not(y), x)"},"spec":{"lhs":"test_bool_minterm()","rhs":"bool_minterm(3, [x, y]) == And(x, y) and bool_minterm([1, 0], [x, y]) == And(Not(y), x)","over":{"base":"Any"},"name":"test_bool_minterm_correct"},"guarantee":"bool_minterm(3, [x, y]) == And(x, y); bool_minterm([1, 0], [x, y]) == And(Not(y), x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_bool_minterm_correct","statement":"Path(test_bool_minterm(x), bool_minterm(3, [x, y]) == And(x, y); bool_minterm([1, 0], [x, y]) == And(Not(y), x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"880762f531ea0bda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bool_minterm(3, [x, y]) == And(x, y)","bool_minterm([1, 0], [x, y]) == And(Not(y), x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bool_minterm():
     x, y = symbols('x,y')
     assert bool_minterm(3, [x, y]) == And(x, y)
@@ -2077,16 +2618,23 @@ def test_bool_minterm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bool_maxterm(), test_bool_maxterm produces the expected output) over Any ║
+# ║ Path(test_bool_maxterm(), bool_maxterm(2, [x, y]) == Or(Not(x), y) and bool_maxterm([0, 1], [x, y]) == Or(Not(y), x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bool_maxterm : Any → {Any | bool_maxterm(2, [x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bool_maxterm(2, [x, y]) == Or(Not(x), y)       ║
+# ║   ensures:  bool_maxterm([0, 1], [x, y]) == Or(Not(y)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bool_maxterm : Any → {Any | result satisfies: bo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b371024610e3028e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26607616d64f4a37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_bool_maxterm","kind":"function","src_hash":"eb7b9868af659357","in":{"base":"Any"},"out":{"base":"Any","pred":"bool_maxterm(2, [x, y]) == Or(Not(x), y) and bool_maxterm([0, 1], [x, y]) == Or(Not(y), x)"},"spec":{"lhs":"test_bool_maxterm()","rhs":"test_bool_maxterm produces the expected output","over":{"base":"Any"},"name":"test_bool_maxterm_correct"},"guarantee":"test_bool_maxterm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_bool_maxterm_correct","statement":"Path(test_bool_maxterm(x), test_bool_maxterm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b371024610e3028e"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_bool_maxterm","kind":"function","src_hash":"eb7b9868af659357","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bool_maxterm(2, [x, y]) == Or(Not(x), y) and bool_maxterm([0, 1], [x, y]) == Or(Not(y), x)"},"spec":{"lhs":"test_bool_maxterm()","rhs":"bool_maxterm(2, [x, y]) == Or(Not(x), y) and bool_maxterm([0, 1], [x, y]) == Or(Not(y), x)","over":{"base":"Any"},"name":"test_bool_maxterm_correct"},"guarantee":"bool_maxterm(2, [x, y]) == Or(Not(x), y); bool_maxterm([0, 1], [x, y]) == Or(Not(y), x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_bool_maxterm_correct","statement":"Path(test_bool_maxterm(x), bool_maxterm(2, [x, y]) == Or(Not(x), y); bool_maxterm([0, 1], [x, y]) == Or(Not(y), x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26607616d64f4a37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bool_maxterm(2, [x, y]) == Or(Not(x), y)","bool_maxterm([0, 1], [x, y]) == Or(Not(y), x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bool_maxterm():
     x, y = symbols('x,y')
     assert bool_maxterm(2, [x, y]) == Or(Not(x), y)
@@ -2094,16 +2642,23 @@ def test_bool_maxterm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bool_monomial(), test_bool_monomial produces the expected output) over Any ║
+# ║ Path(test_bool_monomial(), bool_monomial(1, [x, y]) == y and bool_monomial([1, 1], [x, y]) == And(x, y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bool_monomial : Any → {Any | bool_monomial(1, [x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bool_monomial(1, [x, y]) == y                  ║
+# ║   ensures:  bool_monomial([1, 1], [x, y]) == And(x, y)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bool_monomial : Any → {Any | result satisfies: b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23a250d6a1fbcb42  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d35189473bb7bd4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_bool_monomial","kind":"function","src_hash":"66f4fcbfe46abf04","in":{"base":"Any"},"out":{"base":"Any","pred":"bool_monomial(1, [x, y]) == y and bool_monomial([1, 1], [x, y]) == And(x, y)"},"spec":{"lhs":"test_bool_monomial()","rhs":"test_bool_monomial produces the expected output","over":{"base":"Any"},"name":"test_bool_monomial_correct"},"guarantee":"test_bool_monomial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_bool_monomial_correct","statement":"Path(test_bool_monomial(x), test_bool_monomial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23a250d6a1fbcb42"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_bool_monomial","kind":"function","src_hash":"66f4fcbfe46abf04","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bool_monomial(1, [x, y]) == y and bool_monomial([1, 1], [x, y]) == And(x, y)"},"spec":{"lhs":"test_bool_monomial()","rhs":"bool_monomial(1, [x, y]) == y and bool_monomial([1, 1], [x, y]) == And(x, y)","over":{"base":"Any"},"name":"test_bool_monomial_correct"},"guarantee":"bool_monomial(1, [x, y]) == y; bool_monomial([1, 1], [x, y]) == And(x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_bool_monomial_correct","statement":"Path(test_bool_monomial(x), bool_monomial(1, [x, y]) == y; bool_monomial([1, 1], [x, y]) == And(x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d35189473bb7bd4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bool_monomial(1, [x, y]) == y","bool_monomial([1, 1], [x, y]) == And(x, y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bool_monomial():
     x, y = symbols('x,y')
     assert bool_monomial(1, [x, y]) == y
@@ -2111,32 +2666,45 @@ def test_bool_monomial():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_check_pair(), test_check_pair produces the expected output) over Any ║
+# ║ Path(test_check_pair(), _check_pair([0, 1, 0], [0, 1, 1]) == 2 and _check_pair([0, 1, 0], [1, 1, 1]) == -1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_check_pair : Any → {Any | _check_pair([0, 1, 0],...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _check_pair([0, 1, 0], [0, 1, 1]) == 2         ║
+# ║   ensures:  _check_pair([0, 1, 0], [1, 1, 1]) == -1        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_check_pair : Any → {Any | result satisfies: _che...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a04e692f17321db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef6adf5af0b3cf13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_check_pair","kind":"function","src_hash":"f4af6284ffa56806","in":{"base":"Any"},"out":{"base":"Any","pred":"_check_pair([0, 1, 0], [0, 1, 1]) == 2 and _check_pair([0, 1, 0], [1, 1, 1]) == -1"},"spec":{"lhs":"test_check_pair()","rhs":"test_check_pair produces the expected output","over":{"base":"Any"},"name":"test_check_pair_correct"},"guarantee":"test_check_pair produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_check_pair_correct","statement":"Path(test_check_pair(x), test_check_pair produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a04e692f17321db"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_check_pair","kind":"function","src_hash":"f4af6284ffa56806","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _check_pair([0, 1, 0], [0, 1, 1]) == 2 and _check_pair([0, 1, 0], [1, 1, 1]) == -1"},"spec":{"lhs":"test_check_pair()","rhs":"_check_pair([0, 1, 0], [0, 1, 1]) == 2 and _check_pair([0, 1, 0], [1, 1, 1]) == -1","over":{"base":"Any"},"name":"test_check_pair_correct"},"guarantee":"_check_pair([0, 1, 0], [0, 1, 1]) == 2; _check_pair([0, 1, 0], [1, 1, 1]) == -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_check_pair_correct","statement":"Path(test_check_pair(x), _check_pair([0, 1, 0], [0, 1, 1]) == 2; _check_pair([0, 1, 0], [1, 1, 1]) == -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef6adf5af0b3cf13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_check_pair([0, 1, 0], [0, 1, 1]) == 2","_check_pair([0, 1, 0], [1, 1, 1]) == -1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_check_pair():
     assert _check_pair([0, 1, 0], [0, 1, 1]) == 2
     assert _check_pair([0, 1, 0], [1, 1, 1]) == -1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19114(), test_issue_19114 produces the expected output) over Any ║
+# ║ Path(test_issue_19114(), result in (expr, res1)) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19114 : Any → {Any | result in (expr, res1)}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result in (expr, res1)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19114 : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00f8742ad4e7afae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfd0ea98797520bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_19114","kind":"function","src_hash":"bf84f1738d765875","in":{"base":"Any"},"out":{"base":"Any","pred":"result in (expr, res1)"},"spec":{"lhs":"test_issue_19114()","rhs":"test_issue_19114 produces the expected output","over":{"base":"Any"},"name":"test_issue_19114_correct"},"guarantee":"test_issue_19114 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_19114_correct","statement":"Path(test_issue_19114(x), test_issue_19114 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00f8742ad4e7afae"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_19114","kind":"function","src_hash":"bf84f1738d765875","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result in (expr, res1)"},"spec":{"lhs":"test_issue_19114()","rhs":"result in (expr, res1)","over":{"base":"Any"},"name":"test_issue_19114_correct"},"guarantee":"result in (expr, res1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_19114_correct","statement":"Path(test_issue_19114(x), result in (expr, res1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfd0ea98797520bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result in (expr, res1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_19114():
     expr = (B & C) | (A & ~C) | (~A & ~B)
     # Expression is minimal, but there are multiple minimal forms possible
@@ -2146,16 +2714,22 @@ def test_issue_19114():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20870(), test_issue_20870 produces the expected output) over Any ║
+# ║ Path(test_issue_20870(), result == expected) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20870 : Any → {Any | result == expected}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20870 : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ef244adf2cef253  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee8f4f89fd803dee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_20870","kind":"function","src_hash":"a64c740d5cefa6e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result == expected"},"spec":{"lhs":"test_issue_20870()","rhs":"test_issue_20870 produces the expected output","over":{"base":"Any"},"name":"test_issue_20870_correct"},"guarantee":"test_issue_20870 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_20870_correct","statement":"Path(test_issue_20870(x), test_issue_20870 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ef244adf2cef253"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_20870","kind":"function","src_hash":"a64c740d5cefa6e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == expected"},"spec":{"lhs":"test_issue_20870()","rhs":"result == expected","over":{"base":"Any"},"name":"test_issue_20870_correct"},"guarantee":"result == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_20870_correct","statement":"Path(test_issue_20870(x), result == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee8f4f89fd803dee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_20870():
     result = SOPform([a, b, c, d], [1, 2, 3, 4, 5, 6, 8, 9, 11, 12, 14, 15])
     expected = ((d & ~b) | (a & b & c) | (a & ~c & ~d) |
@@ -2164,48 +2738,70 @@ def test_issue_20870():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_convert_to_varsSOP(), test_convert_to_varsSOP produces the expected output) over Any ║
+# ║ Path(test_convert_to_varsSOP(), _convert_to_varsSOP([0, 1, 0], [x, y, z]) == And(Not(x), y, Not(z)) and _convert_to_varsSOP([3, 1, 0], [x, y, z]) == And(y, Not(z))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_convert_to_varsSOP : Any → {Any | _convert_to_va...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _convert_to_varsSOP([0, 1, 0], [x, y, z])...   ║
+# ║   ensures:  _convert_to_varsSOP([3, 1, 0], [x, y, z])...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_convert_to_varsSOP : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 368240d20df32ebd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c26721178a50859  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_convert_to_varsSOP","kind":"function","src_hash":"126eacec67dba463","in":{"base":"Any"},"out":{"base":"Any","pred":"_convert_to_varsSOP([0, 1, 0], [x, y, z]) == And(Not(x), y, Not(z)) and _convert_to_varsSOP([3, 1, 0], [x, y, z]) == And(y, Not(z))"},"spec":{"lhs":"test_convert_to_varsSOP()","rhs":"test_convert_to_varsSOP produces the expected output","over":{"base":"Any"},"name":"test_convert_to_varsSOP_correct"},"guarantee":"test_convert_to_varsSOP produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_convert_to_varsSOP_correct","statement":"Path(test_convert_to_varsSOP(x), test_convert_to_varsSOP produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"368240d20df32ebd"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_convert_to_varsSOP","kind":"function","src_hash":"126eacec67dba463","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _convert_to_varsSOP([0, 1, 0], [x, y, z]) == And(Not(x), y, Not(z)) and _convert_to_varsSOP([3, 1, 0], [x, y, z]) == And(y, Not(z))"},"spec":{"lhs":"test_convert_to_varsSOP()","rhs":"_convert_to_varsSOP([0, 1, 0], [x, y, z]) == And(Not(x), y, Not(z)) and _convert_to_varsSOP([3, 1, 0], [x, y, z]) == And(y, Not(z))","over":{"base":"Any"},"name":"test_convert_to_varsSOP_correct"},"guarantee":"_convert_to_varsSOP([0, 1, 0], [x, y, z]) == And(Not(x), y, Not(z)); _convert_to_varsSOP([3, 1, 0], [x, y, z]) == And(y, Not(z))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_convert_to_varsSOP_correct","statement":"Path(test_convert_to_varsSOP(x), _convert_to_varsSOP([0, 1, 0], [x, y, z]) == And(Not(x), y, Not(z)); _convert_to_varsSOP([3, 1, 0], [x, y, z]) == And(y, Not(z)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c26721178a50859","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_convert_to_varsSOP([0, 1, 0], [x, y, z]) == And(Not(x), y, Not(z))","_convert_to_varsSOP([3, 1, 0], [x, y, z]) == And(y, Not(z))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_convert_to_varsSOP():
     assert _convert_to_varsSOP([0, 1, 0], [x, y, z]) == And(Not(x), y, Not(z))
     assert _convert_to_varsSOP([3, 1, 0], [x, y, z]) == And(y, Not(z))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_convert_to_varsPOS(), test_convert_to_varsPOS produces the expected output) over Any ║
+# ║ Path(test_convert_to_varsPOS(), _convert_to_varsPOS([0, 1, 0], [x, y, z]) == Or(x, Not(y), z) and _convert_to_varsPOS([3, 1, 0], [x, y, z]) == Or(Not(y), z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_convert_to_varsPOS : Any → {Any | _convert_to_va...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _convert_to_varsPOS([0, 1, 0], [x, y, z])...   ║
+# ║   ensures:  _convert_to_varsPOS([3, 1, 0], [x, y, z])...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_convert_to_varsPOS : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7109a63cfdb4735f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85c439f7ab504dbc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_convert_to_varsPOS","kind":"function","src_hash":"3f7338709e3bd309","in":{"base":"Any"},"out":{"base":"Any","pred":"_convert_to_varsPOS([0, 1, 0], [x, y, z]) == Or(x, Not(y), z) and _convert_to_varsPOS([3, 1, 0], [x, y, z]) == Or(Not(y), z)"},"spec":{"lhs":"test_convert_to_varsPOS()","rhs":"test_convert_to_varsPOS produces the expected output","over":{"base":"Any"},"name":"test_convert_to_varsPOS_correct"},"guarantee":"test_convert_to_varsPOS produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_convert_to_varsPOS_correct","statement":"Path(test_convert_to_varsPOS(x), test_convert_to_varsPOS produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7109a63cfdb4735f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_convert_to_varsPOS","kind":"function","src_hash":"3f7338709e3bd309","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _convert_to_varsPOS([0, 1, 0], [x, y, z]) == Or(x, Not(y), z) and _convert_to_varsPOS([3, 1, 0], [x, y, z]) == Or(Not(y), z)"},"spec":{"lhs":"test_convert_to_varsPOS()","rhs":"_convert_to_varsPOS([0, 1, 0], [x, y, z]) == Or(x, Not(y), z) and _convert_to_varsPOS([3, 1, 0], [x, y, z]) == Or(Not(y), z)","over":{"base":"Any"},"name":"test_convert_to_varsPOS_correct"},"guarantee":"_convert_to_varsPOS([0, 1, 0], [x, y, z]) == Or(x, Not(y), z); _convert_to_varsPOS([3, 1, 0], [x, y, z]) == Or(Not(y), z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_convert_to_varsPOS_correct","statement":"Path(test_convert_to_varsPOS(x), _convert_to_varsPOS([0, 1, 0], [x, y, z]) == Or(x, Not(y), z); _convert_to_varsPOS([3, 1, 0], [x, y, z]) == Or(Not(y), z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85c439f7ab504dbc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_convert_to_varsPOS([0, 1, 0], [x, y, z]) == Or(x, Not(y), z)","_convert_to_varsPOS([3, 1, 0], [x, y, z]) == Or(Not(y), z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_convert_to_varsPOS():
     assert _convert_to_varsPOS([0, 1, 0], [x, y, z]) == Or(x, Not(y), z)
     assert _convert_to_varsPOS([3, 1, 0], [x, y, z]) == Or(Not(y), z)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gateinputcount(), test_gateinputcount produces the expected output) over Any ║
+# ║ Path(test_gateinputcount(), gateinputcount(And(a, b)) == 2 and gateinputcount(a | b & c & d ^ (e | a)) == 9 and gateinputcount(And(a, True)) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gateinputcount : Any → {Any | gateinputcount(And...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gateinputcount(And(a, b)) == 2                 ║
+# ║   ensures:  gateinputcount(a | b & c & d ^ (e | a)) == 9   ║
+# ║   ensures:  gateinputcount(And(a, True)) == 0              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gateinputcount : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c463d0900e949c72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d74ace5d6527094  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_gateinputcount","kind":"function","src_hash":"fc531ca9f4c000cf","in":{"base":"Any"},"out":{"base":"Any","pred":"gateinputcount(And(a, b)) == 2 and gateinputcount(a | b & c & d ^ (e | a)) == 9 and gateinputcount(And(a, True)) == 0"},"spec":{"lhs":"test_gateinputcount()","rhs":"test_gateinputcount produces the expected output","over":{"base":"Any"},"name":"test_gateinputcount_correct"},"guarantee":"test_gateinputcount produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_gateinputcount_correct","statement":"Path(test_gateinputcount(x), test_gateinputcount produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c463d0900e949c72"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_gateinputcount","kind":"function","src_hash":"fc531ca9f4c000cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gateinputcount(And(a, b)) == 2 and gateinputcount(a | b & c & d ^ (e | a)) == 9 and gateinputcount(And(a, True)) == 0"},"spec":{"lhs":"test_gateinputcount()","rhs":"gateinputcount(And(a, b)) == 2 and gateinputcount(a | b & c & d ^ (e | a)) == 9 and gateinputcount(And(a, True)) == 0","over":{"base":"Any"},"name":"test_gateinputcount_correct"},"guarantee":"gateinputcount(And(a, b)) == 2; gateinputcount(a | b & c & d ^ (e | a)) == 9; gateinputcount(And(a, True)) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_gateinputcount_correct","statement":"Path(test_gateinputcount(x), gateinputcount(And(a, b)) == 2; gateinputcount(a | b & c & d ^ (e | a)) == 9; gateinputcount(And(a, True)) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d74ace5d6527094","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gateinputcount(And(a, b)) == 2","gateinputcount(a | b & c & d ^ (e | a)) == 9","gateinputcount(And(a, True)) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gateinputcount():
     a, b, c, d, e = symbols('a:e')
     assert gateinputcount(And(a, b)) == 2
@@ -2215,16 +2811,24 @@ def test_gateinputcount():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_refine(), test_refine produces the expected output) over Any ║
+# ║ Path(test_refine(), not refine(x < 0, ~(x < 0)) and refine(x < 0, x < 0) and refine(x < 0, 0 > x) is S.true and refine(x < 0, y < 0) == (x < 0) and not refine(x <= 0, ~(x <= 0)) and refine(x <= 0, x <= 0) and refine(x <= 0, 0 >= x) is S.true and refine(x <= 0, y <= 0) == (x <= 0) and not refine(x > 0, ~(x > 0)) and refine(x > 0, x > 0) and refine(x > 0, 0 < x) is S.true and refine(x > 0, y > 0) == (x > 0) and not refine(x >= 0, ~(x >= 0)) and refine(x >= 0, x >= 0) and refine(x >= 0, 0 <= x) is S.true and refine(x >= 0, y >= 0) == (x >= 0) and not refine(Eq(x, 0), ~Eq(x, 0)) and refine(Eq(x, 0), Eq(x, 0)) and refine(Eq(x, 0), Eq(0, x)) is S.true and refine(Eq(x, 0), Eq(y, 0)) == Eq(x, 0) and not refine(Ne(x, 0), ~Ne(x, 0)) and refine(Ne(x, 0), Ne(0, x)) is S.true and refine(Ne(x, 0), Ne(x, 0)) and refine(Ne(x, 0), Ne(y, 0)) == Ne(x, 0) and refine(And(x > 0, y > 0), x > 0) == (y > 0) and refine(And(x > 0, y > 0), (x > 0) & (y > 0)) is S.true and refine(Q.positive(x), Q.positive(x)) is S.true and refine(Q.positive(x), Q.negative(x)) is S.false and refine(Q.positive(x), Q.real(x)) == Q.positive(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_refine : Any → {Any | not refine(x < 0, ~(x < 0)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not refine(x < 0, ~(x < 0))                    ║
+# ║   ensures:  refine(x < 0, x < 0)                           ║
+# ║   ensures:  refine(x < 0, 0 > x) is S.true                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_refine : Any → {Any | result satisfies: not refi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b550bd058ad23cbd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61cf81e24c3c98f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_refine","kind":"function","src_hash":"06db9179d7a13442","in":{"base":"Any"},"out":{"base":"Any","pred":"not refine(x < 0, ~(x < 0)) and refine(x < 0, x < 0) and refine(x < 0, 0 > x) is S.true and refine(x < 0, y < 0) == (x < 0) and not refine(x <= 0, ~(x <= 0)) and refine(x <= 0, x <= 0) and refine(x <= 0, 0 >= x) is S.true and refine(x <= 0, y <= 0) == (x <= 0) and not refine(x > 0, ~(x > 0)) and refine(x > 0, x > 0) and refine(x > 0, 0 < x) is S.true and refine(x > 0, y > 0) == (x > 0) and not refine(x >= 0, ~(x >= 0)) and refine(x >= 0, x >= 0) and refine(x >= 0, 0 <= x) is S.true and refine(x >= 0, y >= 0) == (x >= 0) and not refine(Eq(x, 0), ~Eq(x, 0)) and refine(Eq(x, 0), Eq(x, 0)) and refine(Eq(x, 0), Eq(0, x)) is S.true and refine(Eq(x, 0), Eq(y, 0)) == Eq(x, 0) and not refine(Ne(x, 0), ~Ne(x, 0)) and refine(Ne(x, 0), Ne(0, x)) is S.true and refine(Ne(x, 0), Ne(x, 0)) and refine(Ne(x, 0), Ne(y, 0)) == Ne(x, 0) and refine(And(x > 0, y > 0), x > 0) == (y > 0) and refine(And(x > 0, y > 0), (x > 0) & (y > 0)) is S.true and refine(Q.positive(x), Q.positive(x)) is S.true and refine(Q.positive(x), Q.negative(x)) is S.false and refine(Q.positive(x), Q.real(x)) == Q.positive(x)"},"spec":{"lhs":"test_refine()","rhs":"test_refine produces the expected output","over":{"base":"Any"},"name":"test_refine_correct"},"guarantee":"test_refine produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_refine_correct","statement":"Path(test_refine(x), test_refine produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b550bd058ad23cbd"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_refine","kind":"function","src_hash":"06db9179d7a13442","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not refine(x < 0, ~(x < 0)) and refine(x < 0, x < 0) and refine(x < 0, 0 > x) is S.true and refine(x < 0, y < 0) == (x < 0) and not refine(x <= 0, ~(x <= 0)) and refine(x <= 0, x <= 0) and refine(x <= 0, 0 >= x) is S.true and refine(x <= 0, y <= 0) == (x <= 0) and not refine(x > 0, ~(x > 0)) and refine(x > 0, x > 0) and refine(x > 0, 0 < x) is S.true and refine(x > 0, y > 0) == (x > 0) and not refine(x >= 0, ~(x >= 0)) and refine(x >= 0, x >= 0) and refine(x >= 0, 0 <= x) is S.true and refine(x >= 0, y >= 0) == (x >= 0) and not refine(Eq(x, 0), ~Eq(x, 0)) and refine(Eq(x, 0), Eq(x, 0)) and refine(Eq(x, 0), Eq(0, x)) is S.true and refine(Eq(x, 0), Eq(y, 0)) == Eq(x, 0) and not refine(Ne(x, 0), ~Ne(x, 0)) and refine(Ne(x, 0), Ne(0, x)) is S.true and refine(Ne(x, 0), Ne(x, 0)) and refine(Ne(x, 0), Ne(y, 0)) == Ne(x, 0) and refine(And(x > 0, y > 0), x > 0) == (y > 0) and refine(And(x > 0, y > 0), (x > 0) & (y > 0)) is S.true and refine(Q.positive(x), Q.positive(x)) is S.true and refine(Q.positive(x), Q.negative(x)) is S.false and refine(Q.positive(x), Q.real(x)) == Q.positive(x)"},"spec":{"lhs":"test_refine()","rhs":"not refine(x < 0, ~(x < 0)) and refine(x < 0, x < 0) and refine(x < 0, 0 > x) is S.true and refine(x < 0, y < 0) == (x < 0) and not refine(x <= 0, ~(x <= 0)) and refine(x <= 0, x <= 0) and refine(x <= 0, 0 >= x) is S.true and refine(x <= 0, y <= 0) == (x <= 0) and not refine(x > 0, ~(x > 0)) and refine(x > 0, x > 0) and refine(x > 0, 0 < x) is S.true and refine(x > 0, y > 0) == (x > 0) and not refine(x >= 0, ~(x >= 0)) and refine(x >= 0, x >= 0) and refine(x >= 0, 0 <= x) is S.true and refine(x >= 0, y >= 0) == (x >= 0) and not refine(Eq(x, 0), ~Eq(x, 0)) and refine(Eq(x, 0), Eq(x, 0)) and refine(Eq(x, 0), Eq(0, x)) is S.true and refine(Eq(x, 0), Eq(y, 0)) == Eq(x, 0) and not refine(Ne(x, 0), ~Ne(x, 0)) and refine(Ne(x, 0), Ne(0, x)) is S.true and refine(Ne(x, 0), Ne(x, 0)) and refine(Ne(x, 0), Ne(y, 0)) == Ne(x, 0) and refine(And(x > 0, y > 0), x > 0) == (y > 0) and refine(And(x > 0, y > 0), (x > 0) & (y > 0)) is S.true and refine(Q.positive(x), Q.positive(x)) is S.true and refine(Q.positive(x), Q.negative(x)) is S.false and refine(Q.positive(x), Q.real(x)) == Q.positive(x)","over":{"base":"Any"},"name":"test_refine_correct"},"guarantee":"not refine(x < 0, ~(x < 0)); refine(x < 0, x < 0); refine(x < 0, 0 > x) is S.true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_refine_correct","statement":"Path(test_refine(x), not refine(x < 0, ~(x < 0)); refine(x < 0, x < 0); refine(x < 0, 0 > x) is S.true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61cf81e24c3c98f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not refine(x < 0, ~(x < 0))","refine(x < 0, x < 0)","refine(x < 0, 0 > x) is S.true","refine(x < 0, y < 0) == (x < 0)","not refine(x <= 0, ~(x <= 0))","refine(x <= 0, x <= 0)","refine(x <= 0, 0 >= x) is S.true","refine(x <= 0, y <= 0) == (x <= 0)","not refine(x > 0, ~(x > 0))","refine(x > 0, x > 0)","refine(x > 0, 0 < x) is S.true","refine(x > 0, y > 0) == (x > 0)","not refine(x >= 0, ~(x >= 0))","refine(x >= 0, x >= 0)","refine(x >= 0, 0 <= x) is S.true","refine(x >= 0, y >= 0) == (x >= 0)","not refine(Eq(x, 0), ~Eq(x, 0))","refine(Eq(x, 0), Eq(x, 0))","refine(Eq(x, 0), Eq(0, x)) is S.true","refine(Eq(x, 0), Eq(y, 0)) == Eq(x, 0)","not refine(Ne(x, 0), ~Ne(x, 0))","refine(Ne(x, 0), Ne(0, x)) is S.true","refine(Ne(x, 0), Ne(x, 0))","refine(Ne(x, 0), Ne(y, 0)) == Ne(x, 0)","refine(And(x > 0, y > 0), x > 0) == (y > 0)","refine(And(x > 0, y > 0), (x > 0) & (y > 0)) is S.true","refine(Q.positive(x), Q.positive(x)) is S.true","refine(Q.positive(x), Q.negative(x)) is S.false","refine(Q.positive(x), Q.real(x)) == Q.positive(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_refine():
     # relational
     assert not refine(x < 0, ~(x < 0))
@@ -2263,16 +2867,22 @@ def test_refine():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_relational_threeterm_simplification_patterns_numerically(), test_relational_threeterm_simplification_patterns_numerically produces the expected output) over Any ║
+# ║ Path(test_relational_threeterm_simplification_patterns_numerically(), <unspecified:test_relational_threeterm_simplification_patterns_numerically>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_relational_threeterm_simplification_patterns_num...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd4eff355fb17040  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_relational_threeterm_simplification_patterns_numerically","kind":"function","src_hash":"23157ce3227e68c1","in":{"base":"Any"},"out":{"base":"Any","pred":"originalvalue == simplifiedvalue"},"spec":{"lhs":"test_relational_threeterm_simplification_patterns_numerically()","rhs":"test_relational_threeterm_simplification_patterns_numerically produces the expected output","over":{"base":"Any"},"name":"test_relational_threeterm_simplification_patterns_numerically_correct"},"guarantee":"test_relational_threeterm_simplification_patterns_numerically produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_relational_threeterm_simplification_patterns_numerically_correct","statement":"Path(test_relational_threeterm_simplification_patterns_numerically(x), test_relational_threeterm_simplification_patterns_numerically produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd4eff355fb17040"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_relational_threeterm_simplification_patterns_numerically","kind":"function","src_hash":"23157ce3227e68c1","in":{"base":"Any"},"out":{"base":"Any","pred":"originalvalue == simplifiedvalue"},"spec":{"lhs":"test_relational_threeterm_simplification_patterns_numerically()","rhs":"<unspecified:test_relational_threeterm_simplification_patterns_numerically>","over":{"base":"Any"},"name":"test_relational_threeterm_simplification_patterns_numerically_correct"},"guarantee":"test_relational_threeterm_simplification_patterns_numerically produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_relational_threeterm_simplification_patterns_numerically_correct","statement":"Path(test_relational_threeterm_simplification_patterns_numerically(x), test_relational_threeterm_simplification_patterns_numerically produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd4eff355fb17040","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_relational_threeterm_simplification_patterns_numerically():
     from sympy.core import Wild
     from sympy.logic.boolalg import _simplify_patterns_and3
@@ -2298,7 +2908,11 @@ def test_relational_threeterm_simplification_patterns_numerically():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_25451(), test_issue_25451 produces the expected output) over {Any | isinstance(x, Or)} ║
+# ║ Path(test_issue_25451(), isinstance(x, Or) and set(x.args) == {And(a, c), Eq(a, b)}) over {Any | isinstance(x, Or)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(x, Or)                              ║
+# ║   ensures:  set(x.args) == {And(a, c), Eq(a, b)}           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_25451 : {Any | isinstance(x, Or)} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2310,9 +2924,12 @@ def test_relational_threeterm_simplification_patterns_numerically():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 51b99949...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_25451","kind":"function","src_hash":"b8ffc338ee27e887","in":{"base":"Any","pred":"isinstance(x, Or)"},"out":{"base":"Any","pred":"isinstance(x, Or) and set(x.args) == {And(a, c), Eq(a, b)}"},"spec":{"lhs":"test_issue_25451()","rhs":"test_issue_25451 produces the expected output","over":{"base":"Any","pred":"isinstance(x, Or)"},"name":"test_issue_25451_correct"},"guarantee":"test_issue_25451 produces the expected output","fibers":[{"name":"Or","pred":"isinstance(x, Or)","path":{"lhs":"test_issue_25451(x)","rhs":"test_issue_25451 produces the expected output","over":{"base":"Or","pred":"isinstance(x, Or)"},"name":"test_issue_25451_Or_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_25451_Or_correct","statement":"test_issue_25451 satisfies spec on Or inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"51b999490dfc3594"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_25451","kind":"function","src_hash":"b8ffc338ee27e887","in":{"base":"Any","pred":"isinstance(x, Or)"},"out":{"base":"Any","pred":"result satisfies: isinstance(x, Or) and set(x.args) == {And(a, c), Eq(a, b)}"},"spec":{"lhs":"test_issue_25451()","rhs":"isinstance(x, Or) and set(x.args) == {And(a, c), Eq(a, b)}","over":{"base":"Any","pred":"isinstance(x, Or)"},"name":"test_issue_25451_correct"},"guarantee":"isinstance(x, Or); set(x.args) == {And(a, c), Eq(a, b)}","fibers":[{"name":"Or","pred":"isinstance(x, Or)","path":{"lhs":"test_issue_25451(x)","rhs":"isinstance(x, Or); set(x.args) == {And(a, c), Eq(a, b)}","over":{"base":"Or","pred":"isinstance(x, Or)"},"name":"test_issue_25451_Or_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_25451_Or_correct","statement":"test_issue_25451 satisfies spec on Or inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"51b999490dfc3594","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(x, Or)","set(x.args) == {And(a, c), Eq(a, b)}"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_issue_25451():
     x = Or(And(a, c), Eq(a, b))
     assert isinstance(x, Or)
@@ -2320,16 +2937,23 @@ def test_issue_25451():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_26985(), test_issue_26985 produces the expected output) over Any ║
+# ║ Path(test_issue_26985(), result_anf == d and result == d) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_26985 : Any → {Any | result_anf == d and r...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result_anf == d                                ║
+# ║   ensures:  result == d                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_26985 : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 630dd5a096aa7a5e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54aa9e0ed23a6e56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_26985","kind":"function","src_hash":"76e599621a1096b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result_anf == d and result == d"},"spec":{"lhs":"test_issue_26985()","rhs":"test_issue_26985 produces the expected output","over":{"base":"Any"},"name":"test_issue_26985_correct"},"guarantee":"test_issue_26985 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_26985_correct","statement":"Path(test_issue_26985(x), test_issue_26985 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"630dd5a096aa7a5e"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.tests.test_boolalg.test_issue_26985","kind":"function","src_hash":"76e599621a1096b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result_anf == d and result == d"},"spec":{"lhs":"test_issue_26985()","rhs":"result_anf == d and result == d","over":{"base":"Any"},"name":"test_issue_26985_correct"},"guarantee":"result_anf == d; result == d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.tests.test_boolalg.test_issue_26985_correct","statement":"Path(test_issue_26985(x), result_anf == d; result == d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54aa9e0ed23a6e56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result_anf == d","result == d"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_26985():
     a, b, c, d = symbols('a b c d')
 

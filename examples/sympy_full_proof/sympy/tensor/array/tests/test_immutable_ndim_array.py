@@ -31,16 +31,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ndim_array_initiation(), test_ndim_array_initiation produces the expected output) over Any ║
+# ║ Path(test_ndim_array_initiation(), len(arr_with_no_elements) == 0 and arr_with_no_elements.rank() == 1 and len(arr_with_one_element) == 1 and arr_with_one_element[0] == 23 and arr_with_one_element[:] == ImmutableDenseNDimArray([23]) and arr_with_one_element.rank() == 1 and len(arr_with_symbol_element) == 1 and arr_with_symbol_element[0] == Symbol('x') and arr_with_symbol_element[:] == ImmutableDenseNDimArray([Symbol('x')]) and arr_with_symbol_element.rank() == 1 and len(vector) == number5 and vector.shape == (number5,) and vector.rank() == 1 and vector._sparse_array == Dict() and len(n_dim_array) == 3 * 3 * 3 * 3 and n_dim_array.shape == (3, 3, 3, 3) and n_dim_array.rank() == 4 and len(sparse_array._sparse_array) == 0 and len(sparse_array) == 3 * 3 * 3 * 3 and n_dim_array.shape == array_shape and len(one_dim_array) == 3 and one_dim_array.shape == (3,) and one_dim_array.rank() == 1 and one_dim_array.tolist() == [2, 3, 1] and len(array_with_many_args) == 3 * 3 and array_with_many_args.shape == shape and array_with_many_args[0, 0] == 0 and array_with_many_args.rank() == 2 and len(array_with_long_shape) == 3 * 3 and array_with_long_shape.shape == shape and array_with_long_shape[int(0), int(0)] == 0 and array_with_long_shape.rank() == 2 and len(vector_with_long_shape) == 5 and vector_with_long_shape.shape == (int(5),) and vector_with_long_shape.rank() == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ndim_array_initiation : Any → {Any | len(arr_wit...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(arr_with_no_elements) == 0                 ║
+# ║   ensures:  arr_with_no_elements.rank() == 1               ║
+# ║   ensures:  len(arr_with_one_element) == 1                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ndim_array_initiation : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8b65cbc914e9808  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d26fbd6817e7b588  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_ndim_array_initiation","kind":"function","src_hash":"b91b9333aae4b41d","in":{"base":"Any"},"out":{"base":"Any","pred":"len(arr_with_no_elements) == 0 and arr_with_no_elements.rank() == 1 and len(arr_with_one_element) == 1 and arr_with_one_element[0] == 23 and arr_with_one_element[:] == ImmutableDenseNDimArray([23]) and arr_with_one_element.rank() == 1 and len(arr_with_symbol_element) == 1 and arr_with_symbol_element[0] == Symbol('x') and arr_with_symbol_element[:] == ImmutableDenseNDimArray([Symbol('x')]) and arr_with_symbol_element.rank() == 1 and len(vector) == number5 and vector.shape == (number5,) and vector.rank() == 1 and len(vector) == number5 and vector.shape == (number5,) and vector._sparse_array == Dict() and vector.rank() == 1 and len(n_dim_array) == 3 * 3 * 3 * 3 and n_dim_array.shape == (3, 3, 3, 3) and n_dim_array.rank() == 4 and len(sparse_array._sparse_array) == 0 and len(sparse_array) == 3 * 3 * 3 * 3 and n_dim_array.shape == array_shape and n_dim_array.rank() == 4 and len(one_dim_array) == 3 and one_dim_array.shape == (3,) and one_dim_array.rank() == 1 and one_dim_array.tolist() == [2, 3, 1] and len(array_with_many_args) == 3 * 3 and array_with_many_args.shape == shape and array_with_many_args[0, 0] == 0 and array_with_many_args.rank() == 2 and len(array_with_long_shape) == 3 * 3 and array_with_long_shape.shape == shape and array_with_long_shape[int(0), int(0)] == 0 and array_with_long_shape.rank() == 2 and len(vector_with_long_shape) == 5 and vector_with_long_shape.shape == (int(5),) and vector_with_long_shape.rank() == 1 and len(rank_zero_array) == 1 and rank_zero_array.shape == () and rank_zero_array.rank() == 0 and rank_zero_array[()] == x"},"spec":{"lhs":"test_ndim_array_initiation()","rhs":"test_ndim_array_initiation produces the expected output","over":{"base":"Any"},"name":"test_ndim_array_initiation_correct"},"guarantee":"test_ndim_array_initiation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_ndim_array_initiation_correct","statement":"Path(test_ndim_array_initiation(x), test_ndim_array_initiation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8b65cbc914e9808"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_ndim_array_initiation","kind":"function","src_hash":"b91b9333aae4b41d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(arr_with_no_elements) == 0 and arr_with_no_elements.rank() == 1 and len(arr_with_one_element) == 1 and arr_with_one_element[0] == 23 and arr_with_one_element[:] == ImmutableDenseNDimArray([23]) and arr_with_one_element.rank() == 1 and len(arr_with_symbol_element) == 1 and arr_with_symbol_element[0] == Symbol('x') and arr_with_symbol_element[:] == ImmutableDenseNDimArray([Symbol('x')]) and arr_with_symbol_element.rank() == 1 and len(vector) == number5 and vector.shape == (number5,) and vector.rank() == 1 and vector._sparse_array == Dict() and len(n_dim_array) == 3 * 3 * 3 * 3 and n_dim_array.shape == (3, 3, 3, 3) and n_dim_array.rank() == 4 and len(sparse_array._sparse_array) == 0 and len(sparse_array) == 3 * 3 * 3 * 3 and n_dim_array.shape == array_shape and len(one_dim_array) == 3 and one_dim_array.shape == (3,) and one_dim_array.rank() == 1 and one_dim_array.tolist() == [2, 3, 1] and len(array_with_many_args) == 3 * 3 and array_with_many_args.shape == shape and array_with_many_args[0, 0] == 0 and array_with_many_args.rank() == 2 and len(array_with_long_shape) == 3 * 3 and array_with_long_shape.shape == shape and array_with_long_shape[int(0), int(0)] == 0 and array_with_long_shape.rank() == 2 and len(vector_with_long_shape) == 5 and vector_with_long_shape.shape == (int(5),) and vector_with_long_shape.rank() == 1"},"spec":{"lhs":"test_ndim_array_initiation()","rhs":"len(arr_with_no_elements) == 0 and arr_with_no_elements.rank() == 1 and len(arr_with_one_element) == 1 and arr_with_one_element[0] == 23 and arr_with_one_element[:] == ImmutableDenseNDimArray([23]) and arr_with_one_element.rank() == 1 and len(arr_with_symbol_element) == 1 and arr_with_symbol_element[0] == Symbol('x') and arr_with_symbol_element[:] == ImmutableDenseNDimArray([Symbol('x')]) and arr_with_symbol_element.rank() == 1 and len(vector) == number5 and vector.shape == (number5,) and vector.rank() == 1 and vector._sparse_array == Dict() and len(n_dim_array) == 3 * 3 * 3 * 3 and n_dim_array.shape == (3, 3, 3, 3) and n_dim_array.rank() == 4 and len(sparse_array._sparse_array) == 0 and len(sparse_array) == 3 * 3 * 3 * 3 and n_dim_array.shape == array_shape and len(one_dim_array) == 3 and one_dim_array.shape == (3,) and one_dim_array.rank() == 1 and one_dim_array.tolist() == [2, 3, 1] and len(array_with_many_args) == 3 * 3 and array_with_many_args.shape == shape and array_with_many_args[0, 0] == 0 and array_with_many_args.rank() == 2 and len(array_with_long_shape) == 3 * 3 and array_with_long_shape.shape == shape and array_with_long_shape[int(0), int(0)] == 0 and array_with_long_shape.rank() == 2 and len(vector_with_long_shape) == 5 and vector_with_long_shape.shape == (int(5),) and vector_with_long_shape.rank() == 1","over":{"base":"Any"},"name":"test_ndim_array_initiation_correct"},"guarantee":"len(arr_with_no_elements) == 0; arr_with_no_elements.rank() == 1; len(arr_with_one_element) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_ndim_array_initiation_correct","statement":"Path(test_ndim_array_initiation(x), len(arr_with_no_elements) == 0; arr_with_no_elements.rank() == 1; len(arr_with_one_element) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d26fbd6817e7b588","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(arr_with_no_elements) == 0","arr_with_no_elements.rank() == 1","len(arr_with_one_element) == 1","arr_with_one_element[0] == 23","arr_with_one_element[:] == ImmutableDenseNDimArray([23])","arr_with_one_element.rank() == 1","len(arr_with_symbol_element) == 1","arr_with_symbol_element[0] == Symbol('x')","arr_with_symbol_element[:] == ImmutableDenseNDimArray([Symbol('x')])","arr_with_symbol_element.rank() == 1","len(vector) == number5","vector.shape == (number5,)","vector.rank() == 1","vector._sparse_array == Dict()","len(n_dim_array) == 3 * 3 * 3 * 3","n_dim_array.shape == (3, 3, 3, 3)","n_dim_array.rank() == 4","len(sparse_array._sparse_array) == 0","len(sparse_array) == 3 * 3 * 3 * 3","n_dim_array.shape == array_shape","len(one_dim_array) == 3","one_dim_array.shape == (3,)","one_dim_array.rank() == 1","one_dim_array.tolist() == [2, 3, 1]","len(array_with_many_args) == 3 * 3","array_with_many_args.shape == shape","array_with_many_args[0, 0] == 0","array_with_many_args.rank() == 2","len(array_with_long_shape) == 3 * 3","array_with_long_shape.shape == shape","array_with_long_shape[int(0), int(0)] == 0","array_with_long_shape.rank() == 2","len(vector_with_long_shape) == 5","vector_with_long_shape.shape == (int(5),)","vector_with_long_shape.rank() == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_ndim_array_initiation():
     arr_with_no_elements = ImmutableDenseNDimArray([], shape=(0,))
     assert len(arr_with_no_elements) == 0
@@ -127,16 +135,24 @@ def test_ndim_array_initiation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reshape(), test_reshape produces the expected output) over Any ║
+# ║ Path(test_reshape(), array.shape == (50,) and array.rank() == 1 and array.shape == (5, 5, 2) and array.rank() == 3 and len(array) == 50) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reshape : Any → {Any | array.shape == (50,) and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  array.shape == (50,)                           ║
+# ║   ensures:  array.rank() == 1                              ║
+# ║   ensures:  array.shape == (5, 5, 2)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reshape : Any → {Any | result satisfies: array.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 308e099bd7fb6993  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fd56a43e1bf7196  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_reshape","kind":"function","src_hash":"80efc58ea6c34605","in":{"base":"Any"},"out":{"base":"Any","pred":"array.shape == (50,) and array.rank() == 1 and array.shape == (5, 5, 2) and array.rank() == 3 and len(array) == 50"},"spec":{"lhs":"test_reshape()","rhs":"test_reshape produces the expected output","over":{"base":"Any"},"name":"test_reshape_correct"},"guarantee":"test_reshape produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_reshape_correct","statement":"Path(test_reshape(x), test_reshape produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"308e099bd7fb6993"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_reshape","kind":"function","src_hash":"80efc58ea6c34605","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: array.shape == (50,) and array.rank() == 1 and array.shape == (5, 5, 2) and array.rank() == 3 and len(array) == 50"},"spec":{"lhs":"test_reshape()","rhs":"array.shape == (50,) and array.rank() == 1 and array.shape == (5, 5, 2) and array.rank() == 3 and len(array) == 50","over":{"base":"Any"},"name":"test_reshape_correct"},"guarantee":"array.shape == (50,); array.rank() == 1; array.shape == (5, 5, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_reshape_correct","statement":"Path(test_reshape(x), array.shape == (50,); array.rank() == 1; array.shape == (5, 5, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fd56a43e1bf7196","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["array.shape == (50,)","array.rank() == 1","array.shape == (5, 5, 2)","array.rank() == 3","len(array) == 50"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_reshape():
     array = ImmutableDenseNDimArray(range(50), 50)
     assert array.shape == (50,)
@@ -149,16 +165,22 @@ def test_reshape():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_getitem(), test_getitem produces the expected output) over Any ║
+# ║ Path(test_getitem(), <unspecified:test_getitem>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_getitem : Any → {Any | array[0] == ArrayType([[0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d254543e83557fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_getitem","kind":"function","src_hash":"edf049cf69d9eb22","in":{"base":"Any"},"out":{"base":"Any","pred":"array[0] == ArrayType([[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11]]) and array[0, 0] == ArrayType([0, 1, 2, 3]) and array[i, j, k] == value"},"spec":{"lhs":"test_getitem()","rhs":"test_getitem produces the expected output","over":{"base":"Any"},"name":"test_getitem_correct"},"guarantee":"test_getitem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_getitem_correct","statement":"Path(test_getitem(x), test_getitem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d254543e83557fd"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_getitem","kind":"function","src_hash":"edf049cf69d9eb22","in":{"base":"Any"},"out":{"base":"Any","pred":"array[0] == ArrayType([[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11]]) and array[0, 0] == ArrayType([0, 1, 2, 3]) and array[i, j, k] == value"},"spec":{"lhs":"test_getitem()","rhs":"<unspecified:test_getitem>","over":{"base":"Any"},"name":"test_getitem_correct"},"guarantee":"test_getitem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_getitem_correct","statement":"Path(test_getitem(x), test_getitem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d254543e83557fd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_getitem():
     for ArrayType in [ImmutableDenseNDimArray, ImmutableSparseNDimArray]:
         array = ArrayType(range(24)).reshape(2, 3, 4)
@@ -178,16 +200,23 @@ def test_getitem():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_iterator(), test_iterator produces the expected output) over Any ║
+# ║ Path(test_iterator(), array[0] == ImmutableDenseNDimArray([0, 1]) and array[1] == ImmutableDenseNDimArray([2, 3])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_iterator : Any → {Any | array[0] == ImmutableDen...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  array[0] == ImmutableDenseNDimArray([0, 1])    ║
+# ║   ensures:  array[1] == ImmutableDenseNDimArray([2, 3])    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_iterator : Any → {Any | result satisfies: array[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c251e383eb98b04  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 513893c4522587ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_iterator","kind":"function","src_hash":"9eebe08db6130da5","in":{"base":"Any"},"out":{"base":"Any","pred":"array[0] == ImmutableDenseNDimArray([0, 1]) and array[1] == ImmutableDenseNDimArray([2, 3]) and i == j"},"spec":{"lhs":"test_iterator()","rhs":"test_iterator produces the expected output","over":{"base":"Any"},"name":"test_iterator_correct"},"guarantee":"test_iterator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_iterator_correct","statement":"Path(test_iterator(x), test_iterator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c251e383eb98b04"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_iterator","kind":"function","src_hash":"9eebe08db6130da5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: array[0] == ImmutableDenseNDimArray([0, 1]) and array[1] == ImmutableDenseNDimArray([2, 3])"},"spec":{"lhs":"test_iterator()","rhs":"array[0] == ImmutableDenseNDimArray([0, 1]) and array[1] == ImmutableDenseNDimArray([2, 3])","over":{"base":"Any"},"name":"test_iterator_correct"},"guarantee":"array[0] == ImmutableDenseNDimArray([0, 1]); array[1] == ImmutableDenseNDimArray([2, 3])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_iterator_correct","statement":"Path(test_iterator(x), array[0] == ImmutableDenseNDimArray([0, 1]); array[1] == ImmutableDenseNDimArray([2, 3]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"513893c4522587ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["array[0] == ImmutableDenseNDimArray([0, 1])","array[1] == ImmutableDenseNDimArray([2, 3])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_iterator():
     array = ImmutableDenseNDimArray(range(4), (2, 2))
     assert array[0] == ImmutableDenseNDimArray([0, 1])
@@ -201,16 +230,24 @@ def test_iterator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sparse(), test_sparse produces the expected output) over Any ║
+# ║ Path(test_sparse(), len(sparse_array) == 2 * 2 and len(sparse_array._sparse_array) == 1 and sparse_array.tolist() == [[0, 0], [0, 1]] and sparse_array[0, 0] == 0 and sparse_array / 0 == ImmutableSparseNDimArray([[S.NaN, S.NaN], [S.NaN, S.ComplexInfinity]], (2, 2)) and ImmutableSparseNDimArray.zeros(100000, 200000) == ImmutableSparseNDimArray.zeros(100000, 200000) and a * 3 == ImmutableSparseNDimArray({200001: 3}, (100000, 200000)) and 3 * a == ImmutableSparseNDimArray({200001: 3}, (100000, 200000)) and a * 0 == ImmutableSparseNDimArray({}, (100000, 200000)) and 0 * a == ImmutableSparseNDimArray({}, (100000, 200000)) and a / 3 == ImmutableSparseNDimArray({200001: Rational(1, 3)}, (100000, 200000)) and -a == ImmutableSparseNDimArray({200001: -1}, (100000, 200000))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sparse : Any → {Any | len(sparse_array) == 2 * 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(sparse_array) == 2 * 2                     ║
+# ║   ensures:  len(sparse_array._sparse_array) == 1           ║
+# ║   ensures:  sparse_array.tolist() == [[0, 0], [0, 1]]      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sparse : Any → {Any | result satisfies: len(spar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8daa53907deb18dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecaaced41ebf06c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_sparse","kind":"function","src_hash":"f0edb8115a418310","in":{"base":"Any"},"out":{"base":"Any","pred":"len(sparse_array) == 2 * 2 and len(sparse_array._sparse_array) == 1 and sparse_array.tolist() == [[0, 0], [0, 1]] and len(sparse_array._sparse_array) == 1 and len(sparse_array._sparse_array) == 1 and sparse_array[0, 0] == 0 and a * 3 == ImmutableSparseNDimArray({200001: 3}, (100000, 200000)) and 3 * a == ImmutableSparseNDimArray({200001: 3}, (100000, 200000)) and a * 0 == ImmutableSparseNDimArray({}, (100000, 200000)) and 0 * a == ImmutableSparseNDimArray({}, (100000, 200000)) and a / 3 == ImmutableSparseNDimArray({200001: Rational(1, 3)}, (100000, 200000)) and -a == ImmutableSparseNDimArray({200001: -1}, (100000, 200000)) and i == ImmutableSparseNDimArray(j)"},"spec":{"lhs":"test_sparse()","rhs":"test_sparse produces the expected output","over":{"base":"Any"},"name":"test_sparse_correct"},"guarantee":"test_sparse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_sparse_correct","statement":"Path(test_sparse(x), test_sparse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8daa53907deb18dd"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_sparse","kind":"function","src_hash":"f0edb8115a418310","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(sparse_array) == 2 * 2 and len(sparse_array._sparse_array) == 1 and sparse_array.tolist() == [[0, 0], [0, 1]] and sparse_array[0, 0] == 0 and sparse_array / 0 == ImmutableSparseNDimArray([[S.NaN, S.NaN], [S.NaN, S.ComplexInfinity]], (2, 2)) and ImmutableSparseNDimArray.zeros(100000, 200000) == ImmutableSparseNDimArray.zeros(100000, 200000) and a * 3 == ImmutableSparseNDimArray({200001: 3}, (100000, 200000)) and 3 * a == ImmutableSparseNDimArray({200001: 3}, (100000, 200000)) and a * 0 == ImmutableSparseNDimArray({}, (100000, 200000)) and 0 * a == ImmutableSparseNDimArray({}, (100000, 200000)) and a / 3 == ImmutableSparseNDimArray({200001: Rational(1, 3)}, (100000, 200000)) and -a == ImmutableSparseNDimArray({200001: -1}, (100000, 200000))"},"spec":{"lhs":"test_sparse()","rhs":"len(sparse_array) == 2 * 2 and len(sparse_array._sparse_array) == 1 and sparse_array.tolist() == [[0, 0], [0, 1]] and sparse_array[0, 0] == 0 and sparse_array / 0 == ImmutableSparseNDimArray([[S.NaN, S.NaN], [S.NaN, S.ComplexInfinity]], (2, 2)) and ImmutableSparseNDimArray.zeros(100000, 200000) == ImmutableSparseNDimArray.zeros(100000, 200000) and a * 3 == ImmutableSparseNDimArray({200001: 3}, (100000, 200000)) and 3 * a == ImmutableSparseNDimArray({200001: 3}, (100000, 200000)) and a * 0 == ImmutableSparseNDimArray({}, (100000, 200000)) and 0 * a == ImmutableSparseNDimArray({}, (100000, 200000)) and a / 3 == ImmutableSparseNDimArray({200001: Rational(1, 3)}, (100000, 200000)) and -a == ImmutableSparseNDimArray({200001: -1}, (100000, 200000))","over":{"base":"Any"},"name":"test_sparse_correct"},"guarantee":"len(sparse_array) == 2 * 2; len(sparse_array._sparse_array) == 1; sparse_array.tolist() == [[0, 0], [0, 1]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_sparse_correct","statement":"Path(test_sparse(x), len(sparse_array) == 2 * 2; len(sparse_array._sparse_array) == 1; sparse_array.tolist() == [[0, 0], [0, 1]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecaaced41ebf06c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(sparse_array) == 2 * 2","len(sparse_array._sparse_array) == 1","sparse_array.tolist() == [[0, 0], [0, 1]]","sparse_array[0, 0] == 0","sparse_array / 0 == ImmutableSparseNDimArray([[S.NaN, S.NaN], [S.NaN, S.ComplexInfinity]], (2, 2))","ImmutableSparseNDimArray.zeros(100000, 200000) == ImmutableSparseNDimArray.zeros(100000, 200000)","a * 3 == ImmutableSparseNDimArray({200001: 3}, (100000, 200000))","3 * a == ImmutableSparseNDimArray({200001: 3}, (100000, 200000))","a * 0 == ImmutableSparseNDimArray({}, (100000, 200000))","0 * a == ImmutableSparseNDimArray({}, (100000, 200000))","a / 3 == ImmutableSparseNDimArray({200001: Rational(1, 3)}, (100000, 200000))","-a == ImmutableSparseNDimArray({200001: -1}, (100000, 200000))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_sparse():
     sparse_array = ImmutableSparseNDimArray([0, 0, 0, 1], (2, 2))
     assert len(sparse_array) == 2 * 2
@@ -250,16 +287,24 @@ def test_sparse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_calculation(), test_calculation produces the expected output) over Any ║
+# ║ Path(test_calculation(), c == ImmutableDenseNDimArray([10] * 9, (3, 3)) and c == ImmutableSparseNDimArray([10] * 9, (3, 3)) and c == ImmutableDenseNDimArray([8] * 9, (3, 3)) and c == ImmutableSparseNDimArray([8] * 9, (3, 3))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_calculation : Any → {Any | c == ImmutableDenseND...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == ImmutableDenseNDimArray([10] * 9, (3...   ║
+# ║   ensures:  c == ImmutableSparseNDimArray([10] * 9, (...   ║
+# ║   ensures:  c == ImmutableDenseNDimArray([8] * 9, (3,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_calculation : Any → {Any | result satisfies: c =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 617fed37530d3aac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fff77b542c605bb9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_calculation","kind":"function","src_hash":"4953e9a8a4907ca4","in":{"base":"Any"},"out":{"base":"Any","pred":"c == ImmutableDenseNDimArray([10] * 9, (3, 3)) and c == ImmutableSparseNDimArray([10] * 9, (3, 3)) and c == ImmutableDenseNDimArray([8] * 9, (3, 3)) and c == ImmutableSparseNDimArray([8] * 9, (3, 3)) and i == ImmutableDenseNDimArray([10, 10, 10]) and i == ImmutableDenseNDimArray([8, 8, 8])"},"spec":{"lhs":"test_calculation()","rhs":"test_calculation produces the expected output","over":{"base":"Any"},"name":"test_calculation_correct"},"guarantee":"test_calculation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_calculation_correct","statement":"Path(test_calculation(x), test_calculation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"617fed37530d3aac"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_calculation","kind":"function","src_hash":"4953e9a8a4907ca4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == ImmutableDenseNDimArray([10] * 9, (3, 3)) and c == ImmutableSparseNDimArray([10] * 9, (3, 3)) and c == ImmutableDenseNDimArray([8] * 9, (3, 3)) and c == ImmutableSparseNDimArray([8] * 9, (3, 3))"},"spec":{"lhs":"test_calculation()","rhs":"c == ImmutableDenseNDimArray([10] * 9, (3, 3)) and c == ImmutableSparseNDimArray([10] * 9, (3, 3)) and c == ImmutableDenseNDimArray([8] * 9, (3, 3)) and c == ImmutableSparseNDimArray([8] * 9, (3, 3))","over":{"base":"Any"},"name":"test_calculation_correct"},"guarantee":"c == ImmutableDenseNDimArray([10] * 9, (3, 3)); c == ImmutableSparseNDimArray([10] * 9, (3, 3)); c == ImmutableDenseNDimArray([8] * 9, (3, 3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_calculation_correct","statement":"Path(test_calculation(x), c == ImmutableDenseNDimArray([10] * 9, (3, 3)); c == ImmutableSparseNDimArray([10] * 9, (3, 3)); c == ImmutableDenseNDimArray([8] * 9, (3, 3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fff77b542c605bb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == ImmutableDenseNDimArray([10] * 9, (3, 3))","c == ImmutableSparseNDimArray([10] * 9, (3, 3))","c == ImmutableDenseNDimArray([8] * 9, (3, 3))","c == ImmutableSparseNDimArray([8] * 9, (3, 3))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_calculation():
 
     a = ImmutableDenseNDimArray([1]*9, (3, 3))
@@ -281,7 +326,12 @@ def test_calculation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ndim_array_converting(), test_ndim_array_converting produces the expected output) over {Any | isinstance(matrix, Matrix) and isinstance(matrix, SparseMatrix)} ║
+# ║ Path(test_ndim_array_converting(), alist == [[1, 2], [3, 4]] and isinstance(matrix, Matrix) and matrix.shape == dense_array.shape and ImmutableDenseNDimArray(matrix) == dense_array and ImmutableDenseNDimArray(matrix.as_immutable()) == dense_array and ImmutableDenseNDimArray(matrix.as_mutable()) == dense_array and isinstance(matrix, SparseMatrix) and matrix.shape == sparse_array.shape and ImmutableSparseNDimArray(matrix) == sparse_array and ImmutableSparseNDimArray(matrix.as_immutable()) == sparse_array and ImmutableSparseNDimArray(matrix.as_mutable()) == sparse_array) over {Any | isinstance(matrix, Matrix) and isinstance(matrix, SparseMatrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  alist == [[1, 2], [3, 4]]                      ║
+# ║   ensures:  isinstance(matrix, Matrix)                     ║
+# ║   ensures:  matrix.shape == dense_array.shape              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_ndim_array_converting : {Any | isinstance(matrix...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -294,9 +344,12 @@ def test_calculation():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 94dda16d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_ndim_array_converting","kind":"function","src_hash":"49051ea2a0a12a20","in":{"base":"Any","pred":"isinstance(matrix, Matrix) and isinstance(matrix, SparseMatrix)"},"out":{"base":"Any","pred":"alist == [[1, 2], [3, 4]] and isinstance(matrix, Matrix) and matrix.shape == dense_array.shape and ImmutableDenseNDimArray(matrix) == dense_array and ImmutableDenseNDimArray(matrix.as_immutable()) == dense_array and ImmutableDenseNDimArray(matrix.as_mutable()) == dense_array and alist == [[1, 2], [3, 4]] and isinstance(matrix, SparseMatrix) and matrix.shape == sparse_array.shape and ImmutableSparseNDimArray(matrix) == sparse_array and ImmutableSparseNDimArray(matrix.as_immutable()) == sparse_array and ImmutableSparseNDimArray(matrix.as_mutable()) == sparse_array and dense_array[dense_array._get_tuple_index(i)] == matrix[i] and sparse_array[sparse_array._get_tuple_index(i)] == matrix[i]"},"spec":{"lhs":"test_ndim_array_converting()","rhs":"test_ndim_array_converting produces the expected output","over":{"base":"Any","pred":"isinstance(matrix, Matrix) and isinstance(matrix, SparseMatrix)"},"name":"test_ndim_array_converting_correct"},"guarantee":"test_ndim_array_converting produces the expected output","fibers":[{"name":"Matrix","pred":"isinstance(matrix, Matrix)","path":{"lhs":"test_ndim_array_converting(x)","rhs":"test_ndim_array_converting produces the expected output","over":{"base":"Matrix","pred":"isinstance(matrix, Matrix)"},"name":"test_ndim_array_converting_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_ndim_array_converting_Matrix_correct","statement":"test_ndim_array_converting satisfies spec on Matrix inputs"},"trust":"LIBRARY"},{"name":"SparseMatrix","pred":"isinstance(matrix, SparseMatrix)","path":{"lhs":"test_ndim_array_converting(x)","rhs":"test_ndim_array_converting produces the expected output","over":{"base":"SparseMatrix","pred":"isinstance(matrix, SparseMatrix)"},"name":"test_ndim_array_converting_SparseMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_ndim_array_converting_SparseMatrix_correct","statement":"test_ndim_array_converting satisfies spec on SparseMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"94dda16dba9b86b9"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_ndim_array_converting","kind":"function","src_hash":"49051ea2a0a12a20","in":{"base":"Any","pred":"isinstance(matrix, Matrix) and isinstance(matrix, SparseMatrix)"},"out":{"base":"Any","pred":"result satisfies: alist == [[1, 2], [3, 4]] and isinstance(matrix, Matrix) and matrix.shape == dense_array.shape and ImmutableDenseNDimArray(matrix) == dense_array and ImmutableDenseNDimArray(matrix.as_immutable()) == dense_array and ImmutableDenseNDimArray(matrix.as_mutable()) == dense_array and isinstance(matrix, SparseMatrix) and matrix.shape == sparse_array.shape and ImmutableSparseNDimArray(matrix) == sparse_array and ImmutableSparseNDimArray(matrix.as_immutable()) == sparse_array and ImmutableSparseNDimArray(matrix.as_mutable()) == sparse_array"},"spec":{"lhs":"test_ndim_array_converting()","rhs":"alist == [[1, 2], [3, 4]] and isinstance(matrix, Matrix) and matrix.shape == dense_array.shape and ImmutableDenseNDimArray(matrix) == dense_array and ImmutableDenseNDimArray(matrix.as_immutable()) == dense_array and ImmutableDenseNDimArray(matrix.as_mutable()) == dense_array and isinstance(matrix, SparseMatrix) and matrix.shape == sparse_array.shape and ImmutableSparseNDimArray(matrix) == sparse_array and ImmutableSparseNDimArray(matrix.as_immutable()) == sparse_array and ImmutableSparseNDimArray(matrix.as_mutable()) == sparse_array","over":{"base":"Any","pred":"isinstance(matrix, Matrix) and isinstance(matrix, SparseMatrix)"},"name":"test_ndim_array_converting_correct"},"guarantee":"alist == [[1, 2], [3, 4]]; isinstance(matrix, Matrix); matrix.shape == dense_array.shape","fibers":[{"name":"Matrix","pred":"isinstance(matrix, Matrix)","path":{"lhs":"test_ndim_array_converting(x)","rhs":"alist == [[1, 2], [3, 4]]; isinstance(matrix, Matrix); matrix.shape == dense_array.shape","over":{"base":"Matrix","pred":"isinstance(matrix, Matrix)"},"name":"test_ndim_array_converting_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_ndim_array_converting_Matrix_correct","statement":"test_ndim_array_converting satisfies spec on Matrix inputs"},"trust":"LIBRARY"},{"name":"SparseMatrix","pred":"isinstance(matrix, SparseMatrix)","path":{"lhs":"test_ndim_array_converting(x)","rhs":"alist == [[1, 2], [3, 4]]; isinstance(matrix, Matrix); matrix.shape == dense_array.shape","over":{"base":"SparseMatrix","pred":"isinstance(matrix, SparseMatrix)"},"name":"test_ndim_array_converting_SparseMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_ndim_array_converting_SparseMatrix_correct","statement":"test_ndim_array_converting satisfies spec on SparseMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"94dda16dba9b86b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["alist == [[1, 2], [3, 4]]","isinstance(matrix, Matrix)","matrix.shape == dense_array.shape","ImmutableDenseNDimArray(matrix) == dense_array","ImmutableDenseNDimArray(matrix.as_immutable()) == dense_array","ImmutableDenseNDimArray(matrix.as_mutable()) == dense_array","isinstance(matrix, SparseMatrix)","matrix.shape == sparse_array.shape","ImmutableSparseNDimArray(matrix) == sparse_array","ImmutableSparseNDimArray(matrix.as_immutable()) == sparse_array","ImmutableSparseNDimArray(matrix.as_mutable()) == sparse_array"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":true}}
 def test_ndim_array_converting():
     dense_array = ImmutableDenseNDimArray([1, 2, 3, 4], (2, 2))
     alist = dense_array.tolist()
@@ -332,7 +385,12 @@ def test_ndim_array_converting():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_converting_functions(), test_converting_functions produces the expected output) over {Any | isinstance(arr_ndim_array, ImmutableDenseNDimArray)} ║
+# ║ Path(test_converting_functions(), isinstance(arr_ndim_array, ImmutableDenseNDimArray) and arr_matrix.tolist() == arr_ndim_array.tolist() and arr_matrix.shape == arr_ndim_array.shape) over {Any | isinstance(arr_ndim_array, ImmutableDenseNDimArray)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(arr_ndim_array, ImmutableDense...   ║
+# ║   ensures:  arr_matrix.tolist() == arr_ndim_array.tol...   ║
+# ║   ensures:  arr_matrix.shape == arr_ndim_array.shape       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_converting_functions : {Any | isinstance(arr_ndi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -344,9 +402,12 @@ def test_ndim_array_converting():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 52376337...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_converting_functions","kind":"function","src_hash":"631f2577d2836749","in":{"base":"Any","pred":"isinstance(arr_ndim_array, ImmutableDenseNDimArray)"},"out":{"base":"Any","pred":"isinstance(arr_ndim_array, ImmutableDenseNDimArray) and arr_matrix.tolist() == arr_ndim_array.tolist() and isinstance(arr_ndim_array, ImmutableDenseNDimArray) and arr_matrix.tolist() == arr_ndim_array.tolist() and arr_matrix.shape == arr_ndim_array.shape"},"spec":{"lhs":"test_converting_functions()","rhs":"test_converting_functions produces the expected output","over":{"base":"Any","pred":"isinstance(arr_ndim_array, ImmutableDenseNDimArray)"},"name":"test_converting_functions_correct"},"guarantee":"test_converting_functions produces the expected output","fibers":[{"name":"ImmutableDenseNDimArray","pred":"isinstance(arr_ndim_array, ImmutableDenseNDimArray)","path":{"lhs":"test_converting_functions(x)","rhs":"test_converting_functions produces the expected output","over":{"base":"ImmutableDenseNDimArray","pred":"isinstance(arr_ndim_array, ImmutableDenseNDimArray)"},"name":"test_converting_functions_ImmutableDenseNDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_converting_functions_ImmutableDenseNDimArray_correct","statement":"test_converting_functions satisfies spec on ImmutableDenseNDimArray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"52376337f3d1e990"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_converting_functions","kind":"function","src_hash":"631f2577d2836749","in":{"base":"Any","pred":"isinstance(arr_ndim_array, ImmutableDenseNDimArray)"},"out":{"base":"Any","pred":"result satisfies: isinstance(arr_ndim_array, ImmutableDenseNDimArray) and arr_matrix.tolist() == arr_ndim_array.tolist() and arr_matrix.shape == arr_ndim_array.shape"},"spec":{"lhs":"test_converting_functions()","rhs":"isinstance(arr_ndim_array, ImmutableDenseNDimArray) and arr_matrix.tolist() == arr_ndim_array.tolist() and arr_matrix.shape == arr_ndim_array.shape","over":{"base":"Any","pred":"isinstance(arr_ndim_array, ImmutableDenseNDimArray)"},"name":"test_converting_functions_correct"},"guarantee":"isinstance(arr_ndim_array, ImmutableDenseNDimArray); arr_matrix.tolist() == arr_ndim_array.tolist(); arr_matrix.shape == arr_ndim_array.shape","fibers":[{"name":"ImmutableDenseNDimArray","pred":"isinstance(arr_ndim_array, ImmutableDenseNDimArray)","path":{"lhs":"test_converting_functions(x)","rhs":"isinstance(arr_ndim_array, ImmutableDenseNDimArray); arr_matrix.tolist() == arr_ndim_array.tolist(); arr_matrix.shape == arr_ndim_array.shape","over":{"base":"ImmutableDenseNDimArray","pred":"isinstance(arr_ndim_array, ImmutableDenseNDimArray)"},"name":"test_converting_functions_ImmutableDenseNDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_converting_functions_ImmutableDenseNDimArray_correct","statement":"test_converting_functions satisfies spec on ImmutableDenseNDimArray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"52376337f3d1e990","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(arr_ndim_array, ImmutableDenseNDimArray)","arr_matrix.tolist() == arr_ndim_array.tolist()","arr_matrix.shape == arr_ndim_array.shape"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":true}}
 def test_converting_functions():
     arr_list = [1, 2, 3, 4]
     arr_matrix = Matrix(((1, 2), (3, 4)))
@@ -364,16 +425,24 @@ def test_converting_functions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equality(), test_equality produces the expected output) over Any ║
+# ║ Path(test_equality(), first_list == second_list and first_list != third_list and first_ndim_array == second_ndim_array and first_ndim_array == fourth_ndim_array) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_equality : Any → {Any | first_list == second_lis...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  first_list == second_list                      ║
+# ║   ensures:  first_list != third_list                       ║
+# ║   ensures:  first_ndim_array == second_ndim_array          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_equality : Any → {Any | result satisfies: first_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c26e593f551d2452  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6113803eba0a4b56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_equality","kind":"function","src_hash":"857555717aa2c7d2","in":{"base":"Any"},"out":{"base":"Any","pred":"first_list == second_list and first_list != third_list and first_ndim_array == second_ndim_array and first_ndim_array == second_ndim_array and first_ndim_array == fourth_ndim_array"},"spec":{"lhs":"test_equality()","rhs":"test_equality produces the expected output","over":{"base":"Any"},"name":"test_equality_correct"},"guarantee":"test_equality produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_equality_correct","statement":"Path(test_equality(x), test_equality produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c26e593f551d2452"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_equality","kind":"function","src_hash":"857555717aa2c7d2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: first_list == second_list and first_list != third_list and first_ndim_array == second_ndim_array and first_ndim_array == fourth_ndim_array"},"spec":{"lhs":"test_equality()","rhs":"first_list == second_list and first_list != third_list and first_ndim_array == second_ndim_array and first_ndim_array == fourth_ndim_array","over":{"base":"Any"},"name":"test_equality_correct"},"guarantee":"first_list == second_list; first_list != third_list; first_ndim_array == second_ndim_array","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_equality_correct","statement":"Path(test_equality(x), first_list == second_list; first_list != third_list; first_ndim_array == second_ndim_array)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6113803eba0a4b56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["first_list == second_list","first_list != third_list","first_ndim_array == second_ndim_array","first_ndim_array == fourth_ndim_array"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_equality():
     first_list = [1, 2, 3, 4]
     second_list = [1, 2, 3, 4]
@@ -396,16 +465,24 @@ def test_equality():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_arithmetic(), test_arithmetic produces the expected output) over Any ║
+# ║ Path(test_arithmetic(), c1 == c2 and d1 == d2 * -1 and e1 == e2 == e3 and f1 == f2 and f1[0, 0] == f1[0, 1] == f1[0, 2] == f1[1, 0] == f1[1, 1] == f1[1, 2] == f1[2, 0] == f1[2, 1] == f1[2, 2] == Rational(3, 5) and type(a) == type(b) == type(c1) == type(c2) == type(d1) == type(d2) == type(e1) == type(e2) == type(e3) == type(f1) and z0 == ImmutableDenseNDimArray([-3 for i in range(9)], (3, 3))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_arithmetic : Any → {Any | c1 == c2 and d1 == d2 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c1 == c2                                       ║
+# ║   ensures:  d1 == d2 * -1                                  ║
+# ║   ensures:  e1 == e2 == e3                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_arithmetic : Any → {Any | result satisfies: c1 =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e72b248901a92f16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0a4dd45e4b0369e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_arithmetic","kind":"function","src_hash":"bedddef0b7a00704","in":{"base":"Any"},"out":{"base":"Any","pred":"c1 == c2 and d1 == d2 * -1 and e1 == e2 == e3 and f1 == f2 and z0 == ImmutableDenseNDimArray([-3 for i in range(9)], (3, 3))"},"spec":{"lhs":"test_arithmetic()","rhs":"test_arithmetic produces the expected output","over":{"base":"Any"},"name":"test_arithmetic_correct"},"guarantee":"test_arithmetic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_arithmetic_correct","statement":"Path(test_arithmetic(x), test_arithmetic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e72b248901a92f16"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_arithmetic","kind":"function","src_hash":"bedddef0b7a00704","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c1 == c2 and d1 == d2 * -1 and e1 == e2 == e3 and f1 == f2 and f1[0, 0] == f1[0, 1] == f1[0, 2] == f1[1, 0] == f1[1, 1] == f1[1, 2] == f1[2, 0] == f1[2, 1] == f1[2, 2] == Rational(3, 5) and type(a) == type(b) == type(c1) == type(c2) == type(d1) == type(d2) == type(e1) == type(e2) == type(e3) == type(f1) and z0 == ImmutableDenseNDimArray([-3 for i in range(9)], (3, 3))"},"spec":{"lhs":"test_arithmetic()","rhs":"c1 == c2 and d1 == d2 * -1 and e1 == e2 == e3 and f1 == f2 and f1[0, 0] == f1[0, 1] == f1[0, 2] == f1[1, 0] == f1[1, 1] == f1[1, 2] == f1[2, 0] == f1[2, 1] == f1[2, 2] == Rational(3, 5) and type(a) == type(b) == type(c1) == type(c2) == type(d1) == type(d2) == type(e1) == type(e2) == type(e3) == type(f1) and z0 == ImmutableDenseNDimArray([-3 for i in range(9)], (3, 3))","over":{"base":"Any"},"name":"test_arithmetic_correct"},"guarantee":"c1 == c2; d1 == d2 * -1; e1 == e2 == e3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_arithmetic_correct","statement":"Path(test_arithmetic(x), c1 == c2; d1 == d2 * -1; e1 == e2 == e3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0a4dd45e4b0369e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c1 == c2","d1 == d2 * -1","e1 == e2 == e3","f1 == f2","f1[0, 0] == f1[0, 1] == f1[0, 2] == f1[1, 0] == f1[1, 1] == f1[1, 2] == f1[2, 0] == f1[2, 1] == f1[2, 2] == Rational(3, 5)","type(a) == type(b) == type(c1) == type(c2) == type(d1) == type(d2) == type(e1) == type(e2) == type(e3) == type(f1)","z0 == ImmutableDenseNDimArray([-3 for i in range(9)], (3, 3))"],"pure":false,"effects":{"effect_type":"io","io_operations":["copy"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_arithmetic():
     a = ImmutableDenseNDimArray([3 for i in range(9)], (3, 3))
     b = ImmutableDenseNDimArray([7 for i in range(9)], (3, 3))
@@ -439,16 +516,24 @@ def test_arithmetic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_higher_dimenions(), test_higher_dimenions produces the expected output) over Any ║
+# ║ Path(test_higher_dimenions(), m3.tolist() == [[[10, 11, 12, 13], [14, 15, 16, 17], [18, 19, 20, 21]], [[22, 23, 24, 25], [26, 27, 28, 29], [30, 31, 32, 33]]] and m3._get_tuple_index(0) == (0, 0, 0) and m3._get_tuple_index(1) == (0, 0, 1) and m3._get_tuple_index(4) == (0, 1, 0) and m3._get_tuple_index(12) == (1, 0, 0) and str(m3) == '[[[10, 11, 12, 13], [14, 15, 16, 17], [18, 19, 20, 21]], [[22, 23, 24, 25], [26, 27, 28, 29], [30, 31, 32, 33]]]' and m3 == m3_rebuilt and m3 == m3_other) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_higher_dimenions : Any → {Any | m3._get_tuple_in...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  m3.tolist() == [[[10, 11, 12, 13], [14, 1...   ║
+# ║   ensures:  m3._get_tuple_index(0) == (0, 0, 0)            ║
+# ║   ensures:  m3._get_tuple_index(1) == (0, 0, 1)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_higher_dimenions : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85d4b7e03ec35165  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6411ac60e692ed4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_higher_dimenions","kind":"function","src_hash":"4eac72386729aaa4","in":{"base":"Any"},"out":{"base":"Any","pred":"m3._get_tuple_index(0) == (0, 0, 0) and m3._get_tuple_index(1) == (0, 0, 1) and m3._get_tuple_index(4) == (0, 1, 0) and m3._get_tuple_index(12) == (1, 0, 0) and m3 == m3_rebuilt and m3 == m3_other"},"spec":{"lhs":"test_higher_dimenions()","rhs":"test_higher_dimenions produces the expected output","over":{"base":"Any"},"name":"test_higher_dimenions_correct"},"guarantee":"test_higher_dimenions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_higher_dimenions_correct","statement":"Path(test_higher_dimenions(x), test_higher_dimenions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85d4b7e03ec35165"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_higher_dimenions","kind":"function","src_hash":"4eac72386729aaa4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: m3.tolist() == [[[10, 11, 12, 13], [14, 15, 16, 17], [18, 19, 20, 21]], [[22, 23, 24, 25], [26, 27, 28, 29], [30, 31, 32, 33]]] and m3._get_tuple_index(0) == (0, 0, 0) and m3._get_tuple_index(1) == (0, 0, 1) and m3._get_tuple_index(4) == (0, 1, 0) and m3._get_tuple_index(12) == (1, 0, 0) and str(m3) == '[[[10, 11, 12, 13], [14, 15, 16, 17], [18, 19, 20, 21]], [[22, 23, 24, 25], [26, 27, 28, 29], [30, 31, 32, 33]]]' and m3 == m3_rebuilt and m3 == m3_other"},"spec":{"lhs":"test_higher_dimenions()","rhs":"m3.tolist() == [[[10, 11, 12, 13], [14, 15, 16, 17], [18, 19, 20, 21]], [[22, 23, 24, 25], [26, 27, 28, 29], [30, 31, 32, 33]]] and m3._get_tuple_index(0) == (0, 0, 0) and m3._get_tuple_index(1) == (0, 0, 1) and m3._get_tuple_index(4) == (0, 1, 0) and m3._get_tuple_index(12) == (1, 0, 0) and str(m3) == '[[[10, 11, 12, 13], [14, 15, 16, 17], [18, 19, 20, 21]], [[22, 23, 24, 25], [26, 27, 28, 29], [30, 31, 32, 33]]]' and m3 == m3_rebuilt and m3 == m3_other","over":{"base":"Any"},"name":"test_higher_dimenions_correct"},"guarantee":"m3.tolist() == [[[10, 11, 12, 13], [14, 15, 16, 17], [18, 19, 20, 21]], [[22, 23, 24, 25], [26, 27, 28, 29], [30, 31, 32, 33]]]; m3._get_tuple_index(0) == (0, 0, 0); m3._get_tuple_index(1) == (0, 0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_higher_dimenions_correct","statement":"Path(test_higher_dimenions(x), m3.tolist() == [[[10, 11, 12, 13], [14, 15, 16, 17], [18, 19, 20, 21]], [[22, 23, 24, 25], [26, 27, 28, 29], [30, 31, 32, 33]]]; m3._get_tuple_index(0) == (0, 0, 0); m3._get_tuple_index(1) == (0, 0, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6411ac60e692ed4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["m3.tolist() == [[[10, 11, 12, 13], [14, 15, 16, 17], [18, 19, 20, 21]], [[22, 23, 24, 25], [26, 27, 28, 29], [30, 31, 32, 33]]]","m3._get_tuple_index(0) == (0, 0, 0)","m3._get_tuple_index(1) == (0, 0, 1)","m3._get_tuple_index(4) == (0, 1, 0)","m3._get_tuple_index(12) == (1, 0, 0)","str(m3) == '[[[10, 11, 12, 13], [14, 15, 16, 17], [18, 19, 20, 21]], [[22, 23, 24, 25], [26, 27, 28, 29], [30, 31, 32, 33]]]'","m3 == m3_rebuilt","m3 == m3_other"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_higher_dimenions():
     m3 = ImmutableDenseNDimArray(range(10, 34), (2, 3, 4))
 
@@ -476,16 +561,23 @@ def test_higher_dimenions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rebuild_immutable_arrays(), test_rebuild_immutable_arrays produces the expected output) over Any ║
+# ║ Path(test_rebuild_immutable_arrays(), sparr == sparr.func(*sparr.args) and densarr == densarr.func(*densarr.args)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rebuild_immutable_arrays : Any → {Any | sparr ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sparr == sparr.func(*sparr.args)               ║
+# ║   ensures:  densarr == densarr.func(*densarr.args)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rebuild_immutable_arrays : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6f36154ef461152  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b45645a269d5a5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_rebuild_immutable_arrays","kind":"function","src_hash":"11864b7981cedd83","in":{"base":"Any"},"out":{"base":"Any","pred":"sparr == sparr.func(*sparr.args) and densarr == densarr.func(*densarr.args)"},"spec":{"lhs":"test_rebuild_immutable_arrays()","rhs":"test_rebuild_immutable_arrays produces the expected output","over":{"base":"Any"},"name":"test_rebuild_immutable_arrays_correct"},"guarantee":"test_rebuild_immutable_arrays produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_rebuild_immutable_arrays_correct","statement":"Path(test_rebuild_immutable_arrays(x), test_rebuild_immutable_arrays produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6f36154ef461152"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_rebuild_immutable_arrays","kind":"function","src_hash":"11864b7981cedd83","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sparr == sparr.func(*sparr.args) and densarr == densarr.func(*densarr.args)"},"spec":{"lhs":"test_rebuild_immutable_arrays()","rhs":"sparr == sparr.func(*sparr.args) and densarr == densarr.func(*densarr.args)","over":{"base":"Any"},"name":"test_rebuild_immutable_arrays_correct"},"guarantee":"sparr == sparr.func(*sparr.args); densarr == densarr.func(*densarr.args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_rebuild_immutable_arrays_correct","statement":"Path(test_rebuild_immutable_arrays(x), sparr == sparr.func(*sparr.args); densarr == densarr.func(*densarr.args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b45645a269d5a5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sparr == sparr.func(*sparr.args)","densarr == densarr.func(*densarr.args)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rebuild_immutable_arrays():
     sparr = ImmutableSparseNDimArray(range(10, 34), (2, 3, 4))
     densarr = ImmutableDenseNDimArray(range(10, 34), (2, 3, 4))
@@ -495,16 +587,24 @@ def test_rebuild_immutable_arrays():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slices(), test_slices produces the expected output) over Any ║
+# ║ Path(test_slices(), md[:] == ImmutableDenseNDimArray(range(10, 34), (2, 3, 4)) and md[:, :, 0].tomatrix() == Matrix([[10, 14, 18], [22, 26, 30]]) and md[0, 1:2, :].tomatrix() == Matrix([[14, 15, 16, 17]]) and md[0, 1:3, :].tomatrix() == Matrix([[14, 15, 16, 17], [18, 19, 20, 21]]) and md[:, :, :] == md and sd == ImmutableSparseNDimArray(md) and sd[:] == ImmutableSparseNDimArray(range(10, 34), (2, 3, 4)) and sd[:, :, 0].tomatrix() == Matrix([[10, 14, 18], [22, 26, 30]]) and sd[0, 1:2, :].tomatrix() == Matrix([[14, 15, 16, 17]]) and sd[0, 1:3, :].tomatrix() == Matrix([[14, 15, 16, 17], [18, 19, 20, 21]]) and sd[:, :, :] == sd) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_slices : Any → {Any | md[:] == ImmutableDenseNDi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  md[:] == ImmutableDenseNDimArray(range(10...   ║
+# ║   ensures:  md[:, :, 0].tomatrix() == Matrix([[10, 14...   ║
+# ║   ensures:  md[0, 1:2, :].tomatrix() == Matrix([[14, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_slices : Any → {Any | result satisfies: md[:] ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dad555b5b53476b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a9a36289e3623c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_slices","kind":"function","src_hash":"28420a47c5671e0e","in":{"base":"Any"},"out":{"base":"Any","pred":"md[:] == ImmutableDenseNDimArray(range(10, 34), (2, 3, 4)) and md[:, :, 0].tomatrix() == Matrix([[10, 14, 18], [22, 26, 30]]) and md[0, 1:2, :].tomatrix() == Matrix([[14, 15, 16, 17]]) and md[0, 1:3, :].tomatrix() == Matrix([[14, 15, 16, 17], [18, 19, 20, 21]]) and md[:, :, :] == md and sd == ImmutableSparseNDimArray(md) and sd[:] == ImmutableSparseNDimArray(range(10, 34), (2, 3, 4)) and sd[:, :, 0].tomatrix() == Matrix([[10, 14, 18], [22, 26, 30]]) and sd[0, 1:2, :].tomatrix() == Matrix([[14, 15, 16, 17]]) and sd[0, 1:3, :].tomatrix() == Matrix([[14, 15, 16, 17], [18, 19, 20, 21]]) and sd[:, :, :] == sd"},"spec":{"lhs":"test_slices()","rhs":"test_slices produces the expected output","over":{"base":"Any"},"name":"test_slices_correct"},"guarantee":"test_slices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_slices_correct","statement":"Path(test_slices(x), test_slices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dad555b5b53476b5"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_slices","kind":"function","src_hash":"28420a47c5671e0e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: md[:] == ImmutableDenseNDimArray(range(10, 34), (2, 3, 4)) and md[:, :, 0].tomatrix() == Matrix([[10, 14, 18], [22, 26, 30]]) and md[0, 1:2, :].tomatrix() == Matrix([[14, 15, 16, 17]]) and md[0, 1:3, :].tomatrix() == Matrix([[14, 15, 16, 17], [18, 19, 20, 21]]) and md[:, :, :] == md and sd == ImmutableSparseNDimArray(md) and sd[:] == ImmutableSparseNDimArray(range(10, 34), (2, 3, 4)) and sd[:, :, 0].tomatrix() == Matrix([[10, 14, 18], [22, 26, 30]]) and sd[0, 1:2, :].tomatrix() == Matrix([[14, 15, 16, 17]]) and sd[0, 1:3, :].tomatrix() == Matrix([[14, 15, 16, 17], [18, 19, 20, 21]]) and sd[:, :, :] == sd"},"spec":{"lhs":"test_slices()","rhs":"md[:] == ImmutableDenseNDimArray(range(10, 34), (2, 3, 4)) and md[:, :, 0].tomatrix() == Matrix([[10, 14, 18], [22, 26, 30]]) and md[0, 1:2, :].tomatrix() == Matrix([[14, 15, 16, 17]]) and md[0, 1:3, :].tomatrix() == Matrix([[14, 15, 16, 17], [18, 19, 20, 21]]) and md[:, :, :] == md and sd == ImmutableSparseNDimArray(md) and sd[:] == ImmutableSparseNDimArray(range(10, 34), (2, 3, 4)) and sd[:, :, 0].tomatrix() == Matrix([[10, 14, 18], [22, 26, 30]]) and sd[0, 1:2, :].tomatrix() == Matrix([[14, 15, 16, 17]]) and sd[0, 1:3, :].tomatrix() == Matrix([[14, 15, 16, 17], [18, 19, 20, 21]]) and sd[:, :, :] == sd","over":{"base":"Any"},"name":"test_slices_correct"},"guarantee":"md[:] == ImmutableDenseNDimArray(range(10, 34), (2, 3, 4)); md[:, :, 0].tomatrix() == Matrix([[10, 14, 18], [22, 26, 30]]); md[0, 1:2, :].tomatrix() == Matrix([[14, 15, 16, 17]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_slices_correct","statement":"Path(test_slices(x), md[:] == ImmutableDenseNDimArray(range(10, 34), (2, 3, 4)); md[:, :, 0].tomatrix() == Matrix([[10, 14, 18], [22, 26, 30]]); md[0, 1:2, :].tomatrix() == Matrix([[14, 15, 16, 17]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a9a36289e3623c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["md[:] == ImmutableDenseNDimArray(range(10, 34), (2, 3, 4))","md[:, :, 0].tomatrix() == Matrix([[10, 14, 18], [22, 26, 30]])","md[0, 1:2, :].tomatrix() == Matrix([[14, 15, 16, 17]])","md[0, 1:3, :].tomatrix() == Matrix([[14, 15, 16, 17], [18, 19, 20, 21]])","md[:, :, :] == md","sd == ImmutableSparseNDimArray(md)","sd[:] == ImmutableSparseNDimArray(range(10, 34), (2, 3, 4))","sd[:, :, 0].tomatrix() == Matrix([[10, 14, 18], [22, 26, 30]])","sd[0, 1:2, :].tomatrix() == Matrix([[14, 15, 16, 17]])","sd[0, 1:3, :].tomatrix() == Matrix([[14, 15, 16, 17], [18, 19, 20, 21]])","sd[:, :, :] == sd"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_slices():
     md = ImmutableDenseNDimArray(range(10, 34), (2, 3, 4))
 
@@ -525,16 +625,24 @@ def test_slices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_diff_and_applyfunc(), test_diff_and_applyfunc produces the expected output) over Any ║
+# ║ Path(test_diff_and_applyfunc(), md.diff(x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]]) and diff(md, x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]]) and sd == ImmutableSparseNDimArray([x, y, x * z, x * y * z], (2, 2)) and sd.diff(x) == ImmutableSparseNDimArray([[1, 0], [z, y * z]]) and diff(sd, x) == ImmutableSparseNDimArray([[1, 0], [z, y * z]]) and mdn == ImmutableDenseNDimArray([[3 * x, 3 * y], [3 * x * z, 3 * x * y * z]]) and md != mdn and sdn == ImmutableSparseNDimArray([[x / 2, y / 2], [x * z / 2, x * y * z / 2]]) and sd != sdn and sdp == ImmutableSparseNDimArray([[x + 1, y + 1], [x * z + 1, x * y * z + 1]]) and sd != sdp) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_diff_and_applyfunc : Any → {Any | md.diff(x) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  md.diff(x) == ImmutableDenseNDimArray([[1...   ║
+# ║   ensures:  diff(md, x) == ImmutableDenseNDimArray([[...   ║
+# ║   ensures:  sd == ImmutableSparseNDimArray([x, y, x *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_diff_and_applyfunc : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41fb10689441c3a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb85722880c6a445  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_diff_and_applyfunc","kind":"function","src_hash":"53094ca2f147e2d8","in":{"base":"Any"},"out":{"base":"Any","pred":"md.diff(x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]]) and diff(md, x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]]) and sd == ImmutableSparseNDimArray([x, y, x * z, x * y * z], (2, 2)) and sd.diff(x) == ImmutableSparseNDimArray([[1, 0], [z, y * z]]) and diff(sd, x) == ImmutableSparseNDimArray([[1, 0], [z, y * z]]) and mdn == ImmutableDenseNDimArray([[3 * x, 3 * y], [3 * x * z, 3 * x * y * z]]) and md != mdn and sdn == ImmutableSparseNDimArray([[x / 2, y / 2], [x * z / 2, x * y * z / 2]]) and sd != sdn and sdp == ImmutableSparseNDimArray([[x + 1, y + 1], [x * z + 1, x * y * z + 1]]) and sd != sdp"},"spec":{"lhs":"test_diff_and_applyfunc()","rhs":"test_diff_and_applyfunc produces the expected output","over":{"base":"Any"},"name":"test_diff_and_applyfunc_correct"},"guarantee":"test_diff_and_applyfunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_diff_and_applyfunc_correct","statement":"Path(test_diff_and_applyfunc(x), test_diff_and_applyfunc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41fb10689441c3a3"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_diff_and_applyfunc","kind":"function","src_hash":"53094ca2f147e2d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: md.diff(x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]]) and diff(md, x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]]) and sd == ImmutableSparseNDimArray([x, y, x * z, x * y * z], (2, 2)) and sd.diff(x) == ImmutableSparseNDimArray([[1, 0], [z, y * z]]) and diff(sd, x) == ImmutableSparseNDimArray([[1, 0], [z, y * z]]) and mdn == ImmutableDenseNDimArray([[3 * x, 3 * y], [3 * x * z, 3 * x * y * z]]) and md != mdn and sdn == ImmutableSparseNDimArray([[x / 2, y / 2], [x * z / 2, x * y * z / 2]]) and sd != sdn and sdp == ImmutableSparseNDimArray([[x + 1, y + 1], [x * z + 1, x * y * z + 1]]) and sd != sdp"},"spec":{"lhs":"test_diff_and_applyfunc()","rhs":"md.diff(x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]]) and diff(md, x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]]) and sd == ImmutableSparseNDimArray([x, y, x * z, x * y * z], (2, 2)) and sd.diff(x) == ImmutableSparseNDimArray([[1, 0], [z, y * z]]) and diff(sd, x) == ImmutableSparseNDimArray([[1, 0], [z, y * z]]) and mdn == ImmutableDenseNDimArray([[3 * x, 3 * y], [3 * x * z, 3 * x * y * z]]) and md != mdn and sdn == ImmutableSparseNDimArray([[x / 2, y / 2], [x * z / 2, x * y * z / 2]]) and sd != sdn and sdp == ImmutableSparseNDimArray([[x + 1, y + 1], [x * z + 1, x * y * z + 1]]) and sd != sdp","over":{"base":"Any"},"name":"test_diff_and_applyfunc_correct"},"guarantee":"md.diff(x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]]); diff(md, x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]]); sd == ImmutableSparseNDimArray([x, y, x * z, x * y * z], (2, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_diff_and_applyfunc_correct","statement":"Path(test_diff_and_applyfunc(x), md.diff(x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]]); diff(md, x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]]); sd == ImmutableSparseNDimArray([x, y, x * z, x * y * z], (2, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb85722880c6a445","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["md.diff(x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]])","diff(md, x) == ImmutableDenseNDimArray([[1, 0], [z, y * z]])","sd == ImmutableSparseNDimArray([x, y, x * z, x * y * z], (2, 2))","sd.diff(x) == ImmutableSparseNDimArray([[1, 0], [z, y * z]])","diff(sd, x) == ImmutableSparseNDimArray([[1, 0], [z, y * z]])","mdn == ImmutableDenseNDimArray([[3 * x, 3 * y], [3 * x * z, 3 * x * y * z]])","md != mdn","sdn == ImmutableSparseNDimArray([[x / 2, y / 2], [x * z / 2, x * y * z / 2]])","sd != sdn","sdp == ImmutableSparseNDimArray([[x + 1, y + 1], [x * z + 1, x * y * z + 1]])","sd != sdp"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_diff_and_applyfunc():
     from sympy.abc import x, y, z
     md = ImmutableDenseNDimArray([[x, y], [x*z, x*y*z]])
@@ -560,16 +668,24 @@ def test_diff_and_applyfunc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_op_priority(), test_op_priority produces the expected output) over Any ║
+# ║ Path(test_op_priority(), e1 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x]) and e1 == e2 and e3 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x]) and e3 == e4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_op_priority : Any → {Any | e1 == ImmutableDenseN...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e1 == ImmutableDenseNDimArray([1 + x, 2 +...   ║
+# ║   ensures:  e1 == e2                                       ║
+# ║   ensures:  e3 == ImmutableDenseNDimArray([1 + x, 2 +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_op_priority : Any → {Any | result satisfies: e1 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09894c09f1458dec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51f8df83926ebe10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_op_priority","kind":"function","src_hash":"85ab8bb2e8737d9f","in":{"base":"Any"},"out":{"base":"Any","pred":"e1 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x]) and e1 == e2 and e3 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x]) and e3 == e4"},"spec":{"lhs":"test_op_priority()","rhs":"test_op_priority produces the expected output","over":{"base":"Any"},"name":"test_op_priority_correct"},"guarantee":"test_op_priority produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_op_priority_correct","statement":"Path(test_op_priority(x), test_op_priority produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09894c09f1458dec"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_op_priority","kind":"function","src_hash":"85ab8bb2e8737d9f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e1 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x]) and e1 == e2 and e3 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x]) and e3 == e4"},"spec":{"lhs":"test_op_priority()","rhs":"e1 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x]) and e1 == e2 and e3 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x]) and e3 == e4","over":{"base":"Any"},"name":"test_op_priority_correct"},"guarantee":"e1 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x]); e1 == e2; e3 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_op_priority_correct","statement":"Path(test_op_priority(x), e1 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x]); e1 == e2; e3 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51f8df83926ebe10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e1 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x])","e1 == e2","e3 == ImmutableDenseNDimArray([1 + x, 2 + 2 * x, 3 + 3 * x])","e3 == e4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_op_priority():
     from sympy.abc import x
     md = ImmutableDenseNDimArray([1, 2, 3])
@@ -586,7 +702,12 @@ def test_op_priority():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbolic_indexing(), test_symbolic_indexing produces the expected output) over {Any | isinstance(Mij, Indexed)} ║
+# ║ Path(test_symbolic_indexing(), isinstance(Mij, Indexed) and isinstance(msij, Indexed) and A[0, 0].subs(A, M) == x and A[i, j].subs(A, M) == M[i, j] and M[i, j].subs(M, A) == A[i, j] and isinstance(M[3 * i - 2, j], Indexed) and M[3 * i - 2, j].subs({i: 1, j: 0}) == M[1, 0] and isinstance(M[i, 0], Indexed) and M[i, 0].subs(i, 0) == M[0, 0] and M[0, i].subs(i, 1) == M[0, 1] and M[i, j].diff(x) == ImmutableDenseNDimArray([[1, 0], [0, 0]])[i, j] and Ms[i, j].diff(x) == ImmutableSparseNDimArray([[0, 3], [0, 0]])[i, j] and Mo[i].subs(i, 1) == 2 and Mos[i].subs(i, 1) == 2) over {Any | isinstance(Mij, Indexed)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(Mij, Indexed)                       ║
+# ║   ensures:  isinstance(msij, Indexed)                      ║
+# ║   ensures:  A[0, 0].subs(A, M) == x                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_symbolic_indexing : {Any | isinstance(Mij, Index...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -598,9 +719,12 @@ def test_op_priority():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 47691af8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_symbolic_indexing","kind":"function","src_hash":"897da6a14da98c7e","in":{"base":"Any","pred":"isinstance(Mij, Indexed)"},"out":{"base":"Any","pred":"isinstance(Mij, Indexed) and isinstance(msij, Indexed) and A[0, 0].subs(A, M) == x and A[i, j].subs(A, M) == M[i, j] and M[i, j].subs(M, A) == A[i, j] and isinstance(M[3 * i - 2, j], Indexed) and M[3 * i - 2, j].subs({i: 1, j: 0}) == M[1, 0] and isinstance(M[i, 0], Indexed) and M[i, 0].subs(i, 0) == M[0, 0] and M[0, i].subs(i, 1) == M[0, 1] and M[i, j].diff(x) == ImmutableDenseNDimArray([[1, 0], [0, 0]])[i, j] and Ms[i, j].diff(x) == ImmutableSparseNDimArray([[0, 3], [0, 0]])[i, j] and Mo[i].subs(i, 1) == 2 and Mos[i].subs(i, 1) == 2 and Mij.subs({i: oi, j: oj}) == M[oi, oj] and msij.subs({i: oi, j: oj}) == Ms[oi, oj]"},"spec":{"lhs":"test_symbolic_indexing()","rhs":"test_symbolic_indexing produces the expected output","over":{"base":"Any","pred":"isinstance(Mij, Indexed)"},"name":"test_symbolic_indexing_correct"},"guarantee":"test_symbolic_indexing produces the expected output","fibers":[{"name":"Indexed","pred":"isinstance(Mij, Indexed)","path":{"lhs":"test_symbolic_indexing(x)","rhs":"test_symbolic_indexing produces the expected output","over":{"base":"Indexed","pred":"isinstance(Mij, Indexed)"},"name":"test_symbolic_indexing_Indexed_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_symbolic_indexing_Indexed_correct","statement":"test_symbolic_indexing satisfies spec on Indexed inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"47691af8789e6698"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_symbolic_indexing","kind":"function","src_hash":"897da6a14da98c7e","in":{"base":"Any","pred":"isinstance(Mij, Indexed)"},"out":{"base":"Any","pred":"result satisfies: isinstance(Mij, Indexed) and isinstance(msij, Indexed) and A[0, 0].subs(A, M) == x and A[i, j].subs(A, M) == M[i, j] and M[i, j].subs(M, A) == A[i, j] and isinstance(M[3 * i - 2, j], Indexed) and M[3 * i - 2, j].subs({i: 1, j: 0}) == M[1, 0] and isinstance(M[i, 0], Indexed) and M[i, 0].subs(i, 0) == M[0, 0] and M[0, i].subs(i, 1) == M[0, 1] and M[i, j].diff(x) == ImmutableDenseNDimArray([[1, 0], [0, 0]])[i, j] and Ms[i, j].diff(x) == ImmutableSparseNDimArray([[0, 3], [0, 0]])[i, j] and Mo[i].subs(i, 1) == 2 and Mos[i].subs(i, 1) == 2"},"spec":{"lhs":"test_symbolic_indexing()","rhs":"isinstance(Mij, Indexed) and isinstance(msij, Indexed) and A[0, 0].subs(A, M) == x and A[i, j].subs(A, M) == M[i, j] and M[i, j].subs(M, A) == A[i, j] and isinstance(M[3 * i - 2, j], Indexed) and M[3 * i - 2, j].subs({i: 1, j: 0}) == M[1, 0] and isinstance(M[i, 0], Indexed) and M[i, 0].subs(i, 0) == M[0, 0] and M[0, i].subs(i, 1) == M[0, 1] and M[i, j].diff(x) == ImmutableDenseNDimArray([[1, 0], [0, 0]])[i, j] and Ms[i, j].diff(x) == ImmutableSparseNDimArray([[0, 3], [0, 0]])[i, j] and Mo[i].subs(i, 1) == 2 and Mos[i].subs(i, 1) == 2","over":{"base":"Any","pred":"isinstance(Mij, Indexed)"},"name":"test_symbolic_indexing_correct"},"guarantee":"isinstance(Mij, Indexed); isinstance(msij, Indexed); A[0, 0].subs(A, M) == x","fibers":[{"name":"Indexed","pred":"isinstance(Mij, Indexed)","path":{"lhs":"test_symbolic_indexing(x)","rhs":"isinstance(Mij, Indexed); isinstance(msij, Indexed); A[0, 0].subs(A, M) == x","over":{"base":"Indexed","pred":"isinstance(Mij, Indexed)"},"name":"test_symbolic_indexing_Indexed_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_symbolic_indexing_Indexed_correct","statement":"test_symbolic_indexing satisfies spec on Indexed inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"47691af8789e6698","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(Mij, Indexed)","isinstance(msij, Indexed)","A[0, 0].subs(A, M) == x","A[i, j].subs(A, M) == M[i, j]","M[i, j].subs(M, A) == A[i, j]","isinstance(M[3 * i - 2, j], Indexed)","M[3 * i - 2, j].subs({i: 1, j: 0}) == M[1, 0]","isinstance(M[i, 0], Indexed)","M[i, 0].subs(i, 0) == M[0, 0]","M[0, i].subs(i, 1) == M[0, 1]","M[i, j].diff(x) == ImmutableDenseNDimArray([[1, 0], [0, 0]])[i, j]","Ms[i, j].diff(x) == ImmutableSparseNDimArray([[0, 3], [0, 0]])[i, j]","Mo[i].subs(i, 1) == 2","Mos[i].subs(i, 1) == 2"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":true}}
 def test_symbolic_indexing():
     x, y, z, w = symbols("x y z w")
     M = ImmutableDenseNDimArray([[x, y], [z, w]])
@@ -644,16 +768,22 @@ def test_symbolic_indexing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12665(), test_issue_12665 produces the expected output) over Any ║
+# ║ Path(test_issue_12665(), <unspecified:test_issue_12665>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_12665 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | feefa5d101b09cc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_issue_12665","kind":"function","src_hash":"53a2468dbd69dcd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_12665()","rhs":"test_issue_12665 produces the expected output","over":{"base":"Any"},"name":"test_issue_12665_correct"},"guarantee":"test_issue_12665 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_issue_12665_correct","statement":"Path(test_issue_12665(x), test_issue_12665 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"feefa5d101b09cc3"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_issue_12665","kind":"function","src_hash":"53a2468dbd69dcd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_12665()","rhs":"<unspecified:test_issue_12665>","over":{"base":"Any"},"name":"test_issue_12665_correct"},"guarantee":"test_issue_12665 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_issue_12665_correct","statement":"Path(test_issue_12665(x), test_issue_12665 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"feefa5d101b09cc3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_12665():
     # Testing Python 3 hash of immutable arrays:
     arr = ImmutableDenseNDimArray([1, 2, 3])
@@ -662,31 +792,44 @@ def test_issue_12665():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zeros_without_shape(), test_zeros_without_shape produces the expected output) over Any ║
+# ║ Path(test_zeros_without_shape(), arr == ImmutableDenseNDimArray(0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zeros_without_shape : Any → {Any | arr == Immuta...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  arr == ImmutableDenseNDimArray(0)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zeros_without_shape : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6823f95f21ba1cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3707a26fba3e18f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_zeros_without_shape","kind":"function","src_hash":"9485904a9e670c93","in":{"base":"Any"},"out":{"base":"Any","pred":"arr == ImmutableDenseNDimArray(0)"},"spec":{"lhs":"test_zeros_without_shape()","rhs":"test_zeros_without_shape produces the expected output","over":{"base":"Any"},"name":"test_zeros_without_shape_correct"},"guarantee":"test_zeros_without_shape produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_zeros_without_shape_correct","statement":"Path(test_zeros_without_shape(x), test_zeros_without_shape produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6823f95f21ba1cb"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_zeros_without_shape","kind":"function","src_hash":"9485904a9e670c93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: arr == ImmutableDenseNDimArray(0)"},"spec":{"lhs":"test_zeros_without_shape()","rhs":"arr == ImmutableDenseNDimArray(0)","over":{"base":"Any"},"name":"test_zeros_without_shape_correct"},"guarantee":"arr == ImmutableDenseNDimArray(0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_zeros_without_shape_correct","statement":"Path(test_zeros_without_shape(x), arr == ImmutableDenseNDimArray(0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3707a26fba3e18f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["arr == ImmutableDenseNDimArray(0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_zeros_without_shape():
     arr = ImmutableDenseNDimArray.zeros()
     assert arr == ImmutableDenseNDimArray(0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21870(), test_issue_21870 produces the expected output) over Any ║
+# ║ Path(test_issue_21870(), a0.rank() == 0 and a1.rank() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_21870 : Any → {Any | a0.rank() == 0 and a1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a0.rank() == 0                                 ║
+# ║   ensures:  a1.rank() == 0                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_21870 : Any → {Any | result satisfies: a0....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4cda4d66ca69270  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 366330fe492282ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_issue_21870","kind":"function","src_hash":"a32d3a77e1db5cbb","in":{"base":"Any"},"out":{"base":"Any","pred":"a0.rank() == 0 and a1.rank() == 0"},"spec":{"lhs":"test_issue_21870()","rhs":"test_issue_21870 produces the expected output","over":{"base":"Any"},"name":"test_issue_21870_correct"},"guarantee":"test_issue_21870 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_issue_21870_correct","statement":"Path(test_issue_21870(x), test_issue_21870 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4cda4d66ca69270"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_immutable_ndim_array.test_issue_21870","kind":"function","src_hash":"a32d3a77e1db5cbb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a0.rank() == 0 and a1.rank() == 0"},"spec":{"lhs":"test_issue_21870()","rhs":"a0.rank() == 0 and a1.rank() == 0","over":{"base":"Any"},"name":"test_issue_21870_correct"},"guarantee":"a0.rank() == 0; a1.rank() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_immutable_ndim_array.test_issue_21870_correct","statement":"Path(test_issue_21870(x), a0.rank() == 0; a1.rank() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"366330fe492282ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a0.rank() == 0","a1.rank() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_21870():
     a0 = ImmutableDenseNDimArray(0)
     assert a0.rank() == 0

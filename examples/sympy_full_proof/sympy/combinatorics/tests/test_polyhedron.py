@@ -28,16 +28,24 @@ rmul = Permutation.rmul
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polyhedron(), test_polyhedron produces the expected output) over Any ║
+# ║ Path(test_polyhedron(), cube.edges == FiniteSet(*((0, 1), (6, 7), (1, 2), (5, 6), (0, 3), (2, 3), (4, 7), (4, 5), (3, 7), (1, 5), (0, 4), (2, 6))) and cube.corners == corners and cube.corners != corners and cube.array_form == [7, 6, 4, 5, 3, 2, 0, 1] and cube.cyclic_form == [[0, 7, 1, 6], [2, 4, 3, 5]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polyhedron : Any → {Any | cube.corners == corner...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cube.edges == FiniteSet(*((0, 1), (6, 7),...   ║
+# ║   ensures:  cube.corners == corners                        ║
+# ║   ensures:  cube.corners != corners                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polyhedron : Any → {Any | result satisfies: cube...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4ec541767592f39  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ead35d8e27c51e59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_polyhedron.test_polyhedron","kind":"function","src_hash":"449eeb897c3eb7c2","in":{"base":"Any"},"out":{"base":"Any","pred":"cube.corners == corners and cube.corners == corners and cube.corners != corners and cube.array_form == [7, 6, 4, 5, 3, 2, 0, 1] and cube.cyclic_form == [[0, 7, 1, 6], [2, 4, 3, 5]] and cube.corners == corners and len(h.faces) + len(h.vertices) - len(h.edges) == 2 and h.size == size and len(got) == target and PermutationGroup([Permutation(g) for g in got]).is_group and h.faces == Polyhedron(c, f).faces"},"spec":{"lhs":"test_polyhedron()","rhs":"test_polyhedron produces the expected output","over":{"base":"Any"},"name":"test_polyhedron_correct"},"guarantee":"test_polyhedron produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_polyhedron.test_polyhedron_correct","statement":"Path(test_polyhedron(x), test_polyhedron produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4ec541767592f39"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_polyhedron.test_polyhedron","kind":"function","src_hash":"449eeb897c3eb7c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cube.edges == FiniteSet(*((0, 1), (6, 7), (1, 2), (5, 6), (0, 3), (2, 3), (4, 7), (4, 5), (3, 7), (1, 5), (0, 4), (2, 6))) and cube.corners == corners and cube.corners != corners and cube.array_form == [7, 6, 4, 5, 3, 2, 0, 1] and cube.cyclic_form == [[0, 7, 1, 6], [2, 4, 3, 5]]"},"spec":{"lhs":"test_polyhedron()","rhs":"cube.edges == FiniteSet(*((0, 1), (6, 7), (1, 2), (5, 6), (0, 3), (2, 3), (4, 7), (4, 5), (3, 7), (1, 5), (0, 4), (2, 6))) and cube.corners == corners and cube.corners != corners and cube.array_form == [7, 6, 4, 5, 3, 2, 0, 1] and cube.cyclic_form == [[0, 7, 1, 6], [2, 4, 3, 5]]","over":{"base":"Any"},"name":"test_polyhedron_correct"},"guarantee":"cube.edges == FiniteSet(*((0, 1), (6, 7), (1, 2), (5, 6), (0, 3), (2, 3), (4, 7), (4, 5), (3, 7), (1, 5), (0, 4), (2, 6))); cube.corners == corners; cube.corners != corners","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_polyhedron.test_polyhedron_correct","statement":"Path(test_polyhedron(x), cube.edges == FiniteSet(*((0, 1), (6, 7), (1, 2), (5, 6), (0, 3), (2, 3), (4, 7), (4, 5), (3, 7), (1, 5), (0, 4), (2, 6))); cube.corners == corners; cube.corners != corners)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ead35d8e27c51e59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cube.edges == FiniteSet(*((0, 1), (6, 7), (1, 2), (5, 6), (0, 3), (2, 3), (4, 7), (4, 5), (3, 7), (1, 5), (0, 4), (2, 6)))","cube.corners == corners","cube.corners != corners","cube.array_form == [7, 6, 4, 5, 3, 2, 0, 1]","cube.cyclic_form == [[0, 7, 1, 6], [2, 4, 3, 5]]"],"pure":false,"effects":{"effect_type":"io","calls_mutating":["P.rotate","cube.rotate","got.add"],"io_operations":["print"]},"state_contract":{"modifies":["P.*","cube.*","got.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_polyhedron():
     raises(ValueError, lambda: Polyhedron(list('ab'),
         pgroup=[Permutation([0])]))
@@ -114,16 +122,24 @@ def test_polyhedron():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pgroups(), test_pgroups produces the expected output) over Any ║
+# ║ Path(test_pgroups(), tetrahedron == tetrahedron2 and cube == cube2 and octahedron == octahedron2 and dodecahedron == dodecahedron2 and icosahedron == icosahedron2 and sorted(map(sorted, tetrahedron_faces)) == sorted(map(sorted, tetrahedron_faces2)) and sorted(cube_faces) == sorted(cube_faces2) and sorted(octahedron_faces) == sorted(octahedron_faces2) and sorted(dodecahedron_faces) == sorted(dodecahedron_faces2) and sorted(icosahedron_faces) == sorted(icosahedron_faces2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pgroups : Any → {Any | tetrahedron == tetrahedro...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tetrahedron == tetrahedron2                    ║
+# ║   ensures:  cube == cube2                                  ║
+# ║   ensures:  octahedron == octahedron2                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pgroups : Any → {Any | result satisfies: tetrahe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79e706a59530f9fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19a8f7a72cef3554  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_polyhedron.test_pgroups","kind":"function","src_hash":"1ee92b3fc12e8781","in":{"base":"Any"},"out":{"base":"Any","pred":"tetrahedron == tetrahedron2 and cube == cube2 and octahedron == octahedron2 and dodecahedron == dodecahedron2 and icosahedron == icosahedron2 and sorted(cube_faces) == sorted(cube_faces2) and sorted(octahedron_faces) == sorted(octahedron_faces2) and sorted(dodecahedron_faces) == sorted(dodecahedron_faces2) and sorted(icosahedron_faces) == sorted(icosahedron_faces2)"},"spec":{"lhs":"test_pgroups()","rhs":"test_pgroups produces the expected output","over":{"base":"Any"},"name":"test_pgroups_correct"},"guarantee":"test_pgroups produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_polyhedron.test_pgroups_correct","statement":"Path(test_pgroups(x), test_pgroups produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79e706a59530f9fa"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_polyhedron.test_pgroups","kind":"function","src_hash":"1ee92b3fc12e8781","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tetrahedron == tetrahedron2 and cube == cube2 and octahedron == octahedron2 and dodecahedron == dodecahedron2 and icosahedron == icosahedron2 and sorted(map(sorted, tetrahedron_faces)) == sorted(map(sorted, tetrahedron_faces2)) and sorted(cube_faces) == sorted(cube_faces2) and sorted(octahedron_faces) == sorted(octahedron_faces2) and sorted(dodecahedron_faces) == sorted(dodecahedron_faces2) and sorted(icosahedron_faces) == sorted(icosahedron_faces2)"},"spec":{"lhs":"test_pgroups()","rhs":"tetrahedron == tetrahedron2 and cube == cube2 and octahedron == octahedron2 and dodecahedron == dodecahedron2 and icosahedron == icosahedron2 and sorted(map(sorted, tetrahedron_faces)) == sorted(map(sorted, tetrahedron_faces2)) and sorted(cube_faces) == sorted(cube_faces2) and sorted(octahedron_faces) == sorted(octahedron_faces2) and sorted(dodecahedron_faces) == sorted(dodecahedron_faces2) and sorted(icosahedron_faces) == sorted(icosahedron_faces2)","over":{"base":"Any"},"name":"test_pgroups_correct"},"guarantee":"tetrahedron == tetrahedron2; cube == cube2; octahedron == octahedron2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_polyhedron.test_pgroups_correct","statement":"Path(test_pgroups(x), tetrahedron == tetrahedron2; cube == cube2; octahedron == octahedron2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19a8f7a72cef3554","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tetrahedron == tetrahedron2","cube == cube2","octahedron == octahedron2","dodecahedron == dodecahedron2","icosahedron == icosahedron2","sorted(map(sorted, tetrahedron_faces)) == sorted(map(sorted, tetrahedron_faces2))","sorted(cube_faces) == sorted(cube_faces2)","sorted(octahedron_faces) == sorted(octahedron_faces2)","sorted(dodecahedron_faces) == sorted(dodecahedron_faces2)","sorted(icosahedron_faces) == sorted(icosahedron_faces2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pgroups():
     from sympy.combinatorics.polyhedron import (cube, tetrahedron_faces,
             octahedron_faces, dodecahedron_faces, icosahedron_faces)

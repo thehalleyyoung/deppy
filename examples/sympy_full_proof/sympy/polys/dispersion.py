@@ -20,16 +20,25 @@ from sympy.polys import Poly
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dispersionset(p, ), compute the *dispersion set* of two polynomials) over Any ║
+# ║ Path(dispersionset(p, q, *gens), <unspecified:dispersionset>) over {Any | not (not p.is_univariate or not q.is_univariate) and hasattr(p, 'gen') and hasattr(p, 'factor_list') and hasattr(p, 'is_univariate') and hasattr(q, 'is_univariate') and hasattr(q, 'gen') and hasattr(q, 'factor_list') and hasattr(p, 'degree') and hasattr(q, 'degree')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dispersionset : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (not p.is_univariate or not q.is_univ...   ║
+# ║   requires: hasattr(p, 'gen')                              ║
+# ║   requires: hasattr(p, 'factor_list')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dispersionset : {Any | not (not p.is_univariate or no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a553e08ab646be2f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.dispersion.dispersionset","kind":"function","src_hash":"b67b8526316b5bd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispersionset(p, )","rhs":"compute the *dispersion set* of two polynomials","over":{"base":"Any"},"name":"dispersionset_correct"},"guarantee":"compute the *dispersion set* of two polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.dispersion.dispersionset_correct","statement":"Path(dispersionset(x), compute the *dispersion set* of two polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a553e08ab646be2f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.dispersion.dispersionset","kind":"function","src_hash":"b67b8526316b5bd4","in":{"base":"Any","pred":"not (not p.is_univariate or not q.is_univariate) and hasattr(p, 'gen') and hasattr(p, 'factor_list') and hasattr(p, 'is_univariate') and hasattr(q, 'is_univariate') and hasattr(q, 'gen') and hasattr(q, 'factor_list') and hasattr(p, 'degree') and hasattr(q, 'degree')"},"out":{"base":"Any"},"spec":{"lhs":"dispersionset(p, q, *gens)","rhs":"<unspecified:dispersionset>","over":{"base":"Any","pred":"not (not p.is_univariate or not q.is_univariate) and hasattr(p, 'gen') and hasattr(p, 'factor_list') and hasattr(p, 'is_univariate') and hasattr(q, 'is_univariate') and hasattr(q, 'gen') and hasattr(q, 'factor_list') and hasattr(p, 'degree') and hasattr(q, 'degree')"},"name":"dispersionset_correct"},"guarantee":"compute the *dispersion set* of two polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.dispersion.dispersionset_correct","statement":"Path(dispersionset(x), compute the *dispersion set* of two polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a553e08ab646be2f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (not p.is_univariate or not q.is_univariate)","hasattr(p, 'gen')","hasattr(p, 'factor_list')","hasattr(p, 'is_univariate')","hasattr(q, 'is_univariate')","hasattr(q, 'gen')","hasattr(q, 'factor_list')","hasattr(p, 'degree')","hasattr(q, 'degree')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.degree","p.factor_list","p.gen","p.is_univariate","q.degree","q.factor_list","q.gen","q.is_univariate"],"calls_mutating":["J.add"],"raises":["ValueError"]},"state_contract":{"modifies":["J.*"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['p', 'q'], spec=['p', 'q', '*gens', '**args']"]}}
 def dispersionset(p, q=None, *gens, **args):
     r"""Compute the *dispersion set* of two polynomials.
 
@@ -156,16 +165,22 @@ def dispersionset(p, q=None, *gens, **args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dispersion(p, ), compute the *dispersion* of polynomials) over Any ║
+# ║ Path(dispersion(p, q, *gens), <unspecified:dispersion>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dispersion : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60901a1a41a957c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.dispersion.dispersion","kind":"function","src_hash":"cc987a3375e77ce1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispersion(p, )","rhs":"compute the *dispersion* of polynomials","over":{"base":"Any"},"name":"dispersion_correct"},"guarantee":"compute the *dispersion* of polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.dispersion.dispersion_correct","statement":"Path(dispersion(x), compute the *dispersion* of polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60901a1a41a957c2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.dispersion.dispersion","kind":"function","src_hash":"cc987a3375e77ce1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispersion(p, q, *gens)","rhs":"<unspecified:dispersion>","over":{"base":"Any"},"name":"dispersion_correct"},"guarantee":"compute the *dispersion* of polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.dispersion.dispersion_correct","statement":"Path(dispersion(x), compute the *dispersion* of polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60901a1a41a957c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['p', 'q'], spec=['p', 'q', '*gens', '**args']"]}}
 def dispersion(p, q=None, *gens, **args):
     r"""Compute the *dispersion* of polynomials.
 

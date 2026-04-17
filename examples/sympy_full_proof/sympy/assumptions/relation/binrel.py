@@ -32,14 +32,20 @@ __all__ = ["BinaryRelation", "AppliedBinaryRelation"]
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BinaryRelation(*args), correctly constructs a BinaryRelation instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BinaryRelation : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Predicate)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BinaryRelation : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41b2487ff9270be4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.BinaryRelation","kind":"class","src_hash":"1bfeeb5678201537","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BinaryRelation(*args)","rhs":"correctly constructs a BinaryRelation instance","over":{"base":"Any"},"name":"BinaryRelation_class_invariant"},"guarantee":"correctly constructs a BinaryRelation instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41b2487ff9270be4"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.BinaryRelation","kind":"class","src_hash":"1bfeeb5678201537","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Predicate)"},"spec":{"lhs":"BinaryRelation(*args)","rhs":"correctly constructs a BinaryRelation instance","over":{"base":"Any"},"name":"BinaryRelation_class_invariant"},"guarantee":"isinstance(self, Predicate)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41b2487ff9270be4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Predicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function BinaryRelation not found in source"]}}
 class BinaryRelation(Predicate):
     """
     Base class for all binary relational predicates.
@@ -106,16 +112,23 @@ class BinaryRelation(Predicate):
     is_symmetric: Optional[bool] = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ar), correctly applies the callable) over Any ║
+# ║ Path(__call__(*args), AppliedBinaryRelation(self, *args)) over {Any | len(args) == 2} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(args) == 2                                 ║
+# ║   returns:  AppliedBinaryRelation(self, *args)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : {Any | len(args) == 2} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99590714cbde7810           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.BinaryRelation.__call__","kind":"method","src_hash":"ffa7dcb3617d55b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ar)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99590714cbde7810"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.BinaryRelation.__call__","kind":"method","src_hash":"ffa7dcb3617d55b0","in":{"base":"Any","pred":"len(args) == 2"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*args)","rhs":"AppliedBinaryRelation(self, *args)","over":{"base":"Any","pred":"len(args) == 2"},"name":"__call___correct"},"guarantee":"returns AppliedBinaryRelation(self, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99590714cbde7810","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(args) == 2"],"returns_expr":"AppliedBinaryRelation(self, *args)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *args):
         if not len(args) == 2:
             raise ValueError("Binary relation takes two arguments, but got %s." % len(args))
@@ -123,16 +136,22 @@ class BinaryRelation(Predicate):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reversed(), returns the reversed attribute) over Any  ║
+# ║ Path(reversed(), <unspecified:reversed>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reversed : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed98a12cc7ef4778           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.BinaryRelation.reversed","kind":"property","src_hash":"b793a5eb045c12a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"returns the reversed attribute","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns the reversed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed98a12cc7ef4778"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.BinaryRelation.reversed","kind":"property","src_hash":"b793a5eb045c12a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"<unspecified:reversed>","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns the reversed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed98a12cc7ef4778","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_symmetric"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reversed(self):
         if self.is_symmetric:
             return self
@@ -140,30 +159,42 @@ class BinaryRelation(Predicate):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(negated(), returns the negated attribute) over Any    ║
+# ║ Path(negated(), None) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ negated : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cad63120ac7d5305           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.BinaryRelation.negated","kind":"property","src_hash":"dbaf084ff2a24207","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"returns the negated attribute","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cad63120ac7d5305"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.BinaryRelation.negated","kind":"property","src_hash":"dbaf084ff2a24207","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"None","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cad63120ac7d5305","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def negated(self):
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compare_reflexive(lhs), internal helper behaves correctly) over Any ║
+# ║ Path(_compare_reflexive(lhs, rhs), <unspecified:_compare_reflexive>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compare_reflexive : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1af042dff3c6bd71  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.BinaryRelation._compare_reflexive","kind":"method","src_hash":"a9c44b400af224a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compare_reflexive(lhs)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compare_reflexive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.binrel.BinaryRelation._compare_reflexive_correct","statement":"Path(_compare_reflexive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1af042dff3c6bd71"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.BinaryRelation._compare_reflexive","kind":"method","src_hash":"a9c44b400af224a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compare_reflexive(lhs, rhs)","rhs":"<unspecified:_compare_reflexive>","over":{"base":"Any"},"name":"_compare_reflexive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.binrel.BinaryRelation._compare_reflexive_correct","statement":"Path(_compare_reflexive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1af042dff3c6bd71","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_reflexive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compare_reflexive(self, lhs, rhs):
         # quick exit for structurally same arguments
         # do not check != here because it cannot catch the
@@ -183,16 +214,22 @@ class BinaryRelation(Predicate):
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(arg), eval produces the expected output) over Any ║
+# ║ Path(eval(args, assumptions), <unspecified:eval>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2e7d679135ac4ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.BinaryRelation.eval","kind":"method","src_hash":"efeec7a0d996cf67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(arg)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.binrel.BinaryRelation.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2e7d679135ac4ba"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.BinaryRelation.eval","kind":"method","src_hash":"efeec7a0d996cf67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(args, assumptions)","rhs":"<unspecified:eval>","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.binrel.BinaryRelation.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2e7d679135ac4ba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._compare_reflexive","self.handler","self.is_reflexive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(self, args, assumptions=True):
         # quick exit for structurally same arguments
         ret = self._compare_reflexive(*args)
@@ -218,14 +255,20 @@ class BinaryRelation(Predicate):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AppliedBinaryRelation(*args), correctly constructs a AppliedBinaryRelation instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AppliedBinaryRelation : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AppliedPredicate)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AppliedBinaryRelation : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d323236498179dfe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation","kind":"class","src_hash":"3d5882f32232ed15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AppliedBinaryRelation(*args)","rhs":"correctly constructs a AppliedBinaryRelation instance","over":{"base":"Any"},"name":"AppliedBinaryRelation_class_invariant"},"guarantee":"correctly constructs a AppliedBinaryRelation instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d323236498179dfe"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation","kind":"class","src_hash":"3d5882f32232ed15","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AppliedPredicate)"},"spec":{"lhs":"AppliedBinaryRelation(*args)","rhs":"correctly constructs a AppliedBinaryRelation instance","over":{"base":"Any"},"name":"AppliedBinaryRelation_class_invariant"},"guarantee":"isinstance(self, AppliedPredicate)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d323236498179dfe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AppliedPredicate)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function AppliedBinaryRelation not found in source"]}}
 class AppliedBinaryRelation(AppliedPredicate):
     """
     The class of expressions resulting from applying ``BinaryRelation``
@@ -235,48 +278,66 @@ class AppliedBinaryRelation(AppliedPredicate):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lhs(), returns the lhs attribute) over Any            ║
+# ║ Path(lhs(), self.arguments[0]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.arguments[0]                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lhs : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d44697835b8f2ac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation.lhs","kind":"property","src_hash":"8b34daabc3e4abf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lhs()","rhs":"returns the lhs attribute","over":{"base":"Any"},"name":"lhs_correct"},"guarantee":"returns the lhs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d44697835b8f2ac"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation.lhs","kind":"property","src_hash":"8b34daabc3e4abf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lhs()","rhs":"self.arguments[0]","over":{"base":"Any"},"name":"lhs_correct"},"guarantee":"returns self.arguments[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d44697835b8f2ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.arguments[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arguments"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lhs(self):
         """The left-hand side of the relation."""
         return self.arguments[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rhs(), returns the rhs attribute) over Any            ║
+# ║ Path(rhs(), self.arguments[1]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.arguments[1]                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rhs : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 512ead76794b445e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation.rhs","kind":"property","src_hash":"4b3af08d3af49bab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs()","rhs":"returns the rhs attribute","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns the rhs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"512ead76794b445e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation.rhs","kind":"property","src_hash":"4b3af08d3af49bab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs()","rhs":"self.arguments[1]","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns self.arguments[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"512ead76794b445e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.arguments[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arguments"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rhs(self):
         """The right-hand side of the relation."""
         return self.arguments[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reversed(), returns the reversed attribute) over Any  ║
+# ║ Path(reversed(), <unspecified:reversed>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reversed : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 473c047c59c07a06           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation.reversed","kind":"property","src_hash":"fb4bb7fd6c449058","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"returns the reversed attribute","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns the reversed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"473c047c59c07a06"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation.reversed","kind":"property","src_hash":"fb4bb7fd6c449058","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversed()","rhs":"<unspecified:reversed>","over":{"base":"Any"},"name":"reversed_correct"},"guarantee":"returns the reversed attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"473c047c59c07a06","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.lhs","self.rhs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reversed(self):
         """
         Try to return the relationship with sides reversed.
@@ -288,16 +349,22 @@ class AppliedBinaryRelation(AppliedPredicate):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reversedsign(), returns the reversedsign attribute) over Any ║
+# ║ Path(reversedsign(), <unspecified:reversedsign>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reversedsign : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d65a3d548f245a44           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation.reversedsign","kind":"property","src_hash":"5ea257cf9eca6e53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversedsign()","rhs":"returns the reversedsign attribute","over":{"base":"Any"},"name":"reversedsign_correct"},"guarantee":"returns the reversedsign attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d65a3d548f245a44"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation.reversedsign","kind":"property","src_hash":"5ea257cf9eca6e53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reversedsign()","rhs":"<unspecified:reversedsign>","over":{"base":"Any"},"name":"reversedsign_correct"},"guarantee":"returns the reversedsign attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d65a3d548f245a44","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arguments","self.function","self.lhs","self.rhs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reversedsign(self):
         """
         Try to return the relationship with signs reversed.
@@ -311,16 +378,22 @@ class AppliedBinaryRelation(AppliedPredicate):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(negated(), returns the negated attribute) over Any    ║
+# ║ Path(negated(), <unspecified:negated>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ negated : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 075ef2010e7d7a01           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation.negated","kind":"property","src_hash":"eeae8231c5dceb27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"returns the negated attribute","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"075ef2010e7d7a01"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation.negated","kind":"property","src_hash":"eeae8231c5dceb27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negated()","rhs":"<unspecified:negated>","over":{"base":"Any"},"name":"negated_correct"},"guarantee":"returns the negated attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"075ef2010e7d7a01","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arguments","self.function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def negated(self):
         neg_rel = self.function.negated
         if neg_rel is None:
@@ -328,16 +401,22 @@ class AppliedBinaryRelation(AppliedPredicate):
         return neg_rel(*self.arguments)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_ask(ass), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_ask(assumptions), <unspecified:_eval_ask>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_ask : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ce59c8984a4deb1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation._eval_ask","kind":"method","src_hash":"4eff08103bf7b24d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_ask(ass)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_ask_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.binrel.AppliedBinaryRelation._eval_ask_correct","statement":"Path(_eval_ask(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ce59c8984a4deb1"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation._eval_ask","kind":"method","src_hash":"4eff08103bf7b24d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_ask(assumptions)","rhs":"<unspecified:_eval_ask>","over":{"base":"Any"},"name":"_eval_ask_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.relation.binrel.AppliedBinaryRelation._eval_ask_correct","statement":"Path(_eval_ask(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ce59c8984a4deb1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_ask(self, assumptions):
         conj_assumps = set()
         binrelpreds = {Eq: Q.eq, Ne: Q.ne, Gt: Q.gt, Lt: Q.lt, Ge: Q.ge, Le: Q.le}
@@ -366,16 +445,23 @@ class AppliedBinaryRelation(AppliedPredicate):
         return self.function.eval(args, assumptions)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__bool__(), correctly converts to boolean) over Any   ║
+# ║ Path(__bool__(), <unspecified:__bool__>) over {Any | not (ret is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __bool__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (ret is None)                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __bool__ : {Any | not (ret is None)} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05233c657c07ffe1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation.__bool__","kind":"method","src_hash":"5b274e1eed5d124a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"correctly converts to boolean","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"correctly converts to boolean","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05233c657c07ffe1"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.relation.binrel.AppliedBinaryRelation.__bool__","kind":"method","src_hash":"5b274e1eed5d124a","in":{"base":"Any","pred":"not (ret is None)"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"<unspecified:__bool__>","over":{"base":"Any","pred":"not (ret is None)"},"name":"__bool___correct"},"guarantee":"correctly converts to boolean","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05233c657c07ffe1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (ret is None)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __bool__(self):
         ret = ask(self)
         if ret is None:

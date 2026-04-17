@@ -29,14 +29,19 @@ _lark = import_module("lark")
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a LarkLaTeXParser instance) preserved by LarkLaTeXParser(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ LarkLaTeXParser : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee19802cbbd19504  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.lark.latex_parser.LarkLaTeXParser","kind":"class","src_hash":"e5294efced5ca8fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LarkLaTeXParser(*args)","rhs":"correctly constructs a LarkLaTeXParser instance","over":{"base":"Any"},"name":"LarkLaTeXParser_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a LarkLaTeXParser instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'parser') and hasattr(self, 'print_debug_output') and hasattr(self, 'transform_expr') and hasattr(self, 'transformer') and hasattr(self, 'transformer')","kind":"class","induction":"structural on parser, print_debug_output, transform_expr, transformer"}],"methods_preserving":["__init__","doparse"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee19802cbbd19504"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.lark.latex_parser.LarkLaTeXParser","kind":"class","src_hash":"e5294efced5ca8fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LarkLaTeXParser(*args)","rhs":"correctly constructs a LarkLaTeXParser instance","over":{"base":"Any"},"name":"LarkLaTeXParser_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'parser') and hasattr(self, 'print_debug_output') and hasattr(self, 'transform_expr') and hasattr(self, 'transformer') and hasattr(self, 'transformer')","kind":"class","induction":"structural on parser, print_debug_output, transform_expr, transformer"}],"methods_preserving":["__init__","doparse"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee19802cbbd19504","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'parser')","hasattr(self, 'print_debug_output')","hasattr(self, 'transform_expr')","hasattr(self, 'transformer')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function LarkLaTeXParser not found in source"]}}
 class LarkLaTeXParser:
     r"""Class for converting input `\mathrm{\LaTeX}` strings into SymPy Expressions.
     It holds all the necessary internal data for doing so, and exposes hooks for
@@ -69,16 +74,23 @@ class LarkLaTeXParser:
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pri), initializes the instance correctly) over Any ║
+# ║ Path(__init__(print_debug_output, transform, grammar_file), self.print_debug_output == print_debug_output and self.transform_expr == transform) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.print_debug_output == print_debug_ou...   ║
+# ║   ensures:  self.transform_expr == transform               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.print_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6aac7302844e1cf4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.lark.latex_parser.LarkLaTeXParser.__init__","kind":"method","src_hash":"2475f4292ceb50af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pri)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6aac7302844e1cf4"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.lark.latex_parser.LarkLaTeXParser.__init__","kind":"method","src_hash":"2475f4292ceb50af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.print_debug_output == print_debug_output and self.transform_expr == transform"},"spec":{"lhs":"__init__(print_debug_output, transform, grammar_file)","rhs":"self.print_debug_output == print_debug_output and self.transform_expr == transform","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.print_debug_output == print_debug_output; self.transform_expr == transform","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6aac7302844e1cf4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.print_debug_output == print_debug_output","self.transform_expr == transform"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, print_debug_output=False, transform=True, grammar_file=None, transformer=None):
         grammar_dir_path = os.path.join(os.path.dirname(__file__), "grammar/")
 
@@ -107,16 +119,23 @@ class LarkLaTeXParser:
             self.transformer = transformer()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doparse(s), doparse produces the expected output) over Any ║
+# ║ Path(doparse(s), <unspecified:doparse>) over {Any | isinstance(s, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doparse : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(s, str)                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doparse : {Any | isinstance(s, str)} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba613e002faebe41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.lark.latex_parser.LarkLaTeXParser.doparse","kind":"method","src_hash":"3655525bbb0075ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doparse(s)","rhs":"doparse produces the expected output","over":{"base":"Any"},"name":"doparse_correct"},"guarantee":"doparse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex.lark.latex_parser.LarkLaTeXParser.doparse_correct","statement":"Path(doparse(x), doparse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba613e002faebe41"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.lark.latex_parser.LarkLaTeXParser.doparse","kind":"method","src_hash":"3655525bbb0075ea","in":{"base":"Any","pred":"isinstance(s, str)"},"out":{"base":"Any"},"spec":{"lhs":"doparse(s)","rhs":"<unspecified:doparse>","over":{"base":"Any","pred":"isinstance(s, str)"},"name":"doparse_correct"},"guarantee":"doparse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex.lark.latex_parser.LarkLaTeXParser.doparse_correct","statement":"Path(doparse(x), doparse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba613e002faebe41","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(s, str)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.parser","self.print_debug_output","self.transform_expr","self.transformer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doparse(self, s: str):
         if self.print_debug_output:
             _lark.logger.setLevel(logging.DEBUG)
@@ -149,16 +168,24 @@ if _lark is not None:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parse_latex_lark(s), experimental latex parser using lark) over str ║
+# ║ Path(parse_latex_lark(s), _lark_latex_parser.doparse(s)) over {str | isinstance(s, str) and not (_lark is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ parse_latex_lark : str → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(s, str)                             ║
+# ║   requires: not (_lark is None)                            ║
+# ║   returns:  _lark_latex_parser.doparse(s)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ parse_latex_lark : {str | isinstance(s, str) and not ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bcb90bb80821567  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d3788f77d4bd2c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.lark.latex_parser.parse_latex_lark","kind":"function","src_hash":"9d284cd6f97395fd","in":{"base":"str"},"out":{"base":"Any"},"spec":{"lhs":"parse_latex_lark(s)","rhs":"experimental latex parser using lark","over":{"base":"str"},"name":"parse_latex_lark_correct"},"guarantee":"experimental latex parser using lark","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex.lark.latex_parser.parse_latex_lark_correct","statement":"Path(parse_latex_lark(x), experimental latex parser using lark)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bcb90bb80821567"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.lark.latex_parser.parse_latex_lark","kind":"function","src_hash":"9d284cd6f97395fd","in":{"base":"str","pred":"isinstance(s, str) and not (_lark is None)"},"out":{"base":"Any"},"spec":{"lhs":"parse_latex_lark(s)","rhs":"_lark_latex_parser.doparse(s)","over":{"base":"str","pred":"isinstance(s, str) and not (_lark is None)"},"name":"parse_latex_lark_correct"},"guarantee":"returns _lark_latex_parser.doparse(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex.lark.latex_parser.parse_latex_lark_correct","statement":"Path(parse_latex_lark(x), returns _lark_latex_parser.doparse(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d3788f77d4bd2c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(s, str)","not (_lark is None)"],"returns_expr":"_lark_latex_parser.doparse(s)","pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def parse_latex_lark(s: str):
     """
     Experimental LaTeX parser using Lark.
@@ -172,7 +199,13 @@ def parse_latex_lark(s: str):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty_print_lark_trees(tre), internal helper behaves correctly) over {Any | isinstance(tree, _lark.Token)} ║
+# ║ Path(_pretty_print_lark_trees(tree, indent, show_expr), # HINT: _pretty_print_lark_trees may be idempotent: _pretty_print_lark_trees(_pretty_print_lark_trees(x)) == _pretty_print_lark_trees(x)) over {Any | isinstance(tree, _lark.Token) and hasattr(tree, 'value') and hasattr(tree, 'data') and hasattr(tree, 'children')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(tree, 'value')                         ║
+# ║   requires: hasattr(tree, 'data')                          ║
+# ║   requires: hasattr(tree, 'children')                      ║
+# ║   ensures:  # HINT: _pretty_print_lark_trees may be i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _pretty_print_lark_trees : {Any | isinstance(tree, _l...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -184,9 +217,12 @@ def parse_latex_lark(s: str):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ceac8823...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.lark.latex_parser._pretty_print_lark_trees","kind":"function","src_hash":"6d9136fec59810c2","in":{"base":"Any","pred":"isinstance(tree, _lark.Token)"},"out":{"base":"Any"},"spec":{"lhs":"_pretty_print_lark_trees(tre)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(tree, _lark.Token)"},"name":"_pretty_print_lark_trees_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"_lark_Token","pred":"isinstance(tree, _lark.Token)","path":{"lhs":"_pretty_print_lark_trees(x)","rhs":"internal helper behaves correctly","over":{"base":"_lark.Token","pred":"isinstance(tree, _lark.Token)"},"name":"_pretty_print_lark_trees__lark.Token_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex.lark.latex_parser._pretty_print_lark_trees__lark.Token_correct","statement":"_pretty_print_lark_trees satisfies spec on _lark.Token inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ceac882338a3d4c6"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.latex.lark.latex_parser._pretty_print_lark_trees","kind":"function","src_hash":"6d9136fec59810c2","in":{"base":"Any","pred":"isinstance(tree, _lark.Token) and hasattr(tree, 'value') and hasattr(tree, 'data') and hasattr(tree, 'children')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _pretty_print_lark_trees may be idempotent: _pretty_print_lark_trees(_pretty_print_lark_trees(x)) == _pretty_print_lark_trees(x)"},"spec":{"lhs":"_pretty_print_lark_trees(tree, indent, show_expr)","rhs":"# HINT: _pretty_print_lark_trees may be idempotent: _pretty_print_lark_trees(_pretty_print_lark_trees(x)) == _pretty_print_lark_trees(x)","over":{"base":"Any","pred":"isinstance(tree, _lark.Token) and hasattr(tree, 'value') and hasattr(tree, 'data') and hasattr(tree, 'children')"},"name":"_pretty_print_lark_trees_correct"},"guarantee":"# HINT: _pretty_print_lark_trees may be idempotent: _pretty_print_lark_trees(_pretty_print_lark_trees(x)) == _pretty_print_lark_trees(x)","fibers":[{"name":"_lark_Token","pred":"isinstance(tree, _lark.Token)","path":{"lhs":"_pretty_print_lark_trees(x)","rhs":"# HINT: _pretty_print_lark_trees may be idempotent: _pretty_print_lark_trees(_pretty_print_lark_trees(x)) == _pretty_print_lark_trees(x)","over":{"base":"_lark.Token","pred":"isinstance(tree, _lark.Token)"},"name":"_pretty_print_lark_trees__lark.Token_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.latex.lark.latex_parser._pretty_print_lark_trees__lark.Token_correct","statement":"_pretty_print_lark_trees satisfies spec on _lark.Token inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ceac882338a3d4c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(tree, 'value')","hasattr(tree, 'data')","hasattr(tree, 'children')"],"ensures":["# HINT: _pretty_print_lark_trees may be idempotent: _pretty_print_lark_trees(_pretty_print_lark_trees(x)) == _pretty_print_lark_trees(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["tree.children","tree.data","tree.value"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(tree, _lark.Token)'}, fibers={'_lark_Token'})"]}}
 def _pretty_print_lark_trees(tree, indent=0, show_expr=True):
     if isinstance(tree, _lark.Token):
         return tree.value

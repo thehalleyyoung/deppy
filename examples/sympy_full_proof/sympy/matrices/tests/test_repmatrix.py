@@ -22,16 +22,24 @@ from sympy import Matrix, Rational
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lll(), test_lll produces the expected output) over Any ║
+# ║ Path(test_lll(), A.lll() == L and A.lll_transform() == (L, T) and T * A == L) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lll : Any → {Any | A.lll() == L and A.lll_transf...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.lll() == L                                   ║
+# ║   ensures:  A.lll_transform() == (L, T)                    ║
+# ║   ensures:  T * A == L                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lll : Any → {Any | result satisfies: A.lll() == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2af56301757bba70  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96d2ef79f5d3d845  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_repmatrix.test_lll","kind":"function","src_hash":"396a680dda514e23","in":{"base":"Any"},"out":{"base":"Any","pred":"A.lll() == L and A.lll_transform() == (L, T) and T * A == L"},"spec":{"lhs":"test_lll()","rhs":"test_lll produces the expected output","over":{"base":"Any"},"name":"test_lll_correct"},"guarantee":"test_lll produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_repmatrix.test_lll_correct","statement":"Path(test_lll(x), test_lll produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2af56301757bba70"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_repmatrix.test_lll","kind":"function","src_hash":"396a680dda514e23","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.lll() == L and A.lll_transform() == (L, T) and T * A == L"},"spec":{"lhs":"test_lll()","rhs":"A.lll() == L and A.lll_transform() == (L, T) and T * A == L","over":{"base":"Any"},"name":"test_lll_correct"},"guarantee":"A.lll() == L; A.lll_transform() == (L, T); T * A == L","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_repmatrix.test_lll_correct","statement":"Path(test_lll(x), A.lll() == L; A.lll_transform() == (L, T); T * A == L)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96d2ef79f5d3d845","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.lll() == L","A.lll_transform() == (L, T)","T * A == L"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lll():
     A = Matrix([[1, 0, 0, 0, -20160],
                 [0, 1, 0, 0, 33768],
@@ -51,16 +59,24 @@ def test_lll():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_inv_mod(), test_matrix_inv_mod produces the expected output) over Any ║
+# ║ Path(test_matrix_inv_mod(), A.inv_mod(3) == Ai and A.inv_mod(2) == A and A.inv_mod(9) == Ai and A.inv_mod(6) == Ai and A.inv_mod(7) == Ai and M.inv_mod(26) == Matrix([[7, 21, 10, 10], [1, 7, 19, 3], [14, 1, 15, 1], [25, 23, 3, 12]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrix_inv_mod : Any → {Any | A.inv_mod(3) == Ai...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.inv_mod(3) == Ai                             ║
+# ║   ensures:  A.inv_mod(2) == A                              ║
+# ║   ensures:  A.inv_mod(9) == Ai                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrix_inv_mod : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4798439fb40d2ec2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c30c74f67c39a0c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_repmatrix.test_matrix_inv_mod","kind":"function","src_hash":"00c487a869fe384d","in":{"base":"Any"},"out":{"base":"Any","pred":"A.inv_mod(3) == Ai and A.inv_mod(2) == A and A.inv_mod(9) == Ai and A.inv_mod(6) == Ai and A.inv_mod(7) == Ai"},"spec":{"lhs":"test_matrix_inv_mod()","rhs":"test_matrix_inv_mod produces the expected output","over":{"base":"Any"},"name":"test_matrix_inv_mod_correct"},"guarantee":"test_matrix_inv_mod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_repmatrix.test_matrix_inv_mod_correct","statement":"Path(test_matrix_inv_mod(x), test_matrix_inv_mod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4798439fb40d2ec2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_repmatrix.test_matrix_inv_mod","kind":"function","src_hash":"00c487a869fe384d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.inv_mod(3) == Ai and A.inv_mod(2) == A and A.inv_mod(9) == Ai and A.inv_mod(6) == Ai and A.inv_mod(7) == Ai and M.inv_mod(26) == Matrix([[7, 21, 10, 10], [1, 7, 19, 3], [14, 1, 15, 1], [25, 23, 3, 12]])"},"spec":{"lhs":"test_matrix_inv_mod()","rhs":"A.inv_mod(3) == Ai and A.inv_mod(2) == A and A.inv_mod(9) == Ai and A.inv_mod(6) == Ai and A.inv_mod(7) == Ai and M.inv_mod(26) == Matrix([[7, 21, 10, 10], [1, 7, 19, 3], [14, 1, 15, 1], [25, 23, 3, 12]])","over":{"base":"Any"},"name":"test_matrix_inv_mod_correct"},"guarantee":"A.inv_mod(3) == Ai; A.inv_mod(2) == A; A.inv_mod(9) == Ai","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_repmatrix.test_matrix_inv_mod_correct","statement":"Path(test_matrix_inv_mod(x), A.inv_mod(3) == Ai; A.inv_mod(2) == A; A.inv_mod(9) == Ai)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c30c74f67c39a0c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.inv_mod(3) == Ai","A.inv_mod(2) == A","A.inv_mod(9) == Ai","A.inv_mod(6) == Ai","A.inv_mod(7) == Ai","M.inv_mod(26) == Matrix([[7, 21, 10, 10], [1, 7, 19, 3], [14, 1, 15, 1], [25, 23, 3, 12]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_matrix_inv_mod():
     A = Matrix(2, 1, [1, 0])
     raises(NonSquareMatrixError, lambda: A.inv_mod(2))

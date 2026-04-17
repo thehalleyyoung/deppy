@@ -26,16 +26,22 @@ from sympy.core.random import shuffle
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cmp_perm_lists(), test_cmp_perm_lists produces the expected output) over Any ║
+# ║ Path(test_cmp_perm_lists(), _cmp_perm_lists(els, other) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cmp_perm_lists : Any → {Any | _cmp_perm_lists(el...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _cmp_perm_lists(els, other) is True            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cmp_perm_lists : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 407c74f46b8139f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbe4aeb7c32ba158  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_testutil.test_cmp_perm_lists","kind":"function","src_hash":"aa6e2bd5e5f6f61c","in":{"base":"Any"},"out":{"base":"Any","pred":"_cmp_perm_lists(els, other) is True"},"spec":{"lhs":"test_cmp_perm_lists()","rhs":"test_cmp_perm_lists produces the expected output","over":{"base":"Any"},"name":"test_cmp_perm_lists_correct"},"guarantee":"test_cmp_perm_lists produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_testutil.test_cmp_perm_lists_correct","statement":"Path(test_cmp_perm_lists(x), test_cmp_perm_lists produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"407c74f46b8139f4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_testutil.test_cmp_perm_lists","kind":"function","src_hash":"aa6e2bd5e5f6f61c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _cmp_perm_lists(els, other) is True"},"spec":{"lhs":"test_cmp_perm_lists()","rhs":"_cmp_perm_lists(els, other) is True","over":{"base":"Any"},"name":"test_cmp_perm_lists_correct"},"guarantee":"_cmp_perm_lists(els, other) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_testutil.test_cmp_perm_lists_correct","statement":"Path(test_cmp_perm_lists(x), _cmp_perm_lists(els, other) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbe4aeb7c32ba158","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_cmp_perm_lists(els, other) is True"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["shuffle"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cmp_perm_lists():
     S = SymmetricGroup(4)
     els = list(S.generate_dimino())
@@ -45,16 +51,23 @@ def test_cmp_perm_lists():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_naive_list_centralizer(), test_naive_list_centralizer produces the expected output) over Any ║
+# ║ Path(test_naive_list_centralizer(), _naive_list_centralizer(S, S) == [Permutation([0, 1, 2])] and PermutationGroup(_naive_list_centralizer(S, A)).is_subgroup(A)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_naive_list_centralizer : Any → {Any | _naive_lis...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _naive_list_centralizer(S, S) == [Permuta...   ║
+# ║   ensures:  PermutationGroup(_naive_list_centralizer(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_naive_list_centralizer : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 752c2648b3968179  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13a9297d13cb41f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_testutil.test_naive_list_centralizer","kind":"function","src_hash":"782e5936e3b9a6fb","in":{"base":"Any"},"out":{"base":"Any","pred":"_naive_list_centralizer(S, S) == [Permutation([0, 1, 2])] and PermutationGroup(_naive_list_centralizer(S, A)).is_subgroup(A)"},"spec":{"lhs":"test_naive_list_centralizer()","rhs":"test_naive_list_centralizer produces the expected output","over":{"base":"Any"},"name":"test_naive_list_centralizer_correct"},"guarantee":"test_naive_list_centralizer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_testutil.test_naive_list_centralizer_correct","statement":"Path(test_naive_list_centralizer(x), test_naive_list_centralizer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"752c2648b3968179"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_testutil.test_naive_list_centralizer","kind":"function","src_hash":"782e5936e3b9a6fb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _naive_list_centralizer(S, S) == [Permutation([0, 1, 2])] and PermutationGroup(_naive_list_centralizer(S, A)).is_subgroup(A)"},"spec":{"lhs":"test_naive_list_centralizer()","rhs":"_naive_list_centralizer(S, S) == [Permutation([0, 1, 2])] and PermutationGroup(_naive_list_centralizer(S, A)).is_subgroup(A)","over":{"base":"Any"},"name":"test_naive_list_centralizer_correct"},"guarantee":"_naive_list_centralizer(S, S) == [Permutation([0, 1, 2])]; PermutationGroup(_naive_list_centralizer(S, A)).is_subgroup(A)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_testutil.test_naive_list_centralizer_correct","statement":"Path(test_naive_list_centralizer(x), _naive_list_centralizer(S, S) == [Permutation([0, 1, 2])]; PermutationGroup(_naive_list_centralizer(S, A)).is_subgroup(A))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13a9297d13cb41f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_naive_list_centralizer(S, S) == [Permutation([0, 1, 2])]","PermutationGroup(_naive_list_centralizer(S, A)).is_subgroup(A)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_naive_list_centralizer():
     # verified by GAP
     S = SymmetricGroup(3)
@@ -64,16 +77,24 @@ def test_naive_list_centralizer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_verify_bsgs(), test_verify_bsgs produces the expected output) over Any ║
+# ║ Path(test_verify_bsgs(), _verify_bsgs(S, base, strong_gens) is True and _verify_bsgs(S, base[:-1], strong_gens) is False and _verify_bsgs(S, base, S.generators) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_verify_bsgs : Any → {Any | _verify_bsgs(S, base,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _verify_bsgs(S, base, strong_gens) is True     ║
+# ║   ensures:  _verify_bsgs(S, base[:-1], strong_gens) i...   ║
+# ║   ensures:  _verify_bsgs(S, base, S.generators) is False   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_verify_bsgs : Any → {Any | result satisfies: _ve...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e98e5cc8b4fd102  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4cad4eede0c1408  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_testutil.test_verify_bsgs","kind":"function","src_hash":"6979989609e64fa5","in":{"base":"Any"},"out":{"base":"Any","pred":"_verify_bsgs(S, base, strong_gens) is True and _verify_bsgs(S, base[:-1], strong_gens) is False and _verify_bsgs(S, base, S.generators) is False"},"spec":{"lhs":"test_verify_bsgs()","rhs":"test_verify_bsgs produces the expected output","over":{"base":"Any"},"name":"test_verify_bsgs_correct"},"guarantee":"test_verify_bsgs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_testutil.test_verify_bsgs_correct","statement":"Path(test_verify_bsgs(x), test_verify_bsgs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e98e5cc8b4fd102"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_testutil.test_verify_bsgs","kind":"function","src_hash":"6979989609e64fa5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _verify_bsgs(S, base, strong_gens) is True and _verify_bsgs(S, base[:-1], strong_gens) is False and _verify_bsgs(S, base, S.generators) is False"},"spec":{"lhs":"test_verify_bsgs()","rhs":"_verify_bsgs(S, base, strong_gens) is True and _verify_bsgs(S, base[:-1], strong_gens) is False and _verify_bsgs(S, base, S.generators) is False","over":{"base":"Any"},"name":"test_verify_bsgs_correct"},"guarantee":"_verify_bsgs(S, base, strong_gens) is True; _verify_bsgs(S, base[:-1], strong_gens) is False; _verify_bsgs(S, base, S.generators) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_testutil.test_verify_bsgs_correct","statement":"Path(test_verify_bsgs(x), _verify_bsgs(S, base, strong_gens) is True; _verify_bsgs(S, base[:-1], strong_gens) is False; _verify_bsgs(S, base, S.generators) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4cad4eede0c1408","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_verify_bsgs(S, base, strong_gens) is True","_verify_bsgs(S, base[:-1], strong_gens) is False","_verify_bsgs(S, base, S.generators) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_verify_bsgs():
     S = SymmetricGroup(5)
     S.schreier_sims()
@@ -85,16 +106,23 @@ def test_verify_bsgs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_verify_centralizer(), test_verify_centralizer produces the expected output) over Any ║
+# ║ Path(test_verify_centralizer(), _verify_centralizer(S, S, centr=triv) and _verify_centralizer(S, A, centr=A)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_verify_centralizer : Any → {Any | _verify_centra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _verify_centralizer(S, S, centr=triv)          ║
+# ║   ensures:  _verify_centralizer(S, A, centr=A)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_verify_centralizer : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4517760265645c7e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a119fa51e9118ebd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_testutil.test_verify_centralizer","kind":"function","src_hash":"6c5067b5c9e61e53","in":{"base":"Any"},"out":{"base":"Any","pred":"_verify_centralizer(S, S, centr=triv) and _verify_centralizer(S, A, centr=A)"},"spec":{"lhs":"test_verify_centralizer()","rhs":"test_verify_centralizer produces the expected output","over":{"base":"Any"},"name":"test_verify_centralizer_correct"},"guarantee":"test_verify_centralizer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_testutil.test_verify_centralizer_correct","statement":"Path(test_verify_centralizer(x), test_verify_centralizer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4517760265645c7e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_testutil.test_verify_centralizer","kind":"function","src_hash":"6c5067b5c9e61e53","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _verify_centralizer(S, S, centr=triv) and _verify_centralizer(S, A, centr=A)"},"spec":{"lhs":"test_verify_centralizer()","rhs":"_verify_centralizer(S, S, centr=triv) and _verify_centralizer(S, A, centr=A)","over":{"base":"Any"},"name":"test_verify_centralizer_correct"},"guarantee":"_verify_centralizer(S, S, centr=triv); _verify_centralizer(S, A, centr=A)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_testutil.test_verify_centralizer_correct","statement":"Path(test_verify_centralizer(x), _verify_centralizer(S, S, centr=triv); _verify_centralizer(S, A, centr=A))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a119fa51e9118ebd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_verify_centralizer(S, S, centr=triv)","_verify_centralizer(S, A, centr=A)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_verify_centralizer():
     # verified by GAP
     S = SymmetricGroup(3)
@@ -105,16 +133,23 @@ def test_verify_centralizer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_verify_normal_closure(), test_verify_normal_closure produces the expected output) over Any ║
+# ║ Path(test_verify_normal_closure(), _verify_normal_closure(S, A, closure=A) and _verify_normal_closure(S, C, closure=A)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_verify_normal_closure : Any → {Any | _verify_nor...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _verify_normal_closure(S, A, closure=A)        ║
+# ║   ensures:  _verify_normal_closure(S, C, closure=A)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_verify_normal_closure : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dea09bfca192ecf8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26d9ea0ff7dfd2fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_testutil.test_verify_normal_closure","kind":"function","src_hash":"d6fbdb985d3b8b04","in":{"base":"Any"},"out":{"base":"Any","pred":"_verify_normal_closure(S, A, closure=A) and _verify_normal_closure(S, A, closure=A) and _verify_normal_closure(S, C, closure=A)"},"spec":{"lhs":"test_verify_normal_closure()","rhs":"test_verify_normal_closure produces the expected output","over":{"base":"Any"},"name":"test_verify_normal_closure_correct"},"guarantee":"test_verify_normal_closure produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_testutil.test_verify_normal_closure_correct","statement":"Path(test_verify_normal_closure(x), test_verify_normal_closure produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dea09bfca192ecf8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_testutil.test_verify_normal_closure","kind":"function","src_hash":"d6fbdb985d3b8b04","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _verify_normal_closure(S, A, closure=A) and _verify_normal_closure(S, C, closure=A)"},"spec":{"lhs":"test_verify_normal_closure()","rhs":"_verify_normal_closure(S, A, closure=A) and _verify_normal_closure(S, C, closure=A)","over":{"base":"Any"},"name":"test_verify_normal_closure_correct"},"guarantee":"_verify_normal_closure(S, A, closure=A); _verify_normal_closure(S, C, closure=A)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_testutil.test_verify_normal_closure_correct","statement":"Path(test_verify_normal_closure(x), _verify_normal_closure(S, A, closure=A); _verify_normal_closure(S, C, closure=A))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26d9ea0ff7dfd2fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_verify_normal_closure(S, A, closure=A)","_verify_normal_closure(S, C, closure=A)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_verify_normal_closure():
     # verified by GAP
     S = SymmetricGroup(3)

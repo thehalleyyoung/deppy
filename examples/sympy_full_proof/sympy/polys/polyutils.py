@@ -46,16 +46,25 @@ _re_gen = re.compile(r"^(.*?)(\d*)$", re.MULTILINE)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_nsort(roo), sort the numerical roots putting the real roots first, then sorting according to real and imaginary parts) over Any ║
+# ║ Path(_nsort(roots, separated), len(i) == old_len_i + 1 and len(r) == old_len_r + 1) over {Any | all((r.is_number for r in roots)) and not (len(roots) > 1 and any((i._prec == 1 for k in key for i in k)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _nsort : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all((r.is_number for r in roots))              ║
+# ║   requires: not (len(roots) > 1 and any((i._prec == 1...   ║
+# ║   ensures:  len(i) == old_len_i + 1                        ║
+# ║   ensures:  len(r) == old_len_r + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _nsort : {Any | all((r.is_number for r in roots)) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea11fb4a1fc0e003  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9573253734461158  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._nsort","kind":"function","src_hash":"58d4ac9dd77d4999","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_nsort(roo)","rhs":"sort the numerical roots putting the real roots first, then sorting according to real and imaginary parts","over":{"base":"Any"},"name":"_nsort_correct"},"guarantee":"sort the numerical roots putting the real roots first, then sorting according to real and imaginary parts","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._nsort_correct","statement":"Path(_nsort(x), sort the numerical roots putting the real roots first, then sorting according to real and imaginary parts)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea11fb4a1fc0e003"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._nsort","kind":"function","src_hash":"58d4ac9dd77d4999","in":{"base":"Any","pred":"all((r.is_number for r in roots)) and not (len(roots) > 1 and any((i._prec == 1 for k in key for i in k)))"},"out":{"base":"Any","pred":"result satisfies: len(i) == old_len_i + 1 and len(r) == old_len_r + 1"},"spec":{"lhs":"_nsort(roots, separated)","rhs":"len(i) == old_len_i + 1 and len(r) == old_len_r + 1","over":{"base":"Any","pred":"all((r.is_number for r in roots)) and not (len(roots) > 1 and any((i._prec == 1 for k in key for i in k)))"},"name":"_nsort_correct"},"guarantee":"len(i) == old_len_i + 1; len(r) == old_len_r + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._nsort_correct","statement":"Path(_nsort(x), len(i) == old_len_i + 1; len(r) == old_len_r + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9573253734461158","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all((r.is_number for r in roots))","not (len(roots) > 1 and any((i._prec == 1 for k in key for i in k)))"],"ensures":["len(i) == old_len_i + 1","len(r) == old_len_r + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["i.append","r.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["i.*","r.*"],"old_bindings":{"old_len_i":"len(i)","old_len_r":"len(r)"},"post_ensures":["len(i) == old_len_i + 1","len(r) == old_len_r + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _nsort(roots, separated=False):
     """Sort the numerical roots putting the real roots first, then sorting
     according to real and imaginary parts. If ``separated`` is True, then
@@ -93,16 +102,22 @@ def _nsort(roots, separated=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sort_gens(gen), id) over Any                         ║
+# ║ Path(_sort_gens(gens, **args), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sort_gens : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7d68af2883e612c7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._sort_gens","kind":"function","src_hash":"90b49242d038e623","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sort_gens(gen)","rhs":"sort generators in a reasonably intelligent way","over":{"base":"Any"},"name":"_sort_gens_correct","kind":"composition"},"guarantee":"sort generators in a reasonably intelligent way","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"index","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d68af2883e612c7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._sort_gens","kind":"function","src_hash":"90b49242d038e623","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sort_gens(gens, **args)","rhs":"<unspecified:_sort_gens>","over":{"base":"Any"},"name":"_sort_gens_correct","kind":"composition"},"guarantee":"sort generators in a reasonably intelligent way","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"index","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d68af2883e612c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['gens'], spec=['gens', '**args']"]}}
 def _sort_gens(gens, **args):
     """Sort generators in a reasonably intelligent way. """
     opt = build_options(args)
@@ -152,16 +167,24 @@ def _sort_gens(gens, **args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_unify_gens(f_g), unify generators in a reasonably intelligent way) over Any ║
+# ║ Path(_unify_gens(f_gens, g_gens), <unspecified:_unify_gens>) over {Any | hasattr(f_gens, 'index') and hasattr(g_gens, 'index')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _unify_gens : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f_gens, 'index')                       ║
+# ║   requires: hasattr(g_gens, 'index')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _unify_gens : {Any | hasattr(f_gens, 'index') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9223007329ac2502  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._unify_gens","kind":"function","src_hash":"5fcada74c36f79a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_unify_gens(f_g)","rhs":"unify generators in a reasonably intelligent way","over":{"base":"Any"},"name":"_unify_gens_correct"},"guarantee":"unify generators in a reasonably intelligent way","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._unify_gens_correct","statement":"Path(_unify_gens(x), unify generators in a reasonably intelligent way)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9223007329ac2502"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._unify_gens","kind":"function","src_hash":"5fcada74c36f79a0","in":{"base":"Any","pred":"hasattr(f_gens, 'index') and hasattr(g_gens, 'index')"},"out":{"base":"Any"},"spec":{"lhs":"_unify_gens(f_gens, g_gens)","rhs":"<unspecified:_unify_gens>","over":{"base":"Any","pred":"hasattr(f_gens, 'index') and hasattr(g_gens, 'index')"},"name":"_unify_gens_correct"},"guarantee":"unify generators in a reasonably intelligent way","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._unify_gens_correct","statement":"Path(_unify_gens(x), unify generators in a reasonably intelligent way)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9223007329ac2502","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f_gens, 'index')","hasattr(g_gens, 'index')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _unify_gens(f_gens, g_gens):
     """Unify generators in a reasonably intelligent way. """
     f_gens = list(f_gens)
@@ -200,16 +223,25 @@ def _unify_gens(f_gens, g_gens):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_analyze_gens(gen), support for passing generators as `*gens` and `[gens]`) over Any ║
+# ║ Path(_analyze_gens(gens), result == (tuple(gens[0]) if len(gens) == 1 and hasattr(gens[0], '__iter__') else tuple(gens)) and result == tuple(gens[0]) or result == tuple(gens)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _analyze_gens : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (tuple(gens[0]) if len(gens) ==...   ║
+# ║   ensures:  result == tuple(gens[0]) or result == tup...   ║
+# ║   fiber[case_0]: len(gens) == 1 and hasattr(gens[0], ...   ║
+# ║   fiber[case_1]: not (len(gens) == 1 and hasattr(gens...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _analyze_gens : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2301a3c362484f50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e181f62a65e9d7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._analyze_gens","kind":"function","src_hash":"2ec6b61e118ca3a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_analyze_gens(gen)","rhs":"support for passing generators as `*gens` and `[gens]`","over":{"base":"Any"},"name":"_analyze_gens_correct"},"guarantee":"support for passing generators as `*gens` and `[gens]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._analyze_gens_correct","statement":"Path(_analyze_gens(x), support for passing generators as `*gens` and `[gens]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2301a3c362484f50"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._analyze_gens","kind":"function","src_hash":"2ec6b61e118ca3a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (tuple(gens[0]) if len(gens) == 1 and hasattr(gens[0], '__iter__') else tuple(gens)) and result == tuple(gens[0]) or result == tuple(gens)"},"spec":{"lhs":"_analyze_gens(gens)","rhs":"result == (tuple(gens[0]) if len(gens) == 1 and hasattr(gens[0], '__iter__') else tuple(gens)) and result == tuple(gens[0]) or result == tuple(gens)","over":{"base":"Any"},"name":"_analyze_gens_correct"},"guarantee":"result == (tuple(gens[0]) if len(gens) == 1 and hasattr(gens[0], '__iter__') else tuple(gens)); result == tuple(gens[0]) or result == tuple(gens); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._analyze_gens_correct","statement":"Path(_analyze_gens(x), result == (tuple(gens[0]) if len(gens) == 1 and hasattr(gens[0], '__iter__') else tuple(gens)); result == tuple(gens[0]) or result == tuple(gens); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e181f62a65e9d7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (tuple(gens[0]) if len(gens) == 1 and hasattr(gens[0], '__iter__') else tuple(gens))","result == tuple(gens[0]) or result == tuple(gens)"],"fibers":[{"name":"case_0","guard":"len(gens) == 1 and hasattr(gens[0], '__iter__')","ensures":["result == tuple(gens[0])"],"decidability":"structural","returns_expr":"tuple(gens[0])"},{"name":"case_1","guard":"not (len(gens) == 1 and hasattr(gens[0], '__iter__'))","ensures":["result == tuple(gens)"],"decidability":"structural","returns_expr":"tuple(gens)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _analyze_gens(gens):
     """Support for passing generators as `*gens` and `[gens]`. """
     if len(gens) == 1 and hasattr(gens[0], '__iter__'):
@@ -219,7 +251,13 @@ def _analyze_gens(gens):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sort_factors(fac), sort low-level factors in increasing 'complexity' order) over {Any | isinstance(factor, _GF_types) and isinstance(factor, list)} ║
+# ║ Path(_sort_factors(factors, **args), result == (sorted(factors, key=order_if_multiple_key) if args.get('multiple', True) else sorted(factors, key=order_no_multiple_key)) and result == sorted(factors, key=order_if_multiple_key) or result == sorted(factors, key=order_no_multiple_key)) over {Any | isinstance(factor, _GF_types) and isinstance(factor, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (sorted(factors, key=order_if_m...   ║
+# ║   ensures:  result == sorted(factors, key=order_if_mu...   ║
+# ║   fiber[case_0]: args.get('multiple', True) => sorted...   ║
+# ║   fiber[case_1]: not (args.get('multiple', True)) => ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sort_factors : {Any | isinstance(factor, _GF_types) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -232,9 +270,12 @@ def _analyze_gens(gens):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | baaa740b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._sort_factors","kind":"function","src_hash":"5c28a7b1f8fc4be4","in":{"base":"Any","pred":"isinstance(factor, _GF_types) and isinstance(factor, list)"},"out":{"base":"Any"},"spec":{"lhs":"_sort_factors(fac)","rhs":"sort low-level factors in increasing 'complexity' order","over":{"base":"Any","pred":"isinstance(factor, _GF_types) and isinstance(factor, list)"},"name":"_sort_factors_correct"},"guarantee":"sort low-level factors in increasing 'complexity' order","fibers":[{"name":"_GF_types","pred":"isinstance(factor, _GF_types)","path":{"lhs":"_sort_factors(x)","rhs":"sort low-level factors in increasing 'complexity' order","over":{"base":"_GF_types","pred":"isinstance(factor, _GF_types)"},"name":"_sort_factors__GF_types_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._sort_factors__GF_types_correct","statement":"_sort_factors satisfies spec on _GF_types inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(factor, list)","path":{"lhs":"_sort_factors(x)","rhs":"sort low-level factors in increasing 'complexity' order","over":{"base":"list","pred":"isinstance(factor, list)"},"name":"_sort_factors_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._sort_factors_list_correct","statement":"_sort_factors satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"baaa740b512c5ca6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._sort_factors","kind":"function","src_hash":"5c28a7b1f8fc4be4","in":{"base":"Any","pred":"isinstance(factor, _GF_types) and isinstance(factor, list)"},"out":{"base":"Any","pred":"result satisfies: result == (sorted(factors, key=order_if_multiple_key) if args.get('multiple', True) else sorted(factors, key=order_no_multiple_key)) and result == sorted(factors, key=order_if_multiple_key) or result == sorted(factors, key=order_no_multiple_key)"},"spec":{"lhs":"_sort_factors(factors, **args)","rhs":"result == (sorted(factors, key=order_if_multiple_key) if args.get('multiple', True) else sorted(factors, key=order_no_multiple_key)) and result == sorted(factors, key=order_if_multiple_key) or result == sorted(factors, key=order_no_multiple_key)","over":{"base":"Any","pred":"isinstance(factor, _GF_types) and isinstance(factor, list)"},"name":"_sort_factors_correct"},"guarantee":"result == (sorted(factors, key=order_if_multiple_key) if args.get('multiple', True) else sorted(factors, key=order_no_multiple_key)); result == sorted(factors, key=order_if_multiple_key) or result == sorted(factors, key=order_no_multiple_key); 2-fiber decomposition","fibers":[{"name":"_GF_types","pred":"isinstance(factor, _GF_types)","path":{"lhs":"_sort_factors(x)","rhs":"result == (sorted(factors, key=order_if_multiple_key) if args.get('multiple', True) else sorted(factors, key=order_no_multiple_key)); result == sorted(factors, key=order_if_multiple_key) or result == sorted(factors, key=order_no_multiple_key); 2-fiber decomposition","over":{"base":"_GF_types","pred":"isinstance(factor, _GF_types)"},"name":"_sort_factors__GF_types_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._sort_factors__GF_types_correct","statement":"_sort_factors satisfies spec on _GF_types inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(factor, list)","path":{"lhs":"_sort_factors(x)","rhs":"result == (sorted(factors, key=order_if_multiple_key) if args.get('multiple', True) else sorted(factors, key=order_no_multiple_key)); result == sorted(factors, key=order_if_multiple_key) or result == sorted(factors, key=order_no_multiple_key); 2-fiber decomposition","over":{"base":"list","pred":"isinstance(factor, list)"},"name":"_sort_factors_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._sort_factors_list_correct","statement":"_sort_factors satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"baaa740b512c5ca6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (sorted(factors, key=order_if_multiple_key) if args.get('multiple', True) else sorted(factors, key=order_no_multiple_key))","result == sorted(factors, key=order_if_multiple_key) or result == sorted(factors, key=order_no_multiple_key)"],"fibers":[{"name":"case_0","guard":"args.get('multiple', True)","ensures":["result == sorted(factors, key=order_if_multiple_key)"],"decidability":"library","returns_expr":"sorted(factors, key=order_if_multiple_key)"},{"name":"case_1","guard":"not (args.get('multiple', True))","ensures":["result == sorted(factors, key=order_no_multiple_key)"],"decidability":"library","returns_expr":"sorted(factors, key=order_no_multiple_key)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['factors'], spec=['factors', '**args']","Poor branch-fiber coverage: 0% (branches={'isinstance(factor, _GF_types)', 'isinstance(factor, list)'}, fibers={'list', '_GF_types'})"]}}
 def _sort_factors(factors, **args):
     """Sort low-level factors in increasing 'complexity' order. """
 
@@ -267,7 +308,10 @@ finf = [float(i) for i in _illegal[1:3]]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_not_a_coeff(exp), do not treat nan and infinities as valid polynomial coefficients) over {Any | isinstance(expr, float)} ║
+# ║ Path(_not_a_coeff(expr), <unspecified:_not_a_coeff>) over {Any | isinstance(expr, float)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _not_a_coeff : {Any | isinstance(expr, float)} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -279,9 +323,12 @@ finf = [float(i) for i in _illegal[1:3]]
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0a3d4f69...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._not_a_coeff","kind":"function","src_hash":"fbc67b0f4c695c1a","in":{"base":"Any","pred":"isinstance(expr, float)"},"out":{"base":"Any"},"spec":{"lhs":"_not_a_coeff(exp)","rhs":"do not treat nan and infinities as valid polynomial coefficients","over":{"base":"Any","pred":"isinstance(expr, float)"},"name":"_not_a_coeff_correct"},"guarantee":"do not treat nan and infinities as valid polynomial coefficients","fibers":[{"name":"float","pred":"isinstance(expr, float)","path":{"lhs":"_not_a_coeff(x)","rhs":"do not treat nan and infinities as valid polynomial coefficients","over":{"base":"float","pred":"isinstance(expr, float)"},"name":"_not_a_coeff_float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._not_a_coeff_float_correct","statement":"_not_a_coeff satisfies spec on float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0a3d4f69de2a2b92"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._not_a_coeff","kind":"function","src_hash":"fbc67b0f4c695c1a","in":{"base":"Any","pred":"isinstance(expr, float)"},"out":{"base":"Any"},"spec":{"lhs":"_not_a_coeff(expr)","rhs":"<unspecified:_not_a_coeff>","over":{"base":"Any","pred":"isinstance(expr, float)"},"name":"_not_a_coeff_correct"},"guarantee":"do not treat nan and infinities as valid polynomial coefficients","fibers":[{"name":"float","pred":"isinstance(expr, float)","path":{"lhs":"_not_a_coeff(x)","rhs":"do not treat nan and infinities as valid polynomial coefficients","over":{"base":"float","pred":"isinstance(expr, float)"},"name":"_not_a_coeff_float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._not_a_coeff_float_correct","statement":"_not_a_coeff satisfies spec on float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0a3d4f69de2a2b92","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, float) and float(expr) != expr'}, fibers={'float'})"]}}
 def _not_a_coeff(expr):
     """Do not treat NaN and infinities as valid polynomial coefficients. """
     if type(expr) in illegal_types or expr in finf:
@@ -292,16 +339,26 @@ def _not_a_coeff(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parallel_dict_from_expr_if_gens(exp), transform expressions into a multinomial form given generators) over Any ║
+# ║ Path(_parallel_dict_from_expr_if_gens(exprs, opt), (polys, opt.gens)) over {Any | hasattr(opt, 'gens') and hasattr(opt, 'series')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _parallel_dict_from_expr_if_gens : Any → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(opt, 'gens')                           ║
+# ║   requires: hasattr(opt, 'series')                         ║
+# ║   ensures:  len(coeff) == old_len_coeff + 1                ║
+# ║   ensures:  len(polys) == old_len_polys + 1                ║
+# ║   returns:  (polys, opt.gens)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _parallel_dict_from_expr_if_gens : {Any | hasattr(opt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7306cc3a4779439  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ec4626560234e41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._parallel_dict_from_expr_if_gens","kind":"function","src_hash":"a8ed7ea1979ff8b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_parallel_dict_from_expr_if_gens(exp)","rhs":"transform expressions into a multinomial form given generators","over":{"base":"Any"},"name":"_parallel_dict_from_expr_if_gens_correct"},"guarantee":"transform expressions into a multinomial form given generators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._parallel_dict_from_expr_if_gens_correct","statement":"Path(_parallel_dict_from_expr_if_gens(x), transform expressions into a multinomial form given generators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7306cc3a4779439"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._parallel_dict_from_expr_if_gens","kind":"function","src_hash":"a8ed7ea1979ff8b7","in":{"base":"Any","pred":"hasattr(opt, 'gens') and hasattr(opt, 'series')"},"out":{"base":"Any","pred":"result satisfies: result == ((polys, opt.gens))"},"spec":{"lhs":"_parallel_dict_from_expr_if_gens(exprs, opt)","rhs":"(polys, opt.gens)","over":{"base":"Any","pred":"hasattr(opt, 'gens') and hasattr(opt, 'series')"},"name":"_parallel_dict_from_expr_if_gens_correct"},"guarantee":"returns (polys, opt.gens); len(coeff) == old_len_coeff + 1; len(polys) == old_len_polys + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._parallel_dict_from_expr_if_gens_correct","statement":"Path(_parallel_dict_from_expr_if_gens(x), returns (polys, opt.gens); len(coeff) == old_len_coeff + 1; len(polys) == old_len_polys + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ec4626560234e41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(opt, 'gens')","hasattr(opt, 'series')"],"ensures":["len(coeff) == old_len_coeff + 1","len(polys) == old_len_polys + 1"],"returns_expr":"(polys, opt.gens)","pure":false,"effects":{"effect_type":"reads_state","reads":["opt.gens","opt.series"],"calls_mutating":["coeff.append","polys.append"],"raises":["PolynomialError"],"catches":["KeyError"]},"state_contract":{"modifies":["coeff.*","polys.*"],"old_bindings":{"old_len_coeff":"len(coeff)","old_len_polys":"len(polys)"},"post_ensures":["len(coeff) == old_len_coeff + 1","len(polys) == old_len_polys + 1"],"exceptional_post":{"PolynomialError":["isinstance(raised, PolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _parallel_dict_from_expr_if_gens(exprs, opt):
     """Transform expressions into a multinomial form given generators. """
     k, indices = len(opt.gens), {}
@@ -354,16 +411,25 @@ def _parallel_dict_from_expr_if_gens(exprs, opt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parallel_dict_from_expr_no_gens(exp), transform expressions into a multinomial form and figure out generators) over Any ║
+# ║ Path(_parallel_dict_from_expr_no_gens(exprs, opt), <unspecified:_parallel_dict_from_expr_no_gens>) over {Any | hasattr(opt, 'domain') and hasattr(opt, 'extension') and hasattr(opt, 'greedy') and hasattr(opt, 'series')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _parallel_dict_from_expr_no_gens : Any → Any               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(opt, 'domain')                         ║
+# ║   requires: hasattr(opt, 'extension')                      ║
+# ║   requires: hasattr(opt, 'greedy')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _parallel_dict_from_expr_no_gens : {Any | hasattr(opt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 316292688643f115  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._parallel_dict_from_expr_no_gens","kind":"function","src_hash":"40c5f844fb214014","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_parallel_dict_from_expr_no_gens(exp)","rhs":"transform expressions into a multinomial form and figure out generators","over":{"base":"Any"},"name":"_parallel_dict_from_expr_no_gens_correct"},"guarantee":"transform expressions into a multinomial form and figure out generators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._parallel_dict_from_expr_no_gens_correct","statement":"Path(_parallel_dict_from_expr_no_gens(x), transform expressions into a multinomial form and figure out generators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"316292688643f115"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._parallel_dict_from_expr_no_gens","kind":"function","src_hash":"40c5f844fb214014","in":{"base":"Any","pred":"hasattr(opt, 'domain') and hasattr(opt, 'extension') and hasattr(opt, 'greedy') and hasattr(opt, 'series')"},"out":{"base":"Any"},"spec":{"lhs":"_parallel_dict_from_expr_no_gens(exprs, opt)","rhs":"<unspecified:_parallel_dict_from_expr_no_gens>","over":{"base":"Any","pred":"hasattr(opt, 'domain') and hasattr(opt, 'extension') and hasattr(opt, 'greedy') and hasattr(opt, 'series')"},"name":"_parallel_dict_from_expr_no_gens_correct"},"guarantee":"transform expressions into a multinomial form and figure out generators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._parallel_dict_from_expr_no_gens_correct","statement":"Path(_parallel_dict_from_expr_no_gens(x), transform expressions into a multinomial form and figure out generators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"316292688643f115","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(opt, 'domain')","hasattr(opt, 'extension')","hasattr(opt, 'greedy')","hasattr(opt, 'series')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _parallel_dict_from_expr_no_gens(exprs, opt):
     """Transform expressions into a multinomial form and figure out generators. """
     if opt.domain is not None:
@@ -439,16 +505,22 @@ def _parallel_dict_from_expr_no_gens(exprs, opt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dict_from_expr_if_gens(exp), transform an expression into a multinomial form given generators) over Any ║
+# ║ Path(_dict_from_expr_if_gens(expr, opt), (poly, gens)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (poly, gens)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dict_from_expr_if_gens : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aac1491945ab8d55  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | baf6cb891252b448  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._dict_from_expr_if_gens","kind":"function","src_hash":"f74b35f65baa4137","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dict_from_expr_if_gens(exp)","rhs":"transform an expression into a multinomial form given generators","over":{"base":"Any"},"name":"_dict_from_expr_if_gens_correct"},"guarantee":"transform an expression into a multinomial form given generators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._dict_from_expr_if_gens_correct","statement":"Path(_dict_from_expr_if_gens(x), transform an expression into a multinomial form given generators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aac1491945ab8d55"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._dict_from_expr_if_gens","kind":"function","src_hash":"f74b35f65baa4137","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dict_from_expr_if_gens(expr, opt)","rhs":"(poly, gens)","over":{"base":"Any"},"name":"_dict_from_expr_if_gens_correct"},"guarantee":"returns (poly, gens)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._dict_from_expr_if_gens_correct","statement":"Path(_dict_from_expr_if_gens(x), returns (poly, gens))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baf6cb891252b448","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(poly, gens)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _dict_from_expr_if_gens(expr, opt):
     """Transform an expression into a multinomial form given generators. """
     (poly,), gens = _parallel_dict_from_expr_if_gens((expr,), opt)
@@ -456,16 +528,22 @@ def _dict_from_expr_if_gens(expr, opt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dict_from_expr_no_gens(exp), transform an expression into a multinomial form and figure out generators) over Any ║
+# ║ Path(_dict_from_expr_no_gens(expr, opt), (poly, gens)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (poly, gens)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dict_from_expr_no_gens : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99600e3668e61381  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d44146f3d07d0631  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._dict_from_expr_no_gens","kind":"function","src_hash":"fc87e460ba46faaa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dict_from_expr_no_gens(exp)","rhs":"transform an expression into a multinomial form and figure out generators","over":{"base":"Any"},"name":"_dict_from_expr_no_gens_correct"},"guarantee":"transform an expression into a multinomial form and figure out generators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._dict_from_expr_no_gens_correct","statement":"Path(_dict_from_expr_no_gens(x), transform an expression into a multinomial form and figure out generators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99600e3668e61381"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._dict_from_expr_no_gens","kind":"function","src_hash":"fc87e460ba46faaa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dict_from_expr_no_gens(expr, opt)","rhs":"(poly, gens)","over":{"base":"Any"},"name":"_dict_from_expr_no_gens_correct"},"guarantee":"returns (poly, gens)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._dict_from_expr_no_gens_correct","statement":"Path(_dict_from_expr_no_gens(x), returns (poly, gens))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d44146f3d07d0631","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(poly, gens)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _dict_from_expr_no_gens(expr, opt):
     """Transform an expression into a multinomial form and figure out generators. """
     (poly,), gens = _parallel_dict_from_expr_no_gens((expr,), opt)
@@ -473,16 +551,22 @@ def _dict_from_expr_no_gens(expr, opt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parallel_dict_from_expr(exp), transform expressions into a multinomial form) over Any ║
+# ║ Path(parallel_dict_from_expr(exprs, **args), (reps, opt.gens)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (reps, opt.gens)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parallel_dict_from_expr : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19358f07b27f0684  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 424fa5caa3410c04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.parallel_dict_from_expr","kind":"function","src_hash":"852c12fb57a6ed12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parallel_dict_from_expr(exp)","rhs":"transform expressions into a multinomial form","over":{"base":"Any"},"name":"parallel_dict_from_expr_correct"},"guarantee":"transform expressions into a multinomial form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils.parallel_dict_from_expr_correct","statement":"Path(parallel_dict_from_expr(x), transform expressions into a multinomial form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19358f07b27f0684"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.parallel_dict_from_expr","kind":"function","src_hash":"852c12fb57a6ed12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parallel_dict_from_expr(exprs, **args)","rhs":"(reps, opt.gens)","over":{"base":"Any"},"name":"parallel_dict_from_expr_correct"},"guarantee":"returns (reps, opt.gens)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils.parallel_dict_from_expr_correct","statement":"Path(parallel_dict_from_expr(x), returns (reps, opt.gens))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"424fa5caa3410c04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(reps, opt.gens)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['exprs'], spec=['exprs', '**args']"]}}
 def parallel_dict_from_expr(exprs, **args):
     """Transform expressions into a multinomial form. """
     reps, opt = _parallel_dict_from_expr(exprs, build_options(args))
@@ -490,16 +574,25 @@ def parallel_dict_from_expr(exprs, **args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parallel_dict_from_expr(exp), transform expressions into a multinomial form) over Any ║
+# ║ Path(_parallel_dict_from_expr(exprs, opt), (reps, opt.clone({'gens': gens}))) over {Any | not (any((expr.is_commutative is False for expr in exprs))) and hasattr(opt, 'gens') and hasattr(opt, 'expand') and hasattr(opt, 'clone')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _parallel_dict_from_expr : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (any((expr.is_commutative is False fo...   ║
+# ║   requires: hasattr(opt, 'gens')                           ║
+# ║   requires: hasattr(opt, 'expand')                         ║
+# ║   returns:  (reps, opt.clone({'gens': gens}))              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _parallel_dict_from_expr : {Any | not (any((expr.is_c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20396687bc5aa976  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac9137d41081f9ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._parallel_dict_from_expr","kind":"function","src_hash":"473eb5004a90efed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_parallel_dict_from_expr(exp)","rhs":"transform expressions into a multinomial form","over":{"base":"Any"},"name":"_parallel_dict_from_expr_correct"},"guarantee":"transform expressions into a multinomial form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._parallel_dict_from_expr_correct","statement":"Path(_parallel_dict_from_expr(x), transform expressions into a multinomial form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20396687bc5aa976"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._parallel_dict_from_expr","kind":"function","src_hash":"473eb5004a90efed","in":{"base":"Any","pred":"not (any((expr.is_commutative is False for expr in exprs))) and hasattr(opt, 'gens') and hasattr(opt, 'expand') and hasattr(opt, 'clone')"},"out":{"base":"Any"},"spec":{"lhs":"_parallel_dict_from_expr(exprs, opt)","rhs":"(reps, opt.clone({'gens': gens}))","over":{"base":"Any","pred":"not (any((expr.is_commutative is False for expr in exprs))) and hasattr(opt, 'gens') and hasattr(opt, 'expand') and hasattr(opt, 'clone')"},"name":"_parallel_dict_from_expr_correct"},"guarantee":"returns (reps, opt.clone({'gens': gens}))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._parallel_dict_from_expr_correct","statement":"Path(_parallel_dict_from_expr(x), returns (reps, opt.clone({'gens': gens})))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac9137d41081f9ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (any((expr.is_commutative is False for expr in exprs)))","hasattr(opt, 'gens')","hasattr(opt, 'expand')","hasattr(opt, 'clone')"],"returns_expr":"(reps, opt.clone({'gens': gens}))","pure":false,"effects":{"effect_type":"reads_state","reads":["opt.clone","opt.expand","opt.gens"],"raises":["PolynomialError"]},"state_contract":{"exceptional_post":{"PolynomialError":["isinstance(raised, PolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _parallel_dict_from_expr(exprs, opt):
     """Transform expressions into a multinomial form. """
     if opt.expand is not False:
@@ -517,16 +610,22 @@ def _parallel_dict_from_expr(exprs, opt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dict_from_expr(exp), transform an expression into a multinomial form) over Any ║
+# ║ Path(dict_from_expr(expr, **args), (rep, opt.gens)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (rep, opt.gens)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dict_from_expr : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62e1ecb4efcf4ff8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16d3421fad5c3b00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.dict_from_expr","kind":"function","src_hash":"d65282d10658d651","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict_from_expr(exp)","rhs":"transform an expression into a multinomial form","over":{"base":"Any"},"name":"dict_from_expr_correct"},"guarantee":"transform an expression into a multinomial form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils.dict_from_expr_correct","statement":"Path(dict_from_expr(x), transform an expression into a multinomial form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62e1ecb4efcf4ff8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.dict_from_expr","kind":"function","src_hash":"d65282d10658d651","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict_from_expr(expr, **args)","rhs":"(rep, opt.gens)","over":{"base":"Any"},"name":"dict_from_expr_correct"},"guarantee":"returns (rep, opt.gens)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils.dict_from_expr_correct","statement":"Path(dict_from_expr(x), returns (rep, opt.gens))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16d3421fad5c3b00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(rep, opt.gens)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**args']"]}}
 def dict_from_expr(expr, **args):
     """Transform an expression into a multinomial form. """
     rep, opt = _dict_from_expr(expr, build_options(args))
@@ -534,7 +633,13 @@ def dict_from_expr(expr, **args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dict_from_expr(exp), transform an expression into a multinomial form) over {Any | isinstance(expr, (Expr, Eq))} ║
+# ║ Path(_dict_from_expr(expr, opt), <unspecified:_dict_from_expr>) over {Any | isinstance(expr, (Expr, Eq)) and not (expr.is_commutative is False) and hasattr(opt, 'gens') and hasattr(expr, 'is_commutative') and hasattr(opt, 'expand') and hasattr(expr, 'is_Pow') and hasattr(expr, 'expand') and hasattr(opt, 'clone') and hasattr(expr, 'exp') and hasattr(expr, 'base')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (expr.is_commutative is False)             ║
+# ║   requires: hasattr(opt, 'gens')                           ║
+# ║   requires: hasattr(expr, 'is_commutative')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dict_from_expr : {Any | isinstance(expr, (Expr, Eq))...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -546,9 +651,12 @@ def dict_from_expr(expr, **args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ed4bcb53...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._dict_from_expr","kind":"function","src_hash":"dd0bc9c424fb99cd","in":{"base":"Any","pred":"isinstance(expr, (Expr, Eq))"},"out":{"base":"Any"},"spec":{"lhs":"_dict_from_expr(exp)","rhs":"transform an expression into a multinomial form","over":{"base":"Any","pred":"isinstance(expr, (Expr, Eq))"},"name":"_dict_from_expr_correct"},"guarantee":"transform an expression into a multinomial form","fibers":[{"name":"(Expr","pred":"isinstance(expr, (Expr, Eq))","path":{"lhs":"_dict_from_expr(x)","rhs":"transform an expression into a multinomial form","over":{"base":"(Expr","pred":"isinstance(expr, (Expr, Eq))"},"name":"_dict_from_expr_(Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._dict_from_expr_(Expr_correct","statement":"_dict_from_expr satisfies spec on (Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ed4bcb53e0b1c76c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._dict_from_expr","kind":"function","src_hash":"dd0bc9c424fb99cd","in":{"base":"Any","pred":"isinstance(expr, (Expr, Eq)) and not (expr.is_commutative is False) and hasattr(opt, 'gens') and hasattr(expr, 'is_commutative') and hasattr(opt, 'expand') and hasattr(expr, 'is_Pow') and hasattr(expr, 'expand') and hasattr(opt, 'clone') and hasattr(expr, 'exp') and hasattr(expr, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_dict_from_expr(expr, opt)","rhs":"<unspecified:_dict_from_expr>","over":{"base":"Any","pred":"isinstance(expr, (Expr, Eq)) and not (expr.is_commutative is False) and hasattr(opt, 'gens') and hasattr(expr, 'is_commutative') and hasattr(opt, 'expand') and hasattr(expr, 'is_Pow') and hasattr(expr, 'expand') and hasattr(opt, 'clone') and hasattr(expr, 'exp') and hasattr(expr, 'base')"},"name":"_dict_from_expr_correct"},"guarantee":"transform an expression into a multinomial form","fibers":[{"name":"(Expr","pred":"isinstance(expr, (Expr, Eq))","path":{"lhs":"_dict_from_expr(x)","rhs":"transform an expression into a multinomial form","over":{"base":"(Expr","pred":"isinstance(expr, (Expr, Eq))"},"name":"_dict_from_expr_(Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._dict_from_expr_(Expr_correct","statement":"_dict_from_expr satisfies spec on (Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ed4bcb53e0b1c76c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (expr.is_commutative is False)","hasattr(opt, 'gens')","hasattr(expr, 'is_commutative')","hasattr(opt, 'expand')","hasattr(expr, 'is_Pow')","hasattr(expr, 'expand')","hasattr(opt, 'clone')","hasattr(expr, 'exp')","hasattr(expr, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","expr.expand","expr.is_Pow","expr.is_commutative","opt.clone","opt.expand","opt.gens"],"raises":["PolynomialError"]},"state_contract":{"exceptional_post":{"PolynomialError":["isinstance(raised, PolynomialError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, (Expr, Eq))'}, fibers={'(Expr'})"]}}
 def _dict_from_expr(expr, opt):
     """Transform an expression into a multinomial form. """
     if expr.is_commutative is False:
@@ -580,16 +688,23 @@ def _dict_from_expr(expr, opt):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr_from_dict(rep), convert a multinomial form into an expression) over Any ║
+# ║ Path(expr_from_dict(rep, *gens), Add(*result)) over {Any | hasattr(rep, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ expr_from_dict : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rep, 'items')                          ║
+# ║   returns:  Add(*result)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ expr_from_dict : {Any | hasattr(rep, 'items')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 471e79e9328c5546  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5be9a652b9c385ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.expr_from_dict","kind":"function","src_hash":"bbf37a86225467e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr_from_dict(rep)","rhs":"convert a multinomial form into an expression","over":{"base":"Any"},"name":"expr_from_dict_correct"},"guarantee":"convert a multinomial form into an expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils.expr_from_dict_correct","statement":"Path(expr_from_dict(x), convert a multinomial form into an expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"471e79e9328c5546"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.expr_from_dict","kind":"function","src_hash":"bbf37a86225467e9","in":{"base":"Any","pred":"hasattr(rep, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"expr_from_dict(rep, *gens)","rhs":"Add(*result)","over":{"base":"Any","pred":"hasattr(rep, 'items')"},"name":"expr_from_dict_correct"},"guarantee":"returns Add(*result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils.expr_from_dict_correct","statement":"Path(expr_from_dict(x), returns Add(*result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5be9a652b9c385ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rep, 'items')"],"returns_expr":"Add(*result)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['rep'], spec=['rep', '*gens']"]}}
 def expr_from_dict(rep, *gens):
     """Convert a multinomial form into an expression. """
     result = []
@@ -610,16 +725,26 @@ basic_from_dict = expr_from_dict
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dict_reorder(rep), reorder levels using dict representation) over Any ║
+# ║ Path(_dict_reorder(rep, gens, new_gens), (map(tuple, new_monoms), coeffs)) over {Any | hasattr(rep, 'keys') and hasattr(rep, 'values') and hasattr(gens, 'index')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dict_reorder : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rep, 'keys')                           ║
+# ║   requires: hasattr(rep, 'values')                         ║
+# ║   requires: hasattr(gens, 'index')                         ║
+# ║   ensures:  len(new_M) == old_len_new_M + 1                ║
+# ║   returns:  (map(tuple, new_monoms), coeffs)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dict_reorder : {Any | hasattr(rep, 'keys') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57840269dab6289a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ee42c28daad63a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._dict_reorder","kind":"function","src_hash":"f0043971051a6ebe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dict_reorder(rep)","rhs":"reorder levels using dict representation","over":{"base":"Any"},"name":"_dict_reorder_correct"},"guarantee":"reorder levels using dict representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._dict_reorder_correct","statement":"Path(_dict_reorder(x), reorder levels using dict representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57840269dab6289a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils._dict_reorder","kind":"function","src_hash":"f0043971051a6ebe","in":{"base":"Any","pred":"hasattr(rep, 'keys') and hasattr(rep, 'values') and hasattr(gens, 'index')"},"out":{"base":"Any","pred":"result satisfies: result == ((map(tuple, new_monoms), coeffs))"},"spec":{"lhs":"_dict_reorder(rep, gens, new_gens)","rhs":"(map(tuple, new_monoms), coeffs)","over":{"base":"Any","pred":"hasattr(rep, 'keys') and hasattr(rep, 'values') and hasattr(gens, 'index')"},"name":"_dict_reorder_correct"},"guarantee":"returns (map(tuple, new_monoms), coeffs); len(new_M) == old_len_new_M + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyutils._dict_reorder_correct","statement":"Path(_dict_reorder(x), returns (map(tuple, new_monoms), coeffs); len(new_M) == old_len_new_M + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ee42c28daad63a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rep, 'keys')","hasattr(rep, 'values')","hasattr(gens, 'index')"],"ensures":["len(new_M) == old_len_new_M + 1"],"returns_expr":"(map(tuple, new_monoms), coeffs)","pure":false,"effects":{"effect_type":"reads_state","reads":["gens.index","rep.keys","rep.values"],"calls_mutating":["new_M.append","used_indices.add"],"raises":["GeneratorsError"],"catches":["ValueError"]},"state_contract":{"modifies":["new_M.*","used_indices.*"],"old_bindings":{"old_len_new_M":"len(new_M)"},"post_ensures":["len(new_M) == old_len_new_M + 1"],"exceptional_post":{"GeneratorsError":["isinstance(raised, GeneratorsError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _dict_reorder(rep, gens, new_gens):
     """Reorder levels using dict representation. """
     gens = list(gens)
@@ -653,14 +778,20 @@ def _dict_reorder(rep, gens, new_gens):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PicklableWithSlots instance) preserved by PicklableWithSlots(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PicklableWithSlots : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a51486c05a1d2e81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.PicklableWithSlots","kind":"class","src_hash":"993dfc156eeebebd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PicklableWithSlots(*args)","rhs":"correctly constructs a PicklableWithSlots instance","over":{"base":"Any"},"name":"PicklableWithSlots_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PicklableWithSlots instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'foo') and hasattr(self, 'bar')","kind":"class","induction":"structural on foo, bar"}],"methods_preserving":["__init__","__getstate__","__setstate__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a51486c05a1d2e81"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.PicklableWithSlots","kind":"class","src_hash":"993dfc156eeebebd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PicklableWithSlots(*args)","rhs":"correctly constructs a PicklableWithSlots instance","over":{"base":"Any"},"name":"PicklableWithSlots_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PicklableWithSlots instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'foo') and hasattr(self, 'bar')","kind":"class","induction":"structural on foo, bar"}],"methods_preserving":["__init__","__getstate__","__setstate__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a51486c05a1d2e81","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function PicklableWithSlots not found in source"]}}
 class PicklableWithSlots:
     """
     Mixin class that allows to pickle objects with ``__slots__``.
@@ -702,16 +833,22 @@ class PicklableWithSlots:
     __slots__ = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getstate__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__getstate__(cls), <unspecified:__getstate__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getstate__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f4c4e7d7e800002f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.PicklableWithSlots.__getstate__","kind":"method","src_hash":"f6c967fb0a9c8b08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getstate__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getstate___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4c4e7d7e800002f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.PicklableWithSlots.__getstate__","kind":"method","src_hash":"f6c967fb0a9c8b08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getstate__(cls)","rhs":"<unspecified:__getstate__>","over":{"base":"Any"},"name":"__getstate___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4c4e7d7e800002f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getstate__(self, cls=None):
         if cls is None:
             # This is the case for the instance that gets pickled
@@ -739,16 +876,23 @@ class PicklableWithSlots:
         return d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setstate__(d), internal helper behaves correctly) over Any ║
+# ║ Path(__setstate__(d), <unspecified:__setstate__>) over {Any | hasattr(d, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __setstate__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(d, 'items')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __setstate__ : {Any | hasattr(d, 'items')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f0e10721f4535df6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.PicklableWithSlots.__setstate__","kind":"method","src_hash":"658ebdef98afe0c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setstate__(d)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__setstate___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0e10721f4535df6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.PicklableWithSlots.__setstate__","kind":"method","src_hash":"658ebdef98afe0c4","in":{"base":"Any","pred":"hasattr(d, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"__setstate__(d)","rhs":"<unspecified:__setstate__>","over":{"base":"Any","pred":"hasattr(d, 'items')"},"name":"__setstate___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0e10721f4535df6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(d, 'items')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["d.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setstate__(self, d):
         # All values that were pickled are now assigned to a fresh instance
         for name, value in d.items():
@@ -758,14 +902,20 @@ class PicklableWithSlots:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(IntegerPowerable(*args), correctly constructs a IntegerPowerable instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ IntegerPowerable : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0296f0c1bc646e1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.IntegerPowerable","kind":"class","src_hash":"ef5783ab9872a119","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IntegerPowerable(*args)","rhs":"correctly constructs a IntegerPowerable instance","over":{"base":"Any"},"name":"IntegerPowerable_class_invariant"},"guarantee":"correctly constructs a IntegerPowerable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0296f0c1bc646e1a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.IntegerPowerable","kind":"class","src_hash":"ef5783ab9872a119","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IntegerPowerable(*args)","rhs":"correctly constructs a IntegerPowerable instance","over":{"base":"Any"},"name":"IntegerPowerable_class_invariant"},"guarantee":"correctly constructs a IntegerPowerable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0296f0c1bc646e1a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function IntegerPowerable not found in source"]}}
 class IntegerPowerable:
     r"""
     Mixin class for classes that define a `__mul__` method, and want to be
@@ -778,16 +928,23 @@ class IntegerPowerable:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(e, ), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(e, modulo), <unspecified:__pow__>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: e < 2                                     ║
+# ║   fiber[case_1]: not (e < 2) => r                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pow__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1c7498bf0af8855           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.IntegerPowerable.__pow__","kind":"method","src_hash":"d5953c9ac44f71dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(e, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1c7498bf0af8855"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.IntegerPowerable.__pow__","kind":"method","src_hash":"d5953c9ac44f71dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(e, modulo)","rhs":"<unspecified:__pow__>","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1c7498bf0af8855","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"e < 2","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (e < 2)","ensures":["result == r"],"decidability":"z3","returns_expr":"r"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._first_power","self._negative_power","self._zeroth_power"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, e, modulo=None):
         if e < 2:
             try:
@@ -820,16 +977,22 @@ class IntegerPowerable:
             return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_negative_power(e, ), compute inverse of self, then raise that to the abs(e) power. for example, if the class has an `inv()` method, return self.inv() ** abs(e) % modulo) over Any ║
+# ║ Path(_negative_power(e, modulo), <unspecified:_negative_power>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _negative_power : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae65cd4962fd0b4f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.IntegerPowerable._negative_power","kind":"method","src_hash":"8c4c68181fd3be26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_negative_power(e, )","rhs":"compute inverse of self, then raise that to the abs(e) power. for example, if the class has an `inv()` method, return self.inv() ** abs(e) % modulo","over":{"base":"Any"},"name":"_negative_power_correct"},"guarantee":"compute inverse of self, then raise that to the abs(e) power. for example, if the class has an `inv()` method, return self.inv() ** abs(e) % modulo","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae65cd4962fd0b4f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.IntegerPowerable._negative_power","kind":"method","src_hash":"8c4c68181fd3be26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_negative_power(e, modulo)","rhs":"<unspecified:_negative_power>","over":{"base":"Any"},"name":"_negative_power_correct"},"guarantee":"compute inverse of self, then raise that to the abs(e) power. for example, if the class has an `inv()` method, return self.inv() ** abs(e) % modulo","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae65cd4962fd0b4f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _negative_power(self, e, modulo=None):
         """
         Compute inverse of self, then raise that to the abs(e) power.
@@ -839,31 +1002,43 @@ class IntegerPowerable:
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_zeroth_power(), return unity element of algebraic struct to which self belongs) over Any ║
+# ║ Path(_zeroth_power(), <unspecified:_zeroth_power>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _zeroth_power : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c72365ac2c46bc5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.IntegerPowerable._zeroth_power","kind":"method","src_hash":"564dc4e7e1826b53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_zeroth_power()","rhs":"return unity element of algebraic struct to which self belongs","over":{"base":"Any"},"name":"_zeroth_power_correct"},"guarantee":"return unity element of algebraic struct to which self belongs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c72365ac2c46bc5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.IntegerPowerable._zeroth_power","kind":"method","src_hash":"564dc4e7e1826b53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_zeroth_power()","rhs":"<unspecified:_zeroth_power>","over":{"base":"Any"},"name":"_zeroth_power_correct"},"guarantee":"return unity element of algebraic struct to which self belongs","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c72365ac2c46bc5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _zeroth_power(self):
         """Return unity element of algebraic struct to which self belongs."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_first_power(), return a copy of self) over Any       ║
+# ║ Path(_first_power(), <unspecified:_first_power>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _first_power : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78873ce2027f1181           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.IntegerPowerable._first_power","kind":"method","src_hash":"8dd9b0c6b7f08969","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_first_power()","rhs":"return a copy of self","over":{"base":"Any"},"name":"_first_power_correct"},"guarantee":"return a copy of self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78873ce2027f1181"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyutils.IntegerPowerable._first_power","kind":"method","src_hash":"8dd9b0c6b7f08969","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_first_power()","rhs":"<unspecified:_first_power>","over":{"base":"Any"},"name":"_first_power_correct"},"guarantee":"return a copy of self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78873ce2027f1181","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _first_power(self):
         """Return a copy of self."""
         raise NotImplementedError

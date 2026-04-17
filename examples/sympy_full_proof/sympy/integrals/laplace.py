@@ -63,16 +63,22 @@ _LT_level = 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DEBUG_WRAP(fun), DEBUG_WRAP produces the expected output) over Any ║
+# ║ Path(DEBUG_WRAP(func), <unspecified:DEBUG_WRAP>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ DEBUG_WRAP : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f954c8a4e7729a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.DEBUG_WRAP","kind":"function","src_hash":"9ef111beb0d1e140","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DEBUG_WRAP(fun)","rhs":"DEBUG_WRAP produces the expected output","over":{"base":"Any"},"name":"DEBUG_WRAP_correct"},"guarantee":"DEBUG_WRAP produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.DEBUG_WRAP_correct","statement":"Path(DEBUG_WRAP(x), DEBUG_WRAP produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f954c8a4e7729a7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.DEBUG_WRAP","kind":"function","src_hash":"9ef111beb0d1e140","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DEBUG_WRAP(func)","rhs":"<unspecified:DEBUG_WRAP>","over":{"base":"Any"},"name":"DEBUG_WRAP_correct"},"guarantee":"DEBUG_WRAP produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.DEBUG_WRAP_correct","statement":"Path(DEBUG_WRAP(x), DEBUG_WRAP produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f954c8a4e7729a7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["func.__name__"],"globals_read":["_LT_level"],"globals_written":["_LT_level"],"io_operations":["print"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def DEBUG_WRAP(func):
     def wrap(*args, **kwargs):
         from sympy import SYMPY_DEBUG
@@ -104,16 +110,22 @@ def DEBUG_WRAP(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_debug(tex), internal helper behaves correctly) over Any ║
+# ║ Path(_debug(text), <unspecified:_debug>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _debug : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de4b095345c020c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._debug","kind":"function","src_hash":"a3f96f6b4695bae4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_debug(tex)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_debug_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._debug_correct","statement":"Path(_debug(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de4b095345c020c4"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._debug","kind":"function","src_hash":"a3f96f6b4695bae4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_debug(text)","rhs":"<unspecified:_debug>","over":{"base":"Any"},"name":"_debug_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._debug_correct","statement":"Path(_debug(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de4b095345c020c4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _debug(text):
     from sympy import SYMPY_DEBUG
 
@@ -122,7 +134,10 @@ def _debug(text):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplifyconds(exp), naively simplify some conditions occurring in ``expr``, given that `\operatorname{re}(s) > a`) over {Any | isinstance(ex1, Abs)} ║
+# ║ Path(_simplifyconds(expr, s, a), <unspecified:_simplifyconds>) over {Any | isinstance(ex1, Abs)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _simplifyconds : {Any | isinstance(ex1, Abs)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -134,9 +149,12 @@ def _debug(text):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d46dc965...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._simplifyconds","kind":"function","src_hash":"d56c132506b7da13","in":{"base":"Any","pred":"isinstance(ex1, Abs)"},"out":{"base":"Any"},"spec":{"lhs":"_simplifyconds(exp)","rhs":"naively simplify some conditions occurring in ``expr``, given that `\\operatorname{re}(s) > a`","over":{"base":"Any","pred":"isinstance(ex1, Abs)"},"name":"_simplifyconds_correct"},"guarantee":"naively simplify some conditions occurring in ``expr``, given that `\\operatorname{re}(s) > a`","fibers":[{"name":"Abs","pred":"isinstance(ex1, Abs)","path":{"lhs":"_simplifyconds(x)","rhs":"naively simplify some conditions occurring in ``expr``, given that `\\operatorname{re}(s) > a`","over":{"base":"Abs","pred":"isinstance(ex1, Abs)"},"name":"_simplifyconds_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._simplifyconds_Abs_correct","statement":"_simplifyconds satisfies spec on Abs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d46dc965b62002e8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._simplifyconds","kind":"function","src_hash":"d56c132506b7da13","in":{"base":"Any","pred":"isinstance(ex1, Abs)"},"out":{"base":"Any"},"spec":{"lhs":"_simplifyconds(expr, s, a)","rhs":"<unspecified:_simplifyconds>","over":{"base":"Any","pred":"isinstance(ex1, Abs)"},"name":"_simplifyconds_correct"},"guarantee":"naively simplify some conditions occurring in ``expr``, given that `\\operatorname{re}(s) > a`","fibers":[{"name":"Abs","pred":"isinstance(ex1, Abs)","path":{"lhs":"_simplifyconds(x)","rhs":"naively simplify some conditions occurring in ``expr``, given that `\\operatorname{re}(s) > a`","over":{"base":"Abs","pred":"isinstance(ex1, Abs)"},"name":"_simplifyconds_Abs_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._simplifyconds_Abs_correct","statement":"_simplifyconds satisfies spec on Abs inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d46dc965b62002e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'ex == s', 'ex.is_Pow and ex.base == s', 'isinstance(ex1, Abs)', 'n is None', 'not (x.is_positive or isinstance(x, Abs)) or not (y.is_positive or isinstance(y, Abs))', 'isinstance(ex2, Abs)', 'n < 0 and (Abs(ex1) >= Abs(a) ** n) == S.true', 'n > 0 and (Abs(ex1) <= Abs(a) ** n) == S.true'}, fibers={'Abs'})"]}}
 def _simplifyconds(expr, s, a):
     r"""
     Naively simplify some conditions occurring in ``expr``,
@@ -230,16 +248,23 @@ def _simplifyconds(expr, s, a):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expand_dirac_delta(exp), expand an expression involving diractdelta to get it as a linear combination of diracdelta functions) over Any ║
+# ║ Path(expand_dirac_delta(expr), _lin_eq2dict(expr, expr.atoms(DiracDelta))) over {Any | hasattr(expr, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ expand_dirac_delta : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   returns:  _lin_eq2dict(expr, expr.atoms(DiracDelta))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ expand_dirac_delta : {Any | hasattr(expr, 'atoms')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 358dbb9baacc45d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.expand_dirac_delta","kind":"function","src_hash":"492f9b197d3236c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand_dirac_delta(exp)","rhs":"expand an expression involving diractdelta to get it as a linear combination of diracdelta functions","over":{"base":"Any"},"name":"expand_dirac_delta_correct"},"guarantee":"expand an expression involving diractdelta to get it as a linear combination of diracdelta functions","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"358dbb9baacc45d7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.expand_dirac_delta","kind":"function","src_hash":"492f9b197d3236c3","in":{"base":"Any","pred":"hasattr(expr, 'atoms')"},"out":{"base":"Any"},"spec":{"lhs":"expand_dirac_delta(expr)","rhs":"_lin_eq2dict(expr, expr.atoms(DiracDelta))","over":{"base":"Any","pred":"hasattr(expr, 'atoms')"},"name":"expand_dirac_delta_correct"},"guarantee":"returns _lin_eq2dict(expr, expr.atoms(DiracDelta))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"358dbb9baacc45d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'atoms')"],"returns_expr":"_lin_eq2dict(expr, expr.atoms(DiracDelta))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.atoms"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def expand_dirac_delta(expr):
     """
     Expand an expression involving DiractDelta to get it as a linear
@@ -250,7 +275,11 @@ def expand_dirac_delta(expr):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_transform_integration(f, ), the backend function for doing laplace transforms by integration) over {Any | isinstance(d, (Ge, Gt))} ║
+# ║ Path(_laplace_transform_integration(f, t, s_), <unspecified:_laplace_transform_integration>) over {Any | isinstance(d, (Ge, Gt)) and hasattr(f, 'has')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'has')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _laplace_transform_integration : {Any | isinstance(d,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -262,9 +291,12 @@ def expand_dirac_delta(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cd584691...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_transform_integration","kind":"function","src_hash":"6592bbecb4b3c939","in":{"base":"Any","pred":"isinstance(d, (Ge, Gt))"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_transform_integration(f, )","rhs":"the backend function for doing laplace transforms by integration","over":{"base":"Any","pred":"isinstance(d, (Ge, Gt))"},"name":"_laplace_transform_integration_correct"},"guarantee":"the backend function for doing laplace transforms by integration","fibers":[{"name":"(Ge","pred":"isinstance(d, (Ge, Gt))","path":{"lhs":"_laplace_transform_integration(x)","rhs":"the backend function for doing laplace transforms by integration","over":{"base":"(Ge","pred":"isinstance(d, (Ge, Gt))"},"name":"_laplace_transform_integration_(Ge_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_transform_integration_(Ge_correct","statement":"_laplace_transform_integration satisfies spec on (Ge inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cd58469154984a33"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_transform_integration","kind":"function","src_hash":"6592bbecb4b3c939","in":{"base":"Any","pred":"isinstance(d, (Ge, Gt)) and hasattr(f, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_transform_integration(f, t, s_)","rhs":"<unspecified:_laplace_transform_integration>","over":{"base":"Any","pred":"isinstance(d, (Ge, Gt)) and hasattr(f, 'has')"},"name":"_laplace_transform_integration_correct"},"guarantee":"the backend function for doing laplace transforms by integration","fibers":[{"name":"(Ge","pred":"isinstance(d, (Ge, Gt))","path":{"lhs":"_laplace_transform_integration(x)","rhs":"the backend function for doing laplace transforms by integration","over":{"base":"(Ge","pred":"isinstance(d, (Ge, Gt))"},"name":"_laplace_transform_integration_(Ge_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_transform_integration_(Ge_correct","statement":"_laplace_transform_integration satisfies spec on (Ge inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cd58469154984a33","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'has')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.8,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['f', 't', 's_'], spec=['f', 't', 's_', 'simplify']","Poor branch-fiber coverage: 0% (branches={\"not d.is_Relational or d.rel_op in ('==', '!=') or d_.has(s) or (not d_.has(t))\", 'm and m[q].is_positive and (m[w2] / m[p] == pi / 2)', 'soln.lts == t', 'd.is_Relational and isinstance(d, (Ge, Gt))', \"not soln.is_Relational or soln.rel_op in ('==', '!=')\"}, fibers={'(Ge'})"]}}
 def _laplace_transform_integration(f, t, s_, *, simplify):
     """ The backend function for doing Laplace transforms by integration.
 
@@ -378,9 +410,15 @@ def _laplace_transform_integration(f, t, s_, *, simplify):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_deep_collect(f, ), this is an internal helper function that traverses through the expression tree of `f(t)` and collects arguments) over {Any | isinstance(f, Expr)} ║
+# ║ Path(_laplace_deep_collect(f, t), # HINT: _laplace_deep_collect may be idempotent: _laplace_deep_collect(_laplace_deep_collect(x)) == _laplace_deep_collect(x)) over {Any | isinstance(f, Expr) and hasattr(f, 'func') and hasattr(f, 'args') and hasattr(f, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _laplace_deep_collect : {Any | isinstance(f, Expr)} →...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'func')                             ║
+# ║   requires: hasattr(f, 'args')                             ║
+# ║   requires: hasattr(f, 'as_poly')                          ║
+# ║   ensures:  # HINT: _laplace_deep_collect may be idem...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _laplace_deep_collect : {Any | isinstance(f, Expr) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(f, Expr)} → library_axiom              ║
@@ -390,9 +428,12 @@ def _laplace_transform_integration(f, t, s_, *, simplify):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ac55292d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_deep_collect","kind":"function","src_hash":"d09c950f536195bb","in":{"base":"Any","pred":"isinstance(f, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_deep_collect(f, )","rhs":"this is an internal helper function that traverses through the expression tree of `f(t)` and collects arguments","over":{"base":"Any","pred":"isinstance(f, Expr)"},"name":"_laplace_deep_collect_correct"},"guarantee":"this is an internal helper function that traverses through the expression tree of `f(t)` and collects arguments","fibers":[{"name":"Expr","pred":"isinstance(f, Expr)","path":{"lhs":"_laplace_deep_collect(x)","rhs":"this is an internal helper function that traverses through the expression tree of `f(t)` and collects arguments","over":{"base":"Expr","pred":"isinstance(f, Expr)"},"name":"_laplace_deep_collect_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_deep_collect_Expr_correct","statement":"_laplace_deep_collect satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ac55292d5394005f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_deep_collect","kind":"function","src_hash":"d09c950f536195bb","in":{"base":"Any","pred":"isinstance(f, Expr) and hasattr(f, 'func') and hasattr(f, 'args') and hasattr(f, 'as_poly')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _laplace_deep_collect may be idempotent: _laplace_deep_collect(_laplace_deep_collect(x)) == _laplace_deep_collect(x)"},"spec":{"lhs":"_laplace_deep_collect(f, t)","rhs":"# HINT: _laplace_deep_collect may be idempotent: _laplace_deep_collect(_laplace_deep_collect(x)) == _laplace_deep_collect(x)","over":{"base":"Any","pred":"isinstance(f, Expr) and hasattr(f, 'func') and hasattr(f, 'args') and hasattr(f, 'as_poly')"},"name":"_laplace_deep_collect_correct"},"guarantee":"# HINT: _laplace_deep_collect may be idempotent: _laplace_deep_collect(_laplace_deep_collect(x)) == _laplace_deep_collect(x)","fibers":[{"name":"Expr","pred":"isinstance(f, Expr)","path":{"lhs":"_laplace_deep_collect(x)","rhs":"# HINT: _laplace_deep_collect may be idempotent: _laplace_deep_collect(_laplace_deep_collect(x)) == _laplace_deep_collect(x)","over":{"base":"Expr","pred":"isinstance(f, Expr)"},"name":"_laplace_deep_collect_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_deep_collect_Expr_correct","statement":"_laplace_deep_collect satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ac55292d5394005f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'func')","hasattr(f, 'args')","hasattr(f, 'as_poly')"],"ensures":["# HINT: _laplace_deep_collect may be idempotent: _laplace_deep_collect(_laplace_deep_collect(x)) == _laplace_deep_collect(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.args","f.as_poly","f.func"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(f, Expr)'}, fibers={'Expr'})"]}}
 def _laplace_deep_collect(f, t):
     """
     This is an internal helper function that traverses through the expression
@@ -411,16 +452,22 @@ def _laplace_deep_collect(f, t):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_build_rules(), this is an internal helper function that returns the table of laplace transform rules in terms of the time variable `t` and the frequency variable `s`) over Any ║
+# ║ Path(_laplace_build_rules(), <unspecified:_laplace_build_rules>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _laplace_build_rules : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d8e6010ea02cdd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_build_rules","kind":"function","src_hash":"b215b0e95a547895","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_build_rules()","rhs":"this is an internal helper function that returns the table of laplace transform rules in terms of the time variable `t` and the frequency variable `s`","over":{"base":"Any"},"name":"_laplace_build_rules_correct"},"guarantee":"this is an internal helper function that returns the table of laplace transform rules in terms of the time variable `t` and the frequency variable `s`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_build_rules_correct","statement":"Path(_laplace_build_rules(x), this is an internal helper function that returns the table of laplace transform rules in terms of the time variable `t` and the frequency variable `s`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d8e6010ea02cdd1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_build_rules","kind":"function","src_hash":"b215b0e95a547895","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_build_rules()","rhs":"<unspecified:_laplace_build_rules>","over":{"base":"Any"},"name":"_laplace_build_rules_correct"},"guarantee":"this is an internal helper function that returns the table of laplace transform rules in terms of the time variable `t` and the frequency variable `s`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_build_rules_correct","statement":"Path(_laplace_build_rules(x), this is an internal helper function that returns the table of laplace transform rules in terms of the time variable `t` and the frequency variable `s`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d8e6010ea02cdd1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.1,"verdict_class":"assumed","binding":true}}
 def _laplace_build_rules():
     """
     This is an internal helper function that returns the table of Laplace
@@ -642,16 +689,23 @@ def _laplace_build_rules():
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_rule_timescale(f, ), this function applies the time-scaling rule of the laplace transform in a straight-forward way) over Any ║
+# ║ Path(_laplace_rule_timescale(f, t, s), <unspecified:_laplace_rule_timescale>) over {Any | hasattr(f, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _laplace_rule_timescale : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'match')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _laplace_rule_timescale : {Any | hasattr(f, 'match')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb20a48f193b0389  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_timescale","kind":"function","src_hash":"73448d24724a6640","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_timescale(f, )","rhs":"this function applies the time-scaling rule of the laplace transform in a straight-forward way","over":{"base":"Any"},"name":"_laplace_rule_timescale_correct"},"guarantee":"this function applies the time-scaling rule of the laplace transform in a straight-forward way","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_rule_timescale_correct","statement":"Path(_laplace_rule_timescale(x), this function applies the time-scaling rule of the laplace transform in a straight-forward way)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb20a48f193b0389"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_timescale","kind":"function","src_hash":"73448d24724a6640","in":{"base":"Any","pred":"hasattr(f, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_timescale(f, t, s)","rhs":"<unspecified:_laplace_rule_timescale>","over":{"base":"Any","pred":"hasattr(f, 'match')"},"name":"_laplace_rule_timescale_correct"},"guarantee":"this function applies the time-scaling rule of the laplace transform in a straight-forward way","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_rule_timescale_correct","statement":"Path(_laplace_rule_timescale(x), this function applies the time-scaling rule of the laplace transform in a straight-forward way)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb20a48f193b0389","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'match')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.match"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _laplace_rule_timescale(f, t, s):
     """
     This function applies the time-scaling rule of the Laplace transform in
@@ -675,16 +729,23 @@ def _laplace_rule_timescale(f, t, s):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_rule_heaviside(f, ), this function deals with time-shifted heaviside step functions) over Any ║
+# ║ Path(_laplace_rule_heaviside(f, t, s), <unspecified:_laplace_rule_heaviside>) over {Any | hasattr(f, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _laplace_rule_heaviside : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'match')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _laplace_rule_heaviside : {Any | hasattr(f, 'match')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dc29f54ec215ecc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_heaviside","kind":"function","src_hash":"fb087e86cb13ca0a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_heaviside(f, )","rhs":"this function deals with time-shifted heaviside step functions","over":{"base":"Any"},"name":"_laplace_rule_heaviside_correct"},"guarantee":"this function deals with time-shifted heaviside step functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_rule_heaviside_correct","statement":"Path(_laplace_rule_heaviside(x), this function deals with time-shifted heaviside step functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc29f54ec215ecc"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_heaviside","kind":"function","src_hash":"fb087e86cb13ca0a","in":{"base":"Any","pred":"hasattr(f, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_heaviside(f, t, s)","rhs":"<unspecified:_laplace_rule_heaviside>","over":{"base":"Any","pred":"hasattr(f, 'match')"},"name":"_laplace_rule_heaviside_correct"},"guarantee":"this function deals with time-shifted heaviside step functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_rule_heaviside_correct","statement":"Path(_laplace_rule_heaviside(x), this function deals with time-shifted heaviside step functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc29f54ec215ecc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'match')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.match"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _laplace_rule_heaviside(f, t, s):
     """
     This function deals with time-shifted Heaviside step functions. If the time
@@ -728,16 +789,23 @@ def _laplace_rule_heaviside(f, t, s):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_rule_exp(f, ), if this function finds a factor ``exp(a*t)``, it applies the frequency-shift rule of the laplace transform and adjusts the convergence plane accordingly) over Any ║
+# ║ Path(_laplace_rule_exp(f, t, s), <unspecified:_laplace_rule_exp>) over {Any | hasattr(f, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _laplace_rule_exp : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'match')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _laplace_rule_exp : {Any | hasattr(f, 'match')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4cf57cb9763c933  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_exp","kind":"function","src_hash":"57d1c1ef24866682","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_exp(f, )","rhs":"if this function finds a factor ``exp(a*t)``, it applies the frequency-shift rule of the laplace transform and adjusts the convergence plane accordingly","over":{"base":"Any"},"name":"_laplace_rule_exp_correct"},"guarantee":"if this function finds a factor ``exp(a*t)``, it applies the frequency-shift rule of the laplace transform and adjusts the convergence plane accordingly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_rule_exp_correct","statement":"Path(_laplace_rule_exp(x), if this function finds a factor ``exp(a*t)``, it applies the frequency-shift rule of the laplace transform and adjusts the convergence plane accordingly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4cf57cb9763c933"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_exp","kind":"function","src_hash":"57d1c1ef24866682","in":{"base":"Any","pred":"hasattr(f, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_exp(f, t, s)","rhs":"<unspecified:_laplace_rule_exp>","over":{"base":"Any","pred":"hasattr(f, 'match')"},"name":"_laplace_rule_exp_correct"},"guarantee":"if this function finds a factor ``exp(a*t)``, it applies the frequency-shift rule of the laplace transform and adjusts the convergence plane accordingly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_rule_exp_correct","statement":"Path(_laplace_rule_exp(x), if this function finds a factor ``exp(a*t)``, it applies the frequency-shift rule of the laplace transform and adjusts the convergence plane accordingly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4cf57cb9763c933","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'match')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.match"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _laplace_rule_exp(f, t, s):
     """
     If this function finds a factor ``exp(a*t)``, it applies the
@@ -762,16 +830,23 @@ def _laplace_rule_exp(f, t, s):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_rule_delta(f, ), id) over Any                ║
+# ║ Path(_laplace_rule_delta(f, t, s), id) over {Any | hasattr(f, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _laplace_rule_delta : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'match')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _laplace_rule_delta : {Any | hasattr(f, 'match')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6ac906636bb121ed   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_delta","kind":"function","src_hash":"cd72969f2b4d523d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_delta(f, )","rhs":"if this function finds a factor ``diracdelta(b*t-a)``, it applies the masking property of the delta distribution","over":{"base":"Any"},"name":"_laplace_rule_delta_correct","kind":"composition"},"guarantee":"if this function finds a factor ``diracdelta(b*t-a)``, it applies the masking property of the delta distribution","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"f","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ac906636bb121ed"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_delta","kind":"function","src_hash":"cd72969f2b4d523d","in":{"base":"Any","pred":"hasattr(f, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_delta(f, t, s)","rhs":"<unspecified:_laplace_rule_delta>","over":{"base":"Any","pred":"hasattr(f, 'match')"},"name":"_laplace_rule_delta_correct","kind":"composition"},"guarantee":"if this function finds a factor ``diracdelta(b*t-a)``, it applies the masking property of the delta distribution","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"f","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ac906636bb121ed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'match')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.match"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _laplace_rule_delta(f, t, s):
     """
     If this function finds a factor ``DiracDelta(b*t-a)``, it applies the
@@ -818,16 +893,22 @@ def _laplace_rule_delta(f, t, s):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_trig_split(fn), helper function for `_laplace_rule_trig`) over Any ║
+# ║ Path(_laplace_trig_split(fn), (f, g)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (f, g)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _laplace_trig_split : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8465c53ac174dba8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ad4932e9be68b8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_trig_split","kind":"function","src_hash":"a40d0f60cf04fdae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_trig_split(fn)","rhs":"helper function for `_laplace_rule_trig`","over":{"base":"Any"},"name":"_laplace_trig_split_correct"},"guarantee":"helper function for `_laplace_rule_trig`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_trig_split_correct","statement":"Path(_laplace_trig_split(x), helper function for `_laplace_rule_trig`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8465c53ac174dba8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_trig_split","kind":"function","src_hash":"a40d0f60cf04fdae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_trig_split(fn)","rhs":"(f, g)","over":{"base":"Any"},"name":"_laplace_trig_split_correct"},"guarantee":"returns (f, g)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_trig_split_correct","statement":"Path(_laplace_trig_split(x), returns (f, g))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ad4932e9be68b8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(f, g)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _laplace_trig_split(fn):
     """
     Helper function for `_laplace_rule_trig`.  This function returns two terms
@@ -848,16 +929,23 @@ def _laplace_trig_split(fn):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_trig_expsum(f, ), helper function for `_laplace_rule_trig`) over Any ║
+# ║ Path(_laplace_trig_expsum(f, t), (xm, xn)) over {Any | hasattr(f, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _laplace_trig_expsum : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'rewrite')                          ║
+# ║   returns:  (xm, xn)                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _laplace_trig_expsum : {Any | hasattr(f, 'rewrite')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 995d2892f384acf0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f14b20b1d2beb804  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_trig_expsum","kind":"function","src_hash":"4bee6e246e09f0e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_trig_expsum(f, )","rhs":"helper function for `_laplace_rule_trig`","over":{"base":"Any"},"name":"_laplace_trig_expsum_correct"},"guarantee":"helper function for `_laplace_rule_trig`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_trig_expsum_correct","statement":"Path(_laplace_trig_expsum(x), helper function for `_laplace_rule_trig`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"995d2892f384acf0"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_trig_expsum","kind":"function","src_hash":"4bee6e246e09f0e0","in":{"base":"Any","pred":"hasattr(f, 'rewrite')"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_trig_expsum(f, t)","rhs":"(xm, xn)","over":{"base":"Any","pred":"hasattr(f, 'rewrite')"},"name":"_laplace_trig_expsum_correct"},"guarantee":"returns (xm, xn)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_trig_expsum_correct","statement":"Path(_laplace_trig_expsum(x), returns (xm, xn))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f14b20b1d2beb804","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'rewrite')"],"returns_expr":"(xm, xn)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _laplace_trig_expsum(f, t):
     """
     Helper function for `_laplace_rule_trig`.  This function expects the `f`
@@ -892,16 +980,26 @@ def _laplace_trig_expsum(f, t):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_trig_ltex(xm,), helper function for `_laplace_rule_trig`) over Any ║
+# ║ Path(_laplace_trig_ltex(xm, t, s), len(indices_to_pop) == old_len_indices_to_pop and len(planes) == old_len_planes + 1 and len(results) == old_len_results + 1 and len(xm) == old_len_xm - 1) over {Any | hasattr(xm, 'pop') and len(xm) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _laplace_trig_ltex : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(xm, 'pop')                             ║
+# ║   requires: len(xm) > 0                                    ║
+# ║   ensures:  len(indices_to_pop) == old_len_indices_to...   ║
+# ║   ensures:  len(planes) == old_len_planes + 1              ║
+# ║   ensures:  len(results) == old_len_results + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _laplace_trig_ltex : {Any | hasattr(xm, 'pop') and le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2311067745add20f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51e2becd041bb8ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_trig_ltex","kind":"function","src_hash":"5f0c7d50b94f3b24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_trig_ltex(xm,)","rhs":"helper function for `_laplace_rule_trig`","over":{"base":"Any"},"name":"_laplace_trig_ltex_correct"},"guarantee":"helper function for `_laplace_rule_trig`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_trig_ltex_correct","statement":"Path(_laplace_trig_ltex(x), helper function for `_laplace_rule_trig`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2311067745add20f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_trig_ltex","kind":"function","src_hash":"5f0c7d50b94f3b24","in":{"base":"Any","pred":"hasattr(xm, 'pop') and len(xm) > 0"},"out":{"base":"Any","pred":"result satisfies: len(indices_to_pop) == old_len_indices_to_pop and len(planes) == old_len_planes + 1 and len(results) == old_len_results + 1 and len(xm) == old_len_xm - 1"},"spec":{"lhs":"_laplace_trig_ltex(xm, t, s)","rhs":"len(indices_to_pop) == old_len_indices_to_pop and len(planes) == old_len_planes + 1 and len(results) == old_len_results + 1 and len(xm) == old_len_xm - 1","over":{"base":"Any","pred":"hasattr(xm, 'pop') and len(xm) > 0"},"name":"_laplace_trig_ltex_correct"},"guarantee":"len(indices_to_pop) == old_len_indices_to_pop; len(planes) == old_len_planes + 1; len(results) == old_len_results + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_trig_ltex_correct","statement":"Path(_laplace_trig_ltex(x), len(indices_to_pop) == old_len_indices_to_pop; len(planes) == old_len_planes + 1; len(results) == old_len_results + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51e2becd041bb8ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(xm, 'pop')","len(xm) > 0"],"ensures":["len(indices_to_pop) == old_len_indices_to_pop","len(planes) == old_len_planes + 1","len(results) == old_len_results + 1","len(xm) == old_len_xm - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["xm.pop"],"calls_mutating":["indices_to_pop.sort","planes.append","results.append","xm.pop"]},"state_contract":{"modifies":["indices_to_pop.*","planes.*","results.*","xm.*"],"old_bindings":{"old_len_indices_to_pop":"len(indices_to_pop)","old_len_planes":"len(planes)","old_len_results":"len(results)","old_len_xm":"len(xm)"},"pre_requires":["len(xm) > 0"],"post_ensures":["len(indices_to_pop) == old_len_indices_to_pop","len(planes) == old_len_planes + 1","len(results) == old_len_results + 1","len(xm) == old_len_xm - 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"assumed","binding":true}}
 def _laplace_trig_ltex(xm, t, s):
     """
     Helper function for `_laplace_rule_trig`.  This function takes the list of
@@ -1044,16 +1142,24 @@ def _laplace_trig_ltex(xm, t, s):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_rule_trig(fn,), this rule covers trigonometric factors by splitting everything into a sum of exponential functions and collecting complex conjugate poles and real symmetric poles) over Any ║
+# ║ Path(_laplace_rule_trig(fn, t_, s), <unspecified:_laplace_rule_trig>) over {Any | hasattr(fn, 'has') and hasattr(fn, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _laplace_rule_trig : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(fn, 'has')                             ║
+# ║   requires: hasattr(fn, 'subs')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _laplace_rule_trig : {Any | hasattr(fn, 'has') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad390d993fa1bf9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_trig","kind":"function","src_hash":"1d823d9ba95c3298","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_trig(fn,)","rhs":"this rule covers trigonometric factors by splitting everything into a sum of exponential functions and collecting complex conjugate poles and real symmetric poles","over":{"base":"Any"},"name":"_laplace_rule_trig_correct"},"guarantee":"this rule covers trigonometric factors by splitting everything into a sum of exponential functions and collecting complex conjugate poles and real symmetric poles","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_rule_trig_correct","statement":"Path(_laplace_rule_trig(x), this rule covers trigonometric factors by splitting everything into a sum of exponential functions and collecting complex conjugate poles and real symmetric poles)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad390d993fa1bf9f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_trig","kind":"function","src_hash":"1d823d9ba95c3298","in":{"base":"Any","pred":"hasattr(fn, 'has') and hasattr(fn, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_trig(fn, t_, s)","rhs":"<unspecified:_laplace_rule_trig>","over":{"base":"Any","pred":"hasattr(fn, 'has') and hasattr(fn, 'subs')"},"name":"_laplace_rule_trig_correct"},"guarantee":"this rule covers trigonometric factors by splitting everything into a sum of exponential functions and collecting complex conjugate poles and real symmetric poles","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_rule_trig_correct","statement":"Path(_laplace_rule_trig(x), this rule covers trigonometric factors by splitting everything into a sum of exponential functions and collecting complex conjugate poles and real symmetric poles)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad390d993fa1bf9f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(fn, 'has')","hasattr(fn, 'subs')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _laplace_rule_trig(fn, t_, s):
     """
     This rule covers trigonometric factors by splitting everything into a
@@ -1088,16 +1194,23 @@ def _laplace_rule_trig(fn, t_, s):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_rule_diff(f, ), this function looks for derivatives in the time domain and replaces it by factors of `s` and initial conditions in the frequency domain) over Any ║
+# ║ Path(_laplace_rule_diff(f, t, s), <unspecified:_laplace_rule_diff>) over {Any | hasattr(f, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _laplace_rule_diff : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'match')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _laplace_rule_diff : {Any | hasattr(f, 'match')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da6ea26eeab64aab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_diff","kind":"function","src_hash":"7821b40123ce297f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_diff(f, )","rhs":"this function looks for derivatives in the time domain and replaces it by factors of `s` and initial conditions in the frequency domain","over":{"base":"Any"},"name":"_laplace_rule_diff_correct"},"guarantee":"this function looks for derivatives in the time domain and replaces it by factors of `s` and initial conditions in the frequency domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_rule_diff_correct","statement":"Path(_laplace_rule_diff(x), this function looks for derivatives in the time domain and replaces it by factors of `s` and initial conditions in the frequency domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da6ea26eeab64aab"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_diff","kind":"function","src_hash":"7821b40123ce297f","in":{"base":"Any","pred":"hasattr(f, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_diff(f, t, s)","rhs":"<unspecified:_laplace_rule_diff>","over":{"base":"Any","pred":"hasattr(f, 'match')"},"name":"_laplace_rule_diff_correct"},"guarantee":"this function looks for derivatives in the time domain and replaces it by factors of `s` and initial conditions in the frequency domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_rule_diff_correct","statement":"Path(_laplace_rule_diff(x), this function looks for derivatives in the time domain and replaces it by factors of `s` and initial conditions in the frequency domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da6ea26eeab64aab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'match')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _laplace_rule_diff(f, t, s):
     """
     This function looks for derivatives in the time domain and replaces it
@@ -1128,16 +1241,24 @@ def _laplace_rule_diff(f, t, s):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_rule_sdiff(f, ), this function looks for multiplications with polynoimials in `t` as they correspond to differentiation in the frequency domain) over Any ║
+# ║ Path(_laplace_rule_sdiff(f, t, s), <unspecified:_laplace_rule_sdiff>) over {Any | hasattr(f, 'is_Mul') and hasattr(f, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _laplace_rule_sdiff : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'is_Mul')                           ║
+# ║   requires: hasattr(f, 'match')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _laplace_rule_sdiff : {Any | hasattr(f, 'is_Mul') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa5b4528ceb85257  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_sdiff","kind":"function","src_hash":"6e02aa4c2f254d4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_sdiff(f, )","rhs":"this function looks for multiplications with polynoimials in `t` as they correspond to differentiation in the frequency domain","over":{"base":"Any"},"name":"_laplace_rule_sdiff_correct"},"guarantee":"this function looks for multiplications with polynoimials in `t` as they correspond to differentiation in the frequency domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_rule_sdiff_correct","statement":"Path(_laplace_rule_sdiff(x), this function looks for multiplications with polynoimials in `t` as they correspond to differentiation in the frequency domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa5b4528ceb85257"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_rule_sdiff","kind":"function","src_hash":"6e02aa4c2f254d4a","in":{"base":"Any","pred":"hasattr(f, 'is_Mul') and hasattr(f, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_rule_sdiff(f, t, s)","rhs":"<unspecified:_laplace_rule_sdiff>","over":{"base":"Any","pred":"hasattr(f, 'is_Mul') and hasattr(f, 'match')"},"name":"_laplace_rule_sdiff_correct"},"guarantee":"this function looks for multiplications with polynoimials in `t` as they correspond to differentiation in the frequency domain","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_rule_sdiff_correct","statement":"Path(_laplace_rule_sdiff(x), this function looks for multiplications with polynoimials in `t` as they correspond to differentiation in the frequency domain)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa5b4528ceb85257","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'is_Mul')","hasattr(f, 'match')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _laplace_rule_sdiff(f, t, s):
     """
     This function looks for multiplications with polynoimials in `t` as they
@@ -1190,16 +1311,22 @@ def _laplace_rule_sdiff(f, t, s):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_expand(f, ), this function tries to expand its argument with successively stronger methods: first it will expand on the top level, then it will expand any multiplications in depth, then it will try all available e) over Any ║
+# ║ Path(_laplace_expand(f, t, s), <unspecified:_laplace_expand>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _laplace_expand : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6274fb27e95617a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_expand","kind":"function","src_hash":"e1601bbf07832f51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_expand(f, )","rhs":"this function tries to expand its argument with successively stronger methods: first it will expand on the top level, then it will expand any multiplications in depth, then it will try all available e","over":{"base":"Any"},"name":"_laplace_expand_correct"},"guarantee":"this function tries to expand its argument with successively stronger methods: first it will expand on the top level, then it will expand any multiplications in depth, then it will try all available e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_expand_correct","statement":"Path(_laplace_expand(x), this function tries to expand its argument with successively stronger methods: first it will expand on the top level, then it will expand any multiplications in depth, then it will try all available e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6274fb27e95617a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_expand","kind":"function","src_hash":"e1601bbf07832f51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_expand(f, t, s)","rhs":"<unspecified:_laplace_expand>","over":{"base":"Any"},"name":"_laplace_expand_correct"},"guarantee":"this function tries to expand its argument with successively stronger methods: first it will expand on the top level, then it will expand any multiplications in depth, then it will try all available e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_expand_correct","statement":"Path(_laplace_expand(x), this function tries to expand its argument with successively stronger methods: first it will expand on the top level, then it will expand any multiplications in depth, then it will try all available e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6274fb27e95617a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _laplace_expand(f, t, s):
     """
     This function tries to expand its argument with successively stronger
@@ -1230,16 +1357,22 @@ def _laplace_expand(f, t, s):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_apply_prog_rules(f, ), this function applies all program rules and returns the result if one of them gives a result) over Any ║
+# ║ Path(_laplace_apply_prog_rules(f, t, s), <unspecified:_laplace_apply_prog_rules>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _laplace_apply_prog_rules : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa3c252eecbd1125  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_apply_prog_rules","kind":"function","src_hash":"be68b5cd8314d59b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_apply_prog_rules(f, )","rhs":"this function applies all program rules and returns the result if one of them gives a result","over":{"base":"Any"},"name":"_laplace_apply_prog_rules_correct"},"guarantee":"this function applies all program rules and returns the result if one of them gives a result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_apply_prog_rules_correct","statement":"Path(_laplace_apply_prog_rules(x), this function applies all program rules and returns the result if one of them gives a result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa3c252eecbd1125"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_apply_prog_rules","kind":"function","src_hash":"be68b5cd8314d59b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_apply_prog_rules(f, t, s)","rhs":"<unspecified:_laplace_apply_prog_rules>","over":{"base":"Any"},"name":"_laplace_apply_prog_rules_correct"},"guarantee":"this function applies all program rules and returns the result if one of them gives a result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_apply_prog_rules_correct","statement":"Path(_laplace_apply_prog_rules(x), this function applies all program rules and returns the result if one of them gives a result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa3c252eecbd1125","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _laplace_apply_prog_rules(f, t, s):
     """
     This function applies all program rules and returns the result if one
@@ -1259,16 +1392,23 @@ def _laplace_apply_prog_rules(f, t, s):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_apply_simple_rules(f, ), id) over Any        ║
+# ║ Path(_laplace_apply_simple_rules(f, t, s), id) over {Any | hasattr(f, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _laplace_apply_simple_rules : Any → Any                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _laplace_apply_simple_rules : {Any | hasattr(f, 'subs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 403c260fe32b3470   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_apply_simple_rules","kind":"function","src_hash":"e66ae762d51b4948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_apply_simple_rules(f, )","rhs":"this function applies all simple rules and returns the result if one of them gives a result","over":{"base":"Any"},"name":"_laplace_apply_simple_rules_correct","kind":"composition"},"guarantee":"this function applies all simple rules and returns the result if one of them gives a result","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"xreplace","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"403c260fe32b3470"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_apply_simple_rules","kind":"function","src_hash":"e66ae762d51b4948","in":{"base":"Any","pred":"hasattr(f, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_apply_simple_rules(f, t, s)","rhs":"<unspecified:_laplace_apply_simple_rules>","over":{"base":"Any","pred":"hasattr(f, 'subs')"},"name":"_laplace_apply_simple_rules_correct","kind":"composition"},"guarantee":"this function applies all simple rules and returns the result if one of them gives a result","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"xreplace","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"403c260fe32b3470","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.subs"],"catches":["TypeError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _laplace_apply_simple_rules(f, t, s):
     """
     This function applies all simple rules and returns the result if one
@@ -1297,7 +1437,12 @@ def _laplace_apply_simple_rules(f, t, s):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_piecewise_to_heaviside(f, ), this function converts a piecewise expression to an expression written with heaviside) over {Any | isinstance(cond, Relational) and isinstance(cond, (Eq, Ne)) and isinstance(cond, Or)} ║
+# ║ Path(_piecewise_to_heaviside(f, t), # HINT: _piecewise_to_heaviside may be idempotent: _piecewise_to_heaviside(_piecewise_to_heaviside(x)) == _piecewise_to_heaviside(x)) over {Any | isinstance(cond, Relational) and isinstance(cond, (Eq, Ne)) and isinstance(cond, Or) and hasattr(t, 'is_real') and hasattr(f, 'xreplace')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(t, 'is_real')                          ║
+# ║   requires: hasattr(f, 'xreplace')                         ║
+# ║   ensures:  # HINT: _piecewise_to_heaviside may be id...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _piecewise_to_heaviside : {Any | isinstance(cond, Rel...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1312,9 +1457,12 @@ def _laplace_apply_simple_rules(f, t, s):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 19f6ae80...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._piecewise_to_heaviside","kind":"function","src_hash":"cbb19b70e5b1c3b0","in":{"base":"Any","pred":"isinstance(cond, Relational) and isinstance(cond, (Eq, Ne)) and isinstance(cond, Or)"},"out":{"base":"Any"},"spec":{"lhs":"_piecewise_to_heaviside(f, )","rhs":"this function converts a piecewise expression to an expression written with heaviside","over":{"base":"Any","pred":"isinstance(cond, Relational) and isinstance(cond, (Eq, Ne)) and isinstance(cond, Or)"},"name":"_piecewise_to_heaviside_correct"},"guarantee":"this function converts a piecewise expression to an expression written with heaviside","fibers":[{"name":"Relational","pred":"isinstance(cond, Relational)","path":{"lhs":"_piecewise_to_heaviside(x)","rhs":"this function converts a piecewise expression to an expression written with heaviside","over":{"base":"Relational","pred":"isinstance(cond, Relational)"},"name":"_piecewise_to_heaviside_Relational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._piecewise_to_heaviside_Relational_correct","statement":"_piecewise_to_heaviside satisfies spec on Relational inputs"},"trust":"LIBRARY"},{"name":"(Eq","pred":"isinstance(cond, (Eq, Ne))","path":{"lhs":"_piecewise_to_heaviside(x)","rhs":"this function converts a piecewise expression to an expression written with heaviside","over":{"base":"(Eq","pred":"isinstance(cond, (Eq, Ne))"},"name":"_piecewise_to_heaviside_(Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._piecewise_to_heaviside_(Eq_correct","statement":"_piecewise_to_heaviside satisfies spec on (Eq inputs"},"trust":"LIBRARY"},{"name":"Or","pred":"isinstance(cond, Or)","path":{"lhs":"_piecewise_to_heaviside(x)","rhs":"this function converts a piecewise expression to an expression written with heaviside","over":{"base":"Or","pred":"isinstance(cond, Or)"},"name":"_piecewise_to_heaviside_Or_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._piecewise_to_heaviside_Or_correct","statement":"_piecewise_to_heaviside satisfies spec on Or inputs"},"trust":"LIBRARY"},{"name":"And","pred":"isinstance(cond, And)","path":{"lhs":"_piecewise_to_heaviside(x)","rhs":"this function converts a piecewise expression to an expression written with heaviside","over":{"base":"And","pred":"isinstance(cond, And)"},"name":"_piecewise_to_heaviside_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._piecewise_to_heaviside_And_correct","statement":"_piecewise_to_heaviside satisfies spec on And inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"19f6ae809dc0b0ef"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._piecewise_to_heaviside","kind":"function","src_hash":"cbb19b70e5b1c3b0","in":{"base":"Any","pred":"isinstance(cond, Relational) and isinstance(cond, (Eq, Ne)) and isinstance(cond, Or) and hasattr(t, 'is_real') and hasattr(f, 'xreplace')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _piecewise_to_heaviside may be idempotent: _piecewise_to_heaviside(_piecewise_to_heaviside(x)) == _piecewise_to_heaviside(x)"},"spec":{"lhs":"_piecewise_to_heaviside(f, t)","rhs":"# HINT: _piecewise_to_heaviside may be idempotent: _piecewise_to_heaviside(_piecewise_to_heaviside(x)) == _piecewise_to_heaviside(x)","over":{"base":"Any","pred":"isinstance(cond, Relational) and isinstance(cond, (Eq, Ne)) and isinstance(cond, Or) and hasattr(t, 'is_real') and hasattr(f, 'xreplace')"},"name":"_piecewise_to_heaviside_correct"},"guarantee":"# HINT: _piecewise_to_heaviside may be idempotent: _piecewise_to_heaviside(_piecewise_to_heaviside(x)) == _piecewise_to_heaviside(x)","fibers":[{"name":"Relational","pred":"isinstance(cond, Relational)","path":{"lhs":"_piecewise_to_heaviside(x)","rhs":"# HINT: _piecewise_to_heaviside may be idempotent: _piecewise_to_heaviside(_piecewise_to_heaviside(x)) == _piecewise_to_heaviside(x)","over":{"base":"Relational","pred":"isinstance(cond, Relational)"},"name":"_piecewise_to_heaviside_Relational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._piecewise_to_heaviside_Relational_correct","statement":"_piecewise_to_heaviside satisfies spec on Relational inputs"},"trust":"LIBRARY"},{"name":"(Eq","pred":"isinstance(cond, (Eq, Ne))","path":{"lhs":"_piecewise_to_heaviside(x)","rhs":"# HINT: _piecewise_to_heaviside may be idempotent: _piecewise_to_heaviside(_piecewise_to_heaviside(x)) == _piecewise_to_heaviside(x)","over":{"base":"(Eq","pred":"isinstance(cond, (Eq, Ne))"},"name":"_piecewise_to_heaviside_(Eq_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._piecewise_to_heaviside_(Eq_correct","statement":"_piecewise_to_heaviside satisfies spec on (Eq inputs"},"trust":"LIBRARY"},{"name":"Or","pred":"isinstance(cond, Or)","path":{"lhs":"_piecewise_to_heaviside(x)","rhs":"# HINT: _piecewise_to_heaviside may be idempotent: _piecewise_to_heaviside(_piecewise_to_heaviside(x)) == _piecewise_to_heaviside(x)","over":{"base":"Or","pred":"isinstance(cond, Or)"},"name":"_piecewise_to_heaviside_Or_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._piecewise_to_heaviside_Or_correct","statement":"_piecewise_to_heaviside satisfies spec on Or inputs"},"trust":"LIBRARY"},{"name":"And","pred":"isinstance(cond, And)","path":{"lhs":"_piecewise_to_heaviside(x)","rhs":"# HINT: _piecewise_to_heaviside may be idempotent: _piecewise_to_heaviside(_piecewise_to_heaviside(x)) == _piecewise_to_heaviside(x)","over":{"base":"And","pred":"isinstance(cond, And)"},"name":"_piecewise_to_heaviside_And_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._piecewise_to_heaviside_And_correct","statement":"_piecewise_to_heaviside satisfies spec on And inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"19f6ae809dc0b0ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(t, 'is_real')","hasattr(f, 'xreplace')"],"ensures":["# HINT: _piecewise_to_heaviside may be idempotent: _piecewise_to_heaviside(_piecewise_to_heaviside(x)) == _piecewise_to_heaviside(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"'>' in c0.rel_op\", 'c0.lhs == t and c1.lhs == t', 'isinstance(cond, Or) and len(cond.args) == 2', 'c2.lhs == t', 'isinstance(cond, (Eq, Ne))', 'isinstance(cond, Relational) and t in cond.args', 'isinstance(cond, And) and len(cond.args) == 2'}, fibers={'Relational', 'And', '(Eq', 'Or'})"]}}
 def _piecewise_to_heaviside(f, t):
     """
     This function converts a Piecewise expression to an expression written
@@ -1363,7 +1511,10 @@ def _piecewise_to_heaviside(f, t):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(laplace_correspondence(), this helper function takes a function `f` that is the result of a ``laplace_transform`` or an ``inverse_laplace_transform``) over {Any | isinstance(f, Expr)} ║
+# ║ Path(laplace_correspondence(), # HINT: laplace_correspondence may be idempotent: laplace_correspondence(laplace_correspondence(x)) == laplace_correspondence(x)) over {Any | isinstance(f, Expr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: laplace_correspondence may be ide...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ laplace_correspondence : {Any | isinstance(f, Expr)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1375,9 +1526,12 @@ def _piecewise_to_heaviside(f, t):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8d19ded8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.laplace_correspondence","kind":"function","src_hash":"a83f8d27af1419a7","in":{"base":"Any","pred":"isinstance(f, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"laplace_correspondence()","rhs":"this helper function takes a function `f` that is the result of a ``laplace_transform`` or an ``inverse_laplace_transform``","over":{"base":"Any","pred":"isinstance(f, Expr)"},"name":"laplace_correspondence_correct"},"guarantee":"this helper function takes a function `f` that is the result of a ``laplace_transform`` or an ``inverse_laplace_transform``","fibers":[{"name":"Expr","pred":"isinstance(f, Expr)","path":{"lhs":"laplace_correspondence(x)","rhs":"this helper function takes a function `f` that is the result of a ``laplace_transform`` or an ``inverse_laplace_transform``","over":{"base":"Expr","pred":"isinstance(f, Expr)"},"name":"laplace_correspondence_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.laplace_correspondence_Expr_correct","statement":"laplace_correspondence satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8d19ded8b908e786"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.laplace_correspondence","kind":"function","src_hash":"a83f8d27af1419a7","in":{"base":"Any","pred":"isinstance(f, Expr)"},"out":{"base":"Any","pred":"result satisfies: # HINT: laplace_correspondence may be idempotent: laplace_correspondence(laplace_correspondence(x)) == laplace_correspondence(x)"},"spec":{"lhs":"laplace_correspondence()","rhs":"# HINT: laplace_correspondence may be idempotent: laplace_correspondence(laplace_correspondence(x)) == laplace_correspondence(x)","over":{"base":"Any","pred":"isinstance(f, Expr)"},"name":"laplace_correspondence_correct"},"guarantee":"# HINT: laplace_correspondence may be idempotent: laplace_correspondence(laplace_correspondence(x)) == laplace_correspondence(x)","fibers":[{"name":"Expr","pred":"isinstance(f, Expr)","path":{"lhs":"laplace_correspondence(x)","rhs":"# HINT: laplace_correspondence may be idempotent: laplace_correspondence(laplace_correspondence(x)) == laplace_correspondence(x)","over":{"base":"Expr","pred":"isinstance(f, Expr)"},"name":"laplace_correspondence_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.laplace_correspondence_Expr_correct","statement":"laplace_correspondence satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8d19ded8b908e786","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: laplace_correspondence may be idempotent: laplace_correspondence(laplace_correspondence(x)) == laplace_correspondence(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'(m := f.match(InverseLaplaceTransform(Y(a), s, t, p))) is not None and m[a] == m[s]', '(m := f.match(LaplaceTransform(y(a), t, s))) is not None and m[a] == m[t]', 'not isinstance(f, Expr) or (not f.has(LaplaceTransform) and (not f.has(InverseLaplaceTransform)))'}, fibers={'Expr'})"]}}
 def laplace_correspondence(f, fdict, /):
     """
     This helper function takes a function `f` that is the result of a
@@ -1439,16 +1593,22 @@ def laplace_correspondence(f, fdict, /):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(laplace_initial_conds(), this helper function takes a function `f` that is the result of a ``laplace_transform``) over Any ║
+# ║ Path(laplace_initial_conds(), <unspecified:laplace_initial_conds>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ laplace_initial_conds : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 339340b55d03771b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.laplace_initial_conds","kind":"function","src_hash":"475110e834edd1d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"laplace_initial_conds()","rhs":"this helper function takes a function `f` that is the result of a ``laplace_transform``","over":{"base":"Any"},"name":"laplace_initial_conds_correct"},"guarantee":"this helper function takes a function `f` that is the result of a ``laplace_transform``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.laplace_initial_conds_correct","statement":"Path(laplace_initial_conds(x), this helper function takes a function `f` that is the result of a ``laplace_transform``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"339340b55d03771b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.laplace_initial_conds","kind":"function","src_hash":"475110e834edd1d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"laplace_initial_conds()","rhs":"<unspecified:laplace_initial_conds>","over":{"base":"Any"},"name":"laplace_initial_conds_correct"},"guarantee":"this helper function takes a function `f` that is the result of a ``laplace_transform``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.laplace_initial_conds_correct","statement":"Path(laplace_initial_conds(x), this helper function takes a function `f` that is the result of a ``laplace_transform``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"339340b55d03771b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def laplace_initial_conds(f, t, fdict, /):
     """
     This helper function takes a function `f` that is the result of a
@@ -1496,16 +1656,22 @@ def laplace_initial_conds(f, t, fdict, /):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_laplace_transform(fn,), front-end function of the laplace transform) over Any ║
+# ║ Path(_laplace_transform(fn, t_, s_), (result, plane, condition)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (result, plane, condition)                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _laplace_transform : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5b7f9dd391b1b72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcc6ef7ab75b8131  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_transform","kind":"function","src_hash":"ed0bba1125d3d2a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_transform(fn,)","rhs":"front-end function of the laplace transform","over":{"base":"Any"},"name":"_laplace_transform_correct"},"guarantee":"front-end function of the laplace transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_transform_correct","statement":"Path(_laplace_transform(x), front-end function of the laplace transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5b7f9dd391b1b72"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._laplace_transform","kind":"function","src_hash":"ed0bba1125d3d2a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_laplace_transform(fn, t_, s_)","rhs":"(result, plane, condition)","over":{"base":"Any"},"name":"_laplace_transform_correct"},"guarantee":"returns (result, plane, condition)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._laplace_transform_correct","statement":"Path(_laplace_transform(x), returns (result, plane, condition))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcc6ef7ab75b8131","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(result, plane, condition)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['fn', 't_', 's_'], spec=['fn', 't_', 's_', 'simplify']"]}}
 def _laplace_transform(fn, t_, s_, *, simplify):
     """
     Front-end function of the Laplace transform. It tries to apply all known
@@ -1576,14 +1742,20 @@ def _laplace_transform(fn, t_, s_, *, simplify):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LaplaceTransform(*args), correctly constructs a LaplaceTransform instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LaplaceTransform : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IntegralTransform)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LaplaceTransform : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c75eb1c45cb104f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.LaplaceTransform","kind":"class","src_hash":"ad9956fc9a948641","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LaplaceTransform(*args)","rhs":"correctly constructs a LaplaceTransform instance","over":{"base":"Any"},"name":"LaplaceTransform_class_invariant"},"guarantee":"correctly constructs a LaplaceTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c75eb1c45cb104f3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.LaplaceTransform","kind":"class","src_hash":"ad9956fc9a948641","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IntegralTransform)"},"spec":{"lhs":"LaplaceTransform(*args)","rhs":"correctly constructs a LaplaceTransform instance","over":{"base":"Any"},"name":"LaplaceTransform_class_invariant"},"guarantee":"isinstance(self, IntegralTransform)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c75eb1c45cb104f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IntegralTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function LaplaceTransform not found in source"]}}
 class LaplaceTransform(IntegralTransform):
     """
     Class representing unevaluated Laplace transforms.
@@ -1601,46 +1773,67 @@ class LaplaceTransform(IntegralTransform):
     _name = 'Laplace'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_transform(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_compute_transform(f, t, s), <unspecified:_compute_transform>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compute_transform : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0deeaf047e7ae12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.LaplaceTransform._compute_transform","kind":"method","src_hash":"02d0529d8755b713","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.LaplaceTransform._compute_transform_correct","statement":"Path(_compute_transform(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0deeaf047e7ae12"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.LaplaceTransform._compute_transform","kind":"method","src_hash":"02d0529d8755b713","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(f, t, s)","rhs":"<unspecified:_compute_transform>","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.LaplaceTransform._compute_transform_correct","statement":"Path(_compute_transform(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0deeaf047e7ae12","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_transform(self, f, t, s, **hints):
         _simplify = hints.get('simplify', False)
         LT = _laplace_transform_integration(f, t, s, simplify=_simplify)
         return LT
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_as_integral(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_as_integral(f, t, s), Integral(f * exp(-s * t), (t, S.Zero, S.Infinity))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(f * exp(-s * t), (t, S.Zero, S.I...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _as_integral : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ca83a4c1d214a50           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.LaplaceTransform._as_integral","kind":"method","src_hash":"2bdaa2a3c093af83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_as_integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ca83a4c1d214a50"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.LaplaceTransform._as_integral","kind":"method","src_hash":"2bdaa2a3c093af83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(f, t, s)","rhs":"Integral(f * exp(-s * t), (t, S.Zero, S.Infinity))","over":{"base":"Any"},"name":"_as_integral_correct"},"guarantee":"returns Integral(f * exp(-s * t), (t, S.Zero, S.Infinity))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ca83a4c1d214a50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(f * exp(-s * t), (t, S.Zero, S.Infinity))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _as_integral(self, f, t, s):
         return Integral(f*exp(-s*t), (t, S.Zero, S.Infinity))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), try to evaluate the transform in closed form) over Any ║
+# ║ Path(doit(**hints), result == (r[0] if _noconds else r) and result == r[0] or result == r) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doit : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (r[0] if _noconds else r)            ║
+# ║   ensures:  result == r[0] or result == r                  ║
+# ║   fiber[case_0]: _noconds => r[0]                          ║
+# ║   fiber[case_1]: not (_noconds) => r                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doit : Any → {Any | result satisfies: result == (r[0]...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1e4667070b4dc59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb1e916d676bfcbc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.LaplaceTransform.doit","kind":"method","src_hash":"49de8ce1c360430e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"try to evaluate the transform in closed form","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"try to evaluate the transform in closed form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.LaplaceTransform.doit_correct","statement":"Path(doit(x), try to evaluate the transform in closed form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1e4667070b4dc59"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.LaplaceTransform.doit","kind":"method","src_hash":"49de8ce1c360430e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (r[0] if _noconds else r) and result == r[0] or result == r"},"spec":{"lhs":"doit(**hints)","rhs":"result == (r[0] if _noconds else r) and result == r[0] or result == r","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"result == (r[0] if _noconds else r); result == r[0] or result == r; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.LaplaceTransform.doit_correct","statement":"Path(doit(x), result == (r[0] if _noconds else r); result == r[0] or result == r; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb1e916d676bfcbc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (r[0] if _noconds else r)","result == r[0] or result == r"],"fibers":[{"name":"case_0","guard":"_noconds","ensures":["result == r[0]"],"decidability":"library","returns_expr":"r[0]"},{"name":"case_1","guard":"not (_noconds)","ensures":["result == r"],"decidability":"library","returns_expr":"r"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.function_variable","self.transform_variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """
         Try to evaluate the transform in closed form.
@@ -1674,9 +1867,14 @@ class LaplaceTransform(IntegralTransform):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(laplace_transform(f, ), compute the laplace transform `f(s)` of `f(t)`,) over {Any | isinstance(f, MatrixBase)} ║
+# ║ Path(laplace_transform(f, t, s), # HINT: laplace_transform may be idempotent: laplace_transform(laplace_transform(x)) == laplace_transform(x)) over {Any | isinstance(f, MatrixBase) and hasattr(f, 'applyfunc') and hasattr(f, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ laplace_transform : {Any | isinstance(f, MatrixBase)}...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'applyfunc')                        ║
+# ║   requires: hasattr(f, 'shape')                            ║
+# ║   ensures:  # HINT: laplace_transform may be idempote...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ laplace_transform : {Any | isinstance(f, MatrixBase) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   MatrixBase: {isinstance(f, MatrixBase)} → library_a...   ║
@@ -1686,9 +1884,12 @@ class LaplaceTransform(IntegralTransform):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bfdbc87b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.laplace_transform","kind":"function","src_hash":"9f82781d270657a3","in":{"base":"Any","pred":"isinstance(f, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"laplace_transform(f, )","rhs":"compute the laplace transform `f(s)` of `f(t)`,","over":{"base":"Any","pred":"isinstance(f, MatrixBase)"},"name":"laplace_transform_correct"},"guarantee":"compute the laplace transform `f(s)` of `f(t)`,","fibers":[{"name":"MatrixBase","pred":"isinstance(f, MatrixBase)","path":{"lhs":"laplace_transform(x)","rhs":"compute the laplace transform `f(s)` of `f(t)`,","over":{"base":"MatrixBase","pred":"isinstance(f, MatrixBase)"},"name":"laplace_transform_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.laplace_transform_MatrixBase_correct","statement":"laplace_transform satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bfdbc87b68ed7ccd"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.laplace_transform","kind":"function","src_hash":"9f82781d270657a3","in":{"base":"Any","pred":"isinstance(f, MatrixBase) and hasattr(f, 'applyfunc') and hasattr(f, 'shape')"},"out":{"base":"Any","pred":"result satisfies: # HINT: laplace_transform may be idempotent: laplace_transform(laplace_transform(x)) == laplace_transform(x)"},"spec":{"lhs":"laplace_transform(f, t, s)","rhs":"# HINT: laplace_transform may be idempotent: laplace_transform(laplace_transform(x)) == laplace_transform(x)","over":{"base":"Any","pred":"isinstance(f, MatrixBase) and hasattr(f, 'applyfunc') and hasattr(f, 'shape')"},"name":"laplace_transform_correct"},"guarantee":"# HINT: laplace_transform may be idempotent: laplace_transform(laplace_transform(x)) == laplace_transform(x)","fibers":[{"name":"MatrixBase","pred":"isinstance(f, MatrixBase)","path":{"lhs":"laplace_transform(x)","rhs":"# HINT: laplace_transform may be idempotent: laplace_transform(laplace_transform(x)) == laplace_transform(x)","over":{"base":"MatrixBase","pred":"isinstance(f, MatrixBase)"},"name":"laplace_transform_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.laplace_transform_MatrixBase_correct","statement":"laplace_transform satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bfdbc87b68ed7ccd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'applyfunc')","hasattr(f, 'shape')"],"ensures":["# HINT: laplace_transform may be idempotent: laplace_transform(laplace_transform(x)) == laplace_transform(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.applyfunc","f.shape"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['f', 't', 's', 'legacy_matrix'], spec=['f', 't', 's', 'legacy_matrix', '**hints']","Poor branch-fiber coverage: 0% (branches={\"isinstance(f, MatrixBase) and hasattr(f, 'applyfunc')\"}, fibers={'MatrixBase'})"]}}
 def laplace_transform(f, t, s, legacy_matrix=True, **hints):
     r"""
     Compute the Laplace Transform `F(s)` of `f(t)`,
@@ -1836,16 +2037,25 @@ behavior.
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_laplace_transform_integration(F, ), the backend function for inverse laplace transforms) over Any ║
+# ║ Path(_inverse_laplace_transform_integration(F, s, t_), # HINT: _inverse_laplace_transform_integration may be idempotent: _inverse_laplace_transform_integration(_inverse_laplace_transform_integration(x)) == _inverse_laplace_transform_integration(x)) over {Any | hasattr(F, 'is_Add') and hasattr(F, 'is_rational_function') and hasattr(F, 'apart') and hasattr(F, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inverse_laplace_transform_integration : Any → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(F, 'is_Add')                           ║
+# ║   requires: hasattr(F, 'is_rational_function')             ║
+# ║   requires: hasattr(F, 'apart')                            ║
+# ║   ensures:  # HINT: _inverse_laplace_transform_integr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inverse_laplace_transform_integration : {Any | hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9aaf857961866ec1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 162af5d6054e1bb5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_transform_integration","kind":"function","src_hash":"d9303bd9c5d9b087","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_transform_integration(F, )","rhs":"the backend function for inverse laplace transforms","over":{"base":"Any"},"name":"_inverse_laplace_transform_integration_correct"},"guarantee":"the backend function for inverse laplace transforms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_transform_integration_correct","statement":"Path(_inverse_laplace_transform_integration(x), the backend function for inverse laplace transforms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9aaf857961866ec1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_transform_integration","kind":"function","src_hash":"d9303bd9c5d9b087","in":{"base":"Any","pred":"hasattr(F, 'is_Add') and hasattr(F, 'is_rational_function') and hasattr(F, 'apart') and hasattr(F, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _inverse_laplace_transform_integration may be idempotent: _inverse_laplace_transform_integration(_inverse_laplace_transform_integration(x)) == _inverse_laplace_transform_integration(x)"},"spec":{"lhs":"_inverse_laplace_transform_integration(F, s, t_)","rhs":"# HINT: _inverse_laplace_transform_integration may be idempotent: _inverse_laplace_transform_integration(_inverse_laplace_transform_integration(x)) == _inverse_laplace_transform_integration(x)","over":{"base":"Any","pred":"hasattr(F, 'is_Add') and hasattr(F, 'is_rational_function') and hasattr(F, 'apart') and hasattr(F, 'args')"},"name":"_inverse_laplace_transform_integration_correct"},"guarantee":"# HINT: _inverse_laplace_transform_integration may be idempotent: _inverse_laplace_transform_integration(_inverse_laplace_transform_integration(x)) == _inverse_laplace_transform_integration(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_transform_integration_correct","statement":"Path(_inverse_laplace_transform_integration(x), # HINT: _inverse_laplace_transform_integration may be idempotent: _inverse_laplace_transform_integration(_inverse_laplace_transform_integration(x)) == _inverse_laplace_transform_integration(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"162af5d6054e1bb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(F, 'is_Add')","hasattr(F, 'is_rational_function')","hasattr(F, 'apart')","hasattr(F, 'args')"],"ensures":["# HINT: _inverse_laplace_transform_integration may be idempotent: _inverse_laplace_transform_integration(_inverse_laplace_transform_integration(x)) == _inverse_laplace_transform_integration(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["F.apart","F.args","F.is_Add","F.is_rational_function"],"catches":["IntegralTransformError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['F', 's', 't_', 'plane'], spec=['F', 's', 't_', 'plane', 'simplify']"]}}
 def _inverse_laplace_transform_integration(F, s, t_, plane, *, simplify):
     """ The backend function for inverse Laplace transforms. """
     from sympy.integrals.meijerint import meijerint_inversion, _get_coeff_exp
@@ -1928,16 +2138,22 @@ def _inverse_laplace_transform_integration(F, s, t_, plane, *, simplify):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_complete_the_square_in_denom(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_complete_the_square_in_denom(f, s), n / d) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  n / d                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _complete_the_square_in_denom : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cc9e34e45cf028a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38ea7e290c7f32e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._complete_the_square_in_denom","kind":"function","src_hash":"7893f86225b37b11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_complete_the_square_in_denom(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_complete_the_square_in_denom_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._complete_the_square_in_denom_correct","statement":"Path(_complete_the_square_in_denom(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cc9e34e45cf028a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._complete_the_square_in_denom","kind":"function","src_hash":"7893f86225b37b11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_complete_the_square_in_denom(f, s)","rhs":"n / d","over":{"base":"Any"},"name":"_complete_the_square_in_denom_correct"},"guarantee":"returns n / d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._complete_the_square_in_denom_correct","statement":"Path(_complete_the_square_in_denom(x), returns n / d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38ea7e290c7f32e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"n / d","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _complete_the_square_in_denom(f, s):
     from sympy.simplify.radsimp import fraction
     [n, d] = fraction(f)
@@ -1951,16 +2167,22 @@ def _complete_the_square_in_denom(f, s):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_laplace_build_rules(), this is an internal helper function that returns the table of inverse laplace transform rules in terms of the time variable `t` and the frequency variable `s`) over Any ║
+# ║ Path(_inverse_laplace_build_rules(), <unspecified:_inverse_laplace_build_rules>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inverse_laplace_build_rules : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f08cba9462087797  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_build_rules","kind":"function","src_hash":"0c6845bf1388607d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_build_rules()","rhs":"this is an internal helper function that returns the table of inverse laplace transform rules in terms of the time variable `t` and the frequency variable `s`","over":{"base":"Any"},"name":"_inverse_laplace_build_rules_correct"},"guarantee":"this is an internal helper function that returns the table of inverse laplace transform rules in terms of the time variable `t` and the frequency variable `s`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_build_rules_correct","statement":"Path(_inverse_laplace_build_rules(x), this is an internal helper function that returns the table of inverse laplace transform rules in terms of the time variable `t` and the frequency variable `s`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f08cba9462087797"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_build_rules","kind":"function","src_hash":"0c6845bf1388607d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_build_rules()","rhs":"<unspecified:_inverse_laplace_build_rules>","over":{"base":"Any"},"name":"_inverse_laplace_build_rules_correct"},"guarantee":"this is an internal helper function that returns the table of inverse laplace transform rules in terms of the time variable `t` and the frequency variable `s`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_build_rules_correct","statement":"Path(_inverse_laplace_build_rules(x), this is an internal helper function that returns the table of inverse laplace transform rules in terms of the time variable `t` and the frequency variable `s`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f08cba9462087797","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _inverse_laplace_build_rules():
     """
     This is an internal helper function that returns the table of inverse
@@ -2003,16 +2225,23 @@ def _inverse_laplace_build_rules():
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_laplace_apply_simple_rules(f, ), helper function for the class inverselaplacetransform) over Any ║
+# ║ Path(_inverse_laplace_apply_simple_rules(f, s, t), <unspecified:_inverse_laplace_apply_simple_rules>) over {Any | hasattr(f, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inverse_laplace_apply_simple_rules : Any → Any            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inverse_laplace_apply_simple_rules : {Any | hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 281b73936b5d6c89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_apply_simple_rules","kind":"function","src_hash":"2b4444607bd94d41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_apply_simple_rules(f, )","rhs":"helper function for the class inverselaplacetransform","over":{"base":"Any"},"name":"_inverse_laplace_apply_simple_rules_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_apply_simple_rules_correct","statement":"Path(_inverse_laplace_apply_simple_rules(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"281b73936b5d6c89"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_apply_simple_rules","kind":"function","src_hash":"2b4444607bd94d41","in":{"base":"Any","pred":"hasattr(f, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_apply_simple_rules(f, s, t)","rhs":"<unspecified:_inverse_laplace_apply_simple_rules>","over":{"base":"Any","pred":"hasattr(f, 'subs')"},"name":"_inverse_laplace_apply_simple_rules_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_apply_simple_rules_correct","statement":"Path(_inverse_laplace_apply_simple_rules(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"281b73936b5d6c89","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _inverse_laplace_apply_simple_rules(f, s, t):
     """
     Helper function for the class InverseLaplaceTransform.
@@ -2043,16 +2272,23 @@ def _inverse_laplace_apply_simple_rules(f, s, t):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_laplace_diff(f, ), helper function for the class inverselaplacetransform) over Any ║
+# ║ Path(_inverse_laplace_diff(f, s, t), <unspecified:_inverse_laplace_diff>) over {Any | hasattr(f, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inverse_laplace_diff : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'match')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inverse_laplace_diff : {Any | hasattr(f, 'match')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 238279ce5f42059b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_diff","kind":"function","src_hash":"ac4fe1a477fbaa5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_diff(f, )","rhs":"helper function for the class inverselaplacetransform","over":{"base":"Any"},"name":"_inverse_laplace_diff_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_diff_correct","statement":"Path(_inverse_laplace_diff(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"238279ce5f42059b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_diff","kind":"function","src_hash":"ac4fe1a477fbaa5d","in":{"base":"Any","pred":"hasattr(f, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_diff(f, s, t)","rhs":"<unspecified:_inverse_laplace_diff>","over":{"base":"Any","pred":"hasattr(f, 'match')"},"name":"_inverse_laplace_diff_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_diff_correct","statement":"Path(_inverse_laplace_diff(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"238279ce5f42059b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'match')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.match"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _inverse_laplace_diff(f, s, t, plane):
     """
     Helper function for the class InverseLaplaceTransform.
@@ -2071,16 +2307,24 @@ def _inverse_laplace_diff(f, s, t, plane):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_laplace_time_shift(F, ), helper function for the class inverselaplacetransform) over Any ║
+# ║ Path(_inverse_laplace_time_shift(F, s, t), <unspecified:_inverse_laplace_time_shift>) over {Any | hasattr(F, 'match') and hasattr(F, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inverse_laplace_time_shift : Any → Any                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(F, 'match')                            ║
+# ║   requires: hasattr(F, 'has')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inverse_laplace_time_shift : {Any | hasattr(F, 'matc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60f00957be9c6d29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_time_shift","kind":"function","src_hash":"f88d3e700969d35c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_time_shift(F, )","rhs":"helper function for the class inverselaplacetransform","over":{"base":"Any"},"name":"_inverse_laplace_time_shift_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_time_shift_correct","statement":"Path(_inverse_laplace_time_shift(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60f00957be9c6d29"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_time_shift","kind":"function","src_hash":"f88d3e700969d35c","in":{"base":"Any","pred":"hasattr(F, 'match') and hasattr(F, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_time_shift(F, s, t)","rhs":"<unspecified:_inverse_laplace_time_shift>","over":{"base":"Any","pred":"hasattr(F, 'match') and hasattr(F, 'has')"},"name":"_inverse_laplace_time_shift_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_time_shift_correct","statement":"Path(_inverse_laplace_time_shift(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60f00957be9c6d29","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(F, 'match')","hasattr(F, 'has')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["F.has","F.match"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _inverse_laplace_time_shift(F, s, t, plane):
     """
     Helper function for the class InverseLaplaceTransform.
@@ -2114,16 +2358,25 @@ def _inverse_laplace_time_shift(F, s, t, plane):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_laplace_freq_shift(F, ), helper function for the class inverselaplacetransform) over Any ║
+# ║ Path(_inverse_laplace_freq_shift(F, s, t), <unspecified:_inverse_laplace_freq_shift>) over {Any | hasattr(F, 'has') and hasattr(F, 'args') and hasattr(F, 'func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inverse_laplace_freq_shift : Any → Any                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(F, 'has')                              ║
+# ║   requires: hasattr(F, 'args')                             ║
+# ║   requires: hasattr(F, 'func')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inverse_laplace_freq_shift : {Any | hasattr(F, 'has'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33fe3acc023bb23c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_freq_shift","kind":"function","src_hash":"f1e9861898fe9e56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_freq_shift(F, )","rhs":"helper function for the class inverselaplacetransform","over":{"base":"Any"},"name":"_inverse_laplace_freq_shift_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_freq_shift_correct","statement":"Path(_inverse_laplace_freq_shift(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33fe3acc023bb23c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_freq_shift","kind":"function","src_hash":"f1e9861898fe9e56","in":{"base":"Any","pred":"hasattr(F, 'has') and hasattr(F, 'args') and hasattr(F, 'func')"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_freq_shift(F, s, t)","rhs":"<unspecified:_inverse_laplace_freq_shift>","over":{"base":"Any","pred":"hasattr(F, 'has') and hasattr(F, 'args') and hasattr(F, 'func')"},"name":"_inverse_laplace_freq_shift_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_freq_shift_correct","statement":"Path(_inverse_laplace_freq_shift(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33fe3acc023bb23c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(F, 'has')","hasattr(F, 'args')","hasattr(F, 'func')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["F.args","F.func","F.has"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _inverse_laplace_freq_shift(F, s, t, plane):
     """
     Helper function for the class InverseLaplaceTransform.
@@ -2142,16 +2395,23 @@ def _inverse_laplace_freq_shift(F, s, t, plane):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_laplace_time_diff(F, ), helper function for the class inverselaplacetransform) over Any ║
+# ║ Path(_inverse_laplace_time_diff(F, s, t), <unspecified:_inverse_laplace_time_diff>) over {Any | hasattr(F, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inverse_laplace_time_diff : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(F, 'match')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inverse_laplace_time_diff : {Any | hasattr(F, 'match...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba3b4480b4853f24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_time_diff","kind":"function","src_hash":"68d1d1cbc3b54171","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_time_diff(F, )","rhs":"helper function for the class inverselaplacetransform","over":{"base":"Any"},"name":"_inverse_laplace_time_diff_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_time_diff_correct","statement":"Path(_inverse_laplace_time_diff(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba3b4480b4853f24"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_time_diff","kind":"function","src_hash":"68d1d1cbc3b54171","in":{"base":"Any","pred":"hasattr(F, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_time_diff(F, s, t)","rhs":"<unspecified:_inverse_laplace_time_diff>","over":{"base":"Any","pred":"hasattr(F, 'match')"},"name":"_inverse_laplace_time_diff_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_time_diff_correct","statement":"Path(_inverse_laplace_time_diff(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba3b4480b4853f24","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(F, 'match')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["F.match"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _inverse_laplace_time_diff(F, s, t, plane):
     """
     Helper function for the class InverseLaplaceTransform.
@@ -2174,16 +2434,23 @@ def _inverse_laplace_time_diff(F, s, t, plane):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_laplace_irrational(fn,), helper function for the class inverselaplacetransform) over Any ║
+# ║ Path(_inverse_laplace_irrational(fn, s, t), <unspecified:_inverse_laplace_irrational>) over {Any | hasattr(fn, 'as_ordered_factors')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inverse_laplace_irrational : Any → Any                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(fn, 'as_ordered_factors')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inverse_laplace_irrational : {Any | hasattr(fn, 'as_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e50eb3c7a663bb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_irrational","kind":"function","src_hash":"a1198b5bbc9bda25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_irrational(fn,)","rhs":"helper function for the class inverselaplacetransform","over":{"base":"Any"},"name":"_inverse_laplace_irrational_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_irrational_correct","statement":"Path(_inverse_laplace_irrational(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e50eb3c7a663bb8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_irrational","kind":"function","src_hash":"a1198b5bbc9bda25","in":{"base":"Any","pred":"hasattr(fn, 'as_ordered_factors')"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_irrational(fn, s, t)","rhs":"<unspecified:_inverse_laplace_irrational>","over":{"base":"Any","pred":"hasattr(fn, 'as_ordered_factors')"},"name":"_inverse_laplace_irrational_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_irrational_correct","statement":"Path(_inverse_laplace_irrational(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e50eb3c7a663bb8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(fn, 'as_ordered_factors')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.6,"verdict_class":"assumed","binding":true}}
 def _inverse_laplace_irrational(fn, s, t, plane):
     """
     Helper function for the class InverseLaplaceTransform.
@@ -2500,16 +2767,22 @@ def _inverse_laplace_irrational(fn, s, t, plane):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_laplace_early_prog_rules(F, ), helper function for the class inverselaplacetransform) over Any ║
+# ║ Path(_inverse_laplace_early_prog_rules(F, s, t), <unspecified:_inverse_laplace_early_prog_rules>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inverse_laplace_early_prog_rules : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b82fca4df022437  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_early_prog_rules","kind":"function","src_hash":"699711d70ba4b867","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_early_prog_rules(F, )","rhs":"helper function for the class inverselaplacetransform","over":{"base":"Any"},"name":"_inverse_laplace_early_prog_rules_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_early_prog_rules_correct","statement":"Path(_inverse_laplace_early_prog_rules(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b82fca4df022437"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_early_prog_rules","kind":"function","src_hash":"699711d70ba4b867","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_early_prog_rules(F, s, t)","rhs":"<unspecified:_inverse_laplace_early_prog_rules>","over":{"base":"Any"},"name":"_inverse_laplace_early_prog_rules_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_early_prog_rules_correct","statement":"Path(_inverse_laplace_early_prog_rules(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b82fca4df022437","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _inverse_laplace_early_prog_rules(F, s, t, plane):
     """
     Helper function for the class InverseLaplaceTransform.
@@ -2524,16 +2797,22 @@ def _inverse_laplace_early_prog_rules(F, s, t, plane):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_laplace_apply_prog_rules(F, ), helper function for the class inverselaplacetransform) over Any ║
+# ║ Path(_inverse_laplace_apply_prog_rules(F, s, t), <unspecified:_inverse_laplace_apply_prog_rules>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inverse_laplace_apply_prog_rules : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b76ec1d44989147  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_apply_prog_rules","kind":"function","src_hash":"a6bb851e8a38d67c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_apply_prog_rules(F, )","rhs":"helper function for the class inverselaplacetransform","over":{"base":"Any"},"name":"_inverse_laplace_apply_prog_rules_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_apply_prog_rules_correct","statement":"Path(_inverse_laplace_apply_prog_rules(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b76ec1d44989147"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_apply_prog_rules","kind":"function","src_hash":"a6bb851e8a38d67c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_apply_prog_rules(F, s, t)","rhs":"<unspecified:_inverse_laplace_apply_prog_rules>","over":{"base":"Any"},"name":"_inverse_laplace_apply_prog_rules_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_apply_prog_rules_correct","statement":"Path(_inverse_laplace_apply_prog_rules(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b76ec1d44989147","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _inverse_laplace_apply_prog_rules(F, s, t, plane):
     """
     Helper function for the class InverseLaplaceTransform.
@@ -2550,16 +2829,25 @@ def _inverse_laplace_apply_prog_rules(F, s, t, plane):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_laplace_expand(fn,), helper function for the class inverselaplacetransform) over Any ║
+# ║ Path(_inverse_laplace_expand(fn, s, t), <unspecified:_inverse_laplace_expand>) over {Any | hasattr(fn, 'is_Add') and hasattr(fn, 'is_rational_function') and hasattr(fn, 'apart')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inverse_laplace_expand : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(fn, 'is_Add')                          ║
+# ║   requires: hasattr(fn, 'is_rational_function')            ║
+# ║   requires: hasattr(fn, 'apart')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inverse_laplace_expand : {Any | hasattr(fn, 'is_Add'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7042903503fc30ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_expand","kind":"function","src_hash":"af215f7eafc516fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_expand(fn,)","rhs":"helper function for the class inverselaplacetransform","over":{"base":"Any"},"name":"_inverse_laplace_expand_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_expand_correct","statement":"Path(_inverse_laplace_expand(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7042903503fc30ab"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_expand","kind":"function","src_hash":"af215f7eafc516fc","in":{"base":"Any","pred":"hasattr(fn, 'is_Add') and hasattr(fn, 'is_rational_function') and hasattr(fn, 'apart')"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_expand(fn, s, t)","rhs":"<unspecified:_inverse_laplace_expand>","over":{"base":"Any","pred":"hasattr(fn, 'is_Add') and hasattr(fn, 'is_rational_function') and hasattr(fn, 'apart')"},"name":"_inverse_laplace_expand_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_expand_correct","statement":"Path(_inverse_laplace_expand(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7042903503fc30ab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(fn, 'is_Add')","hasattr(fn, 'is_rational_function')","hasattr(fn, 'apart')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["fn.apart","fn.is_Add","fn.is_rational_function"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _inverse_laplace_expand(fn, s, t, plane):
     """
     Helper function for the class InverseLaplaceTransform.
@@ -2588,16 +2876,23 @@ def _inverse_laplace_expand(fn, s, t, plane):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_laplace_rational(fn,), helper function for the class inverselaplacetransform) over Any ║
+# ║ Path(_inverse_laplace_rational(fn, s, t), (result, And(*conditions))) over {Any | hasattr(fn, 'apart')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _inverse_laplace_rational : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fn, 'apart')                           ║
+# ║   returns:  (result, And(*conditions))                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _inverse_laplace_rational : {Any | hasattr(fn, 'apart...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efb7e8068e83a124  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50e843b4748abd6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_rational","kind":"function","src_hash":"2afbe40bf8cb4cc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_rational(fn,)","rhs":"helper function for the class inverselaplacetransform","over":{"base":"Any"},"name":"_inverse_laplace_rational_correct"},"guarantee":"helper function for the class inverselaplacetransform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_rational_correct","statement":"Path(_inverse_laplace_rational(x), helper function for the class inverselaplacetransform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efb7e8068e83a124"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_rational","kind":"function","src_hash":"2afbe40bf8cb4cc5","in":{"base":"Any","pred":"hasattr(fn, 'apart')"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_rational(fn, s, t)","rhs":"(result, And(*conditions))","over":{"base":"Any","pred":"hasattr(fn, 'apart')"},"name":"_inverse_laplace_rational_correct"},"guarantee":"returns (result, And(*conditions))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_rational_correct","statement":"Path(_inverse_laplace_rational(x), returns (result, And(*conditions)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50e843b4748abd6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fn, 'apart')"],"returns_expr":"(result, And(*conditions))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['fn', 's', 't', 'plane'], spec=['fn', 's', 't', 'plane', 'simplify']"]}}
 def _inverse_laplace_rational(fn, s, t, plane, *, simplify):
     """
     Helper function for the class InverseLaplaceTransform.
@@ -2657,16 +2952,22 @@ def _inverse_laplace_rational(fn, s, t, plane, *, simplify):
 
 @DEBUG_WRAP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inverse_laplace_transform(fn,), front-end function of the inverse laplace transform) over Any ║
+# ║ Path(_inverse_laplace_transform(fn, s_, t_), (result, condition)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (result, condition)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inverse_laplace_transform : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1063926fadd4469c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 046da5910f0c590c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_transform","kind":"function","src_hash":"1b5f9f3e61277dd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_transform(fn,)","rhs":"front-end function of the inverse laplace transform","over":{"base":"Any"},"name":"_inverse_laplace_transform_correct"},"guarantee":"front-end function of the inverse laplace transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_transform_correct","statement":"Path(_inverse_laplace_transform(x), front-end function of the inverse laplace transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1063926fadd4469c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._inverse_laplace_transform","kind":"function","src_hash":"1b5f9f3e61277dd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inverse_laplace_transform(fn, s_, t_)","rhs":"(result, condition)","over":{"base":"Any"},"name":"_inverse_laplace_transform_correct"},"guarantee":"returns (result, condition)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._inverse_laplace_transform_correct","statement":"Path(_inverse_laplace_transform(x), returns (result, condition))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"046da5910f0c590c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(result, condition)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['fn', 's_', 't_', 'plane'], spec=['fn', 's_', 't_', 'plane', 'simplify', 'dorational']"]}}
 def _inverse_laplace_transform(fn, s_, t_, plane, *, simplify, dorational):
     """
     Front-end function of the inverse Laplace transform. It tries to apply all
@@ -2726,14 +3027,20 @@ def _inverse_laplace_transform(fn, s_, t_, plane, *, simplify, dorational):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(InverseLaplaceTransform(*args), correctly constructs a InverseLaplaceTransform instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InverseLaplaceTransform : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IntegralTransform)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InverseLaplaceTransform : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c6930b03ed74d21  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.InverseLaplaceTransform","kind":"class","src_hash":"a8e2174ad539cf88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InverseLaplaceTransform(*args)","rhs":"correctly constructs a InverseLaplaceTransform instance","over":{"base":"Any"},"name":"InverseLaplaceTransform_class_invariant"},"guarantee":"correctly constructs a InverseLaplaceTransform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c6930b03ed74d21"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.InverseLaplaceTransform","kind":"class","src_hash":"a8e2174ad539cf88","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IntegralTransform)"},"spec":{"lhs":"InverseLaplaceTransform(*args)","rhs":"correctly constructs a InverseLaplaceTransform instance","over":{"base":"Any"},"name":"InverseLaplaceTransform_class_invariant"},"guarantee":"isinstance(self, IntegralTransform)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c6930b03ed74d21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IntegralTransform)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function InverseLaplaceTransform not found in source"]}}
 class InverseLaplaceTransform(IntegralTransform):
     """
     Class representing unevaluated inverse Laplace transforms.
@@ -2749,16 +3056,22 @@ class InverseLaplaceTransform(IntegralTransform):
     _c = Dummy('c')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, F, s), IntegralTransform.__new__(cls, F, s, x, plane, **opts)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  IntegralTransform.__new__(cls, F, s, x, p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3afa920587f288de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.InverseLaplaceTransform.__new__","kind":"method","src_hash":"64df49a99b5c1131","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3afa920587f288de"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.InverseLaplaceTransform.__new__","kind":"method","src_hash":"64df49a99b5c1131","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, F, s)","rhs":"IntegralTransform.__new__(cls, F, s, x, plane, **opts)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns IntegralTransform.__new__(cls, F, s, x, plane, **opts)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3afa920587f288de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"IntegralTransform.__new__(cls, F, s, x, plane, **opts)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, F, s, x, plane, **opts):
         if plane is None:
             plane = InverseLaplaceTransform._none_sentinel
@@ -2766,16 +3079,22 @@ class InverseLaplaceTransform(IntegralTransform):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fundamental_plane(), returns the fundamental_plane attribute) over Any ║
+# ║ Path(fundamental_plane(), <unspecified:fundamental_plane>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fundamental_plane : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 79df51363ceb2acb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.InverseLaplaceTransform.fundamental_plane","kind":"property","src_hash":"9cae086cb9dbfc72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fundamental_plane()","rhs":"returns the fundamental_plane attribute","over":{"base":"Any"},"name":"fundamental_plane_correct"},"guarantee":"returns the fundamental_plane attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79df51363ceb2acb"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.InverseLaplaceTransform.fundamental_plane","kind":"property","src_hash":"9cae086cb9dbfc72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fundamental_plane()","rhs":"<unspecified:fundamental_plane>","over":{"base":"Any"},"name":"fundamental_plane_correct"},"guarantee":"returns the fundamental_plane attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79df51363ceb2acb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fundamental_plane(self):
         plane = self.args[3]
         if plane is InverseLaplaceTransform._none_sentinel:
@@ -2783,31 +3102,43 @@ class InverseLaplaceTransform(IntegralTransform):
         return plane
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_transform(F, ), internal helper behaves correctly) over Any ║
+# ║ Path(_compute_transform(F, s, t), _inverse_laplace_transform_integration(F, s, t, self.fundamental_plane, **hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _inverse_laplace_transform_integration(F,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compute_transform : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eeb622630a90dfb0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b20bd788c92e69e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.InverseLaplaceTransform._compute_transform","kind":"method","src_hash":"d1273aecdbba85b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(F, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.InverseLaplaceTransform._compute_transform_correct","statement":"Path(_compute_transform(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eeb622630a90dfb0"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.InverseLaplaceTransform._compute_transform","kind":"method","src_hash":"d1273aecdbba85b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_transform(F, s, t)","rhs":"_inverse_laplace_transform_integration(F, s, t, self.fundamental_plane, **hints)","over":{"base":"Any"},"name":"_compute_transform_correct"},"guarantee":"returns _inverse_laplace_transform_integration(F, s, t, self.fundamental_plane, **hints)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.InverseLaplaceTransform._compute_transform_correct","statement":"Path(_compute_transform(x), returns _inverse_laplace_transform_integration(F, s, t, self.fundamental_plane, **hints))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b20bd788c92e69e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_inverse_laplace_transform_integration(F, s, t, self.fundamental_plane, **hints)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fundamental_plane"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_transform(self, F, s, t, **hints):
         return _inverse_laplace_transform_integration(
             F, s, t, self.fundamental_plane, **hints)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_as_integral(F, ), internal helper behaves correctly) over Any ║
+# ║ Path(_as_integral(F, s, t), Integral(exp(s * t) * F, (s, c - S.ImaginaryUnit * S.Infinity, c + S.ImaginaryUnit * S.Infinity)) / (2 * S.Pi * S.ImaginaryUnit)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(exp(s * t) * F, (s, c - S.Imagin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _as_integral : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0eb3d0963f92eedb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1db9ce20646041c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.InverseLaplaceTransform._as_integral","kind":"method","src_hash":"0681d75e0610ce34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(F, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_as_integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.InverseLaplaceTransform._as_integral_correct","statement":"Path(_as_integral(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0eb3d0963f92eedb"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.InverseLaplaceTransform._as_integral","kind":"method","src_hash":"0681d75e0610ce34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_integral(F, s, t)","rhs":"Integral(exp(s * t) * F, (s, c - S.ImaginaryUnit * S.Infinity, c + S.ImaginaryUnit * S.Infinity)) / (2 * S.Pi * S.ImaginaryUnit)","over":{"base":"Any"},"name":"_as_integral_correct"},"guarantee":"returns Integral(exp(s * t) * F, (s, c - S.ImaginaryUnit * S.Infinity, c + S.ImaginaryUnit * S.Infinity)) / (2 * S.Pi * S.ImaginaryUnit)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.InverseLaplaceTransform._as_integral_correct","statement":"Path(_as_integral(x), returns Integral(exp(s * t) * F, (s, c - S.ImaginaryUnit * S.Infinity, c + S.ImaginaryUnit * S.Infinity)) / (2 * S.Pi * S.ImaginaryUnit))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1db9ce20646041c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(exp(s * t) * F, (s, c - S.ImaginaryUnit * S.Infinity, c + S.ImaginaryUnit * S.Infinity)) / (2 * S.Pi * S.ImaginaryUnit)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _as_integral(self, F, s, t):
         c = self.__class__._c
         return (
@@ -2816,16 +3147,25 @@ class InverseLaplaceTransform(IntegralTransform):
             (2*S.Pi*S.ImaginaryUnit))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), try to evaluate the transform in closed form) over Any ║
+# ║ Path(doit(**hints), result == (r[0] if _noconds else r) and result == r[0] or result == r) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doit : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (r[0] if _noconds else r)            ║
+# ║   ensures:  result == r[0] or result == r                  ║
+# ║   fiber[case_0]: _noconds => r[0]                          ║
+# ║   fiber[case_1]: not (_noconds) => r                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doit : Any → {Any | result satisfies: result == (r[0]...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36d13113c64315e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 426b1aeda0a7f25e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.InverseLaplaceTransform.doit","kind":"method","src_hash":"e9eba90de7104555","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"try to evaluate the transform in closed form","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"try to evaluate the transform in closed form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.InverseLaplaceTransform.doit_correct","statement":"Path(doit(x), try to evaluate the transform in closed form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36d13113c64315e8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.InverseLaplaceTransform.doit","kind":"method","src_hash":"e9eba90de7104555","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (r[0] if _noconds else r) and result == r[0] or result == r"},"spec":{"lhs":"doit(**hints)","rhs":"result == (r[0] if _noconds else r) and result == r[0] or result == r","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"result == (r[0] if _noconds else r); result == r[0] or result == r; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.InverseLaplaceTransform.doit_correct","statement":"Path(doit(x), result == (r[0] if _noconds else r); result == r[0] or result == r; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"426b1aeda0a7f25e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (r[0] if _noconds else r)","result == r[0] or result == r"],"fibers":[{"name":"case_0","guard":"_noconds","ensures":["result == r[0]"],"decidability":"library","returns_expr":"r[0]"},{"name":"case_1","guard":"not (_noconds)","ensures":["result == r"],"decidability":"library","returns_expr":"r"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.function_variable","self.fundamental_plane","self.transform_variable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """
         Try to evaluate the transform in closed form.
@@ -2861,7 +3201,11 @@ class InverseLaplaceTransform(IntegralTransform):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse_laplace_transform(F, ), compute the inverse laplace transform of `f(s)`, defined as) over {Any | isinstance(F, MatrixBase)} ║
+# ║ Path(inverse_laplace_transform(F, s, t), # HINT: inverse_laplace_transform may be idempotent: inverse_laplace_transform(inverse_laplace_transform(x)) == inverse_laplace_transform(x)) over {Any | isinstance(F, MatrixBase) and hasattr(F, 'applyfunc')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(F, 'applyfunc')                        ║
+# ║   ensures:  # HINT: inverse_laplace_transform may be ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse_laplace_transform : {Any | isinstance(F, Matr...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2873,9 +3217,12 @@ class InverseLaplaceTransform(IntegralTransform):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6d003ac5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.inverse_laplace_transform","kind":"function","src_hash":"d2a11562ba03e846","in":{"base":"Any","pred":"isinstance(F, MatrixBase)"},"out":{"base":"Any"},"spec":{"lhs":"inverse_laplace_transform(F, )","rhs":"compute the inverse laplace transform of `f(s)`, defined as","over":{"base":"Any","pred":"isinstance(F, MatrixBase)"},"name":"inverse_laplace_transform_correct"},"guarantee":"compute the inverse laplace transform of `f(s)`, defined as","fibers":[{"name":"MatrixBase","pred":"isinstance(F, MatrixBase)","path":{"lhs":"inverse_laplace_transform(x)","rhs":"compute the inverse laplace transform of `f(s)`, defined as","over":{"base":"MatrixBase","pred":"isinstance(F, MatrixBase)"},"name":"inverse_laplace_transform_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.inverse_laplace_transform_MatrixBase_correct","statement":"inverse_laplace_transform satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6d003ac5d0342cdc"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace.inverse_laplace_transform","kind":"function","src_hash":"d2a11562ba03e846","in":{"base":"Any","pred":"isinstance(F, MatrixBase) and hasattr(F, 'applyfunc')"},"out":{"base":"Any","pred":"result satisfies: # HINT: inverse_laplace_transform may be idempotent: inverse_laplace_transform(inverse_laplace_transform(x)) == inverse_laplace_transform(x)"},"spec":{"lhs":"inverse_laplace_transform(F, s, t)","rhs":"# HINT: inverse_laplace_transform may be idempotent: inverse_laplace_transform(inverse_laplace_transform(x)) == inverse_laplace_transform(x)","over":{"base":"Any","pred":"isinstance(F, MatrixBase) and hasattr(F, 'applyfunc')"},"name":"inverse_laplace_transform_correct"},"guarantee":"# HINT: inverse_laplace_transform may be idempotent: inverse_laplace_transform(inverse_laplace_transform(x)) == inverse_laplace_transform(x)","fibers":[{"name":"MatrixBase","pred":"isinstance(F, MatrixBase)","path":{"lhs":"inverse_laplace_transform(x)","rhs":"# HINT: inverse_laplace_transform may be idempotent: inverse_laplace_transform(inverse_laplace_transform(x)) == inverse_laplace_transform(x)","over":{"base":"MatrixBase","pred":"isinstance(F, MatrixBase)"},"name":"inverse_laplace_transform_MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace.inverse_laplace_transform_MatrixBase_correct","statement":"inverse_laplace_transform satisfies spec on MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6d003ac5d0342cdc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(F, 'applyfunc')"],"ensures":["# HINT: inverse_laplace_transform may be idempotent: inverse_laplace_transform(inverse_laplace_transform(x)) == inverse_laplace_transform(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["F.applyfunc"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['F', 's', 't', 'plane'], spec=['F', 's', 't', 'plane', '**hints']","Poor branch-fiber coverage: 0% (branches={\"isinstance(F, MatrixBase) and hasattr(F, 'applyfunc')\"}, fibers={'MatrixBase'})"]}}
 def inverse_laplace_transform(F, s, t, plane=None, **hints):
     r"""
     Compute the inverse Laplace transform of `F(s)`, defined as
@@ -2938,7 +3285,13 @@ def inverse_laplace_transform(F, s, t, plane=None, **hints):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fast_inverse_laplace(e, ), fast inverse laplace transform of rational function including rootsum) over {Any | isinstance(e, RootSum)} ║
+# ║ Path(_fast_inverse_laplace(e, s, t), <unspecified:_fast_inverse_laplace>) over {Any | isinstance(e, RootSum) and hasattr(e, 'is_Add') and hasattr(e, 'func') and hasattr(e, 'as_independent') and hasattr(e, 'match') and hasattr(e, 'fun') and hasattr(e, 'poly') and hasattr(e, 'has') and hasattr(e, 'is_Mul') and hasattr(e, 'is_Pow') and hasattr(e, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'is_Add')                           ║
+# ║   requires: hasattr(e, 'func')                             ║
+# ║   requires: hasattr(e, 'as_independent')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _fast_inverse_laplace : {Any | isinstance(e, RootSum)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2950,9 +3303,12 @@ def inverse_laplace_transform(F, s, t, plane=None, **hints):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4f60b428...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._fast_inverse_laplace","kind":"function","src_hash":"7c5fbf6787a98abc","in":{"base":"Any","pred":"isinstance(e, RootSum)"},"out":{"base":"Any"},"spec":{"lhs":"_fast_inverse_laplace(e, )","rhs":"fast inverse laplace transform of rational function including rootsum","over":{"base":"Any","pred":"isinstance(e, RootSum)"},"name":"_fast_inverse_laplace_correct"},"guarantee":"fast inverse laplace transform of rational function including rootsum","fibers":[{"name":"RootSum","pred":"isinstance(e, RootSum)","path":{"lhs":"_fast_inverse_laplace(x)","rhs":"fast inverse laplace transform of rational function including rootsum","over":{"base":"RootSum","pred":"isinstance(e, RootSum)"},"name":"_fast_inverse_laplace_RootSum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._fast_inverse_laplace_RootSum_correct","statement":"_fast_inverse_laplace satisfies spec on RootSum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4f60b428148c8d38"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.laplace._fast_inverse_laplace","kind":"function","src_hash":"7c5fbf6787a98abc","in":{"base":"Any","pred":"isinstance(e, RootSum) and hasattr(e, 'is_Add') and hasattr(e, 'func') and hasattr(e, 'as_independent') and hasattr(e, 'match') and hasattr(e, 'fun') and hasattr(e, 'poly') and hasattr(e, 'has') and hasattr(e, 'is_Mul') and hasattr(e, 'is_Pow') and hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_fast_inverse_laplace(e, s, t)","rhs":"<unspecified:_fast_inverse_laplace>","over":{"base":"Any","pred":"isinstance(e, RootSum) and hasattr(e, 'is_Add') and hasattr(e, 'func') and hasattr(e, 'as_independent') and hasattr(e, 'match') and hasattr(e, 'fun') and hasattr(e, 'poly') and hasattr(e, 'has') and hasattr(e, 'is_Mul') and hasattr(e, 'is_Pow') and hasattr(e, 'args')"},"name":"_fast_inverse_laplace_correct"},"guarantee":"fast inverse laplace transform of rational function including rootsum","fibers":[{"name":"RootSum","pred":"isinstance(e, RootSum)","path":{"lhs":"_fast_inverse_laplace(x)","rhs":"fast inverse laplace transform of rational function including rootsum","over":{"base":"RootSum","pred":"isinstance(e, RootSum)"},"name":"_fast_inverse_laplace_RootSum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.laplace._fast_inverse_laplace_RootSum_correct","statement":"_fast_inverse_laplace satisfies spec on RootSum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4f60b428148c8d38","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'is_Add')","hasattr(e, 'func')","hasattr(e, 'as_independent')","hasattr(e, 'match')","hasattr(e, 'fun')","hasattr(e, 'poly')","hasattr(e, 'has')","hasattr(e, 'is_Mul')","hasattr(e, 'is_Pow')","hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.as_independent","e.fun","e.func","e.has","e.is_Add","e.is_Mul","e.is_Pow","e.match","e.poly"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(e, RootSum)', 'nm == 1', 'nm.is_Integer and nm < 0'}, fibers={'RootSum'})"]}}
 def _fast_inverse_laplace(e, s, t):
     """Fast inverse Laplace transform of rational function including RootSum"""
     a, b, n = symbols('a, b, n', cls=Wild, exclude=[s])

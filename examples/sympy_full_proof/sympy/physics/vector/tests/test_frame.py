@@ -33,16 +33,24 @@ import pickle
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dict_list(), test_dict_list produces the expected output) over Any ║
+# ║ Path(test_dict_list(), D._dict_list(A, 0) == [D, C, B, A] and C._dict_list(A, 0) == [C, B, A] and C._dict_list(E, 0) == [C, D, E]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dict_list : Any → {Any | D._dict_list(A, 0) == [...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  D._dict_list(A, 0) == [D, C, B, A]             ║
+# ║   ensures:  C._dict_list(A, 0) == [C, B, A]                ║
+# ║   ensures:  C._dict_list(E, 0) == [C, D, E]                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dict_list : Any → {Any | result satisfies: D._di...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbcf1c08d661d08e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d72c3cdf15d5e1ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_dict_list","kind":"function","src_hash":"19c86c22630f49da","in":{"base":"Any"},"out":{"base":"Any","pred":"D._dict_list(A, 0) == [D, C, B, A] and C._dict_list(A, 0) == [C, B, A] and C._dict_list(E, 0) == [C, D, E]"},"spec":{"lhs":"test_dict_list()","rhs":"test_dict_list produces the expected output","over":{"base":"Any"},"name":"test_dict_list_correct"},"guarantee":"test_dict_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_dict_list_correct","statement":"Path(test_dict_list(x), test_dict_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbcf1c08d661d08e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_dict_list","kind":"function","src_hash":"19c86c22630f49da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: D._dict_list(A, 0) == [D, C, B, A] and C._dict_list(A, 0) == [C, B, A] and C._dict_list(E, 0) == [C, D, E]"},"spec":{"lhs":"test_dict_list()","rhs":"D._dict_list(A, 0) == [D, C, B, A] and C._dict_list(A, 0) == [C, B, A] and C._dict_list(E, 0) == [C, D, E]","over":{"base":"Any"},"name":"test_dict_list_correct"},"guarantee":"D._dict_list(A, 0) == [D, C, B, A]; C._dict_list(A, 0) == [C, B, A]; C._dict_list(E, 0) == [C, D, E]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_dict_list_correct","statement":"Path(test_dict_list(x), D._dict_list(A, 0) == [D, C, B, A]; C._dict_list(A, 0) == [C, B, A]; C._dict_list(E, 0) == [C, D, E])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d72c3cdf15d5e1ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["D._dict_list(A, 0) == [D, C, B, A]","C._dict_list(A, 0) == [C, B, A]","C._dict_list(E, 0) == [C, D, E]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dict_list():
 
     A = ReferenceFrame('A')
@@ -70,7 +78,12 @@ def test_dict_list():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_coordinate_vars(), tests the coordinate variables functionality) over {Any | isinstance(A[0], CoordinateSym)} ║
+# ║ Path(test_coordinate_vars(), CoordinateSym('Ax', A, 0) == A[0] and CoordinateSym('Ax', A, 1) == A[1] and CoordinateSym('Ax', A, 2) == A[2] and isinstance(A[0], CoordinateSym) and isinstance(A[0], CoordinateSym) and isinstance(A[0], CoordinateSym) and A.variable_map(A) == {A[0]: A[0], A[1]: A[1], A[2]: A[2]} and A[0].frame == A and B.variable_map(A) == {B[2]: A[2], B[1]: -A[0] * sin(q) + A[1] * cos(q), B[0]: A[0] * cos(q) + A[1] * sin(q)} and A.variable_map(B) == {A[0]: B[0] * cos(q) - B[1] * sin(q), A[1]: B[0] * sin(q) + B[1] * cos(q), A[2]: B[2]} and time_derivative(B[0], A) == -A[0] * sin(q) * qd + A[1] * cos(q) * qd and time_derivative(B[1], A) == -A[0] * cos(q) * qd - A[1] * sin(q) * qd and time_derivative(B[2], A) == 0 and express(B[0], A, variables=True) == A[0] * cos(q) + A[1] * sin(q) and express(B[1], A, variables=True) == -A[0] * sin(q) + A[1] * cos(q) and express(B[2], A, variables=True) == A[2] and time_derivative(A[0] * A.x + A[1] * A.y + A[2] * A.z, B) == A[1] * qd * A.x - A[0] * qd * A.y and time_derivative(B[0] * B.x + B[1] * B.y + B[2] * B.z, A) == -B[1] * qd * B.x + B[0] * qd * B.y and express(B[0] * B[1] * B[2], A, variables=True) == A[2] * (-A[0] * sin(q) + A[1] * cos(q)) * (A[0] * cos(q) + A[1] * sin(q)) and (time_derivative(B[0] * B[1] * B[2], A) - A[2] * (-A[0] ** 2 * cos(2 * q) - 2 * A[0] * A[1] * sin(2 * q) + A[1] ** 2 * cos(2 * q)) * qd).trigsimp() == 0 and express(B[0] * B.x + B[1] * B.y + B[2] * B.z, A) == (B[0] * cos(q) - B[1] * sin(q)) * A.x + (B[0] * sin(q) + B[1] * cos(q)) * A.y + B[2] * A.z and express(B[0] * B.x + B[1] * B.y + B[2] * B.z, A, variables=True).simplify() == A[0] * A.x + A[1] * A.y + A[2] * A.z and express(A[0] * A.x + A[1] * A.y + A[2] * A.z, B) == (A[0] * cos(q) + A[1] * sin(q)) * B.x + (-A[0] * sin(q) + A[1] * cos(q)) * B.y + A[2] * B.z and express(A[0] * A.x + A[1] * A.y + A[2] * A.z, B, variables=True).simplify() == B[0] * B.x + B[1] * B.y + B[2] * B.z and {k: v.simplify() for k, v in N.variable_map(A).items()} == {N[0]: A[0], N[2]: A[2], N[1]: A[1]} and trigsimp(mapping[A[0]]) == 2 * C[0] * cos(q) / 3 + C[0] / 3 - 2 * C[1] * sin(q + pi / 6) / 3 + C[1] / 3 - 2 * C[2] * cos(q + pi / 3) / 3 + C[2] / 3 and trigsimp(mapping[A[1]]) == -2 * C[0] * cos(q + pi / 3) / 3 + C[0] / 3 + 2 * C[1] * cos(q) / 3 + C[1] / 3 - 2 * C[2] * sin(q + pi / 6) / 3 + C[2] / 3 and trigsimp(mapping[A[2]]) == -2 * C[0] * sin(q + pi / 6) / 3 + C[0] / 3 - 2 * C[1] * cos(q + pi / 3) / 3 + C[1] / 3 + 2 * C[2] * cos(q) / 3 + C[2] / 3) over {Any | isinstance(A[0], CoordinateSym)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  CoordinateSym('Ax', A, 0) == A[0]              ║
+# ║   ensures:  CoordinateSym('Ax', A, 1) == A[1]              ║
+# ║   ensures:  CoordinateSym('Ax', A, 2) == A[2]              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_coordinate_vars : {Any | isinstance(A[0], Coordi...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -82,9 +95,12 @@ def test_dict_list():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.8ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 59ec2315...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_coordinate_vars","kind":"function","src_hash":"7bc2f0761c2c76e2","in":{"base":"Any","pred":"isinstance(A[0], CoordinateSym)"},"out":{"base":"Any","pred":"CoordinateSym('Ax', A, 0) == A[0] and CoordinateSym('Ax', A, 1) == A[1] and CoordinateSym('Ax', A, 2) == A[2] and A.variable_map(A) == {A[0]: A[0], A[1]: A[1], A[2]: A[2]} and A[0].frame == A and time_derivative(B[0], A) == -A[0] * sin(q) * qd + A[1] * cos(q) * qd and time_derivative(B[1], A) == -A[0] * cos(q) * qd - A[1] * sin(q) * qd and time_derivative(B[2], A) == 0 and express(B[0], A, variables=True) == A[0] * cos(q) + A[1] * sin(q) and express(B[1], A, variables=True) == -A[0] * sin(q) + A[1] * cos(q) and express(B[2], A, variables=True) == A[2]"},"spec":{"lhs":"test_coordinate_vars()","rhs":"tests the coordinate variables functionality","over":{"base":"Any","pred":"isinstance(A[0], CoordinateSym)"},"name":"test_coordinate_vars_correct"},"guarantee":"tests the coordinate variables functionality","fibers":[{"name":"CoordinateSym","pred":"isinstance(A[0], CoordinateSym)","path":{"lhs":"test_coordinate_vars(x)","rhs":"tests the coordinate variables functionality","over":{"base":"CoordinateSym","pred":"isinstance(A[0], CoordinateSym)"},"name":"test_coordinate_vars_CoordinateSym_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_coordinate_vars_CoordinateSym_correct","statement":"test_coordinate_vars satisfies spec on CoordinateSym inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"59ec23150b8e8da9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_coordinate_vars","kind":"function","src_hash":"7bc2f0761c2c76e2","in":{"base":"Any","pred":"isinstance(A[0], CoordinateSym)"},"out":{"base":"Any","pred":"result satisfies: CoordinateSym('Ax', A, 0) == A[0] and CoordinateSym('Ax', A, 1) == A[1] and CoordinateSym('Ax', A, 2) == A[2] and isinstance(A[0], CoordinateSym) and isinstance(A[0], CoordinateSym) and isinstance(A[0], CoordinateSym) and A.variable_map(A) == {A[0]: A[0], A[1]: A[1], A[2]: A[2]} and A[0].frame == A and B.variable_map(A) == {B[2]: A[2], B[1]: -A[0] * sin(q) + A[1] * cos(q), B[0]: A[0] * cos(q) + A[1] * sin(q)} and A.variable_map(B) == {A[0]: B[0] * cos(q) - B[1] * sin(q), A[1]: B[0] * sin(q) + B[1] * cos(q), A[2]: B[2]} and time_derivative(B[0], A) == -A[0] * sin(q) * qd + A[1] * cos(q) * qd and time_derivative(B[1], A) == -A[0] * cos(q) * qd - A[1] * sin(q) * qd and time_derivative(B[2], A) == 0 and express(B[0], A, variables=True) == A[0] * cos(q) + A[1] * sin(q) and express(B[1], A, variables=True) == -A[0] * sin(q) + A[1] * cos(q) and express(B[2], A, variables=True) == A[2] and time_derivative(A[0] * A.x + A[1] * A.y + A[2] * A.z, B) == A[1] * qd * A.x - A[0] * qd * A.y and time_derivative(B[0] * B.x + B[1] * B.y + B[2] * B.z, A) == -B[1] * qd * B.x + B[0] * qd * B.y and express(B[0] * B[1] * B[2], A, variables=True) == A[2] * (-A[0] * sin(q) + A[1] * cos(q)) * (A[0] * cos(q) + A[1] * sin(q)) and (time_derivative(B[0] * B[1] * B[2], A) - A[2] * (-A[0] ** 2 * cos(2 * q) - 2 * A[0] * A[1] * sin(2 * q) + A[1] ** 2 * cos(2 * q)) * qd).trigsimp() == 0 and express(B[0] * B.x + B[1] * B.y + B[2] * B.z, A) == (B[0] * cos(q) - B[1] * sin(q)) * A.x + (B[0] * sin(q) + B[1] * cos(q)) * A.y + B[2] * A.z and express(B[0] * B.x + B[1] * B.y + B[2] * B.z, A, variables=True).simplify() == A[0] * A.x + A[1] * A.y + A[2] * A.z and express(A[0] * A.x + A[1] * A.y + A[2] * A.z, B) == (A[0] * cos(q) + A[1] * sin(q)) * B.x + (-A[0] * sin(q) + A[1] * cos(q)) * B.y + A[2] * B.z and express(A[0] * A.x + A[1] * A.y + A[2] * A.z, B, variables=True).simplify() == B[0] * B.x + B[1] * B.y + B[2] * B.z and {k: v.simplify() for k, v in N.variable_map(A).items()} == {N[0]: A[0], N[2]: A[2], N[1]: A[1]} and trigsimp(mapping[A[0]]) == 2 * C[0] * cos(q) / 3 + C[0] / 3 - 2 * C[1] * sin(q + pi / 6) / 3 + C[1] / 3 - 2 * C[2] * cos(q + pi / 3) / 3 + C[2] / 3 and trigsimp(mapping[A[1]]) == -2 * C[0] * cos(q + pi / 3) / 3 + C[0] / 3 + 2 * C[1] * cos(q) / 3 + C[1] / 3 - 2 * C[2] * sin(q + pi / 6) / 3 + C[2] / 3 and trigsimp(mapping[A[2]]) == -2 * C[0] * sin(q + pi / 6) / 3 + C[0] / 3 - 2 * C[1] * cos(q + pi / 3) / 3 + C[1] / 3 + 2 * C[2] * cos(q) / 3 + C[2] / 3"},"spec":{"lhs":"test_coordinate_vars()","rhs":"CoordinateSym('Ax', A, 0) == A[0] and CoordinateSym('Ax', A, 1) == A[1] and CoordinateSym('Ax', A, 2) == A[2] and isinstance(A[0], CoordinateSym) and isinstance(A[0], CoordinateSym) and isinstance(A[0], CoordinateSym) and A.variable_map(A) == {A[0]: A[0], A[1]: A[1], A[2]: A[2]} and A[0].frame == A and B.variable_map(A) == {B[2]: A[2], B[1]: -A[0] * sin(q) + A[1] * cos(q), B[0]: A[0] * cos(q) + A[1] * sin(q)} and A.variable_map(B) == {A[0]: B[0] * cos(q) - B[1] * sin(q), A[1]: B[0] * sin(q) + B[1] * cos(q), A[2]: B[2]} and time_derivative(B[0], A) == -A[0] * sin(q) * qd + A[1] * cos(q) * qd and time_derivative(B[1], A) == -A[0] * cos(q) * qd - A[1] * sin(q) * qd and time_derivative(B[2], A) == 0 and express(B[0], A, variables=True) == A[0] * cos(q) + A[1] * sin(q) and express(B[1], A, variables=True) == -A[0] * sin(q) + A[1] * cos(q) and express(B[2], A, variables=True) == A[2] and time_derivative(A[0] * A.x + A[1] * A.y + A[2] * A.z, B) == A[1] * qd * A.x - A[0] * qd * A.y and time_derivative(B[0] * B.x + B[1] * B.y + B[2] * B.z, A) == -B[1] * qd * B.x + B[0] * qd * B.y and express(B[0] * B[1] * B[2], A, variables=True) == A[2] * (-A[0] * sin(q) + A[1] * cos(q)) * (A[0] * cos(q) + A[1] * sin(q)) and (time_derivative(B[0] * B[1] * B[2], A) - A[2] * (-A[0] ** 2 * cos(2 * q) - 2 * A[0] * A[1] * sin(2 * q) + A[1] ** 2 * cos(2 * q)) * qd).trigsimp() == 0 and express(B[0] * B.x + B[1] * B.y + B[2] * B.z, A) == (B[0] * cos(q) - B[1] * sin(q)) * A.x + (B[0] * sin(q) + B[1] * cos(q)) * A.y + B[2] * A.z and express(B[0] * B.x + B[1] * B.y + B[2] * B.z, A, variables=True).simplify() == A[0] * A.x + A[1] * A.y + A[2] * A.z and express(A[0] * A.x + A[1] * A.y + A[2] * A.z, B) == (A[0] * cos(q) + A[1] * sin(q)) * B.x + (-A[0] * sin(q) + A[1] * cos(q)) * B.y + A[2] * B.z and express(A[0] * A.x + A[1] * A.y + A[2] * A.z, B, variables=True).simplify() == B[0] * B.x + B[1] * B.y + B[2] * B.z and {k: v.simplify() for k, v in N.variable_map(A).items()} == {N[0]: A[0], N[2]: A[2], N[1]: A[1]} and trigsimp(mapping[A[0]]) == 2 * C[0] * cos(q) / 3 + C[0] / 3 - 2 * C[1] * sin(q + pi / 6) / 3 + C[1] / 3 - 2 * C[2] * cos(q + pi / 3) / 3 + C[2] / 3 and trigsimp(mapping[A[1]]) == -2 * C[0] * cos(q + pi / 3) / 3 + C[0] / 3 + 2 * C[1] * cos(q) / 3 + C[1] / 3 - 2 * C[2] * sin(q + pi / 6) / 3 + C[2] / 3 and trigsimp(mapping[A[2]]) == -2 * C[0] * sin(q + pi / 6) / 3 + C[0] / 3 - 2 * C[1] * cos(q + pi / 3) / 3 + C[1] / 3 + 2 * C[2] * cos(q) / 3 + C[2] / 3","over":{"base":"Any","pred":"isinstance(A[0], CoordinateSym)"},"name":"test_coordinate_vars_correct"},"guarantee":"CoordinateSym('Ax', A, 0) == A[0]; CoordinateSym('Ax', A, 1) == A[1]; CoordinateSym('Ax', A, 2) == A[2]","fibers":[{"name":"CoordinateSym","pred":"isinstance(A[0], CoordinateSym)","path":{"lhs":"test_coordinate_vars(x)","rhs":"CoordinateSym('Ax', A, 0) == A[0]; CoordinateSym('Ax', A, 1) == A[1]; CoordinateSym('Ax', A, 2) == A[2]","over":{"base":"CoordinateSym","pred":"isinstance(A[0], CoordinateSym)"},"name":"test_coordinate_vars_CoordinateSym_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_coordinate_vars_CoordinateSym_correct","statement":"test_coordinate_vars satisfies spec on CoordinateSym inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"59ec23150b8e8da9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["CoordinateSym('Ax', A, 0) == A[0]","CoordinateSym('Ax', A, 1) == A[1]","CoordinateSym('Ax', A, 2) == A[2]","isinstance(A[0], CoordinateSym) and isinstance(A[0], CoordinateSym) and isinstance(A[0], CoordinateSym)","A.variable_map(A) == {A[0]: A[0], A[1]: A[1], A[2]: A[2]}","A[0].frame == A","B.variable_map(A) == {B[2]: A[2], B[1]: -A[0] * sin(q) + A[1] * cos(q), B[0]: A[0] * cos(q) + A[1] * sin(q)}","A.variable_map(B) == {A[0]: B[0] * cos(q) - B[1] * sin(q), A[1]: B[0] * sin(q) + B[1] * cos(q), A[2]: B[2]}","time_derivative(B[0], A) == -A[0] * sin(q) * qd + A[1] * cos(q) * qd","time_derivative(B[1], A) == -A[0] * cos(q) * qd - A[1] * sin(q) * qd","time_derivative(B[2], A) == 0","express(B[0], A, variables=True) == A[0] * cos(q) + A[1] * sin(q)","express(B[1], A, variables=True) == -A[0] * sin(q) + A[1] * cos(q)","express(B[2], A, variables=True) == A[2]","time_derivative(A[0] * A.x + A[1] * A.y + A[2] * A.z, B) == A[1] * qd * A.x - A[0] * qd * A.y","time_derivative(B[0] * B.x + B[1] * B.y + B[2] * B.z, A) == -B[1] * qd * B.x + B[0] * qd * B.y","express(B[0] * B[1] * B[2], A, variables=True) == A[2] * (-A[0] * sin(q) + A[1] * cos(q)) * (A[0] * cos(q) + A[1] * sin(q))","(time_derivative(B[0] * B[1] * B[2], A) - A[2] * (-A[0] ** 2 * cos(2 * q) - 2 * A[0] * A[1] * sin(2 * q) + A[1] ** 2 * cos(2 * q)) * qd).trigsimp() == 0","express(B[0] * B.x + B[1] * B.y + B[2] * B.z, A) == (B[0] * cos(q) - B[1] * sin(q)) * A.x + (B[0] * sin(q) + B[1] * cos(q)) * A.y + B[2] * A.z","express(B[0] * B.x + B[1] * B.y + B[2] * B.z, A, variables=True).simplify() == A[0] * A.x + A[1] * A.y + A[2] * A.z","express(A[0] * A.x + A[1] * A.y + A[2] * A.z, B) == (A[0] * cos(q) + A[1] * sin(q)) * B.x + (-A[0] * sin(q) + A[1] * cos(q)) * B.y + A[2] * B.z","express(A[0] * A.x + A[1] * A.y + A[2] * A.z, B, variables=True).simplify() == B[0] * B.x + B[1] * B.y + B[2] * B.z","{k: v.simplify() for k, v in N.variable_map(A).items()} == {N[0]: A[0], N[2]: A[2], N[1]: A[1]}","trigsimp(mapping[A[0]]) == 2 * C[0] * cos(q) / 3 + C[0] / 3 - 2 * C[1] * sin(q + pi / 6) / 3 + C[1] / 3 - 2 * C[2] * cos(q + pi / 3) / 3 + C[2] / 3","trigsimp(mapping[A[1]]) == -2 * C[0] * cos(q + pi / 3) / 3 + C[0] / 3 + 2 * C[1] * cos(q) / 3 + C[1] / 3 - 2 * C[2] * sin(q + pi / 6) / 3 + C[2] / 3","trigsimp(mapping[A[2]]) == -2 * C[0] * sin(q + pi / 6) / 3 + C[0] / 3 - 2 * C[1] * cos(q + pi / 3) / 3 + C[1] / 3 + 2 * C[2] * cos(q) / 3 + C[2] / 3"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.8,"verdict_class":"failed","binding":true}}
 def test_coordinate_vars():
     """Tests the coordinate variables functionality"""
     A = ReferenceFrame('A')
@@ -144,16 +160,24 @@ def test_coordinate_vars():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ang_vel(), test_ang_vel produces the expected output) over Any ║
+# ║ Path(test_ang_vel(), A.ang_vel_in(N) == q1d * A.z and B.ang_vel_in(N) == q2d * B.x + q1d * A.z and C.ang_vel_in(N) == q3d * C.y + q2d * B.x + q1d * A.z and N.ang_vel_in(N) == 0 and N.ang_vel_in(A) == -q1d * N.z and N.ang_vel_in(B) == -q1d * A.z - q2d * B.x and N.ang_vel_in(C) == -q1d * A.z - q2d * B.x - q3d * B.y and N.ang_vel_in(A2) == -q4d * N.y and A.ang_vel_in(N) == q1d * N.z and A.ang_vel_in(A) == 0 and A.ang_vel_in(B) == -q2d * B.x and A.ang_vel_in(C) == -q2d * B.x - q3d * B.y and A.ang_vel_in(A2) == q1d * N.z - q4d * N.y and B.ang_vel_in(N) == q1d * A.z + q2d * A.x and B.ang_vel_in(A) == q2d * A.x and B.ang_vel_in(B) == 0 and B.ang_vel_in(C) == -q3d * B.y and B.ang_vel_in(A2) == q1d * A.z + q2d * A.x - q4d * N.y and C.ang_vel_in(N) == q1d * A.z + q2d * A.x + q3d * B.y and C.ang_vel_in(A) == q2d * A.x + q3d * C.y and C.ang_vel_in(B) == q3d * B.y and C.ang_vel_in(C) == 0 and C.ang_vel_in(A2) == q1d * A.z + q2d * A.x + q3d * B.y - q4d * N.y and A2.ang_vel_in(N) == q4d * A2.y and A2.ang_vel_in(A) == q4d * A2.y - q1d * N.z and A2.ang_vel_in(B) == q4d * N.y - q1d * A.z - q2d * A.x and A2.ang_vel_in(C) == q4d * N.y - q1d * A.z - q2d * A.x - q3d * B.y and A2.ang_vel_in(A2) == 0 and C.ang_vel_in(N) == u1 * C.x + u2 * C.y + u3 * C.z and N.ang_vel_in(C) == -u1 * C.x + -u2 * C.y + -u3 * C.z and C.ang_vel_in(D) == u1 * C.x + u2 * C.y + u3 * C.z + -q4d * D.y and D.ang_vel_in(C) == -u1 * C.x + -u2 * C.y + -u3 * C.z + q4d * D.y and E.ang_vel_in(N) == 2 * (q1d * q0 + q2d * q3 - q3d * q2 - q0d * q1) * E.x + 2 * (q2d * q0 + q3d * q1 - q1d * q3 - q0d * q2) * E.y + 2 * (q3d * q0 + q1d * q2 - q2d * q1 - q0d * q3) * E.z and F.ang_vel_in(N) == (sin(q2) * sin(q3) * q1d + cos(q3) * q2d) * F.x + (sin(q2) * cos(q3) * q1d - sin(q3) * q2d) * F.y + (cos(q2) * q1d + q3d) * F.z and G.ang_vel_in(N) == q1d * (N.x + N.y).normalize() and N.ang_vel_in(G) == -q1d * (N.x + N.y).normalize()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ang_vel : Any → {Any | A.ang_vel_in(N) == q1d * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.ang_vel_in(N) == q1d * A.z                   ║
+# ║   ensures:  B.ang_vel_in(N) == q2d * B.x + q1d * A.z       ║
+# ║   ensures:  C.ang_vel_in(N) == q3d * C.y + q2d * B.x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ang_vel : Any → {Any | result satisfies: A.ang_v...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6d7e8e9d1489cc5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2941df9e629e32b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_ang_vel","kind":"function","src_hash":"69812a070d6dd0f6","in":{"base":"Any"},"out":{"base":"Any","pred":"A.ang_vel_in(N) == q1d * A.z and B.ang_vel_in(N) == q2d * B.x + q1d * A.z and C.ang_vel_in(N) == q3d * C.y + q2d * B.x + q1d * A.z and N.ang_vel_in(N) == 0 and N.ang_vel_in(A) == -q1d * N.z and N.ang_vel_in(B) == -q1d * A.z - q2d * B.x and N.ang_vel_in(C) == -q1d * A.z - q2d * B.x - q3d * B.y and N.ang_vel_in(A2) == -q4d * N.y and A.ang_vel_in(N) == q1d * N.z and A.ang_vel_in(A) == 0 and A.ang_vel_in(B) == -q2d * B.x and A.ang_vel_in(C) == -q2d * B.x - q3d * B.y and A.ang_vel_in(A2) == q1d * N.z - q4d * N.y and B.ang_vel_in(N) == q1d * A.z + q2d * A.x and B.ang_vel_in(A) == q2d * A.x and B.ang_vel_in(B) == 0 and B.ang_vel_in(C) == -q3d * B.y and B.ang_vel_in(A2) == q1d * A.z + q2d * A.x - q4d * N.y and C.ang_vel_in(N) == q1d * A.z + q2d * A.x + q3d * B.y and C.ang_vel_in(A) == q2d * A.x + q3d * C.y and C.ang_vel_in(B) == q3d * B.y and C.ang_vel_in(C) == 0 and C.ang_vel_in(A2) == q1d * A.z + q2d * A.x + q3d * B.y - q4d * N.y and A2.ang_vel_in(N) == q4d * A2.y and A2.ang_vel_in(A) == q4d * A2.y - q1d * N.z and A2.ang_vel_in(B) == q4d * N.y - q1d * A.z - q2d * A.x and A2.ang_vel_in(C) == q4d * N.y - q1d * A.z - q2d * A.x - q3d * B.y and A2.ang_vel_in(A2) == 0 and C.ang_vel_in(N) == u1 * C.x + u2 * C.y + u3 * C.z and N.ang_vel_in(C) == -u1 * C.x + -u2 * C.y + -u3 * C.z and C.ang_vel_in(D) == u1 * C.x + u2 * C.y + u3 * C.z + -q4d * D.y and D.ang_vel_in(C) == -u1 * C.x + -u2 * C.y + -u3 * C.z + q4d * D.y and G.ang_vel_in(N) == q1d * (N.x + N.y).normalize() and N.ang_vel_in(G) == -q1d * (N.x + N.y).normalize()"},"spec":{"lhs":"test_ang_vel()","rhs":"test_ang_vel produces the expected output","over":{"base":"Any"},"name":"test_ang_vel_correct"},"guarantee":"test_ang_vel produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_ang_vel_correct","statement":"Path(test_ang_vel(x), test_ang_vel produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6d7e8e9d1489cc5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_ang_vel","kind":"function","src_hash":"69812a070d6dd0f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.ang_vel_in(N) == q1d * A.z and B.ang_vel_in(N) == q2d * B.x + q1d * A.z and C.ang_vel_in(N) == q3d * C.y + q2d * B.x + q1d * A.z and N.ang_vel_in(N) == 0 and N.ang_vel_in(A) == -q1d * N.z and N.ang_vel_in(B) == -q1d * A.z - q2d * B.x and N.ang_vel_in(C) == -q1d * A.z - q2d * B.x - q3d * B.y and N.ang_vel_in(A2) == -q4d * N.y and A.ang_vel_in(N) == q1d * N.z and A.ang_vel_in(A) == 0 and A.ang_vel_in(B) == -q2d * B.x and A.ang_vel_in(C) == -q2d * B.x - q3d * B.y and A.ang_vel_in(A2) == q1d * N.z - q4d * N.y and B.ang_vel_in(N) == q1d * A.z + q2d * A.x and B.ang_vel_in(A) == q2d * A.x and B.ang_vel_in(B) == 0 and B.ang_vel_in(C) == -q3d * B.y and B.ang_vel_in(A2) == q1d * A.z + q2d * A.x - q4d * N.y and C.ang_vel_in(N) == q1d * A.z + q2d * A.x + q3d * B.y and C.ang_vel_in(A) == q2d * A.x + q3d * C.y and C.ang_vel_in(B) == q3d * B.y and C.ang_vel_in(C) == 0 and C.ang_vel_in(A2) == q1d * A.z + q2d * A.x + q3d * B.y - q4d * N.y and A2.ang_vel_in(N) == q4d * A2.y and A2.ang_vel_in(A) == q4d * A2.y - q1d * N.z and A2.ang_vel_in(B) == q4d * N.y - q1d * A.z - q2d * A.x and A2.ang_vel_in(C) == q4d * N.y - q1d * A.z - q2d * A.x - q3d * B.y and A2.ang_vel_in(A2) == 0 and C.ang_vel_in(N) == u1 * C.x + u2 * C.y + u3 * C.z and N.ang_vel_in(C) == -u1 * C.x + -u2 * C.y + -u3 * C.z and C.ang_vel_in(D) == u1 * C.x + u2 * C.y + u3 * C.z + -q4d * D.y and D.ang_vel_in(C) == -u1 * C.x + -u2 * C.y + -u3 * C.z + q4d * D.y and E.ang_vel_in(N) == 2 * (q1d * q0 + q2d * q3 - q3d * q2 - q0d * q1) * E.x + 2 * (q2d * q0 + q3d * q1 - q1d * q3 - q0d * q2) * E.y + 2 * (q3d * q0 + q1d * q2 - q2d * q1 - q0d * q3) * E.z and F.ang_vel_in(N) == (sin(q2) * sin(q3) * q1d + cos(q3) * q2d) * F.x + (sin(q2) * cos(q3) * q1d - sin(q3) * q2d) * F.y + (cos(q2) * q1d + q3d) * F.z and G.ang_vel_in(N) == q1d * (N.x + N.y).normalize() and N.ang_vel_in(G) == -q1d * (N.x + N.y).normalize()"},"spec":{"lhs":"test_ang_vel()","rhs":"A.ang_vel_in(N) == q1d * A.z and B.ang_vel_in(N) == q2d * B.x + q1d * A.z and C.ang_vel_in(N) == q3d * C.y + q2d * B.x + q1d * A.z and N.ang_vel_in(N) == 0 and N.ang_vel_in(A) == -q1d * N.z and N.ang_vel_in(B) == -q1d * A.z - q2d * B.x and N.ang_vel_in(C) == -q1d * A.z - q2d * B.x - q3d * B.y and N.ang_vel_in(A2) == -q4d * N.y and A.ang_vel_in(N) == q1d * N.z and A.ang_vel_in(A) == 0 and A.ang_vel_in(B) == -q2d * B.x and A.ang_vel_in(C) == -q2d * B.x - q3d * B.y and A.ang_vel_in(A2) == q1d * N.z - q4d * N.y and B.ang_vel_in(N) == q1d * A.z + q2d * A.x and B.ang_vel_in(A) == q2d * A.x and B.ang_vel_in(B) == 0 and B.ang_vel_in(C) == -q3d * B.y and B.ang_vel_in(A2) == q1d * A.z + q2d * A.x - q4d * N.y and C.ang_vel_in(N) == q1d * A.z + q2d * A.x + q3d * B.y and C.ang_vel_in(A) == q2d * A.x + q3d * C.y and C.ang_vel_in(B) == q3d * B.y and C.ang_vel_in(C) == 0 and C.ang_vel_in(A2) == q1d * A.z + q2d * A.x + q3d * B.y - q4d * N.y and A2.ang_vel_in(N) == q4d * A2.y and A2.ang_vel_in(A) == q4d * A2.y - q1d * N.z and A2.ang_vel_in(B) == q4d * N.y - q1d * A.z - q2d * A.x and A2.ang_vel_in(C) == q4d * N.y - q1d * A.z - q2d * A.x - q3d * B.y and A2.ang_vel_in(A2) == 0 and C.ang_vel_in(N) == u1 * C.x + u2 * C.y + u3 * C.z and N.ang_vel_in(C) == -u1 * C.x + -u2 * C.y + -u3 * C.z and C.ang_vel_in(D) == u1 * C.x + u2 * C.y + u3 * C.z + -q4d * D.y and D.ang_vel_in(C) == -u1 * C.x + -u2 * C.y + -u3 * C.z + q4d * D.y and E.ang_vel_in(N) == 2 * (q1d * q0 + q2d * q3 - q3d * q2 - q0d * q1) * E.x + 2 * (q2d * q0 + q3d * q1 - q1d * q3 - q0d * q2) * E.y + 2 * (q3d * q0 + q1d * q2 - q2d * q1 - q0d * q3) * E.z and F.ang_vel_in(N) == (sin(q2) * sin(q3) * q1d + cos(q3) * q2d) * F.x + (sin(q2) * cos(q3) * q1d - sin(q3) * q2d) * F.y + (cos(q2) * q1d + q3d) * F.z and G.ang_vel_in(N) == q1d * (N.x + N.y).normalize() and N.ang_vel_in(G) == -q1d * (N.x + N.y).normalize()","over":{"base":"Any"},"name":"test_ang_vel_correct"},"guarantee":"A.ang_vel_in(N) == q1d * A.z; B.ang_vel_in(N) == q2d * B.x + q1d * A.z; C.ang_vel_in(N) == q3d * C.y + q2d * B.x + q1d * A.z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_ang_vel_correct","statement":"Path(test_ang_vel(x), A.ang_vel_in(N) == q1d * A.z; B.ang_vel_in(N) == q2d * B.x + q1d * A.z; C.ang_vel_in(N) == q3d * C.y + q2d * B.x + q1d * A.z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2941df9e629e32b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.ang_vel_in(N) == q1d * A.z","B.ang_vel_in(N) == q2d * B.x + q1d * A.z","C.ang_vel_in(N) == q3d * C.y + q2d * B.x + q1d * A.z","N.ang_vel_in(N) == 0","N.ang_vel_in(A) == -q1d * N.z","N.ang_vel_in(B) == -q1d * A.z - q2d * B.x","N.ang_vel_in(C) == -q1d * A.z - q2d * B.x - q3d * B.y","N.ang_vel_in(A2) == -q4d * N.y","A.ang_vel_in(N) == q1d * N.z","A.ang_vel_in(A) == 0","A.ang_vel_in(B) == -q2d * B.x","A.ang_vel_in(C) == -q2d * B.x - q3d * B.y","A.ang_vel_in(A2) == q1d * N.z - q4d * N.y","B.ang_vel_in(N) == q1d * A.z + q2d * A.x","B.ang_vel_in(A) == q2d * A.x","B.ang_vel_in(B) == 0","B.ang_vel_in(C) == -q3d * B.y","B.ang_vel_in(A2) == q1d * A.z + q2d * A.x - q4d * N.y","C.ang_vel_in(N) == q1d * A.z + q2d * A.x + q3d * B.y","C.ang_vel_in(A) == q2d * A.x + q3d * C.y","C.ang_vel_in(B) == q3d * B.y","C.ang_vel_in(C) == 0","C.ang_vel_in(A2) == q1d * A.z + q2d * A.x + q3d * B.y - q4d * N.y","A2.ang_vel_in(N) == q4d * A2.y","A2.ang_vel_in(A) == q4d * A2.y - q1d * N.z","A2.ang_vel_in(B) == q4d * N.y - q1d * A.z - q2d * A.x","A2.ang_vel_in(C) == q4d * N.y - q1d * A.z - q2d * A.x - q3d * B.y","A2.ang_vel_in(A2) == 0","C.ang_vel_in(N) == u1 * C.x + u2 * C.y + u3 * C.z","N.ang_vel_in(C) == -u1 * C.x + -u2 * C.y + -u3 * C.z","C.ang_vel_in(D) == u1 * C.x + u2 * C.y + u3 * C.z + -q4d * D.y","D.ang_vel_in(C) == -u1 * C.x + -u2 * C.y + -u3 * C.z + q4d * D.y","E.ang_vel_in(N) == 2 * (q1d * q0 + q2d * q3 - q3d * q2 - q0d * q1) * E.x + 2 * (q2d * q0 + q3d * q1 - q1d * q3 - q0d * q2) * E.y + 2 * (q3d * q0 + q1d * q2 - q2d * q1 - q0d * q3) * E.z","F.ang_vel_in(N) == (sin(q2) * sin(q3) * q1d + cos(q3) * q2d) * F.x + (sin(q2) * cos(q3) * q1d - sin(q3) * q2d) * F.y + (cos(q2) * q1d + q3d) * F.z","G.ang_vel_in(N) == q1d * (N.x + N.y).normalize()","N.ang_vel_in(G) == -q1d * (N.x + N.y).normalize()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def test_ang_vel():
     q1, q2, q3, q4 = dynamicsymbols('q1 q2 q3 q4')
     q1d, q2d, q3d, q4d = dynamicsymbols('q1 q2 q3 q4', 1)
@@ -221,16 +245,24 @@ def test_ang_vel():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dcm(), test_dcm produces the expected output) over Any ║
+# ║ Path(test_dcm(), N.dcm(C) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]) and test_mat.expand() == zeros(3, 3) and E.dcm(N) == Matrix([[cos(q2) * cos(q3), sin(q3) * cos(q2), -sin(q2)], [sin(q1) * sin(q2) * cos(q3) - sin(q3) * cos(q1), sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), sin(q1) * cos(q2)], [sin(q1) * sin(q3) + sin(q2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2)]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dcm : Any → {Any | test_mat.expand() == zeros(3,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.dcm(C) == Matrix([[-sin(q1) * sin(q2) *...   ║
+# ║   ensures:  test_mat.expand() == zeros(3, 3)               ║
+# ║   ensures:  E.dcm(N) == Matrix([[cos(q2) * cos(q3), s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dcm : Any → {Any | result satisfies: N.dcm(C) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d36e2a925bf0adae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3f9f6e709d8e08b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_dcm","kind":"function","src_hash":"9d2c373604402bbf","in":{"base":"Any"},"out":{"base":"Any","pred":"test_mat.expand() == zeros(3, 3)"},"spec":{"lhs":"test_dcm()","rhs":"test_dcm produces the expected output","over":{"base":"Any"},"name":"test_dcm_correct"},"guarantee":"test_dcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_dcm_correct","statement":"Path(test_dcm(x), test_dcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d36e2a925bf0adae"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_dcm","kind":"function","src_hash":"9d2c373604402bbf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.dcm(C) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]) and test_mat.expand() == zeros(3, 3) and E.dcm(N) == Matrix([[cos(q2) * cos(q3), sin(q3) * cos(q2), -sin(q2)], [sin(q1) * sin(q2) * cos(q3) - sin(q3) * cos(q1), sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), sin(q1) * cos(q2)], [sin(q1) * sin(q3) + sin(q2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2)]])"},"spec":{"lhs":"test_dcm()","rhs":"N.dcm(C) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]) and test_mat.expand() == zeros(3, 3) and E.dcm(N) == Matrix([[cos(q2) * cos(q3), sin(q3) * cos(q2), -sin(q2)], [sin(q1) * sin(q2) * cos(q3) - sin(q3) * cos(q1), sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), sin(q1) * cos(q2)], [sin(q1) * sin(q3) + sin(q2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2)]])","over":{"base":"Any"},"name":"test_dcm_correct"},"guarantee":"N.dcm(C) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]); test_mat.expand() == zeros(3, 3); E.dcm(N) == Matrix([[cos(q2) * cos(q3), sin(q3) * cos(q2), -sin(q2)], [sin(q1) * sin(q2) * cos(q3) - sin(q3) * cos(q1), sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), sin(q1) * cos(q2)], [sin(q1) * sin(q3) + sin(q2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2)]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_dcm_correct","statement":"Path(test_dcm(x), N.dcm(C) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]); test_mat.expand() == zeros(3, 3); E.dcm(N) == Matrix([[cos(q2) * cos(q3), sin(q3) * cos(q2), -sin(q2)], [sin(q1) * sin(q2) * cos(q3) - sin(q3) * cos(q1), sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), sin(q1) * cos(q2)], [sin(q1) * sin(q3) + sin(q2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2)]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3f9f6e709d8e08b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.dcm(C) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]])","test_mat.expand() == zeros(3, 3)","E.dcm(N) == Matrix([[cos(q2) * cos(q3), sin(q3) * cos(q2), -sin(q2)], [sin(q1) * sin(q2) * cos(q3) - sin(q3) * cos(q1), sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), sin(q1) * cos(q2)], [sin(q1) * sin(q3) + sin(q2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2)]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_dcm():
     q1, q2, q3, q4 = dynamicsymbols('q1 q2 q3 q4')
     N = ReferenceFrame('N')
@@ -265,16 +297,22 @@ def test_dcm():
          cos(q1)*cos(q2)]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_w_diff_dcm1(), test_w_diff_dcm1 produces the expected output) over Any ║
+# ║ Path(test_w_diff_dcm1(), B.ang_vel_in(A) - expr == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_w_diff_dcm1 : Any → {Any | B.ang_vel_in(A) - exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.ang_vel_in(A) - expr == 0                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_w_diff_dcm1 : Any → {Any | result satisfies: B.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb72285a10b09fdd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc341114b32db07b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_w_diff_dcm1","kind":"function","src_hash":"8fccba0aca48ec98","in":{"base":"Any"},"out":{"base":"Any","pred":"B.ang_vel_in(A) - expr == 0"},"spec":{"lhs":"test_w_diff_dcm1()","rhs":"test_w_diff_dcm1 produces the expected output","over":{"base":"Any"},"name":"test_w_diff_dcm1_correct"},"guarantee":"test_w_diff_dcm1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_w_diff_dcm1_correct","statement":"Path(test_w_diff_dcm1(x), test_w_diff_dcm1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb72285a10b09fdd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_w_diff_dcm1","kind":"function","src_hash":"8fccba0aca48ec98","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.ang_vel_in(A) - expr == 0"},"spec":{"lhs":"test_w_diff_dcm1()","rhs":"B.ang_vel_in(A) - expr == 0","over":{"base":"Any"},"name":"test_w_diff_dcm1_correct"},"guarantee":"B.ang_vel_in(A) - expr == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_w_diff_dcm1_correct","statement":"Path(test_w_diff_dcm1(x), B.ang_vel_in(A) - expr == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc341114b32db07b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.ang_vel_in(A) - expr == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_w_diff_dcm1():
     # Ref:
     # Dynamics Theory and Applications, Kane 1985
@@ -313,16 +351,23 @@ def test_w_diff_dcm1():
     assert B.ang_vel_in(A) - expr == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_w_diff_dcm2(), test_w_diff_dcm2 produces the expected output) over Any ║
+# ║ Path(test_w_diff_dcm2(), D.dcm(N) == C.dcm(N) == Matrix([[cos(q2) * cos(q3), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), -sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1)], [sin(q2), -sin(q1) * cos(q2), cos(q1) * cos(q2)]]) and (D.ang_vel_in(N) - C.ang_vel_in(N)).express(N).simplify() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_w_diff_dcm2 : Any → {Any | (D.ang_vel_in(N) - C....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  D.dcm(N) == C.dcm(N) == Matrix([[cos(q2) ...   ║
+# ║   ensures:  (D.ang_vel_in(N) - C.ang_vel_in(N)).expre...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_w_diff_dcm2 : Any → {Any | result satisfies: D.d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0b51136401b1fff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2b53434bb9ed5ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_w_diff_dcm2","kind":"function","src_hash":"68bb980a4057ec67","in":{"base":"Any"},"out":{"base":"Any","pred":"(D.ang_vel_in(N) - C.ang_vel_in(N)).express(N).simplify() == 0"},"spec":{"lhs":"test_w_diff_dcm2()","rhs":"test_w_diff_dcm2 produces the expected output","over":{"base":"Any"},"name":"test_w_diff_dcm2_correct"},"guarantee":"test_w_diff_dcm2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_w_diff_dcm2_correct","statement":"Path(test_w_diff_dcm2(x), test_w_diff_dcm2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0b51136401b1fff"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_w_diff_dcm2","kind":"function","src_hash":"68bb980a4057ec67","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: D.dcm(N) == C.dcm(N) == Matrix([[cos(q2) * cos(q3), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), -sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1)], [sin(q2), -sin(q1) * cos(q2), cos(q1) * cos(q2)]]) and (D.ang_vel_in(N) - C.ang_vel_in(N)).express(N).simplify() == 0"},"spec":{"lhs":"test_w_diff_dcm2()","rhs":"D.dcm(N) == C.dcm(N) == Matrix([[cos(q2) * cos(q3), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), -sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1)], [sin(q2), -sin(q1) * cos(q2), cos(q1) * cos(q2)]]) and (D.ang_vel_in(N) - C.ang_vel_in(N)).express(N).simplify() == 0","over":{"base":"Any"},"name":"test_w_diff_dcm2_correct"},"guarantee":"D.dcm(N) == C.dcm(N) == Matrix([[cos(q2) * cos(q3), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), -sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1)], [sin(q2), -sin(q1) * cos(q2), cos(q1) * cos(q2)]]); (D.ang_vel_in(N) - C.ang_vel_in(N)).express(N).simplify() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_w_diff_dcm2_correct","statement":"Path(test_w_diff_dcm2(x), D.dcm(N) == C.dcm(N) == Matrix([[cos(q2) * cos(q3), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), -sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1)], [sin(q2), -sin(q1) * cos(q2), cos(q1) * cos(q2)]]); (D.ang_vel_in(N) - C.ang_vel_in(N)).express(N).simplify() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2b53434bb9ed5ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["D.dcm(N) == C.dcm(N) == Matrix([[cos(q2) * cos(q3), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), -sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1)], [sin(q2), -sin(q1) * cos(q2), cos(q1) * cos(q2)]])","(D.ang_vel_in(N) - C.ang_vel_in(N)).express(N).simplify() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_w_diff_dcm2():
     q1, q2, q3 = dynamicsymbols('q1:4')
     N = ReferenceFrame('N')
@@ -346,7 +391,10 @@ def test_w_diff_dcm2():
     assert (D.ang_vel_in(N) - C.ang_vel_in(N)).express(N).simplify() == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orientnew_respects_parent_class(), test_orientnew_respects_parent_class produces the expected output) over {Any | isinstance(C, MyReferenceFrame)} ║
+# ║ Path(test_orientnew_respects_parent_class(), isinstance(C, MyReferenceFrame)) over {Any | isinstance(C, MyReferenceFrame)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(C, MyReferenceFrame)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_orientnew_respects_parent_class : {Any | isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -358,9 +406,12 @@ def test_w_diff_dcm2():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 08985635...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_parent_class","kind":"function","src_hash":"398a4d9f5d627542","in":{"base":"Any","pred":"isinstance(C, MyReferenceFrame)"},"out":{"base":"Any","pred":"isinstance(C, MyReferenceFrame)"},"spec":{"lhs":"test_orientnew_respects_parent_class()","rhs":"test_orientnew_respects_parent_class produces the expected output","over":{"base":"Any","pred":"isinstance(C, MyReferenceFrame)"},"name":"test_orientnew_respects_parent_class_correct"},"guarantee":"test_orientnew_respects_parent_class produces the expected output","fibers":[{"name":"MyReferenceFrame","pred":"isinstance(C, MyReferenceFrame)","path":{"lhs":"test_orientnew_respects_parent_class(x)","rhs":"test_orientnew_respects_parent_class produces the expected output","over":{"base":"MyReferenceFrame","pred":"isinstance(C, MyReferenceFrame)"},"name":"test_orientnew_respects_parent_class_MyReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_parent_class_MyReferenceFrame_correct","statement":"test_orientnew_respects_parent_class satisfies spec on MyReferenceFrame inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"08985635636fcbf2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_parent_class","kind":"function","src_hash":"398a4d9f5d627542","in":{"base":"Any","pred":"isinstance(C, MyReferenceFrame)"},"out":{"base":"Any","pred":"result satisfies: isinstance(C, MyReferenceFrame)"},"spec":{"lhs":"test_orientnew_respects_parent_class()","rhs":"isinstance(C, MyReferenceFrame)","over":{"base":"Any","pred":"isinstance(C, MyReferenceFrame)"},"name":"test_orientnew_respects_parent_class_correct"},"guarantee":"isinstance(C, MyReferenceFrame)","fibers":[{"name":"MyReferenceFrame","pred":"isinstance(C, MyReferenceFrame)","path":{"lhs":"test_orientnew_respects_parent_class(x)","rhs":"isinstance(C, MyReferenceFrame)","over":{"base":"MyReferenceFrame","pred":"isinstance(C, MyReferenceFrame)"},"name":"test_orientnew_respects_parent_class_MyReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_parent_class_MyReferenceFrame_correct","statement":"test_orientnew_respects_parent_class satisfies spec on MyReferenceFrame inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"08985635636fcbf2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(C, MyReferenceFrame)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def test_orientnew_respects_parent_class():
     class MyReferenceFrame(ReferenceFrame):
         pass
@@ -370,16 +421,23 @@ def test_orientnew_respects_parent_class():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orientnew_respects_input_indices(), test_orientnew_respects_input_indices produces the expected output) over Any ║
+# ║ Path(test_orientnew_respects_input_indices(), N.indices == A.indices and B.indices == minds) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.indices == A.indices                         ║
+# ║   ensures:  B.indices == minds                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_orientnew_respects_input_indices : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c39db21633ddeb3e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e98e90c5c0aad170  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_input_indices","kind":"function","src_hash":"5111625da90bafe1","in":{"base":"Any"},"out":{"base":"Any","pred":"N.indices == A.indices and B.indices == minds"},"spec":{"lhs":"test_orientnew_respects_input_indices()","rhs":"test_orientnew_respects_input_indices produces the expected output","over":{"base":"Any"},"name":"test_orientnew_respects_input_indices_correct"},"guarantee":"test_orientnew_respects_input_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_input_indices_correct","statement":"Path(test_orientnew_respects_input_indices(x), test_orientnew_respects_input_indices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c39db21633ddeb3e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_input_indices","kind":"function","src_hash":"5111625da90bafe1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.indices == A.indices and B.indices == minds"},"spec":{"lhs":"test_orientnew_respects_input_indices()","rhs":"N.indices == A.indices and B.indices == minds","over":{"base":"Any"},"name":"test_orientnew_respects_input_indices_correct"},"guarantee":"N.indices == A.indices; B.indices == minds","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_input_indices_correct","statement":"Path(test_orientnew_respects_input_indices(x), N.indices == A.indices; B.indices == minds)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e98e90c5c0aad170","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.indices == A.indices","B.indices == minds"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_orientnew_respects_input_indices():
     N = ReferenceFrame('N')
     q1 = dynamicsymbols('q1')
@@ -392,16 +450,24 @@ def test_orientnew_respects_input_indices():
     assert B.indices == minds
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orientnew_respects_input_latexs(), test_orientnew_respects_input_latexs produces the expected output) over Any ║
+# ║ Path(test_orientnew_respects_input_latexs(), A.latex_vecs == def_latex_vecs and B.latex_vecs == new_latex_vecs and B.indices != indices) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_orientnew_respects_input_latexs : Any → {Any | A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.latex_vecs == def_latex_vecs                 ║
+# ║   ensures:  B.latex_vecs == new_latex_vecs                 ║
+# ║   ensures:  B.indices != indices                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_orientnew_respects_input_latexs : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd488612009b6e3d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99486ba20e678400  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_input_latexs","kind":"function","src_hash":"6e0b316b9bcb7046","in":{"base":"Any"},"out":{"base":"Any","pred":"A.latex_vecs == def_latex_vecs and B.latex_vecs == new_latex_vecs and B.indices != indices"},"spec":{"lhs":"test_orientnew_respects_input_latexs()","rhs":"test_orientnew_respects_input_latexs produces the expected output","over":{"base":"Any"},"name":"test_orientnew_respects_input_latexs_correct"},"guarantee":"test_orientnew_respects_input_latexs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_input_latexs_correct","statement":"Path(test_orientnew_respects_input_latexs(x), test_orientnew_respects_input_latexs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd488612009b6e3d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_input_latexs","kind":"function","src_hash":"6e0b316b9bcb7046","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.latex_vecs == def_latex_vecs and B.latex_vecs == new_latex_vecs and B.indices != indices"},"spec":{"lhs":"test_orientnew_respects_input_latexs()","rhs":"A.latex_vecs == def_latex_vecs and B.latex_vecs == new_latex_vecs and B.indices != indices","over":{"base":"Any"},"name":"test_orientnew_respects_input_latexs_correct"},"guarantee":"A.latex_vecs == def_latex_vecs; B.latex_vecs == new_latex_vecs; B.indices != indices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_input_latexs_correct","statement":"Path(test_orientnew_respects_input_latexs(x), A.latex_vecs == def_latex_vecs; B.latex_vecs == new_latex_vecs; B.indices != indices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99486ba20e678400","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.latex_vecs == def_latex_vecs","B.latex_vecs == new_latex_vecs","B.indices != indices"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_orientnew_respects_input_latexs():
     N = ReferenceFrame('N')
     q1 = dynamicsymbols('q1')
@@ -429,16 +495,22 @@ def test_orientnew_respects_input_latexs():
     assert B.indices != indices
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orientnew_respects_input_variables(), test_orientnew_respects_input_variables produces the expected output) over Any ║
+# ║ Path(test_orientnew_respects_input_variables(), <unspecified:test_orientnew_respects_input_variables>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_orientnew_respects_input_variables : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec23b60b681a66f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_input_variables","kind":"function","src_hash":"c09537a13733480e","in":{"base":"Any"},"out":{"base":"Any","pred":"var.name == A.name + '_' + A.indices[j] and var.name == new_variables[j]"},"spec":{"lhs":"test_orientnew_respects_input_variables()","rhs":"test_orientnew_respects_input_variables produces the expected output","over":{"base":"Any"},"name":"test_orientnew_respects_input_variables_correct"},"guarantee":"test_orientnew_respects_input_variables produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_input_variables_correct","statement":"Path(test_orientnew_respects_input_variables(x), test_orientnew_respects_input_variables produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec23b60b681a66f1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_input_variables","kind":"function","src_hash":"c09537a13733480e","in":{"base":"Any"},"out":{"base":"Any","pred":"var.name == A.name + '_' + A.indices[j] and var.name == new_variables[j]"},"spec":{"lhs":"test_orientnew_respects_input_variables()","rhs":"<unspecified:test_orientnew_respects_input_variables>","over":{"base":"Any"},"name":"test_orientnew_respects_input_variables_correct"},"guarantee":"test_orientnew_respects_input_variables produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orientnew_respects_input_variables_correct","statement":"Path(test_orientnew_respects_input_variables(x), test_orientnew_respects_input_variables produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec23b60b681a66f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_orientnew_respects_input_variables():
     N = ReferenceFrame('N')
     q1 = dynamicsymbols('q1')
@@ -456,16 +528,22 @@ def test_orientnew_respects_input_variables():
         assert var.name == new_variables[j]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10348(), test_issue_10348 produces the expected output) over Any ║
+# ║ Path(test_issue_10348(), <unspecified:test_issue_10348>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_10348 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e12629220165b330  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_issue_10348","kind":"function","src_hash":"1d9fc837116dcd4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_10348()","rhs":"test_issue_10348 produces the expected output","over":{"base":"Any"},"name":"test_issue_10348_correct"},"guarantee":"test_issue_10348 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_issue_10348_correct","statement":"Path(test_issue_10348(x), test_issue_10348 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e12629220165b330"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_issue_10348","kind":"function","src_hash":"1d9fc837116dcd4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_10348()","rhs":"<unspecified:test_issue_10348>","over":{"base":"Any"},"name":"test_issue_10348_correct"},"guarantee":"test_issue_10348 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_issue_10348_correct","statement":"Path(test_issue_10348(x), test_issue_10348 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e12629220165b330","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_10348():
     u = dynamicsymbols('u:3')
     I = ReferenceFrame('I')
@@ -473,16 +551,22 @@ def test_issue_10348():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11503(), test_issue_11503 produces the expected output) over Any ║
+# ║ Path(test_issue_11503(), <unspecified:test_issue_11503>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_11503 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 858316cf6bc5dcad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_issue_11503","kind":"function","src_hash":"fef932325c856083","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_11503()","rhs":"test_issue_11503 produces the expected output","over":{"base":"Any"},"name":"test_issue_11503_correct"},"guarantee":"test_issue_11503 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_issue_11503_correct","statement":"Path(test_issue_11503(x), test_issue_11503 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"858316cf6bc5dcad"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_issue_11503","kind":"function","src_hash":"fef932325c856083","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_11503()","rhs":"<unspecified:test_issue_11503>","over":{"base":"Any"},"name":"test_issue_11503_correct"},"guarantee":"test_issue_11503 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_issue_11503_correct","statement":"Path(test_issue_11503(x), test_issue_11503 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"858316cf6bc5dcad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_11503():
     A = ReferenceFrame("A")
     A.orientnew("B", "Axis", [35, A.y])
@@ -491,16 +575,24 @@ def test_issue_11503():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_partial_velocity(), test_partial_velocity produces the expected output) over Any ║
+# ║ Path(test_partial_velocity(), N.partial_velocity(A, u1) == -A.x and N.partial_velocity(A, u1, u2) == (-A.x, -N.y) and A.partial_velocity(N, u1) == A.x and A.partial_velocity(N, u1, u2) == (A.x, N.y) and N.partial_velocity(N, u1) == 0 and A.partial_velocity(A, u1) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_partial_velocity : Any → {Any | N.partial_veloci...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.partial_velocity(A, u1) == -A.x              ║
+# ║   ensures:  N.partial_velocity(A, u1, u2) == (-A.x, -...   ║
+# ║   ensures:  A.partial_velocity(N, u1) == A.x               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_partial_velocity : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | decfc43289034d2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4963dd2edddc83ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_partial_velocity","kind":"function","src_hash":"58aab342aedaf6ff","in":{"base":"Any"},"out":{"base":"Any","pred":"N.partial_velocity(A, u1) == -A.x and N.partial_velocity(A, u1, u2) == (-A.x, -N.y) and A.partial_velocity(N, u1) == A.x and A.partial_velocity(N, u1, u2) == (A.x, N.y) and N.partial_velocity(N, u1) == 0 and A.partial_velocity(A, u1) == 0"},"spec":{"lhs":"test_partial_velocity()","rhs":"test_partial_velocity produces the expected output","over":{"base":"Any"},"name":"test_partial_velocity_correct"},"guarantee":"test_partial_velocity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_partial_velocity_correct","statement":"Path(test_partial_velocity(x), test_partial_velocity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"decfc43289034d2d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_partial_velocity","kind":"function","src_hash":"58aab342aedaf6ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.partial_velocity(A, u1) == -A.x and N.partial_velocity(A, u1, u2) == (-A.x, -N.y) and A.partial_velocity(N, u1) == A.x and A.partial_velocity(N, u1, u2) == (A.x, N.y) and N.partial_velocity(N, u1) == 0 and A.partial_velocity(A, u1) == 0"},"spec":{"lhs":"test_partial_velocity()","rhs":"N.partial_velocity(A, u1) == -A.x and N.partial_velocity(A, u1, u2) == (-A.x, -N.y) and A.partial_velocity(N, u1) == A.x and A.partial_velocity(N, u1, u2) == (A.x, N.y) and N.partial_velocity(N, u1) == 0 and A.partial_velocity(A, u1) == 0","over":{"base":"Any"},"name":"test_partial_velocity_correct"},"guarantee":"N.partial_velocity(A, u1) == -A.x; N.partial_velocity(A, u1, u2) == (-A.x, -N.y); A.partial_velocity(N, u1) == A.x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_partial_velocity_correct","statement":"Path(test_partial_velocity(x), N.partial_velocity(A, u1) == -A.x; N.partial_velocity(A, u1, u2) == (-A.x, -N.y); A.partial_velocity(N, u1) == A.x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4963dd2edddc83ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.partial_velocity(A, u1) == -A.x","N.partial_velocity(A, u1, u2) == (-A.x, -N.y)","A.partial_velocity(N, u1) == A.x","A.partial_velocity(N, u1, u2) == (A.x, N.y)","N.partial_velocity(N, u1) == 0","A.partial_velocity(A, u1) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_partial_velocity():
 
     N = ReferenceFrame('N')
@@ -521,16 +613,24 @@ def test_partial_velocity():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11498(), test_issue_11498 produces the expected output) over Any ║
+# ║ Path(test_issue_11498(), A.dcm(B) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) and B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) and B.dcm(A) == Matrix([[0, 1, 0], [0, 0, -1], [-1, 0, 0]]) and A.dcm(B) == Matrix([[0, 0, -1], [1, 0, 0], [0, -1, 0]]) and B.dcm(A).T == A.dcm(B)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11498 : Any → {Any | A.dcm(B) == Matrix([[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.dcm(B) == Matrix([[1, 0, 0], [0, 1, 0],...   ║
+# ║   ensures:  B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0],...   ║
+# ║   ensures:  B.dcm(A) == Matrix([[0, 1, 0], [0, 0, -1]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11498 : Any → {Any | result satisfies: A.d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6de962a53eb129f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50e623f352cf85ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_issue_11498","kind":"function","src_hash":"9a91117b431b1d2a","in":{"base":"Any"},"out":{"base":"Any","pred":"A.dcm(B) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) and B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) and B.dcm(A) == Matrix([[0, 1, 0], [0, 0, -1], [-1, 0, 0]]) and A.dcm(B) == Matrix([[0, 0, -1], [1, 0, 0], [0, -1, 0]]) and B.dcm(A).T == A.dcm(B)"},"spec":{"lhs":"test_issue_11498()","rhs":"test_issue_11498 produces the expected output","over":{"base":"Any"},"name":"test_issue_11498_correct"},"guarantee":"test_issue_11498 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_issue_11498_correct","statement":"Path(test_issue_11498(x), test_issue_11498 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6de962a53eb129f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_issue_11498","kind":"function","src_hash":"9a91117b431b1d2a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.dcm(B) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) and B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) and B.dcm(A) == Matrix([[0, 1, 0], [0, 0, -1], [-1, 0, 0]]) and A.dcm(B) == Matrix([[0, 0, -1], [1, 0, 0], [0, -1, 0]]) and B.dcm(A).T == A.dcm(B)"},"spec":{"lhs":"test_issue_11498()","rhs":"A.dcm(B) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) and B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]) and B.dcm(A) == Matrix([[0, 1, 0], [0, 0, -1], [-1, 0, 0]]) and A.dcm(B) == Matrix([[0, 0, -1], [1, 0, 0], [0, -1, 0]]) and B.dcm(A).T == A.dcm(B)","over":{"base":"Any"},"name":"test_issue_11498_correct"},"guarantee":"A.dcm(B) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]); B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]); B.dcm(A) == Matrix([[0, 1, 0], [0, 0, -1], [-1, 0, 0]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_issue_11498_correct","statement":"Path(test_issue_11498(x), A.dcm(B) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]); B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]); B.dcm(A) == Matrix([[0, 1, 0], [0, 0, -1], [-1, 0, 0]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50e623f352cf85ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.dcm(B) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])","B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])","B.dcm(A) == Matrix([[0, 1, 0], [0, 0, -1], [-1, 0, 0]])","A.dcm(B) == Matrix([[0, 0, -1], [1, 0, 0], [0, -1, 0]])","B.dcm(A).T == A.dcm(B)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_11498():
     A = ReferenceFrame('A')
     B = ReferenceFrame('B')
@@ -550,16 +650,24 @@ def test_issue_11498():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reference_frame(), test_reference_frame produces the expected output) over Any ║
+# ║ Path(test_reference_frame(), N[0] == CoordinateSym('N_x', N, 0) and N[1] == CoordinateSym('N_y', N, 1) and N[2] == CoordinateSym('N_z', N, 2) and N['a'] == N.x and N['b'] == N.y and N['c'] == N.z and str(N) == 'N' and N.ang_acc_in(B) == Vector(0) and N.ang_vel_in(B) == Vector(0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reference_frame : Any → {Any | N[0] == Coordinat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N[0] == CoordinateSym('N_x', N, 0)             ║
+# ║   ensures:  N[1] == CoordinateSym('N_y', N, 1)             ║
+# ║   ensures:  N[2] == CoordinateSym('N_z', N, 2)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reference_frame : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e674dd7953aa1717  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1077d54b7db2ecd8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_reference_frame","kind":"function","src_hash":"959dfd0f16881cf1","in":{"base":"Any"},"out":{"base":"Any","pred":"N[0] == CoordinateSym('N_x', N, 0) and N[1] == CoordinateSym('N_y', N, 1) and N[2] == CoordinateSym('N_z', N, 2) and N['a'] == N.x and N['b'] == N.y and N['c'] == N.z and str(N) == 'N' and N.ang_acc_in(B) == Vector(0) and N.ang_vel_in(B) == Vector(0)"},"spec":{"lhs":"test_reference_frame()","rhs":"test_reference_frame produces the expected output","over":{"base":"Any"},"name":"test_reference_frame_correct"},"guarantee":"test_reference_frame produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_reference_frame_correct","statement":"Path(test_reference_frame(x), test_reference_frame produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e674dd7953aa1717"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_reference_frame","kind":"function","src_hash":"959dfd0f16881cf1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N[0] == CoordinateSym('N_x', N, 0) and N[1] == CoordinateSym('N_y', N, 1) and N[2] == CoordinateSym('N_z', N, 2) and N['a'] == N.x and N['b'] == N.y and N['c'] == N.z and str(N) == 'N' and N.ang_acc_in(B) == Vector(0) and N.ang_vel_in(B) == Vector(0)"},"spec":{"lhs":"test_reference_frame()","rhs":"N[0] == CoordinateSym('N_x', N, 0) and N[1] == CoordinateSym('N_y', N, 1) and N[2] == CoordinateSym('N_z', N, 2) and N['a'] == N.x and N['b'] == N.y and N['c'] == N.z and str(N) == 'N' and N.ang_acc_in(B) == Vector(0) and N.ang_vel_in(B) == Vector(0)","over":{"base":"Any"},"name":"test_reference_frame_correct"},"guarantee":"N[0] == CoordinateSym('N_x', N, 0); N[1] == CoordinateSym('N_y', N, 1); N[2] == CoordinateSym('N_z', N, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_reference_frame_correct","statement":"Path(test_reference_frame(x), N[0] == CoordinateSym('N_x', N, 0); N[1] == CoordinateSym('N_y', N, 1); N[2] == CoordinateSym('N_z', N, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1077d54b7db2ecd8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N[0] == CoordinateSym('N_x', N, 0)","N[1] == CoordinateSym('N_y', N, 1)","N[2] == CoordinateSym('N_z', N, 2)","N['a'] == N.x","N['b'] == N.y","N['c'] == N.z","str(N) == 'N'","N.ang_acc_in(B) == Vector(0)","N.ang_vel_in(B) == Vector(0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_reference_frame():
     raises(TypeError, lambda: ReferenceFrame(0))
     raises(TypeError, lambda: ReferenceFrame('N', 0))
@@ -608,31 +716,44 @@ def test_reference_frame():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_check_frame(), test_check_frame produces the expected output) over Any ║
+# ║ Path(test_check_frame(), <unspecified:test_check_frame>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_check_frame : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d25ae41a6ea333f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_check_frame","kind":"function","src_hash":"c82a0fe1a54764bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_check_frame()","rhs":"test_check_frame produces the expected output","over":{"base":"Any"},"name":"test_check_frame_correct"},"guarantee":"test_check_frame produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_check_frame_correct","statement":"Path(test_check_frame(x), test_check_frame produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d25ae41a6ea333f1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_check_frame","kind":"function","src_hash":"c82a0fe1a54764bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_check_frame()","rhs":"<unspecified:test_check_frame>","over":{"base":"Any"},"name":"test_check_frame_correct"},"guarantee":"test_check_frame produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_check_frame_correct","statement":"Path(test_check_frame(x), test_check_frame produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d25ae41a6ea333f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_check_frame():
     raises(VectorTypeError, lambda: _check_frame(0))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dcm_diff_16824(), test_dcm_diff_16824 produces the expected output) over Any ║
+# ║ Path(test_dcm_diff_16824(), simplify(AwB.dot(A.y) - alpha2) == 0 and simplify(AwB.dot(B.y) - beta2) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dcm_diff_16824 : Any → {Any | simplify(AwB.dot(A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(AwB.dot(A.y) - alpha2) == 0           ║
+# ║   ensures:  simplify(AwB.dot(B.y) - beta2) == 0            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dcm_diff_16824 : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 565c2370b87c1987  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c22361df8bfb813  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_dcm_diff_16824","kind":"function","src_hash":"52b386dc3c365535","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(AwB.dot(A.y) - alpha2) == 0 and simplify(AwB.dot(B.y) - beta2) == 0"},"spec":{"lhs":"test_dcm_diff_16824()","rhs":"test_dcm_diff_16824 produces the expected output","over":{"base":"Any"},"name":"test_dcm_diff_16824_correct"},"guarantee":"test_dcm_diff_16824 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_dcm_diff_16824_correct","statement":"Path(test_dcm_diff_16824(x), test_dcm_diff_16824 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"565c2370b87c1987"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_dcm_diff_16824","kind":"function","src_hash":"52b386dc3c365535","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(AwB.dot(A.y) - alpha2) == 0 and simplify(AwB.dot(B.y) - beta2) == 0"},"spec":{"lhs":"test_dcm_diff_16824()","rhs":"simplify(AwB.dot(A.y) - alpha2) == 0 and simplify(AwB.dot(B.y) - beta2) == 0","over":{"base":"Any"},"name":"test_dcm_diff_16824_correct"},"guarantee":"simplify(AwB.dot(A.y) - alpha2) == 0; simplify(AwB.dot(B.y) - beta2) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_dcm_diff_16824_correct","statement":"Path(test_dcm_diff_16824(x), simplify(AwB.dot(A.y) - alpha2) == 0; simplify(AwB.dot(B.y) - beta2) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c22361df8bfb813","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(AwB.dot(A.y) - alpha2) == 0","simplify(AwB.dot(B.y) - beta2) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dcm_diff_16824():
     # NOTE : This is a regression test for the bug introduced in PR 14758,
     # identified in 16824, and solved by PR 16828.
@@ -666,16 +787,24 @@ def test_dcm_diff_16824():
     assert simplify(AwB.dot(B.y) - beta2) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orient_explicit(), test_orient_explicit produces the expected output) over Any ║
+# ║ Path(test_orient_explicit(), B.dcm(A) == B_C_A and A.ang_vel_in(B) == B_w_A and B.ang_vel_in(A) == -B_w_A) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_orient_explicit : Any → {Any | B.dcm(A) == B_C_A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.dcm(A) == B_C_A                              ║
+# ║   ensures:  A.ang_vel_in(B) == B_w_A                       ║
+# ║   ensures:  B.ang_vel_in(A) == -B_w_A                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_orient_explicit : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5096eaad35271eb4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c351602ae9b0003  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_explicit","kind":"function","src_hash":"b009dd3f2b21127d","in":{"base":"Any"},"out":{"base":"Any","pred":"B.dcm(A) == B_C_A and A.ang_vel_in(B) == B_w_A and B.ang_vel_in(A) == -B_w_A"},"spec":{"lhs":"test_orient_explicit()","rhs":"test_orient_explicit produces the expected output","over":{"base":"Any"},"name":"test_orient_explicit_correct"},"guarantee":"test_orient_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_explicit_correct","statement":"Path(test_orient_explicit(x), test_orient_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5096eaad35271eb4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_explicit","kind":"function","src_hash":"b009dd3f2b21127d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.dcm(A) == B_C_A and A.ang_vel_in(B) == B_w_A and B.ang_vel_in(A) == -B_w_A"},"spec":{"lhs":"test_orient_explicit()","rhs":"B.dcm(A) == B_C_A and A.ang_vel_in(B) == B_w_A and B.ang_vel_in(A) == -B_w_A","over":{"base":"Any"},"name":"test_orient_explicit_correct"},"guarantee":"B.dcm(A) == B_C_A; A.ang_vel_in(B) == B_w_A; B.ang_vel_in(A) == -B_w_A","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_explicit_correct","statement":"Path(test_orient_explicit(x), B.dcm(A) == B_C_A; A.ang_vel_in(B) == B_w_A; B.ang_vel_in(A) == -B_w_A)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c351602ae9b0003","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.dcm(A) == B_C_A","A.ang_vel_in(B) == B_w_A","B.ang_vel_in(A) == -B_w_A"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_orient_explicit():
     cxx, cyy, czz = dynamicsymbols('c_{xx}, c_{yy}, c_{zz}')
     cxy, cxz, cyx = dynamicsymbols('c_{xy}, c_{xz}, c_{yx}')
@@ -697,16 +826,22 @@ def test_orient_explicit():
     assert B.ang_vel_in(A) == -B_w_A
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orient_dcm(), test_orient_dcm produces the expected output) over Any ║
+# ║ Path(test_orient_dcm(), B.dcm(A) == Matrix([[cxx, cxy, cxz], [cyx, cyy, cyz], [czx, czy, czz]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_orient_dcm : Any → {Any | B.dcm(A) == Matrix([[c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.dcm(A) == Matrix([[cxx, cxy, cxz], [cyx...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_orient_dcm : Any → {Any | result satisfies: B.dc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a7587da57b43fad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80dca034076ebbcd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_dcm","kind":"function","src_hash":"61b6d2309722431e","in":{"base":"Any"},"out":{"base":"Any","pred":"B.dcm(A) == Matrix([[cxx, cxy, cxz], [cyx, cyy, cyz], [czx, czy, czz]])"},"spec":{"lhs":"test_orient_dcm()","rhs":"test_orient_dcm produces the expected output","over":{"base":"Any"},"name":"test_orient_dcm_correct"},"guarantee":"test_orient_dcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_dcm_correct","statement":"Path(test_orient_dcm(x), test_orient_dcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a7587da57b43fad"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_dcm","kind":"function","src_hash":"61b6d2309722431e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.dcm(A) == Matrix([[cxx, cxy, cxz], [cyx, cyy, cyz], [czx, czy, czz]])"},"spec":{"lhs":"test_orient_dcm()","rhs":"B.dcm(A) == Matrix([[cxx, cxy, cxz], [cyx, cyy, cyz], [czx, czy, czz]])","over":{"base":"Any"},"name":"test_orient_dcm_correct"},"guarantee":"B.dcm(A) == Matrix([[cxx, cxy, cxz], [cyx, cyy, cyz], [czx, czy, czz]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_dcm_correct","statement":"Path(test_orient_dcm(x), B.dcm(A) == Matrix([[cxx, cxy, cxz], [cyx, cyy, cyz], [czx, czy, czz]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80dca034076ebbcd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.dcm(A) == Matrix([[cxx, cxy, cxz], [cyx, cyy, cyz], [czx, czy, czz]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_orient_dcm():
     cxx, cyy, czz = dynamicsymbols('c_{xx}, c_{yy}, c_{zz}')
     cxy, cxz, cyx = dynamicsymbols('c_{xy}, c_{xz}, c_{yx}')
@@ -722,16 +857,23 @@ def test_orient_dcm():
                                [czx, czy, czz]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orient_axis(), test_orient_axis produces the expected output) over Any ║
+# ║ Path(test_orient_axis(), A1 == A2 and A2 == A3) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_orient_axis : Any → {Any | A1 == A2 and A2 == A3}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A1 == A2                                       ║
+# ║   ensures:  A2 == A3                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_orient_axis : Any → {Any | result satisfies: A1 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aec2c3d7c20ba24b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1181cebf363ab67f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_axis","kind":"function","src_hash":"ee24092216455475","in":{"base":"Any"},"out":{"base":"Any","pred":"A1 == A2 and A2 == A3"},"spec":{"lhs":"test_orient_axis()","rhs":"test_orient_axis produces the expected output","over":{"base":"Any"},"name":"test_orient_axis_correct"},"guarantee":"test_orient_axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_axis_correct","statement":"Path(test_orient_axis(x), test_orient_axis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aec2c3d7c20ba24b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_axis","kind":"function","src_hash":"ee24092216455475","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A1 == A2 and A2 == A3"},"spec":{"lhs":"test_orient_axis()","rhs":"A1 == A2 and A2 == A3","over":{"base":"Any"},"name":"test_orient_axis_correct"},"guarantee":"A1 == A2; A2 == A3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_axis_correct","statement":"Path(test_orient_axis(x), A1 == A2; A2 == A3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1181cebf363ab67f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A1 == A2","A2 == A3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_orient_axis():
     A = ReferenceFrame('A')
     B = ReferenceFrame('B')
@@ -746,16 +888,22 @@ def test_orient_axis():
     raises(TypeError, lambda: A.orient_axis(B, 1, 1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orient_body(), test_orient_body produces the expected output) over Any ║
+# ║ Path(test_orient_body(), B.dcm(A) == Matrix([[cos(1), sin(1) ** 2, -sin(1) * cos(1)], [0, cos(1), sin(1)], [sin(1), -sin(1) * cos(1), cos(1) ** 2]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_orient_body : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.dcm(A) == Matrix([[cos(1), sin(1) ** 2,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_orient_body : Any → {Any | result satisfies: B.d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64ff14840fd7304d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a259e7055f4f193b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_body","kind":"function","src_hash":"09bf05c51f9296e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_orient_body()","rhs":"test_orient_body produces the expected output","over":{"base":"Any"},"name":"test_orient_body_correct"},"guarantee":"test_orient_body produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_body_correct","statement":"Path(test_orient_body(x), test_orient_body produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64ff14840fd7304d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_body","kind":"function","src_hash":"09bf05c51f9296e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.dcm(A) == Matrix([[cos(1), sin(1) ** 2, -sin(1) * cos(1)], [0, cos(1), sin(1)], [sin(1), -sin(1) * cos(1), cos(1) ** 2]])"},"spec":{"lhs":"test_orient_body()","rhs":"B.dcm(A) == Matrix([[cos(1), sin(1) ** 2, -sin(1) * cos(1)], [0, cos(1), sin(1)], [sin(1), -sin(1) * cos(1), cos(1) ** 2]])","over":{"base":"Any"},"name":"test_orient_body_correct"},"guarantee":"B.dcm(A) == Matrix([[cos(1), sin(1) ** 2, -sin(1) * cos(1)], [0, cos(1), sin(1)], [sin(1), -sin(1) * cos(1), cos(1) ** 2]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_body_correct","statement":"Path(test_orient_body(x), B.dcm(A) == Matrix([[cos(1), sin(1) ** 2, -sin(1) * cos(1)], [0, cos(1), sin(1)], [sin(1), -sin(1) * cos(1), cos(1) ** 2]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a259e7055f4f193b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.dcm(A) == Matrix([[cos(1), sin(1) ** 2, -sin(1) * cos(1)], [0, cos(1), sin(1)], [sin(1), -sin(1) * cos(1), cos(1) ** 2]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_orient_body():
     A = ReferenceFrame('A')
     B = ReferenceFrame('B')
@@ -764,16 +912,24 @@ def test_orient_body():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orient_body_advanced(), test_orient_body_advanced produces the expected output) over Any ║
+# ║ Path(test_orient_body_advanced(), A.dcm(B) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]) and B.ang_vel_in(A).to_matrix(B) == Matrix([[-sin(q3) * cos(q2) * u1 + cos(q3) * u2], [sin(q2) * u1 + u3], [sin(q3) * u2 + cos(q2) * cos(q3) * u1]]) and A.dcm(B) == Matrix([[cos(c2), -sin(c2) * cos(q3), sin(c2) * sin(q3)], [sin(c2) * cos(q1), -sin(q1) * sin(q3) + cos(c2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) - sin(q3) * cos(c2) * cos(q1)], [sin(c2) * sin(q1), sin(q1) * cos(c2) * cos(q3) + sin(q3) * cos(q1), -sin(q1) * sin(q3) * cos(c2) + cos(q1) * cos(q3)]]) and B.ang_vel_in(A).to_matrix(B) == Matrix([[cos(c2) * u1 + u3], [-sin(c2) * cos(q3) * u1], [sin(c2) * sin(q3) * u1]]) and B.ang_vel_in(A) == Vector(0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_orient_body_advanced : Any → {Any | B.ang_vel_in...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.dcm(B) == Matrix([[-sin(q1) * sin(q2) *...   ║
+# ║   ensures:  B.ang_vel_in(A).to_matrix(B) == Matrix([[...   ║
+# ║   ensures:  A.dcm(B) == Matrix([[cos(c2), -sin(c2) * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_orient_body_advanced : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 478d2c8129b662e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e9309c729ccc78b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_body_advanced","kind":"function","src_hash":"97cd70bcb4d7c1c9","in":{"base":"Any"},"out":{"base":"Any","pred":"B.ang_vel_in(A) == Vector(0)"},"spec":{"lhs":"test_orient_body_advanced()","rhs":"test_orient_body_advanced produces the expected output","over":{"base":"Any"},"name":"test_orient_body_advanced_correct"},"guarantee":"test_orient_body_advanced produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_body_advanced_correct","statement":"Path(test_orient_body_advanced(x), test_orient_body_advanced produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"478d2c8129b662e3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_body_advanced","kind":"function","src_hash":"97cd70bcb4d7c1c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.dcm(B) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]) and B.ang_vel_in(A).to_matrix(B) == Matrix([[-sin(q3) * cos(q2) * u1 + cos(q3) * u2], [sin(q2) * u1 + u3], [sin(q3) * u2 + cos(q2) * cos(q3) * u1]]) and A.dcm(B) == Matrix([[cos(c2), -sin(c2) * cos(q3), sin(c2) * sin(q3)], [sin(c2) * cos(q1), -sin(q1) * sin(q3) + cos(c2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) - sin(q3) * cos(c2) * cos(q1)], [sin(c2) * sin(q1), sin(q1) * cos(c2) * cos(q3) + sin(q3) * cos(q1), -sin(q1) * sin(q3) * cos(c2) + cos(q1) * cos(q3)]]) and B.ang_vel_in(A).to_matrix(B) == Matrix([[cos(c2) * u1 + u3], [-sin(c2) * cos(q3) * u1], [sin(c2) * sin(q3) * u1]]) and B.ang_vel_in(A) == Vector(0)"},"spec":{"lhs":"test_orient_body_advanced()","rhs":"A.dcm(B) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]) and B.ang_vel_in(A).to_matrix(B) == Matrix([[-sin(q3) * cos(q2) * u1 + cos(q3) * u2], [sin(q2) * u1 + u3], [sin(q3) * u2 + cos(q2) * cos(q3) * u1]]) and A.dcm(B) == Matrix([[cos(c2), -sin(c2) * cos(q3), sin(c2) * sin(q3)], [sin(c2) * cos(q1), -sin(q1) * sin(q3) + cos(c2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) - sin(q3) * cos(c2) * cos(q1)], [sin(c2) * sin(q1), sin(q1) * cos(c2) * cos(q3) + sin(q3) * cos(q1), -sin(q1) * sin(q3) * cos(c2) + cos(q1) * cos(q3)]]) and B.ang_vel_in(A).to_matrix(B) == Matrix([[cos(c2) * u1 + u3], [-sin(c2) * cos(q3) * u1], [sin(c2) * sin(q3) * u1]]) and B.ang_vel_in(A) == Vector(0)","over":{"base":"Any"},"name":"test_orient_body_advanced_correct"},"guarantee":"A.dcm(B) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]); B.ang_vel_in(A).to_matrix(B) == Matrix([[-sin(q3) * cos(q2) * u1 + cos(q3) * u2], [sin(q2) * u1 + u3], [sin(q3) * u2 + cos(q2) * cos(q3) * u1]]); A.dcm(B) == Matrix([[cos(c2), -sin(c2) * cos(q3), sin(c2) * sin(q3)], [sin(c2) * cos(q1), -sin(q1) * sin(q3) + cos(c2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) - sin(q3) * cos(c2) * cos(q1)], [sin(c2) * sin(q1), sin(q1) * cos(c2) * cos(q3) + sin(q3) * cos(q1), -sin(q1) * sin(q3) * cos(c2) + cos(q1) * cos(q3)]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_body_advanced_correct","statement":"Path(test_orient_body_advanced(x), A.dcm(B) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]); B.ang_vel_in(A).to_matrix(B) == Matrix([[-sin(q3) * cos(q2) * u1 + cos(q3) * u2], [sin(q2) * u1 + u3], [sin(q3) * u2 + cos(q2) * cos(q3) * u1]]); A.dcm(B) == Matrix([[cos(c2), -sin(c2) * cos(q3), sin(c2) * sin(q3)], [sin(c2) * cos(q1), -sin(q1) * sin(q3) + cos(c2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) - sin(q3) * cos(c2) * cos(q1)], [sin(c2) * sin(q1), sin(q1) * cos(c2) * cos(q3) + sin(q3) * cos(q1), -sin(q1) * sin(q3) * cos(c2) + cos(q1) * cos(q3)]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e9309c729ccc78b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.dcm(B) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]])","B.ang_vel_in(A).to_matrix(B) == Matrix([[-sin(q3) * cos(q2) * u1 + cos(q3) * u2], [sin(q2) * u1 + u3], [sin(q3) * u2 + cos(q2) * cos(q3) * u1]])","A.dcm(B) == Matrix([[cos(c2), -sin(c2) * cos(q3), sin(c2) * sin(q3)], [sin(c2) * cos(q1), -sin(q1) * sin(q3) + cos(c2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) - sin(q3) * cos(c2) * cos(q1)], [sin(c2) * sin(q1), sin(q1) * cos(c2) * cos(q3) + sin(q3) * cos(q1), -sin(q1) * sin(q3) * cos(c2) + cos(q1) * cos(q3)]])","B.ang_vel_in(A).to_matrix(B) == Matrix([[cos(c2) * u1 + u3], [-sin(c2) * cos(q3) * u1], [sin(c2) * sin(q3) * u1]])","B.ang_vel_in(A) == Vector(0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_orient_body_advanced():
     q1, q2, q3 = dynamicsymbols('q1:4')
     c1, c2, c3 = symbols('c1:4')
@@ -814,16 +970,24 @@ def test_orient_body_advanced():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orient_space_advanced(), test_orient_space_advanced produces the expected output) over Any ║
+# ║ Path(test_orient_space_advanced(), A.dcm(B) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]) and B.ang_vel_in(A).to_matrix(B) == Matrix([[-sin(q3) * cos(q2) * u1 + cos(q3) * u2], [sin(q2) * u1 + u3], [sin(q3) * u2 + cos(q2) * cos(q3) * u1]]) and A.dcm(B) == Matrix([[cos(c2), -sin(c2) * cos(q3), sin(c2) * sin(q3)], [sin(c2) * cos(q1), -sin(q1) * sin(q3) + cos(c2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) - sin(q3) * cos(c2) * cos(q1)], [sin(c2) * sin(q1), sin(q1) * cos(c2) * cos(q3) + sin(q3) * cos(q1), -sin(q1) * sin(q3) * cos(c2) + cos(q1) * cos(q3)]]) and B.ang_vel_in(A).to_matrix(B) == Matrix([[cos(c2) * u1 + u3], [-sin(c2) * cos(q3) * u1], [sin(c2) * sin(q3) * u1]]) and B.ang_vel_in(A) == Vector(0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_orient_space_advanced : Any → {Any | B.ang_vel_i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.dcm(B) == Matrix([[-sin(q1) * sin(q2) *...   ║
+# ║   ensures:  B.ang_vel_in(A).to_matrix(B) == Matrix([[...   ║
+# ║   ensures:  A.dcm(B) == Matrix([[cos(c2), -sin(c2) * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_orient_space_advanced : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb453f2505126cd8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71d31c434af17c40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_space_advanced","kind":"function","src_hash":"119a006ce3774eb6","in":{"base":"Any"},"out":{"base":"Any","pred":"B.ang_vel_in(A) == Vector(0)"},"spec":{"lhs":"test_orient_space_advanced()","rhs":"test_orient_space_advanced produces the expected output","over":{"base":"Any"},"name":"test_orient_space_advanced_correct"},"guarantee":"test_orient_space_advanced produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_space_advanced_correct","statement":"Path(test_orient_space_advanced(x), test_orient_space_advanced produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb453f2505126cd8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_space_advanced","kind":"function","src_hash":"119a006ce3774eb6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.dcm(B) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]) and B.ang_vel_in(A).to_matrix(B) == Matrix([[-sin(q3) * cos(q2) * u1 + cos(q3) * u2], [sin(q2) * u1 + u3], [sin(q3) * u2 + cos(q2) * cos(q3) * u1]]) and A.dcm(B) == Matrix([[cos(c2), -sin(c2) * cos(q3), sin(c2) * sin(q3)], [sin(c2) * cos(q1), -sin(q1) * sin(q3) + cos(c2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) - sin(q3) * cos(c2) * cos(q1)], [sin(c2) * sin(q1), sin(q1) * cos(c2) * cos(q3) + sin(q3) * cos(q1), -sin(q1) * sin(q3) * cos(c2) + cos(q1) * cos(q3)]]) and B.ang_vel_in(A).to_matrix(B) == Matrix([[cos(c2) * u1 + u3], [-sin(c2) * cos(q3) * u1], [sin(c2) * sin(q3) * u1]]) and B.ang_vel_in(A) == Vector(0)"},"spec":{"lhs":"test_orient_space_advanced()","rhs":"A.dcm(B) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]) and B.ang_vel_in(A).to_matrix(B) == Matrix([[-sin(q3) * cos(q2) * u1 + cos(q3) * u2], [sin(q2) * u1 + u3], [sin(q3) * u2 + cos(q2) * cos(q3) * u1]]) and A.dcm(B) == Matrix([[cos(c2), -sin(c2) * cos(q3), sin(c2) * sin(q3)], [sin(c2) * cos(q1), -sin(q1) * sin(q3) + cos(c2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) - sin(q3) * cos(c2) * cos(q1)], [sin(c2) * sin(q1), sin(q1) * cos(c2) * cos(q3) + sin(q3) * cos(q1), -sin(q1) * sin(q3) * cos(c2) + cos(q1) * cos(q3)]]) and B.ang_vel_in(A).to_matrix(B) == Matrix([[cos(c2) * u1 + u3], [-sin(c2) * cos(q3) * u1], [sin(c2) * sin(q3) * u1]]) and B.ang_vel_in(A) == Vector(0)","over":{"base":"Any"},"name":"test_orient_space_advanced_correct"},"guarantee":"A.dcm(B) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]); B.ang_vel_in(A).to_matrix(B) == Matrix([[-sin(q3) * cos(q2) * u1 + cos(q3) * u2], [sin(q2) * u1 + u3], [sin(q3) * u2 + cos(q2) * cos(q3) * u1]]); A.dcm(B) == Matrix([[cos(c2), -sin(c2) * cos(q3), sin(c2) * sin(q3)], [sin(c2) * cos(q1), -sin(q1) * sin(q3) + cos(c2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) - sin(q3) * cos(c2) * cos(q1)], [sin(c2) * sin(q1), sin(q1) * cos(c2) * cos(q3) + sin(q3) * cos(q1), -sin(q1) * sin(q3) * cos(c2) + cos(q1) * cos(q3)]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_space_advanced_correct","statement":"Path(test_orient_space_advanced(x), A.dcm(B) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]]); B.ang_vel_in(A).to_matrix(B) == Matrix([[-sin(q3) * cos(q2) * u1 + cos(q3) * u2], [sin(q2) * u1 + u3], [sin(q3) * u2 + cos(q2) * cos(q3) * u1]]); A.dcm(B) == Matrix([[cos(c2), -sin(c2) * cos(q3), sin(c2) * sin(q3)], [sin(c2) * cos(q1), -sin(q1) * sin(q3) + cos(c2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) - sin(q3) * cos(c2) * cos(q1)], [sin(c2) * sin(q1), sin(q1) * cos(c2) * cos(q3) + sin(q3) * cos(q1), -sin(q1) * sin(q3) * cos(c2) + cos(q1) * cos(q3)]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71d31c434af17c40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.dcm(B) == Matrix([[-sin(q1) * sin(q2) * sin(q3) + cos(q1) * cos(q3), -sin(q1) * cos(q2), sin(q1) * sin(q2) * cos(q3) + sin(q3) * cos(q1)], [sin(q1) * cos(q3) + sin(q2) * sin(q3) * cos(q1), cos(q1) * cos(q2), sin(q1) * sin(q3) - sin(q2) * cos(q1) * cos(q3)], [-sin(q3) * cos(q2), sin(q2), cos(q2) * cos(q3)]])","B.ang_vel_in(A).to_matrix(B) == Matrix([[-sin(q3) * cos(q2) * u1 + cos(q3) * u2], [sin(q2) * u1 + u3], [sin(q3) * u2 + cos(q2) * cos(q3) * u1]])","A.dcm(B) == Matrix([[cos(c2), -sin(c2) * cos(q3), sin(c2) * sin(q3)], [sin(c2) * cos(q1), -sin(q1) * sin(q3) + cos(c2) * cos(q1) * cos(q3), -sin(q1) * cos(q3) - sin(q3) * cos(c2) * cos(q1)], [sin(c2) * sin(q1), sin(q1) * cos(c2) * cos(q3) + sin(q3) * cos(q1), -sin(q1) * sin(q3) * cos(c2) + cos(q1) * cos(q3)]])","B.ang_vel_in(A).to_matrix(B) == Matrix([[cos(c2) * u1 + u3], [-sin(c2) * cos(q3) * u1], [sin(c2) * sin(q3) * u1]])","B.ang_vel_in(A) == Vector(0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_orient_space_advanced():
     # space fixed is in the end like body fixed only in opposite order
     q1, q2, q3 = dynamicsymbols('q1:4')
@@ -865,16 +1029,24 @@ def test_orient_space_advanced():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orient_body_simple_ang_vel(), this test ensures that the simplest form of that linear system solution is returned, thus the == for the expression comparison) over Any ║
+# ║ Path(test_orient_body_simple_ang_vel(), A_w_B.args[0][1] == B and A_w_B.args[0][0][0] == sin(theta) * sin(phi) * psi.diff(t) + cos(phi) * theta.diff(t) and A_w_B.args[0][0][1] == sin(theta) * cos(phi) * psi.diff(t) - sin(phi) * theta.diff(t) and A_w_B.args[0][0][2] == cos(theta) * psi.diff(t) + phi.diff(t)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_orient_body_simple_ang_vel : Any → {Any | A_w_B....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A_w_B.args[0][1] == B                          ║
+# ║   ensures:  A_w_B.args[0][0][0] == sin(theta) * sin(p...   ║
+# ║   ensures:  A_w_B.args[0][0][1] == sin(theta) * cos(p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_orient_body_simple_ang_vel : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf83ec713676c773  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ccef579e5ab1c2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_body_simple_ang_vel","kind":"function","src_hash":"9ce91d0ec46b6d68","in":{"base":"Any"},"out":{"base":"Any","pred":"A_w_B.args[0][1] == B and A_w_B.args[0][0][2] == cos(theta) * psi.diff(t) + phi.diff(t)"},"spec":{"lhs":"test_orient_body_simple_ang_vel()","rhs":"this test ensures that the simplest form of that linear system solution is returned, thus the == for the expression comparison","over":{"base":"Any"},"name":"test_orient_body_simple_ang_vel_correct"},"guarantee":"this test ensures that the simplest form of that linear system solution is returned, thus the == for the expression comparison","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_body_simple_ang_vel_correct","statement":"Path(test_orient_body_simple_ang_vel(x), this test ensures that the simplest form of that linear system solution is returned, thus the == for the expression comparison)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf83ec713676c773"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_body_simple_ang_vel","kind":"function","src_hash":"9ce91d0ec46b6d68","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A_w_B.args[0][1] == B and A_w_B.args[0][0][0] == sin(theta) * sin(phi) * psi.diff(t) + cos(phi) * theta.diff(t) and A_w_B.args[0][0][1] == sin(theta) * cos(phi) * psi.diff(t) - sin(phi) * theta.diff(t) and A_w_B.args[0][0][2] == cos(theta) * psi.diff(t) + phi.diff(t)"},"spec":{"lhs":"test_orient_body_simple_ang_vel()","rhs":"A_w_B.args[0][1] == B and A_w_B.args[0][0][0] == sin(theta) * sin(phi) * psi.diff(t) + cos(phi) * theta.diff(t) and A_w_B.args[0][0][1] == sin(theta) * cos(phi) * psi.diff(t) - sin(phi) * theta.diff(t) and A_w_B.args[0][0][2] == cos(theta) * psi.diff(t) + phi.diff(t)","over":{"base":"Any"},"name":"test_orient_body_simple_ang_vel_correct"},"guarantee":"A_w_B.args[0][1] == B; A_w_B.args[0][0][0] == sin(theta) * sin(phi) * psi.diff(t) + cos(phi) * theta.diff(t); A_w_B.args[0][0][1] == sin(theta) * cos(phi) * psi.diff(t) - sin(phi) * theta.diff(t)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_body_simple_ang_vel_correct","statement":"Path(test_orient_body_simple_ang_vel(x), A_w_B.args[0][1] == B; A_w_B.args[0][0][0] == sin(theta) * sin(phi) * psi.diff(t) + cos(phi) * theta.diff(t); A_w_B.args[0][0][1] == sin(theta) * cos(phi) * psi.diff(t) - sin(phi) * theta.diff(t))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ccef579e5ab1c2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A_w_B.args[0][1] == B","A_w_B.args[0][0][0] == sin(theta) * sin(phi) * psi.diff(t) + cos(phi) * theta.diff(t)","A_w_B.args[0][0][1] == sin(theta) * cos(phi) * psi.diff(t) - sin(phi) * theta.diff(t)","A_w_B.args[0][0][2] == cos(theta) * psi.diff(t) + phi.diff(t)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_orient_body_simple_ang_vel():
     """This test ensures that the simplest form of that linear system solution
     is returned, thus the == for the expression comparison."""
@@ -894,16 +1066,22 @@ def test_orient_body_simple_ang_vel():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orient_space(), test_orient_space produces the expected output) over Any ║
+# ║ Path(test_orient_space(), B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_orient_space : Any → {Any | B.dcm(A) == Matrix([...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0],...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_orient_space : Any → {Any | result satisfies: B....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4b596811ecc3c0e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa089c3b64af34a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_space","kind":"function","src_hash":"2f5a7c84515e459d","in":{"base":"Any"},"out":{"base":"Any","pred":"B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])"},"spec":{"lhs":"test_orient_space()","rhs":"test_orient_space produces the expected output","over":{"base":"Any"},"name":"test_orient_space_correct"},"guarantee":"test_orient_space produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_space_correct","statement":"Path(test_orient_space(x), test_orient_space produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4b596811ecc3c0e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_space","kind":"function","src_hash":"2f5a7c84515e459d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])"},"spec":{"lhs":"test_orient_space()","rhs":"B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])","over":{"base":"Any"},"name":"test_orient_space_correct"},"guarantee":"B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_space_correct","statement":"Path(test_orient_space(x), B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa089c3b64af34a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_orient_space():
     A = ReferenceFrame('A')
     B = ReferenceFrame('B')
@@ -911,16 +1089,22 @@ def test_orient_space():
     assert B.dcm(A) == Matrix([[1, 0, 0], [0, 1, 0], [0, 0, 1]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orient_quaternion(), test_orient_quaternion produces the expected output) over Any ║
+# ║ Path(test_orient_quaternion(), B.dcm(A) == Matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_orient_quaternion : Any → {Any | B.dcm(A) == Mat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B.dcm(A) == Matrix([[0, 0, 0], [0, 0, 0],...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_orient_quaternion : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af49b853b327d581  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1ec6e48d8540cb7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_quaternion","kind":"function","src_hash":"98b3286b391d88e6","in":{"base":"Any"},"out":{"base":"Any","pred":"B.dcm(A) == Matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]])"},"spec":{"lhs":"test_orient_quaternion()","rhs":"test_orient_quaternion produces the expected output","over":{"base":"Any"},"name":"test_orient_quaternion_correct"},"guarantee":"test_orient_quaternion produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_quaternion_correct","statement":"Path(test_orient_quaternion(x), test_orient_quaternion produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af49b853b327d581"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_orient_quaternion","kind":"function","src_hash":"98b3286b391d88e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B.dcm(A) == Matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]])"},"spec":{"lhs":"test_orient_quaternion()","rhs":"B.dcm(A) == Matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]])","over":{"base":"Any"},"name":"test_orient_quaternion_correct"},"guarantee":"B.dcm(A) == Matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_orient_quaternion_correct","statement":"Path(test_orient_quaternion(x), B.dcm(A) == Matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1ec6e48d8540cb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B.dcm(A) == Matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_orient_quaternion():
     A = ReferenceFrame('A')
     B = ReferenceFrame('B')
@@ -928,16 +1112,22 @@ def test_orient_quaternion():
     assert B.dcm(A) == Matrix([[0, 0, 0], [0, 0, 0], [0, 0, 0]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_looped_frame_warning(), test_looped_frame_warning produces the expected output) over Any ║
+# ║ Path(test_looped_frame_warning(), <unspecified:test_looped_frame_warning>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_looped_frame_warning : Any → {Any | issubclass(w...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 168e7ac43ebdfc37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_looped_frame_warning","kind":"function","src_hash":"ef5c66dff1b7d451","in":{"base":"Any"},"out":{"base":"Any","pred":"issubclass(w[-1].category, UserWarning)"},"spec":{"lhs":"test_looped_frame_warning()","rhs":"test_looped_frame_warning produces the expected output","over":{"base":"Any"},"name":"test_looped_frame_warning_correct"},"guarantee":"test_looped_frame_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_looped_frame_warning_correct","statement":"Path(test_looped_frame_warning(x), test_looped_frame_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"168e7ac43ebdfc37"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_looped_frame_warning","kind":"function","src_hash":"ef5c66dff1b7d451","in":{"base":"Any"},"out":{"base":"Any","pred":"issubclass(w[-1].category, UserWarning)"},"spec":{"lhs":"test_looped_frame_warning()","rhs":"<unspecified:test_looped_frame_warning>","over":{"base":"Any"},"name":"test_looped_frame_warning_correct"},"guarantee":"test_looped_frame_warning produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_looped_frame_warning_correct","statement":"Path(test_looped_frame_warning(x), test_looped_frame_warning produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"168e7ac43ebdfc37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_looped_frame_warning():
     A = ReferenceFrame('A')
     B = ReferenceFrame('B')
@@ -955,16 +1145,24 @@ def test_looped_frame_warning():
             'This is likely not desired and may cause errors in your calculations.' in str(w[-1].message)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_frame_dict(), test_frame_dict produces the expected output) over Any ║
+# ║ Path(test_frame_dict(), A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(a), -sin(a)], [0, sin(a), cos(a)]])} and B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]])} and C._dcm_dict == {} and B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]]), C: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]])} and C._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])} and B._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]]), A: Matrix([[1, 0, 0], [0, cos(c), -sin(c)], [0, sin(c), cos(c)]])} and A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(c), sin(c)], [0, -sin(c), cos(c)]])}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_frame_dict : Any → {Any | C._dcm_dict == {}}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A._dcm_dict == {B: Matrix([[1, 0, 0], [0,...   ║
+# ║   ensures:  B._dcm_dict == {A: Matrix([[1, 0, 0], [0,...   ║
+# ║   ensures:  C._dcm_dict == {}                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_frame_dict : Any → {Any | result satisfies: A._d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c27b4691fefede2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 332d597326b87ee2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_frame_dict","kind":"function","src_hash":"7ecba0edb0c7fead","in":{"base":"Any"},"out":{"base":"Any","pred":"C._dcm_dict == {}"},"spec":{"lhs":"test_frame_dict()","rhs":"test_frame_dict produces the expected output","over":{"base":"Any"},"name":"test_frame_dict_correct"},"guarantee":"test_frame_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_frame_dict_correct","statement":"Path(test_frame_dict(x), test_frame_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c27b4691fefede2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_frame_dict","kind":"function","src_hash":"7ecba0edb0c7fead","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(a), -sin(a)], [0, sin(a), cos(a)]])} and B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]])} and C._dcm_dict == {} and B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]]), C: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]])} and C._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])} and B._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]]), A: Matrix([[1, 0, 0], [0, cos(c), -sin(c)], [0, sin(c), cos(c)]])} and A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(c), sin(c)], [0, -sin(c), cos(c)]])}"},"spec":{"lhs":"test_frame_dict()","rhs":"A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(a), -sin(a)], [0, sin(a), cos(a)]])} and B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]])} and C._dcm_dict == {} and B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]]), C: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]])} and C._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])} and B._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]]), A: Matrix([[1, 0, 0], [0, cos(c), -sin(c)], [0, sin(c), cos(c)]])} and A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(c), sin(c)], [0, -sin(c), cos(c)]])}","over":{"base":"Any"},"name":"test_frame_dict_correct"},"guarantee":"A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(a), -sin(a)], [0, sin(a), cos(a)]])}; B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]])}; C._dcm_dict == {}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_frame_dict_correct","statement":"Path(test_frame_dict(x), A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(a), -sin(a)], [0, sin(a), cos(a)]])}; B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]])}; C._dcm_dict == {})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"332d597326b87ee2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(a), -sin(a)], [0, sin(a), cos(a)]])}","B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]])}","C._dcm_dict == {}","B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]]), C: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]])}","C._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])}","B._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]]), A: Matrix([[1, 0, 0], [0, cos(c), -sin(c)], [0, sin(c), cos(c)]])}","A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(c), sin(c)], [0, -sin(c), cos(c)]])}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_frame_dict():
     A = ReferenceFrame('A')
     B = ReferenceFrame('B')
@@ -992,16 +1190,24 @@ def test_frame_dict():
     assert C._dcm_dict == {B: Matrix([[1, 0, 0],[0, cos(b), -sin(b)],[0, sin(b),  cos(b)]])}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dcm_cache_dict(), test_dcm_cache_dict produces the expected output) over Any ║
+# ║ Path(test_dcm_cache_dict(), D._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(c), sin(c)], [0, -sin(c), cos(c)]])} and C._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]]), D: Matrix([[1, 0, 0], [0, cos(c), -sin(c)], [0, sin(c), cos(c)]])} and B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]]), C: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])} and A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(a), -sin(a)], [0, sin(a), cos(a)]])} and D._dcm_dict == D._dcm_cache and list(A._dcm_cache.keys()) == [A, B, D] and list(D._dcm_cache.keys()) == [C, A] and list(A._dcm_dict.keys()) == [B] and list(D._dcm_dict.keys()) == [C] and A._dcm_dict != A._dcm_cache and A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]])} and A._dcm_dict == A._dcm_cache and B._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]]), A: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dcm_cache_dict : Any → {Any | D._dcm_dict == D._...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  D._dcm_dict == {C: Matrix([[1, 0, 0], [0,...   ║
+# ║   ensures:  C._dcm_dict == {B: Matrix([[1, 0, 0], [0,...   ║
+# ║   ensures:  B._dcm_dict == {A: Matrix([[1, 0, 0], [0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dcm_cache_dict : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3703da2cd7a56d69  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7fc85c5ec5e975d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_dcm_cache_dict","kind":"function","src_hash":"32b52e65e283a137","in":{"base":"Any"},"out":{"base":"Any","pred":"D._dcm_dict == D._dcm_cache and list(A._dcm_cache.keys()) == [A, B, D] and list(D._dcm_cache.keys()) == [C, A] and list(A._dcm_dict.keys()) == [B] and list(D._dcm_dict.keys()) == [C] and A._dcm_dict != A._dcm_cache and A._dcm_dict == A._dcm_cache"},"spec":{"lhs":"test_dcm_cache_dict()","rhs":"test_dcm_cache_dict produces the expected output","over":{"base":"Any"},"name":"test_dcm_cache_dict_correct"},"guarantee":"test_dcm_cache_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_dcm_cache_dict_correct","statement":"Path(test_dcm_cache_dict(x), test_dcm_cache_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3703da2cd7a56d69"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_dcm_cache_dict","kind":"function","src_hash":"32b52e65e283a137","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: D._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(c), sin(c)], [0, -sin(c), cos(c)]])} and C._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]]), D: Matrix([[1, 0, 0], [0, cos(c), -sin(c)], [0, sin(c), cos(c)]])} and B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]]), C: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])} and A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(a), -sin(a)], [0, sin(a), cos(a)]])} and D._dcm_dict == D._dcm_cache and list(A._dcm_cache.keys()) == [A, B, D] and list(D._dcm_cache.keys()) == [C, A] and list(A._dcm_dict.keys()) == [B] and list(D._dcm_dict.keys()) == [C] and A._dcm_dict != A._dcm_cache and A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]])} and A._dcm_dict == A._dcm_cache and B._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]]), A: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])}"},"spec":{"lhs":"test_dcm_cache_dict()","rhs":"D._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(c), sin(c)], [0, -sin(c), cos(c)]])} and C._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]]), D: Matrix([[1, 0, 0], [0, cos(c), -sin(c)], [0, sin(c), cos(c)]])} and B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]]), C: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])} and A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(a), -sin(a)], [0, sin(a), cos(a)]])} and D._dcm_dict == D._dcm_cache and list(A._dcm_cache.keys()) == [A, B, D] and list(D._dcm_cache.keys()) == [C, A] and list(A._dcm_dict.keys()) == [B] and list(D._dcm_dict.keys()) == [C] and A._dcm_dict != A._dcm_cache and A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]])} and A._dcm_dict == A._dcm_cache and B._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]]), A: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])}","over":{"base":"Any"},"name":"test_dcm_cache_dict_correct"},"guarantee":"D._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(c), sin(c)], [0, -sin(c), cos(c)]])}; C._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]]), D: Matrix([[1, 0, 0], [0, cos(c), -sin(c)], [0, sin(c), cos(c)]])}; B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]]), C: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_dcm_cache_dict_correct","statement":"Path(test_dcm_cache_dict(x), D._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(c), sin(c)], [0, -sin(c), cos(c)]])}; C._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]]), D: Matrix([[1, 0, 0], [0, cos(c), -sin(c)], [0, sin(c), cos(c)]])}; B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]]), C: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7fc85c5ec5e975d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["D._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(c), sin(c)], [0, -sin(c), cos(c)]])}","C._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]]), D: Matrix([[1, 0, 0], [0, cos(c), -sin(c)], [0, sin(c), cos(c)]])}","B._dcm_dict == {A: Matrix([[1, 0, 0], [0, cos(a), sin(a)], [0, -sin(a), cos(a)]]), C: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])}","A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(a), -sin(a)], [0, sin(a), cos(a)]])}","D._dcm_dict == D._dcm_cache","list(A._dcm_cache.keys()) == [A, B, D]","list(D._dcm_cache.keys()) == [C, A]","list(A._dcm_dict.keys()) == [B]","list(D._dcm_dict.keys()) == [C]","A._dcm_dict != A._dcm_cache","A._dcm_dict == {B: Matrix([[1, 0, 0], [0, cos(b), sin(b)], [0, -sin(b), cos(b)]])}","A._dcm_dict == A._dcm_cache","B._dcm_dict == {C: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]]), A: Matrix([[1, 0, 0], [0, cos(b), -sin(b)], [0, sin(b), cos(b)]])}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_dcm_cache_dict():
     A = ReferenceFrame('A')
     B = ReferenceFrame('B')
@@ -1037,16 +1243,23 @@ def test_dcm_cache_dict():
         A: Matrix([[1, 0, 0],[0, cos(b), -sin(b)],[0, sin(b),  cos(b)]])}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_xx_dyad(), test_xx_dyad produces the expected output) over Any ║
+# ║ Path(test_xx_dyad(), N.xx == Vector.outer(N.x, N.x) and F.xx == Vector.outer(F.x, F.x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_xx_dyad : Any → {Any | N.xx == Vector.outer(N.x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.xx == Vector.outer(N.x, N.x)                 ║
+# ║   ensures:  F.xx == Vector.outer(F.x, F.x)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_xx_dyad : Any → {Any | result satisfies: N.xx ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56bb2accc0dd0f1b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80cdd5b285449baf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_xx_dyad","kind":"function","src_hash":"8e30be5f42c68f20","in":{"base":"Any"},"out":{"base":"Any","pred":"N.xx == Vector.outer(N.x, N.x) and F.xx == Vector.outer(F.x, F.x)"},"spec":{"lhs":"test_xx_dyad()","rhs":"test_xx_dyad produces the expected output","over":{"base":"Any"},"name":"test_xx_dyad_correct"},"guarantee":"test_xx_dyad produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_xx_dyad_correct","statement":"Path(test_xx_dyad(x), test_xx_dyad produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56bb2accc0dd0f1b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_xx_dyad","kind":"function","src_hash":"8e30be5f42c68f20","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.xx == Vector.outer(N.x, N.x) and F.xx == Vector.outer(F.x, F.x)"},"spec":{"lhs":"test_xx_dyad()","rhs":"N.xx == Vector.outer(N.x, N.x) and F.xx == Vector.outer(F.x, F.x)","over":{"base":"Any"},"name":"test_xx_dyad_correct"},"guarantee":"N.xx == Vector.outer(N.x, N.x); F.xx == Vector.outer(F.x, F.x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_xx_dyad_correct","statement":"Path(test_xx_dyad(x), N.xx == Vector.outer(N.x, N.x); F.xx == Vector.outer(F.x, F.x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80cdd5b285449baf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.xx == Vector.outer(N.x, N.x)","F.xx == Vector.outer(F.x, F.x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_xx_dyad():
     N = ReferenceFrame('N')
     F = ReferenceFrame('F', indices=['1', '2', '3'])
@@ -1054,16 +1267,23 @@ def test_xx_dyad():
     assert F.xx == Vector.outer(F.x, F.x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_xy_dyad(), test_xy_dyad produces the expected output) over Any ║
+# ║ Path(test_xy_dyad(), N.xy == Vector.outer(N.x, N.y) and F.xy == Vector.outer(F.x, F.y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_xy_dyad : Any → {Any | N.xy == Vector.outer(N.x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.xy == Vector.outer(N.x, N.y)                 ║
+# ║   ensures:  F.xy == Vector.outer(F.x, F.y)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_xy_dyad : Any → {Any | result satisfies: N.xy ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b270b13f11287128  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97e770f58bd31250  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_xy_dyad","kind":"function","src_hash":"40d80e872b057c7e","in":{"base":"Any"},"out":{"base":"Any","pred":"N.xy == Vector.outer(N.x, N.y) and F.xy == Vector.outer(F.x, F.y)"},"spec":{"lhs":"test_xy_dyad()","rhs":"test_xy_dyad produces the expected output","over":{"base":"Any"},"name":"test_xy_dyad_correct"},"guarantee":"test_xy_dyad produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_xy_dyad_correct","statement":"Path(test_xy_dyad(x), test_xy_dyad produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b270b13f11287128"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_xy_dyad","kind":"function","src_hash":"40d80e872b057c7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.xy == Vector.outer(N.x, N.y) and F.xy == Vector.outer(F.x, F.y)"},"spec":{"lhs":"test_xy_dyad()","rhs":"N.xy == Vector.outer(N.x, N.y) and F.xy == Vector.outer(F.x, F.y)","over":{"base":"Any"},"name":"test_xy_dyad_correct"},"guarantee":"N.xy == Vector.outer(N.x, N.y); F.xy == Vector.outer(F.x, F.y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_xy_dyad_correct","statement":"Path(test_xy_dyad(x), N.xy == Vector.outer(N.x, N.y); F.xy == Vector.outer(F.x, F.y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97e770f58bd31250","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.xy == Vector.outer(N.x, N.y)","F.xy == Vector.outer(F.x, F.y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_xy_dyad():
     N = ReferenceFrame('N')
     F = ReferenceFrame('F', indices=['1', '2', '3'])
@@ -1071,16 +1291,23 @@ def test_xy_dyad():
     assert F.xy == Vector.outer(F.x, F.y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_xz_dyad(), test_xz_dyad produces the expected output) over Any ║
+# ║ Path(test_xz_dyad(), N.xz == Vector.outer(N.x, N.z) and F.xz == Vector.outer(F.x, F.z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_xz_dyad : Any → {Any | N.xz == Vector.outer(N.x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.xz == Vector.outer(N.x, N.z)                 ║
+# ║   ensures:  F.xz == Vector.outer(F.x, F.z)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_xz_dyad : Any → {Any | result satisfies: N.xz ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06f7f3d6e0d029a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62b8dc7589c149be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_xz_dyad","kind":"function","src_hash":"4c93b893a7b83eed","in":{"base":"Any"},"out":{"base":"Any","pred":"N.xz == Vector.outer(N.x, N.z) and F.xz == Vector.outer(F.x, F.z)"},"spec":{"lhs":"test_xz_dyad()","rhs":"test_xz_dyad produces the expected output","over":{"base":"Any"},"name":"test_xz_dyad_correct"},"guarantee":"test_xz_dyad produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_xz_dyad_correct","statement":"Path(test_xz_dyad(x), test_xz_dyad produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06f7f3d6e0d029a3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_xz_dyad","kind":"function","src_hash":"4c93b893a7b83eed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.xz == Vector.outer(N.x, N.z) and F.xz == Vector.outer(F.x, F.z)"},"spec":{"lhs":"test_xz_dyad()","rhs":"N.xz == Vector.outer(N.x, N.z) and F.xz == Vector.outer(F.x, F.z)","over":{"base":"Any"},"name":"test_xz_dyad_correct"},"guarantee":"N.xz == Vector.outer(N.x, N.z); F.xz == Vector.outer(F.x, F.z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_xz_dyad_correct","statement":"Path(test_xz_dyad(x), N.xz == Vector.outer(N.x, N.z); F.xz == Vector.outer(F.x, F.z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62b8dc7589c149be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.xz == Vector.outer(N.x, N.z)","F.xz == Vector.outer(F.x, F.z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_xz_dyad():
     N = ReferenceFrame('N')
     F = ReferenceFrame('F', indices=['1', '2', '3'])
@@ -1088,16 +1315,23 @@ def test_xz_dyad():
     assert F.xz == Vector.outer(F.x, F.z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_yx_dyad(), test_yx_dyad produces the expected output) over Any ║
+# ║ Path(test_yx_dyad(), N.yx == Vector.outer(N.y, N.x) and F.yx == Vector.outer(F.y, F.x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_yx_dyad : Any → {Any | N.yx == Vector.outer(N.y,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.yx == Vector.outer(N.y, N.x)                 ║
+# ║   ensures:  F.yx == Vector.outer(F.y, F.x)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_yx_dyad : Any → {Any | result satisfies: N.yx ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84f183a3b9a93a96  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b0393afe6ae6fe8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_yx_dyad","kind":"function","src_hash":"c17ef4499e70d8e5","in":{"base":"Any"},"out":{"base":"Any","pred":"N.yx == Vector.outer(N.y, N.x) and F.yx == Vector.outer(F.y, F.x)"},"spec":{"lhs":"test_yx_dyad()","rhs":"test_yx_dyad produces the expected output","over":{"base":"Any"},"name":"test_yx_dyad_correct"},"guarantee":"test_yx_dyad produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_yx_dyad_correct","statement":"Path(test_yx_dyad(x), test_yx_dyad produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84f183a3b9a93a96"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_yx_dyad","kind":"function","src_hash":"c17ef4499e70d8e5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.yx == Vector.outer(N.y, N.x) and F.yx == Vector.outer(F.y, F.x)"},"spec":{"lhs":"test_yx_dyad()","rhs":"N.yx == Vector.outer(N.y, N.x) and F.yx == Vector.outer(F.y, F.x)","over":{"base":"Any"},"name":"test_yx_dyad_correct"},"guarantee":"N.yx == Vector.outer(N.y, N.x); F.yx == Vector.outer(F.y, F.x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_yx_dyad_correct","statement":"Path(test_yx_dyad(x), N.yx == Vector.outer(N.y, N.x); F.yx == Vector.outer(F.y, F.x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b0393afe6ae6fe8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.yx == Vector.outer(N.y, N.x)","F.yx == Vector.outer(F.y, F.x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_yx_dyad():
     N = ReferenceFrame('N')
     F = ReferenceFrame('F', indices=['1', '2', '3'])
@@ -1105,16 +1339,23 @@ def test_yx_dyad():
     assert F.yx == Vector.outer(F.y, F.x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_yy_dyad(), test_yy_dyad produces the expected output) over Any ║
+# ║ Path(test_yy_dyad(), N.yy == Vector.outer(N.y, N.y) and F.yy == Vector.outer(F.y, F.y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_yy_dyad : Any → {Any | N.yy == Vector.outer(N.y,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.yy == Vector.outer(N.y, N.y)                 ║
+# ║   ensures:  F.yy == Vector.outer(F.y, F.y)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_yy_dyad : Any → {Any | result satisfies: N.yy ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 550f0a20b59ca7b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 176e52f0e7c20b58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_yy_dyad","kind":"function","src_hash":"8cf09a0a363d32df","in":{"base":"Any"},"out":{"base":"Any","pred":"N.yy == Vector.outer(N.y, N.y) and F.yy == Vector.outer(F.y, F.y)"},"spec":{"lhs":"test_yy_dyad()","rhs":"test_yy_dyad produces the expected output","over":{"base":"Any"},"name":"test_yy_dyad_correct"},"guarantee":"test_yy_dyad produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_yy_dyad_correct","statement":"Path(test_yy_dyad(x), test_yy_dyad produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"550f0a20b59ca7b0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_yy_dyad","kind":"function","src_hash":"8cf09a0a363d32df","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.yy == Vector.outer(N.y, N.y) and F.yy == Vector.outer(F.y, F.y)"},"spec":{"lhs":"test_yy_dyad()","rhs":"N.yy == Vector.outer(N.y, N.y) and F.yy == Vector.outer(F.y, F.y)","over":{"base":"Any"},"name":"test_yy_dyad_correct"},"guarantee":"N.yy == Vector.outer(N.y, N.y); F.yy == Vector.outer(F.y, F.y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_yy_dyad_correct","statement":"Path(test_yy_dyad(x), N.yy == Vector.outer(N.y, N.y); F.yy == Vector.outer(F.y, F.y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"176e52f0e7c20b58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.yy == Vector.outer(N.y, N.y)","F.yy == Vector.outer(F.y, F.y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_yy_dyad():
     N = ReferenceFrame('N')
     F = ReferenceFrame('F', indices=['1', '2', '3'])
@@ -1122,16 +1363,23 @@ def test_yy_dyad():
     assert F.yy == Vector.outer(F.y, F.y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_yz_dyad(), test_yz_dyad produces the expected output) over Any ║
+# ║ Path(test_yz_dyad(), N.yz == Vector.outer(N.y, N.z) and F.yz == Vector.outer(F.y, F.z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_yz_dyad : Any → {Any | N.yz == Vector.outer(N.y,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.yz == Vector.outer(N.y, N.z)                 ║
+# ║   ensures:  F.yz == Vector.outer(F.y, F.z)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_yz_dyad : Any → {Any | result satisfies: N.yz ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ead7ea4774f69d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00127c083f6666b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_yz_dyad","kind":"function","src_hash":"05281bbd231b40da","in":{"base":"Any"},"out":{"base":"Any","pred":"N.yz == Vector.outer(N.y, N.z) and F.yz == Vector.outer(F.y, F.z)"},"spec":{"lhs":"test_yz_dyad()","rhs":"test_yz_dyad produces the expected output","over":{"base":"Any"},"name":"test_yz_dyad_correct"},"guarantee":"test_yz_dyad produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_yz_dyad_correct","statement":"Path(test_yz_dyad(x), test_yz_dyad produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ead7ea4774f69d1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_yz_dyad","kind":"function","src_hash":"05281bbd231b40da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.yz == Vector.outer(N.y, N.z) and F.yz == Vector.outer(F.y, F.z)"},"spec":{"lhs":"test_yz_dyad()","rhs":"N.yz == Vector.outer(N.y, N.z) and F.yz == Vector.outer(F.y, F.z)","over":{"base":"Any"},"name":"test_yz_dyad_correct"},"guarantee":"N.yz == Vector.outer(N.y, N.z); F.yz == Vector.outer(F.y, F.z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_yz_dyad_correct","statement":"Path(test_yz_dyad(x), N.yz == Vector.outer(N.y, N.z); F.yz == Vector.outer(F.y, F.z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00127c083f6666b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.yz == Vector.outer(N.y, N.z)","F.yz == Vector.outer(F.y, F.z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_yz_dyad():
     N = ReferenceFrame('N')
     F = ReferenceFrame('F', indices=['1', '2', '3'])
@@ -1139,16 +1387,23 @@ def test_yz_dyad():
     assert F.yz == Vector.outer(F.y, F.z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zx_dyad(), test_zx_dyad produces the expected output) over Any ║
+# ║ Path(test_zx_dyad(), N.zx == Vector.outer(N.z, N.x) and F.zx == Vector.outer(F.z, F.x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zx_dyad : Any → {Any | N.zx == Vector.outer(N.z,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.zx == Vector.outer(N.z, N.x)                 ║
+# ║   ensures:  F.zx == Vector.outer(F.z, F.x)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zx_dyad : Any → {Any | result satisfies: N.zx ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d084e9e46df94e5f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd09cfc4ce8343fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_zx_dyad","kind":"function","src_hash":"6f85e052ea3086ca","in":{"base":"Any"},"out":{"base":"Any","pred":"N.zx == Vector.outer(N.z, N.x) and F.zx == Vector.outer(F.z, F.x)"},"spec":{"lhs":"test_zx_dyad()","rhs":"test_zx_dyad produces the expected output","over":{"base":"Any"},"name":"test_zx_dyad_correct"},"guarantee":"test_zx_dyad produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_zx_dyad_correct","statement":"Path(test_zx_dyad(x), test_zx_dyad produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d084e9e46df94e5f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_zx_dyad","kind":"function","src_hash":"6f85e052ea3086ca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.zx == Vector.outer(N.z, N.x) and F.zx == Vector.outer(F.z, F.x)"},"spec":{"lhs":"test_zx_dyad()","rhs":"N.zx == Vector.outer(N.z, N.x) and F.zx == Vector.outer(F.z, F.x)","over":{"base":"Any"},"name":"test_zx_dyad_correct"},"guarantee":"N.zx == Vector.outer(N.z, N.x); F.zx == Vector.outer(F.z, F.x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_zx_dyad_correct","statement":"Path(test_zx_dyad(x), N.zx == Vector.outer(N.z, N.x); F.zx == Vector.outer(F.z, F.x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd09cfc4ce8343fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.zx == Vector.outer(N.z, N.x)","F.zx == Vector.outer(F.z, F.x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_zx_dyad():
     N = ReferenceFrame('N')
     F = ReferenceFrame('F', indices=['1', '2', '3'])
@@ -1156,16 +1411,23 @@ def test_zx_dyad():
     assert F.zx == Vector.outer(F.z, F.x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zy_dyad(), test_zy_dyad produces the expected output) over Any ║
+# ║ Path(test_zy_dyad(), N.zy == Vector.outer(N.z, N.y) and F.zy == Vector.outer(F.z, F.y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zy_dyad : Any → {Any | N.zy == Vector.outer(N.z,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.zy == Vector.outer(N.z, N.y)                 ║
+# ║   ensures:  F.zy == Vector.outer(F.z, F.y)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zy_dyad : Any → {Any | result satisfies: N.zy ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 648d9e7982ff3021  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d4a90ae17bf2792  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_zy_dyad","kind":"function","src_hash":"bf0ad9122c5d3fbe","in":{"base":"Any"},"out":{"base":"Any","pred":"N.zy == Vector.outer(N.z, N.y) and F.zy == Vector.outer(F.z, F.y)"},"spec":{"lhs":"test_zy_dyad()","rhs":"test_zy_dyad produces the expected output","over":{"base":"Any"},"name":"test_zy_dyad_correct"},"guarantee":"test_zy_dyad produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_zy_dyad_correct","statement":"Path(test_zy_dyad(x), test_zy_dyad produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"648d9e7982ff3021"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_zy_dyad","kind":"function","src_hash":"bf0ad9122c5d3fbe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.zy == Vector.outer(N.z, N.y) and F.zy == Vector.outer(F.z, F.y)"},"spec":{"lhs":"test_zy_dyad()","rhs":"N.zy == Vector.outer(N.z, N.y) and F.zy == Vector.outer(F.z, F.y)","over":{"base":"Any"},"name":"test_zy_dyad_correct"},"guarantee":"N.zy == Vector.outer(N.z, N.y); F.zy == Vector.outer(F.z, F.y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_zy_dyad_correct","statement":"Path(test_zy_dyad(x), N.zy == Vector.outer(N.z, N.y); F.zy == Vector.outer(F.z, F.y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d4a90ae17bf2792","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.zy == Vector.outer(N.z, N.y)","F.zy == Vector.outer(F.z, F.y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_zy_dyad():
     N = ReferenceFrame('N')
     F = ReferenceFrame('F', indices=['1', '2', '3'])
@@ -1173,16 +1435,23 @@ def test_zy_dyad():
     assert F.zy == Vector.outer(F.z, F.y)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zz_dyad(), test_zz_dyad produces the expected output) over Any ║
+# ║ Path(test_zz_dyad(), N.zz == Vector.outer(N.z, N.z) and F.zz == Vector.outer(F.z, F.z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zz_dyad : Any → {Any | N.zz == Vector.outer(N.z,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.zz == Vector.outer(N.z, N.z)                 ║
+# ║   ensures:  F.zz == Vector.outer(F.z, F.z)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zz_dyad : Any → {Any | result satisfies: N.zz ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7da6f9662d5589c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a532e7ea7fb9835  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_zz_dyad","kind":"function","src_hash":"12fa1a5b1ddcaec2","in":{"base":"Any"},"out":{"base":"Any","pred":"N.zz == Vector.outer(N.z, N.z) and F.zz == Vector.outer(F.z, F.z)"},"spec":{"lhs":"test_zz_dyad()","rhs":"test_zz_dyad produces the expected output","over":{"base":"Any"},"name":"test_zz_dyad_correct"},"guarantee":"test_zz_dyad produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_zz_dyad_correct","statement":"Path(test_zz_dyad(x), test_zz_dyad produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7da6f9662d5589c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_zz_dyad","kind":"function","src_hash":"12fa1a5b1ddcaec2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.zz == Vector.outer(N.z, N.z) and F.zz == Vector.outer(F.z, F.z)"},"spec":{"lhs":"test_zz_dyad()","rhs":"N.zz == Vector.outer(N.z, N.z) and F.zz == Vector.outer(F.z, F.z)","over":{"base":"Any"},"name":"test_zz_dyad_correct"},"guarantee":"N.zz == Vector.outer(N.z, N.z); F.zz == Vector.outer(F.z, F.z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_zz_dyad_correct","statement":"Path(test_zz_dyad(x), N.zz == Vector.outer(N.z, N.z); F.zz == Vector.outer(F.z, F.z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a532e7ea7fb9835","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.zz == Vector.outer(N.z, N.z)","F.zz == Vector.outer(F.z, F.z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_zz_dyad():
     N = ReferenceFrame('N')
     F = ReferenceFrame('F', indices=['1', '2', '3'])
@@ -1190,16 +1459,23 @@ def test_zz_dyad():
     assert F.zz == Vector.outer(F.z, F.z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unit_dyadic(), test_unit_dyadic produces the expected output) over Any ║
+# ║ Path(test_unit_dyadic(), N.u == N.xx + N.yy + N.zz and F.u == F.xx + F.yy + F.zz) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unit_dyadic : Any → {Any | N.u == N.xx + N.yy + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.u == N.xx + N.yy + N.zz                      ║
+# ║   ensures:  F.u == F.xx + F.yy + F.zz                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unit_dyadic : Any → {Any | result satisfies: N.u...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5150040a66dd9635  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b92e79d0c92fa4ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_unit_dyadic","kind":"function","src_hash":"0e536800c25a76c5","in":{"base":"Any"},"out":{"base":"Any","pred":"N.u == N.xx + N.yy + N.zz and F.u == F.xx + F.yy + F.zz"},"spec":{"lhs":"test_unit_dyadic()","rhs":"test_unit_dyadic produces the expected output","over":{"base":"Any"},"name":"test_unit_dyadic_correct"},"guarantee":"test_unit_dyadic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_unit_dyadic_correct","statement":"Path(test_unit_dyadic(x), test_unit_dyadic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5150040a66dd9635"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_unit_dyadic","kind":"function","src_hash":"0e536800c25a76c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.u == N.xx + N.yy + N.zz and F.u == F.xx + F.yy + F.zz"},"spec":{"lhs":"test_unit_dyadic()","rhs":"N.u == N.xx + N.yy + N.zz and F.u == F.xx + F.yy + F.zz","over":{"base":"Any"},"name":"test_unit_dyadic_correct"},"guarantee":"N.u == N.xx + N.yy + N.zz; F.u == F.xx + F.yy + F.zz","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_unit_dyadic_correct","statement":"Path(test_unit_dyadic(x), N.u == N.xx + N.yy + N.zz; F.u == F.xx + F.yy + F.zz)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b92e79d0c92fa4ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.u == N.xx + N.yy + N.zz","F.u == F.xx + F.yy + F.zz"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_unit_dyadic():
     N = ReferenceFrame('N')
     F = ReferenceFrame('F', indices=['1', '2', '3'])
@@ -1208,16 +1484,22 @@ def test_unit_dyadic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pickle_frame(), test_pickle_frame produces the expected output) over Any ║
+# ║ Path(test_pickle_frame(), A1.dcm(N1) == A_C_N) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pickle_frame : Any → {Any | A1.dcm(N1) == A_C_N}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A1.dcm(N1) == A_C_N                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pickle_frame : Any → {Any | result satisfies: A1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a9528f8bae007cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 861cbe7b421ec293  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_pickle_frame","kind":"function","src_hash":"f4d8ea68eaf42668","in":{"base":"Any"},"out":{"base":"Any","pred":"A1.dcm(N1) == A_C_N"},"spec":{"lhs":"test_pickle_frame()","rhs":"test_pickle_frame produces the expected output","over":{"base":"Any"},"name":"test_pickle_frame_correct"},"guarantee":"test_pickle_frame produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_pickle_frame_correct","statement":"Path(test_pickle_frame(x), test_pickle_frame produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a9528f8bae007cb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_frame.test_pickle_frame","kind":"function","src_hash":"f4d8ea68eaf42668","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A1.dcm(N1) == A_C_N"},"spec":{"lhs":"test_pickle_frame()","rhs":"A1.dcm(N1) == A_C_N","over":{"base":"Any"},"name":"test_pickle_frame_correct"},"guarantee":"A1.dcm(N1) == A_C_N","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_frame.test_pickle_frame_correct","statement":"Path(test_pickle_frame(x), A1.dcm(N1) == A_C_N)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"861cbe7b421ec293","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A1.dcm(N1) == A_C_N"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pickle_frame():
     N = ReferenceFrame('N')
     A = ReferenceFrame('A')

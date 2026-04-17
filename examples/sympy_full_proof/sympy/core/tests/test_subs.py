@@ -42,16 +42,24 @@ from sympy.abc import a, x, y, z, t
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs(), test_subs produces the expected output) over Any ║
+# ║ Path(test_subs(), e == Rational(3) and e == 2 * x and e == Rational(6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs : Any → {Any | e == Rational(3) and e == 2 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e == Rational(3)                               ║
+# ║   ensures:  e == 2 * x                                     ║
+# ║   ensures:  e == Rational(6)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs : Any → {Any | result satisfies: e == Ratio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d6aa52681dd8586  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb815a67ccff4061  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs","kind":"function","src_hash":"5ca86e496a85bbff","in":{"base":"Any"},"out":{"base":"Any","pred":"e == Rational(3) and e == 2 * x and e == Rational(6)"},"spec":{"lhs":"test_subs()","rhs":"test_subs produces the expected output","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"test_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_correct","statement":"Path(test_subs(x), test_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d6aa52681dd8586"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs","kind":"function","src_hash":"5ca86e496a85bbff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e == Rational(3) and e == 2 * x and e == Rational(6)"},"spec":{"lhs":"test_subs()","rhs":"e == Rational(3) and e == 2 * x and e == Rational(6)","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"e == Rational(3); e == 2 * x; e == Rational(6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_correct","statement":"Path(test_subs(x), e == Rational(3); e == 2 * x; e == Rational(6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb815a67ccff4061","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e == Rational(3)","e == 2 * x","e == Rational(6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_subs():
     n3 = Rational(3)
     e = x
@@ -65,16 +73,24 @@ def test_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_Matrix(), test_subs_Matrix produces the expected output) over Any ║
+# ║ Path(test_subs_Matrix(), (x * y).subs({x: z, y: 0}) in [z, z1] and (x * y).subs({y: z, x: 0}) == 0 and (x * y).subs({y: z, x: 0}, simultaneous=True) in [z, z1] and (x + y).subs({x: z, y: z}, simultaneous=True) in [z, z1] and (x + y).subs({x: z, y: z}) in [z, z1] and Mul(Matrix([[3]]), x).subs(x, 2.0) == Matrix([[6.0]]) and Add(Matrix([[3]]), x).subs(x, 2.0) == Add(Matrix([[3]]), 2.0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_Matrix : Any → {Any | (x * y).subs({x: z, y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x * y).subs({x: z, y: 0}) in [z, z1]          ║
+# ║   ensures:  (x * y).subs({y: z, x: 0}) == 0                ║
+# ║   ensures:  (x * y).subs({y: z, x: 0}, simultaneous=T...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_Matrix : Any → {Any | result satisfies: (x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61438e0a0ffef544  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b6d259416dc09c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_Matrix","kind":"function","src_hash":"3b6f457f35ea64cb","in":{"base":"Any"},"out":{"base":"Any","pred":"(x * y).subs({x: z, y: 0}) in [z, z1] and (x * y).subs({y: z, x: 0}) == 0 and (x * y).subs({y: z, x: 0}, simultaneous=True) in [z, z1] and (x + y).subs({x: z, y: z}, simultaneous=True) in [z, z1] and (x + y).subs({x: z, y: z}) in [z, z1] and Mul(Matrix([[3]]), x).subs(x, 2.0) == Matrix([[6.0]]) and Add(Matrix([[3]]), x).subs(x, 2.0) == Add(Matrix([[3]]), 2.0)"},"spec":{"lhs":"test_subs_Matrix()","rhs":"test_subs_Matrix produces the expected output","over":{"base":"Any"},"name":"test_subs_Matrix_correct"},"guarantee":"test_subs_Matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_Matrix_correct","statement":"Path(test_subs_Matrix(x), test_subs_Matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61438e0a0ffef544"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_Matrix","kind":"function","src_hash":"3b6f457f35ea64cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x * y).subs({x: z, y: 0}) in [z, z1] and (x * y).subs({y: z, x: 0}) == 0 and (x * y).subs({y: z, x: 0}, simultaneous=True) in [z, z1] and (x + y).subs({x: z, y: z}, simultaneous=True) in [z, z1] and (x + y).subs({x: z, y: z}) in [z, z1] and Mul(Matrix([[3]]), x).subs(x, 2.0) == Matrix([[6.0]]) and Add(Matrix([[3]]), x).subs(x, 2.0) == Add(Matrix([[3]]), 2.0)"},"spec":{"lhs":"test_subs_Matrix()","rhs":"(x * y).subs({x: z, y: 0}) in [z, z1] and (x * y).subs({y: z, x: 0}) == 0 and (x * y).subs({y: z, x: 0}, simultaneous=True) in [z, z1] and (x + y).subs({x: z, y: z}, simultaneous=True) in [z, z1] and (x + y).subs({x: z, y: z}) in [z, z1] and Mul(Matrix([[3]]), x).subs(x, 2.0) == Matrix([[6.0]]) and Add(Matrix([[3]]), x).subs(x, 2.0) == Add(Matrix([[3]]), 2.0)","over":{"base":"Any"},"name":"test_subs_Matrix_correct"},"guarantee":"(x * y).subs({x: z, y: 0}) in [z, z1]; (x * y).subs({y: z, x: 0}) == 0; (x * y).subs({y: z, x: 0}, simultaneous=True) in [z, z1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_Matrix_correct","statement":"Path(test_subs_Matrix(x), (x * y).subs({x: z, y: 0}) in [z, z1]; (x * y).subs({y: z, x: 0}) == 0; (x * y).subs({y: z, x: 0}, simultaneous=True) in [z, z1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b6d259416dc09c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x * y).subs({x: z, y: 0}) in [z, z1]","(x * y).subs({y: z, x: 0}) == 0","(x * y).subs({y: z, x: 0}, simultaneous=True) in [z, z1]","(x + y).subs({x: z, y: z}, simultaneous=True) in [z, z1]","(x + y).subs({x: z, y: z}) in [z, z1]","Mul(Matrix([[3]]), x).subs(x, 2.0) == Matrix([[6.0]])","Add(Matrix([[3]]), x).subs(x, 2.0) == Add(Matrix([[3]]), 2.0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_subs_Matrix():
     z = zeros(2)
     z1 = ZeroMatrix(2, 2)
@@ -91,16 +107,24 @@ def test_subs_Matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_AccumBounds(), test_subs_AccumBounds produces the expected output) over Any ║
+# ║ Path(test_subs_AccumBounds(), e == AccumBounds(1, 3) and e == AccumBounds(2, 6) and e == AccumBounds(-1, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_AccumBounds : Any → {Any | e == AccumBounds...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e == AccumBounds(1, 3)                         ║
+# ║   ensures:  e == AccumBounds(2, 6)                         ║
+# ║   ensures:  e == AccumBounds(-1, 2)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_AccumBounds : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5df3b382a7148dd4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99d32fc9a31d6903  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_AccumBounds","kind":"function","src_hash":"3a7d67e81c2a79de","in":{"base":"Any"},"out":{"base":"Any","pred":"e == AccumBounds(1, 3) and e == AccumBounds(2, 6) and e == AccumBounds(-1, 2)"},"spec":{"lhs":"test_subs_AccumBounds()","rhs":"test_subs_AccumBounds produces the expected output","over":{"base":"Any"},"name":"test_subs_AccumBounds_correct"},"guarantee":"test_subs_AccumBounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_AccumBounds_correct","statement":"Path(test_subs_AccumBounds(x), test_subs_AccumBounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5df3b382a7148dd4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_AccumBounds","kind":"function","src_hash":"3a7d67e81c2a79de","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e == AccumBounds(1, 3) and e == AccumBounds(2, 6) and e == AccumBounds(-1, 2)"},"spec":{"lhs":"test_subs_AccumBounds()","rhs":"e == AccumBounds(1, 3) and e == AccumBounds(2, 6) and e == AccumBounds(-1, 2)","over":{"base":"Any"},"name":"test_subs_AccumBounds_correct"},"guarantee":"e == AccumBounds(1, 3); e == AccumBounds(2, 6); e == AccumBounds(-1, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_AccumBounds_correct","statement":"Path(test_subs_AccumBounds(x), e == AccumBounds(1, 3); e == AccumBounds(2, 6); e == AccumBounds(-1, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99d32fc9a31d6903","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e == AccumBounds(1, 3)","e == AccumBounds(2, 6)","e == AccumBounds(-1, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_subs_AccumBounds():
     e = x
     e = e.subs(x, AccumBounds(1, 3))
@@ -116,16 +140,24 @@ def test_subs_AccumBounds():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigonometric(), test_trigonometric produces the expected output) over Any ║
+# ║ Path(test_trigonometric(), e == 2 * sin(x) * cos(x) and e == 2 * cos(n3) * sin(n3) and e == 2 * cos(x) ** 2 and exp(pi).subs(exp, sin) == 0 and cos(exp(pi)).subs(exp, sin) == 1 and tan(x).subs(x, pi / 2) is zoo and cot(x).subs(x, pi) is zoo and cot(i * x).subs(x, pi) is zoo and tan(i * x).subs(x, pi / 2) == tan(i * pi / 2) and tan(i * x).subs(x, pi / 2).subs(i, 1) is zoo and tan(o * x).subs(x, pi / 2) == tan(o * pi / 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trigonometric : Any → {Any | e == 2 * sin(x) * c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e == 2 * sin(x) * cos(x)                       ║
+# ║   ensures:  e == 2 * cos(n3) * sin(n3)                     ║
+# ║   ensures:  e == 2 * cos(x) ** 2                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trigonometric : Any → {Any | result satisfies: e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7442e5bad0440f15  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8ac17e97d96f08a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_trigonometric","kind":"function","src_hash":"f9cdb1690c355bc2","in":{"base":"Any"},"out":{"base":"Any","pred":"e == 2 * sin(x) * cos(x) and e == 2 * cos(n3) * sin(n3) and e == 2 * sin(x) * cos(x) and e == 2 * cos(x) ** 2 and exp(pi).subs(exp, sin) == 0 and cos(exp(pi)).subs(exp, sin) == 1 and tan(x).subs(x, pi / 2) is zoo and cot(x).subs(x, pi) is zoo and cot(i * x).subs(x, pi) is zoo and tan(i * x).subs(x, pi / 2) == tan(i * pi / 2) and tan(i * x).subs(x, pi / 2).subs(i, 1) is zoo and tan(o * x).subs(x, pi / 2) == tan(o * pi / 2)"},"spec":{"lhs":"test_trigonometric()","rhs":"test_trigonometric produces the expected output","over":{"base":"Any"},"name":"test_trigonometric_correct"},"guarantee":"test_trigonometric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_trigonometric_correct","statement":"Path(test_trigonometric(x), test_trigonometric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7442e5bad0440f15"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_trigonometric","kind":"function","src_hash":"f9cdb1690c355bc2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e == 2 * sin(x) * cos(x) and e == 2 * cos(n3) * sin(n3) and e == 2 * cos(x) ** 2 and exp(pi).subs(exp, sin) == 0 and cos(exp(pi)).subs(exp, sin) == 1 and tan(x).subs(x, pi / 2) is zoo and cot(x).subs(x, pi) is zoo and cot(i * x).subs(x, pi) is zoo and tan(i * x).subs(x, pi / 2) == tan(i * pi / 2) and tan(i * x).subs(x, pi / 2).subs(i, 1) is zoo and tan(o * x).subs(x, pi / 2) == tan(o * pi / 2)"},"spec":{"lhs":"test_trigonometric()","rhs":"e == 2 * sin(x) * cos(x) and e == 2 * cos(n3) * sin(n3) and e == 2 * cos(x) ** 2 and exp(pi).subs(exp, sin) == 0 and cos(exp(pi)).subs(exp, sin) == 1 and tan(x).subs(x, pi / 2) is zoo and cot(x).subs(x, pi) is zoo and cot(i * x).subs(x, pi) is zoo and tan(i * x).subs(x, pi / 2) == tan(i * pi / 2) and tan(i * x).subs(x, pi / 2).subs(i, 1) is zoo and tan(o * x).subs(x, pi / 2) == tan(o * pi / 2)","over":{"base":"Any"},"name":"test_trigonometric_correct"},"guarantee":"e == 2 * sin(x) * cos(x); e == 2 * cos(n3) * sin(n3); e == 2 * cos(x) ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_trigonometric_correct","statement":"Path(test_trigonometric(x), e == 2 * sin(x) * cos(x); e == 2 * cos(n3) * sin(n3); e == 2 * cos(x) ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8ac17e97d96f08a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e == 2 * sin(x) * cos(x)","e == 2 * cos(n3) * sin(n3)","e == 2 * cos(x) ** 2","exp(pi).subs(exp, sin) == 0","cos(exp(pi)).subs(exp, sin) == 1","tan(x).subs(x, pi / 2) is zoo","cot(x).subs(x, pi) is zoo","cot(i * x).subs(x, pi) is zoo","tan(i * x).subs(x, pi / 2) == tan(i * pi / 2)","tan(i * x).subs(x, pi / 2).subs(i, 1) is zoo","tan(o * x).subs(x, pi / 2) == tan(o * pi / 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_trigonometric():
     n3 = Rational(3)
     e = (sin(x)**2).diff(x)
@@ -153,16 +185,24 @@ def test_trigonometric():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_powers(), test_powers produces the expected output) over Any ║
+# ║ Path(test_powers(), sqrt(1 - sqrt(x)).subs(x, 4) == I and (sqrt(1 - x ** 2) ** 3).subs(x, 2) == -3 * I * sqrt(3) and (x ** Rational(1, 3)).subs(x, 27) == 3 and (x ** Rational(1, 3)).subs(x, -27) == 3 * (-1) ** Rational(1, 3) and ((-x) ** Rational(1, 3)).subs(x, 27) == 3 * (-1) ** Rational(1, 3) and (x ** n).subs(x, 0) is S.ComplexInfinity and exp(-1).subs(S.Exp1, 0) is S.ComplexInfinity and (x ** (4.0 * y)).subs(x ** (2.0 * y), n) == n ** 2.0 and (2 ** (x + 2)).subs(2, 3) == 3 ** (x + 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_powers : Any → {Any | sqrt(1 - sqrt(x)).subs(x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrt(1 - sqrt(x)).subs(x, 4) == I              ║
+# ║   ensures:  (sqrt(1 - x ** 2) ** 3).subs(x, 2) == -3 ...   ║
+# ║   ensures:  (x ** Rational(1, 3)).subs(x, 27) == 3         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_powers : Any → {Any | result satisfies: sqrt(1 -...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbc39026c2120100  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfc971dc2661c975  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_powers","kind":"function","src_hash":"a71c51f36f00c5c5","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrt(1 - sqrt(x)).subs(x, 4) == I and (sqrt(1 - x ** 2) ** 3).subs(x, 2) == -3 * I * sqrt(3) and (x ** Rational(1, 3)).subs(x, 27) == 3 and (x ** Rational(1, 3)).subs(x, -27) == 3 * (-1) ** Rational(1, 3) and ((-x) ** Rational(1, 3)).subs(x, 27) == 3 * (-1) ** Rational(1, 3) and (x ** n).subs(x, 0) is S.ComplexInfinity and exp(-1).subs(S.Exp1, 0) is S.ComplexInfinity and (x ** (4.0 * y)).subs(x ** (2.0 * y), n) == n ** 2.0 and (2 ** (x + 2)).subs(2, 3) == 3 ** (x + 3)"},"spec":{"lhs":"test_powers()","rhs":"test_powers produces the expected output","over":{"base":"Any"},"name":"test_powers_correct"},"guarantee":"test_powers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_powers_correct","statement":"Path(test_powers(x), test_powers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbc39026c2120100"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_powers","kind":"function","src_hash":"a71c51f36f00c5c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrt(1 - sqrt(x)).subs(x, 4) == I and (sqrt(1 - x ** 2) ** 3).subs(x, 2) == -3 * I * sqrt(3) and (x ** Rational(1, 3)).subs(x, 27) == 3 and (x ** Rational(1, 3)).subs(x, -27) == 3 * (-1) ** Rational(1, 3) and ((-x) ** Rational(1, 3)).subs(x, 27) == 3 * (-1) ** Rational(1, 3) and (x ** n).subs(x, 0) is S.ComplexInfinity and exp(-1).subs(S.Exp1, 0) is S.ComplexInfinity and (x ** (4.0 * y)).subs(x ** (2.0 * y), n) == n ** 2.0 and (2 ** (x + 2)).subs(2, 3) == 3 ** (x + 3)"},"spec":{"lhs":"test_powers()","rhs":"sqrt(1 - sqrt(x)).subs(x, 4) == I and (sqrt(1 - x ** 2) ** 3).subs(x, 2) == -3 * I * sqrt(3) and (x ** Rational(1, 3)).subs(x, 27) == 3 and (x ** Rational(1, 3)).subs(x, -27) == 3 * (-1) ** Rational(1, 3) and ((-x) ** Rational(1, 3)).subs(x, 27) == 3 * (-1) ** Rational(1, 3) and (x ** n).subs(x, 0) is S.ComplexInfinity and exp(-1).subs(S.Exp1, 0) is S.ComplexInfinity and (x ** (4.0 * y)).subs(x ** (2.0 * y), n) == n ** 2.0 and (2 ** (x + 2)).subs(2, 3) == 3 ** (x + 3)","over":{"base":"Any"},"name":"test_powers_correct"},"guarantee":"sqrt(1 - sqrt(x)).subs(x, 4) == I; (sqrt(1 - x ** 2) ** 3).subs(x, 2) == -3 * I * sqrt(3); (x ** Rational(1, 3)).subs(x, 27) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_powers_correct","statement":"Path(test_powers(x), sqrt(1 - sqrt(x)).subs(x, 4) == I; (sqrt(1 - x ** 2) ** 3).subs(x, 2) == -3 * I * sqrt(3); (x ** Rational(1, 3)).subs(x, 27) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfc971dc2661c975","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrt(1 - sqrt(x)).subs(x, 4) == I","(sqrt(1 - x ** 2) ** 3).subs(x, 2) == -3 * I * sqrt(3)","(x ** Rational(1, 3)).subs(x, 27) == 3","(x ** Rational(1, 3)).subs(x, -27) == 3 * (-1) ** Rational(1, 3)","((-x) ** Rational(1, 3)).subs(x, 27) == 3 * (-1) ** Rational(1, 3)","(x ** n).subs(x, 0) is S.ComplexInfinity","exp(-1).subs(S.Exp1, 0) is S.ComplexInfinity","(x ** (4.0 * y)).subs(x ** (2.0 * y), n) == n ** 2.0","(2 ** (x + 2)).subs(2, 3) == 3 ** (x + 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_powers():
     assert sqrt(1 - sqrt(x)).subs(x, 4) == I
     assert (sqrt(1 - x**2)**3).subs(x, 2) == - 3*I*sqrt(3)
@@ -177,16 +217,23 @@ def test_powers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_logexppow(), test_logexppow produces the expected output) over Any ║
+# ║ Path(test_logexppow(), e.subs(2 ** x, w) != e and e.subs(exp(x * log(Rational(2))), w) != e) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_logexppow : Any → {Any | e.subs(2 ** x, w) != e ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.subs(2 ** x, w) != e                         ║
+# ║   ensures:  e.subs(exp(x * log(Rational(2))), w) != e      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_logexppow : Any → {Any | result satisfies: e.sub...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a208475df5d2d896  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b6114b31ac8f72e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_logexppow","kind":"function","src_hash":"35657966457422f2","in":{"base":"Any"},"out":{"base":"Any","pred":"e.subs(2 ** x, w) != e and e.subs(exp(x * log(Rational(2))), w) != e"},"spec":{"lhs":"test_logexppow()","rhs":"test_logexppow produces the expected output","over":{"base":"Any"},"name":"test_logexppow_correct"},"guarantee":"test_logexppow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_logexppow_correct","statement":"Path(test_logexppow(x), test_logexppow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a208475df5d2d896"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_logexppow","kind":"function","src_hash":"35657966457422f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.subs(2 ** x, w) != e and e.subs(exp(x * log(Rational(2))), w) != e"},"spec":{"lhs":"test_logexppow()","rhs":"e.subs(2 ** x, w) != e and e.subs(exp(x * log(Rational(2))), w) != e","over":{"base":"Any"},"name":"test_logexppow_correct"},"guarantee":"e.subs(2 ** x, w) != e; e.subs(exp(x * log(Rational(2))), w) != e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_logexppow_correct","statement":"Path(test_logexppow(x), e.subs(2 ** x, w) != e; e.subs(exp(x * log(Rational(2))), w) != e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b6114b31ac8f72e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.subs(2 ** x, w) != e","e.subs(exp(x * log(Rational(2))), w) != e"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_logexppow():   # no eval()
     x = Symbol('x', real=True)
     w = Symbol('w')
@@ -196,16 +243,22 @@ def test_logexppow():   # no eval()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bug(), test_bug produces the expected output) over Any ║
+# ║ Path(test_bug(), y.subs(x1, Float(3.0)) == Float(3.0) * x2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bug : Any → {Any | y.subs(x1, Float(3.0)) == Flo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  y.subs(x1, Float(3.0)) == Float(3.0) * x2      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bug : Any → {Any | result satisfies: y.subs(x1, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb1bae0699a05b6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f834628d5bfb789  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_bug","kind":"function","src_hash":"ca37792d45421f2c","in":{"base":"Any"},"out":{"base":"Any","pred":"y.subs(x1, Float(3.0)) == Float(3.0) * x2"},"spec":{"lhs":"test_bug()","rhs":"test_bug produces the expected output","over":{"base":"Any"},"name":"test_bug_correct"},"guarantee":"test_bug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_bug_correct","statement":"Path(test_bug(x), test_bug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb1bae0699a05b6c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_bug","kind":"function","src_hash":"ca37792d45421f2c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: y.subs(x1, Float(3.0)) == Float(3.0) * x2"},"spec":{"lhs":"test_bug()","rhs":"y.subs(x1, Float(3.0)) == Float(3.0) * x2","over":{"base":"Any"},"name":"test_bug_correct"},"guarantee":"y.subs(x1, Float(3.0)) == Float(3.0) * x2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_bug_correct","statement":"Path(test_bug(x), y.subs(x1, Float(3.0)) == Float(3.0) * x2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f834628d5bfb789","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["y.subs(x1, Float(3.0)) == Float(3.0) * x2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bug():
     x1 = Symbol('x1')
     x2 = Symbol('x2')
@@ -214,16 +267,22 @@ def test_bug():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subbug1(), test_subbug1 produces the expected output) over Any ║
+# ║ Path(test_subbug1(), <unspecified:test_subbug1>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_subbug1 : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7365faf68864aa5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subbug1","kind":"function","src_hash":"dba3cf10d4f9263d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_subbug1()","rhs":"test_subbug1 produces the expected output","over":{"base":"Any"},"name":"test_subbug1_correct"},"guarantee":"test_subbug1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subbug1_correct","statement":"Path(test_subbug1(x), test_subbug1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7365faf68864aa5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subbug1","kind":"function","src_hash":"dba3cf10d4f9263d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_subbug1()","rhs":"<unspecified:test_subbug1>","over":{"base":"Any"},"name":"test_subbug1_correct"},"guarantee":"test_subbug1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subbug1_correct","statement":"Path(test_subbug1(x), test_subbug1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7365faf68864aa5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_subbug1():
     # see that they don't fail
     (x**x).subs(x, 1)
@@ -231,32 +290,46 @@ def test_subbug1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subbug2(), test_subbug2 produces the expected output) over Any ║
+# ║ Path(test_subbug2(), Float(7.7).epsilon_eq(abs(x).subs(x, -7.7))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subbug2 : Any → {Any | Float(7.7).epsilon_eq(abs...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Float(7.7).epsilon_eq(abs(x).subs(x, -7.7))    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subbug2 : Any → {Any | result satisfies: Float(7...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e7bebfb8f5982e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1278221ebb21926a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subbug2","kind":"function","src_hash":"41a845526f7271e6","in":{"base":"Any"},"out":{"base":"Any","pred":"Float(7.7).epsilon_eq(abs(x).subs(x, -7.7))"},"spec":{"lhs":"test_subbug2()","rhs":"test_subbug2 produces the expected output","over":{"base":"Any"},"name":"test_subbug2_correct"},"guarantee":"test_subbug2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subbug2_correct","statement":"Path(test_subbug2(x), test_subbug2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e7bebfb8f5982e0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subbug2","kind":"function","src_hash":"41a845526f7271e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Float(7.7).epsilon_eq(abs(x).subs(x, -7.7))"},"spec":{"lhs":"test_subbug2()","rhs":"Float(7.7).epsilon_eq(abs(x).subs(x, -7.7))","over":{"base":"Any"},"name":"test_subbug2_correct"},"guarantee":"Float(7.7).epsilon_eq(abs(x).subs(x, -7.7))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subbug2_correct","statement":"Path(test_subbug2(x), Float(7.7).epsilon_eq(abs(x).subs(x, -7.7)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1278221ebb21926a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Float(7.7).epsilon_eq(abs(x).subs(x, -7.7))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_subbug2():
     # Ensure this does not cause infinite recursion
     assert Float(7.7).epsilon_eq(abs(x).subs(x, -7.7))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dict_set(), test_dict_set produces the expected output) over Any ║
+# ║ Path(test_dict_set(), r == {a: 3, b: 4} and e.subs(r) == r[a] / r[b] * sin(r[b] * x) and e.subs(r) == 3 * sin(4 * x) / 4 and e.subs(s) == r[a] / r[b] * sin(r[b] * x) and e.subs(s) == 3 * sin(4 * x) / 4 and x.subs(Dict((x, 1))) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dict_set : Any → {Any | r == {a: 3, b: 4} and e....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r == {a: 3, b: 4}                              ║
+# ║   ensures:  e.subs(r) == r[a] / r[b] * sin(r[b] * x)       ║
+# ║   ensures:  e.subs(r) == 3 * sin(4 * x) / 4                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dict_set : Any → {Any | result satisfies: r == {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d02e5bbc0fe54897  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 967916b5055486da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_dict_set","kind":"function","src_hash":"885944cf9c03ae20","in":{"base":"Any"},"out":{"base":"Any","pred":"r == {a: 3, b: 4} and e.subs(r) == r[a] / r[b] * sin(r[b] * x) and e.subs(r) == 3 * sin(4 * x) / 4 and e.subs(s) == r[a] / r[b] * sin(r[b] * x) and e.subs(s) == 3 * sin(4 * x) / 4 and e.subs(r) == r[a] / r[b] * sin(r[b] * x) and e.subs(r) == 3 * sin(4 * x) / 4 and x.subs(Dict((x, 1))) == 1"},"spec":{"lhs":"test_dict_set()","rhs":"test_dict_set produces the expected output","over":{"base":"Any"},"name":"test_dict_set_correct"},"guarantee":"test_dict_set produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_dict_set_correct","statement":"Path(test_dict_set(x), test_dict_set produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d02e5bbc0fe54897"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_dict_set","kind":"function","src_hash":"885944cf9c03ae20","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r == {a: 3, b: 4} and e.subs(r) == r[a] / r[b] * sin(r[b] * x) and e.subs(r) == 3 * sin(4 * x) / 4 and e.subs(s) == r[a] / r[b] * sin(r[b] * x) and e.subs(s) == 3 * sin(4 * x) / 4 and x.subs(Dict((x, 1))) == 1"},"spec":{"lhs":"test_dict_set()","rhs":"r == {a: 3, b: 4} and e.subs(r) == r[a] / r[b] * sin(r[b] * x) and e.subs(r) == 3 * sin(4 * x) / 4 and e.subs(s) == r[a] / r[b] * sin(r[b] * x) and e.subs(s) == 3 * sin(4 * x) / 4 and x.subs(Dict((x, 1))) == 1","over":{"base":"Any"},"name":"test_dict_set_correct"},"guarantee":"r == {a: 3, b: 4}; e.subs(r) == r[a] / r[b] * sin(r[b] * x); e.subs(r) == 3 * sin(4 * x) / 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_dict_set_correct","statement":"Path(test_dict_set(x), r == {a: 3, b: 4}; e.subs(r) == r[a] / r[b] * sin(r[b] * x); e.subs(r) == 3 * sin(4 * x) / 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"967916b5055486da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r == {a: 3, b: 4}","e.subs(r) == r[a] / r[b] * sin(r[b] * x)","e.subs(r) == 3 * sin(4 * x) / 4","e.subs(s) == r[a] / r[b] * sin(r[b] * x)","e.subs(s) == 3 * sin(4 * x) / 4","x.subs(Dict((x, 1))) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dict_set():
     a, b, c = map(Wild, 'abc')
 
@@ -276,16 +349,24 @@ def test_dict_set():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dict_ambigous(), test_dict_ambigous produces the expected output) over Any ║
+# ║ Path(test_dict_ambigous(), f.subs(df) == y ** 2 and g.subs(dg) == y ** 2 and f.subs(x, y).subs(exp(x), y) == y * exp(y) and f.subs(exp(x), y).subs(x, y) == y ** 2 and e.subs({x: y, y: 2}) == 5 and exp(x / 2 + y).subs({exp(y + 1): 2, x: 2}) == exp(y + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dict_ambigous : Any → {Any | f.subs(df) == y ** ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.subs(df) == y ** 2                           ║
+# ║   ensures:  g.subs(dg) == y ** 2                           ║
+# ║   ensures:  f.subs(x, y).subs(exp(x), y) == y * exp(y)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dict_ambigous : Any → {Any | result satisfies: f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 450860a01865bf87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b20fa1afc18a4513  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_dict_ambigous","kind":"function","src_hash":"88a856369762e5d3","in":{"base":"Any"},"out":{"base":"Any","pred":"f.subs(df) == y ** 2 and g.subs(dg) == y ** 2 and f.subs(x, y).subs(exp(x), y) == y * exp(y) and f.subs(exp(x), y).subs(x, y) == y ** 2 and e.subs({x: y, y: 2}) == 5 and exp(x / 2 + y).subs({exp(y + 1): 2, x: 2}) == exp(y + 1)"},"spec":{"lhs":"test_dict_ambigous()","rhs":"test_dict_ambigous produces the expected output","over":{"base":"Any"},"name":"test_dict_ambigous_correct"},"guarantee":"test_dict_ambigous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_dict_ambigous_correct","statement":"Path(test_dict_ambigous(x), test_dict_ambigous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"450860a01865bf87"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_dict_ambigous","kind":"function","src_hash":"88a856369762e5d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.subs(df) == y ** 2 and g.subs(dg) == y ** 2 and f.subs(x, y).subs(exp(x), y) == y * exp(y) and f.subs(exp(x), y).subs(x, y) == y ** 2 and e.subs({x: y, y: 2}) == 5 and exp(x / 2 + y).subs({exp(y + 1): 2, x: 2}) == exp(y + 1)"},"spec":{"lhs":"test_dict_ambigous()","rhs":"f.subs(df) == y ** 2 and g.subs(dg) == y ** 2 and f.subs(x, y).subs(exp(x), y) == y * exp(y) and f.subs(exp(x), y).subs(x, y) == y ** 2 and e.subs({x: y, y: 2}) == 5 and exp(x / 2 + y).subs({exp(y + 1): 2, x: 2}) == exp(y + 1)","over":{"base":"Any"},"name":"test_dict_ambigous_correct"},"guarantee":"f.subs(df) == y ** 2; g.subs(dg) == y ** 2; f.subs(x, y).subs(exp(x), y) == y * exp(y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_dict_ambigous_correct","statement":"Path(test_dict_ambigous(x), f.subs(df) == y ** 2; g.subs(dg) == y ** 2; f.subs(x, y).subs(exp(x), y) == y * exp(y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b20fa1afc18a4513","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.subs(df) == y ** 2","g.subs(dg) == y ** 2","f.subs(x, y).subs(exp(x), y) == y * exp(y)","f.subs(exp(x), y).subs(x, y) == y ** 2","e.subs({x: y, y: 2}) == 5","exp(x / 2 + y).subs({exp(y + 1): 2, x: 2}) == exp(y + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dict_ambigous():   # see issue 3566
     f = x*exp(x)
     g = z*exp(z)
@@ -312,16 +393,23 @@ def test_dict_ambigous():   # see issue 3566
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deriv_sub_bug3(), test_deriv_sub_bug3 produces the expected output) over Any ║
+# ║ Path(test_deriv_sub_bug3(), pat.subs(y, y ** 2) == Derivative(f(x), x, x) and pat.subs(y, y ** 2) != Derivative(f(x), x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_deriv_sub_bug3 : Any → {Any | pat.subs(y, y ** 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pat.subs(y, y ** 2) == Derivative(f(x), x...   ║
+# ║   ensures:  pat.subs(y, y ** 2) != Derivative(f(x), x)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_deriv_sub_bug3 : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9bd6a67c30310cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 321d886cbb53586c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_deriv_sub_bug3","kind":"function","src_hash":"4b5cb77fac8f0051","in":{"base":"Any"},"out":{"base":"Any","pred":"pat.subs(y, y ** 2) == Derivative(f(x), x, x) and pat.subs(y, y ** 2) != Derivative(f(x), x)"},"spec":{"lhs":"test_deriv_sub_bug3()","rhs":"test_deriv_sub_bug3 produces the expected output","over":{"base":"Any"},"name":"test_deriv_sub_bug3_correct"},"guarantee":"test_deriv_sub_bug3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_deriv_sub_bug3_correct","statement":"Path(test_deriv_sub_bug3(x), test_deriv_sub_bug3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9bd6a67c30310cc"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_deriv_sub_bug3","kind":"function","src_hash":"4b5cb77fac8f0051","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pat.subs(y, y ** 2) == Derivative(f(x), x, x) and pat.subs(y, y ** 2) != Derivative(f(x), x)"},"spec":{"lhs":"test_deriv_sub_bug3()","rhs":"pat.subs(y, y ** 2) == Derivative(f(x), x, x) and pat.subs(y, y ** 2) != Derivative(f(x), x)","over":{"base":"Any"},"name":"test_deriv_sub_bug3_correct"},"guarantee":"pat.subs(y, y ** 2) == Derivative(f(x), x, x); pat.subs(y, y ** 2) != Derivative(f(x), x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_deriv_sub_bug3_correct","statement":"Path(test_deriv_sub_bug3(x), pat.subs(y, y ** 2) == Derivative(f(x), x, x); pat.subs(y, y ** 2) != Derivative(f(x), x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"321d886cbb53586c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pat.subs(y, y ** 2) == Derivative(f(x), x, x)","pat.subs(y, y ** 2) != Derivative(f(x), x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_deriv_sub_bug3():
     f = Function('f')
     pat = Derivative(f(x), x, x)
@@ -330,16 +418,22 @@ def test_deriv_sub_bug3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equality_subs1(), test_equality_subs1 produces the expected output) over Any ║
+# ║ Path(test_equality_subs1(), eq.subs(f(x), 4) == res) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_equality_subs1 : Any → {Any | eq.subs(f(x), 4) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq.subs(f(x), 4) == res                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_equality_subs1 : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fe5590892a64298  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfb5c19f8167ccc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_equality_subs1","kind":"function","src_hash":"b9b1ac33d7f355e8","in":{"base":"Any"},"out":{"base":"Any","pred":"eq.subs(f(x), 4) == res"},"spec":{"lhs":"test_equality_subs1()","rhs":"test_equality_subs1 produces the expected output","over":{"base":"Any"},"name":"test_equality_subs1_correct"},"guarantee":"test_equality_subs1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_equality_subs1_correct","statement":"Path(test_equality_subs1(x), test_equality_subs1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fe5590892a64298"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_equality_subs1","kind":"function","src_hash":"b9b1ac33d7f355e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq.subs(f(x), 4) == res"},"spec":{"lhs":"test_equality_subs1()","rhs":"eq.subs(f(x), 4) == res","over":{"base":"Any"},"name":"test_equality_subs1_correct"},"guarantee":"eq.subs(f(x), 4) == res","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_equality_subs1_correct","statement":"Path(test_equality_subs1(x), eq.subs(f(x), 4) == res)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfb5c19f8167ccc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq.subs(f(x), 4) == res"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_equality_subs1():
     f = Function('f')
     eq = Eq(f(x)**2, x)
@@ -348,16 +442,23 @@ def test_equality_subs1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_equality_subs2(), test_equality_subs2 produces the expected output) over Any ║
+# ║ Path(test_equality_subs2(), bool(eq.subs(f(x), 3)) is False and bool(eq.subs(f(x), 4)) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_equality_subs2 : Any → {Any | bool(eq.subs(f(x),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bool(eq.subs(f(x), 3)) is False                ║
+# ║   ensures:  bool(eq.subs(f(x), 4)) is True                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_equality_subs2 : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5f718902349423f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15aff7d3b821f1f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_equality_subs2","kind":"function","src_hash":"e1bd0beda15e3ab4","in":{"base":"Any"},"out":{"base":"Any","pred":"bool(eq.subs(f(x), 3)) is False and bool(eq.subs(f(x), 4)) is True"},"spec":{"lhs":"test_equality_subs2()","rhs":"test_equality_subs2 produces the expected output","over":{"base":"Any"},"name":"test_equality_subs2_correct"},"guarantee":"test_equality_subs2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_equality_subs2_correct","statement":"Path(test_equality_subs2(x), test_equality_subs2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5f718902349423f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_equality_subs2","kind":"function","src_hash":"e1bd0beda15e3ab4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bool(eq.subs(f(x), 3)) is False and bool(eq.subs(f(x), 4)) is True"},"spec":{"lhs":"test_equality_subs2()","rhs":"bool(eq.subs(f(x), 3)) is False and bool(eq.subs(f(x), 4)) is True","over":{"base":"Any"},"name":"test_equality_subs2_correct"},"guarantee":"bool(eq.subs(f(x), 3)) is False; bool(eq.subs(f(x), 4)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_equality_subs2_correct","statement":"Path(test_equality_subs2(x), bool(eq.subs(f(x), 3)) is False; bool(eq.subs(f(x), 4)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15aff7d3b821f1f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bool(eq.subs(f(x), 3)) is False","bool(eq.subs(f(x), 4)) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_equality_subs2():
     f = Function('f')
     eq = Eq(f(x)**2, 16)
@@ -366,32 +467,46 @@ def test_equality_subs2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3742(), test_issue_3742 produces the expected output) over Any ║
+# ║ Path(test_issue_3742(), e.subs(sqrt(x), 1) == exp(y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3742 : Any → {Any | e.subs(sqrt(x), 1) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.subs(sqrt(x), 1) == exp(y)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3742 : Any → {Any | result satisfies: e.su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f17f57bdb422ef6b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9116fc9191ebb45a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_3742","kind":"function","src_hash":"fd9449aed78ad815","in":{"base":"Any"},"out":{"base":"Any","pred":"e.subs(sqrt(x), 1) == exp(y)"},"spec":{"lhs":"test_issue_3742()","rhs":"test_issue_3742 produces the expected output","over":{"base":"Any"},"name":"test_issue_3742_correct"},"guarantee":"test_issue_3742 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_3742_correct","statement":"Path(test_issue_3742(x), test_issue_3742 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f17f57bdb422ef6b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_3742","kind":"function","src_hash":"fd9449aed78ad815","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.subs(sqrt(x), 1) == exp(y)"},"spec":{"lhs":"test_issue_3742()","rhs":"e.subs(sqrt(x), 1) == exp(y)","over":{"base":"Any"},"name":"test_issue_3742_correct"},"guarantee":"e.subs(sqrt(x), 1) == exp(y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_3742_correct","statement":"Path(test_issue_3742(x), e.subs(sqrt(x), 1) == exp(y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9116fc9191ebb45a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.subs(sqrt(x), 1) == exp(y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_3742():
     e = sqrt(x)*exp(y)
     assert e.subs(sqrt(x), 1) == exp(y)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_dict1(), test_subs_dict1 produces the expected output) over Any ║
+# ║ Path(test_subs_dict1(), (1 + x * y).subs(x, pi) == 1 + pi * y and (1 + x * y).subs({x: pi, y: 2}) == 1 + 2 * pi and test.subs({c1 ** 2: 1 - s1 ** 2, c2 ** 2: 1 - s2 ** 2, c3 ** 3: 1 - s3 ** 2}) == c3 * q2p * (1 - s2 ** 2) + c3 * q2p * s2 ** 2 * (1 - s1 ** 2) - c2 * q1p * s3 * (1 - s1 ** 2) + c3 * q2p * s1 ** 2 * s2 ** 2 - c2 * q1p * s3 * s1 ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_dict1 : Any → {Any | (1 + x * y).subs(x, pi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (1 + x * y).subs(x, pi) == 1 + pi * y          ║
+# ║   ensures:  (1 + x * y).subs({x: pi, y: 2}) == 1 + 2 ...   ║
+# ║   ensures:  test.subs({c1 ** 2: 1 - s1 ** 2, c2 ** 2:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_dict1 : Any → {Any | result satisfies: (1 +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54221db4703cab9d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53edf64d65224dff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_dict1","kind":"function","src_hash":"155c84b04df2f826","in":{"base":"Any"},"out":{"base":"Any","pred":"(1 + x * y).subs(x, pi) == 1 + pi * y and (1 + x * y).subs({x: pi, y: 2}) == 1 + 2 * pi"},"spec":{"lhs":"test_subs_dict1()","rhs":"test_subs_dict1 produces the expected output","over":{"base":"Any"},"name":"test_subs_dict1_correct"},"guarantee":"test_subs_dict1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_dict1_correct","statement":"Path(test_subs_dict1(x), test_subs_dict1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54221db4703cab9d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_dict1","kind":"function","src_hash":"155c84b04df2f826","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (1 + x * y).subs(x, pi) == 1 + pi * y and (1 + x * y).subs({x: pi, y: 2}) == 1 + 2 * pi and test.subs({c1 ** 2: 1 - s1 ** 2, c2 ** 2: 1 - s2 ** 2, c3 ** 3: 1 - s3 ** 2}) == c3 * q2p * (1 - s2 ** 2) + c3 * q2p * s2 ** 2 * (1 - s1 ** 2) - c2 * q1p * s3 * (1 - s1 ** 2) + c3 * q2p * s1 ** 2 * s2 ** 2 - c2 * q1p * s3 * s1 ** 2"},"spec":{"lhs":"test_subs_dict1()","rhs":"(1 + x * y).subs(x, pi) == 1 + pi * y and (1 + x * y).subs({x: pi, y: 2}) == 1 + 2 * pi and test.subs({c1 ** 2: 1 - s1 ** 2, c2 ** 2: 1 - s2 ** 2, c3 ** 3: 1 - s3 ** 2}) == c3 * q2p * (1 - s2 ** 2) + c3 * q2p * s2 ** 2 * (1 - s1 ** 2) - c2 * q1p * s3 * (1 - s1 ** 2) + c3 * q2p * s1 ** 2 * s2 ** 2 - c2 * q1p * s3 * s1 ** 2","over":{"base":"Any"},"name":"test_subs_dict1_correct"},"guarantee":"(1 + x * y).subs(x, pi) == 1 + pi * y; (1 + x * y).subs({x: pi, y: 2}) == 1 + 2 * pi; test.subs({c1 ** 2: 1 - s1 ** 2, c2 ** 2: 1 - s2 ** 2, c3 ** 3: 1 - s3 ** 2}) == c3 * q2p * (1 - s2 ** 2) + c3 * q2p * s2 ** 2 * (1 - s1 ** 2) - c2 * q1p * s3 * (1 - s1 ** 2) + c3 * q2p * s1 ** 2 * s2 ** 2 - c2 * q1p * s3 * s1 ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_dict1_correct","statement":"Path(test_subs_dict1(x), (1 + x * y).subs(x, pi) == 1 + pi * y; (1 + x * y).subs({x: pi, y: 2}) == 1 + 2 * pi; test.subs({c1 ** 2: 1 - s1 ** 2, c2 ** 2: 1 - s2 ** 2, c3 ** 3: 1 - s3 ** 2}) == c3 * q2p * (1 - s2 ** 2) + c3 * q2p * s2 ** 2 * (1 - s1 ** 2) - c2 * q1p * s3 * (1 - s1 ** 2) + c3 * q2p * s1 ** 2 * s2 ** 2 - c2 * q1p * s3 * s1 ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53edf64d65224dff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(1 + x * y).subs(x, pi) == 1 + pi * y","(1 + x * y).subs({x: pi, y: 2}) == 1 + 2 * pi","test.subs({c1 ** 2: 1 - s1 ** 2, c2 ** 2: 1 - s2 ** 2, c3 ** 3: 1 - s3 ** 2}) == c3 * q2p * (1 - s2 ** 2) + c3 * q2p * s2 ** 2 * (1 - s1 ** 2) - c2 * q1p * s3 * (1 - s1 ** 2) + c3 * q2p * s1 ** 2 * s2 ** 2 - c2 * q1p * s3 * s1 ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_subs_dict1():
     assert (1 + x*y).subs(x, pi) == 1 + pi*y
     assert (1 + x*y).subs({x: pi, y: 2}) == 1 + 2*pi
@@ -405,16 +520,24 @@ def test_subs_dict1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul(), test_mul produces the expected output) over Any ║
+# ║ Path(test_mul(), (x * y * z).subs(z * x, y) == y ** 2 and (z * x).subs(1 / x, z) == 1 and (x * y / z).subs(1 / z, a) == a * x * y and (x * y / z).subs(x / z, a) == a * y and (x * y / z).subs(y / z, a) == a * x and (x * y / z).subs(x / z, 1 / a) == y / a and (x * y / z).subs(x, 1 / a) == y / (z * a) and (2 * x * y).subs(5 * x * y, z) != z * Rational(2, 5) and (x * y * A).subs(x * y, a) == a * A and (x ** 2 * y ** (x * Rational(3, 2))).subs(x * y ** (x / 2), 2) == 4 * y ** (x / 2) and (x * exp(x * 2)).subs(x * exp(x), 2) == 2 * exp(x) and ((x ** (2 * y)) ** 3).subs(x ** y, 2) == 64 and (x * A * B).subs(x * A, y) == y * B and (x * y * (1 + x) * (1 + x * y)).subs(x * y, 2) == 6 * (1 + x) and ((1 + A * B) * A * B).subs(A * B, x * A * B) and (x * a / z).subs(x / z, A) == a * A and (x ** 3 * A).subs(x ** 2 * A, a) == a * x and (x ** 2 * A * B).subs(x ** 2 * B, a) == a * A and (x ** 2 * A * B).subs(x ** 2 * A, a) == a * B and (b * A ** 3 / (a ** 3 * c ** 3)).subs(a ** 4 * c ** 3 * A ** 3 / b ** 4, z) == b * A ** 3 / (a ** 3 * c ** 3) and (6 * x).subs(2 * x, y) == 3 * y and (y * exp(x * Rational(3, 2))).subs(y * exp(x), 2) == 2 * exp(x / 2) and (A ** 2 * B * A ** 2 * B * A ** 2).subs(A * B * A, C) == A * C ** 2 * A and (x * A ** 3).subs(x * A, y) == y * A ** 2 and (x ** 2 * A ** 3).subs(x * A, y) == y ** 2 * A and (x * A ** 3).subs(x * A, B) == B * A ** 2 and (x * A * B * A * exp(x * A * B)).subs(x * A, B) == B ** 2 * A * exp(B * B) and (x ** 2 * A * B * A * exp(x * A * B)).subs(x * A, B) == B ** 3 * exp(B ** 2) and (x ** 3 * A * exp(x * A * B) * A * exp(x * A * B)).subs(x * A, B) == x * B * exp(B ** 2) * B * exp(B ** 2) and (x * A * B * C * A * B).subs(x * A * B, C) == C ** 2 * A * B and (-I * a * b).subs(a * b, 2) == -2 * I and (-8 * I * a).subs(-2 * a, 1) == 4 * I and (-I * a).subs(-a, 1) == I and (4 * x ** 2).subs(2 * x, y) == y ** 2 and (2 * 4 * x ** 2).subs(2 * x, y) == 2 * y ** 2 and (-x ** 3 / 9).subs(-x / 3, z) == -z ** 2 * x and (-x ** 3 / 9).subs(x / 3, z) == -z ** 2 * x and (-2 * x ** 3 / 9).subs(x / 3, z) == -2 * x * z ** 2 and (-2 * x ** 3 / 9).subs(-x / 3, z) == -2 * x * z ** 2 and (-2 * x ** 3 / 9).subs(-2 * x, z) == z * x ** 2 / 9 and (-2 * x ** 3 / 9).subs(2 * x, z) == -z * x ** 2 / 9 and (2 * (3 * x / 5 / 7) ** 2).subs(3 * x / 5, z) == 2 * Rational(1, 7) ** 2 * z ** 2 and (4 * x).subs(-2 * x, z) == 4 * x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul : Any → {Any | (x * y * z).subs(z * x, y) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x * y * z).subs(z * x, y) == y ** 2           ║
+# ║   ensures:  (z * x).subs(1 / x, z) == 1                    ║
+# ║   ensures:  (x * y / z).subs(1 / z, a) == a * x * y        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul : Any → {Any | result satisfies: (x * y * z)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 046ce226368738ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36632b589c9c83b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_mul","kind":"function","src_hash":"615b3b9fbd632a95","in":{"base":"Any"},"out":{"base":"Any","pred":"(x * y * z).subs(z * x, y) == y ** 2 and (z * x).subs(1 / x, z) == 1 and (x * y / z).subs(1 / z, a) == a * x * y and (x * y / z).subs(x / z, a) == a * y and (x * y / z).subs(y / z, a) == a * x and (x * y / z).subs(x / z, 1 / a) == y / a and (x * y / z).subs(x, 1 / a) == y / (z * a) and (2 * x * y).subs(5 * x * y, z) != z * Rational(2, 5) and (x * y * A).subs(x * y, a) == a * A and (x * exp(x * 2)).subs(x * exp(x), 2) == 2 * exp(x) and ((x ** (2 * y)) ** 3).subs(x ** y, 2) == 64 and (x * A * B).subs(x * A, y) == y * B and (x * y * (1 + x) * (1 + x * y)).subs(x * y, 2) == 6 * (1 + x) and ((1 + A * B) * A * B).subs(A * B, x * A * B) and (x * a / z).subs(x / z, A) == a * A and (x ** 3 * A).subs(x ** 2 * A, a) == a * x and (x ** 2 * A * B).subs(x ** 2 * B, a) == a * A and (x ** 2 * A * B).subs(x ** 2 * A, a) == a * B and (6 * x).subs(2 * x, y) == 3 * y and (y * exp(x * Rational(3, 2))).subs(y * exp(x), 2) == 2 * exp(x / 2) and (y * exp(x * Rational(3, 2))).subs(y * exp(x), 2) == 2 * exp(x / 2) and (A ** 2 * B * A ** 2 * B * A ** 2).subs(A * B * A, C) == A * C ** 2 * A and (x * A ** 3).subs(x * A, y) == y * A ** 2 and (x ** 2 * A ** 3).subs(x * A, y) == y ** 2 * A and (x * A ** 3).subs(x * A, B) == B * A ** 2 and (x * A * B * A * exp(x * A * B)).subs(x * A, B) == B ** 2 * A * exp(B * B) and (x ** 2 * A * B * A * exp(x * A * B)).subs(x * A, B) == B ** 3 * exp(B ** 2) and (x * A * B * C * A * B).subs(x * A * B, C) == C ** 2 * A * B and (-I * a * b).subs(a * b, 2) == -2 * I and (-8 * I * a).subs(-2 * a, 1) == 4 * I and (-I * a).subs(-a, 1) == I and (4 * x ** 2).subs(2 * x, y) == y ** 2 and (2 * 4 * x ** 2).subs(2 * x, y) == 2 * y ** 2 and (-x ** 3 / 9).subs(-x / 3, z) == -z ** 2 * x and (-x ** 3 / 9).subs(x / 3, z) == -z ** 2 * x and (-2 * x ** 3 / 9).subs(x / 3, z) == -2 * x * z ** 2 and (-2 * x ** 3 / 9).subs(-x / 3, z) == -2 * x * z ** 2 and (-2 * x ** 3 / 9).subs(-2 * x, z) == z * x ** 2 / 9 and (-2 * x ** 3 / 9).subs(2 * x, z) == -z * x ** 2 / 9 and (4 * x).subs(-2 * x, z) == 4 * x"},"spec":{"lhs":"test_mul()","rhs":"test_mul produces the expected output","over":{"base":"Any"},"name":"test_mul_correct"},"guarantee":"test_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_mul_correct","statement":"Path(test_mul(x), test_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"046ce226368738ea"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_mul","kind":"function","src_hash":"615b3b9fbd632a95","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x * y * z).subs(z * x, y) == y ** 2 and (z * x).subs(1 / x, z) == 1 and (x * y / z).subs(1 / z, a) == a * x * y and (x * y / z).subs(x / z, a) == a * y and (x * y / z).subs(y / z, a) == a * x and (x * y / z).subs(x / z, 1 / a) == y / a and (x * y / z).subs(x, 1 / a) == y / (z * a) and (2 * x * y).subs(5 * x * y, z) != z * Rational(2, 5) and (x * y * A).subs(x * y, a) == a * A and (x ** 2 * y ** (x * Rational(3, 2))).subs(x * y ** (x / 2), 2) == 4 * y ** (x / 2) and (x * exp(x * 2)).subs(x * exp(x), 2) == 2 * exp(x) and ((x ** (2 * y)) ** 3).subs(x ** y, 2) == 64 and (x * A * B).subs(x * A, y) == y * B and (x * y * (1 + x) * (1 + x * y)).subs(x * y, 2) == 6 * (1 + x) and ((1 + A * B) * A * B).subs(A * B, x * A * B) and (x * a / z).subs(x / z, A) == a * A and (x ** 3 * A).subs(x ** 2 * A, a) == a * x and (x ** 2 * A * B).subs(x ** 2 * B, a) == a * A and (x ** 2 * A * B).subs(x ** 2 * A, a) == a * B and (b * A ** 3 / (a ** 3 * c ** 3)).subs(a ** 4 * c ** 3 * A ** 3 / b ** 4, z) == b * A ** 3 / (a ** 3 * c ** 3) and (6 * x).subs(2 * x, y) == 3 * y and (y * exp(x * Rational(3, 2))).subs(y * exp(x), 2) == 2 * exp(x / 2) and (A ** 2 * B * A ** 2 * B * A ** 2).subs(A * B * A, C) == A * C ** 2 * A and (x * A ** 3).subs(x * A, y) == y * A ** 2 and (x ** 2 * A ** 3).subs(x * A, y) == y ** 2 * A and (x * A ** 3).subs(x * A, B) == B * A ** 2 and (x * A * B * A * exp(x * A * B)).subs(x * A, B) == B ** 2 * A * exp(B * B) and (x ** 2 * A * B * A * exp(x * A * B)).subs(x * A, B) == B ** 3 * exp(B ** 2) and (x ** 3 * A * exp(x * A * B) * A * exp(x * A * B)).subs(x * A, B) == x * B * exp(B ** 2) * B * exp(B ** 2) and (x * A * B * C * A * B).subs(x * A * B, C) == C ** 2 * A * B and (-I * a * b).subs(a * b, 2) == -2 * I and (-8 * I * a).subs(-2 * a, 1) == 4 * I and (-I * a).subs(-a, 1) == I and (4 * x ** 2).subs(2 * x, y) == y ** 2 and (2 * 4 * x ** 2).subs(2 * x, y) == 2 * y ** 2 and (-x ** 3 / 9).subs(-x / 3, z) == -z ** 2 * x and (-x ** 3 / 9).subs(x / 3, z) == -z ** 2 * x and (-2 * x ** 3 / 9).subs(x / 3, z) == -2 * x * z ** 2 and (-2 * x ** 3 / 9).subs(-x / 3, z) == -2 * x * z ** 2 and (-2 * x ** 3 / 9).subs(-2 * x, z) == z * x ** 2 / 9 and (-2 * x ** 3 / 9).subs(2 * x, z) == -z * x ** 2 / 9 and (2 * (3 * x / 5 / 7) ** 2).subs(3 * x / 5, z) == 2 * Rational(1, 7) ** 2 * z ** 2 and (4 * x).subs(-2 * x, z) == 4 * x"},"spec":{"lhs":"test_mul()","rhs":"(x * y * z).subs(z * x, y) == y ** 2 and (z * x).subs(1 / x, z) == 1 and (x * y / z).subs(1 / z, a) == a * x * y and (x * y / z).subs(x / z, a) == a * y and (x * y / z).subs(y / z, a) == a * x and (x * y / z).subs(x / z, 1 / a) == y / a and (x * y / z).subs(x, 1 / a) == y / (z * a) and (2 * x * y).subs(5 * x * y, z) != z * Rational(2, 5) and (x * y * A).subs(x * y, a) == a * A and (x ** 2 * y ** (x * Rational(3, 2))).subs(x * y ** (x / 2), 2) == 4 * y ** (x / 2) and (x * exp(x * 2)).subs(x * exp(x), 2) == 2 * exp(x) and ((x ** (2 * y)) ** 3).subs(x ** y, 2) == 64 and (x * A * B).subs(x * A, y) == y * B and (x * y * (1 + x) * (1 + x * y)).subs(x * y, 2) == 6 * (1 + x) and ((1 + A * B) * A * B).subs(A * B, x * A * B) and (x * a / z).subs(x / z, A) == a * A and (x ** 3 * A).subs(x ** 2 * A, a) == a * x and (x ** 2 * A * B).subs(x ** 2 * B, a) == a * A and (x ** 2 * A * B).subs(x ** 2 * A, a) == a * B and (b * A ** 3 / (a ** 3 * c ** 3)).subs(a ** 4 * c ** 3 * A ** 3 / b ** 4, z) == b * A ** 3 / (a ** 3 * c ** 3) and (6 * x).subs(2 * x, y) == 3 * y and (y * exp(x * Rational(3, 2))).subs(y * exp(x), 2) == 2 * exp(x / 2) and (A ** 2 * B * A ** 2 * B * A ** 2).subs(A * B * A, C) == A * C ** 2 * A and (x * A ** 3).subs(x * A, y) == y * A ** 2 and (x ** 2 * A ** 3).subs(x * A, y) == y ** 2 * A and (x * A ** 3).subs(x * A, B) == B * A ** 2 and (x * A * B * A * exp(x * A * B)).subs(x * A, B) == B ** 2 * A * exp(B * B) and (x ** 2 * A * B * A * exp(x * A * B)).subs(x * A, B) == B ** 3 * exp(B ** 2) and (x ** 3 * A * exp(x * A * B) * A * exp(x * A * B)).subs(x * A, B) == x * B * exp(B ** 2) * B * exp(B ** 2) and (x * A * B * C * A * B).subs(x * A * B, C) == C ** 2 * A * B and (-I * a * b).subs(a * b, 2) == -2 * I and (-8 * I * a).subs(-2 * a, 1) == 4 * I and (-I * a).subs(-a, 1) == I and (4 * x ** 2).subs(2 * x, y) == y ** 2 and (2 * 4 * x ** 2).subs(2 * x, y) == 2 * y ** 2 and (-x ** 3 / 9).subs(-x / 3, z) == -z ** 2 * x and (-x ** 3 / 9).subs(x / 3, z) == -z ** 2 * x and (-2 * x ** 3 / 9).subs(x / 3, z) == -2 * x * z ** 2 and (-2 * x ** 3 / 9).subs(-x / 3, z) == -2 * x * z ** 2 and (-2 * x ** 3 / 9).subs(-2 * x, z) == z * x ** 2 / 9 and (-2 * x ** 3 / 9).subs(2 * x, z) == -z * x ** 2 / 9 and (2 * (3 * x / 5 / 7) ** 2).subs(3 * x / 5, z) == 2 * Rational(1, 7) ** 2 * z ** 2 and (4 * x).subs(-2 * x, z) == 4 * x","over":{"base":"Any"},"name":"test_mul_correct"},"guarantee":"(x * y * z).subs(z * x, y) == y ** 2; (z * x).subs(1 / x, z) == 1; (x * y / z).subs(1 / z, a) == a * x * y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_mul_correct","statement":"Path(test_mul(x), (x * y * z).subs(z * x, y) == y ** 2; (z * x).subs(1 / x, z) == 1; (x * y / z).subs(1 / z, a) == a * x * y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36632b589c9c83b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x * y * z).subs(z * x, y) == y ** 2","(z * x).subs(1 / x, z) == 1","(x * y / z).subs(1 / z, a) == a * x * y","(x * y / z).subs(x / z, a) == a * y","(x * y / z).subs(y / z, a) == a * x","(x * y / z).subs(x / z, 1 / a) == y / a","(x * y / z).subs(x, 1 / a) == y / (z * a)","(2 * x * y).subs(5 * x * y, z) != z * Rational(2, 5)","(x * y * A).subs(x * y, a) == a * A","(x ** 2 * y ** (x * Rational(3, 2))).subs(x * y ** (x / 2), 2) == 4 * y ** (x / 2)","(x * exp(x * 2)).subs(x * exp(x), 2) == 2 * exp(x)","((x ** (2 * y)) ** 3).subs(x ** y, 2) == 64","(x * A * B).subs(x * A, y) == y * B","(x * y * (1 + x) * (1 + x * y)).subs(x * y, 2) == 6 * (1 + x)","((1 + A * B) * A * B).subs(A * B, x * A * B)","(x * a / z).subs(x / z, A) == a * A","(x ** 3 * A).subs(x ** 2 * A, a) == a * x","(x ** 2 * A * B).subs(x ** 2 * B, a) == a * A","(x ** 2 * A * B).subs(x ** 2 * A, a) == a * B","(b * A ** 3 / (a ** 3 * c ** 3)).subs(a ** 4 * c ** 3 * A ** 3 / b ** 4, z) == b * A ** 3 / (a ** 3 * c ** 3)","(6 * x).subs(2 * x, y) == 3 * y","(y * exp(x * Rational(3, 2))).subs(y * exp(x), 2) == 2 * exp(x / 2)","(A ** 2 * B * A ** 2 * B * A ** 2).subs(A * B * A, C) == A * C ** 2 * A","(x * A ** 3).subs(x * A, y) == y * A ** 2","(x ** 2 * A ** 3).subs(x * A, y) == y ** 2 * A","(x * A ** 3).subs(x * A, B) == B * A ** 2","(x * A * B * A * exp(x * A * B)).subs(x * A, B) == B ** 2 * A * exp(B * B)","(x ** 2 * A * B * A * exp(x * A * B)).subs(x * A, B) == B ** 3 * exp(B ** 2)","(x ** 3 * A * exp(x * A * B) * A * exp(x * A * B)).subs(x * A, B) == x * B * exp(B ** 2) * B * exp(B ** 2)","(x * A * B * C * A * B).subs(x * A * B, C) == C ** 2 * A * B","(-I * a * b).subs(a * b, 2) == -2 * I","(-8 * I * a).subs(-2 * a, 1) == 4 * I","(-I * a).subs(-a, 1) == I","(4 * x ** 2).subs(2 * x, y) == y ** 2","(2 * 4 * x ** 2).subs(2 * x, y) == 2 * y ** 2","(-x ** 3 / 9).subs(-x / 3, z) == -z ** 2 * x","(-x ** 3 / 9).subs(x / 3, z) == -z ** 2 * x","(-2 * x ** 3 / 9).subs(x / 3, z) == -2 * x * z ** 2","(-2 * x ** 3 / 9).subs(-x / 3, z) == -2 * x * z ** 2","(-2 * x ** 3 / 9).subs(-2 * x, z) == z * x ** 2 / 9","(-2 * x ** 3 / 9).subs(2 * x, z) == -z * x ** 2 / 9","(2 * (3 * x / 5 / 7) ** 2).subs(3 * x / 5, z) == 2 * Rational(1, 7) ** 2 * z ** 2","(4 * x).subs(-2 * x, z) == 4 * x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":true}}
 def test_mul():
     x, y, z, a, b, c = symbols('x y z a b c')
     A, B, C = symbols('A B C', commutative=0)
@@ -471,16 +594,24 @@ def test_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_simple(), test_subs_simple produces the expected output) over Any ║
+# ║ Path(test_subs_simple(), (2 * a).subs(1, 3) == 2 * a and (2 * a).subs(2, 3) == 3 * a and (2 * a).subs(a, 3) == 6 and sin(2).subs(1, 3) == sin(2) and sin(2).subs(2, 3) == sin(3) and sin(a).subs(a, 3) == sin(3) and (2 * x).subs(1, 3) == 2 * x and (2 * x).subs(2, 3) == 3 * x and (2 * x).subs(x, 3) == 6 and sin(x).subs(x, 3) == sin(3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_simple : Any → {Any | (2 * a).subs(1, 3) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (2 * a).subs(1, 3) == 2 * a                    ║
+# ║   ensures:  (2 * a).subs(2, 3) == 3 * a                    ║
+# ║   ensures:  (2 * a).subs(a, 3) == 6                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_simple : Any → {Any | result satisfies: (2 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bebcb0d099122f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8250280e1969888d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_simple","kind":"function","src_hash":"970d2991ceb5e3f4","in":{"base":"Any"},"out":{"base":"Any","pred":"(2 * a).subs(1, 3) == 2 * a and (2 * a).subs(2, 3) == 3 * a and (2 * a).subs(a, 3) == 6 and sin(2).subs(1, 3) == sin(2) and sin(2).subs(2, 3) == sin(3) and sin(a).subs(a, 3) == sin(3) and (2 * x).subs(1, 3) == 2 * x and (2 * x).subs(2, 3) == 3 * x and (2 * x).subs(x, 3) == 6 and sin(x).subs(x, 3) == sin(3)"},"spec":{"lhs":"test_subs_simple()","rhs":"test_subs_simple produces the expected output","over":{"base":"Any"},"name":"test_subs_simple_correct"},"guarantee":"test_subs_simple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_simple_correct","statement":"Path(test_subs_simple(x), test_subs_simple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bebcb0d099122f7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_simple","kind":"function","src_hash":"970d2991ceb5e3f4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (2 * a).subs(1, 3) == 2 * a and (2 * a).subs(2, 3) == 3 * a and (2 * a).subs(a, 3) == 6 and sin(2).subs(1, 3) == sin(2) and sin(2).subs(2, 3) == sin(3) and sin(a).subs(a, 3) == sin(3) and (2 * x).subs(1, 3) == 2 * x and (2 * x).subs(2, 3) == 3 * x and (2 * x).subs(x, 3) == 6 and sin(x).subs(x, 3) == sin(3)"},"spec":{"lhs":"test_subs_simple()","rhs":"(2 * a).subs(1, 3) == 2 * a and (2 * a).subs(2, 3) == 3 * a and (2 * a).subs(a, 3) == 6 and sin(2).subs(1, 3) == sin(2) and sin(2).subs(2, 3) == sin(3) and sin(a).subs(a, 3) == sin(3) and (2 * x).subs(1, 3) == 2 * x and (2 * x).subs(2, 3) == 3 * x and (2 * x).subs(x, 3) == 6 and sin(x).subs(x, 3) == sin(3)","over":{"base":"Any"},"name":"test_subs_simple_correct"},"guarantee":"(2 * a).subs(1, 3) == 2 * a; (2 * a).subs(2, 3) == 3 * a; (2 * a).subs(a, 3) == 6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_simple_correct","statement":"Path(test_subs_simple(x), (2 * a).subs(1, 3) == 2 * a; (2 * a).subs(2, 3) == 3 * a; (2 * a).subs(a, 3) == 6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8250280e1969888d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(2 * a).subs(1, 3) == 2 * a","(2 * a).subs(2, 3) == 3 * a","(2 * a).subs(a, 3) == 6","sin(2).subs(1, 3) == sin(2)","sin(2).subs(2, 3) == sin(3)","sin(a).subs(a, 3) == sin(3)","(2 * x).subs(1, 3) == 2 * x","(2 * x).subs(2, 3) == 3 * x","(2 * x).subs(x, 3) == 6","sin(x).subs(x, 3) == sin(3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_subs_simple():
     a = symbols('a', commutative=True)
     x = symbols('x', commutative=False)
@@ -499,16 +630,24 @@ def test_subs_simple():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_constants(), test_subs_constants produces the expected output) over Any ║
+# ║ Path(test_subs_constants(), (a * b).subs(2 * a, 1) == a * b and (1.5 * a * b).subs(a, 1) == 1.5 * b and (2 * a * b).subs(2 * a, 1) == b and (2 * a * b).subs(4 * a, 1) == 2 * a * b and (x * y).subs(2 * x, 1) == x * y and (1.5 * x * y).subs(x, 1) == 1.5 * y and (2 * x * y).subs(2 * x, 1) == y and (2 * x * y).subs(4 * x, 1) == 2 * x * y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_constants : Any → {Any | (a * b).subs(2 * a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (a * b).subs(2 * a, 1) == a * b                ║
+# ║   ensures:  (1.5 * a * b).subs(a, 1) == 1.5 * b            ║
+# ║   ensures:  (2 * a * b).subs(2 * a, 1) == b                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_constants : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23422876018bb07a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a003f569bcad05b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_constants","kind":"function","src_hash":"97bb22a7fe6c609d","in":{"base":"Any"},"out":{"base":"Any","pred":"(a * b).subs(2 * a, 1) == a * b and (1.5 * a * b).subs(a, 1) == 1.5 * b and (2 * a * b).subs(2 * a, 1) == b and (2 * a * b).subs(4 * a, 1) == 2 * a * b and (x * y).subs(2 * x, 1) == x * y and (1.5 * x * y).subs(x, 1) == 1.5 * y and (2 * x * y).subs(2 * x, 1) == y and (2 * x * y).subs(4 * x, 1) == 2 * x * y"},"spec":{"lhs":"test_subs_constants()","rhs":"test_subs_constants produces the expected output","over":{"base":"Any"},"name":"test_subs_constants_correct"},"guarantee":"test_subs_constants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_constants_correct","statement":"Path(test_subs_constants(x), test_subs_constants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23422876018bb07a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_constants","kind":"function","src_hash":"97bb22a7fe6c609d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (a * b).subs(2 * a, 1) == a * b and (1.5 * a * b).subs(a, 1) == 1.5 * b and (2 * a * b).subs(2 * a, 1) == b and (2 * a * b).subs(4 * a, 1) == 2 * a * b and (x * y).subs(2 * x, 1) == x * y and (1.5 * x * y).subs(x, 1) == 1.5 * y and (2 * x * y).subs(2 * x, 1) == y and (2 * x * y).subs(4 * x, 1) == 2 * x * y"},"spec":{"lhs":"test_subs_constants()","rhs":"(a * b).subs(2 * a, 1) == a * b and (1.5 * a * b).subs(a, 1) == 1.5 * b and (2 * a * b).subs(2 * a, 1) == b and (2 * a * b).subs(4 * a, 1) == 2 * a * b and (x * y).subs(2 * x, 1) == x * y and (1.5 * x * y).subs(x, 1) == 1.5 * y and (2 * x * y).subs(2 * x, 1) == y and (2 * x * y).subs(4 * x, 1) == 2 * x * y","over":{"base":"Any"},"name":"test_subs_constants_correct"},"guarantee":"(a * b).subs(2 * a, 1) == a * b; (1.5 * a * b).subs(a, 1) == 1.5 * b; (2 * a * b).subs(2 * a, 1) == b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_constants_correct","statement":"Path(test_subs_constants(x), (a * b).subs(2 * a, 1) == a * b; (1.5 * a * b).subs(a, 1) == 1.5 * b; (2 * a * b).subs(2 * a, 1) == b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a003f569bcad05b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(a * b).subs(2 * a, 1) == a * b","(1.5 * a * b).subs(a, 1) == 1.5 * b","(2 * a * b).subs(2 * a, 1) == b","(2 * a * b).subs(4 * a, 1) == 2 * a * b","(x * y).subs(2 * x, 1) == x * y","(1.5 * x * y).subs(x, 1) == 1.5 * y","(2 * x * y).subs(2 * x, 1) == y","(2 * x * y).subs(4 * x, 1) == 2 * x * y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_subs_constants():
     a, b = symbols('a b', commutative=True)
     x, y = symbols('x y', commutative=False)
@@ -525,16 +664,24 @@ def test_subs_constants():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_commutative(), test_subs_commutative produces the expected output) over Any ║
+# ║ Path(test_subs_commutative(), (a * b).subs(a * b, K) == K and (a * b * a * b).subs(a * b, K) == K ** 2 and (a * a * b * b).subs(a * b, K) == K ** 2 and (a * b * c * d).subs(a * b * c, K) == d * K and (a * b ** c).subs(a, K) == K * b ** c and (a * b ** c).subs(b, K) == a * K ** c and (a * b ** c).subs(c, K) == a * b ** K and (a * b * c * b * a).subs(a * b, K) == c * K ** 2 and (a ** 3 * b ** 2 * a).subs(a * b, K) == a ** 2 * K ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_commutative : Any → {Any | (a * b).subs(a *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (a * b).subs(a * b, K) == K                    ║
+# ║   ensures:  (a * b * a * b).subs(a * b, K) == K ** 2       ║
+# ║   ensures:  (a * a * b * b).subs(a * b, K) == K ** 2       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_commutative : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49409cbe9ca14f6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 551fd4746f3e0516  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_commutative","kind":"function","src_hash":"e1dad9985fd51e90","in":{"base":"Any"},"out":{"base":"Any","pred":"(a * b).subs(a * b, K) == K and (a * b * a * b).subs(a * b, K) == K ** 2 and (a * a * b * b).subs(a * b, K) == K ** 2 and (a * b * c * d).subs(a * b * c, K) == d * K and (a * b ** c).subs(a, K) == K * b ** c and (a * b ** c).subs(b, K) == a * K ** c and (a * b ** c).subs(c, K) == a * b ** K and (a * b * c * b * a).subs(a * b, K) == c * K ** 2 and (a ** 3 * b ** 2 * a).subs(a * b, K) == a ** 2 * K ** 2"},"spec":{"lhs":"test_subs_commutative()","rhs":"test_subs_commutative produces the expected output","over":{"base":"Any"},"name":"test_subs_commutative_correct"},"guarantee":"test_subs_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_commutative_correct","statement":"Path(test_subs_commutative(x), test_subs_commutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49409cbe9ca14f6e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_commutative","kind":"function","src_hash":"e1dad9985fd51e90","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (a * b).subs(a * b, K) == K and (a * b * a * b).subs(a * b, K) == K ** 2 and (a * a * b * b).subs(a * b, K) == K ** 2 and (a * b * c * d).subs(a * b * c, K) == d * K and (a * b ** c).subs(a, K) == K * b ** c and (a * b ** c).subs(b, K) == a * K ** c and (a * b ** c).subs(c, K) == a * b ** K and (a * b * c * b * a).subs(a * b, K) == c * K ** 2 and (a ** 3 * b ** 2 * a).subs(a * b, K) == a ** 2 * K ** 2"},"spec":{"lhs":"test_subs_commutative()","rhs":"(a * b).subs(a * b, K) == K and (a * b * a * b).subs(a * b, K) == K ** 2 and (a * a * b * b).subs(a * b, K) == K ** 2 and (a * b * c * d).subs(a * b * c, K) == d * K and (a * b ** c).subs(a, K) == K * b ** c and (a * b ** c).subs(b, K) == a * K ** c and (a * b ** c).subs(c, K) == a * b ** K and (a * b * c * b * a).subs(a * b, K) == c * K ** 2 and (a ** 3 * b ** 2 * a).subs(a * b, K) == a ** 2 * K ** 2","over":{"base":"Any"},"name":"test_subs_commutative_correct"},"guarantee":"(a * b).subs(a * b, K) == K; (a * b * a * b).subs(a * b, K) == K ** 2; (a * a * b * b).subs(a * b, K) == K ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_commutative_correct","statement":"Path(test_subs_commutative(x), (a * b).subs(a * b, K) == K; (a * b * a * b).subs(a * b, K) == K ** 2; (a * a * b * b).subs(a * b, K) == K ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"551fd4746f3e0516","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(a * b).subs(a * b, K) == K","(a * b * a * b).subs(a * b, K) == K ** 2","(a * a * b * b).subs(a * b, K) == K ** 2","(a * b * c * d).subs(a * b * c, K) == d * K","(a * b ** c).subs(a, K) == K * b ** c","(a * b ** c).subs(b, K) == a * K ** c","(a * b ** c).subs(c, K) == a * b ** K","(a * b * c * b * a).subs(a * b, K) == c * K ** 2","(a ** 3 * b ** 2 * a).subs(a * b, K) == a ** 2 * K ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_subs_commutative():
     a, b, c, d, K = symbols('a b c d K', commutative=True)
 
@@ -550,16 +697,24 @@ def test_subs_commutative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_noncommutative(), test_subs_noncommutative produces the expected output) over Any ║
+# ║ Path(test_subs_noncommutative(), (x * y).subs(x * y, L) == L and (w * y * x).subs(x * y, L) == w * y * x and (w * x * y * z).subs(x * y, L) == w * L * z and (x * y * x * y).subs(x * y, L) == L ** 2 and (x * x * y).subs(x * y, L) == x * L and (x * x * y * y).subs(x * y, L) == x * L * y and (w * x * y).subs(x * y * z, L) == w * x * y and (x * y ** z).subs(x, L) == L * y ** z and (x * y ** z).subs(y, L) == x * L ** z and (x * y ** z).subs(z, L) == x * y ** L and (w * x * y * z * x * y).subs(x * y * z, L) == w * L * x * y and (w * x * y * y * w * x * x * y * x * y * y * x * y).subs(x * y, L) == w * L * y * w * x * L ** 2 * y * L and (x * x * x).subs(x * x, L) == L * x and (x * x * x * y * x * x * x * x).subs(x * x, L) == L * x * y * L ** 2 and (x ** Rational(3, 2)).subs(x ** S.Half, L) == x ** Rational(3, 2) and (x ** S.Half).subs(x ** S.Half, L) == L and (x ** Rational(-1, 2)).subs(x ** S.Half, L) == x ** Rational(-1, 2) and (x ** Rational(-1, 2)).subs(x ** Rational(-1, 2), L) == L and (x ** (2 * someint)).subs(x ** someint, L) == L ** 2 and (x ** (2 * someint + 3)).subs(x ** someint, L) == L ** 2 * x ** 3 and (x ** (3 * someint + 3)).subs(x ** someint, L) == L ** 3 * x ** 3 and (x ** (3 * someint)).subs(x ** (2 * someint), L) == L * x ** someint and (x ** (4 * someint)).subs(x ** (2 * someint), L) == L ** 2 and (x ** (4 * someint + 1)).subs(x ** (2 * someint), L) == L ** 2 * x and (x ** (4 * someint)).subs(x ** (3 * someint), L) == L * x ** someint and (x ** (4 * someint + 1)).subs(x ** (3 * someint), L) == L * x ** (someint + 1) and (x ** (2 * alpha)).subs(x ** alpha, L) == x ** (2 * alpha) and (x ** (2 * alpha + 2)).subs(x ** 2, L) == x ** (2 * alpha + 2) and ((2 * z) ** alpha).subs(z ** alpha, y) == (2 * z) ** alpha and (x ** (2 * someint * alpha)).subs(x ** someint, L) == x ** (2 * someint * alpha) and (x ** (2 * someint + alpha)).subs(x ** someint, L) == x ** (2 * someint + alpha) and (x ** (someint ** 2 + 3)).subs(x ** someint, L) == x ** (someint ** 2 + 3) and (4 ** z).subs(2 ** z, y) == y ** 2 and (x ** (-1)).subs(x ** 3, L) == x ** (-1) and (x ** (-2)).subs(x ** 3, L) == x ** (-2) and (x ** (-3)).subs(x ** 3, L) == L ** (-1) and (x ** (-4)).subs(x ** 3, L) == L ** (-1) * x ** (-1) and (x ** (-5)).subs(x ** 3, L) == L ** (-1) * x ** (-2) and (x ** (-1)).subs(x ** (-3), L) == x ** (-1) and (x ** (-2)).subs(x ** (-3), L) == x ** (-2) and (x ** (-3)).subs(x ** (-3), L) == L and (x ** (-4)).subs(x ** (-3), L) == L * x ** (-1) and (x ** (-5)).subs(x ** (-3), L) == L * x ** (-2) and (x ** 1).subs(x ** (-3), L) == x and (x ** 2).subs(x ** (-3), L) == x ** 2 and (x ** 3).subs(x ** (-3), L) == L ** (-1) and (x ** 4).subs(x ** (-3), L) == L ** (-1) * x and (x ** 5).subs(x ** (-3), L) == L ** (-1) * x ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_noncommutative : Any → {Any | (x * y).subs(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x * y).subs(x * y, L) == L                    ║
+# ║   ensures:  (w * y * x).subs(x * y, L) == w * y * x        ║
+# ║   ensures:  (w * x * y * z).subs(x * y, L) == w * L * z    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_noncommutative : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ca0735b0b915923  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 584af58dccdc1bdb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_noncommutative","kind":"function","src_hash":"7942d55ea2446505","in":{"base":"Any"},"out":{"base":"Any","pred":"(x * y).subs(x * y, L) == L and (w * y * x).subs(x * y, L) == w * y * x and (w * x * y * z).subs(x * y, L) == w * L * z and (x * y * x * y).subs(x * y, L) == L ** 2 and (x * x * y).subs(x * y, L) == x * L and (x * x * y * y).subs(x * y, L) == x * L * y and (w * x * y).subs(x * y * z, L) == w * x * y and (x * y ** z).subs(x, L) == L * y ** z and (x * y ** z).subs(y, L) == x * L ** z and (x * y ** z).subs(z, L) == x * y ** L and (w * x * y * z * x * y).subs(x * y * z, L) == w * L * x * y and (x * x * x).subs(x * x, L) == L * x and (x * x * x * y * x * x * x * x).subs(x * x, L) == L * x * y * L ** 2 and (x ** Rational(3, 2)).subs(x ** S.Half, L) == x ** Rational(3, 2) and (x ** S.Half).subs(x ** S.Half, L) == L and (x ** Rational(-1, 2)).subs(x ** S.Half, L) == x ** Rational(-1, 2) and (x ** Rational(-1, 2)).subs(x ** Rational(-1, 2), L) == L and (x ** (2 * someint)).subs(x ** someint, L) == L ** 2 and (x ** (2 * someint + 3)).subs(x ** someint, L) == L ** 2 * x ** 3 and (x ** (3 * someint + 3)).subs(x ** someint, L) == L ** 3 * x ** 3 and (x ** (3 * someint)).subs(x ** (2 * someint), L) == L * x ** someint and (x ** (4 * someint)).subs(x ** (2 * someint), L) == L ** 2 and (x ** (4 * someint + 1)).subs(x ** (2 * someint), L) == L ** 2 * x and (x ** (4 * someint)).subs(x ** (3 * someint), L) == L * x ** someint and (x ** (4 * someint + 1)).subs(x ** (3 * someint), L) == L * x ** (someint + 1) and (x ** (2 * alpha)).subs(x ** alpha, L) == x ** (2 * alpha) and (x ** (2 * alpha + 2)).subs(x ** 2, L) == x ** (2 * alpha + 2) and ((2 * z) ** alpha).subs(z ** alpha, y) == (2 * z) ** alpha and (x ** (someint ** 2 + 3)).subs(x ** someint, L) == x ** (someint ** 2 + 3) and (4 ** z).subs(2 ** z, y) == y ** 2 and (x ** (-1)).subs(x ** 3, L) == x ** (-1) and (x ** (-2)).subs(x ** 3, L) == x ** (-2) and (x ** (-3)).subs(x ** 3, L) == L ** (-1) and (x ** (-4)).subs(x ** 3, L) == L ** (-1) * x ** (-1) and (x ** (-5)).subs(x ** 3, L) == L ** (-1) * x ** (-2) and (x ** (-1)).subs(x ** (-3), L) == x ** (-1) and (x ** (-2)).subs(x ** (-3), L) == x ** (-2) and (x ** (-3)).subs(x ** (-3), L) == L and (x ** (-4)).subs(x ** (-3), L) == L * x ** (-1) and (x ** (-5)).subs(x ** (-3), L) == L * x ** (-2) and (x ** 1).subs(x ** (-3), L) == x and (x ** 2).subs(x ** (-3), L) == x ** 2 and (x ** 3).subs(x ** (-3), L) == L ** (-1) and (x ** 4).subs(x ** (-3), L) == L ** (-1) * x and (x ** 5).subs(x ** (-3), L) == L ** (-1) * x ** 2 and (y * x ** k).subs(x ** p, L) == y * L ** (k // p) * x ** (k % p)"},"spec":{"lhs":"test_subs_noncommutative()","rhs":"test_subs_noncommutative produces the expected output","over":{"base":"Any"},"name":"test_subs_noncommutative_correct"},"guarantee":"test_subs_noncommutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_noncommutative_correct","statement":"Path(test_subs_noncommutative(x), test_subs_noncommutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ca0735b0b915923"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_noncommutative","kind":"function","src_hash":"7942d55ea2446505","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x * y).subs(x * y, L) == L and (w * y * x).subs(x * y, L) == w * y * x and (w * x * y * z).subs(x * y, L) == w * L * z and (x * y * x * y).subs(x * y, L) == L ** 2 and (x * x * y).subs(x * y, L) == x * L and (x * x * y * y).subs(x * y, L) == x * L * y and (w * x * y).subs(x * y * z, L) == w * x * y and (x * y ** z).subs(x, L) == L * y ** z and (x * y ** z).subs(y, L) == x * L ** z and (x * y ** z).subs(z, L) == x * y ** L and (w * x * y * z * x * y).subs(x * y * z, L) == w * L * x * y and (w * x * y * y * w * x * x * y * x * y * y * x * y).subs(x * y, L) == w * L * y * w * x * L ** 2 * y * L and (x * x * x).subs(x * x, L) == L * x and (x * x * x * y * x * x * x * x).subs(x * x, L) == L * x * y * L ** 2 and (x ** Rational(3, 2)).subs(x ** S.Half, L) == x ** Rational(3, 2) and (x ** S.Half).subs(x ** S.Half, L) == L and (x ** Rational(-1, 2)).subs(x ** S.Half, L) == x ** Rational(-1, 2) and (x ** Rational(-1, 2)).subs(x ** Rational(-1, 2), L) == L and (x ** (2 * someint)).subs(x ** someint, L) == L ** 2 and (x ** (2 * someint + 3)).subs(x ** someint, L) == L ** 2 * x ** 3 and (x ** (3 * someint + 3)).subs(x ** someint, L) == L ** 3 * x ** 3 and (x ** (3 * someint)).subs(x ** (2 * someint), L) == L * x ** someint and (x ** (4 * someint)).subs(x ** (2 * someint), L) == L ** 2 and (x ** (4 * someint + 1)).subs(x ** (2 * someint), L) == L ** 2 * x and (x ** (4 * someint)).subs(x ** (3 * someint), L) == L * x ** someint and (x ** (4 * someint + 1)).subs(x ** (3 * someint), L) == L * x ** (someint + 1) and (x ** (2 * alpha)).subs(x ** alpha, L) == x ** (2 * alpha) and (x ** (2 * alpha + 2)).subs(x ** 2, L) == x ** (2 * alpha + 2) and ((2 * z) ** alpha).subs(z ** alpha, y) == (2 * z) ** alpha and (x ** (2 * someint * alpha)).subs(x ** someint, L) == x ** (2 * someint * alpha) and (x ** (2 * someint + alpha)).subs(x ** someint, L) == x ** (2 * someint + alpha) and (x ** (someint ** 2 + 3)).subs(x ** someint, L) == x ** (someint ** 2 + 3) and (4 ** z).subs(2 ** z, y) == y ** 2 and (x ** (-1)).subs(x ** 3, L) == x ** (-1) and (x ** (-2)).subs(x ** 3, L) == x ** (-2) and (x ** (-3)).subs(x ** 3, L) == L ** (-1) and (x ** (-4)).subs(x ** 3, L) == L ** (-1) * x ** (-1) and (x ** (-5)).subs(x ** 3, L) == L ** (-1) * x ** (-2) and (x ** (-1)).subs(x ** (-3), L) == x ** (-1) and (x ** (-2)).subs(x ** (-3), L) == x ** (-2) and (x ** (-3)).subs(x ** (-3), L) == L and (x ** (-4)).subs(x ** (-3), L) == L * x ** (-1) and (x ** (-5)).subs(x ** (-3), L) == L * x ** (-2) and (x ** 1).subs(x ** (-3), L) == x and (x ** 2).subs(x ** (-3), L) == x ** 2 and (x ** 3).subs(x ** (-3), L) == L ** (-1) and (x ** 4).subs(x ** (-3), L) == L ** (-1) * x and (x ** 5).subs(x ** (-3), L) == L ** (-1) * x ** 2"},"spec":{"lhs":"test_subs_noncommutative()","rhs":"(x * y).subs(x * y, L) == L and (w * y * x).subs(x * y, L) == w * y * x and (w * x * y * z).subs(x * y, L) == w * L * z and (x * y * x * y).subs(x * y, L) == L ** 2 and (x * x * y).subs(x * y, L) == x * L and (x * x * y * y).subs(x * y, L) == x * L * y and (w * x * y).subs(x * y * z, L) == w * x * y and (x * y ** z).subs(x, L) == L * y ** z and (x * y ** z).subs(y, L) == x * L ** z and (x * y ** z).subs(z, L) == x * y ** L and (w * x * y * z * x * y).subs(x * y * z, L) == w * L * x * y and (w * x * y * y * w * x * x * y * x * y * y * x * y).subs(x * y, L) == w * L * y * w * x * L ** 2 * y * L and (x * x * x).subs(x * x, L) == L * x and (x * x * x * y * x * x * x * x).subs(x * x, L) == L * x * y * L ** 2 and (x ** Rational(3, 2)).subs(x ** S.Half, L) == x ** Rational(3, 2) and (x ** S.Half).subs(x ** S.Half, L) == L and (x ** Rational(-1, 2)).subs(x ** S.Half, L) == x ** Rational(-1, 2) and (x ** Rational(-1, 2)).subs(x ** Rational(-1, 2), L) == L and (x ** (2 * someint)).subs(x ** someint, L) == L ** 2 and (x ** (2 * someint + 3)).subs(x ** someint, L) == L ** 2 * x ** 3 and (x ** (3 * someint + 3)).subs(x ** someint, L) == L ** 3 * x ** 3 and (x ** (3 * someint)).subs(x ** (2 * someint), L) == L * x ** someint and (x ** (4 * someint)).subs(x ** (2 * someint), L) == L ** 2 and (x ** (4 * someint + 1)).subs(x ** (2 * someint), L) == L ** 2 * x and (x ** (4 * someint)).subs(x ** (3 * someint), L) == L * x ** someint and (x ** (4 * someint + 1)).subs(x ** (3 * someint), L) == L * x ** (someint + 1) and (x ** (2 * alpha)).subs(x ** alpha, L) == x ** (2 * alpha) and (x ** (2 * alpha + 2)).subs(x ** 2, L) == x ** (2 * alpha + 2) and ((2 * z) ** alpha).subs(z ** alpha, y) == (2 * z) ** alpha and (x ** (2 * someint * alpha)).subs(x ** someint, L) == x ** (2 * someint * alpha) and (x ** (2 * someint + alpha)).subs(x ** someint, L) == x ** (2 * someint + alpha) and (x ** (someint ** 2 + 3)).subs(x ** someint, L) == x ** (someint ** 2 + 3) and (4 ** z).subs(2 ** z, y) == y ** 2 and (x ** (-1)).subs(x ** 3, L) == x ** (-1) and (x ** (-2)).subs(x ** 3, L) == x ** (-2) and (x ** (-3)).subs(x ** 3, L) == L ** (-1) and (x ** (-4)).subs(x ** 3, L) == L ** (-1) * x ** (-1) and (x ** (-5)).subs(x ** 3, L) == L ** (-1) * x ** (-2) and (x ** (-1)).subs(x ** (-3), L) == x ** (-1) and (x ** (-2)).subs(x ** (-3), L) == x ** (-2) and (x ** (-3)).subs(x ** (-3), L) == L and (x ** (-4)).subs(x ** (-3), L) == L * x ** (-1) and (x ** (-5)).subs(x ** (-3), L) == L * x ** (-2) and (x ** 1).subs(x ** (-3), L) == x and (x ** 2).subs(x ** (-3), L) == x ** 2 and (x ** 3).subs(x ** (-3), L) == L ** (-1) and (x ** 4).subs(x ** (-3), L) == L ** (-1) * x and (x ** 5).subs(x ** (-3), L) == L ** (-1) * x ** 2","over":{"base":"Any"},"name":"test_subs_noncommutative_correct"},"guarantee":"(x * y).subs(x * y, L) == L; (w * y * x).subs(x * y, L) == w * y * x; (w * x * y * z).subs(x * y, L) == w * L * z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_noncommutative_correct","statement":"Path(test_subs_noncommutative(x), (x * y).subs(x * y, L) == L; (w * y * x).subs(x * y, L) == w * y * x; (w * x * y * z).subs(x * y, L) == w * L * z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"584af58dccdc1bdb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x * y).subs(x * y, L) == L","(w * y * x).subs(x * y, L) == w * y * x","(w * x * y * z).subs(x * y, L) == w * L * z","(x * y * x * y).subs(x * y, L) == L ** 2","(x * x * y).subs(x * y, L) == x * L","(x * x * y * y).subs(x * y, L) == x * L * y","(w * x * y).subs(x * y * z, L) == w * x * y","(x * y ** z).subs(x, L) == L * y ** z","(x * y ** z).subs(y, L) == x * L ** z","(x * y ** z).subs(z, L) == x * y ** L","(w * x * y * z * x * y).subs(x * y * z, L) == w * L * x * y","(w * x * y * y * w * x * x * y * x * y * y * x * y).subs(x * y, L) == w * L * y * w * x * L ** 2 * y * L","(x * x * x).subs(x * x, L) == L * x","(x * x * x * y * x * x * x * x).subs(x * x, L) == L * x * y * L ** 2","(x ** Rational(3, 2)).subs(x ** S.Half, L) == x ** Rational(3, 2)","(x ** S.Half).subs(x ** S.Half, L) == L","(x ** Rational(-1, 2)).subs(x ** S.Half, L) == x ** Rational(-1, 2)","(x ** Rational(-1, 2)).subs(x ** Rational(-1, 2), L) == L","(x ** (2 * someint)).subs(x ** someint, L) == L ** 2","(x ** (2 * someint + 3)).subs(x ** someint, L) == L ** 2 * x ** 3","(x ** (3 * someint + 3)).subs(x ** someint, L) == L ** 3 * x ** 3","(x ** (3 * someint)).subs(x ** (2 * someint), L) == L * x ** someint","(x ** (4 * someint)).subs(x ** (2 * someint), L) == L ** 2","(x ** (4 * someint + 1)).subs(x ** (2 * someint), L) == L ** 2 * x","(x ** (4 * someint)).subs(x ** (3 * someint), L) == L * x ** someint","(x ** (4 * someint + 1)).subs(x ** (3 * someint), L) == L * x ** (someint + 1)","(x ** (2 * alpha)).subs(x ** alpha, L) == x ** (2 * alpha)","(x ** (2 * alpha + 2)).subs(x ** 2, L) == x ** (2 * alpha + 2)","((2 * z) ** alpha).subs(z ** alpha, y) == (2 * z) ** alpha","(x ** (2 * someint * alpha)).subs(x ** someint, L) == x ** (2 * someint * alpha)","(x ** (2 * someint + alpha)).subs(x ** someint, L) == x ** (2 * someint + alpha)","(x ** (someint ** 2 + 3)).subs(x ** someint, L) == x ** (someint ** 2 + 3)","(4 ** z).subs(2 ** z, y) == y ** 2","(x ** (-1)).subs(x ** 3, L) == x ** (-1)","(x ** (-2)).subs(x ** 3, L) == x ** (-2)","(x ** (-3)).subs(x ** 3, L) == L ** (-1)","(x ** (-4)).subs(x ** 3, L) == L ** (-1) * x ** (-1)","(x ** (-5)).subs(x ** 3, L) == L ** (-1) * x ** (-2)","(x ** (-1)).subs(x ** (-3), L) == x ** (-1)","(x ** (-2)).subs(x ** (-3), L) == x ** (-2)","(x ** (-3)).subs(x ** (-3), L) == L","(x ** (-4)).subs(x ** (-3), L) == L * x ** (-1)","(x ** (-5)).subs(x ** (-3), L) == L * x ** (-2)","(x ** 1).subs(x ** (-3), L) == x","(x ** 2).subs(x ** (-3), L) == x ** 2","(x ** 3).subs(x ** (-3), L) == L ** (-1)","(x ** 4).subs(x ** (-3), L) == L ** (-1) * x","(x ** 5).subs(x ** (-3), L) == L ** (-1) * x ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":true}}
 def test_subs_noncommutative():
     w, x, y, z, L = symbols('w x y z L', commutative=False)
     alpha = symbols('alpha', commutative=True)
@@ -635,16 +790,24 @@ def test_subs_noncommutative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_basic_funcs(), test_subs_basic_funcs produces the expected output) over Any ║
+# ║ Path(test_subs_basic_funcs(), (x + y).subs(x + y, L) == L and (x - y).subs(x - y, L) == L and (x / y).subs(x, L) == L / y and (x ** y).subs(x, L) == L ** y and (x ** y).subs(y, L) == x ** L and ((a - c) / b).subs(b, K) == (a - c) / K and exp(x * y - z).subs(x * y, L) == exp(L - z) and (a * exp(x * y - w * z) + b * exp(x * y + w * z)).subs(z, 0) == a * exp(x * y) + b * exp(x * y) and ((a - b) / (c * d - a * b)).subs(c * d - a * b, K) == (a - b) / K and (w * exp(a * b - c) * x * y / 4).subs(x * y, L) == w * exp(a * b - c) * L / 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_basic_funcs : Any → {Any | (x + y).subs(x +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x + y).subs(x + y, L) == L                    ║
+# ║   ensures:  (x - y).subs(x - y, L) == L                    ║
+# ║   ensures:  (x / y).subs(x, L) == L / y                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_basic_funcs : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 435ec7d845a03cb0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce3b327847c2e35e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_basic_funcs","kind":"function","src_hash":"7831e1c25d53fcf8","in":{"base":"Any"},"out":{"base":"Any","pred":"(x + y).subs(x + y, L) == L and (x - y).subs(x - y, L) == L and (x / y).subs(x, L) == L / y and (x ** y).subs(x, L) == L ** y and (x ** y).subs(y, L) == x ** L and ((a - c) / b).subs(b, K) == (a - c) / K and exp(x * y - z).subs(x * y, L) == exp(L - z) and ((a - b) / (c * d - a * b)).subs(c * d - a * b, K) == (a - b) / K and (w * exp(a * b - c) * x * y / 4).subs(x * y, L) == w * exp(a * b - c) * L / 4"},"spec":{"lhs":"test_subs_basic_funcs()","rhs":"test_subs_basic_funcs produces the expected output","over":{"base":"Any"},"name":"test_subs_basic_funcs_correct"},"guarantee":"test_subs_basic_funcs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_basic_funcs_correct","statement":"Path(test_subs_basic_funcs(x), test_subs_basic_funcs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"435ec7d845a03cb0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_basic_funcs","kind":"function","src_hash":"7831e1c25d53fcf8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x + y).subs(x + y, L) == L and (x - y).subs(x - y, L) == L and (x / y).subs(x, L) == L / y and (x ** y).subs(x, L) == L ** y and (x ** y).subs(y, L) == x ** L and ((a - c) / b).subs(b, K) == (a - c) / K and exp(x * y - z).subs(x * y, L) == exp(L - z) and (a * exp(x * y - w * z) + b * exp(x * y + w * z)).subs(z, 0) == a * exp(x * y) + b * exp(x * y) and ((a - b) / (c * d - a * b)).subs(c * d - a * b, K) == (a - b) / K and (w * exp(a * b - c) * x * y / 4).subs(x * y, L) == w * exp(a * b - c) * L / 4"},"spec":{"lhs":"test_subs_basic_funcs()","rhs":"(x + y).subs(x + y, L) == L and (x - y).subs(x - y, L) == L and (x / y).subs(x, L) == L / y and (x ** y).subs(x, L) == L ** y and (x ** y).subs(y, L) == x ** L and ((a - c) / b).subs(b, K) == (a - c) / K and exp(x * y - z).subs(x * y, L) == exp(L - z) and (a * exp(x * y - w * z) + b * exp(x * y + w * z)).subs(z, 0) == a * exp(x * y) + b * exp(x * y) and ((a - b) / (c * d - a * b)).subs(c * d - a * b, K) == (a - b) / K and (w * exp(a * b - c) * x * y / 4).subs(x * y, L) == w * exp(a * b - c) * L / 4","over":{"base":"Any"},"name":"test_subs_basic_funcs_correct"},"guarantee":"(x + y).subs(x + y, L) == L; (x - y).subs(x - y, L) == L; (x / y).subs(x, L) == L / y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_basic_funcs_correct","statement":"Path(test_subs_basic_funcs(x), (x + y).subs(x + y, L) == L; (x - y).subs(x - y, L) == L; (x / y).subs(x, L) == L / y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce3b327847c2e35e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x + y).subs(x + y, L) == L","(x - y).subs(x - y, L) == L","(x / y).subs(x, L) == L / y","(x ** y).subs(x, L) == L ** y","(x ** y).subs(y, L) == x ** L","((a - c) / b).subs(b, K) == (a - c) / K","exp(x * y - z).subs(x * y, L) == exp(L - z)","(a * exp(x * y - w * z) + b * exp(x * y + w * z)).subs(z, 0) == a * exp(x * y) + b * exp(x * y)","((a - b) / (c * d - a * b)).subs(c * d - a * b, K) == (a - b) / K","(w * exp(a * b - c) * x * y / 4).subs(x * y, L) == w * exp(a * b - c) * L / 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_subs_basic_funcs():
     a, b, c, d, K = symbols('a b c d K', commutative=True)
     w, x, y, z, L = symbols('w x y z L', commutative=False)
@@ -663,16 +826,24 @@ def test_subs_basic_funcs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_wild(), test_subs_wild produces the expected output) over Any ║
+# ║ Path(test_subs_wild(), (R * S).subs(R * S, T) == T and (S * R).subs(R * S, T) == T and (R + S).subs(R + S, T) == T and (R ** S).subs(R, T) == T ** S and (R ** S).subs(S, T) == R ** T and (R * S ** T).subs(R, U) == U * S ** T and (R * S ** T).subs(S, U) == R * U ** T and (R * S ** T).subs(T, U) == R * S ** U) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_wild : Any → {Any | (R * S).subs(R * S, T) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (R * S).subs(R * S, T) == T                    ║
+# ║   ensures:  (S * R).subs(R * S, T) == T                    ║
+# ║   ensures:  (R + S).subs(R + S, T) == T                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_wild : Any → {Any | result satisfies: (R * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c06a8e742b1a76c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bdb81f3346d1eaf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_wild","kind":"function","src_hash":"6fbe55a349062244","in":{"base":"Any"},"out":{"base":"Any","pred":"(R * S).subs(R * S, T) == T and (S * R).subs(R * S, T) == T and (R + S).subs(R + S, T) == T and (R ** S).subs(R, T) == T ** S and (R ** S).subs(S, T) == R ** T and (R * S ** T).subs(R, U) == U * S ** T and (R * S ** T).subs(S, U) == R * U ** T and (R * S ** T).subs(T, U) == R * S ** U"},"spec":{"lhs":"test_subs_wild()","rhs":"test_subs_wild produces the expected output","over":{"base":"Any"},"name":"test_subs_wild_correct"},"guarantee":"test_subs_wild produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_wild_correct","statement":"Path(test_subs_wild(x), test_subs_wild produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c06a8e742b1a76c0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_wild","kind":"function","src_hash":"6fbe55a349062244","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (R * S).subs(R * S, T) == T and (S * R).subs(R * S, T) == T and (R + S).subs(R + S, T) == T and (R ** S).subs(R, T) == T ** S and (R ** S).subs(S, T) == R ** T and (R * S ** T).subs(R, U) == U * S ** T and (R * S ** T).subs(S, U) == R * U ** T and (R * S ** T).subs(T, U) == R * S ** U"},"spec":{"lhs":"test_subs_wild()","rhs":"(R * S).subs(R * S, T) == T and (S * R).subs(R * S, T) == T and (R + S).subs(R + S, T) == T and (R ** S).subs(R, T) == T ** S and (R ** S).subs(S, T) == R ** T and (R * S ** T).subs(R, U) == U * S ** T and (R * S ** T).subs(S, U) == R * U ** T and (R * S ** T).subs(T, U) == R * S ** U","over":{"base":"Any"},"name":"test_subs_wild_correct"},"guarantee":"(R * S).subs(R * S, T) == T; (S * R).subs(R * S, T) == T; (R + S).subs(R + S, T) == T","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_wild_correct","statement":"Path(test_subs_wild(x), (R * S).subs(R * S, T) == T; (S * R).subs(R * S, T) == T; (R + S).subs(R + S, T) == T)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bdb81f3346d1eaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(R * S).subs(R * S, T) == T","(S * R).subs(R * S, T) == T","(R + S).subs(R + S, T) == T","(R ** S).subs(R, T) == T ** S","(R ** S).subs(S, T) == R ** T","(R * S ** T).subs(R, U) == U * S ** T","(R * S ** T).subs(S, U) == R * U ** T","(R * S ** T).subs(T, U) == R * S ** U"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_subs_wild():
     R, S, T, U = symbols('R S T U', cls=Wild)
 
@@ -687,16 +858,24 @@ def test_subs_wild():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_mixed(), test_subs_mixed produces the expected output) over Any ║
+# ║ Path(test_subs_mixed(), (a * x * y).subs(x * y, L) == a * L and (a * b * x * y * x).subs(x * y, L) == a * b * L * x and (R * x * y * exp(x * y)).subs(x * y, L) == R * L * exp(L) and (a * x * y * y * x - x * y * z * exp(a * b)).subs(x * y, L) == a * L * y * x - L * z * exp(a * b) and e.subs(x * y, L).subs(a * b, K).subs(R * S, U) == c * y * L * x ** (U - K) - T * (U * K)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_mixed : Any → {Any | (a * x * y).subs(x * y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (a * x * y).subs(x * y, L) == a * L            ║
+# ║   ensures:  (a * b * x * y * x).subs(x * y, L) == a *...   ║
+# ║   ensures:  (R * x * y * exp(x * y)).subs(x * y, L) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_mixed : Any → {Any | result satisfies: (a *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e85f0232fbf0de2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16c964e2c2424f6c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_mixed","kind":"function","src_hash":"48001ad155a6aafc","in":{"base":"Any"},"out":{"base":"Any","pred":"(a * x * y).subs(x * y, L) == a * L and (a * b * x * y * x).subs(x * y, L) == a * b * L * x and (R * x * y * exp(x * y)).subs(x * y, L) == R * L * exp(L)"},"spec":{"lhs":"test_subs_mixed()","rhs":"test_subs_mixed produces the expected output","over":{"base":"Any"},"name":"test_subs_mixed_correct"},"guarantee":"test_subs_mixed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_mixed_correct","statement":"Path(test_subs_mixed(x), test_subs_mixed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e85f0232fbf0de2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_mixed","kind":"function","src_hash":"48001ad155a6aafc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (a * x * y).subs(x * y, L) == a * L and (a * b * x * y * x).subs(x * y, L) == a * b * L * x and (R * x * y * exp(x * y)).subs(x * y, L) == R * L * exp(L) and (a * x * y * y * x - x * y * z * exp(a * b)).subs(x * y, L) == a * L * y * x - L * z * exp(a * b) and e.subs(x * y, L).subs(a * b, K).subs(R * S, U) == c * y * L * x ** (U - K) - T * (U * K)"},"spec":{"lhs":"test_subs_mixed()","rhs":"(a * x * y).subs(x * y, L) == a * L and (a * b * x * y * x).subs(x * y, L) == a * b * L * x and (R * x * y * exp(x * y)).subs(x * y, L) == R * L * exp(L) and (a * x * y * y * x - x * y * z * exp(a * b)).subs(x * y, L) == a * L * y * x - L * z * exp(a * b) and e.subs(x * y, L).subs(a * b, K).subs(R * S, U) == c * y * L * x ** (U - K) - T * (U * K)","over":{"base":"Any"},"name":"test_subs_mixed_correct"},"guarantee":"(a * x * y).subs(x * y, L) == a * L; (a * b * x * y * x).subs(x * y, L) == a * b * L * x; (R * x * y * exp(x * y)).subs(x * y, L) == R * L * exp(L)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_mixed_correct","statement":"Path(test_subs_mixed(x), (a * x * y).subs(x * y, L) == a * L; (a * b * x * y * x).subs(x * y, L) == a * b * L * x; (R * x * y * exp(x * y)).subs(x * y, L) == R * L * exp(L))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16c964e2c2424f6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(a * x * y).subs(x * y, L) == a * L","(a * b * x * y * x).subs(x * y, L) == a * b * L * x","(R * x * y * exp(x * y)).subs(x * y, L) == R * L * exp(L)","(a * x * y * y * x - x * y * z * exp(a * b)).subs(x * y, L) == a * L * y * x - L * z * exp(a * b)","e.subs(x * y, L).subs(a * b, K).subs(R * S, U) == c * y * L * x ** (U - K) - T * (U * K)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_subs_mixed():
     a, b, c, d, K = symbols('a b c d K', commutative=True)
     w, x, y, z, L = symbols('w x y z L', commutative=False)
@@ -712,16 +891,24 @@ def test_subs_mixed():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_division(), test_division produces the expected output) over Any ║
+# ║ Path(test_division(), (1 / a).subs(a, c) == 1 / c and (1 / a ** 2).subs(a, c) == 1 / c ** 2 and (1 / a ** 2).subs(a, -2) == Rational(1, 4) and (-(1 / a ** 2)).subs(a, -2) == Rational(-1, 4) and (1 / x).subs(x, z) == 1 / z and (1 / x ** 2).subs(x, z) == 1 / z ** 2 and (1 / x ** 2).subs(x, -2) == Rational(1, 4) and (-(1 / x ** 2)).subs(x, -2) == Rational(-1, 4) and (1 / x).subs(x, 0) == 1 / S.Zero) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_division : Any → {Any | (1 / a).subs(a, c) == 1 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (1 / a).subs(a, c) == 1 / c                    ║
+# ║   ensures:  (1 / a ** 2).subs(a, c) == 1 / c ** 2          ║
+# ║   ensures:  (1 / a ** 2).subs(a, -2) == Rational(1, 4)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_division : Any → {Any | result satisfies: (1 / a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5f46803425ee2ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7058f2fd537baf31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_division","kind":"function","src_hash":"78100bb7b05c53c2","in":{"base":"Any"},"out":{"base":"Any","pred":"(1 / a).subs(a, c) == 1 / c and (1 / a ** 2).subs(a, c) == 1 / c ** 2 and (1 / a ** 2).subs(a, -2) == Rational(1, 4) and (-(1 / a ** 2)).subs(a, -2) == Rational(-1, 4) and (1 / x).subs(x, z) == 1 / z and (1 / x ** 2).subs(x, z) == 1 / z ** 2 and (1 / x ** 2).subs(x, -2) == Rational(1, 4) and (-(1 / x ** 2)).subs(x, -2) == Rational(-1, 4) and (1 / x).subs(x, 0) == 1 / S.Zero"},"spec":{"lhs":"test_division()","rhs":"test_division produces the expected output","over":{"base":"Any"},"name":"test_division_correct"},"guarantee":"test_division produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_division_correct","statement":"Path(test_division(x), test_division produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5f46803425ee2ad"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_division","kind":"function","src_hash":"78100bb7b05c53c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (1 / a).subs(a, c) == 1 / c and (1 / a ** 2).subs(a, c) == 1 / c ** 2 and (1 / a ** 2).subs(a, -2) == Rational(1, 4) and (-(1 / a ** 2)).subs(a, -2) == Rational(-1, 4) and (1 / x).subs(x, z) == 1 / z and (1 / x ** 2).subs(x, z) == 1 / z ** 2 and (1 / x ** 2).subs(x, -2) == Rational(1, 4) and (-(1 / x ** 2)).subs(x, -2) == Rational(-1, 4) and (1 / x).subs(x, 0) == 1 / S.Zero"},"spec":{"lhs":"test_division()","rhs":"(1 / a).subs(a, c) == 1 / c and (1 / a ** 2).subs(a, c) == 1 / c ** 2 and (1 / a ** 2).subs(a, -2) == Rational(1, 4) and (-(1 / a ** 2)).subs(a, -2) == Rational(-1, 4) and (1 / x).subs(x, z) == 1 / z and (1 / x ** 2).subs(x, z) == 1 / z ** 2 and (1 / x ** 2).subs(x, -2) == Rational(1, 4) and (-(1 / x ** 2)).subs(x, -2) == Rational(-1, 4) and (1 / x).subs(x, 0) == 1 / S.Zero","over":{"base":"Any"},"name":"test_division_correct"},"guarantee":"(1 / a).subs(a, c) == 1 / c; (1 / a ** 2).subs(a, c) == 1 / c ** 2; (1 / a ** 2).subs(a, -2) == Rational(1, 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_division_correct","statement":"Path(test_division(x), (1 / a).subs(a, c) == 1 / c; (1 / a ** 2).subs(a, c) == 1 / c ** 2; (1 / a ** 2).subs(a, -2) == Rational(1, 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7058f2fd537baf31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(1 / a).subs(a, c) == 1 / c","(1 / a ** 2).subs(a, c) == 1 / c ** 2","(1 / a ** 2).subs(a, -2) == Rational(1, 4)","(-(1 / a ** 2)).subs(a, -2) == Rational(-1, 4)","(1 / x).subs(x, z) == 1 / z","(1 / x ** 2).subs(x, z) == 1 / z ** 2","(1 / x ** 2).subs(x, -2) == Rational(1, 4)","(-(1 / x ** 2)).subs(x, -2) == Rational(-1, 4)","(1 / x).subs(x, 0) == 1 / S.Zero"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_division():
     a, b, c = symbols('a b c', commutative=True)
     x, y, z = symbols('x y z', commutative=True)
@@ -741,16 +928,24 @@ def test_division():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add(), test_add produces the expected output) over Any ║
+# ║ Path(test_add(), (a ** 2 - b - c).subs(a ** 2 - b, d) in [d - c, a ** 2 - b - c] and (a ** 2 - c).subs(a ** 2 - c, d) == d and (a ** 2 - b - c).subs(a ** 2 - c, d) in [d - b, a ** 2 - b - c] and (a ** 2 - x - c).subs(a ** 2 - c, d) in [d - x, a ** 2 - x - c] and (a ** 2 - b - sqrt(a)).subs(a ** 2 - sqrt(a), c) == c - b and (a + b + exp(a + b)).subs(a + b, c) == c + exp(c) and (c + b + exp(c + b)).subs(c + b, a) == a + exp(a) and (a + b + c + d).subs(b + c, x) == a + d + x and (a + b + c + d).subs(-b - c, x) == a + d - x and ((x + 1) * y).subs(x + 1, t) == t * y and ((-x - 1) * y).subs(x + 1, t) == -t * y and ((x - 1) * y).subs(x + 1, t) == y * (t - 2) and ((-x + 1) * y).subs(x + 1, t) == y * (-t + 2) and e.subs(Add(*e.args[:2]), d) == d + e.args[2] and e.subs(a ** 2 - c, d) == d - b and (0.1 + a).subs(0.1, Rational(1, 10)) == Rational(1, 10) + a and e.subs(-y + 1, x) == ans and (exp(x) + cos(x)).subs(x, oo) == oo and Add(*[AccumBounds(-1, 1), oo]) == oo and Add(*[oo, AccumBounds(-1, 1)]) == oo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add : Any → {Any | (a ** 2 - b - c).subs(a ** 2 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (a ** 2 - b - c).subs(a ** 2 - b, d) in [...   ║
+# ║   ensures:  (a ** 2 - c).subs(a ** 2 - c, d) == d          ║
+# ║   ensures:  (a ** 2 - b - c).subs(a ** 2 - c, d) in [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add : Any → {Any | result satisfies: (a ** 2 - b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 911031da0f31d0e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fc4c8db817633de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_add","kind":"function","src_hash":"b7825a01b084448f","in":{"base":"Any"},"out":{"base":"Any","pred":"(a ** 2 - b - c).subs(a ** 2 - b, d) in [d - c, a ** 2 - b - c] and (a ** 2 - c).subs(a ** 2 - c, d) == d and (a ** 2 - b - c).subs(a ** 2 - c, d) in [d - b, a ** 2 - b - c] and (a ** 2 - x - c).subs(a ** 2 - c, d) in [d - x, a ** 2 - x - c] and (a ** 2 - b - sqrt(a)).subs(a ** 2 - sqrt(a), c) == c - b and (a + b + exp(a + b)).subs(a + b, c) == c + exp(c) and (c + b + exp(c + b)).subs(c + b, a) == a + exp(a) and (a + b + c + d).subs(b + c, x) == a + d + x and (a + b + c + d).subs(-b - c, x) == a + d - x and ((x + 1) * y).subs(x + 1, t) == t * y and ((-x - 1) * y).subs(x + 1, t) == -t * y and ((x - 1) * y).subs(x + 1, t) == y * (t - 2) and ((-x + 1) * y).subs(x + 1, t) == y * (-t + 2) and e.subs(Add(*e.args[:2]), d) == d + e.args[2] and e.subs(a ** 2 - c, d) == d - b and (0.1 + a).subs(0.1, Rational(1, 10)) == Rational(1, 10) + a and e.subs(-y + 1, x) == ans and (exp(x) + cos(x)).subs(x, oo) == oo and Add(*[AccumBounds(-1, 1), oo]) == oo and Add(*[oo, AccumBounds(-1, 1)]) == oo"},"spec":{"lhs":"test_add()","rhs":"test_add produces the expected output","over":{"base":"Any"},"name":"test_add_correct"},"guarantee":"test_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_add_correct","statement":"Path(test_add(x), test_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"911031da0f31d0e4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_add","kind":"function","src_hash":"b7825a01b084448f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (a ** 2 - b - c).subs(a ** 2 - b, d) in [d - c, a ** 2 - b - c] and (a ** 2 - c).subs(a ** 2 - c, d) == d and (a ** 2 - b - c).subs(a ** 2 - c, d) in [d - b, a ** 2 - b - c] and (a ** 2 - x - c).subs(a ** 2 - c, d) in [d - x, a ** 2 - x - c] and (a ** 2 - b - sqrt(a)).subs(a ** 2 - sqrt(a), c) == c - b and (a + b + exp(a + b)).subs(a + b, c) == c + exp(c) and (c + b + exp(c + b)).subs(c + b, a) == a + exp(a) and (a + b + c + d).subs(b + c, x) == a + d + x and (a + b + c + d).subs(-b - c, x) == a + d - x and ((x + 1) * y).subs(x + 1, t) == t * y and ((-x - 1) * y).subs(x + 1, t) == -t * y and ((x - 1) * y).subs(x + 1, t) == y * (t - 2) and ((-x + 1) * y).subs(x + 1, t) == y * (-t + 2) and e.subs(Add(*e.args[:2]), d) == d + e.args[2] and e.subs(a ** 2 - c, d) == d - b and (0.1 + a).subs(0.1, Rational(1, 10)) == Rational(1, 10) + a and e.subs(-y + 1, x) == ans and (exp(x) + cos(x)).subs(x, oo) == oo and Add(*[AccumBounds(-1, 1), oo]) == oo and Add(*[oo, AccumBounds(-1, 1)]) == oo"},"spec":{"lhs":"test_add()","rhs":"(a ** 2 - b - c).subs(a ** 2 - b, d) in [d - c, a ** 2 - b - c] and (a ** 2 - c).subs(a ** 2 - c, d) == d and (a ** 2 - b - c).subs(a ** 2 - c, d) in [d - b, a ** 2 - b - c] and (a ** 2 - x - c).subs(a ** 2 - c, d) in [d - x, a ** 2 - x - c] and (a ** 2 - b - sqrt(a)).subs(a ** 2 - sqrt(a), c) == c - b and (a + b + exp(a + b)).subs(a + b, c) == c + exp(c) and (c + b + exp(c + b)).subs(c + b, a) == a + exp(a) and (a + b + c + d).subs(b + c, x) == a + d + x and (a + b + c + d).subs(-b - c, x) == a + d - x and ((x + 1) * y).subs(x + 1, t) == t * y and ((-x - 1) * y).subs(x + 1, t) == -t * y and ((x - 1) * y).subs(x + 1, t) == y * (t - 2) and ((-x + 1) * y).subs(x + 1, t) == y * (-t + 2) and e.subs(Add(*e.args[:2]), d) == d + e.args[2] and e.subs(a ** 2 - c, d) == d - b and (0.1 + a).subs(0.1, Rational(1, 10)) == Rational(1, 10) + a and e.subs(-y + 1, x) == ans and (exp(x) + cos(x)).subs(x, oo) == oo and Add(*[AccumBounds(-1, 1), oo]) == oo and Add(*[oo, AccumBounds(-1, 1)]) == oo","over":{"base":"Any"},"name":"test_add_correct"},"guarantee":"(a ** 2 - b - c).subs(a ** 2 - b, d) in [d - c, a ** 2 - b - c]; (a ** 2 - c).subs(a ** 2 - c, d) == d; (a ** 2 - b - c).subs(a ** 2 - c, d) in [d - b, a ** 2 - b - c]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_add_correct","statement":"Path(test_add(x), (a ** 2 - b - c).subs(a ** 2 - b, d) in [d - c, a ** 2 - b - c]; (a ** 2 - c).subs(a ** 2 - c, d) == d; (a ** 2 - b - c).subs(a ** 2 - c, d) in [d - b, a ** 2 - b - c])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fc4c8db817633de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(a ** 2 - b - c).subs(a ** 2 - b, d) in [d - c, a ** 2 - b - c]","(a ** 2 - c).subs(a ** 2 - c, d) == d","(a ** 2 - b - c).subs(a ** 2 - c, d) in [d - b, a ** 2 - b - c]","(a ** 2 - x - c).subs(a ** 2 - c, d) in [d - x, a ** 2 - x - c]","(a ** 2 - b - sqrt(a)).subs(a ** 2 - sqrt(a), c) == c - b","(a + b + exp(a + b)).subs(a + b, c) == c + exp(c)","(c + b + exp(c + b)).subs(c + b, a) == a + exp(a)","(a + b + c + d).subs(b + c, x) == a + d + x","(a + b + c + d).subs(-b - c, x) == a + d - x","((x + 1) * y).subs(x + 1, t) == t * y","((-x - 1) * y).subs(x + 1, t) == -t * y","((x - 1) * y).subs(x + 1, t) == y * (t - 2)","((-x + 1) * y).subs(x + 1, t) == y * (-t + 2)","e.subs(Add(*e.args[:2]), d) == d + e.args[2]","e.subs(a ** 2 - c, d) == d - b","(0.1 + a).subs(0.1, Rational(1, 10)) == Rational(1, 10) + a","e.subs(-y + 1, x) == ans","(exp(x) + cos(x)).subs(x, oo) == oo","Add(*[AccumBounds(-1, 1), oo]) == oo","Add(*[oo, AccumBounds(-1, 1)]) == oo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_add():
     a, b, c, d, x, y, t = symbols('a b c d x y t')
 
@@ -789,31 +984,45 @@ def test_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_issue_4009(), test_subs_issue_4009 produces the expected output) over Any ║
+# ║ Path(test_subs_issue_4009(), (I * Symbol('a')).subs(1, 2) == I * Symbol('a')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_issue_4009 : Any → {Any | (I * Symbol('a'))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (I * Symbol('a')).subs(1, 2) == I * Symbo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_issue_4009 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dab9033f791b2454  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be4f1e950c1349cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_issue_4009","kind":"function","src_hash":"8aa59921025eb63b","in":{"base":"Any"},"out":{"base":"Any","pred":"(I * Symbol('a')).subs(1, 2) == I * Symbol('a')"},"spec":{"lhs":"test_subs_issue_4009()","rhs":"test_subs_issue_4009 produces the expected output","over":{"base":"Any"},"name":"test_subs_issue_4009_correct"},"guarantee":"test_subs_issue_4009 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_issue_4009_correct","statement":"Path(test_subs_issue_4009(x), test_subs_issue_4009 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dab9033f791b2454"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_issue_4009","kind":"function","src_hash":"8aa59921025eb63b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (I * Symbol('a')).subs(1, 2) == I * Symbol('a')"},"spec":{"lhs":"test_subs_issue_4009()","rhs":"(I * Symbol('a')).subs(1, 2) == I * Symbol('a')","over":{"base":"Any"},"name":"test_subs_issue_4009_correct"},"guarantee":"(I * Symbol('a')).subs(1, 2) == I * Symbol('a')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_issue_4009_correct","statement":"Path(test_subs_issue_4009(x), (I * Symbol('a')).subs(1, 2) == I * Symbol('a'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be4f1e950c1349cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(I * Symbol('a')).subs(1, 2) == I * Symbol('a')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_subs_issue_4009():
     assert (I*Symbol('a')).subs(1, 2) == I*Symbol('a')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_functions_subs(), test_functions_subs produces the expected output) over Any ║
+# ║ Path(test_functions_subs(), (g(y, x) + cos(x)).subs(g, l) == sin(y) + x + cos(x) and (f(x) ** 2).subs(f, sin) == sin(x) ** 2 and f(x, y).subs(f, log) == log(x, y) and f(x, y).subs(f, sin) == f(x, y) and (sin(x) + atan2(x, y)).subs([[atan2, f], [sin, g]]) == f(x, y) + g(x) and g(f(x + y, x)).subs([[f, l], [g, exp]]) == exp(x + sin(x + y))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_functions_subs : Any → {Any | (g(y, x) + cos(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (g(y, x) + cos(x)).subs(g, l) == sin(y) +...   ║
+# ║   ensures:  (f(x) ** 2).subs(f, sin) == sin(x) ** 2        ║
+# ║   ensures:  f(x, y).subs(f, log) == log(x, y)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_functions_subs : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92700fc8ccab4455  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6d79ccedbc5e8c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_functions_subs","kind":"function","src_hash":"69b98ba31c904244","in":{"base":"Any"},"out":{"base":"Any","pred":"(g(y, x) + cos(x)).subs(g, l) == sin(y) + x + cos(x) and (f(x) ** 2).subs(f, sin) == sin(x) ** 2 and f(x, y).subs(f, log) == log(x, y) and f(x, y).subs(f, sin) == f(x, y) and (sin(x) + atan2(x, y)).subs([[atan2, f], [sin, g]]) == f(x, y) + g(x) and g(f(x + y, x)).subs([[f, l], [g, exp]]) == exp(x + sin(x + y))"},"spec":{"lhs":"test_functions_subs()","rhs":"test_functions_subs produces the expected output","over":{"base":"Any"},"name":"test_functions_subs_correct"},"guarantee":"test_functions_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_functions_subs_correct","statement":"Path(test_functions_subs(x), test_functions_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92700fc8ccab4455"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_functions_subs","kind":"function","src_hash":"69b98ba31c904244","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (g(y, x) + cos(x)).subs(g, l) == sin(y) + x + cos(x) and (f(x) ** 2).subs(f, sin) == sin(x) ** 2 and f(x, y).subs(f, log) == log(x, y) and f(x, y).subs(f, sin) == f(x, y) and (sin(x) + atan2(x, y)).subs([[atan2, f], [sin, g]]) == f(x, y) + g(x) and g(f(x + y, x)).subs([[f, l], [g, exp]]) == exp(x + sin(x + y))"},"spec":{"lhs":"test_functions_subs()","rhs":"(g(y, x) + cos(x)).subs(g, l) == sin(y) + x + cos(x) and (f(x) ** 2).subs(f, sin) == sin(x) ** 2 and f(x, y).subs(f, log) == log(x, y) and f(x, y).subs(f, sin) == f(x, y) and (sin(x) + atan2(x, y)).subs([[atan2, f], [sin, g]]) == f(x, y) + g(x) and g(f(x + y, x)).subs([[f, l], [g, exp]]) == exp(x + sin(x + y))","over":{"base":"Any"},"name":"test_functions_subs_correct"},"guarantee":"(g(y, x) + cos(x)).subs(g, l) == sin(y) + x + cos(x); (f(x) ** 2).subs(f, sin) == sin(x) ** 2; f(x, y).subs(f, log) == log(x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_functions_subs_correct","statement":"Path(test_functions_subs(x), (g(y, x) + cos(x)).subs(g, l) == sin(y) + x + cos(x); (f(x) ** 2).subs(f, sin) == sin(x) ** 2; f(x, y).subs(f, log) == log(x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6d79ccedbc5e8c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(g(y, x) + cos(x)).subs(g, l) == sin(y) + x + cos(x)","(f(x) ** 2).subs(f, sin) == sin(x) ** 2","f(x, y).subs(f, log) == log(x, y)","f(x, y).subs(f, sin) == f(x, y)","(sin(x) + atan2(x, y)).subs([[atan2, f], [sin, g]]) == f(x, y) + g(x)","g(f(x + y, x)).subs([[f, l], [g, exp]]) == exp(x + sin(x + y))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_functions_subs():
     f, g = symbols('f g', cls=Function)
     l = Lambda((x, y), sin(x) + y)
@@ -827,16 +1036,24 @@ def test_functions_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_subs(), test_derivative_subs produces the expected output) over Any ║
+# ║ Path(test_derivative_subs(), Derivative(f(x), x).subs(f(x), y) != 0 and Derivative(f(x), x).subs(f(x), y).xreplace({y: f(x)}) == Derivative(f(x), x) and cse(Derivative(f(x), x) + f(x))[1][0].has(Derivative) and cse(Derivative(f(x, y), x) + Derivative(f(x, y), y))[1][0].has(Derivative) and eq.subs(g, f) == Derivative(f(x), f(x)) and eq.subs(g(x), f(x)) == Derivative(f(x), f(x)) and eq.subs(g, cos) == Subs(Derivative(y, y), y, cos(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative_subs : Any → {Any | Derivative(f(x), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Derivative(f(x), x).subs(f(x), y) != 0         ║
+# ║   ensures:  Derivative(f(x), x).subs(f(x), y).xreplac...   ║
+# ║   ensures:  cse(Derivative(f(x), x) + f(x))[1][0].has...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative_subs : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f170c31cae3b93db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5526f1a43059386f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_derivative_subs","kind":"function","src_hash":"312fcb98a5867dfa","in":{"base":"Any"},"out":{"base":"Any","pred":"Derivative(f(x), x).subs(f(x), y) != 0 and Derivative(f(x), x).subs(f(x), y).xreplace({y: f(x)}) == Derivative(f(x), x) and cse(Derivative(f(x), x) + f(x))[1][0].has(Derivative) and cse(Derivative(f(x, y), x) + Derivative(f(x, y), y))[1][0].has(Derivative) and eq.subs(g, f) == Derivative(f(x), f(x)) and eq.subs(g(x), f(x)) == Derivative(f(x), f(x)) and eq.subs(g, cos) == Subs(Derivative(y, y), y, cos(x))"},"spec":{"lhs":"test_derivative_subs()","rhs":"test_derivative_subs produces the expected output","over":{"base":"Any"},"name":"test_derivative_subs_correct"},"guarantee":"test_derivative_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_derivative_subs_correct","statement":"Path(test_derivative_subs(x), test_derivative_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f170c31cae3b93db"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_derivative_subs","kind":"function","src_hash":"312fcb98a5867dfa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Derivative(f(x), x).subs(f(x), y) != 0 and Derivative(f(x), x).subs(f(x), y).xreplace({y: f(x)}) == Derivative(f(x), x) and cse(Derivative(f(x), x) + f(x))[1][0].has(Derivative) and cse(Derivative(f(x, y), x) + Derivative(f(x, y), y))[1][0].has(Derivative) and eq.subs(g, f) == Derivative(f(x), f(x)) and eq.subs(g(x), f(x)) == Derivative(f(x), f(x)) and eq.subs(g, cos) == Subs(Derivative(y, y), y, cos(x))"},"spec":{"lhs":"test_derivative_subs()","rhs":"Derivative(f(x), x).subs(f(x), y) != 0 and Derivative(f(x), x).subs(f(x), y).xreplace({y: f(x)}) == Derivative(f(x), x) and cse(Derivative(f(x), x) + f(x))[1][0].has(Derivative) and cse(Derivative(f(x, y), x) + Derivative(f(x, y), y))[1][0].has(Derivative) and eq.subs(g, f) == Derivative(f(x), f(x)) and eq.subs(g(x), f(x)) == Derivative(f(x), f(x)) and eq.subs(g, cos) == Subs(Derivative(y, y), y, cos(x))","over":{"base":"Any"},"name":"test_derivative_subs_correct"},"guarantee":"Derivative(f(x), x).subs(f(x), y) != 0; Derivative(f(x), x).subs(f(x), y).xreplace({y: f(x)}) == Derivative(f(x), x); cse(Derivative(f(x), x) + f(x))[1][0].has(Derivative)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_derivative_subs_correct","statement":"Path(test_derivative_subs(x), Derivative(f(x), x).subs(f(x), y) != 0; Derivative(f(x), x).subs(f(x), y).xreplace({y: f(x)}) == Derivative(f(x), x); cse(Derivative(f(x), x) + f(x))[1][0].has(Derivative))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5526f1a43059386f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Derivative(f(x), x).subs(f(x), y) != 0","Derivative(f(x), x).subs(f(x), y).xreplace({y: f(x)}) == Derivative(f(x), x)","cse(Derivative(f(x), x) + f(x))[1][0].has(Derivative)","cse(Derivative(f(x, y), x) + Derivative(f(x, y), y))[1][0].has(Derivative)","eq.subs(g, f) == Derivative(f(x), f(x))","eq.subs(g(x), f(x)) == Derivative(f(x), f(x))","eq.subs(g, cos) == Subs(Derivative(y, y), y, cos(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_derivative_subs():
     f = Function('f')
     g = Function('g')
@@ -855,16 +1072,24 @@ def test_derivative_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_subs2(), test_derivative_subs2 produces the expected output) over Any ║
+# ║ Path(test_derivative_subs2(), Derivative(f, x, y).subs(Derivative(f, x, y), g) == g and Derivative(f, y, x).subs(Derivative(f, x, y), g) == g and Derivative(f, x, y).subs(Derivative(f, x), g) == Derivative(g, y) and Derivative(f, x, y).subs(Derivative(f, y), g) == Derivative(g, x) and Derivative(f, x, y, z).subs(Derivative(f, x, z), g) == Derivative(g, y) and Derivative(f, x, y, z).subs(Derivative(f, z, y), g) == Derivative(g, x) and Derivative(f, x, y, z).subs(Derivative(f, z, y, x), g) == g and Derivative(f, x, x, y).subs(Derivative(f, y, y), g) == Derivative(f, x, x, y) and Derivative(f, x, y, y, z).subs(Derivative(f, x, y, y, y), g) == Derivative(f, x, y, y, z) and Derivative(f, x, y).subs(Derivative(f_func(x), x, y), g) == Derivative(f, x, y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative_subs2 : Any → {Any | Derivative(f, x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Derivative(f, x, y).subs(Derivative(f, x,...   ║
+# ║   ensures:  Derivative(f, y, x).subs(Derivative(f, x,...   ║
+# ║   ensures:  Derivative(f, x, y).subs(Derivative(f, x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative_subs2 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c80688e8496a6ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5bcc26e90744c4f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_derivative_subs2","kind":"function","src_hash":"5ad122928bcdc014","in":{"base":"Any"},"out":{"base":"Any","pred":"Derivative(f, x, y).subs(Derivative(f, x, y), g) == g and Derivative(f, y, x).subs(Derivative(f, x, y), g) == g and Derivative(f, x, y).subs(Derivative(f, x), g) == Derivative(g, y) and Derivative(f, x, y).subs(Derivative(f, y), g) == Derivative(g, x) and Derivative(f, x, y, z).subs(Derivative(f, x, z), g) == Derivative(g, y) and Derivative(f, x, y, z).subs(Derivative(f, z, y), g) == Derivative(g, x) and Derivative(f, x, y, z).subs(Derivative(f, z, y, x), g) == g and Derivative(f, x, x, y).subs(Derivative(f, y, y), g) == Derivative(f, x, x, y) and Derivative(f, x, y).subs(Derivative(f_func(x), x, y), g) == Derivative(f, x, y)"},"spec":{"lhs":"test_derivative_subs2()","rhs":"test_derivative_subs2 produces the expected output","over":{"base":"Any"},"name":"test_derivative_subs2_correct"},"guarantee":"test_derivative_subs2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_derivative_subs2_correct","statement":"Path(test_derivative_subs2(x), test_derivative_subs2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c80688e8496a6ad"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_derivative_subs2","kind":"function","src_hash":"5ad122928bcdc014","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Derivative(f, x, y).subs(Derivative(f, x, y), g) == g and Derivative(f, y, x).subs(Derivative(f, x, y), g) == g and Derivative(f, x, y).subs(Derivative(f, x), g) == Derivative(g, y) and Derivative(f, x, y).subs(Derivative(f, y), g) == Derivative(g, x) and Derivative(f, x, y, z).subs(Derivative(f, x, z), g) == Derivative(g, y) and Derivative(f, x, y, z).subs(Derivative(f, z, y), g) == Derivative(g, x) and Derivative(f, x, y, z).subs(Derivative(f, z, y, x), g) == g and Derivative(f, x, x, y).subs(Derivative(f, y, y), g) == Derivative(f, x, x, y) and Derivative(f, x, y, y, z).subs(Derivative(f, x, y, y, y), g) == Derivative(f, x, y, y, z) and Derivative(f, x, y).subs(Derivative(f_func(x), x, y), g) == Derivative(f, x, y)"},"spec":{"lhs":"test_derivative_subs2()","rhs":"Derivative(f, x, y).subs(Derivative(f, x, y), g) == g and Derivative(f, y, x).subs(Derivative(f, x, y), g) == g and Derivative(f, x, y).subs(Derivative(f, x), g) == Derivative(g, y) and Derivative(f, x, y).subs(Derivative(f, y), g) == Derivative(g, x) and Derivative(f, x, y, z).subs(Derivative(f, x, z), g) == Derivative(g, y) and Derivative(f, x, y, z).subs(Derivative(f, z, y), g) == Derivative(g, x) and Derivative(f, x, y, z).subs(Derivative(f, z, y, x), g) == g and Derivative(f, x, x, y).subs(Derivative(f, y, y), g) == Derivative(f, x, x, y) and Derivative(f, x, y, y, z).subs(Derivative(f, x, y, y, y), g) == Derivative(f, x, y, y, z) and Derivative(f, x, y).subs(Derivative(f_func(x), x, y), g) == Derivative(f, x, y)","over":{"base":"Any"},"name":"test_derivative_subs2_correct"},"guarantee":"Derivative(f, x, y).subs(Derivative(f, x, y), g) == g; Derivative(f, y, x).subs(Derivative(f, x, y), g) == g; Derivative(f, x, y).subs(Derivative(f, x), g) == Derivative(g, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_derivative_subs2_correct","statement":"Path(test_derivative_subs2(x), Derivative(f, x, y).subs(Derivative(f, x, y), g) == g; Derivative(f, y, x).subs(Derivative(f, x, y), g) == g; Derivative(f, x, y).subs(Derivative(f, x), g) == Derivative(g, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5bcc26e90744c4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Derivative(f, x, y).subs(Derivative(f, x, y), g) == g","Derivative(f, y, x).subs(Derivative(f, x, y), g) == g","Derivative(f, x, y).subs(Derivative(f, x), g) == Derivative(g, y)","Derivative(f, x, y).subs(Derivative(f, y), g) == Derivative(g, x)","Derivative(f, x, y, z).subs(Derivative(f, x, z), g) == Derivative(g, y)","Derivative(f, x, y, z).subs(Derivative(f, z, y), g) == Derivative(g, x)","Derivative(f, x, y, z).subs(Derivative(f, z, y, x), g) == g","Derivative(f, x, x, y).subs(Derivative(f, y, y), g) == Derivative(f, x, x, y)","Derivative(f, x, y, y, z).subs(Derivative(f, x, y, y, y), g) == Derivative(f, x, y, y, z)","Derivative(f, x, y).subs(Derivative(f_func(x), x, y), g) == Derivative(f, x, y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_derivative_subs2():
     f_func, g_func = symbols('f g', cls=Function)
     f, g = f_func(x, y, z), g_func(x, y, z)
@@ -889,16 +1114,23 @@ def test_derivative_subs2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_derivative_subs3(), test_derivative_subs3 produces the expected output) over Any ║
+# ║ Path(test_derivative_subs3(), Derivative(dex, x).subs(dex, exp(x)) == dex and dex.subs(exp(x), dex) == Derivative(exp(x), x, x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_derivative_subs3 : Any → {Any | Derivative(dex, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Derivative(dex, x).subs(dex, exp(x)) == dex    ║
+# ║   ensures:  dex.subs(exp(x), dex) == Derivative(exp(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_derivative_subs3 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d1675341b2f46bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c03d8a5e657ddf32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_derivative_subs3","kind":"function","src_hash":"45db27e1c895a913","in":{"base":"Any"},"out":{"base":"Any","pred":"Derivative(dex, x).subs(dex, exp(x)) == dex and dex.subs(exp(x), dex) == Derivative(exp(x), x, x)"},"spec":{"lhs":"test_derivative_subs3()","rhs":"test_derivative_subs3 produces the expected output","over":{"base":"Any"},"name":"test_derivative_subs3_correct"},"guarantee":"test_derivative_subs3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_derivative_subs3_correct","statement":"Path(test_derivative_subs3(x), test_derivative_subs3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d1675341b2f46bf"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_derivative_subs3","kind":"function","src_hash":"45db27e1c895a913","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Derivative(dex, x).subs(dex, exp(x)) == dex and dex.subs(exp(x), dex) == Derivative(exp(x), x, x)"},"spec":{"lhs":"test_derivative_subs3()","rhs":"Derivative(dex, x).subs(dex, exp(x)) == dex and dex.subs(exp(x), dex) == Derivative(exp(x), x, x)","over":{"base":"Any"},"name":"test_derivative_subs3_correct"},"guarantee":"Derivative(dex, x).subs(dex, exp(x)) == dex; dex.subs(exp(x), dex) == Derivative(exp(x), x, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_derivative_subs3_correct","statement":"Path(test_derivative_subs3(x), Derivative(dex, x).subs(dex, exp(x)) == dex; dex.subs(exp(x), dex) == Derivative(exp(x), x, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c03d8a5e657ddf32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Derivative(dex, x).subs(dex, exp(x)) == dex","dex.subs(exp(x), dex) == Derivative(exp(x), x, x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_derivative_subs3():
     dex = Derivative(exp(x), x)
     assert Derivative(dex, x).subs(dex, exp(x)) == dex
@@ -906,16 +1138,24 @@ def test_derivative_subs3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5284(), test_issue_5284 produces the expected output) over Any ║
+# ║ Path(test_issue_5284(), (x * A).subs(x ** 2 * A, B) == x * A and (A ** 2).subs(A ** 3, B) == A ** 2 and (A ** 6).subs(A ** 3, B) == B ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5284 : Any → {Any | (x * A).subs(x ** 2 * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x * A).subs(x ** 2 * A, B) == x * A           ║
+# ║   ensures:  (A ** 2).subs(A ** 3, B) == A ** 2             ║
+# ║   ensures:  (A ** 6).subs(A ** 3, B) == B ** 2             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5284 : Any → {Any | result satisfies: (x *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8bf048fb0d881a9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af30c61168155def  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_5284","kind":"function","src_hash":"029f4e8e6d4d66bf","in":{"base":"Any"},"out":{"base":"Any","pred":"(x * A).subs(x ** 2 * A, B) == x * A and (A ** 2).subs(A ** 3, B) == A ** 2 and (A ** 6).subs(A ** 3, B) == B ** 2"},"spec":{"lhs":"test_issue_5284()","rhs":"test_issue_5284 produces the expected output","over":{"base":"Any"},"name":"test_issue_5284_correct"},"guarantee":"test_issue_5284 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_5284_correct","statement":"Path(test_issue_5284(x), test_issue_5284 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8bf048fb0d881a9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_5284","kind":"function","src_hash":"029f4e8e6d4d66bf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x * A).subs(x ** 2 * A, B) == x * A and (A ** 2).subs(A ** 3, B) == A ** 2 and (A ** 6).subs(A ** 3, B) == B ** 2"},"spec":{"lhs":"test_issue_5284()","rhs":"(x * A).subs(x ** 2 * A, B) == x * A and (A ** 2).subs(A ** 3, B) == A ** 2 and (A ** 6).subs(A ** 3, B) == B ** 2","over":{"base":"Any"},"name":"test_issue_5284_correct"},"guarantee":"(x * A).subs(x ** 2 * A, B) == x * A; (A ** 2).subs(A ** 3, B) == A ** 2; (A ** 6).subs(A ** 3, B) == B ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_5284_correct","statement":"Path(test_issue_5284(x), (x * A).subs(x ** 2 * A, B) == x * A; (A ** 2).subs(A ** 3, B) == A ** 2; (A ** 6).subs(A ** 3, B) == B ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af30c61168155def","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x * A).subs(x ** 2 * A, B) == x * A","(A ** 2).subs(A ** 3, B) == A ** 2","(A ** 6).subs(A ** 3, B) == B ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5284():
     A, B = symbols('A B', commutative=False)
     assert (x*A).subs(x**2*A, B) == x*A
@@ -924,16 +1164,24 @@ def test_issue_5284():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_iter(), test_subs_iter produces the expected output) over Any ║
+# ║ Path(test_subs_iter(), x.subs(reversed([[x, y]])) == y and x.subs(it) == y and x.subs(Tuple((x, y))) == y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_iter : Any → {Any | x.subs(reversed([[x, y]...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x.subs(reversed([[x, y]])) == y                ║
+# ║   ensures:  x.subs(it) == y                                ║
+# ║   ensures:  x.subs(Tuple((x, y))) == y                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_iter : Any → {Any | result satisfies: x.sub...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8966a297ef082b27  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77ac0848ebc3d9e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_iter","kind":"function","src_hash":"e64665ecb9f295ba","in":{"base":"Any"},"out":{"base":"Any","pred":"x.subs(reversed([[x, y]])) == y and x.subs(it) == y and x.subs(Tuple((x, y))) == y"},"spec":{"lhs":"test_subs_iter()","rhs":"test_subs_iter produces the expected output","over":{"base":"Any"},"name":"test_subs_iter_correct"},"guarantee":"test_subs_iter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_iter_correct","statement":"Path(test_subs_iter(x), test_subs_iter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8966a297ef082b27"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_iter","kind":"function","src_hash":"e64665ecb9f295ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x.subs(reversed([[x, y]])) == y and x.subs(it) == y and x.subs(Tuple((x, y))) == y"},"spec":{"lhs":"test_subs_iter()","rhs":"x.subs(reversed([[x, y]])) == y and x.subs(it) == y and x.subs(Tuple((x, y))) == y","over":{"base":"Any"},"name":"test_subs_iter_correct"},"guarantee":"x.subs(reversed([[x, y]])) == y; x.subs(it) == y; x.subs(Tuple((x, y))) == y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_iter_correct","statement":"Path(test_subs_iter(x), x.subs(reversed([[x, y]])) == y; x.subs(it) == y; x.subs(Tuple((x, y))) == y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77ac0848ebc3d9e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x.subs(reversed([[x, y]])) == y","x.subs(it) == y","x.subs(Tuple((x, y))) == y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_subs_iter():
     assert x.subs(reversed([[x, y]])) == y
     it = iter([[x, y]])
@@ -942,16 +1190,24 @@ def test_subs_iter():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs_dict(), test_subs_dict produces the expected output) over Any ║
+# ║ Path(test_subs_dict(), (2 * x + y + z).subs({'x': 1, 'y': 2}) == 4 + z and sin(x).subs(l) == sin(x).subs(dict(l)) == 2 and sin(x).subs(reversed(l)) == sin(1) and expr.subs(reps) == c + a * b * sin(d * e) and (x + y).subs(l) == 3 + x ** 2 and (x + y).subs(reversed(l)) == 12 and (y - 1 + 3 * x).subs(l) == 5 + 3 * x and (y - 2).subs(l) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs_dict : Any → {Any | (2 * x + y + z).subs({'...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (2 * x + y + z).subs({'x': 1, 'y': 2}) ==...   ║
+# ║   ensures:  sin(x).subs(l) == sin(x).subs(dict(l)) == 2    ║
+# ║   ensures:  sin(x).subs(reversed(l)) == sin(1)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs_dict : Any → {Any | result satisfies: (2 * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 787a75c79dffb8eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f14c5c552a7b9718  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_dict","kind":"function","src_hash":"0249772fd7a624d0","in":{"base":"Any"},"out":{"base":"Any","pred":"(2 * x + y + z).subs({'x': 1, 'y': 2}) == 4 + z and sin(x).subs(l) == sin(x).subs(dict(l)) == 2 and sin(x).subs(reversed(l)) == sin(1) and expr.subs(reps) == c + a * b * sin(d * e) and (x + y).subs(l) == 3 + x ** 2 and (x + y).subs(reversed(l)) == 12 and (y - 1 + 3 * x).subs(l) == 5 + 3 * x and (y - 2).subs(l) == 3"},"spec":{"lhs":"test_subs_dict()","rhs":"test_subs_dict produces the expected output","over":{"base":"Any"},"name":"test_subs_dict_correct"},"guarantee":"test_subs_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_dict_correct","statement":"Path(test_subs_dict(x), test_subs_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"787a75c79dffb8eb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_subs_dict","kind":"function","src_hash":"0249772fd7a624d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (2 * x + y + z).subs({'x': 1, 'y': 2}) == 4 + z and sin(x).subs(l) == sin(x).subs(dict(l)) == 2 and sin(x).subs(reversed(l)) == sin(1) and expr.subs(reps) == c + a * b * sin(d * e) and (x + y).subs(l) == 3 + x ** 2 and (x + y).subs(reversed(l)) == 12 and (y - 1 + 3 * x).subs(l) == 5 + 3 * x and (y - 2).subs(l) == 3"},"spec":{"lhs":"test_subs_dict()","rhs":"(2 * x + y + z).subs({'x': 1, 'y': 2}) == 4 + z and sin(x).subs(l) == sin(x).subs(dict(l)) == 2 and sin(x).subs(reversed(l)) == sin(1) and expr.subs(reps) == c + a * b * sin(d * e) and (x + y).subs(l) == 3 + x ** 2 and (x + y).subs(reversed(l)) == 12 and (y - 1 + 3 * x).subs(l) == 5 + 3 * x and (y - 2).subs(l) == 3","over":{"base":"Any"},"name":"test_subs_dict_correct"},"guarantee":"(2 * x + y + z).subs({'x': 1, 'y': 2}) == 4 + z; sin(x).subs(l) == sin(x).subs(dict(l)) == 2; sin(x).subs(reversed(l)) == sin(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_subs_dict_correct","statement":"Path(test_subs_dict(x), (2 * x + y + z).subs({'x': 1, 'y': 2}) == 4 + z; sin(x).subs(l) == sin(x).subs(dict(l)) == 2; sin(x).subs(reversed(l)) == sin(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f14c5c552a7b9718","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(2 * x + y + z).subs({'x': 1, 'y': 2}) == 4 + z","sin(x).subs(l) == sin(x).subs(dict(l)) == 2","sin(x).subs(reversed(l)) == sin(1)","expr.subs(reps) == c + a * b * sin(d * e)","(x + y).subs(l) == 3 + x ** 2","(x + y).subs(reversed(l)) == 12","(y - 1 + 3 * x).subs(l) == 5 + 3 * x","(y - 2).subs(l) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_subs_dict():
     a, b, c, d, e = symbols('a b c d e')
 
@@ -984,16 +1240,24 @@ def test_subs_dict():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_no_arith_subs_on_floats(), test_no_arith_subs_on_floats produces the expected output) over Any ║
+# ║ Path(test_no_arith_subs_on_floats(), (x + 3).subs(x + 3, a) == a and (x + 3).subs(x + 2, a) == a + 1 and (x + y + 3).subs(x + 3, a) == a + y and (x + y + 3).subs(x + 2, a) == a + y + 1 and (x + 3.0).subs(x + 3.0, a) == a and (x + 3.0).subs(x + 2.0, a) == x + 3.0 and (x + y + 3.0).subs(x + 3.0, a) == a + y and (x + y + 3.0).subs(x + 2.0, a) == x + y + 3.0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_no_arith_subs_on_floats : Any → {Any | (x + 3).s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x + 3).subs(x + 3, a) == a                    ║
+# ║   ensures:  (x + 3).subs(x + 2, a) == a + 1                ║
+# ║   ensures:  (x + y + 3).subs(x + 3, a) == a + y            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_no_arith_subs_on_floats : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ad1d900a0f31ad9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df7b22f904bcf06d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_no_arith_subs_on_floats","kind":"function","src_hash":"b4e7f0493e840c14","in":{"base":"Any"},"out":{"base":"Any","pred":"(x + 3).subs(x + 3, a) == a and (x + 3).subs(x + 2, a) == a + 1 and (x + y + 3).subs(x + 3, a) == a + y and (x + y + 3).subs(x + 2, a) == a + y + 1 and (x + 3.0).subs(x + 3.0, a) == a and (x + 3.0).subs(x + 2.0, a) == x + 3.0 and (x + y + 3.0).subs(x + 3.0, a) == a + y and (x + y + 3.0).subs(x + 2.0, a) == x + y + 3.0"},"spec":{"lhs":"test_no_arith_subs_on_floats()","rhs":"test_no_arith_subs_on_floats produces the expected output","over":{"base":"Any"},"name":"test_no_arith_subs_on_floats_correct"},"guarantee":"test_no_arith_subs_on_floats produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_no_arith_subs_on_floats_correct","statement":"Path(test_no_arith_subs_on_floats(x), test_no_arith_subs_on_floats produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ad1d900a0f31ad9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_no_arith_subs_on_floats","kind":"function","src_hash":"b4e7f0493e840c14","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x + 3).subs(x + 3, a) == a and (x + 3).subs(x + 2, a) == a + 1 and (x + y + 3).subs(x + 3, a) == a + y and (x + y + 3).subs(x + 2, a) == a + y + 1 and (x + 3.0).subs(x + 3.0, a) == a and (x + 3.0).subs(x + 2.0, a) == x + 3.0 and (x + y + 3.0).subs(x + 3.0, a) == a + y and (x + y + 3.0).subs(x + 2.0, a) == x + y + 3.0"},"spec":{"lhs":"test_no_arith_subs_on_floats()","rhs":"(x + 3).subs(x + 3, a) == a and (x + 3).subs(x + 2, a) == a + 1 and (x + y + 3).subs(x + 3, a) == a + y and (x + y + 3).subs(x + 2, a) == a + y + 1 and (x + 3.0).subs(x + 3.0, a) == a and (x + 3.0).subs(x + 2.0, a) == x + 3.0 and (x + y + 3.0).subs(x + 3.0, a) == a + y and (x + y + 3.0).subs(x + 2.0, a) == x + y + 3.0","over":{"base":"Any"},"name":"test_no_arith_subs_on_floats_correct"},"guarantee":"(x + 3).subs(x + 3, a) == a; (x + 3).subs(x + 2, a) == a + 1; (x + y + 3).subs(x + 3, a) == a + y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_no_arith_subs_on_floats_correct","statement":"Path(test_no_arith_subs_on_floats(x), (x + 3).subs(x + 3, a) == a; (x + 3).subs(x + 2, a) == a + 1; (x + y + 3).subs(x + 3, a) == a + y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df7b22f904bcf06d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x + 3).subs(x + 3, a) == a","(x + 3).subs(x + 2, a) == a + 1","(x + y + 3).subs(x + 3, a) == a + y","(x + y + 3).subs(x + 2, a) == a + y + 1","(x + 3.0).subs(x + 3.0, a) == a","(x + 3.0).subs(x + 2.0, a) == x + 3.0","(x + y + 3.0).subs(x + 3.0, a) == a + y","(x + y + 3.0).subs(x + 2.0, a) == x + y + 3.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_no_arith_subs_on_floats():
     assert (x + 3).subs(x + 3, a) == a
     assert (x + 3).subs(x + 2, a) == a + 1
@@ -1009,16 +1273,24 @@ def test_no_arith_subs_on_floats():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5651(), test_issue_5651 produces the expected output) over Any ║
+# ║ Path(test_issue_5651(), (a / (b * c)).subs(b * c, K) == a / K and (a / (b ** 2 * c ** 3)).subs(b * c, K) == a / (c * K ** 2) and (1 / (x * y)).subs(x * y, 2) == S.Half and ((1 + x * y) / (x * y)).subs(x * y, 1) == 2 and (x * y * z).subs(x * y, 2) == 2 * z and ((1 + x * y) / (x * y) / z).subs(x * y, 1) == 2 / z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5651 : Any → {Any | (a / (b * c)).subs(b *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (a / (b * c)).subs(b * c, K) == a / K          ║
+# ║   ensures:  (a / (b ** 2 * c ** 3)).subs(b * c, K) ==...   ║
+# ║   ensures:  (1 / (x * y)).subs(x * y, 2) == S.Half         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5651 : Any → {Any | result satisfies: (a /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ff27b542739cd58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f644221a8dc26676  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_5651","kind":"function","src_hash":"9cd1db7b318528cc","in":{"base":"Any"},"out":{"base":"Any","pred":"(a / (b * c)).subs(b * c, K) == a / K and (a / (b ** 2 * c ** 3)).subs(b * c, K) == a / (c * K ** 2) and (1 / (x * y)).subs(x * y, 2) == S.Half and ((1 + x * y) / (x * y)).subs(x * y, 1) == 2 and (x * y * z).subs(x * y, 2) == 2 * z and ((1 + x * y) / (x * y) / z).subs(x * y, 1) == 2 / z"},"spec":{"lhs":"test_issue_5651()","rhs":"test_issue_5651 produces the expected output","over":{"base":"Any"},"name":"test_issue_5651_correct"},"guarantee":"test_issue_5651 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_5651_correct","statement":"Path(test_issue_5651(x), test_issue_5651 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ff27b542739cd58"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_5651","kind":"function","src_hash":"9cd1db7b318528cc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (a / (b * c)).subs(b * c, K) == a / K and (a / (b ** 2 * c ** 3)).subs(b * c, K) == a / (c * K ** 2) and (1 / (x * y)).subs(x * y, 2) == S.Half and ((1 + x * y) / (x * y)).subs(x * y, 1) == 2 and (x * y * z).subs(x * y, 2) == 2 * z and ((1 + x * y) / (x * y) / z).subs(x * y, 1) == 2 / z"},"spec":{"lhs":"test_issue_5651()","rhs":"(a / (b * c)).subs(b * c, K) == a / K and (a / (b ** 2 * c ** 3)).subs(b * c, K) == a / (c * K ** 2) and (1 / (x * y)).subs(x * y, 2) == S.Half and ((1 + x * y) / (x * y)).subs(x * y, 1) == 2 and (x * y * z).subs(x * y, 2) == 2 * z and ((1 + x * y) / (x * y) / z).subs(x * y, 1) == 2 / z","over":{"base":"Any"},"name":"test_issue_5651_correct"},"guarantee":"(a / (b * c)).subs(b * c, K) == a / K; (a / (b ** 2 * c ** 3)).subs(b * c, K) == a / (c * K ** 2); (1 / (x * y)).subs(x * y, 2) == S.Half","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_5651_correct","statement":"Path(test_issue_5651(x), (a / (b * c)).subs(b * c, K) == a / K; (a / (b ** 2 * c ** 3)).subs(b * c, K) == a / (c * K ** 2); (1 / (x * y)).subs(x * y, 2) == S.Half)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f644221a8dc26676","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(a / (b * c)).subs(b * c, K) == a / K","(a / (b ** 2 * c ** 3)).subs(b * c, K) == a / (c * K ** 2)","(1 / (x * y)).subs(x * y, 2) == S.Half","((1 + x * y) / (x * y)).subs(x * y, 1) == 2","(x * y * z).subs(x * y, 2) == 2 * z","((1 + x * y) / (x * y) / z).subs(x * y, 1) == 2 / z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_5651():
     a, b, c, K = symbols('a b c K', commutative=True)
     assert (a/(b*c)).subs(b*c, K) == a/K
@@ -1030,31 +1302,45 @@ def test_issue_5651():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6075(), test_issue_6075 produces the expected output) over Any ║
+# ║ Path(test_issue_6075(), Tuple(1, True).subs(1, 2) == Tuple(2, True)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6075 : Any → {Any | Tuple(1, True).subs(1,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Tuple(1, True).subs(1, 2) == Tuple(2, True)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6075 : Any → {Any | result satisfies: Tupl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9c58e0ca8edda1d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c1a858ea45d1db5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6075","kind":"function","src_hash":"968f0a506cfd49ce","in":{"base":"Any"},"out":{"base":"Any","pred":"Tuple(1, True).subs(1, 2) == Tuple(2, True)"},"spec":{"lhs":"test_issue_6075()","rhs":"test_issue_6075 produces the expected output","over":{"base":"Any"},"name":"test_issue_6075_correct"},"guarantee":"test_issue_6075 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6075_correct","statement":"Path(test_issue_6075(x), test_issue_6075 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9c58e0ca8edda1d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6075","kind":"function","src_hash":"968f0a506cfd49ce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Tuple(1, True).subs(1, 2) == Tuple(2, True)"},"spec":{"lhs":"test_issue_6075()","rhs":"Tuple(1, True).subs(1, 2) == Tuple(2, True)","over":{"base":"Any"},"name":"test_issue_6075_correct"},"guarantee":"Tuple(1, True).subs(1, 2) == Tuple(2, True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6075_correct","statement":"Path(test_issue_6075(x), Tuple(1, True).subs(1, 2) == Tuple(2, True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c1a858ea45d1db5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Tuple(1, True).subs(1, 2) == Tuple(2, True)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_6075():
     assert Tuple(1, True).subs(1, 2) == Tuple(2, True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6079(), test_issue_6079 produces the expected output) over Any ║
+# ║ Path(test_issue_6079(), _aresame((x + 2.0).subs(2, 3), x + 2.0) and _aresame((x + 2.0).subs(2.0, 3), x + 3) and not _aresame(x + 2, x + 2.0) and not _aresame(Basic(cos(x), S(1)), Basic(cos(x), S(1.0))) and _aresame(cos, cos) and not _aresame(1, S.One) and not _aresame(x, symbols('x', positive=True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6079 : Any → {Any | _aresame((x + 2.0).sub...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _aresame((x + 2.0).subs(2, 3), x + 2.0)        ║
+# ║   ensures:  _aresame((x + 2.0).subs(2.0, 3), x + 3)        ║
+# ║   ensures:  not _aresame(x + 2, x + 2.0)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6079 : Any → {Any | result satisfies: _are...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad908c2f82de38e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52742626efe42188  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6079","kind":"function","src_hash":"2c823af75209dfd7","in":{"base":"Any"},"out":{"base":"Any","pred":"_aresame((x + 2.0).subs(2, 3), x + 2.0) and _aresame((x + 2.0).subs(2.0, 3), x + 3) and not _aresame(x + 2, x + 2.0) and not _aresame(Basic(cos(x), S(1)), Basic(cos(x), S(1.0))) and _aresame(cos, cos) and not _aresame(1, S.One) and not _aresame(x, symbols('x', positive=True))"},"spec":{"lhs":"test_issue_6079()","rhs":"test_issue_6079 produces the expected output","over":{"base":"Any"},"name":"test_issue_6079_correct"},"guarantee":"test_issue_6079 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6079_correct","statement":"Path(test_issue_6079(x), test_issue_6079 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad908c2f82de38e1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6079","kind":"function","src_hash":"2c823af75209dfd7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _aresame((x + 2.0).subs(2, 3), x + 2.0) and _aresame((x + 2.0).subs(2.0, 3), x + 3) and not _aresame(x + 2, x + 2.0) and not _aresame(Basic(cos(x), S(1)), Basic(cos(x), S(1.0))) and _aresame(cos, cos) and not _aresame(1, S.One) and not _aresame(x, symbols('x', positive=True))"},"spec":{"lhs":"test_issue_6079()","rhs":"_aresame((x + 2.0).subs(2, 3), x + 2.0) and _aresame((x + 2.0).subs(2.0, 3), x + 3) and not _aresame(x + 2, x + 2.0) and not _aresame(Basic(cos(x), S(1)), Basic(cos(x), S(1.0))) and _aresame(cos, cos) and not _aresame(1, S.One) and not _aresame(x, symbols('x', positive=True))","over":{"base":"Any"},"name":"test_issue_6079_correct"},"guarantee":"_aresame((x + 2.0).subs(2, 3), x + 2.0); _aresame((x + 2.0).subs(2.0, 3), x + 3); not _aresame(x + 2, x + 2.0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6079_correct","statement":"Path(test_issue_6079(x), _aresame((x + 2.0).subs(2, 3), x + 2.0); _aresame((x + 2.0).subs(2.0, 3), x + 3); not _aresame(x + 2, x + 2.0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52742626efe42188","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_aresame((x + 2.0).subs(2, 3), x + 2.0)","_aresame((x + 2.0).subs(2.0, 3), x + 3)","not _aresame(x + 2, x + 2.0)","not _aresame(Basic(cos(x), S(1)), Basic(cos(x), S(1.0)))","_aresame(cos, cos)","not _aresame(1, S.One)","not _aresame(x, symbols('x', positive=True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6079():
     # since x + 2.0 == x + 2 we can't do a simple equality test
     assert _aresame((x + 2.0).subs(2, 3), x + 2.0)
@@ -1067,32 +1353,46 @@ def test_issue_6079():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4680(), test_issue_4680 produces the expected output) over Any ║
+# ║ Path(test_issue_4680(), N.subs({'N': 3}) == 3) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4680 : Any → {Any | N.subs({'N': 3}) == 3}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  N.subs({'N': 3}) == 3                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4680 : Any → {Any | result satisfies: N.su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e77f46963271f1b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 947529bb8d78e3cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_4680","kind":"function","src_hash":"7a8705211d189056","in":{"base":"Any"},"out":{"base":"Any","pred":"N.subs({'N': 3}) == 3"},"spec":{"lhs":"test_issue_4680()","rhs":"test_issue_4680 produces the expected output","over":{"base":"Any"},"name":"test_issue_4680_correct"},"guarantee":"test_issue_4680 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_4680_correct","statement":"Path(test_issue_4680(x), test_issue_4680 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e77f46963271f1b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_4680","kind":"function","src_hash":"7a8705211d189056","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: N.subs({'N': 3}) == 3"},"spec":{"lhs":"test_issue_4680()","rhs":"N.subs({'N': 3}) == 3","over":{"base":"Any"},"name":"test_issue_4680_correct"},"guarantee":"N.subs({'N': 3}) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_4680_correct","statement":"Path(test_issue_4680(x), N.subs({'N': 3}) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"947529bb8d78e3cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["N.subs({'N': 3}) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_4680():
     N = Symbol('N')
     assert N.subs({"N": 3}) == 3
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6158(), test_issue_6158 produces the expected output) over Any ║
+# ║ Path(test_issue_6158(), (x - 1).subs(1, y) == x - y and (x - 1).subs(-1, y) == x + y and (x - oo).subs(oo, y) == x - y and (x - oo).subs(-oo, y) == x + y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6158 : Any → {Any | (x - 1).subs(1, y) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x - 1).subs(1, y) == x - y                    ║
+# ║   ensures:  (x - 1).subs(-1, y) == x + y                   ║
+# ║   ensures:  (x - oo).subs(oo, y) == x - y                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6158 : Any → {Any | result satisfies: (x -...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f6de9fdc88f84d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40048f58b0798db7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6158","kind":"function","src_hash":"da35c6a9d1562bb9","in":{"base":"Any"},"out":{"base":"Any","pred":"(x - 1).subs(1, y) == x - y and (x - 1).subs(-1, y) == x + y and (x - oo).subs(oo, y) == x - y and (x - oo).subs(-oo, y) == x + y"},"spec":{"lhs":"test_issue_6158()","rhs":"test_issue_6158 produces the expected output","over":{"base":"Any"},"name":"test_issue_6158_correct"},"guarantee":"test_issue_6158 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6158_correct","statement":"Path(test_issue_6158(x), test_issue_6158 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f6de9fdc88f84d7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6158","kind":"function","src_hash":"da35c6a9d1562bb9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x - 1).subs(1, y) == x - y and (x - 1).subs(-1, y) == x + y and (x - oo).subs(oo, y) == x - y and (x - oo).subs(-oo, y) == x + y"},"spec":{"lhs":"test_issue_6158()","rhs":"(x - 1).subs(1, y) == x - y and (x - 1).subs(-1, y) == x + y and (x - oo).subs(oo, y) == x - y and (x - oo).subs(-oo, y) == x + y","over":{"base":"Any"},"name":"test_issue_6158_correct"},"guarantee":"(x - 1).subs(1, y) == x - y; (x - 1).subs(-1, y) == x + y; (x - oo).subs(oo, y) == x - y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6158_correct","statement":"Path(test_issue_6158(x), (x - 1).subs(1, y) == x - y; (x - 1).subs(-1, y) == x + y; (x - oo).subs(oo, y) == x - y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40048f58b0798db7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x - 1).subs(1, y) == x - y","(x - 1).subs(-1, y) == x + y","(x - oo).subs(oo, y) == x - y","(x - oo).subs(-oo, y) == x + y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6158():
     assert (x - 1).subs(1, y) == x - y
     assert (x - 1).subs(-1, y) == x + y
@@ -1101,16 +1401,23 @@ def test_issue_6158():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Function_subs(), test_Function_subs produces the expected output) over Any ║
+# ║ Path(test_Function_subs(), p.subs(g, h) == Piecewise((h(f(x, y)), x < -1), (h(x), x <= 1)) and (f(y) + g(x)).subs({f: h, g: i}) == i(x) + h(y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Function_subs : Any → {Any | p.subs(g, h) == Pie...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.subs(g, h) == Piecewise((h(f(x, y)), x ...   ║
+# ║   ensures:  (f(y) + g(x)).subs({f: h, g: i}) == i(x) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Function_subs : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8c450b5b37ab286  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92f0338b1029f64d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_Function_subs","kind":"function","src_hash":"ceda9bc8a681742b","in":{"base":"Any"},"out":{"base":"Any","pred":"p.subs(g, h) == Piecewise((h(f(x, y)), x < -1), (h(x), x <= 1)) and (f(y) + g(x)).subs({f: h, g: i}) == i(x) + h(y)"},"spec":{"lhs":"test_Function_subs()","rhs":"test_Function_subs produces the expected output","over":{"base":"Any"},"name":"test_Function_subs_correct"},"guarantee":"test_Function_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_Function_subs_correct","statement":"Path(test_Function_subs(x), test_Function_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8c450b5b37ab286"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_Function_subs","kind":"function","src_hash":"ceda9bc8a681742b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.subs(g, h) == Piecewise((h(f(x, y)), x < -1), (h(x), x <= 1)) and (f(y) + g(x)).subs({f: h, g: i}) == i(x) + h(y)"},"spec":{"lhs":"test_Function_subs()","rhs":"p.subs(g, h) == Piecewise((h(f(x, y)), x < -1), (h(x), x <= 1)) and (f(y) + g(x)).subs({f: h, g: i}) == i(x) + h(y)","over":{"base":"Any"},"name":"test_Function_subs_correct"},"guarantee":"p.subs(g, h) == Piecewise((h(f(x, y)), x < -1), (h(x), x <= 1)); (f(y) + g(x)).subs({f: h, g: i}) == i(x) + h(y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_Function_subs_correct","statement":"Path(test_Function_subs(x), p.subs(g, h) == Piecewise((h(f(x, y)), x < -1), (h(x), x <= 1)); (f(y) + g(x)).subs({f: h, g: i}) == i(x) + h(y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92f0338b1029f64d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.subs(g, h) == Piecewise((h(f(x, y)), x < -1), (h(x), x <= 1))","(f(y) + g(x)).subs({f: h, g: i}) == i(x) + h(y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Function_subs():
     f, g, h, i = symbols('f g h i', cls=Function)
     p = Piecewise((g(f(x, y)), x < -1), (g(x), x <= 1))
@@ -1119,16 +1426,24 @@ def test_Function_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simultaneous_subs(), test_simultaneous_subs produces the expected output) over Any ║
+# ║ Path(test_simultaneous_subs(), (x / y).subs(reps) != (y / x).subs(reps) and (x / y).subs(reps, simultaneous=True) == (y / x).subs(reps, simultaneous=True) and Derivative(x, y, z).subs(reps, simultaneous=True) == Subs(Derivative(0, y, z), y, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simultaneous_subs : Any → {Any | (x / y).subs(re...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x / y).subs(reps) != (y / x).subs(reps)       ║
+# ║   ensures:  (x / y).subs(reps, simultaneous=True) == ...   ║
+# ║   ensures:  Derivative(x, y, z).subs(reps, simultaneo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simultaneous_subs : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 483bae425cb17c78  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8ac0d8830305683  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_simultaneous_subs","kind":"function","src_hash":"958030b729ac8404","in":{"base":"Any"},"out":{"base":"Any","pred":"(x / y).subs(reps) != (y / x).subs(reps) and (x / y).subs(reps, simultaneous=True) == (y / x).subs(reps, simultaneous=True) and (x / y).subs(reps) != (y / x).subs(reps) and (x / y).subs(reps, simultaneous=True) == (y / x).subs(reps, simultaneous=True)"},"spec":{"lhs":"test_simultaneous_subs()","rhs":"test_simultaneous_subs produces the expected output","over":{"base":"Any"},"name":"test_simultaneous_subs_correct"},"guarantee":"test_simultaneous_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_simultaneous_subs_correct","statement":"Path(test_simultaneous_subs(x), test_simultaneous_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"483bae425cb17c78"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_simultaneous_subs","kind":"function","src_hash":"958030b729ac8404","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x / y).subs(reps) != (y / x).subs(reps) and (x / y).subs(reps, simultaneous=True) == (y / x).subs(reps, simultaneous=True) and Derivative(x, y, z).subs(reps, simultaneous=True) == Subs(Derivative(0, y, z), y, 0)"},"spec":{"lhs":"test_simultaneous_subs()","rhs":"(x / y).subs(reps) != (y / x).subs(reps) and (x / y).subs(reps, simultaneous=True) == (y / x).subs(reps, simultaneous=True) and Derivative(x, y, z).subs(reps, simultaneous=True) == Subs(Derivative(0, y, z), y, 0)","over":{"base":"Any"},"name":"test_simultaneous_subs_correct"},"guarantee":"(x / y).subs(reps) != (y / x).subs(reps); (x / y).subs(reps, simultaneous=True) == (y / x).subs(reps, simultaneous=True); Derivative(x, y, z).subs(reps, simultaneous=True) == Subs(Derivative(0, y, z), y, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_simultaneous_subs_correct","statement":"Path(test_simultaneous_subs(x), (x / y).subs(reps) != (y / x).subs(reps); (x / y).subs(reps, simultaneous=True) == (y / x).subs(reps, simultaneous=True); Derivative(x, y, z).subs(reps, simultaneous=True) == Subs(Derivative(0, y, z), y, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8ac0d8830305683","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x / y).subs(reps) != (y / x).subs(reps)","(x / y).subs(reps, simultaneous=True) == (y / x).subs(reps, simultaneous=True)","Derivative(x, y, z).subs(reps, simultaneous=True) == Subs(Derivative(0, y, z), y, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_simultaneous_subs():
     reps = {x: 0, y: 0}
     assert (x/y).subs(reps) != (y/x).subs(reps)
@@ -1143,16 +1458,24 @@ def test_simultaneous_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6419_6421(), test_issue_6419_6421 produces the expected output) over Any ║
+# ║ Path(test_issue_6419_6421(), (1 / (1 + x / y)).subs(x / y, x) == 1 / (1 + x) and (-2 * I).subs(2 * I, x) == -x and (-I * x).subs(I * x, x) == -x and (-3 * I * y ** 4).subs(3 * I * y ** 2, x) == -x * y ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6419_6421 : Any → {Any | (1 / (1 + x / y))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (1 / (1 + x / y)).subs(x / y, x) == 1 / (...   ║
+# ║   ensures:  (-2 * I).subs(2 * I, x) == -x                  ║
+# ║   ensures:  (-I * x).subs(I * x, x) == -x                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6419_6421 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 301dbfd4681a8354  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccb482da464c043d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6419_6421","kind":"function","src_hash":"a6513b31b105c184","in":{"base":"Any"},"out":{"base":"Any","pred":"(1 / (1 + x / y)).subs(x / y, x) == 1 / (1 + x) and (-2 * I).subs(2 * I, x) == -x and (-I * x).subs(I * x, x) == -x and (-3 * I * y ** 4).subs(3 * I * y ** 2, x) == -x * y ** 2"},"spec":{"lhs":"test_issue_6419_6421()","rhs":"test_issue_6419_6421 produces the expected output","over":{"base":"Any"},"name":"test_issue_6419_6421_correct"},"guarantee":"test_issue_6419_6421 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6419_6421_correct","statement":"Path(test_issue_6419_6421(x), test_issue_6419_6421 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"301dbfd4681a8354"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6419_6421","kind":"function","src_hash":"a6513b31b105c184","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (1 / (1 + x / y)).subs(x / y, x) == 1 / (1 + x) and (-2 * I).subs(2 * I, x) == -x and (-I * x).subs(I * x, x) == -x and (-3 * I * y ** 4).subs(3 * I * y ** 2, x) == -x * y ** 2"},"spec":{"lhs":"test_issue_6419_6421()","rhs":"(1 / (1 + x / y)).subs(x / y, x) == 1 / (1 + x) and (-2 * I).subs(2 * I, x) == -x and (-I * x).subs(I * x, x) == -x and (-3 * I * y ** 4).subs(3 * I * y ** 2, x) == -x * y ** 2","over":{"base":"Any"},"name":"test_issue_6419_6421_correct"},"guarantee":"(1 / (1 + x / y)).subs(x / y, x) == 1 / (1 + x); (-2 * I).subs(2 * I, x) == -x; (-I * x).subs(I * x, x) == -x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6419_6421_correct","statement":"Path(test_issue_6419_6421(x), (1 / (1 + x / y)).subs(x / y, x) == 1 / (1 + x); (-2 * I).subs(2 * I, x) == -x; (-I * x).subs(I * x, x) == -x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccb482da464c043d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(1 / (1 + x / y)).subs(x / y, x) == 1 / (1 + x)","(-2 * I).subs(2 * I, x) == -x","(-I * x).subs(I * x, x) == -x","(-3 * I * y ** 4).subs(3 * I * y ** 2, x) == -x * y ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6419_6421():
     assert (1/(1 + x/y)).subs(x/y, x) == 1/(1 + x)
     assert (-2*I).subs(2*I, x) == -x
@@ -1161,16 +1484,23 @@ def test_issue_6419_6421():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6559(), test_issue_6559 produces the expected output) over Any ║
+# ║ Path(test_issue_6559(), (-12 * x + y).subs(-x, 1) == 12 + y and cse(e) == ([(x0, sqrt(2))], [x0 / 3 - log(-12 * x0 + 17) / 24 - log(-2 * x0 + 3) / 12])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6559 : Any → {Any | (-12 * x + y).subs(-x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (-12 * x + y).subs(-x, 1) == 12 + y            ║
+# ║   ensures:  cse(e) == ([(x0, sqrt(2))], [x0 / 3 - log...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6559 : Any → {Any | result satisfies: (-12...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5265fe9577295a82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b140baf922fe9c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6559","kind":"function","src_hash":"928545dd491cd95c","in":{"base":"Any"},"out":{"base":"Any","pred":"(-12 * x + y).subs(-x, 1) == 12 + y"},"spec":{"lhs":"test_issue_6559()","rhs":"test_issue_6559 produces the expected output","over":{"base":"Any"},"name":"test_issue_6559_correct"},"guarantee":"test_issue_6559 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6559_correct","statement":"Path(test_issue_6559(x), test_issue_6559 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5265fe9577295a82"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6559","kind":"function","src_hash":"928545dd491cd95c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (-12 * x + y).subs(-x, 1) == 12 + y and cse(e) == ([(x0, sqrt(2))], [x0 / 3 - log(-12 * x0 + 17) / 24 - log(-2 * x0 + 3) / 12])"},"spec":{"lhs":"test_issue_6559()","rhs":"(-12 * x + y).subs(-x, 1) == 12 + y and cse(e) == ([(x0, sqrt(2))], [x0 / 3 - log(-12 * x0 + 17) / 24 - log(-2 * x0 + 3) / 12])","over":{"base":"Any"},"name":"test_issue_6559_correct"},"guarantee":"(-12 * x + y).subs(-x, 1) == 12 + y; cse(e) == ([(x0, sqrt(2))], [x0 / 3 - log(-12 * x0 + 17) / 24 - log(-2 * x0 + 3) / 12])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6559_correct","statement":"Path(test_issue_6559(x), (-12 * x + y).subs(-x, 1) == 12 + y; cse(e) == ([(x0, sqrt(2))], [x0 / 3 - log(-12 * x0 + 17) / 24 - log(-2 * x0 + 3) / 12]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b140baf922fe9c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(-12 * x + y).subs(-x, 1) == 12 + y","cse(e) == ([(x0, sqrt(2))], [x0 / 3 - log(-12 * x0 + 17) / 24 - log(-2 * x0 + 3) / 12])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_6559():
     assert (-12*x + y).subs(-x, 1) == 12 + y
     # though this involves cse it generated a failure in Mul._eval_subs
@@ -1182,16 +1512,24 @@ def test_issue_6559():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5261(), test_issue_5261 produces the expected output) over Any ║
+# ║ Path(test_issue_5261(), exp(e).subs(exp(x), y) == y ** I and (2 ** e).subs(2 ** x, y) == y ** I and eq.subs((-2) ** x, y) == eq) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5261 : Any → {Any | exp(e).subs(exp(x), y)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(e).subs(exp(x), y) == y ** I               ║
+# ║   ensures:  (2 ** e).subs(2 ** x, y) == y ** I             ║
+# ║   ensures:  eq.subs((-2) ** x, y) == eq                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5261 : Any → {Any | result satisfies: exp(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 028cde89a2a77a34  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ebbe6be0e448c75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_5261","kind":"function","src_hash":"90edee51a87468e1","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(e).subs(exp(x), y) == y ** I and (2 ** e).subs(2 ** x, y) == y ** I and eq.subs((-2) ** x, y) == eq"},"spec":{"lhs":"test_issue_5261()","rhs":"test_issue_5261 produces the expected output","over":{"base":"Any"},"name":"test_issue_5261_correct"},"guarantee":"test_issue_5261 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_5261_correct","statement":"Path(test_issue_5261(x), test_issue_5261 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"028cde89a2a77a34"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_5261","kind":"function","src_hash":"90edee51a87468e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(e).subs(exp(x), y) == y ** I and (2 ** e).subs(2 ** x, y) == y ** I and eq.subs((-2) ** x, y) == eq"},"spec":{"lhs":"test_issue_5261()","rhs":"exp(e).subs(exp(x), y) == y ** I and (2 ** e).subs(2 ** x, y) == y ** I and eq.subs((-2) ** x, y) == eq","over":{"base":"Any"},"name":"test_issue_5261_correct"},"guarantee":"exp(e).subs(exp(x), y) == y ** I; (2 ** e).subs(2 ** x, y) == y ** I; eq.subs((-2) ** x, y) == eq","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_5261_correct","statement":"Path(test_issue_5261(x), exp(e).subs(exp(x), y) == y ** I; (2 ** e).subs(2 ** x, y) == y ** I; eq.subs((-2) ** x, y) == eq)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ebbe6be0e448c75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(e).subs(exp(x), y) == y ** I","(2 ** e).subs(2 ** x, y) == y ** I","eq.subs((-2) ** x, y) == eq"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5261():
     x = symbols('x', real=True)
     e = I*x
@@ -1202,31 +1540,44 @@ def test_issue_5261():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6923(), test_issue_6923 produces the expected output) over Any ║
+# ║ Path(test_issue_6923(), (-2 * x * sqrt(2)).subs(2 * x, y) == -sqrt(2) * y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6923 : Any → {Any | (-2 * x * sqrt(2)).sub...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (-2 * x * sqrt(2)).subs(2 * x, y) == -sqr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6923 : Any → {Any | result satisfies: (-2 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8920d4393d0d906  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c66a32cbe57b668b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6923","kind":"function","src_hash":"57354ce8e1c8e935","in":{"base":"Any"},"out":{"base":"Any","pred":"(-2 * x * sqrt(2)).subs(2 * x, y) == -sqrt(2) * y"},"spec":{"lhs":"test_issue_6923()","rhs":"test_issue_6923 produces the expected output","over":{"base":"Any"},"name":"test_issue_6923_correct"},"guarantee":"test_issue_6923 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6923_correct","statement":"Path(test_issue_6923(x), test_issue_6923 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8920d4393d0d906"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6923","kind":"function","src_hash":"57354ce8e1c8e935","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (-2 * x * sqrt(2)).subs(2 * x, y) == -sqrt(2) * y"},"spec":{"lhs":"test_issue_6923()","rhs":"(-2 * x * sqrt(2)).subs(2 * x, y) == -sqrt(2) * y","over":{"base":"Any"},"name":"test_issue_6923_correct"},"guarantee":"(-2 * x * sqrt(2)).subs(2 * x, y) == -sqrt(2) * y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6923_correct","statement":"Path(test_issue_6923(x), (-2 * x * sqrt(2)).subs(2 * x, y) == -sqrt(2) * y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c66a32cbe57b668b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(-2 * x * sqrt(2)).subs(2 * x, y) == -sqrt(2) * y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_6923():
     assert (-2*x*sqrt(2)).subs(2*x, y) == -sqrt(2)*y
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2arg_hack(), test_2arg_hack produces the expected output) over Any ║
+# ║ Path(test_2arg_hack(), (2 * x * (y + 1)).subs(x, 1, hack2=True) == ans and (2 * (y + 1 + N)).subs(N, 0, hack2=True) == ans) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_2arg_hack : Any → {Any | (2 * x * (y + 1)).subs(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (2 * x * (y + 1)).subs(x, 1, hack2=True) ...   ║
+# ║   ensures:  (2 * (y + 1 + N)).subs(N, 0, hack2=True) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_2arg_hack : Any → {Any | result satisfies: (2 * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0a466fc5db47946  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9faaf0dce76d4cc4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_2arg_hack","kind":"function","src_hash":"a41a23646e596af8","in":{"base":"Any"},"out":{"base":"Any","pred":"(2 * x * (y + 1)).subs(x, 1, hack2=True) == ans and (2 * (y + 1 + N)).subs(N, 0, hack2=True) == ans"},"spec":{"lhs":"test_2arg_hack()","rhs":"test_2arg_hack produces the expected output","over":{"base":"Any"},"name":"test_2arg_hack_correct"},"guarantee":"test_2arg_hack produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_2arg_hack_correct","statement":"Path(test_2arg_hack(x), test_2arg_hack produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0a466fc5db47946"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_2arg_hack","kind":"function","src_hash":"a41a23646e596af8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (2 * x * (y + 1)).subs(x, 1, hack2=True) == ans and (2 * (y + 1 + N)).subs(N, 0, hack2=True) == ans"},"spec":{"lhs":"test_2arg_hack()","rhs":"(2 * x * (y + 1)).subs(x, 1, hack2=True) == ans and (2 * (y + 1 + N)).subs(N, 0, hack2=True) == ans","over":{"base":"Any"},"name":"test_2arg_hack_correct"},"guarantee":"(2 * x * (y + 1)).subs(x, 1, hack2=True) == ans; (2 * (y + 1 + N)).subs(N, 0, hack2=True) == ans","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_2arg_hack_correct","statement":"Path(test_2arg_hack(x), (2 * x * (y + 1)).subs(x, 1, hack2=True) == ans; (2 * (y + 1 + N)).subs(N, 0, hack2=True) == ans)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9faaf0dce76d4cc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(2 * x * (y + 1)).subs(x, 1, hack2=True) == ans","(2 * (y + 1 + N)).subs(N, 0, hack2=True) == ans"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_2arg_hack():
     N = Symbol('N', commutative=False)
     ans = Mul(2, y + 1, evaluate=False)
@@ -1236,16 +1587,22 @@ def test_2arg_hack():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mul2(), when this fails, remove things labelled "2-arg hack" 1) remove special handling in the fallback of subs that was added in the same commit as this test 2) remove the special handling in mul.flatten) over Any ║
+# ║ Path(test_mul2(), (2 * (x + 1)).is_Mul) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mul2 : Any → {Any | (2 * (x + 1)).is_Mul}             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (2 * (x + 1)).is_Mul                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mul2 : Any → {Any | result satisfies: (2 * (x + ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68eed9d2b4ff0b20  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ac58cc1b12b13ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_mul2","kind":"function","src_hash":"f35af4c384a09d8f","in":{"base":"Any"},"out":{"base":"Any","pred":"(2 * (x + 1)).is_Mul"},"spec":{"lhs":"test_mul2()","rhs":"when this fails, remove things labelled \"2-arg hack\" 1) remove special handling in the fallback of subs that was added in the same commit as this test 2) remove the special handling in mul.flatten","over":{"base":"Any"},"name":"test_mul2_correct"},"guarantee":"when this fails, remove things labelled \"2-arg hack\" 1) remove special handling in the fallback of subs that was added in the same commit as this test 2) remove the special handling in mul.flatten","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_mul2_correct","statement":"Path(test_mul2(x), when this fails, remove things labelled \"2-arg hack\" 1) remove special handling in the fallback of subs that was added in the same commit as this test 2) remove the special handling in mul.flatten)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68eed9d2b4ff0b20"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_mul2","kind":"function","src_hash":"f35af4c384a09d8f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (2 * (x + 1)).is_Mul"},"spec":{"lhs":"test_mul2()","rhs":"(2 * (x + 1)).is_Mul","over":{"base":"Any"},"name":"test_mul2_correct"},"guarantee":"(2 * (x + 1)).is_Mul","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_mul2_correct","statement":"Path(test_mul2(x), (2 * (x + 1)).is_Mul)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ac58cc1b12b13ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(2 * (x + 1)).is_Mul"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_mul2():
     """When this fails, remove things labelled "2-arg hack"
     1) remove special handling in the fallback of subs that
@@ -1256,32 +1613,46 @@ def test_mul2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_noncommutative_subs(), test_noncommutative_subs produces the expected output) over Any ║
+# ║ Path(test_noncommutative_subs(), (x * y * x).subs([(x, x * y), (y, x)], simultaneous=True) == x * y * x ** 2 * y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_noncommutative_subs : Any → {Any | (x * y * x).s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x * y * x).subs([(x, x * y), (y, x)], si...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_noncommutative_subs : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adca21b807233877  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 470da7053855ca05  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_noncommutative_subs","kind":"function","src_hash":"3e5d1e69ea12f67e","in":{"base":"Any"},"out":{"base":"Any","pred":"(x * y * x).subs([(x, x * y), (y, x)], simultaneous=True) == x * y * x ** 2 * y"},"spec":{"lhs":"test_noncommutative_subs()","rhs":"test_noncommutative_subs produces the expected output","over":{"base":"Any"},"name":"test_noncommutative_subs_correct"},"guarantee":"test_noncommutative_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_noncommutative_subs_correct","statement":"Path(test_noncommutative_subs(x), test_noncommutative_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adca21b807233877"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_noncommutative_subs","kind":"function","src_hash":"3e5d1e69ea12f67e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x * y * x).subs([(x, x * y), (y, x)], simultaneous=True) == x * y * x ** 2 * y"},"spec":{"lhs":"test_noncommutative_subs()","rhs":"(x * y * x).subs([(x, x * y), (y, x)], simultaneous=True) == x * y * x ** 2 * y","over":{"base":"Any"},"name":"test_noncommutative_subs_correct"},"guarantee":"(x * y * x).subs([(x, x * y), (y, x)], simultaneous=True) == x * y * x ** 2 * y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_noncommutative_subs_correct","statement":"Path(test_noncommutative_subs(x), (x * y * x).subs([(x, x * y), (y, x)], simultaneous=True) == x * y * x ** 2 * y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"470da7053855ca05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x * y * x).subs([(x, x * y), (y, x)], simultaneous=True) == x * y * x ** 2 * y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_noncommutative_subs():
     x,y = symbols('x,y', commutative=False)
     assert (x*y*x).subs([(x, x*y), (y, x)], simultaneous=True) == (x*y*x**2*y)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_2877(), test_issue_2877 produces the expected output) over Any ║
+# ║ Path(test_issue_2877(), factor(a * x ** 2 + b * x + c)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_2877 : Any → {Any | (x + f).subs({f: 2}) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x + f).subs({f: 2}) == x + 2                  ║
+# ║   ensures:  nsimplify(e) == 5 * x ** 2 / 6 + 10 * x + 5    ║
+# ║   returns:  factor(a * x ** 2 + b * x + c)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_2877 : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e45afb6ef2326e45  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45ae192ee89ad964  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_2877","kind":"function","src_hash":"c36843f96fd199ee","in":{"base":"Any"},"out":{"base":"Any","pred":"(x + f).subs({f: 2}) == x + 2 and nsimplify(e) == 5 * x ** 2 / 6 + 10 * x + 5"},"spec":{"lhs":"test_issue_2877()","rhs":"test_issue_2877 produces the expected output","over":{"base":"Any"},"name":"test_issue_2877_correct"},"guarantee":"test_issue_2877 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_2877_correct","statement":"Path(test_issue_2877(x), test_issue_2877 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e45afb6ef2326e45"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_2877","kind":"function","src_hash":"c36843f96fd199ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (factor(a * x ** 2 + b * x + c))"},"spec":{"lhs":"test_issue_2877()","rhs":"factor(a * x ** 2 + b * x + c)","over":{"base":"Any"},"name":"test_issue_2877_correct"},"guarantee":"returns factor(a * x ** 2 + b * x + c); (x + f).subs({f: 2}) == x + 2; nsimplify(e) == 5 * x ** 2 / 6 + 10 * x + 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_2877_correct","statement":"Path(test_issue_2877(x), returns factor(a * x ** 2 + b * x + c); (x + f).subs({f: 2}) == x + 2; nsimplify(e) == 5 * x ** 2 / 6 + 10 * x + 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45ae192ee89ad964","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x + f).subs({f: 2}) == x + 2","nsimplify(e) == 5 * x ** 2 / 6 + 10 * x + 5"],"returns_expr":"factor(a * x ** 2 + b * x + c)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_2877():
     f = Float(2.0)
     assert (x + f).subs({f: 2}) == x + 2
@@ -1293,16 +1664,24 @@ def test_issue_2877():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5910(), test_issue_5910 produces the expected output) over Any ║
+# ║ Path(test_issue_5910(), (1 / (1 - t)).subs(t, 1) is zoo and (n / d).subs(t, 1) is zoo and (-n / -d).subs(t, 1) is zoo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5910 : Any → {Any | (1 / (1 - t)).subs(t, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (1 / (1 - t)).subs(t, 1) is zoo                ║
+# ║   ensures:  (n / d).subs(t, 1) is zoo                      ║
+# ║   ensures:  (-n / -d).subs(t, 1) is zoo                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5910 : Any → {Any | result satisfies: (1 /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79f0a04db7a30dfa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8aae10e3e74e5900  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_5910","kind":"function","src_hash":"128a3b7c294da158","in":{"base":"Any"},"out":{"base":"Any","pred":"(1 / (1 - t)).subs(t, 1) is zoo and (n / d).subs(t, 1) is zoo and (-n / -d).subs(t, 1) is zoo"},"spec":{"lhs":"test_issue_5910()","rhs":"test_issue_5910 produces the expected output","over":{"base":"Any"},"name":"test_issue_5910_correct"},"guarantee":"test_issue_5910 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_5910_correct","statement":"Path(test_issue_5910(x), test_issue_5910 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79f0a04db7a30dfa"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_5910","kind":"function","src_hash":"128a3b7c294da158","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (1 / (1 - t)).subs(t, 1) is zoo and (n / d).subs(t, 1) is zoo and (-n / -d).subs(t, 1) is zoo"},"spec":{"lhs":"test_issue_5910()","rhs":"(1 / (1 - t)).subs(t, 1) is zoo and (n / d).subs(t, 1) is zoo and (-n / -d).subs(t, 1) is zoo","over":{"base":"Any"},"name":"test_issue_5910_correct"},"guarantee":"(1 / (1 - t)).subs(t, 1) is zoo; (n / d).subs(t, 1) is zoo; (-n / -d).subs(t, 1) is zoo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_5910_correct","statement":"Path(test_issue_5910(x), (1 / (1 - t)).subs(t, 1) is zoo; (n / d).subs(t, 1) is zoo; (-n / -d).subs(t, 1) is zoo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8aae10e3e74e5900","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(1 / (1 - t)).subs(t, 1) is zoo","(n / d).subs(t, 1) is zoo","(-n / -d).subs(t, 1) is zoo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5910():
     t = Symbol('t')
     assert (1/(1 - t)).subs(t, 1) is zoo
@@ -1313,16 +1692,24 @@ def test_issue_5910():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5217(), test_issue_5217 produces the expected output) over Any ║
+# ║ Path(test_issue_5217(), w.subs(sub) == 1 + s and z.subs(sub) == 1 - s and q == 4 * x ** 2 * y ** 2 and q.subs(sub) == 2 * y ** 2 * s) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5217 : Any → {Any | w.subs(sub) == 1 + s a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  w.subs(sub) == 1 + s                           ║
+# ║   ensures:  z.subs(sub) == 1 - s                           ║
+# ║   ensures:  q == 4 * x ** 2 * y ** 2                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5217 : Any → {Any | result satisfies: w.su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f3b4c23813a1d18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f76f6b0f47b2f09  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_5217","kind":"function","src_hash":"b0562a1c27d3fb2a","in":{"base":"Any"},"out":{"base":"Any","pred":"w.subs(sub) == 1 + s and z.subs(sub) == 1 - s and q == 4 * x ** 2 * y ** 2 and q.subs(sub) == 2 * y ** 2 * s"},"spec":{"lhs":"test_issue_5217()","rhs":"test_issue_5217 produces the expected output","over":{"base":"Any"},"name":"test_issue_5217_correct"},"guarantee":"test_issue_5217 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_5217_correct","statement":"Path(test_issue_5217(x), test_issue_5217 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f3b4c23813a1d18"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_5217","kind":"function","src_hash":"b0562a1c27d3fb2a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: w.subs(sub) == 1 + s and z.subs(sub) == 1 - s and q == 4 * x ** 2 * y ** 2 and q.subs(sub) == 2 * y ** 2 * s"},"spec":{"lhs":"test_issue_5217()","rhs":"w.subs(sub) == 1 + s and z.subs(sub) == 1 - s and q == 4 * x ** 2 * y ** 2 and q.subs(sub) == 2 * y ** 2 * s","over":{"base":"Any"},"name":"test_issue_5217_correct"},"guarantee":"w.subs(sub) == 1 + s; z.subs(sub) == 1 - s; q == 4 * x ** 2 * y ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_5217_correct","statement":"Path(test_issue_5217(x), w.subs(sub) == 1 + s; z.subs(sub) == 1 - s; q == 4 * x ** 2 * y ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f76f6b0f47b2f09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["w.subs(sub) == 1 + s","z.subs(sub) == 1 - s","q == 4 * x ** 2 * y ** 2","q.subs(sub) == 2 * y ** 2 * s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5217():
     s = Symbol('s')
     z = (1 - 2*x*x)
@@ -1336,32 +1723,45 @@ def test_issue_5217():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10829(), test_issue_10829 produces the expected output) over Any ║
+# ║ Path(test_issue_10829(), (4 ** x).subs(2 ** x, y) == y ** 2 and (9 ** x).subs(3 ** x, y) == y ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10829 : Any → {Any | (4 ** x).subs(2 ** x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (4 ** x).subs(2 ** x, y) == y ** 2             ║
+# ║   ensures:  (9 ** x).subs(3 ** x, y) == y ** 2             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10829 : Any → {Any | result satisfies: (4 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3af1e648f59a1c02  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4fa12ab0b0605282  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_10829","kind":"function","src_hash":"9db3cfcd5958e04d","in":{"base":"Any"},"out":{"base":"Any","pred":"(4 ** x).subs(2 ** x, y) == y ** 2 and (9 ** x).subs(3 ** x, y) == y ** 2"},"spec":{"lhs":"test_issue_10829()","rhs":"test_issue_10829 produces the expected output","over":{"base":"Any"},"name":"test_issue_10829_correct"},"guarantee":"test_issue_10829 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_10829_correct","statement":"Path(test_issue_10829(x), test_issue_10829 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3af1e648f59a1c02"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_10829","kind":"function","src_hash":"9db3cfcd5958e04d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (4 ** x).subs(2 ** x, y) == y ** 2 and (9 ** x).subs(3 ** x, y) == y ** 2"},"spec":{"lhs":"test_issue_10829()","rhs":"(4 ** x).subs(2 ** x, y) == y ** 2 and (9 ** x).subs(3 ** x, y) == y ** 2","over":{"base":"Any"},"name":"test_issue_10829_correct"},"guarantee":"(4 ** x).subs(2 ** x, y) == y ** 2; (9 ** x).subs(3 ** x, y) == y ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_10829_correct","statement":"Path(test_issue_10829(x), (4 ** x).subs(2 ** x, y) == y ** 2; (9 ** x).subs(3 ** x, y) == y ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4fa12ab0b0605282","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(4 ** x).subs(2 ** x, y) == y ** 2","(9 ** x).subs(3 ** x, y) == y ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_10829():
     assert (4**x).subs(2**x, y) == y**2
     assert (9**x).subs(3**x, y) == y**2
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pow_eval_subs_no_cache(), test_pow_eval_subs_no_cache produces the expected output) over Any ║
+# ║ Path(test_pow_eval_subs_no_cache(), result == 1 / y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pow_eval_subs_no_cache : Any → {Any | result == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == 1 / y                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pow_eval_subs_no_cache : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f0cebb5b897fb6b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9c53d9d26280544  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_pow_eval_subs_no_cache","kind":"function","src_hash":"a3bf11410b8ca391","in":{"base":"Any"},"out":{"base":"Any","pred":"result == 1 / y"},"spec":{"lhs":"test_pow_eval_subs_no_cache()","rhs":"test_pow_eval_subs_no_cache produces the expected output","over":{"base":"Any"},"name":"test_pow_eval_subs_no_cache_correct"},"guarantee":"test_pow_eval_subs_no_cache produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_pow_eval_subs_no_cache_correct","statement":"Path(test_pow_eval_subs_no_cache(x), test_pow_eval_subs_no_cache produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f0cebb5b897fb6b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_pow_eval_subs_no_cache","kind":"function","src_hash":"a3bf11410b8ca391","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == 1 / y"},"spec":{"lhs":"test_pow_eval_subs_no_cache()","rhs":"result == 1 / y","over":{"base":"Any"},"name":"test_pow_eval_subs_no_cache_correct"},"guarantee":"result == 1 / y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_pow_eval_subs_no_cache_correct","statement":"Path(test_pow_eval_subs_no_cache(x), result == 1 / y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9c53d9d26280544","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == 1 / y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pow_eval_subs_no_cache():
     # Tests pull request 9376 is working
     from sympy.core.cache import clear_cache
@@ -1379,16 +1779,22 @@ def test_pow_eval_subs_no_cache():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RootOf_issue_10092(), test_RootOf_issue_10092 produces the expected output) over Any ║
+# ║ Path(test_RootOf_issue_10092(), (x < r).subs(x, r) is S.false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RootOf_issue_10092 : Any → {Any | (x < r).subs(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x < r).subs(x, r) is S.false                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RootOf_issue_10092 : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 834165144d467370  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d420470abb2f9ed5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_RootOf_issue_10092","kind":"function","src_hash":"f634864627f557c6","in":{"base":"Any"},"out":{"base":"Any","pred":"(x < r).subs(x, r) is S.false"},"spec":{"lhs":"test_RootOf_issue_10092()","rhs":"test_RootOf_issue_10092 produces the expected output","over":{"base":"Any"},"name":"test_RootOf_issue_10092_correct"},"guarantee":"test_RootOf_issue_10092 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_RootOf_issue_10092_correct","statement":"Path(test_RootOf_issue_10092(x), test_RootOf_issue_10092 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"834165144d467370"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_RootOf_issue_10092","kind":"function","src_hash":"f634864627f557c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x < r).subs(x, r) is S.false"},"spec":{"lhs":"test_RootOf_issue_10092()","rhs":"(x < r).subs(x, r) is S.false","over":{"base":"Any"},"name":"test_RootOf_issue_10092_correct"},"guarantee":"(x < r).subs(x, r) is S.false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_RootOf_issue_10092_correct","statement":"Path(test_RootOf_issue_10092(x), (x < r).subs(x, r) is S.false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d420470abb2f9ed5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x < r).subs(x, r) is S.false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RootOf_issue_10092():
     x = Symbol('x', real=True)
     eq = x**3 - 17*x**2 + 81*x - 118
@@ -1397,16 +1803,22 @@ def test_RootOf_issue_10092():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8886(), test_issue_8886 produces the expected output) over Any ║
+# ║ Path(test_issue_8886(), v.__eq__(x) is False) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8886 : Any → {Any | v.__eq__(x) is False}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v.__eq__(x) is False                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8886 : Any → {Any | result satisfies: v.__...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 208e48f9707e377a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe2943a7ddcd887a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_8886","kind":"function","src_hash":"6ad06b5943bd965a","in":{"base":"Any"},"out":{"base":"Any","pred":"v.__eq__(x) is False"},"spec":{"lhs":"test_issue_8886()","rhs":"test_issue_8886 produces the expected output","over":{"base":"Any"},"name":"test_issue_8886_correct"},"guarantee":"test_issue_8886 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_8886_correct","statement":"Path(test_issue_8886(x), test_issue_8886 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"208e48f9707e377a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_8886","kind":"function","src_hash":"6ad06b5943bd965a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v.__eq__(x) is False"},"spec":{"lhs":"test_issue_8886()","rhs":"v.__eq__(x) is False","over":{"base":"Any"},"name":"test_issue_8886_correct"},"guarantee":"v.__eq__(x) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_8886_correct","statement":"Path(test_issue_8886(x), v.__eq__(x) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe2943a7ddcd887a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v.__eq__(x) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8886():
     from sympy.physics.mechanics import ReferenceFrame as R
     # if something can't be sympified we assume that it
@@ -1419,16 +1831,24 @@ def test_issue_8886():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12657(), test_issue_12657 produces the expected output) over Any ║
+# ║ Path(test_issue_12657(), (x < -oo).subs(reps) == (x < 1) and (x < -oo).subs(list(reversed(reps))) == (x < 1) and (x < oo).subs(reps) == (x < 1) and (x < oo).subs(list(reversed(reps))) == (x < 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12657 : Any → {Any | (x < -oo).subs(reps) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x < -oo).subs(reps) == (x < 1)                ║
+# ║   ensures:  (x < -oo).subs(list(reversed(reps))) == (...   ║
+# ║   ensures:  (x < oo).subs(reps) == (x < 1)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12657 : Any → {Any | result satisfies: (x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e4f9dd08b29c1ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b380cbd9cbe8610  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_12657","kind":"function","src_hash":"4735dc23a5a68bf6","in":{"base":"Any"},"out":{"base":"Any","pred":"(x < -oo).subs(reps) == (x < 1) and (x < -oo).subs(list(reversed(reps))) == (x < 1) and (x < oo).subs(reps) == (x < 1) and (x < oo).subs(list(reversed(reps))) == (x < 1)"},"spec":{"lhs":"test_issue_12657()","rhs":"test_issue_12657 produces the expected output","over":{"base":"Any"},"name":"test_issue_12657_correct"},"guarantee":"test_issue_12657 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_12657_correct","statement":"Path(test_issue_12657(x), test_issue_12657 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e4f9dd08b29c1ee"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_12657","kind":"function","src_hash":"4735dc23a5a68bf6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x < -oo).subs(reps) == (x < 1) and (x < -oo).subs(list(reversed(reps))) == (x < 1) and (x < oo).subs(reps) == (x < 1) and (x < oo).subs(list(reversed(reps))) == (x < 1)"},"spec":{"lhs":"test_issue_12657()","rhs":"(x < -oo).subs(reps) == (x < 1) and (x < -oo).subs(list(reversed(reps))) == (x < 1) and (x < oo).subs(reps) == (x < 1) and (x < oo).subs(list(reversed(reps))) == (x < 1)","over":{"base":"Any"},"name":"test_issue_12657_correct"},"guarantee":"(x < -oo).subs(reps) == (x < 1); (x < -oo).subs(list(reversed(reps))) == (x < 1); (x < oo).subs(reps) == (x < 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_12657_correct","statement":"Path(test_issue_12657(x), (x < -oo).subs(reps) == (x < 1); (x < -oo).subs(list(reversed(reps))) == (x < 1); (x < oo).subs(reps) == (x < 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b380cbd9cbe8610","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x < -oo).subs(reps) == (x < 1)","(x < -oo).subs(list(reversed(reps))) == (x < 1)","(x < oo).subs(reps) == (x < 1)","(x < oo).subs(list(reversed(reps))) == (x < 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_12657():
     # treat -oo like the atom that it is
     reps = [(-oo, 1), (oo, 2)]
@@ -1440,16 +1860,22 @@ def test_issue_12657():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_recurse_Application_args(), test_recurse_Application_args produces the expected output) over Any ║
+# ║ Path(test_recurse_Application_args(), A.subs(f, F) == A.replace(f, F) == C) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_recurse_Application_args : Any → {Any | A.subs(f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.subs(f, F) == A.replace(f, F) == C           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_recurse_Application_args : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f84cbd2387a10836  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b83fea6b6c4ade1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_recurse_Application_args","kind":"function","src_hash":"6a470bac676f10bf","in":{"base":"Any"},"out":{"base":"Any","pred":"A.subs(f, F) == A.replace(f, F) == C"},"spec":{"lhs":"test_recurse_Application_args()","rhs":"test_recurse_Application_args produces the expected output","over":{"base":"Any"},"name":"test_recurse_Application_args_correct"},"guarantee":"test_recurse_Application_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_recurse_Application_args_correct","statement":"Path(test_recurse_Application_args(x), test_recurse_Application_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f84cbd2387a10836"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_recurse_Application_args","kind":"function","src_hash":"6a470bac676f10bf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.subs(f, F) == A.replace(f, F) == C"},"spec":{"lhs":"test_recurse_Application_args()","rhs":"A.subs(f, F) == A.replace(f, F) == C","over":{"base":"Any"},"name":"test_recurse_Application_args_correct"},"guarantee":"A.subs(f, F) == A.replace(f, F) == C","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_recurse_Application_args_correct","statement":"Path(test_recurse_Application_args(x), A.subs(f, F) == A.replace(f, F) == C)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b83fea6b6c4ade1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.subs(f, F) == A.replace(f, F) == C"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_recurse_Application_args():
     F = Lambda((x, y), exp(2*x + 3*y))
     f = Function('f')
@@ -1459,16 +1885,24 @@ def test_recurse_Application_args():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Subs_subs(), test_Subs_subs produces the expected output) over Any ║
+# ║ Path(test_Subs_subs(), Subs(x * y, x, x).subs(x, y) == Subs(x * y, x, y) and Subs(x * y, x, x + 1).subs(x, y) == Subs(x * y, x, y + 1) and Subs(x * y, y, x + 1).subs(x, y) == Subs(y ** 2, y, y + 1) and a.subs(x, y) == b and a.doit().subs(x, y) == a.subs(x, y).doit() and Subs(2 * f(x, y) + g(x), f(x, y), 1).subs(y, 2) == Subs(2 * f(x, y) + g(x), (f(x, y), y), (1, 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Subs_subs : Any → {Any | Subs(x * y, x, x).subs(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Subs(x * y, x, x).subs(x, y) == Subs(x * ...   ║
+# ║   ensures:  Subs(x * y, x, x + 1).subs(x, y) == Subs(...   ║
+# ║   ensures:  Subs(x * y, y, x + 1).subs(x, y) == Subs(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Subs_subs : Any → {Any | result satisfies: Subs(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05ad8d981ad4e33a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d07fb07b9e5363a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_Subs_subs","kind":"function","src_hash":"bd1ffd7879ea8725","in":{"base":"Any"},"out":{"base":"Any","pred":"Subs(x * y, x, x).subs(x, y) == Subs(x * y, x, y) and Subs(x * y, x, x + 1).subs(x, y) == Subs(x * y, x, y + 1) and Subs(x * y, y, x + 1).subs(x, y) == Subs(y ** 2, y, y + 1) and a.subs(x, y) == b and a.doit().subs(x, y) == a.subs(x, y).doit()"},"spec":{"lhs":"test_Subs_subs()","rhs":"test_Subs_subs produces the expected output","over":{"base":"Any"},"name":"test_Subs_subs_correct"},"guarantee":"test_Subs_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_Subs_subs_correct","statement":"Path(test_Subs_subs(x), test_Subs_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05ad8d981ad4e33a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_Subs_subs","kind":"function","src_hash":"bd1ffd7879ea8725","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Subs(x * y, x, x).subs(x, y) == Subs(x * y, x, y) and Subs(x * y, x, x + 1).subs(x, y) == Subs(x * y, x, y + 1) and Subs(x * y, y, x + 1).subs(x, y) == Subs(y ** 2, y, y + 1) and a.subs(x, y) == b and a.doit().subs(x, y) == a.subs(x, y).doit() and Subs(2 * f(x, y) + g(x), f(x, y), 1).subs(y, 2) == Subs(2 * f(x, y) + g(x), (f(x, y), y), (1, 2))"},"spec":{"lhs":"test_Subs_subs()","rhs":"Subs(x * y, x, x).subs(x, y) == Subs(x * y, x, y) and Subs(x * y, x, x + 1).subs(x, y) == Subs(x * y, x, y + 1) and Subs(x * y, y, x + 1).subs(x, y) == Subs(y ** 2, y, y + 1) and a.subs(x, y) == b and a.doit().subs(x, y) == a.subs(x, y).doit() and Subs(2 * f(x, y) + g(x), f(x, y), 1).subs(y, 2) == Subs(2 * f(x, y) + g(x), (f(x, y), y), (1, 2))","over":{"base":"Any"},"name":"test_Subs_subs_correct"},"guarantee":"Subs(x * y, x, x).subs(x, y) == Subs(x * y, x, y); Subs(x * y, x, x + 1).subs(x, y) == Subs(x * y, x, y + 1); Subs(x * y, y, x + 1).subs(x, y) == Subs(y ** 2, y, y + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_Subs_subs_correct","statement":"Path(test_Subs_subs(x), Subs(x * y, x, x).subs(x, y) == Subs(x * y, x, y); Subs(x * y, x, x + 1).subs(x, y) == Subs(x * y, x, y + 1); Subs(x * y, y, x + 1).subs(x, y) == Subs(y ** 2, y, y + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d07fb07b9e5363a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Subs(x * y, x, x).subs(x, y) == Subs(x * y, x, y)","Subs(x * y, x, x + 1).subs(x, y) == Subs(x * y, x, y + 1)","Subs(x * y, y, x + 1).subs(x, y) == Subs(y ** 2, y, y + 1)","a.subs(x, y) == b and a.doit().subs(x, y) == a.subs(x, y).doit()","Subs(2 * f(x, y) + g(x), f(x, y), 1).subs(y, 2) == Subs(2 * f(x, y) + g(x), (f(x, y), y), (1, 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Subs_subs():
     assert Subs(x*y, x, x).subs(x, y) == Subs(x*y, x, y)
     assert Subs(x*y, x, x + 1).subs(x, y) == \
@@ -1486,16 +1920,23 @@ def test_Subs_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13333(), test_issue_13333 produces the expected output) over Any ║
+# ║ Path(test_issue_13333(), eq.subs({'x': '1/2'}) == 2 and eq.subs({'x': '(1/2)'}) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13333 : Any → {Any | eq.subs({'x': '1/2'})...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq.subs({'x': '1/2'}) == 2                     ║
+# ║   ensures:  eq.subs({'x': '(1/2)'}) == 2                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13333 : Any → {Any | result satisfies: eq....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7b80941ac528cc1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e060316ed50781c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_13333","kind":"function","src_hash":"a907d84aa79942aa","in":{"base":"Any"},"out":{"base":"Any","pred":"eq.subs({'x': '1/2'}) == 2 and eq.subs({'x': '(1/2)'}) == 2"},"spec":{"lhs":"test_issue_13333()","rhs":"test_issue_13333 produces the expected output","over":{"base":"Any"},"name":"test_issue_13333_correct"},"guarantee":"test_issue_13333 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_13333_correct","statement":"Path(test_issue_13333(x), test_issue_13333 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7b80941ac528cc1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_13333","kind":"function","src_hash":"a907d84aa79942aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq.subs({'x': '1/2'}) == 2 and eq.subs({'x': '(1/2)'}) == 2"},"spec":{"lhs":"test_issue_13333()","rhs":"eq.subs({'x': '1/2'}) == 2 and eq.subs({'x': '(1/2)'}) == 2","over":{"base":"Any"},"name":"test_issue_13333_correct"},"guarantee":"eq.subs({'x': '1/2'}) == 2; eq.subs({'x': '(1/2)'}) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_13333_correct","statement":"Path(test_issue_13333(x), eq.subs({'x': '1/2'}) == 2; eq.subs({'x': '(1/2)'}) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e060316ed50781c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq.subs({'x': '1/2'}) == 2","eq.subs({'x': '(1/2)'}) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_13333():
     eq = 1/x
     assert eq.subs({"x": '1/2'}) == 2
@@ -1503,16 +1944,22 @@ def test_issue_13333():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15234(), test_issue_15234 produces the expected output) over Any ║
+# ║ Path(test_issue_15234(), p.subs([(x ** i, y ** i) for i in [2, 4]]) == p_subbed) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15234 : Any → {Any | p.subs([(x ** i, y **...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.subs([(x ** i, y ** i) for i in [2, 4]]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15234 : Any → {Any | result satisfies: p.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93c2f4a47f2c0850  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d77095ec45d22bc4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_15234","kind":"function","src_hash":"e5bc883825322338","in":{"base":"Any"},"out":{"base":"Any","pred":"p.subs([(x ** i, y ** i) for i in [2, 4]]) == p_subbed and p.subs([(x ** i, y ** i) for i in [2, 4]]) == p_subbed"},"spec":{"lhs":"test_issue_15234()","rhs":"test_issue_15234 produces the expected output","over":{"base":"Any"},"name":"test_issue_15234_correct"},"guarantee":"test_issue_15234 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_15234_correct","statement":"Path(test_issue_15234(x), test_issue_15234 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93c2f4a47f2c0850"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_15234","kind":"function","src_hash":"e5bc883825322338","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.subs([(x ** i, y ** i) for i in [2, 4]]) == p_subbed"},"spec":{"lhs":"test_issue_15234()","rhs":"p.subs([(x ** i, y ** i) for i in [2, 4]]) == p_subbed","over":{"base":"Any"},"name":"test_issue_15234_correct"},"guarantee":"p.subs([(x ** i, y ** i) for i in [2, 4]]) == p_subbed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_15234_correct","statement":"Path(test_issue_15234(x), p.subs([(x ** i, y ** i) for i in [2, 4]]) == p_subbed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d77095ec45d22bc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.subs([(x ** i, y ** i) for i in [2, 4]]) == p_subbed"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_15234():
     x, y = symbols('x y', real=True)
     p = 6*x**5 + x**4 - 4*x**3 + 4*x**2 - 2*x + 3
@@ -1525,16 +1972,24 @@ def test_issue_15234():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6976(), test_issue_6976 produces the expected output) over Any ║
+# ║ Path(test_issue_6976(), (sqrt(x) ** 3 + sqrt(x) + x + x ** 2).subs(sqrt(x), y) == y ** 4 + y ** 3 + y ** 2 + y and (x ** 4 + x ** 3 + x ** 2 + x + sqrt(x)).subs(x ** 2, y) == sqrt(x) + x ** 3 + x + y ** 2 + y and x.subs(x ** 3, y) == x and x.subs(x ** Rational(1, 3), y) == y ** 3 and (x ** 4 + x ** 3 + x ** 2 + x + sqrt(x)).subs(x ** 2, y) == y ** Rational(1, 4) + y ** Rational(3, 2) + sqrt(y) + y ** 2 + y and x.subs(x ** 3, y) == y ** Rational(1, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6976 : Any → {Any | x.subs(x ** 3, y) == x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (sqrt(x) ** 3 + sqrt(x) + x + x ** 2).sub...   ║
+# ║   ensures:  (x ** 4 + x ** 3 + x ** 2 + x + sqrt(x))....   ║
+# ║   ensures:  x.subs(x ** 3, y) == x                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6976 : Any → {Any | result satisfies: (sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e9dbcf0f6042386  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fa222d55da0b94b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6976","kind":"function","src_hash":"85ffdbf0f855b744","in":{"base":"Any"},"out":{"base":"Any","pred":"x.subs(x ** 3, y) == x and x.subs(x ** Rational(1, 3), y) == y ** 3 and x.subs(x ** 3, y) == y ** Rational(1, 3)"},"spec":{"lhs":"test_issue_6976()","rhs":"test_issue_6976 produces the expected output","over":{"base":"Any"},"name":"test_issue_6976_correct"},"guarantee":"test_issue_6976 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6976_correct","statement":"Path(test_issue_6976(x), test_issue_6976 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e9dbcf0f6042386"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_6976","kind":"function","src_hash":"85ffdbf0f855b744","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (sqrt(x) ** 3 + sqrt(x) + x + x ** 2).subs(sqrt(x), y) == y ** 4 + y ** 3 + y ** 2 + y and (x ** 4 + x ** 3 + x ** 2 + x + sqrt(x)).subs(x ** 2, y) == sqrt(x) + x ** 3 + x + y ** 2 + y and x.subs(x ** 3, y) == x and x.subs(x ** Rational(1, 3), y) == y ** 3 and (x ** 4 + x ** 3 + x ** 2 + x + sqrt(x)).subs(x ** 2, y) == y ** Rational(1, 4) + y ** Rational(3, 2) + sqrt(y) + y ** 2 + y and x.subs(x ** 3, y) == y ** Rational(1, 3)"},"spec":{"lhs":"test_issue_6976()","rhs":"(sqrt(x) ** 3 + sqrt(x) + x + x ** 2).subs(sqrt(x), y) == y ** 4 + y ** 3 + y ** 2 + y and (x ** 4 + x ** 3 + x ** 2 + x + sqrt(x)).subs(x ** 2, y) == sqrt(x) + x ** 3 + x + y ** 2 + y and x.subs(x ** 3, y) == x and x.subs(x ** Rational(1, 3), y) == y ** 3 and (x ** 4 + x ** 3 + x ** 2 + x + sqrt(x)).subs(x ** 2, y) == y ** Rational(1, 4) + y ** Rational(3, 2) + sqrt(y) + y ** 2 + y and x.subs(x ** 3, y) == y ** Rational(1, 3)","over":{"base":"Any"},"name":"test_issue_6976_correct"},"guarantee":"(sqrt(x) ** 3 + sqrt(x) + x + x ** 2).subs(sqrt(x), y) == y ** 4 + y ** 3 + y ** 2 + y; (x ** 4 + x ** 3 + x ** 2 + x + sqrt(x)).subs(x ** 2, y) == sqrt(x) + x ** 3 + x + y ** 2 + y; x.subs(x ** 3, y) == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_6976_correct","statement":"Path(test_issue_6976(x), (sqrt(x) ** 3 + sqrt(x) + x + x ** 2).subs(sqrt(x), y) == y ** 4 + y ** 3 + y ** 2 + y; (x ** 4 + x ** 3 + x ** 2 + x + sqrt(x)).subs(x ** 2, y) == sqrt(x) + x ** 3 + x + y ** 2 + y; x.subs(x ** 3, y) == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fa222d55da0b94b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(sqrt(x) ** 3 + sqrt(x) + x + x ** 2).subs(sqrt(x), y) == y ** 4 + y ** 3 + y ** 2 + y","(x ** 4 + x ** 3 + x ** 2 + x + sqrt(x)).subs(x ** 2, y) == sqrt(x) + x ** 3 + x + y ** 2 + y","x.subs(x ** 3, y) == x","x.subs(x ** Rational(1, 3), y) == y ** 3","(x ** 4 + x ** 3 + x ** 2 + x + sqrt(x)).subs(x ** 2, y) == y ** Rational(1, 4) + y ** Rational(3, 2) + sqrt(y) + y ** 2 + y","x.subs(x ** 3, y) == y ** Rational(1, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_6976():
     x, y = symbols('x y')
     assert (sqrt(x)**3 + sqrt(x) + x + x**2).subs(sqrt(x), y) == \
@@ -1552,16 +2007,24 @@ def test_issue_6976():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11746(), test_issue_11746 produces the expected output) over Any ║
+# ║ Path(test_issue_11746(), (1 / x).subs(x ** 2, 1) == 1 / x and (1 / x ** 3).subs(x ** 2, 1) == x ** (-3) and (1 / x ** 4).subs(x ** 2, 1) == 1 and (1 / x ** 3).subs(x ** 4, 1) == x ** (-3) and (1 / y ** 5).subs(x ** 5, 1) == y ** (-5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11746 : Any → {Any | (1 / x).subs(x ** 2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (1 / x).subs(x ** 2, 1) == 1 / x               ║
+# ║   ensures:  (1 / x ** 3).subs(x ** 2, 1) == x ** (-3)      ║
+# ║   ensures:  (1 / x ** 4).subs(x ** 2, 1) == 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11746 : Any → {Any | result satisfies: (1 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91b0f2a4a84e16f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ba72589e9e988d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_11746","kind":"function","src_hash":"d95c703b3f1050a6","in":{"base":"Any"},"out":{"base":"Any","pred":"(1 / x).subs(x ** 2, 1) == 1 / x and (1 / x ** 3).subs(x ** 2, 1) == x ** (-3) and (1 / x ** 4).subs(x ** 2, 1) == 1 and (1 / x ** 3).subs(x ** 4, 1) == x ** (-3) and (1 / y ** 5).subs(x ** 5, 1) == y ** (-5)"},"spec":{"lhs":"test_issue_11746()","rhs":"test_issue_11746 produces the expected output","over":{"base":"Any"},"name":"test_issue_11746_correct"},"guarantee":"test_issue_11746 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_11746_correct","statement":"Path(test_issue_11746(x), test_issue_11746 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91b0f2a4a84e16f8"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_11746","kind":"function","src_hash":"d95c703b3f1050a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (1 / x).subs(x ** 2, 1) == 1 / x and (1 / x ** 3).subs(x ** 2, 1) == x ** (-3) and (1 / x ** 4).subs(x ** 2, 1) == 1 and (1 / x ** 3).subs(x ** 4, 1) == x ** (-3) and (1 / y ** 5).subs(x ** 5, 1) == y ** (-5)"},"spec":{"lhs":"test_issue_11746()","rhs":"(1 / x).subs(x ** 2, 1) == 1 / x and (1 / x ** 3).subs(x ** 2, 1) == x ** (-3) and (1 / x ** 4).subs(x ** 2, 1) == 1 and (1 / x ** 3).subs(x ** 4, 1) == x ** (-3) and (1 / y ** 5).subs(x ** 5, 1) == y ** (-5)","over":{"base":"Any"},"name":"test_issue_11746_correct"},"guarantee":"(1 / x).subs(x ** 2, 1) == 1 / x; (1 / x ** 3).subs(x ** 2, 1) == x ** (-3); (1 / x ** 4).subs(x ** 2, 1) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_11746_correct","statement":"Path(test_issue_11746(x), (1 / x).subs(x ** 2, 1) == 1 / x; (1 / x ** 3).subs(x ** 2, 1) == x ** (-3); (1 / x ** 4).subs(x ** 2, 1) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ba72589e9e988d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(1 / x).subs(x ** 2, 1) == 1 / x","(1 / x ** 3).subs(x ** 2, 1) == x ** (-3)","(1 / x ** 4).subs(x ** 2, 1) == 1","(1 / x ** 3).subs(x ** 4, 1) == x ** (-3)","(1 / y ** 5).subs(x ** 5, 1) == y ** (-5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_11746():
     assert (1/x).subs(x**2, 1) == 1/x
     assert (1/(x**3)).subs(x**2, 1) == x**(-3)
@@ -1571,16 +2034,22 @@ def test_issue_11746():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17823(), test_issue_17823 produces the expected output) over Any ║
+# ║ Path(test_issue_17823(), expr.subs(reps) == a * x * y * Derivative(q2, t) + a * z ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17823 : Any → {Any | expr.subs(reps) == a ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.subs(reps) == a * x * y * Derivative...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17823 : Any → {Any | result satisfies: exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 912206a4dc185774  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7ccf488d96ef9c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_17823","kind":"function","src_hash":"96c57315392ecef0","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.subs(reps) == a * x * y * Derivative(q2, t) + a * z ** 2"},"spec":{"lhs":"test_issue_17823()","rhs":"test_issue_17823 produces the expected output","over":{"base":"Any"},"name":"test_issue_17823_correct"},"guarantee":"test_issue_17823 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_17823_correct","statement":"Path(test_issue_17823(x), test_issue_17823 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"912206a4dc185774"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_17823","kind":"function","src_hash":"96c57315392ecef0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.subs(reps) == a * x * y * Derivative(q2, t) + a * z ** 2"},"spec":{"lhs":"test_issue_17823()","rhs":"expr.subs(reps) == a * x * y * Derivative(q2, t) + a * z ** 2","over":{"base":"Any"},"name":"test_issue_17823_correct"},"guarantee":"expr.subs(reps) == a * x * y * Derivative(q2, t) + a * z ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_17823_correct","statement":"Path(test_issue_17823(x), expr.subs(reps) == a * x * y * Derivative(q2, t) + a * z ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7ccf488d96ef9c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.subs(reps) == a * x * y * Derivative(q2, t) + a * z ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17823():
     from sympy.physics.mechanics import dynamicsymbols
     q1, q2 = dynamicsymbols('q1, q2')
@@ -1590,32 +2059,45 @@ def test_issue_17823():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19326(), test_issue_19326 produces the expected output) over Any ║
+# ║ Path(test_issue_19326(), (x * y).subs({x: 1 + x, y: x}) == (1 + x) * x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19326 : Any → {Any | (x * y).subs({x: 1 + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x * y).subs({x: 1 + x, y: x}) == (1 + x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19326 : Any → {Any | result satisfies: (x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0394f027ce916853  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26820d049ee584a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_19326","kind":"function","src_hash":"33dbef1097ac3c69","in":{"base":"Any"},"out":{"base":"Any","pred":"(x * y).subs({x: 1 + x, y: x}) == (1 + x) * x"},"spec":{"lhs":"test_issue_19326()","rhs":"test_issue_19326 produces the expected output","over":{"base":"Any"},"name":"test_issue_19326_correct"},"guarantee":"test_issue_19326 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_19326_correct","statement":"Path(test_issue_19326(x), test_issue_19326 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0394f027ce916853"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_19326","kind":"function","src_hash":"33dbef1097ac3c69","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x * y).subs({x: 1 + x, y: x}) == (1 + x) * x"},"spec":{"lhs":"test_issue_19326()","rhs":"(x * y).subs({x: 1 + x, y: x}) == (1 + x) * x","over":{"base":"Any"},"name":"test_issue_19326_correct"},"guarantee":"(x * y).subs({x: 1 + x, y: x}) == (1 + x) * x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_19326_correct","statement":"Path(test_issue_19326(x), (x * y).subs({x: 1 + x, y: x}) == (1 + x) * x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26820d049ee584a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x * y).subs({x: 1 + x, y: x}) == (1 + x) * x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_19326():
     x, y = [i(t) for i in map(Function, 'xy')]
     assert (x*y).subs({x: 1 + x, y: x}) == (1 + x)*x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19558(), test_issue_19558 produces the expected output) over Any ║
+# ║ Path(test_issue_19558(), e.subs(x, oo) == AccumBounds(-oo, oo) and (sin(x) + cos(x)).subs(x, oo) == AccumBounds(-2, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19558 : Any → {Any | e.subs(x, oo) == Accu...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.subs(x, oo) == AccumBounds(-oo, oo)          ║
+# ║   ensures:  (sin(x) + cos(x)).subs(x, oo) == AccumBou...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19558 : Any → {Any | result satisfies: e.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9939d37961ad1eea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17a78ff01bb0cfe9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_19558","kind":"function","src_hash":"e60bf65032a73a42","in":{"base":"Any"},"out":{"base":"Any","pred":"e.subs(x, oo) == AccumBounds(-oo, oo) and (sin(x) + cos(x)).subs(x, oo) == AccumBounds(-2, 2)"},"spec":{"lhs":"test_issue_19558()","rhs":"test_issue_19558 produces the expected output","over":{"base":"Any"},"name":"test_issue_19558_correct"},"guarantee":"test_issue_19558 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_19558_correct","statement":"Path(test_issue_19558(x), test_issue_19558 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9939d37961ad1eea"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_19558","kind":"function","src_hash":"e60bf65032a73a42","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.subs(x, oo) == AccumBounds(-oo, oo) and (sin(x) + cos(x)).subs(x, oo) == AccumBounds(-2, 2)"},"spec":{"lhs":"test_issue_19558()","rhs":"e.subs(x, oo) == AccumBounds(-oo, oo) and (sin(x) + cos(x)).subs(x, oo) == AccumBounds(-2, 2)","over":{"base":"Any"},"name":"test_issue_19558_correct"},"guarantee":"e.subs(x, oo) == AccumBounds(-oo, oo); (sin(x) + cos(x)).subs(x, oo) == AccumBounds(-2, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_19558_correct","statement":"Path(test_issue_19558(x), e.subs(x, oo) == AccumBounds(-oo, oo); (sin(x) + cos(x)).subs(x, oo) == AccumBounds(-2, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17a78ff01bb0cfe9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.subs(x, oo) == AccumBounds(-oo, oo)","(sin(x) + cos(x)).subs(x, oo) == AccumBounds(-2, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_19558():
     e = (7*x*cos(x) - 12*log(x)**3)*(-log(x)**4 + 2*sin(x) + 1)**2/ \
     (2*(x*cos(x) - 2*log(x)**3)*(3*log(x)**4 - 7*sin(x) + 3)**2)
@@ -1625,16 +2107,22 @@ def test_issue_19558():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22033(), test_issue_22033 produces the expected output) over Any ║
+# ║ Path(test_issue_22033(), e.subs(xr ** 2, y) == e) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22033 : Any → {Any | e.subs(xr ** 2, y) == e}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.subs(xr ** 2, y) == e                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22033 : Any → {Any | result satisfies: e.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | faa61df049c783ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a21c627b73ff0055  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_22033","kind":"function","src_hash":"79b072658aa98b7e","in":{"base":"Any"},"out":{"base":"Any","pred":"e.subs(xr ** 2, y) == e"},"spec":{"lhs":"test_issue_22033()","rhs":"test_issue_22033 produces the expected output","over":{"base":"Any"},"name":"test_issue_22033_correct"},"guarantee":"test_issue_22033 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_22033_correct","statement":"Path(test_issue_22033(x), test_issue_22033 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"faa61df049c783ae"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_issue_22033","kind":"function","src_hash":"79b072658aa98b7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.subs(xr ** 2, y) == e"},"spec":{"lhs":"test_issue_22033()","rhs":"e.subs(xr ** 2, y) == e","over":{"base":"Any"},"name":"test_issue_22033_correct"},"guarantee":"e.subs(xr ** 2, y) == e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_issue_22033_correct","statement":"Path(test_issue_22033(x), e.subs(xr ** 2, y) == e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a21c627b73ff0055","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.subs(xr ** 2, y) == e"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22033():
     xr = Symbol('xr', real=True)
     e = (1/xr)
@@ -1642,16 +2130,24 @@ def test_issue_22033():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_guard_against_indeterminate_evaluation(), test_guard_against_indeterminate_evaluation produces the expected output) over Any ║
+# ║ Path(test_guard_against_indeterminate_evaluation(), eq.subs([(x, 1), (y, oo)]) == 1 and eq.subs([(y, oo), (x, 1)]) is S.NaN and eq.subs({x: 1, y: oo}) is S.NaN and eq.subs([(x, 1), (y, oo)], simultaneous=True) is S.NaN) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq.subs([(x, 1), (y, oo)]) == 1                ║
+# ║   ensures:  eq.subs([(y, oo), (x, 1)]) is S.NaN            ║
+# ║   ensures:  eq.subs({x: 1, y: oo}) is S.NaN                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_guard_against_indeterminate_evaluation : Any → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b167c149f753baf2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3082a9cea39b46e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_guard_against_indeterminate_evaluation","kind":"function","src_hash":"b0343ccb2dcbcc8f","in":{"base":"Any"},"out":{"base":"Any","pred":"eq.subs([(x, 1), (y, oo)]) == 1 and eq.subs([(y, oo), (x, 1)]) is S.NaN and eq.subs({x: 1, y: oo}) is S.NaN and eq.subs([(x, 1), (y, oo)], simultaneous=True) is S.NaN"},"spec":{"lhs":"test_guard_against_indeterminate_evaluation()","rhs":"test_guard_against_indeterminate_evaluation produces the expected output","over":{"base":"Any"},"name":"test_guard_against_indeterminate_evaluation_correct"},"guarantee":"test_guard_against_indeterminate_evaluation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_guard_against_indeterminate_evaluation_correct","statement":"Path(test_guard_against_indeterminate_evaluation(x), test_guard_against_indeterminate_evaluation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b167c149f753baf2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_subs.test_guard_against_indeterminate_evaluation","kind":"function","src_hash":"b0343ccb2dcbcc8f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq.subs([(x, 1), (y, oo)]) == 1 and eq.subs([(y, oo), (x, 1)]) is S.NaN and eq.subs({x: 1, y: oo}) is S.NaN and eq.subs([(x, 1), (y, oo)], simultaneous=True) is S.NaN"},"spec":{"lhs":"test_guard_against_indeterminate_evaluation()","rhs":"eq.subs([(x, 1), (y, oo)]) == 1 and eq.subs([(y, oo), (x, 1)]) is S.NaN and eq.subs({x: 1, y: oo}) is S.NaN and eq.subs([(x, 1), (y, oo)], simultaneous=True) is S.NaN","over":{"base":"Any"},"name":"test_guard_against_indeterminate_evaluation_correct"},"guarantee":"eq.subs([(x, 1), (y, oo)]) == 1; eq.subs([(y, oo), (x, 1)]) is S.NaN; eq.subs({x: 1, y: oo}) is S.NaN","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_subs.test_guard_against_indeterminate_evaluation_correct","statement":"Path(test_guard_against_indeterminate_evaluation(x), eq.subs([(x, 1), (y, oo)]) == 1; eq.subs([(y, oo), (x, 1)]) is S.NaN; eq.subs({x: 1, y: oo}) is S.NaN)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3082a9cea39b46e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq.subs([(x, 1), (y, oo)]) == 1","eq.subs([(y, oo), (x, 1)]) is S.NaN","eq.subs({x: 1, y: oo}) is S.NaN","eq.subs([(x, 1), (y, oo)], simultaneous=True) is S.NaN"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_guard_against_indeterminate_evaluation():
     eq = x**y
     assert eq.subs([(x, 1), (y, oo)]) == 1  # because 1**y == 1

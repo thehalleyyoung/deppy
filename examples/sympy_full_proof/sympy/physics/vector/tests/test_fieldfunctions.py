@@ -31,16 +31,24 @@ P = R.orientnew('P', 'Axis', [q, R.z])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_curl(), test_curl produces the expected output) over Any ║
+# ║ Path(test_curl(), curl(Vector(0), R) == Vector(0) and curl(R.x, R) == Vector(0) and curl(2 * R[1] ** 2 * R.y, R) == Vector(0) and curl(R[0] * R[1] * R.z, R) == R[0] * R.x - R[1] * R.y and curl(R[0] * R[1] * R[2] * (R.x + R.y + R.z), R) == (-R[0] * R[1] + R[0] * R[2]) * R.x + (R[0] * R[1] - R[1] * R[2]) * R.y + (-R[0] * R[2] + R[1] * R[2]) * R.z and curl(2 * R[0] ** 2 * R.y, R) == 4 * R[0] * R.z and curl(P[0] ** 2 * R.x + P.y, R) == -2 * (R[0] * cos(q) + R[1] * sin(q)) * sin(q) * R.z and curl(P[0] * R.y, P) == cos(q) * P.z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_curl : Any → {Any | curl(Vector(0), R) == Vector...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  curl(Vector(0), R) == Vector(0)                ║
+# ║   ensures:  curl(R.x, R) == Vector(0)                      ║
+# ║   ensures:  curl(2 * R[1] ** 2 * R.y, R) == Vector(0)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_curl : Any → {Any | result satisfies: curl(Vecto...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ade8124e2190824  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 094cc087c1f8fa2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_curl","kind":"function","src_hash":"9b33dcbe5803812c","in":{"base":"Any"},"out":{"base":"Any","pred":"curl(Vector(0), R) == Vector(0) and curl(R.x, R) == Vector(0) and curl(2 * R[1] ** 2 * R.y, R) == Vector(0) and curl(R[0] * R[1] * R.z, R) == R[0] * R.x - R[1] * R.y and curl(2 * R[0] ** 2 * R.y, R) == 4 * R[0] * R.z and curl(P[0] * R.y, P) == cos(q) * P.z"},"spec":{"lhs":"test_curl()","rhs":"test_curl produces the expected output","over":{"base":"Any"},"name":"test_curl_correct"},"guarantee":"test_curl produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_curl_correct","statement":"Path(test_curl(x), test_curl produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ade8124e2190824"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_curl","kind":"function","src_hash":"9b33dcbe5803812c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: curl(Vector(0), R) == Vector(0) and curl(R.x, R) == Vector(0) and curl(2 * R[1] ** 2 * R.y, R) == Vector(0) and curl(R[0] * R[1] * R.z, R) == R[0] * R.x - R[1] * R.y and curl(R[0] * R[1] * R[2] * (R.x + R.y + R.z), R) == (-R[0] * R[1] + R[0] * R[2]) * R.x + (R[0] * R[1] - R[1] * R[2]) * R.y + (-R[0] * R[2] + R[1] * R[2]) * R.z and curl(2 * R[0] ** 2 * R.y, R) == 4 * R[0] * R.z and curl(P[0] ** 2 * R.x + P.y, R) == -2 * (R[0] * cos(q) + R[1] * sin(q)) * sin(q) * R.z and curl(P[0] * R.y, P) == cos(q) * P.z"},"spec":{"lhs":"test_curl()","rhs":"curl(Vector(0), R) == Vector(0) and curl(R.x, R) == Vector(0) and curl(2 * R[1] ** 2 * R.y, R) == Vector(0) and curl(R[0] * R[1] * R.z, R) == R[0] * R.x - R[1] * R.y and curl(R[0] * R[1] * R[2] * (R.x + R.y + R.z), R) == (-R[0] * R[1] + R[0] * R[2]) * R.x + (R[0] * R[1] - R[1] * R[2]) * R.y + (-R[0] * R[2] + R[1] * R[2]) * R.z and curl(2 * R[0] ** 2 * R.y, R) == 4 * R[0] * R.z and curl(P[0] ** 2 * R.x + P.y, R) == -2 * (R[0] * cos(q) + R[1] * sin(q)) * sin(q) * R.z and curl(P[0] * R.y, P) == cos(q) * P.z","over":{"base":"Any"},"name":"test_curl_correct"},"guarantee":"curl(Vector(0), R) == Vector(0); curl(R.x, R) == Vector(0); curl(2 * R[1] ** 2 * R.y, R) == Vector(0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_curl_correct","statement":"Path(test_curl(x), curl(Vector(0), R) == Vector(0); curl(R.x, R) == Vector(0); curl(2 * R[1] ** 2 * R.y, R) == Vector(0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"094cc087c1f8fa2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["curl(Vector(0), R) == Vector(0)","curl(R.x, R) == Vector(0)","curl(2 * R[1] ** 2 * R.y, R) == Vector(0)","curl(R[0] * R[1] * R.z, R) == R[0] * R.x - R[1] * R.y","curl(R[0] * R[1] * R[2] * (R.x + R.y + R.z), R) == (-R[0] * R[1] + R[0] * R[2]) * R.x + (R[0] * R[1] - R[1] * R[2]) * R.y + (-R[0] * R[2] + R[1] * R[2]) * R.z","curl(2 * R[0] ** 2 * R.y, R) == 4 * R[0] * R.z","curl(P[0] ** 2 * R.x + P.y, R) == -2 * (R[0] * cos(q) + R[1] * sin(q)) * sin(q) * R.z","curl(P[0] * R.y, P) == cos(q) * P.z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_curl():
     assert curl(Vector(0), R) == Vector(0)
     assert curl(R.x, R) == Vector(0)
@@ -56,16 +64,24 @@ def test_curl():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_divergence(), test_divergence produces the expected output) over Any ║
+# ║ Path(test_divergence(), divergence(Vector(0), R) is S.Zero and divergence(R.x, R) is S.Zero and divergence(R[0] ** 2 * R.x, R) == 2 * R[0] and divergence(R[0] * R[1] * R[2] * (R.x + R.y + R.z), R) == R[0] * R[1] + R[0] * R[2] + R[1] * R[2] and divergence(1 / (R[0] * R[1] * R[2]) * (R.x + R.y + R.z), R) == -1 / (R[0] * R[1] * R[2] ** 2) - 1 / (R[0] * R[1] ** 2 * R[2]) - 1 / (R[0] ** 2 * R[1] * R[2]) and divergence(v, P) == 3 and divergence(v, R).simplify() == 3 and divergence(P[0] * R.x + R[0] * P.x, R) == 2 * cos(q)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_divergence : Any → {Any | divergence(Vector(0), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  divergence(Vector(0), R) is S.Zero             ║
+# ║   ensures:  divergence(R.x, R) is S.Zero                   ║
+# ║   ensures:  divergence(R[0] ** 2 * R.x, R) == 2 * R[0]     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_divergence : Any → {Any | result satisfies: dive...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e17e103658323f7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d200a0aff5747d20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_divergence","kind":"function","src_hash":"eefc2d75d38c9bb3","in":{"base":"Any"},"out":{"base":"Any","pred":"divergence(Vector(0), R) is S.Zero and divergence(R.x, R) is S.Zero and divergence(R[0] ** 2 * R.x, R) == 2 * R[0] and divergence(v, P) == 3 and divergence(v, R).simplify() == 3 and divergence(P[0] * R.x + R[0] * P.x, R) == 2 * cos(q)"},"spec":{"lhs":"test_divergence()","rhs":"test_divergence produces the expected output","over":{"base":"Any"},"name":"test_divergence_correct"},"guarantee":"test_divergence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_divergence_correct","statement":"Path(test_divergence(x), test_divergence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e17e103658323f7c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_divergence","kind":"function","src_hash":"eefc2d75d38c9bb3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: divergence(Vector(0), R) is S.Zero and divergence(R.x, R) is S.Zero and divergence(R[0] ** 2 * R.x, R) == 2 * R[0] and divergence(R[0] * R[1] * R[2] * (R.x + R.y + R.z), R) == R[0] * R[1] + R[0] * R[2] + R[1] * R[2] and divergence(1 / (R[0] * R[1] * R[2]) * (R.x + R.y + R.z), R) == -1 / (R[0] * R[1] * R[2] ** 2) - 1 / (R[0] * R[1] ** 2 * R[2]) - 1 / (R[0] ** 2 * R[1] * R[2]) and divergence(v, P) == 3 and divergence(v, R).simplify() == 3 and divergence(P[0] * R.x + R[0] * P.x, R) == 2 * cos(q)"},"spec":{"lhs":"test_divergence()","rhs":"divergence(Vector(0), R) is S.Zero and divergence(R.x, R) is S.Zero and divergence(R[0] ** 2 * R.x, R) == 2 * R[0] and divergence(R[0] * R[1] * R[2] * (R.x + R.y + R.z), R) == R[0] * R[1] + R[0] * R[2] + R[1] * R[2] and divergence(1 / (R[0] * R[1] * R[2]) * (R.x + R.y + R.z), R) == -1 / (R[0] * R[1] * R[2] ** 2) - 1 / (R[0] * R[1] ** 2 * R[2]) - 1 / (R[0] ** 2 * R[1] * R[2]) and divergence(v, P) == 3 and divergence(v, R).simplify() == 3 and divergence(P[0] * R.x + R[0] * P.x, R) == 2 * cos(q)","over":{"base":"Any"},"name":"test_divergence_correct"},"guarantee":"divergence(Vector(0), R) is S.Zero; divergence(R.x, R) is S.Zero; divergence(R[0] ** 2 * R.x, R) == 2 * R[0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_divergence_correct","statement":"Path(test_divergence(x), divergence(Vector(0), R) is S.Zero; divergence(R.x, R) is S.Zero; divergence(R[0] ** 2 * R.x, R) == 2 * R[0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d200a0aff5747d20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["divergence(Vector(0), R) is S.Zero","divergence(R.x, R) is S.Zero","divergence(R[0] ** 2 * R.x, R) == 2 * R[0]","divergence(R[0] * R[1] * R[2] * (R.x + R.y + R.z), R) == R[0] * R[1] + R[0] * R[2] + R[1] * R[2]","divergence(1 / (R[0] * R[1] * R[2]) * (R.x + R.y + R.z), R) == -1 / (R[0] * R[1] * R[2] ** 2) - 1 / (R[0] * R[1] ** 2 * R[2]) - 1 / (R[0] ** 2 * R[1] * R[2])","divergence(v, P) == 3","divergence(v, R).simplify() == 3","divergence(P[0] * R.x + R[0] * P.x, R) == 2 * cos(q)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_divergence():
     assert divergence(Vector(0), R) is S.Zero
     assert divergence(R.x, R) is S.Zero
@@ -82,16 +98,24 @@ def test_divergence():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gradient(), test_gradient produces the expected output) over Any ║
+# ║ Path(test_gradient(), gradient(0, R) == Vector(0) and gradient(R[0], R) == R.x and gradient(R[0] * R[1] * R[2], R) == R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z and gradient(2 * R[0] ** 2, R) == 4 * R[0] * R.x and gradient(a * sin(R[1]) / R[0], R) == -a * sin(R[1]) / R[0] ** 2 * R.x + a * cos(R[1]) / R[0] * R.y and gradient(P[0] * P[1], R) == ((-R[0] * sin(q) + R[1] * cos(q)) * cos(q) - (R[0] * cos(q) + R[1] * sin(q)) * sin(q)) * R.x + ((-R[0] * sin(q) + R[1] * cos(q)) * sin(q) + (R[0] * cos(q) + R[1] * sin(q)) * cos(q)) * R.y and gradient(P[0] * R[2], P) == P[2] * P.x + P[0] * P.z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gradient : Any → {Any | gradient(0, R) == Vector...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gradient(0, R) == Vector(0)                    ║
+# ║   ensures:  gradient(R[0], R) == R.x                       ║
+# ║   ensures:  gradient(R[0] * R[1] * R[2], R) == R[1] *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gradient : Any → {Any | result satisfies: gradie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4343d0421943cea7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4de864e92dbd806  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_gradient","kind":"function","src_hash":"64c7d93f55edff69","in":{"base":"Any"},"out":{"base":"Any","pred":"gradient(0, R) == Vector(0) and gradient(R[0], R) == R.x and gradient(2 * R[0] ** 2, R) == 4 * R[0] * R.x and gradient(P[0] * R[2], P) == P[2] * P.x + P[0] * P.z"},"spec":{"lhs":"test_gradient()","rhs":"test_gradient produces the expected output","over":{"base":"Any"},"name":"test_gradient_correct"},"guarantee":"test_gradient produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_gradient_correct","statement":"Path(test_gradient(x), test_gradient produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4343d0421943cea7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_gradient","kind":"function","src_hash":"64c7d93f55edff69","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gradient(0, R) == Vector(0) and gradient(R[0], R) == R.x and gradient(R[0] * R[1] * R[2], R) == R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z and gradient(2 * R[0] ** 2, R) == 4 * R[0] * R.x and gradient(a * sin(R[1]) / R[0], R) == -a * sin(R[1]) / R[0] ** 2 * R.x + a * cos(R[1]) / R[0] * R.y and gradient(P[0] * P[1], R) == ((-R[0] * sin(q) + R[1] * cos(q)) * cos(q) - (R[0] * cos(q) + R[1] * sin(q)) * sin(q)) * R.x + ((-R[0] * sin(q) + R[1] * cos(q)) * sin(q) + (R[0] * cos(q) + R[1] * sin(q)) * cos(q)) * R.y and gradient(P[0] * R[2], P) == P[2] * P.x + P[0] * P.z"},"spec":{"lhs":"test_gradient()","rhs":"gradient(0, R) == Vector(0) and gradient(R[0], R) == R.x and gradient(R[0] * R[1] * R[2], R) == R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z and gradient(2 * R[0] ** 2, R) == 4 * R[0] * R.x and gradient(a * sin(R[1]) / R[0], R) == -a * sin(R[1]) / R[0] ** 2 * R.x + a * cos(R[1]) / R[0] * R.y and gradient(P[0] * P[1], R) == ((-R[0] * sin(q) + R[1] * cos(q)) * cos(q) - (R[0] * cos(q) + R[1] * sin(q)) * sin(q)) * R.x + ((-R[0] * sin(q) + R[1] * cos(q)) * sin(q) + (R[0] * cos(q) + R[1] * sin(q)) * cos(q)) * R.y and gradient(P[0] * R[2], P) == P[2] * P.x + P[0] * P.z","over":{"base":"Any"},"name":"test_gradient_correct"},"guarantee":"gradient(0, R) == Vector(0); gradient(R[0], R) == R.x; gradient(R[0] * R[1] * R[2], R) == R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_gradient_correct","statement":"Path(test_gradient(x), gradient(0, R) == Vector(0); gradient(R[0], R) == R.x; gradient(R[0] * R[1] * R[2], R) == R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4de864e92dbd806","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gradient(0, R) == Vector(0)","gradient(R[0], R) == R.x","gradient(R[0] * R[1] * R[2], R) == R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z","gradient(2 * R[0] ** 2, R) == 4 * R[0] * R.x","gradient(a * sin(R[1]) / R[0], R) == -a * sin(R[1]) / R[0] ** 2 * R.x + a * cos(R[1]) / R[0] * R.y","gradient(P[0] * P[1], R) == ((-R[0] * sin(q) + R[1] * cos(q)) * cos(q) - (R[0] * cos(q) + R[1] * sin(q)) * sin(q)) * R.x + ((-R[0] * sin(q) + R[1] * cos(q)) * sin(q) + (R[0] * cos(q) + R[1] * sin(q)) * cos(q)) * R.y","gradient(P[0] * R[2], P) == P[2] * P.x + P[0] * P.z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_gradient():
     a = Symbol('a')
     assert gradient(0, R) == Vector(0)
@@ -114,16 +138,24 @@ curl_field = curl(vector_field, R)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_conservative(), test_conservative produces the expected output) over Any ║
+# ║ Path(test_conservative(), is_conservative(0) is True and is_conservative(R.x) is True and is_conservative(2 * R.x + 3 * R.y + 4 * R.z) is True and is_conservative(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z) is True and is_conservative(R[0] * R.y) is False and is_conservative(grad_field) is True and is_conservative(curl_field) is False and is_conservative(4 * R[0] * R[1] * R[2] * R.x + 2 * R[0] ** 2 * R[2] * R.y) is False and is_conservative(R[2] * P.x + P[0] * R.z) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_conservative : Any → {Any | is_conservative(0) i...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_conservative(0) is True                     ║
+# ║   ensures:  is_conservative(R.x) is True                   ║
+# ║   ensures:  is_conservative(2 * R.x + 3 * R.y + 4 * R...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_conservative : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d502cd93f1b9753  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a8e494dc80e3d50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_conservative","kind":"function","src_hash":"76858cb63f82e53c","in":{"base":"Any"},"out":{"base":"Any","pred":"is_conservative(0) is True and is_conservative(R.x) is True and is_conservative(2 * R.x + 3 * R.y + 4 * R.z) is True and is_conservative(R[0] * R.y) is False and is_conservative(grad_field) is True and is_conservative(curl_field) is False and is_conservative(R[2] * P.x + P[0] * R.z) is True"},"spec":{"lhs":"test_conservative()","rhs":"test_conservative produces the expected output","over":{"base":"Any"},"name":"test_conservative_correct"},"guarantee":"test_conservative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_conservative_correct","statement":"Path(test_conservative(x), test_conservative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d502cd93f1b9753"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_conservative","kind":"function","src_hash":"76858cb63f82e53c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_conservative(0) is True and is_conservative(R.x) is True and is_conservative(2 * R.x + 3 * R.y + 4 * R.z) is True and is_conservative(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z) is True and is_conservative(R[0] * R.y) is False and is_conservative(grad_field) is True and is_conservative(curl_field) is False and is_conservative(4 * R[0] * R[1] * R[2] * R.x + 2 * R[0] ** 2 * R[2] * R.y) is False and is_conservative(R[2] * P.x + P[0] * R.z) is True"},"spec":{"lhs":"test_conservative()","rhs":"is_conservative(0) is True and is_conservative(R.x) is True and is_conservative(2 * R.x + 3 * R.y + 4 * R.z) is True and is_conservative(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z) is True and is_conservative(R[0] * R.y) is False and is_conservative(grad_field) is True and is_conservative(curl_field) is False and is_conservative(4 * R[0] * R[1] * R[2] * R.x + 2 * R[0] ** 2 * R[2] * R.y) is False and is_conservative(R[2] * P.x + P[0] * R.z) is True","over":{"base":"Any"},"name":"test_conservative_correct"},"guarantee":"is_conservative(0) is True; is_conservative(R.x) is True; is_conservative(2 * R.x + 3 * R.y + 4 * R.z) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_conservative_correct","statement":"Path(test_conservative(x), is_conservative(0) is True; is_conservative(R.x) is True; is_conservative(2 * R.x + 3 * R.y + 4 * R.z) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a8e494dc80e3d50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_conservative(0) is True","is_conservative(R.x) is True","is_conservative(2 * R.x + 3 * R.y + 4 * R.z) is True","is_conservative(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z) is True","is_conservative(R[0] * R.y) is False","is_conservative(grad_field) is True","is_conservative(curl_field) is False","is_conservative(4 * R[0] * R[1] * R[2] * R.x + 2 * R[0] ** 2 * R[2] * R.y) is False","is_conservative(R[2] * P.x + P[0] * R.z) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_conservative():
     assert is_conservative(0) is True
     assert is_conservative(R.x) is True
@@ -139,16 +171,24 @@ def test_conservative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_solenoidal(), test_solenoidal produces the expected output) over Any ║
+# ║ Path(test_solenoidal(), is_solenoidal(0) is True and is_solenoidal(R.x) is True and is_solenoidal(2 * R.x + 3 * R.y + 4 * R.z) is True and is_solenoidal(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z) is True and is_solenoidal(R[1] * R.y) is False and is_solenoidal(grad_field) is False and is_solenoidal(curl_field) is True and is_solenoidal((-2 * R[1] + 3) * R.z) is True and is_solenoidal(cos(q) * R.x + sin(q) * R.y + cos(q) * P.z) is True and is_solenoidal(R[2] * P.x + P[0] * R.z) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_solenoidal : Any → {Any | is_solenoidal(0) is Tr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_solenoidal(0) is True                       ║
+# ║   ensures:  is_solenoidal(R.x) is True                     ║
+# ║   ensures:  is_solenoidal(2 * R.x + 3 * R.y + 4 * R.z...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_solenoidal : Any → {Any | result satisfies: is_s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d8a15bf84c8d245  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2190a2c70810641  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_solenoidal","kind":"function","src_hash":"38f3c907fc766c6a","in":{"base":"Any"},"out":{"base":"Any","pred":"is_solenoidal(0) is True and is_solenoidal(R.x) is True and is_solenoidal(2 * R.x + 3 * R.y + 4 * R.z) is True and is_solenoidal(R[1] * R.y) is False and is_solenoidal(grad_field) is False and is_solenoidal(curl_field) is True and is_solenoidal((-2 * R[1] + 3) * R.z) is True and is_solenoidal(cos(q) * R.x + sin(q) * R.y + cos(q) * P.z) is True and is_solenoidal(R[2] * P.x + P[0] * R.z) is True"},"spec":{"lhs":"test_solenoidal()","rhs":"test_solenoidal produces the expected output","over":{"base":"Any"},"name":"test_solenoidal_correct"},"guarantee":"test_solenoidal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_solenoidal_correct","statement":"Path(test_solenoidal(x), test_solenoidal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d8a15bf84c8d245"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_solenoidal","kind":"function","src_hash":"38f3c907fc766c6a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_solenoidal(0) is True and is_solenoidal(R.x) is True and is_solenoidal(2 * R.x + 3 * R.y + 4 * R.z) is True and is_solenoidal(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z) is True and is_solenoidal(R[1] * R.y) is False and is_solenoidal(grad_field) is False and is_solenoidal(curl_field) is True and is_solenoidal((-2 * R[1] + 3) * R.z) is True and is_solenoidal(cos(q) * R.x + sin(q) * R.y + cos(q) * P.z) is True and is_solenoidal(R[2] * P.x + P[0] * R.z) is True"},"spec":{"lhs":"test_solenoidal()","rhs":"is_solenoidal(0) is True and is_solenoidal(R.x) is True and is_solenoidal(2 * R.x + 3 * R.y + 4 * R.z) is True and is_solenoidal(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z) is True and is_solenoidal(R[1] * R.y) is False and is_solenoidal(grad_field) is False and is_solenoidal(curl_field) is True and is_solenoidal((-2 * R[1] + 3) * R.z) is True and is_solenoidal(cos(q) * R.x + sin(q) * R.y + cos(q) * P.z) is True and is_solenoidal(R[2] * P.x + P[0] * R.z) is True","over":{"base":"Any"},"name":"test_solenoidal_correct"},"guarantee":"is_solenoidal(0) is True; is_solenoidal(R.x) is True; is_solenoidal(2 * R.x + 3 * R.y + 4 * R.z) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_solenoidal_correct","statement":"Path(test_solenoidal(x), is_solenoidal(0) is True; is_solenoidal(R.x) is True; is_solenoidal(2 * R.x + 3 * R.y + 4 * R.z) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2190a2c70810641","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_solenoidal(0) is True","is_solenoidal(R.x) is True","is_solenoidal(2 * R.x + 3 * R.y + 4 * R.z) is True","is_solenoidal(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z) is True","is_solenoidal(R[1] * R.y) is False","is_solenoidal(grad_field) is False","is_solenoidal(curl_field) is True","is_solenoidal((-2 * R[1] + 3) * R.z) is True","is_solenoidal(cos(q) * R.x + sin(q) * R.y + cos(q) * P.z) is True","is_solenoidal(R[2] * P.x + P[0] * R.z) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_solenoidal():
     assert is_solenoidal(0) is True
     assert is_solenoidal(R.x) is True
@@ -164,16 +204,24 @@ def test_solenoidal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scalar_potential(), test_scalar_potential produces the expected output) over Any ║
+# ║ Path(test_scalar_potential(), scalar_potential(0, R) == 0 and scalar_potential(R.x, R) == R[0] and scalar_potential(R.y, R) == R[1] and scalar_potential(R.z, R) == R[2] and scalar_potential(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z, R) == R[0] * R[1] * R[2] and scalar_potential(grad_field, R) == scalar_field and scalar_potential(R[2] * P.x + P[0] * R.z, R) == R[0] * R[2] * cos(q) + R[1] * R[2] * sin(q) and scalar_potential(R[2] * P.x + P[0] * R.z, P) == P[0] * P[2]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_scalar_potential : Any → {Any | scalar_potential...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  scalar_potential(0, R) == 0                    ║
+# ║   ensures:  scalar_potential(R.x, R) == R[0]               ║
+# ║   ensures:  scalar_potential(R.y, R) == R[1]               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_scalar_potential : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73ac2aa17101ba16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4edb604f004ad7eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_scalar_potential","kind":"function","src_hash":"2976c3d409aa7572","in":{"base":"Any"},"out":{"base":"Any","pred":"scalar_potential(0, R) == 0 and scalar_potential(R.x, R) == R[0] and scalar_potential(R.y, R) == R[1] and scalar_potential(R.z, R) == R[2] and scalar_potential(grad_field, R) == scalar_field and scalar_potential(R[2] * P.x + P[0] * R.z, P) == P[0] * P[2]"},"spec":{"lhs":"test_scalar_potential()","rhs":"test_scalar_potential produces the expected output","over":{"base":"Any"},"name":"test_scalar_potential_correct"},"guarantee":"test_scalar_potential produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_scalar_potential_correct","statement":"Path(test_scalar_potential(x), test_scalar_potential produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73ac2aa17101ba16"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_scalar_potential","kind":"function","src_hash":"2976c3d409aa7572","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: scalar_potential(0, R) == 0 and scalar_potential(R.x, R) == R[0] and scalar_potential(R.y, R) == R[1] and scalar_potential(R.z, R) == R[2] and scalar_potential(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z, R) == R[0] * R[1] * R[2] and scalar_potential(grad_field, R) == scalar_field and scalar_potential(R[2] * P.x + P[0] * R.z, R) == R[0] * R[2] * cos(q) + R[1] * R[2] * sin(q) and scalar_potential(R[2] * P.x + P[0] * R.z, P) == P[0] * P[2]"},"spec":{"lhs":"test_scalar_potential()","rhs":"scalar_potential(0, R) == 0 and scalar_potential(R.x, R) == R[0] and scalar_potential(R.y, R) == R[1] and scalar_potential(R.z, R) == R[2] and scalar_potential(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z, R) == R[0] * R[1] * R[2] and scalar_potential(grad_field, R) == scalar_field and scalar_potential(R[2] * P.x + P[0] * R.z, R) == R[0] * R[2] * cos(q) + R[1] * R[2] * sin(q) and scalar_potential(R[2] * P.x + P[0] * R.z, P) == P[0] * P[2]","over":{"base":"Any"},"name":"test_scalar_potential_correct"},"guarantee":"scalar_potential(0, R) == 0; scalar_potential(R.x, R) == R[0]; scalar_potential(R.y, R) == R[1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_scalar_potential_correct","statement":"Path(test_scalar_potential(x), scalar_potential(0, R) == 0; scalar_potential(R.x, R) == R[0]; scalar_potential(R.y, R) == R[1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4edb604f004ad7eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["scalar_potential(0, R) == 0","scalar_potential(R.x, R) == R[0]","scalar_potential(R.y, R) == R[1]","scalar_potential(R.z, R) == R[2]","scalar_potential(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z, R) == R[0] * R[1] * R[2]","scalar_potential(grad_field, R) == scalar_field","scalar_potential(R[2] * P.x + P[0] * R.z, R) == R[0] * R[2] * cos(q) + R[1] * R[2] * sin(q)","scalar_potential(R[2] * P.x + P[0] * R.z, P) == P[0] * P[2]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_scalar_potential():
     assert scalar_potential(0, R) == 0
     assert scalar_potential(R.x, R) == R[0]
@@ -189,16 +237,24 @@ def test_scalar_potential():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_scalar_potential_difference(), test_scalar_potential_difference produces the expected output) over Any ║
+# ║ Path(test_scalar_potential_difference(), scalar_potential_difference(S.Zero, R, point1, point2, origin) == 0 and scalar_potential_difference(scalar_field, R, origin, genericpointR, origin) == scalar_field and scalar_potential_difference(grad_field, R, origin, genericpointR, origin) == scalar_field and scalar_potential_difference(grad_field, R, point1, point2, origin) == 948 and scalar_potential_difference(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z, R, point1, genericpointR, origin) == R[0] * R[1] * R[2] - 6 and scalar_potential_difference(grad_field, P, origin, genericpointP, origin).simplify() == potential_diff_P) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_scalar_potential_difference : Any → {Any | scala...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  scalar_potential_difference(S.Zero, R, po...   ║
+# ║   ensures:  scalar_potential_difference(scalar_field,...   ║
+# ║   ensures:  scalar_potential_difference(grad_field, R...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_scalar_potential_difference : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4df80acd1fa43fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd48764ac223b121  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_scalar_potential_difference","kind":"function","src_hash":"f517ff22b72498eb","in":{"base":"Any"},"out":{"base":"Any","pred":"scalar_potential_difference(S.Zero, R, point1, point2, origin) == 0 and scalar_potential_difference(grad_field, R, point1, point2, origin) == 948"},"spec":{"lhs":"test_scalar_potential_difference()","rhs":"test_scalar_potential_difference produces the expected output","over":{"base":"Any"},"name":"test_scalar_potential_difference_correct"},"guarantee":"test_scalar_potential_difference produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_scalar_potential_difference_correct","statement":"Path(test_scalar_potential_difference(x), test_scalar_potential_difference produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4df80acd1fa43fc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_fieldfunctions.test_scalar_potential_difference","kind":"function","src_hash":"f517ff22b72498eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: scalar_potential_difference(S.Zero, R, point1, point2, origin) == 0 and scalar_potential_difference(scalar_field, R, origin, genericpointR, origin) == scalar_field and scalar_potential_difference(grad_field, R, origin, genericpointR, origin) == scalar_field and scalar_potential_difference(grad_field, R, point1, point2, origin) == 948 and scalar_potential_difference(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z, R, point1, genericpointR, origin) == R[0] * R[1] * R[2] - 6 and scalar_potential_difference(grad_field, P, origin, genericpointP, origin).simplify() == potential_diff_P"},"spec":{"lhs":"test_scalar_potential_difference()","rhs":"scalar_potential_difference(S.Zero, R, point1, point2, origin) == 0 and scalar_potential_difference(scalar_field, R, origin, genericpointR, origin) == scalar_field and scalar_potential_difference(grad_field, R, origin, genericpointR, origin) == scalar_field and scalar_potential_difference(grad_field, R, point1, point2, origin) == 948 and scalar_potential_difference(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z, R, point1, genericpointR, origin) == R[0] * R[1] * R[2] - 6 and scalar_potential_difference(grad_field, P, origin, genericpointP, origin).simplify() == potential_diff_P","over":{"base":"Any"},"name":"test_scalar_potential_difference_correct"},"guarantee":"scalar_potential_difference(S.Zero, R, point1, point2, origin) == 0; scalar_potential_difference(scalar_field, R, origin, genericpointR, origin) == scalar_field; scalar_potential_difference(grad_field, R, origin, genericpointR, origin) == scalar_field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_fieldfunctions.test_scalar_potential_difference_correct","statement":"Path(test_scalar_potential_difference(x), scalar_potential_difference(S.Zero, R, point1, point2, origin) == 0; scalar_potential_difference(scalar_field, R, origin, genericpointR, origin) == scalar_field; scalar_potential_difference(grad_field, R, origin, genericpointR, origin) == scalar_field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd48764ac223b121","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["scalar_potential_difference(S.Zero, R, point1, point2, origin) == 0","scalar_potential_difference(scalar_field, R, origin, genericpointR, origin) == scalar_field","scalar_potential_difference(grad_field, R, origin, genericpointR, origin) == scalar_field","scalar_potential_difference(grad_field, R, point1, point2, origin) == 948","scalar_potential_difference(R[1] * R[2] * R.x + R[0] * R[2] * R.y + R[0] * R[1] * R.z, R, point1, genericpointR, origin) == R[0] * R[1] * R[2] - 6","scalar_potential_difference(grad_field, P, origin, genericpointP, origin).simplify() == potential_diff_P"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_scalar_potential_difference():
     origin = Point('O')
     point1 = origin.locatenew('P1', 1*R.x + 2*R.y + 3*R.z)

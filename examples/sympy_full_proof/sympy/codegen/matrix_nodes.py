@@ -44,14 +44,21 @@ from sympy.core.sympify import sympify
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixSolve(*args), correctly constructs a MatrixSolve instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ MatrixSolve : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Token)                        ║
+# ║   ensures:  isinstance(self, MatrixExpr)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ MatrixSolve : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc2012a11eaf2642  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.matrix_nodes.MatrixSolve","kind":"class","src_hash":"3850b1b6062a7eee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MatrixSolve(*args)","rhs":"correctly constructs a MatrixSolve instance","over":{"base":"Any"},"name":"MatrixSolve_class_invariant"},"guarantee":"correctly constructs a MatrixSolve instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc2012a11eaf2642"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.matrix_nodes.MatrixSolve","kind":"class","src_hash":"3850b1b6062a7eee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Token) and isinstance(self, MatrixExpr)"},"spec":{"lhs":"MatrixSolve(*args)","rhs":"correctly constructs a MatrixSolve instance","over":{"base":"Any"},"name":"MatrixSolve_class_invariant"},"guarantee":"isinstance(self, Token); isinstance(self, MatrixExpr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc2012a11eaf2642","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Token)","isinstance(self, MatrixExpr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixSolve not found in source"]}}
 class MatrixSolve(Token, MatrixExpr):
     """Represents an operation to solve a linear matrix equation.
 
@@ -92,30 +99,42 @@ class MatrixSolve(Token, MatrixExpr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self.vector.shape) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.vector.shape                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 02e264ab867b0891           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.matrix_nodes.MatrixSolve.shape","kind":"property","src_hash":"7a687821f5052dbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"02e264ab867b0891"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.matrix_nodes.MatrixSolve.shape","kind":"property","src_hash":"7a687821f5052dbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self.vector.shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self.vector.shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"02e264ab867b0891","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.vector.shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self.vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self.vector.shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_derivative(x), id) over Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MatrixSolve(A, b.diff(x) - A.diff(x) * Ma...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 13c0992d1740f7a5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.matrix_nodes.MatrixSolve._eval_derivative","kind":"method","src_hash":"c32b2fb737d052d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"MatrixSolve","by":"library_axiom"},{"fn":"diff","by":"library_axiom"},{"fn":"diff","by":"library_axiom"},{"fn":"MatrixSolve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13c0992d1740f7a5"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.matrix_nodes.MatrixSolve._eval_derivative","kind":"method","src_hash":"c32b2fb737d052d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(x)","rhs":"MatrixSolve(A, b.diff(x) - A.diff(x) * MatrixSolve(A, b))","over":{"base":"Any"},"name":"_eval_derivative_correct","kind":"composition"},"guarantee":"returns MatrixSolve(A, b.diff(x) - A.diff(x) * MatrixSolve(A, b))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"MatrixSolve","by":"library_axiom"},{"fn":"diff","by":"library_axiom"},{"fn":"diff","by":"library_axiom"},{"fn":"MatrixSolve","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13c0992d1740f7a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MatrixSolve(A, b.diff(x) - A.diff(x) * MatrixSolve(A, b))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.matrix","self.vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, x):
         A, b = self.matrix, self.vector
         return MatrixSolve(A, b.diff(x) - A.diff(x) * MatrixSolve(A, b))

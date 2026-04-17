@@ -29,16 +29,23 @@ WARN_OLD_VERSION = None  # Default is True
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sympy_debug(), internal helper behaves correctly) over Any ║
+# ║ Path(__sympy_debug(), <unspecified:__sympy_debug>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: debug_str in ('True', 'False') => ev...   ║
+# ║   fiber[case_1]: not (debug_str in ('True', 'False'))      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sympy_debug : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fdf5ace4fb790e2c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.importtools.__sympy_debug","kind":"function","src_hash":"61320e591999218e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sympy_debug()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sympy_debug_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fdf5ace4fb790e2c"}
+# @cctt_verify {"v":2,"sym":"sympy.external.importtools.__sympy_debug","kind":"function","src_hash":"61320e591999218e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sympy_debug()","rhs":"<unspecified:__sympy_debug>","over":{"base":"Any"},"name":"__sympy_debug_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fdf5ace4fb790e2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"debug_str in ('True', 'False')","ensures":["result == eval(debug_str)"],"decidability":"library","returns_expr":"eval(debug_str)"},{"name":"case_1","guard":"not (debug_str in ('True', 'False'))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["RuntimeError"]},"state_contract":{"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def __sympy_debug():
     # helper function from sympy/__init__.py
     # We don't just import SYMPY_DEBUG from that file because we don't want to
@@ -59,16 +66,22 @@ if __sympy_debug():
 _component_re = re.compile(r'(\d+ | [a-z]+ | \.)', re.VERBOSE)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(version_tuple(vst), version_tuple produces the expected output) over Any ║
+# ║ Path(version_tuple(vstring), tuple(components)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(components)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ version_tuple : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62a4911aa16e6f3e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5899331c0c5b4587  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.importtools.version_tuple","kind":"function","src_hash":"f389ac5545d1d1a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"version_tuple(vst)","rhs":"version_tuple produces the expected output","over":{"base":"Any"},"name":"version_tuple_correct"},"guarantee":"version_tuple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.importtools.version_tuple_correct","statement":"Path(version_tuple(x), version_tuple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62a4911aa16e6f3e"}
+# @cctt_verify {"v":2,"sym":"sympy.external.importtools.version_tuple","kind":"function","src_hash":"f389ac5545d1d1a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"version_tuple(vstring)","rhs":"tuple(components)","over":{"base":"Any"},"name":"version_tuple_correct"},"guarantee":"returns tuple(components)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.importtools.version_tuple_correct","statement":"Path(version_tuple(x), returns tuple(components))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5899331c0c5b4587","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(components)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def version_tuple(vstring):
     # Parse a version string to a tuple e.g. '1.2' -> (1, 2)
     # Simplified from distutils.version.LooseVersion which was deprecated in
@@ -85,7 +98,10 @@ def version_tuple(vstring):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(import_module(mod), import and return a module if it is installed) over {Any | isinstance(min_module_version, str) and isinstance(min_module_version, (tuple, list))} ║
+# ║ Path(import_module(module, min_module_version, min_python_version), <unspecified:import_module>) over {Any | isinstance(min_module_version, str) and isinstance(min_module_version, (tuple, list))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ import_module : {Any | isinstance(min_module_version,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -98,9 +114,12 @@ def version_tuple(vstring):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6a03a335...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.importtools.import_module","kind":"function","src_hash":"9c0c6f2936f9f15f","in":{"base":"Any","pred":"isinstance(min_module_version, str) and isinstance(min_module_version, (tuple, list))"},"out":{"base":"Any"},"spec":{"lhs":"import_module(mod)","rhs":"import and return a module if it is installed","over":{"base":"Any","pred":"isinstance(min_module_version, str) and isinstance(min_module_version, (tuple, list))"},"name":"import_module_correct"},"guarantee":"import and return a module if it is installed","fibers":[{"name":"str","pred":"isinstance(min_module_version, str)","path":{"lhs":"import_module(x)","rhs":"import and return a module if it is installed","over":{"base":"str","pred":"isinstance(min_module_version, str)"},"name":"import_module_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.importtools.import_module_str_correct","statement":"import_module satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(min_module_version, (tuple, list))","path":{"lhs":"import_module(x)","rhs":"import and return a module if it is installed","over":{"base":"(tuple","pred":"isinstance(min_module_version, (tuple, list))"},"name":"import_module_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.importtools.import_module_(tuple_correct","statement":"import_module satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6a03a3355aae528d"}
+# @cctt_verify {"v":2,"sym":"sympy.external.importtools.import_module","kind":"function","src_hash":"9c0c6f2936f9f15f","in":{"base":"Any","pred":"isinstance(min_module_version, str) and isinstance(min_module_version, (tuple, list))"},"out":{"base":"Any"},"spec":{"lhs":"import_module(module, min_module_version, min_python_version)","rhs":"<unspecified:import_module>","over":{"base":"Any","pred":"isinstance(min_module_version, str) and isinstance(min_module_version, (tuple, list))"},"name":"import_module_correct"},"guarantee":"import and return a module if it is installed","fibers":[{"name":"str","pred":"isinstance(min_module_version, str)","path":{"lhs":"import_module(x)","rhs":"import and return a module if it is installed","over":{"base":"str","pred":"isinstance(min_module_version, str)"},"name":"import_module_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.importtools.import_module_str_correct","statement":"import_module satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(min_module_version, (tuple, list))","path":{"lhs":"import_module(x)","rhs":"import and return a module if it is installed","over":{"base":"(tuple","pred":"isinstance(min_module_version, (tuple, list))"},"name":"import_module_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.importtools.import_module_(tuple_correct","statement":"import_module satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6a03a3355aae528d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["import_kwargs.get"],"catches":["ImportError","catch"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"submod == 'collections' and mod.__name__ == 'matplotlib'\", 'sys.version_info < min_python_version', 'version_tuple(modversion) < version_tuple(min_module_version)', 'isinstance(min_module_version, (tuple, list))', 'isinstance(min_module_version, str)'}, fibers={'(tuple', 'str'})"]}}
 def import_module(module, min_module_version=None, min_python_version=None,
         warn_not_installed=None, warn_old_version=None,
         module_version_attr='__version__', module_version_attr_call_args=None,

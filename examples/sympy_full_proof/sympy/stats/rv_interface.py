@@ -41,16 +41,22 @@ __all__ = ['P', 'E', 'H', 'density', 'where', 'given', 'sample', 'cdf',
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(moment(X, ), id) over Any                             ║
+# ║ Path(moment(X, n, c), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ moment : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | eaa8e05c54069480   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.moment","kind":"function","src_hash":"9b928f44d8218836","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"moment(X, )","rhs":"return the nth moment of a random expression about c","over":{"base":"Any"},"name":"moment_correct","kind":"composition"},"guarantee":"return the nth moment of a random expression about c","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Moment","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaa8e05c54069480"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.moment","kind":"function","src_hash":"9b928f44d8218836","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"moment(X, n, c)","rhs":"<unspecified:moment>","over":{"base":"Any"},"name":"moment_correct","kind":"composition"},"guarantee":"return the nth moment of a random expression about c","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Moment","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaa8e05c54069480","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['X', 'n', 'c', 'condition'], spec=['X', 'n', 'c', 'condition', 'evaluate', '**kwargs']"]}}
 def moment(X, n, c=0, condition=None, *, evaluate=True, **kwargs):
     """
     Return the nth moment of a random expression about c.
@@ -79,16 +85,22 @@ def moment(X, n, c=0, condition=None, *, evaluate=True, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(variance(X, ), variance of a random expression) over Any ║
+# ║ Path(variance(X, condition, **kwargs), <unspecified:variance>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ variance : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f5359258610b6b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.variance","kind":"function","src_hash":"8b08e0c326aaa142","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variance(X, )","rhs":"variance of a random expression","over":{"base":"Any"},"name":"variance_correct"},"guarantee":"variance of a random expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.variance_correct","statement":"Path(variance(x), variance of a random expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f5359258610b6b9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.variance","kind":"function","src_hash":"8b08e0c326aaa142","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"variance(X, condition, **kwargs)","rhs":"<unspecified:variance>","over":{"base":"Any"},"name":"variance_correct"},"guarantee":"variance of a random expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.variance_correct","statement":"Path(variance(x), variance of a random expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f5359258610b6b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['X', 'condition'], spec=['X', 'condition', '**kwargs']"]}}
 def variance(X, condition=None, **kwargs):
     """
     Variance of a random expression.
@@ -120,16 +132,22 @@ def variance(X, condition=None, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(standard_deviation(X, ), standard deviation of a random expression) over Any ║
+# ║ Path(standard_deviation(X, condition, **kwargs), sqrt(variance(X, condition, **kwargs))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(variance(X, condition, **kwargs))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ standard_deviation : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 038d74f4a286803c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.standard_deviation","kind":"function","src_hash":"bf87d565678fe848","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"standard_deviation(X, )","rhs":"standard deviation of a random expression","over":{"base":"Any"},"name":"standard_deviation_correct"},"guarantee":"standard deviation of a random expression","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"038d74f4a286803c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.standard_deviation","kind":"function","src_hash":"bf87d565678fe848","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"standard_deviation(X, condition, **kwargs)","rhs":"sqrt(variance(X, condition, **kwargs))","over":{"base":"Any"},"name":"standard_deviation_correct"},"guarantee":"returns sqrt(variance(X, condition, **kwargs))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"038d74f4a286803c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(variance(X, condition, **kwargs))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['X', 'condition'], spec=['X', 'condition', '**kwargs']"]}}
 def standard_deviation(X, condition=None, **kwargs):
     r"""
     Standard Deviation of a random expression
@@ -153,7 +171,10 @@ def standard_deviation(X, condition=None, **kwargs):
 std = standard_deviation
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(entropy(exp), calculates entropy of a probability distribution) over {Any | isinstance(pdf, dict)} ║
+# ║ Path(entropy(expr, condition, **kwargs), <unspecified:entropy>) over {Any | isinstance(pdf, dict)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ entropy : {Any | isinstance(pdf, dict)} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -165,9 +186,12 @@ std = standard_deviation
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 15a5bec7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.entropy","kind":"function","src_hash":"395e9a0d16b5fd20","in":{"base":"Any","pred":"isinstance(pdf, dict)"},"out":{"base":"Any"},"spec":{"lhs":"entropy(exp)","rhs":"calculates entropy of a probability distribution","over":{"base":"Any","pred":"isinstance(pdf, dict)"},"name":"entropy_correct"},"guarantee":"calculates entropy of a probability distribution","fibers":[{"name":"dict","pred":"isinstance(pdf, dict)","path":{"lhs":"entropy(x)","rhs":"calculates entropy of a probability distribution","over":{"base":"dict","pred":"isinstance(pdf, dict)"},"name":"entropy_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.entropy_dict_correct","statement":"entropy satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"15a5bec742cbff93"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.entropy","kind":"function","src_hash":"395e9a0d16b5fd20","in":{"base":"Any","pred":"isinstance(pdf, dict)"},"out":{"base":"Any"},"spec":{"lhs":"entropy(expr, condition, **kwargs)","rhs":"<unspecified:entropy>","over":{"base":"Any","pred":"isinstance(pdf, dict)"},"name":"entropy_correct"},"guarantee":"calculates entropy of a probability distribution","fibers":[{"name":"dict","pred":"isinstance(pdf, dict)","path":{"lhs":"entropy(x)","rhs":"calculates entropy of a probability distribution","over":{"base":"dict","pred":"isinstance(pdf, dict)"},"name":"entropy_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.entropy_dict_correct","statement":"entropy satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"15a5bec742cbff93","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'condition'], spec=['expr', 'condition', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'isinstance(pdf, dict)'}, fibers={'dict'})"]}}
 def entropy(expr, condition=None, **kwargs):
     """
     Calculates entropy of a probability distribution.
@@ -211,16 +235,22 @@ def entropy(expr, condition=None, **kwargs):
     return expectation(-log(pdf(expr), base))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(covariance(X, ), covariance of two random expressions) over Any ║
+# ║ Path(covariance(X, Y, condition), <unspecified:covariance>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ covariance : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5be9802f4819d8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.covariance","kind":"function","src_hash":"46c03ef517ede732","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"covariance(X, )","rhs":"covariance of two random expressions","over":{"base":"Any"},"name":"covariance_correct"},"guarantee":"covariance of two random expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.covariance_correct","statement":"Path(covariance(x), covariance of two random expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5be9802f4819d8b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.covariance","kind":"function","src_hash":"46c03ef517ede732","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"covariance(X, Y, condition)","rhs":"<unspecified:covariance>","over":{"base":"Any"},"name":"covariance_correct"},"guarantee":"covariance of two random expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.covariance_correct","statement":"Path(covariance(x), covariance of two random expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5be9802f4819d8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['X', 'Y', 'condition'], spec=['X', 'Y', 'condition', '**kwargs']"]}}
 def covariance(X, Y, condition=None, **kwargs):
     """
     Covariance of two random expressions.
@@ -261,16 +291,22 @@ def covariance(X, Y, condition=None, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(correlation(X, ), id) over Any                        ║
+# ║ Path(correlation(X, Y, condition), id) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  covariance(X, Y, condition, **kwargs) / (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ correlation : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 797deb16e9e4aee9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.correlation","kind":"function","src_hash":"9c1f37d5f83df388","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"correlation(X, )","rhs":"correlation of two random expressions, also known as correlation coefficient or pearson's correlation","over":{"base":"Any"},"name":"correlation_correct","kind":"composition"},"guarantee":"correlation of two random expressions, also known as correlation coefficient or pearson's correlation","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"covariance","by":"library_axiom"},{"fn":"std","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"797deb16e9e4aee9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.correlation","kind":"function","src_hash":"9c1f37d5f83df388","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"correlation(X, Y, condition)","rhs":"covariance(X, Y, condition, **kwargs) / (std(X, condition, **kwargs) * std(Y, condition, **kwargs))","over":{"base":"Any"},"name":"correlation_correct","kind":"composition"},"guarantee":"returns covariance(X, Y, condition, **kwargs) / (std(X, condition, **kwargs) * std(Y, condition, **kwargs))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"covariance","by":"library_axiom"},{"fn":"std","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"797deb16e9e4aee9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"covariance(X, Y, condition, **kwargs) / (std(X, condition, **kwargs) * std(Y, condition, **kwargs))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['X', 'Y', 'condition'], spec=['X', 'Y', 'condition', '**kwargs']"]}}
 def correlation(X, Y, condition=None, **kwargs):
     r"""
     Correlation of two random expressions, also known as correlation
@@ -307,16 +343,22 @@ def correlation(X, Y, condition=None, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cmoment(X, ), id) over Any                            ║
+# ║ Path(cmoment(X, n, condition), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cmoment : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e71e770581f8ccee   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.cmoment","kind":"function","src_hash":"8c058b25bb6a042d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cmoment(X, )","rhs":"return the nth central moment of a random expression about its mean","over":{"base":"Any"},"name":"cmoment_correct","kind":"composition"},"guarantee":"return the nth central moment of a random expression about its mean","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"CentralMoment","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e71e770581f8ccee"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.cmoment","kind":"function","src_hash":"8c058b25bb6a042d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cmoment(X, n, condition)","rhs":"<unspecified:cmoment>","over":{"base":"Any"},"name":"cmoment_correct","kind":"composition"},"guarantee":"return the nth central moment of a random expression about its mean","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"CentralMoment","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e71e770581f8ccee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['X', 'n', 'condition'], spec=['X', 'n', 'condition', 'evaluate', '**kwargs']"]}}
 def cmoment(X, n, condition=None, *, evaluate=True, **kwargs):
     """
     Return the nth central moment of a random expression about its mean.
@@ -343,16 +385,22 @@ def cmoment(X, n, condition=None, *, evaluate=True, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(smoment(X, ), return the nth standardized moment of a random expression) over Any ║
+# ║ Path(smoment(X, n, condition), (1 / sigma) ** n * cmoment(X, n, condition, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (1 / sigma) ** n * cmoment(X, n, conditio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ smoment : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6bfe981c6805294  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3126a6401c3da6fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.smoment","kind":"function","src_hash":"9352673cc0738a78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"smoment(X, )","rhs":"return the nth standardized moment of a random expression","over":{"base":"Any"},"name":"smoment_correct"},"guarantee":"return the nth standardized moment of a random expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.smoment_correct","statement":"Path(smoment(x), return the nth standardized moment of a random expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6bfe981c6805294"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.smoment","kind":"function","src_hash":"9352673cc0738a78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"smoment(X, n, condition)","rhs":"(1 / sigma) ** n * cmoment(X, n, condition, **kwargs)","over":{"base":"Any"},"name":"smoment_correct"},"guarantee":"returns (1 / sigma) ** n * cmoment(X, n, condition, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.smoment_correct","statement":"Path(smoment(x), returns (1 / sigma) ** n * cmoment(X, n, condition, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3126a6401c3da6fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(1 / sigma) ** n * cmoment(X, n, condition, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['X', 'n', 'condition'], spec=['X', 'n', 'condition', '**kwargs']"]}}
 def smoment(X, n, condition=None, **kwargs):
     r"""
     Return the nth Standardized moment of a random expression.
@@ -378,16 +426,22 @@ def smoment(X, n, condition=None, **kwargs):
     return (1/sigma)**n*cmoment(X, n, condition, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(skewness(X, ), measure of the asymmetry of the probability distribution) over Any ║
+# ║ Path(skewness(X, condition, **kwargs), smoment(X, 3, condition=condition, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  smoment(X, 3, condition=condition, **kwargs)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ skewness : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f04e83929a39eb3a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.skewness","kind":"function","src_hash":"62e735214292c082","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"skewness(X, )","rhs":"measure of the asymmetry of the probability distribution","over":{"base":"Any"},"name":"skewness_correct"},"guarantee":"measure of the asymmetry of the probability distribution","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f04e83929a39eb3a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.skewness","kind":"function","src_hash":"62e735214292c082","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"skewness(X, condition, **kwargs)","rhs":"smoment(X, 3, condition=condition, **kwargs)","over":{"base":"Any"},"name":"skewness_correct"},"guarantee":"returns smoment(X, 3, condition=condition, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f04e83929a39eb3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"smoment(X, 3, condition=condition, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['X', 'condition'], spec=['X', 'condition', '**kwargs']"]}}
 def skewness(X, condition=None, **kwargs):
     r"""
     Measure of the asymmetry of the probability distribution.
@@ -426,16 +480,22 @@ def skewness(X, condition=None, **kwargs):
     return smoment(X, 3, condition=condition, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kurtosis(X, ), characterizes the tails/outliers of a probability distribution) over Any ║
+# ║ Path(kurtosis(X, condition, **kwargs), smoment(X, 4, condition=condition, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  smoment(X, 4, condition=condition, **kwargs)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kurtosis : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 68f3a4f63182558b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.kurtosis","kind":"function","src_hash":"db3c9c2cd6668f65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kurtosis(X, )","rhs":"characterizes the tails/outliers of a probability distribution","over":{"base":"Any"},"name":"kurtosis_correct"},"guarantee":"characterizes the tails/outliers of a probability distribution","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68f3a4f63182558b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.kurtosis","kind":"function","src_hash":"db3c9c2cd6668f65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kurtosis(X, condition, **kwargs)","rhs":"smoment(X, 4, condition=condition, **kwargs)","over":{"base":"Any"},"name":"kurtosis_correct"},"guarantee":"returns smoment(X, 4, condition=condition, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68f3a4f63182558b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"smoment(X, 4, condition=condition, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['X', 'condition'], spec=['X', 'condition', '**kwargs']"]}}
 def kurtosis(X, condition=None, **kwargs):
     r"""
     Characterizes the tails/outliers of a probability distribution.
@@ -482,16 +542,22 @@ def kurtosis(X, condition=None, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factorial_moment(X, ), the factorial moment is a mathematical quantity defined as the expectation or average of the falling factorial of a random variable) over Any ║
+# ║ Path(factorial_moment(X, n, condition), expectation(FallingFactorial(X, n), condition=condition, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  expectation(FallingFactorial(X, n), condi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ factorial_moment : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03bffdb49cd5cfc5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.factorial_moment","kind":"function","src_hash":"fa6cf8182aabf0be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factorial_moment(X, )","rhs":"the factorial moment is a mathematical quantity defined as the expectation or average of the falling factorial of a random variable","over":{"base":"Any"},"name":"factorial_moment_correct"},"guarantee":"the factorial moment is a mathematical quantity defined as the expectation or average of the falling factorial of a random variable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03bffdb49cd5cfc5"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.factorial_moment","kind":"function","src_hash":"fa6cf8182aabf0be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factorial_moment(X, n, condition)","rhs":"expectation(FallingFactorial(X, n), condition=condition, **kwargs)","over":{"base":"Any"},"name":"factorial_moment_correct"},"guarantee":"returns expectation(FallingFactorial(X, n), condition=condition, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03bffdb49cd5cfc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"expectation(FallingFactorial(X, n), condition=condition, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['X', 'n', 'condition'], spec=['X', 'n', 'condition', '**kwargs']"]}}
 def factorial_moment(X, n, condition=None, **kwargs):
     """
     The factorial moment is a mathematical quantity defined as the expectation
@@ -532,7 +598,10 @@ def factorial_moment(X, n, condition=None, **kwargs):
     return expectation(FallingFactorial(X, n), condition=condition, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(median(X, ), calculates the median of the probability distribution) over {Any | isinstance(pspace(X), FinitePSpace) and isinstance(pspace(X), (ContinuousPSpace, DiscretePSpace))} ║
+# ║ Path(median(X, evaluate, **kwargs), len(result) == old_len_result + 1) over {Any | isinstance(pspace(X), FinitePSpace) and isinstance(pspace(X), (ContinuousPSpace, DiscretePSpace))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ median : {Any | isinstance(pspace(X), FinitePSpace) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -545,9 +614,12 @@ def factorial_moment(X, n, condition=None, **kwargs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 716353be...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.median","kind":"function","src_hash":"b3e2fc01b45c87ec","in":{"base":"Any","pred":"isinstance(pspace(X), FinitePSpace) and isinstance(pspace(X), (ContinuousPSpace, DiscretePSpace))"},"out":{"base":"Any"},"spec":{"lhs":"median(X, )","rhs":"calculates the median of the probability distribution","over":{"base":"Any","pred":"isinstance(pspace(X), FinitePSpace) and isinstance(pspace(X), (ContinuousPSpace, DiscretePSpace))"},"name":"median_correct"},"guarantee":"calculates the median of the probability distribution","fibers":[{"name":"FinitePSpace","pred":"isinstance(pspace(X), FinitePSpace)","path":{"lhs":"median(x)","rhs":"calculates the median of the probability distribution","over":{"base":"FinitePSpace","pred":"isinstance(pspace(X), FinitePSpace)"},"name":"median_FinitePSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.median_FinitePSpace_correct","statement":"median satisfies spec on FinitePSpace inputs"},"trust":"LIBRARY"},{"name":"(ContinuousPSpace","pred":"isinstance(pspace(X), (ContinuousPSpace, DiscretePSpace))","path":{"lhs":"median(x)","rhs":"calculates the median of the probability distribution","over":{"base":"(ContinuousPSpace","pred":"isinstance(pspace(X), (ContinuousPSpace, DiscretePSpace))"},"name":"median_(ContinuousPSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.median_(ContinuousPSpace_correct","statement":"median satisfies spec on (ContinuousPSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"716353bea94552e5"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.median","kind":"function","src_hash":"b3e2fc01b45c87ec","in":{"base":"Any","pred":"isinstance(pspace(X), FinitePSpace) and isinstance(pspace(X), (ContinuousPSpace, DiscretePSpace))"},"out":{"base":"Any","pred":"result satisfies: len(result) == old_len_result + 1"},"spec":{"lhs":"median(X, evaluate, **kwargs)","rhs":"len(result) == old_len_result + 1","over":{"base":"Any","pred":"isinstance(pspace(X), FinitePSpace) and isinstance(pspace(X), (ContinuousPSpace, DiscretePSpace))"},"name":"median_correct"},"guarantee":"len(result) == old_len_result + 1","fibers":[{"name":"FinitePSpace","pred":"isinstance(pspace(X), FinitePSpace)","path":{"lhs":"median(x)","rhs":"len(result) == old_len_result + 1","over":{"base":"FinitePSpace","pred":"isinstance(pspace(X), FinitePSpace)"},"name":"median_FinitePSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.median_FinitePSpace_correct","statement":"median satisfies spec on FinitePSpace inputs"},"trust":"LIBRARY"},{"name":"(ContinuousPSpace","pred":"isinstance(pspace(X), (ContinuousPSpace, DiscretePSpace))","path":{"lhs":"median(x)","rhs":"len(result) == old_len_result + 1","over":{"base":"(ContinuousPSpace","pred":"isinstance(pspace(X), (ContinuousPSpace, DiscretePSpace))"},"name":"median_(ContinuousPSpace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.median_(ContinuousPSpace_correct","statement":"median satisfies spec on (ContinuousPSpace inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"716353bea94552e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(result) == old_len_result + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["result.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["result.*"],"old_bindings":{"old_len_result":"len(result)"},"post_ensures":["len(result) == old_len_result + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['X', 'evaluate'], spec=['X', 'evaluate', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'value >= Rational(1, 2) and 1 - value + pspace(X).probability(Eq(X, key)) >= Rational(1, 2)', 'isinstance(pspace(X), (ContinuousPSpace, DiscretePSpace))', 'isinstance(pspace(X), FinitePSpace)'}, fibers={'FinitePSpace', '(ContinuousPSpace'})"]}}
 def median(X, evaluate=True, **kwargs):
     r"""
     Calculates the median of the probability distribution.
@@ -613,16 +685,22 @@ def median(X, evaluate=True, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coskewness(X, ), calculates the co-skewness of three random variables) over Any ║
+# ║ Path(coskewness(X, Y, Z), num / den) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  num / den                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coskewness : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 493202f898833a33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02bae655c5a438a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.coskewness","kind":"function","src_hash":"739922ef351f66d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coskewness(X, )","rhs":"calculates the co-skewness of three random variables","over":{"base":"Any"},"name":"coskewness_correct"},"guarantee":"calculates the co-skewness of three random variables","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.coskewness_correct","statement":"Path(coskewness(x), calculates the co-skewness of three random variables)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"493202f898833a33"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.rv_interface.coskewness","kind":"function","src_hash":"739922ef351f66d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coskewness(X, Y, Z)","rhs":"num / den","over":{"base":"Any"},"name":"coskewness_correct"},"guarantee":"returns num / den","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.rv_interface.coskewness_correct","statement":"Path(coskewness(x), returns num / den)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02bae655c5a438a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"num / den","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['X', 'Y', 'Z', 'condition'], spec=['X', 'Y', 'Z', 'condition', '**kwargs']"]}}
 def coskewness(X, Y, Z, condition=None, **kwargs):
     r"""
     Calculates the co-skewness of three random variables.

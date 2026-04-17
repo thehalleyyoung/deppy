@@ -54,16 +54,24 @@ from math import ceil as _ceil, log2 as _log2
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_integrate(f, ), computes the indefinite integral of ``f`` in ``k[x]``) over Any ║
+# ║ Path(dup_integrate(f, m, K), <unspecified:dup_integrate>) over {Any | hasattr(K, 'zero') and hasattr(K, 'exquo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_integrate : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'exquo')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_integrate : {Any | hasattr(K, 'zero') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 680d6f6e6903c2c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_integrate","kind":"function","src_hash":"7d8d21316c956460","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_integrate(f, )","rhs":"computes the indefinite integral of ``f`` in ``k[x]``","over":{"base":"Any"},"name":"dup_integrate_correct"},"guarantee":"computes the indefinite integral of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_integrate_correct","statement":"Path(dup_integrate(x), computes the indefinite integral of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"680d6f6e6903c2c7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_integrate","kind":"function","src_hash":"7d8d21316c956460","in":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'exquo')"},"out":{"base":"Any"},"spec":{"lhs":"dup_integrate(f, m, K)","rhs":"<unspecified:dup_integrate>","over":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'exquo')"},"name":"dup_integrate_correct"},"guarantee":"computes the indefinite integral of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_integrate_correct","statement":"Path(dup_integrate(x), computes the indefinite integral of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"680d6f6e6903c2c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'zero')","hasattr(K, 'exquo')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_integrate(f, m, K):
     """
     Computes the indefinite integral of ``f`` in ``K[x]``.
@@ -97,16 +105,22 @@ def dup_integrate(f, m, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_integrate(f, ), computes the indefinite integral of ``f`` in ``x_0`` in ``k[x]``) over Any ║
+# ║ Path(dmp_integrate(f, m, u), <unspecified:dmp_integrate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_integrate : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fb39a947470a156  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_integrate","kind":"function","src_hash":"315ce19517710e0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_integrate(f, )","rhs":"computes the indefinite integral of ``f`` in ``x_0`` in ``k[x]``","over":{"base":"Any"},"name":"dmp_integrate_correct"},"guarantee":"computes the indefinite integral of ``f`` in ``x_0`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_integrate_correct","statement":"Path(dmp_integrate(x), computes the indefinite integral of ``f`` in ``x_0`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fb39a947470a156"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_integrate","kind":"function","src_hash":"315ce19517710e0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_integrate(f, m, u)","rhs":"<unspecified:dmp_integrate>","over":{"base":"Any"},"name":"dmp_integrate_correct"},"guarantee":"computes the indefinite integral of ``f`` in ``x_0`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_integrate_correct","statement":"Path(dmp_integrate(x), computes the indefinite integral of ``f`` in ``x_0`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fb39a947470a156","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dmp_integrate(f, m, u, K):
     """
     Computes the indefinite integral of ``f`` in ``x_0`` in ``K[X]``.
@@ -143,16 +157,22 @@ def dmp_integrate(f, m, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rec_integrate_in(g, ), recursive helper for :func:`dmp_integrate_in`) over Any ║
+# ║ Path(_rec_integrate_in(g, m, v), # HINT: _rec_integrate_in may be idempotent: _rec_integrate_in(_rec_integrate_in(x)) == _rec_integrate_in(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rec_integrate_in : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _rec_integrate_in may be idempote...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rec_integrate_in : Any → {Any | result satisfies: # ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a3a35f1c8552e03  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2b846b050dc2cee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._rec_integrate_in","kind":"function","src_hash":"5130f1596cf8232b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rec_integrate_in(g, )","rhs":"recursive helper for :func:`dmp_integrate_in`","over":{"base":"Any"},"name":"_rec_integrate_in_correct"},"guarantee":"recursive helper for :func:`dmp_integrate_in`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._rec_integrate_in_correct","statement":"Path(_rec_integrate_in(x), recursive helper for :func:`dmp_integrate_in`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a3a35f1c8552e03"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._rec_integrate_in","kind":"function","src_hash":"5130f1596cf8232b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _rec_integrate_in may be idempotent: _rec_integrate_in(_rec_integrate_in(x)) == _rec_integrate_in(x)"},"spec":{"lhs":"_rec_integrate_in(g, m, v)","rhs":"# HINT: _rec_integrate_in may be idempotent: _rec_integrate_in(_rec_integrate_in(x)) == _rec_integrate_in(x)","over":{"base":"Any"},"name":"_rec_integrate_in_correct"},"guarantee":"# HINT: _rec_integrate_in may be idempotent: _rec_integrate_in(_rec_integrate_in(x)) == _rec_integrate_in(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._rec_integrate_in_correct","statement":"Path(_rec_integrate_in(x), # HINT: _rec_integrate_in may be idempotent: _rec_integrate_in(_rec_integrate_in(x)) == _rec_integrate_in(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2b846b050dc2cee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _rec_integrate_in may be idempotent: _rec_integrate_in(_rec_integrate_in(x)) == _rec_integrate_in(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rec_integrate_in(g, m, v, i, j, K):
     """Recursive helper for :func:`dmp_integrate_in`."""
     if i == j:
@@ -164,16 +184,23 @@ def _rec_integrate_in(g, m, v, i, j, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_integrate_in(f, ), computes the indefinite integral of ``f`` in ``x_j`` in ``k[x]``) over Any ║
+# ║ Path(dmp_integrate_in(f, m, j), _rec_integrate_in(f, m, u, 0, j, K)) over {Any | not (j < 0 or j > u)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_integrate_in : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (j < 0 or j > u)                           ║
+# ║   returns:  _rec_integrate_in(f, m, u, 0, j, K)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_integrate_in : {Any | not (j < 0 or j > u)} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cc35af73abffa17  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 792cf5a615349563  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_integrate_in","kind":"function","src_hash":"d99cb339c803e537","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_integrate_in(f, )","rhs":"computes the indefinite integral of ``f`` in ``x_j`` in ``k[x]``","over":{"base":"Any"},"name":"dmp_integrate_in_correct"},"guarantee":"computes the indefinite integral of ``f`` in ``x_j`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_integrate_in_correct","statement":"Path(dmp_integrate_in(x), computes the indefinite integral of ``f`` in ``x_j`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cc35af73abffa17"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_integrate_in","kind":"function","src_hash":"d99cb339c803e537","in":{"base":"Any","pred":"not (j < 0 or j > u)"},"out":{"base":"Any"},"spec":{"lhs":"dmp_integrate_in(f, m, j)","rhs":"_rec_integrate_in(f, m, u, 0, j, K)","over":{"base":"Any","pred":"not (j < 0 or j > u)"},"name":"dmp_integrate_in_correct"},"guarantee":"returns _rec_integrate_in(f, m, u, 0, j, K)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_integrate_in_correct","statement":"Path(dmp_integrate_in(x), returns _rec_integrate_in(f, m, u, 0, j, K))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"792cf5a615349563","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (j < 0 or j > u)"],"returns_expr":"_rec_integrate_in(f, m, u, 0, j, K)","pure":false,"effects":{"effect_type":"reads_state","raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_integrate_in(f, m, j, u, K):
     """
     Computes the indefinite integral of ``f`` in ``x_j`` in ``K[X]``.
@@ -197,16 +224,22 @@ def dmp_integrate_in(f, m, j, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_diff(f, ), ``m``-th order derivative of a polynomial in ``k[x]``) over Any ║
+# ║ Path(dup_diff(f, m, K), <unspecified:dup_diff>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_diff : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8f2bac6a43977ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_diff","kind":"function","src_hash":"60465f06164318f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_diff(f, )","rhs":"``m``-th order derivative of a polynomial in ``k[x]``","over":{"base":"Any"},"name":"dup_diff_correct"},"guarantee":"``m``-th order derivative of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_diff_correct","statement":"Path(dup_diff(x), ``m``-th order derivative of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8f2bac6a43977ad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_diff","kind":"function","src_hash":"60465f06164318f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_diff(f, m, K)","rhs":"<unspecified:dup_diff>","over":{"base":"Any"},"name":"dup_diff_correct"},"guarantee":"``m``-th order derivative of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_diff_correct","statement":"Path(dup_diff(x), ``m``-th order derivative of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8f2bac6a43977ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_diff(f, m, K):
     """
     ``m``-th order derivative of a polynomial in ``K[x]``.
@@ -251,16 +284,22 @@ def dup_diff(f, m, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_diff(f, ), ``m``-th order derivative in ``x_0`` of a polynomial in ``k[x]``) over Any ║
+# ║ Path(dmp_diff(f, m, u), <unspecified:dmp_diff>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_diff : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79610f8bfb9c9b57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_diff","kind":"function","src_hash":"3d41b201aa9c3778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_diff(f, )","rhs":"``m``-th order derivative in ``x_0`` of a polynomial in ``k[x]``","over":{"base":"Any"},"name":"dmp_diff_correct"},"guarantee":"``m``-th order derivative in ``x_0`` of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_diff_correct","statement":"Path(dmp_diff(x), ``m``-th order derivative in ``x_0`` of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79610f8bfb9c9b57"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_diff","kind":"function","src_hash":"3d41b201aa9c3778","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_diff(f, m, u)","rhs":"<unspecified:dmp_diff>","over":{"base":"Any"},"name":"dmp_diff_correct"},"guarantee":"``m``-th order derivative in ``x_0`` of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_diff_correct","statement":"Path(dmp_diff(x), ``m``-th order derivative in ``x_0`` of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79610f8bfb9c9b57","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dmp_diff(f, m, u, K):
     """
     ``m``-th order derivative in ``x_0`` of a polynomial in ``K[X]``.
@@ -309,16 +348,22 @@ def dmp_diff(f, m, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rec_diff_in(g, ), recursive helper for :func:`dmp_diff_in`) over Any ║
+# ║ Path(_rec_diff_in(g, m, v), # HINT: _rec_diff_in may be idempotent: _rec_diff_in(_rec_diff_in(x)) == _rec_diff_in(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rec_diff_in : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _rec_diff_in may be idempotent: _...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rec_diff_in : Any → {Any | result satisfies: # HINT:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af7155dc2c64fb90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21a3fd2c5bcb2c0b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._rec_diff_in","kind":"function","src_hash":"6b4326b4a83ec18e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rec_diff_in(g, )","rhs":"recursive helper for :func:`dmp_diff_in`","over":{"base":"Any"},"name":"_rec_diff_in_correct"},"guarantee":"recursive helper for :func:`dmp_diff_in`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._rec_diff_in_correct","statement":"Path(_rec_diff_in(x), recursive helper for :func:`dmp_diff_in`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af7155dc2c64fb90"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._rec_diff_in","kind":"function","src_hash":"6b4326b4a83ec18e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _rec_diff_in may be idempotent: _rec_diff_in(_rec_diff_in(x)) == _rec_diff_in(x)"},"spec":{"lhs":"_rec_diff_in(g, m, v)","rhs":"# HINT: _rec_diff_in may be idempotent: _rec_diff_in(_rec_diff_in(x)) == _rec_diff_in(x)","over":{"base":"Any"},"name":"_rec_diff_in_correct"},"guarantee":"# HINT: _rec_diff_in may be idempotent: _rec_diff_in(_rec_diff_in(x)) == _rec_diff_in(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._rec_diff_in_correct","statement":"Path(_rec_diff_in(x), # HINT: _rec_diff_in may be idempotent: _rec_diff_in(_rec_diff_in(x)) == _rec_diff_in(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21a3fd2c5bcb2c0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _rec_diff_in may be idempotent: _rec_diff_in(_rec_diff_in(x)) == _rec_diff_in(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rec_diff_in(g, m, v, i, j, K):
     """Recursive helper for :func:`dmp_diff_in`."""
     if i == j:
@@ -330,16 +375,23 @@ def _rec_diff_in(g, m, v, i, j, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_diff_in(f, ), ``m``-th order derivative in ``x_j`` of a polynomial in ``k[x]``) over Any ║
+# ║ Path(dmp_diff_in(f, m, j), _rec_diff_in(f, m, u, 0, j, K)) over {Any | not (j < 0 or j > u)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_diff_in : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (j < 0 or j > u)                           ║
+# ║   returns:  _rec_diff_in(f, m, u, 0, j, K)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_diff_in : {Any | not (j < 0 or j > u)} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78aefb8ddc4a905a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6c3663191c7b61f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_diff_in","kind":"function","src_hash":"80283f10dc31aa3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_diff_in(f, )","rhs":"``m``-th order derivative in ``x_j`` of a polynomial in ``k[x]``","over":{"base":"Any"},"name":"dmp_diff_in_correct"},"guarantee":"``m``-th order derivative in ``x_j`` of a polynomial in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_diff_in_correct","statement":"Path(dmp_diff_in(x), ``m``-th order derivative in ``x_j`` of a polynomial in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78aefb8ddc4a905a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_diff_in","kind":"function","src_hash":"80283f10dc31aa3b","in":{"base":"Any","pred":"not (j < 0 or j > u)"},"out":{"base":"Any"},"spec":{"lhs":"dmp_diff_in(f, m, j)","rhs":"_rec_diff_in(f, m, u, 0, j, K)","over":{"base":"Any","pred":"not (j < 0 or j > u)"},"name":"dmp_diff_in_correct"},"guarantee":"returns _rec_diff_in(f, m, u, 0, j, K)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_diff_in_correct","statement":"Path(dmp_diff_in(x), returns _rec_diff_in(f, m, u, 0, j, K))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6c3663191c7b61f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (j < 0 or j > u)"],"returns_expr":"_rec_diff_in(f, m, u, 0, j, K)","pure":false,"effects":{"effect_type":"reads_state","raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_diff_in(f, m, j, u, K):
     """
     ``m``-th order derivative in ``x_j`` of a polynomial in ``K[X]``.
@@ -365,16 +417,24 @@ def dmp_diff_in(f, m, j, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_eval(f, ), id) over Any                           ║
+# ║ Path(dup_eval(f, a, K), id) over {Any | hasattr(K, 'zero') and hasattr(K, 'convert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_eval : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'convert')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_eval : {Any | hasattr(K, 'zero') and hasattr(K, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 718bc6d8646dc789   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_eval","kind":"function","src_hash":"e7b3bcbd9fc5b9bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_eval(f, )","rhs":"evaluate a polynomial at ``x = a`` in ``k[x]`` using horner scheme","over":{"base":"Any"},"name":"dup_eval_correct","kind":"composition"},"guarantee":"evaluate a polynomial at ``x = a`` in ``k[x]`` using horner scheme","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert","by":"library_axiom"},{"fn":"dup_TC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"718bc6d8646dc789"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_eval","kind":"function","src_hash":"e7b3bcbd9fc5b9bd","in":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'convert')"},"out":{"base":"Any"},"spec":{"lhs":"dup_eval(f, a, K)","rhs":"<unspecified:dup_eval>","over":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'convert')"},"name":"dup_eval_correct","kind":"composition"},"guarantee":"evaluate a polynomial at ``x = a`` in ``k[x]`` using horner scheme","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert","by":"library_axiom"},{"fn":"dup_TC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"718bc6d8646dc789","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'zero')","hasattr(K, 'convert')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.convert","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_eval(f, a, K):
     """
     Evaluate a polynomial at ``x = a`` in ``K[x]`` using Horner scheme.
@@ -402,16 +462,22 @@ def dup_eval(f, a, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_eval(f, ), evaluate a polynomial at ``x_0 = a`` in ``k[x]`` using the horner scheme) over Any ║
+# ║ Path(dmp_eval(f, a, u), <unspecified:dmp_eval>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_eval : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c84c6a27670f5c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_eval","kind":"function","src_hash":"c9cba0619da62662","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_eval(f, )","rhs":"evaluate a polynomial at ``x_0 = a`` in ``k[x]`` using the horner scheme","over":{"base":"Any"},"name":"dmp_eval_correct"},"guarantee":"evaluate a polynomial at ``x_0 = a`` in ``k[x]`` using the horner scheme","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_eval_correct","statement":"Path(dmp_eval(x), evaluate a polynomial at ``x_0 = a`` in ``k[x]`` using the horner scheme)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c84c6a27670f5c7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_eval","kind":"function","src_hash":"c9cba0619da62662","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_eval(f, a, u)","rhs":"<unspecified:dmp_eval>","over":{"base":"Any"},"name":"dmp_eval_correct"},"guarantee":"evaluate a polynomial at ``x_0 = a`` in ``k[x]`` using the horner scheme","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_eval_correct","statement":"Path(dmp_eval(x), evaluate a polynomial at ``x_0 = a`` in ``k[x]`` using the horner scheme)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c84c6a27670f5c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_eval(f, a, u, K):
     """
     Evaluate a polynomial at ``x_0 = a`` in ``K[X]`` using the Horner scheme.
@@ -442,16 +508,22 @@ def dmp_eval(f, a, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rec_eval_in(g, ), recursive helper for :func:`dmp_eval_in`) over Any ║
+# ║ Path(_rec_eval_in(g, a, v), # HINT: _rec_eval_in may be idempotent: _rec_eval_in(_rec_eval_in(x)) == _rec_eval_in(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rec_eval_in : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _rec_eval_in may be idempotent: _...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rec_eval_in : Any → {Any | result satisfies: # HINT:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f8a4e6a8baf0c39  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f9bf57f2fd11194  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._rec_eval_in","kind":"function","src_hash":"72e955f75e9287e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rec_eval_in(g, )","rhs":"recursive helper for :func:`dmp_eval_in`","over":{"base":"Any"},"name":"_rec_eval_in_correct"},"guarantee":"recursive helper for :func:`dmp_eval_in`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._rec_eval_in_correct","statement":"Path(_rec_eval_in(x), recursive helper for :func:`dmp_eval_in`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f8a4e6a8baf0c39"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._rec_eval_in","kind":"function","src_hash":"72e955f75e9287e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _rec_eval_in may be idempotent: _rec_eval_in(_rec_eval_in(x)) == _rec_eval_in(x)"},"spec":{"lhs":"_rec_eval_in(g, a, v)","rhs":"# HINT: _rec_eval_in may be idempotent: _rec_eval_in(_rec_eval_in(x)) == _rec_eval_in(x)","over":{"base":"Any"},"name":"_rec_eval_in_correct"},"guarantee":"# HINT: _rec_eval_in may be idempotent: _rec_eval_in(_rec_eval_in(x)) == _rec_eval_in(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._rec_eval_in_correct","statement":"Path(_rec_eval_in(x), # HINT: _rec_eval_in may be idempotent: _rec_eval_in(_rec_eval_in(x)) == _rec_eval_in(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f9bf57f2fd11194","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _rec_eval_in may be idempotent: _rec_eval_in(_rec_eval_in(x)) == _rec_eval_in(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rec_eval_in(g, a, v, i, j, K):
     """Recursive helper for :func:`dmp_eval_in`."""
     if i == j:
@@ -463,16 +535,23 @@ def _rec_eval_in(g, a, v, i, j, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_eval_in(f, ), evaluate a polynomial at ``x_j = a`` in ``k[x]`` using the horner scheme) over Any ║
+# ║ Path(dmp_eval_in(f, a, j), _rec_eval_in(f, a, u, 0, j, K)) over {Any | not (j < 0 or j > u)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_eval_in : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (j < 0 or j > u)                           ║
+# ║   returns:  _rec_eval_in(f, a, u, 0, j, K)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_eval_in : {Any | not (j < 0 or j > u)} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a7573ef9b6069e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08b8e26c6d538930  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_eval_in","kind":"function","src_hash":"340802e2e14afcb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_eval_in(f, )","rhs":"evaluate a polynomial at ``x_j = a`` in ``k[x]`` using the horner scheme","over":{"base":"Any"},"name":"dmp_eval_in_correct"},"guarantee":"evaluate a polynomial at ``x_j = a`` in ``k[x]`` using the horner scheme","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_eval_in_correct","statement":"Path(dmp_eval_in(x), evaluate a polynomial at ``x_j = a`` in ``k[x]`` using the horner scheme)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a7573ef9b6069e6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_eval_in","kind":"function","src_hash":"340802e2e14afcb2","in":{"base":"Any","pred":"not (j < 0 or j > u)"},"out":{"base":"Any"},"spec":{"lhs":"dmp_eval_in(f, a, j)","rhs":"_rec_eval_in(f, a, u, 0, j, K)","over":{"base":"Any","pred":"not (j < 0 or j > u)"},"name":"dmp_eval_in_correct"},"guarantee":"returns _rec_eval_in(f, a, u, 0, j, K)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_eval_in_correct","statement":"Path(dmp_eval_in(x), returns _rec_eval_in(f, a, u, 0, j, K))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08b8e26c6d538930","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (j < 0 or j > u)"],"returns_expr":"_rec_eval_in(f, a, u, 0, j, K)","pure":false,"effects":{"effect_type":"reads_state","raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_eval_in(f, a, j, u, K):
     """
     Evaluate a polynomial at ``x_j = a`` in ``K[X]`` using the Horner scheme.
@@ -498,16 +577,23 @@ def dmp_eval_in(f, a, j, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rec_eval_tail(g, ), recursive helper for :func:`dmp_eval_tail`) over Any ║
+# ║ Path(_rec_eval_tail(g, i, A), <unspecified:_rec_eval_tail>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: i == u => dup_eval(g, A[-1], K)           ║
+# ║   fiber[case_1]: not (i == u)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rec_eval_tail : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26280f6e6a3b9e08  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 430cc907c0ba1d3f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._rec_eval_tail","kind":"function","src_hash":"5e0dfda11ac0438c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rec_eval_tail(g, )","rhs":"recursive helper for :func:`dmp_eval_tail`","over":{"base":"Any"},"name":"_rec_eval_tail_correct"},"guarantee":"recursive helper for :func:`dmp_eval_tail`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._rec_eval_tail_correct","statement":"Path(_rec_eval_tail(x), recursive helper for :func:`dmp_eval_tail`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26280f6e6a3b9e08"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._rec_eval_tail","kind":"function","src_hash":"5e0dfda11ac0438c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rec_eval_tail(g, i, A)","rhs":"<unspecified:_rec_eval_tail>","over":{"base":"Any"},"name":"_rec_eval_tail_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._rec_eval_tail_correct","statement":"Path(_rec_eval_tail(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"430cc907c0ba1d3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"i == u","ensures":["result == dup_eval(g, A[-1], K)"],"decidability":"z3","returns_expr":"dup_eval(g, A[-1], K)"},{"name":"case_1","guard":"not (i == u)","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rec_eval_tail(g, i, A, u, K):
     """Recursive helper for :func:`dmp_eval_tail`."""
     if i == u:
@@ -522,16 +608,22 @@ def _rec_eval_tail(g, i, A, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_eval_tail(f, ), evaluate a polynomial at ``x_j = a_j, ...`` in ``k[x]``) over Any ║
+# ║ Path(dmp_eval_tail(f, A, u), <unspecified:dmp_eval_tail>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_eval_tail : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44580f8537b837ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_eval_tail","kind":"function","src_hash":"317a942038eb2424","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_eval_tail(f, )","rhs":"evaluate a polynomial at ``x_j = a_j, ...`` in ``k[x]``","over":{"base":"Any"},"name":"dmp_eval_tail_correct"},"guarantee":"evaluate a polynomial at ``x_j = a_j, ...`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_eval_tail_correct","statement":"Path(dmp_eval_tail(x), evaluate a polynomial at ``x_j = a_j, ...`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44580f8537b837ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_eval_tail","kind":"function","src_hash":"317a942038eb2424","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_eval_tail(f, A, u)","rhs":"<unspecified:dmp_eval_tail>","over":{"base":"Any"},"name":"dmp_eval_tail_correct"},"guarantee":"evaluate a polynomial at ``x_j = a_j, ...`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_eval_tail_correct","statement":"Path(dmp_eval_tail(x), evaluate a polynomial at ``x_j = a_j, ...`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44580f8537b837ba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_eval_tail(f, A, u, K):
     """
     Evaluate a polynomial at ``x_j = a_j, ...`` in ``K[X]``.
@@ -565,16 +657,22 @@ def dmp_eval_tail(f, A, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rec_diff_eval(g, ), id) over Any                     ║
+# ║ Path(_rec_diff_eval(g, m, a), id) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rec_diff_eval : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _rec_diff_eval may be idempotent:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rec_diff_eval : Any → {Any | result satisfies: # HIN...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4863a2549ed6ad4f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._rec_diff_eval","kind":"function","src_hash":"927d6111f98818b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rec_diff_eval(g, )","rhs":"recursive helper for :func:`dmp_diff_eval`","over":{"base":"Any"},"name":"_rec_diff_eval_correct","kind":"composition"},"guarantee":"recursive helper for :func:`dmp_diff_eval`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dmp_eval","by":"library_axiom"},{"fn":"dmp_diff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4863a2549ed6ad4f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._rec_diff_eval","kind":"function","src_hash":"927d6111f98818b4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _rec_diff_eval may be idempotent: _rec_diff_eval(_rec_diff_eval(x)) == _rec_diff_eval(x)"},"spec":{"lhs":"_rec_diff_eval(g, m, a)","rhs":"# HINT: _rec_diff_eval may be idempotent: _rec_diff_eval(_rec_diff_eval(x)) == _rec_diff_eval(x)","over":{"base":"Any"},"name":"_rec_diff_eval_correct","kind":"composition"},"guarantee":"# HINT: _rec_diff_eval may be idempotent: _rec_diff_eval(_rec_diff_eval(x)) == _rec_diff_eval(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dmp_eval","by":"library_axiom"},{"fn":"dmp_diff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4863a2549ed6ad4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _rec_diff_eval may be idempotent: _rec_diff_eval(_rec_diff_eval(x)) == _rec_diff_eval(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rec_diff_eval(g, m, a, v, i, j, K):
     """Recursive helper for :func:`dmp_diff_eval`."""
     if i == j:
@@ -586,16 +684,23 @@ def _rec_diff_eval(g, m, a, v, i, j, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_diff_eval_in(f, ), id) over Any                   ║
+# ║ Path(dmp_diff_eval_in(f, m, a), id) over {Any | not (j > u)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_diff_eval_in : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (j > u)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_diff_eval_in : {Any | not (j > u)} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 217ee2d49cbedd5d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_diff_eval_in","kind":"function","src_hash":"889d12f0e01b7aaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_diff_eval_in(f, )","rhs":"differentiate and evaluate a polynomial in ``x_j`` at ``a`` in ``k[x]``","over":{"base":"Any"},"name":"dmp_diff_eval_in_correct","kind":"composition"},"guarantee":"differentiate and evaluate a polynomial in ``x_j`` at ``a`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dmp_eval","by":"library_axiom"},{"fn":"dmp_diff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"217ee2d49cbedd5d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_diff_eval_in","kind":"function","src_hash":"889d12f0e01b7aaf","in":{"base":"Any","pred":"not (j > u)"},"out":{"base":"Any"},"spec":{"lhs":"dmp_diff_eval_in(f, m, a)","rhs":"<unspecified:dmp_diff_eval_in>","over":{"base":"Any","pred":"not (j > u)"},"name":"dmp_diff_eval_in_correct","kind":"composition"},"guarantee":"differentiate and evaluate a polynomial in ``x_j`` at ``a`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dmp_eval","by":"library_axiom"},{"fn":"dmp_diff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"217ee2d49cbedd5d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (j > u)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_diff_eval_in(f, m, a, j, u, K):
     """
     Differentiate and evaluate a polynomial in ``x_j`` at ``a`` in ``K[X]``.
@@ -623,16 +728,24 @@ def dmp_diff_eval_in(f, m, a, j, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_trunc(f, ), reduce a ``k[x]`` polynomial modulo a constant ``p`` in ``k``) over Any ║
+# ║ Path(dup_trunc(f, p, K), dup_strip(g)) over {Any | hasattr(K, 'is_ZZ') and hasattr(K, 'is_FiniteField')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_trunc : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   requires: hasattr(K, 'is_FiniteField')                   ║
+# ║   returns:  dup_strip(g)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_trunc : {Any | hasattr(K, 'is_ZZ') and hasattr(K,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61bb12b661d41427  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ef3170dc03ad6cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_trunc","kind":"function","src_hash":"8c5e4ec6cfc91dcf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_trunc(f, )","rhs":"reduce a ``k[x]`` polynomial modulo a constant ``p`` in ``k``","over":{"base":"Any"},"name":"dup_trunc_correct"},"guarantee":"reduce a ``k[x]`` polynomial modulo a constant ``p`` in ``k``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_trunc_correct","statement":"Path(dup_trunc(x), reduce a ``k[x]`` polynomial modulo a constant ``p`` in ``k``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61bb12b661d41427"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_trunc","kind":"function","src_hash":"8c5e4ec6cfc91dcf","in":{"base":"Any","pred":"hasattr(K, 'is_ZZ') and hasattr(K, 'is_FiniteField')"},"out":{"base":"Any"},"spec":{"lhs":"dup_trunc(f, p, K)","rhs":"dup_strip(g)","over":{"base":"Any","pred":"hasattr(K, 'is_ZZ') and hasattr(K, 'is_FiniteField')"},"name":"dup_trunc_correct"},"guarantee":"returns dup_strip(g)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_trunc_correct","statement":"Path(dup_trunc(x), returns dup_strip(g))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ef3170dc03ad6cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'is_ZZ')","hasattr(K, 'is_FiniteField')"],"returns_expr":"dup_strip(g)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_trunc(f, p, K):
     """
     Reduce a ``K[x]`` polynomial modulo a constant ``p`` in ``K``.
@@ -668,16 +781,22 @@ def dup_trunc(f, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_trunc(f, ), reduce a ``k[x]`` polynomial modulo a polynomial ``p`` in ``k[y]``) over Any ║
+# ║ Path(dmp_trunc(f, p, u), dmp_strip([dmp_rem(c, p, u - 1, K) for c in f], u)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_strip([dmp_rem(c, p, u - 1, K) for c ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_trunc : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 42db0f29b3701bcd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_trunc","kind":"function","src_hash":"e44677e67fb0c507","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_trunc(f, )","rhs":"reduce a ``k[x]`` polynomial modulo a polynomial ``p`` in ``k[y]``","over":{"base":"Any"},"name":"dmp_trunc_correct"},"guarantee":"reduce a ``k[x]`` polynomial modulo a polynomial ``p`` in ``k[y]``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42db0f29b3701bcd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_trunc","kind":"function","src_hash":"e44677e67fb0c507","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_trunc(f, p, u)","rhs":"dmp_strip([dmp_rem(c, p, u - 1, K) for c in f], u)","over":{"base":"Any"},"name":"dmp_trunc_correct"},"guarantee":"returns dmp_strip([dmp_rem(c, p, u - 1, K) for c in f], u)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42db0f29b3701bcd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_strip([dmp_rem(c, p, u - 1, K) for c in f], u)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def dmp_trunc(f, p, u, K):
     """
     Reduce a ``K[X]`` polynomial modulo a polynomial ``p`` in ``K[Y]``.
@@ -699,16 +818,22 @@ def dmp_trunc(f, p, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ground_trunc(f, ), reduce a ``k[x]`` polynomial modulo a constant ``p`` in ``k``) over Any ║
+# ║ Path(dmp_ground_trunc(f, p, u), # HINT: dmp_ground_trunc may be idempotent: dmp_ground_trunc(dmp_ground_trunc(x)) == dmp_ground_trunc(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_ground_trunc : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: dmp_ground_trunc may be idempoten...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_ground_trunc : Any → {Any | result satisfies: # H...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 903d9a1ead087d96  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed100a0f1aeca263  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_ground_trunc","kind":"function","src_hash":"6bfb5d50dc57ae53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_trunc(f, )","rhs":"reduce a ``k[x]`` polynomial modulo a constant ``p`` in ``k``","over":{"base":"Any"},"name":"dmp_ground_trunc_correct"},"guarantee":"reduce a ``k[x]`` polynomial modulo a constant ``p`` in ``k``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_ground_trunc_correct","statement":"Path(dmp_ground_trunc(x), reduce a ``k[x]`` polynomial modulo a constant ``p`` in ``k``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"903d9a1ead087d96"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_ground_trunc","kind":"function","src_hash":"6bfb5d50dc57ae53","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: dmp_ground_trunc may be idempotent: dmp_ground_trunc(dmp_ground_trunc(x)) == dmp_ground_trunc(x)"},"spec":{"lhs":"dmp_ground_trunc(f, p, u)","rhs":"# HINT: dmp_ground_trunc may be idempotent: dmp_ground_trunc(dmp_ground_trunc(x)) == dmp_ground_trunc(x)","over":{"base":"Any"},"name":"dmp_ground_trunc_correct"},"guarantee":"# HINT: dmp_ground_trunc may be idempotent: dmp_ground_trunc(dmp_ground_trunc(x)) == dmp_ground_trunc(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_ground_trunc_correct","statement":"Path(dmp_ground_trunc(x), # HINT: dmp_ground_trunc may be idempotent: dmp_ground_trunc(dmp_ground_trunc(x)) == dmp_ground_trunc(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed100a0f1aeca263","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: dmp_ground_trunc may be idempotent: dmp_ground_trunc(dmp_ground_trunc(x)) == dmp_ground_trunc(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_ground_trunc(f, p, u, K):
     """
     Reduce a ``K[X]`` polynomial modulo a constant ``p`` in ``K``.
@@ -734,16 +859,23 @@ def dmp_ground_trunc(f, p, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_monic(f, ), divide all coefficients by ``lc(f)`` in ``k[x]``) over Any ║
+# ║ Path(dup_monic(f, K), <unspecified:dup_monic>) over {Any | hasattr(K, 'is_one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_monic : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_monic : {Any | hasattr(K, 'is_one')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7afc861d44bce0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_monic","kind":"function","src_hash":"18c9f49f916f9504","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_monic(f, )","rhs":"divide all coefficients by ``lc(f)`` in ``k[x]``","over":{"base":"Any"},"name":"dup_monic_correct"},"guarantee":"divide all coefficients by ``lc(f)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_monic_correct","statement":"Path(dup_monic(x), divide all coefficients by ``lc(f)`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7afc861d44bce0c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_monic","kind":"function","src_hash":"18c9f49f916f9504","in":{"base":"Any","pred":"hasattr(K, 'is_one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_monic(f, K)","rhs":"<unspecified:dup_monic>","over":{"base":"Any","pred":"hasattr(K, 'is_one')"},"name":"dup_monic_correct"},"guarantee":"divide all coefficients by ``lc(f)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_monic_correct","statement":"Path(dup_monic(x), divide all coefficients by ``lc(f)`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7afc861d44bce0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_monic(f, K):
     """
     Divide all coefficients by ``LC(f)`` in ``K[x]``.
@@ -774,16 +906,23 @@ def dup_monic(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ground_monic(f, ), divide all coefficients by ``lc(f)`` in ``k[x]``) over Any ║
+# ║ Path(dmp_ground_monic(f, u, K), <unspecified:dmp_ground_monic>) over {Any | hasattr(K, 'is_one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_ground_monic : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_ground_monic : {Any | hasattr(K, 'is_one')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40d55ad0ded0babf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_ground_monic","kind":"function","src_hash":"0c76334fe5bdd77c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_monic(f, )","rhs":"divide all coefficients by ``lc(f)`` in ``k[x]``","over":{"base":"Any"},"name":"dmp_ground_monic_correct"},"guarantee":"divide all coefficients by ``lc(f)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_ground_monic_correct","statement":"Path(dmp_ground_monic(x), divide all coefficients by ``lc(f)`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40d55ad0ded0babf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_ground_monic","kind":"function","src_hash":"0c76334fe5bdd77c","in":{"base":"Any","pred":"hasattr(K, 'is_one')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_monic(f, u, K)","rhs":"<unspecified:dmp_ground_monic>","over":{"base":"Any","pred":"hasattr(K, 'is_one')"},"name":"dmp_ground_monic_correct"},"guarantee":"divide all coefficients by ``lc(f)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_ground_monic_correct","statement":"Path(dmp_ground_monic(x), divide all coefficients by ``lc(f)`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40d55ad0ded0babf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_ground_monic(f, u, K):
     """
     Divide all coefficients by ``LC(f)`` in ``K[X]``.
@@ -821,16 +960,25 @@ def dmp_ground_monic(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_content(f, ), compute the gcd of coefficients of ``f`` in ``k[x]``) over Any ║
+# ║ Path(dup_content(f, K), <unspecified:dup_content>) over {Any | hasattr(K, 'zero') and hasattr(K, 'gcd') and hasattr(K, 'is_one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_content : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'gcd')                              ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_content : {Any | hasattr(K, 'zero') and hasattr(K...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5913a9e79396cf84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_content","kind":"function","src_hash":"69f8e8424c8d471d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_content(f, )","rhs":"compute the gcd of coefficients of ``f`` in ``k[x]``","over":{"base":"Any"},"name":"dup_content_correct"},"guarantee":"compute the gcd of coefficients of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_content_correct","statement":"Path(dup_content(x), compute the gcd of coefficients of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5913a9e79396cf84"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_content","kind":"function","src_hash":"69f8e8424c8d471d","in":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'gcd') and hasattr(K, 'is_one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_content(f, K)","rhs":"<unspecified:dup_content>","over":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'gcd') and hasattr(K, 'is_one')"},"name":"dup_content_correct"},"guarantee":"compute the gcd of coefficients of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_content_correct","statement":"Path(dup_content(x), compute the gcd of coefficients of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5913a9e79396cf84","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'zero')","hasattr(K, 'gcd')","hasattr(K, 'is_one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.gcd","K.is_one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_content(f, K):
     """
     Compute the GCD of coefficients of ``f`` in ``K[x]``.
@@ -874,16 +1022,25 @@ def dup_content(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ground_content(f, ), compute the gcd of coefficients of ``f`` in ``k[x]``) over Any ║
+# ║ Path(dmp_ground_content(f, u, K), # HINT: dmp_ground_content may be idempotent: dmp_ground_content(dmp_ground_content(x)) == dmp_ground_content(x)) over {Any | hasattr(K, 'zero') and hasattr(K, 'gcd') and hasattr(K, 'is_one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_ground_content : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'gcd')                              ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   ensures:  # HINT: dmp_ground_content may be idempot...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_ground_content : {Any | hasattr(K, 'zero') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57f400dd1215239c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4565626ecb160cab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_ground_content","kind":"function","src_hash":"1ae6a08111b7333d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_content(f, )","rhs":"compute the gcd of coefficients of ``f`` in ``k[x]``","over":{"base":"Any"},"name":"dmp_ground_content_correct"},"guarantee":"compute the gcd of coefficients of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_ground_content_correct","statement":"Path(dmp_ground_content(x), compute the gcd of coefficients of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57f400dd1215239c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_ground_content","kind":"function","src_hash":"1ae6a08111b7333d","in":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'gcd') and hasattr(K, 'is_one')"},"out":{"base":"Any","pred":"result satisfies: # HINT: dmp_ground_content may be idempotent: dmp_ground_content(dmp_ground_content(x)) == dmp_ground_content(x)"},"spec":{"lhs":"dmp_ground_content(f, u, K)","rhs":"# HINT: dmp_ground_content may be idempotent: dmp_ground_content(dmp_ground_content(x)) == dmp_ground_content(x)","over":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'gcd') and hasattr(K, 'is_one')"},"name":"dmp_ground_content_correct"},"guarantee":"# HINT: dmp_ground_content may be idempotent: dmp_ground_content(dmp_ground_content(x)) == dmp_ground_content(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_ground_content_correct","statement":"Path(dmp_ground_content(x), # HINT: dmp_ground_content may be idempotent: dmp_ground_content(dmp_ground_content(x)) == dmp_ground_content(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4565626ecb160cab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'zero')","hasattr(K, 'gcd')","hasattr(K, 'is_one')"],"ensures":["# HINT: dmp_ground_content may be idempotent: dmp_ground_content(dmp_ground_content(x)) == dmp_ground_content(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.gcd","K.is_one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_ground_content(f, u, K):
     """
     Compute the GCD of coefficients of ``f`` in ``K[X]``.
@@ -930,16 +1087,24 @@ def dmp_ground_content(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_primitive(f, ), compute content and the primitive form of ``f`` in ``k[x]``) over Any ║
+# ║ Path(dup_primitive(f, K), <unspecified:dup_primitive>) over {Any | hasattr(K, 'is_one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_primitive : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_primitive : {Any | hasattr(K, 'is_one') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f656a6ad24560b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_primitive","kind":"function","src_hash":"9e9a2e48572d2c3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_primitive(f, )","rhs":"compute content and the primitive form of ``f`` in ``k[x]``","over":{"base":"Any"},"name":"dup_primitive_correct"},"guarantee":"compute content and the primitive form of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_primitive_correct","statement":"Path(dup_primitive(x), compute content and the primitive form of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f656a6ad24560b4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_primitive","kind":"function","src_hash":"9e9a2e48572d2c3c","in":{"base":"Any","pred":"hasattr(K, 'is_one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"dup_primitive(f, K)","rhs":"<unspecified:dup_primitive>","over":{"base":"Any","pred":"hasattr(K, 'is_one') and hasattr(K, 'zero')"},"name":"dup_primitive_correct"},"guarantee":"compute content and the primitive form of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_primitive_correct","statement":"Path(dup_primitive(x), compute content and the primitive form of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f656a6ad24560b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_primitive(f, K):
     """
     Compute content and the primitive form of ``f`` in ``K[x]``.
@@ -974,16 +1139,24 @@ def dup_primitive(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ground_primitive(f, ), compute content and the primitive form of ``f`` in ``k[x]``) over Any ║
+# ║ Path(dmp_ground_primitive(f, u, K), <unspecified:dmp_ground_primitive>) over {Any | hasattr(K, 'is_one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_ground_primitive : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_ground_primitive : {Any | hasattr(K, 'is_one') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27e562f0b631c7e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_ground_primitive","kind":"function","src_hash":"cc6883d98eb8bcfc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_primitive(f, )","rhs":"compute content and the primitive form of ``f`` in ``k[x]``","over":{"base":"Any"},"name":"dmp_ground_primitive_correct"},"guarantee":"compute content and the primitive form of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_ground_primitive_correct","statement":"Path(dmp_ground_primitive(x), compute content and the primitive form of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27e562f0b631c7e3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_ground_primitive","kind":"function","src_hash":"cc6883d98eb8bcfc","in":{"base":"Any","pred":"hasattr(K, 'is_one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_primitive(f, u, K)","rhs":"<unspecified:dmp_ground_primitive>","over":{"base":"Any","pred":"hasattr(K, 'is_one') and hasattr(K, 'zero')"},"name":"dmp_ground_primitive_correct"},"guarantee":"compute content and the primitive form of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_ground_primitive_correct","statement":"Path(dmp_ground_primitive(x), compute content and the primitive form of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27e562f0b631c7e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_ground_primitive(f, u, K):
     """
     Compute content and the primitive form of ``f`` in ``K[X]``.
@@ -1021,16 +1194,24 @@ def dmp_ground_primitive(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_extract(f, ), extract common content from a pair of polynomials in ``k[x]``) over Any ║
+# ║ Path(dup_extract(f, g, K), (gcd, f, g)) over {Any | hasattr(K, 'gcd') and hasattr(K, 'is_one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_extract : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'gcd')                              ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   returns:  (gcd, f, g)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_extract : {Any | hasattr(K, 'gcd') and hasattr(K,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 571ae69863a204f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5bc6773531c97b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_extract","kind":"function","src_hash":"181ea815d78feb73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_extract(f, )","rhs":"extract common content from a pair of polynomials in ``k[x]``","over":{"base":"Any"},"name":"dup_extract_correct"},"guarantee":"extract common content from a pair of polynomials in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_extract_correct","statement":"Path(dup_extract(x), extract common content from a pair of polynomials in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"571ae69863a204f9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_extract","kind":"function","src_hash":"181ea815d78feb73","in":{"base":"Any","pred":"hasattr(K, 'gcd') and hasattr(K, 'is_one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_extract(f, g, K)","rhs":"(gcd, f, g)","over":{"base":"Any","pred":"hasattr(K, 'gcd') and hasattr(K, 'is_one')"},"name":"dup_extract_correct"},"guarantee":"returns (gcd, f, g)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_extract_correct","statement":"Path(dup_extract(x), returns (gcd, f, g))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5bc6773531c97b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'gcd')","hasattr(K, 'is_one')"],"returns_expr":"(gcd, f, g)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.gcd","K.is_one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_extract(f, g, K):
     """
     Extract common content from a pair of polynomials in ``K[x]``.
@@ -1058,16 +1239,24 @@ def dup_extract(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ground_extract(f, ), extract common content from a pair of polynomials in ``k[x]``) over Any ║
+# ║ Path(dmp_ground_extract(f, g, u), (gcd, f, g)) over {Any | hasattr(K, 'gcd') and hasattr(K, 'is_one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_ground_extract : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'gcd')                              ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   returns:  (gcd, f, g)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_ground_extract : {Any | hasattr(K, 'gcd') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f56fe4cd60dc31d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ff997526851011b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_ground_extract","kind":"function","src_hash":"73e509b6443ea98a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_extract(f, )","rhs":"extract common content from a pair of polynomials in ``k[x]``","over":{"base":"Any"},"name":"dmp_ground_extract_correct"},"guarantee":"extract common content from a pair of polynomials in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_ground_extract_correct","statement":"Path(dmp_ground_extract(x), extract common content from a pair of polynomials in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f56fe4cd60dc31d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_ground_extract","kind":"function","src_hash":"73e509b6443ea98a","in":{"base":"Any","pred":"hasattr(K, 'gcd') and hasattr(K, 'is_one')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ground_extract(f, g, u)","rhs":"(gcd, f, g)","over":{"base":"Any","pred":"hasattr(K, 'gcd') and hasattr(K, 'is_one')"},"name":"dmp_ground_extract_correct"},"guarantee":"returns (gcd, f, g)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_ground_extract_correct","statement":"Path(dmp_ground_extract(x), returns (gcd, f, g))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ff997526851011b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'gcd')","hasattr(K, 'is_one')"],"returns_expr":"(gcd, f, g)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.gcd","K.is_one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_ground_extract(f, g, u, K):
     """
     Extract common content from a pair of polynomials in ``K[X]``.
@@ -1095,16 +1284,25 @@ def dmp_ground_extract(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_real_imag(f, ), find ``f1`` and ``f2``, such that ``f(x+i*y) = f1(x,y) + f2(x,y)*i``) over Any ║
+# ║ Path(dup_real_imag(f, K), <unspecified:dup_real_imag>) over {Any | not (not K.is_ZZ and (not K.is_QQ)) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ') and hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_real_imag : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (not K.is_ZZ and (not K.is_QQ))            ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   requires: hasattr(K, 'is_QQ')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_real_imag : {Any | not (not K.is_ZZ and (not K.is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2486bf2e6ab47f98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_real_imag","kind":"function","src_hash":"294be564e1b7a86a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_real_imag(f, )","rhs":"find ``f1`` and ``f2``, such that ``f(x+i*y) = f1(x,y) + f2(x,y)*i``","over":{"base":"Any"},"name":"dup_real_imag_correct"},"guarantee":"find ``f1`` and ``f2``, such that ``f(x+i*y) = f1(x,y) + f2(x,y)*i``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_real_imag_correct","statement":"Path(dup_real_imag(x), find ``f1`` and ``f2``, such that ``f(x+i*y) = f1(x,y) + f2(x,y)*i``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2486bf2e6ab47f98"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_real_imag","kind":"function","src_hash":"294be564e1b7a86a","in":{"base":"Any","pred":"not (not K.is_ZZ and (not K.is_QQ)) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ') and hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"dup_real_imag(f, K)","rhs":"<unspecified:dup_real_imag>","over":{"base":"Any","pred":"not (not K.is_ZZ and (not K.is_QQ)) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ') and hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"dup_real_imag_correct"},"guarantee":"find ``f1`` and ``f2``, such that ``f(x+i*y) = f1(x,y) + f2(x,y)*i``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_real_imag_correct","statement":"Path(dup_real_imag(x), find ``f1`` and ``f2``, such that ``f(x+i*y) = f1(x,y) + f2(x,y)*i``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2486bf2e6ab47f98","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (not K.is_ZZ and (not K.is_QQ))","hasattr(K, 'is_ZZ')","hasattr(K, 'is_QQ')","hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_QQ","K.is_ZZ","K.one","K.zero"],"raises":["DomainError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dup_real_imag(f, K):
     """
     Find ``f1`` and ``f2``, such that ``f(x+I*y) = f1(x,y) + f2(x,y)*I``.
@@ -1158,16 +1356,23 @@ def dup_real_imag(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_mirror(f, ), evaluate efficiently the composition ``f(-x)`` in ``k[x]``) over Any ║
+# ║ Path(dup_mirror(f, K), f) over Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_mirror : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == f                                    ║
+# ║   returns:  f                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_mirror : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06d6251b7f25bb58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb027f59ef01e154  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_mirror","kind":"function","src_hash":"f46352f8d029dc05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_mirror(f, )","rhs":"evaluate efficiently the composition ``f(-x)`` in ``k[x]``","over":{"base":"Any"},"name":"dup_mirror_correct"},"guarantee":"evaluate efficiently the composition ``f(-x)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_mirror_correct","statement":"Path(dup_mirror(x), evaluate efficiently the composition ``f(-x)`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06d6251b7f25bb58"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_mirror","kind":"function","src_hash":"f46352f8d029dc05","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (f)"},"spec":{"lhs":"dup_mirror(f, K)","rhs":"f","over":{"base":"Any"},"name":"dup_mirror_correct"},"guarantee":"returns f; result == f","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_mirror_correct","statement":"Path(dup_mirror(x), returns f; result == f)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb027f59ef01e154","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == f"],"returns_expr":"f","pure":false,"effects":{"effect_type":"mutates_args","writes":["f[*]"]},"state_contract":{"modifies":["f[*]"],"old_bindings":{"old_f_star":"f[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_mirror(f, K):
     """
     Evaluate efficiently the composition ``f(-x)`` in ``K[x]``.
@@ -1191,16 +1396,23 @@ def dup_mirror(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_scale(f, ), evaluate efficiently composition ``f(a*x)`` in ``k[x]``) over Any ║
+# ║ Path(dup_scale(f, a, K), f) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_scale : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == f                                    ║
+# ║   returns:  f                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_scale : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a49d5e2769432fa9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bbdb92468edc4e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_scale","kind":"function","src_hash":"f4575a71fb3a214b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_scale(f, )","rhs":"evaluate efficiently composition ``f(a*x)`` in ``k[x]``","over":{"base":"Any"},"name":"dup_scale_correct"},"guarantee":"evaluate efficiently composition ``f(a*x)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_scale_correct","statement":"Path(dup_scale(x), evaluate efficiently composition ``f(a*x)`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a49d5e2769432fa9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_scale","kind":"function","src_hash":"f4575a71fb3a214b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (f)"},"spec":{"lhs":"dup_scale(f, a, K)","rhs":"f","over":{"base":"Any"},"name":"dup_scale_correct"},"guarantee":"returns f; result == f","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_scale_correct","statement":"Path(dup_scale(x), returns f; result == f)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bbdb92468edc4e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == f"],"returns_expr":"f","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_scale(f, a, K):
     """
     Evaluate efficiently composition ``f(a*x)`` in ``K[x]``.
@@ -1224,16 +1436,23 @@ def dup_scale(f, a, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_shift(f, ), evaluate efficiently taylor shift ``f(x + a)`` in ``k[x]``) over Any ║
+# ║ Path(dup_shift(f, a, K), f) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_shift : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == f                                    ║
+# ║   returns:  f                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_shift : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a51ca6ffb611707  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 938e66351db66222  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_shift","kind":"function","src_hash":"9cd5a4950e27fe58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_shift(f, )","rhs":"evaluate efficiently taylor shift ``f(x + a)`` in ``k[x]``","over":{"base":"Any"},"name":"dup_shift_correct"},"guarantee":"evaluate efficiently taylor shift ``f(x + a)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_shift_correct","statement":"Path(dup_shift(x), evaluate efficiently taylor shift ``f(x + a)`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a51ca6ffb611707"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_shift","kind":"function","src_hash":"9cd5a4950e27fe58","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (f)"},"spec":{"lhs":"dup_shift(f, a, K)","rhs":"f","over":{"base":"Any"},"name":"dup_shift_correct"},"guarantee":"returns f; result == f","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_shift_correct","statement":"Path(dup_shift(x), returns f; result == f)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"938e66351db66222","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == f"],"returns_expr":"f","pure":false,"effects":{"effect_type":"mutates_args","writes":["f[*]"]},"state_contract":{"modifies":["f[*]"],"old_bindings":{"old_f_star":"f[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_shift(f, a, K):
     """
     Evaluate efficiently Taylor shift ``f(x + a)`` in ``K[x]``.
@@ -1258,16 +1477,22 @@ def dup_shift(f, a, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_shift(f, ), evaluate efficiently taylor shift ``f(x + a)`` in ``k[x]``) over Any ║
+# ║ Path(dmp_shift(f, a, u), # HINT: dmp_shift may be idempotent: dmp_shift(dmp_shift(x)) == dmp_shift(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_shift : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: dmp_shift may be idempotent: dmp_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_shift : Any → {Any | result satisfies: # HINT: dm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83bda8ab32294b42  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27286f1443fadc55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_shift","kind":"function","src_hash":"1dd6c90a9e044361","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_shift(f, )","rhs":"evaluate efficiently taylor shift ``f(x + a)`` in ``k[x]``","over":{"base":"Any"},"name":"dmp_shift_correct"},"guarantee":"evaluate efficiently taylor shift ``f(x + a)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_shift_correct","statement":"Path(dmp_shift(x), evaluate efficiently taylor shift ``f(x + a)`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83bda8ab32294b42"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_shift","kind":"function","src_hash":"1dd6c90a9e044361","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: dmp_shift may be idempotent: dmp_shift(dmp_shift(x)) == dmp_shift(x)"},"spec":{"lhs":"dmp_shift(f, a, u)","rhs":"# HINT: dmp_shift may be idempotent: dmp_shift(dmp_shift(x)) == dmp_shift(x)","over":{"base":"Any"},"name":"dmp_shift_correct"},"guarantee":"# HINT: dmp_shift may be idempotent: dmp_shift(dmp_shift(x)) == dmp_shift(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_shift_correct","statement":"Path(dmp_shift(x), # HINT: dmp_shift may be idempotent: dmp_shift(dmp_shift(x)) == dmp_shift(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27286f1443fadc55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: dmp_shift may be idempotent: dmp_shift(dmp_shift(x)) == dmp_shift(x)"],"pure":false,"effects":{"effect_type":"mutates_args","writes":["f[*]"]},"state_contract":{"modifies":["f[*]"],"old_bindings":{"old_f_star":"f[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dmp_shift(f, a, u, K):
     """
     Evaluate efficiently Taylor shift ``f(X + A)`` in ``K[X]``.
@@ -1312,16 +1537,23 @@ def dmp_shift(f, a, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_transform(f, ), evaluate functional transformation ``q**n * f(p/q)`` in ``k[x]``) over Any ║
+# ║ Path(dup_transform(f, p, q), <unspecified:dup_transform>) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_transform : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_transform : {Any | hasattr(K, 'one')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afd630bec55adbbc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_transform","kind":"function","src_hash":"19686ab874f237e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_transform(f, )","rhs":"evaluate functional transformation ``q**n * f(p/q)`` in ``k[x]``","over":{"base":"Any"},"name":"dup_transform_correct"},"guarantee":"evaluate functional transformation ``q**n * f(p/q)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_transform_correct","statement":"Path(dup_transform(x), evaluate functional transformation ``q**n * f(p/q)`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afd630bec55adbbc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_transform","kind":"function","src_hash":"19686ab874f237e9","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_transform(f, p, q)","rhs":"<unspecified:dup_transform>","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"dup_transform_correct"},"guarantee":"evaluate functional transformation ``q**n * f(p/q)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_transform_correct","statement":"Path(dup_transform(x), evaluate functional transformation ``q**n * f(p/q)`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afd630bec55adbbc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_transform(f, p, q, K):
     """
     Evaluate functional transformation ``q**n * f(p/q)`` in ``K[x]``.
@@ -1354,16 +1586,22 @@ def dup_transform(f, p, q, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_compose(f, ), id) over Any                        ║
+# ║ Path(dup_compose(f, g, K), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_compose : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 92b08b683df30cd9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_compose","kind":"function","src_hash":"c94cc72831f8d0d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_compose(f, )","rhs":"evaluate functional composition ``f(g)`` in ``k[x]``","over":{"base":"Any"},"name":"dup_compose_correct","kind":"composition"},"guarantee":"evaluate functional composition ``f(g)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dup_strip","by":"library_axiom"},{"fn":"dup_eval","by":"library_axiom"},{"fn":"dup_LC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92b08b683df30cd9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_compose","kind":"function","src_hash":"c94cc72831f8d0d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_compose(f, g, K)","rhs":"<unspecified:dup_compose>","over":{"base":"Any"},"name":"dup_compose_correct","kind":"composition"},"guarantee":"evaluate functional composition ``f(g)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dup_strip","by":"library_axiom"},{"fn":"dup_eval","by":"library_axiom"},{"fn":"dup_LC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92b08b683df30cd9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_compose(f, g, K):
     """
     Evaluate functional composition ``f(g)`` in ``K[x]``.
@@ -1394,16 +1632,22 @@ def dup_compose(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_compose(f, ), evaluate functional composition ``f(g)`` in ``k[x]``) over Any ║
+# ║ Path(dmp_compose(f, g, u), <unspecified:dmp_compose>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_compose : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e741c4f87e51470  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_compose","kind":"function","src_hash":"a5e55a5abc4d4582","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_compose(f, )","rhs":"evaluate functional composition ``f(g)`` in ``k[x]``","over":{"base":"Any"},"name":"dmp_compose_correct"},"guarantee":"evaluate functional composition ``f(g)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_compose_correct","statement":"Path(dmp_compose(x), evaluate functional composition ``f(g)`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e741c4f87e51470"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_compose","kind":"function","src_hash":"a5e55a5abc4d4582","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_compose(f, g, u)","rhs":"<unspecified:dmp_compose>","over":{"base":"Any"},"name":"dmp_compose_correct"},"guarantee":"evaluate functional composition ``f(g)`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_compose_correct","statement":"Path(dmp_compose(x), evaluate functional composition ``f(g)`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e741c4f87e51470","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_compose(f, g, u, K):
     """
     Evaluate functional composition ``f(g)`` in ``K[X]``.
@@ -1434,16 +1678,25 @@ def dmp_compose(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dup_right_decompose(f, ), helper function for :func:`_dup_decompose`) over Any ║
+# ║ Path(_dup_right_decompose(f, s, K), dup_from_raw_dict(g, K)) over {Any | hasattr(K, 'one') and hasattr(K, 'zero') and hasattr(K, 'quo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dup_right_decompose : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'quo')                              ║
+# ║   returns:  dup_from_raw_dict(g, K)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dup_right_decompose : {Any | hasattr(K, 'one') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f523f913b5d3849c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b3664ce8a08c92d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._dup_right_decompose","kind":"function","src_hash":"5389438ba02dff71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dup_right_decompose(f, )","rhs":"helper function for :func:`_dup_decompose`","over":{"base":"Any"},"name":"_dup_right_decompose_correct"},"guarantee":"helper function for :func:`_dup_decompose`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._dup_right_decompose_correct","statement":"Path(_dup_right_decompose(x), helper function for :func:`_dup_decompose`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f523f913b5d3849c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._dup_right_decompose","kind":"function","src_hash":"5389438ba02dff71","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero') and hasattr(K, 'quo')"},"out":{"base":"Any"},"spec":{"lhs":"_dup_right_decompose(f, s, K)","rhs":"dup_from_raw_dict(g, K)","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero') and hasattr(K, 'quo')"},"name":"_dup_right_decompose_correct"},"guarantee":"returns dup_from_raw_dict(g, K)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._dup_right_decompose_correct","statement":"Path(_dup_right_decompose(x), returns dup_from_raw_dict(g, K))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b3664ce8a08c92d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'one')","hasattr(K, 'zero')","hasattr(K, 'quo')"],"returns_expr":"dup_from_raw_dict(g, K)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.quo","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _dup_right_decompose(f, s, K):
     """Helper function for :func:`_dup_decompose`."""
     n = len(f) - 1
@@ -1473,16 +1726,22 @@ def _dup_right_decompose(f, s, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dup_left_decompose(f, ), helper function for :func:`_dup_decompose`) over Any ║
+# ║ Path(_dup_left_decompose(f, h, K), <unspecified:_dup_left_decompose>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dup_left_decompose : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c71e9ab4bb15059d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._dup_left_decompose","kind":"function","src_hash":"e54327542908d7b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dup_left_decompose(f, )","rhs":"helper function for :func:`_dup_decompose`","over":{"base":"Any"},"name":"_dup_left_decompose_correct"},"guarantee":"helper function for :func:`_dup_decompose`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._dup_left_decompose_correct","statement":"Path(_dup_left_decompose(x), helper function for :func:`_dup_decompose`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c71e9ab4bb15059d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._dup_left_decompose","kind":"function","src_hash":"e54327542908d7b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dup_left_decompose(f, h, K)","rhs":"<unspecified:_dup_left_decompose>","over":{"base":"Any"},"name":"_dup_left_decompose_correct"},"guarantee":"helper function for :func:`_dup_decompose`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._dup_left_decompose_correct","statement":"Path(_dup_left_decompose(x), helper function for :func:`_dup_decompose`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c71e9ab4bb15059d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dup_left_decompose(f, h, K):
     """Helper function for :func:`_dup_decompose`."""
     g, i = {}, 0
@@ -1500,16 +1759,22 @@ def _dup_left_decompose(f, h, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dup_decompose(f, ), helper function for :func:`dup_decompose`) over Any ║
+# ║ Path(_dup_decompose(f, K), <unspecified:_dup_decompose>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dup_decompose : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b83243115e787e82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._dup_decompose","kind":"function","src_hash":"30abb90b5ba6267b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dup_decompose(f, )","rhs":"helper function for :func:`dup_decompose`","over":{"base":"Any"},"name":"_dup_decompose_correct"},"guarantee":"helper function for :func:`dup_decompose`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._dup_decompose_correct","statement":"Path(_dup_decompose(x), helper function for :func:`dup_decompose`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b83243115e787e82"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._dup_decompose","kind":"function","src_hash":"30abb90b5ba6267b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dup_decompose(f, K)","rhs":"<unspecified:_dup_decompose>","over":{"base":"Any"},"name":"_dup_decompose_correct"},"guarantee":"helper function for :func:`dup_decompose`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._dup_decompose_correct","statement":"Path(_dup_decompose(x), helper function for :func:`dup_decompose`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b83243115e787e82","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dup_decompose(f, K):
     """Helper function for :func:`dup_decompose`."""
     df = len(f) - 1
@@ -1530,16 +1795,22 @@ def _dup_decompose(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_decompose(f, ), computes functional decomposition of ``f`` in ``k[x]``) over Any ║
+# ║ Path(dup_decompose(f, K), [f] + F) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [f] + F                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_decompose : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 160ce3687a6e86f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b980a9cf57cf1dd4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_decompose","kind":"function","src_hash":"c8f44924a7e43eda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_decompose(f, )","rhs":"computes functional decomposition of ``f`` in ``k[x]``","over":{"base":"Any"},"name":"dup_decompose_correct"},"guarantee":"computes functional decomposition of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_decompose_correct","statement":"Path(dup_decompose(x), computes functional decomposition of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"160ce3687a6e86f8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_decompose","kind":"function","src_hash":"c8f44924a7e43eda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_decompose(f, K)","rhs":"[f] + F","over":{"base":"Any"},"name":"dup_decompose_correct"},"guarantee":"returns [f] + F","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_decompose_correct","statement":"Path(dup_decompose(x), returns [f] + F)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b980a9cf57cf1dd4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[f] + F","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_decompose(f, K):
     """
     Computes functional decomposition of ``f`` in ``K[x]``.
@@ -1591,16 +1862,27 @@ def dup_decompose(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_alg_inject(f, ), convert polynomial from ``k(a)[x]`` to ``k[a,x]``) over Any ║
+# ║ Path(dmp_alg_inject(f, u, K), <unspecified:dmp_alg_inject>) over {Any | hasattr(K, 'is_GaussianRing') and hasattr(K, 'is_GaussianField') and hasattr(K, 'is_Algebraic')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_alg_inject : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'is_GaussianRing')                  ║
+# ║   requires: hasattr(K, 'is_GaussianField')                 ║
+# ║   requires: hasattr(K, 'is_Algebraic')                     ║
+# ║   fiber[case_0]: K.is_GaussianRing or K.is_GaussianFi...   ║
+# ║   fiber[case_1]: K.is_Algebraic => _dmp_alg_inject_al...   ║
+# ║   fiber[case_2]: not (K.is_GaussianRing or K.is_Gauss...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_alg_inject : {Any | hasattr(K, 'is_GaussianRing')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc1ac7deccb1c2d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0abe698f61e80bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_alg_inject","kind":"function","src_hash":"1c8a2f4c06d37cf0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_alg_inject(f, )","rhs":"convert polynomial from ``k(a)[x]`` to ``k[a,x]``","over":{"base":"Any"},"name":"dmp_alg_inject_correct"},"guarantee":"convert polynomial from ``k(a)[x]`` to ``k[a,x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_alg_inject_correct","statement":"Path(dmp_alg_inject(x), convert polynomial from ``k(a)[x]`` to ``k[a,x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc1ac7deccb1c2d5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_alg_inject","kind":"function","src_hash":"1c8a2f4c06d37cf0","in":{"base":"Any","pred":"hasattr(K, 'is_GaussianRing') and hasattr(K, 'is_GaussianField') and hasattr(K, 'is_Algebraic')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_alg_inject(f, u, K)","rhs":"<unspecified:dmp_alg_inject>","over":{"base":"Any","pred":"hasattr(K, 'is_GaussianRing') and hasattr(K, 'is_GaussianField') and hasattr(K, 'is_Algebraic')"},"name":"dmp_alg_inject_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_alg_inject_correct","statement":"Path(dmp_alg_inject(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0abe698f61e80bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'is_GaussianRing')","hasattr(K, 'is_GaussianField')","hasattr(K, 'is_Algebraic')"],"fibers":[{"name":"case_0","guard":"K.is_GaussianRing or K.is_GaussianField","ensures":["result == _dmp_alg_inject_gaussian(f, u, K)"],"decidability":"library","returns_expr":"_dmp_alg_inject_gaussian(f, u, K)"},{"name":"case_1","guard":"K.is_Algebraic","ensures":["result == _dmp_alg_inject_alg(f, u, K)"],"decidability":"library","returns_expr":"_dmp_alg_inject_alg(f, u, K)"},{"name":"case_2","guard":"not (K.is_GaussianRing or K.is_GaussianField) and not (K.is_Algebraic)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_Algebraic","K.is_GaussianField","K.is_GaussianRing"],"raises":["DomainError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_alg_inject(f, u, K):
     """
     Convert polynomial from ``K(a)[X]`` to ``K[a,X]``.
@@ -1632,16 +1914,24 @@ def dmp_alg_inject(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dmp_alg_inject_gaussian(f, ), helper function for :func:`dmp_alg_inject`) over Any ║
+# ║ Path(_dmp_alg_inject_gaussian(f, u, K), (F, u + 1, K.dom)) over {Any | hasattr(f, 'items') and hasattr(K, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dmp_alg_inject_gaussian : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'items')                            ║
+# ║   requires: hasattr(K, 'dom')                              ║
+# ║   returns:  (F, u + 1, K.dom)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dmp_alg_inject_gaussian : {Any | hasattr(f, 'items')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d58e3d7b55d7357c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dfd7432ba767857  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._dmp_alg_inject_gaussian","kind":"function","src_hash":"b6cca746dec8281c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_alg_inject_gaussian(f, )","rhs":"helper function for :func:`dmp_alg_inject`","over":{"base":"Any"},"name":"_dmp_alg_inject_gaussian_correct"},"guarantee":"helper function for :func:`dmp_alg_inject`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._dmp_alg_inject_gaussian_correct","statement":"Path(_dmp_alg_inject_gaussian(x), helper function for :func:`dmp_alg_inject`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d58e3d7b55d7357c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._dmp_alg_inject_gaussian","kind":"function","src_hash":"b6cca746dec8281c","in":{"base":"Any","pred":"hasattr(f, 'items') and hasattr(K, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_alg_inject_gaussian(f, u, K)","rhs":"(F, u + 1, K.dom)","over":{"base":"Any","pred":"hasattr(f, 'items') and hasattr(K, 'dom')"},"name":"_dmp_alg_inject_gaussian_correct"},"guarantee":"returns (F, u + 1, K.dom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._dmp_alg_inject_gaussian_correct","statement":"Path(_dmp_alg_inject_gaussian(x), returns (F, u + 1, K.dom))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dfd7432ba767857","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'items')","hasattr(K, 'dom')"],"returns_expr":"(F, u + 1, K.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.dom","f.items"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dmp_alg_inject_gaussian(f, u, K):
     """Helper function for :func:`dmp_alg_inject`."""
     f, h = dmp_to_dict(f, u), {}
@@ -1659,16 +1949,24 @@ def _dmp_alg_inject_gaussian(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dmp_alg_inject_alg(f, ), helper function for :func:`dmp_alg_inject`) over Any ║
+# ║ Path(_dmp_alg_inject_alg(f, u, K), (F, u + 1, K.dom)) over {Any | hasattr(f, 'items') and hasattr(K, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dmp_alg_inject_alg : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'items')                            ║
+# ║   requires: hasattr(K, 'dom')                              ║
+# ║   returns:  (F, u + 1, K.dom)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dmp_alg_inject_alg : {Any | hasattr(f, 'items') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46f9066e6867bfcf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55786e680f99770a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._dmp_alg_inject_alg","kind":"function","src_hash":"3faf4ee8a4070a02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_alg_inject_alg(f, )","rhs":"helper function for :func:`dmp_alg_inject`","over":{"base":"Any"},"name":"_dmp_alg_inject_alg_correct"},"guarantee":"helper function for :func:`dmp_alg_inject`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._dmp_alg_inject_alg_correct","statement":"Path(_dmp_alg_inject_alg(x), helper function for :func:`dmp_alg_inject`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46f9066e6867bfcf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._dmp_alg_inject_alg","kind":"function","src_hash":"3faf4ee8a4070a02","in":{"base":"Any","pred":"hasattr(f, 'items') and hasattr(K, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_alg_inject_alg(f, u, K)","rhs":"(F, u + 1, K.dom)","over":{"base":"Any","pred":"hasattr(f, 'items') and hasattr(K, 'dom')"},"name":"_dmp_alg_inject_alg_correct"},"guarantee":"returns (F, u + 1, K.dom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._dmp_alg_inject_alg_correct","statement":"Path(_dmp_alg_inject_alg(x), returns (F, u + 1, K.dom))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55786e680f99770a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'items')","hasattr(K, 'dom')"],"returns_expr":"(F, u + 1, K.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.dom","f.items"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dmp_alg_inject_alg(f, u, K):
     """Helper function for :func:`dmp_alg_inject`."""
     f, h = dmp_to_dict(f, u), {}
@@ -1683,16 +1981,23 @@ def _dmp_alg_inject_alg(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_lift(f, ), convert algebraic coefficients to integers in ``k[x]``) over Any ║
+# ║ Path(dmp_lift(f, u, K), dmp_resultant(F, P_A, v, K2)) over {Any | hasattr(K, 'mod')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_lift : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'mod')                              ║
+# ║   returns:  dmp_resultant(F, P_A, v, K2)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_lift : {Any | hasattr(K, 'mod')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a783f2f95d82b354  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3df1360a45e000d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_lift","kind":"function","src_hash":"cd91bf99de10c659","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_lift(f, )","rhs":"convert algebraic coefficients to integers in ``k[x]``","over":{"base":"Any"},"name":"dmp_lift_correct"},"guarantee":"convert algebraic coefficients to integers in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_lift_correct","statement":"Path(dmp_lift(x), convert algebraic coefficients to integers in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a783f2f95d82b354"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_lift","kind":"function","src_hash":"cd91bf99de10c659","in":{"base":"Any","pred":"hasattr(K, 'mod')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_lift(f, u, K)","rhs":"dmp_resultant(F, P_A, v, K2)","over":{"base":"Any","pred":"hasattr(K, 'mod')"},"name":"dmp_lift_correct"},"guarantee":"returns dmp_resultant(F, P_A, v, K2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_lift_correct","statement":"Path(dmp_lift(x), returns dmp_resultant(F, P_A, v, K2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3df1360a45e000d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'mod')"],"returns_expr":"dmp_resultant(F, P_A, v, K2)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.mod"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_lift(f, u, K):
     """
     Convert algebraic coefficients to integers in ``K[X]``.
@@ -1724,16 +2029,25 @@ def dmp_lift(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sign_variations(f, ), compute the number of sign variations of ``f`` in ``k[x]``) over Any ║
+# ║ Path(dup_sign_variations(f, K), <unspecified:dup_sign_variations>) over {Any | hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ') and hasattr(K, 'is_RR') and hasattr(K, 'is_negative') and hasattr(K, 'zero') and hasattr(K, 'is_AlgebraicField') and hasattr(K, 'ext') and hasattr(K, 'is_PolynomialRing') and hasattr(K, 'is_FractionField') and hasattr(K, 'to_sympy') and hasattr(K, 'symbols') and hasattr(K, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_sign_variations : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   requires: hasattr(K, 'is_QQ')                            ║
+# ║   requires: hasattr(K, 'is_RR')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_sign_variations : {Any | hasattr(K, 'is_ZZ') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab87008721bbd314  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_sign_variations","kind":"function","src_hash":"cb2550abb0fa7aa0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sign_variations(f, )","rhs":"compute the number of sign variations of ``f`` in ``k[x]``","over":{"base":"Any"},"name":"dup_sign_variations_correct"},"guarantee":"compute the number of sign variations of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_sign_variations_correct","statement":"Path(dup_sign_variations(x), compute the number of sign variations of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab87008721bbd314"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_sign_variations","kind":"function","src_hash":"cb2550abb0fa7aa0","in":{"base":"Any","pred":"hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ') and hasattr(K, 'is_RR') and hasattr(K, 'is_negative') and hasattr(K, 'zero') and hasattr(K, 'is_AlgebraicField') and hasattr(K, 'ext') and hasattr(K, 'is_PolynomialRing') and hasattr(K, 'is_FractionField') and hasattr(K, 'to_sympy') and hasattr(K, 'symbols') and hasattr(K, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"dup_sign_variations(f, K)","rhs":"<unspecified:dup_sign_variations>","over":{"base":"Any","pred":"hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ') and hasattr(K, 'is_RR') and hasattr(K, 'is_negative') and hasattr(K, 'zero') and hasattr(K, 'is_AlgebraicField') and hasattr(K, 'ext') and hasattr(K, 'is_PolynomialRing') and hasattr(K, 'is_FractionField') and hasattr(K, 'to_sympy') and hasattr(K, 'symbols') and hasattr(K, 'dom')"},"name":"dup_sign_variations_correct"},"guarantee":"compute the number of sign variations of ``f`` in ``k[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_sign_variations_correct","statement":"Path(dup_sign_variations(x), compute the number of sign variations of ``f`` in ``k[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab87008721bbd314","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_ZZ')","hasattr(K, 'is_QQ')","hasattr(K, 'is_RR')","hasattr(K, 'is_negative')","hasattr(K, 'zero')","hasattr(K, 'is_AlgebraicField')","hasattr(K, 'ext')","hasattr(K, 'is_PolynomialRing')","hasattr(K, 'is_FractionField')","hasattr(K, 'to_sympy')","hasattr(K, 'symbols')","hasattr(K, 'dom')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.dom","K.ext","K.is_AlgebraicField","K.is_FractionField","K.is_PolynomialRing","K.is_QQ","K.is_RR","K.is_ZZ","K.is_negative","K.symbols","K.to_sympy","K.zero"],"raises":["DomainError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_sign_variations(f, K):
     """
     Compute the number of sign variations of ``f`` in ``K[x]``.
@@ -1790,16 +2104,25 @@ def dup_sign_variations(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_clear_denoms(f, ), clear denominators, i.e) over Any ║
+# ║ Path(dup_clear_denoms(f, K0, K1), <unspecified:dup_clear_denoms>) over {Any | hasattr(K1, 'one') and hasattr(K0, 'has_assoc_Ring') and hasattr(K1, 'is_one') and hasattr(K1, 'lcm') and hasattr(K0, 'get_ring') and hasattr(K0, 'denom') and hasattr(K0, 'numer') and hasattr(K1, 'quo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_clear_denoms : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K1, 'one')                             ║
+# ║   requires: hasattr(K0, 'has_assoc_Ring')                  ║
+# ║   requires: hasattr(K1, 'is_one')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_clear_denoms : {Any | hasattr(K1, 'one') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff41cfd8924459d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_clear_denoms","kind":"function","src_hash":"7710ab8e5ead43aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_clear_denoms(f, )","rhs":"clear denominators, i.e","over":{"base":"Any"},"name":"dup_clear_denoms_correct"},"guarantee":"clear denominators, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_clear_denoms_correct","statement":"Path(dup_clear_denoms(x), clear denominators, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff41cfd8924459d5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_clear_denoms","kind":"function","src_hash":"7710ab8e5ead43aa","in":{"base":"Any","pred":"hasattr(K1, 'one') and hasattr(K0, 'has_assoc_Ring') and hasattr(K1, 'is_one') and hasattr(K1, 'lcm') and hasattr(K0, 'get_ring') and hasattr(K0, 'denom') and hasattr(K0, 'numer') and hasattr(K1, 'quo')"},"out":{"base":"Any"},"spec":{"lhs":"dup_clear_denoms(f, K0, K1)","rhs":"<unspecified:dup_clear_denoms>","over":{"base":"Any","pred":"hasattr(K1, 'one') and hasattr(K0, 'has_assoc_Ring') and hasattr(K1, 'is_one') and hasattr(K1, 'lcm') and hasattr(K0, 'get_ring') and hasattr(K0, 'denom') and hasattr(K0, 'numer') and hasattr(K1, 'quo')"},"name":"dup_clear_denoms_correct"},"guarantee":"clear denominators, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_clear_denoms_correct","statement":"Path(dup_clear_denoms(x), clear denominators, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff41cfd8924459d5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K1, 'one')","hasattr(K0, 'has_assoc_Ring')","hasattr(K1, 'is_one')","hasattr(K1, 'lcm')","hasattr(K0, 'get_ring')","hasattr(K0, 'denom')","hasattr(K0, 'numer')","hasattr(K1, 'quo')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K0.denom","K0.get_ring","K0.has_assoc_Ring","K0.numer","K1.is_one","K1.lcm","K1.one","K1.quo"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_clear_denoms(f, K0, K1=None, convert=False):
     """
     Clear denominators, i.e. transform ``K_0`` to ``K_1``.
@@ -1846,16 +2169,25 @@ def dup_clear_denoms(f, K0, K1=None, convert=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rec_clear_denoms(g, ), recursive helper for :func:`dmp_clear_denoms`) over Any ║
+# ║ Path(_rec_clear_denoms(g, v, K0), # HINT: _rec_clear_denoms may be idempotent: _rec_clear_denoms(_rec_clear_denoms(x)) == _rec_clear_denoms(x)) over {Any | hasattr(K1, 'one') and hasattr(K1, 'lcm') and hasattr(K0, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rec_clear_denoms : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'one')                             ║
+# ║   requires: hasattr(K1, 'lcm')                             ║
+# ║   requires: hasattr(K0, 'denom')                           ║
+# ║   ensures:  # HINT: _rec_clear_denoms may be idempote...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rec_clear_denoms : {Any | hasattr(K1, 'one') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7883fe714666d355  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82afaa8be5157f51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._rec_clear_denoms","kind":"function","src_hash":"930a56c644efe2be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rec_clear_denoms(g, )","rhs":"recursive helper for :func:`dmp_clear_denoms`","over":{"base":"Any"},"name":"_rec_clear_denoms_correct"},"guarantee":"recursive helper for :func:`dmp_clear_denoms`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._rec_clear_denoms_correct","statement":"Path(_rec_clear_denoms(x), recursive helper for :func:`dmp_clear_denoms`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7883fe714666d355"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools._rec_clear_denoms","kind":"function","src_hash":"930a56c644efe2be","in":{"base":"Any","pred":"hasattr(K1, 'one') and hasattr(K1, 'lcm') and hasattr(K0, 'denom')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _rec_clear_denoms may be idempotent: _rec_clear_denoms(_rec_clear_denoms(x)) == _rec_clear_denoms(x)"},"spec":{"lhs":"_rec_clear_denoms(g, v, K0)","rhs":"# HINT: _rec_clear_denoms may be idempotent: _rec_clear_denoms(_rec_clear_denoms(x)) == _rec_clear_denoms(x)","over":{"base":"Any","pred":"hasattr(K1, 'one') and hasattr(K1, 'lcm') and hasattr(K0, 'denom')"},"name":"_rec_clear_denoms_correct"},"guarantee":"# HINT: _rec_clear_denoms may be idempotent: _rec_clear_denoms(_rec_clear_denoms(x)) == _rec_clear_denoms(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools._rec_clear_denoms_correct","statement":"Path(_rec_clear_denoms(x), # HINT: _rec_clear_denoms may be idempotent: _rec_clear_denoms(_rec_clear_denoms(x)) == _rec_clear_denoms(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82afaa8be5157f51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'one')","hasattr(K1, 'lcm')","hasattr(K0, 'denom')"],"ensures":["# HINT: _rec_clear_denoms may be idempotent: _rec_clear_denoms(_rec_clear_denoms(x)) == _rec_clear_denoms(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K0.denom","K1.lcm","K1.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rec_clear_denoms(g, v, K0, K1):
     """Recursive helper for :func:`dmp_clear_denoms`."""
     common = K1.one
@@ -1873,16 +2205,25 @@ def _rec_clear_denoms(g, v, K0, K1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_clear_denoms(f, ), clear denominators, i.e) over Any ║
+# ║ Path(dmp_clear_denoms(f, u, K0), <unspecified:dmp_clear_denoms>) over {Any | hasattr(K0, 'has_assoc_Ring') and hasattr(K1, 'is_one') and hasattr(K0, 'get_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_clear_denoms : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K0, 'has_assoc_Ring')                  ║
+# ║   requires: hasattr(K1, 'is_one')                          ║
+# ║   requires: hasattr(K0, 'get_ring')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_clear_denoms : {Any | hasattr(K0, 'has_assoc_Ring...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b95fcde6c1798e24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_clear_denoms","kind":"function","src_hash":"a604befd8e242ab5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_clear_denoms(f, )","rhs":"clear denominators, i.e","over":{"base":"Any"},"name":"dmp_clear_denoms_correct"},"guarantee":"clear denominators, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_clear_denoms_correct","statement":"Path(dmp_clear_denoms(x), clear denominators, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b95fcde6c1798e24"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_clear_denoms","kind":"function","src_hash":"a604befd8e242ab5","in":{"base":"Any","pred":"hasattr(K0, 'has_assoc_Ring') and hasattr(K1, 'is_one') and hasattr(K0, 'get_ring')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_clear_denoms(f, u, K0)","rhs":"<unspecified:dmp_clear_denoms>","over":{"base":"Any","pred":"hasattr(K0, 'has_assoc_Ring') and hasattr(K1, 'is_one') and hasattr(K0, 'get_ring')"},"name":"dmp_clear_denoms_correct"},"guarantee":"clear denominators, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_clear_denoms_correct","statement":"Path(dmp_clear_denoms(x), clear denominators, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b95fcde6c1798e24","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K0, 'has_assoc_Ring')","hasattr(K1, 'is_one')","hasattr(K0, 'get_ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K0.get_ring","K0.has_assoc_Ring","K1.is_one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dmp_clear_denoms(f, u, K0, K1=None, convert=False):
     """
     Clear denominators, i.e. transform ``K_0`` to ``K_1``.
@@ -1922,16 +2263,25 @@ def dmp_clear_denoms(f, u, K0, K1=None, convert=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_revert(f, ), compute ``f**(-1)`` mod ``x**n`` using newton iteration) over Any ║
+# ║ Path(dup_revert(f, n, K), <unspecified:dup_revert>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero') and hasattr(K, 'revert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_revert : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'revert')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_revert : {Any | hasattr(K, 'one') and hasattr(K, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdb4dd383b6a6979  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_revert","kind":"function","src_hash":"2b811ab86661c2dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_revert(f, )","rhs":"compute ``f**(-1)`` mod ``x**n`` using newton iteration","over":{"base":"Any"},"name":"dup_revert_correct"},"guarantee":"compute ``f**(-1)`` mod ``x**n`` using newton iteration","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_revert_correct","statement":"Path(dup_revert(x), compute ``f**(-1)`` mod ``x**n`` using newton iteration)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdb4dd383b6a6979"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dup_revert","kind":"function","src_hash":"2b811ab86661c2dd","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero') and hasattr(K, 'revert')"},"out":{"base":"Any"},"spec":{"lhs":"dup_revert(f, n, K)","rhs":"<unspecified:dup_revert>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero') and hasattr(K, 'revert')"},"name":"dup_revert_correct"},"guarantee":"compute ``f**(-1)`` mod ``x**n`` using newton iteration","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dup_revert_correct","statement":"Path(dup_revert(x), compute ``f**(-1)`` mod ``x**n`` using newton iteration)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdb4dd383b6a6979","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')","hasattr(K, 'revert')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.revert","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_revert(f, n, K):
     """
     Compute ``f**(-1)`` mod ``x**n`` using Newton iteration.
@@ -1967,16 +2317,23 @@ def dup_revert(f, n, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_revert(f, ), compute ``f**(-1)`` mod ``x**n`` using newton iteration) over Any ║
+# ║ Path(dmp_revert(f, g, u), <unspecified:dmp_revert>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not u => dup_revert(f, g, K)              ║
+# ║   fiber[case_1]: not (not u)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_revert : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e97ba95c6fc48ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97dd13dd97b7c0cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_revert","kind":"function","src_hash":"6bf3d6eb7276f659","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_revert(f, )","rhs":"compute ``f**(-1)`` mod ``x**n`` using newton iteration","over":{"base":"Any"},"name":"dmp_revert_correct"},"guarantee":"compute ``f**(-1)`` mod ``x**n`` using newton iteration","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_revert_correct","statement":"Path(dmp_revert(x), compute ``f**(-1)`` mod ``x**n`` using newton iteration)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e97ba95c6fc48ff"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.densetools.dmp_revert","kind":"function","src_hash":"6bf3d6eb7276f659","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_revert(f, g, u)","rhs":"<unspecified:dmp_revert>","over":{"base":"Any"},"name":"dmp_revert_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.densetools.dmp_revert_correct","statement":"Path(dmp_revert(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97dd13dd97b7c0cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not u","ensures":["result == dup_revert(f, g, K)"],"decidability":"library","returns_expr":"dup_revert(f, g, K)"},{"name":"case_1","guard":"not (not u)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["MultivariatePolynomialError"]},"state_contract":{"exceptional_post":{"MultivariatePolynomialError":["isinstance(raised, MultivariatePolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def dmp_revert(f, g, u, K):
     """
     Compute ``f**(-1)`` mod ``x**n`` using Newton iteration.

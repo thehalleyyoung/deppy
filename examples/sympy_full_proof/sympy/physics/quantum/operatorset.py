@@ -62,7 +62,11 @@ op_mapping = {v: k for k, v in state_mapping.items()}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(operators_to_state(ope), returns the eigenstate of the given operator or set of operators) over {Any | isinstance(operators, set) and isinstance(operators, (Operator, set)) and isinstance(s, Operator)} ║
+# ║ Path(operators_to_state(operators, **options), <unspecified:operators_to_state>) over {Any | isinstance(operators, set) and isinstance(operators, (Operator, set)) and isinstance(s, Operator) and isinstance(operators, (Operator, set)) or issubclass(operators, Operator)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(operators, (Operator, set)) or...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ operators_to_state : {Any | isinstance(operators, set...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -76,9 +80,12 @@ op_mapping = {v: k for k, v in state_mapping.items()}
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 8.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1c39fbba...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.operatorset.operators_to_state","kind":"function","src_hash":"a5ee80b20cae9530","in":{"base":"Any","pred":"isinstance(operators, set) and isinstance(operators, (Operator, set)) and isinstance(s, Operator)"},"out":{"base":"Any"},"spec":{"lhs":"operators_to_state(ope)","rhs":"returns the eigenstate of the given operator or set of operators","over":{"base":"Any","pred":"isinstance(operators, set) and isinstance(operators, (Operator, set)) and isinstance(s, Operator)"},"name":"operators_to_state_correct"},"guarantee":"returns the eigenstate of the given operator or set of operators","fibers":[{"name":"set","pred":"isinstance(operators, set)","path":{"lhs":"operators_to_state(x)","rhs":"returns the eigenstate of the given operator or set of operators","over":{"base":"set","pred":"isinstance(operators, set)"},"name":"operators_to_state_set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset.operators_to_state_set_correct","statement":"operators_to_state satisfies spec on set inputs"},"trust":"LIBRARY"},{"name":"(Operator","pred":"isinstance(operators, (Operator, set))","path":{"lhs":"operators_to_state(x)","rhs":"returns the eigenstate of the given operator or set of operators","over":{"base":"(Operator","pred":"isinstance(operators, (Operator, set))"},"name":"operators_to_state_(Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset.operators_to_state_(Operator_correct","statement":"operators_to_state satisfies spec on (Operator inputs"},"trust":"LIBRARY"},{"name":"Operator","pred":"isinstance(s, Operator)","path":{"lhs":"operators_to_state(x)","rhs":"returns the eigenstate of the given operator or set of operators","over":{"base":"Operator","pred":"isinstance(s, Operator)"},"name":"operators_to_state_Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset.operators_to_state_Operator_correct","statement":"operators_to_state satisfies spec on Operator inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1c39fbba39519566"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.operatorset.operators_to_state","kind":"function","src_hash":"a5ee80b20cae9530","in":{"base":"Any","pred":"isinstance(operators, set) and isinstance(operators, (Operator, set)) and isinstance(s, Operator) and isinstance(operators, (Operator, set)) or issubclass(operators, Operator)"},"out":{"base":"Any"},"spec":{"lhs":"operators_to_state(operators, **options)","rhs":"<unspecified:operators_to_state>","over":{"base":"Any","pred":"isinstance(operators, set) and isinstance(operators, (Operator, set)) and isinstance(s, Operator) and isinstance(operators, (Operator, set)) or issubclass(operators, Operator)"},"name":"operators_to_state_correct"},"guarantee":"returns the eigenstate of the given operator or set of operators","fibers":[{"name":"set","pred":"isinstance(operators, set)","path":{"lhs":"operators_to_state(x)","rhs":"returns the eigenstate of the given operator or set of operators","over":{"base":"set","pred":"isinstance(operators, set)"},"name":"operators_to_state_set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset.operators_to_state_set_correct","statement":"operators_to_state satisfies spec on set inputs"},"trust":"LIBRARY"},{"name":"(Operator","pred":"isinstance(operators, (Operator, set))","path":{"lhs":"operators_to_state(x)","rhs":"returns the eigenstate of the given operator or set of operators","over":{"base":"(Operator","pred":"isinstance(operators, (Operator, set))"},"name":"operators_to_state_(Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset.operators_to_state_(Operator_correct","statement":"operators_to_state satisfies spec on (Operator inputs"},"trust":"LIBRARY"},{"name":"Operator","pred":"isinstance(s, Operator)","path":{"lhs":"operators_to_state(x)","rhs":"returns the eigenstate of the given operator or set of operators","over":{"base":"Operator","pred":"isinstance(s, Operator)"},"name":"operators_to_state_Operator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset.operators_to_state_Operator_correct","statement":"operators_to_state satisfies spec on Operator inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1c39fbba39519566","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(operators, (Operator, set)) or issubclass(operators, Operator)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['operators'], spec=['operators', '**options']","Poor branch-fiber coverage: 0% (branches={'not (isinstance(s, Operator) or issubclass(s, Operator))', 'isinstance(operators, set)', 'not (isinstance(operators, (Operator, set)) or issubclass(operators, Operator))'}, fibers={'Operator', '(Operator', 'set'})"]}}
 def operators_to_state(operators, **options):
     """ Returns the eigenstate of the given operator or set of operators
 
@@ -180,7 +187,12 @@ def operators_to_state(operators, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state_to_operators(sta), returns the operator or set of operators corresponding to the given eigenstate) over {Any | isinstance(state, StateBase) and isinstance(state, BraBase)} ║
+# ║ Path(state_to_operators(state, **options), _make_set(ret)) over {Any | isinstance(state, StateBase) and isinstance(state, BraBase) and isinstance(state, StateBase) or issubclass(state, StateBase) and hasattr(state, 'dual_class')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(state, StateBase) or issubclas...   ║
+# ║   requires: hasattr(state, 'dual_class')                   ║
+# ║   returns:  _make_set(ret)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ state_to_operators : {Any | isinstance(state, StateBa...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -193,9 +205,12 @@ def operators_to_state(operators, **options):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ef7eaf50...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.operatorset.state_to_operators","kind":"function","src_hash":"f66326b8601504c3","in":{"base":"Any","pred":"isinstance(state, StateBase) and isinstance(state, BraBase)"},"out":{"base":"Any"},"spec":{"lhs":"state_to_operators(sta)","rhs":"returns the operator or set of operators corresponding to the given eigenstate","over":{"base":"Any","pred":"isinstance(state, StateBase) and isinstance(state, BraBase)"},"name":"state_to_operators_correct"},"guarantee":"returns the operator or set of operators corresponding to the given eigenstate","fibers":[{"name":"StateBase","pred":"isinstance(state, StateBase)","path":{"lhs":"state_to_operators(x)","rhs":"returns the operator or set of operators corresponding to the given eigenstate","over":{"base":"StateBase","pred":"isinstance(state, StateBase)"},"name":"state_to_operators_StateBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset.state_to_operators_StateBase_correct","statement":"state_to_operators satisfies spec on StateBase inputs"},"trust":"LIBRARY"},{"name":"BraBase","pred":"isinstance(state, BraBase)","path":{"lhs":"state_to_operators(x)","rhs":"returns the operator or set of operators corresponding to the given eigenstate","over":{"base":"BraBase","pred":"isinstance(state, BraBase)"},"name":"state_to_operators_BraBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset.state_to_operators_BraBase_correct","statement":"state_to_operators satisfies spec on BraBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef7eaf5066963a63"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.operatorset.state_to_operators","kind":"function","src_hash":"f66326b8601504c3","in":{"base":"Any","pred":"isinstance(state, StateBase) and isinstance(state, BraBase) and isinstance(state, StateBase) or issubclass(state, StateBase) and hasattr(state, 'dual_class')"},"out":{"base":"Any"},"spec":{"lhs":"state_to_operators(state, **options)","rhs":"_make_set(ret)","over":{"base":"Any","pred":"isinstance(state, StateBase) and isinstance(state, BraBase) and isinstance(state, StateBase) or issubclass(state, StateBase) and hasattr(state, 'dual_class')"},"name":"state_to_operators_correct"},"guarantee":"returns _make_set(ret)","fibers":[{"name":"StateBase","pred":"isinstance(state, StateBase)","path":{"lhs":"state_to_operators(x)","rhs":"returns _make_set(ret)","over":{"base":"StateBase","pred":"isinstance(state, StateBase)"},"name":"state_to_operators_StateBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset.state_to_operators_StateBase_correct","statement":"state_to_operators satisfies spec on StateBase inputs"},"trust":"LIBRARY"},{"name":"BraBase","pred":"isinstance(state, BraBase)","path":{"lhs":"state_to_operators(x)","rhs":"returns _make_set(ret)","over":{"base":"BraBase","pred":"isinstance(state, BraBase)"},"name":"state_to_operators_BraBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset.state_to_operators_BraBase_correct","statement":"state_to_operators satisfies spec on BraBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef7eaf5066963a63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(state, StateBase) or issubclass(state, StateBase)","hasattr(state, 'dual_class')"],"returns_expr":"_make_set(ret)","pure":false,"effects":{"effect_type":"reads_state","reads":["state.dual_class"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['state'], spec=['state', '**options']","Poor branch-fiber coverage: 0% (branches={'not (isinstance(state, StateBase) or issubclass(state, StateBase))', 'isinstance(state, BraBase) and state.dual_class() in state_mapping'}, fibers={'StateBase', 'BraBase'})"]}}
 def state_to_operators(state, **options):
     """ Returns the operator or set of operators corresponding to the
     given eigenstate
@@ -285,16 +300,22 @@ def state_to_operators(state, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_make_default(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_make_default(expr), <unspecified:_make_default>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _make_default : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cb6808e64052ab5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.operatorset._make_default","kind":"function","src_hash":"f9a4455d2fa56c57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_make_default(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_make_default_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset._make_default_correct","statement":"Path(_make_default(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cb6808e64052ab5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.operatorset._make_default","kind":"function","src_hash":"f9a4455d2fa56c57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_make_default(expr)","rhs":"<unspecified:_make_default>","over":{"base":"Any"},"name":"_make_default_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset._make_default_correct","statement":"Path(_make_default(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cb6808e64052ab5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _make_default(expr):
     # XXX: Catching TypeError like this is a bad way of distinguishing between
     # classes and instances. The logic using this function should be rewritten
@@ -308,16 +329,23 @@ def _make_default(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_state(sta), internal helper behaves correctly) over Any ║
+# ║ Path(_get_state(state_class, ops, **options), <unspecified:_get_state>) over {Any | hasattr(state_class, '_operators_to_state')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_state : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(state_class, '_operators_to_state')    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_state : {Any | hasattr(state_class, '_operators_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 785d71990e3a8163  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.operatorset._get_state","kind":"function","src_hash":"f2dc52db50c8dd75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_state(sta)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_state_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset._get_state_correct","statement":"Path(_get_state(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"785d71990e3a8163"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.operatorset._get_state","kind":"function","src_hash":"f2dc52db50c8dd75","in":{"base":"Any","pred":"hasattr(state_class, '_operators_to_state')"},"out":{"base":"Any"},"spec":{"lhs":"_get_state(state_class, ops, **options)","rhs":"<unspecified:_get_state>","over":{"base":"Any","pred":"hasattr(state_class, '_operators_to_state')"},"name":"_get_state_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset._get_state_correct","statement":"Path(_get_state(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"785d71990e3a8163","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(state_class, '_operators_to_state')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["state_class._operators_to_state"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['state_class', 'ops'], spec=['state_class', 'ops', '**options']"]}}
 def _get_state(state_class, ops, **options):
     # Try to get a state instance from the operator INSTANCES.
     # If this fails, get the class
@@ -330,7 +358,11 @@ def _get_state(state_class, ops, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_ops(sta), internal helper behaves correctly) over {Any | isinstance(ret, set) and isinstance(op_classes, (set, tuple, frozenset))} ║
+# ║ Path(_get_ops(state_inst, op_classes, **options), <unspecified:_get_ops>) over {Any | isinstance(ret, set) and isinstance(op_classes, (set, tuple, frozenset)) and hasattr(state_inst, '_state_to_operators')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(state_inst, '_state_to_operators')     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_ops : {Any | isinstance(ret, set) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -343,9 +375,12 @@ def _get_state(state_class, ops, **options):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f7057217...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.operatorset._get_ops","kind":"function","src_hash":"e39aa9dcf823056d","in":{"base":"Any","pred":"isinstance(ret, set) and isinstance(op_classes, (set, tuple, frozenset))"},"out":{"base":"Any"},"spec":{"lhs":"_get_ops(sta)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(ret, set) and isinstance(op_classes, (set, tuple, frozenset))"},"name":"_get_ops_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"set","pred":"isinstance(ret, set)","path":{"lhs":"_get_ops(x)","rhs":"internal helper behaves correctly","over":{"base":"set","pred":"isinstance(ret, set)"},"name":"_get_ops_set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset._get_ops_set_correct","statement":"_get_ops satisfies spec on set inputs"},"trust":"LIBRARY"},{"name":"(set","pred":"isinstance(op_classes, (set, tuple, frozenset))","path":{"lhs":"_get_ops(x)","rhs":"internal helper behaves correctly","over":{"base":"(set","pred":"isinstance(op_classes, (set, tuple, frozenset))"},"name":"_get_ops_(set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset._get_ops_(set_correct","statement":"_get_ops satisfies spec on (set inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f7057217b243b95d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.operatorset._get_ops","kind":"function","src_hash":"e39aa9dcf823056d","in":{"base":"Any","pred":"isinstance(ret, set) and isinstance(op_classes, (set, tuple, frozenset)) and hasattr(state_inst, '_state_to_operators')"},"out":{"base":"Any"},"spec":{"lhs":"_get_ops(state_inst, op_classes, **options)","rhs":"<unspecified:_get_ops>","over":{"base":"Any","pred":"isinstance(ret, set) and isinstance(op_classes, (set, tuple, frozenset)) and hasattr(state_inst, '_state_to_operators')"},"name":"_get_ops_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"set","pred":"isinstance(ret, set)","path":{"lhs":"_get_ops(x)","rhs":"internal helper behaves correctly","over":{"base":"set","pred":"isinstance(ret, set)"},"name":"_get_ops_set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset._get_ops_set_correct","statement":"_get_ops satisfies spec on set inputs"},"trust":"LIBRARY"},{"name":"(set","pred":"isinstance(op_classes, (set, tuple, frozenset))","path":{"lhs":"_get_ops(x)","rhs":"internal helper behaves correctly","over":{"base":"(set","pred":"isinstance(op_classes, (set, tuple, frozenset))"},"name":"_get_ops_(set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset._get_ops_(set_correct","statement":"_get_ops satisfies spec on (set inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f7057217b243b95d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(state_inst, '_state_to_operators')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["state_inst._state_to_operators"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['state_inst', 'op_classes'], spec=['state_inst', 'op_classes', '**options']","Poor branch-fiber coverage: 0% (branches={'isinstance(ret, set) and len(ret) == 1', 'isinstance(op_classes, (set, tuple, frozenset))'}, fibers={'(set', 'set'})"]}}
 def _get_ops(state_inst, op_classes, **options):
     # Try to get operator instances from the state INSTANCE.
     # If this fails, just return the classes
@@ -364,7 +399,13 @@ def _get_ops(state_inst, op_classes, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_make_set(ops), internal helper behaves correctly) over {Any | isinstance(ops, (tuple, list, frozenset))} ║
+# ║ Path(_make_set(ops), result == (set(ops) if isinstance(ops, (tuple, list, frozenset)) else ops) and result == set(ops) or result == ops) over {Any | isinstance(ops, (tuple, list, frozenset))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (set(ops) if isinstance(ops, (t...   ║
+# ║   ensures:  result == set(ops) or result == ops            ║
+# ║   fiber[case_0]: isinstance(ops, (tuple, list, frozen...   ║
+# ║   fiber[case_1]: not (isinstance(ops, (tuple, list, f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _make_set : {Any | isinstance(ops, (tuple, list, froz...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -376,9 +417,12 @@ def _get_ops(state_inst, op_classes, **options):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 115d5bfc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.operatorset._make_set","kind":"function","src_hash":"3e4471e15b1dfacd","in":{"base":"Any","pred":"isinstance(ops, (tuple, list, frozenset))"},"out":{"base":"Any"},"spec":{"lhs":"_make_set(ops)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(ops, (tuple, list, frozenset))"},"name":"_make_set_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"(tuple","pred":"isinstance(ops, (tuple, list, frozenset))","path":{"lhs":"_make_set(x)","rhs":"internal helper behaves correctly","over":{"base":"(tuple","pred":"isinstance(ops, (tuple, list, frozenset))"},"name":"_make_set_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset._make_set_(tuple_correct","statement":"_make_set satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"115d5bfc4c249a78"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.operatorset._make_set","kind":"function","src_hash":"3e4471e15b1dfacd","in":{"base":"Any","pred":"isinstance(ops, (tuple, list, frozenset))"},"out":{"base":"Any","pred":"result satisfies: result == (set(ops) if isinstance(ops, (tuple, list, frozenset)) else ops) and result == set(ops) or result == ops"},"spec":{"lhs":"_make_set(ops)","rhs":"result == (set(ops) if isinstance(ops, (tuple, list, frozenset)) else ops) and result == set(ops) or result == ops","over":{"base":"Any","pred":"isinstance(ops, (tuple, list, frozenset))"},"name":"_make_set_correct"},"guarantee":"result == (set(ops) if isinstance(ops, (tuple, list, frozenset)) else ops); result == set(ops) or result == ops; 2-fiber decomposition","fibers":[{"name":"(tuple","pred":"isinstance(ops, (tuple, list, frozenset))","path":{"lhs":"_make_set(x)","rhs":"result == (set(ops) if isinstance(ops, (tuple, list, frozenset)) else ops); result == set(ops) or result == ops; 2-fiber decomposition","over":{"base":"(tuple","pred":"isinstance(ops, (tuple, list, frozenset))"},"name":"_make_set_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.operatorset._make_set_(tuple_correct","statement":"_make_set satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"115d5bfc4c249a78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (set(ops) if isinstance(ops, (tuple, list, frozenset)) else ops)","result == set(ops) or result == ops"],"fibers":[{"name":"case_0","guard":"isinstance(ops, (tuple, list, frozenset))","ensures":["result == set(ops)"],"decidability":"structural","returns_expr":"set(ops)"},{"name":"case_1","guard":"not (isinstance(ops, (tuple, list, frozenset)))","ensures":["result == ops"],"decidability":"structural","returns_expr":"ops"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(ops, (tuple, list, frozenset))'}, fibers={'(tuple'})"]}}
 def _make_set(ops):
     if isinstance(ops, (tuple, list, frozenset)):
         return set(ops)

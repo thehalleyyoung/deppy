@@ -26,7 +26,10 @@ from sympy.polys.rootoftools import RootOf
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gauss_legendre(n, ), computes the gauss-legendre quadrature [1]_ points and weights) over {Any | isinstance(r, RootOf)} ║
+# ║ Path(gauss_legendre(n, n_digits), (xi, w)) over {Any | isinstance(r, RootOf)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (xi, w)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gauss_legendre : {Any | isinstance(r, RootOf)} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -38,9 +41,12 @@ from sympy.polys.rootoftools import RootOf
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 98dda3f1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_legendre","kind":"function","src_hash":"2d6d6ccf90d041c5","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any"},"spec":{"lhs":"gauss_legendre(n, )","rhs":"computes the gauss-legendre quadrature [1]_ points and weights","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"gauss_legendre_correct"},"guarantee":"computes the gauss-legendre quadrature [1]_ points and weights","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"gauss_legendre(x)","rhs":"computes the gauss-legendre quadrature [1]_ points and weights","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"gauss_legendre_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_legendre_RootOf_correct","statement":"gauss_legendre satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"98dda3f191c74197"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_legendre","kind":"function","src_hash":"2d6d6ccf90d041c5","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any"},"spec":{"lhs":"gauss_legendre(n, n_digits)","rhs":"(xi, w)","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"gauss_legendre_correct"},"guarantee":"returns (xi, w)","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"gauss_legendre(x)","rhs":"returns (xi, w)","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"gauss_legendre_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_legendre_RootOf_correct","statement":"gauss_legendre satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"98dda3f191c74197","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(xi, w)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(r, RootOf)'}, fibers={'RootOf'})"]}}
 def gauss_legendre(n, n_digits):
     r"""
     Computes the Gauss-Legendre quadrature [1]_ points and weights.
@@ -114,7 +120,10 @@ def gauss_legendre(n, n_digits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gauss_laguerre(n, ), computes the gauss-laguerre quadrature [1]_ points and weights) over {Any | isinstance(r, RootOf)} ║
+# ║ Path(gauss_laguerre(n, n_digits), (xi, w)) over {Any | isinstance(r, RootOf)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (xi, w)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gauss_laguerre : {Any | isinstance(r, RootOf)} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -126,9 +135,12 @@ def gauss_legendre(n, n_digits):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a5cac369...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_laguerre","kind":"function","src_hash":"1d8c1f08f991d1cc","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any"},"spec":{"lhs":"gauss_laguerre(n, )","rhs":"computes the gauss-laguerre quadrature [1]_ points and weights","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"gauss_laguerre_correct"},"guarantee":"computes the gauss-laguerre quadrature [1]_ points and weights","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"gauss_laguerre(x)","rhs":"computes the gauss-laguerre quadrature [1]_ points and weights","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"gauss_laguerre_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_laguerre_RootOf_correct","statement":"gauss_laguerre satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a5cac369c059c73d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_laguerre","kind":"function","src_hash":"1d8c1f08f991d1cc","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any"},"spec":{"lhs":"gauss_laguerre(n, n_digits)","rhs":"(xi, w)","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"gauss_laguerre_correct"},"guarantee":"returns (xi, w)","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"gauss_laguerre(x)","rhs":"returns (xi, w)","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"gauss_laguerre_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_laguerre_RootOf_correct","statement":"gauss_laguerre satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a5cac369c059c73d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(xi, w)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(r, RootOf)'}, fibers={'RootOf'})"]}}
 def gauss_laguerre(n, n_digits):
     r"""
     Computes the Gauss-Laguerre quadrature [1]_ points and weights.
@@ -203,7 +215,10 @@ def gauss_laguerre(n, n_digits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gauss_hermite(n, ), computes the gauss-hermite quadrature [1]_ points and weights) over {Any | isinstance(r, RootOf)} ║
+# ║ Path(gauss_hermite(n, n_digits), (xi, w)) over {Any | isinstance(r, RootOf)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (xi, w)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gauss_hermite : {Any | isinstance(r, RootOf)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -215,9 +230,12 @@ def gauss_laguerre(n, n_digits):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d3988404...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_hermite","kind":"function","src_hash":"20a09f4e7b8b74b8","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any"},"spec":{"lhs":"gauss_hermite(n, )","rhs":"computes the gauss-hermite quadrature [1]_ points and weights","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"gauss_hermite_correct"},"guarantee":"computes the gauss-hermite quadrature [1]_ points and weights","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"gauss_hermite(x)","rhs":"computes the gauss-hermite quadrature [1]_ points and weights","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"gauss_hermite_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_hermite_RootOf_correct","statement":"gauss_hermite satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d3988404b0044b0f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_hermite","kind":"function","src_hash":"20a09f4e7b8b74b8","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any"},"spec":{"lhs":"gauss_hermite(n, n_digits)","rhs":"(xi, w)","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"gauss_hermite_correct"},"guarantee":"returns (xi, w)","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"gauss_hermite(x)","rhs":"returns (xi, w)","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"gauss_hermite_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_hermite_RootOf_correct","statement":"gauss_hermite satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d3988404b0044b0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(xi, w)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(r, RootOf)'}, fibers={'RootOf'})"]}}
 def gauss_hermite(n, n_digits):
     r"""
     Computes the Gauss-Hermite quadrature [1]_ points and weights.
@@ -295,7 +313,10 @@ def gauss_hermite(n, n_digits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gauss_gen_laguerre(n, ), computes the generalized gauss-laguerre quadrature [1]_ points and weights) over {Any | isinstance(r, RootOf)} ║
+# ║ Path(gauss_gen_laguerre(n, alpha, n_digits), (xi, w)) over {Any | isinstance(r, RootOf)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (xi, w)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gauss_gen_laguerre : {Any | isinstance(r, RootOf)} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -307,9 +328,12 @@ def gauss_hermite(n, n_digits):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ca9733ff...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_gen_laguerre","kind":"function","src_hash":"708e1188311500b1","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any"},"spec":{"lhs":"gauss_gen_laguerre(n, )","rhs":"computes the generalized gauss-laguerre quadrature [1]_ points and weights","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"gauss_gen_laguerre_correct"},"guarantee":"computes the generalized gauss-laguerre quadrature [1]_ points and weights","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"gauss_gen_laguerre(x)","rhs":"computes the generalized gauss-laguerre quadrature [1]_ points and weights","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"gauss_gen_laguerre_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_gen_laguerre_RootOf_correct","statement":"gauss_gen_laguerre satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ca9733ffc5e955fc"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_gen_laguerre","kind":"function","src_hash":"708e1188311500b1","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any"},"spec":{"lhs":"gauss_gen_laguerre(n, alpha, n_digits)","rhs":"(xi, w)","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"gauss_gen_laguerre_correct"},"guarantee":"returns (xi, w)","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"gauss_gen_laguerre(x)","rhs":"returns (xi, w)","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"gauss_gen_laguerre_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_gen_laguerre_RootOf_correct","statement":"gauss_gen_laguerre satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ca9733ffc5e955fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(xi, w)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(r, RootOf)'}, fibers={'RootOf'})"]}}
 def gauss_gen_laguerre(n, alpha, n_digits):
     r"""
     Computes the generalized Gauss-Laguerre quadrature [1]_ points and weights.
@@ -393,16 +417,22 @@ def gauss_gen_laguerre(n, alpha, n_digits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gauss_chebyshev_t(n, ), computes the gauss-chebyshev quadrature [1]_ points and weights of the first kind) over Any ║
+# ║ Path(gauss_chebyshev_t(n, n_digits), (xi, w)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (xi, w)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gauss_chebyshev_t : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 457b91ea11eb5b45  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f793456cac46594  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_chebyshev_t","kind":"function","src_hash":"2c132cb15b30d912","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gauss_chebyshev_t(n, )","rhs":"computes the gauss-chebyshev quadrature [1]_ points and weights of the first kind","over":{"base":"Any"},"name":"gauss_chebyshev_t_correct"},"guarantee":"computes the gauss-chebyshev quadrature [1]_ points and weights of the first kind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_chebyshev_t_correct","statement":"Path(gauss_chebyshev_t(x), computes the gauss-chebyshev quadrature [1]_ points and weights of the first kind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"457b91ea11eb5b45"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_chebyshev_t","kind":"function","src_hash":"2c132cb15b30d912","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gauss_chebyshev_t(n, n_digits)","rhs":"(xi, w)","over":{"base":"Any"},"name":"gauss_chebyshev_t_correct"},"guarantee":"returns (xi, w)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_chebyshev_t_correct","statement":"Path(gauss_chebyshev_t(x), returns (xi, w))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f793456cac46594","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(xi, w)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gauss_chebyshev_t(n, n_digits):
     r"""
     Computes the Gauss-Chebyshev quadrature [1]_ points and weights of
@@ -475,16 +505,22 @@ def gauss_chebyshev_t(n, n_digits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gauss_chebyshev_u(n, ), computes the gauss-chebyshev quadrature [1]_ points and weights of the second kind) over Any ║
+# ║ Path(gauss_chebyshev_u(n, n_digits), (xi, w)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (xi, w)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gauss_chebyshev_u : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ddb8596813c6198  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 796f1063013f7cb9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_chebyshev_u","kind":"function","src_hash":"3ebfe61df37f2d55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gauss_chebyshev_u(n, )","rhs":"computes the gauss-chebyshev quadrature [1]_ points and weights of the second kind","over":{"base":"Any"},"name":"gauss_chebyshev_u_correct"},"guarantee":"computes the gauss-chebyshev quadrature [1]_ points and weights of the second kind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_chebyshev_u_correct","statement":"Path(gauss_chebyshev_u(x), computes the gauss-chebyshev quadrature [1]_ points and weights of the second kind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ddb8596813c6198"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_chebyshev_u","kind":"function","src_hash":"3ebfe61df37f2d55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gauss_chebyshev_u(n, n_digits)","rhs":"(xi, w)","over":{"base":"Any"},"name":"gauss_chebyshev_u_correct"},"guarantee":"returns (xi, w)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_chebyshev_u_correct","statement":"Path(gauss_chebyshev_u(x), returns (xi, w))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"796f1063013f7cb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(xi, w)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gauss_chebyshev_u(n, n_digits):
     r"""
     Computes the Gauss-Chebyshev quadrature [1]_ points and weights of
@@ -555,7 +591,10 @@ def gauss_chebyshev_u(n, n_digits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gauss_jacobi(n, ), computes the gauss-jacobi quadrature [1]_ points and weights) over {Any | isinstance(r, RootOf)} ║
+# ║ Path(gauss_jacobi(n, alpha, beta), (xi, w)) over {Any | isinstance(r, RootOf)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (xi, w)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gauss_jacobi : {Any | isinstance(r, RootOf)} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -567,9 +606,12 @@ def gauss_chebyshev_u(n, n_digits):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b59bc190...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_jacobi","kind":"function","src_hash":"d4c14323ddb174a2","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any"},"spec":{"lhs":"gauss_jacobi(n, )","rhs":"computes the gauss-jacobi quadrature [1]_ points and weights","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"gauss_jacobi_correct"},"guarantee":"computes the gauss-jacobi quadrature [1]_ points and weights","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"gauss_jacobi(x)","rhs":"computes the gauss-jacobi quadrature [1]_ points and weights","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"gauss_jacobi_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_jacobi_RootOf_correct","statement":"gauss_jacobi satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b59bc1902e3f3eae"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_jacobi","kind":"function","src_hash":"d4c14323ddb174a2","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any"},"spec":{"lhs":"gauss_jacobi(n, alpha, beta)","rhs":"(xi, w)","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"gauss_jacobi_correct"},"guarantee":"returns (xi, w)","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"gauss_jacobi(x)","rhs":"returns (xi, w)","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"gauss_jacobi_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_jacobi_RootOf_correct","statement":"gauss_jacobi satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b59bc1902e3f3eae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(xi, w)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(r, RootOf)'}, fibers={'RootOf'})"]}}
 def gauss_jacobi(n, alpha, beta, n_digits):
     r"""
     Computes the Gauss-Jacobi quadrature [1]_ points and weights.
@@ -660,7 +702,10 @@ def gauss_jacobi(n, alpha, beta, n_digits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gauss_lobatto(n, ), computes the gauss-lobatto quadrature [1]_ points and weights) over {Any | isinstance(r, RootOf)} ║
+# ║ Path(gauss_lobatto(n, n_digits), (xi, w)) over {Any | isinstance(r, RootOf)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (xi, w)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gauss_lobatto : {Any | isinstance(r, RootOf)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -672,9 +717,12 @@ def gauss_jacobi(n, alpha, beta, n_digits):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d07f894b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_lobatto","kind":"function","src_hash":"d587dd93eb554563","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any"},"spec":{"lhs":"gauss_lobatto(n, )","rhs":"computes the gauss-lobatto quadrature [1]_ points and weights","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"gauss_lobatto_correct"},"guarantee":"computes the gauss-lobatto quadrature [1]_ points and weights","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"gauss_lobatto(x)","rhs":"computes the gauss-lobatto quadrature [1]_ points and weights","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"gauss_lobatto_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_lobatto_RootOf_correct","statement":"gauss_lobatto satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d07f894bac5eb34c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.quadrature.gauss_lobatto","kind":"function","src_hash":"d587dd93eb554563","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any"},"spec":{"lhs":"gauss_lobatto(n, n_digits)","rhs":"(xi, w)","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"gauss_lobatto_correct"},"guarantee":"returns (xi, w)","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"gauss_lobatto(x)","rhs":"returns (xi, w)","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"gauss_lobatto_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.quadrature.gauss_lobatto_RootOf_correct","statement":"gauss_lobatto satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d07f894bac5eb34c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(xi, w)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(r, RootOf)'}, fibers={'RootOf'})"]}}
 def gauss_lobatto(n, n_digits):
     r"""
     Computes the Gauss-Lobatto quadrature [1]_ points and weights.

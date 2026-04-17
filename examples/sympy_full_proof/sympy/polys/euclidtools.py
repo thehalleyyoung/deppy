@@ -65,16 +65,25 @@ from sympy.polys.polyerrors import (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_half_gcdex(f, ), half extended euclidean algorithm in `f[x]`) over Any ║
+# ║ Path(dup_half_gcdex(f, g, K), (a, f)) over {Any | K.is_Field and hasattr(K, 'is_Field') and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_half_gcdex : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: K.is_Field                                     ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   returns:  (a, f)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_half_gcdex : {Any | K.is_Field and hasattr(K, 'is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62e3bf58ceaeb5b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c575d827ff366bb6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_half_gcdex","kind":"function","src_hash":"23103e70f05d4b47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_half_gcdex(f, )","rhs":"half extended euclidean algorithm in `f[x]`","over":{"base":"Any"},"name":"dup_half_gcdex_correct"},"guarantee":"half extended euclidean algorithm in `f[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_half_gcdex_correct","statement":"Path(dup_half_gcdex(x), half extended euclidean algorithm in `f[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62e3bf58ceaeb5b2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_half_gcdex","kind":"function","src_hash":"23103e70f05d4b47","in":{"base":"Any","pred":"K.is_Field and hasattr(K, 'is_Field') and hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_half_gcdex(f, g, K)","rhs":"(a, f)","over":{"base":"Any","pred":"K.is_Field and hasattr(K, 'is_Field') and hasattr(K, 'one')"},"name":"dup_half_gcdex_correct"},"guarantee":"returns (a, f)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_half_gcdex_correct","statement":"Path(dup_half_gcdex(x), returns (a, f))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c575d827ff366bb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["K.is_Field","hasattr(K, 'is_Field')","hasattr(K, 'one')"],"returns_expr":"(a, f)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_Field","K.one"],"raises":["DomainError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_half_gcdex(f, g, K):
     """
     Half extended Euclidean algorithm in `F[x]`.
@@ -111,16 +120,23 @@ def dup_half_gcdex(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_half_gcdex(f, ), half extended euclidean algorithm in `f[x]`) over Any ║
+# ║ Path(dmp_half_gcdex(f, g, u), <unspecified:dmp_half_gcdex>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not u => dup_half_gcdex(f, g, K)          ║
+# ║   fiber[case_1]: not (not u)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_half_gcdex : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1edf7427f72a4456  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92ce96d1a958b1db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_half_gcdex","kind":"function","src_hash":"ef69a8259071d0df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_half_gcdex(f, )","rhs":"half extended euclidean algorithm in `f[x]`","over":{"base":"Any"},"name":"dmp_half_gcdex_correct"},"guarantee":"half extended euclidean algorithm in `f[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_half_gcdex_correct","statement":"Path(dmp_half_gcdex(x), half extended euclidean algorithm in `f[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1edf7427f72a4456"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_half_gcdex","kind":"function","src_hash":"ef69a8259071d0df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_half_gcdex(f, g, u)","rhs":"<unspecified:dmp_half_gcdex>","over":{"base":"Any"},"name":"dmp_half_gcdex_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_half_gcdex_correct","statement":"Path(dmp_half_gcdex(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92ce96d1a958b1db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not u","ensures":["result == dup_half_gcdex(f, g, K)"],"decidability":"library","returns_expr":"dup_half_gcdex(f, g, K)"},{"name":"case_1","guard":"not (not u)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["MultivariatePolynomialError"]},"state_contract":{"exceptional_post":{"MultivariatePolynomialError":["isinstance(raised, MultivariatePolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_half_gcdex(f, g, u, K):
     """
     Half extended Euclidean algorithm in `F[X]`.
@@ -139,16 +155,22 @@ def dmp_half_gcdex(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_gcdex(f, ), extended euclidean algorithm in `f[x]`) over Any ║
+# ║ Path(dup_gcdex(f, g, K), (s, t, h)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (s, t, h)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_gcdex : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2bb8a79d09b2767  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53efa8311207f34f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_gcdex","kind":"function","src_hash":"688cb597093d0fd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gcdex(f, )","rhs":"extended euclidean algorithm in `f[x]`","over":{"base":"Any"},"name":"dup_gcdex_correct"},"guarantee":"extended euclidean algorithm in `f[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_gcdex_correct","statement":"Path(dup_gcdex(x), extended euclidean algorithm in `f[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2bb8a79d09b2767"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_gcdex","kind":"function","src_hash":"688cb597093d0fd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gcdex(f, g, K)","rhs":"(s, t, h)","over":{"base":"Any"},"name":"dup_gcdex_correct"},"guarantee":"returns (s, t, h)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_gcdex_correct","statement":"Path(dup_gcdex(x), returns (s, t, h))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53efa8311207f34f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(s, t, h)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_gcdex(f, g, K):
     """
     Extended Euclidean algorithm in `F[x]`.
@@ -177,16 +199,23 @@ def dup_gcdex(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_gcdex(f, ), extended euclidean algorithm in `f[x]`) over Any ║
+# ║ Path(dmp_gcdex(f, g, u), <unspecified:dmp_gcdex>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not u => dup_gcdex(f, g, K)               ║
+# ║   fiber[case_1]: not (not u)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_gcdex : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab809920103342fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbe07ca82cd8c3cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_gcdex","kind":"function","src_hash":"2f97354dee0cda0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gcdex(f, )","rhs":"extended euclidean algorithm in `f[x]`","over":{"base":"Any"},"name":"dmp_gcdex_correct"},"guarantee":"extended euclidean algorithm in `f[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_gcdex_correct","statement":"Path(dmp_gcdex(x), extended euclidean algorithm in `f[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab809920103342fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_gcdex","kind":"function","src_hash":"2f97354dee0cda0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gcdex(f, g, u)","rhs":"<unspecified:dmp_gcdex>","over":{"base":"Any"},"name":"dmp_gcdex_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_gcdex_correct","statement":"Path(dmp_gcdex(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbe07ca82cd8c3cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not u","ensures":["result == dup_gcdex(f, g, K)"],"decidability":"library","returns_expr":"dup_gcdex(f, g, K)"},{"name":"case_1","guard":"not (not u)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["MultivariatePolynomialError"]},"state_contract":{"exceptional_post":{"MultivariatePolynomialError":["isinstance(raised, MultivariatePolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_gcdex(f, g, u, K):
     """
     Extended Euclidean algorithm in `F[X]`.
@@ -205,16 +234,24 @@ def dmp_gcdex(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_invert(f, ), compute multiplicative inverse of `f` modulo `g` in `f[x]`) over Any ║
+# ║ Path(dup_invert(f, g, K), <unspecified:dup_invert>) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_invert : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   fiber[case_0]: h == [K.one] => dup_rem(s, g, K)          ║
+# ║   fiber[case_1]: not (h == [K.one])                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_invert : {Any | hasattr(K, 'one')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77b3f415a73cfb47  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7047f8259fcae287  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_invert","kind":"function","src_hash":"dd87051054c6bee0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_invert(f, )","rhs":"compute multiplicative inverse of `f` modulo `g` in `f[x]`","over":{"base":"Any"},"name":"dup_invert_correct"},"guarantee":"compute multiplicative inverse of `f` modulo `g` in `f[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_invert_correct","statement":"Path(dup_invert(x), compute multiplicative inverse of `f` modulo `g` in `f[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77b3f415a73cfb47"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_invert","kind":"function","src_hash":"dd87051054c6bee0","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_invert(f, g, K)","rhs":"<unspecified:dup_invert>","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"dup_invert_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_invert_correct","statement":"Path(dup_invert(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7047f8259fcae287","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'one')"],"fibers":[{"name":"case_0","guard":"h == [K.one]","ensures":["result == dup_rem(s, g, K)"],"decidability":"z3","returns_expr":"dup_rem(s, g, K)"},{"name":"case_1","guard":"not (h == [K.one])","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"],"raises":["NotInvertible"]},"state_contract":{"exceptional_post":{"NotInvertible":["isinstance(raised, NotInvertible)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_invert(f, g, K):
     """
     Compute multiplicative inverse of `f` modulo `g` in `F[x]`.
@@ -247,16 +284,23 @@ def dup_invert(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_invert(f, ), compute multiplicative inverse of `f` modulo `g` in `f[x]`) over Any ║
+# ║ Path(dmp_invert(f, g, u), <unspecified:dmp_invert>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not u => dup_invert(f, g, K)              ║
+# ║   fiber[case_1]: not (not u)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_invert : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2576d9c376a6e3eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75401425db60d43b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_invert","kind":"function","src_hash":"a95ab7a2c9e51f50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_invert(f, )","rhs":"compute multiplicative inverse of `f` modulo `g` in `f[x]`","over":{"base":"Any"},"name":"dmp_invert_correct"},"guarantee":"compute multiplicative inverse of `f` modulo `g` in `f[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_invert_correct","statement":"Path(dmp_invert(x), compute multiplicative inverse of `f` modulo `g` in `f[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2576d9c376a6e3eb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_invert","kind":"function","src_hash":"a95ab7a2c9e51f50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_invert(f, g, u)","rhs":"<unspecified:dmp_invert>","over":{"base":"Any"},"name":"dmp_invert_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_invert_correct","statement":"Path(dmp_invert(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75401425db60d43b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not u","ensures":["result == dup_invert(f, g, K)"],"decidability":"library","returns_expr":"dup_invert(f, g, K)"},{"name":"case_1","guard":"not (not u)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["MultivariatePolynomialError"]},"state_contract":{"exceptional_post":{"MultivariatePolynomialError":["isinstance(raised, MultivariatePolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def dmp_invert(f, g, u, K):
     """
     Compute multiplicative inverse of `f` modulo `g` in `F[X]`.
@@ -275,16 +319,22 @@ def dmp_invert(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_euclidean_prs(f, ), euclidean polynomial remainder sequence (prs) in `k[x]`) over Any ║
+# ║ Path(dup_euclidean_prs(f, g, K), <unspecified:dup_euclidean_prs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_euclidean_prs : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 364d8747d77cbb0f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_euclidean_prs","kind":"function","src_hash":"86cbab096b60d439","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_euclidean_prs(f, )","rhs":"euclidean polynomial remainder sequence (prs) in `k[x]`","over":{"base":"Any"},"name":"dup_euclidean_prs_correct"},"guarantee":"euclidean polynomial remainder sequence (prs) in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_euclidean_prs_correct","statement":"Path(dup_euclidean_prs(x), euclidean polynomial remainder sequence (prs) in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"364d8747d77cbb0f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_euclidean_prs","kind":"function","src_hash":"86cbab096b60d439","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_euclidean_prs(f, g, K)","rhs":"<unspecified:dup_euclidean_prs>","over":{"base":"Any"},"name":"dup_euclidean_prs_correct"},"guarantee":"euclidean polynomial remainder sequence (prs) in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_euclidean_prs_correct","statement":"Path(dup_euclidean_prs(x), euclidean polynomial remainder sequence (prs) in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"364d8747d77cbb0f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_euclidean_prs(f, g, K):
     """
     Euclidean polynomial remainder sequence (PRS) in `K[x]`.
@@ -326,16 +376,23 @@ def dup_euclidean_prs(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_euclidean_prs(f, ), euclidean polynomial remainder sequence (prs) in `k[x]`) over Any ║
+# ║ Path(dmp_euclidean_prs(f, g, u), <unspecified:dmp_euclidean_prs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not u => dup_euclidean_prs(f, g, K)       ║
+# ║   fiber[case_1]: not (not u)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_euclidean_prs : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5abe70010d282548  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6594f0e5e28f05bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_euclidean_prs","kind":"function","src_hash":"ffdcafd0af02ed9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_euclidean_prs(f, )","rhs":"euclidean polynomial remainder sequence (prs) in `k[x]`","over":{"base":"Any"},"name":"dmp_euclidean_prs_correct"},"guarantee":"euclidean polynomial remainder sequence (prs) in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_euclidean_prs_correct","statement":"Path(dmp_euclidean_prs(x), euclidean polynomial remainder sequence (prs) in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5abe70010d282548"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_euclidean_prs","kind":"function","src_hash":"ffdcafd0af02ed9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_euclidean_prs(f, g, u)","rhs":"<unspecified:dmp_euclidean_prs>","over":{"base":"Any"},"name":"dmp_euclidean_prs_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_euclidean_prs_correct","statement":"Path(dmp_euclidean_prs(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6594f0e5e28f05bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not u","ensures":["result == dup_euclidean_prs(f, g, K)"],"decidability":"library","returns_expr":"dup_euclidean_prs(f, g, K)"},{"name":"case_1","guard":"not (not u)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["MultivariatePolynomialError"]},"state_contract":{"exceptional_post":{"MultivariatePolynomialError":["isinstance(raised, MultivariatePolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def dmp_euclidean_prs(f, g, u, K):
     """
     Euclidean polynomial remainder sequence (PRS) in `K[X]`.
@@ -354,16 +411,22 @@ def dmp_euclidean_prs(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_primitive_prs(f, ), primitive polynomial remainder sequence (prs) in `k[x]`) over Any ║
+# ║ Path(dup_primitive_prs(f, g, K), <unspecified:dup_primitive_prs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_primitive_prs : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42167b7540841779  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_primitive_prs","kind":"function","src_hash":"96fbbbc2760a1596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_primitive_prs(f, )","rhs":"primitive polynomial remainder sequence (prs) in `k[x]`","over":{"base":"Any"},"name":"dup_primitive_prs_correct"},"guarantee":"primitive polynomial remainder sequence (prs) in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_primitive_prs_correct","statement":"Path(dup_primitive_prs(x), primitive polynomial remainder sequence (prs) in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42167b7540841779"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_primitive_prs","kind":"function","src_hash":"96fbbbc2760a1596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_primitive_prs(f, g, K)","rhs":"<unspecified:dup_primitive_prs>","over":{"base":"Any"},"name":"dup_primitive_prs_correct"},"guarantee":"primitive polynomial remainder sequence (prs) in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_primitive_prs_correct","statement":"Path(dup_primitive_prs(x), primitive polynomial remainder sequence (prs) in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42167b7540841779","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_primitive_prs(f, g, K):
     """
     Primitive polynomial remainder sequence (PRS) in `K[x]`.
@@ -405,16 +468,23 @@ def dup_primitive_prs(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_primitive_prs(f, ), primitive polynomial remainder sequence (prs) in `k[x]`) over Any ║
+# ║ Path(dmp_primitive_prs(f, g, u), <unspecified:dmp_primitive_prs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not u => dup_primitive_prs(f, g, K)       ║
+# ║   fiber[case_1]: not (not u)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_primitive_prs : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50a194ec2c48a8c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4c23607af42b5a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_primitive_prs","kind":"function","src_hash":"d55da4e5e5e03c3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_primitive_prs(f, )","rhs":"primitive polynomial remainder sequence (prs) in `k[x]`","over":{"base":"Any"},"name":"dmp_primitive_prs_correct"},"guarantee":"primitive polynomial remainder sequence (prs) in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_primitive_prs_correct","statement":"Path(dmp_primitive_prs(x), primitive polynomial remainder sequence (prs) in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50a194ec2c48a8c7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_primitive_prs","kind":"function","src_hash":"d55da4e5e5e03c3e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_primitive_prs(f, g, u)","rhs":"<unspecified:dmp_primitive_prs>","over":{"base":"Any"},"name":"dmp_primitive_prs_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_primitive_prs_correct","statement":"Path(dmp_primitive_prs(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4c23607af42b5a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not u","ensures":["result == dup_primitive_prs(f, g, K)"],"decidability":"library","returns_expr":"dup_primitive_prs(f, g, K)"},{"name":"case_1","guard":"not (not u)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["MultivariatePolynomialError"]},"state_contract":{"exceptional_post":{"MultivariatePolynomialError":["isinstance(raised, MultivariatePolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def dmp_primitive_prs(f, g, u, K):
     """
     Primitive polynomial remainder sequence (PRS) in `K[X]`.
@@ -433,16 +503,24 @@ def dmp_primitive_prs(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_inner_subresultants(f, ), subresultant prs algorithm in `k[x]`) over Any ║
+# ║ Path(dup_inner_subresultants(f, g, K), <unspecified:dup_inner_subresultants>) over {Any | hasattr(K, 'one') and hasattr(K, 'quo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_inner_subresultants : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'quo')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_inner_subresultants : {Any | hasattr(K, 'one') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 069828c5f0af85a2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_inner_subresultants","kind":"function","src_hash":"a81277b5feba4c63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_subresultants(f, )","rhs":"subresultant prs algorithm in `k[x]`","over":{"base":"Any"},"name":"dup_inner_subresultants_correct"},"guarantee":"subresultant prs algorithm in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_inner_subresultants_correct","statement":"Path(dup_inner_subresultants(x), subresultant prs algorithm in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"069828c5f0af85a2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_inner_subresultants","kind":"function","src_hash":"a81277b5feba4c63","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'quo')"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_subresultants(f, g, K)","rhs":"<unspecified:dup_inner_subresultants>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'quo')"},"name":"dup_inner_subresultants_correct"},"guarantee":"subresultant prs algorithm in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_inner_subresultants_correct","statement":"Path(dup_inner_subresultants(x), subresultant prs algorithm in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"069828c5f0af85a2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'quo')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dup_inner_subresultants(f, g, K):
     """
     Subresultant PRS algorithm in `K[x]`.
@@ -524,16 +602,22 @@ def dup_inner_subresultants(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_subresultants(f, ), computes subresultant prs of two polynomials in `k[x]`) over Any ║
+# ║ Path(dup_subresultants(f, g, K), dup_inner_subresultants(f, g, K)[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_inner_subresultants(f, g, K)[0]            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_subresultants : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dbbf826bf82a74b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_subresultants","kind":"function","src_hash":"783b790c555e7238","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_subresultants(f, )","rhs":"computes subresultant prs of two polynomials in `k[x]`","over":{"base":"Any"},"name":"dup_subresultants_correct"},"guarantee":"computes subresultant prs of two polynomials in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbbf826bf82a74b1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_subresultants","kind":"function","src_hash":"783b790c555e7238","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_subresultants(f, g, K)","rhs":"dup_inner_subresultants(f, g, K)[0]","over":{"base":"Any"},"name":"dup_subresultants_correct"},"guarantee":"returns dup_inner_subresultants(f, g, K)[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbbf826bf82a74b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_inner_subresultants(f, g, K)[0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def dup_subresultants(f, g, K):
     """
     Computes subresultant PRS of two polynomials in `K[x]`.
@@ -552,16 +636,23 @@ def dup_subresultants(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_prs_resultant(f, ), resultant algorithm in `k[x]` using subresultant prs) over Any ║
+# ║ Path(dup_prs_resultant(f, g, K), <unspecified:dup_prs_resultant>) over {Any | hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_prs_resultant : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_prs_resultant : {Any | hasattr(K, 'zero')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4799ae27a2a9ca0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_prs_resultant","kind":"function","src_hash":"9bf1ddcfdc658931","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_prs_resultant(f, )","rhs":"resultant algorithm in `k[x]` using subresultant prs","over":{"base":"Any"},"name":"dup_prs_resultant_correct"},"guarantee":"resultant algorithm in `k[x]` using subresultant prs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_prs_resultant_correct","statement":"Path(dup_prs_resultant(x), resultant algorithm in `k[x]` using subresultant prs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4799ae27a2a9ca0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_prs_resultant","kind":"function","src_hash":"9bf1ddcfdc658931","in":{"base":"Any","pred":"hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"dup_prs_resultant(f, g, K)","rhs":"<unspecified:dup_prs_resultant>","over":{"base":"Any","pred":"hasattr(K, 'zero')"},"name":"dup_prs_resultant_correct"},"guarantee":"resultant algorithm in `k[x]` using subresultant prs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_prs_resultant_correct","statement":"Path(dup_prs_resultant(x), resultant algorithm in `k[x]` using subresultant prs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4799ae27a2a9ca0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_prs_resultant(f, g, K):
     """
     Resultant algorithm in `K[x]` using subresultant PRS.
@@ -588,16 +679,22 @@ def dup_prs_resultant(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_resultant(f, ), computes resultant of two polynomials in `k[x]`) over Any ║
+# ║ Path(dup_resultant(f, g, K), <unspecified:dup_resultant>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_resultant : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d4625f4a962bd9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_resultant","kind":"function","src_hash":"e317d3937fb4dc9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_resultant(f, )","rhs":"computes resultant of two polynomials in `k[x]`","over":{"base":"Any"},"name":"dup_resultant_correct"},"guarantee":"computes resultant of two polynomials in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_resultant_correct","statement":"Path(dup_resultant(x), computes resultant of two polynomials in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d4625f4a962bd9a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_resultant","kind":"function","src_hash":"e317d3937fb4dc9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_resultant(f, g, K)","rhs":"<unspecified:dup_resultant>","over":{"base":"Any"},"name":"dup_resultant_correct"},"guarantee":"computes resultant of two polynomials in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_resultant_correct","statement":"Path(dup_resultant(x), computes resultant of two polynomials in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d4625f4a962bd9a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_resultant(f, g, K, includePRS=False):
     """
     Computes resultant of two polynomials in `K[x]`.
@@ -618,16 +715,23 @@ def dup_resultant(f, g, K, includePRS=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_inner_subresultants(f, ), subresultant prs algorithm in `k[x]`) over Any ║
+# ║ Path(dmp_inner_subresultants(f, g, u), <unspecified:dmp_inner_subresultants>) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_inner_subresultants : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_inner_subresultants : {Any | hasattr(K, 'one')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26800da9fc8d4d56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_inner_subresultants","kind":"function","src_hash":"2fcf1cfbcb58df1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_inner_subresultants(f, )","rhs":"subresultant prs algorithm in `k[x]`","over":{"base":"Any"},"name":"dmp_inner_subresultants_correct"},"guarantee":"subresultant prs algorithm in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_inner_subresultants_correct","statement":"Path(dmp_inner_subresultants(x), subresultant prs algorithm in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26800da9fc8d4d56"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_inner_subresultants","kind":"function","src_hash":"2fcf1cfbcb58df1e","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_inner_subresultants(f, g, u)","rhs":"<unspecified:dmp_inner_subresultants>","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"dmp_inner_subresultants_correct"},"guarantee":"subresultant prs algorithm in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_inner_subresultants_correct","statement":"Path(dmp_inner_subresultants(x), subresultant prs algorithm in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26800da9fc8d4d56","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def dmp_inner_subresultants(f, g, u, K):
     """
     Subresultant PRS algorithm in `K[X]`.
@@ -709,16 +813,22 @@ def dmp_inner_subresultants(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_subresultants(f, ), computes subresultant prs of two polynomials in `k[x]`) over Any ║
+# ║ Path(dmp_subresultants(f, g, u), dmp_inner_subresultants(f, g, u, K)[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_inner_subresultants(f, g, u, K)[0]         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_subresultants : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 07f55ff8de3d8397           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_subresultants","kind":"function","src_hash":"23342bad79a26cb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_subresultants(f, )","rhs":"computes subresultant prs of two polynomials in `k[x]`","over":{"base":"Any"},"name":"dmp_subresultants_correct"},"guarantee":"computes subresultant prs of two polynomials in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07f55ff8de3d8397"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_subresultants","kind":"function","src_hash":"23342bad79a26cb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_subresultants(f, g, u)","rhs":"dmp_inner_subresultants(f, g, u, K)[0]","over":{"base":"Any"},"name":"dmp_subresultants_correct"},"guarantee":"returns dmp_inner_subresultants(f, g, u, K)[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07f55ff8de3d8397","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_inner_subresultants(f, g, u, K)[0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def dmp_subresultants(f, g, u, K):
     """
     Computes subresultant PRS of two polynomials in `K[X]`.
@@ -743,16 +853,22 @@ def dmp_subresultants(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_prs_resultant(f, ), resultant algorithm in `k[x]` using subresultant prs) over Any ║
+# ║ Path(dmp_prs_resultant(f, g, u), <unspecified:dmp_prs_resultant>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_prs_resultant : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c66abbdabf798883  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_prs_resultant","kind":"function","src_hash":"f7f7a4d61f0fd704","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_prs_resultant(f, )","rhs":"resultant algorithm in `k[x]` using subresultant prs","over":{"base":"Any"},"name":"dmp_prs_resultant_correct"},"guarantee":"resultant algorithm in `k[x]` using subresultant prs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_prs_resultant_correct","statement":"Path(dmp_prs_resultant(x), resultant algorithm in `k[x]` using subresultant prs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c66abbdabf798883"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_prs_resultant","kind":"function","src_hash":"f7f7a4d61f0fd704","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_prs_resultant(f, g, u)","rhs":"<unspecified:dmp_prs_resultant>","over":{"base":"Any"},"name":"dmp_prs_resultant_correct"},"guarantee":"resultant algorithm in `k[x]` using subresultant prs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_prs_resultant_correct","statement":"Path(dmp_prs_resultant(x), resultant algorithm in `k[x]` using subresultant prs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c66abbdabf798883","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_prs_resultant(f, g, u, K):
     """
     Resultant algorithm in `K[X]` using subresultant PRS.
@@ -794,16 +910,24 @@ def dmp_prs_resultant(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_modular_resultant(f, ), id) over Any           ║
+# ║ Path(dmp_zz_modular_resultant(f, g, p), id) over {Any | hasattr(K, 'one') and hasattr(K, 'invert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_zz_modular_resultant : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'invert')                           ║
+# ║   ensures:  # HINT: dmp_zz_modular_resultant may be i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_zz_modular_resultant : {Any | hasattr(K, 'one') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d0ede1f674cc48dd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_zz_modular_resultant","kind":"function","src_hash":"82b199aa0d552672","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_modular_resultant(f, )","rhs":"compute resultant of `f` and `g` modulo a prime `p`","over":{"base":"Any"},"name":"dmp_zz_modular_resultant_correct","kind":"composition"},"guarantee":"compute resultant of `f` and `g` modulo a prime `p`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gf_int","by":"library_axiom"},{"fn":"dup_prs_resultant","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0ede1f674cc48dd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_zz_modular_resultant","kind":"function","src_hash":"82b199aa0d552672","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'invert')"},"out":{"base":"Any","pred":"result satisfies: # HINT: dmp_zz_modular_resultant may be idempotent: dmp_zz_modular_resultant(dmp_zz_modular_resultant(x)) == dmp_zz_modular_resultant(x)"},"spec":{"lhs":"dmp_zz_modular_resultant(f, g, p)","rhs":"# HINT: dmp_zz_modular_resultant may be idempotent: dmp_zz_modular_resultant(dmp_zz_modular_resultant(x)) == dmp_zz_modular_resultant(x)","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'invert')"},"name":"dmp_zz_modular_resultant_correct","kind":"composition"},"guarantee":"# HINT: dmp_zz_modular_resultant may be idempotent: dmp_zz_modular_resultant(dmp_zz_modular_resultant(x)) == dmp_zz_modular_resultant(x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"gf_int","by":"library_axiom"},{"fn":"dup_prs_resultant","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0ede1f674cc48dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'one')","hasattr(K, 'invert')"],"ensures":["# HINT: dmp_zz_modular_resultant may be idempotent: dmp_zz_modular_resultant(dmp_zz_modular_resultant(x)) == dmp_zz_modular_resultant(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.invert","K.one"],"raises":["HomomorphismFailed"]},"state_contract":{"exceptional_post":{"HomomorphismFailed":["isinstance(raised, HomomorphismFailed)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def dmp_zz_modular_resultant(f, g, p, u, K):
     """
     Compute resultant of `f` and `g` modulo a prime `p`.
@@ -878,32 +1002,47 @@ def dmp_zz_modular_resultant(f, g, p, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_collins_crt(r, ), wrapper of crt for collins's resultant algorithm) over Any ║
+# ║ Path(_collins_crt(r, R, P), gf_int(gf_crt([r, R], [P, p], K), P * p)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gf_int(gf_crt([r, R], [P, p], K), P * p)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _collins_crt : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 26446843b8a102a8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._collins_crt","kind":"function","src_hash":"ba12ecfae5650dde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_collins_crt(r, )","rhs":"wrapper of crt for collins's resultant algorithm","over":{"base":"Any"},"name":"_collins_crt_correct"},"guarantee":"wrapper of crt for collins's resultant algorithm","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26446843b8a102a8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._collins_crt","kind":"function","src_hash":"ba12ecfae5650dde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_collins_crt(r, R, P)","rhs":"gf_int(gf_crt([r, R], [P, p], K), P * p)","over":{"base":"Any"},"name":"_collins_crt_correct"},"guarantee":"returns gf_int(gf_crt([r, R], [P, p], K), P * p)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26446843b8a102a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gf_int(gf_crt([r, R], [P, p], K), P * p)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _collins_crt(r, R, P, p, K):
     """Wrapper of CRT for Collins's resultant algorithm. """
     return gf_int(gf_crt([r, R], [P, p], K), P*p)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_collins_resultant(f, ), collins's modular resultant algorithm in `z[x]`) over Any ║
+# ║ Path(dmp_zz_collins_resultant(f, g, u), <unspecified:dmp_zz_collins_resultant>) over {Any | hasattr(K, 'one') and hasattr(K, 'is_one') and hasattr(K, 'factorial')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_zz_collins_resultant : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'is_one')                           ║
+# ║   requires: hasattr(K, 'factorial')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_zz_collins_resultant : {Any | hasattr(K, 'one') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f3de80ec3c277fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_zz_collins_resultant","kind":"function","src_hash":"3c595eceb8cf0f95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_collins_resultant(f, )","rhs":"collins's modular resultant algorithm in `z[x]`","over":{"base":"Any"},"name":"dmp_zz_collins_resultant_correct"},"guarantee":"collins's modular resultant algorithm in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_zz_collins_resultant_correct","statement":"Path(dmp_zz_collins_resultant(x), collins's modular resultant algorithm in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f3de80ec3c277fc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_zz_collins_resultant","kind":"function","src_hash":"3c595eceb8cf0f95","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'is_one') and hasattr(K, 'factorial')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_collins_resultant(f, g, u)","rhs":"<unspecified:dmp_zz_collins_resultant>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'is_one') and hasattr(K, 'factorial')"},"name":"dmp_zz_collins_resultant_correct"},"guarantee":"collins's modular resultant algorithm in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_zz_collins_resultant_correct","statement":"Path(dmp_zz_collins_resultant(x), collins's modular resultant algorithm in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f3de80ec3c277fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'is_one')","hasattr(K, 'factorial')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.factorial","K.is_one","K.one"],"catches":["HomomorphismFailed"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dmp_zz_collins_resultant(f, g, u, K):
     """
     Collins's modular resultant algorithm in `Z[X]`.
@@ -966,16 +1105,24 @@ def dmp_zz_collins_resultant(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_qq_collins_resultant(f, ), collins's modular resultant algorithm in `q[x]`) over Any ║
+# ║ Path(dmp_qq_collins_resultant(f, g, u), <unspecified:dmp_qq_collins_resultant>) over {Any | hasattr(K0, 'get_ring') and hasattr(K0, 'convert')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_qq_collins_resultant : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K0, 'get_ring')                        ║
+# ║   requires: hasattr(K0, 'convert')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_qq_collins_resultant : {Any | hasattr(K0, 'get_ri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0e312c432e2afa5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_qq_collins_resultant","kind":"function","src_hash":"5fdf1a85b198c14e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_qq_collins_resultant(f, )","rhs":"collins's modular resultant algorithm in `q[x]`","over":{"base":"Any"},"name":"dmp_qq_collins_resultant_correct"},"guarantee":"collins's modular resultant algorithm in `q[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_qq_collins_resultant_correct","statement":"Path(dmp_qq_collins_resultant(x), collins's modular resultant algorithm in `q[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0e312c432e2afa5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_qq_collins_resultant","kind":"function","src_hash":"5fdf1a85b198c14e","in":{"base":"Any","pred":"hasattr(K0, 'get_ring') and hasattr(K0, 'convert')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_qq_collins_resultant(f, g, u)","rhs":"<unspecified:dmp_qq_collins_resultant>","over":{"base":"Any","pred":"hasattr(K0, 'get_ring') and hasattr(K0, 'convert')"},"name":"dmp_qq_collins_resultant_correct"},"guarantee":"collins's modular resultant algorithm in `q[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_qq_collins_resultant_correct","statement":"Path(dmp_qq_collins_resultant(x), collins's modular resultant algorithm in `q[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0e312c432e2afa5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K0, 'get_ring')","hasattr(K0, 'convert')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K0.convert","K0.get_ring"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dmp_qq_collins_resultant(f, g, u, K0):
     """
     Collins's modular resultant algorithm in `Q[X]`.
@@ -1016,16 +1163,25 @@ def dmp_qq_collins_resultant(f, g, u, K0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_resultant(f, ), computes resultant of two polynomials in `k[x]`) over Any ║
+# ║ Path(dmp_resultant(f, g, u), <unspecified:dmp_resultant>) over {Any | hasattr(K, 'is_Field') and hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_resultant : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   requires: hasattr(K, 'is_QQ')                            ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_resultant : {Any | hasattr(K, 'is_Field') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19732cfb6708d12a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_resultant","kind":"function","src_hash":"cbd9992d92958558","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_resultant(f, )","rhs":"computes resultant of two polynomials in `k[x]`","over":{"base":"Any"},"name":"dmp_resultant_correct"},"guarantee":"computes resultant of two polynomials in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_resultant_correct","statement":"Path(dmp_resultant(x), computes resultant of two polynomials in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19732cfb6708d12a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_resultant","kind":"function","src_hash":"cbd9992d92958558","in":{"base":"Any","pred":"hasattr(K, 'is_Field') and hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_resultant(f, g, u)","rhs":"<unspecified:dmp_resultant>","over":{"base":"Any","pred":"hasattr(K, 'is_Field') and hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ')"},"name":"dmp_resultant_correct"},"guarantee":"computes resultant of two polynomials in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_resultant_correct","statement":"Path(dmp_resultant(x), computes resultant of two polynomials in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19732cfb6708d12a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_Field')","hasattr(K, 'is_QQ')","hasattr(K, 'is_ZZ')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_Field","K.is_QQ","K.is_ZZ"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_resultant(f, g, u, K, includePRS=False):
     """
     Computes resultant of two polynomials in `K[X]`.
@@ -1060,16 +1216,27 @@ def dmp_resultant(f, g, u, K, includePRS=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_discriminant(f, ), computes discriminant of a polynomial in `k[x]`) over Any ║
+# ║ Path(dup_discriminant(f, K), result == (K.zero if d <= 0 else K.quo(r, c * K(s))) and result == K.zero or result == K.quo(r, c * K(s))) over {Any | hasattr(K, 'zero') and hasattr(K, 'quo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_discriminant : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'quo')                              ║
+# ║   ensures:  result == (K.zero if d <= 0 else K.quo(r,...   ║
+# ║   ensures:  result == K.zero or result == K.quo(r, c ...   ║
+# ║   fiber[case_0]: d <= 0 => K.zero                          ║
+# ║   fiber[case_1]: not (d <= 0) => K.quo(r, c * K(s))        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_discriminant : {Any | hasattr(K, 'zero') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e89abd1acf353a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 293b6615d405728e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_discriminant","kind":"function","src_hash":"1ea28191df3690d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_discriminant(f, )","rhs":"computes discriminant of a polynomial in `k[x]`","over":{"base":"Any"},"name":"dup_discriminant_correct"},"guarantee":"computes discriminant of a polynomial in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_discriminant_correct","statement":"Path(dup_discriminant(x), computes discriminant of a polynomial in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e89abd1acf353a6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_discriminant","kind":"function","src_hash":"1ea28191df3690d1","in":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'quo')"},"out":{"base":"Any","pred":"result satisfies: result == (K.zero if d <= 0 else K.quo(r, c * K(s))) and result == K.zero or result == K.quo(r, c * K(s))"},"spec":{"lhs":"dup_discriminant(f, K)","rhs":"result == (K.zero if d <= 0 else K.quo(r, c * K(s))) and result == K.zero or result == K.quo(r, c * K(s))","over":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'quo')"},"name":"dup_discriminant_correct"},"guarantee":"result == (K.zero if d <= 0 else K.quo(r, c * K(s))); result == K.zero or result == K.quo(r, c * K(s)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_discriminant_correct","statement":"Path(dup_discriminant(x), result == (K.zero if d <= 0 else K.quo(r, c * K(s))); result == K.zero or result == K.quo(r, c * K(s)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"293b6615d405728e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'zero')","hasattr(K, 'quo')"],"ensures":["result == (K.zero if d <= 0 else K.quo(r, c * K(s)))","result == K.zero or result == K.quo(r, c * K(s))"],"fibers":[{"name":"case_0","guard":"d <= 0","ensures":["result == K.zero"],"decidability":"z3","returns_expr":"K.zero"},{"name":"case_1","guard":"not (d <= 0)","ensures":["result == K.quo(r, c * K(s))"],"decidability":"z3","returns_expr":"K.quo(r, c * K(s))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.quo","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_discriminant(f, K):
     """
     Computes discriminant of a polynomial in `K[x]`.
@@ -1098,16 +1265,22 @@ def dup_discriminant(f, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_discriminant(f, ), computes discriminant of a polynomial in `k[x]`) over Any ║
+# ║ Path(dmp_discriminant(f, u, K), <unspecified:dmp_discriminant>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_discriminant : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92d731075255a61b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_discriminant","kind":"function","src_hash":"529181f406727bbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_discriminant(f, )","rhs":"computes discriminant of a polynomial in `k[x]`","over":{"base":"Any"},"name":"dmp_discriminant_correct"},"guarantee":"computes discriminant of a polynomial in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_discriminant_correct","statement":"Path(dmp_discriminant(x), computes discriminant of a polynomial in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92d731075255a61b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_discriminant","kind":"function","src_hash":"529181f406727bbe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_discriminant(f, u, K)","rhs":"<unspecified:dmp_discriminant>","over":{"base":"Any"},"name":"dmp_discriminant_correct"},"guarantee":"computes discriminant of a polynomial in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_discriminant_correct","statement":"Path(dmp_discriminant(x), computes discriminant of a polynomial in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92d731075255a61b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dmp_discriminant(f, u, K):
     """
     Computes discriminant of a polynomial in `K[X]`.
@@ -1140,16 +1313,26 @@ def dmp_discriminant(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dup_rr_trivial_gcd(f, ), handle trivial cases in gcd algorithm over a ring) over Any ║
+# ║ Path(_dup_rr_trivial_gcd(f, g, K), <unspecified:_dup_rr_trivial_gcd>) over {Any | hasattr(K, 'is_nonnegative') and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dup_rr_trivial_gcd : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'is_nonnegative')                   ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   fiber[case_0]: not (f or g) => ([], [], [])              ║
+# ║   fiber[case_1]: not f                                     ║
+# ║   fiber[case_2]: not g                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dup_rr_trivial_gcd : {Any | hasattr(K, 'is_nonnegati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e32cf9a5edaa4aea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f6afbe0694d7b85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dup_rr_trivial_gcd","kind":"function","src_hash":"a754636cb1eb0fdd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dup_rr_trivial_gcd(f, )","rhs":"handle trivial cases in gcd algorithm over a ring","over":{"base":"Any"},"name":"_dup_rr_trivial_gcd_correct"},"guarantee":"handle trivial cases in gcd algorithm over a ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools._dup_rr_trivial_gcd_correct","statement":"Path(_dup_rr_trivial_gcd(x), handle trivial cases in gcd algorithm over a ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e32cf9a5edaa4aea"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dup_rr_trivial_gcd","kind":"function","src_hash":"a754636cb1eb0fdd","in":{"base":"Any","pred":"hasattr(K, 'is_nonnegative') and hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"_dup_rr_trivial_gcd(f, g, K)","rhs":"<unspecified:_dup_rr_trivial_gcd>","over":{"base":"Any","pred":"hasattr(K, 'is_nonnegative') and hasattr(K, 'one')"},"name":"_dup_rr_trivial_gcd_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools._dup_rr_trivial_gcd_correct","statement":"Path(_dup_rr_trivial_gcd(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f6afbe0694d7b85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'is_nonnegative')","hasattr(K, 'one')"],"fibers":[{"name":"case_0","guard":"not (f or g)","ensures":["result == ([], [], [])"],"decidability":"library","returns_expr":"([], [], [])"},{"name":"case_1","guard":"not f","ensures":[],"decidability":"library"},{"name":"case_2","guard":"not g","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_nonnegative","K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _dup_rr_trivial_gcd(f, g, K):
     """Handle trivial cases in GCD algorithm over a ring. """
     if not (f or g):
@@ -1169,16 +1352,26 @@ def _dup_rr_trivial_gcd(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dup_ff_trivial_gcd(f, ), handle trivial cases in gcd algorithm over a field) over Any ║
+# ║ Path(_dup_ff_trivial_gcd(f, g, K), result == (([], [], []) if not (f or g) else (dup_monic(g, K), [], [dup_LC(g, K)]) if not f else (dup_monic(f, K), [dup_LC(f, K)], []) if not g else None) and result == ([], [], []) or result == (dup_monic(g, K), [], [dup_LC(g, K)]) or result == (dup_monic(f, K), [dup_LC(f, K)], []) or result == None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dup_ff_trivial_gcd : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (([], [], []) if not (f or g) e...   ║
+# ║   ensures:  result == ([], [], []) or result == (dup_...   ║
+# ║   fiber[case_0]: not (f or g) => ([], [], [])              ║
+# ║   fiber[case_1]: not f => (dup_monic(g, K), [], [dup_...   ║
+# ║   fiber[case_2]: not g => (dup_monic(f, K), [dup_LC(f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dup_ff_trivial_gcd : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93e3bc46f2019342  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fd32306d5ac209f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dup_ff_trivial_gcd","kind":"function","src_hash":"3170101c04eed5c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dup_ff_trivial_gcd(f, )","rhs":"handle trivial cases in gcd algorithm over a field","over":{"base":"Any"},"name":"_dup_ff_trivial_gcd_correct"},"guarantee":"handle trivial cases in gcd algorithm over a field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools._dup_ff_trivial_gcd_correct","statement":"Path(_dup_ff_trivial_gcd(x), handle trivial cases in gcd algorithm over a field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93e3bc46f2019342"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dup_ff_trivial_gcd","kind":"function","src_hash":"3170101c04eed5c0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (([], [], []) if not (f or g) else (dup_monic(g, K), [], [dup_LC(g, K)]) if not f else (dup_monic(f, K), [dup_LC(f, K)], []) if not g else None) and result == ([], [], []) or result == (dup_monic(g, K), [], [dup_LC(g, K)]) or result == (dup_monic(f, K), [dup_LC(f, K)], []) or result == None"},"spec":{"lhs":"_dup_ff_trivial_gcd(f, g, K)","rhs":"result == (([], [], []) if not (f or g) else (dup_monic(g, K), [], [dup_LC(g, K)]) if not f else (dup_monic(f, K), [dup_LC(f, K)], []) if not g else None) and result == ([], [], []) or result == (dup_monic(g, K), [], [dup_LC(g, K)]) or result == (dup_monic(f, K), [dup_LC(f, K)], []) or result == None","over":{"base":"Any"},"name":"_dup_ff_trivial_gcd_correct"},"guarantee":"result == (([], [], []) if not (f or g) else (dup_monic(g, K), [], [dup_LC(g, K)]) if not f else (dup_monic(f, K), [dup_LC(f, K)], []) if not g else None); result == ([], [], []) or result == (dup_monic(g, K), [], [dup_LC(g, K)]) or result == (dup_monic(f, K), [dup_LC(f, K)], []) or result == None; 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools._dup_ff_trivial_gcd_correct","statement":"Path(_dup_ff_trivial_gcd(x), result == (([], [], []) if not (f or g) else (dup_monic(g, K), [], [dup_LC(g, K)]) if not f else (dup_monic(f, K), [dup_LC(f, K)], []) if not g else None); result == ([], [], []) or result == (dup_monic(g, K), [], [dup_LC(g, K)]) or result == (dup_monic(f, K), [dup_LC(f, K)], []) or result == None; 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fd32306d5ac209f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (([], [], []) if not (f or g) else (dup_monic(g, K), [], [dup_LC(g, K)]) if not f else (dup_monic(f, K), [dup_LC(f, K)], []) if not g else None)","result == ([], [], []) or result == (dup_monic(g, K), [], [dup_LC(g, K)]) or result == (dup_monic(f, K), [dup_LC(f, K)], []) or result == None"],"fibers":[{"name":"case_0","guard":"not (f or g)","ensures":["result == ([], [], [])"],"decidability":"library","returns_expr":"([], [], [])"},{"name":"case_1","guard":"not f","ensures":["result == (dup_monic(g, K), [], [dup_LC(g, K)])"],"decidability":"library","returns_expr":"(dup_monic(g, K), [], [dup_LC(g, K)])"},{"name":"case_2","guard":"not g","ensures":["result == (dup_monic(f, K), [dup_LC(f, K)], [])"],"decidability":"library","returns_expr":"(dup_monic(f, K), [dup_LC(f, K)], [])"},{"name":"case_3","guard":"not (not (f or g)) and not (not f) and not (not g)","ensures":["result == None"],"decidability":"library","returns_expr":"None"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dup_ff_trivial_gcd(f, g, K):
     """Handle trivial cases in GCD algorithm over a field. """
     if not (f or g):
@@ -1192,16 +1385,26 @@ def _dup_ff_trivial_gcd(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dmp_rr_trivial_gcd(f, ), id) over Any                ║
+# ║ Path(_dmp_rr_trivial_gcd(f, g, u), id) over {Any | hasattr(K, 'is_nonnegative') and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dmp_rr_trivial_gcd : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'is_nonnegative')                   ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   fiber[case_0]: zero_f and zero_g => tuple(dmp_zeros...   ║
+# ║   fiber[case_1]: zero_f                                    ║
+# ║   fiber[case_2]: zero_g                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dmp_rr_trivial_gcd : {Any | hasattr(K, 'is_nonnegati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4d331c507ec17695   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dmp_rr_trivial_gcd","kind":"function","src_hash":"f298da822c4d697c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_rr_trivial_gcd(f, )","rhs":"handle trivial cases in gcd algorithm over a ring","over":{"base":"Any"},"name":"_dmp_rr_trivial_gcd_correct","kind":"composition"},"guarantee":"handle trivial cases in gcd algorithm over a ring","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"dmp_zeros","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d331c507ec17695"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dmp_rr_trivial_gcd","kind":"function","src_hash":"f298da822c4d697c","in":{"base":"Any","pred":"hasattr(K, 'is_nonnegative') and hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_rr_trivial_gcd(f, g, u)","rhs":"<unspecified:_dmp_rr_trivial_gcd>","over":{"base":"Any","pred":"hasattr(K, 'is_nonnegative') and hasattr(K, 'one')"},"name":"_dmp_rr_trivial_gcd_correct","kind":"composition"},"guarantee":"6-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"dmp_zeros","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d331c507ec17695","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'is_nonnegative')","hasattr(K, 'one')"],"fibers":[{"name":"case_0","guard":"zero_f and zero_g","ensures":["result == tuple(dmp_zeros(3, u, K))"],"decidability":"library","returns_expr":"tuple(dmp_zeros(3, u, K))"},{"name":"case_1","guard":"zero_f","ensures":[],"decidability":"library"},{"name":"case_2","guard":"zero_g","ensures":[],"decidability":"library"},{"name":"case_3","guard":"if_contain_one","ensures":["result == (dmp_one(u, K), f, g)"],"decidability":"library","returns_expr":"(dmp_one(u, K), f, g)"},{"name":"case_4","guard":"query('USE_SIMPLIFY_GCD')","ensures":["result == _dmp_simplify_gcd(f, g, u, K)"],"decidability":"library","returns_expr":"_dmp_simplify_gcd(f, g, u, K)"},{"name":"case_5","guard":"not (zero_f and zero_g) and not (zero_f) and not (zero_g) and not (if_contain_one) and not (query('USE_SIMPLIFY_GCD'))","ensures":["result == None"],"decidability":"library","returns_expr":"None"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_nonnegative","K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _dmp_rr_trivial_gcd(f, g, u, K):
     """Handle trivial cases in GCD algorithm over a ring. """
     zero_f = dmp_zero_p(f, u)
@@ -1229,16 +1432,24 @@ def _dmp_rr_trivial_gcd(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dmp_ff_trivial_gcd(f, ), id) over Any                ║
+# ║ Path(_dmp_ff_trivial_gcd(f, g, u), id) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: zero_f and zero_g => tuple(dmp_zeros...   ║
+# ║   fiber[case_1]: zero_f => (dmp_ground_monic(g, u, K)...   ║
+# ║   fiber[case_2]: zero_g => (dmp_ground_monic(f, u, K)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dmp_ff_trivial_gcd : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | af51a5e089c4ccf7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dmp_ff_trivial_gcd","kind":"function","src_hash":"a94c695de9f298c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_ff_trivial_gcd(f, )","rhs":"handle trivial cases in gcd algorithm over a field","over":{"base":"Any"},"name":"_dmp_ff_trivial_gcd_correct","kind":"composition"},"guarantee":"handle trivial cases in gcd algorithm over a field","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"dmp_zeros","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af51a5e089c4ccf7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dmp_ff_trivial_gcd","kind":"function","src_hash":"a94c695de9f298c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_ff_trivial_gcd(f, g, u)","rhs":"<unspecified:_dmp_ff_trivial_gcd>","over":{"base":"Any"},"name":"_dmp_ff_trivial_gcd_correct","kind":"composition"},"guarantee":"5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"dmp_zeros","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af51a5e089c4ccf7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"zero_f and zero_g","ensures":["result == tuple(dmp_zeros(3, u, K))"],"decidability":"library","returns_expr":"tuple(dmp_zeros(3, u, K))"},{"name":"case_1","guard":"zero_f","ensures":["result == (dmp_ground_monic(g, u, K), dmp_zero(u), dmp_ground(dmp_ground_LC(g, u, K), u))"],"decidability":"library","returns_expr":"(dmp_ground_monic(g, u, K), dmp_zero(u), dmp_ground(dmp_ground_LC(g, u, K), u))"},{"name":"case_2","guard":"zero_g","ensures":["result == (dmp_ground_monic(f, u, K), dmp_ground(dmp_ground_LC(f, u, K), u), dmp_zero(u))"],"decidability":"library","returns_expr":"(dmp_ground_monic(f, u, K), dmp_ground(dmp_ground_LC(f, u, K), u), dmp_zero(u))"},{"name":"case_3","guard":"query('USE_SIMPLIFY_GCD')","ensures":["result == _dmp_simplify_gcd(f, g, u, K)"],"decidability":"library","returns_expr":"_dmp_simplify_gcd(f, g, u, K)"},{"name":"case_4","guard":"not (zero_f and zero_g) and not (zero_f) and not (zero_g) and not (query('USE_SIMPLIFY_GCD'))","ensures":["result == None"],"decidability":"library","returns_expr":"None"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _dmp_ff_trivial_gcd(f, g, u, K):
     """Handle trivial cases in GCD algorithm over a field. """
     zero_f = dmp_zero_p(f, u)
@@ -1261,16 +1472,22 @@ def _dmp_ff_trivial_gcd(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dmp_simplify_gcd(f, ), try to eliminate `x_0` from gcd computation in `k[x]`) over Any ║
+# ║ Path(_dmp_simplify_gcd(f, g, u), <unspecified:_dmp_simplify_gcd>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dmp_simplify_gcd : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbe1b6d137279028  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dmp_simplify_gcd","kind":"function","src_hash":"13a8d5f961039e6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_simplify_gcd(f, )","rhs":"try to eliminate `x_0` from gcd computation in `k[x]`","over":{"base":"Any"},"name":"_dmp_simplify_gcd_correct"},"guarantee":"try to eliminate `x_0` from gcd computation in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools._dmp_simplify_gcd_correct","statement":"Path(_dmp_simplify_gcd(x), try to eliminate `x_0` from gcd computation in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbe1b6d137279028"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dmp_simplify_gcd","kind":"function","src_hash":"13a8d5f961039e6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_simplify_gcd(f, g, u)","rhs":"<unspecified:_dmp_simplify_gcd>","over":{"base":"Any"},"name":"_dmp_simplify_gcd_correct"},"guarantee":"try to eliminate `x_0` from gcd computation in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools._dmp_simplify_gcd_correct","statement":"Path(_dmp_simplify_gcd(x), try to eliminate `x_0` from gcd computation in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbe1b6d137279028","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _dmp_simplify_gcd(f, g, u, K):
     """Try to eliminate `x_0` from GCD computation in `K[X]`. """
     df = dmp_degree(f, u)
@@ -1300,16 +1517,24 @@ def _dmp_simplify_gcd(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_rr_prs_gcd(f, ), computes polynomial gcd using subresultants over a ring) over Any ║
+# ║ Path(dup_rr_prs_gcd(f, g, K), <unspecified:dup_rr_prs_gcd>) over {Any | hasattr(K, 'gcd') and hasattr(K, 'canonical_unit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_rr_prs_gcd : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'gcd')                              ║
+# ║   requires: hasattr(K, 'canonical_unit')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_rr_prs_gcd : {Any | hasattr(K, 'gcd') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf75a318252c52b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_rr_prs_gcd","kind":"function","src_hash":"2046c532a1e0872b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_rr_prs_gcd(f, )","rhs":"computes polynomial gcd using subresultants over a ring","over":{"base":"Any"},"name":"dup_rr_prs_gcd_correct"},"guarantee":"computes polynomial gcd using subresultants over a ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_rr_prs_gcd_correct","statement":"Path(dup_rr_prs_gcd(x), computes polynomial gcd using subresultants over a ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf75a318252c52b7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_rr_prs_gcd","kind":"function","src_hash":"2046c532a1e0872b","in":{"base":"Any","pred":"hasattr(K, 'gcd') and hasattr(K, 'canonical_unit')"},"out":{"base":"Any"},"spec":{"lhs":"dup_rr_prs_gcd(f, g, K)","rhs":"<unspecified:dup_rr_prs_gcd>","over":{"base":"Any","pred":"hasattr(K, 'gcd') and hasattr(K, 'canonical_unit')"},"name":"dup_rr_prs_gcd_correct"},"guarantee":"computes polynomial gcd using subresultants over a ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_rr_prs_gcd_correct","statement":"Path(dup_rr_prs_gcd(x), computes polynomial gcd using subresultants over a ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf75a318252c52b7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'gcd')","hasattr(K, 'canonical_unit')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.canonical_unit","K.gcd"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dup_rr_prs_gcd(f, g, K):
     """
     Computes polynomial GCD using subresultants over a ring.
@@ -1351,16 +1576,22 @@ def dup_rr_prs_gcd(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_ff_prs_gcd(f, ), computes polynomial gcd using subresultants over a field) over Any ║
+# ║ Path(dup_ff_prs_gcd(f, g, K), <unspecified:dup_ff_prs_gcd>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_ff_prs_gcd : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e25c1c9ba3314281  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_ff_prs_gcd","kind":"function","src_hash":"7a6896224e2f2324","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_ff_prs_gcd(f, )","rhs":"computes polynomial gcd using subresultants over a field","over":{"base":"Any"},"name":"dup_ff_prs_gcd_correct"},"guarantee":"computes polynomial gcd using subresultants over a field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_ff_prs_gcd_correct","statement":"Path(dup_ff_prs_gcd(x), computes polynomial gcd using subresultants over a field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e25c1c9ba3314281"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_ff_prs_gcd","kind":"function","src_hash":"7a6896224e2f2324","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_ff_prs_gcd(f, g, K)","rhs":"<unspecified:dup_ff_prs_gcd>","over":{"base":"Any"},"name":"dup_ff_prs_gcd_correct"},"guarantee":"computes polynomial gcd using subresultants over a field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_ff_prs_gcd_correct","statement":"Path(dup_ff_prs_gcd(x), computes polynomial gcd using subresultants over a field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e25c1c9ba3314281","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_ff_prs_gcd(f, g, K):
     """
     Computes polynomial GCD using subresultants over a field.
@@ -1393,16 +1624,24 @@ def dup_ff_prs_gcd(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_rr_prs_gcd(f, ), computes polynomial gcd using subresultants over a ring) over Any ║
+# ║ Path(dmp_rr_prs_gcd(f, g, u), # HINT: dmp_rr_prs_gcd may be idempotent: dmp_rr_prs_gcd(dmp_rr_prs_gcd(x)) == dmp_rr_prs_gcd(x)) over {Any | hasattr(K, 'canonical_unit') and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_rr_prs_gcd : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'canonical_unit')                   ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ensures:  # HINT: dmp_rr_prs_gcd may be idempotent:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_rr_prs_gcd : {Any | hasattr(K, 'canonical_unit') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 169f6803240f075f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5a4d90d3a7d14f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_rr_prs_gcd","kind":"function","src_hash":"15b40219e2acf81b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_rr_prs_gcd(f, )","rhs":"computes polynomial gcd using subresultants over a ring","over":{"base":"Any"},"name":"dmp_rr_prs_gcd_correct"},"guarantee":"computes polynomial gcd using subresultants over a ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_rr_prs_gcd_correct","statement":"Path(dmp_rr_prs_gcd(x), computes polynomial gcd using subresultants over a ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"169f6803240f075f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_rr_prs_gcd","kind":"function","src_hash":"15b40219e2acf81b","in":{"base":"Any","pred":"hasattr(K, 'canonical_unit') and hasattr(K, 'one')"},"out":{"base":"Any","pred":"result satisfies: # HINT: dmp_rr_prs_gcd may be idempotent: dmp_rr_prs_gcd(dmp_rr_prs_gcd(x)) == dmp_rr_prs_gcd(x)"},"spec":{"lhs":"dmp_rr_prs_gcd(f, g, u)","rhs":"# HINT: dmp_rr_prs_gcd may be idempotent: dmp_rr_prs_gcd(dmp_rr_prs_gcd(x)) == dmp_rr_prs_gcd(x)","over":{"base":"Any","pred":"hasattr(K, 'canonical_unit') and hasattr(K, 'one')"},"name":"dmp_rr_prs_gcd_correct"},"guarantee":"# HINT: dmp_rr_prs_gcd may be idempotent: dmp_rr_prs_gcd(dmp_rr_prs_gcd(x)) == dmp_rr_prs_gcd(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_rr_prs_gcd_correct","statement":"Path(dmp_rr_prs_gcd(x), # HINT: dmp_rr_prs_gcd may be idempotent: dmp_rr_prs_gcd(dmp_rr_prs_gcd(x)) == dmp_rr_prs_gcd(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5a4d90d3a7d14f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'canonical_unit')","hasattr(K, 'one')"],"ensures":["# HINT: dmp_rr_prs_gcd may be idempotent: dmp_rr_prs_gcd(dmp_rr_prs_gcd(x)) == dmp_rr_prs_gcd(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.canonical_unit","K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dmp_rr_prs_gcd(f, g, u, K):
     """
     Computes polynomial GCD using subresultants over a ring.
@@ -1452,16 +1691,22 @@ def dmp_rr_prs_gcd(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ff_prs_gcd(f, ), computes polynomial gcd using subresultants over a field) over Any ║
+# ║ Path(dmp_ff_prs_gcd(f, g, u), # HINT: dmp_ff_prs_gcd may be idempotent: dmp_ff_prs_gcd(dmp_ff_prs_gcd(x)) == dmp_ff_prs_gcd(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_ff_prs_gcd : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: dmp_ff_prs_gcd may be idempotent:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_ff_prs_gcd : Any → {Any | result satisfies: # HIN...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2c75ba101e6f533  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d13b9c5299df6ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_ff_prs_gcd","kind":"function","src_hash":"50bef2d4c9f40ab1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ff_prs_gcd(f, )","rhs":"computes polynomial gcd using subresultants over a field","over":{"base":"Any"},"name":"dmp_ff_prs_gcd_correct"},"guarantee":"computes polynomial gcd using subresultants over a field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_ff_prs_gcd_correct","statement":"Path(dmp_ff_prs_gcd(x), computes polynomial gcd using subresultants over a field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2c75ba101e6f533"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_ff_prs_gcd","kind":"function","src_hash":"50bef2d4c9f40ab1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: dmp_ff_prs_gcd may be idempotent: dmp_ff_prs_gcd(dmp_ff_prs_gcd(x)) == dmp_ff_prs_gcd(x)"},"spec":{"lhs":"dmp_ff_prs_gcd(f, g, u)","rhs":"# HINT: dmp_ff_prs_gcd may be idempotent: dmp_ff_prs_gcd(dmp_ff_prs_gcd(x)) == dmp_ff_prs_gcd(x)","over":{"base":"Any"},"name":"dmp_ff_prs_gcd_correct"},"guarantee":"# HINT: dmp_ff_prs_gcd may be idempotent: dmp_ff_prs_gcd(dmp_ff_prs_gcd(x)) == dmp_ff_prs_gcd(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_ff_prs_gcd_correct","statement":"Path(dmp_ff_prs_gcd(x), # HINT: dmp_ff_prs_gcd may be idempotent: dmp_ff_prs_gcd(dmp_ff_prs_gcd(x)) == dmp_ff_prs_gcd(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d13b9c5299df6ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: dmp_ff_prs_gcd may be idempotent: dmp_ff_prs_gcd(dmp_ff_prs_gcd(x)) == dmp_ff_prs_gcd(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dmp_ff_prs_gcd(f, g, u, K):
     """
     Computes polynomial GCD using subresultants over a field.
@@ -1509,16 +1754,22 @@ HEU_GCD_MAX = 6
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dup_zz_gcd_interpolate(h, ), interpolate polynomial gcd from integer gcd) over Any ║
+# ║ Path(_dup_zz_gcd_interpolate(h, x, K), <unspecified:_dup_zz_gcd_interpolate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dup_zz_gcd_interpolate : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c586576ef4fd4891  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dup_zz_gcd_interpolate","kind":"function","src_hash":"ef483bc04810c753","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dup_zz_gcd_interpolate(h, )","rhs":"interpolate polynomial gcd from integer gcd","over":{"base":"Any"},"name":"_dup_zz_gcd_interpolate_correct"},"guarantee":"interpolate polynomial gcd from integer gcd","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools._dup_zz_gcd_interpolate_correct","statement":"Path(_dup_zz_gcd_interpolate(x), interpolate polynomial gcd from integer gcd)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c586576ef4fd4891"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dup_zz_gcd_interpolate","kind":"function","src_hash":"ef483bc04810c753","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dup_zz_gcd_interpolate(h, x, K)","rhs":"<unspecified:_dup_zz_gcd_interpolate>","over":{"base":"Any"},"name":"_dup_zz_gcd_interpolate_correct"},"guarantee":"interpolate polynomial gcd from integer gcd","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools._dup_zz_gcd_interpolate_correct","statement":"Path(_dup_zz_gcd_interpolate(x), interpolate polynomial gcd from integer gcd)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c586576ef4fd4891","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dup_zz_gcd_interpolate(h, x, K):
     """Interpolate polynomial GCD from integer GCD. """
     f = []
@@ -1536,16 +1787,24 @@ def _dup_zz_gcd_interpolate(h, x, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_zz_heu_gcd(f, ), heuristic polynomial gcd in `z[x]`) over Any ║
+# ║ Path(dup_zz_heu_gcd(f, g, K), <unspecified:dup_zz_heu_gcd>) over {Any | hasattr(K, 'gcd') and hasattr(K, 'sqrt')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_zz_heu_gcd : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'gcd')                              ║
+# ║   requires: hasattr(K, 'sqrt')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_zz_heu_gcd : {Any | hasattr(K, 'gcd') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b30aa62e10d51efa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_zz_heu_gcd","kind":"function","src_hash":"686017cdfe1938da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_heu_gcd(f, )","rhs":"heuristic polynomial gcd in `z[x]`","over":{"base":"Any"},"name":"dup_zz_heu_gcd_correct"},"guarantee":"heuristic polynomial gcd in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_zz_heu_gcd_correct","statement":"Path(dup_zz_heu_gcd(x), heuristic polynomial gcd in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b30aa62e10d51efa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_zz_heu_gcd","kind":"function","src_hash":"686017cdfe1938da","in":{"base":"Any","pred":"hasattr(K, 'gcd') and hasattr(K, 'sqrt')"},"out":{"base":"Any"},"spec":{"lhs":"dup_zz_heu_gcd(f, g, K)","rhs":"<unspecified:dup_zz_heu_gcd>","over":{"base":"Any","pred":"hasattr(K, 'gcd') and hasattr(K, 'sqrt')"},"name":"dup_zz_heu_gcd_correct"},"guarantee":"heuristic polynomial gcd in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_zz_heu_gcd_correct","statement":"Path(dup_zz_heu_gcd(x), heuristic polynomial gcd in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b30aa62e10d51efa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'gcd')","hasattr(K, 'sqrt')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.gcd","K.sqrt"],"raises":["HeuristicGCDFailed"]},"state_contract":{"exceptional_post":{"HeuristicGCDFailed":["isinstance(raised, HeuristicGCDFailed)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def dup_zz_heu_gcd(f, g, K):
     """
     Heuristic polynomial GCD in `Z[x]`.
@@ -1653,16 +1912,26 @@ def dup_zz_heu_gcd(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dmp_zz_gcd_interpolate(h, ), interpolate polynomial gcd from integer gcd) over Any ║
+# ║ Path(_dmp_zz_gcd_interpolate(h, x, v), result == (dmp_neg(f, v + 1, K) if K.is_negative(dmp_ground_LC(f, v + 1, K)) else f) and result == dmp_neg(f, v + 1, K) or result == f) over {Any | hasattr(K, 'is_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dmp_zz_gcd_interpolate : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'is_negative')                      ║
+# ║   ensures:  result == (dmp_neg(f, v + 1, K) if K.is_n...   ║
+# ║   ensures:  result == dmp_neg(f, v + 1, K) or result ...   ║
+# ║   fiber[case_0]: K.is_negative(dmp_ground_LC(f, v + 1...   ║
+# ║   fiber[case_1]: not (K.is_negative(dmp_ground_LC(f, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dmp_zz_gcd_interpolate : {Any | hasattr(K, 'is_negat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbdbb2c4dc4b4c43  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32eff17a655adba9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dmp_zz_gcd_interpolate","kind":"function","src_hash":"821dafe5db49ce35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_zz_gcd_interpolate(h, )","rhs":"interpolate polynomial gcd from integer gcd","over":{"base":"Any"},"name":"_dmp_zz_gcd_interpolate_correct"},"guarantee":"interpolate polynomial gcd from integer gcd","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools._dmp_zz_gcd_interpolate_correct","statement":"Path(_dmp_zz_gcd_interpolate(x), interpolate polynomial gcd from integer gcd)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbdbb2c4dc4b4c43"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dmp_zz_gcd_interpolate","kind":"function","src_hash":"821dafe5db49ce35","in":{"base":"Any","pred":"hasattr(K, 'is_negative')"},"out":{"base":"Any","pred":"result satisfies: result == (dmp_neg(f, v + 1, K) if K.is_negative(dmp_ground_LC(f, v + 1, K)) else f) and result == dmp_neg(f, v + 1, K) or result == f"},"spec":{"lhs":"_dmp_zz_gcd_interpolate(h, x, v)","rhs":"result == (dmp_neg(f, v + 1, K) if K.is_negative(dmp_ground_LC(f, v + 1, K)) else f) and result == dmp_neg(f, v + 1, K) or result == f","over":{"base":"Any","pred":"hasattr(K, 'is_negative')"},"name":"_dmp_zz_gcd_interpolate_correct"},"guarantee":"result == (dmp_neg(f, v + 1, K) if K.is_negative(dmp_ground_LC(f, v + 1, K)) else f); result == dmp_neg(f, v + 1, K) or result == f; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools._dmp_zz_gcd_interpolate_correct","statement":"Path(_dmp_zz_gcd_interpolate(x), result == (dmp_neg(f, v + 1, K) if K.is_negative(dmp_ground_LC(f, v + 1, K)) else f); result == dmp_neg(f, v + 1, K) or result == f; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32eff17a655adba9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'is_negative')"],"ensures":["result == (dmp_neg(f, v + 1, K) if K.is_negative(dmp_ground_LC(f, v + 1, K)) else f)","result == dmp_neg(f, v + 1, K) or result == f"],"fibers":[{"name":"case_0","guard":"K.is_negative(dmp_ground_LC(f, v + 1, K))","ensures":["result == dmp_neg(f, v + 1, K)"],"decidability":"library","returns_expr":"dmp_neg(f, v + 1, K)"},{"name":"case_1","guard":"not (K.is_negative(dmp_ground_LC(f, v + 1, K)))","ensures":["result == f"],"decidability":"library","returns_expr":"f"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dmp_zz_gcd_interpolate(h, x, v, K):
     """Interpolate polynomial GCD from integer GCD. """
     f = []
@@ -1681,16 +1950,23 @@ def _dmp_zz_gcd_interpolate(h, x, v, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_zz_heu_gcd(f, ), heuristic polynomial gcd in `z[x]`) over Any ║
+# ║ Path(dmp_zz_heu_gcd(f, g, u), # HINT: dmp_zz_heu_gcd may be idempotent: dmp_zz_heu_gcd(dmp_zz_heu_gcd(x)) == dmp_zz_heu_gcd(x)) over {Any | hasattr(K, 'sqrt')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_zz_heu_gcd : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'sqrt')                             ║
+# ║   ensures:  # HINT: dmp_zz_heu_gcd may be idempotent:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_zz_heu_gcd : {Any | hasattr(K, 'sqrt')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f46a5341356c2c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d9e4a462b46c7c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_zz_heu_gcd","kind":"function","src_hash":"a2e64a5ac3401dce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_zz_heu_gcd(f, )","rhs":"heuristic polynomial gcd in `z[x]`","over":{"base":"Any"},"name":"dmp_zz_heu_gcd_correct"},"guarantee":"heuristic polynomial gcd in `z[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_zz_heu_gcd_correct","statement":"Path(dmp_zz_heu_gcd(x), heuristic polynomial gcd in `z[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f46a5341356c2c1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_zz_heu_gcd","kind":"function","src_hash":"a2e64a5ac3401dce","in":{"base":"Any","pred":"hasattr(K, 'sqrt')"},"out":{"base":"Any","pred":"result satisfies: # HINT: dmp_zz_heu_gcd may be idempotent: dmp_zz_heu_gcd(dmp_zz_heu_gcd(x)) == dmp_zz_heu_gcd(x)"},"spec":{"lhs":"dmp_zz_heu_gcd(f, g, u)","rhs":"# HINT: dmp_zz_heu_gcd may be idempotent: dmp_zz_heu_gcd(dmp_zz_heu_gcd(x)) == dmp_zz_heu_gcd(x)","over":{"base":"Any","pred":"hasattr(K, 'sqrt')"},"name":"dmp_zz_heu_gcd_correct"},"guarantee":"# HINT: dmp_zz_heu_gcd may be idempotent: dmp_zz_heu_gcd(dmp_zz_heu_gcd(x)) == dmp_zz_heu_gcd(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_zz_heu_gcd_correct","statement":"Path(dmp_zz_heu_gcd(x), # HINT: dmp_zz_heu_gcd may be idempotent: dmp_zz_heu_gcd(dmp_zz_heu_gcd(x)) == dmp_zz_heu_gcd(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d9e4a462b46c7c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'sqrt')"],"ensures":["# HINT: dmp_zz_heu_gcd may be idempotent: dmp_zz_heu_gcd(dmp_zz_heu_gcd(x)) == dmp_zz_heu_gcd(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.sqrt"],"raises":["HeuristicGCDFailed"]},"state_contract":{"exceptional_post":{"HeuristicGCDFailed":["isinstance(raised, HeuristicGCDFailed)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def dmp_zz_heu_gcd(f, g, u, K):
     """
     Heuristic polynomial GCD in `Z[X]`.
@@ -1799,16 +2075,24 @@ def dmp_zz_heu_gcd(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_qq_heu_gcd(f, ), heuristic polynomial gcd in `q[x]`) over Any ║
+# ║ Path(dup_qq_heu_gcd(f, g, K0), <unspecified:dup_qq_heu_gcd>) over {Any | hasattr(K0, 'get_ring') and hasattr(K0, 'quo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_qq_heu_gcd : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K0, 'get_ring')                        ║
+# ║   requires: hasattr(K0, 'quo')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_qq_heu_gcd : {Any | hasattr(K0, 'get_ring') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3dbc0d521eb40b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_qq_heu_gcd","kind":"function","src_hash":"73d0e6199e365597","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_qq_heu_gcd(f, )","rhs":"heuristic polynomial gcd in `q[x]`","over":{"base":"Any"},"name":"dup_qq_heu_gcd_correct"},"guarantee":"heuristic polynomial gcd in `q[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_qq_heu_gcd_correct","statement":"Path(dup_qq_heu_gcd(x), heuristic polynomial gcd in `q[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3dbc0d521eb40b9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_qq_heu_gcd","kind":"function","src_hash":"73d0e6199e365597","in":{"base":"Any","pred":"hasattr(K0, 'get_ring') and hasattr(K0, 'quo')"},"out":{"base":"Any"},"spec":{"lhs":"dup_qq_heu_gcd(f, g, K0)","rhs":"<unspecified:dup_qq_heu_gcd>","over":{"base":"Any","pred":"hasattr(K0, 'get_ring') and hasattr(K0, 'quo')"},"name":"dup_qq_heu_gcd_correct"},"guarantee":"heuristic polynomial gcd in `q[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_qq_heu_gcd_correct","statement":"Path(dup_qq_heu_gcd(x), heuristic polynomial gcd in `q[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3dbc0d521eb40b9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K0, 'get_ring')","hasattr(K0, 'quo')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K0.get_ring","K0.quo"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_qq_heu_gcd(f, g, K0):
     """
     Heuristic polynomial GCD in `Q[x]`.
@@ -1859,16 +2143,24 @@ def dup_qq_heu_gcd(f, g, K0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_qq_heu_gcd(f, ), heuristic polynomial gcd in `q[x]`) over Any ║
+# ║ Path(dmp_qq_heu_gcd(f, g, u), <unspecified:dmp_qq_heu_gcd>) over {Any | hasattr(K0, 'get_ring') and hasattr(K0, 'quo')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_qq_heu_gcd : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K0, 'get_ring')                        ║
+# ║   requires: hasattr(K0, 'quo')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_qq_heu_gcd : {Any | hasattr(K0, 'get_ring') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea66cba595da67a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_qq_heu_gcd","kind":"function","src_hash":"66d2c153e4af0228","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_qq_heu_gcd(f, )","rhs":"heuristic polynomial gcd in `q[x]`","over":{"base":"Any"},"name":"dmp_qq_heu_gcd_correct"},"guarantee":"heuristic polynomial gcd in `q[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_qq_heu_gcd_correct","statement":"Path(dmp_qq_heu_gcd(x), heuristic polynomial gcd in `q[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea66cba595da67a1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_qq_heu_gcd","kind":"function","src_hash":"66d2c153e4af0228","in":{"base":"Any","pred":"hasattr(K0, 'get_ring') and hasattr(K0, 'quo')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_qq_heu_gcd(f, g, u)","rhs":"<unspecified:dmp_qq_heu_gcd>","over":{"base":"Any","pred":"hasattr(K0, 'get_ring') and hasattr(K0, 'quo')"},"name":"dmp_qq_heu_gcd_correct"},"guarantee":"heuristic polynomial gcd in `q[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_qq_heu_gcd_correct","statement":"Path(dmp_qq_heu_gcd(x), heuristic polynomial gcd in `q[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea66cba595da67a1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K0, 'get_ring')","hasattr(K0, 'quo')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K0.get_ring","K0.quo"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dmp_qq_heu_gcd(f, g, u, K0):
     """
     Heuristic polynomial GCD in `Q[X]`.
@@ -1919,16 +2211,29 @@ def dmp_qq_heu_gcd(f, g, u, K0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_inner_gcd(f, ), computes polynomial gcd and cofactors of `f` and `g` in `k[x]`) over Any ║
+# ║ Path(dup_inner_gcd(f, g, K), result == ((h, cff, cfg) if K.is_RR or K.is_CC else dup_ff_prs_gcd(f, g, K) if K.is_Field else dup_rr_prs_gcd(f, g, K)) and result == (h, cff, cfg) or result == dup_ff_prs_gcd(f, g, K) or result == dup_rr_prs_gcd(f, g, K)) over {Any | hasattr(K, 'is_RR') and hasattr(K, 'is_CC') and hasattr(K, 'is_Field') and hasattr(K, 'get_exact') and hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ') and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_inner_gcd : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'is_RR')                            ║
+# ║   requires: hasattr(K, 'is_CC')                            ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   ensures:  result == ((h, cff, cfg) if K.is_RR or K....   ║
+# ║   ensures:  result == (h, cff, cfg) or result == dup_...   ║
+# ║   fiber[case_0]: K.is_RR or K.is_CC => (h, cff, cfg)       ║
+# ║   fiber[case_1]: K.is_Field => dup_ff_prs_gcd(f, g, K)     ║
+# ║   fiber[case_2]: not (K.is_RR or K.is_CC) and not (K....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_inner_gcd : {Any | hasattr(K, 'is_RR') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 490b5a53fc053a63  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8eb94ee349a01841  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_inner_gcd","kind":"function","src_hash":"43d0abc95871b1fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_gcd(f, )","rhs":"computes polynomial gcd and cofactors of `f` and `g` in `k[x]`","over":{"base":"Any"},"name":"dup_inner_gcd_correct"},"guarantee":"computes polynomial gcd and cofactors of `f` and `g` in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_inner_gcd_correct","statement":"Path(dup_inner_gcd(x), computes polynomial gcd and cofactors of `f` and `g` in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"490b5a53fc053a63"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_inner_gcd","kind":"function","src_hash":"43d0abc95871b1fc","in":{"base":"Any","pred":"hasattr(K, 'is_RR') and hasattr(K, 'is_CC') and hasattr(K, 'is_Field') and hasattr(K, 'get_exact') and hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ') and hasattr(K, 'one')"},"out":{"base":"Any","pred":"result satisfies: result == ((h, cff, cfg) if K.is_RR or K.is_CC else dup_ff_prs_gcd(f, g, K) if K.is_Field else dup_rr_prs_gcd(f, g, K)) and result == (h, cff, cfg) or result == dup_ff_prs_gcd(f, g, K) or result == dup_rr_prs_gcd(f, g, K)"},"spec":{"lhs":"dup_inner_gcd(f, g, K)","rhs":"result == ((h, cff, cfg) if K.is_RR or K.is_CC else dup_ff_prs_gcd(f, g, K) if K.is_Field else dup_rr_prs_gcd(f, g, K)) and result == (h, cff, cfg) or result == dup_ff_prs_gcd(f, g, K) or result == dup_rr_prs_gcd(f, g, K)","over":{"base":"Any","pred":"hasattr(K, 'is_RR') and hasattr(K, 'is_CC') and hasattr(K, 'is_Field') and hasattr(K, 'get_exact') and hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ') and hasattr(K, 'one')"},"name":"dup_inner_gcd_correct"},"guarantee":"result == ((h, cff, cfg) if K.is_RR or K.is_CC else dup_ff_prs_gcd(f, g, K) if K.is_Field else dup_rr_prs_gcd(f, g, K)); result == (h, cff, cfg) or result == dup_ff_prs_gcd(f, g, K) or result == dup_rr_prs_gcd(f, g, K); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_inner_gcd_correct","statement":"Path(dup_inner_gcd(x), result == ((h, cff, cfg) if K.is_RR or K.is_CC else dup_ff_prs_gcd(f, g, K) if K.is_Field else dup_rr_prs_gcd(f, g, K)); result == (h, cff, cfg) or result == dup_ff_prs_gcd(f, g, K) or result == dup_rr_prs_gcd(f, g, K); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8eb94ee349a01841","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'is_RR')","hasattr(K, 'is_CC')","hasattr(K, 'is_Field')","hasattr(K, 'get_exact')","hasattr(K, 'is_QQ')","hasattr(K, 'is_ZZ')","hasattr(K, 'one')"],"ensures":["result == ((h, cff, cfg) if K.is_RR or K.is_CC else dup_ff_prs_gcd(f, g, K) if K.is_Field else dup_rr_prs_gcd(f, g, K))","result == (h, cff, cfg) or result == dup_ff_prs_gcd(f, g, K) or result == dup_rr_prs_gcd(f, g, K)"],"fibers":[{"name":"case_0","guard":"K.is_RR or K.is_CC","ensures":["result == (h, cff, cfg)"],"decidability":"library","returns_expr":"(h, cff, cfg)"},{"name":"case_1","guard":"K.is_Field","ensures":["result == dup_ff_prs_gcd(f, g, K)"],"decidability":"library","returns_expr":"dup_ff_prs_gcd(f, g, K)"},{"name":"case_2","guard":"not (K.is_RR or K.is_CC) and not (K.is_Field)","ensures":["result == dup_rr_prs_gcd(f, g, K)"],"decidability":"library","returns_expr":"dup_rr_prs_gcd(f, g, K)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.get_exact","K.is_CC","K.is_Field","K.is_QQ","K.is_RR","K.is_ZZ","K.one"],"catches":["DomainError","HeuristicGCDFailed"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_inner_gcd(f, g, K):
     """
     Computes polynomial GCD and cofactors of `f` and `g` in `K[x]`.
@@ -1993,16 +2298,29 @@ def dup_inner_gcd(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dmp_inner_gcd(f, ), helper function for `dmp_inner_gcd()`) over Any ║
+# ║ Path(_dmp_inner_gcd(f, g, u), result == ((h, cff, cfg) if not K.is_Exact else dmp_ff_prs_gcd(f, g, u, K) if K.is_Field else dmp_rr_prs_gcd(f, g, u, K)) and result == (h, cff, cfg) or result == dmp_ff_prs_gcd(f, g, u, K) or result == dmp_rr_prs_gcd(f, g, u, K)) over {Any | hasattr(K, 'is_Exact') and hasattr(K, 'is_Field') and hasattr(K, 'get_exact') and hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dmp_inner_gcd : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'is_Exact')                         ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   requires: hasattr(K, 'get_exact')                        ║
+# ║   ensures:  result == ((h, cff, cfg) if not K.is_Exac...   ║
+# ║   ensures:  result == (h, cff, cfg) or result == dmp_...   ║
+# ║   fiber[case_0]: not K.is_Exact => (h, cff, cfg)           ║
+# ║   fiber[case_1]: K.is_Field => dmp_ff_prs_gcd(f, g, u...   ║
+# ║   fiber[case_2]: not (not K.is_Exact) and not (K.is_F...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dmp_inner_gcd : {Any | hasattr(K, 'is_Exact') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4f43e3133844af6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a12cf7254fa455fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dmp_inner_gcd","kind":"function","src_hash":"70ea0f79cd6c484f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dmp_inner_gcd(f, )","rhs":"helper function for `dmp_inner_gcd()`","over":{"base":"Any"},"name":"_dmp_inner_gcd_correct"},"guarantee":"helper function for `dmp_inner_gcd()`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools._dmp_inner_gcd_correct","statement":"Path(_dmp_inner_gcd(x), helper function for `dmp_inner_gcd()`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4f43e3133844af6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools._dmp_inner_gcd","kind":"function","src_hash":"70ea0f79cd6c484f","in":{"base":"Any","pred":"hasattr(K, 'is_Exact') and hasattr(K, 'is_Field') and hasattr(K, 'get_exact') and hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ')"},"out":{"base":"Any","pred":"result satisfies: result == ((h, cff, cfg) if not K.is_Exact else dmp_ff_prs_gcd(f, g, u, K) if K.is_Field else dmp_rr_prs_gcd(f, g, u, K)) and result == (h, cff, cfg) or result == dmp_ff_prs_gcd(f, g, u, K) or result == dmp_rr_prs_gcd(f, g, u, K)"},"spec":{"lhs":"_dmp_inner_gcd(f, g, u)","rhs":"result == ((h, cff, cfg) if not K.is_Exact else dmp_ff_prs_gcd(f, g, u, K) if K.is_Field else dmp_rr_prs_gcd(f, g, u, K)) and result == (h, cff, cfg) or result == dmp_ff_prs_gcd(f, g, u, K) or result == dmp_rr_prs_gcd(f, g, u, K)","over":{"base":"Any","pred":"hasattr(K, 'is_Exact') and hasattr(K, 'is_Field') and hasattr(K, 'get_exact') and hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ')"},"name":"_dmp_inner_gcd_correct"},"guarantee":"result == ((h, cff, cfg) if not K.is_Exact else dmp_ff_prs_gcd(f, g, u, K) if K.is_Field else dmp_rr_prs_gcd(f, g, u, K)); result == (h, cff, cfg) or result == dmp_ff_prs_gcd(f, g, u, K) or result == dmp_rr_prs_gcd(f, g, u, K); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools._dmp_inner_gcd_correct","statement":"Path(_dmp_inner_gcd(x), result == ((h, cff, cfg) if not K.is_Exact else dmp_ff_prs_gcd(f, g, u, K) if K.is_Field else dmp_rr_prs_gcd(f, g, u, K)); result == (h, cff, cfg) or result == dmp_ff_prs_gcd(f, g, u, K) or result == dmp_rr_prs_gcd(f, g, u, K); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a12cf7254fa455fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'is_Exact')","hasattr(K, 'is_Field')","hasattr(K, 'get_exact')","hasattr(K, 'is_QQ')","hasattr(K, 'is_ZZ')"],"ensures":["result == ((h, cff, cfg) if not K.is_Exact else dmp_ff_prs_gcd(f, g, u, K) if K.is_Field else dmp_rr_prs_gcd(f, g, u, K))","result == (h, cff, cfg) or result == dmp_ff_prs_gcd(f, g, u, K) or result == dmp_rr_prs_gcd(f, g, u, K)"],"fibers":[{"name":"case_0","guard":"not K.is_Exact","ensures":["result == (h, cff, cfg)"],"decidability":"library","returns_expr":"(h, cff, cfg)"},{"name":"case_1","guard":"K.is_Field","ensures":["result == dmp_ff_prs_gcd(f, g, u, K)"],"decidability":"library","returns_expr":"dmp_ff_prs_gcd(f, g, u, K)"},{"name":"case_2","guard":"not (not K.is_Exact) and not (K.is_Field)","ensures":["result == dmp_rr_prs_gcd(f, g, u, K)"],"decidability":"library","returns_expr":"dmp_rr_prs_gcd(f, g, u, K)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.get_exact","K.is_Exact","K.is_Field","K.is_QQ","K.is_ZZ"],"catches":["DomainError","HeuristicGCDFailed"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _dmp_inner_gcd(f, g, u, K):
     """Helper function for `dmp_inner_gcd()`. """
     if not K.is_Exact:
@@ -2040,16 +2358,22 @@ def _dmp_inner_gcd(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_inner_gcd(f, ), computes polynomial gcd and cofactors of `f` and `g` in `k[x]`) over Any ║
+# ║ Path(dmp_inner_gcd(f, g, u), <unspecified:dmp_inner_gcd>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_inner_gcd : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28237055cc7db459  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_inner_gcd","kind":"function","src_hash":"db22c009f160cdd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_inner_gcd(f, )","rhs":"computes polynomial gcd and cofactors of `f` and `g` in `k[x]`","over":{"base":"Any"},"name":"dmp_inner_gcd_correct"},"guarantee":"computes polynomial gcd and cofactors of `f` and `g` in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_inner_gcd_correct","statement":"Path(dmp_inner_gcd(x), computes polynomial gcd and cofactors of `f` and `g` in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28237055cc7db459"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_inner_gcd","kind":"function","src_hash":"db22c009f160cdd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_inner_gcd(f, g, u)","rhs":"<unspecified:dmp_inner_gcd>","over":{"base":"Any"},"name":"dmp_inner_gcd_correct"},"guarantee":"computes polynomial gcd and cofactors of `f` and `g` in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_inner_gcd_correct","statement":"Path(dmp_inner_gcd(x), computes polynomial gcd and cofactors of `f` and `g` in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28237055cc7db459","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_inner_gcd(f, g, u, K):
     """
     Computes polynomial GCD and cofactors of `f` and `g` in `K[X]`.
@@ -2082,16 +2406,22 @@ def dmp_inner_gcd(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_gcd(f, ), computes polynomial gcd of `f` and `g` in `k[x]`) over Any ║
+# ║ Path(dup_gcd(f, g, K), dup_inner_gcd(f, g, K)[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_inner_gcd(f, g, K)[0]                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_gcd : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a8d139b38f183bf7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_gcd","kind":"function","src_hash":"0630ddce757c9579","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gcd(f, )","rhs":"computes polynomial gcd of `f` and `g` in `k[x]`","over":{"base":"Any"},"name":"dup_gcd_correct"},"guarantee":"computes polynomial gcd of `f` and `g` in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8d139b38f183bf7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_gcd","kind":"function","src_hash":"0630ddce757c9579","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_gcd(f, g, K)","rhs":"dup_inner_gcd(f, g, K)[0]","over":{"base":"Any"},"name":"dup_gcd_correct"},"guarantee":"returns dup_inner_gcd(f, g, K)[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a8d139b38f183bf7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_inner_gcd(f, g, K)[0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def dup_gcd(f, g, K):
     """
     Computes polynomial GCD of `f` and `g` in `K[x]`.
@@ -2110,16 +2440,22 @@ def dup_gcd(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_gcd(f, ), computes polynomial gcd of `f` and `g` in `k[x]`) over Any ║
+# ║ Path(dmp_gcd(f, g, u), dmp_inner_gcd(f, g, u, K)[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_inner_gcd(f, g, u, K)[0]                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_gcd : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 41fdeb182867411a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_gcd","kind":"function","src_hash":"3b2d39f95d9fbeee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gcd(f, )","rhs":"computes polynomial gcd of `f` and `g` in `k[x]`","over":{"base":"Any"},"name":"dmp_gcd_correct"},"guarantee":"computes polynomial gcd of `f` and `g` in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41fdeb182867411a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_gcd","kind":"function","src_hash":"3b2d39f95d9fbeee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_gcd(f, g, u)","rhs":"dmp_inner_gcd(f, g, u, K)[0]","over":{"base":"Any"},"name":"dmp_gcd_correct"},"guarantee":"returns dmp_inner_gcd(f, g, u, K)[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"41fdeb182867411a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_inner_gcd(f, g, u, K)[0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def dmp_gcd(f, g, u, K):
     """
     Computes polynomial GCD of `f` and `g` in `K[X]`.
@@ -2141,16 +2477,24 @@ def dmp_gcd(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_rr_lcm(f, ), computes polynomial lcm over a ring in `k[x]`) over Any ║
+# ║ Path(dup_rr_lcm(f, g, K), <unspecified:dup_rr_lcm>) over {Any | hasattr(K, 'lcm') and hasattr(K, 'canonical_unit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_rr_lcm : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'lcm')                              ║
+# ║   requires: hasattr(K, 'canonical_unit')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_rr_lcm : {Any | hasattr(K, 'lcm') and hasattr(K, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ec990724718e362  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_rr_lcm","kind":"function","src_hash":"b3923e48d0bf085e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_rr_lcm(f, )","rhs":"computes polynomial lcm over a ring in `k[x]`","over":{"base":"Any"},"name":"dup_rr_lcm_correct"},"guarantee":"computes polynomial lcm over a ring in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_rr_lcm_correct","statement":"Path(dup_rr_lcm(x), computes polynomial lcm over a ring in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ec990724718e362"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_rr_lcm","kind":"function","src_hash":"b3923e48d0bf085e","in":{"base":"Any","pred":"hasattr(K, 'lcm') and hasattr(K, 'canonical_unit')"},"out":{"base":"Any"},"spec":{"lhs":"dup_rr_lcm(f, g, K)","rhs":"<unspecified:dup_rr_lcm>","over":{"base":"Any","pred":"hasattr(K, 'lcm') and hasattr(K, 'canonical_unit')"},"name":"dup_rr_lcm_correct"},"guarantee":"computes polynomial lcm over a ring in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_rr_lcm_correct","statement":"Path(dup_rr_lcm(x), computes polynomial lcm over a ring in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ec990724718e362","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'lcm')","hasattr(K, 'canonical_unit')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.canonical_unit","K.lcm"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_rr_lcm(f, g, K):
     """
     Computes polynomial LCM over a ring in `K[x]`.
@@ -2182,16 +2526,22 @@ def dup_rr_lcm(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_ff_lcm(f, ), computes polynomial lcm over a field in `k[x]`) over Any ║
+# ║ Path(dup_ff_lcm(f, g, K), dup_monic(h, K)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dup_monic(h, K)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_ff_lcm : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb8a102d676ce243  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9759607cd3919fff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_ff_lcm","kind":"function","src_hash":"05f86caf779f14f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_ff_lcm(f, )","rhs":"computes polynomial lcm over a field in `k[x]`","over":{"base":"Any"},"name":"dup_ff_lcm_correct"},"guarantee":"computes polynomial lcm over a field in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_ff_lcm_correct","statement":"Path(dup_ff_lcm(x), computes polynomial lcm over a field in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb8a102d676ce243"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_ff_lcm","kind":"function","src_hash":"05f86caf779f14f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_ff_lcm(f, g, K)","rhs":"dup_monic(h, K)","over":{"base":"Any"},"name":"dup_ff_lcm_correct"},"guarantee":"returns dup_monic(h, K)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_ff_lcm_correct","statement":"Path(dup_ff_lcm(x), returns dup_monic(h, K))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9759607cd3919fff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dup_monic(h, K)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_ff_lcm(f, g, K):
     """
     Computes polynomial LCM over a field in `K[x]`.
@@ -2216,16 +2566,26 @@ def dup_ff_lcm(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_lcm(f, ), computes polynomial lcm of `f` and `g` in `k[x]`) over Any ║
+# ║ Path(dup_lcm(f, g, K), result == (dup_ff_lcm(f, g, K) if K.is_Field else dup_rr_lcm(f, g, K)) and result == dup_ff_lcm(f, g, K) or result == dup_rr_lcm(f, g, K)) over {Any | hasattr(K, 'is_Field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_lcm : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   ensures:  result == (dup_ff_lcm(f, g, K) if K.is_Fi...   ║
+# ║   ensures:  result == dup_ff_lcm(f, g, K) or result =...   ║
+# ║   fiber[case_0]: K.is_Field => dup_ff_lcm(f, g, K)         ║
+# ║   fiber[case_1]: not (K.is_Field) => dup_rr_lcm(f, g, K)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_lcm : {Any | hasattr(K, 'is_Field')} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1f074f55607d671  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c93538ee7880353  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_lcm","kind":"function","src_hash":"f70ecd1e0eec577a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_lcm(f, )","rhs":"computes polynomial lcm of `f` and `g` in `k[x]`","over":{"base":"Any"},"name":"dup_lcm_correct"},"guarantee":"computes polynomial lcm of `f` and `g` in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_lcm_correct","statement":"Path(dup_lcm(x), computes polynomial lcm of `f` and `g` in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1f074f55607d671"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_lcm","kind":"function","src_hash":"f70ecd1e0eec577a","in":{"base":"Any","pred":"hasattr(K, 'is_Field')"},"out":{"base":"Any","pred":"result satisfies: result == (dup_ff_lcm(f, g, K) if K.is_Field else dup_rr_lcm(f, g, K)) and result == dup_ff_lcm(f, g, K) or result == dup_rr_lcm(f, g, K)"},"spec":{"lhs":"dup_lcm(f, g, K)","rhs":"result == (dup_ff_lcm(f, g, K) if K.is_Field else dup_rr_lcm(f, g, K)) and result == dup_ff_lcm(f, g, K) or result == dup_rr_lcm(f, g, K)","over":{"base":"Any","pred":"hasattr(K, 'is_Field')"},"name":"dup_lcm_correct"},"guarantee":"result == (dup_ff_lcm(f, g, K) if K.is_Field else dup_rr_lcm(f, g, K)); result == dup_ff_lcm(f, g, K) or result == dup_rr_lcm(f, g, K); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dup_lcm_correct","statement":"Path(dup_lcm(x), result == (dup_ff_lcm(f, g, K) if K.is_Field else dup_rr_lcm(f, g, K)); result == dup_ff_lcm(f, g, K) or result == dup_rr_lcm(f, g, K); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c93538ee7880353","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'is_Field')"],"ensures":["result == (dup_ff_lcm(f, g, K) if K.is_Field else dup_rr_lcm(f, g, K))","result == dup_ff_lcm(f, g, K) or result == dup_rr_lcm(f, g, K)"],"fibers":[{"name":"case_0","guard":"K.is_Field","ensures":["result == dup_ff_lcm(f, g, K)"],"decidability":"library","returns_expr":"dup_ff_lcm(f, g, K)"},{"name":"case_1","guard":"not (K.is_Field)","ensures":["result == dup_rr_lcm(f, g, K)"],"decidability":"library","returns_expr":"dup_rr_lcm(f, g, K)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_Field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_lcm(f, g, K):
     """
     Computes polynomial LCM of `f` and `g` in `K[x]`.
@@ -2247,16 +2607,23 @@ def dup_lcm(f, g, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_rr_lcm(f, ), computes polynomial lcm over a ring in `k[x]`) over Any ║
+# ║ Path(dmp_rr_lcm(f, g, u), dmp_mul_ground(h, c, u, K)) over {Any | hasattr(K, 'lcm')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_rr_lcm : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'lcm')                              ║
+# ║   returns:  dmp_mul_ground(h, c, u, K)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_rr_lcm : {Any | hasattr(K, 'lcm')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 457df7d6eab3617b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54d15adb83e1882d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_rr_lcm","kind":"function","src_hash":"f4fb6a545ae7bd3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_rr_lcm(f, )","rhs":"computes polynomial lcm over a ring in `k[x]`","over":{"base":"Any"},"name":"dmp_rr_lcm_correct"},"guarantee":"computes polynomial lcm over a ring in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_rr_lcm_correct","statement":"Path(dmp_rr_lcm(x), computes polynomial lcm over a ring in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"457df7d6eab3617b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_rr_lcm","kind":"function","src_hash":"f4fb6a545ae7bd3b","in":{"base":"Any","pred":"hasattr(K, 'lcm')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_rr_lcm(f, g, u)","rhs":"dmp_mul_ground(h, c, u, K)","over":{"base":"Any","pred":"hasattr(K, 'lcm')"},"name":"dmp_rr_lcm_correct"},"guarantee":"returns dmp_mul_ground(h, c, u, K)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_rr_lcm_correct","statement":"Path(dmp_rr_lcm(x), returns dmp_mul_ground(h, c, u, K))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54d15adb83e1882d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'lcm')"],"returns_expr":"dmp_mul_ground(h, c, u, K)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.lcm"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_rr_lcm(f, g, u, K):
     """
     Computes polynomial LCM over a ring in `K[X]`.
@@ -2286,16 +2653,22 @@ def dmp_rr_lcm(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_ff_lcm(f, ), computes polynomial lcm over a field in `k[x]`) over Any ║
+# ║ Path(dmp_ff_lcm(f, g, u), dmp_ground_monic(h, u, K)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_ground_monic(h, u, K)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_ff_lcm : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd2371f276fa0ce7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76ae6ab9fa0d638b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_ff_lcm","kind":"function","src_hash":"b449eddef6b9ff65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ff_lcm(f, )","rhs":"computes polynomial lcm over a field in `k[x]`","over":{"base":"Any"},"name":"dmp_ff_lcm_correct"},"guarantee":"computes polynomial lcm over a field in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_ff_lcm_correct","statement":"Path(dmp_ff_lcm(x), computes polynomial lcm over a field in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd2371f276fa0ce7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_ff_lcm","kind":"function","src_hash":"b449eddef6b9ff65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_ff_lcm(f, g, u)","rhs":"dmp_ground_monic(h, u, K)","over":{"base":"Any"},"name":"dmp_ff_lcm_correct"},"guarantee":"returns dmp_ground_monic(h, u, K)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_ff_lcm_correct","statement":"Path(dmp_ff_lcm(x), returns dmp_ground_monic(h, u, K))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76ae6ab9fa0d638b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_ground_monic(h, u, K)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_ff_lcm(f, g, u, K):
     """
     Computes polynomial LCM over a field in `K[X]`.
@@ -2320,16 +2693,23 @@ def dmp_ff_lcm(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_lcm(f, ), computes polynomial lcm of `f` and `g` in `k[x]`) over Any ║
+# ║ Path(dmp_lcm(f, g, u), <unspecified:dmp_lcm>) over {Any | hasattr(K, 'is_Field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_lcm : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_lcm : {Any | hasattr(K, 'is_Field')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6034633c4ef1c68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_lcm","kind":"function","src_hash":"5f6c801cfe2277d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_lcm(f, )","rhs":"computes polynomial lcm of `f` and `g` in `k[x]`","over":{"base":"Any"},"name":"dmp_lcm_correct"},"guarantee":"computes polynomial lcm of `f` and `g` in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_lcm_correct","statement":"Path(dmp_lcm(x), computes polynomial lcm of `f` and `g` in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6034633c4ef1c68"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_lcm","kind":"function","src_hash":"5f6c801cfe2277d9","in":{"base":"Any","pred":"hasattr(K, 'is_Field')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_lcm(f, g, u)","rhs":"<unspecified:dmp_lcm>","over":{"base":"Any","pred":"hasattr(K, 'is_Field')"},"name":"dmp_lcm_correct"},"guarantee":"computes polynomial lcm of `f` and `g` in `k[x]`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_lcm_correct","statement":"Path(dmp_lcm(x), computes polynomial lcm of `f` and `g` in `k[x]`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6034633c4ef1c68","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_Field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_Field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_lcm(f, g, u, K):
     """
     Computes polynomial LCM of `f` and `g` in `K[X]`.
@@ -2357,16 +2737,23 @@ def dmp_lcm(f, g, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_content(f, ), returns gcd of multivariate coefficients) over Any ║
+# ║ Path(dmp_content(f, u, K), <unspecified:dmp_content>) over {Any | hasattr(K, 'is_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_content : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_negative')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_content : {Any | hasattr(K, 'is_negative')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76d7fb5f23d7d07d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_content","kind":"function","src_hash":"7688be4c95f13976","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_content(f, )","rhs":"returns gcd of multivariate coefficients","over":{"base":"Any"},"name":"dmp_content_correct"},"guarantee":"returns gcd of multivariate coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_content_correct","statement":"Path(dmp_content(x), returns gcd of multivariate coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76d7fb5f23d7d07d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_content","kind":"function","src_hash":"7688be4c95f13976","in":{"base":"Any","pred":"hasattr(K, 'is_negative')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_content(f, u, K)","rhs":"<unspecified:dmp_content>","over":{"base":"Any","pred":"hasattr(K, 'is_negative')"},"name":"dmp_content_correct"},"guarantee":"returns gcd of multivariate coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_content_correct","statement":"Path(dmp_content(x), returns gcd of multivariate coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76d7fb5f23d7d07d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_negative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_negative"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_content(f, u, K):
     """
     Returns GCD of multivariate coefficients.
@@ -2399,16 +2786,25 @@ def dmp_content(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_primitive(f, ), returns multivariate content and a primitive polynomial) over Any ║
+# ║ Path(dmp_primitive(f, u, K), result == ((cont, f) if dmp_zero_p(f, u) or dmp_one_p(cont, v, K) else (cont, [dmp_quo(c, cont, v, K) for c in f])) and result == (cont, f) or result == (cont, [dmp_quo(c, cont, v, K) for c in f])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_primitive : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((cont, f) if dmp_zero_p(f, u) ...   ║
+# ║   ensures:  result == (cont, f) or result == (cont, [...   ║
+# ║   fiber[case_0]: dmp_zero_p(f, u) or dmp_one_p(cont, ...   ║
+# ║   fiber[case_1]: not (dmp_zero_p(f, u) or dmp_one_p(c...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_primitive : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cdae390b7279977  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64ef3f3a616694a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_primitive","kind":"function","src_hash":"6d1e675115fda64b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_primitive(f, )","rhs":"returns multivariate content and a primitive polynomial","over":{"base":"Any"},"name":"dmp_primitive_correct"},"guarantee":"returns multivariate content and a primitive polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_primitive_correct","statement":"Path(dmp_primitive(x), returns multivariate content and a primitive polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cdae390b7279977"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_primitive","kind":"function","src_hash":"6d1e675115fda64b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((cont, f) if dmp_zero_p(f, u) or dmp_one_p(cont, v, K) else (cont, [dmp_quo(c, cont, v, K) for c in f])) and result == (cont, f) or result == (cont, [dmp_quo(c, cont, v, K) for c in f])"},"spec":{"lhs":"dmp_primitive(f, u, K)","rhs":"result == ((cont, f) if dmp_zero_p(f, u) or dmp_one_p(cont, v, K) else (cont, [dmp_quo(c, cont, v, K) for c in f])) and result == (cont, f) or result == (cont, [dmp_quo(c, cont, v, K) for c in f])","over":{"base":"Any"},"name":"dmp_primitive_correct"},"guarantee":"result == ((cont, f) if dmp_zero_p(f, u) or dmp_one_p(cont, v, K) else (cont, [dmp_quo(c, cont, v, K) for c in f])); result == (cont, f) or result == (cont, [dmp_quo(c, cont, v, K) for c in f]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_primitive_correct","statement":"Path(dmp_primitive(x), result == ((cont, f) if dmp_zero_p(f, u) or dmp_one_p(cont, v, K) else (cont, [dmp_quo(c, cont, v, K) for c in f])); result == (cont, f) or result == (cont, [dmp_quo(c, cont, v, K) for c in f]); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64ef3f3a616694a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((cont, f) if dmp_zero_p(f, u) or dmp_one_p(cont, v, K) else (cont, [dmp_quo(c, cont, v, K) for c in f]))","result == (cont, f) or result == (cont, [dmp_quo(c, cont, v, K) for c in f])"],"fibers":[{"name":"case_0","guard":"dmp_zero_p(f, u) or dmp_one_p(cont, v, K)","ensures":["result == (cont, f)"],"decidability":"library","returns_expr":"(cont, f)"},{"name":"case_1","guard":"not (dmp_zero_p(f, u) or dmp_one_p(cont, v, K))","ensures":["result == (cont, [dmp_quo(c, cont, v, K) for c in f])"],"decidability":"library","returns_expr":"(cont, [dmp_quo(c, cont, v, K) for c in f])"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dmp_primitive(f, u, K):
     """
     Returns multivariate content and a primitive polynomial.
@@ -2432,16 +2828,22 @@ def dmp_primitive(f, u, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_cancel(f, ), cancel common factors in a rational function `f/g`) over Any ║
+# ║ Path(dup_cancel(f, g, K), dmp_cancel(f, g, 0, K, include=include)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dmp_cancel(f, g, 0, K, include=include)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_cancel : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cbaf7da776a0737d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_cancel","kind":"function","src_hash":"abbe0eb69f08b1a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_cancel(f, )","rhs":"cancel common factors in a rational function `f/g`","over":{"base":"Any"},"name":"dup_cancel_correct"},"guarantee":"cancel common factors in a rational function `f/g`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cbaf7da776a0737d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dup_cancel","kind":"function","src_hash":"abbe0eb69f08b1a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_cancel(f, g, K)","rhs":"dmp_cancel(f, g, 0, K, include=include)","over":{"base":"Any"},"name":"dup_cancel_correct"},"guarantee":"returns dmp_cancel(f, g, 0, K, include=include)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cbaf7da776a0737d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dmp_cancel(f, g, 0, K, include=include)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def dup_cancel(f, g, K, include=True):
     """
     Cancel common factors in a rational function `f/g`.
@@ -2460,16 +2862,25 @@ def dup_cancel(f, g, K, include=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_cancel(f, ), cancel common factors in a rational function `f/g`) over Any ║
+# ║ Path(dmp_cancel(f, g, u), <unspecified:dmp_cancel>) over {Any | hasattr(K, 'is_Field') and hasattr(K, 'has_assoc_Ring') and hasattr(K, 'is_negative') and hasattr(K, 'one') and hasattr(K, 'cofactors') and hasattr(K, 'get_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_cancel : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   requires: hasattr(K, 'has_assoc_Ring')                   ║
+# ║   requires: hasattr(K, 'is_negative')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_cancel : {Any | hasattr(K, 'is_Field') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b6a1e33da3ddb74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_cancel","kind":"function","src_hash":"ee2bfc0f7cb55f2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_cancel(f, )","rhs":"cancel common factors in a rational function `f/g`","over":{"base":"Any"},"name":"dmp_cancel_correct"},"guarantee":"cancel common factors in a rational function `f/g`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_cancel_correct","statement":"Path(dmp_cancel(x), cancel common factors in a rational function `f/g`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b6a1e33da3ddb74"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.euclidtools.dmp_cancel","kind":"function","src_hash":"ee2bfc0f7cb55f2d","in":{"base":"Any","pred":"hasattr(K, 'is_Field') and hasattr(K, 'has_assoc_Ring') and hasattr(K, 'is_negative') and hasattr(K, 'one') and hasattr(K, 'cofactors') and hasattr(K, 'get_ring')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_cancel(f, g, u)","rhs":"<unspecified:dmp_cancel>","over":{"base":"Any","pred":"hasattr(K, 'is_Field') and hasattr(K, 'has_assoc_Ring') and hasattr(K, 'is_negative') and hasattr(K, 'one') and hasattr(K, 'cofactors') and hasattr(K, 'get_ring')"},"name":"dmp_cancel_correct"},"guarantee":"cancel common factors in a rational function `f/g`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.euclidtools.dmp_cancel_correct","statement":"Path(dmp_cancel(x), cancel common factors in a rational function `f/g`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b6a1e33da3ddb74","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_Field')","hasattr(K, 'has_assoc_Ring')","hasattr(K, 'is_negative')","hasattr(K, 'one')","hasattr(K, 'cofactors')","hasattr(K, 'get_ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.cofactors","K.get_ring","K.has_assoc_Ring","K.is_Field","K.is_negative","K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def dmp_cancel(f, g, u, K, include=True):
     """
     Cancel common factors in a rational function `f/g`.

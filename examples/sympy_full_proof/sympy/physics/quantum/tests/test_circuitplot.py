@@ -24,91 +24,131 @@ from sympy.testing.pytest import skip
 mpl = import_module('matplotlib')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_render_label(), test_render_label produces the expected output) over Any ║
+# ║ Path(test_render_label(), render_label('q0') == '$\\left|q0\\right\\rangle$' and render_label('q0', {'q0': '0'}) == '$\\left|q0\\right\\rangle=\\left|0\\right\\rangle$') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_render_label : Any → {Any | render_label('q0') =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  render_label('q0') == '$\\left|q0\\right\...   ║
+# ║   ensures:  render_label('q0', {'q0': '0'}) == '$\\le...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_render_label : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c67881c4dba16a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cb1d428bda03897  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_render_label","kind":"function","src_hash":"d80f873758946da6","in":{"base":"Any"},"out":{"base":"Any","pred":"render_label('q0') == '$\\\\left|q0\\\\right\\\\rangle$'"},"spec":{"lhs":"test_render_label()","rhs":"test_render_label produces the expected output","over":{"base":"Any"},"name":"test_render_label_correct"},"guarantee":"test_render_label produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_render_label_correct","statement":"Path(test_render_label(x), test_render_label produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c67881c4dba16a4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_render_label","kind":"function","src_hash":"d80f873758946da6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: render_label('q0') == '$\\\\left|q0\\\\right\\\\rangle$' and render_label('q0', {'q0': '0'}) == '$\\\\left|q0\\\\right\\\\rangle=\\\\left|0\\\\right\\\\rangle$'"},"spec":{"lhs":"test_render_label()","rhs":"render_label('q0') == '$\\\\left|q0\\\\right\\\\rangle$' and render_label('q0', {'q0': '0'}) == '$\\\\left|q0\\\\right\\\\rangle=\\\\left|0\\\\right\\\\rangle$'","over":{"base":"Any"},"name":"test_render_label_correct"},"guarantee":"render_label('q0') == '$\\\\left|q0\\\\right\\\\rangle$'; render_label('q0', {'q0': '0'}) == '$\\\\left|q0\\\\right\\\\rangle=\\\\left|0\\\\right\\\\rangle$'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_render_label_correct","statement":"Path(test_render_label(x), render_label('q0') == '$\\\\left|q0\\\\right\\\\rangle$'; render_label('q0', {'q0': '0'}) == '$\\\\left|q0\\\\right\\\\rangle=\\\\left|0\\\\right\\\\rangle$')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cb1d428bda03897","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["render_label('q0') == '$\\\\left|q0\\\\right\\\\rangle$'","render_label('q0', {'q0': '0'}) == '$\\\\left|q0\\\\right\\\\rangle=\\\\left|0\\\\right\\\\rangle$'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_render_label():
     assert render_label('q0') == r'$\left|q0\right\rangle$'
     assert render_label('q0', {'q0': '0'}) == r'$\left|q0\right\rangle=\left|0\right\rangle$'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Mz(), test_Mz produces the expected output) over Any ║
+# ║ Path(test_Mz(), str(Mz(0)) == 'Mz(0)') over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Mz : Any → {Any | str(Mz(0)) == 'Mz(0)'}              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Mz(0)) == 'Mz(0)'                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Mz : Any → {Any | result satisfies: str(Mz(0)) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a994856db2c0e796  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a627670a07c4989  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_Mz","kind":"function","src_hash":"d431318c3a76f25a","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Mz(0)) == 'Mz(0)'"},"spec":{"lhs":"test_Mz()","rhs":"test_Mz produces the expected output","over":{"base":"Any"},"name":"test_Mz_correct"},"guarantee":"test_Mz produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_Mz_correct","statement":"Path(test_Mz(x), test_Mz produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a994856db2c0e796"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_Mz","kind":"function","src_hash":"d431318c3a76f25a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Mz(0)) == 'Mz(0)'"},"spec":{"lhs":"test_Mz()","rhs":"str(Mz(0)) == 'Mz(0)'","over":{"base":"Any"},"name":"test_Mz_correct"},"guarantee":"str(Mz(0)) == 'Mz(0)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_Mz_correct","statement":"Path(test_Mz(x), str(Mz(0)) == 'Mz(0)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a627670a07c4989","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Mz(0)) == 'Mz(0)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Mz():
     assert str(Mz(0)) == 'Mz(0)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_create1(), test_create1 produces the expected output) over Any ║
+# ║ Path(test_create1(), str(Qgate(0)) == 'Q(0)') over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_create1 : Any → {Any | str(Qgate(0)) == 'Q(0)'}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Qgate(0)) == 'Q(0)'                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_create1 : Any → {Any | result satisfies: str(Qga...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 871da863b3553d0a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e2a583cca6dcd40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_create1","kind":"function","src_hash":"a5bf3aad78adfa8a","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Qgate(0)) == 'Q(0)'"},"spec":{"lhs":"test_create1()","rhs":"test_create1 produces the expected output","over":{"base":"Any"},"name":"test_create1_correct"},"guarantee":"test_create1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_create1_correct","statement":"Path(test_create1(x), test_create1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"871da863b3553d0a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_create1","kind":"function","src_hash":"a5bf3aad78adfa8a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Qgate(0)) == 'Q(0)'"},"spec":{"lhs":"test_create1()","rhs":"str(Qgate(0)) == 'Q(0)'","over":{"base":"Any"},"name":"test_create1_correct"},"guarantee":"str(Qgate(0)) == 'Q(0)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_create1_correct","statement":"Path(test_create1(x), str(Qgate(0)) == 'Q(0)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e2a583cca6dcd40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Qgate(0)) == 'Q(0)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_create1():
     Qgate = CreateOneQubitGate('Q')
     assert str(Qgate(0)) == 'Q(0)'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_createc(), test_createc produces the expected output) over Any ║
+# ║ Path(test_createc(), str(Qgate([1], 0)) == 'C((1),Q(0))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_createc : Any → {Any | str(Qgate([1], 0)) == 'C(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Qgate([1], 0)) == 'C((1),Q(0))'            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_createc : Any → {Any | result satisfies: str(Qga...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81315fcf825ab7dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b26ee0a8bba65fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_createc","kind":"function","src_hash":"0ac473ec3cba23ee","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Qgate([1], 0)) == 'C((1),Q(0))'"},"spec":{"lhs":"test_createc()","rhs":"test_createc produces the expected output","over":{"base":"Any"},"name":"test_createc_correct"},"guarantee":"test_createc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_createc_correct","statement":"Path(test_createc(x), test_createc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81315fcf825ab7dc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_createc","kind":"function","src_hash":"0ac473ec3cba23ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Qgate([1], 0)) == 'C((1),Q(0))'"},"spec":{"lhs":"test_createc()","rhs":"str(Qgate([1], 0)) == 'C((1),Q(0))'","over":{"base":"Any"},"name":"test_createc_correct"},"guarantee":"str(Qgate([1], 0)) == 'C((1),Q(0))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_createc_correct","statement":"Path(test_createc(x), str(Qgate([1], 0)) == 'C((1),Q(0))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b26ee0a8bba65fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Qgate([1], 0)) == 'C((1),Q(0))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_createc():
     Qgate = CreateCGate('Q')
     assert str(Qgate([1],0)) == 'C((1),Q(0))'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_labeller(), test the labeller utility) over Any  ║
+# ║ Path(test_labeller(), labeller(2) == ['q_1', 'q_0'] and labeller(3, 'j') == ['j_2', 'j_1', 'j_0']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_labeller : Any → {Any | labeller(2) == ['q_1', '...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  labeller(2) == ['q_1', 'q_0']                  ║
+# ║   ensures:  labeller(3, 'j') == ['j_2', 'j_1', 'j_0']      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_labeller : Any → {Any | result satisfies: labell...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97719fdf4a010fa7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38c776555b54e85c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_labeller","kind":"function","src_hash":"f8ce6da66f70c053","in":{"base":"Any"},"out":{"base":"Any","pred":"labeller(2) == ['q_1', 'q_0'] and labeller(3, 'j') == ['j_2', 'j_1', 'j_0']"},"spec":{"lhs":"test_labeller()","rhs":"test the labeller utility","over":{"base":"Any"},"name":"test_labeller_correct"},"guarantee":"test the labeller utility","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_labeller_correct","statement":"Path(test_labeller(x), test the labeller utility)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97719fdf4a010fa7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_labeller","kind":"function","src_hash":"f8ce6da66f70c053","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: labeller(2) == ['q_1', 'q_0'] and labeller(3, 'j') == ['j_2', 'j_1', 'j_0']"},"spec":{"lhs":"test_labeller()","rhs":"labeller(2) == ['q_1', 'q_0'] and labeller(3, 'j') == ['j_2', 'j_1', 'j_0']","over":{"base":"Any"},"name":"test_labeller_correct"},"guarantee":"labeller(2) == ['q_1', 'q_0']; labeller(3, 'j') == ['j_2', 'j_1', 'j_0']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_labeller_correct","statement":"Path(test_labeller(x), labeller(2) == ['q_1', 'q_0']; labeller(3, 'j') == ['j_2', 'j_1', 'j_0'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38c776555b54e85c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["labeller(2) == ['q_1', 'q_0']","labeller(3, 'j') == ['j_2', 'j_1', 'j_0']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_labeller():
     """Test the labeller utility"""
     assert labeller(2) == ['q_1', 'q_0']
     assert labeller(3,'j') == ['j_2', 'j_1', 'j_0']
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cnot(), test a simple cnot circuit) over Any     ║
+# ║ Path(test_cnot(), c.ngates == 2 and c.nqubits == 2 and c.labels == ['q_1', 'q_0'] and c.labels == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cnot : Any → {Any | c.ngates == 2 and c.nqubits ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.ngates == 2                                  ║
+# ║   ensures:  c.nqubits == 2                                 ║
+# ║   ensures:  c.labels == ['q_1', 'q_0']                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cnot : Any → {Any | result satisfies: c.ngates =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 619fa20a8f6d6cfd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7553d24c813b199e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_cnot","kind":"function","src_hash":"645bfc1cd7ed9fdc","in":{"base":"Any"},"out":{"base":"Any","pred":"c.ngates == 2 and c.nqubits == 2 and c.labels == ['q_1', 'q_0'] and c.ngates == 2 and c.nqubits == 2 and c.labels == []"},"spec":{"lhs":"test_cnot()","rhs":"test a simple cnot circuit","over":{"base":"Any"},"name":"test_cnot_correct"},"guarantee":"test a simple cnot circuit","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_cnot_correct","statement":"Path(test_cnot(x), test a simple cnot circuit)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"619fa20a8f6d6cfd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_cnot","kind":"function","src_hash":"645bfc1cd7ed9fdc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.ngates == 2 and c.nqubits == 2 and c.labels == ['q_1', 'q_0'] and c.labels == []"},"spec":{"lhs":"test_cnot()","rhs":"c.ngates == 2 and c.nqubits == 2 and c.labels == ['q_1', 'q_0'] and c.labels == []","over":{"base":"Any"},"name":"test_cnot_correct"},"guarantee":"c.ngates == 2; c.nqubits == 2; c.labels == ['q_1', 'q_0']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_cnot_correct","statement":"Path(test_cnot(x), c.ngates == 2; c.nqubits == 2; c.labels == ['q_1', 'q_0'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7553d24c813b199e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.ngates == 2","c.nqubits == 2","c.labels == ['q_1', 'q_0']","c.labels == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cnot():
     """Test a simple cnot circuit. Right now this only makes sure the code doesn't
     raise an exception, and some simple properties
@@ -129,16 +169,24 @@ def test_cnot():
     assert c.labels == []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ex1(), test_ex1 produces the expected output) over Any ║
+# ║ Path(test_ex1(), c.ngates == 2 and c.nqubits == 2 and c.labels == ['q_1', 'q_0']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ex1 : Any → {Any | c.ngates == 2 and c.nqubits =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.ngates == 2                                  ║
+# ║   ensures:  c.nqubits == 2                                 ║
+# ║   ensures:  c.labels == ['q_1', 'q_0']                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ex1 : Any → {Any | result satisfies: c.ngates ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5d12942f2a897f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48b327eeb35e6c34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_ex1","kind":"function","src_hash":"e87aa92cf1de3126","in":{"base":"Any"},"out":{"base":"Any","pred":"c.ngates == 2 and c.nqubits == 2 and c.labels == ['q_1', 'q_0']"},"spec":{"lhs":"test_ex1()","rhs":"test_ex1 produces the expected output","over":{"base":"Any"},"name":"test_ex1_correct"},"guarantee":"test_ex1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_ex1_correct","statement":"Path(test_ex1(x), test_ex1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5d12942f2a897f0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_ex1","kind":"function","src_hash":"e87aa92cf1de3126","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.ngates == 2 and c.nqubits == 2 and c.labels == ['q_1', 'q_0']"},"spec":{"lhs":"test_ex1()","rhs":"c.ngates == 2 and c.nqubits == 2 and c.labels == ['q_1', 'q_0']","over":{"base":"Any"},"name":"test_ex1_correct"},"guarantee":"c.ngates == 2; c.nqubits == 2; c.labels == ['q_1', 'q_0']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_ex1_correct","statement":"Path(test_ex1(x), c.ngates == 2; c.nqubits == 2; c.labels == ['q_1', 'q_0'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48b327eeb35e6c34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.ngates == 2","c.nqubits == 2","c.labels == ['q_1', 'q_0']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ex1():
     if not mpl:
         skip("matplotlib not installed")
@@ -151,16 +199,24 @@ def test_ex1():
     assert c.labels == ['q_1', 'q_0']
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ex4(), test_ex4 produces the expected output) over Any ║
+# ║ Path(test_ex4(), c.ngates == 7 and c.nqubits == 3 and c.labels == ['j_2', 'j_1', 'j_0']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ex4 : Any → {Any | c.ngates == 7 and c.nqubits =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.ngates == 7                                  ║
+# ║   ensures:  c.nqubits == 3                                 ║
+# ║   ensures:  c.labels == ['j_2', 'j_1', 'j_0']              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ex4 : Any → {Any | result satisfies: c.ngates ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a85cc70820af9fe7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0aaa31318baad1b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_ex4","kind":"function","src_hash":"f5d73f78280511e8","in":{"base":"Any"},"out":{"base":"Any","pred":"c.ngates == 7 and c.nqubits == 3 and c.labels == ['j_2', 'j_1', 'j_0']"},"spec":{"lhs":"test_ex4()","rhs":"test_ex4 produces the expected output","over":{"base":"Any"},"name":"test_ex4_correct"},"guarantee":"test_ex4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_ex4_correct","statement":"Path(test_ex4(x), test_ex4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a85cc70820af9fe7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_circuitplot.test_ex4","kind":"function","src_hash":"f5d73f78280511e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.ngates == 7 and c.nqubits == 3 and c.labels == ['j_2', 'j_1', 'j_0']"},"spec":{"lhs":"test_ex4()","rhs":"c.ngates == 7 and c.nqubits == 3 and c.labels == ['j_2', 'j_1', 'j_0']","over":{"base":"Any"},"name":"test_ex4_correct"},"guarantee":"c.ngates == 7; c.nqubits == 3; c.labels == ['j_2', 'j_1', 'j_0']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_circuitplot.test_ex4_correct","statement":"Path(test_ex4(x), c.ngates == 7; c.nqubits == 3; c.labels == ['j_2', 'j_1', 'j_0'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aaa31318baad1b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.ngates == 7","c.nqubits == 3","c.labels == ['j_2', 'j_1', 'j_0']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ex4():
     if not mpl:
         skip("matplotlib not installed")

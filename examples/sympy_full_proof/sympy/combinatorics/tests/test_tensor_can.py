@@ -22,16 +22,23 @@ from sympy.combinatorics.testutil import canonicalize_naive, graph_certificate
 from sympy.testing.pytest import skip, XFAIL
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_perm_af_direct_product(), test_perm_af_direct_product produces the expected output) over Any ║
+# ║ Path(test_perm_af_direct_product(), perm_af_direct_product(gens1, gens2, 0) == [[1, 0, 2, 3, 4, 5], [0, 1, 3, 2, 4, 5], [0, 1, 2, 3, 5, 4]]) over {Any | [[1, 0, 2, 3, 4, 5, 7, 6], [0, 1, 3, 2, 4, 5, 6, 7], [0, 1, 2, 3, 5, 4, 6, 7]]} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_perm_af_direct_product : Any → {Any | [[1, 0, 2,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: [[1, 0, 2, 3, 4, 5, 7, 6], [0, 1, 3, 2, 4...   ║
+# ║   ensures:  perm_af_direct_product(gens1, gens2, 0) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_perm_af_direct_product : {Any | [[1, 0, 2, 3, 4,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eea1a5e0321a162f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b222d40ffbd95b44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_perm_af_direct_product","kind":"function","src_hash":"bea9fb0c0ed7d0b7","in":{"base":"Any"},"out":{"base":"Any","pred":"[[1, 0, 2, 3, 4, 5, 7, 6], [0, 1, 3, 2, 4, 5, 6, 7], [0, 1, 2, 3, 5, 4, 6, 7]]"},"spec":{"lhs":"test_perm_af_direct_product()","rhs":"test_perm_af_direct_product produces the expected output","over":{"base":"Any"},"name":"test_perm_af_direct_product_correct"},"guarantee":"test_perm_af_direct_product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_perm_af_direct_product_correct","statement":"Path(test_perm_af_direct_product(x), test_perm_af_direct_product produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eea1a5e0321a162f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_perm_af_direct_product","kind":"function","src_hash":"bea9fb0c0ed7d0b7","in":{"base":"Any","pred":"[[1, 0, 2, 3, 4, 5, 7, 6], [0, 1, 3, 2, 4, 5, 6, 7], [0, 1, 2, 3, 5, 4, 6, 7]]"},"out":{"base":"Any","pred":"result satisfies: perm_af_direct_product(gens1, gens2, 0) == [[1, 0, 2, 3, 4, 5], [0, 1, 3, 2, 4, 5], [0, 1, 2, 3, 5, 4]]"},"spec":{"lhs":"test_perm_af_direct_product()","rhs":"perm_af_direct_product(gens1, gens2, 0) == [[1, 0, 2, 3, 4, 5], [0, 1, 3, 2, 4, 5], [0, 1, 2, 3, 5, 4]]","over":{"base":"Any","pred":"[[1, 0, 2, 3, 4, 5, 7, 6], [0, 1, 3, 2, 4, 5, 6, 7], [0, 1, 2, 3, 5, 4, 6, 7]]"},"name":"test_perm_af_direct_product_correct"},"guarantee":"perm_af_direct_product(gens1, gens2, 0) == [[1, 0, 2, 3, 4, 5], [0, 1, 3, 2, 4, 5], [0, 1, 2, 3, 5, 4]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_perm_af_direct_product_correct","statement":"Path(test_perm_af_direct_product(x), perm_af_direct_product(gens1, gens2, 0) == [[1, 0, 2, 3, 4, 5], [0, 1, 3, 2, 4, 5], [0, 1, 2, 3, 5, 4]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b222d40ffbd95b44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["[[1, 0, 2, 3, 4, 5, 7, 6], [0, 1, 3, 2, 4, 5, 6, 7], [0, 1, 2, 3, 5, 4, 6, 7]]"],"ensures":["perm_af_direct_product(gens1, gens2, 0) == [[1, 0, 2, 3, 4, 5], [0, 1, 3, 2, 4, 5], [0, 1, 2, 3, 5, 4]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_perm_af_direct_product():
     gens1 = [[1,0,2,3], [0,1,3,2]]
     gens2 = [[1,0]]
@@ -41,16 +48,24 @@ def test_perm_af_direct_product():
     assert [[1, 0, 2, 3, 4, 5, 7, 6], [0, 1, 3, 2, 4, 5, 6, 7], [0, 1, 2, 3, 5, 4, 6, 7]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummy_sgs(), test_dummy_sgs produces the expected output) over Any ║
+# ║ Path(test_dummy_sgs(), a == [[0, 2, 1, 3, 4, 5]] and a == [x._array_form for x in [Perm(9)(2, 3), Perm(9)(4, 5), Perm(9)(2, 4)(3, 5)]] and a == [x._array_form for x in [Perm(2, 3)(8, 9), Perm(4, 5)(8, 9), Perm(9)(2, 4)(3, 5)]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dummy_sgs : Any → {Any | a == [[0, 2, 1, 3, 4, 5]]}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a == [[0, 2, 1, 3, 4, 5]]                      ║
+# ║   ensures:  a == [x._array_form for x in [Perm(9)(2, ...   ║
+# ║   ensures:  a == [x._array_form for x in [Perm(2, 3)(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dummy_sgs : Any → {Any | result satisfies: a == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24a47c1c6001072f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fad9fa46d2be121a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_dummy_sgs","kind":"function","src_hash":"a58c0e8e0ce598c6","in":{"base":"Any"},"out":{"base":"Any","pred":"a == [[0, 2, 1, 3, 4, 5]]"},"spec":{"lhs":"test_dummy_sgs()","rhs":"test_dummy_sgs produces the expected output","over":{"base":"Any"},"name":"test_dummy_sgs_correct"},"guarantee":"test_dummy_sgs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_dummy_sgs_correct","statement":"Path(test_dummy_sgs(x), test_dummy_sgs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24a47c1c6001072f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_dummy_sgs","kind":"function","src_hash":"a58c0e8e0ce598c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a == [[0, 2, 1, 3, 4, 5]] and a == [x._array_form for x in [Perm(9)(2, 3), Perm(9)(4, 5), Perm(9)(2, 4)(3, 5)]] and a == [x._array_form for x in [Perm(2, 3)(8, 9), Perm(4, 5)(8, 9), Perm(9)(2, 4)(3, 5)]]"},"spec":{"lhs":"test_dummy_sgs()","rhs":"a == [[0, 2, 1, 3, 4, 5]] and a == [x._array_form for x in [Perm(9)(2, 3), Perm(9)(4, 5), Perm(9)(2, 4)(3, 5)]] and a == [x._array_form for x in [Perm(2, 3)(8, 9), Perm(4, 5)(8, 9), Perm(9)(2, 4)(3, 5)]]","over":{"base":"Any"},"name":"test_dummy_sgs_correct"},"guarantee":"a == [[0, 2, 1, 3, 4, 5]]; a == [x._array_form for x in [Perm(9)(2, 3), Perm(9)(4, 5), Perm(9)(2, 4)(3, 5)]]; a == [x._array_form for x in [Perm(2, 3)(8, 9), Perm(4, 5)(8, 9), Perm(9)(2, 4)(3, 5)]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_dummy_sgs_correct","statement":"Path(test_dummy_sgs(x), a == [[0, 2, 1, 3, 4, 5]]; a == [x._array_form for x in [Perm(9)(2, 3), Perm(9)(4, 5), Perm(9)(2, 4)(3, 5)]]; a == [x._array_form for x in [Perm(2, 3)(8, 9), Perm(4, 5)(8, 9), Perm(9)(2, 4)(3, 5)]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fad9fa46d2be121a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a == [[0, 2, 1, 3, 4, 5]]","a == [x._array_form for x in [Perm(9)(2, 3), Perm(9)(4, 5), Perm(9)(2, 4)(3, 5)]]","a == [x._array_form for x in [Perm(2, 3)(8, 9), Perm(4, 5)(8, 9), Perm(9)(2, 4)(3, 5)]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dummy_sgs():
     a = dummy_sgs([1,2], 0, 4)
     assert a == [[0,2,1,3,4,5]]
@@ -63,16 +78,24 @@ def test_dummy_sgs():
         Perm(9)(2,4)(3,5)]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_get_symmetric_group_sgs(), test_get_symmetric_group_sgs produces the expected output) over Any ║
+# ║ Path(test_get_symmetric_group_sgs(), get_symmetric_group_sgs(2) == ([0], [Permutation(3)(0, 1)]) and get_symmetric_group_sgs(2, 1) == ([0], [Permutation(0, 1)(2, 3)]) and get_symmetric_group_sgs(3) == ([0, 1], [Permutation(4)(0, 1), Permutation(4)(1, 2)]) and get_symmetric_group_sgs(3, 1) == ([0, 1], [Permutation(0, 1)(3, 4), Permutation(1, 2)(3, 4)]) and get_symmetric_group_sgs(4) == ([0, 1, 2], [Permutation(5)(0, 1), Permutation(5)(1, 2), Permutation(5)(2, 3)]) and get_symmetric_group_sgs(4, 1) == ([0, 1, 2], [Permutation(0, 1)(4, 5), Permutation(1, 2)(4, 5), Permutation(2, 3)(4, 5)])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_get_symmetric_group_sgs : Any → {Any | get_symme...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  get_symmetric_group_sgs(2) == ([0], [Perm...   ║
+# ║   ensures:  get_symmetric_group_sgs(2, 1) == ([0], [P...   ║
+# ║   ensures:  get_symmetric_group_sgs(3) == ([0, 1], [P...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_get_symmetric_group_sgs : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbed308398637cc4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ade2a184b492125  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_get_symmetric_group_sgs","kind":"function","src_hash":"4449d1bc75508167","in":{"base":"Any"},"out":{"base":"Any","pred":"get_symmetric_group_sgs(2) == ([0], [Permutation(3)(0, 1)]) and get_symmetric_group_sgs(2, 1) == ([0], [Permutation(0, 1)(2, 3)])"},"spec":{"lhs":"test_get_symmetric_group_sgs()","rhs":"test_get_symmetric_group_sgs produces the expected output","over":{"base":"Any"},"name":"test_get_symmetric_group_sgs_correct"},"guarantee":"test_get_symmetric_group_sgs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_get_symmetric_group_sgs_correct","statement":"Path(test_get_symmetric_group_sgs(x), test_get_symmetric_group_sgs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbed308398637cc4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_get_symmetric_group_sgs","kind":"function","src_hash":"4449d1bc75508167","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: get_symmetric_group_sgs(2) == ([0], [Permutation(3)(0, 1)]) and get_symmetric_group_sgs(2, 1) == ([0], [Permutation(0, 1)(2, 3)]) and get_symmetric_group_sgs(3) == ([0, 1], [Permutation(4)(0, 1), Permutation(4)(1, 2)]) and get_symmetric_group_sgs(3, 1) == ([0, 1], [Permutation(0, 1)(3, 4), Permutation(1, 2)(3, 4)]) and get_symmetric_group_sgs(4) == ([0, 1, 2], [Permutation(5)(0, 1), Permutation(5)(1, 2), Permutation(5)(2, 3)]) and get_symmetric_group_sgs(4, 1) == ([0, 1, 2], [Permutation(0, 1)(4, 5), Permutation(1, 2)(4, 5), Permutation(2, 3)(4, 5)])"},"spec":{"lhs":"test_get_symmetric_group_sgs()","rhs":"get_symmetric_group_sgs(2) == ([0], [Permutation(3)(0, 1)]) and get_symmetric_group_sgs(2, 1) == ([0], [Permutation(0, 1)(2, 3)]) and get_symmetric_group_sgs(3) == ([0, 1], [Permutation(4)(0, 1), Permutation(4)(1, 2)]) and get_symmetric_group_sgs(3, 1) == ([0, 1], [Permutation(0, 1)(3, 4), Permutation(1, 2)(3, 4)]) and get_symmetric_group_sgs(4) == ([0, 1, 2], [Permutation(5)(0, 1), Permutation(5)(1, 2), Permutation(5)(2, 3)]) and get_symmetric_group_sgs(4, 1) == ([0, 1, 2], [Permutation(0, 1)(4, 5), Permutation(1, 2)(4, 5), Permutation(2, 3)(4, 5)])","over":{"base":"Any"},"name":"test_get_symmetric_group_sgs_correct"},"guarantee":"get_symmetric_group_sgs(2) == ([0], [Permutation(3)(0, 1)]); get_symmetric_group_sgs(2, 1) == ([0], [Permutation(0, 1)(2, 3)]); get_symmetric_group_sgs(3) == ([0, 1], [Permutation(4)(0, 1), Permutation(4)(1, 2)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_get_symmetric_group_sgs_correct","statement":"Path(test_get_symmetric_group_sgs(x), get_symmetric_group_sgs(2) == ([0], [Permutation(3)(0, 1)]); get_symmetric_group_sgs(2, 1) == ([0], [Permutation(0, 1)(2, 3)]); get_symmetric_group_sgs(3) == ([0, 1], [Permutation(4)(0, 1), Permutation(4)(1, 2)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ade2a184b492125","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["get_symmetric_group_sgs(2) == ([0], [Permutation(3)(0, 1)])","get_symmetric_group_sgs(2, 1) == ([0], [Permutation(0, 1)(2, 3)])","get_symmetric_group_sgs(3) == ([0, 1], [Permutation(4)(0, 1), Permutation(4)(1, 2)])","get_symmetric_group_sgs(3, 1) == ([0, 1], [Permutation(0, 1)(3, 4), Permutation(1, 2)(3, 4)])","get_symmetric_group_sgs(4) == ([0, 1, 2], [Permutation(5)(0, 1), Permutation(5)(1, 2), Permutation(5)(2, 3)])","get_symmetric_group_sgs(4, 1) == ([0, 1, 2], [Permutation(0, 1)(4, 5), Permutation(1, 2)(4, 5), Permutation(2, 3)(4, 5)])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_get_symmetric_group_sgs():
     assert get_symmetric_group_sgs(2) == ([0], [Permutation(3)(0,1)])
     assert get_symmetric_group_sgs(2, 1) == ([0], [Permutation(0,1)(2,3)])
@@ -83,16 +106,24 @@ def test_get_symmetric_group_sgs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonicalize_no_slot_sym(), test_canonicalize_no_slot_sym produces the expected output) over Any ║
+# ║ Path(test_canonicalize_no_slot_sym(), can == [0, 1, 2, 3] and can == [0, 1, 3, 2] and can == [1, 0, 2, 3] and can == [0, 2, 1, 3, 4, 5] and can == [0, 2, 1, 3, 5, 4] and can == [1, 2, 0, 3, 4, 5] and can == [1, 2, 0, 3, 5, 4] and can == [0, 2, 3, 1, 4, 5] and can == [2, 4, 0, 5, 3, 1, 6, 7] and can == [2, 4, 0, 3, 5, 1, 6, 7] and can == [2, 4, 0, 3, 1, 5, 6, 7] and can == [2, 4, 0, 3, 1, 5, 7, 6]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonicalize_no_slot_sym : Any → {Any | can == [...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can == [0, 1, 2, 3]                            ║
+# ║   ensures:  can == [0, 1, 3, 2]                            ║
+# ║   ensures:  can == [1, 0, 2, 3]                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonicalize_no_slot_sym : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 388803f5a0991a08  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c7a51e6844fa9df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_canonicalize_no_slot_sym","kind":"function","src_hash":"1c55ec34be3dd379","in":{"base":"Any"},"out":{"base":"Any","pred":"can == [0, 1, 2, 3] and can == [0, 1, 2, 3] and can == [0, 1, 3, 2] and can == [0, 1, 2, 3] and can == [1, 0, 2, 3] and can == [0, 2, 1, 3, 4, 5] and can == [0, 2, 1, 3, 4, 5] and can == [0, 2, 1, 3, 5, 4] and can == [1, 2, 0, 3, 4, 5] and can == [1, 2, 0, 3, 5, 4] and can == [0, 2, 1, 3, 4, 5] and can == [0, 2, 3, 1, 4, 5] and can == [0, 2, 1, 3, 4, 5] and can == [0, 2, 3, 1, 4, 5] and can == [2, 4, 0, 5, 3, 1, 6, 7] and can == [2, 4, 0, 3, 5, 1, 6, 7] and can == [2, 4, 0, 3, 1, 5, 6, 7] and can == [2, 4, 0, 3, 1, 5, 7, 6]"},"spec":{"lhs":"test_canonicalize_no_slot_sym()","rhs":"test_canonicalize_no_slot_sym produces the expected output","over":{"base":"Any"},"name":"test_canonicalize_no_slot_sym_correct"},"guarantee":"test_canonicalize_no_slot_sym produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_canonicalize_no_slot_sym_correct","statement":"Path(test_canonicalize_no_slot_sym(x), test_canonicalize_no_slot_sym produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"388803f5a0991a08"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_canonicalize_no_slot_sym","kind":"function","src_hash":"1c55ec34be3dd379","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can == [0, 1, 2, 3] and can == [0, 1, 3, 2] and can == [1, 0, 2, 3] and can == [0, 2, 1, 3, 4, 5] and can == [0, 2, 1, 3, 5, 4] and can == [1, 2, 0, 3, 4, 5] and can == [1, 2, 0, 3, 5, 4] and can == [0, 2, 3, 1, 4, 5] and can == [2, 4, 0, 5, 3, 1, 6, 7] and can == [2, 4, 0, 3, 5, 1, 6, 7] and can == [2, 4, 0, 3, 1, 5, 6, 7] and can == [2, 4, 0, 3, 1, 5, 7, 6]"},"spec":{"lhs":"test_canonicalize_no_slot_sym()","rhs":"can == [0, 1, 2, 3] and can == [0, 1, 3, 2] and can == [1, 0, 2, 3] and can == [0, 2, 1, 3, 4, 5] and can == [0, 2, 1, 3, 5, 4] and can == [1, 2, 0, 3, 4, 5] and can == [1, 2, 0, 3, 5, 4] and can == [0, 2, 3, 1, 4, 5] and can == [2, 4, 0, 5, 3, 1, 6, 7] and can == [2, 4, 0, 3, 5, 1, 6, 7] and can == [2, 4, 0, 3, 1, 5, 6, 7] and can == [2, 4, 0, 3, 1, 5, 7, 6]","over":{"base":"Any"},"name":"test_canonicalize_no_slot_sym_correct"},"guarantee":"can == [0, 1, 2, 3]; can == [0, 1, 3, 2]; can == [1, 0, 2, 3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_canonicalize_no_slot_sym_correct","statement":"Path(test_canonicalize_no_slot_sym(x), can == [0, 1, 2, 3]; can == [0, 1, 3, 2]; can == [1, 0, 2, 3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c7a51e6844fa9df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can == [0, 1, 2, 3]","can == [0, 1, 3, 2]","can == [1, 0, 2, 3]","can == [0, 2, 1, 3, 4, 5]","can == [0, 2, 1, 3, 5, 4]","can == [1, 2, 0, 3, 4, 5]","can == [1, 2, 0, 3, 5, 4]","can == [0, 2, 3, 1, 4, 5]","can == [2, 4, 0, 5, 3, 1, 6, 7]","can == [2, 4, 0, 3, 5, 1, 6, 7]","can == [2, 4, 0, 3, 1, 5, 6, 7]","can == [2, 4, 0, 3, 1, 5, 7, 6]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":true}}
 def test_canonicalize_no_slot_sym():
     # cases in which there is no slot symmetry after fixing the
     # free indices; here and in the following if the symmetry of the
@@ -231,16 +262,24 @@ def test_canonicalize_no_slot_sym():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonicalize_no_dummies(), test_canonicalize_no_dummies produces the expected output) over Any ║
+# ║ Path(test_canonicalize_no_dummies(), can == list(range(5)) and can == [0, 1, 2, 4, 3] and can == [0, 2, 1, 3, 4, 5] and can == [0, 2, 1, 3, 5, 4]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonicalize_no_dummies : Any → {Any | can == li...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can == list(range(5))                          ║
+# ║   ensures:  can == [0, 1, 2, 4, 3]                         ║
+# ║   ensures:  can == [0, 2, 1, 3, 4, 5]                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonicalize_no_dummies : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3387f2f091ab805  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3b9f755ba24fa7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_canonicalize_no_dummies","kind":"function","src_hash":"bc7d8213ae196524","in":{"base":"Any"},"out":{"base":"Any","pred":"can == list(range(5)) and can == [0, 1, 2, 4, 3] and can == [0, 2, 1, 3, 4, 5] and can == [0, 2, 1, 3, 5, 4] and can == [0, 2, 1, 3, 4, 5]"},"spec":{"lhs":"test_canonicalize_no_dummies()","rhs":"test_canonicalize_no_dummies produces the expected output","over":{"base":"Any"},"name":"test_canonicalize_no_dummies_correct"},"guarantee":"test_canonicalize_no_dummies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_canonicalize_no_dummies_correct","statement":"Path(test_canonicalize_no_dummies(x), test_canonicalize_no_dummies produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3387f2f091ab805"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_canonicalize_no_dummies","kind":"function","src_hash":"bc7d8213ae196524","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can == list(range(5)) and can == [0, 1, 2, 4, 3] and can == [0, 2, 1, 3, 4, 5] and can == [0, 2, 1, 3, 5, 4]"},"spec":{"lhs":"test_canonicalize_no_dummies()","rhs":"can == list(range(5)) and can == [0, 1, 2, 4, 3] and can == [0, 2, 1, 3, 4, 5] and can == [0, 2, 1, 3, 5, 4]","over":{"base":"Any"},"name":"test_canonicalize_no_dummies_correct"},"guarantee":"can == list(range(5)); can == [0, 1, 2, 4, 3]; can == [0, 2, 1, 3, 4, 5]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_canonicalize_no_dummies_correct","statement":"Path(test_canonicalize_no_dummies(x), can == list(range(5)); can == [0, 1, 2, 4, 3]; can == [0, 2, 1, 3, 4, 5])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3b9f755ba24fa7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can == list(range(5))","can == [0, 1, 2, 4, 3]","can == [0, 2, 1, 3, 4, 5]","can == [0, 2, 1, 3, 5, 4]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_canonicalize_no_dummies():
     base1, gens1 = get_symmetric_group_sgs(1)
     base2, gens2 = get_symmetric_group_sgs(2)
@@ -280,16 +319,24 @@ def test_canonicalize_no_dummies():
     assert can == [0,2,1,3,4,5]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_no_metric_symmetry(), test_no_metric_symmetry produces the expected output) over Any ║
+# ║ Path(test_no_metric_symmetry(), can == [0, 3, 2, 1, 4, 5] and can == [0, 3, 2, 1, 4, 7, 6, 5, 8, 9] and can == [0, 3, 2, 5, 4, 7, 6, 1, 8, 9] and can == [0, 3, 2, 5, 4, 7, 6, 1, 8, 11, 10, 13, 12, 15, 14, 9, 16, 17]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_no_metric_symmetry : Any → {Any | can == [0, 3, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can == [0, 3, 2, 1, 4, 5]                      ║
+# ║   ensures:  can == [0, 3, 2, 1, 4, 7, 6, 5, 8, 9]          ║
+# ║   ensures:  can == [0, 3, 2, 5, 4, 7, 6, 1, 8, 9]          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_no_metric_symmetry : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb3a81d671204653  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3276a4f3bcc7c20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_no_metric_symmetry","kind":"function","src_hash":"f2ee866ddf44b82b","in":{"base":"Any"},"out":{"base":"Any","pred":"can == [0, 3, 2, 1, 4, 5] and can == [0, 3, 2, 1, 4, 7, 6, 5, 8, 9] and can == [0, 3, 2, 5, 4, 7, 6, 1, 8, 9] and can == [0, 3, 2, 5, 4, 7, 6, 1, 8, 11, 10, 13, 12, 15, 14, 9, 16, 17]"},"spec":{"lhs":"test_no_metric_symmetry()","rhs":"test_no_metric_symmetry produces the expected output","over":{"base":"Any"},"name":"test_no_metric_symmetry_correct"},"guarantee":"test_no_metric_symmetry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_no_metric_symmetry_correct","statement":"Path(test_no_metric_symmetry(x), test_no_metric_symmetry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb3a81d671204653"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_no_metric_symmetry","kind":"function","src_hash":"f2ee866ddf44b82b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can == [0, 3, 2, 1, 4, 5] and can == [0, 3, 2, 1, 4, 7, 6, 5, 8, 9] and can == [0, 3, 2, 5, 4, 7, 6, 1, 8, 9] and can == [0, 3, 2, 5, 4, 7, 6, 1, 8, 11, 10, 13, 12, 15, 14, 9, 16, 17]"},"spec":{"lhs":"test_no_metric_symmetry()","rhs":"can == [0, 3, 2, 1, 4, 5] and can == [0, 3, 2, 1, 4, 7, 6, 5, 8, 9] and can == [0, 3, 2, 5, 4, 7, 6, 1, 8, 9] and can == [0, 3, 2, 5, 4, 7, 6, 1, 8, 11, 10, 13, 12, 15, 14, 9, 16, 17]","over":{"base":"Any"},"name":"test_no_metric_symmetry_correct"},"guarantee":"can == [0, 3, 2, 1, 4, 5]; can == [0, 3, 2, 1, 4, 7, 6, 5, 8, 9]; can == [0, 3, 2, 5, 4, 7, 6, 1, 8, 9]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_no_metric_symmetry_correct","statement":"Path(test_no_metric_symmetry(x), can == [0, 3, 2, 1, 4, 5]; can == [0, 3, 2, 1, 4, 7, 6, 5, 8, 9]; can == [0, 3, 2, 5, 4, 7, 6, 1, 8, 9])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3276a4f3bcc7c20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can == [0, 3, 2, 1, 4, 5]","can == [0, 3, 2, 1, 4, 7, 6, 5, 8, 9]","can == [0, 3, 2, 5, 4, 7, 6, 1, 8, 9]","can == [0, 3, 2, 5, 4, 7, 6, 1, 8, 11, 10, 13, 12, 15, 14, 9, 16, 17]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_no_metric_symmetry():
     # no metric symmetry
     # A^d1_d0 * A^d0_d1; ord = [d0,-d0,d1,-d1]; g= [2,1,0,3,4,5]
@@ -323,16 +370,22 @@ def test_no_metric_symmetry():
     assert can == [0,3,2,5,4,7,6,1,8,11,10,13,12,15,14,9,16,17]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonical_free(), test_canonical_free produces the expected output) over Any ║
+# ║ Path(test_canonical_free(), can == [3, 0, 2, 1, 4, 5]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonical_free : Any → {Any | can == [3, 0, 2, 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can == [3, 0, 2, 1, 4, 5]                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonical_free : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ce54ffdeff67e8a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d569eb05cebdc94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_canonical_free","kind":"function","src_hash":"ef262f0eb7261448","in":{"base":"Any"},"out":{"base":"Any","pred":"can == [3, 0, 2, 1, 4, 5]"},"spec":{"lhs":"test_canonical_free()","rhs":"test_canonical_free produces the expected output","over":{"base":"Any"},"name":"test_canonical_free_correct"},"guarantee":"test_canonical_free produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_canonical_free_correct","statement":"Path(test_canonical_free(x), test_canonical_free produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ce54ffdeff67e8a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_canonical_free","kind":"function","src_hash":"ef262f0eb7261448","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can == [3, 0, 2, 1, 4, 5]"},"spec":{"lhs":"test_canonical_free()","rhs":"can == [3, 0, 2, 1, 4, 5]","over":{"base":"Any"},"name":"test_canonical_free_correct"},"guarantee":"can == [3, 0, 2, 1, 4, 5]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_canonical_free_correct","statement":"Path(test_canonical_free(x), can == [3, 0, 2, 1, 4, 5])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d569eb05cebdc94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can == [3, 0, 2, 1, 4, 5]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_canonical_free():
     # t = A^{d0 a1}*A_d0^a0
     # ord = [a0,a1,d0,-d0];  g = [2,1,3,0,4,5]; dummies = [[2,3]]
@@ -344,16 +397,24 @@ def test_canonical_free():
     assert can == [3,0, 2,1, 4,5]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonicalize1(), test_canonicalize1 produces the expected output) over Any ║
+# ║ Path(test_canonicalize1(), can == list(range(4)) and can == list(range(8)) and can == 0 and can1 == 0 and can == [0, 2, 1, 4, 3, 5, 6, 7] and can == [1, 2, 3, 4, 0, 5, 6, 7] and can == [0, 2, 4, 1, 3, 5, 6, 7] and can == [0, 4, 6, 1, 5, 8, 2, 3, 10, 7, 9, 11, 12, 13] and can == [0, 2, 4, 1, 3, 6, 5, 7, 8, 9] and can == [0, 2, 4, 1, 3, 6, 5, 7, 9, 8] and can == [0, 2, 4, 1, 3, 7, 5, 6, 8, 9] and can == [2, 4, 1, 0, 3, 5, 7, 6] and can == [4, 6, 1, 2, 3, 0, 5, 7, 8, 9] and can == [4, 6, 8, 5, 10, 12, 0, 7, 1, 11, 2, 9, 3, 13, 15, 14]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonicalize1 : Any → {Any | can == list(range(4...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can == list(range(4))                          ║
+# ║   ensures:  can == list(range(8))                          ║
+# ║   ensures:  can == 0                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonicalize1 : Any → {Any | result satisfies: c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a354b580f4ff3c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01ec96194008910a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_canonicalize1","kind":"function","src_hash":"d198ac70f7bf9ff1","in":{"base":"Any"},"out":{"base":"Any","pred":"can == list(range(4)) and can == list(range(8)) and can == 0 and can1 == 0 and can == [0, 2, 1, 4, 3, 5, 6, 7] and can == [1, 2, 3, 4, 0, 5, 6, 7] and can == [0, 2, 4, 1, 3, 5, 6, 7] and can == [0, 4, 6, 1, 5, 8, 2, 3, 10, 7, 9, 11, 12, 13] and can == 0 and can == [0, 2, 4, 1, 3, 6, 5, 7, 8, 9] and can == [0, 2, 4, 1, 3, 6, 5, 7, 9, 8] and can == [0, 2, 4, 1, 3, 7, 5, 6, 8, 9] and can == [2, 4, 1, 0, 3, 5, 7, 6] and can == [4, 6, 1, 2, 3, 0, 5, 7, 8, 9] and can == [4, 6, 8, 5, 10, 12, 0, 7, 1, 11, 2, 9, 3, 13, 15, 14]"},"spec":{"lhs":"test_canonicalize1()","rhs":"test_canonicalize1 produces the expected output","over":{"base":"Any"},"name":"test_canonicalize1_correct"},"guarantee":"test_canonicalize1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_canonicalize1_correct","statement":"Path(test_canonicalize1(x), test_canonicalize1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a354b580f4ff3c9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_canonicalize1","kind":"function","src_hash":"d198ac70f7bf9ff1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can == list(range(4)) and can == list(range(8)) and can == 0 and can1 == 0 and can == [0, 2, 1, 4, 3, 5, 6, 7] and can == [1, 2, 3, 4, 0, 5, 6, 7] and can == [0, 2, 4, 1, 3, 5, 6, 7] and can == [0, 4, 6, 1, 5, 8, 2, 3, 10, 7, 9, 11, 12, 13] and can == [0, 2, 4, 1, 3, 6, 5, 7, 8, 9] and can == [0, 2, 4, 1, 3, 6, 5, 7, 9, 8] and can == [0, 2, 4, 1, 3, 7, 5, 6, 8, 9] and can == [2, 4, 1, 0, 3, 5, 7, 6] and can == [4, 6, 1, 2, 3, 0, 5, 7, 8, 9] and can == [4, 6, 8, 5, 10, 12, 0, 7, 1, 11, 2, 9, 3, 13, 15, 14]"},"spec":{"lhs":"test_canonicalize1()","rhs":"can == list(range(4)) and can == list(range(8)) and can == 0 and can1 == 0 and can == [0, 2, 1, 4, 3, 5, 6, 7] and can == [1, 2, 3, 4, 0, 5, 6, 7] and can == [0, 2, 4, 1, 3, 5, 6, 7] and can == [0, 4, 6, 1, 5, 8, 2, 3, 10, 7, 9, 11, 12, 13] and can == [0, 2, 4, 1, 3, 6, 5, 7, 8, 9] and can == [0, 2, 4, 1, 3, 6, 5, 7, 9, 8] and can == [0, 2, 4, 1, 3, 7, 5, 6, 8, 9] and can == [2, 4, 1, 0, 3, 5, 7, 6] and can == [4, 6, 1, 2, 3, 0, 5, 7, 8, 9] and can == [4, 6, 8, 5, 10, 12, 0, 7, 1, 11, 2, 9, 3, 13, 15, 14]","over":{"base":"Any"},"name":"test_canonicalize1_correct"},"guarantee":"can == list(range(4)); can == list(range(8)); can == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_canonicalize1_correct","statement":"Path(test_canonicalize1(x), can == list(range(4)); can == list(range(8)); can == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01ec96194008910a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can == list(range(4))","can == list(range(8))","can == 0","can1 == 0","can == [0, 2, 1, 4, 3, 5, 6, 7]","can == [1, 2, 3, 4, 0, 5, 6, 7]","can == [0, 2, 4, 1, 3, 5, 6, 7]","can == [0, 4, 6, 1, 5, 8, 2, 3, 10, 7, 9, 11, 12, 13]","can == [0, 2, 4, 1, 3, 6, 5, 7, 8, 9]","can == [0, 2, 4, 1, 3, 6, 5, 7, 9, 8]","can == [0, 2, 4, 1, 3, 7, 5, 6, 8, 9]","can == [2, 4, 1, 0, 3, 5, 7, 6]","can == [4, 6, 1, 2, 3, 0, 5, 7, 8, 9]","can == [4, 6, 8, 5, 10, 12, 0, 7, 1, 11, 2, 9, 3, 13, 15, 14]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def test_canonicalize1():
     base1, gens1 = get_symmetric_group_sgs(1)
     base1a, gens1a = get_symmetric_group_sgs(1, 1)
@@ -493,16 +554,24 @@ def test_canonicalize1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_riemann_invariants(), test_riemann_invariants produces the expected output) over Any ║
+# ║ Path(test_riemann_invariants(), can == [0, 2, 1, 3, 5, 4] and can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 21, 23, 24, 25] and can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 24, 26, 21, 23, 28, 30, 25, 27, 32, 34, 29, 31, 36, 38, 33, 35, 37, 39, 40, 41]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_riemann_invariants : Any → {Any | can == [0, 2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can == [0, 2, 1, 3, 5, 4]                      ║
+# ║   ensures:  can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12...   ║
+# ║   ensures:  can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_riemann_invariants : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45ae512de0a53ac7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93c770b5360b2ab6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_riemann_invariants","kind":"function","src_hash":"77e1f8a51bcd7e55","in":{"base":"Any"},"out":{"base":"Any","pred":"can == [0, 2, 1, 3, 5, 4] and can == [0, 2, 1, 3, 5, 4]"},"spec":{"lhs":"test_riemann_invariants()","rhs":"test_riemann_invariants produces the expected output","over":{"base":"Any"},"name":"test_riemann_invariants_correct"},"guarantee":"test_riemann_invariants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_riemann_invariants_correct","statement":"Path(test_riemann_invariants(x), test_riemann_invariants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45ae512de0a53ac7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_riemann_invariants","kind":"function","src_hash":"77e1f8a51bcd7e55","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can == [0, 2, 1, 3, 5, 4] and can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 21, 23, 24, 25] and can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 24, 26, 21, 23, 28, 30, 25, 27, 32, 34, 29, 31, 36, 38, 33, 35, 37, 39, 40, 41]"},"spec":{"lhs":"test_riemann_invariants()","rhs":"can == [0, 2, 1, 3, 5, 4] and can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 21, 23, 24, 25] and can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 24, 26, 21, 23, 28, 30, 25, 27, 32, 34, 29, 31, 36, 38, 33, 35, 37, 39, 40, 41]","over":{"base":"Any"},"name":"test_riemann_invariants_correct"},"guarantee":"can == [0, 2, 1, 3, 5, 4]; can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 21, 23, 24, 25]; can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 24, 26, 21, 23, 28, 30, 25, 27, 32, 34, 29, 31, 36, 38, 33, 35, 37, 39, 40, 41]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_riemann_invariants_correct","statement":"Path(test_riemann_invariants(x), can == [0, 2, 1, 3, 5, 4]; can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 21, 23, 24, 25]; can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 24, 26, 21, 23, 28, 30, 25, 27, 32, 34, 29, 31, 36, 38, 33, 35, 37, 39, 40, 41])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93c770b5360b2ab6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can == [0, 2, 1, 3, 5, 4]","can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 21, 23, 24, 25]","can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 24, 26, 21, 23, 28, 30, 25, 27, 32, 34, 29, 31, 36, 38, 33, 35, 37, 39, 40, 41]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_riemann_invariants():
     baser, gensr = riemann_bsgs
     # R^{d0 d1}_{d1 d0}; ord = [d0,-d0,d1,-d1]; g = [0,2,3,1,4,5]
@@ -543,16 +612,23 @@ def test_riemann_invariants():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_riemann_invariants1(), test_riemann_invariants1 produces the expected output) over Any ║
+# ║ Path(test_riemann_invariants1(), can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 24, 26, 21, 23, 28, 30, 25, 27, 32, 34, 29, 31, 36, 38, 33, 35, 40, 42, 37, 39, 44, 46, 41, 43, 45, 47, 48, 49] and can == [0, 2, 4, 6, 1, 8, 10, 12, 3, 14, 16, 18, 5, 20, 22, 24, 7, 26, 28, 30, 9, 15, 32, 34, 11, 36, 23, 38, 13, 40, 42, 44, 17, 39, 29, 46, 19, 48, 43, 50, 21, 45, 52, 54, 25, 56, 33, 58, 27, 60, 53, 62, 31, 51, 64, 66, 35, 65, 47, 68, 37, 70, 49, 72, 41, 74, 57, 76, 55, 67, 59, 78, 61, 69, 71, 75, 63, 79, 73, 77, 80, 81]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_riemann_invariants1 : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12...   ║
+# ║   ensures:  can == [0, 2, 4, 6, 1, 8, 10, 12, 3, 14, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_riemann_invariants1 : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a021e24fd9100b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2421af788a6e22fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_riemann_invariants1","kind":"function","src_hash":"307b011e746ed488","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_riemann_invariants1()","rhs":"test_riemann_invariants1 produces the expected output","over":{"base":"Any"},"name":"test_riemann_invariants1_correct"},"guarantee":"test_riemann_invariants1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_riemann_invariants1_correct","statement":"Path(test_riemann_invariants1(x), test_riemann_invariants1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a021e24fd9100b9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_riemann_invariants1","kind":"function","src_hash":"307b011e746ed488","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 24, 26, 21, 23, 28, 30, 25, 27, 32, 34, 29, 31, 36, 38, 33, 35, 40, 42, 37, 39, 44, 46, 41, 43, 45, 47, 48, 49] and can == [0, 2, 4, 6, 1, 8, 10, 12, 3, 14, 16, 18, 5, 20, 22, 24, 7, 26, 28, 30, 9, 15, 32, 34, 11, 36, 23, 38, 13, 40, 42, 44, 17, 39, 29, 46, 19, 48, 43, 50, 21, 45, 52, 54, 25, 56, 33, 58, 27, 60, 53, 62, 31, 51, 64, 66, 35, 65, 47, 68, 37, 70, 49, 72, 41, 74, 57, 76, 55, 67, 59, 78, 61, 69, 71, 75, 63, 79, 73, 77, 80, 81]"},"spec":{"lhs":"test_riemann_invariants1()","rhs":"can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 24, 26, 21, 23, 28, 30, 25, 27, 32, 34, 29, 31, 36, 38, 33, 35, 40, 42, 37, 39, 44, 46, 41, 43, 45, 47, 48, 49] and can == [0, 2, 4, 6, 1, 8, 10, 12, 3, 14, 16, 18, 5, 20, 22, 24, 7, 26, 28, 30, 9, 15, 32, 34, 11, 36, 23, 38, 13, 40, 42, 44, 17, 39, 29, 46, 19, 48, 43, 50, 21, 45, 52, 54, 25, 56, 33, 58, 27, 60, 53, 62, 31, 51, 64, 66, 35, 65, 47, 68, 37, 70, 49, 72, 41, 74, 57, 76, 55, 67, 59, 78, 61, 69, 71, 75, 63, 79, 73, 77, 80, 81]","over":{"base":"Any"},"name":"test_riemann_invariants1_correct"},"guarantee":"can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 24, 26, 21, 23, 28, 30, 25, 27, 32, 34, 29, 31, 36, 38, 33, 35, 40, 42, 37, 39, 44, 46, 41, 43, 45, 47, 48, 49]; can == [0, 2, 4, 6, 1, 8, 10, 12, 3, 14, 16, 18, 5, 20, 22, 24, 7, 26, 28, 30, 9, 15, 32, 34, 11, 36, 23, 38, 13, 40, 42, 44, 17, 39, 29, 46, 19, 48, 43, 50, 21, 45, 52, 54, 25, 56, 33, 58, 27, 60, 53, 62, 31, 51, 64, 66, 35, 65, 47, 68, 37, 70, 49, 72, 41, 74, 57, 76, 55, 67, 59, 78, 61, 69, 71, 75, 63, 79, 73, 77, 80, 81]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_riemann_invariants1_correct","statement":"Path(test_riemann_invariants1(x), can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 24, 26, 21, 23, 28, 30, 25, 27, 32, 34, 29, 31, 36, 38, 33, 35, 40, 42, 37, 39, 44, 46, 41, 43, 45, 47, 48, 49]; can == [0, 2, 4, 6, 1, 8, 10, 12, 3, 14, 16, 18, 5, 20, 22, 24, 7, 26, 28, 30, 9, 15, 32, 34, 11, 36, 23, 38, 13, 40, 42, 44, 17, 39, 29, 46, 19, 48, 43, 50, 21, 45, 52, 54, 25, 56, 33, 58, 27, 60, 53, 62, 31, 51, 64, 66, 35, 65, 47, 68, 37, 70, 49, 72, 41, 74, 57, 76, 55, 67, 59, 78, 61, 69, 71, 75, 63, 79, 73, 77, 80, 81])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2421af788a6e22fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can == [0, 2, 4, 6, 1, 3, 8, 10, 5, 7, 12, 14, 9, 11, 16, 18, 13, 15, 20, 22, 17, 19, 24, 26, 21, 23, 28, 30, 25, 27, 32, 34, 29, 31, 36, 38, 33, 35, 40, 42, 37, 39, 44, 46, 41, 43, 45, 47, 48, 49]","can == [0, 2, 4, 6, 1, 8, 10, 12, 3, 14, 16, 18, 5, 20, 22, 24, 7, 26, 28, 30, 9, 15, 32, 34, 11, 36, 23, 38, 13, 40, 42, 44, 17, 39, 29, 46, 19, 48, 43, 50, 21, 45, 52, 54, 25, 56, 33, 58, 27, 60, 53, 62, 31, 51, 64, 66, 35, 65, 47, 68, 37, 70, 49, 72, 41, 74, 57, 76, 55, 67, 59, 78, 61, 69, 71, 75, 63, 79, 73, 77, 80, 81]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_riemann_invariants1():
     skip('takes too much time')
     baser, gensr = riemann_bsgs
@@ -566,16 +642,24 @@ def test_riemann_invariants1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_riemann_products(), test_riemann_products produces the expected output) over Any ║
+# ║ Path(test_riemann_products(), can == 0 and can == [0, 2, 1, 3, 5, 4] and can == [0, 2, 4, 6, 1, 3, 5, 7, 9, 8] and can == can1 and can == [0, 2, 4, 6, 1, 8, 10, 12, 3, 9, 5, 11, 7, 13, 15, 14] and can == [0, 6, 2, 8, 1, 3, 7, 10, 4, 5, 9, 11, 12, 13] and can == [0, 3, 4, 1, 2, 5, 7, 6] and can == [0, 4, 6, 1, 5, 8, 10, 2, 7, 11, 3, 9, 12, 13] and can == [0, 6, 8, 1, 7, 10, 4, 2, 9, 5, 3, 11, 12, 13] and can == [0, 6, 8, 1, 7, 10, 4, 2, 9, 5, 3, 11, 13, 12]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_riemann_products : Any → {Any | can == 0 and can...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  can == 0                                       ║
+# ║   ensures:  can == [0, 2, 1, 3, 5, 4]                      ║
+# ║   ensures:  can == [0, 2, 4, 6, 1, 3, 5, 7, 9, 8]          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_riemann_products : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fefbfab7f060c00e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86a98f252852be73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_riemann_products","kind":"function","src_hash":"0e6b8c5af08d48f1","in":{"base":"Any"},"out":{"base":"Any","pred":"can == 0 and can == [0, 2, 1, 3, 5, 4] and can == [0, 2, 4, 6, 1, 3, 5, 7, 9, 8] and can == can1 and can == [0, 2, 4, 6, 1, 8, 10, 12, 3, 9, 5, 11, 7, 13, 15, 14] and can == [0, 6, 2, 8, 1, 3, 7, 10, 4, 5, 9, 11, 12, 13] and can == [0, 3, 4, 1, 2, 5, 7, 6] and can == [0, 4, 6, 1, 5, 8, 10, 2, 7, 11, 3, 9, 12, 13] and can == [0, 6, 8, 1, 7, 10, 4, 2, 9, 5, 3, 11, 12, 13] and can == [0, 6, 8, 1, 7, 10, 4, 2, 9, 5, 3, 11, 13, 12]"},"spec":{"lhs":"test_riemann_products()","rhs":"test_riemann_products produces the expected output","over":{"base":"Any"},"name":"test_riemann_products_correct"},"guarantee":"test_riemann_products produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_riemann_products_correct","statement":"Path(test_riemann_products(x), test_riemann_products produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fefbfab7f060c00e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_riemann_products","kind":"function","src_hash":"0e6b8c5af08d48f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: can == 0 and can == [0, 2, 1, 3, 5, 4] and can == [0, 2, 4, 6, 1, 3, 5, 7, 9, 8] and can == can1 and can == [0, 2, 4, 6, 1, 8, 10, 12, 3, 9, 5, 11, 7, 13, 15, 14] and can == [0, 6, 2, 8, 1, 3, 7, 10, 4, 5, 9, 11, 12, 13] and can == [0, 3, 4, 1, 2, 5, 7, 6] and can == [0, 4, 6, 1, 5, 8, 10, 2, 7, 11, 3, 9, 12, 13] and can == [0, 6, 8, 1, 7, 10, 4, 2, 9, 5, 3, 11, 12, 13] and can == [0, 6, 8, 1, 7, 10, 4, 2, 9, 5, 3, 11, 13, 12]"},"spec":{"lhs":"test_riemann_products()","rhs":"can == 0 and can == [0, 2, 1, 3, 5, 4] and can == [0, 2, 4, 6, 1, 3, 5, 7, 9, 8] and can == can1 and can == [0, 2, 4, 6, 1, 8, 10, 12, 3, 9, 5, 11, 7, 13, 15, 14] and can == [0, 6, 2, 8, 1, 3, 7, 10, 4, 5, 9, 11, 12, 13] and can == [0, 3, 4, 1, 2, 5, 7, 6] and can == [0, 4, 6, 1, 5, 8, 10, 2, 7, 11, 3, 9, 12, 13] and can == [0, 6, 8, 1, 7, 10, 4, 2, 9, 5, 3, 11, 12, 13] and can == [0, 6, 8, 1, 7, 10, 4, 2, 9, 5, 3, 11, 13, 12]","over":{"base":"Any"},"name":"test_riemann_products_correct"},"guarantee":"can == 0; can == [0, 2, 1, 3, 5, 4]; can == [0, 2, 4, 6, 1, 3, 5, 7, 9, 8]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_riemann_products_correct","statement":"Path(test_riemann_products(x), can == 0; can == [0, 2, 1, 3, 5, 4]; can == [0, 2, 4, 6, 1, 3, 5, 7, 9, 8])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86a98f252852be73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["can == 0","can == [0, 2, 1, 3, 5, 4]","can == [0, 2, 4, 6, 1, 3, 5, 7, 9, 8]","can == can1","can == [0, 2, 4, 6, 1, 8, 10, 12, 3, 9, 5, 11, 7, 13, 15, 14]","can == [0, 6, 2, 8, 1, 3, 7, 10, 4, 5, 9, 11, 12, 13]","can == [0, 3, 4, 1, 2, 5, 7, 6]","can == [0, 4, 6, 1, 5, 8, 10, 2, 7, 11, 3, 9, 12, 13]","can == [0, 6, 8, 1, 7, 10, 4, 2, 9, 5, 3, 11, 12, 13]","can == [0, 6, 8, 1, 7, 10, 4, 2, 9, 5, 3, 11, 13, 12]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_riemann_products():
     baser, gensr = riemann_bsgs
     base1, gens1 = get_symmetric_group_sgs(1)
@@ -667,16 +751,23 @@ def test_riemann_products():
     assert can == [0, 6, 8, 1, 7, 10, 4, 2, 9, 5, 3, 11, 13, 12]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_graph_certificate(), test_graph_certificate produces the expected output) over Any ║
+# ║ Path(test_graph_certificate(), c1 != c2 and c1 == c1a) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_graph_certificate : Any → {Any | c1 != c2 and c1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c1 != c2                                       ║
+# ║   ensures:  c1 == c1a                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_graph_certificate : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   random.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 8ceadbcb6772...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | b78c3300c863...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_graph_certificate","kind":"function","src_hash":"c9dd096f377b4638","in":{"base":"Any"},"out":{"base":"Any","pred":"c1 != c2 and c1 == c1a and c1 != c2 and c1 == c1a"},"spec":{"lhs":"test_graph_certificate()","rhs":"test_graph_certificate produces the expected output","over":{"base":"Any"},"name":"test_graph_certificate_correct"},"guarantee":"test_graph_certificate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_graph_certificate_correct","statement":"Path(test_graph_certificate(x), test_graph_certificate produces the expected output)"},"assumes":[],"trust":["random.__module__"],"compiled":true,"vhash":"8ceadbcb677201d1"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_tensor_can.test_graph_certificate","kind":"function","src_hash":"c9dd096f377b4638","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c1 != c2 and c1 == c1a"},"spec":{"lhs":"test_graph_certificate()","rhs":"c1 != c2 and c1 == c1a","over":{"base":"Any"},"name":"test_graph_certificate_correct"},"guarantee":"c1 != c2; c1 == c1a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_tensor_can.test_graph_certificate_correct","statement":"Path(test_graph_certificate(x), c1 != c2; c1 == c1a)"},"assumes":[],"trust":["random.__module__"],"compiled":true,"vhash":"b78c3300c8636897","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c1 != c2","c1 == c1a"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["random.shuffle"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_graph_certificate():
     # test tensor invariants constructed from random regular graphs;
     # checked graph isomorphism with networkx

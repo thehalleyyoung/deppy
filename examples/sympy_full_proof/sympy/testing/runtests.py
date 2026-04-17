@@ -103,59 +103,83 @@ SPLIT_DENSITY = [
 SPLIT_DENSITY_SLOW = [0.0086, 0.0004, 0.0568, 0.0003, 0.0032, 0.0005, 0.0004, 0.0013, 0.0016, 0.0648, 0.0198, 0.1285, 0.098, 0.0005, 0.0064, 0.0003, 0.0004, 0.0026, 0.0007, 0.0051, 0.0089, 0.0024, 0.0033, 0.0057, 0.0005, 0.0003, 0.001, 0.0045, 0.0091, 0.0006, 0.0005, 0.0321, 0.0059, 0.1105, 0.216, 0.1489, 0.0004, 0.0003, 0.0006, 0.0483]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Skipped(), correctly constructs a Skipped instance) over Any ║
+# ║ Path(Skipped(), isinstance(self, Exception)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Skipped : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Skipped : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f93287dbe812b4d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.Skipped","kind":"class","src_hash":"2138ad9deb09ff99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Skipped()","rhs":"correctly constructs a Skipped instance","over":{"base":"Any"},"name":"Skipped_correct"},"guarantee":"correctly constructs a Skipped instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f93287dbe812b4d"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.Skipped","kind":"class","src_hash":"2138ad9deb09ff99","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"Skipped()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"Skipped_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f93287dbe812b4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Skipped not found in source"]}}
 class Skipped(Exception):
     pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TimeOutError(), correctly constructs a TimeOutError instance) over Any ║
+# ║ Path(TimeOutError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TimeOutError : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TimeOutError : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 195452dc08071334           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.TimeOutError","kind":"class","src_hash":"a3aa8bb5a4e80eca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TimeOutError()","rhs":"correctly constructs a TimeOutError instance","over":{"base":"Any"},"name":"TimeOutError_correct"},"guarantee":"correctly constructs a TimeOutError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"195452dc08071334"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.TimeOutError","kind":"class","src_hash":"a3aa8bb5a4e80eca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"TimeOutError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"TimeOutError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"195452dc08071334","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function TimeOutError not found in source"]}}
 class TimeOutError(Exception):
     pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(DependencyError(), correctly constructs a DependencyError instance) over Any ║
+# ║ Path(DependencyError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ DependencyError : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ DependencyError : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b8bb0764a2b86cca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.DependencyError","kind":"class","src_hash":"6e97b45bb588ab80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DependencyError()","rhs":"correctly constructs a DependencyError instance","over":{"base":"Any"},"name":"DependencyError_correct"},"guarantee":"correctly constructs a DependencyError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8bb0764a2b86cca"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.DependencyError","kind":"class","src_hash":"6e97b45bb588ab80","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"DependencyError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"DependencyError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8bb0764a2b86cca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function DependencyError not found in source"]}}
 class DependencyError(Exception):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_indent(s, ), add the given number of space characters to the beginning of every non-blank line in ``s``, and return the result. if the string ``s`` is unicode, it is encoded using the stdout encoding and the ``bac) over Any ║
+# ║ Path(_indent(s, indent), re.sub('(?m)^(?!$)', indent * ' ', s)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  re.sub('(?m)^(?!$)', indent * ' ', s)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _indent : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ebe53644a310fdbd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests._indent","kind":"function","src_hash":"5b7e4e17b40457bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indent(s, )","rhs":"add the given number of space characters to the beginning of every non-blank line in ``s``, and return the result. if the string ``s`` is unicode, it is encoded using the stdout encoding and the ``bac","over":{"base":"Any"},"name":"_indent_correct"},"guarantee":"add the given number of space characters to the beginning of every non-blank line in ``s``, and return the result. if the string ``s`` is unicode, it is encoded using the stdout encoding and the ``bac","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebe53644a310fdbd"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests._indent","kind":"function","src_hash":"5b7e4e17b40457bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_indent(s, indent)","rhs":"re.sub('(?m)^(?!$)', indent * ' ', s)","over":{"base":"Any"},"name":"_indent_correct"},"guarantee":"returns re.sub('(?m)^(?!$)', indent * ' ', s)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebe53644a310fdbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"re.sub('(?m)^(?!$)', indent * ' ', s)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _indent(s, indent=4):
     """
     Add the given number of space characters to the beginning of
@@ -173,16 +197,22 @@ pdoctest._indent = _indent  # type: ignore
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_report_failure(out), report that the given example failed) over Any ║
+# ║ Path(_report_failure(out, test, example), <unspecified:_report_failure>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _report_failure : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36e2a36c2a932cfe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests._report_failure","kind":"function","src_hash":"27a0eb745a6f43d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_report_failure(out)","rhs":"report that the given example failed","over":{"base":"Any"},"name":"_report_failure_correct"},"guarantee":"report that the given example failed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests._report_failure_correct","statement":"Path(_report_failure(x), report that the given example failed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36e2a36c2a932cfe"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests._report_failure","kind":"function","src_hash":"27a0eb745a6f43d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_report_failure(out, test, example)","rhs":"<unspecified:_report_failure>","over":{"base":"Any"},"name":"_report_failure_correct"},"guarantee":"report that the given example failed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests._report_failure_correct","statement":"Path(_report_failure(x), report that the given example failed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36e2a36c2a932cfe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._checker","self._failure_header","self.optionflags"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _report_failure(self, out, test, example, got):
     """
     Report that the given example failed.
@@ -197,16 +227,22 @@ if IS_WINDOWS:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_to_native_paths(lst), converts a list of '/' separated paths into a list of native (os.sep separated) paths and converts to lowercase if the system is case insensitive) over Any ║
+# ║ Path(convert_to_native_paths(lst), <unspecified:convert_to_native_paths>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convert_to_native_paths : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 623b9977fc5137f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.convert_to_native_paths","kind":"function","src_hash":"9326ade2526f7b5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_to_native_paths(lst)","rhs":"converts a list of '/' separated paths into a list of native (os.sep separated) paths and converts to lowercase if the system is case insensitive","over":{"base":"Any"},"name":"convert_to_native_paths_correct"},"guarantee":"converts a list of '/' separated paths into a list of native (os.sep separated) paths and converts to lowercase if the system is case insensitive","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.convert_to_native_paths_correct","statement":"Path(convert_to_native_paths(x), converts a list of '/' separated paths into a list of native (os.sep separated) paths and converts to lowercase if the system is case insensitive)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"623b9977fc5137f7"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.convert_to_native_paths","kind":"function","src_hash":"9326ade2526f7b5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_to_native_paths(lst)","rhs":"<unspecified:convert_to_native_paths>","over":{"base":"Any"},"name":"convert_to_native_paths_correct"},"guarantee":"converts a list of '/' separated paths into a list of native (os.sep separated) paths and converts to lowercase if the system is case insensitive","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.convert_to_native_paths_correct","statement":"Path(convert_to_native_paths(x), converts a list of '/' separated paths into a list of native (os.sep separated) paths and converts to lowercase if the system is case insensitive)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"623b9977fc5137f7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def convert_to_native_paths(lst):
     """
     Converts a list of '/' separated paths into a list of
@@ -227,16 +263,22 @@ def convert_to_native_paths(lst):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_sympy_dir(), returns the root sympy directory and set the global value indicating whether the system is case sensitive or not) over Any ║
+# ║ Path(get_sympy_dir(), os.path.normcase(sympy_dir)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  os.path.normcase(sympy_dir)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_sympy_dir : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fc11bf874be79c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fea372f391e6d58e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.get_sympy_dir","kind":"function","src_hash":"357b7bd5222b2a49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_sympy_dir()","rhs":"returns the root sympy directory and set the global value indicating whether the system is case sensitive or not","over":{"base":"Any"},"name":"get_sympy_dir_correct"},"guarantee":"returns the root sympy directory and set the global value indicating whether the system is case sensitive or not","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.get_sympy_dir_correct","statement":"Path(get_sympy_dir(x), returns the root sympy directory and set the global value indicating whether the system is case sensitive or not)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fc11bf874be79c7"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.get_sympy_dir","kind":"function","src_hash":"357b7bd5222b2a49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_sympy_dir()","rhs":"os.path.normcase(sympy_dir)","over":{"base":"Any"},"name":"get_sympy_dir_correct"},"guarantee":"returns os.path.normcase(sympy_dir)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.get_sympy_dir_correct","statement":"Path(get_sympy_dir(x), returns os.path.normcase(sympy_dir))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fea372f391e6d58e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"os.path.normcase(sympy_dir)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_sympy_dir():
     """
     Returns the root SymPy directory and set the global value
@@ -249,16 +291,22 @@ def get_sympy_dir():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(setup_pprint(dis), setup_pprint produces the expected output) over Any ║
+# ║ Path(setup_pprint(disable_line_wrap), (use_unicode_prev, wrap_line_prev)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (use_unicode_prev, wrap_line_prev)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ setup_pprint : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e65146ef50a61785  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c17134035a4d5046  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.setup_pprint","kind":"function","src_hash":"9f37de6f29d923b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"setup_pprint(dis)","rhs":"setup_pprint produces the expected output","over":{"base":"Any"},"name":"setup_pprint_correct"},"guarantee":"setup_pprint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.setup_pprint_correct","statement":"Path(setup_pprint(x), setup_pprint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e65146ef50a61785"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.setup_pprint","kind":"function","src_hash":"9f37de6f29d923b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"setup_pprint(disable_line_wrap)","rhs":"(use_unicode_prev, wrap_line_prev)","over":{"base":"Any"},"name":"setup_pprint_correct"},"guarantee":"returns (use_unicode_prev, wrap_line_prev)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.setup_pprint_correct","statement":"Path(setup_pprint(x), returns (use_unicode_prev, wrap_line_prev))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c17134035a4d5046","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(use_unicode_prev, wrap_line_prev)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def setup_pprint(disable_line_wrap=True):
     from sympy.interactive.printing import init_printing
     from sympy.printing.pretty.pretty import pprint_use_unicode
@@ -284,16 +332,22 @@ def setup_pprint(disable_line_wrap=True):
 
 @contextmanager
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(raise_on_deprecated(), context manager to make deprecationwarning raise an error) over Any ║
+# ║ Path(raise_on_deprecated(), <unspecified:raise_on_deprecated>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ raise_on_deprecated : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2da8f9b9d4ebf69e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.raise_on_deprecated","kind":"function","src_hash":"5aff466800da0039","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"raise_on_deprecated()","rhs":"context manager to make deprecationwarning raise an error","over":{"base":"Any"},"name":"raise_on_deprecated_correct"},"guarantee":"context manager to make deprecationwarning raise an error","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.raise_on_deprecated_correct","statement":"Path(raise_on_deprecated(x), context manager to make deprecationwarning raise an error)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2da8f9b9d4ebf69e"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.raise_on_deprecated","kind":"function","src_hash":"5aff466800da0039","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"raise_on_deprecated()","rhs":"<unspecified:raise_on_deprecated>","over":{"base":"Any"},"name":"raise_on_deprecated_correct"},"guarantee":"context manager to make deprecationwarning raise an error","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.raise_on_deprecated_correct","statement":"Path(raise_on_deprecated(x), context manager to make deprecationwarning raise an error)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2da8f9b9d4ebf69e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def raise_on_deprecated():
     """Context manager to make DeprecationWarning raise an error
 
@@ -308,16 +362,22 @@ def raise_on_deprecated():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(run_in_subprocess_with_hash_randomization(fun), run a function in a python subprocess with hash randomization enabled) over Any ║
+# ║ Path(run_in_subprocess_with_hash_randomization(function, function_args, function_kwargs), <unspecified:run_in_subprocess_with_hash_randomization>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ run_in_subprocess_with_hash_randomization : Any → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dabeb36b8d118956  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.run_in_subprocess_with_hash_randomization","kind":"function","src_hash":"3bf292f2947af218","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"run_in_subprocess_with_hash_randomization(fun)","rhs":"run a function in a python subprocess with hash randomization enabled","over":{"base":"Any"},"name":"run_in_subprocess_with_hash_randomization_correct"},"guarantee":"run a function in a python subprocess with hash randomization enabled","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.run_in_subprocess_with_hash_randomization_correct","statement":"Path(run_in_subprocess_with_hash_randomization(x), run a function in a python subprocess with hash randomization enabled)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dabeb36b8d118956"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.run_in_subprocess_with_hash_randomization","kind":"function","src_hash":"3bf292f2947af218","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"run_in_subprocess_with_hash_randomization(function, function_args, function_kwargs)","rhs":"<unspecified:run_in_subprocess_with_hash_randomization>","over":{"base":"Any"},"name":"run_in_subprocess_with_hash_randomization_correct"},"guarantee":"run a function in a python subprocess with hash randomization enabled","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.run_in_subprocess_with_hash_randomization_correct","statement":"Path(run_in_subprocess_with_hash_randomization(x), run a function in a python subprocess with hash randomization enabled)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dabeb36b8d118956","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","catches":["KeyboardInterrupt"],"nondeterministic_sources":["random.randrange"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def run_in_subprocess_with_hash_randomization(
         function, function_args=(),
         function_kwargs=None, command=sys.executable,
@@ -411,16 +471,22 @@ def run_in_subprocess_with_hash_randomization(
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(run_all_tests(tes), run all tests) over Any           ║
+# ║ Path(run_all_tests(test_args, test_kwargs, doctest_args), len(sys) == old_len_sys + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ run_all_tests : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(sys) == old_len_sys + 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ run_all_tests : Any → {Any | result satisfies: len(sy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   all.__module__                                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | eeca35bf03ed...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | c272d52f6de4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.run_all_tests","kind":"function","src_hash":"54d22ea499a8e986","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"run_all_tests(tes)","rhs":"run all tests","over":{"base":"Any"},"name":"run_all_tests_correct"},"guarantee":"run all tests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.run_all_tests_correct","statement":"Path(run_all_tests(x), run all tests)"},"assumes":[],"trust":["all.__module__"],"compiled":true,"vhash":"eeca35bf03ed9431"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.run_all_tests","kind":"function","src_hash":"54d22ea499a8e986","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(sys) == old_len_sys + 1"},"spec":{"lhs":"run_all_tests(test_args, test_kwargs, doctest_args)","rhs":"len(sys) == old_len_sys + 1","over":{"base":"Any"},"name":"run_all_tests_correct"},"guarantee":"len(sys) == old_len_sys + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.run_all_tests_correct","statement":"Path(run_all_tests(x), len(sys) == old_len_sys + 1)"},"assumes":[],"trust":["all.__module__"],"compiled":true,"vhash":"c272d52f6de4264a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(sys) == old_len_sys + 1"],"pure":false,"effects":{"effect_type":"io","calls_mutating":["sys.path.append"],"catches":["KeyboardInterrupt"],"io_operations":["print"]},"state_contract":{"modifies":["sys.*"],"old_bindings":{"old_len_sys":"len(sys)"},"post_ensures":["len(sys) == old_len_sys + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def run_all_tests(test_args=(), test_kwargs=None,
                   doctest_args=(), doctest_kwargs=None,
                   examples_args=(), examples_kwargs=None):
@@ -480,16 +546,22 @@ def run_all_tests(test_args=(), test_kwargs=None,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test(*pa), run tests in the specified test_*.py files) over Any ║
+# ║ Path(test(*paths, subprocess, rerun), <unspecified:test>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 043298d329740c08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.test","kind":"function","src_hash":"c0c3e4bab5b21a69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test(*pa)","rhs":"run tests in the specified test_*.py files","over":{"base":"Any"},"name":"test_correct"},"guarantee":"run tests in the specified test_*.py files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.test_correct","statement":"Path(test(x), run tests in the specified test_*.py files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"043298d329740c08"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.test","kind":"function","src_hash":"c0c3e4bab5b21a69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test(*paths, subprocess, rerun)","rhs":"<unspecified:test>","over":{"base":"Any"},"name":"test_correct"},"guarantee":"run tests in the specified test_*.py files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.test_correct","statement":"Path(test(x), run tests in the specified test_*.py files)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"043298d329740c08","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*paths', 'subprocess', 'rerun', '**kwargs']"]}}
 def test(*paths, subprocess=True, rerun=0, **kwargs):
     """
     Run tests in the specified test_*.py files.
@@ -658,9 +730,14 @@ def test(*paths, subprocess=True, rerun=0, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test(*pa), internal function that actually runs the tests) over {Any | isinstance(kw, str)} ║
+# ║ Path(_test(*paths, verbose, tb), int(not t.test(sort=sort, timeout=timeout, slow=slow, enhance_asserts=enhance_asserts, fail_on_timeout=fail_on_timeout))) over {Any | isinstance(kw, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _test : {Any | isinstance(kw, str)} → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(_paths) == old_len__paths + 1              ║
+# ║   ensures:  len(matched) == old_len_matched + 1            ║
+# ║   returns:  int(not t.test(sort=sort, timeout=timeout...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _test : {Any | isinstance(kw, str)} → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   str: {isinstance(kw, str)} → library_axiom               ║
@@ -670,9 +747,12 @@ def test(*paths, subprocess=True, rerun=0, **kwargs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 81997ef5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests._test","kind":"function","src_hash":"89a9a83c3901fdb6","in":{"base":"Any","pred":"isinstance(kw, str)"},"out":{"base":"Any"},"spec":{"lhs":"_test(*pa)","rhs":"internal function that actually runs the tests","over":{"base":"Any","pred":"isinstance(kw, str)"},"name":"_test_correct"},"guarantee":"internal function that actually runs the tests","fibers":[{"name":"str","pred":"isinstance(kw, str)","path":{"lhs":"_test(x)","rhs":"internal function that actually runs the tests","over":{"base":"str","pred":"isinstance(kw, str)"},"name":"_test_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests._test_str_correct","statement":"_test satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"81997ef5ca66d913"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests._test","kind":"function","src_hash":"89a9a83c3901fdb6","in":{"base":"Any","pred":"isinstance(kw, str)"},"out":{"base":"Any","pred":"result satisfies: result == (int(not t.test(sort=sort, timeout=timeout, slow=slow, enhance_asserts=enhance_asserts, fail_on_timeout=fail_on_timeout)))"},"spec":{"lhs":"_test(*paths, verbose, tb)","rhs":"int(not t.test(sort=sort, timeout=timeout, slow=slow, enhance_asserts=enhance_asserts, fail_on_timeout=fail_on_timeout))","over":{"base":"Any","pred":"isinstance(kw, str)"},"name":"_test_correct"},"guarantee":"returns int(not t.test(sort=sort, timeout=timeout, slow=slow, enhance_asserts=enhance_asserts, fail_on_timeout=fail_on_timeout)); len(_paths) == old_len__paths + 1; len(matched) == old_len_matched + 1","fibers":[{"name":"str","pred":"isinstance(kw, str)","path":{"lhs":"_test(x)","rhs":"returns int(not t.test(sort=sort, timeout=timeout, slow=slow, enhance_asserts=enhance_asserts, fail_on_timeout=fail_on_timeout)); len(_paths) == old_len__paths + 1; len(matched) == old_len_matched + 1","over":{"base":"str","pred":"isinstance(kw, str)"},"name":"_test_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests._test_str_correct","statement":"_test satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"81997ef5ca66d913","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(_paths) == old_len__paths + 1","len(matched) == old_len_matched + 1"],"returns_expr":"int(not t.test(sort=sort, timeout=timeout, slow=slow, enhance_asserts=enhance_asserts, fail_on_timeout=fail_on_timeout))","pure":false,"effects":{"effect_type":"nondeterministic","calls_mutating":["_paths.append","matched.append","t._testfiles.extend"],"nondeterministic_sources":["random.randrange"]},"state_contract":{"modifies":["_paths.*","matched.*","t.*"],"old_bindings":{"old_len__paths":"len(_paths)","old_len_matched":"len(matched)","old_len_t":"len(t)"},"post_ensures":["len(_paths) == old_len__paths + 1","len(matched) == old_len_matched + 1"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*paths', 'verbose', 'tb', 'kw', 'pdb', 'colors', 'force_colors', 'sort', 'seed', 'timeout', 'fail_on_timeout', 'slow', 'enhance_asserts', 'split', 'time_balance', 'blacklist', 'fast_threshold', 'slow_threshold']","Poor branch-fiber coverage: 0% (branches={'seed is None', 'len(paths) == 0', 'isinstance(kw, str)'}, fibers={'str'})"]}}
 def _test(*paths,
         verbose=False, tb="short", kw=None, pdb=False, colors=True,
         force_colors=False, sort=True, seed=None, timeout=False,
@@ -751,16 +831,22 @@ def _test(*paths,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doctest(*pa), runs doctests in all \*.py files in the sympy directory which match any of the given strings in ``paths`` or all tests if paths=[]) over Any ║
+# ║ Path(doctest(*paths, subprocess, rerun), <unspecified:doctest>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doctest : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f40d7da7bbe7da6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.doctest","kind":"function","src_hash":"cf4db46b0c989585","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doctest(*pa)","rhs":"runs doctests in all \\*.py files in the sympy directory which match any of the given strings in ``paths`` or all tests if paths=[]","over":{"base":"Any"},"name":"doctest_correct"},"guarantee":"runs doctests in all \\*.py files in the sympy directory which match any of the given strings in ``paths`` or all tests if paths=[]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.doctest_correct","statement":"Path(doctest(x), runs doctests in all \\*.py files in the sympy directory which match any of the given strings in ``paths`` or all tests if paths=[])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f40d7da7bbe7da6"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.doctest","kind":"function","src_hash":"cf4db46b0c989585","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doctest(*paths, subprocess, rerun)","rhs":"<unspecified:doctest>","over":{"base":"Any"},"name":"doctest_correct"},"guarantee":"runs doctests in all \\*.py files in the sympy directory which match any of the given strings in ``paths`` or all tests if paths=[]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.doctest_correct","statement":"Path(doctest(x), runs doctests in all \\*.py files in the sympy directory which match any of the given strings in ``paths`` or all tests if paths=[])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f40d7da7bbe7da6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*paths', 'subprocess', 'rerun', '**kwargs']"]}}
 def doctest(*paths, subprocess=True, rerun=0, **kwargs):
     r"""
     Runs doctests in all \*.py files in the SymPy directory which match
@@ -836,16 +922,22 @@ def doctest(*paths, subprocess=True, rerun=0, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_doctest_blacklist(), get the default blacklist for the doctests) over Any ║
+# ║ Path(_get_doctest_blacklist(), <unspecified:_get_doctest_blacklist>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_doctest_blacklist : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   matplotlib.__module__                                    ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 097de5250325...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests._get_doctest_blacklist","kind":"function","src_hash":"68be58a0a297e442","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_doctest_blacklist()","rhs":"get the default blacklist for the doctests","over":{"base":"Any"},"name":"_get_doctest_blacklist_correct"},"guarantee":"get the default blacklist for the doctests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests._get_doctest_blacklist_correct","statement":"Path(_get_doctest_blacklist(x), get the default blacklist for the doctests)"},"assumes":[],"trust":["matplotlib.__module__"],"compiled":true,"vhash":"097de525032508bb"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests._get_doctest_blacklist","kind":"function","src_hash":"68be58a0a297e442","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_doctest_blacklist()","rhs":"<unspecified:_get_doctest_blacklist>","over":{"base":"Any"},"name":"_get_doctest_blacklist_correct"},"guarantee":"get the default blacklist for the doctests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests._get_doctest_blacklist_correct","statement":"Path(_get_doctest_blacklist(x), get the default blacklist for the doctests)"},"assumes":[],"trust":["matplotlib.__module__"],"compiled":true,"vhash":"097de525032508bb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _get_doctest_blacklist():
     '''Get the default blacklist for the doctests'''
     blacklist = []
@@ -974,16 +1066,25 @@ def _get_doctest_blacklist():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_doctest(*pa), internal function that actually runs the doctests) over Any ║
+# ║ Path(_doctest(*paths, **kwargs), int(failed)) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _doctest : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(matched) == old_len_matched + 1            ║
+# ║   ensures:  len(matched) == old_len_matched                ║
+# ║   ensures:  len(test_files) == old_len_test_files          ║
+# ║   returns:  int(failed)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _doctest : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   matplotlib.__module__                                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 50c4bd4ecb1f...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 3a91e928f55f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests._doctest","kind":"function","src_hash":"f12ad72354449938","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_doctest(*pa)","rhs":"internal function that actually runs the doctests","over":{"base":"Any"},"name":"_doctest_correct"},"guarantee":"internal function that actually runs the doctests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests._doctest_correct","statement":"Path(_doctest(x), internal function that actually runs the doctests)"},"assumes":[],"trust":["matplotlib.__module__"],"compiled":true,"vhash":"50c4bd4ecb1f2a7d"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests._doctest","kind":"function","src_hash":"f12ad72354449938","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (int(failed))"},"spec":{"lhs":"_doctest(*paths, **kwargs)","rhs":"int(failed)","over":{"base":"Any"},"name":"_doctest_correct"},"guarantee":"returns int(failed); len(matched) == old_len_matched + 1; len(matched) == old_len_matched; len(test_files) == old_len_test_files","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests._doctest_correct","statement":"Path(_doctest(x), returns int(failed); len(matched) == old_len_matched + 1; len(matched) == old_len_matched; len(test_files) == old_len_test_files)"},"assumes":[],"trust":["matplotlib.__module__"],"compiled":true,"vhash":"3a91e928f55f11a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(matched) == old_len_matched + 1","len(matched) == old_len_matched","len(test_files) == old_len_test_files"],"returns_expr":"int(failed)","pure":false,"effects":{"effect_type":"io","calls_mutating":["blacklist.extend","matched.append","matched.sort","t._testfiles.extend","test_files.extend","test_files.sort"],"io_operations":["print"]},"state_contract":{"modifies":["blacklist.*","matched.*","t.*","test_files.*"],"old_bindings":{"old_len_blacklist":"len(blacklist)","old_len_matched":"len(matched)","old_len_t":"len(t)","old_len_test_files":"len(test_files)"},"post_ensures":["len(matched) == old_len_matched + 1","len(matched) == old_len_matched","len(test_files) == old_len_test_files"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*paths', '**kwargs']"]}}
 def _doctest(*paths, **kwargs):
     """
     Internal function that actually runs the doctests.
@@ -1146,16 +1247,23 @@ def _doctest(*paths, **kwargs):
 sp = re.compile(r'([0-9]+)/([1-9][0-9]*)')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(split_list(l, ), id) over Any                         ║
+# ║ Path(split_list(l, split, density), id) over {Any | m}     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ split_list : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: m                                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ split_list : {Any | m} → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1dd185023aeb9f46   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.split_list","kind":"function","src_hash":"bec2f98902b21078","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"split_list(l, )","rhs":"splits a list into part a of b","over":{"base":"Any"},"name":"split_list_correct","kind":"composition"},"guarantee":"splits a list into part a of b","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dd185023aeb9f46"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.split_list","kind":"function","src_hash":"bec2f98902b21078","in":{"base":"Any","pred":"m"},"out":{"base":"Any"},"spec":{"lhs":"split_list(l, split, density)","rhs":"<unspecified:split_list>","over":{"base":"Any","pred":"m"},"name":"split_list_correct","kind":"composition"},"guarantee":"splits a list into part a of b","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"len","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1dd185023aeb9f46","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["m"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def split_list(l, split, density=None):
     """
     Splits a list into part a of b
@@ -1217,16 +1325,25 @@ from collections import namedtuple
 SymPyTestResults = namedtuple('SymPyTestResults', 'failed attempted')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sympytestfile(fil), test examples in the given file) over Any ║
+# ║ Path(sympytestfile(filename, module_relative, name), SymPyTestResults(runner.failures, runner.tries)) over {Any | not (package and (not module_relative)) and hasattr(globs, 'copy') and hasattr(globs, 'update')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sympytestfile : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (package and (not module_relative))        ║
+# ║   requires: hasattr(globs, 'copy')                         ║
+# ║   requires: hasattr(globs, 'update')                       ║
+# ║   returns:  SymPyTestResults(runner.failures, runner....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sympytestfile : {Any | not (package and (not module_r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a856b48247bfa4a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3e07344cf6eb80e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.sympytestfile","kind":"function","src_hash":"ab0bd4240adfffcb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sympytestfile(fil)","rhs":"test examples in the given file","over":{"base":"Any"},"name":"sympytestfile_correct"},"guarantee":"test examples in the given file","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.sympytestfile_correct","statement":"Path(sympytestfile(x), test examples in the given file)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a856b48247bfa4a6"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.sympytestfile","kind":"function","src_hash":"ab0bd4240adfffcb","in":{"base":"Any","pred":"not (package and (not module_relative)) and hasattr(globs, 'copy') and hasattr(globs, 'update')"},"out":{"base":"Any"},"spec":{"lhs":"sympytestfile(filename, module_relative, name)","rhs":"SymPyTestResults(runner.failures, runner.tries)","over":{"base":"Any","pred":"not (package and (not module_relative)) and hasattr(globs, 'copy') and hasattr(globs, 'update')"},"name":"sympytestfile_correct"},"guarantee":"returns SymPyTestResults(runner.failures, runner.tries)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.sympytestfile_correct","statement":"Path(sympytestfile(x), returns SymPyTestResults(runner.failures, runner.tries))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3e07344cf6eb80e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (package and (not module_relative))","hasattr(globs, 'copy')","hasattr(globs, 'update')"],"returns_expr":"SymPyTestResults(runner.failures, runner.tries)","pure":false,"effects":{"effect_type":"mutates_args","reads":["globs.copy","globs.update","parser.get_doctest"],"writes":["globs[*]"],"calls_mutating":["globs.update"],"raises":["ValueError"]},"state_contract":{"modifies":["globs.*","globs[*]"],"old_bindings":{"old_globs_star":"globs[*]","old_len_globs":"len(globs)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def sympytestfile(filename, module_relative=True, name=None, package=None,
              globs=None, verbose=None, report=True, optionflags=0,
              extraglobs=None, raise_on_error=False,
@@ -1354,27 +1471,40 @@ def sympytestfile(filename, module_relative=True, name=None, package=None,
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SymPyTests instance) preserved by SymPyTests(*args) over {Any | isinstance(stmt.test, Compare)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SymPyTests : {Any | isinstance(stmt.test, Compare)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3676edfa22c63d1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests","kind":"class","src_hash":"d2e75b9885db3b27","in":{"base":"Any","pred":"isinstance(stmt.test, Compare)"},"out":{"base":"Any"},"spec":{"lhs":"SymPyTests(*args)","rhs":"correctly constructs a SymPyTests instance","over":{"base":"Any","pred":"isinstance(stmt.test, Compare)"},"name":"SymPyTests_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SymPyTests instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_post_mortem') and hasattr(self, '_kw') and hasattr(self, '_count') and hasattr(self, '_root_dir') and hasattr(self, '_reporter') and hasattr(self, '_testfiles') and hasattr(self, '_seed') and hasattr(self, '_fast_threshold')","kind":"class","induction":"structural on _post_mortem, _kw, _count, _root_dir"}],"methods_preserving":["__init__","test","_enhance_asserts","visit_Assert","test_file","_timeout","matches","get_test_files"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3676edfa22c63d1d"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests","kind":"class","src_hash":"d2e75b9885db3b27","in":{"base":"Any","pred":"isinstance(stmt.test, Compare)"},"out":{"base":"Any"},"spec":{"lhs":"SymPyTests(*args)","rhs":"correctly constructs a SymPyTests instance","over":{"base":"Any","pred":"isinstance(stmt.test, Compare)"},"name":"SymPyTests_class_invariant","kind":"invariant"},"guarantee":"preserves 9 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_post_mortem') and hasattr(self, '_kw') and hasattr(self, '_count') and hasattr(self, '_root_dir') and hasattr(self, '_reporter') and hasattr(self, '_testfiles') and hasattr(self, '_seed') and hasattr(self, '_fast_threshold')","kind":"class","induction":"structural on _post_mortem, _kw, _count, _root_dir"}],"methods_preserving":["__init__","test","_enhance_asserts","visit_Assert","test_file","_timeout","matches","get_test_files"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3676edfa22c63d1d","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_post_mortem')","hasattr(self, '_kw')","hasattr(self, '_count')","hasattr(self, '_root_dir')","hasattr(self, '_reporter')","hasattr(self, '_testfiles')","hasattr(self, '_seed')","hasattr(self, '_fast_threshold')","hasattr(self, '_slow_threshold')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function SymPyTests not found in source"]}}
 class SymPyTests:
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rep), initializes the instance correctly) over Any ║
+# ║ Path(__init__(reporter, kw, post_mortem), self._post_mortem == post_mortem and self._kw == kw and self._reporter == reporter) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self._post_mortem == post_mortem               ║
+# ║   ensures:  self._kw == kw                                 ║
+# ║   ensures:  self._reporter == reporter                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self._post_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5547d0737dfd8c12           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests.__init__","kind":"method","src_hash":"879a4d7d8e20b399","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rep)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5547d0737dfd8c12"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests.__init__","kind":"method","src_hash":"879a4d7d8e20b399","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self._post_mortem == post_mortem and self._kw == kw and self._reporter == reporter"},"spec":{"lhs":"__init__(reporter, kw, post_mortem)","rhs":"self._post_mortem == post_mortem and self._kw == kw and self._reporter == reporter","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self._post_mortem == post_mortem; self._kw == kw; self._reporter == reporter","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5547d0737dfd8c12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self._post_mortem == post_mortem","self._kw == kw","self._reporter == reporter"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["self._reporter","self._root_dir"],"writes":["self._count","self._fast_threshold","self._kw","self._post_mortem","self._reporter","self._root_dir","self._seed","self._slow_threshold","self._testfiles"],"nondeterministic_sources":["random.random"]},"state_contract":{"modifies":["self._count","self._fast_threshold","self._kw","self._post_mortem","self._reporter","self._root_dir","self._seed","self._slow_threshold","self._testfiles"],"old_bindings":{"old_self__count":"self._count","old_self__fast_threshold":"self._fast_threshold","old_self__kw":"self._kw","old_self__post_mortem":"self._post_mortem","old_self__reporter":"self._reporter","old_self__root_dir":"self._root_dir","old_self__seed":"self._seed","old_self__slow_threshold":"self._slow_threshold","old_self__testfiles":"self._testfiles"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, reporter, kw="", post_mortem=False,
                  seed=None, fast_threshold=None, slow_threshold=None):
         self._post_mortem = post_mortem
@@ -1401,16 +1531,23 @@ class SymPyTests:
             self._slow_threshold = 10
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test(sor), runs the tests returning true if all tests pass, otherwise false) over Any ║
+# ║ Path(test(sort, timeout, slow), self._reporter.finish()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self                      ║
+# ║   returns:  self._reporter.finish()                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test : Any → {Any | result satisfies: result == (self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e162e9326717ca91  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60bb55109151bcfc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests.test","kind":"method","src_hash":"afa709af36c662a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test(sor)","rhs":"runs the tests returning true if all tests pass, otherwise false","over":{"base":"Any"},"name":"test_correct"},"guarantee":"runs the tests returning true if all tests pass, otherwise false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyTests.test_correct","statement":"Path(test(x), runs the tests returning true if all tests pass, otherwise false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e162e9326717ca91"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests.test","kind":"method","src_hash":"afa709af36c662a7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._reporter.finish())"},"spec":{"lhs":"test(sort, timeout, slow)","rhs":"self._reporter.finish()","over":{"base":"Any"},"name":"test_correct"},"guarantee":"returns self._reporter.finish(); len(self) == old_len_self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyTests.test_correct","statement":"Path(test(x), returns self._reporter.finish(); len(self) == old_len_self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60bb55109151bcfc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self"],"returns_expr":"self._reporter.finish()","pure":false,"effects":{"effect_type":"nondeterministic","reads":["self._reporter","self._seed","self._testfiles","self.test_file"],"calls_mutating":["self._testfiles.sort"],"catches":["KeyboardInterrupt"],"io_operations":["print"],"nondeterministic_sources":["random.shuffle"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test(self, sort=False, timeout=False, slow=False,
             enhance_asserts=False, fail_on_timeout=False):
         """
@@ -1437,16 +1574,22 @@ class SymPyTests:
         return self._reporter.finish()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_enhance_asserts(sou), internal helper behaves correctly) over Any ║
+# ║ Path(_enhance_asserts(source), <unspecified:_enhance_asserts>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _enhance_asserts : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc916ced5088de06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests._enhance_asserts","kind":"method","src_hash":"d9ce17d87744096f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_enhance_asserts(sou)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_enhance_asserts_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyTests._enhance_asserts_correct","statement":"Path(_enhance_asserts(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc916ced5088de06"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests._enhance_asserts","kind":"method","src_hash":"d9ce17d87744096f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_enhance_asserts(source)","rhs":"<unspecified:_enhance_asserts>","over":{"base":"Any"},"name":"_enhance_asserts_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyTests._enhance_asserts_correct","statement":"Path(_enhance_asserts(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc916ced5088de06","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _enhance_asserts(self, source):
         from ast import (NodeTransformer, Compare, Name, Store, Load, Tuple,
             Assign, BinOp, Str, Mod, Assert, parse, fix_missing_locations)
@@ -1479,16 +1622,25 @@ class SymPyTests:
         return fix_missing_locations(new_tree)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_file(fil), test_file produces the expected output) over Any ║
+# ║ Path(test_file(filename, sort, timeout), len(funcs) == old_len_funcs + 1 and len(funcs) == old_len_funcs - 1 and len(funcs) == old_len_funcs and len(reporter) == old_len_reporter + 1) over {Any | len(funcs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_file : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(funcs) > 0                                 ║
+# ║   ensures:  len(funcs) == old_len_funcs + 1                ║
+# ║   ensures:  len(funcs) == old_len_funcs - 1                ║
+# ║   ensures:  len(funcs) == old_len_funcs                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_file : {Any | len(funcs) > 0} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 806b7a364c95d112  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8608ecb7328375d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests.test_file","kind":"method","src_hash":"09a137a4b8c0f37b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_file(fil)","rhs":"test_file produces the expected output","over":{"base":"Any"},"name":"test_file_correct"},"guarantee":"test_file produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyTests.test_file_correct","statement":"Path(test_file(x), test_file produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"806b7a364c95d112"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests.test_file","kind":"method","src_hash":"09a137a4b8c0f37b","in":{"base":"Any","pred":"len(funcs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(funcs) == old_len_funcs + 1 and len(funcs) == old_len_funcs - 1 and len(funcs) == old_len_funcs and len(reporter) == old_len_reporter + 1"},"spec":{"lhs":"test_file(filename, sort, timeout)","rhs":"len(funcs) == old_len_funcs + 1 and len(funcs) == old_len_funcs - 1 and len(funcs) == old_len_funcs and len(reporter) == old_len_reporter + 1","over":{"base":"Any","pred":"len(funcs) > 0"},"name":"test_file_correct"},"guarantee":"len(funcs) == old_len_funcs + 1; len(funcs) == old_len_funcs - 1; len(funcs) == old_len_funcs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyTests.test_file_correct","statement":"Path(test_file(x), len(funcs) == old_len_funcs + 1; len(funcs) == old_len_funcs - 1; len(funcs) == old_len_funcs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8608ecb7328375d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(funcs) > 0"],"ensures":["len(funcs) == old_len_funcs + 1","len(funcs) == old_len_funcs - 1","len(funcs) == old_len_funcs","len(reporter) == old_len_reporter + 1"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["self._enhance_asserts","self._fast_threshold","self._kw","self._post_mortem","self._reporter","self._seed","self._slow_threshold","self._timeout","self.matches"],"writes":["self._count"],"calls_mutating":["funcs.append","funcs.insert","funcs.pop","funcs.sort","reporter.fast_test_functions.append","reporter.slow_test_functions.append"],"raises":["Skipped"],"catches":["Exception","ImportError","KeyboardInterrupt"],"io_operations":["open"],"nondeterministic_sources":["random.shuffle","time.time"]},"state_contract":{"modifies":["funcs.*","reporter.*","self._count"],"old_bindings":{"old_self__count":"self._count","old_len_funcs":"len(funcs)","old_len_reporter":"len(reporter)"},"pre_requires":["len(funcs) > 0"],"post_ensures":["len(funcs) == old_len_funcs + 1","len(funcs) == old_len_funcs - 1","len(funcs) == old_len_funcs","len(reporter) == old_len_reporter + 1","len(reporter) == old_len_reporter + 1"],"exceptional_post":{"Skipped":["isinstance(raised, Skipped)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_file(self, filename, sort=True, timeout=False, slow=False,
             enhance_asserts=False, fail_on_timeout=False):
         reporter = self._reporter
@@ -1624,16 +1776,22 @@ class SymPyTests:
         reporter.leaving_filename()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_timeout(fun), internal helper behaves correctly) over Any ║
+# ║ Path(_timeout(function, timeout, fail_on_timeout), <unspecified:_timeout>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _timeout : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 652fd631c8715330  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests._timeout","kind":"method","src_hash":"ced147471ab07ca7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_timeout(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_timeout_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyTests._timeout_correct","statement":"Path(_timeout(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"652fd631c8715330"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests._timeout","kind":"method","src_hash":"ced147471ab07ca7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_timeout(function, timeout, fail_on_timeout)","rhs":"<unspecified:_timeout>","over":{"base":"Any"},"name":"_timeout_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyTests._timeout_correct","statement":"Path(_timeout(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"652fd631c8715330","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["Skipped","TimeOutError"]},"state_contract":{"exceptional_post":{"Skipped":["isinstance(raised, Skipped)"],"TimeOutError":["isinstance(raised, TimeOutError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _timeout(self, function, timeout, fail_on_timeout):
         def callback(x, y):
             signal.alarm(0)
@@ -1647,16 +1805,22 @@ class SymPyTests:
         signal.alarm(0)  # Disable the alarm
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matches(x), does the keyword expression self._kw match "x"? returns true/false) over Any ║
+# ║ Path(matches(x), <unspecified:matches>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matches : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f030c2abe5e6d993  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests.matches","kind":"method","src_hash":"8d34fe7705529319","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches(x)","rhs":"does the keyword expression self._kw match \"x\"? returns true/false","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"does the keyword expression self._kw match \"x\"? returns true/false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyTests.matches_correct","statement":"Path(matches(x), does the keyword expression self._kw match \"x\"? returns true/false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f030c2abe5e6d993"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests.matches","kind":"method","src_hash":"8d34fe7705529319","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matches(x)","rhs":"<unspecified:matches>","over":{"base":"Any"},"name":"matches_correct"},"guarantee":"does the keyword expression self._kw match \"x\"? returns true/false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyTests.matches_correct","statement":"Path(matches(x), does the keyword expression self._kw match \"x\"? returns true/false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f030c2abe5e6d993","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._kw","x.__name__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def matches(self, x):
         """
         Does the keyword expression self._kw match "x"? Returns True/False.
@@ -1671,16 +1835,22 @@ class SymPyTests:
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_test_files(dir), id) over Any                     ║
+# ║ Path(get_test_files(dir, pat), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sorted([os.path.normcase(gi) for gi in g])     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_test_files : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 548602b1fdc09871   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests.get_test_files","kind":"method","src_hash":"1d80e2833c1b3b3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_test_files(dir)","rhs":"returns the list of test_*.py (default) files at or below directory ``dir`` relative to the sympy home directory","over":{"base":"Any"},"name":"get_test_files_correct","kind":"composition"},"guarantee":"returns the list of test_*.py (default) files at or below directory ``dir`` relative to the sympy home directory","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"normcase","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"548602b1fdc09871"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyTests.get_test_files","kind":"method","src_hash":"1d80e2833c1b3b3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_test_files(dir, pat)","rhs":"sorted([os.path.normcase(gi) for gi in g])","over":{"base":"Any"},"name":"get_test_files_correct","kind":"composition"},"guarantee":"returns sorted([os.path.normcase(gi) for gi in g])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"normcase","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"548602b1fdc09871","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sorted([os.path.normcase(gi) for gi in g])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_test_files(self, dir, pat='test_*.py'):
         """
         Returns the list of test_*.py (default) files at or below directory
@@ -1698,27 +1868,39 @@ class SymPyTests:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SymPyDocTests instance) preserved by SymPyDocTests(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SymPyDocTests : Any → {Any | len(test.examples) != 0}      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e229bcc7d6022e8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTests","kind":"class","src_hash":"2deb8476897ac2ec","in":{"base":"Any"},"out":{"base":"Any","pred":"len(test.examples) != 0"},"spec":{"lhs":"SymPyDocTests(*args)","rhs":"correctly constructs a SymPyDocTests instance","over":{"base":"Any"},"name":"SymPyDocTests_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SymPyDocTests instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_count') and hasattr(self, '_root_dir') and hasattr(self, '_reporter') and hasattr(self, '_normal') and hasattr(self, '_testfiles')","kind":"class","induction":"structural on _count, _root_dir, _reporter, _normal"}],"methods_preserving":["__init__","test","test_file","get_test_files","_check_dependencies","__init__","set_vsync","switch_to","push_handlers","close"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e229bcc7d6022e8b"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTests","kind":"class","src_hash":"2deb8476897ac2ec","in":{"base":"Any"},"out":{"base":"Any","pred":"len(test.examples) != 0"},"spec":{"lhs":"SymPyDocTests(*args)","rhs":"correctly constructs a SymPyDocTests instance","over":{"base":"Any"},"name":"SymPyDocTests_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_count') and hasattr(self, '_root_dir') and hasattr(self, '_reporter') and hasattr(self, '_normal') and hasattr(self, '_testfiles')","kind":"class","induction":"structural on _count, _root_dir, _reporter, _normal"}],"methods_preserving":["__init__","test","test_file","get_test_files","_check_dependencies","__init__","set_vsync","switch_to","push_handlers","close"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e229bcc7d6022e8b","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_count')","hasattr(self, '_root_dir')","hasattr(self, '_reporter')","hasattr(self, '_normal')","hasattr(self, '_testfiles')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SymPyDocTests not found in source"]}}
 class SymPyDocTests:
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rep), initializes the instance correctly) over Any ║
+# ║ Path(__init__(reporter, normal), self._reporter == reporter and self._normal == normal) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self._reporter == reporter                     ║
+# ║   ensures:  self._normal == normal                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self._repor...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fc613efc3021b4b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTests.__init__","kind":"method","src_hash":"fa3b4e5153b8cd60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rep)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc613efc3021b4b6"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTests.__init__","kind":"method","src_hash":"fa3b4e5153b8cd60","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self._reporter == reporter and self._normal == normal"},"spec":{"lhs":"__init__(reporter, normal)","rhs":"self._reporter == reporter and self._normal == normal","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self._reporter == reporter; self._normal == normal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc613efc3021b4b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self._reporter == reporter","self._normal == normal"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, reporter, normal):
         self._count = 0
         self._root_dir = get_sympy_dir()
@@ -1729,16 +1911,22 @@ class SymPyDocTests:
         self._testfiles = []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test(), runs the tests and returns true if all tests pass, otherwise false) over Any ║
+# ║ Path(test(), self._reporter.finish()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._reporter.finish()                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 599a23e589c28357  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70a9eb9aa29cbb67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTests.test","kind":"method","src_hash":"bd7aca092c9a5868","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test()","rhs":"runs the tests and returns true if all tests pass, otherwise false","over":{"base":"Any"},"name":"test_correct"},"guarantee":"runs the tests and returns true if all tests pass, otherwise false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTests.test_correct","statement":"Path(test(x), runs the tests and returns true if all tests pass, otherwise false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"599a23e589c28357"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTests.test","kind":"method","src_hash":"bd7aca092c9a5868","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test()","rhs":"self._reporter.finish()","over":{"base":"Any"},"name":"test_correct"},"guarantee":"returns self._reporter.finish()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTests.test_correct","statement":"Path(test(x), returns self._reporter.finish())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70a9eb9aa29cbb67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._reporter.finish()","pure":false,"effects":{"effect_type":"io","reads":["self._reporter","self._testfiles","self.test_file"],"catches":["KeyboardInterrupt"],"io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test(self):
         """
         Runs the tests and returns True if all tests pass, otherwise False.
@@ -1754,16 +1942,22 @@ class SymPyDocTests:
         return self._reporter.finish()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_file(fil), test_file produces the expected output) over Any ║
+# ║ Path(test_file(filename), len(tests) == old_len_tests) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_file : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(tests) == old_len_tests                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_file : Any → {Any | result satisfies: len(tests)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52e02d8ad97576a7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e622cc7a023aa9f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTests.test_file","kind":"method","src_hash":"36f99f9ea8f218ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_file(fil)","rhs":"test_file produces the expected output","over":{"base":"Any"},"name":"test_file_correct"},"guarantee":"test_file produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTests.test_file_correct","statement":"Path(test_file(x), test_file produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52e02d8ad97576a7"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTests.test_file","kind":"method","src_hash":"36f99f9ea8f218ca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(tests) == old_len_tests"},"spec":{"lhs":"test_file(filename)","rhs":"len(tests) == old_len_tests","over":{"base":"Any"},"name":"test_file_correct"},"guarantee":"len(tests) == old_len_tests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTests.test_file_correct","statement":"Path(test_file(x), len(tests) == old_len_tests)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e622cc7a023aa9f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(tests) == old_len_tests"],"pure":false,"effects":{"effect_type":"io","reads":["self._check_dependencies","self._normal","self._reporter","self._root_dir"],"calls_mutating":["self._reporter.write","sys.path.insert","tests.sort"],"catches":["DependencyError","ImportError","KeyboardInterrupt"],"io_operations":["self._reporter.write"]},"state_contract":{"modifies":["self.*","sys.*","tests.*"],"old_bindings":{"old_len_tests":"len(tests)"},"post_ensures":["len(tests) == old_len_tests"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_file(self, filename):
         clear_cache()
 
@@ -1859,16 +2053,22 @@ class SymPyDocTests:
         self._reporter.leaving_filename()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_test_files(dir), returns the list of \*.py files (default) from which docstrings will be tested which are at or below directory ``dir``) over Any ║
+# ║ Path(get_test_files(dir, pat, init_only), <unspecified:get_test_files>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_test_files : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5b8ae5cbf63e5dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTests.get_test_files","kind":"method","src_hash":"eb595f4df44254da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_test_files(dir)","rhs":"returns the list of \\*.py files (default) from which docstrings will be tested which are at or below directory ``dir``","over":{"base":"Any"},"name":"get_test_files_correct"},"guarantee":"returns the list of \\*.py files (default) from which docstrings will be tested which are at or below directory ``dir``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTests.get_test_files_correct","statement":"Path(get_test_files(x), returns the list of \\*.py files (default) from which docstrings will be tested which are at or below directory ``dir``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5b8ae5cbf63e5dd"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTests.get_test_files","kind":"method","src_hash":"eb595f4df44254da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_test_files(dir, pat, init_only)","rhs":"<unspecified:get_test_files>","over":{"base":"Any"},"name":"get_test_files_correct"},"guarantee":"returns the list of \\*.py files (default) from which docstrings will be tested which are at or below directory ``dir``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTests.get_test_files_correct","statement":"Path(get_test_files(x), returns the list of \\*.py files (default) from which docstrings will be tested which are at or below directory ``dir``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5b8ae5cbf63e5dd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_test_files(self, dir, pat='*.py', init_only=True):
         r"""
         Returns the list of \*.py files (default) from which docstrings
@@ -1903,16 +2103,22 @@ class SymPyDocTests:
         return [os.path.normcase(gi) for gi in g]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_dependencies(exe), checks if the dependencies for the test are installed) over Any ║
+# ║ Path(_check_dependencies(executables, modules, disable_viewers), <unspecified:_check_dependencies>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_dependencies : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ad127871363648b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTests._check_dependencies","kind":"method","src_hash":"e0edc5083b9241a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_dependencies(exe)","rhs":"checks if the dependencies for the test are installed","over":{"base":"Any"},"name":"_check_dependencies_correct"},"guarantee":"checks if the dependencies for the test are installed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTests._check_dependencies_correct","statement":"Path(_check_dependencies(x), checks if the dependencies for the test are installed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ad127871363648b"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTests._check_dependencies","kind":"method","src_hash":"e0edc5083b9241a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_dependencies(executables, modules, disable_viewers)","rhs":"<unspecified:_check_dependencies>","over":{"base":"Any"},"name":"_check_dependencies_correct"},"guarantee":"checks if the dependencies for the test are installed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTests._check_dependencies_correct","statement":"Path(_check_dependencies(x), checks if the dependencies for the test are installed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ad127871363648b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self.has_exit","self.height","self.width"],"raises":["DependencyError"]},"state_contract":{"modifies":["self.has_exit","self.height","self.width"],"old_bindings":{"old_self_has_exit":"self.has_exit","old_self_height":"self.height","old_self_width":"self.width"},"exceptional_post":{"DependencyError":["isinstance(raised, DependencyError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_dependencies(self,
                             executables=(),
                             modules=(),
@@ -1994,14 +2200,20 @@ class SymPyDocTests:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SymPyDocTestFinder(*args), correctly constructs a SymPyDocTestFinder instance) over {Any | isinstance(obj, str) and isinstance(obj, property) and isinstance(val, staticmethod)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DocTestFinder)                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SymPyDocTestFinder : {Any | isinstance(obj, str) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 995aef7e1f28f548  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTestFinder","kind":"class","src_hash":"f0f77aa5db22cd16","in":{"base":"Any","pred":"isinstance(obj, str) and isinstance(obj, property) and isinstance(val, staticmethod)"},"out":{"base":"Any","pred":"len(matches) == 1 and self._from_module(module, val) and self._from_module(module, val)"},"spec":{"lhs":"SymPyDocTestFinder(*args)","rhs":"correctly constructs a SymPyDocTestFinder instance","over":{"base":"Any","pred":"isinstance(obj, str) and isinstance(obj, property) and isinstance(val, staticmethod)"},"name":"SymPyDocTestFinder_class_invariant"},"guarantee":"correctly constructs a SymPyDocTestFinder instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"995aef7e1f28f548"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTestFinder","kind":"class","src_hash":"f0f77aa5db22cd16","in":{"base":"Any","pred":"isinstance(obj, str) and isinstance(obj, property) and isinstance(val, staticmethod)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DocTestFinder)"},"spec":{"lhs":"SymPyDocTestFinder(*args)","rhs":"correctly constructs a SymPyDocTestFinder instance","over":{"base":"Any","pred":"isinstance(obj, str) and isinstance(obj, property) and isinstance(val, staticmethod)"},"name":"SymPyDocTestFinder_class_invariant"},"guarantee":"isinstance(self, DocTestFinder)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"995aef7e1f28f548","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DocTestFinder)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function SymPyDocTestFinder not found in source"]}}
 class SymPyDocTestFinder(DocTestFinder):
     """
     A class used to extract the DocTests that are relevant to a given
@@ -2017,16 +2229,23 @@ class SymPyDocTestFinder(DocTestFinder):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find(tes), find tests for the given object and any contained objects, and add them to ``tests``) over Any ║
+# ║ Path(_find(tests, obj, name), len(tests) == old_len_tests + 1) over {Any | hasattr(tests, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _find : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(tests, 'append')                       ║
+# ║   ensures:  len(tests) == old_len_tests + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _find : {Any | hasattr(tests, 'append')} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77dd3f98c0f147d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50db78c1d8fe58b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTestFinder._find","kind":"method","src_hash":"c4fc8abc7cc1ed28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find(tes)","rhs":"find tests for the given object and any contained objects, and add them to ``tests``","over":{"base":"Any"},"name":"_find_correct"},"guarantee":"find tests for the given object and any contained objects, and add them to ``tests``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTestFinder._find_correct","statement":"Path(_find(x), find tests for the given object and any contained objects, and add them to ``tests``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77dd3f98c0f147d3"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTestFinder._find","kind":"method","src_hash":"c4fc8abc7cc1ed28","in":{"base":"Any","pred":"hasattr(tests, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(tests) == old_len_tests + 1"},"spec":{"lhs":"_find(tests, obj, name)","rhs":"len(tests) == old_len_tests + 1","over":{"base":"Any","pred":"hasattr(tests, 'append')"},"name":"_find_correct"},"guarantee":"len(tests) == old_len_tests + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTestFinder._find_correct","statement":"Path(_find(x), len(tests) == old_len_tests + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50db78c1d8fe58b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(tests, 'append')"],"ensures":["len(tests) == old_len_tests + 1"],"pure":false,"effects":{"effect_type":"io","reads":["*.__dict__","module.__name__","obj.__dict__","obj.__module__","self._find","self._from_module","self._get_test","self._recurse","self._verbose","tests.append"],"writes":["seen[*]"],"calls_mutating":["tests.append"],"raises":["ValueError"],"catches":["KeyboardInterrupt"],"io_operations":["print"]},"state_contract":{"modifies":["seen[*]","tests.*"],"old_bindings":{"old_seen_star":"seen[*]","old_len_tests":"len(tests)"},"post_ensures":["len(tests) == old_len_tests + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _find(self, tests, obj, name, module, source_lines, globs, seen):
         """
         Find tests for the given object and any contained objects, and
@@ -2126,16 +2345,24 @@ class SymPyDocTestFinder(DocTestFinder):
                                globs, seen)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_test(obj), return a doctest for the given object, if it defines a docstring; otherwise, return none) over Any ║
+# ║ Path(_get_test(obj, name, module), <unspecified:_get_test>) over {Any | hasattr(obj, 'fget') and hasattr(obj, 'func_closure')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_test : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(obj, 'fget')                           ║
+# ║   requires: hasattr(obj, 'func_closure')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_test : {Any | hasattr(obj, 'fget') and hasattr(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9393c87e3cf42136  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTestFinder._get_test","kind":"method","src_hash":"f2860a7305c2f66b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_test(obj)","rhs":"return a doctest for the given object, if it defines a docstring; otherwise, return none","over":{"base":"Any"},"name":"_get_test_correct"},"guarantee":"return a doctest for the given object, if it defines a docstring; otherwise, return none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTestFinder._get_test_correct","statement":"Path(_get_test(x), return a doctest for the given object, if it defines a docstring; otherwise, return none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9393c87e3cf42136"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTestFinder._get_test","kind":"method","src_hash":"f2860a7305c2f66b","in":{"base":"Any","pred":"hasattr(obj, 'fget') and hasattr(obj, 'func_closure')"},"out":{"base":"Any"},"spec":{"lhs":"_get_test(obj, name, module)","rhs":"<unspecified:_get_test>","over":{"base":"Any","pred":"hasattr(obj, 'fget') and hasattr(obj, 'func_closure')"},"name":"_get_test_correct"},"guarantee":"return a doctest for the given object, if it defines a docstring; otherwise, return none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTestFinder._get_test_correct","statement":"Path(_get_test(x), return a doctest for the given object, if it defines a docstring; otherwise, return none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9393c87e3cf42136","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(obj, 'fget')","hasattr(obj, 'func_closure')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["module.__name__","obj.fget","obj.func_closure","self._exclude_empty","self._find_lineno","self._parser"],"writes":["globs[*]"]},"state_contract":{"modifies":["globs[*]"],"old_bindings":{"old_globs_star":"globs[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_test(self, obj, name, module, globs, source_lines):
         """
         Return a DocTest for the given object, if it defines a docstring;
@@ -2212,14 +2439,20 @@ class SymPyDocTestFinder(DocTestFinder):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SymPyDocTestRunner(*args), correctly constructs a SymPyDocTestRunner instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SymPyDocTestRunner : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DocTestRunner)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SymPyDocTestRunner : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bf1940cb3b38ace  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTestRunner","kind":"class","src_hash":"fab707640cd25a06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SymPyDocTestRunner(*args)","rhs":"correctly constructs a SymPyDocTestRunner instance","over":{"base":"Any"},"name":"SymPyDocTestRunner_class_invariant"},"guarantee":"correctly constructs a SymPyDocTestRunner instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bf1940cb3b38ace"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTestRunner","kind":"class","src_hash":"fab707640cd25a06","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DocTestRunner)"},"spec":{"lhs":"SymPyDocTestRunner(*args)","rhs":"correctly constructs a SymPyDocTestRunner instance","over":{"base":"Any"},"name":"SymPyDocTestRunner_class_invariant"},"guarantee":"isinstance(self, DocTestRunner)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bf1940cb3b38ace","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DocTestRunner)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SymPyDocTestRunner not found in source"]}}
 class SymPyDocTestRunner(DocTestRunner):
     """
     A class used to run DocTest test cases, and accumulate statistics.
@@ -2234,16 +2467,25 @@ class SymPyDocTestRunner(DocTestRunner):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(run(tes), run the examples in ``test``, and display the results using the writer function ``out``) over Any ║
+# ║ Path(run(test, compileflags, out), self.__run(test, compileflags, out)) over {Any | hasattr(test, 'examples') and hasattr(test, 'globs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ run : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(test, 'examples')                      ║
+# ║   requires: hasattr(test, 'globs')                         ║
+# ║   ensures:  len(test) == 0                                 ║
+# ║   returns:  self.__run(test, compileflags, out)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ run : {Any | hasattr(test, 'examples') and hasattr(te...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 450d820b582e3916  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51ba517b7532c9ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTestRunner.run","kind":"method","src_hash":"0b3695ae988dcceb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"run(tes)","rhs":"run the examples in ``test``, and display the results using the writer function ``out``","over":{"base":"Any"},"name":"run_correct"},"guarantee":"run the examples in ``test``, and display the results using the writer function ``out``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTestRunner.run_correct","statement":"Path(run(x), run the examples in ``test``, and display the results using the writer function ``out``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"450d820b582e3916"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyDocTestRunner.run","kind":"method","src_hash":"0b3695ae988dcceb","in":{"base":"Any","pred":"hasattr(test, 'examples') and hasattr(test, 'globs')"},"out":{"base":"Any","pred":"result satisfies: result == (self.__run(test, compileflags, out))"},"spec":{"lhs":"run(test, compileflags, out)","rhs":"self.__run(test, compileflags, out)","over":{"base":"Any","pred":"hasattr(test, 'examples') and hasattr(test, 'globs')"},"name":"run_correct"},"guarantee":"returns self.__run(test, compileflags, out); len(test) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyDocTestRunner.run_correct","statement":"Path(run(x), returns self.__run(test, compileflags, out); len(test) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51ba517b7532c9ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(test, 'examples')","hasattr(test, 'globs')"],"ensures":["len(test) == 0"],"returns_expr":"self.__run(test, compileflags, out)","pure":false,"effects":{"effect_type":"mutates_args","reads":["self.__patched_linecache_getlines","self.__run","self._fakeout","self.debugger","self.save_linecache_getlines","test.examples","test.globs"],"writes":["self.debugger","self.save_linecache_getlines","self.test"],"calls_mutating":["test.globs.clear"]},"state_contract":{"modifies":["self.debugger","self.save_linecache_getlines","self.test","test.*"],"old_bindings":{"old_self_debugger":"self.debugger","old_self_save_linecache_getlines":"self.save_linecache_getlines","old_self_test":"self.test"},"post_ensures":["len(test) == 0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def run(self, test, compileflags=None, out=None, clear_globs=True):
         """
         Run the examples in ``test``, and display the results using the
@@ -2323,14 +2565,20 @@ for method in monkeypatched_methods:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SymPyOutputChecker instance) preserved by SymPyOutputChecker(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SymPyOutputChecker : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, pdoctest.OutputChecker)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SymPyOutputChecker : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56cfc02c40818cea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyOutputChecker","kind":"class","src_hash":"6e1edc8ac53f8fd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SymPyOutputChecker(*args)","rhs":"correctly constructs a SymPyOutputChecker instance","over":{"base":"Any"},"name":"SymPyOutputChecker_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SymPyOutputChecker instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'num_got_rgx') and hasattr(self, 'num_want_rgx')","kind":"class","induction":"structural on num_got_rgx, num_want_rgx"}],"methods_preserving":["__init__","check_output"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56cfc02c40818cea"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyOutputChecker","kind":"class","src_hash":"6e1edc8ac53f8fd8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, pdoctest.OutputChecker)"},"spec":{"lhs":"SymPyOutputChecker(*args)","rhs":"correctly constructs a SymPyOutputChecker instance","over":{"base":"Any"},"name":"SymPyOutputChecker_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, pdoctest.OutputChecker); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'num_got_rgx') and hasattr(self, 'num_want_rgx')","kind":"class","induction":"structural on num_got_rgx, num_want_rgx"}],"methods_preserving":["__init__","check_output"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56cfc02c40818cea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, pdoctest.OutputChecker)"],"invariants":["hasattr(self, 'num_got_rgx')","hasattr(self, 'num_want_rgx')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function SymPyOutputChecker not found in source"]}}
 class SymPyOutputChecker(pdoctest.OutputChecker):
     """
     Compared to the OutputChecker from the stdlib our OutputChecker class
@@ -2339,16 +2587,22 @@ class SymPyOutputChecker(pdoctest.OutputChecker):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3f969e5cdcaddd22           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyOutputChecker.__init__","kind":"method","src_hash":"7a88b00bf6a8a5eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f969e5cdcaddd22"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyOutputChecker.__init__","kind":"method","src_hash":"7a88b00bf6a8a5eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f969e5cdcaddd22","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         # NOTE OutputChecker is an old-style class with no __init__ method,
         # so we can't call the base class version of __init__ here
@@ -2370,16 +2624,24 @@ class SymPyOutputChecker(pdoctest.OutputChecker):
         self.num_want_rgx = re.compile(r'(%s|%s)' %(fbeg, fmidend))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_output(wan), return true iff the actual output from an example (`got`) matches the expected output (`want`)) over Any ║
+# ║ Path(check_output(want, got, optionflags), <unspecified:check_output>) over {Any | hasattr(got, 'split') and hasattr(want, 'split')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check_output : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(got, 'split')                          ║
+# ║   requires: hasattr(want, 'split')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check_output : {Any | hasattr(got, 'split') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a816f43143653f3f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyOutputChecker.check_output","kind":"method","src_hash":"7c57d847cfd58af1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_output(wan)","rhs":"return true iff the actual output from an example (`got`) matches the expected output (`want`)","over":{"base":"Any"},"name":"check_output_correct"},"guarantee":"return true iff the actual output from an example (`got`) matches the expected output (`want`)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyOutputChecker.check_output_correct","statement":"Path(check_output(x), return true iff the actual output from an example (`got`) matches the expected output (`want`))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a816f43143653f3f"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.SymPyOutputChecker.check_output","kind":"method","src_hash":"7c57d847cfd58af1","in":{"base":"Any","pred":"hasattr(got, 'split') and hasattr(want, 'split')"},"out":{"base":"Any"},"spec":{"lhs":"check_output(want, got, optionflags)","rhs":"<unspecified:check_output>","over":{"base":"Any","pred":"hasattr(got, 'split') and hasattr(want, 'split')"},"name":"check_output_correct"},"guarantee":"return true iff the actual output from an example (`got`) matches the expected output (`want`)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.SymPyOutputChecker.check_output_correct","statement":"Path(check_output(x), return true iff the actual output from an example (`got`) matches the expected output (`want`))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a816f43143653f3f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(got, 'split')","hasattr(want, 'split')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check_output(self, want, got, optionflags):
         """
         Return True iff the actual output from an example (`got`)
@@ -2452,16 +2714,22 @@ class SymPyOutputChecker(pdoctest.OutputChecker):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Reporter(), correctly constructs a Reporter instance) over Any ║
+# ║ Path(Reporter(), <unspecified:Reporter>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Reporter : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 814a8775437b20bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.Reporter","kind":"class","src_hash":"b62c02ac2dec65b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Reporter()","rhs":"correctly constructs a Reporter instance","over":{"base":"Any"},"name":"Reporter_correct"},"guarantee":"correctly constructs a Reporter instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"814a8775437b20bd"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.Reporter","kind":"class","src_hash":"b62c02ac2dec65b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Reporter()","rhs":"<unspecified:Reporter>","over":{"base":"Any"},"name":"Reporter_correct"},"guarantee":"correctly constructs a Reporter instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"814a8775437b20bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Reporter not found in source"]}}
 class Reporter:
     """
     Parent class for all reporters.
@@ -2472,30 +2740,44 @@ class Reporter:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PyTestReporter instance) preserved by PyTestReporter(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PyTestReporter : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Reporter)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PyTestReporter : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15ba01ba1b3fe935  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter","kind":"class","src_hash":"77a497ec78909fd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PyTestReporter(*args)","rhs":"correctly constructs a PyTestReporter instance","over":{"base":"Any"},"name":"PyTestReporter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PyTestReporter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_verbose') and hasattr(self, '_tb_style') and hasattr(self, '_colors') and hasattr(self, '_force_colors') and hasattr(self, '_xfailed') and hasattr(self, '_xpassed') and hasattr(self, '_failed') and hasattr(self, '_failed_doctest')","kind":"class","induction":"structural on _verbose, _tb_style, _colors, _force_colors"}],"methods_preserving":["__init__","root_dir","terminal_width","write","write_center","write_exception","start","finish","entering_filename","leaving_filename","entering_test","test_xfail","test_xpass","test_fail","doctest_fail","test_pass","test_skip","test_exception","import_error"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15ba01ba1b3fe935"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter","kind":"class","src_hash":"77a497ec78909fd6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Reporter)"},"spec":{"lhs":"PyTestReporter(*args)","rhs":"correctly constructs a PyTestReporter instance","over":{"base":"Any"},"name":"PyTestReporter_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Reporter); preserves 20 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_verbose') and hasattr(self, '_tb_style') and hasattr(self, '_colors') and hasattr(self, '_force_colors') and hasattr(self, '_xfailed') and hasattr(self, '_xpassed') and hasattr(self, '_failed') and hasattr(self, '_failed_doctest')","kind":"class","induction":"structural on _verbose, _tb_style, _colors, _force_colors"}],"methods_preserving":["__init__","root_dir","terminal_width","write","write_center","write_exception","start","finish","entering_filename","leaving_filename","entering_test","test_xfail","test_xpass","test_fail","doctest_fail","test_pass","test_skip","test_exception","import_error"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15ba01ba1b3fe935","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Reporter)"],"invariants":["hasattr(self, '_verbose')","hasattr(self, '_tb_style')","hasattr(self, '_colors')","hasattr(self, '_force_colors')","hasattr(self, '_xfailed')","hasattr(self, '_xpassed')","hasattr(self, '_failed')","hasattr(self, '_failed_doctest')","hasattr(self, '_passed')","hasattr(self, '_skipped')","hasattr(self, '_exceptions')","hasattr(self, '_terminal_width')","hasattr(self, '_default_width')","hasattr(self, '_split')","hasattr(self, '_active_file')","hasattr(self, '_active_f')","hasattr(self, 'slow_test_functions')","hasattr(self, 'fast_test_functions')","hasattr(self, '_write_pos')","hasattr(self, '_line_wrap')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function PyTestReporter not found in source"]}}
 class PyTestReporter(Reporter):
     """
     Py.test like reporter. Should produce output identical to py.test.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ver), initializes the instance correctly) over Any ║
+# ║ Path(__init__(verbose, tb, colors), self._verbose == verbose and self._tb_style == tb and self._colors == colors and self._force_colors == force_colors and self._split == split) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self._verbose == verbose                       ║
+# ║   ensures:  self._tb_style == tb                           ║
+# ║   ensures:  self._colors == colors                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self._verbo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0806cd5306d7b93d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.__init__","kind":"method","src_hash":"32caf743e522164a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ver)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0806cd5306d7b93d"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.__init__","kind":"method","src_hash":"32caf743e522164a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self._verbose == verbose and self._tb_style == tb and self._colors == colors and self._force_colors == force_colors and self._split == split"},"spec":{"lhs":"__init__(verbose, tb, colors)","rhs":"self._verbose == verbose and self._tb_style == tb and self._colors == colors and self._force_colors == force_colors and self._split == split","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self._verbose == verbose; self._tb_style == tb; self._colors == colors","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0806cd5306d7b93d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self._verbose == verbose","self._tb_style == tb","self._colors == colors","self._force_colors == force_colors","self._split == split"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, verbose=False, tb="short", colors=True,
                  force_colors=False, split=None):
         self._verbose = verbose
@@ -2525,31 +2807,43 @@ class PyTestReporter(Reporter):
         self._line_wrap = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(root_dir(dir), root_dir produces the expected output) over Any ║
+# ║ Path(root_dir(dir), <unspecified:root_dir>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ root_dir : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c20177a5d46dafbe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.root_dir","kind":"method","src_hash":"437488e3fdf9bd1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"root_dir(dir)","rhs":"root_dir produces the expected output","over":{"base":"Any"},"name":"root_dir_correct"},"guarantee":"root_dir produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.root_dir_correct","statement":"Path(root_dir(x), root_dir produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c20177a5d46dafbe"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.root_dir","kind":"method","src_hash":"437488e3fdf9bd1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"root_dir(dir)","rhs":"<unspecified:root_dir>","over":{"base":"Any"},"name":"root_dir_correct"},"guarantee":"root_dir produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.root_dir_correct","statement":"Path(root_dir(x), root_dir produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c20177a5d46dafbe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._root_dir"]},"state_contract":{"modifies":["self._root_dir"],"old_bindings":{"old_self__root_dir":"self._root_dir"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def root_dir(self, dir):
         self._root_dir = dir
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(terminal_width(), returns the terminal_width attribute) over Any ║
+# ║ Path(terminal_width(), <unspecified:terminal_width>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ terminal_width : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b3be35c152dd8b5d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.terminal_width","kind":"property","src_hash":"2701fdb7d3d060b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"terminal_width()","rhs":"returns the terminal_width attribute","over":{"base":"Any"},"name":"terminal_width_correct"},"guarantee":"returns the terminal_width attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3be35c152dd8b5d"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.terminal_width","kind":"property","src_hash":"2701fdb7d3d060b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"terminal_width()","rhs":"<unspecified:terminal_width>","over":{"base":"Any"},"name":"terminal_width_correct"},"guarantee":"returns the terminal_width attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3be35c152dd8b5d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._default_width","self._terminal_width"],"writes":["self._terminal_width"],"catches":["OSError","ValueError"]},"state_contract":{"modifies":["self._terminal_width"],"old_bindings":{"old_self__terminal_width":"self._terminal_width"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def terminal_width(self):
         if self._terminal_width is not None:
             return self._terminal_width
@@ -2618,16 +2912,24 @@ class PyTestReporter(Reporter):
         return width
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(write(tex), prints a text on the screen) over Any     ║
+# ║ Path(write(text, color, align), <unspecified:write>) over {Any | hasattr(text, 'rfind') and hasattr(text, 'encode')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ write : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(text, 'rfind')                         ║
+# ║   requires: hasattr(text, 'encode')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ write : {Any | hasattr(text, 'rfind') and hasattr(tex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77e82e0bbca9dbea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.write","kind":"method","src_hash":"6059bcf8bb70b578","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"write(tex)","rhs":"prints a text on the screen","over":{"base":"Any"},"name":"write_correct"},"guarantee":"prints a text on the screen","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.write_correct","statement":"Path(write(x), prints a text on the screen)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77e82e0bbca9dbea"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.write","kind":"method","src_hash":"6059bcf8bb70b578","in":{"base":"Any","pred":"hasattr(text, 'rfind') and hasattr(text, 'encode')"},"out":{"base":"Any"},"spec":{"lhs":"write(text, color, align)","rhs":"<unspecified:write>","over":{"base":"Any","pred":"hasattr(text, 'rfind') and hasattr(text, 'encode')"},"name":"write_correct"},"guarantee":"prints a text on the screen","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.write_correct","statement":"Path(write(x), prints a text on the screen)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77e82e0bbca9dbea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(text, 'rfind')","hasattr(text, 'encode')"],"pure":false,"effects":{"effect_type":"io","reads":["self._colors","self._force_colors","self._line_wrap","self._write_pos","self.terminal_width","self.write","text.encode","text.rfind"],"writes":["self._line_wrap","self._write_pos"],"calls_mutating":["self.write","sys.stdout.flush","sys.stdout.write"],"io_operations":["self.write","sys.stdout.flush","sys.stdout.write"]},"state_contract":{"modifies":["self.*","self._line_wrap","self._write_pos","sys.*"],"old_bindings":{"old_self__line_wrap":"self._line_wrap","old_self__write_pos":"self._write_pos"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def write(self, text, color="", align="left", width=None,
               force_colors=False):
         """
@@ -2719,16 +3021,22 @@ class PyTestReporter(Reporter):
         self._write_pos %= width
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(write_center(tex), write_center produces the expected output) over Any ║
+# ║ Path(write_center(text, delim), <unspecified:write_center>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ write_center : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31e6e74c3619729e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.write_center","kind":"method","src_hash":"a1cbab01f7cdc912","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"write_center(tex)","rhs":"write_center produces the expected output","over":{"base":"Any"},"name":"write_center_correct"},"guarantee":"write_center produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.write_center_correct","statement":"Path(write_center(x), write_center produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31e6e74c3619729e"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.write_center","kind":"method","src_hash":"a1cbab01f7cdc912","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"write_center(text, delim)","rhs":"<unspecified:write_center>","over":{"base":"Any"},"name":"write_center_correct"},"guarantee":"write_center produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.write_center_correct","statement":"Path(write_center(x), write_center produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31e6e74c3619729e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self.terminal_width","self.write"],"calls_mutating":["self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def write_center(self, text, delim="="):
         width = self.terminal_width
         if text != "":
@@ -2738,16 +3046,23 @@ class PyTestReporter(Reporter):
         self.write(t + "\n")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(write_exception(e, ), write_exception produces the expected output) over Any ║
+# ║ Path(write_exception(e, val, tb), <unspecified:write_exception>) over {Any | hasattr(tb, 'tb_next')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ write_exception : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(tb, 'tb_next')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ write_exception : {Any | hasattr(tb, 'tb_next')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 946b44ee18c452a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.write_exception","kind":"method","src_hash":"4810262b4f1a5f28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"write_exception(e, )","rhs":"write_exception produces the expected output","over":{"base":"Any"},"name":"write_exception_correct"},"guarantee":"write_exception produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.write_exception_correct","statement":"Path(write_exception(x), write_exception produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"946b44ee18c452a7"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.write_exception","kind":"method","src_hash":"4810262b4f1a5f28","in":{"base":"Any","pred":"hasattr(tb, 'tb_next')"},"out":{"base":"Any"},"spec":{"lhs":"write_exception(e, val, tb)","rhs":"<unspecified:write_exception>","over":{"base":"Any","pred":"hasattr(tb, 'tb_next')"},"name":"write_exception_correct"},"guarantee":"write_exception produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.write_exception_correct","statement":"Path(write_exception(x), write_exception produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"946b44ee18c452a7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(tb, 'tb_next')"],"pure":false,"effects":{"effect_type":"io","reads":["self.write","tb.tb_next"],"calls_mutating":["self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def write_exception(self, e, val, tb):
         # remove the first item, as that is always runtests.py
         tb = tb.tb_next
@@ -2755,16 +3070,22 @@ class PyTestReporter(Reporter):
         self.write("".join(t))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(start(see), start produces the expected output) over Any ║
+# ║ Path(start(seed, msg), <unspecified:start>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ start : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9cc83de44fcec96f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.start","kind":"method","src_hash":"1e8c68ad49f4c6f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start(see)","rhs":"start produces the expected output","over":{"base":"Any"},"name":"start_correct"},"guarantee":"start produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.start_correct","statement":"Path(start(x), start produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cc83de44fcec96f"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.start","kind":"method","src_hash":"1e8c68ad49f4c6f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"start(seed, msg)","rhs":"<unspecified:start>","over":{"base":"Any"},"name":"start_correct"},"guarantee":"start produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.start_correct","statement":"Path(start(x), start produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9cc83de44fcec96f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self._split","self.write","self.write_center"],"writes":["self._t_start"],"calls_mutating":["self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*","self._t_start"],"old_bindings":{"old_self__t_start":"self._t_start"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def start(self, seed=None, msg="test process starts"):
         self.write_center(msg)
         executable = sys.executable
@@ -2801,16 +3122,22 @@ class PyTestReporter(Reporter):
         self._t_start = clock()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(finish(), finish produces the expected output) over Any ║
+# ║ Path(finish(), <unspecified:finish>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ finish : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c239c7409b619119  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.finish","kind":"method","src_hash":"440b30c777f9fc7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"finish()","rhs":"finish produces the expected output","over":{"base":"Any"},"name":"finish_correct"},"guarantee":"finish produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.finish_correct","statement":"Path(finish(x), finish produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c239c7409b619119"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.finish","kind":"method","src_hash":"440b30c777f9fc7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"finish()","rhs":"<unspecified:finish>","over":{"base":"Any"},"name":"finish_correct"},"guarantee":"finish produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.finish_correct","statement":"Path(finish(x), finish produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c239c7409b619119","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self._exceptions","self._failed","self._failed_doctest","self._passed","self._skipped","self._t_end","self._t_start","self._tb_style","self._xfailed","self._xpassed","self.fast_test_functions","self.slow_test_functions","self.terminal_width","self.write","self.write_center","self.write_exception"],"writes":["self._t_end"],"calls_mutating":["self.write"],"globals_read":["linelen","text"],"globals_written":["linelen","text"],"io_operations":["print","self.write"]},"state_contract":{"modifies":["self.*","self._t_end"],"old_bindings":{"old_self__t_end":"self._t_end"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def finish(self):
         self._t_end = clock()
         self.write("\n")
@@ -2896,16 +3223,22 @@ class PyTestReporter(Reporter):
         return ok
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(entering_filename(fil), entering_filename produces the expected output) over Any ║
+# ║ Path(entering_filename(filename, n), <unspecified:entering_filename>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ entering_filename : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5ef39cd42085d31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.entering_filename","kind":"method","src_hash":"3a1ae4a8ae222983","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"entering_filename(fil)","rhs":"entering_filename produces the expected output","over":{"base":"Any"},"name":"entering_filename_correct"},"guarantee":"entering_filename produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.entering_filename_correct","statement":"Path(entering_filename(x), entering_filename produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5ef39cd42085d31"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.entering_filename","kind":"method","src_hash":"3a1ae4a8ae222983","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"entering_filename(filename, n)","rhs":"<unspecified:entering_filename>","over":{"base":"Any"},"name":"entering_filename_correct"},"guarantee":"entering_filename produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.entering_filename_correct","statement":"Path(entering_filename(x), entering_filename produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5ef39cd42085d31","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self._root_dir","self.write"],"writes":["self._active_file","self._active_file_error"],"calls_mutating":["self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*","self._active_file","self._active_file_error"],"old_bindings":{"old_self__active_file":"self._active_file","old_self__active_file_error":"self._active_file_error"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def entering_filename(self, filename, n):
         rel_name = filename[len(self._root_dir) + 1:]
         self._active_file = rel_name
@@ -2914,16 +3247,22 @@ class PyTestReporter(Reporter):
         self.write("[%d] " % n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(leaving_filename(), leaving_filename produces the expected output) over Any ║
+# ║ Path(leaving_filename(), <unspecified:leaving_filename>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ leaving_filename : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 499acf405243e825  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.leaving_filename","kind":"method","src_hash":"084b76d9ef24e01b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"leaving_filename()","rhs":"leaving_filename produces the expected output","over":{"base":"Any"},"name":"leaving_filename_correct"},"guarantee":"leaving_filename produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.leaving_filename_correct","statement":"Path(leaving_filename(x), leaving_filename produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"499acf405243e825"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.leaving_filename","kind":"method","src_hash":"084b76d9ef24e01b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"leaving_filename()","rhs":"<unspecified:leaving_filename>","over":{"base":"Any"},"name":"leaving_filename_correct"},"guarantee":"leaving_filename produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.leaving_filename_correct","statement":"Path(leaving_filename(x), leaving_filename produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"499acf405243e825","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self._active_file_error","self._verbose","self.write"],"calls_mutating":["self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def leaving_filename(self):
         self.write(" ")
         if self._active_file_error:
@@ -2935,79 +3274,110 @@ class PyTestReporter(Reporter):
             self.write("\n")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(entering_test(f), entering_test produces the expected output) over Any ║
+# ║ Path(entering_test(f), <unspecified:entering_test>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ entering_test : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaf001ae2289454a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.entering_test","kind":"method","src_hash":"e94adb0113e09d3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"entering_test(f)","rhs":"entering_test produces the expected output","over":{"base":"Any"},"name":"entering_test_correct"},"guarantee":"entering_test produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.entering_test_correct","statement":"Path(entering_test(x), entering_test produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaf001ae2289454a"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.entering_test","kind":"method","src_hash":"e94adb0113e09d3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"entering_test(f)","rhs":"<unspecified:entering_test>","over":{"base":"Any"},"name":"entering_test_correct"},"guarantee":"entering_test produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.entering_test_correct","statement":"Path(entering_test(x), entering_test produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaf001ae2289454a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["f.__name__","self._verbose","self.write"],"writes":["self._active_f"],"calls_mutating":["self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*","self._active_f"],"old_bindings":{"old_self__active_f":"self._active_f"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def entering_test(self, f):
         self._active_f = f
         if self._verbose:
             self.write("\n" + f.__name__ + " ")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_xfail(), test_xfail produces the expected output) over Any ║
+# ║ Path(test_xfail(), <unspecified:test_xfail>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_xfail : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30ef8ee362adbaab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.test_xfail","kind":"method","src_hash":"033e28c5d0c455a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_xfail()","rhs":"test_xfail produces the expected output","over":{"base":"Any"},"name":"test_xfail_correct"},"guarantee":"test_xfail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.test_xfail_correct","statement":"Path(test_xfail(x), test_xfail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30ef8ee362adbaab"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.test_xfail","kind":"method","src_hash":"033e28c5d0c455a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_xfail()","rhs":"<unspecified:test_xfail>","over":{"base":"Any"},"name":"test_xfail_correct"},"guarantee":"test_xfail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.test_xfail_correct","statement":"Path(test_xfail(x), test_xfail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30ef8ee362adbaab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self.write"],"writes":["self._xfailed"],"calls_mutating":["self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*","self._xfailed"],"old_bindings":{"old_self__xfailed":"self._xfailed"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_xfail(self):
         self._xfailed += 1
         self.write("f", "Green")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_xpass(v), test_xpass produces the expected output) over Any ║
+# ║ Path(test_xpass(v), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_xpass : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_xpass : Any → {Any | result satisfies: len(self)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65c235fe555c03c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1638672292f22056  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.test_xpass","kind":"method","src_hash":"f9b2053524dad4d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_xpass(v)","rhs":"test_xpass produces the expected output","over":{"base":"Any"},"name":"test_xpass_correct"},"guarantee":"test_xpass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.test_xpass_correct","statement":"Path(test_xpass(x), test_xpass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65c235fe555c03c6"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.test_xpass","kind":"method","src_hash":"f9b2053524dad4d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"test_xpass(v)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"test_xpass_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.test_xpass_correct","statement":"Path(test_xpass(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1638672292f22056","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"io","reads":["self._active_file","self._xpassed","self.write"],"calls_mutating":["self._xpassed.append","self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_xpass(self, v):
         message = str(v)
         self._xpassed.append((self._active_file, message))
         self.write("X", "Green")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fail(exc), test_fail produces the expected output) over Any ║
+# ║ Path(test_fail(exc_info), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fail : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fail : Any → {Any | result satisfies: len(self) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8c14141e3a35c33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00ca70476bdd741f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.test_fail","kind":"method","src_hash":"3fead2793140e255","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_fail(exc)","rhs":"test_fail produces the expected output","over":{"base":"Any"},"name":"test_fail_correct"},"guarantee":"test_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.test_fail_correct","statement":"Path(test_fail(x), test_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8c14141e3a35c33"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.test_fail","kind":"method","src_hash":"3fead2793140e255","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"test_fail(exc_info)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"test_fail_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.test_fail_correct","statement":"Path(test_fail(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00ca70476bdd741f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"io","reads":["self._active_f","self._active_file","self._failed","self.write"],"writes":["self._active_file_error"],"calls_mutating":["self._failed.append","self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*","self._active_file_error"],"old_bindings":{"old_self__active_file_error":"self._active_file_error","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_fail(self, exc_info):
         self._failed.append((self._active_file, self._active_f, exc_info))
         self.write("F", "Red")
         self._active_file_error = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doctest_fail(nam), doctest_fail produces the expected output) over Any ║
+# ║ Path(doctest_fail(name, error_msg), len(self) == old_len_self + 1) over {Any | hasattr(error_msg, 'split')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doctest_fail : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(error_msg, 'split')                    ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doctest_fail : {Any | hasattr(error_msg, 'split')} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33afb8aa92b99b33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26ae7ed6ab875fe1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.doctest_fail","kind":"method","src_hash":"b9388f90a5accad0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doctest_fail(nam)","rhs":"doctest_fail produces the expected output","over":{"base":"Any"},"name":"doctest_fail_correct"},"guarantee":"doctest_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.doctest_fail_correct","statement":"Path(doctest_fail(x), doctest_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33afb8aa92b99b33"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.doctest_fail","kind":"method","src_hash":"b9388f90a5accad0","in":{"base":"Any","pred":"hasattr(error_msg, 'split')"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"doctest_fail(name, error_msg)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any","pred":"hasattr(error_msg, 'split')"},"name":"doctest_fail_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.doctest_fail_correct","statement":"Path(doctest_fail(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26ae7ed6ab875fe1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(error_msg, 'split')"],"ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"io","reads":["error_msg.split","self._failed_doctest","self.write"],"writes":["self._active_file_error"],"calls_mutating":["self._failed_doctest.append","self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*","self._active_file_error"],"old_bindings":{"old_self__active_file_error":"self._active_file_error","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doctest_fail(self, name, error_msg):
         # the first line contains "******", remove it:
         error_msg = "\n".join(error_msg.split("\n")[1:])
@@ -3016,16 +3386,22 @@ class PyTestReporter(Reporter):
         self._active_file_error = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pass(cha), test_pass produces the expected output) over Any ║
+# ║ Path(test_pass(char), <unspecified:test_pass>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pass : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5efa6a01d3eb1963  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.test_pass","kind":"method","src_hash":"65cee3f134b7e8fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pass(cha)","rhs":"test_pass produces the expected output","over":{"base":"Any"},"name":"test_pass_correct"},"guarantee":"test_pass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.test_pass_correct","statement":"Path(test_pass(x), test_pass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5efa6a01d3eb1963"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.test_pass","kind":"method","src_hash":"65cee3f134b7e8fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pass(char)","rhs":"<unspecified:test_pass>","over":{"base":"Any"},"name":"test_pass_correct"},"guarantee":"test_pass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.test_pass_correct","statement":"Path(test_pass(x), test_pass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5efa6a01d3eb1963","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self._verbose","self.write"],"writes":["self._passed"],"calls_mutating":["self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*","self._passed"],"old_bindings":{"old_self__passed":"self._passed"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_pass(self, char="."):
         self._passed += 1
         if self._verbose:
@@ -3034,16 +3410,22 @@ class PyTestReporter(Reporter):
             self.write(char, "Green")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_skip(v), test_skip produces the expected output) over Any ║
+# ║ Path(test_skip(v), <unspecified:test_skip>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_skip : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 441a71285bc0669b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.test_skip","kind":"method","src_hash":"d9127765723ce0a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_skip(v)","rhs":"test_skip produces the expected output","over":{"base":"Any"},"name":"test_skip_correct"},"guarantee":"test_skip produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.test_skip_correct","statement":"Path(test_skip(x), test_skip produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"441a71285bc0669b"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.test_skip","kind":"method","src_hash":"d9127765723ce0a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_skip(v)","rhs":"<unspecified:test_skip>","over":{"base":"Any"},"name":"test_skip_correct"},"guarantee":"test_skip produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.test_skip_correct","statement":"Path(test_skip(x), test_skip produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"441a71285bc0669b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self._verbose","self.write"],"writes":["self._skipped"],"calls_mutating":["self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*","self._skipped"],"old_bindings":{"old_self__skipped":"self._skipped"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_skip(self, v=None):
         char = "s"
         self._skipped += 1
@@ -3063,16 +3445,22 @@ class PyTestReporter(Reporter):
         self.write(char, "Blue")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exception(exc), test_exception produces the expected output) over Any ║
+# ║ Path(test_exception(exc_info), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exception : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exception : Any → {Any | result satisfies: len(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bdf6c9903df9d2b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24717114fa4c8cac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.test_exception","kind":"method","src_hash":"71f1cd2fb924e13e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_exception(exc)","rhs":"test_exception produces the expected output","over":{"base":"Any"},"name":"test_exception_correct"},"guarantee":"test_exception produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.test_exception_correct","statement":"Path(test_exception(x), test_exception produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bdf6c9903df9d2b"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.test_exception","kind":"method","src_hash":"71f1cd2fb924e13e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"test_exception(exc_info)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"test_exception_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.test_exception_correct","statement":"Path(test_exception(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24717114fa4c8cac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"io","reads":["self._active_f","self._active_file","self._exceptions","self.write"],"writes":["self._active_file_error"],"calls_mutating":["self._exceptions.append","self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*","self._active_file_error"],"old_bindings":{"old_self__active_file_error":"self._active_file_error","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def test_exception(self, exc_info):
         self._exceptions.append((self._active_file, self._active_f, exc_info))
         if exc_info[0] is TimeOutError:
@@ -3082,16 +3470,22 @@ class PyTestReporter(Reporter):
         self._active_file_error = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(import_error(fil), import_error produces the expected output) over Any ║
+# ║ Path(import_error(filename, exc_info), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ import_error : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ import_error : Any → {Any | result satisfies: len(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a4fe2e0927df1b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3b2cbaa35713ed1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.import_error","kind":"method","src_hash":"b6f7566f7a9af278","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"import_error(fil)","rhs":"import_error produces the expected output","over":{"base":"Any"},"name":"import_error_correct"},"guarantee":"import_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.import_error_correct","statement":"Path(import_error(x), import_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a4fe2e0927df1b4"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.runtests.PyTestReporter.import_error","kind":"method","src_hash":"b6f7566f7a9af278","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"import_error(filename, exc_info)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"import_error_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.runtests.PyTestReporter.import_error_correct","statement":"Path(import_error(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3b2cbaa35713ed1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"io","reads":["self._exceptions","self._root_dir","self.write"],"calls_mutating":["self._exceptions.append","self.write"],"io_operations":["self.write"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def import_error(self, filename, exc_info):
         self._exceptions.append((filename, None, exc_info))
         rel_name = filename[len(self._root_dir) + 1:]

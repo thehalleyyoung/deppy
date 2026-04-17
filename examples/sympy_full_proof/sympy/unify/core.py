@@ -38,157 +38,224 @@ from sympy.utilities.iterables import kbins
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Compound instance) preserved by Compound(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Compound : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 881e988dd290a67b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.Compound","kind":"class","src_hash":"c9cb998307f8e07d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Compound(*args)","rhs":"correctly constructs a Compound instance","over":{"base":"Any"},"name":"Compound_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Compound instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'op') and hasattr(self, 'args')","kind":"class","induction":"structural on op, args"}],"methods_preserving":["__init__","__eq__","__hash__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"881e988dd290a67b"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.Compound","kind":"class","src_hash":"c9cb998307f8e07d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Compound(*args)","rhs":"correctly constructs a Compound instance","over":{"base":"Any"},"name":"Compound_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'op') and hasattr(self, 'args')","kind":"class","induction":"structural on op, args"}],"methods_preserving":["__init__","__eq__","__hash__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"881e988dd290a67b","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'op')","hasattr(self, 'args')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Compound not found in source"]}}
 class Compound:
     """ A little class to represent an interior node in the tree
 
     This is analogous to SymPy.Basic for non-Atoms
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(op,), initializes the instance correctly) over Any ║
+# ║ Path(__init__(op, args), self.op == op and self.args == args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.op == op                                  ║
+# ║   ensures:  self.args == args                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.op == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b7f45bb71f6c227           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.Compound.__init__","kind":"method","src_hash":"3ed6faae9b7dbebe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(op,)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b7f45bb71f6c227"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.Compound.__init__","kind":"method","src_hash":"3ed6faae9b7dbebe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.op == op and self.args == args"},"spec":{"lhs":"__init__(op, args)","rhs":"self.op == op and self.args == args","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.op == op; self.args == args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b7f45bb71f6c227","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.op == op","self.args == args"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, op, args):
         self.op = op
         self.args = args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), type(self) is type(other) and self.op == other.op and (self.args == other.args)) over {Any | hasattr(other, 'op') and hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'op')                           ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   returns:  type(self) is type(other) and self.op == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'op') and hasattr(othe...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0f2f21d211983854           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.Compound.__eq__","kind":"method","src_hash":"7a46a941da8e8eec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f2f21d211983854"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.Compound.__eq__","kind":"method","src_hash":"7a46a941da8e8eec","in":{"base":"Any","pred":"hasattr(other, 'op') and hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"type(self) is type(other) and self.op == other.op and (self.args == other.args)","over":{"base":"Any","pred":"hasattr(other, 'op') and hasattr(other, 'args')"},"name":"__eq___correct"},"guarantee":"returns type(self) is type(other) and self.op == other.op and (self.args == other.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f2f21d211983854","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'op')","hasattr(other, 'args')"],"returns_expr":"type(self) is type(other) and self.op == other.op and (self.args == other.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","other.op","self.args","self.op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return (type(self) is type(other) and self.op == other.op and
                 self.args == other.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((type(self), self.op, self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((type(self), self.op, self.args))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 996b6a064ae6511c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.Compound.__hash__","kind":"method","src_hash":"86bf8b085b7b4cc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"996b6a064ae6511c"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.Compound.__hash__","kind":"method","src_hash":"86bf8b085b7b4cc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((type(self), self.op, self.args))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((type(self), self.op, self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"996b6a064ae6511c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((type(self), self.op, self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((type(self), self.op, self.args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '%s[%s]' % (str(self.op), ', '.join(map(str, self.args)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s[%s]' % (str(self.op), ', '.join(map(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 584d7246d472bf0d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.Compound.__str__","kind":"method","src_hash":"9555b7e957cbcd0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"584d7246d472bf0d"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.Compound.__str__","kind":"method","src_hash":"9555b7e957cbcd0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'%s[%s]' % (str(self.op), ', '.join(map(str, self.args)))","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '%s[%s]' % (str(self.op), ', '.join(map(str, self.args)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"584d7246d472bf0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s[%s]' % (str(self.op), ', '.join(map(str, self.args)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "%s[%s]" % (str(self.op), ', '.join(map(str, self.args)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Variable instance) preserved by Variable(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Variable : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f129ff8a0f3955ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.Variable","kind":"class","src_hash":"f558eb6f6050bfbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Variable(*args)","rhs":"correctly constructs a Variable instance","over":{"base":"Any"},"name":"Variable_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Variable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'arg')","kind":"class","induction":"structural on arg"}],"methods_preserving":["__init__","__eq__","__hash__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f129ff8a0f3955ed"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.Variable","kind":"class","src_hash":"f558eb6f6050bfbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Variable(*args)","rhs":"correctly constructs a Variable instance","over":{"base":"Any"},"name":"Variable_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'arg')","kind":"class","induction":"structural on arg"}],"methods_preserving":["__init__","__eq__","__hash__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f129ff8a0f3955ed","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'arg')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Variable not found in source"]}}
 class Variable:
     """ A Wild token """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(arg), initializes the instance correctly) over Any ║
+# ║ Path(__init__(arg), self.arg == arg) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.arg == arg                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.arg ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb552822cfff3c46           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.Variable.__init__","kind":"method","src_hash":"b19aef25833824bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(arg)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb552822cfff3c46"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.Variable.__init__","kind":"method","src_hash":"b19aef25833824bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.arg == arg"},"spec":{"lhs":"__init__(arg)","rhs":"self.arg == arg","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.arg == arg","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb552822cfff3c46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.arg == arg"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, arg):
         self.arg = arg
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), type(self) is type(other) and self.arg == other.arg) over {Any | hasattr(other, 'arg')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'arg')                          ║
+# ║   returns:  type(self) is type(other) and self.arg ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'arg')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a831dc1ff4c0e86e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.Variable.__eq__","kind":"method","src_hash":"8fc99f90d3734765","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a831dc1ff4c0e86e"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.Variable.__eq__","kind":"method","src_hash":"8fc99f90d3734765","in":{"base":"Any","pred":"hasattr(other, 'arg')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"type(self) is type(other) and self.arg == other.arg","over":{"base":"Any","pred":"hasattr(other, 'arg')"},"name":"__eq___correct"},"guarantee":"returns type(self) is type(other) and self.arg == other.arg","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a831dc1ff4c0e86e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'arg')"],"returns_expr":"type(self) is type(other) and self.arg == other.arg","pure":false,"effects":{"effect_type":"reads_state","reads":["other.arg","self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return type(self) is type(other) and self.arg == other.arg
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((type(self), self.arg))) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((type(self), self.arg))                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c35b8cc346614269           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.Variable.__hash__","kind":"method","src_hash":"9a41318a6df039f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c35b8cc346614269"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.Variable.__hash__","kind":"method","src_hash":"9a41318a6df039f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((type(self), self.arg))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((type(self), self.arg))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c35b8cc346614269","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((type(self), self.arg))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((type(self), self.arg))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), 'Variable(%s)' % str(self.arg)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Variable(%s)' % str(self.arg)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dc251bab47b58e6a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.Variable.__str__","kind":"method","src_hash":"8b3f74756e98b80d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc251bab47b58e6a"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.Variable.__str__","kind":"method","src_hash":"8b3f74756e98b80d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'Variable(%s)' % str(self.arg)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns 'Variable(%s)' % str(self.arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc251bab47b58e6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Variable(%s)' % str(self.arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "Variable(%s)" % str(self.arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a CondVariable instance) preserved by CondVariable(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CondVariable : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bedef99b1130514d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.CondVariable","kind":"class","src_hash":"64c30685738e33ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CondVariable(*args)","rhs":"correctly constructs a CondVariable instance","over":{"base":"Any"},"name":"CondVariable_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a CondVariable instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'arg') and hasattr(self, 'valid')","kind":"class","induction":"structural on arg, valid"}],"methods_preserving":["__init__","__eq__","__hash__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bedef99b1130514d"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.CondVariable","kind":"class","src_hash":"64c30685738e33ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CondVariable(*args)","rhs":"correctly constructs a CondVariable instance","over":{"base":"Any"},"name":"CondVariable_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'arg') and hasattr(self, 'valid')","kind":"class","induction":"structural on arg, valid"}],"methods_preserving":["__init__","__eq__","__hash__","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bedef99b1130514d","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'arg')","hasattr(self, 'valid')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function CondVariable not found in source"]}}
 class CondVariable:
     """ A wild token that matches conditionally.
 
@@ -196,66 +263,99 @@ class CondVariable:
     valid - an additional constraining function on a match.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(arg), initializes the instance correctly) over Any ║
+# ║ Path(__init__(arg, valid), self.arg == arg and self.valid == valid) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.arg == arg                                ║
+# ║   ensures:  self.valid == valid                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.arg ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63581df42a091d09           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.CondVariable.__init__","kind":"method","src_hash":"9d754fbb163f5131","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(arg)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63581df42a091d09"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.CondVariable.__init__","kind":"method","src_hash":"9d754fbb163f5131","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.arg == arg and self.valid == valid"},"spec":{"lhs":"__init__(arg, valid)","rhs":"self.arg == arg and self.valid == valid","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.arg == arg; self.valid == valid","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63581df42a091d09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.arg == arg","self.valid == valid"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, arg, valid):
         self.arg = arg
         self.valid = valid
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), type(self) is type(other) and self.arg == other.arg and (self.valid == other.valid)) over {Any | hasattr(other, 'arg') and hasattr(other, 'valid')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'arg')                          ║
+# ║   requires: hasattr(other, 'valid')                        ║
+# ║   returns:  type(self) is type(other) and self.arg ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'arg') and hasattr(oth...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 784f395cfb0d30e3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.CondVariable.__eq__","kind":"method","src_hash":"171607126f226621","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"784f395cfb0d30e3"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.CondVariable.__eq__","kind":"method","src_hash":"171607126f226621","in":{"base":"Any","pred":"hasattr(other, 'arg') and hasattr(other, 'valid')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"type(self) is type(other) and self.arg == other.arg and (self.valid == other.valid)","over":{"base":"Any","pred":"hasattr(other, 'arg') and hasattr(other, 'valid')"},"name":"__eq___correct"},"guarantee":"returns type(self) is type(other) and self.arg == other.arg and (self.valid == other.valid)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"784f395cfb0d30e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'arg')","hasattr(other, 'valid')"],"returns_expr":"type(self) is type(other) and self.arg == other.arg and (self.valid == other.valid)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.arg","other.valid","self.arg","self.valid"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return (type(self) is type(other) and
                 self.arg == other.arg and
                 self.valid == other.valid)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((type(self), self.arg, self.valid))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((type(self), self.arg, self.valid))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08f492f99b64b567           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.CondVariable.__hash__","kind":"method","src_hash":"c3d25fab332d2cda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08f492f99b64b567"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.CondVariable.__hash__","kind":"method","src_hash":"c3d25fab332d2cda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((type(self), self.arg, self.valid))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((type(self), self.arg, self.valid))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08f492f99b64b567","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((type(self), self.arg, self.valid))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg","self.valid"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((type(self), self.arg, self.valid))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), 'CondVariable(%s)' % str(self.arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'CondVariable(%s)' % str(self.arg)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b31a3b6d63dd4a9f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.CondVariable.__str__","kind":"method","src_hash":"2d018e16533f852e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b31a3b6d63dd4a9f"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.CondVariable.__str__","kind":"method","src_hash":"2d018e16533f852e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'CondVariable(%s)' % str(self.arg)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns 'CondVariable(%s)' % str(self.arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b31a3b6d63dd4a9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'CondVariable(%s)' % str(self.arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.arg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "CondVariable(%s)" % str(self.arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unify(x, ), unify two expressions) over {Any | isinstance(x, (Variable, CondVariable)) and isinstance(x, Compound)} ║
+# ║ Path(unify(x, y, s), # HINT: unify may be idempotent: unify(unify(x)) == unify(x)) over {Any | isinstance(x, (Variable, CondVariable)) and isinstance(x, Compound) and hasattr(x, 'op') and hasattr(y, 'op') and hasattr(x, 'args') and hasattr(y, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'op')                               ║
+# ║   requires: hasattr(y, 'op')                               ║
+# ║   requires: hasattr(x, 'args')                             ║
+# ║   ensures:  # HINT: unify may be idempotent: unify(un...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unify : {Any | isinstance(x, (Variable, CondVariable)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -268,9 +368,12 @@ class CondVariable:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 15dc60df...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.unify","kind":"function","src_hash":"49172414844ca8af","in":{"base":"Any","pred":"isinstance(x, (Variable, CondVariable)) and isinstance(x, Compound)"},"out":{"base":"Any"},"spec":{"lhs":"unify(x, )","rhs":"unify two expressions","over":{"base":"Any","pred":"isinstance(x, (Variable, CondVariable)) and isinstance(x, Compound)"},"name":"unify_correct"},"guarantee":"unify two expressions","fibers":[{"name":"(Variable","pred":"isinstance(x, (Variable, CondVariable))","path":{"lhs":"unify(x)","rhs":"unify two expressions","over":{"base":"(Variable","pred":"isinstance(x, (Variable, CondVariable))"},"name":"unify_(Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.unify_(Variable_correct","statement":"unify satisfies spec on (Variable inputs"},"trust":"LIBRARY"},{"name":"Compound","pred":"isinstance(x, Compound)","path":{"lhs":"unify(x)","rhs":"unify two expressions","over":{"base":"Compound","pred":"isinstance(x, Compound)"},"name":"unify_Compound_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.unify_Compound_correct","statement":"unify satisfies spec on Compound inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"15dc60df23e8978e"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.unify","kind":"function","src_hash":"49172414844ca8af","in":{"base":"Any","pred":"isinstance(x, (Variable, CondVariable)) and isinstance(x, Compound) and hasattr(x, 'op') and hasattr(y, 'op') and hasattr(x, 'args') and hasattr(y, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: unify may be idempotent: unify(unify(x)) == unify(x)"},"spec":{"lhs":"unify(x, y, s)","rhs":"# HINT: unify may be idempotent: unify(unify(x)) == unify(x)","over":{"base":"Any","pred":"isinstance(x, (Variable, CondVariable)) and isinstance(x, Compound) and hasattr(x, 'op') and hasattr(y, 'op') and hasattr(x, 'args') and hasattr(y, 'args')"},"name":"unify_correct"},"guarantee":"# HINT: unify may be idempotent: unify(unify(x)) == unify(x)","fibers":[{"name":"(Variable","pred":"isinstance(x, (Variable, CondVariable))","path":{"lhs":"unify(x)","rhs":"# HINT: unify may be idempotent: unify(unify(x)) == unify(x)","over":{"base":"(Variable","pred":"isinstance(x, (Variable, CondVariable))"},"name":"unify_(Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.unify_(Variable_correct","statement":"unify satisfies spec on (Variable inputs"},"trust":"LIBRARY"},{"name":"Compound","pred":"isinstance(x, Compound)","path":{"lhs":"unify(x)","rhs":"# HINT: unify may be idempotent: unify(unify(x)) == unify(x)","over":{"base":"Compound","pred":"isinstance(x, Compound)"},"name":"unify_Compound_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.unify_Compound_correct","statement":"unify satisfies spec on Compound inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"15dc60df23e8978e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'op')","hasattr(y, 'op')","hasattr(x, 'args')","hasattr(y, 'args')"],"ensures":["# HINT: unify may be idempotent: unify(unify(x)) == unify(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.args","x.op","y.args","y.op"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['x', 'y', 's'], spec=['x', 'y', 's', '**fns']","Poor branch-fiber coverage: 0% (branches={'isinstance(x, (Variable, CondVariable))', 'x == y', 'isinstance(x, Compound) and isinstance(y, Compound)', 'is_args(x) and is_args(y) and (len(x) == len(y))', 'len(x.args) == len(y.args)', 'len(x) == 0', 'isinstance(y, (Variable, CondVariable))'}, fibers={'(Variable', 'Compound'})"]}}
 def unify(x, y, s=None, **fns):
     """ Unify two expressions.
 
@@ -327,7 +430,11 @@ def unify(x, y, s=None, **fns):
                 yield from unify(x[1:], y[1:], shead, **fns)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unify_var(var), unify_var produces the expected output) over {Any | isinstance(var, CondVariable) and isinstance(var, Variable)} ║
+# ║ Path(unify_var(var, x, s), <unspecified:unify_var>) over {Any | isinstance(var, CondVariable) and isinstance(var, Variable) and hasattr(var, 'valid')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(var, 'valid')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unify_var : {Any | isinstance(var, CondVariable) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -340,9 +447,12 @@ def unify(x, y, s=None, **fns):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bd8ee8a9...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.unify_var","kind":"function","src_hash":"f56bf0d97300bdc6","in":{"base":"Any","pred":"isinstance(var, CondVariable) and isinstance(var, Variable)"},"out":{"base":"Any"},"spec":{"lhs":"unify_var(var)","rhs":"unify_var produces the expected output","over":{"base":"Any","pred":"isinstance(var, CondVariable) and isinstance(var, Variable)"},"name":"unify_var_correct"},"guarantee":"unify_var produces the expected output","fibers":[{"name":"CondVariable","pred":"isinstance(var, CondVariable)","path":{"lhs":"unify_var(x)","rhs":"unify_var produces the expected output","over":{"base":"CondVariable","pred":"isinstance(var, CondVariable)"},"name":"unify_var_CondVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.unify_var_CondVariable_correct","statement":"unify_var satisfies spec on CondVariable inputs"},"trust":"LIBRARY"},{"name":"Variable","pred":"isinstance(var, Variable)","path":{"lhs":"unify_var(x)","rhs":"unify_var produces the expected output","over":{"base":"Variable","pred":"isinstance(var, Variable)"},"name":"unify_var_Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.unify_var_Variable_correct","statement":"unify_var satisfies spec on Variable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bd8ee8a9d5879240"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.unify_var","kind":"function","src_hash":"f56bf0d97300bdc6","in":{"base":"Any","pred":"isinstance(var, CondVariable) and isinstance(var, Variable) and hasattr(var, 'valid')"},"out":{"base":"Any"},"spec":{"lhs":"unify_var(var, x, s)","rhs":"<unspecified:unify_var>","over":{"base":"Any","pred":"isinstance(var, CondVariable) and isinstance(var, Variable) and hasattr(var, 'valid')"},"name":"unify_var_correct"},"guarantee":"unify_var produces the expected output","fibers":[{"name":"CondVariable","pred":"isinstance(var, CondVariable)","path":{"lhs":"unify_var(x)","rhs":"unify_var produces the expected output","over":{"base":"CondVariable","pred":"isinstance(var, CondVariable)"},"name":"unify_var_CondVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.unify_var_CondVariable_correct","statement":"unify_var satisfies spec on CondVariable inputs"},"trust":"LIBRARY"},{"name":"Variable","pred":"isinstance(var, Variable)","path":{"lhs":"unify_var(x)","rhs":"unify_var produces the expected output","over":{"base":"Variable","pred":"isinstance(var, Variable)"},"name":"unify_var_Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.unify_var_Variable_correct","statement":"unify_var satisfies spec on Variable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bd8ee8a9d5879240","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(var, 'valid')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["var.valid"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['var', 'x', 's'], spec=['var', 'x', 's', '**fns']","Poor branch-fiber coverage: 0% (branches={'isinstance(var, CondVariable) and var.valid(x)', 'isinstance(var, Variable)'}, fibers={'Variable', 'CondVariable'})"]}}
 def unify_var(var, x, s, **fns):
     if var in s:
         yield from unify(s[var], x, s, **fns)
@@ -354,9 +464,15 @@ def unify_var(var, x, s, **fns):
         yield assoc(s, var, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(occur_check(var), var occurs in subtree owned by x?) over {Any | isinstance(x, Compound)} ║
+# ║ Path(occur_check(var, x), <unspecified:occur_check>) over {Any | isinstance(x, Compound) and hasattr(x, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ occur_check : {Any | isinstance(x, Compound)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'args')                             ║
+# ║   fiber[case_0]: var == x => True                          ║
+# ║   fiber[Compound]: isinstance(x, Compound) => occur_c...   ║
+# ║   fiber[case_2]: is_args(x)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ occur_check : {Any | isinstance(x, Compound) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Compound: {isinstance(x, Compound)} → library_axiom      ║
@@ -366,9 +482,12 @@ def unify_var(var, x, s, **fns):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 12292888...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.occur_check","kind":"function","src_hash":"611c335eafb2ff64","in":{"base":"Any","pred":"isinstance(x, Compound)"},"out":{"base":"Any"},"spec":{"lhs":"occur_check(var)","rhs":"var occurs in subtree owned by x?","over":{"base":"Any","pred":"isinstance(x, Compound)"},"name":"occur_check_correct"},"guarantee":"var occurs in subtree owned by x?","fibers":[{"name":"Compound","pred":"isinstance(x, Compound)","path":{"lhs":"occur_check(x)","rhs":"var occurs in subtree owned by x?","over":{"base":"Compound","pred":"isinstance(x, Compound)"},"name":"occur_check_Compound_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.occur_check_Compound_correct","statement":"occur_check satisfies spec on Compound inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"12292888830706c2"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.occur_check","kind":"function","src_hash":"611c335eafb2ff64","in":{"base":"Any","pred":"isinstance(x, Compound) and hasattr(x, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"occur_check(var, x)","rhs":"<unspecified:occur_check>","over":{"base":"Any","pred":"isinstance(x, Compound) and hasattr(x, 'args')"},"name":"occur_check_correct"},"guarantee":"3-fiber decomposition","fibers":[{"name":"Compound","pred":"isinstance(x, Compound)","path":{"lhs":"occur_check(x)","rhs":"3-fiber decomposition","over":{"base":"Compound","pred":"isinstance(x, Compound)"},"name":"occur_check_Compound_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.occur_check_Compound_correct","statement":"occur_check satisfies spec on Compound inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"12292888830706c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'args')"],"fibers":[{"name":"case_0","guard":"var == x","ensures":["result == True"],"decidability":"z3","returns_expr":"True"},{"name":"Compound","guard":"isinstance(x, Compound)","ensures":["result == occur_check(var, x.args)"],"decidability":"structural","returns_expr":"occur_check(var, x.args)"},{"name":"case_2","guard":"is_args(x)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'var == x', 'isinstance(x, Compound)'}, fibers={'Compound'})"]}}
 def occur_check(var, x):
     """ var occurs in subtree owned by x? """
     if var == x:
@@ -380,16 +499,24 @@ def occur_check(var, x):
     return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(assoc(d, ), return copy of d with key associated to val) over Any ║
+# ║ Path(assoc(d, key, val), d) over {Any | hasattr(d, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ assoc : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(d, 'copy')                             ║
+# ║   ensures:  result == d                                    ║
+# ║   returns:  d                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ assoc : {Any | hasattr(d, 'copy')} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dad5ea8207a79f85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29e460518936d657  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.assoc","kind":"function","src_hash":"4e43bffa0c822462","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"assoc(d, )","rhs":"return copy of d with key associated to val","over":{"base":"Any"},"name":"assoc_correct"},"guarantee":"return copy of d with key associated to val","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.assoc_correct","statement":"Path(assoc(x), return copy of d with key associated to val)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dad5ea8207a79f85"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.assoc","kind":"function","src_hash":"4e43bffa0c822462","in":{"base":"Any","pred":"hasattr(d, 'copy')"},"out":{"base":"Any","pred":"result satisfies: result == (d)"},"spec":{"lhs":"assoc(d, key, val)","rhs":"d","over":{"base":"Any","pred":"hasattr(d, 'copy')"},"name":"assoc_correct"},"guarantee":"returns d; result == d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.assoc_correct","statement":"Path(assoc(x), returns d; result == d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29e460518936d657","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(d, 'copy')"],"ensures":["result == d"],"returns_expr":"d","pure":false,"effects":{"effect_type":"mutates_args","reads":["d.copy"],"writes":["d[*]"]},"state_contract":{"modifies":["d[*]"],"old_bindings":{"old_d_star":"d[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def assoc(d, key, val):
     """ Return copy of d with key associated to val """
     d = d.copy()
@@ -397,24 +524,37 @@ def assoc(d, key, val):
     return d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_args(x), is x a traditional iterable?) over Any    ║
+# ║ Path(is_args(x), type(x) in (tuple, list, set)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  type(x) in (tuple, list, set)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_args : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 119603d9e04362d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.is_args","kind":"function","src_hash":"727ff82a447ba68a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_args(x)","rhs":"is x a traditional iterable?","over":{"base":"Any"},"name":"is_args_correct"},"guarantee":"is x a traditional iterable?","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"119603d9e04362d8"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.is_args","kind":"function","src_hash":"727ff82a447ba68a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_args(x)","rhs":"type(x) in (tuple, list, set)","over":{"base":"Any"},"name":"is_args_correct"},"guarantee":"returns type(x) in (tuple, list, set)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"119603d9e04362d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"type(x) in (tuple, list, set)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_args(x):
     """ Is x a traditional iterable? """
     return type(x) in (tuple, list, set)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unpack(x), unpack produces the expected output) over {Any | isinstance(x, Compound)} ║
+# ║ Path(unpack(x), result == (x.args[0] if isinstance(x, Compound) and len(x.args) == 1 else x) and result == x.args[0] or result == x) over {Any | isinstance(x, Compound) and hasattr(x, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ unpack : {Any | isinstance(x, Compound)} → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'args')                             ║
+# ║   ensures:  result == (x.args[0] if isinstance(x, Com...   ║
+# ║   ensures:  result == x.args[0] or result == x             ║
+# ║   fiber[Compound]: isinstance(x, Compound) and len(x....   ║
+# ║   fiber[Compound]: not (isinstance(x, Compound) and l...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ unpack : {Any | isinstance(x, Compound) and hasattr(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Compound: {isinstance(x, Compound)} → library_axiom      ║
@@ -424,9 +564,12 @@ def is_args(x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4b59fe9b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.unpack","kind":"function","src_hash":"9f18156071ed4b9f","in":{"base":"Any","pred":"isinstance(x, Compound)"},"out":{"base":"Any"},"spec":{"lhs":"unpack(x)","rhs":"unpack produces the expected output","over":{"base":"Any","pred":"isinstance(x, Compound)"},"name":"unpack_correct"},"guarantee":"unpack produces the expected output","fibers":[{"name":"Compound","pred":"isinstance(x, Compound)","path":{"lhs":"unpack(x)","rhs":"unpack produces the expected output","over":{"base":"Compound","pred":"isinstance(x, Compound)"},"name":"unpack_Compound_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.unpack_Compound_correct","statement":"unpack satisfies spec on Compound inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4b59fe9bf8f0e400"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.unpack","kind":"function","src_hash":"9f18156071ed4b9f","in":{"base":"Any","pred":"isinstance(x, Compound) and hasattr(x, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (x.args[0] if isinstance(x, Compound) and len(x.args) == 1 else x) and result == x.args[0] or result == x"},"spec":{"lhs":"unpack(x)","rhs":"result == (x.args[0] if isinstance(x, Compound) and len(x.args) == 1 else x) and result == x.args[0] or result == x","over":{"base":"Any","pred":"isinstance(x, Compound) and hasattr(x, 'args')"},"name":"unpack_correct"},"guarantee":"result == (x.args[0] if isinstance(x, Compound) and len(x.args) == 1 else x); result == x.args[0] or result == x; 2-fiber decomposition","fibers":[{"name":"Compound","pred":"isinstance(x, Compound)","path":{"lhs":"unpack(x)","rhs":"result == (x.args[0] if isinstance(x, Compound) and len(x.args) == 1 else x); result == x.args[0] or result == x; 2-fiber decomposition","over":{"base":"Compound","pred":"isinstance(x, Compound)"},"name":"unpack_Compound_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.unpack_Compound_correct","statement":"unpack satisfies spec on Compound inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4b59fe9bf8f0e400","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'args')"],"ensures":["result == (x.args[0] if isinstance(x, Compound) and len(x.args) == 1 else x)","result == x.args[0] or result == x"],"fibers":[{"name":"Compound","guard":"isinstance(x, Compound) and len(x.args) == 1","ensures":["result == x.args[0]"],"decidability":"structural","returns_expr":"x.args[0]"},{"name":"Compound","guard":"not (isinstance(x, Compound) and len(x.args) == 1)","ensures":["result == x"],"decidability":"structural","returns_expr":"x"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.args"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, Compound) and len(x.args) == 1'}, fibers={'Compound'})"]}}
 def unpack(x):
     if isinstance(x, Compound) and len(x.args) == 1:
         return x.args[0]
@@ -434,16 +577,22 @@ def unpack(x):
         return x
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(allcombinations(A, ), restructure a and b to have the same number of elements) over Any ║
+# ║ Path(allcombinations(A, B, ordered), <unspecified:allcombinations>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ allcombinations : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4171403e455dbe6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.allcombinations","kind":"function","src_hash":"2660149712f39b2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"allcombinations(A, )","rhs":"restructure a and b to have the same number of elements","over":{"base":"Any"},"name":"allcombinations_correct"},"guarantee":"restructure a and b to have the same number of elements","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.allcombinations_correct","statement":"Path(allcombinations(x), restructure a and b to have the same number of elements)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4171403e455dbe6"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.allcombinations","kind":"function","src_hash":"2660149712f39b2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"allcombinations(A, B, ordered)","rhs":"<unspecified:allcombinations>","over":{"base":"Any"},"name":"allcombinations_correct"},"guarantee":"restructure a and b to have the same number of elements","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.core.allcombinations_correct","statement":"Path(allcombinations(x), restructure a and b to have the same number of elements)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4171403e455dbe6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def allcombinations(A, B, ordered):
     """
     Restructure A and B to have the same number of elements.
@@ -491,16 +640,22 @@ def allcombinations(A, B, ordered):
             yield partition(A, part), tuple((b,) for b in B)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(partition(it,), partition a tuple/list into pieces defined by indices) over Any ║
+# ║ Path(partition(it, part), type(it)([index(it, ind) for ind in part])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  type(it)([index(it, ind) for ind in part])     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ partition : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c6410864a4f4898e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.partition","kind":"function","src_hash":"5ffb52a57a24b3db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"partition(it,)","rhs":"partition a tuple/list into pieces defined by indices","over":{"base":"Any"},"name":"partition_correct"},"guarantee":"partition a tuple/list into pieces defined by indices","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6410864a4f4898e"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.partition","kind":"function","src_hash":"5ffb52a57a24b3db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"partition(it, part)","rhs":"type(it)([index(it, ind) for ind in part])","over":{"base":"Any"},"name":"partition_correct"},"guarantee":"returns type(it)([index(it, ind) for ind in part])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6410864a4f4898e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"type(it)([index(it, ind) for ind in part])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def partition(it, part):
     """ Partition a tuple/list into pieces defined by indices.
 
@@ -514,16 +669,22 @@ def partition(it, part):
     return type(it)([index(it, ind) for ind in part])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(it,), fancy indexing into an indexable iterable (tuple, list)) over Any ║
+# ║ Path(index(it, ind), type(it)([it[i] for i in ind])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  type(it)([it[i] for i in ind])                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ index : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fc9683b1b78e5696           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.core.index","kind":"function","src_hash":"73a924fe0a2b6e6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(it,)","rhs":"fancy indexing into an indexable iterable (tuple, list)","over":{"base":"Any"},"name":"index_correct"},"guarantee":"fancy indexing into an indexable iterable (tuple, list)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc9683b1b78e5696"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.core.index","kind":"function","src_hash":"73a924fe0a2b6e6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(it, ind)","rhs":"type(it)([it[i] for i in ind])","over":{"base":"Any"},"name":"index_correct"},"guarantee":"returns type(it)([it[i] for i in ind])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc9683b1b78e5696","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"type(it)([it[i] for i in ind])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def index(it, ind):
     """ Fancy indexing into an indexable iterable (tuple, list).
 

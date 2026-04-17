@@ -28,16 +28,24 @@ _name_with_digits_p = re.compile(r'^([^\W\d_]+)(\d+)$', re.UNICODE)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(split_super_sub(tex), split a symbol name into a name, superscripts and subscripts) over Any ║
+# ║ Path(split_super_sub(text), len(subs) == old_len_subs + 1 and len(supers) == old_len_supers + 1) over {Any | hasattr(text, 'find')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ split_super_sub : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(text, 'find')                          ║
+# ║   ensures:  len(subs) == old_len_subs + 1                  ║
+# ║   ensures:  len(supers) == old_len_supers + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ split_super_sub : {Any | hasattr(text, 'find')} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1414ba4e6c343b72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ae6b808885a60d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.conventions.split_super_sub","kind":"function","src_hash":"dfe3c35c0a6f69d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"split_super_sub(tex)","rhs":"split a symbol name into a name, superscripts and subscripts","over":{"base":"Any"},"name":"split_super_sub_correct"},"guarantee":"split a symbol name into a name, superscripts and subscripts","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.conventions.split_super_sub_correct","statement":"Path(split_super_sub(x), split a symbol name into a name, superscripts and subscripts)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1414ba4e6c343b72"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.conventions.split_super_sub","kind":"function","src_hash":"dfe3c35c0a6f69d5","in":{"base":"Any","pred":"hasattr(text, 'find')"},"out":{"base":"Any","pred":"result satisfies: len(subs) == old_len_subs + 1 and len(supers) == old_len_supers + 1"},"spec":{"lhs":"split_super_sub(text)","rhs":"len(subs) == old_len_subs + 1 and len(supers) == old_len_supers + 1","over":{"base":"Any","pred":"hasattr(text, 'find')"},"name":"split_super_sub_correct"},"guarantee":"len(subs) == old_len_subs + 1; len(supers) == old_len_supers + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.conventions.split_super_sub_correct","statement":"Path(split_super_sub(x), len(subs) == old_len_subs + 1; len(supers) == old_len_supers + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ae6b808885a60d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(text, 'find')"],"ensures":["len(subs) == old_len_subs + 1","len(supers) == old_len_supers + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["text.find"],"calls_mutating":["subs.append","subs.insert","supers.append"],"raises":["RuntimeError"]},"state_contract":{"modifies":["subs.*","supers.*"],"old_bindings":{"old_len_subs":"len(subs)","old_len_supers":"len(supers)"},"post_ensures":["len(subs) == old_len_subs + 1","len(supers) == old_len_supers + 1"],"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def split_super_sub(text):
     """Split a symbol name into a name, superscripts and subscripts
 
@@ -99,7 +107,13 @@ def split_super_sub(text):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(requires_partial(exp), return whether a partial derivative symbol is required for printing) over {Any | isinstance(expr, Derivative) and isinstance(expr.free_symbols, Iterable)} ║
+# ║ Path(requires_partial(expr), # HINT: requires_partial may be idempotent: requires_partial(requires_partial(x)) == requires_partial(x)) over {Any | isinstance(expr, Derivative) and isinstance(expr.free_symbols, Iterable) and hasattr(expr, 'expr') and hasattr(expr, 'free_symbols') and hasattr(expr, 'variables')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: hasattr(expr, 'variables')                     ║
+# ║   ensures:  # HINT: requires_partial may be idempoten...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ requires_partial : {Any | isinstance(expr, Derivative...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -112,9 +126,12 @@ def split_super_sub(text):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2aefb5d2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.conventions.requires_partial","kind":"function","src_hash":"dd9486b5336ed37a","in":{"base":"Any","pred":"isinstance(expr, Derivative) and isinstance(expr.free_symbols, Iterable)"},"out":{"base":"Any"},"spec":{"lhs":"requires_partial(exp)","rhs":"return whether a partial derivative symbol is required for printing","over":{"base":"Any","pred":"isinstance(expr, Derivative) and isinstance(expr.free_symbols, Iterable)"},"name":"requires_partial_correct"},"guarantee":"return whether a partial derivative symbol is required for printing","fibers":[{"name":"Derivative","pred":"isinstance(expr, Derivative)","path":{"lhs":"requires_partial(x)","rhs":"return whether a partial derivative symbol is required for printing","over":{"base":"Derivative","pred":"isinstance(expr, Derivative)"},"name":"requires_partial_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.conventions.requires_partial_Derivative_correct","statement":"requires_partial satisfies spec on Derivative inputs"},"trust":"LIBRARY"},{"name":"Iterable","pred":"isinstance(expr.free_symbols, Iterable)","path":{"lhs":"requires_partial(x)","rhs":"return whether a partial derivative symbol is required for printing","over":{"base":"Iterable","pred":"isinstance(expr.free_symbols, Iterable)"},"name":"requires_partial_Iterable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.conventions.requires_partial_Iterable_correct","statement":"requires_partial satisfies spec on Iterable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2aefb5d22cbc2cb3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.conventions.requires_partial","kind":"function","src_hash":"dd9486b5336ed37a","in":{"base":"Any","pred":"isinstance(expr, Derivative) and isinstance(expr.free_symbols, Iterable) and hasattr(expr, 'expr') and hasattr(expr, 'free_symbols') and hasattr(expr, 'variables')"},"out":{"base":"Any","pred":"result satisfies: # HINT: requires_partial may be idempotent: requires_partial(requires_partial(x)) == requires_partial(x)"},"spec":{"lhs":"requires_partial(expr)","rhs":"# HINT: requires_partial may be idempotent: requires_partial(requires_partial(x)) == requires_partial(x)","over":{"base":"Any","pred":"isinstance(expr, Derivative) and isinstance(expr.free_symbols, Iterable) and hasattr(expr, 'expr') and hasattr(expr, 'free_symbols') and hasattr(expr, 'variables')"},"name":"requires_partial_correct"},"guarantee":"# HINT: requires_partial may be idempotent: requires_partial(requires_partial(x)) == requires_partial(x)","fibers":[{"name":"Derivative","pred":"isinstance(expr, Derivative)","path":{"lhs":"requires_partial(x)","rhs":"# HINT: requires_partial may be idempotent: requires_partial(requires_partial(x)) == requires_partial(x)","over":{"base":"Derivative","pred":"isinstance(expr, Derivative)"},"name":"requires_partial_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.conventions.requires_partial_Derivative_correct","statement":"requires_partial satisfies spec on Derivative inputs"},"trust":"LIBRARY"},{"name":"Iterable","pred":"isinstance(expr.free_symbols, Iterable)","path":{"lhs":"requires_partial(x)","rhs":"# HINT: requires_partial may be idempotent: requires_partial(requires_partial(x)) == requires_partial(x)","over":{"base":"Iterable","pred":"isinstance(expr.free_symbols, Iterable)"},"name":"requires_partial_Iterable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.conventions.requires_partial_Iterable_correct","statement":"requires_partial satisfies spec on Iterable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2aefb5d22cbc2cb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'expr')","hasattr(expr, 'free_symbols')","hasattr(expr, 'variables')"],"ensures":["# HINT: requires_partial may be idempotent: requires_partial(requires_partial(x)) == requires_partial(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.free_symbols","expr.variables"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr.free_symbols, Iterable)', 'isinstance(expr, Derivative)'}, fibers={'Iterable', 'Derivative'})"]}}
 def requires_partial(expr):
     """Return whether a partial derivative symbol is required for printing
 

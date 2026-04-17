@@ -21,14 +21,19 @@ from sympy.combinatorics.rewritingsystem_fsm import StateMachine
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a RewritingSystem instance) preserved by RewritingSystem(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RewritingSystem : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 014b36dbd45fb05b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem","kind":"class","src_hash":"dda134c7b6e2e644","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RewritingSystem(*args)","rhs":"correctly constructs a RewritingSystem instance","over":{"base":"Any"},"name":"RewritingSystem_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a RewritingSystem instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_confluent","pred":"self.is_confluent","kind":"class"},{"name":"representation","pred":"hasattr(self, 'group') and hasattr(self, 'alphabet') and hasattr(self, '_is_confluent') and hasattr(self, 'maxeqns') and hasattr(self, 'tidyint') and hasattr(self, '_max_exceeded') and hasattr(self, 'reduction_automaton') and hasattr(self, '_new_rules')","kind":"class","induction":"structural on group, alphabet, _is_confluent, maxeqns"}],"methods_preserving":["__init__","set_max","is_confluent","_init_rules","_add_rule","add_rule","_remove_redundancies","make_confluent","_check_confluence","reduce","_compute_inverse_rules","construct_automaton","_add_to_automaton","reduce_using_automaton"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"014b36dbd45fb05b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem","kind":"class","src_hash":"dda134c7b6e2e644","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RewritingSystem(*args)","rhs":"correctly constructs a RewritingSystem instance","over":{"base":"Any"},"name":"RewritingSystem_class_invariant","kind":"invariant"},"guarantee":"preserves 10 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_confluent","pred":"self.is_confluent","kind":"class"},{"name":"representation","pred":"hasattr(self, 'group') and hasattr(self, 'alphabet') and hasattr(self, '_is_confluent') and hasattr(self, 'maxeqns') and hasattr(self, 'tidyint') and hasattr(self, '_max_exceeded') and hasattr(self, 'reduction_automaton') and hasattr(self, '_new_rules')","kind":"class","induction":"structural on group, alphabet, _is_confluent, maxeqns"}],"methods_preserving":["__init__","set_max","is_confluent","_init_rules","_add_rule","add_rule","_remove_redundancies","make_confluent","_check_confluence","reduce","_compute_inverse_rules","construct_automaton","_add_to_automaton","reduce_using_automaton"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"014b36dbd45fb05b","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'group')","hasattr(self, 'alphabet')","hasattr(self, '_is_confluent')","hasattr(self, 'maxeqns')","hasattr(self, 'tidyint')","hasattr(self, '_max_exceeded')","hasattr(self, 'reduction_automaton')","hasattr(self, '_new_rules')","hasattr(self, 'rules')","hasattr(self, 'rules_cache')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function RewritingSystem not found in source"]}}
 class RewritingSystem:
     '''
     A class implementing rewriting systems for `FpGroup`s.
@@ -44,16 +49,23 @@ class RewritingSystem:
 
     '''
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(gro), initializes the instance correctly) over Any ║
+# ║ Path(__init__(group), self.group == group) over {Any | hasattr(group, 'generators')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(group, 'generators')                   ║
+# ║   ensures:  self.group == group                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(group, 'generators')} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1695394f79a9d714           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.__init__","kind":"method","src_hash":"c182924358a8f190","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(gro)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1695394f79a9d714"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.__init__","kind":"method","src_hash":"c182924358a8f190","in":{"base":"Any","pred":"hasattr(group, 'generators')"},"out":{"base":"Any","pred":"result satisfies: self.group == group"},"spec":{"lhs":"__init__(group)","rhs":"self.group == group","over":{"base":"Any","pred":"hasattr(group, 'generators')"},"name":"__init___correct"},"guarantee":"self.group == group","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1695394f79a9d714","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(group, 'generators')"],"ensures":["self.group == group"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, group):
         self.group = group
         self.alphabet = group.generators
@@ -85,16 +97,22 @@ class RewritingSystem:
         self.construct_automaton()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_max(n), set the maximum number of rules that can be defined) over Any ║
+# ║ Path(set_max(n), <unspecified:set_max>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_max : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca40442ba657407e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.set_max","kind":"method","src_hash":"f8d46e070bcf5fb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_max(n)","rhs":"set the maximum number of rules that can be defined","over":{"base":"Any"},"name":"set_max_correct"},"guarantee":"set the maximum number of rules that can be defined","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem.set_max_correct","statement":"Path(set_max(x), set the maximum number of rules that can be defined)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca40442ba657407e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.set_max","kind":"method","src_hash":"f8d46e070bcf5fb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_max(n)","rhs":"<unspecified:set_max>","over":{"base":"Any"},"name":"set_max_correct"},"guarantee":"set the maximum number of rules that can be defined","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem.set_max_correct","statement":"Path(set_max(x), set the maximum number of rules that can be defined)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca40442ba657407e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.maxeqns"],"writes":["self._max_exceeded","self.maxeqns"]},"state_contract":{"modifies":["self._max_exceeded","self.maxeqns"],"old_bindings":{"old_self__max_exceeded":"self._max_exceeded","old_self_maxeqns":"self.maxeqns"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_max(self, n):
         '''
         Set the maximum number of rules that can be defined
@@ -107,16 +125,22 @@ class RewritingSystem:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_confluent(), returns the is_confluent attribute) over Any ║
+# ║ Path(is_confluent(), self._is_confluent) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._is_confluent                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_confluent : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b0d1982ea111f95           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.is_confluent","kind":"property","src_hash":"d42aa8360803589b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_confluent()","rhs":"returns the is_confluent attribute","over":{"base":"Any"},"name":"is_confluent_correct"},"guarantee":"returns the is_confluent attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b0d1982ea111f95"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.is_confluent","kind":"property","src_hash":"d42aa8360803589b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_confluent()","rhs":"self._is_confluent","over":{"base":"Any"},"name":"is_confluent_correct"},"guarantee":"returns self._is_confluent","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b0d1982ea111f95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._is_confluent","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._check_confluence","self._is_confluent"],"writes":["self._is_confluent"]},"state_contract":{"modifies":["self._is_confluent"],"old_bindings":{"old_self__is_confluent":"self._is_confluent"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_confluent(self):
         '''
         Return `True` if the system is confluent
@@ -127,16 +151,22 @@ class RewritingSystem:
         return self._is_confluent
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_init_rules(), internal helper behaves correctly) over Any ║
+# ║ Path(_init_rules(), <unspecified:_init_rules>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _init_rules : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cd632c4fbd7be4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem._init_rules","kind":"method","src_hash":"f43eb46d0c12d1ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_init_rules()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_init_rules_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem._init_rules_correct","statement":"Path(_init_rules(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cd632c4fbd7be4e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem._init_rules","kind":"method","src_hash":"f43eb46d0c12d1ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_init_rules()","rhs":"<unspecified:_init_rules>","over":{"base":"Any"},"name":"_init_rules_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem._init_rules_correct","statement":"Path(_init_rules(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cd632c4fbd7be4e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._remove_redundancies","self.add_rule","self.group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _init_rules(self):
         identity = self.group.free_group.identity
         for r in self.group.relators:
@@ -145,16 +175,22 @@ class RewritingSystem:
         return
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_rule(r1,), add the rule r1 -> r2 with no checking or further deductions) over Any ║
+# ║ Path(_add_rule(r1, r2), <unspecified:_add_rule>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _add_rule : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fee99b4e2f56b88  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem._add_rule","kind":"method","src_hash":"69348a2bb89130b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_rule(r1,)","rhs":"add the rule r1 -> r2 with no checking or further deductions","over":{"base":"Any"},"name":"_add_rule_correct"},"guarantee":"add the rule r1 -> r2 with no checking or further deductions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem._add_rule_correct","statement":"Path(_add_rule(x), add the rule r1 -> r2 with no checking or further deductions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fee99b4e2f56b88"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem._add_rule","kind":"method","src_hash":"69348a2bb89130b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_rule(r1, r2)","rhs":"<unspecified:_add_rule>","over":{"base":"Any"},"name":"_add_rule_correct"},"guarantee":"add the rule r1 -> r2 with no checking or further deductions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem._add_rule_correct","statement":"Path(_add_rule(x), add the rule r1 -> r2 with no checking or further deductions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fee99b4e2f56b88","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._check_confluence","self._new_rules","self.maxeqns","self.reduction_automaton","self.rules"],"writes":["self._is_confluent","self._max_exceeded"],"raises":["RuntimeError"]},"state_contract":{"modifies":["self._is_confluent","self._max_exceeded"],"old_bindings":{"old_self__is_confluent":"self._is_confluent","old_self__max_exceeded":"self._max_exceeded"},"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add_rule(self, r1, r2):
         '''
         Add the rule r1 -> r2 with no checking or further
@@ -171,16 +207,23 @@ class RewritingSystem:
             self._new_rules[r1] = r2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_rule(w1,), add_rule produces the expected output) over Any ║
+# ║ Path(add_rule(w1, w2, check), len(self) == old_len_self + 1) over {Any | hasattr(w1, 'subword')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add_rule : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(w1, 'subword')                         ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add_rule : {Any | hasattr(w1, 'subword')} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29c7c0838f2f0042  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c26d52bcc42ce18f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.add_rule","kind":"method","src_hash":"03a501a650a17558","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_rule(w1,)","rhs":"add_rule produces the expected output","over":{"base":"Any"},"name":"add_rule_correct"},"guarantee":"add_rule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem.add_rule_correct","statement":"Path(add_rule(x), add_rule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29c7c0838f2f0042"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.add_rule","kind":"method","src_hash":"03a501a650a17558","in":{"base":"Any","pred":"hasattr(w1, 'subword')"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"add_rule(w1, w2, check)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any","pred":"hasattr(w1, 'subword')"},"name":"add_rule_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem.add_rule_correct","statement":"Path(add_rule(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c26d52bcc42ce18f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(w1, 'subword')"],"ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._add_rule","self.add_rule","self.rules","self.rules_cache","w1.subword"],"calls_mutating":["new_keys.add","new_keys.update","self.rules_cache.append"]},"state_contract":{"modifies":["new_keys.*","self.*"],"old_bindings":{"old_len_new_keys":"len(new_keys)","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add_rule(self, w1, w2, check=False):
         new_keys = set()
 
@@ -244,16 +287,22 @@ class RewritingSystem:
         return new_keys
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_remove_redundancies(cha), reduce left- and right-hand sides of reduction rules and remove redundant equations (i.e) over Any ║
+# ║ Path(_remove_redundancies(changes), (removed, added)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (removed, added)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _remove_redundancies : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54772237d870c691  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d25fcdcfdaad1e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem._remove_redundancies","kind":"method","src_hash":"84ba62eef387e4bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_redundancies(cha)","rhs":"reduce left- and right-hand sides of reduction rules and remove redundant equations (i.e","over":{"base":"Any"},"name":"_remove_redundancies_correct"},"guarantee":"reduce left- and right-hand sides of reduction rules and remove redundant equations (i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem._remove_redundancies_correct","statement":"Path(_remove_redundancies(x), reduce left- and right-hand sides of reduction rules and remove redundant equations (i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54772237d870c691"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem._remove_redundancies","kind":"method","src_hash":"84ba62eef387e4bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_redundancies(changes)","rhs":"(removed, added)","over":{"base":"Any"},"name":"_remove_redundancies_correct"},"guarantee":"returns (removed, added)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem._remove_redundancies_correct","statement":"Path(_remove_redundancies(x), returns (removed, added))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d25fcdcfdaad1e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(removed, added)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _remove_redundancies(self, changes=False):
         '''
         Reduce left- and right-hand sides of reduction rules
@@ -285,16 +334,22 @@ class RewritingSystem:
         return
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_confluent(che), try to make the system confluent using the knuth-bendix completion algorithm) over Any ║
+# ║ Path(make_confluent(check), len(result) == old_len_result + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ make_confluent : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ make_confluent : Any → {Any | result satisfies: len(r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40cfbcb3db7868d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7fd6e8c164c5d8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.make_confluent","kind":"method","src_hash":"bfd10edc974f899f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_confluent(che)","rhs":"try to make the system confluent using the knuth-bendix completion algorithm","over":{"base":"Any"},"name":"make_confluent_correct"},"guarantee":"try to make the system confluent using the knuth-bendix completion algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem.make_confluent_correct","statement":"Path(make_confluent(x), try to make the system confluent using the knuth-bendix completion algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40cfbcb3db7868d3"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.make_confluent","kind":"method","src_hash":"bfd10edc974f899f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(result) == old_len_result + 1"},"spec":{"lhs":"make_confluent(check)","rhs":"len(result) == old_len_result + 1","over":{"base":"Any"},"name":"make_confluent_correct"},"guarantee":"len(result) == old_len_result + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem.make_confluent_correct","statement":"Path(make_confluent(x), len(result) == old_len_result + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7fd6e8c164c5d8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(result) == old_len_result + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._is_confluent","self._max_exceeded","self._remove_redundancies","self.add_rule","self.reduce","self.rules","self.tidyint"],"writes":["self._is_confluent"],"calls_mutating":["lhs.extend","overlaps.extend","result.append"],"catches":["RuntimeError"]},"state_contract":{"modifies":["lhs.*","overlaps.*","result.*","self._is_confluent"],"old_bindings":{"old_self__is_confluent":"self._is_confluent","old_len_lhs":"len(lhs)","old_len_overlaps":"len(overlaps)","old_len_result":"len(result)"},"post_ensures":["len(result) == old_len_result + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def make_confluent(self, check=False):
         '''
         Try to make the system confluent using the Knuth-Bendix
@@ -388,30 +443,42 @@ class RewritingSystem:
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_confluence(), internal helper behaves correctly) over Any ║
+# ║ Path(_check_confluence(), self.make_confluent(check=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.make_confluent(check=True)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_confluence : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 24e57c6ef785b298           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem._check_confluence","kind":"method","src_hash":"a8c126ecd9176936","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_confluence()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_confluence_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"24e57c6ef785b298"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem._check_confluence","kind":"method","src_hash":"a8c126ecd9176936","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_confluence()","rhs":"self.make_confluent(check=True)","over":{"base":"Any"},"name":"_check_confluence_correct"},"guarantee":"returns self.make_confluent(check=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"24e57c6ef785b298","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.make_confluent(check=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.make_confluent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_confluence(self):
         return self.make_confluent(check=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce(wor), apply reduction rules to `word` excluding the reduction rule for the lhs equal to `exclude`) over Any ║
+# ║ Path(reduce(word, exclude), <unspecified:reduce>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reduce : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49af59548ecfd26b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.reduce","kind":"method","src_hash":"6f03ba5db3731133","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce(wor)","rhs":"apply reduction rules to `word` excluding the reduction rule for the lhs equal to `exclude`","over":{"base":"Any"},"name":"reduce_correct"},"guarantee":"apply reduction rules to `word` excluding the reduction rule for the lhs equal to `exclude`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem.reduce_correct","statement":"Path(reduce(x), apply reduction rules to `word` excluding the reduction rule for the lhs equal to `exclude`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49af59548ecfd26b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.reduce","kind":"method","src_hash":"6f03ba5db3731133","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce(word, exclude)","rhs":"<unspecified:reduce>","over":{"base":"Any"},"name":"reduce_correct"},"guarantee":"apply reduction rules to `word` excluding the reduction rule for the lhs equal to `exclude`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem.reduce_correct","statement":"Path(reduce(x), apply reduction rules to `word` excluding the reduction rule for the lhs equal to `exclude`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49af59548ecfd26b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rules"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce(self, word, exclude=None):
         '''
         Apply reduction rules to `word` excluding the reduction rule
@@ -437,16 +504,22 @@ class RewritingSystem:
         return new
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compute_inverse_rules(rul), compute the inverse rules for a given set of rules. the inverse rules are used in the automaton for word reduction) over Any ║
+# ║ Path(_compute_inverse_rules(rules), <unspecified:_compute_inverse_rules>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _compute_inverse_rules : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7938f24cb9a8ad7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem._compute_inverse_rules","kind":"method","src_hash":"93c266882fc1b590","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_inverse_rules(rul)","rhs":"compute the inverse rules for a given set of rules. the inverse rules are used in the automaton for word reduction","over":{"base":"Any"},"name":"_compute_inverse_rules_correct"},"guarantee":"compute the inverse rules for a given set of rules. the inverse rules are used in the automaton for word reduction","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem._compute_inverse_rules_correct","statement":"Path(_compute_inverse_rules(x), compute the inverse rules for a given set of rules. the inverse rules are used in the automaton for word reduction)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7938f24cb9a8ad7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem._compute_inverse_rules","kind":"method","src_hash":"93c266882fc1b590","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compute_inverse_rules(rules)","rhs":"<unspecified:_compute_inverse_rules>","over":{"base":"Any"},"name":"_compute_inverse_rules_correct"},"guarantee":"compute the inverse rules for a given set of rules. the inverse rules are used in the automaton for word reduction","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem._compute_inverse_rules_correct","statement":"Path(_compute_inverse_rules(x), compute the inverse rules for a given set of rules. the inverse rules are used in the automaton for word reduction)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7938f24cb9a8ad7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compute_inverse_rules(self, rules):
         '''
         Compute the inverse rules for a given set of rules.
@@ -470,16 +543,22 @@ class RewritingSystem:
         return inverse_rules
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(construct_automaton(), construct the automaton based on the set of reduction rules of the system) over Any ║
+# ║ Path(construct_automaton(), <unspecified:construct_automaton>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ construct_automaton : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 432b075bdfe83d6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.construct_automaton","kind":"method","src_hash":"6f547cfd71695f82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"construct_automaton()","rhs":"construct the automaton based on the set of reduction rules of the system","over":{"base":"Any"},"name":"construct_automaton_correct"},"guarantee":"construct the automaton based on the set of reduction rules of the system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem.construct_automaton_correct","statement":"Path(construct_automaton(x), construct the automaton based on the set of reduction rules of the system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"432b075bdfe83d6f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.construct_automaton","kind":"method","src_hash":"6f547cfd71695f82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"construct_automaton()","rhs":"<unspecified:construct_automaton>","over":{"base":"Any"},"name":"construct_automaton_correct"},"guarantee":"construct the automaton based on the set of reduction rules of the system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem.construct_automaton_correct","statement":"Path(construct_automaton(x), construct the automaton based on the set of reduction rules of the system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"432b075bdfe83d6f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_to_automaton","self.rules"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def construct_automaton(self):
         '''
         Construct the automaton based on the set of reduction rules of the system.
@@ -492,16 +571,22 @@ class RewritingSystem:
         self._add_to_automaton(self.rules)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_to_automaton(rul), add new states and transitions to the automaton) over Any ║
+# ║ Path(_add_to_automaton(rules), <unspecified:_add_to_automaton>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _add_to_automaton : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2debc9b8fc1fc08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem._add_to_automaton","kind":"method","src_hash":"d120bf6064ef1019","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_to_automaton(rul)","rhs":"add new states and transitions to the automaton","over":{"base":"Any"},"name":"_add_to_automaton_correct"},"guarantee":"add new states and transitions to the automaton","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem._add_to_automaton_correct","statement":"Path(_add_to_automaton(x), add new states and transitions to the automaton)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2debc9b8fc1fc08"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem._add_to_automaton","kind":"method","src_hash":"d120bf6064ef1019","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_to_automaton(rules)","rhs":"<unspecified:_add_to_automaton>","over":{"base":"Any"},"name":"_add_to_automaton_correct"},"guarantee":"add new states and transitions to the automaton","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem._add_to_automaton_correct","statement":"Path(_add_to_automaton(x), add new states and transitions to the automaton)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2debc9b8fc1fc08","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add_to_automaton(self, rules):
         '''
         Add new states and transitions to the automaton.
@@ -590,16 +675,25 @@ class RewritingSystem:
                     self.reduction_automaton.states[state].add_transition(letter, _next)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_using_automaton(wor), reduce a word using an automaton) over Any ║
+# ║ Path(reduce_using_automaton(word), word) over {Any | hasattr(word, 'letter_form_elm') and hasattr(word, 'substituted_word')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reduce_using_automaton : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(word, 'letter_form_elm')               ║
+# ║   requires: hasattr(word, 'substituted_word')              ║
+# ║   ensures:  result == word                                 ║
+# ║   returns:  word                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reduce_using_automaton : {Any | hasattr(word, 'letter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb61865be972b582  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb10d1f939c07a31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.reduce_using_automaton","kind":"method","src_hash":"e0e70985f199b189","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_using_automaton(wor)","rhs":"reduce a word using an automaton","over":{"base":"Any"},"name":"reduce_using_automaton_correct"},"guarantee":"reduce a word using an automaton","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem.reduce_using_automaton_correct","statement":"Path(reduce_using_automaton(x), reduce a word using an automaton)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb61865be972b582"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.rewritingsystem.RewritingSystem.reduce_using_automaton","kind":"method","src_hash":"e0e70985f199b189","in":{"base":"Any","pred":"hasattr(word, 'letter_form_elm') and hasattr(word, 'substituted_word')"},"out":{"base":"Any","pred":"result satisfies: result == (word)"},"spec":{"lhs":"reduce_using_automaton(word)","rhs":"word","over":{"base":"Any","pred":"hasattr(word, 'letter_form_elm') and hasattr(word, 'substituted_word')"},"name":"reduce_using_automaton_correct"},"guarantee":"returns word; result == word","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.rewritingsystem.RewritingSystem.reduce_using_automaton_correct","statement":"Path(reduce_using_automaton(x), returns word; result == word)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb10d1f939c07a31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(word, 'letter_form_elm')","hasattr(word, 'substituted_word')"],"ensures":["result == word"],"returns_expr":"word","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._add_to_automaton","self._new_rules","self.reduction_automaton","word.letter_form_elm","word.substituted_word"],"writes":["self._new_rules"]},"state_contract":{"modifies":["self._new_rules"],"old_bindings":{"old_self__new_rules":"self._new_rules"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce_using_automaton(self, word):
         '''
         Reduce a word using an automaton.

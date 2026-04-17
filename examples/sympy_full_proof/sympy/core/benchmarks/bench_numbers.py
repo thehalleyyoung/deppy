@@ -26,315 +26,441 @@ q45 = Rational(4, 5)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_create(), timeit_Integer_create produces the expected output) over Any ║
+# ║ Path(timeit_Integer_create(), <unspecified:timeit_Integer_create>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_create : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b6fd34e62aa1ee5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_create","kind":"function","src_hash":"8653628ba25c87cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_create()","rhs":"timeit_Integer_create produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_create_correct"},"guarantee":"timeit_Integer_create produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_create_correct","statement":"Path(timeit_Integer_create(x), timeit_Integer_create produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b6fd34e62aa1ee5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_create","kind":"function","src_hash":"8653628ba25c87cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_create()","rhs":"<unspecified:timeit_Integer_create>","over":{"base":"Any"},"name":"timeit_Integer_create_correct"},"guarantee":"timeit_Integer_create produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_create_correct","statement":"Path(timeit_Integer_create(x), timeit_Integer_create produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b6fd34e62aa1ee5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_create():
     Integer(2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_int(), timeit_Integer_int produces the expected output) over Any ║
+# ║ Path(timeit_Integer_int(), <unspecified:timeit_Integer_int>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_int : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20d14ed404a39d50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_int","kind":"function","src_hash":"830b32e3d990461b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_int()","rhs":"timeit_Integer_int produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_int_correct"},"guarantee":"timeit_Integer_int produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_int_correct","statement":"Path(timeit_Integer_int(x), timeit_Integer_int produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20d14ed404a39d50"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_int","kind":"function","src_hash":"830b32e3d990461b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_int()","rhs":"<unspecified:timeit_Integer_int>","over":{"base":"Any"},"name":"timeit_Integer_int_correct"},"guarantee":"timeit_Integer_int produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_int_correct","statement":"Path(timeit_Integer_int(x), timeit_Integer_int produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20d14ed404a39d50","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_int():
     int(i3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_neg_one(), timeit_neg_one produces the expected output) over Any ║
+# ║ Path(timeit_neg_one(), <unspecified:timeit_neg_one>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_neg_one : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5135903a1d6c03b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_neg_one","kind":"function","src_hash":"1c139820b2620d84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_neg_one()","rhs":"timeit_neg_one produces the expected output","over":{"base":"Any"},"name":"timeit_neg_one_correct"},"guarantee":"timeit_neg_one produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_neg_one_correct","statement":"Path(timeit_neg_one(x), timeit_neg_one produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5135903a1d6c03b4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_neg_one","kind":"function","src_hash":"1c139820b2620d84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_neg_one()","rhs":"<unspecified:timeit_neg_one>","over":{"base":"Any"},"name":"timeit_neg_one_correct"},"guarantee":"timeit_neg_one produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_neg_one_correct","statement":"Path(timeit_neg_one(x), timeit_neg_one produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5135903a1d6c03b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_neg_one():
     -S.One
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_neg(), timeit_Integer_neg produces the expected output) over Any ║
+# ║ Path(timeit_Integer_neg(), <unspecified:timeit_Integer_neg>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_neg : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c83378a579682b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_neg","kind":"function","src_hash":"97b4ef28c77fe8d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_neg()","rhs":"timeit_Integer_neg produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_neg_correct"},"guarantee":"timeit_Integer_neg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_neg_correct","statement":"Path(timeit_Integer_neg(x), timeit_Integer_neg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c83378a579682b2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_neg","kind":"function","src_hash":"97b4ef28c77fe8d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_neg()","rhs":"<unspecified:timeit_Integer_neg>","over":{"base":"Any"},"name":"timeit_Integer_neg_correct"},"guarantee":"timeit_Integer_neg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_neg_correct","statement":"Path(timeit_Integer_neg(x), timeit_Integer_neg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c83378a579682b2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_neg():
     -i3
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_abs(), timeit_Integer_abs produces the expected output) over Any ║
+# ║ Path(timeit_Integer_abs(), <unspecified:timeit_Integer_abs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_abs : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50f6a68980ec15d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_abs","kind":"function","src_hash":"72f5898df1ff7c9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_abs()","rhs":"timeit_Integer_abs produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_abs_correct"},"guarantee":"timeit_Integer_abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_abs_correct","statement":"Path(timeit_Integer_abs(x), timeit_Integer_abs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50f6a68980ec15d7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_abs","kind":"function","src_hash":"72f5898df1ff7c9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_abs()","rhs":"<unspecified:timeit_Integer_abs>","over":{"base":"Any"},"name":"timeit_Integer_abs_correct"},"guarantee":"timeit_Integer_abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_abs_correct","statement":"Path(timeit_Integer_abs(x), timeit_Integer_abs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50f6a68980ec15d7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_abs():
     abs(i3)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_sub(), timeit_Integer_sub produces the expected output) over Any ║
+# ║ Path(timeit_Integer_sub(), <unspecified:timeit_Integer_sub>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_sub : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e532212eb6b99ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_sub","kind":"function","src_hash":"981ab8539fd324f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_sub()","rhs":"timeit_Integer_sub produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_sub_correct"},"guarantee":"timeit_Integer_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_sub_correct","statement":"Path(timeit_Integer_sub(x), timeit_Integer_sub produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e532212eb6b99ef"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_sub","kind":"function","src_hash":"981ab8539fd324f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_sub()","rhs":"<unspecified:timeit_Integer_sub>","over":{"base":"Any"},"name":"timeit_Integer_sub_correct"},"guarantee":"timeit_Integer_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_sub_correct","statement":"Path(timeit_Integer_sub(x), timeit_Integer_sub produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e532212eb6b99ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_sub():
     i3 - i3
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_abs_pi(), timeit_abs_pi produces the expected output) over Any ║
+# ║ Path(timeit_abs_pi(), <unspecified:timeit_abs_pi>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_abs_pi : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 996307de985e8776  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_abs_pi","kind":"function","src_hash":"66d0a4cf3ca2d77f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_abs_pi()","rhs":"timeit_abs_pi produces the expected output","over":{"base":"Any"},"name":"timeit_abs_pi_correct"},"guarantee":"timeit_abs_pi produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_abs_pi_correct","statement":"Path(timeit_abs_pi(x), timeit_abs_pi produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"996307de985e8776"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_abs_pi","kind":"function","src_hash":"66d0a4cf3ca2d77f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_abs_pi()","rhs":"<unspecified:timeit_abs_pi>","over":{"base":"Any"},"name":"timeit_abs_pi_correct"},"guarantee":"timeit_abs_pi produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_abs_pi_correct","statement":"Path(timeit_abs_pi(x), timeit_abs_pi produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"996307de985e8776","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_abs_pi():
     abs(pi)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_neg_oo(), timeit_neg_oo produces the expected output) over Any ║
+# ║ Path(timeit_neg_oo(), <unspecified:timeit_neg_oo>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_neg_oo : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09115741705db27e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_neg_oo","kind":"function","src_hash":"9c777dfa2c89709f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_neg_oo()","rhs":"timeit_neg_oo produces the expected output","over":{"base":"Any"},"name":"timeit_neg_oo_correct"},"guarantee":"timeit_neg_oo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_neg_oo_correct","statement":"Path(timeit_neg_oo(x), timeit_neg_oo produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09115741705db27e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_neg_oo","kind":"function","src_hash":"9c777dfa2c89709f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_neg_oo()","rhs":"<unspecified:timeit_neg_oo>","over":{"base":"Any"},"name":"timeit_neg_oo_correct"},"guarantee":"timeit_neg_oo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_neg_oo_correct","statement":"Path(timeit_neg_oo(x), timeit_neg_oo produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09115741705db27e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_neg_oo():
     -oo
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_add_i1(), timeit_Integer_add_i1 produces the expected output) over Any ║
+# ║ Path(timeit_Integer_add_i1(), <unspecified:timeit_Integer_add_i1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_add_i1 : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9632b4a465cefe78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_add_i1","kind":"function","src_hash":"ce458f86b2f98fae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_add_i1()","rhs":"timeit_Integer_add_i1 produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_add_i1_correct"},"guarantee":"timeit_Integer_add_i1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_add_i1_correct","statement":"Path(timeit_Integer_add_i1(x), timeit_Integer_add_i1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9632b4a465cefe78"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_add_i1","kind":"function","src_hash":"ce458f86b2f98fae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_add_i1()","rhs":"<unspecified:timeit_Integer_add_i1>","over":{"base":"Any"},"name":"timeit_Integer_add_i1_correct"},"guarantee":"timeit_Integer_add_i1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_add_i1_correct","statement":"Path(timeit_Integer_add_i1(x), timeit_Integer_add_i1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9632b4a465cefe78","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_add_i1():
     i3 + 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_add_ij(), timeit_Integer_add_ij produces the expected output) over Any ║
+# ║ Path(timeit_Integer_add_ij(), <unspecified:timeit_Integer_add_ij>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_add_ij : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09c7d8bbdf6ed094  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_add_ij","kind":"function","src_hash":"f22e2c1d0949a615","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_add_ij()","rhs":"timeit_Integer_add_ij produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_add_ij_correct"},"guarantee":"timeit_Integer_add_ij produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_add_ij_correct","statement":"Path(timeit_Integer_add_ij(x), timeit_Integer_add_ij produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09c7d8bbdf6ed094"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_add_ij","kind":"function","src_hash":"f22e2c1d0949a615","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_add_ij()","rhs":"<unspecified:timeit_Integer_add_ij>","over":{"base":"Any"},"name":"timeit_Integer_add_ij_correct"},"guarantee":"timeit_Integer_add_ij produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_add_ij_correct","statement":"Path(timeit_Integer_add_ij(x), timeit_Integer_add_ij produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09c7d8bbdf6ed094","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_add_ij():
     i3 + i4
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_add_Rational(), timeit_Integer_add_Rational produces the expected output) over Any ║
+# ║ Path(timeit_Integer_add_Rational(), <unspecified:timeit_Integer_add_Rational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_add_Rational : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11b0a8afc1f4faf7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_add_Rational","kind":"function","src_hash":"621ceb3498b7c43a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_add_Rational()","rhs":"timeit_Integer_add_Rational produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_add_Rational_correct"},"guarantee":"timeit_Integer_add_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_add_Rational_correct","statement":"Path(timeit_Integer_add_Rational(x), timeit_Integer_add_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11b0a8afc1f4faf7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_add_Rational","kind":"function","src_hash":"621ceb3498b7c43a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_add_Rational()","rhs":"<unspecified:timeit_Integer_add_Rational>","over":{"base":"Any"},"name":"timeit_Integer_add_Rational_correct"},"guarantee":"timeit_Integer_add_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_add_Rational_correct","statement":"Path(timeit_Integer_add_Rational(x), timeit_Integer_add_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11b0a8afc1f4faf7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_add_Rational():
     i3 + r34
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_mul_i4(), timeit_Integer_mul_i4 produces the expected output) over Any ║
+# ║ Path(timeit_Integer_mul_i4(), <unspecified:timeit_Integer_mul_i4>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_mul_i4 : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7195a845b7e6a0e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_mul_i4","kind":"function","src_hash":"d1b5549664301e23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_mul_i4()","rhs":"timeit_Integer_mul_i4 produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_mul_i4_correct"},"guarantee":"timeit_Integer_mul_i4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_mul_i4_correct","statement":"Path(timeit_Integer_mul_i4(x), timeit_Integer_mul_i4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7195a845b7e6a0e5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_mul_i4","kind":"function","src_hash":"d1b5549664301e23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_mul_i4()","rhs":"<unspecified:timeit_Integer_mul_i4>","over":{"base":"Any"},"name":"timeit_Integer_mul_i4_correct"},"guarantee":"timeit_Integer_mul_i4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_mul_i4_correct","statement":"Path(timeit_Integer_mul_i4(x), timeit_Integer_mul_i4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7195a845b7e6a0e5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_mul_i4():
     i3*4
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_mul_ij(), timeit_Integer_mul_ij produces the expected output) over Any ║
+# ║ Path(timeit_Integer_mul_ij(), <unspecified:timeit_Integer_mul_ij>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_mul_ij : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c13a8f742ce6643  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_mul_ij","kind":"function","src_hash":"1be3d945b82f111a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_mul_ij()","rhs":"timeit_Integer_mul_ij produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_mul_ij_correct"},"guarantee":"timeit_Integer_mul_ij produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_mul_ij_correct","statement":"Path(timeit_Integer_mul_ij(x), timeit_Integer_mul_ij produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c13a8f742ce6643"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_mul_ij","kind":"function","src_hash":"1be3d945b82f111a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_mul_ij()","rhs":"<unspecified:timeit_Integer_mul_ij>","over":{"base":"Any"},"name":"timeit_Integer_mul_ij_correct"},"guarantee":"timeit_Integer_mul_ij produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_mul_ij_correct","statement":"Path(timeit_Integer_mul_ij(x), timeit_Integer_mul_ij produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c13a8f742ce6643","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_mul_ij():
     i3*i4
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_mul_Rational(), timeit_Integer_mul_Rational produces the expected output) over Any ║
+# ║ Path(timeit_Integer_mul_Rational(), <unspecified:timeit_Integer_mul_Rational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_mul_Rational : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdfb104e1ac03979  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_mul_Rational","kind":"function","src_hash":"64e59a71d67a4a14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_mul_Rational()","rhs":"timeit_Integer_mul_Rational produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_mul_Rational_correct"},"guarantee":"timeit_Integer_mul_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_mul_Rational_correct","statement":"Path(timeit_Integer_mul_Rational(x), timeit_Integer_mul_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdfb104e1ac03979"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_mul_Rational","kind":"function","src_hash":"64e59a71d67a4a14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_mul_Rational()","rhs":"<unspecified:timeit_Integer_mul_Rational>","over":{"base":"Any"},"name":"timeit_Integer_mul_Rational_correct"},"guarantee":"timeit_Integer_mul_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_mul_Rational_correct","statement":"Path(timeit_Integer_mul_Rational(x), timeit_Integer_mul_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdfb104e1ac03979","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_mul_Rational():
     i3*r34
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_eq_i3(), timeit_Integer_eq_i3 produces the expected output) over Any ║
+# ║ Path(timeit_Integer_eq_i3(), <unspecified:timeit_Integer_eq_i3>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_eq_i3 : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd8790ac53977eee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_eq_i3","kind":"function","src_hash":"8b7d2179334de20d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_eq_i3()","rhs":"timeit_Integer_eq_i3 produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_eq_i3_correct"},"guarantee":"timeit_Integer_eq_i3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_eq_i3_correct","statement":"Path(timeit_Integer_eq_i3(x), timeit_Integer_eq_i3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd8790ac53977eee"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_eq_i3","kind":"function","src_hash":"8b7d2179334de20d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_eq_i3()","rhs":"<unspecified:timeit_Integer_eq_i3>","over":{"base":"Any"},"name":"timeit_Integer_eq_i3_correct"},"guarantee":"timeit_Integer_eq_i3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_eq_i3_correct","statement":"Path(timeit_Integer_eq_i3(x), timeit_Integer_eq_i3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd8790ac53977eee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_eq_i3():
     i3 == 3
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Integer_ed_Rational(), timeit_Integer_ed_Rational produces the expected output) over Any ║
+# ║ Path(timeit_Integer_ed_Rational(), <unspecified:timeit_Integer_ed_Rational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Integer_ed_Rational : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcc3a6d9405b20a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_ed_Rational","kind":"function","src_hash":"9897911584752c9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_ed_Rational()","rhs":"timeit_Integer_ed_Rational produces the expected output","over":{"base":"Any"},"name":"timeit_Integer_ed_Rational_correct"},"guarantee":"timeit_Integer_ed_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_ed_Rational_correct","statement":"Path(timeit_Integer_ed_Rational(x), timeit_Integer_ed_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcc3a6d9405b20a6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Integer_ed_Rational","kind":"function","src_hash":"9897911584752c9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Integer_ed_Rational()","rhs":"<unspecified:timeit_Integer_ed_Rational>","over":{"base":"Any"},"name":"timeit_Integer_ed_Rational_correct"},"guarantee":"timeit_Integer_ed_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Integer_ed_Rational_correct","statement":"Path(timeit_Integer_ed_Rational(x), timeit_Integer_ed_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcc3a6d9405b20a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Integer_ed_Rational():
     i3 == r34
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_integer_nthroot(), timeit_integer_nthroot produces the expected output) over Any ║
+# ║ Path(timeit_integer_nthroot(), <unspecified:timeit_integer_nthroot>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_integer_nthroot : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eeacf9824c0e6af6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_integer_nthroot","kind":"function","src_hash":"3aa002816b7d5c10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_integer_nthroot()","rhs":"timeit_integer_nthroot produces the expected output","over":{"base":"Any"},"name":"timeit_integer_nthroot_correct"},"guarantee":"timeit_integer_nthroot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_integer_nthroot_correct","statement":"Path(timeit_integer_nthroot(x), timeit_integer_nthroot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eeacf9824c0e6af6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_integer_nthroot","kind":"function","src_hash":"3aa002816b7d5c10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_integer_nthroot()","rhs":"<unspecified:timeit_integer_nthroot>","over":{"base":"Any"},"name":"timeit_integer_nthroot_correct"},"guarantee":"timeit_integer_nthroot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_integer_nthroot_correct","statement":"Path(timeit_integer_nthroot(x), timeit_integer_nthroot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eeacf9824c0e6af6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_integer_nthroot():
     integer_nthroot(100, 2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_number_igcd_23_17(), timeit_number_igcd_23_17 produces the expected output) over Any ║
+# ║ Path(timeit_number_igcd_23_17(), <unspecified:timeit_number_igcd_23_17>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_number_igcd_23_17 : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32aebd68403dcc2f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_number_igcd_23_17","kind":"function","src_hash":"35619d1b8aa0bbda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_number_igcd_23_17()","rhs":"timeit_number_igcd_23_17 produces the expected output","over":{"base":"Any"},"name":"timeit_number_igcd_23_17_correct"},"guarantee":"timeit_number_igcd_23_17 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_number_igcd_23_17_correct","statement":"Path(timeit_number_igcd_23_17(x), timeit_number_igcd_23_17 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32aebd68403dcc2f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_number_igcd_23_17","kind":"function","src_hash":"35619d1b8aa0bbda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_number_igcd_23_17()","rhs":"<unspecified:timeit_number_igcd_23_17>","over":{"base":"Any"},"name":"timeit_number_igcd_23_17_correct"},"guarantee":"timeit_number_igcd_23_17 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_number_igcd_23_17_correct","statement":"Path(timeit_number_igcd_23_17(x), timeit_number_igcd_23_17 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32aebd68403dcc2f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_number_igcd_23_17():
     igcd(23, 17)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_number_igcd_60_3600(), timeit_number_igcd_60_3600 produces the expected output) over Any ║
+# ║ Path(timeit_number_igcd_60_3600(), <unspecified:timeit_number_igcd_60_3600>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_number_igcd_60_3600 : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3055fa4ce0085531  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_number_igcd_60_3600","kind":"function","src_hash":"f28985f66d43337e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_number_igcd_60_3600()","rhs":"timeit_number_igcd_60_3600 produces the expected output","over":{"base":"Any"},"name":"timeit_number_igcd_60_3600_correct"},"guarantee":"timeit_number_igcd_60_3600 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_number_igcd_60_3600_correct","statement":"Path(timeit_number_igcd_60_3600(x), timeit_number_igcd_60_3600 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3055fa4ce0085531"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_number_igcd_60_3600","kind":"function","src_hash":"f28985f66d43337e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_number_igcd_60_3600()","rhs":"<unspecified:timeit_number_igcd_60_3600>","over":{"base":"Any"},"name":"timeit_number_igcd_60_3600_correct"},"guarantee":"timeit_number_igcd_60_3600 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_number_igcd_60_3600_correct","statement":"Path(timeit_number_igcd_60_3600(x), timeit_number_igcd_60_3600 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3055fa4ce0085531","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_number_igcd_60_3600():
     igcd(60, 3600)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Rational_add_r1(), timeit_Rational_add_r1 produces the expected output) over Any ║
+# ║ Path(timeit_Rational_add_r1(), <unspecified:timeit_Rational_add_r1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Rational_add_r1 : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8acd533961785908  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Rational_add_r1","kind":"function","src_hash":"e1555c3a5dac80d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Rational_add_r1()","rhs":"timeit_Rational_add_r1 produces the expected output","over":{"base":"Any"},"name":"timeit_Rational_add_r1_correct"},"guarantee":"timeit_Rational_add_r1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Rational_add_r1_correct","statement":"Path(timeit_Rational_add_r1(x), timeit_Rational_add_r1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8acd533961785908"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Rational_add_r1","kind":"function","src_hash":"e1555c3a5dac80d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Rational_add_r1()","rhs":"<unspecified:timeit_Rational_add_r1>","over":{"base":"Any"},"name":"timeit_Rational_add_r1_correct"},"guarantee":"timeit_Rational_add_r1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Rational_add_r1_correct","statement":"Path(timeit_Rational_add_r1(x), timeit_Rational_add_r1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8acd533961785908","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Rational_add_r1():
     r34 + 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_Rational_add_rq(), timeit_Rational_add_rq produces the expected output) over Any ║
+# ║ Path(timeit_Rational_add_rq(), <unspecified:timeit_Rational_add_rq>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_Rational_add_rq : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86be1085e52b4b10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Rational_add_rq","kind":"function","src_hash":"fd8d388df625d2a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Rational_add_rq()","rhs":"timeit_Rational_add_rq produces the expected output","over":{"base":"Any"},"name":"timeit_Rational_add_rq_correct"},"guarantee":"timeit_Rational_add_rq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Rational_add_rq_correct","statement":"Path(timeit_Rational_add_rq(x), timeit_Rational_add_rq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86be1085e52b4b10"}
+# @cctt_verify {"v":2,"sym":"sympy.core.benchmarks.bench_numbers.timeit_Rational_add_rq","kind":"function","src_hash":"fd8d388df625d2a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_Rational_add_rq()","rhs":"<unspecified:timeit_Rational_add_rq>","over":{"base":"Any"},"name":"timeit_Rational_add_rq_correct"},"guarantee":"timeit_Rational_add_rq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.benchmarks.bench_numbers.timeit_Rational_add_rq_correct","statement":"Path(timeit_Rational_add_rq(x), timeit_Rational_add_rq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86be1085e52b4b10","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_Rational_add_rq():
     r34 + q45

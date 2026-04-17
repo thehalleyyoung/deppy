@@ -30,7 +30,12 @@ C = MatrixSymbol('C', n, n)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_transpose(), test_transpose produces the expected output) over {Any | isinstance(Transpose(Transpose(A)), Transpose)} ║
+# ║ Path(test_transpose(), transpose(A) == Transpose(A) and Transpose(A).shape == (m, n) and Transpose(A * B).shape == (l, n) and transpose(Transpose(A)) == A and isinstance(Transpose(Transpose(A)), Transpose) and adjoint(Transpose(A)) == Adjoint(Transpose(A)) and conjugate(Transpose(A)) == Adjoint(A) and Transpose(eye(3)).doit() == eye(3) and Transpose(S(5)).doit() == S(5) and Transpose(Matrix([[1, 2], [3, 4]])).doit() == Matrix([[1, 3], [2, 4]]) and transpose(trace(Sq)) == trace(Sq) and trace(Transpose(Sq)) == trace(Sq) and Transpose(Sq)[0, 1] == Sq[1, 0] and Transpose(A * B).doit() == Transpose(B) * Transpose(A)) over {Any | isinstance(Transpose(Transpose(A)), Transpose)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  transpose(A) == Transpose(A)                   ║
+# ║   ensures:  Transpose(A).shape == (m, n)                   ║
+# ║   ensures:  Transpose(A * B).shape == (l, n)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_transpose : {Any | isinstance(Transpose(Transpos...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -42,9 +47,12 @@ C = MatrixSymbol('C', n, n)
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9c5607a1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_transpose.test_transpose","kind":"function","src_hash":"a9775aa8246c13f2","in":{"base":"Any","pred":"isinstance(Transpose(Transpose(A)), Transpose)"},"out":{"base":"Any","pred":"transpose(A) == Transpose(A) and Transpose(A).shape == (m, n) and Transpose(A * B).shape == (l, n) and transpose(Transpose(A)) == A and isinstance(Transpose(Transpose(A)), Transpose) and adjoint(Transpose(A)) == Adjoint(Transpose(A)) and conjugate(Transpose(A)) == Adjoint(A) and Transpose(eye(3)).doit() == eye(3) and Transpose(S(5)).doit() == S(5) and Transpose(Matrix([[1, 2], [3, 4]])).doit() == Matrix([[1, 3], [2, 4]]) and transpose(trace(Sq)) == trace(Sq) and trace(Transpose(Sq)) == trace(Sq) and Transpose(Sq)[0, 1] == Sq[1, 0] and Transpose(A * B).doit() == Transpose(B) * Transpose(A)"},"spec":{"lhs":"test_transpose()","rhs":"test_transpose produces the expected output","over":{"base":"Any","pred":"isinstance(Transpose(Transpose(A)), Transpose)"},"name":"test_transpose_correct"},"guarantee":"test_transpose produces the expected output","fibers":[{"name":"Transpose","pred":"isinstance(Transpose(Transpose(A)), Transpose)","path":{"lhs":"test_transpose(x)","rhs":"test_transpose produces the expected output","over":{"base":"Transpose","pred":"isinstance(Transpose(Transpose(A)), Transpose)"},"name":"test_transpose_Transpose_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_transpose.test_transpose_Transpose_correct","statement":"test_transpose satisfies spec on Transpose inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9c5607a1904ed798"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_transpose.test_transpose","kind":"function","src_hash":"a9775aa8246c13f2","in":{"base":"Any","pred":"isinstance(Transpose(Transpose(A)), Transpose)"},"out":{"base":"Any","pred":"result satisfies: transpose(A) == Transpose(A) and Transpose(A).shape == (m, n) and Transpose(A * B).shape == (l, n) and transpose(Transpose(A)) == A and isinstance(Transpose(Transpose(A)), Transpose) and adjoint(Transpose(A)) == Adjoint(Transpose(A)) and conjugate(Transpose(A)) == Adjoint(A) and Transpose(eye(3)).doit() == eye(3) and Transpose(S(5)).doit() == S(5) and Transpose(Matrix([[1, 2], [3, 4]])).doit() == Matrix([[1, 3], [2, 4]]) and transpose(trace(Sq)) == trace(Sq) and trace(Transpose(Sq)) == trace(Sq) and Transpose(Sq)[0, 1] == Sq[1, 0] and Transpose(A * B).doit() == Transpose(B) * Transpose(A)"},"spec":{"lhs":"test_transpose()","rhs":"transpose(A) == Transpose(A) and Transpose(A).shape == (m, n) and Transpose(A * B).shape == (l, n) and transpose(Transpose(A)) == A and isinstance(Transpose(Transpose(A)), Transpose) and adjoint(Transpose(A)) == Adjoint(Transpose(A)) and conjugate(Transpose(A)) == Adjoint(A) and Transpose(eye(3)).doit() == eye(3) and Transpose(S(5)).doit() == S(5) and Transpose(Matrix([[1, 2], [3, 4]])).doit() == Matrix([[1, 3], [2, 4]]) and transpose(trace(Sq)) == trace(Sq) and trace(Transpose(Sq)) == trace(Sq) and Transpose(Sq)[0, 1] == Sq[1, 0] and Transpose(A * B).doit() == Transpose(B) * Transpose(A)","over":{"base":"Any","pred":"isinstance(Transpose(Transpose(A)), Transpose)"},"name":"test_transpose_correct"},"guarantee":"transpose(A) == Transpose(A); Transpose(A).shape == (m, n); Transpose(A * B).shape == (l, n)","fibers":[{"name":"Transpose","pred":"isinstance(Transpose(Transpose(A)), Transpose)","path":{"lhs":"test_transpose(x)","rhs":"transpose(A) == Transpose(A); Transpose(A).shape == (m, n); Transpose(A * B).shape == (l, n)","over":{"base":"Transpose","pred":"isinstance(Transpose(Transpose(A)), Transpose)"},"name":"test_transpose_Transpose_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_transpose.test_transpose_Transpose_correct","statement":"test_transpose satisfies spec on Transpose inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9c5607a1904ed798","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["transpose(A) == Transpose(A)","Transpose(A).shape == (m, n)","Transpose(A * B).shape == (l, n)","transpose(Transpose(A)) == A","isinstance(Transpose(Transpose(A)), Transpose)","adjoint(Transpose(A)) == Adjoint(Transpose(A))","conjugate(Transpose(A)) == Adjoint(A)","Transpose(eye(3)).doit() == eye(3)","Transpose(S(5)).doit() == S(5)","Transpose(Matrix([[1, 2], [3, 4]])).doit() == Matrix([[1, 3], [2, 4]])","transpose(trace(Sq)) == trace(Sq)","trace(Transpose(Sq)) == trace(Sq)","Transpose(Sq)[0, 1] == Sq[1, 0]","Transpose(A * B).doit() == Transpose(B) * Transpose(A)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":true}}
 def test_transpose():
     Sq = MatrixSymbol('Sq', n, n)
 
@@ -72,16 +80,22 @@ def test_transpose():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_transpose_MatAdd_MatMul(), test_transpose_MatAdd_MatMul produces the expected output) over Any ║
+# ║ Path(test_transpose_MatAdd_MatMul(), (N + cos(x) * M).T == cos(x) * M.T + N.T) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_transpose_MatAdd_MatMul : Any → {Any | (N + cos(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (N + cos(x) * M).T == cos(x) * M.T + N.T       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_transpose_MatAdd_MatMul : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dd329c421d35db8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b401cb1bdda53c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_transpose.test_transpose_MatAdd_MatMul","kind":"function","src_hash":"4d7ccba994aafc76","in":{"base":"Any"},"out":{"base":"Any","pred":"(N + cos(x) * M).T == cos(x) * M.T + N.T"},"spec":{"lhs":"test_transpose_MatAdd_MatMul()","rhs":"test_transpose_MatAdd_MatMul produces the expected output","over":{"base":"Any"},"name":"test_transpose_MatAdd_MatMul_correct"},"guarantee":"test_transpose_MatAdd_MatMul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_transpose.test_transpose_MatAdd_MatMul_correct","statement":"Path(test_transpose_MatAdd_MatMul(x), test_transpose_MatAdd_MatMul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dd329c421d35db8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_transpose.test_transpose_MatAdd_MatMul","kind":"function","src_hash":"4d7ccba994aafc76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (N + cos(x) * M).T == cos(x) * M.T + N.T"},"spec":{"lhs":"test_transpose_MatAdd_MatMul()","rhs":"(N + cos(x) * M).T == cos(x) * M.T + N.T","over":{"base":"Any"},"name":"test_transpose_MatAdd_MatMul_correct"},"guarantee":"(N + cos(x) * M).T == cos(x) * M.T + N.T","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_transpose.test_transpose_MatAdd_MatMul_correct","statement":"Path(test_transpose_MatAdd_MatMul(x), (N + cos(x) * M).T == cos(x) * M.T + N.T)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b401cb1bdda53c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(N + cos(x) * M).T == cos(x) * M.T + N.T"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_transpose_MatAdd_MatMul():
     # Issue 16807
     from sympy.functions.elementary.trigonometric import cos
@@ -94,47 +108,66 @@ def test_transpose_MatAdd_MatMul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_refine(), test_refine produces the expected output) over Any ║
+# ║ Path(test_refine(), refine(C.T, Q.symmetric(C)) == C) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_refine : Any → {Any | refine(C.T, Q.symmetric(C)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  refine(C.T, Q.symmetric(C)) == C               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_refine : Any → {Any | result satisfies: refine(C...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 024eedbee4eafa9c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3f912ec1e3f9551  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_transpose.test_refine","kind":"function","src_hash":"f062f0f3da3624a1","in":{"base":"Any"},"out":{"base":"Any","pred":"refine(C.T, Q.symmetric(C)) == C"},"spec":{"lhs":"test_refine()","rhs":"test_refine produces the expected output","over":{"base":"Any"},"name":"test_refine_correct"},"guarantee":"test_refine produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_transpose.test_refine_correct","statement":"Path(test_refine(x), test_refine produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"024eedbee4eafa9c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_transpose.test_refine","kind":"function","src_hash":"f062f0f3da3624a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: refine(C.T, Q.symmetric(C)) == C"},"spec":{"lhs":"test_refine()","rhs":"refine(C.T, Q.symmetric(C)) == C","over":{"base":"Any"},"name":"test_refine_correct"},"guarantee":"refine(C.T, Q.symmetric(C)) == C","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_transpose.test_refine_correct","statement":"Path(test_refine(x), refine(C.T, Q.symmetric(C)) == C)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3f912ec1e3f9551","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["refine(C.T, Q.symmetric(C)) == C"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_refine():
     assert refine(C.T, Q.symmetric(C)) == C
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_transpose1x1(), test_transpose1x1 produces the expected output) over Any ║
+# ║ Path(test_transpose1x1(), m == refine(m.T) and m == refine(m.T.T)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_transpose1x1 : Any → {Any | m == refine(m.T) and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  m == refine(m.T)                               ║
+# ║   ensures:  m == refine(m.T.T)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_transpose1x1 : Any → {Any | result satisfies: m ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cc2a523ce0ee689  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb798af1d33d3573  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_transpose.test_transpose1x1","kind":"function","src_hash":"61a5d2899a95ac7e","in":{"base":"Any"},"out":{"base":"Any","pred":"m == refine(m.T) and m == refine(m.T.T)"},"spec":{"lhs":"test_transpose1x1()","rhs":"test_transpose1x1 produces the expected output","over":{"base":"Any"},"name":"test_transpose1x1_correct"},"guarantee":"test_transpose1x1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_transpose.test_transpose1x1_correct","statement":"Path(test_transpose1x1(x), test_transpose1x1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cc2a523ce0ee689"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_transpose.test_transpose1x1","kind":"function","src_hash":"61a5d2899a95ac7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: m == refine(m.T) and m == refine(m.T.T)"},"spec":{"lhs":"test_transpose1x1()","rhs":"m == refine(m.T) and m == refine(m.T.T)","over":{"base":"Any"},"name":"test_transpose1x1_correct"},"guarantee":"m == refine(m.T); m == refine(m.T.T)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_transpose.test_transpose1x1_correct","statement":"Path(test_transpose1x1(x), m == refine(m.T); m == refine(m.T.T))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb798af1d33d3573","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["m == refine(m.T)","m == refine(m.T.T)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_transpose1x1():
     m = MatrixSymbol('m', 1, 1)
     assert m == refine(m.T)
     assert m == refine(m.T.T)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9817(), test_issue_9817 produces the expected output) over Any ║
+# ║ Path(test_issue_9817(), subbed.as_explicit() == Matrix([[14]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9817 : Any → {Any | subbed.as_explicit() =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  subbed.as_explicit() == Matrix([[14]])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9817 : Any → {Any | result satisfies: subb...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bcac2d234b6c9c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7caea88e0e531251  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_transpose.test_issue_9817","kind":"function","src_hash":"16b7bd20e9c5bed1","in":{"base":"Any"},"out":{"base":"Any","pred":"subbed.as_explicit() == Matrix([[14]])"},"spec":{"lhs":"test_issue_9817()","rhs":"test_issue_9817 produces the expected output","over":{"base":"Any"},"name":"test_issue_9817_correct"},"guarantee":"test_issue_9817 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_transpose.test_issue_9817_correct","statement":"Path(test_issue_9817(x), test_issue_9817 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bcac2d234b6c9c6"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_transpose.test_issue_9817","kind":"function","src_hash":"16b7bd20e9c5bed1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: subbed.as_explicit() == Matrix([[14]])"},"spec":{"lhs":"test_issue_9817()","rhs":"subbed.as_explicit() == Matrix([[14]])","over":{"base":"Any"},"name":"test_issue_9817_correct"},"guarantee":"subbed.as_explicit() == Matrix([[14]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_transpose.test_issue_9817_correct","statement":"Path(test_issue_9817(x), subbed.as_explicit() == Matrix([[14]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7caea88e0e531251","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["subbed.as_explicit() == Matrix([[14]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9817():
     from sympy.matrices.expressions import Identity
     v = MatrixSymbol('v', 3, 1)

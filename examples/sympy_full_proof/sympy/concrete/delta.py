@@ -37,16 +37,24 @@ from sympy.solvers.solvers import solve
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_expand_delta(exp), expand the first add containing a simple kroneckerdelta) over Any ║
+# ║ Path(_expand_delta(expr, index), <unspecified:_expand_delta>) over {Any | hasattr(expr, 'args') and hasattr(expr, 'is_Mul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _expand_delta : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _expand_delta : {Any | hasattr(expr, 'args') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b15f63171e8c92ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.delta._expand_delta","kind":"function","src_hash":"17f8924cc28bf439","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand_delta(exp)","rhs":"expand the first add containing a simple kroneckerdelta","over":{"base":"Any"},"name":"_expand_delta_correct"},"guarantee":"expand the first add containing a simple kroneckerdelta","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta._expand_delta_correct","statement":"Path(_expand_delta(x), expand the first add containing a simple kroneckerdelta)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b15f63171e8c92ef"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.delta._expand_delta","kind":"function","src_hash":"17f8924cc28bf439","in":{"base":"Any","pred":"hasattr(expr, 'args') and hasattr(expr, 'is_Mul')"},"out":{"base":"Any"},"spec":{"lhs":"_expand_delta(expr, index)","rhs":"<unspecified:_expand_delta>","over":{"base":"Any","pred":"hasattr(expr, 'args') and hasattr(expr, 'is_Mul')"},"name":"_expand_delta_correct"},"guarantee":"expand the first add containing a simple kroneckerdelta","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta._expand_delta_correct","statement":"Path(_expand_delta(x), expand the first add containing a simple kroneckerdelta)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b15f63171e8c92ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')","hasattr(expr, 'is_Mul')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_Mul"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _expand_delta(expr, index):
     """
     Expand the first Add containing a simple KroneckerDelta.
@@ -68,7 +76,13 @@ def _expand_delta(expr, index):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_extract_delta(exp), extract a simple kroneckerdelta from the expression) over {Any | isinstance(expr, KroneckerDelta)} ║
+# ║ Path(_extract_delta(expr, index), len(terms) == old_len_terms + 1) over {Any | isinstance(expr, KroneckerDelta) and expr.is_Mul and hasattr(expr, 'args') and hasattr(expr, 'is_Mul') and hasattr(expr, 'func')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: expr.is_Mul                                    ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   ensures:  len(terms) == old_len_terms + 1                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _extract_delta : {Any | isinstance(expr, KroneckerDel...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -80,9 +94,12 @@ def _expand_delta(expr, index):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bec8f85f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.delta._extract_delta","kind":"function","src_hash":"392a7924bc82f363","in":{"base":"Any","pred":"isinstance(expr, KroneckerDelta)"},"out":{"base":"Any"},"spec":{"lhs":"_extract_delta(exp)","rhs":"extract a simple kroneckerdelta from the expression","over":{"base":"Any","pred":"isinstance(expr, KroneckerDelta)"},"name":"_extract_delta_correct"},"guarantee":"extract a simple kroneckerdelta from the expression","fibers":[{"name":"KroneckerDelta","pred":"isinstance(expr, KroneckerDelta)","path":{"lhs":"_extract_delta(x)","rhs":"extract a simple kroneckerdelta from the expression","over":{"base":"KroneckerDelta","pred":"isinstance(expr, KroneckerDelta)"},"name":"_extract_delta_KroneckerDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta._extract_delta_KroneckerDelta_correct","statement":"_extract_delta satisfies spec on KroneckerDelta inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bec8f85fb5341057"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.delta._extract_delta","kind":"function","src_hash":"392a7924bc82f363","in":{"base":"Any","pred":"isinstance(expr, KroneckerDelta) and expr.is_Mul and hasattr(expr, 'args') and hasattr(expr, 'is_Mul') and hasattr(expr, 'func')"},"out":{"base":"Any","pred":"result satisfies: len(terms) == old_len_terms + 1"},"spec":{"lhs":"_extract_delta(expr, index)","rhs":"len(terms) == old_len_terms + 1","over":{"base":"Any","pred":"isinstance(expr, KroneckerDelta) and expr.is_Mul and hasattr(expr, 'args') and hasattr(expr, 'is_Mul') and hasattr(expr, 'func')"},"name":"_extract_delta_correct"},"guarantee":"len(terms) == old_len_terms + 1","fibers":[{"name":"KroneckerDelta","pred":"isinstance(expr, KroneckerDelta)","path":{"lhs":"_extract_delta(x)","rhs":"len(terms) == old_len_terms + 1","over":{"base":"KroneckerDelta","pred":"isinstance(expr, KroneckerDelta)"},"name":"_extract_delta_KroneckerDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta._extract_delta_KroneckerDelta_correct","statement":"_extract_delta satisfies spec on KroneckerDelta inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bec8f85fb5341057","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["expr.is_Mul","hasattr(expr, 'args')","hasattr(expr, 'is_Mul')","hasattr(expr, 'func')"],"ensures":["len(terms) == old_len_terms + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.func","expr.is_Mul"],"calls_mutating":["terms.append"],"raises":["ValueError"]},"state_contract":{"modifies":["terms.*"],"old_bindings":{"old_len_terms":"len(terms)"},"post_ensures":["len(terms) == old_len_terms + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'delta is None and _is_simple_delta(arg, index)', 'isinstance(expr, KroneckerDelta)'}, fibers={'KroneckerDelta'})"]}}
 def _extract_delta(expr, index):
     """
     Extract a simple KroneckerDelta from the expression.
@@ -135,16 +152,25 @@ def _extract_delta(expr, index):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_has_simple_delta(exp), returns true if ``expr`` is an expression that contains a kroneckerdelta that is simple in the index ``index``, meaning that this kroneckerdelta is nonzero for a single value of the index ``index``) over Any ║
+# ║ Path(_has_simple_delta(expr, index), # HINT: _has_simple_delta may be idempotent: _has_simple_delta(_has_simple_delta(x)) == _has_simple_delta(x)) over {Any | hasattr(expr, 'has') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _has_simple_delta : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   ensures:  # HINT: _has_simple_delta may be idempote...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _has_simple_delta : {Any | hasattr(expr, 'has') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c10c20eaa854cee5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33da16a96dc3e958  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.delta._has_simple_delta","kind":"function","src_hash":"72c3422b43885600","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_has_simple_delta(exp)","rhs":"returns true if ``expr`` is an expression that contains a kroneckerdelta that is simple in the index ``index``, meaning that this kroneckerdelta is nonzero for a single value of the index ``index``","over":{"base":"Any"},"name":"_has_simple_delta_correct"},"guarantee":"returns true if ``expr`` is an expression that contains a kroneckerdelta that is simple in the index ``index``, meaning that this kroneckerdelta is nonzero for a single value of the index ``index``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta._has_simple_delta_correct","statement":"Path(_has_simple_delta(x), returns true if ``expr`` is an expression that contains a kroneckerdelta that is simple in the index ``index``, meaning that this kroneckerdelta is nonzero for a single value of the index ``index``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c10c20eaa854cee5"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.delta._has_simple_delta","kind":"function","src_hash":"72c3422b43885600","in":{"base":"Any","pred":"hasattr(expr, 'has') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _has_simple_delta may be idempotent: _has_simple_delta(_has_simple_delta(x)) == _has_simple_delta(x)"},"spec":{"lhs":"_has_simple_delta(expr, index)","rhs":"# HINT: _has_simple_delta may be idempotent: _has_simple_delta(_has_simple_delta(x)) == _has_simple_delta(x)","over":{"base":"Any","pred":"hasattr(expr, 'has') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'args')"},"name":"_has_simple_delta_correct"},"guarantee":"# HINT: _has_simple_delta may be idempotent: _has_simple_delta(_has_simple_delta(x)) == _has_simple_delta(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta._has_simple_delta_correct","statement":"Path(_has_simple_delta(x), # HINT: _has_simple_delta may be idempotent: _has_simple_delta(_has_simple_delta(x)) == _has_simple_delta(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33da16a96dc3e958","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'has')","hasattr(expr, 'is_Add')","hasattr(expr, 'is_Mul')","hasattr(expr, 'args')"],"ensures":["# HINT: _has_simple_delta may be idempotent: _has_simple_delta(_has_simple_delta(x)) == _has_simple_delta(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.has","expr.is_Add","expr.is_Mul"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _has_simple_delta(expr, index):
     """
     Returns True if ``expr`` is an expression that contains a KroneckerDelta
@@ -161,7 +187,12 @@ def _has_simple_delta(expr, index):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_simple_delta(del), returns true if ``delta`` is a kroneckerdelta and is nonzero for a single value of the index ``index``) over {Any | isinstance(delta, KroneckerDelta)} ║
+# ║ Path(_is_simple_delta(delta, index), <unspecified:_is_simple_delta>) over {Any | isinstance(delta, KroneckerDelta) and hasattr(delta, 'has') and hasattr(delta, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(delta, 'has')                          ║
+# ║   requires: hasattr(delta, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_simple_delta : {Any | isinstance(delta, Kronecker...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -173,9 +204,12 @@ def _has_simple_delta(expr, index):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 307f5c93...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.delta._is_simple_delta","kind":"function","src_hash":"2ef3a33f5869e96e","in":{"base":"Any","pred":"isinstance(delta, KroneckerDelta)"},"out":{"base":"Any"},"spec":{"lhs":"_is_simple_delta(del)","rhs":"returns true if ``delta`` is a kroneckerdelta and is nonzero for a single value of the index ``index``","over":{"base":"Any","pred":"isinstance(delta, KroneckerDelta)"},"name":"_is_simple_delta_correct"},"guarantee":"returns true if ``delta`` is a kroneckerdelta and is nonzero for a single value of the index ``index``","fibers":[{"name":"KroneckerDelta","pred":"isinstance(delta, KroneckerDelta)","path":{"lhs":"_is_simple_delta(x)","rhs":"returns true if ``delta`` is a kroneckerdelta and is nonzero for a single value of the index ``index``","over":{"base":"KroneckerDelta","pred":"isinstance(delta, KroneckerDelta)"},"name":"_is_simple_delta_KroneckerDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta._is_simple_delta_KroneckerDelta_correct","statement":"_is_simple_delta satisfies spec on KroneckerDelta inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"307f5c93f734e98f"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.delta._is_simple_delta","kind":"function","src_hash":"2ef3a33f5869e96e","in":{"base":"Any","pred":"isinstance(delta, KroneckerDelta) and hasattr(delta, 'has') and hasattr(delta, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_is_simple_delta(delta, index)","rhs":"<unspecified:_is_simple_delta>","over":{"base":"Any","pred":"isinstance(delta, KroneckerDelta) and hasattr(delta, 'has') and hasattr(delta, 'args')"},"name":"_is_simple_delta_correct"},"guarantee":"returns true if ``delta`` is a kroneckerdelta and is nonzero for a single value of the index ``index``","fibers":[{"name":"KroneckerDelta","pred":"isinstance(delta, KroneckerDelta)","path":{"lhs":"_is_simple_delta(x)","rhs":"returns true if ``delta`` is a kroneckerdelta and is nonzero for a single value of the index ``index``","over":{"base":"KroneckerDelta","pred":"isinstance(delta, KroneckerDelta)"},"name":"_is_simple_delta_KroneckerDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta._is_simple_delta_KroneckerDelta_correct","statement":"_is_simple_delta satisfies spec on KroneckerDelta inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"307f5c93f734e98f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(delta, 'has')","hasattr(delta, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["delta.args","delta.has"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(delta, KroneckerDelta) and delta.has(index)'}, fibers={'KroneckerDelta'})"]}}
 def _is_simple_delta(delta, index):
     """
     Returns True if ``delta`` is a KroneckerDelta and is nonzero for a single
@@ -190,7 +224,13 @@ def _is_simple_delta(delta, index):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_remove_multiple_delta(exp), evaluate products of kroneckerdelta's) over {Any | isinstance(arg, KroneckerDelta)} ║
+# ║ Path(_remove_multiple_delta(expr), # HINT: _remove_multiple_delta may be idempotent: _remove_multiple_delta(_remove_multiple_delta(x)) == _remove_multiple_delta(x)) over {Any | isinstance(arg, KroneckerDelta) and hasattr(expr, 'is_Add') and hasattr(expr, 'args') and hasattr(expr, 'is_Mul') and hasattr(expr, 'func')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   ensures:  # HINT: _remove_multiple_delta may be ide...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _remove_multiple_delta : {Any | isinstance(arg, Krone...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -202,9 +242,12 @@ def _is_simple_delta(delta, index):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 53bb5507...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.delta._remove_multiple_delta","kind":"function","src_hash":"ecfba382909317d4","in":{"base":"Any","pred":"isinstance(arg, KroneckerDelta)"},"out":{"base":"Any"},"spec":{"lhs":"_remove_multiple_delta(exp)","rhs":"evaluate products of kroneckerdelta's","over":{"base":"Any","pred":"isinstance(arg, KroneckerDelta)"},"name":"_remove_multiple_delta_correct"},"guarantee":"evaluate products of kroneckerdelta's","fibers":[{"name":"KroneckerDelta","pred":"isinstance(arg, KroneckerDelta)","path":{"lhs":"_remove_multiple_delta(x)","rhs":"evaluate products of kroneckerdelta's","over":{"base":"KroneckerDelta","pred":"isinstance(arg, KroneckerDelta)"},"name":"_remove_multiple_delta_KroneckerDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta._remove_multiple_delta_KroneckerDelta_correct","statement":"_remove_multiple_delta satisfies spec on KroneckerDelta inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"53bb5507afb2b35a"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.delta._remove_multiple_delta","kind":"function","src_hash":"ecfba382909317d4","in":{"base":"Any","pred":"isinstance(arg, KroneckerDelta) and hasattr(expr, 'is_Add') and hasattr(expr, 'args') and hasattr(expr, 'is_Mul') and hasattr(expr, 'func')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _remove_multiple_delta may be idempotent: _remove_multiple_delta(_remove_multiple_delta(x)) == _remove_multiple_delta(x)"},"spec":{"lhs":"_remove_multiple_delta(expr)","rhs":"# HINT: _remove_multiple_delta may be idempotent: _remove_multiple_delta(_remove_multiple_delta(x)) == _remove_multiple_delta(x)","over":{"base":"Any","pred":"isinstance(arg, KroneckerDelta) and hasattr(expr, 'is_Add') and hasattr(expr, 'args') and hasattr(expr, 'is_Mul') and hasattr(expr, 'func')"},"name":"_remove_multiple_delta_correct"},"guarantee":"# HINT: _remove_multiple_delta may be idempotent: _remove_multiple_delta(_remove_multiple_delta(x)) == _remove_multiple_delta(x)","fibers":[{"name":"KroneckerDelta","pred":"isinstance(arg, KroneckerDelta)","path":{"lhs":"_remove_multiple_delta(x)","rhs":"# HINT: _remove_multiple_delta may be idempotent: _remove_multiple_delta(_remove_multiple_delta(x)) == _remove_multiple_delta(x)","over":{"base":"KroneckerDelta","pred":"isinstance(arg, KroneckerDelta)"},"name":"_remove_multiple_delta_KroneckerDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta._remove_multiple_delta_KroneckerDelta_correct","statement":"_remove_multiple_delta satisfies spec on KroneckerDelta inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"53bb5507afb2b35a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Add')","hasattr(expr, 'args')","hasattr(expr, 'is_Mul')","hasattr(expr, 'func')"],"ensures":["# HINT: _remove_multiple_delta may be idempotent: _remove_multiple_delta(_remove_multiple_delta(x)) == _remove_multiple_delta(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'expr != expr2', 'len(solns) == 1', 'isinstance(arg, KroneckerDelta)', 'len(solns) == 0'}, fibers={'KroneckerDelta'})"]}}
 def _remove_multiple_delta(expr):
     """
     Evaluate products of KroneckerDelta's.
@@ -235,7 +278,11 @@ def _remove_multiple_delta(expr):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplify_delta(exp), rewrite a kroneckerdelta's indices in its simplest form) over {Any | isinstance(expr, KroneckerDelta)} ║
+# ║ Path(_simplify_delta(expr), <unspecified:_simplify_delta>) over {Any | isinstance(expr, KroneckerDelta) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _simplify_delta : {Any | isinstance(expr, KroneckerDe...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -247,9 +294,12 @@ def _remove_multiple_delta(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | caa12fd5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.delta._simplify_delta","kind":"function","src_hash":"cfcaae0f138c8709","in":{"base":"Any","pred":"isinstance(expr, KroneckerDelta)"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_delta(exp)","rhs":"rewrite a kroneckerdelta's indices in its simplest form","over":{"base":"Any","pred":"isinstance(expr, KroneckerDelta)"},"name":"_simplify_delta_correct"},"guarantee":"rewrite a kroneckerdelta's indices in its simplest form","fibers":[{"name":"KroneckerDelta","pred":"isinstance(expr, KroneckerDelta)","path":{"lhs":"_simplify_delta(x)","rhs":"rewrite a kroneckerdelta's indices in its simplest form","over":{"base":"KroneckerDelta","pred":"isinstance(expr, KroneckerDelta)"},"name":"_simplify_delta_KroneckerDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta._simplify_delta_KroneckerDelta_correct","statement":"_simplify_delta satisfies spec on KroneckerDelta inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"caa12fd57ec52c99"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.delta._simplify_delta","kind":"function","src_hash":"cfcaae0f138c8709","in":{"base":"Any","pred":"isinstance(expr, KroneckerDelta) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_simplify_delta(expr)","rhs":"<unspecified:_simplify_delta>","over":{"base":"Any","pred":"isinstance(expr, KroneckerDelta) and hasattr(expr, 'args')"},"name":"_simplify_delta_correct"},"guarantee":"rewrite a kroneckerdelta's indices in its simplest form","fibers":[{"name":"KroneckerDelta","pred":"isinstance(expr, KroneckerDelta)","path":{"lhs":"_simplify_delta(x)","rhs":"rewrite a kroneckerdelta's indices in its simplest form","over":{"base":"KroneckerDelta","pred":"isinstance(expr, KroneckerDelta)"},"name":"_simplify_delta_KroneckerDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta._simplify_delta_KroneckerDelta_correct","statement":"_simplify_delta satisfies spec on KroneckerDelta inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"caa12fd57ec52c99","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, KroneckerDelta)', 'slns and len(slns) == 1'}, fibers={'KroneckerDelta'})"]}}
 def _simplify_delta(expr):
     """
     Rewrite a KroneckerDelta's indices in its simplest form.
@@ -267,9 +317,15 @@ def _simplify_delta(expr):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deltaproduct(f, ), handle products containing a kroneckerdelta) over {Any | isinstance(limit[1], int)} ║
+# ║ Path(deltaproduct(f, limit), # HINT: deltaproduct may be idempotent: deltaproduct(deltaproduct(x)) == deltaproduct(x)) over {Any | isinstance(limit[1], int) and hasattr(f, 'is_Add') and hasattr(f, 'has') and hasattr(f, 'args') and hasattr(f, 'func') and hasattr(f, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ deltaproduct : {Any | isinstance(limit[1], int)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'is_Add')                           ║
+# ║   requires: hasattr(f, 'has')                              ║
+# ║   requires: hasattr(f, 'args')                             ║
+# ║   ensures:  # HINT: deltaproduct may be idempotent: d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ deltaproduct : {Any | isinstance(limit[1], int) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   int: {isinstance(limit[1], int)} → library_axiom         ║
@@ -279,9 +335,12 @@ def _simplify_delta(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0d127d48...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.delta.deltaproduct","kind":"function","src_hash":"83ccffb7a7ed6769","in":{"base":"Any","pred":"isinstance(limit[1], int)"},"out":{"base":"Any"},"spec":{"lhs":"deltaproduct(f, )","rhs":"handle products containing a kroneckerdelta","over":{"base":"Any","pred":"isinstance(limit[1], int)"},"name":"deltaproduct_correct"},"guarantee":"handle products containing a kroneckerdelta","fibers":[{"name":"int","pred":"isinstance(limit[1], int)","path":{"lhs":"deltaproduct(x)","rhs":"handle products containing a kroneckerdelta","over":{"base":"int","pred":"isinstance(limit[1], int)"},"name":"deltaproduct_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta.deltaproduct_int_correct","statement":"deltaproduct satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0d127d48be3ba4af"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.delta.deltaproduct","kind":"function","src_hash":"83ccffb7a7ed6769","in":{"base":"Any","pred":"isinstance(limit[1], int) and hasattr(f, 'is_Add') and hasattr(f, 'has') and hasattr(f, 'args') and hasattr(f, 'func') and hasattr(f, 'subs')"},"out":{"base":"Any","pred":"result satisfies: # HINT: deltaproduct may be idempotent: deltaproduct(deltaproduct(x)) == deltaproduct(x)"},"spec":{"lhs":"deltaproduct(f, limit)","rhs":"# HINT: deltaproduct may be idempotent: deltaproduct(deltaproduct(x)) == deltaproduct(x)","over":{"base":"Any","pred":"isinstance(limit[1], int) and hasattr(f, 'is_Add') and hasattr(f, 'has') and hasattr(f, 'args') and hasattr(f, 'func') and hasattr(f, 'subs')"},"name":"deltaproduct_correct"},"guarantee":"# HINT: deltaproduct may be idempotent: deltaproduct(deltaproduct(x)) == deltaproduct(x)","fibers":[{"name":"int","pred":"isinstance(limit[1], int)","path":{"lhs":"deltaproduct(x)","rhs":"# HINT: deltaproduct may be idempotent: deltaproduct(deltaproduct(x)) == deltaproduct(x)","over":{"base":"int","pred":"isinstance(limit[1], int)"},"name":"deltaproduct_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta.deltaproduct_int_correct","statement":"deltaproduct satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0d127d48be3ba4af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'is_Add')","hasattr(f, 'has')","hasattr(f, 'args')","hasattr(f, 'func')","hasattr(f, 'subs')"],"ensures":["# HINT: deltaproduct may be idempotent: deltaproduct(deltaproduct(x)) == deltaproduct(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'delta is None and _has_simple_delta(arg, limit[0])', 'f != g', '(limit[2] - limit[1] < 0) == True', 'isinstance(limit[1], int) and isinstance(limit[2], int)'}, fibers={'int'})"]}}
 def deltaproduct(f, limit):
     """
     Handle products containing a KroneckerDelta.
@@ -342,16 +401,23 @@ def deltaproduct(f, limit):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deltasummation(f, ), handle summations containing a kroneckerdelta) over Any ║
+# ║ Path(deltasummation(f, limit, no_piecewise), # HINT: deltasummation may be idempotent: deltasummation(deltasummation(x)) == deltasummation(x)) over {Any | hasattr(f, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ deltasummation : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'has')                              ║
+# ║   ensures:  # HINT: deltasummation may be idempotent:...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ deltasummation : {Any | hasattr(f, 'has')} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bd66921704a3852  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c4d9942d4909ed7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.delta.deltasummation","kind":"function","src_hash":"94cf6c4b081f9f0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"deltasummation(f, )","rhs":"handle summations containing a kroneckerdelta","over":{"base":"Any"},"name":"deltasummation_correct"},"guarantee":"handle summations containing a kroneckerdelta","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta.deltasummation_correct","statement":"Path(deltasummation(x), handle summations containing a kroneckerdelta)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bd66921704a3852"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.delta.deltasummation","kind":"function","src_hash":"94cf6c4b081f9f0b","in":{"base":"Any","pred":"hasattr(f, 'has')"},"out":{"base":"Any","pred":"result satisfies: # HINT: deltasummation may be idempotent: deltasummation(deltasummation(x)) == deltasummation(x)"},"spec":{"lhs":"deltasummation(f, limit, no_piecewise)","rhs":"# HINT: deltasummation may be idempotent: deltasummation(deltasummation(x)) == deltasummation(x)","over":{"base":"Any","pred":"hasattr(f, 'has')"},"name":"deltasummation_correct"},"guarantee":"# HINT: deltasummation may be idempotent: deltasummation(deltasummation(x)) == deltasummation(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.delta.deltasummation_correct","statement":"Path(deltasummation(x), # HINT: deltasummation may be idempotent: deltasummation(deltasummation(x)) == deltasummation(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c4d9942d4909ed7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'has')"],"ensures":["# HINT: deltasummation may be idempotent: deltasummation(deltasummation(x)) == deltasummation(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.has"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def deltasummation(f, limit, no_piecewise=False):
     """
     Handle summations containing a KroneckerDelta.

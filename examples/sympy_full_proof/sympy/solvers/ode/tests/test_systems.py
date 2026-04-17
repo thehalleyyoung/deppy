@@ -49,16 +49,24 @@ h = Function('h')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_ode_to_matrix(), test_linear_ode_to_matrix produces the expected output) over Any ║
+# ║ Path(test_linear_ode_to_matrix(), linear_ode_to_matrix(eqs_1, funcs[:-1], t, 1) == sol_1 and linear_ode_to_matrix(eqs_2, funcs, t, 1) == sol_2 and linear_ode_to_matrix(eqs_3, funcs, t, 1) == sol_3 and linear_ode_to_matrix(eqs_4, funcs, t, 2) == sol_4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_linear_ode_to_matrix : Any → {Any | linear_ode_t...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  linear_ode_to_matrix(eqs_1, funcs[:-1], t...   ║
+# ║   ensures:  linear_ode_to_matrix(eqs_2, funcs, t, 1) ...   ║
+# ║   ensures:  linear_ode_to_matrix(eqs_3, funcs, t, 1) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_linear_ode_to_matrix : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9354ec6d8be0247a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 185a44211e82faf3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_ode_to_matrix","kind":"function","src_hash":"b8841edbcb01de9f","in":{"base":"Any"},"out":{"base":"Any","pred":"linear_ode_to_matrix(eqs_1, funcs[:-1], t, 1) == sol_1 and linear_ode_to_matrix(eqs_2, funcs, t, 1) == sol_2 and linear_ode_to_matrix(eqs_3, funcs, t, 1) == sol_3 and linear_ode_to_matrix(eqs_4, funcs, t, 2) == sol_4"},"spec":{"lhs":"test_linear_ode_to_matrix()","rhs":"test_linear_ode_to_matrix produces the expected output","over":{"base":"Any"},"name":"test_linear_ode_to_matrix_correct"},"guarantee":"test_linear_ode_to_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_ode_to_matrix_correct","statement":"Path(test_linear_ode_to_matrix(x), test_linear_ode_to_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9354ec6d8be0247a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_ode_to_matrix","kind":"function","src_hash":"b8841edbcb01de9f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: linear_ode_to_matrix(eqs_1, funcs[:-1], t, 1) == sol_1 and linear_ode_to_matrix(eqs_2, funcs, t, 1) == sol_2 and linear_ode_to_matrix(eqs_3, funcs, t, 1) == sol_3 and linear_ode_to_matrix(eqs_4, funcs, t, 2) == sol_4"},"spec":{"lhs":"test_linear_ode_to_matrix()","rhs":"linear_ode_to_matrix(eqs_1, funcs[:-1], t, 1) == sol_1 and linear_ode_to_matrix(eqs_2, funcs, t, 1) == sol_2 and linear_ode_to_matrix(eqs_3, funcs, t, 1) == sol_3 and linear_ode_to_matrix(eqs_4, funcs, t, 2) == sol_4","over":{"base":"Any"},"name":"test_linear_ode_to_matrix_correct"},"guarantee":"linear_ode_to_matrix(eqs_1, funcs[:-1], t, 1) == sol_1; linear_ode_to_matrix(eqs_2, funcs, t, 1) == sol_2; linear_ode_to_matrix(eqs_3, funcs, t, 1) == sol_3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_ode_to_matrix_correct","statement":"Path(test_linear_ode_to_matrix(x), linear_ode_to_matrix(eqs_1, funcs[:-1], t, 1) == sol_1; linear_ode_to_matrix(eqs_2, funcs, t, 1) == sol_2; linear_ode_to_matrix(eqs_3, funcs, t, 1) == sol_3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"185a44211e82faf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["linear_ode_to_matrix(eqs_1, funcs[:-1], t, 1) == sol_1","linear_ode_to_matrix(eqs_2, funcs, t, 1) == sol_2","linear_ode_to_matrix(eqs_3, funcs, t, 1) == sol_3","linear_ode_to_matrix(eqs_4, funcs, t, 2) == sol_4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_linear_ode_to_matrix():
     f, g, h = symbols("f, g, h", cls=Function)
     t = Symbol("t")
@@ -97,16 +105,24 @@ def test_linear_ode_to_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__classify_linear_system(), test__classify_linear_system produces the expected output) over Any ║
+# ║ Path(test__classify_linear_system(), _classify_linear_system(eqs_1, funcs, t) is None and _classify_linear_system(eqs_2, funcs, t) == sol2 and _classify_linear_system(eqs_2_1, funcs, t) is None and _classify_linear_system(eqs_2_2, funcs, t) is None and _classify_linear_system(eqs_3, funcs_2, t) == answer_3 and _classify_linear_system(eqs_4, funcs_2, t) == answer_4 and _classify_linear_system(eqs_5, funcs_2, t) == answer_5 and _classify_linear_system(eqs_6, funcs_2[:-1], t) == answer_6 and _classify_linear_system(eqs_7, funcs, t) == answer_7 and _classify_linear_system(eqs_8, funcs_2[:-1], t) == answer_8 and _classify_linear_system(eqs_9, funcs_2[:-1], t) == answer_9 and _classify_linear_system(eqs_10, funcs_2[:-1], t) == answer_10 and _classify_linear_system(eq11, funcs_2[:-1], t) == sol11 and _classify_linear_system(eq12, [x(t), y(t)], t) == sol12 and _classify_linear_system(eq13, [x(t), y(t), z(t)], t) == sol13 and _classify_linear_system(eq14, [x(t), y(t), z(t)], t) == sol14 and _classify_linear_system(eq15, [x(t), y(t), z(t)], t) == sol15 and _classify_linear_system(eq1, funcs, t) == sol1 and _classify_linear_system(eq2, funcs, t) == sol2 and _classify_linear_system(eq3, funcs_2[:-1], t) == sol3 and _classify_linear_system(eq4, funcs_2[:-1], t) == sol4 and _classify_linear_system(eq5, funcs_2, t) == sol5 and _classify_linear_system(eq3, funcs, t) == sol3 and _classify_linear_system(eq4, funcs, t) == sol4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__classify_linear_system : Any → {Any | _classify...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _classify_linear_system(eqs_1, funcs, t) ...   ║
+# ║   ensures:  _classify_linear_system(eqs_2, funcs, t) ...   ║
+# ║   ensures:  _classify_linear_system(eqs_2_1, funcs, t...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__classify_linear_system : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26e4cc07a3f10240  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 10.4ms                        ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee03d99267d04205  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test__classify_linear_system","kind":"function","src_hash":"a671ed2305f207b7","in":{"base":"Any"},"out":{"base":"Any","pred":"_classify_linear_system(eqs_1, funcs, t) is None and _classify_linear_system(eqs_2, funcs, t) == sol2 and _classify_linear_system(eqs_2_1, funcs, t) is None and _classify_linear_system(eqs_2_2, funcs, t) is None and _classify_linear_system(eqs_3, funcs_2, t) == answer_3 and _classify_linear_system(eqs_4, funcs_2, t) == answer_4 and _classify_linear_system(eqs_5, funcs_2, t) == answer_5 and _classify_linear_system(eqs_6, funcs_2[:-1], t) == answer_6 and _classify_linear_system(eqs_7, funcs, t) == answer_7 and _classify_linear_system(eqs_8, funcs_2[:-1], t) == answer_8 and _classify_linear_system(eqs_9, funcs_2[:-1], t) == answer_9 and _classify_linear_system(eqs_10, funcs_2[:-1], t) == answer_10 and _classify_linear_system(eq11, funcs_2[:-1], t) == sol11 and _classify_linear_system(eq12, [x(t), y(t)], t) == sol12 and _classify_linear_system(eq13, [x(t), y(t), z(t)], t) == sol13 and _classify_linear_system(eq14, [x(t), y(t), z(t)], t) == sol14 and _classify_linear_system(eq15, [x(t), y(t), z(t)], t) == sol15 and _classify_linear_system(eq1, funcs, t) == sol1 and _classify_linear_system(eq1, funcs, t) == sol1 and _classify_linear_system(eq1, funcs, t) == sol1 and _classify_linear_system(eq2, funcs, t) == sol2 and _classify_linear_system(eq3, funcs_2[:-1], t) == sol3 and _classify_linear_system(eq4, funcs_2[:-1], t) == sol4 and _classify_linear_system(eq5, funcs_2, t) == sol5 and _classify_linear_system(eq1, funcs, t) == sol1 and _classify_linear_system(eq2, funcs, t) == sol2 and _classify_linear_system(eq3, funcs, t) == sol3 and _classify_linear_system(eq4, funcs, t) == sol4 and _classify_linear_system(eq1, funcs, t) == sol1 and _classify_linear_system(eq2, funcs, t) == sol2 and _classify_linear_system(eq3, funcs, t) == sol3"},"spec":{"lhs":"test__classify_linear_system()","rhs":"test__classify_linear_system produces the expected output","over":{"base":"Any"},"name":"test__classify_linear_system_correct"},"guarantee":"test__classify_linear_system produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test__classify_linear_system_correct","statement":"Path(test__classify_linear_system(x), test__classify_linear_system produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26e4cc07a3f10240"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test__classify_linear_system","kind":"function","src_hash":"a671ed2305f207b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _classify_linear_system(eqs_1, funcs, t) is None and _classify_linear_system(eqs_2, funcs, t) == sol2 and _classify_linear_system(eqs_2_1, funcs, t) is None and _classify_linear_system(eqs_2_2, funcs, t) is None and _classify_linear_system(eqs_3, funcs_2, t) == answer_3 and _classify_linear_system(eqs_4, funcs_2, t) == answer_4 and _classify_linear_system(eqs_5, funcs_2, t) == answer_5 and _classify_linear_system(eqs_6, funcs_2[:-1], t) == answer_6 and _classify_linear_system(eqs_7, funcs, t) == answer_7 and _classify_linear_system(eqs_8, funcs_2[:-1], t) == answer_8 and _classify_linear_system(eqs_9, funcs_2[:-1], t) == answer_9 and _classify_linear_system(eqs_10, funcs_2[:-1], t) == answer_10 and _classify_linear_system(eq11, funcs_2[:-1], t) == sol11 and _classify_linear_system(eq12, [x(t), y(t)], t) == sol12 and _classify_linear_system(eq13, [x(t), y(t), z(t)], t) == sol13 and _classify_linear_system(eq14, [x(t), y(t), z(t)], t) == sol14 and _classify_linear_system(eq15, [x(t), y(t), z(t)], t) == sol15 and _classify_linear_system(eq1, funcs, t) == sol1 and _classify_linear_system(eq2, funcs, t) == sol2 and _classify_linear_system(eq3, funcs_2[:-1], t) == sol3 and _classify_linear_system(eq4, funcs_2[:-1], t) == sol4 and _classify_linear_system(eq5, funcs_2, t) == sol5 and _classify_linear_system(eq3, funcs, t) == sol3 and _classify_linear_system(eq4, funcs, t) == sol4"},"spec":{"lhs":"test__classify_linear_system()","rhs":"_classify_linear_system(eqs_1, funcs, t) is None and _classify_linear_system(eqs_2, funcs, t) == sol2 and _classify_linear_system(eqs_2_1, funcs, t) is None and _classify_linear_system(eqs_2_2, funcs, t) is None and _classify_linear_system(eqs_3, funcs_2, t) == answer_3 and _classify_linear_system(eqs_4, funcs_2, t) == answer_4 and _classify_linear_system(eqs_5, funcs_2, t) == answer_5 and _classify_linear_system(eqs_6, funcs_2[:-1], t) == answer_6 and _classify_linear_system(eqs_7, funcs, t) == answer_7 and _classify_linear_system(eqs_8, funcs_2[:-1], t) == answer_8 and _classify_linear_system(eqs_9, funcs_2[:-1], t) == answer_9 and _classify_linear_system(eqs_10, funcs_2[:-1], t) == answer_10 and _classify_linear_system(eq11, funcs_2[:-1], t) == sol11 and _classify_linear_system(eq12, [x(t), y(t)], t) == sol12 and _classify_linear_system(eq13, [x(t), y(t), z(t)], t) == sol13 and _classify_linear_system(eq14, [x(t), y(t), z(t)], t) == sol14 and _classify_linear_system(eq15, [x(t), y(t), z(t)], t) == sol15 and _classify_linear_system(eq1, funcs, t) == sol1 and _classify_linear_system(eq2, funcs, t) == sol2 and _classify_linear_system(eq3, funcs_2[:-1], t) == sol3 and _classify_linear_system(eq4, funcs_2[:-1], t) == sol4 and _classify_linear_system(eq5, funcs_2, t) == sol5 and _classify_linear_system(eq3, funcs, t) == sol3 and _classify_linear_system(eq4, funcs, t) == sol4","over":{"base":"Any"},"name":"test__classify_linear_system_correct"},"guarantee":"_classify_linear_system(eqs_1, funcs, t) is None; _classify_linear_system(eqs_2, funcs, t) == sol2; _classify_linear_system(eqs_2_1, funcs, t) is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test__classify_linear_system_correct","statement":"Path(test__classify_linear_system(x), _classify_linear_system(eqs_1, funcs, t) is None; _classify_linear_system(eqs_2, funcs, t) == sol2; _classify_linear_system(eqs_2_1, funcs, t) is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee03d99267d04205","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_classify_linear_system(eqs_1, funcs, t) is None","_classify_linear_system(eqs_2, funcs, t) == sol2","_classify_linear_system(eqs_2_1, funcs, t) is None","_classify_linear_system(eqs_2_2, funcs, t) is None","_classify_linear_system(eqs_3, funcs_2, t) == answer_3","_classify_linear_system(eqs_4, funcs_2, t) == answer_4","_classify_linear_system(eqs_5, funcs_2, t) == answer_5","_classify_linear_system(eqs_6, funcs_2[:-1], t) == answer_6","_classify_linear_system(eqs_7, funcs, t) == answer_7","_classify_linear_system(eqs_8, funcs_2[:-1], t) == answer_8","_classify_linear_system(eqs_9, funcs_2[:-1], t) == answer_9","_classify_linear_system(eqs_10, funcs_2[:-1], t) == answer_10","_classify_linear_system(eq11, funcs_2[:-1], t) == sol11","_classify_linear_system(eq12, [x(t), y(t)], t) == sol12","_classify_linear_system(eq13, [x(t), y(t), z(t)], t) == sol13","_classify_linear_system(eq14, [x(t), y(t), z(t)], t) == sol14","_classify_linear_system(eq15, [x(t), y(t), z(t)], t) == sol15","_classify_linear_system(eq1, funcs, t) == sol1","_classify_linear_system(eq2, funcs, t) == sol2","_classify_linear_system(eq3, funcs_2[:-1], t) == sol3","_classify_linear_system(eq4, funcs_2[:-1], t) == sol4","_classify_linear_system(eq5, funcs_2, t) == sol5","_classify_linear_system(eq3, funcs, t) == sol3","_classify_linear_system(eq4, funcs, t) == sol4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":10.4,"verdict_class":"assumed","binding":true}}
 def test__classify_linear_system():
     x, y, z, w = symbols('x, y, z, w', cls=Function)
     t, k, l = symbols('t k l')
@@ -432,16 +448,22 @@ def test__classify_linear_system():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_exp(), test_matrix_exp produces the expected output) over Any ║
+# ║ Path(test_matrix_exp(), matrix_exp(A, t) == expAt) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrix_exp : Any → {Any | matrix_exp(A, t) == ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  matrix_exp(A, t) == expAt                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrix_exp : Any → {Any | result satisfies: matr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff3f4593fe2b7d4a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03969a7a41622ec3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_matrix_exp","kind":"function","src_hash":"0317d8f42da31063","in":{"base":"Any"},"out":{"base":"Any","pred":"matrix_exp(A, t) == expAt and matrix_exp(A, t) == expAt and matrix_exp(A, t) == expAt and matrix_exp(A, t) == expAt and matrix_exp(A, t) == expAt and matrix_exp(A, t) == expAt and matrix_exp(A, t) == expAt and matrix_exp(zeros(n), t) == eye(n) and matrix_exp(A, t) == expAt and matrix_exp(A, t) == expAt"},"spec":{"lhs":"test_matrix_exp()","rhs":"test_matrix_exp produces the expected output","over":{"base":"Any"},"name":"test_matrix_exp_correct"},"guarantee":"test_matrix_exp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_matrix_exp_correct","statement":"Path(test_matrix_exp(x), test_matrix_exp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff3f4593fe2b7d4a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_matrix_exp","kind":"function","src_hash":"0317d8f42da31063","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: matrix_exp(A, t) == expAt"},"spec":{"lhs":"test_matrix_exp()","rhs":"matrix_exp(A, t) == expAt","over":{"base":"Any"},"name":"test_matrix_exp_correct"},"guarantee":"matrix_exp(A, t) == expAt","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_matrix_exp_correct","statement":"Path(test_matrix_exp(x), matrix_exp(A, t) == expAt)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03969a7a41622ec3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["matrix_exp(A, t) == expAt"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"assumed","binding":true}}
 def test_matrix_exp():
     from sympy.matrices.dense import Matrix, eye, zeros
     from sympy.solvers.ode.systems import matrix_exp
@@ -552,16 +574,23 @@ def test_matrix_exp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonical_odes(), test_canonical_odes produces the expected output) over Any ║
+# ║ Path(test_canonical_odes(), canonical_odes(eqs1, funcs[:2], x) == sol1 and canonical_odes(eqs2, funcs, x) == sol2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_canonical_odes : Any → {Any | canonical_odes(eqs...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  canonical_odes(eqs1, funcs[:2], x) == sol1     ║
+# ║   ensures:  canonical_odes(eqs2, funcs, x) == sol2         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_canonical_odes : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06afc09b67050107  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dae104aae24641c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_canonical_odes","kind":"function","src_hash":"a4e615d0b3887be6","in":{"base":"Any"},"out":{"base":"Any","pred":"canonical_odes(eqs1, funcs[:2], x) == sol1 and canonical_odes(eqs2, funcs, x) == sol2"},"spec":{"lhs":"test_canonical_odes()","rhs":"test_canonical_odes produces the expected output","over":{"base":"Any"},"name":"test_canonical_odes_correct"},"guarantee":"test_canonical_odes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_canonical_odes_correct","statement":"Path(test_canonical_odes(x), test_canonical_odes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06afc09b67050107"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_canonical_odes","kind":"function","src_hash":"a4e615d0b3887be6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: canonical_odes(eqs1, funcs[:2], x) == sol1 and canonical_odes(eqs2, funcs, x) == sol2"},"spec":{"lhs":"test_canonical_odes()","rhs":"canonical_odes(eqs1, funcs[:2], x) == sol1 and canonical_odes(eqs2, funcs, x) == sol2","over":{"base":"Any"},"name":"test_canonical_odes_correct"},"guarantee":"canonical_odes(eqs1, funcs[:2], x) == sol1; canonical_odes(eqs2, funcs, x) == sol2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_canonical_odes_correct","statement":"Path(test_canonical_odes(x), canonical_odes(eqs1, funcs[:2], x) == sol1; canonical_odes(eqs2, funcs, x) == sol2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dae104aae24641c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["canonical_odes(eqs1, funcs[:2], x) == sol1","canonical_odes(eqs2, funcs, x) == sol2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_canonical_odes():
     f, g, h = symbols('f g h', cls=Function)
     x = symbols('x')
@@ -578,16 +607,24 @@ def test_canonical_odes():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sysode_linear_neq_order1_type1(), test_sysode_linear_neq_order1_type1 produces the expected output) over Any ║
+# ║ Path(test_sysode_linear_neq_order1_type1(), dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11 and checksysodesol(eqs11, sol11) == (True, [0, 0]) and dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0]) and dsolve(eqs13) == sol13 and checksysodesol(eqs13, sol13) == (True, [0, 0]) and dsolve(eqs14) == sol14 and checksysodesol(eqs14, sol14) == (True, [0, 0]) and dsolve(eqs15) == sol15 and checksysodesol(eqs15, sol15) == (True, [0, 0]) and dsolve(eqs16) == sol16 and checksysodesol(eqs16, sol16) == (True, [0, 0]) and dsolve(eqs17) == sol17 and checksysodesol(eqs17, sol17) == (True, [0, 0]) and dsolve(eqs18) == sol18 and checksysodesol(eqs18, sol18) == (True, [0, 0]) and dsolve(eqs19) == sol19 and checksysodesol(eqs19, sol19) == (True, [0, 0]) and dsolve(eqs20) == sol20 and checksysodesol(eqs20, sol20) == (True, [0, 0]) and dsolve(eqs21) == sol21 and checksysodesol(eqs21, sol21) == (True, [0, 0]) and dsolve(eqs22) == sol22 and checksysodesol(eqs22, sol22) == (True, [0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sysode_linear_neq_order1_type1 : Any → {Any | ds...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eqs1) == sol1                           ║
+# ║   ensures:  checksysodesol(eqs1, sol1) == (True, [0, 0])   ║
+# ║   ensures:  dsolve(eqs2) == sol2                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sysode_linear_neq_order1_type1 : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27b11c0f1eff259c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c83d95dccd26b4d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type1","kind":"function","src_hash":"8e88bc1c7926e462","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11 and checksysodesol(eqs11, sol11) == (True, [0, 0]) and dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0]) and dsolve(eqs13) == sol13 and checksysodesol(eqs13, sol13) == (True, [0, 0]) and dsolve(eqs14) == sol14 and checksysodesol(eqs14, sol14) == (True, [0, 0]) and dsolve(eqs15) == sol15 and checksysodesol(eqs15, sol15) == (True, [0, 0]) and dsolve(eqs16) == sol16 and checksysodesol(eqs16, sol16) == (True, [0, 0]) and dsolve(eqs17) == sol17 and checksysodesol(eqs17, sol17) == (True, [0, 0]) and dsolve(eqs18) == sol18 and checksysodesol(eqs18, sol18) == (True, [0, 0]) and dsolve(eqs19) == sol19 and checksysodesol(eqs19, sol19) == (True, [0, 0]) and dsolve(eqs20) == sol20 and checksysodesol(eqs20, sol20) == (True, [0, 0]) and dsolve(eqs21) == sol21 and checksysodesol(eqs21, sol21) == (True, [0, 0]) and dsolve(eqs22) == sol22 and checksysodesol(eqs22, sol22) == (True, [0, 0])"},"spec":{"lhs":"test_sysode_linear_neq_order1_type1()","rhs":"test_sysode_linear_neq_order1_type1 produces the expected output","over":{"base":"Any"},"name":"test_sysode_linear_neq_order1_type1_correct"},"guarantee":"test_sysode_linear_neq_order1_type1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type1_correct","statement":"Path(test_sysode_linear_neq_order1_type1(x), test_sysode_linear_neq_order1_type1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27b11c0f1eff259c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type1","kind":"function","src_hash":"8e88bc1c7926e462","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11 and checksysodesol(eqs11, sol11) == (True, [0, 0]) and dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0]) and dsolve(eqs13) == sol13 and checksysodesol(eqs13, sol13) == (True, [0, 0]) and dsolve(eqs14) == sol14 and checksysodesol(eqs14, sol14) == (True, [0, 0]) and dsolve(eqs15) == sol15 and checksysodesol(eqs15, sol15) == (True, [0, 0]) and dsolve(eqs16) == sol16 and checksysodesol(eqs16, sol16) == (True, [0, 0]) and dsolve(eqs17) == sol17 and checksysodesol(eqs17, sol17) == (True, [0, 0]) and dsolve(eqs18) == sol18 and checksysodesol(eqs18, sol18) == (True, [0, 0]) and dsolve(eqs19) == sol19 and checksysodesol(eqs19, sol19) == (True, [0, 0]) and dsolve(eqs20) == sol20 and checksysodesol(eqs20, sol20) == (True, [0, 0]) and dsolve(eqs21) == sol21 and checksysodesol(eqs21, sol21) == (True, [0, 0]) and dsolve(eqs22) == sol22 and checksysodesol(eqs22, sol22) == (True, [0, 0])"},"spec":{"lhs":"test_sysode_linear_neq_order1_type1()","rhs":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11 and checksysodesol(eqs11, sol11) == (True, [0, 0]) and dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0]) and dsolve(eqs13) == sol13 and checksysodesol(eqs13, sol13) == (True, [0, 0]) and dsolve(eqs14) == sol14 and checksysodesol(eqs14, sol14) == (True, [0, 0]) and dsolve(eqs15) == sol15 and checksysodesol(eqs15, sol15) == (True, [0, 0]) and dsolve(eqs16) == sol16 and checksysodesol(eqs16, sol16) == (True, [0, 0]) and dsolve(eqs17) == sol17 and checksysodesol(eqs17, sol17) == (True, [0, 0]) and dsolve(eqs18) == sol18 and checksysodesol(eqs18, sol18) == (True, [0, 0]) and dsolve(eqs19) == sol19 and checksysodesol(eqs19, sol19) == (True, [0, 0]) and dsolve(eqs20) == sol20 and checksysodesol(eqs20, sol20) == (True, [0, 0]) and dsolve(eqs21) == sol21 and checksysodesol(eqs21, sol21) == (True, [0, 0]) and dsolve(eqs22) == sol22 and checksysodesol(eqs22, sol22) == (True, [0, 0])","over":{"base":"Any"},"name":"test_sysode_linear_neq_order1_type1_correct"},"guarantee":"dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]); dsolve(eqs2) == sol2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type1_correct","statement":"Path(test_sysode_linear_neq_order1_type1(x), dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]); dsolve(eqs2) == sol2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c83d95dccd26b4d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eqs1) == sol1","checksysodesol(eqs1, sol1) == (True, [0, 0])","dsolve(eqs2) == sol2","checksysodesol(eqs2, sol2) == (True, [0, 0])","dsolve(eqs3) == sol3","checksysodesol(eqs3, sol3) == (True, [0, 0])","dsolve(eqs4) == sol4","checksysodesol(eqs4, sol4) == (True, [0, 0])","dsolve(eqs5) == sol5","checksysodesol(eqs5, sol5) == (True, [0, 0])","dsolve(eqs6) == sol6","checksysodesol(eqs6, sol6) == (True, [0, 0])","dsolve(eqs7) == sol7","checksysodesol(eqs7, sol7) == (True, [0, 0])","dsolve(eqs8) == sol8","checksysodesol(eqs8, sol8) == (True, [0, 0])","dsolve(eqs9) == sol9","checksysodesol(eqs9, sol9) == (True, [0, 0])","dsolve(eqs10) == sol10","checksysodesol(eqs10, sol10) == (True, [0, 0])","dsolve(eqs11) == sol11","checksysodesol(eqs11, sol11) == (True, [0, 0])","dsolve(eqs12) == sol12","checksysodesol(eqs12, sol12) == (True, [0, 0])","dsolve(eqs13) == sol13","checksysodesol(eqs13, sol13) == (True, [0, 0])","dsolve(eqs14) == sol14","checksysodesol(eqs14, sol14) == (True, [0, 0])","dsolve(eqs15) == sol15","checksysodesol(eqs15, sol15) == (True, [0, 0])","dsolve(eqs16) == sol16","checksysodesol(eqs16, sol16) == (True, [0, 0])","dsolve(eqs17) == sol17","checksysodesol(eqs17, sol17) == (True, [0, 0])","dsolve(eqs18) == sol18","checksysodesol(eqs18, sol18) == (True, [0, 0])","dsolve(eqs19) == sol19","checksysodesol(eqs19, sol19) == (True, [0, 0])","dsolve(eqs20) == sol20","checksysodesol(eqs20, sol20) == (True, [0, 0])","dsolve(eqs21) == sol21","checksysodesol(eqs21, sol21) == (True, [0, 0])","dsolve(eqs22) == sol22","checksysodesol(eqs22, sol22) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.5,"verdict_class":"assumed","binding":true}}
 def test_sysode_linear_neq_order1_type1():
 
     f, g, x, y, h = symbols('f g x y h', cls=Function)
@@ -756,16 +793,24 @@ def test_sysode_linear_neq_order1_type1():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sysode_linear_neq_order1_type1_slow(), test_sysode_linear_neq_order1_type1_slow produces the expected output) over Any ║
+# ║ Path(test_sysode_linear_neq_order1_type1_slow(), dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0, 0, 0]) and dsolve(eq5) == sol5 and checksysodesol(eq5, sol5) == (True, [0, 0, 0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0]) and dsolve(eq7) == sol7 and checksysodesol(eq7, sol7) == (True, [0, 0, 0, 0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0, 0, 0, 0]) and dsolve(eq9) == sol9 and checksysodesol(eq9, sol9) == (True, [0, 0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0, 0]) and dsolve(eqs11) == sol11 and checksysodesol(eqs11, sol11) == (True, [0, 0, 0]) and dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0, 0]) and dsolve(eqs13) == sol13 and checksysodesol(eqs13, sol13) == (True, [0, 0]) and dsolve(eqs14) == sol14 and checksysodesol(eqs14, sol14) == (True, [0, 0, 0]) and dsolve(eqs15) == sol15 and checksysodesol(eqs15, sol15) == (True, [0, 0, 0]) and dsolve(eq16) == sol16 and checksysodesol(eq16, sol16) == (True, [0, 0, 0]) and dsolve(eqs17) == sol17 and checksysodesol(eqs17, sol17) == (True, [0, 0, 0]) and dsolve(eqs18) == sol18 and checksysodesol(eqs18, sol18) == (True, [0, 0, 0]) and dsolve(eqs19) == sol19 and checksysodesol(eqs19, sol19) == (True, [0, 0, 0]) and dsolve(eqs20) == sol20 and checksysodesol(eqs20, sol20) == (True, [0, 0, 0]) and dsolve(eq21) == sol21 and checksysodesol(eq21, sol21) == (True, [0, 0]) and dsolve(eqs22) == sol22 and checksysodesol(eqs22, sol22) == (True, [0, 0]) and dsolve(eqs23) == sol23 and checksysodesol(eqs23, sol23) == (True, [0, 0]) and dsolve(eq24) == sol24 and checksysodesol(eq24, sol24) == (True, [0, 0]) and dsolve(eqs25) == sol25 and checksysodesol(eqs25, sol25) == (True, [0, 0, 0, 0, 0]) and dsolve(eq26) == sol26 and checksysodesol(eq26, sol26) == (True, [0, 0]) and dsolve(eq27) == sol27 and checksysodesol(eq27, sol27) == (True, [0, 0]) and dsolve(eq28) == sol28 and checksysodesol(eq28, sol28) == (True, [0, 0]) and dsolve(eq29) == sol29 and checksysodesol(eq29, sol29) == (True, [0, 0]) and dsolve(eq30) == sol30 and checksysodesol(eq30, sol30) == (True, [0, 0]) and dsolve(eq31) == sol31 and checksysodesol(eq31, sol31) == (True, [0, 0]) and dsolve(eq32) == sol32 and checksysodesol(eq32, sol32) == (True, [0, 0]) and dsolve(eq33) == sol33 and checksysodesol(eq33, sol33) == (True, [0, 0]) and dsolve(eq34) == sol34 and checksysodesol(eq34, sol34) == (True, [0, 0]) and dsolve(eq35) == sol35 and checksysodesol(eq35, sol35) == (True, [0, 0]) and dsolve(eq36) == sol36 and checksysodesol(eq36, sol36) == (True, [0, 0]) and dsolve(eq37) == sol37 and checksysodesol(eq37, sol37) == (True, [0, 0]) and dsolve(eq1) == sol1) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eqs1) == sol1                           ║
+# ║   ensures:  checksysodesol(eqs1, sol1) == (True, [0, ...   ║
+# ║   ensures:  dsolve(eqs2) == sol2                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sysode_linear_neq_order1_type1_slow : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9637ef7af55ee695  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 9.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37c83380332c5ee7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type1_slow","kind":"function","src_hash":"ed4f091dd8d82040","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0, 0, 0]) and dsolve(eq5) == sol5 and checksysodesol(eq5, sol5) == (True, [0, 0, 0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0]) and dsolve(eq7) == sol7 and checksysodesol(eq7, sol7) == (True, [0, 0, 0, 0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0, 0, 0, 0]) and dsolve(eq9) == sol9 and checksysodesol(eq9, sol9) == (True, [0, 0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0, 0]) and dsolve(eqs11) == sol11 and checksysodesol(eqs11, sol11) == (True, [0, 0, 0]) and dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0, 0]) and dsolve(eqs13) == sol13 and checksysodesol(eqs13, sol13) == (True, [0, 0]) and dsolve(eqs14) == sol14 and checksysodesol(eqs14, sol14) == (True, [0, 0, 0]) and dsolve(eqs15) == sol15 and checksysodesol(eqs15, sol15) == (True, [0, 0, 0]) and dsolve(eq16) == sol16 and checksysodesol(eq16, sol16) == (True, [0, 0, 0]) and dsolve(eqs17) == sol17 and checksysodesol(eqs17, sol17) == (True, [0, 0, 0]) and dsolve(eqs18) == sol18 and checksysodesol(eqs18, sol18) == (True, [0, 0, 0]) and dsolve(eqs19) == sol19 and checksysodesol(eqs19, sol19) == (True, [0, 0, 0]) and dsolve(eqs20) == sol20 and checksysodesol(eqs20, sol20) == (True, [0, 0, 0]) and dsolve(eq21) == sol21 and checksysodesol(eq21, sol21) == (True, [0, 0]) and dsolve(eqs22) == sol22 and checksysodesol(eqs22, sol22) == (True, [0, 0]) and dsolve(eqs23) == sol23 and checksysodesol(eqs23, sol23) == (True, [0, 0]) and dsolve(eq24) == sol24 and checksysodesol(eq24, sol24) == (True, [0, 0]) and dsolve(eqs25) == sol25 and checksysodesol(eqs25, sol25) == (True, [0, 0, 0, 0, 0]) and dsolve(eq26) == sol26 and checksysodesol(eq26, sol26) == (True, [0, 0]) and dsolve(eq27) == sol27 and checksysodesol(eq27, sol27) == (True, [0, 0]) and dsolve(eq28) == sol28 and checksysodesol(eq28, sol28) == (True, [0, 0]) and dsolve(eq29) == sol29 and checksysodesol(eq29, sol29) == (True, [0, 0]) and dsolve(eq30) == sol30 and checksysodesol(eq30, sol30) == (True, [0, 0]) and dsolve(eq31) == sol31 and checksysodesol(eq31, sol31) == (True, [0, 0]) and dsolve(eq32) == sol32 and checksysodesol(eq32, sol32) == (True, [0, 0]) and dsolve(eq33) == sol33 and checksysodesol(eq33, sol33) == (True, [0, 0]) and dsolve(eq34) == sol34 and checksysodesol(eq34, sol34) == (True, [0, 0]) and dsolve(eq35) == sol35 and checksysodesol(eq35, sol35) == (True, [0, 0]) and dsolve(eq36) == sol36 and checksysodesol(eq36, sol36) == (True, [0, 0]) and dsolve(eq37) == sol37 and checksysodesol(eq37, sol37) == (True, [0, 0]) and dsolve(eq1) == sol1 and checksysodesol(eq1, sol) == (True, [0, 0])"},"spec":{"lhs":"test_sysode_linear_neq_order1_type1_slow()","rhs":"test_sysode_linear_neq_order1_type1_slow produces the expected output","over":{"base":"Any"},"name":"test_sysode_linear_neq_order1_type1_slow_correct"},"guarantee":"test_sysode_linear_neq_order1_type1_slow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type1_slow_correct","statement":"Path(test_sysode_linear_neq_order1_type1_slow(x), test_sysode_linear_neq_order1_type1_slow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9637ef7af55ee695"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type1_slow","kind":"function","src_hash":"ed4f091dd8d82040","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0, 0, 0]) and dsolve(eq5) == sol5 and checksysodesol(eq5, sol5) == (True, [0, 0, 0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0]) and dsolve(eq7) == sol7 and checksysodesol(eq7, sol7) == (True, [0, 0, 0, 0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0, 0, 0, 0]) and dsolve(eq9) == sol9 and checksysodesol(eq9, sol9) == (True, [0, 0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0, 0]) and dsolve(eqs11) == sol11 and checksysodesol(eqs11, sol11) == (True, [0, 0, 0]) and dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0, 0]) and dsolve(eqs13) == sol13 and checksysodesol(eqs13, sol13) == (True, [0, 0]) and dsolve(eqs14) == sol14 and checksysodesol(eqs14, sol14) == (True, [0, 0, 0]) and dsolve(eqs15) == sol15 and checksysodesol(eqs15, sol15) == (True, [0, 0, 0]) and dsolve(eq16) == sol16 and checksysodesol(eq16, sol16) == (True, [0, 0, 0]) and dsolve(eqs17) == sol17 and checksysodesol(eqs17, sol17) == (True, [0, 0, 0]) and dsolve(eqs18) == sol18 and checksysodesol(eqs18, sol18) == (True, [0, 0, 0]) and dsolve(eqs19) == sol19 and checksysodesol(eqs19, sol19) == (True, [0, 0, 0]) and dsolve(eqs20) == sol20 and checksysodesol(eqs20, sol20) == (True, [0, 0, 0]) and dsolve(eq21) == sol21 and checksysodesol(eq21, sol21) == (True, [0, 0]) and dsolve(eqs22) == sol22 and checksysodesol(eqs22, sol22) == (True, [0, 0]) and dsolve(eqs23) == sol23 and checksysodesol(eqs23, sol23) == (True, [0, 0]) and dsolve(eq24) == sol24 and checksysodesol(eq24, sol24) == (True, [0, 0]) and dsolve(eqs25) == sol25 and checksysodesol(eqs25, sol25) == (True, [0, 0, 0, 0, 0]) and dsolve(eq26) == sol26 and checksysodesol(eq26, sol26) == (True, [0, 0]) and dsolve(eq27) == sol27 and checksysodesol(eq27, sol27) == (True, [0, 0]) and dsolve(eq28) == sol28 and checksysodesol(eq28, sol28) == (True, [0, 0]) and dsolve(eq29) == sol29 and checksysodesol(eq29, sol29) == (True, [0, 0]) and dsolve(eq30) == sol30 and checksysodesol(eq30, sol30) == (True, [0, 0]) and dsolve(eq31) == sol31 and checksysodesol(eq31, sol31) == (True, [0, 0]) and dsolve(eq32) == sol32 and checksysodesol(eq32, sol32) == (True, [0, 0]) and dsolve(eq33) == sol33 and checksysodesol(eq33, sol33) == (True, [0, 0]) and dsolve(eq34) == sol34 and checksysodesol(eq34, sol34) == (True, [0, 0]) and dsolve(eq35) == sol35 and checksysodesol(eq35, sol35) == (True, [0, 0]) and dsolve(eq36) == sol36 and checksysodesol(eq36, sol36) == (True, [0, 0]) and dsolve(eq37) == sol37 and checksysodesol(eq37, sol37) == (True, [0, 0]) and dsolve(eq1) == sol1"},"spec":{"lhs":"test_sysode_linear_neq_order1_type1_slow()","rhs":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0, 0, 0]) and dsolve(eq5) == sol5 and checksysodesol(eq5, sol5) == (True, [0, 0, 0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0]) and dsolve(eq7) == sol7 and checksysodesol(eq7, sol7) == (True, [0, 0, 0, 0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0, 0, 0, 0]) and dsolve(eq9) == sol9 and checksysodesol(eq9, sol9) == (True, [0, 0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0, 0]) and dsolve(eqs11) == sol11 and checksysodesol(eqs11, sol11) == (True, [0, 0, 0]) and dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0, 0]) and dsolve(eqs13) == sol13 and checksysodesol(eqs13, sol13) == (True, [0, 0]) and dsolve(eqs14) == sol14 and checksysodesol(eqs14, sol14) == (True, [0, 0, 0]) and dsolve(eqs15) == sol15 and checksysodesol(eqs15, sol15) == (True, [0, 0, 0]) and dsolve(eq16) == sol16 and checksysodesol(eq16, sol16) == (True, [0, 0, 0]) and dsolve(eqs17) == sol17 and checksysodesol(eqs17, sol17) == (True, [0, 0, 0]) and dsolve(eqs18) == sol18 and checksysodesol(eqs18, sol18) == (True, [0, 0, 0]) and dsolve(eqs19) == sol19 and checksysodesol(eqs19, sol19) == (True, [0, 0, 0]) and dsolve(eqs20) == sol20 and checksysodesol(eqs20, sol20) == (True, [0, 0, 0]) and dsolve(eq21) == sol21 and checksysodesol(eq21, sol21) == (True, [0, 0]) and dsolve(eqs22) == sol22 and checksysodesol(eqs22, sol22) == (True, [0, 0]) and dsolve(eqs23) == sol23 and checksysodesol(eqs23, sol23) == (True, [0, 0]) and dsolve(eq24) == sol24 and checksysodesol(eq24, sol24) == (True, [0, 0]) and dsolve(eqs25) == sol25 and checksysodesol(eqs25, sol25) == (True, [0, 0, 0, 0, 0]) and dsolve(eq26) == sol26 and checksysodesol(eq26, sol26) == (True, [0, 0]) and dsolve(eq27) == sol27 and checksysodesol(eq27, sol27) == (True, [0, 0]) and dsolve(eq28) == sol28 and checksysodesol(eq28, sol28) == (True, [0, 0]) and dsolve(eq29) == sol29 and checksysodesol(eq29, sol29) == (True, [0, 0]) and dsolve(eq30) == sol30 and checksysodesol(eq30, sol30) == (True, [0, 0]) and dsolve(eq31) == sol31 and checksysodesol(eq31, sol31) == (True, [0, 0]) and dsolve(eq32) == sol32 and checksysodesol(eq32, sol32) == (True, [0, 0]) and dsolve(eq33) == sol33 and checksysodesol(eq33, sol33) == (True, [0, 0]) and dsolve(eq34) == sol34 and checksysodesol(eq34, sol34) == (True, [0, 0]) and dsolve(eq35) == sol35 and checksysodesol(eq35, sol35) == (True, [0, 0]) and dsolve(eq36) == sol36 and checksysodesol(eq36, sol36) == (True, [0, 0]) and dsolve(eq37) == sol37 and checksysodesol(eq37, sol37) == (True, [0, 0]) and dsolve(eq1) == sol1","over":{"base":"Any"},"name":"test_sysode_linear_neq_order1_type1_slow_correct"},"guarantee":"dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0]); dsolve(eqs2) == sol2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type1_slow_correct","statement":"Path(test_sysode_linear_neq_order1_type1_slow(x), dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0]); dsolve(eqs2) == sol2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37c83380332c5ee7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eqs1) == sol1","checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0])","dsolve(eqs2) == sol2","checksysodesol(eqs2, sol2) == (True, [0, 0, 0])","dsolve(eqs3) == sol3","checksysodesol(eqs3, sol3) == (True, [0, 0, 0])","dsolve(eqs4) == sol4","checksysodesol(eqs4, sol4) == (True, [0, 0, 0, 0])","dsolve(eq5) == sol5","checksysodesol(eq5, sol5) == (True, [0, 0, 0, 0])","dsolve(eqs6) == sol6","checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0])","dsolve(eq7) == sol7","checksysodesol(eq7, sol7) == (True, [0, 0, 0, 0, 0])","dsolve(eqs8) == sol8","checksysodesol(eqs8, sol8) == (True, [0, 0, 0, 0, 0])","dsolve(eq9) == sol9","checksysodesol(eq9, sol9) == (True, [0, 0, 0])","dsolve(eqs10) == sol10","checksysodesol(eqs10, sol10) == (True, [0, 0, 0])","dsolve(eqs11) == sol11","checksysodesol(eqs11, sol11) == (True, [0, 0, 0])","dsolve(eqs12) == sol12","checksysodesol(eqs12, sol12) == (True, [0, 0, 0])","dsolve(eqs13) == sol13","checksysodesol(eqs13, sol13) == (True, [0, 0])","dsolve(eqs14) == sol14","checksysodesol(eqs14, sol14) == (True, [0, 0, 0])","dsolve(eqs15) == sol15","checksysodesol(eqs15, sol15) == (True, [0, 0, 0])","dsolve(eq16) == sol16","checksysodesol(eq16, sol16) == (True, [0, 0, 0])","dsolve(eqs17) == sol17","checksysodesol(eqs17, sol17) == (True, [0, 0, 0])","dsolve(eqs18) == sol18","checksysodesol(eqs18, sol18) == (True, [0, 0, 0])","dsolve(eqs19) == sol19","checksysodesol(eqs19, sol19) == (True, [0, 0, 0])","dsolve(eqs20) == sol20","checksysodesol(eqs20, sol20) == (True, [0, 0, 0])","dsolve(eq21) == sol21","checksysodesol(eq21, sol21) == (True, [0, 0])","dsolve(eqs22) == sol22","checksysodesol(eqs22, sol22) == (True, [0, 0])","dsolve(eqs23) == sol23","checksysodesol(eqs23, sol23) == (True, [0, 0])","dsolve(eq24) == sol24","checksysodesol(eq24, sol24) == (True, [0, 0])","dsolve(eqs25) == sol25","checksysodesol(eqs25, sol25) == (True, [0, 0, 0, 0, 0])","dsolve(eq26) == sol26","checksysodesol(eq26, sol26) == (True, [0, 0])","dsolve(eq27) == sol27","checksysodesol(eq27, sol27) == (True, [0, 0])","dsolve(eq28) == sol28","checksysodesol(eq28, sol28) == (True, [0, 0])","dsolve(eq29) == sol29","checksysodesol(eq29, sol29) == (True, [0, 0])","dsolve(eq30) == sol30","checksysodesol(eq30, sol30) == (True, [0, 0])","dsolve(eq31) == sol31","checksysodesol(eq31, sol31) == (True, [0, 0])","dsolve(eq32) == sol32","checksysodesol(eq32, sol32) == (True, [0, 0])","dsolve(eq33) == sol33","checksysodesol(eq33, sol33) == (True, [0, 0])","dsolve(eq34) == sol34","checksysodesol(eq34, sol34) == (True, [0, 0])","dsolve(eq35) == sol35","checksysodesol(eq35, sol35) == (True, [0, 0])","dsolve(eq36) == sol36","checksysodesol(eq36, sol36) == (True, [0, 0])","dsolve(eq37) == sol37","checksysodesol(eq37, sol37) == (True, [0, 0])","dsolve(eq1) == sol1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":9.1,"verdict_class":"assumed","binding":true}}
 def test_sysode_linear_neq_order1_type1_slow():
 
     t = Symbol('t')
@@ -1109,16 +1154,24 @@ def test_sysode_linear_neq_order1_type1_slow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sysode_linear_neq_order1_type2(), test_sysode_linear_neq_order1_type2 produces the expected output) over Any ║
+# ║ Path(test_sysode_linear_neq_order1_type2(), dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11 and dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0]) and dsolve(eqs12, ics={y(t0): T, x(t0): x0}) == sol12b and checksysodesol(eqs12, sol12b) == (True, [0, 0]) and dsolve(eq13) == sol13 and checksysodesol(eq13, sol13) == (True, [0, 0]) and dsolve(eq14) == sol14 and checksysodesol(eq14, sol14) == (True, [0, 0]) and dsolve(eq15) == sol15 and checksysodesol(eq15, sol15) == (True, [0, 0]) and dsolve(eq16) == sol16 and checksysodesol(eq16, sol16) == (True, [0, 0]) and dsolve(eq17) == sol17 and checksysodesol(eq17, sol17) == (True, [0, 0]) and dsolve(eq18) == sol18 and checksysodesol(eq18, sol18) == (True, [0, 0]) and dsolve(eq19) == sol19 and checksysodesol(eq19, sol19) == (True, [0, 0]) and dsolve(eq20) == sol20 and checksysodesol(eq20, sol20) == (True, [0, 0]) and dsolve(eq21) == sol21 and checksysodesol(eq21, sol21) == (True, [0, 0]) and dsolve(eq22) == sol22 and checksysodesol(eq22, sol22) == (True, [0, 0]) and dsolve(eq23) == sol23 and checksysodesol(eq23, sol23) == (True, [0, 0]) and dsolve(eq24) == sol24 and checksysodesol(eq24, sol24) == (True, [0, 0]) and dsolve(eq25) == sol25 and checksysodesol(eq25, sol25) == (True, [0, 0]) and dsolve(eq26) == sol26 and checksysodesol(eq26, sol26) == (True, [0, 0]) and dsolve(eq27) == sol27 and checksysodesol(eq27, sol27) == (True, [0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sysode_linear_neq_order1_type2 : Any → {Any | ds...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eqs1) == sol1                           ║
+# ║   ensures:  checksysodesol(eqs1, sol1) == (True, [0, 0])   ║
+# ║   ensures:  dsolve(eqs2) == sol2                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sysode_linear_neq_order1_type2 : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 388e2816d1cf518b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 6.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e841e67736e74a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type2","kind":"function","src_hash":"2becce9ed43d1395","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11 and dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0]) and dsolve(eqs12, ics={y(t0): T, x(t0): x0}) == sol12b and checksysodesol(eqs12, sol12b) == (True, [0, 0]) and dsolve(eq13) == sol13 and checksysodesol(eq13, sol13) == (True, [0, 0]) and dsolve(eq14) == sol14 and checksysodesol(eq14, sol14) == (True, [0, 0]) and dsolve(eq15) == sol15 and checksysodesol(eq15, sol15) == (True, [0, 0]) and dsolve(eq16) == sol16 and checksysodesol(eq16, sol16) == (True, [0, 0]) and dsolve(eq17) == sol17 and checksysodesol(eq17, sol17) == (True, [0, 0]) and dsolve(eq18) == sol18 and checksysodesol(eq18, sol18) == (True, [0, 0]) and dsolve(eq19) == sol19 and checksysodesol(eq19, sol19) == (True, [0, 0]) and dsolve(eq20) == sol20 and checksysodesol(eq20, sol20) == (True, [0, 0]) and dsolve(eq21) == sol21 and checksysodesol(eq21, sol21) == (True, [0, 0]) and dsolve(eq22) == sol22 and checksysodesol(eq22, sol22) == (True, [0, 0]) and dsolve(eq23) == sol23 and checksysodesol(eq23, sol23) == (True, [0, 0]) and dsolve(eq24) == sol24 and checksysodesol(eq24, sol24) == (True, [0, 0]) and dsolve(eq25) == sol25 and checksysodesol(eq25, sol25) == (True, [0, 0]) and dsolve(eq26) == sol26 and checksysodesol(eq26, sol26) == (True, [0, 0]) and dsolve(eq27) == sol27 and checksysodesol(eq27, sol27) == (True, [0, 0]) and checksysodesol(eqs11, s11) == (True, [0, 0])"},"spec":{"lhs":"test_sysode_linear_neq_order1_type2()","rhs":"test_sysode_linear_neq_order1_type2 produces the expected output","over":{"base":"Any"},"name":"test_sysode_linear_neq_order1_type2_correct"},"guarantee":"test_sysode_linear_neq_order1_type2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type2_correct","statement":"Path(test_sysode_linear_neq_order1_type2(x), test_sysode_linear_neq_order1_type2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"388e2816d1cf518b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type2","kind":"function","src_hash":"2becce9ed43d1395","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11 and dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0]) and dsolve(eqs12, ics={y(t0): T, x(t0): x0}) == sol12b and checksysodesol(eqs12, sol12b) == (True, [0, 0]) and dsolve(eq13) == sol13 and checksysodesol(eq13, sol13) == (True, [0, 0]) and dsolve(eq14) == sol14 and checksysodesol(eq14, sol14) == (True, [0, 0]) and dsolve(eq15) == sol15 and checksysodesol(eq15, sol15) == (True, [0, 0]) and dsolve(eq16) == sol16 and checksysodesol(eq16, sol16) == (True, [0, 0]) and dsolve(eq17) == sol17 and checksysodesol(eq17, sol17) == (True, [0, 0]) and dsolve(eq18) == sol18 and checksysodesol(eq18, sol18) == (True, [0, 0]) and dsolve(eq19) == sol19 and checksysodesol(eq19, sol19) == (True, [0, 0]) and dsolve(eq20) == sol20 and checksysodesol(eq20, sol20) == (True, [0, 0]) and dsolve(eq21) == sol21 and checksysodesol(eq21, sol21) == (True, [0, 0]) and dsolve(eq22) == sol22 and checksysodesol(eq22, sol22) == (True, [0, 0]) and dsolve(eq23) == sol23 and checksysodesol(eq23, sol23) == (True, [0, 0]) and dsolve(eq24) == sol24 and checksysodesol(eq24, sol24) == (True, [0, 0]) and dsolve(eq25) == sol25 and checksysodesol(eq25, sol25) == (True, [0, 0]) and dsolve(eq26) == sol26 and checksysodesol(eq26, sol26) == (True, [0, 0]) and dsolve(eq27) == sol27 and checksysodesol(eq27, sol27) == (True, [0, 0])"},"spec":{"lhs":"test_sysode_linear_neq_order1_type2()","rhs":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11 and dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0]) and dsolve(eqs12, ics={y(t0): T, x(t0): x0}) == sol12b and checksysodesol(eqs12, sol12b) == (True, [0, 0]) and dsolve(eq13) == sol13 and checksysodesol(eq13, sol13) == (True, [0, 0]) and dsolve(eq14) == sol14 and checksysodesol(eq14, sol14) == (True, [0, 0]) and dsolve(eq15) == sol15 and checksysodesol(eq15, sol15) == (True, [0, 0]) and dsolve(eq16) == sol16 and checksysodesol(eq16, sol16) == (True, [0, 0]) and dsolve(eq17) == sol17 and checksysodesol(eq17, sol17) == (True, [0, 0]) and dsolve(eq18) == sol18 and checksysodesol(eq18, sol18) == (True, [0, 0]) and dsolve(eq19) == sol19 and checksysodesol(eq19, sol19) == (True, [0, 0]) and dsolve(eq20) == sol20 and checksysodesol(eq20, sol20) == (True, [0, 0]) and dsolve(eq21) == sol21 and checksysodesol(eq21, sol21) == (True, [0, 0]) and dsolve(eq22) == sol22 and checksysodesol(eq22, sol22) == (True, [0, 0]) and dsolve(eq23) == sol23 and checksysodesol(eq23, sol23) == (True, [0, 0]) and dsolve(eq24) == sol24 and checksysodesol(eq24, sol24) == (True, [0, 0]) and dsolve(eq25) == sol25 and checksysodesol(eq25, sol25) == (True, [0, 0]) and dsolve(eq26) == sol26 and checksysodesol(eq26, sol26) == (True, [0, 0]) and dsolve(eq27) == sol27 and checksysodesol(eq27, sol27) == (True, [0, 0])","over":{"base":"Any"},"name":"test_sysode_linear_neq_order1_type2_correct"},"guarantee":"dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]); dsolve(eqs2) == sol2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type2_correct","statement":"Path(test_sysode_linear_neq_order1_type2(x), dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]); dsolve(eqs2) == sol2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e841e67736e74a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eqs1) == sol1","checksysodesol(eqs1, sol1) == (True, [0, 0])","dsolve(eqs2) == sol2","checksysodesol(eqs2, sol2) == (True, [0, 0])","dsolve(eqs3) == sol3","checksysodesol(eqs3, sol3) == (True, [0, 0])","dsolve(eqs4) == sol4","checksysodesol(eqs4, sol4) == (True, [0, 0])","dsolve(eqs5) == sol5","checksysodesol(eqs5, sol5) == (True, [0, 0])","dsolve(eqs6) == sol6","checksysodesol(eqs6, sol6) == (True, [0, 0, 0])","dsolve(eqs7) == sol7","checksysodesol(eqs7, sol7) == (True, [0, 0])","dsolve(eqs8) == sol8","checksysodesol(eqs8, sol8) == (True, [0, 0])","dsolve(eqs9) == sol9","checksysodesol(eqs9, sol9) == (True, [0, 0, 0])","dsolve(eqs10) == sol10","checksysodesol(eqs10, sol10) == (True, [0, 0])","dsolve(eqs11) == sol11","dsolve(eqs12) == sol12","checksysodesol(eqs12, sol12) == (True, [0, 0])","dsolve(eqs12, ics={y(t0): T, x(t0): x0}) == sol12b","checksysodesol(eqs12, sol12b) == (True, [0, 0])","dsolve(eq13) == sol13","checksysodesol(eq13, sol13) == (True, [0, 0])","dsolve(eq14) == sol14","checksysodesol(eq14, sol14) == (True, [0, 0])","dsolve(eq15) == sol15","checksysodesol(eq15, sol15) == (True, [0, 0])","dsolve(eq16) == sol16","checksysodesol(eq16, sol16) == (True, [0, 0])","dsolve(eq17) == sol17","checksysodesol(eq17, sol17) == (True, [0, 0])","dsolve(eq18) == sol18","checksysodesol(eq18, sol18) == (True, [0, 0])","dsolve(eq19) == sol19","checksysodesol(eq19, sol19) == (True, [0, 0])","dsolve(eq20) == sol20","checksysodesol(eq20, sol20) == (True, [0, 0])","dsolve(eq21) == sol21","checksysodesol(eq21, sol21) == (True, [0, 0])","dsolve(eq22) == sol22","checksysodesol(eq22, sol22) == (True, [0, 0])","dsolve(eq23) == sol23","checksysodesol(eq23, sol23) == (True, [0, 0])","dsolve(eq24) == sol24","checksysodesol(eq24, sol24) == (True, [0, 0])","dsolve(eq25) == sol25","checksysodesol(eq25, sol25) == (True, [0, 0])","dsolve(eq26) == sol26","checksysodesol(eq26, sol26) == (True, [0, 0])","dsolve(eq27) == sol27","checksysodesol(eq27, sol27) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.0,"verdict_class":"assumed","binding":true}}
 def test_sysode_linear_neq_order1_type2():
 
     f, g, h, k = symbols('f g h k', cls=Function)
@@ -1377,16 +1430,24 @@ def test_sysode_linear_neq_order1_type2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sysode_linear_neq_order1_type3(), test_sysode_linear_neq_order1_type3 produces the expected output) over Any ║
+# ║ Path(test_sysode_linear_neq_order1_type3(), dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sysode_linear_neq_order1_type3 : Any → {Any | ds...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eqs1) == sol1                           ║
+# ║   ensures:  checksysodesol(eqs1, sol1) == (True, [0, 0])   ║
+# ║   ensures:  dsolve(eqs2) == sol2                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sysode_linear_neq_order1_type3 : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83ddcf0c836c6f42  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63e528428b0f4927  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type3","kind":"function","src_hash":"d463c201f0e38cf8","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11"},"spec":{"lhs":"test_sysode_linear_neq_order1_type3()","rhs":"test_sysode_linear_neq_order1_type3 produces the expected output","over":{"base":"Any"},"name":"test_sysode_linear_neq_order1_type3_correct"},"guarantee":"test_sysode_linear_neq_order1_type3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type3_correct","statement":"Path(test_sysode_linear_neq_order1_type3(x), test_sysode_linear_neq_order1_type3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83ddcf0c836c6f42"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type3","kind":"function","src_hash":"d463c201f0e38cf8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11"},"spec":{"lhs":"test_sysode_linear_neq_order1_type3()","rhs":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11","over":{"base":"Any"},"name":"test_sysode_linear_neq_order1_type3_correct"},"guarantee":"dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]); dsolve(eqs2) == sol2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type3_correct","statement":"Path(test_sysode_linear_neq_order1_type3(x), dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]); dsolve(eqs2) == sol2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63e528428b0f4927","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eqs1) == sol1","checksysodesol(eqs1, sol1) == (True, [0, 0])","dsolve(eqs2) == sol2","checksysodesol(eqs2, sol2) == (True, [0, 0])","dsolve(eqs3) == sol3","checksysodesol(eqs3, sol3) == (True, [0, 0])","dsolve(eqs4) == sol4","checksysodesol(eqs4, sol4) == (True, [0, 0, 0])","dsolve(eqs5) == sol5","checksysodesol(eqs5, sol5) == (True, [0, 0, 0])","dsolve(eqs6) == sol6","checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0])","dsolve(eqs7) == sol7","checksysodesol(eqs7, sol7) == (True, [0, 0])","dsolve(eqs8) == sol8","checksysodesol(eqs8, sol8) == (True, [0, 0])","dsolve(eqs9) == sol9","checksysodesol(eqs9, sol9) == (True, [0, 0])","dsolve(eqs10) == sol10","checksysodesol(eqs10, sol10) == (True, [0, 0])","dsolve(eqs11) == sol11"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.1,"verdict_class":"assumed","binding":true}}
 def test_sysode_linear_neq_order1_type3():
 
     f, g, h, k, x0 , y0 = symbols('f g h k x0 y0', cls=Function)
@@ -1484,16 +1545,24 @@ def test_sysode_linear_neq_order1_type3():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sysode_linear_neq_order1_type4(), test_sysode_linear_neq_order1_type4 produces the expected output) over Any ║
+# ║ Path(test_sysode_linear_neq_order1_type4(), dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve_system(eqs2, simplify=False, doit=False) == [sol2] and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0, 0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0]) and checksysodesol(eqs7, sol7) == (True, [0, 0, 0]) and checksysodesol(eqs8, sol8) == (True, [0, 0, 0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sysode_linear_neq_order1_type4 : Any → {Any | ds...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eqs1) == sol1                           ║
+# ║   ensures:  checksysodesol(eqs1, sol1) == (True, [0, 0])   ║
+# ║   ensures:  dsolve_system(eqs2, simplify=False, doit=...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sysode_linear_neq_order1_type4 : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b0bc414730eb8e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dae5d70231092698  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type4","kind":"function","src_hash":"707734d1948ae1e7","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve_system(eqs2, simplify=False, doit=False) == [sol2] and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0, 0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0]) and checksysodesol(eqs7, sol7) == (True, [0, 0, 0]) and checksysodesol(eqs8, sol8) == (True, [0, 0, 0, 0]) and dsolve(eqs7, simplify=False, doit=False) == sol7 and dsolve(eqs8) == sol8"},"spec":{"lhs":"test_sysode_linear_neq_order1_type4()","rhs":"test_sysode_linear_neq_order1_type4 produces the expected output","over":{"base":"Any"},"name":"test_sysode_linear_neq_order1_type4_correct"},"guarantee":"test_sysode_linear_neq_order1_type4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type4_correct","statement":"Path(test_sysode_linear_neq_order1_type4(x), test_sysode_linear_neq_order1_type4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b0bc414730eb8e5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type4","kind":"function","src_hash":"707734d1948ae1e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve_system(eqs2, simplify=False, doit=False) == [sol2] and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0, 0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0]) and checksysodesol(eqs7, sol7) == (True, [0, 0, 0]) and checksysodesol(eqs8, sol8) == (True, [0, 0, 0, 0])"},"spec":{"lhs":"test_sysode_linear_neq_order1_type4()","rhs":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve_system(eqs2, simplify=False, doit=False) == [sol2] and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0, 0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0]) and checksysodesol(eqs7, sol7) == (True, [0, 0, 0]) and checksysodesol(eqs8, sol8) == (True, [0, 0, 0, 0])","over":{"base":"Any"},"name":"test_sysode_linear_neq_order1_type4_correct"},"guarantee":"dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]); dsolve_system(eqs2, simplify=False, doit=False) == [sol2]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type4_correct","statement":"Path(test_sysode_linear_neq_order1_type4(x), dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]); dsolve_system(eqs2, simplify=False, doit=False) == [sol2])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dae5d70231092698","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eqs1) == sol1","checksysodesol(eqs1, sol1) == (True, [0, 0])","dsolve_system(eqs2, simplify=False, doit=False) == [sol2]","checksysodesol(eqs2, sol2) == (True, [0, 0])","dsolve(eqs3) == sol3","checksysodesol(eqs3, sol3) == (True, [0, 0, 0])","dsolve(eqs4) == sol4","checksysodesol(eqs4, sol4) == (True, [0, 0, 0])","dsolve(eqs5) == sol5","checksysodesol(eqs5, sol5) == (True, [0, 0, 0, 0])","dsolve(eqs6) == sol6","checksysodesol(eqs6, sol6) == (True, [0, 0, 0, 0])","checksysodesol(eqs7, sol7) == (True, [0, 0, 0])","checksysodesol(eqs8, sol8) == (True, [0, 0, 0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.7,"verdict_class":"assumed","binding":true}}
 def test_sysode_linear_neq_order1_type4():
 
     f, g, h, k = symbols('f g h k', cls=Function)
@@ -1615,16 +1684,24 @@ def test_sysode_linear_neq_order1_type4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sysode_linear_neq_order1_type5_type6(), test_sysode_linear_neq_order1_type5_type6 produces the expected output) over Any ║
+# ║ Path(test_sysode_linear_neq_order1_type5_type6(), dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eqs1) == sol1                           ║
+# ║   ensures:  checksysodesol(eqs1, sol1) == (True, [0, 0])   ║
+# ║   ensures:  dsolve(eqs2) == sol2                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sysode_linear_neq_order1_type5_type6 : Any → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5391d9abceaf87a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1805042ae2c18ae7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type5_type6","kind":"function","src_hash":"2e8ed09784022b1d","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0])"},"spec":{"lhs":"test_sysode_linear_neq_order1_type5_type6()","rhs":"test_sysode_linear_neq_order1_type5_type6 produces the expected output","over":{"base":"Any"},"name":"test_sysode_linear_neq_order1_type5_type6_correct"},"guarantee":"test_sysode_linear_neq_order1_type5_type6 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type5_type6_correct","statement":"Path(test_sysode_linear_neq_order1_type5_type6(x), test_sysode_linear_neq_order1_type5_type6 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5391d9abceaf87a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type5_type6","kind":"function","src_hash":"2e8ed09784022b1d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0])"},"spec":{"lhs":"test_sysode_linear_neq_order1_type5_type6()","rhs":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0])","over":{"base":"Any"},"name":"test_sysode_linear_neq_order1_type5_type6_correct"},"guarantee":"dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]); dsolve(eqs2) == sol2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_sysode_linear_neq_order1_type5_type6_correct","statement":"Path(test_sysode_linear_neq_order1_type5_type6(x), dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]); dsolve(eqs2) == sol2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1805042ae2c18ae7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eqs1) == sol1","checksysodesol(eqs1, sol1) == (True, [0, 0])","dsolve(eqs2) == sol2","checksysodesol(eqs2, sol2) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_sysode_linear_neq_order1_type5_type6():
     f, g = symbols("f g", cls=Function)
     x, x_ = symbols("x x_")
@@ -1645,16 +1722,24 @@ def test_sysode_linear_neq_order1_type5_type6():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_higher_order_to_first_order(), test_higher_order_to_first_order produces the expected output) over Any ║
+# ║ Path(test_higher_order_to_first_order(), dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11 and checksysodesol(eqs11, sol11) == (True, [0, 0]) and dsolve(eqs13) == sol13 and checksysodesol(eqs13, sol13) == (True, [0, 0]) and dsolve(eqs14) == sol14 and checksysodesol(eqs14, sol14) == (True, [0, 0]) and dsolve(eqs15) == sol15 and checksysodesol(eqs15, sol15) == (True, [0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_higher_order_to_first_order : Any → {Any | dsolv...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eqs1) == sol1                           ║
+# ║   ensures:  checksysodesol(eqs1, sol1) == (True, [0, 0])   ║
+# ║   ensures:  dsolve(eqs2) == sol2                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_higher_order_to_first_order : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05c355b4ebf8ebad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cba0a7c3abfc505d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_higher_order_to_first_order","kind":"function","src_hash":"f95fa566b09f8fed","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11 and checksysodesol(eqs11, sol11) == (True, [0, 0]) and dsolve(eqs13) == sol13 and checksysodesol(eqs13, sol13) == (True, [0, 0]) and dsolve(eqs14) == sol14 and checksysodesol(eqs14, sol14) == (True, [0, 0]) and dsolve(eqs15) == sol15 and checksysodesol(eqs15, sol15) == (True, [0, 0])"},"spec":{"lhs":"test_higher_order_to_first_order()","rhs":"test_higher_order_to_first_order produces the expected output","over":{"base":"Any"},"name":"test_higher_order_to_first_order_correct"},"guarantee":"test_higher_order_to_first_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_higher_order_to_first_order_correct","statement":"Path(test_higher_order_to_first_order(x), test_higher_order_to_first_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05c355b4ebf8ebad"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_higher_order_to_first_order","kind":"function","src_hash":"f95fa566b09f8fed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11 and checksysodesol(eqs11, sol11) == (True, [0, 0]) and dsolve(eqs13) == sol13 and checksysodesol(eqs13, sol13) == (True, [0, 0]) and dsolve(eqs14) == sol14 and checksysodesol(eqs14, sol14) == (True, [0, 0]) and dsolve(eqs15) == sol15 and checksysodesol(eqs15, sol15) == (True, [0, 0])"},"spec":{"lhs":"test_higher_order_to_first_order()","rhs":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0]) and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs4) == sol4 and checksysodesol(eqs4, sol4) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0]) and dsolve(eqs7) == sol7 and checksysodesol(eqs7, sol7) == (True, [0, 0]) and dsolve(eqs8) == sol8 and checksysodesol(eqs8, sol8) == (True, [0, 0]) and dsolve(eqs10) == sol10 and checksysodesol(eqs10, sol10) == (True, [0, 0]) and dsolve(eqs11) == sol11 and checksysodesol(eqs11, sol11) == (True, [0, 0]) and dsolve(eqs13) == sol13 and checksysodesol(eqs13, sol13) == (True, [0, 0]) and dsolve(eqs14) == sol14 and checksysodesol(eqs14, sol14) == (True, [0, 0]) and dsolve(eqs15) == sol15 and checksysodesol(eqs15, sol15) == (True, [0, 0])","over":{"base":"Any"},"name":"test_higher_order_to_first_order_correct"},"guarantee":"dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]); dsolve(eqs2) == sol2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_higher_order_to_first_order_correct","statement":"Path(test_higher_order_to_first_order(x), dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]); dsolve(eqs2) == sol2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cba0a7c3abfc505d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eqs1) == sol1","checksysodesol(eqs1, sol1) == (True, [0, 0])","dsolve(eqs2) == sol2","checksysodesol(eqs2, sol2) == (True, [0, 0])","dsolve(eqs3) == sol3","checksysodesol(eqs3, sol3) == (True, [0, 0])","dsolve(eqs4) == sol4","checksysodesol(eqs4, sol4) == (True, [0, 0])","dsolve(eqs5) == sol5","checksysodesol(eqs5, sol5) == (True, [0, 0])","dsolve(eqs6) == sol6","checksysodesol(eqs6, sol6) == (True, [0, 0])","dsolve(eqs7) == sol7","checksysodesol(eqs7, sol7) == (True, [0, 0])","dsolve(eqs8) == sol8","checksysodesol(eqs8, sol8) == (True, [0, 0])","dsolve(eqs10) == sol10","checksysodesol(eqs10, sol10) == (True, [0, 0])","dsolve(eqs11) == sol11","checksysodesol(eqs11, sol11) == (True, [0, 0])","dsolve(eqs13) == sol13","checksysodesol(eqs13, sol13) == (True, [0, 0])","dsolve(eqs14) == sol14","checksysodesol(eqs14, sol14) == (True, [0, 0])","dsolve(eqs15) == sol15","checksysodesol(eqs15, sol15) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.7,"verdict_class":"assumed","binding":true}}
 def test_higher_order_to_first_order():
     f, g = symbols('f g', cls=Function)
     x = symbols('x')
@@ -1780,16 +1865,23 @@ def test_higher_order_to_first_order():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_higher_order_to_first_order_9(), test_higher_order_to_first_order_9 produces the expected output) over Any ║
+# ║ Path(test_higher_order_to_first_order_9(), dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_higher_order_to_first_order_9 : Any → {Any | dso...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eqs9) == sol9                           ║
+# ║   ensures:  checksysodesol(eqs9, sol9) == (True, [0, 0])   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_higher_order_to_first_order_9 : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6f5ef5dfc8a6711  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50eef2485487b6af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_higher_order_to_first_order_9","kind":"function","src_hash":"39d079c1c4139e8e","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0])"},"spec":{"lhs":"test_higher_order_to_first_order_9()","rhs":"test_higher_order_to_first_order_9 produces the expected output","over":{"base":"Any"},"name":"test_higher_order_to_first_order_9_correct"},"guarantee":"test_higher_order_to_first_order_9 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_higher_order_to_first_order_9_correct","statement":"Path(test_higher_order_to_first_order_9(x), test_higher_order_to_first_order_9 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6f5ef5dfc8a6711"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_higher_order_to_first_order_9","kind":"function","src_hash":"39d079c1c4139e8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0])"},"spec":{"lhs":"test_higher_order_to_first_order_9()","rhs":"dsolve(eqs9) == sol9 and checksysodesol(eqs9, sol9) == (True, [0, 0])","over":{"base":"Any"},"name":"test_higher_order_to_first_order_9_correct"},"guarantee":"dsolve(eqs9) == sol9; checksysodesol(eqs9, sol9) == (True, [0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_higher_order_to_first_order_9_correct","statement":"Path(test_higher_order_to_first_order_9(x), dsolve(eqs9) == sol9; checksysodesol(eqs9, sol9) == (True, [0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50eef2485487b6af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eqs9) == sol9","checksysodesol(eqs9, sol9) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_higher_order_to_first_order_9():
     f, g = symbols('f g', cls=Function)
     x = symbols('x')
@@ -1807,16 +1899,23 @@ def test_higher_order_to_first_order_9():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_higher_order_to_first_order_12(), test_higher_order_to_first_order_12 produces the expected output) over Any ║
+# ║ Path(test_higher_order_to_first_order_12(), dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_higher_order_to_first_order_12 : Any → {Any | ds...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eqs12) == sol12                         ║
+# ║   ensures:  checksysodesol(eqs12, sol12) == (True, [0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_higher_order_to_first_order_12 : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a08f1c9319c995cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dba91fb19f5dc001  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_higher_order_to_first_order_12","kind":"function","src_hash":"7221d4aee9d1584e","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0])"},"spec":{"lhs":"test_higher_order_to_first_order_12()","rhs":"test_higher_order_to_first_order_12 produces the expected output","over":{"base":"Any"},"name":"test_higher_order_to_first_order_12_correct"},"guarantee":"test_higher_order_to_first_order_12 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_higher_order_to_first_order_12_correct","statement":"Path(test_higher_order_to_first_order_12(x), test_higher_order_to_first_order_12 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a08f1c9319c995cb"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_higher_order_to_first_order_12","kind":"function","src_hash":"7221d4aee9d1584e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0])"},"spec":{"lhs":"test_higher_order_to_first_order_12()","rhs":"dsolve(eqs12) == sol12 and checksysodesol(eqs12, sol12) == (True, [0, 0])","over":{"base":"Any"},"name":"test_higher_order_to_first_order_12_correct"},"guarantee":"dsolve(eqs12) == sol12; checksysodesol(eqs12, sol12) == (True, [0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_higher_order_to_first_order_12_correct","statement":"Path(test_higher_order_to_first_order_12(x), dsolve(eqs12) == sol12; checksysodesol(eqs12, sol12) == (True, [0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dba91fb19f5dc001","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eqs12) == sol12","checksysodesol(eqs12, sol12) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_higher_order_to_first_order_12():
     f, g = symbols('f g', cls=Function)
     x = symbols('x')
@@ -1837,16 +1936,24 @@ def test_higher_order_to_first_order_12():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_second_order_to_first_order_2(), test_second_order_to_first_order_2 produces the expected output) over Any ║
+# ║ Path(test_second_order_to_first_order_2(), dsolve_system(eqs2, simplify=False, doit=False) == [sol2] and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve_system(eqs3, simplify=False, doit=False) == [sol3] and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_second_order_to_first_order_2 : Any → {Any | dso...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve_system(eqs2, simplify=False, doit=...   ║
+# ║   ensures:  checksysodesol(eqs2, sol2) == (True, [0, 0])   ║
+# ║   ensures:  dsolve_system(eqs3, simplify=False, doit=...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_second_order_to_first_order_2 : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d3e7c76ad3a1b7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bbbc46c76b5432e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_second_order_to_first_order_2","kind":"function","src_hash":"aaac6ccaa6fd47a6","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve_system(eqs2, simplify=False, doit=False) == [sol2] and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve_system(eqs3, simplify=False, doit=False) == [sol3] and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0])"},"spec":{"lhs":"test_second_order_to_first_order_2()","rhs":"test_second_order_to_first_order_2 produces the expected output","over":{"base":"Any"},"name":"test_second_order_to_first_order_2_correct"},"guarantee":"test_second_order_to_first_order_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_second_order_to_first_order_2_correct","statement":"Path(test_second_order_to_first_order_2(x), test_second_order_to_first_order_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d3e7c76ad3a1b7c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_second_order_to_first_order_2","kind":"function","src_hash":"aaac6ccaa6fd47a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve_system(eqs2, simplify=False, doit=False) == [sol2] and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve_system(eqs3, simplify=False, doit=False) == [sol3] and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0])"},"spec":{"lhs":"test_second_order_to_first_order_2()","rhs":"dsolve_system(eqs2, simplify=False, doit=False) == [sol2] and checksysodesol(eqs2, sol2) == (True, [0, 0]) and dsolve_system(eqs3, simplify=False, doit=False) == [sol3] and checksysodesol(eqs3, sol3) == (True, [0, 0]) and dsolve(eqs5) == sol5 and checksysodesol(eqs5, sol5) == (True, [0, 0]) and dsolve(eqs6) == sol6 and checksysodesol(eqs6, sol6) == (True, [0, 0])","over":{"base":"Any"},"name":"test_second_order_to_first_order_2_correct"},"guarantee":"dsolve_system(eqs2, simplify=False, doit=False) == [sol2]; checksysodesol(eqs2, sol2) == (True, [0, 0]); dsolve_system(eqs3, simplify=False, doit=False) == [sol3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_second_order_to_first_order_2_correct","statement":"Path(test_second_order_to_first_order_2(x), dsolve_system(eqs2, simplify=False, doit=False) == [sol2]; checksysodesol(eqs2, sol2) == (True, [0, 0]); dsolve_system(eqs3, simplify=False, doit=False) == [sol3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bbbc46c76b5432e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve_system(eqs2, simplify=False, doit=False) == [sol2]","checksysodesol(eqs2, sol2) == (True, [0, 0])","dsolve_system(eqs3, simplify=False, doit=False) == [sol3]","checksysodesol(eqs3, sol3) == (True, [0, 0])","dsolve(eqs5) == sol5","checksysodesol(eqs5, sol5) == (True, [0, 0])","dsolve(eqs6) == sol6","checksysodesol(eqs6, sol6) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def test_second_order_to_first_order_2():
     f, g = symbols("f g", cls=Function)
     x, t, x_, t_, d, a, m = symbols("x t x_ t_ d a m")
@@ -1895,16 +2002,23 @@ def test_second_order_to_first_order_2():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_second_order_to_first_order_slow1(), test_second_order_to_first_order_slow1 produces the expected output) over Any ║
+# ║ Path(test_second_order_to_first_order_slow1(), dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eqs1) == sol1                           ║
+# ║   ensures:  checksysodesol(eqs1, sol1) == (True, [0, 0])   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_second_order_to_first_order_slow1 : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c08aad022c0546e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdfcc4745add84f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_second_order_to_first_order_slow1","kind":"function","src_hash":"f0a2ac68aa30c7f9","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0])"},"spec":{"lhs":"test_second_order_to_first_order_slow1()","rhs":"test_second_order_to_first_order_slow1 produces the expected output","over":{"base":"Any"},"name":"test_second_order_to_first_order_slow1_correct"},"guarantee":"test_second_order_to_first_order_slow1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_second_order_to_first_order_slow1_correct","statement":"Path(test_second_order_to_first_order_slow1(x), test_second_order_to_first_order_slow1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c08aad022c0546e4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_second_order_to_first_order_slow1","kind":"function","src_hash":"f0a2ac68aa30c7f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0])"},"spec":{"lhs":"test_second_order_to_first_order_slow1()","rhs":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0])","over":{"base":"Any"},"name":"test_second_order_to_first_order_slow1_correct"},"guarantee":"dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_second_order_to_first_order_slow1_correct","statement":"Path(test_second_order_to_first_order_slow1(x), dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdfcc4745add84f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eqs1) == sol1","checksysodesol(eqs1, sol1) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_second_order_to_first_order_slow1():
     f, g = symbols("f g", cls=Function)
     x, t, x_, t_, d, a, m = symbols("x t x_ t_ d a m")
@@ -1920,16 +2034,23 @@ def test_second_order_to_first_order_slow1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_second_order_to_first_order_slow4(), test_second_order_to_first_order_slow4 produces the expected output) over Any ║
+# ║ Path(test_second_order_to_first_order_slow4(), dsolve_system(eqs4, simplify=False, doit=False) == [sol4] and checksysodesol(eqs4, sol4) == (True, [0, 0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve_system(eqs4, simplify=False, doit=...   ║
+# ║   ensures:  checksysodesol(eqs4, sol4) == (True, [0, 0])   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_second_order_to_first_order_slow4 : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87b63b1ce24b3ee4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dc678429d4a98e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_second_order_to_first_order_slow4","kind":"function","src_hash":"b9391d39ac5ee888","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve_system(eqs4, simplify=False, doit=False) == [sol4] and checksysodesol(eqs4, sol4) == (True, [0, 0])"},"spec":{"lhs":"test_second_order_to_first_order_slow4()","rhs":"test_second_order_to_first_order_slow4 produces the expected output","over":{"base":"Any"},"name":"test_second_order_to_first_order_slow4_correct"},"guarantee":"test_second_order_to_first_order_slow4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_second_order_to_first_order_slow4_correct","statement":"Path(test_second_order_to_first_order_slow4(x), test_second_order_to_first_order_slow4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87b63b1ce24b3ee4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_second_order_to_first_order_slow4","kind":"function","src_hash":"b9391d39ac5ee888","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve_system(eqs4, simplify=False, doit=False) == [sol4] and checksysodesol(eqs4, sol4) == (True, [0, 0])"},"spec":{"lhs":"test_second_order_to_first_order_slow4()","rhs":"dsolve_system(eqs4, simplify=False, doit=False) == [sol4] and checksysodesol(eqs4, sol4) == (True, [0, 0])","over":{"base":"Any"},"name":"test_second_order_to_first_order_slow4_correct"},"guarantee":"dsolve_system(eqs4, simplify=False, doit=False) == [sol4]; checksysodesol(eqs4, sol4) == (True, [0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_second_order_to_first_order_slow4_correct","statement":"Path(test_second_order_to_first_order_slow4(x), dsolve_system(eqs4, simplify=False, doit=False) == [sol4]; checksysodesol(eqs4, sol4) == (True, [0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc678429d4a98e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve_system(eqs4, simplify=False, doit=False) == [sol4]","checksysodesol(eqs4, sol4) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_second_order_to_first_order_slow4():
     f, g = symbols("f g", cls=Function)
     x, t, x_, t_, d, a, m = symbols("x t x_ t_ d a m")
@@ -1949,16 +2070,24 @@ def test_second_order_to_first_order_slow4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_component_division(), test_component_division produces the expected output) over Any ║
+# ║ Path(test_component_division(), dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0]) and {tuple((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs1, funcs, x)} == components1 and _eqs2dict(eqs1, funcs) == eqsdict1 and [set(element) for element in _dict2graph(eqsdict1[0])] == graph1 and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0, 0, 0]) and {frozenset((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs2, funcs, x)} == components2 and _eqs2dict(eqs2, funcs) == eqsdict2 and [set(element) for element in _dict2graph(eqsdict2[0])] == graph2 and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0, 0, 0]) and {frozenset((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs3, funcs, x)} == components3 and _eqs2dict(eqs3, funcs) == eqsdict3 and [set(l) for l in _dict2graph(eqsdict3[0])] == graph3 and {tuple((frozenset(scc) for scc in wcc)) for wcc in _component_division(eqs4, funcs, x)} == components4 and _eqs2dict(eqs4, funcs) == eqsdict4 and [set(element) for element in _dict2graph(eqsdict4[0])] == graph4 and dsolve_system(eqs4, simplify=False, doit=False) == [sol4] and checksysodesol(eqs4, sol4) == (True, [0, 0, 0, 0]) and {tuple((frozenset(scc) for scc in wcc)) for wcc in _component_division(eqs5, funcs, x)} == components5 and _eqs2dict(eqs5, funcs) == eqsdict5 and [set(element) for element in _dict2graph(eqsdict5[0])] == graph5 and dsolve_system(eqs5, simplify=False, doit=False) == [sol5] and checksysodesol(eqs5, sol5) == (True, [0, 0, 0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_component_division : Any → {Any | dsolve(eqs1) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eqs1) == sol1                           ║
+# ║   ensures:  checksysodesol(eqs1, sol1) == (True, [0, ...   ║
+# ║   ensures:  {tuple((tuple(scc) for scc in wcc)) for w...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_component_division : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71ec28a131d40ee0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32afefdea1f5d51b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_component_division","kind":"function","src_hash":"56b6a6501a1a521c","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0]) and _eqs2dict(eqs1, funcs) == eqsdict1 and [set(element) for element in _dict2graph(eqsdict1[0])] == graph1 and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0, 0, 0]) and _eqs2dict(eqs2, funcs) == eqsdict2 and [set(element) for element in _dict2graph(eqsdict2[0])] == graph2 and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0, 0, 0]) and _eqs2dict(eqs3, funcs) == eqsdict3 and [set(l) for l in _dict2graph(eqsdict3[0])] == graph3 and _eqs2dict(eqs4, funcs) == eqsdict4 and [set(element) for element in _dict2graph(eqsdict4[0])] == graph4 and dsolve_system(eqs4, simplify=False, doit=False) == [sol4] and checksysodesol(eqs4, sol4) == (True, [0, 0, 0, 0]) and _eqs2dict(eqs5, funcs) == eqsdict5 and [set(element) for element in _dict2graph(eqsdict5[0])] == graph5 and dsolve_system(eqs5, simplify=False, doit=False) == [sol5] and checksysodesol(eqs5, sol5) == (True, [0, 0, 0, 0])"},"spec":{"lhs":"test_component_division()","rhs":"test_component_division produces the expected output","over":{"base":"Any"},"name":"test_component_division_correct"},"guarantee":"test_component_division produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_component_division_correct","statement":"Path(test_component_division(x), test_component_division produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71ec28a131d40ee0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_component_division","kind":"function","src_hash":"56b6a6501a1a521c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0]) and {tuple((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs1, funcs, x)} == components1 and _eqs2dict(eqs1, funcs) == eqsdict1 and [set(element) for element in _dict2graph(eqsdict1[0])] == graph1 and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0, 0, 0]) and {frozenset((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs2, funcs, x)} == components2 and _eqs2dict(eqs2, funcs) == eqsdict2 and [set(element) for element in _dict2graph(eqsdict2[0])] == graph2 and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0, 0, 0]) and {frozenset((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs3, funcs, x)} == components3 and _eqs2dict(eqs3, funcs) == eqsdict3 and [set(l) for l in _dict2graph(eqsdict3[0])] == graph3 and {tuple((frozenset(scc) for scc in wcc)) for wcc in _component_division(eqs4, funcs, x)} == components4 and _eqs2dict(eqs4, funcs) == eqsdict4 and [set(element) for element in _dict2graph(eqsdict4[0])] == graph4 and dsolve_system(eqs4, simplify=False, doit=False) == [sol4] and checksysodesol(eqs4, sol4) == (True, [0, 0, 0, 0]) and {tuple((frozenset(scc) for scc in wcc)) for wcc in _component_division(eqs5, funcs, x)} == components5 and _eqs2dict(eqs5, funcs) == eqsdict5 and [set(element) for element in _dict2graph(eqsdict5[0])] == graph5 and dsolve_system(eqs5, simplify=False, doit=False) == [sol5] and checksysodesol(eqs5, sol5) == (True, [0, 0, 0, 0])"},"spec":{"lhs":"test_component_division()","rhs":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0]) and {tuple((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs1, funcs, x)} == components1 and _eqs2dict(eqs1, funcs) == eqsdict1 and [set(element) for element in _dict2graph(eqsdict1[0])] == graph1 and dsolve(eqs2) == sol2 and checksysodesol(eqs2, sol2) == (True, [0, 0, 0, 0]) and {frozenset((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs2, funcs, x)} == components2 and _eqs2dict(eqs2, funcs) == eqsdict2 and [set(element) for element in _dict2graph(eqsdict2[0])] == graph2 and dsolve(eqs3) == sol3 and checksysodesol(eqs3, sol3) == (True, [0, 0, 0, 0]) and {frozenset((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs3, funcs, x)} == components3 and _eqs2dict(eqs3, funcs) == eqsdict3 and [set(l) for l in _dict2graph(eqsdict3[0])] == graph3 and {tuple((frozenset(scc) for scc in wcc)) for wcc in _component_division(eqs4, funcs, x)} == components4 and _eqs2dict(eqs4, funcs) == eqsdict4 and [set(element) for element in _dict2graph(eqsdict4[0])] == graph4 and dsolve_system(eqs4, simplify=False, doit=False) == [sol4] and checksysodesol(eqs4, sol4) == (True, [0, 0, 0, 0]) and {tuple((frozenset(scc) for scc in wcc)) for wcc in _component_division(eqs5, funcs, x)} == components5 and _eqs2dict(eqs5, funcs) == eqsdict5 and [set(element) for element in _dict2graph(eqsdict5[0])] == graph5 and dsolve_system(eqs5, simplify=False, doit=False) == [sol5] and checksysodesol(eqs5, sol5) == (True, [0, 0, 0, 0])","over":{"base":"Any"},"name":"test_component_division_correct"},"guarantee":"dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0]); {tuple((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs1, funcs, x)} == components1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_component_division_correct","statement":"Path(test_component_division(x), dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0]); {tuple((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs1, funcs, x)} == components1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32afefdea1f5d51b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eqs1) == sol1","checksysodesol(eqs1, sol1) == (True, [0, 0, 0, 0])","{tuple((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs1, funcs, x)} == components1","_eqs2dict(eqs1, funcs) == eqsdict1","[set(element) for element in _dict2graph(eqsdict1[0])] == graph1","dsolve(eqs2) == sol2","checksysodesol(eqs2, sol2) == (True, [0, 0, 0, 0])","{frozenset((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs2, funcs, x)} == components2","_eqs2dict(eqs2, funcs) == eqsdict2","[set(element) for element in _dict2graph(eqsdict2[0])] == graph2","dsolve(eqs3) == sol3","checksysodesol(eqs3, sol3) == (True, [0, 0, 0, 0])","{frozenset((tuple(scc) for scc in wcc)) for wcc in _component_division(eqs3, funcs, x)} == components3","_eqs2dict(eqs3, funcs) == eqsdict3","[set(l) for l in _dict2graph(eqsdict3[0])] == graph3","{tuple((frozenset(scc) for scc in wcc)) for wcc in _component_division(eqs4, funcs, x)} == components4","_eqs2dict(eqs4, funcs) == eqsdict4","[set(element) for element in _dict2graph(eqsdict4[0])] == graph4","dsolve_system(eqs4, simplify=False, doit=False) == [sol4]","checksysodesol(eqs4, sol4) == (True, [0, 0, 0, 0])","{tuple((frozenset(scc) for scc in wcc)) for wcc in _component_division(eqs5, funcs, x)} == components5","_eqs2dict(eqs5, funcs) == eqsdict5","[set(element) for element in _dict2graph(eqsdict5[0])] == graph5","dsolve_system(eqs5, simplify=False, doit=False) == [sol5]","checksysodesol(eqs5, sol5) == (True, [0, 0, 0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.7,"verdict_class":"assumed","binding":true}}
 def test_component_division():
     f, g, h, k = symbols('f g h k', cls=Function)
     x = symbols("x")
@@ -2108,16 +2237,24 @@ def test_component_division():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linodesolve(), test_linodesolve produces the expected output) over Any ║
+# ║ Path(test_linodesolve(), constant_renumber(linodesolve(A, t), variables=Tuple(*eq).free_symbols) == sol and constant_renumber(linodesolve(A1, t, b=b1, type='type2', doit=True), variables=[t]) == sol1 and constant_renumber(linodesolve(A, t, b=b), variables=[t]) == sol and constant_renumber(linodesolve(A, t, type='type2'), variables=[t]) == sol1 and constant_renumber(linodesolve(A, t, type='type3'), variables=Tuple(*eq).free_symbols) == sol and constant_renumber(linodesolve(A, x, b=b), variables=Tuple(*eq).free_symbols) == sol and constant_renumber(linodesolve(A, x, b=b, type='type4'), variables=Tuple(*eq).free_symbols) == sol and constant_renumber(linodesolve(A, x, type='type4', doit=True), variables=Tuple(*eq).free_symbols) == sol1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_linodesolve : Any → {Any | constant_renumber(lin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  constant_renumber(linodesolve(A, t), vari...   ║
+# ║   ensures:  constant_renumber(linodesolve(A1, t, b=b1...   ║
+# ║   ensures:  constant_renumber(linodesolve(A, t, b=b),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_linodesolve : Any → {Any | result satisfies: con...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c86ae303f834aae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd34f125eecc2558  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linodesolve","kind":"function","src_hash":"66ccd23f07598e52","in":{"base":"Any"},"out":{"base":"Any","pred":"constant_renumber(linodesolve(A, t), variables=Tuple(*eq).free_symbols) == sol and constant_renumber(linodesolve(A, t, b=b), variables=[t]) == sol and constant_renumber(linodesolve(A, t, type='type2'), variables=[t]) == sol1 and constant_renumber(linodesolve(A, t), variables=Tuple(*eq).free_symbols) == sol"},"spec":{"lhs":"test_linodesolve()","rhs":"test_linodesolve produces the expected output","over":{"base":"Any"},"name":"test_linodesolve_correct"},"guarantee":"test_linodesolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linodesolve_correct","statement":"Path(test_linodesolve(x), test_linodesolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c86ae303f834aae"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linodesolve","kind":"function","src_hash":"66ccd23f07598e52","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: constant_renumber(linodesolve(A, t), variables=Tuple(*eq).free_symbols) == sol and constant_renumber(linodesolve(A1, t, b=b1, type='type2', doit=True), variables=[t]) == sol1 and constant_renumber(linodesolve(A, t, b=b), variables=[t]) == sol and constant_renumber(linodesolve(A, t, type='type2'), variables=[t]) == sol1 and constant_renumber(linodesolve(A, t, type='type3'), variables=Tuple(*eq).free_symbols) == sol and constant_renumber(linodesolve(A, x, b=b), variables=Tuple(*eq).free_symbols) == sol and constant_renumber(linodesolve(A, x, b=b, type='type4'), variables=Tuple(*eq).free_symbols) == sol and constant_renumber(linodesolve(A, x, type='type4', doit=True), variables=Tuple(*eq).free_symbols) == sol1"},"spec":{"lhs":"test_linodesolve()","rhs":"constant_renumber(linodesolve(A, t), variables=Tuple(*eq).free_symbols) == sol and constant_renumber(linodesolve(A1, t, b=b1, type='type2', doit=True), variables=[t]) == sol1 and constant_renumber(linodesolve(A, t, b=b), variables=[t]) == sol and constant_renumber(linodesolve(A, t, type='type2'), variables=[t]) == sol1 and constant_renumber(linodesolve(A, t, type='type3'), variables=Tuple(*eq).free_symbols) == sol and constant_renumber(linodesolve(A, x, b=b), variables=Tuple(*eq).free_symbols) == sol and constant_renumber(linodesolve(A, x, b=b, type='type4'), variables=Tuple(*eq).free_symbols) == sol and constant_renumber(linodesolve(A, x, type='type4', doit=True), variables=Tuple(*eq).free_symbols) == sol1","over":{"base":"Any"},"name":"test_linodesolve_correct"},"guarantee":"constant_renumber(linodesolve(A, t), variables=Tuple(*eq).free_symbols) == sol; constant_renumber(linodesolve(A1, t, b=b1, type='type2', doit=True), variables=[t]) == sol1; constant_renumber(linodesolve(A, t, b=b), variables=[t]) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linodesolve_correct","statement":"Path(test_linodesolve(x), constant_renumber(linodesolve(A, t), variables=Tuple(*eq).free_symbols) == sol; constant_renumber(linodesolve(A1, t, b=b1, type='type2', doit=True), variables=[t]) == sol1; constant_renumber(linodesolve(A, t, b=b), variables=[t]) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd34f125eecc2558","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["constant_renumber(linodesolve(A, t), variables=Tuple(*eq).free_symbols) == sol","constant_renumber(linodesolve(A1, t, b=b1, type='type2', doit=True), variables=[t]) == sol1","constant_renumber(linodesolve(A, t, b=b), variables=[t]) == sol","constant_renumber(linodesolve(A, t, type='type2'), variables=[t]) == sol1","constant_renumber(linodesolve(A, t, type='type3'), variables=Tuple(*eq).free_symbols) == sol","constant_renumber(linodesolve(A, x, b=b), variables=Tuple(*eq).free_symbols) == sol","constant_renumber(linodesolve(A, x, b=b, type='type4'), variables=Tuple(*eq).free_symbols) == sol","constant_renumber(linodesolve(A, x, type='type4', doit=True), variables=Tuple(*eq).free_symbols) == sol1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.9,"verdict_class":"assumed","binding":true}}
 def test_linodesolve():
     t, x, a = symbols("t x a")
     f, g, h = symbols("f g h", cls=Function)
@@ -2287,16 +2424,22 @@ def test_linodesolve():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_3eq_order1_type4_slow(), test_linear_3eq_order1_type4_slow produces the expected output) over Any ║
+# ║ Path(test_linear_3eq_order1_type4_slow(), <unspecified:test_linear_3eq_order1_type4_slow>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linear_3eq_order1_type4_slow : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4b736cdb6766f9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_slow","kind":"function","src_hash":"1ebef4dc14dbbaed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_linear_3eq_order1_type4_slow()","rhs":"test_linear_3eq_order1_type4_slow produces the expected output","over":{"base":"Any"},"name":"test_linear_3eq_order1_type4_slow_correct"},"guarantee":"test_linear_3eq_order1_type4_slow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_slow_correct","statement":"Path(test_linear_3eq_order1_type4_slow(x), test_linear_3eq_order1_type4_slow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4b736cdb6766f9e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_slow","kind":"function","src_hash":"1ebef4dc14dbbaed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_linear_3eq_order1_type4_slow()","rhs":"<unspecified:test_linear_3eq_order1_type4_slow>","over":{"base":"Any"},"name":"test_linear_3eq_order1_type4_slow_correct"},"guarantee":"test_linear_3eq_order1_type4_slow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_slow_correct","statement":"Path(test_linear_3eq_order1_type4_slow(x), test_linear_3eq_order1_type4_slow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4b736cdb6766f9e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_linear_3eq_order1_type4_slow():
     x, y, z = symbols('x, y, z', cls=Function)
     t = Symbol('t')
@@ -2312,16 +2455,22 @@ def test_linear_3eq_order1_type4_slow():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_neq_order1_type2_slow1(), test_linear_neq_order1_type2_slow1 produces the expected output) over Any ║
+# ║ Path(test_linear_neq_order1_type2_slow1(), checksysodesol(eq, sol) == (True, [0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_linear_neq_order1_type2_slow1 : Any → {Any | che...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checksysodesol(eq, sol) == (True, [0, 0])      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_linear_neq_order1_type2_slow1 : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdb513a3c82a4a4f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 579f0cf1bbabc658  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_neq_order1_type2_slow1","kind":"function","src_hash":"ef6942ff1b300a63","in":{"base":"Any"},"out":{"base":"Any","pred":"checksysodesol(eq, sol) == (True, [0, 0])"},"spec":{"lhs":"test_linear_neq_order1_type2_slow1()","rhs":"test_linear_neq_order1_type2_slow1 produces the expected output","over":{"base":"Any"},"name":"test_linear_neq_order1_type2_slow1_correct"},"guarantee":"test_linear_neq_order1_type2_slow1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_neq_order1_type2_slow1_correct","statement":"Path(test_linear_neq_order1_type2_slow1(x), test_linear_neq_order1_type2_slow1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdb513a3c82a4a4f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_neq_order1_type2_slow1","kind":"function","src_hash":"ef6942ff1b300a63","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checksysodesol(eq, sol) == (True, [0, 0])"},"spec":{"lhs":"test_linear_neq_order1_type2_slow1()","rhs":"checksysodesol(eq, sol) == (True, [0, 0])","over":{"base":"Any"},"name":"test_linear_neq_order1_type2_slow1_correct"},"guarantee":"checksysodesol(eq, sol) == (True, [0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_neq_order1_type2_slow1_correct","statement":"Path(test_linear_neq_order1_type2_slow1(x), checksysodesol(eq, sol) == (True, [0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"579f0cf1bbabc658","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checksysodesol(eq, sol) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_linear_neq_order1_type2_slow1():
     i, r1, c1, r2, c2, t = symbols('i, r1, c1, r2, c2, t')
     x1 = Function('x1')
@@ -2340,16 +2489,22 @@ def test_linear_neq_order1_type2_slow1():
 # https://github.com/sympy/sympy/issues/9204
 @tooslow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_new_order1_type2_de_lorentz_slow_check(), test_linear_new_order1_type2_de_lorentz_slow_check produces the expected output) over Any ║
+# ║ Path(test_linear_new_order1_type2_de_lorentz_slow_check(), checksysodesol(eqs, sol) == (True, [0, 0, 0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checksysodesol(eqs, sol) == (True, [0, 0,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linear_new_order1_type2_de_lorentz_slow_check : ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d424c507de7de2f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d00986863370d575  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_new_order1_type2_de_lorentz_slow_check","kind":"function","src_hash":"ce796f2c897b39b2","in":{"base":"Any"},"out":{"base":"Any","pred":"checksysodesol(eqs, sol) == (True, [0, 0, 0])"},"spec":{"lhs":"test_linear_new_order1_type2_de_lorentz_slow_check()","rhs":"test_linear_new_order1_type2_de_lorentz_slow_check produces the expected output","over":{"base":"Any"},"name":"test_linear_new_order1_type2_de_lorentz_slow_check_correct"},"guarantee":"test_linear_new_order1_type2_de_lorentz_slow_check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_new_order1_type2_de_lorentz_slow_check_correct","statement":"Path(test_linear_new_order1_type2_de_lorentz_slow_check(x), test_linear_new_order1_type2_de_lorentz_slow_check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d424c507de7de2f1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_new_order1_type2_de_lorentz_slow_check","kind":"function","src_hash":"ce796f2c897b39b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checksysodesol(eqs, sol) == (True, [0, 0, 0])"},"spec":{"lhs":"test_linear_new_order1_type2_de_lorentz_slow_check()","rhs":"checksysodesol(eqs, sol) == (True, [0, 0, 0])","over":{"base":"Any"},"name":"test_linear_new_order1_type2_de_lorentz_slow_check_correct"},"guarantee":"checksysodesol(eqs, sol) == (True, [0, 0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_new_order1_type2_de_lorentz_slow_check_correct","statement":"Path(test_linear_new_order1_type2_de_lorentz_slow_check(x), checksysodesol(eqs, sol) == (True, [0, 0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d00986863370d575","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checksysodesol(eqs, sol) == (True, [0, 0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_linear_new_order1_type2_de_lorentz_slow_check():
     m = Symbol("m", real=True)
     q = Symbol("q", real=True)
@@ -2372,16 +2527,22 @@ def test_linear_new_order1_type2_de_lorentz_slow_check():
 # https://github.com/sympy/sympy/issues/14001
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_neq_order1_type2_slow_check(), test_linear_neq_order1_type2_slow_check produces the expected output) over Any ║
+# ║ Path(test_linear_neq_order1_type2_slow_check(), checksysodesol(system, sol) == (True, [0, 0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checksysodesol(system, sol) == (True, [0,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linear_neq_order1_type2_slow_check : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bc9b95e19c2626d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22e5cb65f2f882a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_neq_order1_type2_slow_check","kind":"function","src_hash":"ddb2428e77e5f3e4","in":{"base":"Any"},"out":{"base":"Any","pred":"checksysodesol(system, sol) == (True, [0, 0])"},"spec":{"lhs":"test_linear_neq_order1_type2_slow_check()","rhs":"test_linear_neq_order1_type2_slow_check produces the expected output","over":{"base":"Any"},"name":"test_linear_neq_order1_type2_slow_check_correct"},"guarantee":"test_linear_neq_order1_type2_slow_check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_neq_order1_type2_slow_check_correct","statement":"Path(test_linear_neq_order1_type2_slow_check(x), test_linear_neq_order1_type2_slow_check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bc9b95e19c2626d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_neq_order1_type2_slow_check","kind":"function","src_hash":"ddb2428e77e5f3e4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checksysodesol(system, sol) == (True, [0, 0])"},"spec":{"lhs":"test_linear_neq_order1_type2_slow_check()","rhs":"checksysodesol(system, sol) == (True, [0, 0])","over":{"base":"Any"},"name":"test_linear_neq_order1_type2_slow_check_correct"},"guarantee":"checksysodesol(system, sol) == (True, [0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_neq_order1_type2_slow_check_correct","statement":"Path(test_linear_neq_order1_type2_slow_check(x), checksysodesol(system, sol) == (True, [0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22e5cb65f2f882a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checksysodesol(system, sol) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_linear_neq_order1_type2_slow_check():
     RC, t, C, Vs, L, R1, V0, I0 = symbols("RC t C Vs L R1 V0 I0")
     V = Function("V")
@@ -2393,16 +2554,23 @@ def test_linear_neq_order1_type2_slow_check():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_linear_3eq_order1_type4_long(), internal helper behaves correctly) over Any ║
+# ║ Path(_linear_3eq_order1_type4_long(), dsolve_sol1 == sol and checksysodesol(eq1, dsolve_sol1) == (True, [0, 0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _linear_3eq_order1_type4_long : Any → {Any | dsolve_s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve_sol1 == sol                             ║
+# ║   ensures:  checksysodesol(eq1, dsolve_sol1) == (True...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _linear_3eq_order1_type4_long : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c0ae419d6af038f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4baa007a518a389b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems._linear_3eq_order1_type4_long","kind":"function","src_hash":"61b9b94a125491be","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve_sol1 == sol and checksysodesol(eq1, dsolve_sol1) == (True, [0, 0, 0])"},"spec":{"lhs":"_linear_3eq_order1_type4_long()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_linear_3eq_order1_type4_long_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems._linear_3eq_order1_type4_long_correct","statement":"Path(_linear_3eq_order1_type4_long(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c0ae419d6af038f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems._linear_3eq_order1_type4_long","kind":"function","src_hash":"61b9b94a125491be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve_sol1 == sol and checksysodesol(eq1, dsolve_sol1) == (True, [0, 0, 0])"},"spec":{"lhs":"_linear_3eq_order1_type4_long()","rhs":"dsolve_sol1 == sol and checksysodesol(eq1, dsolve_sol1) == (True, [0, 0, 0])","over":{"base":"Any"},"name":"_linear_3eq_order1_type4_long_correct"},"guarantee":"dsolve_sol1 == sol; checksysodesol(eq1, dsolve_sol1) == (True, [0, 0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems._linear_3eq_order1_type4_long_correct","statement":"Path(_linear_3eq_order1_type4_long(x), dsolve_sol1 == sol; checksysodesol(eq1, dsolve_sol1) == (True, [0, 0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4baa007a518a389b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve_sol1 == sol","checksysodesol(eq1, dsolve_sol1) == (True, [0, 0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def _linear_3eq_order1_type4_long():
     x, y, z = symbols('x, y, z', cls=Function)
     t = Symbol('t')
@@ -2438,16 +2606,22 @@ def _linear_3eq_order1_type4_long():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_neq_order1_type4_slow_check1(), test_neq_order1_type4_slow_check1 produces the expected output) over Any ║
+# ║ Path(test_neq_order1_type4_slow_check1(), checksysodesol(eqs, sol) == (True, [0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_neq_order1_type4_slow_check1 : Any → {Any | chec...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checksysodesol(eqs, sol) == (True, [0, 0])     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_neq_order1_type4_slow_check1 : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7060e70fa35e3a67  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d5241fb392fd8ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow_check1","kind":"function","src_hash":"7e4959246f5dc869","in":{"base":"Any"},"out":{"base":"Any","pred":"checksysodesol(eqs, sol) == (True, [0, 0])"},"spec":{"lhs":"test_neq_order1_type4_slow_check1()","rhs":"test_neq_order1_type4_slow_check1 produces the expected output","over":{"base":"Any"},"name":"test_neq_order1_type4_slow_check1_correct"},"guarantee":"test_neq_order1_type4_slow_check1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow_check1_correct","statement":"Path(test_neq_order1_type4_slow_check1(x), test_neq_order1_type4_slow_check1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7060e70fa35e3a67"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow_check1","kind":"function","src_hash":"7e4959246f5dc869","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checksysodesol(eqs, sol) == (True, [0, 0])"},"spec":{"lhs":"test_neq_order1_type4_slow_check1()","rhs":"checksysodesol(eqs, sol) == (True, [0, 0])","over":{"base":"Any"},"name":"test_neq_order1_type4_slow_check1_correct"},"guarantee":"checksysodesol(eqs, sol) == (True, [0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow_check1_correct","statement":"Path(test_neq_order1_type4_slow_check1(x), checksysodesol(eqs, sol) == (True, [0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d5241fb392fd8ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checksysodesol(eqs, sol) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_neq_order1_type4_slow_check1():
     f, g = symbols("f g", cls=Function)
     x = symbols("x")
@@ -2460,16 +2634,22 @@ def test_neq_order1_type4_slow_check1():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_neq_order1_type4_slow_check2(), test_neq_order1_type4_slow_check2 produces the expected output) over Any ║
+# ║ Path(test_neq_order1_type4_slow_check2(), checksysodesol(eqs, sol) == (True, [0, 0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_neq_order1_type4_slow_check2 : Any → {Any | chec...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checksysodesol(eqs, sol) == (True, [0, 0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_neq_order1_type4_slow_check2 : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd6ee128dac1e0de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 981c3547eecce188  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow_check2","kind":"function","src_hash":"e8d5f2776f66db99","in":{"base":"Any"},"out":{"base":"Any","pred":"checksysodesol(eqs, sol) == (True, [0, 0, 0])"},"spec":{"lhs":"test_neq_order1_type4_slow_check2()","rhs":"test_neq_order1_type4_slow_check2 produces the expected output","over":{"base":"Any"},"name":"test_neq_order1_type4_slow_check2_correct"},"guarantee":"test_neq_order1_type4_slow_check2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow_check2_correct","statement":"Path(test_neq_order1_type4_slow_check2(x), test_neq_order1_type4_slow_check2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd6ee128dac1e0de"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow_check2","kind":"function","src_hash":"e8d5f2776f66db99","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checksysodesol(eqs, sol) == (True, [0, 0, 0])"},"spec":{"lhs":"test_neq_order1_type4_slow_check2()","rhs":"checksysodesol(eqs, sol) == (True, [0, 0, 0])","over":{"base":"Any"},"name":"test_neq_order1_type4_slow_check2_correct"},"guarantee":"checksysodesol(eqs, sol) == (True, [0, 0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow_check2_correct","statement":"Path(test_neq_order1_type4_slow_check2(x), checksysodesol(eqs, sol) == (True, [0, 0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"981c3547eecce188","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checksysodesol(eqs, sol) == (True, [0, 0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_neq_order1_type4_slow_check2():
     f, g, h = symbols("f, g, h", cls=Function)
     x = Symbol("x")
@@ -2485,16 +2665,22 @@ def test_neq_order1_type4_slow_check2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_neq_order1_type4_slow3(), internal helper behaves correctly) over Any ║
+# ║ Path(_neq_order1_type4_slow3(), (eqs, sol)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (eqs, sol)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _neq_order1_type4_slow3 : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 833eea5a9606c2e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 810b3eb68b983ccd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems._neq_order1_type4_slow3","kind":"function","src_hash":"ff3b3ce5144d4dc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_neq_order1_type4_slow3()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_neq_order1_type4_slow3_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems._neq_order1_type4_slow3_correct","statement":"Path(_neq_order1_type4_slow3(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"833eea5a9606c2e0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems._neq_order1_type4_slow3","kind":"function","src_hash":"ff3b3ce5144d4dc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_neq_order1_type4_slow3()","rhs":"(eqs, sol)","over":{"base":"Any"},"name":"_neq_order1_type4_slow3_correct"},"guarantee":"returns (eqs, sol)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems._neq_order1_type4_slow3_correct","statement":"Path(_neq_order1_type4_slow3(x), returns (eqs, sol))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"810b3eb68b983ccd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(eqs, sol)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def _neq_order1_type4_slow3():
     f, g = symbols("f g", cls=Function)
     x = symbols("x")
@@ -2532,16 +2718,22 @@ def _neq_order1_type4_slow3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_neq_order1_type4_slow3(), test_neq_order1_type4_slow3 produces the expected output) over Any ║
+# ║ Path(test_neq_order1_type4_slow3(), dsolve_system(eqs, simplify=False, doit=False) == [sol]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_neq_order1_type4_slow3 : Any → {Any | dsolve_sys...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve_system(eqs, simplify=False, doit=F...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_neq_order1_type4_slow3 : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 501980a65d338ce1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d155fc6eecc253e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow3","kind":"function","src_hash":"d6e8ce0bf818e244","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve_system(eqs, simplify=False, doit=False) == [sol]"},"spec":{"lhs":"test_neq_order1_type4_slow3()","rhs":"test_neq_order1_type4_slow3 produces the expected output","over":{"base":"Any"},"name":"test_neq_order1_type4_slow3_correct"},"guarantee":"test_neq_order1_type4_slow3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow3_correct","statement":"Path(test_neq_order1_type4_slow3(x), test_neq_order1_type4_slow3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"501980a65d338ce1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow3","kind":"function","src_hash":"d6e8ce0bf818e244","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve_system(eqs, simplify=False, doit=False) == [sol]"},"spec":{"lhs":"test_neq_order1_type4_slow3()","rhs":"dsolve_system(eqs, simplify=False, doit=False) == [sol]","over":{"base":"Any"},"name":"test_neq_order1_type4_slow3_correct"},"guarantee":"dsolve_system(eqs, simplify=False, doit=False) == [sol]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow3_correct","statement":"Path(test_neq_order1_type4_slow3(x), dsolve_system(eqs, simplify=False, doit=False) == [sol])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d155fc6eecc253e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve_system(eqs, simplify=False, doit=False) == [sol]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_neq_order1_type4_slow3():
     eqs, sol = _neq_order1_type4_slow3()
     assert dsolve_system(eqs, simplify=False, doit=False) == [sol]
@@ -2552,16 +2744,22 @@ def test_neq_order1_type4_slow3():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_neq_order1_type4_slow_check3(), test_neq_order1_type4_slow_check3 produces the expected output) over Any ║
+# ║ Path(test_neq_order1_type4_slow_check3(), checksysodesol(eqs, sol) == (True, [0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_neq_order1_type4_slow_check3 : Any → {Any | chec...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checksysodesol(eqs, sol) == (True, [0, 0])     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_neq_order1_type4_slow_check3 : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0e6e7e741aa5640  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5668585aca2edf3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow_check3","kind":"function","src_hash":"67fb6aee4ed3735b","in":{"base":"Any"},"out":{"base":"Any","pred":"checksysodesol(eqs, sol) == (True, [0, 0])"},"spec":{"lhs":"test_neq_order1_type4_slow_check3()","rhs":"test_neq_order1_type4_slow_check3 produces the expected output","over":{"base":"Any"},"name":"test_neq_order1_type4_slow_check3_correct"},"guarantee":"test_neq_order1_type4_slow_check3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow_check3_correct","statement":"Path(test_neq_order1_type4_slow_check3(x), test_neq_order1_type4_slow_check3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0e6e7e741aa5640"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow_check3","kind":"function","src_hash":"67fb6aee4ed3735b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checksysodesol(eqs, sol) == (True, [0, 0])"},"spec":{"lhs":"test_neq_order1_type4_slow_check3()","rhs":"checksysodesol(eqs, sol) == (True, [0, 0])","over":{"base":"Any"},"name":"test_neq_order1_type4_slow_check3_correct"},"guarantee":"checksysodesol(eqs, sol) == (True, [0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_neq_order1_type4_slow_check3_correct","statement":"Path(test_neq_order1_type4_slow_check3(x), checksysodesol(eqs, sol) == (True, [0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5668585aca2edf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checksysodesol(eqs, sol) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_neq_order1_type4_slow_check3():
     eqs, sol = _neq_order1_type4_slow3()
     assert checksysodesol(eqs, sol) == (True, [0, 0])
@@ -2570,16 +2768,22 @@ def test_neq_order1_type4_slow_check3():
 @tooslow
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_3eq_order1_type4_long_dsolve_slow_xfail(), test_linear_3eq_order1_type4_long_dsolve_slow_xfail produces the expected output) over Any ║
+# ║ Path(test_linear_3eq_order1_type4_long_dsolve_slow_xfail(), dsolve_sol1 == sol) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve_sol1 == sol                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linear_3eq_order1_type4_long_dsolve_slow_xfail :...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7a71b40fb5c5dc3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c7dd74896fd62fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_long_dsolve_slow_xfail","kind":"function","src_hash":"5e8b3642a28c3118","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve_sol1 == sol"},"spec":{"lhs":"test_linear_3eq_order1_type4_long_dsolve_slow_xfail()","rhs":"test_linear_3eq_order1_type4_long_dsolve_slow_xfail produces the expected output","over":{"base":"Any"},"name":"test_linear_3eq_order1_type4_long_dsolve_slow_xfail_correct"},"guarantee":"test_linear_3eq_order1_type4_long_dsolve_slow_xfail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_long_dsolve_slow_xfail_correct","statement":"Path(test_linear_3eq_order1_type4_long_dsolve_slow_xfail(x), test_linear_3eq_order1_type4_long_dsolve_slow_xfail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7a71b40fb5c5dc3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_long_dsolve_slow_xfail","kind":"function","src_hash":"5e8b3642a28c3118","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve_sol1 == sol"},"spec":{"lhs":"test_linear_3eq_order1_type4_long_dsolve_slow_xfail()","rhs":"dsolve_sol1 == sol","over":{"base":"Any"},"name":"test_linear_3eq_order1_type4_long_dsolve_slow_xfail_correct"},"guarantee":"dsolve_sol1 == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_long_dsolve_slow_xfail_correct","statement":"Path(test_linear_3eq_order1_type4_long_dsolve_slow_xfail(x), dsolve_sol1 == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c7dd74896fd62fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve_sol1 == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_linear_3eq_order1_type4_long_dsolve_slow_xfail():
     eq, sol = _linear_3eq_order1_type4_long()
 
@@ -2591,16 +2795,22 @@ def test_linear_3eq_order1_type4_long_dsolve_slow_xfail():
 
 @tooslow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_3eq_order1_type4_long_dsolve_dotprodsimp(), test_linear_3eq_order1_type4_long_dsolve_dotprodsimp produces the expected output) over Any ║
+# ║ Path(test_linear_3eq_order1_type4_long_dsolve_dotprodsimp(), dsolve_sol1 == sol) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve_sol1 == sol                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linear_3eq_order1_type4_long_dsolve_dotprodsimp ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cddbd5abec5bfeb4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5507fdcead9fb87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_long_dsolve_dotprodsimp","kind":"function","src_hash":"42235364267388d9","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve_sol1 == sol"},"spec":{"lhs":"test_linear_3eq_order1_type4_long_dsolve_dotprodsimp()","rhs":"test_linear_3eq_order1_type4_long_dsolve_dotprodsimp produces the expected output","over":{"base":"Any"},"name":"test_linear_3eq_order1_type4_long_dsolve_dotprodsimp_correct"},"guarantee":"test_linear_3eq_order1_type4_long_dsolve_dotprodsimp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_long_dsolve_dotprodsimp_correct","statement":"Path(test_linear_3eq_order1_type4_long_dsolve_dotprodsimp(x), test_linear_3eq_order1_type4_long_dsolve_dotprodsimp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cddbd5abec5bfeb4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_long_dsolve_dotprodsimp","kind":"function","src_hash":"42235364267388d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve_sol1 == sol"},"spec":{"lhs":"test_linear_3eq_order1_type4_long_dsolve_dotprodsimp()","rhs":"dsolve_sol1 == sol","over":{"base":"Any"},"name":"test_linear_3eq_order1_type4_long_dsolve_dotprodsimp_correct"},"guarantee":"dsolve_sol1 == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_long_dsolve_dotprodsimp_correct","statement":"Path(test_linear_3eq_order1_type4_long_dsolve_dotprodsimp(x), dsolve_sol1 == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5507fdcead9fb87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve_sol1 == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_linear_3eq_order1_type4_long_dsolve_dotprodsimp():
     eq, sol = _linear_3eq_order1_type4_long()
 
@@ -2615,32 +2825,44 @@ def test_linear_3eq_order1_type4_long_dsolve_dotprodsimp():
 
 @tooslow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_3eq_order1_type4_long_check(), test_linear_3eq_order1_type4_long_check produces the expected output) over Any ║
+# ║ Path(test_linear_3eq_order1_type4_long_check(), checksysodesol(eq, sol) == (True, [0, 0, 0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checksysodesol(eq, sol) == (True, [0, 0, 0])   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linear_3eq_order1_type4_long_check : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6efdc1869ff40d58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfe3920ed6cb984b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_long_check","kind":"function","src_hash":"b97deb0f1bb826e1","in":{"base":"Any"},"out":{"base":"Any","pred":"checksysodesol(eq, sol) == (True, [0, 0, 0])"},"spec":{"lhs":"test_linear_3eq_order1_type4_long_check()","rhs":"test_linear_3eq_order1_type4_long_check produces the expected output","over":{"base":"Any"},"name":"test_linear_3eq_order1_type4_long_check_correct"},"guarantee":"test_linear_3eq_order1_type4_long_check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_long_check_correct","statement":"Path(test_linear_3eq_order1_type4_long_check(x), test_linear_3eq_order1_type4_long_check produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6efdc1869ff40d58"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_long_check","kind":"function","src_hash":"b97deb0f1bb826e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checksysodesol(eq, sol) == (True, [0, 0, 0])"},"spec":{"lhs":"test_linear_3eq_order1_type4_long_check()","rhs":"checksysodesol(eq, sol) == (True, [0, 0, 0])","over":{"base":"Any"},"name":"test_linear_3eq_order1_type4_long_check_correct"},"guarantee":"checksysodesol(eq, sol) == (True, [0, 0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_3eq_order1_type4_long_check_correct","statement":"Path(test_linear_3eq_order1_type4_long_check(x), checksysodesol(eq, sol) == (True, [0, 0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfe3920ed6cb984b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checksysodesol(eq, sol) == (True, [0, 0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_linear_3eq_order1_type4_long_check():
     eq, sol = _linear_3eq_order1_type4_long()
     assert checksysodesol(eq, sol) == (True, [0, 0, 0])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dsolve_system(), test_dsolve_system produces the expected output) over Any ║
+# ║ Path(test_dsolve_system(), dsolve_system(eqs, funcs=funcs, t=x, doit=True) == sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dsolve_system : Any → {Any | dsolve_system(eqs, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve_system(eqs, funcs=funcs, t=x, doit...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dsolve_system : Any → {Any | result satisfies: d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48c5866f2dfb21ed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7778b40c7ff26426  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_dsolve_system","kind":"function","src_hash":"1a1bbb6d393dc125","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve_system(eqs, funcs=funcs, t=x, doit=True) == sol"},"spec":{"lhs":"test_dsolve_system()","rhs":"test_dsolve_system produces the expected output","over":{"base":"Any"},"name":"test_dsolve_system_correct"},"guarantee":"test_dsolve_system produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_dsolve_system_correct","statement":"Path(test_dsolve_system(x), test_dsolve_system produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48c5866f2dfb21ed"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_dsolve_system","kind":"function","src_hash":"1a1bbb6d393dc125","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve_system(eqs, funcs=funcs, t=x, doit=True) == sol"},"spec":{"lhs":"test_dsolve_system()","rhs":"dsolve_system(eqs, funcs=funcs, t=x, doit=True) == sol","over":{"base":"Any"},"name":"test_dsolve_system_correct"},"guarantee":"dsolve_system(eqs, funcs=funcs, t=x, doit=True) == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_dsolve_system_correct","statement":"Path(test_dsolve_system(x), dsolve_system(eqs, funcs=funcs, t=x, doit=True) == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7778b40c7ff26426","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve_system(eqs, funcs=funcs, t=x, doit=True) == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_dsolve_system():
     f, g = symbols("f g", cls=Function)
     x = symbols("x")
@@ -2666,16 +2888,22 @@ def test_dsolve_system():
     raises(NotImplementedError, lambda: dsolve_system(eq, funcs=[f(x), g(x)], ics={f(0): 1, g(0): 1}) == ([], []))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dsolve(), test_dsolve produces the expected output) over Any ║
+# ║ Path(test_dsolve(), <unspecified:test_dsolve>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_dsolve : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f7b9efa6d143b2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_dsolve","kind":"function","src_hash":"11edfd89e7c3d93a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dsolve()","rhs":"test_dsolve produces the expected output","over":{"base":"Any"},"name":"test_dsolve_correct"},"guarantee":"test_dsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_dsolve_correct","statement":"Path(test_dsolve(x), test_dsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f7b9efa6d143b2c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_dsolve","kind":"function","src_hash":"11edfd89e7c3d93a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dsolve()","rhs":"<unspecified:test_dsolve>","over":{"base":"Any"},"name":"test_dsolve_correct"},"guarantee":"test_dsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_dsolve_correct","statement":"Path(test_dsolve(x), test_dsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f7b9efa6d143b2c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dsolve():
 
     f, g = symbols('f g', cls=Function)
@@ -2696,16 +2924,22 @@ def test_dsolve():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_higher_order1_slow1(), test_higher_order1_slow1 produces the expected output) over Any ║
+# ║ Path(test_higher_order1_slow1(), <unspecified:test_higher_order1_slow1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_higher_order1_slow1 : Any → {Any | ratsimp(res.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f7f3ade9411a91b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_higher_order1_slow1","kind":"function","src_hash":"a770fe40c49e37f1","in":{"base":"Any"},"out":{"base":"Any","pred":"ratsimp(res.subs(t, 1)) == 0"},"spec":{"lhs":"test_higher_order1_slow1()","rhs":"test_higher_order1_slow1 produces the expected output","over":{"base":"Any"},"name":"test_higher_order1_slow1_correct"},"guarantee":"test_higher_order1_slow1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_higher_order1_slow1_correct","statement":"Path(test_higher_order1_slow1(x), test_higher_order1_slow1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f7f3ade9411a91b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_higher_order1_slow1","kind":"function","src_hash":"a770fe40c49e37f1","in":{"base":"Any"},"out":{"base":"Any","pred":"ratsimp(res.subs(t, 1)) == 0"},"spec":{"lhs":"test_higher_order1_slow1()","rhs":"<unspecified:test_higher_order1_slow1>","over":{"base":"Any"},"name":"test_higher_order1_slow1_correct"},"guarantee":"test_higher_order1_slow1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_higher_order1_slow1_correct","statement":"Path(test_higher_order1_slow1(x), test_higher_order1_slow1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f7f3ade9411a91b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_higher_order1_slow1():
     x, y = symbols("x y", cls=Function)
     t = symbols("t")
@@ -2724,16 +2958,23 @@ def test_higher_order1_slow1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_second_order_type2_slow1(), test_second_order_type2_slow1 produces the expected output) over Any ║
+# ║ Path(test_second_order_type2_slow1(), dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_second_order_type2_slow1 : Any → {Any | dsolve(e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eqs1) == sol1                           ║
+# ║   ensures:  checksysodesol(eqs1, sol1) == (True, [0, 0])   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_second_order_type2_slow1 : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 736056597257aa1c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a54f4326c10e5bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_second_order_type2_slow1","kind":"function","src_hash":"85b7aefc83b9c55c","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0])"},"spec":{"lhs":"test_second_order_type2_slow1()","rhs":"test_second_order_type2_slow1 produces the expected output","over":{"base":"Any"},"name":"test_second_order_type2_slow1_correct"},"guarantee":"test_second_order_type2_slow1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_second_order_type2_slow1_correct","statement":"Path(test_second_order_type2_slow1(x), test_second_order_type2_slow1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"736056597257aa1c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_second_order_type2_slow1","kind":"function","src_hash":"85b7aefc83b9c55c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0])"},"spec":{"lhs":"test_second_order_type2_slow1()","rhs":"dsolve(eqs1) == sol1 and checksysodesol(eqs1, sol1) == (True, [0, 0])","over":{"base":"Any"},"name":"test_second_order_type2_slow1_correct"},"guarantee":"dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_second_order_type2_slow1_correct","statement":"Path(test_second_order_type2_slow1(x), dsolve(eqs1) == sol1; checksysodesol(eqs1, sol1) == (True, [0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a54f4326c10e5bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eqs1) == sol1","checksysodesol(eqs1, sol1) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_second_order_type2_slow1():
     x, y, z = symbols('x, y, z', cls=Function)
     t, l = symbols('t, l')
@@ -2751,16 +2992,22 @@ def test_second_order_type2_slow1():
 @tooslow
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nonlinear_3eq_order1_type1(), test_nonlinear_3eq_order1_type1 produces the expected output) over Any ║
+# ║ Path(test_nonlinear_3eq_order1_type1(), dsolve(eqs)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nonlinear_3eq_order1_type1 : Any → {Any | dsolve...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eqs)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nonlinear_3eq_order1_type1 : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58e4f72eac042975  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fecfb424c9c2bc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type1","kind":"function","src_hash":"0f0b04537e7ba34f","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eqs)"},"spec":{"lhs":"test_nonlinear_3eq_order1_type1()","rhs":"test_nonlinear_3eq_order1_type1 produces the expected output","over":{"base":"Any"},"name":"test_nonlinear_3eq_order1_type1_correct"},"guarantee":"test_nonlinear_3eq_order1_type1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type1_correct","statement":"Path(test_nonlinear_3eq_order1_type1(x), test_nonlinear_3eq_order1_type1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58e4f72eac042975"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type1","kind":"function","src_hash":"0f0b04537e7ba34f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eqs)"},"spec":{"lhs":"test_nonlinear_3eq_order1_type1()","rhs":"dsolve(eqs)","over":{"base":"Any"},"name":"test_nonlinear_3eq_order1_type1_correct"},"guarantee":"dsolve(eqs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type1_correct","statement":"Path(test_nonlinear_3eq_order1_type1(x), dsolve(eqs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fecfb424c9c2bc3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eqs)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_nonlinear_3eq_order1_type1():
     a, b, c = symbols('a b c')
 
@@ -2775,16 +3022,22 @@ def test_nonlinear_3eq_order1_type1():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nonlinear_3eq_order1_type4(), test_nonlinear_3eq_order1_type4 produces the expected output) over Any ║
+# ║ Path(test_nonlinear_3eq_order1_type4(), <unspecified:test_nonlinear_3eq_order1_type4>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nonlinear_3eq_order1_type4 : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 680cbba7051db26b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type4","kind":"function","src_hash":"223ffba3406b3164","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonlinear_3eq_order1_type4()","rhs":"test_nonlinear_3eq_order1_type4 produces the expected output","over":{"base":"Any"},"name":"test_nonlinear_3eq_order1_type4_correct"},"guarantee":"test_nonlinear_3eq_order1_type4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type4_correct","statement":"Path(test_nonlinear_3eq_order1_type4(x), test_nonlinear_3eq_order1_type4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"680cbba7051db26b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type4","kind":"function","src_hash":"223ffba3406b3164","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonlinear_3eq_order1_type4()","rhs":"<unspecified:test_nonlinear_3eq_order1_type4>","over":{"base":"Any"},"name":"test_nonlinear_3eq_order1_type4_correct"},"guarantee":"test_nonlinear_3eq_order1_type4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type4_correct","statement":"Path(test_nonlinear_3eq_order1_type4(x), test_nonlinear_3eq_order1_type4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"680cbba7051db26b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_nonlinear_3eq_order1_type4():
     eqs = [
         Eq(f(x).diff(x), (2*h(x)*g(x) - 3*g(x)*h(x))),
@@ -2800,16 +3053,22 @@ def test_nonlinear_3eq_order1_type4():
 @tooslow
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nonlinear_3eq_order1_type3(), test_nonlinear_3eq_order1_type3 produces the expected output) over Any ║
+# ║ Path(test_nonlinear_3eq_order1_type3(), <unspecified:test_nonlinear_3eq_order1_type3>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nonlinear_3eq_order1_type3 : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 573440a329b19f35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type3","kind":"function","src_hash":"a60f1cdd2f1a9238","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonlinear_3eq_order1_type3()","rhs":"test_nonlinear_3eq_order1_type3 produces the expected output","over":{"base":"Any"},"name":"test_nonlinear_3eq_order1_type3_correct"},"guarantee":"test_nonlinear_3eq_order1_type3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type3_correct","statement":"Path(test_nonlinear_3eq_order1_type3(x), test_nonlinear_3eq_order1_type3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"573440a329b19f35"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type3","kind":"function","src_hash":"a60f1cdd2f1a9238","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonlinear_3eq_order1_type3()","rhs":"<unspecified:test_nonlinear_3eq_order1_type3>","over":{"base":"Any"},"name":"test_nonlinear_3eq_order1_type3_correct"},"guarantee":"test_nonlinear_3eq_order1_type3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type3_correct","statement":"Path(test_nonlinear_3eq_order1_type3(x), test_nonlinear_3eq_order1_type3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"573440a329b19f35","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_nonlinear_3eq_order1_type3():
     eqs = [
         Eq(f(x).diff(x), (2*f(x)**2 - 3        )),
@@ -2824,16 +3083,22 @@ def test_nonlinear_3eq_order1_type3():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nonlinear_3eq_order1_type5(), test_nonlinear_3eq_order1_type5 produces the expected output) over Any ║
+# ║ Path(test_nonlinear_3eq_order1_type5(), <unspecified:test_nonlinear_3eq_order1_type5>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nonlinear_3eq_order1_type5 : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 475d5ed3aac097ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type5","kind":"function","src_hash":"f02c39fcbe28f7b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonlinear_3eq_order1_type5()","rhs":"test_nonlinear_3eq_order1_type5 produces the expected output","over":{"base":"Any"},"name":"test_nonlinear_3eq_order1_type5_correct"},"guarantee":"test_nonlinear_3eq_order1_type5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type5_correct","statement":"Path(test_nonlinear_3eq_order1_type5(x), test_nonlinear_3eq_order1_type5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"475d5ed3aac097ff"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type5","kind":"function","src_hash":"f02c39fcbe28f7b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nonlinear_3eq_order1_type5()","rhs":"<unspecified:test_nonlinear_3eq_order1_type5>","over":{"base":"Any"},"name":"test_nonlinear_3eq_order1_type5_correct"},"guarantee":"test_nonlinear_3eq_order1_type5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_type5_correct","statement":"Path(test_nonlinear_3eq_order1_type5(x), test_nonlinear_3eq_order1_type5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"475d5ed3aac097ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_nonlinear_3eq_order1_type5():
     eqs = [
         Eq(f(x).diff(x), f(x)*(2*f(x) - 3*g(x))),
@@ -2847,16 +3112,24 @@ def test_nonlinear_3eq_order1_type5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_2eq_order1(), test_linear_2eq_order1 produces the expected output) over Any ║
+# ║ Path(test_linear_2eq_order1(), checksysodesol(eq1, sol1) == (True, [0, 0]) and checksysodesol(eq2, sol2) == (True, [0, 0]) and checksysodesol(eq3, sol3) == (True, [0, 0]) and checksysodesol(eq4, sol4) == (True, [0, 0]) and checksysodesol(eq5, sol5) == (True, [0, 0]) and s == sol6) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_linear_2eq_order1 : Any → {Any | checksysodesol(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checksysodesol(eq1, sol1) == (True, [0, 0])    ║
+# ║   ensures:  checksysodesol(eq2, sol2) == (True, [0, 0])    ║
+# ║   ensures:  checksysodesol(eq3, sol3) == (True, [0, 0])    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_linear_2eq_order1 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91a13f893533f479  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c172503f792069f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_2eq_order1","kind":"function","src_hash":"8519ec9eefe25b4d","in":{"base":"Any"},"out":{"base":"Any","pred":"checksysodesol(eq1, sol1) == (True, [0, 0]) and checksysodesol(eq2, sol2) == (True, [0, 0]) and checksysodesol(eq3, sol3) == (True, [0, 0]) and checksysodesol(eq4, sol4) == (True, [0, 0]) and checksysodesol(eq5, sol5) == (True, [0, 0]) and s == sol6"},"spec":{"lhs":"test_linear_2eq_order1()","rhs":"test_linear_2eq_order1 produces the expected output","over":{"base":"Any"},"name":"test_linear_2eq_order1_correct"},"guarantee":"test_linear_2eq_order1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_2eq_order1_correct","statement":"Path(test_linear_2eq_order1(x), test_linear_2eq_order1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91a13f893533f479"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_linear_2eq_order1","kind":"function","src_hash":"8519ec9eefe25b4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checksysodesol(eq1, sol1) == (True, [0, 0]) and checksysodesol(eq2, sol2) == (True, [0, 0]) and checksysodesol(eq3, sol3) == (True, [0, 0]) and checksysodesol(eq4, sol4) == (True, [0, 0]) and checksysodesol(eq5, sol5) == (True, [0, 0]) and s == sol6"},"spec":{"lhs":"test_linear_2eq_order1()","rhs":"checksysodesol(eq1, sol1) == (True, [0, 0]) and checksysodesol(eq2, sol2) == (True, [0, 0]) and checksysodesol(eq3, sol3) == (True, [0, 0]) and checksysodesol(eq4, sol4) == (True, [0, 0]) and checksysodesol(eq5, sol5) == (True, [0, 0]) and s == sol6","over":{"base":"Any"},"name":"test_linear_2eq_order1_correct"},"guarantee":"checksysodesol(eq1, sol1) == (True, [0, 0]); checksysodesol(eq2, sol2) == (True, [0, 0]); checksysodesol(eq3, sol3) == (True, [0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_linear_2eq_order1_correct","statement":"Path(test_linear_2eq_order1(x), checksysodesol(eq1, sol1) == (True, [0, 0]); checksysodesol(eq2, sol2) == (True, [0, 0]); checksysodesol(eq3, sol3) == (True, [0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c172503f792069f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checksysodesol(eq1, sol1) == (True, [0, 0])","checksysodesol(eq2, sol2) == (True, [0, 0])","checksysodesol(eq3, sol3) == (True, [0, 0])","checksysodesol(eq4, sol4) == (True, [0, 0])","checksysodesol(eq5, sol5) == (True, [0, 0])","s == sol6"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":true}}
 def test_linear_2eq_order1():
     x, y, z = symbols('x, y, z', cls=Function)
     k, l, m, n = symbols('k, l, m, n', Integer=True)
@@ -2900,16 +3173,24 @@ def test_linear_2eq_order1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nonlinear_2eq_order1(), test_nonlinear_2eq_order1 produces the expected output) over Any ║
+# ║ Path(test_nonlinear_2eq_order1(), dsolve(eq1) == sol1 and checksysodesol(eq1, sol1) == (True, [0, 0]) and dsolve(eq2) == sol2 and checksysodesol(eq2, sol2) == (True, [0, 0]) and dsolve(eq3) == sol3 and dsolve(eq4) == sol4 and dsolve(eq5) == sol5 and checksysodesol(eq5, sol5) == (True, [0, 0]) and dsolve(eq6) == sol6 and checksysodesol(eq6, sol6) == (True, [0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nonlinear_2eq_order1 : Any → {Any | dsolve(eq1) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dsolve(eq1) == sol1                            ║
+# ║   ensures:  checksysodesol(eq1, sol1) == (True, [0, 0])    ║
+# ║   ensures:  dsolve(eq2) == sol2                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nonlinear_2eq_order1 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04f86cad525182a8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5a1cc5e399f6466  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_nonlinear_2eq_order1","kind":"function","src_hash":"dcd0455e095aba68","in":{"base":"Any"},"out":{"base":"Any","pred":"dsolve(eq1) == sol1 and checksysodesol(eq1, sol1) == (True, [0, 0]) and dsolve(eq2) == sol2 and checksysodesol(eq2, sol2) == (True, [0, 0]) and dsolve(eq3) == sol3 and dsolve(eq4) == sol4 and dsolve(eq5) == sol5 and checksysodesol(eq5, sol5) == (True, [0, 0]) and dsolve(eq6) == sol6 and checksysodesol(eq6, sol6) == (True, [0, 0])"},"spec":{"lhs":"test_nonlinear_2eq_order1()","rhs":"test_nonlinear_2eq_order1 produces the expected output","over":{"base":"Any"},"name":"test_nonlinear_2eq_order1_correct"},"guarantee":"test_nonlinear_2eq_order1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_nonlinear_2eq_order1_correct","statement":"Path(test_nonlinear_2eq_order1(x), test_nonlinear_2eq_order1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04f86cad525182a8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_nonlinear_2eq_order1","kind":"function","src_hash":"dcd0455e095aba68","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dsolve(eq1) == sol1 and checksysodesol(eq1, sol1) == (True, [0, 0]) and dsolve(eq2) == sol2 and checksysodesol(eq2, sol2) == (True, [0, 0]) and dsolve(eq3) == sol3 and dsolve(eq4) == sol4 and dsolve(eq5) == sol5 and checksysodesol(eq5, sol5) == (True, [0, 0]) and dsolve(eq6) == sol6 and checksysodesol(eq6, sol6) == (True, [0, 0])"},"spec":{"lhs":"test_nonlinear_2eq_order1()","rhs":"dsolve(eq1) == sol1 and checksysodesol(eq1, sol1) == (True, [0, 0]) and dsolve(eq2) == sol2 and checksysodesol(eq2, sol2) == (True, [0, 0]) and dsolve(eq3) == sol3 and dsolve(eq4) == sol4 and dsolve(eq5) == sol5 and checksysodesol(eq5, sol5) == (True, [0, 0]) and dsolve(eq6) == sol6 and checksysodesol(eq6, sol6) == (True, [0, 0])","over":{"base":"Any"},"name":"test_nonlinear_2eq_order1_correct"},"guarantee":"dsolve(eq1) == sol1; checksysodesol(eq1, sol1) == (True, [0, 0]); dsolve(eq2) == sol2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_nonlinear_2eq_order1_correct","statement":"Path(test_nonlinear_2eq_order1(x), dsolve(eq1) == sol1; checksysodesol(eq1, sol1) == (True, [0, 0]); dsolve(eq2) == sol2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5a1cc5e399f6466","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dsolve(eq1) == sol1","checksysodesol(eq1, sol1) == (True, [0, 0])","dsolve(eq2) == sol2","checksysodesol(eq2, sol2) == (True, [0, 0])","dsolve(eq3) == sol3","dsolve(eq4) == sol4","dsolve(eq5) == sol5","checksysodesol(eq5, sol5) == (True, [0, 0])","dsolve(eq6) == sol6","checksysodesol(eq6, sol6) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"assumed","binding":true}}
 def test_nonlinear_2eq_order1():
     x, y, z = symbols('x, y, z', cls=Function)
     t = Symbol('t')
@@ -2973,16 +3254,23 @@ def test_nonlinear_2eq_order1():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nonlinear_3eq_order1(), test_nonlinear_3eq_order1 produces the expected output) over Any ║
+# ║ Path(test_nonlinear_3eq_order1(), [i.dummy_eq(j) for i, j in zip(dsolve(eq1), sol1)] and [i.dummy_eq(j) for i, j in zip(dsolve(eq2), sol2)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nonlinear_3eq_order1 : Any → {Any | [i.dummy_eq(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [i.dummy_eq(j) for i, j in zip(dsolve(eq1...   ║
+# ║   ensures:  [i.dummy_eq(j) for i, j in zip(dsolve(eq2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nonlinear_3eq_order1 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74812a945c48803d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c1c7bad30dbc8be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1","kind":"function","src_hash":"69d46cb45433b9ed","in":{"base":"Any"},"out":{"base":"Any","pred":"[i.dummy_eq(j) for i, j in zip(dsolve(eq1), sol1)] and [i.dummy_eq(j) for i, j in zip(dsolve(eq2), sol2)]"},"spec":{"lhs":"test_nonlinear_3eq_order1()","rhs":"test_nonlinear_3eq_order1 produces the expected output","over":{"base":"Any"},"name":"test_nonlinear_3eq_order1_correct"},"guarantee":"test_nonlinear_3eq_order1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_correct","statement":"Path(test_nonlinear_3eq_order1(x), test_nonlinear_3eq_order1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74812a945c48803d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1","kind":"function","src_hash":"69d46cb45433b9ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [i.dummy_eq(j) for i, j in zip(dsolve(eq1), sol1)] and [i.dummy_eq(j) for i, j in zip(dsolve(eq2), sol2)]"},"spec":{"lhs":"test_nonlinear_3eq_order1()","rhs":"[i.dummy_eq(j) for i, j in zip(dsolve(eq1), sol1)] and [i.dummy_eq(j) for i, j in zip(dsolve(eq2), sol2)]","over":{"base":"Any"},"name":"test_nonlinear_3eq_order1_correct"},"guarantee":"[i.dummy_eq(j) for i, j in zip(dsolve(eq1), sol1)]; [i.dummy_eq(j) for i, j in zip(dsolve(eq2), sol2)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_nonlinear_3eq_order1_correct","statement":"Path(test_nonlinear_3eq_order1(x), [i.dummy_eq(j) for i, j in zip(dsolve(eq1), sol1)]; [i.dummy_eq(j) for i, j in zip(dsolve(eq2), sol2)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c1c7bad30dbc8be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[i.dummy_eq(j) for i, j in zip(dsolve(eq1), sol1)]","[i.dummy_eq(j) for i, j in zip(dsolve(eq2), sol2)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_nonlinear_3eq_order1():
     x, y, z = symbols('x, y, z', cls=Function)
     t, u = symbols('t u')
@@ -3004,16 +3292,22 @@ def test_nonlinear_3eq_order1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_C1_function_9239(), test_C1_function_9239 produces the expected output) over Any ║
+# ║ Path(test_C1_function_9239(), checksysodesol(eq, sol) == (True, [0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_C1_function_9239 : Any → {Any | checksysodesol(e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checksysodesol(eq, sol) == (True, [0, 0])      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_C1_function_9239 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f561f91392c1c5ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ffbd77e77e5ba53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_C1_function_9239","kind":"function","src_hash":"62e14b03d5407300","in":{"base":"Any"},"out":{"base":"Any","pred":"checksysodesol(eq, sol) == (True, [0, 0])"},"spec":{"lhs":"test_C1_function_9239()","rhs":"test_C1_function_9239 produces the expected output","over":{"base":"Any"},"name":"test_C1_function_9239_correct"},"guarantee":"test_C1_function_9239 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_C1_function_9239_correct","statement":"Path(test_C1_function_9239(x), test_C1_function_9239 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f561f91392c1c5ef"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_C1_function_9239","kind":"function","src_hash":"62e14b03d5407300","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checksysodesol(eq, sol) == (True, [0, 0])"},"spec":{"lhs":"test_C1_function_9239()","rhs":"checksysodesol(eq, sol) == (True, [0, 0])","over":{"base":"Any"},"name":"test_C1_function_9239_correct"},"guarantee":"checksysodesol(eq, sol) == (True, [0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_C1_function_9239_correct","statement":"Path(test_C1_function_9239(x), checksysodesol(eq, sol) == (True, [0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ffbd77e77e5ba53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checksysodesol(eq, sol) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_C1_function_9239():
     t = Symbol('t')
     C1 = Function('C1')
@@ -3027,16 +3321,22 @@ def test_C1_function_9239():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dsolve_linsystem_symbol(), test_dsolve_linsystem_symbol produces the expected output) over Any ║
+# ║ Path(test_dsolve_linsystem_symbol(), checksysodesol(eq1, sol1) == (True, [0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dsolve_linsystem_symbol : Any → {Any | checksyso...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checksysodesol(eq1, sol1) == (True, [0, 0])    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dsolve_linsystem_symbol : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c7ebadb93784f7b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8daa72dd85dd27a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_dsolve_linsystem_symbol","kind":"function","src_hash":"134429ad456440fd","in":{"base":"Any"},"out":{"base":"Any","pred":"checksysodesol(eq1, sol1) == (True, [0, 0])"},"spec":{"lhs":"test_dsolve_linsystem_symbol()","rhs":"test_dsolve_linsystem_symbol produces the expected output","over":{"base":"Any"},"name":"test_dsolve_linsystem_symbol_correct"},"guarantee":"test_dsolve_linsystem_symbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_dsolve_linsystem_symbol_correct","statement":"Path(test_dsolve_linsystem_symbol(x), test_dsolve_linsystem_symbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c7ebadb93784f7b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_systems.test_dsolve_linsystem_symbol","kind":"function","src_hash":"134429ad456440fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checksysodesol(eq1, sol1) == (True, [0, 0])"},"spec":{"lhs":"test_dsolve_linsystem_symbol()","rhs":"checksysodesol(eq1, sol1) == (True, [0, 0])","over":{"base":"Any"},"name":"test_dsolve_linsystem_symbol_correct"},"guarantee":"checksysodesol(eq1, sol1) == (True, [0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_systems.test_dsolve_linsystem_symbol_correct","statement":"Path(test_dsolve_linsystem_symbol(x), checksysodesol(eq1, sol1) == (True, [0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8daa72dd85dd27a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checksysodesol(eq1, sol1) == (True, [0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dsolve_linsystem_symbol():
     eps = Symbol('epsilon', positive=True)
     eq1 = (Eq(diff(f(x), x), -eps*g(x)), Eq(diff(g(x), x), eps*f(x)))

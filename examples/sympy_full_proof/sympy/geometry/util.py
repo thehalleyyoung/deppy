@@ -50,9 +50,15 @@ from mpmath.libmp.libmpf import prec_to_dps
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find(x, ), checks whether a symbol matching ``x`` is present in ``equation`` or not) over {Any | isinstance(x, str)} ║
+# ║ Path(find(x, equation), xs[0]) over {Any | isinstance(x, str) and xs and not (len(xs) != 1) and hasattr(equation, 'free_symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ find : {Any | isinstance(x, str)} → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: xs                                             ║
+# ║   requires: not (len(xs) != 1)                             ║
+# ║   requires: hasattr(equation, 'free_symbols')              ║
+# ║   returns:  xs[0]                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ find : {Any | isinstance(x, str) and xs and not (len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   str: {isinstance(x, str)} → library_axiom                ║
@@ -62,9 +68,12 @@ from mpmath.libmp.libmpf import prec_to_dps
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 29b42261...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.util.find","kind":"function","src_hash":"36ecf52bcfb74175","in":{"base":"Any","pred":"isinstance(x, str)"},"out":{"base":"Any"},"spec":{"lhs":"find(x, )","rhs":"checks whether a symbol matching ``x`` is present in ``equation`` or not","over":{"base":"Any","pred":"isinstance(x, str)"},"name":"find_correct"},"guarantee":"checks whether a symbol matching ``x`` is present in ``equation`` or not","fibers":[{"name":"str","pred":"isinstance(x, str)","path":{"lhs":"find(x)","rhs":"checks whether a symbol matching ``x`` is present in ``equation`` or not","over":{"base":"str","pred":"isinstance(x, str)"},"name":"find_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.find_str_correct","statement":"find satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"29b4226115f88b67"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.util.find","kind":"function","src_hash":"36ecf52bcfb74175","in":{"base":"Any","pred":"isinstance(x, str) and xs and not (len(xs) != 1) and hasattr(equation, 'free_symbols')"},"out":{"base":"Any"},"spec":{"lhs":"find(x, equation)","rhs":"xs[0]","over":{"base":"Any","pred":"isinstance(x, str) and xs and not (len(xs) != 1) and hasattr(equation, 'free_symbols')"},"name":"find_correct"},"guarantee":"returns xs[0]","fibers":[{"name":"str","pred":"isinstance(x, str)","path":{"lhs":"find(x)","rhs":"returns xs[0]","over":{"base":"str","pred":"isinstance(x, str)"},"name":"find_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.find_str_correct","statement":"find satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"29b4226115f88b67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["xs","not (len(xs) != 1)","hasattr(equation, 'free_symbols')"],"returns_expr":"xs[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["equation.free_symbols"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(xs) != 1'}, fibers={'str'})"]}}
 def find(x, equation):
     """
     Checks whether a Symbol matching ``x`` is present in ``equation``
@@ -104,23 +113,33 @@ def find(x, equation):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ordered_points(p), return the tuple of points sorted numerically according to args) over Any ║
+# ║ Path(_ordered_points(p), tuple(sorted(p, key=lambda x: x.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(sorted(p, key=lambda x: x.args))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ordered_points : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9b715b9c3ac90070           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.util._ordered_points","kind":"function","src_hash":"53703d7721284599","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ordered_points(p)","rhs":"return the tuple of points sorted numerically according to args","over":{"base":"Any"},"name":"_ordered_points_correct"},"guarantee":"return the tuple of points sorted numerically according to args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b715b9c3ac90070"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.util._ordered_points","kind":"function","src_hash":"53703d7721284599","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ordered_points(p)","rhs":"tuple(sorted(p, key=lambda x: x.args))","over":{"base":"Any"},"name":"_ordered_points_correct"},"guarantee":"returns tuple(sorted(p, key=lambda x: x.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b715b9c3ac90070","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(sorted(p, key=lambda x: x.args))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _ordered_points(p):
     """Return the tuple of points sorted numerically according to args"""
     return tuple(sorted(p, key=lambda x: x.args))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(are_coplanar(*e), returns true if the given entities are coplanar otherwise false) over {Any | isinstance(i, Plane) and isinstance(i, Point3D) and isinstance(i, LinearEntity3D)} ║
+# ║ Path(are_coplanar(*e), <unspecified:are_coplanar>) over {Any | isinstance(i, Plane) and isinstance(i, Point3D) and isinstance(i, LinearEntity3D)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[Point3D]: all((isinstance(i, Point3D) for i i...   ║
+# ║   fiber[Point3D]: not (all((isinstance(i, Point3D) fo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ are_coplanar : {Any | isinstance(i, Plane) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -136,9 +155,12 @@ def _ordered_points(p):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?5 ✗5 VCs | 13.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8ff25648...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.util.are_coplanar","kind":"function","src_hash":"85164983824d4376","in":{"base":"Any","pred":"isinstance(i, Plane) and isinstance(i, Point3D) and isinstance(i, LinearEntity3D)"},"out":{"base":"Any"},"spec":{"lhs":"are_coplanar(*e)","rhs":"returns true if the given entities are coplanar otherwise false","over":{"base":"Any","pred":"isinstance(i, Plane) and isinstance(i, Point3D) and isinstance(i, LinearEntity3D)"},"name":"are_coplanar_correct"},"guarantee":"returns true if the given entities are coplanar otherwise false","fibers":[{"name":"Plane","pred":"isinstance(i, Plane)","path":{"lhs":"are_coplanar(x)","rhs":"returns true if the given entities are coplanar otherwise false","over":{"base":"Plane","pred":"isinstance(i, Plane)"},"name":"are_coplanar_Plane_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.are_coplanar_Plane_correct","statement":"are_coplanar satisfies spec on Plane inputs"},"trust":"LIBRARY"},{"name":"Point3D","pred":"isinstance(i, Point3D)","path":{"lhs":"are_coplanar(x)","rhs":"returns true if the given entities are coplanar otherwise false","over":{"base":"Point3D","pred":"isinstance(i, Point3D)"},"name":"are_coplanar_Point3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.are_coplanar_Point3D_correct","statement":"are_coplanar satisfies spec on Point3D inputs"},"trust":"LIBRARY"},{"name":"LinearEntity3D","pred":"isinstance(i, LinearEntity3D)","path":{"lhs":"are_coplanar(x)","rhs":"returns true if the given entities are coplanar otherwise false","over":{"base":"LinearEntity3D","pred":"isinstance(i, LinearEntity3D)"},"name":"are_coplanar_LinearEntity3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.are_coplanar_LinearEntity3D_correct","statement":"are_coplanar satisfies spec on LinearEntity3D inputs"},"trust":"LIBRARY"},{"name":"GeometryEntity","pred":"isinstance(i, GeometryEntity)","path":{"lhs":"are_coplanar(x)","rhs":"returns true if the given entities are coplanar otherwise false","over":{"base":"GeometryEntity","pred":"isinstance(i, GeometryEntity)"},"name":"are_coplanar_GeometryEntity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.are_coplanar_GeometryEntity_correct","statement":"are_coplanar satisfies spec on GeometryEntity inputs"},"trust":"LIBRARY"},{"name":"Point","pred":"isinstance(p, Point)","path":{"lhs":"are_coplanar(x)","rhs":"returns true if the given entities are coplanar otherwise false","over":{"base":"Point","pred":"isinstance(p, Point)"},"name":"are_coplanar_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.are_coplanar_Point_correct","statement":"are_coplanar satisfies spec on Point inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8ff25648c0df6f3d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.util.are_coplanar","kind":"function","src_hash":"85164983824d4376","in":{"base":"Any","pred":"isinstance(i, Plane) and isinstance(i, Point3D) and isinstance(i, LinearEntity3D)"},"out":{"base":"Any"},"spec":{"lhs":"are_coplanar(*e)","rhs":"<unspecified:are_coplanar>","over":{"base":"Any","pred":"isinstance(i, Plane) and isinstance(i, Point3D) and isinstance(i, LinearEntity3D)"},"name":"are_coplanar_correct"},"guarantee":"2-fiber decomposition","fibers":[{"name":"Plane","pred":"isinstance(i, Plane)","path":{"lhs":"are_coplanar(x)","rhs":"2-fiber decomposition","over":{"base":"Plane","pred":"isinstance(i, Plane)"},"name":"are_coplanar_Plane_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.are_coplanar_Plane_correct","statement":"are_coplanar satisfies spec on Plane inputs"},"trust":"LIBRARY"},{"name":"Point3D","pred":"isinstance(i, Point3D)","path":{"lhs":"are_coplanar(x)","rhs":"2-fiber decomposition","over":{"base":"Point3D","pred":"isinstance(i, Point3D)"},"name":"are_coplanar_Point3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.are_coplanar_Point3D_correct","statement":"are_coplanar satisfies spec on Point3D inputs"},"trust":"LIBRARY"},{"name":"LinearEntity3D","pred":"isinstance(i, LinearEntity3D)","path":{"lhs":"are_coplanar(x)","rhs":"2-fiber decomposition","over":{"base":"LinearEntity3D","pred":"isinstance(i, LinearEntity3D)"},"name":"are_coplanar_LinearEntity3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.are_coplanar_LinearEntity3D_correct","statement":"are_coplanar satisfies spec on LinearEntity3D inputs"},"trust":"LIBRARY"},{"name":"GeometryEntity","pred":"isinstance(i, GeometryEntity)","path":{"lhs":"are_coplanar(x)","rhs":"2-fiber decomposition","over":{"base":"GeometryEntity","pred":"isinstance(i, GeometryEntity)"},"name":"are_coplanar_GeometryEntity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.are_coplanar_GeometryEntity_correct","statement":"are_coplanar satisfies spec on GeometryEntity inputs"},"trust":"LIBRARY"},{"name":"Point","pred":"isinstance(p, Point)","path":{"lhs":"are_coplanar(x)","rhs":"2-fiber decomposition","over":{"base":"Point","pred":"isinstance(p, Point)"},"name":"are_coplanar_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.are_coplanar_Point_correct","statement":"are_coplanar satisfies spec on Point inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8ff25648c0df6f3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"Point3D","guard":"all((isinstance(i, Point3D) for i in e))","ensures":[],"decidability":"structural"},{"name":"Point3D","guard":"not (all((isinstance(i, Point3D) for i in e)))","ensures":["result == are_coplanar(*pt3d)"],"decidability":"structural","returns_expr":"are_coplanar(*pt3d)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":7,"n_assumed":5,"n_failed":5,"trust_level":"LIBRARY_ASSUMED","compile_ms":13.8,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*e']","Poor branch-fiber coverage: 0% (branches={'len(e) < 3', 'isinstance(i, Plane)', 'isinstance(i, Point3D)', 'isinstance(p, Point)', 'all((isinstance(i, Point3D) for i in e))', 'isinstance(i, GeometryEntity)', 'isinstance(i, LinearEntity3D)'}, fibers={'GeometryEntity', 'Point3D', 'Plane', 'Point', 'LinearEntity3D'})"]}}
 def are_coplanar(*e):
     """ Returns True if the given entities are coplanar otherwise False
 
@@ -210,16 +232,22 @@ def are_coplanar(*e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(are_similar(e1,), are two geometrical entities similar) over Any ║
+# ║ Path(are_similar(e1, e2), <unspecified:are_similar>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ are_similar : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e980b0c24cc083b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.util.are_similar","kind":"function","src_hash":"19b4efe96472d054","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"are_similar(e1,)","rhs":"are two geometrical entities similar","over":{"base":"Any"},"name":"are_similar_correct"},"guarantee":"are two geometrical entities similar","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.are_similar_correct","statement":"Path(are_similar(x), are two geometrical entities similar)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e980b0c24cc083b8"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.util.are_similar","kind":"function","src_hash":"19b4efe96472d054","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"are_similar(e1, e2)","rhs":"<unspecified:are_similar>","over":{"base":"Any"},"name":"are_similar_correct"},"guarantee":"are two geometrical entities similar","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.are_similar_correct","statement":"Path(are_similar(x), are two geometrical entities similar)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e980b0c24cc083b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","e1.__class__","e2.__class__"],"raises":["GeometryError"]},"state_contract":{"exceptional_post":{"GeometryError":["isinstance(raised, GeometryError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def are_similar(e1, e2):
     """Are two geometrical entities similar.
 
@@ -281,7 +309,10 @@ def are_similar(e1, e2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(centroid(*ar), find the centroid (center of mass) of the collection containing only points, segments or polygons) over {Any | isinstance(g, Point) and isinstance(g, Segment) and isinstance(g, Polygon)} ║
+# ║ Path(centroid(*args), c.func(*[i.simplify() for i in c.args])) over {Any | isinstance(g, Point) and isinstance(g, Segment) and isinstance(g, Polygon)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  c.func(*[i.simplify() for i in c.args])        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ centroid : {Any | isinstance(g, Point) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -295,9 +326,12 @@ def are_similar(e1, e2):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 2.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b91244b4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.util.centroid","kind":"function","src_hash":"faf0f9208ae1dc98","in":{"base":"Any","pred":"isinstance(g, Point) and isinstance(g, Segment) and isinstance(g, Polygon)"},"out":{"base":"Any"},"spec":{"lhs":"centroid(*ar)","rhs":"find the centroid (center of mass) of the collection containing only points, segments or polygons","over":{"base":"Any","pred":"isinstance(g, Point) and isinstance(g, Segment) and isinstance(g, Polygon)"},"name":"centroid_correct"},"guarantee":"find the centroid (center of mass) of the collection containing only points, segments or polygons","fibers":[{"name":"Point","pred":"isinstance(g, Point)","path":{"lhs":"centroid(x)","rhs":"find the centroid (center of mass) of the collection containing only points, segments or polygons","over":{"base":"Point","pred":"isinstance(g, Point)"},"name":"centroid_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.centroid_Point_correct","statement":"centroid satisfies spec on Point inputs"},"trust":"LIBRARY"},{"name":"Segment","pred":"isinstance(g, Segment)","path":{"lhs":"centroid(x)","rhs":"find the centroid (center of mass) of the collection containing only points, segments or polygons","over":{"base":"Segment","pred":"isinstance(g, Segment)"},"name":"centroid_Segment_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.centroid_Segment_correct","statement":"centroid satisfies spec on Segment inputs"},"trust":"LIBRARY"},{"name":"Polygon","pred":"isinstance(g, Polygon)","path":{"lhs":"centroid(x)","rhs":"find the centroid (center of mass) of the collection containing only points, segments or polygons","over":{"base":"Polygon","pred":"isinstance(g, Polygon)"},"name":"centroid_Polygon_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.centroid_Polygon_correct","statement":"centroid satisfies spec on Polygon inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b91244b4e7c73266"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.util.centroid","kind":"function","src_hash":"faf0f9208ae1dc98","in":{"base":"Any","pred":"isinstance(g, Point) and isinstance(g, Segment) and isinstance(g, Polygon)"},"out":{"base":"Any"},"spec":{"lhs":"centroid(*args)","rhs":"c.func(*[i.simplify() for i in c.args])","over":{"base":"Any","pred":"isinstance(g, Point) and isinstance(g, Segment) and isinstance(g, Polygon)"},"name":"centroid_correct"},"guarantee":"returns c.func(*[i.simplify() for i in c.args])","fibers":[{"name":"Point","pred":"isinstance(g, Point)","path":{"lhs":"centroid(x)","rhs":"returns c.func(*[i.simplify() for i in c.args])","over":{"base":"Point","pred":"isinstance(g, Point)"},"name":"centroid_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.centroid_Point_correct","statement":"centroid satisfies spec on Point inputs"},"trust":"LIBRARY"},{"name":"Segment","pred":"isinstance(g, Segment)","path":{"lhs":"centroid(x)","rhs":"returns c.func(*[i.simplify() for i in c.args])","over":{"base":"Segment","pred":"isinstance(g, Segment)"},"name":"centroid_Segment_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.centroid_Segment_correct","statement":"centroid satisfies spec on Segment inputs"},"trust":"LIBRARY"},{"name":"Polygon","pred":"isinstance(g, Polygon)","path":{"lhs":"centroid(x)","rhs":"returns c.func(*[i.simplify() for i in c.args])","over":{"base":"Polygon","pred":"isinstance(g, Polygon)"},"name":"centroid_Polygon_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.centroid_Polygon_correct","statement":"centroid satisfies spec on Polygon inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b91244b4e7c73266","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"c.func(*[i.simplify() for i in c.args])","pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']","Poor branch-fiber coverage: 0% (branches={'all((isinstance(g, Segment) for g in args))', 'all((isinstance(g, Point) for g in args))', 'all((isinstance(g, Polygon) for g in args))'}, fibers={'Point', 'Polygon', 'Segment'})"]}}
 def centroid(*args):
     """Find the centroid (center of mass) of the collection containing only Points,
     Segments or Polygons. The centroid is the weighted average of the individual centroid
@@ -375,16 +409,25 @@ def centroid(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(closest_points(*ar), return the subset of points from a set of points that were the closest to each other in the 2d plane) over Any ║
+# ║ Path(closest_points(*args), len(box) == old_len_box + 1 and len(p) == old_len_p and len(rv) == old_len_rv + 1) over {Any | not (len(p) < 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ closest_points : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(p) < 2)                               ║
+# ║   ensures:  len(box) == old_len_box + 1                    ║
+# ║   ensures:  len(p) == old_len_p                            ║
+# ║   ensures:  len(rv) == old_len_rv + 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ closest_points : {Any | not (len(p) < 2)} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d6d34b6bedb24ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c70a88935c066f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.util.closest_points","kind":"function","src_hash":"96992d86bffa1328","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"closest_points(*ar)","rhs":"return the subset of points from a set of points that were the closest to each other in the 2d plane","over":{"base":"Any"},"name":"closest_points_correct"},"guarantee":"return the subset of points from a set of points that were the closest to each other in the 2d plane","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.closest_points_correct","statement":"Path(closest_points(x), return the subset of points from a set of points that were the closest to each other in the 2d plane)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d6d34b6bedb24ef"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.util.closest_points","kind":"function","src_hash":"96992d86bffa1328","in":{"base":"Any","pred":"not (len(p) < 2)"},"out":{"base":"Any","pred":"result satisfies: len(box) == old_len_box + 1 and len(p) == old_len_p and len(rv) == old_len_rv + 1"},"spec":{"lhs":"closest_points(*args)","rhs":"len(box) == old_len_box + 1 and len(p) == old_len_p and len(rv) == old_len_rv + 1","over":{"base":"Any","pred":"not (len(p) < 2)"},"name":"closest_points_correct"},"guarantee":"len(box) == old_len_box + 1; len(p) == old_len_p; len(rv) == old_len_rv + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.closest_points_correct","statement":"Path(closest_points(x), len(box) == old_len_box + 1; len(p) == old_len_p; len(rv) == old_len_rv + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c70a88935c066f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(p) < 2)"],"ensures":["len(box) == old_len_box + 1","len(p) == old_len_p","len(rv) == old_len_rv + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["box.append","box.popleft","p.sort","rv.append"],"raises":["ValueError"],"catches":["TypeError"]},"state_contract":{"modifies":["box.*","p.*","rv.*"],"old_bindings":{"old_len_box":"len(box)","old_len_p":"len(p)","old_len_rv":"len(rv)"},"post_ensures":["len(box) == old_len_box + 1","len(p) == old_len_p","len(rv) == old_len_rv + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def closest_points(*args):
     """Return the subset of points from a set of points that were
     the closest to each other in the 2D plane.
@@ -462,7 +505,15 @@ def closest_points(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convex_hull(*ar), the convex hull surrounding the points contained in the list of entities) over {Any | isinstance(e, Point) and isinstance(e, GeometryEntity) and isinstance(e, Segment)} ║
+# ║ Path(convex_hull(*args, polygon), len(L) == old_len_L + 1 and len(L) == old_len_L - 1 and len(U) == old_len_U + 1 and len(U) == old_len_U - 1 and len(U) == old_len_U and len(p) == old_len_p) over {Any | isinstance(e, Point) and isinstance(e, GeometryEntity) and isinstance(e, Segment) and not (any((len(x) != 2 for x in p))) and len(L) > 0 and len(U) > 0} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (any((len(x) != 2 for x in p)))            ║
+# ║   requires: len(L) > 0                                     ║
+# ║   requires: len(U) > 0                                     ║
+# ║   ensures:  len(L) == old_len_L + 1                        ║
+# ║   ensures:  len(L) == old_len_L - 1                        ║
+# ║   ensures:  len(U) == old_len_U + 1                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convex_hull : {Any | isinstance(e, Point) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -477,9 +528,12 @@ def closest_points(*args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 91fd0e3d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.util.convex_hull","kind":"function","src_hash":"9cd12a1d62bae17f","in":{"base":"Any","pred":"isinstance(e, Point) and isinstance(e, GeometryEntity) and isinstance(e, Segment)"},"out":{"base":"Any"},"spec":{"lhs":"convex_hull(*ar)","rhs":"the convex hull surrounding the points contained in the list of entities","over":{"base":"Any","pred":"isinstance(e, Point) and isinstance(e, GeometryEntity) and isinstance(e, Segment)"},"name":"convex_hull_correct"},"guarantee":"the convex hull surrounding the points contained in the list of entities","fibers":[{"name":"Point","pred":"isinstance(e, Point)","path":{"lhs":"convex_hull(x)","rhs":"the convex hull surrounding the points contained in the list of entities","over":{"base":"Point","pred":"isinstance(e, Point)"},"name":"convex_hull_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.convex_hull_Point_correct","statement":"convex_hull satisfies spec on Point inputs"},"trust":"LIBRARY"},{"name":"GeometryEntity","pred":"isinstance(e, GeometryEntity)","path":{"lhs":"convex_hull(x)","rhs":"the convex hull surrounding the points contained in the list of entities","over":{"base":"GeometryEntity","pred":"isinstance(e, GeometryEntity)"},"name":"convex_hull_GeometryEntity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.convex_hull_GeometryEntity_correct","statement":"convex_hull satisfies spec on GeometryEntity inputs"},"trust":"LIBRARY"},{"name":"Segment","pred":"isinstance(e, Segment)","path":{"lhs":"convex_hull(x)","rhs":"the convex hull surrounding the points contained in the list of entities","over":{"base":"Segment","pred":"isinstance(e, Segment)"},"name":"convex_hull_Segment_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.convex_hull_Segment_correct","statement":"convex_hull satisfies spec on Segment inputs"},"trust":"LIBRARY"},{"name":"Polygon","pred":"isinstance(e, Polygon)","path":{"lhs":"convex_hull(x)","rhs":"the convex hull surrounding the points contained in the list of entities","over":{"base":"Polygon","pred":"isinstance(e, Polygon)"},"name":"convex_hull_Polygon_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.convex_hull_Polygon_correct","statement":"convex_hull satisfies spec on Polygon inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"91fd0e3d78a03b56"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.util.convex_hull","kind":"function","src_hash":"9cd12a1d62bae17f","in":{"base":"Any","pred":"isinstance(e, Point) and isinstance(e, GeometryEntity) and isinstance(e, Segment) and not (any((len(x) != 2 for x in p))) and len(L) > 0 and len(U) > 0"},"out":{"base":"Any","pred":"result satisfies: len(L) == old_len_L + 1 and len(L) == old_len_L - 1 and len(U) == old_len_U + 1 and len(U) == old_len_U - 1 and len(U) == old_len_U and len(p) == old_len_p"},"spec":{"lhs":"convex_hull(*args, polygon)","rhs":"len(L) == old_len_L + 1 and len(L) == old_len_L - 1 and len(U) == old_len_U + 1 and len(U) == old_len_U - 1 and len(U) == old_len_U and len(p) == old_len_p","over":{"base":"Any","pred":"isinstance(e, Point) and isinstance(e, GeometryEntity) and isinstance(e, Segment) and not (any((len(x) != 2 for x in p))) and len(L) > 0 and len(U) > 0"},"name":"convex_hull_correct"},"guarantee":"len(L) == old_len_L + 1; len(L) == old_len_L - 1; len(U) == old_len_U + 1","fibers":[{"name":"Point","pred":"isinstance(e, Point)","path":{"lhs":"convex_hull(x)","rhs":"len(L) == old_len_L + 1; len(L) == old_len_L - 1; len(U) == old_len_U + 1","over":{"base":"Point","pred":"isinstance(e, Point)"},"name":"convex_hull_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.convex_hull_Point_correct","statement":"convex_hull satisfies spec on Point inputs"},"trust":"LIBRARY"},{"name":"GeometryEntity","pred":"isinstance(e, GeometryEntity)","path":{"lhs":"convex_hull(x)","rhs":"len(L) == old_len_L + 1; len(L) == old_len_L - 1; len(U) == old_len_U + 1","over":{"base":"GeometryEntity","pred":"isinstance(e, GeometryEntity)"},"name":"convex_hull_GeometryEntity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.convex_hull_GeometryEntity_correct","statement":"convex_hull satisfies spec on GeometryEntity inputs"},"trust":"LIBRARY"},{"name":"Segment","pred":"isinstance(e, Segment)","path":{"lhs":"convex_hull(x)","rhs":"len(L) == old_len_L + 1; len(L) == old_len_L - 1; len(U) == old_len_U + 1","over":{"base":"Segment","pred":"isinstance(e, Segment)"},"name":"convex_hull_Segment_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.convex_hull_Segment_correct","statement":"convex_hull satisfies spec on Segment inputs"},"trust":"LIBRARY"},{"name":"Polygon","pred":"isinstance(e, Polygon)","path":{"lhs":"convex_hull(x)","rhs":"len(L) == old_len_L + 1; len(L) == old_len_L - 1; len(U) == old_len_U + 1","over":{"base":"Polygon","pred":"isinstance(e, Polygon)"},"name":"convex_hull_Polygon_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.convex_hull_Polygon_correct","statement":"convex_hull satisfies spec on Polygon inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"91fd0e3d78a03b56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (any((len(x) != 2 for x in p)))","len(L) > 0","len(U) > 0"],"ensures":["len(L) == old_len_L + 1","len(L) == old_len_L - 1","len(U) == old_len_U + 1","len(U) == old_len_U - 1","len(U) == old_len_U","len(p) == old_len_p"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["L.append","L.pop","U.append","U.pop","U.reverse","p.add","p.sort","p.update"],"raises":["NotImplementedError","ValueError"],"catches":["NotImplementedError","TypeError"]},"state_contract":{"modifies":["L.*","U.*","p.*"],"old_bindings":{"old_len_L":"len(L)","old_len_U":"len(U)","old_len_p":"len(p)"},"pre_requires":["len(L) > 0","len(U) > 0"],"post_ensures":["len(L) == old_len_L + 1","len(L) == old_len_L - 1","len(U) == old_len_U + 1","len(U) == old_len_U - 1","len(U) == old_len_U","len(p) == old_len_p"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', 'polygon']","Poor branch-fiber coverage: 0% (branches={'isinstance(e, Segment)', 'any((len(x) != 2 for x in p))', 'isinstance(e, Point)', 'not isinstance(e, GeometryEntity)', 'len(p) == 1', 'len(convexHull) == 2', 'len(p) == 2', 'isinstance(e, Polygon)'}, fibers={'GeometryEntity', 'Point', 'Polygon', 'Segment'})"]}}
 def convex_hull(*args, polygon=True):
     """The convex hull surrounding the Points contained in the list of entities.
 
@@ -595,9 +649,12 @@ def convex_hull(*args, polygon=True):
         return (U, L)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(farthest_points(*ar), return the subset of points from a set of points that were the furthest apart from each other in the 2d plane) over {Any | isinstance(U, Point)} ║
+# ║ Path(farthest_points(*args), len(rv) == old_len_rv + 1) over {Any | isinstance(U, Point)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ farthest_points : {Any | isinstance(U, Point)} → Any       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(rv) == old_len_rv + 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ farthest_points : {Any | isinstance(U, Point)} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Point: {isinstance(U, Point)} → library_axiom            ║
@@ -607,9 +664,12 @@ def convex_hull(*args, polygon=True):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ac7c2a78...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.util.farthest_points","kind":"function","src_hash":"94f94ccb838e3851","in":{"base":"Any","pred":"isinstance(U, Point)"},"out":{"base":"Any"},"spec":{"lhs":"farthest_points(*ar)","rhs":"return the subset of points from a set of points that were the furthest apart from each other in the 2d plane","over":{"base":"Any","pred":"isinstance(U, Point)"},"name":"farthest_points_correct"},"guarantee":"return the subset of points from a set of points that were the furthest apart from each other in the 2d plane","fibers":[{"name":"Point","pred":"isinstance(U, Point)","path":{"lhs":"farthest_points(x)","rhs":"return the subset of points from a set of points that were the furthest apart from each other in the 2d plane","over":{"base":"Point","pred":"isinstance(U, Point)"},"name":"farthest_points_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.farthest_points_Point_correct","statement":"farthest_points satisfies spec on Point inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ac7c2a78caf822eb"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.util.farthest_points","kind":"function","src_hash":"94f94ccb838e3851","in":{"base":"Any","pred":"isinstance(U, Point)"},"out":{"base":"Any","pred":"result satisfies: len(rv) == old_len_rv + 1"},"spec":{"lhs":"farthest_points(*args)","rhs":"len(rv) == old_len_rv + 1","over":{"base":"Any","pred":"isinstance(U, Point)"},"name":"farthest_points_correct"},"guarantee":"len(rv) == old_len_rv + 1","fibers":[{"name":"Point","pred":"isinstance(U, Point)","path":{"lhs":"farthest_points(x)","rhs":"len(rv) == old_len_rv + 1","over":{"base":"Point","pred":"isinstance(U, Point)"},"name":"farthest_points_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.farthest_points_Point_correct","statement":"farthest_points satisfies spec on Point inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ac7c2a78caf822eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(rv) == old_len_rv + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["rv.append"],"raises":["ValueError"]},"state_contract":{"modifies":["rv.*"],"old_bindings":{"old_len_rv":"len(rv)"},"post_ensures":["len(rv) == old_len_rv + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']","Poor branch-fiber coverage: 0% (branches={'isinstance(U, Point)', 'd == diam', 'j == 0', 'd > diam', '(U[i + 1].y - U[i].y) * (L[j].x - L[j - 1].x) > (L[j].y - L[j - 1].y) * (U[i + 1].x - U[i].x)', 'i == len(U) - 1', 'L is None'}, fibers={'Point'})"]}}
 def farthest_points(*args):
     """Return the subset of points from a set of points that were
     the furthest apart from each other in the 2D plane.
@@ -699,7 +759,13 @@ def farthest_points(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(idiff(eq,), return ``dy/dx`` assuming that ``eq == 0``) over {Any | isinstance(y, Symbol) and isinstance(y, Function)} ║
+# ║ Path(idiff(eq, y, x), yp.subs([(v, k) for k, v in f.items()])) over {Any | isinstance(y, Symbol) and isinstance(y, Function) and hasattr(eq, 'subs') and hasattr(eq, 'free_symbols') and hasattr(y, 'diff') and hasattr(eq, 'diff') and hasattr(y, 'name')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(eq, 'subs')                            ║
+# ║   requires: hasattr(eq, 'free_symbols')                    ║
+# ║   requires: hasattr(y, 'diff')                             ║
+# ║   returns:  yp.subs([(v, k) for k, v in f.items()])        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ idiff : {Any | isinstance(y, Symbol) and isinstance(y...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -712,9 +778,12 @@ def farthest_points(*args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fc3ea1f4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.util.idiff","kind":"function","src_hash":"540626d05a40cf5b","in":{"base":"Any","pred":"isinstance(y, Symbol) and isinstance(y, Function)"},"out":{"base":"Any"},"spec":{"lhs":"idiff(eq,)","rhs":"return ``dy/dx`` assuming that ``eq == 0``","over":{"base":"Any","pred":"isinstance(y, Symbol) and isinstance(y, Function)"},"name":"idiff_correct"},"guarantee":"return ``dy/dx`` assuming that ``eq == 0``","fibers":[{"name":"Symbol","pred":"isinstance(y, Symbol)","path":{"lhs":"idiff(x)","rhs":"return ``dy/dx`` assuming that ``eq == 0``","over":{"base":"Symbol","pred":"isinstance(y, Symbol)"},"name":"idiff_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.idiff_Symbol_correct","statement":"idiff satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"Function","pred":"isinstance(y, Function)","path":{"lhs":"idiff(x)","rhs":"return ``dy/dx`` assuming that ``eq == 0``","over":{"base":"Function","pred":"isinstance(y, Function)"},"name":"idiff_Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.idiff_Function_correct","statement":"idiff satisfies spec on Function inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fc3ea1f432098834"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.util.idiff","kind":"function","src_hash":"540626d05a40cf5b","in":{"base":"Any","pred":"isinstance(y, Symbol) and isinstance(y, Function) and hasattr(eq, 'subs') and hasattr(eq, 'free_symbols') and hasattr(y, 'diff') and hasattr(eq, 'diff') and hasattr(y, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"idiff(eq, y, x)","rhs":"yp.subs([(v, k) for k, v in f.items()])","over":{"base":"Any","pred":"isinstance(y, Symbol) and isinstance(y, Function) and hasattr(eq, 'subs') and hasattr(eq, 'free_symbols') and hasattr(y, 'diff') and hasattr(eq, 'diff') and hasattr(y, 'name')"},"name":"idiff_correct"},"guarantee":"returns yp.subs([(v, k) for k, v in f.items()])","fibers":[{"name":"Symbol","pred":"isinstance(y, Symbol)","path":{"lhs":"idiff(x)","rhs":"returns yp.subs([(v, k) for k, v in f.items()])","over":{"base":"Symbol","pred":"isinstance(y, Symbol)"},"name":"idiff_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.idiff_Symbol_correct","statement":"idiff satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"Function","pred":"isinstance(y, Function)","path":{"lhs":"idiff(x)","rhs":"returns yp.subs([(v, k) for k, v in f.items()])","over":{"base":"Function","pred":"isinstance(y, Function)"},"name":"idiff_Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.idiff_Function_correct","statement":"idiff satisfies spec on Function inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fc3ea1f432098834","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(eq, 'subs')","hasattr(eq, 'free_symbols')","hasattr(y, 'diff')","hasattr(eq, 'diff')","hasattr(y, 'name')"],"returns_expr":"yp.subs([(v, k) for k, v in f.items()])","pure":false,"effects":{"effect_type":"reads_state","reads":["eq.diff","eq.free_symbols","eq.subs","y.diff","y.name"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(y, Function)', 'i == n - 1', 'isinstance(y, Symbol)'}, fibers={'Function', 'Symbol'})"]}}
 def idiff(eq, y, x, n=1):
     """Return ``dy/dx`` assuming that ``eq == 0``.
 
@@ -789,7 +858,10 @@ def idiff(eq, y, x, n=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(*en), the intersection of a collection of geometryentity instances) over {Any | isinstance(e, GeometryEntity)} ║
+# ║ Path(intersection(*entities, pairwise, **kwargs), # HINT: intersection may be idempotent: intersection(intersection(x)) == intersection(x)) over {Any | isinstance(e, GeometryEntity)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: intersection may be idempotent: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ intersection : {Any | isinstance(e, GeometryEntity)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -801,9 +873,12 @@ def idiff(eq, y, x, n=1):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6b134e6b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.util.intersection","kind":"function","src_hash":"f8743944cd161e85","in":{"base":"Any","pred":"isinstance(e, GeometryEntity)"},"out":{"base":"Any"},"spec":{"lhs":"intersection(*en)","rhs":"the intersection of a collection of geometryentity instances","over":{"base":"Any","pred":"isinstance(e, GeometryEntity)"},"name":"intersection_correct"},"guarantee":"the intersection of a collection of geometryentity instances","fibers":[{"name":"GeometryEntity","pred":"isinstance(e, GeometryEntity)","path":{"lhs":"intersection(x)","rhs":"the intersection of a collection of geometryentity instances","over":{"base":"GeometryEntity","pred":"isinstance(e, GeometryEntity)"},"name":"intersection_GeometryEntity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.intersection_GeometryEntity_correct","statement":"intersection satisfies spec on GeometryEntity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6b134e6b91cb67b8"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.util.intersection","kind":"function","src_hash":"f8743944cd161e85","in":{"base":"Any","pred":"isinstance(e, GeometryEntity)"},"out":{"base":"Any","pred":"result satisfies: # HINT: intersection may be idempotent: intersection(intersection(x)) == intersection(x)"},"spec":{"lhs":"intersection(*entities, pairwise, **kwargs)","rhs":"# HINT: intersection may be idempotent: intersection(intersection(x)) == intersection(x)","over":{"base":"Any","pred":"isinstance(e, GeometryEntity)"},"name":"intersection_correct"},"guarantee":"# HINT: intersection may be idempotent: intersection(intersection(x)) == intersection(x)","fibers":[{"name":"GeometryEntity","pred":"isinstance(e, GeometryEntity)","path":{"lhs":"intersection(x)","rhs":"# HINT: intersection may be idempotent: intersection(intersection(x)) == intersection(x)","over":{"base":"GeometryEntity","pred":"isinstance(e, GeometryEntity)"},"name":"intersection_GeometryEntity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.util.intersection_GeometryEntity_correct","statement":"intersection satisfies spec on GeometryEntity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6b134e6b91cb67b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: intersection may be idempotent: intersection(intersection(x)) == intersection(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*entities', 'pairwise', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'not isinstance(e, GeometryEntity)', 'len(entities) <= 1'}, fibers={'GeometryEntity'})"]}}
 def intersection(*entities, pairwise=False, **kwargs):
     """The intersection of a collection of GeometryEntity instances.
 

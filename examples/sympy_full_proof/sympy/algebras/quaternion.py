@@ -35,16 +35,24 @@ from mpmath.libmp.libmpf import prec_to_dps
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_norm(ele), validate if input norm is consistent) over Any ║
+# ║ Path(_check_norm(elements, norm), <unspecified:_check_norm>) over {Any | hasattr(norm, 'is_number') and hasattr(norm, 'is_positive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_norm : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(norm, 'is_number')                     ║
+# ║   requires: hasattr(norm, 'is_positive')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_norm : {Any | hasattr(norm, 'is_number') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30b2aa07e7a250ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion._check_norm","kind":"function","src_hash":"f3c3557a1068370a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_norm(ele)","rhs":"validate if input norm is consistent","over":{"base":"Any"},"name":"_check_norm_correct"},"guarantee":"validate if input norm is consistent","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion._check_norm_correct","statement":"Path(_check_norm(x), validate if input norm is consistent)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30b2aa07e7a250ed"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion._check_norm","kind":"function","src_hash":"f3c3557a1068370a","in":{"base":"Any","pred":"hasattr(norm, 'is_number') and hasattr(norm, 'is_positive')"},"out":{"base":"Any"},"spec":{"lhs":"_check_norm(elements, norm)","rhs":"<unspecified:_check_norm>","over":{"base":"Any","pred":"hasattr(norm, 'is_number') and hasattr(norm, 'is_positive')"},"name":"_check_norm_correct"},"guarantee":"validate if input norm is consistent","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion._check_norm_correct","statement":"Path(_check_norm(x), validate if input norm is consistent)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30b2aa07e7a250ed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(norm, 'is_number')","hasattr(norm, 'is_positive')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["norm.is_number","norm.is_positive"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _check_norm(elements, norm):
     """validate if input norm is consistent"""
     if norm is not None and norm.is_number:
@@ -57,16 +65,25 @@ def _check_norm(elements, norm):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_extrinsic(seq), validate seq and return true if seq is lowercase and false if uppercase) over Any ║
+# ║ Path(_is_extrinsic(seq), <unspecified:_is_extrinsic>) over {Any | not (type(seq) != str) and not (len(seq) != 3) and intrinsic or extrinsic and hasattr(seq, 'isupper') and hasattr(seq, 'islower') and hasattr(seq, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_extrinsic : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (type(seq) != str)                         ║
+# ║   requires: not (len(seq) != 3)                            ║
+# ║   requires: intrinsic or extrinsic                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_extrinsic : {Any | not (type(seq) != str) and not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ec9bad9c82ea75a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion._is_extrinsic","kind":"function","src_hash":"4be2e6af68d1ed44","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_extrinsic(seq)","rhs":"validate seq and return true if seq is lowercase and false if uppercase","over":{"base":"Any"},"name":"_is_extrinsic_correct"},"guarantee":"validate seq and return true if seq is lowercase and false if uppercase","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion._is_extrinsic_correct","statement":"Path(_is_extrinsic(x), validate seq and return true if seq is lowercase and false if uppercase)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ec9bad9c82ea75a"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion._is_extrinsic","kind":"function","src_hash":"4be2e6af68d1ed44","in":{"base":"Any","pred":"not (type(seq) != str) and not (len(seq) != 3) and intrinsic or extrinsic and hasattr(seq, 'isupper') and hasattr(seq, 'islower') and hasattr(seq, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"_is_extrinsic(seq)","rhs":"<unspecified:_is_extrinsic>","over":{"base":"Any","pred":"not (type(seq) != str) and not (len(seq) != 3) and intrinsic or extrinsic and hasattr(seq, 'isupper') and hasattr(seq, 'islower') and hasattr(seq, 'lower')"},"name":"_is_extrinsic_correct"},"guarantee":"validate seq and return true if seq is lowercase and false if uppercase","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion._is_extrinsic_correct","statement":"Path(_is_extrinsic(x), validate seq and return true if seq is lowercase and false if uppercase)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ec9bad9c82ea75a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (type(seq) != str)","not (len(seq) != 3)","intrinsic or extrinsic","hasattr(seq, 'isupper')","hasattr(seq, 'islower')","hasattr(seq, 'lower')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["seq.islower","seq.isupper","seq.lower"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _is_extrinsic(seq):
     """validate seq and return True if seq is lowercase and False if uppercase"""
     if type(seq) != str:
@@ -97,14 +114,20 @@ def _is_extrinsic(seq):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Quaternion(*args), correctly constructs a Quaternion instance) over {Any | isinstance(r, tuple) and isinstance(q2, Quaternion)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Quaternion : {Any | isinstance(r, tuple) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 5.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52106d44e2a4aa29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion","kind":"class","src_hash":"64d305ae67b89b01","in":{"base":"Any","pred":"isinstance(r, tuple) and isinstance(q2, Quaternion)"},"out":{"base":"Any"},"spec":{"lhs":"Quaternion(*args)","rhs":"correctly constructs a Quaternion instance","over":{"base":"Any","pred":"isinstance(r, tuple) and isinstance(q2, Quaternion)"},"name":"Quaternion_class_invariant"},"guarantee":"correctly constructs a Quaternion instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52106d44e2a4aa29"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion","kind":"class","src_hash":"64d305ae67b89b01","in":{"base":"Any","pred":"isinstance(r, tuple) and isinstance(q2, Quaternion)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Quaternion(*args)","rhs":"correctly constructs a Quaternion instance","over":{"base":"Any","pred":"isinstance(r, tuple) and isinstance(q2, Quaternion)"},"name":"Quaternion_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52106d44e2a4aa29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function Quaternion not found in source"]}}
 class Quaternion(Expr):
     """Provides basic quaternion operations.
     Quaternion objects can be instantiated as ``Quaternion(a, b, c, d)``
@@ -159,16 +182,23 @@ class Quaternion(Expr):
     is_commutative = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, a, b), <unspecified:__new__>) over {Any | not (any((i.is_commutative is False for i in [a, b, c, d])))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (any((i.is_commutative is False for i...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | not (any((i.is_commutative is False ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e350d8a906beb4e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__new__","kind":"method","src_hash":"5e8816164840f48d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e350d8a906beb4e"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__new__","kind":"method","src_hash":"5e8816164840f48d","in":{"base":"Any","pred":"not (any((i.is_commutative is False for i in [a, b, c, d])))"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, a, b)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"not (any((i.is_commutative is False for i in [a, b, c, d])))"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e350d8a906beb4e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (any((i.is_commutative is False for i in [a, b, c, d])))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, a=0, b=0, c=0, d=0, real_field=True, norm=None):
         a, b, c, d = map(sympify, (a, b, c, d))
 
@@ -180,16 +210,22 @@ class Quaternion(Expr):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_norm(nor), sets norm of an already instantiated quaternion) over Any ║
+# ║ Path(set_norm(norm), <unspecified:set_norm>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_norm : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0601bbb9f4148352  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.set_norm","kind":"method","src_hash":"b6b14d50f2c9aa9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_norm(nor)","rhs":"sets norm of an already instantiated quaternion","over":{"base":"Any"},"name":"set_norm_correct"},"guarantee":"sets norm of an already instantiated quaternion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.set_norm_correct","statement":"Path(set_norm(x), sets norm of an already instantiated quaternion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0601bbb9f4148352"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.set_norm","kind":"method","src_hash":"b6b14d50f2c9aa9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_norm(norm)","rhs":"<unspecified:set_norm>","over":{"base":"Any"},"name":"set_norm_correct"},"guarantee":"sets norm of an already instantiated quaternion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.set_norm_correct","statement":"Path(set_norm(x), sets norm of an already instantiated quaternion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0601bbb9f4148352","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.args"],"writes":["self._norm"]},"state_contract":{"modifies":["self._norm"],"old_bindings":{"old_self__norm":"self._norm"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_norm(self, norm):
         """Sets norm of an already instantiated quaternion.
 
@@ -228,91 +264,127 @@ class Quaternion(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), returns the a attribute) over Any                ║
+# ║ Path(a(), self.args[0]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ a : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0bb1d3154ec4a802           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.a","kind":"property","src_hash":"d17459e65a5ac0e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"returns the a attribute","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns the a attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0bb1d3154ec4a802"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.a","kind":"property","src_hash":"d17459e65a5ac0e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"self.args[0]","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0bb1d3154ec4a802","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(b(), returns the b attribute) over Any                ║
+# ║ Path(b(), self.args[1]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ b : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d6146147316680d5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.b","kind":"property","src_hash":"c841522c880495e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"returns the b attribute","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns the b attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6146147316680d5"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.b","kind":"property","src_hash":"c841522c880495e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"self.args[1]","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6146147316680d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def b(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(c(), returns the c attribute) over Any                ║
+# ║ Path(c(), self.args[2]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ c : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d38c28b591c6a83           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.c","kind":"property","src_hash":"50089ab6414f4ccd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"c()","rhs":"returns the c attribute","over":{"base":"Any"},"name":"c_correct"},"guarantee":"returns the c attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d38c28b591c6a83"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.c","kind":"property","src_hash":"50089ab6414f4ccd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"c()","rhs":"self.args[2]","over":{"base":"Any"},"name":"c_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d38c28b591c6a83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def c(self):
         return self.args[2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(d(), returns the d attribute) over Any                ║
+# ║ Path(d(), self.args[3]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[3]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ d : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc804c35f45b7f2e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.d","kind":"property","src_hash":"e5db942b758281b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"d()","rhs":"returns the d attribute","over":{"base":"Any"},"name":"d_correct"},"guarantee":"returns the d attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc804c35f45b7f2e"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.d","kind":"property","src_hash":"e5db942b758281b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"d()","rhs":"self.args[3]","over":{"base":"Any"},"name":"d_correct"},"guarantee":"returns self.args[3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc804c35f45b7f2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def d(self):
         return self.args[3]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(real_field(), returns the real_field attribute) over Any ║
+# ║ Path(real_field(), self._real_field) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._real_field                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ real_field : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5265bbda79ac578b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.real_field","kind":"property","src_hash":"39e1ea80757eed3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"real_field()","rhs":"returns the real_field attribute","over":{"base":"Any"},"name":"real_field_correct"},"guarantee":"returns the real_field attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5265bbda79ac578b"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.real_field","kind":"property","src_hash":"39e1ea80757eed3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"real_field()","rhs":"self._real_field","over":{"base":"Any"},"name":"real_field_correct"},"guarantee":"returns self._real_field","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5265bbda79ac578b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._real_field","pure":false,"effects":{"effect_type":"reads_state","reads":["self._real_field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def real_field(self):
         return self._real_field
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(product_matrix_left(), returns the product_matrix_left attribute) over Any ║
+# ║ Path(product_matrix_left(), Matrix([[self.a, -self.b, -self.c, -self.d], [self.b, self.a, -self.d, self.c], [self.c, self.d, self.a, -self.b], [self.d, -self.c, self.b, self.a]])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([[self.a, -self.b, -self.c, -self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ product_matrix_left : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2256ed46ad2700e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.product_matrix_left","kind":"property","src_hash":"e871f02f6b6cd01d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"product_matrix_left()","rhs":"returns the product_matrix_left attribute","over":{"base":"Any"},"name":"product_matrix_left_correct"},"guarantee":"returns the product_matrix_left attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2256ed46ad2700e4"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.product_matrix_left","kind":"property","src_hash":"e871f02f6b6cd01d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"product_matrix_left()","rhs":"Matrix([[self.a, -self.b, -self.c, -self.d], [self.b, self.a, -self.d, self.c], [self.c, self.d, self.a, -self.b], [self.d, -self.c, self.b, self.a]])","over":{"base":"Any"},"name":"product_matrix_left_correct"},"guarantee":"returns Matrix([[self.a, -self.b, -self.c, -self.d], [self.b, self.a, -self.d, self.c], [self.c, self.d, self.a, -self.b], [self.d, -self.c, self.b, self.a]])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2256ed46ad2700e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([[self.a, -self.b, -self.c, -self.d], [self.b, self.a, -self.d, self.c], [self.c, self.d, self.a, -self.b], [self.d, -self.c, self.b, self.a]])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.c","self.d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def product_matrix_left(self):
         r"""Returns 4 x 4 Matrix equivalent to a Hamilton product from the
         left. This can be useful when treating quaternion elements as column
@@ -364,16 +436,22 @@ class Quaternion(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(product_matrix_right(), returns the product_matrix_right attribute) over Any ║
+# ║ Path(product_matrix_right(), Matrix([[self.a, -self.b, -self.c, -self.d], [self.b, self.a, self.d, -self.c], [self.c, -self.d, self.a, self.b], [self.d, self.c, -self.b, self.a]])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([[self.a, -self.b, -self.c, -self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ product_matrix_right : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | acba522ada5fdf91           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.product_matrix_right","kind":"property","src_hash":"3cfa9f385080c1a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"product_matrix_right()","rhs":"returns the product_matrix_right attribute","over":{"base":"Any"},"name":"product_matrix_right_correct"},"guarantee":"returns the product_matrix_right attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acba522ada5fdf91"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.product_matrix_right","kind":"property","src_hash":"3cfa9f385080c1a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"product_matrix_right()","rhs":"Matrix([[self.a, -self.b, -self.c, -self.d], [self.b, self.a, self.d, -self.c], [self.c, -self.d, self.a, self.b], [self.d, self.c, -self.b, self.a]])","over":{"base":"Any"},"name":"product_matrix_right_correct"},"guarantee":"returns Matrix([[self.a, -self.b, -self.c, -self.d], [self.b, self.a, self.d, -self.c], [self.c, -self.d, self.a, self.b], [self.d, self.c, -self.b, self.a]])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acba522ada5fdf91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([[self.a, -self.b, -self.c, -self.d], [self.b, self.a, self.d, -self.c], [self.c, -self.d, self.a, self.b], [self.d, self.c, -self.b, self.a]])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.c","self.d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def product_matrix_right(self):
         r"""Returns 4 x 4 Matrix equivalent to a Hamilton product from the
         right. This can be useful when treating quaternion elements as column
@@ -429,16 +507,25 @@ class Quaternion(Expr):
                 [self.d, self.c, -self.b, self.a]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_Matrix(vec), returns elements of quaternion as a column vector. by default, a ``matrix`` of length 4 is returned, with the real part as the first element. if ``vector_only`` is ``true``, returns only imaginary par) over Any ║
+# ║ Path(to_Matrix(vector_only), result == (Matrix(self.args[1:]) if vector_only else Matrix(self.args)) and result == Matrix(self.args[1:]) or result == Matrix(self.args)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_Matrix : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Matrix(self.args[1:]) if vecto...   ║
+# ║   ensures:  result == Matrix(self.args[1:]) or result...   ║
+# ║   fiber[case_0]: vector_only => Matrix(self.args[1:])      ║
+# ║   fiber[case_1]: not (vector_only) => Matrix(self.args)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_Matrix : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49743fef4fa35634  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8043981ebd17cb24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.to_Matrix","kind":"method","src_hash":"0defda13152fd651","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_Matrix(vec)","rhs":"returns elements of quaternion as a column vector. by default, a ``matrix`` of length 4 is returned, with the real part as the first element. if ``vector_only`` is ``true``, returns only imaginary par","over":{"base":"Any"},"name":"to_Matrix_correct"},"guarantee":"returns elements of quaternion as a column vector. by default, a ``matrix`` of length 4 is returned, with the real part as the first element. if ``vector_only`` is ``true``, returns only imaginary par","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.to_Matrix_correct","statement":"Path(to_Matrix(x), returns elements of quaternion as a column vector. by default, a ``matrix`` of length 4 is returned, with the real part as the first element. if ``vector_only`` is ``true``, returns only imaginary par)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49743fef4fa35634"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.to_Matrix","kind":"method","src_hash":"0defda13152fd651","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Matrix(self.args[1:]) if vector_only else Matrix(self.args)) and result == Matrix(self.args[1:]) or result == Matrix(self.args)"},"spec":{"lhs":"to_Matrix(vector_only)","rhs":"result == (Matrix(self.args[1:]) if vector_only else Matrix(self.args)) and result == Matrix(self.args[1:]) or result == Matrix(self.args)","over":{"base":"Any"},"name":"to_Matrix_correct"},"guarantee":"result == (Matrix(self.args[1:]) if vector_only else Matrix(self.args)); result == Matrix(self.args[1:]) or result == Matrix(self.args); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.to_Matrix_correct","statement":"Path(to_Matrix(x), result == (Matrix(self.args[1:]) if vector_only else Matrix(self.args)); result == Matrix(self.args[1:]) or result == Matrix(self.args); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8043981ebd17cb24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Matrix(self.args[1:]) if vector_only else Matrix(self.args))","result == Matrix(self.args[1:]) or result == Matrix(self.args)"],"fibers":[{"name":"case_0","guard":"vector_only","ensures":["result == Matrix(self.args[1:])"],"decidability":"library","returns_expr":"Matrix(self.args[1:])"},{"name":"case_1","guard":"not (vector_only)","ensures":["result == Matrix(self.args)"],"decidability":"library","returns_expr":"Matrix(self.args)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_Matrix(self, vector_only=False):
         """Returns elements of quaternion as a column vector.
         By default, a ``Matrix`` of length 4 is returned, with the real part as the
@@ -490,16 +577,23 @@ class Quaternion(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_Matrix(cls), returns quaternion from elements of a column vector`. if vector_only is true, returns only imaginary part as a matrix of length 3) over Any ║
+# ║ Path(from_Matrix(cls, elements), <unspecified:from_Matrix>) over {Any | not (length != 3 and length != 4)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_Matrix : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (length != 3 and length != 4)              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_Matrix : {Any | not (length != 3 and length != 4...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11db6e2066535884  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.from_Matrix","kind":"classmethod","src_hash":"297aba35812c586c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_Matrix(cls)","rhs":"returns quaternion from elements of a column vector`. if vector_only is true, returns only imaginary part as a matrix of length 3","over":{"base":"Any"},"name":"from_Matrix_correct"},"guarantee":"returns quaternion from elements of a column vector`. if vector_only is true, returns only imaginary part as a matrix of length 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.from_Matrix_correct","statement":"Path(from_Matrix(x), returns quaternion from elements of a column vector`. if vector_only is true, returns only imaginary part as a matrix of length 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11db6e2066535884"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.from_Matrix","kind":"classmethod","src_hash":"297aba35812c586c","in":{"base":"Any","pred":"not (length != 3 and length != 4)"},"out":{"base":"Any"},"spec":{"lhs":"from_Matrix(cls, elements)","rhs":"<unspecified:from_Matrix>","over":{"base":"Any","pred":"not (length != 3 and length != 4)"},"name":"from_Matrix_correct"},"guarantee":"returns quaternion from elements of a column vector`. if vector_only is true, returns only imaginary part as a matrix of length 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.from_Matrix_correct","statement":"Path(from_Matrix(x), returns quaternion from elements of a column vector`. if vector_only is true, returns only imaginary part as a matrix of length 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11db6e2066535884","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (length != 3 and length != 4)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_Matrix(cls, elements):
         """Returns quaternion from elements of a column vector`.
         If vector_only is True, returns only imaginary part as a Matrix of
@@ -544,16 +638,24 @@ class Quaternion(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_euler(cls), returns quaternion equivalent to rotation represented by the euler angles, in the sequence defined by ``seq``) over Any ║
+# ║ Path(from_euler(cls, angles, seq), <unspecified:from_euler>) over {Any | not (len(angles) != 3) and hasattr(seq, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_euler : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(angles) != 3)                         ║
+# ║   requires: hasattr(seq, 'lower')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_euler : {Any | not (len(angles) != 3) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84dab38b77e87f77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.from_euler","kind":"classmethod","src_hash":"75e7c061c736e704","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_euler(cls)","rhs":"returns quaternion equivalent to rotation represented by the euler angles, in the sequence defined by ``seq``","over":{"base":"Any"},"name":"from_euler_correct"},"guarantee":"returns quaternion equivalent to rotation represented by the euler angles, in the sequence defined by ``seq``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.from_euler_correct","statement":"Path(from_euler(x), returns quaternion equivalent to rotation represented by the euler angles, in the sequence defined by ``seq``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84dab38b77e87f77"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.from_euler","kind":"classmethod","src_hash":"75e7c061c736e704","in":{"base":"Any","pred":"not (len(angles) != 3) and hasattr(seq, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"from_euler(cls, angles, seq)","rhs":"<unspecified:from_euler>","over":{"base":"Any","pred":"not (len(angles) != 3) and hasattr(seq, 'lower')"},"name":"from_euler_correct"},"guarantee":"returns quaternion equivalent to rotation represented by the euler angles, in the sequence defined by ``seq``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.from_euler_correct","statement":"Path(from_euler(x), returns quaternion equivalent to rotation represented by the euler angles, in the sequence defined by ``seq``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84dab38b77e87f77","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(angles) != 3)","hasattr(seq, 'lower')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.from_axis_angle","seq.lower"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_euler(cls, angles, seq):
         """Returns quaternion equivalent to rotation represented by the Euler
         angles, in the sequence defined by ``seq``.
@@ -618,16 +720,24 @@ class Quaternion(Expr):
             return trigsimp(qi * qj * qk)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_euler(seq), returns euler angles representing same rotation as the quaternion, in the sequence given by ``seq``) over Any ║
+# ║ Path(to_euler(seq, angle_addition, avoid_square_root), <unspecified:to_euler>) over {Any | not (self.is_zero_quaternion()) and hasattr(seq, 'lower')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_euler : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self.is_zero_quaternion())                ║
+# ║   requires: hasattr(seq, 'lower')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_euler : {Any | not (self.is_zero_quaternion()) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b94cd6d75fce8180  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.to_euler","kind":"method","src_hash":"244150e582bb4fb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_euler(seq)","rhs":"returns euler angles representing same rotation as the quaternion, in the sequence given by ``seq``","over":{"base":"Any"},"name":"to_euler_correct"},"guarantee":"returns euler angles representing same rotation as the quaternion, in the sequence given by ``seq``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.to_euler_correct","statement":"Path(to_euler(x), returns euler angles representing same rotation as the quaternion, in the sequence given by ``seq``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b94cd6d75fce8180"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.to_euler","kind":"method","src_hash":"244150e582bb4fb8","in":{"base":"Any","pred":"not (self.is_zero_quaternion()) and hasattr(seq, 'lower')"},"out":{"base":"Any"},"spec":{"lhs":"to_euler(seq, angle_addition, avoid_square_root)","rhs":"<unspecified:to_euler>","over":{"base":"Any","pred":"not (self.is_zero_quaternion()) and hasattr(seq, 'lower')"},"name":"to_euler_correct"},"guarantee":"returns euler angles representing same rotation as the quaternion, in the sequence given by ``seq``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.to_euler_correct","statement":"Path(to_euler(x), returns euler angles representing same rotation as the quaternion, in the sequence given by ``seq``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b94cd6d75fce8180","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self.is_zero_quaternion())","hasattr(seq, 'lower')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.c","self.d","self.is_zero_quaternion","self.norm","seq.lower"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_euler(self, seq, angle_addition=True, avoid_square_root=False):
         r"""Returns Euler angles representing same rotation as the quaternion,
         in the sequence given by ``seq``. This implements the method described
@@ -772,16 +882,22 @@ class Quaternion(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_axis_angle(cls), returns a rotation quaternion given the axis and the angle of rotation) over Any ║
+# ║ Path(from_axis_angle(cls, vector, angle), cls(a, b, c, d)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(a, b, c, d)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_axis_angle : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02b3fc4af186b3e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ea150775e307b72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.from_axis_angle","kind":"classmethod","src_hash":"827157c28eed444a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_axis_angle(cls)","rhs":"returns a rotation quaternion given the axis and the angle of rotation","over":{"base":"Any"},"name":"from_axis_angle_correct"},"guarantee":"returns a rotation quaternion given the axis and the angle of rotation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.from_axis_angle_correct","statement":"Path(from_axis_angle(x), returns a rotation quaternion given the axis and the angle of rotation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02b3fc4af186b3e8"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.from_axis_angle","kind":"classmethod","src_hash":"827157c28eed444a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_axis_angle(cls, vector, angle)","rhs":"cls(a, b, c, d)","over":{"base":"Any"},"name":"from_axis_angle_correct"},"guarantee":"returns cls(a, b, c, d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.from_axis_angle_correct","statement":"Path(from_axis_angle(x), returns cls(a, b, c, d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ea150775e307b72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(a, b, c, d)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_axis_angle(cls, vector, angle):
         """Returns a rotation quaternion given the axis and the angle of rotation.
 
@@ -826,16 +942,23 @@ class Quaternion(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_rotation_matrix(cls), returns the equivalent quaternion of a matrix) over Any ║
+# ║ Path(from_rotation_matrix(cls, M), Quaternion(a, b, c, d)) over {Any | hasattr(M, 'det')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_rotation_matrix : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'det')                              ║
+# ║   returns:  Quaternion(a, b, c, d)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_rotation_matrix : {Any | hasattr(M, 'det')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9348ca479d0a44e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c91b80f578ec74f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.from_rotation_matrix","kind":"classmethod","src_hash":"61bc999441c48a9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_rotation_matrix(cls)","rhs":"returns the equivalent quaternion of a matrix","over":{"base":"Any"},"name":"from_rotation_matrix_correct"},"guarantee":"returns the equivalent quaternion of a matrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.from_rotation_matrix_correct","statement":"Path(from_rotation_matrix(x), returns the equivalent quaternion of a matrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9348ca479d0a44e"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.from_rotation_matrix","kind":"classmethod","src_hash":"61bc999441c48a9a","in":{"base":"Any","pred":"hasattr(M, 'det')"},"out":{"base":"Any"},"spec":{"lhs":"from_rotation_matrix(cls, M)","rhs":"Quaternion(a, b, c, d)","over":{"base":"Any","pred":"hasattr(M, 'det')"},"name":"from_rotation_matrix_correct"},"guarantee":"returns Quaternion(a, b, c, d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.from_rotation_matrix_correct","statement":"Path(from_rotation_matrix(x), returns Quaternion(a, b, c, d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c91b80f578ec74f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'det')"],"returns_expr":"Quaternion(a, b, c, d)","pure":false,"effects":{"effect_type":"reads_state","reads":["M.det"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_rotation_matrix(cls, M):
         """Returns the equivalent quaternion of a matrix. The quaternion will be normalized
         only if the matrix is special orthogonal (orthogonal and det(M) = 1).
@@ -880,171 +1003,243 @@ class Quaternion(Expr):
         return Quaternion(a, b, c, d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), self.add(other)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.add(other)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f043375541e1c3e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__add__","kind":"method","src_hash":"536e287df588c58b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f043375541e1c3e8"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__add__","kind":"method","src_hash":"536e287df588c58b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"self.add(other)","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns self.add(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f043375541e1c3e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.add(other)","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.add"],"calls_mutating":["self.add"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         return self.add(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(other), self.add(other)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.add(other)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __radd__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f74ef9df451c319f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__radd__","kind":"method","src_hash":"3bf4dd2cccaeac10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f74ef9df451c319f"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__radd__","kind":"method","src_hash":"3bf4dd2cccaeac10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(other)","rhs":"self.add(other)","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"returns self.add(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f74ef9df451c319f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.add(other)","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.add"],"calls_mutating":["self.add"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other):
         return self.add(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), self.add(other * -1)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.add(other * -1)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __sub__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b902df588cf233a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__sub__","kind":"method","src_hash":"5d16e0bdad13c2f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b902df588cf233a"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__sub__","kind":"method","src_hash":"5d16e0bdad13c2f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"self.add(other * -1)","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"returns self.add(other * -1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b902df588cf233a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.add(other * -1)","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.add"],"calls_mutating":["self.add"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         return self.add(other*-1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), self._generic_mul(self, _sympify(other))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._generic_mul(self, _sympify(other))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 66f39a4e99615cd3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__mul__","kind":"method","src_hash":"5ec3e1d74dd0a511","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66f39a4e99615cd3"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__mul__","kind":"method","src_hash":"5ec3e1d74dd0a511","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"self._generic_mul(self, _sympify(other))","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns self._generic_mul(self, _sympify(other))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66f39a4e99615cd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._generic_mul(self, _sympify(other))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._generic_mul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         return self._generic_mul(self, _sympify(other))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), self._generic_mul(_sympify(other), self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._generic_mul(_sympify(other), self)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rmul__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6ad9b732f99ebf4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__rmul__","kind":"method","src_hash":"07a8ea3f361cb9aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6ad9b732f99ebf4"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__rmul__","kind":"method","src_hash":"07a8ea3f361cb9aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"self._generic_mul(_sympify(other), self)","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"returns self._generic_mul(_sympify(other), self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6ad9b732f99ebf4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._generic_mul(_sympify(other), self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._generic_mul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         return self._generic_mul(_sympify(other), self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(p), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(p), self.pow(p)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.pow(p)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pow__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 76b9a1c2eef8faf7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__pow__","kind":"method","src_hash":"dd3eb2e96c933c9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76b9a1c2eef8faf7"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__pow__","kind":"method","src_hash":"dd3eb2e96c933c9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(p)","rhs":"self.pow(p)","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"returns self.pow(p)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76b9a1c2eef8faf7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.pow(p)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.pow"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, p):
         return self.pow(p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), Quaternion(-self.a, -self.b, -self.c, -self.d)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Quaternion(-self.a, -self.b, -self.c, -se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 317389b4724d0ba4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__neg__","kind":"method","src_hash":"e88d88b2f7da4cf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"317389b4724d0ba4"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__neg__","kind":"method","src_hash":"e88d88b2f7da4cf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"Quaternion(-self.a, -self.b, -self.c, -self.d)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns Quaternion(-self.a, -self.b, -self.c, -self.d)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"317389b4724d0ba4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Quaternion(-self.a, -self.b, -self.c, -self.d)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.c","self.d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return Quaternion(-self.a, -self.b, -self.c, -self.d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), self * sympify(other) ** (-1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self * sympify(other) ** (-1)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __truediv__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ef8e8a08854b68e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__truediv__","kind":"method","src_hash":"67cba29a2e59e364","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ef8e8a08854b68e"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__truediv__","kind":"method","src_hash":"67cba29a2e59e364","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"self * sympify(other) ** (-1)","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"returns self * sympify(other) ** (-1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ef8e8a08854b68e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self * sympify(other) ** (-1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         return self * sympify(other)**-1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(other), sympify(other) * self ** (-1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sympify(other) * self ** (-1)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rtruediv__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 24f0d6c0e8b194d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__rtruediv__","kind":"method","src_hash":"baa230e618a9cd69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"24f0d6c0e8b194d0"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.__rtruediv__","kind":"method","src_hash":"baa230e618a9cd69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(other)","rhs":"sympify(other) * self ** (-1)","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"returns sympify(other) * self ** (-1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"24f0d6c0e8b194d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sympify(other) * self ** (-1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, other):
         return sympify(other) * self**-1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_Integral(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_Integral(*args), self.integrate(*args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.integrate(*args)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_Integral : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20e8162b55927190           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion._eval_Integral","kind":"method","src_hash":"5664e2b1124c2680","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Integral(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_Integral_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20e8162b55927190"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion._eval_Integral","kind":"method","src_hash":"5664e2b1124c2680","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Integral(*args)","rhs":"self.integrate(*args)","over":{"base":"Any"},"name":"_eval_Integral_correct"},"guarantee":"returns self.integrate(*args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20e8162b55927190","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.integrate(*args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.integrate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_Integral(self, *args):
         return self.integrate(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diff(*sy), id) over Any                               ║
+# ║ Path(diff(*symbols, **kwargs), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*[a.diff(*symbols, **kwargs) fo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diff : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e8c44f51d8bd37a6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.diff","kind":"method","src_hash":"3677ae7f8096e760","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(*sy)","rhs":"diff produces the expected output","over":{"base":"Any"},"name":"diff_correct","kind":"composition"},"guarantee":"diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"diff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8c44f51d8bd37a6"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.diff","kind":"method","src_hash":"3677ae7f8096e760","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(*symbols, **kwargs)","rhs":"self.func(*[a.diff(*symbols, **kwargs) for a in self.args])","over":{"base":"Any"},"name":"diff_correct","kind":"composition"},"guarantee":"returns self.func(*[a.diff(*symbols, **kwargs) for a in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"diff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8c44f51d8bd37a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*[a.diff(*symbols, **kwargs) for a in self.args])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diff(self, *symbols, **kwargs):
         kwargs.setdefault('evaluate', True)
         return self.func(*[a.diff(*symbols, **kwargs) for a  in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(oth), id) over Any                                ║
+# ║ Path(add(other), id) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ add : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5164d5fb17bbe697   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.add","kind":"method","src_hash":"0be33b8e11a4902f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(oth)","rhs":"adds quaternions","over":{"base":"Any"},"name":"add_correct","kind":"composition"},"guarantee":"adds quaternions","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Quaternion","by":"library_axiom"},{"fn":"re","by":"library_axiom"},{"fn":"im","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5164d5fb17bbe697"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.add","kind":"method","src_hash":"0be33b8e11a4902f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(other)","rhs":"<unspecified:add>","over":{"base":"Any"},"name":"add_correct","kind":"composition"},"guarantee":"adds quaternions","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Quaternion","by":"library_axiom"},{"fn":"re","by":"library_axiom"},{"fn":"im","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5164d5fb17bbe697","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add(self, other):
         """Adds quaternions.
 
@@ -1100,16 +1295,22 @@ class Quaternion(Expr):
                           + q2.d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mul(oth), multiplies quaternions) over Any            ║
+# ║ Path(mul(other), self._generic_mul(self, _sympify(other))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._generic_mul(self, _sympify(other))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mul : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4bc1c7324601c499           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.mul","kind":"method","src_hash":"317683aa344b6bf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(oth)","rhs":"multiplies quaternions","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"multiplies quaternions","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bc1c7324601c499"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.mul","kind":"method","src_hash":"317683aa344b6bf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mul(other)","rhs":"self._generic_mul(self, _sympify(other))","over":{"base":"Any"},"name":"mul_correct"},"guarantee":"returns self._generic_mul(self, _sympify(other))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bc1c7324601c499","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._generic_mul(self, _sympify(other))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._generic_mul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mul(self, other):
         """Multiplies quaternions.
 
@@ -1153,16 +1354,25 @@ class Quaternion(Expr):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generic_mul(q1,), generic multiplication) over Any   ║
+# ║ Path(_generic_mul(q1, q2), <unspecified:_generic_mul>) over {Any | hasattr(q2, 'real_field') and hasattr(q1, 'is_complex') and hasattr(q1, 'is_commutative') and hasattr(q1, 'real_field') and hasattr(q2, 'is_complex') and hasattr(q2, 'is_commutative') and hasattr(q1, '_norm') and hasattr(q2, '_norm') and hasattr(q1, 'norm') and hasattr(q2, 'norm') and hasattr(q1, 'a') and hasattr(q2, 'a') and hasattr(q2, 'b') and hasattr(q2, 'c') and hasattr(q2, 'd') and hasattr(q1, 'd') and hasattr(q1, 'b') and hasattr(q1, 'c')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _generic_mul : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(q2, 'real_field')                      ║
+# ║   requires: hasattr(q1, 'is_complex')                      ║
+# ║   requires: hasattr(q1, 'is_commutative')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _generic_mul : {Any | hasattr(q2, 'real_field') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 638976cf64bab606  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion._generic_mul","kind":"staticmethod","src_hash":"98a009c65f125b9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generic_mul(q1,)","rhs":"generic multiplication","over":{"base":"Any"},"name":"_generic_mul_correct"},"guarantee":"generic multiplication","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion._generic_mul_correct","statement":"Path(_generic_mul(x), generic multiplication)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"638976cf64bab606"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion._generic_mul","kind":"staticmethod","src_hash":"98a009c65f125b9d","in":{"base":"Any","pred":"hasattr(q2, 'real_field') and hasattr(q1, 'is_complex') and hasattr(q1, 'is_commutative') and hasattr(q1, 'real_field') and hasattr(q2, 'is_complex') and hasattr(q2, 'is_commutative') and hasattr(q1, '_norm') and hasattr(q2, '_norm') and hasattr(q1, 'norm') and hasattr(q2, 'norm') and hasattr(q1, 'a') and hasattr(q2, 'a') and hasattr(q2, 'b') and hasattr(q2, 'c') and hasattr(q2, 'd') and hasattr(q1, 'd') and hasattr(q1, 'b') and hasattr(q1, 'c')"},"out":{"base":"Any"},"spec":{"lhs":"_generic_mul(q1, q2)","rhs":"<unspecified:_generic_mul>","over":{"base":"Any","pred":"hasattr(q2, 'real_field') and hasattr(q1, 'is_complex') and hasattr(q1, 'is_commutative') and hasattr(q1, 'real_field') and hasattr(q2, 'is_complex') and hasattr(q2, 'is_commutative') and hasattr(q1, '_norm') and hasattr(q2, '_norm') and hasattr(q1, 'norm') and hasattr(q2, 'norm') and hasattr(q1, 'a') and hasattr(q2, 'a') and hasattr(q2, 'b') and hasattr(q2, 'c') and hasattr(q2, 'd') and hasattr(q1, 'd') and hasattr(q1, 'b') and hasattr(q1, 'c')"},"name":"_generic_mul_correct"},"guarantee":"generic multiplication","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion._generic_mul_correct","statement":"Path(_generic_mul(x), generic multiplication)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"638976cf64bab606","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(q2, 'real_field')","hasattr(q1, 'is_complex')","hasattr(q1, 'is_commutative')","hasattr(q1, 'real_field')","hasattr(q2, 'is_complex')","hasattr(q2, 'is_commutative')","hasattr(q1, '_norm')","hasattr(q2, '_norm')","hasattr(q1, 'norm')","hasattr(q2, 'norm')","hasattr(q1, 'a')","hasattr(q2, 'a')","hasattr(q2, 'b')","hasattr(q2, 'c')","hasattr(q2, 'd')","hasattr(q1, 'd')","hasattr(q1, 'b')","hasattr(q1, 'c')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["q1._norm","q1.a","q1.b","q1.c","q1.d","q1.is_commutative","q1.is_complex","q1.norm","q1.real_field","q2._norm","q2.a","q2.b","q2.c","q2.d","q2.is_commutative","q2.is_complex","q2.norm","q2.real_field"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generic_mul(q1, q2):
         """Generic multiplication.
 
@@ -1239,16 +1449,22 @@ class Quaternion(Expr):
                           norm=norm)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), returns the conjugate of the quaternion) over Any ║
+# ║ Path(_eval_conjugate(), Quaternion(q.a, -q.b, -q.c, -q.d, norm=q._norm)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Quaternion(q.a, -q.b, -q.c, -q.d, norm=q....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36d1c1281cc7d3be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b30596c16ccc9291  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion._eval_conjugate","kind":"method","src_hash":"74dda317b9f9c2f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"returns the conjugate of the quaternion","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns the conjugate of the quaternion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion._eval_conjugate_correct","statement":"Path(_eval_conjugate(x), returns the conjugate of the quaternion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36d1c1281cc7d3be"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion._eval_conjugate","kind":"method","src_hash":"74dda317b9f9c2f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"Quaternion(q.a, -q.b, -q.c, -q.d, norm=q._norm)","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns Quaternion(q.a, -q.b, -q.c, -q.d, norm=q._norm)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion._eval_conjugate_correct","statement":"Path(_eval_conjugate(x), returns Quaternion(q.a, -q.b, -q.c, -q.d, norm=q._norm))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b30596c16ccc9291","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Quaternion(q.a, -q.b, -q.c, -q.d, norm=q._norm)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         """Returns the conjugate of the quaternion."""
         q = self
@@ -1257,14 +1473,20 @@ class Quaternion(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(norm(), id) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ norm : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a7ac8544d6142f69   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.norm","kind":"method","src_hash":"79130c91e4e30bf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"norm()","rhs":"returns the norm of the quaternion","over":{"base":"Any"},"name":"norm_correct","kind":"composition"},"guarantee":"returns the norm of the quaternion","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"trigsimp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7ac8544d6142f69"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.norm","kind":"method","src_hash":"79130c91e4e30bf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"norm()","rhs":"<unspecified:norm>","over":{"base":"Any"},"name":"norm_correct","kind":"composition"},"guarantee":"returns the norm of the quaternion","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"trigsimp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7ac8544d6142f69","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._norm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def norm(self):
         """Returns the norm of the quaternion."""
         if self._norm is None:  # check if norm is pre-defined
@@ -1276,32 +1498,45 @@ class Quaternion(Expr):
         return self._norm
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normalize(), returns the normalized form of the quaternion) over Any ║
+# ║ Path(normalize(), q * (1 / q.norm())) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  q * (1 / q.norm())                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ normalize : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fba89f6215792e49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf40b3751131c2e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.normalize","kind":"method","src_hash":"c8c14fc8c486f877","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalize()","rhs":"returns the normalized form of the quaternion","over":{"base":"Any"},"name":"normalize_correct"},"guarantee":"returns the normalized form of the quaternion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.normalize_correct","statement":"Path(normalize(x), returns the normalized form of the quaternion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fba89f6215792e49"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.normalize","kind":"method","src_hash":"c8c14fc8c486f877","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normalize()","rhs":"q * (1 / q.norm())","over":{"base":"Any"},"name":"normalize_correct"},"guarantee":"returns q * (1 / q.norm())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.normalize_correct","statement":"Path(normalize(x), returns q * (1 / q.norm()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf40b3751131c2e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"q * (1 / q.norm())","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normalize(self):
         """Returns the normalized form of the quaternion."""
         q = self
         return q * (1/q.norm())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(), id) over Any                               ║
+# ║ Path(inverse(), id) over {Any | q.norm()}                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ inverse : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: q.norm()                                       ║
+# ║   returns:  conjugate(q) * (1 / q.norm() ** 2)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ inverse : {Any | q.norm()} → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9f614ab9b83c56ad   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.inverse","kind":"method","src_hash":"a355b7ddf68a9bf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse()","rhs":"returns the inverse of the quaternion","over":{"base":"Any"},"name":"inverse_correct","kind":"composition"},"guarantee":"returns the inverse of the quaternion","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"conjugate","by":"library_axiom"},{"fn":"norm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f614ab9b83c56ad"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.inverse","kind":"method","src_hash":"a355b7ddf68a9bf4","in":{"base":"Any","pred":"q.norm()"},"out":{"base":"Any"},"spec":{"lhs":"inverse()","rhs":"conjugate(q) * (1 / q.norm() ** 2)","over":{"base":"Any","pred":"q.norm()"},"name":"inverse_correct","kind":"composition"},"guarantee":"returns conjugate(q) * (1 / q.norm() ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"conjugate","by":"library_axiom"},{"fn":"norm","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f614ab9b83c56ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["q.norm()"],"returns_expr":"conjugate(q) * (1 / q.norm() ** 2)","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(self):
         """Returns the inverse of the quaternion."""
         q = self
@@ -1310,16 +1545,22 @@ class Quaternion(Expr):
         return conjugate(q) * (1/q.norm()**2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pow(p), finds the pth power of the quaternion) over Any ║
+# ║ Path(pow(p), <unspecified:pow>) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pow : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e248da5c13adb99  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.pow","kind":"method","src_hash":"c79da3d7554e56c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pow(p)","rhs":"finds the pth power of the quaternion","over":{"base":"Any"},"name":"pow_correct"},"guarantee":"finds the pth power of the quaternion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.pow_correct","statement":"Path(pow(x), finds the pth power of the quaternion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e248da5c13adb99"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.pow","kind":"method","src_hash":"c79da3d7554e56c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pow(p)","rhs":"<unspecified:pow>","over":{"base":"Any"},"name":"pow_correct"},"guarantee":"finds the pth power of the quaternion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.pow_correct","statement":"Path(pow(x), finds the pth power of the quaternion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e248da5c13adb99","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pow(self, p):
         """Finds the pth power of the quaternion.
 
@@ -1366,16 +1607,22 @@ class Quaternion(Expr):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exp(), returns the exponential of $q$, given by $e^q$) over Any ║
+# ║ Path(exp(), Quaternion(a, b, c, d)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Quaternion(a, b, c, d)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exp : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df33337211c2feba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6ba4159e86195d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.exp","kind":"method","src_hash":"e614afed6645a26a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exp()","rhs":"returns the exponential of $q$, given by $e^q$","over":{"base":"Any"},"name":"exp_correct"},"guarantee":"returns the exponential of $q$, given by $e^q$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.exp_correct","statement":"Path(exp(x), returns the exponential of $q$, given by $e^q$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df33337211c2feba"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.exp","kind":"method","src_hash":"e614afed6645a26a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exp()","rhs":"Quaternion(a, b, c, d)","over":{"base":"Any"},"name":"exp_correct"},"guarantee":"returns Quaternion(a, b, c, d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.exp_correct","statement":"Path(exp(x), returns Quaternion(a, b, c, d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6ba4159e86195d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Quaternion(a, b, c, d)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exp(self):
         """Returns the exponential of $q$, given by $e^q$.
 
@@ -1408,16 +1655,22 @@ class Quaternion(Expr):
         return Quaternion(a, b, c, d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(log(), returns the logarithm of the quaternion, given by $\log q$) over Any ║
+# ║ Path(log(), Quaternion(a, b, c, d)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Quaternion(a, b, c, d)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ log : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e39a61a828a3263f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e99417c04fddb239  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.log","kind":"method","src_hash":"e25019a9df669037","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"log()","rhs":"returns the logarithm of the quaternion, given by $\\log q$","over":{"base":"Any"},"name":"log_correct"},"guarantee":"returns the logarithm of the quaternion, given by $\\log q$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.log_correct","statement":"Path(log(x), returns the logarithm of the quaternion, given by $\\log q$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e39a61a828a3263f"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.log","kind":"method","src_hash":"e25019a9df669037","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"log()","rhs":"Quaternion(a, b, c, d)","over":{"base":"Any"},"name":"log_correct"},"guarantee":"returns Quaternion(a, b, c, d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.log_correct","statement":"Path(log(x), returns Quaternion(a, b, c, d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e99417c04fddb239","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Quaternion(a, b, c, d)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def log(self):
         r"""Returns the logarithm of the quaternion, given by $\log q$.
 
@@ -1445,16 +1698,22 @@ class Quaternion(Expr):
         return Quaternion(a, b, c, d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(*ar), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_subs(*args), Quaternion(*elements, norm=norm)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Quaternion(*elements, norm=norm)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_subs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8548ba4ece8ca922  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf6b72d38409956a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion._eval_subs","kind":"method","src_hash":"e19181dbcfadaf36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8548ba4ece8ca922"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion._eval_subs","kind":"method","src_hash":"e19181dbcfadaf36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(*args)","rhs":"Quaternion(*elements, norm=norm)","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"returns Quaternion(*elements, norm=norm)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion._eval_subs_correct","statement":"Path(_eval_subs(x), returns Quaternion(*elements, norm=norm))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf6b72d38409956a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Quaternion(*elements, norm=norm)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._norm","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, *args):
         elements = [i.subs(*args) for i in self.args]
         norm = self._norm
@@ -1464,16 +1723,22 @@ class Quaternion(Expr):
         return Quaternion(*elements, norm=norm)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), id) over Any                        ║
+# ║ Path(_eval_evalf(prec), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Quaternion(*[arg.evalf(n=nprec) for arg i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7d2fab6f44085fd9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion._eval_evalf","kind":"method","src_hash":"4a3cf4e1eb8664c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"returns the floating point approximations (decimal numbers) of the quaternion","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns the floating point approximations (decimal numbers) of the quaternion","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Quaternion","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d2fab6f44085fd9"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion._eval_evalf","kind":"method","src_hash":"4a3cf4e1eb8664c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"Quaternion(*[arg.evalf(n=nprec) for arg in self.args])","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns Quaternion(*[arg.evalf(n=nprec) for arg in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Quaternion","by":"library_axiom"},{"fn":"evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d2fab6f44085fd9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Quaternion(*[arg.evalf(n=nprec) for arg in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         """Returns the floating point approximations (decimal numbers) of the quaternion.
 
@@ -1500,16 +1765,22 @@ class Quaternion(Expr):
         return Quaternion(*[arg.evalf(n=nprec) for arg in self.args])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pow_cos_sin(p), computes the pth power in the cos-sin form) over Any ║
+# ║ Path(pow_cos_sin(p), q2 * q.norm() ** p) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  q2 * q.norm() ** p                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pow_cos_sin : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b4d33687e8e25d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 170f32667af137dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.pow_cos_sin","kind":"method","src_hash":"05c093047a025cc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pow_cos_sin(p)","rhs":"computes the pth power in the cos-sin form","over":{"base":"Any"},"name":"pow_cos_sin_correct"},"guarantee":"computes the pth power in the cos-sin form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.pow_cos_sin_correct","statement":"Path(pow_cos_sin(x), computes the pth power in the cos-sin form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b4d33687e8e25d5"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.pow_cos_sin","kind":"method","src_hash":"05c093047a025cc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pow_cos_sin(p)","rhs":"q2 * q.norm() ** p","over":{"base":"Any"},"name":"pow_cos_sin_correct"},"guarantee":"returns q2 * q.norm() ** p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.pow_cos_sin_correct","statement":"Path(pow_cos_sin(x), returns q2 * q.norm() ** p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"170f32667af137dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"q2 * q.norm() ** p","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pow_cos_sin(self, p):
         """Computes the pth power in the cos-sin form.
 
@@ -1546,16 +1817,22 @@ class Quaternion(Expr):
         return q2 * (q.norm()**p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integrate(*ar), id) over Any                          ║
+# ║ Path(integrate(*args), id) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Quaternion(integrate(self.a, *args), inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ integrate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4b197c95004b6476   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.integrate","kind":"method","src_hash":"0ee099758ab90d00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate(*ar)","rhs":"computes integration of quaternion","over":{"base":"Any"},"name":"integrate_correct","kind":"composition"},"guarantee":"computes integration of quaternion","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Quaternion","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b197c95004b6476"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.integrate","kind":"method","src_hash":"0ee099758ab90d00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate(*args)","rhs":"Quaternion(integrate(self.a, *args), integrate(self.b, *args), integrate(self.c, *args), integrate(self.d, *args))","over":{"base":"Any"},"name":"integrate_correct","kind":"composition"},"guarantee":"returns Quaternion(integrate(self.a, *args), integrate(self.b, *args), integrate(self.c, *args), integrate(self.d, *args))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Quaternion","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"},{"fn":"integrate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b197c95004b6476","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Quaternion(integrate(self.a, *args), integrate(self.b, *args), integrate(self.c, *args), integrate(self.d, *args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.c","self.d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def integrate(self, *args):
         """Computes integration of quaternion.
 
@@ -1590,16 +1867,23 @@ class Quaternion(Expr):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotate_point(pin), returns the coordinates of the point pin (a 3 tuple) after rotation) over Any ║
+# ║ Path(rotate_point(pin, r), (pout.b, pout.c, pout.d)) over {Any | hasattr(r, 'normalize')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rotate_point : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(r, 'normalize')                        ║
+# ║   returns:  (pout.b, pout.c, pout.d)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rotate_point : {Any | hasattr(r, 'normalize')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e81d74dd4d7ae285  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bbcdfe112a0565d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.rotate_point","kind":"staticmethod","src_hash":"e381d9fa31db5cbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate_point(pin)","rhs":"returns the coordinates of the point pin (a 3 tuple) after rotation","over":{"base":"Any"},"name":"rotate_point_correct"},"guarantee":"returns the coordinates of the point pin (a 3 tuple) after rotation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.rotate_point_correct","statement":"Path(rotate_point(x), returns the coordinates of the point pin (a 3 tuple) after rotation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e81d74dd4d7ae285"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.rotate_point","kind":"staticmethod","src_hash":"e381d9fa31db5cbf","in":{"base":"Any","pred":"hasattr(r, 'normalize')"},"out":{"base":"Any"},"spec":{"lhs":"rotate_point(pin, r)","rhs":"(pout.b, pout.c, pout.d)","over":{"base":"Any","pred":"hasattr(r, 'normalize')"},"name":"rotate_point_correct"},"guarantee":"returns (pout.b, pout.c, pout.d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.rotate_point_correct","statement":"Path(rotate_point(x), returns (pout.b, pout.c, pout.d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bbcdfe112a0565d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(r, 'normalize')"],"returns_expr":"(pout.b, pout.c, pout.d)","pure":false,"effects":{"effect_type":"reads_state","reads":["r.normalize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotate_point(pin, r):
         """Returns the coordinates of the point pin (a 3 tuple) after rotation.
 
@@ -1645,16 +1929,22 @@ class Quaternion(Expr):
         return (pout.b, pout.c, pout.d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_axis_angle(), returns the axis and angle of rotation of a quaternion) over Any ║
+# ║ Path(to_axis_angle(), <unspecified:to_axis_angle>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_axis_angle : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e68aa2f56bced186  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.to_axis_angle","kind":"method","src_hash":"5e5d4ede1d056d3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_axis_angle()","rhs":"returns the axis and angle of rotation of a quaternion","over":{"base":"Any"},"name":"to_axis_angle_correct"},"guarantee":"returns the axis and angle of rotation of a quaternion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.to_axis_angle_correct","statement":"Path(to_axis_angle(x), returns the axis and angle of rotation of a quaternion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e68aa2f56bced186"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.to_axis_angle","kind":"method","src_hash":"5e5d4ede1d056d3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_axis_angle()","rhs":"<unspecified:to_axis_angle>","over":{"base":"Any"},"name":"to_axis_angle_correct"},"guarantee":"returns the axis and angle of rotation of a quaternion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.to_axis_angle_correct","statement":"Path(to_axis_angle(x), returns the axis and angle of rotation of a quaternion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e68aa2f56bced186","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_axis_angle(self):
         """Returns the axis and angle of rotation of a quaternion.
 
@@ -1696,16 +1986,22 @@ class Quaternion(Expr):
         return t
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_rotation_matrix(v, ), returns the equivalent rotation transformation matrix of the quaternion which represents rotation about the origin if ``v`` is not passed) over Any ║
+# ║ Path(to_rotation_matrix(v, homogeneous), <unspecified:to_rotation_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_rotation_matrix : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8d4cf4fb4a438b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.to_rotation_matrix","kind":"method","src_hash":"4c862614a0d73908","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_rotation_matrix(v, )","rhs":"returns the equivalent rotation transformation matrix of the quaternion which represents rotation about the origin if ``v`` is not passed","over":{"base":"Any"},"name":"to_rotation_matrix_correct"},"guarantee":"returns the equivalent rotation transformation matrix of the quaternion which represents rotation about the origin if ``v`` is not passed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.to_rotation_matrix_correct","statement":"Path(to_rotation_matrix(x), returns the equivalent rotation transformation matrix of the quaternion which represents rotation about the origin if ``v`` is not passed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8d4cf4fb4a438b7"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.to_rotation_matrix","kind":"method","src_hash":"4c862614a0d73908","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_rotation_matrix(v, homogeneous)","rhs":"<unspecified:to_rotation_matrix>","over":{"base":"Any"},"name":"to_rotation_matrix_correct"},"guarantee":"returns the equivalent rotation transformation matrix of the quaternion which represents rotation about the origin if ``v`` is not passed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.to_rotation_matrix_correct","statement":"Path(to_rotation_matrix(x), returns the equivalent rotation transformation matrix of the quaternion which represents rotation about the origin if ``v`` is not passed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8d4cf4fb4a438b7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_rotation_matrix(self, v=None, homogeneous=True):
         """Returns the equivalent rotation transformation matrix of the quaternion
         which represents rotation about the origin if ``v`` is not passed.
@@ -1783,16 +2079,22 @@ class Quaternion(Expr):
                           [m20, m21, m22, m23], [m30, m31, m32, m33]])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scalar_part(), returns scalar part($\mathbf{s}(q)$) of the quaternion q) over Any ║
+# ║ Path(scalar_part(), self.a) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.a                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scalar_part : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 305f7c30c0d3e4c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.scalar_part","kind":"method","src_hash":"639f11c2dc6d7b8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scalar_part()","rhs":"returns scalar part($\\mathbf{s}(q)$) of the quaternion q","over":{"base":"Any"},"name":"scalar_part_correct"},"guarantee":"returns scalar part($\\mathbf{s}(q)$) of the quaternion q","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"305f7c30c0d3e4c2"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.scalar_part","kind":"method","src_hash":"639f11c2dc6d7b8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scalar_part()","rhs":"self.a","over":{"base":"Any"},"name":"scalar_part_correct"},"guarantee":"returns self.a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"305f7c30c0d3e4c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.a","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scalar_part(self):
         r"""Returns scalar part($\mathbf{S}(q)$) of the quaternion q.
 
@@ -1814,16 +2116,22 @@ class Quaternion(Expr):
         return self.a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vector_part(), returns $\mathbf{v}(q)$, the vector part of the quaternion $q$) over Any ║
+# ║ Path(vector_part(), Quaternion(0, self.b, self.c, self.d)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Quaternion(0, self.b, self.c, self.d)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vector_part : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d859241ae726c5a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.vector_part","kind":"method","src_hash":"75d5f9db33f56bd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vector_part()","rhs":"returns $\\mathbf{v}(q)$, the vector part of the quaternion $q$","over":{"base":"Any"},"name":"vector_part_correct"},"guarantee":"returns $\\mathbf{v}(q)$, the vector part of the quaternion $q$","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d859241ae726c5a6"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.vector_part","kind":"method","src_hash":"75d5f9db33f56bd1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vector_part()","rhs":"Quaternion(0, self.b, self.c, self.d)","over":{"base":"Any"},"name":"vector_part_correct"},"guarantee":"returns Quaternion(0, self.b, self.c, self.d)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d859241ae726c5a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Quaternion(0, self.b, self.c, self.d)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.b","self.c","self.d"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def vector_part(self):
         r"""
         Returns $\mathbf{V}(q)$, the vector part of the quaternion $q$.
@@ -1850,16 +2158,22 @@ class Quaternion(Expr):
         return Quaternion(0, self.b, self.c, self.d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(axis(), returns $\mathbf{ax}(q)$, the axis of the quaternion $q$) over Any ║
+# ║ Path(axis(), Quaternion(0, axis.b, axis.c, axis.d)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Quaternion(0, axis.b, axis.c, axis.d)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ axis : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 971a3d7ad2ca65d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6e0e3c48fbacdcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.axis","kind":"method","src_hash":"5fabfbfa3a33fad1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axis()","rhs":"returns $\\mathbf{ax}(q)$, the axis of the quaternion $q$","over":{"base":"Any"},"name":"axis_correct"},"guarantee":"returns $\\mathbf{ax}(q)$, the axis of the quaternion $q$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.axis_correct","statement":"Path(axis(x), returns $\\mathbf{ax}(q)$, the axis of the quaternion $q$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"971a3d7ad2ca65d5"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.axis","kind":"method","src_hash":"5fabfbfa3a33fad1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axis()","rhs":"Quaternion(0, axis.b, axis.c, axis.d)","over":{"base":"Any"},"name":"axis_correct"},"guarantee":"returns Quaternion(0, axis.b, axis.c, axis.d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.axis_correct","statement":"Path(axis(x), returns Quaternion(0, axis.b, axis.c, axis.d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6e0e3c48fbacdcb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Quaternion(0, axis.b, axis.c, axis.d)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.vector_part"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def axis(self):
         r"""
         Returns $\mathbf{Ax}(q)$, the axis of the quaternion $q$.
@@ -1890,16 +2204,22 @@ class Quaternion(Expr):
         return Quaternion(0, axis.b, axis.c, axis.d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_pure(), returns true if the quaternion is pure, false if the quaternion is not pure or returns none if it is unknown) over Any ║
+# ║ Path(is_pure(), self.a.is_zero) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.a.is_zero                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_pure : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8a3466b823d52bd3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.is_pure","kind":"method","src_hash":"5edd24f182f55d1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_pure()","rhs":"returns true if the quaternion is pure, false if the quaternion is not pure or returns none if it is unknown","over":{"base":"Any"},"name":"is_pure_correct"},"guarantee":"returns true if the quaternion is pure, false if the quaternion is not pure or returns none if it is unknown","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a3466b823d52bd3"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.is_pure","kind":"method","src_hash":"5edd24f182f55d1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_pure()","rhs":"self.a.is_zero","over":{"base":"Any"},"name":"is_pure_correct"},"guarantee":"returns self.a.is_zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a3466b823d52bd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.a.is_zero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_pure(self):
         """
         Returns true if the quaternion is pure, false if the quaternion is not pure
@@ -1928,16 +2248,22 @@ class Quaternion(Expr):
         return self.a.is_zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero_quaternion(), returns true if the quaternion is a zero quaternion or false if it is not a zero quaternion and none if the value is unknown) over Any ║
+# ║ Path(is_zero_quaternion(), self.norm().is_zero) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.norm().is_zero                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero_quaternion : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 89719555080946d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.is_zero_quaternion","kind":"method","src_hash":"7262dc1f02a68974","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero_quaternion()","rhs":"returns true if the quaternion is a zero quaternion or false if it is not a zero quaternion and none if the value is unknown","over":{"base":"Any"},"name":"is_zero_quaternion_correct"},"guarantee":"returns true if the quaternion is a zero quaternion or false if it is not a zero quaternion and none if the value is unknown","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89719555080946d0"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.is_zero_quaternion","kind":"method","src_hash":"7262dc1f02a68974","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero_quaternion()","rhs":"self.norm().is_zero","over":{"base":"Any"},"name":"is_zero_quaternion_correct"},"guarantee":"returns self.norm().is_zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89719555080946d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.norm().is_zero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.norm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero_quaternion(self):
         """
         Returns true if the quaternion is a zero quaternion or false if it is not a zero quaternion
@@ -1971,16 +2297,22 @@ class Quaternion(Expr):
         return self.norm().is_zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angle(), returns the angle of the quaternion measured in the real-axis plane) over Any ║
+# ║ Path(angle(), 2 * atan2(self.vector_part().norm(), self.scalar_part())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * atan2(self.vector_part().norm(), self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angle : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0daed9b5d6ddb9c1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.angle","kind":"method","src_hash":"9603f17810644ca0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle()","rhs":"returns the angle of the quaternion measured in the real-axis plane","over":{"base":"Any"},"name":"angle_correct"},"guarantee":"returns the angle of the quaternion measured in the real-axis plane","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0daed9b5d6ddb9c1"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.angle","kind":"method","src_hash":"9603f17810644ca0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle()","rhs":"2 * atan2(self.vector_part().norm(), self.scalar_part())","over":{"base":"Any"},"name":"angle_correct"},"guarantee":"returns 2 * atan2(self.vector_part().norm(), self.scalar_part())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0daed9b5d6ddb9c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * atan2(self.vector_part().norm(), self.scalar_part())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.scalar_part","self.vector_part"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angle(self):
         r"""
         Returns the angle of the quaternion measured in the real-axis plane.
@@ -2008,16 +2340,25 @@ class Quaternion(Expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(arc_coplanar(oth), id) over Any                       ║
+# ║ Path(arc_coplanar(other), id) over {Any | not (self.is_zero_quaternion() or other.is_zero_quaternion()) and hasattr(other, 'is_zero_quaternion') and hasattr(other, 'axis')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ arc_coplanar : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.is_zero_quaternion() or other.i...   ║
+# ║   requires: hasattr(other, 'is_zero_quaternion')           ║
+# ║   requires: hasattr(other, 'axis')                         ║
+# ║   returns:  fuzzy_or([(self.axis() - other.axis()).is...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ arc_coplanar : {Any | not (self.is_zero_quaternion() ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ca56001f81b8598e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.arc_coplanar","kind":"method","src_hash":"b83bc0a3f0147c92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arc_coplanar(oth)","rhs":"returns true if the transformation arcs represented by the input quaternions happen in the same plane","over":{"base":"Any"},"name":"arc_coplanar_correct","kind":"composition"},"guarantee":"returns true if the transformation arcs represented by the input quaternions happen in the same plane","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fuzzy_or","by":"library_axiom"},{"fn":"axis","by":"library_axiom"},{"fn":"axis","by":"library_axiom"},{"fn":"is_zero_quaternion","by":"library_axiom"},{"fn":"axis","by":"library_axiom"},{"fn":"axis","by":"library_axiom"},{"fn":"is_zero_quaternion","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca56001f81b8598e"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.arc_coplanar","kind":"method","src_hash":"b83bc0a3f0147c92","in":{"base":"Any","pred":"not (self.is_zero_quaternion() or other.is_zero_quaternion()) and hasattr(other, 'is_zero_quaternion') and hasattr(other, 'axis')"},"out":{"base":"Any"},"spec":{"lhs":"arc_coplanar(other)","rhs":"fuzzy_or([(self.axis() - other.axis()).is_zero_quaternion(), (self.axis() + other.axis()).is_zero_quaternion()])","over":{"base":"Any","pred":"not (self.is_zero_quaternion() or other.is_zero_quaternion()) and hasattr(other, 'is_zero_quaternion') and hasattr(other, 'axis')"},"name":"arc_coplanar_correct","kind":"composition"},"guarantee":"returns fuzzy_or([(self.axis() - other.axis()).is_zero_quaternion(), (self.axis() + other.axis()).is_zero_quaternion()])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fuzzy_or","by":"library_axiom"},{"fn":"axis","by":"library_axiom"},{"fn":"axis","by":"library_axiom"},{"fn":"is_zero_quaternion","by":"library_axiom"},{"fn":"axis","by":"library_axiom"},{"fn":"axis","by":"library_axiom"},{"fn":"is_zero_quaternion","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca56001f81b8598e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.is_zero_quaternion() or other.is_zero_quaternion())","hasattr(other, 'is_zero_quaternion')","hasattr(other, 'axis')"],"returns_expr":"fuzzy_or([(self.axis() - other.axis()).is_zero_quaternion(), (self.axis() + other.axis()).is_zero_quaternion()])","pure":false,"effects":{"effect_type":"reads_state","reads":["other.axis","other.is_zero_quaternion","self.axis","self.is_zero_quaternion"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def arc_coplanar(self, other):
         """
         Returns True if the transformation arcs represented by the input quaternions happen in the same plane.
@@ -2067,16 +2408,25 @@ class Quaternion(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vector_coplanar(cls), returns true if the axis of the pure quaternions seen as 3d vectors ``q1``, ``q2``, and ``q3`` are coplanar) over Any ║
+# ║ Path(vector_coplanar(cls, q1, q2), M.is_zero) over {Any | not (fuzzy_not(q1.is_pure()) or fuzzy_not(q2.is_pure()) or fuzzy_not(q3.is_pure())) and hasattr(q1, 'is_pure') and hasattr(q2, 'is_pure') and hasattr(q3, 'is_pure') and hasattr(q1, 'b') and hasattr(q1, 'c') and hasattr(q1, 'd') and hasattr(q2, 'b') and hasattr(q2, 'c') and hasattr(q2, 'd') and hasattr(q3, 'b') and hasattr(q3, 'c') and hasattr(q3, 'd')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ vector_coplanar : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (fuzzy_not(q1.is_pure()) or fuzzy_not...   ║
+# ║   requires: hasattr(q1, 'is_pure')                         ║
+# ║   requires: hasattr(q2, 'is_pure')                         ║
+# ║   returns:  M.is_zero                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ vector_coplanar : {Any | not (fuzzy_not(q1.is_pure())...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8163bd2f5ae3d791  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20d492d58d565848  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.vector_coplanar","kind":"classmethod","src_hash":"200d7823776fbd40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vector_coplanar(cls)","rhs":"returns true if the axis of the pure quaternions seen as 3d vectors ``q1``, ``q2``, and ``q3`` are coplanar","over":{"base":"Any"},"name":"vector_coplanar_correct"},"guarantee":"returns true if the axis of the pure quaternions seen as 3d vectors ``q1``, ``q2``, and ``q3`` are coplanar","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.vector_coplanar_correct","statement":"Path(vector_coplanar(x), returns true if the axis of the pure quaternions seen as 3d vectors ``q1``, ``q2``, and ``q3`` are coplanar)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8163bd2f5ae3d791"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.vector_coplanar","kind":"classmethod","src_hash":"200d7823776fbd40","in":{"base":"Any","pred":"not (fuzzy_not(q1.is_pure()) or fuzzy_not(q2.is_pure()) or fuzzy_not(q3.is_pure())) and hasattr(q1, 'is_pure') and hasattr(q2, 'is_pure') and hasattr(q3, 'is_pure') and hasattr(q1, 'b') and hasattr(q1, 'c') and hasattr(q1, 'd') and hasattr(q2, 'b') and hasattr(q2, 'c') and hasattr(q2, 'd') and hasattr(q3, 'b') and hasattr(q3, 'c') and hasattr(q3, 'd')"},"out":{"base":"Any"},"spec":{"lhs":"vector_coplanar(cls, q1, q2)","rhs":"M.is_zero","over":{"base":"Any","pred":"not (fuzzy_not(q1.is_pure()) or fuzzy_not(q2.is_pure()) or fuzzy_not(q3.is_pure())) and hasattr(q1, 'is_pure') and hasattr(q2, 'is_pure') and hasattr(q3, 'is_pure') and hasattr(q1, 'b') and hasattr(q1, 'c') and hasattr(q1, 'd') and hasattr(q2, 'b') and hasattr(q2, 'c') and hasattr(q2, 'd') and hasattr(q3, 'b') and hasattr(q3, 'c') and hasattr(q3, 'd')"},"name":"vector_coplanar_correct"},"guarantee":"returns M.is_zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.vector_coplanar_correct","statement":"Path(vector_coplanar(x), returns M.is_zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20d492d58d565848","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (fuzzy_not(q1.is_pure()) or fuzzy_not(q2.is_pure()) or fuzzy_not(q3.is_pure()))","hasattr(q1, 'is_pure')","hasattr(q2, 'is_pure')","hasattr(q3, 'is_pure')","hasattr(q1, 'b')","hasattr(q1, 'c')","hasattr(q1, 'd')","hasattr(q2, 'b')","hasattr(q2, 'c')","hasattr(q2, 'd')","hasattr(q3, 'b')","hasattr(q3, 'c')","hasattr(q3, 'd')"],"returns_expr":"M.is_zero","pure":false,"effects":{"effect_type":"reads_state","reads":["q1.b","q1.c","q1.d","q1.is_pure","q2.b","q2.c","q2.d","q2.is_pure","q3.b","q3.c","q3.d","q3.is_pure"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def vector_coplanar(cls, q1, q2, q3):
         r"""
         Returns True if the axis of the pure quaternions seen as 3D vectors
@@ -2137,16 +2487,24 @@ class Quaternion(Expr):
         return M.is_zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parallel(oth), returns true if the two pure quaternions seen as 3d vectors are parallel) over Any ║
+# ║ Path(parallel(other), (self * other - other * self).is_zero_quaternion()) over {Any | not (fuzzy_not(self.is_pure()) or fuzzy_not(other.is_pure())) and hasattr(other, 'is_pure')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ parallel : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (fuzzy_not(self.is_pure()) or fuzzy_n...   ║
+# ║   requires: hasattr(other, 'is_pure')                      ║
+# ║   returns:  (self * other - other * self).is_zero_qua...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ parallel : {Any | not (fuzzy_not(self.is_pure()) or f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22b1ca1755cabb66  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 058bedf0c7a15b37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.parallel","kind":"method","src_hash":"9dbf95a611338786","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parallel(oth)","rhs":"returns true if the two pure quaternions seen as 3d vectors are parallel","over":{"base":"Any"},"name":"parallel_correct"},"guarantee":"returns true if the two pure quaternions seen as 3d vectors are parallel","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.parallel_correct","statement":"Path(parallel(x), returns true if the two pure quaternions seen as 3d vectors are parallel)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22b1ca1755cabb66"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.parallel","kind":"method","src_hash":"9dbf95a611338786","in":{"base":"Any","pred":"not (fuzzy_not(self.is_pure()) or fuzzy_not(other.is_pure())) and hasattr(other, 'is_pure')"},"out":{"base":"Any"},"spec":{"lhs":"parallel(other)","rhs":"(self * other - other * self).is_zero_quaternion()","over":{"base":"Any","pred":"not (fuzzy_not(self.is_pure()) or fuzzy_not(other.is_pure())) and hasattr(other, 'is_pure')"},"name":"parallel_correct"},"guarantee":"returns (self * other - other * self).is_zero_quaternion()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.parallel_correct","statement":"Path(parallel(x), returns (self * other - other * self).is_zero_quaternion())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"058bedf0c7a15b37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (fuzzy_not(self.is_pure()) or fuzzy_not(other.is_pure()))","hasattr(other, 'is_pure')"],"returns_expr":"(self * other - other * self).is_zero_quaternion()","pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_pure","self.is_pure"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parallel(self, other):
         """
         Returns True if the two pure quaternions seen as 3D vectors are parallel.
@@ -2190,16 +2548,24 @@ class Quaternion(Expr):
         return (self*other - other*self).is_zero_quaternion()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orthogonal(oth), returns the orthogonality of two quaternions) over Any ║
+# ║ Path(orthogonal(other), (self * other + other * self).is_zero_quaternion()) over {Any | not (fuzzy_not(self.is_pure()) or fuzzy_not(other.is_pure())) and hasattr(other, 'is_pure')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ orthogonal : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (fuzzy_not(self.is_pure()) or fuzzy_n...   ║
+# ║   requires: hasattr(other, 'is_pure')                      ║
+# ║   returns:  (self * other + other * self).is_zero_qua...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ orthogonal : {Any | not (fuzzy_not(self.is_pure()) or...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5cdc14559274f07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8cd1a88686f2cb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.orthogonal","kind":"method","src_hash":"b28201e39362e1a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orthogonal(oth)","rhs":"returns the orthogonality of two quaternions","over":{"base":"Any"},"name":"orthogonal_correct"},"guarantee":"returns the orthogonality of two quaternions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.orthogonal_correct","statement":"Path(orthogonal(x), returns the orthogonality of two quaternions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5cdc14559274f07"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.orthogonal","kind":"method","src_hash":"b28201e39362e1a2","in":{"base":"Any","pred":"not (fuzzy_not(self.is_pure()) or fuzzy_not(other.is_pure())) and hasattr(other, 'is_pure')"},"out":{"base":"Any"},"spec":{"lhs":"orthogonal(other)","rhs":"(self * other + other * self).is_zero_quaternion()","over":{"base":"Any","pred":"not (fuzzy_not(self.is_pure()) or fuzzy_not(other.is_pure())) and hasattr(other, 'is_pure')"},"name":"orthogonal_correct"},"guarantee":"returns (self * other + other * self).is_zero_quaternion()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.algebras.quaternion.Quaternion.orthogonal_correct","statement":"Path(orthogonal(x), returns (self * other + other * self).is_zero_quaternion())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8cd1a88686f2cb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (fuzzy_not(self.is_pure()) or fuzzy_not(other.is_pure()))","hasattr(other, 'is_pure')"],"returns_expr":"(self * other + other * self).is_zero_quaternion()","pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_pure","self.is_pure"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orthogonal(self, other):
         """
         Returns the orthogonality of two quaternions.
@@ -2243,16 +2609,22 @@ class Quaternion(Expr):
         return (self*other + other*self).is_zero_quaternion()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index_vector(), returns the index vector of the quaternion) over Any ║
+# ║ Path(index_vector(), self.norm() * self.axis()) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.norm() * self.axis()                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ index_vector : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 97578b7de2ac7fce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.index_vector","kind":"method","src_hash":"ceb351a0e32d6f7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index_vector()","rhs":"returns the index vector of the quaternion","over":{"base":"Any"},"name":"index_vector_correct"},"guarantee":"returns the index vector of the quaternion","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97578b7de2ac7fce"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.index_vector","kind":"method","src_hash":"ceb351a0e32d6f7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index_vector()","rhs":"self.norm() * self.axis()","over":{"base":"Any"},"name":"index_vector_correct"},"guarantee":"returns self.norm() * self.axis()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97578b7de2ac7fce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.norm() * self.axis()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.axis","self.norm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index_vector(self):
         r"""
         Returns the index vector of the quaternion.
@@ -2287,16 +2659,22 @@ class Quaternion(Expr):
         return self.norm() * self.axis()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mensor(), returns the natural logarithm of the norm(magnitude) of the quaternion) over Any ║
+# ║ Path(mensor(), ln(self.norm())) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ln(self.norm())                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mensor : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 336e9170dbcdbe05           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.mensor","kind":"method","src_hash":"7a962f9ee3002c5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mensor()","rhs":"returns the natural logarithm of the norm(magnitude) of the quaternion","over":{"base":"Any"},"name":"mensor_correct"},"guarantee":"returns the natural logarithm of the norm(magnitude) of the quaternion","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"336e9170dbcdbe05"}
+# @cctt_verify {"v":2,"sym":"sympy.algebras.quaternion.Quaternion.mensor","kind":"method","src_hash":"7a962f9ee3002c5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mensor()","rhs":"ln(self.norm())","over":{"base":"Any"},"name":"mensor_correct"},"guarantee":"returns ln(self.norm())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"336e9170dbcdbe05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ln(self.norm())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.norm"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mensor(self):
         """
         Returns the natural logarithm of the norm(magnitude) of the quaternion.

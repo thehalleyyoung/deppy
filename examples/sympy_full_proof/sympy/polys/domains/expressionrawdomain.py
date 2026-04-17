@@ -30,14 +30,22 @@ from sympy.utilities import public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ExpressionRawDomain(*args), correctly constructs a ExpressionRawDomain instance) over {Any | isinstance(a, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ExpressionRawDomain : {Any | isinstance(a, Expr)} → Any    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Field)                        ║
+# ║   ensures:  isinstance(self, CharacteristicZero)           ║
+# ║   ensures:  isinstance(self, SimpleDomain)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ExpressionRawDomain : {Any | isinstance(a, Expr)} → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba115fc9795b9eb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain","kind":"class","src_hash":"851d2720f0df5edc","in":{"base":"Any","pred":"isinstance(a, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"ExpressionRawDomain(*args)","rhs":"correctly constructs a ExpressionRawDomain instance","over":{"base":"Any","pred":"isinstance(a, Expr)"},"name":"ExpressionRawDomain_class_invariant"},"guarantee":"correctly constructs a ExpressionRawDomain instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba115fc9795b9eb2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain","kind":"class","src_hash":"851d2720f0df5edc","in":{"base":"Any","pred":"isinstance(a, Expr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Field) and isinstance(self, CharacteristicZero) and isinstance(self, SimpleDomain)"},"spec":{"lhs":"ExpressionRawDomain(*args)","rhs":"correctly constructs a ExpressionRawDomain instance","over":{"base":"Any","pred":"isinstance(a, Expr)"},"name":"ExpressionRawDomain_class_invariant"},"guarantee":"isinstance(self, Field); isinstance(self, CharacteristicZero); isinstance(self, SimpleDomain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba115fc9795b9eb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Field)","isinstance(self, CharacteristicZero)","isinstance(self, SimpleDomain)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ExpressionRawDomain not found in source"]}}
 class ExpressionRawDomain(Field, CharacteristicZero, SimpleDomain):
     """A class for arbitrary expressions but without automatic simplification. """
 
@@ -54,60 +62,87 @@ class ExpressionRawDomain(Field, CharacteristicZero, SimpleDomain):
     has_assoc_Field = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 65973ecd924cb21b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.__init__","kind":"method","src_hash":"8da0b8b4d1415086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65973ecd924cb21b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.__init__","kind":"method","src_hash":"8da0b8b4d1415086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65973ecd924cb21b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         pass
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(a), new produces the expected output) over Any    ║
+# ║ Path(new(a), sympify(a)) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sympify(a)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a48e733b5313189           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.new","kind":"classmethod","src_hash":"08c98dba667def4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(a)","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a48e733b5313189"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.new","kind":"classmethod","src_hash":"08c98dba667def4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(a)","rhs":"sympify(a)","over":{"base":"Any"},"name":"new_correct"},"guarantee":"returns sympify(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a48e733b5313189","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sympify(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, a):
         return sympify(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(a), convert ``a`` to a sympy object) over Any ║
+# ║ Path(to_sympy(a), a) over Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_sympy : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_sympy : Any → {Any | result satisfies: result == (a)}   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 901cdd456095e8de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.to_sympy","kind":"method","src_hash":"70c745745a691764","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"convert ``a`` to a sympy object","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"convert ``a`` to a sympy object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"901cdd456095e8de"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.to_sympy","kind":"method","src_hash":"70c745745a691764","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"to_sympy(a)","rhs":"a","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"901cdd456095e8de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self, a):
         """Convert ``a`` to a SymPy object. """
         return a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sympy(a), convert sympy's expression to ``dtype``) over Any ║
+# ║ Path(from_sympy(a), a) over {Any | isinstance(a, Expr)}    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_sympy : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(a, Expr)                            ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_sympy : {Any | isinstance(a, Expr)} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27f9463458a4bf28  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1650d1e07e1d051  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.from_sympy","kind":"method","src_hash":"771cb34268803e18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"convert sympy's expression to ``dtype``","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"convert sympy's expression to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.from_sympy_correct","statement":"Path(from_sympy(x), convert sympy's expression to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27f9463458a4bf28"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.from_sympy","kind":"method","src_hash":"771cb34268803e18","in":{"base":"Any","pred":"isinstance(a, Expr)"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"from_sympy(a)","rhs":"a","over":{"base":"Any","pred":"isinstance(a, Expr)"},"name":"from_sympy_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.from_sympy_correct","statement":"Path(from_sympy(x), returns a; result == a)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1650d1e07e1d051","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(a, Expr)"],"ensures":["result == a"],"returns_expr":"a","pure":false,"effects":{"effect_type":"reads_state","raises":["CoercionFailed"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(self, a):
         """Convert SymPy's expression to ``dtype``. """
         if not isinstance(a, Expr):
@@ -115,46 +150,66 @@ class ExpressionRawDomain(Field, CharacteristicZero, SimpleDomain):
         return a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_from(a, ), convert a domain element from another domain to exraw) over Any ║
+# ║ Path(convert_from(a, K), K.to_sympy(a)) over {Any | hasattr(K, 'to_sympy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convert_from : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'to_sympy')                         ║
+# ║   returns:  K.to_sympy(a)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convert_from : {Any | hasattr(K, 'to_sympy')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d7637d6e1d0c25a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.convert_from","kind":"method","src_hash":"e8de7da22f4a4ec5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_from(a, )","rhs":"convert a domain element from another domain to exraw","over":{"base":"Any"},"name":"convert_from_correct"},"guarantee":"convert a domain element from another domain to exraw","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d7637d6e1d0c25a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.convert_from","kind":"method","src_hash":"e8de7da22f4a4ec5","in":{"base":"Any","pred":"hasattr(K, 'to_sympy')"},"out":{"base":"Any"},"spec":{"lhs":"convert_from(a, K)","rhs":"K.to_sympy(a)","over":{"base":"Any","pred":"hasattr(K, 'to_sympy')"},"name":"convert_from_correct"},"guarantee":"returns K.to_sympy(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d7637d6e1d0c25a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'to_sympy')"],"returns_expr":"K.to_sympy(a)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.to_sympy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert_from(self, a, K):
         """Convert a domain element from another domain to EXRAW"""
         return K.to_sympy(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_field(), returns a field associated with ``self``) over Any ║
+# ║ Path(get_field(), self) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_field : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_field : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2dec7f6680e98567           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.get_field","kind":"method","src_hash":"b66170dc58340807","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_field()","rhs":"returns a field associated with ``self``","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"returns a field associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2dec7f6680e98567"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.get_field","kind":"method","src_hash":"b66170dc58340807","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"get_field()","rhs":"self","over":{"base":"Any"},"name":"get_field_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2dec7f6680e98567","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_field(self):
         """Returns a field associated with ``self``. """
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sum(ite), sum produces the expected output) over Any  ║
+# ║ Path(sum(items), Add(*items)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*items)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sum : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fad81a9db2cd4cb3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.sum","kind":"method","src_hash":"2c48c8af8dff5e3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sum(ite)","rhs":"sum produces the expected output","over":{"base":"Any"},"name":"sum_correct"},"guarantee":"sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fad81a9db2cd4cb3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.expressionrawdomain.ExpressionRawDomain.sum","kind":"method","src_hash":"2c48c8af8dff5e3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sum(items)","rhs":"Add(*items)","over":{"base":"Any"},"name":"sum_correct"},"guarantee":"returns Add(*items)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fad81a9db2cd4cb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*items)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sum(self, items):
         return Add(*items)
 

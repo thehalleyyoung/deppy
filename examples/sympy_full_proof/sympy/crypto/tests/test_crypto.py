@@ -43,32 +43,48 @@ from sympy.testing.pytest import raises, warns
 from sympy.core.random import randrange
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_railfence(), test_encipher_railfence produces the expected output) over Any ║
+# ║ Path(test_encipher_railfence(), encipher_railfence('hello world', 2) == 'hlowrdel ol' and encipher_railfence('hello world', 3) == 'horel ollwd' and encipher_railfence('hello world', 4) == 'hwe olordll') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_encipher_railfence : Any → {Any | encipher_railf...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encipher_railfence('hello world', 2) == '...   ║
+# ║   ensures:  encipher_railfence('hello world', 3) == '...   ║
+# ║   ensures:  encipher_railfence('hello world', 4) == '...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_encipher_railfence : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dd74f6d29a043a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5511ae78aa14108  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_railfence","kind":"function","src_hash":"09989f213295cc17","in":{"base":"Any"},"out":{"base":"Any","pred":"encipher_railfence('hello world', 2) == 'hlowrdel ol' and encipher_railfence('hello world', 3) == 'horel ollwd' and encipher_railfence('hello world', 4) == 'hwe olordll'"},"spec":{"lhs":"test_encipher_railfence()","rhs":"test_encipher_railfence produces the expected output","over":{"base":"Any"},"name":"test_encipher_railfence_correct"},"guarantee":"test_encipher_railfence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_railfence_correct","statement":"Path(test_encipher_railfence(x), test_encipher_railfence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dd74f6d29a043a4"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_railfence","kind":"function","src_hash":"09989f213295cc17","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encipher_railfence('hello world', 2) == 'hlowrdel ol' and encipher_railfence('hello world', 3) == 'horel ollwd' and encipher_railfence('hello world', 4) == 'hwe olordll'"},"spec":{"lhs":"test_encipher_railfence()","rhs":"encipher_railfence('hello world', 2) == 'hlowrdel ol' and encipher_railfence('hello world', 3) == 'horel ollwd' and encipher_railfence('hello world', 4) == 'hwe olordll'","over":{"base":"Any"},"name":"test_encipher_railfence_correct"},"guarantee":"encipher_railfence('hello world', 2) == 'hlowrdel ol'; encipher_railfence('hello world', 3) == 'horel ollwd'; encipher_railfence('hello world', 4) == 'hwe olordll'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_railfence_correct","statement":"Path(test_encipher_railfence(x), encipher_railfence('hello world', 2) == 'hlowrdel ol'; encipher_railfence('hello world', 3) == 'horel ollwd'; encipher_railfence('hello world', 4) == 'hwe olordll')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5511ae78aa14108","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encipher_railfence('hello world', 2) == 'hlowrdel ol'","encipher_railfence('hello world', 3) == 'horel ollwd'","encipher_railfence('hello world', 4) == 'hwe olordll'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_encipher_railfence():
     assert encipher_railfence("hello world",2) == "hlowrdel ol"
     assert encipher_railfence("hello world",3) == "horel ollwd"
     assert encipher_railfence("hello world",4) == "hwe olordll"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decipher_railfence(), test_decipher_railfence produces the expected output) over Any ║
+# ║ Path(test_decipher_railfence(), decipher_railfence('hlowrdel ol', 2) == 'hello world' and decipher_railfence('horel ollwd', 3) == 'hello world' and decipher_railfence('hwe olordll', 4) == 'hello world') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_decipher_railfence : Any → {Any | decipher_railf...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  decipher_railfence('hlowrdel ol', 2) == '...   ║
+# ║   ensures:  decipher_railfence('horel ollwd', 3) == '...   ║
+# ║   ensures:  decipher_railfence('hwe olordll', 4) == '...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_decipher_railfence : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7438b0c01b47893  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef930c9761150bcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_railfence","kind":"function","src_hash":"d0c5c77fc1bebe69","in":{"base":"Any"},"out":{"base":"Any","pred":"decipher_railfence('hlowrdel ol', 2) == 'hello world' and decipher_railfence('horel ollwd', 3) == 'hello world' and decipher_railfence('hwe olordll', 4) == 'hello world'"},"spec":{"lhs":"test_decipher_railfence()","rhs":"test_decipher_railfence produces the expected output","over":{"base":"Any"},"name":"test_decipher_railfence_correct"},"guarantee":"test_decipher_railfence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_railfence_correct","statement":"Path(test_decipher_railfence(x), test_decipher_railfence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7438b0c01b47893"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_railfence","kind":"function","src_hash":"d0c5c77fc1bebe69","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: decipher_railfence('hlowrdel ol', 2) == 'hello world' and decipher_railfence('horel ollwd', 3) == 'hello world' and decipher_railfence('hwe olordll', 4) == 'hello world'"},"spec":{"lhs":"test_decipher_railfence()","rhs":"decipher_railfence('hlowrdel ol', 2) == 'hello world' and decipher_railfence('horel ollwd', 3) == 'hello world' and decipher_railfence('hwe olordll', 4) == 'hello world'","over":{"base":"Any"},"name":"test_decipher_railfence_correct"},"guarantee":"decipher_railfence('hlowrdel ol', 2) == 'hello world'; decipher_railfence('horel ollwd', 3) == 'hello world'; decipher_railfence('hwe olordll', 4) == 'hello world'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_railfence_correct","statement":"Path(test_decipher_railfence(x), decipher_railfence('hlowrdel ol', 2) == 'hello world'; decipher_railfence('horel ollwd', 3) == 'hello world'; decipher_railfence('hwe olordll', 4) == 'hello world')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef930c9761150bcb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["decipher_railfence('hlowrdel ol', 2) == 'hello world'","decipher_railfence('horel ollwd', 3) == 'hello world'","decipher_railfence('hwe olordll', 4) == 'hello world'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_decipher_railfence():
     assert decipher_railfence("hlowrdel ol",2) == "hello world"
     assert decipher_railfence("horel ollwd",3) == "hello world"
@@ -76,16 +92,24 @@ def test_decipher_railfence():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cycle_list(), test_cycle_list produces the expected output) over Any ║
+# ║ Path(test_cycle_list(), cycle_list(3, 4) == [3, 0, 1, 2] and cycle_list(-1, 4) == [3, 0, 1, 2] and cycle_list(1, 4) == [1, 2, 3, 0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cycle_list : Any → {Any | cycle_list(3, 4) == [3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cycle_list(3, 4) == [3, 0, 1, 2]               ║
+# ║   ensures:  cycle_list(-1, 4) == [3, 0, 1, 2]              ║
+# ║   ensures:  cycle_list(1, 4) == [1, 2, 3, 0]               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cycle_list : Any → {Any | result satisfies: cycl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4b9162f4b961ea4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9abfa2c2d1564e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_cycle_list","kind":"function","src_hash":"3b560a394bad4213","in":{"base":"Any"},"out":{"base":"Any","pred":"cycle_list(3, 4) == [3, 0, 1, 2] and cycle_list(-1, 4) == [3, 0, 1, 2] and cycle_list(1, 4) == [1, 2, 3, 0]"},"spec":{"lhs":"test_cycle_list()","rhs":"test_cycle_list produces the expected output","over":{"base":"Any"},"name":"test_cycle_list_correct"},"guarantee":"test_cycle_list produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_cycle_list_correct","statement":"Path(test_cycle_list(x), test_cycle_list produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4b9162f4b961ea4"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_cycle_list","kind":"function","src_hash":"3b560a394bad4213","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cycle_list(3, 4) == [3, 0, 1, 2] and cycle_list(-1, 4) == [3, 0, 1, 2] and cycle_list(1, 4) == [1, 2, 3, 0]"},"spec":{"lhs":"test_cycle_list()","rhs":"cycle_list(3, 4) == [3, 0, 1, 2] and cycle_list(-1, 4) == [3, 0, 1, 2] and cycle_list(1, 4) == [1, 2, 3, 0]","over":{"base":"Any"},"name":"test_cycle_list_correct"},"guarantee":"cycle_list(3, 4) == [3, 0, 1, 2]; cycle_list(-1, 4) == [3, 0, 1, 2]; cycle_list(1, 4) == [1, 2, 3, 0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_cycle_list_correct","statement":"Path(test_cycle_list(x), cycle_list(3, 4) == [3, 0, 1, 2]; cycle_list(-1, 4) == [3, 0, 1, 2]; cycle_list(1, 4) == [1, 2, 3, 0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9abfa2c2d1564e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cycle_list(3, 4) == [3, 0, 1, 2]","cycle_list(-1, 4) == [3, 0, 1, 2]","cycle_list(1, 4) == [1, 2, 3, 0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cycle_list():
     assert cycle_list(3, 4) == [3, 0, 1, 2]
     assert cycle_list(-1, 4) == [3, 0, 1, 2]
@@ -93,16 +117,24 @@ def test_cycle_list():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_shift(), test_encipher_shift produces the expected output) over Any ║
+# ║ Path(test_encipher_shift(), encipher_shift('ABC', 0) == 'ABC' and encipher_shift('ABC', 1) == 'BCD' and encipher_shift('ABC', -1) == 'ZAB' and decipher_shift('ZAB', -1) == 'ABC') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_encipher_shift : Any → {Any | encipher_shift('AB...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encipher_shift('ABC', 0) == 'ABC'              ║
+# ║   ensures:  encipher_shift('ABC', 1) == 'BCD'              ║
+# ║   ensures:  encipher_shift('ABC', -1) == 'ZAB'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_encipher_shift : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de805ce010280239  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c8b280cb2d2e4cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_shift","kind":"function","src_hash":"0031e52930d2f3fb","in":{"base":"Any"},"out":{"base":"Any","pred":"encipher_shift('ABC', 0) == 'ABC' and encipher_shift('ABC', 1) == 'BCD' and encipher_shift('ABC', -1) == 'ZAB' and decipher_shift('ZAB', -1) == 'ABC'"},"spec":{"lhs":"test_encipher_shift()","rhs":"test_encipher_shift produces the expected output","over":{"base":"Any"},"name":"test_encipher_shift_correct"},"guarantee":"test_encipher_shift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_shift_correct","statement":"Path(test_encipher_shift(x), test_encipher_shift produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de805ce010280239"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_shift","kind":"function","src_hash":"0031e52930d2f3fb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encipher_shift('ABC', 0) == 'ABC' and encipher_shift('ABC', 1) == 'BCD' and encipher_shift('ABC', -1) == 'ZAB' and decipher_shift('ZAB', -1) == 'ABC'"},"spec":{"lhs":"test_encipher_shift()","rhs":"encipher_shift('ABC', 0) == 'ABC' and encipher_shift('ABC', 1) == 'BCD' and encipher_shift('ABC', -1) == 'ZAB' and decipher_shift('ZAB', -1) == 'ABC'","over":{"base":"Any"},"name":"test_encipher_shift_correct"},"guarantee":"encipher_shift('ABC', 0) == 'ABC'; encipher_shift('ABC', 1) == 'BCD'; encipher_shift('ABC', -1) == 'ZAB'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_shift_correct","statement":"Path(test_encipher_shift(x), encipher_shift('ABC', 0) == 'ABC'; encipher_shift('ABC', 1) == 'BCD'; encipher_shift('ABC', -1) == 'ZAB')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c8b280cb2d2e4cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encipher_shift('ABC', 0) == 'ABC'","encipher_shift('ABC', 1) == 'BCD'","encipher_shift('ABC', -1) == 'ZAB'","decipher_shift('ZAB', -1) == 'ABC'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_encipher_shift():
     assert encipher_shift("ABC", 0) == "ABC"
     assert encipher_shift("ABC", 1) == "BCD"
@@ -110,16 +142,24 @@ def test_encipher_shift():
     assert decipher_shift("ZAB", -1) == "ABC"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_rot13(), test_encipher_rot13 produces the expected output) over Any ║
+# ║ Path(test_encipher_rot13(), encipher_rot13('ABC') == 'NOP' and encipher_rot13('NOP') == 'ABC' and decipher_rot13('ABC') == 'NOP' and decipher_rot13('NOP') == 'ABC') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_encipher_rot13 : Any → {Any | encipher_rot13('AB...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encipher_rot13('ABC') == 'NOP'                 ║
+# ║   ensures:  encipher_rot13('NOP') == 'ABC'                 ║
+# ║   ensures:  decipher_rot13('ABC') == 'NOP'                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_encipher_rot13 : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84c7ca6bbe6e6597  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dce8e1e1fe639c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_rot13","kind":"function","src_hash":"a2f0dc21ce8dd539","in":{"base":"Any"},"out":{"base":"Any","pred":"encipher_rot13('ABC') == 'NOP' and encipher_rot13('NOP') == 'ABC' and decipher_rot13('ABC') == 'NOP' and decipher_rot13('NOP') == 'ABC'"},"spec":{"lhs":"test_encipher_rot13()","rhs":"test_encipher_rot13 produces the expected output","over":{"base":"Any"},"name":"test_encipher_rot13_correct"},"guarantee":"test_encipher_rot13 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_rot13_correct","statement":"Path(test_encipher_rot13(x), test_encipher_rot13 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84c7ca6bbe6e6597"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_rot13","kind":"function","src_hash":"a2f0dc21ce8dd539","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encipher_rot13('ABC') == 'NOP' and encipher_rot13('NOP') == 'ABC' and decipher_rot13('ABC') == 'NOP' and decipher_rot13('NOP') == 'ABC'"},"spec":{"lhs":"test_encipher_rot13()","rhs":"encipher_rot13('ABC') == 'NOP' and encipher_rot13('NOP') == 'ABC' and decipher_rot13('ABC') == 'NOP' and decipher_rot13('NOP') == 'ABC'","over":{"base":"Any"},"name":"test_encipher_rot13_correct"},"guarantee":"encipher_rot13('ABC') == 'NOP'; encipher_rot13('NOP') == 'ABC'; decipher_rot13('ABC') == 'NOP'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_rot13_correct","statement":"Path(test_encipher_rot13(x), encipher_rot13('ABC') == 'NOP'; encipher_rot13('NOP') == 'ABC'; decipher_rot13('ABC') == 'NOP')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dce8e1e1fe639c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encipher_rot13('ABC') == 'NOP'","encipher_rot13('NOP') == 'ABC'","decipher_rot13('ABC') == 'NOP'","decipher_rot13('NOP') == 'ABC'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_encipher_rot13():
     assert encipher_rot13("ABC") == "NOP"
     assert encipher_rot13("NOP") == "ABC"
@@ -128,16 +168,24 @@ def test_encipher_rot13():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_affine(), test_encipher_affine produces the expected output) over Any ║
+# ║ Path(test_encipher_affine(), encipher_affine('ABC', (1, 0)) == 'ABC' and encipher_affine('ABC', (1, 1)) == 'BCD' and encipher_affine('ABC', (-1, 0)) == 'AZY' and encipher_affine('ABC', (-1, 1), symbols='ABCD') == 'BAD' and encipher_affine('123', (-1, 1), symbols='1234') == '214' and encipher_affine('ABC', (3, 16)) == 'QTW' and decipher_affine('QTW', (3, 16)) == 'ABC') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_encipher_affine : Any → {Any | encipher_affine('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encipher_affine('ABC', (1, 0)) == 'ABC'        ║
+# ║   ensures:  encipher_affine('ABC', (1, 1)) == 'BCD'        ║
+# ║   ensures:  encipher_affine('ABC', (-1, 0)) == 'AZY'       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_encipher_affine : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4fa464f43ab8d52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7444b28a40476595  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_affine","kind":"function","src_hash":"77c9036854f9c969","in":{"base":"Any"},"out":{"base":"Any","pred":"encipher_affine('ABC', (1, 0)) == 'ABC' and encipher_affine('ABC', (1, 1)) == 'BCD' and encipher_affine('ABC', (-1, 0)) == 'AZY' and encipher_affine('ABC', (-1, 1), symbols='ABCD') == 'BAD' and encipher_affine('123', (-1, 1), symbols='1234') == '214' and encipher_affine('ABC', (3, 16)) == 'QTW' and decipher_affine('QTW', (3, 16)) == 'ABC'"},"spec":{"lhs":"test_encipher_affine()","rhs":"test_encipher_affine produces the expected output","over":{"base":"Any"},"name":"test_encipher_affine_correct"},"guarantee":"test_encipher_affine produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_affine_correct","statement":"Path(test_encipher_affine(x), test_encipher_affine produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4fa464f43ab8d52"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_affine","kind":"function","src_hash":"77c9036854f9c969","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encipher_affine('ABC', (1, 0)) == 'ABC' and encipher_affine('ABC', (1, 1)) == 'BCD' and encipher_affine('ABC', (-1, 0)) == 'AZY' and encipher_affine('ABC', (-1, 1), symbols='ABCD') == 'BAD' and encipher_affine('123', (-1, 1), symbols='1234') == '214' and encipher_affine('ABC', (3, 16)) == 'QTW' and decipher_affine('QTW', (3, 16)) == 'ABC'"},"spec":{"lhs":"test_encipher_affine()","rhs":"encipher_affine('ABC', (1, 0)) == 'ABC' and encipher_affine('ABC', (1, 1)) == 'BCD' and encipher_affine('ABC', (-1, 0)) == 'AZY' and encipher_affine('ABC', (-1, 1), symbols='ABCD') == 'BAD' and encipher_affine('123', (-1, 1), symbols='1234') == '214' and encipher_affine('ABC', (3, 16)) == 'QTW' and decipher_affine('QTW', (3, 16)) == 'ABC'","over":{"base":"Any"},"name":"test_encipher_affine_correct"},"guarantee":"encipher_affine('ABC', (1, 0)) == 'ABC'; encipher_affine('ABC', (1, 1)) == 'BCD'; encipher_affine('ABC', (-1, 0)) == 'AZY'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_affine_correct","statement":"Path(test_encipher_affine(x), encipher_affine('ABC', (1, 0)) == 'ABC'; encipher_affine('ABC', (1, 1)) == 'BCD'; encipher_affine('ABC', (-1, 0)) == 'AZY')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7444b28a40476595","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encipher_affine('ABC', (1, 0)) == 'ABC'","encipher_affine('ABC', (1, 1)) == 'BCD'","encipher_affine('ABC', (-1, 0)) == 'AZY'","encipher_affine('ABC', (-1, 1), symbols='ABCD') == 'BAD'","encipher_affine('123', (-1, 1), symbols='1234') == '214'","encipher_affine('ABC', (3, 16)) == 'QTW'","decipher_affine('QTW', (3, 16)) == 'ABC'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_encipher_affine():
     assert encipher_affine("ABC", (1, 0)) == "ABC"
     assert encipher_affine("ABC", (1, 1)) == "BCD"
@@ -148,16 +196,24 @@ def test_encipher_affine():
     assert decipher_affine("QTW", (3, 16)) == "ABC"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_atbash(), test_encipher_atbash produces the expected output) over Any ║
+# ║ Path(test_encipher_atbash(), encipher_atbash('ABC') == 'ZYX' and encipher_atbash('ZYX') == 'ABC' and decipher_atbash('ABC') == 'ZYX' and decipher_atbash('ZYX') == 'ABC') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_encipher_atbash : Any → {Any | encipher_atbash('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encipher_atbash('ABC') == 'ZYX'                ║
+# ║   ensures:  encipher_atbash('ZYX') == 'ABC'                ║
+# ║   ensures:  decipher_atbash('ABC') == 'ZYX'                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_encipher_atbash : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df02e8fa24d1d30f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8ff6b653f77c020  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_atbash","kind":"function","src_hash":"223c539961f37320","in":{"base":"Any"},"out":{"base":"Any","pred":"encipher_atbash('ABC') == 'ZYX' and encipher_atbash('ZYX') == 'ABC' and decipher_atbash('ABC') == 'ZYX' and decipher_atbash('ZYX') == 'ABC'"},"spec":{"lhs":"test_encipher_atbash()","rhs":"test_encipher_atbash produces the expected output","over":{"base":"Any"},"name":"test_encipher_atbash_correct"},"guarantee":"test_encipher_atbash produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_atbash_correct","statement":"Path(test_encipher_atbash(x), test_encipher_atbash produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df02e8fa24d1d30f"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_atbash","kind":"function","src_hash":"223c539961f37320","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encipher_atbash('ABC') == 'ZYX' and encipher_atbash('ZYX') == 'ABC' and decipher_atbash('ABC') == 'ZYX' and decipher_atbash('ZYX') == 'ABC'"},"spec":{"lhs":"test_encipher_atbash()","rhs":"encipher_atbash('ABC') == 'ZYX' and encipher_atbash('ZYX') == 'ABC' and decipher_atbash('ABC') == 'ZYX' and decipher_atbash('ZYX') == 'ABC'","over":{"base":"Any"},"name":"test_encipher_atbash_correct"},"guarantee":"encipher_atbash('ABC') == 'ZYX'; encipher_atbash('ZYX') == 'ABC'; decipher_atbash('ABC') == 'ZYX'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_atbash_correct","statement":"Path(test_encipher_atbash(x), encipher_atbash('ABC') == 'ZYX'; encipher_atbash('ZYX') == 'ABC'; decipher_atbash('ABC') == 'ZYX')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8ff6b653f77c020","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encipher_atbash('ABC') == 'ZYX'","encipher_atbash('ZYX') == 'ABC'","decipher_atbash('ABC') == 'ZYX'","decipher_atbash('ZYX') == 'ABC'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_encipher_atbash():
     assert encipher_atbash("ABC") == "ZYX"
     assert encipher_atbash("ZYX") == "ABC"
@@ -165,32 +221,47 @@ def test_encipher_atbash():
     assert decipher_atbash("ZYX") == "ABC"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_substitution(), test_encipher_substitution produces the expected output) over Any ║
+# ║ Path(test_encipher_substitution(), encipher_substitution('ABC', 'BAC', 'ABC') == 'BAC' and encipher_substitution('123', '1243', '1234') == '124') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_encipher_substitution : Any → {Any | encipher_su...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encipher_substitution('ABC', 'BAC', 'ABC'...   ║
+# ║   ensures:  encipher_substitution('123', '1243', '123...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_encipher_substitution : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6aebd3fe26d3807  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9aa3f5df261a62d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_substitution","kind":"function","src_hash":"f4b2e4d65ab1f7b7","in":{"base":"Any"},"out":{"base":"Any","pred":"encipher_substitution('ABC', 'BAC', 'ABC') == 'BAC' and encipher_substitution('123', '1243', '1234') == '124'"},"spec":{"lhs":"test_encipher_substitution()","rhs":"test_encipher_substitution produces the expected output","over":{"base":"Any"},"name":"test_encipher_substitution_correct"},"guarantee":"test_encipher_substitution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_substitution_correct","statement":"Path(test_encipher_substitution(x), test_encipher_substitution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6aebd3fe26d3807"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_substitution","kind":"function","src_hash":"f4b2e4d65ab1f7b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encipher_substitution('ABC', 'BAC', 'ABC') == 'BAC' and encipher_substitution('123', '1243', '1234') == '124'"},"spec":{"lhs":"test_encipher_substitution()","rhs":"encipher_substitution('ABC', 'BAC', 'ABC') == 'BAC' and encipher_substitution('123', '1243', '1234') == '124'","over":{"base":"Any"},"name":"test_encipher_substitution_correct"},"guarantee":"encipher_substitution('ABC', 'BAC', 'ABC') == 'BAC'; encipher_substitution('123', '1243', '1234') == '124'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_substitution_correct","statement":"Path(test_encipher_substitution(x), encipher_substitution('ABC', 'BAC', 'ABC') == 'BAC'; encipher_substitution('123', '1243', '1234') == '124')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9aa3f5df261a62d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encipher_substitution('ABC', 'BAC', 'ABC') == 'BAC'","encipher_substitution('123', '1243', '1234') == '124'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_encipher_substitution():
     assert encipher_substitution("ABC", "BAC", "ABC") == "BAC"
     assert encipher_substitution("123", "1243", "1234") == "124"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_check_and_join(), test_check_and_join produces the expected output) over Any ║
+# ║ Path(test_check_and_join(), check_and_join('abc') == 'abc' and check_and_join(uniq('aaabc')) == 'abc' and check_and_join('ab c'.split()) == 'abc' and check_and_join('abc', 'a', filter=True) == 'a') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_check_and_join : Any → {Any | check_and_join('ab...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  check_and_join('abc') == 'abc'                 ║
+# ║   ensures:  check_and_join(uniq('aaabc')) == 'abc'         ║
+# ║   ensures:  check_and_join('ab c'.split()) == 'abc'        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_check_and_join : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8c6afacf4fcdace  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 228e005081002f3d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_check_and_join","kind":"function","src_hash":"8346c86218399fa6","in":{"base":"Any"},"out":{"base":"Any","pred":"check_and_join('abc') == 'abc' and check_and_join(uniq('aaabc')) == 'abc' and check_and_join('ab c'.split()) == 'abc' and check_and_join('abc', 'a', filter=True) == 'a'"},"spec":{"lhs":"test_check_and_join()","rhs":"test_check_and_join produces the expected output","over":{"base":"Any"},"name":"test_check_and_join_correct"},"guarantee":"test_check_and_join produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_check_and_join_correct","statement":"Path(test_check_and_join(x), test_check_and_join produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8c6afacf4fcdace"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_check_and_join","kind":"function","src_hash":"8346c86218399fa6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: check_and_join('abc') == 'abc' and check_and_join(uniq('aaabc')) == 'abc' and check_and_join('ab c'.split()) == 'abc' and check_and_join('abc', 'a', filter=True) == 'a'"},"spec":{"lhs":"test_check_and_join()","rhs":"check_and_join('abc') == 'abc' and check_and_join(uniq('aaabc')) == 'abc' and check_and_join('ab c'.split()) == 'abc' and check_and_join('abc', 'a', filter=True) == 'a'","over":{"base":"Any"},"name":"test_check_and_join_correct"},"guarantee":"check_and_join('abc') == 'abc'; check_and_join(uniq('aaabc')) == 'abc'; check_and_join('ab c'.split()) == 'abc'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_check_and_join_correct","statement":"Path(test_check_and_join(x), check_and_join('abc') == 'abc'; check_and_join(uniq('aaabc')) == 'abc'; check_and_join('ab c'.split()) == 'abc')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"228e005081002f3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["check_and_join('abc') == 'abc'","check_and_join(uniq('aaabc')) == 'abc'","check_and_join('ab c'.split()) == 'abc'","check_and_join('abc', 'a', filter=True) == 'a'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_check_and_join():
     assert check_and_join("abc") == "abc"
     assert check_and_join(uniq("aaabc")) == "abc"
@@ -200,16 +271,24 @@ def test_check_and_join():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_vigenere(), test_encipher_vigenere produces the expected output) over Any ║
+# ║ Path(test_encipher_vigenere(), encipher_vigenere('ABC', 'ABC') == 'ACE' and encipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'ACA' and encipher_vigenere('ABC', 'AB', symbols='ABCD') == 'ACC' and encipher_vigenere('AB', 'ABC', symbols='ABCD') == 'AC' and encipher_vigenere('A', 'ABC', symbols='ABCD') == 'A') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_encipher_vigenere : Any → {Any | encipher_vigene...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encipher_vigenere('ABC', 'ABC') == 'ACE'       ║
+# ║   ensures:  encipher_vigenere('ABC', 'ABC', symbols='...   ║
+# ║   ensures:  encipher_vigenere('ABC', 'AB', symbols='A...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_encipher_vigenere : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 095af13de10b2af3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 043ac62b1fc07491  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_vigenere","kind":"function","src_hash":"61093bb3d8988f9b","in":{"base":"Any"},"out":{"base":"Any","pred":"encipher_vigenere('ABC', 'ABC') == 'ACE' and encipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'ACA' and encipher_vigenere('ABC', 'AB', symbols='ABCD') == 'ACC' and encipher_vigenere('AB', 'ABC', symbols='ABCD') == 'AC' and encipher_vigenere('A', 'ABC', symbols='ABCD') == 'A'"},"spec":{"lhs":"test_encipher_vigenere()","rhs":"test_encipher_vigenere produces the expected output","over":{"base":"Any"},"name":"test_encipher_vigenere_correct"},"guarantee":"test_encipher_vigenere produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_vigenere_correct","statement":"Path(test_encipher_vigenere(x), test_encipher_vigenere produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"095af13de10b2af3"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_vigenere","kind":"function","src_hash":"61093bb3d8988f9b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encipher_vigenere('ABC', 'ABC') == 'ACE' and encipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'ACA' and encipher_vigenere('ABC', 'AB', symbols='ABCD') == 'ACC' and encipher_vigenere('AB', 'ABC', symbols='ABCD') == 'AC' and encipher_vigenere('A', 'ABC', symbols='ABCD') == 'A'"},"spec":{"lhs":"test_encipher_vigenere()","rhs":"encipher_vigenere('ABC', 'ABC') == 'ACE' and encipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'ACA' and encipher_vigenere('ABC', 'AB', symbols='ABCD') == 'ACC' and encipher_vigenere('AB', 'ABC', symbols='ABCD') == 'AC' and encipher_vigenere('A', 'ABC', symbols='ABCD') == 'A'","over":{"base":"Any"},"name":"test_encipher_vigenere_correct"},"guarantee":"encipher_vigenere('ABC', 'ABC') == 'ACE'; encipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'ACA'; encipher_vigenere('ABC', 'AB', symbols='ABCD') == 'ACC'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_vigenere_correct","statement":"Path(test_encipher_vigenere(x), encipher_vigenere('ABC', 'ABC') == 'ACE'; encipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'ACA'; encipher_vigenere('ABC', 'AB', symbols='ABCD') == 'ACC')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"043ac62b1fc07491","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encipher_vigenere('ABC', 'ABC') == 'ACE'","encipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'ACA'","encipher_vigenere('ABC', 'AB', symbols='ABCD') == 'ACC'","encipher_vigenere('AB', 'ABC', symbols='ABCD') == 'AC'","encipher_vigenere('A', 'ABC', symbols='ABCD') == 'A'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_encipher_vigenere():
     assert encipher_vigenere("ABC", "ABC") == "ACE"
     assert encipher_vigenere("ABC", "ABC", symbols="ABCD") == "ACA"
@@ -219,16 +298,24 @@ def test_encipher_vigenere():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decipher_vigenere(), test_decipher_vigenere produces the expected output) over Any ║
+# ║ Path(test_decipher_vigenere(), decipher_vigenere('ABC', 'ABC') == 'AAA' and decipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'AAA' and decipher_vigenere('ABC', 'AB', symbols='ABCD') == 'AAC' and decipher_vigenere('AB', 'ABC', symbols='ABCD') == 'AA' and decipher_vigenere('A', 'ABC', symbols='ABCD') == 'A') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_decipher_vigenere : Any → {Any | decipher_vigene...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  decipher_vigenere('ABC', 'ABC') == 'AAA'       ║
+# ║   ensures:  decipher_vigenere('ABC', 'ABC', symbols='...   ║
+# ║   ensures:  decipher_vigenere('ABC', 'AB', symbols='A...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_decipher_vigenere : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66b37afc960a75dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9601ae26ddc318f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_vigenere","kind":"function","src_hash":"826422e937bedbcb","in":{"base":"Any"},"out":{"base":"Any","pred":"decipher_vigenere('ABC', 'ABC') == 'AAA' and decipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'AAA' and decipher_vigenere('ABC', 'AB', symbols='ABCD') == 'AAC' and decipher_vigenere('AB', 'ABC', symbols='ABCD') == 'AA' and decipher_vigenere('A', 'ABC', symbols='ABCD') == 'A'"},"spec":{"lhs":"test_decipher_vigenere()","rhs":"test_decipher_vigenere produces the expected output","over":{"base":"Any"},"name":"test_decipher_vigenere_correct"},"guarantee":"test_decipher_vigenere produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_vigenere_correct","statement":"Path(test_decipher_vigenere(x), test_decipher_vigenere produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66b37afc960a75dd"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_vigenere","kind":"function","src_hash":"826422e937bedbcb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: decipher_vigenere('ABC', 'ABC') == 'AAA' and decipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'AAA' and decipher_vigenere('ABC', 'AB', symbols='ABCD') == 'AAC' and decipher_vigenere('AB', 'ABC', symbols='ABCD') == 'AA' and decipher_vigenere('A', 'ABC', symbols='ABCD') == 'A'"},"spec":{"lhs":"test_decipher_vigenere()","rhs":"decipher_vigenere('ABC', 'ABC') == 'AAA' and decipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'AAA' and decipher_vigenere('ABC', 'AB', symbols='ABCD') == 'AAC' and decipher_vigenere('AB', 'ABC', symbols='ABCD') == 'AA' and decipher_vigenere('A', 'ABC', symbols='ABCD') == 'A'","over":{"base":"Any"},"name":"test_decipher_vigenere_correct"},"guarantee":"decipher_vigenere('ABC', 'ABC') == 'AAA'; decipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'AAA'; decipher_vigenere('ABC', 'AB', symbols='ABCD') == 'AAC'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_vigenere_correct","statement":"Path(test_decipher_vigenere(x), decipher_vigenere('ABC', 'ABC') == 'AAA'; decipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'AAA'; decipher_vigenere('ABC', 'AB', symbols='ABCD') == 'AAC')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9601ae26ddc318f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["decipher_vigenere('ABC', 'ABC') == 'AAA'","decipher_vigenere('ABC', 'ABC', symbols='ABCD') == 'AAA'","decipher_vigenere('ABC', 'AB', symbols='ABCD') == 'AAC'","decipher_vigenere('AB', 'ABC', symbols='ABCD') == 'AA'","decipher_vigenere('A', 'ABC', symbols='ABCD') == 'A'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_decipher_vigenere():
     assert decipher_vigenere("ABC", "ABC") == "AAA"
     assert decipher_vigenere("ABC", "ABC", symbols="ABCD") == "AAA"
@@ -238,16 +325,24 @@ def test_decipher_vigenere():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_hill(), test_encipher_hill produces the expected output) over Any ║
+# ║ Path(test_encipher_hill(), encipher_hill('ABCD', A) == 'CFIV' and encipher_hill('ABCD', A) == 'ABCD' and encipher_hill('ABCD', A, symbols='ABCD') == 'ABCD' and encipher_hill('ABCD', A, symbols='ABCD') == 'CBAB' and encipher_hill('AB', A, symbols='ABCD') == 'CB' and encipher_hill('ABA', A) == 'CFGC' and encipher_hill('ABA', A, pad='Z') == 'CFYV') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_encipher_hill : Any → {Any | encipher_hill('ABCD...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encipher_hill('ABCD', A) == 'CFIV'             ║
+# ║   ensures:  encipher_hill('ABCD', A) == 'ABCD'             ║
+# ║   ensures:  encipher_hill('ABCD', A, symbols='ABCD') ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_encipher_hill : Any → {Any | result satisfies: e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be2acd711d58aa2c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecd5a44f09b48428  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_hill","kind":"function","src_hash":"c431b5c721355ca7","in":{"base":"Any"},"out":{"base":"Any","pred":"encipher_hill('ABCD', A) == 'CFIV' and encipher_hill('ABCD', A) == 'ABCD' and encipher_hill('ABCD', A, symbols='ABCD') == 'ABCD' and encipher_hill('ABCD', A, symbols='ABCD') == 'CBAB' and encipher_hill('AB', A, symbols='ABCD') == 'CB' and encipher_hill('ABA', A) == 'CFGC' and encipher_hill('ABA', A, pad='Z') == 'CFYV'"},"spec":{"lhs":"test_encipher_hill()","rhs":"test_encipher_hill produces the expected output","over":{"base":"Any"},"name":"test_encipher_hill_correct"},"guarantee":"test_encipher_hill produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_hill_correct","statement":"Path(test_encipher_hill(x), test_encipher_hill produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be2acd711d58aa2c"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_hill","kind":"function","src_hash":"c431b5c721355ca7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encipher_hill('ABCD', A) == 'CFIV' and encipher_hill('ABCD', A) == 'ABCD' and encipher_hill('ABCD', A, symbols='ABCD') == 'ABCD' and encipher_hill('ABCD', A, symbols='ABCD') == 'CBAB' and encipher_hill('AB', A, symbols='ABCD') == 'CB' and encipher_hill('ABA', A) == 'CFGC' and encipher_hill('ABA', A, pad='Z') == 'CFYV'"},"spec":{"lhs":"test_encipher_hill()","rhs":"encipher_hill('ABCD', A) == 'CFIV' and encipher_hill('ABCD', A) == 'ABCD' and encipher_hill('ABCD', A, symbols='ABCD') == 'ABCD' and encipher_hill('ABCD', A, symbols='ABCD') == 'CBAB' and encipher_hill('AB', A, symbols='ABCD') == 'CB' and encipher_hill('ABA', A) == 'CFGC' and encipher_hill('ABA', A, pad='Z') == 'CFYV'","over":{"base":"Any"},"name":"test_encipher_hill_correct"},"guarantee":"encipher_hill('ABCD', A) == 'CFIV'; encipher_hill('ABCD', A) == 'ABCD'; encipher_hill('ABCD', A, symbols='ABCD') == 'ABCD'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_hill_correct","statement":"Path(test_encipher_hill(x), encipher_hill('ABCD', A) == 'CFIV'; encipher_hill('ABCD', A) == 'ABCD'; encipher_hill('ABCD', A, symbols='ABCD') == 'ABCD')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecd5a44f09b48428","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encipher_hill('ABCD', A) == 'CFIV'","encipher_hill('ABCD', A) == 'ABCD'","encipher_hill('ABCD', A, symbols='ABCD') == 'ABCD'","encipher_hill('ABCD', A, symbols='ABCD') == 'CBAB'","encipher_hill('AB', A, symbols='ABCD') == 'CB'","encipher_hill('ABA', A) == 'CFGC'","encipher_hill('ABA', A, pad='Z') == 'CFYV'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_encipher_hill():
     A = Matrix(2, 2, [1, 2, 3, 5])
     assert encipher_hill("ABCD", A) == "CFIV"
@@ -264,16 +359,24 @@ def test_encipher_hill():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decipher_hill(), test_decipher_hill produces the expected output) over Any ║
+# ║ Path(test_decipher_hill(), decipher_hill('CFIV', A) == 'ABCD' and decipher_hill('ABCD', A) == 'ABCD' and decipher_hill('ABCD', A, symbols='ABCD') == 'ABCD' and decipher_hill('CBAB', A, symbols='ABCD') == 'ABCD' and decipher_hill('CB', A, symbols='ABCD') == 'AB' and decipher_hill('CFA', A) == 'ABAA') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_decipher_hill : Any → {Any | decipher_hill('CFIV...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  decipher_hill('CFIV', A) == 'ABCD'             ║
+# ║   ensures:  decipher_hill('ABCD', A) == 'ABCD'             ║
+# ║   ensures:  decipher_hill('ABCD', A, symbols='ABCD') ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_decipher_hill : Any → {Any | result satisfies: d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b86a4001ec37b453  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de564f9a4f0b74ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_hill","kind":"function","src_hash":"9694d5aa2284892a","in":{"base":"Any"},"out":{"base":"Any","pred":"decipher_hill('CFIV', A) == 'ABCD' and decipher_hill('ABCD', A) == 'ABCD' and decipher_hill('ABCD', A, symbols='ABCD') == 'ABCD' and decipher_hill('CBAB', A, symbols='ABCD') == 'ABCD' and decipher_hill('CB', A, symbols='ABCD') == 'AB' and decipher_hill('CFA', A) == 'ABAA'"},"spec":{"lhs":"test_decipher_hill()","rhs":"test_decipher_hill produces the expected output","over":{"base":"Any"},"name":"test_decipher_hill_correct"},"guarantee":"test_decipher_hill produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_hill_correct","statement":"Path(test_decipher_hill(x), test_decipher_hill produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b86a4001ec37b453"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_hill","kind":"function","src_hash":"9694d5aa2284892a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: decipher_hill('CFIV', A) == 'ABCD' and decipher_hill('ABCD', A) == 'ABCD' and decipher_hill('ABCD', A, symbols='ABCD') == 'ABCD' and decipher_hill('CBAB', A, symbols='ABCD') == 'ABCD' and decipher_hill('CB', A, symbols='ABCD') == 'AB' and decipher_hill('CFA', A) == 'ABAA'"},"spec":{"lhs":"test_decipher_hill()","rhs":"decipher_hill('CFIV', A) == 'ABCD' and decipher_hill('ABCD', A) == 'ABCD' and decipher_hill('ABCD', A, symbols='ABCD') == 'ABCD' and decipher_hill('CBAB', A, symbols='ABCD') == 'ABCD' and decipher_hill('CB', A, symbols='ABCD') == 'AB' and decipher_hill('CFA', A) == 'ABAA'","over":{"base":"Any"},"name":"test_decipher_hill_correct"},"guarantee":"decipher_hill('CFIV', A) == 'ABCD'; decipher_hill('ABCD', A) == 'ABCD'; decipher_hill('ABCD', A, symbols='ABCD') == 'ABCD'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_hill_correct","statement":"Path(test_decipher_hill(x), decipher_hill('CFIV', A) == 'ABCD'; decipher_hill('ABCD', A) == 'ABCD'; decipher_hill('ABCD', A, symbols='ABCD') == 'ABCD')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de564f9a4f0b74ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["decipher_hill('CFIV', A) == 'ABCD'","decipher_hill('ABCD', A) == 'ABCD'","decipher_hill('ABCD', A, symbols='ABCD') == 'ABCD'","decipher_hill('CBAB', A, symbols='ABCD') == 'ABCD'","decipher_hill('CB', A, symbols='ABCD') == 'AB'","decipher_hill('CFA', A) == 'ABAA'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_decipher_hill():
     A = Matrix(2, 2, [1, 2, 3, 5])
     assert decipher_hill("CFIV", A) == "ABCD"
@@ -288,16 +391,24 @@ def test_decipher_hill():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_bifid5(), test_encipher_bifid5 produces the expected output) over Any ║
+# ║ Path(test_encipher_bifid5(), encipher_bifid5('AB', 'AB') == 'AB' and encipher_bifid5('AB', 'CD') == 'CO' and encipher_bifid5('ab', 'c') == 'CH' and encipher_bifid5('a bc', 'b') == 'BAC') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_encipher_bifid5 : Any → {Any | encipher_bifid5('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encipher_bifid5('AB', 'AB') == 'AB'            ║
+# ║   ensures:  encipher_bifid5('AB', 'CD') == 'CO'            ║
+# ║   ensures:  encipher_bifid5('ab', 'c') == 'CH'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_encipher_bifid5 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d91e87642a375ac3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d35f918a50796bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_bifid5","kind":"function","src_hash":"37260110767fa0ab","in":{"base":"Any"},"out":{"base":"Any","pred":"encipher_bifid5('AB', 'AB') == 'AB' and encipher_bifid5('AB', 'CD') == 'CO' and encipher_bifid5('ab', 'c') == 'CH' and encipher_bifid5('a bc', 'b') == 'BAC'"},"spec":{"lhs":"test_encipher_bifid5()","rhs":"test_encipher_bifid5 produces the expected output","over":{"base":"Any"},"name":"test_encipher_bifid5_correct"},"guarantee":"test_encipher_bifid5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_bifid5_correct","statement":"Path(test_encipher_bifid5(x), test_encipher_bifid5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d91e87642a375ac3"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_bifid5","kind":"function","src_hash":"37260110767fa0ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encipher_bifid5('AB', 'AB') == 'AB' and encipher_bifid5('AB', 'CD') == 'CO' and encipher_bifid5('ab', 'c') == 'CH' and encipher_bifid5('a bc', 'b') == 'BAC'"},"spec":{"lhs":"test_encipher_bifid5()","rhs":"encipher_bifid5('AB', 'AB') == 'AB' and encipher_bifid5('AB', 'CD') == 'CO' and encipher_bifid5('ab', 'c') == 'CH' and encipher_bifid5('a bc', 'b') == 'BAC'","over":{"base":"Any"},"name":"test_encipher_bifid5_correct"},"guarantee":"encipher_bifid5('AB', 'AB') == 'AB'; encipher_bifid5('AB', 'CD') == 'CO'; encipher_bifid5('ab', 'c') == 'CH'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_bifid5_correct","statement":"Path(test_encipher_bifid5(x), encipher_bifid5('AB', 'AB') == 'AB'; encipher_bifid5('AB', 'CD') == 'CO'; encipher_bifid5('ab', 'c') == 'CH')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d35f918a50796bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encipher_bifid5('AB', 'AB') == 'AB'","encipher_bifid5('AB', 'CD') == 'CO'","encipher_bifid5('ab', 'c') == 'CH'","encipher_bifid5('a bc', 'b') == 'BAC'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_encipher_bifid5():
     assert encipher_bifid5("AB", "AB") == "AB"
     assert encipher_bifid5("AB", "CD") == "CO"
@@ -306,16 +417,22 @@ def test_encipher_bifid5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bifid5_square(), test_bifid5_square produces the expected output) over Any ║
+# ║ Path(test_bifid5_square(), bifid5_square('') == M) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bifid5_square : Any → {Any | bifid5_square('') =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bifid5_square('') == M                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bifid5_square : Any → {Any | result satisfies: b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c982d50406f52d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4deeda7dc5b909a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_bifid5_square","kind":"function","src_hash":"7e05ccf49fd5933e","in":{"base":"Any"},"out":{"base":"Any","pred":"bifid5_square('') == M"},"spec":{"lhs":"test_bifid5_square()","rhs":"test_bifid5_square produces the expected output","over":{"base":"Any"},"name":"test_bifid5_square_correct"},"guarantee":"test_bifid5_square produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_bifid5_square_correct","statement":"Path(test_bifid5_square(x), test_bifid5_square produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c982d50406f52d3"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_bifid5_square","kind":"function","src_hash":"7e05ccf49fd5933e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bifid5_square('') == M"},"spec":{"lhs":"test_bifid5_square()","rhs":"bifid5_square('') == M","over":{"base":"Any"},"name":"test_bifid5_square_correct"},"guarantee":"bifid5_square('') == M","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_bifid5_square_correct","statement":"Path(test_bifid5_square(x), bifid5_square('') == M)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4deeda7dc5b909a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bifid5_square('') == M"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bifid5_square():
     A = bifid5
     f = lambda i, j: symbols(A[5*i + j])
@@ -324,16 +441,24 @@ def test_bifid5_square():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decipher_bifid5(), test_decipher_bifid5 produces the expected output) over Any ║
+# ║ Path(test_decipher_bifid5(), decipher_bifid5('AB', 'AB') == 'AB' and decipher_bifid5('CO', 'CD') == 'AB' and decipher_bifid5('ch', 'c') == 'AB' and decipher_bifid5('b ac', 'b') == 'ABC') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_decipher_bifid5 : Any → {Any | decipher_bifid5('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  decipher_bifid5('AB', 'AB') == 'AB'            ║
+# ║   ensures:  decipher_bifid5('CO', 'CD') == 'AB'            ║
+# ║   ensures:  decipher_bifid5('ch', 'c') == 'AB'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_decipher_bifid5 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fdf60aad7ffe6d2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 897194f26ac20ea9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_bifid5","kind":"function","src_hash":"fc0c8debcb238f85","in":{"base":"Any"},"out":{"base":"Any","pred":"decipher_bifid5('AB', 'AB') == 'AB' and decipher_bifid5('CO', 'CD') == 'AB' and decipher_bifid5('ch', 'c') == 'AB' and decipher_bifid5('b ac', 'b') == 'ABC'"},"spec":{"lhs":"test_decipher_bifid5()","rhs":"test_decipher_bifid5 produces the expected output","over":{"base":"Any"},"name":"test_decipher_bifid5_correct"},"guarantee":"test_decipher_bifid5 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_bifid5_correct","statement":"Path(test_decipher_bifid5(x), test_decipher_bifid5 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fdf60aad7ffe6d2"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_bifid5","kind":"function","src_hash":"fc0c8debcb238f85","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: decipher_bifid5('AB', 'AB') == 'AB' and decipher_bifid5('CO', 'CD') == 'AB' and decipher_bifid5('ch', 'c') == 'AB' and decipher_bifid5('b ac', 'b') == 'ABC'"},"spec":{"lhs":"test_decipher_bifid5()","rhs":"decipher_bifid5('AB', 'AB') == 'AB' and decipher_bifid5('CO', 'CD') == 'AB' and decipher_bifid5('ch', 'c') == 'AB' and decipher_bifid5('b ac', 'b') == 'ABC'","over":{"base":"Any"},"name":"test_decipher_bifid5_correct"},"guarantee":"decipher_bifid5('AB', 'AB') == 'AB'; decipher_bifid5('CO', 'CD') == 'AB'; decipher_bifid5('ch', 'c') == 'AB'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_bifid5_correct","statement":"Path(test_decipher_bifid5(x), decipher_bifid5('AB', 'AB') == 'AB'; decipher_bifid5('CO', 'CD') == 'AB'; decipher_bifid5('ch', 'c') == 'AB')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"897194f26ac20ea9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["decipher_bifid5('AB', 'AB') == 'AB'","decipher_bifid5('CO', 'CD') == 'AB'","decipher_bifid5('ch', 'c') == 'AB'","decipher_bifid5('b ac', 'b') == 'ABC'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_decipher_bifid5():
     assert decipher_bifid5("AB", "AB") == "AB"
     assert decipher_bifid5("CO", "CD") == "AB"
@@ -342,16 +467,24 @@ def test_decipher_bifid5():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_bifid6(), test_encipher_bifid6 produces the expected output) over Any ║
+# ║ Path(test_encipher_bifid6(), encipher_bifid6('AB', 'AB') == 'AB' and encipher_bifid6('AB', 'CD') == 'CP' and encipher_bifid6('ab', 'c') == 'CI' and encipher_bifid6('a bc', 'b') == 'BAC') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_encipher_bifid6 : Any → {Any | encipher_bifid6('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encipher_bifid6('AB', 'AB') == 'AB'            ║
+# ║   ensures:  encipher_bifid6('AB', 'CD') == 'CP'            ║
+# ║   ensures:  encipher_bifid6('ab', 'c') == 'CI'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_encipher_bifid6 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d591fac901e2992e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87160dfd71d4b8f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_bifid6","kind":"function","src_hash":"59831da528f50023","in":{"base":"Any"},"out":{"base":"Any","pred":"encipher_bifid6('AB', 'AB') == 'AB' and encipher_bifid6('AB', 'CD') == 'CP' and encipher_bifid6('ab', 'c') == 'CI' and encipher_bifid6('a bc', 'b') == 'BAC'"},"spec":{"lhs":"test_encipher_bifid6()","rhs":"test_encipher_bifid6 produces the expected output","over":{"base":"Any"},"name":"test_encipher_bifid6_correct"},"guarantee":"test_encipher_bifid6 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_bifid6_correct","statement":"Path(test_encipher_bifid6(x), test_encipher_bifid6 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d591fac901e2992e"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_bifid6","kind":"function","src_hash":"59831da528f50023","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encipher_bifid6('AB', 'AB') == 'AB' and encipher_bifid6('AB', 'CD') == 'CP' and encipher_bifid6('ab', 'c') == 'CI' and encipher_bifid6('a bc', 'b') == 'BAC'"},"spec":{"lhs":"test_encipher_bifid6()","rhs":"encipher_bifid6('AB', 'AB') == 'AB' and encipher_bifid6('AB', 'CD') == 'CP' and encipher_bifid6('ab', 'c') == 'CI' and encipher_bifid6('a bc', 'b') == 'BAC'","over":{"base":"Any"},"name":"test_encipher_bifid6_correct"},"guarantee":"encipher_bifid6('AB', 'AB') == 'AB'; encipher_bifid6('AB', 'CD') == 'CP'; encipher_bifid6('ab', 'c') == 'CI'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_bifid6_correct","statement":"Path(test_encipher_bifid6(x), encipher_bifid6('AB', 'AB') == 'AB'; encipher_bifid6('AB', 'CD') == 'CP'; encipher_bifid6('ab', 'c') == 'CI')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87160dfd71d4b8f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encipher_bifid6('AB', 'AB') == 'AB'","encipher_bifid6('AB', 'CD') == 'CP'","encipher_bifid6('ab', 'c') == 'CI'","encipher_bifid6('a bc', 'b') == 'BAC'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_encipher_bifid6():
     assert encipher_bifid6("AB", "AB") == "AB"
     assert encipher_bifid6("AB", "CD") == "CP"
@@ -360,16 +493,24 @@ def test_encipher_bifid6():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decipher_bifid6(), test_decipher_bifid6 produces the expected output) over Any ║
+# ║ Path(test_decipher_bifid6(), decipher_bifid6('AB', 'AB') == 'AB' and decipher_bifid6('CP', 'CD') == 'AB' and decipher_bifid6('ci', 'c') == 'AB' and decipher_bifid6('b ac', 'b') == 'ABC') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_decipher_bifid6 : Any → {Any | decipher_bifid6('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  decipher_bifid6('AB', 'AB') == 'AB'            ║
+# ║   ensures:  decipher_bifid6('CP', 'CD') == 'AB'            ║
+# ║   ensures:  decipher_bifid6('ci', 'c') == 'AB'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_decipher_bifid6 : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2224426b5be862d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 939c6398b4d8d85d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_bifid6","kind":"function","src_hash":"72534af4b8683bf6","in":{"base":"Any"},"out":{"base":"Any","pred":"decipher_bifid6('AB', 'AB') == 'AB' and decipher_bifid6('CP', 'CD') == 'AB' and decipher_bifid6('ci', 'c') == 'AB' and decipher_bifid6('b ac', 'b') == 'ABC'"},"spec":{"lhs":"test_decipher_bifid6()","rhs":"test_decipher_bifid6 produces the expected output","over":{"base":"Any"},"name":"test_decipher_bifid6_correct"},"guarantee":"test_decipher_bifid6 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_bifid6_correct","statement":"Path(test_decipher_bifid6(x), test_decipher_bifid6 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2224426b5be862d"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_bifid6","kind":"function","src_hash":"72534af4b8683bf6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: decipher_bifid6('AB', 'AB') == 'AB' and decipher_bifid6('CP', 'CD') == 'AB' and decipher_bifid6('ci', 'c') == 'AB' and decipher_bifid6('b ac', 'b') == 'ABC'"},"spec":{"lhs":"test_decipher_bifid6()","rhs":"decipher_bifid6('AB', 'AB') == 'AB' and decipher_bifid6('CP', 'CD') == 'AB' and decipher_bifid6('ci', 'c') == 'AB' and decipher_bifid6('b ac', 'b') == 'ABC'","over":{"base":"Any"},"name":"test_decipher_bifid6_correct"},"guarantee":"decipher_bifid6('AB', 'AB') == 'AB'; decipher_bifid6('CP', 'CD') == 'AB'; decipher_bifid6('ci', 'c') == 'AB'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_bifid6_correct","statement":"Path(test_decipher_bifid6(x), decipher_bifid6('AB', 'AB') == 'AB'; decipher_bifid6('CP', 'CD') == 'AB'; decipher_bifid6('ci', 'c') == 'AB')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"939c6398b4d8d85d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["decipher_bifid6('AB', 'AB') == 'AB'","decipher_bifid6('CP', 'CD') == 'AB'","decipher_bifid6('ci', 'c') == 'AB'","decipher_bifid6('b ac', 'b') == 'ABC'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_decipher_bifid6():
     assert decipher_bifid6("AB", "AB") == "AB"
     assert decipher_bifid6("CP", "CD") == "AB"
@@ -378,16 +519,22 @@ def test_decipher_bifid6():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bifid6_square(), test_bifid6_square produces the expected output) over Any ║
+# ║ Path(test_bifid6_square(), bifid6_square('') == M) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bifid6_square : Any → {Any | bifid6_square('') =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bifid6_square('') == M                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bifid6_square : Any → {Any | result satisfies: b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e646d08152d6c77e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee92e7c74d37e742  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_bifid6_square","kind":"function","src_hash":"3a5353644324f945","in":{"base":"Any"},"out":{"base":"Any","pred":"bifid6_square('') == M"},"spec":{"lhs":"test_bifid6_square()","rhs":"test_bifid6_square produces the expected output","over":{"base":"Any"},"name":"test_bifid6_square_correct"},"guarantee":"test_bifid6_square produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_bifid6_square_correct","statement":"Path(test_bifid6_square(x), test_bifid6_square produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e646d08152d6c77e"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_bifid6_square","kind":"function","src_hash":"3a5353644324f945","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bifid6_square('') == M"},"spec":{"lhs":"test_bifid6_square()","rhs":"bifid6_square('') == M","over":{"base":"Any"},"name":"test_bifid6_square_correct"},"guarantee":"bifid6_square('') == M","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_bifid6_square_correct","statement":"Path(test_bifid6_square(x), bifid6_square('') == M)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee92e7c74d37e742","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bifid6_square('') == M"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bifid6_square():
     A = bifid6
     f = lambda i, j: symbols(A[6*i + j])
@@ -396,16 +543,23 @@ def test_bifid6_square():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsa_public_key(), test_rsa_public_key produces the expected output) over Any ║
+# ║ Path(test_rsa_public_key(), rsa_public_key(2, 3, 1) == (6, 1) and rsa_public_key(5, 3, 3) == (15, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rsa_public_key : Any → {Any | rsa_public_key(2, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsa_public_key(2, 3, 1) == (6, 1)              ║
+# ║   ensures:  rsa_public_key(5, 3, 3) == (15, 3)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rsa_public_key : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 129ac394c12292e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d42753899e547531  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_public_key","kind":"function","src_hash":"afd58cb6c126a322","in":{"base":"Any"},"out":{"base":"Any","pred":"rsa_public_key(2, 3, 1) == (6, 1) and rsa_public_key(5, 3, 3) == (15, 3) and rsa_public_key(2, 2, 1) == (4, 1) and rsa_public_key(8, 8, 8) is False"},"spec":{"lhs":"test_rsa_public_key()","rhs":"test_rsa_public_key produces the expected output","over":{"base":"Any"},"name":"test_rsa_public_key_correct"},"guarantee":"test_rsa_public_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_public_key_correct","statement":"Path(test_rsa_public_key(x), test_rsa_public_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"129ac394c12292e5"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_public_key","kind":"function","src_hash":"afd58cb6c126a322","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsa_public_key(2, 3, 1) == (6, 1) and rsa_public_key(5, 3, 3) == (15, 3)"},"spec":{"lhs":"test_rsa_public_key()","rhs":"rsa_public_key(2, 3, 1) == (6, 1) and rsa_public_key(5, 3, 3) == (15, 3)","over":{"base":"Any"},"name":"test_rsa_public_key_correct"},"guarantee":"rsa_public_key(2, 3, 1) == (6, 1); rsa_public_key(5, 3, 3) == (15, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_public_key_correct","statement":"Path(test_rsa_public_key(x), rsa_public_key(2, 3, 1) == (6, 1); rsa_public_key(5, 3, 3) == (15, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d42753899e547531","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsa_public_key(2, 3, 1) == (6, 1)","rsa_public_key(5, 3, 3) == (15, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rsa_public_key():
     assert rsa_public_key(2, 3, 1) == (6, 1)
     assert rsa_public_key(5, 3, 3) == (15, 3)
@@ -416,16 +570,24 @@ def test_rsa_public_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsa_private_key(), test_rsa_private_key produces the expected output) over Any ║
+# ║ Path(test_rsa_private_key(), rsa_private_key(2, 3, 1) == (6, 1) and rsa_private_key(5, 3, 3) == (15, 3) and rsa_private_key(23, 29, 5) == (667, 493)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rsa_private_key : Any → {Any | rsa_private_key(2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsa_private_key(2, 3, 1) == (6, 1)             ║
+# ║   ensures:  rsa_private_key(5, 3, 3) == (15, 3)            ║
+# ║   ensures:  rsa_private_key(23, 29, 5) == (667, 493)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rsa_private_key : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e7b0de09556be2b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72b87b7cd2c9aefd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_private_key","kind":"function","src_hash":"09e89585246845da","in":{"base":"Any"},"out":{"base":"Any","pred":"rsa_private_key(2, 3, 1) == (6, 1) and rsa_private_key(5, 3, 3) == (15, 3) and rsa_private_key(23, 29, 5) == (667, 493) and rsa_private_key(2, 2, 1) == (4, 1) and rsa_private_key(8, 8, 8) is False"},"spec":{"lhs":"test_rsa_private_key()","rhs":"test_rsa_private_key produces the expected output","over":{"base":"Any"},"name":"test_rsa_private_key_correct"},"guarantee":"test_rsa_private_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_private_key_correct","statement":"Path(test_rsa_private_key(x), test_rsa_private_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e7b0de09556be2b"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_private_key","kind":"function","src_hash":"09e89585246845da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsa_private_key(2, 3, 1) == (6, 1) and rsa_private_key(5, 3, 3) == (15, 3) and rsa_private_key(23, 29, 5) == (667, 493)"},"spec":{"lhs":"test_rsa_private_key()","rhs":"rsa_private_key(2, 3, 1) == (6, 1) and rsa_private_key(5, 3, 3) == (15, 3) and rsa_private_key(23, 29, 5) == (667, 493)","over":{"base":"Any"},"name":"test_rsa_private_key_correct"},"guarantee":"rsa_private_key(2, 3, 1) == (6, 1); rsa_private_key(5, 3, 3) == (15, 3); rsa_private_key(23, 29, 5) == (667, 493)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_private_key_correct","statement":"Path(test_rsa_private_key(x), rsa_private_key(2, 3, 1) == (6, 1); rsa_private_key(5, 3, 3) == (15, 3); rsa_private_key(23, 29, 5) == (667, 493))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72b87b7cd2c9aefd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsa_private_key(2, 3, 1) == (6, 1)","rsa_private_key(5, 3, 3) == (15, 3)","rsa_private_key(23, 29, 5) == (667, 493)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rsa_private_key():
     assert rsa_private_key(2, 3, 1) == (6, 1)
     assert rsa_private_key(5, 3, 3) == (15, 3)
@@ -437,16 +599,23 @@ def test_rsa_private_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsa_large_key(), test_rsa_large_key produces the expected output) over Any ║
+# ║ Path(test_rsa_large_key(), rsa_public_key(p, q, e) == (p * q, e) and rsa_private_key(p, q, e) == (p * q, d)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rsa_large_key : Any → {Any | rsa_public_key(p, q...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rsa_public_key(p, q, e) == (p * q, e)          ║
+# ║   ensures:  rsa_private_key(p, q, e) == (p * q, d)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rsa_large_key : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99cf90dc14e8568a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb7df1e419b8437e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_large_key","kind":"function","src_hash":"88c1613f052dd38f","in":{"base":"Any"},"out":{"base":"Any","pred":"rsa_public_key(p, q, e) == (p * q, e) and rsa_private_key(p, q, e) == (p * q, d)"},"spec":{"lhs":"test_rsa_large_key()","rhs":"test_rsa_large_key produces the expected output","over":{"base":"Any"},"name":"test_rsa_large_key_correct"},"guarantee":"test_rsa_large_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_large_key_correct","statement":"Path(test_rsa_large_key(x), test_rsa_large_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99cf90dc14e8568a"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_large_key","kind":"function","src_hash":"88c1613f052dd38f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rsa_public_key(p, q, e) == (p * q, e) and rsa_private_key(p, q, e) == (p * q, d)"},"spec":{"lhs":"test_rsa_large_key()","rhs":"rsa_public_key(p, q, e) == (p * q, e) and rsa_private_key(p, q, e) == (p * q, d)","over":{"base":"Any"},"name":"test_rsa_large_key_correct"},"guarantee":"rsa_public_key(p, q, e) == (p * q, e); rsa_private_key(p, q, e) == (p * q, d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_large_key_correct","statement":"Path(test_rsa_large_key(x), rsa_public_key(p, q, e) == (p * q, e); rsa_private_key(p, q, e) == (p * q, d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb7df1e419b8437e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rsa_public_key(p, q, e) == (p * q, e)","rsa_private_key(p, q, e) == (p * q, d)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rsa_large_key():
     # Sample from
     # http://www.herongyang.com/Cryptography/JCE-Public-Key-RSA-Private-Public-Key-Pair-Sample.html
@@ -463,16 +632,23 @@ def test_rsa_large_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_rsa(), test_encipher_rsa produces the expected output) over Any ║
+# ║ Path(test_encipher_rsa(), encipher_rsa(2, puk) == 2 and encipher_rsa(2, puk) == 8) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_encipher_rsa : Any → {Any | encipher_rsa(2, puk)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encipher_rsa(2, puk) == 2                      ║
+# ║   ensures:  encipher_rsa(2, puk) == 8                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_encipher_rsa : Any → {Any | result satisfies: en...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26d1e61d964792fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd71dcab05e7563e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_rsa","kind":"function","src_hash":"4ef0bf8a6c0d6982","in":{"base":"Any"},"out":{"base":"Any","pred":"encipher_rsa(2, puk) == 2 and encipher_rsa(2, puk) == 8 and encipher_rsa(2, puk) == 2"},"spec":{"lhs":"test_encipher_rsa()","rhs":"test_encipher_rsa produces the expected output","over":{"base":"Any"},"name":"test_encipher_rsa_correct"},"guarantee":"test_encipher_rsa produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_rsa_correct","statement":"Path(test_encipher_rsa(x), test_encipher_rsa produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26d1e61d964792fa"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_rsa","kind":"function","src_hash":"4ef0bf8a6c0d6982","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encipher_rsa(2, puk) == 2 and encipher_rsa(2, puk) == 8"},"spec":{"lhs":"test_encipher_rsa()","rhs":"encipher_rsa(2, puk) == 2 and encipher_rsa(2, puk) == 8","over":{"base":"Any"},"name":"test_encipher_rsa_correct"},"guarantee":"encipher_rsa(2, puk) == 2; encipher_rsa(2, puk) == 8","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_rsa_correct","statement":"Path(test_encipher_rsa(x), encipher_rsa(2, puk) == 2; encipher_rsa(2, puk) == 8)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd71dcab05e7563e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encipher_rsa(2, puk) == 2","encipher_rsa(2, puk) == 8"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_encipher_rsa():
     puk = rsa_public_key(2, 3, 1)
     assert encipher_rsa(2, puk) == 2
@@ -485,16 +661,23 @@ def test_encipher_rsa():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decipher_rsa(), test_decipher_rsa produces the expected output) over Any ║
+# ║ Path(test_decipher_rsa(), decipher_rsa(2, prk) == 2 and decipher_rsa(8, prk) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_decipher_rsa : Any → {Any | decipher_rsa(2, prk)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  decipher_rsa(2, prk) == 2                      ║
+# ║   ensures:  decipher_rsa(8, prk) == 2                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_decipher_rsa : Any → {Any | result satisfies: de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e3a7cb40bfcedb3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cb8e1c74487706e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_rsa","kind":"function","src_hash":"7c6cdf547a22e45e","in":{"base":"Any"},"out":{"base":"Any","pred":"decipher_rsa(2, prk) == 2 and decipher_rsa(8, prk) == 2 and decipher_rsa(2, prk) == 2"},"spec":{"lhs":"test_decipher_rsa()","rhs":"test_decipher_rsa produces the expected output","over":{"base":"Any"},"name":"test_decipher_rsa_correct"},"guarantee":"test_decipher_rsa produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_rsa_correct","statement":"Path(test_decipher_rsa(x), test_decipher_rsa produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e3a7cb40bfcedb3"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_rsa","kind":"function","src_hash":"7c6cdf547a22e45e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: decipher_rsa(2, prk) == 2 and decipher_rsa(8, prk) == 2"},"spec":{"lhs":"test_decipher_rsa()","rhs":"decipher_rsa(2, prk) == 2 and decipher_rsa(8, prk) == 2","over":{"base":"Any"},"name":"test_decipher_rsa_correct"},"guarantee":"decipher_rsa(2, prk) == 2; decipher_rsa(8, prk) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_rsa_correct","statement":"Path(test_decipher_rsa(x), decipher_rsa(2, prk) == 2; decipher_rsa(8, prk) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cb8e1c74487706e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["decipher_rsa(2, prk) == 2","decipher_rsa(8, prk) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_decipher_rsa():
     prk = rsa_private_key(2, 3, 1)
     assert decipher_rsa(2, prk) == 2
@@ -507,16 +690,24 @@ def test_decipher_rsa():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mutltiprime_rsa_full_example(), test_mutltiprime_rsa_full_example produces the expected output) over Any ║
+# ║ Path(test_mutltiprime_rsa_full_example(), puk == (30030, 7) and prk == (30030, 823) and encrypted == 18065 and decrypted == msg and puk1 == (4391633, 41) and prk1 == (4391633, 294041) and puk2 == (4391633, 97) and prk2 == (4391633, 455713) and encrypted == 1081588) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mutltiprime_rsa_full_example : Any → {Any | puk ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  puk == (30030, 7)                              ║
+# ║   ensures:  prk == (30030, 823)                            ║
+# ║   ensures:  encrypted == 18065                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mutltiprime_rsa_full_example : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0fddd77cfb94e1d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7d8d7260745b662  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_mutltiprime_rsa_full_example","kind":"function","src_hash":"78d05f11c58c68f6","in":{"base":"Any"},"out":{"base":"Any","pred":"puk == (30030, 7) and prk == (30030, 823) and encrypted == 18065 and decrypted == msg and puk1 == (4391633, 41) and prk1 == (4391633, 294041) and puk2 == (4391633, 97) and prk2 == (4391633, 455713) and encrypted == 1081588 and decrypted == msg"},"spec":{"lhs":"test_mutltiprime_rsa_full_example()","rhs":"test_mutltiprime_rsa_full_example produces the expected output","over":{"base":"Any"},"name":"test_mutltiprime_rsa_full_example_correct"},"guarantee":"test_mutltiprime_rsa_full_example produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_mutltiprime_rsa_full_example_correct","statement":"Path(test_mutltiprime_rsa_full_example(x), test_mutltiprime_rsa_full_example produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0fddd77cfb94e1d"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_mutltiprime_rsa_full_example","kind":"function","src_hash":"78d05f11c58c68f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: puk == (30030, 7) and prk == (30030, 823) and encrypted == 18065 and decrypted == msg and puk1 == (4391633, 41) and prk1 == (4391633, 294041) and puk2 == (4391633, 97) and prk2 == (4391633, 455713) and encrypted == 1081588"},"spec":{"lhs":"test_mutltiprime_rsa_full_example()","rhs":"puk == (30030, 7) and prk == (30030, 823) and encrypted == 18065 and decrypted == msg and puk1 == (4391633, 41) and prk1 == (4391633, 294041) and puk2 == (4391633, 97) and prk2 == (4391633, 455713) and encrypted == 1081588","over":{"base":"Any"},"name":"test_mutltiprime_rsa_full_example_correct"},"guarantee":"puk == (30030, 7); prk == (30030, 823); encrypted == 18065","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_mutltiprime_rsa_full_example_correct","statement":"Path(test_mutltiprime_rsa_full_example(x), puk == (30030, 7); prk == (30030, 823); encrypted == 18065)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7d8d7260745b662","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["puk == (30030, 7)","prk == (30030, 823)","encrypted == 18065","decrypted == msg","puk1 == (4391633, 41)","prk1 == (4391633, 294041)","puk2 == (4391633, 97)","prk2 == (4391633, 455713)","encrypted == 1081588"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_mutltiprime_rsa_full_example():
     # Test example from
     # https://iopscience.iop.org/article/10.1088/1742-6596/995/1/012030
@@ -551,16 +742,23 @@ def test_mutltiprime_rsa_full_example():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsa_crt_extreme(), test_rsa_crt_extreme produces the expected output) over Any ║
+# ║ Path(test_rsa_crt_extreme(), ciphertext_1 == ciphertext_2 and decipher_rsa(ciphertext_1, prk) == decipher_rsa(ciphertext_1, prk, [p, q, r, s, t])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rsa_crt_extreme : Any → {Any | ciphertext_1 == c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ciphertext_1 == ciphertext_2                   ║
+# ║   ensures:  decipher_rsa(ciphertext_1, prk) == deciph...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rsa_crt_extreme : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbe4e8c80ef4da7d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f012a243066eb55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_crt_extreme","kind":"function","src_hash":"b2106cbdaa3022d0","in":{"base":"Any"},"out":{"base":"Any","pred":"ciphertext_1 == ciphertext_2"},"spec":{"lhs":"test_rsa_crt_extreme()","rhs":"test_rsa_crt_extreme produces the expected output","over":{"base":"Any"},"name":"test_rsa_crt_extreme_correct"},"guarantee":"test_rsa_crt_extreme produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_crt_extreme_correct","statement":"Path(test_rsa_crt_extreme(x), test_rsa_crt_extreme produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbe4e8c80ef4da7d"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_crt_extreme","kind":"function","src_hash":"b2106cbdaa3022d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ciphertext_1 == ciphertext_2 and decipher_rsa(ciphertext_1, prk) == decipher_rsa(ciphertext_1, prk, [p, q, r, s, t])"},"spec":{"lhs":"test_rsa_crt_extreme()","rhs":"ciphertext_1 == ciphertext_2 and decipher_rsa(ciphertext_1, prk) == decipher_rsa(ciphertext_1, prk, [p, q, r, s, t])","over":{"base":"Any"},"name":"test_rsa_crt_extreme_correct"},"guarantee":"ciphertext_1 == ciphertext_2; decipher_rsa(ciphertext_1, prk) == decipher_rsa(ciphertext_1, prk, [p, q, r, s, t])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_crt_extreme_correct","statement":"Path(test_rsa_crt_extreme(x), ciphertext_1 == ciphertext_2; decipher_rsa(ciphertext_1, prk) == decipher_rsa(ciphertext_1, prk, [p, q, r, s, t]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f012a243066eb55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ciphertext_1 == ciphertext_2","decipher_rsa(ciphertext_1, prk) == decipher_rsa(ciphertext_1, prk, [p, q, r, s, t])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rsa_crt_extreme():
     p = int(
         '10177157607154245068023861503693082120906487143725062283406501' \
@@ -612,16 +810,22 @@ def test_rsa_crt_extreme():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsa_exhaustive(), test_rsa_exhaustive produces the expected output) over Any ║
+# ║ Path(test_rsa_exhaustive(), <unspecified:test_rsa_exhaustive>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rsa_exhaustive : Any → {Any | decrypted == msg}       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21adac3104b23c5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_exhaustive","kind":"function","src_hash":"d6038e69dad5f530","in":{"base":"Any"},"out":{"base":"Any","pred":"decrypted == msg"},"spec":{"lhs":"test_rsa_exhaustive()","rhs":"test_rsa_exhaustive produces the expected output","over":{"base":"Any"},"name":"test_rsa_exhaustive_correct"},"guarantee":"test_rsa_exhaustive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_exhaustive_correct","statement":"Path(test_rsa_exhaustive(x), test_rsa_exhaustive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21adac3104b23c5d"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_exhaustive","kind":"function","src_hash":"d6038e69dad5f530","in":{"base":"Any"},"out":{"base":"Any","pred":"decrypted == msg"},"spec":{"lhs":"test_rsa_exhaustive()","rhs":"<unspecified:test_rsa_exhaustive>","over":{"base":"Any"},"name":"test_rsa_exhaustive_correct"},"guarantee":"test_rsa_exhaustive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_exhaustive_correct","statement":"Path(test_rsa_exhaustive(x), test_rsa_exhaustive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21adac3104b23c5d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["AssertionError"],"catches":["AssertionError"]},"state_contract":{"exceptional_post":{"AssertionError":["isinstance(raised, AssertionError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rsa_exhaustive():
     p, q = 61, 53
     e = 17
@@ -642,16 +846,22 @@ def test_rsa_exhaustive():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsa_multiprime_exhanstive(), test_rsa_multiprime_exhanstive produces the expected output) over Any ║
+# ║ Path(test_rsa_multiprime_exhanstive(), <unspecified:test_rsa_multiprime_exhanstive>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rsa_multiprime_exhanstive : Any → {Any | decrypt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0faf71427b9c8a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_multiprime_exhanstive","kind":"function","src_hash":"8b10159182f9a180","in":{"base":"Any"},"out":{"base":"Any","pred":"decrypted == msg"},"spec":{"lhs":"test_rsa_multiprime_exhanstive()","rhs":"test_rsa_multiprime_exhanstive produces the expected output","over":{"base":"Any"},"name":"test_rsa_multiprime_exhanstive_correct"},"guarantee":"test_rsa_multiprime_exhanstive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_multiprime_exhanstive_correct","statement":"Path(test_rsa_multiprime_exhanstive(x), test_rsa_multiprime_exhanstive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0faf71427b9c8a3"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_multiprime_exhanstive","kind":"function","src_hash":"8b10159182f9a180","in":{"base":"Any"},"out":{"base":"Any","pred":"decrypted == msg"},"spec":{"lhs":"test_rsa_multiprime_exhanstive()","rhs":"<unspecified:test_rsa_multiprime_exhanstive>","over":{"base":"Any"},"name":"test_rsa_multiprime_exhanstive_correct"},"guarantee":"test_rsa_multiprime_exhanstive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_multiprime_exhanstive_correct","statement":"Path(test_rsa_multiprime_exhanstive(x), test_rsa_multiprime_exhanstive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0faf71427b9c8a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["AssertionError"],"catches":["AssertionError"]},"state_contract":{"exceptional_post":{"AssertionError":["isinstance(raised, AssertionError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rsa_multiprime_exhanstive():
     primes = [3, 5, 7, 11]
     e = 7
@@ -674,16 +884,22 @@ def test_rsa_multiprime_exhanstive():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rsa_multipower_exhanstive(), test_rsa_multipower_exhanstive produces the expected output) over Any ║
+# ║ Path(test_rsa_multipower_exhanstive(), <unspecified:test_rsa_multipower_exhanstive>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rsa_multipower_exhanstive : Any → {Any | decrypt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac32a7dea050b1b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_multipower_exhanstive","kind":"function","src_hash":"e940af4509f0a577","in":{"base":"Any"},"out":{"base":"Any","pred":"decrypted == msg"},"spec":{"lhs":"test_rsa_multipower_exhanstive()","rhs":"test_rsa_multipower_exhanstive produces the expected output","over":{"base":"Any"},"name":"test_rsa_multipower_exhanstive_correct"},"guarantee":"test_rsa_multipower_exhanstive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_multipower_exhanstive_correct","statement":"Path(test_rsa_multipower_exhanstive(x), test_rsa_multipower_exhanstive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac32a7dea050b1b6"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_rsa_multipower_exhanstive","kind":"function","src_hash":"e940af4509f0a577","in":{"base":"Any"},"out":{"base":"Any","pred":"decrypted == msg"},"spec":{"lhs":"test_rsa_multipower_exhanstive()","rhs":"<unspecified:test_rsa_multipower_exhanstive>","over":{"base":"Any"},"name":"test_rsa_multipower_exhanstive_correct"},"guarantee":"test_rsa_multipower_exhanstive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_rsa_multipower_exhanstive_correct","statement":"Path(test_rsa_multipower_exhanstive(x), test_rsa_multipower_exhanstive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac32a7dea050b1b6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["AssertionError"],"catches":["AssertionError"]},"state_contract":{"exceptional_post":{"AssertionError":["isinstance(raised, AssertionError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rsa_multipower_exhanstive():
     primes = [5, 5, 7]
     e = 7
@@ -709,16 +925,24 @@ def test_rsa_multipower_exhanstive():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_kid_rsa_public_key(), test_kid_rsa_public_key produces the expected output) over Any ║
+# ║ Path(test_kid_rsa_public_key(), kid_rsa_public_key(1, 2, 1, 1) == (5, 2) and kid_rsa_public_key(1, 2, 2, 1) == (8, 3) and kid_rsa_public_key(1, 2, 1, 2) == (7, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_kid_rsa_public_key : Any → {Any | kid_rsa_public...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  kid_rsa_public_key(1, 2, 1, 1) == (5, 2)       ║
+# ║   ensures:  kid_rsa_public_key(1, 2, 2, 1) == (8, 3)       ║
+# ║   ensures:  kid_rsa_public_key(1, 2, 1, 2) == (7, 2)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_kid_rsa_public_key : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2cfdf86ea946a0e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b8cd88802710da5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_kid_rsa_public_key","kind":"function","src_hash":"463240cb881acf29","in":{"base":"Any"},"out":{"base":"Any","pred":"kid_rsa_public_key(1, 2, 1, 1) == (5, 2) and kid_rsa_public_key(1, 2, 2, 1) == (8, 3) and kid_rsa_public_key(1, 2, 1, 2) == (7, 2)"},"spec":{"lhs":"test_kid_rsa_public_key()","rhs":"test_kid_rsa_public_key produces the expected output","over":{"base":"Any"},"name":"test_kid_rsa_public_key_correct"},"guarantee":"test_kid_rsa_public_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_kid_rsa_public_key_correct","statement":"Path(test_kid_rsa_public_key(x), test_kid_rsa_public_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2cfdf86ea946a0e"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_kid_rsa_public_key","kind":"function","src_hash":"463240cb881acf29","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: kid_rsa_public_key(1, 2, 1, 1) == (5, 2) and kid_rsa_public_key(1, 2, 2, 1) == (8, 3) and kid_rsa_public_key(1, 2, 1, 2) == (7, 2)"},"spec":{"lhs":"test_kid_rsa_public_key()","rhs":"kid_rsa_public_key(1, 2, 1, 1) == (5, 2) and kid_rsa_public_key(1, 2, 2, 1) == (8, 3) and kid_rsa_public_key(1, 2, 1, 2) == (7, 2)","over":{"base":"Any"},"name":"test_kid_rsa_public_key_correct"},"guarantee":"kid_rsa_public_key(1, 2, 1, 1) == (5, 2); kid_rsa_public_key(1, 2, 2, 1) == (8, 3); kid_rsa_public_key(1, 2, 1, 2) == (7, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_kid_rsa_public_key_correct","statement":"Path(test_kid_rsa_public_key(x), kid_rsa_public_key(1, 2, 1, 1) == (5, 2); kid_rsa_public_key(1, 2, 2, 1) == (8, 3); kid_rsa_public_key(1, 2, 1, 2) == (7, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b8cd88802710da5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["kid_rsa_public_key(1, 2, 1, 1) == (5, 2)","kid_rsa_public_key(1, 2, 2, 1) == (8, 3)","kid_rsa_public_key(1, 2, 1, 2) == (7, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_kid_rsa_public_key():
     assert kid_rsa_public_key(1, 2, 1, 1) == (5, 2)
     assert kid_rsa_public_key(1, 2, 2, 1) == (8, 3)
@@ -726,16 +950,24 @@ def test_kid_rsa_public_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_kid_rsa_private_key(), test_kid_rsa_private_key produces the expected output) over Any ║
+# ║ Path(test_kid_rsa_private_key(), kid_rsa_private_key(1, 2, 1, 1) == (5, 3) and kid_rsa_private_key(1, 2, 2, 1) == (8, 3) and kid_rsa_private_key(1, 2, 1, 2) == (7, 4)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_kid_rsa_private_key : Any → {Any | kid_rsa_priva...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  kid_rsa_private_key(1, 2, 1, 1) == (5, 3)      ║
+# ║   ensures:  kid_rsa_private_key(1, 2, 2, 1) == (8, 3)      ║
+# ║   ensures:  kid_rsa_private_key(1, 2, 1, 2) == (7, 4)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_kid_rsa_private_key : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10d58254a85e56fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fe9bec467ce1b87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_kid_rsa_private_key","kind":"function","src_hash":"c329f6edc8a47260","in":{"base":"Any"},"out":{"base":"Any","pred":"kid_rsa_private_key(1, 2, 1, 1) == (5, 3) and kid_rsa_private_key(1, 2, 2, 1) == (8, 3) and kid_rsa_private_key(1, 2, 1, 2) == (7, 4)"},"spec":{"lhs":"test_kid_rsa_private_key()","rhs":"test_kid_rsa_private_key produces the expected output","over":{"base":"Any"},"name":"test_kid_rsa_private_key_correct"},"guarantee":"test_kid_rsa_private_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_kid_rsa_private_key_correct","statement":"Path(test_kid_rsa_private_key(x), test_kid_rsa_private_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10d58254a85e56fb"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_kid_rsa_private_key","kind":"function","src_hash":"c329f6edc8a47260","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: kid_rsa_private_key(1, 2, 1, 1) == (5, 3) and kid_rsa_private_key(1, 2, 2, 1) == (8, 3) and kid_rsa_private_key(1, 2, 1, 2) == (7, 4)"},"spec":{"lhs":"test_kid_rsa_private_key()","rhs":"kid_rsa_private_key(1, 2, 1, 1) == (5, 3) and kid_rsa_private_key(1, 2, 2, 1) == (8, 3) and kid_rsa_private_key(1, 2, 1, 2) == (7, 4)","over":{"base":"Any"},"name":"test_kid_rsa_private_key_correct"},"guarantee":"kid_rsa_private_key(1, 2, 1, 1) == (5, 3); kid_rsa_private_key(1, 2, 2, 1) == (8, 3); kid_rsa_private_key(1, 2, 1, 2) == (7, 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_kid_rsa_private_key_correct","statement":"Path(test_kid_rsa_private_key(x), kid_rsa_private_key(1, 2, 1, 1) == (5, 3); kid_rsa_private_key(1, 2, 2, 1) == (8, 3); kid_rsa_private_key(1, 2, 1, 2) == (7, 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fe9bec467ce1b87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["kid_rsa_private_key(1, 2, 1, 1) == (5, 3)","kid_rsa_private_key(1, 2, 2, 1) == (8, 3)","kid_rsa_private_key(1, 2, 1, 2) == (7, 4)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_kid_rsa_private_key():
     assert kid_rsa_private_key(1, 2, 1, 1) == (5, 3)
     assert kid_rsa_private_key(1, 2, 2, 1) == (8, 3)
@@ -743,16 +975,24 @@ def test_kid_rsa_private_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_kid_rsa(), test_encipher_kid_rsa produces the expected output) over Any ║
+# ║ Path(test_encipher_kid_rsa(), encipher_kid_rsa(1, (5, 2)) == 2 and encipher_kid_rsa(1, (8, 3)) == 3 and encipher_kid_rsa(1, (7, 2)) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_encipher_kid_rsa : Any → {Any | encipher_kid_rsa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encipher_kid_rsa(1, (5, 2)) == 2               ║
+# ║   ensures:  encipher_kid_rsa(1, (8, 3)) == 3               ║
+# ║   ensures:  encipher_kid_rsa(1, (7, 2)) == 2               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_encipher_kid_rsa : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45229a8a2964363c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4108cfc808fde78c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_kid_rsa","kind":"function","src_hash":"7502acae70e498a1","in":{"base":"Any"},"out":{"base":"Any","pred":"encipher_kid_rsa(1, (5, 2)) == 2 and encipher_kid_rsa(1, (8, 3)) == 3 and encipher_kid_rsa(1, (7, 2)) == 2"},"spec":{"lhs":"test_encipher_kid_rsa()","rhs":"test_encipher_kid_rsa produces the expected output","over":{"base":"Any"},"name":"test_encipher_kid_rsa_correct"},"guarantee":"test_encipher_kid_rsa produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_kid_rsa_correct","statement":"Path(test_encipher_kid_rsa(x), test_encipher_kid_rsa produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45229a8a2964363c"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_kid_rsa","kind":"function","src_hash":"7502acae70e498a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encipher_kid_rsa(1, (5, 2)) == 2 and encipher_kid_rsa(1, (8, 3)) == 3 and encipher_kid_rsa(1, (7, 2)) == 2"},"spec":{"lhs":"test_encipher_kid_rsa()","rhs":"encipher_kid_rsa(1, (5, 2)) == 2 and encipher_kid_rsa(1, (8, 3)) == 3 and encipher_kid_rsa(1, (7, 2)) == 2","over":{"base":"Any"},"name":"test_encipher_kid_rsa_correct"},"guarantee":"encipher_kid_rsa(1, (5, 2)) == 2; encipher_kid_rsa(1, (8, 3)) == 3; encipher_kid_rsa(1, (7, 2)) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_kid_rsa_correct","statement":"Path(test_encipher_kid_rsa(x), encipher_kid_rsa(1, (5, 2)) == 2; encipher_kid_rsa(1, (8, 3)) == 3; encipher_kid_rsa(1, (7, 2)) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4108cfc808fde78c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encipher_kid_rsa(1, (5, 2)) == 2","encipher_kid_rsa(1, (8, 3)) == 3","encipher_kid_rsa(1, (7, 2)) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_encipher_kid_rsa():
     assert encipher_kid_rsa(1, (5, 2)) == 2
     assert encipher_kid_rsa(1, (8, 3)) == 3
@@ -760,16 +1000,24 @@ def test_encipher_kid_rsa():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decipher_kid_rsa(), test_decipher_kid_rsa produces the expected output) over Any ║
+# ║ Path(test_decipher_kid_rsa(), decipher_kid_rsa(2, (5, 3)) == 1 and decipher_kid_rsa(3, (8, 3)) == 1 and decipher_kid_rsa(2, (7, 4)) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_decipher_kid_rsa : Any → {Any | decipher_kid_rsa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  decipher_kid_rsa(2, (5, 3)) == 1               ║
+# ║   ensures:  decipher_kid_rsa(3, (8, 3)) == 1               ║
+# ║   ensures:  decipher_kid_rsa(2, (7, 4)) == 1               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_decipher_kid_rsa : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29f6a95d89994339  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77fbd4cf2d923ce0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_kid_rsa","kind":"function","src_hash":"fbccc2e21b0f0cf3","in":{"base":"Any"},"out":{"base":"Any","pred":"decipher_kid_rsa(2, (5, 3)) == 1 and decipher_kid_rsa(3, (8, 3)) == 1 and decipher_kid_rsa(2, (7, 4)) == 1"},"spec":{"lhs":"test_decipher_kid_rsa()","rhs":"test_decipher_kid_rsa produces the expected output","over":{"base":"Any"},"name":"test_decipher_kid_rsa_correct"},"guarantee":"test_decipher_kid_rsa produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_kid_rsa_correct","statement":"Path(test_decipher_kid_rsa(x), test_decipher_kid_rsa produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29f6a95d89994339"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decipher_kid_rsa","kind":"function","src_hash":"fbccc2e21b0f0cf3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: decipher_kid_rsa(2, (5, 3)) == 1 and decipher_kid_rsa(3, (8, 3)) == 1 and decipher_kid_rsa(2, (7, 4)) == 1"},"spec":{"lhs":"test_decipher_kid_rsa()","rhs":"decipher_kid_rsa(2, (5, 3)) == 1 and decipher_kid_rsa(3, (8, 3)) == 1 and decipher_kid_rsa(2, (7, 4)) == 1","over":{"base":"Any"},"name":"test_decipher_kid_rsa_correct"},"guarantee":"decipher_kid_rsa(2, (5, 3)) == 1; decipher_kid_rsa(3, (8, 3)) == 1; decipher_kid_rsa(2, (7, 4)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decipher_kid_rsa_correct","statement":"Path(test_decipher_kid_rsa(x), decipher_kid_rsa(2, (5, 3)) == 1; decipher_kid_rsa(3, (8, 3)) == 1; decipher_kid_rsa(2, (7, 4)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77fbd4cf2d923ce0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["decipher_kid_rsa(2, (5, 3)) == 1","decipher_kid_rsa(3, (8, 3)) == 1","decipher_kid_rsa(2, (7, 4)) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_decipher_kid_rsa():
     assert decipher_kid_rsa(2, (5, 3)) == 1
     assert decipher_kid_rsa(3, (8, 3)) == 1
@@ -777,16 +1025,24 @@ def test_decipher_kid_rsa():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encode_morse(), test_encode_morse produces the expected output) over Any ║
+# ║ Path(test_encode_morse(), encode_morse('ABC') == '.-|-...|-.-.' and encode_morse('SMS ') == '...|--|...||' and encode_morse('SMS\n') == '...|--|...||' and encode_morse('') == '' and encode_morse(' ') == '||' and encode_morse(' ', sep='`') == '``' and encode_morse(' ', sep='``') == '````' and encode_morse('!@#$%^&*()_+') == '-.-.--|.--.-.|...-..-|-.--.|-.--.-|..--.-|.-.-.' and encode_morse('12345') == '.----|..---|...--|....-|.....' and encode_morse('67890') == '-....|--...|---..|----.|-----') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_encode_morse : Any → {Any | encode_morse('ABC') ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encode_morse('ABC') == '.-|-...|-.-.'          ║
+# ║   ensures:  encode_morse('SMS ') == '...|--|...||'         ║
+# ║   ensures:  encode_morse('SMS\n') == '...|--|...||'        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_encode_morse : Any → {Any | result satisfies: en...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c206ab1462329a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4975fb82abd381f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encode_morse","kind":"function","src_hash":"d78bd5afa99e1c40","in":{"base":"Any"},"out":{"base":"Any","pred":"encode_morse('ABC') == '.-|-...|-.-.' and encode_morse('SMS ') == '...|--|...||' and encode_morse('SMS\\n') == '...|--|...||' and encode_morse('') == '' and encode_morse(' ') == '||' and encode_morse(' ', sep='`') == '``' and encode_morse(' ', sep='``') == '````' and encode_morse('12345') == '.----|..---|...--|....-|.....' and encode_morse('67890') == '-....|--...|---..|----.|-----'"},"spec":{"lhs":"test_encode_morse()","rhs":"test_encode_morse produces the expected output","over":{"base":"Any"},"name":"test_encode_morse_correct"},"guarantee":"test_encode_morse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encode_morse_correct","statement":"Path(test_encode_morse(x), test_encode_morse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c206ab1462329a0"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encode_morse","kind":"function","src_hash":"d78bd5afa99e1c40","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encode_morse('ABC') == '.-|-...|-.-.' and encode_morse('SMS ') == '...|--|...||' and encode_morse('SMS\\n') == '...|--|...||' and encode_morse('') == '' and encode_morse(' ') == '||' and encode_morse(' ', sep='`') == '``' and encode_morse(' ', sep='``') == '````' and encode_morse('!@#$%^&*()_+') == '-.-.--|.--.-.|...-..-|-.--.|-.--.-|..--.-|.-.-.' and encode_morse('12345') == '.----|..---|...--|....-|.....' and encode_morse('67890') == '-....|--...|---..|----.|-----'"},"spec":{"lhs":"test_encode_morse()","rhs":"encode_morse('ABC') == '.-|-...|-.-.' and encode_morse('SMS ') == '...|--|...||' and encode_morse('SMS\\n') == '...|--|...||' and encode_morse('') == '' and encode_morse(' ') == '||' and encode_morse(' ', sep='`') == '``' and encode_morse(' ', sep='``') == '````' and encode_morse('!@#$%^&*()_+') == '-.-.--|.--.-.|...-..-|-.--.|-.--.-|..--.-|.-.-.' and encode_morse('12345') == '.----|..---|...--|....-|.....' and encode_morse('67890') == '-....|--...|---..|----.|-----'","over":{"base":"Any"},"name":"test_encode_morse_correct"},"guarantee":"encode_morse('ABC') == '.-|-...|-.-.'; encode_morse('SMS ') == '...|--|...||'; encode_morse('SMS\\n') == '...|--|...||'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encode_morse_correct","statement":"Path(test_encode_morse(x), encode_morse('ABC') == '.-|-...|-.-.'; encode_morse('SMS ') == '...|--|...||'; encode_morse('SMS\\n') == '...|--|...||')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4975fb82abd381f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encode_morse('ABC') == '.-|-...|-.-.'","encode_morse('SMS ') == '...|--|...||'","encode_morse('SMS\\n') == '...|--|...||'","encode_morse('') == ''","encode_morse(' ') == '||'","encode_morse(' ', sep='`') == '``'","encode_morse(' ', sep='``') == '````'","encode_morse('!@#$%^&*()_+') == '-.-.--|.--.-.|...-..-|-.--.|-.--.-|..--.-|.-.-.'","encode_morse('12345') == '.----|..---|...--|....-|.....'","encode_morse('67890') == '-....|--...|---..|----.|-----'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_encode_morse():
     assert encode_morse('ABC') == '.-|-...|-.-.'
     assert encode_morse('SMS ') == '...|--|...||'
@@ -801,16 +1057,23 @@ def test_encode_morse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_decode_morse(), test_decode_morse produces the expected output) over Any ║
+# ║ Path(test_decode_morse(), decode_morse('-.-|.|-.--') == 'KEY' and decode_morse('.-.|..-|-.||') == 'RUN') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_decode_morse : Any → {Any | decode_morse('-.-|.|...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  decode_morse('-.-|.|-.--') == 'KEY'            ║
+# ║   ensures:  decode_morse('.-.|..-|-.||') == 'RUN'          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_decode_morse : Any → {Any | result satisfies: de...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e07c83b71f919d27  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e57164277a9178a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decode_morse","kind":"function","src_hash":"6853e15125da60fd","in":{"base":"Any"},"out":{"base":"Any","pred":"decode_morse('-.-|.|-.--') == 'KEY' and decode_morse('.-.|..-|-.||') == 'RUN'"},"spec":{"lhs":"test_decode_morse()","rhs":"test_decode_morse produces the expected output","over":{"base":"Any"},"name":"test_decode_morse_correct"},"guarantee":"test_decode_morse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decode_morse_correct","statement":"Path(test_decode_morse(x), test_decode_morse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e07c83b71f919d27"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_decode_morse","kind":"function","src_hash":"6853e15125da60fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: decode_morse('-.-|.|-.--') == 'KEY' and decode_morse('.-.|..-|-.||') == 'RUN'"},"spec":{"lhs":"test_decode_morse()","rhs":"decode_morse('-.-|.|-.--') == 'KEY' and decode_morse('.-.|..-|-.||') == 'RUN'","over":{"base":"Any"},"name":"test_decode_morse_correct"},"guarantee":"decode_morse('-.-|.|-.--') == 'KEY'; decode_morse('.-.|..-|-.||') == 'RUN'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_decode_morse_correct","statement":"Path(test_decode_morse(x), decode_morse('-.-|.|-.--') == 'KEY'; decode_morse('.-.|..-|-.||') == 'RUN')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e57164277a9178a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["decode_morse('-.-|.|-.--') == 'KEY'","decode_morse('.-.|..-|-.||') == 'RUN'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_decode_morse():
     assert decode_morse('-.-|.|-.--') == 'KEY'
     assert decode_morse('.-.|..-|-.||') == 'RUN'
@@ -818,16 +1081,24 @@ def test_decode_morse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lfsr_sequence(), test_lfsr_sequence produces the expected output) over Any ║
+# ║ Path(test_lfsr_sequence(), lfsr_sequence([F(1)], [F(1)], 2) == [F(1), F(1)] and lfsr_sequence([F(0)], [F(1)], 2) == [F(1), F(0)] and lfsr_sequence([F(0)], [F(2)], 2) == [F(2), F(0)] and lfsr_sequence([F(1)], [F(2)], 2) == [F(2), F(2)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lfsr_sequence : Any → {Any | lfsr_sequence([F(1)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lfsr_sequence([F(1)], [F(1)], 2) == [F(1)...   ║
+# ║   ensures:  lfsr_sequence([F(0)], [F(1)], 2) == [F(1)...   ║
+# ║   ensures:  lfsr_sequence([F(0)], [F(2)], 2) == [F(2)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lfsr_sequence : Any → {Any | result satisfies: l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 389f09a508ad29c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d2af5d87e743d41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_lfsr_sequence","kind":"function","src_hash":"405878ec44460385","in":{"base":"Any"},"out":{"base":"Any","pred":"lfsr_sequence([F(1)], [F(1)], 2) == [F(1), F(1)] and lfsr_sequence([F(0)], [F(1)], 2) == [F(1), F(0)] and lfsr_sequence([F(1)], [F(1)], 2) == [F(1), F(1)] and lfsr_sequence([F(0)], [F(2)], 2) == [F(2), F(0)] and lfsr_sequence([F(1)], [F(2)], 2) == [F(2), F(2)]"},"spec":{"lhs":"test_lfsr_sequence()","rhs":"test_lfsr_sequence produces the expected output","over":{"base":"Any"},"name":"test_lfsr_sequence_correct"},"guarantee":"test_lfsr_sequence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_lfsr_sequence_correct","statement":"Path(test_lfsr_sequence(x), test_lfsr_sequence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"389f09a508ad29c0"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_lfsr_sequence","kind":"function","src_hash":"405878ec44460385","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lfsr_sequence([F(1)], [F(1)], 2) == [F(1), F(1)] and lfsr_sequence([F(0)], [F(1)], 2) == [F(1), F(0)] and lfsr_sequence([F(0)], [F(2)], 2) == [F(2), F(0)] and lfsr_sequence([F(1)], [F(2)], 2) == [F(2), F(2)]"},"spec":{"lhs":"test_lfsr_sequence()","rhs":"lfsr_sequence([F(1)], [F(1)], 2) == [F(1), F(1)] and lfsr_sequence([F(0)], [F(1)], 2) == [F(1), F(0)] and lfsr_sequence([F(0)], [F(2)], 2) == [F(2), F(0)] and lfsr_sequence([F(1)], [F(2)], 2) == [F(2), F(2)]","over":{"base":"Any"},"name":"test_lfsr_sequence_correct"},"guarantee":"lfsr_sequence([F(1)], [F(1)], 2) == [F(1), F(1)]; lfsr_sequence([F(0)], [F(1)], 2) == [F(1), F(0)]; lfsr_sequence([F(0)], [F(2)], 2) == [F(2), F(0)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_lfsr_sequence_correct","statement":"Path(test_lfsr_sequence(x), lfsr_sequence([F(1)], [F(1)], 2) == [F(1), F(1)]; lfsr_sequence([F(0)], [F(1)], 2) == [F(1), F(0)]; lfsr_sequence([F(0)], [F(2)], 2) == [F(2), F(0)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d2af5d87e743d41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lfsr_sequence([F(1)], [F(1)], 2) == [F(1), F(1)]","lfsr_sequence([F(0)], [F(1)], 2) == [F(1), F(0)]","lfsr_sequence([F(0)], [F(2)], 2) == [F(2), F(0)]","lfsr_sequence([F(1)], [F(2)], 2) == [F(2), F(2)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_lfsr_sequence():
     raises(TypeError, lambda: lfsr_sequence(1, [1], 1))
     raises(TypeError, lambda: lfsr_sequence([1], 1, 1))
@@ -841,16 +1112,23 @@ def test_lfsr_sequence():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lfsr_autocorrelation(), test_lfsr_autocorrelation produces the expected output) over Any ║
+# ║ Path(test_lfsr_autocorrelation(), lfsr_autocorrelation(s, 2, 0) == 1 and lfsr_autocorrelation(s, 2, 1) == -1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lfsr_autocorrelation : Any → {Any | lfsr_autocor...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lfsr_autocorrelation(s, 2, 0) == 1             ║
+# ║   ensures:  lfsr_autocorrelation(s, 2, 1) == -1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lfsr_autocorrelation : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b979696b11bdb43  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15d90a3e62e88f85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_lfsr_autocorrelation","kind":"function","src_hash":"2557cd26cc8c2d04","in":{"base":"Any"},"out":{"base":"Any","pred":"lfsr_autocorrelation(s, 2, 0) == 1 and lfsr_autocorrelation(s, 2, 1) == -1"},"spec":{"lhs":"test_lfsr_autocorrelation()","rhs":"test_lfsr_autocorrelation produces the expected output","over":{"base":"Any"},"name":"test_lfsr_autocorrelation_correct"},"guarantee":"test_lfsr_autocorrelation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_lfsr_autocorrelation_correct","statement":"Path(test_lfsr_autocorrelation(x), test_lfsr_autocorrelation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b979696b11bdb43"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_lfsr_autocorrelation","kind":"function","src_hash":"2557cd26cc8c2d04","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lfsr_autocorrelation(s, 2, 0) == 1 and lfsr_autocorrelation(s, 2, 1) == -1"},"spec":{"lhs":"test_lfsr_autocorrelation()","rhs":"lfsr_autocorrelation(s, 2, 0) == 1 and lfsr_autocorrelation(s, 2, 1) == -1","over":{"base":"Any"},"name":"test_lfsr_autocorrelation_correct"},"guarantee":"lfsr_autocorrelation(s, 2, 0) == 1; lfsr_autocorrelation(s, 2, 1) == -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_lfsr_autocorrelation_correct","statement":"Path(test_lfsr_autocorrelation(x), lfsr_autocorrelation(s, 2, 0) == 1; lfsr_autocorrelation(s, 2, 1) == -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15d90a3e62e88f85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lfsr_autocorrelation(s, 2, 0) == 1","lfsr_autocorrelation(s, 2, 1) == -1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lfsr_autocorrelation():
     raises(TypeError, lambda: lfsr_autocorrelation(1, 2, 3))
     F = FF(2)
@@ -860,16 +1138,23 @@ def test_lfsr_autocorrelation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lfsr_connection_polynomial(), test_lfsr_connection_polynomial produces the expected output) over Any ║
+# ║ Path(test_lfsr_connection_polynomial(), lfsr_connection_polynomial(s) == x ** 2 + 1 and lfsr_connection_polynomial(s) == x ** 2 + x + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lfsr_connection_polynomial : Any → {Any | lfsr_c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lfsr_connection_polynomial(s) == x ** 2 + 1    ║
+# ║   ensures:  lfsr_connection_polynomial(s) == x ** 2 +...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lfsr_connection_polynomial : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c263fde7a675af70  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e300da658fdb0ea7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_lfsr_connection_polynomial","kind":"function","src_hash":"fc111216981440bc","in":{"base":"Any"},"out":{"base":"Any","pred":"lfsr_connection_polynomial(s) == x ** 2 + 1 and lfsr_connection_polynomial(s) == x ** 2 + x + 1"},"spec":{"lhs":"test_lfsr_connection_polynomial()","rhs":"test_lfsr_connection_polynomial produces the expected output","over":{"base":"Any"},"name":"test_lfsr_connection_polynomial_correct"},"guarantee":"test_lfsr_connection_polynomial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_lfsr_connection_polynomial_correct","statement":"Path(test_lfsr_connection_polynomial(x), test_lfsr_connection_polynomial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c263fde7a675af70"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_lfsr_connection_polynomial","kind":"function","src_hash":"fc111216981440bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lfsr_connection_polynomial(s) == x ** 2 + 1 and lfsr_connection_polynomial(s) == x ** 2 + x + 1"},"spec":{"lhs":"test_lfsr_connection_polynomial()","rhs":"lfsr_connection_polynomial(s) == x ** 2 + 1 and lfsr_connection_polynomial(s) == x ** 2 + x + 1","over":{"base":"Any"},"name":"test_lfsr_connection_polynomial_correct"},"guarantee":"lfsr_connection_polynomial(s) == x ** 2 + 1; lfsr_connection_polynomial(s) == x ** 2 + x + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_lfsr_connection_polynomial_correct","statement":"Path(test_lfsr_connection_polynomial(x), lfsr_connection_polynomial(s) == x ** 2 + 1; lfsr_connection_polynomial(s) == x ** 2 + x + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e300da658fdb0ea7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lfsr_connection_polynomial(s) == x ** 2 + 1","lfsr_connection_polynomial(s) == x ** 2 + x + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lfsr_connection_polynomial():
     F = FF(2)
     x = symbols("x")
@@ -880,16 +1165,24 @@ def test_lfsr_connection_polynomial():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_elgamal_private_key(), test_elgamal_private_key produces the expected output) over Any ║
+# ║ Path(test_elgamal_private_key(), isprime(a) and is_primitive_root(b, a) and len(bin(a)) >= 102) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_elgamal_private_key : Any → {Any | isprime(a) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isprime(a)                                     ║
+# ║   ensures:  is_primitive_root(b, a)                        ║
+# ║   ensures:  len(bin(a)) >= 102                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_elgamal_private_key : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caf04fb3509e9756  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bf3dfc4b5ddb513  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_elgamal_private_key","kind":"function","src_hash":"d6007068b86bcd73","in":{"base":"Any"},"out":{"base":"Any","pred":"isprime(a) and is_primitive_root(b, a) and len(bin(a)) >= 102"},"spec":{"lhs":"test_elgamal_private_key()","rhs":"test_elgamal_private_key produces the expected output","over":{"base":"Any"},"name":"test_elgamal_private_key_correct"},"guarantee":"test_elgamal_private_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_elgamal_private_key_correct","statement":"Path(test_elgamal_private_key(x), test_elgamal_private_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caf04fb3509e9756"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_elgamal_private_key","kind":"function","src_hash":"d6007068b86bcd73","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isprime(a) and is_primitive_root(b, a) and len(bin(a)) >= 102"},"spec":{"lhs":"test_elgamal_private_key()","rhs":"isprime(a) and is_primitive_root(b, a) and len(bin(a)) >= 102","over":{"base":"Any"},"name":"test_elgamal_private_key_correct"},"guarantee":"isprime(a); is_primitive_root(b, a); len(bin(a)) >= 102","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_elgamal_private_key_correct","statement":"Path(test_elgamal_private_key(x), isprime(a); is_primitive_root(b, a); len(bin(a)) >= 102)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bf3dfc4b5ddb513","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isprime(a)","is_primitive_root(b, a)","len(bin(a)) >= 102"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_elgamal_private_key():
     a, b, _ = elgamal_private_key(digit=100)
     assert isprime(a)
@@ -898,16 +1191,22 @@ def test_elgamal_private_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_elgamal(), test_elgamal produces the expected output) over Any ║
+# ║ Path(test_elgamal(), P - 1 == decipher_elgamal(encipher_elgamal(P - 1, ek), dk)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_elgamal : Any → {Any | P - 1 == decipher_elgamal...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P - 1 == decipher_elgamal(encipher_elgama...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_elgamal : Any → {Any | result satisfies: P - 1 =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df844f22a97331b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a35c12e62e4ddbde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_elgamal","kind":"function","src_hash":"fae77c0ebdc534f6","in":{"base":"Any"},"out":{"base":"Any","pred":"P - 1 == decipher_elgamal(encipher_elgamal(P - 1, ek), dk)"},"spec":{"lhs":"test_elgamal()","rhs":"test_elgamal produces the expected output","over":{"base":"Any"},"name":"test_elgamal_correct"},"guarantee":"test_elgamal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_elgamal_correct","statement":"Path(test_elgamal(x), test_elgamal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df844f22a97331b3"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_elgamal","kind":"function","src_hash":"fae77c0ebdc534f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P - 1 == decipher_elgamal(encipher_elgamal(P - 1, ek), dk)"},"spec":{"lhs":"test_elgamal()","rhs":"P - 1 == decipher_elgamal(encipher_elgamal(P - 1, ek), dk)","over":{"base":"Any"},"name":"test_elgamal_correct"},"guarantee":"P - 1 == decipher_elgamal(encipher_elgamal(P - 1, ek), dk)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_elgamal_correct","statement":"Path(test_elgamal(x), P - 1 == decipher_elgamal(encipher_elgamal(P - 1, ek), dk))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a35c12e62e4ddbde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P - 1 == decipher_elgamal(encipher_elgamal(P - 1, ek), dk)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_elgamal():
     dk = elgamal_private_key(5)
     ek = elgamal_public_key(dk)
@@ -918,16 +1217,24 @@ def test_elgamal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dh_private_key(), test_dh_private_key produces the expected output) over Any ║
+# ║ Path(test_dh_private_key(), isprime(p) and is_primitive_root(g, p) and len(bin(p)) >= 102) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dh_private_key : Any → {Any | isprime(p) and is_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isprime(p)                                     ║
+# ║   ensures:  is_primitive_root(g, p)                        ║
+# ║   ensures:  len(bin(p)) >= 102                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dh_private_key : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 273a6eb03369108d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74cd23efce382c8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_dh_private_key","kind":"function","src_hash":"5f055c929bf58cff","in":{"base":"Any"},"out":{"base":"Any","pred":"isprime(p) and is_primitive_root(g, p) and len(bin(p)) >= 102"},"spec":{"lhs":"test_dh_private_key()","rhs":"test_dh_private_key produces the expected output","over":{"base":"Any"},"name":"test_dh_private_key_correct"},"guarantee":"test_dh_private_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_dh_private_key_correct","statement":"Path(test_dh_private_key(x), test_dh_private_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"273a6eb03369108d"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_dh_private_key","kind":"function","src_hash":"5f055c929bf58cff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isprime(p) and is_primitive_root(g, p) and len(bin(p)) >= 102"},"spec":{"lhs":"test_dh_private_key()","rhs":"isprime(p) and is_primitive_root(g, p) and len(bin(p)) >= 102","over":{"base":"Any"},"name":"test_dh_private_key_correct"},"guarantee":"isprime(p); is_primitive_root(g, p); len(bin(p)) >= 102","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_dh_private_key_correct","statement":"Path(test_dh_private_key(x), isprime(p); is_primitive_root(g, p); len(bin(p)) >= 102)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74cd23efce382c8d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isprime(p)","is_primitive_root(g, p)","len(bin(p)) >= 102"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dh_private_key():
     p, g, _ = dh_private_key(digit = 100)
     assert isprime(p)
@@ -936,16 +1243,24 @@ def test_dh_private_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dh_public_key(), test_dh_public_key produces the expected output) over Any ║
+# ║ Path(test_dh_public_key(), p1 == p2 and g1 == g2 and ga == pow(g1, a, p1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dh_public_key : Any → {Any | p1 == p2 and g1 == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p1 == p2                                       ║
+# ║   ensures:  g1 == g2                                       ║
+# ║   ensures:  ga == pow(g1, a, p1)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dh_public_key : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d800515417c7a34  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f4f351f0b767a95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_dh_public_key","kind":"function","src_hash":"f0581e0a3e6be9d1","in":{"base":"Any"},"out":{"base":"Any","pred":"p1 == p2 and g1 == g2 and ga == pow(g1, a, p1)"},"spec":{"lhs":"test_dh_public_key()","rhs":"test_dh_public_key produces the expected output","over":{"base":"Any"},"name":"test_dh_public_key_correct"},"guarantee":"test_dh_public_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_dh_public_key_correct","statement":"Path(test_dh_public_key(x), test_dh_public_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d800515417c7a34"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_dh_public_key","kind":"function","src_hash":"f0581e0a3e6be9d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p1 == p2 and g1 == g2 and ga == pow(g1, a, p1)"},"spec":{"lhs":"test_dh_public_key()","rhs":"p1 == p2 and g1 == g2 and ga == pow(g1, a, p1)","over":{"base":"Any"},"name":"test_dh_public_key_correct"},"guarantee":"p1 == p2; g1 == g2; ga == pow(g1, a, p1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_dh_public_key_correct","statement":"Path(test_dh_public_key(x), p1 == p2; g1 == g2; ga == pow(g1, a, p1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f4f351f0b767a95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p1 == p2","g1 == g2","ga == pow(g1, a, p1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dh_public_key():
     p1, g1, a = dh_private_key(digit = 100)
     p2, g2, ga = dh_public_key((p1, g1, a))
@@ -955,16 +1270,22 @@ def test_dh_public_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dh_shared_key(), test_dh_shared_key produces the expected output) over Any ║
+# ║ Path(test_dh_shared_key(), sk == pow(ga, b, p)) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dh_shared_key : Any → {Any | sk == pow(ga, b, p)}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sk == pow(ga, b, p)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dh_shared_key : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb23fd3c03b6fd82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d51e47076892201a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_dh_shared_key","kind":"function","src_hash":"ce237ef6a6b668d6","in":{"base":"Any"},"out":{"base":"Any","pred":"sk == pow(ga, b, p)"},"spec":{"lhs":"test_dh_shared_key()","rhs":"test_dh_shared_key produces the expected output","over":{"base":"Any"},"name":"test_dh_shared_key_correct"},"guarantee":"test_dh_shared_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_dh_shared_key_correct","statement":"Path(test_dh_shared_key(x), test_dh_shared_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb23fd3c03b6fd82"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_dh_shared_key","kind":"function","src_hash":"ce237ef6a6b668d6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sk == pow(ga, b, p)"},"spec":{"lhs":"test_dh_shared_key()","rhs":"sk == pow(ga, b, p)","over":{"base":"Any"},"name":"test_dh_shared_key_correct"},"guarantee":"sk == pow(ga, b, p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_dh_shared_key_correct","statement":"Path(test_dh_shared_key(x), sk == pow(ga, b, p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d51e47076892201a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sk == pow(ga, b, p)"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["randrange"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dh_shared_key():
     prk = dh_private_key(digit = 100)
     p, _, ga = dh_public_key(prk)
@@ -975,16 +1296,22 @@ def test_dh_shared_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_padded_key(), test_padded_key produces the expected output) over Any ║
+# ║ Path(test_padded_key(), padded_key('b', 'ab') == 'ba') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_padded_key : Any → {Any | padded_key('b', 'ab') ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  padded_key('b', 'ab') == 'ba'                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_padded_key : Any → {Any | result satisfies: padd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e7412f42afe56b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d83b864df6b2cab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_padded_key","kind":"function","src_hash":"26bbbf3d6b0bd000","in":{"base":"Any"},"out":{"base":"Any","pred":"padded_key('b', 'ab') == 'ba'"},"spec":{"lhs":"test_padded_key()","rhs":"test_padded_key produces the expected output","over":{"base":"Any"},"name":"test_padded_key_correct"},"guarantee":"test_padded_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_padded_key_correct","statement":"Path(test_padded_key(x), test_padded_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e7412f42afe56b5"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_padded_key","kind":"function","src_hash":"26bbbf3d6b0bd000","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: padded_key('b', 'ab') == 'ba'"},"spec":{"lhs":"test_padded_key()","rhs":"padded_key('b', 'ab') == 'ba'","over":{"base":"Any"},"name":"test_padded_key_correct"},"guarantee":"padded_key('b', 'ab') == 'ba'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_padded_key_correct","statement":"Path(test_padded_key(x), padded_key('b', 'ab') == 'ba')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d83b864df6b2cab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["padded_key('b', 'ab') == 'ba'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_padded_key():
     assert padded_key('b', 'ab') == 'ba'
     raises(ValueError, lambda: padded_key('ab', 'ace'))
@@ -992,16 +1319,24 @@ def test_padded_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bifid(), test_bifid produces the expected output) over Any ║
+# ║ Path(test_bifid(), encipher_bifid('abc', 'b', 'abcd') == 'bdb' and encipher_bifid('bdb', 'b', 'abcd') == 'abc' and bifid5_square('B') == bifid5_square('BACDEFGHIKLMNOPQRSTUVWXYZ') and bifid6_square('B0') == bifid6_square('B0ACDEFGHIJKLMNOPQRSTUVWXYZ123456789')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bifid : Any → {Any | encipher_bifid('abc', 'b', ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  encipher_bifid('abc', 'b', 'abcd') == 'bdb'    ║
+# ║   ensures:  encipher_bifid('bdb', 'b', 'abcd') == 'abc'    ║
+# ║   ensures:  bifid5_square('B') == bifid5_square('BACD...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bifid : Any → {Any | result satisfies: encipher_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f5c511cdc6ba5a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac86e9968728f23f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_bifid","kind":"function","src_hash":"bb20cbf7157851b7","in":{"base":"Any"},"out":{"base":"Any","pred":"encipher_bifid('abc', 'b', 'abcd') == 'bdb' and encipher_bifid('bdb', 'b', 'abcd') == 'abc' and bifid5_square('B') == bifid5_square('BACDEFGHIKLMNOPQRSTUVWXYZ') and bifid6_square('B0') == bifid6_square('B0ACDEFGHIJKLMNOPQRSTUVWXYZ123456789')"},"spec":{"lhs":"test_bifid()","rhs":"test_bifid produces the expected output","over":{"base":"Any"},"name":"test_bifid_correct"},"guarantee":"test_bifid produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_bifid_correct","statement":"Path(test_bifid(x), test_bifid produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f5c511cdc6ba5a1"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_bifid","kind":"function","src_hash":"bb20cbf7157851b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: encipher_bifid('abc', 'b', 'abcd') == 'bdb' and encipher_bifid('bdb', 'b', 'abcd') == 'abc' and bifid5_square('B') == bifid5_square('BACDEFGHIKLMNOPQRSTUVWXYZ') and bifid6_square('B0') == bifid6_square('B0ACDEFGHIJKLMNOPQRSTUVWXYZ123456789')"},"spec":{"lhs":"test_bifid()","rhs":"encipher_bifid('abc', 'b', 'abcd') == 'bdb' and encipher_bifid('bdb', 'b', 'abcd') == 'abc' and bifid5_square('B') == bifid5_square('BACDEFGHIKLMNOPQRSTUVWXYZ') and bifid6_square('B0') == bifid6_square('B0ACDEFGHIJKLMNOPQRSTUVWXYZ123456789')","over":{"base":"Any"},"name":"test_bifid_correct"},"guarantee":"encipher_bifid('abc', 'b', 'abcd') == 'bdb'; encipher_bifid('bdb', 'b', 'abcd') == 'abc'; bifid5_square('B') == bifid5_square('BACDEFGHIKLMNOPQRSTUVWXYZ')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_bifid_correct","statement":"Path(test_bifid(x), encipher_bifid('abc', 'b', 'abcd') == 'bdb'; encipher_bifid('bdb', 'b', 'abcd') == 'abc'; bifid5_square('B') == bifid5_square('BACDEFGHIKLMNOPQRSTUVWXYZ'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac86e9968728f23f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["encipher_bifid('abc', 'b', 'abcd') == 'bdb'","encipher_bifid('bdb', 'b', 'abcd') == 'abc'","bifid5_square('B') == bifid5_square('BACDEFGHIKLMNOPQRSTUVWXYZ')","bifid6_square('B0') == bifid6_square('B0ACDEFGHIJKLMNOPQRSTUVWXYZ123456789')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bifid():
     raises(ValueError, lambda: encipher_bifid('abc', 'b', 'abcde'))
     assert encipher_bifid('abc', 'b', 'abcd') == 'bdb'
@@ -1015,16 +1350,22 @@ def test_bifid():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_decipher_gm(), test_encipher_decipher_gm produces the expected output) over Any ║
+# ║ Path(test_encipher_decipher_gm(), <unspecified:test_encipher_decipher_gm>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_encipher_decipher_gm : Any → {Any | dec == msg}       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26985588bfc218ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_decipher_gm","kind":"function","src_hash":"b07aced3eed6d58a","in":{"base":"Any"},"out":{"base":"Any","pred":"dec == msg"},"spec":{"lhs":"test_encipher_decipher_gm()","rhs":"test_encipher_decipher_gm produces the expected output","over":{"base":"Any"},"name":"test_encipher_decipher_gm_correct"},"guarantee":"test_encipher_decipher_gm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_decipher_gm_correct","statement":"Path(test_encipher_decipher_gm(x), test_encipher_decipher_gm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26985588bfc218ac"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_decipher_gm","kind":"function","src_hash":"b07aced3eed6d58a","in":{"base":"Any"},"out":{"base":"Any","pred":"dec == msg"},"spec":{"lhs":"test_encipher_decipher_gm()","rhs":"<unspecified:test_encipher_decipher_gm>","over":{"base":"Any"},"name":"test_encipher_decipher_gm_correct"},"guarantee":"test_encipher_decipher_gm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_decipher_gm_correct","statement":"Path(test_encipher_decipher_gm(x), test_encipher_decipher_gm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26985588bfc218ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_encipher_decipher_gm():
     ps = [131, 137, 139, 149, 151, 157, 163, 167,
           173, 179, 181, 191, 193, 197, 199]
@@ -1044,16 +1385,23 @@ def test_encipher_decipher_gm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gm_private_key(), test_gm_private_key produces the expected output) over Any ║
+# ║ Path(test_gm_private_key(), <unspecified:test_gm_private_key>) over {Any | 17} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gm_private_key : Any → {Any | 17}                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: 17                                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gm_private_key : {Any | 17} → {Any | 17}              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee3cd47f1f1e657d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_gm_private_key","kind":"function","src_hash":"7cbe6d9969e51b19","in":{"base":"Any"},"out":{"base":"Any","pred":"17"},"spec":{"lhs":"test_gm_private_key()","rhs":"test_gm_private_key produces the expected output","over":{"base":"Any"},"name":"test_gm_private_key_correct"},"guarantee":"test_gm_private_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_gm_private_key_correct","statement":"Path(test_gm_private_key(x), test_gm_private_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee3cd47f1f1e657d"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_gm_private_key","kind":"function","src_hash":"7cbe6d9969e51b19","in":{"base":"Any","pred":"17"},"out":{"base":"Any","pred":"17"},"spec":{"lhs":"test_gm_private_key()","rhs":"<unspecified:test_gm_private_key>","over":{"base":"Any","pred":"17"},"name":"test_gm_private_key_correct"},"guarantee":"test_gm_private_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_gm_private_key_correct","statement":"Path(test_gm_private_key(x), test_gm_private_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee3cd47f1f1e657d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["17"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gm_private_key():
     raises(ValueError, lambda: gm_public_key(13, 15))
     raises(ValueError, lambda: gm_public_key(0, 0))
@@ -1062,32 +1410,45 @@ def test_gm_private_key():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gm_public_key(), test_gm_public_key produces the expected output) over Any ║
+# ║ Path(test_gm_public_key(), 323 == gm_public_key(17, 19)[1] and 15 == gm_public_key(3, 5)[1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gm_public_key : Any → {Any | 323 == gm_public_ke...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  323 == gm_public_key(17, 19)[1]                ║
+# ║   ensures:  15 == gm_public_key(3, 5)[1]                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gm_public_key : Any → {Any | result satisfies: 3...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3b45d35e3abd2fa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a09ef854077f3cfa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_gm_public_key","kind":"function","src_hash":"e053cca36cba4e8b","in":{"base":"Any"},"out":{"base":"Any","pred":"323 == gm_public_key(17, 19)[1] and 15 == gm_public_key(3, 5)[1]"},"spec":{"lhs":"test_gm_public_key()","rhs":"test_gm_public_key produces the expected output","over":{"base":"Any"},"name":"test_gm_public_key_correct"},"guarantee":"test_gm_public_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_gm_public_key_correct","statement":"Path(test_gm_public_key(x), test_gm_public_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3b45d35e3abd2fa"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_gm_public_key","kind":"function","src_hash":"e053cca36cba4e8b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 323 == gm_public_key(17, 19)[1] and 15 == gm_public_key(3, 5)[1]"},"spec":{"lhs":"test_gm_public_key()","rhs":"323 == gm_public_key(17, 19)[1] and 15 == gm_public_key(3, 5)[1]","over":{"base":"Any"},"name":"test_gm_public_key_correct"},"guarantee":"323 == gm_public_key(17, 19)[1]; 15 == gm_public_key(3, 5)[1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_gm_public_key_correct","statement":"Path(test_gm_public_key(x), 323 == gm_public_key(17, 19)[1]; 15 == gm_public_key(3, 5)[1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a09ef854077f3cfa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["323 == gm_public_key(17, 19)[1]","15 == gm_public_key(3, 5)[1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gm_public_key():
     assert 323 == gm_public_key(17, 19)[1]
     assert 15  == gm_public_key(3, 5)[1]
     raises(ValueError, lambda: gm_public_key(15, 19))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_encipher_decipher_bg(), test_encipher_decipher_bg produces the expected output) over Any ║
+# ║ Path(test_encipher_decipher_bg(), <unspecified:test_encipher_decipher_bg>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_encipher_decipher_bg : Any → {Any | dec == msg}       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fb8cf06c6e3d781  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_decipher_bg","kind":"function","src_hash":"273ccc330e92b847","in":{"base":"Any"},"out":{"base":"Any","pred":"dec == msg"},"spec":{"lhs":"test_encipher_decipher_bg()","rhs":"test_encipher_decipher_bg produces the expected output","over":{"base":"Any"},"name":"test_encipher_decipher_bg_correct"},"guarantee":"test_encipher_decipher_bg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_decipher_bg_correct","statement":"Path(test_encipher_decipher_bg(x), test_encipher_decipher_bg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fb8cf06c6e3d781"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_encipher_decipher_bg","kind":"function","src_hash":"273ccc330e92b847","in":{"base":"Any"},"out":{"base":"Any","pred":"dec == msg"},"spec":{"lhs":"test_encipher_decipher_bg()","rhs":"<unspecified:test_encipher_decipher_bg>","over":{"base":"Any"},"name":"test_encipher_decipher_bg_correct"},"guarantee":"test_encipher_decipher_bg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_encipher_decipher_bg_correct","statement":"Path(test_encipher_decipher_bg(x), test_encipher_decipher_bg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fb8cf06c6e3d781","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_encipher_decipher_bg():
     ps = [67, 7, 71, 103, 11, 43, 107, 47,
           79, 19, 83, 23, 59, 127, 31]
@@ -1107,16 +1468,23 @@ def test_encipher_decipher_bg():
             assert dec == msg
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bg_private_key(), test_bg_private_key produces the expected output) over Any ║
+# ║ Path(test_bg_private_key(), <unspecified:test_bg_private_key>) over {Any | 23} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bg_private_key : Any → {Any | 23}                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: 23                                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bg_private_key : {Any | 23} → {Any | 23}              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a8dca288dc644da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_bg_private_key","kind":"function","src_hash":"2f4b5cc199ab413a","in":{"base":"Any"},"out":{"base":"Any","pred":"23"},"spec":{"lhs":"test_bg_private_key()","rhs":"test_bg_private_key produces the expected output","over":{"base":"Any"},"name":"test_bg_private_key_correct"},"guarantee":"test_bg_private_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_bg_private_key_correct","statement":"Path(test_bg_private_key(x), test_bg_private_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a8dca288dc644da"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_bg_private_key","kind":"function","src_hash":"2f4b5cc199ab413a","in":{"base":"Any","pred":"23"},"out":{"base":"Any","pred":"23"},"spec":{"lhs":"test_bg_private_key()","rhs":"<unspecified:test_bg_private_key>","over":{"base":"Any","pred":"23"},"name":"test_bg_private_key_correct"},"guarantee":"test_bg_private_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_bg_private_key_correct","statement":"Path(test_bg_private_key(x), test_bg_private_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a8dca288dc644da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["23"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bg_private_key():
     raises(ValueError, lambda: bg_private_key(8, 16))
     raises(ValueError, lambda: bg_private_key(8, 8))
@@ -1124,16 +1492,23 @@ def test_bg_private_key():
     assert 23, 31 == bg_private_key(23, 31)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bg_public_key(), test_bg_public_key produces the expected output) over Any ║
+# ║ Path(test_bg_public_key(), 5293 == bg_public_key(67, 79) and 713 == bg_public_key(23, 31)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bg_public_key : Any → {Any | 5293 == bg_public_k...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  5293 == bg_public_key(67, 79)                  ║
+# ║   ensures:  713 == bg_public_key(23, 31)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bg_public_key : Any → {Any | result satisfies: 5...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4de67aaa36d04dc0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19fa6752c8c860c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_bg_public_key","kind":"function","src_hash":"61cf3f47806e0b5d","in":{"base":"Any"},"out":{"base":"Any","pred":"5293 == bg_public_key(67, 79) and 713 == bg_public_key(23, 31)"},"spec":{"lhs":"test_bg_public_key()","rhs":"test_bg_public_key produces the expected output","over":{"base":"Any"},"name":"test_bg_public_key_correct"},"guarantee":"test_bg_public_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_bg_public_key_correct","statement":"Path(test_bg_public_key(x), test_bg_public_key produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4de67aaa36d04dc0"}
+# @cctt_verify {"v":2,"sym":"sympy.crypto.tests.test_crypto.test_bg_public_key","kind":"function","src_hash":"61cf3f47806e0b5d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 5293 == bg_public_key(67, 79) and 713 == bg_public_key(23, 31)"},"spec":{"lhs":"test_bg_public_key()","rhs":"5293 == bg_public_key(67, 79) and 713 == bg_public_key(23, 31)","over":{"base":"Any"},"name":"test_bg_public_key_correct"},"guarantee":"5293 == bg_public_key(67, 79); 713 == bg_public_key(23, 31)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.crypto.tests.test_crypto.test_bg_public_key_correct","statement":"Path(test_bg_public_key(x), 5293 == bg_public_key(67, 79); 713 == bg_public_key(23, 31))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19fa6752c8c860c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["5293 == bg_public_key(67, 79)","713 == bg_public_key(23, 31)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bg_public_key():
     assert 5293 == bg_public_key(67, 79)
     assert 713 == bg_public_key(23, 31)

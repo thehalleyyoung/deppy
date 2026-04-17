@@ -69,16 +69,24 @@ f_0, f_1, f_2, f_3, f_4, f_5, f_6 = [ f.to_dense() for f in f_polys() ]
 F_0 = dmp_mul_ground(dmp_normal(f_0, 2, QQ), QQ(1, 7), 2, QQ)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_add_term(), test_dup_add_term produces the expected output) over Any ║
+# ║ Path(test_dup_add_term(), dup_add_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ) and dup_add_term(f, ZZ(1), 0, ZZ) == dup_normal([1], ZZ) and dup_add_term(f, ZZ(1), 1, ZZ) == dup_normal([1, 0], ZZ) and dup_add_term(f, ZZ(1), 2, ZZ) == dup_normal([1, 0, 0], ZZ) and dup_add_term(f, ZZ(1), 0, ZZ) == dup_normal([1, 1, 2], ZZ) and dup_add_term(f, ZZ(1), 1, ZZ) == dup_normal([1, 2, 1], ZZ) and dup_add_term(f, ZZ(1), 2, ZZ) == dup_normal([2, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 3, ZZ) == dup_normal([1, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 4, ZZ) == dup_normal([1, 0, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 5, ZZ) == dup_normal([1, 0, 0, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 6, ZZ) == dup_normal([1, 0, 0, 0, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(-1), 2, ZZ) == dup_normal([1, 1], ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_add_term : Any → {Any | dup_add_term(f, ZZ(0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_add_term(f, ZZ(0), 0, ZZ) == dup_norm...   ║
+# ║   ensures:  dup_add_term(f, ZZ(1), 0, ZZ) == dup_norm...   ║
+# ║   ensures:  dup_add_term(f, ZZ(1), 1, ZZ) == dup_norm...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_add_term : Any → {Any | result satisfies: du...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5af0940e52b19a2e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f10be0280de5ef74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_add_term","kind":"function","src_hash":"63205851d53edfaf","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_add_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ) and dup_add_term(f, ZZ(1), 0, ZZ) == dup_normal([1], ZZ) and dup_add_term(f, ZZ(1), 1, ZZ) == dup_normal([1, 0], ZZ) and dup_add_term(f, ZZ(1), 2, ZZ) == dup_normal([1, 0, 0], ZZ) and dup_add_term(f, ZZ(1), 0, ZZ) == dup_normal([1, 1, 2], ZZ) and dup_add_term(f, ZZ(1), 1, ZZ) == dup_normal([1, 2, 1], ZZ) and dup_add_term(f, ZZ(1), 2, ZZ) == dup_normal([2, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 3, ZZ) == dup_normal([1, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 4, ZZ) == dup_normal([1, 0, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 5, ZZ) == dup_normal([1, 0, 0, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 6, ZZ) == dup_normal([1, 0, 0, 0, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(-1), 2, ZZ) == dup_normal([1, 1], ZZ)"},"spec":{"lhs":"test_dup_add_term()","rhs":"test_dup_add_term produces the expected output","over":{"base":"Any"},"name":"test_dup_add_term_correct"},"guarantee":"test_dup_add_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_add_term_correct","statement":"Path(test_dup_add_term(x), test_dup_add_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5af0940e52b19a2e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_add_term","kind":"function","src_hash":"63205851d53edfaf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_add_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ) and dup_add_term(f, ZZ(1), 0, ZZ) == dup_normal([1], ZZ) and dup_add_term(f, ZZ(1), 1, ZZ) == dup_normal([1, 0], ZZ) and dup_add_term(f, ZZ(1), 2, ZZ) == dup_normal([1, 0, 0], ZZ) and dup_add_term(f, ZZ(1), 0, ZZ) == dup_normal([1, 1, 2], ZZ) and dup_add_term(f, ZZ(1), 1, ZZ) == dup_normal([1, 2, 1], ZZ) and dup_add_term(f, ZZ(1), 2, ZZ) == dup_normal([2, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 3, ZZ) == dup_normal([1, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 4, ZZ) == dup_normal([1, 0, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 5, ZZ) == dup_normal([1, 0, 0, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 6, ZZ) == dup_normal([1, 0, 0, 0, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(-1), 2, ZZ) == dup_normal([1, 1], ZZ)"},"spec":{"lhs":"test_dup_add_term()","rhs":"dup_add_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ) and dup_add_term(f, ZZ(1), 0, ZZ) == dup_normal([1], ZZ) and dup_add_term(f, ZZ(1), 1, ZZ) == dup_normal([1, 0], ZZ) and dup_add_term(f, ZZ(1), 2, ZZ) == dup_normal([1, 0, 0], ZZ) and dup_add_term(f, ZZ(1), 0, ZZ) == dup_normal([1, 1, 2], ZZ) and dup_add_term(f, ZZ(1), 1, ZZ) == dup_normal([1, 2, 1], ZZ) and dup_add_term(f, ZZ(1), 2, ZZ) == dup_normal([2, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 3, ZZ) == dup_normal([1, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 4, ZZ) == dup_normal([1, 0, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 5, ZZ) == dup_normal([1, 0, 0, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(1), 6, ZZ) == dup_normal([1, 0, 0, 0, 1, 1, 1], ZZ) and dup_add_term(f, ZZ(-1), 2, ZZ) == dup_normal([1, 1], ZZ)","over":{"base":"Any"},"name":"test_dup_add_term_correct"},"guarantee":"dup_add_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ); dup_add_term(f, ZZ(1), 0, ZZ) == dup_normal([1], ZZ); dup_add_term(f, ZZ(1), 1, ZZ) == dup_normal([1, 0], ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_add_term_correct","statement":"Path(test_dup_add_term(x), dup_add_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ); dup_add_term(f, ZZ(1), 0, ZZ) == dup_normal([1], ZZ); dup_add_term(f, ZZ(1), 1, ZZ) == dup_normal([1, 0], ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f10be0280de5ef74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_add_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ)","dup_add_term(f, ZZ(1), 0, ZZ) == dup_normal([1], ZZ)","dup_add_term(f, ZZ(1), 1, ZZ) == dup_normal([1, 0], ZZ)","dup_add_term(f, ZZ(1), 2, ZZ) == dup_normal([1, 0, 0], ZZ)","dup_add_term(f, ZZ(1), 0, ZZ) == dup_normal([1, 1, 2], ZZ)","dup_add_term(f, ZZ(1), 1, ZZ) == dup_normal([1, 2, 1], ZZ)","dup_add_term(f, ZZ(1), 2, ZZ) == dup_normal([2, 1, 1], ZZ)","dup_add_term(f, ZZ(1), 3, ZZ) == dup_normal([1, 1, 1, 1], ZZ)","dup_add_term(f, ZZ(1), 4, ZZ) == dup_normal([1, 0, 1, 1, 1], ZZ)","dup_add_term(f, ZZ(1), 5, ZZ) == dup_normal([1, 0, 0, 1, 1, 1], ZZ)","dup_add_term(f, ZZ(1), 6, ZZ) == dup_normal([1, 0, 0, 0, 1, 1, 1], ZZ)","dup_add_term(f, ZZ(-1), 2, ZZ) == dup_normal([1, 1], ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_dup_add_term():
     f = dup_normal([], ZZ)
 
@@ -104,16 +112,24 @@ def test_dup_add_term():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_add_term(), test_dmp_add_term produces the expected output) over Any ║
+# ║ Path(test_dmp_add_term(), dmp_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == dup_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ) and dmp_add_term(f_0, [[]], 3, 2, ZZ) == f_0 and dmp_add_term(F_0, [[]], 3, 2, QQ) == F_0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_add_term : Any → {Any | dmp_add_term(f_0, [[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1)...   ║
+# ║   ensures:  dmp_add_term(f_0, [[]], 3, 2, ZZ) == f_0       ║
+# ║   ensures:  dmp_add_term(F_0, [[]], 3, 2, QQ) == F_0       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_add_term : Any → {Any | result satisfies: dm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a682f78ce6a9e982  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc6bdc2b5f113e82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_add_term","kind":"function","src_hash":"3054c13f33a9ce1d","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_add_term(f_0, [[]], 3, 2, ZZ) == f_0 and dmp_add_term(F_0, [[]], 3, 2, QQ) == F_0"},"spec":{"lhs":"test_dmp_add_term()","rhs":"test_dmp_add_term produces the expected output","over":{"base":"Any"},"name":"test_dmp_add_term_correct"},"guarantee":"test_dmp_add_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_add_term_correct","statement":"Path(test_dmp_add_term(x), test_dmp_add_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a682f78ce6a9e982"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_add_term","kind":"function","src_hash":"3054c13f33a9ce1d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == dup_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ) and dmp_add_term(f_0, [[]], 3, 2, ZZ) == f_0 and dmp_add_term(F_0, [[]], 3, 2, QQ) == F_0"},"spec":{"lhs":"test_dmp_add_term()","rhs":"dmp_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == dup_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ) and dmp_add_term(f_0, [[]], 3, 2, ZZ) == f_0 and dmp_add_term(F_0, [[]], 3, 2, QQ) == F_0","over":{"base":"Any"},"name":"test_dmp_add_term_correct"},"guarantee":"dmp_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == dup_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ); dmp_add_term(f_0, [[]], 3, 2, ZZ) == f_0; dmp_add_term(F_0, [[]], 3, 2, QQ) == F_0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_add_term_correct","statement":"Path(test_dmp_add_term(x), dmp_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == dup_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ); dmp_add_term(f_0, [[]], 3, 2, ZZ) == f_0; dmp_add_term(F_0, [[]], 3, 2, QQ) == F_0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc6bdc2b5f113e82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == dup_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ)","dmp_add_term(f_0, [[]], 3, 2, ZZ) == f_0","dmp_add_term(F_0, [[]], 3, 2, QQ) == F_0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dmp_add_term():
     assert dmp_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == \
         dup_add_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ)
@@ -122,16 +138,24 @@ def test_dmp_add_term():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_sub_term(), test_dup_sub_term produces the expected output) over Any ║
+# ║ Path(test_dup_sub_term(), dup_sub_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ) and dup_sub_term(f, ZZ(1), 0, ZZ) == dup_normal([-1], ZZ) and dup_sub_term(f, ZZ(1), 1, ZZ) == dup_normal([-1, 0], ZZ) and dup_sub_term(f, ZZ(1), 2, ZZ) == dup_normal([-1, 0, 0], ZZ) and dup_sub_term(f, ZZ(2), 0, ZZ) == dup_normal([1, 1, -1], ZZ) and dup_sub_term(f, ZZ(2), 1, ZZ) == dup_normal([1, -1, 1], ZZ) and dup_sub_term(f, ZZ(2), 2, ZZ) == dup_normal([-1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 3, ZZ) == dup_normal([-1, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 4, ZZ) == dup_normal([-1, 0, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 5, ZZ) == dup_normal([-1, 0, 0, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 6, ZZ) == dup_normal([-1, 0, 0, 0, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 2, ZZ) == dup_normal([1, 1], ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_sub_term : Any → {Any | dup_sub_term(f, ZZ(0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_sub_term(f, ZZ(0), 0, ZZ) == dup_norm...   ║
+# ║   ensures:  dup_sub_term(f, ZZ(1), 0, ZZ) == dup_norm...   ║
+# ║   ensures:  dup_sub_term(f, ZZ(1), 1, ZZ) == dup_norm...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_sub_term : Any → {Any | result satisfies: du...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dba824a634dd814a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 702423c7cd60430e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_sub_term","kind":"function","src_hash":"df026229ad6e1d2f","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_sub_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ) and dup_sub_term(f, ZZ(1), 0, ZZ) == dup_normal([-1], ZZ) and dup_sub_term(f, ZZ(1), 1, ZZ) == dup_normal([-1, 0], ZZ) and dup_sub_term(f, ZZ(1), 2, ZZ) == dup_normal([-1, 0, 0], ZZ) and dup_sub_term(f, ZZ(2), 0, ZZ) == dup_normal([1, 1, -1], ZZ) and dup_sub_term(f, ZZ(2), 1, ZZ) == dup_normal([1, -1, 1], ZZ) and dup_sub_term(f, ZZ(2), 2, ZZ) == dup_normal([-1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 3, ZZ) == dup_normal([-1, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 4, ZZ) == dup_normal([-1, 0, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 5, ZZ) == dup_normal([-1, 0, 0, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 6, ZZ) == dup_normal([-1, 0, 0, 0, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 2, ZZ) == dup_normal([1, 1], ZZ)"},"spec":{"lhs":"test_dup_sub_term()","rhs":"test_dup_sub_term produces the expected output","over":{"base":"Any"},"name":"test_dup_sub_term_correct"},"guarantee":"test_dup_sub_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_sub_term_correct","statement":"Path(test_dup_sub_term(x), test_dup_sub_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dba824a634dd814a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_sub_term","kind":"function","src_hash":"df026229ad6e1d2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_sub_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ) and dup_sub_term(f, ZZ(1), 0, ZZ) == dup_normal([-1], ZZ) and dup_sub_term(f, ZZ(1), 1, ZZ) == dup_normal([-1, 0], ZZ) and dup_sub_term(f, ZZ(1), 2, ZZ) == dup_normal([-1, 0, 0], ZZ) and dup_sub_term(f, ZZ(2), 0, ZZ) == dup_normal([1, 1, -1], ZZ) and dup_sub_term(f, ZZ(2), 1, ZZ) == dup_normal([1, -1, 1], ZZ) and dup_sub_term(f, ZZ(2), 2, ZZ) == dup_normal([-1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 3, ZZ) == dup_normal([-1, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 4, ZZ) == dup_normal([-1, 0, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 5, ZZ) == dup_normal([-1, 0, 0, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 6, ZZ) == dup_normal([-1, 0, 0, 0, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 2, ZZ) == dup_normal([1, 1], ZZ)"},"spec":{"lhs":"test_dup_sub_term()","rhs":"dup_sub_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ) and dup_sub_term(f, ZZ(1), 0, ZZ) == dup_normal([-1], ZZ) and dup_sub_term(f, ZZ(1), 1, ZZ) == dup_normal([-1, 0], ZZ) and dup_sub_term(f, ZZ(1), 2, ZZ) == dup_normal([-1, 0, 0], ZZ) and dup_sub_term(f, ZZ(2), 0, ZZ) == dup_normal([1, 1, -1], ZZ) and dup_sub_term(f, ZZ(2), 1, ZZ) == dup_normal([1, -1, 1], ZZ) and dup_sub_term(f, ZZ(2), 2, ZZ) == dup_normal([-1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 3, ZZ) == dup_normal([-1, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 4, ZZ) == dup_normal([-1, 0, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 5, ZZ) == dup_normal([-1, 0, 0, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 6, ZZ) == dup_normal([-1, 0, 0, 0, 1, 1, 1], ZZ) and dup_sub_term(f, ZZ(1), 2, ZZ) == dup_normal([1, 1], ZZ)","over":{"base":"Any"},"name":"test_dup_sub_term_correct"},"guarantee":"dup_sub_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ); dup_sub_term(f, ZZ(1), 0, ZZ) == dup_normal([-1], ZZ); dup_sub_term(f, ZZ(1), 1, ZZ) == dup_normal([-1, 0], ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_sub_term_correct","statement":"Path(test_dup_sub_term(x), dup_sub_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ); dup_sub_term(f, ZZ(1), 0, ZZ) == dup_normal([-1], ZZ); dup_sub_term(f, ZZ(1), 1, ZZ) == dup_normal([-1, 0], ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"702423c7cd60430e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_sub_term(f, ZZ(0), 0, ZZ) == dup_normal([], ZZ)","dup_sub_term(f, ZZ(1), 0, ZZ) == dup_normal([-1], ZZ)","dup_sub_term(f, ZZ(1), 1, ZZ) == dup_normal([-1, 0], ZZ)","dup_sub_term(f, ZZ(1), 2, ZZ) == dup_normal([-1, 0, 0], ZZ)","dup_sub_term(f, ZZ(2), 0, ZZ) == dup_normal([1, 1, -1], ZZ)","dup_sub_term(f, ZZ(2), 1, ZZ) == dup_normal([1, -1, 1], ZZ)","dup_sub_term(f, ZZ(2), 2, ZZ) == dup_normal([-1, 1, 1], ZZ)","dup_sub_term(f, ZZ(1), 3, ZZ) == dup_normal([-1, 1, 1, 1], ZZ)","dup_sub_term(f, ZZ(1), 4, ZZ) == dup_normal([-1, 0, 1, 1, 1], ZZ)","dup_sub_term(f, ZZ(1), 5, ZZ) == dup_normal([-1, 0, 0, 1, 1, 1], ZZ)","dup_sub_term(f, ZZ(1), 6, ZZ) == dup_normal([-1, 0, 0, 0, 1, 1, 1], ZZ)","dup_sub_term(f, ZZ(1), 2, ZZ) == dup_normal([1, 1], ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_dup_sub_term():
     f = dup_normal([], ZZ)
 
@@ -157,16 +181,24 @@ def test_dup_sub_term():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_sub_term(), test_dmp_sub_term produces the expected output) over Any ║
+# ║ Path(test_dmp_sub_term(), dmp_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == dup_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ) and dmp_sub_term(f_0, [[]], 3, 2, ZZ) == f_0 and dmp_sub_term(F_0, [[]], 3, 2, QQ) == F_0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_sub_term : Any → {Any | dmp_sub_term(f_0, [[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1)...   ║
+# ║   ensures:  dmp_sub_term(f_0, [[]], 3, 2, ZZ) == f_0       ║
+# ║   ensures:  dmp_sub_term(F_0, [[]], 3, 2, QQ) == F_0       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_sub_term : Any → {Any | result satisfies: dm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1815fb0d8d6a569  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7180310b4206ac8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_sub_term","kind":"function","src_hash":"30cdc92cbc6ce55a","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_sub_term(f_0, [[]], 3, 2, ZZ) == f_0 and dmp_sub_term(F_0, [[]], 3, 2, QQ) == F_0"},"spec":{"lhs":"test_dmp_sub_term()","rhs":"test_dmp_sub_term produces the expected output","over":{"base":"Any"},"name":"test_dmp_sub_term_correct"},"guarantee":"test_dmp_sub_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_sub_term_correct","statement":"Path(test_dmp_sub_term(x), test_dmp_sub_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1815fb0d8d6a569"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_sub_term","kind":"function","src_hash":"30cdc92cbc6ce55a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == dup_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ) and dmp_sub_term(f_0, [[]], 3, 2, ZZ) == f_0 and dmp_sub_term(F_0, [[]], 3, 2, QQ) == F_0"},"spec":{"lhs":"test_dmp_sub_term()","rhs":"dmp_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == dup_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ) and dmp_sub_term(f_0, [[]], 3, 2, ZZ) == f_0 and dmp_sub_term(F_0, [[]], 3, 2, QQ) == F_0","over":{"base":"Any"},"name":"test_dmp_sub_term_correct"},"guarantee":"dmp_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == dup_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ); dmp_sub_term(f_0, [[]], 3, 2, ZZ) == f_0; dmp_sub_term(F_0, [[]], 3, 2, QQ) == F_0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_sub_term_correct","statement":"Path(test_dmp_sub_term(x), dmp_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == dup_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ); dmp_sub_term(f_0, [[]], 3, 2, ZZ) == f_0; dmp_sub_term(F_0, [[]], 3, 2, QQ) == F_0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7180310b4206ac8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == dup_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ)","dmp_sub_term(f_0, [[]], 3, 2, ZZ) == f_0","dmp_sub_term(F_0, [[]], 3, 2, QQ) == F_0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dmp_sub_term():
     assert dmp_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, 0, ZZ) == \
         dup_sub_term([ZZ(1), ZZ(1), ZZ(1)], ZZ(1), 2, ZZ)
@@ -175,16 +207,24 @@ def test_dmp_sub_term():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_mul_term(), test_dup_mul_term produces the expected output) over Any ║
+# ║ Path(test_dup_mul_term(), dup_mul_term(f, ZZ(2), 3, ZZ) == dup_normal([], ZZ) and dup_mul_term(f, ZZ(0), 3, ZZ) == dup_normal([], ZZ) and dup_mul_term(f, ZZ(2), 0, ZZ) == dup_normal([2, 4, 6], ZZ) and dup_mul_term(f, ZZ(2), 1, ZZ) == dup_normal([2, 4, 6, 0], ZZ) and dup_mul_term(f, ZZ(2), 2, ZZ) == dup_normal([2, 4, 6, 0, 0], ZZ) and dup_mul_term(f, ZZ(2), 3, ZZ) == dup_normal([2, 4, 6, 0, 0, 0], ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_mul_term : Any → {Any | dup_mul_term(f, ZZ(2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_mul_term(f, ZZ(2), 3, ZZ) == dup_norm...   ║
+# ║   ensures:  dup_mul_term(f, ZZ(0), 3, ZZ) == dup_norm...   ║
+# ║   ensures:  dup_mul_term(f, ZZ(2), 0, ZZ) == dup_norm...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_mul_term : Any → {Any | result satisfies: du...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 890b962778672cf8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df27d95a602d8302  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_mul_term","kind":"function","src_hash":"df49141d767b5c7d","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_mul_term(f, ZZ(2), 3, ZZ) == dup_normal([], ZZ) and dup_mul_term(f, ZZ(0), 3, ZZ) == dup_normal([], ZZ) and dup_mul_term(f, ZZ(2), 0, ZZ) == dup_normal([2, 4, 6], ZZ) and dup_mul_term(f, ZZ(2), 1, ZZ) == dup_normal([2, 4, 6, 0], ZZ) and dup_mul_term(f, ZZ(2), 2, ZZ) == dup_normal([2, 4, 6, 0, 0], ZZ) and dup_mul_term(f, ZZ(2), 3, ZZ) == dup_normal([2, 4, 6, 0, 0, 0], ZZ)"},"spec":{"lhs":"test_dup_mul_term()","rhs":"test_dup_mul_term produces the expected output","over":{"base":"Any"},"name":"test_dup_mul_term_correct"},"guarantee":"test_dup_mul_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_mul_term_correct","statement":"Path(test_dup_mul_term(x), test_dup_mul_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"890b962778672cf8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_mul_term","kind":"function","src_hash":"df49141d767b5c7d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_mul_term(f, ZZ(2), 3, ZZ) == dup_normal([], ZZ) and dup_mul_term(f, ZZ(0), 3, ZZ) == dup_normal([], ZZ) and dup_mul_term(f, ZZ(2), 0, ZZ) == dup_normal([2, 4, 6], ZZ) and dup_mul_term(f, ZZ(2), 1, ZZ) == dup_normal([2, 4, 6, 0], ZZ) and dup_mul_term(f, ZZ(2), 2, ZZ) == dup_normal([2, 4, 6, 0, 0], ZZ) and dup_mul_term(f, ZZ(2), 3, ZZ) == dup_normal([2, 4, 6, 0, 0, 0], ZZ)"},"spec":{"lhs":"test_dup_mul_term()","rhs":"dup_mul_term(f, ZZ(2), 3, ZZ) == dup_normal([], ZZ) and dup_mul_term(f, ZZ(0), 3, ZZ) == dup_normal([], ZZ) and dup_mul_term(f, ZZ(2), 0, ZZ) == dup_normal([2, 4, 6], ZZ) and dup_mul_term(f, ZZ(2), 1, ZZ) == dup_normal([2, 4, 6, 0], ZZ) and dup_mul_term(f, ZZ(2), 2, ZZ) == dup_normal([2, 4, 6, 0, 0], ZZ) and dup_mul_term(f, ZZ(2), 3, ZZ) == dup_normal([2, 4, 6, 0, 0, 0], ZZ)","over":{"base":"Any"},"name":"test_dup_mul_term_correct"},"guarantee":"dup_mul_term(f, ZZ(2), 3, ZZ) == dup_normal([], ZZ); dup_mul_term(f, ZZ(0), 3, ZZ) == dup_normal([], ZZ); dup_mul_term(f, ZZ(2), 0, ZZ) == dup_normal([2, 4, 6], ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_mul_term_correct","statement":"Path(test_dup_mul_term(x), dup_mul_term(f, ZZ(2), 3, ZZ) == dup_normal([], ZZ); dup_mul_term(f, ZZ(0), 3, ZZ) == dup_normal([], ZZ); dup_mul_term(f, ZZ(2), 0, ZZ) == dup_normal([2, 4, 6], ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df27d95a602d8302","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_mul_term(f, ZZ(2), 3, ZZ) == dup_normal([], ZZ)","dup_mul_term(f, ZZ(0), 3, ZZ) == dup_normal([], ZZ)","dup_mul_term(f, ZZ(2), 0, ZZ) == dup_normal([2, 4, 6], ZZ)","dup_mul_term(f, ZZ(2), 1, ZZ) == dup_normal([2, 4, 6, 0], ZZ)","dup_mul_term(f, ZZ(2), 2, ZZ) == dup_normal([2, 4, 6, 0, 0], ZZ)","dup_mul_term(f, ZZ(2), 3, ZZ) == dup_normal([2, 4, 6, 0, 0, 0], ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dup_mul_term():
     f = dup_normal([], ZZ)
 
@@ -203,16 +243,24 @@ def test_dup_mul_term():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_mul_term(), test_dmp_mul_term produces the expected output) over Any ║
+# ║ Path(test_dmp_mul_term(), dmp_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, 0, ZZ) == dup_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, ZZ) and dmp_mul_term([[]], [ZZ(2)], 3, 1, ZZ) == [[]] and dmp_mul_term([[ZZ(1)]], [], 3, 1, ZZ) == [[]] and dmp_mul_term([[ZZ(1), ZZ(2)], [ZZ(3)]], [ZZ(2)], 2, 1, ZZ) == [[ZZ(2), ZZ(4)], [ZZ(6)], [], []] and dmp_mul_term([[]], [QQ(2, 3)], 3, 1, QQ) == [[]] and dmp_mul_term([[QQ(1, 2)]], [], 3, 1, QQ) == [[]] and dmp_mul_term([[QQ(1, 5), QQ(2, 5)], [QQ(3, 5)]], [QQ(2, 3)], 2, 1, QQ) == [[QQ(2, 15), QQ(4, 15)], [QQ(6, 15)], [], []]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_mul_term : Any → {Any | dmp_mul_term([[]], [...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2)...   ║
+# ║   ensures:  dmp_mul_term([[]], [ZZ(2)], 3, 1, ZZ) == ...   ║
+# ║   ensures:  dmp_mul_term([[ZZ(1)]], [], 3, 1, ZZ) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_mul_term : Any → {Any | result satisfies: dm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01b1a00494cdfed5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bcd1e2a4372babe5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_mul_term","kind":"function","src_hash":"4e9c27428378ea61","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_mul_term([[]], [ZZ(2)], 3, 1, ZZ) == [[]] and dmp_mul_term([[ZZ(1)]], [], 3, 1, ZZ) == [[]] and dmp_mul_term([[]], [QQ(2, 3)], 3, 1, QQ) == [[]] and dmp_mul_term([[QQ(1, 2)]], [], 3, 1, QQ) == [[]]"},"spec":{"lhs":"test_dmp_mul_term()","rhs":"test_dmp_mul_term produces the expected output","over":{"base":"Any"},"name":"test_dmp_mul_term_correct"},"guarantee":"test_dmp_mul_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_mul_term_correct","statement":"Path(test_dmp_mul_term(x), test_dmp_mul_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01b1a00494cdfed5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_mul_term","kind":"function","src_hash":"4e9c27428378ea61","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, 0, ZZ) == dup_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, ZZ) and dmp_mul_term([[]], [ZZ(2)], 3, 1, ZZ) == [[]] and dmp_mul_term([[ZZ(1)]], [], 3, 1, ZZ) == [[]] and dmp_mul_term([[ZZ(1), ZZ(2)], [ZZ(3)]], [ZZ(2)], 2, 1, ZZ) == [[ZZ(2), ZZ(4)], [ZZ(6)], [], []] and dmp_mul_term([[]], [QQ(2, 3)], 3, 1, QQ) == [[]] and dmp_mul_term([[QQ(1, 2)]], [], 3, 1, QQ) == [[]] and dmp_mul_term([[QQ(1, 5), QQ(2, 5)], [QQ(3, 5)]], [QQ(2, 3)], 2, 1, QQ) == [[QQ(2, 15), QQ(4, 15)], [QQ(6, 15)], [], []]"},"spec":{"lhs":"test_dmp_mul_term()","rhs":"dmp_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, 0, ZZ) == dup_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, ZZ) and dmp_mul_term([[]], [ZZ(2)], 3, 1, ZZ) == [[]] and dmp_mul_term([[ZZ(1)]], [], 3, 1, ZZ) == [[]] and dmp_mul_term([[ZZ(1), ZZ(2)], [ZZ(3)]], [ZZ(2)], 2, 1, ZZ) == [[ZZ(2), ZZ(4)], [ZZ(6)], [], []] and dmp_mul_term([[]], [QQ(2, 3)], 3, 1, QQ) == [[]] and dmp_mul_term([[QQ(1, 2)]], [], 3, 1, QQ) == [[]] and dmp_mul_term([[QQ(1, 5), QQ(2, 5)], [QQ(3, 5)]], [QQ(2, 3)], 2, 1, QQ) == [[QQ(2, 15), QQ(4, 15)], [QQ(6, 15)], [], []]","over":{"base":"Any"},"name":"test_dmp_mul_term_correct"},"guarantee":"dmp_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, 0, ZZ) == dup_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, ZZ); dmp_mul_term([[]], [ZZ(2)], 3, 1, ZZ) == [[]]; dmp_mul_term([[ZZ(1)]], [], 3, 1, ZZ) == [[]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_mul_term_correct","statement":"Path(test_dmp_mul_term(x), dmp_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, 0, ZZ) == dup_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, ZZ); dmp_mul_term([[]], [ZZ(2)], 3, 1, ZZ) == [[]]; dmp_mul_term([[ZZ(1)]], [], 3, 1, ZZ) == [[]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcd1e2a4372babe5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, 0, ZZ) == dup_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, ZZ)","dmp_mul_term([[]], [ZZ(2)], 3, 1, ZZ) == [[]]","dmp_mul_term([[ZZ(1)]], [], 3, 1, ZZ) == [[]]","dmp_mul_term([[ZZ(1), ZZ(2)], [ZZ(3)]], [ZZ(2)], 2, 1, ZZ) == [[ZZ(2), ZZ(4)], [ZZ(6)], [], []]","dmp_mul_term([[]], [QQ(2, 3)], 3, 1, QQ) == [[]]","dmp_mul_term([[QQ(1, 2)]], [], 3, 1, QQ) == [[]]","dmp_mul_term([[QQ(1, 5), QQ(2, 5)], [QQ(3, 5)]], [QQ(2, 3)], 2, 1, QQ) == [[QQ(2, 15), QQ(4, 15)], [QQ(6, 15)], [], []]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dmp_mul_term():
     assert dmp_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, 0, ZZ) == \
         dup_mul_term([ZZ(1), ZZ(2), ZZ(3)], ZZ(2), 1, ZZ)
@@ -231,16 +279,22 @@ def test_dmp_mul_term():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_add_ground(), test_dup_add_ground produces the expected output) over Any ║
+# ║ Path(test_dup_add_ground(), dup_add_ground(f, ZZ(4), ZZ) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_add_ground : Any → {Any | dup_add_ground(f, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_add_ground(f, ZZ(4), ZZ) == g              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_add_ground : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 612f1f2253154b7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f5ba656c71a611d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_add_ground","kind":"function","src_hash":"be6b8e3a4cfda8ae","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_add_ground(f, ZZ(4), ZZ) == g"},"spec":{"lhs":"test_dup_add_ground()","rhs":"test_dup_add_ground produces the expected output","over":{"base":"Any"},"name":"test_dup_add_ground_correct"},"guarantee":"test_dup_add_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_add_ground_correct","statement":"Path(test_dup_add_ground(x), test_dup_add_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"612f1f2253154b7c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_add_ground","kind":"function","src_hash":"be6b8e3a4cfda8ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_add_ground(f, ZZ(4), ZZ) == g"},"spec":{"lhs":"test_dup_add_ground()","rhs":"dup_add_ground(f, ZZ(4), ZZ) == g","over":{"base":"Any"},"name":"test_dup_add_ground_correct"},"guarantee":"dup_add_ground(f, ZZ(4), ZZ) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_add_ground_correct","statement":"Path(test_dup_add_ground(x), dup_add_ground(f, ZZ(4), ZZ) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f5ba656c71a611d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_add_ground(f, ZZ(4), ZZ) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dup_add_ground():
     f = ZZ.map([1, 2, 3, 4])
     g = ZZ.map([1, 2, 3, 8])
@@ -249,16 +303,22 @@ def test_dup_add_ground():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_add_ground(), test_dmp_add_ground produces the expected output) over Any ║
+# ║ Path(test_dmp_add_ground(), dmp_add_ground(f, ZZ(4), 1, ZZ) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_add_ground : Any → {Any | dmp_add_ground(f, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_add_ground(f, ZZ(4), 1, ZZ) == g           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_add_ground : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b768d4681c344ff4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 283079ae6e9a3619  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_add_ground","kind":"function","src_hash":"c216011c0e5a93ed","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_add_ground(f, ZZ(4), 1, ZZ) == g"},"spec":{"lhs":"test_dmp_add_ground()","rhs":"test_dmp_add_ground produces the expected output","over":{"base":"Any"},"name":"test_dmp_add_ground_correct"},"guarantee":"test_dmp_add_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_add_ground_correct","statement":"Path(test_dmp_add_ground(x), test_dmp_add_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b768d4681c344ff4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_add_ground","kind":"function","src_hash":"c216011c0e5a93ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_add_ground(f, ZZ(4), 1, ZZ) == g"},"spec":{"lhs":"test_dmp_add_ground()","rhs":"dmp_add_ground(f, ZZ(4), 1, ZZ) == g","over":{"base":"Any"},"name":"test_dmp_add_ground_correct"},"guarantee":"dmp_add_ground(f, ZZ(4), 1, ZZ) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_add_ground_correct","statement":"Path(test_dmp_add_ground(x), dmp_add_ground(f, ZZ(4), 1, ZZ) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"283079ae6e9a3619","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_add_ground(f, ZZ(4), 1, ZZ) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dmp_add_ground():
     f = ZZ.map([[1], [2], [3], [4]])
     g = ZZ.map([[1], [2], [3], [8]])
@@ -267,16 +327,22 @@ def test_dmp_add_ground():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_sub_ground(), test_dup_sub_ground produces the expected output) over Any ║
+# ║ Path(test_dup_sub_ground(), dup_sub_ground(f, ZZ(4), ZZ) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_sub_ground : Any → {Any | dup_sub_ground(f, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_sub_ground(f, ZZ(4), ZZ) == g              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_sub_ground : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1af51c884c7e4cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8854a7ec2aea4e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_sub_ground","kind":"function","src_hash":"7a028cce5fd45f4d","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_sub_ground(f, ZZ(4), ZZ) == g"},"spec":{"lhs":"test_dup_sub_ground()","rhs":"test_dup_sub_ground produces the expected output","over":{"base":"Any"},"name":"test_dup_sub_ground_correct"},"guarantee":"test_dup_sub_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_sub_ground_correct","statement":"Path(test_dup_sub_ground(x), test_dup_sub_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1af51c884c7e4cc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_sub_ground","kind":"function","src_hash":"7a028cce5fd45f4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_sub_ground(f, ZZ(4), ZZ) == g"},"spec":{"lhs":"test_dup_sub_ground()","rhs":"dup_sub_ground(f, ZZ(4), ZZ) == g","over":{"base":"Any"},"name":"test_dup_sub_ground_correct"},"guarantee":"dup_sub_ground(f, ZZ(4), ZZ) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_sub_ground_correct","statement":"Path(test_dup_sub_ground(x), dup_sub_ground(f, ZZ(4), ZZ) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8854a7ec2aea4e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_sub_ground(f, ZZ(4), ZZ) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dup_sub_ground():
     f = ZZ.map([1, 2, 3, 4])
     g = ZZ.map([1, 2, 3, 0])
@@ -285,16 +351,22 @@ def test_dup_sub_ground():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_sub_ground(), test_dmp_sub_ground produces the expected output) over Any ║
+# ║ Path(test_dmp_sub_ground(), dmp_sub_ground(f, ZZ(4), 1, ZZ) == g) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_sub_ground : Any → {Any | dmp_sub_ground(f, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_sub_ground(f, ZZ(4), 1, ZZ) == g           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_sub_ground : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97f09f3bd1b88bf0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fabdafe4dabc1fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_sub_ground","kind":"function","src_hash":"13b809c2c579d8cb","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_sub_ground(f, ZZ(4), 1, ZZ) == g"},"spec":{"lhs":"test_dmp_sub_ground()","rhs":"test_dmp_sub_ground produces the expected output","over":{"base":"Any"},"name":"test_dmp_sub_ground_correct"},"guarantee":"test_dmp_sub_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_sub_ground_correct","statement":"Path(test_dmp_sub_ground(x), test_dmp_sub_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97f09f3bd1b88bf0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_sub_ground","kind":"function","src_hash":"13b809c2c579d8cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_sub_ground(f, ZZ(4), 1, ZZ) == g"},"spec":{"lhs":"test_dmp_sub_ground()","rhs":"dmp_sub_ground(f, ZZ(4), 1, ZZ) == g","over":{"base":"Any"},"name":"test_dmp_sub_ground_correct"},"guarantee":"dmp_sub_ground(f, ZZ(4), 1, ZZ) == g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_sub_ground_correct","statement":"Path(test_dmp_sub_ground(x), dmp_sub_ground(f, ZZ(4), 1, ZZ) == g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fabdafe4dabc1fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_sub_ground(f, ZZ(4), 1, ZZ) == g"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dmp_sub_ground():
     f = ZZ.map([[1], [2], [3], [4]])
     g = ZZ.map([[1], [2], [3], []])
@@ -303,16 +375,24 @@ def test_dmp_sub_ground():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_mul_ground(), test_dup_mul_ground produces the expected output) over Any ║
+# ║ Path(test_dup_mul_ground(), dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([], ZZ) and dup_mul_ground(f, ZZ(0), ZZ) == dup_normal([], ZZ) and dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([2, 4, 6], ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_mul_ground : Any → {Any | dup_mul_ground(f, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_mul_ground(f, ZZ(2), ZZ) == dup_norma...   ║
+# ║   ensures:  dup_mul_ground(f, ZZ(0), ZZ) == dup_norma...   ║
+# ║   ensures:  dup_mul_ground(f, ZZ(2), ZZ) == dup_norma...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_mul_ground : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4aabca0860311a62  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6909788519ee8d51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_mul_ground","kind":"function","src_hash":"ea168c26e65853f8","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([], ZZ) and dup_mul_ground(f, ZZ(0), ZZ) == dup_normal([], ZZ) and dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([2, 4, 6], ZZ)"},"spec":{"lhs":"test_dup_mul_ground()","rhs":"test_dup_mul_ground produces the expected output","over":{"base":"Any"},"name":"test_dup_mul_ground_correct"},"guarantee":"test_dup_mul_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_mul_ground_correct","statement":"Path(test_dup_mul_ground(x), test_dup_mul_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aabca0860311a62"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_mul_ground","kind":"function","src_hash":"ea168c26e65853f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([], ZZ) and dup_mul_ground(f, ZZ(0), ZZ) == dup_normal([], ZZ) and dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([2, 4, 6], ZZ)"},"spec":{"lhs":"test_dup_mul_ground()","rhs":"dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([], ZZ) and dup_mul_ground(f, ZZ(0), ZZ) == dup_normal([], ZZ) and dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([2, 4, 6], ZZ)","over":{"base":"Any"},"name":"test_dup_mul_ground_correct"},"guarantee":"dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([], ZZ); dup_mul_ground(f, ZZ(0), ZZ) == dup_normal([], ZZ); dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([2, 4, 6], ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_mul_ground_correct","statement":"Path(test_dup_mul_ground(x), dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([], ZZ); dup_mul_ground(f, ZZ(0), ZZ) == dup_normal([], ZZ); dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([2, 4, 6], ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6909788519ee8d51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([], ZZ)","dup_mul_ground(f, ZZ(0), ZZ) == dup_normal([], ZZ)","dup_mul_ground(f, ZZ(2), ZZ) == dup_normal([2, 4, 6], ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dup_mul_ground():
     f = dup_normal([], ZZ)
 
@@ -325,16 +405,23 @@ def test_dup_mul_ground():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_mul_ground(), test_dmp_mul_ground produces the expected output) over Any ║
+# ║ Path(test_dmp_mul_ground(), dmp_mul_ground(f_0, ZZ(2), 2, ZZ) == [[[ZZ(2), ZZ(4), ZZ(6)], [ZZ(4)]], [[ZZ(6)]], [[ZZ(8), ZZ(10), ZZ(12)], [ZZ(2), ZZ(4), ZZ(2)], [ZZ(2)]]] and dmp_mul_ground(F_0, QQ(1, 2), 2, QQ) == [[[QQ(1, 14), QQ(2, 14), QQ(3, 14)], [QQ(2, 14)]], [[QQ(3, 14)]], [[QQ(4, 14), QQ(5, 14), QQ(6, 14)], [QQ(1, 14), QQ(2, 14), QQ(1, 14)], [QQ(1, 14)]]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_mul_ground : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_mul_ground(f_0, ZZ(2), 2, ZZ) == [[[Z...   ║
+# ║   ensures:  dmp_mul_ground(F_0, QQ(1, 2), 2, QQ) == [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_mul_ground : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e79343008b198231  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1efbe63aa4cb7e94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_mul_ground","kind":"function","src_hash":"25cf168dd02c2f17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dmp_mul_ground()","rhs":"test_dmp_mul_ground produces the expected output","over":{"base":"Any"},"name":"test_dmp_mul_ground_correct"},"guarantee":"test_dmp_mul_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_mul_ground_correct","statement":"Path(test_dmp_mul_ground(x), test_dmp_mul_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e79343008b198231"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_mul_ground","kind":"function","src_hash":"25cf168dd02c2f17","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_mul_ground(f_0, ZZ(2), 2, ZZ) == [[[ZZ(2), ZZ(4), ZZ(6)], [ZZ(4)]], [[ZZ(6)]], [[ZZ(8), ZZ(10), ZZ(12)], [ZZ(2), ZZ(4), ZZ(2)], [ZZ(2)]]] and dmp_mul_ground(F_0, QQ(1, 2), 2, QQ) == [[[QQ(1, 14), QQ(2, 14), QQ(3, 14)], [QQ(2, 14)]], [[QQ(3, 14)]], [[QQ(4, 14), QQ(5, 14), QQ(6, 14)], [QQ(1, 14), QQ(2, 14), QQ(1, 14)], [QQ(1, 14)]]]"},"spec":{"lhs":"test_dmp_mul_ground()","rhs":"dmp_mul_ground(f_0, ZZ(2), 2, ZZ) == [[[ZZ(2), ZZ(4), ZZ(6)], [ZZ(4)]], [[ZZ(6)]], [[ZZ(8), ZZ(10), ZZ(12)], [ZZ(2), ZZ(4), ZZ(2)], [ZZ(2)]]] and dmp_mul_ground(F_0, QQ(1, 2), 2, QQ) == [[[QQ(1, 14), QQ(2, 14), QQ(3, 14)], [QQ(2, 14)]], [[QQ(3, 14)]], [[QQ(4, 14), QQ(5, 14), QQ(6, 14)], [QQ(1, 14), QQ(2, 14), QQ(1, 14)], [QQ(1, 14)]]]","over":{"base":"Any"},"name":"test_dmp_mul_ground_correct"},"guarantee":"dmp_mul_ground(f_0, ZZ(2), 2, ZZ) == [[[ZZ(2), ZZ(4), ZZ(6)], [ZZ(4)]], [[ZZ(6)]], [[ZZ(8), ZZ(10), ZZ(12)], [ZZ(2), ZZ(4), ZZ(2)], [ZZ(2)]]]; dmp_mul_ground(F_0, QQ(1, 2), 2, QQ) == [[[QQ(1, 14), QQ(2, 14), QQ(3, 14)], [QQ(2, 14)]], [[QQ(3, 14)]], [[QQ(4, 14), QQ(5, 14), QQ(6, 14)], [QQ(1, 14), QQ(2, 14), QQ(1, 14)], [QQ(1, 14)]]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_mul_ground_correct","statement":"Path(test_dmp_mul_ground(x), dmp_mul_ground(f_0, ZZ(2), 2, ZZ) == [[[ZZ(2), ZZ(4), ZZ(6)], [ZZ(4)]], [[ZZ(6)]], [[ZZ(8), ZZ(10), ZZ(12)], [ZZ(2), ZZ(4), ZZ(2)], [ZZ(2)]]]; dmp_mul_ground(F_0, QQ(1, 2), 2, QQ) == [[[QQ(1, 14), QQ(2, 14), QQ(3, 14)], [QQ(2, 14)]], [[QQ(3, 14)]], [[QQ(4, 14), QQ(5, 14), QQ(6, 14)], [QQ(1, 14), QQ(2, 14), QQ(1, 14)], [QQ(1, 14)]]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1efbe63aa4cb7e94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_mul_ground(f_0, ZZ(2), 2, ZZ) == [[[ZZ(2), ZZ(4), ZZ(6)], [ZZ(4)]], [[ZZ(6)]], [[ZZ(8), ZZ(10), ZZ(12)], [ZZ(2), ZZ(4), ZZ(2)], [ZZ(2)]]]","dmp_mul_ground(F_0, QQ(1, 2), 2, QQ) == [[[QQ(1, 14), QQ(2, 14), QQ(3, 14)], [QQ(2, 14)]], [[QQ(3, 14)]], [[QQ(4, 14), QQ(5, 14), QQ(6, 14)], [QQ(1, 14), QQ(2, 14), QQ(1, 14)], [QQ(1, 14)]]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dmp_mul_ground():
     assert dmp_mul_ground(f_0, ZZ(2), 2, ZZ) == [
         [[ZZ(2), ZZ(4), ZZ(6)], [ZZ(4)]],
@@ -351,16 +438,24 @@ def test_dmp_mul_ground():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_quo_ground(), test_dup_quo_ground produces the expected output) over Any ║
+# ║ Path(test_dup_quo_ground(), dup_quo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ) and dup_quo_ground(f, ZZ(1), ZZ) == f and dup_quo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ) and dup_quo_ground(f, ZZ(3), ZZ) == dup_normal([2, 0, 2], ZZ) and dup_quo_ground(f, QQ(1), QQ) == f and dup_quo_ground(f, QQ(2), QQ) == [QQ(3), QQ(1), QQ(4)] and dup_quo_ground(f, QQ(7), QQ) == [QQ(6, 7), QQ(2, 7), QQ(8, 7)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_quo_ground : Any → {Any | dup_quo_ground(f, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_quo_ground(f, ZZ(3), ZZ) == dup_norma...   ║
+# ║   ensures:  dup_quo_ground(f, ZZ(1), ZZ) == f              ║
+# ║   ensures:  dup_quo_ground(f, ZZ(2), ZZ) == dup_norma...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_quo_ground : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e47cf28ee92b496  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2cf1dfd6a8e669e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_quo_ground","kind":"function","src_hash":"6db54c5d418605b4","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_quo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ) and dup_quo_ground(f, ZZ(1), ZZ) == f and dup_quo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ) and dup_quo_ground(f, ZZ(3), ZZ) == dup_normal([2, 0, 2], ZZ) and dup_quo_ground(f, QQ(1), QQ) == f and dup_quo_ground(f, QQ(2), QQ) == [QQ(3), QQ(1), QQ(4)] and dup_quo_ground(f, QQ(7), QQ) == [QQ(6, 7), QQ(2, 7), QQ(8, 7)]"},"spec":{"lhs":"test_dup_quo_ground()","rhs":"test_dup_quo_ground produces the expected output","over":{"base":"Any"},"name":"test_dup_quo_ground_correct"},"guarantee":"test_dup_quo_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_quo_ground_correct","statement":"Path(test_dup_quo_ground(x), test_dup_quo_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e47cf28ee92b496"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_quo_ground","kind":"function","src_hash":"6db54c5d418605b4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_quo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ) and dup_quo_ground(f, ZZ(1), ZZ) == f and dup_quo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ) and dup_quo_ground(f, ZZ(3), ZZ) == dup_normal([2, 0, 2], ZZ) and dup_quo_ground(f, QQ(1), QQ) == f and dup_quo_ground(f, QQ(2), QQ) == [QQ(3), QQ(1), QQ(4)] and dup_quo_ground(f, QQ(7), QQ) == [QQ(6, 7), QQ(2, 7), QQ(8, 7)]"},"spec":{"lhs":"test_dup_quo_ground()","rhs":"dup_quo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ) and dup_quo_ground(f, ZZ(1), ZZ) == f and dup_quo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ) and dup_quo_ground(f, ZZ(3), ZZ) == dup_normal([2, 0, 2], ZZ) and dup_quo_ground(f, QQ(1), QQ) == f and dup_quo_ground(f, QQ(2), QQ) == [QQ(3), QQ(1), QQ(4)] and dup_quo_ground(f, QQ(7), QQ) == [QQ(6, 7), QQ(2, 7), QQ(8, 7)]","over":{"base":"Any"},"name":"test_dup_quo_ground_correct"},"guarantee":"dup_quo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ); dup_quo_ground(f, ZZ(1), ZZ) == f; dup_quo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_quo_ground_correct","statement":"Path(test_dup_quo_ground(x), dup_quo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ); dup_quo_ground(f, ZZ(1), ZZ) == f; dup_quo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cf1dfd6a8e669e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_quo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ)","dup_quo_ground(f, ZZ(1), ZZ) == f","dup_quo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ)","dup_quo_ground(f, ZZ(3), ZZ) == dup_normal([2, 0, 2], ZZ)","dup_quo_ground(f, QQ(1), QQ) == f","dup_quo_ground(f, QQ(2), QQ) == [QQ(3), QQ(1), QQ(4)]","dup_quo_ground(f, QQ(7), QQ) == [QQ(6, 7), QQ(2, 7), QQ(8, 7)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dup_quo_ground():
     raises(ZeroDivisionError, lambda: dup_quo_ground(dup_normal([1, 2,
            3], ZZ), ZZ(0), ZZ))
@@ -384,16 +479,24 @@ def test_dup_quo_ground():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_exquo_ground(), test_dup_exquo_ground produces the expected output) over Any ║
+# ║ Path(test_dup_exquo_ground(), dup_exquo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ) and dup_exquo_ground(f, ZZ(1), ZZ) == f and dup_exquo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ) and dup_exquo_ground(f, QQ(1), QQ) == f and dup_exquo_ground(f, QQ(2), QQ) == [QQ(3), QQ(1), QQ(4)] and dup_exquo_ground(f, QQ(7), QQ) == [QQ(6, 7), QQ(2, 7), QQ(8, 7)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_exquo_ground : Any → {Any | dup_exquo_ground...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_exquo_ground(f, ZZ(3), ZZ) == dup_nor...   ║
+# ║   ensures:  dup_exquo_ground(f, ZZ(1), ZZ) == f            ║
+# ║   ensures:  dup_exquo_ground(f, ZZ(2), ZZ) == dup_nor...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_exquo_ground : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ec12d6b81f67aa2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e63a25cff6a6b38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_exquo_ground","kind":"function","src_hash":"71dff76323f9f2af","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_exquo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ) and dup_exquo_ground(f, ZZ(1), ZZ) == f and dup_exquo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ) and dup_exquo_ground(f, QQ(1), QQ) == f and dup_exquo_ground(f, QQ(2), QQ) == [QQ(3), QQ(1), QQ(4)] and dup_exquo_ground(f, QQ(7), QQ) == [QQ(6, 7), QQ(2, 7), QQ(8, 7)]"},"spec":{"lhs":"test_dup_exquo_ground()","rhs":"test_dup_exquo_ground produces the expected output","over":{"base":"Any"},"name":"test_dup_exquo_ground_correct"},"guarantee":"test_dup_exquo_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_exquo_ground_correct","statement":"Path(test_dup_exquo_ground(x), test_dup_exquo_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ec12d6b81f67aa2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_exquo_ground","kind":"function","src_hash":"71dff76323f9f2af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_exquo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ) and dup_exquo_ground(f, ZZ(1), ZZ) == f and dup_exquo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ) and dup_exquo_ground(f, QQ(1), QQ) == f and dup_exquo_ground(f, QQ(2), QQ) == [QQ(3), QQ(1), QQ(4)] and dup_exquo_ground(f, QQ(7), QQ) == [QQ(6, 7), QQ(2, 7), QQ(8, 7)]"},"spec":{"lhs":"test_dup_exquo_ground()","rhs":"dup_exquo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ) and dup_exquo_ground(f, ZZ(1), ZZ) == f and dup_exquo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ) and dup_exquo_ground(f, QQ(1), QQ) == f and dup_exquo_ground(f, QQ(2), QQ) == [QQ(3), QQ(1), QQ(4)] and dup_exquo_ground(f, QQ(7), QQ) == [QQ(6, 7), QQ(2, 7), QQ(8, 7)]","over":{"base":"Any"},"name":"test_dup_exquo_ground_correct"},"guarantee":"dup_exquo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ); dup_exquo_ground(f, ZZ(1), ZZ) == f; dup_exquo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_exquo_ground_correct","statement":"Path(test_dup_exquo_ground(x), dup_exquo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ); dup_exquo_ground(f, ZZ(1), ZZ) == f; dup_exquo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e63a25cff6a6b38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_exquo_ground(f, ZZ(3), ZZ) == dup_normal([], ZZ)","dup_exquo_ground(f, ZZ(1), ZZ) == f","dup_exquo_ground(f, ZZ(2), ZZ) == dup_normal([3, 1, 4], ZZ)","dup_exquo_ground(f, QQ(1), QQ) == f","dup_exquo_ground(f, QQ(2), QQ) == [QQ(3), QQ(1), QQ(4)]","dup_exquo_ground(f, QQ(7), QQ) == [QQ(6, 7), QQ(2, 7), QQ(8, 7)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dup_exquo_ground():
     raises(ZeroDivisionError, lambda: dup_exquo_ground(dup_normal([1,
            2, 3], ZZ), ZZ(0), ZZ))
@@ -417,16 +520,24 @@ def test_dup_exquo_ground():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_quo_ground(), test_dmp_quo_ground produces the expected output) over Any ║
+# ║ Path(test_dmp_quo_ground(), dmp_quo_ground(f, ZZ(1), 1, ZZ) == f and dmp_quo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ) and dmp_normal(dmp_quo_ground(f, ZZ(3), 1, ZZ), 1, ZZ) == dmp_normal([[2], [], [2]], 1, ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_quo_ground : Any → {Any | dmp_quo_ground(f, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_quo_ground(f, ZZ(1), 1, ZZ) == f           ║
+# ║   ensures:  dmp_quo_ground(f, ZZ(2), 1, ZZ) == dmp_no...   ║
+# ║   ensures:  dmp_normal(dmp_quo_ground(f, ZZ(3), 1, ZZ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_quo_ground : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a14a4f98c2beba49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89d76b5e93b42855  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_quo_ground","kind":"function","src_hash":"06b5930bc6839f97","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_quo_ground(f, ZZ(1), 1, ZZ) == f and dmp_quo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ)"},"spec":{"lhs":"test_dmp_quo_ground()","rhs":"test_dmp_quo_ground produces the expected output","over":{"base":"Any"},"name":"test_dmp_quo_ground_correct"},"guarantee":"test_dmp_quo_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_quo_ground_correct","statement":"Path(test_dmp_quo_ground(x), test_dmp_quo_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a14a4f98c2beba49"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_quo_ground","kind":"function","src_hash":"06b5930bc6839f97","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_quo_ground(f, ZZ(1), 1, ZZ) == f and dmp_quo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ) and dmp_normal(dmp_quo_ground(f, ZZ(3), 1, ZZ), 1, ZZ) == dmp_normal([[2], [], [2]], 1, ZZ)"},"spec":{"lhs":"test_dmp_quo_ground()","rhs":"dmp_quo_ground(f, ZZ(1), 1, ZZ) == f and dmp_quo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ) and dmp_normal(dmp_quo_ground(f, ZZ(3), 1, ZZ), 1, ZZ) == dmp_normal([[2], [], [2]], 1, ZZ)","over":{"base":"Any"},"name":"test_dmp_quo_ground_correct"},"guarantee":"dmp_quo_ground(f, ZZ(1), 1, ZZ) == f; dmp_quo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ); dmp_normal(dmp_quo_ground(f, ZZ(3), 1, ZZ), 1, ZZ) == dmp_normal([[2], [], [2]], 1, ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_quo_ground_correct","statement":"Path(test_dmp_quo_ground(x), dmp_quo_ground(f, ZZ(1), 1, ZZ) == f; dmp_quo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ); dmp_normal(dmp_quo_ground(f, ZZ(3), 1, ZZ), 1, ZZ) == dmp_normal([[2], [], [2]], 1, ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89d76b5e93b42855","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_quo_ground(f, ZZ(1), 1, ZZ) == f","dmp_quo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ)","dmp_normal(dmp_quo_ground(f, ZZ(3), 1, ZZ), 1, ZZ) == dmp_normal([[2], [], [2]], 1, ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dmp_quo_ground():
     f = dmp_normal([[6], [2], [8]], 1, ZZ)
 
@@ -439,16 +550,23 @@ def test_dmp_quo_ground():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_exquo_ground(), test_dmp_exquo_ground produces the expected output) over Any ║
+# ║ Path(test_dmp_exquo_ground(), dmp_exquo_ground(f, ZZ(1), 1, ZZ) == f and dmp_exquo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_exquo_ground : Any → {Any | dmp_exquo_ground...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_exquo_ground(f, ZZ(1), 1, ZZ) == f         ║
+# ║   ensures:  dmp_exquo_ground(f, ZZ(2), 1, ZZ) == dmp_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_exquo_ground : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acfa12b2087b91f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9ddf8f77f54d504  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_exquo_ground","kind":"function","src_hash":"00e252f5ab563263","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_exquo_ground(f, ZZ(1), 1, ZZ) == f and dmp_exquo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ)"},"spec":{"lhs":"test_dmp_exquo_ground()","rhs":"test_dmp_exquo_ground produces the expected output","over":{"base":"Any"},"name":"test_dmp_exquo_ground_correct"},"guarantee":"test_dmp_exquo_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_exquo_ground_correct","statement":"Path(test_dmp_exquo_ground(x), test_dmp_exquo_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acfa12b2087b91f4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_exquo_ground","kind":"function","src_hash":"00e252f5ab563263","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_exquo_ground(f, ZZ(1), 1, ZZ) == f and dmp_exquo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ)"},"spec":{"lhs":"test_dmp_exquo_ground()","rhs":"dmp_exquo_ground(f, ZZ(1), 1, ZZ) == f and dmp_exquo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ)","over":{"base":"Any"},"name":"test_dmp_exquo_ground_correct"},"guarantee":"dmp_exquo_ground(f, ZZ(1), 1, ZZ) == f; dmp_exquo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_exquo_ground_correct","statement":"Path(test_dmp_exquo_ground(x), dmp_exquo_ground(f, ZZ(1), 1, ZZ) == f; dmp_exquo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9ddf8f77f54d504","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_exquo_ground(f, ZZ(1), 1, ZZ) == f","dmp_exquo_ground(f, ZZ(2), 1, ZZ) == dmp_normal([[3], [1], [4]], 1, ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dmp_exquo_ground():
     f = dmp_normal([[6], [2], [8]], 1, ZZ)
 
@@ -458,48 +576,70 @@ def test_dmp_exquo_ground():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_lshift(), test_dup_lshift produces the expected output) over Any ║
+# ║ Path(test_dup_lshift(), dup_lshift([], 3, ZZ) == [] and dup_lshift([1], 3, ZZ) == [1, 0, 0, 0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_lshift : Any → {Any | dup_lshift([], 3, ZZ) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_lshift([], 3, ZZ) == []                    ║
+# ║   ensures:  dup_lshift([1], 3, ZZ) == [1, 0, 0, 0]         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_lshift : Any → {Any | result satisfies: dup_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f5f1b10a276cee3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a382044d57b03d7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_lshift","kind":"function","src_hash":"e916ffdd289f6646","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_lshift([], 3, ZZ) == [] and dup_lshift([1], 3, ZZ) == [1, 0, 0, 0]"},"spec":{"lhs":"test_dup_lshift()","rhs":"test_dup_lshift produces the expected output","over":{"base":"Any"},"name":"test_dup_lshift_correct"},"guarantee":"test_dup_lshift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_lshift_correct","statement":"Path(test_dup_lshift(x), test_dup_lshift produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f5f1b10a276cee3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_lshift","kind":"function","src_hash":"e916ffdd289f6646","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_lshift([], 3, ZZ) == [] and dup_lshift([1], 3, ZZ) == [1, 0, 0, 0]"},"spec":{"lhs":"test_dup_lshift()","rhs":"dup_lshift([], 3, ZZ) == [] and dup_lshift([1], 3, ZZ) == [1, 0, 0, 0]","over":{"base":"Any"},"name":"test_dup_lshift_correct"},"guarantee":"dup_lshift([], 3, ZZ) == []; dup_lshift([1], 3, ZZ) == [1, 0, 0, 0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_lshift_correct","statement":"Path(test_dup_lshift(x), dup_lshift([], 3, ZZ) == []; dup_lshift([1], 3, ZZ) == [1, 0, 0, 0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a382044d57b03d7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_lshift([], 3, ZZ) == []","dup_lshift([1], 3, ZZ) == [1, 0, 0, 0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dup_lshift():
     assert dup_lshift([], 3, ZZ) == []
     assert dup_lshift([1], 3, ZZ) == [1, 0, 0, 0]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_rshift(), test_dup_rshift produces the expected output) over Any ║
+# ║ Path(test_dup_rshift(), dup_rshift([], 3, ZZ) == [] and dup_rshift([1, 0, 0, 0], 3, ZZ) == [1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_rshift : Any → {Any | dup_rshift([], 3, ZZ) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_rshift([], 3, ZZ) == []                    ║
+# ║   ensures:  dup_rshift([1, 0, 0, 0], 3, ZZ) == [1]         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_rshift : Any → {Any | result satisfies: dup_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ec0e6f81f620049  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f3cd57f399b7a5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_rshift","kind":"function","src_hash":"52050a1bc0ba40b0","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_rshift([], 3, ZZ) == [] and dup_rshift([1, 0, 0, 0], 3, ZZ) == [1]"},"spec":{"lhs":"test_dup_rshift()","rhs":"test_dup_rshift produces the expected output","over":{"base":"Any"},"name":"test_dup_rshift_correct"},"guarantee":"test_dup_rshift produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_rshift_correct","statement":"Path(test_dup_rshift(x), test_dup_rshift produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ec0e6f81f620049"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_rshift","kind":"function","src_hash":"52050a1bc0ba40b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_rshift([], 3, ZZ) == [] and dup_rshift([1, 0, 0, 0], 3, ZZ) == [1]"},"spec":{"lhs":"test_dup_rshift()","rhs":"dup_rshift([], 3, ZZ) == [] and dup_rshift([1, 0, 0, 0], 3, ZZ) == [1]","over":{"base":"Any"},"name":"test_dup_rshift_correct"},"guarantee":"dup_rshift([], 3, ZZ) == []; dup_rshift([1, 0, 0, 0], 3, ZZ) == [1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_rshift_correct","statement":"Path(test_dup_rshift(x), dup_rshift([], 3, ZZ) == []; dup_rshift([1, 0, 0, 0], 3, ZZ) == [1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f3cd57f399b7a5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_rshift([], 3, ZZ) == []","dup_rshift([1, 0, 0, 0], 3, ZZ) == [1]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dup_rshift():
     assert dup_rshift([], 3, ZZ) == []
     assert dup_rshift([1, 0, 0, 0], 3, ZZ) == [1]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_abs(), test_dup_abs produces the expected output) over Any ║
+# ║ Path(test_dup_abs(), dup_abs([], ZZ) == [] and dup_abs([ZZ(1)], ZZ) == [ZZ(1)] and dup_abs([ZZ(-7)], ZZ) == [ZZ(7)] and dup_abs([ZZ(-1), ZZ(2), ZZ(3)], ZZ) == [ZZ(1), ZZ(2), ZZ(3)] and dup_abs([], QQ) == [] and dup_abs([QQ(1, 2)], QQ) == [QQ(1, 2)] and dup_abs([QQ(-7, 3)], QQ) == [QQ(7, 3)] and dup_abs([QQ(-1, 7), QQ(2, 7), QQ(3, 7)], QQ) == [QQ(1, 7), QQ(2, 7), QQ(3, 7)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_abs : Any → {Any | dup_abs([], ZZ) == [] and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_abs([], ZZ) == []                          ║
+# ║   ensures:  dup_abs([ZZ(1)], ZZ) == [ZZ(1)]                ║
+# ║   ensures:  dup_abs([ZZ(-7)], ZZ) == [ZZ(7)]               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_abs : Any → {Any | result satisfies: dup_abs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3efdc03ddb73685  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad9e7320a597f0cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_abs","kind":"function","src_hash":"deaa211b8a43e083","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_abs([], ZZ) == [] and dup_abs([ZZ(1)], ZZ) == [ZZ(1)] and dup_abs([ZZ(-7)], ZZ) == [ZZ(7)] and dup_abs([ZZ(-1), ZZ(2), ZZ(3)], ZZ) == [ZZ(1), ZZ(2), ZZ(3)] and dup_abs([], QQ) == [] and dup_abs([QQ(1, 2)], QQ) == [QQ(1, 2)] and dup_abs([QQ(-7, 3)], QQ) == [QQ(7, 3)] and dup_abs([QQ(-1, 7), QQ(2, 7), QQ(3, 7)], QQ) == [QQ(1, 7), QQ(2, 7), QQ(3, 7)]"},"spec":{"lhs":"test_dup_abs()","rhs":"test_dup_abs produces the expected output","over":{"base":"Any"},"name":"test_dup_abs_correct"},"guarantee":"test_dup_abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_abs_correct","statement":"Path(test_dup_abs(x), test_dup_abs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3efdc03ddb73685"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_abs","kind":"function","src_hash":"deaa211b8a43e083","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_abs([], ZZ) == [] and dup_abs([ZZ(1)], ZZ) == [ZZ(1)] and dup_abs([ZZ(-7)], ZZ) == [ZZ(7)] and dup_abs([ZZ(-1), ZZ(2), ZZ(3)], ZZ) == [ZZ(1), ZZ(2), ZZ(3)] and dup_abs([], QQ) == [] and dup_abs([QQ(1, 2)], QQ) == [QQ(1, 2)] and dup_abs([QQ(-7, 3)], QQ) == [QQ(7, 3)] and dup_abs([QQ(-1, 7), QQ(2, 7), QQ(3, 7)], QQ) == [QQ(1, 7), QQ(2, 7), QQ(3, 7)]"},"spec":{"lhs":"test_dup_abs()","rhs":"dup_abs([], ZZ) == [] and dup_abs([ZZ(1)], ZZ) == [ZZ(1)] and dup_abs([ZZ(-7)], ZZ) == [ZZ(7)] and dup_abs([ZZ(-1), ZZ(2), ZZ(3)], ZZ) == [ZZ(1), ZZ(2), ZZ(3)] and dup_abs([], QQ) == [] and dup_abs([QQ(1, 2)], QQ) == [QQ(1, 2)] and dup_abs([QQ(-7, 3)], QQ) == [QQ(7, 3)] and dup_abs([QQ(-1, 7), QQ(2, 7), QQ(3, 7)], QQ) == [QQ(1, 7), QQ(2, 7), QQ(3, 7)]","over":{"base":"Any"},"name":"test_dup_abs_correct"},"guarantee":"dup_abs([], ZZ) == []; dup_abs([ZZ(1)], ZZ) == [ZZ(1)]; dup_abs([ZZ(-7)], ZZ) == [ZZ(7)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_abs_correct","statement":"Path(test_dup_abs(x), dup_abs([], ZZ) == []; dup_abs([ZZ(1)], ZZ) == [ZZ(1)]; dup_abs([ZZ(-7)], ZZ) == [ZZ(7)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad9e7320a597f0cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_abs([], ZZ) == []","dup_abs([ZZ(1)], ZZ) == [ZZ(1)]","dup_abs([ZZ(-7)], ZZ) == [ZZ(7)]","dup_abs([ZZ(-1), ZZ(2), ZZ(3)], ZZ) == [ZZ(1), ZZ(2), ZZ(3)]","dup_abs([], QQ) == []","dup_abs([QQ(1, 2)], QQ) == [QQ(1, 2)]","dup_abs([QQ(-7, 3)], QQ) == [QQ(7, 3)]","dup_abs([QQ(-1, 7), QQ(2, 7), QQ(3, 7)], QQ) == [QQ(1, 7), QQ(2, 7), QQ(3, 7)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dup_abs():
     assert dup_abs([], ZZ) == []
     assert dup_abs([ZZ( 1)], ZZ) == [ZZ(1)]
@@ -514,16 +654,24 @@ def test_dup_abs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_abs(), test_dmp_abs produces the expected output) over Any ║
+# ║ Path(test_dmp_abs(), dmp_abs([ZZ(-1)], 0, ZZ) == [ZZ(1)] and dmp_abs([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)] and dmp_abs([[[]]], 2, ZZ) == [[[]]] and dmp_abs([[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_abs([[[ZZ(-7)]]], 2, ZZ) == [[[ZZ(7)]]] and dmp_abs([[[]]], 2, QQ) == [[[]]] and dmp_abs([[[QQ(1, 2)]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_abs([[[QQ(-7, 9)]]], 2, QQ) == [[[QQ(7, 9)]]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_abs : Any → {Any | dmp_abs([ZZ(-1)], 0, ZZ) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_abs([ZZ(-1)], 0, ZZ) == [ZZ(1)]            ║
+# ║   ensures:  dmp_abs([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)]      ║
+# ║   ensures:  dmp_abs([[[]]], 2, ZZ) == [[[]]]               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_abs : Any → {Any | result satisfies: dmp_abs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 983892ee2448d9ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d10a122bff6b015  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_abs","kind":"function","src_hash":"fa8f8e30cf182a1e","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_abs([ZZ(-1)], 0, ZZ) == [ZZ(1)] and dmp_abs([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)] and dmp_abs([[[]]], 2, ZZ) == [[[]]] and dmp_abs([[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_abs([[[ZZ(-7)]]], 2, ZZ) == [[[ZZ(7)]]] and dmp_abs([[[]]], 2, QQ) == [[[]]] and dmp_abs([[[QQ(1, 2)]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_abs([[[QQ(-7, 9)]]], 2, QQ) == [[[QQ(7, 9)]]]"},"spec":{"lhs":"test_dmp_abs()","rhs":"test_dmp_abs produces the expected output","over":{"base":"Any"},"name":"test_dmp_abs_correct"},"guarantee":"test_dmp_abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_abs_correct","statement":"Path(test_dmp_abs(x), test_dmp_abs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"983892ee2448d9ee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_abs","kind":"function","src_hash":"fa8f8e30cf182a1e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_abs([ZZ(-1)], 0, ZZ) == [ZZ(1)] and dmp_abs([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)] and dmp_abs([[[]]], 2, ZZ) == [[[]]] and dmp_abs([[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_abs([[[ZZ(-7)]]], 2, ZZ) == [[[ZZ(7)]]] and dmp_abs([[[]]], 2, QQ) == [[[]]] and dmp_abs([[[QQ(1, 2)]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_abs([[[QQ(-7, 9)]]], 2, QQ) == [[[QQ(7, 9)]]]"},"spec":{"lhs":"test_dmp_abs()","rhs":"dmp_abs([ZZ(-1)], 0, ZZ) == [ZZ(1)] and dmp_abs([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)] and dmp_abs([[[]]], 2, ZZ) == [[[]]] and dmp_abs([[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_abs([[[ZZ(-7)]]], 2, ZZ) == [[[ZZ(7)]]] and dmp_abs([[[]]], 2, QQ) == [[[]]] and dmp_abs([[[QQ(1, 2)]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_abs([[[QQ(-7, 9)]]], 2, QQ) == [[[QQ(7, 9)]]]","over":{"base":"Any"},"name":"test_dmp_abs_correct"},"guarantee":"dmp_abs([ZZ(-1)], 0, ZZ) == [ZZ(1)]; dmp_abs([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)]; dmp_abs([[[]]], 2, ZZ) == [[[]]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_abs_correct","statement":"Path(test_dmp_abs(x), dmp_abs([ZZ(-1)], 0, ZZ) == [ZZ(1)]; dmp_abs([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)]; dmp_abs([[[]]], 2, ZZ) == [[[]]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d10a122bff6b015","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_abs([ZZ(-1)], 0, ZZ) == [ZZ(1)]","dmp_abs([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)]","dmp_abs([[[]]], 2, ZZ) == [[[]]]","dmp_abs([[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]]","dmp_abs([[[ZZ(-7)]]], 2, ZZ) == [[[ZZ(7)]]]","dmp_abs([[[]]], 2, QQ) == [[[]]]","dmp_abs([[[QQ(1, 2)]]], 2, QQ) == [[[QQ(1, 2)]]]","dmp_abs([[[QQ(-7, 9)]]], 2, QQ) == [[[QQ(7, 9)]]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dmp_abs():
     assert dmp_abs([ZZ(-1)], 0, ZZ) == [ZZ(1)]
     assert dmp_abs([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)]
@@ -538,16 +686,24 @@ def test_dmp_abs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_neg(), test_dup_neg produces the expected output) over Any ║
+# ║ Path(test_dup_neg(), dup_neg([], ZZ) == [] and dup_neg([ZZ(1)], ZZ) == [ZZ(-1)] and dup_neg([ZZ(-7)], ZZ) == [ZZ(7)] and dup_neg([ZZ(-1), ZZ(2), ZZ(3)], ZZ) == [ZZ(1), ZZ(-2), ZZ(-3)] and dup_neg([], QQ) == [] and dup_neg([QQ(1, 2)], QQ) == [QQ(-1, 2)] and dup_neg([QQ(-7, 9)], QQ) == [QQ(7, 9)] and dup_neg([QQ(-1, 7), QQ(2, 7), QQ(3, 7)], QQ) == [QQ(1, 7), QQ(-2, 7), QQ(-3, 7)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_neg : Any → {Any | dup_neg([], ZZ) == [] and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_neg([], ZZ) == []                          ║
+# ║   ensures:  dup_neg([ZZ(1)], ZZ) == [ZZ(-1)]               ║
+# ║   ensures:  dup_neg([ZZ(-7)], ZZ) == [ZZ(7)]               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_neg : Any → {Any | result satisfies: dup_neg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b050537a8b10155e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9462e9188a303bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_neg","kind":"function","src_hash":"b61a66dc9168b726","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_neg([], ZZ) == [] and dup_neg([ZZ(1)], ZZ) == [ZZ(-1)] and dup_neg([ZZ(-7)], ZZ) == [ZZ(7)] and dup_neg([ZZ(-1), ZZ(2), ZZ(3)], ZZ) == [ZZ(1), ZZ(-2), ZZ(-3)] and dup_neg([], QQ) == [] and dup_neg([QQ(1, 2)], QQ) == [QQ(-1, 2)] and dup_neg([QQ(-7, 9)], QQ) == [QQ(7, 9)]"},"spec":{"lhs":"test_dup_neg()","rhs":"test_dup_neg produces the expected output","over":{"base":"Any"},"name":"test_dup_neg_correct"},"guarantee":"test_dup_neg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_neg_correct","statement":"Path(test_dup_neg(x), test_dup_neg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b050537a8b10155e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_neg","kind":"function","src_hash":"b61a66dc9168b726","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_neg([], ZZ) == [] and dup_neg([ZZ(1)], ZZ) == [ZZ(-1)] and dup_neg([ZZ(-7)], ZZ) == [ZZ(7)] and dup_neg([ZZ(-1), ZZ(2), ZZ(3)], ZZ) == [ZZ(1), ZZ(-2), ZZ(-3)] and dup_neg([], QQ) == [] and dup_neg([QQ(1, 2)], QQ) == [QQ(-1, 2)] and dup_neg([QQ(-7, 9)], QQ) == [QQ(7, 9)] and dup_neg([QQ(-1, 7), QQ(2, 7), QQ(3, 7)], QQ) == [QQ(1, 7), QQ(-2, 7), QQ(-3, 7)]"},"spec":{"lhs":"test_dup_neg()","rhs":"dup_neg([], ZZ) == [] and dup_neg([ZZ(1)], ZZ) == [ZZ(-1)] and dup_neg([ZZ(-7)], ZZ) == [ZZ(7)] and dup_neg([ZZ(-1), ZZ(2), ZZ(3)], ZZ) == [ZZ(1), ZZ(-2), ZZ(-3)] and dup_neg([], QQ) == [] and dup_neg([QQ(1, 2)], QQ) == [QQ(-1, 2)] and dup_neg([QQ(-7, 9)], QQ) == [QQ(7, 9)] and dup_neg([QQ(-1, 7), QQ(2, 7), QQ(3, 7)], QQ) == [QQ(1, 7), QQ(-2, 7), QQ(-3, 7)]","over":{"base":"Any"},"name":"test_dup_neg_correct"},"guarantee":"dup_neg([], ZZ) == []; dup_neg([ZZ(1)], ZZ) == [ZZ(-1)]; dup_neg([ZZ(-7)], ZZ) == [ZZ(7)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_neg_correct","statement":"Path(test_dup_neg(x), dup_neg([], ZZ) == []; dup_neg([ZZ(1)], ZZ) == [ZZ(-1)]; dup_neg([ZZ(-7)], ZZ) == [ZZ(7)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9462e9188a303bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_neg([], ZZ) == []","dup_neg([ZZ(1)], ZZ) == [ZZ(-1)]","dup_neg([ZZ(-7)], ZZ) == [ZZ(7)]","dup_neg([ZZ(-1), ZZ(2), ZZ(3)], ZZ) == [ZZ(1), ZZ(-2), ZZ(-3)]","dup_neg([], QQ) == []","dup_neg([QQ(1, 2)], QQ) == [QQ(-1, 2)]","dup_neg([QQ(-7, 9)], QQ) == [QQ(7, 9)]","dup_neg([QQ(-1, 7), QQ(2, 7), QQ(3, 7)], QQ) == [QQ(1, 7), QQ(-2, 7), QQ(-3, 7)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dup_neg():
     assert dup_neg([], ZZ) == []
     assert dup_neg([ZZ(1)], ZZ) == [ZZ(-1)]
@@ -562,16 +718,24 @@ def test_dup_neg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_neg(), test_dmp_neg produces the expected output) over Any ║
+# ║ Path(test_dmp_neg(), dmp_neg([ZZ(-1)], 0, ZZ) == [ZZ(1)] and dmp_neg([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)] and dmp_neg([[[]]], 2, ZZ) == [[[]]] and dmp_neg([[[ZZ(1)]]], 2, ZZ) == [[[ZZ(-1)]]] and dmp_neg([[[ZZ(-7)]]], 2, ZZ) == [[[ZZ(7)]]] and dmp_neg([[[]]], 2, QQ) == [[[]]] and dmp_neg([[[QQ(1, 9)]]], 2, QQ) == [[[QQ(-1, 9)]]] and dmp_neg([[[QQ(-7, 9)]]], 2, QQ) == [[[QQ(7, 9)]]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_neg : Any → {Any | dmp_neg([ZZ(-1)], 0, ZZ) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_neg([ZZ(-1)], 0, ZZ) == [ZZ(1)]            ║
+# ║   ensures:  dmp_neg([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)]      ║
+# ║   ensures:  dmp_neg([[[]]], 2, ZZ) == [[[]]]               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_neg : Any → {Any | result satisfies: dmp_neg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 039b6de71cbd3480  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a0a0a0545a07d31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_neg","kind":"function","src_hash":"16cc9537b5547b57","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_neg([ZZ(-1)], 0, ZZ) == [ZZ(1)] and dmp_neg([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)] and dmp_neg([[[]]], 2, ZZ) == [[[]]] and dmp_neg([[[ZZ(1)]]], 2, ZZ) == [[[ZZ(-1)]]] and dmp_neg([[[ZZ(-7)]]], 2, ZZ) == [[[ZZ(7)]]] and dmp_neg([[[]]], 2, QQ) == [[[]]] and dmp_neg([[[QQ(1, 9)]]], 2, QQ) == [[[QQ(-1, 9)]]] and dmp_neg([[[QQ(-7, 9)]]], 2, QQ) == [[[QQ(7, 9)]]]"},"spec":{"lhs":"test_dmp_neg()","rhs":"test_dmp_neg produces the expected output","over":{"base":"Any"},"name":"test_dmp_neg_correct"},"guarantee":"test_dmp_neg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_neg_correct","statement":"Path(test_dmp_neg(x), test_dmp_neg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"039b6de71cbd3480"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_neg","kind":"function","src_hash":"16cc9537b5547b57","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_neg([ZZ(-1)], 0, ZZ) == [ZZ(1)] and dmp_neg([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)] and dmp_neg([[[]]], 2, ZZ) == [[[]]] and dmp_neg([[[ZZ(1)]]], 2, ZZ) == [[[ZZ(-1)]]] and dmp_neg([[[ZZ(-7)]]], 2, ZZ) == [[[ZZ(7)]]] and dmp_neg([[[]]], 2, QQ) == [[[]]] and dmp_neg([[[QQ(1, 9)]]], 2, QQ) == [[[QQ(-1, 9)]]] and dmp_neg([[[QQ(-7, 9)]]], 2, QQ) == [[[QQ(7, 9)]]]"},"spec":{"lhs":"test_dmp_neg()","rhs":"dmp_neg([ZZ(-1)], 0, ZZ) == [ZZ(1)] and dmp_neg([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)] and dmp_neg([[[]]], 2, ZZ) == [[[]]] and dmp_neg([[[ZZ(1)]]], 2, ZZ) == [[[ZZ(-1)]]] and dmp_neg([[[ZZ(-7)]]], 2, ZZ) == [[[ZZ(7)]]] and dmp_neg([[[]]], 2, QQ) == [[[]]] and dmp_neg([[[QQ(1, 9)]]], 2, QQ) == [[[QQ(-1, 9)]]] and dmp_neg([[[QQ(-7, 9)]]], 2, QQ) == [[[QQ(7, 9)]]]","over":{"base":"Any"},"name":"test_dmp_neg_correct"},"guarantee":"dmp_neg([ZZ(-1)], 0, ZZ) == [ZZ(1)]; dmp_neg([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)]; dmp_neg([[[]]], 2, ZZ) == [[[]]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_neg_correct","statement":"Path(test_dmp_neg(x), dmp_neg([ZZ(-1)], 0, ZZ) == [ZZ(1)]; dmp_neg([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)]; dmp_neg([[[]]], 2, ZZ) == [[[]]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a0a0a0545a07d31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_neg([ZZ(-1)], 0, ZZ) == [ZZ(1)]","dmp_neg([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)]","dmp_neg([[[]]], 2, ZZ) == [[[]]]","dmp_neg([[[ZZ(1)]]], 2, ZZ) == [[[ZZ(-1)]]]","dmp_neg([[[ZZ(-7)]]], 2, ZZ) == [[[ZZ(7)]]]","dmp_neg([[[]]], 2, QQ) == [[[]]]","dmp_neg([[[QQ(1, 9)]]], 2, QQ) == [[[QQ(-1, 9)]]]","dmp_neg([[[QQ(-7, 9)]]], 2, QQ) == [[[QQ(7, 9)]]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dmp_neg():
     assert dmp_neg([ZZ(-1)], 0, ZZ) == [ZZ(1)]
     assert dmp_neg([QQ(-1, 2)], 0, QQ) == [QQ(1, 2)]
@@ -586,16 +750,24 @@ def test_dmp_neg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_add(), test_dup_add produces the expected output) over Any ║
+# ║ Path(test_dup_add(), dup_add([], [], ZZ) == [] and dup_add([ZZ(1)], [], ZZ) == [ZZ(1)] and dup_add([], [ZZ(1)], ZZ) == [ZZ(1)] and dup_add([ZZ(1)], [ZZ(1)], ZZ) == [ZZ(2)] and dup_add([ZZ(1)], [ZZ(2)], ZZ) == [ZZ(3)] and dup_add([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) == [ZZ(1), ZZ(3)] and dup_add([ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(1), ZZ(3)] and dup_add([ZZ(1), ZZ(2), ZZ(3)], [ZZ(8), ZZ(9), ZZ(10)], ZZ) == [ZZ(9), ZZ(11), ZZ(13)] and dup_add([], [], QQ) == [] and dup_add([QQ(1, 2)], [], QQ) == [QQ(1, 2)] and dup_add([], [QQ(1, 2)], QQ) == [QQ(1, 2)] and dup_add([QQ(1, 4)], [QQ(1, 4)], QQ) == [QQ(1, 2)] and dup_add([QQ(1, 4)], [QQ(1, 2)], QQ) == [QQ(3, 4)] and dup_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ) == [QQ(1, 2), QQ(5, 3)] and dup_add([QQ(1)], [QQ(1, 2), QQ(2, 3)], QQ) == [QQ(1, 2), QQ(5, 3)] and dup_add([QQ(1, 7), QQ(2, 7), QQ(3, 7)], [QQ(8, 7), QQ(9, 7), QQ(10, 7)], QQ) == [QQ(9, 7), QQ(11, 7), QQ(13, 7)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_add : Any → {Any | dup_add([], [], ZZ) == []...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_add([], [], ZZ) == []                      ║
+# ║   ensures:  dup_add([ZZ(1)], [], ZZ) == [ZZ(1)]            ║
+# ║   ensures:  dup_add([], [ZZ(1)], ZZ) == [ZZ(1)]            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_add : Any → {Any | result satisfies: dup_add...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbe3ea4daea11cb6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efc866098fa48794  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_add","kind":"function","src_hash":"c4fe6d32f8678fed","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_add([], [], ZZ) == [] and dup_add([ZZ(1)], [], ZZ) == [ZZ(1)] and dup_add([], [ZZ(1)], ZZ) == [ZZ(1)] and dup_add([ZZ(1)], [ZZ(1)], ZZ) == [ZZ(2)] and dup_add([ZZ(1)], [ZZ(2)], ZZ) == [ZZ(3)] and dup_add([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) == [ZZ(1), ZZ(3)] and dup_add([ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(1), ZZ(3)] and dup_add([], [], QQ) == [] and dup_add([QQ(1, 2)], [], QQ) == [QQ(1, 2)] and dup_add([], [QQ(1, 2)], QQ) == [QQ(1, 2)] and dup_add([QQ(1, 4)], [QQ(1, 4)], QQ) == [QQ(1, 2)] and dup_add([QQ(1, 4)], [QQ(1, 2)], QQ) == [QQ(3, 4)] and dup_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ) == [QQ(1, 2), QQ(5, 3)] and dup_add([QQ(1)], [QQ(1, 2), QQ(2, 3)], QQ) == [QQ(1, 2), QQ(5, 3)]"},"spec":{"lhs":"test_dup_add()","rhs":"test_dup_add produces the expected output","over":{"base":"Any"},"name":"test_dup_add_correct"},"guarantee":"test_dup_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_add_correct","statement":"Path(test_dup_add(x), test_dup_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbe3ea4daea11cb6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_add","kind":"function","src_hash":"c4fe6d32f8678fed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_add([], [], ZZ) == [] and dup_add([ZZ(1)], [], ZZ) == [ZZ(1)] and dup_add([], [ZZ(1)], ZZ) == [ZZ(1)] and dup_add([ZZ(1)], [ZZ(1)], ZZ) == [ZZ(2)] and dup_add([ZZ(1)], [ZZ(2)], ZZ) == [ZZ(3)] and dup_add([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) == [ZZ(1), ZZ(3)] and dup_add([ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(1), ZZ(3)] and dup_add([ZZ(1), ZZ(2), ZZ(3)], [ZZ(8), ZZ(9), ZZ(10)], ZZ) == [ZZ(9), ZZ(11), ZZ(13)] and dup_add([], [], QQ) == [] and dup_add([QQ(1, 2)], [], QQ) == [QQ(1, 2)] and dup_add([], [QQ(1, 2)], QQ) == [QQ(1, 2)] and dup_add([QQ(1, 4)], [QQ(1, 4)], QQ) == [QQ(1, 2)] and dup_add([QQ(1, 4)], [QQ(1, 2)], QQ) == [QQ(3, 4)] and dup_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ) == [QQ(1, 2), QQ(5, 3)] and dup_add([QQ(1)], [QQ(1, 2), QQ(2, 3)], QQ) == [QQ(1, 2), QQ(5, 3)] and dup_add([QQ(1, 7), QQ(2, 7), QQ(3, 7)], [QQ(8, 7), QQ(9, 7), QQ(10, 7)], QQ) == [QQ(9, 7), QQ(11, 7), QQ(13, 7)]"},"spec":{"lhs":"test_dup_add()","rhs":"dup_add([], [], ZZ) == [] and dup_add([ZZ(1)], [], ZZ) == [ZZ(1)] and dup_add([], [ZZ(1)], ZZ) == [ZZ(1)] and dup_add([ZZ(1)], [ZZ(1)], ZZ) == [ZZ(2)] and dup_add([ZZ(1)], [ZZ(2)], ZZ) == [ZZ(3)] and dup_add([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) == [ZZ(1), ZZ(3)] and dup_add([ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(1), ZZ(3)] and dup_add([ZZ(1), ZZ(2), ZZ(3)], [ZZ(8), ZZ(9), ZZ(10)], ZZ) == [ZZ(9), ZZ(11), ZZ(13)] and dup_add([], [], QQ) == [] and dup_add([QQ(1, 2)], [], QQ) == [QQ(1, 2)] and dup_add([], [QQ(1, 2)], QQ) == [QQ(1, 2)] and dup_add([QQ(1, 4)], [QQ(1, 4)], QQ) == [QQ(1, 2)] and dup_add([QQ(1, 4)], [QQ(1, 2)], QQ) == [QQ(3, 4)] and dup_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ) == [QQ(1, 2), QQ(5, 3)] and dup_add([QQ(1)], [QQ(1, 2), QQ(2, 3)], QQ) == [QQ(1, 2), QQ(5, 3)] and dup_add([QQ(1, 7), QQ(2, 7), QQ(3, 7)], [QQ(8, 7), QQ(9, 7), QQ(10, 7)], QQ) == [QQ(9, 7), QQ(11, 7), QQ(13, 7)]","over":{"base":"Any"},"name":"test_dup_add_correct"},"guarantee":"dup_add([], [], ZZ) == []; dup_add([ZZ(1)], [], ZZ) == [ZZ(1)]; dup_add([], [ZZ(1)], ZZ) == [ZZ(1)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_add_correct","statement":"Path(test_dup_add(x), dup_add([], [], ZZ) == []; dup_add([ZZ(1)], [], ZZ) == [ZZ(1)]; dup_add([], [ZZ(1)], ZZ) == [ZZ(1)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efc866098fa48794","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_add([], [], ZZ) == []","dup_add([ZZ(1)], [], ZZ) == [ZZ(1)]","dup_add([], [ZZ(1)], ZZ) == [ZZ(1)]","dup_add([ZZ(1)], [ZZ(1)], ZZ) == [ZZ(2)]","dup_add([ZZ(1)], [ZZ(2)], ZZ) == [ZZ(3)]","dup_add([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) == [ZZ(1), ZZ(3)]","dup_add([ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(1), ZZ(3)]","dup_add([ZZ(1), ZZ(2), ZZ(3)], [ZZ(8), ZZ(9), ZZ(10)], ZZ) == [ZZ(9), ZZ(11), ZZ(13)]","dup_add([], [], QQ) == []","dup_add([QQ(1, 2)], [], QQ) == [QQ(1, 2)]","dup_add([], [QQ(1, 2)], QQ) == [QQ(1, 2)]","dup_add([QQ(1, 4)], [QQ(1, 4)], QQ) == [QQ(1, 2)]","dup_add([QQ(1, 4)], [QQ(1, 2)], QQ) == [QQ(3, 4)]","dup_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ) == [QQ(1, 2), QQ(5, 3)]","dup_add([QQ(1)], [QQ(1, 2), QQ(2, 3)], QQ) == [QQ(1, 2), QQ(5, 3)]","dup_add([QQ(1, 7), QQ(2, 7), QQ(3, 7)], [QQ(8, 7), QQ(9, 7), QQ(10, 7)], QQ) == [QQ(9, 7), QQ(11, 7), QQ(13, 7)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_dup_add():
     assert dup_add([], [], ZZ) == []
     assert dup_add([ZZ(1)], [], ZZ) == [ZZ(1)]
@@ -623,16 +795,24 @@ def test_dup_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_add(), test_dmp_add produces the expected output) over Any ║
+# ║ Path(test_dmp_add(), dmp_add([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_add([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) and dmp_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0, QQ) == dup_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ) and dmp_add([[[]]], [[[]]], 2, ZZ) == [[[]]] and dmp_add([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_add([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_add([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(3)]]] and dmp_add([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(3)]]] and dmp_add([[[]]], [[[]]], 2, QQ) == [[[]]] and dmp_add([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_add([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_add([[[QQ(2, 7)]]], [[[QQ(1, 7)]]], 2, QQ) == [[[QQ(3, 7)]]] and dmp_add([[[QQ(1, 7)]]], [[[QQ(2, 7)]]], 2, QQ) == [[[QQ(3, 7)]]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_add : Any → {Any | dmp_add([ZZ(1), ZZ(2)], [...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_add([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) =...   ║
+# ║   ensures:  dmp_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0,...   ║
+# ║   ensures:  dmp_add([[[]]], [[[]]], 2, ZZ) == [[[]]]       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_add : Any → {Any | result satisfies: dmp_add...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff5f2798ef5b99d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 998ef522198f02d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_add","kind":"function","src_hash":"535a55dc1f1ce2d1","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_add([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_add([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) and dmp_add([[[]]], [[[]]], 2, ZZ) == [[[]]] and dmp_add([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_add([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_add([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(3)]]] and dmp_add([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(3)]]] and dmp_add([[[]]], [[[]]], 2, QQ) == [[[]]] and dmp_add([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_add([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_add([[[QQ(2, 7)]]], [[[QQ(1, 7)]]], 2, QQ) == [[[QQ(3, 7)]]] and dmp_add([[[QQ(1, 7)]]], [[[QQ(2, 7)]]], 2, QQ) == [[[QQ(3, 7)]]]"},"spec":{"lhs":"test_dmp_add()","rhs":"test_dmp_add produces the expected output","over":{"base":"Any"},"name":"test_dmp_add_correct"},"guarantee":"test_dmp_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_add_correct","statement":"Path(test_dmp_add(x), test_dmp_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff5f2798ef5b99d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_add","kind":"function","src_hash":"535a55dc1f1ce2d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_add([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_add([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) and dmp_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0, QQ) == dup_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ) and dmp_add([[[]]], [[[]]], 2, ZZ) == [[[]]] and dmp_add([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_add([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_add([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(3)]]] and dmp_add([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(3)]]] and dmp_add([[[]]], [[[]]], 2, QQ) == [[[]]] and dmp_add([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_add([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_add([[[QQ(2, 7)]]], [[[QQ(1, 7)]]], 2, QQ) == [[[QQ(3, 7)]]] and dmp_add([[[QQ(1, 7)]]], [[[QQ(2, 7)]]], 2, QQ) == [[[QQ(3, 7)]]]"},"spec":{"lhs":"test_dmp_add()","rhs":"dmp_add([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_add([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) and dmp_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0, QQ) == dup_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ) and dmp_add([[[]]], [[[]]], 2, ZZ) == [[[]]] and dmp_add([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_add([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_add([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(3)]]] and dmp_add([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(3)]]] and dmp_add([[[]]], [[[]]], 2, QQ) == [[[]]] and dmp_add([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_add([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_add([[[QQ(2, 7)]]], [[[QQ(1, 7)]]], 2, QQ) == [[[QQ(3, 7)]]] and dmp_add([[[QQ(1, 7)]]], [[[QQ(2, 7)]]], 2, QQ) == [[[QQ(3, 7)]]]","over":{"base":"Any"},"name":"test_dmp_add_correct"},"guarantee":"dmp_add([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_add([ZZ(1), ZZ(2)], [ZZ(1)], ZZ); dmp_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0, QQ) == dup_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ); dmp_add([[[]]], [[[]]], 2, ZZ) == [[[]]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_add_correct","statement":"Path(test_dmp_add(x), dmp_add([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_add([ZZ(1), ZZ(2)], [ZZ(1)], ZZ); dmp_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0, QQ) == dup_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ); dmp_add([[[]]], [[[]]], 2, ZZ) == [[[]]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"998ef522198f02d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_add([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_add([ZZ(1), ZZ(2)], [ZZ(1)], ZZ)","dmp_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0, QQ) == dup_add([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ)","dmp_add([[[]]], [[[]]], 2, ZZ) == [[[]]]","dmp_add([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[ZZ(1)]]]","dmp_add([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]]","dmp_add([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(3)]]]","dmp_add([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(3)]]]","dmp_add([[[]]], [[[]]], 2, QQ) == [[[]]]","dmp_add([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[QQ(1, 2)]]]","dmp_add([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[QQ(1, 2)]]]","dmp_add([[[QQ(2, 7)]]], [[[QQ(1, 7)]]], 2, QQ) == [[[QQ(3, 7)]]]","dmp_add([[[QQ(1, 7)]]], [[[QQ(2, 7)]]], 2, QQ) == [[[QQ(3, 7)]]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_dmp_add():
     assert dmp_add([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == \
         dup_add([ZZ(1), ZZ(2)], [ZZ(1)], ZZ)
@@ -653,16 +833,24 @@ def test_dmp_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_sub(), test_dup_sub produces the expected output) over Any ║
+# ║ Path(test_dup_sub(), dup_sub([], [], ZZ) == [] and dup_sub([ZZ(1)], [], ZZ) == [ZZ(1)] and dup_sub([], [ZZ(1)], ZZ) == [ZZ(-1)] and dup_sub([ZZ(1)], [ZZ(1)], ZZ) == [] and dup_sub([ZZ(1)], [ZZ(2)], ZZ) == [ZZ(-1)] and dup_sub([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) == [ZZ(1), ZZ(1)] and dup_sub([ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(-1), ZZ(-1)] and dup_sub([ZZ(3), ZZ(2), ZZ(1)], [ZZ(8), ZZ(9), ZZ(10)], ZZ) == [ZZ(-5), ZZ(-7), ZZ(-9)] and dup_sub([], [], QQ) == [] and dup_sub([QQ(1, 2)], [], QQ) == [QQ(1, 2)] and dup_sub([], [QQ(1, 2)], QQ) == [QQ(-1, 2)] and dup_sub([QQ(1, 3)], [QQ(1, 3)], QQ) == [] and dup_sub([QQ(1, 3)], [QQ(2, 3)], QQ) == [QQ(-1, 3)] and dup_sub([QQ(1, 7), QQ(2, 7)], [QQ(1)], QQ) == [QQ(1, 7), QQ(-5, 7)] and dup_sub([QQ(1)], [QQ(1, 7), QQ(2, 7)], QQ) == [QQ(-1, 7), QQ(5, 7)] and dup_sub([QQ(3, 7), QQ(2, 7), QQ(1, 7)], [QQ(8, 7), QQ(9, 7), QQ(10, 7)], QQ) == [QQ(-5, 7), QQ(-7, 7), QQ(-9, 7)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_sub : Any → {Any | dup_sub([], [], ZZ) == []...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_sub([], [], ZZ) == []                      ║
+# ║   ensures:  dup_sub([ZZ(1)], [], ZZ) == [ZZ(1)]            ║
+# ║   ensures:  dup_sub([], [ZZ(1)], ZZ) == [ZZ(-1)]           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_sub : Any → {Any | result satisfies: dup_sub...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc44b089bd99e72c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b03d923daf29cc4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_sub","kind":"function","src_hash":"800e117576104e4d","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_sub([], [], ZZ) == [] and dup_sub([ZZ(1)], [], ZZ) == [ZZ(1)] and dup_sub([], [ZZ(1)], ZZ) == [ZZ(-1)] and dup_sub([ZZ(1)], [ZZ(1)], ZZ) == [] and dup_sub([ZZ(1)], [ZZ(2)], ZZ) == [ZZ(-1)] and dup_sub([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) == [ZZ(1), ZZ(1)] and dup_sub([ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(-1), ZZ(-1)] and dup_sub([], [], QQ) == [] and dup_sub([QQ(1, 2)], [], QQ) == [QQ(1, 2)] and dup_sub([], [QQ(1, 2)], QQ) == [QQ(-1, 2)] and dup_sub([QQ(1, 3)], [QQ(1, 3)], QQ) == [] and dup_sub([QQ(1, 3)], [QQ(2, 3)], QQ) == [QQ(-1, 3)] and dup_sub([QQ(1, 7), QQ(2, 7)], [QQ(1)], QQ) == [QQ(1, 7), QQ(-5, 7)] and dup_sub([QQ(1)], [QQ(1, 7), QQ(2, 7)], QQ) == [QQ(-1, 7), QQ(5, 7)]"},"spec":{"lhs":"test_dup_sub()","rhs":"test_dup_sub produces the expected output","over":{"base":"Any"},"name":"test_dup_sub_correct"},"guarantee":"test_dup_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_sub_correct","statement":"Path(test_dup_sub(x), test_dup_sub produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc44b089bd99e72c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_sub","kind":"function","src_hash":"800e117576104e4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_sub([], [], ZZ) == [] and dup_sub([ZZ(1)], [], ZZ) == [ZZ(1)] and dup_sub([], [ZZ(1)], ZZ) == [ZZ(-1)] and dup_sub([ZZ(1)], [ZZ(1)], ZZ) == [] and dup_sub([ZZ(1)], [ZZ(2)], ZZ) == [ZZ(-1)] and dup_sub([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) == [ZZ(1), ZZ(1)] and dup_sub([ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(-1), ZZ(-1)] and dup_sub([ZZ(3), ZZ(2), ZZ(1)], [ZZ(8), ZZ(9), ZZ(10)], ZZ) == [ZZ(-5), ZZ(-7), ZZ(-9)] and dup_sub([], [], QQ) == [] and dup_sub([QQ(1, 2)], [], QQ) == [QQ(1, 2)] and dup_sub([], [QQ(1, 2)], QQ) == [QQ(-1, 2)] and dup_sub([QQ(1, 3)], [QQ(1, 3)], QQ) == [] and dup_sub([QQ(1, 3)], [QQ(2, 3)], QQ) == [QQ(-1, 3)] and dup_sub([QQ(1, 7), QQ(2, 7)], [QQ(1)], QQ) == [QQ(1, 7), QQ(-5, 7)] and dup_sub([QQ(1)], [QQ(1, 7), QQ(2, 7)], QQ) == [QQ(-1, 7), QQ(5, 7)] and dup_sub([QQ(3, 7), QQ(2, 7), QQ(1, 7)], [QQ(8, 7), QQ(9, 7), QQ(10, 7)], QQ) == [QQ(-5, 7), QQ(-7, 7), QQ(-9, 7)]"},"spec":{"lhs":"test_dup_sub()","rhs":"dup_sub([], [], ZZ) == [] and dup_sub([ZZ(1)], [], ZZ) == [ZZ(1)] and dup_sub([], [ZZ(1)], ZZ) == [ZZ(-1)] and dup_sub([ZZ(1)], [ZZ(1)], ZZ) == [] and dup_sub([ZZ(1)], [ZZ(2)], ZZ) == [ZZ(-1)] and dup_sub([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) == [ZZ(1), ZZ(1)] and dup_sub([ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(-1), ZZ(-1)] and dup_sub([ZZ(3), ZZ(2), ZZ(1)], [ZZ(8), ZZ(9), ZZ(10)], ZZ) == [ZZ(-5), ZZ(-7), ZZ(-9)] and dup_sub([], [], QQ) == [] and dup_sub([QQ(1, 2)], [], QQ) == [QQ(1, 2)] and dup_sub([], [QQ(1, 2)], QQ) == [QQ(-1, 2)] and dup_sub([QQ(1, 3)], [QQ(1, 3)], QQ) == [] and dup_sub([QQ(1, 3)], [QQ(2, 3)], QQ) == [QQ(-1, 3)] and dup_sub([QQ(1, 7), QQ(2, 7)], [QQ(1)], QQ) == [QQ(1, 7), QQ(-5, 7)] and dup_sub([QQ(1)], [QQ(1, 7), QQ(2, 7)], QQ) == [QQ(-1, 7), QQ(5, 7)] and dup_sub([QQ(3, 7), QQ(2, 7), QQ(1, 7)], [QQ(8, 7), QQ(9, 7), QQ(10, 7)], QQ) == [QQ(-5, 7), QQ(-7, 7), QQ(-9, 7)]","over":{"base":"Any"},"name":"test_dup_sub_correct"},"guarantee":"dup_sub([], [], ZZ) == []; dup_sub([ZZ(1)], [], ZZ) == [ZZ(1)]; dup_sub([], [ZZ(1)], ZZ) == [ZZ(-1)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_sub_correct","statement":"Path(test_dup_sub(x), dup_sub([], [], ZZ) == []; dup_sub([ZZ(1)], [], ZZ) == [ZZ(1)]; dup_sub([], [ZZ(1)], ZZ) == [ZZ(-1)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b03d923daf29cc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_sub([], [], ZZ) == []","dup_sub([ZZ(1)], [], ZZ) == [ZZ(1)]","dup_sub([], [ZZ(1)], ZZ) == [ZZ(-1)]","dup_sub([ZZ(1)], [ZZ(1)], ZZ) == []","dup_sub([ZZ(1)], [ZZ(2)], ZZ) == [ZZ(-1)]","dup_sub([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) == [ZZ(1), ZZ(1)]","dup_sub([ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(-1), ZZ(-1)]","dup_sub([ZZ(3), ZZ(2), ZZ(1)], [ZZ(8), ZZ(9), ZZ(10)], ZZ) == [ZZ(-5), ZZ(-7), ZZ(-9)]","dup_sub([], [], QQ) == []","dup_sub([QQ(1, 2)], [], QQ) == [QQ(1, 2)]","dup_sub([], [QQ(1, 2)], QQ) == [QQ(-1, 2)]","dup_sub([QQ(1, 3)], [QQ(1, 3)], QQ) == []","dup_sub([QQ(1, 3)], [QQ(2, 3)], QQ) == [QQ(-1, 3)]","dup_sub([QQ(1, 7), QQ(2, 7)], [QQ(1)], QQ) == [QQ(1, 7), QQ(-5, 7)]","dup_sub([QQ(1)], [QQ(1, 7), QQ(2, 7)], QQ) == [QQ(-1, 7), QQ(5, 7)]","dup_sub([QQ(3, 7), QQ(2, 7), QQ(1, 7)], [QQ(8, 7), QQ(9, 7), QQ(10, 7)], QQ) == [QQ(-5, 7), QQ(-7, 7), QQ(-9, 7)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_dup_sub():
     assert dup_sub([], [], ZZ) == []
     assert dup_sub([ZZ(1)], [], ZZ) == [ZZ(1)]
@@ -690,16 +878,24 @@ def test_dup_sub():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_sub(), test_dmp_sub produces the expected output) over Any ║
+# ║ Path(test_dmp_sub(), dmp_sub([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_sub([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) and dmp_sub([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0, QQ) == dup_sub([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ) and dmp_sub([[[]]], [[[]]], 2, ZZ) == [[[]]] and dmp_sub([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_sub([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(-1)]]] and dmp_sub([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_sub([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(-1)]]] and dmp_sub([[[]]], [[[]]], 2, QQ) == [[[]]] and dmp_sub([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_sub([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[QQ(-1, 2)]]] and dmp_sub([[[QQ(2, 7)]]], [[[QQ(1, 7)]]], 2, QQ) == [[[QQ(1, 7)]]] and dmp_sub([[[QQ(1, 7)]]], [[[QQ(2, 7)]]], 2, QQ) == [[[QQ(-1, 7)]]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_sub : Any → {Any | dmp_sub([ZZ(1), ZZ(2)], [...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_sub([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) =...   ║
+# ║   ensures:  dmp_sub([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0,...   ║
+# ║   ensures:  dmp_sub([[[]]], [[[]]], 2, ZZ) == [[[]]]       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_sub : Any → {Any | result satisfies: dmp_sub...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4649e38c1e81d974  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2528178a8de8acdb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_sub","kind":"function","src_hash":"c463cb6815b4ca74","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_sub([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_sub([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) and dmp_sub([[[]]], [[[]]], 2, ZZ) == [[[]]] and dmp_sub([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_sub([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(-1)]]] and dmp_sub([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_sub([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(-1)]]] and dmp_sub([[[]]], [[[]]], 2, QQ) == [[[]]] and dmp_sub([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_sub([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[QQ(-1, 2)]]] and dmp_sub([[[QQ(2, 7)]]], [[[QQ(1, 7)]]], 2, QQ) == [[[QQ(1, 7)]]] and dmp_sub([[[QQ(1, 7)]]], [[[QQ(2, 7)]]], 2, QQ) == [[[QQ(-1, 7)]]]"},"spec":{"lhs":"test_dmp_sub()","rhs":"test_dmp_sub produces the expected output","over":{"base":"Any"},"name":"test_dmp_sub_correct"},"guarantee":"test_dmp_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_sub_correct","statement":"Path(test_dmp_sub(x), test_dmp_sub produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4649e38c1e81d974"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_sub","kind":"function","src_hash":"c463cb6815b4ca74","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_sub([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_sub([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) and dmp_sub([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0, QQ) == dup_sub([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ) and dmp_sub([[[]]], [[[]]], 2, ZZ) == [[[]]] and dmp_sub([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_sub([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(-1)]]] and dmp_sub([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_sub([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(-1)]]] and dmp_sub([[[]]], [[[]]], 2, QQ) == [[[]]] and dmp_sub([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_sub([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[QQ(-1, 2)]]] and dmp_sub([[[QQ(2, 7)]]], [[[QQ(1, 7)]]], 2, QQ) == [[[QQ(1, 7)]]] and dmp_sub([[[QQ(1, 7)]]], [[[QQ(2, 7)]]], 2, QQ) == [[[QQ(-1, 7)]]]"},"spec":{"lhs":"test_dmp_sub()","rhs":"dmp_sub([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_sub([ZZ(1), ZZ(2)], [ZZ(1)], ZZ) and dmp_sub([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0, QQ) == dup_sub([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ) and dmp_sub([[[]]], [[[]]], 2, ZZ) == [[[]]] and dmp_sub([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_sub([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(-1)]]] and dmp_sub([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]] and dmp_sub([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(-1)]]] and dmp_sub([[[]]], [[[]]], 2, QQ) == [[[]]] and dmp_sub([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[QQ(1, 2)]]] and dmp_sub([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[QQ(-1, 2)]]] and dmp_sub([[[QQ(2, 7)]]], [[[QQ(1, 7)]]], 2, QQ) == [[[QQ(1, 7)]]] and dmp_sub([[[QQ(1, 7)]]], [[[QQ(2, 7)]]], 2, QQ) == [[[QQ(-1, 7)]]]","over":{"base":"Any"},"name":"test_dmp_sub_correct"},"guarantee":"dmp_sub([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_sub([ZZ(1), ZZ(2)], [ZZ(1)], ZZ); dmp_sub([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0, QQ) == dup_sub([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ); dmp_sub([[[]]], [[[]]], 2, ZZ) == [[[]]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_sub_correct","statement":"Path(test_dmp_sub(x), dmp_sub([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_sub([ZZ(1), ZZ(2)], [ZZ(1)], ZZ); dmp_sub([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0, QQ) == dup_sub([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ); dmp_sub([[[]]], [[[]]], 2, ZZ) == [[[]]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2528178a8de8acdb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_sub([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == dup_sub([ZZ(1), ZZ(2)], [ZZ(1)], ZZ)","dmp_sub([QQ(1, 2), QQ(2, 3)], [QQ(1)], 0, QQ) == dup_sub([QQ(1, 2), QQ(2, 3)], [QQ(1)], QQ)","dmp_sub([[[]]], [[[]]], 2, ZZ) == [[[]]]","dmp_sub([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[ZZ(1)]]]","dmp_sub([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(-1)]]]","dmp_sub([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(1)]]]","dmp_sub([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(-1)]]]","dmp_sub([[[]]], [[[]]], 2, QQ) == [[[]]]","dmp_sub([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[QQ(1, 2)]]]","dmp_sub([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[QQ(-1, 2)]]]","dmp_sub([[[QQ(2, 7)]]], [[[QQ(1, 7)]]], 2, QQ) == [[[QQ(1, 7)]]]","dmp_sub([[[QQ(1, 7)]]], [[[QQ(2, 7)]]], 2, QQ) == [[[QQ(-1, 7)]]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_dmp_sub():
     assert dmp_sub([ZZ(1), ZZ(2)], [ZZ(1)], 0, ZZ) == \
         dup_sub([ZZ(1), ZZ(2)], [ZZ(1)], ZZ)
@@ -720,16 +916,23 @@ def test_dmp_sub():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_add_mul(), test_dup_add_mul produces the expected output) over Any ║
+# ║ Path(test_dup_add_mul(), dup_add_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(3), ZZ(9), ZZ(7), ZZ(5)] and dmp_add_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[ZZ(3)], [ZZ(2), ZZ(1)]], [[ZZ(1)], [ZZ(2)]], 1, ZZ) == [[ZZ(3)], [ZZ(3), ZZ(9)], [ZZ(4), ZZ(5)]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_add_mul : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_add_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3)...   ║
+# ║   ensures:  dmp_add_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_add_mul : Any → {Any | result satisfies: dup...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 567ce91423cbe104  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74615baf03947a32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_add_mul","kind":"function","src_hash":"67dce5f92a210459","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dup_add_mul()","rhs":"test_dup_add_mul produces the expected output","over":{"base":"Any"},"name":"test_dup_add_mul_correct"},"guarantee":"test_dup_add_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_add_mul_correct","statement":"Path(test_dup_add_mul(x), test_dup_add_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"567ce91423cbe104"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_add_mul","kind":"function","src_hash":"67dce5f92a210459","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_add_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(3), ZZ(9), ZZ(7), ZZ(5)] and dmp_add_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[ZZ(3)], [ZZ(2), ZZ(1)]], [[ZZ(1)], [ZZ(2)]], 1, ZZ) == [[ZZ(3)], [ZZ(3), ZZ(9)], [ZZ(4), ZZ(5)]]"},"spec":{"lhs":"test_dup_add_mul()","rhs":"dup_add_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(3), ZZ(9), ZZ(7), ZZ(5)] and dmp_add_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[ZZ(3)], [ZZ(2), ZZ(1)]], [[ZZ(1)], [ZZ(2)]], 1, ZZ) == [[ZZ(3)], [ZZ(3), ZZ(9)], [ZZ(4), ZZ(5)]]","over":{"base":"Any"},"name":"test_dup_add_mul_correct"},"guarantee":"dup_add_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(3), ZZ(9), ZZ(7), ZZ(5)]; dmp_add_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[ZZ(3)], [ZZ(2), ZZ(1)]], [[ZZ(1)], [ZZ(2)]], 1, ZZ) == [[ZZ(3)], [ZZ(3), ZZ(9)], [ZZ(4), ZZ(5)]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_add_mul_correct","statement":"Path(test_dup_add_mul(x), dup_add_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(3), ZZ(9), ZZ(7), ZZ(5)]; dmp_add_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[ZZ(3)], [ZZ(2), ZZ(1)]], [[ZZ(1)], [ZZ(2)]], 1, ZZ) == [[ZZ(3)], [ZZ(3), ZZ(9)], [ZZ(4), ZZ(5)]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74615baf03947a32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_add_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(3), ZZ(9), ZZ(7), ZZ(5)]","dmp_add_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[ZZ(3)], [ZZ(2), ZZ(1)]], [[ZZ(1)], [ZZ(2)]], 1, ZZ) == [[ZZ(3)], [ZZ(3), ZZ(9)], [ZZ(4), ZZ(5)]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dup_add_mul():
     assert dup_add_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)],
                [ZZ(1), ZZ(2)], ZZ) == [ZZ(3), ZZ(9), ZZ(7), ZZ(5)]
@@ -738,16 +941,23 @@ def test_dup_add_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_sub_mul(), test_dup_sub_mul produces the expected output) over Any ║
+# ║ Path(test_dup_sub_mul(), dup_sub_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(-3), ZZ(-7), ZZ(-3), ZZ(1)] and dmp_sub_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[ZZ(3)], [ZZ(2), ZZ(1)]], [[ZZ(1)], [ZZ(2)]], 1, ZZ) == [[ZZ(-3)], [ZZ(-1), ZZ(-5)], [ZZ(-4), ZZ(1)]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_sub_mul : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_sub_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3)...   ║
+# ║   ensures:  dmp_sub_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_sub_mul : Any → {Any | result satisfies: dup...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 411fdef2c890612e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f92ab8a7ccff36d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_sub_mul","kind":"function","src_hash":"dfbdaeec5fa65008","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dup_sub_mul()","rhs":"test_dup_sub_mul produces the expected output","over":{"base":"Any"},"name":"test_dup_sub_mul_correct"},"guarantee":"test_dup_sub_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_sub_mul_correct","statement":"Path(test_dup_sub_mul(x), test_dup_sub_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"411fdef2c890612e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_sub_mul","kind":"function","src_hash":"dfbdaeec5fa65008","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_sub_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(-3), ZZ(-7), ZZ(-3), ZZ(1)] and dmp_sub_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[ZZ(3)], [ZZ(2), ZZ(1)]], [[ZZ(1)], [ZZ(2)]], 1, ZZ) == [[ZZ(-3)], [ZZ(-1), ZZ(-5)], [ZZ(-4), ZZ(1)]]"},"spec":{"lhs":"test_dup_sub_mul()","rhs":"dup_sub_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(-3), ZZ(-7), ZZ(-3), ZZ(1)] and dmp_sub_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[ZZ(3)], [ZZ(2), ZZ(1)]], [[ZZ(1)], [ZZ(2)]], 1, ZZ) == [[ZZ(-3)], [ZZ(-1), ZZ(-5)], [ZZ(-4), ZZ(1)]]","over":{"base":"Any"},"name":"test_dup_sub_mul_correct"},"guarantee":"dup_sub_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(-3), ZZ(-7), ZZ(-3), ZZ(1)]; dmp_sub_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[ZZ(3)], [ZZ(2), ZZ(1)]], [[ZZ(1)], [ZZ(2)]], 1, ZZ) == [[ZZ(-3)], [ZZ(-1), ZZ(-5)], [ZZ(-4), ZZ(1)]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_sub_mul_correct","statement":"Path(test_dup_sub_mul(x), dup_sub_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(-3), ZZ(-7), ZZ(-3), ZZ(1)]; dmp_sub_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[ZZ(3)], [ZZ(2), ZZ(1)]], [[ZZ(1)], [ZZ(2)]], 1, ZZ) == [[ZZ(-3)], [ZZ(-1), ZZ(-5)], [ZZ(-4), ZZ(1)]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f92ab8a7ccff36d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_sub_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)], [ZZ(1), ZZ(2)], ZZ) == [ZZ(-3), ZZ(-7), ZZ(-3), ZZ(1)]","dmp_sub_mul([[ZZ(1), ZZ(2)], [ZZ(3)]], [[ZZ(3)], [ZZ(2), ZZ(1)]], [[ZZ(1)], [ZZ(2)]], 1, ZZ) == [[ZZ(-3)], [ZZ(-1), ZZ(-5)], [ZZ(-4), ZZ(1)]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dup_sub_mul():
     assert dup_sub_mul([ZZ(1), ZZ(2), ZZ(3)], [ZZ(3), ZZ(2), ZZ(1)],
                [ZZ(1), ZZ(2)], ZZ) == [ZZ(-3), ZZ(-7), ZZ(-3), ZZ(1)]
@@ -756,16 +966,24 @@ def test_dup_sub_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_mul(), test_dup_mul produces the expected output) over Any ║
+# ║ Path(test_dup_mul(), dup_mul([], [], ZZ) == [] and dup_mul([], [ZZ(1)], ZZ) == [] and dup_mul([ZZ(1)], [], ZZ) == [] and dup_mul([ZZ(1)], [ZZ(1)], ZZ) == [ZZ(1)] and dup_mul([ZZ(5)], [ZZ(7)], ZZ) == [ZZ(35)] and dup_mul([], [], QQ) == [] and dup_mul([], [QQ(1, 2)], QQ) == [] and dup_mul([QQ(1, 2)], [], QQ) == [] and dup_mul([QQ(1, 2)], [QQ(4, 7)], QQ) == [QQ(2, 7)] and dup_mul([QQ(5, 7)], [QQ(3, 7)], QQ) == [QQ(15, 49)] and dup_mul(f, g, ZZ) == h and dup_mul(g, f, ZZ) == h and dup_mul(f, f, ZZ) == h and dup_mul([K(2), K(1)], [K(3), K(4)], K) == [K(5), K(4)] and dup_mul(p1, p2, ZZ) == res) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_mul : Any → {Any | dup_mul([], [], ZZ) == []...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_mul([], [], ZZ) == []                      ║
+# ║   ensures:  dup_mul([], [ZZ(1)], ZZ) == []                 ║
+# ║   ensures:  dup_mul([ZZ(1)], [], ZZ) == []                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_mul : Any → {Any | result satisfies: dup_mul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbecf8bcf47491b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 5.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72a84dd17fb2c6b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_mul","kind":"function","src_hash":"17c7d771462fe566","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_mul([], [], ZZ) == [] and dup_mul([], [ZZ(1)], ZZ) == [] and dup_mul([ZZ(1)], [], ZZ) == [] and dup_mul([ZZ(1)], [ZZ(1)], ZZ) == [ZZ(1)] and dup_mul([ZZ(5)], [ZZ(7)], ZZ) == [ZZ(35)] and dup_mul([], [], QQ) == [] and dup_mul([], [QQ(1, 2)], QQ) == [] and dup_mul([QQ(1, 2)], [], QQ) == [] and dup_mul([QQ(1, 2)], [QQ(4, 7)], QQ) == [QQ(2, 7)] and dup_mul([QQ(5, 7)], [QQ(3, 7)], QQ) == [QQ(15, 49)] and dup_mul(f, g, ZZ) == h and dup_mul(g, f, ZZ) == h and dup_mul(f, f, ZZ) == h and dup_mul([K(2), K(1)], [K(3), K(4)], K) == [K(5), K(4)] and dup_mul(p1, p2, ZZ) == res and dup_mul(p1, p2, ZZ) == res"},"spec":{"lhs":"test_dup_mul()","rhs":"test_dup_mul produces the expected output","over":{"base":"Any"},"name":"test_dup_mul_correct"},"guarantee":"test_dup_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_mul_correct","statement":"Path(test_dup_mul(x), test_dup_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbecf8bcf47491b9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_mul","kind":"function","src_hash":"17c7d771462fe566","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_mul([], [], ZZ) == [] and dup_mul([], [ZZ(1)], ZZ) == [] and dup_mul([ZZ(1)], [], ZZ) == [] and dup_mul([ZZ(1)], [ZZ(1)], ZZ) == [ZZ(1)] and dup_mul([ZZ(5)], [ZZ(7)], ZZ) == [ZZ(35)] and dup_mul([], [], QQ) == [] and dup_mul([], [QQ(1, 2)], QQ) == [] and dup_mul([QQ(1, 2)], [], QQ) == [] and dup_mul([QQ(1, 2)], [QQ(4, 7)], QQ) == [QQ(2, 7)] and dup_mul([QQ(5, 7)], [QQ(3, 7)], QQ) == [QQ(15, 49)] and dup_mul(f, g, ZZ) == h and dup_mul(g, f, ZZ) == h and dup_mul(f, f, ZZ) == h and dup_mul([K(2), K(1)], [K(3), K(4)], K) == [K(5), K(4)] and dup_mul(p1, p2, ZZ) == res"},"spec":{"lhs":"test_dup_mul()","rhs":"dup_mul([], [], ZZ) == [] and dup_mul([], [ZZ(1)], ZZ) == [] and dup_mul([ZZ(1)], [], ZZ) == [] and dup_mul([ZZ(1)], [ZZ(1)], ZZ) == [ZZ(1)] and dup_mul([ZZ(5)], [ZZ(7)], ZZ) == [ZZ(35)] and dup_mul([], [], QQ) == [] and dup_mul([], [QQ(1, 2)], QQ) == [] and dup_mul([QQ(1, 2)], [], QQ) == [] and dup_mul([QQ(1, 2)], [QQ(4, 7)], QQ) == [QQ(2, 7)] and dup_mul([QQ(5, 7)], [QQ(3, 7)], QQ) == [QQ(15, 49)] and dup_mul(f, g, ZZ) == h and dup_mul(g, f, ZZ) == h and dup_mul(f, f, ZZ) == h and dup_mul([K(2), K(1)], [K(3), K(4)], K) == [K(5), K(4)] and dup_mul(p1, p2, ZZ) == res","over":{"base":"Any"},"name":"test_dup_mul_correct"},"guarantee":"dup_mul([], [], ZZ) == []; dup_mul([], [ZZ(1)], ZZ) == []; dup_mul([ZZ(1)], [], ZZ) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_mul_correct","statement":"Path(test_dup_mul(x), dup_mul([], [], ZZ) == []; dup_mul([], [ZZ(1)], ZZ) == []; dup_mul([ZZ(1)], [], ZZ) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72a84dd17fb2c6b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_mul([], [], ZZ) == []","dup_mul([], [ZZ(1)], ZZ) == []","dup_mul([ZZ(1)], [], ZZ) == []","dup_mul([ZZ(1)], [ZZ(1)], ZZ) == [ZZ(1)]","dup_mul([ZZ(5)], [ZZ(7)], ZZ) == [ZZ(35)]","dup_mul([], [], QQ) == []","dup_mul([], [QQ(1, 2)], QQ) == []","dup_mul([QQ(1, 2)], [], QQ) == []","dup_mul([QQ(1, 2)], [QQ(4, 7)], QQ) == [QQ(2, 7)]","dup_mul([QQ(5, 7)], [QQ(3, 7)], QQ) == [QQ(15, 49)]","dup_mul(f, g, ZZ) == h","dup_mul(g, f, ZZ) == h","dup_mul(f, f, ZZ) == h","dup_mul([K(2), K(1)], [K(3), K(4)], K) == [K(5), K(4)]","dup_mul(p1, p2, ZZ) == res"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.3,"verdict_class":"assumed","binding":true}}
 def test_dup_mul():
     assert dup_mul([], [], ZZ) == []
     assert dup_mul([], [ZZ(1)], ZZ) == []
@@ -994,16 +1212,24 @@ def test_dup_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_mul(), test_dmp_mul produces the expected output) over Any ║
+# ║ Path(test_dmp_mul(), dmp_mul([ZZ(5)], [ZZ(7)], 0, ZZ) == dup_mul([ZZ(5)], [ZZ(7)], ZZ) and dmp_mul([QQ(5, 7)], [QQ(3, 7)], 0, QQ) == dup_mul([QQ(5, 7)], [QQ(3, 7)], QQ) and dmp_mul([[[]]], [[[]]], 2, ZZ) == [[[]]] and dmp_mul([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[]]] and dmp_mul([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[]]] and dmp_mul([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(2)]]] and dmp_mul([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(2)]]] and dmp_mul([[[]]], [[[]]], 2, QQ) == [[[]]] and dmp_mul([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[]]] and dmp_mul([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[]]] and dmp_mul([[[QQ(2, 7)]]], [[[QQ(1, 3)]]], 2, QQ) == [[[QQ(2, 21)]]] and dmp_mul([[[QQ(1, 7)]]], [[[QQ(2, 3)]]], 2, QQ) == [[[QQ(2, 21)]]] and dmp_mul([[K(2)], [K(1)]], [[K(3)], [K(4)]], 1, K) == [[K(5)], [K(4)]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_mul : Any → {Any | dmp_mul([ZZ(5)], [ZZ(7)],...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_mul([ZZ(5)], [ZZ(7)], 0, ZZ) == dup_m...   ║
+# ║   ensures:  dmp_mul([QQ(5, 7)], [QQ(3, 7)], 0, QQ) ==...   ║
+# ║   ensures:  dmp_mul([[[]]], [[[]]], 2, ZZ) == [[[]]]       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_mul : Any → {Any | result satisfies: dmp_mul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5836609e9dd7092  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3758f053034d76a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_mul","kind":"function","src_hash":"883cd5f37b96925f","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_mul([ZZ(5)], [ZZ(7)], 0, ZZ) == dup_mul([ZZ(5)], [ZZ(7)], ZZ) and dmp_mul([QQ(5, 7)], [QQ(3, 7)], 0, QQ) == dup_mul([QQ(5, 7)], [QQ(3, 7)], QQ) and dmp_mul([[[]]], [[[]]], 2, ZZ) == [[[]]] and dmp_mul([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[]]] and dmp_mul([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[]]] and dmp_mul([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(2)]]] and dmp_mul([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(2)]]] and dmp_mul([[[]]], [[[]]], 2, QQ) == [[[]]] and dmp_mul([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[]]] and dmp_mul([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[]]] and dmp_mul([[[QQ(2, 7)]]], [[[QQ(1, 3)]]], 2, QQ) == [[[QQ(2, 21)]]] and dmp_mul([[[QQ(1, 7)]]], [[[QQ(2, 3)]]], 2, QQ) == [[[QQ(2, 21)]]] and dmp_mul([[K(2)], [K(1)]], [[K(3)], [K(4)]], 1, K) == [[K(5)], [K(4)]]"},"spec":{"lhs":"test_dmp_mul()","rhs":"test_dmp_mul produces the expected output","over":{"base":"Any"},"name":"test_dmp_mul_correct"},"guarantee":"test_dmp_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_mul_correct","statement":"Path(test_dmp_mul(x), test_dmp_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5836609e9dd7092"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_mul","kind":"function","src_hash":"883cd5f37b96925f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_mul([ZZ(5)], [ZZ(7)], 0, ZZ) == dup_mul([ZZ(5)], [ZZ(7)], ZZ) and dmp_mul([QQ(5, 7)], [QQ(3, 7)], 0, QQ) == dup_mul([QQ(5, 7)], [QQ(3, 7)], QQ) and dmp_mul([[[]]], [[[]]], 2, ZZ) == [[[]]] and dmp_mul([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[]]] and dmp_mul([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[]]] and dmp_mul([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(2)]]] and dmp_mul([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(2)]]] and dmp_mul([[[]]], [[[]]], 2, QQ) == [[[]]] and dmp_mul([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[]]] and dmp_mul([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[]]] and dmp_mul([[[QQ(2, 7)]]], [[[QQ(1, 3)]]], 2, QQ) == [[[QQ(2, 21)]]] and dmp_mul([[[QQ(1, 7)]]], [[[QQ(2, 3)]]], 2, QQ) == [[[QQ(2, 21)]]] and dmp_mul([[K(2)], [K(1)]], [[K(3)], [K(4)]], 1, K) == [[K(5)], [K(4)]]"},"spec":{"lhs":"test_dmp_mul()","rhs":"dmp_mul([ZZ(5)], [ZZ(7)], 0, ZZ) == dup_mul([ZZ(5)], [ZZ(7)], ZZ) and dmp_mul([QQ(5, 7)], [QQ(3, 7)], 0, QQ) == dup_mul([QQ(5, 7)], [QQ(3, 7)], QQ) and dmp_mul([[[]]], [[[]]], 2, ZZ) == [[[]]] and dmp_mul([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[]]] and dmp_mul([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[]]] and dmp_mul([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(2)]]] and dmp_mul([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(2)]]] and dmp_mul([[[]]], [[[]]], 2, QQ) == [[[]]] and dmp_mul([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[]]] and dmp_mul([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[]]] and dmp_mul([[[QQ(2, 7)]]], [[[QQ(1, 3)]]], 2, QQ) == [[[QQ(2, 21)]]] and dmp_mul([[[QQ(1, 7)]]], [[[QQ(2, 3)]]], 2, QQ) == [[[QQ(2, 21)]]] and dmp_mul([[K(2)], [K(1)]], [[K(3)], [K(4)]], 1, K) == [[K(5)], [K(4)]]","over":{"base":"Any"},"name":"test_dmp_mul_correct"},"guarantee":"dmp_mul([ZZ(5)], [ZZ(7)], 0, ZZ) == dup_mul([ZZ(5)], [ZZ(7)], ZZ); dmp_mul([QQ(5, 7)], [QQ(3, 7)], 0, QQ) == dup_mul([QQ(5, 7)], [QQ(3, 7)], QQ); dmp_mul([[[]]], [[[]]], 2, ZZ) == [[[]]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_mul_correct","statement":"Path(test_dmp_mul(x), dmp_mul([ZZ(5)], [ZZ(7)], 0, ZZ) == dup_mul([ZZ(5)], [ZZ(7)], ZZ); dmp_mul([QQ(5, 7)], [QQ(3, 7)], 0, QQ) == dup_mul([QQ(5, 7)], [QQ(3, 7)], QQ); dmp_mul([[[]]], [[[]]], 2, ZZ) == [[[]]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3758f053034d76a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_mul([ZZ(5)], [ZZ(7)], 0, ZZ) == dup_mul([ZZ(5)], [ZZ(7)], ZZ)","dmp_mul([QQ(5, 7)], [QQ(3, 7)], 0, QQ) == dup_mul([QQ(5, 7)], [QQ(3, 7)], QQ)","dmp_mul([[[]]], [[[]]], 2, ZZ) == [[[]]]","dmp_mul([[[ZZ(1)]]], [[[]]], 2, ZZ) == [[[]]]","dmp_mul([[[]]], [[[ZZ(1)]]], 2, ZZ) == [[[]]]","dmp_mul([[[ZZ(2)]]], [[[ZZ(1)]]], 2, ZZ) == [[[ZZ(2)]]]","dmp_mul([[[ZZ(1)]]], [[[ZZ(2)]]], 2, ZZ) == [[[ZZ(2)]]]","dmp_mul([[[]]], [[[]]], 2, QQ) == [[[]]]","dmp_mul([[[QQ(1, 2)]]], [[[]]], 2, QQ) == [[[]]]","dmp_mul([[[]]], [[[QQ(1, 2)]]], 2, QQ) == [[[]]]","dmp_mul([[[QQ(2, 7)]]], [[[QQ(1, 3)]]], 2, QQ) == [[[QQ(2, 21)]]]","dmp_mul([[[QQ(1, 7)]]], [[[QQ(2, 3)]]], 2, QQ) == [[[QQ(2, 21)]]]","dmp_mul([[K(2)], [K(1)]], [[K(3)], [K(4)]], 1, K) == [[K(5)], [K(4)]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_dmp_mul():
     assert dmp_mul([ZZ(5)], [ZZ(7)], 0, ZZ) == \
         dup_mul([ZZ(5)], [ZZ(7)], ZZ)
@@ -1029,16 +1255,24 @@ def test_dmp_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_sqr(), test_dup_sqr produces the expected output) over Any ║
+# ║ Path(test_dup_sqr(), dup_sqr([], ZZ) == [] and dup_sqr([ZZ(2)], ZZ) == [ZZ(4)] and dup_sqr([ZZ(1), ZZ(2)], ZZ) == [ZZ(1), ZZ(4), ZZ(4)] and dup_sqr([], QQ) == [] and dup_sqr([QQ(2, 3)], QQ) == [QQ(4, 9)] and dup_sqr([QQ(1, 3), QQ(2, 3)], QQ) == [QQ(1, 9), QQ(4, 9), QQ(4, 9)] and dup_sqr(f, ZZ) == dup_normal([4, 0, 0, 4, 28, 0, 1, 14, 49], ZZ) and dup_sqr([K(3), K(4)], K) == [K(6), K(7)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_sqr : Any → {Any | dup_sqr([], ZZ) == [] and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_sqr([], ZZ) == []                          ║
+# ║   ensures:  dup_sqr([ZZ(2)], ZZ) == [ZZ(4)]                ║
+# ║   ensures:  dup_sqr([ZZ(1), ZZ(2)], ZZ) == [ZZ(1), ZZ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_sqr : Any → {Any | result satisfies: dup_sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3390e62359fc402e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95ab87ed5d4d6284  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_sqr","kind":"function","src_hash":"178d4e847a7b90b5","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_sqr([], ZZ) == [] and dup_sqr([ZZ(2)], ZZ) == [ZZ(4)] and dup_sqr([ZZ(1), ZZ(2)], ZZ) == [ZZ(1), ZZ(4), ZZ(4)] and dup_sqr([], QQ) == [] and dup_sqr([QQ(2, 3)], QQ) == [QQ(4, 9)] and dup_sqr([QQ(1, 3), QQ(2, 3)], QQ) == [QQ(1, 9), QQ(4, 9), QQ(4, 9)] and dup_sqr(f, ZZ) == dup_normal([4, 0, 0, 4, 28, 0, 1, 14, 49], ZZ) and dup_sqr([K(3), K(4)], K) == [K(6), K(7)]"},"spec":{"lhs":"test_dup_sqr()","rhs":"test_dup_sqr produces the expected output","over":{"base":"Any"},"name":"test_dup_sqr_correct"},"guarantee":"test_dup_sqr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_sqr_correct","statement":"Path(test_dup_sqr(x), test_dup_sqr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3390e62359fc402e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_sqr","kind":"function","src_hash":"178d4e847a7b90b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_sqr([], ZZ) == [] and dup_sqr([ZZ(2)], ZZ) == [ZZ(4)] and dup_sqr([ZZ(1), ZZ(2)], ZZ) == [ZZ(1), ZZ(4), ZZ(4)] and dup_sqr([], QQ) == [] and dup_sqr([QQ(2, 3)], QQ) == [QQ(4, 9)] and dup_sqr([QQ(1, 3), QQ(2, 3)], QQ) == [QQ(1, 9), QQ(4, 9), QQ(4, 9)] and dup_sqr(f, ZZ) == dup_normal([4, 0, 0, 4, 28, 0, 1, 14, 49], ZZ) and dup_sqr([K(3), K(4)], K) == [K(6), K(7)]"},"spec":{"lhs":"test_dup_sqr()","rhs":"dup_sqr([], ZZ) == [] and dup_sqr([ZZ(2)], ZZ) == [ZZ(4)] and dup_sqr([ZZ(1), ZZ(2)], ZZ) == [ZZ(1), ZZ(4), ZZ(4)] and dup_sqr([], QQ) == [] and dup_sqr([QQ(2, 3)], QQ) == [QQ(4, 9)] and dup_sqr([QQ(1, 3), QQ(2, 3)], QQ) == [QQ(1, 9), QQ(4, 9), QQ(4, 9)] and dup_sqr(f, ZZ) == dup_normal([4, 0, 0, 4, 28, 0, 1, 14, 49], ZZ) and dup_sqr([K(3), K(4)], K) == [K(6), K(7)]","over":{"base":"Any"},"name":"test_dup_sqr_correct"},"guarantee":"dup_sqr([], ZZ) == []; dup_sqr([ZZ(2)], ZZ) == [ZZ(4)]; dup_sqr([ZZ(1), ZZ(2)], ZZ) == [ZZ(1), ZZ(4), ZZ(4)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_sqr_correct","statement":"Path(test_dup_sqr(x), dup_sqr([], ZZ) == []; dup_sqr([ZZ(2)], ZZ) == [ZZ(4)]; dup_sqr([ZZ(1), ZZ(2)], ZZ) == [ZZ(1), ZZ(4), ZZ(4)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95ab87ed5d4d6284","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_sqr([], ZZ) == []","dup_sqr([ZZ(2)], ZZ) == [ZZ(4)]","dup_sqr([ZZ(1), ZZ(2)], ZZ) == [ZZ(1), ZZ(4), ZZ(4)]","dup_sqr([], QQ) == []","dup_sqr([QQ(2, 3)], QQ) == [QQ(4, 9)]","dup_sqr([QQ(1, 3), QQ(2, 3)], QQ) == [QQ(1, 9), QQ(4, 9), QQ(4, 9)]","dup_sqr(f, ZZ) == dup_normal([4, 0, 0, 4, 28, 0, 1, 14, 49], ZZ)","dup_sqr([K(3), K(4)], K) == [K(6), K(7)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dup_sqr():
     assert dup_sqr([], ZZ) == []
     assert dup_sqr([ZZ(2)], ZZ) == [ZZ(4)]
@@ -1058,16 +1292,24 @@ def test_dup_sqr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_sqr(), test_dmp_sqr produces the expected output) over Any ║
+# ║ Path(test_dmp_sqr(), dmp_sqr([ZZ(1), ZZ(2)], 0, ZZ) == dup_sqr([ZZ(1), ZZ(2)], ZZ) and dmp_sqr([[[]]], 2, ZZ) == [[[]]] and dmp_sqr([[[ZZ(2)]]], 2, ZZ) == [[[ZZ(4)]]] and dmp_sqr([[[]]], 2, QQ) == [[[]]] and dmp_sqr([[[QQ(2, 3)]]], 2, QQ) == [[[QQ(4, 9)]]] and dmp_sqr([[K(3)], [K(4)]], 1, K) == [[K(6)], [K(7)]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_sqr : Any → {Any | dmp_sqr([ZZ(1), ZZ(2)], 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_sqr([ZZ(1), ZZ(2)], 0, ZZ) == dup_sqr...   ║
+# ║   ensures:  dmp_sqr([[[]]], 2, ZZ) == [[[]]]               ║
+# ║   ensures:  dmp_sqr([[[ZZ(2)]]], 2, ZZ) == [[[ZZ(4)]]]     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_sqr : Any → {Any | result satisfies: dmp_sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adcae8b8ed16ccbf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5463db226b2575ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_sqr","kind":"function","src_hash":"83fbf196d8b920e3","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_sqr([ZZ(1), ZZ(2)], 0, ZZ) == dup_sqr([ZZ(1), ZZ(2)], ZZ) and dmp_sqr([[[]]], 2, ZZ) == [[[]]] and dmp_sqr([[[ZZ(2)]]], 2, ZZ) == [[[ZZ(4)]]] and dmp_sqr([[[]]], 2, QQ) == [[[]]] and dmp_sqr([[[QQ(2, 3)]]], 2, QQ) == [[[QQ(4, 9)]]] and dmp_sqr([[K(3)], [K(4)]], 1, K) == [[K(6)], [K(7)]]"},"spec":{"lhs":"test_dmp_sqr()","rhs":"test_dmp_sqr produces the expected output","over":{"base":"Any"},"name":"test_dmp_sqr_correct"},"guarantee":"test_dmp_sqr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_sqr_correct","statement":"Path(test_dmp_sqr(x), test_dmp_sqr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adcae8b8ed16ccbf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_sqr","kind":"function","src_hash":"83fbf196d8b920e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_sqr([ZZ(1), ZZ(2)], 0, ZZ) == dup_sqr([ZZ(1), ZZ(2)], ZZ) and dmp_sqr([[[]]], 2, ZZ) == [[[]]] and dmp_sqr([[[ZZ(2)]]], 2, ZZ) == [[[ZZ(4)]]] and dmp_sqr([[[]]], 2, QQ) == [[[]]] and dmp_sqr([[[QQ(2, 3)]]], 2, QQ) == [[[QQ(4, 9)]]] and dmp_sqr([[K(3)], [K(4)]], 1, K) == [[K(6)], [K(7)]]"},"spec":{"lhs":"test_dmp_sqr()","rhs":"dmp_sqr([ZZ(1), ZZ(2)], 0, ZZ) == dup_sqr([ZZ(1), ZZ(2)], ZZ) and dmp_sqr([[[]]], 2, ZZ) == [[[]]] and dmp_sqr([[[ZZ(2)]]], 2, ZZ) == [[[ZZ(4)]]] and dmp_sqr([[[]]], 2, QQ) == [[[]]] and dmp_sqr([[[QQ(2, 3)]]], 2, QQ) == [[[QQ(4, 9)]]] and dmp_sqr([[K(3)], [K(4)]], 1, K) == [[K(6)], [K(7)]]","over":{"base":"Any"},"name":"test_dmp_sqr_correct"},"guarantee":"dmp_sqr([ZZ(1), ZZ(2)], 0, ZZ) == dup_sqr([ZZ(1), ZZ(2)], ZZ); dmp_sqr([[[]]], 2, ZZ) == [[[]]]; dmp_sqr([[[ZZ(2)]]], 2, ZZ) == [[[ZZ(4)]]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_sqr_correct","statement":"Path(test_dmp_sqr(x), dmp_sqr([ZZ(1), ZZ(2)], 0, ZZ) == dup_sqr([ZZ(1), ZZ(2)], ZZ); dmp_sqr([[[]]], 2, ZZ) == [[[]]]; dmp_sqr([[[ZZ(2)]]], 2, ZZ) == [[[ZZ(4)]]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5463db226b2575ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_sqr([ZZ(1), ZZ(2)], 0, ZZ) == dup_sqr([ZZ(1), ZZ(2)], ZZ)","dmp_sqr([[[]]], 2, ZZ) == [[[]]]","dmp_sqr([[[ZZ(2)]]], 2, ZZ) == [[[ZZ(4)]]]","dmp_sqr([[[]]], 2, QQ) == [[[]]]","dmp_sqr([[[QQ(2, 3)]]], 2, QQ) == [[[QQ(4, 9)]]]","dmp_sqr([[K(3)], [K(4)]], 1, K) == [[K(6)], [K(7)]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dmp_sqr():
     assert dmp_sqr([ZZ(1), ZZ(2)], 0, ZZ) == \
         dup_sqr([ZZ(1), ZZ(2)], ZZ)
@@ -1084,16 +1326,24 @@ def test_dmp_sqr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_pow(), test_dup_pow produces the expected output) over Any ║
+# ║ Path(test_dup_pow(), dup_pow([], 0, ZZ) == [ZZ(1)] and dup_pow([], 0, QQ) == [QQ(1)] and dup_pow([], 1, ZZ) == [] and dup_pow([], 7, ZZ) == [] and dup_pow([ZZ(1)], 0, ZZ) == [ZZ(1)] and dup_pow([ZZ(1)], 1, ZZ) == [ZZ(1)] and dup_pow([ZZ(1)], 7, ZZ) == [ZZ(1)] and dup_pow([ZZ(3)], 0, ZZ) == [ZZ(1)] and dup_pow([ZZ(3)], 1, ZZ) == [ZZ(3)] and dup_pow([ZZ(3)], 7, ZZ) == [ZZ(2187)] and dup_pow([QQ(1, 1)], 0, QQ) == [QQ(1, 1)] and dup_pow([QQ(1, 1)], 1, QQ) == [QQ(1, 1)] and dup_pow([QQ(1, 1)], 7, QQ) == [QQ(1, 1)] and dup_pow([QQ(3, 7)], 0, QQ) == [QQ(1, 1)] and dup_pow([QQ(3, 7)], 1, QQ) == [QQ(3, 7)] and dup_pow([QQ(3, 7)], 7, QQ) == [QQ(2187, 823543)] and dup_pow(f, 0, ZZ) == dup_normal([1], ZZ) and dup_pow(f, 1, ZZ) == dup_normal([2, 0, 0, 1, 7], ZZ) and dup_pow(f, 2, ZZ) == dup_normal([4, 0, 0, 4, 28, 0, 1, 14, 49], ZZ) and dup_pow(f, 3, ZZ) == dup_normal([8, 0, 0, 12, 84, 0, 6, 84, 294, 1, 21, 147, 343], ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_pow : Any → {Any | dup_pow([], 0, ZZ) == [ZZ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_pow([], 0, ZZ) == [ZZ(1)]                  ║
+# ║   ensures:  dup_pow([], 0, QQ) == [QQ(1)]                  ║
+# ║   ensures:  dup_pow([], 1, ZZ) == []                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_pow : Any → {Any | result satisfies: dup_pow...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a10218d24f5b4335  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bf35ad0f9be5d24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_pow","kind":"function","src_hash":"6b97332c1f29ea6e","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_pow([], 0, ZZ) == [ZZ(1)] and dup_pow([], 0, QQ) == [QQ(1)] and dup_pow([], 1, ZZ) == [] and dup_pow([], 7, ZZ) == [] and dup_pow([ZZ(1)], 0, ZZ) == [ZZ(1)] and dup_pow([ZZ(1)], 1, ZZ) == [ZZ(1)] and dup_pow([ZZ(1)], 7, ZZ) == [ZZ(1)] and dup_pow([ZZ(3)], 0, ZZ) == [ZZ(1)] and dup_pow([ZZ(3)], 1, ZZ) == [ZZ(3)] and dup_pow([ZZ(3)], 7, ZZ) == [ZZ(2187)] and dup_pow([QQ(1, 1)], 0, QQ) == [QQ(1, 1)] and dup_pow([QQ(1, 1)], 1, QQ) == [QQ(1, 1)] and dup_pow([QQ(1, 1)], 7, QQ) == [QQ(1, 1)] and dup_pow([QQ(3, 7)], 0, QQ) == [QQ(1, 1)] and dup_pow([QQ(3, 7)], 1, QQ) == [QQ(3, 7)] and dup_pow([QQ(3, 7)], 7, QQ) == [QQ(2187, 823543)] and dup_pow(f, 0, ZZ) == dup_normal([1], ZZ) and dup_pow(f, 1, ZZ) == dup_normal([2, 0, 0, 1, 7], ZZ) and dup_pow(f, 2, ZZ) == dup_normal([4, 0, 0, 4, 28, 0, 1, 14, 49], ZZ)"},"spec":{"lhs":"test_dup_pow()","rhs":"test_dup_pow produces the expected output","over":{"base":"Any"},"name":"test_dup_pow_correct"},"guarantee":"test_dup_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_pow_correct","statement":"Path(test_dup_pow(x), test_dup_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a10218d24f5b4335"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_pow","kind":"function","src_hash":"6b97332c1f29ea6e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_pow([], 0, ZZ) == [ZZ(1)] and dup_pow([], 0, QQ) == [QQ(1)] and dup_pow([], 1, ZZ) == [] and dup_pow([], 7, ZZ) == [] and dup_pow([ZZ(1)], 0, ZZ) == [ZZ(1)] and dup_pow([ZZ(1)], 1, ZZ) == [ZZ(1)] and dup_pow([ZZ(1)], 7, ZZ) == [ZZ(1)] and dup_pow([ZZ(3)], 0, ZZ) == [ZZ(1)] and dup_pow([ZZ(3)], 1, ZZ) == [ZZ(3)] and dup_pow([ZZ(3)], 7, ZZ) == [ZZ(2187)] and dup_pow([QQ(1, 1)], 0, QQ) == [QQ(1, 1)] and dup_pow([QQ(1, 1)], 1, QQ) == [QQ(1, 1)] and dup_pow([QQ(1, 1)], 7, QQ) == [QQ(1, 1)] and dup_pow([QQ(3, 7)], 0, QQ) == [QQ(1, 1)] and dup_pow([QQ(3, 7)], 1, QQ) == [QQ(3, 7)] and dup_pow([QQ(3, 7)], 7, QQ) == [QQ(2187, 823543)] and dup_pow(f, 0, ZZ) == dup_normal([1], ZZ) and dup_pow(f, 1, ZZ) == dup_normal([2, 0, 0, 1, 7], ZZ) and dup_pow(f, 2, ZZ) == dup_normal([4, 0, 0, 4, 28, 0, 1, 14, 49], ZZ) and dup_pow(f, 3, ZZ) == dup_normal([8, 0, 0, 12, 84, 0, 6, 84, 294, 1, 21, 147, 343], ZZ)"},"spec":{"lhs":"test_dup_pow()","rhs":"dup_pow([], 0, ZZ) == [ZZ(1)] and dup_pow([], 0, QQ) == [QQ(1)] and dup_pow([], 1, ZZ) == [] and dup_pow([], 7, ZZ) == [] and dup_pow([ZZ(1)], 0, ZZ) == [ZZ(1)] and dup_pow([ZZ(1)], 1, ZZ) == [ZZ(1)] and dup_pow([ZZ(1)], 7, ZZ) == [ZZ(1)] and dup_pow([ZZ(3)], 0, ZZ) == [ZZ(1)] and dup_pow([ZZ(3)], 1, ZZ) == [ZZ(3)] and dup_pow([ZZ(3)], 7, ZZ) == [ZZ(2187)] and dup_pow([QQ(1, 1)], 0, QQ) == [QQ(1, 1)] and dup_pow([QQ(1, 1)], 1, QQ) == [QQ(1, 1)] and dup_pow([QQ(1, 1)], 7, QQ) == [QQ(1, 1)] and dup_pow([QQ(3, 7)], 0, QQ) == [QQ(1, 1)] and dup_pow([QQ(3, 7)], 1, QQ) == [QQ(3, 7)] and dup_pow([QQ(3, 7)], 7, QQ) == [QQ(2187, 823543)] and dup_pow(f, 0, ZZ) == dup_normal([1], ZZ) and dup_pow(f, 1, ZZ) == dup_normal([2, 0, 0, 1, 7], ZZ) and dup_pow(f, 2, ZZ) == dup_normal([4, 0, 0, 4, 28, 0, 1, 14, 49], ZZ) and dup_pow(f, 3, ZZ) == dup_normal([8, 0, 0, 12, 84, 0, 6, 84, 294, 1, 21, 147, 343], ZZ)","over":{"base":"Any"},"name":"test_dup_pow_correct"},"guarantee":"dup_pow([], 0, ZZ) == [ZZ(1)]; dup_pow([], 0, QQ) == [QQ(1)]; dup_pow([], 1, ZZ) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_pow_correct","statement":"Path(test_dup_pow(x), dup_pow([], 0, ZZ) == [ZZ(1)]; dup_pow([], 0, QQ) == [QQ(1)]; dup_pow([], 1, ZZ) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bf35ad0f9be5d24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_pow([], 0, ZZ) == [ZZ(1)]","dup_pow([], 0, QQ) == [QQ(1)]","dup_pow([], 1, ZZ) == []","dup_pow([], 7, ZZ) == []","dup_pow([ZZ(1)], 0, ZZ) == [ZZ(1)]","dup_pow([ZZ(1)], 1, ZZ) == [ZZ(1)]","dup_pow([ZZ(1)], 7, ZZ) == [ZZ(1)]","dup_pow([ZZ(3)], 0, ZZ) == [ZZ(1)]","dup_pow([ZZ(3)], 1, ZZ) == [ZZ(3)]","dup_pow([ZZ(3)], 7, ZZ) == [ZZ(2187)]","dup_pow([QQ(1, 1)], 0, QQ) == [QQ(1, 1)]","dup_pow([QQ(1, 1)], 1, QQ) == [QQ(1, 1)]","dup_pow([QQ(1, 1)], 7, QQ) == [QQ(1, 1)]","dup_pow([QQ(3, 7)], 0, QQ) == [QQ(1, 1)]","dup_pow([QQ(3, 7)], 1, QQ) == [QQ(3, 7)]","dup_pow([QQ(3, 7)], 7, QQ) == [QQ(2187, 823543)]","dup_pow(f, 0, ZZ) == dup_normal([1], ZZ)","dup_pow(f, 1, ZZ) == dup_normal([2, 0, 0, 1, 7], ZZ)","dup_pow(f, 2, ZZ) == dup_normal([4, 0, 0, 4, 28, 0, 1, 14, 49], ZZ)","dup_pow(f, 3, ZZ) == dup_normal([8, 0, 0, 12, 84, 0, 6, 84, 294, 1, 21, 147, 343], ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_dup_pow():
     assert dup_pow([], 0, ZZ) == [ZZ(1)]
     assert dup_pow([], 0, QQ) == [QQ(1)]
@@ -1127,16 +1377,24 @@ def test_dup_pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_pow(), test_dmp_pow produces the expected output) over Any ║
+# ║ Path(test_dmp_pow(), dmp_pow([[]], 0, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[]], 0, 1, QQ) == [[QQ(1)]] and dmp_pow([[]], 1, 1, ZZ) == [[]] and dmp_pow([[]], 7, 1, ZZ) == [[]] and dmp_pow([[ZZ(1)]], 0, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[ZZ(1)]], 1, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[ZZ(1)]], 7, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[QQ(3, 7)]], 0, 1, QQ) == [[QQ(1, 1)]] and dmp_pow([[QQ(3, 7)]], 1, 1, QQ) == [[QQ(3, 7)]] and dmp_pow([[QQ(3, 7)]], 7, 1, QQ) == [[QQ(2187, 823543)]] and dmp_pow(f, 2, 0, ZZ) == dup_pow(f, 2, ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_pow : Any → {Any | dmp_pow([[]], 0, 1, ZZ) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_pow([[]], 0, 1, ZZ) == [[ZZ(1)]]           ║
+# ║   ensures:  dmp_pow([[]], 0, 1, QQ) == [[QQ(1)]]           ║
+# ║   ensures:  dmp_pow([[]], 1, 1, ZZ) == [[]]                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_pow : Any → {Any | result satisfies: dmp_pow...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a1e93746e019062  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d068b5027546217  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_pow","kind":"function","src_hash":"c1aaf725e7a1d80a","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_pow([[]], 0, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[]], 0, 1, QQ) == [[QQ(1)]] and dmp_pow([[]], 1, 1, ZZ) == [[]] and dmp_pow([[]], 7, 1, ZZ) == [[]] and dmp_pow([[ZZ(1)]], 0, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[ZZ(1)]], 1, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[ZZ(1)]], 7, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[QQ(3, 7)]], 0, 1, QQ) == [[QQ(1, 1)]] and dmp_pow([[QQ(3, 7)]], 1, 1, QQ) == [[QQ(3, 7)]] and dmp_pow([[QQ(3, 7)]], 7, 1, QQ) == [[QQ(2187, 823543)]] and dmp_pow(f, 2, 0, ZZ) == dup_pow(f, 2, ZZ)"},"spec":{"lhs":"test_dmp_pow()","rhs":"test_dmp_pow produces the expected output","over":{"base":"Any"},"name":"test_dmp_pow_correct"},"guarantee":"test_dmp_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_pow_correct","statement":"Path(test_dmp_pow(x), test_dmp_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a1e93746e019062"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_pow","kind":"function","src_hash":"c1aaf725e7a1d80a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_pow([[]], 0, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[]], 0, 1, QQ) == [[QQ(1)]] and dmp_pow([[]], 1, 1, ZZ) == [[]] and dmp_pow([[]], 7, 1, ZZ) == [[]] and dmp_pow([[ZZ(1)]], 0, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[ZZ(1)]], 1, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[ZZ(1)]], 7, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[QQ(3, 7)]], 0, 1, QQ) == [[QQ(1, 1)]] and dmp_pow([[QQ(3, 7)]], 1, 1, QQ) == [[QQ(3, 7)]] and dmp_pow([[QQ(3, 7)]], 7, 1, QQ) == [[QQ(2187, 823543)]] and dmp_pow(f, 2, 0, ZZ) == dup_pow(f, 2, ZZ)"},"spec":{"lhs":"test_dmp_pow()","rhs":"dmp_pow([[]], 0, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[]], 0, 1, QQ) == [[QQ(1)]] and dmp_pow([[]], 1, 1, ZZ) == [[]] and dmp_pow([[]], 7, 1, ZZ) == [[]] and dmp_pow([[ZZ(1)]], 0, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[ZZ(1)]], 1, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[ZZ(1)]], 7, 1, ZZ) == [[ZZ(1)]] and dmp_pow([[QQ(3, 7)]], 0, 1, QQ) == [[QQ(1, 1)]] and dmp_pow([[QQ(3, 7)]], 1, 1, QQ) == [[QQ(3, 7)]] and dmp_pow([[QQ(3, 7)]], 7, 1, QQ) == [[QQ(2187, 823543)]] and dmp_pow(f, 2, 0, ZZ) == dup_pow(f, 2, ZZ)","over":{"base":"Any"},"name":"test_dmp_pow_correct"},"guarantee":"dmp_pow([[]], 0, 1, ZZ) == [[ZZ(1)]]; dmp_pow([[]], 0, 1, QQ) == [[QQ(1)]]; dmp_pow([[]], 1, 1, ZZ) == [[]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_pow_correct","statement":"Path(test_dmp_pow(x), dmp_pow([[]], 0, 1, ZZ) == [[ZZ(1)]]; dmp_pow([[]], 0, 1, QQ) == [[QQ(1)]]; dmp_pow([[]], 1, 1, ZZ) == [[]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d068b5027546217","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_pow([[]], 0, 1, ZZ) == [[ZZ(1)]]","dmp_pow([[]], 0, 1, QQ) == [[QQ(1)]]","dmp_pow([[]], 1, 1, ZZ) == [[]]","dmp_pow([[]], 7, 1, ZZ) == [[]]","dmp_pow([[ZZ(1)]], 0, 1, ZZ) == [[ZZ(1)]]","dmp_pow([[ZZ(1)]], 1, 1, ZZ) == [[ZZ(1)]]","dmp_pow([[ZZ(1)]], 7, 1, ZZ) == [[ZZ(1)]]","dmp_pow([[QQ(3, 7)]], 0, 1, QQ) == [[QQ(1, 1)]]","dmp_pow([[QQ(3, 7)]], 1, 1, QQ) == [[QQ(3, 7)]]","dmp_pow([[QQ(3, 7)]], 7, 1, QQ) == [[QQ(2187, 823543)]]","dmp_pow(f, 2, 0, ZZ) == dup_pow(f, 2, ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dmp_pow():
     assert dmp_pow([[]], 0, 1, ZZ) == [[ZZ(1)]]
     assert dmp_pow([[]], 0, 1, QQ) == [[QQ(1)]]
@@ -1158,16 +1416,24 @@ def test_dmp_pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_pdiv(), test_dup_pdiv produces the expected output) over Any ║
+# ║ Path(test_dup_pdiv(), dup_pdiv(f, g, ZZ) == (q, r) and dup_pquo(f, g, ZZ) == q and dup_prem(f, g, ZZ) == r and dup_pdiv(f, g, QQ) == (q, r) and dup_pquo(f, g, QQ) == q and dup_prem(f, g, QQ) == r) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_pdiv : Any → {Any | dup_pdiv(f, g, ZZ) == (q...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_pdiv(f, g, ZZ) == (q, r)                   ║
+# ║   ensures:  dup_pquo(f, g, ZZ) == q                        ║
+# ║   ensures:  dup_prem(f, g, ZZ) == r                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_pdiv : Any → {Any | result satisfies: dup_pd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4824b791a29611c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f35f7c05fc1adc25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_pdiv","kind":"function","src_hash":"c864f0a74994f01b","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_pdiv(f, g, ZZ) == (q, r) and dup_pquo(f, g, ZZ) == q and dup_prem(f, g, ZZ) == r and dup_pdiv(f, g, QQ) == (q, r) and dup_pquo(f, g, QQ) == q and dup_prem(f, g, QQ) == r"},"spec":{"lhs":"test_dup_pdiv()","rhs":"test_dup_pdiv produces the expected output","over":{"base":"Any"},"name":"test_dup_pdiv_correct"},"guarantee":"test_dup_pdiv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_pdiv_correct","statement":"Path(test_dup_pdiv(x), test_dup_pdiv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4824b791a29611c0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_pdiv","kind":"function","src_hash":"c864f0a74994f01b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_pdiv(f, g, ZZ) == (q, r) and dup_pquo(f, g, ZZ) == q and dup_prem(f, g, ZZ) == r and dup_pdiv(f, g, QQ) == (q, r) and dup_pquo(f, g, QQ) == q and dup_prem(f, g, QQ) == r"},"spec":{"lhs":"test_dup_pdiv()","rhs":"dup_pdiv(f, g, ZZ) == (q, r) and dup_pquo(f, g, ZZ) == q and dup_prem(f, g, ZZ) == r and dup_pdiv(f, g, QQ) == (q, r) and dup_pquo(f, g, QQ) == q and dup_prem(f, g, QQ) == r","over":{"base":"Any"},"name":"test_dup_pdiv_correct"},"guarantee":"dup_pdiv(f, g, ZZ) == (q, r); dup_pquo(f, g, ZZ) == q; dup_prem(f, g, ZZ) == r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_pdiv_correct","statement":"Path(test_dup_pdiv(x), dup_pdiv(f, g, ZZ) == (q, r); dup_pquo(f, g, ZZ) == q; dup_prem(f, g, ZZ) == r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f35f7c05fc1adc25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_pdiv(f, g, ZZ) == (q, r)","dup_pquo(f, g, ZZ) == q","dup_prem(f, g, ZZ) == r","dup_pdiv(f, g, QQ) == (q, r)","dup_pquo(f, g, QQ) == q","dup_prem(f, g, QQ) == r"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dup_pdiv():
     f = dup_normal([3, 1, 1, 5], ZZ)
     g = dup_normal([5, -3, 1], ZZ)
@@ -1195,16 +1461,24 @@ def test_dup_pdiv():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_pdiv(), test_dmp_pdiv produces the expected output) over Any ║
+# ║ Path(test_dmp_pdiv(), dmp_pdiv(f, g, 1, ZZ) == (q, r) and dmp_pquo(f, g, 1, ZZ) == q and dmp_prem(f, g, 1, ZZ) == r) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_pdiv : Any → {Any | dmp_pdiv(f, g, 1, ZZ) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_pdiv(f, g, 1, ZZ) == (q, r)                ║
+# ║   ensures:  dmp_pquo(f, g, 1, ZZ) == q                     ║
+# ║   ensures:  dmp_prem(f, g, 1, ZZ) == r                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_pdiv : Any → {Any | result satisfies: dmp_pd...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 242c3162c2b3e0eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f636c381c5f3f25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_pdiv","kind":"function","src_hash":"883b303eb2bfb182","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_pdiv(f, g, 1, ZZ) == (q, r) and dmp_pquo(f, g, 1, ZZ) == q and dmp_prem(f, g, 1, ZZ) == r and dmp_pdiv(f, g, 1, ZZ) == (q, r) and dmp_pquo(f, g, 1, ZZ) == q and dmp_prem(f, g, 1, ZZ) == r"},"spec":{"lhs":"test_dmp_pdiv()","rhs":"test_dmp_pdiv produces the expected output","over":{"base":"Any"},"name":"test_dmp_pdiv_correct"},"guarantee":"test_dmp_pdiv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_pdiv_correct","statement":"Path(test_dmp_pdiv(x), test_dmp_pdiv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"242c3162c2b3e0eb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_pdiv","kind":"function","src_hash":"883b303eb2bfb182","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_pdiv(f, g, 1, ZZ) == (q, r) and dmp_pquo(f, g, 1, ZZ) == q and dmp_prem(f, g, 1, ZZ) == r"},"spec":{"lhs":"test_dmp_pdiv()","rhs":"dmp_pdiv(f, g, 1, ZZ) == (q, r) and dmp_pquo(f, g, 1, ZZ) == q and dmp_prem(f, g, 1, ZZ) == r","over":{"base":"Any"},"name":"test_dmp_pdiv_correct"},"guarantee":"dmp_pdiv(f, g, 1, ZZ) == (q, r); dmp_pquo(f, g, 1, ZZ) == q; dmp_prem(f, g, 1, ZZ) == r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_pdiv_correct","statement":"Path(test_dmp_pdiv(x), dmp_pdiv(f, g, 1, ZZ) == (q, r); dmp_pquo(f, g, 1, ZZ) == q; dmp_prem(f, g, 1, ZZ) == r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f636c381c5f3f25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_pdiv(f, g, 1, ZZ) == (q, r)","dmp_pquo(f, g, 1, ZZ) == q","dmp_prem(f, g, 1, ZZ) == r"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dmp_pdiv():
     f = dmp_normal([[1], [], [1, 0, 0]], 1, ZZ)
     g = dmp_normal([[1], [-1, 0]], 1, ZZ)
@@ -1232,16 +1506,22 @@ def test_dmp_pdiv():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_rr_div(), test_dup_rr_div produces the expected output) over Any ║
+# ║ Path(test_dup_rr_div(), dup_rr_div(f, g, ZZ) == (q, r)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_rr_div : Any → {Any | dup_rr_div(f, g, ZZ) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_rr_div(f, g, ZZ) == (q, r)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_rr_div : Any → {Any | result satisfies: dup_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 128c394b694d5922  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 316e1909137791ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_rr_div","kind":"function","src_hash":"43a6dc8973ee3238","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_rr_div(f, g, ZZ) == (q, r)"},"spec":{"lhs":"test_dup_rr_div()","rhs":"test_dup_rr_div produces the expected output","over":{"base":"Any"},"name":"test_dup_rr_div_correct"},"guarantee":"test_dup_rr_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_rr_div_correct","statement":"Path(test_dup_rr_div(x), test_dup_rr_div produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"128c394b694d5922"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_rr_div","kind":"function","src_hash":"43a6dc8973ee3238","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_rr_div(f, g, ZZ) == (q, r)"},"spec":{"lhs":"test_dup_rr_div()","rhs":"dup_rr_div(f, g, ZZ) == (q, r)","over":{"base":"Any"},"name":"test_dup_rr_div_correct"},"guarantee":"dup_rr_div(f, g, ZZ) == (q, r)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_rr_div_correct","statement":"Path(test_dup_rr_div(x), dup_rr_div(f, g, ZZ) == (q, r))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"316e1909137791ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_rr_div(f, g, ZZ) == (q, r)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dup_rr_div():
     raises(ZeroDivisionError, lambda: dup_rr_div([1, 2, 3], [], ZZ))
 
@@ -1254,16 +1534,22 @@ def test_dup_rr_div():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_rr_div(), test_dmp_rr_div produces the expected output) over Any ║
+# ║ Path(test_dmp_rr_div(), dmp_rr_div(f, g, 1, ZZ) == (q, r)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_rr_div : Any → {Any | dmp_rr_div(f, g, 1, ZZ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_rr_div(f, g, 1, ZZ) == (q, r)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_rr_div : Any → {Any | result satisfies: dmp_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0895f9c3d62f13fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8032d09d81dad03d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_rr_div","kind":"function","src_hash":"da331021be61dc34","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_rr_div(f, g, 1, ZZ) == (q, r) and dmp_rr_div(f, g, 1, ZZ) == (q, r) and dmp_rr_div(f, g, 1, ZZ) == (q, r)"},"spec":{"lhs":"test_dmp_rr_div()","rhs":"test_dmp_rr_div produces the expected output","over":{"base":"Any"},"name":"test_dmp_rr_div_correct"},"guarantee":"test_dmp_rr_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_rr_div_correct","statement":"Path(test_dmp_rr_div(x), test_dmp_rr_div produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0895f9c3d62f13fe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_rr_div","kind":"function","src_hash":"da331021be61dc34","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_rr_div(f, g, 1, ZZ) == (q, r)"},"spec":{"lhs":"test_dmp_rr_div()","rhs":"dmp_rr_div(f, g, 1, ZZ) == (q, r)","over":{"base":"Any"},"name":"test_dmp_rr_div_correct"},"guarantee":"dmp_rr_div(f, g, 1, ZZ) == (q, r)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_rr_div_correct","statement":"Path(test_dmp_rr_div(x), dmp_rr_div(f, g, 1, ZZ) == (q, r))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8032d09d81dad03d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_rr_div(f, g, 1, ZZ) == (q, r)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_dmp_rr_div():
     raises(ZeroDivisionError, lambda: dmp_rr_div([[1, 2], [3]], [[]], 1, ZZ))
 
@@ -1292,16 +1578,22 @@ def test_dmp_rr_div():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_ff_div(), test_dup_ff_div produces the expected output) over Any ║
+# ║ Path(test_dup_ff_div(), dup_ff_div(f, g, QQ) == (q, r)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_ff_div : Any → {Any | dup_ff_div(f, g, QQ) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_ff_div(f, g, QQ) == (q, r)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_ff_div : Any → {Any | result satisfies: dup_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11c95204dae14104  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b8cfcb4d7724025  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_ff_div","kind":"function","src_hash":"d2b4c9e1341697c5","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_ff_div(f, g, QQ) == (q, r)"},"spec":{"lhs":"test_dup_ff_div()","rhs":"test_dup_ff_div produces the expected output","over":{"base":"Any"},"name":"test_dup_ff_div_correct"},"guarantee":"test_dup_ff_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_ff_div_correct","statement":"Path(test_dup_ff_div(x), test_dup_ff_div produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11c95204dae14104"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_ff_div","kind":"function","src_hash":"d2b4c9e1341697c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_ff_div(f, g, QQ) == (q, r)"},"spec":{"lhs":"test_dup_ff_div()","rhs":"dup_ff_div(f, g, QQ) == (q, r)","over":{"base":"Any"},"name":"test_dup_ff_div_correct"},"guarantee":"dup_ff_div(f, g, QQ) == (q, r)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_ff_div_correct","statement":"Path(test_dup_ff_div(x), dup_ff_div(f, g, QQ) == (q, r))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b8cfcb4d7724025","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_ff_div(f, g, QQ) == (q, r)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dup_ff_div():
     raises(ZeroDivisionError, lambda: dup_ff_div([1, 2, 3], [], QQ))
 
@@ -1314,16 +1606,23 @@ def test_dup_ff_div():
     assert dup_ff_div(f, g, QQ) == (q, r)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_ff_div_gmpy2(), test_dup_ff_div_gmpy2 produces the expected output) over Any ║
+# ║ Path(test_dup_ff_div_gmpy2(), dmp_ff_div(f, g, 0, K) == ([mpq(1, 6), mpq(3, 4)], []) and dmp_ff_div(f, g, 0, K) == ([mpq(-1, 2), mpq(-5, 6)], [mpq(7, 12), mpq(-19, 30)])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_ff_div_gmpy2 : Any → {Any | dmp_ff_div(f, g,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_ff_div(f, g, 0, K) == ([mpq(1, 6), mp...   ║
+# ║   ensures:  dmp_ff_div(f, g, 0, K) == ([mpq(-1, 2), m...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_ff_div_gmpy2 : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   gmpy2.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 7651b1a978b7...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 823621661622...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_ff_div_gmpy2","kind":"function","src_hash":"c2aefe99e4a646b2","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_ff_div(f, g, 0, K) == ([mpq(1, 6), mpq(3, 4)], [])"},"spec":{"lhs":"test_dup_ff_div_gmpy2()","rhs":"test_dup_ff_div_gmpy2 produces the expected output","over":{"base":"Any"},"name":"test_dup_ff_div_gmpy2_correct"},"guarantee":"test_dup_ff_div_gmpy2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_ff_div_gmpy2_correct","statement":"Path(test_dup_ff_div_gmpy2(x), test_dup_ff_div_gmpy2 produces the expected output)"},"assumes":[],"trust":["gmpy2.__module__"],"compiled":true,"vhash":"7651b1a978b753ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_ff_div_gmpy2","kind":"function","src_hash":"c2aefe99e4a646b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_ff_div(f, g, 0, K) == ([mpq(1, 6), mpq(3, 4)], []) and dmp_ff_div(f, g, 0, K) == ([mpq(-1, 2), mpq(-5, 6)], [mpq(7, 12), mpq(-19, 30)])"},"spec":{"lhs":"test_dup_ff_div_gmpy2()","rhs":"dmp_ff_div(f, g, 0, K) == ([mpq(1, 6), mpq(3, 4)], []) and dmp_ff_div(f, g, 0, K) == ([mpq(-1, 2), mpq(-5, 6)], [mpq(7, 12), mpq(-19, 30)])","over":{"base":"Any"},"name":"test_dup_ff_div_gmpy2_correct"},"guarantee":"dmp_ff_div(f, g, 0, K) == ([mpq(1, 6), mpq(3, 4)], []); dmp_ff_div(f, g, 0, K) == ([mpq(-1, 2), mpq(-5, 6)], [mpq(7, 12), mpq(-19, 30)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_ff_div_gmpy2_correct","statement":"Path(test_dup_ff_div_gmpy2(x), dmp_ff_div(f, g, 0, K) == ([mpq(1, 6), mpq(3, 4)], []); dmp_ff_div(f, g, 0, K) == ([mpq(-1, 2), mpq(-5, 6)], [mpq(7, 12), mpq(-19, 30)]))"},"assumes":[],"trust":["gmpy2.__module__"],"compiled":true,"vhash":"823621661622a849","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_ff_div(f, g, 0, K) == ([mpq(1, 6), mpq(3, 4)], [])","dmp_ff_div(f, g, 0, K) == ([mpq(-1, 2), mpq(-5, 6)], [mpq(7, 12), mpq(-19, 30)])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dup_ff_div_gmpy2():
     if GROUND_TYPES != 'gmpy2':
         return
@@ -1341,16 +1640,22 @@ def test_dup_ff_div_gmpy2():
     assert dmp_ff_div(f, g, 0, K) == ([mpq(-1,2), mpq(-5,6)], [mpq(7,12), mpq(-19,30)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_ff_div(), test_dmp_ff_div produces the expected output) over Any ║
+# ║ Path(test_dmp_ff_div(), dmp_ff_div(f, g, 1, QQ) == (q, r)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_ff_div : Any → {Any | dmp_ff_div(f, g, 1, QQ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_ff_div(f, g, 1, QQ) == (q, r)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_ff_div : Any → {Any | result satisfies: dmp_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb14de14dcafc364  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7573b58949413eb5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_ff_div","kind":"function","src_hash":"28736e0490e79380","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_ff_div(f, g, 1, QQ) == (q, r) and dmp_ff_div(f, g, 1, QQ) == (q, r) and dmp_ff_div(f, g, 1, QQ) == (q, r)"},"spec":{"lhs":"test_dmp_ff_div()","rhs":"test_dmp_ff_div produces the expected output","over":{"base":"Any"},"name":"test_dmp_ff_div_correct"},"guarantee":"test_dmp_ff_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_ff_div_correct","statement":"Path(test_dmp_ff_div(x), test_dmp_ff_div produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb14de14dcafc364"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_ff_div","kind":"function","src_hash":"28736e0490e79380","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_ff_div(f, g, 1, QQ) == (q, r)"},"spec":{"lhs":"test_dmp_ff_div()","rhs":"dmp_ff_div(f, g, 1, QQ) == (q, r)","over":{"base":"Any"},"name":"test_dmp_ff_div_correct"},"guarantee":"dmp_ff_div(f, g, 1, QQ) == (q, r)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_ff_div_correct","statement":"Path(test_dmp_ff_div(x), dmp_ff_div(f, g, 1, QQ) == (q, r))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7573b58949413eb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_ff_div(f, g, 1, QQ) == (q, r)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_dmp_ff_div():
     raises(ZeroDivisionError, lambda: dmp_ff_div([[1, 2], [3]], [[]], 1, QQ))
 
@@ -1380,16 +1685,24 @@ def test_dmp_ff_div():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_div(), test_dup_div produces the expected output) over Any ║
+# ║ Path(test_dup_div(), dup_div(f, g, ZZ) == (q, r) and dup_quo(f, g, ZZ) == q and dup_rem(f, g, ZZ) == r) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_div : Any → {Any | dup_div(f, g, ZZ) == (q, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_div(f, g, ZZ) == (q, r)                    ║
+# ║   ensures:  dup_quo(f, g, ZZ) == q                         ║
+# ║   ensures:  dup_rem(f, g, ZZ) == r                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_div : Any → {Any | result satisfies: dup_div...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6173a06fb24d9bb0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 907b52e4fca487aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_div","kind":"function","src_hash":"10fe53cceeebc346","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_div(f, g, ZZ) == (q, r) and dup_quo(f, g, ZZ) == q and dup_rem(f, g, ZZ) == r and dup_div(f, g, ZZ) == (q, r) and dup_quo(f, g, ZZ) == q and dup_rem(f, g, ZZ) == r"},"spec":{"lhs":"test_dup_div()","rhs":"test_dup_div produces the expected output","over":{"base":"Any"},"name":"test_dup_div_correct"},"guarantee":"test_dup_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_div_correct","statement":"Path(test_dup_div(x), test_dup_div produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6173a06fb24d9bb0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_div","kind":"function","src_hash":"10fe53cceeebc346","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_div(f, g, ZZ) == (q, r) and dup_quo(f, g, ZZ) == q and dup_rem(f, g, ZZ) == r"},"spec":{"lhs":"test_dup_div()","rhs":"dup_div(f, g, ZZ) == (q, r) and dup_quo(f, g, ZZ) == q and dup_rem(f, g, ZZ) == r","over":{"base":"Any"},"name":"test_dup_div_correct"},"guarantee":"dup_div(f, g, ZZ) == (q, r); dup_quo(f, g, ZZ) == q; dup_rem(f, g, ZZ) == r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_div_correct","statement":"Path(test_dup_div(x), dup_div(f, g, ZZ) == (q, r); dup_quo(f, g, ZZ) == q; dup_rem(f, g, ZZ) == r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"907b52e4fca487aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_div(f, g, ZZ) == (q, r)","dup_quo(f, g, ZZ) == q","dup_rem(f, g, ZZ) == r"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dup_div():
     f, g, q, r = [5, 4, 3, 2, 1], [1, 2, 3], [5, -6, 0], [20, 1]
 
@@ -1409,16 +1722,24 @@ def test_dup_div():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_div(), test_dmp_div produces the expected output) over Any ║
+# ║ Path(test_dmp_div(), dmp_div(f, g, 0, ZZ) == (q, r) and dmp_quo(f, g, 0, ZZ) == q and dmp_rem(f, g, 0, ZZ) == r and dmp_div(f, g, 2, ZZ) == (q, r) and dmp_quo(f, g, 2, ZZ) == q and dmp_rem(f, g, 2, ZZ) == r) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_div : Any → {Any | dmp_div(f, g, 0, ZZ) == (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_div(f, g, 0, ZZ) == (q, r)                 ║
+# ║   ensures:  dmp_quo(f, g, 0, ZZ) == q                      ║
+# ║   ensures:  dmp_rem(f, g, 0, ZZ) == r                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_div : Any → {Any | result satisfies: dmp_div...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 191e0b0ba624df39  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfc7ed50f4ed9a47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_div","kind":"function","src_hash":"cd40c402ce21be63","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_div(f, g, 0, ZZ) == (q, r) and dmp_quo(f, g, 0, ZZ) == q and dmp_rem(f, g, 0, ZZ) == r and dmp_div(f, g, 2, ZZ) == (q, r) and dmp_quo(f, g, 2, ZZ) == q and dmp_rem(f, g, 2, ZZ) == r"},"spec":{"lhs":"test_dmp_div()","rhs":"test_dmp_div produces the expected output","over":{"base":"Any"},"name":"test_dmp_div_correct"},"guarantee":"test_dmp_div produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_div_correct","statement":"Path(test_dmp_div(x), test_dmp_div produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"191e0b0ba624df39"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_div","kind":"function","src_hash":"cd40c402ce21be63","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_div(f, g, 0, ZZ) == (q, r) and dmp_quo(f, g, 0, ZZ) == q and dmp_rem(f, g, 0, ZZ) == r and dmp_div(f, g, 2, ZZ) == (q, r) and dmp_quo(f, g, 2, ZZ) == q and dmp_rem(f, g, 2, ZZ) == r"},"spec":{"lhs":"test_dmp_div()","rhs":"dmp_div(f, g, 0, ZZ) == (q, r) and dmp_quo(f, g, 0, ZZ) == q and dmp_rem(f, g, 0, ZZ) == r and dmp_div(f, g, 2, ZZ) == (q, r) and dmp_quo(f, g, 2, ZZ) == q and dmp_rem(f, g, 2, ZZ) == r","over":{"base":"Any"},"name":"test_dmp_div_correct"},"guarantee":"dmp_div(f, g, 0, ZZ) == (q, r); dmp_quo(f, g, 0, ZZ) == q; dmp_rem(f, g, 0, ZZ) == r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_div_correct","statement":"Path(test_dmp_div(x), dmp_div(f, g, 0, ZZ) == (q, r); dmp_quo(f, g, 0, ZZ) == q; dmp_rem(f, g, 0, ZZ) == r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfc7ed50f4ed9a47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_div(f, g, 0, ZZ) == (q, r)","dmp_quo(f, g, 0, ZZ) == q","dmp_rem(f, g, 0, ZZ) == r","dmp_div(f, g, 2, ZZ) == (q, r)","dmp_quo(f, g, 2, ZZ) == q","dmp_rem(f, g, 2, ZZ) == r"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dmp_div():
     f, g, q, r = [5, 4, 3, 2, 1], [1, 2, 3], [5, -6, 0], [20, 1]
 
@@ -1438,16 +1759,24 @@ def test_dmp_div():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_max_norm(), test_dup_max_norm produces the expected output) over Any ║
+# ║ Path(test_dup_max_norm(), dup_max_norm([], ZZ) == 0 and dup_max_norm([1], ZZ) == 1 and dup_max_norm([1, 4, 2, 3], ZZ) == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_max_norm : Any → {Any | dup_max_norm([], ZZ)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_max_norm([], ZZ) == 0                      ║
+# ║   ensures:  dup_max_norm([1], ZZ) == 1                     ║
+# ║   ensures:  dup_max_norm([1, 4, 2, 3], ZZ) == 4            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_max_norm : Any → {Any | result satisfies: du...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b0b10bacd5b7df5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54f6580b792ffc27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_max_norm","kind":"function","src_hash":"1bb0a6bda4444bd7","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_max_norm([], ZZ) == 0 and dup_max_norm([1], ZZ) == 1 and dup_max_norm([1, 4, 2, 3], ZZ) == 4"},"spec":{"lhs":"test_dup_max_norm()","rhs":"test_dup_max_norm produces the expected output","over":{"base":"Any"},"name":"test_dup_max_norm_correct"},"guarantee":"test_dup_max_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_max_norm_correct","statement":"Path(test_dup_max_norm(x), test_dup_max_norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b0b10bacd5b7df5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_max_norm","kind":"function","src_hash":"1bb0a6bda4444bd7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_max_norm([], ZZ) == 0 and dup_max_norm([1], ZZ) == 1 and dup_max_norm([1, 4, 2, 3], ZZ) == 4"},"spec":{"lhs":"test_dup_max_norm()","rhs":"dup_max_norm([], ZZ) == 0 and dup_max_norm([1], ZZ) == 1 and dup_max_norm([1, 4, 2, 3], ZZ) == 4","over":{"base":"Any"},"name":"test_dup_max_norm_correct"},"guarantee":"dup_max_norm([], ZZ) == 0; dup_max_norm([1], ZZ) == 1; dup_max_norm([1, 4, 2, 3], ZZ) == 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_max_norm_correct","statement":"Path(test_dup_max_norm(x), dup_max_norm([], ZZ) == 0; dup_max_norm([1], ZZ) == 1; dup_max_norm([1, 4, 2, 3], ZZ) == 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54f6580b792ffc27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_max_norm([], ZZ) == 0","dup_max_norm([1], ZZ) == 1","dup_max_norm([1, 4, 2, 3], ZZ) == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dup_max_norm():
     assert dup_max_norm([], ZZ) == 0
     assert dup_max_norm([1], ZZ) == 1
@@ -1456,16 +1785,24 @@ def test_dup_max_norm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_max_norm(), test_dmp_max_norm produces the expected output) over Any ║
+# ║ Path(test_dmp_max_norm(), dmp_max_norm([[[]]], 2, ZZ) == 0 and dmp_max_norm([[[1]]], 2, ZZ) == 1 and dmp_max_norm(f_0, 2, ZZ) == 6) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_max_norm : Any → {Any | dmp_max_norm([[[]]],...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_max_norm([[[]]], 2, ZZ) == 0               ║
+# ║   ensures:  dmp_max_norm([[[1]]], 2, ZZ) == 1              ║
+# ║   ensures:  dmp_max_norm(f_0, 2, ZZ) == 6                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_max_norm : Any → {Any | result satisfies: dm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f0dfeeb348be677  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3da9b1de1f9bc313  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_max_norm","kind":"function","src_hash":"2a1eb98c5691cf80","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_max_norm([[[]]], 2, ZZ) == 0 and dmp_max_norm([[[1]]], 2, ZZ) == 1 and dmp_max_norm(f_0, 2, ZZ) == 6"},"spec":{"lhs":"test_dmp_max_norm()","rhs":"test_dmp_max_norm produces the expected output","over":{"base":"Any"},"name":"test_dmp_max_norm_correct"},"guarantee":"test_dmp_max_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_max_norm_correct","statement":"Path(test_dmp_max_norm(x), test_dmp_max_norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f0dfeeb348be677"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_max_norm","kind":"function","src_hash":"2a1eb98c5691cf80","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_max_norm([[[]]], 2, ZZ) == 0 and dmp_max_norm([[[1]]], 2, ZZ) == 1 and dmp_max_norm(f_0, 2, ZZ) == 6"},"spec":{"lhs":"test_dmp_max_norm()","rhs":"dmp_max_norm([[[]]], 2, ZZ) == 0 and dmp_max_norm([[[1]]], 2, ZZ) == 1 and dmp_max_norm(f_0, 2, ZZ) == 6","over":{"base":"Any"},"name":"test_dmp_max_norm_correct"},"guarantee":"dmp_max_norm([[[]]], 2, ZZ) == 0; dmp_max_norm([[[1]]], 2, ZZ) == 1; dmp_max_norm(f_0, 2, ZZ) == 6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_max_norm_correct","statement":"Path(test_dmp_max_norm(x), dmp_max_norm([[[]]], 2, ZZ) == 0; dmp_max_norm([[[1]]], 2, ZZ) == 1; dmp_max_norm(f_0, 2, ZZ) == 6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3da9b1de1f9bc313","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_max_norm([[[]]], 2, ZZ) == 0","dmp_max_norm([[[1]]], 2, ZZ) == 1","dmp_max_norm(f_0, 2, ZZ) == 6"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dmp_max_norm():
     assert dmp_max_norm([[[]]], 2, ZZ) == 0
     assert dmp_max_norm([[[1]]], 2, ZZ) == 1
@@ -1474,16 +1811,24 @@ def test_dmp_max_norm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_l1_norm(), test_dup_l1_norm produces the expected output) over Any ║
+# ║ Path(test_dup_l1_norm(), dup_l1_norm([], ZZ) == 0 and dup_l1_norm([1], ZZ) == 1 and dup_l1_norm([1, 4, 2, 3], ZZ) == 10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_l1_norm : Any → {Any | dup_l1_norm([], ZZ) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_l1_norm([], ZZ) == 0                       ║
+# ║   ensures:  dup_l1_norm([1], ZZ) == 1                      ║
+# ║   ensures:  dup_l1_norm([1, 4, 2, 3], ZZ) == 10            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_l1_norm : Any → {Any | result satisfies: dup...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78339f841fe38cff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7b65edf59b0ac7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_l1_norm","kind":"function","src_hash":"1e02cd23efae02f3","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_l1_norm([], ZZ) == 0 and dup_l1_norm([1], ZZ) == 1 and dup_l1_norm([1, 4, 2, 3], ZZ) == 10"},"spec":{"lhs":"test_dup_l1_norm()","rhs":"test_dup_l1_norm produces the expected output","over":{"base":"Any"},"name":"test_dup_l1_norm_correct"},"guarantee":"test_dup_l1_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_l1_norm_correct","statement":"Path(test_dup_l1_norm(x), test_dup_l1_norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78339f841fe38cff"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_l1_norm","kind":"function","src_hash":"1e02cd23efae02f3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_l1_norm([], ZZ) == 0 and dup_l1_norm([1], ZZ) == 1 and dup_l1_norm([1, 4, 2, 3], ZZ) == 10"},"spec":{"lhs":"test_dup_l1_norm()","rhs":"dup_l1_norm([], ZZ) == 0 and dup_l1_norm([1], ZZ) == 1 and dup_l1_norm([1, 4, 2, 3], ZZ) == 10","over":{"base":"Any"},"name":"test_dup_l1_norm_correct"},"guarantee":"dup_l1_norm([], ZZ) == 0; dup_l1_norm([1], ZZ) == 1; dup_l1_norm([1, 4, 2, 3], ZZ) == 10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_l1_norm_correct","statement":"Path(test_dup_l1_norm(x), dup_l1_norm([], ZZ) == 0; dup_l1_norm([1], ZZ) == 1; dup_l1_norm([1, 4, 2, 3], ZZ) == 10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7b65edf59b0ac7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_l1_norm([], ZZ) == 0","dup_l1_norm([1], ZZ) == 1","dup_l1_norm([1, 4, 2, 3], ZZ) == 10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dup_l1_norm():
     assert dup_l1_norm([], ZZ) == 0
     assert dup_l1_norm([1], ZZ) == 1
@@ -1491,16 +1836,24 @@ def test_dup_l1_norm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_l1_norm(), test_dmp_l1_norm produces the expected output) over Any ║
+# ║ Path(test_dmp_l1_norm(), dmp_l1_norm([[[]]], 2, ZZ) == 0 and dmp_l1_norm([[[1]]], 2, ZZ) == 1 and dmp_l1_norm(f_0, 2, ZZ) == 31) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_l1_norm : Any → {Any | dmp_l1_norm([[[]]], 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_l1_norm([[[]]], 2, ZZ) == 0                ║
+# ║   ensures:  dmp_l1_norm([[[1]]], 2, ZZ) == 1               ║
+# ║   ensures:  dmp_l1_norm(f_0, 2, ZZ) == 31                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_l1_norm : Any → {Any | result satisfies: dmp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e315321aaa05072  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ccfcabf8a474e7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_l1_norm","kind":"function","src_hash":"27be6a116d3b1244","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_l1_norm([[[]]], 2, ZZ) == 0 and dmp_l1_norm([[[1]]], 2, ZZ) == 1 and dmp_l1_norm(f_0, 2, ZZ) == 31"},"spec":{"lhs":"test_dmp_l1_norm()","rhs":"test_dmp_l1_norm produces the expected output","over":{"base":"Any"},"name":"test_dmp_l1_norm_correct"},"guarantee":"test_dmp_l1_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_l1_norm_correct","statement":"Path(test_dmp_l1_norm(x), test_dmp_l1_norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e315321aaa05072"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_l1_norm","kind":"function","src_hash":"27be6a116d3b1244","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_l1_norm([[[]]], 2, ZZ) == 0 and dmp_l1_norm([[[1]]], 2, ZZ) == 1 and dmp_l1_norm(f_0, 2, ZZ) == 31"},"spec":{"lhs":"test_dmp_l1_norm()","rhs":"dmp_l1_norm([[[]]], 2, ZZ) == 0 and dmp_l1_norm([[[1]]], 2, ZZ) == 1 and dmp_l1_norm(f_0, 2, ZZ) == 31","over":{"base":"Any"},"name":"test_dmp_l1_norm_correct"},"guarantee":"dmp_l1_norm([[[]]], 2, ZZ) == 0; dmp_l1_norm([[[1]]], 2, ZZ) == 1; dmp_l1_norm(f_0, 2, ZZ) == 31","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_l1_norm_correct","statement":"Path(test_dmp_l1_norm(x), dmp_l1_norm([[[]]], 2, ZZ) == 0; dmp_l1_norm([[[1]]], 2, ZZ) == 1; dmp_l1_norm(f_0, 2, ZZ) == 31)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ccfcabf8a474e7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_l1_norm([[[]]], 2, ZZ) == 0","dmp_l1_norm([[[1]]], 2, ZZ) == 1","dmp_l1_norm(f_0, 2, ZZ) == 31"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dmp_l1_norm():
     assert dmp_l1_norm([[[]]], 2, ZZ) == 0
     assert dmp_l1_norm([[[1]]], 2, ZZ) == 1
@@ -1509,16 +1862,24 @@ def test_dmp_l1_norm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_l2_norm_squared(), test_dup_l2_norm_squared produces the expected output) over Any ║
+# ║ Path(test_dup_l2_norm_squared(), dup_l2_norm_squared([], ZZ) == 0 and dup_l2_norm_squared([1], ZZ) == 1 and dup_l2_norm_squared([1, 4, 2, 3], ZZ) == 30) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_l2_norm_squared : Any → {Any | dup_l2_norm_s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_l2_norm_squared([], ZZ) == 0               ║
+# ║   ensures:  dup_l2_norm_squared([1], ZZ) == 1              ║
+# ║   ensures:  dup_l2_norm_squared([1, 4, 2, 3], ZZ) == 30    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_l2_norm_squared : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 339bf3b22a7b81f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff8af1063906d838  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_l2_norm_squared","kind":"function","src_hash":"25741b50bd16ac54","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_l2_norm_squared([], ZZ) == 0 and dup_l2_norm_squared([1], ZZ) == 1 and dup_l2_norm_squared([1, 4, 2, 3], ZZ) == 30"},"spec":{"lhs":"test_dup_l2_norm_squared()","rhs":"test_dup_l2_norm_squared produces the expected output","over":{"base":"Any"},"name":"test_dup_l2_norm_squared_correct"},"guarantee":"test_dup_l2_norm_squared produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_l2_norm_squared_correct","statement":"Path(test_dup_l2_norm_squared(x), test_dup_l2_norm_squared produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"339bf3b22a7b81f0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_l2_norm_squared","kind":"function","src_hash":"25741b50bd16ac54","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_l2_norm_squared([], ZZ) == 0 and dup_l2_norm_squared([1], ZZ) == 1 and dup_l2_norm_squared([1, 4, 2, 3], ZZ) == 30"},"spec":{"lhs":"test_dup_l2_norm_squared()","rhs":"dup_l2_norm_squared([], ZZ) == 0 and dup_l2_norm_squared([1], ZZ) == 1 and dup_l2_norm_squared([1, 4, 2, 3], ZZ) == 30","over":{"base":"Any"},"name":"test_dup_l2_norm_squared_correct"},"guarantee":"dup_l2_norm_squared([], ZZ) == 0; dup_l2_norm_squared([1], ZZ) == 1; dup_l2_norm_squared([1, 4, 2, 3], ZZ) == 30","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_l2_norm_squared_correct","statement":"Path(test_dup_l2_norm_squared(x), dup_l2_norm_squared([], ZZ) == 0; dup_l2_norm_squared([1], ZZ) == 1; dup_l2_norm_squared([1, 4, 2, 3], ZZ) == 30)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff8af1063906d838","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_l2_norm_squared([], ZZ) == 0","dup_l2_norm_squared([1], ZZ) == 1","dup_l2_norm_squared([1, 4, 2, 3], ZZ) == 30"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dup_l2_norm_squared():
     assert dup_l2_norm_squared([], ZZ) == 0
     assert dup_l2_norm_squared([1], ZZ) == 1
@@ -1526,16 +1887,24 @@ def test_dup_l2_norm_squared():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_l2_norm_squared(), test_dmp_l2_norm_squared produces the expected output) over Any ║
+# ║ Path(test_dmp_l2_norm_squared(), dmp_l2_norm_squared([[[]]], 2, ZZ) == 0 and dmp_l2_norm_squared([[[1]]], 2, ZZ) == 1 and dmp_l2_norm_squared(f_0, 2, ZZ) == 111) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_l2_norm_squared : Any → {Any | dmp_l2_norm_s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_l2_norm_squared([[[]]], 2, ZZ) == 0        ║
+# ║   ensures:  dmp_l2_norm_squared([[[1]]], 2, ZZ) == 1       ║
+# ║   ensures:  dmp_l2_norm_squared(f_0, 2, ZZ) == 111         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_l2_norm_squared : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ee24769134c124b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a44bea67715a12a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_l2_norm_squared","kind":"function","src_hash":"9d73ce21a9efdf96","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_l2_norm_squared([[[]]], 2, ZZ) == 0 and dmp_l2_norm_squared([[[1]]], 2, ZZ) == 1 and dmp_l2_norm_squared(f_0, 2, ZZ) == 111"},"spec":{"lhs":"test_dmp_l2_norm_squared()","rhs":"test_dmp_l2_norm_squared produces the expected output","over":{"base":"Any"},"name":"test_dmp_l2_norm_squared_correct"},"guarantee":"test_dmp_l2_norm_squared produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_l2_norm_squared_correct","statement":"Path(test_dmp_l2_norm_squared(x), test_dmp_l2_norm_squared produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ee24769134c124b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_l2_norm_squared","kind":"function","src_hash":"9d73ce21a9efdf96","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_l2_norm_squared([[[]]], 2, ZZ) == 0 and dmp_l2_norm_squared([[[1]]], 2, ZZ) == 1 and dmp_l2_norm_squared(f_0, 2, ZZ) == 111"},"spec":{"lhs":"test_dmp_l2_norm_squared()","rhs":"dmp_l2_norm_squared([[[]]], 2, ZZ) == 0 and dmp_l2_norm_squared([[[1]]], 2, ZZ) == 1 and dmp_l2_norm_squared(f_0, 2, ZZ) == 111","over":{"base":"Any"},"name":"test_dmp_l2_norm_squared_correct"},"guarantee":"dmp_l2_norm_squared([[[]]], 2, ZZ) == 0; dmp_l2_norm_squared([[[1]]], 2, ZZ) == 1; dmp_l2_norm_squared(f_0, 2, ZZ) == 111","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_l2_norm_squared_correct","statement":"Path(test_dmp_l2_norm_squared(x), dmp_l2_norm_squared([[[]]], 2, ZZ) == 0; dmp_l2_norm_squared([[[1]]], 2, ZZ) == 1; dmp_l2_norm_squared(f_0, 2, ZZ) == 111)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a44bea67715a12a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_l2_norm_squared([[[]]], 2, ZZ) == 0","dmp_l2_norm_squared([[[1]]], 2, ZZ) == 1","dmp_l2_norm_squared(f_0, 2, ZZ) == 111"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dmp_l2_norm_squared():
     assert dmp_l2_norm_squared([[[]]], 2, ZZ) == 0
     assert dmp_l2_norm_squared([[[1]]], 2, ZZ) == 1
@@ -1543,16 +1912,23 @@ def test_dmp_l2_norm_squared():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_expand(), test_dup_expand produces the expected output) over Any ║
+# ║ Path(test_dup_expand(), dup_expand((), ZZ) == [1] and dup_expand(([1, 2, 3], [1, 2], [7, 5, 4, 3]), ZZ) == dup_mul([1, 2, 3], dup_mul([1, 2], [7, 5, 4, 3], ZZ), ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_expand : Any → {Any | dup_expand((), ZZ) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dup_expand((), ZZ) == [1]                      ║
+# ║   ensures:  dup_expand(([1, 2, 3], [1, 2], [7, 5, 4, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_expand : Any → {Any | result satisfies: dup_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e0e1220e9b86561  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c2713203e223fb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_expand","kind":"function","src_hash":"293442ea9cb4bfa1","in":{"base":"Any"},"out":{"base":"Any","pred":"dup_expand((), ZZ) == [1]"},"spec":{"lhs":"test_dup_expand()","rhs":"test_dup_expand produces the expected output","over":{"base":"Any"},"name":"test_dup_expand_correct"},"guarantee":"test_dup_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_expand_correct","statement":"Path(test_dup_expand(x), test_dup_expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e0e1220e9b86561"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_expand","kind":"function","src_hash":"293442ea9cb4bfa1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dup_expand((), ZZ) == [1] and dup_expand(([1, 2, 3], [1, 2], [7, 5, 4, 3]), ZZ) == dup_mul([1, 2, 3], dup_mul([1, 2], [7, 5, 4, 3], ZZ), ZZ)"},"spec":{"lhs":"test_dup_expand()","rhs":"dup_expand((), ZZ) == [1] and dup_expand(([1, 2, 3], [1, 2], [7, 5, 4, 3]), ZZ) == dup_mul([1, 2, 3], dup_mul([1, 2], [7, 5, 4, 3], ZZ), ZZ)","over":{"base":"Any"},"name":"test_dup_expand_correct"},"guarantee":"dup_expand((), ZZ) == [1]; dup_expand(([1, 2, 3], [1, 2], [7, 5, 4, 3]), ZZ) == dup_mul([1, 2, 3], dup_mul([1, 2], [7, 5, 4, 3], ZZ), ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_expand_correct","statement":"Path(test_dup_expand(x), dup_expand((), ZZ) == [1]; dup_expand(([1, 2, 3], [1, 2], [7, 5, 4, 3]), ZZ) == dup_mul([1, 2, 3], dup_mul([1, 2], [7, 5, 4, 3], ZZ), ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c2713203e223fb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dup_expand((), ZZ) == [1]","dup_expand(([1, 2, 3], [1, 2], [7, 5, 4, 3]), ZZ) == dup_mul([1, 2, 3], dup_mul([1, 2], [7, 5, 4, 3], ZZ), ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dup_expand():
     assert dup_expand((), ZZ) == [1]
     assert dup_expand(([1, 2, 3], [1, 2], [7, 5, 4, 3]), ZZ) == \
@@ -1560,16 +1936,23 @@ def test_dup_expand():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dmp_expand(), test_dmp_expand produces the expected output) over Any ║
+# ║ Path(test_dmp_expand(), dmp_expand((), 1, ZZ) == [[1]] and dmp_expand(([[1], [2], [3]], [[1], [2]], [[7], [5], [4], [3]]), 1, ZZ) == dmp_mul([[1], [2], [3]], dmp_mul([[1], [2]], [[7], [5], [4], [3]], 1, ZZ), 1, ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dmp_expand : Any → {Any | dmp_expand((), 1, ZZ) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dmp_expand((), 1, ZZ) == [[1]]                 ║
+# ║   ensures:  dmp_expand(([[1], [2], [3]], [[1], [2]], ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dmp_expand : Any → {Any | result satisfies: dmp_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9af434cca2c6dfdb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a965e0a0ed699c5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_expand","kind":"function","src_hash":"c35f536cfdc2b3f2","in":{"base":"Any"},"out":{"base":"Any","pred":"dmp_expand((), 1, ZZ) == [[1]]"},"spec":{"lhs":"test_dmp_expand()","rhs":"test_dmp_expand produces the expected output","over":{"base":"Any"},"name":"test_dmp_expand_correct"},"guarantee":"test_dmp_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_expand_correct","statement":"Path(test_dmp_expand(x), test_dmp_expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9af434cca2c6dfdb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dmp_expand","kind":"function","src_hash":"c35f536cfdc2b3f2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dmp_expand((), 1, ZZ) == [[1]] and dmp_expand(([[1], [2], [3]], [[1], [2]], [[7], [5], [4], [3]]), 1, ZZ) == dmp_mul([[1], [2], [3]], dmp_mul([[1], [2]], [[7], [5], [4], [3]], 1, ZZ), 1, ZZ)"},"spec":{"lhs":"test_dmp_expand()","rhs":"dmp_expand((), 1, ZZ) == [[1]] and dmp_expand(([[1], [2], [3]], [[1], [2]], [[7], [5], [4], [3]]), 1, ZZ) == dmp_mul([[1], [2], [3]], dmp_mul([[1], [2]], [[7], [5], [4], [3]], 1, ZZ), 1, ZZ)","over":{"base":"Any"},"name":"test_dmp_expand_correct"},"guarantee":"dmp_expand((), 1, ZZ) == [[1]]; dmp_expand(([[1], [2], [3]], [[1], [2]], [[7], [5], [4], [3]]), 1, ZZ) == dmp_mul([[1], [2], [3]], dmp_mul([[1], [2]], [[7], [5], [4], [3]], 1, ZZ), 1, ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dmp_expand_correct","statement":"Path(test_dmp_expand(x), dmp_expand((), 1, ZZ) == [[1]]; dmp_expand(([[1], [2], [3]], [[1], [2]], [[7], [5], [4], [3]]), 1, ZZ) == dmp_mul([[1], [2], [3]], dmp_mul([[1], [2]], [[7], [5], [4], [3]], 1, ZZ), 1, ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a965e0a0ed699c5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dmp_expand((), 1, ZZ) == [[1]]","dmp_expand(([[1], [2], [3]], [[1], [2]], [[7], [5], [4], [3]]), 1, ZZ) == dmp_mul([[1], [2], [3]], dmp_mul([[1], [2]], [[7], [5], [4], [3]], 1, ZZ), 1, ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dmp_expand():
     assert dmp_expand((), 1, ZZ) == [[1]]
     assert dmp_expand(([[1], [2], [3]], [[1], [2]], [[7], [5], [4], [3]]), 1, ZZ) == \
@@ -1577,16 +1960,24 @@ def test_dmp_expand():
                 4], [3]], 1, ZZ), 1, ZZ)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dup_mul_poly(), test_dup_mul_poly produces the expected output) over Any ║
+# ║ Path(test_dup_mul_poly(), p * x == px and p.set_domain(QQ) * x == px.set_domain(QQ) and p.set_domain(CC) * x == px.set_domain(CC)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dup_mul_poly : Any → {Any | p * x == px and p.se...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p * x == px                                    ║
+# ║   ensures:  p.set_domain(QQ) * x == px.set_domain(QQ)      ║
+# ║   ensures:  p.set_domain(CC) * x == px.set_domain(CC)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dup_mul_poly : Any → {Any | result satisfies: p ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75f47dd117d2fb82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a538945354971285  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_mul_poly","kind":"function","src_hash":"339016977137e748","in":{"base":"Any"},"out":{"base":"Any","pred":"p * x == px and p.set_domain(QQ) * x == px.set_domain(QQ) and p.set_domain(CC) * x == px.set_domain(CC)"},"spec":{"lhs":"test_dup_mul_poly()","rhs":"test_dup_mul_poly produces the expected output","over":{"base":"Any"},"name":"test_dup_mul_poly_correct"},"guarantee":"test_dup_mul_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_mul_poly_correct","statement":"Path(test_dup_mul_poly(x), test_dup_mul_poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75f47dd117d2fb82"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_densearith.test_dup_mul_poly","kind":"function","src_hash":"339016977137e748","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p * x == px and p.set_domain(QQ) * x == px.set_domain(QQ) and p.set_domain(CC) * x == px.set_domain(CC)"},"spec":{"lhs":"test_dup_mul_poly()","rhs":"p * x == px and p.set_domain(QQ) * x == px.set_domain(QQ) and p.set_domain(CC) * x == px.set_domain(CC)","over":{"base":"Any"},"name":"test_dup_mul_poly_correct"},"guarantee":"p * x == px; p.set_domain(QQ) * x == px.set_domain(QQ); p.set_domain(CC) * x == px.set_domain(CC)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_densearith.test_dup_mul_poly_correct","statement":"Path(test_dup_mul_poly(x), p * x == px; p.set_domain(QQ) * x == px.set_domain(QQ); p.set_domain(CC) * x == px.set_domain(CC))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a538945354971285","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p * x == px","p.set_domain(QQ) * x == px.set_domain(QQ)","p.set_domain(CC) * x == px.set_domain(CC)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dup_mul_poly():
     p = Poly(18786186952704.0*x**165 + 9.31746684052255e+31*x**82, x, domain='RR')
     px = Poly(18786186952704.0*x**166 + 9.31746684052255e+31*x**83, x, domain='RR')

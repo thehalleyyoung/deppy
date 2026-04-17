@@ -40,14 +40,20 @@ from sympy.utilities.misc import as_int
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Tuple(*args), correctly constructs a Tuple instance) over {Any | isinstance(i, slice) and isinstance(other, Tuple) and isinstance(other, Basic)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Tuple : {Any | isinstance(i, slice) and isinstance(ot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5e521abb6517616  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple","kind":"class","src_hash":"142263bfdb384324","in":{"base":"Any","pred":"isinstance(i, slice) and isinstance(other, Tuple) and isinstance(other, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"Tuple(*args)","rhs":"correctly constructs a Tuple instance","over":{"base":"Any","pred":"isinstance(i, slice) and isinstance(other, Tuple) and isinstance(other, Basic)"},"name":"Tuple_class_invariant"},"guarantee":"correctly constructs a Tuple instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5e521abb6517616"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple","kind":"class","src_hash":"142263bfdb384324","in":{"base":"Any","pred":"isinstance(i, slice) and isinstance(other, Tuple) and isinstance(other, Basic)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Tuple(*args)","rhs":"correctly constructs a Tuple instance","over":{"base":"Any","pred":"isinstance(i, slice) and isinstance(other, Tuple) and isinstance(other, Basic)"},"name":"Tuple_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5e521abb6517616","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Tuple not found in source"]}}
 class Tuple(Basic):
     """
     Wrapper around the builtin tuple object.
@@ -80,16 +86,22 @@ class Tuple(Basic):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b477263ee8ff8b8c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__new__","kind":"method","src_hash":"1f16092ea863050b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b477263ee8ff8b8c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__new__","kind":"method","src_hash":"1f16092ea863050b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b477263ee8ff8b8c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         if kwargs.get('sympify', True):
             args = (sympify(arg) for arg in args)
@@ -97,16 +109,23 @@ class Tuple(Basic):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(i), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(i), <unspecified:__getitem__>) over {Any | hasattr(i, 'indices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(i, 'indices')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : {Any | hasattr(i, 'indices')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bffe47f94a9cca65           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__getitem__","kind":"method","src_hash":"7115171f9dd7df11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bffe47f94a9cca65"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__getitem__","kind":"method","src_hash":"7115171f9dd7df11","in":{"base":"Any","pred":"hasattr(i, 'indices')"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"<unspecified:__getitem__>","over":{"base":"Any","pred":"hasattr(i, 'indices')"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bffe47f94a9cca65","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(i, 'indices')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["i.indices","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, i):
         if isinstance(i, slice):
             indices = i.indices(len(self))
@@ -114,58 +133,87 @@ class Tuple(Basic):
         return self.args[i]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self.args)) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.args)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df375647db5276f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__len__","kind":"method","src_hash":"cb67a3b6f91a42fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df375647db5276f5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__len__","kind":"method","src_hash":"cb67a3b6f91a42fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"len(self.args)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df375647db5276f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return len(self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(ite), correctly tests membership) over Any ║
+# ║ Path(__contains__(item), item in self.args) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  item in self.args                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 145705817418e84e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__contains__","kind":"method","src_hash":"23dd01719bd1f578","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(ite)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"145705817418e84e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__contains__","kind":"method","src_hash":"23dd01719bd1f578","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(item)","rhs":"item in self.args","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns item in self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"145705817418e84e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"item in self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, item):
         return item in self.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), iter(self.args)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iter(self.args)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df93bfc1a098c3ed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__iter__","kind":"method","src_hash":"bc4bd12099820d6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df93bfc1a098c3ed"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__iter__","kind":"method","src_hash":"bc4bd12099820d6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"iter(self.args)","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns iter(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df93bfc1a098c3ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iter(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return iter(self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), result == (Tuple(*self.args + other.args) if isinstance(other, Tuple) else Tuple(*self.args + other) if isinstance(other, tuple) else NotImplemented) and result == Tuple(*self.args + other.args) or result == Tuple(*self.args + other) or result == NotImplemented) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ensures:  result == (Tuple(*self.args + other.args)...   ║
+# ║   ensures:  result == Tuple(*self.args + other.args) ...   ║
+# ║   fiber[Tuple]: isinstance(other, Tuple) => Tuple(*se...   ║
+# ║   fiber[tuple]: isinstance(other, tuple) => Tuple(*se...   ║
+# ║   fiber[Tuple]: not (isinstance(other, Tuple)) and no...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'args')} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8f533a69eb8088b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__add__","kind":"method","src_hash":"c4ce6ac7275b797a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8f533a69eb8088b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__add__","kind":"method","src_hash":"c4ce6ac7275b797a","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (Tuple(*self.args + other.args) if isinstance(other, Tuple) else Tuple(*self.args + other) if isinstance(other, tuple) else NotImplemented) and result == Tuple(*self.args + other.args) or result == Tuple(*self.args + other) or result == NotImplemented"},"spec":{"lhs":"__add__(other)","rhs":"result == (Tuple(*self.args + other.args) if isinstance(other, Tuple) else Tuple(*self.args + other) if isinstance(other, tuple) else NotImplemented) and result == Tuple(*self.args + other.args) or result == Tuple(*self.args + other) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__add___correct"},"guarantee":"result == (Tuple(*self.args + other.args) if isinstance(other, Tuple) else Tuple(*self.args + other) if isinstance(other, tuple) else NotImplemented); result == Tuple(*self.args + other.args) or result == Tuple(*self.args + other) or result == NotImplemented; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8f533a69eb8088b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'args')"],"ensures":["result == (Tuple(*self.args + other.args) if isinstance(other, Tuple) else Tuple(*self.args + other) if isinstance(other, tuple) else NotImplemented)","result == Tuple(*self.args + other.args) or result == Tuple(*self.args + other) or result == NotImplemented"],"fibers":[{"name":"Tuple","guard":"isinstance(other, Tuple)","ensures":["result == Tuple(*self.args + other.args)"],"decidability":"structural","returns_expr":"Tuple(*self.args + other.args)"},{"name":"tuple","guard":"isinstance(other, tuple)","ensures":["result == Tuple(*self.args + other)"],"decidability":"structural","returns_expr":"Tuple(*self.args + other)"},{"name":"Tuple","guard":"not (isinstance(other, Tuple)) and not (isinstance(other, tuple))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         if isinstance(other, Tuple):
             return Tuple(*(self.args + other.args))
@@ -175,16 +223,27 @@ class Tuple(Basic):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__radd__(other), result == (Tuple(*other.args + self.args) if isinstance(other, Tuple) else Tuple(*other + self.args) if isinstance(other, tuple) else NotImplemented) and result == Tuple(*other.args + self.args) or result == Tuple(*other + self.args) or result == NotImplemented) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __radd__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ensures:  result == (Tuple(*other.args + self.args)...   ║
+# ║   ensures:  result == Tuple(*other.args + self.args) ...   ║
+# ║   fiber[Tuple]: isinstance(other, Tuple) => Tuple(*ot...   ║
+# ║   fiber[tuple]: isinstance(other, tuple) => Tuple(*ot...   ║
+# ║   fiber[Tuple]: not (isinstance(other, Tuple)) and no...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __radd__ : {Any | hasattr(other, 'args')} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c71e8b0f095156cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__radd__","kind":"method","src_hash":"850de99b44fef09c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c71e8b0f095156cf"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__radd__","kind":"method","src_hash":"850de99b44fef09c","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (Tuple(*other.args + self.args) if isinstance(other, Tuple) else Tuple(*other + self.args) if isinstance(other, tuple) else NotImplemented) and result == Tuple(*other.args + self.args) or result == Tuple(*other + self.args) or result == NotImplemented"},"spec":{"lhs":"__radd__(other)","rhs":"result == (Tuple(*other.args + self.args) if isinstance(other, Tuple) else Tuple(*other + self.args) if isinstance(other, tuple) else NotImplemented) and result == Tuple(*other.args + self.args) or result == Tuple(*other + self.args) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__radd___correct"},"guarantee":"result == (Tuple(*other.args + self.args) if isinstance(other, Tuple) else Tuple(*other + self.args) if isinstance(other, tuple) else NotImplemented); result == Tuple(*other.args + self.args) or result == Tuple(*other + self.args) or result == NotImplemented; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c71e8b0f095156cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'args')"],"ensures":["result == (Tuple(*other.args + self.args) if isinstance(other, Tuple) else Tuple(*other + self.args) if isinstance(other, tuple) else NotImplemented)","result == Tuple(*other.args + self.args) or result == Tuple(*other + self.args) or result == NotImplemented"],"fibers":[{"name":"Tuple","guard":"isinstance(other, Tuple)","ensures":["result == Tuple(*other.args + self.args)"],"decidability":"structural","returns_expr":"Tuple(*other.args + self.args)"},{"name":"tuple","guard":"isinstance(other, tuple)","ensures":["result == Tuple(*other + self.args)"],"decidability":"structural","returns_expr":"Tuple(*other + self.args)"},{"name":"Tuple","guard":"not (isinstance(other, Tuple)) and not (isinstance(other, tuple))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, other):
         if isinstance(other, Tuple):
             return Tuple(*(other.args + self.args))
@@ -194,16 +253,22 @@ class Tuple(Basic):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), self.func(*self.args * n)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*self.args * n)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aef9fe027a1ec797           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__mul__","kind":"method","src_hash":"17e786359cacfcd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aef9fe027a1ec797"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__mul__","kind":"method","src_hash":"17e786359cacfcd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"self.func(*self.args * n)","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns self.func(*self.args * n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aef9fe027a1ec797","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*self.args * n)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"],"raises":["TypeError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         try:
             n = as_int(other)
@@ -214,121 +279,176 @@ class Tuple(Basic):
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c6cb23ff90723677           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__eq__","kind":"method","src_hash":"c0bed32a1a0d5e26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6cb23ff90723677"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__eq__","kind":"method","src_hash":"c0bed32a1a0d5e26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6cb23ff90723677","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if isinstance(other, Basic):
             return super().__eq__(other)
         return self.args == other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), <unspecified:__ne__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c70a5c3737cb345           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__ne__","kind":"method","src_hash":"de9e383c6d054807","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c70a5c3737cb345"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__ne__","kind":"method","src_hash":"de9e383c6d054807","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"<unspecified:__ne__>","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c70a5c3737cb345","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):
         if isinstance(other, Basic):
             return super().__ne__(other)
         return self.args != other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash(self.args)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash(self.args)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d730082e7cca869           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__hash__","kind":"method","src_hash":"71b24010fc04668d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d730082e7cca869"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__hash__","kind":"method","src_hash":"71b24010fc04668d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash(self.args)","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d730082e7cca869","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash(self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_mpmath(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_to_mpmath(prec), tuple((a._to_mpmath(prec) for a in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple((a._to_mpmath(prec) for a in self.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _to_mpmath : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 01ff621825d0c546           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple._to_mpmath","kind":"method","src_hash":"d181ec58a0c3cd16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_mpmath(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_to_mpmath_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01ff621825d0c546"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple._to_mpmath","kind":"method","src_hash":"d181ec58a0c3cd16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_mpmath(prec)","rhs":"tuple((a._to_mpmath(prec) for a in self.args))","over":{"base":"Any"},"name":"_to_mpmath_correct"},"guarantee":"returns tuple((a._to_mpmath(prec) for a in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01ff621825d0c546","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple((a._to_mpmath(prec) for a in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _to_mpmath(self, prec):
         return tuple(a._to_mpmath(prec) for a in self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(other), _sympify(self.args < other.args)) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __lt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   returns:  _sympify(self.args < other.args)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __lt__ : {Any | hasattr(other, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8d5cbca5b200c201           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__lt__","kind":"method","src_hash":"d8e0ac1a5d9509e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d5cbca5b200c201"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__lt__","kind":"method","src_hash":"d8e0ac1a5d9509e8","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"_sympify(self.args < other.args)","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__lt___correct"},"guarantee":"returns _sympify(self.args < other.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8d5cbca5b200c201","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'args')"],"returns_expr":"_sympify(self.args < other.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         return _sympify(self.args < other.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__le__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__le__(other), _sympify(self.args <= other.args)) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __le__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   returns:  _sympify(self.args <= other.args)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __le__ : {Any | hasattr(other, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9c235872bd7473fe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__le__","kind":"method","src_hash":"da6327731a9b1777","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c235872bd7473fe"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.__le__","kind":"method","src_hash":"da6327731a9b1777","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__le__(other)","rhs":"_sympify(self.args <= other.args)","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__le___correct"},"guarantee":"returns _sympify(self.args <= other.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c235872bd7473fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'args')"],"returns_expr":"_sympify(self.args <= other.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __le__(self, other):
         return _sympify(self.args <= other.args)
 
     # XXX: Basic defines count() as something different, so we can't
     # redefine it here. Originally this lead to cse() test failure.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tuple_count(val), return number of occurrences of value) over Any ║
+# ║ Path(tuple_count(value), self.args.count(value)) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tuple_count : Any → int                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ║   returns:  self.args.count(value)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tuple_count : Any → {int | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1fec7d57a43a1c57           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.tuple_count","kind":"method","src_hash":"ce6fb5945f418219","in":{"base":"Any"},"out":{"base":"int"},"spec":{"lhs":"tuple_count(val)","rhs":"return number of occurrences of value","over":{"base":"Any"},"name":"tuple_count_correct"},"guarantee":"return number of occurrences of value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fec7d57a43a1c57"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.tuple_count","kind":"method","src_hash":"ce6fb5945f418219","in":{"base":"Any"},"out":{"base":"int","pred":"result satisfies: result == (self.args.count(value))"},"spec":{"lhs":"tuple_count(value)","rhs":"self.args.count(value)","over":{"base":"Any"},"name":"tuple_count_correct"},"guarantee":"returns self.args.count(value); isinstance(result, int)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1fec7d57a43a1c57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, int)"],"returns_expr":"self.args.count(value)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tuple_count(self, value) -> int:
         """Return number of occurrences of value."""
         return self.args.count(value)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(val), searches and returns the first index of the value) over Any ║
+# ║ Path(index(value, start, stop), result == (self.args.index(value) if start is None and stop is None else self.args.index(value, start) if stop is None else self.args.index(value, start, stop)) and result == self.args.index(value) or result == self.args.index(value, start) or result == self.args.index(value, start, stop)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ index : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.args.index(value) if star...   ║
+# ║   ensures:  result == self.args.index(value) or resul...   ║
+# ║   fiber[zero_or_none]: start is None and stop is None...   ║
+# ║   fiber[zero_or_none]: stop is None => self.args.inde...   ║
+# ║   fiber[zero_or_none]: not (start is None and stop is...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ index : Any → {Any | result satisfies: result == (sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db9764ae8846601d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6cf3d683e870dd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.index","kind":"method","src_hash":"766c4893d88332dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(val)","rhs":"searches and returns the first index of the value","over":{"base":"Any"},"name":"index_correct"},"guarantee":"searches and returns the first index of the value","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.containers.Tuple.index_correct","statement":"Path(index(x), searches and returns the first index of the value)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db9764ae8846601d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.index","kind":"method","src_hash":"766c4893d88332dd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.args.index(value) if start is None and stop is None else self.args.index(value, start) if stop is None else self.args.index(value, start, stop)) and result == self.args.index(value) or result == self.args.index(value, start) or result == self.args.index(value, start, stop)"},"spec":{"lhs":"index(value, start, stop)","rhs":"result == (self.args.index(value) if start is None and stop is None else self.args.index(value, start) if stop is None else self.args.index(value, start, stop)) and result == self.args.index(value) or result == self.args.index(value, start) or result == self.args.index(value, start, stop)","over":{"base":"Any"},"name":"index_correct"},"guarantee":"result == (self.args.index(value) if start is None and stop is None else self.args.index(value, start) if stop is None else self.args.index(value, start, stop)); result == self.args.index(value) or result == self.args.index(value, start) or result == self.args.index(value, start, stop); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.containers.Tuple.index_correct","statement":"Path(index(x), result == (self.args.index(value) if start is None and stop is None else self.args.index(value, start) if stop is None else self.args.index(value, start, stop)); result == self.args.index(value) or result == self.args.index(value, start) or result == self.args.index(value, start, stop); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6cf3d683e870dd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.args.index(value) if start is None and stop is None else self.args.index(value, start) if stop is None else self.args.index(value, start, stop))","result == self.args.index(value) or result == self.args.index(value, start) or result == self.args.index(value, start, stop)"],"fibers":[{"name":"zero_or_none","guard":"start is None and stop is None","ensures":["result == self.args.index(value)"],"decidability":"structural","returns_expr":"self.args.index(value)"},{"name":"zero_or_none","guard":"stop is None","ensures":["result == self.args.index(value, start)"],"decidability":"structural","returns_expr":"self.args.index(value, start)"},{"name":"zero_or_none","guard":"not (start is None and stop is None) and not (stop is None)","ensures":["result == self.args.index(value, start, stop)"],"decidability":"structural","returns_expr":"self.args.index(value, start, stop)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self, value, start=None, stop=None):
         """Searches and returns the first index of the value."""
         # XXX: One would expect:
@@ -353,16 +473,22 @@ class Tuple(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kind(), returns the kind attribute) over Any          ║
+# ║ Path(kind(), TupleKind(*(i.kind for i in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TupleKind(*(i.kind for i in self.args))        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kind : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5aa977b7db1fd1db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.kind","kind":"property","src_hash":"4499af009c3180dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"returns the kind attribute","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns the kind attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5aa977b7db1fd1db"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Tuple.kind","kind":"property","src_hash":"4499af009c3180dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"TupleKind(*(i.kind for i in self.args))","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns TupleKind(*(i.kind for i in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5aa977b7db1fd1db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TupleKind(*(i.kind for i in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kind(self):
         """
         The kind of a Tuple instance.
@@ -396,7 +522,10 @@ _sympy_converter[tuple] = lambda tup: Tuple(*tup)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tuple_wrapper(met), decorator that converts any tuple in the function arguments into a tuple) over {Any | isinstance(arg, tuple)} ║
+# ║ Path(tuple_wrapper(method), <unspecified:tuple_wrapper>) over {Any | isinstance(arg, tuple)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tuple_wrapper : {Any | isinstance(arg, tuple)} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -408,9 +537,12 @@ _sympy_converter[tuple] = lambda tup: Tuple(*tup)
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 86f24fd2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.tuple_wrapper","kind":"function","src_hash":"a0ecbc1180b99af8","in":{"base":"Any","pred":"isinstance(arg, tuple)"},"out":{"base":"Any"},"spec":{"lhs":"tuple_wrapper(met)","rhs":"decorator that converts any tuple in the function arguments into a tuple","over":{"base":"Any","pred":"isinstance(arg, tuple)"},"name":"tuple_wrapper_correct"},"guarantee":"decorator that converts any tuple in the function arguments into a tuple","fibers":[{"name":"tuple","pred":"isinstance(arg, tuple)","path":{"lhs":"tuple_wrapper(x)","rhs":"decorator that converts any tuple in the function arguments into a tuple","over":{"base":"tuple","pred":"isinstance(arg, tuple)"},"name":"tuple_wrapper_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.containers.tuple_wrapper_tuple_correct","statement":"tuple_wrapper satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"86f24fd2cfafa968"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.tuple_wrapper","kind":"function","src_hash":"a0ecbc1180b99af8","in":{"base":"Any","pred":"isinstance(arg, tuple)"},"out":{"base":"Any"},"spec":{"lhs":"tuple_wrapper(method)","rhs":"<unspecified:tuple_wrapper>","over":{"base":"Any","pred":"isinstance(arg, tuple)"},"name":"tuple_wrapper_correct"},"guarantee":"decorator that converts any tuple in the function arguments into a tuple","fibers":[{"name":"tuple","pred":"isinstance(arg, tuple)","path":{"lhs":"tuple_wrapper(x)","rhs":"decorator that converts any tuple in the function arguments into a tuple","over":{"base":"tuple","pred":"isinstance(arg, tuple)"},"name":"tuple_wrapper_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.containers.tuple_wrapper_tuple_correct","statement":"tuple_wrapper satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"86f24fd2cfafa968","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, tuple)'}, fibers={'tuple'})"]}}
 def tuple_wrapper(method):
     """
     Decorator that converts any tuple in the function arguments into a Tuple.
@@ -450,14 +582,20 @@ def tuple_wrapper(method):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Dict(*args), correctly constructs a Dict instance) over {Any | isinstance(other, dict) and isinstance(args[0], (dict, Dict))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Dict : {Any | isinstance(other, dict) and isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98684c2a3c89ce94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict","kind":"class","src_hash":"83abad8393afb2b8","in":{"base":"Any","pred":"isinstance(other, dict) and isinstance(args[0], (dict, Dict))"},"out":{"base":"Any"},"spec":{"lhs":"Dict(*args)","rhs":"correctly constructs a Dict instance","over":{"base":"Any","pred":"isinstance(other, dict) and isinstance(args[0], (dict, Dict))"},"name":"Dict_class_invariant"},"guarantee":"correctly constructs a Dict instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98684c2a3c89ce94"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict","kind":"class","src_hash":"83abad8393afb2b8","in":{"base":"Any","pred":"isinstance(other, dict) and isinstance(args[0], (dict, Dict))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Dict(*args)","rhs":"correctly constructs a Dict instance","over":{"base":"Any","pred":"isinstance(other, dict) and isinstance(args[0], (dict, Dict))"},"name":"Dict_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98684c2a3c89ce94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Dict not found in source"]}}
 class Dict(Basic):
     """
     Wrapper around the builtin dict object.
@@ -500,16 +638,22 @@ class Dict(Basic):
     _dict: dict[Basic, Basic]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), <unspecified:__new__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 19d78e50d7bcec5d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__new__","kind":"method","src_hash":"454c0554cc6e4cce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19d78e50d7bcec5d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__new__","kind":"method","src_hash":"454c0554cc6e4cce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19d78e50d7bcec5d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         if len(args) == 1 and isinstance(args[0], (dict, Dict)):
             items = [Tuple(k, v) for k, v in args[0].items()]
@@ -524,16 +668,22 @@ class Dict(Basic):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(key), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(key), self._dict[key]) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._dict[key]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d4b0a96bebebb2a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__getitem__","kind":"method","src_hash":"fa373ca23a22f876","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4b0a96bebebb2a1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__getitem__","kind":"method","src_hash":"fa373ca23a22f876","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"self._dict[key]","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self._dict[key]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4b0a96bebebb2a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._dict[key]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dict"],"raises":["KeyError"],"catches":["SympifyError"]},"state_contract":{"exceptional_post":{"KeyError":["isinstance(raised, KeyError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, key):
         """x.__getitem__(y) <==> x[y]"""
         try:
@@ -544,106 +694,148 @@ class Dict(Basic):
         return self._dict[key]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setitem__(key), correctly sets the element at the given index) over Any ║
+# ║ Path(__setitem__(key, value), <unspecified:__setitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __setitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 16c9726cd300c6ea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__setitem__","kind":"method","src_hash":"053ef9ade591fff4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(key)","rhs":"correctly sets the element at the given index","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16c9726cd300c6ea"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__setitem__","kind":"method","src_hash":"053ef9ade591fff4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(key, value)","rhs":"<unspecified:__setitem__>","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16c9726cd300c6ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setitem__(self, key, value):
         raise NotImplementedError("SymPy Dicts are Immutable")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(items(), returns a set-like object providing a view on dict's items) over Any ║
+# ║ Path(items(), self._dict.items()) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._dict.items()                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ items : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b23da627182010a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.items","kind":"method","src_hash":"41ca2f0f545e61a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"items()","rhs":"returns a set-like object providing a view on dict's items","over":{"base":"Any"},"name":"items_correct"},"guarantee":"returns a set-like object providing a view on dict's items","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b23da627182010a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.items","kind":"method","src_hash":"41ca2f0f545e61a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"items()","rhs":"self._dict.items()","over":{"base":"Any"},"name":"items_correct"},"guarantee":"returns self._dict.items()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b23da627182010a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._dict.items()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dict"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def items(self):
         '''Returns a set-like object providing a view on dict's items.
         '''
         return self._dict.items()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(keys(), returns the list of the dict's keys) over Any ║
+# ║ Path(keys(), self._dict.keys()) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._dict.keys()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ keys : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 35d9f3620cf914de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.keys","kind":"method","src_hash":"3cde2cbe5b42894f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"keys()","rhs":"returns the list of the dict's keys","over":{"base":"Any"},"name":"keys_correct"},"guarantee":"returns the list of the dict's keys","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35d9f3620cf914de"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.keys","kind":"method","src_hash":"3cde2cbe5b42894f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"keys()","rhs":"self._dict.keys()","over":{"base":"Any"},"name":"keys_correct"},"guarantee":"returns self._dict.keys()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35d9f3620cf914de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._dict.keys()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dict"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def keys(self):
         '''Returns the list of the dict's keys.'''
         return self._dict.keys()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(values(), returns the list of the dict's values) over Any ║
+# ║ Path(values(), self._dict.values()) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._dict.values()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ values : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3f1e5118f5e72d0a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.values","kind":"method","src_hash":"75c6979665cf459e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"values()","rhs":"returns the list of the dict's values","over":{"base":"Any"},"name":"values_correct"},"guarantee":"returns the list of the dict's values","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f1e5118f5e72d0a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.values","kind":"method","src_hash":"75c6979665cf459e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"values()","rhs":"self._dict.values()","over":{"base":"Any"},"name":"values_correct"},"guarantee":"returns self._dict.values()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f1e5118f5e72d0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._dict.values()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dict"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def values(self):
         '''Returns the list of the dict's values.'''
         return self._dict.values()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), iter(self._dict)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iter(self._dict)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8adceda11e5d4a23           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__iter__","kind":"method","src_hash":"217bf3a71cb6a23a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8adceda11e5d4a23"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__iter__","kind":"method","src_hash":"217bf3a71cb6a23a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"iter(self._dict)","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns iter(self._dict)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8adceda11e5d4a23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iter(self._dict)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dict"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         '''x.__iter__() <==> iter(x)'''
         return iter(self._dict)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), self._dict.__len__()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._dict.__len__()                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e5471ced4eba7d85           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__len__","kind":"method","src_hash":"5ab421a2b3b32d58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5471ced4eba7d85"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__len__","kind":"method","src_hash":"5ab421a2b3b32d58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"self._dict.__len__()","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns self._dict.__len__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5471ced4eba7d85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._dict.__len__()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dict"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         '''x.__len__() <==> len(x)'''
         return self._dict.__len__()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get(key), returns the value for key if the key is in the dictionary) over Any ║
+# ║ Path(get(key, default), <unspecified:get>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08b949d15e2cbf42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.get","kind":"method","src_hash":"2b32a88122916be4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get(key)","rhs":"returns the value for key if the key is in the dictionary","over":{"base":"Any"},"name":"get_correct"},"guarantee":"returns the value for key if the key is in the dictionary","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.containers.Dict.get_correct","statement":"Path(get(x), returns the value for key if the key is in the dictionary)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08b949d15e2cbf42"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.get","kind":"method","src_hash":"2b32a88122916be4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get(key, default)","rhs":"<unspecified:get>","over":{"base":"Any"},"name":"get_correct"},"guarantee":"returns the value for key if the key is in the dictionary","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.containers.Dict.get_correct","statement":"Path(get(x), returns the value for key if the key is in the dictionary)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08b949d15e2cbf42","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dict"],"catches":["SympifyError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get(self, key, default=None):
         '''Returns the value for key if the key is in the dictionary.'''
         try:
@@ -653,16 +845,22 @@ class Dict(Basic):
         return self._dict.get(key, default)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(key), correctly tests membership) over Any ║
+# ║ Path(__contains__(key), <unspecified:__contains__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f3b85db114a93b67           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__contains__","kind":"method","src_hash":"6c7392bddced3ae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(key)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f3b85db114a93b67"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__contains__","kind":"method","src_hash":"6c7392bddced3ae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(key)","rhs":"<unspecified:__contains__>","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f3b85db114a93b67","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dict"],"catches":["SympifyError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, key):
         '''D.__contains__(k) -> True if D has a key k, else False'''
         try:
@@ -672,45 +870,64 @@ class Dict(Basic):
         return key in self._dict
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(other), _sympify(self.args < other.args)) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __lt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   returns:  _sympify(self.args < other.args)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __lt__ : {Any | hasattr(other, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 11a88f5ec8bccd20           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__lt__","kind":"method","src_hash":"d8e0ac1a5d9509e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11a88f5ec8bccd20"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__lt__","kind":"method","src_hash":"d8e0ac1a5d9509e8","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"_sympify(self.args < other.args)","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__lt___correct"},"guarantee":"returns _sympify(self.args < other.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11a88f5ec8bccd20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'args')"],"returns_expr":"_sympify(self.args < other.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         return _sympify(self.args < other.args)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sorted_args(), returns the _sorted_args attribute) over Any ║
+# ║ Path(_sorted_args(), tuple(sorted(self.args, key=default_sort_key))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(sorted(self.args, key=default_sort_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sorted_args : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 791c3bfbd3c37f50           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict._sorted_args","kind":"property","src_hash":"23a0343fe2253bfc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sorted_args()","rhs":"returns the _sorted_args attribute","over":{"base":"Any"},"name":"_sorted_args_correct"},"guarantee":"returns the _sorted_args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"791c3bfbd3c37f50"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict._sorted_args","kind":"property","src_hash":"23a0343fe2253bfc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sorted_args()","rhs":"tuple(sorted(self.args, key=default_sort_key))","over":{"base":"Any"},"name":"_sorted_args_correct"},"guarantee":"returns tuple(sorted(self.args, key=default_sort_key))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"791c3bfbd3c37f50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(sorted(self.args, key=default_sort_key))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sorted_args(self):
         return tuple(sorted(self.args, key=default_sort_key))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c99ce19106111623           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__eq__","kind":"method","src_hash":"b8665f4905f1c6f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c99ce19106111623"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.Dict.__eq__","kind":"method","src_hash":"b8665f4905f1c6f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c99ce19106111623","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if isinstance(other, dict):
             return self == Dict(other)
@@ -724,26 +941,38 @@ _sympy_converter[dict] = lambda d: Dict(*d.items())
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a OrderedSet instance) preserved by OrderedSet(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ OrderedSet : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MutableSet)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ OrderedSet : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f69386a7b1f22c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet","kind":"class","src_hash":"6d30c33fa571c475","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"OrderedSet(*args)","rhs":"correctly constructs a OrderedSet instance","over":{"base":"Any"},"name":"OrderedSet_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a OrderedSet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'map') and hasattr(self, 'map')","kind":"class","induction":"structural on map, map"}],"methods_preserving":["__init__","__len__","__contains__","add","discard","pop","__iter__","__repr__","intersection","difference","update"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f69386a7b1f22c5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet","kind":"class","src_hash":"6d30c33fa571c475","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MutableSet)"},"spec":{"lhs":"OrderedSet(*args)","rhs":"correctly constructs a OrderedSet instance","over":{"base":"Any"},"name":"OrderedSet_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, MutableSet); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'map') and hasattr(self, 'map')","kind":"class","induction":"structural on map, map"}],"methods_preserving":["__init__","__len__","__contains__","add","discard","pop","__iter__","__repr__","intersection","difference","update"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f69386a7b1f22c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MutableSet)"],"invariants":["hasattr(self, 'map')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function OrderedSet not found in source"]}}
 class OrderedSet(MutableSet):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ite), initializes the instance correctly) over Any ║
+# ║ Path(__init__(iterable), <unspecified:__init__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 19934790273c807c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.__init__","kind":"method","src_hash":"e37edf42ceef4c08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ite)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19934790273c807c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.__init__","kind":"method","src_hash":"e37edf42ceef4c08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(iterable)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19934790273c807c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, iterable=None):
         if iterable:
             self.map = OrderedDict((item, None) for item in iterable)
@@ -751,144 +980,205 @@ class OrderedSet(MutableSet):
             self.map = OrderedDict()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self.map)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.map)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 51dad6b98df244f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.__len__","kind":"method","src_hash":"58c6e1f58d116ad2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51dad6b98df244f4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.__len__","kind":"method","src_hash":"58c6e1f58d116ad2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"len(self.map)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self.map)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51dad6b98df244f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.map)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.map"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return len(self.map)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(key), correctly tests membership) over Any ║
+# ║ Path(__contains__(key), key in self.map) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  key in self.map                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f87c95c1ef2b645f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.__contains__","kind":"method","src_hash":"a213a0687c0f4011","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(key)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f87c95c1ef2b645f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.__contains__","kind":"method","src_hash":"a213a0687c0f4011","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(key)","rhs":"key in self.map","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns key in self.map","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f87c95c1ef2b645f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"key in self.map","pure":false,"effects":{"effect_type":"reads_state","reads":["self.map"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, key):
         return key in self.map
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(key), add produces the expected output) over Any  ║
+# ║ Path(add(key), <unspecified:add>) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ add : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbd915d656909131  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.add","kind":"method","src_hash":"5054d2d0e093887c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(key)","rhs":"add produces the expected output","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.containers.OrderedSet.add_correct","statement":"Path(add(x), add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbd915d656909131"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.add","kind":"method","src_hash":"5054d2d0e093887c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(key)","rhs":"<unspecified:add>","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.containers.OrderedSet.add_correct","statement":"Path(add(x), add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbd915d656909131","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.map"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add(self, key):
         self.map[key] = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(discard(key), discard produces the expected output) over Any ║
+# ║ Path(discard(key), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ discard : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ discard : {Any | len(self) > 0} → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e98ffcf54a0fd95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 585f34cdfa98b944  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.discard","kind":"method","src_hash":"48356e3b9d584047","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"discard(key)","rhs":"discard produces the expected output","over":{"base":"Any"},"name":"discard_correct"},"guarantee":"discard produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.containers.OrderedSet.discard_correct","statement":"Path(discard(x), discard produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e98ffcf54a0fd95"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.discard","kind":"method","src_hash":"48356e3b9d584047","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"discard(key)","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"discard_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.containers.OrderedSet.discard_correct","statement":"Path(discard(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"585f34cdfa98b944","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.map"],"calls_mutating":["self.map.pop"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def discard(self, key):
         self.map.pop(key)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pop(las), pop produces the expected output) over Any  ║
+# ║ Path(pop(last), self.map.popitem(last=last)[0]) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.map.popitem(last=last)[0]                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pop : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2c2854a20e65ef78           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.pop","kind":"method","src_hash":"9f6e86969ece633e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pop(las)","rhs":"pop produces the expected output","over":{"base":"Any"},"name":"pop_correct"},"guarantee":"pop produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c2854a20e65ef78"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.pop","kind":"method","src_hash":"9f6e86969ece633e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pop(last)","rhs":"self.map.popitem(last=last)[0]","over":{"base":"Any"},"name":"pop_correct"},"guarantee":"returns self.map.popitem(last=last)[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c2854a20e65ef78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.map.popitem(last=last)[0]","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.map"],"calls_mutating":["self.map.popitem"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pop(self, last=True):
         return self.map.popitem(last=last)[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), <unspecified:__iter__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 897be360d05386c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.__iter__","kind":"method","src_hash":"9eb8f9af50599830","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"897be360d05386c5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.__iter__","kind":"method","src_hash":"9eb8f9af50599830","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"<unspecified:__iter__>","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"897be360d05386c5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.map"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         yield from self.map.keys()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), <unspecified:__repr__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec38ae355991bf49           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.__repr__","kind":"method","src_hash":"73de55fa75fb9d42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec38ae355991bf49"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.__repr__","kind":"method","src_hash":"73de55fa75fb9d42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"<unspecified:__repr__>","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec38ae355991bf49","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.map"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         if not self.map:
             return '%s()' % (self.__class__.__name__,)
         return '%s(%r)' % (self.__class__.__name__, list(self.map.keys()))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(oth), intersection produces the expected output) over Any ║
+# ║ Path(intersection(other), self.__class__([val for val in self if val in other])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__([val for val in self if va...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ intersection : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a780822d759c9629           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.intersection","kind":"method","src_hash":"d092fd7759ff0bca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(oth)","rhs":"intersection produces the expected output","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"intersection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a780822d759c9629"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.intersection","kind":"method","src_hash":"d092fd7759ff0bca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(other)","rhs":"self.__class__([val for val in self if val in other])","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"returns self.__class__([val for val in self if val in other])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a780822d759c9629","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__([val for val in self if val in other])","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersection(self, other):
         return self.__class__([val for val in self if val in other])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(difference(oth), difference produces the expected output) over Any ║
+# ║ Path(difference(other), self.__class__([val for val in self if val not in other])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__([val for val in self if va...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ difference : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd3b047550f6a123           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.difference","kind":"method","src_hash":"2e507f44aaa15449","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"difference(oth)","rhs":"difference produces the expected output","over":{"base":"Any"},"name":"difference_correct"},"guarantee":"difference produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd3b047550f6a123"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.difference","kind":"method","src_hash":"2e507f44aaa15449","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"difference(other)","rhs":"self.__class__([val for val in self if val not in other])","over":{"base":"Any"},"name":"difference_correct"},"guarantee":"returns self.__class__([val for val in self if val not in other])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd3b047550f6a123","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__([val for val in self if val not in other])","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def difference(self, other):
         return self.__class__([val for val in self if val not in other])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(update(ite), update produces the expected output) over Any ║
+# ║ Path(update(iterable), <unspecified:update>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ update : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40530f515c5a1b4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.update","kind":"method","src_hash":"9e7730ecb2397b4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update(ite)","rhs":"update produces the expected output","over":{"base":"Any"},"name":"update_correct"},"guarantee":"update produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.containers.OrderedSet.update_correct","statement":"Path(update(x), update produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40530f515c5a1b4e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.OrderedSet.update","kind":"method","src_hash":"9e7730ecb2397b4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update(iterable)","rhs":"<unspecified:update>","over":{"base":"Any"},"name":"update_correct"},"guarantee":"update produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.containers.OrderedSet.update_correct","statement":"Path(update(x), update produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40530f515c5a1b4e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.add"],"calls_mutating":["self.add"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def update(self, iterable):
         for val in iterable:
             self.add(val)
@@ -896,14 +1186,20 @@ class OrderedSet(MutableSet):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TupleKind(*args), correctly constructs a TupleKind instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TupleKind : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Kind)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TupleKind : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9eb0ce1a3747a4f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.TupleKind","kind":"class","src_hash":"276385edc32a974d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TupleKind(*args)","rhs":"correctly constructs a TupleKind instance","over":{"base":"Any"},"name":"TupleKind_class_invariant"},"guarantee":"correctly constructs a TupleKind instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9eb0ce1a3747a4f1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.TupleKind","kind":"class","src_hash":"276385edc32a974d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Kind)"},"spec":{"lhs":"TupleKind(*args)","rhs":"correctly constructs a TupleKind instance","over":{"base":"Any"},"name":"TupleKind_class_invariant"},"guarantee":"isinstance(self, Kind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9eb0ce1a3747a4f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Kind)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function TupleKind not found in source"]}}
 class TupleKind(Kind):
     """
     TupleKind is a subclass of Kind, which is used to define Kind of ``Tuple``.
@@ -935,31 +1231,43 @@ class TupleKind(Kind):
     sympy.sets.sets.SetKind
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), <unspecified:__new__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 626aabe3263fb239           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.TupleKind.__new__","kind":"method","src_hash":"92a80f2a823b85b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"626aabe3263fb239"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.TupleKind.__new__","kind":"method","src_hash":"92a80f2a823b85b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"626aabe3263fb239","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         obj = super().__new__(cls, *args)
         obj.element_kind = args
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'TupleKind{}'.format(self.element_kind)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'TupleKind{}'.format(self.element_kind)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b6b07a485799bae1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.containers.TupleKind.__repr__","kind":"method","src_hash":"755ffc5ee4294742","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6b07a485799bae1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.containers.TupleKind.__repr__","kind":"method","src_hash":"755ffc5ee4294742","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'TupleKind{}'.format(self.element_kind)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'TupleKind{}'.format(self.element_kind)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b6b07a485799bae1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'TupleKind{}'.format(self.element_kind)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.element_kind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "TupleKind{}".format(self.element_kind)

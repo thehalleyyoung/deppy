@@ -22,16 +22,25 @@ from .polyerrors import HeuristicGCDFailed
 HEU_GCD_MAX = 6
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(heugcd(f, ), heuristic polynomial gcd in ``z[x]``) over Any ║
+# ║ Path(heugcd(f, g), # HINT: heugcd may be idempotent: heugcd(heugcd(x)) == heugcd(x)) over {Any | f.ring == g.ring and f.ring.domain.is_ZZ and hasattr(f, 'ring') and hasattr(f, 'extract_ground') and hasattr(f, 'max_norm') and hasattr(g, 'max_norm') and hasattr(g, 'ring') and hasattr(f, 'evaluate') and hasattr(g, 'evaluate') and hasattr(f, 'div') and hasattr(g, 'div') and hasattr(f, 'LC') and hasattr(g, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ heugcd : Any → {Any | f.ring == g.ring and f.ring.dom...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: f.ring == g.ring and f.ring.domain.is_ZZ       ║
+# ║   requires: hasattr(f, 'ring')                             ║
+# ║   requires: hasattr(f, 'extract_ground')                   ║
+# ║   ensures:  # HINT: heugcd may be idempotent: heugcd(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ heugcd : {Any | f.ring == g.ring and f.ring.domain.is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98c1400845821a9f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4c1064e0c290891  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.heuristicgcd.heugcd","kind":"function","src_hash":"e59028fccab070d9","in":{"base":"Any"},"out":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ"},"spec":{"lhs":"heugcd(f, )","rhs":"heuristic polynomial gcd in ``z[x]``","over":{"base":"Any"},"name":"heugcd_correct"},"guarantee":"heuristic polynomial gcd in ``z[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.heuristicgcd.heugcd_correct","statement":"Path(heugcd(x), heuristic polynomial gcd in ``z[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98c1400845821a9f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.heuristicgcd.heugcd","kind":"function","src_hash":"e59028fccab070d9","in":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ and hasattr(f, 'ring') and hasattr(f, 'extract_ground') and hasattr(f, 'max_norm') and hasattr(g, 'max_norm') and hasattr(g, 'ring') and hasattr(f, 'evaluate') and hasattr(g, 'evaluate') and hasattr(f, 'div') and hasattr(g, 'div') and hasattr(f, 'LC') and hasattr(g, 'LC')"},"out":{"base":"Any","pred":"result satisfies: # HINT: heugcd may be idempotent: heugcd(heugcd(x)) == heugcd(x)"},"spec":{"lhs":"heugcd(f, g)","rhs":"# HINT: heugcd may be idempotent: heugcd(heugcd(x)) == heugcd(x)","over":{"base":"Any","pred":"f.ring == g.ring and f.ring.domain.is_ZZ and hasattr(f, 'ring') and hasattr(f, 'extract_ground') and hasattr(f, 'max_norm') and hasattr(g, 'max_norm') and hasattr(g, 'ring') and hasattr(f, 'evaluate') and hasattr(g, 'evaluate') and hasattr(f, 'div') and hasattr(g, 'div') and hasattr(f, 'LC') and hasattr(g, 'LC')"},"name":"heugcd_correct"},"guarantee":"# HINT: heugcd may be idempotent: heugcd(heugcd(x)) == heugcd(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.heuristicgcd.heugcd_correct","statement":"Path(heugcd(x), # HINT: heugcd may be idempotent: heugcd(heugcd(x)) == heugcd(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4c1064e0c290891","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["f.ring == g.ring and f.ring.domain.is_ZZ","hasattr(f, 'ring')","hasattr(f, 'extract_ground')","hasattr(f, 'max_norm')","hasattr(g, 'max_norm')","hasattr(g, 'ring')","hasattr(f, 'evaluate')","hasattr(g, 'evaluate')","hasattr(f, 'div')","hasattr(g, 'div')","hasattr(f, 'LC')","hasattr(g, 'LC')"],"ensures":["# HINT: heugcd may be idempotent: heugcd(heugcd(x)) == heugcd(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.LC","f.div","f.evaluate","f.extract_ground","f.max_norm","f.ring","g.LC","g.div","g.evaluate","g.max_norm","g.ring"],"raises":["HeuristicGCDFailed"]},"state_contract":{"exceptional_post":{"HeuristicGCDFailed":["isinstance(raised, HeuristicGCDFailed)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def heugcd(f, g):
     """
     Heuristic polynomial GCD in ``Z[X]``.
@@ -146,16 +155,25 @@ def heugcd(f, g):
     raise HeuristicGCDFailed('no luck')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_gcd_interpolate(h, ), interpolate polynomial gcd from integer gcd) over Any ║
+# ║ Path(_gcd_interpolate(h, x, ring), <unspecified:_gcd_interpolate>) over {Any | hasattr(ring, 'zero') and hasattr(ring, 'ngens') and hasattr(h, 'trunc_ground')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _gcd_interpolate : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(ring, 'zero')                          ║
+# ║   requires: hasattr(ring, 'ngens')                         ║
+# ║   requires: hasattr(h, 'trunc_ground')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _gcd_interpolate : {Any | hasattr(ring, 'zero') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84e3a3ec5e137d37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.heuristicgcd._gcd_interpolate","kind":"function","src_hash":"e84d8caa9da5bcc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_gcd_interpolate(h, )","rhs":"interpolate polynomial gcd from integer gcd","over":{"base":"Any"},"name":"_gcd_interpolate_correct"},"guarantee":"interpolate polynomial gcd from integer gcd","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.heuristicgcd._gcd_interpolate_correct","statement":"Path(_gcd_interpolate(x), interpolate polynomial gcd from integer gcd)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84e3a3ec5e137d37"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.heuristicgcd._gcd_interpolate","kind":"function","src_hash":"e84d8caa9da5bcc8","in":{"base":"Any","pred":"hasattr(ring, 'zero') and hasattr(ring, 'ngens') and hasattr(h, 'trunc_ground')"},"out":{"base":"Any"},"spec":{"lhs":"_gcd_interpolate(h, x, ring)","rhs":"<unspecified:_gcd_interpolate>","over":{"base":"Any","pred":"hasattr(ring, 'zero') and hasattr(ring, 'ngens') and hasattr(h, 'trunc_ground')"},"name":"_gcd_interpolate_correct"},"guarantee":"interpolate polynomial gcd from integer gcd","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.heuristicgcd._gcd_interpolate_correct","statement":"Path(_gcd_interpolate(x), interpolate polynomial gcd from integer gcd)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84e3a3ec5e137d37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(ring, 'zero')","hasattr(ring, 'ngens')","hasattr(h, 'trunc_ground')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["h.trunc_ground","ring.ngens","ring.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _gcd_interpolate(h, x, ring):
     """Interpolate polynomial GCD from integer GCD. """
     f, i = ring.zero, 0

@@ -27,16 +27,24 @@ from sympy.testing.pytest import slow
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linearize_rolling_disc_kane(), test_linearize_rolling_disc_kane produces the expected output) over Any ║
+# ║ Path(test_linearize_rolling_disc_kane(), linearizer.f_c == f_c and linearizer.f_v == f_v and linearizer.f_a == f_v.diff(t).subs(KM.kindiffdict()) and simplify(linearizer.f_2 + linearizer.f_3 - fr - fr_star) == Matrix([0, 0, 0]) and A.subs(upright_nominal) == A_sol and B.subs(upright_nominal) == B_sol and sympify(A.subs(upright_nominal).subs(q3d, 1 / sqrt(3))).eigenvals() == {0: 8}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_linearize_rolling_disc_kane : Any → {Any | linea...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  linearizer.f_c == f_c                          ║
+# ║   ensures:  linearizer.f_v == f_v                          ║
+# ║   ensures:  linearizer.f_a == f_v.diff(t).subs(KM.kin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_linearize_rolling_disc_kane : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f02bcdadbe6c884f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bef0af0002928c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearize.test_linearize_rolling_disc_kane","kind":"function","src_hash":"e588da517c14d179","in":{"base":"Any"},"out":{"base":"Any","pred":"linearizer.f_c == f_c and linearizer.f_v == f_v and linearizer.f_a == f_v.diff(t).subs(KM.kindiffdict()) and simplify(linearizer.f_2 + linearizer.f_3 - fr - fr_star) == Matrix([0, 0, 0]) and A.subs(upright_nominal) == A_sol and B.subs(upright_nominal) == B_sol and sympify(A.subs(upright_nominal).subs(q3d, 1 / sqrt(3))).eigenvals() == {0: 8} and A.subs(upright_nominal) == A_sol and B.subs(upright_nominal) == B_sol and sol[qi] == qdots[qi]"},"spec":{"lhs":"test_linearize_rolling_disc_kane()","rhs":"test_linearize_rolling_disc_kane produces the expected output","over":{"base":"Any"},"name":"test_linearize_rolling_disc_kane_correct"},"guarantee":"test_linearize_rolling_disc_kane produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearize.test_linearize_rolling_disc_kane_correct","statement":"Path(test_linearize_rolling_disc_kane(x), test_linearize_rolling_disc_kane produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f02bcdadbe6c884f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearize.test_linearize_rolling_disc_kane","kind":"function","src_hash":"e588da517c14d179","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: linearizer.f_c == f_c and linearizer.f_v == f_v and linearizer.f_a == f_v.diff(t).subs(KM.kindiffdict()) and simplify(linearizer.f_2 + linearizer.f_3 - fr - fr_star) == Matrix([0, 0, 0]) and A.subs(upright_nominal) == A_sol and B.subs(upright_nominal) == B_sol and sympify(A.subs(upright_nominal).subs(q3d, 1 / sqrt(3))).eigenvals() == {0: 8}"},"spec":{"lhs":"test_linearize_rolling_disc_kane()","rhs":"linearizer.f_c == f_c and linearizer.f_v == f_v and linearizer.f_a == f_v.diff(t).subs(KM.kindiffdict()) and simplify(linearizer.f_2 + linearizer.f_3 - fr - fr_star) == Matrix([0, 0, 0]) and A.subs(upright_nominal) == A_sol and B.subs(upright_nominal) == B_sol and sympify(A.subs(upright_nominal).subs(q3d, 1 / sqrt(3))).eigenvals() == {0: 8}","over":{"base":"Any"},"name":"test_linearize_rolling_disc_kane_correct"},"guarantee":"linearizer.f_c == f_c; linearizer.f_v == f_v; linearizer.f_a == f_v.diff(t).subs(KM.kindiffdict())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearize.test_linearize_rolling_disc_kane_correct","statement":"Path(test_linearize_rolling_disc_kane(x), linearizer.f_c == f_c; linearizer.f_v == f_v; linearizer.f_a == f_v.diff(t).subs(KM.kindiffdict()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bef0af0002928c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["linearizer.f_c == f_c","linearizer.f_v == f_v","linearizer.f_a == f_v.diff(t).subs(KM.kindiffdict())","simplify(linearizer.f_2 + linearizer.f_3 - fr - fr_star) == Matrix([0, 0, 0])","A.subs(upright_nominal) == A_sol","B.subs(upright_nominal) == B_sol","sympify(A.subs(upright_nominal).subs(q3d, 1 / sqrt(3))).eigenvals() == {0: 8}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":true}}
 def test_linearize_rolling_disc_kane():
     # Symbols for time and constant parameters
     t, r, m, g, v = symbols('t r m g v')
@@ -167,16 +175,23 @@ def test_linearize_rolling_disc_kane():
     assert B.subs(upright_nominal) == B_sol
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linearize_pendulum_kane_minimal(), test_linearize_pendulum_kane_minimal produces the expected output) over Any ║
+# ║ Path(test_linearize_pendulum_kane_minimal(), A == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]]) and B == Matrix([])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_linearize_pendulum_kane_minimal : Any → {Any | A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A == Matrix([[0, 1], [-9.8 * cos(q1) / L,...   ║
+# ║   ensures:  B == Matrix([])                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_linearize_pendulum_kane_minimal : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f03a899601cd4a57  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21fab1a452e97a57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_kane_minimal","kind":"function","src_hash":"9c6a6da304439454","in":{"base":"Any"},"out":{"base":"Any","pred":"A == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]]) and B == Matrix([])"},"spec":{"lhs":"test_linearize_pendulum_kane_minimal()","rhs":"test_linearize_pendulum_kane_minimal produces the expected output","over":{"base":"Any"},"name":"test_linearize_pendulum_kane_minimal_correct"},"guarantee":"test_linearize_pendulum_kane_minimal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_kane_minimal_correct","statement":"Path(test_linearize_pendulum_kane_minimal(x), test_linearize_pendulum_kane_minimal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f03a899601cd4a57"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_kane_minimal","kind":"function","src_hash":"9c6a6da304439454","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]]) and B == Matrix([])"},"spec":{"lhs":"test_linearize_pendulum_kane_minimal()","rhs":"A == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]]) and B == Matrix([])","over":{"base":"Any"},"name":"test_linearize_pendulum_kane_minimal_correct"},"guarantee":"A == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]]); B == Matrix([])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_kane_minimal_correct","statement":"Path(test_linearize_pendulum_kane_minimal(x), A == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]]); B == Matrix([]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21fab1a452e97a57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]])","B == Matrix([])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_linearize_pendulum_kane_minimal():
     q1 = dynamicsymbols('q1')                     # angle of pendulum
     u1 = dynamicsymbols('u1')                     # Angular velocity
@@ -215,16 +230,23 @@ def test_linearize_pendulum_kane_minimal():
     assert B == Matrix([])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linearize_pendulum_kane_nonminimal(), test_linearize_pendulum_kane_nonminimal produces the expected output) over Any ║
+# ║ Path(test_linearize_pendulum_kane_nonminimal(), A.expand() == Matrix([[0, 1], [-9.8 / L, 0]]) and B == Matrix([])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.expand() == Matrix([[0, 1], [-9.8 / L, ...   ║
+# ║   ensures:  B == Matrix([])                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linearize_pendulum_kane_nonminimal : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc2573a1faa5b25c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a68af0563ca7499  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_kane_nonminimal","kind":"function","src_hash":"455f73c7218ad3c2","in":{"base":"Any"},"out":{"base":"Any","pred":"A.expand() == Matrix([[0, 1], [-9.8 / L, 0]]) and B == Matrix([]) and A.expand() == Matrix([[0, 1], [-9.8 / L, 0]]) and B == Matrix([]) and A.expand() == Matrix([[0, 1], [-9.8 / L, 0]]) and B == Matrix([])"},"spec":{"lhs":"test_linearize_pendulum_kane_nonminimal()","rhs":"test_linearize_pendulum_kane_nonminimal produces the expected output","over":{"base":"Any"},"name":"test_linearize_pendulum_kane_nonminimal_correct"},"guarantee":"test_linearize_pendulum_kane_nonminimal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_kane_nonminimal_correct","statement":"Path(test_linearize_pendulum_kane_nonminimal(x), test_linearize_pendulum_kane_nonminimal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc2573a1faa5b25c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_kane_nonminimal","kind":"function","src_hash":"455f73c7218ad3c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.expand() == Matrix([[0, 1], [-9.8 / L, 0]]) and B == Matrix([])"},"spec":{"lhs":"test_linearize_pendulum_kane_nonminimal()","rhs":"A.expand() == Matrix([[0, 1], [-9.8 / L, 0]]) and B == Matrix([])","over":{"base":"Any"},"name":"test_linearize_pendulum_kane_nonminimal_correct"},"guarantee":"A.expand() == Matrix([[0, 1], [-9.8 / L, 0]]); B == Matrix([])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_kane_nonminimal_correct","statement":"Path(test_linearize_pendulum_kane_nonminimal(x), A.expand() == Matrix([[0, 1], [-9.8 / L, 0]]); B == Matrix([]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a68af0563ca7499","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.expand() == Matrix([[0, 1], [-9.8 / L, 0]])","B == Matrix([])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_linearize_pendulum_kane_nonminimal():
     # Create generalized coordinates and speeds for this non-minimal realization
     # q1, q2 = N.x and N.y coordinates of pendulum
@@ -307,16 +329,23 @@ def test_linearize_pendulum_kane_nonminimal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linearize_pendulum_lagrange_minimal(), test_linearize_pendulum_lagrange_minimal produces the expected output) over Any ║
+# ║ Path(test_linearize_pendulum_lagrange_minimal(), simplify(A) == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]]) and B == Matrix([])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(A) == Matrix([[0, 1], [-9.8 * co...   ║
+# ║   ensures:  B == Matrix([])                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linearize_pendulum_lagrange_minimal : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d0dfe1e25b7844f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28841bfcf757c674  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_lagrange_minimal","kind":"function","src_hash":"6f7d2af6b8dc5884","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(A) == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]]) and B == Matrix([]) and simplify(A) == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]]) and B == Matrix([])"},"spec":{"lhs":"test_linearize_pendulum_lagrange_minimal()","rhs":"test_linearize_pendulum_lagrange_minimal produces the expected output","over":{"base":"Any"},"name":"test_linearize_pendulum_lagrange_minimal_correct"},"guarantee":"test_linearize_pendulum_lagrange_minimal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_lagrange_minimal_correct","statement":"Path(test_linearize_pendulum_lagrange_minimal(x), test_linearize_pendulum_lagrange_minimal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d0dfe1e25b7844f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_lagrange_minimal","kind":"function","src_hash":"6f7d2af6b8dc5884","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(A) == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]]) and B == Matrix([])"},"spec":{"lhs":"test_linearize_pendulum_lagrange_minimal()","rhs":"simplify(A) == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]]) and B == Matrix([])","over":{"base":"Any"},"name":"test_linearize_pendulum_lagrange_minimal_correct"},"guarantee":"simplify(A) == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]]); B == Matrix([])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_lagrange_minimal_correct","statement":"Path(test_linearize_pendulum_lagrange_minimal(x), simplify(A) == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]]); B == Matrix([]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28841bfcf757c674","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(A) == Matrix([[0, 1], [-9.8 * cos(q1) / L, 0]])","B == Matrix([])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_linearize_pendulum_lagrange_minimal():
     q1 = dynamicsymbols('q1')                     # angle of pendulum
     q1d = dynamicsymbols('q1', 1)                 # Angular velocity
@@ -356,16 +385,23 @@ def test_linearize_pendulum_lagrange_minimal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linearize_pendulum_lagrange_nonminimal(), test_linearize_pendulum_lagrange_nonminimal produces the expected output) over Any ║
+# ║ Path(test_linearize_pendulum_lagrange_nonminimal(), simplify(A) == Matrix([[0, 1], [-9.8 / L, 0]]) and B == Matrix([])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(A) == Matrix([[0, 1], [-9.8 / L,...   ║
+# ║   ensures:  B == Matrix([])                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linearize_pendulum_lagrange_nonminimal : Any → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24911354badcdeef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92ffb36eaefe0560  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_lagrange_nonminimal","kind":"function","src_hash":"cbc911894d6c5bff","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(A) == Matrix([[0, 1], [-9.8 / L, 0]]) and B == Matrix([]) and simplify(A) == Matrix([[0, 1], [-9.8 / L, 0]]) and B == Matrix([])"},"spec":{"lhs":"test_linearize_pendulum_lagrange_nonminimal()","rhs":"test_linearize_pendulum_lagrange_nonminimal produces the expected output","over":{"base":"Any"},"name":"test_linearize_pendulum_lagrange_nonminimal_correct"},"guarantee":"test_linearize_pendulum_lagrange_nonminimal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_lagrange_nonminimal_correct","statement":"Path(test_linearize_pendulum_lagrange_nonminimal(x), test_linearize_pendulum_lagrange_nonminimal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24911354badcdeef"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_lagrange_nonminimal","kind":"function","src_hash":"cbc911894d6c5bff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(A) == Matrix([[0, 1], [-9.8 / L, 0]]) and B == Matrix([])"},"spec":{"lhs":"test_linearize_pendulum_lagrange_nonminimal()","rhs":"simplify(A) == Matrix([[0, 1], [-9.8 / L, 0]]) and B == Matrix([])","over":{"base":"Any"},"name":"test_linearize_pendulum_lagrange_nonminimal_correct"},"guarantee":"simplify(A) == Matrix([[0, 1], [-9.8 / L, 0]]); B == Matrix([])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearize.test_linearize_pendulum_lagrange_nonminimal_correct","statement":"Path(test_linearize_pendulum_lagrange_nonminimal(x), simplify(A) == Matrix([[0, 1], [-9.8 / L, 0]]); B == Matrix([]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92ffb36eaefe0560","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(A) == Matrix([[0, 1], [-9.8 / L, 0]])","B == Matrix([])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_linearize_pendulum_lagrange_nonminimal():
     q1, q2 = dynamicsymbols('q1:3')
     q1d, q2d = dynamicsymbols('q1:3', level=1)
@@ -407,16 +443,22 @@ def test_linearize_pendulum_lagrange_nonminimal():
     assert B == Matrix([])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linearize_rolling_disc_lagrange(), test_linearize_rolling_disc_lagrange produces the expected output) over Any ║
+# ║ Path(test_linearize_rolling_disc_lagrange(), A == sol) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_linearize_rolling_disc_lagrange : Any → {Any | A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A == sol                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_linearize_rolling_disc_lagrange : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b40765c0facc9c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c38d6584ea33130  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearize.test_linearize_rolling_disc_lagrange","kind":"function","src_hash":"25191571395bc41f","in":{"base":"Any"},"out":{"base":"Any","pred":"A == sol"},"spec":{"lhs":"test_linearize_rolling_disc_lagrange()","rhs":"test_linearize_rolling_disc_lagrange produces the expected output","over":{"base":"Any"},"name":"test_linearize_rolling_disc_lagrange_correct"},"guarantee":"test_linearize_rolling_disc_lagrange produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearize.test_linearize_rolling_disc_lagrange_correct","statement":"Path(test_linearize_rolling_disc_lagrange(x), test_linearize_rolling_disc_lagrange produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b40765c0facc9c4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearize.test_linearize_rolling_disc_lagrange","kind":"function","src_hash":"25191571395bc41f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A == sol"},"spec":{"lhs":"test_linearize_rolling_disc_lagrange()","rhs":"A == sol","over":{"base":"Any"},"name":"test_linearize_rolling_disc_lagrange_correct"},"guarantee":"A == sol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearize.test_linearize_rolling_disc_lagrange_correct","statement":"Path(test_linearize_rolling_disc_lagrange(x), A == sol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c38d6584ea33130","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A == sol"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_linearize_rolling_disc_lagrange():
     q1, q2, q3 = q = dynamicsymbols('q1 q2 q3')
     q1d, q2d, q3d = qd = dynamicsymbols('q1 q2 q3', 1)

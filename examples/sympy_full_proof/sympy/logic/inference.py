@@ -24,16 +24,27 @@ from sympy.external.importtools import import_module
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(literal_symbol(lit), the symbol in this literal (without the negation)) over Any ║
+# ║ Path(literal_symbol(literal), <unspecified:literal_symbol>) over {Any | hasattr(literal, 'is_Symbol') and hasattr(literal, 'is_Not') and hasattr(literal, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ literal_symbol : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(literal, 'is_Symbol')                  ║
+# ║   requires: hasattr(literal, 'is_Not')                     ║
+# ║   requires: hasattr(literal, 'args')                       ║
+# ║   fiber[case_0]: literal is True or literal is False ...   ║
+# ║   fiber[case_1]: literal.is_Symbol => literal              ║
+# ║   fiber[case_2]: literal.is_Not => literal_symbol(lit...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ literal_symbol : {Any | hasattr(literal, 'is_Symbol')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e1b3c3b2d02d7de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1d187b2ef832196  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.literal_symbol","kind":"function","src_hash":"7cbe57a37b235c3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"literal_symbol(lit)","rhs":"the symbol in this literal (without the negation)","over":{"base":"Any"},"name":"literal_symbol_correct"},"guarantee":"the symbol in this literal (without the negation)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.inference.literal_symbol_correct","statement":"Path(literal_symbol(x), the symbol in this literal (without the negation))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e1b3c3b2d02d7de"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.literal_symbol","kind":"function","src_hash":"7cbe57a37b235c3f","in":{"base":"Any","pred":"hasattr(literal, 'is_Symbol') and hasattr(literal, 'is_Not') and hasattr(literal, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"literal_symbol(literal)","rhs":"<unspecified:literal_symbol>","over":{"base":"Any","pred":"hasattr(literal, 'is_Symbol') and hasattr(literal, 'is_Not') and hasattr(literal, 'args')"},"name":"literal_symbol_correct"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.inference.literal_symbol_correct","statement":"Path(literal_symbol(x), 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1d187b2ef832196","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(literal, 'is_Symbol')","hasattr(literal, 'is_Not')","hasattr(literal, 'args')"],"fibers":[{"name":"case_0","guard":"literal is True or literal is False","ensures":["result == literal"],"decidability":"library","returns_expr":"literal"},{"name":"case_1","guard":"literal.is_Symbol","ensures":["result == literal"],"decidability":"library","returns_expr":"literal"},{"name":"case_2","guard":"literal.is_Not","ensures":["result == literal_symbol(literal.args[0])"],"decidability":"library","returns_expr":"literal_symbol(literal.args[0])"},{"name":"case_3","guard":"not (literal is True or literal is False) and not (literal.is_Symbol) and not (literal.is_Not)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["literal.args","literal.is_Not","literal.is_Symbol"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def literal_symbol(literal):
     """
     The symbol in this literal (without the negation).
@@ -61,16 +72,22 @@ def literal_symbol(literal):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(satisfiable(exp), check satisfiability of a propositional sentence. returns a model when it succeeds. returns {true: true} for trivially true expressions) over Any ║
+# ║ Path(satisfiable(expr, algorithm, all_models), <unspecified:satisfiable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ satisfiable : Any → {Any | result satisfies: true} fo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 064a5ca351025903  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.satisfiable","kind":"function","src_hash":"073751eb06d73a1c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: true} for trivially true expressions."},"spec":{"lhs":"satisfiable(exp)","rhs":"check satisfiability of a propositional sentence. returns a model when it succeeds. returns {true: true} for trivially true expressions","over":{"base":"Any"},"name":"satisfiable_correct"},"guarantee":"check satisfiability of a propositional sentence. returns a model when it succeeds. returns {true: true} for trivially true expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.inference.satisfiable_correct","statement":"Path(satisfiable(x), check satisfiability of a propositional sentence. returns a model when it succeeds. returns {true: true} for trivially true expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"064a5ca351025903"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.satisfiable","kind":"function","src_hash":"073751eb06d73a1c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: true} for trivially true expressions."},"spec":{"lhs":"satisfiable(expr, algorithm, all_models)","rhs":"<unspecified:satisfiable>","over":{"base":"Any"},"name":"satisfiable_correct"},"guarantee":"check satisfiability of a propositional sentence. returns a model when it succeeds. returns {true: true} for trivially true expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.inference.satisfiable_correct","statement":"Path(satisfiable(x), check satisfiability of a propositional sentence. returns a model when it succeeds. returns {true: true} for trivially true expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"064a5ca351025903","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ImportError","NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def satisfiable(expr, algorithm=None, all_models=False, minimal=False, use_lra_theory=False):
     """
     Check satisfiability of a propositional sentence.
@@ -159,16 +176,22 @@ def satisfiable(expr, algorithm=None, all_models=False, minimal=False, use_lra_t
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(valid(exp), check validity of a propositional sentence. a valid propositional sentence is true under every assignment) over Any ║
+# ║ Path(valid(expr), not satisfiable(Not(expr))) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not satisfiable(Not(expr))                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ valid : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 99ed3e45abd3de6d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.valid","kind":"function","src_hash":"18cf1188ee039029","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"valid(exp)","rhs":"check validity of a propositional sentence. a valid propositional sentence is true under every assignment","over":{"base":"Any"},"name":"valid_correct"},"guarantee":"check validity of a propositional sentence. a valid propositional sentence is true under every assignment","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99ed3e45abd3de6d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.valid","kind":"function","src_hash":"18cf1188ee039029","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"valid(expr)","rhs":"not satisfiable(Not(expr))","over":{"base":"Any"},"name":"valid_correct"},"guarantee":"returns not satisfiable(Not(expr))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"99ed3e45abd3de6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not satisfiable(Not(expr))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def valid(expr):
     """
     Check validity of a propositional sentence.
@@ -194,7 +217,13 @@ def valid(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pl_true(exp), returns whether the given assignment is a model or not) over {Any | isinstance(expr, Symbol) and isinstance(expr, BooleanFunction)} ║
+# ║ Path(pl_true(expr, model, deep), # HINT: pl_true may be idempotent: pl_true(pl_true(x)) == pl_true(x)) over {Any | isinstance(expr, Symbol) and isinstance(expr, BooleanFunction) and hasattr(expr, 'subs') and hasattr(model, 'items') and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   requires: hasattr(model, 'items')                        ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  # HINT: pl_true may be idempotent: pl_tru...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pl_true : {Any | isinstance(expr, Symbol) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -207,9 +236,12 @@ def valid(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6b625c74...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.pl_true","kind":"function","src_hash":"6b1cfddce17787c7","in":{"base":"Any","pred":"isinstance(expr, Symbol) and isinstance(expr, BooleanFunction)"},"out":{"base":"Any"},"spec":{"lhs":"pl_true(exp)","rhs":"returns whether the given assignment is a model or not","over":{"base":"Any","pred":"isinstance(expr, Symbol) and isinstance(expr, BooleanFunction)"},"name":"pl_true_correct"},"guarantee":"returns whether the given assignment is a model or not","fibers":[{"name":"Symbol","pred":"isinstance(expr, Symbol)","path":{"lhs":"pl_true(x)","rhs":"returns whether the given assignment is a model or not","over":{"base":"Symbol","pred":"isinstance(expr, Symbol)"},"name":"pl_true_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.inference.pl_true_Symbol_correct","statement":"pl_true satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"pl_true(x)","rhs":"returns whether the given assignment is a model or not","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"pl_true_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.inference.pl_true_BooleanFunction_correct","statement":"pl_true satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6b625c742557aa60"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.pl_true","kind":"function","src_hash":"6b1cfddce17787c7","in":{"base":"Any","pred":"isinstance(expr, Symbol) and isinstance(expr, BooleanFunction) and hasattr(expr, 'subs') and hasattr(model, 'items') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: pl_true may be idempotent: pl_true(pl_true(x)) == pl_true(x)"},"spec":{"lhs":"pl_true(expr, model, deep)","rhs":"# HINT: pl_true may be idempotent: pl_true(pl_true(x)) == pl_true(x)","over":{"base":"Any","pred":"isinstance(expr, Symbol) and isinstance(expr, BooleanFunction) and hasattr(expr, 'subs') and hasattr(model, 'items') and hasattr(expr, 'args')"},"name":"pl_true_correct"},"guarantee":"# HINT: pl_true may be idempotent: pl_true(pl_true(x)) == pl_true(x)","fibers":[{"name":"Symbol","pred":"isinstance(expr, Symbol)","path":{"lhs":"pl_true(x)","rhs":"# HINT: pl_true may be idempotent: pl_true(pl_true(x)) == pl_true(x)","over":{"base":"Symbol","pred":"isinstance(expr, Symbol)"},"name":"pl_true_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.inference.pl_true_Symbol_correct","statement":"pl_true satisfies spec on Symbol inputs"},"trust":"LIBRARY"},{"name":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)","path":{"lhs":"pl_true(x)","rhs":"# HINT: pl_true may be idempotent: pl_true(pl_true(x)) == pl_true(x)","over":{"base":"BooleanFunction","pred":"isinstance(expr, BooleanFunction)"},"name":"pl_true_BooleanFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.inference.pl_true_BooleanFunction_correct","statement":"pl_true satisfies spec on BooleanFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6b625c742557aa60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subs')","hasattr(model, 'items')","hasattr(expr, 'args')"],"ensures":["# HINT: pl_true may be idempotent: pl_true(pl_true(x)) == pl_true(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.subs","model.items"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Symbol) or expr in boolean', 'not isinstance(expr, BooleanFunction)'}, fibers={'Symbol', 'BooleanFunction'})"]}}
 def pl_true(expr, model=None, deep=False):
     """
     Returns whether the given assignment is a model or not.
@@ -284,16 +316,24 @@ def pl_true(expr, model=None, deep=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(entails(exp), id) over Any                            ║
+# ║ Path(entails(expr, formula_set), id) over {Any | hasattr(formula_set, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ entails : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(formula_set, 'append')                 ║
+# ║   ensures:  len(formula_set) == old_len_formula_set + 1    ║
+# ║   returns:  not satisfiable(And(*formula_set))             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ entails : {Any | hasattr(formula_set, 'append')} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d0c4f92538869172   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.entails","kind":"function","src_hash":"163f2d54c0639e08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"entails(exp)","rhs":"check whether the given expr_set entail an expr. if formula_set is empty then it returns the validity of expr","over":{"base":"Any"},"name":"entails_correct","kind":"composition"},"guarantee":"check whether the given expr_set entail an expr. if formula_set is empty then it returns the validity of expr","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"satisfiable","by":"library_axiom"},{"fn":"And","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0c4f92538869172"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.entails","kind":"function","src_hash":"163f2d54c0639e08","in":{"base":"Any","pred":"hasattr(formula_set, 'append')"},"out":{"base":"Any","pred":"result satisfies: result == (not satisfiable(And(*formula_set)))"},"spec":{"lhs":"entails(expr, formula_set)","rhs":"not satisfiable(And(*formula_set))","over":{"base":"Any","pred":"hasattr(formula_set, 'append')"},"name":"entails_correct","kind":"composition"},"guarantee":"returns not satisfiable(And(*formula_set)); len(formula_set) == old_len_formula_set + 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"satisfiable","by":"library_axiom"},{"fn":"And","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0c4f92538869172","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(formula_set, 'append')"],"ensures":["len(formula_set) == old_len_formula_set + 1"],"returns_expr":"not satisfiable(And(*formula_set))","pure":false,"effects":{"effect_type":"mutates_args","reads":["formula_set.append"],"calls_mutating":["formula_set.append"]},"state_contract":{"modifies":["formula_set.*"],"old_bindings":{"old_len_formula_set":"len(formula_set)"},"post_ensures":["len(formula_set) == old_len_formula_set + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def entails(expr, formula_set=None):
     """
     Check whether the given expr_set entail an expr.
@@ -330,86 +370,121 @@ def entails(expr, formula_set=None):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a KB instance) preserved by KB(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ KB : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9761b07e7de1c5d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.KB","kind":"class","src_hash":"50ae1be93cd7a2e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"KB(*args)","rhs":"correctly constructs a KB instance","over":{"base":"Any"},"name":"KB_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a KB instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'clauses_')","kind":"class","induction":"structural on clauses_"}],"methods_preserving":["__init__","tell","ask","retract","clauses"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9761b07e7de1c5d4"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.KB","kind":"class","src_hash":"50ae1be93cd7a2e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"KB(*args)","rhs":"correctly constructs a KB instance","over":{"base":"Any"},"name":"KB_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'clauses_')","kind":"class","induction":"structural on clauses_"}],"methods_preserving":["__init__","tell","ask","retract","clauses"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9761b07e7de1c5d4","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'clauses_')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function KB not found in source"]}}
 class KB:
     """Base class for all knowledge bases"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(sen), initializes the instance correctly) over Any ║
+# ║ Path(__init__(sentence), <unspecified:__init__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 519e4d4886f5d572           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.KB.__init__","kind":"method","src_hash":"8438a44aabcffa26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(sen)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"519e4d4886f5d572"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.KB.__init__","kind":"method","src_hash":"8438a44aabcffa26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(sentence)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"519e4d4886f5d572","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, sentence=None):
         self.clauses_ = set()
         if sentence:
             self.tell(sentence)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tell(sen), tell produces the expected output) over Any ║
+# ║ Path(tell(sentence), <unspecified:tell>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tell : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 917aeb6c7006ad4f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.KB.tell","kind":"method","src_hash":"e3af9ba8cf392196","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tell(sen)","rhs":"tell produces the expected output","over":{"base":"Any"},"name":"tell_correct"},"guarantee":"tell produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"917aeb6c7006ad4f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.KB.tell","kind":"method","src_hash":"e3af9ba8cf392196","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tell(sentence)","rhs":"<unspecified:tell>","over":{"base":"Any"},"name":"tell_correct"},"guarantee":"tell produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"917aeb6c7006ad4f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tell(self, sentence):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ask(que), ask produces the expected output) over Any  ║
+# ║ Path(ask(query), <unspecified:ask>) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ask : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a3f79d21e68af831           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.KB.ask","kind":"method","src_hash":"2e915dcebf3b3e26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ask(que)","rhs":"ask produces the expected output","over":{"base":"Any"},"name":"ask_correct"},"guarantee":"ask produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3f79d21e68af831"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.KB.ask","kind":"method","src_hash":"2e915dcebf3b3e26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ask(query)","rhs":"<unspecified:ask>","over":{"base":"Any"},"name":"ask_correct"},"guarantee":"ask produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3f79d21e68af831","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ask(self, query):
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(retract(sen), retract produces the expected output) over Any ║
+# ║ Path(retract(sentence), <unspecified:retract>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ retract : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 30d97059cbb7d3e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.KB.retract","kind":"method","src_hash":"b8a44a5379f468dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"retract(sen)","rhs":"retract produces the expected output","over":{"base":"Any"},"name":"retract_correct"},"guarantee":"retract produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30d97059cbb7d3e5"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.KB.retract","kind":"method","src_hash":"b8a44a5379f468dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"retract(sentence)","rhs":"<unspecified:retract>","over":{"base":"Any"},"name":"retract_correct"},"guarantee":"retract produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"30d97059cbb7d3e5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def retract(self, sentence):
         raise NotImplementedError
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(clauses(), returns the clauses attribute) over Any    ║
+# ║ Path(clauses(), list(ordered(self.clauses_))) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(ordered(self.clauses_))                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ clauses : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1510587e80464fe5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.KB.clauses","kind":"property","src_hash":"fe20b1d8e730d35c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clauses()","rhs":"returns the clauses attribute","over":{"base":"Any"},"name":"clauses_correct"},"guarantee":"returns the clauses attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1510587e80464fe5"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.KB.clauses","kind":"property","src_hash":"fe20b1d8e730d35c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clauses()","rhs":"list(ordered(self.clauses_))","over":{"base":"Any"},"name":"clauses_correct"},"guarantee":"returns list(ordered(self.clauses_))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1510587e80464fe5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(ordered(self.clauses_))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.clauses_"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def clauses(self):
         return list(ordered(self.clauses_))
 
@@ -417,28 +492,40 @@ class KB:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PropKB(*args), correctly constructs a PropKB instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PropKB : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, KB)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PropKB : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e5d961672322a51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.PropKB","kind":"class","src_hash":"e8f24ebe94a495bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PropKB(*args)","rhs":"correctly constructs a PropKB instance","over":{"base":"Any"},"name":"PropKB_class_invariant"},"guarantee":"correctly constructs a PropKB instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e5d961672322a51"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.PropKB","kind":"class","src_hash":"e8f24ebe94a495bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, KB)"},"spec":{"lhs":"PropKB(*args)","rhs":"correctly constructs a PropKB instance","over":{"base":"Any"},"name":"PropKB_class_invariant"},"guarantee":"isinstance(self, KB)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e5d961672322a51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, KB)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function PropKB not found in source"]}}
 class PropKB(KB):
     """A KB for Propositional Logic.  Inefficient, with no indexing."""
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tell(sen), add the sentence's clauses to the kb) over Any ║
+# ║ Path(tell(sentence), <unspecified:tell>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tell : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 666c53f612f4d63c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.PropKB.tell","kind":"method","src_hash":"d769affa91e86a37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tell(sen)","rhs":"add the sentence's clauses to the kb","over":{"base":"Any"},"name":"tell_correct"},"guarantee":"add the sentence's clauses to the kb","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.inference.PropKB.tell_correct","statement":"Path(tell(x), add the sentence's clauses to the kb)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"666c53f612f4d63c"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.PropKB.tell","kind":"method","src_hash":"d769affa91e86a37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tell(sentence)","rhs":"<unspecified:tell>","over":{"base":"Any"},"name":"tell_correct"},"guarantee":"add the sentence's clauses to the kb","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.inference.PropKB.tell_correct","statement":"Path(tell(x), add the sentence's clauses to the kb)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"666c53f612f4d63c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.clauses_"],"calls_mutating":["self.clauses_.add"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tell(self, sentence):
         """Add the sentence's clauses to the KB
 
@@ -464,16 +551,22 @@ class PropKB(KB):
             self.clauses_.add(c)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ask(que), checks if the query is true given the set of clauses) over Any ║
+# ║ Path(ask(query), entails(query, self.clauses_)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  entails(query, self.clauses_)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ask : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f5c0626972c5dfac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.PropKB.ask","kind":"method","src_hash":"f5081a6d75daba1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ask(que)","rhs":"checks if the query is true given the set of clauses","over":{"base":"Any"},"name":"ask_correct"},"guarantee":"checks if the query is true given the set of clauses","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5c0626972c5dfac"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.PropKB.ask","kind":"method","src_hash":"f5081a6d75daba1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ask(query)","rhs":"entails(query, self.clauses_)","over":{"base":"Any"},"name":"ask_correct"},"guarantee":"returns entails(query, self.clauses_)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5c0626972c5dfac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"entails(query, self.clauses_)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.clauses_"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ask(self, query):
         """Checks if the query is true given the set of clauses.
 
@@ -493,16 +586,22 @@ class PropKB(KB):
         return entails(query, self.clauses_)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(retract(sen), remove the sentence's clauses from the kb) over Any ║
+# ║ Path(retract(sentence), <unspecified:retract>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ retract : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de4da986953bb499  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.inference.PropKB.retract","kind":"method","src_hash":"c0cfbdd579234af9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"retract(sen)","rhs":"remove the sentence's clauses from the kb","over":{"base":"Any"},"name":"retract_correct"},"guarantee":"remove the sentence's clauses from the kb","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.inference.PropKB.retract_correct","statement":"Path(retract(x), remove the sentence's clauses from the kb)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de4da986953bb499"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.inference.PropKB.retract","kind":"method","src_hash":"c0cfbdd579234af9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"retract(sentence)","rhs":"<unspecified:retract>","over":{"base":"Any"},"name":"retract_correct"},"guarantee":"remove the sentence's clauses from the kb","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.inference.PropKB.retract_correct","statement":"Path(retract(x), remove the sentence's clauses from the kb)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de4da986953bb499","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.clauses_"],"calls_mutating":["self.clauses_.discard"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def retract(self, sentence):
         """Remove the sentence's clauses from the KB
 

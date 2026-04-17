@@ -20,16 +20,22 @@ from sympy.testing.pytest import warns
 
 # fixes issue that arose in addressing issue 6533
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_no_stdlib_collections(), make sure we get the right collections when it is not part of a larger list) over Any ║
+# ║ Path(test_no_stdlib_collections(), <unspecified:test_no_stdlib_collections>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_no_stdlib_collections : Any → {Any | collections...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0926985e923e435  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_importtools.test_no_stdlib_collections","kind":"function","src_hash":"c06c798204dd5ac7","in":{"base":"Any"},"out":{"base":"Any","pred":"collections != matplotlib.collections"},"spec":{"lhs":"test_no_stdlib_collections()","rhs":"make sure we get the right collections when it is not part of a larger list","over":{"base":"Any"},"name":"test_no_stdlib_collections_correct"},"guarantee":"make sure we get the right collections when it is not part of a larger list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_importtools.test_no_stdlib_collections_correct","statement":"Path(test_no_stdlib_collections(x), make sure we get the right collections when it is not part of a larger list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0926985e923e435"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_importtools.test_no_stdlib_collections","kind":"function","src_hash":"c06c798204dd5ac7","in":{"base":"Any"},"out":{"base":"Any","pred":"collections != matplotlib.collections"},"spec":{"lhs":"test_no_stdlib_collections()","rhs":"<unspecified:test_no_stdlib_collections>","over":{"base":"Any"},"name":"test_no_stdlib_collections_correct"},"guarantee":"make sure we get the right collections when it is not part of a larger list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_importtools.test_no_stdlib_collections_correct","statement":"Path(test_no_stdlib_collections(x), make sure we get the right collections when it is not part of a larger list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0926985e923e435","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_no_stdlib_collections():
     '''
     make sure we get the right collections when it is not part of a
@@ -43,16 +49,22 @@ def test_no_stdlib_collections():
         assert collections != matplotlib.collections
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_no_stdlib_collections2(), make sure we get the right collections when it is not part of a larger list) over Any ║
+# ║ Path(test_no_stdlib_collections2(), <unspecified:test_no_stdlib_collections2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_no_stdlib_collections2 : Any → {Any | collection...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f3fb69852a6fa4b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_importtools.test_no_stdlib_collections2","kind":"function","src_hash":"6e7ae610739c632a","in":{"base":"Any"},"out":{"base":"Any","pred":"collections != matplotlib.collections"},"spec":{"lhs":"test_no_stdlib_collections2()","rhs":"make sure we get the right collections when it is not part of a larger list","over":{"base":"Any"},"name":"test_no_stdlib_collections2_correct"},"guarantee":"make sure we get the right collections when it is not part of a larger list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_importtools.test_no_stdlib_collections2_correct","statement":"Path(test_no_stdlib_collections2(x), make sure we get the right collections when it is not part of a larger list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f3fb69852a6fa4b"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_importtools.test_no_stdlib_collections2","kind":"function","src_hash":"6e7ae610739c632a","in":{"base":"Any"},"out":{"base":"Any","pred":"collections != matplotlib.collections"},"spec":{"lhs":"test_no_stdlib_collections2()","rhs":"<unspecified:test_no_stdlib_collections2>","over":{"base":"Any"},"name":"test_no_stdlib_collections2_correct"},"guarantee":"make sure we get the right collections when it is not part of a larger list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_importtools.test_no_stdlib_collections2_correct","statement":"Path(test_no_stdlib_collections2(x), make sure we get the right collections when it is not part of a larger list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f3fb69852a6fa4b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_no_stdlib_collections2():
     '''
     make sure we get the right collections when it is not part of a
@@ -66,16 +78,22 @@ def test_no_stdlib_collections2():
         assert collections != matplotlib.collections
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_no_stdlib_collections3(), make sure we get the right collections with no catch) over Any ║
+# ║ Path(test_no_stdlib_collections3(), <unspecified:test_no_stdlib_collections3>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_no_stdlib_collections3 : Any → {Any | collection...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2a40b77a09e972e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_importtools.test_no_stdlib_collections3","kind":"function","src_hash":"0cd53d9ec960f1f1","in":{"base":"Any"},"out":{"base":"Any","pred":"collections != matplotlib.collections"},"spec":{"lhs":"test_no_stdlib_collections3()","rhs":"make sure we get the right collections with no catch","over":{"base":"Any"},"name":"test_no_stdlib_collections3_correct"},"guarantee":"make sure we get the right collections with no catch","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_importtools.test_no_stdlib_collections3_correct","statement":"Path(test_no_stdlib_collections3(x), make sure we get the right collections with no catch)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2a40b77a09e972e"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_importtools.test_no_stdlib_collections3","kind":"function","src_hash":"0cd53d9ec960f1f1","in":{"base":"Any"},"out":{"base":"Any","pred":"collections != matplotlib.collections"},"spec":{"lhs":"test_no_stdlib_collections3()","rhs":"<unspecified:test_no_stdlib_collections3>","over":{"base":"Any"},"name":"test_no_stdlib_collections3_correct"},"guarantee":"make sure we get the right collections with no catch","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_importtools.test_no_stdlib_collections3_correct","statement":"Path(test_no_stdlib_collections3(x), make sure we get the right collections with no catch)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2a40b77a09e972e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_no_stdlib_collections3():
     '''make sure we get the right collections with no catch'''
     import collections
@@ -86,16 +104,22 @@ def test_no_stdlib_collections3():
         assert collections != matplotlib.collections
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_min_module_version_python3_basestring_error(), test_min_module_version_python3_basestring_error produces the expected output) over Any ║
+# ║ Path(test_min_module_version_python3_basestring_error(), <unspecified:test_min_module_version_python3_basestring_error>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_min_module_version_python3_basestring_error : An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a825ac533a0ef053  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_importtools.test_min_module_version_python3_basestring_error","kind":"function","src_hash":"5a5222bcfb42e46b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_min_module_version_python3_basestring_error()","rhs":"test_min_module_version_python3_basestring_error produces the expected output","over":{"base":"Any"},"name":"test_min_module_version_python3_basestring_error_correct"},"guarantee":"test_min_module_version_python3_basestring_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_importtools.test_min_module_version_python3_basestring_error_correct","statement":"Path(test_min_module_version_python3_basestring_error(x), test_min_module_version_python3_basestring_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a825ac533a0ef053"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_importtools.test_min_module_version_python3_basestring_error","kind":"function","src_hash":"5a5222bcfb42e46b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_min_module_version_python3_basestring_error()","rhs":"<unspecified:test_min_module_version_python3_basestring_error>","over":{"base":"Any"},"name":"test_min_module_version_python3_basestring_error_correct"},"guarantee":"test_min_module_version_python3_basestring_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_importtools.test_min_module_version_python3_basestring_error_correct","statement":"Path(test_min_module_version_python3_basestring_error(x), test_min_module_version_python3_basestring_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a825ac533a0ef053","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_min_module_version_python3_basestring_error():
     with warns(UserWarning):
         import_module('mpmath', min_module_version='1000.0.1')

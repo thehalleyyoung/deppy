@@ -19,31 +19,43 @@
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(identity(x), identity produces the expected output) over Any ║
+# ║ Path(identity(x), <unspecified:identity>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ identity : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae8feb0105eeb68e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.identity","kind":"function","src_hash":"518f6310a4ee9b77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity(x)","rhs":"identity produces the expected output","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"identity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.identity_correct","statement":"Path(identity(x), identity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae8feb0105eeb68e"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.identity","kind":"function","src_hash":"518f6310a4ee9b77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity(x)","rhs":"<unspecified:identity>","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"identity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.identity_correct","statement":"Path(identity(x), identity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae8feb0105eeb68e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def identity(x):
     yield x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exhaust(bru), apply a branching rule repeatedly until it has no effect) over Any ║
+# ║ Path(exhaust(brule), <unspecified:exhaust>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exhaust : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 806465119eadd282  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.exhaust","kind":"function","src_hash":"47eedec0a4373d03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exhaust(bru)","rhs":"apply a branching rule repeatedly until it has no effect","over":{"base":"Any"},"name":"exhaust_correct"},"guarantee":"apply a branching rule repeatedly until it has no effect","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.exhaust_correct","statement":"Path(exhaust(x), apply a branching rule repeatedly until it has no effect)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"806465119eadd282"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.exhaust","kind":"function","src_hash":"47eedec0a4373d03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exhaust(brule)","rhs":"<unspecified:exhaust>","over":{"base":"Any"},"name":"exhaust_correct"},"guarantee":"apply a branching rule repeatedly until it has no effect","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.exhaust_correct","statement":"Path(exhaust(x), apply a branching rule repeatedly until it has no effect)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"806465119eadd282","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def exhaust(brule):
     """ Apply a branching rule repeatedly until it has no effect """
     def exhaust_brl(expr):
@@ -58,16 +70,22 @@ def exhaust(brule):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(onaction(bru), onaction produces the expected output) over Any ║
+# ║ Path(onaction(brule, fn), <unspecified:onaction>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ onaction : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6dd5e0b5800e33d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.onaction","kind":"function","src_hash":"0eef08e658c27271","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"onaction(bru)","rhs":"onaction produces the expected output","over":{"base":"Any"},"name":"onaction_correct"},"guarantee":"onaction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.onaction_correct","statement":"Path(onaction(x), onaction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6dd5e0b5800e33d5"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.onaction","kind":"function","src_hash":"0eef08e658c27271","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"onaction(brule, fn)","rhs":"<unspecified:onaction>","over":{"base":"Any"},"name":"onaction_correct"},"guarantee":"onaction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.onaction_correct","statement":"Path(onaction(x), onaction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6dd5e0b5800e33d5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def onaction(brule, fn):
     def onaction_brl(expr):
         for result in brule(expr):
@@ -78,16 +96,23 @@ def onaction(brule, fn):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(debug(bru), print the input and output expressions at each rule application) over Any ║
+# ║ Path(debug(brule, file), onaction(brule, write)) over {Any | hasattr(file, 'write')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ debug : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(file, 'write')                         ║
+# ║   returns:  onaction(brule, write)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ debug : {Any | hasattr(file, 'write')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2cbcd6c2c0156d63  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ccd26537f0f67cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.debug","kind":"function","src_hash":"3a79f670cfe8d46c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"debug(bru)","rhs":"print the input and output expressions at each rule application","over":{"base":"Any"},"name":"debug_correct"},"guarantee":"print the input and output expressions at each rule application","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.debug_correct","statement":"Path(debug(x), print the input and output expressions at each rule application)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cbcd6c2c0156d63"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.debug","kind":"function","src_hash":"3a79f670cfe8d46c","in":{"base":"Any","pred":"hasattr(file, 'write')"},"out":{"base":"Any"},"spec":{"lhs":"debug(brule, file)","rhs":"onaction(brule, write)","over":{"base":"Any","pred":"hasattr(file, 'write')"},"name":"debug_correct"},"guarantee":"returns onaction(brule, write)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.debug_correct","statement":"Path(debug(x), returns onaction(brule, write))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ccd26537f0f67cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(file, 'write')"],"returns_expr":"onaction(brule, write)","pure":false,"effects":{"effect_type":"io","reads":["file.write"],"calls_mutating":["file.write"],"io_operations":["file.write"]},"state_contract":{"modifies":["file.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def debug(brule, file=None):
     """ Print the input and output expressions at each rule application """
     if not file:
@@ -102,16 +127,22 @@ def debug(brule, file=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiplex(*br), multiplex many branching rules into one) over Any ║
+# ║ Path(multiplex(*brules), <unspecified:multiplex>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ multiplex : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2963563055af7b66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.multiplex","kind":"function","src_hash":"46ee6bb4ae357fb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiplex(*br)","rhs":"multiplex many branching rules into one","over":{"base":"Any"},"name":"multiplex_correct"},"guarantee":"multiplex many branching rules into one","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.multiplex_correct","statement":"Path(multiplex(x), multiplex many branching rules into one)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2963563055af7b66"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.multiplex","kind":"function","src_hash":"46ee6bb4ae357fb4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiplex(*brules)","rhs":"<unspecified:multiplex>","over":{"base":"Any"},"name":"multiplex_correct"},"guarantee":"multiplex many branching rules into one","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.multiplex_correct","statement":"Path(multiplex(x), multiplex many branching rules into one)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2963563055af7b66","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*brules']"]}}
 def multiplex(*brules):
     """ Multiplex many branching rules into one """
     def multiplex_brl(expr):
@@ -125,16 +156,22 @@ def multiplex(*brules):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(condition(con), only apply branching rule if condition is true) over Any ║
+# ║ Path(condition(cond, brule), <unspecified:condition>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ condition : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95bbdbb0303f3f2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.condition","kind":"function","src_hash":"14bdee03325daace","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"condition(con)","rhs":"only apply branching rule if condition is true","over":{"base":"Any"},"name":"condition_correct"},"guarantee":"only apply branching rule if condition is true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.condition_correct","statement":"Path(condition(x), only apply branching rule if condition is true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95bbdbb0303f3f2e"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.condition","kind":"function","src_hash":"14bdee03325daace","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"condition(cond, brule)","rhs":"<unspecified:condition>","over":{"base":"Any"},"name":"condition_correct"},"guarantee":"only apply branching rule if condition is true","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.condition_correct","statement":"Path(condition(x), only apply branching rule if condition is true)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95bbdbb0303f3f2e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def condition(cond, brule):
     """ Only apply branching rule if condition is true """
     def conditioned_brl(expr):
@@ -146,16 +183,22 @@ def condition(cond, brule):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sfilter(pre), yield only those results which satisfy the predicate) over Any ║
+# ║ Path(sfilter(pred, brule), <unspecified:sfilter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sfilter : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 496dd28da405b437  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.sfilter","kind":"function","src_hash":"ae1da43404a0504a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sfilter(pre)","rhs":"yield only those results which satisfy the predicate","over":{"base":"Any"},"name":"sfilter_correct"},"guarantee":"yield only those results which satisfy the predicate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.sfilter_correct","statement":"Path(sfilter(x), yield only those results which satisfy the predicate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"496dd28da405b437"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.sfilter","kind":"function","src_hash":"ae1da43404a0504a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sfilter(pred, brule)","rhs":"<unspecified:sfilter>","over":{"base":"Any"},"name":"sfilter_correct"},"guarantee":"yield only those results which satisfy the predicate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.sfilter_correct","statement":"Path(sfilter(x), yield only those results which satisfy the predicate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"496dd28da405b437","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def sfilter(pred, brule):
     """ Yield only those results which satisfy the predicate """
     def filtered_brl(expr):
@@ -164,16 +207,22 @@ def sfilter(pred, brule):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(notempty(bru), notempty produces the expected output) over Any ║
+# ║ Path(notempty(brule), <unspecified:notempty>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ notempty : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82893a423ef6c884  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.notempty","kind":"function","src_hash":"fc04223bfc99aa2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"notempty(bru)","rhs":"notempty produces the expected output","over":{"base":"Any"},"name":"notempty_correct"},"guarantee":"notempty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.notempty_correct","statement":"Path(notempty(x), notempty produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82893a423ef6c884"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.notempty","kind":"function","src_hash":"fc04223bfc99aa2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"notempty(brule)","rhs":"<unspecified:notempty>","over":{"base":"Any"},"name":"notempty_correct"},"guarantee":"notempty produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.notempty_correct","statement":"Path(notempty(x), notempty produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82893a423ef6c884","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def notempty(brule):
     def notempty_brl(expr):
         yielded = False
@@ -186,16 +235,22 @@ def notempty(brule):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(do_one(*br), execute one of the branching rules) over Any ║
+# ║ Path(do_one(*brules), <unspecified:do_one>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ do_one : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d14ca833782502ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.do_one","kind":"function","src_hash":"95183bfbd7e1eabc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"do_one(*br)","rhs":"execute one of the branching rules","over":{"base":"Any"},"name":"do_one_correct"},"guarantee":"execute one of the branching rules","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.do_one_correct","statement":"Path(do_one(x), execute one of the branching rules)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d14ca833782502ad"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.do_one","kind":"function","src_hash":"95183bfbd7e1eabc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"do_one(*brules)","rhs":"<unspecified:do_one>","over":{"base":"Any"},"name":"do_one_correct"},"guarantee":"execute one of the branching rules","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.do_one_correct","statement":"Path(do_one(x), execute one of the branching rules)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d14ca833782502ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*brules']"]}}
 def do_one(*brules):
     """ Execute one of the branching rules """
     def do_one_brl(expr):
@@ -210,16 +265,22 @@ def do_one(*brules):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(chain(*br), compose a sequence of brules so that they apply to the expr sequentially) over Any ║
+# ║ Path(chain(*brules), # HINT: chain may be idempotent: chain(chain(x)) == chain(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ chain : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: chain may be idempotent: chain(ch...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ chain : Any → {Any | result satisfies: # HINT: chain ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84765444872ccb79  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92c931a6504602f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.chain","kind":"function","src_hash":"609fbd65c10377d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"chain(*br)","rhs":"compose a sequence of brules so that they apply to the expr sequentially","over":{"base":"Any"},"name":"chain_correct"},"guarantee":"compose a sequence of brules so that they apply to the expr sequentially","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.chain_correct","statement":"Path(chain(x), compose a sequence of brules so that they apply to the expr sequentially)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84765444872ccb79"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.chain","kind":"function","src_hash":"609fbd65c10377d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: chain may be idempotent: chain(chain(x)) == chain(x)"},"spec":{"lhs":"chain(*brules)","rhs":"# HINT: chain may be idempotent: chain(chain(x)) == chain(x)","over":{"base":"Any"},"name":"chain_correct"},"guarantee":"# HINT: chain may be idempotent: chain(chain(x)) == chain(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.chain_correct","statement":"Path(chain(x), # HINT: chain may be idempotent: chain(chain(x)) == chain(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92c931a6504602f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: chain may be idempotent: chain(chain(x)) == chain(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*brules']"]}}
 def chain(*brules):
     """
     Compose a sequence of brules so that they apply to the expr sequentially
@@ -237,16 +298,22 @@ def chain(*brules):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(yieldify(rl), turn a rule into a branching rule) over Any ║
+# ║ Path(yieldify(rl), <unspecified:yieldify>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ yieldify : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f12a3ec35a77035  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.yieldify","kind":"function","src_hash":"c052f425f3c28f23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"yieldify(rl)","rhs":"turn a rule into a branching rule","over":{"base":"Any"},"name":"yieldify_correct"},"guarantee":"turn a rule into a branching rule","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.yieldify_correct","statement":"Path(yieldify(x), turn a rule into a branching rule)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f12a3ec35a77035"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.core.yieldify","kind":"function","src_hash":"c052f425f3c28f23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"yieldify(rl)","rhs":"<unspecified:yieldify>","over":{"base":"Any"},"name":"yieldify_correct"},"guarantee":"turn a rule into a branching rule","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.core.yieldify_correct","statement":"Path(yieldify(x), turn a rule into a branching rule)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f12a3ec35a77035","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def yieldify(rl):
     """ Turn a rule into a branching rule """
     def brl(expr):

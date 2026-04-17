@@ -22,16 +22,22 @@ from .core import chain, identity, do_one
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(top_down(bru), id) over Any                           ║
+# ║ Path(top_down(brule, fns), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  chain(do_one(brule, identity), lambda exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ top_down : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7af8a4848bcd93de   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.traverse.top_down","kind":"function","src_hash":"4cd0b6ff1c0ef240","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"top_down(bru)","rhs":"apply a rule down a tree running it on the top nodes first","over":{"base":"Any"},"name":"top_down_correct","kind":"composition"},"guarantee":"apply a rule down a tree running it on the top nodes first","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"chain","by":"library_axiom"},{"fn":"do_one","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7af8a4848bcd93de"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.traverse.top_down","kind":"function","src_hash":"4cd0b6ff1c0ef240","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"top_down(brule, fns)","rhs":"chain(do_one(brule, identity), lambda expr: sall(top_down(brule, fns), fns)(expr))","over":{"base":"Any"},"name":"top_down_correct","kind":"composition"},"guarantee":"returns chain(do_one(brule, identity), lambda expr: sall(top_down(brule, fns), fns)(expr))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"chain","by":"library_axiom"},{"fn":"do_one","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7af8a4848bcd93de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"chain(do_one(brule, identity), lambda expr: sall(top_down(brule, fns), fns)(expr))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def top_down(brule, fns=basic_fns):
     """ Apply a rule down a tree running it on the top nodes first """
     return chain(do_one(brule, identity),
@@ -39,16 +45,23 @@ def top_down(brule, fns=basic_fns):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sall(bru), strategic all - apply rule to args) over Any ║
+# ║ Path(sall(brule, fns), <unspecified:sall>) over {Any | hasattr(fns, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sall : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(fns, 'get')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sall : {Any | hasattr(fns, 'get')} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 760d7c1626f988bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.traverse.sall","kind":"function","src_hash":"564930d82d3138a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sall(bru)","rhs":"strategic all - apply rule to args","over":{"base":"Any"},"name":"sall_correct"},"guarantee":"strategic all - apply rule to args","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.traverse.sall_correct","statement":"Path(sall(x), strategic all - apply rule to args)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"760d7c1626f988bf"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.branch.traverse.sall","kind":"function","src_hash":"564930d82d3138a6","in":{"base":"Any","pred":"hasattr(fns, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"sall(brule, fns)","rhs":"<unspecified:sall>","over":{"base":"Any","pred":"hasattr(fns, 'get')"},"name":"sall_correct"},"guarantee":"strategic all - apply rule to args","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.branch.traverse.sall_correct","statement":"Path(sall(x), strategic all - apply rule to args)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"760d7c1626f988bf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(fns, 'get')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["fns.get"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sall(brule, fns=basic_fns):
     """ Strategic all - apply rule to args """
     op, new, children, leaf = map(fns.get, ('op', 'new', 'children', 'leaf'))

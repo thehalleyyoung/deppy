@@ -101,14 +101,20 @@ not_supported_symbol = [
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MapleCodePrinter instance) preserved by MapleCodePrinter(*args) over {Any | isinstance(expr.rows, (Integer, IntegerConstant)) and isinstance(_fact_list[0], (sympy.MatrixBase, sympy.MatrixExpr, sympy.MatrixSlice, sympy.MatrixSymbol))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodePrinter)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MapleCodePrinter : {Any | isinstance(expr.rows, (Inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b8263fc1872f67e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter","kind":"class","src_hash":"be6d5fdd20094f31","in":{"base":"Any","pred":"isinstance(expr.rows, (Integer, IntegerConstant)) and isinstance(_fact_list[0], (sympy.MatrixBase, sympy.MatrixExpr, sympy.MatrixSlice, sympy.MatrixSymbol))"},"out":{"base":"Any"},"spec":{"lhs":"MapleCodePrinter(*args)","rhs":"correctly constructs a MapleCodePrinter instance","over":{"base":"Any","pred":"isinstance(expr.rows, (Integer, IntegerConstant)) and isinstance(_fact_list[0], (sympy.MatrixBase, sympy.MatrixExpr, sympy.MatrixSlice, sympy.MatrixSymbol))"},"name":"MapleCodePrinter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MapleCodePrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions')","kind":"class","induction":"structural on known_functions"}],"methods_preserving":["__init__","_get_statement","_get_comment","_declare_number_const","_format_code","_print_tuple","_print_Tuple","_print_Assignment","_print_Pow","_print_Piecewise","_print_Rational","_print_Relational","_print_NumberSymbol","_print_NegativeInfinity","_print_Infinity","_print_BooleanTrue","_print_BooleanFalse","_print_bool","_print_NaN","_get_matrix","_print_MatrixElement","_print_MatrixBase","_print_SparseRepMatrix","_print_Identity","_print_MatMul","_print_MatPow","_print_HadamardProduct","_print_Derivative"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b8263fc1872f67e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter","kind":"class","src_hash":"be6d5fdd20094f31","in":{"base":"Any","pred":"isinstance(expr.rows, (Integer, IntegerConstant)) and isinstance(_fact_list[0], (sympy.MatrixBase, sympy.MatrixExpr, sympy.MatrixSlice, sympy.MatrixSymbol))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodePrinter)"},"spec":{"lhs":"MapleCodePrinter(*args)","rhs":"correctly constructs a MapleCodePrinter instance","over":{"base":"Any","pred":"isinstance(expr.rows, (Integer, IntegerConstant)) and isinstance(_fact_list[0], (sympy.MatrixBase, sympy.MatrixExpr, sympy.MatrixSlice, sympy.MatrixSymbol))"},"name":"MapleCodePrinter_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodePrinter); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions')","kind":"class","induction":"structural on known_functions"}],"methods_preserving":["__init__","_get_statement","_get_comment","_declare_number_const","_format_code","_print_tuple","_print_Tuple","_print_Assignment","_print_Pow","_print_Piecewise","_print_Rational","_print_Relational","_print_NumberSymbol","_print_NegativeInfinity","_print_Infinity","_print_BooleanTrue","_print_BooleanFalse","_print_bool","_print_NaN","_get_matrix","_print_MatrixElement","_print_MatrixBase","_print_SparseRepMatrix","_print_Identity","_print_MatMul","_print_MatPow","_print_HadamardProduct","_print_Derivative"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b8263fc1872f67e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodePrinter)"],"invariants":["hasattr(self, 'known_functions')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function MapleCodePrinter not found in source"]}}
 class MapleCodePrinter(CodePrinter):
     """
     Printer which converts a SymPy expression into a maple code.
@@ -128,16 +134,23 @@ class MapleCodePrinter(CodePrinter):
     })
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(set), initializes the instance correctly) over Any ║
+# ║ Path(__init__(settings), <unspecified:__init__>) over {Any | hasattr(settings, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(settings, 'get')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(settings, 'get')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9afbe74a55d4087a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter.__init__","kind":"method","src_hash":"91a2e0d7b1f296f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(set)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9afbe74a55d4087a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter.__init__","kind":"method","src_hash":"91a2e0d7b1f296f0","in":{"base":"Any","pred":"hasattr(settings, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(settings)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(settings, 'get')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9afbe74a55d4087a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(settings, 'get')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.known_functions","settings.get"],"writes":["self.known_functions"],"calls_mutating":["self.known_functions.update"]},"state_contract":{"modifies":["self.*","self.known_functions"],"old_bindings":{"old_self_known_functions":"self.known_functions"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, settings=None):
         if settings is None:
             settings = {}
@@ -147,117 +160,174 @@ class MapleCodePrinter(CodePrinter):
         self.known_functions.update(userfuncs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_statement(cod), internal helper behaves correctly) over Any ║
+# ║ Path(_get_statement(codestring), '%s;' % codestring) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s;' % codestring                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_statement : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fddd941a813cd203           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._get_statement","kind":"method","src_hash":"a36c898509962ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_statement(cod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_statement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fddd941a813cd203"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._get_statement","kind":"method","src_hash":"a36c898509962ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_statement(codestring)","rhs":"'%s;' % codestring","over":{"base":"Any"},"name":"_get_statement_correct"},"guarantee":"returns '%s;' % codestring","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fddd941a813cd203","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s;' % codestring","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_statement(self, codestring):
         return "%s;" % codestring
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_comment(tex), internal helper behaves correctly) over Any ║
+# ║ Path(_get_comment(text), '# {}'.format(text)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '# {}'.format(text)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_comment : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47af834bcfb14cd1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._get_comment","kind":"method","src_hash":"42c506cb576b0a0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(tex)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47af834bcfb14cd1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._get_comment","kind":"method","src_hash":"42c506cb576b0a0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(text)","rhs":"'# {}'.format(text)","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"returns '# {}'.format(text)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47af834bcfb14cd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'# {}'.format(text)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_comment(self, text):
         return "# {}".format(text)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_number_const(nam), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_number_const(name, value), '{} := {};'.format(name, value.evalf(self._settings['precision']))) over {Any | hasattr(value, 'evalf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _declare_number_const : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(value, 'evalf')                        ║
+# ║   returns:  '{} := {};'.format(name, value.evalf(self...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _declare_number_const : {Any | hasattr(value, 'evalf'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d047677feea7889  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2ffff4590c87f6c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._declare_number_const","kind":"method","src_hash":"a4b9390cfe76af1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_number_const(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_number_const_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._declare_number_const_correct","statement":"Path(_declare_number_const(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d047677feea7889"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._declare_number_const","kind":"method","src_hash":"a4b9390cfe76af1f","in":{"base":"Any","pred":"hasattr(value, 'evalf')"},"out":{"base":"Any"},"spec":{"lhs":"_declare_number_const(name, value)","rhs":"'{} := {};'.format(name, value.evalf(self._settings['precision']))","over":{"base":"Any","pred":"hasattr(value, 'evalf')"},"name":"_declare_number_const_correct"},"guarantee":"returns '{} := {};'.format(name, value.evalf(self._settings['precision']))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._declare_number_const_correct","statement":"Path(_declare_number_const(x), returns '{} := {};'.format(name, value.evalf(self._settings['precision'])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2ffff4590c87f6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(value, 'evalf')"],"returns_expr":"'{} := {};'.format(name, value.evalf(self._settings['precision']))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._settings","value.evalf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_number_const(self, name, value):
         return "{} := {};".format(name,
                                     value.evalf(self._settings['precision']))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_format_code(lin), internal helper behaves correctly) over Any ║
+# ║ Path(_format_code(lines), lines) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _format_code : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == lines                                ║
+# ║   returns:  lines                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _format_code : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 66f5d321944239c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._format_code","kind":"method","src_hash":"f09c67d4f98f5def","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_format_code(lin)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66f5d321944239c4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._format_code","kind":"method","src_hash":"f09c67d4f98f5def","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (lines)"},"spec":{"lhs":"_format_code(lines)","rhs":"lines","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"returns lines; result == lines","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66f5d321944239c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == lines"],"returns_expr":"lines","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _format_code(self, lines):
         return lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_tuple(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_tuple(expr), self._print(list(expr))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print(list(expr))                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_tuple : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c65bb0c65ed054f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_tuple","kind":"method","src_hash":"7c7f61ff65bdbfb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_tuple(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_tuple_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c65bb0c65ed054f4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_tuple","kind":"method","src_hash":"7c7f61ff65bdbfb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_tuple(expr)","rhs":"self._print(list(expr))","over":{"base":"Any"},"name":"_print_tuple_correct"},"guarantee":"returns self._print(list(expr))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c65bb0c65ed054f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print(list(expr))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_tuple(self, expr):
         return self._print(list(expr))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Tuple(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Tuple(expr), self._print(list(expr))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print(list(expr))                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Tuple : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 538bea8c539dfc3e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Tuple","kind":"method","src_hash":"16efaccb93d6228d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Tuple(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Tuple_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"538bea8c539dfc3e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Tuple","kind":"method","src_hash":"16efaccb93d6228d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Tuple(expr)","rhs":"self._print(list(expr))","over":{"base":"Any"},"name":"_print_Tuple_correct"},"guarantee":"returns self._print(list(expr))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"538bea8c539dfc3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print(list(expr))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Tuple(self, expr):
         return self._print(list(expr))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Assignment(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Assignment(expr), '{lhs} := {rhs}'.format(lhs=lhs, rhs=rhs)) over {Any | hasattr(expr, 'lhs') and hasattr(expr, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Assignment : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   returns:  '{lhs} := {rhs}'.format(lhs=lhs, rhs=rhs)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Assignment : {Any | hasattr(expr, 'lhs') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79d197db36622bec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26695d95c41a1011  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Assignment","kind":"method","src_hash":"8ffc9542df58df7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Assignment(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Assignment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._print_Assignment_correct","statement":"Path(_print_Assignment(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79d197db36622bec"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Assignment","kind":"method","src_hash":"8ffc9542df58df7f","in":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Assignment(expr)","rhs":"'{lhs} := {rhs}'.format(lhs=lhs, rhs=rhs)","over":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"name":"_print_Assignment_correct"},"guarantee":"returns '{lhs} := {rhs}'.format(lhs=lhs, rhs=rhs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._print_Assignment_correct","statement":"Path(_print_Assignment(x), returns '{lhs} := {rhs}'.format(lhs=lhs, rhs=rhs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26695d95c41a1011","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'lhs')","hasattr(expr, 'rhs')"],"returns_expr":"'{lhs} := {rhs}'.format(lhs=lhs, rhs=rhs)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.lhs","expr.rhs","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Assignment(self, expr):
         lhs = self._print(expr.lhs)
         rhs = self._print(expr.rhs)
         return "{lhs} := {rhs}".format(lhs=lhs, rhs=rhs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pow(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Pow(expr, **kwargs), result == '1/%s' % self.parenthesize(expr.base, PREC) or result == 'sqrt(%s)' % self._print(expr.base) or result == '1/sqrt(%s)' % self._print(expr.base) or result == '{base}^{exp}'.format(base=self.parenthesize(expr.base, PREC), exp=self.parenthesize(expr.exp, PREC))) over {Any | hasattr(expr, 'exp') and hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Pow : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   ensures:  result == '1/%s' % self.parenthesize(expr...   ║
+# ║   fiber[case_0]: equal_valued(expr.exp, -1) => '1/%s'...   ║
+# ║   fiber[case_1]: equal_valued(expr.exp, 0.5) => 'sqrt...   ║
+# ║   fiber[case_2]: equal_valued(expr.exp, -0.5) => '1/s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Pow : {Any | hasattr(expr, 'exp') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7add57c666241b6f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c55c7e13a107d18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Pow","kind":"method","src_hash":"1eb4e29fea849ce6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._print_Pow_correct","statement":"Path(_print_Pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7add57c666241b6f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Pow","kind":"method","src_hash":"1eb4e29fea849ce6","in":{"base":"Any","pred":"hasattr(expr, 'exp') and hasattr(expr, 'base')"},"out":{"base":"Any","pred":"result satisfies: result == '1/%s' % self.parenthesize(expr.base, PREC) or result == 'sqrt(%s)' % self._print(expr.base) or result == '1/sqrt(%s)' % self._print(expr.base) or result == '{base}^{exp}'.format(base=self.parenthesize(expr.base, PREC), exp=self.parenthesize(expr.exp, PREC))"},"spec":{"lhs":"_print_Pow(expr, **kwargs)","rhs":"result == '1/%s' % self.parenthesize(expr.base, PREC) or result == 'sqrt(%s)' % self._print(expr.base) or result == '1/sqrt(%s)' % self._print(expr.base) or result == '{base}^{exp}'.format(base=self.parenthesize(expr.base, PREC), exp=self.parenthesize(expr.exp, PREC))","over":{"base":"Any","pred":"hasattr(expr, 'exp') and hasattr(expr, 'base')"},"name":"_print_Pow_correct"},"guarantee":"result == '1/%s' % self.parenthesize(expr.base, PREC) or result == 'sqrt(%s)' % self._print(expr.base) or result == '1/sqrt(%s)' % self._print(expr.base) or result == '{base}^{exp}'.format(base=self.parenthesize(expr.base, PREC), exp=self.parenthesize(expr.exp, PREC)); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._print_Pow_correct","statement":"Path(_print_Pow(x), result == '1/%s' % self.parenthesize(expr.base, PREC) or result == 'sqrt(%s)' % self._print(expr.base) or result == '1/sqrt(%s)' % self._print(expr.base) or result == '{base}^{exp}'.format(base=self.parenthesize(expr.base, PREC), exp=self.parenthesize(expr.exp, PREC)); 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c55c7e13a107d18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'exp')","hasattr(expr, 'base')"],"ensures":["result == '1/%s' % self.parenthesize(expr.base, PREC) or result == 'sqrt(%s)' % self._print(expr.base) or result == '1/sqrt(%s)' % self._print(expr.base) or result == '{base}^{exp}'.format(base=self.parenthesize(expr.base, PREC), exp=self.parenthesize(expr.exp, PREC))"],"fibers":[{"name":"case_0","guard":"equal_valued(expr.exp, -1)","ensures":["result == '1/%s' % self.parenthesize(expr.base, PREC)"],"decidability":"library","returns_expr":"'1/%s' % self.parenthesize(expr.base, PREC)"},{"name":"case_1","guard":"equal_valued(expr.exp, 0.5)","ensures":["result == 'sqrt(%s)' % self._print(expr.base)"],"decidability":"library","returns_expr":"'sqrt(%s)' % self._print(expr.base)"},{"name":"case_2","guard":"equal_valued(expr.exp, -0.5)","ensures":["result == '1/sqrt(%s)' % self._print(expr.base)"],"decidability":"library","returns_expr":"'1/sqrt(%s)' % self._print(expr.base)"},{"name":"case_3","guard":"not (equal_valued(expr.exp, -1)) and not (equal_valued(expr.exp, 0.5)) and not (equal_valued(expr.exp, -0.5))","ensures":["result == '{base}^{exp}'.format(base=self.parenthesize(expr.base, PREC), exp=self.parenthesize(expr.exp, PREC))"],"decidability":"library","returns_expr":"'{base}^{exp}'.format(base=self.parenthesize(expr.base, PREC), exp=self.parenthesize(expr.exp, PREC))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self._print","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pow(self, expr, **kwargs):
         PREC = precedence(expr)
         if equal_valued(expr.exp, -1):
@@ -272,16 +342,24 @@ class MapleCodePrinter(CodePrinter):
                 exp=self.parenthesize(expr.exp, PREC))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Piecewise(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Piecewise(expr), 'piecewise({_inbrace})'.format(_inbrace=_inbrace)) over {Any | not (expr.args[-1].cond is not True and expr.args[-1].cond != S.BooleanTrue) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Piecewise : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (expr.args[-1].cond is not True and e...   ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  'piecewise({_inbrace})'.format(_inbrace=_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Piecewise : {Any | not (expr.args[-1].cond is ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f24f0ced0a7992d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e30651604afc3e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Piecewise","kind":"method","src_hash":"f7785e8f38a49f7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f24f0ced0a7992d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Piecewise","kind":"method","src_hash":"f7785e8f38a49f7c","in":{"base":"Any","pred":"not (expr.args[-1].cond is not True and expr.args[-1].cond != S.BooleanTrue) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(expr)","rhs":"'piecewise({_inbrace})'.format(_inbrace=_inbrace)","over":{"base":"Any","pred":"not (expr.args[-1].cond is not True and expr.args[-1].cond != S.BooleanTrue) and hasattr(expr, 'args')"},"name":"_print_Piecewise_correct"},"guarantee":"returns 'piecewise({_inbrace})'.format(_inbrace=_inbrace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), returns 'piecewise({_inbrace})'.format(_inbrace=_inbrace))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e30651604afc3e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (expr.args[-1].cond is not True and expr.args[-1].cond != S.BooleanTrue)","hasattr(expr, 'args')"],"returns_expr":"'piecewise({_inbrace})'.format(_inbrace=_inbrace)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Piecewise(self, expr):
         if (expr.args[-1].cond is not True) and (expr.args[-1].cond != S.BooleanTrue):
             # We need the last conditional to be a True, otherwise the resulting
@@ -300,31 +378,48 @@ class MapleCodePrinter(CodePrinter):
         return 'piecewise({_inbrace})'.format(_inbrace=_inbrace)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Rational(exp), id) over Any                    ║
+# ║ Path(_print_Rational(expr), id) over {Any | hasattr(expr, 'p') and hasattr(expr, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Rational : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'p')                             ║
+# ║   requires: hasattr(expr, 'q')                             ║
+# ║   returns:  '{p}/{q}'.format(p=str(p), q=str(q))           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Rational : {Any | hasattr(expr, 'p') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ac943280e056443f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Rational","kind":"method","src_hash":"3d0188890065b19c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Rational_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"str","by":"library_axiom"},{"fn":"str","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac943280e056443f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Rational","kind":"method","src_hash":"3d0188890065b19c","in":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(expr)","rhs":"'{p}/{q}'.format(p=str(p), q=str(q))","over":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"name":"_print_Rational_correct","kind":"composition"},"guarantee":"returns '{p}/{q}'.format(p=str(p), q=str(q))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"str","by":"library_axiom"},{"fn":"str","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac943280e056443f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'p')","hasattr(expr, 'q')"],"returns_expr":"'{p}/{q}'.format(p=str(p), q=str(q))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.p","expr.q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Rational(self, expr):
         p, q = int(expr.p), int(expr.q)
         return "{p}/{q}".format(p=str(p), q=str(q))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Relational(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Relational(expr), '{lhs} {rel_op} {rhs}'.format(lhs=lhs_code, rel_op=op, rhs=rhs_code)) over {Any | hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Relational : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'rel_op')                        ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   returns:  '{lhs} {rel_op} {rhs}'.format(lhs=lhs_cod...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Relational : {Any | hasattr(expr, 'rel_op') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 768196e42775b6ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fb04c82a8ba9e25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Relational","kind":"method","src_hash":"8eec2e057be7a2ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Relational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._print_Relational_correct","statement":"Path(_print_Relational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"768196e42775b6ff"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Relational","kind":"method","src_hash":"8eec2e057be7a2ab","in":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(expr)","rhs":"'{lhs} {rel_op} {rhs}'.format(lhs=lhs_code, rel_op=op, rhs=rhs_code)","over":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"name":"_print_Relational_correct"},"guarantee":"returns '{lhs} {rel_op} {rhs}'.format(lhs=lhs_code, rel_op=op, rhs=rhs_code)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._print_Relational_correct","statement":"Path(_print_Relational(x), returns '{lhs} {rel_op} {rhs}'.format(lhs=lhs_code, rel_op=op, rhs=rhs_code))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fb04c82a8ba9e25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'rel_op')","hasattr(expr, 'lhs')","hasattr(expr, 'rhs')"],"returns_expr":"'{lhs} {rel_op} {rhs}'.format(lhs=lhs_code, rel_op=op, rhs=rhs_code)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.lhs","expr.rel_op","expr.rhs","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Relational(self, expr):
         PREC=precedence(expr)
         lhs_code = self.parenthesize(expr.lhs, PREC)
@@ -335,114 +430,164 @@ class MapleCodePrinter(CodePrinter):
         return "{lhs} {rel_op} {rhs}".format(lhs=lhs_code, rel_op=op, rhs=rhs_code)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NumberSymbol(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NumberSymbol(expr), number_symbols[expr]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  number_symbols[expr]                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_NumberSymbol : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8434248e2689b854           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_NumberSymbol","kind":"method","src_hash":"f7681938146e5fdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NumberSymbol(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NumberSymbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8434248e2689b854"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_NumberSymbol","kind":"method","src_hash":"f7681938146e5fdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NumberSymbol(expr)","rhs":"number_symbols[expr]","over":{"base":"Any"},"name":"_print_NumberSymbol_correct"},"guarantee":"returns number_symbols[expr]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8434248e2689b854","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"number_symbols[expr]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NumberSymbol(self, expr):
         return number_symbols[expr]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NegativeInfinity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NegativeInfinity(expr), '-infinity') over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '-infinity'                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_NegativeInfinity : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca19127e93a7ef09           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_NegativeInfinity","kind":"method","src_hash":"858640fe41d42d01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeInfinity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NegativeInfinity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca19127e93a7ef09"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_NegativeInfinity","kind":"method","src_hash":"858640fe41d42d01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeInfinity(expr)","rhs":"'-infinity'","over":{"base":"Any"},"name":"_print_NegativeInfinity_correct"},"guarantee":"returns '-infinity'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca19127e93a7ef09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'-infinity'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NegativeInfinity(self, expr):
         return '-infinity'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Infinity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Infinity(expr), 'infinity') over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'infinity'                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Infinity : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e5977a88ff2784c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Infinity","kind":"method","src_hash":"166fddfa96af38ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Infinity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Infinity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5977a88ff2784c3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Infinity","kind":"method","src_hash":"166fddfa96af38ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Infinity(expr)","rhs":"'infinity'","over":{"base":"Any"},"name":"_print_Infinity_correct"},"guarantee":"returns 'infinity'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e5977a88ff2784c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'infinity'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Infinity(self, expr):
         return 'infinity'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BooleanTrue(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_BooleanTrue(expr), 'true') over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'true'                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_BooleanTrue : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 36549bcd411db2d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_BooleanTrue","kind":"method","src_hash":"170ccb3e85f14e15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanTrue(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BooleanTrue_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36549bcd411db2d8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_BooleanTrue","kind":"method","src_hash":"170ccb3e85f14e15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanTrue(expr)","rhs":"'true'","over":{"base":"Any"},"name":"_print_BooleanTrue_correct"},"guarantee":"returns 'true'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"36549bcd411db2d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'true'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BooleanTrue(self, expr):
         return "true"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BooleanFalse(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_BooleanFalse(expr), 'false') over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'false'                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_BooleanFalse : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 09b23cc803a65144           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_BooleanFalse","kind":"method","src_hash":"0d8eb671eb3107f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanFalse(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BooleanFalse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09b23cc803a65144"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_BooleanFalse","kind":"method","src_hash":"0d8eb671eb3107f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanFalse(expr)","rhs":"'false'","over":{"base":"Any"},"name":"_print_BooleanFalse_correct"},"guarantee":"returns 'false'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09b23cc803a65144","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'false'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BooleanFalse(self, expr):
         return "false"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_bool(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_bool(expr), 'true' if expr else 'false') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'true' if expr else 'false'                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_bool : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6844258884cdcf53           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_bool","kind":"method","src_hash":"c1ca641eed6a8b11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_bool(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_bool_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6844258884cdcf53"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_bool","kind":"method","src_hash":"c1ca641eed6a8b11","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_bool(expr)","rhs":"'true' if expr else 'false'","over":{"base":"Any"},"name":"_print_bool_correct"},"guarantee":"returns 'true' if expr else 'false'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6844258884cdcf53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'true' if expr else 'false'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_bool(self, expr):
         return 'true' if expr else 'false'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NaN(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NaN(expr), 'undefined') over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'undefined'                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_NaN : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c11c92ba055f4fe0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_NaN","kind":"method","src_hash":"08d76223a031fdea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NaN(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NaN_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c11c92ba055f4fe0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_NaN","kind":"method","src_hash":"08d76223a031fdea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NaN(expr)","rhs":"'undefined'","over":{"base":"Any"},"name":"_print_NaN_correct"},"guarantee":"returns 'undefined'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c11c92ba055f4fe0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'undefined'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NaN(self, expr):
         return 'undefined'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_matrix(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_get_matrix(expr, sparse), <unspecified:_get_matrix>) over {Any | hasattr(expr, 'shape') and hasattr(expr, 'tolist')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_matrix : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   requires: hasattr(expr, 'tolist')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_matrix : {Any | hasattr(expr, 'shape') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 536402bd11f81d18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._get_matrix","kind":"method","src_hash":"be987e1d6f4b69b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_matrix(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._get_matrix_correct","statement":"Path(_get_matrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"536402bd11f81d18"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._get_matrix","kind":"method","src_hash":"be987e1d6f4b69b2","in":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, 'tolist')"},"out":{"base":"Any"},"spec":{"lhs":"_get_matrix(expr, sparse)","rhs":"<unspecified:_get_matrix>","over":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, 'tolist')"},"name":"_get_matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._get_matrix_correct","statement":"Path(_get_matrix(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"536402bd11f81d18","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'shape')","hasattr(expr, 'tolist')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape","expr.tolist","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_matrix(self, expr, sparse=False):
         if S.Zero in expr.shape:
             _strM = 'Matrix([], storage = {storage})'.format(
@@ -454,16 +599,25 @@ class MapleCodePrinter(CodePrinter):
         return _strM
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixElement(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixElement(expr), '{parent}[{i_maple}, {j_maple}]'.format(parent=self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True), i_maple=self._print(expr.i + 1), j_maple=self._print(expr.j + 1))) over {Any | hasattr(expr, 'parent') and hasattr(expr, 'i') and hasattr(expr, 'j')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixElement : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'parent')                        ║
+# ║   requires: hasattr(expr, 'i')                             ║
+# ║   requires: hasattr(expr, 'j')                             ║
+# ║   returns:  '{parent}[{i_maple}, {j_maple}]'.format(p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixElement : {Any | hasattr(expr, 'parent')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4822fda0fa0e6d99  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6abfb7bf6d8ace6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_MatrixElement","kind":"method","src_hash":"a8d083f8a4434099","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixElement(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._print_MatrixElement_correct","statement":"Path(_print_MatrixElement(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4822fda0fa0e6d99"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_MatrixElement","kind":"method","src_hash":"a8d083f8a4434099","in":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'i') and hasattr(expr, 'j')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixElement(expr)","rhs":"'{parent}[{i_maple}, {j_maple}]'.format(parent=self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True), i_maple=self._print(expr.i + 1), j_maple=self._print(expr.j + 1))","over":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'i') and hasattr(expr, 'j')"},"name":"_print_MatrixElement_correct"},"guarantee":"returns '{parent}[{i_maple}, {j_maple}]'.format(parent=self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True), i_maple=self._print(expr.i + 1), j_maple=self._print(expr.j + 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.MapleCodePrinter._print_MatrixElement_correct","statement":"Path(_print_MatrixElement(x), returns '{parent}[{i_maple}, {j_maple}]'.format(parent=self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True), i_maple=self._print(expr.i + 1), j_maple=self._print(expr.j + 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6abfb7bf6d8ace6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'parent')","hasattr(expr, 'i')","hasattr(expr, 'j')"],"returns_expr":"'{parent}[{i_maple}, {j_maple}]'.format(parent=self.parenthesize(expr.parent, PRECEDENCE['Atom'], strict=True), i_maple=self._print(expr.i + 1), j_maple=self._print(expr.j + 1))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.i","expr.j","expr.parent","self._print","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixElement(self, expr):
         return "{parent}[{i_maple}, {j_maple}]".format(
             parent=self.parenthesize(expr.parent, PRECEDENCE["Atom"], strict=True),
@@ -471,44 +625,66 @@ class MapleCodePrinter(CodePrinter):
             j_maple=self._print(expr.j + 1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixBase(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixBase(expr), self._get_matrix(expr, sparse=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._get_matrix(expr, sparse=False)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_MatrixBase : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca2782f05ff4df0e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_MatrixBase","kind":"method","src_hash":"350ba06bb3cb0015","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixBase(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixBase_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca2782f05ff4df0e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_MatrixBase","kind":"method","src_hash":"350ba06bb3cb0015","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixBase(expr)","rhs":"self._get_matrix(expr, sparse=False)","over":{"base":"Any"},"name":"_print_MatrixBase_correct"},"guarantee":"returns self._get_matrix(expr, sparse=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca2782f05ff4df0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._get_matrix(expr, sparse=False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixBase(self, expr):
         return self._get_matrix(expr, sparse=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_SparseRepMatrix(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_SparseRepMatrix(expr), self._get_matrix(expr, sparse=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._get_matrix(expr, sparse=True)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_SparseRepMatrix : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 940ae7e71fead2e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_SparseRepMatrix","kind":"method","src_hash":"1be1217a3b5a2ac1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_SparseRepMatrix(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_SparseRepMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"940ae7e71fead2e4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_SparseRepMatrix","kind":"method","src_hash":"1be1217a3b5a2ac1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_SparseRepMatrix(expr)","rhs":"self._get_matrix(expr, sparse=True)","over":{"base":"Any"},"name":"_print_SparseRepMatrix_correct"},"guarantee":"returns self._get_matrix(expr, sparse=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"940ae7e71fead2e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._get_matrix(expr, sparse=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_matrix"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_SparseRepMatrix(self, expr):
         return self._get_matrix(expr, sparse=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Identity(exp), id) over Any                    ║
+# ║ Path(_print_Identity(expr), id) over {Any | hasattr(expr, 'rows')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Identity : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'rows')                          ║
+# ║   ensures:  result == (self._print(sympy.SparseMatrix...   ║
+# ║   ensures:  result == self._print(sympy.SparseMatrix(...   ║
+# ║   fiber[case_0]: isinstance(expr.rows, (Integer, Inte...   ║
+# ║   fiber[case_1]: not (isinstance(expr.rows, (Integer,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Identity : {Any | hasattr(expr, 'rows')} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | dd8d120f1061be85   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Identity","kind":"method","src_hash":"4fd7a0326656f561","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Identity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Identity_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"SparseMatrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd8d120f1061be85"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Identity","kind":"method","src_hash":"4fd7a0326656f561","in":{"base":"Any","pred":"hasattr(expr, 'rows')"},"out":{"base":"Any","pred":"result satisfies: result == (self._print(sympy.SparseMatrix(expr)) if isinstance(expr.rows, (Integer, IntegerConstant)) else 'Matrix({var_size}, shape = identity)'.format(var_size=self._print(expr.rows))) and result == self._print(sympy.SparseMatrix(expr)) or result == 'Matrix({var_size}, shape = identity)'.format(var_size=self._print(expr.rows))"},"spec":{"lhs":"_print_Identity(expr)","rhs":"result == (self._print(sympy.SparseMatrix(expr)) if isinstance(expr.rows, (Integer, IntegerConstant)) else 'Matrix({var_size}, shape = identity)'.format(var_size=self._print(expr.rows))) and result == self._print(sympy.SparseMatrix(expr)) or result == 'Matrix({var_size}, shape = identity)'.format(var_size=self._print(expr.rows))","over":{"base":"Any","pred":"hasattr(expr, 'rows')"},"name":"_print_Identity_correct","kind":"composition"},"guarantee":"result == (self._print(sympy.SparseMatrix(expr)) if isinstance(expr.rows, (Integer, IntegerConstant)) else 'Matrix({var_size}, shape = identity)'.format(var_size=self._print(expr.rows))); result == self._print(sympy.SparseMatrix(expr)) or result == 'Matrix({var_size}, shape = identity)'.format(var_size=self._print(expr.rows)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"SparseMatrix","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd8d120f1061be85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'rows')"],"ensures":["result == (self._print(sympy.SparseMatrix(expr)) if isinstance(expr.rows, (Integer, IntegerConstant)) else 'Matrix({var_size}, shape = identity)'.format(var_size=self._print(expr.rows)))","result == self._print(sympy.SparseMatrix(expr)) or result == 'Matrix({var_size}, shape = identity)'.format(var_size=self._print(expr.rows))"],"fibers":[{"name":"case_0","guard":"isinstance(expr.rows, (Integer, IntegerConstant))","ensures":["result == self._print(sympy.SparseMatrix(expr))"],"decidability":"structural","returns_expr":"self._print(sympy.SparseMatrix(expr))"},{"name":"case_1","guard":"not (isinstance(expr.rows, (Integer, IntegerConstant)))","ensures":["result == 'Matrix({var_size}, shape = identity)'.format(var_size=self._print(expr.rows))"],"decidability":"structural","returns_expr":"'Matrix({var_size}, shape = identity)'.format(var_size=self._print(expr.rows))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.rows","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Identity(self, expr):
         if isinstance(expr.rows, (Integer, IntegerConstant)):
             return self._print(sympy.SparseMatrix(expr))
@@ -516,16 +692,23 @@ class MapleCodePrinter(CodePrinter):
             return "Matrix({var_size}, shape = identity)".format(var_size=self._print(expr.rows))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatMul(exp), id) over Any                      ║
+# ║ Path(_print_MatMul(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatMul : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatMul : {Any | hasattr(expr, 'args')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b2b7b5ab10d77907   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_MatMul","kind":"method","src_hash":"8636c94fed3bd7ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatMul(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatMul_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2b7b5ab10d77907"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_MatMul","kind":"method","src_hash":"8636c94fed3bd7ac","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatMul(expr)","rhs":"<unspecified:_print_MatMul>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_MatMul_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2b7b5ab10d77907","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatMul(self, expr):
         PREC=precedence(expr)
         _fact_list = list(expr.args)
@@ -540,47 +723,69 @@ class MapleCodePrinter(CodePrinter):
             return '{c}*{m}'.format(c=_const, m='.'.join(self.parenthesize(_m, PREC) for _m in _fact_list))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatPow(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatPow(expr), 'MatrixPower({A}, {n})'.format(A=self._print(expr.base), n=self._print(expr.exp))) over {Any | hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatPow : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   returns:  'MatrixPower({A}, {n})'.format(A=self._pr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatPow : {Any | hasattr(expr, 'base') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a57f2a15b03afd7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_MatPow","kind":"method","src_hash":"9d95f6df3a424e1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatPow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a57f2a15b03afd7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_MatPow","kind":"method","src_hash":"9d95f6df3a424e1f","in":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatPow(expr)","rhs":"'MatrixPower({A}, {n})'.format(A=self._print(expr.base), n=self._print(expr.exp))","over":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"_print_MatPow_correct"},"guarantee":"returns 'MatrixPower({A}, {n})'.format(A=self._print(expr.base), n=self._print(expr.exp))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a57f2a15b03afd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"returns_expr":"'MatrixPower({A}, {n})'.format(A=self._print(expr.base), n=self._print(expr.exp))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatPow(self, expr):
         # This function requires LinearAlgebra Function in Maple
         return 'MatrixPower({A}, {n})'.format(A=self._print(expr.base), n=self._print(expr.exp))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_HadamardProduct(exp), id) over Any             ║
+# ║ Path(_print_HadamardProduct(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_HadamardProduct : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  '*'.join((self.parenthesize(_m, PREC) for...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_HadamardProduct : {Any | hasattr(expr, 'args')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 15e4a1ff6d630238   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_HadamardProduct","kind":"method","src_hash":"42685c2cc15b0845","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardProduct(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_HadamardProduct_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15e4a1ff6d630238"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_HadamardProduct","kind":"method","src_hash":"42685c2cc15b0845","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_HadamardProduct(expr)","rhs":"'*'.join((self.parenthesize(_m, PREC) for _m in _fact_list))","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_HadamardProduct_correct","kind":"composition"},"guarantee":"returns '*'.join((self.parenthesize(_m, PREC) for _m in _fact_list))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"parenthesize","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15e4a1ff6d630238","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'*'.join((self.parenthesize(_m, PREC) for _m in _fact_list))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self.parenthesize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_HadamardProduct(self, expr):
         PREC = precedence(expr)
         _fact_list = list(expr.args)
         return '*'.join(self.parenthesize(_m, PREC) for _m in _fact_list)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Derivative(exp), id) over Any                  ║
+# ║ Path(_print_Derivative(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Derivative : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  'diff({func_expr}, {sec_arg})'.format(fun...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Derivative : {Any | hasattr(expr, 'args')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | dd0dd24cace51f32   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Derivative","kind":"method","src_hash":"56d41314597442ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Derivative_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"diff","by":"library_axiom"},{"fn":"format","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd0dd24cace51f32"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.MapleCodePrinter._print_Derivative","kind":"method","src_hash":"56d41314597442ee","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(expr)","rhs":"'diff({func_expr}, {sec_arg})'.format(func_expr=self._print(_f), sec_arg=_second_arg)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Derivative_correct","kind":"composition"},"guarantee":"returns 'diff({func_expr}, {sec_arg})'.format(func_expr=self._print(_f), sec_arg=_second_arg)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"diff","by":"library_axiom"},{"fn":"format","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd0dd24cace51f32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'diff({func_expr}, {sec_arg})'.format(func_expr=self._print(_f), sec_arg=_second_arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Derivative(self, expr):
         _f, (_var, _order) = expr.args
 
@@ -593,16 +798,22 @@ class MapleCodePrinter(CodePrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(maple_code(exp), converts ``expr`` to a string of maple code) over Any ║
+# ║ Path(maple_code(expr, assign_to, **settings), MapleCodePrinter(settings).doprint(expr, assign_to)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MapleCodePrinter(settings).doprint(expr, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ maple_code : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 348af6ace515a7dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.maple_code","kind":"function","src_hash":"819b55a94f5f7b2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maple_code(exp)","rhs":"converts ``expr`` to a string of maple code","over":{"base":"Any"},"name":"maple_code_correct"},"guarantee":"converts ``expr`` to a string of maple code","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"348af6ace515a7dd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.maple_code","kind":"function","src_hash":"819b55a94f5f7b2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maple_code(expr, assign_to, **settings)","rhs":"MapleCodePrinter(settings).doprint(expr, assign_to)","over":{"base":"Any"},"name":"maple_code_correct"},"guarantee":"returns MapleCodePrinter(settings).doprint(expr, assign_to)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"348af6ace515a7dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MapleCodePrinter(settings).doprint(expr, assign_to)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'assign_to'], spec=['expr', 'assign_to', '**settings']"]}}
 def maple_code(expr, assign_to=None, **settings):
     r"""Converts ``expr`` to a string of Maple code.
 
@@ -643,16 +854,22 @@ def maple_code(expr, assign_to=None, **settings):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(print_maple_code(exp), prints the maple representation of the given expression) over Any ║
+# ║ Path(print_maple_code(expr, **settings), <unspecified:print_maple_code>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ print_maple_code : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b356e3764c6128ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.maple.print_maple_code","kind":"function","src_hash":"b9f2f947bfe812af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_maple_code(exp)","rhs":"prints the maple representation of the given expression","over":{"base":"Any"},"name":"print_maple_code_correct"},"guarantee":"prints the maple representation of the given expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.print_maple_code_correct","statement":"Path(print_maple_code(x), prints the maple representation of the given expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b356e3764c6128ba"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.maple.print_maple_code","kind":"function","src_hash":"b9f2f947bfe812af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_maple_code(expr, **settings)","rhs":"<unspecified:print_maple_code>","over":{"base":"Any"},"name":"print_maple_code_correct"},"guarantee":"prints the maple representation of the given expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.maple.print_maple_code_correct","statement":"Path(print_maple_code(x), prints the maple representation of the given expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b356e3764c6128ba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**settings']"]}}
 def print_maple_code(expr, **settings):
     """Prints the Maple representation of the given expression.
 

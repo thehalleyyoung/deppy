@@ -21,16 +21,24 @@ from sympy.physics.quantum.constants import hbar
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hbar(), test_hbar produces the expected output) over Any ║
+# ║ Path(test_hbar(), hbar.is_commutative is True and hbar.is_real is True and hbar.is_positive is True and hbar.is_negative is False and hbar.is_irrational is True and hbar.evalf() == Float(1.05457162e-34)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hbar : Any → {Any | hbar.is_commutative is True ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hbar.is_commutative is True                    ║
+# ║   ensures:  hbar.is_real is True                           ║
+# ║   ensures:  hbar.is_positive is True                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hbar : Any → {Any | result satisfies: hbar.is_co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be29861cf7219258  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 685b4ed9bd457517  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_constants.test_hbar","kind":"function","src_hash":"156cb2439dea6387","in":{"base":"Any"},"out":{"base":"Any","pred":"hbar.is_commutative is True and hbar.is_real is True and hbar.is_positive is True and hbar.is_negative is False and hbar.is_irrational is True and hbar.evalf() == Float(1.05457162e-34)"},"spec":{"lhs":"test_hbar()","rhs":"test_hbar produces the expected output","over":{"base":"Any"},"name":"test_hbar_correct"},"guarantee":"test_hbar produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_constants.test_hbar_correct","statement":"Path(test_hbar(x), test_hbar produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be29861cf7219258"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_constants.test_hbar","kind":"function","src_hash":"156cb2439dea6387","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hbar.is_commutative is True and hbar.is_real is True and hbar.is_positive is True and hbar.is_negative is False and hbar.is_irrational is True and hbar.evalf() == Float(1.05457162e-34)"},"spec":{"lhs":"test_hbar()","rhs":"hbar.is_commutative is True and hbar.is_real is True and hbar.is_positive is True and hbar.is_negative is False and hbar.is_irrational is True and hbar.evalf() == Float(1.05457162e-34)","over":{"base":"Any"},"name":"test_hbar_correct"},"guarantee":"hbar.is_commutative is True; hbar.is_real is True; hbar.is_positive is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_constants.test_hbar_correct","statement":"Path(test_hbar(x), hbar.is_commutative is True; hbar.is_real is True; hbar.is_positive is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"685b4ed9bd457517","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hbar.is_commutative is True","hbar.is_real is True","hbar.is_positive is True","hbar.is_negative is False","hbar.is_irrational is True","hbar.evalf() == Float(1.05457162e-34)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_hbar():
     assert hbar.is_commutative is True
     assert hbar.is_real is True

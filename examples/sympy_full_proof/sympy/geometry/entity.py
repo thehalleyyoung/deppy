@@ -88,14 +88,21 @@ T = Dummy('entity_dummy', real=True)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GeometryEntity(*args), correctly constructs a GeometryEntity instance) over {Any | isinstance(o, Point) and isinstance(self, Point3D) and isinstance(o, Segment)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ║   ensures:  isinstance(self, EvalfMixin)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ GeometryEntity : {Any | isinstance(o, Point) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cacd8b43ff58232  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity","kind":"class","src_hash":"1d4dea573649e7f1","in":{"base":"Any","pred":"isinstance(o, Point) and isinstance(self, Point3D) and isinstance(o, Segment)"},"out":{"base":"Any"},"spec":{"lhs":"GeometryEntity(*args)","rhs":"correctly constructs a GeometryEntity instance","over":{"base":"Any","pred":"isinstance(o, Point) and isinstance(self, Point3D) and isinstance(o, Segment)"},"name":"GeometryEntity_class_invariant"},"guarantee":"correctly constructs a GeometryEntity instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cacd8b43ff58232"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity","kind":"class","src_hash":"1d4dea573649e7f1","in":{"base":"Any","pred":"isinstance(o, Point) and isinstance(self, Point3D) and isinstance(o, Segment)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic) and isinstance(self, EvalfMixin)"},"spec":{"lhs":"GeometryEntity(*args)","rhs":"correctly constructs a GeometryEntity instance","over":{"base":"Any","pred":"isinstance(o, Point) and isinstance(self, Point3D) and isinstance(o, Segment)"},"name":"GeometryEntity_class_invariant"},"guarantee":"isinstance(self, Basic); isinstance(self, EvalfMixin)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cacd8b43ff58232","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)","isinstance(self, EvalfMixin)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function GeometryEntity not found in source"]}}
 class GeometryEntity(Basic, EvalfMixin):
     """The base class for all geometrical entities.
 
@@ -107,16 +114,22 @@ class GeometryEntity(Basic, EvalfMixin):
     __slots__: tuple[str, ...] = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__cmp__(oth), comparison of two geometryentities) over Any ║
+# ║ Path(__cmp__(other), <unspecified:__cmp__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __cmp__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 728827d0c4722e07           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__cmp__","kind":"method","src_hash":"bfacf97744002e4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__cmp__(oth)","rhs":"comparison of two geometryentities","over":{"base":"Any"},"name":"__cmp___correct"},"guarantee":"comparison of two geometryentities","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"728827d0c4722e07"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__cmp__","kind":"method","src_hash":"bfacf97744002e4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__cmp__(other)","rhs":"<unspecified:__cmp__>","over":{"base":"Any"},"name":"__cmp___correct"},"guarantee":"comparison of two geometryentities","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"728827d0c4722e07","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","*.__mro__","other.__class__","self.__class__"],"catches":["ValueError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __cmp__(self, other):
         """Comparison of two GeometryEntities."""
         n1 = self.__class__.__name__
@@ -148,16 +161,22 @@ class GeometryEntity(Basic, EvalfMixin):
         return (i1 > i2) - (i1 < i2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(oth), correctly tests membership) over Any ║
+# ║ Path(__contains__(other), self == other) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self == other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be9d2cc375c52fe9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__contains__","kind":"method","src_hash":"706199cc16bbb530","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(oth)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be9d2cc375c52fe9"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__contains__","kind":"method","src_hash":"706199cc16bbb530","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(other)","rhs":"self == other","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns self == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be9d2cc375c52fe9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self == other","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, other):
         """Subclasses should implement this method for anything more complex than equality."""
         if type(self) is type(other):
@@ -165,46 +184,64 @@ class GeometryEntity(Basic, EvalfMixin):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getnewargs__(), returns a tuple that will be passed to __new__ on unpickling) over Any ║
+# ║ Path(__getnewargs__(), tuple(self.args)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(self.args)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getnewargs__ : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cd8c89fd5156be8a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__getnewargs__","kind":"method","src_hash":"f70bbdd6830d5093","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"returns a tuple that will be passed to __new__ on unpickling","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"returns a tuple that will be passed to __new__ on unpickling","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd8c89fd5156be8a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__getnewargs__","kind":"method","src_hash":"f70bbdd6830d5093","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"tuple(self.args)","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"returns tuple(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd8c89fd5156be8a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getnewargs__(self):
         """Returns a tuple that will be passed to __new__ on unpickling."""
         return tuple(self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(o), test inequality of two geometrical entities) over Any ║
+# ║ Path(__ne__(o), not self == o) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == o                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 292717dee3344302           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__ne__","kind":"method","src_hash":"ed060d33c6e08237","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(o)","rhs":"test inequality of two geometrical entities","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"test inequality of two geometrical entities","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"292717dee3344302"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__ne__","kind":"method","src_hash":"ed060d33c6e08237","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(o)","rhs":"not self == o","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == o","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"292717dee3344302","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == o","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, o):
         """Test inequality of two geometrical entities."""
         return not self == o
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d84d47ab726b1167           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__new__","kind":"method","src_hash":"85442481177e4d95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d84d47ab726b1167"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__new__","kind":"method","src_hash":"85442481177e4d95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d84d47ab726b1167","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         # Points are sequences, but they should not
         # be converted to Tuples, so use this detection function instead.
@@ -218,107 +255,153 @@ class GeometryEntity(Basic, EvalfMixin):
         return Basic.__new__(cls, *args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__radd__(a), implementation of reverse add method) over Any ║
+# ║ Path(__radd__(a), a.__add__(self)) over {Any | hasattr(a, '__add__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __radd__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, '__add__')                          ║
+# ║   returns:  a.__add__(self)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __radd__ : {Any | hasattr(a, '__add__')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a693f3088400337           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__radd__","kind":"method","src_hash":"7d07d1ba888701ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(a)","rhs":"implementation of reverse add method","over":{"base":"Any"},"name":"__radd___correct"},"guarantee":"implementation of reverse add method","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a693f3088400337"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__radd__","kind":"method","src_hash":"7d07d1ba888701ec","in":{"base":"Any","pred":"hasattr(a, '__add__')"},"out":{"base":"Any"},"spec":{"lhs":"__radd__(a)","rhs":"a.__add__(self)","over":{"base":"Any","pred":"hasattr(a, '__add__')"},"name":"__radd___correct"},"guarantee":"returns a.__add__(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a693f3088400337","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, '__add__')"],"returns_expr":"a.__add__(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.__add__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __radd__(self, a):
         """Implementation of reverse add method."""
         return a.__add__(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(a), implementation of reverse division method) over Any ║
+# ║ Path(__rtruediv__(a), a.__truediv__(self)) over {Any | hasattr(a, '__truediv__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rtruediv__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, '__truediv__')                      ║
+# ║   returns:  a.__truediv__(self)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rtruediv__ : {Any | hasattr(a, '__truediv__')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | db1265478b485637           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__rtruediv__","kind":"method","src_hash":"418bd01fa1e6ba76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(a)","rhs":"implementation of reverse division method","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"implementation of reverse division method","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db1265478b485637"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__rtruediv__","kind":"method","src_hash":"418bd01fa1e6ba76","in":{"base":"Any","pred":"hasattr(a, '__truediv__')"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(a)","rhs":"a.__truediv__(self)","over":{"base":"Any","pred":"hasattr(a, '__truediv__')"},"name":"__rtruediv___correct"},"guarantee":"returns a.__truediv__(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db1265478b485637","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, '__truediv__')"],"returns_expr":"a.__truediv__(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.__truediv__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, a):
         """Implementation of reverse division method."""
         return a.__truediv__(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), type(self).__name__ + repr(self.args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  type(self).__name__ + repr(self.args)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 72b24c6f240e573b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__repr__","kind":"method","src_hash":"aa3ba37d4c28e086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72b24c6f240e573b"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__repr__","kind":"method","src_hash":"aa3ba37d4c28e086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"type(self).__name__ + repr(self.args)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns type(self).__name__ + repr(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"72b24c6f240e573b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"type(self).__name__ + repr(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """String representation of a GeometryEntity that can be evaluated
         by sympy."""
         return type(self).__name__ + repr(self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(a), implementation of reverse multiplication method) over Any ║
+# ║ Path(__rmul__(a), a.__mul__(self)) over {Any | hasattr(a, '__mul__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rmul__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, '__mul__')                          ║
+# ║   returns:  a.__mul__(self)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rmul__ : {Any | hasattr(a, '__mul__')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0c0b98e2cb0305a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__rmul__","kind":"method","src_hash":"0c18a0f7860566bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(a)","rhs":"implementation of reverse multiplication method","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"implementation of reverse multiplication method","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c0b98e2cb0305a6"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__rmul__","kind":"method","src_hash":"0c18a0f7860566bd","in":{"base":"Any","pred":"hasattr(a, '__mul__')"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(a)","rhs":"a.__mul__(self)","over":{"base":"Any","pred":"hasattr(a, '__mul__')"},"name":"__rmul___correct"},"guarantee":"returns a.__mul__(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0c0b98e2cb0305a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, '__mul__')"],"returns_expr":"a.__mul__(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.__mul__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, a):
         """Implementation of reverse multiplication method."""
         return a.__mul__(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(a), implementation of reverse subtraction method) over Any ║
+# ║ Path(__rsub__(a), a.__sub__(self)) over {Any | hasattr(a, '__sub__')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rsub__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, '__sub__')                          ║
+# ║   returns:  a.__sub__(self)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rsub__ : {Any | hasattr(a, '__sub__')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 266b71fe68ef5f36           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__rsub__","kind":"method","src_hash":"5bf85e25c82054a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(a)","rhs":"implementation of reverse subtraction method","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"implementation of reverse subtraction method","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"266b71fe68ef5f36"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__rsub__","kind":"method","src_hash":"5bf85e25c82054a7","in":{"base":"Any","pred":"hasattr(a, '__sub__')"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(a)","rhs":"a.__sub__(self)","over":{"base":"Any","pred":"hasattr(a, '__sub__')"},"name":"__rsub___correct"},"guarantee":"returns a.__sub__(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"266b71fe68ef5f36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, '__sub__')"],"returns_expr":"a.__sub__(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.__sub__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(self, a):
         """Implementation of reverse subtraction method."""
         return a.__sub__(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), type(self).__name__ + sstr(self.args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  type(self).__name__ + sstr(self.args)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7de7b40483913068           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__str__","kind":"method","src_hash":"65593db77e608151","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7de7b40483913068"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.__str__","kind":"method","src_hash":"65593db77e608151","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"type(self).__name__ + sstr(self.args)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns type(self).__name__ + sstr(self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7de7b40483913068","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"type(self).__name__ + sstr(self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         """String representation of a GeometryEntity."""
         return type(self).__name__ + sstr(self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_subs(old, new), self._subs(old, new)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._subs(old, new)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_subs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f4b9ea0d4d0682e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4403697a936ed86f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity._eval_subs","kind":"method","src_hash":"54a1887a26efe816","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.GeometryEntity._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f4b9ea0d4d0682e"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity._eval_subs","kind":"method","src_hash":"54a1887a26efe816","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"self._subs(old, new)","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"returns self._subs(old, new)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.GeometryEntity._eval_subs_correct","statement":"Path(_eval_subs(x), returns self._subs(old, new))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4403697a936ed86f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._subs(old, new)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._subs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         from sympy.geometry.point import Point, Point3D
         if is_sequence(old) or is_sequence(new):
@@ -331,16 +414,22 @@ class GeometryEntity(Basic, EvalfMixin):
             return  self._subs(old, new)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_repr_svg_(), svg representation of a geometryentity suitable for ipython) over Any ║
+# ║ Path(_repr_svg_(), <unspecified:_repr_svg_>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _repr_svg_ : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b1d2588701e0ae2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity._repr_svg_","kind":"method","src_hash":"aaa4d183f76775b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_repr_svg_()","rhs":"svg representation of a geometryentity suitable for ipython","over":{"base":"Any"},"name":"_repr_svg__correct"},"guarantee":"svg representation of a geometryentity suitable for ipython","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.GeometryEntity._repr_svg__correct","statement":"Path(_repr_svg_(x), svg representation of a geometryentity suitable for ipython)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b1d2588701e0ae2"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity._repr_svg_","kind":"method","src_hash":"aaa4d183f76775b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_repr_svg_()","rhs":"<unspecified:_repr_svg_>","over":{"base":"Any"},"name":"_repr_svg__correct"},"guarantee":"svg representation of a geometryentity suitable for ipython","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.GeometryEntity._repr_svg__correct","statement":"Path(_repr_svg_(x), svg representation of a geometryentity suitable for ipython)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b1d2588701e0ae2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._svg","self.bounds"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _repr_svg_(self):
         """SVG representation of a GeometryEntity suitable for IPython"""
 
@@ -409,16 +498,22 @@ class GeometryEntity(Basic, EvalfMixin):
             ).format(transform, svg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_svg(sca), returns svg path element for the geometryentity) over Any ║
+# ║ Path(_svg(scale_factor, fill_color), <unspecified:_svg>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _svg : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ae26dec49d8b05c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity._svg","kind":"method","src_hash":"bb2661d8eaae8a7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_svg(sca)","rhs":"returns svg path element for the geometryentity","over":{"base":"Any"},"name":"_svg_correct"},"guarantee":"returns svg path element for the geometryentity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ae26dec49d8b05c"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity._svg","kind":"method","src_hash":"bb2661d8eaae8a7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_svg(scale_factor, fill_color)","rhs":"<unspecified:_svg>","over":{"base":"Any"},"name":"_svg_correct"},"guarantee":"returns svg path element for the geometryentity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ae26dec49d8b05c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _svg(self, scale_factor=1., fill_color="#66cc99"):
         """Returns SVG path element for the GeometryEntity.
 
@@ -433,47 +528,66 @@ class GeometryEntity(Basic, EvalfMixin):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympy_(), internal helper behaves correctly) over Any ║
+# ║ Path(_sympy_(), self) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympy_ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympy_ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bedadc15c97abbe6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity._sympy_","kind":"method","src_hash":"5b7ddddcd9fc9257","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympy_()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympy__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bedadc15c97abbe6"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity._sympy_","kind":"method","src_hash":"5b7ddddcd9fc9257","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"_sympy_()","rhs":"self","over":{"base":"Any"},"name":"_sympy__correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bedadc15c97abbe6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympy_(self):
         return self
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ambient_dimension(), returns the ambient_dimension attribute) over Any ║
+# ║ Path(ambient_dimension(), <unspecified:ambient_dimension>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ambient_dimension : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05ca1aa57bc74ce9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.ambient_dimension","kind":"property","src_hash":"35c20c0061315690","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"returns the ambient_dimension attribute","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns the ambient_dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05ca1aa57bc74ce9"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.ambient_dimension","kind":"property","src_hash":"35c20c0061315690","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ambient_dimension()","rhs":"<unspecified:ambient_dimension>","over":{"base":"Any"},"name":"ambient_dimension_correct"},"guarantee":"returns the ambient_dimension attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05ca1aa57bc74ce9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ambient_dimension(self):
         """What is the dimension of the space that the object is contained in?"""
         raise NotImplementedError()
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bounds(), returns the bounds attribute) over Any      ║
+# ║ Path(bounds(), <unspecified:bounds>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bounds : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 34763830e75d1993           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.bounds","kind":"property","src_hash":"96387591b26cb01c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bounds()","rhs":"returns the bounds attribute","over":{"base":"Any"},"name":"bounds_correct"},"guarantee":"returns the bounds attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34763830e75d1993"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.bounds","kind":"property","src_hash":"96387591b26cb01c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bounds()","rhs":"<unspecified:bounds>","over":{"base":"Any"},"name":"bounds_correct"},"guarantee":"returns the bounds attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34763830e75d1993","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bounds(self):
         """Return a tuple (xmin, ymin, xmax, ymax) representing the bounding
         rectangle for the geometric figure.
@@ -483,16 +597,27 @@ class GeometryEntity(Basic, EvalfMixin):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(encloses(o), return true if o is inside (not on or outside) the boundaries of self) over Any ║
+# ║ Path(encloses(o), <unspecified:encloses>) over {Any | hasattr(o, 'points') and hasattr(o, 'center') and hasattr(o, 'hradius') and hasattr(o, 'vertices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ encloses : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(o, 'points')                           ║
+# ║   requires: hasattr(o, 'center')                           ║
+# ║   requires: hasattr(o, 'hradius')                          ║
+# ║   fiber[Point]: isinstance(o, Point) => self.encloses...   ║
+# ║   fiber[Segment]: isinstance(o, Segment) => all((self...   ║
+# ║   fiber[case_2]: isinstance(o, (Ray, Line)) => False       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ encloses : {Any | hasattr(o, 'points') and hasattr(o,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06c3ea02f4cdf3f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4abcd19387ebf8b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.encloses","kind":"method","src_hash":"70338ec8f20eade8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"encloses(o)","rhs":"return true if o is inside (not on or outside) the boundaries of self","over":{"base":"Any"},"name":"encloses_correct"},"guarantee":"return true if o is inside (not on or outside) the boundaries of self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.GeometryEntity.encloses_correct","statement":"Path(encloses(x), return true if o is inside (not on or outside) the boundaries of self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06c3ea02f4cdf3f0"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.encloses","kind":"method","src_hash":"70338ec8f20eade8","in":{"base":"Any","pred":"hasattr(o, 'points') and hasattr(o, 'center') and hasattr(o, 'hradius') and hasattr(o, 'vertices')"},"out":{"base":"Any"},"spec":{"lhs":"encloses(o)","rhs":"<unspecified:encloses>","over":{"base":"Any","pred":"hasattr(o, 'points') and hasattr(o, 'center') and hasattr(o, 'hradius') and hasattr(o, 'vertices')"},"name":"encloses_correct"},"guarantee":"5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.GeometryEntity.encloses_correct","statement":"Path(encloses(x), 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4abcd19387ebf8b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(o, 'points')","hasattr(o, 'center')","hasattr(o, 'hradius')","hasattr(o, 'vertices')"],"fibers":[{"name":"Point","guard":"isinstance(o, Point)","ensures":["result == self.encloses_point(o)"],"decidability":"structural","returns_expr":"self.encloses_point(o)"},{"name":"Segment","guard":"isinstance(o, Segment)","ensures":["result == all((self.encloses_point(x) for x in o.points))"],"decidability":"structural","returns_expr":"all((self.encloses_point(x) for x in o.points))"},{"name":"case_2","guard":"isinstance(o, (Ray, Line))","ensures":["result == False"],"decidability":"structural","returns_expr":"False"},{"name":"Ellipse","guard":"isinstance(o, Ellipse)","ensures":["result == self.encloses_point(o.center) and self.encloses_point(Point(o.center.x + o.hradius, o.center.y)) and (not self.intersection(o))"],"decidability":"structural","returns_expr":"self.encloses_point(o.center) and self.encloses_point(Point(o.center.x + o.hradius, o.center.y)) and (not self.intersection(o))"},{"name":"Polygon","guard":"isinstance(o, Polygon)","ensures":["result == all((self.encloses_point(v) for v in o.vertices))"],"decidability":"structural","returns_expr":"all((self.encloses_point(v) for v in o.vertices))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.center","o.hradius","o.points","o.vertices","self.encloses_point","self.intersection"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def encloses(self, o):
         """
         Return True if o is inside (not on or outside) the boundaries of self.
@@ -543,30 +668,42 @@ class GeometryEntity(Basic, EvalfMixin):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equals(o), equals produces the expected output) over Any ║
+# ║ Path(equals(o), self == o) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self == o                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ equals : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9201fbd3c20c8af8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.equals","kind":"method","src_hash":"516ccd5a6c384c0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(o)","rhs":"equals produces the expected output","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"equals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9201fbd3c20c8af8"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.equals","kind":"method","src_hash":"516ccd5a6c384c0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(o)","rhs":"self == o","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"returns self == o","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9201fbd3c20c8af8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self == o","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equals(self, o):
         return self == o
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection(o), returns a list of all of the intersections of self with o) over Any ║
+# ║ Path(intersection(o), <unspecified:intersection>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ intersection : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14320de58112bb97           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.intersection","kind":"method","src_hash":"f0454f68140f5084","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(o)","rhs":"returns a list of all of the intersections of self with o","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"returns a list of all of the intersections of self with o","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14320de58112bb97"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.intersection","kind":"method","src_hash":"f0454f68140f5084","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersection(o)","rhs":"<unspecified:intersection>","over":{"base":"Any"},"name":"intersection_correct"},"guarantee":"returns a list of all of the intersections of self with o","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14320de58112bb97","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersection(self, o):
         """
         Returns a list of all of the intersections of self with o.
@@ -589,16 +726,22 @@ class GeometryEntity(Basic, EvalfMixin):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_similar(oth), is this geometrical entity similar to another geometrical entity?) over Any ║
+# ║ Path(is_similar(other), <unspecified:is_similar>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_similar : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 272ab3fa5922884a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.is_similar","kind":"method","src_hash":"e2cab54cbd6100d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_similar(oth)","rhs":"is this geometrical entity similar to another geometrical entity?","over":{"base":"Any"},"name":"is_similar_correct"},"guarantee":"is this geometrical entity similar to another geometrical entity?","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"272ab3fa5922884a"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.is_similar","kind":"method","src_hash":"e2cab54cbd6100d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_similar(other)","rhs":"<unspecified:is_similar>","over":{"base":"Any"},"name":"is_similar_correct"},"guarantee":"is this geometrical entity similar to another geometrical entity?","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"272ab3fa5922884a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_similar(self, other):
         """Is this geometrical entity similar to another geometrical entity?
 
@@ -623,16 +766,22 @@ class GeometryEntity(Basic, EvalfMixin):
         raise NotImplementedError()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reflect(lin), reflects an object across a line) over Any ║
+# ║ Path(reflect(line), <unspecified:reflect>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reflect : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3e41b9e41016d67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.reflect","kind":"method","src_hash":"616d9ddf70b5824f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reflect(lin)","rhs":"reflects an object across a line","over":{"base":"Any"},"name":"reflect_correct"},"guarantee":"reflects an object across a line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.GeometryEntity.reflect_correct","statement":"Path(reflect(x), reflects an object across a line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3e41b9e41016d67"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.reflect","kind":"method","src_hash":"616d9ddf70b5824f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reflect(line)","rhs":"<unspecified:reflect>","over":{"base":"Any"},"name":"reflect_correct"},"guarantee":"reflects an object across a line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.GeometryEntity.reflect_correct","statement":"Path(reflect(x), reflects an object across a line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3e41b9e41016d67","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reflect(self, line):
         """
         Reflects an object across a line.
@@ -692,16 +841,22 @@ class GeometryEntity(Basic, EvalfMixin):
         return g.xreplace(dict(reps))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotate(ang), id) over Any                             ║
+# ║ Path(rotate(angle, pt), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  type(self)(*newargs)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotate : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4d8a7fd69c4c2d48   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.rotate","kind":"method","src_hash":"6f812f8048d60f80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate(ang)","rhs":"rotate ``angle`` radians counterclockwise about point ``pt``","over":{"base":"Any"},"name":"rotate_correct","kind":"composition"},"guarantee":"rotate ``angle`` radians counterclockwise about point ``pt``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"self","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d8a7fd69c4c2d48"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.rotate","kind":"method","src_hash":"6f812f8048d60f80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate(angle, pt)","rhs":"type(self)(*newargs)","over":{"base":"Any"},"name":"rotate_correct","kind":"composition"},"guarantee":"returns type(self)(*newargs)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"self","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d8a7fd69c4c2d48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"type(self)(*newargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotate(self, angle, pt=None):
         """Rotate ``angle`` radians counterclockwise about Point ``pt``.
 
@@ -732,16 +887,23 @@ class GeometryEntity(Basic, EvalfMixin):
         return type(self)(*newargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale(x, ), id) over Any                              ║
+# ║ Path(scale(x, y, pt), id) over {Any | hasattr(pt, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scale : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(pt, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scale : {Any | hasattr(pt, 'args')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 582768e09eaeb068   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.scale","kind":"method","src_hash":"fa97dbfe33d9128c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, )","rhs":"scale the object by multiplying the x,y-coordinates by x and y","over":{"base":"Any"},"name":"scale_correct","kind":"composition"},"guarantee":"scale the object by multiplying the x,y-coordinates by x and y","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"582768e09eaeb068"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.scale","kind":"method","src_hash":"fa97dbfe33d9128c","in":{"base":"Any","pred":"hasattr(pt, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, y, pt)","rhs":"<unspecified:scale>","over":{"base":"Any","pred":"hasattr(pt, 'args')"},"name":"scale_correct","kind":"composition"},"guarantee":"scale the object by multiplying the x,y-coordinates by x and y","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"translate","by":"library_axiom"},{"fn":"scale","by":"library_axiom"},{"fn":"translate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"582768e09eaeb068","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(pt, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["pt.args","self.args","self.translate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scale(self, x=1, y=1, pt=None):
         """Scale the object by multiplying the x,y-coordinates by x and y.
 
@@ -773,16 +935,22 @@ class GeometryEntity(Basic, EvalfMixin):
         return type(self)(*[a.scale(x, y) for a in self.args])  # if this fails, override this class
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(translate(x, ), shift the object by adding to the x,y-coordinates the values x and y) over Any ║
+# ║ Path(translate(x, y), self.func(*newargs)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*newargs)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ translate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb547d956d10bd2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca5b52a35a215f6e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.translate","kind":"method","src_hash":"dfe3c6091730afa8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translate(x, )","rhs":"shift the object by adding to the x,y-coordinates the values x and y","over":{"base":"Any"},"name":"translate_correct"},"guarantee":"shift the object by adding to the x,y-coordinates the values x and y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.GeometryEntity.translate_correct","statement":"Path(translate(x), shift the object by adding to the x,y-coordinates the values x and y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb547d956d10bd2d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.translate","kind":"method","src_hash":"dfe3c6091730afa8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translate(x, y)","rhs":"self.func(*newargs)","over":{"base":"Any"},"name":"translate_correct"},"guarantee":"returns self.func(*newargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.GeometryEntity.translate_correct","statement":"Path(translate(x), returns self.func(*newargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca5b52a35a215f6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*newargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def translate(self, x=0, y=0):
         """Shift the object by adding to the x,y-coordinates the values x and y.
 
@@ -813,16 +981,24 @@ class GeometryEntity(Basic, EvalfMixin):
         return self.func(*newargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parameter_value(oth), return the parameter corresponding to the given point. evaluating an arbitrary point of the entity at this parameter value will return the given point) over Any ║
+# ║ Path(parameter_value(other, t), {t: sol[0][T]}) over {Any | isinstance(other, Point) and sol} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ parameter_value : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, Point)                       ║
+# ║   requires: sol                                            ║
+# ║   returns:  {t: sol[0][T]}                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ parameter_value : {Any | isinstance(other, Point) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13d28c1877efb106  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb01d94354cc834d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.parameter_value","kind":"method","src_hash":"a1c420bdf4ca2c9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parameter_value(oth)","rhs":"return the parameter corresponding to the given point. evaluating an arbitrary point of the entity at this parameter value will return the given point","over":{"base":"Any"},"name":"parameter_value_correct"},"guarantee":"return the parameter corresponding to the given point. evaluating an arbitrary point of the entity at this parameter value will return the given point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.GeometryEntity.parameter_value_correct","statement":"Path(parameter_value(x), return the parameter corresponding to the given point. evaluating an arbitrary point of the entity at this parameter value will return the given point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13d28c1877efb106"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometryEntity.parameter_value","kind":"method","src_hash":"a1c420bdf4ca2c9e","in":{"base":"Any","pred":"isinstance(other, Point) and sol"},"out":{"base":"Any"},"spec":{"lhs":"parameter_value(other, t)","rhs":"{t: sol[0][T]}","over":{"base":"Any","pred":"isinstance(other, Point) and sol"},"name":"parameter_value_correct"},"guarantee":"returns {t: sol[0][T]}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.GeometryEntity.parameter_value_correct","statement":"Path(parameter_value(x), returns {t: sol[0][T]})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb01d94354cc834d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, Point)","sol"],"returns_expr":"{t: sol[0][T]}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ambient_dimension","self.arbitrary_point"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parameter_value(self, other, t):
         """Return the parameter corresponding to the given point.
         Evaluating an arbitrary point of the entity at this parameter
@@ -854,14 +1030,21 @@ class GeometryEntity(Basic, EvalfMixin):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GeometrySet(*args), correctly constructs a GeometrySet instance) over {Any | isinstance(other, Set)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GeometrySet : {Any | isinstance(other, Set)} → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, GeometryEntity)               ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GeometrySet : {Any | isinstance(other, Set)} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1685681b4eb35695  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometrySet","kind":"class","src_hash":"a2fedc4fe6f10b94","in":{"base":"Any","pred":"isinstance(other, Set)"},"out":{"base":"Any"},"spec":{"lhs":"GeometrySet(*args)","rhs":"correctly constructs a GeometrySet instance","over":{"base":"Any","pred":"isinstance(other, Set)"},"name":"GeometrySet_class_invariant"},"guarantee":"correctly constructs a GeometrySet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1685681b4eb35695"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometrySet","kind":"class","src_hash":"a2fedc4fe6f10b94","in":{"base":"Any","pred":"isinstance(other, Set)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, GeometryEntity) and isinstance(self, Set)"},"spec":{"lhs":"GeometrySet(*args)","rhs":"correctly constructs a GeometrySet instance","over":{"base":"Any","pred":"isinstance(other, Set)"},"name":"GeometrySet_class_invariant"},"guarantee":"isinstance(self, GeometryEntity); isinstance(self, Set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1685681b4eb35695","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, GeometryEntity)","isinstance(self, Set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function GeometrySet not found in source"]}}
 class GeometrySet(GeometryEntity, Set):
     """Parent class of all GeometryEntity that are also Sets
     (compatible with sympy.sets)
@@ -869,16 +1052,23 @@ class GeometrySet(GeometryEntity, Set):
     __slots__ = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(oth), id) over Any                          ║
+# ║ Path(_contains(other), id) over {Any | hasattr(other, 'is_FiniteSet')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _contains : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_FiniteSet')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _contains : {Any | hasattr(other, 'is_FiniteSet')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | af8f778c8f4cb066   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometrySet._contains","kind":"method","src_hash":"f56e44c0cc47165a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(oth)","rhs":"sympy.sets uses the _contains method, so include it for compatibility","over":{"base":"Any"},"name":"_contains_correct","kind":"composition"},"guarantee":"sympy.sets uses the _contains method, so include it for compatibility","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"__contains__","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af8f778c8f4cb066"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.GeometrySet._contains","kind":"method","src_hash":"f56e44c0cc47165a","in":{"base":"Any","pred":"hasattr(other, 'is_FiniteSet')"},"out":{"base":"Any"},"spec":{"lhs":"_contains(other)","rhs":"<unspecified:_contains>","over":{"base":"Any","pred":"hasattr(other, 'is_FiniteSet')"},"name":"_contains_correct","kind":"composition"},"guarantee":"sympy.sets uses the _contains method, so include it for compatibility","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"all","by":"library_axiom"},{"fn":"__contains__","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af8f778c8f4cb066","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_FiniteSet')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_FiniteSet","self.__contains__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, other):
         """sympy.sets uses the _contains method, so include it for compatibility."""
 
@@ -889,16 +1079,23 @@ class GeometrySet(GeometryEntity, Set):
 
 @dispatch(GeometrySet, Set)  # type:ignore # noqa:F811
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(union_sets(o), returns the union of self and o for use with sympy.sets.set, if possible) over Any ║
+# ║ Path(union_sets(o), <unspecified:union_sets>) over {Any | hasattr(o, 'is_FiniteSet')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ union_sets : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(o, 'is_FiniteSet')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ union_sets : {Any | hasattr(o, 'is_FiniteSet')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f908ba52db2b9644  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.union_sets","kind":"function","src_hash":"37fa4375fbe9e88e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"union_sets(o)","rhs":"returns the union of self and o for use with sympy.sets.set, if possible","over":{"base":"Any"},"name":"union_sets_correct"},"guarantee":"returns the union of self and o for use with sympy.sets.set, if possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.union_sets_correct","statement":"Path(union_sets(x), returns the union of self and o for use with sympy.sets.set, if possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f908ba52db2b9644"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.union_sets","kind":"function","src_hash":"37fa4375fbe9e88e","in":{"base":"Any","pred":"hasattr(o, 'is_FiniteSet')"},"out":{"base":"Any"},"spec":{"lhs":"union_sets(o)","rhs":"<unspecified:union_sets>","over":{"base":"Any","pred":"hasattr(o, 'is_FiniteSet')"},"name":"union_sets_correct"},"guarantee":"returns the union of self and o for use with sympy.sets.set, if possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.union_sets_correct","statement":"Path(union_sets(x), returns the union of self and o for use with sympy.sets.set, if possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f908ba52db2b9644","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(o, 'is_FiniteSet')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.is_FiniteSet","self._contains"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def union_sets(self, o): # noqa:F811
     """ Returns the union of self and o
     for use with sympy.sets.Set, if possible. """
@@ -918,9 +1115,13 @@ def union_sets(self, o): # noqa:F811
 
 @dispatch(GeometrySet, Set)  # type: ignore # noqa:F811
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersection_sets(o), returns a sympy.sets.set of intersection objects, if possible) over {Any | isinstance(p, Point)} ║
+# ║ Path(intersection_sets(o), <unspecified:intersection_sets>) over {Any | isinstance(p, Point) and hasattr(o, 'is_FiniteSet')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ intersection_sets : {Any | isinstance(p, Point)} → Any     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(o, 'is_FiniteSet')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ intersection_sets : {Any | isinstance(p, Point) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Point: {isinstance(p, Point)} → library_axiom            ║
@@ -930,9 +1131,12 @@ def union_sets(self, o): # noqa:F811
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7b32a21f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.intersection_sets","kind":"function","src_hash":"074a1c32b30bb3d5","in":{"base":"Any","pred":"isinstance(p, Point)"},"out":{"base":"Any"},"spec":{"lhs":"intersection_sets(o)","rhs":"returns a sympy.sets.set of intersection objects, if possible","over":{"base":"Any","pred":"isinstance(p, Point)"},"name":"intersection_sets_correct"},"guarantee":"returns a sympy.sets.set of intersection objects, if possible","fibers":[{"name":"Point","pred":"isinstance(p, Point)","path":{"lhs":"intersection_sets(x)","rhs":"returns a sympy.sets.set of intersection objects, if possible","over":{"base":"Point","pred":"isinstance(p, Point)"},"name":"intersection_sets_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.intersection_sets_Point_correct","statement":"intersection_sets satisfies spec on Point inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7b32a21f9fd0b72d"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.intersection_sets","kind":"function","src_hash":"074a1c32b30bb3d5","in":{"base":"Any","pred":"isinstance(p, Point) and hasattr(o, 'is_FiniteSet')"},"out":{"base":"Any"},"spec":{"lhs":"intersection_sets(o)","rhs":"<unspecified:intersection_sets>","over":{"base":"Any","pred":"isinstance(p, Point) and hasattr(o, 'is_FiniteSet')"},"name":"intersection_sets_correct"},"guarantee":"returns a sympy.sets.set of intersection objects, if possible","fibers":[{"name":"Point","pred":"isinstance(p, Point)","path":{"lhs":"intersection_sets(x)","rhs":"returns a sympy.sets.set of intersection objects, if possible","over":{"base":"Point","pred":"isinstance(p, Point)"},"name":"intersection_sets_Point_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.intersection_sets_Point_correct","statement":"intersection_sets satisfies spec on Point inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7b32a21f9fd0b72d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(o, 'is_FiniteSet')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["o.is_FiniteSet","self.contains","self.intersection"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":true}}
 def intersection_sets(self, o): # noqa:F811
     """ Returns a sympy.sets.Set of intersection objects,
     if possible. """
@@ -958,16 +1162,22 @@ def intersection_sets(self, o): # noqa:F811
     return Union(*(non_points + [points]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(translate(x, ), return the matrix to translate a 2-d point by x and y) over Any ║
+# ║ Path(translate(x, y), <unspecified:translate>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ translate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0c435a275af2e27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.translate","kind":"function","src_hash":"90796dfc0946a8c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translate(x, )","rhs":"return the matrix to translate a 2-d point by x and y","over":{"base":"Any"},"name":"translate_correct"},"guarantee":"return the matrix to translate a 2-d point by x and y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.translate_correct","statement":"Path(translate(x), return the matrix to translate a 2-d point by x and y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0c435a275af2e27"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.translate","kind":"function","src_hash":"90796dfc0946a8c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"translate(x, y)","rhs":"<unspecified:translate>","over":{"base":"Any"},"name":"translate_correct"},"guarantee":"return the matrix to translate a 2-d point by x and y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.translate_correct","statement":"Path(translate(x), return the matrix to translate a 2-d point by x and y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0c435a275af2e27","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def translate(x, y):
     """Return the matrix to translate a 2-D point by x and y."""
     rv = eye(3)
@@ -977,16 +1187,23 @@ def translate(x, y):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale(x, ), return the matrix to multiply a 2-d point's coordinates by x and y) over Any ║
+# ║ Path(scale(x, y, pt), <unspecified:scale>) over {Any | hasattr(pt, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scale : Any → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(pt, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scale : {Any | hasattr(pt, 'args')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f993c398fdec252f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.scale","kind":"function","src_hash":"f1a9c22168507b12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, )","rhs":"return the matrix to multiply a 2-d point's coordinates by x and y","over":{"base":"Any"},"name":"scale_correct"},"guarantee":"return the matrix to multiply a 2-d point's coordinates by x and y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.scale_correct","statement":"Path(scale(x), return the matrix to multiply a 2-d point's coordinates by x and y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f993c398fdec252f"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.scale","kind":"function","src_hash":"f1a9c22168507b12","in":{"base":"Any","pred":"hasattr(pt, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"scale(x, y, pt)","rhs":"<unspecified:scale>","over":{"base":"Any","pred":"hasattr(pt, 'args')"},"name":"scale_correct"},"guarantee":"return the matrix to multiply a 2-d point's coordinates by x and y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.scale_correct","statement":"Path(scale(x), return the matrix to multiply a 2-d point's coordinates by x and y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f993c398fdec252f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(pt, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["pt.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def scale(x, y, pt=None):
     """Return the matrix to multiply a 2-D point's coordinates by x and y.
 
@@ -1004,16 +1221,22 @@ def scale(x, y, pt=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotate(th), return the matrix to rotate a 2-d point about the origin by ``angle``) over Any ║
+# ║ Path(rotate(th), <unspecified:rotate>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotate : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87287cefa5675974  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.rotate","kind":"function","src_hash":"911dcf04c1257fbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate(th)","rhs":"return the matrix to rotate a 2-d point about the origin by ``angle``","over":{"base":"Any"},"name":"rotate_correct"},"guarantee":"return the matrix to rotate a 2-d point about the origin by ``angle``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.rotate_correct","statement":"Path(rotate(x), return the matrix to rotate a 2-d point about the origin by ``angle``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87287cefa5675974"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.entity.rotate","kind":"function","src_hash":"911dcf04c1257fbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotate(th)","rhs":"<unspecified:rotate>","over":{"base":"Any"},"name":"rotate_correct"},"guarantee":"return the matrix to rotate a 2-d point about the origin by ``angle``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.entity.rotate_correct","statement":"Path(rotate(x), return the matrix to rotate a 2-d point about the origin by ``angle``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87287cefa5675974","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def rotate(th):
     """Return the matrix to rotate a 2-D point about the origin by ``angle``.
 

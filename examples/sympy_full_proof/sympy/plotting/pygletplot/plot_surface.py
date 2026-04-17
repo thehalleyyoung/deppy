@@ -24,29 +24,42 @@ from sympy.plotting.pygletplot.plot_mode_base import PlotModeBase
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PlotSurface(*args), correctly constructs a PlotSurface instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PlotSurface : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotModeBase)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PlotSurface : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dffbc1ccdbb6fe2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_surface.PlotSurface","kind":"class","src_hash":"6ce2ddfb7fb96753","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotSurface(*args)","rhs":"correctly constructs a PlotSurface instance","over":{"base":"Any"},"name":"PlotSurface_class_invariant"},"guarantee":"correctly constructs a PlotSurface instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dffbc1ccdbb6fe2"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_surface.PlotSurface","kind":"class","src_hash":"6ce2ddfb7fb96753","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotModeBase)"},"spec":{"lhs":"PlotSurface(*args)","rhs":"correctly constructs a PlotSurface instance","over":{"base":"Any"},"name":"PlotSurface_class_invariant"},"guarantee":"isinstance(self, PlotModeBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dffbc1ccdbb6fe2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotModeBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function PlotSurface not found in source"]}}
 class PlotSurface(PlotModeBase):
 
     default_rot_preset = 'perspective'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_on_calculate_verts(), internal helper behaves correctly) over Any ║
+# ║ Path(_on_calculate_verts(), len(column) == old_len_column + 1 and len(verts) == old_len_verts + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _on_calculate_verts : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(column) == old_len_column + 1              ║
+# ║   ensures:  len(verts) == old_len_verts + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _on_calculate_verts : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6934dc9eefeb30fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7650131e2244b93b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_surface.PlotSurface._on_calculate_verts","kind":"method","src_hash":"2cd1a205e791d791","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_on_calculate_verts()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_on_calculate_verts_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_surface.PlotSurface._on_calculate_verts_correct","statement":"Path(_on_calculate_verts(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6934dc9eefeb30fc"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_surface.PlotSurface._on_calculate_verts","kind":"method","src_hash":"2cd1a205e791d791","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(column) == old_len_column + 1 and len(verts) == old_len_verts + 1"},"spec":{"lhs":"_on_calculate_verts()","rhs":"len(column) == old_len_column + 1 and len(verts) == old_len_verts + 1","over":{"base":"Any"},"name":"_on_calculate_verts_correct"},"guarantee":"len(column) == old_len_column + 1; len(verts) == old_len_verts + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_surface.PlotSurface._on_calculate_verts_correct","statement":"Path(_on_calculate_verts(x), len(column) == old_len_column + 1; len(verts) == old_len_verts + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7650131e2244b93b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(column) == old_len_column + 1","len(verts) == old_len_verts + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._get_evaluator","self.bounds","self.draw_verts","self.intervals","self.push_solid","self.push_wireframe","self.u_interval","self.u_set","self.v_interval","self.v_set"],"writes":["self._calculating_verts_len","self._calculating_verts_pos","self.bounds","self.u_interval","self.u_set","self.v_interval","self.v_set","self.verts"],"calls_mutating":["column.append","verts.append"],"catches":["ZeroDivisionError"]},"state_contract":{"modifies":["column.*","self._calculating_verts_len","self._calculating_verts_pos","self.bounds","self.u_interval","self.u_set","self.v_interval","self.v_set","self.verts","verts.*"],"old_bindings":{"old_self__calculating_verts_len":"self._calculating_verts_len","old_self__calculating_verts_pos":"self._calculating_verts_pos","old_self_bounds":"self.bounds","old_self_u_interval":"self.u_interval","old_self_u_set":"self.u_set","old_self_v_interval":"self.v_interval","old_self_v_set":"self.v_set","old_self_verts":"self.verts","old_len_column":"len(column)","old_len_verts":"len(verts)"},"post_ensures":["len(column) == old_len_column + 1","len(verts) == old_len_verts + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _on_calculate_verts(self):
         self.u_interval = self.intervals[0]
         self.u_set = list(self.u_interval.frange())
@@ -88,16 +101,22 @@ class PlotSurface(PlotModeBase):
         self.push_solid(self.draw_verts(False, True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_on_calculate_cverts(), internal helper behaves correctly) over Any ║
+# ║ Path(_on_calculate_cverts(), <unspecified:_on_calculate_cverts>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _on_calculate_cverts : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5777e72504d023b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_surface.PlotSurface._on_calculate_cverts","kind":"method","src_hash":"a3165148bc5f25f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_on_calculate_cverts()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_on_calculate_cverts_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_surface.PlotSurface._on_calculate_cverts_correct","statement":"Path(_on_calculate_cverts(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5777e72504d023b2"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_surface.PlotSurface._on_calculate_cverts","kind":"method","src_hash":"a3165148bc5f25f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_on_calculate_cverts()","rhs":"<unspecified:_on_calculate_cverts>","over":{"base":"Any"},"name":"_on_calculate_cverts_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_surface.PlotSurface._on_calculate_cverts_correct","statement":"Path(_on_calculate_cverts(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5777e72504d023b2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.color","self.draw_verts","self.push_solid","self.u_set","self.v_set","self.verts"],"writes":["self._calculating_cverts_len","self._calculating_cverts_pos","self.cverts"]},"state_contract":{"modifies":["self._calculating_cverts_len","self._calculating_cverts_pos","self.cverts"],"old_bindings":{"old_self__calculating_cverts_len":"self._calculating_cverts_len","old_self__calculating_cverts_pos":"self._calculating_cverts_pos","old_self_cverts":"self.cverts"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _on_calculate_cverts(self):
         if not self.verts or not self.color:
             return
@@ -117,32 +136,44 @@ class PlotSurface(PlotModeBase):
         self.push_solid(self.draw_verts(True, True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(calculate_one_cvert(u, ), calculate_one_cvert produces the expected output) over Any ║
+# ║ Path(calculate_one_cvert(u, v), self.color(vert[0], vert[1], vert[2], self.u_set[u], self.v_set[v])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.color(vert[0], vert[1], vert[2], sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ calculate_one_cvert : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77fac6b1e4d577fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8555140760dfc761  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_surface.PlotSurface.calculate_one_cvert","kind":"method","src_hash":"4ae0dbcedbb1740f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"calculate_one_cvert(u, )","rhs":"calculate_one_cvert produces the expected output","over":{"base":"Any"},"name":"calculate_one_cvert_correct"},"guarantee":"calculate_one_cvert produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_surface.PlotSurface.calculate_one_cvert_correct","statement":"Path(calculate_one_cvert(x), calculate_one_cvert produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77fac6b1e4d577fc"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_surface.PlotSurface.calculate_one_cvert","kind":"method","src_hash":"4ae0dbcedbb1740f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"calculate_one_cvert(u, v)","rhs":"self.color(vert[0], vert[1], vert[2], self.u_set[u], self.v_set[v])","over":{"base":"Any"},"name":"calculate_one_cvert_correct"},"guarantee":"returns self.color(vert[0], vert[1], vert[2], self.u_set[u], self.v_set[v])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_surface.PlotSurface.calculate_one_cvert_correct","statement":"Path(calculate_one_cvert(x), returns self.color(vert[0], vert[1], vert[2], self.u_set[u], self.v_set[v]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8555140760dfc761","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.color(vert[0], vert[1], vert[2], self.u_set[u], self.v_set[v])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.color","self.u_set","self.v_set","self.verts"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def calculate_one_cvert(self, u, v):
         vert = self.verts[u][v]
         return self.color(vert[0], vert[1], vert[2],
                           self.u_set[u], self.v_set[v])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw_verts(use), draw_verts produces the expected output) over Any ║
+# ║ Path(draw_verts(use_cverts, use_solid_color), <unspecified:draw_verts>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw_verts : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3ffebeae59f564b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_surface.PlotSurface.draw_verts","kind":"method","src_hash":"f631b9bc3f9d8222","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_verts(use)","rhs":"draw_verts produces the expected output","over":{"base":"Any"},"name":"draw_verts_correct"},"guarantee":"draw_verts produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_surface.PlotSurface.draw_verts_correct","statement":"Path(draw_verts(x), draw_verts produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3ffebeae59f564b"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_surface.PlotSurface.draw_verts","kind":"method","src_hash":"f631b9bc3f9d8222","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw_verts(use_cverts, use_solid_color)","rhs":"<unspecified:draw_verts>","over":{"base":"Any"},"name":"draw_verts_correct"},"guarantee":"draw_verts produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_surface.PlotSurface.draw_verts_correct","statement":"Path(draw_verts(x), draw_verts produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3ffebeae59f564b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cverts","self.default_solid_color","self.default_wireframe_color","self.u_set","self.v_set","self.verts"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw_verts(self, use_cverts, use_solid_color):
         def f():
             for u in range(1, len(self.u_set)):

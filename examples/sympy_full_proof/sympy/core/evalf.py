@@ -65,16 +65,22 @@ rnd = round_nearest
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bitcount(n), return smallest integer, b, such that |n|/2**b < 1) over Any ║
+# ║ Path(bitcount(n), mpmath_bitcount(abs(int(n)))) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  mpmath_bitcount(abs(int(n)))                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bitcount : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4072f5235b1b51a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.bitcount","kind":"function","src_hash":"68dda885084d8d28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bitcount(n)","rhs":"return smallest integer, b, such that |n|/2**b < 1","over":{"base":"Any"},"name":"bitcount_correct"},"guarantee":"return smallest integer, b, such that |n|/2**b < 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4072f5235b1b51a3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.bitcount","kind":"function","src_hash":"68dda885084d8d28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bitcount(n)","rhs":"mpmath_bitcount(abs(int(n)))","over":{"base":"Any"},"name":"bitcount_correct"},"guarantee":"returns mpmath_bitcount(abs(int(n)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4072f5235b1b51a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"mpmath_bitcount(abs(int(n)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def bitcount(n):
     """Return smallest integer, b, such that |n|/2**b < 1.
     """
@@ -91,16 +97,22 @@ DEFAULT_MAXPREC = 333
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(PrecisionExhausted(), correctly constructs a PrecisionExhausted instance) over Any ║
+# ║ Path(PrecisionExhausted(), isinstance(self, ArithmeticError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PrecisionExhausted : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ArithmeticError)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PrecisionExhausted : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1286d4025f070b6c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.PrecisionExhausted","kind":"class","src_hash":"ffd8a6f614917fe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PrecisionExhausted()","rhs":"correctly constructs a PrecisionExhausted instance","over":{"base":"Any"},"name":"PrecisionExhausted_correct"},"guarantee":"correctly constructs a PrecisionExhausted instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1286d4025f070b6c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.PrecisionExhausted","kind":"class","src_hash":"ffd8a6f614917fe3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ArithmeticError)"},"spec":{"lhs":"PrecisionExhausted()","rhs":"isinstance(self, ArithmeticError)","over":{"base":"Any"},"name":"PrecisionExhausted_correct"},"guarantee":"isinstance(self, ArithmeticError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1286d4025f070b6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ArithmeticError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function PrecisionExhausted not found in source"]}}
 class PrecisionExhausted(ArithmeticError):
     pass
 
@@ -151,16 +163,23 @@ OPT_DICT = dict[str, Any]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fastlog(x), fast approximation of log2(x) for an mpf value tuple x) over MPF_TUP | None ║
+# ║ Path(fastlog(x), <unspecified:fastlog>) over {MPF_TUP | None | isinstance(x, MPF_TUP | None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fastlog : MPF_TUP | None → int | Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(x, MPF_TUP | None)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fastlog : {MPF_TUP | None | isinstance(x, MPF_TUP | N...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe87565d88e62020  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.fastlog","kind":"function","src_hash":"623762a8ecbf9a81","in":{"base":"MPF_TUP | None"},"out":{"base":"int | Any"},"spec":{"lhs":"fastlog(x)","rhs":"fast approximation of log2(x) for an mpf value tuple x","over":{"base":"MPF_TUP | None"},"name":"fastlog_correct"},"guarantee":"fast approximation of log2(x) for an mpf value tuple x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.fastlog_correct","statement":"Path(fastlog(x), fast approximation of log2(x) for an mpf value tuple x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe87565d88e62020"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.fastlog","kind":"function","src_hash":"623762a8ecbf9a81","in":{"base":"MPF_TUP | None","pred":"isinstance(x, MPF_TUP | None)"},"out":{"base":"int | Any"},"spec":{"lhs":"fastlog(x)","rhs":"<unspecified:fastlog>","over":{"base":"MPF_TUP | None","pred":"isinstance(x, MPF_TUP | None)"},"name":"fastlog_correct"},"guarantee":"fast approximation of log2(x) for an mpf value tuple x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.fastlog_correct","statement":"Path(fastlog(x), fast approximation of log2(x) for an mpf value tuple x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe87565d88e62020","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(x, MPF_TUP | None)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def fastlog(x: MPF_TUP | None) -> int | Any:
     """Fast approximation of log2(x) for an mpf value tuple x.
 
@@ -198,16 +217,25 @@ def fastlog(x: MPF_TUP | None) -> int | Any:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pure_complex(v, ), return a and b if v matches a + i*b where b is not zero and a and b are numbers, else none) over Expr ║
+# ║ Path(pure_complex(v, or_real), <unspecified:pure_complex>) over {Expr | isinstance(v, Expr) and hasattr(v, 'as_coeff_Add')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pure_complex : Expr → tuple[Number, Number] | None         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(v, Expr)                            ║
+# ║   requires: hasattr(v, 'as_coeff_Add')                     ║
+# ║   fiber[case_0]: t                                         ║
+# ║   fiber[case_1]: or_real => (h, S.Zero)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pure_complex : {Expr | isinstance(v, Expr) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36fd0440c61ea763  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7926e052f7b1d33a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.pure_complex","kind":"function","src_hash":"afab20435f45c359","in":{"base":"Expr"},"out":{"base":"tuple[Number, Number] | None"},"spec":{"lhs":"pure_complex(v, )","rhs":"return a and b if v matches a + i*b where b is not zero and a and b are numbers, else none","over":{"base":"Expr"},"name":"pure_complex_correct"},"guarantee":"return a and b if v matches a + i*b where b is not zero and a and b are numbers, else none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.pure_complex_correct","statement":"Path(pure_complex(x), return a and b if v matches a + i*b where b is not zero and a and b are numbers, else none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36fd0440c61ea763"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.pure_complex","kind":"function","src_hash":"afab20435f45c359","in":{"base":"Expr","pred":"isinstance(v, Expr) and hasattr(v, 'as_coeff_Add')"},"out":{"base":"tuple[Number, Number] | None"},"spec":{"lhs":"pure_complex(v, or_real)","rhs":"<unspecified:pure_complex>","over":{"base":"Expr","pred":"isinstance(v, Expr) and hasattr(v, 'as_coeff_Add')"},"name":"pure_complex_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.pure_complex_correct","statement":"Path(pure_complex(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7926e052f7b1d33a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(v, Expr)","hasattr(v, 'as_coeff_Add')"],"fibers":[{"name":"case_0","guard":"t","ensures":[],"decidability":"library"},{"name":"case_1","guard":"or_real","ensures":["result == (h, S.Zero)"],"decidability":"library","returns_expr":"(h, S.Zero)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["v.as_coeff_Add"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def pure_complex(v: Expr, or_real=False) -> tuple[Number, Number] | None:
     """Return a and b if v matches a + I*b where b is not zero and
     a and b are Numbers, else None. If `or_real` is True then 0 will
@@ -245,34 +273,56 @@ SCALED_ZERO_TUP = tuple[list[int], int, int, int]
 
 @overload
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scaled_zero(mag), scaled_zero produces the expected output) over SCALED_ZERO_TUP ║
+# ║ Path(scaled_zero(mag, sign), isinstance(result, MPF_TUP)) over {SCALED_ZERO_TUP | isinstance(mag, SCALED_ZERO_TUP)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scaled_zero : SCALED_ZERO_TUP → MPF_TUP                    ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(mag, SCALED_ZERO_TUP)               ║
+# ║   ensures:  isinstance(result, MPF_TUP)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scaled_zero : {SCALED_ZERO_TUP | isinstance(mag, SCAL...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 247bc74b93c30ccf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.scaled_zero","kind":"function","src_hash":"ee1decf3ad5d01d0","in":{"base":"SCALED_ZERO_TUP"},"out":{"base":"MPF_TUP"},"spec":{"lhs":"scaled_zero(mag)","rhs":"scaled_zero produces the expected output","over":{"base":"SCALED_ZERO_TUP"},"name":"scaled_zero_correct"},"guarantee":"scaled_zero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"247bc74b93c30ccf"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.scaled_zero","kind":"function","src_hash":"ee1decf3ad5d01d0","in":{"base":"SCALED_ZERO_TUP","pred":"isinstance(mag, SCALED_ZERO_TUP)"},"out":{"base":"MPF_TUP","pred":"result satisfies: isinstance(result, MPF_TUP)"},"spec":{"lhs":"scaled_zero(mag, sign)","rhs":"isinstance(result, MPF_TUP)","over":{"base":"SCALED_ZERO_TUP","pred":"isinstance(mag, SCALED_ZERO_TUP)"},"name":"scaled_zero_correct"},"guarantee":"isinstance(result, MPF_TUP)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"247bc74b93c30ccf","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(mag, SCALED_ZERO_TUP)"],"ensures":["isinstance(result, MPF_TUP)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def scaled_zero(mag: SCALED_ZERO_TUP, sign=1) -> MPF_TUP:
     ...
 @overload
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scaled_zero(mag), scaled_zero produces the expected output) over int ║
+# ║ Path(scaled_zero(mag, sign), isinstance(result, tuple) and len(result) == 2) over {int | isinstance(mag, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ scaled_zero : int → tuple[SCALED_ZERO_TUP, int]            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(mag, int)                           ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  len(result) == 2                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ scaled_zero : {int | isinstance(mag, int)} → {tuple[S...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a0f641ecba9766b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.scaled_zero","kind":"function","src_hash":"95b37bde5f94a979","in":{"base":"int"},"out":{"base":"tuple[SCALED_ZERO_TUP, int]"},"spec":{"lhs":"scaled_zero(mag)","rhs":"scaled_zero produces the expected output","over":{"base":"int"},"name":"scaled_zero_correct"},"guarantee":"scaled_zero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a0f641ecba9766b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.scaled_zero","kind":"function","src_hash":"95b37bde5f94a979","in":{"base":"int","pred":"isinstance(mag, int)"},"out":{"base":"tuple[SCALED_ZERO_TUP, int]","pred":"result satisfies: isinstance(result, tuple) and len(result) == 2"},"spec":{"lhs":"scaled_zero(mag, sign)","rhs":"isinstance(result, tuple) and len(result) == 2","over":{"base":"int","pred":"isinstance(mag, int)"},"name":"scaled_zero_correct"},"guarantee":"isinstance(result, tuple); len(result) == 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a0f641ecba9766b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(mag, int)"],"ensures":["isinstance(result, tuple)","len(result) == 2"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def scaled_zero(mag: int, sign=1) -> tuple[SCALED_ZERO_TUP, int]:
     ...
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scaled_zero(mag), return an mpf representing a power of two with magnitude ``mag`` and -1 for precision) over {SCALED_ZERO_TUP | int | isinstance(mag, tuple) and isinstance(mag, SYMPY_INTS)} ║
+# ║ Path(scaled_zero(mag, sign), isinstance(result, MPF_TUP | tuple[SCALED_ZERO_TUP, int])) over {SCALED_ZERO_TUP | int | isinstance(mag, tuple) and isinstance(mag, SYMPY_INTS) and isinstance(mag, SCALED_ZERO_TUP | int)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(mag, SCALED_ZERO_TUP | int)         ║
+# ║   ensures:  isinstance(result, MPF_TUP | tuple[SCALED...   ║
+# ║   fiber[tuple]: isinstance(mag, tuple) and len(mag) =...   ║
+# ║   fiber[SYMPY_INTS]: isinstance(mag, SYMPY_INTS) => (...   ║
+# ║   fiber[tuple]: not (isinstance(mag, tuple) and len(m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scaled_zero : {SCALED_ZERO_TUP | int | isinstance(mag...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -285,9 +335,12 @@ def scaled_zero(mag: int, sign=1) -> tuple[SCALED_ZERO_TUP, int]:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3def32e3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.scaled_zero","kind":"function","src_hash":"1e8d45d7900821d0","in":{"base":"SCALED_ZERO_TUP | int","pred":"isinstance(mag, tuple) and isinstance(mag, SYMPY_INTS)"},"out":{"base":"MPF_TUP | tuple[SCALED_ZERO_TUP, int]"},"spec":{"lhs":"scaled_zero(mag)","rhs":"return an mpf representing a power of two with magnitude ``mag`` and -1 for precision","over":{"base":"SCALED_ZERO_TUP | int","pred":"isinstance(mag, tuple) and isinstance(mag, SYMPY_INTS)"},"name":"scaled_zero_correct"},"guarantee":"return an mpf representing a power of two with magnitude ``mag`` and -1 for precision","fibers":[{"name":"tuple","pred":"isinstance(mag, tuple)","path":{"lhs":"scaled_zero(x)","rhs":"return an mpf representing a power of two with magnitude ``mag`` and -1 for precision","over":{"base":"tuple","pred":"isinstance(mag, tuple)"},"name":"scaled_zero_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.scaled_zero_tuple_correct","statement":"scaled_zero satisfies spec on tuple inputs"},"trust":"LIBRARY"},{"name":"SYMPY_INTS","pred":"isinstance(mag, SYMPY_INTS)","path":{"lhs":"scaled_zero(x)","rhs":"return an mpf representing a power of two with magnitude ``mag`` and -1 for precision","over":{"base":"SYMPY_INTS","pred":"isinstance(mag, SYMPY_INTS)"},"name":"scaled_zero_SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.scaled_zero_SYMPY_INTS_correct","statement":"scaled_zero satisfies spec on SYMPY_INTS inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3def32e3d0113d87"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.scaled_zero","kind":"function","src_hash":"1e8d45d7900821d0","in":{"base":"SCALED_ZERO_TUP | int","pred":"isinstance(mag, tuple) and isinstance(mag, SYMPY_INTS) and isinstance(mag, SCALED_ZERO_TUP | int)"},"out":{"base":"MPF_TUP | tuple[SCALED_ZERO_TUP, int]","pred":"result satisfies: isinstance(result, MPF_TUP | tuple[SCALED_ZERO_TUP, int])"},"spec":{"lhs":"scaled_zero(mag, sign)","rhs":"isinstance(result, MPF_TUP | tuple[SCALED_ZERO_TUP, int])","over":{"base":"SCALED_ZERO_TUP | int","pred":"isinstance(mag, tuple) and isinstance(mag, SYMPY_INTS) and isinstance(mag, SCALED_ZERO_TUP | int)"},"name":"scaled_zero_correct"},"guarantee":"isinstance(result, MPF_TUP | tuple[SCALED_ZERO_TUP, int]); 3-fiber decomposition","fibers":[{"name":"tuple","pred":"isinstance(mag, tuple)","path":{"lhs":"scaled_zero(x)","rhs":"isinstance(result, MPF_TUP | tuple[SCALED_ZERO_TUP, int]); 3-fiber decomposition","over":{"base":"tuple","pred":"isinstance(mag, tuple)"},"name":"scaled_zero_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.scaled_zero_tuple_correct","statement":"scaled_zero satisfies spec on tuple inputs"},"trust":"LIBRARY"},{"name":"SYMPY_INTS","pred":"isinstance(mag, SYMPY_INTS)","path":{"lhs":"scaled_zero(x)","rhs":"isinstance(result, MPF_TUP | tuple[SCALED_ZERO_TUP, int]); 3-fiber decomposition","over":{"base":"SYMPY_INTS","pred":"isinstance(mag, SYMPY_INTS)"},"name":"scaled_zero_SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.scaled_zero_SYMPY_INTS_correct","statement":"scaled_zero satisfies spec on SYMPY_INTS inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3def32e3d0113d87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(mag, SCALED_ZERO_TUP | int)"],"ensures":["isinstance(result, MPF_TUP | tuple[SCALED_ZERO_TUP, int])"],"fibers":[{"name":"tuple","guard":"isinstance(mag, tuple) and len(mag) == 4 and iszero(mag, scaled=True)","ensures":["result == (mag[0][0],) + mag[1:]"],"decidability":"structural","returns_expr":"(mag[0][0],) + mag[1:]"},{"name":"SYMPY_INTS","guard":"isinstance(mag, SYMPY_INTS)","ensures":["result == (rv, p)"],"decidability":"structural","returns_expr":"(rv, p)"},{"name":"tuple","guard":"not (isinstance(mag, tuple) and len(mag) == 4 and iszero(mag, scaled=True)) and not (isinstance(mag, SYMPY_INTS))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(mag, tuple) and len(mag) == 4 and iszero(mag, scaled=True)', 'isinstance(mag, SYMPY_INTS)'}, fibers={'tuple', 'SYMPY_INTS'})"]}}
 def scaled_zero(mag: SCALED_ZERO_TUP | int, sign=1) -> \
         MPF_TUP | tuple[SCALED_ZERO_TUP, int]:
     """Return an mpf representing a power of two with magnitude ``mag``
@@ -328,7 +381,11 @@ def scaled_zero(mag: SCALED_ZERO_TUP | int, sign=1) -> \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iszero(mpf), iszero produces the expected output) over {MPF_TUP | SCALED_ZERO_TUP | None | isinstance(mpf[0], list)} ║
+# ║ Path(iszero(mpf, scaled), <unspecified:iszero>) over {MPF_TUP | SCALED_ZERO_TUP | None | isinstance(mpf[0], list) and isinstance(mpf, MPF_TUP | SCALED_ZERO_TUP | None)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(mpf, MPF_TUP | SCALED_ZERO_TUP...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ iszero : {MPF_TUP | SCALED_ZERO_TUP | None | isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -340,9 +397,12 @@ def scaled_zero(mag: SCALED_ZERO_TUP | int, sign=1) -> \
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0f725826...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.iszero","kind":"function","src_hash":"aaf6d6f33ba07b62","in":{"base":"MPF_TUP | SCALED_ZERO_TUP | None","pred":"isinstance(mpf[0], list)"},"out":{"base":"bool | None"},"spec":{"lhs":"iszero(mpf)","rhs":"iszero produces the expected output","over":{"base":"MPF_TUP | SCALED_ZERO_TUP | None","pred":"isinstance(mpf[0], list)"},"name":"iszero_correct"},"guarantee":"iszero produces the expected output","fibers":[{"name":"list","pred":"isinstance(mpf[0], list)","path":{"lhs":"iszero(x)","rhs":"iszero produces the expected output","over":{"base":"list","pred":"isinstance(mpf[0], list)"},"name":"iszero_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.iszero_list_correct","statement":"iszero satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0f72582681ebae3d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.iszero","kind":"function","src_hash":"aaf6d6f33ba07b62","in":{"base":"MPF_TUP | SCALED_ZERO_TUP | None","pred":"isinstance(mpf[0], list) and isinstance(mpf, MPF_TUP | SCALED_ZERO_TUP | None)"},"out":{"base":"bool | None"},"spec":{"lhs":"iszero(mpf, scaled)","rhs":"<unspecified:iszero>","over":{"base":"MPF_TUP | SCALED_ZERO_TUP | None","pred":"isinstance(mpf[0], list) and isinstance(mpf, MPF_TUP | SCALED_ZERO_TUP | None)"},"name":"iszero_correct"},"guarantee":"iszero produces the expected output","fibers":[{"name":"list","pred":"isinstance(mpf[0], list)","path":{"lhs":"iszero(x)","rhs":"iszero produces the expected output","over":{"base":"list","pred":"isinstance(mpf[0], list)"},"name":"iszero_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.iszero_list_correct","statement":"iszero satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0f72582681ebae3d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(mpf, MPF_TUP | SCALED_ZERO_TUP | None)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"failed","binding":true}}
 def iszero(mpf: MPF_TUP | SCALED_ZERO_TUP | None, scaled=False) -> bool | None:
     if not scaled:
         return not mpf or not mpf[1] and not mpf[-1]
@@ -350,16 +410,23 @@ def iszero(mpf: MPF_TUP | SCALED_ZERO_TUP | None, scaled=False) -> bool | None:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(complex_accuracy(res), returns relative accuracy of a complex number with given accuracies for the real and imaginary parts) over TMP_RES ║
+# ║ Path(complex_accuracy(result), <unspecified:complex_accuracy>) over {TMP_RES | isinstance(result, TMP_RES)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ complex_accuracy : TMP_RES → int | Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(result, TMP_RES)                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ complex_accuracy : {TMP_RES | isinstance(result, TMP_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33577891f10a4133  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.complex_accuracy","kind":"function","src_hash":"b3f77bf5d70b7d7f","in":{"base":"TMP_RES"},"out":{"base":"int | Any"},"spec":{"lhs":"complex_accuracy(res)","rhs":"returns relative accuracy of a complex number with given accuracies for the real and imaginary parts","over":{"base":"TMP_RES"},"name":"complex_accuracy_correct"},"guarantee":"returns relative accuracy of a complex number with given accuracies for the real and imaginary parts","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.complex_accuracy_correct","statement":"Path(complex_accuracy(x), returns relative accuracy of a complex number with given accuracies for the real and imaginary parts)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33577891f10a4133"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.complex_accuracy","kind":"function","src_hash":"b3f77bf5d70b7d7f","in":{"base":"TMP_RES","pred":"isinstance(result, TMP_RES)"},"out":{"base":"int | Any"},"spec":{"lhs":"complex_accuracy(result)","rhs":"<unspecified:complex_accuracy>","over":{"base":"TMP_RES","pred":"isinstance(result, TMP_RES)"},"name":"complex_accuracy_correct"},"guarantee":"returns relative accuracy of a complex number with given accuracies for the real and imaginary parts","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.complex_accuracy_correct","statement":"Path(complex_accuracy(x), returns relative accuracy of a complex number with given accuracies for the real and imaginary parts)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33577891f10a4133","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(result, TMP_RES)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def complex_accuracy(result: TMP_RES) -> int | Any:
     """
     Returns relative accuracy of a complex number with given accuracies
@@ -390,16 +457,25 @@ def complex_accuracy(result: TMP_RES) -> int | Any:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_abs(exp), get_abs produces the expected output) over Expr ║
+# ║ Path(get_abs(expr, prec, options), isinstance(result, TMP_RES)) over {Expr | isinstance(expr, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_abs : Expr → TMP_RES                                   ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, Expr)                         ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_abs : {Expr | isinstance(expr, Expr) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0be2f17ec06e624c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d022798a362b271  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.get_abs","kind":"function","src_hash":"f1f7a7919598d742","in":{"base":"Expr"},"out":{"base":"TMP_RES"},"spec":{"lhs":"get_abs(exp)","rhs":"get_abs produces the expected output","over":{"base":"Expr"},"name":"get_abs_correct"},"guarantee":"get_abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.get_abs_correct","statement":"Path(get_abs(x), get_abs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0be2f17ec06e624c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.get_abs","kind":"function","src_hash":"f1f7a7919598d742","in":{"base":"Expr","pred":"isinstance(expr, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'is_number')"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"get_abs(expr, prec, options)","rhs":"isinstance(result, TMP_RES)","over":{"base":"Expr","pred":"isinstance(expr, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'is_number')"},"name":"get_abs_correct"},"guarantee":"isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.get_abs_correct","statement":"Path(get_abs(x), isinstance(result, TMP_RES))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d022798a362b271","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, Expr)","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, 'is_number')"],"ensures":["isinstance(result, TMP_RES)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_number"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def get_abs(expr: Expr, prec: int, options: OPT_DICT) -> TMP_RES:
     result = evalf(expr, prec + 2, options)
     if result is S.ComplexInfinity:
@@ -423,16 +499,25 @@ def get_abs(expr: Expr, prec: int, options: OPT_DICT) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_complex_part(exp), no = 0 for real part, no = 1 for imaginary part) over Expr ║
+# ║ Path(get_complex_part(expr, no, prec), isinstance(result, TMP_RES)) over {Expr | isinstance(expr, Expr) and isinstance(no, int) and isinstance(prec, int) and isinstance(options, OPT_DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_complex_part : Expr → TMP_RES                          ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, Expr)                         ║
+# ║   requires: isinstance(no, int)                            ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_complex_part : {Expr | isinstance(expr, Expr) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e74cba98a12de3b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c5afff4b4b30553  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.get_complex_part","kind":"function","src_hash":"21ab8a638213bc74","in":{"base":"Expr"},"out":{"base":"TMP_RES"},"spec":{"lhs":"get_complex_part(exp)","rhs":"no = 0 for real part, no = 1 for imaginary part","over":{"base":"Expr"},"name":"get_complex_part_correct"},"guarantee":"no = 0 for real part, no = 1 for imaginary part","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.get_complex_part_correct","statement":"Path(get_complex_part(x), no = 0 for real part, no = 1 for imaginary part)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e74cba98a12de3b7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.get_complex_part","kind":"function","src_hash":"21ab8a638213bc74","in":{"base":"Expr","pred":"isinstance(expr, Expr) and isinstance(no, int) and isinstance(prec, int) and isinstance(options, OPT_DICT)"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"get_complex_part(expr, no, prec)","rhs":"isinstance(result, TMP_RES)","over":{"base":"Expr","pred":"isinstance(expr, Expr) and isinstance(no, int) and isinstance(prec, int) and isinstance(options, OPT_DICT)"},"name":"get_complex_part_correct"},"guarantee":"isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.get_complex_part_correct","statement":"Path(get_complex_part(x), isinstance(result, TMP_RES))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c5afff4b4b30553","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, Expr)","isinstance(no, int)","isinstance(prec, int)","isinstance(options, OPT_DICT)"],"ensures":["isinstance(result, TMP_RES)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_complex_part(expr: Expr, no: int, prec: int, options: OPT_DICT) -> TMP_RES:
     """no = 0 for real part, no = 1 for imaginary part"""
     workprec = prec
@@ -450,61 +535,103 @@ def get_complex_part(expr: Expr, no: int, prec: int, options: OPT_DICT) -> TMP_R
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_abs(exp), evalf_abs produces the expected output) over 'Abs' ║
+# ║ Path(evalf_abs(expr, prec, options), get_abs(expr.args[0], prec, options)) over {'Abs' | isinstance(expr, 'Abs') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_abs : 'Abs' → TMP_RES                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, 'Abs')                        ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   returns:  get_abs(expr.args[0], prec, options)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_abs : {'Abs' | isinstance(expr, 'Abs') and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5c6f34782d0b70d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_abs","kind":"function","src_hash":"58bb97e75dbed3a9","in":{"base":"'Abs'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_abs(exp)","rhs":"evalf_abs produces the expected output","over":{"base":"'Abs'"},"name":"evalf_abs_correct"},"guarantee":"evalf_abs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5c6f34782d0b70d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_abs","kind":"function","src_hash":"58bb97e75dbed3a9","in":{"base":"'Abs'","pred":"isinstance(expr, 'Abs') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')"},"out":{"base":"TMP_RES","pred":"result satisfies: result == (get_abs(expr.args[0], prec, options))"},"spec":{"lhs":"evalf_abs(expr, prec, options)","rhs":"get_abs(expr.args[0], prec, options)","over":{"base":"'Abs'","pred":"isinstance(expr, 'Abs') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')"},"name":"evalf_abs_correct"},"guarantee":"returns get_abs(expr.args[0], prec, options); isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5c6f34782d0b70d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, 'Abs')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, 'args')"],"ensures":["isinstance(result, TMP_RES)"],"returns_expr":"get_abs(expr.args[0], prec, options)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def evalf_abs(expr: 'Abs', prec: int, options: OPT_DICT) -> TMP_RES:
     return get_abs(expr.args[0], prec, options)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_re(exp), evalf_re produces the expected output) over 're' ║
+# ║ Path(evalf_re(expr, prec, options), get_complex_part(expr.args[0], 0, prec, options)) over {'re' | isinstance(expr, 're') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_re : 're' → TMP_RES                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, 're')                         ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   returns:  get_complex_part(expr.args[0], 0, prec, o...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_re : {'re' | isinstance(expr, 're') and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | badd205fe03fd8c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_re","kind":"function","src_hash":"761b40f0a95b8bda","in":{"base":"'re'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_re(exp)","rhs":"evalf_re produces the expected output","over":{"base":"'re'"},"name":"evalf_re_correct"},"guarantee":"evalf_re produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"badd205fe03fd8c3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_re","kind":"function","src_hash":"761b40f0a95b8bda","in":{"base":"'re'","pred":"isinstance(expr, 're') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')"},"out":{"base":"TMP_RES","pred":"result satisfies: result == (get_complex_part(expr.args[0], 0, prec, options))"},"spec":{"lhs":"evalf_re(expr, prec, options)","rhs":"get_complex_part(expr.args[0], 0, prec, options)","over":{"base":"'re'","pred":"isinstance(expr, 're') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')"},"name":"evalf_re_correct"},"guarantee":"returns get_complex_part(expr.args[0], 0, prec, options); isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"badd205fe03fd8c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, 're')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, 'args')"],"ensures":["isinstance(result, TMP_RES)"],"returns_expr":"get_complex_part(expr.args[0], 0, prec, options)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def evalf_re(expr: 're', prec: int, options: OPT_DICT) -> TMP_RES:
     return get_complex_part(expr.args[0], 0, prec, options)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_im(exp), evalf_im produces the expected output) over 'im' ║
+# ║ Path(evalf_im(expr, prec, options), get_complex_part(expr.args[0], 1, prec, options)) over {'im' | isinstance(expr, 'im') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_im : 'im' → TMP_RES                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, 'im')                         ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   returns:  get_complex_part(expr.args[0], 1, prec, o...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_im : {'im' | isinstance(expr, 'im') and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 916966a04ce029e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_im","kind":"function","src_hash":"561ebd2d02f9f4c2","in":{"base":"'im'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_im(exp)","rhs":"evalf_im produces the expected output","over":{"base":"'im'"},"name":"evalf_im_correct"},"guarantee":"evalf_im produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"916966a04ce029e5"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_im","kind":"function","src_hash":"561ebd2d02f9f4c2","in":{"base":"'im'","pred":"isinstance(expr, 'im') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')"},"out":{"base":"TMP_RES","pred":"result satisfies: result == (get_complex_part(expr.args[0], 1, prec, options))"},"spec":{"lhs":"evalf_im(expr, prec, options)","rhs":"get_complex_part(expr.args[0], 1, prec, options)","over":{"base":"'im'","pred":"isinstance(expr, 'im') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')"},"name":"evalf_im_correct"},"guarantee":"returns get_complex_part(expr.args[0], 1, prec, options); isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"916966a04ce029e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, 'im')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, 'args')"],"ensures":["isinstance(result, TMP_RES)"],"returns_expr":"get_complex_part(expr.args[0], 1, prec, options)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def evalf_im(expr: 'im', prec: int, options: OPT_DICT) -> TMP_RES:
     return get_complex_part(expr.args[0], 1, prec, options)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(finalize_complex(re,), finalize_complex produces the expected output) over MPF_TUP ║
+# ║ Path(finalize_complex(re, im, prec), isinstance(result, TMP_RES)) over {MPF_TUP | isinstance(re, MPF_TUP) and isinstance(im, MPF_TUP) and isinstance(prec, int) and not (re == fzero and im == fzero)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ finalize_complex : MPF_TUP → TMP_RES                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(re, MPF_TUP)                        ║
+# ║   requires: isinstance(im, MPF_TUP)                        ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   fiber[case_0]: re == fzero and im == fzero               ║
+# ║   fiber[case_1]: re == fzero => (None, im, None, prec)     ║
+# ║   fiber[case_2]: im == fzero => (re, None, prec, None)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ finalize_complex : {MPF_TUP | isinstance(re, MPF_TUP)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5e0538048974e36  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d3ae4196735ecbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.finalize_complex","kind":"function","src_hash":"af5c835195bc4243","in":{"base":"MPF_TUP"},"out":{"base":"TMP_RES"},"spec":{"lhs":"finalize_complex(re,)","rhs":"finalize_complex produces the expected output","over":{"base":"MPF_TUP"},"name":"finalize_complex_correct"},"guarantee":"finalize_complex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.finalize_complex_correct","statement":"Path(finalize_complex(x), finalize_complex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5e0538048974e36"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.finalize_complex","kind":"function","src_hash":"af5c835195bc4243","in":{"base":"MPF_TUP","pred":"isinstance(re, MPF_TUP) and isinstance(im, MPF_TUP) and isinstance(prec, int) and not (re == fzero and im == fzero)"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"finalize_complex(re, im, prec)","rhs":"isinstance(result, TMP_RES)","over":{"base":"MPF_TUP","pred":"isinstance(re, MPF_TUP) and isinstance(im, MPF_TUP) and isinstance(prec, int) and not (re == fzero and im == fzero)"},"name":"finalize_complex_correct"},"guarantee":"isinstance(result, TMP_RES); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.finalize_complex_correct","statement":"Path(finalize_complex(x), isinstance(result, TMP_RES); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d3ae4196735ecbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(re, MPF_TUP)","isinstance(im, MPF_TUP)","isinstance(prec, int)","not (re == fzero and im == fzero)"],"ensures":["isinstance(result, TMP_RES)"],"fibers":[{"name":"case_0","guard":"re == fzero and im == fzero","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"re == fzero","ensures":["result == (None, im, None, prec)"],"decidability":"z3","returns_expr":"(None, im, None, prec)"},{"name":"case_2","guard":"im == fzero","ensures":["result == (re, None, prec, None)"],"decidability":"z3","returns_expr":"(re, None, prec, None)"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def finalize_complex(re: MPF_TUP, im: MPF_TUP, prec: int) -> TMP_RES:
     if re == fzero and im == fzero:
         raise ValueError("got complex zero with unknown accuracy")
@@ -525,16 +652,24 @@ def finalize_complex(re: MPF_TUP, im: MPF_TUP, prec: int) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(chop_parts(val), chop off tiny real or complex parts) over TMP_RES ║
+# ║ Path(chop_parts(value, prec), isinstance(result, TMP_RES)) over {TMP_RES | isinstance(value, TMP_RES) and isinstance(prec, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ chop_parts : TMP_RES → TMP_RES                             ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(value, TMP_RES)                     ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ chop_parts : {TMP_RES | isinstance(value, TMP_RES) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15c9a4b7e5750b6d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08213d8eaf73bfaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.chop_parts","kind":"function","src_hash":"ea8112bef453c5ac","in":{"base":"TMP_RES"},"out":{"base":"TMP_RES"},"spec":{"lhs":"chop_parts(val)","rhs":"chop off tiny real or complex parts","over":{"base":"TMP_RES"},"name":"chop_parts_correct"},"guarantee":"chop off tiny real or complex parts","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.chop_parts_correct","statement":"Path(chop_parts(x), chop off tiny real or complex parts)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15c9a4b7e5750b6d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.chop_parts","kind":"function","src_hash":"ea8112bef453c5ac","in":{"base":"TMP_RES","pred":"isinstance(value, TMP_RES) and isinstance(prec, int)"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"chop_parts(value, prec)","rhs":"isinstance(result, TMP_RES)","over":{"base":"TMP_RES","pred":"isinstance(value, TMP_RES) and isinstance(prec, int)"},"name":"chop_parts_correct"},"guarantee":"isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.chop_parts_correct","statement":"Path(chop_parts(x), isinstance(result, TMP_RES))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08213d8eaf73bfaa","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(value, TMP_RES)","isinstance(prec, int)"],"ensures":["isinstance(result, TMP_RES)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def chop_parts(value: TMP_RES, prec: int) -> TMP_RES:
     """
     Chop off tiny real or complex parts.
@@ -558,16 +693,25 @@ def chop_parts(value: TMP_RES, prec: int) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_target(exp), check_target produces the expected output) over Expr ║
+# ║ Path(check_target(expr, result, prec), <unspecified:check_target>) over {Expr | isinstance(expr, Expr) and isinstance(result, TMP_RES) and isinstance(prec, int) and not (a < prec)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check_target : Expr → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, Expr)                         ║
+# ║   requires: isinstance(result, TMP_RES)                    ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check_target : {Expr | isinstance(expr, Expr) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d45ebe377d203c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.check_target","kind":"function","src_hash":"331026f447c0c40b","in":{"base":"Expr"},"out":{"base":"Any"},"spec":{"lhs":"check_target(exp)","rhs":"check_target produces the expected output","over":{"base":"Expr"},"name":"check_target_correct"},"guarantee":"check_target produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.check_target_correct","statement":"Path(check_target(x), check_target produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d45ebe377d203c8"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.check_target","kind":"function","src_hash":"331026f447c0c40b","in":{"base":"Expr","pred":"isinstance(expr, Expr) and isinstance(result, TMP_RES) and isinstance(prec, int) and not (a < prec)"},"out":{"base":"Any"},"spec":{"lhs":"check_target(expr, result, prec)","rhs":"<unspecified:check_target>","over":{"base":"Expr","pred":"isinstance(expr, Expr) and isinstance(result, TMP_RES) and isinstance(prec, int) and not (a < prec)"},"name":"check_target_correct"},"guarantee":"check_target produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.check_target_correct","statement":"Path(check_target(x), check_target produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d45ebe377d203c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, Expr)","isinstance(result, TMP_RES)","isinstance(prec, int)","not (a < prec)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["PrecisionExhausted"]},"state_contract":{"exceptional_post":{"PrecisionExhausted":["isinstance(raised, PrecisionExhausted)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def check_target(expr: Expr, result: TMP_RES, prec: int):
     a = complex_accuracy(result)
     if a < prec:
@@ -577,16 +721,25 @@ def check_target(expr: Expr, result: TMP_RES, prec: int):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_integer_part(exp), with no = 1, computes ceiling(expr) with no = -1, computes floor(expr)) over Expr ║
+# ║ Path(get_integer_part(expr, no, options), isinstance(result, TMP_RES | tuple[int, int])) over {Expr | isinstance(expr, Expr) and isinstance(no, int) and isinstance(options, OPT_DICT) and not (result is S.ComplexInfinity) and hasattr(options, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_integer_part : Expr → {TMP_RES | tuple[int, int] ...   ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, Expr)                         ║
+# ║   requires: isinstance(no, int)                            ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES | tuple[int, i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_integer_part : {Expr | isinstance(expr, Expr) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebf46c911a1a68c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67b11cf1e082d166  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.get_integer_part","kind":"function","src_hash":"157b1312f56906d3","in":{"base":"Expr"},"out":{"base":"TMP_RES | tuple[int, int]","pred":"not iim and not iim"},"spec":{"lhs":"get_integer_part(exp)","rhs":"with no = 1, computes ceiling(expr) with no = -1, computes floor(expr)","over":{"base":"Expr"},"name":"get_integer_part_correct"},"guarantee":"with no = 1, computes ceiling(expr) with no = -1, computes floor(expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.get_integer_part_correct","statement":"Path(get_integer_part(x), with no = 1, computes ceiling(expr) with no = -1, computes floor(expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebf46c911a1a68c6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.get_integer_part","kind":"function","src_hash":"157b1312f56906d3","in":{"base":"Expr","pred":"isinstance(expr, Expr) and isinstance(no, int) and isinstance(options, OPT_DICT) and not (result is S.ComplexInfinity) and hasattr(options, 'get')"},"out":{"base":"TMP_RES | tuple[int, int]","pred":"result satisfies: isinstance(result, TMP_RES | tuple[int, int])"},"spec":{"lhs":"get_integer_part(expr, no, options)","rhs":"isinstance(result, TMP_RES | tuple[int, int])","over":{"base":"Expr","pred":"isinstance(expr, Expr) and isinstance(no, int) and isinstance(options, OPT_DICT) and not (result is S.ComplexInfinity) and hasattr(options, 'get')"},"name":"get_integer_part_correct"},"guarantee":"isinstance(result, TMP_RES | tuple[int, int])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.get_integer_part_correct","statement":"Path(get_integer_part(x), isinstance(result, TMP_RES | tuple[int, int]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67b11cf1e082d166","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, Expr)","isinstance(no, int)","isinstance(options, OPT_DICT)","not (result is S.ComplexInfinity)","hasattr(options, 'get')"],"ensures":["isinstance(result, TMP_RES | tuple[int, int])"],"pure":false,"effects":{"effect_type":"reads_state","reads":["options.get"],"raises":["PrecisionExhausted","ValueError"],"catches":["PrecisionExhausted","ValueError"]},"state_contract":{"exceptional_post":{"PrecisionExhausted":["isinstance(raised, PrecisionExhausted)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def get_integer_part(expr: Expr, no: int, options: OPT_DICT, return_ints=False) -> \
         TMP_RES | tuple[int, int]:
     """
@@ -699,76 +852,126 @@ def get_integer_part(expr: Expr, no: int, options: OPT_DICT, return_ints=False) 
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_ceiling(exp), evalf_ceiling produces the expected output) over 'ceiling' ║
+# ║ Path(evalf_ceiling(expr, prec, options), get_integer_part(expr.args[0], 1, options)) over {'ceiling' | isinstance(expr, 'ceiling') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_ceiling : 'ceiling' → TMP_RES                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, 'ceiling')                    ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   returns:  get_integer_part(expr.args[0], 1, options)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_ceiling : {'ceiling' | isinstance(expr, 'ceilin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8147724819d126c0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_ceiling","kind":"function","src_hash":"0c2bf622956d3f81","in":{"base":"'ceiling'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_ceiling(exp)","rhs":"evalf_ceiling produces the expected output","over":{"base":"'ceiling'"},"name":"evalf_ceiling_correct"},"guarantee":"evalf_ceiling produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8147724819d126c0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_ceiling","kind":"function","src_hash":"0c2bf622956d3f81","in":{"base":"'ceiling'","pred":"isinstance(expr, 'ceiling') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')"},"out":{"base":"TMP_RES","pred":"result satisfies: result == (get_integer_part(expr.args[0], 1, options))"},"spec":{"lhs":"evalf_ceiling(expr, prec, options)","rhs":"get_integer_part(expr.args[0], 1, options)","over":{"base":"'ceiling'","pred":"isinstance(expr, 'ceiling') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')"},"name":"evalf_ceiling_correct"},"guarantee":"returns get_integer_part(expr.args[0], 1, options); isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8147724819d126c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, 'ceiling')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, 'args')"],"ensures":["isinstance(result, TMP_RES)"],"returns_expr":"get_integer_part(expr.args[0], 1, options)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def evalf_ceiling(expr: 'ceiling', prec: int, options: OPT_DICT) -> TMP_RES:
     return get_integer_part(expr.args[0], 1, options)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_floor(exp), evalf_floor produces the expected output) over 'floor' ║
+# ║ Path(evalf_floor(expr, prec, options), get_integer_part(expr.args[0], -1, options)) over {'floor' | isinstance(expr, 'floor') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_floor : 'floor' → TMP_RES                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, 'floor')                      ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   returns:  get_integer_part(expr.args[0], -1, options)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_floor : {'floor' | isinstance(expr, 'floor') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dc20bb33a97b8a20           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_floor","kind":"function","src_hash":"69cd9a5c7eba857d","in":{"base":"'floor'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_floor(exp)","rhs":"evalf_floor produces the expected output","over":{"base":"'floor'"},"name":"evalf_floor_correct"},"guarantee":"evalf_floor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc20bb33a97b8a20"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_floor","kind":"function","src_hash":"69cd9a5c7eba857d","in":{"base":"'floor'","pred":"isinstance(expr, 'floor') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')"},"out":{"base":"TMP_RES","pred":"result satisfies: result == (get_integer_part(expr.args[0], -1, options))"},"spec":{"lhs":"evalf_floor(expr, prec, options)","rhs":"get_integer_part(expr.args[0], -1, options)","over":{"base":"'floor'","pred":"isinstance(expr, 'floor') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args')"},"name":"evalf_floor_correct"},"guarantee":"returns get_integer_part(expr.args[0], -1, options); isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc20bb33a97b8a20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, 'floor')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, 'args')"],"ensures":["isinstance(result, TMP_RES)"],"returns_expr":"get_integer_part(expr.args[0], -1, options)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def evalf_floor(expr: 'floor', prec: int, options: OPT_DICT) -> TMP_RES:
     return get_integer_part(expr.args[0], -1, options)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_float(exp), evalf_float produces the expected output) over 'Float' ║
+# ║ Path(evalf_float(expr, prec, options), (expr._mpf_, None, prec, None)) over {'Float' | isinstance(expr, 'Float') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, '_mpf_')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_float : 'Float' → TMP_RES                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, 'Float')                      ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   returns:  (expr._mpf_, None, prec, None)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_float : {'Float' | isinstance(expr, 'Float') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9610bf2597dd2f4e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_float","kind":"function","src_hash":"707148c978cbc9b2","in":{"base":"'Float'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_float(exp)","rhs":"evalf_float produces the expected output","over":{"base":"'Float'"},"name":"evalf_float_correct"},"guarantee":"evalf_float produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9610bf2597dd2f4e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_float","kind":"function","src_hash":"707148c978cbc9b2","in":{"base":"'Float'","pred":"isinstance(expr, 'Float') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, '_mpf_')"},"out":{"base":"TMP_RES","pred":"result satisfies: result == ((expr._mpf_, None, prec, None))"},"spec":{"lhs":"evalf_float(expr, prec, options)","rhs":"(expr._mpf_, None, prec, None)","over":{"base":"'Float'","pred":"isinstance(expr, 'Float') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, '_mpf_')"},"name":"evalf_float_correct"},"guarantee":"returns (expr._mpf_, None, prec, None); isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9610bf2597dd2f4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, 'Float')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, '_mpf_')"],"ensures":["isinstance(result, TMP_RES)"],"returns_expr":"(expr._mpf_, None, prec, None)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr._mpf_"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def evalf_float(expr: 'Float', prec: int, options: OPT_DICT) -> TMP_RES:
     return expr._mpf_, None, prec, None
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_rational(exp), evalf_rational produces the expected output) over 'Rational' ║
+# ║ Path(evalf_rational(expr, prec, options), (from_rational(expr.p, expr.q, prec), None, prec, None)) over {'Rational' | isinstance(expr, 'Rational') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'p') and hasattr(expr, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_rational : 'Rational' → TMP_RES                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, 'Rational')                   ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   returns:  (from_rational(expr.p, expr.q, prec), Non...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_rational : {'Rational' | isinstance(expr, 'Rati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 97cc1f79714e1218           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_rational","kind":"function","src_hash":"a26461467b3723e5","in":{"base":"'Rational'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_rational(exp)","rhs":"evalf_rational produces the expected output","over":{"base":"'Rational'"},"name":"evalf_rational_correct"},"guarantee":"evalf_rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97cc1f79714e1218"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_rational","kind":"function","src_hash":"a26461467b3723e5","in":{"base":"'Rational'","pred":"isinstance(expr, 'Rational') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'p') and hasattr(expr, 'q')"},"out":{"base":"TMP_RES","pred":"result satisfies: result == ((from_rational(expr.p, expr.q, prec), None, prec, None))"},"spec":{"lhs":"evalf_rational(expr, prec, options)","rhs":"(from_rational(expr.p, expr.q, prec), None, prec, None)","over":{"base":"'Rational'","pred":"isinstance(expr, 'Rational') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'p') and hasattr(expr, 'q')"},"name":"evalf_rational_correct"},"guarantee":"returns (from_rational(expr.p, expr.q, prec), None, prec, None); isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97cc1f79714e1218","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, 'Rational')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, 'p')","hasattr(expr, 'q')"],"ensures":["isinstance(result, TMP_RES)"],"returns_expr":"(from_rational(expr.p, expr.q, prec), None, prec, None)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.p","expr.q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def evalf_rational(expr: 'Rational', prec: int, options: OPT_DICT) -> TMP_RES:
     return from_rational(expr.p, expr.q, prec), None, prec, None
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_integer(exp), evalf_integer produces the expected output) over 'Integer' ║
+# ║ Path(evalf_integer(expr, prec, options), (from_int(expr.p, prec), None, prec, None)) over {'Integer' | isinstance(expr, 'Integer') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_integer : 'Integer' → TMP_RES                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, 'Integer')                    ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   returns:  (from_int(expr.p, prec), None, prec, None)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_integer : {'Integer' | isinstance(expr, 'Intege...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e819af99cc4137e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_integer","kind":"function","src_hash":"d93b8670a787bbdb","in":{"base":"'Integer'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_integer(exp)","rhs":"evalf_integer produces the expected output","over":{"base":"'Integer'"},"name":"evalf_integer_correct"},"guarantee":"evalf_integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e819af99cc4137e7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_integer","kind":"function","src_hash":"d93b8670a787bbdb","in":{"base":"'Integer'","pred":"isinstance(expr, 'Integer') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'p')"},"out":{"base":"TMP_RES","pred":"result satisfies: result == ((from_int(expr.p, prec), None, prec, None))"},"spec":{"lhs":"evalf_integer(expr, prec, options)","rhs":"(from_int(expr.p, prec), None, prec, None)","over":{"base":"'Integer'","pred":"isinstance(expr, 'Integer') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'p')"},"name":"evalf_integer_correct"},"guarantee":"returns (from_int(expr.p, prec), None, prec, None); isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e819af99cc4137e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, 'Integer')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, 'p')"],"ensures":["isinstance(result, TMP_RES)"],"returns_expr":"(from_int(expr.p, prec), None, prec, None)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.p"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def evalf_integer(expr: 'Integer', prec: int, options: OPT_DICT) -> TMP_RES:
     return from_int(expr.p, prec), None, prec, None
 
@@ -780,16 +983,29 @@ def evalf_integer(expr: 'Integer', prec: int, options: OPT_DICT) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_terms(ter), helper for evalf_add) over list       ║
+# ║ Path(add_terms(terms, prec, target_prec), isinstance(result, tuple) and len(result) == 2 and result == ((None, None) if not terms else terms[0]) and result == (None, None) or result == terms[0]) over {list | isinstance(terms, list) and isinstance(prec, int) and isinstance(target_prec, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add_terms : list → tuple[MPF_TUP | SCALED_ZERO_TUP | ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(terms, list)                        ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(target_prec, int)                   ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  len(result) == 2                               ║
+# ║   ensures:  result == ((None, None) if not terms else...   ║
+# ║   fiber[case_0]: not terms => (None, None)                 ║
+# ║   fiber[case_1]: len(terms) == 1 => terms[0]               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add_terms : {list | isinstance(terms, list) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63071aa0bd666f05  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f0b68a10401b784  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.add_terms","kind":"function","src_hash":"c041fb24a481e0cc","in":{"base":"list"},"out":{"base":"tuple[MPF_TUP | SCALED_ZERO_TUP | None, int | None]"},"spec":{"lhs":"add_terms(ter)","rhs":"helper for evalf_add","over":{"base":"list"},"name":"add_terms_correct"},"guarantee":"helper for evalf_add","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.add_terms_correct","statement":"Path(add_terms(x), helper for evalf_add)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63071aa0bd666f05"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.add_terms","kind":"function","src_hash":"c041fb24a481e0cc","in":{"base":"list","pred":"isinstance(terms, list) and isinstance(prec, int) and isinstance(target_prec, int)"},"out":{"base":"tuple[MPF_TUP | SCALED_ZERO_TUP | None, int | None]","pred":"result satisfies: isinstance(result, tuple) and len(result) == 2 and result == ((None, None) if not terms else terms[0]) and result == (None, None) or result == terms[0]"},"spec":{"lhs":"add_terms(terms, prec, target_prec)","rhs":"isinstance(result, tuple) and len(result) == 2 and result == ((None, None) if not terms else terms[0]) and result == (None, None) or result == terms[0]","over":{"base":"list","pred":"isinstance(terms, list) and isinstance(prec, int) and isinstance(target_prec, int)"},"name":"add_terms_correct"},"guarantee":"isinstance(result, tuple); len(result) == 2; result == ((None, None) if not terms else terms[0]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.add_terms_correct","statement":"Path(add_terms(x), isinstance(result, tuple); len(result) == 2; result == ((None, None) if not terms else terms[0]); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f0b68a10401b784","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(terms, list)","isinstance(prec, int)","isinstance(target_prec, int)"],"ensures":["isinstance(result, tuple)","len(result) == 2","result == ((None, None) if not terms else terms[0])","result == (None, None) or result == terms[0]"],"fibers":[{"name":"case_0","guard":"not terms","ensures":["result == (None, None)"],"decidability":"library","returns_expr":"(None, None)"},{"name":"case_1","guard":"len(terms) == 1","ensures":["result == terms[0]"],"decidability":"z3","returns_expr":"terms[0]"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def add_terms(terms: list, prec: int, target_prec: int) -> \
         tuple[MPF_TUP | SCALED_ZERO_TUP | None, int | None]:
     """
@@ -877,9 +1093,15 @@ def add_terms(terms: list, prec: int, target_prec: int) -> \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_add(v, ), evalf_add produces the expected output) over {'Add' | isinstance(a, tuple)} ║
+# ║ Path(evalf_add(v, prec, options), isinstance(result, TMP_RES)) over {'Add' | isinstance(a, tuple) and isinstance(v, 'Add') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(options, 'get') and hasattr(v, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_add : {'Add' | isinstance(a, tuple)} → TMP_RES       ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(v, 'Add')                           ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_add : {'Add' | isinstance(a, tuple) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   tuple: {isinstance(a, tuple)} → library_axiom            ║
@@ -889,9 +1111,12 @@ def add_terms(terms: list, prec: int, target_prec: int) -> \
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c2168d8c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_add","kind":"function","src_hash":"5d513b4a5235f8cb","in":{"base":"'Add'","pred":"isinstance(a, tuple)"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_add(v, )","rhs":"evalf_add produces the expected output","over":{"base":"'Add'","pred":"isinstance(a, tuple)"},"name":"evalf_add_correct"},"guarantee":"evalf_add produces the expected output","fibers":[{"name":"tuple","pred":"isinstance(a, tuple)","path":{"lhs":"evalf_add(x)","rhs":"evalf_add produces the expected output","over":{"base":"tuple","pred":"isinstance(a, tuple)"},"name":"evalf_add_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_add_tuple_correct","statement":"evalf_add satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c2168d8c4dc7e9a8"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_add","kind":"function","src_hash":"5d513b4a5235f8cb","in":{"base":"'Add'","pred":"isinstance(a, tuple) and isinstance(v, 'Add') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(options, 'get') and hasattr(v, 'args')"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"evalf_add(v, prec, options)","rhs":"isinstance(result, TMP_RES)","over":{"base":"'Add'","pred":"isinstance(a, tuple) and isinstance(v, 'Add') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(options, 'get') and hasattr(v, 'args')"},"name":"evalf_add_correct"},"guarantee":"isinstance(result, TMP_RES)","fibers":[{"name":"tuple","pred":"isinstance(a, tuple)","path":{"lhs":"evalf_add(x)","rhs":"isinstance(result, TMP_RES)","over":{"base":"tuple","pred":"isinstance(a, tuple)"},"name":"evalf_add_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_add_tuple_correct","statement":"evalf_add satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c2168d8c4dc7e9a8","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(v, 'Add')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(options, 'get')","hasattr(v, 'args')"],"ensures":["isinstance(result, TMP_RES)"],"pure":false,"effects":{"effect_type":"io","reads":["options.get","v.args"],"writes":["options[*]"],"io_operations":["print"]},"state_contract":{"modifies":["options[*]"],"old_bindings":{"old_options_star":"options[*]"}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'acc >= target_prec', 'n == 1', \"prec - target_prec > options['maxprec']\", 'n >= 2'}, fibers={'tuple'})"]}}
 def evalf_add(v: 'Add', prec: int, options: OPT_DICT) -> TMP_RES:
     res = pure_complex(v)
     if res:
@@ -942,16 +1167,27 @@ def evalf_add(v: 'Add', prec: int, options: OPT_DICT) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_mul(v, ), evalf_mul produces the expected output) over 'Mul' ║
+# ║ Path(evalf_mul(v, prec, options), isinstance(result, TMP_RES) and len(args) == old_len_args + 1 and len(complex_factors) == old_len_complex_factors + 1 and len(special) == old_len_special + 1) over {'Mul' | isinstance(v, 'Mul') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(v, 'args') and hasattr(options, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_mul : 'Mul' → TMP_RES                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(v, 'Mul')                           ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   ensures:  len(args) == old_len_args + 1                  ║
+# ║   ensures:  len(complex_factors) == old_len_complex_f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_mul : {'Mul' | isinstance(v, 'Mul') and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fc2854675f96a09  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55e28dce013d1b51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_mul","kind":"function","src_hash":"a3f300e8a2a07f3c","in":{"base":"'Mul'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_mul(v, )","rhs":"evalf_mul produces the expected output","over":{"base":"'Mul'"},"name":"evalf_mul_correct"},"guarantee":"evalf_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_mul_correct","statement":"Path(evalf_mul(x), evalf_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fc2854675f96a09"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_mul","kind":"function","src_hash":"a3f300e8a2a07f3c","in":{"base":"'Mul'","pred":"isinstance(v, 'Mul') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(v, 'args') and hasattr(options, 'get')"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES) and len(args) == old_len_args + 1 and len(complex_factors) == old_len_complex_factors + 1 and len(special) == old_len_special + 1"},"spec":{"lhs":"evalf_mul(v, prec, options)","rhs":"isinstance(result, TMP_RES) and len(args) == old_len_args + 1 and len(complex_factors) == old_len_complex_factors + 1 and len(special) == old_len_special + 1","over":{"base":"'Mul'","pred":"isinstance(v, 'Mul') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(v, 'args') and hasattr(options, 'get')"},"name":"evalf_mul_correct"},"guarantee":"isinstance(result, TMP_RES); len(args) == old_len_args + 1; len(complex_factors) == old_len_complex_factors + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_mul_correct","statement":"Path(evalf_mul(x), isinstance(result, TMP_RES); len(args) == old_len_args + 1; len(complex_factors) == old_len_complex_factors + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55e28dce013d1b51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(v, 'Mul')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(v, 'args')","hasattr(options, 'get')"],"ensures":["isinstance(result, TMP_RES)","len(args) == old_len_args + 1","len(complex_factors) == old_len_complex_factors + 1","len(special) == old_len_special + 1"],"pure":false,"effects":{"effect_type":"io","reads":["options.get","v.args"],"calls_mutating":["args.append","complex_factors.append","special.append"],"io_operations":["print"]},"state_contract":{"modifies":["args.*","complex_factors.*","special.*"],"old_bindings":{"old_len_args":"len(args)","old_len_complex_factors":"len(complex_factors)","old_len_special":"len(special)"},"post_ensures":["len(args) == old_len_args + 1","len(complex_factors) == old_len_complex_factors + 1","len(special) == old_len_special + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def evalf_mul(v: 'Mul', prec: int, options: OPT_DICT) -> TMP_RES:
     res = pure_complex(v)
     if res:
@@ -1079,16 +1315,25 @@ def evalf_mul(v: 'Mul', prec: int, options: OPT_DICT) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_pow(v, ), evalf_pow produces the expected output) over 'Pow' ║
+# ║ Path(evalf_pow(v, prec, options), isinstance(result, TMP_RES)) over {'Pow' | isinstance(v, 'Pow') and isinstance(prec, int) and hasattr(v, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_pow : 'Pow' → TMP_RES                                ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(v, 'Pow')                           ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: hasattr(v, 'args')                             ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_pow : {'Pow' | isinstance(v, 'Pow') and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22e366a1abcec1e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f9e5709dec80c14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_pow","kind":"function","src_hash":"f031e8dfd6bf6149","in":{"base":"'Pow'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_pow(v, )","rhs":"evalf_pow produces the expected output","over":{"base":"'Pow'"},"name":"evalf_pow_correct"},"guarantee":"evalf_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_pow_correct","statement":"Path(evalf_pow(x), evalf_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22e366a1abcec1e3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_pow","kind":"function","src_hash":"f031e8dfd6bf6149","in":{"base":"'Pow'","pred":"isinstance(v, 'Pow') and isinstance(prec, int) and hasattr(v, 'args')"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"evalf_pow(v, prec, options)","rhs":"isinstance(result, TMP_RES)","over":{"base":"'Pow'","pred":"isinstance(v, 'Pow') and isinstance(prec, int) and hasattr(v, 'args')"},"name":"evalf_pow_correct"},"guarantee":"isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_pow_correct","statement":"Path(evalf_pow(x), isinstance(result, TMP_RES))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f9e5709dec80c14","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(v, 'Pow')","isinstance(prec, int)","hasattr(v, 'args')"],"ensures":["isinstance(result, TMP_RES)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["v.args"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def evalf_pow(v: 'Pow', prec: int, options) -> TMP_RES:
 
     target_prec = prec
@@ -1220,23 +1465,39 @@ def evalf_pow(v: 'Pow', prec: int, options) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_exp(exp), id) over 'exp'                        ║
+# ║ Path(evalf_exp(expr, prec, options), id) over {'exp' | isinstance(expr, 'exp') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_exp : 'exp' → TMP_RES                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, 'exp')                        ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   returns:  evalf_pow(Pow(S.Exp1, expr.exp, evaluate=...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_exp : {'exp' | isinstance(expr, 'exp') and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 71d545e419ea5d74   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_exp","kind":"function","src_hash":"31635d5213b1bf48","in":{"base":"'exp'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_exp(exp)","rhs":"evalf_exp produces the expected output","over":{"base":"'exp'"},"name":"evalf_exp_correct","kind":"composition"},"guarantee":"evalf_exp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"evalf_pow","by":"library_axiom"},{"fn":"Pow","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71d545e419ea5d74"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_exp","kind":"function","src_hash":"31635d5213b1bf48","in":{"base":"'exp'","pred":"isinstance(expr, 'exp') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'exp')"},"out":{"base":"TMP_RES","pred":"result satisfies: result == (evalf_pow(Pow(S.Exp1, expr.exp, evaluate=False), prec, options))"},"spec":{"lhs":"evalf_exp(expr, prec, options)","rhs":"evalf_pow(Pow(S.Exp1, expr.exp, evaluate=False), prec, options)","over":{"base":"'exp'","pred":"isinstance(expr, 'exp') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'exp')"},"name":"evalf_exp_correct","kind":"composition"},"guarantee":"returns evalf_pow(Pow(S.Exp1, expr.exp, evaluate=False), prec, options); isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"evalf_pow","by":"library_axiom"},{"fn":"Pow","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71d545e419ea5d74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, 'exp')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, 'exp')"],"ensures":["isinstance(result, TMP_RES)"],"returns_expr":"evalf_pow(Pow(S.Exp1, expr.exp, evaluate=False), prec, options)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.exp"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def evalf_exp(expr: 'exp', prec: int, options: OPT_DICT) -> TMP_RES:
     from .power import Pow
     return evalf_pow(Pow(S.Exp1, expr.exp, evaluate=False), prec, options)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_trig(v, ), this function handles sin , cos and tan of complex arguments) over {Expr | isinstance(v, cos) and isinstance(v, sin) and isinstance(v, tan)} ║
+# ║ Path(evalf_trig(v, prec, options), isinstance(result, TMP_RES)) over {Expr | isinstance(v, cos) and isinstance(v, sin) and isinstance(v, tan) and isinstance(v, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(v, 'args') and hasattr(v, 'subs') and hasattr(v, '_eval_evalf') and hasattr(options, 'get')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(v, Expr)                            ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ evalf_trig : {Expr | isinstance(v, cos) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1250,9 +1511,12 @@ def evalf_exp(expr: 'exp', prec: int, options: OPT_DICT) -> TMP_RES:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 3.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9da505c1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_trig","kind":"function","src_hash":"330e71334dcb1bbc","in":{"base":"Expr","pred":"isinstance(v, cos) and isinstance(v, sin) and isinstance(v, tan)"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_trig(v, )","rhs":"this function handles sin , cos and tan of complex arguments","over":{"base":"Expr","pred":"isinstance(v, cos) and isinstance(v, sin) and isinstance(v, tan)"},"name":"evalf_trig_correct"},"guarantee":"this function handles sin , cos and tan of complex arguments","fibers":[{"name":"cos","pred":"isinstance(v, cos)","path":{"lhs":"evalf_trig(x)","rhs":"this function handles sin , cos and tan of complex arguments","over":{"base":"cos","pred":"isinstance(v, cos)"},"name":"evalf_trig_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_trig_cos_correct","statement":"evalf_trig satisfies spec on cos inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(v, sin)","path":{"lhs":"evalf_trig(x)","rhs":"this function handles sin , cos and tan of complex arguments","over":{"base":"sin","pred":"isinstance(v, sin)"},"name":"evalf_trig_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_trig_sin_correct","statement":"evalf_trig satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"tan","pred":"isinstance(v, tan)","path":{"lhs":"evalf_trig(x)","rhs":"this function handles sin , cos and tan of complex arguments","over":{"base":"tan","pred":"isinstance(v, tan)"},"name":"evalf_trig_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_trig_tan_correct","statement":"evalf_trig satisfies spec on tan inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9da505c17caf97b3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_trig","kind":"function","src_hash":"330e71334dcb1bbc","in":{"base":"Expr","pred":"isinstance(v, cos) and isinstance(v, sin) and isinstance(v, tan) and isinstance(v, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(v, 'args') and hasattr(v, 'subs') and hasattr(v, '_eval_evalf') and hasattr(options, 'get')"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"evalf_trig(v, prec, options)","rhs":"isinstance(result, TMP_RES)","over":{"base":"Expr","pred":"isinstance(v, cos) and isinstance(v, sin) and isinstance(v, tan) and isinstance(v, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(v, 'args') and hasattr(v, 'subs') and hasattr(v, '_eval_evalf') and hasattr(options, 'get')"},"name":"evalf_trig_correct"},"guarantee":"isinstance(result, TMP_RES)","fibers":[{"name":"cos","pred":"isinstance(v, cos)","path":{"lhs":"evalf_trig(x)","rhs":"isinstance(result, TMP_RES)","over":{"base":"cos","pred":"isinstance(v, cos)"},"name":"evalf_trig_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_trig_cos_correct","statement":"evalf_trig satisfies spec on cos inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(v, sin)","path":{"lhs":"evalf_trig(x)","rhs":"isinstance(result, TMP_RES)","over":{"base":"sin","pred":"isinstance(v, sin)"},"name":"evalf_trig_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_trig_sin_correct","statement":"evalf_trig satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"tan","pred":"isinstance(v, tan)","path":{"lhs":"evalf_trig(x)","rhs":"isinstance(result, TMP_RES)","over":{"base":"tan","pred":"isinstance(v, tan)"},"name":"evalf_trig_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_trig_tan_correct","statement":"evalf_trig satisfies spec on tan inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9da505c17caf97b3","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(v, Expr)","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(v, 'args')","hasattr(v, 'subs')","hasattr(v, '_eval_evalf')","hasattr(options, 'get')"],"ensures":["isinstance(result, TMP_RES)"],"pure":false,"effects":{"effect_type":"io","reads":["options.get","v._eval_evalf","v.args","v.subs"],"raises":["NotImplementedError"],"io_operations":["print"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"xprec > options.get('maxprec', DEFAULT_MAXPREC)\", 'accuracy < prec', 'xsize >= 10', 'xsize < 1', 'isinstance(v, sin)', 'isinstance(v, tan)', 'isinstance(v, cos)'}, fibers={'sin', 'cos', 'tan'})"]}}
 def evalf_trig(v: Expr, prec: int, options: OPT_DICT) -> TMP_RES:
     """
     This function handles sin , cos and tan of complex arguments.
@@ -1318,16 +1582,26 @@ def evalf_trig(v: Expr, prec: int, options: OPT_DICT) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_log(exp), evalf_log produces the expected output) over 'log' ║
+# ║ Path(evalf_log(expr, prec, options), isinstance(result, TMP_RES) and # HINT: evalf_log may be idempotent: evalf_log(evalf_log(x)) == evalf_log(x)) over {'log' | isinstance(expr, 'log') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args') and hasattr(expr, 'doit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_log : 'log' → TMP_RES                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, 'log')                        ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   ensures:  # HINT: evalf_log may be idempotent: eval...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_log : {'log' | isinstance(expr, 'log') and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abd5e6d0c24ee169  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3e5679e50d8a867  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_log","kind":"function","src_hash":"22b5dceedcdf1c83","in":{"base":"'log'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_log(exp)","rhs":"evalf_log produces the expected output","over":{"base":"'log'"},"name":"evalf_log_correct"},"guarantee":"evalf_log produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_log_correct","statement":"Path(evalf_log(x), evalf_log produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abd5e6d0c24ee169"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_log","kind":"function","src_hash":"22b5dceedcdf1c83","in":{"base":"'log'","pred":"isinstance(expr, 'log') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args') and hasattr(expr, 'doit')"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES) and # HINT: evalf_log may be idempotent: evalf_log(evalf_log(x)) == evalf_log(x)"},"spec":{"lhs":"evalf_log(expr, prec, options)","rhs":"isinstance(result, TMP_RES) and # HINT: evalf_log may be idempotent: evalf_log(evalf_log(x)) == evalf_log(x)","over":{"base":"'log'","pred":"isinstance(expr, 'log') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args') and hasattr(expr, 'doit')"},"name":"evalf_log_correct"},"guarantee":"isinstance(result, TMP_RES); # HINT: evalf_log may be idempotent: evalf_log(evalf_log(x)) == evalf_log(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_log_correct","statement":"Path(evalf_log(x), isinstance(result, TMP_RES); # HINT: evalf_log may be idempotent: evalf_log(evalf_log(x)) == evalf_log(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3e5679e50d8a867","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, 'log')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, 'args')","hasattr(expr, 'doit')"],"ensures":["isinstance(result, TMP_RES)","# HINT: evalf_log may be idempotent: evalf_log(evalf_log(x)) == evalf_log(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.doit"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def evalf_log(expr: 'log', prec: int, options: OPT_DICT) -> TMP_RES:
     if len(expr.args)>1:
         expr = expr.doit()
@@ -1382,16 +1656,25 @@ def evalf_log(expr: 'log', prec: int, options: OPT_DICT) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_atan(v, ), evalf_atan produces the expected output) over 'atan' ║
+# ║ Path(evalf_atan(v, prec, options), isinstance(result, TMP_RES)) over {'atan' | isinstance(v, 'atan') and isinstance(prec, int) and isinstance(options, OPT_DICT) and not (xim) and hasattr(v, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_atan : 'atan' → TMP_RES                              ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(v, 'atan')                          ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_atan : {'atan' | isinstance(v, 'atan') and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37aee57a3a1384ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e77e6f2caf0f8174  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_atan","kind":"function","src_hash":"d82e8d4115e8671e","in":{"base":"'atan'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_atan(v, )","rhs":"evalf_atan produces the expected output","over":{"base":"'atan'"},"name":"evalf_atan_correct"},"guarantee":"evalf_atan produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_atan_correct","statement":"Path(evalf_atan(x), evalf_atan produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37aee57a3a1384ad"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_atan","kind":"function","src_hash":"d82e8d4115e8671e","in":{"base":"'atan'","pred":"isinstance(v, 'atan') and isinstance(prec, int) and isinstance(options, OPT_DICT) and not (xim) and hasattr(v, 'args')"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"evalf_atan(v, prec, options)","rhs":"isinstance(result, TMP_RES)","over":{"base":"'atan'","pred":"isinstance(v, 'atan') and isinstance(prec, int) and isinstance(options, OPT_DICT) and not (xim) and hasattr(v, 'args')"},"name":"evalf_atan_correct"},"guarantee":"isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_atan_correct","statement":"Path(evalf_atan(x), isinstance(result, TMP_RES))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e77e6f2caf0f8174","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(v, 'atan')","isinstance(prec, int)","isinstance(options, OPT_DICT)","not (xim)","hasattr(v, 'args')"],"ensures":["isinstance(result, TMP_RES)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["v.args"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def evalf_atan(v: 'atan', prec: int, options: OPT_DICT) -> TMP_RES:
     arg = v.args[0]
     xre, xim, reacc, imacc = evalf(arg, prec + 5, options)
@@ -1403,16 +1686,25 @@ def evalf_atan(v: 'atan', prec: int, options: OPT_DICT) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_subs(pre), change all float entries in `subs` to have precision prec) over int ║
+# ║ Path(evalf_subs(prec, subs), <unspecified:evalf_subs>) over {int | isinstance(prec, int) and isinstance(subs, dict) and hasattr(subs, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_subs : int → dict                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(subs, dict)                         ║
+# ║   requires: hasattr(subs, 'items')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_subs : {int | isinstance(prec, int) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c37b579fe6a8bbed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_subs","kind":"function","src_hash":"5537fa3af55909e4","in":{"base":"int"},"out":{"base":"dict"},"spec":{"lhs":"evalf_subs(pre)","rhs":"change all float entries in `subs` to have precision prec","over":{"base":"int"},"name":"evalf_subs_correct"},"guarantee":"change all float entries in `subs` to have precision prec","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_subs_correct","statement":"Path(evalf_subs(x), change all float entries in `subs` to have precision prec)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c37b579fe6a8bbed"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_subs","kind":"function","src_hash":"5537fa3af55909e4","in":{"base":"int","pred":"isinstance(prec, int) and isinstance(subs, dict) and hasattr(subs, 'items')"},"out":{"base":"dict"},"spec":{"lhs":"evalf_subs(prec, subs)","rhs":"<unspecified:evalf_subs>","over":{"base":"int","pred":"isinstance(prec, int) and isinstance(subs, dict) and hasattr(subs, 'items')"},"name":"evalf_subs_correct"},"guarantee":"change all float entries in `subs` to have precision prec","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_subs_correct","statement":"Path(evalf_subs(x), change all float entries in `subs` to have precision prec)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c37b579fe6a8bbed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(prec, int)","isinstance(subs, dict)","hasattr(subs, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["subs.items"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def evalf_subs(prec: int, subs: dict) -> dict:
     """ Change all Float entries in `subs` to have precision prec. """
     newsubs = {}
@@ -1425,7 +1717,13 @@ def evalf_subs(prec: int, subs: dict) -> dict:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_piecewise(exp), evalf_piecewise produces the expected output) over {Expr | isinstance(expr, float) and isinstance(expr, int)} ║
+# ║ Path(evalf_piecewise(expr, prec, options), isinstance(result, TMP_RES)) over {Expr | isinstance(expr, float) and isinstance(expr, int) and isinstance(expr, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'subs') and hasattr(options, 'copy')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, Expr)                         ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ evalf_piecewise : {Expr | isinstance(expr, float) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1438,9 +1736,12 @@ def evalf_subs(prec: int, subs: dict) -> dict:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e96acbdb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_piecewise","kind":"function","src_hash":"69eec925469bdfb6","in":{"base":"Expr","pred":"isinstance(expr, float) and isinstance(expr, int)"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_piecewise(exp)","rhs":"evalf_piecewise produces the expected output","over":{"base":"Expr","pred":"isinstance(expr, float) and isinstance(expr, int)"},"name":"evalf_piecewise_correct"},"guarantee":"evalf_piecewise produces the expected output","fibers":[{"name":"float","pred":"isinstance(expr, float)","path":{"lhs":"evalf_piecewise(x)","rhs":"evalf_piecewise produces the expected output","over":{"base":"float","pred":"isinstance(expr, float)"},"name":"evalf_piecewise_float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_piecewise_float_correct","statement":"evalf_piecewise satisfies spec on float inputs"},"trust":"LIBRARY"},{"name":"int","pred":"isinstance(expr, int)","path":{"lhs":"evalf_piecewise(x)","rhs":"evalf_piecewise produces the expected output","over":{"base":"int","pred":"isinstance(expr, int)"},"name":"evalf_piecewise_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_piecewise_int_correct","statement":"evalf_piecewise satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e96acbdb4a0929a1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_piecewise","kind":"function","src_hash":"69eec925469bdfb6","in":{"base":"Expr","pred":"isinstance(expr, float) and isinstance(expr, int) and isinstance(expr, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'subs') and hasattr(options, 'copy')"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"evalf_piecewise(expr, prec, options)","rhs":"isinstance(result, TMP_RES)","over":{"base":"Expr","pred":"isinstance(expr, float) and isinstance(expr, int) and isinstance(expr, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'subs') and hasattr(options, 'copy')"},"name":"evalf_piecewise_correct"},"guarantee":"isinstance(result, TMP_RES)","fibers":[{"name":"float","pred":"isinstance(expr, float)","path":{"lhs":"evalf_piecewise(x)","rhs":"isinstance(result, TMP_RES)","over":{"base":"float","pred":"isinstance(expr, float)"},"name":"evalf_piecewise_float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_piecewise_float_correct","statement":"evalf_piecewise satisfies spec on float inputs"},"trust":"LIBRARY"},{"name":"int","pred":"isinstance(expr, int)","path":{"lhs":"evalf_piecewise(x)","rhs":"isinstance(result, TMP_RES)","over":{"base":"int","pred":"isinstance(expr, int)"},"name":"evalf_piecewise_int_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_piecewise_int_correct","statement":"evalf_piecewise satisfies spec on int inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e96acbdb4a0929a1","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, Expr)","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, 'subs')","hasattr(options, 'copy')"],"ensures":["isinstance(result, TMP_RES)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.subs","options.copy"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, float)', 'isinstance(expr, int)'}, fibers={'float', 'int'})"]}}
 def evalf_piecewise(expr: Expr, prec: int, options: OPT_DICT) -> TMP_RES:
     from .numbers import Float, Integer
     if 'subs' in options:
@@ -1459,16 +1760,26 @@ def evalf_piecewise(expr: Expr, prec: int, options: OPT_DICT) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_alg_num(a, ), evalf_alg_num produces the expected output) over 'AlgebraicNumber' ║
+# ║ Path(evalf_alg_num(a, prec, options), evalf(a.to_root(), prec, options)) over {'AlgebraicNumber' | isinstance(a, 'AlgebraicNumber') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(a, 'to_root')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_alg_num : 'AlgebraicNumber' → TMP_RES                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(a, 'AlgebraicNumber')               ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   returns:  evalf(a.to_root(), prec, options)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_alg_num : {'AlgebraicNumber' | isinstance(a, 'A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14a6ff5699a119e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_alg_num","kind":"function","src_hash":"eb4cf4a6d1e149e9","in":{"base":"'AlgebraicNumber'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_alg_num(a, )","rhs":"evalf_alg_num produces the expected output","over":{"base":"'AlgebraicNumber'"},"name":"evalf_alg_num_correct"},"guarantee":"evalf_alg_num produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14a6ff5699a119e4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_alg_num","kind":"function","src_hash":"eb4cf4a6d1e149e9","in":{"base":"'AlgebraicNumber'","pred":"isinstance(a, 'AlgebraicNumber') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(a, 'to_root')"},"out":{"base":"TMP_RES","pred":"result satisfies: result == (evalf(a.to_root(), prec, options))"},"spec":{"lhs":"evalf_alg_num(a, prec, options)","rhs":"evalf(a.to_root(), prec, options)","over":{"base":"'AlgebraicNumber'","pred":"isinstance(a, 'AlgebraicNumber') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(a, 'to_root')"},"name":"evalf_alg_num_correct"},"guarantee":"returns evalf(a.to_root(), prec, options); isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14a6ff5699a119e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(a, 'AlgebraicNumber')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(a, 'to_root')"],"ensures":["isinstance(result, TMP_RES)"],"returns_expr":"evalf(a.to_root(), prec, options)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.to_root"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def evalf_alg_num(a: 'AlgebraicNumber', prec: int, options: OPT_DICT) -> TMP_RES:
     return evalf(a.to_root(), prec, options)
 
@@ -1480,7 +1791,12 @@ def evalf_alg_num(a: 'AlgebraicNumber', prec: int, options: OPT_DICT) -> TMP_RES
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_mpmath(x, ), as_mpmath produces the expected output) over {Any | isinstance(x, Infinity) and isinstance(x, NegativeInfinity) and isinstance(x, Zero)} ║
+# ║ Path(as_mpmath(x, prec, options), <unspecified:as_mpmath>) over {Any | isinstance(x, Infinity) and isinstance(x, NegativeInfinity) and isinstance(x, Zero) and isinstance(prec, int) and isinstance(options, OPT_DICT)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_mpmath : {Any | isinstance(x, Infinity) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1494,9 +1810,12 @@ def evalf_alg_num(a: 'AlgebraicNumber', prec: int, options: OPT_DICT) -> TMP_RES
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7e547ca7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.as_mpmath","kind":"function","src_hash":"482dc5590be28f56","in":{"base":"Any","pred":"isinstance(x, Infinity) and isinstance(x, NegativeInfinity) and isinstance(x, Zero)"},"out":{"base":"mpc | mpf"},"spec":{"lhs":"as_mpmath(x, )","rhs":"as_mpmath produces the expected output","over":{"base":"Any","pred":"isinstance(x, Infinity) and isinstance(x, NegativeInfinity) and isinstance(x, Zero)"},"name":"as_mpmath_correct"},"guarantee":"as_mpmath produces the expected output","fibers":[{"name":"Infinity","pred":"isinstance(x, Infinity)","path":{"lhs":"as_mpmath(x)","rhs":"as_mpmath produces the expected output","over":{"base":"Infinity","pred":"isinstance(x, Infinity)"},"name":"as_mpmath_Infinity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.as_mpmath_Infinity_correct","statement":"as_mpmath satisfies spec on Infinity inputs"},"trust":"LIBRARY"},{"name":"NegativeInfinity","pred":"isinstance(x, NegativeInfinity)","path":{"lhs":"as_mpmath(x)","rhs":"as_mpmath produces the expected output","over":{"base":"NegativeInfinity","pred":"isinstance(x, NegativeInfinity)"},"name":"as_mpmath_NegativeInfinity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.as_mpmath_NegativeInfinity_correct","statement":"as_mpmath satisfies spec on NegativeInfinity inputs"},"trust":"LIBRARY"},{"name":"Zero","pred":"isinstance(x, Zero)","path":{"lhs":"as_mpmath(x)","rhs":"as_mpmath produces the expected output","over":{"base":"Zero","pred":"isinstance(x, Zero)"},"name":"as_mpmath_Zero_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.as_mpmath_Zero_correct","statement":"as_mpmath satisfies spec on Zero inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7e547ca775e4c0e8"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.as_mpmath","kind":"function","src_hash":"482dc5590be28f56","in":{"base":"Any","pred":"isinstance(x, Infinity) and isinstance(x, NegativeInfinity) and isinstance(x, Zero) and isinstance(prec, int) and isinstance(options, OPT_DICT)"},"out":{"base":"mpc | mpf"},"spec":{"lhs":"as_mpmath(x, prec, options)","rhs":"<unspecified:as_mpmath>","over":{"base":"Any","pred":"isinstance(x, Infinity) and isinstance(x, NegativeInfinity) and isinstance(x, Zero) and isinstance(prec, int) and isinstance(options, OPT_DICT)"},"name":"as_mpmath_correct"},"guarantee":"as_mpmath produces the expected output","fibers":[{"name":"Infinity","pred":"isinstance(x, Infinity)","path":{"lhs":"as_mpmath(x)","rhs":"as_mpmath produces the expected output","over":{"base":"Infinity","pred":"isinstance(x, Infinity)"},"name":"as_mpmath_Infinity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.as_mpmath_Infinity_correct","statement":"as_mpmath satisfies spec on Infinity inputs"},"trust":"LIBRARY"},{"name":"NegativeInfinity","pred":"isinstance(x, NegativeInfinity)","path":{"lhs":"as_mpmath(x)","rhs":"as_mpmath produces the expected output","over":{"base":"NegativeInfinity","pred":"isinstance(x, NegativeInfinity)"},"name":"as_mpmath_NegativeInfinity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.as_mpmath_NegativeInfinity_correct","statement":"as_mpmath satisfies spec on NegativeInfinity inputs"},"trust":"LIBRARY"},{"name":"Zero","pred":"isinstance(x, Zero)","path":{"lhs":"as_mpmath(x)","rhs":"as_mpmath produces the expected output","over":{"base":"Zero","pred":"isinstance(x, Zero)"},"name":"as_mpmath_Zero_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.as_mpmath_Zero_correct","statement":"as_mpmath satisfies spec on Zero inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7e547ca775e4c0e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(prec, int)","isinstance(options, OPT_DICT)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(x, Zero) or x == 0.0', 'isinstance(x, NegativeInfinity)', 'isinstance(x, Infinity)'}, fibers={'Zero', 'Infinity', 'NegativeInfinity'})"]}}
 def as_mpmath(x: Any, prec: int, options: OPT_DICT) -> mpc | mpf:
     from .numbers import Infinity, NegativeInfinity, Zero
     x = sympify(x)
@@ -1512,16 +1831,25 @@ def as_mpmath(x: Any, prec: int, options: OPT_DICT) -> mpc | mpf:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(do_integral(exp), do_integral produces the expected output) over 'Integral' ║
+# ║ Path(do_integral(expr, prec, options), isinstance(result, TMP_RES)) over {'Integral' | isinstance(expr, 'Integral') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args') and hasattr(options, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ do_integral : 'Integral' → TMP_RES                         ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, 'Integral')                   ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ do_integral : {'Integral' | isinstance(expr, 'Integra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dce80fac87e788f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57785ed74c4ee176  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.do_integral","kind":"function","src_hash":"8a93b740fe98e559","in":{"base":"'Integral'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"do_integral(exp)","rhs":"do_integral produces the expected output","over":{"base":"'Integral'"},"name":"do_integral_correct"},"guarantee":"do_integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.do_integral_correct","statement":"Path(do_integral(x), do_integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dce80fac87e788f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.do_integral","kind":"function","src_hash":"8a93b740fe98e559","in":{"base":"'Integral'","pred":"isinstance(expr, 'Integral') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args') and hasattr(options, 'get')"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"do_integral(expr, prec, options)","rhs":"isinstance(result, TMP_RES)","over":{"base":"'Integral'","pred":"isinstance(expr, 'Integral') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'args') and hasattr(options, 'get')"},"name":"do_integral_correct"},"guarantee":"isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.do_integral_correct","statement":"Path(do_integral(x), isinstance(result, TMP_RES))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57785ed74c4ee176","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, 'Integral')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, 'args')","hasattr(options, 'get')"],"ensures":["isinstance(result, TMP_RES)"],"pure":false,"effects":{"effect_type":"mutates_global","reads":["expr.args","options.get"],"writes":["options[*]"],"raises":["ValueError"]},"state_contract":{"modifies":["options[*]"],"old_bindings":{"old_options_star":"options[*]"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def do_integral(expr: 'Integral', prec: int, options: OPT_DICT) -> TMP_RES:
     func = expr.args[0]
     x, xlow, xhigh = expr.args[1]
@@ -1618,16 +1946,25 @@ def do_integral(expr: 'Integral', prec: int, options: OPT_DICT) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_integral(exp), evalf_integral produces the expected output) over 'Integral' ║
+# ║ Path(evalf_integral(expr, prec, options), isinstance(result, TMP_RES)) over {'Integral' | isinstance(expr, 'Integral') and isinstance(prec, int) and isinstance(options, OPT_DICT) and not (len(limits) != 1 or len(limits[0]) != 3) and hasattr(expr, 'limits') and hasattr(options, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_integral : 'Integral' → TMP_RES                      ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, 'Integral')                   ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_integral : {'Integral' | isinstance(expr, 'Inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a71d21e0e30ee6c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e8c90a4f7652fe4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_integral","kind":"function","src_hash":"3e9500cd6c9cc36b","in":{"base":"'Integral'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_integral(exp)","rhs":"evalf_integral produces the expected output","over":{"base":"'Integral'"},"name":"evalf_integral_correct"},"guarantee":"evalf_integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_integral_correct","statement":"Path(evalf_integral(x), evalf_integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a71d21e0e30ee6c2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_integral","kind":"function","src_hash":"3e9500cd6c9cc36b","in":{"base":"'Integral'","pred":"isinstance(expr, 'Integral') and isinstance(prec, int) and isinstance(options, OPT_DICT) and not (len(limits) != 1 or len(limits[0]) != 3) and hasattr(expr, 'limits') and hasattr(options, 'get')"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"evalf_integral(expr, prec, options)","rhs":"isinstance(result, TMP_RES)","over":{"base":"'Integral'","pred":"isinstance(expr, 'Integral') and isinstance(prec, int) and isinstance(options, OPT_DICT) and not (len(limits) != 1 or len(limits[0]) != 3) and hasattr(expr, 'limits') and hasattr(options, 'get')"},"name":"evalf_integral_correct"},"guarantee":"isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_integral_correct","statement":"Path(evalf_integral(x), isinstance(result, TMP_RES))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e8c90a4f7652fe4","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, 'Integral')","isinstance(prec, int)","isinstance(options, OPT_DICT)","not (len(limits) != 1 or len(limits[0]) != 3)","hasattr(expr, 'limits')","hasattr(options, 'get')"],"ensures":["isinstance(result, TMP_RES)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.limits","options.get"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def evalf_integral(expr: 'Integral', prec: int, options: OPT_DICT) -> TMP_RES:
     limits = expr.limits
     if len(limits) != 1 or len(limits[0]) != 3:
@@ -1655,16 +1992,26 @@ def evalf_integral(expr: 'Integral', prec: int, options: OPT_DICT) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_convergence(num), returns =======) over Expr    ║
+# ║ Path(check_convergence(numer, denom, n), isinstance(result, tuple) and len(result) == 3) over {Expr | isinstance(numer, Expr) and isinstance(denom, Expr) and isinstance(n, Symbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check_convergence : Expr → tuple[int, Any, Any]            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(numer, Expr)                        ║
+# ║   requires: isinstance(denom, Expr)                        ║
+# ║   requires: isinstance(n, Symbol)                          ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  len(result) == 3                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check_convergence : {Expr | isinstance(numer, Expr) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95e14fa09c48bfe0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b5c9fa232d0d973  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.check_convergence","kind":"function","src_hash":"25a631cdb3485ca2","in":{"base":"Expr"},"out":{"base":"tuple[int, Any, Any]"},"spec":{"lhs":"check_convergence(num)","rhs":"returns =======","over":{"base":"Expr"},"name":"check_convergence_correct"},"guarantee":"returns =======","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.check_convergence_correct","statement":"Path(check_convergence(x), returns =======)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95e14fa09c48bfe0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.check_convergence","kind":"function","src_hash":"25a631cdb3485ca2","in":{"base":"Expr","pred":"isinstance(numer, Expr) and isinstance(denom, Expr) and isinstance(n, Symbol)"},"out":{"base":"tuple[int, Any, Any]","pred":"result satisfies: isinstance(result, tuple) and len(result) == 3"},"spec":{"lhs":"check_convergence(numer, denom, n)","rhs":"isinstance(result, tuple) and len(result) == 3","over":{"base":"Expr","pred":"isinstance(numer, Expr) and isinstance(denom, Expr) and isinstance(n, Symbol)"},"name":"check_convergence_correct"},"guarantee":"isinstance(result, tuple); len(result) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.check_convergence_correct","statement":"Path(check_convergence(x), isinstance(result, tuple); len(result) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b5c9fa232d0d973","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(numer, Expr)","isinstance(denom, Expr)","isinstance(n, Symbol)"],"ensures":["isinstance(result, tuple)","len(result) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def check_convergence(numer: Expr, denom: Expr, n: Symbol) -> tuple[int, Any, Any]:
     """
     Returns
@@ -1708,16 +2055,25 @@ def check_convergence(numer: Expr, denom: Expr, n: Symbol) -> tuple[int, Any, An
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hypsum(exp), sum a rapidly convergent infinite hypergeometric series with given general term, e.g) over Expr ║
+# ║ Path(hypsum(expr, n, start), <unspecified:hypsum>) over {Expr | isinstance(expr, Expr) and isinstance(n, Symbol) and isinstance(start, int) and isinstance(prec, int) and not (prec == float('inf')) and hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hypsum : Expr → mpf                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, Expr)                         ║
+# ║   requires: isinstance(n, Symbol)                          ║
+# ║   requires: isinstance(start, int)                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hypsum : {Expr | isinstance(expr, Expr) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b401970ce313cc28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.hypsum","kind":"function","src_hash":"ca9140215461bc26","in":{"base":"Expr"},"out":{"base":"mpf"},"spec":{"lhs":"hypsum(exp)","rhs":"sum a rapidly convergent infinite hypergeometric series with given general term, e.g","over":{"base":"Expr"},"name":"hypsum_correct"},"guarantee":"sum a rapidly convergent infinite hypergeometric series with given general term, e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.hypsum_correct","statement":"Path(hypsum(x), sum a rapidly convergent infinite hypergeometric series with given general term, e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b401970ce313cc28"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.hypsum","kind":"function","src_hash":"ca9140215461bc26","in":{"base":"Expr","pred":"isinstance(expr, Expr) and isinstance(n, Symbol) and isinstance(start, int) and isinstance(prec, int) and not (prec == float('inf')) and hasattr(expr, 'subs')"},"out":{"base":"mpf"},"spec":{"lhs":"hypsum(expr, n, start)","rhs":"<unspecified:hypsum>","over":{"base":"Expr","pred":"isinstance(expr, Expr) and isinstance(n, Symbol) and isinstance(start, int) and isinstance(prec, int) and not (prec == float('inf')) and hasattr(expr, 'subs')"},"name":"hypsum_correct"},"guarantee":"sum a rapidly convergent infinite hypergeometric series with given general term, e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.hypsum_correct","statement":"Path(hypsum(x), sum a rapidly convergent infinite hypergeometric series with given general term, e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b401970ce313cc28","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, Expr)","isinstance(n, Symbol)","isinstance(start, int)","isinstance(prec, int)","not (prec == float('inf'))","hasattr(expr, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.subs"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def hypsum(expr: Expr, n: Symbol, start: int, prec: int) -> mpf:
     """
     Sum a rapidly convergent infinite hypergeometric series with
@@ -1798,16 +2154,25 @@ def hypsum(expr: Expr, n: Symbol, start: int, prec: int) -> mpf:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_prod(exp), evalf_prod produces the expected output) over 'Product' ║
+# ║ Path(evalf_prod(expr, prec, options), isinstance(result, TMP_RES)) over {'Product' | isinstance(expr, 'Product') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'limits') and hasattr(expr, 'doit') and hasattr(expr, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_prod : 'Product' → TMP_RES                           ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, 'Product')                    ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_prod : {'Product' | isinstance(expr, 'Product')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99e2a621bec944da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08b6d2f8882ecdfa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_prod","kind":"function","src_hash":"adbb347919772068","in":{"base":"'Product'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_prod(exp)","rhs":"evalf_prod produces the expected output","over":{"base":"'Product'"},"name":"evalf_prod_correct"},"guarantee":"evalf_prod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_prod_correct","statement":"Path(evalf_prod(x), evalf_prod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99e2a621bec944da"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_prod","kind":"function","src_hash":"adbb347919772068","in":{"base":"'Product'","pred":"isinstance(expr, 'Product') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'limits') and hasattr(expr, 'doit') and hasattr(expr, 'rewrite')"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"evalf_prod(expr, prec, options)","rhs":"isinstance(result, TMP_RES)","over":{"base":"'Product'","pred":"isinstance(expr, 'Product') and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(expr, 'limits') and hasattr(expr, 'doit') and hasattr(expr, 'rewrite')"},"name":"evalf_prod_correct"},"guarantee":"isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_prod_correct","statement":"Path(evalf_prod(x), isinstance(result, TMP_RES))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08b6d2f8882ecdfa","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, 'Product')","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(expr, 'limits')","hasattr(expr, 'doit')","hasattr(expr, 'rewrite')"],"ensures":["isinstance(result, TMP_RES)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.doit","expr.limits","expr.rewrite"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def evalf_prod(expr: 'Product', prec: int, options: OPT_DICT) -> TMP_RES:
     if all((l[1] - l[2]).is_Integer for l in expr.limits):
         result = evalf(expr.doit(), prec=prec, options=options)
@@ -1818,16 +2183,25 @@ def evalf_prod(expr: 'Product', prec: int, options: OPT_DICT) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_sum(exp), evalf_sum produces the expected output) over 'Sum' ║
+# ║ Path(evalf_sum(expr, prec, options), isinstance(result, TMP_RES)) over {'Sum' | isinstance(expr, 'Sum') and isinstance(prec, int) and isinstance(options, OPT_DICT) and not (len(limits) != 1 or len(limits[0]) != 3) and hasattr(expr, 'function') and hasattr(expr, 'limits') and hasattr(expr, 'subs') and hasattr(expr, 'euler_maclaurin')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_sum : 'Sum' → TMP_RES                                ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, 'Sum')                        ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_sum : {'Sum' | isinstance(expr, 'Sum') and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5be47a02a827011  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 433f65dbf84f32e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_sum","kind":"function","src_hash":"369c9804723046a6","in":{"base":"'Sum'"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_sum(exp)","rhs":"evalf_sum produces the expected output","over":{"base":"'Sum'"},"name":"evalf_sum_correct"},"guarantee":"evalf_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_sum_correct","statement":"Path(evalf_sum(x), evalf_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5be47a02a827011"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_sum","kind":"function","src_hash":"369c9804723046a6","in":{"base":"'Sum'","pred":"isinstance(expr, 'Sum') and isinstance(prec, int) and isinstance(options, OPT_DICT) and not (len(limits) != 1 or len(limits[0]) != 3) and hasattr(expr, 'function') and hasattr(expr, 'limits') and hasattr(expr, 'subs') and hasattr(expr, 'euler_maclaurin')"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"evalf_sum(expr, prec, options)","rhs":"isinstance(result, TMP_RES)","over":{"base":"'Sum'","pred":"isinstance(expr, 'Sum') and isinstance(prec, int) and isinstance(options, OPT_DICT) and not (len(limits) != 1 or len(limits[0]) != 3) and hasattr(expr, 'function') and hasattr(expr, 'limits') and hasattr(expr, 'subs') and hasattr(expr, 'euler_maclaurin')"},"name":"evalf_sum_correct"},"guarantee":"isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_sum_correct","statement":"Path(evalf_sum(x), isinstance(result, TMP_RES))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"433f65dbf84f32e3","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, 'Sum')","isinstance(prec, int)","isinstance(options, OPT_DICT)","not (len(limits) != 1 or len(limits[0]) != 3)","hasattr(expr, 'function')","hasattr(expr, 'limits')","hasattr(expr, 'subs')","hasattr(expr, 'euler_maclaurin')"],"ensures":["isinstance(result, TMP_RES)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.euler_maclaurin","expr.function","expr.limits","expr.subs"],"raises":["NotImplementedError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def evalf_sum(expr: 'Sum', prec: int, options: OPT_DICT) -> TMP_RES:
     from .numbers import Float
     if 'subs' in options:
@@ -1877,9 +2251,19 @@ def evalf_sum(expr: 'Sum', prec: int, options: OPT_DICT) -> TMP_RES:
 #----------------------------------------------------------------------------#
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf_symbol(x, ), evalf_symbol produces the expected output) over {Expr | isinstance(val, mpf)} ║
+# ║ Path(evalf_symbol(x, prec, options), isinstance(result, TMP_RES) and result == ((val._mpf_, None, prec, None) if isinstance(val, mpf) else v) and result == (val._mpf_, None, prec, None) or result == v) over {Expr | isinstance(val, mpf) and isinstance(x, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf_symbol : {Expr | isinstance(val, mpf)} → TMP_RES     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   ensures:  result == ((val._mpf_, None, prec, None) ...   ║
+# ║   ensures:  result == (val._mpf_, None, prec, None) o...   ║
+# ║   fiber[mpf]: isinstance(val, mpf) => (val._mpf_, Non...   ║
+# ║   fiber[mpf]: not (isinstance(val, mpf)) => v              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf_symbol : {Expr | isinstance(val, mpf) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   mpf: {isinstance(val, mpf)} → library_axiom              ║
@@ -1889,9 +2273,12 @@ def evalf_sum(expr: 'Sum', prec: int, options: OPT_DICT) -> TMP_RES:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e277e3d4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_symbol","kind":"function","src_hash":"1939bb1b37dea549","in":{"base":"Expr","pred":"isinstance(val, mpf)"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf_symbol(x, )","rhs":"evalf_symbol produces the expected output","over":{"base":"Expr","pred":"isinstance(val, mpf)"},"name":"evalf_symbol_correct"},"guarantee":"evalf_symbol produces the expected output","fibers":[{"name":"mpf","pred":"isinstance(val, mpf)","path":{"lhs":"evalf_symbol(x)","rhs":"evalf_symbol produces the expected output","over":{"base":"mpf","pred":"isinstance(val, mpf)"},"name":"evalf_symbol_mpf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_symbol_mpf_correct","statement":"evalf_symbol satisfies spec on mpf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e277e3d44b1d8679"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf_symbol","kind":"function","src_hash":"1939bb1b37dea549","in":{"base":"Expr","pred":"isinstance(val, mpf) and isinstance(x, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT)"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES) and result == ((val._mpf_, None, prec, None) if isinstance(val, mpf) else v) and result == (val._mpf_, None, prec, None) or result == v"},"spec":{"lhs":"evalf_symbol(x, prec, options)","rhs":"isinstance(result, TMP_RES) and result == ((val._mpf_, None, prec, None) if isinstance(val, mpf) else v) and result == (val._mpf_, None, prec, None) or result == v","over":{"base":"Expr","pred":"isinstance(val, mpf) and isinstance(x, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT)"},"name":"evalf_symbol_correct"},"guarantee":"isinstance(result, TMP_RES); result == ((val._mpf_, None, prec, None) if isinstance(val, mpf) else v); result == (val._mpf_, None, prec, None) or result == v; 2-fiber decomposition","fibers":[{"name":"mpf","pred":"isinstance(val, mpf)","path":{"lhs":"evalf_symbol(x)","rhs":"isinstance(result, TMP_RES); result == ((val._mpf_, None, prec, None) if isinstance(val, mpf) else v); result == (val._mpf_, None, prec, None) or result == v; 2-fiber decomposition","over":{"base":"mpf","pred":"isinstance(val, mpf)"},"name":"evalf_symbol_mpf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_symbol_mpf_correct","statement":"evalf_symbol satisfies spec on mpf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e277e3d44b1d8679","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, Expr)","isinstance(prec, int)","isinstance(options, OPT_DICT)"],"ensures":["isinstance(result, TMP_RES)","result == ((val._mpf_, None, prec, None) if isinstance(val, mpf) else v)","result == (val._mpf_, None, prec, None) or result == v"],"fibers":[{"name":"mpf","guard":"isinstance(val, mpf)","ensures":["result == (val._mpf_, None, prec, None)"],"decidability":"structural","returns_expr":"(val._mpf_, None, prec, None)"},{"name":"mpf","guard":"not (isinstance(val, mpf))","ensures":["result == v"],"decidability":"structural","returns_expr":"v"}],"pure":false,"effects":{"effect_type":"mutates_args","writes":["options[*]"]},"state_contract":{"modifies":["options[*]"],"old_bindings":{"old_options_star":"options[*]"}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'cached_prec >= prec', 'isinstance(val, mpf)'}, fibers={'mpf'})"]}}
 def evalf_symbol(x: Expr, prec: int, options: OPT_DICT) -> TMP_RES:
     val = options['subs'][x]
     if isinstance(val, mpf):
@@ -1913,16 +2300,22 @@ evalf_table: dict[Type[Expr], Callable[[Expr, int, OPT_DICT], TMP_RES]] = {}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_evalf_table(), internal helper behaves correctly) over Any ║
+# ║ Path(_create_evalf_table(), <unspecified:_create_evalf_table>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_evalf_table : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ee937cb06e816dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf._create_evalf_table","kind":"function","src_hash":"432d4d55be977a67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_evalf_table()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_create_evalf_table_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf._create_evalf_table_correct","statement":"Path(_create_evalf_table(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ee937cb06e816dd"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf._create_evalf_table","kind":"function","src_hash":"432d4d55be977a67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_evalf_table()","rhs":"<unspecified:_create_evalf_table>","over":{"base":"Any"},"name":"_create_evalf_table_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf._create_evalf_table_correct","statement":"Path(_create_evalf_table(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ee937cb06e816dd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_global","globals_read":["evalf_table"],"globals_written":["evalf_table"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _create_evalf_table():
     global evalf_table
     from sympy.concrete.products import Product
@@ -1984,9 +2377,15 @@ def _create_evalf_table():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf(x, ), evaluate the ``expr`` instance, ``x`` to a binary precision of ``prec``) over {Expr | isinstance(r, tuple)} ║
+# ║ Path(evalf(x, prec, options), isinstance(result, TMP_RES)) over {Expr | isinstance(r, tuple) and isinstance(x, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(options, 'get') and hasattr(x, '_eval_evalf') and hasattr(x, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf : {Expr | isinstance(r, tuple)} → TMP_RES            ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   requires: isinstance(options, OPT_DICT)                  ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf : {Expr | isinstance(r, tuple) and isinstance(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   tuple: {isinstance(r, tuple)} → library_axiom            ║
@@ -1996,9 +2395,12 @@ def _create_evalf_table():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 66c9835a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf","kind":"function","src_hash":"61f6096458866917","in":{"base":"Expr","pred":"isinstance(r, tuple)"},"out":{"base":"TMP_RES"},"spec":{"lhs":"evalf(x, )","rhs":"evaluate the ``expr`` instance, ``x`` to a binary precision of ``prec``","over":{"base":"Expr","pred":"isinstance(r, tuple)"},"name":"evalf_correct"},"guarantee":"evaluate the ``expr`` instance, ``x`` to a binary precision of ``prec``","fibers":[{"name":"tuple","pred":"isinstance(r, tuple)","path":{"lhs":"evalf(x)","rhs":"evaluate the ``expr`` instance, ``x`` to a binary precision of ``prec``","over":{"base":"tuple","pred":"isinstance(r, tuple)"},"name":"evalf_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_tuple_correct","statement":"evalf satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"66c9835a1528aee4"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.evalf","kind":"function","src_hash":"61f6096458866917","in":{"base":"Expr","pred":"isinstance(r, tuple) and isinstance(x, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(options, 'get') and hasattr(x, '_eval_evalf') and hasattr(x, 'subs')"},"out":{"base":"TMP_RES","pred":"result satisfies: isinstance(result, TMP_RES)"},"spec":{"lhs":"evalf(x, prec, options)","rhs":"isinstance(result, TMP_RES)","over":{"base":"Expr","pred":"isinstance(r, tuple) and isinstance(x, Expr) and isinstance(prec, int) and isinstance(options, OPT_DICT) and hasattr(options, 'get') and hasattr(x, '_eval_evalf') and hasattr(x, 'subs')"},"name":"evalf_correct"},"guarantee":"isinstance(result, TMP_RES)","fibers":[{"name":"tuple","pred":"isinstance(r, tuple)","path":{"lhs":"evalf(x)","rhs":"isinstance(result, TMP_RES)","over":{"base":"tuple","pred":"isinstance(r, tuple)"},"name":"evalf_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.evalf_tuple_correct","statement":"evalf satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"66c9835a1528aee4","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(x, Expr)","isinstance(prec, int)","isinstance(options, OPT_DICT)","hasattr(options, 'get')","hasattr(x, '_eval_evalf')","hasattr(x, 'subs')"],"ensures":["isinstance(result, TMP_RES)"],"pure":false,"effects":{"effect_type":"io","reads":["options.get","x._eval_evalf","x.subs"],"raises":["NotImplementedError"],"catches":["KeyError"],"io_operations":["print"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'xe is None', 'as_real_imag is None', 'chop_prec == 3'}, fibers={'tuple'})"]}}
 def evalf(x: Expr, prec: int, options: OPT_DICT) -> TMP_RES:
     """
     Evaluate the ``Expr`` instance, ``x``
@@ -2088,16 +2490,25 @@ def evalf(x: Expr, prec: int, options: OPT_DICT) -> TMP_RES:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quad_to_mpmath(q, ), turn the quad returned by ``evalf`` into an ``mpf`` or ``mpc``) over Any ║
+# ║ Path(quad_to_mpmath(q, ctx), <unspecified:quad_to_mpmath>) over {Any | not (q is S.ComplexInfinity) and hasattr(ctx, 'make_mpc') and hasattr(ctx, 'make_mpf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ quad_to_mpmath : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (q is S.ComplexInfinity)                   ║
+# ║   requires: hasattr(ctx, 'make_mpc')                       ║
+# ║   requires: hasattr(ctx, 'make_mpf')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ quad_to_mpmath : {Any | not (q is S.ComplexInfinity) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e90dceec36d6b2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.quad_to_mpmath","kind":"function","src_hash":"01a0d06a5721e615","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quad_to_mpmath(q, )","rhs":"turn the quad returned by ``evalf`` into an ``mpf`` or ``mpc``","over":{"base":"Any"},"name":"quad_to_mpmath_correct"},"guarantee":"turn the quad returned by ``evalf`` into an ``mpf`` or ``mpc``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.quad_to_mpmath_correct","statement":"Path(quad_to_mpmath(x), turn the quad returned by ``evalf`` into an ``mpf`` or ``mpc``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e90dceec36d6b2c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.quad_to_mpmath","kind":"function","src_hash":"01a0d06a5721e615","in":{"base":"Any","pred":"not (q is S.ComplexInfinity) and hasattr(ctx, 'make_mpc') and hasattr(ctx, 'make_mpf')"},"out":{"base":"Any"},"spec":{"lhs":"quad_to_mpmath(q, ctx)","rhs":"<unspecified:quad_to_mpmath>","over":{"base":"Any","pred":"not (q is S.ComplexInfinity) and hasattr(ctx, 'make_mpc') and hasattr(ctx, 'make_mpf')"},"name":"quad_to_mpmath_correct"},"guarantee":"turn the quad returned by ``evalf`` into an ``mpf`` or ``mpc``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.quad_to_mpmath_correct","statement":"Path(quad_to_mpmath(x), turn the quad returned by ``evalf`` into an ``mpf`` or ``mpc``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e90dceec36d6b2c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (q is S.ComplexInfinity)","hasattr(ctx, 'make_mpc')","hasattr(ctx, 'make_mpf')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["ctx.make_mpc","ctx.make_mpf"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def quad_to_mpmath(q, ctx=None):
     """Turn the quad returned by ``evalf`` into an ``mpf`` or ``mpc``. """
     mpc = make_mpc if ctx is None else ctx.make_mpc
@@ -2118,30 +2529,43 @@ def quad_to_mpmath(q, ctx=None):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(EvalfMixin(*args), correctly constructs a EvalfMixin instance) over {Any | isinstance(self, Number)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ EvalfMixin : {Any | isinstance(self, Number)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55d6875289f0eaff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.EvalfMixin","kind":"class","src_hash":"50cafc7480fdca92","in":{"base":"Any","pred":"isinstance(self, Number)"},"out":{"base":"Any"},"spec":{"lhs":"EvalfMixin(*args)","rhs":"correctly constructs a EvalfMixin instance","over":{"base":"Any","pred":"isinstance(self, Number)"},"name":"EvalfMixin_class_invariant"},"guarantee":"correctly constructs a EvalfMixin instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55d6875289f0eaff"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.EvalfMixin","kind":"class","src_hash":"50cafc7480fdca92","in":{"base":"Any","pred":"isinstance(self, Number)"},"out":{"base":"Any"},"spec":{"lhs":"EvalfMixin(*args)","rhs":"correctly constructs a EvalfMixin instance","over":{"base":"Any","pred":"isinstance(self, Number)"},"name":"EvalfMixin_class_invariant"},"guarantee":"correctly constructs a EvalfMixin instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55d6875289f0eaff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function EvalfMixin not found in source"]}}
 class EvalfMixin:
     """Mixin class adding evalf capability."""
 
     __slots__: tuple[str, ...] = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evalf(n, ), evaluate the given formula to an accuracy of *n* digits) over Any ║
+# ║ Path(evalf(n, subs, maxn), # HINT: evalf may be idempotent: evalf(evalf(x)) == evalf(x)) over {Any | not (subs and is_sequence(subs))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evalf : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (subs and is_sequence(subs))               ║
+# ║   ensures:  # HINT: evalf may be idempotent: evalf(ev...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evalf : {Any | not (subs and is_sequence(subs))} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 796b343e33e5bd13  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6632aa392a1faa17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.EvalfMixin.evalf","kind":"method","src_hash":"7cac583daf0c8714","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"evalf(n, )","rhs":"evaluate the given formula to an accuracy of *n* digits","over":{"base":"Any"},"name":"evalf_correct"},"guarantee":"evaluate the given formula to an accuracy of *n* digits","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.EvalfMixin.evalf_correct","statement":"Path(evalf(x), evaluate the given formula to an accuracy of *n* digits)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"796b343e33e5bd13"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.EvalfMixin.evalf","kind":"method","src_hash":"7cac583daf0c8714","in":{"base":"Any","pred":"not (subs and is_sequence(subs))"},"out":{"base":"Any","pred":"result satisfies: # HINT: evalf may be idempotent: evalf(evalf(x)) == evalf(x)"},"spec":{"lhs":"evalf(n, subs, maxn)","rhs":"# HINT: evalf may be idempotent: evalf(evalf(x)) == evalf(x)","over":{"base":"Any","pred":"not (subs and is_sequence(subs))"},"name":"evalf_correct"},"guarantee":"# HINT: evalf may be idempotent: evalf(evalf(x)) == evalf(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.EvalfMixin.evalf_correct","statement":"Path(evalf(x), # HINT: evalf may be idempotent: evalf(evalf(x)) == evalf(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6632aa392a1faa17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (subs and is_sequence(subs))"],"ensures":["# HINT: evalf may be idempotent: evalf(evalf(x)) == evalf(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_evalf","self.evalf","self.subs"],"raises":["TypeError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def evalf(self, n=15, subs=None, maxn=100, chop=False, strict=False, quad=None, verbose=False):
         """
         Evaluate the given formula to an accuracy of *n* digits.
@@ -2268,16 +2692,23 @@ class EvalfMixin:
     n = evalf
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_evalf(pre), helper for evalf) over Any               ║
+# ║ Path(_evalf(prec), isinstance(result, Expr)) over {Any | isinstance(prec, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _evalf : Any → Expr                                        ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _evalf : {Any | isinstance(prec, int)} → {Expr | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fc6f45121944942  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9760c48535b9d1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.EvalfMixin._evalf","kind":"method","src_hash":"c98406d746f82ea4","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"_evalf(pre)","rhs":"helper for evalf","over":{"base":"Any"},"name":"_evalf_correct"},"guarantee":"helper for evalf","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.EvalfMixin._evalf_correct","statement":"Path(_evalf(x), helper for evalf)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fc6f45121944942"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.EvalfMixin._evalf","kind":"method","src_hash":"c98406d746f82ea4","in":{"base":"Any","pred":"isinstance(prec, int)"},"out":{"base":"Expr","pred":"result satisfies: isinstance(result, Expr)"},"spec":{"lhs":"_evalf(prec)","rhs":"isinstance(result, Expr)","over":{"base":"Any","pred":"isinstance(prec, int)"},"name":"_evalf_correct"},"guarantee":"isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.EvalfMixin._evalf_correct","statement":"Path(_evalf(x), isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9760c48535b9d1d","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(prec, int)"],"ensures":["isinstance(result, Expr)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_evalf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _evalf(self, prec: int) -> Expr:
         """Helper for evalf. Does the same thing but takes binary precision"""
         r = self._eval_evalf(prec)
@@ -2286,30 +2717,44 @@ class EvalfMixin:
         return r # type: ignore
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_evalf(prec), None) over {Any | isinstance(prec, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_evalf : Any → Expr | None                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(prec, int)                          ║
+# ║   ensures:  isinstance(result, Expr | None)                ║
+# ║   returns:  None                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_evalf : {Any | isinstance(prec, int)} → {Expr |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1b7dec00d119aea3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.EvalfMixin._eval_evalf","kind":"method","src_hash":"a06d32eddef2ce11","in":{"base":"Any"},"out":{"base":"Expr | None"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b7dec00d119aea3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.EvalfMixin._eval_evalf","kind":"method","src_hash":"a06d32eddef2ce11","in":{"base":"Any","pred":"isinstance(prec, int)"},"out":{"base":"Expr | None","pred":"result satisfies: result == (None)"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"None","over":{"base":"Any","pred":"isinstance(prec, int)"},"name":"_eval_evalf_correct"},"guarantee":"returns None; isinstance(result, Expr | None)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b7dec00d119aea3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(prec, int)"],"ensures":["isinstance(result, Expr | None)"],"returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec: int) -> Expr | None:
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_mpmath(pre), internal helper behaves correctly) over Any ║
+# ║ Path(_to_mpmath(prec, allow_ints), <unspecified:_to_mpmath>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _to_mpmath : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caf91366ba56a3b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.EvalfMixin._to_mpmath","kind":"method","src_hash":"6d2b5bb0bc9f6749","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_mpmath(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_to_mpmath_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.EvalfMixin._to_mpmath_correct","statement":"Path(_to_mpmath(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caf91366ba56a3b1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.EvalfMixin._to_mpmath","kind":"method","src_hash":"6d2b5bb0bc9f6749","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_mpmath(prec, allow_ints)","rhs":"<unspecified:_to_mpmath>","over":{"base":"Any"},"name":"_to_mpmath_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf.EvalfMixin._to_mpmath_correct","statement":"Path(_to_mpmath(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caf91366ba56a3b1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._as_mpf_val","self._eval_evalf","self.is_Integer","self.p"],"raises":["ValueError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _to_mpmath(self, prec, allow_ints=True):
         # mpmath functions accept ints as input
         errmsg = "cannot convert to mpmath number"
@@ -2344,16 +2789,22 @@ class EvalfMixin:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(N(x, ), calls x.evalf(n, \*\*options)) over Any       ║
+# ║ Path(N(x, n, **options), sympify(x, rational=True).evalf(n, **options)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sympify(x, rational=True).evalf(n, **opti...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ N : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8e90cf01a8ec20f3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf.N","kind":"function","src_hash":"61c11c270bbc34d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"N(x, )","rhs":"calls x.evalf(n, \\*\\*options)","over":{"base":"Any"},"name":"N_correct"},"guarantee":"calls x.evalf(n, \\*\\*options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e90cf01a8ec20f3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf.N","kind":"function","src_hash":"61c11c270bbc34d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"N(x, n, **options)","rhs":"sympify(x, rational=True).evalf(n, **options)","over":{"base":"Any"},"name":"N_correct"},"guarantee":"returns sympify(x, rational=True).evalf(n, **options)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e90cf01a8ec20f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sympify(x, rational=True).evalf(n, **options)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['x', 'n'], spec=['x', 'n', '**options']"]}}
 def N(x, n=15, **options):
     r"""
     Calls x.evalf(n, \*\*options).
@@ -2381,16 +2832,26 @@ def N(x, n=15, **options):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_evalf_with_bounded_error(x, ), evaluate *x* to within a bounded absolute error) over Expr ║
+# ║ Path(_evalf_with_bounded_error(x, eps, m), evalf(x, p, options)) over {Expr | isinstance(x, Expr) and isinstance(eps, Expr | None) and isinstance(m, int) and isinstance(options, OPT_DICT | None) and hasattr(eps, 'is_Rational') and hasattr(eps, 'is_Float')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _evalf_with_bounded_error : Expr → TMP_RES                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   requires: isinstance(eps, Expr | None)                   ║
+# ║   requires: isinstance(m, int)                             ║
+# ║   ensures:  isinstance(result, TMP_RES)                    ║
+# ║   returns:  evalf(x, p, options)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _evalf_with_bounded_error : {Expr | isinstance(x, Exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bac3645917470b99  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 519641ba4fd2288f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.evalf._evalf_with_bounded_error","kind":"function","src_hash":"fa18def5e9bcc6d9","in":{"base":"Expr"},"out":{"base":"TMP_RES"},"spec":{"lhs":"_evalf_with_bounded_error(x, )","rhs":"evaluate *x* to within a bounded absolute error","over":{"base":"Expr"},"name":"_evalf_with_bounded_error_correct"},"guarantee":"evaluate *x* to within a bounded absolute error","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf._evalf_with_bounded_error_correct","statement":"Path(_evalf_with_bounded_error(x), evaluate *x* to within a bounded absolute error)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bac3645917470b99"}
+# @cctt_verify {"v":2,"sym":"sympy.core.evalf._evalf_with_bounded_error","kind":"function","src_hash":"fa18def5e9bcc6d9","in":{"base":"Expr","pred":"isinstance(x, Expr) and isinstance(eps, Expr | None) and isinstance(m, int) and isinstance(options, OPT_DICT | None) and hasattr(eps, 'is_Rational') and hasattr(eps, 'is_Float')"},"out":{"base":"TMP_RES","pred":"result satisfies: result == (evalf(x, p, options))"},"spec":{"lhs":"_evalf_with_bounded_error(x, eps, m)","rhs":"evalf(x, p, options)","over":{"base":"Expr","pred":"isinstance(x, Expr) and isinstance(eps, Expr | None) and isinstance(m, int) and isinstance(options, OPT_DICT | None) and hasattr(eps, 'is_Rational') and hasattr(eps, 'is_Float')"},"name":"_evalf_with_bounded_error_correct"},"guarantee":"returns evalf(x, p, options); isinstance(result, TMP_RES)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.evalf._evalf_with_bounded_error_correct","statement":"Path(_evalf_with_bounded_error(x), returns evalf(x, p, options); isinstance(result, TMP_RES))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"519641ba4fd2288f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, Expr)","isinstance(eps, Expr | None)","isinstance(m, int)","isinstance(options, OPT_DICT | None)","hasattr(eps, 'is_Rational')","hasattr(eps, 'is_Float')"],"ensures":["isinstance(result, TMP_RES)"],"returns_expr":"evalf(x, p, options)","pure":false,"effects":{"effect_type":"reads_state","reads":["eps.is_Float","eps.is_Rational"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _evalf_with_bounded_error(x: Expr, eps: Expr | None = None,
                               m: int = 0,
                               options: OPT_DICT | None = None) -> TMP_RES:

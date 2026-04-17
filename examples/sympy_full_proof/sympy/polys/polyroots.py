@@ -52,16 +52,24 @@ z = Symbol('z')  # importing from abc cause O to be lost as clashing symbol
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(roots_linear(f), returns a list of roots of a linear polynomial) over Any ║
+# ║ Path(roots_linear(f), [r]) over {Any | hasattr(f, 'get_domain') and hasattr(f, 'nth')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ roots_linear : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'get_domain')                       ║
+# ║   requires: hasattr(f, 'nth')                              ║
+# ║   returns:  [r]                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ roots_linear : {Any | hasattr(f, 'get_domain') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05d8c3b5441e3306  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f6f1ab4b9ec5ade  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_linear","kind":"function","src_hash":"a00e57f5f1d4aae8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"roots_linear(f)","rhs":"returns a list of roots of a linear polynomial","over":{"base":"Any"},"name":"roots_linear_correct"},"guarantee":"returns a list of roots of a linear polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_linear_correct","statement":"Path(roots_linear(x), returns a list of roots of a linear polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05d8c3b5441e3306"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_linear","kind":"function","src_hash":"a00e57f5f1d4aae8","in":{"base":"Any","pred":"hasattr(f, 'get_domain') and hasattr(f, 'nth')"},"out":{"base":"Any"},"spec":{"lhs":"roots_linear(f)","rhs":"[r]","over":{"base":"Any","pred":"hasattr(f, 'get_domain') and hasattr(f, 'nth')"},"name":"roots_linear_correct"},"guarantee":"returns [r]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_linear_correct","statement":"Path(roots_linear(x), returns [r])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f6f1ab4b9ec5ade","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'get_domain')","hasattr(f, 'nth')"],"returns_expr":"[r]","pure":false,"effects":{"effect_type":"reads_state","reads":["f.get_domain","f.nth"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def roots_linear(f):
     """Returns a list of roots of a linear polynomial."""
     r = -f.nth(0)/f.nth(1)
@@ -78,16 +86,24 @@ def roots_linear(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(roots_quadratic(f), returns a list of roots of a quadratic polynomial) over Any ║
+# ║ Path(roots_quadratic(f), <unspecified:roots_quadratic>) over {Any | hasattr(f, 'all_coeffs') and hasattr(f, 'get_domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ roots_quadratic : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'all_coeffs')                       ║
+# ║   requires: hasattr(f, 'get_domain')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ roots_quadratic : {Any | hasattr(f, 'all_coeffs') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c2d37495cd1f07f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_quadratic","kind":"function","src_hash":"ed33001ccae9af29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"roots_quadratic(f)","rhs":"returns a list of roots of a quadratic polynomial","over":{"base":"Any"},"name":"roots_quadratic_correct"},"guarantee":"returns a list of roots of a quadratic polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_quadratic_correct","statement":"Path(roots_quadratic(x), returns a list of roots of a quadratic polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c2d37495cd1f07f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_quadratic","kind":"function","src_hash":"ed33001ccae9af29","in":{"base":"Any","pred":"hasattr(f, 'all_coeffs') and hasattr(f, 'get_domain')"},"out":{"base":"Any"},"spec":{"lhs":"roots_quadratic(f)","rhs":"<unspecified:roots_quadratic>","over":{"base":"Any","pred":"hasattr(f, 'all_coeffs') and hasattr(f, 'get_domain')"},"name":"roots_quadratic_correct"},"guarantee":"returns a list of roots of a quadratic polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_quadratic_correct","statement":"Path(roots_quadratic(x), returns a list of roots of a quadratic polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c2d37495cd1f07f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'all_coeffs')","hasattr(f, 'get_domain')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def roots_quadratic(f):
     """Returns a list of roots of a quadratic polynomial. If the domain is ZZ
     then the roots will be sorted with negatives coming before positives.
@@ -159,16 +175,24 @@ def roots_quadratic(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(roots_cubic(f, ), returns a list of roots of a cubic polynomial) over Any ║
+# ║ Path(roots_cubic(f, trig), <unspecified:roots_cubic>) over {Any | hasattr(f, 'all_coeffs') and hasattr(f, 'monic')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ roots_cubic : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'all_coeffs')                       ║
+# ║   requires: hasattr(f, 'monic')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ roots_cubic : {Any | hasattr(f, 'all_coeffs') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 955357535bfec51a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_cubic","kind":"function","src_hash":"a8b9070b2e99eae6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"roots_cubic(f, )","rhs":"returns a list of roots of a cubic polynomial","over":{"base":"Any"},"name":"roots_cubic_correct"},"guarantee":"returns a list of roots of a cubic polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_cubic_correct","statement":"Path(roots_cubic(x), returns a list of roots of a cubic polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"955357535bfec51a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_cubic","kind":"function","src_hash":"a8b9070b2e99eae6","in":{"base":"Any","pred":"hasattr(f, 'all_coeffs') and hasattr(f, 'monic')"},"out":{"base":"Any"},"spec":{"lhs":"roots_cubic(f, trig)","rhs":"<unspecified:roots_cubic>","over":{"base":"Any","pred":"hasattr(f, 'all_coeffs') and hasattr(f, 'monic')"},"name":"roots_cubic_correct"},"guarantee":"returns a list of roots of a cubic polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_cubic_correct","statement":"Path(roots_cubic(x), returns a list of roots of a cubic polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"955357535bfec51a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'all_coeffs')","hasattr(f, 'monic')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def roots_cubic(f, trig=False):
     """Returns a list of roots of a cubic polynomial.
 
@@ -239,16 +263,22 @@ def roots_cubic(f, trig=False):
     return soln
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_roots_quartic_euler(p, ), descartes-euler solution of the quartic equation) over Any ║
+# ║ Path(_roots_quartic_euler(p, q, r), <unspecified:_roots_quartic_euler>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _roots_quartic_euler : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1af08ab24430586a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots._roots_quartic_euler","kind":"function","src_hash":"4a45b80ee1f5b19c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_roots_quartic_euler(p, )","rhs":"descartes-euler solution of the quartic equation","over":{"base":"Any"},"name":"_roots_quartic_euler_correct"},"guarantee":"descartes-euler solution of the quartic equation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots._roots_quartic_euler_correct","statement":"Path(_roots_quartic_euler(x), descartes-euler solution of the quartic equation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1af08ab24430586a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots._roots_quartic_euler","kind":"function","src_hash":"4a45b80ee1f5b19c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_roots_quartic_euler(p, q, r)","rhs":"<unspecified:_roots_quartic_euler>","over":{"base":"Any"},"name":"_roots_quartic_euler_correct"},"guarantee":"descartes-euler solution of the quartic equation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots._roots_quartic_euler_correct","statement":"Path(_roots_quartic_euler(x), descartes-euler solution of the quartic equation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1af08ab24430586a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _roots_quartic_euler(p, q, r, a):
     """
     Descartes-Euler solution of the quartic equation
@@ -306,16 +336,27 @@ def _roots_quartic_euler(p, q, r, a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(roots_quartic(f), returns a list of roots of a quartic polynomial) over Any ║
+# ║ Path(roots_quartic(f), <unspecified:roots_quartic>) over {Any | hasattr(f, 'is_zero') and hasattr(f, 'monic') and hasattr(f, 'gen')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ roots_quartic : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'is_zero')                          ║
+# ║   requires: hasattr(f, 'monic')                            ║
+# ║   requires: hasattr(f, 'gen')                              ║
+# ║   fiber[case_0]: not d => [S.Zero] + roots([1, a, b, ...   ║
+# ║   fiber[case_1]: (c / a) ** 2 == d => r1 + r2              ║
+# ║   fiber[case_2]: not (not d) and not ((c / a) ** 2 == d)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ roots_quartic : {Any | hasattr(f, 'is_zero') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43f1e102dec15493  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5674d6c8556f6c86  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_quartic","kind":"function","src_hash":"04030fe9711f5bcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"roots_quartic(f)","rhs":"returns a list of roots of a quartic polynomial","over":{"base":"Any"},"name":"roots_quartic_correct"},"guarantee":"returns a list of roots of a quartic polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_quartic_correct","statement":"Path(roots_quartic(x), returns a list of roots of a quartic polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43f1e102dec15493"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_quartic","kind":"function","src_hash":"04030fe9711f5bcc","in":{"base":"Any","pred":"hasattr(f, 'is_zero') and hasattr(f, 'monic') and hasattr(f, 'gen')"},"out":{"base":"Any"},"spec":{"lhs":"roots_quartic(f)","rhs":"<unspecified:roots_quartic>","over":{"base":"Any","pred":"hasattr(f, 'is_zero') and hasattr(f, 'monic') and hasattr(f, 'gen')"},"name":"roots_quartic_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_quartic_correct","statement":"Path(roots_quartic(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5674d6c8556f6c86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'is_zero')","hasattr(f, 'monic')","hasattr(f, 'gen')"],"fibers":[{"name":"case_0","guard":"not d","ensures":["result == [S.Zero] + roots([1, a, b, c], multiple=True)"],"decidability":"library","returns_expr":"[S.Zero] + roots([1, a, b, c], multiple=True)"},{"name":"case_1","guard":"(c / a) ** 2 == d","ensures":["result == r1 + r2"],"decidability":"z3","returns_expr":"r1 + r2"},{"name":"case_2","guard":"not (not d) and not ((c / a) ** 2 == d)","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def roots_quartic(f):
     r"""
     Returns a list of roots of a quartic polynomial.
@@ -441,16 +482,24 @@ def roots_quartic(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(roots_binomial(f), returns a list of roots of a binomial polynomial) over Any ║
+# ║ Path(roots_binomial(f), <unspecified:roots_binomial>) over {Any | hasattr(f, 'degree') and hasattr(f, 'nth')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ roots_binomial : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'degree')                           ║
+# ║   requires: hasattr(f, 'nth')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ roots_binomial : {Any | hasattr(f, 'degree') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a24b262729388cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_binomial","kind":"function","src_hash":"4e5cae80009d7dc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"roots_binomial(f)","rhs":"returns a list of roots of a binomial polynomial","over":{"base":"Any"},"name":"roots_binomial_correct"},"guarantee":"returns a list of roots of a binomial polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_binomial_correct","statement":"Path(roots_binomial(x), returns a list of roots of a binomial polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a24b262729388cb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_binomial","kind":"function","src_hash":"4e5cae80009d7dc7","in":{"base":"Any","pred":"hasattr(f, 'degree') and hasattr(f, 'nth')"},"out":{"base":"Any"},"spec":{"lhs":"roots_binomial(f)","rhs":"<unspecified:roots_binomial>","over":{"base":"Any","pred":"hasattr(f, 'degree') and hasattr(f, 'nth')"},"name":"roots_binomial_correct"},"guarantee":"returns a list of roots of a binomial polynomial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_binomial_correct","statement":"Path(roots_binomial(x), returns a list of roots of a binomial polynomial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a24b262729388cb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'degree')","hasattr(f, 'nth')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def roots_binomial(f):
     """Returns a list of roots of a binomial polynomial. If the domain is ZZ
     then the roots will be sorted with negatives coming before positives.
@@ -510,16 +559,22 @@ def roots_binomial(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inv_totient_estimate(m), find ``(l, u)`` such that ``l <= phi^-1(m) <= u``) over Any ║
+# ║ Path(_inv_totient_estimate(m), (L, U)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (L, U)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inv_totient_estimate : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a4aaa5e5e6cc953  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bcc3d9ec5586d5dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots._inv_totient_estimate","kind":"function","src_hash":"7b3c4b4f3ac8f8bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inv_totient_estimate(m)","rhs":"find ``(l, u)`` such that ``l <= phi^-1(m) <= u``","over":{"base":"Any"},"name":"_inv_totient_estimate_correct"},"guarantee":"find ``(l, u)`` such that ``l <= phi^-1(m) <= u``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots._inv_totient_estimate_correct","statement":"Path(_inv_totient_estimate(x), find ``(l, u)`` such that ``l <= phi^-1(m) <= u``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a4aaa5e5e6cc953"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots._inv_totient_estimate","kind":"function","src_hash":"7b3c4b4f3ac8f8bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inv_totient_estimate(m)","rhs":"(L, U)","over":{"base":"Any"},"name":"_inv_totient_estimate_correct"},"guarantee":"returns (L, U)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots._inv_totient_estimate_correct","statement":"Path(_inv_totient_estimate(x), returns (L, U))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcc3d9ec5586d5dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(L, U)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _inv_totient_estimate(m):
     """
     Find ``(L, U)`` such that ``L <= phi^-1(m) <= U``.
@@ -566,16 +621,26 @@ def _inv_totient_estimate(m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(roots_cyclotomic(f, ), compute roots of cyclotomic polynomials) over Any ║
+# ║ Path(roots_cyclotomic(f, factor), len(ks) == old_len_ks and len(roots) == old_len_roots + 1) over {Any | hasattr(f, 'degree') and hasattr(f, 'gen') and hasattr(f, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ roots_cyclotomic : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'degree')                           ║
+# ║   requires: hasattr(f, 'gen')                              ║
+# ║   requires: hasattr(f, 'expr')                             ║
+# ║   ensures:  len(ks) == old_len_ks                          ║
+# ║   ensures:  len(roots) == old_len_roots + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ roots_cyclotomic : {Any | hasattr(f, 'degree') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 902838f15bf91810  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc3f7f43cecea2bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_cyclotomic","kind":"function","src_hash":"9d66e5b4f94cea20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"roots_cyclotomic(f, )","rhs":"compute roots of cyclotomic polynomials","over":{"base":"Any"},"name":"roots_cyclotomic_correct"},"guarantee":"compute roots of cyclotomic polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_cyclotomic_correct","statement":"Path(roots_cyclotomic(x), compute roots of cyclotomic polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"902838f15bf91810"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_cyclotomic","kind":"function","src_hash":"9d66e5b4f94cea20","in":{"base":"Any","pred":"hasattr(f, 'degree') and hasattr(f, 'gen') and hasattr(f, 'expr')"},"out":{"base":"Any","pred":"result satisfies: len(ks) == old_len_ks and len(roots) == old_len_roots + 1"},"spec":{"lhs":"roots_cyclotomic(f, factor)","rhs":"len(ks) == old_len_ks and len(roots) == old_len_roots + 1","over":{"base":"Any","pred":"hasattr(f, 'degree') and hasattr(f, 'gen') and hasattr(f, 'expr')"},"name":"roots_cyclotomic_correct"},"guarantee":"len(ks) == old_len_ks; len(roots) == old_len_roots + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_cyclotomic_correct","statement":"Path(roots_cyclotomic(x), len(ks) == old_len_ks; len(roots) == old_len_roots + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc3f7f43cecea2bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'degree')","hasattr(f, 'gen')","hasattr(f, 'expr')"],"ensures":["len(ks) == old_len_ks","len(roots) == old_len_roots + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.degree","f.expr","f.gen"],"calls_mutating":["ks.sort","roots.append"],"raises":["RuntimeError"]},"state_contract":{"modifies":["ks.*","roots.*"],"old_bindings":{"old_len_ks":"len(ks)","old_len_roots":"len(roots)"},"post_ensures":["len(ks) == old_len_ks","len(roots) == old_len_roots + 1"],"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def roots_cyclotomic(f, factor=False):
     """Compute roots of cyclotomic polynomials. """
     L, U = _inv_totient_estimate(f.degree())
@@ -609,16 +674,25 @@ def roots_cyclotomic(f, factor=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(roots_quintic(f), calculate exact roots of a solvable irreducible quintic with rational coefficients. return an empty list if the quintic is reducible or not solvable) over Any ║
+# ║ Path(roots_quintic(f), <unspecified:roots_quintic>) over {Any | hasattr(f, 'all_coeffs') and hasattr(f, 'gen') and hasattr(f, 'is_irreducible')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ roots_quintic : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'all_coeffs')                       ║
+# ║   requires: hasattr(f, 'gen')                              ║
+# ║   requires: hasattr(f, 'is_irreducible')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ roots_quintic : {Any | hasattr(f, 'all_coeffs') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f996eddfb7248a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_quintic","kind":"function","src_hash":"d991c94369d0efb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"roots_quintic(f)","rhs":"calculate exact roots of a solvable irreducible quintic with rational coefficients. return an empty list if the quintic is reducible or not solvable","over":{"base":"Any"},"name":"roots_quintic_correct"},"guarantee":"calculate exact roots of a solvable irreducible quintic with rational coefficients. return an empty list if the quintic is reducible or not solvable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_quintic_correct","statement":"Path(roots_quintic(x), calculate exact roots of a solvable irreducible quintic with rational coefficients. return an empty list if the quintic is reducible or not solvable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f996eddfb7248a8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots_quintic","kind":"function","src_hash":"d991c94369d0efb7","in":{"base":"Any","pred":"hasattr(f, 'all_coeffs') and hasattr(f, 'gen') and hasattr(f, 'is_irreducible')"},"out":{"base":"Any"},"spec":{"lhs":"roots_quintic(f)","rhs":"<unspecified:roots_quintic>","over":{"base":"Any","pred":"hasattr(f, 'all_coeffs') and hasattr(f, 'gen') and hasattr(f, 'is_irreducible')"},"name":"roots_quintic_correct"},"guarantee":"calculate exact roots of a solvable irreducible quintic with rational coefficients. return an empty list if the quintic is reducible or not solvable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_quintic_correct","statement":"Path(roots_quintic(x), calculate exact roots of a solvable irreducible quintic with rational coefficients. return an empty list if the quintic is reducible or not solvable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f996eddfb7248a8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'all_coeffs')","hasattr(f, 'gen')","hasattr(f, 'is_irreducible')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"assumed","binding":true}}
 def roots_quintic(f):
     """
     Calculate exact roots of a solvable irreducible quintic with rational coefficients.
@@ -790,16 +864,22 @@ def roots_quintic(f):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_quintic_simplify(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_quintic_simplify(expr), together(expr)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  together(expr)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _quintic_simplify : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12829e4af2ec8f7f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22c2457d413b8a89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots._quintic_simplify","kind":"function","src_hash":"7571407b6d8c25d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_quintic_simplify(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_quintic_simplify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots._quintic_simplify_correct","statement":"Path(_quintic_simplify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12829e4af2ec8f7f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots._quintic_simplify","kind":"function","src_hash":"7571407b6d8c25d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_quintic_simplify(expr)","rhs":"together(expr)","over":{"base":"Any"},"name":"_quintic_simplify_correct"},"guarantee":"returns together(expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots._quintic_simplify_correct","statement":"Path(_quintic_simplify(x), returns together(expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22c2457d413b8a89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"together(expr)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _quintic_simplify(expr):
     from sympy.simplify.simplify import powsimp
     expr = powsimp(expr)
@@ -808,16 +888,24 @@ def _quintic_simplify(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_integer_basis(pol), compute coefficient basis for a polynomial over integers) over Any ║
+# ║ Path(_integer_basis(poly), <unspecified:_integer_basis>) over {Any | hasattr(poly, 'terms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _integer_basis : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(poly, 'terms')                         ║
+# ║   fiber[case_0]: coeffs[0] < coeffs[-1]                    ║
+# ║   fiber[case_1]: not (coeffs[0] < coeffs[-1]) => None      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _integer_basis : {Any | hasattr(poly, 'terms')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cbba5d71ceba802  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d89f9db73f0f8ecb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots._integer_basis","kind":"function","src_hash":"bac882f8d69c3f5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_integer_basis(pol)","rhs":"compute coefficient basis for a polynomial over integers","over":{"base":"Any"},"name":"_integer_basis_correct"},"guarantee":"compute coefficient basis for a polynomial over integers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots._integer_basis_correct","statement":"Path(_integer_basis(x), compute coefficient basis for a polynomial over integers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cbba5d71ceba802"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots._integer_basis","kind":"function","src_hash":"bac882f8d69c3f5f","in":{"base":"Any","pred":"hasattr(poly, 'terms')"},"out":{"base":"Any"},"spec":{"lhs":"_integer_basis(poly)","rhs":"<unspecified:_integer_basis>","over":{"base":"Any","pred":"hasattr(poly, 'terms')"},"name":"_integer_basis_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots._integer_basis_correct","statement":"Path(_integer_basis(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d89f9db73f0f8ecb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(poly, 'terms')"],"fibers":[{"name":"case_0","guard":"coeffs[0] < coeffs[-1]","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (coeffs[0] < coeffs[-1])","ensures":["result == None"],"decidability":"z3","returns_expr":"None"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["poly.terms"],"catches":["StopIteration"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _integer_basis(poly):
     """Compute coefficient basis for a polynomial over integers.
 
@@ -884,7 +972,13 @@ def _integer_basis(poly):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preprocess_roots(pol), try to get rid of symbolic coefficients from ``poly``) over {Any | isinstance(poly, poly_func)} ║
+# ║ Path(preprocess_roots(poly), <unspecified:preprocess_roots>) over {Any | isinstance(poly, poly_func) and hasattr(poly, 'func') and hasattr(poly, 'retract') and hasattr(poly, 'is_univariate') and hasattr(poly, 'clear_denoms') and hasattr(poly, 'primitive') and hasattr(poly, 'inject') and hasattr(poly, 'get_domain') and hasattr(poly, 'gens') and hasattr(poly, 'eject') and hasattr(poly, 'degree') and hasattr(poly, 'termwise') and hasattr(poly, 'eval') and hasattr(poly, 'monoms') and hasattr(poly, 'rep')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(poly, 'func')                          ║
+# ║   requires: hasattr(poly, 'retract')                       ║
+# ║   requires: hasattr(poly, 'is_univariate')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ preprocess_roots : {Any | isinstance(poly, poly_func)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -896,9 +990,12 @@ def _integer_basis(poly):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d01b4651...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.preprocess_roots","kind":"function","src_hash":"37d0472cca936803","in":{"base":"Any","pred":"isinstance(poly, poly_func)"},"out":{"base":"Any"},"spec":{"lhs":"preprocess_roots(pol)","rhs":"try to get rid of symbolic coefficients from ``poly``","over":{"base":"Any","pred":"isinstance(poly, poly_func)"},"name":"preprocess_roots_correct"},"guarantee":"try to get rid of symbolic coefficients from ``poly``","fibers":[{"name":"poly_func","pred":"isinstance(poly, poly_func)","path":{"lhs":"preprocess_roots(x)","rhs":"try to get rid of symbolic coefficients from ``poly``","over":{"base":"poly_func","pred":"isinstance(poly, poly_func)"},"name":"preprocess_roots_poly_func_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.preprocess_roots_poly_func_correct","statement":"preprocess_roots satisfies spec on poly_func inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d01b46519b73757a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.preprocess_roots","kind":"function","src_hash":"37d0472cca936803","in":{"base":"Any","pred":"isinstance(poly, poly_func) and hasattr(poly, 'func') and hasattr(poly, 'retract') and hasattr(poly, 'is_univariate') and hasattr(poly, 'clear_denoms') and hasattr(poly, 'primitive') and hasattr(poly, 'inject') and hasattr(poly, 'get_domain') and hasattr(poly, 'gens') and hasattr(poly, 'eject') and hasattr(poly, 'degree') and hasattr(poly, 'termwise') and hasattr(poly, 'eval') and hasattr(poly, 'monoms') and hasattr(poly, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"preprocess_roots(poly)","rhs":"<unspecified:preprocess_roots>","over":{"base":"Any","pred":"isinstance(poly, poly_func) and hasattr(poly, 'func') and hasattr(poly, 'retract') and hasattr(poly, 'is_univariate') and hasattr(poly, 'clear_denoms') and hasattr(poly, 'primitive') and hasattr(poly, 'inject') and hasattr(poly, 'get_domain') and hasattr(poly, 'gens') and hasattr(poly, 'eject') and hasattr(poly, 'degree') and hasattr(poly, 'termwise') and hasattr(poly, 'eval') and hasattr(poly, 'monoms') and hasattr(poly, 'rep')"},"name":"preprocess_roots_correct"},"guarantee":"try to get rid of symbolic coefficients from ``poly``","fibers":[{"name":"poly_func","pred":"isinstance(poly, poly_func)","path":{"lhs":"preprocess_roots(x)","rhs":"try to get rid of symbolic coefficients from ``poly``","over":{"base":"poly_func","pred":"isinstance(poly, poly_func)"},"name":"preprocess_roots_poly_func_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.preprocess_roots_poly_func_correct","statement":"preprocess_roots satisfies spec on poly_func inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d01b46519b73757a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(poly, 'func')","hasattr(poly, 'retract')","hasattr(poly, 'is_univariate')","hasattr(poly, 'clear_denoms')","hasattr(poly, 'primitive')","hasattr(poly, 'inject')","hasattr(poly, 'get_domain')","hasattr(poly, 'gens')","hasattr(poly, 'eject')","hasattr(poly, 'degree')","hasattr(poly, 'termwise')","hasattr(poly, 'eval')","hasattr(poly, 'monoms')","hasattr(poly, 'rep')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(poly, poly_func)', 'strip[0] < strip[-1]', 'ratio is None', 'b % a != 0', 'ratio != _ratio'}, fibers={'poly_func'})"]}}
 def preprocess_roots(poly):
     """Try to get rid of symbolic coefficients from ``poly``. """
     coeff = S.One
@@ -974,7 +1071,15 @@ def preprocess_roots(poly):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(roots(f, ), computes symbolic roots of a univariate polynomial) over {Any | isinstance(f, list) and isinstance(f, Poly)} ║
+# ║ Path(roots(f, *gens, auto), len(bases) == old_len_bases + 1 and len(result) == old_len_result + 1 and len(roots) == old_len_roots + 1) over {Any | isinstance(f, list) and isinstance(f, Poly) and hasattr(f, 'is_multivariate') and hasattr(f, 'is_ground') and hasattr(f, 'is_monomial') and hasattr(f, 'per') and hasattr(f, 'rep') and hasattr(f, 'terms_gcd') and hasattr(f, 'degree') and hasattr(f, 'to_field') and hasattr(f, 'get_domain') and hasattr(f, 'decompose') and hasattr(f, 'length') and hasattr(f, 'is_cyclotomic') and hasattr(f, 'gens') and hasattr(f, 'nroots') and hasattr(f, 'eval') and hasattr(f, 'quo') and hasattr(f, 'gen') and hasattr(f, 'as_expr')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'is_multivariate')                  ║
+# ║   requires: hasattr(f, 'is_ground')                        ║
+# ║   requires: hasattr(f, 'is_monomial')                      ║
+# ║   ensures:  len(bases) == old_len_bases + 1                ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ║   ensures:  len(roots) == old_len_roots + 1                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ roots : {Any | isinstance(f, list) and isinstance(f, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -987,9 +1092,12 @@ def preprocess_roots(poly):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 5.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fb483d14...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots","kind":"function","src_hash":"66700f56f0dd864e","in":{"base":"Any","pred":"isinstance(f, list) and isinstance(f, Poly)"},"out":{"base":"Any"},"spec":{"lhs":"roots(f, )","rhs":"computes symbolic roots of a univariate polynomial","over":{"base":"Any","pred":"isinstance(f, list) and isinstance(f, Poly)"},"name":"roots_correct"},"guarantee":"computes symbolic roots of a univariate polynomial","fibers":[{"name":"list","pred":"isinstance(f, list)","path":{"lhs":"roots(x)","rhs":"computes symbolic roots of a univariate polynomial","over":{"base":"list","pred":"isinstance(f, list)"},"name":"roots_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_list_correct","statement":"roots satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"Poly","pred":"isinstance(f, Poly)","path":{"lhs":"roots(x)","rhs":"computes symbolic roots of a univariate polynomial","over":{"base":"Poly","pred":"isinstance(f, Poly)"},"name":"roots_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_Poly_correct","statement":"roots satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fb483d14ed872aa5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.roots","kind":"function","src_hash":"66700f56f0dd864e","in":{"base":"Any","pred":"isinstance(f, list) and isinstance(f, Poly) and hasattr(f, 'is_multivariate') and hasattr(f, 'is_ground') and hasattr(f, 'is_monomial') and hasattr(f, 'per') and hasattr(f, 'rep') and hasattr(f, 'terms_gcd') and hasattr(f, 'degree') and hasattr(f, 'to_field') and hasattr(f, 'get_domain') and hasattr(f, 'decompose') and hasattr(f, 'length') and hasattr(f, 'is_cyclotomic') and hasattr(f, 'gens') and hasattr(f, 'nroots') and hasattr(f, 'eval') and hasattr(f, 'quo') and hasattr(f, 'gen') and hasattr(f, 'as_expr')"},"out":{"base":"Any","pred":"result satisfies: len(bases) == old_len_bases + 1 and len(result) == old_len_result + 1 and len(roots) == old_len_roots + 1"},"spec":{"lhs":"roots(f, *gens, auto)","rhs":"len(bases) == old_len_bases + 1 and len(result) == old_len_result + 1 and len(roots) == old_len_roots + 1","over":{"base":"Any","pred":"isinstance(f, list) and isinstance(f, Poly) and hasattr(f, 'is_multivariate') and hasattr(f, 'is_ground') and hasattr(f, 'is_monomial') and hasattr(f, 'per') and hasattr(f, 'rep') and hasattr(f, 'terms_gcd') and hasattr(f, 'degree') and hasattr(f, 'to_field') and hasattr(f, 'get_domain') and hasattr(f, 'decompose') and hasattr(f, 'length') and hasattr(f, 'is_cyclotomic') and hasattr(f, 'gens') and hasattr(f, 'nroots') and hasattr(f, 'eval') and hasattr(f, 'quo') and hasattr(f, 'gen') and hasattr(f, 'as_expr')"},"name":"roots_correct"},"guarantee":"len(bases) == old_len_bases + 1; len(result) == old_len_result + 1; len(roots) == old_len_roots + 1","fibers":[{"name":"list","pred":"isinstance(f, list)","path":{"lhs":"roots(x)","rhs":"len(bases) == old_len_bases + 1; len(result) == old_len_result + 1; len(roots) == old_len_roots + 1","over":{"base":"list","pred":"isinstance(f, list)"},"name":"roots_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_list_correct","statement":"roots satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"Poly","pred":"isinstance(f, Poly)","path":{"lhs":"roots(x)","rhs":"len(bases) == old_len_bases + 1; len(result) == old_len_result + 1; len(roots) == old_len_roots + 1","over":{"base":"Poly","pred":"isinstance(f, Poly)"},"name":"roots_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.roots_Poly_correct","statement":"roots satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fb483d14ed872aa5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'is_multivariate')","hasattr(f, 'is_ground')","hasattr(f, 'is_monomial')","hasattr(f, 'per')","hasattr(f, 'rep')","hasattr(f, 'terms_gcd')","hasattr(f, 'degree')","hasattr(f, 'to_field')","hasattr(f, 'get_domain')","hasattr(f, 'decompose')","hasattr(f, 'length')","hasattr(f, 'is_cyclotomic')","hasattr(f, 'gens')","hasattr(f, 'nroots')","hasattr(f, 'eval')","hasattr(f, 'quo')","hasattr(f, 'gen')","hasattr(f, 'as_expr')"],"ensures":["len(bases) == old_len_bases + 1","len(result) == old_len_result + 1","len(roots) == old_len_roots + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.as_expr","f.decompose","f.degree","f.eval","f.gen","f.gens","f.get_domain","f.is_cyclotomic","f.is_ground","f.is_monomial","f.is_multivariate","f.length","f.nroots","f.per","f.quo","f.rep","f.terms_gcd","f.to_field"],"calls_mutating":["bases.append","result.append","result.update","roots.append","zeros.extend"],"raises":["PolynomialError","UnsolvableFactorError","ValueError"],"catches":["GeneratorsNeeded","KeyError"]},"state_contract":{"modifies":["bases.*","result.*","roots.*","zeros.*"],"old_bindings":{"old_len_bases":"len(bases)","old_len_result":"len(result)","old_len_roots":"len(roots)","old_len_zeros":"len(zeros)"},"post_ensures":["len(bases) == old_len_bases + 1","len(result) == old_len_result + 1","len(roots) == old_len_roots + 1"],"exceptional_post":{"PolynomialError":["isinstance(raised, PolynomialError)"],"UnsolvableFactorError":["isinstance(raised, UnsolvableFactorError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.0,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['f'], spec=['f', '*gens', 'auto', 'cubics', 'trig', 'quartics', 'quintics', 'multiple', 'filter', 'predicate', 'strict', '**flags']","Poor branch-fiber coverage: 0% (branches={'len(factors) == 1 and f.degree() == 2', 'f.length() == 2', 'strict and sum(result.values()) < f.degree()', 'isinstance(f, list)', 'n == 1', 'n == 3 and cubics', 'len(factors) == 1 and factors[0][1] == 1', 'res[0] is None', 'currentroot == S.Zero', 'not isinstance(f, Poly) and (not F.gen.is_Symbol)', 'fcon != con', 'n == 2', 'n == 4 and quartics', 'n == 5 and quintics', 'f.length() == 2 and n > 2', 'f.degree() == 1'}, fibers={'Poly', 'list'})"]}}
 def roots(f, *gens,
         auto=True,
         cubics=True,
@@ -1353,9 +1461,14 @@ def roots(f, *gens,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(root_factors(f, ), returns all factors of a univariate polynomial) over {Any | isinstance(f, Poly)} ║
+# ║ Path(root_factors(f, *gens, filter), len(factors) == old_len_factors + 1) over {Any | isinstance(f, Poly) and not (F.is_multivariate) and hasattr(f, 'as_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ root_factors : {Any | isinstance(f, Poly)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (F.is_multivariate)                        ║
+# ║   requires: hasattr(f, 'as_expr')                          ║
+# ║   ensures:  len(factors) == old_len_factors + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ root_factors : {Any | isinstance(f, Poly) and not (F....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Poly: {isinstance(f, Poly)} → library_axiom              ║
@@ -1365,9 +1478,12 @@ def roots(f, *gens,
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b4457c2d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.root_factors","kind":"function","src_hash":"3513fe8da4701afc","in":{"base":"Any","pred":"isinstance(f, Poly)"},"out":{"base":"Any"},"spec":{"lhs":"root_factors(f, )","rhs":"returns all factors of a univariate polynomial","over":{"base":"Any","pred":"isinstance(f, Poly)"},"name":"root_factors_correct"},"guarantee":"returns all factors of a univariate polynomial","fibers":[{"name":"Poly","pred":"isinstance(f, Poly)","path":{"lhs":"root_factors(x)","rhs":"returns all factors of a univariate polynomial","over":{"base":"Poly","pred":"isinstance(f, Poly)"},"name":"root_factors_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.root_factors_Poly_correct","statement":"root_factors satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b4457c2d1da880ec"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.polyroots.root_factors","kind":"function","src_hash":"3513fe8da4701afc","in":{"base":"Any","pred":"isinstance(f, Poly) and not (F.is_multivariate) and hasattr(f, 'as_expr')"},"out":{"base":"Any","pred":"result satisfies: len(factors) == old_len_factors + 1"},"spec":{"lhs":"root_factors(f, *gens, filter)","rhs":"len(factors) == old_len_factors + 1","over":{"base":"Any","pred":"isinstance(f, Poly) and not (F.is_multivariate) and hasattr(f, 'as_expr')"},"name":"root_factors_correct"},"guarantee":"len(factors) == old_len_factors + 1","fibers":[{"name":"Poly","pred":"isinstance(f, Poly)","path":{"lhs":"root_factors(x)","rhs":"len(factors) == old_len_factors + 1","over":{"base":"Poly","pred":"isinstance(f, Poly)"},"name":"root_factors_Poly_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.polyroots.root_factors_Poly_correct","statement":"root_factors satisfies spec on Poly inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b4457c2d1da880ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (F.is_multivariate)","hasattr(f, 'as_expr')"],"ensures":["len(factors) == old_len_factors + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.as_expr"],"calls_mutating":["factors.append"],"raises":["ValueError"]},"state_contract":{"modifies":["factors.*"],"old_bindings":{"old_len_factors":"len(factors)"},"post_ensures":["len(factors) == old_len_factors + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['f'], spec=['f', '*gens', 'filter', '**args']","Poor branch-fiber coverage: 0% (branches={'N < F.degree()', 'not isinstance(f, Poly)'}, fibers={'Poly'})"]}}
 def root_factors(f, *gens, filter=None, **args):
     """
     Returns all factors of a univariate polynomial.

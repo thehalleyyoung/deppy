@@ -28,14 +28,21 @@ from sympy.printing.defaults import DefaultPrinting
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ExtensionElement instance) preserved by ExtensionElement(*args) over {Any | isinstance(g, ExtElem) and isinstance(n, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DomainElement)                ║
+# ║   ensures:  isinstance(self, DefaultPrinting)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ExtensionElement : {Any | isinstance(g, ExtElem) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d17f49da50831575  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement","kind":"class","src_hash":"08d8e7530bb00437","in":{"base":"Any","pred":"isinstance(g, ExtElem) and isinstance(n, int)"},"out":{"base":"Any"},"spec":{"lhs":"ExtensionElement(*args)","rhs":"correctly constructs a ExtensionElement instance","over":{"base":"Any","pred":"isinstance(g, ExtElem) and isinstance(n, int)"},"name":"ExtensionElement_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ExtensionElement instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_ground","pred":"self.is_ground","kind":"class"},{"name":"representation","pred":"hasattr(self, 'rep') and hasattr(self, 'ext')","kind":"class","induction":"structural on rep, ext"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d17f49da50831575"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement","kind":"class","src_hash":"08d8e7530bb00437","in":{"base":"Any","pred":"isinstance(g, ExtElem) and isinstance(n, int)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DomainElement) and isinstance(self, DefaultPrinting)"},"spec":{"lhs":"ExtensionElement(*args)","rhs":"correctly constructs a ExtensionElement instance","over":{"base":"Any","pred":"isinstance(g, ExtElem) and isinstance(n, int)"},"name":"ExtensionElement_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, DomainElement); isinstance(self, DefaultPrinting); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_ground","pred":"self.is_ground","kind":"class"},{"name":"representation","pred":"hasattr(self, 'rep') and hasattr(self, 'ext')","kind":"class","induction":"structural on rep, ext"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d17f49da50831575","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DomainElement)","isinstance(self, DefaultPrinting)"],"invariants":["hasattr(self, 'rep')","hasattr(self, 'ext')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ExtensionElement not found in source"]}}
 class ExtensionElement(DomainElement, DefaultPrinting):
     """
     Element of a finite extension.
@@ -50,101 +57,153 @@ class ExtensionElement(DomainElement, DefaultPrinting):
     __slots__ = ('rep', 'ext')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rep), initializes the instance correctly) over Any ║
+# ║ Path(__init__(rep, ext), self.rep == rep and self.ext == ext) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.rep == rep                                ║
+# ║   ensures:  self.ext == ext                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.rep ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 54c14bcd8ac4d9e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__init__","kind":"method","src_hash":"55e32c34dcd4407b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rep)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54c14bcd8ac4d9e9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__init__","kind":"method","src_hash":"55e32c34dcd4407b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.rep == rep and self.ext == ext"},"spec":{"lhs":"__init__(rep, ext)","rhs":"self.rep == rep and self.ext == ext","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.rep == rep; self.ext == ext","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54c14bcd8ac4d9e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.rep == rep","self.ext == ext"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, rep, ext):
         self.rep = rep
         self.ext = ext
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parent(f), parent produces the expected output) over Any ║
+# ║ Path(parent(f), f.ext) over {Any | hasattr(f, 'ext')}      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ parent : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   returns:  f.ext                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ parent : {Any | hasattr(f, 'ext')} → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ebdcf7d421f7366a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.parent","kind":"method","src_hash":"bb2ed56222412a7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parent(f)","rhs":"parent produces the expected output","over":{"base":"Any"},"name":"parent_correct"},"guarantee":"parent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebdcf7d421f7366a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.parent","kind":"method","src_hash":"bb2ed56222412a7c","in":{"base":"Any","pred":"hasattr(f, 'ext')"},"out":{"base":"Any"},"spec":{"lhs":"parent(f)","rhs":"f.ext","over":{"base":"Any","pred":"hasattr(f, 'ext')"},"name":"parent_correct"},"guarantee":"returns f.ext","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebdcf7d421f7366a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ext')"],"returns_expr":"f.ext","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ext"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parent(f):
         return f.ext
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_expr(f), as_expr produces the expected output) over Any ║
+# ║ Path(as_expr(f), f.ext.to_sympy(f)) over {Any | hasattr(f, 'ext')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_expr : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   returns:  f.ext.to_sympy(f)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_expr : {Any | hasattr(f, 'ext')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6bb9aef0655dced           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.as_expr","kind":"method","src_hash":"483c37ba3e014d2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_expr(f)","rhs":"as_expr produces the expected output","over":{"base":"Any"},"name":"as_expr_correct"},"guarantee":"as_expr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6bb9aef0655dced"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.as_expr","kind":"method","src_hash":"483c37ba3e014d2d","in":{"base":"Any","pred":"hasattr(f, 'ext')"},"out":{"base":"Any"},"spec":{"lhs":"as_expr(f)","rhs":"f.ext.to_sympy(f)","over":{"base":"Any","pred":"hasattr(f, 'ext')"},"name":"as_expr_correct"},"guarantee":"returns f.ext.to_sympy(f)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6bb9aef0655dced","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ext')"],"returns_expr":"f.ext.to_sympy(f)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ext"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_expr(f):
         return f.ext.to_sympy(f)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__bool__(f), correctly converts to boolean) over Any  ║
+# ║ Path(__bool__(f), bool(f.rep)) over {Any | hasattr(f, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __bool__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   returns:  bool(f.rep)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __bool__ : {Any | hasattr(f, 'rep')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f32628a62d9f93f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__bool__","kind":"method","src_hash":"250eaea931fd05f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__(f)","rhs":"correctly converts to boolean","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"correctly converts to boolean","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f32628a62d9f93f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__bool__","kind":"method","src_hash":"250eaea931fd05f9","in":{"base":"Any","pred":"hasattr(f, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"__bool__(f)","rhs":"bool(f.rep)","over":{"base":"Any","pred":"hasattr(f, 'rep')"},"name":"__bool___correct"},"guarantee":"returns bool(f.rep)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f32628a62d9f93f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'rep')"],"returns_expr":"bool(f.rep)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __bool__(f):
         return bool(f.rep)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pos__(f), internal helper behaves correctly) over Any ║
+# ║ Path(__pos__(f), f) over Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pos__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == f                                    ║
+# ║   returns:  f                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pos__ : Any → {Any | result satisfies: result == (f)}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a0945d6fec88db1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__pos__","kind":"method","src_hash":"037cd914408033ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pos__(f)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pos___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a0945d6fec88db1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__pos__","kind":"method","src_hash":"037cd914408033ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (f)"},"spec":{"lhs":"__pos__(f)","rhs":"f","over":{"base":"Any"},"name":"__pos___correct"},"guarantee":"returns f; result == f","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a0945d6fec88db1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == f"],"returns_expr":"f","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pos__(f):
         return f
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(f), returns the additive inverse) over Any    ║
+# ║ Path(__neg__(f), ExtElem(-f.rep, f.ext)) over {Any | hasattr(f, 'ext') and hasattr(f, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __neg__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   returns:  ExtElem(-f.rep, f.ext)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __neg__ : {Any | hasattr(f, 'ext') and hasattr(f, 're...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28946eccfd2f02c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__neg__","kind":"method","src_hash":"9bf2b2276908e642","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__(f)","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28946eccfd2f02c4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__neg__","kind":"method","src_hash":"9bf2b2276908e642","in":{"base":"Any","pred":"hasattr(f, 'ext') and hasattr(f, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"__neg__(f)","rhs":"ExtElem(-f.rep, f.ext)","over":{"base":"Any","pred":"hasattr(f, 'ext') and hasattr(f, 'rep')"},"name":"__neg___correct"},"guarantee":"returns ExtElem(-f.rep, f.ext)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28946eccfd2f02c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'ext')","hasattr(f, 'rep')"],"returns_expr":"ExtElem(-f.rep, f.ext)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ext","f.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(f):
         return ExtElem(-f.rep, f.ext)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_rep(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(_get_rep(f, g), <unspecified:_get_rep>) over {Any | hasattr(g, 'ext') and hasattr(f, 'ext') and hasattr(g, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_rep : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g, 'ext')                              ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   requires: hasattr(g, 'rep')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_rep : {Any | hasattr(g, 'ext') and hasattr(f, 'e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa01dffc95b44e83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement._get_rep","kind":"method","src_hash":"c0a6cf55fad324b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_rep(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_rep_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.ExtensionElement._get_rep_correct","statement":"Path(_get_rep(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa01dffc95b44e83"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement._get_rep","kind":"method","src_hash":"c0a6cf55fad324b2","in":{"base":"Any","pred":"hasattr(g, 'ext') and hasattr(f, 'ext') and hasattr(g, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"_get_rep(f, g)","rhs":"<unspecified:_get_rep>","over":{"base":"Any","pred":"hasattr(g, 'ext') and hasattr(f, 'ext') and hasattr(g, 'rep')"},"name":"_get_rep_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.ExtensionElement._get_rep_correct","statement":"Path(_get_rep(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa01dffc95b44e83","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g, 'ext')","hasattr(f, 'ext')","hasattr(g, 'rep')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ext","g.ext","g.rep"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_rep(f, g):
         if isinstance(g, ExtElem):
             if g.ext == f.ext:
@@ -159,16 +218,28 @@ class ExtensionElement(DomainElement, DefaultPrinting):
                 return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(f, ), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(f, g), result == (ExtElem(f.rep + rep, f.ext) if rep is not None else NotImplemented) and result == ExtElem(f.rep + rep, f.ext) or result == NotImplemented) over {Any | hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(f, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, '_get_rep')                         ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   ensures:  result == (ExtElem(f.rep + rep, f.ext) if...   ║
+# ║   ensures:  result == ExtElem(f.rep + rep, f.ext) or ...   ║
+# ║   fiber[case_0]: rep is not None => ExtElem(f.rep + r...   ║
+# ║   fiber[case_1]: not (rep is not None) => NotImplemented   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(f, '_get_rep') and hasattr(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e52d09b4fbcd9648           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__add__","kind":"method","src_hash":"841e1eeb3f530ba1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(f, )","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e52d09b4fbcd9648"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__add__","kind":"method","src_hash":"841e1eeb3f530ba1","in":{"base":"Any","pred":"hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(f, 'rep')"},"out":{"base":"Any","pred":"result satisfies: result == (ExtElem(f.rep + rep, f.ext) if rep is not None else NotImplemented) and result == ExtElem(f.rep + rep, f.ext) or result == NotImplemented"},"spec":{"lhs":"__add__(f, g)","rhs":"result == (ExtElem(f.rep + rep, f.ext) if rep is not None else NotImplemented) and result == ExtElem(f.rep + rep, f.ext) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(f, 'rep')"},"name":"__add___correct"},"guarantee":"result == (ExtElem(f.rep + rep, f.ext) if rep is not None else NotImplemented); result == ExtElem(f.rep + rep, f.ext) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e52d09b4fbcd9648","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, '_get_rep')","hasattr(f, 'ext')","hasattr(f, 'rep')"],"ensures":["result == (ExtElem(f.rep + rep, f.ext) if rep is not None else NotImplemented)","result == ExtElem(f.rep + rep, f.ext) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"rep is not None","ensures":["result == ExtElem(f.rep + rep, f.ext)"],"decidability":"library","returns_expr":"ExtElem(f.rep + rep, f.ext)"},{"name":"case_1","guard":"not (rep is not None)","ensures":["result == NotImplemented"],"decidability":"library","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._get_rep","f.ext","f.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(f, g):
         rep = f._get_rep(g)
         if rep is not None:
@@ -179,16 +250,28 @@ class ExtensionElement(DomainElement, DefaultPrinting):
     __radd__ = __add__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(f, g), result == (ExtElem(f.rep - rep, f.ext) if rep is not None else NotImplemented) and result == ExtElem(f.rep - rep, f.ext) or result == NotImplemented) over {Any | hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(f, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, '_get_rep')                         ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   ensures:  result == (ExtElem(f.rep - rep, f.ext) if...   ║
+# ║   ensures:  result == ExtElem(f.rep - rep, f.ext) or ...   ║
+# ║   fiber[case_0]: rep is not None => ExtElem(f.rep - r...   ║
+# ║   fiber[case_1]: not (rep is not None) => NotImplemented   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(f, '_get_rep') and hasattr(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 988b1ffa2521e093           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__sub__","kind":"method","src_hash":"31824b51bb824ad0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"988b1ffa2521e093"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__sub__","kind":"method","src_hash":"31824b51bb824ad0","in":{"base":"Any","pred":"hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(f, 'rep')"},"out":{"base":"Any","pred":"result satisfies: result == (ExtElem(f.rep - rep, f.ext) if rep is not None else NotImplemented) and result == ExtElem(f.rep - rep, f.ext) or result == NotImplemented"},"spec":{"lhs":"__sub__(f, g)","rhs":"result == (ExtElem(f.rep - rep, f.ext) if rep is not None else NotImplemented) and result == ExtElem(f.rep - rep, f.ext) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(f, 'rep')"},"name":"__sub___correct"},"guarantee":"result == (ExtElem(f.rep - rep, f.ext) if rep is not None else NotImplemented); result == ExtElem(f.rep - rep, f.ext) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"988b1ffa2521e093","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, '_get_rep')","hasattr(f, 'ext')","hasattr(f, 'rep')"],"ensures":["result == (ExtElem(f.rep - rep, f.ext) if rep is not None else NotImplemented)","result == ExtElem(f.rep - rep, f.ext) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"rep is not None","ensures":["result == ExtElem(f.rep - rep, f.ext)"],"decidability":"library","returns_expr":"ExtElem(f.rep - rep, f.ext)"},{"name":"case_1","guard":"not (rep is not None)","ensures":["result == NotImplemented"],"decidability":"library","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._get_rep","f.ext","f.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(f, g):
         rep = f._get_rep(g)
         if rep is not None:
@@ -197,16 +280,28 @@ class ExtensionElement(DomainElement, DefaultPrinting):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rsub__(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(__rsub__(f, g), result == (ExtElem(rep - f.rep, f.ext) if rep is not None else NotImplemented) and result == ExtElem(rep - f.rep, f.ext) or result == NotImplemented) over {Any | hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(f, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rsub__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, '_get_rep')                         ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   ensures:  result == (ExtElem(rep - f.rep, f.ext) if...   ║
+# ║   ensures:  result == ExtElem(rep - f.rep, f.ext) or ...   ║
+# ║   fiber[case_0]: rep is not None => ExtElem(rep - f.r...   ║
+# ║   fiber[case_1]: not (rep is not None) => NotImplemented   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rsub__ : {Any | hasattr(f, '_get_rep') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 43e37741c5625078           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__rsub__","kind":"method","src_hash":"5e74be7542fedd39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rsub__(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rsub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43e37741c5625078"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__rsub__","kind":"method","src_hash":"5e74be7542fedd39","in":{"base":"Any","pred":"hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(f, 'rep')"},"out":{"base":"Any","pred":"result satisfies: result == (ExtElem(rep - f.rep, f.ext) if rep is not None else NotImplemented) and result == ExtElem(rep - f.rep, f.ext) or result == NotImplemented"},"spec":{"lhs":"__rsub__(f, g)","rhs":"result == (ExtElem(rep - f.rep, f.ext) if rep is not None else NotImplemented) and result == ExtElem(rep - f.rep, f.ext) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(f, 'rep')"},"name":"__rsub___correct"},"guarantee":"result == (ExtElem(rep - f.rep, f.ext) if rep is not None else NotImplemented); result == ExtElem(rep - f.rep, f.ext) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43e37741c5625078","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, '_get_rep')","hasattr(f, 'ext')","hasattr(f, 'rep')"],"ensures":["result == (ExtElem(rep - f.rep, f.ext) if rep is not None else NotImplemented)","result == ExtElem(rep - f.rep, f.ext) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"rep is not None","ensures":["result == ExtElem(rep - f.rep, f.ext)"],"decidability":"library","returns_expr":"ExtElem(rep - f.rep, f.ext)"},{"name":"case_1","guard":"not (rep is not None)","ensures":["result == NotImplemented"],"decidability":"library","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._get_rep","f.ext","f.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rsub__(f, g):
         rep = f._get_rep(g)
         if rep is not None:
@@ -215,16 +310,28 @@ class ExtensionElement(DomainElement, DefaultPrinting):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(f, ), returns the product) over Any           ║
+# ║ Path(__mul__(f, g), result == (ExtElem(f.rep * rep % f.ext.mod, f.ext) if rep is not None else NotImplemented) and result == ExtElem(f.rep * rep % f.ext.mod, f.ext) or result == NotImplemented) over {Any | hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(f, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, '_get_rep')                         ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   ensures:  result == (ExtElem(f.rep * rep % f.ext.mo...   ║
+# ║   ensures:  result == ExtElem(f.rep * rep % f.ext.mod...   ║
+# ║   fiber[case_0]: rep is not None => ExtElem(f.rep * r...   ║
+# ║   fiber[case_1]: not (rep is not None) => NotImplemented   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(f, '_get_rep') and hasattr(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4148a7ac4da7f71e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__mul__","kind":"method","src_hash":"b4e2f9e6382a0c16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(f, )","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4148a7ac4da7f71e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__mul__","kind":"method","src_hash":"b4e2f9e6382a0c16","in":{"base":"Any","pred":"hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(f, 'rep')"},"out":{"base":"Any","pred":"result satisfies: result == (ExtElem(f.rep * rep % f.ext.mod, f.ext) if rep is not None else NotImplemented) and result == ExtElem(f.rep * rep % f.ext.mod, f.ext) or result == NotImplemented"},"spec":{"lhs":"__mul__(f, g)","rhs":"result == (ExtElem(f.rep * rep % f.ext.mod, f.ext) if rep is not None else NotImplemented) and result == ExtElem(f.rep * rep % f.ext.mod, f.ext) or result == NotImplemented","over":{"base":"Any","pred":"hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(f, 'rep')"},"name":"__mul___correct"},"guarantee":"result == (ExtElem(f.rep * rep % f.ext.mod, f.ext) if rep is not None else NotImplemented); result == ExtElem(f.rep * rep % f.ext.mod, f.ext) or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4148a7ac4da7f71e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, '_get_rep')","hasattr(f, 'ext')","hasattr(f, 'rep')"],"ensures":["result == (ExtElem(f.rep * rep % f.ext.mod, f.ext) if rep is not None else NotImplemented)","result == ExtElem(f.rep * rep % f.ext.mod, f.ext) or result == NotImplemented"],"fibers":[{"name":"case_0","guard":"rep is not None","ensures":["result == ExtElem(f.rep * rep % f.ext.mod, f.ext)"],"decidability":"library","returns_expr":"ExtElem(f.rep * rep % f.ext.mod, f.ext)"},{"name":"case_1","guard":"not (rep is not None)","ensures":["result == NotImplemented"],"decidability":"library","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._get_rep","f.ext","f.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(f, g):
         rep = f._get_rep(g)
         if rep is not None:
@@ -235,16 +342,27 @@ class ExtensionElement(DomainElement, DefaultPrinting):
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_divcheck(f), raise if division is not implemented for this divisor) over Any ║
+# ║ Path(_divcheck(f), <unspecified:_divcheck>) over {Any | f and hasattr(f, 'ext') and hasattr(f, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _divcheck : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: f                                              ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   fiber[case_0]: not f                                     ║
+# ║   fiber[case_1]: f.ext.is_Field => True                    ║
+# ║   fiber[case_2]: f.rep.is_ground and f.ext.domain.is_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _divcheck : {Any | f and hasattr(f, 'ext') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82ad5f46a7f92445  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02f9b30a15f1154b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement._divcheck","kind":"method","src_hash":"22c6a6c6795080f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_divcheck(f)","rhs":"raise if division is not implemented for this divisor","over":{"base":"Any"},"name":"_divcheck_correct"},"guarantee":"raise if division is not implemented for this divisor","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.ExtensionElement._divcheck_correct","statement":"Path(_divcheck(x), raise if division is not implemented for this divisor)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82ad5f46a7f92445"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement._divcheck","kind":"method","src_hash":"22c6a6c6795080f9","in":{"base":"Any","pred":"f and hasattr(f, 'ext') and hasattr(f, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"_divcheck(f)","rhs":"<unspecified:_divcheck>","over":{"base":"Any","pred":"f and hasattr(f, 'ext') and hasattr(f, 'rep')"},"name":"_divcheck_correct"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.ExtensionElement._divcheck_correct","statement":"Path(_divcheck(x), 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02f9b30a15f1154b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["f","hasattr(f, 'ext')","hasattr(f, 'rep')"],"fibers":[{"name":"case_0","guard":"not f","ensures":[],"decidability":"library"},{"name":"case_1","guard":"f.ext.is_Field","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_2","guard":"f.rep.is_ground and f.ext.domain.is_unit(f.rep.LC())","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_3","guard":"not (not f) and not (f.ext.is_Field) and not (f.rep.is_ground and f.ext.domain.is_unit(f.rep.LC()))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ext","f.rep"],"raises":["NotImplementedError","NotInvertible"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"NotInvertible":["isinstance(raised, NotInvertible)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _divcheck(f):
         """Raise if division is not implemented for this divisor"""
         if not f:
@@ -263,16 +381,25 @@ class ExtensionElement(DomainElement, DefaultPrinting):
             raise NotImplementedError(msg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(f), multiplicative inverse) over Any          ║
+# ║ Path(inverse(f), ExtElem(invrep, f.ext)) over {Any | hasattr(f, '_divcheck') and hasattr(f, 'ext') and hasattr(f, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ inverse : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, '_divcheck')                        ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   returns:  ExtElem(invrep, f.ext)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ inverse : {Any | hasattr(f, '_divcheck') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc443cdbf4584ed3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ef099a18032b789  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.inverse","kind":"method","src_hash":"59c96df1a52f5df8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(f)","rhs":"multiplicative inverse","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"multiplicative inverse","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.ExtensionElement.inverse_correct","statement":"Path(inverse(x), multiplicative inverse)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc443cdbf4584ed3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.inverse","kind":"method","src_hash":"59c96df1a52f5df8","in":{"base":"Any","pred":"hasattr(f, '_divcheck') and hasattr(f, 'ext') and hasattr(f, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"inverse(f)","rhs":"ExtElem(invrep, f.ext)","over":{"base":"Any","pred":"hasattr(f, '_divcheck') and hasattr(f, 'ext') and hasattr(f, 'rep')"},"name":"inverse_correct"},"guarantee":"returns ExtElem(invrep, f.ext)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.ExtensionElement.inverse_correct","statement":"Path(inverse(x), returns ExtElem(invrep, f.ext))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ef099a18032b789","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, '_divcheck')","hasattr(f, 'ext')","hasattr(f, 'rep')"],"returns_expr":"ExtElem(invrep, f.ext)","pure":false,"effects":{"effect_type":"reads_state","reads":["f._divcheck","f.ext","f.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(f):
         """Multiplicative inverse.
 
@@ -294,16 +421,25 @@ class ExtensionElement(DomainElement, DefaultPrinting):
         return ExtElem(invrep, f.ext)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(f, g), <unspecified:__truediv__>) over {Any | hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(g, 'inverse')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, '_get_rep')                         ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   requires: hasattr(g, 'inverse')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | hasattr(f, '_get_rep') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2098c79df72f0060           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__truediv__","kind":"method","src_hash":"170464b6994bad1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2098c79df72f0060"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__truediv__","kind":"method","src_hash":"170464b6994bad1f","in":{"base":"Any","pred":"hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(g, 'inverse')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(f, g)","rhs":"<unspecified:__truediv__>","over":{"base":"Any","pred":"hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(g, 'inverse')"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2098c79df72f0060","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, '_get_rep')","hasattr(f, 'ext')","hasattr(g, 'inverse')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._get_rep","f.ext","g.inverse"],"raises":["ZeroDivisionError"],"catches":["NotInvertible"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(f, g):
         rep = f._get_rep(g)
         if rep is None:
@@ -320,16 +456,23 @@ class ExtensionElement(DomainElement, DefaultPrinting):
     __floordiv__ = __truediv__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(f, g), <unspecified:__rtruediv__>) over {Any | hasattr(f, 'ext')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rtruediv__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rtruediv__ : {Any | hasattr(f, 'ext')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f100018053ec0934           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__rtruediv__","kind":"method","src_hash":"0e8d3990a51669f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f100018053ec0934"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__rtruediv__","kind":"method","src_hash":"0e8d3990a51669f3","in":{"base":"Any","pred":"hasattr(f, 'ext')"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(f, g)","rhs":"<unspecified:__rtruediv__>","over":{"base":"Any","pred":"hasattr(f, 'ext')"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f100018053ec0934","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ext')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ext"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(f, g):
         try:
             g = f.ext.convert(g)
@@ -340,16 +483,25 @@ class ExtensionElement(DomainElement, DefaultPrinting):
     __rfloordiv__ = __rtruediv__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mod__(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(__mod__(f, g), <unspecified:__mod__>) over {Any | hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(g, '_divcheck')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mod__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, '_get_rep')                         ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   requires: hasattr(g, '_divcheck')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mod__ : {Any | hasattr(f, '_get_rep') and hasattr(f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2051544508f3a969           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__mod__","kind":"method","src_hash":"9b2da8157e6aa8c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mod__(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__mod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2051544508f3a969"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__mod__","kind":"method","src_hash":"9b2da8157e6aa8c9","in":{"base":"Any","pred":"hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(g, '_divcheck')"},"out":{"base":"Any"},"spec":{"lhs":"__mod__(f, g)","rhs":"<unspecified:__mod__>","over":{"base":"Any","pred":"hasattr(f, '_get_rep') and hasattr(f, 'ext') and hasattr(g, '_divcheck')"},"name":"__mod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2051544508f3a969","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, '_get_rep')","hasattr(f, 'ext')","hasattr(g, '_divcheck')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f._get_rep","f.ext","g._divcheck"],"raises":["ZeroDivisionError"],"catches":["NotInvertible"]},"state_contract":{"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mod__(f, g):
         rep = f._get_rep(g)
         if rep is None:
@@ -365,16 +517,23 @@ class ExtensionElement(DomainElement, DefaultPrinting):
         return f.ext.zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmod__(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(__rmod__(f, g), <unspecified:__rmod__>) over {Any | hasattr(f, 'ext')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rmod__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rmod__ : {Any | hasattr(f, 'ext')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 64e2d53a8caaf4cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__rmod__","kind":"method","src_hash":"eb914959662d4464","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmod__(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64e2d53a8caaf4cc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__rmod__","kind":"method","src_hash":"eb914959662d4464","in":{"base":"Any","pred":"hasattr(f, 'ext')"},"out":{"base":"Any"},"spec":{"lhs":"__rmod__(f, g)","rhs":"<unspecified:__rmod__>","over":{"base":"Any","pred":"hasattr(f, 'ext')"},"name":"__rmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64e2d53a8caaf4cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'ext')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ext"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmod__(f, g):
         try:
             g = f.ext.convert(g)
@@ -383,16 +542,25 @@ class ExtensionElement(DomainElement, DefaultPrinting):
         return g % f
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(f, n), ExtElem(r, f.ext)) over {Any | isinstance(n, int) and hasattr(f, 'rep') and hasattr(f, 'ext') and hasattr(f, 'inverse')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __pow__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   returns:  ExtElem(r, f.ext)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __pow__ : {Any | isinstance(n, int) and hasattr(f, 'r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3c349d925a4d5263           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__pow__","kind":"method","src_hash":"46908a93ba087213","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c349d925a4d5263"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__pow__","kind":"method","src_hash":"46908a93ba087213","in":{"base":"Any","pred":"isinstance(n, int) and hasattr(f, 'rep') and hasattr(f, 'ext') and hasattr(f, 'inverse')"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(f, n)","rhs":"ExtElem(r, f.ext)","over":{"base":"Any","pred":"isinstance(n, int) and hasattr(f, 'rep') and hasattr(f, 'ext') and hasattr(f, 'inverse')"},"name":"__pow___correct"},"guarantee":"returns ExtElem(r, f.ext)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3c349d925a4d5263","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(n, int)","hasattr(f, 'rep')","hasattr(f, 'ext')","hasattr(f, 'inverse')"],"returns_expr":"ExtElem(r, f.ext)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ext","f.inverse","f.rep"],"raises":["TypeError","ValueError"],"catches":["NotImplementedError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(f, n):
         if not isinstance(n, int):
             raise TypeError("exponent of type 'int' expected")
@@ -414,16 +582,28 @@ class ExtensionElement(DomainElement, DefaultPrinting):
         return ExtElem(r, f.ext)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(f, ), correctly determines equality) over Any  ║
+# ║ Path(__eq__(f, g), result == (f.rep == g.rep and f.ext == g.ext if isinstance(g, ExtElem) else NotImplemented) and result == f.rep == g.rep and f.ext == g.ext or result == NotImplemented) over {Any | hasattr(f, 'rep') and hasattr(g, 'rep') and hasattr(f, 'ext') and hasattr(g, 'ext')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   requires: hasattr(g, 'rep')                              ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   ensures:  result == (f.rep == g.rep and f.ext == g....   ║
+# ║   ensures:  result == f.rep == g.rep and f.ext == g.e...   ║
+# ║   fiber[ExtElem]: isinstance(g, ExtElem) => f.rep == ...   ║
+# ║   fiber[ExtElem]: not (isinstance(g, ExtElem)) => Not...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(f, 'rep') and hasattr(g, 'rep...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b278499f81aff220           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__eq__","kind":"method","src_hash":"8356f1963f4fb9dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(f, )","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b278499f81aff220"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__eq__","kind":"method","src_hash":"8356f1963f4fb9dc","in":{"base":"Any","pred":"hasattr(f, 'rep') and hasattr(g, 'rep') and hasattr(f, 'ext') and hasattr(g, 'ext')"},"out":{"base":"Any","pred":"result satisfies: result == (f.rep == g.rep and f.ext == g.ext if isinstance(g, ExtElem) else NotImplemented) and result == f.rep == g.rep and f.ext == g.ext or result == NotImplemented"},"spec":{"lhs":"__eq__(f, g)","rhs":"result == (f.rep == g.rep and f.ext == g.ext if isinstance(g, ExtElem) else NotImplemented) and result == f.rep == g.rep and f.ext == g.ext or result == NotImplemented","over":{"base":"Any","pred":"hasattr(f, 'rep') and hasattr(g, 'rep') and hasattr(f, 'ext') and hasattr(g, 'ext')"},"name":"__eq___correct"},"guarantee":"result == (f.rep == g.rep and f.ext == g.ext if isinstance(g, ExtElem) else NotImplemented); result == f.rep == g.rep and f.ext == g.ext or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b278499f81aff220","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'rep')","hasattr(g, 'rep')","hasattr(f, 'ext')","hasattr(g, 'ext')"],"ensures":["result == (f.rep == g.rep and f.ext == g.ext if isinstance(g, ExtElem) else NotImplemented)","result == f.rep == g.rep and f.ext == g.ext or result == NotImplemented"],"fibers":[{"name":"ExtElem","guard":"isinstance(g, ExtElem)","ensures":["result == f.rep == g.rep and f.ext == g.ext"],"decidability":"structural","returns_expr":"f.rep == g.rep and f.ext == g.ext"},{"name":"ExtElem","guard":"not (isinstance(g, ExtElem))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.ext","f.rep","g.ext","g.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(f, g):
         if isinstance(g, ExtElem):
             return f.rep == g.rep and f.ext == g.ext
@@ -431,44 +611,65 @@ class ExtensionElement(DomainElement, DefaultPrinting):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(f, ), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(f, g), not f == g) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not f == g                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f444cd306dffed5c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__ne__","kind":"method","src_hash":"b92f7252e6b7d822","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f444cd306dffed5c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__ne__","kind":"method","src_hash":"b92f7252e6b7d822","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(f, g)","rhs":"not f == g","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not f == g","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f444cd306dffed5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not f == g","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(f, g):
         return not f == g
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(f), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(f), hash((f.rep, f.ext))) over {Any | hasattr(f, 'rep') and hasattr(f, 'ext')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __hash__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   requires: hasattr(f, 'ext')                              ║
+# ║   returns:  hash((f.rep, f.ext))                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __hash__ : {Any | hasattr(f, 'rep') and hasattr(f, 'e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 53490446bb3489b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__hash__","kind":"method","src_hash":"09d1678d59530600","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__(f)","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"53490446bb3489b1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__hash__","kind":"method","src_hash":"09d1678d59530600","in":{"base":"Any","pred":"hasattr(f, 'rep') and hasattr(f, 'ext')"},"out":{"base":"Any"},"spec":{"lhs":"__hash__(f)","rhs":"hash((f.rep, f.ext))","over":{"base":"Any","pred":"hasattr(f, 'rep') and hasattr(f, 'ext')"},"name":"__hash___correct"},"guarantee":"returns hash((f.rep, f.ext))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"53490446bb3489b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'rep')","hasattr(f, 'ext')"],"returns_expr":"hash((f.rep, f.ext))","pure":false,"effects":{"effect_type":"reads_state","reads":["f.ext","f.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(f):
         return hash((f.rep, f.ext))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(f), returns a human-readable string) over Any ║
+# ║ Path(__str__(f), sstr(f.as_expr())) over {Any | hasattr(f, 'as_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __str__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'as_expr')                          ║
+# ║   returns:  sstr(f.as_expr())                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __str__ : {Any | hasattr(f, 'as_expr')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4392f191bae9432b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__str__","kind":"method","src_hash":"cb43a6bffa75c193","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__(f)","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4392f191bae9432b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.__str__","kind":"method","src_hash":"cb43a6bffa75c193","in":{"base":"Any","pred":"hasattr(f, 'as_expr')"},"out":{"base":"Any"},"spec":{"lhs":"__str__(f)","rhs":"sstr(f.as_expr())","over":{"base":"Any","pred":"hasattr(f, 'as_expr')"},"name":"__str___correct"},"guarantee":"returns sstr(f.as_expr())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4392f191bae9432b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'as_expr')"],"returns_expr":"sstr(f.as_expr())","pure":false,"effects":{"effect_type":"reads_state","reads":["f.as_expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(f):
         from sympy.printing.str import sstr
         return sstr(f.as_expr())
@@ -477,30 +678,44 @@ class ExtensionElement(DomainElement, DefaultPrinting):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_ground(f), returns the is_ground attribute) over Any ║
+# ║ Path(is_ground(f), f.rep.is_ground) over {Any | hasattr(f, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_ground : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   returns:  f.rep.is_ground                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_ground : {Any | hasattr(f, 'rep')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9f36b5e83b0f225c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.is_ground","kind":"property","src_hash":"7ba2cb2f1311d661","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_ground(f)","rhs":"returns the is_ground attribute","over":{"base":"Any"},"name":"is_ground_correct"},"guarantee":"returns the is_ground attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f36b5e83b0f225c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.is_ground","kind":"property","src_hash":"7ba2cb2f1311d661","in":{"base":"Any","pred":"hasattr(f, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"is_ground(f)","rhs":"f.rep.is_ground","over":{"base":"Any","pred":"hasattr(f, 'rep')"},"name":"is_ground_correct"},"guarantee":"returns f.rep.is_ground","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f36b5e83b0f225c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'rep')"],"returns_expr":"f.rep.is_ground","pure":false,"effects":{"effect_type":"reads_state","reads":["f.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_ground(f):
         return f.rep.is_ground
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_ground(f), to_ground produces the expected output) over Any ║
+# ║ Path(to_ground(f), <unspecified:to_ground>) over {Any | hasattr(f, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_ground : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_ground : {Any | hasattr(f, 'rep')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0a30bc254325792  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.to_ground","kind":"method","src_hash":"19ab195f4a08dca7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_ground(f)","rhs":"to_ground produces the expected output","over":{"base":"Any"},"name":"to_ground_correct"},"guarantee":"to_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.ExtensionElement.to_ground_correct","statement":"Path(to_ground(x), to_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0a30bc254325792"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.ExtensionElement.to_ground","kind":"method","src_hash":"19ab195f4a08dca7","in":{"base":"Any","pred":"hasattr(f, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"to_ground(f)","rhs":"<unspecified:to_ground>","over":{"base":"Any","pred":"hasattr(f, 'rep')"},"name":"to_ground_correct"},"guarantee":"to_ground produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.ExtensionElement.to_ground_correct","statement":"Path(to_ground(x), to_ground produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0a30bc254325792","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'rep')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.rep"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_ground(f):
         [c] = f.rep.to_list()
         return c
@@ -511,14 +726,20 @@ ExtElem = ExtensionElement
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MonogenicFiniteExtension instance) preserved by MonogenicFiniteExtension(*args) over {Any | isinstance(other, FiniteExtension) and isinstance(mod, Poly)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Domain)                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MonogenicFiniteExtension : {Any | isinstance(other, F...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d8b8e597af2e041  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension","kind":"class","src_hash":"733bbd880a6761f1","in":{"base":"Any","pred":"isinstance(other, FiniteExtension) and isinstance(mod, Poly)"},"out":{"base":"Any"},"spec":{"lhs":"MonogenicFiniteExtension(*args)","rhs":"correctly constructs a MonogenicFiniteExtension instance","over":{"base":"Any","pred":"isinstance(other, FiniteExtension) and isinstance(mod, Poly)"},"name":"MonogenicFiniteExtension_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MonogenicFiniteExtension instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'rank') and hasattr(self, 'modulus') and hasattr(self, 'mod') and hasattr(self, 'domain') and hasattr(self, 'ring') and hasattr(self, 'zero') and hasattr(self, 'one') and hasattr(self, 'symbol')","kind":"class","induction":"structural on rank, modulus, mod, domain"}],"methods_preserving":["__init__","new","__eq__","__hash__","__str__","has_CharacteristicZero","characteristic","convert","convert_from","to_sympy","from_sympy","set_domain","drop","quo","exquo","is_negative","is_unit"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d8b8e597af2e041"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension","kind":"class","src_hash":"733bbd880a6761f1","in":{"base":"Any","pred":"isinstance(other, FiniteExtension) and isinstance(mod, Poly)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Domain)"},"spec":{"lhs":"MonogenicFiniteExtension(*args)","rhs":"correctly constructs a MonogenicFiniteExtension instance","over":{"base":"Any","pred":"isinstance(other, FiniteExtension) and isinstance(mod, Poly)"},"name":"MonogenicFiniteExtension_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Domain); preserves 11 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'rank') and hasattr(self, 'modulus') and hasattr(self, 'mod') and hasattr(self, 'domain') and hasattr(self, 'ring') and hasattr(self, 'zero') and hasattr(self, 'one') and hasattr(self, 'symbol')","kind":"class","induction":"structural on rank, modulus, mod, domain"}],"methods_preserving":["__init__","new","__eq__","__hash__","__str__","has_CharacteristicZero","characteristic","convert","convert_from","to_sympy","from_sympy","set_domain","drop","quo","exquo","is_negative","is_unit"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d8b8e597af2e041","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Domain)"],"invariants":["hasattr(self, 'rank')","hasattr(self, 'modulus')","hasattr(self, 'mod')","hasattr(self, 'domain')","hasattr(self, 'ring')","hasattr(self, 'zero')","hasattr(self, 'one')","hasattr(self, 'symbol')","hasattr(self, 'generator')","hasattr(self, 'basis')","hasattr(self, 'is_Field')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function MonogenicFiniteExtension not found in source"]}}
 class MonogenicFiniteExtension(Domain):
     r"""
     Finite extension generated by an integral element.
@@ -565,16 +786,25 @@ class MonogenicFiniteExtension(Domain):
     dtype = ExtensionElement
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(mod), initializes the instance correctly) over Any ║
+# ║ Path(__init__(mod), self.modulus == mod) over {Any | isinstance(mod, Poly) and mod.is_univariate and hasattr(mod, 'rep') and hasattr(mod, 'domain') and hasattr(mod, 'monic') and hasattr(mod, 'degree') and hasattr(mod, 'is_univariate') and hasattr(mod, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(mod, Poly) and mod.is_univariate    ║
+# ║   requires: hasattr(mod, 'rep')                            ║
+# ║   requires: hasattr(mod, 'domain')                         ║
+# ║   ensures:  self.modulus == mod                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(mod, Poly) and mod.is_un...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 359321949837884e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.__init__","kind":"method","src_hash":"a2b5719b89d310da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(mod)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"359321949837884e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.__init__","kind":"method","src_hash":"a2b5719b89d310da","in":{"base":"Any","pred":"isinstance(mod, Poly) and mod.is_univariate and hasattr(mod, 'rep') and hasattr(mod, 'domain') and hasattr(mod, 'monic') and hasattr(mod, 'degree') and hasattr(mod, 'is_univariate') and hasattr(mod, 'gens')"},"out":{"base":"Any","pred":"result satisfies: self.modulus == mod"},"spec":{"lhs":"__init__(mod)","rhs":"self.modulus == mod","over":{"base":"Any","pred":"isinstance(mod, Poly) and mod.is_univariate and hasattr(mod, 'rep') and hasattr(mod, 'domain') and hasattr(mod, 'monic') and hasattr(mod, 'degree') and hasattr(mod, 'is_univariate') and hasattr(mod, 'gens')"},"name":"__init___correct"},"guarantee":"self.modulus == mod","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"359321949837884e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(mod, Poly) and mod.is_univariate","hasattr(mod, 'rep')","hasattr(mod, 'domain')","hasattr(mod, 'monic')","hasattr(mod, 'degree')","hasattr(mod, 'is_univariate')","hasattr(mod, 'gens')"],"ensures":["self.modulus == mod"],"pure":false,"effects":{"effect_type":"reads_state","reads":["mod.degree","mod.domain","mod.gens","mod.is_univariate","mod.monic","mod.rep","self.convert","self.domain","self.rank","self.ring"],"writes":["self.basis","self.domain","self.generator","self.is_Field","self.mod","self.modulus","self.one","self.rank","self.ring","self.symbol","self.zero"],"raises":["TypeError"]},"state_contract":{"modifies":["self.basis","self.domain","self.generator","self.is_Field","self.mod","self.modulus","self.one","self.rank","self.ring","self.symbol","self.zero"],"old_bindings":{"old_self_basis":"self.basis","old_self_domain":"self.domain","old_self_generator":"self.generator","old_self_is_Field":"self.is_Field","old_self_mod":"self.mod","old_self_modulus":"self.modulus","old_self_one":"self.one","old_self_rank":"self.rank","old_self_ring":"self.ring","old_self_symbol":"self.symbol","old_self_zero":"self.zero"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, mod):
         if not (isinstance(mod, Poly) and mod.is_univariate):
             raise TypeError("modulus must be a univariate Poly")
@@ -604,61 +834,86 @@ class MonogenicFiniteExtension(Domain):
         self.is_Field = self.domain.is_Field
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(arg), new produces the expected output) over Any  ║
+# ║ Path(new(arg), ExtElem(rep % self.mod, self)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ExtElem(rep % self.mod, self)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14da990957a3d39d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e43e3fe3d56030e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.new","kind":"method","src_hash":"4dff3142c9292757","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(arg)","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.new_correct","statement":"Path(new(x), new produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14da990957a3d39d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.new","kind":"method","src_hash":"4dff3142c9292757","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(arg)","rhs":"ExtElem(rep % self.mod, self)","over":{"base":"Any"},"name":"new_correct"},"guarantee":"returns ExtElem(rep % self.mod, self)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.new_correct","statement":"Path(new(x), returns ExtElem(rep % self.mod, self))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e43e3fe3d56030e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ExtElem(rep % self.mod, self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mod","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, arg):
         rep = self.ring.convert(arg)
         return ExtElem(rep % self.mod, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'modulus')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'modulus')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'modulus')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fdb2a24a219ea0ac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.__eq__","kind":"method","src_hash":"ef180b8456854658","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fdb2a24a219ea0ac"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.__eq__","kind":"method","src_hash":"ef180b8456854658","in":{"base":"Any","pred":"hasattr(other, 'modulus')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'modulus')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fdb2a24a219ea0ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'modulus')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.modulus","self.modulus"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if not isinstance(other, FiniteExtension):
             return False
         return self.modulus == other.modulus
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.__class__.__name__, self.modulus))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.__class__.__name__, self.modul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f8a7f033a38e2f97           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.__hash__","kind":"method","src_hash":"9f26fa2bbb17d74f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8a7f033a38e2f97"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.__hash__","kind":"method","src_hash":"9f26fa2bbb17d74f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.__class__.__name__, self.modulus))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.__class__.__name__, self.modulus))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8a7f033a38e2f97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.__class__.__name__, self.modulus))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.modulus"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((self.__class__.__name__, self.modulus))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '%s/(%s)' % (self.ring, self.modulus.as_expr())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s/(%s)' % (self.ring, self.modulus.as_e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 91ca77d552094c1f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.__str__","kind":"method","src_hash":"ec314a20cebedc48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91ca77d552094c1f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.__str__","kind":"method","src_hash":"ec314a20cebedc48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'%s/(%s)' % (self.ring, self.modulus.as_expr())","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '%s/(%s)' % (self.ring, self.modulus.as_expr())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91ca77d552094c1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s/(%s)' % (self.ring, self.modulus.as_expr())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.modulus","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "%s/(%s)" % (self.ring, self.modulus.as_expr())
 
@@ -666,117 +921,167 @@ class MonogenicFiniteExtension(Domain):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_CharacteristicZero(), returns the has_CharacteristicZero attribute) over Any ║
+# ║ Path(has_CharacteristicZero(), self.domain.has_CharacteristicZero) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.domain.has_CharacteristicZero             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_CharacteristicZero : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d3da45cfaf75626           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.has_CharacteristicZero","kind":"property","src_hash":"accb1ef650106948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_CharacteristicZero()","rhs":"returns the has_CharacteristicZero attribute","over":{"base":"Any"},"name":"has_CharacteristicZero_correct"},"guarantee":"returns the has_CharacteristicZero attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d3da45cfaf75626"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.has_CharacteristicZero","kind":"property","src_hash":"accb1ef650106948","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_CharacteristicZero()","rhs":"self.domain.has_CharacteristicZero","over":{"base":"Any"},"name":"has_CharacteristicZero_correct"},"guarantee":"returns self.domain.has_CharacteristicZero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d3da45cfaf75626","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.domain.has_CharacteristicZero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_CharacteristicZero(self):
         return self.domain.has_CharacteristicZero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(characteristic(), characteristic produces the expected output) over Any ║
+# ║ Path(characteristic(), self.domain.characteristic()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.domain.characteristic()                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ characteristic : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7c19b922321c202c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.characteristic","kind":"method","src_hash":"8350696ef5e03b45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"characteristic()","rhs":"characteristic produces the expected output","over":{"base":"Any"},"name":"characteristic_correct"},"guarantee":"characteristic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c19b922321c202c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.characteristic","kind":"method","src_hash":"8350696ef5e03b45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"characteristic()","rhs":"self.domain.characteristic()","over":{"base":"Any"},"name":"characteristic_correct"},"guarantee":"returns self.domain.characteristic()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c19b922321c202c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.domain.characteristic()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def characteristic(self):
         return self.domain.characteristic()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert(f, ), convert produces the expected output) over Any ║
+# ║ Path(convert(f, base), ExtElem(rep % self.mod, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ExtElem(rep % self.mod, self)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convert : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0505b3f9873e0dbd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae802ed8e3b495a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.convert","kind":"method","src_hash":"caed0a1cc56a2917","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert(f, )","rhs":"convert produces the expected output","over":{"base":"Any"},"name":"convert_correct"},"guarantee":"convert produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.convert_correct","statement":"Path(convert(x), convert produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0505b3f9873e0dbd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.convert","kind":"method","src_hash":"caed0a1cc56a2917","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert(f, base)","rhs":"ExtElem(rep % self.mod, self)","over":{"base":"Any"},"name":"convert_correct"},"guarantee":"returns ExtElem(rep % self.mod, self)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.convert_correct","statement":"Path(convert(x), returns ExtElem(rep % self.mod, self))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae802ed8e3b495a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ExtElem(rep % self.mod, self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mod","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert(self, f, base=None):
         rep = self.ring.convert(f, base)
         return ExtElem(rep % self.mod, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_from(f, ), convert_from produces the expected output) over Any ║
+# ║ Path(convert_from(f, base), ExtElem(rep % self.mod, self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ExtElem(rep % self.mod, self)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convert_from : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaff38a4cff8ad06  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b412e1243f062661  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.convert_from","kind":"method","src_hash":"520a1cc6f3b0d04a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_from(f, )","rhs":"convert_from produces the expected output","over":{"base":"Any"},"name":"convert_from_correct"},"guarantee":"convert_from produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.convert_from_correct","statement":"Path(convert_from(x), convert_from produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaff38a4cff8ad06"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.convert_from","kind":"method","src_hash":"520a1cc6f3b0d04a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_from(f, base)","rhs":"ExtElem(rep % self.mod, self)","over":{"base":"Any"},"name":"convert_from_correct"},"guarantee":"returns ExtElem(rep % self.mod, self)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.convert_from_correct","statement":"Path(convert_from(x), returns ExtElem(rep % self.mod, self))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b412e1243f062661","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ExtElem(rep % self.mod, self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mod","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert_from(self, f, base):
         rep = self.ring.convert(f, base)
         return ExtElem(rep % self.mod, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(f), to_sympy produces the expected output) over Any ║
+# ║ Path(to_sympy(f), self.ring.to_sympy(f.rep)) over {Any | hasattr(f, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_sympy : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   returns:  self.ring.to_sympy(f.rep)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_sympy : {Any | hasattr(f, 'rep')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a3119a5e32787fa0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.to_sympy","kind":"method","src_hash":"b993ed8c5d54daca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(f)","rhs":"to_sympy produces the expected output","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"to_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3119a5e32787fa0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.to_sympy","kind":"method","src_hash":"b993ed8c5d54daca","in":{"base":"Any","pred":"hasattr(f, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(f)","rhs":"self.ring.to_sympy(f.rep)","over":{"base":"Any","pred":"hasattr(f, 'rep')"},"name":"to_sympy_correct"},"guarantee":"returns self.ring.to_sympy(f.rep)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3119a5e32787fa0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'rep')"],"returns_expr":"self.ring.to_sympy(f.rep)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.rep","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self, f):
         return self.ring.to_sympy(f.rep)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sympy(f), from_sympy produces the expected output) over Any ║
+# ║ Path(from_sympy(f), self.convert(f)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.convert(f)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_sympy : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c777a5e542c7428f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.from_sympy","kind":"method","src_hash":"d4a473080de95638","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(f)","rhs":"from_sympy produces the expected output","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"from_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c777a5e542c7428f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.from_sympy","kind":"method","src_hash":"d4a473080de95638","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(f)","rhs":"self.convert(f)","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"returns self.convert(f)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c777a5e542c7428f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.convert(f)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.convert"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(self, f):
         return self.convert(f)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_domain(K), set_domain produces the expected output) over Any ║
+# ║ Path(set_domain(K), self.__class__(mod)) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(mod)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set_domain : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 181af8e80590f1f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 952eed99cc2345b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.set_domain","kind":"method","src_hash":"1bc261be683555f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_domain(K)","rhs":"set_domain produces the expected output","over":{"base":"Any"},"name":"set_domain_correct"},"guarantee":"set_domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.set_domain_correct","statement":"Path(set_domain(x), set_domain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"181af8e80590f1f2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.set_domain","kind":"method","src_hash":"1bc261be683555f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_domain(K)","rhs":"self.__class__(mod)","over":{"base":"Any"},"name":"set_domain_correct"},"guarantee":"returns self.__class__(mod)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.set_domain_correct","statement":"Path(set_domain(x), returns self.__class__(mod))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"952eed99cc2345b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(mod)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.modulus"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_domain(self, K):
         mod = self.modulus.set_domain(K)
         return self.__class__(mod)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(drop(*sy), drop produces the expected output) over Any ║
+# ║ Path(drop(*symbols), self.set_domain(K)) over {Any | not (self.symbol in symbols)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ drop : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.symbol in symbols)                   ║
+# ║   returns:  self.set_domain(K)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ drop : {Any | not (self.symbol in symbols)} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7fcbfe60207dfe4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c4cda45d81ecafd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.drop","kind":"method","src_hash":"5f96d6447b65fcc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"drop(*sy)","rhs":"drop produces the expected output","over":{"base":"Any"},"name":"drop_correct"},"guarantee":"drop produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.drop_correct","statement":"Path(drop(x), drop produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7fcbfe60207dfe4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.drop","kind":"method","src_hash":"5f96d6447b65fcc6","in":{"base":"Any","pred":"not (self.symbol in symbols)"},"out":{"base":"Any"},"spec":{"lhs":"drop(*symbols)","rhs":"self.set_domain(K)","over":{"base":"Any","pred":"not (self.symbol in symbols)"},"name":"drop_correct"},"guarantee":"returns self.set_domain(K)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.drop_correct","statement":"Path(drop(x), returns self.set_domain(K))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c4cda45d81ecafd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.symbol in symbols)"],"returns_expr":"self.set_domain(K)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.set_domain","self.symbol"],"raises":["GeneratorsError"]},"state_contract":{"exceptional_post":{"GeneratorsError":["isinstance(raised, GeneratorsError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def drop(self, *symbols):
         if self.symbol in symbols:
             raise GeneratorsError('Can not drop generator from FiniteExtension')
@@ -784,59 +1089,90 @@ class MonogenicFiniteExtension(Domain):
         return self.set_domain(K)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quo(f, ), quo produces the expected output) over Any  ║
+# ║ Path(quo(f, g), self.exquo(f, g)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.exquo(f, g)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quo : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f0d90ca511bbb3d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.quo","kind":"method","src_hash":"b93e7222162face5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(f, )","rhs":"quo produces the expected output","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"quo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0d90ca511bbb3d2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.quo","kind":"method","src_hash":"b93e7222162face5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(f, g)","rhs":"self.exquo(f, g)","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"returns self.exquo(f, g)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0d90ca511bbb3d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.exquo(f, g)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exquo"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quo(self, f, g):
         return self.exquo(f, g)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exquo(f, ), exquo produces the expected output) over Any ║
+# ║ Path(exquo(f, g), ExtElem(rep % self.mod, self)) over {Any | hasattr(f, 'rep') and hasattr(g, 'rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ exquo : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'rep')                              ║
+# ║   requires: hasattr(g, 'rep')                              ║
+# ║   returns:  ExtElem(rep % self.mod, self)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ exquo : {Any | hasattr(f, 'rep') and hasattr(g, 'rep'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43f4ebad0a58477c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d2eb308ecebd6c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.exquo","kind":"method","src_hash":"6ea40d6ef1ece154","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exquo(f, )","rhs":"exquo produces the expected output","over":{"base":"Any"},"name":"exquo_correct"},"guarantee":"exquo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.exquo_correct","statement":"Path(exquo(x), exquo produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43f4ebad0a58477c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.exquo","kind":"method","src_hash":"6ea40d6ef1ece154","in":{"base":"Any","pred":"hasattr(f, 'rep') and hasattr(g, 'rep')"},"out":{"base":"Any"},"spec":{"lhs":"exquo(f, g)","rhs":"ExtElem(rep % self.mod, self)","over":{"base":"Any","pred":"hasattr(f, 'rep') and hasattr(g, 'rep')"},"name":"exquo_correct"},"guarantee":"returns ExtElem(rep % self.mod, self)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.exquo_correct","statement":"Path(exquo(x), returns ExtElem(rep % self.mod, self))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d2eb308ecebd6c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'rep')","hasattr(g, 'rep')"],"returns_expr":"ExtElem(rep % self.mod, self)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.rep","g.rep","self.mod","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exquo(self, f, g):
         rep = self.ring.exquo(f.rep, g.rep)
         return ExtElem(rep % self.mod, self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_negative(a), is_negative produces the expected output) over Any ║
+# ║ Path(is_negative(a), False) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_negative : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 14bd7494aeee326c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.is_negative","kind":"method","src_hash":"54aaab4e392459dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative(a)","rhs":"is_negative produces the expected output","over":{"base":"Any"},"name":"is_negative_correct"},"guarantee":"is_negative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14bd7494aeee326c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.is_negative","kind":"method","src_hash":"54aaab4e392459dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative(a)","rhs":"False","over":{"base":"Any"},"name":"is_negative_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"14bd7494aeee326c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_negative(self, a):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_unit(a), is_unit produces the expected output) over Any ║
+# ║ Path(is_unit(a), result == (bool(a) if self.is_Field else self.domain.is_unit(a.to_ground())) and result == bool(a) or result == self.domain.is_unit(a.to_ground())) over {Any | hasattr(a, 'is_ground') and hasattr(a, 'to_ground')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_unit : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'is_ground')                        ║
+# ║   requires: hasattr(a, 'to_ground')                        ║
+# ║   ensures:  result == (bool(a) if self.is_Field else ...   ║
+# ║   ensures:  result == bool(a) or result == self.domai...   ║
+# ║   fiber[case_0]: self.is_Field => bool(a)                  ║
+# ║   fiber[case_1]: a.is_ground => self.domain.is_unit(a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_unit : {Any | hasattr(a, 'is_ground') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c7bbfe11252ed5a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9556174d29706f65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.is_unit","kind":"method","src_hash":"9f37b30d416157c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_unit(a)","rhs":"is_unit produces the expected output","over":{"base":"Any"},"name":"is_unit_correct"},"guarantee":"is_unit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.is_unit_correct","statement":"Path(is_unit(x), is_unit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c7bbfe11252ed5a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.extensions.MonogenicFiniteExtension.is_unit","kind":"method","src_hash":"9f37b30d416157c7","in":{"base":"Any","pred":"hasattr(a, 'is_ground') and hasattr(a, 'to_ground')"},"out":{"base":"Any","pred":"result satisfies: result == (bool(a) if self.is_Field else self.domain.is_unit(a.to_ground())) and result == bool(a) or result == self.domain.is_unit(a.to_ground())"},"spec":{"lhs":"is_unit(a)","rhs":"result == (bool(a) if self.is_Field else self.domain.is_unit(a.to_ground())) and result == bool(a) or result == self.domain.is_unit(a.to_ground())","over":{"base":"Any","pred":"hasattr(a, 'is_ground') and hasattr(a, 'to_ground')"},"name":"is_unit_correct"},"guarantee":"result == (bool(a) if self.is_Field else self.domain.is_unit(a.to_ground())); result == bool(a) or result == self.domain.is_unit(a.to_ground()); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.extensions.MonogenicFiniteExtension.is_unit_correct","statement":"Path(is_unit(x), result == (bool(a) if self.is_Field else self.domain.is_unit(a.to_ground())); result == bool(a) or result == self.domain.is_unit(a.to_ground()); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9556174d29706f65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'is_ground')","hasattr(a, 'to_ground')"],"ensures":["result == (bool(a) if self.is_Field else self.domain.is_unit(a.to_ground()))","result == bool(a) or result == self.domain.is_unit(a.to_ground())"],"fibers":[{"name":"case_0","guard":"self.is_Field","ensures":["result == bool(a)"],"decidability":"library","returns_expr":"bool(a)"},{"name":"case_1","guard":"a.is_ground","ensures":["result == self.domain.is_unit(a.to_ground())"],"decidability":"library","returns_expr":"self.domain.is_unit(a.to_ground())"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_ground","a.to_ground","self.domain","self.is_Field"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_unit(self, a):
         if self.is_Field:
             return bool(a)

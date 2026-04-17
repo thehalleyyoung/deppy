@@ -23,30 +23,42 @@ x = Symbol('x')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_trigintegrate_sin3x(), timeit_trigintegrate_sin3x produces the expected output) over Any ║
+# ║ Path(timeit_trigintegrate_sin3x(), <unspecified:timeit_trigintegrate_sin3x>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_trigintegrate_sin3x : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8020e5e12183f5d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.benchmarks.bench_trigintegrate.timeit_trigintegrate_sin3x","kind":"function","src_hash":"df9e23dc1b7d0673","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_trigintegrate_sin3x()","rhs":"timeit_trigintegrate_sin3x produces the expected output","over":{"base":"Any"},"name":"timeit_trigintegrate_sin3x_correct"},"guarantee":"timeit_trigintegrate_sin3x produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.benchmarks.bench_trigintegrate.timeit_trigintegrate_sin3x_correct","statement":"Path(timeit_trigintegrate_sin3x(x), timeit_trigintegrate_sin3x produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8020e5e12183f5d3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.benchmarks.bench_trigintegrate.timeit_trigintegrate_sin3x","kind":"function","src_hash":"df9e23dc1b7d0673","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_trigintegrate_sin3x()","rhs":"<unspecified:timeit_trigintegrate_sin3x>","over":{"base":"Any"},"name":"timeit_trigintegrate_sin3x_correct"},"guarantee":"timeit_trigintegrate_sin3x produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.benchmarks.bench_trigintegrate.timeit_trigintegrate_sin3x_correct","statement":"Path(timeit_trigintegrate_sin3x(x), timeit_trigintegrate_sin3x produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8020e5e12183f5d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_trigintegrate_sin3x():
     trigintegrate(sin(x)**3, x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_trigintegrate_x2(), timeit_trigintegrate_x2 produces the expected output) over Any ║
+# ║ Path(timeit_trigintegrate_x2(), <unspecified:timeit_trigintegrate_x2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_trigintegrate_x2 : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a8fd3d58cdf7f79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.benchmarks.bench_trigintegrate.timeit_trigintegrate_x2","kind":"function","src_hash":"cf555fcb101a8f61","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_trigintegrate_x2()","rhs":"timeit_trigintegrate_x2 produces the expected output","over":{"base":"Any"},"name":"timeit_trigintegrate_x2_correct"},"guarantee":"timeit_trigintegrate_x2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.benchmarks.bench_trigintegrate.timeit_trigintegrate_x2_correct","statement":"Path(timeit_trigintegrate_x2(x), timeit_trigintegrate_x2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a8fd3d58cdf7f79"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.benchmarks.bench_trigintegrate.timeit_trigintegrate_x2","kind":"function","src_hash":"cf555fcb101a8f61","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_trigintegrate_x2()","rhs":"<unspecified:timeit_trigintegrate_x2>","over":{"base":"Any"},"name":"timeit_trigintegrate_x2_correct"},"guarantee":"timeit_trigintegrate_x2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.benchmarks.bench_trigintegrate.timeit_trigintegrate_x2_correct","statement":"Path(timeit_trigintegrate_x2(x), timeit_trigintegrate_x2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a8fd3d58cdf7f79","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_trigintegrate_x2():
     trigintegrate(x**2, x)  # -> None

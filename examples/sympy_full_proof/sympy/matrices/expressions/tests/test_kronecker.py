@@ -40,7 +40,12 @@ C = MatrixSymbol('C', m, k)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct(), test_KroneckerProduct produces the expected output) over {Any | isinstance(KroneckerProduct(A, B), KroneckerProduct)} ║
+# ║ Path(test_KroneckerProduct(), isinstance(KroneckerProduct(A, B), KroneckerProduct) and KroneckerProduct(A, B).subs(A, C) == KroneckerProduct(C, B) and KroneckerProduct(A, C).shape == (n * m, m * k) and (KroneckerProduct(A, C) + KroneckerProduct(-A, C)).is_ZeroMatrix and (KroneckerProduct(W, Z) * KroneckerProduct(W.I, Z.I)).is_Identity) over {Any | isinstance(KroneckerProduct(A, B), KroneckerProduct)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(KroneckerProduct(A, B), Kronec...   ║
+# ║   ensures:  KroneckerProduct(A, B).subs(A, C) == Kron...   ║
+# ║   ensures:  KroneckerProduct(A, C).shape == (n * m, m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_KroneckerProduct : {Any | isinstance(KroneckerPr...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -52,9 +57,12 @@ C = MatrixSymbol('C', m, k)
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b054d358...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct","kind":"function","src_hash":"82742163b11c6e17","in":{"base":"Any","pred":"isinstance(KroneckerProduct(A, B), KroneckerProduct)"},"out":{"base":"Any","pred":"isinstance(KroneckerProduct(A, B), KroneckerProduct) and KroneckerProduct(A, B).subs(A, C) == KroneckerProduct(C, B) and KroneckerProduct(A, C).shape == (n * m, m * k) and (KroneckerProduct(A, C) + KroneckerProduct(-A, C)).is_ZeroMatrix and (KroneckerProduct(W, Z) * KroneckerProduct(W.I, Z.I)).is_Identity"},"spec":{"lhs":"test_KroneckerProduct()","rhs":"test_KroneckerProduct produces the expected output","over":{"base":"Any","pred":"isinstance(KroneckerProduct(A, B), KroneckerProduct)"},"name":"test_KroneckerProduct_correct"},"guarantee":"test_KroneckerProduct produces the expected output","fibers":[{"name":"B","pred":"isinstance(KroneckerProduct(A, B), KroneckerProduct)","path":{"lhs":"test_KroneckerProduct(x)","rhs":"test_KroneckerProduct produces the expected output","over":{"base":"B","pred":"isinstance(KroneckerProduct(A, B), KroneckerProduct)"},"name":"test_KroneckerProduct_B_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_B_correct","statement":"test_KroneckerProduct satisfies spec on B inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b054d358d720d64b"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct","kind":"function","src_hash":"82742163b11c6e17","in":{"base":"Any","pred":"isinstance(KroneckerProduct(A, B), KroneckerProduct)"},"out":{"base":"Any","pred":"result satisfies: isinstance(KroneckerProduct(A, B), KroneckerProduct) and KroneckerProduct(A, B).subs(A, C) == KroneckerProduct(C, B) and KroneckerProduct(A, C).shape == (n * m, m * k) and (KroneckerProduct(A, C) + KroneckerProduct(-A, C)).is_ZeroMatrix and (KroneckerProduct(W, Z) * KroneckerProduct(W.I, Z.I)).is_Identity"},"spec":{"lhs":"test_KroneckerProduct()","rhs":"isinstance(KroneckerProduct(A, B), KroneckerProduct) and KroneckerProduct(A, B).subs(A, C) == KroneckerProduct(C, B) and KroneckerProduct(A, C).shape == (n * m, m * k) and (KroneckerProduct(A, C) + KroneckerProduct(-A, C)).is_ZeroMatrix and (KroneckerProduct(W, Z) * KroneckerProduct(W.I, Z.I)).is_Identity","over":{"base":"Any","pred":"isinstance(KroneckerProduct(A, B), KroneckerProduct)"},"name":"test_KroneckerProduct_correct"},"guarantee":"isinstance(KroneckerProduct(A, B), KroneckerProduct); KroneckerProduct(A, B).subs(A, C) == KroneckerProduct(C, B); KroneckerProduct(A, C).shape == (n * m, m * k)","fibers":[{"name":"B","pred":"isinstance(KroneckerProduct(A, B), KroneckerProduct)","path":{"lhs":"test_KroneckerProduct(x)","rhs":"isinstance(KroneckerProduct(A, B), KroneckerProduct); KroneckerProduct(A, B).subs(A, C) == KroneckerProduct(C, B); KroneckerProduct(A, C).shape == (n * m, m * k)","over":{"base":"B","pred":"isinstance(KroneckerProduct(A, B), KroneckerProduct)"},"name":"test_KroneckerProduct_B_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_B_correct","statement":"test_KroneckerProduct satisfies spec on B inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b054d358d720d64b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(KroneckerProduct(A, B), KroneckerProduct)","KroneckerProduct(A, B).subs(A, C) == KroneckerProduct(C, B)","KroneckerProduct(A, C).shape == (n * m, m * k)","(KroneckerProduct(A, C) + KroneckerProduct(-A, C)).is_ZeroMatrix","(KroneckerProduct(W, Z) * KroneckerProduct(W.I, Z.I)).is_Identity"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":true}}
 def test_KroneckerProduct():
     assert isinstance(KroneckerProduct(A, B), KroneckerProduct)
     assert KroneckerProduct(A, B).subs(A, C) == KroneckerProduct(C, B)
@@ -64,32 +72,46 @@ def test_KroneckerProduct():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_identity(), test_KroneckerProduct_identity produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_identity(), KroneckerProduct(Identity(m), Identity(n)) == Identity(m * n) and KroneckerProduct(eye(2), eye(3)) == eye(6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerProduct_identity : Any → {Any | Kroneck...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  KroneckerProduct(Identity(m), Identity(n)...   ║
+# ║   ensures:  KroneckerProduct(eye(2), eye(3)) == eye(6)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerProduct_identity : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b75db9fc103c4810  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caafcd9d6bf2fbb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_identity","kind":"function","src_hash":"1d6ef8e90935547c","in":{"base":"Any"},"out":{"base":"Any","pred":"KroneckerProduct(Identity(m), Identity(n)) == Identity(m * n) and KroneckerProduct(eye(2), eye(3)) == eye(6)"},"spec":{"lhs":"test_KroneckerProduct_identity()","rhs":"test_KroneckerProduct_identity produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_identity_correct"},"guarantee":"test_KroneckerProduct_identity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_identity_correct","statement":"Path(test_KroneckerProduct_identity(x), test_KroneckerProduct_identity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b75db9fc103c4810"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_identity","kind":"function","src_hash":"1d6ef8e90935547c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: KroneckerProduct(Identity(m), Identity(n)) == Identity(m * n) and KroneckerProduct(eye(2), eye(3)) == eye(6)"},"spec":{"lhs":"test_KroneckerProduct_identity()","rhs":"KroneckerProduct(Identity(m), Identity(n)) == Identity(m * n) and KroneckerProduct(eye(2), eye(3)) == eye(6)","over":{"base":"Any"},"name":"test_KroneckerProduct_identity_correct"},"guarantee":"KroneckerProduct(Identity(m), Identity(n)) == Identity(m * n); KroneckerProduct(eye(2), eye(3)) == eye(6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_identity_correct","statement":"Path(test_KroneckerProduct_identity(x), KroneckerProduct(Identity(m), Identity(n)) == Identity(m * n); KroneckerProduct(eye(2), eye(3)) == eye(6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caafcd9d6bf2fbb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["KroneckerProduct(Identity(m), Identity(n)) == Identity(m * n)","KroneckerProduct(eye(2), eye(3)) == eye(6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_identity():
     assert KroneckerProduct(Identity(m), Identity(n)) == Identity(m*n)
     assert KroneckerProduct(eye(2), eye(3)) == eye(6)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_explicit(), test_KroneckerProduct_explicit produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_explicit(), kp.shape == (4, 4) and kp.as_explicit() == Matrix([[X[0, 0] * Y[0, 0], X[0, 0] * Y[0, 1], X[0, 1] * Y[0, 0], X[0, 1] * Y[0, 1]], [X[0, 0] * Y[1, 0], X[0, 0] * Y[1, 1], X[0, 1] * Y[1, 0], X[0, 1] * Y[1, 1]], [X[1, 0] * Y[0, 0], X[1, 0] * Y[0, 1], X[1, 1] * Y[0, 0], X[1, 1] * Y[0, 1]], [X[1, 0] * Y[1, 0], X[1, 0] * Y[1, 1], X[1, 1] * Y[1, 0], X[1, 1] * Y[1, 1]]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerProduct_explicit : Any → {Any | kp.shap...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  kp.shape == (4, 4)                             ║
+# ║   ensures:  kp.as_explicit() == Matrix([[X[0, 0] * Y[...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerProduct_explicit : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6ef1b8534d8ad92  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a05c6b4e03a4e429  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_explicit","kind":"function","src_hash":"a6b2f0df3d131665","in":{"base":"Any"},"out":{"base":"Any","pred":"kp.shape == (4, 4)"},"spec":{"lhs":"test_KroneckerProduct_explicit()","rhs":"test_KroneckerProduct_explicit produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_explicit_correct"},"guarantee":"test_KroneckerProduct_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_explicit_correct","statement":"Path(test_KroneckerProduct_explicit(x), test_KroneckerProduct_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6ef1b8534d8ad92"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_explicit","kind":"function","src_hash":"a6b2f0df3d131665","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: kp.shape == (4, 4) and kp.as_explicit() == Matrix([[X[0, 0] * Y[0, 0], X[0, 0] * Y[0, 1], X[0, 1] * Y[0, 0], X[0, 1] * Y[0, 1]], [X[0, 0] * Y[1, 0], X[0, 0] * Y[1, 1], X[0, 1] * Y[1, 0], X[0, 1] * Y[1, 1]], [X[1, 0] * Y[0, 0], X[1, 0] * Y[0, 1], X[1, 1] * Y[0, 0], X[1, 1] * Y[0, 1]], [X[1, 0] * Y[1, 0], X[1, 0] * Y[1, 1], X[1, 1] * Y[1, 0], X[1, 1] * Y[1, 1]]])"},"spec":{"lhs":"test_KroneckerProduct_explicit()","rhs":"kp.shape == (4, 4) and kp.as_explicit() == Matrix([[X[0, 0] * Y[0, 0], X[0, 0] * Y[0, 1], X[0, 1] * Y[0, 0], X[0, 1] * Y[0, 1]], [X[0, 0] * Y[1, 0], X[0, 0] * Y[1, 1], X[0, 1] * Y[1, 0], X[0, 1] * Y[1, 1]], [X[1, 0] * Y[0, 0], X[1, 0] * Y[0, 1], X[1, 1] * Y[0, 0], X[1, 1] * Y[0, 1]], [X[1, 0] * Y[1, 0], X[1, 0] * Y[1, 1], X[1, 1] * Y[1, 0], X[1, 1] * Y[1, 1]]])","over":{"base":"Any"},"name":"test_KroneckerProduct_explicit_correct"},"guarantee":"kp.shape == (4, 4); kp.as_explicit() == Matrix([[X[0, 0] * Y[0, 0], X[0, 0] * Y[0, 1], X[0, 1] * Y[0, 0], X[0, 1] * Y[0, 1]], [X[0, 0] * Y[1, 0], X[0, 0] * Y[1, 1], X[0, 1] * Y[1, 0], X[0, 1] * Y[1, 1]], [X[1, 0] * Y[0, 0], X[1, 0] * Y[0, 1], X[1, 1] * Y[0, 0], X[1, 1] * Y[0, 1]], [X[1, 0] * Y[1, 0], X[1, 0] * Y[1, 1], X[1, 1] * Y[1, 0], X[1, 1] * Y[1, 1]]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_explicit_correct","statement":"Path(test_KroneckerProduct_explicit(x), kp.shape == (4, 4); kp.as_explicit() == Matrix([[X[0, 0] * Y[0, 0], X[0, 0] * Y[0, 1], X[0, 1] * Y[0, 0], X[0, 1] * Y[0, 1]], [X[0, 0] * Y[1, 0], X[0, 0] * Y[1, 1], X[0, 1] * Y[1, 0], X[0, 1] * Y[1, 1]], [X[1, 0] * Y[0, 0], X[1, 0] * Y[0, 1], X[1, 1] * Y[0, 0], X[1, 1] * Y[0, 1]], [X[1, 0] * Y[1, 0], X[1, 0] * Y[1, 1], X[1, 1] * Y[1, 0], X[1, 1] * Y[1, 1]]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a05c6b4e03a4e429","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["kp.shape == (4, 4)","kp.as_explicit() == Matrix([[X[0, 0] * Y[0, 0], X[0, 0] * Y[0, 1], X[0, 1] * Y[0, 0], X[0, 1] * Y[0, 1]], [X[0, 0] * Y[1, 0], X[0, 0] * Y[1, 1], X[0, 1] * Y[1, 0], X[0, 1] * Y[1, 1]], [X[1, 0] * Y[0, 0], X[1, 0] * Y[0, 1], X[1, 1] * Y[0, 0], X[1, 1] * Y[0, 1]], [X[1, 0] * Y[1, 0], X[1, 0] * Y[1, 1], X[1, 1] * Y[1, 0], X[1, 1] * Y[1, 1]]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_explicit():
     X = MatrixSymbol('X', 2, 2)
     Y = MatrixSymbol('Y', 2, 2)
@@ -106,16 +128,23 @@ def test_KroneckerProduct_explicit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_product_adjoint(), test_tensor_product_adjoint produces the expected output) over Any ║
+# ║ Path(test_tensor_product_adjoint(), KroneckerProduct(I * A, B).adjoint() == -I * KroneckerProduct(A.adjoint(), B.adjoint()) and KroneckerProduct(mat1, mat2).adjoint() == kronecker_product(mat1.adjoint(), mat2.adjoint())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensor_product_adjoint : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  KroneckerProduct(I * A, B).adjoint() == -...   ║
+# ║   ensures:  KroneckerProduct(mat1, mat2).adjoint() ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensor_product_adjoint : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31a2eb0e2b3728f1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7de30d4a13dbbd81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_tensor_product_adjoint","kind":"function","src_hash":"e0db692e60ef6db2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_tensor_product_adjoint()","rhs":"test_tensor_product_adjoint produces the expected output","over":{"base":"Any"},"name":"test_tensor_product_adjoint_correct"},"guarantee":"test_tensor_product_adjoint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_tensor_product_adjoint_correct","statement":"Path(test_tensor_product_adjoint(x), test_tensor_product_adjoint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31a2eb0e2b3728f1"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_tensor_product_adjoint","kind":"function","src_hash":"e0db692e60ef6db2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: KroneckerProduct(I * A, B).adjoint() == -I * KroneckerProduct(A.adjoint(), B.adjoint()) and KroneckerProduct(mat1, mat2).adjoint() == kronecker_product(mat1.adjoint(), mat2.adjoint())"},"spec":{"lhs":"test_tensor_product_adjoint()","rhs":"KroneckerProduct(I * A, B).adjoint() == -I * KroneckerProduct(A.adjoint(), B.adjoint()) and KroneckerProduct(mat1, mat2).adjoint() == kronecker_product(mat1.adjoint(), mat2.adjoint())","over":{"base":"Any"},"name":"test_tensor_product_adjoint_correct"},"guarantee":"KroneckerProduct(I * A, B).adjoint() == -I * KroneckerProduct(A.adjoint(), B.adjoint()); KroneckerProduct(mat1, mat2).adjoint() == kronecker_product(mat1.adjoint(), mat2.adjoint())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_tensor_product_adjoint_correct","statement":"Path(test_tensor_product_adjoint(x), KroneckerProduct(I * A, B).adjoint() == -I * KroneckerProduct(A.adjoint(), B.adjoint()); KroneckerProduct(mat1, mat2).adjoint() == kronecker_product(mat1.adjoint(), mat2.adjoint()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7de30d4a13dbbd81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["KroneckerProduct(I * A, B).adjoint() == -I * KroneckerProduct(A.adjoint(), B.adjoint())","KroneckerProduct(mat1, mat2).adjoint() == kronecker_product(mat1.adjoint(), mat2.adjoint())"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensor_product_adjoint():
     assert KroneckerProduct(I*A, B).adjoint() == \
         -I*KroneckerProduct(A.adjoint(), B.adjoint())
@@ -124,16 +153,23 @@ def test_tensor_product_adjoint():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_product_conjugate(), test_tensor_product_conjugate produces the expected output) over Any ║
+# ║ Path(test_tensor_product_conjugate(), KroneckerProduct(I * A, B).conjugate() == -I * KroneckerProduct(A.conjugate(), B.conjugate()) and KroneckerProduct(mat1, mat2).conjugate() == kronecker_product(mat1.conjugate(), mat2.conjugate())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensor_product_conjugate : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  KroneckerProduct(I * A, B).conjugate() ==...   ║
+# ║   ensures:  KroneckerProduct(mat1, mat2).conjugate() ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensor_product_conjugate : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5081d7a38306e7ed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00e68819cd78d4f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_tensor_product_conjugate","kind":"function","src_hash":"2507c7ce31d21994","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_tensor_product_conjugate()","rhs":"test_tensor_product_conjugate produces the expected output","over":{"base":"Any"},"name":"test_tensor_product_conjugate_correct"},"guarantee":"test_tensor_product_conjugate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_tensor_product_conjugate_correct","statement":"Path(test_tensor_product_conjugate(x), test_tensor_product_conjugate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5081d7a38306e7ed"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_tensor_product_conjugate","kind":"function","src_hash":"2507c7ce31d21994","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: KroneckerProduct(I * A, B).conjugate() == -I * KroneckerProduct(A.conjugate(), B.conjugate()) and KroneckerProduct(mat1, mat2).conjugate() == kronecker_product(mat1.conjugate(), mat2.conjugate())"},"spec":{"lhs":"test_tensor_product_conjugate()","rhs":"KroneckerProduct(I * A, B).conjugate() == -I * KroneckerProduct(A.conjugate(), B.conjugate()) and KroneckerProduct(mat1, mat2).conjugate() == kronecker_product(mat1.conjugate(), mat2.conjugate())","over":{"base":"Any"},"name":"test_tensor_product_conjugate_correct"},"guarantee":"KroneckerProduct(I * A, B).conjugate() == -I * KroneckerProduct(A.conjugate(), B.conjugate()); KroneckerProduct(mat1, mat2).conjugate() == kronecker_product(mat1.conjugate(), mat2.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_tensor_product_conjugate_correct","statement":"Path(test_tensor_product_conjugate(x), KroneckerProduct(I * A, B).conjugate() == -I * KroneckerProduct(A.conjugate(), B.conjugate()); KroneckerProduct(mat1, mat2).conjugate() == kronecker_product(mat1.conjugate(), mat2.conjugate()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00e68819cd78d4f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["KroneckerProduct(I * A, B).conjugate() == -I * KroneckerProduct(A.conjugate(), B.conjugate())","KroneckerProduct(mat1, mat2).conjugate() == kronecker_product(mat1.conjugate(), mat2.conjugate())"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensor_product_conjugate():
     assert KroneckerProduct(I*A, B).conjugate() == \
         -I*KroneckerProduct(A.conjugate(), B.conjugate())
@@ -142,16 +178,23 @@ def test_tensor_product_conjugate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensor_product_transpose(), test_tensor_product_transpose produces the expected output) over Any ║
+# ║ Path(test_tensor_product_transpose(), KroneckerProduct(I * A, B).transpose() == I * KroneckerProduct(A.transpose(), B.transpose()) and KroneckerProduct(mat1, mat2).transpose() == kronecker_product(mat1.transpose(), mat2.transpose())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensor_product_transpose : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  KroneckerProduct(I * A, B).transpose() ==...   ║
+# ║   ensures:  KroneckerProduct(mat1, mat2).transpose() ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensor_product_transpose : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0a2261b6ce6dd08  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 136571e01fc828b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_tensor_product_transpose","kind":"function","src_hash":"d3e49bbd1179bf68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_tensor_product_transpose()","rhs":"test_tensor_product_transpose produces the expected output","over":{"base":"Any"},"name":"test_tensor_product_transpose_correct"},"guarantee":"test_tensor_product_transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_tensor_product_transpose_correct","statement":"Path(test_tensor_product_transpose(x), test_tensor_product_transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0a2261b6ce6dd08"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_tensor_product_transpose","kind":"function","src_hash":"d3e49bbd1179bf68","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: KroneckerProduct(I * A, B).transpose() == I * KroneckerProduct(A.transpose(), B.transpose()) and KroneckerProduct(mat1, mat2).transpose() == kronecker_product(mat1.transpose(), mat2.transpose())"},"spec":{"lhs":"test_tensor_product_transpose()","rhs":"KroneckerProduct(I * A, B).transpose() == I * KroneckerProduct(A.transpose(), B.transpose()) and KroneckerProduct(mat1, mat2).transpose() == kronecker_product(mat1.transpose(), mat2.transpose())","over":{"base":"Any"},"name":"test_tensor_product_transpose_correct"},"guarantee":"KroneckerProduct(I * A, B).transpose() == I * KroneckerProduct(A.transpose(), B.transpose()); KroneckerProduct(mat1, mat2).transpose() == kronecker_product(mat1.transpose(), mat2.transpose())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_tensor_product_transpose_correct","statement":"Path(test_tensor_product_transpose(x), KroneckerProduct(I * A, B).transpose() == I * KroneckerProduct(A.transpose(), B.transpose()); KroneckerProduct(mat1, mat2).transpose() == kronecker_product(mat1.transpose(), mat2.transpose()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"136571e01fc828b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["KroneckerProduct(I * A, B).transpose() == I * KroneckerProduct(A.transpose(), B.transpose())","KroneckerProduct(mat1, mat2).transpose() == kronecker_product(mat1.transpose(), mat2.transpose())"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_tensor_product_transpose():
     assert KroneckerProduct(I*A, B).transpose() == \
         I*KroneckerProduct(A.transpose(), B.transpose())
@@ -160,16 +203,23 @@ def test_tensor_product_transpose():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_is_associative(), test_KroneckerProduct_is_associative produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_is_associative(), kronecker_product(A, kronecker_product(B, C)) == kronecker_product(kronecker_product(A, B), C) and kronecker_product(A, kronecker_product(B, C)) == KroneckerProduct(A, B, C)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerProduct_is_associative : Any → {Any | k...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  kronecker_product(A, kronecker_product(B,...   ║
+# ║   ensures:  kronecker_product(A, kronecker_product(B,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerProduct_is_associative : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1ba973e07694f95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26bd1a7d91de47dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_is_associative","kind":"function","src_hash":"5531ae89eb5bfdd9","in":{"base":"Any"},"out":{"base":"Any","pred":"kronecker_product(A, kronecker_product(B, C)) == KroneckerProduct(A, B, C)"},"spec":{"lhs":"test_KroneckerProduct_is_associative()","rhs":"test_KroneckerProduct_is_associative produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_is_associative_correct"},"guarantee":"test_KroneckerProduct_is_associative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_is_associative_correct","statement":"Path(test_KroneckerProduct_is_associative(x), test_KroneckerProduct_is_associative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1ba973e07694f95"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_is_associative","kind":"function","src_hash":"5531ae89eb5bfdd9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: kronecker_product(A, kronecker_product(B, C)) == kronecker_product(kronecker_product(A, B), C) and kronecker_product(A, kronecker_product(B, C)) == KroneckerProduct(A, B, C)"},"spec":{"lhs":"test_KroneckerProduct_is_associative()","rhs":"kronecker_product(A, kronecker_product(B, C)) == kronecker_product(kronecker_product(A, B), C) and kronecker_product(A, kronecker_product(B, C)) == KroneckerProduct(A, B, C)","over":{"base":"Any"},"name":"test_KroneckerProduct_is_associative_correct"},"guarantee":"kronecker_product(A, kronecker_product(B, C)) == kronecker_product(kronecker_product(A, B), C); kronecker_product(A, kronecker_product(B, C)) == KroneckerProduct(A, B, C)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_is_associative_correct","statement":"Path(test_KroneckerProduct_is_associative(x), kronecker_product(A, kronecker_product(B, C)) == kronecker_product(kronecker_product(A, B), C); kronecker_product(A, kronecker_product(B, C)) == KroneckerProduct(A, B, C))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26bd1a7d91de47dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["kronecker_product(A, kronecker_product(B, C)) == kronecker_product(kronecker_product(A, B), C)","kronecker_product(A, kronecker_product(B, C)) == KroneckerProduct(A, B, C)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_is_associative():
     assert kronecker_product(A, kronecker_product(
         B, C)) == kronecker_product(kronecker_product(A, B), C)
@@ -178,112 +228,156 @@ def test_KroneckerProduct_is_associative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_is_bilinear(), test_KroneckerProduct_is_bilinear produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_is_bilinear(), kronecker_product(x * A, B) == x * kronecker_product(A, B) and kronecker_product(A, x * B) == x * kronecker_product(A, B)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerProduct_is_bilinear : Any → {Any | kron...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  kronecker_product(x * A, B) == x * kronec...   ║
+# ║   ensures:  kronecker_product(A, x * B) == x * kronec...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerProduct_is_bilinear : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12a3a50a0ecb9243  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef12c5bf540a957e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_is_bilinear","kind":"function","src_hash":"050d26063bc81d45","in":{"base":"Any"},"out":{"base":"Any","pred":"kronecker_product(x * A, B) == x * kronecker_product(A, B) and kronecker_product(A, x * B) == x * kronecker_product(A, B)"},"spec":{"lhs":"test_KroneckerProduct_is_bilinear()","rhs":"test_KroneckerProduct_is_bilinear produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_is_bilinear_correct"},"guarantee":"test_KroneckerProduct_is_bilinear produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_is_bilinear_correct","statement":"Path(test_KroneckerProduct_is_bilinear(x), test_KroneckerProduct_is_bilinear produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12a3a50a0ecb9243"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_is_bilinear","kind":"function","src_hash":"050d26063bc81d45","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: kronecker_product(x * A, B) == x * kronecker_product(A, B) and kronecker_product(A, x * B) == x * kronecker_product(A, B)"},"spec":{"lhs":"test_KroneckerProduct_is_bilinear()","rhs":"kronecker_product(x * A, B) == x * kronecker_product(A, B) and kronecker_product(A, x * B) == x * kronecker_product(A, B)","over":{"base":"Any"},"name":"test_KroneckerProduct_is_bilinear_correct"},"guarantee":"kronecker_product(x * A, B) == x * kronecker_product(A, B); kronecker_product(A, x * B) == x * kronecker_product(A, B)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_is_bilinear_correct","statement":"Path(test_KroneckerProduct_is_bilinear(x), kronecker_product(x * A, B) == x * kronecker_product(A, B); kronecker_product(A, x * B) == x * kronecker_product(A, B))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef12c5bf540a957e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["kronecker_product(x * A, B) == x * kronecker_product(A, B)","kronecker_product(A, x * B) == x * kronecker_product(A, B)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_is_bilinear():
     assert kronecker_product(x*A, B) == x*kronecker_product(A, B)
     assert kronecker_product(A, x*B) == x*kronecker_product(A, B)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_determinant(), test_KroneckerProduct_determinant produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_determinant(), det(kp) == det(W) ** n * det(Z) ** m) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerProduct_determinant : Any → {Any | det(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  det(kp) == det(W) ** n * det(Z) ** m           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerProduct_determinant : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3fee98c55c9c1d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58370710bb3a4470  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_determinant","kind":"function","src_hash":"ba1ac7fc24fcbe1b","in":{"base":"Any"},"out":{"base":"Any","pred":"det(kp) == det(W) ** n * det(Z) ** m"},"spec":{"lhs":"test_KroneckerProduct_determinant()","rhs":"test_KroneckerProduct_determinant produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_determinant_correct"},"guarantee":"test_KroneckerProduct_determinant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_determinant_correct","statement":"Path(test_KroneckerProduct_determinant(x), test_KroneckerProduct_determinant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3fee98c55c9c1d9"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_determinant","kind":"function","src_hash":"ba1ac7fc24fcbe1b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: det(kp) == det(W) ** n * det(Z) ** m"},"spec":{"lhs":"test_KroneckerProduct_determinant()","rhs":"det(kp) == det(W) ** n * det(Z) ** m","over":{"base":"Any"},"name":"test_KroneckerProduct_determinant_correct"},"guarantee":"det(kp) == det(W) ** n * det(Z) ** m","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_determinant_correct","statement":"Path(test_KroneckerProduct_determinant(x), det(kp) == det(W) ** n * det(Z) ** m)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58370710bb3a4470","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["det(kp) == det(W) ** n * det(Z) ** m"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_determinant():
     kp = kronecker_product(W, Z)
     assert det(kp) == det(W)**n * det(Z)**m
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_trace(), test_KroneckerProduct_trace produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_trace(), trace(kp) == trace(W) * trace(Z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerProduct_trace : Any → {Any | trace(kp) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trace(kp) == trace(W) * trace(Z)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerProduct_trace : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 986b372f9918da92  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9208d413e3823bb4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_trace","kind":"function","src_hash":"1443928d4eca03f6","in":{"base":"Any"},"out":{"base":"Any","pred":"trace(kp) == trace(W) * trace(Z)"},"spec":{"lhs":"test_KroneckerProduct_trace()","rhs":"test_KroneckerProduct_trace produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_trace_correct"},"guarantee":"test_KroneckerProduct_trace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_trace_correct","statement":"Path(test_KroneckerProduct_trace(x), test_KroneckerProduct_trace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"986b372f9918da92"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_trace","kind":"function","src_hash":"1443928d4eca03f6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trace(kp) == trace(W) * trace(Z)"},"spec":{"lhs":"test_KroneckerProduct_trace()","rhs":"trace(kp) == trace(W) * trace(Z)","over":{"base":"Any"},"name":"test_KroneckerProduct_trace_correct"},"guarantee":"trace(kp) == trace(W) * trace(Z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_trace_correct","statement":"Path(test_KroneckerProduct_trace(x), trace(kp) == trace(W) * trace(Z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9208d413e3823bb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trace(kp) == trace(W) * trace(Z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_trace():
     kp = kronecker_product(W, Z)
     assert trace(kp) == trace(W)*trace(Z)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_isnt_commutative(), test_KroneckerProduct_isnt_commutative produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_isnt_commutative(), KroneckerProduct(A, B) != KroneckerProduct(B, A) and KroneckerProduct(A, B).is_commutative is False) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  KroneckerProduct(A, B) != KroneckerProduc...   ║
+# ║   ensures:  KroneckerProduct(A, B).is_commutative is ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_KroneckerProduct_isnt_commutative : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c6f4552fe8e4633  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0defab8fef15438  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_isnt_commutative","kind":"function","src_hash":"ae3ea9320a09fea3","in":{"base":"Any"},"out":{"base":"Any","pred":"KroneckerProduct(A, B) != KroneckerProduct(B, A) and KroneckerProduct(A, B).is_commutative is False"},"spec":{"lhs":"test_KroneckerProduct_isnt_commutative()","rhs":"test_KroneckerProduct_isnt_commutative produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_isnt_commutative_correct"},"guarantee":"test_KroneckerProduct_isnt_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_isnt_commutative_correct","statement":"Path(test_KroneckerProduct_isnt_commutative(x), test_KroneckerProduct_isnt_commutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c6f4552fe8e4633"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_isnt_commutative","kind":"function","src_hash":"ae3ea9320a09fea3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: KroneckerProduct(A, B) != KroneckerProduct(B, A) and KroneckerProduct(A, B).is_commutative is False"},"spec":{"lhs":"test_KroneckerProduct_isnt_commutative()","rhs":"KroneckerProduct(A, B) != KroneckerProduct(B, A) and KroneckerProduct(A, B).is_commutative is False","over":{"base":"Any"},"name":"test_KroneckerProduct_isnt_commutative_correct"},"guarantee":"KroneckerProduct(A, B) != KroneckerProduct(B, A); KroneckerProduct(A, B).is_commutative is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_isnt_commutative_correct","statement":"Path(test_KroneckerProduct_isnt_commutative(x), KroneckerProduct(A, B) != KroneckerProduct(B, A); KroneckerProduct(A, B).is_commutative is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0defab8fef15438","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["KroneckerProduct(A, B) != KroneckerProduct(B, A)","KroneckerProduct(A, B).is_commutative is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_isnt_commutative():
     assert KroneckerProduct(A, B) != KroneckerProduct(B, A)
     assert KroneckerProduct(A, B).is_commutative is False
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_extracts_commutative_part(), test_KroneckerProduct_extracts_commutative_part produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_extracts_commutative_part(), kronecker_product(x * A, 2 * B) == x * 2 * KroneckerProduct(A, B)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  kronecker_product(x * A, 2 * B) == x * 2 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_KroneckerProduct_extracts_commutative_part : Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aecfc5f4612af5e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e6196aacb232d40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_extracts_commutative_part","kind":"function","src_hash":"e52ee3d52d1be929","in":{"base":"Any"},"out":{"base":"Any","pred":"kronecker_product(x * A, 2 * B) == x * 2 * KroneckerProduct(A, B)"},"spec":{"lhs":"test_KroneckerProduct_extracts_commutative_part()","rhs":"test_KroneckerProduct_extracts_commutative_part produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_extracts_commutative_part_correct"},"guarantee":"test_KroneckerProduct_extracts_commutative_part produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_extracts_commutative_part_correct","statement":"Path(test_KroneckerProduct_extracts_commutative_part(x), test_KroneckerProduct_extracts_commutative_part produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aecfc5f4612af5e2"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_extracts_commutative_part","kind":"function","src_hash":"e52ee3d52d1be929","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: kronecker_product(x * A, 2 * B) == x * 2 * KroneckerProduct(A, B)"},"spec":{"lhs":"test_KroneckerProduct_extracts_commutative_part()","rhs":"kronecker_product(x * A, 2 * B) == x * 2 * KroneckerProduct(A, B)","over":{"base":"Any"},"name":"test_KroneckerProduct_extracts_commutative_part_correct"},"guarantee":"kronecker_product(x * A, 2 * B) == x * 2 * KroneckerProduct(A, B)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_extracts_commutative_part_correct","statement":"Path(test_KroneckerProduct_extracts_commutative_part(x), kronecker_product(x * A, 2 * B) == x * 2 * KroneckerProduct(A, B))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e6196aacb232d40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["kronecker_product(x * A, 2 * B) == x * 2 * KroneckerProduct(A, B)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_extracts_commutative_part():
     assert kronecker_product(x * A, 2 * B) == x * \
         2 * KroneckerProduct(A, B)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_inverse(), test_KroneckerProduct_inverse produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_inverse(), kp.inverse() == kronecker_product(W.inverse(), Z.inverse())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerProduct_inverse : Any → {Any | kp.inver...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  kp.inverse() == kronecker_product(W.inver...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerProduct_inverse : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9a43cae66c1443a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c60f4d957fadbaab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_inverse","kind":"function","src_hash":"c6db5eaa75e38a95","in":{"base":"Any"},"out":{"base":"Any","pred":"kp.inverse() == kronecker_product(W.inverse(), Z.inverse())"},"spec":{"lhs":"test_KroneckerProduct_inverse()","rhs":"test_KroneckerProduct_inverse produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_inverse_correct"},"guarantee":"test_KroneckerProduct_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_inverse_correct","statement":"Path(test_KroneckerProduct_inverse(x), test_KroneckerProduct_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9a43cae66c1443a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_inverse","kind":"function","src_hash":"c6db5eaa75e38a95","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: kp.inverse() == kronecker_product(W.inverse(), Z.inverse())"},"spec":{"lhs":"test_KroneckerProduct_inverse()","rhs":"kp.inverse() == kronecker_product(W.inverse(), Z.inverse())","over":{"base":"Any"},"name":"test_KroneckerProduct_inverse_correct"},"guarantee":"kp.inverse() == kronecker_product(W.inverse(), Z.inverse())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_inverse_correct","statement":"Path(test_KroneckerProduct_inverse(x), kp.inverse() == kronecker_product(W.inverse(), Z.inverse()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c60f4d957fadbaab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["kp.inverse() == kronecker_product(W.inverse(), Z.inverse())"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_inverse():
     kp = kronecker_product(W, Z)
     assert kp.inverse() == kronecker_product(W.inverse(), Z.inverse())
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_combine_add(), test_KroneckerProduct_combine_add produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_combine_add(), combine_kronecker(kp1 * kp2) == kronecker_product(A * C, B * W)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerProduct_combine_add : Any → {Any | comb...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  combine_kronecker(kp1 * kp2) == kronecker...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerProduct_combine_add : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a25d5293d2ba0a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91bb0d4df2716255  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_combine_add","kind":"function","src_hash":"c5273f366bd6f2d5","in":{"base":"Any"},"out":{"base":"Any","pred":"combine_kronecker(kp1 * kp2) == kronecker_product(A * C, B * W)"},"spec":{"lhs":"test_KroneckerProduct_combine_add()","rhs":"test_KroneckerProduct_combine_add produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_combine_add_correct"},"guarantee":"test_KroneckerProduct_combine_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_combine_add_correct","statement":"Path(test_KroneckerProduct_combine_add(x), test_KroneckerProduct_combine_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a25d5293d2ba0a4"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_combine_add","kind":"function","src_hash":"c5273f366bd6f2d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: combine_kronecker(kp1 * kp2) == kronecker_product(A * C, B * W)"},"spec":{"lhs":"test_KroneckerProduct_combine_add()","rhs":"combine_kronecker(kp1 * kp2) == kronecker_product(A * C, B * W)","over":{"base":"Any"},"name":"test_KroneckerProduct_combine_add_correct"},"guarantee":"combine_kronecker(kp1 * kp2) == kronecker_product(A * C, B * W)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_combine_add_correct","statement":"Path(test_KroneckerProduct_combine_add(x), combine_kronecker(kp1 * kp2) == kronecker_product(A * C, B * W))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91bb0d4df2716255","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["combine_kronecker(kp1 * kp2) == kronecker_product(A * C, B * W)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_combine_add():
     kp1 = kronecker_product(A, B)
     kp2 = kronecker_product(C, W)
@@ -291,16 +385,22 @@ def test_KroneckerProduct_combine_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_combine_mul(), test_KroneckerProduct_combine_mul produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_combine_mul(), combine_kronecker(kp1 + kp2) == kronecker_product(A + B, X + Y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerProduct_combine_mul : Any → {Any | comb...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  combine_kronecker(kp1 + kp2) == kronecker...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerProduct_combine_mul : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c6cb3299ce965eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91dc6987d590d74a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_combine_mul","kind":"function","src_hash":"4f6bf1b493e6c9c2","in":{"base":"Any"},"out":{"base":"Any","pred":"combine_kronecker(kp1 + kp2) == kronecker_product(A + B, X + Y)"},"spec":{"lhs":"test_KroneckerProduct_combine_mul()","rhs":"test_KroneckerProduct_combine_mul produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_combine_mul_correct"},"guarantee":"test_KroneckerProduct_combine_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_combine_mul_correct","statement":"Path(test_KroneckerProduct_combine_mul(x), test_KroneckerProduct_combine_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c6cb3299ce965eb"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_combine_mul","kind":"function","src_hash":"4f6bf1b493e6c9c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: combine_kronecker(kp1 + kp2) == kronecker_product(A + B, X + Y)"},"spec":{"lhs":"test_KroneckerProduct_combine_mul()","rhs":"combine_kronecker(kp1 + kp2) == kronecker_product(A + B, X + Y)","over":{"base":"Any"},"name":"test_KroneckerProduct_combine_mul_correct"},"guarantee":"combine_kronecker(kp1 + kp2) == kronecker_product(A + B, X + Y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_combine_mul_correct","statement":"Path(test_KroneckerProduct_combine_mul(x), combine_kronecker(kp1 + kp2) == kronecker_product(A + B, X + Y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91dc6987d590d74a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["combine_kronecker(kp1 + kp2) == kronecker_product(A + B, X + Y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_combine_mul():
     X = MatrixSymbol('X', m, n)
     Y = MatrixSymbol('Y', m, n)
@@ -310,16 +410,24 @@ def test_KroneckerProduct_combine_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_combine_pow(), test_KroneckerProduct_combine_pow produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_combine_pow(), combine_kronecker(KroneckerProduct(X, Y) ** x) == KroneckerProduct(X ** x, Y ** x) and combine_kronecker(x * KroneckerProduct(X, Y) ** 2) == x * KroneckerProduct(X ** 2, Y ** 2) and combine_kronecker(x * KroneckerProduct(X, Y) ** 2 * KroneckerProduct(A, B)) == x * KroneckerProduct(X ** 2 * A, Y ** 2 * B) and combine_kronecker(KroneckerProduct(A, B.T) ** m) == KroneckerProduct(A, B.T) ** m) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerProduct_combine_pow : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  combine_kronecker(KroneckerProduct(X, Y) ...   ║
+# ║   ensures:  combine_kronecker(x * KroneckerProduct(X,...   ║
+# ║   ensures:  combine_kronecker(x * KroneckerProduct(X,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerProduct_combine_pow : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da543d7487873594  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f0fb6ce4060d410  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_combine_pow","kind":"function","src_hash":"d15cc745811d73d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_KroneckerProduct_combine_pow()","rhs":"test_KroneckerProduct_combine_pow produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_combine_pow_correct"},"guarantee":"test_KroneckerProduct_combine_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_combine_pow_correct","statement":"Path(test_KroneckerProduct_combine_pow(x), test_KroneckerProduct_combine_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da543d7487873594"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_combine_pow","kind":"function","src_hash":"d15cc745811d73d4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: combine_kronecker(KroneckerProduct(X, Y) ** x) == KroneckerProduct(X ** x, Y ** x) and combine_kronecker(x * KroneckerProduct(X, Y) ** 2) == x * KroneckerProduct(X ** 2, Y ** 2) and combine_kronecker(x * KroneckerProduct(X, Y) ** 2 * KroneckerProduct(A, B)) == x * KroneckerProduct(X ** 2 * A, Y ** 2 * B) and combine_kronecker(KroneckerProduct(A, B.T) ** m) == KroneckerProduct(A, B.T) ** m"},"spec":{"lhs":"test_KroneckerProduct_combine_pow()","rhs":"combine_kronecker(KroneckerProduct(X, Y) ** x) == KroneckerProduct(X ** x, Y ** x) and combine_kronecker(x * KroneckerProduct(X, Y) ** 2) == x * KroneckerProduct(X ** 2, Y ** 2) and combine_kronecker(x * KroneckerProduct(X, Y) ** 2 * KroneckerProduct(A, B)) == x * KroneckerProduct(X ** 2 * A, Y ** 2 * B) and combine_kronecker(KroneckerProduct(A, B.T) ** m) == KroneckerProduct(A, B.T) ** m","over":{"base":"Any"},"name":"test_KroneckerProduct_combine_pow_correct"},"guarantee":"combine_kronecker(KroneckerProduct(X, Y) ** x) == KroneckerProduct(X ** x, Y ** x); combine_kronecker(x * KroneckerProduct(X, Y) ** 2) == x * KroneckerProduct(X ** 2, Y ** 2); combine_kronecker(x * KroneckerProduct(X, Y) ** 2 * KroneckerProduct(A, B)) == x * KroneckerProduct(X ** 2 * A, Y ** 2 * B)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_combine_pow_correct","statement":"Path(test_KroneckerProduct_combine_pow(x), combine_kronecker(KroneckerProduct(X, Y) ** x) == KroneckerProduct(X ** x, Y ** x); combine_kronecker(x * KroneckerProduct(X, Y) ** 2) == x * KroneckerProduct(X ** 2, Y ** 2); combine_kronecker(x * KroneckerProduct(X, Y) ** 2 * KroneckerProduct(A, B)) == x * KroneckerProduct(X ** 2 * A, Y ** 2 * B))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f0fb6ce4060d410","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["combine_kronecker(KroneckerProduct(X, Y) ** x) == KroneckerProduct(X ** x, Y ** x)","combine_kronecker(x * KroneckerProduct(X, Y) ** 2) == x * KroneckerProduct(X ** 2, Y ** 2)","combine_kronecker(x * KroneckerProduct(X, Y) ** 2 * KroneckerProduct(A, B)) == x * KroneckerProduct(X ** 2 * A, Y ** 2 * B)","combine_kronecker(KroneckerProduct(A, B.T) ** m) == KroneckerProduct(A, B.T) ** m"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_combine_pow():
     X = MatrixSymbol('X', n, n)
     Y = MatrixSymbol('Y', n, n)
@@ -334,16 +442,22 @@ def test_KroneckerProduct_combine_pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_expand(), test_KroneckerProduct_expand produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_expand(), KroneckerProduct(X + Y, Y + Z).expand(kroneckerproduct=True) == KroneckerProduct(X, Y) + KroneckerProduct(X, Z) + KroneckerProduct(Y, Y) + KroneckerProduct(Y, Z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerProduct_expand : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  KroneckerProduct(X + Y, Y + Z).expand(kro...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerProduct_expand : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d33facff14dfcb59  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0735f585f811f0da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_expand","kind":"function","src_hash":"9ec6d0dc28953927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_KroneckerProduct_expand()","rhs":"test_KroneckerProduct_expand produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_expand_correct"},"guarantee":"test_KroneckerProduct_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_expand_correct","statement":"Path(test_KroneckerProduct_expand(x), test_KroneckerProduct_expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d33facff14dfcb59"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_expand","kind":"function","src_hash":"9ec6d0dc28953927","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: KroneckerProduct(X + Y, Y + Z).expand(kroneckerproduct=True) == KroneckerProduct(X, Y) + KroneckerProduct(X, Z) + KroneckerProduct(Y, Y) + KroneckerProduct(Y, Z)"},"spec":{"lhs":"test_KroneckerProduct_expand()","rhs":"KroneckerProduct(X + Y, Y + Z).expand(kroneckerproduct=True) == KroneckerProduct(X, Y) + KroneckerProduct(X, Z) + KroneckerProduct(Y, Y) + KroneckerProduct(Y, Z)","over":{"base":"Any"},"name":"test_KroneckerProduct_expand_correct"},"guarantee":"KroneckerProduct(X + Y, Y + Z).expand(kroneckerproduct=True) == KroneckerProduct(X, Y) + KroneckerProduct(X, Z) + KroneckerProduct(Y, Y) + KroneckerProduct(Y, Z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_expand_correct","statement":"Path(test_KroneckerProduct_expand(x), KroneckerProduct(X + Y, Y + Z).expand(kroneckerproduct=True) == KroneckerProduct(X, Y) + KroneckerProduct(X, Z) + KroneckerProduct(Y, Y) + KroneckerProduct(Y, Z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0735f585f811f0da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["KroneckerProduct(X + Y, Y + Z).expand(kroneckerproduct=True) == KroneckerProduct(X, Y) + KroneckerProduct(X, Z) + KroneckerProduct(Y, Y) + KroneckerProduct(Y, Z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_expand():
     X = MatrixSymbol('X', n, n)
     Y = MatrixSymbol('Y', n, n)
@@ -353,16 +467,22 @@ def test_KroneckerProduct_expand():
         KroneckerProduct(Y, Y) + KroneckerProduct(Y, Z)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerProduct_entry(), test_KroneckerProduct_entry produces the expected output) over Any ║
+# ║ Path(test_KroneckerProduct_entry(), KroneckerProduct(A, B)._entry(i, j) == A[Mod(floor(i / o), n), Mod(floor(j / p), m)] * B[Mod(i, o), Mod(j, p)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerProduct_entry : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  KroneckerProduct(A, B)._entry(i, j) == A[...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerProduct_entry : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2baba1491cb55d3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97184c0b396a1c76  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_entry","kind":"function","src_hash":"5c4def22bee053f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_KroneckerProduct_entry()","rhs":"test_KroneckerProduct_entry produces the expected output","over":{"base":"Any"},"name":"test_KroneckerProduct_entry_correct"},"guarantee":"test_KroneckerProduct_entry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_entry_correct","statement":"Path(test_KroneckerProduct_entry(x), test_KroneckerProduct_entry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2baba1491cb55d3f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_entry","kind":"function","src_hash":"5c4def22bee053f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: KroneckerProduct(A, B)._entry(i, j) == A[Mod(floor(i / o), n), Mod(floor(j / p), m)] * B[Mod(i, o), Mod(j, p)]"},"spec":{"lhs":"test_KroneckerProduct_entry()","rhs":"KroneckerProduct(A, B)._entry(i, j) == A[Mod(floor(i / o), n), Mod(floor(j / p), m)] * B[Mod(i, o), Mod(j, p)]","over":{"base":"Any"},"name":"test_KroneckerProduct_entry_correct"},"guarantee":"KroneckerProduct(A, B)._entry(i, j) == A[Mod(floor(i / o), n), Mod(floor(j / p), m)] * B[Mod(i, o), Mod(j, p)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_kronecker.test_KroneckerProduct_entry_correct","statement":"Path(test_KroneckerProduct_entry(x), KroneckerProduct(A, B)._entry(i, j) == A[Mod(floor(i / o), n), Mod(floor(j / p), m)] * B[Mod(i, o), Mod(j, p)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97184c0b396a1c76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["KroneckerProduct(A, B)._entry(i, j) == A[Mod(floor(i / o), n), Mod(floor(j / p), m)] * B[Mod(i, o), Mod(j, p)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_KroneckerProduct_entry():
     A = MatrixSymbol('A', n, m)
     B = MatrixSymbol('B', o, p)

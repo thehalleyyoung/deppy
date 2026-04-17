@@ -59,7 +59,11 @@ from .medium import Medium
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refractive_index_of_medium(med), helper function that returns refractive index, given a medium) over {Any | isinstance(medium, Medium)} ║
+# ║ Path(refractive_index_of_medium(medium), <unspecified:refractive_index_of_medium>) over {Any | isinstance(medium, Medium) and hasattr(medium, 'refractive_index')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(medium, 'refractive_index')            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ refractive_index_of_medium : {Any | isinstance(medium...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -71,9 +75,12 @@ from .medium import Medium
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3b4f230b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.refractive_index_of_medium","kind":"function","src_hash":"7e4c0b0e67ea4a25","in":{"base":"Any","pred":"isinstance(medium, Medium)"},"out":{"base":"Any"},"spec":{"lhs":"refractive_index_of_medium(med)","rhs":"helper function that returns refractive index, given a medium","over":{"base":"Any","pred":"isinstance(medium, Medium)"},"name":"refractive_index_of_medium_correct"},"guarantee":"helper function that returns refractive index, given a medium","fibers":[{"name":"Medium","pred":"isinstance(medium, Medium)","path":{"lhs":"refractive_index_of_medium(x)","rhs":"helper function that returns refractive index, given a medium","over":{"base":"Medium","pred":"isinstance(medium, Medium)"},"name":"refractive_index_of_medium_Medium_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.refractive_index_of_medium_Medium_correct","statement":"refractive_index_of_medium satisfies spec on Medium inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3b4f230b80ff41cc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.refractive_index_of_medium","kind":"function","src_hash":"7e4c0b0e67ea4a25","in":{"base":"Any","pred":"isinstance(medium, Medium) and hasattr(medium, 'refractive_index')"},"out":{"base":"Any"},"spec":{"lhs":"refractive_index_of_medium(medium)","rhs":"<unspecified:refractive_index_of_medium>","over":{"base":"Any","pred":"isinstance(medium, Medium) and hasattr(medium, 'refractive_index')"},"name":"refractive_index_of_medium_correct"},"guarantee":"helper function that returns refractive index, given a medium","fibers":[{"name":"Medium","pred":"isinstance(medium, Medium)","path":{"lhs":"refractive_index_of_medium(x)","rhs":"helper function that returns refractive index, given a medium","over":{"base":"Medium","pred":"isinstance(medium, Medium)"},"name":"refractive_index_of_medium_Medium_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.refractive_index_of_medium_Medium_correct","statement":"refractive_index_of_medium satisfies spec on Medium inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3b4f230b80ff41cc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(medium, 'refractive_index')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["medium.refractive_index"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(medium, Medium)'}, fibers={'Medium'})"]}}
 def refractive_index_of_medium(medium):
     """
     Helper function that returns refractive index, given a medium
@@ -86,7 +93,13 @@ def refractive_index_of_medium(medium):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refraction_angle(inc), this function calculates transmitted vector after refraction at planar surface) over {Any | isinstance(incident, Matrix) and isinstance(incident, Ray3D) and isinstance(plane, Plane)} ║
+# ║ Path(refraction_angle(incident, medium1, medium2), <unspecified:refraction_angle>) over {Any | isinstance(incident, Matrix) and isinstance(incident, Ray3D) and isinstance(plane, Plane) and hasattr(plane, 'normal_vector') and hasattr(incident, 'direction_ratio') and hasattr(plane, 'intersection') and hasattr(normal, 'direction_ratio')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(plane, 'normal_vector')                ║
+# ║   requires: hasattr(incident, 'direction_ratio')           ║
+# ║   requires: hasattr(plane, 'intersection')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ refraction_angle : {Any | isinstance(incident, Matrix...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -100,9 +113,12 @@ def refractive_index_of_medium(medium):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 8.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b76b083e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.refraction_angle","kind":"function","src_hash":"fb4e65fdc2635265","in":{"base":"Any","pred":"isinstance(incident, Matrix) and isinstance(incident, Ray3D) and isinstance(plane, Plane)"},"out":{"base":"Any"},"spec":{"lhs":"refraction_angle(inc)","rhs":"this function calculates transmitted vector after refraction at planar surface","over":{"base":"Any","pred":"isinstance(incident, Matrix) and isinstance(incident, Ray3D) and isinstance(plane, Plane)"},"name":"refraction_angle_correct"},"guarantee":"this function calculates transmitted vector after refraction at planar surface","fibers":[{"name":"Matrix","pred":"isinstance(incident, Matrix)","path":{"lhs":"refraction_angle(x)","rhs":"this function calculates transmitted vector after refraction at planar surface","over":{"base":"Matrix","pred":"isinstance(incident, Matrix)"},"name":"refraction_angle_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.refraction_angle_Matrix_correct","statement":"refraction_angle satisfies spec on Matrix inputs"},"trust":"LIBRARY"},{"name":"Ray3D","pred":"isinstance(incident, Ray3D)","path":{"lhs":"refraction_angle(x)","rhs":"this function calculates transmitted vector after refraction at planar surface","over":{"base":"Ray3D","pred":"isinstance(incident, Ray3D)"},"name":"refraction_angle_Ray3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.refraction_angle_Ray3D_correct","statement":"refraction_angle satisfies spec on Ray3D inputs"},"trust":"LIBRARY"},{"name":"Plane","pred":"isinstance(plane, Plane)","path":{"lhs":"refraction_angle(x)","rhs":"this function calculates transmitted vector after refraction at planar surface","over":{"base":"Plane","pred":"isinstance(plane, Plane)"},"name":"refraction_angle_Plane_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.refraction_angle_Plane_correct","statement":"refraction_angle satisfies spec on Plane inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b76b083ec3801394"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.refraction_angle","kind":"function","src_hash":"fb4e65fdc2635265","in":{"base":"Any","pred":"isinstance(incident, Matrix) and isinstance(incident, Ray3D) and isinstance(plane, Plane) and hasattr(plane, 'normal_vector') and hasattr(incident, 'direction_ratio') and hasattr(plane, 'intersection') and hasattr(normal, 'direction_ratio')"},"out":{"base":"Any"},"spec":{"lhs":"refraction_angle(incident, medium1, medium2)","rhs":"<unspecified:refraction_angle>","over":{"base":"Any","pred":"isinstance(incident, Matrix) and isinstance(incident, Ray3D) and isinstance(plane, Plane) and hasattr(plane, 'normal_vector') and hasattr(incident, 'direction_ratio') and hasattr(plane, 'intersection') and hasattr(normal, 'direction_ratio')"},"name":"refraction_angle_correct"},"guarantee":"this function calculates transmitted vector after refraction at planar surface","fibers":[{"name":"Matrix","pred":"isinstance(incident, Matrix)","path":{"lhs":"refraction_angle(x)","rhs":"this function calculates transmitted vector after refraction at planar surface","over":{"base":"Matrix","pred":"isinstance(incident, Matrix)"},"name":"refraction_angle_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.refraction_angle_Matrix_correct","statement":"refraction_angle satisfies spec on Matrix inputs"},"trust":"LIBRARY"},{"name":"Ray3D","pred":"isinstance(incident, Ray3D)","path":{"lhs":"refraction_angle(x)","rhs":"this function calculates transmitted vector after refraction at planar surface","over":{"base":"Ray3D","pred":"isinstance(incident, Ray3D)"},"name":"refraction_angle_Ray3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.refraction_angle_Ray3D_correct","statement":"refraction_angle satisfies spec on Ray3D inputs"},"trust":"LIBRARY"},{"name":"Plane","pred":"isinstance(plane, Plane)","path":{"lhs":"refraction_angle(x)","rhs":"this function calculates transmitted vector after refraction at planar surface","over":{"base":"Plane","pred":"isinstance(plane, Plane)"},"name":"refraction_angle_Plane_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.refraction_angle_Plane_correct","statement":"refraction_angle satisfies spec on Plane inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b76b083ec3801394","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(plane, 'normal_vector')","hasattr(incident, 'direction_ratio')","hasattr(plane, 'intersection')","hasattr(normal, 'direction_ratio')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["incident.direction_ratio","normal.direction_ratio","plane.intersection","plane.normal_vector"],"raises":["TypeError","ValueError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(incident, Ray3D)', 'not 0.0 <= angle_of_incidence < pi * 0.5', 'not isinstance(plane, Plane)', 'critical_angle_ and angle_of_incidence > critical_angle_', 'len(intersection_pt) == 0', 'not isinstance(incident, Matrix)', 'not isinstance(normal, Matrix)', 'isinstance(normal, Ray3D)'}, fibers={'Ray3D', 'Matrix', 'Plane'})"]}}
 def refraction_angle(incident, medium1, medium2, normal=None, plane=None):
     """
     This function calculates transmitted vector after refraction at planar
@@ -267,16 +283,23 @@ def refraction_angle(incident, medium1, medium2, normal=None, plane=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fresnel_coefficients(ang), this function uses fresnel equations to calculate reflection and transmission coefficients) over Any ║
+# ║ Path(fresnel_coefficients(angle_of_incidence, medium1, medium2), <unspecified:fresnel_coefficients>) over {Any | 0 <= 2 * angle_of_incidence < pi} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fresnel_coefficients : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: 0 <= 2 * angle_of_incidence < pi               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fresnel_coefficients : {Any | 0 <= 2 * angle_of_incid...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1495fe3ef6e8a33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.fresnel_coefficients","kind":"function","src_hash":"90254130b6e68d37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fresnel_coefficients(ang)","rhs":"this function uses fresnel equations to calculate reflection and transmission coefficients","over":{"base":"Any"},"name":"fresnel_coefficients_correct"},"guarantee":"this function uses fresnel equations to calculate reflection and transmission coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.fresnel_coefficients_correct","statement":"Path(fresnel_coefficients(x), this function uses fresnel equations to calculate reflection and transmission coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1495fe3ef6e8a33"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.fresnel_coefficients","kind":"function","src_hash":"90254130b6e68d37","in":{"base":"Any","pred":"0 <= 2 * angle_of_incidence < pi"},"out":{"base":"Any"},"spec":{"lhs":"fresnel_coefficients(angle_of_incidence, medium1, medium2)","rhs":"<unspecified:fresnel_coefficients>","over":{"base":"Any","pred":"0 <= 2 * angle_of_incidence < pi"},"name":"fresnel_coefficients_correct"},"guarantee":"this function uses fresnel equations to calculate reflection and transmission coefficients","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.fresnel_coefficients_correct","statement":"Path(fresnel_coefficients(x), this function uses fresnel equations to calculate reflection and transmission coefficients)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1495fe3ef6e8a33","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["0 <= 2 * angle_of_incidence < pi"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def fresnel_coefficients(angle_of_incidence, medium1, medium2):
     """
     This function uses Fresnel equations to calculate reflection and
@@ -364,7 +387,13 @@ def fresnel_coefficients(angle_of_incidence, medium1, medium2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deviation(inc), this function calculates the angle of deviation of a ray due to refraction at planar surface) over {Any | isinstance(refracted, Ray3D) and isinstance(incident, Matrix)} ║
+# ║ Path(deviation(incident, medium1, medium2), <unspecified:deviation>) over {Any | isinstance(refracted, Ray3D) and isinstance(incident, Matrix) and hasattr(plane, 'normal_vector') and hasattr(incident, 'direction_ratio') and hasattr(normal, 'direction_ratio')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(plane, 'normal_vector')                ║
+# ║   requires: hasattr(incident, 'direction_ratio')           ║
+# ║   requires: hasattr(normal, 'direction_ratio')             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ deviation : {Any | isinstance(refracted, Ray3D) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -377,9 +406,12 @@ def fresnel_coefficients(angle_of_incidence, medium1, medium2):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3a70c21b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.deviation","kind":"function","src_hash":"9fbfd100082b756a","in":{"base":"Any","pred":"isinstance(refracted, Ray3D) and isinstance(incident, Matrix)"},"out":{"base":"Any"},"spec":{"lhs":"deviation(inc)","rhs":"this function calculates the angle of deviation of a ray due to refraction at planar surface","over":{"base":"Any","pred":"isinstance(refracted, Ray3D) and isinstance(incident, Matrix)"},"name":"deviation_correct"},"guarantee":"this function calculates the angle of deviation of a ray due to refraction at planar surface","fibers":[{"name":"Ray3D","pred":"isinstance(refracted, Ray3D)","path":{"lhs":"deviation(x)","rhs":"this function calculates the angle of deviation of a ray due to refraction at planar surface","over":{"base":"Ray3D","pred":"isinstance(refracted, Ray3D)"},"name":"deviation_Ray3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.deviation_Ray3D_correct","statement":"deviation satisfies spec on Ray3D inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(incident, Matrix)","path":{"lhs":"deviation(x)","rhs":"this function calculates the angle of deviation of a ray due to refraction at planar surface","over":{"base":"Matrix","pred":"isinstance(incident, Matrix)"},"name":"deviation_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.deviation_Matrix_correct","statement":"deviation satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3a70c21be49d23cb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.deviation","kind":"function","src_hash":"9fbfd100082b756a","in":{"base":"Any","pred":"isinstance(refracted, Ray3D) and isinstance(incident, Matrix) and hasattr(plane, 'normal_vector') and hasattr(incident, 'direction_ratio') and hasattr(normal, 'direction_ratio')"},"out":{"base":"Any"},"spec":{"lhs":"deviation(incident, medium1, medium2)","rhs":"<unspecified:deviation>","over":{"base":"Any","pred":"isinstance(refracted, Ray3D) and isinstance(incident, Matrix) and hasattr(plane, 'normal_vector') and hasattr(incident, 'direction_ratio') and hasattr(normal, 'direction_ratio')"},"name":"deviation_correct"},"guarantee":"this function calculates the angle of deviation of a ray due to refraction at planar surface","fibers":[{"name":"Ray3D","pred":"isinstance(refracted, Ray3D)","path":{"lhs":"deviation(x)","rhs":"this function calculates the angle of deviation of a ray due to refraction at planar surface","over":{"base":"Ray3D","pred":"isinstance(refracted, Ray3D)"},"name":"deviation_Ray3D_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.deviation_Ray3D_correct","statement":"deviation satisfies spec on Ray3D inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(incident, Matrix)","path":{"lhs":"deviation(x)","rhs":"this function calculates the angle of deviation of a ray due to refraction at planar surface","over":{"base":"Matrix","pred":"isinstance(incident, Matrix)"},"name":"deviation_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.deviation_Matrix_correct","statement":"deviation satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3a70c21be49d23cb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(plane, 'normal_vector')","hasattr(incident, 'direction_ratio')","hasattr(normal, 'direction_ratio')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["incident.direction_ratio","normal.direction_ratio","plane.normal_vector"],"raises":["TypeError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(incident, Ray3D)', 'plane is None', 'isinstance(refracted, Ray3D)', 'refracted != 0', 'not isinstance(incident, Matrix)', 'not isinstance(normal, Matrix)', 'isinstance(normal, Ray3D)'}, fibers={'Ray3D', 'Matrix'})"]}}
 def deviation(incident, medium1, medium2, normal=None, plane=None):
     """
     This function calculates the angle of deviation of a ray
@@ -473,16 +505,22 @@ def deviation(incident, medium1, medium2, normal=None, plane=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(brewster_angle(med), this function calculates the brewster's angle of incidence to medium 2 from medium 1 in radians) over Any ║
+# ║ Path(brewster_angle(medium1, medium2), atan2(n2, n1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  atan2(n2, n1)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ brewster_angle : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f13e6204c9a1c83a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fb797c0d7d6d00a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.brewster_angle","kind":"function","src_hash":"1ea6ea4ab816b539","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"brewster_angle(med)","rhs":"this function calculates the brewster's angle of incidence to medium 2 from medium 1 in radians","over":{"base":"Any"},"name":"brewster_angle_correct"},"guarantee":"this function calculates the brewster's angle of incidence to medium 2 from medium 1 in radians","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.brewster_angle_correct","statement":"Path(brewster_angle(x), this function calculates the brewster's angle of incidence to medium 2 from medium 1 in radians)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f13e6204c9a1c83a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.brewster_angle","kind":"function","src_hash":"1ea6ea4ab816b539","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"brewster_angle(medium1, medium2)","rhs":"atan2(n2, n1)","over":{"base":"Any"},"name":"brewster_angle_correct"},"guarantee":"returns atan2(n2, n1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.brewster_angle_correct","statement":"Path(brewster_angle(x), returns atan2(n2, n1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fb797c0d7d6d00a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"atan2(n2, n1)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def brewster_angle(medium1, medium2):
     """
     This function calculates the Brewster's angle of incidence to Medium 2 from
@@ -511,16 +549,24 @@ def brewster_angle(medium1, medium2):
     return atan2(n2, n1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(critical_angle(med), this function calculates the critical angle of incidence (marking the onset of total internal) to medium 2 from medium 1 in radians) over Any ║
+# ║ Path(critical_angle(medium1, medium2), <unspecified:critical_angle>) over {Any | not (n2 > n1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ critical_angle : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n2 > n1)                                  ║
+# ║   fiber[case_0]: n2 > n1                                   ║
+# ║   fiber[case_1]: not (n2 > n1) => asin(n2 / n1)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ critical_angle : {Any | not (n2 > n1)} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 377abd2309b41985  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac2a3e37a2d499d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.critical_angle","kind":"function","src_hash":"b71cd2d162d52705","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"critical_angle(med)","rhs":"this function calculates the critical angle of incidence (marking the onset of total internal) to medium 2 from medium 1 in radians","over":{"base":"Any"},"name":"critical_angle_correct"},"guarantee":"this function calculates the critical angle of incidence (marking the onset of total internal) to medium 2 from medium 1 in radians","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.critical_angle_correct","statement":"Path(critical_angle(x), this function calculates the critical angle of incidence (marking the onset of total internal) to medium 2 from medium 1 in radians)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"377abd2309b41985"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.critical_angle","kind":"function","src_hash":"b71cd2d162d52705","in":{"base":"Any","pred":"not (n2 > n1)"},"out":{"base":"Any"},"spec":{"lhs":"critical_angle(medium1, medium2)","rhs":"<unspecified:critical_angle>","over":{"base":"Any","pred":"not (n2 > n1)"},"name":"critical_angle_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.critical_angle_correct","statement":"Path(critical_angle(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac2a3e37a2d499d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n2 > n1)"],"fibers":[{"name":"case_0","guard":"n2 > n1","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (n2 > n1)","ensures":["result == asin(n2 / n1)"],"decidability":"z3","returns_expr":"asin(n2 / n1)"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def critical_angle(medium1, medium2):
     """
     This function calculates the critical angle of incidence (marking the onset
@@ -554,7 +600,12 @@ def critical_angle(medium1, medium2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lens_makers_formula(n_l), this function calculates focal length of a lens. it follows cartesian sign convention) over {Any | isinstance(n_lens, Medium)} ║
+# ║ Path(lens_makers_formula(n_lens, n_surr, r1), <unspecified:lens_makers_formula>) over {Any | isinstance(n_lens, Medium) and hasattr(n_lens, 'refractive_index') and hasattr(n_surr, 'refractive_index')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n_lens, 'refractive_index')            ║
+# ║   requires: hasattr(n_surr, 'refractive_index')            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lens_makers_formula : {Any | isinstance(n_lens, Mediu...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -566,9 +617,12 @@ def critical_angle(medium1, medium2):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1668f032...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.lens_makers_formula","kind":"function","src_hash":"112ba80357b89941","in":{"base":"Any","pred":"isinstance(n_lens, Medium)"},"out":{"base":"Any"},"spec":{"lhs":"lens_makers_formula(n_l)","rhs":"this function calculates focal length of a lens. it follows cartesian sign convention","over":{"base":"Any","pred":"isinstance(n_lens, Medium)"},"name":"lens_makers_formula_correct"},"guarantee":"this function calculates focal length of a lens. it follows cartesian sign convention","fibers":[{"name":"Medium","pred":"isinstance(n_lens, Medium)","path":{"lhs":"lens_makers_formula(x)","rhs":"this function calculates focal length of a lens. it follows cartesian sign convention","over":{"base":"Medium","pred":"isinstance(n_lens, Medium)"},"name":"lens_makers_formula_Medium_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.lens_makers_formula_Medium_correct","statement":"lens_makers_formula satisfies spec on Medium inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1668f032099ac4e0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.lens_makers_formula","kind":"function","src_hash":"112ba80357b89941","in":{"base":"Any","pred":"isinstance(n_lens, Medium) and hasattr(n_lens, 'refractive_index') and hasattr(n_surr, 'refractive_index')"},"out":{"base":"Any"},"spec":{"lhs":"lens_makers_formula(n_lens, n_surr, r1)","rhs":"<unspecified:lens_makers_formula>","over":{"base":"Any","pred":"isinstance(n_lens, Medium) and hasattr(n_lens, 'refractive_index') and hasattr(n_surr, 'refractive_index')"},"name":"lens_makers_formula_correct"},"guarantee":"this function calculates focal length of a lens. it follows cartesian sign convention","fibers":[{"name":"Medium","pred":"isinstance(n_lens, Medium)","path":{"lhs":"lens_makers_formula(x)","rhs":"this function calculates focal length of a lens. it follows cartesian sign convention","over":{"base":"Medium","pred":"isinstance(n_lens, Medium)"},"name":"lens_makers_formula_Medium_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.lens_makers_formula_Medium_correct","statement":"lens_makers_formula satisfies spec on Medium inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1668f032099ac4e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n_lens, 'refractive_index')","hasattr(n_surr, 'refractive_index')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n_lens.refractive_index","n_surr.refractive_index"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(n_surr, Medium)', 'focal_length == zoo', 'isinstance(n_lens, Medium)'}, fibers={'Medium'})"]}}
 def lens_makers_formula(n_lens, n_surr, r1, r2, d=0):
     """
     This function calculates focal length of a lens.
@@ -620,16 +674,23 @@ def lens_makers_formula(n_lens, n_surr, r1, r2, d=0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mirror_formula(foc), id) over Any                     ║
+# ║ Path(mirror_formula(focal_length, u, v), id) over {Any | not (focal_length and u and v)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mirror_formula : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (focal_length and u and v)                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mirror_formula : {Any | not (focal_length and u and v...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3003b8a637987361   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.mirror_formula","kind":"function","src_hash":"6fe54bd266279428","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mirror_formula(foc)","rhs":"this function provides one of the three parameters when two of them are supplied. this is valid only for paraxial rays","over":{"base":"Any"},"name":"mirror_formula_correct","kind":"composition"},"guarantee":"this function provides one of the three parameters when two of them are supplied. this is valid only for paraxial rays","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Limit","by":"library_axiom"},{"fn":"Limit","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3003b8a637987361"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.mirror_formula","kind":"function","src_hash":"6fe54bd266279428","in":{"base":"Any","pred":"not (focal_length and u and v)"},"out":{"base":"Any"},"spec":{"lhs":"mirror_formula(focal_length, u, v)","rhs":"<unspecified:mirror_formula>","over":{"base":"Any","pred":"not (focal_length and u and v)"},"name":"mirror_formula_correct","kind":"composition"},"guarantee":"this function provides one of the three parameters when two of them are supplied. this is valid only for paraxial rays","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Limit","by":"library_axiom"},{"fn":"Limit","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3003b8a637987361","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (focal_length and u and v)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def mirror_formula(focal_length=None, u=None, v=None):
     """
     This function provides one of the three parameters
@@ -700,16 +761,23 @@ def mirror_formula(focal_length=None, u=None, v=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lens_formula(foc), id) over Any                       ║
+# ║ Path(lens_formula(focal_length, u, v), id) over {Any | not (focal_length and u and v)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lens_formula : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (focal_length and u and v)                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lens_formula : {Any | not (focal_length and u and v)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | fd4baf9d7955e919   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.lens_formula","kind":"function","src_hash":"08600a2c0f1b1546","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lens_formula(foc)","rhs":"this function provides one of the three parameters when two of them are supplied. this is valid only for paraxial rays","over":{"base":"Any"},"name":"lens_formula_correct","kind":"composition"},"guarantee":"this function provides one of the three parameters when two of them are supplied. this is valid only for paraxial rays","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Limit","by":"library_axiom"},{"fn":"Limit","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd4baf9d7955e919"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.lens_formula","kind":"function","src_hash":"08600a2c0f1b1546","in":{"base":"Any","pred":"not (focal_length and u and v)"},"out":{"base":"Any"},"spec":{"lhs":"lens_formula(focal_length, u, v)","rhs":"<unspecified:lens_formula>","over":{"base":"Any","pred":"not (focal_length and u and v)"},"name":"lens_formula_correct","kind":"composition"},"guarantee":"this function provides one of the three parameters when two of them are supplied. this is valid only for paraxial rays","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Limit","by":"library_axiom"},{"fn":"Limit","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd4baf9d7955e919","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (focal_length and u and v)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def lens_formula(focal_length=None, u=None, v=None):
     """
     This function provides one of the three parameters
@@ -779,16 +847,22 @@ def lens_formula(focal_length=None, u=None, v=None):
         return u*focal_length/(u + focal_length)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hyperfocal_distance(f, ), parameters ==========) over Any ║
+# ║ Path(hyperfocal_distance(f, N, c), 1 / (N * c) * f ** 2) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / (N * c) * f ** 2                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hyperfocal_distance : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5dfdbd28dc5c000  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f764872d882e45c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.hyperfocal_distance","kind":"function","src_hash":"19b0c1d4797c0f1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hyperfocal_distance(f, )","rhs":"parameters ==========","over":{"base":"Any"},"name":"hyperfocal_distance_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.hyperfocal_distance_correct","statement":"Path(hyperfocal_distance(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5dfdbd28dc5c000"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.hyperfocal_distance","kind":"function","src_hash":"19b0c1d4797c0f1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hyperfocal_distance(f, N, c)","rhs":"1 / (N * c) * f ** 2","over":{"base":"Any"},"name":"hyperfocal_distance_correct"},"guarantee":"returns 1 / (N * c) * f ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.hyperfocal_distance_correct","statement":"Path(hyperfocal_distance(x), returns 1 / (N * c) * f ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f764872d882e45c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / (N * c) * f ** 2","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def hyperfocal_distance(f, N, c):
     """
 
@@ -819,16 +893,22 @@ def hyperfocal_distance(f, N, c):
     return (1/(N * c))*(f**2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transverse_magnification(si,), calculates the transverse magnification upon reflection in a mirror, which is the ratio of the image size to the object size) over Any ║
+# ║ Path(transverse_magnification(si, so), -(si / so)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -(si / so)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transverse_magnification : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a9a8101913d99ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bc59b0621d2210d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.transverse_magnification","kind":"function","src_hash":"08333a0b9fa7dfec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transverse_magnification(si,)","rhs":"calculates the transverse magnification upon reflection in a mirror, which is the ratio of the image size to the object size","over":{"base":"Any"},"name":"transverse_magnification_correct"},"guarantee":"calculates the transverse magnification upon reflection in a mirror, which is the ratio of the image size to the object size","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.transverse_magnification_correct","statement":"Path(transverse_magnification(x), calculates the transverse magnification upon reflection in a mirror, which is the ratio of the image size to the object size)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a9a8101913d99ff"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.utils.transverse_magnification","kind":"function","src_hash":"08333a0b9fa7dfec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transverse_magnification(si, so)","rhs":"-(si / so)","over":{"base":"Any"},"name":"transverse_magnification_correct"},"guarantee":"returns -(si / so)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.utils.transverse_magnification_correct","statement":"Path(transverse_magnification(x), returns -(si / so))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bc59b0621d2210d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-(si / so)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def transverse_magnification(si, so):
     """
 

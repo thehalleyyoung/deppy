@@ -41,16 +41,24 @@ epsilon = .000001
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Qubit(), test_Qubit produces the expected output) over Any ║
+# ║ Path(test_Qubit(), qb.flip(0) == Qubit('00111') and qb.flip(1) == Qubit('00100') and qb.flip(4) == Qubit('10110') and qb.qubit_values == (0, 0, 1, 1, 0) and qb.dimension == 5 and len(qb) == 5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Qubit : Any → {Any | qb.flip(0) == Qubit('00111'...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qb.flip(0) == Qubit('00111')                   ║
+# ║   ensures:  qb.flip(1) == Qubit('00100')                   ║
+# ║   ensures:  qb.flip(4) == Qubit('10110')                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Qubit : Any → {Any | result satisfies: qb.flip(0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f9fdd0fbddd1b1a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aabe8bbbd3ec67ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_Qubit","kind":"function","src_hash":"31f1bc20d15737b7","in":{"base":"Any"},"out":{"base":"Any","pred":"qb.flip(0) == Qubit('00111') and qb.flip(1) == Qubit('00100') and qb.flip(4) == Qubit('10110') and qb.qubit_values == (0, 0, 1, 1, 0) and qb.dimension == 5 and len(qb) == 5 and qb[i] == array[4 - i]"},"spec":{"lhs":"test_Qubit()","rhs":"test_Qubit produces the expected output","over":{"base":"Any"},"name":"test_Qubit_correct"},"guarantee":"test_Qubit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_Qubit_correct","statement":"Path(test_Qubit(x), test_Qubit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f9fdd0fbddd1b1a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_Qubit","kind":"function","src_hash":"31f1bc20d15737b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qb.flip(0) == Qubit('00111') and qb.flip(1) == Qubit('00100') and qb.flip(4) == Qubit('10110') and qb.qubit_values == (0, 0, 1, 1, 0) and qb.dimension == 5 and len(qb) == 5"},"spec":{"lhs":"test_Qubit()","rhs":"qb.flip(0) == Qubit('00111') and qb.flip(1) == Qubit('00100') and qb.flip(4) == Qubit('10110') and qb.qubit_values == (0, 0, 1, 1, 0) and qb.dimension == 5 and len(qb) == 5","over":{"base":"Any"},"name":"test_Qubit_correct"},"guarantee":"qb.flip(0) == Qubit('00111'); qb.flip(1) == Qubit('00100'); qb.flip(4) == Qubit('10110')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_Qubit_correct","statement":"Path(test_Qubit(x), qb.flip(0) == Qubit('00111'); qb.flip(1) == Qubit('00100'); qb.flip(4) == Qubit('10110'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aabe8bbbd3ec67ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qb.flip(0) == Qubit('00111')","qb.flip(1) == Qubit('00100')","qb.flip(4) == Qubit('10110')","qb.qubit_values == (0, 0, 1, 1, 0)","qb.dimension == 5","len(qb) == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Qubit():
     array = [0, 0, 1, 1, 0]
     qb = Qubit('00110')
@@ -66,16 +74,24 @@ def test_Qubit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_QubitBra(), test_QubitBra produces the expected output) over Any ║
+# ║ Path(test_QubitBra(), qb.dual_class() == QubitBra and qb_bra.dual_class() == Qubit and represent(qb, nqubits=3).H == represent(qb_bra, nqubits=3) and qb._eval_innerproduct_QubitBra(qb_bra) == Integer(0) and qb._eval_innerproduct_QubitBra(qb_bra) == Integer(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_QubitBra : Any → {Any | qb.dual_class() == Qubit...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qb.dual_class() == QubitBra                    ║
+# ║   ensures:  qb_bra.dual_class() == Qubit                   ║
+# ║   ensures:  represent(qb, nqubits=3).H == represent(q...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_QubitBra : Any → {Any | result satisfies: qb.dua...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b92924629b1f7c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d1b84bbce2f309c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_QubitBra","kind":"function","src_hash":"8c1858a45d3f1de8","in":{"base":"Any"},"out":{"base":"Any","pred":"qb.dual_class() == QubitBra and qb_bra.dual_class() == Qubit and represent(qb, nqubits=3).H == represent(qb_bra, nqubits=3) and qb._eval_innerproduct_QubitBra(qb_bra) == Integer(0) and qb._eval_innerproduct_QubitBra(qb_bra) == Integer(1)"},"spec":{"lhs":"test_QubitBra()","rhs":"test_QubitBra produces the expected output","over":{"base":"Any"},"name":"test_QubitBra_correct"},"guarantee":"test_QubitBra produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_QubitBra_correct","statement":"Path(test_QubitBra(x), test_QubitBra produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b92924629b1f7c2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_QubitBra","kind":"function","src_hash":"8c1858a45d3f1de8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qb.dual_class() == QubitBra and qb_bra.dual_class() == Qubit and represent(qb, nqubits=3).H == represent(qb_bra, nqubits=3) and qb._eval_innerproduct_QubitBra(qb_bra) == Integer(0) and qb._eval_innerproduct_QubitBra(qb_bra) == Integer(1)"},"spec":{"lhs":"test_QubitBra()","rhs":"qb.dual_class() == QubitBra and qb_bra.dual_class() == Qubit and represent(qb, nqubits=3).H == represent(qb_bra, nqubits=3) and qb._eval_innerproduct_QubitBra(qb_bra) == Integer(0) and qb._eval_innerproduct_QubitBra(qb_bra) == Integer(1)","over":{"base":"Any"},"name":"test_QubitBra_correct"},"guarantee":"qb.dual_class() == QubitBra; qb_bra.dual_class() == Qubit; represent(qb, nqubits=3).H == represent(qb_bra, nqubits=3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_QubitBra_correct","statement":"Path(test_QubitBra(x), qb.dual_class() == QubitBra; qb_bra.dual_class() == Qubit; represent(qb, nqubits=3).H == represent(qb_bra, nqubits=3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d1b84bbce2f309c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qb.dual_class() == QubitBra","qb_bra.dual_class() == Qubit","represent(qb, nqubits=3).H == represent(qb_bra, nqubits=3)","qb._eval_innerproduct_QubitBra(qb_bra) == Integer(0)","qb._eval_innerproduct_QubitBra(qb_bra) == Integer(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_QubitBra():
     qb = Qubit(0)
     qb_bra = QubitBra(0)
@@ -95,16 +111,24 @@ def test_QubitBra():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_IntQubit(), test_IntQubit produces the expected output) over Any ║
+# ║ Path(test_IntQubit(), qubit_to_matrix(Qubit('0')) == qubit_to_matrix(iqb) and qubit_to_matrix(IntQubit(qb)) == qubit_to_matrix(qb) and qubit_to_matrix(Qubit('1')) == qubit_to_matrix(iqb) and qubit_to_matrix(IntQubit(1)) == qubit_to_matrix(iqb) and qubit_to_matrix(Qubit('0111')) == qubit_to_matrix(iqb) and qubit_to_matrix(IntQubit(7, 4)) == qubit_to_matrix(iqb) and iqb.as_int() == 8 and iqb.qubit_values == (1, 0, 0, 0) and iqb.qubit_values == (0, 1, 1, 1) and IntQubit(3) == IntQubit(3, 2) and iqb.dual_class() == IntQubitBra and iqb_bra.dual_class() == IntQubit and iqb._eval_innerproduct_IntQubitBra(iqb_bra) == Integer(1) and iqb._eval_innerproduct_IntQubitBra(iqb_bra) == Integer(0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_IntQubit : Any → {Any | qubit_to_matrix(Qubit('0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qubit_to_matrix(Qubit('0')) == qubit_to_m...   ║
+# ║   ensures:  qubit_to_matrix(IntQubit(qb)) == qubit_to...   ║
+# ║   ensures:  qubit_to_matrix(Qubit('1')) == qubit_to_m...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_IntQubit : Any → {Any | result satisfies: qubit_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 698b04397ee3d32a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5603cdf71e684d98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_IntQubit","kind":"function","src_hash":"c25aac0164f4683e","in":{"base":"Any"},"out":{"base":"Any","pred":"qubit_to_matrix(Qubit('0')) == qubit_to_matrix(iqb) and qubit_to_matrix(IntQubit(qb)) == qubit_to_matrix(qb) and qubit_to_matrix(Qubit('1')) == qubit_to_matrix(iqb) and qubit_to_matrix(IntQubit(1)) == qubit_to_matrix(iqb) and qubit_to_matrix(Qubit('0111')) == qubit_to_matrix(iqb) and qubit_to_matrix(IntQubit(7, 4)) == qubit_to_matrix(iqb) and iqb.as_int() == 8 and iqb.qubit_values == (1, 0, 0, 0) and iqb.qubit_values == (0, 1, 1, 1) and IntQubit(3) == IntQubit(3, 2) and iqb.dual_class() == IntQubitBra and iqb_bra.dual_class() == IntQubit and iqb._eval_innerproduct_IntQubitBra(iqb_bra) == Integer(1) and iqb._eval_innerproduct_IntQubitBra(iqb_bra) == Integer(0)"},"spec":{"lhs":"test_IntQubit()","rhs":"test_IntQubit produces the expected output","over":{"base":"Any"},"name":"test_IntQubit_correct"},"guarantee":"test_IntQubit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_IntQubit_correct","statement":"Path(test_IntQubit(x), test_IntQubit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"698b04397ee3d32a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_IntQubit","kind":"function","src_hash":"c25aac0164f4683e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qubit_to_matrix(Qubit('0')) == qubit_to_matrix(iqb) and qubit_to_matrix(IntQubit(qb)) == qubit_to_matrix(qb) and qubit_to_matrix(Qubit('1')) == qubit_to_matrix(iqb) and qubit_to_matrix(IntQubit(1)) == qubit_to_matrix(iqb) and qubit_to_matrix(Qubit('0111')) == qubit_to_matrix(iqb) and qubit_to_matrix(IntQubit(7, 4)) == qubit_to_matrix(iqb) and iqb.as_int() == 8 and iqb.qubit_values == (1, 0, 0, 0) and iqb.qubit_values == (0, 1, 1, 1) and IntQubit(3) == IntQubit(3, 2) and iqb.dual_class() == IntQubitBra and iqb_bra.dual_class() == IntQubit and iqb._eval_innerproduct_IntQubitBra(iqb_bra) == Integer(1) and iqb._eval_innerproduct_IntQubitBra(iqb_bra) == Integer(0)"},"spec":{"lhs":"test_IntQubit()","rhs":"qubit_to_matrix(Qubit('0')) == qubit_to_matrix(iqb) and qubit_to_matrix(IntQubit(qb)) == qubit_to_matrix(qb) and qubit_to_matrix(Qubit('1')) == qubit_to_matrix(iqb) and qubit_to_matrix(IntQubit(1)) == qubit_to_matrix(iqb) and qubit_to_matrix(Qubit('0111')) == qubit_to_matrix(iqb) and qubit_to_matrix(IntQubit(7, 4)) == qubit_to_matrix(iqb) and iqb.as_int() == 8 and iqb.qubit_values == (1, 0, 0, 0) and iqb.qubit_values == (0, 1, 1, 1) and IntQubit(3) == IntQubit(3, 2) and iqb.dual_class() == IntQubitBra and iqb_bra.dual_class() == IntQubit and iqb._eval_innerproduct_IntQubitBra(iqb_bra) == Integer(1) and iqb._eval_innerproduct_IntQubitBra(iqb_bra) == Integer(0)","over":{"base":"Any"},"name":"test_IntQubit_correct"},"guarantee":"qubit_to_matrix(Qubit('0')) == qubit_to_matrix(iqb); qubit_to_matrix(IntQubit(qb)) == qubit_to_matrix(qb); qubit_to_matrix(Qubit('1')) == qubit_to_matrix(iqb)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_IntQubit_correct","statement":"Path(test_IntQubit(x), qubit_to_matrix(Qubit('0')) == qubit_to_matrix(iqb); qubit_to_matrix(IntQubit(qb)) == qubit_to_matrix(qb); qubit_to_matrix(Qubit('1')) == qubit_to_matrix(iqb))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5603cdf71e684d98","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qubit_to_matrix(Qubit('0')) == qubit_to_matrix(iqb)","qubit_to_matrix(IntQubit(qb)) == qubit_to_matrix(qb)","qubit_to_matrix(Qubit('1')) == qubit_to_matrix(iqb)","qubit_to_matrix(IntQubit(1)) == qubit_to_matrix(iqb)","qubit_to_matrix(Qubit('0111')) == qubit_to_matrix(iqb)","qubit_to_matrix(IntQubit(7, 4)) == qubit_to_matrix(iqb)","iqb.as_int() == 8","iqb.qubit_values == (1, 0, 0, 0)","iqb.qubit_values == (0, 1, 1, 1)","IntQubit(3) == IntQubit(3, 2)","iqb.dual_class() == IntQubitBra","iqb_bra.dual_class() == IntQubit","iqb._eval_innerproduct_IntQubitBra(iqb_bra) == Integer(1)","iqb._eval_innerproduct_IntQubitBra(iqb_bra) == Integer(0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_IntQubit():
     # issue 9136
     iqb = IntQubit(0, nqubits=1)
@@ -150,16 +174,23 @@ def test_IntQubit():
     raises(TypeError, lambda: IntQubit(5, bad_arg=True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_superposition_of_states(), test_superposition_of_states produces the expected output) over Any ║
+# ║ Path(test_superposition_of_states(), qapply(state_gate).expand() == state_expanded and matrix_to_qubit(represent(state_gate, nqubits=2)) == state_expanded) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_superposition_of_states : Any → {Any | qapply(st...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(state_gate).expand() == state_expa...   ║
+# ║   ensures:  matrix_to_qubit(represent(state_gate, nqu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_superposition_of_states : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e472e3b1642afdf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43106066098f2cde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_superposition_of_states","kind":"function","src_hash":"eb2a7d0496c4b3e3","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(state_gate).expand() == state_expanded and matrix_to_qubit(represent(state_gate, nqubits=2)) == state_expanded"},"spec":{"lhs":"test_superposition_of_states()","rhs":"test_superposition_of_states produces the expected output","over":{"base":"Any"},"name":"test_superposition_of_states_correct"},"guarantee":"test_superposition_of_states produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_superposition_of_states_correct","statement":"Path(test_superposition_of_states(x), test_superposition_of_states produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e472e3b1642afdf"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_superposition_of_states","kind":"function","src_hash":"eb2a7d0496c4b3e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(state_gate).expand() == state_expanded and matrix_to_qubit(represent(state_gate, nqubits=2)) == state_expanded"},"spec":{"lhs":"test_superposition_of_states()","rhs":"qapply(state_gate).expand() == state_expanded and matrix_to_qubit(represent(state_gate, nqubits=2)) == state_expanded","over":{"base":"Any"},"name":"test_superposition_of_states_correct"},"guarantee":"qapply(state_gate).expand() == state_expanded; matrix_to_qubit(represent(state_gate, nqubits=2)) == state_expanded","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_superposition_of_states_correct","statement":"Path(test_superposition_of_states(x), qapply(state_gate).expand() == state_expanded; matrix_to_qubit(represent(state_gate, nqubits=2)) == state_expanded)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43106066098f2cde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(state_gate).expand() == state_expanded","matrix_to_qubit(represent(state_gate, nqubits=2)) == state_expanded"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_superposition_of_states():
     state = 1/sqrt(2)*Qubit('01') + 1/sqrt(2)*Qubit('10')
     state_gate = CNOT(0, 1)*HadamardGate(0)*state
@@ -170,16 +201,22 @@ def test_superposition_of_states():
 
 #test apply methods
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apply_represent_equality(), test_apply_represent_equality produces the expected output) over Any ║
+# ║ Path(test_apply_represent_equality(), state_rep == states) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apply_represent_equality : Any → {Any | state_re...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  state_rep == states                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apply_represent_equality : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8eb5e1ae1340e832  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d828ab7fb4f7d508  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_apply_represent_equality","kind":"function","src_hash":"43bdcbd6b9e64696","in":{"base":"Any"},"out":{"base":"Any","pred":"state_rep == states"},"spec":{"lhs":"test_apply_represent_equality()","rhs":"test_apply_represent_equality produces the expected output","over":{"base":"Any"},"name":"test_apply_represent_equality_correct"},"guarantee":"test_apply_represent_equality produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_apply_represent_equality_correct","statement":"Path(test_apply_represent_equality(x), test_apply_represent_equality produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8eb5e1ae1340e832"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_apply_represent_equality","kind":"function","src_hash":"43bdcbd6b9e64696","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: state_rep == states"},"spec":{"lhs":"test_apply_represent_equality()","rhs":"state_rep == states","over":{"base":"Any"},"name":"test_apply_represent_equality_correct"},"guarantee":"state_rep == states","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_apply_represent_equality_correct","statement":"Path(test_apply_represent_equality(x), state_rep == states)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d828ab7fb4f7d508","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["state_rep == states"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["random.random"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_apply_represent_equality():
     gates = [HadamardGate(int(3*random.random())),
      XGate(int(3*random.random())), ZGate(int(3*random.random())),
@@ -201,16 +238,24 @@ def test_apply_represent_equality():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_to_qubits(), test_matrix_to_qubits produces the expected output) over Any ║
+# ║ Path(test_matrix_to_qubits(), matrix_to_qubit(mat) == qb and qubit_to_matrix(qb) == mat and matrix_to_qubit(ones) == state.expand() and qubit_to_matrix(state) == ones) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrix_to_qubits : Any → {Any | matrix_to_qubit(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  matrix_to_qubit(mat) == qb                     ║
+# ║   ensures:  qubit_to_matrix(qb) == mat                     ║
+# ║   ensures:  matrix_to_qubit(ones) == state.expand()        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrix_to_qubits : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 723609408853c4fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7475f637af0ab320  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_matrix_to_qubits","kind":"function","src_hash":"b68854b7cbcc3b9f","in":{"base":"Any"},"out":{"base":"Any","pred":"matrix_to_qubit(mat) == qb and qubit_to_matrix(qb) == mat and matrix_to_qubit(ones) == state.expand() and qubit_to_matrix(state) == ones"},"spec":{"lhs":"test_matrix_to_qubits()","rhs":"test_matrix_to_qubits produces the expected output","over":{"base":"Any"},"name":"test_matrix_to_qubits_correct"},"guarantee":"test_matrix_to_qubits produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_matrix_to_qubits_correct","statement":"Path(test_matrix_to_qubits(x), test_matrix_to_qubits produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"723609408853c4fc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_matrix_to_qubits","kind":"function","src_hash":"b68854b7cbcc3b9f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: matrix_to_qubit(mat) == qb and qubit_to_matrix(qb) == mat and matrix_to_qubit(ones) == state.expand() and qubit_to_matrix(state) == ones"},"spec":{"lhs":"test_matrix_to_qubits()","rhs":"matrix_to_qubit(mat) == qb and qubit_to_matrix(qb) == mat and matrix_to_qubit(ones) == state.expand() and qubit_to_matrix(state) == ones","over":{"base":"Any"},"name":"test_matrix_to_qubits_correct"},"guarantee":"matrix_to_qubit(mat) == qb; qubit_to_matrix(qb) == mat; matrix_to_qubit(ones) == state.expand()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_matrix_to_qubits_correct","statement":"Path(test_matrix_to_qubits(x), matrix_to_qubit(mat) == qb; qubit_to_matrix(qb) == mat; matrix_to_qubit(ones) == state.expand())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7475f637af0ab320","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["matrix_to_qubit(mat) == qb","qubit_to_matrix(qb) == mat","matrix_to_qubit(ones) == state.expand()","qubit_to_matrix(state) == ones"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_matrix_to_qubits():
     qb = Qubit(0, 0, 0, 0)
     mat = Matrix([1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
@@ -226,16 +271,23 @@ def test_matrix_to_qubits():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_measure_normalize(), test_measure_normalize produces the expected output) over Any ║
+# ║ Path(test_measure_normalize(), measure_partial(state, (0,), normalize=False) == [(a * Qubit('110'), a * a.conjugate()), (b * Qubit('111'), b * b.conjugate())] and measure_all(state, normalize=False) == [(Qubit('110'), a * a.conjugate()), (Qubit('111'), b * b.conjugate())]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_measure_normalize : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  measure_partial(state, (0,), normalize=Fa...   ║
+# ║   ensures:  measure_all(state, normalize=False) == [(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_measure_normalize : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2a5a877f8fa1530  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4a540469fb8b846  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_measure_normalize","kind":"function","src_hash":"a14173fb4a011433","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_measure_normalize()","rhs":"test_measure_normalize produces the expected output","over":{"base":"Any"},"name":"test_measure_normalize_correct"},"guarantee":"test_measure_normalize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_measure_normalize_correct","statement":"Path(test_measure_normalize(x), test_measure_normalize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2a5a877f8fa1530"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_measure_normalize","kind":"function","src_hash":"a14173fb4a011433","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: measure_partial(state, (0,), normalize=False) == [(a * Qubit('110'), a * a.conjugate()), (b * Qubit('111'), b * b.conjugate())] and measure_all(state, normalize=False) == [(Qubit('110'), a * a.conjugate()), (Qubit('111'), b * b.conjugate())]"},"spec":{"lhs":"test_measure_normalize()","rhs":"measure_partial(state, (0,), normalize=False) == [(a * Qubit('110'), a * a.conjugate()), (b * Qubit('111'), b * b.conjugate())] and measure_all(state, normalize=False) == [(Qubit('110'), a * a.conjugate()), (Qubit('111'), b * b.conjugate())]","over":{"base":"Any"},"name":"test_measure_normalize_correct"},"guarantee":"measure_partial(state, (0,), normalize=False) == [(a * Qubit('110'), a * a.conjugate()), (b * Qubit('111'), b * b.conjugate())]; measure_all(state, normalize=False) == [(Qubit('110'), a * a.conjugate()), (Qubit('111'), b * b.conjugate())]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_measure_normalize_correct","statement":"Path(test_measure_normalize(x), measure_partial(state, (0,), normalize=False) == [(a * Qubit('110'), a * a.conjugate()), (b * Qubit('111'), b * b.conjugate())]; measure_all(state, normalize=False) == [(Qubit('110'), a * a.conjugate()), (Qubit('111'), b * b.conjugate())])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4a540469fb8b846","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["measure_partial(state, (0,), normalize=False) == [(a * Qubit('110'), a * a.conjugate()), (b * Qubit('111'), b * b.conjugate())]","measure_all(state, normalize=False) == [(Qubit('110'), a * a.conjugate()), (Qubit('111'), b * b.conjugate())]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_measure_normalize():
     a, b = symbols('a b')
     state = a*Qubit('110') + b*Qubit('111')
@@ -246,16 +298,24 @@ def test_measure_normalize():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_measure_partial(), test_measure_partial produces the expected output) over Any ║
+# ║ Path(test_measure_partial(), measure_partial(state, (0,)) == [(Qubit('10'), S.Half), (Qubit('01'), S.Half)] and measure_partial(state, int(0)) == [(Qubit('10'), S.Half), (Qubit('01'), S.Half)] and measure_partial(state, (0,)) == measure_partial(state, (1,))[::-1] and measure_partial(state1, (0,)) == [(sqrt(2) / sqrt(3) * Qubit('00001') + 1 / sqrt(3) * Qubit('11111'), 1)] and measure_partial(state1, (1, 2)) == measure_partial(state1, (3, 4)) and measure_partial(state1, (1, 2, 3)) == [(Qubit('00001'), Rational(2, 3)), (Qubit('11111'), Rational(1, 3))] and measure_partial(state2, (0, 1, 3)) == [(Qubit('1000'), Rational(1, 4)), (Qubit('1101'), Rational(1, 4)), (Qubit('1011') / sqrt(2) + Qubit('1111') / sqrt(2), S.Half)] and measure_partial(state2, (0,)) == [(Qubit('1000'), Rational(1, 4)), (Qubit('1111') / sqrt(3) + Qubit('1101') / sqrt(3) + Qubit('1011') / sqrt(3), Rational(3, 4))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_measure_partial : Any → {Any | measure_partial(s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  measure_partial(state, (0,)) == [(Qubit('...   ║
+# ║   ensures:  measure_partial(state, int(0)) == [(Qubit...   ║
+# ║   ensures:  measure_partial(state, (0,)) == measure_p...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_measure_partial : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 377a28f028b3c247  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50f060766794970c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_measure_partial","kind":"function","src_hash":"abcbc01458160927","in":{"base":"Any"},"out":{"base":"Any","pred":"measure_partial(state, (0,)) == [(Qubit('10'), S.Half), (Qubit('01'), S.Half)] and measure_partial(state, (0,)) == measure_partial(state, (1,))[::-1] and measure_partial(state1, (1, 2)) == measure_partial(state1, (3, 4))"},"spec":{"lhs":"test_measure_partial()","rhs":"test_measure_partial produces the expected output","over":{"base":"Any"},"name":"test_measure_partial_correct"},"guarantee":"test_measure_partial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_measure_partial_correct","statement":"Path(test_measure_partial(x), test_measure_partial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"377a28f028b3c247"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_measure_partial","kind":"function","src_hash":"abcbc01458160927","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: measure_partial(state, (0,)) == [(Qubit('10'), S.Half), (Qubit('01'), S.Half)] and measure_partial(state, int(0)) == [(Qubit('10'), S.Half), (Qubit('01'), S.Half)] and measure_partial(state, (0,)) == measure_partial(state, (1,))[::-1] and measure_partial(state1, (0,)) == [(sqrt(2) / sqrt(3) * Qubit('00001') + 1 / sqrt(3) * Qubit('11111'), 1)] and measure_partial(state1, (1, 2)) == measure_partial(state1, (3, 4)) and measure_partial(state1, (1, 2, 3)) == [(Qubit('00001'), Rational(2, 3)), (Qubit('11111'), Rational(1, 3))] and measure_partial(state2, (0, 1, 3)) == [(Qubit('1000'), Rational(1, 4)), (Qubit('1101'), Rational(1, 4)), (Qubit('1011') / sqrt(2) + Qubit('1111') / sqrt(2), S.Half)] and measure_partial(state2, (0,)) == [(Qubit('1000'), Rational(1, 4)), (Qubit('1111') / sqrt(3) + Qubit('1101') / sqrt(3) + Qubit('1011') / sqrt(3), Rational(3, 4))]"},"spec":{"lhs":"test_measure_partial()","rhs":"measure_partial(state, (0,)) == [(Qubit('10'), S.Half), (Qubit('01'), S.Half)] and measure_partial(state, int(0)) == [(Qubit('10'), S.Half), (Qubit('01'), S.Half)] and measure_partial(state, (0,)) == measure_partial(state, (1,))[::-1] and measure_partial(state1, (0,)) == [(sqrt(2) / sqrt(3) * Qubit('00001') + 1 / sqrt(3) * Qubit('11111'), 1)] and measure_partial(state1, (1, 2)) == measure_partial(state1, (3, 4)) and measure_partial(state1, (1, 2, 3)) == [(Qubit('00001'), Rational(2, 3)), (Qubit('11111'), Rational(1, 3))] and measure_partial(state2, (0, 1, 3)) == [(Qubit('1000'), Rational(1, 4)), (Qubit('1101'), Rational(1, 4)), (Qubit('1011') / sqrt(2) + Qubit('1111') / sqrt(2), S.Half)] and measure_partial(state2, (0,)) == [(Qubit('1000'), Rational(1, 4)), (Qubit('1111') / sqrt(3) + Qubit('1101') / sqrt(3) + Qubit('1011') / sqrt(3), Rational(3, 4))]","over":{"base":"Any"},"name":"test_measure_partial_correct"},"guarantee":"measure_partial(state, (0,)) == [(Qubit('10'), S.Half), (Qubit('01'), S.Half)]; measure_partial(state, int(0)) == [(Qubit('10'), S.Half), (Qubit('01'), S.Half)]; measure_partial(state, (0,)) == measure_partial(state, (1,))[::-1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_measure_partial_correct","statement":"Path(test_measure_partial(x), measure_partial(state, (0,)) == [(Qubit('10'), S.Half), (Qubit('01'), S.Half)]; measure_partial(state, int(0)) == [(Qubit('10'), S.Half), (Qubit('01'), S.Half)]; measure_partial(state, (0,)) == measure_partial(state, (1,))[::-1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50f060766794970c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["measure_partial(state, (0,)) == [(Qubit('10'), S.Half), (Qubit('01'), S.Half)]","measure_partial(state, int(0)) == [(Qubit('10'), S.Half), (Qubit('01'), S.Half)]","measure_partial(state, (0,)) == measure_partial(state, (1,))[::-1]","measure_partial(state1, (0,)) == [(sqrt(2) / sqrt(3) * Qubit('00001') + 1 / sqrt(3) * Qubit('11111'), 1)]","measure_partial(state1, (1, 2)) == measure_partial(state1, (3, 4))","measure_partial(state1, (1, 2, 3)) == [(Qubit('00001'), Rational(2, 3)), (Qubit('11111'), Rational(1, 3))]","measure_partial(state2, (0, 1, 3)) == [(Qubit('1000'), Rational(1, 4)), (Qubit('1101'), Rational(1, 4)), (Qubit('1011') / sqrt(2) + Qubit('1111') / sqrt(2), S.Half)]","measure_partial(state2, (0,)) == [(Qubit('1000'), Rational(1, 4)), (Qubit('1111') / sqrt(3) + Qubit('1101') / sqrt(3) + Qubit('1011') / sqrt(3), Rational(3, 4))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_measure_partial():
     #Basic test of collapse of entangled two qubits (Bell States)
     state = Qubit('01') + Qubit('10')
@@ -286,16 +346,24 @@ def test_measure_partial():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_measure_all(), test_measure_all produces the expected output) over Any ║
+# ║ Path(test_measure_all(), measure_all(Qubit('11')) == [(Qubit('11'), 1)] and measure_all(state) == [(Qubit('10'), S.Half), (Qubit('11'), S.Half)] and measure_all(state2) == [(Qubit('00'), Rational(4, 5)), (Qubit('11'), Rational(1, 5))] and measure_all(qapply(Qubit('0'))) == [(Qubit('0'), 1)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_measure_all : Any → {Any | measure_all(Qubit('11...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  measure_all(Qubit('11')) == [(Qubit('11')...   ║
+# ║   ensures:  measure_all(state) == [(Qubit('10'), S.Ha...   ║
+# ║   ensures:  measure_all(state2) == [(Qubit('00'), Rat...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_measure_all : Any → {Any | result satisfies: mea...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1405e91b85cff286  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6683d37da40f25e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_measure_all","kind":"function","src_hash":"3c281d8a92247ddd","in":{"base":"Any"},"out":{"base":"Any","pred":"measure_all(Qubit('11')) == [(Qubit('11'), 1)] and measure_all(state) == [(Qubit('10'), S.Half), (Qubit('11'), S.Half)] and measure_all(qapply(Qubit('0'))) == [(Qubit('0'), 1)]"},"spec":{"lhs":"test_measure_all()","rhs":"test_measure_all produces the expected output","over":{"base":"Any"},"name":"test_measure_all_correct"},"guarantee":"test_measure_all produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_measure_all_correct","statement":"Path(test_measure_all(x), test_measure_all produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1405e91b85cff286"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_measure_all","kind":"function","src_hash":"3c281d8a92247ddd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: measure_all(Qubit('11')) == [(Qubit('11'), 1)] and measure_all(state) == [(Qubit('10'), S.Half), (Qubit('11'), S.Half)] and measure_all(state2) == [(Qubit('00'), Rational(4, 5)), (Qubit('11'), Rational(1, 5))] and measure_all(qapply(Qubit('0'))) == [(Qubit('0'), 1)]"},"spec":{"lhs":"test_measure_all()","rhs":"measure_all(Qubit('11')) == [(Qubit('11'), 1)] and measure_all(state) == [(Qubit('10'), S.Half), (Qubit('11'), S.Half)] and measure_all(state2) == [(Qubit('00'), Rational(4, 5)), (Qubit('11'), Rational(1, 5))] and measure_all(qapply(Qubit('0'))) == [(Qubit('0'), 1)]","over":{"base":"Any"},"name":"test_measure_all_correct"},"guarantee":"measure_all(Qubit('11')) == [(Qubit('11'), 1)]; measure_all(state) == [(Qubit('10'), S.Half), (Qubit('11'), S.Half)]; measure_all(state2) == [(Qubit('00'), Rational(4, 5)), (Qubit('11'), Rational(1, 5))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_measure_all_correct","statement":"Path(test_measure_all(x), measure_all(Qubit('11')) == [(Qubit('11'), 1)]; measure_all(state) == [(Qubit('10'), S.Half), (Qubit('11'), S.Half)]; measure_all(state2) == [(Qubit('00'), Rational(4, 5)), (Qubit('11'), Rational(1, 5))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6683d37da40f25e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["measure_all(Qubit('11')) == [(Qubit('11'), 1)]","measure_all(state) == [(Qubit('10'), S.Half), (Qubit('11'), S.Half)]","measure_all(state2) == [(Qubit('00'), Rational(4, 5)), (Qubit('11'), Rational(1, 5))]","measure_all(qapply(Qubit('0'))) == [(Qubit('0'), 1)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_measure_all():
     assert measure_all(Qubit('11')) == [(Qubit('11'), 1)]
     state = Qubit('11') + Qubit('10')
@@ -310,16 +378,24 @@ def test_measure_all():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_measure_all_oneshot(), test_measure_all_oneshot produces the expected output) over Any ║
+# ║ Path(test_measure_all_oneshot(), measure_all_oneshot(Qubit('11')) == Qubit('11') and measure_all_oneshot(Qubit('1')) == Qubit('1') and measure_all_oneshot(Qubit('0') / sqrt(2) + Qubit('1') / sqrt(2)) == Qubit('0')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_measure_all_oneshot : Any → {Any | measure_all_o...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  measure_all_oneshot(Qubit('11')) == Qubit...   ║
+# ║   ensures:  measure_all_oneshot(Qubit('1')) == Qubit(...   ║
+# ║   ensures:  measure_all_oneshot(Qubit('0') / sqrt(2) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_measure_all_oneshot : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e666695f7fd5ddd9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7267a02a880f4da5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_measure_all_oneshot","kind":"function","src_hash":"b0e648d8260ef9f3","in":{"base":"Any"},"out":{"base":"Any","pred":"measure_all_oneshot(Qubit('11')) == Qubit('11') and measure_all_oneshot(Qubit('1')) == Qubit('1') and measure_all_oneshot(Qubit('0') / sqrt(2) + Qubit('1') / sqrt(2)) == Qubit('0')"},"spec":{"lhs":"test_measure_all_oneshot()","rhs":"test_measure_all_oneshot produces the expected output","over":{"base":"Any"},"name":"test_measure_all_oneshot_correct"},"guarantee":"test_measure_all_oneshot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_measure_all_oneshot_correct","statement":"Path(test_measure_all_oneshot(x), test_measure_all_oneshot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e666695f7fd5ddd9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_measure_all_oneshot","kind":"function","src_hash":"b0e648d8260ef9f3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: measure_all_oneshot(Qubit('11')) == Qubit('11') and measure_all_oneshot(Qubit('1')) == Qubit('1') and measure_all_oneshot(Qubit('0') / sqrt(2) + Qubit('1') / sqrt(2)) == Qubit('0')"},"spec":{"lhs":"test_measure_all_oneshot()","rhs":"measure_all_oneshot(Qubit('11')) == Qubit('11') and measure_all_oneshot(Qubit('1')) == Qubit('1') and measure_all_oneshot(Qubit('0') / sqrt(2) + Qubit('1') / sqrt(2)) == Qubit('0')","over":{"base":"Any"},"name":"test_measure_all_oneshot_correct"},"guarantee":"measure_all_oneshot(Qubit('11')) == Qubit('11'); measure_all_oneshot(Qubit('1')) == Qubit('1'); measure_all_oneshot(Qubit('0') / sqrt(2) + Qubit('1') / sqrt(2)) == Qubit('0')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_measure_all_oneshot_correct","statement":"Path(test_measure_all_oneshot(x), measure_all_oneshot(Qubit('11')) == Qubit('11'); measure_all_oneshot(Qubit('1')) == Qubit('1'); measure_all_oneshot(Qubit('0') / sqrt(2) + Qubit('1') / sqrt(2)) == Qubit('0'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7267a02a880f4da5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["measure_all_oneshot(Qubit('11')) == Qubit('11')","measure_all_oneshot(Qubit('1')) == Qubit('1')","measure_all_oneshot(Qubit('0') / sqrt(2) + Qubit('1') / sqrt(2)) == Qubit('0')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_measure_all_oneshot():
     random.seed(42)
     # for issue #27092
@@ -330,16 +406,24 @@ def test_measure_all_oneshot():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eval_trace(), test_eval_trace produces the expected output) over Any ║
+# ║ Path(test_eval_trace(), t.doit() == 1.0 and t.doit() == 0.4 * Density([Qubit('0101'), 1]) + 0.6 * Density([Qubit('1011'), 1]) and t.doit() == 0.4 * Density([Qubit('1010'), 1]) + 0.6 * Density([Qubit('0110'), 1]) and t.doit() == 0.4 * Density([Qubit('0110'), 1]) + 0.6 * Density([Qubit('1010'), 1]) and t.doit() == 0.4 * Density([Qubit('00'), 1]) + 0.6 * Density([Qubit('10'), 1]) and t.doit() == 0.5 * Density([Qubit('0'), 1]) + 0.5 * Density([Qubit('1'), 1])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eval_trace : Any → {Any | t.doit() == 1.0 and t....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  t.doit() == 1.0                                ║
+# ║   ensures:  t.doit() == 0.4 * Density([Qubit('0101'),...   ║
+# ║   ensures:  t.doit() == 0.4 * Density([Qubit('1010'),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eval_trace : Any → {Any | result satisfies: t.do...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e260c88542bb6122  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d1d9a7095b5dd87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_eval_trace","kind":"function","src_hash":"939b0598bf23ceaf","in":{"base":"Any"},"out":{"base":"Any","pred":"t.doit() == 1.0 and t.doit() == 1.0 and t.doit() == 0.4 * Density([Qubit('00'), 1]) + 0.6 * Density([Qubit('10'), 1]) and t.doit() == 0.5 * Density([Qubit('0'), 1]) + 0.5 * Density([Qubit('1'), 1])"},"spec":{"lhs":"test_eval_trace()","rhs":"test_eval_trace produces the expected output","over":{"base":"Any"},"name":"test_eval_trace_correct"},"guarantee":"test_eval_trace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_eval_trace_correct","statement":"Path(test_eval_trace(x), test_eval_trace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e260c88542bb6122"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_eval_trace","kind":"function","src_hash":"939b0598bf23ceaf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: t.doit() == 1.0 and t.doit() == 0.4 * Density([Qubit('0101'), 1]) + 0.6 * Density([Qubit('1011'), 1]) and t.doit() == 0.4 * Density([Qubit('1010'), 1]) + 0.6 * Density([Qubit('0110'), 1]) and t.doit() == 0.4 * Density([Qubit('0110'), 1]) + 0.6 * Density([Qubit('1010'), 1]) and t.doit() == 0.4 * Density([Qubit('00'), 1]) + 0.6 * Density([Qubit('10'), 1]) and t.doit() == 0.5 * Density([Qubit('0'), 1]) + 0.5 * Density([Qubit('1'), 1])"},"spec":{"lhs":"test_eval_trace()","rhs":"t.doit() == 1.0 and t.doit() == 0.4 * Density([Qubit('0101'), 1]) + 0.6 * Density([Qubit('1011'), 1]) and t.doit() == 0.4 * Density([Qubit('1010'), 1]) + 0.6 * Density([Qubit('0110'), 1]) and t.doit() == 0.4 * Density([Qubit('0110'), 1]) + 0.6 * Density([Qubit('1010'), 1]) and t.doit() == 0.4 * Density([Qubit('00'), 1]) + 0.6 * Density([Qubit('10'), 1]) and t.doit() == 0.5 * Density([Qubit('0'), 1]) + 0.5 * Density([Qubit('1'), 1])","over":{"base":"Any"},"name":"test_eval_trace_correct"},"guarantee":"t.doit() == 1.0; t.doit() == 0.4 * Density([Qubit('0101'), 1]) + 0.6 * Density([Qubit('1011'), 1]); t.doit() == 0.4 * Density([Qubit('1010'), 1]) + 0.6 * Density([Qubit('0110'), 1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_eval_trace_correct","statement":"Path(test_eval_trace(x), t.doit() == 1.0; t.doit() == 0.4 * Density([Qubit('0101'), 1]) + 0.6 * Density([Qubit('1011'), 1]); t.doit() == 0.4 * Density([Qubit('1010'), 1]) + 0.6 * Density([Qubit('0110'), 1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d1d9a7095b5dd87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["t.doit() == 1.0","t.doit() == 0.4 * Density([Qubit('0101'), 1]) + 0.6 * Density([Qubit('1011'), 1])","t.doit() == 0.4 * Density([Qubit('1010'), 1]) + 0.6 * Density([Qubit('0110'), 1])","t.doit() == 0.4 * Density([Qubit('0110'), 1]) + 0.6 * Density([Qubit('1010'), 1])","t.doit() == 0.4 * Density([Qubit('00'), 1]) + 0.6 * Density([Qubit('10'), 1])","t.doit() == 0.5 * Density([Qubit('0'), 1]) + 0.5 * Density([Qubit('1'), 1])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_eval_trace():
     q1 = Qubit('10110')
     q2 = Qubit('01010')
@@ -378,16 +462,24 @@ def test_eval_trace():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matrix_to_density(), test_matrix_to_density produces the expected output) over Any ║
+# ║ Path(test_matrix_to_density(), matrix_to_density(mat) == Density([Qubit('1'), 1]) and matrix_to_density(mat) == Density([Qubit('0'), 1]) and matrix_to_density(mat) == 0 and matrix_to_density(mat) == Density([Qubit('10'), 1]) and matrix_to_density(mat) == Density([Qubit('00'), 1])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matrix_to_density : Any → {Any | matrix_to_densi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  matrix_to_density(mat) == Density([Qubit(...   ║
+# ║   ensures:  matrix_to_density(mat) == Density([Qubit(...   ║
+# ║   ensures:  matrix_to_density(mat) == 0                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matrix_to_density : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bbc9f2a593332ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33f56cb0844f7877  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_matrix_to_density","kind":"function","src_hash":"c36b8f21dec740e9","in":{"base":"Any"},"out":{"base":"Any","pred":"matrix_to_density(mat) == Density([Qubit('1'), 1]) and matrix_to_density(mat) == Density([Qubit('0'), 1]) and matrix_to_density(mat) == 0 and matrix_to_density(mat) == Density([Qubit('10'), 1]) and matrix_to_density(mat) == Density([Qubit('00'), 1])"},"spec":{"lhs":"test_matrix_to_density()","rhs":"test_matrix_to_density produces the expected output","over":{"base":"Any"},"name":"test_matrix_to_density_correct"},"guarantee":"test_matrix_to_density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_matrix_to_density_correct","statement":"Path(test_matrix_to_density(x), test_matrix_to_density produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bbc9f2a593332ec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_qubit.test_matrix_to_density","kind":"function","src_hash":"c36b8f21dec740e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: matrix_to_density(mat) == Density([Qubit('1'), 1]) and matrix_to_density(mat) == Density([Qubit('0'), 1]) and matrix_to_density(mat) == 0 and matrix_to_density(mat) == Density([Qubit('10'), 1]) and matrix_to_density(mat) == Density([Qubit('00'), 1])"},"spec":{"lhs":"test_matrix_to_density()","rhs":"matrix_to_density(mat) == Density([Qubit('1'), 1]) and matrix_to_density(mat) == Density([Qubit('0'), 1]) and matrix_to_density(mat) == 0 and matrix_to_density(mat) == Density([Qubit('10'), 1]) and matrix_to_density(mat) == Density([Qubit('00'), 1])","over":{"base":"Any"},"name":"test_matrix_to_density_correct"},"guarantee":"matrix_to_density(mat) == Density([Qubit('1'), 1]); matrix_to_density(mat) == Density([Qubit('0'), 1]); matrix_to_density(mat) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_qubit.test_matrix_to_density_correct","statement":"Path(test_matrix_to_density(x), matrix_to_density(mat) == Density([Qubit('1'), 1]); matrix_to_density(mat) == Density([Qubit('0'), 1]); matrix_to_density(mat) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33f56cb0844f7877","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["matrix_to_density(mat) == Density([Qubit('1'), 1])","matrix_to_density(mat) == Density([Qubit('0'), 1])","matrix_to_density(mat) == 0","matrix_to_density(mat) == Density([Qubit('10'), 1])","matrix_to_density(mat) == Density([Qubit('00'), 1])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_matrix_to_density():
     mat = Matrix([[0, 0], [0, 1]])
     assert matrix_to_density(mat) == Density([Qubit('1'), 1])

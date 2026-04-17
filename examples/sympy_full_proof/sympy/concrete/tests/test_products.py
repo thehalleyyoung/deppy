@@ -35,16 +35,24 @@ f = Function('f')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_karr_convention(), test_karr_convention produces the expected output) over Any ║
+# ║ Path(test_karr_convention(), S1 * S2 == 1 and Sz == 1 and simplify(S1 * S2) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_karr_convention : Any → {Any | S1 * S2 == 1 and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  S1 * S2 == 1                                   ║
+# ║   ensures:  Sz == 1                                        ║
+# ║   ensures:  simplify(S1 * S2) == 1                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_karr_convention : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f738519f04ce2d8c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73f8c28e1c8b45d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_karr_convention","kind":"function","src_hash":"47d499f100b1c341","in":{"base":"Any"},"out":{"base":"Any","pred":"S1 * S2 == 1 and Sz == 1 and simplify(S1 * S2) == 1 and Sz == 1"},"spec":{"lhs":"test_karr_convention()","rhs":"test_karr_convention produces the expected output","over":{"base":"Any"},"name":"test_karr_convention_correct"},"guarantee":"test_karr_convention produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_karr_convention_correct","statement":"Path(test_karr_convention(x), test_karr_convention produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f738519f04ce2d8c"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_karr_convention","kind":"function","src_hash":"47d499f100b1c341","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: S1 * S2 == 1 and Sz == 1 and simplify(S1 * S2) == 1"},"spec":{"lhs":"test_karr_convention()","rhs":"S1 * S2 == 1 and Sz == 1 and simplify(S1 * S2) == 1","over":{"base":"Any"},"name":"test_karr_convention_correct"},"guarantee":"S1 * S2 == 1; Sz == 1; simplify(S1 * S2) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_karr_convention_correct","statement":"Path(test_karr_convention(x), S1 * S2 == 1; Sz == 1; simplify(S1 * S2) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73f8c28e1c8b45d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["S1 * S2 == 1","Sz == 1","simplify(S1 * S2) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_karr_convention():
     # Test the Karr product convention that we want to hold.
     # See his paper "Summation in Finite Terms" for a detailed
@@ -139,16 +147,22 @@ def test_karr_convention():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_karr_proposition_2a(), test_karr_proposition_2a produces the expected output) over Any ║
+# ║ Path(test_karr_proposition_2a(), <unspecified:test_karr_proposition_2a>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_karr_proposition_2a : Any → {Any | combsimp(P / ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8a8cc4ed8937cce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_karr_proposition_2a","kind":"function","src_hash":"c5864587aef8125e","in":{"base":"Any"},"out":{"base":"Any","pred":"combsimp(P / (g.subs(i, n) / g.subs(i, m))) == 1"},"spec":{"lhs":"test_karr_proposition_2a()","rhs":"test_karr_proposition_2a produces the expected output","over":{"base":"Any"},"name":"test_karr_proposition_2a_correct"},"guarantee":"test_karr_proposition_2a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_karr_proposition_2a_correct","statement":"Path(test_karr_proposition_2a(x), test_karr_proposition_2a produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8a8cc4ed8937cce"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_karr_proposition_2a","kind":"function","src_hash":"c5864587aef8125e","in":{"base":"Any"},"out":{"base":"Any","pred":"combsimp(P / (g.subs(i, n) / g.subs(i, m))) == 1"},"spec":{"lhs":"test_karr_proposition_2a()","rhs":"<unspecified:test_karr_proposition_2a>","over":{"base":"Any"},"name":"test_karr_proposition_2a_correct"},"guarantee":"test_karr_proposition_2a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_karr_proposition_2a_correct","statement":"Path(test_karr_proposition_2a(x), test_karr_proposition_2a produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8a8cc4ed8937cce","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_karr_proposition_2a():
     # Test Karr, page 309, proposition 2, part a
     i, u, v = symbols('i u v', integer=True)
@@ -174,16 +188,22 @@ def test_karr_proposition_2a():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_karr_proposition_2b(), test_karr_proposition_2b produces the expected output) over Any ║
+# ║ Path(test_karr_proposition_2b(), <unspecified:test_karr_proposition_2b>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_karr_proposition_2b : Any → {Any | combsimp(S1 /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca8d9419534fb9ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_karr_proposition_2b","kind":"function","src_hash":"4f8220ab16e8dc5c","in":{"base":"Any"},"out":{"base":"Any","pred":"combsimp(S1 / (S2 * S3)) == 1"},"spec":{"lhs":"test_karr_proposition_2b()","rhs":"test_karr_proposition_2b produces the expected output","over":{"base":"Any"},"name":"test_karr_proposition_2b_correct"},"guarantee":"test_karr_proposition_2b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_karr_proposition_2b_correct","statement":"Path(test_karr_proposition_2b(x), test_karr_proposition_2b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca8d9419534fb9ee"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_karr_proposition_2b","kind":"function","src_hash":"4f8220ab16e8dc5c","in":{"base":"Any"},"out":{"base":"Any","pred":"combsimp(S1 / (S2 * S3)) == 1"},"spec":{"lhs":"test_karr_proposition_2b()","rhs":"<unspecified:test_karr_proposition_2b>","over":{"base":"Any"},"name":"test_karr_proposition_2b_correct"},"guarantee":"test_karr_proposition_2b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_karr_proposition_2b_correct","statement":"Path(test_karr_proposition_2b(x), test_karr_proposition_2b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca8d9419534fb9ee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_karr_proposition_2b():
     # Test Karr, page 309, proposition 2, part b
     i, u, v, w = symbols('i u v w', integer=True)
@@ -227,7 +247,12 @@ def test_karr_proposition_2b():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_products(), test_simple_products produces the expected output) over {Any | isinstance(product(k ** k, (k, 1, n)), Product)} ║
+# ║ Path(test_simple_products(), product(2, (k, a, n)) == 2 ** (n - a + 1) and product(k, (k, 1, n)) == factorial(n) and product(k ** 3, (k, 1, n)) == factorial(n) ** 3 and product(k + 1, (k, 0, n - 1)) == factorial(n) and product(k + 1, (k, a, n - 1)) == rf(1 + a, n - a) and product(cos(k), (k, 0, 5)) == cos(1) * cos(2) * cos(3) * cos(4) * cos(5) and product(cos(k), (k, 3, 5)) == cos(3) * cos(4) * cos(5) and product(cos(k), (k, 1, Rational(5, 2))) != cos(1) * cos(2) and isinstance(product(k ** k, (k, 1, n)), Product) and Product(x ** k, (k, 1, n)).variables == [k] and product(1, (n, 1, oo)) == 1 and product(2, (n, 1, oo)) is oo and product(-1, (n, 1, oo)).func is Product) over {Any | isinstance(product(k ** k, (k, 1, n)), Product)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  product(2, (k, a, n)) == 2 ** (n - a + 1)      ║
+# ║   ensures:  product(k, (k, 1, n)) == factorial(n)          ║
+# ║   ensures:  product(k ** 3, (k, 1, n)) == factorial(n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_simple_products : {Any | isinstance(product(k **...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -239,9 +264,12 @@ def test_karr_proposition_2b():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ed325ad8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_simple_products","kind":"function","src_hash":"ac4bb0b48aa8826d","in":{"base":"Any","pred":"isinstance(product(k ** k, (k, 1, n)), Product)"},"out":{"base":"Any","pred":"product(2, (k, a, n)) == 2 ** (n - a + 1) and product(k, (k, 1, n)) == factorial(n) and product(k ** 3, (k, 1, n)) == factorial(n) ** 3 and product(k + 1, (k, 0, n - 1)) == factorial(n) and product(k + 1, (k, a, n - 1)) == rf(1 + a, n - a) and product(cos(k), (k, 0, 5)) == cos(1) * cos(2) * cos(3) * cos(4) * cos(5) and product(cos(k), (k, 3, 5)) == cos(3) * cos(4) * cos(5) and product(cos(k), (k, 1, Rational(5, 2))) != cos(1) * cos(2) and isinstance(product(k ** k, (k, 1, n)), Product) and Product(x ** k, (k, 1, n)).variables == [k] and product(1, (n, 1, oo)) == 1 and product(2, (n, 1, oo)) is oo and product(-1, (n, 1, oo)).func is Product"},"spec":{"lhs":"test_simple_products()","rhs":"test_simple_products produces the expected output","over":{"base":"Any","pred":"isinstance(product(k ** k, (k, 1, n)), Product)"},"name":"test_simple_products_correct"},"guarantee":"test_simple_products produces the expected output","fibers":[{"name":"(k","pred":"isinstance(product(k ** k, (k, 1, n)), Product)","path":{"lhs":"test_simple_products(x)","rhs":"test_simple_products produces the expected output","over":{"base":"(k","pred":"isinstance(product(k ** k, (k, 1, n)), Product)"},"name":"test_simple_products_(k_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_simple_products_(k_correct","statement":"test_simple_products satisfies spec on (k inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ed325ad8ec4e2e7c"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_simple_products","kind":"function","src_hash":"ac4bb0b48aa8826d","in":{"base":"Any","pred":"isinstance(product(k ** k, (k, 1, n)), Product)"},"out":{"base":"Any","pred":"result satisfies: product(2, (k, a, n)) == 2 ** (n - a + 1) and product(k, (k, 1, n)) == factorial(n) and product(k ** 3, (k, 1, n)) == factorial(n) ** 3 and product(k + 1, (k, 0, n - 1)) == factorial(n) and product(k + 1, (k, a, n - 1)) == rf(1 + a, n - a) and product(cos(k), (k, 0, 5)) == cos(1) * cos(2) * cos(3) * cos(4) * cos(5) and product(cos(k), (k, 3, 5)) == cos(3) * cos(4) * cos(5) and product(cos(k), (k, 1, Rational(5, 2))) != cos(1) * cos(2) and isinstance(product(k ** k, (k, 1, n)), Product) and Product(x ** k, (k, 1, n)).variables == [k] and product(1, (n, 1, oo)) == 1 and product(2, (n, 1, oo)) is oo and product(-1, (n, 1, oo)).func is Product"},"spec":{"lhs":"test_simple_products()","rhs":"product(2, (k, a, n)) == 2 ** (n - a + 1) and product(k, (k, 1, n)) == factorial(n) and product(k ** 3, (k, 1, n)) == factorial(n) ** 3 and product(k + 1, (k, 0, n - 1)) == factorial(n) and product(k + 1, (k, a, n - 1)) == rf(1 + a, n - a) and product(cos(k), (k, 0, 5)) == cos(1) * cos(2) * cos(3) * cos(4) * cos(5) and product(cos(k), (k, 3, 5)) == cos(3) * cos(4) * cos(5) and product(cos(k), (k, 1, Rational(5, 2))) != cos(1) * cos(2) and isinstance(product(k ** k, (k, 1, n)), Product) and Product(x ** k, (k, 1, n)).variables == [k] and product(1, (n, 1, oo)) == 1 and product(2, (n, 1, oo)) is oo and product(-1, (n, 1, oo)).func is Product","over":{"base":"Any","pred":"isinstance(product(k ** k, (k, 1, n)), Product)"},"name":"test_simple_products_correct"},"guarantee":"product(2, (k, a, n)) == 2 ** (n - a + 1); product(k, (k, 1, n)) == factorial(n); product(k ** 3, (k, 1, n)) == factorial(n) ** 3","fibers":[{"name":"(k","pred":"isinstance(product(k ** k, (k, 1, n)), Product)","path":{"lhs":"test_simple_products(x)","rhs":"product(2, (k, a, n)) == 2 ** (n - a + 1); product(k, (k, 1, n)) == factorial(n); product(k ** 3, (k, 1, n)) == factorial(n) ** 3","over":{"base":"(k","pred":"isinstance(product(k ** k, (k, 1, n)), Product)"},"name":"test_simple_products_(k_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_simple_products_(k_correct","statement":"test_simple_products satisfies spec on (k inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ed325ad8ec4e2e7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["product(2, (k, a, n)) == 2 ** (n - a + 1)","product(k, (k, 1, n)) == factorial(n)","product(k ** 3, (k, 1, n)) == factorial(n) ** 3","product(k + 1, (k, 0, n - 1)) == factorial(n)","product(k + 1, (k, a, n - 1)) == rf(1 + a, n - a)","product(cos(k), (k, 0, 5)) == cos(1) * cos(2) * cos(3) * cos(4) * cos(5)","product(cos(k), (k, 3, 5)) == cos(3) * cos(4) * cos(5)","product(cos(k), (k, 1, Rational(5, 2))) != cos(1) * cos(2)","isinstance(product(k ** k, (k, 1, n)), Product)","Product(x ** k, (k, 1, n)).variables == [k]","product(1, (n, 1, oo)) == 1","product(2, (n, 1, oo)) is oo","product(-1, (n, 1, oo)).func is Product"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":true}}
 def test_simple_products():
     assert product(2, (k, a, n)) == 2**(n - a + 1)
     assert product(k, (k, 1, n)) == factorial(n)
@@ -270,16 +298,24 @@ def test_simple_products():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiple_products(), test_multiple_products produces the expected output) over Any ║
+# ║ Path(test_multiple_products(), product(x, (n, 1, k), (k, 1, m)) == x ** (m ** 2 / 2 + m / 2) and product(f(n), (n, 1, m), (m, 1, k)) == Product(f(n), (n, 1, m), (m, 1, k)).doit() and Product(f(n), (m, 1, k), (n, 1, k)).doit() == Product(Product(f(n), (m, 1, k)), (n, 1, k)).doit() == product(f(n), (m, 1, k), (n, 1, k)) == product(product(f(n), (m, 1, k)), (n, 1, k)) == Product(f(n) ** k, (n, 1, k)) and Product(x, (x, 1, k), (k, 1, n)).doit() == Product(factorial(k), (k, 1, n)) and Product(x ** k, (n, 1, k), (k, 1, m)).variables == [n, k]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiple_products : Any → {Any | product(x, (n, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  product(x, (n, 1, k), (k, 1, m)) == x ** ...   ║
+# ║   ensures:  product(f(n), (n, 1, m), (m, 1, k)) == Pr...   ║
+# ║   ensures:  Product(f(n), (m, 1, k), (n, 1, k)).doit(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiple_products : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c74401de6f2d96ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c7144b2d048bfe0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_multiple_products","kind":"function","src_hash":"35c8a8a15ab018b4","in":{"base":"Any"},"out":{"base":"Any","pred":"product(x, (n, 1, k), (k, 1, m)) == x ** (m ** 2 / 2 + m / 2) and Product(x, (x, 1, k), (k, 1, n)).doit() == Product(factorial(k), (k, 1, n)) and Product(x ** k, (n, 1, k), (k, 1, m)).variables == [n, k]"},"spec":{"lhs":"test_multiple_products()","rhs":"test_multiple_products produces the expected output","over":{"base":"Any"},"name":"test_multiple_products_correct"},"guarantee":"test_multiple_products produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_multiple_products_correct","statement":"Path(test_multiple_products(x), test_multiple_products produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c74401de6f2d96ba"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_multiple_products","kind":"function","src_hash":"35c8a8a15ab018b4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: product(x, (n, 1, k), (k, 1, m)) == x ** (m ** 2 / 2 + m / 2) and product(f(n), (n, 1, m), (m, 1, k)) == Product(f(n), (n, 1, m), (m, 1, k)).doit() and Product(f(n), (m, 1, k), (n, 1, k)).doit() == Product(Product(f(n), (m, 1, k)), (n, 1, k)).doit() == product(f(n), (m, 1, k), (n, 1, k)) == product(product(f(n), (m, 1, k)), (n, 1, k)) == Product(f(n) ** k, (n, 1, k)) and Product(x, (x, 1, k), (k, 1, n)).doit() == Product(factorial(k), (k, 1, n)) and Product(x ** k, (n, 1, k), (k, 1, m)).variables == [n, k]"},"spec":{"lhs":"test_multiple_products()","rhs":"product(x, (n, 1, k), (k, 1, m)) == x ** (m ** 2 / 2 + m / 2) and product(f(n), (n, 1, m), (m, 1, k)) == Product(f(n), (n, 1, m), (m, 1, k)).doit() and Product(f(n), (m, 1, k), (n, 1, k)).doit() == Product(Product(f(n), (m, 1, k)), (n, 1, k)).doit() == product(f(n), (m, 1, k), (n, 1, k)) == product(product(f(n), (m, 1, k)), (n, 1, k)) == Product(f(n) ** k, (n, 1, k)) and Product(x, (x, 1, k), (k, 1, n)).doit() == Product(factorial(k), (k, 1, n)) and Product(x ** k, (n, 1, k), (k, 1, m)).variables == [n, k]","over":{"base":"Any"},"name":"test_multiple_products_correct"},"guarantee":"product(x, (n, 1, k), (k, 1, m)) == x ** (m ** 2 / 2 + m / 2); product(f(n), (n, 1, m), (m, 1, k)) == Product(f(n), (n, 1, m), (m, 1, k)).doit(); Product(f(n), (m, 1, k), (n, 1, k)).doit() == Product(Product(f(n), (m, 1, k)), (n, 1, k)).doit() == product(f(n), (m, 1, k), (n, 1, k)) == product(product(f(n), (m, 1, k)), (n, 1, k)) == Product(f(n) ** k, (n, 1, k))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_multiple_products_correct","statement":"Path(test_multiple_products(x), product(x, (n, 1, k), (k, 1, m)) == x ** (m ** 2 / 2 + m / 2); product(f(n), (n, 1, m), (m, 1, k)) == Product(f(n), (n, 1, m), (m, 1, k)).doit(); Product(f(n), (m, 1, k), (n, 1, k)).doit() == Product(Product(f(n), (m, 1, k)), (n, 1, k)).doit() == product(f(n), (m, 1, k), (n, 1, k)) == product(product(f(n), (m, 1, k)), (n, 1, k)) == Product(f(n) ** k, (n, 1, k)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c7144b2d048bfe0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["product(x, (n, 1, k), (k, 1, m)) == x ** (m ** 2 / 2 + m / 2)","product(f(n), (n, 1, m), (m, 1, k)) == Product(f(n), (n, 1, m), (m, 1, k)).doit()","Product(f(n), (m, 1, k), (n, 1, k)).doit() == Product(Product(f(n), (m, 1, k)), (n, 1, k)).doit() == product(f(n), (m, 1, k), (n, 1, k)) == product(product(f(n), (m, 1, k)), (n, 1, k)) == Product(f(n) ** k, (n, 1, k))","Product(x, (x, 1, k), (k, 1, n)).doit() == Product(factorial(k), (k, 1, n))","Product(x ** k, (n, 1, k), (k, 1, m)).variables == [n, k]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_multiple_products():
     assert product(x, (n, 1, k), (k, 1, m)) == x**(m**2/2 + m/2)
     assert product(f(n), (
@@ -296,31 +332,44 @@ def test_multiple_products():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rational_products(), test_rational_products produces the expected output) over Any ║
+# ║ Path(test_rational_products(), product(1 + 1 / k, (k, 1, n)) == rf(2, n) / factorial(n)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rational_products : Any → {Any | product(1 + 1 /...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  product(1 + 1 / k, (k, 1, n)) == rf(2, n)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rational_products : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8514814b7ea460db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a04098b2c93d456  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_rational_products","kind":"function","src_hash":"f4ba1cc5fda42502","in":{"base":"Any"},"out":{"base":"Any","pred":"product(1 + 1 / k, (k, 1, n)) == rf(2, n) / factorial(n)"},"spec":{"lhs":"test_rational_products()","rhs":"test_rational_products produces the expected output","over":{"base":"Any"},"name":"test_rational_products_correct"},"guarantee":"test_rational_products produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_rational_products_correct","statement":"Path(test_rational_products(x), test_rational_products produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8514814b7ea460db"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_rational_products","kind":"function","src_hash":"f4ba1cc5fda42502","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: product(1 + 1 / k, (k, 1, n)) == rf(2, n) / factorial(n)"},"spec":{"lhs":"test_rational_products()","rhs":"product(1 + 1 / k, (k, 1, n)) == rf(2, n) / factorial(n)","over":{"base":"Any"},"name":"test_rational_products_correct"},"guarantee":"product(1 + 1 / k, (k, 1, n)) == rf(2, n) / factorial(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_rational_products_correct","statement":"Path(test_rational_products(x), product(1 + 1 / k, (k, 1, n)) == rf(2, n) / factorial(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a04098b2c93d456","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["product(1 + 1 / k, (k, 1, n)) == rf(2, n) / factorial(n)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_rational_products():
     assert product(1 + 1/k, (k, 1, n)) == rf(2, n)/factorial(n)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_special_products(), test_special_products produces the expected output) over Any ║
+# ║ Path(test_special_products(), product((4 * k) ** 2 / (4 * k ** 2 - 1), (k, 1, n)) == 4 ** n * factorial(n) ** 2 / rf(S.Half, n) / rf(Rational(3, 2), n) and product(1 + a / k ** 2, (k, 1, n)) == rf(1 - sqrt(-a), n) * rf(1 + sqrt(-a), n) / factorial(n) ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_special_products : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  product((4 * k) ** 2 / (4 * k ** 2 - 1), ...   ║
+# ║   ensures:  product(1 + a / k ** 2, (k, 1, n)) == rf(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_special_products : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4992714691b41ec6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28b011f525548781  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_special_products","kind":"function","src_hash":"4fad5476a9f72762","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_special_products()","rhs":"test_special_products produces the expected output","over":{"base":"Any"},"name":"test_special_products_correct"},"guarantee":"test_special_products produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_special_products_correct","statement":"Path(test_special_products(x), test_special_products produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4992714691b41ec6"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_special_products","kind":"function","src_hash":"4fad5476a9f72762","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: product((4 * k) ** 2 / (4 * k ** 2 - 1), (k, 1, n)) == 4 ** n * factorial(n) ** 2 / rf(S.Half, n) / rf(Rational(3, 2), n) and product(1 + a / k ** 2, (k, 1, n)) == rf(1 - sqrt(-a), n) * rf(1 + sqrt(-a), n) / factorial(n) ** 2"},"spec":{"lhs":"test_special_products()","rhs":"product((4 * k) ** 2 / (4 * k ** 2 - 1), (k, 1, n)) == 4 ** n * factorial(n) ** 2 / rf(S.Half, n) / rf(Rational(3, 2), n) and product(1 + a / k ** 2, (k, 1, n)) == rf(1 - sqrt(-a), n) * rf(1 + sqrt(-a), n) / factorial(n) ** 2","over":{"base":"Any"},"name":"test_special_products_correct"},"guarantee":"product((4 * k) ** 2 / (4 * k ** 2 - 1), (k, 1, n)) == 4 ** n * factorial(n) ** 2 / rf(S.Half, n) / rf(Rational(3, 2), n); product(1 + a / k ** 2, (k, 1, n)) == rf(1 - sqrt(-a), n) * rf(1 + sqrt(-a), n) / factorial(n) ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_special_products_correct","statement":"Path(test_special_products(x), product((4 * k) ** 2 / (4 * k ** 2 - 1), (k, 1, n)) == 4 ** n * factorial(n) ** 2 / rf(S.Half, n) / rf(Rational(3, 2), n); product(1 + a / k ** 2, (k, 1, n)) == rf(1 - sqrt(-a), n) * rf(1 + sqrt(-a), n) / factorial(n) ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28b011f525548781","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["product((4 * k) ** 2 / (4 * k ** 2 - 1), (k, 1, n)) == 4 ** n * factorial(n) ** 2 / rf(S.Half, n) / rf(Rational(3, 2), n)","product(1 + a / k ** 2, (k, 1, n)) == rf(1 - sqrt(-a), n) * rf(1 + sqrt(-a), n) / factorial(n) ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_special_products():
     # Wallis product
     assert product((4*k)**2 / (4*k**2 - 1), (k, 1, n)) == \
@@ -332,16 +381,24 @@ def test_special_products():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__eval_product(), test__eval_product produces the expected output) over Any ║
+# ║ Path(test__eval_product(), product(2 * a(i), (i, 1, n)) == 2 ** n * Product(a(i), (i, 1, n)) and product(2 ** i, (i, 1, n)) == 2 ** (n * (n + 1) / 2) and product(2 ** i, (i, k, m)) == 2 ** (-k ** 2 / 2 + k / 2 + m ** 2 / 2 + m / 2) and product(2 ** i, (i, n, p)) == 2 ** (-n ** 2 / 2 + n / 2 + p ** 2 / 2 + p / 2) and product(2 ** i, (i, p, n)) == 2 ** (n ** 2 / 2 + n / 2 - p ** 2 / 2 + p / 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__eval_product : Any → {Any | product(2 * a(i), (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  product(2 * a(i), (i, 1, n)) == 2 ** n * ...   ║
+# ║   ensures:  product(2 ** i, (i, 1, n)) == 2 ** (n * (...   ║
+# ║   ensures:  product(2 ** i, (i, k, m)) == 2 ** (-k **...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__eval_product : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3316dbceb19048a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 383e8d7e73fa4714  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test__eval_product","kind":"function","src_hash":"6b931908f420ef27","in":{"base":"Any"},"out":{"base":"Any","pred":"product(2 * a(i), (i, 1, n)) == 2 ** n * Product(a(i), (i, 1, n)) and product(2 ** i, (i, 1, n)) == 2 ** (n * (n + 1) / 2) and product(2 ** i, (i, k, m)) == 2 ** (-k ** 2 / 2 + k / 2 + m ** 2 / 2 + m / 2) and product(2 ** i, (i, n, p)) == 2 ** (-n ** 2 / 2 + n / 2 + p ** 2 / 2 + p / 2) and product(2 ** i, (i, p, n)) == 2 ** (n ** 2 / 2 + n / 2 - p ** 2 / 2 + p / 2)"},"spec":{"lhs":"test__eval_product()","rhs":"test__eval_product produces the expected output","over":{"base":"Any"},"name":"test__eval_product_correct"},"guarantee":"test__eval_product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test__eval_product_correct","statement":"Path(test__eval_product(x), test__eval_product produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3316dbceb19048a4"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test__eval_product","kind":"function","src_hash":"6b931908f420ef27","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: product(2 * a(i), (i, 1, n)) == 2 ** n * Product(a(i), (i, 1, n)) and product(2 ** i, (i, 1, n)) == 2 ** (n * (n + 1) / 2) and product(2 ** i, (i, k, m)) == 2 ** (-k ** 2 / 2 + k / 2 + m ** 2 / 2 + m / 2) and product(2 ** i, (i, n, p)) == 2 ** (-n ** 2 / 2 + n / 2 + p ** 2 / 2 + p / 2) and product(2 ** i, (i, p, n)) == 2 ** (n ** 2 / 2 + n / 2 - p ** 2 / 2 + p / 2)"},"spec":{"lhs":"test__eval_product()","rhs":"product(2 * a(i), (i, 1, n)) == 2 ** n * Product(a(i), (i, 1, n)) and product(2 ** i, (i, 1, n)) == 2 ** (n * (n + 1) / 2) and product(2 ** i, (i, k, m)) == 2 ** (-k ** 2 / 2 + k / 2 + m ** 2 / 2 + m / 2) and product(2 ** i, (i, n, p)) == 2 ** (-n ** 2 / 2 + n / 2 + p ** 2 / 2 + p / 2) and product(2 ** i, (i, p, n)) == 2 ** (n ** 2 / 2 + n / 2 - p ** 2 / 2 + p / 2)","over":{"base":"Any"},"name":"test__eval_product_correct"},"guarantee":"product(2 * a(i), (i, 1, n)) == 2 ** n * Product(a(i), (i, 1, n)); product(2 ** i, (i, 1, n)) == 2 ** (n * (n + 1) / 2); product(2 ** i, (i, k, m)) == 2 ** (-k ** 2 / 2 + k / 2 + m ** 2 / 2 + m / 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test__eval_product_correct","statement":"Path(test__eval_product(x), product(2 * a(i), (i, 1, n)) == 2 ** n * Product(a(i), (i, 1, n)); product(2 ** i, (i, 1, n)) == 2 ** (n * (n + 1) / 2); product(2 ** i, (i, k, m)) == 2 ** (-k ** 2 / 2 + k / 2 + m ** 2 / 2 + m / 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"383e8d7e73fa4714","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["product(2 * a(i), (i, 1, n)) == 2 ** n * Product(a(i), (i, 1, n))","product(2 ** i, (i, 1, n)) == 2 ** (n * (n + 1) / 2)","product(2 ** i, (i, k, m)) == 2 ** (-k ** 2 / 2 + k / 2 + m ** 2 / 2 + m / 2)","product(2 ** i, (i, n, p)) == 2 ** (-n ** 2 / 2 + n / 2 + p ** 2 / 2 + p / 2)","product(2 ** i, (i, p, n)) == 2 ** (n ** 2 / 2 + n / 2 - p ** 2 / 2 + p / 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test__eval_product():
     from sympy.abc import i, n
     # issue 4809
@@ -358,16 +415,23 @@ def test__eval_product():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_product_pow(), test_product_pow produces the expected output) over Any ║
+# ║ Path(test_product_pow(), product(2 ** f(k), (k, 1, n)) == 2 ** Sum(f(k), (k, 1, n)) and product(2 ** (2 * f(k)), (k, 1, n)) == 2 ** Sum(2 * f(k), (k, 1, n))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_product_pow : Any → {Any | product(2 ** f(k), (k...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  product(2 ** f(k), (k, 1, n)) == 2 ** Sum...   ║
+# ║   ensures:  product(2 ** (2 * f(k)), (k, 1, n)) == 2 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_product_pow : Any → {Any | result satisfies: pro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cba2ae4c5cf6bd42  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e3c308d81204703  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_product_pow","kind":"function","src_hash":"427752c30ed3230d","in":{"base":"Any"},"out":{"base":"Any","pred":"product(2 ** f(k), (k, 1, n)) == 2 ** Sum(f(k), (k, 1, n)) and product(2 ** (2 * f(k)), (k, 1, n)) == 2 ** Sum(2 * f(k), (k, 1, n))"},"spec":{"lhs":"test_product_pow()","rhs":"test_product_pow produces the expected output","over":{"base":"Any"},"name":"test_product_pow_correct"},"guarantee":"test_product_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_product_pow_correct","statement":"Path(test_product_pow(x), test_product_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cba2ae4c5cf6bd42"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_product_pow","kind":"function","src_hash":"427752c30ed3230d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: product(2 ** f(k), (k, 1, n)) == 2 ** Sum(f(k), (k, 1, n)) and product(2 ** (2 * f(k)), (k, 1, n)) == 2 ** Sum(2 * f(k), (k, 1, n))"},"spec":{"lhs":"test_product_pow()","rhs":"product(2 ** f(k), (k, 1, n)) == 2 ** Sum(f(k), (k, 1, n)) and product(2 ** (2 * f(k)), (k, 1, n)) == 2 ** Sum(2 * f(k), (k, 1, n))","over":{"base":"Any"},"name":"test_product_pow_correct"},"guarantee":"product(2 ** f(k), (k, 1, n)) == 2 ** Sum(f(k), (k, 1, n)); product(2 ** (2 * f(k)), (k, 1, n)) == 2 ** Sum(2 * f(k), (k, 1, n))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_product_pow_correct","statement":"Path(test_product_pow(x), product(2 ** f(k), (k, 1, n)) == 2 ** Sum(f(k), (k, 1, n)); product(2 ** (2 * f(k)), (k, 1, n)) == 2 ** Sum(2 * f(k), (k, 1, n)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e3c308d81204703","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["product(2 ** f(k), (k, 1, n)) == 2 ** Sum(f(k), (k, 1, n))","product(2 ** (2 * f(k)), (k, 1, n)) == 2 ** Sum(2 * f(k), (k, 1, n))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_product_pow():
     # issue 4817
     assert product(2**f(k), (k, 1, n)) == 2**Sum(f(k), (k, 1, n))
@@ -375,7 +439,10 @@ def test_product_pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_infinite_product(), test_infinite_product produces the expected output) over {Any | isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)} ║
+# ║ Path(test_infinite_product(), isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)) over {Any | isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(Product(2 ** (1 / factorial(n)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_infinite_product : {Any | isinstance(Product(2 *...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -387,25 +454,36 @@ def test_product_pow():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 32945663...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_infinite_product","kind":"function","src_hash":"99e18a6e7610eaa5","in":{"base":"Any","pred":"isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)"},"out":{"base":"Any","pred":"isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)"},"spec":{"lhs":"test_infinite_product()","rhs":"test_infinite_product produces the expected output","over":{"base":"Any","pred":"isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)"},"name":"test_infinite_product_correct"},"guarantee":"test_infinite_product produces the expected output","fibers":[{"name":"(n","pred":"isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)","path":{"lhs":"test_infinite_product(x)","rhs":"test_infinite_product produces the expected output","over":{"base":"(n","pred":"isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)"},"name":"test_infinite_product_(n_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_infinite_product_(n_correct","statement":"test_infinite_product satisfies spec on (n inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"32945663febbe9e8"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_infinite_product","kind":"function","src_hash":"99e18a6e7610eaa5","in":{"base":"Any","pred":"isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)"},"out":{"base":"Any","pred":"result satisfies: isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)"},"spec":{"lhs":"test_infinite_product()","rhs":"isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)","over":{"base":"Any","pred":"isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)"},"name":"test_infinite_product_correct"},"guarantee":"isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)","fibers":[{"name":"(n","pred":"isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)","path":{"lhs":"test_infinite_product(x)","rhs":"isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)","over":{"base":"(n","pred":"isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)"},"name":"test_infinite_product_(n_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_infinite_product_(n_correct","statement":"test_infinite_product satisfies spec on (n inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"32945663febbe9e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(Product(2 ** (1 / factorial(n)), (n, 0, oo)), Product)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"failed","binding":true}}
 def test_infinite_product():
     # issue 5737
     assert isinstance(Product(2**(1/factorial(n)), (n, 0, oo)), Product)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_conjugate_transpose(), test_conjugate_transpose produces the expected output) over Any ║
+# ║ Path(test_conjugate_transpose(), p.adjoint().doit() == p.doit().adjoint() and p.conjugate().doit() == p.doit().conjugate() and p.transpose().doit() == p.doit().transpose()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_conjugate_transpose : Any → {Any | p.adjoint().d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.adjoint().doit() == p.doit().adjoint()       ║
+# ║   ensures:  p.conjugate().doit() == p.doit().conjugate()   ║
+# ║   ensures:  p.transpose().doit() == p.doit().transpose()   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_conjugate_transpose : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bed40171aeb315f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0a8e60fd20ad6de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_conjugate_transpose","kind":"function","src_hash":"11f1de99f0c04193","in":{"base":"Any"},"out":{"base":"Any","pred":"p.adjoint().doit() == p.doit().adjoint() and p.conjugate().doit() == p.doit().conjugate() and p.transpose().doit() == p.doit().transpose() and p.adjoint().doit() == p.doit().adjoint() and p.conjugate().doit() == p.doit().conjugate() and p.transpose().doit() == p.doit().transpose() and p.adjoint().doit() == p.doit().adjoint() and p.conjugate().doit() == p.doit().conjugate() and p.transpose().doit() == p.doit().transpose()"},"spec":{"lhs":"test_conjugate_transpose()","rhs":"test_conjugate_transpose produces the expected output","over":{"base":"Any"},"name":"test_conjugate_transpose_correct"},"guarantee":"test_conjugate_transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_conjugate_transpose_correct","statement":"Path(test_conjugate_transpose(x), test_conjugate_transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bed40171aeb315f4"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_conjugate_transpose","kind":"function","src_hash":"11f1de99f0c04193","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.adjoint().doit() == p.doit().adjoint() and p.conjugate().doit() == p.doit().conjugate() and p.transpose().doit() == p.doit().transpose()"},"spec":{"lhs":"test_conjugate_transpose()","rhs":"p.adjoint().doit() == p.doit().adjoint() and p.conjugate().doit() == p.doit().conjugate() and p.transpose().doit() == p.doit().transpose()","over":{"base":"Any"},"name":"test_conjugate_transpose_correct"},"guarantee":"p.adjoint().doit() == p.doit().adjoint(); p.conjugate().doit() == p.doit().conjugate(); p.transpose().doit() == p.doit().transpose()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_conjugate_transpose_correct","statement":"Path(test_conjugate_transpose(x), p.adjoint().doit() == p.doit().adjoint(); p.conjugate().doit() == p.doit().conjugate(); p.transpose().doit() == p.doit().transpose())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0a8e60fd20ad6de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.adjoint().doit() == p.doit().adjoint()","p.conjugate().doit() == p.doit().conjugate()","p.transpose().doit() == p.doit().transpose()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_conjugate_transpose():
     p = Product(x**k, (k, 1, 3))
     assert p.adjoint().doit() == p.doit().adjoint()
@@ -425,16 +503,24 @@ def test_conjugate_transpose():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simplify_prod(), test_simplify_prod produces the expected output) over Any ║
+# ║ Path(test_simplify_prod(), _simplify(Product(x * y, (x, n, m), (y, a, k)) * Product(y, (x, n, m), (y, a, k))) == Product(x * y ** 2, (x, n, m), (y, a, k)) and _simplify(3 * y * Product(x, (x, n, m)) * Product(x, (x, m + 1, a))) == 3 * y * Product(x, (x, n, a)) and _simplify(Product(x, (x, k + 1, a)) * Product(x, (x, n, k))) == Product(x, (x, n, a)) and _simplify(Product(x, (x, k + 1, a)) * Product(x + 1, (x, n, k))) == Product(x, (x, k + 1, a)) * Product(x + 1, (x, n, k)) and _simplify(Product(x, (t, a, b)) * Product(y, (t, a, b)) * Product(x, (t, b + 1, c))) == Product(x * y, (t, a, b)) * Product(x, (t, b + 1, c)) and _simplify(Product(x, (t, a, b)) * Product(x, (t, b + 1, c)) * Product(y, (t, a, b))) == Product(x * y, (t, a, b)) * Product(x, (t, b + 1, c)) and _simplify(Product(sin(t) ** 2 + cos(t) ** 2 + 1, (t, a, b))) == Product(2, (t, a, b)) and _simplify(Product(sin(t) ** 2 + cos(t) ** 2 - 1, (t, a, b))) == Product(0, (t, a, b)) and _simplify(Product(v * Product(sin(t) ** 2 + cos(t) ** 2, (t, a, b)), (v, c, d))) == Product(v * Product(1, (t, a, b)), (v, c, d))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simplify_prod : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _simplify(Product(x * y, (x, n, m), (y, a...   ║
+# ║   ensures:  _simplify(3 * y * Product(x, (x, n, m)) *...   ║
+# ║   ensures:  _simplify(Product(x, (x, k + 1, a)) * Pro...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simplify_prod : Any → {Any | result satisfies: _...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 248b22fa83eec342  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e359200a0a9d51a8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_simplify_prod","kind":"function","src_hash":"00129b4f6f7810fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_simplify_prod()","rhs":"test_simplify_prod produces the expected output","over":{"base":"Any"},"name":"test_simplify_prod_correct"},"guarantee":"test_simplify_prod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_simplify_prod_correct","statement":"Path(test_simplify_prod(x), test_simplify_prod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"248b22fa83eec342"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_simplify_prod","kind":"function","src_hash":"00129b4f6f7810fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _simplify(Product(x * y, (x, n, m), (y, a, k)) * Product(y, (x, n, m), (y, a, k))) == Product(x * y ** 2, (x, n, m), (y, a, k)) and _simplify(3 * y * Product(x, (x, n, m)) * Product(x, (x, m + 1, a))) == 3 * y * Product(x, (x, n, a)) and _simplify(Product(x, (x, k + 1, a)) * Product(x, (x, n, k))) == Product(x, (x, n, a)) and _simplify(Product(x, (x, k + 1, a)) * Product(x + 1, (x, n, k))) == Product(x, (x, k + 1, a)) * Product(x + 1, (x, n, k)) and _simplify(Product(x, (t, a, b)) * Product(y, (t, a, b)) * Product(x, (t, b + 1, c))) == Product(x * y, (t, a, b)) * Product(x, (t, b + 1, c)) and _simplify(Product(x, (t, a, b)) * Product(x, (t, b + 1, c)) * Product(y, (t, a, b))) == Product(x * y, (t, a, b)) * Product(x, (t, b + 1, c)) and _simplify(Product(sin(t) ** 2 + cos(t) ** 2 + 1, (t, a, b))) == Product(2, (t, a, b)) and _simplify(Product(sin(t) ** 2 + cos(t) ** 2 - 1, (t, a, b))) == Product(0, (t, a, b)) and _simplify(Product(v * Product(sin(t) ** 2 + cos(t) ** 2, (t, a, b)), (v, c, d))) == Product(v * Product(1, (t, a, b)), (v, c, d))"},"spec":{"lhs":"test_simplify_prod()","rhs":"_simplify(Product(x * y, (x, n, m), (y, a, k)) * Product(y, (x, n, m), (y, a, k))) == Product(x * y ** 2, (x, n, m), (y, a, k)) and _simplify(3 * y * Product(x, (x, n, m)) * Product(x, (x, m + 1, a))) == 3 * y * Product(x, (x, n, a)) and _simplify(Product(x, (x, k + 1, a)) * Product(x, (x, n, k))) == Product(x, (x, n, a)) and _simplify(Product(x, (x, k + 1, a)) * Product(x + 1, (x, n, k))) == Product(x, (x, k + 1, a)) * Product(x + 1, (x, n, k)) and _simplify(Product(x, (t, a, b)) * Product(y, (t, a, b)) * Product(x, (t, b + 1, c))) == Product(x * y, (t, a, b)) * Product(x, (t, b + 1, c)) and _simplify(Product(x, (t, a, b)) * Product(x, (t, b + 1, c)) * Product(y, (t, a, b))) == Product(x * y, (t, a, b)) * Product(x, (t, b + 1, c)) and _simplify(Product(sin(t) ** 2 + cos(t) ** 2 + 1, (t, a, b))) == Product(2, (t, a, b)) and _simplify(Product(sin(t) ** 2 + cos(t) ** 2 - 1, (t, a, b))) == Product(0, (t, a, b)) and _simplify(Product(v * Product(sin(t) ** 2 + cos(t) ** 2, (t, a, b)), (v, c, d))) == Product(v * Product(1, (t, a, b)), (v, c, d))","over":{"base":"Any"},"name":"test_simplify_prod_correct"},"guarantee":"_simplify(Product(x * y, (x, n, m), (y, a, k)) * Product(y, (x, n, m), (y, a, k))) == Product(x * y ** 2, (x, n, m), (y, a, k)); _simplify(3 * y * Product(x, (x, n, m)) * Product(x, (x, m + 1, a))) == 3 * y * Product(x, (x, n, a)); _simplify(Product(x, (x, k + 1, a)) * Product(x, (x, n, k))) == Product(x, (x, n, a))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_simplify_prod_correct","statement":"Path(test_simplify_prod(x), _simplify(Product(x * y, (x, n, m), (y, a, k)) * Product(y, (x, n, m), (y, a, k))) == Product(x * y ** 2, (x, n, m), (y, a, k)); _simplify(3 * y * Product(x, (x, n, m)) * Product(x, (x, m + 1, a))) == 3 * y * Product(x, (x, n, a)); _simplify(Product(x, (x, k + 1, a)) * Product(x, (x, n, k))) == Product(x, (x, n, a)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e359200a0a9d51a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_simplify(Product(x * y, (x, n, m), (y, a, k)) * Product(y, (x, n, m), (y, a, k))) == Product(x * y ** 2, (x, n, m), (y, a, k))","_simplify(3 * y * Product(x, (x, n, m)) * Product(x, (x, m + 1, a))) == 3 * y * Product(x, (x, n, a))","_simplify(Product(x, (x, k + 1, a)) * Product(x, (x, n, k))) == Product(x, (x, n, a))","_simplify(Product(x, (x, k + 1, a)) * Product(x + 1, (x, n, k))) == Product(x, (x, k + 1, a)) * Product(x + 1, (x, n, k))","_simplify(Product(x, (t, a, b)) * Product(y, (t, a, b)) * Product(x, (t, b + 1, c))) == Product(x * y, (t, a, b)) * Product(x, (t, b + 1, c))","_simplify(Product(x, (t, a, b)) * Product(x, (t, b + 1, c)) * Product(y, (t, a, b))) == Product(x * y, (t, a, b)) * Product(x, (t, b + 1, c))","_simplify(Product(sin(t) ** 2 + cos(t) ** 2 + 1, (t, a, b))) == Product(2, (t, a, b))","_simplify(Product(sin(t) ** 2 + cos(t) ** 2 - 1, (t, a, b))) == Product(0, (t, a, b))","_simplify(Product(v * Product(sin(t) ** 2 + cos(t) ** 2, (t, a, b)), (v, c, d))) == Product(v * Product(1, (t, a, b)), (v, c, d))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_simplify_prod():
     y, t, b, c, v, d = symbols('y, t, b, c, v, d', integer = True)
 
@@ -463,16 +549,24 @@ def test_simplify_prod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_change_index(), test_change_index produces the expected output) over Any ║
+# ║ Path(test_change_index(), Product(x, (x, a, b)).change_index(x, x + 1, y) == Product(y - 1, (y, a + 1, b + 1)) and Product(x ** 2, (x, a, b)).change_index(x, x - 1) == Product((x + 1) ** 2, (x, a - 1, b - 1)) and Product(x ** 2, (x, a, b)).change_index(x, -x, y) == Product((-y) ** 2, (y, -b, -a)) and Product(x, (x, a, b)).change_index(x, -x - 1) == Product(-x - 1, (x, -b - 1, -a - 1)) and Product(x * y, (x, a, b), (y, c, d)).change_index(x, x - 1, z) == Product((z + 1) * y, (z, a - 1, b - 1), (y, c, d))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_change_index : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Product(x, (x, a, b)).change_index(x, x +...   ║
+# ║   ensures:  Product(x ** 2, (x, a, b)).change_index(x...   ║
+# ║   ensures:  Product(x ** 2, (x, a, b)).change_index(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_change_index : Any → {Any | result satisfies: Pr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12ca66cecd12062b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f9c969ffb1c2a4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_change_index","kind":"function","src_hash":"aa54e881f7da949a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_change_index()","rhs":"test_change_index produces the expected output","over":{"base":"Any"},"name":"test_change_index_correct"},"guarantee":"test_change_index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_change_index_correct","statement":"Path(test_change_index(x), test_change_index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12ca66cecd12062b"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_change_index","kind":"function","src_hash":"aa54e881f7da949a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Product(x, (x, a, b)).change_index(x, x + 1, y) == Product(y - 1, (y, a + 1, b + 1)) and Product(x ** 2, (x, a, b)).change_index(x, x - 1) == Product((x + 1) ** 2, (x, a - 1, b - 1)) and Product(x ** 2, (x, a, b)).change_index(x, -x, y) == Product((-y) ** 2, (y, -b, -a)) and Product(x, (x, a, b)).change_index(x, -x - 1) == Product(-x - 1, (x, -b - 1, -a - 1)) and Product(x * y, (x, a, b), (y, c, d)).change_index(x, x - 1, z) == Product((z + 1) * y, (z, a - 1, b - 1), (y, c, d))"},"spec":{"lhs":"test_change_index()","rhs":"Product(x, (x, a, b)).change_index(x, x + 1, y) == Product(y - 1, (y, a + 1, b + 1)) and Product(x ** 2, (x, a, b)).change_index(x, x - 1) == Product((x + 1) ** 2, (x, a - 1, b - 1)) and Product(x ** 2, (x, a, b)).change_index(x, -x, y) == Product((-y) ** 2, (y, -b, -a)) and Product(x, (x, a, b)).change_index(x, -x - 1) == Product(-x - 1, (x, -b - 1, -a - 1)) and Product(x * y, (x, a, b), (y, c, d)).change_index(x, x - 1, z) == Product((z + 1) * y, (z, a - 1, b - 1), (y, c, d))","over":{"base":"Any"},"name":"test_change_index_correct"},"guarantee":"Product(x, (x, a, b)).change_index(x, x + 1, y) == Product(y - 1, (y, a + 1, b + 1)); Product(x ** 2, (x, a, b)).change_index(x, x - 1) == Product((x + 1) ** 2, (x, a - 1, b - 1)); Product(x ** 2, (x, a, b)).change_index(x, -x, y) == Product((-y) ** 2, (y, -b, -a))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_change_index_correct","statement":"Path(test_change_index(x), Product(x, (x, a, b)).change_index(x, x + 1, y) == Product(y - 1, (y, a + 1, b + 1)); Product(x ** 2, (x, a, b)).change_index(x, x - 1) == Product((x + 1) ** 2, (x, a - 1, b - 1)); Product(x ** 2, (x, a, b)).change_index(x, -x, y) == Product((-y) ** 2, (y, -b, -a)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f9c969ffb1c2a4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Product(x, (x, a, b)).change_index(x, x + 1, y) == Product(y - 1, (y, a + 1, b + 1))","Product(x ** 2, (x, a, b)).change_index(x, x - 1) == Product((x + 1) ** 2, (x, a - 1, b - 1))","Product(x ** 2, (x, a, b)).change_index(x, -x, y) == Product((-y) ** 2, (y, -b, -a))","Product(x, (x, a, b)).change_index(x, -x - 1) == Product(-x - 1, (x, -b - 1, -a - 1))","Product(x * y, (x, a, b), (y, c, d)).change_index(x, x - 1, z) == Product((z + 1) * y, (z, a - 1, b - 1), (y, c, d))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_change_index():
     b, y, c, d, z = symbols('b, y, c, d, z', integer = True)
 
@@ -489,16 +583,24 @@ def test_change_index():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reorder(), test_reorder produces the expected output) over Any ║
+# ║ Path(test_reorder(), Product(x * y, (x, a, b), (y, c, d)).reorder((0, 1)) == Product(x * y, (y, c, d), (x, a, b)) and Product(x, (x, a, b), (x, c, d)).reorder((0, 1)) == Product(x, (x, c, d), (x, a, b)) and Product(x * y + z, (x, a, b), (z, m, n), (y, c, d)).reorder((2, 0), (0, 1)) == Product(x * y + z, (z, m, n), (y, c, d), (x, a, b)) and Product(x * y * z, (x, a, b), (y, c, d), (z, m, n)).reorder((0, 1), (1, 2), (0, 2)) == Product(x * y * z, (x, a, b), (z, m, n), (y, c, d)) and Product(x * y * z, (x, a, b), (y, c, d), (z, m, n)).reorder((x, y), (y, z), (x, z)) == Product(x * y * z, (x, a, b), (z, m, n), (y, c, d)) and Product(x * y, (x, a, b), (y, c, d)).reorder((x, 1)) == Product(x * y, (y, c, d), (x, a, b)) and Product(x * y, (x, a, b), (y, c, d)).reorder((y, x)) == Product(x * y, (y, c, d), (x, a, b))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reorder : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Product(x * y, (x, a, b), (y, c, d)).reor...   ║
+# ║   ensures:  Product(x, (x, a, b), (x, c, d)).reorder(...   ║
+# ║   ensures:  Product(x * y + z, (x, a, b), (z, m, n), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reorder : Any → {Any | result satisfies: Product...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ab0efc5d4afbebf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b1c4026fea8f37b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_reorder","kind":"function","src_hash":"9dc457155d2529b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_reorder()","rhs":"test_reorder produces the expected output","over":{"base":"Any"},"name":"test_reorder_correct"},"guarantee":"test_reorder produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_reorder_correct","statement":"Path(test_reorder(x), test_reorder produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ab0efc5d4afbebf"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_reorder","kind":"function","src_hash":"9dc457155d2529b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Product(x * y, (x, a, b), (y, c, d)).reorder((0, 1)) == Product(x * y, (y, c, d), (x, a, b)) and Product(x, (x, a, b), (x, c, d)).reorder((0, 1)) == Product(x, (x, c, d), (x, a, b)) and Product(x * y + z, (x, a, b), (z, m, n), (y, c, d)).reorder((2, 0), (0, 1)) == Product(x * y + z, (z, m, n), (y, c, d), (x, a, b)) and Product(x * y * z, (x, a, b), (y, c, d), (z, m, n)).reorder((0, 1), (1, 2), (0, 2)) == Product(x * y * z, (x, a, b), (z, m, n), (y, c, d)) and Product(x * y * z, (x, a, b), (y, c, d), (z, m, n)).reorder((x, y), (y, z), (x, z)) == Product(x * y * z, (x, a, b), (z, m, n), (y, c, d)) and Product(x * y, (x, a, b), (y, c, d)).reorder((x, 1)) == Product(x * y, (y, c, d), (x, a, b)) and Product(x * y, (x, a, b), (y, c, d)).reorder((y, x)) == Product(x * y, (y, c, d), (x, a, b))"},"spec":{"lhs":"test_reorder()","rhs":"Product(x * y, (x, a, b), (y, c, d)).reorder((0, 1)) == Product(x * y, (y, c, d), (x, a, b)) and Product(x, (x, a, b), (x, c, d)).reorder((0, 1)) == Product(x, (x, c, d), (x, a, b)) and Product(x * y + z, (x, a, b), (z, m, n), (y, c, d)).reorder((2, 0), (0, 1)) == Product(x * y + z, (z, m, n), (y, c, d), (x, a, b)) and Product(x * y * z, (x, a, b), (y, c, d), (z, m, n)).reorder((0, 1), (1, 2), (0, 2)) == Product(x * y * z, (x, a, b), (z, m, n), (y, c, d)) and Product(x * y * z, (x, a, b), (y, c, d), (z, m, n)).reorder((x, y), (y, z), (x, z)) == Product(x * y * z, (x, a, b), (z, m, n), (y, c, d)) and Product(x * y, (x, a, b), (y, c, d)).reorder((x, 1)) == Product(x * y, (y, c, d), (x, a, b)) and Product(x * y, (x, a, b), (y, c, d)).reorder((y, x)) == Product(x * y, (y, c, d), (x, a, b))","over":{"base":"Any"},"name":"test_reorder_correct"},"guarantee":"Product(x * y, (x, a, b), (y, c, d)).reorder((0, 1)) == Product(x * y, (y, c, d), (x, a, b)); Product(x, (x, a, b), (x, c, d)).reorder((0, 1)) == Product(x, (x, c, d), (x, a, b)); Product(x * y + z, (x, a, b), (z, m, n), (y, c, d)).reorder((2, 0), (0, 1)) == Product(x * y + z, (z, m, n), (y, c, d), (x, a, b))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_reorder_correct","statement":"Path(test_reorder(x), Product(x * y, (x, a, b), (y, c, d)).reorder((0, 1)) == Product(x * y, (y, c, d), (x, a, b)); Product(x, (x, a, b), (x, c, d)).reorder((0, 1)) == Product(x, (x, c, d), (x, a, b)); Product(x * y + z, (x, a, b), (z, m, n), (y, c, d)).reorder((2, 0), (0, 1)) == Product(x * y + z, (z, m, n), (y, c, d), (x, a, b)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b1c4026fea8f37b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Product(x * y, (x, a, b), (y, c, d)).reorder((0, 1)) == Product(x * y, (y, c, d), (x, a, b))","Product(x, (x, a, b), (x, c, d)).reorder((0, 1)) == Product(x, (x, c, d), (x, a, b))","Product(x * y + z, (x, a, b), (z, m, n), (y, c, d)).reorder((2, 0), (0, 1)) == Product(x * y + z, (z, m, n), (y, c, d), (x, a, b))","Product(x * y * z, (x, a, b), (y, c, d), (z, m, n)).reorder((0, 1), (1, 2), (0, 2)) == Product(x * y * z, (x, a, b), (z, m, n), (y, c, d))","Product(x * y * z, (x, a, b), (y, c, d), (z, m, n)).reorder((x, y), (y, z), (x, z)) == Product(x * y * z, (x, a, b), (z, m, n), (y, c, d))","Product(x * y, (x, a, b), (y, c, d)).reorder((x, 1)) == Product(x * y, (y, c, d), (x, a, b))","Product(x * y, (x, a, b), (y, c, d)).reorder((y, x)) == Product(x * y, (y, c, d), (x, a, b))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_reorder():
     b, y, c, d, z = symbols('b, y, c, d, z', integer = True)
 
@@ -521,16 +623,24 @@ def test_reorder():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Product_is_convergent(), test_Product_is_convergent produces the expected output) over Any ║
+# ║ Path(test_Product_is_convergent(), Product(1 / n ** 2, (n, 1, oo)).is_convergent() is S.false and Product(exp(1 / n ** 2), (n, 1, oo)).is_convergent() is S.true and Product(1 / n, (n, 1, oo)).is_convergent() is S.false and Product(1 + 1 / n, (n, 1, oo)).is_convergent() is S.false and Product(1 + 1 / n ** 2, (n, 1, oo)).is_convergent() is S.true) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Product_is_convergent : Any → {Any | Product(1 /...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Product(1 / n ** 2, (n, 1, oo)).is_conver...   ║
+# ║   ensures:  Product(exp(1 / n ** 2), (n, 1, oo)).is_c...   ║
+# ║   ensures:  Product(1 / n, (n, 1, oo)).is_convergent(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Product_is_convergent : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6dde3b35a9cee752  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f954dd06c19e534  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_Product_is_convergent","kind":"function","src_hash":"29a7cb28560a3833","in":{"base":"Any"},"out":{"base":"Any","pred":"Product(1 / n ** 2, (n, 1, oo)).is_convergent() is S.false and Product(exp(1 / n ** 2), (n, 1, oo)).is_convergent() is S.true and Product(1 / n, (n, 1, oo)).is_convergent() is S.false and Product(1 + 1 / n, (n, 1, oo)).is_convergent() is S.false and Product(1 + 1 / n ** 2, (n, 1, oo)).is_convergent() is S.true"},"spec":{"lhs":"test_Product_is_convergent()","rhs":"test_Product_is_convergent produces the expected output","over":{"base":"Any"},"name":"test_Product_is_convergent_correct"},"guarantee":"test_Product_is_convergent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_Product_is_convergent_correct","statement":"Path(test_Product_is_convergent(x), test_Product_is_convergent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6dde3b35a9cee752"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_Product_is_convergent","kind":"function","src_hash":"29a7cb28560a3833","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Product(1 / n ** 2, (n, 1, oo)).is_convergent() is S.false and Product(exp(1 / n ** 2), (n, 1, oo)).is_convergent() is S.true and Product(1 / n, (n, 1, oo)).is_convergent() is S.false and Product(1 + 1 / n, (n, 1, oo)).is_convergent() is S.false and Product(1 + 1 / n ** 2, (n, 1, oo)).is_convergent() is S.true"},"spec":{"lhs":"test_Product_is_convergent()","rhs":"Product(1 / n ** 2, (n, 1, oo)).is_convergent() is S.false and Product(exp(1 / n ** 2), (n, 1, oo)).is_convergent() is S.true and Product(1 / n, (n, 1, oo)).is_convergent() is S.false and Product(1 + 1 / n, (n, 1, oo)).is_convergent() is S.false and Product(1 + 1 / n ** 2, (n, 1, oo)).is_convergent() is S.true","over":{"base":"Any"},"name":"test_Product_is_convergent_correct"},"guarantee":"Product(1 / n ** 2, (n, 1, oo)).is_convergent() is S.false; Product(exp(1 / n ** 2), (n, 1, oo)).is_convergent() is S.true; Product(1 / n, (n, 1, oo)).is_convergent() is S.false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_Product_is_convergent_correct","statement":"Path(test_Product_is_convergent(x), Product(1 / n ** 2, (n, 1, oo)).is_convergent() is S.false; Product(exp(1 / n ** 2), (n, 1, oo)).is_convergent() is S.true; Product(1 / n, (n, 1, oo)).is_convergent() is S.false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f954dd06c19e534","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Product(1 / n ** 2, (n, 1, oo)).is_convergent() is S.false","Product(exp(1 / n ** 2), (n, 1, oo)).is_convergent() is S.true","Product(1 / n, (n, 1, oo)).is_convergent() is S.false","Product(1 + 1 / n, (n, 1, oo)).is_convergent() is S.false","Product(1 + 1 / n ** 2, (n, 1, oo)).is_convergent() is S.true"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Product_is_convergent():
     assert Product(1/n**2, (n, 1, oo)).is_convergent() is S.false
     assert Product(exp(1/n**2), (n, 1, oo)).is_convergent() is S.true
@@ -540,16 +650,24 @@ def test_Product_is_convergent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reverse_order(), test_reverse_order produces the expected output) over Any ║
+# ║ Path(test_reverse_order(), Product(x, (x, 0, 3)).reverse_order(0) == Product(1 / x, (x, 4, -1)) and Product(x * y, (x, 1, 5), (y, 0, 6)).reverse_order(0, 1) == Product(x * y, (x, 6, 0), (y, 7, -1)) and Product(x, (x, 1, 2)).reverse_order(0) == Product(1 / x, (x, 3, 0)) and Product(x, (x, 1, 3)).reverse_order(0) == Product(1 / x, (x, 4, 0)) and Product(x, (x, 1, a)).reverse_order(0) == Product(1 / x, (x, a + 1, 0)) and Product(x, (x, a, 5)).reverse_order(0) == Product(1 / x, (x, 6, a - 1)) and Product(x, (x, a + 1, a + 5)).reverse_order(0) == Product(1 / x, (x, a + 6, a)) and Product(x, (x, a + 1, a + 2)).reverse_order(0) == Product(1 / x, (x, a + 3, a)) and Product(x, (x, a + 1, a + 1)).reverse_order(0) == Product(1 / x, (x, a + 2, a)) and Product(x, (x, a, b)).reverse_order(0) == Product(1 / x, (x, b + 1, a - 1)) and Product(x, (x, a, b)).reverse_order(x) == Product(1 / x, (x, b + 1, a - 1)) and Product(x * y, (x, a, b), (y, 2, 5)).reverse_order(x, 1) == Product(x * y, (x, b + 1, a - 1), (y, 6, 1)) and Product(x * y, (x, a, b), (y, 2, 5)).reverse_order(y, x) == Product(x * y, (x, b + 1, a - 1), (y, 6, 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reverse_order : Any → {Any | Product(x, (x, 0, 3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Product(x, (x, 0, 3)).reverse_order(0) ==...   ║
+# ║   ensures:  Product(x * y, (x, 1, 5), (y, 0, 6)).reve...   ║
+# ║   ensures:  Product(x, (x, 1, 2)).reverse_order(0) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reverse_order : Any → {Any | result satisfies: P...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8486fdd8f11e88a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0359a34d1c17fd5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_reverse_order","kind":"function","src_hash":"28a403857870f4fe","in":{"base":"Any"},"out":{"base":"Any","pred":"Product(x, (x, 0, 3)).reverse_order(0) == Product(1 / x, (x, 4, -1)) and Product(x, (x, 1, 2)).reverse_order(0) == Product(1 / x, (x, 3, 0)) and Product(x, (x, 1, 3)).reverse_order(0) == Product(1 / x, (x, 4, 0)) and Product(x, (x, 1, a)).reverse_order(0) == Product(1 / x, (x, a + 1, 0)) and Product(x, (x, a, 5)).reverse_order(0) == Product(1 / x, (x, 6, a - 1)) and Product(x, (x, a + 1, a + 5)).reverse_order(0) == Product(1 / x, (x, a + 6, a)) and Product(x, (x, a + 1, a + 2)).reverse_order(0) == Product(1 / x, (x, a + 3, a)) and Product(x, (x, a + 1, a + 1)).reverse_order(0) == Product(1 / x, (x, a + 2, a)) and Product(x, (x, a, b)).reverse_order(0) == Product(1 / x, (x, b + 1, a - 1)) and Product(x, (x, a, b)).reverse_order(x) == Product(1 / x, (x, b + 1, a - 1))"},"spec":{"lhs":"test_reverse_order()","rhs":"test_reverse_order produces the expected output","over":{"base":"Any"},"name":"test_reverse_order_correct"},"guarantee":"test_reverse_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_reverse_order_correct","statement":"Path(test_reverse_order(x), test_reverse_order produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8486fdd8f11e88a1"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_reverse_order","kind":"function","src_hash":"28a403857870f4fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Product(x, (x, 0, 3)).reverse_order(0) == Product(1 / x, (x, 4, -1)) and Product(x * y, (x, 1, 5), (y, 0, 6)).reverse_order(0, 1) == Product(x * y, (x, 6, 0), (y, 7, -1)) and Product(x, (x, 1, 2)).reverse_order(0) == Product(1 / x, (x, 3, 0)) and Product(x, (x, 1, 3)).reverse_order(0) == Product(1 / x, (x, 4, 0)) and Product(x, (x, 1, a)).reverse_order(0) == Product(1 / x, (x, a + 1, 0)) and Product(x, (x, a, 5)).reverse_order(0) == Product(1 / x, (x, 6, a - 1)) and Product(x, (x, a + 1, a + 5)).reverse_order(0) == Product(1 / x, (x, a + 6, a)) and Product(x, (x, a + 1, a + 2)).reverse_order(0) == Product(1 / x, (x, a + 3, a)) and Product(x, (x, a + 1, a + 1)).reverse_order(0) == Product(1 / x, (x, a + 2, a)) and Product(x, (x, a, b)).reverse_order(0) == Product(1 / x, (x, b + 1, a - 1)) and Product(x, (x, a, b)).reverse_order(x) == Product(1 / x, (x, b + 1, a - 1)) and Product(x * y, (x, a, b), (y, 2, 5)).reverse_order(x, 1) == Product(x * y, (x, b + 1, a - 1), (y, 6, 1)) and Product(x * y, (x, a, b), (y, 2, 5)).reverse_order(y, x) == Product(x * y, (x, b + 1, a - 1), (y, 6, 1))"},"spec":{"lhs":"test_reverse_order()","rhs":"Product(x, (x, 0, 3)).reverse_order(0) == Product(1 / x, (x, 4, -1)) and Product(x * y, (x, 1, 5), (y, 0, 6)).reverse_order(0, 1) == Product(x * y, (x, 6, 0), (y, 7, -1)) and Product(x, (x, 1, 2)).reverse_order(0) == Product(1 / x, (x, 3, 0)) and Product(x, (x, 1, 3)).reverse_order(0) == Product(1 / x, (x, 4, 0)) and Product(x, (x, 1, a)).reverse_order(0) == Product(1 / x, (x, a + 1, 0)) and Product(x, (x, a, 5)).reverse_order(0) == Product(1 / x, (x, 6, a - 1)) and Product(x, (x, a + 1, a + 5)).reverse_order(0) == Product(1 / x, (x, a + 6, a)) and Product(x, (x, a + 1, a + 2)).reverse_order(0) == Product(1 / x, (x, a + 3, a)) and Product(x, (x, a + 1, a + 1)).reverse_order(0) == Product(1 / x, (x, a + 2, a)) and Product(x, (x, a, b)).reverse_order(0) == Product(1 / x, (x, b + 1, a - 1)) and Product(x, (x, a, b)).reverse_order(x) == Product(1 / x, (x, b + 1, a - 1)) and Product(x * y, (x, a, b), (y, 2, 5)).reverse_order(x, 1) == Product(x * y, (x, b + 1, a - 1), (y, 6, 1)) and Product(x * y, (x, a, b), (y, 2, 5)).reverse_order(y, x) == Product(x * y, (x, b + 1, a - 1), (y, 6, 1))","over":{"base":"Any"},"name":"test_reverse_order_correct"},"guarantee":"Product(x, (x, 0, 3)).reverse_order(0) == Product(1 / x, (x, 4, -1)); Product(x * y, (x, 1, 5), (y, 0, 6)).reverse_order(0, 1) == Product(x * y, (x, 6, 0), (y, 7, -1)); Product(x, (x, 1, 2)).reverse_order(0) == Product(1 / x, (x, 3, 0))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_reverse_order_correct","statement":"Path(test_reverse_order(x), Product(x, (x, 0, 3)).reverse_order(0) == Product(1 / x, (x, 4, -1)); Product(x * y, (x, 1, 5), (y, 0, 6)).reverse_order(0, 1) == Product(x * y, (x, 6, 0), (y, 7, -1)); Product(x, (x, 1, 2)).reverse_order(0) == Product(1 / x, (x, 3, 0)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0359a34d1c17fd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Product(x, (x, 0, 3)).reverse_order(0) == Product(1 / x, (x, 4, -1))","Product(x * y, (x, 1, 5), (y, 0, 6)).reverse_order(0, 1) == Product(x * y, (x, 6, 0), (y, 7, -1))","Product(x, (x, 1, 2)).reverse_order(0) == Product(1 / x, (x, 3, 0))","Product(x, (x, 1, 3)).reverse_order(0) == Product(1 / x, (x, 4, 0))","Product(x, (x, 1, a)).reverse_order(0) == Product(1 / x, (x, a + 1, 0))","Product(x, (x, a, 5)).reverse_order(0) == Product(1 / x, (x, 6, a - 1))","Product(x, (x, a + 1, a + 5)).reverse_order(0) == Product(1 / x, (x, a + 6, a))","Product(x, (x, a + 1, a + 2)).reverse_order(0) == Product(1 / x, (x, a + 3, a))","Product(x, (x, a + 1, a + 1)).reverse_order(0) == Product(1 / x, (x, a + 2, a))","Product(x, (x, a, b)).reverse_order(0) == Product(1 / x, (x, b + 1, a - 1))","Product(x, (x, a, b)).reverse_order(x) == Product(1 / x, (x, b + 1, a - 1))","Product(x * y, (x, a, b), (y, 2, 5)).reverse_order(x, 1) == Product(x * y, (x, b + 1, a - 1), (y, 6, 1))","Product(x * y, (x, a, b), (y, 2, 5)).reverse_order(y, x) == Product(x * y, (x, b + 1, a - 1), (y, 6, 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_reverse_order():
     x, y, a, b, c, d= symbols('x, y, a, b, c, d', integer = True)
 
@@ -575,16 +693,23 @@ def test_reverse_order():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9983(), test_issue_9983 produces the expected output) over Any ║
+# ║ Path(test_issue_9983(), p.is_convergent() is S.false and product(1 + 1 / n ** Rational(2, 3), (n, 1, oo)) == p.doit()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9983 : Any → {Any | p.is_convergent() is S...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.is_convergent() is S.false                   ║
+# ║   ensures:  product(1 + 1 / n ** Rational(2, 3), (n, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9983 : Any → {Any | result satisfies: p.is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84113ecb828a87a8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1ef0504d0546502  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_issue_9983","kind":"function","src_hash":"dd7cf591a4a9bad3","in":{"base":"Any"},"out":{"base":"Any","pred":"p.is_convergent() is S.false and product(1 + 1 / n ** Rational(2, 3), (n, 1, oo)) == p.doit()"},"spec":{"lhs":"test_issue_9983()","rhs":"test_issue_9983 produces the expected output","over":{"base":"Any"},"name":"test_issue_9983_correct"},"guarantee":"test_issue_9983 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_issue_9983_correct","statement":"Path(test_issue_9983(x), test_issue_9983 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84113ecb828a87a8"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_issue_9983","kind":"function","src_hash":"dd7cf591a4a9bad3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.is_convergent() is S.false and product(1 + 1 / n ** Rational(2, 3), (n, 1, oo)) == p.doit()"},"spec":{"lhs":"test_issue_9983()","rhs":"p.is_convergent() is S.false and product(1 + 1 / n ** Rational(2, 3), (n, 1, oo)) == p.doit()","over":{"base":"Any"},"name":"test_issue_9983_correct"},"guarantee":"p.is_convergent() is S.false; product(1 + 1 / n ** Rational(2, 3), (n, 1, oo)) == p.doit()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_issue_9983_correct","statement":"Path(test_issue_9983(x), p.is_convergent() is S.false; product(1 + 1 / n ** Rational(2, 3), (n, 1, oo)) == p.doit())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1ef0504d0546502","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.is_convergent() is S.false","product(1 + 1 / n ** Rational(2, 3), (n, 1, oo)) == p.doit()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_9983():
     n = Symbol('n', integer=True, positive=True)
     p = Product(1 + 1/n**Rational(2, 3), (n, 1, oo))
@@ -593,16 +718,22 @@ def test_issue_9983():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_13546(), test_issue_13546 produces the expected output) over Any ║
+# ║ Path(test_issue_13546(), p.subs(n, 2).doit() == Rational(15, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_13546 : Any → {Any | p.subs(n, 2).doit() =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.subs(n, 2).doit() == Rational(15, 2)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_13546 : Any → {Any | result satisfies: p.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19b7d1450ad4238d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4b0c467e9dcd78f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_issue_13546","kind":"function","src_hash":"d3be2303843a0ddd","in":{"base":"Any"},"out":{"base":"Any","pred":"p.subs(n, 2).doit() == Rational(15, 2)"},"spec":{"lhs":"test_issue_13546()","rhs":"test_issue_13546 produces the expected output","over":{"base":"Any"},"name":"test_issue_13546_correct"},"guarantee":"test_issue_13546 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_issue_13546_correct","statement":"Path(test_issue_13546(x), test_issue_13546 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19b7d1450ad4238d"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_issue_13546","kind":"function","src_hash":"d3be2303843a0ddd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.subs(n, 2).doit() == Rational(15, 2)"},"spec":{"lhs":"test_issue_13546()","rhs":"p.subs(n, 2).doit() == Rational(15, 2)","over":{"base":"Any"},"name":"test_issue_13546_correct"},"guarantee":"p.subs(n, 2).doit() == Rational(15, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_issue_13546_correct","statement":"Path(test_issue_13546(x), p.subs(n, 2).doit() == Rational(15, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4b0c467e9dcd78f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.subs(n, 2).doit() == Rational(15, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_13546():
     n = Symbol('n')
     k = Symbol('k')
@@ -611,64 +742,90 @@ def test_issue_13546():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14036(), test_issue_14036 produces the expected output) over Any ║
+# ║ Path(test_issue_14036(), product(1 - a ** 2 / (n * pi) ** 2, [n, 1, oo]) != 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14036 : Any → {Any | product(1 - a ** 2 / ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  product(1 - a ** 2 / (n * pi) ** 2, [n, 1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14036 : Any → {Any | result satisfies: pro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0df3ce1ab9f01755  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fbce0b823de8f6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_issue_14036","kind":"function","src_hash":"45151ad045302ed4","in":{"base":"Any"},"out":{"base":"Any","pred":"product(1 - a ** 2 / (n * pi) ** 2, [n, 1, oo]) != 0"},"spec":{"lhs":"test_issue_14036()","rhs":"test_issue_14036 produces the expected output","over":{"base":"Any"},"name":"test_issue_14036_correct"},"guarantee":"test_issue_14036 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_issue_14036_correct","statement":"Path(test_issue_14036(x), test_issue_14036 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0df3ce1ab9f01755"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_issue_14036","kind":"function","src_hash":"45151ad045302ed4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: product(1 - a ** 2 / (n * pi) ** 2, [n, 1, oo]) != 0"},"spec":{"lhs":"test_issue_14036()","rhs":"product(1 - a ** 2 / (n * pi) ** 2, [n, 1, oo]) != 0","over":{"base":"Any"},"name":"test_issue_14036_correct"},"guarantee":"product(1 - a ** 2 / (n * pi) ** 2, [n, 1, oo]) != 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_issue_14036_correct","statement":"Path(test_issue_14036(x), product(1 - a ** 2 / (n * pi) ** 2, [n, 1, oo]) != 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fbce0b823de8f6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["product(1 - a ** 2 / (n * pi) ** 2, [n, 1, oo]) != 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14036():
     a, n = symbols('a n')
     assert product(1 - a**2 / (n*pi)**2, [n, 1, oo]) != 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rewrite_Sum(), test_rewrite_Sum produces the expected output) over Any ║
+# ║ Path(test_rewrite_Sum(), Product(1 - S.Half ** 2 / k ** 2, (k, 1, oo)).rewrite(Sum) == exp(Sum(log(1 - 1 / (4 * k ** 2)), (k, 1, oo)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rewrite_Sum : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Product(1 - S.Half ** 2 / k ** 2, (k, 1, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rewrite_Sum : Any → {Any | result satisfies: Pro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c5b82a57bcc3bf9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ddc56531df1ee4e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_rewrite_Sum","kind":"function","src_hash":"b9eb654f9ddb285e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rewrite_Sum()","rhs":"test_rewrite_Sum produces the expected output","over":{"base":"Any"},"name":"test_rewrite_Sum_correct"},"guarantee":"test_rewrite_Sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_rewrite_Sum_correct","statement":"Path(test_rewrite_Sum(x), test_rewrite_Sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c5b82a57bcc3bf9"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_rewrite_Sum","kind":"function","src_hash":"b9eb654f9ddb285e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Product(1 - S.Half ** 2 / k ** 2, (k, 1, oo)).rewrite(Sum) == exp(Sum(log(1 - 1 / (4 * k ** 2)), (k, 1, oo)))"},"spec":{"lhs":"test_rewrite_Sum()","rhs":"Product(1 - S.Half ** 2 / k ** 2, (k, 1, oo)).rewrite(Sum) == exp(Sum(log(1 - 1 / (4 * k ** 2)), (k, 1, oo)))","over":{"base":"Any"},"name":"test_rewrite_Sum_correct"},"guarantee":"Product(1 - S.Half ** 2 / k ** 2, (k, 1, oo)).rewrite(Sum) == exp(Sum(log(1 - 1 / (4 * k ** 2)), (k, 1, oo)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_rewrite_Sum_correct","statement":"Path(test_rewrite_Sum(x), Product(1 - S.Half ** 2 / k ** 2, (k, 1, oo)).rewrite(Sum) == exp(Sum(log(1 - 1 / (4 * k ** 2)), (k, 1, oo))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ddc56531df1ee4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Product(1 - S.Half ** 2 / k ** 2, (k, 1, oo)).rewrite(Sum) == exp(Sum(log(1 - 1 / (4 * k ** 2)), (k, 1, oo)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rewrite_Sum():
     assert Product(1 - S.Half**2/k**2, (k, 1, oo)).rewrite(Sum) == \
         exp(Sum(log(1 - 1/(4*k**2)), (k, 1, oo)))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerDelta_Product(), test_KroneckerDelta_Product produces the expected output) over Any ║
+# ║ Path(test_KroneckerDelta_Product(), Product(x * KroneckerDelta(x, y), (x, 0, 1)).doit() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerDelta_Product : Any → {Any | Product(x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Product(x * KroneckerDelta(x, y), (x, 0, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerDelta_Product : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fef435c7e8d63ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fd08d319d34e8ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_KroneckerDelta_Product","kind":"function","src_hash":"29c90210983bcf2a","in":{"base":"Any"},"out":{"base":"Any","pred":"Product(x * KroneckerDelta(x, y), (x, 0, 1)).doit() == 0"},"spec":{"lhs":"test_KroneckerDelta_Product()","rhs":"test_KroneckerDelta_Product produces the expected output","over":{"base":"Any"},"name":"test_KroneckerDelta_Product_correct"},"guarantee":"test_KroneckerDelta_Product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_KroneckerDelta_Product_correct","statement":"Path(test_KroneckerDelta_Product(x), test_KroneckerDelta_Product produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fef435c7e8d63ad"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_KroneckerDelta_Product","kind":"function","src_hash":"29c90210983bcf2a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Product(x * KroneckerDelta(x, y), (x, 0, 1)).doit() == 0"},"spec":{"lhs":"test_KroneckerDelta_Product()","rhs":"Product(x * KroneckerDelta(x, y), (x, 0, 1)).doit() == 0","over":{"base":"Any"},"name":"test_KroneckerDelta_Product_correct"},"guarantee":"Product(x * KroneckerDelta(x, y), (x, 0, 1)).doit() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_KroneckerDelta_Product_correct","statement":"Path(test_KroneckerDelta_Product(x), Product(x * KroneckerDelta(x, y), (x, 0, 1)).doit() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fd08d319d34e8ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Product(x * KroneckerDelta(x, y), (x, 0, 1)).doit() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_KroneckerDelta_Product():
     y = Symbol('y')
     assert Product(x*KroneckerDelta(x, y), (x, 0, 1)).doit() == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20848(), test_issue_20848 produces the expected output) over Any ║
+# ║ Path(test_issue_20848(), diff(Product(x, (y, 1, z)), x).as_dummy() == Sum(Product(x, (y, 1, _i - 1)) * Product(x, (y, _i + 1, z)), (_i, 1, z)).as_dummy() and diff(Product(x, (y, 1, z)), x).doit() == x ** (z - 1) * z and diff(Product(x, (y, x, z)), x) == Derivative(Product(x, (y, x, z)), x) and diff(Product(t, (x, 1, z)), x) == S(0) and Product(sin(n * x), (n, -1, 1)).diff(x).doit() == S(0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20848 : Any → {Any | diff(Product(x, (y, 1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  diff(Product(x, (y, 1, z)), x).as_dummy()...   ║
+# ║   ensures:  diff(Product(x, (y, 1, z)), x).doit() == ...   ║
+# ║   ensures:  diff(Product(x, (y, x, z)), x) == Derivat...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20848 : Any → {Any | result satisfies: dif...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 665531c495d1dffb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba15e62a01eae60e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_issue_20848","kind":"function","src_hash":"25b9ccf79e62548b","in":{"base":"Any"},"out":{"base":"Any","pred":"diff(Product(x, (y, 1, z)), x).doit() == x ** (z - 1) * z and diff(Product(x, (y, x, z)), x) == Derivative(Product(x, (y, x, z)), x) and diff(Product(t, (x, 1, z)), x) == S(0) and Product(sin(n * x), (n, -1, 1)).diff(x).doit() == S(0)"},"spec":{"lhs":"test_issue_20848()","rhs":"test_issue_20848 produces the expected output","over":{"base":"Any"},"name":"test_issue_20848_correct"},"guarantee":"test_issue_20848 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_issue_20848_correct","statement":"Path(test_issue_20848(x), test_issue_20848 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"665531c495d1dffb"}
+# @cctt_verify {"v":2,"sym":"sympy.concrete.tests.test_products.test_issue_20848","kind":"function","src_hash":"25b9ccf79e62548b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: diff(Product(x, (y, 1, z)), x).as_dummy() == Sum(Product(x, (y, 1, _i - 1)) * Product(x, (y, _i + 1, z)), (_i, 1, z)).as_dummy() and diff(Product(x, (y, 1, z)), x).doit() == x ** (z - 1) * z and diff(Product(x, (y, x, z)), x) == Derivative(Product(x, (y, x, z)), x) and diff(Product(t, (x, 1, z)), x) == S(0) and Product(sin(n * x), (n, -1, 1)).diff(x).doit() == S(0)"},"spec":{"lhs":"test_issue_20848()","rhs":"diff(Product(x, (y, 1, z)), x).as_dummy() == Sum(Product(x, (y, 1, _i - 1)) * Product(x, (y, _i + 1, z)), (_i, 1, z)).as_dummy() and diff(Product(x, (y, 1, z)), x).doit() == x ** (z - 1) * z and diff(Product(x, (y, x, z)), x) == Derivative(Product(x, (y, x, z)), x) and diff(Product(t, (x, 1, z)), x) == S(0) and Product(sin(n * x), (n, -1, 1)).diff(x).doit() == S(0)","over":{"base":"Any"},"name":"test_issue_20848_correct"},"guarantee":"diff(Product(x, (y, 1, z)), x).as_dummy() == Sum(Product(x, (y, 1, _i - 1)) * Product(x, (y, _i + 1, z)), (_i, 1, z)).as_dummy(); diff(Product(x, (y, 1, z)), x).doit() == x ** (z - 1) * z; diff(Product(x, (y, x, z)), x) == Derivative(Product(x, (y, x, z)), x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.concrete.tests.test_products.test_issue_20848_correct","statement":"Path(test_issue_20848(x), diff(Product(x, (y, 1, z)), x).as_dummy() == Sum(Product(x, (y, 1, _i - 1)) * Product(x, (y, _i + 1, z)), (_i, 1, z)).as_dummy(); diff(Product(x, (y, 1, z)), x).doit() == x ** (z - 1) * z; diff(Product(x, (y, x, z)), x) == Derivative(Product(x, (y, x, z)), x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba15e62a01eae60e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["diff(Product(x, (y, 1, z)), x).as_dummy() == Sum(Product(x, (y, 1, _i - 1)) * Product(x, (y, _i + 1, z)), (_i, 1, z)).as_dummy()","diff(Product(x, (y, 1, z)), x).doit() == x ** (z - 1) * z","diff(Product(x, (y, x, z)), x) == Derivative(Product(x, (y, x, z)), x)","diff(Product(t, (x, 1, z)), x) == S(0)","Product(sin(n * x), (n, -1, 1)).diff(x).doit() == S(0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_20848():
     _i = Dummy('i')
     t, y, z = symbols('t y z')

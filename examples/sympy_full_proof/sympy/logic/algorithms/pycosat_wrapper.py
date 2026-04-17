@@ -19,7 +19,12 @@ from sympy.assumptions.cnf import EncodedCNF
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pycosat_satisfiable(exp), pycosat_satisfiable produces the expected output) over {Any | isinstance(expr, EncodedCNF)} ║
+# ║ Path(pycosat_satisfiable(expr, all_models), <unspecified:pycosat_satisfiable>) over {Any | isinstance(expr, EncodedCNF) and hasattr(expr, 'data') and hasattr(expr, 'symbols')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'data')                          ║
+# ║   requires: hasattr(expr, 'symbols')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pycosat_satisfiable : {Any | isinstance(expr, Encoded...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -31,9 +36,12 @@ from sympy.assumptions.cnf import EncodedCNF
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d484669d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithmscosat_wrapper.pycosat_satisfiable","kind":"function","src_hash":"5d052860cc0b9b9d","in":{"base":"Any","pred":"isinstance(expr, EncodedCNF)"},"out":{"base":"Any"},"spec":{"lhs":"pycosat_satisfiable(exp)","rhs":"pycosat_satisfiable produces the expected output","over":{"base":"Any","pred":"isinstance(expr, EncodedCNF)"},"name":"pycosat_satisfiable_correct"},"guarantee":"pycosat_satisfiable produces the expected output","fibers":[{"name":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)","path":{"lhs":"pycosat_satisfiable(x)","rhs":"pycosat_satisfiable produces the expected output","over":{"base":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)"},"name":"pycosat_satisfiable_EncodedCNF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithmscosat_wrapper.pycosat_satisfiable_EncodedCNF_correct","statement":"pycosat_satisfiable satisfies spec on EncodedCNF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d484669d5932a2e4"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithmscosat_wrapper.pycosat_satisfiable","kind":"function","src_hash":"5d052860cc0b9b9d","in":{"base":"Any","pred":"isinstance(expr, EncodedCNF) and hasattr(expr, 'data') and hasattr(expr, 'symbols')"},"out":{"base":"Any"},"spec":{"lhs":"pycosat_satisfiable(expr, all_models)","rhs":"<unspecified:pycosat_satisfiable>","over":{"base":"Any","pred":"isinstance(expr, EncodedCNF) and hasattr(expr, 'data') and hasattr(expr, 'symbols')"},"name":"pycosat_satisfiable_correct"},"guarantee":"pycosat_satisfiable produces the expected output","fibers":[{"name":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)","path":{"lhs":"pycosat_satisfiable(x)","rhs":"pycosat_satisfiable produces the expected output","over":{"base":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)"},"name":"pycosat_satisfiable_EncodedCNF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithmscosat_wrapper.pycosat_satisfiable_EncodedCNF_correct","statement":"pycosat_satisfiable satisfies spec on EncodedCNF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d484669d5932a2e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'data')","hasattr(expr, 'symbols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.data","expr.symbols"],"catches":["StopIteration"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, EncodedCNF)'}, fibers={'EncodedCNF'})"]}}
 def pycosat_satisfiable(expr, all_models=False):
     import pycosat
     if not isinstance(expr, EncodedCNF):

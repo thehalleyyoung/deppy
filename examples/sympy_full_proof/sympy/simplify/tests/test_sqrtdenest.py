@@ -30,16 +30,22 @@ r2, r3, r5, r6, r7, r10, r15, r29 = [sqrt(x) for x in (2, 3, 5, 6, 7, 10,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sqrtdenest(), test_sqrtdenest produces the expected output) over Any ║
+# ║ Path(test_sqrtdenest(), <unspecified:test_sqrtdenest>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sqrtdenest : Any → {Any | sqrtdenest(i) == d[i]}      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca104cd7e91cb23f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest","kind":"function","src_hash":"31b33533fc0998cc","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrtdenest(i) == d[i]"},"spec":{"lhs":"test_sqrtdenest()","rhs":"test_sqrtdenest produces the expected output","over":{"base":"Any"},"name":"test_sqrtdenest_correct"},"guarantee":"test_sqrtdenest produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest_correct","statement":"Path(test_sqrtdenest(x), test_sqrtdenest produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca104cd7e91cb23f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest","kind":"function","src_hash":"31b33533fc0998cc","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrtdenest(i) == d[i]"},"spec":{"lhs":"test_sqrtdenest()","rhs":"<unspecified:test_sqrtdenest>","over":{"base":"Any"},"name":"test_sqrtdenest_correct"},"guarantee":"test_sqrtdenest produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest_correct","statement":"Path(test_sqrtdenest(x), test_sqrtdenest produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca104cd7e91cb23f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_sqrtdenest():
     d = {sqrt(5 + 2 * r6): r2 + r3,
         sqrt(5. + 2 * r6): sqrt(5. + 2 * r6),
@@ -55,16 +61,24 @@ def test_sqrtdenest():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sqrtdenest2(), test_sqrtdenest2 produces the expected output) over Any ║
+# ║ Path(test_sqrtdenest2(), sqrtdenest(sqrt(16 - 2 * r29 + 2 * sqrt(55 - 10 * r29))) == r5 + sqrt(11 - 2 * r29) and sqrtdenest(e) == root(-2 * r29 + 11, 4) and sqrtdenest(sqrt(1 + r)) == sqrt(1 + r) and sqrtdenest(e) == 1 + sqrt(1 + 2 * sqrt(r2 + r5 + 3)) and sqrtdenest(sqrt(5 * r3 + 6 * r2)) == sqrt(2) * root(3, 4) + root(3, 4) ** 3 and sqrtdenest(sqrt(((1 + r5 + sqrt(1 + r3)) ** 2).expand())) == 1 + r5 + sqrt(1 + r3) and sqrtdenest(sqrt(((1 + r5 + r7 + sqrt(1 + r3)) ** 2).expand())) == 1 + sqrt(1 + r3) + r5 + r7 and sqrtdenest(e) == cos(3) + cos(2) + 1 + sqrt(1 + r3) and sqrtdenest(e) == sqrt(-2 * r10 - 2 * r2 + 4 * r5 + 14) and sqrtdenest(z) == z and sqrtdenest(sqrt(r6 + sqrt(15))) == sqrt(r6 + sqrt(15))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sqrtdenest2 : Any → {Any | sqrtdenest(e) == root...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrtdenest(sqrt(16 - 2 * r29 + 2 * sqrt(5...   ║
+# ║   ensures:  sqrtdenest(e) == root(-2 * r29 + 11, 4)        ║
+# ║   ensures:  sqrtdenest(sqrt(1 + r)) == sqrt(1 + r)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sqrtdenest2 : Any → {Any | result satisfies: sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16bacc90d07f2b3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2572efb75fb26766  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest2","kind":"function","src_hash":"975ee1e19f34a398","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrtdenest(e) == root(-2 * r29 + 11, 4) and sqrtdenest(sqrt(1 + r)) == sqrt(1 + r) and sqrtdenest(e) == 1 + sqrt(1 + 2 * sqrt(r2 + r5 + 3)) and sqrtdenest(sqrt(5 * r3 + 6 * r2)) == sqrt(2) * root(3, 4) + root(3, 4) ** 3 and sqrtdenest(e) == cos(3) + cos(2) + 1 + sqrt(1 + r3) and sqrtdenest(e) == sqrt(-2 * r10 - 2 * r2 + 4 * r5 + 14) and sqrtdenest(z) == z and sqrtdenest(sqrt(r6 + sqrt(15))) == sqrt(r6 + sqrt(15)) and sqrtdenest(z) == z"},"spec":{"lhs":"test_sqrtdenest2()","rhs":"test_sqrtdenest2 produces the expected output","over":{"base":"Any"},"name":"test_sqrtdenest2_correct"},"guarantee":"test_sqrtdenest2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest2_correct","statement":"Path(test_sqrtdenest2(x), test_sqrtdenest2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16bacc90d07f2b3f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest2","kind":"function","src_hash":"975ee1e19f34a398","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrtdenest(sqrt(16 - 2 * r29 + 2 * sqrt(55 - 10 * r29))) == r5 + sqrt(11 - 2 * r29) and sqrtdenest(e) == root(-2 * r29 + 11, 4) and sqrtdenest(sqrt(1 + r)) == sqrt(1 + r) and sqrtdenest(e) == 1 + sqrt(1 + 2 * sqrt(r2 + r5 + 3)) and sqrtdenest(sqrt(5 * r3 + 6 * r2)) == sqrt(2) * root(3, 4) + root(3, 4) ** 3 and sqrtdenest(sqrt(((1 + r5 + sqrt(1 + r3)) ** 2).expand())) == 1 + r5 + sqrt(1 + r3) and sqrtdenest(sqrt(((1 + r5 + r7 + sqrt(1 + r3)) ** 2).expand())) == 1 + sqrt(1 + r3) + r5 + r7 and sqrtdenest(e) == cos(3) + cos(2) + 1 + sqrt(1 + r3) and sqrtdenest(e) == sqrt(-2 * r10 - 2 * r2 + 4 * r5 + 14) and sqrtdenest(z) == z and sqrtdenest(sqrt(r6 + sqrt(15))) == sqrt(r6 + sqrt(15))"},"spec":{"lhs":"test_sqrtdenest2()","rhs":"sqrtdenest(sqrt(16 - 2 * r29 + 2 * sqrt(55 - 10 * r29))) == r5 + sqrt(11 - 2 * r29) and sqrtdenest(e) == root(-2 * r29 + 11, 4) and sqrtdenest(sqrt(1 + r)) == sqrt(1 + r) and sqrtdenest(e) == 1 + sqrt(1 + 2 * sqrt(r2 + r5 + 3)) and sqrtdenest(sqrt(5 * r3 + 6 * r2)) == sqrt(2) * root(3, 4) + root(3, 4) ** 3 and sqrtdenest(sqrt(((1 + r5 + sqrt(1 + r3)) ** 2).expand())) == 1 + r5 + sqrt(1 + r3) and sqrtdenest(sqrt(((1 + r5 + r7 + sqrt(1 + r3)) ** 2).expand())) == 1 + sqrt(1 + r3) + r5 + r7 and sqrtdenest(e) == cos(3) + cos(2) + 1 + sqrt(1 + r3) and sqrtdenest(e) == sqrt(-2 * r10 - 2 * r2 + 4 * r5 + 14) and sqrtdenest(z) == z and sqrtdenest(sqrt(r6 + sqrt(15))) == sqrt(r6 + sqrt(15))","over":{"base":"Any"},"name":"test_sqrtdenest2_correct"},"guarantee":"sqrtdenest(sqrt(16 - 2 * r29 + 2 * sqrt(55 - 10 * r29))) == r5 + sqrt(11 - 2 * r29); sqrtdenest(e) == root(-2 * r29 + 11, 4); sqrtdenest(sqrt(1 + r)) == sqrt(1 + r)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest2_correct","statement":"Path(test_sqrtdenest2(x), sqrtdenest(sqrt(16 - 2 * r29 + 2 * sqrt(55 - 10 * r29))) == r5 + sqrt(11 - 2 * r29); sqrtdenest(e) == root(-2 * r29 + 11, 4); sqrtdenest(sqrt(1 + r)) == sqrt(1 + r))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2572efb75fb26766","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrtdenest(sqrt(16 - 2 * r29 + 2 * sqrt(55 - 10 * r29))) == r5 + sqrt(11 - 2 * r29)","sqrtdenest(e) == root(-2 * r29 + 11, 4)","sqrtdenest(sqrt(1 + r)) == sqrt(1 + r)","sqrtdenest(e) == 1 + sqrt(1 + 2 * sqrt(r2 + r5 + 3))","sqrtdenest(sqrt(5 * r3 + 6 * r2)) == sqrt(2) * root(3, 4) + root(3, 4) ** 3","sqrtdenest(sqrt(((1 + r5 + sqrt(1 + r3)) ** 2).expand())) == 1 + r5 + sqrt(1 + r3)","sqrtdenest(sqrt(((1 + r5 + r7 + sqrt(1 + r3)) ** 2).expand())) == 1 + sqrt(1 + r3) + r5 + r7","sqrtdenest(e) == cos(3) + cos(2) + 1 + sqrt(1 + r3)","sqrtdenest(e) == sqrt(-2 * r10 - 2 * r2 + 4 * r5 + 14)","sqrtdenest(z) == z","sqrtdenest(sqrt(r6 + sqrt(15))) == sqrt(r6 + sqrt(15))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_sqrtdenest2():
     assert sqrtdenest(sqrt(16 - 2*r29 + 2*sqrt(55 - 10*r29))) == \
         r5 + sqrt(11 - 2*r29)
@@ -101,16 +115,24 @@ def test_sqrtdenest2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sqrtdenest_rec(), test_sqrtdenest_rec produces the expected output) over Any ║
+# ║ Path(test_sqrtdenest_rec(), sqrtdenest(sqrt(-4 * sqrt(14) - 2 * r6 + 4 * sqrt(21) + 33)) == -r2 + r3 + 2 * r7 and sqrtdenest(sqrt(-28 * r7 - 14 * r5 + 4 * sqrt(35) + 82)) == -7 + r5 + 2 * r7 and sqrtdenest(sqrt(6 * r2 / 11 + 2 * sqrt(22) / 11 + 6 * sqrt(11) / 11 + 2)) == sqrt(11) * (r2 + 3 + sqrt(11)) / 11 and sqrtdenest(sqrt(468 * r3 + 3024 * r2 + 2912 * r6 + 19735)) == 9 * r3 + 26 + 56 * r6 and sqrtdenest(z) == sqrt(-1) * (7 * r5 + 7 * r15 + 7 * sqrt(23)) and sqrtdenest(z) == z and sqrtdenest(sqrt(-8 * r2 - 2 * r5 + 18)) == -r10 + 1 + r2 + r5 and sqrtdenest(sqrt(8 * r2 + 2 * r5 - 18)) == sqrt(-1) * (-r10 + 1 + r2 + r5) and sqrtdenest(sqrt(8 * r2 / 3 + 14 * r5 / 3 + Rational(154, 9))) == -r10 / 3 + r2 + r5 + 3 and sqrtdenest(sqrt(sqrt(2 * r6 + 5) + sqrt(2 * r7 + 8))) == sqrt(1 + r2 + r3 + r7) and sqrtdenest(sqrt(4 * r15 + 8 * r5 + 12 * r3 + 24)) == 1 + r3 + r5 + r15 and sqrtdenest(sqrt((w ** 2).expand())) == w) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sqrtdenest_rec : Any → {Any | sqrtdenest(sqrt(-2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrtdenest(sqrt(-4 * sqrt(14) - 2 * r6 + ...   ║
+# ║   ensures:  sqrtdenest(sqrt(-28 * r7 - 14 * r5 + 4 * ...   ║
+# ║   ensures:  sqrtdenest(sqrt(6 * r2 / 11 + 2 * sqrt(22...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sqrtdenest_rec : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b90af571835c5d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bf6ea83ad09bbb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest_rec","kind":"function","src_hash":"b9a79cdddda77a43","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrtdenest(sqrt(-28 * r7 - 14 * r5 + 4 * sqrt(35) + 82)) == -7 + r5 + 2 * r7 and sqrtdenest(z) == sqrt(-1) * (7 * r5 + 7 * r15 + 7 * sqrt(23)) and sqrtdenest(z) == z and sqrtdenest(sqrt(-8 * r2 - 2 * r5 + 18)) == -r10 + 1 + r2 + r5 and sqrtdenest(sqrt(8 * r2 + 2 * r5 - 18)) == sqrt(-1) * (-r10 + 1 + r2 + r5) and sqrtdenest(sqrt(sqrt(2 * r6 + 5) + sqrt(2 * r7 + 8))) == sqrt(1 + r2 + r3 + r7) and sqrtdenest(sqrt(4 * r15 + 8 * r5 + 12 * r3 + 24)) == 1 + r3 + r5 + r15 and sqrtdenest(sqrt((w ** 2).expand())) == w and sqrtdenest(z) == z and sqrtdenest(z) == z"},"spec":{"lhs":"test_sqrtdenest_rec()","rhs":"test_sqrtdenest_rec produces the expected output","over":{"base":"Any"},"name":"test_sqrtdenest_rec_correct"},"guarantee":"test_sqrtdenest_rec produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest_rec_correct","statement":"Path(test_sqrtdenest_rec(x), test_sqrtdenest_rec produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b90af571835c5d3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest_rec","kind":"function","src_hash":"b9a79cdddda77a43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrtdenest(sqrt(-4 * sqrt(14) - 2 * r6 + 4 * sqrt(21) + 33)) == -r2 + r3 + 2 * r7 and sqrtdenest(sqrt(-28 * r7 - 14 * r5 + 4 * sqrt(35) + 82)) == -7 + r5 + 2 * r7 and sqrtdenest(sqrt(6 * r2 / 11 + 2 * sqrt(22) / 11 + 6 * sqrt(11) / 11 + 2)) == sqrt(11) * (r2 + 3 + sqrt(11)) / 11 and sqrtdenest(sqrt(468 * r3 + 3024 * r2 + 2912 * r6 + 19735)) == 9 * r3 + 26 + 56 * r6 and sqrtdenest(z) == sqrt(-1) * (7 * r5 + 7 * r15 + 7 * sqrt(23)) and sqrtdenest(z) == z and sqrtdenest(sqrt(-8 * r2 - 2 * r5 + 18)) == -r10 + 1 + r2 + r5 and sqrtdenest(sqrt(8 * r2 + 2 * r5 - 18)) == sqrt(-1) * (-r10 + 1 + r2 + r5) and sqrtdenest(sqrt(8 * r2 / 3 + 14 * r5 / 3 + Rational(154, 9))) == -r10 / 3 + r2 + r5 + 3 and sqrtdenest(sqrt(sqrt(2 * r6 + 5) + sqrt(2 * r7 + 8))) == sqrt(1 + r2 + r3 + r7) and sqrtdenest(sqrt(4 * r15 + 8 * r5 + 12 * r3 + 24)) == 1 + r3 + r5 + r15 and sqrtdenest(sqrt((w ** 2).expand())) == w"},"spec":{"lhs":"test_sqrtdenest_rec()","rhs":"sqrtdenest(sqrt(-4 * sqrt(14) - 2 * r6 + 4 * sqrt(21) + 33)) == -r2 + r3 + 2 * r7 and sqrtdenest(sqrt(-28 * r7 - 14 * r5 + 4 * sqrt(35) + 82)) == -7 + r5 + 2 * r7 and sqrtdenest(sqrt(6 * r2 / 11 + 2 * sqrt(22) / 11 + 6 * sqrt(11) / 11 + 2)) == sqrt(11) * (r2 + 3 + sqrt(11)) / 11 and sqrtdenest(sqrt(468 * r3 + 3024 * r2 + 2912 * r6 + 19735)) == 9 * r3 + 26 + 56 * r6 and sqrtdenest(z) == sqrt(-1) * (7 * r5 + 7 * r15 + 7 * sqrt(23)) and sqrtdenest(z) == z and sqrtdenest(sqrt(-8 * r2 - 2 * r5 + 18)) == -r10 + 1 + r2 + r5 and sqrtdenest(sqrt(8 * r2 + 2 * r5 - 18)) == sqrt(-1) * (-r10 + 1 + r2 + r5) and sqrtdenest(sqrt(8 * r2 / 3 + 14 * r5 / 3 + Rational(154, 9))) == -r10 / 3 + r2 + r5 + 3 and sqrtdenest(sqrt(sqrt(2 * r6 + 5) + sqrt(2 * r7 + 8))) == sqrt(1 + r2 + r3 + r7) and sqrtdenest(sqrt(4 * r15 + 8 * r5 + 12 * r3 + 24)) == 1 + r3 + r5 + r15 and sqrtdenest(sqrt((w ** 2).expand())) == w","over":{"base":"Any"},"name":"test_sqrtdenest_rec_correct"},"guarantee":"sqrtdenest(sqrt(-4 * sqrt(14) - 2 * r6 + 4 * sqrt(21) + 33)) == -r2 + r3 + 2 * r7; sqrtdenest(sqrt(-28 * r7 - 14 * r5 + 4 * sqrt(35) + 82)) == -7 + r5 + 2 * r7; sqrtdenest(sqrt(6 * r2 / 11 + 2 * sqrt(22) / 11 + 6 * sqrt(11) / 11 + 2)) == sqrt(11) * (r2 + 3 + sqrt(11)) / 11","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest_rec_correct","statement":"Path(test_sqrtdenest_rec(x), sqrtdenest(sqrt(-4 * sqrt(14) - 2 * r6 + 4 * sqrt(21) + 33)) == -r2 + r3 + 2 * r7; sqrtdenest(sqrt(-28 * r7 - 14 * r5 + 4 * sqrt(35) + 82)) == -7 + r5 + 2 * r7; sqrtdenest(sqrt(6 * r2 / 11 + 2 * sqrt(22) / 11 + 6 * sqrt(11) / 11 + 2)) == sqrt(11) * (r2 + 3 + sqrt(11)) / 11)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bf6ea83ad09bbb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrtdenest(sqrt(-4 * sqrt(14) - 2 * r6 + 4 * sqrt(21) + 33)) == -r2 + r3 + 2 * r7","sqrtdenest(sqrt(-28 * r7 - 14 * r5 + 4 * sqrt(35) + 82)) == -7 + r5 + 2 * r7","sqrtdenest(sqrt(6 * r2 / 11 + 2 * sqrt(22) / 11 + 6 * sqrt(11) / 11 + 2)) == sqrt(11) * (r2 + 3 + sqrt(11)) / 11","sqrtdenest(sqrt(468 * r3 + 3024 * r2 + 2912 * r6 + 19735)) == 9 * r3 + 26 + 56 * r6","sqrtdenest(z) == sqrt(-1) * (7 * r5 + 7 * r15 + 7 * sqrt(23))","sqrtdenest(z) == z","sqrtdenest(sqrt(-8 * r2 - 2 * r5 + 18)) == -r10 + 1 + r2 + r5","sqrtdenest(sqrt(8 * r2 + 2 * r5 - 18)) == sqrt(-1) * (-r10 + 1 + r2 + r5)","sqrtdenest(sqrt(8 * r2 / 3 + 14 * r5 / 3 + Rational(154, 9))) == -r10 / 3 + r2 + r5 + 3","sqrtdenest(sqrt(sqrt(2 * r6 + 5) + sqrt(2 * r7 + 8))) == sqrt(1 + r2 + r3 + r7)","sqrtdenest(sqrt(4 * r15 + 8 * r5 + 12 * r3 + 24)) == 1 + r3 + r5 + r15","sqrtdenest(sqrt((w ** 2).expand())) == w"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_sqrtdenest_rec():
     assert sqrtdenest(sqrt(-4*sqrt(14) - 2*r6 + 4*sqrt(21) + 33)) == \
         -r2 + r3 + 2*r7
@@ -143,32 +165,46 @@ def test_sqrtdenest_rec():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6241(), test_issue_6241 produces the expected output) over Any ║
+# ║ Path(test_issue_6241(), sqrtdenest(z) == z) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6241 : Any → {Any | sqrtdenest(z) == z}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrtdenest(z) == z                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6241 : Any → {Any | result satisfies: sqrt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f74be8ad2e88ed16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 320bfc35eac43990  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_issue_6241","kind":"function","src_hash":"5c55e35af49d9234","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrtdenest(z) == z"},"spec":{"lhs":"test_issue_6241()","rhs":"test_issue_6241 produces the expected output","over":{"base":"Any"},"name":"test_issue_6241_correct"},"guarantee":"test_issue_6241 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_issue_6241_correct","statement":"Path(test_issue_6241(x), test_issue_6241 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f74be8ad2e88ed16"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_issue_6241","kind":"function","src_hash":"5c55e35af49d9234","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrtdenest(z) == z"},"spec":{"lhs":"test_issue_6241()","rhs":"sqrtdenest(z) == z","over":{"base":"Any"},"name":"test_issue_6241_correct"},"guarantee":"sqrtdenest(z) == z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_issue_6241_correct","statement":"Path(test_issue_6241(x), sqrtdenest(z) == z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"320bfc35eac43990","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrtdenest(z) == z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6241():
     z = sqrt( -320 + 32*sqrt(5) + 64*r15)
     assert sqrtdenest(z) == z
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sqrtdenest3(), test_sqrtdenest3 produces the expected output) over Any ║
+# ║ Path(test_sqrtdenest3(), sqrtdenest(z) == -1 + r2 + r10 and sqrtdenest(z, max_iter=1) == -1 + sqrt(2) + sqrt(10) and sqrtdenest(z) == z and sqrtdenest(sqrt(-2 * r10 + 4 * r2 * sqrt(-2 * r10 + 11) + 20)) == sqrt(-2 * r10 - 4 * r2 + 8 * r5 + 20) and sqrtdenest(sqrt(112 + 70 * r2 + (46 + 34 * r2) * r5)) == r10 + 5 + 4 * r2 + 3 * r5 and sqrtdenest(z) == sqrt(r2 * r + r3 * r + r10 + r15 + 5) and sqrtdenest(n / d) == r7 * (1 + r6 + r7) / Mul(7, sqrt(-2 * r29 + 11) + r5, evaluate=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sqrtdenest3 : Any → {Any | sqrtdenest(z) == -1 +...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrtdenest(z) == -1 + r2 + r10                 ║
+# ║   ensures:  sqrtdenest(z, max_iter=1) == -1 + sqrt(2)...   ║
+# ║   ensures:  sqrtdenest(z) == z                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sqrtdenest3 : Any → {Any | result satisfies: sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ceeae709b7e637a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 411488d417252b5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest3","kind":"function","src_hash":"48757ac5d743c800","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrtdenest(z) == -1 + r2 + r10 and sqrtdenest(z, max_iter=1) == -1 + sqrt(2) + sqrt(10) and sqrtdenest(z) == z and sqrtdenest(z) == sqrt(r2 * r + r3 * r + r10 + r15 + 5)"},"spec":{"lhs":"test_sqrtdenest3()","rhs":"test_sqrtdenest3 produces the expected output","over":{"base":"Any"},"name":"test_sqrtdenest3_correct"},"guarantee":"test_sqrtdenest3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest3_correct","statement":"Path(test_sqrtdenest3(x), test_sqrtdenest3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ceeae709b7e637a5"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest3","kind":"function","src_hash":"48757ac5d743c800","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrtdenest(z) == -1 + r2 + r10 and sqrtdenest(z, max_iter=1) == -1 + sqrt(2) + sqrt(10) and sqrtdenest(z) == z and sqrtdenest(sqrt(-2 * r10 + 4 * r2 * sqrt(-2 * r10 + 11) + 20)) == sqrt(-2 * r10 - 4 * r2 + 8 * r5 + 20) and sqrtdenest(sqrt(112 + 70 * r2 + (46 + 34 * r2) * r5)) == r10 + 5 + 4 * r2 + 3 * r5 and sqrtdenest(z) == sqrt(r2 * r + r3 * r + r10 + r15 + 5) and sqrtdenest(n / d) == r7 * (1 + r6 + r7) / Mul(7, sqrt(-2 * r29 + 11) + r5, evaluate=False)"},"spec":{"lhs":"test_sqrtdenest3()","rhs":"sqrtdenest(z) == -1 + r2 + r10 and sqrtdenest(z, max_iter=1) == -1 + sqrt(2) + sqrt(10) and sqrtdenest(z) == z and sqrtdenest(sqrt(-2 * r10 + 4 * r2 * sqrt(-2 * r10 + 11) + 20)) == sqrt(-2 * r10 - 4 * r2 + 8 * r5 + 20) and sqrtdenest(sqrt(112 + 70 * r2 + (46 + 34 * r2) * r5)) == r10 + 5 + 4 * r2 + 3 * r5 and sqrtdenest(z) == sqrt(r2 * r + r3 * r + r10 + r15 + 5) and sqrtdenest(n / d) == r7 * (1 + r6 + r7) / Mul(7, sqrt(-2 * r29 + 11) + r5, evaluate=False)","over":{"base":"Any"},"name":"test_sqrtdenest3_correct"},"guarantee":"sqrtdenest(z) == -1 + r2 + r10; sqrtdenest(z, max_iter=1) == -1 + sqrt(2) + sqrt(10); sqrtdenest(z) == z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest3_correct","statement":"Path(test_sqrtdenest3(x), sqrtdenest(z) == -1 + r2 + r10; sqrtdenest(z, max_iter=1) == -1 + sqrt(2) + sqrt(10); sqrtdenest(z) == z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"411488d417252b5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrtdenest(z) == -1 + r2 + r10","sqrtdenest(z, max_iter=1) == -1 + sqrt(2) + sqrt(10)","sqrtdenest(z) == z","sqrtdenest(sqrt(-2 * r10 + 4 * r2 * sqrt(-2 * r10 + 11) + 20)) == sqrt(-2 * r10 - 4 * r2 + 8 * r5 + 20)","sqrtdenest(sqrt(112 + 70 * r2 + (46 + 34 * r2) * r5)) == r10 + 5 + 4 * r2 + 3 * r5","sqrtdenest(z) == sqrt(r2 * r + r3 * r + r10 + r15 + 5)","sqrtdenest(n / d) == r7 * (1 + r6 + r7) / Mul(7, sqrt(-2 * r29 + 11) + r5, evaluate=False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_sqrtdenest3():
     z = sqrt(13 - 2*r10 + 2*r2*sqrt(-2*r10 + 11))
     assert sqrtdenest(z) == -1 + r2 + r10
@@ -190,16 +226,24 @@ def test_sqrtdenest3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sqrtdenest4(), test_sqrtdenest4 produces the expected output) over Any ║
+# ║ Path(test_sqrtdenest4(), sqrtdenest(z) == z1 and sqrtdenest(z) == r2 + sqrt(r2 + 2) + 2 and sqrtdenest(z) == w.expand()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sqrtdenest4 : Any → {Any | sqrtdenest(z) == z1 a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrtdenest(z) == z1                            ║
+# ║   ensures:  sqrtdenest(z) == r2 + sqrt(r2 + 2) + 2         ║
+# ║   ensures:  sqrtdenest(z) == w.expand()                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sqrtdenest4 : Any → {Any | result satisfies: sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88676ac7eb404bd4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4146557b57b1fc01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest4","kind":"function","src_hash":"8bbd5f1208f6c7f8","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrtdenest(z) == z1 and sqrtdenest(z) == r2 + sqrt(r2 + 2) + 2 and sqrtdenest(z) == w.expand()"},"spec":{"lhs":"test_sqrtdenest4()","rhs":"test_sqrtdenest4 produces the expected output","over":{"base":"Any"},"name":"test_sqrtdenest4_correct"},"guarantee":"test_sqrtdenest4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest4_correct","statement":"Path(test_sqrtdenest4(x), test_sqrtdenest4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88676ac7eb404bd4"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest4","kind":"function","src_hash":"8bbd5f1208f6c7f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrtdenest(z) == z1 and sqrtdenest(z) == r2 + sqrt(r2 + 2) + 2 and sqrtdenest(z) == w.expand()"},"spec":{"lhs":"test_sqrtdenest4()","rhs":"sqrtdenest(z) == z1 and sqrtdenest(z) == r2 + sqrt(r2 + 2) + 2 and sqrtdenest(z) == w.expand()","over":{"base":"Any"},"name":"test_sqrtdenest4_correct"},"guarantee":"sqrtdenest(z) == z1; sqrtdenest(z) == r2 + sqrt(r2 + 2) + 2; sqrtdenest(z) == w.expand()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrtdenest4_correct","statement":"Path(test_sqrtdenest4(x), sqrtdenest(z) == z1; sqrtdenest(z) == r2 + sqrt(r2 + 2) + 2; sqrtdenest(z) == w.expand())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4146557b57b1fc01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrtdenest(z) == z1","sqrtdenest(z) == r2 + sqrt(r2 + 2) + 2","sqrtdenest(z) == w.expand()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sqrtdenest4():
     # see Denest_en.pdf in https://github.com/sympy/sympy/issues/3192
     z = sqrt(8 - r2*sqrt(5 - r5) - sqrt(3)*(1 + r5))
@@ -217,16 +261,24 @@ def test_sqrtdenest4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sqrt_symbolic_denest(), test_sqrt_symbolic_denest produces the expected output) over Any ║
+# ║ Path(test_sqrt_symbolic_denest(), sqrtdenest(z) == sqrt((1 + sqrt(sqrt(2 + x) + 3)) ** 2) and sqrtdenest(z) == 1 + sqrt(sqrt(2 + cos(1)) + 3) and sqrtdenest(z) == z and sqrtdenest(sqrt(2 * sqrt(1 + r3) * c + c2 + 1 + r3 * c2)) == -1 - sqrt(1 + r3) * c) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sqrt_symbolic_denest : Any → {Any | sqrtdenest(z...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrtdenest(z) == sqrt((1 + sqrt(sqrt(2 + ...   ║
+# ║   ensures:  sqrtdenest(z) == 1 + sqrt(sqrt(2 + cos(1)...   ║
+# ║   ensures:  sqrtdenest(z) == z                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sqrt_symbolic_denest : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 761080bb58284fa9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c012de55e91fd6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrt_symbolic_denest","kind":"function","src_hash":"9edfcb6105658604","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrtdenest(z) == sqrt((1 + sqrt(sqrt(2 + x) + 3)) ** 2) and sqrtdenest(z) == 1 + sqrt(sqrt(2 + cos(1)) + 3) and sqrtdenest(z) == z and sqrtdenest(z) == z and sqrtdenest(z) == z"},"spec":{"lhs":"test_sqrt_symbolic_denest()","rhs":"test_sqrt_symbolic_denest produces the expected output","over":{"base":"Any"},"name":"test_sqrt_symbolic_denest_correct"},"guarantee":"test_sqrt_symbolic_denest produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrt_symbolic_denest_correct","statement":"Path(test_sqrt_symbolic_denest(x), test_sqrt_symbolic_denest produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"761080bb58284fa9"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrt_symbolic_denest","kind":"function","src_hash":"9edfcb6105658604","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrtdenest(z) == sqrt((1 + sqrt(sqrt(2 + x) + 3)) ** 2) and sqrtdenest(z) == 1 + sqrt(sqrt(2 + cos(1)) + 3) and sqrtdenest(z) == z and sqrtdenest(sqrt(2 * sqrt(1 + r3) * c + c2 + 1 + r3 * c2)) == -1 - sqrt(1 + r3) * c"},"spec":{"lhs":"test_sqrt_symbolic_denest()","rhs":"sqrtdenest(z) == sqrt((1 + sqrt(sqrt(2 + x) + 3)) ** 2) and sqrtdenest(z) == 1 + sqrt(sqrt(2 + cos(1)) + 3) and sqrtdenest(z) == z and sqrtdenest(sqrt(2 * sqrt(1 + r3) * c + c2 + 1 + r3 * c2)) == -1 - sqrt(1 + r3) * c","over":{"base":"Any"},"name":"test_sqrt_symbolic_denest_correct"},"guarantee":"sqrtdenest(z) == sqrt((1 + sqrt(sqrt(2 + x) + 3)) ** 2); sqrtdenest(z) == 1 + sqrt(sqrt(2 + cos(1)) + 3); sqrtdenest(z) == z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrt_symbolic_denest_correct","statement":"Path(test_sqrt_symbolic_denest(x), sqrtdenest(z) == sqrt((1 + sqrt(sqrt(2 + x) + 3)) ** 2); sqrtdenest(z) == 1 + sqrt(sqrt(2 + cos(1)) + 3); sqrtdenest(z) == z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c012de55e91fd6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrtdenest(z) == sqrt((1 + sqrt(sqrt(2 + x) + 3)) ** 2)","sqrtdenest(z) == 1 + sqrt(sqrt(2 + cos(1)) + 3)","sqrtdenest(z) == z","sqrtdenest(sqrt(2 * sqrt(1 + r3) * c + c2 + 1 + r3 * c2)) == -1 - sqrt(1 + r3) * c"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_sqrt_symbolic_denest():
     x = Symbol('x')
     z = sqrt(((1 + sqrt(sqrt(2 + x) + 3))**2).expand())
@@ -247,16 +299,24 @@ def test_sqrt_symbolic_denest():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5857(), test_issue_5857 produces the expected output) over Any ║
+# ║ Path(test_issue_5857(), sqrtdenest(z) == ans and sqrtdenest(1 + z) == 1 + ans and sqrtdenest(Integral(z + 1, (x, 1, 2))) == Integral(1 + ans, (x, 1, 2)) and sqrtdenest(x + sqrt(y)) == x + sqrt(y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5857 : Any → {Any | sqrtdenest(z) == ans a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrtdenest(z) == ans                           ║
+# ║   ensures:  sqrtdenest(1 + z) == 1 + ans                   ║
+# ║   ensures:  sqrtdenest(Integral(z + 1, (x, 1, 2))) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5857 : Any → {Any | result satisfies: sqrt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61025a7817f34e1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80a47ee7e302f2df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_issue_5857","kind":"function","src_hash":"adfb91fbee562307","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrtdenest(z) == ans and sqrtdenest(1 + z) == 1 + ans and sqrtdenest(Integral(z + 1, (x, 1, 2))) == Integral(1 + ans, (x, 1, 2)) and sqrtdenest(x + sqrt(y)) == x + sqrt(y) and sqrtdenest(z) == ans and sqrtdenest(1 + z) == 1 + ans and sqrtdenest(Integral(z + 1, (x, 1, 2))) == Integral(1 + ans, (x, 1, 2)) and sqrtdenest(x + sqrt(y)) == x + sqrt(y)"},"spec":{"lhs":"test_issue_5857()","rhs":"test_issue_5857 produces the expected output","over":{"base":"Any"},"name":"test_issue_5857_correct"},"guarantee":"test_issue_5857 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_issue_5857_correct","statement":"Path(test_issue_5857(x), test_issue_5857 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61025a7817f34e1f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_issue_5857","kind":"function","src_hash":"adfb91fbee562307","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrtdenest(z) == ans and sqrtdenest(1 + z) == 1 + ans and sqrtdenest(Integral(z + 1, (x, 1, 2))) == Integral(1 + ans, (x, 1, 2)) and sqrtdenest(x + sqrt(y)) == x + sqrt(y)"},"spec":{"lhs":"test_issue_5857()","rhs":"sqrtdenest(z) == ans and sqrtdenest(1 + z) == 1 + ans and sqrtdenest(Integral(z + 1, (x, 1, 2))) == Integral(1 + ans, (x, 1, 2)) and sqrtdenest(x + sqrt(y)) == x + sqrt(y)","over":{"base":"Any"},"name":"test_issue_5857_correct"},"guarantee":"sqrtdenest(z) == ans; sqrtdenest(1 + z) == 1 + ans; sqrtdenest(Integral(z + 1, (x, 1, 2))) == Integral(1 + ans, (x, 1, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_issue_5857_correct","statement":"Path(test_issue_5857(x), sqrtdenest(z) == ans; sqrtdenest(1 + z) == 1 + ans; sqrtdenest(Integral(z + 1, (x, 1, 2))) == Integral(1 + ans, (x, 1, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80a47ee7e302f2df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrtdenest(z) == ans","sqrtdenest(1 + z) == 1 + ans","sqrtdenest(Integral(z + 1, (x, 1, 2))) == Integral(1 + ans, (x, 1, 2))","sqrtdenest(x + sqrt(y)) == x + sqrt(y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_5857():
     from sympy.abc import x, y
     z = sqrt(1/(4*r3 + 7) + 1)
@@ -275,16 +335,23 @@ def test_issue_5857():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subsets(), test_subsets produces the expected output) over Any ║
+# ║ Path(test_subsets(), subsets(1) == [[1]] and subsets(4) == [[1, 0, 0, 0], [0, 1, 0, 0], [1, 1, 0, 0], [0, 0, 1, 0], [1, 0, 1, 0], [0, 1, 1, 0], [1, 1, 1, 0], [0, 0, 0, 1], [1, 0, 0, 1], [0, 1, 0, 1], [1, 1, 0, 1], [0, 0, 1, 1], [1, 0, 1, 1], [0, 1, 1, 1], [1, 1, 1, 1]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subsets : Any → {Any | subsets(1) == [[1]]}           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  subsets(1) == [[1]]                            ║
+# ║   ensures:  subsets(4) == [[1, 0, 0, 0], [0, 1, 0, 0]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subsets : Any → {Any | result satisfies: subsets...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66a315a08fa0e250  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2df9122cbbf2e218  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_subsets","kind":"function","src_hash":"212fce2e683cfca9","in":{"base":"Any"},"out":{"base":"Any","pred":"subsets(1) == [[1]]"},"spec":{"lhs":"test_subsets()","rhs":"test_subsets produces the expected output","over":{"base":"Any"},"name":"test_subsets_correct"},"guarantee":"test_subsets produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_subsets_correct","statement":"Path(test_subsets(x), test_subsets produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66a315a08fa0e250"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_subsets","kind":"function","src_hash":"212fce2e683cfca9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: subsets(1) == [[1]] and subsets(4) == [[1, 0, 0, 0], [0, 1, 0, 0], [1, 1, 0, 0], [0, 0, 1, 0], [1, 0, 1, 0], [0, 1, 1, 0], [1, 1, 1, 0], [0, 0, 0, 1], [1, 0, 0, 1], [0, 1, 0, 1], [1, 1, 0, 1], [0, 0, 1, 1], [1, 0, 1, 1], [0, 1, 1, 1], [1, 1, 1, 1]]"},"spec":{"lhs":"test_subsets()","rhs":"subsets(1) == [[1]] and subsets(4) == [[1, 0, 0, 0], [0, 1, 0, 0], [1, 1, 0, 0], [0, 0, 1, 0], [1, 0, 1, 0], [0, 1, 1, 0], [1, 1, 1, 0], [0, 0, 0, 1], [1, 0, 0, 1], [0, 1, 0, 1], [1, 1, 0, 1], [0, 0, 1, 1], [1, 0, 1, 1], [0, 1, 1, 1], [1, 1, 1, 1]]","over":{"base":"Any"},"name":"test_subsets_correct"},"guarantee":"subsets(1) == [[1]]; subsets(4) == [[1, 0, 0, 0], [0, 1, 0, 0], [1, 1, 0, 0], [0, 0, 1, 0], [1, 0, 1, 0], [0, 1, 1, 0], [1, 1, 1, 0], [0, 0, 0, 1], [1, 0, 0, 1], [0, 1, 0, 1], [1, 1, 0, 1], [0, 0, 1, 1], [1, 0, 1, 1], [0, 1, 1, 1], [1, 1, 1, 1]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_subsets_correct","statement":"Path(test_subsets(x), subsets(1) == [[1]]; subsets(4) == [[1, 0, 0, 0], [0, 1, 0, 0], [1, 1, 0, 0], [0, 0, 1, 0], [1, 0, 1, 0], [0, 1, 1, 0], [1, 1, 1, 0], [0, 0, 0, 1], [1, 0, 0, 1], [0, 1, 0, 1], [1, 1, 0, 1], [0, 0, 1, 1], [1, 0, 1, 1], [0, 1, 1, 1], [1, 1, 1, 1]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2df9122cbbf2e218","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["subsets(1) == [[1]]","subsets(4) == [[1, 0, 0, 0], [0, 1, 0, 0], [1, 1, 0, 0], [0, 0, 1, 0], [1, 0, 1, 0], [0, 1, 1, 0], [1, 1, 1, 0], [0, 0, 0, 1], [1, 0, 0, 1], [0, 1, 0, 1], [1, 1, 0, 1], [0, 0, 1, 1], [1, 0, 1, 1], [0, 1, 1, 1], [1, 1, 1, 1]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_subsets():
     assert subsets(1) == [[1]]
     assert subsets(4) == [
@@ -294,76 +361,108 @@ def test_subsets():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5653(), test_issue_5653 produces the expected output) over Any ║
+# ║ Path(test_issue_5653(), sqrtdenest(sqrt(2 + sqrt(2 + sqrt(2)))) == sqrt(2 + sqrt(2 + sqrt(2)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5653 : Any → {Any | sqrtdenest(sqrt(2 + sq...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrtdenest(sqrt(2 + sqrt(2 + sqrt(2)))) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5653 : Any → {Any | result satisfies: sqrt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b98a6426efe59cbc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd2d4645f4c3570d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_issue_5653","kind":"function","src_hash":"fc2f8ff48215c001","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrtdenest(sqrt(2 + sqrt(2 + sqrt(2)))) == sqrt(2 + sqrt(2 + sqrt(2)))"},"spec":{"lhs":"test_issue_5653()","rhs":"test_issue_5653 produces the expected output","over":{"base":"Any"},"name":"test_issue_5653_correct"},"guarantee":"test_issue_5653 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_issue_5653_correct","statement":"Path(test_issue_5653(x), test_issue_5653 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b98a6426efe59cbc"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_issue_5653","kind":"function","src_hash":"fc2f8ff48215c001","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrtdenest(sqrt(2 + sqrt(2 + sqrt(2)))) == sqrt(2 + sqrt(2 + sqrt(2)))"},"spec":{"lhs":"test_issue_5653()","rhs":"sqrtdenest(sqrt(2 + sqrt(2 + sqrt(2)))) == sqrt(2 + sqrt(2 + sqrt(2)))","over":{"base":"Any"},"name":"test_issue_5653_correct"},"guarantee":"sqrtdenest(sqrt(2 + sqrt(2 + sqrt(2)))) == sqrt(2 + sqrt(2 + sqrt(2)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_issue_5653_correct","statement":"Path(test_issue_5653(x), sqrtdenest(sqrt(2 + sqrt(2 + sqrt(2)))) == sqrt(2 + sqrt(2 + sqrt(2))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd2d4645f4c3570d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrtdenest(sqrt(2 + sqrt(2 + sqrt(2)))) == sqrt(2 + sqrt(2 + sqrt(2)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5653():
     assert sqrtdenest(
         sqrt(2 + sqrt(2 + sqrt(2)))) == sqrt(2 + sqrt(2 + sqrt(2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12420(), test_issue_12420 produces the expected output) over Any ║
+# ║ Path(test_issue_12420(), sqrtdenest((3 - sqrt(2) * sqrt(4 + 3 * I) + 3 * I) / 2) == I and sqrtdenest(e) == e) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12420 : Any → {Any | sqrtdenest((3 - sqrt(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrtdenest((3 - sqrt(2) * sqrt(4 + 3 * I)...   ║
+# ║   ensures:  sqrtdenest(e) == e                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12420 : Any → {Any | result satisfies: sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0ed48361f99e9ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ab4c85bfce4cc58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_issue_12420","kind":"function","src_hash":"2030c85dc5ac2b26","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrtdenest((3 - sqrt(2) * sqrt(4 + 3 * I) + 3 * I) / 2) == I and sqrtdenest(e) == e"},"spec":{"lhs":"test_issue_12420()","rhs":"test_issue_12420 produces the expected output","over":{"base":"Any"},"name":"test_issue_12420_correct"},"guarantee":"test_issue_12420 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_issue_12420_correct","statement":"Path(test_issue_12420(x), test_issue_12420 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0ed48361f99e9ba"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_issue_12420","kind":"function","src_hash":"2030c85dc5ac2b26","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrtdenest((3 - sqrt(2) * sqrt(4 + 3 * I) + 3 * I) / 2) == I and sqrtdenest(e) == e"},"spec":{"lhs":"test_issue_12420()","rhs":"sqrtdenest((3 - sqrt(2) * sqrt(4 + 3 * I) + 3 * I) / 2) == I and sqrtdenest(e) == e","over":{"base":"Any"},"name":"test_issue_12420_correct"},"guarantee":"sqrtdenest((3 - sqrt(2) * sqrt(4 + 3 * I) + 3 * I) / 2) == I; sqrtdenest(e) == e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_issue_12420_correct","statement":"Path(test_issue_12420(x), sqrtdenest((3 - sqrt(2) * sqrt(4 + 3 * I) + 3 * I) / 2) == I; sqrtdenest(e) == e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ab4c85bfce4cc58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrtdenest((3 - sqrt(2) * sqrt(4 + 3 * I) + 3 * I) / 2) == I","sqrtdenest(e) == e"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_12420():
     assert sqrtdenest((3 - sqrt(2)*sqrt(4 + 3*I) + 3*I)/2) == I
     e = 3 - sqrt(2)*sqrt(4 + I) + 3*I
     assert sqrtdenest(e) == e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sqrt_ratcomb(), test_sqrt_ratcomb produces the expected output) over Any ║
+# ║ Path(test_sqrt_ratcomb(), sqrtdenest(sqrt(1 + r3) + sqrt(3 + 3 * r3) - sqrt(10 + 6 * r3)) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sqrt_ratcomb : Any → {Any | sqrtdenest(sqrt(1 + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrtdenest(sqrt(1 + r3) + sqrt(3 + 3 * r3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sqrt_ratcomb : Any → {Any | result satisfies: sq...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06779c953aab0462  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b380f58a988d92fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrt_ratcomb","kind":"function","src_hash":"07ac7def5aafaba3","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrtdenest(sqrt(1 + r3) + sqrt(3 + 3 * r3) - sqrt(10 + 6 * r3)) == 0"},"spec":{"lhs":"test_sqrt_ratcomb()","rhs":"test_sqrt_ratcomb produces the expected output","over":{"base":"Any"},"name":"test_sqrt_ratcomb_correct"},"guarantee":"test_sqrt_ratcomb produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrt_ratcomb_correct","statement":"Path(test_sqrt_ratcomb(x), test_sqrt_ratcomb produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06779c953aab0462"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_sqrt_ratcomb","kind":"function","src_hash":"07ac7def5aafaba3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrtdenest(sqrt(1 + r3) + sqrt(3 + 3 * r3) - sqrt(10 + 6 * r3)) == 0"},"spec":{"lhs":"test_sqrt_ratcomb()","rhs":"sqrtdenest(sqrt(1 + r3) + sqrt(3 + 3 * r3) - sqrt(10 + 6 * r3)) == 0","over":{"base":"Any"},"name":"test_sqrt_ratcomb_correct"},"guarantee":"sqrtdenest(sqrt(1 + r3) + sqrt(3 + 3 * r3) - sqrt(10 + 6 * r3)) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_sqrt_ratcomb_correct","statement":"Path(test_sqrt_ratcomb(x), sqrtdenest(sqrt(1 + r3) + sqrt(3 + 3 * r3) - sqrt(10 + 6 * r3)) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b380f58a988d92fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrtdenest(sqrt(1 + r3) + sqrt(3 + 3 * r3) - sqrt(10 + 6 * r3)) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sqrt_ratcomb():
     assert sqrtdenest(sqrt(1 + r3) + sqrt(3 + 3*r3) - sqrt(10 + 6*r3)) == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18041(), test_issue_18041 produces the expected output) over Any ║
+# ║ Path(test_issue_18041(), sqrtdenest(e) == -1 - sqrt(3) * I) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18041 : Any → {Any | sqrtdenest(e) == -1 -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sqrtdenest(e) == -1 - sqrt(3) * I              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18041 : Any → {Any | result satisfies: sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76e1f93a2e2fd804  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66c50a97ae0c1276  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_issue_18041","kind":"function","src_hash":"64c5338e4f76c579","in":{"base":"Any"},"out":{"base":"Any","pred":"sqrtdenest(e) == -1 - sqrt(3) * I"},"spec":{"lhs":"test_issue_18041()","rhs":"test_issue_18041 produces the expected output","over":{"base":"Any"},"name":"test_issue_18041_correct"},"guarantee":"test_issue_18041 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_issue_18041_correct","statement":"Path(test_issue_18041(x), test_issue_18041 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76e1f93a2e2fd804"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_issue_18041","kind":"function","src_hash":"64c5338e4f76c579","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sqrtdenest(e) == -1 - sqrt(3) * I"},"spec":{"lhs":"test_issue_18041()","rhs":"sqrtdenest(e) == -1 - sqrt(3) * I","over":{"base":"Any"},"name":"test_issue_18041_correct"},"guarantee":"sqrtdenest(e) == -1 - sqrt(3) * I","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_issue_18041_correct","statement":"Path(test_issue_18041(x), sqrtdenest(e) == -1 - sqrt(3) * I)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66c50a97ae0c1276","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sqrtdenest(e) == -1 - sqrt(3) * I"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_18041():
     e = -sqrt(-2 + 2*sqrt(3)*I)
     assert sqrtdenest(e) == -1 - sqrt(3)*I
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19914(), test_issue_19914 produces the expected output) over Any ║
+# ║ Path(test_issue_19914(), _sqrt_numeric_denest(a, b, r, d2) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2 and sqrtdenest(sqrt(-8 - sqrt(63))) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19914 : Any → {Any | _sqrt_numeric_denest(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _sqrt_numeric_denest(a, b, r, d2) == sqrt...   ║
+# ║   ensures:  sqrtdenest(sqrt(-8 - sqrt(63))) == sqrt(1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19914 : Any → {Any | result satisfies: _sq...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d4ed4d719dec0de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba1a9cdae38b721e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_issue_19914","kind":"function","src_hash":"53d949781ab88f51","in":{"base":"Any"},"out":{"base":"Any","pred":"_sqrt_numeric_denest(a, b, r, d2) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2 and sqrtdenest(sqrt(-8 - sqrt(63))) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2"},"spec":{"lhs":"test_issue_19914()","rhs":"test_issue_19914 produces the expected output","over":{"base":"Any"},"name":"test_issue_19914_correct"},"guarantee":"test_issue_19914 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_issue_19914_correct","statement":"Path(test_issue_19914(x), test_issue_19914 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d4ed4d719dec0de"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.tests.test_sqrtdenest.test_issue_19914","kind":"function","src_hash":"53d949781ab88f51","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: _sqrt_numeric_denest(a, b, r, d2) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2 and sqrtdenest(sqrt(-8 - sqrt(63))) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2"},"spec":{"lhs":"test_issue_19914()","rhs":"_sqrt_numeric_denest(a, b, r, d2) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2 and sqrtdenest(sqrt(-8 - sqrt(63))) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2","over":{"base":"Any"},"name":"test_issue_19914_correct"},"guarantee":"_sqrt_numeric_denest(a, b, r, d2) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2; sqrtdenest(sqrt(-8 - sqrt(63))) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.tests.test_sqrtdenest.test_issue_19914_correct","statement":"Path(test_issue_19914(x), _sqrt_numeric_denest(a, b, r, d2) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2; sqrtdenest(sqrt(-8 - sqrt(63))) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba1a9cdae38b721e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_sqrt_numeric_denest(a, b, r, d2) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2","sqrtdenest(sqrt(-8 - sqrt(63))) == sqrt(14) * I / 2 + 3 * sqrt(2) * I / 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_19914():
     a = Integer(-8)
     b = Integer(-1)

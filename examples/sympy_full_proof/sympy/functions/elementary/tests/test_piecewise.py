@@ -51,7 +51,12 @@ z = symbols('z', nonzero=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise1(), test_piecewise1 produces the expected output) over {Any | isinstance(p, Piecewise)} ║
+# ║ Path(test_piecewise1(), Piecewise((x, x < 1.0)).has(1.0) and unchanged(Piecewise, ExprCondPair(x, x < 1), ExprCondPair(0, True)) and Piecewise((x, x < 1), (0, True)) == Piecewise(ExprCondPair(x, x < 1), ExprCondPair(0, True)) and Piecewise((x, x < 1), (0, True), (1, True)) == Piecewise((x, x < 1), (0, True)) and Piecewise((x, x < 1), (0, False), (-1, 1 > 2)) == Piecewise((x, x < 1)) and Piecewise((x, x < 1), (0, x < 1), (0, True)) == Piecewise((x, x < 1), (0, True)) and Piecewise((x, x < 1), (0, x < 2), (0, True)) == Piecewise((x, x < 1), (0, True)) and Piecewise((x, x < 1), (x, x < 2), (0, True)) == Piecewise((x, Or(x < 1, x < 2)), (0, True)) and Piecewise((x, x < 1), (x, x < 2), (x, True)) == x and Piecewise((x, True)) == x and Piecewise((2 * x, x < 0), (x, False)) == Piecewise((2 * x, x < 0), (x, False), evaluate=False) == Piecewise((2 * x, x < 0)) and Piecewise((x, False)) == Undefined and Piecewise((x, 1)) == x and Piecewise(((1, 2), True)) == Tuple(1, 2) and Piecewise((1, cond)) == Piecewise((1, ITE(x < 0, y > 1, y > 2))) and Piecewise((1, x > 0), (2, And(x <= 0, x > -1))) == Piecewise((1, x > 0), (2, x > -1)) and Piecewise((1, x <= 0), (2, (x < 0) & (x > -1))) == Piecewise((1, x <= 0)) and pwise.subs(x, pi) == 0 and pwise.subs(x, 2) == 1 and pwise.subs(x, 7) == 0 and p.subs(x, x ** 2) == p_x2 and p.subs(x, -5) == -1 and p.subs(x, -1) == 1 and p.subs(x, 1) == log(1) and p2.subs(x, 2) == 1 and p2.subs(x, 4) == -1 and p2.subs(x, 10) == 0 and p3.subs(x, 0.0) == 1 and p4.subs(x, 0.0) == 1 and pg.subs(g, f) == pf and Piecewise((1, Eq(x, 0)), (0, True)).subs(x, 0) == 1 and Piecewise((1, Eq(x, 0)), (0, True)).subs(x, 1) == 0 and Piecewise((1, Eq(x, y)), (0, True)).subs(x, y) == 1 and Piecewise((1, Eq(x, z)), (0, True)).subs(x, z) == 1 and Piecewise((1, Eq(exp(x), cos(z))), (0, True)).subs(x, z) == Piecewise((1, Eq(exp(z), cos(z))), (0, True)) and p5.subs(y, 0) == Piecewise((0, Eq(cos(x), 0)), (1, True)) and Piecewise((-1, y < 1), (0, x < 0), (1, Eq(x, 0)), (2, True)).subs(x, 1) == Piecewise((-1, y < 1), (2, True)) and Piecewise((1, Eq(x ** 2, -1)), (2, x < 0)).subs(x, I) == 1 and p6.subs(x, n) == Undefined and p.evalf() == Piecewise((-1.0, x < -1), (x ** 2, x < 0), (log(x), True)) and p.evalf(subs={x: -2}) == -1.0 and p.evalf(subs={x: -1}) == 1.0 and p.evalf(subs={x: 1}) == log(1) and p6.evalf(subs={x: -5}) == Undefined and f_int.doit() == Piecewise((S.Half, x < 1)) and diff(p, x) == dp and diff(f * p, x) == fp_dx and x * p == fp and x * p + p == p + x * p and p + f == f + p and p + dp == dp + p and p - dp == -(dp - p) and dp ** 2 == dp2 and peval._eval_interval(x, 0, 0) == 0 and peval._eval_interval(x, -1, 1) == peval_interval and peval2._eval_interval(x, 0, 0) == 0 and peval2._eval_interval(x, 1, -1) == -peval_interval and peval2._eval_interval(x, -1, -2) == f1.subs(x, -2) - f1.subs(x, -1) and peval2._eval_interval(x, -1, 1) == peval_interval and peval2._eval_interval(x, None, 0) == peval2.subs(x, 0) and peval2._eval_interval(x, -1, None) == -peval2.subs(x, -1) and p.integrate() == Piecewise((-x, x < -1), (x ** 3 / 3 + Rational(4, 3), x < 0), (x * log(x) - x + Rational(4, 3), True)) and integrate(p, (x, -2, 2)) == Rational(5, 6) and integrate(p, (x, 2, -2)) == Rational(-5, 6) and integrate(p, (x, -oo, oo)) == 2 and integrate(p, (x, -2, 2)) == Undefined and isinstance(p, Piecewise) and p.is_commutative is True) over {Any | isinstance(p, Piecewise)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Piecewise((x, x < 1.0)).has(1.0)               ║
+# ║   ensures:  unchanged(Piecewise, ExprCondPair(x, x < ...   ║
+# ║   ensures:  Piecewise((x, x < 1), (0, True)) == Piece...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_piecewise1 : {Any | isinstance(p, Piecewise)} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -63,9 +68,12 @@ z = symbols('z', nonzero=True)
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 5.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ca9b901f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise1","kind":"function","src_hash":"ae77eab3afbb8c7f","in":{"base":"Any","pred":"isinstance(p, Piecewise)"},"out":{"base":"Any","pred":"Piecewise((x, x < 1.0)).has(1.0) and unchanged(Piecewise, ExprCondPair(x, x < 1), ExprCondPair(0, True)) and Piecewise((x, x < 1), (0, True), (1, True)) == Piecewise((x, x < 1), (0, True)) and Piecewise((x, x < 1), (0, False), (-1, 1 > 2)) == Piecewise((x, x < 1)) and Piecewise((x, x < 1), (x, x < 2), (x, True)) == x and Piecewise((x, True)) == x and Piecewise((x, False)) == Undefined and Piecewise((x, 1)) == x and Piecewise(((1, 2), True)) == Tuple(1, 2) and Piecewise((1, cond)) == Piecewise((1, ITE(x < 0, y > 1, y > 2))) and Piecewise((1, x <= 0), (2, (x < 0) & (x > -1))) == Piecewise((1, x <= 0)) and pwise.subs(x, pi) == 0 and pwise.subs(x, 2) == 1 and pwise.subs(x, 7) == 0 and p.subs(x, x ** 2) == p_x2 and p.subs(x, -5) == -1 and p.subs(x, -1) == 1 and p.subs(x, 1) == log(1) and p2.subs(x, 2) == 1 and p2.subs(x, 4) == -1 and p2.subs(x, 10) == 0 and p3.subs(x, 0.0) == 1 and p4.subs(x, 0.0) == 1 and pg.subs(g, f) == pf and Piecewise((1, Eq(x, 0)), (0, True)).subs(x, 0) == 1 and Piecewise((1, Eq(x, 0)), (0, True)).subs(x, 1) == 0 and Piecewise((1, Eq(x, y)), (0, True)).subs(x, y) == 1 and Piecewise((1, Eq(x, z)), (0, True)).subs(x, z) == 1 and p5.subs(y, 0) == Piecewise((0, Eq(cos(x), 0)), (1, True)) and Piecewise((1, Eq(x ** 2, -1)), (2, x < 0)).subs(x, I) == 1 and p6.subs(x, n) == Undefined and p.evalf() == Piecewise((-1.0, x < -1), (x ** 2, x < 0), (log(x), True)) and p.evalf(subs={x: -2}) == -1.0 and p.evalf(subs={x: -1}) == 1.0 and p.evalf(subs={x: 1}) == log(1) and p6.evalf(subs={x: -5}) == Undefined and f_int.doit() == Piecewise((S.Half, x < 1)) and diff(p, x) == dp and diff(f * p, x) == fp_dx and x * p == fp and x * p + p == p + x * p and p + f == f + p and p + dp == dp + p and p - dp == -(dp - p) and dp ** 2 == dp2 and peval._eval_interval(x, 0, 0) == 0 and peval._eval_interval(x, -1, 1) == peval_interval and peval2._eval_interval(x, 0, 0) == 0 and peval2._eval_interval(x, 1, -1) == -peval_interval and peval2._eval_interval(x, -1, -2) == f1.subs(x, -2) - f1.subs(x, -1) and peval2._eval_interval(x, -1, 1) == peval_interval and peval2._eval_interval(x, None, 0) == peval2.subs(x, 0) and peval2._eval_interval(x, -1, None) == -peval2.subs(x, -1) and integrate(p, (x, -2, 2)) == Rational(5, 6) and integrate(p, (x, 2, -2)) == Rational(-5, 6) and integrate(p, (x, -oo, oo)) == 2 and integrate(p, (x, -2, 2)) == Undefined and isinstance(p, Piecewise) and p.is_commutative is True"},"spec":{"lhs":"test_piecewise1()","rhs":"test_piecewise1 produces the expected output","over":{"base":"Any","pred":"isinstance(p, Piecewise)"},"name":"test_piecewise1_correct"},"guarantee":"test_piecewise1 produces the expected output","fibers":[{"name":"Piecewise","pred":"isinstance(p, Piecewise)","path":{"lhs":"test_piecewise1(x)","rhs":"test_piecewise1 produces the expected output","over":{"base":"Piecewise","pred":"isinstance(p, Piecewise)"},"name":"test_piecewise1_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise1_Piecewise_correct","statement":"test_piecewise1 satisfies spec on Piecewise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ca9b901f9101f419"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise1","kind":"function","src_hash":"ae77eab3afbb8c7f","in":{"base":"Any","pred":"isinstance(p, Piecewise)"},"out":{"base":"Any","pred":"result satisfies: Piecewise((x, x < 1.0)).has(1.0) and unchanged(Piecewise, ExprCondPair(x, x < 1), ExprCondPair(0, True)) and Piecewise((x, x < 1), (0, True)) == Piecewise(ExprCondPair(x, x < 1), ExprCondPair(0, True)) and Piecewise((x, x < 1), (0, True), (1, True)) == Piecewise((x, x < 1), (0, True)) and Piecewise((x, x < 1), (0, False), (-1, 1 > 2)) == Piecewise((x, x < 1)) and Piecewise((x, x < 1), (0, x < 1), (0, True)) == Piecewise((x, x < 1), (0, True)) and Piecewise((x, x < 1), (0, x < 2), (0, True)) == Piecewise((x, x < 1), (0, True)) and Piecewise((x, x < 1), (x, x < 2), (0, True)) == Piecewise((x, Or(x < 1, x < 2)), (0, True)) and Piecewise((x, x < 1), (x, x < 2), (x, True)) == x and Piecewise((x, True)) == x and Piecewise((2 * x, x < 0), (x, False)) == Piecewise((2 * x, x < 0), (x, False), evaluate=False) == Piecewise((2 * x, x < 0)) and Piecewise((x, False)) == Undefined and Piecewise((x, 1)) == x and Piecewise(((1, 2), True)) == Tuple(1, 2) and Piecewise((1, cond)) == Piecewise((1, ITE(x < 0, y > 1, y > 2))) and Piecewise((1, x > 0), (2, And(x <= 0, x > -1))) == Piecewise((1, x > 0), (2, x > -1)) and Piecewise((1, x <= 0), (2, (x < 0) & (x > -1))) == Piecewise((1, x <= 0)) and pwise.subs(x, pi) == 0 and pwise.subs(x, 2) == 1 and pwise.subs(x, 7) == 0 and p.subs(x, x ** 2) == p_x2 and p.subs(x, -5) == -1 and p.subs(x, -1) == 1 and p.subs(x, 1) == log(1) and p2.subs(x, 2) == 1 and p2.subs(x, 4) == -1 and p2.subs(x, 10) == 0 and p3.subs(x, 0.0) == 1 and p4.subs(x, 0.0) == 1 and pg.subs(g, f) == pf and Piecewise((1, Eq(x, 0)), (0, True)).subs(x, 0) == 1 and Piecewise((1, Eq(x, 0)), (0, True)).subs(x, 1) == 0 and Piecewise((1, Eq(x, y)), (0, True)).subs(x, y) == 1 and Piecewise((1, Eq(x, z)), (0, True)).subs(x, z) == 1 and Piecewise((1, Eq(exp(x), cos(z))), (0, True)).subs(x, z) == Piecewise((1, Eq(exp(z), cos(z))), (0, True)) and p5.subs(y, 0) == Piecewise((0, Eq(cos(x), 0)), (1, True)) and Piecewise((-1, y < 1), (0, x < 0), (1, Eq(x, 0)), (2, True)).subs(x, 1) == Piecewise((-1, y < 1), (2, True)) and Piecewise((1, Eq(x ** 2, -1)), (2, x < 0)).subs(x, I) == 1 and p6.subs(x, n) == Undefined and p.evalf() == Piecewise((-1.0, x < -1), (x ** 2, x < 0), (log(x), True)) and p.evalf(subs={x: -2}) == -1.0 and p.evalf(subs={x: -1}) == 1.0 and p.evalf(subs={x: 1}) == log(1) and p6.evalf(subs={x: -5}) == Undefined and f_int.doit() == Piecewise((S.Half, x < 1)) and diff(p, x) == dp and diff(f * p, x) == fp_dx and x * p == fp and x * p + p == p + x * p and p + f == f + p and p + dp == dp + p and p - dp == -(dp - p) and dp ** 2 == dp2 and peval._eval_interval(x, 0, 0) == 0 and peval._eval_interval(x, -1, 1) == peval_interval and peval2._eval_interval(x, 0, 0) == 0 and peval2._eval_interval(x, 1, -1) == -peval_interval and peval2._eval_interval(x, -1, -2) == f1.subs(x, -2) - f1.subs(x, -1) and peval2._eval_interval(x, -1, 1) == peval_interval and peval2._eval_interval(x, None, 0) == peval2.subs(x, 0) and peval2._eval_interval(x, -1, None) == -peval2.subs(x, -1) and p.integrate() == Piecewise((-x, x < -1), (x ** 3 / 3 + Rational(4, 3), x < 0), (x * log(x) - x + Rational(4, 3), True)) and integrate(p, (x, -2, 2)) == Rational(5, 6) and integrate(p, (x, 2, -2)) == Rational(-5, 6) and integrate(p, (x, -oo, oo)) == 2 and integrate(p, (x, -2, 2)) == Undefined and isinstance(p, Piecewise) and p.is_commutative is True"},"spec":{"lhs":"test_piecewise1()","rhs":"Piecewise((x, x < 1.0)).has(1.0) and unchanged(Piecewise, ExprCondPair(x, x < 1), ExprCondPair(0, True)) and Piecewise((x, x < 1), (0, True)) == Piecewise(ExprCondPair(x, x < 1), ExprCondPair(0, True)) and Piecewise((x, x < 1), (0, True), (1, True)) == Piecewise((x, x < 1), (0, True)) and Piecewise((x, x < 1), (0, False), (-1, 1 > 2)) == Piecewise((x, x < 1)) and Piecewise((x, x < 1), (0, x < 1), (0, True)) == Piecewise((x, x < 1), (0, True)) and Piecewise((x, x < 1), (0, x < 2), (0, True)) == Piecewise((x, x < 1), (0, True)) and Piecewise((x, x < 1), (x, x < 2), (0, True)) == Piecewise((x, Or(x < 1, x < 2)), (0, True)) and Piecewise((x, x < 1), (x, x < 2), (x, True)) == x and Piecewise((x, True)) == x and Piecewise((2 * x, x < 0), (x, False)) == Piecewise((2 * x, x < 0), (x, False), evaluate=False) == Piecewise((2 * x, x < 0)) and Piecewise((x, False)) == Undefined and Piecewise((x, 1)) == x and Piecewise(((1, 2), True)) == Tuple(1, 2) and Piecewise((1, cond)) == Piecewise((1, ITE(x < 0, y > 1, y > 2))) and Piecewise((1, x > 0), (2, And(x <= 0, x > -1))) == Piecewise((1, x > 0), (2, x > -1)) and Piecewise((1, x <= 0), (2, (x < 0) & (x > -1))) == Piecewise((1, x <= 0)) and pwise.subs(x, pi) == 0 and pwise.subs(x, 2) == 1 and pwise.subs(x, 7) == 0 and p.subs(x, x ** 2) == p_x2 and p.subs(x, -5) == -1 and p.subs(x, -1) == 1 and p.subs(x, 1) == log(1) and p2.subs(x, 2) == 1 and p2.subs(x, 4) == -1 and p2.subs(x, 10) == 0 and p3.subs(x, 0.0) == 1 and p4.subs(x, 0.0) == 1 and pg.subs(g, f) == pf and Piecewise((1, Eq(x, 0)), (0, True)).subs(x, 0) == 1 and Piecewise((1, Eq(x, 0)), (0, True)).subs(x, 1) == 0 and Piecewise((1, Eq(x, y)), (0, True)).subs(x, y) == 1 and Piecewise((1, Eq(x, z)), (0, True)).subs(x, z) == 1 and Piecewise((1, Eq(exp(x), cos(z))), (0, True)).subs(x, z) == Piecewise((1, Eq(exp(z), cos(z))), (0, True)) and p5.subs(y, 0) == Piecewise((0, Eq(cos(x), 0)), (1, True)) and Piecewise((-1, y < 1), (0, x < 0), (1, Eq(x, 0)), (2, True)).subs(x, 1) == Piecewise((-1, y < 1), (2, True)) and Piecewise((1, Eq(x ** 2, -1)), (2, x < 0)).subs(x, I) == 1 and p6.subs(x, n) == Undefined and p.evalf() == Piecewise((-1.0, x < -1), (x ** 2, x < 0), (log(x), True)) and p.evalf(subs={x: -2}) == -1.0 and p.evalf(subs={x: -1}) == 1.0 and p.evalf(subs={x: 1}) == log(1) and p6.evalf(subs={x: -5}) == Undefined and f_int.doit() == Piecewise((S.Half, x < 1)) and diff(p, x) == dp and diff(f * p, x) == fp_dx and x * p == fp and x * p + p == p + x * p and p + f == f + p and p + dp == dp + p and p - dp == -(dp - p) and dp ** 2 == dp2 and peval._eval_interval(x, 0, 0) == 0 and peval._eval_interval(x, -1, 1) == peval_interval and peval2._eval_interval(x, 0, 0) == 0 and peval2._eval_interval(x, 1, -1) == -peval_interval and peval2._eval_interval(x, -1, -2) == f1.subs(x, -2) - f1.subs(x, -1) and peval2._eval_interval(x, -1, 1) == peval_interval and peval2._eval_interval(x, None, 0) == peval2.subs(x, 0) and peval2._eval_interval(x, -1, None) == -peval2.subs(x, -1) and p.integrate() == Piecewise((-x, x < -1), (x ** 3 / 3 + Rational(4, 3), x < 0), (x * log(x) - x + Rational(4, 3), True)) and integrate(p, (x, -2, 2)) == Rational(5, 6) and integrate(p, (x, 2, -2)) == Rational(-5, 6) and integrate(p, (x, -oo, oo)) == 2 and integrate(p, (x, -2, 2)) == Undefined and isinstance(p, Piecewise) and p.is_commutative is True","over":{"base":"Any","pred":"isinstance(p, Piecewise)"},"name":"test_piecewise1_correct"},"guarantee":"Piecewise((x, x < 1.0)).has(1.0); unchanged(Piecewise, ExprCondPair(x, x < 1), ExprCondPair(0, True)); Piecewise((x, x < 1), (0, True)) == Piecewise(ExprCondPair(x, x < 1), ExprCondPair(0, True))","fibers":[{"name":"Piecewise","pred":"isinstance(p, Piecewise)","path":{"lhs":"test_piecewise1(x)","rhs":"Piecewise((x, x < 1.0)).has(1.0); unchanged(Piecewise, ExprCondPair(x, x < 1), ExprCondPair(0, True)); Piecewise((x, x < 1), (0, True)) == Piecewise(ExprCondPair(x, x < 1), ExprCondPair(0, True))","over":{"base":"Piecewise","pred":"isinstance(p, Piecewise)"},"name":"test_piecewise1_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise1_Piecewise_correct","statement":"test_piecewise1 satisfies spec on Piecewise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ca9b901f9101f419","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Piecewise((x, x < 1.0)).has(1.0)","unchanged(Piecewise, ExprCondPair(x, x < 1), ExprCondPair(0, True))","Piecewise((x, x < 1), (0, True)) == Piecewise(ExprCondPair(x, x < 1), ExprCondPair(0, True))","Piecewise((x, x < 1), (0, True), (1, True)) == Piecewise((x, x < 1), (0, True))","Piecewise((x, x < 1), (0, False), (-1, 1 > 2)) == Piecewise((x, x < 1))","Piecewise((x, x < 1), (0, x < 1), (0, True)) == Piecewise((x, x < 1), (0, True))","Piecewise((x, x < 1), (0, x < 2), (0, True)) == Piecewise((x, x < 1), (0, True))","Piecewise((x, x < 1), (x, x < 2), (0, True)) == Piecewise((x, Or(x < 1, x < 2)), (0, True))","Piecewise((x, x < 1), (x, x < 2), (x, True)) == x","Piecewise((x, True)) == x","Piecewise((2 * x, x < 0), (x, False)) == Piecewise((2 * x, x < 0), (x, False), evaluate=False) == Piecewise((2 * x, x < 0))","Piecewise((x, False)) == Undefined","Piecewise((x, 1)) == x","Piecewise(((1, 2), True)) == Tuple(1, 2)","Piecewise((1, cond)) == Piecewise((1, ITE(x < 0, y > 1, y > 2)))","Piecewise((1, x > 0), (2, And(x <= 0, x > -1))) == Piecewise((1, x > 0), (2, x > -1))","Piecewise((1, x <= 0), (2, (x < 0) & (x > -1))) == Piecewise((1, x <= 0))","pwise.subs(x, pi) == 0","pwise.subs(x, 2) == 1","pwise.subs(x, 7) == 0","p.subs(x, x ** 2) == p_x2","p.subs(x, -5) == -1","p.subs(x, -1) == 1","p.subs(x, 1) == log(1)","p2.subs(x, 2) == 1","p2.subs(x, 4) == -1","p2.subs(x, 10) == 0","p3.subs(x, 0.0) == 1","p4.subs(x, 0.0) == 1","pg.subs(g, f) == pf","Piecewise((1, Eq(x, 0)), (0, True)).subs(x, 0) == 1","Piecewise((1, Eq(x, 0)), (0, True)).subs(x, 1) == 0","Piecewise((1, Eq(x, y)), (0, True)).subs(x, y) == 1","Piecewise((1, Eq(x, z)), (0, True)).subs(x, z) == 1","Piecewise((1, Eq(exp(x), cos(z))), (0, True)).subs(x, z) == Piecewise((1, Eq(exp(z), cos(z))), (0, True))","p5.subs(y, 0) == Piecewise((0, Eq(cos(x), 0)), (1, True))","Piecewise((-1, y < 1), (0, x < 0), (1, Eq(x, 0)), (2, True)).subs(x, 1) == Piecewise((-1, y < 1), (2, True))","Piecewise((1, Eq(x ** 2, -1)), (2, x < 0)).subs(x, I) == 1","p6.subs(x, n) == Undefined","p.evalf() == Piecewise((-1.0, x < -1), (x ** 2, x < 0), (log(x), True))","p.evalf(subs={x: -2}) == -1.0","p.evalf(subs={x: -1}) == 1.0","p.evalf(subs={x: 1}) == log(1)","p6.evalf(subs={x: -5}) == Undefined","f_int.doit() == Piecewise((S.Half, x < 1))","diff(p, x) == dp","diff(f * p, x) == fp_dx","x * p == fp","x * p + p == p + x * p","p + f == f + p","p + dp == dp + p","p - dp == -(dp - p)","dp ** 2 == dp2","peval._eval_interval(x, 0, 0) == 0","peval._eval_interval(x, -1, 1) == peval_interval","peval2._eval_interval(x, 0, 0) == 0","peval2._eval_interval(x, 1, -1) == -peval_interval","peval2._eval_interval(x, -1, -2) == f1.subs(x, -2) - f1.subs(x, -1)","peval2._eval_interval(x, -1, 1) == peval_interval","peval2._eval_interval(x, None, 0) == peval2.subs(x, 0)","peval2._eval_interval(x, -1, None) == -peval2.subs(x, -1)","p.integrate() == Piecewise((-x, x < -1), (x ** 3 / 3 + Rational(4, 3), x < 0), (x * log(x) - x + Rational(4, 3), True))","integrate(p, (x, -2, 2)) == Rational(5, 6)","integrate(p, (x, 2, -2)) == Rational(-5, 6)","integrate(p, (x, -oo, oo)) == 2","integrate(p, (x, -2, 2)) == Undefined","isinstance(p, Piecewise) and p.is_commutative is True"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.3,"verdict_class":"failed","binding":true}}
 def test_piecewise1():
 
     # Test canonicalization
@@ -221,32 +229,46 @@ def test_piecewise1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_free_symbols(), test_piecewise_free_symbols produces the expected output) over Any ║
+# ║ Path(test_piecewise_free_symbols(), f.free_symbols == {x, y, a}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_free_symbols : Any → {Any | f.free_sym...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.free_symbols == {x, y, a}                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_free_symbols : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 080b3a534673b214  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a84faa0de58e27cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_free_symbols","kind":"function","src_hash":"c2fbc1194f762647","in":{"base":"Any"},"out":{"base":"Any","pred":"f.free_symbols == {x, y, a}"},"spec":{"lhs":"test_piecewise_free_symbols()","rhs":"test_piecewise_free_symbols produces the expected output","over":{"base":"Any"},"name":"test_piecewise_free_symbols_correct"},"guarantee":"test_piecewise_free_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_free_symbols_correct","statement":"Path(test_piecewise_free_symbols(x), test_piecewise_free_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"080b3a534673b214"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_free_symbols","kind":"function","src_hash":"c2fbc1194f762647","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.free_symbols == {x, y, a}"},"spec":{"lhs":"test_piecewise_free_symbols()","rhs":"f.free_symbols == {x, y, a}","over":{"base":"Any"},"name":"test_piecewise_free_symbols_correct"},"guarantee":"f.free_symbols == {x, y, a}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_free_symbols_correct","statement":"Path(test_piecewise_free_symbols(x), f.free_symbols == {x, y, a})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a84faa0de58e27cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.free_symbols == {x, y, a}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_piecewise_free_symbols():
     f = Piecewise((x, a < 0), (y, True))
     assert f.free_symbols == {x, y, a}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_integrate1(), test_piecewise_integrate1 produces the expected output) over Any ║
+# ║ Path(test_piecewise_integrate1(), integrate(f, (x, -2, 2)) == Rational(14, 3) and integrate(g, (x, -2, 2)) == Rational(14, 3) and integrate(g, (x, -2, 5)) == Rational(43, 6) and g == Piecewise(((x - 5) ** 5, x >= 4), (f, x < 4)) and integrate(g, (x, -2, 5)) == Rational(-701, 6) and g == Piecewise(((x - 5) ** 5, 2 <= x), (f, True)) and integrate(g, (x, -2, 2)) == Rational(28, 3) and integrate(g, (x, -2, 5)) == Rational(-673, 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_integrate1 : Any → {Any | integrate(f,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(f, (x, -2, 2)) == Rational(14, 3)    ║
+# ║   ensures:  integrate(g, (x, -2, 2)) == Rational(14, 3)    ║
+# ║   ensures:  integrate(g, (x, -2, 5)) == Rational(43, 6)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_integrate1 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3a241c505f8929b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb264a1b2345d2da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1","kind":"function","src_hash":"018de180b37b2aa1","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(f, (x, -2, 2)) == Rational(14, 3) and integrate(g, (x, -2, 2)) == Rational(14, 3) and integrate(g, (x, -2, 5)) == Rational(43, 6) and g == Piecewise(((x - 5) ** 5, x >= 4), (f, x < 4)) and integrate(g, (x, -2, 2)) == Rational(14, 3) and integrate(g, (x, -2, 5)) == Rational(-701, 6) and g == Piecewise(((x - 5) ** 5, 2 <= x), (f, True)) and integrate(g, (x, -2, 2)) == Rational(28, 3) and integrate(g, (x, -2, 5)) == Rational(-673, 6)"},"spec":{"lhs":"test_piecewise_integrate1()","rhs":"test_piecewise_integrate1 produces the expected output","over":{"base":"Any"},"name":"test_piecewise_integrate1_correct"},"guarantee":"test_piecewise_integrate1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1_correct","statement":"Path(test_piecewise_integrate1(x), test_piecewise_integrate1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3a241c505f8929b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1","kind":"function","src_hash":"018de180b37b2aa1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(f, (x, -2, 2)) == Rational(14, 3) and integrate(g, (x, -2, 2)) == Rational(14, 3) and integrate(g, (x, -2, 5)) == Rational(43, 6) and g == Piecewise(((x - 5) ** 5, x >= 4), (f, x < 4)) and integrate(g, (x, -2, 5)) == Rational(-701, 6) and g == Piecewise(((x - 5) ** 5, 2 <= x), (f, True)) and integrate(g, (x, -2, 2)) == Rational(28, 3) and integrate(g, (x, -2, 5)) == Rational(-673, 6)"},"spec":{"lhs":"test_piecewise_integrate1()","rhs":"integrate(f, (x, -2, 2)) == Rational(14, 3) and integrate(g, (x, -2, 2)) == Rational(14, 3) and integrate(g, (x, -2, 5)) == Rational(43, 6) and g == Piecewise(((x - 5) ** 5, x >= 4), (f, x < 4)) and integrate(g, (x, -2, 5)) == Rational(-701, 6) and g == Piecewise(((x - 5) ** 5, 2 <= x), (f, True)) and integrate(g, (x, -2, 2)) == Rational(28, 3) and integrate(g, (x, -2, 5)) == Rational(-673, 6)","over":{"base":"Any"},"name":"test_piecewise_integrate1_correct"},"guarantee":"integrate(f, (x, -2, 2)) == Rational(14, 3); integrate(g, (x, -2, 2)) == Rational(14, 3); integrate(g, (x, -2, 5)) == Rational(43, 6)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1_correct","statement":"Path(test_piecewise_integrate1(x), integrate(f, (x, -2, 2)) == Rational(14, 3); integrate(g, (x, -2, 2)) == Rational(14, 3); integrate(g, (x, -2, 5)) == Rational(43, 6))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb264a1b2345d2da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(f, (x, -2, 2)) == Rational(14, 3)","integrate(g, (x, -2, 2)) == Rational(14, 3)","integrate(g, (x, -2, 5)) == Rational(43, 6)","g == Piecewise(((x - 5) ** 5, x >= 4), (f, x < 4))","integrate(g, (x, -2, 5)) == Rational(-701, 6)","g == Piecewise(((x - 5) ** 5, 2 <= x), (f, True))","integrate(g, (x, -2, 2)) == Rational(28, 3)","integrate(g, (x, -2, 5)) == Rational(-673, 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_piecewise_integrate1():
     x, y = symbols('x y', real=True)
 
@@ -271,16 +293,24 @@ def test_piecewise_integrate1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_integrate1b(), test_piecewise_integrate1b produces the expected output) over Any ║
+# ║ Path(test_piecewise_integrate1b(), integrate(g, (x, -1, 1)) == 0 and integrate(g, (y, -oo, 0)) == -Min(0, x) and g.subs(x, -3).integrate((y, -oo, 0)) == 3 and integrate(g, (y, 0, -oo)) == Min(0, x) and integrate(g, (y, 0, oo)) == -Max(0, x) + oo and integrate(g, (y, -oo, 42)) == -Min(42, x) + 42 and integrate(g, (y, -oo, oo)) == -x + oo and gy1 == Piecewise((-Min(1, Max(0, y)) ** 2 / 2 + S.Half, y < 1), (-y + 1, True)) and g1y == Piecewise((Min(1, Max(0, y)) ** 2 / 2 - S.Half, y < 1), (y - 1, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_integrate1b : Any → {Any | integrate(g...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(g, (x, -1, 1)) == 0                  ║
+# ║   ensures:  integrate(g, (y, -oo, 0)) == -Min(0, x)        ║
+# ║   ensures:  g.subs(x, -3).integrate((y, -oo, 0)) == 3      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_integrate1b : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01a08afe566acede  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3db93e11320a966  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1b","kind":"function","src_hash":"70db254b6666d1bf","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(g, (x, -1, 1)) == 0 and integrate(g, (y, -oo, 0)) == -Min(0, x) and g.subs(x, -3).integrate((y, -oo, 0)) == 3 and integrate(g, (y, 0, -oo)) == Min(0, x) and integrate(g, (y, 0, oo)) == -Max(0, x) + oo and integrate(g, (y, -oo, 42)) == -Min(42, x) + 42 and integrate(g, (y, -oo, oo)) == -x + oo and gy1 == Piecewise((-Min(1, Max(0, y)) ** 2 / 2 + S.Half, y < 1), (-y + 1, True)) and g1y == Piecewise((Min(1, Max(0, y)) ** 2 / 2 - S.Half, y < 1), (y - 1, True)) and g.integrate((x, yy, 1)) == gy1.subs(y, yy) and g.integrate((x, 1, yy)) == g1y.subs(y, yy)"},"spec":{"lhs":"test_piecewise_integrate1b()","rhs":"test_piecewise_integrate1b produces the expected output","over":{"base":"Any"},"name":"test_piecewise_integrate1b_correct"},"guarantee":"test_piecewise_integrate1b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1b_correct","statement":"Path(test_piecewise_integrate1b(x), test_piecewise_integrate1b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01a08afe566acede"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1b","kind":"function","src_hash":"70db254b6666d1bf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(g, (x, -1, 1)) == 0 and integrate(g, (y, -oo, 0)) == -Min(0, x) and g.subs(x, -3).integrate((y, -oo, 0)) == 3 and integrate(g, (y, 0, -oo)) == Min(0, x) and integrate(g, (y, 0, oo)) == -Max(0, x) + oo and integrate(g, (y, -oo, 42)) == -Min(42, x) + 42 and integrate(g, (y, -oo, oo)) == -x + oo and gy1 == Piecewise((-Min(1, Max(0, y)) ** 2 / 2 + S.Half, y < 1), (-y + 1, True)) and g1y == Piecewise((Min(1, Max(0, y)) ** 2 / 2 - S.Half, y < 1), (y - 1, True))"},"spec":{"lhs":"test_piecewise_integrate1b()","rhs":"integrate(g, (x, -1, 1)) == 0 and integrate(g, (y, -oo, 0)) == -Min(0, x) and g.subs(x, -3).integrate((y, -oo, 0)) == 3 and integrate(g, (y, 0, -oo)) == Min(0, x) and integrate(g, (y, 0, oo)) == -Max(0, x) + oo and integrate(g, (y, -oo, 42)) == -Min(42, x) + 42 and integrate(g, (y, -oo, oo)) == -x + oo and gy1 == Piecewise((-Min(1, Max(0, y)) ** 2 / 2 + S.Half, y < 1), (-y + 1, True)) and g1y == Piecewise((Min(1, Max(0, y)) ** 2 / 2 - S.Half, y < 1), (y - 1, True))","over":{"base":"Any"},"name":"test_piecewise_integrate1b_correct"},"guarantee":"integrate(g, (x, -1, 1)) == 0; integrate(g, (y, -oo, 0)) == -Min(0, x); g.subs(x, -3).integrate((y, -oo, 0)) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1b_correct","statement":"Path(test_piecewise_integrate1b(x), integrate(g, (x, -1, 1)) == 0; integrate(g, (y, -oo, 0)) == -Min(0, x); g.subs(x, -3).integrate((y, -oo, 0)) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3db93e11320a966","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(g, (x, -1, 1)) == 0","integrate(g, (y, -oo, 0)) == -Min(0, x)","g.subs(x, -3).integrate((y, -oo, 0)) == 3","integrate(g, (y, 0, -oo)) == Min(0, x)","integrate(g, (y, 0, oo)) == -Max(0, x) + oo","integrate(g, (y, -oo, 42)) == -Min(42, x) + 42","integrate(g, (y, -oo, oo)) == -x + oo","gy1 == Piecewise((-Min(1, Max(0, y)) ** 2 / 2 + S.Half, y < 1), (-y + 1, True))","g1y == Piecewise((Min(1, Max(0, y)) ** 2 / 2 - S.Half, y < 1), (y - 1, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_piecewise_integrate1b():
     g = Piecewise((1, x > 0), (0, Eq(x, 0)), (-1, x < 0))
     assert integrate(g, (x, -1, 1)) == 0
@@ -309,16 +339,24 @@ def test_piecewise_integrate1b():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_integrate1ca(), test_piecewise_integrate1ca produces the expected output) over Any ║
+# ║ Path(test_piecewise_integrate1ca(), g.integrate((x, -2, 1)) == gy1.subs(y, -2) and g.integrate((x, 1, -2)) == g1y.subs(y, -2) and g.integrate((x, 0, 1)) == gy1.subs(y, 0) and g.integrate((x, 1, 0)) == g1y.subs(y, 0) and g.integrate((x, 2, 1)) == gy1.subs(y, 2) and g.integrate((x, 1, 2)) == g1y.subs(y, 2) and piecewise_fold(gy1.rewrite(Piecewise)).simplify() == Piecewise((1, y <= -1), (-y ** 2 / 2 - y + S.Half, y <= 0), (y ** 2 / 2 - y + S.Half, y < 1), (0, True)) and piecewise_fold(g1y.rewrite(Piecewise)).simplify() == Piecewise((-1, y <= -1), (y ** 2 / 2 + y - S.Half, y <= 0), (-y ** 2 / 2 + y - S.Half, y < 1), (0, True)) and gy1 == Piecewise((-Min(1, Max(-1, y)) ** 2 / 2 - Min(1, Max(-1, y)) + Min(1, Max(0, y)) ** 2 + S.Half, y < 1), (0, True)) and g1y == Piecewise((Min(1, Max(-1, y)) ** 2 / 2 + Min(1, Max(-1, y)) - Min(1, Max(0, y)) ** 2 - S.Half, y < 1), (0, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_integrate1ca : Any → {Any | g.integrat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  g.integrate((x, -2, 1)) == gy1.subs(y, -2)     ║
+# ║   ensures:  g.integrate((x, 1, -2)) == g1y.subs(y, -2)     ║
+# ║   ensures:  g.integrate((x, 0, 1)) == gy1.subs(y, 0)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_integrate1ca : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fddd12603ee8e19a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8acbc8de36479265  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1ca","kind":"function","src_hash":"34d32ad4b15e7e30","in":{"base":"Any"},"out":{"base":"Any","pred":"g.integrate((x, -2, 1)) == gy1.subs(y, -2) and g.integrate((x, 1, -2)) == g1y.subs(y, -2) and g.integrate((x, 0, 1)) == gy1.subs(y, 0) and g.integrate((x, 1, 0)) == g1y.subs(y, 0) and g.integrate((x, 2, 1)) == gy1.subs(y, 2) and g.integrate((x, 1, 2)) == g1y.subs(y, 2)"},"spec":{"lhs":"test_piecewise_integrate1ca()","rhs":"test_piecewise_integrate1ca produces the expected output","over":{"base":"Any"},"name":"test_piecewise_integrate1ca_correct"},"guarantee":"test_piecewise_integrate1ca produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1ca_correct","statement":"Path(test_piecewise_integrate1ca(x), test_piecewise_integrate1ca produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fddd12603ee8e19a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1ca","kind":"function","src_hash":"34d32ad4b15e7e30","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: g.integrate((x, -2, 1)) == gy1.subs(y, -2) and g.integrate((x, 1, -2)) == g1y.subs(y, -2) and g.integrate((x, 0, 1)) == gy1.subs(y, 0) and g.integrate((x, 1, 0)) == g1y.subs(y, 0) and g.integrate((x, 2, 1)) == gy1.subs(y, 2) and g.integrate((x, 1, 2)) == g1y.subs(y, 2) and piecewise_fold(gy1.rewrite(Piecewise)).simplify() == Piecewise((1, y <= -1), (-y ** 2 / 2 - y + S.Half, y <= 0), (y ** 2 / 2 - y + S.Half, y < 1), (0, True)) and piecewise_fold(g1y.rewrite(Piecewise)).simplify() == Piecewise((-1, y <= -1), (y ** 2 / 2 + y - S.Half, y <= 0), (-y ** 2 / 2 + y - S.Half, y < 1), (0, True)) and gy1 == Piecewise((-Min(1, Max(-1, y)) ** 2 / 2 - Min(1, Max(-1, y)) + Min(1, Max(0, y)) ** 2 + S.Half, y < 1), (0, True)) and g1y == Piecewise((Min(1, Max(-1, y)) ** 2 / 2 + Min(1, Max(-1, y)) - Min(1, Max(0, y)) ** 2 - S.Half, y < 1), (0, True))"},"spec":{"lhs":"test_piecewise_integrate1ca()","rhs":"g.integrate((x, -2, 1)) == gy1.subs(y, -2) and g.integrate((x, 1, -2)) == g1y.subs(y, -2) and g.integrate((x, 0, 1)) == gy1.subs(y, 0) and g.integrate((x, 1, 0)) == g1y.subs(y, 0) and g.integrate((x, 2, 1)) == gy1.subs(y, 2) and g.integrate((x, 1, 2)) == g1y.subs(y, 2) and piecewise_fold(gy1.rewrite(Piecewise)).simplify() == Piecewise((1, y <= -1), (-y ** 2 / 2 - y + S.Half, y <= 0), (y ** 2 / 2 - y + S.Half, y < 1), (0, True)) and piecewise_fold(g1y.rewrite(Piecewise)).simplify() == Piecewise((-1, y <= -1), (y ** 2 / 2 + y - S.Half, y <= 0), (-y ** 2 / 2 + y - S.Half, y < 1), (0, True)) and gy1 == Piecewise((-Min(1, Max(-1, y)) ** 2 / 2 - Min(1, Max(-1, y)) + Min(1, Max(0, y)) ** 2 + S.Half, y < 1), (0, True)) and g1y == Piecewise((Min(1, Max(-1, y)) ** 2 / 2 + Min(1, Max(-1, y)) - Min(1, Max(0, y)) ** 2 - S.Half, y < 1), (0, True))","over":{"base":"Any"},"name":"test_piecewise_integrate1ca_correct"},"guarantee":"g.integrate((x, -2, 1)) == gy1.subs(y, -2); g.integrate((x, 1, -2)) == g1y.subs(y, -2); g.integrate((x, 0, 1)) == gy1.subs(y, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1ca_correct","statement":"Path(test_piecewise_integrate1ca(x), g.integrate((x, -2, 1)) == gy1.subs(y, -2); g.integrate((x, 1, -2)) == g1y.subs(y, -2); g.integrate((x, 0, 1)) == gy1.subs(y, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8acbc8de36479265","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["g.integrate((x, -2, 1)) == gy1.subs(y, -2)","g.integrate((x, 1, -2)) == g1y.subs(y, -2)","g.integrate((x, 0, 1)) == gy1.subs(y, 0)","g.integrate((x, 1, 0)) == g1y.subs(y, 0)","g.integrate((x, 2, 1)) == gy1.subs(y, 2)","g.integrate((x, 1, 2)) == g1y.subs(y, 2)","piecewise_fold(gy1.rewrite(Piecewise)).simplify() == Piecewise((1, y <= -1), (-y ** 2 / 2 - y + S.Half, y <= 0), (y ** 2 / 2 - y + S.Half, y < 1), (0, True))","piecewise_fold(g1y.rewrite(Piecewise)).simplify() == Piecewise((-1, y <= -1), (y ** 2 / 2 + y - S.Half, y <= 0), (-y ** 2 / 2 + y - S.Half, y < 1), (0, True))","gy1 == Piecewise((-Min(1, Max(-1, y)) ** 2 / 2 - Min(1, Max(-1, y)) + Min(1, Max(0, y)) ** 2 + S.Half, y < 1), (0, True))","g1y == Piecewise((Min(1, Max(-1, y)) ** 2 / 2 + Min(1, Max(-1, y)) - Min(1, Max(0, y)) ** 2 - S.Half, y < 1), (0, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_piecewise_integrate1ca():
     y = symbols('y', real=True)
     g = Piecewise(
@@ -362,16 +400,24 @@ def test_piecewise_integrate1ca():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_integrate1cb(), test_piecewise_integrate1cb produces the expected output) over Any ║
+# ║ Path(test_piecewise_integrate1cb(), g.integrate((x, -2, 1)) == gy1.subs(y, -2) and g.integrate((x, 1, -2)) == g1y.subs(y, -2) and g.integrate((x, 0, 1)) == gy1.subs(y, 0) and g.integrate((x, 1, 0)) == g1y.subs(y, 0) and g.integrate((x, 2, 1)) == gy1.subs(y, 2) and g.integrate((x, 1, 2)) == g1y.subs(y, 2) and piecewise_fold(gy1.rewrite(Piecewise)).simplify() == Piecewise((1, y <= -1), (-y ** 2 / 2 - y + S.Half, y <= 0), (y ** 2 / 2 - y + S.Half, y < 1), (0, True)) and piecewise_fold(g1y.rewrite(Piecewise)).simplify() == Piecewise((-1, y <= -1), (y ** 2 / 2 + y - S.Half, y <= 0), (-y ** 2 / 2 + y - S.Half, y < 1), (0, True)) and gy1 == Piecewise((-Min(1, Max(-1, y)) ** 2 / 2 - Min(1, Max(-1, y)) + Min(1, Max(0, y)) ** 2 + S.Half, y < 1), (0, True)) and g1y == Piecewise((Min(1, Max(-1, y)) ** 2 / 2 + Min(1, Max(-1, y)) - Min(1, Max(0, y)) ** 2 - S.Half, y < 1), (0, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_integrate1cb : Any → {Any | g.integrat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  g.integrate((x, -2, 1)) == gy1.subs(y, -2)     ║
+# ║   ensures:  g.integrate((x, 1, -2)) == g1y.subs(y, -2)     ║
+# ║   ensures:  g.integrate((x, 0, 1)) == gy1.subs(y, 0)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_integrate1cb : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2b544453442f5dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd5f18830a877b6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1cb","kind":"function","src_hash":"82d959709265a8eb","in":{"base":"Any"},"out":{"base":"Any","pred":"g.integrate((x, -2, 1)) == gy1.subs(y, -2) and g.integrate((x, 1, -2)) == g1y.subs(y, -2) and g.integrate((x, 0, 1)) == gy1.subs(y, 0) and g.integrate((x, 1, 0)) == g1y.subs(y, 0) and g.integrate((x, 2, 1)) == gy1.subs(y, 2) and g.integrate((x, 1, 2)) == g1y.subs(y, 2)"},"spec":{"lhs":"test_piecewise_integrate1cb()","rhs":"test_piecewise_integrate1cb produces the expected output","over":{"base":"Any"},"name":"test_piecewise_integrate1cb_correct"},"guarantee":"test_piecewise_integrate1cb produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1cb_correct","statement":"Path(test_piecewise_integrate1cb(x), test_piecewise_integrate1cb produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2b544453442f5dc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1cb","kind":"function","src_hash":"82d959709265a8eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: g.integrate((x, -2, 1)) == gy1.subs(y, -2) and g.integrate((x, 1, -2)) == g1y.subs(y, -2) and g.integrate((x, 0, 1)) == gy1.subs(y, 0) and g.integrate((x, 1, 0)) == g1y.subs(y, 0) and g.integrate((x, 2, 1)) == gy1.subs(y, 2) and g.integrate((x, 1, 2)) == g1y.subs(y, 2) and piecewise_fold(gy1.rewrite(Piecewise)).simplify() == Piecewise((1, y <= -1), (-y ** 2 / 2 - y + S.Half, y <= 0), (y ** 2 / 2 - y + S.Half, y < 1), (0, True)) and piecewise_fold(g1y.rewrite(Piecewise)).simplify() == Piecewise((-1, y <= -1), (y ** 2 / 2 + y - S.Half, y <= 0), (-y ** 2 / 2 + y - S.Half, y < 1), (0, True)) and gy1 == Piecewise((-Min(1, Max(-1, y)) ** 2 / 2 - Min(1, Max(-1, y)) + Min(1, Max(0, y)) ** 2 + S.Half, y < 1), (0, True)) and g1y == Piecewise((Min(1, Max(-1, y)) ** 2 / 2 + Min(1, Max(-1, y)) - Min(1, Max(0, y)) ** 2 - S.Half, y < 1), (0, True))"},"spec":{"lhs":"test_piecewise_integrate1cb()","rhs":"g.integrate((x, -2, 1)) == gy1.subs(y, -2) and g.integrate((x, 1, -2)) == g1y.subs(y, -2) and g.integrate((x, 0, 1)) == gy1.subs(y, 0) and g.integrate((x, 1, 0)) == g1y.subs(y, 0) and g.integrate((x, 2, 1)) == gy1.subs(y, 2) and g.integrate((x, 1, 2)) == g1y.subs(y, 2) and piecewise_fold(gy1.rewrite(Piecewise)).simplify() == Piecewise((1, y <= -1), (-y ** 2 / 2 - y + S.Half, y <= 0), (y ** 2 / 2 - y + S.Half, y < 1), (0, True)) and piecewise_fold(g1y.rewrite(Piecewise)).simplify() == Piecewise((-1, y <= -1), (y ** 2 / 2 + y - S.Half, y <= 0), (-y ** 2 / 2 + y - S.Half, y < 1), (0, True)) and gy1 == Piecewise((-Min(1, Max(-1, y)) ** 2 / 2 - Min(1, Max(-1, y)) + Min(1, Max(0, y)) ** 2 + S.Half, y < 1), (0, True)) and g1y == Piecewise((Min(1, Max(-1, y)) ** 2 / 2 + Min(1, Max(-1, y)) - Min(1, Max(0, y)) ** 2 - S.Half, y < 1), (0, True))","over":{"base":"Any"},"name":"test_piecewise_integrate1cb_correct"},"guarantee":"g.integrate((x, -2, 1)) == gy1.subs(y, -2); g.integrate((x, 1, -2)) == g1y.subs(y, -2); g.integrate((x, 0, 1)) == gy1.subs(y, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate1cb_correct","statement":"Path(test_piecewise_integrate1cb(x), g.integrate((x, -2, 1)) == gy1.subs(y, -2); g.integrate((x, 1, -2)) == g1y.subs(y, -2); g.integrate((x, 0, 1)) == gy1.subs(y, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd5f18830a877b6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["g.integrate((x, -2, 1)) == gy1.subs(y, -2)","g.integrate((x, 1, -2)) == g1y.subs(y, -2)","g.integrate((x, 0, 1)) == gy1.subs(y, 0)","g.integrate((x, 1, 0)) == g1y.subs(y, 0)","g.integrate((x, 2, 1)) == gy1.subs(y, 2)","g.integrate((x, 1, 2)) == g1y.subs(y, 2)","piecewise_fold(gy1.rewrite(Piecewise)).simplify() == Piecewise((1, y <= -1), (-y ** 2 / 2 - y + S.Half, y <= 0), (y ** 2 / 2 - y + S.Half, y < 1), (0, True))","piecewise_fold(g1y.rewrite(Piecewise)).simplify() == Piecewise((-1, y <= -1), (y ** 2 / 2 + y - S.Half, y <= 0), (-y ** 2 / 2 + y - S.Half, y < 1), (0, True))","gy1 == Piecewise((-Min(1, Max(-1, y)) ** 2 / 2 - Min(1, Max(-1, y)) + Min(1, Max(0, y)) ** 2 + S.Half, y < 1), (0, True))","g1y == Piecewise((Min(1, Max(-1, y)) ** 2 / 2 + Min(1, Max(-1, y)) - Min(1, Max(0, y)) ** 2 - S.Half, y < 1), (0, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_piecewise_integrate1cb():
     y = symbols('y', real=True)
     g = Piecewise(
@@ -418,16 +464,22 @@ def test_piecewise_integrate1cb():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_integrate2(), test_piecewise_integrate2 produces the expected output) over Any ║
+# ║ Path(test_piecewise_integrate2(), q == Piecewise((-c + 2 * d - 2 * Min(d, Max(a, c)) + Min(d, Max(a, b, c)), c < d), (-2 * c + d + 2 * Min(c, Max(a, d)) - Min(c, Max(a, b, d)), True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_integrate2 : Any → {Any | p.subs(r).in...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  q == Piecewise((-c + 2 * d - 2 * Min(d, M...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_integrate2 : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f3ac8815741e952  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c40f3b6732778123  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate2","kind":"function","src_hash":"308df813c49036b3","in":{"base":"Any"},"out":{"base":"Any","pred":"p.subs(r).integrate(lim.subs(r)) == q.subs(r)"},"spec":{"lhs":"test_piecewise_integrate2()","rhs":"test_piecewise_integrate2 produces the expected output","over":{"base":"Any"},"name":"test_piecewise_integrate2_correct"},"guarantee":"test_piecewise_integrate2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate2_correct","statement":"Path(test_piecewise_integrate2(x), test_piecewise_integrate2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f3ac8815741e952"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate2","kind":"function","src_hash":"308df813c49036b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: q == Piecewise((-c + 2 * d - 2 * Min(d, Max(a, c)) + Min(d, Max(a, b, c)), c < d), (-2 * c + d + 2 * Min(c, Max(a, d)) - Min(c, Max(a, b, d)), True))"},"spec":{"lhs":"test_piecewise_integrate2()","rhs":"q == Piecewise((-c + 2 * d - 2 * Min(d, Max(a, c)) + Min(d, Max(a, b, c)), c < d), (-2 * c + d + 2 * Min(c, Max(a, d)) - Min(c, Max(a, b, d)), True))","over":{"base":"Any"},"name":"test_piecewise_integrate2_correct"},"guarantee":"q == Piecewise((-c + 2 * d - 2 * Min(d, Max(a, c)) + Min(d, Max(a, b, c)), c < d), (-2 * c + d + 2 * Min(c, Max(a, d)) - Min(c, Max(a, b, d)), True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate2_correct","statement":"Path(test_piecewise_integrate2(x), q == Piecewise((-c + 2 * d - 2 * Min(d, Max(a, c)) + Min(d, Max(a, b, c)), c < d), (-2 * c + d + 2 * Min(c, Max(a, d)) - Min(c, Max(a, b, d)), True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c40f3b6732778123","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["q == Piecewise((-c + 2 * d - 2 * Min(d, Max(a, c)) + Min(d, Max(a, b, c)), c < d), (-2 * c + d + 2 * Min(c, Max(a, d)) - Min(c, Max(a, b, d)), True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_piecewise_integrate2():
     from itertools import permutations
     lim = Tuple(x, c, d)
@@ -442,16 +494,22 @@ def test_piecewise_integrate2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_meijer_bypass(), test_meijer_bypass produces the expected output) over Any ║
+# ║ Path(test_meijer_bypass(), Piecewise((1, x < 4), (0, True)).integrate((x, oo, 1)) == -3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_meijer_bypass : Any → {Any | Piecewise((1, x < 4...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Piecewise((1, x < 4), (0, True)).integrat...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_meijer_bypass : Any → {Any | result satisfies: P...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9802d211408df40  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14b34e629b2c368c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_meijer_bypass","kind":"function","src_hash":"8a77f7873ee11e16","in":{"base":"Any"},"out":{"base":"Any","pred":"Piecewise((1, x < 4), (0, True)).integrate((x, oo, 1)) == -3"},"spec":{"lhs":"test_meijer_bypass()","rhs":"test_meijer_bypass produces the expected output","over":{"base":"Any"},"name":"test_meijer_bypass_correct"},"guarantee":"test_meijer_bypass produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_meijer_bypass_correct","statement":"Path(test_meijer_bypass(x), test_meijer_bypass produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9802d211408df40"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_meijer_bypass","kind":"function","src_hash":"8a77f7873ee11e16","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Piecewise((1, x < 4), (0, True)).integrate((x, oo, 1)) == -3"},"spec":{"lhs":"test_meijer_bypass()","rhs":"Piecewise((1, x < 4), (0, True)).integrate((x, oo, 1)) == -3","over":{"base":"Any"},"name":"test_meijer_bypass_correct"},"guarantee":"Piecewise((1, x < 4), (0, True)).integrate((x, oo, 1)) == -3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_meijer_bypass_correct","statement":"Path(test_meijer_bypass(x), Piecewise((1, x < 4), (0, True)).integrate((x, oo, 1)) == -3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14b34e629b2c368c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Piecewise((1, x < 4), (0, True)).integrate((x, oo, 1)) == -3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_meijer_bypass():
     # totally bypass meijerg machinery when dealing
     # with Piecewise in integrate
@@ -459,16 +517,22 @@ def test_meijer_bypass():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_integrate3_inequality_conditions(), test_piecewise_integrate3_inequality_conditions produces the expected output) over Any ║
+# ║ Path(test_piecewise_integrate3_inequality_conditions(), ans.subs(a, 4).subs(b, 1) == 0 + 2 * 3 + 1) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ans.subs(a, 4).subs(b, 1) == 0 + 2 * 3 + 1     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_piecewise_integrate3_inequality_conditions : Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e69477176620864  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cee0722a26345811  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate3_inequality_conditions","kind":"function","src_hash":"52af3df414e9376a","in":{"base":"Any"},"out":{"base":"Any","pred":"ans.subs(a, 4).subs(b, 1) == 0 + 2 * 3 + 1 and ans.subs(reps) == p.subs(reps).integrate(lim) and ans.subs(reps) == p.subs(reps).integrate(lim)"},"spec":{"lhs":"test_piecewise_integrate3_inequality_conditions()","rhs":"test_piecewise_integrate3_inequality_conditions produces the expected output","over":{"base":"Any"},"name":"test_piecewise_integrate3_inequality_conditions_correct"},"guarantee":"test_piecewise_integrate3_inequality_conditions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate3_inequality_conditions_correct","statement":"Path(test_piecewise_integrate3_inequality_conditions(x), test_piecewise_integrate3_inequality_conditions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e69477176620864"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate3_inequality_conditions","kind":"function","src_hash":"52af3df414e9376a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ans.subs(a, 4).subs(b, 1) == 0 + 2 * 3 + 1"},"spec":{"lhs":"test_piecewise_integrate3_inequality_conditions()","rhs":"ans.subs(a, 4).subs(b, 1) == 0 + 2 * 3 + 1","over":{"base":"Any"},"name":"test_piecewise_integrate3_inequality_conditions_correct"},"guarantee":"ans.subs(a, 4).subs(b, 1) == 0 + 2 * 3 + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate3_inequality_conditions_correct","statement":"Path(test_piecewise_integrate3_inequality_conditions(x), ans.subs(a, 4).subs(b, 1) == 0 + 2 * 3 + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cee0722a26345811","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ans.subs(a, 4).subs(b, 1) == 0 + 2 * 3 + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_piecewise_integrate3_inequality_conditions():
     from sympy.utilities.iterables import cartes
     lim = (x, 0, 5)
@@ -497,16 +561,23 @@ def test_piecewise_integrate3_inequality_conditions():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_integrate4_symbolic_conditions(), test_piecewise_integrate4_symbolic_conditions produces the expected output) over Any ║
+# ║ Path(test_piecewise_integrate4_symbolic_conditions(), p3.integrate(x) == Piecewise((0, x < a), (-a + x, x <= Max(a, b)), (-a + Max(a, b), True)) and p5.integrate(x) == Piecewise((0, x <= a), (-a + x, x <= Max(a, b)), (-a + Max(a, b), True))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p3.integrate(x) == Piecewise((0, x < a), ...   ║
+# ║   ensures:  p5.integrate(x) == Piecewise((0, x <= a),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_piecewise_integrate4_symbolic_conditions : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91ed0fbbe3ffa207  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b961bac600418d97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate4_symbolic_conditions","kind":"function","src_hash":"9712a85d30a7baed","in":{"base":"Any"},"out":{"base":"Any","pred":"i.integrate(x) == ans and ans.subs(reps) == p.subs(reps).integrate(lim.subs(reps)) and ans.subs(reps) == p.subs(reps).integrate(lim.subs(reps)) and ans.subs(reps) == p.subs(reps).integrate(lim.subs(reps)) and ans.subs(reps) == p.subs(reps).integrate(lim.subs(reps)) and ans.subs(reps) == p.subs(reps).integrate(lim.subs(reps)) and ans.subs(reps) == p.subs(reps).integrate(lim.subs(reps))"},"spec":{"lhs":"test_piecewise_integrate4_symbolic_conditions()","rhs":"test_piecewise_integrate4_symbolic_conditions produces the expected output","over":{"base":"Any"},"name":"test_piecewise_integrate4_symbolic_conditions_correct"},"guarantee":"test_piecewise_integrate4_symbolic_conditions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate4_symbolic_conditions_correct","statement":"Path(test_piecewise_integrate4_symbolic_conditions(x), test_piecewise_integrate4_symbolic_conditions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91ed0fbbe3ffa207"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate4_symbolic_conditions","kind":"function","src_hash":"9712a85d30a7baed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p3.integrate(x) == Piecewise((0, x < a), (-a + x, x <= Max(a, b)), (-a + Max(a, b), True)) and p5.integrate(x) == Piecewise((0, x <= a), (-a + x, x <= Max(a, b)), (-a + Max(a, b), True))"},"spec":{"lhs":"test_piecewise_integrate4_symbolic_conditions()","rhs":"p3.integrate(x) == Piecewise((0, x < a), (-a + x, x <= Max(a, b)), (-a + Max(a, b), True)) and p5.integrate(x) == Piecewise((0, x <= a), (-a + x, x <= Max(a, b)), (-a + Max(a, b), True))","over":{"base":"Any"},"name":"test_piecewise_integrate4_symbolic_conditions_correct"},"guarantee":"p3.integrate(x) == Piecewise((0, x < a), (-a + x, x <= Max(a, b)), (-a + Max(a, b), True)); p5.integrate(x) == Piecewise((0, x <= a), (-a + x, x <= Max(a, b)), (-a + Max(a, b), True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate4_symbolic_conditions_correct","statement":"Path(test_piecewise_integrate4_symbolic_conditions(x), p3.integrate(x) == Piecewise((0, x < a), (-a + x, x <= Max(a, b)), (-a + Max(a, b), True)); p5.integrate(x) == Piecewise((0, x <= a), (-a + x, x <= Max(a, b)), (-a + Max(a, b), True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b961bac600418d97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p3.integrate(x) == Piecewise((0, x < a), (-a + x, x <= Max(a, b)), (-a + Max(a, b), True))","p5.integrate(x) == Piecewise((0, x <= a), (-a + x, x <= Max(a, b)), (-a + Max(a, b), True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_piecewise_integrate4_symbolic_conditions():
     a = Symbol('a', real=True)
     b = Symbol('b', real=True)
@@ -572,32 +643,45 @@ def test_piecewise_integrate4_symbolic_conditions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_integrate5_independent_conditions(), test_piecewise_integrate5_independent_conditions produces the expected output) over Any ║
+# ║ Path(test_piecewise_integrate5_independent_conditions(), integrate(p, (x, 1, 3)) == Piecewise((0, Eq(y, 0)), (4 * y, True))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(p, (x, 1, 3)) == Piecewise((0, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_piecewise_integrate5_independent_conditions : An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94cba2eb16031c85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ec13bcf454ce26d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate5_independent_conditions","kind":"function","src_hash":"a9ef7dc7fe73b5aa","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(p, (x, 1, 3)) == Piecewise((0, Eq(y, 0)), (4 * y, True))"},"spec":{"lhs":"test_piecewise_integrate5_independent_conditions()","rhs":"test_piecewise_integrate5_independent_conditions produces the expected output","over":{"base":"Any"},"name":"test_piecewise_integrate5_independent_conditions_correct"},"guarantee":"test_piecewise_integrate5_independent_conditions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate5_independent_conditions_correct","statement":"Path(test_piecewise_integrate5_independent_conditions(x), test_piecewise_integrate5_independent_conditions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94cba2eb16031c85"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate5_independent_conditions","kind":"function","src_hash":"a9ef7dc7fe73b5aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(p, (x, 1, 3)) == Piecewise((0, Eq(y, 0)), (4 * y, True))"},"spec":{"lhs":"test_piecewise_integrate5_independent_conditions()","rhs":"integrate(p, (x, 1, 3)) == Piecewise((0, Eq(y, 0)), (4 * y, True))","over":{"base":"Any"},"name":"test_piecewise_integrate5_independent_conditions_correct"},"guarantee":"integrate(p, (x, 1, 3)) == Piecewise((0, Eq(y, 0)), (4 * y, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_integrate5_independent_conditions_correct","statement":"Path(test_piecewise_integrate5_independent_conditions(x), integrate(p, (x, 1, 3)) == Piecewise((0, Eq(y, 0)), (4 * y, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ec13bcf454ce26d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(p, (x, 1, 3)) == Piecewise((0, Eq(y, 0)), (4 * y, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_piecewise_integrate5_independent_conditions():
     p = Piecewise((0, Eq(y, 0)), (x*y, True))
     assert integrate(p, (x, 1, 3)) == Piecewise((0, Eq(y, 0)), (4*y, True))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22917(), test_issue_22917 produces the expected output) over Any ║
+# ║ Path(test_issue_22917(), piecewise_fold(p) == Piecewise((2, (x - y > S.Half) | (x - y > 1)), (2 * y + 4, x - y > 1), (4 * x + 2 * y, True)) and piecewise_fold(p > 1).rewrite(ITE) == ITE((x - y > S.Half) | (x - y > 1), True, ITE(x - y > 1, 2 * y + 4 > 1, 4 * x + 2 * y > 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22917 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  piecewise_fold(p) == Piecewise((2, (x - y...   ║
+# ║   ensures:  piecewise_fold(p > 1).rewrite(ITE) == ITE...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22917 : Any → {Any | result satisfies: pie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2815a2a369c3a156  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92398798f913b0b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_22917","kind":"function","src_hash":"700f71c6d57618bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_22917()","rhs":"test_issue_22917 produces the expected output","over":{"base":"Any"},"name":"test_issue_22917_correct"},"guarantee":"test_issue_22917 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_22917_correct","statement":"Path(test_issue_22917(x), test_issue_22917 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2815a2a369c3a156"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_22917","kind":"function","src_hash":"700f71c6d57618bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: piecewise_fold(p) == Piecewise((2, (x - y > S.Half) | (x - y > 1)), (2 * y + 4, x - y > 1), (4 * x + 2 * y, True)) and piecewise_fold(p > 1).rewrite(ITE) == ITE((x - y > S.Half) | (x - y > 1), True, ITE(x - y > 1, 2 * y + 4 > 1, 4 * x + 2 * y > 1))"},"spec":{"lhs":"test_issue_22917()","rhs":"piecewise_fold(p) == Piecewise((2, (x - y > S.Half) | (x - y > 1)), (2 * y + 4, x - y > 1), (4 * x + 2 * y, True)) and piecewise_fold(p > 1).rewrite(ITE) == ITE((x - y > S.Half) | (x - y > 1), True, ITE(x - y > 1, 2 * y + 4 > 1, 4 * x + 2 * y > 1))","over":{"base":"Any"},"name":"test_issue_22917_correct"},"guarantee":"piecewise_fold(p) == Piecewise((2, (x - y > S.Half) | (x - y > 1)), (2 * y + 4, x - y > 1), (4 * x + 2 * y, True)); piecewise_fold(p > 1).rewrite(ITE) == ITE((x - y > S.Half) | (x - y > 1), True, ITE(x - y > 1, 2 * y + 4 > 1, 4 * x + 2 * y > 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_22917_correct","statement":"Path(test_issue_22917(x), piecewise_fold(p) == Piecewise((2, (x - y > S.Half) | (x - y > 1)), (2 * y + 4, x - y > 1), (4 * x + 2 * y, True)); piecewise_fold(p > 1).rewrite(ITE) == ITE((x - y > S.Half) | (x - y > 1), True, ITE(x - y > 1, 2 * y + 4 > 1, 4 * x + 2 * y > 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92398798f913b0b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["piecewise_fold(p) == Piecewise((2, (x - y > S.Half) | (x - y > 1)), (2 * y + 4, x - y > 1), (4 * x + 2 * y, True))","piecewise_fold(p > 1).rewrite(ITE) == ITE((x - y > S.Half) | (x - y > 1), True, ITE(x - y > 1, 2 * y + 4 > 1, 4 * x + 2 * y > 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_22917():
     p = (Piecewise((0, ITE((x - y > 1) | (2 * x - 2 * y > 1), False,
                            ITE(x - y > 1, 2 * y - 2 < -1, 2 * x - 2 * y > 1))),
@@ -615,16 +699,24 @@ def test_issue_22917():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_simplify(), test_piecewise_simplify produces the expected output) over Any ║
+# ║ Path(test_piecewise_simplify(), p.simplify() == Piecewise((zoo, Eq(x, 0)), ((-1) ** (x + 1), True)) and Piecewise((a, And(Eq(a, 0), Eq(a + b, 0))), (1, True)).simplify() == Piecewise((0, And(Eq(a, 0), Eq(b, 0))), (1, True)) and Piecewise((2 * x * factorial(a) / (factorial(y) * factorial(-y + a)), Eq(y, 0) & Eq(-y + a, 0)), (2 * factorial(a) / (factorial(y) * factorial(-y + a)), Eq(y, 0) & Eq(-y + a, 1)), (0, True)).simplify() == Piecewise((2 * x, And(Eq(a, 0), Eq(y, 0))), (2, And(Eq(a, 1), Eq(y, 0))), (0, True)) and Piecewise(*args).simplify() == Piecewise(*args) and Piecewise((2 + y, And(Eq(x, 2), Eq(y, 0))), (x, True)).simplify() == x and Piecewise(*args).simplify() == ans and Piecewise(*args.subs(x, f(x))).simplify() == ans.subs(x, f(x)) and expr.simplify() == -d + 2 * n and p.simplify() == Piecewise((0, t < -2), ((t + 1) * (t + 2) ** 2 / 2, t < -1), (-3 * t ** 3 / 2 - 5 * t ** 2 / 2 + 1, t < 0), (3 * t ** 3 / 2 - 5 * t ** 2 / 2 + 1, t < 1), ((1 - t) * (t - 2) ** 2 / 2, t < 2), (0, True)) and Piecewise((1, x > 3), (2, x < 2), (3, x > 1)).simplify() == Piecewise((1, x > 3), (2, x < 2), (3, True)) and Piecewise((1, x < 2), (2, x < 1), (3, True)).simplify() == Piecewise((1, x < 2), (3, True)) and Piecewise((1, x > 2)).simplify() == Piecewise((1, x > 2), (nan, True)) and Piecewise((1, (x >= 2) & (x < oo))).simplify() == Piecewise((1, (x >= 2) & (x < oo)), (nan, True)) and Piecewise((1, x < 2), (2, (x > 1) & (x < 3)), (3, True)).simplify() == Piecewise((1, x < 2), (2, x < 3), (3, True)) and Piecewise((1, x < 2), (2, (x <= 3) & (x > 1)), (3, True)).simplify() == Piecewise((1, x < 2), (2, x <= 3), (3, True)) and Piecewise((1, x < 2), (2, (x > 2) & (x < 3)), (3, True)).simplify() == Piecewise((1, x < 2), (2, (x > 2) & (x < 3)), (3, True)) and Piecewise((1, x < 2), (2, (x >= 1) & (x <= 3)), (3, True)).simplify() == Piecewise((1, x < 2), (2, x <= 3), (3, True)) and Piecewise((1, x < 1), (2, (x >= 2) & (x <= 3)), (3, True)).simplify() == Piecewise((1, x < 1), (2, (x >= 2) & (x <= 3)), (3, True)) and Piecewise((log(x), (x <= 5) & (x > 3)), (x, True)).simplify() == Piecewise((log(x), (x <= 5) & (x > 3)), (x, True)) and Piecewise((1, (x >= 1) & (x < 3)), (2, (x > 2) & (x < 4))).simplify() == Piecewise((1, (x >= 1) & (x < 3)), (2, (x >= 3) & (x < 4)), (nan, True)) and Piecewise((1, (x >= 1) & (x <= 3)), (2, (x > 2) & (x < 4))).simplify() == Piecewise((1, (x >= 1) & (x <= 3)), (2, (x > 3) & (x < 4)), (nan, True)) and p.simplify() == Piecewise((nan, x <= 0), (L / 2 - x, L > x), (nan, True)) and p.subs(L, y).simplify() == Piecewise((nan, x <= 0), (-x + y / 2, x < Max(0, y)), (0, x < y), (nan, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_simplify : Any → {Any | p.simplify() =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.simplify() == Piecewise((zoo, Eq(x, 0))...   ║
+# ║   ensures:  Piecewise((a, And(Eq(a, 0), Eq(a + b, 0))...   ║
+# ║   ensures:  Piecewise((2 * x * factorial(a) / (factor...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_simplify : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d82ed149b95bbb8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ad61c15e152aff5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_simplify","kind":"function","src_hash":"40bc2f88de925374","in":{"base":"Any"},"out":{"base":"Any","pred":"p.simplify() == Piecewise((zoo, Eq(x, 0)), ((-1) ** (x + 1), True)) and Piecewise(*args).simplify() == Piecewise(*args) and Piecewise(*args).simplify() == Piecewise(*args) and Piecewise((2 + y, And(Eq(x, 2), Eq(y, 0))), (x, True)).simplify() == x and Piecewise(*args).simplify() == ans and Piecewise(*args.subs(x, f(x))).simplify() == ans.subs(x, f(x)) and expr.simplify() == -d + 2 * n and Piecewise((1, x > 2)).simplify() == Piecewise((1, x > 2), (nan, True)) and p.simplify() == Piecewise((nan, x <= 0), (L / 2 - x, L > x), (nan, True))"},"spec":{"lhs":"test_piecewise_simplify()","rhs":"test_piecewise_simplify produces the expected output","over":{"base":"Any"},"name":"test_piecewise_simplify_correct"},"guarantee":"test_piecewise_simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_simplify_correct","statement":"Path(test_piecewise_simplify(x), test_piecewise_simplify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d82ed149b95bbb8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_simplify","kind":"function","src_hash":"40bc2f88de925374","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.simplify() == Piecewise((zoo, Eq(x, 0)), ((-1) ** (x + 1), True)) and Piecewise((a, And(Eq(a, 0), Eq(a + b, 0))), (1, True)).simplify() == Piecewise((0, And(Eq(a, 0), Eq(b, 0))), (1, True)) and Piecewise((2 * x * factorial(a) / (factorial(y) * factorial(-y + a)), Eq(y, 0) & Eq(-y + a, 0)), (2 * factorial(a) / (factorial(y) * factorial(-y + a)), Eq(y, 0) & Eq(-y + a, 1)), (0, True)).simplify() == Piecewise((2 * x, And(Eq(a, 0), Eq(y, 0))), (2, And(Eq(a, 1), Eq(y, 0))), (0, True)) and Piecewise(*args).simplify() == Piecewise(*args) and Piecewise((2 + y, And(Eq(x, 2), Eq(y, 0))), (x, True)).simplify() == x and Piecewise(*args).simplify() == ans and Piecewise(*args.subs(x, f(x))).simplify() == ans.subs(x, f(x)) and expr.simplify() == -d + 2 * n and p.simplify() == Piecewise((0, t < -2), ((t + 1) * (t + 2) ** 2 / 2, t < -1), (-3 * t ** 3 / 2 - 5 * t ** 2 / 2 + 1, t < 0), (3 * t ** 3 / 2 - 5 * t ** 2 / 2 + 1, t < 1), ((1 - t) * (t - 2) ** 2 / 2, t < 2), (0, True)) and Piecewise((1, x > 3), (2, x < 2), (3, x > 1)).simplify() == Piecewise((1, x > 3), (2, x < 2), (3, True)) and Piecewise((1, x < 2), (2, x < 1), (3, True)).simplify() == Piecewise((1, x < 2), (3, True)) and Piecewise((1, x > 2)).simplify() == Piecewise((1, x > 2), (nan, True)) and Piecewise((1, (x >= 2) & (x < oo))).simplify() == Piecewise((1, (x >= 2) & (x < oo)), (nan, True)) and Piecewise((1, x < 2), (2, (x > 1) & (x < 3)), (3, True)).simplify() == Piecewise((1, x < 2), (2, x < 3), (3, True)) and Piecewise((1, x < 2), (2, (x <= 3) & (x > 1)), (3, True)).simplify() == Piecewise((1, x < 2), (2, x <= 3), (3, True)) and Piecewise((1, x < 2), (2, (x > 2) & (x < 3)), (3, True)).simplify() == Piecewise((1, x < 2), (2, (x > 2) & (x < 3)), (3, True)) and Piecewise((1, x < 2), (2, (x >= 1) & (x <= 3)), (3, True)).simplify() == Piecewise((1, x < 2), (2, x <= 3), (3, True)) and Piecewise((1, x < 1), (2, (x >= 2) & (x <= 3)), (3, True)).simplify() == Piecewise((1, x < 1), (2, (x >= 2) & (x <= 3)), (3, True)) and Piecewise((log(x), (x <= 5) & (x > 3)), (x, True)).simplify() == Piecewise((log(x), (x <= 5) & (x > 3)), (x, True)) and Piecewise((1, (x >= 1) & (x < 3)), (2, (x > 2) & (x < 4))).simplify() == Piecewise((1, (x >= 1) & (x < 3)), (2, (x >= 3) & (x < 4)), (nan, True)) and Piecewise((1, (x >= 1) & (x <= 3)), (2, (x > 2) & (x < 4))).simplify() == Piecewise((1, (x >= 1) & (x <= 3)), (2, (x > 3) & (x < 4)), (nan, True)) and p.simplify() == Piecewise((nan, x <= 0), (L / 2 - x, L > x), (nan, True)) and p.subs(L, y).simplify() == Piecewise((nan, x <= 0), (-x + y / 2, x < Max(0, y)), (0, x < y), (nan, True))"},"spec":{"lhs":"test_piecewise_simplify()","rhs":"p.simplify() == Piecewise((zoo, Eq(x, 0)), ((-1) ** (x + 1), True)) and Piecewise((a, And(Eq(a, 0), Eq(a + b, 0))), (1, True)).simplify() == Piecewise((0, And(Eq(a, 0), Eq(b, 0))), (1, True)) and Piecewise((2 * x * factorial(a) / (factorial(y) * factorial(-y + a)), Eq(y, 0) & Eq(-y + a, 0)), (2 * factorial(a) / (factorial(y) * factorial(-y + a)), Eq(y, 0) & Eq(-y + a, 1)), (0, True)).simplify() == Piecewise((2 * x, And(Eq(a, 0), Eq(y, 0))), (2, And(Eq(a, 1), Eq(y, 0))), (0, True)) and Piecewise(*args).simplify() == Piecewise(*args) and Piecewise((2 + y, And(Eq(x, 2), Eq(y, 0))), (x, True)).simplify() == x and Piecewise(*args).simplify() == ans and Piecewise(*args.subs(x, f(x))).simplify() == ans.subs(x, f(x)) and expr.simplify() == -d + 2 * n and p.simplify() == Piecewise((0, t < -2), ((t + 1) * (t + 2) ** 2 / 2, t < -1), (-3 * t ** 3 / 2 - 5 * t ** 2 / 2 + 1, t < 0), (3 * t ** 3 / 2 - 5 * t ** 2 / 2 + 1, t < 1), ((1 - t) * (t - 2) ** 2 / 2, t < 2), (0, True)) and Piecewise((1, x > 3), (2, x < 2), (3, x > 1)).simplify() == Piecewise((1, x > 3), (2, x < 2), (3, True)) and Piecewise((1, x < 2), (2, x < 1), (3, True)).simplify() == Piecewise((1, x < 2), (3, True)) and Piecewise((1, x > 2)).simplify() == Piecewise((1, x > 2), (nan, True)) and Piecewise((1, (x >= 2) & (x < oo))).simplify() == Piecewise((1, (x >= 2) & (x < oo)), (nan, True)) and Piecewise((1, x < 2), (2, (x > 1) & (x < 3)), (3, True)).simplify() == Piecewise((1, x < 2), (2, x < 3), (3, True)) and Piecewise((1, x < 2), (2, (x <= 3) & (x > 1)), (3, True)).simplify() == Piecewise((1, x < 2), (2, x <= 3), (3, True)) and Piecewise((1, x < 2), (2, (x > 2) & (x < 3)), (3, True)).simplify() == Piecewise((1, x < 2), (2, (x > 2) & (x < 3)), (3, True)) and Piecewise((1, x < 2), (2, (x >= 1) & (x <= 3)), (3, True)).simplify() == Piecewise((1, x < 2), (2, x <= 3), (3, True)) and Piecewise((1, x < 1), (2, (x >= 2) & (x <= 3)), (3, True)).simplify() == Piecewise((1, x < 1), (2, (x >= 2) & (x <= 3)), (3, True)) and Piecewise((log(x), (x <= 5) & (x > 3)), (x, True)).simplify() == Piecewise((log(x), (x <= 5) & (x > 3)), (x, True)) and Piecewise((1, (x >= 1) & (x < 3)), (2, (x > 2) & (x < 4))).simplify() == Piecewise((1, (x >= 1) & (x < 3)), (2, (x >= 3) & (x < 4)), (nan, True)) and Piecewise((1, (x >= 1) & (x <= 3)), (2, (x > 2) & (x < 4))).simplify() == Piecewise((1, (x >= 1) & (x <= 3)), (2, (x > 3) & (x < 4)), (nan, True)) and p.simplify() == Piecewise((nan, x <= 0), (L / 2 - x, L > x), (nan, True)) and p.subs(L, y).simplify() == Piecewise((nan, x <= 0), (-x + y / 2, x < Max(0, y)), (0, x < y), (nan, True))","over":{"base":"Any"},"name":"test_piecewise_simplify_correct"},"guarantee":"p.simplify() == Piecewise((zoo, Eq(x, 0)), ((-1) ** (x + 1), True)); Piecewise((a, And(Eq(a, 0), Eq(a + b, 0))), (1, True)).simplify() == Piecewise((0, And(Eq(a, 0), Eq(b, 0))), (1, True)); Piecewise((2 * x * factorial(a) / (factorial(y) * factorial(-y + a)), Eq(y, 0) & Eq(-y + a, 0)), (2 * factorial(a) / (factorial(y) * factorial(-y + a)), Eq(y, 0) & Eq(-y + a, 1)), (0, True)).simplify() == Piecewise((2 * x, And(Eq(a, 0), Eq(y, 0))), (2, And(Eq(a, 1), Eq(y, 0))), (0, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_simplify_correct","statement":"Path(test_piecewise_simplify(x), p.simplify() == Piecewise((zoo, Eq(x, 0)), ((-1) ** (x + 1), True)); Piecewise((a, And(Eq(a, 0), Eq(a + b, 0))), (1, True)).simplify() == Piecewise((0, And(Eq(a, 0), Eq(b, 0))), (1, True)); Piecewise((2 * x * factorial(a) / (factorial(y) * factorial(-y + a)), Eq(y, 0) & Eq(-y + a, 0)), (2 * factorial(a) / (factorial(y) * factorial(-y + a)), Eq(y, 0) & Eq(-y + a, 1)), (0, True)).simplify() == Piecewise((2 * x, And(Eq(a, 0), Eq(y, 0))), (2, And(Eq(a, 1), Eq(y, 0))), (0, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ad61c15e152aff5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.simplify() == Piecewise((zoo, Eq(x, 0)), ((-1) ** (x + 1), True))","Piecewise((a, And(Eq(a, 0), Eq(a + b, 0))), (1, True)).simplify() == Piecewise((0, And(Eq(a, 0), Eq(b, 0))), (1, True))","Piecewise((2 * x * factorial(a) / (factorial(y) * factorial(-y + a)), Eq(y, 0) & Eq(-y + a, 0)), (2 * factorial(a) / (factorial(y) * factorial(-y + a)), Eq(y, 0) & Eq(-y + a, 1)), (0, True)).simplify() == Piecewise((2 * x, And(Eq(a, 0), Eq(y, 0))), (2, And(Eq(a, 1), Eq(y, 0))), (0, True))","Piecewise(*args).simplify() == Piecewise(*args)","Piecewise((2 + y, And(Eq(x, 2), Eq(y, 0))), (x, True)).simplify() == x","Piecewise(*args).simplify() == ans","Piecewise(*args.subs(x, f(x))).simplify() == ans.subs(x, f(x))","expr.simplify() == -d + 2 * n","p.simplify() == Piecewise((0, t < -2), ((t + 1) * (t + 2) ** 2 / 2, t < -1), (-3 * t ** 3 / 2 - 5 * t ** 2 / 2 + 1, t < 0), (3 * t ** 3 / 2 - 5 * t ** 2 / 2 + 1, t < 1), ((1 - t) * (t - 2) ** 2 / 2, t < 2), (0, True))","Piecewise((1, x > 3), (2, x < 2), (3, x > 1)).simplify() == Piecewise((1, x > 3), (2, x < 2), (3, True))","Piecewise((1, x < 2), (2, x < 1), (3, True)).simplify() == Piecewise((1, x < 2), (3, True))","Piecewise((1, x > 2)).simplify() == Piecewise((1, x > 2), (nan, True))","Piecewise((1, (x >= 2) & (x < oo))).simplify() == Piecewise((1, (x >= 2) & (x < oo)), (nan, True))","Piecewise((1, x < 2), (2, (x > 1) & (x < 3)), (3, True)).simplify() == Piecewise((1, x < 2), (2, x < 3), (3, True))","Piecewise((1, x < 2), (2, (x <= 3) & (x > 1)), (3, True)).simplify() == Piecewise((1, x < 2), (2, x <= 3), (3, True))","Piecewise((1, x < 2), (2, (x > 2) & (x < 3)), (3, True)).simplify() == Piecewise((1, x < 2), (2, (x > 2) & (x < 3)), (3, True))","Piecewise((1, x < 2), (2, (x >= 1) & (x <= 3)), (3, True)).simplify() == Piecewise((1, x < 2), (2, x <= 3), (3, True))","Piecewise((1, x < 1), (2, (x >= 2) & (x <= 3)), (3, True)).simplify() == Piecewise((1, x < 1), (2, (x >= 2) & (x <= 3)), (3, True))","Piecewise((log(x), (x <= 5) & (x > 3)), (x, True)).simplify() == Piecewise((log(x), (x <= 5) & (x > 3)), (x, True))","Piecewise((1, (x >= 1) & (x < 3)), (2, (x > 2) & (x < 4))).simplify() == Piecewise((1, (x >= 1) & (x < 3)), (2, (x >= 3) & (x < 4)), (nan, True))","Piecewise((1, (x >= 1) & (x <= 3)), (2, (x > 2) & (x < 4))).simplify() == Piecewise((1, (x >= 1) & (x <= 3)), (2, (x > 3) & (x < 4)), (nan, True))","p.simplify() == Piecewise((nan, x <= 0), (L / 2 - x, L > x), (nan, True))","p.subs(L, y).simplify() == Piecewise((nan, x <= 0), (-x + y / 2, x < Max(0, y)), (0, x < y), (nan, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"assumed","binding":true}}
 def test_piecewise_simplify():
     p = Piecewise(((x**2 + 1)/x**2, Eq(x*(1 + x) - x**2, 0)),
                   ((-1)**x*(-1), True))
@@ -736,14 +828,23 @@ def test_piecewise_simplify():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_piecewise_solve(), id) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_solve : Any → {Any | solve(f, x) == [2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(f, x) == [2]                             ║
+# ║   ensures:  solve(f - 1, x) == [1, 3]                      ║
+# ║   ensures:  solve(g, x) == [2, 5]                          ║
+# ║   returns:  list(filter(lambda x: x is not S.NaN, ans))    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_solve : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4198d84bef2b9ff6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_solve","kind":"function","src_hash":"720a2b0d6779f0b7","in":{"base":"Any"},"out":{"base":"Any","pred":"solve(f, x) == [2] and solve(f - 1, x) == [1, 3] and solve(f, x) == [2] and solve(g, x) == [2, 5] and solve(g, x) == [2, 5] and solve(g, x) == [5] and solve(g, x) == [5] and solve(g, x) == [5] and solve(g, x) == [5] and solve(Piecewise((x - 2, x > 2), (2 - x, True)) - 3) == [-1, 5] and nona([i.subs(y, -2) for i in ans]) == [2] and nona([i.subs(y, 2) for i in ans]) == [-2, 2] and nona([i.subs(y, 3) for i in ans]) == [-2, 2] and solve(absxm3 - p, x) == [-p + 3, p + 3] and solve(f - 1) == [1 / sqrt(2)]"},"spec":{"lhs":"test_piecewise_solve()","rhs":"test_piecewise_solve produces the expected output","over":{"base":"Any"},"name":"test_piecewise_solve_correct","kind":"composition"},"guarantee":"test_piecewise_solve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"filter","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4198d84bef2b9ff6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_solve","kind":"function","src_hash":"720a2b0d6779f0b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (list(filter(lambda x: x is not S.NaN, ans)))"},"spec":{"lhs":"test_piecewise_solve()","rhs":"list(filter(lambda x: x is not S.NaN, ans))","over":{"base":"Any"},"name":"test_piecewise_solve_correct","kind":"composition"},"guarantee":"returns list(filter(lambda x: x is not S.NaN, ans)); solve(f, x) == [2]; solve(f - 1, x) == [1, 3]; solve(g, x) == [2, 5]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"list","by":"library_axiom"},{"fn":"filter","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4198d84bef2b9ff6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(f, x) == [2]","solve(f - 1, x) == [1, 3]","solve(g, x) == [2, 5]","solve(g, x) == [5]","solve(Piecewise((x - 2, x > 2), (2 - x, True)) - 3) == [-1, 5]","nona([i.subs(y, -2) for i in ans]) == [2]","nona([i.subs(y, 2) for i in ans]) == [-2, 2]","nona([i.subs(y, 3) for i in ans]) == [-2, 2]","ans == [Piecewise((-2, y > -2), (S.NaN, True)), Piecewise((2, y <= 2), (S.NaN, True)), Piecewise((2, y > 2), (S.NaN, True))]","solve(absxm3 - y, x) == [Piecewise((-y + 3, -y < 0), (S.NaN, True)), Piecewise((y + 3, y >= 0), (S.NaN, True))]","solve(absxm3 - p, x) == [-p + 3, p + 3]","solve(Eq(-f(x), Piecewise((1, x > 0), (0, True))), f(x)) == [Piecewise((-1, x > 0), (0, True))]","solve(f - 1) == [1 / sqrt(2)]"],"returns_expr":"list(filter(lambda x: x is not S.NaN, ans))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_piecewise_solve():
     abs2 = Piecewise((-x, x <= 0), (x, x > 0))
     f = abs2.subs(x, x - 2)
@@ -812,16 +913,24 @@ def test_piecewise_solve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_fold(), test_piecewise_fold produces the expected output) over Any ║
+# ║ Path(test_piecewise_fold(), piecewise_fold(x * p) == Piecewise((x ** 2, x < 1), (x, 1 <= x)) and piecewise_fold(p + p) == Piecewise((2 * x, x < 1), (2, 1 <= x)) and piecewise_fold(Piecewise((1, x < 0), (2, True)) + Piecewise((10, x < 0), (-10, True))) == Piecewise((11, x < 0), (-8, True)) and integrate(piecewise_fold(p), (x, -oo, oo)) == integrate(2 * x + 2, (x, 0, 1)) and piecewise_fold(Piecewise((1, y <= 0), (-Piecewise((2, y >= 0)), True))) == Piecewise((1, y <= 0), (-2, y >= 0)) and piecewise_fold(Piecewise((x, ITE(x > 0, y < 1, y > 1)))) == Piecewise((x, ((x <= 0) | (y < 1)) & ((x > 0) | (y > 1)))) and piecewise_fold(Mul(a, b, evaluate=False)) == piecewise_fold(Mul(b, a, evaluate=False))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_fold : Any → {Any | piecewise_fold(x *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  piecewise_fold(x * p) == Piecewise((x ** ...   ║
+# ║   ensures:  piecewise_fold(p + p) == Piecewise((2 * x...   ║
+# ║   ensures:  piecewise_fold(Piecewise((1, x < 0), (2, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_fold : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9f345c794e3720b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d96a50f2d244833e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold","kind":"function","src_hash":"fb81ae6aa53714a3","in":{"base":"Any"},"out":{"base":"Any","pred":"piecewise_fold(x * p) == Piecewise((x ** 2, x < 1), (x, 1 <= x)) and piecewise_fold(p + p) == Piecewise((2 * x, x < 1), (2, 1 <= x)) and integrate(piecewise_fold(p), (x, -oo, oo)) == integrate(2 * x + 2, (x, 0, 1))"},"spec":{"lhs":"test_piecewise_fold()","rhs":"test_piecewise_fold produces the expected output","over":{"base":"Any"},"name":"test_piecewise_fold_correct"},"guarantee":"test_piecewise_fold produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_correct","statement":"Path(test_piecewise_fold(x), test_piecewise_fold produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9f345c794e3720b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold","kind":"function","src_hash":"fb81ae6aa53714a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: piecewise_fold(x * p) == Piecewise((x ** 2, x < 1), (x, 1 <= x)) and piecewise_fold(p + p) == Piecewise((2 * x, x < 1), (2, 1 <= x)) and piecewise_fold(Piecewise((1, x < 0), (2, True)) + Piecewise((10, x < 0), (-10, True))) == Piecewise((11, x < 0), (-8, True)) and integrate(piecewise_fold(p), (x, -oo, oo)) == integrate(2 * x + 2, (x, 0, 1)) and piecewise_fold(Piecewise((1, y <= 0), (-Piecewise((2, y >= 0)), True))) == Piecewise((1, y <= 0), (-2, y >= 0)) and piecewise_fold(Piecewise((x, ITE(x > 0, y < 1, y > 1)))) == Piecewise((x, ((x <= 0) | (y < 1)) & ((x > 0) | (y > 1)))) and piecewise_fold(Mul(a, b, evaluate=False)) == piecewise_fold(Mul(b, a, evaluate=False))"},"spec":{"lhs":"test_piecewise_fold()","rhs":"piecewise_fold(x * p) == Piecewise((x ** 2, x < 1), (x, 1 <= x)) and piecewise_fold(p + p) == Piecewise((2 * x, x < 1), (2, 1 <= x)) and piecewise_fold(Piecewise((1, x < 0), (2, True)) + Piecewise((10, x < 0), (-10, True))) == Piecewise((11, x < 0), (-8, True)) and integrate(piecewise_fold(p), (x, -oo, oo)) == integrate(2 * x + 2, (x, 0, 1)) and piecewise_fold(Piecewise((1, y <= 0), (-Piecewise((2, y >= 0)), True))) == Piecewise((1, y <= 0), (-2, y >= 0)) and piecewise_fold(Piecewise((x, ITE(x > 0, y < 1, y > 1)))) == Piecewise((x, ((x <= 0) | (y < 1)) & ((x > 0) | (y > 1)))) and piecewise_fold(Mul(a, b, evaluate=False)) == piecewise_fold(Mul(b, a, evaluate=False))","over":{"base":"Any"},"name":"test_piecewise_fold_correct"},"guarantee":"piecewise_fold(x * p) == Piecewise((x ** 2, x < 1), (x, 1 <= x)); piecewise_fold(p + p) == Piecewise((2 * x, x < 1), (2, 1 <= x)); piecewise_fold(Piecewise((1, x < 0), (2, True)) + Piecewise((10, x < 0), (-10, True))) == Piecewise((11, x < 0), (-8, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_correct","statement":"Path(test_piecewise_fold(x), piecewise_fold(x * p) == Piecewise((x ** 2, x < 1), (x, 1 <= x)); piecewise_fold(p + p) == Piecewise((2 * x, x < 1), (2, 1 <= x)); piecewise_fold(Piecewise((1, x < 0), (2, True)) + Piecewise((10, x < 0), (-10, True))) == Piecewise((11, x < 0), (-8, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d96a50f2d244833e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["piecewise_fold(x * p) == Piecewise((x ** 2, x < 1), (x, 1 <= x))","piecewise_fold(p + p) == Piecewise((2 * x, x < 1), (2, 1 <= x))","piecewise_fold(Piecewise((1, x < 0), (2, True)) + Piecewise((10, x < 0), (-10, True))) == Piecewise((11, x < 0), (-8, True))","integrate(piecewise_fold(p), (x, -oo, oo)) == integrate(2 * x + 2, (x, 0, 1))","piecewise_fold(Piecewise((1, y <= 0), (-Piecewise((2, y >= 0)), True))) == Piecewise((1, y <= 0), (-2, y >= 0))","piecewise_fold(Piecewise((x, ITE(x > 0, y < 1, y > 1)))) == Piecewise((x, ((x <= 0) | (y < 1)) & ((x > 0) | (y > 1))))","piecewise_fold(Mul(a, b, evaluate=False)) == piecewise_fold(Mul(b, a, evaluate=False))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_piecewise_fold():
     p = Piecewise((x, x < 1), (1, 1 <= x))
 
@@ -852,16 +961,24 @@ def test_piecewise_fold():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_fold_piecewise_in_cond(), test_piecewise_fold_piecewise_in_cond produces the expected output) over Any ║
+# ║ Path(test_piecewise_fold_piecewise_in_cond(), p2.subs(x, -pi / 2) == 0 and p2.subs(x, 1) == 0 and p2.subs(x, -pi / 4) == 1) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p2.subs(x, -pi / 2) == 0                       ║
+# ║   ensures:  p2.subs(x, 1) == 0                             ║
+# ║   ensures:  p2.subs(x, -pi / 4) == 1                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_piecewise_fold_piecewise_in_cond : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e07168e1b2dd38d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8c27bcce4cbd00f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_piecewise_in_cond","kind":"function","src_hash":"073293473ed33bc3","in":{"base":"Any"},"out":{"base":"Any","pred":"p2.subs(x, -pi / 2) == 0 and p2.subs(x, 1) == 0 and p2.subs(x, -pi / 4) == 1 and ans.subs(x, i) == p4.subs(x, i) and ans.subs(x, i) == r1.subs(x, i) and ans.subs(x, i) == p7.subs(x, i)"},"spec":{"lhs":"test_piecewise_fold_piecewise_in_cond()","rhs":"test_piecewise_fold_piecewise_in_cond produces the expected output","over":{"base":"Any"},"name":"test_piecewise_fold_piecewise_in_cond_correct"},"guarantee":"test_piecewise_fold_piecewise_in_cond produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_piecewise_in_cond_correct","statement":"Path(test_piecewise_fold_piecewise_in_cond(x), test_piecewise_fold_piecewise_in_cond produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e07168e1b2dd38d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_piecewise_in_cond","kind":"function","src_hash":"073293473ed33bc3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p2.subs(x, -pi / 2) == 0 and p2.subs(x, 1) == 0 and p2.subs(x, -pi / 4) == 1"},"spec":{"lhs":"test_piecewise_fold_piecewise_in_cond()","rhs":"p2.subs(x, -pi / 2) == 0 and p2.subs(x, 1) == 0 and p2.subs(x, -pi / 4) == 1","over":{"base":"Any"},"name":"test_piecewise_fold_piecewise_in_cond_correct"},"guarantee":"p2.subs(x, -pi / 2) == 0; p2.subs(x, 1) == 0; p2.subs(x, -pi / 4) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_piecewise_in_cond_correct","statement":"Path(test_piecewise_fold_piecewise_in_cond(x), p2.subs(x, -pi / 2) == 0; p2.subs(x, 1) == 0; p2.subs(x, -pi / 4) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8c27bcce4cbd00f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p2.subs(x, -pi / 2) == 0","p2.subs(x, 1) == 0","p2.subs(x, -pi / 4) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_piecewise_fold_piecewise_in_cond():
     p1 = Piecewise((cos(x), x < 0), (0, True))
     p2 = Piecewise((0, Eq(p1, 0)), (p1 / Abs(p1), True))
@@ -887,16 +1004,22 @@ def test_piecewise_fold_piecewise_in_cond():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_fold_piecewise_in_cond_2(), test_piecewise_fold_piecewise_in_cond_2 produces the expected output) over Any ║
+# ║ Path(test_piecewise_fold_piecewise_in_cond_2(), piecewise_fold(p2) == p3) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  piecewise_fold(p2) == p3                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_piecewise_fold_piecewise_in_cond_2 : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a151234b3b1d589e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e82bcdc7e1d5c20c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_piecewise_in_cond_2","kind":"function","src_hash":"218b1b9417bffbf1","in":{"base":"Any"},"out":{"base":"Any","pred":"piecewise_fold(p2) == p3"},"spec":{"lhs":"test_piecewise_fold_piecewise_in_cond_2()","rhs":"test_piecewise_fold_piecewise_in_cond_2 produces the expected output","over":{"base":"Any"},"name":"test_piecewise_fold_piecewise_in_cond_2_correct"},"guarantee":"test_piecewise_fold_piecewise_in_cond_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_piecewise_in_cond_2_correct","statement":"Path(test_piecewise_fold_piecewise_in_cond_2(x), test_piecewise_fold_piecewise_in_cond_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a151234b3b1d589e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_piecewise_in_cond_2","kind":"function","src_hash":"218b1b9417bffbf1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: piecewise_fold(p2) == p3"},"spec":{"lhs":"test_piecewise_fold_piecewise_in_cond_2()","rhs":"piecewise_fold(p2) == p3","over":{"base":"Any"},"name":"test_piecewise_fold_piecewise_in_cond_2_correct"},"guarantee":"piecewise_fold(p2) == p3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_piecewise_in_cond_2_correct","statement":"Path(test_piecewise_fold_piecewise_in_cond_2(x), piecewise_fold(p2) == p3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e82bcdc7e1d5c20c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["piecewise_fold(p2) == p3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_piecewise_fold_piecewise_in_cond_2():
     p1 = Piecewise((cos(x), x < 0), (0, True))
     p2 = Piecewise((0, Eq(p1, 0)), (1 / p1, True))
@@ -908,16 +1031,24 @@ def test_piecewise_fold_piecewise_in_cond_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_fold_expand(), test_piecewise_fold_expand produces the expected output) over Any ║
+# ║ Path(test_piecewise_fold_expand(), piecewise_fold(expand((1 - x) * p1), evaluate=False) == Piecewise((1 - x, cond), (-x, cond), (1, cond), (0, True), evaluate=False) and piecewise_fold(expand((1 - x) * p1), evaluate=None) == Piecewise((1 - x, cond), (0, True)) and p2 == Piecewise((1 - x, cond), (0, True)) and p2 == expand(piecewise_fold((1 - x) * p1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_fold_expand : Any → {Any | p2 == Piece...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  piecewise_fold(expand((1 - x) * p1), eval...   ║
+# ║   ensures:  piecewise_fold(expand((1 - x) * p1), eval...   ║
+# ║   ensures:  p2 == Piecewise((1 - x, cond), (0, True))      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_fold_expand : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74adb6085a4c6b2b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d1bce5f79f75af3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_expand","kind":"function","src_hash":"9447dd9f8cffca33","in":{"base":"Any"},"out":{"base":"Any","pred":"p2 == Piecewise((1 - x, cond), (0, True)) and p2 == expand(piecewise_fold((1 - x) * p1))"},"spec":{"lhs":"test_piecewise_fold_expand()","rhs":"test_piecewise_fold_expand produces the expected output","over":{"base":"Any"},"name":"test_piecewise_fold_expand_correct"},"guarantee":"test_piecewise_fold_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_expand_correct","statement":"Path(test_piecewise_fold_expand(x), test_piecewise_fold_expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74adb6085a4c6b2b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_expand","kind":"function","src_hash":"9447dd9f8cffca33","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: piecewise_fold(expand((1 - x) * p1), evaluate=False) == Piecewise((1 - x, cond), (-x, cond), (1, cond), (0, True), evaluate=False) and piecewise_fold(expand((1 - x) * p1), evaluate=None) == Piecewise((1 - x, cond), (0, True)) and p2 == Piecewise((1 - x, cond), (0, True)) and p2 == expand(piecewise_fold((1 - x) * p1))"},"spec":{"lhs":"test_piecewise_fold_expand()","rhs":"piecewise_fold(expand((1 - x) * p1), evaluate=False) == Piecewise((1 - x, cond), (-x, cond), (1, cond), (0, True), evaluate=False) and piecewise_fold(expand((1 - x) * p1), evaluate=None) == Piecewise((1 - x, cond), (0, True)) and p2 == Piecewise((1 - x, cond), (0, True)) and p2 == expand(piecewise_fold((1 - x) * p1))","over":{"base":"Any"},"name":"test_piecewise_fold_expand_correct"},"guarantee":"piecewise_fold(expand((1 - x) * p1), evaluate=False) == Piecewise((1 - x, cond), (-x, cond), (1, cond), (0, True), evaluate=False); piecewise_fold(expand((1 - x) * p1), evaluate=None) == Piecewise((1 - x, cond), (0, True)); p2 == Piecewise((1 - x, cond), (0, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_fold_expand_correct","statement":"Path(test_piecewise_fold_expand(x), piecewise_fold(expand((1 - x) * p1), evaluate=False) == Piecewise((1 - x, cond), (-x, cond), (1, cond), (0, True), evaluate=False); piecewise_fold(expand((1 - x) * p1), evaluate=None) == Piecewise((1 - x, cond), (0, True)); p2 == Piecewise((1 - x, cond), (0, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d1bce5f79f75af3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["piecewise_fold(expand((1 - x) * p1), evaluate=False) == Piecewise((1 - x, cond), (-x, cond), (1, cond), (0, True), evaluate=False)","piecewise_fold(expand((1 - x) * p1), evaluate=None) == Piecewise((1 - x, cond), (0, True))","p2 == Piecewise((1 - x, cond), (0, True))","p2 == expand(piecewise_fold((1 - x) * p1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_piecewise_fold_expand():
     p1 = Piecewise((1, Interval(0, 1, False, True).contains(x)), (0, True))
 
@@ -932,32 +1063,46 @@ def test_piecewise_fold_expand():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_duplicate(), test_piecewise_duplicate produces the expected output) over Any ║
+# ║ Path(test_piecewise_duplicate(), p == Piecewise(*p.args)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_duplicate : Any → {Any | p == Piecewis...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == Piecewise(*p.args)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_duplicate : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1157dce44fb2d0d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd088d039ca74518  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_duplicate","kind":"function","src_hash":"67beac2ff585ae84","in":{"base":"Any"},"out":{"base":"Any","pred":"p == Piecewise(*p.args)"},"spec":{"lhs":"test_piecewise_duplicate()","rhs":"test_piecewise_duplicate produces the expected output","over":{"base":"Any"},"name":"test_piecewise_duplicate_correct"},"guarantee":"test_piecewise_duplicate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_duplicate_correct","statement":"Path(test_piecewise_duplicate(x), test_piecewise_duplicate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1157dce44fb2d0d9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_duplicate","kind":"function","src_hash":"67beac2ff585ae84","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == Piecewise(*p.args)"},"spec":{"lhs":"test_piecewise_duplicate()","rhs":"p == Piecewise(*p.args)","over":{"base":"Any"},"name":"test_piecewise_duplicate_correct"},"guarantee":"p == Piecewise(*p.args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_duplicate_correct","statement":"Path(test_piecewise_duplicate(x), p == Piecewise(*p.args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd088d039ca74518","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == Piecewise(*p.args)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_piecewise_duplicate():
     p = Piecewise((x, x < -10), (x**2, x <= -1), (x, 1 < x))
     assert p == Piecewise(*p.args)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_doit(), test_doit produces the expected output) over Any ║
+# ║ Path(test_doit(), p2.doit() == p1 and p2.doit(deep=False) == p2 and p1.doit() == p1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_doit : Any → {Any | p2.doit() == p1 and p2.doit(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p2.doit() == p1                                ║
+# ║   ensures:  p2.doit(deep=False) == p2                      ║
+# ║   ensures:  p1.doit() == p1                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_doit : Any → {Any | result satisfies: p2.doit() ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50cd8fccd7fb8379  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9013a1e034b8a057  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_doit","kind":"function","src_hash":"1843f78b93a7873b","in":{"base":"Any"},"out":{"base":"Any","pred":"p2.doit() == p1 and p2.doit(deep=False) == p2 and p1.doit() == p1"},"spec":{"lhs":"test_doit()","rhs":"test_doit produces the expected output","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"test_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_doit_correct","statement":"Path(test_doit(x), test_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50cd8fccd7fb8379"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_doit","kind":"function","src_hash":"1843f78b93a7873b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p2.doit() == p1 and p2.doit(deep=False) == p2 and p1.doit() == p1"},"spec":{"lhs":"test_doit()","rhs":"p2.doit() == p1 and p2.doit(deep=False) == p2 and p1.doit() == p1","over":{"base":"Any"},"name":"test_doit_correct"},"guarantee":"p2.doit() == p1; p2.doit(deep=False) == p2; p1.doit() == p1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_doit_correct","statement":"Path(test_doit(x), p2.doit() == p1; p2.doit(deep=False) == p2; p1.doit() == p1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9013a1e034b8a057","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p2.doit() == p1","p2.doit(deep=False) == p2","p1.doit() == p1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_doit():
     p1 = Piecewise((x, x < 1), (x**2, -1 <= x), (x, 3 < x))
     p2 = Piecewise((x, x < 1), (Integral(2 * x), -1 <= x), (x, 3 < x))
@@ -969,16 +1114,24 @@ def test_doit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_interval(), test_piecewise_interval produces the expected output) over Any ║
+# ║ Path(test_piecewise_interval(), p1.subs(x, -0.5) == 0 and p1.subs(x, 0.5) == 0.5 and p1.diff(x) == Piecewise((1, Interval(0, 1).contains(x)), (0, True)) and integrate(p1, x) == Piecewise((0, x <= 0), (x ** 2 / 2, x <= 1), (S.Half, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_interval : Any → {Any | p1.subs(x, -0....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p1.subs(x, -0.5) == 0                          ║
+# ║   ensures:  p1.subs(x, 0.5) == 0.5                         ║
+# ║   ensures:  p1.diff(x) == Piecewise((1, Interval(0, 1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_interval : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f26bf30a5d27cf3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79b2d2cb52823036  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_interval","kind":"function","src_hash":"3bcd386ae1c98e44","in":{"base":"Any"},"out":{"base":"Any","pred":"p1.subs(x, -0.5) == 0 and p1.subs(x, 0.5) == 0.5 and p1.diff(x) == Piecewise((1, Interval(0, 1).contains(x)), (0, True))"},"spec":{"lhs":"test_piecewise_interval()","rhs":"test_piecewise_interval produces the expected output","over":{"base":"Any"},"name":"test_piecewise_interval_correct"},"guarantee":"test_piecewise_interval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_interval_correct","statement":"Path(test_piecewise_interval(x), test_piecewise_interval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f26bf30a5d27cf3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_interval","kind":"function","src_hash":"3bcd386ae1c98e44","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p1.subs(x, -0.5) == 0 and p1.subs(x, 0.5) == 0.5 and p1.diff(x) == Piecewise((1, Interval(0, 1).contains(x)), (0, True)) and integrate(p1, x) == Piecewise((0, x <= 0), (x ** 2 / 2, x <= 1), (S.Half, True))"},"spec":{"lhs":"test_piecewise_interval()","rhs":"p1.subs(x, -0.5) == 0 and p1.subs(x, 0.5) == 0.5 and p1.diff(x) == Piecewise((1, Interval(0, 1).contains(x)), (0, True)) and integrate(p1, x) == Piecewise((0, x <= 0), (x ** 2 / 2, x <= 1), (S.Half, True))","over":{"base":"Any"},"name":"test_piecewise_interval_correct"},"guarantee":"p1.subs(x, -0.5) == 0; p1.subs(x, 0.5) == 0.5; p1.diff(x) == Piecewise((1, Interval(0, 1).contains(x)), (0, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_interval_correct","statement":"Path(test_piecewise_interval(x), p1.subs(x, -0.5) == 0; p1.subs(x, 0.5) == 0.5; p1.diff(x) == Piecewise((1, Interval(0, 1).contains(x)), (0, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79b2d2cb52823036","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p1.subs(x, -0.5) == 0","p1.subs(x, 0.5) == 0.5","p1.diff(x) == Piecewise((1, Interval(0, 1).contains(x)), (0, True))","integrate(p1, x) == Piecewise((0, x <= 0), (x ** 2 / 2, x <= 1), (S.Half, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_piecewise_interval():
     p1 = Piecewise((x, Interval(0, 1).contains(x)), (0, True))
     assert p1.subs(x, -0.5) == 0
@@ -991,16 +1144,24 @@ def test_piecewise_interval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_exclusive(), test_piecewise_exclusive produces the expected output) over Any ║
+# ║ Path(test_piecewise_exclusive(), piecewise_exclusive(p) == Piecewise((0, x < 0), (S.Half, Eq(x, 0)), (1, x > 0), evaluate=False) and piecewise_exclusive(p + 2) == Piecewise((0, x < 0), (S.Half, Eq(x, 0)), (1, x > 0), evaluate=False) + 2 and piecewise_exclusive(Piecewise((1, y <= 0), (-Piecewise((2, y >= 0)), True))) == Piecewise((1, y <= 0), (-Piecewise((2, y >= 0), (S.NaN, y < 0), evaluate=False), y > 0), evaluate=False) and piecewise_exclusive(Piecewise((1, x > y))) == Piecewise((1, x > y), (S.NaN, x <= y), evaluate=False) and piecewise_exclusive(Piecewise((1, x > y)), skip_nan=True) == Piecewise((1, x > y)) and piecewise_exclusive(p2) == p2xx and piecewise_exclusive(p2, deep=False) == p2x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_exclusive : Any → {Any | piecewise_exc...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  piecewise_exclusive(p) == Piecewise((0, x...   ║
+# ║   ensures:  piecewise_exclusive(p + 2) == Piecewise((...   ║
+# ║   ensures:  piecewise_exclusive(Piecewise((1, y <= 0)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_exclusive : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f873023f39e76b79  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b114ac32c4d25df7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_exclusive","kind":"function","src_hash":"eb05d8e2bd8becec","in":{"base":"Any"},"out":{"base":"Any","pred":"piecewise_exclusive(p2) == p2xx and piecewise_exclusive(p2, deep=False) == p2x"},"spec":{"lhs":"test_piecewise_exclusive()","rhs":"test_piecewise_exclusive produces the expected output","over":{"base":"Any"},"name":"test_piecewise_exclusive_correct"},"guarantee":"test_piecewise_exclusive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_exclusive_correct","statement":"Path(test_piecewise_exclusive(x), test_piecewise_exclusive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f873023f39e76b79"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_exclusive","kind":"function","src_hash":"eb05d8e2bd8becec","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: piecewise_exclusive(p) == Piecewise((0, x < 0), (S.Half, Eq(x, 0)), (1, x > 0), evaluate=False) and piecewise_exclusive(p + 2) == Piecewise((0, x < 0), (S.Half, Eq(x, 0)), (1, x > 0), evaluate=False) + 2 and piecewise_exclusive(Piecewise((1, y <= 0), (-Piecewise((2, y >= 0)), True))) == Piecewise((1, y <= 0), (-Piecewise((2, y >= 0), (S.NaN, y < 0), evaluate=False), y > 0), evaluate=False) and piecewise_exclusive(Piecewise((1, x > y))) == Piecewise((1, x > y), (S.NaN, x <= y), evaluate=False) and piecewise_exclusive(Piecewise((1, x > y)), skip_nan=True) == Piecewise((1, x > y)) and piecewise_exclusive(p2) == p2xx and piecewise_exclusive(p2, deep=False) == p2x"},"spec":{"lhs":"test_piecewise_exclusive()","rhs":"piecewise_exclusive(p) == Piecewise((0, x < 0), (S.Half, Eq(x, 0)), (1, x > 0), evaluate=False) and piecewise_exclusive(p + 2) == Piecewise((0, x < 0), (S.Half, Eq(x, 0)), (1, x > 0), evaluate=False) + 2 and piecewise_exclusive(Piecewise((1, y <= 0), (-Piecewise((2, y >= 0)), True))) == Piecewise((1, y <= 0), (-Piecewise((2, y >= 0), (S.NaN, y < 0), evaluate=False), y > 0), evaluate=False) and piecewise_exclusive(Piecewise((1, x > y))) == Piecewise((1, x > y), (S.NaN, x <= y), evaluate=False) and piecewise_exclusive(Piecewise((1, x > y)), skip_nan=True) == Piecewise((1, x > y)) and piecewise_exclusive(p2) == p2xx and piecewise_exclusive(p2, deep=False) == p2x","over":{"base":"Any"},"name":"test_piecewise_exclusive_correct"},"guarantee":"piecewise_exclusive(p) == Piecewise((0, x < 0), (S.Half, Eq(x, 0)), (1, x > 0), evaluate=False); piecewise_exclusive(p + 2) == Piecewise((0, x < 0), (S.Half, Eq(x, 0)), (1, x > 0), evaluate=False) + 2; piecewise_exclusive(Piecewise((1, y <= 0), (-Piecewise((2, y >= 0)), True))) == Piecewise((1, y <= 0), (-Piecewise((2, y >= 0), (S.NaN, y < 0), evaluate=False), y > 0), evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_exclusive_correct","statement":"Path(test_piecewise_exclusive(x), piecewise_exclusive(p) == Piecewise((0, x < 0), (S.Half, Eq(x, 0)), (1, x > 0), evaluate=False); piecewise_exclusive(p + 2) == Piecewise((0, x < 0), (S.Half, Eq(x, 0)), (1, x > 0), evaluate=False) + 2; piecewise_exclusive(Piecewise((1, y <= 0), (-Piecewise((2, y >= 0)), True))) == Piecewise((1, y <= 0), (-Piecewise((2, y >= 0), (S.NaN, y < 0), evaluate=False), y > 0), evaluate=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b114ac32c4d25df7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["piecewise_exclusive(p) == Piecewise((0, x < 0), (S.Half, Eq(x, 0)), (1, x > 0), evaluate=False)","piecewise_exclusive(p + 2) == Piecewise((0, x < 0), (S.Half, Eq(x, 0)), (1, x > 0), evaluate=False) + 2","piecewise_exclusive(Piecewise((1, y <= 0), (-Piecewise((2, y >= 0)), True))) == Piecewise((1, y <= 0), (-Piecewise((2, y >= 0), (S.NaN, y < 0), evaluate=False), y > 0), evaluate=False)","piecewise_exclusive(Piecewise((1, x > y))) == Piecewise((1, x > y), (S.NaN, x <= y), evaluate=False)","piecewise_exclusive(Piecewise((1, x > y)), skip_nan=True) == Piecewise((1, x > y))","piecewise_exclusive(p2) == p2xx","piecewise_exclusive(p2, deep=False) == p2x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_piecewise_exclusive():
     p = Piecewise((0, x < 0), (S.Half, x <= 0), (1, True))
     assert piecewise_exclusive(p) == Piecewise((0, x < 0), (S.Half, Eq(x, 0)),
@@ -1032,7 +1193,12 @@ def test_piecewise_exclusive():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_collapse(), test_piecewise_collapse produces the expected output) over {Any | isinstance(i, Piecewise)} ║
+# ║ Path(test_piecewise_collapse(), Piecewise((x, True)) == x and Piecewise((x, a), (x + 1, a)) == Piecewise((x, a)) and Piecewise((x, a), (x + 1, a.reversed)) == Piecewise((x, a)) and Piecewise((1, a), (Piecewise((2, a), (3, b), (4, c)), b), (5, c)) == Piecewise((1, a), (3, b), (5, c)) and Piecewise((1, a), (Piecewise((2, a), (3, b), (4, c), (6, True)), c), (5, d)) == Piecewise((1, a), (Piecewise((3, b), (4, c)), c), (5, d)) and Piecewise((1, Or(a, d)), (Piecewise((2, d), (3, b), (4, c)), b), (5, c)) == Piecewise((1, Or(a, d)), (Piecewise((2, d), (3, b)), b), (5, c)) and Piecewise((1, c), (2, ~c), (3, S.true)) == Piecewise((1, c), (2, S.true)) and Piecewise((1, c), (2, And(~c, b)), (3, True)) == Piecewise((1, c), (2, b), (3, True)) and Piecewise((1, c), (2, Or(~c, b)), (3, True)).subs(dict(zip((r1, r2, r3, r4, x), (1, 2, 3, 4, 3.5)))) == 2 and Piecewise((1, c), (2, ~c)) == Piecewise((1, c), (2, True))) over {Any | isinstance(i, Piecewise)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Piecewise((x, True)) == x                      ║
+# ║   ensures:  Piecewise((x, a), (x + 1, a)) == Piecewis...   ║
+# ║   ensures:  Piecewise((x, a), (x + 1, a.reversed)) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_piecewise_collapse : {Any | isinstance(i, Piecew...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1044,9 +1210,12 @@ def test_piecewise_exclusive():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 677a62d2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_collapse","kind":"function","src_hash":"b042f8f9953c64f7","in":{"base":"Any","pred":"isinstance(i, Piecewise)"},"out":{"base":"Any","pred":"Piecewise((x, True)) == x and Piecewise((x, a), (x + 1, a)) == Piecewise((x, a)) and Piecewise((x, a), (x + 1, a.reversed)) == Piecewise((x, a)) and Piecewise((1, c), (2, ~c), (3, S.true)) == Piecewise((1, c), (2, S.true)) and Piecewise((1, c), (2, ~c)) == Piecewise((1, c), (2, True))"},"spec":{"lhs":"test_piecewise_collapse()","rhs":"test_piecewise_collapse produces the expected output","over":{"base":"Any","pred":"isinstance(i, Piecewise)"},"name":"test_piecewise_collapse_correct"},"guarantee":"test_piecewise_collapse produces the expected output","fibers":[{"name":"Piecewise","pred":"isinstance(i, Piecewise)","path":{"lhs":"test_piecewise_collapse(x)","rhs":"test_piecewise_collapse produces the expected output","over":{"base":"Piecewise","pred":"isinstance(i, Piecewise)"},"name":"test_piecewise_collapse_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_collapse_Piecewise_correct","statement":"test_piecewise_collapse satisfies spec on Piecewise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"677a62d2f39c3393"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_collapse","kind":"function","src_hash":"b042f8f9953c64f7","in":{"base":"Any","pred":"isinstance(i, Piecewise)"},"out":{"base":"Any","pred":"result satisfies: Piecewise((x, True)) == x and Piecewise((x, a), (x + 1, a)) == Piecewise((x, a)) and Piecewise((x, a), (x + 1, a.reversed)) == Piecewise((x, a)) and Piecewise((1, a), (Piecewise((2, a), (3, b), (4, c)), b), (5, c)) == Piecewise((1, a), (3, b), (5, c)) and Piecewise((1, a), (Piecewise((2, a), (3, b), (4, c), (6, True)), c), (5, d)) == Piecewise((1, a), (Piecewise((3, b), (4, c)), c), (5, d)) and Piecewise((1, Or(a, d)), (Piecewise((2, d), (3, b), (4, c)), b), (5, c)) == Piecewise((1, Or(a, d)), (Piecewise((2, d), (3, b)), b), (5, c)) and Piecewise((1, c), (2, ~c), (3, S.true)) == Piecewise((1, c), (2, S.true)) and Piecewise((1, c), (2, And(~c, b)), (3, True)) == Piecewise((1, c), (2, b), (3, True)) and Piecewise((1, c), (2, Or(~c, b)), (3, True)).subs(dict(zip((r1, r2, r3, r4, x), (1, 2, 3, 4, 3.5)))) == 2 and Piecewise((1, c), (2, ~c)) == Piecewise((1, c), (2, True))"},"spec":{"lhs":"test_piecewise_collapse()","rhs":"Piecewise((x, True)) == x and Piecewise((x, a), (x + 1, a)) == Piecewise((x, a)) and Piecewise((x, a), (x + 1, a.reversed)) == Piecewise((x, a)) and Piecewise((1, a), (Piecewise((2, a), (3, b), (4, c)), b), (5, c)) == Piecewise((1, a), (3, b), (5, c)) and Piecewise((1, a), (Piecewise((2, a), (3, b), (4, c), (6, True)), c), (5, d)) == Piecewise((1, a), (Piecewise((3, b), (4, c)), c), (5, d)) and Piecewise((1, Or(a, d)), (Piecewise((2, d), (3, b), (4, c)), b), (5, c)) == Piecewise((1, Or(a, d)), (Piecewise((2, d), (3, b)), b), (5, c)) and Piecewise((1, c), (2, ~c), (3, S.true)) == Piecewise((1, c), (2, S.true)) and Piecewise((1, c), (2, And(~c, b)), (3, True)) == Piecewise((1, c), (2, b), (3, True)) and Piecewise((1, c), (2, Or(~c, b)), (3, True)).subs(dict(zip((r1, r2, r3, r4, x), (1, 2, 3, 4, 3.5)))) == 2 and Piecewise((1, c), (2, ~c)) == Piecewise((1, c), (2, True))","over":{"base":"Any","pred":"isinstance(i, Piecewise)"},"name":"test_piecewise_collapse_correct"},"guarantee":"Piecewise((x, True)) == x; Piecewise((x, a), (x + 1, a)) == Piecewise((x, a)); Piecewise((x, a), (x + 1, a.reversed)) == Piecewise((x, a))","fibers":[{"name":"Piecewise","pred":"isinstance(i, Piecewise)","path":{"lhs":"test_piecewise_collapse(x)","rhs":"Piecewise((x, True)) == x; Piecewise((x, a), (x + 1, a)) == Piecewise((x, a)); Piecewise((x, a), (x + 1, a.reversed)) == Piecewise((x, a))","over":{"base":"Piecewise","pred":"isinstance(i, Piecewise)"},"name":"test_piecewise_collapse_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_collapse_Piecewise_correct","statement":"test_piecewise_collapse satisfies spec on Piecewise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"677a62d2f39c3393","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Piecewise((x, True)) == x","Piecewise((x, a), (x + 1, a)) == Piecewise((x, a))","Piecewise((x, a), (x + 1, a.reversed)) == Piecewise((x, a))","Piecewise((1, a), (Piecewise((2, a), (3, b), (4, c)), b), (5, c)) == Piecewise((1, a), (3, b), (5, c))","Piecewise((1, a), (Piecewise((2, a), (3, b), (4, c), (6, True)), c), (5, d)) == Piecewise((1, a), (Piecewise((3, b), (4, c)), c), (5, d))","Piecewise((1, Or(a, d)), (Piecewise((2, d), (3, b), (4, c)), b), (5, c)) == Piecewise((1, Or(a, d)), (Piecewise((2, d), (3, b)), b), (5, c))","Piecewise((1, c), (2, ~c), (3, S.true)) == Piecewise((1, c), (2, S.true))","Piecewise((1, c), (2, And(~c, b)), (3, True)) == Piecewise((1, c), (2, b), (3, True))","Piecewise((1, c), (2, Or(~c, b)), (3, True)).subs(dict(zip((r1, r2, r3, r4, x), (1, 2, 3, 4, 3.5)))) == 2","Piecewise((1, c), (2, ~c)) == Piecewise((1, c), (2, True))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(i, Piecewise)'}, fibers={'Piecewise'})"]}}
 def test_piecewise_collapse():
     assert Piecewise((x, True)) == x
     a = x < 1
@@ -1093,16 +1262,24 @@ def test_piecewise_collapse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_lambdify(), test_piecewise_lambdify produces the expected output) over Any ║
+# ║ Path(test_piecewise_lambdify(), f(-2.0) == 4.0 and f(0.0) == 0.0 and f(0.5) == 0.5 and f(2.0) == 0.0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_lambdify : Any → {Any | f(-2.0) == 4.0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(-2.0) == 4.0                                 ║
+# ║   ensures:  f(0.0) == 0.0                                  ║
+# ║   ensures:  f(0.5) == 0.5                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_lambdify : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a288b747fab6645  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bafa97870786271  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_lambdify","kind":"function","src_hash":"c3b0e084bcde7f0f","in":{"base":"Any"},"out":{"base":"Any","pred":"f(-2.0) == 4.0 and f(0.0) == 0.0 and f(0.5) == 0.5 and f(2.0) == 0.0"},"spec":{"lhs":"test_piecewise_lambdify()","rhs":"test_piecewise_lambdify produces the expected output","over":{"base":"Any"},"name":"test_piecewise_lambdify_correct"},"guarantee":"test_piecewise_lambdify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_lambdify_correct","statement":"Path(test_piecewise_lambdify(x), test_piecewise_lambdify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a288b747fab6645"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_lambdify","kind":"function","src_hash":"c3b0e084bcde7f0f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(-2.0) == 4.0 and f(0.0) == 0.0 and f(0.5) == 0.5 and f(2.0) == 0.0"},"spec":{"lhs":"test_piecewise_lambdify()","rhs":"f(-2.0) == 4.0 and f(0.0) == 0.0 and f(0.5) == 0.5 and f(2.0) == 0.0","over":{"base":"Any"},"name":"test_piecewise_lambdify_correct"},"guarantee":"f(-2.0) == 4.0; f(0.0) == 0.0; f(0.5) == 0.5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_lambdify_correct","statement":"Path(test_piecewise_lambdify(x), f(-2.0) == 4.0; f(0.0) == 0.0; f(0.5) == 0.5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bafa97870786271","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(-2.0) == 4.0","f(0.0) == 0.0","f(0.5) == 0.5","f(2.0) == 0.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_piecewise_lambdify():
     p = Piecewise(
         (x**2, x < 0),
@@ -1119,16 +1296,22 @@ def test_piecewise_lambdify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_series(), test_piecewise_series produces the expected output) over Any ║
+# ║ Path(test_piecewise_series(), p1.nseries(x, n=2) == p2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_series : Any → {Any | p1.nseries(x, n=...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p1.nseries(x, n=2) == p2                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_series : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4781690bb84f594f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3768fb190f2a5c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_series","kind":"function","src_hash":"1d1744876a962b95","in":{"base":"Any"},"out":{"base":"Any","pred":"p1.nseries(x, n=2) == p2"},"spec":{"lhs":"test_piecewise_series()","rhs":"test_piecewise_series produces the expected output","over":{"base":"Any"},"name":"test_piecewise_series_correct"},"guarantee":"test_piecewise_series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_series_correct","statement":"Path(test_piecewise_series(x), test_piecewise_series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4781690bb84f594f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_series","kind":"function","src_hash":"1d1744876a962b95","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p1.nseries(x, n=2) == p2"},"spec":{"lhs":"test_piecewise_series()","rhs":"p1.nseries(x, n=2) == p2","over":{"base":"Any"},"name":"test_piecewise_series_correct"},"guarantee":"p1.nseries(x, n=2) == p2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_series_correct","statement":"Path(test_piecewise_series(x), p1.nseries(x, n=2) == p2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3768fb190f2a5c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p1.nseries(x, n=2) == p2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_piecewise_series():
     from sympy.series.order import O
     p1 = Piecewise((sin(x), x < 0), (cos(x), x > 0))
@@ -1137,16 +1320,24 @@ def test_piecewise_series():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_as_leading_term(), test_piecewise_as_leading_term produces the expected output) over Any ║
+# ║ Path(test_piecewise_as_leading_term(), p1.as_leading_term(x) == 0 and p2.as_leading_term(x) == 0 and p3.as_leading_term(x) == x and p4.as_leading_term(x) == 1 / x and p5.as_leading_term(x) == x and p6.as_leading_term(x) == 1 / x and p7.as_leading_term(x) == x and p8.as_leading_term(x) == 1 / x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_as_leading_term : Any → {Any | p1.as_l...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p1.as_leading_term(x) == 0                     ║
+# ║   ensures:  p2.as_leading_term(x) == 0                     ║
+# ║   ensures:  p3.as_leading_term(x) == x                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_as_leading_term : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 626d4be003f24010  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02e77ad46c096d8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_as_leading_term","kind":"function","src_hash":"918ba62658abccea","in":{"base":"Any"},"out":{"base":"Any","pred":"p1.as_leading_term(x) == 0 and p2.as_leading_term(x) == 0 and p3.as_leading_term(x) == x and p4.as_leading_term(x) == 1 / x and p5.as_leading_term(x) == x and p6.as_leading_term(x) == 1 / x and p7.as_leading_term(x) == x and p8.as_leading_term(x) == 1 / x"},"spec":{"lhs":"test_piecewise_as_leading_term()","rhs":"test_piecewise_as_leading_term produces the expected output","over":{"base":"Any"},"name":"test_piecewise_as_leading_term_correct"},"guarantee":"test_piecewise_as_leading_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_as_leading_term_correct","statement":"Path(test_piecewise_as_leading_term(x), test_piecewise_as_leading_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"626d4be003f24010"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_as_leading_term","kind":"function","src_hash":"918ba62658abccea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p1.as_leading_term(x) == 0 and p2.as_leading_term(x) == 0 and p3.as_leading_term(x) == x and p4.as_leading_term(x) == 1 / x and p5.as_leading_term(x) == x and p6.as_leading_term(x) == 1 / x and p7.as_leading_term(x) == x and p8.as_leading_term(x) == 1 / x"},"spec":{"lhs":"test_piecewise_as_leading_term()","rhs":"p1.as_leading_term(x) == 0 and p2.as_leading_term(x) == 0 and p3.as_leading_term(x) == x and p4.as_leading_term(x) == 1 / x and p5.as_leading_term(x) == x and p6.as_leading_term(x) == 1 / x and p7.as_leading_term(x) == x and p8.as_leading_term(x) == 1 / x","over":{"base":"Any"},"name":"test_piecewise_as_leading_term_correct"},"guarantee":"p1.as_leading_term(x) == 0; p2.as_leading_term(x) == 0; p3.as_leading_term(x) == x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_as_leading_term_correct","statement":"Path(test_piecewise_as_leading_term(x), p1.as_leading_term(x) == 0; p2.as_leading_term(x) == 0; p3.as_leading_term(x) == x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02e77ad46c096d8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p1.as_leading_term(x) == 0","p2.as_leading_term(x) == 0","p3.as_leading_term(x) == x","p4.as_leading_term(x) == 1 / x","p5.as_leading_term(x) == x","p6.as_leading_term(x) == 1 / x","p7.as_leading_term(x) == x","p8.as_leading_term(x) == 1 / x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_piecewise_as_leading_term():
     p1 = Piecewise((1/x, x > 1), (0, True))
     p2 = Piecewise((x, x > 1), (0, True))
@@ -1167,16 +1358,24 @@ def test_piecewise_as_leading_term():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_complex(), test_piecewise_complex produces the expected output) over Any ║
+# ║ Path(test_piecewise_complex(), conjugate(p1) == p1 and conjugate(p2) == piecewise_fold(-p2) and conjugate(p3) == p4 and p1.is_imaginary is False and p1.is_real is True and p2.is_imaginary is True and p2.is_real is False and p3.is_imaginary is None and p3.is_real is None and p1.as_real_imag() == (p1, 0) and p2.as_real_imag() == (0, -I * p2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_complex : Any → {Any | conjugate(p1) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  conjugate(p1) == p1                            ║
+# ║   ensures:  conjugate(p2) == piecewise_fold(-p2)           ║
+# ║   ensures:  conjugate(p3) == p4                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_complex : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f9e49829a48fe88  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 550ac5fc9b93bb17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_complex","kind":"function","src_hash":"d66230ca082c83a6","in":{"base":"Any"},"out":{"base":"Any","pred":"conjugate(p1) == p1 and conjugate(p2) == piecewise_fold(-p2) and conjugate(p3) == p4 and p1.is_imaginary is False and p1.is_real is True and p2.is_imaginary is True and p2.is_real is False and p3.is_imaginary is None and p3.is_real is None and p1.as_real_imag() == (p1, 0) and p2.as_real_imag() == (0, -I * p2)"},"spec":{"lhs":"test_piecewise_complex()","rhs":"test_piecewise_complex produces the expected output","over":{"base":"Any"},"name":"test_piecewise_complex_correct"},"guarantee":"test_piecewise_complex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_complex_correct","statement":"Path(test_piecewise_complex(x), test_piecewise_complex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f9e49829a48fe88"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_complex","kind":"function","src_hash":"d66230ca082c83a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: conjugate(p1) == p1 and conjugate(p2) == piecewise_fold(-p2) and conjugate(p3) == p4 and p1.is_imaginary is False and p1.is_real is True and p2.is_imaginary is True and p2.is_real is False and p3.is_imaginary is None and p3.is_real is None and p1.as_real_imag() == (p1, 0) and p2.as_real_imag() == (0, -I * p2)"},"spec":{"lhs":"test_piecewise_complex()","rhs":"conjugate(p1) == p1 and conjugate(p2) == piecewise_fold(-p2) and conjugate(p3) == p4 and p1.is_imaginary is False and p1.is_real is True and p2.is_imaginary is True and p2.is_real is False and p3.is_imaginary is None and p3.is_real is None and p1.as_real_imag() == (p1, 0) and p2.as_real_imag() == (0, -I * p2)","over":{"base":"Any"},"name":"test_piecewise_complex_correct"},"guarantee":"conjugate(p1) == p1; conjugate(p2) == piecewise_fold(-p2); conjugate(p3) == p4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_complex_correct","statement":"Path(test_piecewise_complex(x), conjugate(p1) == p1; conjugate(p2) == piecewise_fold(-p2); conjugate(p3) == p4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"550ac5fc9b93bb17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["conjugate(p1) == p1","conjugate(p2) == piecewise_fold(-p2)","conjugate(p3) == p4","p1.is_imaginary is False","p1.is_real is True","p2.is_imaginary is True","p2.is_real is False","p3.is_imaginary is None","p3.is_real is None","p1.as_real_imag() == (p1, 0)","p2.as_real_imag() == (0, -I * p2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_piecewise_complex():
     p1 = Piecewise((2, x < 0), (1, 0 <= x))
     p2 = Piecewise((2*I, x < 0), (I, 0 <= x))
@@ -1199,16 +1398,24 @@ def test_piecewise_complex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_conjugate_transpose(), test_conjugate_transpose produces the expected output) over Any ║
+# ║ Path(test_conjugate_transpose(), p.adjoint() == Piecewise((adjoint(A * B ** 2), x > 0), (adjoint(A ** 2 * B), True)) and p.conjugate() == Piecewise((conjugate(A * B ** 2), x > 0), (conjugate(A ** 2 * B), True)) and p.transpose() == Piecewise((transpose(A * B ** 2), x > 0), (transpose(A ** 2 * B), True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_conjugate_transpose : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.adjoint() == Piecewise((adjoint(A * B *...   ║
+# ║   ensures:  p.conjugate() == Piecewise((conjugate(A *...   ║
+# ║   ensures:  p.transpose() == Piecewise((transpose(A *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_conjugate_transpose : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32a1c22b5fa18526  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17a991d60ac81747  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_conjugate_transpose","kind":"function","src_hash":"387eaa6ba648f376","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_conjugate_transpose()","rhs":"test_conjugate_transpose produces the expected output","over":{"base":"Any"},"name":"test_conjugate_transpose_correct"},"guarantee":"test_conjugate_transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_conjugate_transpose_correct","statement":"Path(test_conjugate_transpose(x), test_conjugate_transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32a1c22b5fa18526"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_conjugate_transpose","kind":"function","src_hash":"387eaa6ba648f376","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.adjoint() == Piecewise((adjoint(A * B ** 2), x > 0), (adjoint(A ** 2 * B), True)) and p.conjugate() == Piecewise((conjugate(A * B ** 2), x > 0), (conjugate(A ** 2 * B), True)) and p.transpose() == Piecewise((transpose(A * B ** 2), x > 0), (transpose(A ** 2 * B), True))"},"spec":{"lhs":"test_conjugate_transpose()","rhs":"p.adjoint() == Piecewise((adjoint(A * B ** 2), x > 0), (adjoint(A ** 2 * B), True)) and p.conjugate() == Piecewise((conjugate(A * B ** 2), x > 0), (conjugate(A ** 2 * B), True)) and p.transpose() == Piecewise((transpose(A * B ** 2), x > 0), (transpose(A ** 2 * B), True))","over":{"base":"Any"},"name":"test_conjugate_transpose_correct"},"guarantee":"p.adjoint() == Piecewise((adjoint(A * B ** 2), x > 0), (adjoint(A ** 2 * B), True)); p.conjugate() == Piecewise((conjugate(A * B ** 2), x > 0), (conjugate(A ** 2 * B), True)); p.transpose() == Piecewise((transpose(A * B ** 2), x > 0), (transpose(A ** 2 * B), True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_conjugate_transpose_correct","statement":"Path(test_conjugate_transpose(x), p.adjoint() == Piecewise((adjoint(A * B ** 2), x > 0), (adjoint(A ** 2 * B), True)); p.conjugate() == Piecewise((conjugate(A * B ** 2), x > 0), (conjugate(A ** 2 * B), True)); p.transpose() == Piecewise((transpose(A * B ** 2), x > 0), (transpose(A ** 2 * B), True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17a991d60ac81747","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.adjoint() == Piecewise((adjoint(A * B ** 2), x > 0), (adjoint(A ** 2 * B), True))","p.conjugate() == Piecewise((conjugate(A * B ** 2), x > 0), (conjugate(A ** 2 * B), True))","p.transpose() == Piecewise((transpose(A * B ** 2), x > 0), (transpose(A ** 2 * B), True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_conjugate_transpose():
     A, B = symbols("A B", commutative=False)
     p = Piecewise((A*B**2, x > 0), (A**2*B, True))
@@ -1221,16 +1428,24 @@ def test_conjugate_transpose():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_evaluate(), test_piecewise_evaluate produces the expected output) over Any ║
+# ║ Path(test_piecewise_evaluate(), Piecewise((x, True)) == x and Piecewise((x, True), evaluate=True) == x and Piecewise((1, Eq(1, x))).args == ((1, Eq(x, 1)),) and Piecewise((1, Eq(1, x)), evaluate=False).args == ((1, Eq(1, x)),) and p == x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_evaluate : Any → {Any | Piecewise((x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Piecewise((x, True)) == x                      ║
+# ║   ensures:  Piecewise((x, True), evaluate=True) == x       ║
+# ║   ensures:  Piecewise((1, Eq(1, x))).args == ((1, Eq(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_evaluate : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50755badf2bf74da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e0439a835cc61f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_evaluate","kind":"function","src_hash":"7110546d7c87a74d","in":{"base":"Any"},"out":{"base":"Any","pred":"Piecewise((x, True)) == x and Piecewise((x, True), evaluate=True) == x and Piecewise((1, Eq(1, x))).args == ((1, Eq(x, 1)),) and Piecewise((1, Eq(1, x)), evaluate=False).args == ((1, Eq(1, x)),) and p == x"},"spec":{"lhs":"test_piecewise_evaluate()","rhs":"test_piecewise_evaluate produces the expected output","over":{"base":"Any"},"name":"test_piecewise_evaluate_correct"},"guarantee":"test_piecewise_evaluate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_evaluate_correct","statement":"Path(test_piecewise_evaluate(x), test_piecewise_evaluate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50755badf2bf74da"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_evaluate","kind":"function","src_hash":"7110546d7c87a74d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Piecewise((x, True)) == x and Piecewise((x, True), evaluate=True) == x and Piecewise((1, Eq(1, x))).args == ((1, Eq(x, 1)),) and Piecewise((1, Eq(1, x)), evaluate=False).args == ((1, Eq(1, x)),) and p == x"},"spec":{"lhs":"test_piecewise_evaluate()","rhs":"Piecewise((x, True)) == x and Piecewise((x, True), evaluate=True) == x and Piecewise((1, Eq(1, x))).args == ((1, Eq(x, 1)),) and Piecewise((1, Eq(1, x)), evaluate=False).args == ((1, Eq(1, x)),) and p == x","over":{"base":"Any"},"name":"test_piecewise_evaluate_correct"},"guarantee":"Piecewise((x, True)) == x; Piecewise((x, True), evaluate=True) == x; Piecewise((1, Eq(1, x))).args == ((1, Eq(x, 1)),)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_evaluate_correct","statement":"Path(test_piecewise_evaluate(x), Piecewise((x, True)) == x; Piecewise((x, True), evaluate=True) == x; Piecewise((1, Eq(1, x))).args == ((1, Eq(x, 1)),))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e0439a835cc61f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Piecewise((x, True)) == x","Piecewise((x, True), evaluate=True) == x","Piecewise((1, Eq(1, x))).args == ((1, Eq(x, 1)),)","Piecewise((1, Eq(1, x)), evaluate=False).args == ((1, Eq(1, x)),)","p == x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_piecewise_evaluate():
     assert Piecewise((x, True)) == x
     assert Piecewise((x, True), evaluate=True) == x
@@ -1244,16 +1459,23 @@ def test_piecewise_evaluate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_as_expr_set_pairs(), test_as_expr_set_pairs produces the expected output) over Any ║
+# ║ Path(test_as_expr_set_pairs(), Piecewise((x, x > 0), (-x, x <= 0)).as_expr_set_pairs() == [(x, Interval(0, oo, True, True)), (-x, Interval(-oo, 0))] and Piecewise(((x - 2) ** 2, x >= 0), (0, True)).as_expr_set_pairs() == [((x - 2) ** 2, Interval(0, oo)), (0, Interval(-oo, 0, True, True))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_as_expr_set_pairs : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Piecewise((x, x > 0), (-x, x <= 0)).as_ex...   ║
+# ║   ensures:  Piecewise(((x - 2) ** 2, x >= 0), (0, Tru...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_as_expr_set_pairs : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c3baf80d4e112ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9577d77af9d34b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_as_expr_set_pairs","kind":"function","src_hash":"09f19c1b9db5610c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_as_expr_set_pairs()","rhs":"test_as_expr_set_pairs produces the expected output","over":{"base":"Any"},"name":"test_as_expr_set_pairs_correct"},"guarantee":"test_as_expr_set_pairs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_as_expr_set_pairs_correct","statement":"Path(test_as_expr_set_pairs(x), test_as_expr_set_pairs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c3baf80d4e112ad"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_as_expr_set_pairs","kind":"function","src_hash":"09f19c1b9db5610c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Piecewise((x, x > 0), (-x, x <= 0)).as_expr_set_pairs() == [(x, Interval(0, oo, True, True)), (-x, Interval(-oo, 0))] and Piecewise(((x - 2) ** 2, x >= 0), (0, True)).as_expr_set_pairs() == [((x - 2) ** 2, Interval(0, oo)), (0, Interval(-oo, 0, True, True))]"},"spec":{"lhs":"test_as_expr_set_pairs()","rhs":"Piecewise((x, x > 0), (-x, x <= 0)).as_expr_set_pairs() == [(x, Interval(0, oo, True, True)), (-x, Interval(-oo, 0))] and Piecewise(((x - 2) ** 2, x >= 0), (0, True)).as_expr_set_pairs() == [((x - 2) ** 2, Interval(0, oo)), (0, Interval(-oo, 0, True, True))]","over":{"base":"Any"},"name":"test_as_expr_set_pairs_correct"},"guarantee":"Piecewise((x, x > 0), (-x, x <= 0)).as_expr_set_pairs() == [(x, Interval(0, oo, True, True)), (-x, Interval(-oo, 0))]; Piecewise(((x - 2) ** 2, x >= 0), (0, True)).as_expr_set_pairs() == [((x - 2) ** 2, Interval(0, oo)), (0, Interval(-oo, 0, True, True))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_as_expr_set_pairs_correct","statement":"Path(test_as_expr_set_pairs(x), Piecewise((x, x > 0), (-x, x <= 0)).as_expr_set_pairs() == [(x, Interval(0, oo, True, True)), (-x, Interval(-oo, 0))]; Piecewise(((x - 2) ** 2, x >= 0), (0, True)).as_expr_set_pairs() == [((x - 2) ** 2, Interval(0, oo)), (0, Interval(-oo, 0, True, True))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9577d77af9d34b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Piecewise((x, x > 0), (-x, x <= 0)).as_expr_set_pairs() == [(x, Interval(0, oo, True, True)), (-x, Interval(-oo, 0))]","Piecewise(((x - 2) ** 2, x >= 0), (0, True)).as_expr_set_pairs() == [((x - 2) ** 2, Interval(0, oo)), (0, Interval(-oo, 0, True, True))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_as_expr_set_pairs():
     assert Piecewise((x, x > 0), (-x, x <= 0)).as_expr_set_pairs() == \
         [(x, Interval(0, oo, True, True)), (-x, Interval(-oo, 0))]
@@ -1263,16 +1485,22 @@ def test_as_expr_set_pairs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_S_srepr_is_identity(), test_S_srepr_is_identity produces the expected output) over Any ║
+# ║ Path(test_S_srepr_is_identity(), p == q) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_S_srepr_is_identity : Any → {Any | p == q}            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == q                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_S_srepr_is_identity : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cc8e8488a245df2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34828e375115b612  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_S_srepr_is_identity","kind":"function","src_hash":"2c43beb73b2c272b","in":{"base":"Any"},"out":{"base":"Any","pred":"p == q"},"spec":{"lhs":"test_S_srepr_is_identity()","rhs":"test_S_srepr_is_identity produces the expected output","over":{"base":"Any"},"name":"test_S_srepr_is_identity_correct"},"guarantee":"test_S_srepr_is_identity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_S_srepr_is_identity_correct","statement":"Path(test_S_srepr_is_identity(x), test_S_srepr_is_identity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cc8e8488a245df2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_S_srepr_is_identity","kind":"function","src_hash":"2c43beb73b2c272b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == q"},"spec":{"lhs":"test_S_srepr_is_identity()","rhs":"p == q","over":{"base":"Any"},"name":"test_S_srepr_is_identity_correct"},"guarantee":"p == q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_S_srepr_is_identity_correct","statement":"Path(test_S_srepr_is_identity(x), p == q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34828e375115b612","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == q"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_S_srepr_is_identity():
     p = Piecewise((10, Eq(x, 0)), (12, True))
     q = S(srepr(p))
@@ -1280,16 +1508,22 @@ def test_S_srepr_is_identity():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12587(), test_issue_12587 produces the expected output) over Any ║
+# ║ Path(test_issue_12587(), p.integrate((x, -5, 5)) == 23) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12587 : Any → {Any | p.integrate((x, -5, 5...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.integrate((x, -5, 5)) == 23                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12587 : Any → {Any | result satisfies: p.i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b9c7c6da28c61d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 154fa7b130111f23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_12587","kind":"function","src_hash":"bcc080d9d44e8845","in":{"base":"Any"},"out":{"base":"Any","pred":"p.integrate((x, -5, 5)) == 23 and ans.subs(y, i) == p.subs(y, i).integrate(lim)"},"spec":{"lhs":"test_issue_12587()","rhs":"test_issue_12587 produces the expected output","over":{"base":"Any"},"name":"test_issue_12587_correct"},"guarantee":"test_issue_12587 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_12587_correct","statement":"Path(test_issue_12587(x), test_issue_12587 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b9c7c6da28c61d7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_12587","kind":"function","src_hash":"bcc080d9d44e8845","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.integrate((x, -5, 5)) == 23"},"spec":{"lhs":"test_issue_12587()","rhs":"p.integrate((x, -5, 5)) == 23","over":{"base":"Any"},"name":"test_issue_12587_correct"},"guarantee":"p.integrate((x, -5, 5)) == 23","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_12587_correct","statement":"Path(test_issue_12587(x), p.integrate((x, -5, 5)) == 23)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"154fa7b130111f23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.integrate((x, -5, 5)) == 23"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_12587():
     # sort holes into intervals
     p = Piecewise((1, x > 4), (2, Not((x <= 3) & (x > -1))), (3, True))
@@ -1302,16 +1536,24 @@ def test_issue_12587():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11045(), test_issue_11045 produces the expected output) over Any ║
+# ║ Path(test_issue_11045(), integrate(1 / (x * sqrt(x ** 2 - 1)), (x, 1, 2)) == pi / 3 and Piecewise((1, And(Or(x < 1, x > 3), x < 2)), (0, True)).integrate((x, 0, 3)) == 1 and Piecewise((1, x > 1), (2, x > x + 1), (3, True)).integrate((x, 0, 3)) == 5 and Piecewise((1, x > 1), (2, Eq(1, x)), (3, True)).integrate((x, 0, 4)) == 6 and Piecewise((1, And(2 * x > x + 1, x < 2)), (0, True)).integrate((x, 0, 3)) == 1 and Piecewise((1, Or(2 * x > x + 2, x < 1)), (0, True)).integrate((x, 0, 3)) == 2 and Piecewise((2, Eq(1 - x, x * (1 / x - 1))), (0, True)).integrate((x, 0, 3)) == 6 and Piecewise((1, Or(x < 1, x > 2)), (2, x > 3), (3, True)).integrate((x, 0, 4)) == 6 and Piecewise((1, Ne(x, 0)), (2, True)).integrate((x, -1, 1)) == 2 and Piecewise((x, (x > 1) & (x < 3)), (1, x < 4)).integrate((x, 1, 4)) == 5 and i == Piecewise((y - 1, y < 1), (Min(3, y) ** 2 / 2 - Min(3, y) + Min(4, y) - S.Half, y <= Min(4, y)), (nan, True)) and p.integrate((x, 1, -1)) == i.subs(y, -1) and p.integrate((x, 1, 4)) == 5 and p.integrate((x, 1, 5)) is nan and p.integrate((x, 0, 3)) == 4 and p.integrate((x, 0, 10)) == 20 and Piecewise((1, x < 1), (2, And(Eq(x, 3), x > 1))).integrate((x, 0, 3)) is S.NaN and Piecewise((1, x < 1), (2, And(Eq(x, 3), x > 1)), (3, True)).integrate((x, 0, 3)) == 7 and Piecewise((1, x < 0), (2, And(Eq(x, 3), x < 1)), (3, True)).integrate((x, -1, 1)) == 4 and Piecewise((1, x < 1), (2, Eq(x, 3) & (y < x)), (3, True)).integrate((x, 0, 3)) == 7) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11045 : Any → {Any | integrate(1 / (x * sq...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(1 / (x * sqrt(x ** 2 - 1)), (x,...   ║
+# ║   ensures:  Piecewise((1, And(Or(x < 1, x > 3), x < 2...   ║
+# ║   ensures:  Piecewise((1, x > 1), (2, x > x + 1), (3,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11045 : Any → {Any | result satisfies: int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34898993a2ff073b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3fcaee6a39dc089  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_11045","kind":"function","src_hash":"e6cc109d3972d793","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(1 / (x * sqrt(x ** 2 - 1)), (x, 1, 2)) == pi / 3 and Piecewise((1, x > 1), (2, x > x + 1), (3, True)).integrate((x, 0, 3)) == 5 and Piecewise((1, x > 1), (2, Eq(1, x)), (3, True)).integrate((x, 0, 4)) == 6 and Piecewise((1, And(2 * x > x + 1, x < 2)), (0, True)).integrate((x, 0, 3)) == 1 and Piecewise((1, Or(2 * x > x + 2, x < 1)), (0, True)).integrate((x, 0, 3)) == 2 and Piecewise((1, x > 1), (2, x > x + 1), (3, True)).integrate((x, 0, 3)) == 5 and Piecewise((2, Eq(1 - x, x * (1 / x - 1))), (0, True)).integrate((x, 0, 3)) == 6 and Piecewise((1, Ne(x, 0)), (2, True)).integrate((x, -1, 1)) == 2 and Piecewise((x, (x > 1) & (x < 3)), (1, x < 4)).integrate((x, 1, 4)) == 5 and p.integrate((x, 1, -1)) == i.subs(y, -1) and p.integrate((x, 1, 4)) == 5 and p.integrate((x, 1, 5)) is nan and p.integrate((x, 0, 3)) == 4 and p.integrate((x, 0, 10)) == 20 and Piecewise((1, x < 1), (2, And(Eq(x, 3), x > 1))).integrate((x, 0, 3)) is S.NaN"},"spec":{"lhs":"test_issue_11045()","rhs":"test_issue_11045 produces the expected output","over":{"base":"Any"},"name":"test_issue_11045_correct"},"guarantee":"test_issue_11045 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_11045_correct","statement":"Path(test_issue_11045(x), test_issue_11045 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34898993a2ff073b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_11045","kind":"function","src_hash":"e6cc109d3972d793","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(1 / (x * sqrt(x ** 2 - 1)), (x, 1, 2)) == pi / 3 and Piecewise((1, And(Or(x < 1, x > 3), x < 2)), (0, True)).integrate((x, 0, 3)) == 1 and Piecewise((1, x > 1), (2, x > x + 1), (3, True)).integrate((x, 0, 3)) == 5 and Piecewise((1, x > 1), (2, Eq(1, x)), (3, True)).integrate((x, 0, 4)) == 6 and Piecewise((1, And(2 * x > x + 1, x < 2)), (0, True)).integrate((x, 0, 3)) == 1 and Piecewise((1, Or(2 * x > x + 2, x < 1)), (0, True)).integrate((x, 0, 3)) == 2 and Piecewise((2, Eq(1 - x, x * (1 / x - 1))), (0, True)).integrate((x, 0, 3)) == 6 and Piecewise((1, Or(x < 1, x > 2)), (2, x > 3), (3, True)).integrate((x, 0, 4)) == 6 and Piecewise((1, Ne(x, 0)), (2, True)).integrate((x, -1, 1)) == 2 and Piecewise((x, (x > 1) & (x < 3)), (1, x < 4)).integrate((x, 1, 4)) == 5 and i == Piecewise((y - 1, y < 1), (Min(3, y) ** 2 / 2 - Min(3, y) + Min(4, y) - S.Half, y <= Min(4, y)), (nan, True)) and p.integrate((x, 1, -1)) == i.subs(y, -1) and p.integrate((x, 1, 4)) == 5 and p.integrate((x, 1, 5)) is nan and p.integrate((x, 0, 3)) == 4 and p.integrate((x, 0, 10)) == 20 and Piecewise((1, x < 1), (2, And(Eq(x, 3), x > 1))).integrate((x, 0, 3)) is S.NaN and Piecewise((1, x < 1), (2, And(Eq(x, 3), x > 1)), (3, True)).integrate((x, 0, 3)) == 7 and Piecewise((1, x < 0), (2, And(Eq(x, 3), x < 1)), (3, True)).integrate((x, -1, 1)) == 4 and Piecewise((1, x < 1), (2, Eq(x, 3) & (y < x)), (3, True)).integrate((x, 0, 3)) == 7"},"spec":{"lhs":"test_issue_11045()","rhs":"integrate(1 / (x * sqrt(x ** 2 - 1)), (x, 1, 2)) == pi / 3 and Piecewise((1, And(Or(x < 1, x > 3), x < 2)), (0, True)).integrate((x, 0, 3)) == 1 and Piecewise((1, x > 1), (2, x > x + 1), (3, True)).integrate((x, 0, 3)) == 5 and Piecewise((1, x > 1), (2, Eq(1, x)), (3, True)).integrate((x, 0, 4)) == 6 and Piecewise((1, And(2 * x > x + 1, x < 2)), (0, True)).integrate((x, 0, 3)) == 1 and Piecewise((1, Or(2 * x > x + 2, x < 1)), (0, True)).integrate((x, 0, 3)) == 2 and Piecewise((2, Eq(1 - x, x * (1 / x - 1))), (0, True)).integrate((x, 0, 3)) == 6 and Piecewise((1, Or(x < 1, x > 2)), (2, x > 3), (3, True)).integrate((x, 0, 4)) == 6 and Piecewise((1, Ne(x, 0)), (2, True)).integrate((x, -1, 1)) == 2 and Piecewise((x, (x > 1) & (x < 3)), (1, x < 4)).integrate((x, 1, 4)) == 5 and i == Piecewise((y - 1, y < 1), (Min(3, y) ** 2 / 2 - Min(3, y) + Min(4, y) - S.Half, y <= Min(4, y)), (nan, True)) and p.integrate((x, 1, -1)) == i.subs(y, -1) and p.integrate((x, 1, 4)) == 5 and p.integrate((x, 1, 5)) is nan and p.integrate((x, 0, 3)) == 4 and p.integrate((x, 0, 10)) == 20 and Piecewise((1, x < 1), (2, And(Eq(x, 3), x > 1))).integrate((x, 0, 3)) is S.NaN and Piecewise((1, x < 1), (2, And(Eq(x, 3), x > 1)), (3, True)).integrate((x, 0, 3)) == 7 and Piecewise((1, x < 0), (2, And(Eq(x, 3), x < 1)), (3, True)).integrate((x, -1, 1)) == 4 and Piecewise((1, x < 1), (2, Eq(x, 3) & (y < x)), (3, True)).integrate((x, 0, 3)) == 7","over":{"base":"Any"},"name":"test_issue_11045_correct"},"guarantee":"integrate(1 / (x * sqrt(x ** 2 - 1)), (x, 1, 2)) == pi / 3; Piecewise((1, And(Or(x < 1, x > 3), x < 2)), (0, True)).integrate((x, 0, 3)) == 1; Piecewise((1, x > 1), (2, x > x + 1), (3, True)).integrate((x, 0, 3)) == 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_11045_correct","statement":"Path(test_issue_11045(x), integrate(1 / (x * sqrt(x ** 2 - 1)), (x, 1, 2)) == pi / 3; Piecewise((1, And(Or(x < 1, x > 3), x < 2)), (0, True)).integrate((x, 0, 3)) == 1; Piecewise((1, x > 1), (2, x > x + 1), (3, True)).integrate((x, 0, 3)) == 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3fcaee6a39dc089","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(1 / (x * sqrt(x ** 2 - 1)), (x, 1, 2)) == pi / 3","Piecewise((1, And(Or(x < 1, x > 3), x < 2)), (0, True)).integrate((x, 0, 3)) == 1","Piecewise((1, x > 1), (2, x > x + 1), (3, True)).integrate((x, 0, 3)) == 5","Piecewise((1, x > 1), (2, Eq(1, x)), (3, True)).integrate((x, 0, 4)) == 6","Piecewise((1, And(2 * x > x + 1, x < 2)), (0, True)).integrate((x, 0, 3)) == 1","Piecewise((1, Or(2 * x > x + 2, x < 1)), (0, True)).integrate((x, 0, 3)) == 2","Piecewise((2, Eq(1 - x, x * (1 / x - 1))), (0, True)).integrate((x, 0, 3)) == 6","Piecewise((1, Or(x < 1, x > 2)), (2, x > 3), (3, True)).integrate((x, 0, 4)) == 6","Piecewise((1, Ne(x, 0)), (2, True)).integrate((x, -1, 1)) == 2","Piecewise((x, (x > 1) & (x < 3)), (1, x < 4)).integrate((x, 1, 4)) == 5","i == Piecewise((y - 1, y < 1), (Min(3, y) ** 2 / 2 - Min(3, y) + Min(4, y) - S.Half, y <= Min(4, y)), (nan, True))","p.integrate((x, 1, -1)) == i.subs(y, -1)","p.integrate((x, 1, 4)) == 5","p.integrate((x, 1, 5)) is nan","p.integrate((x, 0, 3)) == 4","p.integrate((x, 0, 10)) == 20","Piecewise((1, x < 1), (2, And(Eq(x, 3), x > 1))).integrate((x, 0, 3)) is S.NaN","Piecewise((1, x < 1), (2, And(Eq(x, 3), x > 1)), (3, True)).integrate((x, 0, 3)) == 7","Piecewise((1, x < 0), (2, And(Eq(x, 3), x < 1)), (3, True)).integrate((x, -1, 1)) == 4","Piecewise((1, x < 1), (2, Eq(x, 3) & (y < x)), (3, True)).integrate((x, 0, 3)) == 7"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_issue_11045():
     assert integrate(1/(x*sqrt(x**2 - 1)), (x, 1, 2)) == pi/3
 
@@ -1387,16 +1629,24 @@ def test_issue_11045():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_holes(), test_holes produces the expected output) over Any ║
+# ║ Path(test_holes(), Piecewise((1, x < 2)).integrate(x) == Piecewise((x, x < 2), (nan, True)) and Piecewise((1, And(x > 1, x < 2))).integrate(x) == Piecewise((nan, x < 1), (x, x < 2), (nan, True)) and Piecewise((1, And(x > 1, x < 2))).integrate((x, 0, 3)) is nan and Piecewise((1, And(x > 0, x < 4))).integrate((x, 1, 3)) == 2 and Piecewise((A, And(x < 0, a < 1)), (B, Or(x < 1, a > 2))).integrate(x) == Piecewise((B * x, a > 2), (Piecewise((A * x, x < 0), (B * x, x < 1), (nan, True)), a < 1), (Piecewise((B * x, x < 1), (nan, True)), True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_holes : Any → {Any | Piecewise((1, x < 2)).integ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Piecewise((1, x < 2)).integrate(x) == Pie...   ║
+# ║   ensures:  Piecewise((1, And(x > 1, x < 2))).integra...   ║
+# ║   ensures:  Piecewise((1, And(x > 1, x < 2))).integra...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_holes : Any → {Any | result satisfies: Piecewise...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78009b3287115ae9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b221ff6c117f8b0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_holes","kind":"function","src_hash":"7ef750c9571e82b9","in":{"base":"Any"},"out":{"base":"Any","pred":"Piecewise((1, x < 2)).integrate(x) == Piecewise((x, x < 2), (nan, True)) and Piecewise((1, And(x > 1, x < 2))).integrate((x, 0, 3)) is nan and Piecewise((1, And(x > 0, x < 4))).integrate((x, 1, 3)) == 2"},"spec":{"lhs":"test_holes()","rhs":"test_holes produces the expected output","over":{"base":"Any"},"name":"test_holes_correct"},"guarantee":"test_holes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_holes_correct","statement":"Path(test_holes(x), test_holes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78009b3287115ae9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_holes","kind":"function","src_hash":"7ef750c9571e82b9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Piecewise((1, x < 2)).integrate(x) == Piecewise((x, x < 2), (nan, True)) and Piecewise((1, And(x > 1, x < 2))).integrate(x) == Piecewise((nan, x < 1), (x, x < 2), (nan, True)) and Piecewise((1, And(x > 1, x < 2))).integrate((x, 0, 3)) is nan and Piecewise((1, And(x > 0, x < 4))).integrate((x, 1, 3)) == 2 and Piecewise((A, And(x < 0, a < 1)), (B, Or(x < 1, a > 2))).integrate(x) == Piecewise((B * x, a > 2), (Piecewise((A * x, x < 0), (B * x, x < 1), (nan, True)), a < 1), (Piecewise((B * x, x < 1), (nan, True)), True))"},"spec":{"lhs":"test_holes()","rhs":"Piecewise((1, x < 2)).integrate(x) == Piecewise((x, x < 2), (nan, True)) and Piecewise((1, And(x > 1, x < 2))).integrate(x) == Piecewise((nan, x < 1), (x, x < 2), (nan, True)) and Piecewise((1, And(x > 1, x < 2))).integrate((x, 0, 3)) is nan and Piecewise((1, And(x > 0, x < 4))).integrate((x, 1, 3)) == 2 and Piecewise((A, And(x < 0, a < 1)), (B, Or(x < 1, a > 2))).integrate(x) == Piecewise((B * x, a > 2), (Piecewise((A * x, x < 0), (B * x, x < 1), (nan, True)), a < 1), (Piecewise((B * x, x < 1), (nan, True)), True))","over":{"base":"Any"},"name":"test_holes_correct"},"guarantee":"Piecewise((1, x < 2)).integrate(x) == Piecewise((x, x < 2), (nan, True)); Piecewise((1, And(x > 1, x < 2))).integrate(x) == Piecewise((nan, x < 1), (x, x < 2), (nan, True)); Piecewise((1, And(x > 1, x < 2))).integrate((x, 0, 3)) is nan","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_holes_correct","statement":"Path(test_holes(x), Piecewise((1, x < 2)).integrate(x) == Piecewise((x, x < 2), (nan, True)); Piecewise((1, And(x > 1, x < 2))).integrate(x) == Piecewise((nan, x < 1), (x, x < 2), (nan, True)); Piecewise((1, And(x > 1, x < 2))).integrate((x, 0, 3)) is nan)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b221ff6c117f8b0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Piecewise((1, x < 2)).integrate(x) == Piecewise((x, x < 2), (nan, True))","Piecewise((1, And(x > 1, x < 2))).integrate(x) == Piecewise((nan, x < 1), (x, x < 2), (nan, True))","Piecewise((1, And(x > 1, x < 2))).integrate((x, 0, 3)) is nan","Piecewise((1, And(x > 0, x < 4))).integrate((x, 1, 3)) == 2","Piecewise((A, And(x < 0, a < 1)), (B, Or(x < 1, a > 2))).integrate(x) == Piecewise((B * x, a > 2), (Piecewise((A * x, x < 0), (B * x, x < 1), (nan, True)), a < 1), (Piecewise((B * x, x < 1), (nan, True)), True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_holes():
     nan = Undefined
     assert Piecewise((1, x < 2)).integrate(x) == Piecewise(
@@ -1418,16 +1668,25 @@ def test_holes():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_11922(), test_issue_11922 produces the expected output) over Any ║
+# ║ Path(test_issue_11922(), Piecewise((0, x < -1), (1 - x ** 2, x < 1), (0, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_11922 : Any → {Any | autocorr(1.9) > 0 and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  autocorr(1.9) > 0                              ║
+# ║   ensures:  a.subs(k, 3) == 0                              ║
+# ║   ensures:  Piecewise((0, x < 1), (10, x >= 1)).integ...   ║
+# ║   returns:  Piecewise((0, x < -1), (1 - x ** 2, x < 1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_11922 : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a074a1cb342abac6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5487b234d40132b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_11922","kind":"function","src_hash":"b5845ec612e20bbe","in":{"base":"Any"},"out":{"base":"Any","pred":"autocorr(1.9) > 0 and a.subs(k, 3) == 0 and a.subs(k, 3) == 0"},"spec":{"lhs":"test_issue_11922()","rhs":"test_issue_11922 produces the expected output","over":{"base":"Any"},"name":"test_issue_11922_correct"},"guarantee":"test_issue_11922 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_11922_correct","statement":"Path(test_issue_11922(x), test_issue_11922 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a074a1cb342abac6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_11922","kind":"function","src_hash":"b5845ec612e20bbe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Piecewise((0, x < -1), (1 - x ** 2, x < 1), (0, True)))"},"spec":{"lhs":"test_issue_11922()","rhs":"Piecewise((0, x < -1), (1 - x ** 2, x < 1), (0, True))","over":{"base":"Any"},"name":"test_issue_11922_correct"},"guarantee":"returns Piecewise((0, x < -1), (1 - x ** 2, x < 1), (0, True)); autocorr(1.9) > 0; a.subs(k, 3) == 0; Piecewise((0, x < 1), (10, x >= 1)).integrate() == Piecewise((0, x < 1), (10 * x - 10, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_11922_correct","statement":"Path(test_issue_11922(x), returns Piecewise((0, x < -1), (1 - x ** 2, x < 1), (0, True)); autocorr(1.9) > 0; a.subs(k, 3) == 0; Piecewise((0, x < 1), (10, x >= 1)).integrate() == Piecewise((0, x < 1), (10 * x - 10, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5487b234d40132b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["autocorr(1.9) > 0","a.subs(k, 3) == 0","Piecewise((0, x < 1), (10, x >= 1)).integrate() == Piecewise((0, x < 1), (10 * x - 10, True))"],"returns_expr":"Piecewise((0, x < -1), (1 - x ** 2, x < 1), (0, True))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_11922():
     def f(x):
         return Piecewise((0, x < -1), (1 - x**2, x < 1), (0, True))
@@ -1447,16 +1706,24 @@ def test_issue_11922():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5227(), test_issue_5227 produces the expected output) over Any ║
+# ║ Path(test_issue_5227(), i == Integral(f, (x, -oo, oo)).doit() and str(i) == '1.00195081676351' and Piecewise((1, x - y < 0), (0, True)).integrate(y) == Piecewise((0, y <= x), (-x + y, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5227 : Any → {Any | i == Integral(f, (x, -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  i == Integral(f, (x, -oo, oo)).doit()          ║
+# ║   ensures:  str(i) == '1.00195081676351'                   ║
+# ║   ensures:  Piecewise((1, x - y < 0), (0, True)).inte...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5227 : Any → {Any | result satisfies: i ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03e1cb31005b7275  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d800f78a0d90fff2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_5227","kind":"function","src_hash":"dbf6f27922f0c28f","in":{"base":"Any"},"out":{"base":"Any","pred":"i == Integral(f, (x, -oo, oo)).doit() and str(i) == '1.00195081676351'"},"spec":{"lhs":"test_issue_5227()","rhs":"test_issue_5227 produces the expected output","over":{"base":"Any"},"name":"test_issue_5227_correct"},"guarantee":"test_issue_5227 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_5227_correct","statement":"Path(test_issue_5227(x), test_issue_5227 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03e1cb31005b7275"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_5227","kind":"function","src_hash":"dbf6f27922f0c28f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: i == Integral(f, (x, -oo, oo)).doit() and str(i) == '1.00195081676351' and Piecewise((1, x - y < 0), (0, True)).integrate(y) == Piecewise((0, y <= x), (-x + y, True))"},"spec":{"lhs":"test_issue_5227()","rhs":"i == Integral(f, (x, -oo, oo)).doit() and str(i) == '1.00195081676351' and Piecewise((1, x - y < 0), (0, True)).integrate(y) == Piecewise((0, y <= x), (-x + y, True))","over":{"base":"Any"},"name":"test_issue_5227_correct"},"guarantee":"i == Integral(f, (x, -oo, oo)).doit(); str(i) == '1.00195081676351'; Piecewise((1, x - y < 0), (0, True)).integrate(y) == Piecewise((0, y <= x), (-x + y, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_5227_correct","statement":"Path(test_issue_5227(x), i == Integral(f, (x, -oo, oo)).doit(); str(i) == '1.00195081676351'; Piecewise((1, x - y < 0), (0, True)).integrate(y) == Piecewise((0, y <= x), (-x + y, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d800f78a0d90fff2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["i == Integral(f, (x, -oo, oo)).doit()","str(i) == '1.00195081676351'","Piecewise((1, x - y < 0), (0, True)).integrate(y) == Piecewise((0, y <= x), (-x + y, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_5227():
     f = 0.0032513612725229*Piecewise((0, x < -80.8461538461539),
         (-0.0160799238820171*x + 1.33215984776403, x < 2),
@@ -1472,16 +1739,24 @@ def test_issue_5227():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10137(), test_issue_10137 produces the expected output) over Any ║
+# ║ Path(test_issue_10137(), integrate(p0, (x, y, oo)) == integrate(p1, (x, y, oo)) and ip3 == Piecewise((0, x <= 0), (x, x <= Max(0, a)), (Max(0, a), True)) and ip4 == ip3 and p3.integrate((x, 2, 4)) == Min(4, Max(2, a)) - 2 and p4.integrate((x, 2, 4)) == Min(4, Max(2, a)) - 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10137 : Any → {Any | integrate(p0, (x, y, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(p0, (x, y, oo)) == integrate(p1...   ║
+# ║   ensures:  ip3 == Piecewise((0, x <= 0), (x, x <= Ma...   ║
+# ║   ensures:  ip4 == ip3                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10137 : Any → {Any | result satisfies: int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 070e6eafe06bd573  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10d1cf95fbd66bec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_10137","kind":"function","src_hash":"33c5f6ddf961c031","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(p0, (x, y, oo)) == integrate(p1, (x, y, oo)) and ip3 == Piecewise((0, x <= 0), (x, x <= Max(0, a)), (Max(0, a), True)) and ip4 == ip3 and p3.integrate((x, 2, 4)) == Min(4, Max(2, a)) - 2 and p4.integrate((x, 2, 4)) == Min(4, Max(2, a)) - 2"},"spec":{"lhs":"test_issue_10137()","rhs":"test_issue_10137 produces the expected output","over":{"base":"Any"},"name":"test_issue_10137_correct"},"guarantee":"test_issue_10137 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_10137_correct","statement":"Path(test_issue_10137(x), test_issue_10137 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"070e6eafe06bd573"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_10137","kind":"function","src_hash":"33c5f6ddf961c031","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(p0, (x, y, oo)) == integrate(p1, (x, y, oo)) and ip3 == Piecewise((0, x <= 0), (x, x <= Max(0, a)), (Max(0, a), True)) and ip4 == ip3 and p3.integrate((x, 2, 4)) == Min(4, Max(2, a)) - 2 and p4.integrate((x, 2, 4)) == Min(4, Max(2, a)) - 2"},"spec":{"lhs":"test_issue_10137()","rhs":"integrate(p0, (x, y, oo)) == integrate(p1, (x, y, oo)) and ip3 == Piecewise((0, x <= 0), (x, x <= Max(0, a)), (Max(0, a), True)) and ip4 == ip3 and p3.integrate((x, 2, 4)) == Min(4, Max(2, a)) - 2 and p4.integrate((x, 2, 4)) == Min(4, Max(2, a)) - 2","over":{"base":"Any"},"name":"test_issue_10137_correct"},"guarantee":"integrate(p0, (x, y, oo)) == integrate(p1, (x, y, oo)); ip3 == Piecewise((0, x <= 0), (x, x <= Max(0, a)), (Max(0, a), True)); ip4 == ip3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_10137_correct","statement":"Path(test_issue_10137(x), integrate(p0, (x, y, oo)) == integrate(p1, (x, y, oo)); ip3 == Piecewise((0, x <= 0), (x, x <= Max(0, a)), (Max(0, a), True)); ip4 == ip3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10d1cf95fbd66bec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(p0, (x, y, oo)) == integrate(p1, (x, y, oo))","ip3 == Piecewise((0, x <= 0), (x, x <= Max(0, a)), (Max(0, a), True))","ip4 == ip3","p3.integrate((x, 2, 4)) == Min(4, Max(2, a)) - 2","p4.integrate((x, 2, 4)) == Min(4, Max(2, a)) - 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_10137():
     a = Symbol('a', real=True)
     b = Symbol('b', real=True)
@@ -1504,16 +1779,24 @@ def test_issue_10137():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_stackoverflow_43852159(), test_stackoverflow_43852159 produces the expected output) over Any ║
+# ║ Path(test_stackoverflow_43852159(), cx.subs(x, -1.5) == cx.subs(x, 1.5) and cx.subs(x, 3) == 0 and piecewise_fold(f(x - y) * f(y)) == Piecewise((1, (y >= -1) & (y <= 1) & (x - y >= -1) & (x - y <= 1)), (0, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_stackoverflow_43852159 : Any → {Any | cx.subs(x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cx.subs(x, -1.5) == cx.subs(x, 1.5)            ║
+# ║   ensures:  cx.subs(x, 3) == 0                             ║
+# ║   ensures:  piecewise_fold(f(x - y) * f(y)) == Piecew...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_stackoverflow_43852159 : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a90f146d447a4769  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d87343a14e7cb994  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_stackoverflow_43852159","kind":"function","src_hash":"47c30b4d4c3f89ef","in":{"base":"Any"},"out":{"base":"Any","pred":"cx.subs(x, -1.5) == cx.subs(x, 1.5) and cx.subs(x, 3) == 0"},"spec":{"lhs":"test_stackoverflow_43852159()","rhs":"test_stackoverflow_43852159 produces the expected output","over":{"base":"Any"},"name":"test_stackoverflow_43852159_correct"},"guarantee":"test_stackoverflow_43852159 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_stackoverflow_43852159_correct","statement":"Path(test_stackoverflow_43852159(x), test_stackoverflow_43852159 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a90f146d447a4769"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_stackoverflow_43852159","kind":"function","src_hash":"47c30b4d4c3f89ef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cx.subs(x, -1.5) == cx.subs(x, 1.5) and cx.subs(x, 3) == 0 and piecewise_fold(f(x - y) * f(y)) == Piecewise((1, (y >= -1) & (y <= 1) & (x - y >= -1) & (x - y <= 1)), (0, True))"},"spec":{"lhs":"test_stackoverflow_43852159()","rhs":"cx.subs(x, -1.5) == cx.subs(x, 1.5) and cx.subs(x, 3) == 0 and piecewise_fold(f(x - y) * f(y)) == Piecewise((1, (y >= -1) & (y <= 1) & (x - y >= -1) & (x - y <= 1)), (0, True))","over":{"base":"Any"},"name":"test_stackoverflow_43852159_correct"},"guarantee":"cx.subs(x, -1.5) == cx.subs(x, 1.5); cx.subs(x, 3) == 0; piecewise_fold(f(x - y) * f(y)) == Piecewise((1, (y >= -1) & (y <= 1) & (x - y >= -1) & (x - y <= 1)), (0, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_stackoverflow_43852159_correct","statement":"Path(test_stackoverflow_43852159(x), cx.subs(x, -1.5) == cx.subs(x, 1.5); cx.subs(x, 3) == 0; piecewise_fold(f(x - y) * f(y)) == Piecewise((1, (y >= -1) & (y <= 1) & (x - y >= -1) & (x - y <= 1)), (0, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d87343a14e7cb994","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cx.subs(x, -1.5) == cx.subs(x, 1.5)","cx.subs(x, 3) == 0","piecewise_fold(f(x - y) * f(y)) == Piecewise((1, (y >= -1) & (y <= 1) & (x - y >= -1) & (x - y <= 1)), (0, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_stackoverflow_43852159():
     f = lambda x: Piecewise((1, (x >= -1) & (x <= 1)), (0, True))
     Conv = lambda x: integrate(f(x - y)*f(y), (y, -oo, +oo))
@@ -1526,16 +1809,23 @@ def test_stackoverflow_43852159():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_12557(), # 3200 seconds to compute the fourier part of issue import sympy as sym x,y,z,t = sym.symbols('x y z t') k = sym.symbols("k", integer=true) fourier = sym.fourier_series(sym.cos(k*x)*sym.sqrt(x**2), (x) over Any ║
+# ║ Path(test_issue_12557(), integrate(abs2(x), (x, -pi, pi)) == pi ** 2 and integrate(func, (x, -pi, pi)) == Piecewise((2 * (-1) ** k / k ** 2 - 2 / k ** 2, Ne(k, 0)), (pi ** 2, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_12557 : Any → {Any | integrate(abs2(x), (x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(abs2(x), (x, -pi, pi)) == pi ** 2    ║
+# ║   ensures:  integrate(func, (x, -pi, pi)) == Piecewis...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_12557 : Any → {Any | result satisfies: int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1ced242fe0ed071  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a72237dcb60a00c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_12557","kind":"function","src_hash":"024d856477e0cbc4","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(abs2(x), (x, -pi, pi)) == pi ** 2"},"spec":{"lhs":"test_issue_12557()","rhs":"# 3200 seconds to compute the fourier part of issue import sympy as sym x,y,z,t = sym.symbols('x y z t') k = sym.symbols(\"k\", integer=true) fourier = sym.fourier_series(sym.cos(k*x)*sym.sqrt(x**2), (x","over":{"base":"Any"},"name":"test_issue_12557_correct"},"guarantee":"# 3200 seconds to compute the fourier part of issue import sympy as sym x,y,z,t = sym.symbols('x y z t') k = sym.symbols(\"k\", integer=true) fourier = sym.fourier_series(sym.cos(k*x)*sym.sqrt(x**2), (x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_12557_correct","statement":"Path(test_issue_12557(x), # 3200 seconds to compute the fourier part of issue import sympy as sym x,y,z,t = sym.symbols('x y z t') k = sym.symbols(\"k\", integer=true) fourier = sym.fourier_series(sym.cos(k*x)*sym.sqrt(x**2), (x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1ced242fe0ed071"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_12557","kind":"function","src_hash":"024d856477e0cbc4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(abs2(x), (x, -pi, pi)) == pi ** 2 and integrate(func, (x, -pi, pi)) == Piecewise((2 * (-1) ** k / k ** 2 - 2 / k ** 2, Ne(k, 0)), (pi ** 2, True))"},"spec":{"lhs":"test_issue_12557()","rhs":"integrate(abs2(x), (x, -pi, pi)) == pi ** 2 and integrate(func, (x, -pi, pi)) == Piecewise((2 * (-1) ** k / k ** 2 - 2 / k ** 2, Ne(k, 0)), (pi ** 2, True))","over":{"base":"Any"},"name":"test_issue_12557_correct"},"guarantee":"integrate(abs2(x), (x, -pi, pi)) == pi ** 2; integrate(func, (x, -pi, pi)) == Piecewise((2 * (-1) ** k / k ** 2 - 2 / k ** 2, Ne(k, 0)), (pi ** 2, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_12557_correct","statement":"Path(test_issue_12557(x), integrate(abs2(x), (x, -pi, pi)) == pi ** 2; integrate(func, (x, -pi, pi)) == Piecewise((2 * (-1) ** k / k ** 2 - 2 / k ** 2, Ne(k, 0)), (pi ** 2, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a72237dcb60a00c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(abs2(x), (x, -pi, pi)) == pi ** 2","integrate(func, (x, -pi, pi)) == Piecewise((2 * (-1) ** k / k ** 2 - 2 / k ** 2, Ne(k, 0)), (pi ** 2, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_12557():
     '''
     # 3200 seconds to compute the fourier part of issue
@@ -1574,16 +1864,23 @@ def test_issue_12557():
         (2*(-1)**k/k**2 - 2/k**2, Ne(k, 0)), (pi**2, True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6900(), test_issue_6900 produces the expected output) over Any ║
+# ║ Path(test_issue_6900(), g == Piecewise((0, t <= t0), (t * x - t0 * x, t <= Max(t0, t1)), (-t0 * x + x * Max(t0, t1), True)) and g == ans) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6900 : Any → {Any | g == ans and tru == an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  g == Piecewise((0, t <= t0), (t * x - t0 ...   ║
+# ║   ensures:  g == ans                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6900 : Any → {Any | result satisfies: g ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8fe869cdc5752c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b205c4b08bfd3c99  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_6900","kind":"function","src_hash":"5a9df0b124fa7e3c","in":{"base":"Any"},"out":{"base":"Any","pred":"g == ans and tru == ans.xreplace(reps) and g.xreplace(reps).subs(t, tt) == f.xreplace(reps).integrate(t).subs(t, tt)"},"spec":{"lhs":"test_issue_6900()","rhs":"test_issue_6900 produces the expected output","over":{"base":"Any"},"name":"test_issue_6900_correct"},"guarantee":"test_issue_6900 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_6900_correct","statement":"Path(test_issue_6900(x), test_issue_6900 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8fe869cdc5752c5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_6900","kind":"function","src_hash":"5a9df0b124fa7e3c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: g == Piecewise((0, t <= t0), (t * x - t0 * x, t <= Max(t0, t1)), (-t0 * x + x * Max(t0, t1), True)) and g == ans"},"spec":{"lhs":"test_issue_6900()","rhs":"g == Piecewise((0, t <= t0), (t * x - t0 * x, t <= Max(t0, t1)), (-t0 * x + x * Max(t0, t1), True)) and g == ans","over":{"base":"Any"},"name":"test_issue_6900_correct"},"guarantee":"g == Piecewise((0, t <= t0), (t * x - t0 * x, t <= Max(t0, t1)), (-t0 * x + x * Max(t0, t1), True)); g == ans","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_6900_correct","statement":"Path(test_issue_6900(x), g == Piecewise((0, t <= t0), (t * x - t0 * x, t <= Max(t0, t1)), (-t0 * x + x * Max(t0, t1), True)); g == ans)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b205c4b08bfd3c99","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["g == Piecewise((0, t <= t0), (t * x - t0 * x, t <= Max(t0, t1)), (-t0 * x + x * Max(t0, t1), True))","g == ans"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_6900():
     from itertools import permutations
     t0, t1, T, t = symbols('t0, t1 T t')
@@ -1611,32 +1908,44 @@ def test_issue_6900():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10122(), test_issue_10122 produces the expected output) over Any ║
+# ║ Path(test_issue_10122(), solve(abs(x) + abs(x - 1) - 1 > 0, x) == Or(And(-oo < x, x < S.Zero), And(S.One < x, x < oo))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10122 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solve(abs(x) + abs(x - 1) - 1 > 0, x) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10122 : Any → {Any | result satisfies: sol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4bf9992164115d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b38204ef65a9c96c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_10122","kind":"function","src_hash":"7e38a46774fdbd3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_10122()","rhs":"test_issue_10122 produces the expected output","over":{"base":"Any"},"name":"test_issue_10122_correct"},"guarantee":"test_issue_10122 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_10122_correct","statement":"Path(test_issue_10122(x), test_issue_10122 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4bf9992164115d7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_10122","kind":"function","src_hash":"7e38a46774fdbd3f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solve(abs(x) + abs(x - 1) - 1 > 0, x) == Or(And(-oo < x, x < S.Zero), And(S.One < x, x < oo))"},"spec":{"lhs":"test_issue_10122()","rhs":"solve(abs(x) + abs(x - 1) - 1 > 0, x) == Or(And(-oo < x, x < S.Zero), And(S.One < x, x < oo))","over":{"base":"Any"},"name":"test_issue_10122_correct"},"guarantee":"solve(abs(x) + abs(x - 1) - 1 > 0, x) == Or(And(-oo < x, x < S.Zero), And(S.One < x, x < oo))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_10122_correct","statement":"Path(test_issue_10122(x), solve(abs(x) + abs(x - 1) - 1 > 0, x) == Or(And(-oo < x, x < S.Zero), And(S.One < x, x < oo)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b38204ef65a9c96c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solve(abs(x) + abs(x - 1) - 1 > 0, x) == Or(And(-oo < x, x < S.Zero), And(S.One < x, x < oo))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_10122():
     assert solve(abs(x) + abs(x - 1) - 1 > 0, x
         ) == Or(And(-oo < x, x < S.Zero), And(S.One < x, x < oo))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4313(), test_issue_4313 produces the expected output) over Any ║
+# ║ Path(test_issue_4313(), integrate(e, x).expand() == Piecewise((Piecewise((0, x <= 0), (-y ** 2 / (a ** 2 * x - a ** 2 * y) + x / a ** 2 - 2 * y * log(-y) / a ** 2 + 2 * y * log(x - y) / a ** 2 - y / a ** 2, x <= M), (-y ** 2 / (-a ** 2 * y + a ** 2 * M) + 1 / (-y + M) - 1 / (x - y) - 2 * y * log(-y) / a ** 2 + 2 * y * log(-y + M) / a ** 2 - y / a ** 2 + M / a ** 2, True)), (a <= y) & (y <= 0) | (y <= 0) & (y > -oo)), (Piecewise((-1 / (x - y), x <= 0), (-a ** 2 / (a ** 2 * x - a ** 2 * y) + 2 * a * y / (a ** 2 * x - a ** 2 * y) - y ** 2 / (a ** 2 * x - a ** 2 * y) + 2 * log(-y) / a - 2 * log(x - y) / a + 2 / a + x / a ** 2 - 2 * y * log(-y) / a ** 2 + 2 * y * log(x - y) / a ** 2 - y / a ** 2, x <= M), (-a ** 2 / (-a ** 2 * y + a ** 2 * M) + 2 * a * y / (-a ** 2 * y + a ** 2 * M) - y ** 2 / (-a ** 2 * y + a ** 2 * M) + 2 * log(-y) / a - 2 * log(-y + M) / a + 2 / a - 2 * y * log(-y) / a ** 2 + 2 * y * log(-y + M) / a ** 2 - y / a ** 2 + M / a ** 2, True)), a <= y), (Piecewise((-y ** 2 / (a ** 2 * x - a ** 2 * y), x <= 0), (x / a ** 2 + y / a ** 2, x <= M), (a ** 2 / (-a ** 2 * y + a ** 2 * M) - a ** 2 / (a ** 2 * x - a ** 2 * y) - 2 * a * y / (-a ** 2 * y + a ** 2 * M) + 2 * a * y / (a ** 2 * x - a ** 2 * y) + y ** 2 / (-a ** 2 * y + a ** 2 * M) - y ** 2 / (a ** 2 * x - a ** 2 * y) + y / a ** 2 + M / a ** 2, True)), True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4313 : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(e, x).expand() == Piecewise((Pi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4313 : Any → {Any | result satisfies: inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ba0271d81da92d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79637369f14739e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_4313","kind":"function","src_hash":"a40493d4f8c3f81c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_4313()","rhs":"test_issue_4313 produces the expected output","over":{"base":"Any"},"name":"test_issue_4313_correct"},"guarantee":"test_issue_4313 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_4313_correct","statement":"Path(test_issue_4313(x), test_issue_4313 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ba0271d81da92d5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_4313","kind":"function","src_hash":"a40493d4f8c3f81c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(e, x).expand() == Piecewise((Piecewise((0, x <= 0), (-y ** 2 / (a ** 2 * x - a ** 2 * y) + x / a ** 2 - 2 * y * log(-y) / a ** 2 + 2 * y * log(x - y) / a ** 2 - y / a ** 2, x <= M), (-y ** 2 / (-a ** 2 * y + a ** 2 * M) + 1 / (-y + M) - 1 / (x - y) - 2 * y * log(-y) / a ** 2 + 2 * y * log(-y + M) / a ** 2 - y / a ** 2 + M / a ** 2, True)), (a <= y) & (y <= 0) | (y <= 0) & (y > -oo)), (Piecewise((-1 / (x - y), x <= 0), (-a ** 2 / (a ** 2 * x - a ** 2 * y) + 2 * a * y / (a ** 2 * x - a ** 2 * y) - y ** 2 / (a ** 2 * x - a ** 2 * y) + 2 * log(-y) / a - 2 * log(x - y) / a + 2 / a + x / a ** 2 - 2 * y * log(-y) / a ** 2 + 2 * y * log(x - y) / a ** 2 - y / a ** 2, x <= M), (-a ** 2 / (-a ** 2 * y + a ** 2 * M) + 2 * a * y / (-a ** 2 * y + a ** 2 * M) - y ** 2 / (-a ** 2 * y + a ** 2 * M) + 2 * log(-y) / a - 2 * log(-y + M) / a + 2 / a - 2 * y * log(-y) / a ** 2 + 2 * y * log(-y + M) / a ** 2 - y / a ** 2 + M / a ** 2, True)), a <= y), (Piecewise((-y ** 2 / (a ** 2 * x - a ** 2 * y), x <= 0), (x / a ** 2 + y / a ** 2, x <= M), (a ** 2 / (-a ** 2 * y + a ** 2 * M) - a ** 2 / (a ** 2 * x - a ** 2 * y) - 2 * a * y / (-a ** 2 * y + a ** 2 * M) + 2 * a * y / (a ** 2 * x - a ** 2 * y) + y ** 2 / (-a ** 2 * y + a ** 2 * M) - y ** 2 / (a ** 2 * x - a ** 2 * y) + y / a ** 2 + M / a ** 2, True)), True))"},"spec":{"lhs":"test_issue_4313()","rhs":"integrate(e, x).expand() == Piecewise((Piecewise((0, x <= 0), (-y ** 2 / (a ** 2 * x - a ** 2 * y) + x / a ** 2 - 2 * y * log(-y) / a ** 2 + 2 * y * log(x - y) / a ** 2 - y / a ** 2, x <= M), (-y ** 2 / (-a ** 2 * y + a ** 2 * M) + 1 / (-y + M) - 1 / (x - y) - 2 * y * log(-y) / a ** 2 + 2 * y * log(-y + M) / a ** 2 - y / a ** 2 + M / a ** 2, True)), (a <= y) & (y <= 0) | (y <= 0) & (y > -oo)), (Piecewise((-1 / (x - y), x <= 0), (-a ** 2 / (a ** 2 * x - a ** 2 * y) + 2 * a * y / (a ** 2 * x - a ** 2 * y) - y ** 2 / (a ** 2 * x - a ** 2 * y) + 2 * log(-y) / a - 2 * log(x - y) / a + 2 / a + x / a ** 2 - 2 * y * log(-y) / a ** 2 + 2 * y * log(x - y) / a ** 2 - y / a ** 2, x <= M), (-a ** 2 / (-a ** 2 * y + a ** 2 * M) + 2 * a * y / (-a ** 2 * y + a ** 2 * M) - y ** 2 / (-a ** 2 * y + a ** 2 * M) + 2 * log(-y) / a - 2 * log(-y + M) / a + 2 / a - 2 * y * log(-y) / a ** 2 + 2 * y * log(-y + M) / a ** 2 - y / a ** 2 + M / a ** 2, True)), a <= y), (Piecewise((-y ** 2 / (a ** 2 * x - a ** 2 * y), x <= 0), (x / a ** 2 + y / a ** 2, x <= M), (a ** 2 / (-a ** 2 * y + a ** 2 * M) - a ** 2 / (a ** 2 * x - a ** 2 * y) - 2 * a * y / (-a ** 2 * y + a ** 2 * M) + 2 * a * y / (a ** 2 * x - a ** 2 * y) + y ** 2 / (-a ** 2 * y + a ** 2 * M) - y ** 2 / (a ** 2 * x - a ** 2 * y) + y / a ** 2 + M / a ** 2, True)), True))","over":{"base":"Any"},"name":"test_issue_4313_correct"},"guarantee":"integrate(e, x).expand() == Piecewise((Piecewise((0, x <= 0), (-y ** 2 / (a ** 2 * x - a ** 2 * y) + x / a ** 2 - 2 * y * log(-y) / a ** 2 + 2 * y * log(x - y) / a ** 2 - y / a ** 2, x <= M), (-y ** 2 / (-a ** 2 * y + a ** 2 * M) + 1 / (-y + M) - 1 / (x - y) - 2 * y * log(-y) / a ** 2 + 2 * y * log(-y + M) / a ** 2 - y / a ** 2 + M / a ** 2, True)), (a <= y) & (y <= 0) | (y <= 0) & (y > -oo)), (Piecewise((-1 / (x - y), x <= 0), (-a ** 2 / (a ** 2 * x - a ** 2 * y) + 2 * a * y / (a ** 2 * x - a ** 2 * y) - y ** 2 / (a ** 2 * x - a ** 2 * y) + 2 * log(-y) / a - 2 * log(x - y) / a + 2 / a + x / a ** 2 - 2 * y * log(-y) / a ** 2 + 2 * y * log(x - y) / a ** 2 - y / a ** 2, x <= M), (-a ** 2 / (-a ** 2 * y + a ** 2 * M) + 2 * a * y / (-a ** 2 * y + a ** 2 * M) - y ** 2 / (-a ** 2 * y + a ** 2 * M) + 2 * log(-y) / a - 2 * log(-y + M) / a + 2 / a - 2 * y * log(-y) / a ** 2 + 2 * y * log(-y + M) / a ** 2 - y / a ** 2 + M / a ** 2, True)), a <= y), (Piecewise((-y ** 2 / (a ** 2 * x - a ** 2 * y), x <= 0), (x / a ** 2 + y / a ** 2, x <= M), (a ** 2 / (-a ** 2 * y + a ** 2 * M) - a ** 2 / (a ** 2 * x - a ** 2 * y) - 2 * a * y / (-a ** 2 * y + a ** 2 * M) + 2 * a * y / (a ** 2 * x - a ** 2 * y) + y ** 2 / (-a ** 2 * y + a ** 2 * M) - y ** 2 / (a ** 2 * x - a ** 2 * y) + y / a ** 2 + M / a ** 2, True)), True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_4313_correct","statement":"Path(test_issue_4313(x), integrate(e, x).expand() == Piecewise((Piecewise((0, x <= 0), (-y ** 2 / (a ** 2 * x - a ** 2 * y) + x / a ** 2 - 2 * y * log(-y) / a ** 2 + 2 * y * log(x - y) / a ** 2 - y / a ** 2, x <= M), (-y ** 2 / (-a ** 2 * y + a ** 2 * M) + 1 / (-y + M) - 1 / (x - y) - 2 * y * log(-y) / a ** 2 + 2 * y * log(-y + M) / a ** 2 - y / a ** 2 + M / a ** 2, True)), (a <= y) & (y <= 0) | (y <= 0) & (y > -oo)), (Piecewise((-1 / (x - y), x <= 0), (-a ** 2 / (a ** 2 * x - a ** 2 * y) + 2 * a * y / (a ** 2 * x - a ** 2 * y) - y ** 2 / (a ** 2 * x - a ** 2 * y) + 2 * log(-y) / a - 2 * log(x - y) / a + 2 / a + x / a ** 2 - 2 * y * log(-y) / a ** 2 + 2 * y * log(x - y) / a ** 2 - y / a ** 2, x <= M), (-a ** 2 / (-a ** 2 * y + a ** 2 * M) + 2 * a * y / (-a ** 2 * y + a ** 2 * M) - y ** 2 / (-a ** 2 * y + a ** 2 * M) + 2 * log(-y) / a - 2 * log(-y + M) / a + 2 / a - 2 * y * log(-y) / a ** 2 + 2 * y * log(-y + M) / a ** 2 - y / a ** 2 + M / a ** 2, True)), a <= y), (Piecewise((-y ** 2 / (a ** 2 * x - a ** 2 * y), x <= 0), (x / a ** 2 + y / a ** 2, x <= M), (a ** 2 / (-a ** 2 * y + a ** 2 * M) - a ** 2 / (a ** 2 * x - a ** 2 * y) - 2 * a * y / (-a ** 2 * y + a ** 2 * M) + 2 * a * y / (a ** 2 * x - a ** 2 * y) + y ** 2 / (-a ** 2 * y + a ** 2 * M) - y ** 2 / (a ** 2 * x - a ** 2 * y) + y / a ** 2 + M / a ** 2, True)), True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79637369f14739e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(e, x).expand() == Piecewise((Piecewise((0, x <= 0), (-y ** 2 / (a ** 2 * x - a ** 2 * y) + x / a ** 2 - 2 * y * log(-y) / a ** 2 + 2 * y * log(x - y) / a ** 2 - y / a ** 2, x <= M), (-y ** 2 / (-a ** 2 * y + a ** 2 * M) + 1 / (-y + M) - 1 / (x - y) - 2 * y * log(-y) / a ** 2 + 2 * y * log(-y + M) / a ** 2 - y / a ** 2 + M / a ** 2, True)), (a <= y) & (y <= 0) | (y <= 0) & (y > -oo)), (Piecewise((-1 / (x - y), x <= 0), (-a ** 2 / (a ** 2 * x - a ** 2 * y) + 2 * a * y / (a ** 2 * x - a ** 2 * y) - y ** 2 / (a ** 2 * x - a ** 2 * y) + 2 * log(-y) / a - 2 * log(x - y) / a + 2 / a + x / a ** 2 - 2 * y * log(-y) / a ** 2 + 2 * y * log(x - y) / a ** 2 - y / a ** 2, x <= M), (-a ** 2 / (-a ** 2 * y + a ** 2 * M) + 2 * a * y / (-a ** 2 * y + a ** 2 * M) - y ** 2 / (-a ** 2 * y + a ** 2 * M) + 2 * log(-y) / a - 2 * log(-y + M) / a + 2 / a - 2 * y * log(-y) / a ** 2 + 2 * y * log(-y + M) / a ** 2 - y / a ** 2 + M / a ** 2, True)), a <= y), (Piecewise((-y ** 2 / (a ** 2 * x - a ** 2 * y), x <= 0), (x / a ** 2 + y / a ** 2, x <= M), (a ** 2 / (-a ** 2 * y + a ** 2 * M) - a ** 2 / (a ** 2 * x - a ** 2 * y) - 2 * a * y / (-a ** 2 * y + a ** 2 * M) + 2 * a * y / (a ** 2 * x - a ** 2 * y) + y ** 2 / (-a ** 2 * y + a ** 2 * M) - y ** 2 / (a ** 2 * x - a ** 2 * y) + y / a ** 2 + M / a ** 2, True)), True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_issue_4313():
     u = Piecewise((0, x <= 0), (1, x >= a), (x/a, True))
     e = (u - u.subs(x, y))**2/(x - y)**2
@@ -1673,16 +1982,24 @@ def test_issue_4313():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test__intervals(), test__intervals produces the expected output) over Any ║
+# ║ Path(test__intervals(), Piecewise((x + 2, Eq(x, 3)))._intervals(x) == (True, []) and Piecewise((1, x > x + 1), (Piecewise((1, x < x + 1)), 2 * x < 2 * x + 1), (1, True))._intervals(x) == (True, [(-oo, oo, 1, 1)]) and Piecewise((1, Ne(x, I)), (0, True))._intervals(x) == (True, [(-oo, oo, 1, 0)]) and Piecewise((-cos(x), sin(x) >= 0), (cos(x), True))._intervals(x) == (True, [(0, pi, -cos(x), 0), (-oo, oo, cos(x), 1)]) and Piecewise((1, Abs(x ** (-2)) > 1), (0, True))._intervals(x) == (True, [(-1, 0, 1, 0), (0, 1, 1, 0), (-oo, oo, 0, 1)])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__intervals : Any → {Any | Piecewise((x + 2, Eq(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Piecewise((x + 2, Eq(x, 3)))._intervals(x...   ║
+# ║   ensures:  Piecewise((1, x > x + 1), (Piecewise((1, ...   ║
+# ║   ensures:  Piecewise((1, Ne(x, I)), (0, True))._inte...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__intervals : Any → {Any | result satisfies: Piec...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92c0d6fe2710297a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9645ff08ff79b9a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test__intervals","kind":"function","src_hash":"24dfaac03d4ae52e","in":{"base":"Any"},"out":{"base":"Any","pred":"Piecewise((x + 2, Eq(x, 3)))._intervals(x) == (True, []) and Piecewise((1, Ne(x, I)), (0, True))._intervals(x) == (True, [(-oo, oo, 1, 0)])"},"spec":{"lhs":"test__intervals()","rhs":"test__intervals produces the expected output","over":{"base":"Any"},"name":"test__intervals_correct"},"guarantee":"test__intervals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test__intervals_correct","statement":"Path(test__intervals(x), test__intervals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92c0d6fe2710297a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test__intervals","kind":"function","src_hash":"24dfaac03d4ae52e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Piecewise((x + 2, Eq(x, 3)))._intervals(x) == (True, []) and Piecewise((1, x > x + 1), (Piecewise((1, x < x + 1)), 2 * x < 2 * x + 1), (1, True))._intervals(x) == (True, [(-oo, oo, 1, 1)]) and Piecewise((1, Ne(x, I)), (0, True))._intervals(x) == (True, [(-oo, oo, 1, 0)]) and Piecewise((-cos(x), sin(x) >= 0), (cos(x), True))._intervals(x) == (True, [(0, pi, -cos(x), 0), (-oo, oo, cos(x), 1)]) and Piecewise((1, Abs(x ** (-2)) > 1), (0, True))._intervals(x) == (True, [(-1, 0, 1, 0), (0, 1, 1, 0), (-oo, oo, 0, 1)])"},"spec":{"lhs":"test__intervals()","rhs":"Piecewise((x + 2, Eq(x, 3)))._intervals(x) == (True, []) and Piecewise((1, x > x + 1), (Piecewise((1, x < x + 1)), 2 * x < 2 * x + 1), (1, True))._intervals(x) == (True, [(-oo, oo, 1, 1)]) and Piecewise((1, Ne(x, I)), (0, True))._intervals(x) == (True, [(-oo, oo, 1, 0)]) and Piecewise((-cos(x), sin(x) >= 0), (cos(x), True))._intervals(x) == (True, [(0, pi, -cos(x), 0), (-oo, oo, cos(x), 1)]) and Piecewise((1, Abs(x ** (-2)) > 1), (0, True))._intervals(x) == (True, [(-1, 0, 1, 0), (0, 1, 1, 0), (-oo, oo, 0, 1)])","over":{"base":"Any"},"name":"test__intervals_correct"},"guarantee":"Piecewise((x + 2, Eq(x, 3)))._intervals(x) == (True, []); Piecewise((1, x > x + 1), (Piecewise((1, x < x + 1)), 2 * x < 2 * x + 1), (1, True))._intervals(x) == (True, [(-oo, oo, 1, 1)]); Piecewise((1, Ne(x, I)), (0, True))._intervals(x) == (True, [(-oo, oo, 1, 0)])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test__intervals_correct","statement":"Path(test__intervals(x), Piecewise((x + 2, Eq(x, 3)))._intervals(x) == (True, []); Piecewise((1, x > x + 1), (Piecewise((1, x < x + 1)), 2 * x < 2 * x + 1), (1, True))._intervals(x) == (True, [(-oo, oo, 1, 1)]); Piecewise((1, Ne(x, I)), (0, True))._intervals(x) == (True, [(-oo, oo, 1, 0)]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9645ff08ff79b9a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Piecewise((x + 2, Eq(x, 3)))._intervals(x) == (True, [])","Piecewise((1, x > x + 1), (Piecewise((1, x < x + 1)), 2 * x < 2 * x + 1), (1, True))._intervals(x) == (True, [(-oo, oo, 1, 1)])","Piecewise((1, Ne(x, I)), (0, True))._intervals(x) == (True, [(-oo, oo, 1, 0)])","Piecewise((-cos(x), sin(x) >= 0), (cos(x), True))._intervals(x) == (True, [(0, pi, -cos(x), 0), (-oo, oo, cos(x), 1)])","Piecewise((1, Abs(x ** (-2)) > 1), (0, True))._intervals(x) == (True, [(-1, 0, 1, 0), (0, 1, 1, 0), (-oo, oo, 0, 1)])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test__intervals():
     assert Piecewise((x + 2, Eq(x, 3)))._intervals(x) == (True, [])
     assert Piecewise(
@@ -1702,16 +2019,22 @@ def test__intervals():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_containment(), test_containment produces the expected output) over Any ║
+# ║ Path(test_containment(), p.integrate(x).diff(x) == Piecewise((c * e, x <= 0), (a * e, x <= 1), (a * d, x < 2), (b * d, x < 4), (c * d, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_containment : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.integrate(x).diff(x) == Piecewise((c * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_containment : Any → {Any | result satisfies: p.i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3812d49e849c4a66  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55db7acdb2fbc498  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_containment","kind":"function","src_hash":"119553f2a5af32f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_containment()","rhs":"test_containment produces the expected output","over":{"base":"Any"},"name":"test_containment_correct"},"guarantee":"test_containment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_containment_correct","statement":"Path(test_containment(x), test_containment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3812d49e849c4a66"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_containment","kind":"function","src_hash":"119553f2a5af32f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.integrate(x).diff(x) == Piecewise((c * e, x <= 0), (a * e, x <= 1), (a * d, x < 2), (b * d, x < 4), (c * d, True))"},"spec":{"lhs":"test_containment()","rhs":"p.integrate(x).diff(x) == Piecewise((c * e, x <= 0), (a * e, x <= 1), (a * d, x < 2), (b * d, x < 4), (c * d, True))","over":{"base":"Any"},"name":"test_containment_correct"},"guarantee":"p.integrate(x).diff(x) == Piecewise((c * e, x <= 0), (a * e, x <= 1), (a * d, x < 2), (b * d, x < 4), (c * d, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_containment_correct","statement":"Path(test_containment(x), p.integrate(x).diff(x) == Piecewise((c * e, x <= 0), (a * e, x <= 1), (a * d, x < 2), (b * d, x < 4), (c * d, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55db7acdb2fbc498","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.integrate(x).diff(x) == Piecewise((c * e, x <= 0), (a * e, x <= 1), (a * d, x < 2), (b * d, x < 4), (c * d, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_containment():
     a, b, c, d, e = [1, 2, 3, 4, 5]
     p = (Piecewise((d, x > 1), (e, True))*
@@ -1725,16 +2048,24 @@ def test_containment():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_with_DiracDelta(), test_piecewise_with_DiracDelta produces the expected output) over Any ║
+# ║ Path(test_piecewise_with_DiracDelta(), integrate(d1, (x, -oo, oo)) == 1 and integrate(d1, (x, 0, 2)) == 1 and Piecewise((d1, Eq(x, 2)), (0, True)).integrate(x) == 0 and Piecewise((d1, x < 2), (0, True)).integrate(x) == Piecewise((Heaviside(x - 1), x < 2), (1, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_with_DiracDelta : Any → {Any | integra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(d1, (x, -oo, oo)) == 1               ║
+# ║   ensures:  integrate(d1, (x, 0, 2)) == 1                  ║
+# ║   ensures:  Piecewise((d1, Eq(x, 2)), (0, True)).inte...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_with_DiracDelta : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd868133f04eb30e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0dc5704d3b101dd8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_with_DiracDelta","kind":"function","src_hash":"9793d72b90717653","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(d1, (x, -oo, oo)) == 1 and integrate(d1, (x, 0, 2)) == 1 and Piecewise((d1, Eq(x, 2)), (0, True)).integrate(x) == 0"},"spec":{"lhs":"test_piecewise_with_DiracDelta()","rhs":"test_piecewise_with_DiracDelta produces the expected output","over":{"base":"Any"},"name":"test_piecewise_with_DiracDelta_correct"},"guarantee":"test_piecewise_with_DiracDelta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_with_DiracDelta_correct","statement":"Path(test_piecewise_with_DiracDelta(x), test_piecewise_with_DiracDelta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd868133f04eb30e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_with_DiracDelta","kind":"function","src_hash":"9793d72b90717653","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(d1, (x, -oo, oo)) == 1 and integrate(d1, (x, 0, 2)) == 1 and Piecewise((d1, Eq(x, 2)), (0, True)).integrate(x) == 0 and Piecewise((d1, x < 2), (0, True)).integrate(x) == Piecewise((Heaviside(x - 1), x < 2), (1, True))"},"spec":{"lhs":"test_piecewise_with_DiracDelta()","rhs":"integrate(d1, (x, -oo, oo)) == 1 and integrate(d1, (x, 0, 2)) == 1 and Piecewise((d1, Eq(x, 2)), (0, True)).integrate(x) == 0 and Piecewise((d1, x < 2), (0, True)).integrate(x) == Piecewise((Heaviside(x - 1), x < 2), (1, True))","over":{"base":"Any"},"name":"test_piecewise_with_DiracDelta_correct"},"guarantee":"integrate(d1, (x, -oo, oo)) == 1; integrate(d1, (x, 0, 2)) == 1; Piecewise((d1, Eq(x, 2)), (0, True)).integrate(x) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_with_DiracDelta_correct","statement":"Path(test_piecewise_with_DiracDelta(x), integrate(d1, (x, -oo, oo)) == 1; integrate(d1, (x, 0, 2)) == 1; Piecewise((d1, Eq(x, 2)), (0, True)).integrate(x) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0dc5704d3b101dd8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(d1, (x, -oo, oo)) == 1","integrate(d1, (x, 0, 2)) == 1","Piecewise((d1, Eq(x, 2)), (0, True)).integrate(x) == 0","Piecewise((d1, x < 2), (0, True)).integrate(x) == Piecewise((Heaviside(x - 1), x < 2), (1, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_piecewise_with_DiracDelta():
     d1 = DiracDelta(x - 1)
     assert integrate(d1, (x, -oo, oo)) == 1
@@ -1748,16 +2079,24 @@ def test_piecewise_with_DiracDelta():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10258(), test_issue_10258 produces the expected output) over Any ║
+# ║ Path(test_issue_10258(), Piecewise((0, x < 1), (1, True)).is_zero is None and Piecewise((-1, x < 1), (1, True)).is_zero is False and Piecewise((0, x < 1), (a, True)).is_zero and Piecewise((1, x < 1), (a, x < 3)).is_zero is None and Piecewise((0, x < 1), (a, True)).is_zero is None and Piecewise((0, x < 1), (1, True)).is_nonzero is None and Piecewise((1, x < 1), (2, True)).is_nonzero and Piecewise((0, x < 1), (oo, True)).is_finite is None and Piecewise((0, x < 1), (1, True)).is_finite and Piecewise((b, x < 1)).is_finite is None and c != True and piecewise_fold(c) == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10258 : Any → {Any | Piecewise((0, x < 1),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Piecewise((0, x < 1), (1, True)).is_zero ...   ║
+# ║   ensures:  Piecewise((-1, x < 1), (1, True)).is_zero...   ║
+# ║   ensures:  Piecewise((0, x < 1), (a, True)).is_zero       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10258 : Any → {Any | result satisfies: Pie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2086eaec261e10f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33f531fcef33118b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_10258","kind":"function","src_hash":"377f889e062d4782","in":{"base":"Any"},"out":{"base":"Any","pred":"Piecewise((0, x < 1), (1, True)).is_zero is None and Piecewise((-1, x < 1), (1, True)).is_zero is False and Piecewise((0, x < 1), (a, True)).is_zero and Piecewise((1, x < 1), (a, x < 3)).is_zero is None and Piecewise((0, x < 1), (a, True)).is_zero is None and Piecewise((0, x < 1), (1, True)).is_nonzero is None and Piecewise((1, x < 1), (2, True)).is_nonzero and Piecewise((0, x < 1), (oo, True)).is_finite is None and Piecewise((0, x < 1), (1, True)).is_finite and Piecewise((b, x < 1)).is_finite is None and c != True and piecewise_fold(c) == True"},"spec":{"lhs":"test_issue_10258()","rhs":"test_issue_10258 produces the expected output","over":{"base":"Any"},"name":"test_issue_10258_correct"},"guarantee":"test_issue_10258 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_10258_correct","statement":"Path(test_issue_10258(x), test_issue_10258 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2086eaec261e10f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_10258","kind":"function","src_hash":"377f889e062d4782","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Piecewise((0, x < 1), (1, True)).is_zero is None and Piecewise((-1, x < 1), (1, True)).is_zero is False and Piecewise((0, x < 1), (a, True)).is_zero and Piecewise((1, x < 1), (a, x < 3)).is_zero is None and Piecewise((0, x < 1), (a, True)).is_zero is None and Piecewise((0, x < 1), (1, True)).is_nonzero is None and Piecewise((1, x < 1), (2, True)).is_nonzero and Piecewise((0, x < 1), (oo, True)).is_finite is None and Piecewise((0, x < 1), (1, True)).is_finite and Piecewise((b, x < 1)).is_finite is None and c != True and piecewise_fold(c) == True"},"spec":{"lhs":"test_issue_10258()","rhs":"Piecewise((0, x < 1), (1, True)).is_zero is None and Piecewise((-1, x < 1), (1, True)).is_zero is False and Piecewise((0, x < 1), (a, True)).is_zero and Piecewise((1, x < 1), (a, x < 3)).is_zero is None and Piecewise((0, x < 1), (a, True)).is_zero is None and Piecewise((0, x < 1), (1, True)).is_nonzero is None and Piecewise((1, x < 1), (2, True)).is_nonzero and Piecewise((0, x < 1), (oo, True)).is_finite is None and Piecewise((0, x < 1), (1, True)).is_finite and Piecewise((b, x < 1)).is_finite is None and c != True and piecewise_fold(c) == True","over":{"base":"Any"},"name":"test_issue_10258_correct"},"guarantee":"Piecewise((0, x < 1), (1, True)).is_zero is None; Piecewise((-1, x < 1), (1, True)).is_zero is False; Piecewise((0, x < 1), (a, True)).is_zero","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_10258_correct","statement":"Path(test_issue_10258(x), Piecewise((0, x < 1), (1, True)).is_zero is None; Piecewise((-1, x < 1), (1, True)).is_zero is False; Piecewise((0, x < 1), (a, True)).is_zero)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33f531fcef33118b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Piecewise((0, x < 1), (1, True)).is_zero is None","Piecewise((-1, x < 1), (1, True)).is_zero is False","Piecewise((0, x < 1), (a, True)).is_zero","Piecewise((1, x < 1), (a, x < 3)).is_zero is None","Piecewise((0, x < 1), (a, True)).is_zero is None","Piecewise((0, x < 1), (1, True)).is_nonzero is None","Piecewise((1, x < 1), (2, True)).is_nonzero","Piecewise((0, x < 1), (oo, True)).is_finite is None","Piecewise((0, x < 1), (1, True)).is_finite","Piecewise((b, x < 1)).is_finite is None","c != True","piecewise_fold(c) == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_10258():
     assert Piecewise((0, x < 1), (1, True)).is_zero is None
     assert Piecewise((-1, x < 1), (1, True)).is_zero is False
@@ -1780,16 +2119,22 @@ def test_issue_10258():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10087(), test_issue_10087 produces the expected output) over Any ║
+# ║ Path(test_issue_10087(), <unspecified:test_issue_10087>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_10087 : Any → {Any | m.subs(x, i) == f.sub...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 080b6c7e27662fc4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_10087","kind":"function","src_hash":"1e9b7805aa85e5d9","in":{"base":"Any"},"out":{"base":"Any","pred":"m.subs(x, i) == f.subs(x, i) and m.subs(x, i) == f.subs(x, i)"},"spec":{"lhs":"test_issue_10087()","rhs":"test_issue_10087 produces the expected output","over":{"base":"Any"},"name":"test_issue_10087_correct"},"guarantee":"test_issue_10087 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_10087_correct","statement":"Path(test_issue_10087(x), test_issue_10087 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"080b6c7e27662fc4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_10087","kind":"function","src_hash":"1e9b7805aa85e5d9","in":{"base":"Any"},"out":{"base":"Any","pred":"m.subs(x, i) == f.subs(x, i) and m.subs(x, i) == f.subs(x, i)"},"spec":{"lhs":"test_issue_10087()","rhs":"<unspecified:test_issue_10087>","over":{"base":"Any"},"name":"test_issue_10087_correct"},"guarantee":"test_issue_10087 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_10087_correct","statement":"Path(test_issue_10087(x), test_issue_10087 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"080b6c7e27662fc4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_10087():
     a, b = Piecewise((x, x > 1), (2, True)), Piecewise((x, x > 3), (3, True))
     m = a*b
@@ -1803,16 +2148,24 @@ def test_issue_10087():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8919(), test_issue_8919 produces the expected output) over Any ║
+# ║ Path(test_issue_8919(), integrate(f1 * f2, (x, 0, 2)) == c[1] * c[3] / 3 + 2 * c[1] * c[4] / 3 + c[2] * c[4] and integrate(f1 * f2, (x, 0, 3)) == 6 and ans == Piecewise((0, b > c), (a * Min(y, z) - a * Min(0, z), True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8919 : Any → {Any | integrate(f1 * f2, (x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(f1 * f2, (x, 0, 2)) == c[1] * c...   ║
+# ║   ensures:  integrate(f1 * f2, (x, 0, 3)) == 6             ║
+# ║   ensures:  ans == Piecewise((0, b > c), (a * Min(y, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8919 : Any → {Any | result satisfies: inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b7e04d059d491ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3776e0e4be1fe6b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_8919","kind":"function","src_hash":"4ad4a3c6556ca7b5","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(f1 * f2, (x, 0, 3)) == 6 and ans == Piecewise((0, b > c), (a * Min(y, z) - a * Min(0, z), True)) and ans.subs(reps) == I.subs(reps).doit()"},"spec":{"lhs":"test_issue_8919()","rhs":"test_issue_8919 produces the expected output","over":{"base":"Any"},"name":"test_issue_8919_correct"},"guarantee":"test_issue_8919 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_8919_correct","statement":"Path(test_issue_8919(x), test_issue_8919 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b7e04d059d491ca"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_8919","kind":"function","src_hash":"4ad4a3c6556ca7b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(f1 * f2, (x, 0, 2)) == c[1] * c[3] / 3 + 2 * c[1] * c[4] / 3 + c[2] * c[4] and integrate(f1 * f2, (x, 0, 3)) == 6 and ans == Piecewise((0, b > c), (a * Min(y, z) - a * Min(0, z), True))"},"spec":{"lhs":"test_issue_8919()","rhs":"integrate(f1 * f2, (x, 0, 2)) == c[1] * c[3] / 3 + 2 * c[1] * c[4] / 3 + c[2] * c[4] and integrate(f1 * f2, (x, 0, 3)) == 6 and ans == Piecewise((0, b > c), (a * Min(y, z) - a * Min(0, z), True))","over":{"base":"Any"},"name":"test_issue_8919_correct"},"guarantee":"integrate(f1 * f2, (x, 0, 2)) == c[1] * c[3] / 3 + 2 * c[1] * c[4] / 3 + c[2] * c[4]; integrate(f1 * f2, (x, 0, 3)) == 6; ans == Piecewise((0, b > c), (a * Min(y, z) - a * Min(0, z), True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_8919_correct","statement":"Path(test_issue_8919(x), integrate(f1 * f2, (x, 0, 2)) == c[1] * c[3] / 3 + 2 * c[1] * c[4] / 3 + c[2] * c[4]; integrate(f1 * f2, (x, 0, 3)) == 6; ans == Piecewise((0, b > c), (a * Min(y, z) - a * Min(0, z), True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3776e0e4be1fe6b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(f1 * f2, (x, 0, 2)) == c[1] * c[3] / 3 + 2 * c[1] * c[4] / 3 + c[2] * c[4]","integrate(f1 * f2, (x, 0, 3)) == 6","ans == Piecewise((0, b > c), (a * Min(y, z) - a * Min(0, z), True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_8919():
     c = symbols('c:5')
     x = symbols("x")
@@ -1839,16 +2192,24 @@ def test_issue_8919():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unevaluated_integrals(), test_unevaluated_integrals produces the expected output) over Any ║
+# ║ Path(test_unevaluated_integrals(), p.integrate(x) == Integral(p, x) and p.integrate((x, 0, 5)) == Integral(p, (x, 0, 5)) and Integral(p, (x, 0, 5)).subs(f(x), x % 2).n() == 10.0 and p.integrate(y) == Piecewise((y, Eq(f(x), 1) | (x < 10) & Eq(f(x), 1)), (2 * y, (x > -oo) & (x < 10)), (0, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unevaluated_integrals : Any → {Any | p.integrate...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.integrate(x) == Integral(p, x)               ║
+# ║   ensures:  p.integrate((x, 0, 5)) == Integral(p, (x,...   ║
+# ║   ensures:  Integral(p, (x, 0, 5)).subs(f(x), x % 2)....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unevaluated_integrals : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d0534ee91ca3a43  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77c4017b0f3061ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_unevaluated_integrals","kind":"function","src_hash":"b517dc17e714aecd","in":{"base":"Any"},"out":{"base":"Any","pred":"p.integrate(x) == Integral(p, x) and p.integrate((x, 0, 5)) == Integral(p, (x, 0, 5)) and Integral(p, (x, 0, 5)).subs(f(x), x % 2).n() == 10.0"},"spec":{"lhs":"test_unevaluated_integrals()","rhs":"test_unevaluated_integrals produces the expected output","over":{"base":"Any"},"name":"test_unevaluated_integrals_correct"},"guarantee":"test_unevaluated_integrals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_unevaluated_integrals_correct","statement":"Path(test_unevaluated_integrals(x), test_unevaluated_integrals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d0534ee91ca3a43"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_unevaluated_integrals","kind":"function","src_hash":"b517dc17e714aecd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.integrate(x) == Integral(p, x) and p.integrate((x, 0, 5)) == Integral(p, (x, 0, 5)) and Integral(p, (x, 0, 5)).subs(f(x), x % 2).n() == 10.0 and p.integrate(y) == Piecewise((y, Eq(f(x), 1) | (x < 10) & Eq(f(x), 1)), (2 * y, (x > -oo) & (x < 10)), (0, True))"},"spec":{"lhs":"test_unevaluated_integrals()","rhs":"p.integrate(x) == Integral(p, x) and p.integrate((x, 0, 5)) == Integral(p, (x, 0, 5)) and Integral(p, (x, 0, 5)).subs(f(x), x % 2).n() == 10.0 and p.integrate(y) == Piecewise((y, Eq(f(x), 1) | (x < 10) & Eq(f(x), 1)), (2 * y, (x > -oo) & (x < 10)), (0, True))","over":{"base":"Any"},"name":"test_unevaluated_integrals_correct"},"guarantee":"p.integrate(x) == Integral(p, x); p.integrate((x, 0, 5)) == Integral(p, (x, 0, 5)); Integral(p, (x, 0, 5)).subs(f(x), x % 2).n() == 10.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_unevaluated_integrals_correct","statement":"Path(test_unevaluated_integrals(x), p.integrate(x) == Integral(p, x); p.integrate((x, 0, 5)) == Integral(p, (x, 0, 5)); Integral(p, (x, 0, 5)).subs(f(x), x % 2).n() == 10.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77c4017b0f3061ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.integrate(x) == Integral(p, x)","p.integrate((x, 0, 5)) == Integral(p, (x, 0, 5))","Integral(p, (x, 0, 5)).subs(f(x), x % 2).n() == 10.0","p.integrate(y) == Piecewise((y, Eq(f(x), 1) | (x < 10) & Eq(f(x), 1)), (2 * y, (x > -oo) & (x < 10)), (0, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_unevaluated_integrals():
     f = Function('f')
     p = Piecewise((1, Eq(f(x) - 1, 0)), (2, x - 10 < 0), (0, True))
@@ -1867,16 +2228,22 @@ def test_unevaluated_integrals():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_conditions_as_alternate_booleans(), test_conditions_as_alternate_booleans produces the expected output) over Any ║
+# ║ Path(test_conditions_as_alternate_booleans(), Piecewise((x, Piecewise((y < 1, x > 0), (y > 1, True)))) == Piecewise((x, ITE(x > 0, y < 1, y > 1)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_conditions_as_alternate_booleans : Any → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Piecewise((x, Piecewise((y < 1, x > 0), (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_conditions_as_alternate_booleans : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a41bfa3fde3edf87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 492aee0d178abd5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_conditions_as_alternate_booleans","kind":"function","src_hash":"c6dcd71a645ac5bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_conditions_as_alternate_booleans()","rhs":"test_conditions_as_alternate_booleans produces the expected output","over":{"base":"Any"},"name":"test_conditions_as_alternate_booleans_correct"},"guarantee":"test_conditions_as_alternate_booleans produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_conditions_as_alternate_booleans_correct","statement":"Path(test_conditions_as_alternate_booleans(x), test_conditions_as_alternate_booleans produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a41bfa3fde3edf87"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_conditions_as_alternate_booleans","kind":"function","src_hash":"c6dcd71a645ac5bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Piecewise((x, Piecewise((y < 1, x > 0), (y > 1, True)))) == Piecewise((x, ITE(x > 0, y < 1, y > 1)))"},"spec":{"lhs":"test_conditions_as_alternate_booleans()","rhs":"Piecewise((x, Piecewise((y < 1, x > 0), (y > 1, True)))) == Piecewise((x, ITE(x > 0, y < 1, y > 1)))","over":{"base":"Any"},"name":"test_conditions_as_alternate_booleans_correct"},"guarantee":"Piecewise((x, Piecewise((y < 1, x > 0), (y > 1, True)))) == Piecewise((x, ITE(x > 0, y < 1, y > 1)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_conditions_as_alternate_booleans_correct","statement":"Path(test_conditions_as_alternate_booleans(x), Piecewise((x, Piecewise((y < 1, x > 0), (y > 1, True)))) == Piecewise((x, ITE(x > 0, y < 1, y > 1))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"492aee0d178abd5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Piecewise((x, Piecewise((y < 1, x > 0), (y > 1, True)))) == Piecewise((x, ITE(x > 0, y < 1, y > 1)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_conditions_as_alternate_booleans():
     a, b, c = symbols('a:c')
     assert Piecewise((x, Piecewise((y < 1, x > 0), (y > 1, True)))
@@ -1886,14 +2253,23 @@ def test_conditions_as_alternate_booleans():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_Piecewise_rewrite_as_ITE(), id) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Piecewise_rewrite_as_ITE : Any → {Any | _ITE((a,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  _ITE((a, x < 1), (b, x >= 1)) == ITE(x < ...   ║
+# ║   ensures:  _ITE((a, x < 1), (b, x < oo)) == ITE(x < ...   ║
+# ║   ensures:  _ITE((a, x < 1), (b, Or(y < 1, x < oo)), ...   ║
+# ║   returns:  Piecewise(*args).rewrite(ITE)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Piecewise_rewrite_as_ITE : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6f02bcb0aa3dfc39   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_Piecewise_rewrite_as_ITE","kind":"function","src_hash":"cf58d266562ca98e","in":{"base":"Any"},"out":{"base":"Any","pred":"_ITE((a, x < 1), (b, x >= 1)) == ITE(x < 1, a, b) and _ITE((a, x < 1), (b, x < oo)) == ITE(x < 1, a, b) and _ITE((a, x < 1), (b, Or(y < 1, x < oo)), (c, y > 0)) == ITE(x < 1, a, b) and _ITE((a, x < 1), (b, True)) == ITE(x < 1, a, b) and _ITE((a, x < 1), (b, x < 2), (c, True)) == ITE(x < 1, a, ITE(x < 2, b, c)) and _ITE((a, x < 1), (b, y < 2), (c, True)) == ITE(x < 1, a, ITE(y < 2, b, c)) and _ITE((a, x < 1), (b, x < oo), (c, y < 1)) == ITE(x < 1, a, b) and _ITE((a, x < 0), (b, Or(x < oo, y < 1))) == ITE(x < 0, a, b)"},"spec":{"lhs":"test_Piecewise_rewrite_as_ITE()","rhs":"test_Piecewise_rewrite_as_ITE produces the expected output","over":{"base":"Any"},"name":"test_Piecewise_rewrite_as_ITE_correct","kind":"composition"},"guarantee":"test_Piecewise_rewrite_as_ITE produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f02bcb0aa3dfc39"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_Piecewise_rewrite_as_ITE","kind":"function","src_hash":"cf58d266562ca98e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Piecewise(*args).rewrite(ITE))"},"spec":{"lhs":"test_Piecewise_rewrite_as_ITE()","rhs":"Piecewise(*args).rewrite(ITE)","over":{"base":"Any"},"name":"test_Piecewise_rewrite_as_ITE_correct","kind":"composition"},"guarantee":"returns Piecewise(*args).rewrite(ITE); _ITE((a, x < 1), (b, x >= 1)) == ITE(x < 1, a, b); _ITE((a, x < 1), (b, x < oo)) == ITE(x < 1, a, b); _ITE((a, x < 1), (b, Or(y < 1, x < oo)), (c, y > 0)) == ITE(x < 1, a, b)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f02bcb0aa3dfc39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["_ITE((a, x < 1), (b, x >= 1)) == ITE(x < 1, a, b)","_ITE((a, x < 1), (b, x < oo)) == ITE(x < 1, a, b)","_ITE((a, x < 1), (b, Or(y < 1, x < oo)), (c, y > 0)) == ITE(x < 1, a, b)","_ITE((a, x < 1), (b, True)) == ITE(x < 1, a, b)","_ITE((a, x < 1), (b, x < 2), (c, True)) == ITE(x < 1, a, ITE(x < 2, b, c))","_ITE((a, x < 1), (b, y < 2), (c, True)) == ITE(x < 1, a, ITE(y < 2, b, c))","_ITE((a, x < 1), (b, x < oo), (c, y < 1)) == ITE(x < 1, a, b)","_ITE((a, x < 1), (c, y < 1), (b, x < oo), (d, True)) == ITE(x < 1, a, ITE(y < 1, c, b))","_ITE((a, x < 0), (b, Or(x < oo, y < 1))) == ITE(x < 0, a, b)"],"returns_expr":"Piecewise(*args).rewrite(ITE)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_Piecewise_rewrite_as_ITE():
     a, b, c, d = symbols('a:d')
 
@@ -1924,16 +2300,23 @@ def test_Piecewise_rewrite_as_ITE():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Piecewise_replace_relational_27538(), test_Piecewise_replace_relational_27538 produces the expected output) over Any ║
+# ║ Path(test_Piecewise_replace_relational_27538(), p2.subs(y, 0) == 0 and p2.subs(y, 1) == 1) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p2.subs(y, 0) == 0                             ║
+# ║   ensures:  p2.subs(y, 1) == 1                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Piecewise_replace_relational_27538 : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f69acaf88f9dec9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6622793c99f7b2e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_Piecewise_replace_relational_27538","kind":"function","src_hash":"f63a7413e3fcddd5","in":{"base":"Any"},"out":{"base":"Any","pred":"p2.subs(y, 0) == 0 and p2.subs(y, 1) == 1"},"spec":{"lhs":"test_Piecewise_replace_relational_27538()","rhs":"test_Piecewise_replace_relational_27538 produces the expected output","over":{"base":"Any"},"name":"test_Piecewise_replace_relational_27538_correct"},"guarantee":"test_Piecewise_replace_relational_27538 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_Piecewise_replace_relational_27538_correct","statement":"Path(test_Piecewise_replace_relational_27538(x), test_Piecewise_replace_relational_27538 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f69acaf88f9dec9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_Piecewise_replace_relational_27538","kind":"function","src_hash":"f63a7413e3fcddd5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p2.subs(y, 0) == 0 and p2.subs(y, 1) == 1"},"spec":{"lhs":"test_Piecewise_replace_relational_27538()","rhs":"p2.subs(y, 0) == 0 and p2.subs(y, 1) == 1","over":{"base":"Any"},"name":"test_Piecewise_replace_relational_27538_correct"},"guarantee":"p2.subs(y, 0) == 0; p2.subs(y, 1) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_Piecewise_replace_relational_27538_correct","statement":"Path(test_Piecewise_replace_relational_27538(x), p2.subs(y, 0) == 0; p2.subs(y, 1) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6622793c99f7b2e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p2.subs(y, 0) == 0","p2.subs(y, 1) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Piecewise_replace_relational_27538():
     x, y = symbols('x, y')
     p1 = Piecewise(
@@ -1946,31 +2329,45 @@ def test_Piecewise_replace_relational_27538():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14052(), test_issue_14052 produces the expected output) over Any ║
+# ║ Path(test_issue_14052(), integrate(abs(sin(x)), (x, 0, 2 * pi)) == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14052 : Any → {Any | integrate(abs(sin(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(abs(sin(x)), (x, 0, 2 * pi)) == 4    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14052 : Any → {Any | result satisfies: int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d632b0ec956deaf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a691a1d99c9d226  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_14052","kind":"function","src_hash":"fc6ee540c75ebdd8","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(abs(sin(x)), (x, 0, 2 * pi)) == 4"},"spec":{"lhs":"test_issue_14052()","rhs":"test_issue_14052 produces the expected output","over":{"base":"Any"},"name":"test_issue_14052_correct"},"guarantee":"test_issue_14052 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_14052_correct","statement":"Path(test_issue_14052(x), test_issue_14052 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d632b0ec956deaf"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_14052","kind":"function","src_hash":"fc6ee540c75ebdd8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(abs(sin(x)), (x, 0, 2 * pi)) == 4"},"spec":{"lhs":"test_issue_14052()","rhs":"integrate(abs(sin(x)), (x, 0, 2 * pi)) == 4","over":{"base":"Any"},"name":"test_issue_14052_correct"},"guarantee":"integrate(abs(sin(x)), (x, 0, 2 * pi)) == 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_14052_correct","statement":"Path(test_issue_14052(x), integrate(abs(sin(x)), (x, 0, 2 * pi)) == 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a691a1d99c9d226","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(abs(sin(x)), (x, 0, 2 * pi)) == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_14052():
     assert integrate(abs(sin(x)), (x, 0, 2*pi)) == 4
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14240(), test_issue_14240 produces the expected output) over Any ║
+# ║ Path(test_issue_14240(), piecewise_fold(Piecewise((1, a), (2, b), (4, True)) + Piecewise((8, a), (16, True))) == Piecewise((9, a), (18, b), (20, True)) and piecewise_fold(Piecewise((2, a), (3, b), (5, True)) * Piecewise((7, a), (11, True))) == Piecewise((14, a), (33, b), (55, True)) and piecewise_fold(Add(*[Piecewise((i, a), (0, True)) for i in range(40)])) == Piecewise((780, a), (0, True)) and piecewise_fold(Mul(*[Piecewise((i, a), (0, True)) for i in range(1, 41)])) == Piecewise((factorial(40), a), (0, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14240 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  piecewise_fold(Piecewise((1, a), (2, b), ...   ║
+# ║   ensures:  piecewise_fold(Piecewise((2, a), (3, b), ...   ║
+# ║   ensures:  piecewise_fold(Add(*[Piecewise((i, a), (0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14240 : Any → {Any | result satisfies: pie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 564b09b0435615dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c2261dd63a88a86  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_14240","kind":"function","src_hash":"1040322514eafb61","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_14240()","rhs":"test_issue_14240 produces the expected output","over":{"base":"Any"},"name":"test_issue_14240_correct"},"guarantee":"test_issue_14240 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_14240_correct","statement":"Path(test_issue_14240(x), test_issue_14240 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"564b09b0435615dc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_14240","kind":"function","src_hash":"1040322514eafb61","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: piecewise_fold(Piecewise((1, a), (2, b), (4, True)) + Piecewise((8, a), (16, True))) == Piecewise((9, a), (18, b), (20, True)) and piecewise_fold(Piecewise((2, a), (3, b), (5, True)) * Piecewise((7, a), (11, True))) == Piecewise((14, a), (33, b), (55, True)) and piecewise_fold(Add(*[Piecewise((i, a), (0, True)) for i in range(40)])) == Piecewise((780, a), (0, True)) and piecewise_fold(Mul(*[Piecewise((i, a), (0, True)) for i in range(1, 41)])) == Piecewise((factorial(40), a), (0, True))"},"spec":{"lhs":"test_issue_14240()","rhs":"piecewise_fold(Piecewise((1, a), (2, b), (4, True)) + Piecewise((8, a), (16, True))) == Piecewise((9, a), (18, b), (20, True)) and piecewise_fold(Piecewise((2, a), (3, b), (5, True)) * Piecewise((7, a), (11, True))) == Piecewise((14, a), (33, b), (55, True)) and piecewise_fold(Add(*[Piecewise((i, a), (0, True)) for i in range(40)])) == Piecewise((780, a), (0, True)) and piecewise_fold(Mul(*[Piecewise((i, a), (0, True)) for i in range(1, 41)])) == Piecewise((factorial(40), a), (0, True))","over":{"base":"Any"},"name":"test_issue_14240_correct"},"guarantee":"piecewise_fold(Piecewise((1, a), (2, b), (4, True)) + Piecewise((8, a), (16, True))) == Piecewise((9, a), (18, b), (20, True)); piecewise_fold(Piecewise((2, a), (3, b), (5, True)) * Piecewise((7, a), (11, True))) == Piecewise((14, a), (33, b), (55, True)); piecewise_fold(Add(*[Piecewise((i, a), (0, True)) for i in range(40)])) == Piecewise((780, a), (0, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_14240_correct","statement":"Path(test_issue_14240(x), piecewise_fold(Piecewise((1, a), (2, b), (4, True)) + Piecewise((8, a), (16, True))) == Piecewise((9, a), (18, b), (20, True)); piecewise_fold(Piecewise((2, a), (3, b), (5, True)) * Piecewise((7, a), (11, True))) == Piecewise((14, a), (33, b), (55, True)); piecewise_fold(Add(*[Piecewise((i, a), (0, True)) for i in range(40)])) == Piecewise((780, a), (0, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c2261dd63a88a86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["piecewise_fold(Piecewise((1, a), (2, b), (4, True)) + Piecewise((8, a), (16, True))) == Piecewise((9, a), (18, b), (20, True))","piecewise_fold(Piecewise((2, a), (3, b), (5, True)) * Piecewise((7, a), (11, True))) == Piecewise((14, a), (33, b), (55, True))","piecewise_fold(Add(*[Piecewise((i, a), (0, True)) for i in range(40)])) == Piecewise((780, a), (0, True))","piecewise_fold(Mul(*[Piecewise((i, a), (0, True)) for i in range(1, 41)])) == Piecewise((factorial(40), a), (0, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_14240():
     assert piecewise_fold(
         Piecewise((1, a), (2, b), (4, True)) +
@@ -1990,32 +2387,44 @@ def test_issue_14240():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14787(), test_issue_14787 produces the expected output) over Any ║
+# ║ Path(test_issue_14787(), str(f.evalf()) == 'Piecewise((x, x < 1), (8.28571428571429, True))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14787 : Any → {Any | str(f.evalf()) == 'Pi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(f.evalf()) == 'Piecewise((x, x < 1), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14787 : Any → {Any | result satisfies: str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9745b74c96e135cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aba1775c40e7529f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_14787","kind":"function","src_hash":"ed1d67661dfce43c","in":{"base":"Any"},"out":{"base":"Any","pred":"str(f.evalf()) == 'Piecewise((x, x < 1), (8.28571428571429, True))'"},"spec":{"lhs":"test_issue_14787()","rhs":"test_issue_14787 produces the expected output","over":{"base":"Any"},"name":"test_issue_14787_correct"},"guarantee":"test_issue_14787 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_14787_correct","statement":"Path(test_issue_14787(x), test_issue_14787 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9745b74c96e135cf"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_14787","kind":"function","src_hash":"ed1d67661dfce43c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(f.evalf()) == 'Piecewise((x, x < 1), (8.28571428571429, True))'"},"spec":{"lhs":"test_issue_14787()","rhs":"str(f.evalf()) == 'Piecewise((x, x < 1), (8.28571428571429, True))'","over":{"base":"Any"},"name":"test_issue_14787_correct"},"guarantee":"str(f.evalf()) == 'Piecewise((x, x < 1), (8.28571428571429, True))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_14787_correct","statement":"Path(test_issue_14787(x), str(f.evalf()) == 'Piecewise((x, x < 1), (8.28571428571429, True))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aba1775c40e7529f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(f.evalf()) == 'Piecewise((x, x < 1), (8.28571428571429, True))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14787():
     x = Symbol('x')
     f = Piecewise((x, x < 1), ((S(58) / 7), True))
     assert str(f.evalf()) == "Piecewise((x, x < 1), (8.28571428571429, True))"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_21481(), test_issue_21481 produces the expected output) over Any ║
+# ║ Path(test_issue_21481(), <unspecified:test_issue_21481>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_21481 : Any → {Any | len(set(ok)) == 1}         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a366777e9198d42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_21481","kind":"function","src_hash":"1fded813f6564fb6","in":{"base":"Any"},"out":{"base":"Any","pred":"len(set(ok)) == 1"},"spec":{"lhs":"test_issue_21481()","rhs":"test_issue_21481 produces the expected output","over":{"base":"Any"},"name":"test_issue_21481_correct"},"guarantee":"test_issue_21481 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_21481_correct","statement":"Path(test_issue_21481(x), test_issue_21481 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a366777e9198d42"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_21481","kind":"function","src_hash":"1fded813f6564fb6","in":{"base":"Any"},"out":{"base":"Any","pred":"len(set(ok)) == 1"},"spec":{"lhs":"test_issue_21481()","rhs":"<unspecified:test_issue_21481>","over":{"base":"Any"},"name":"test_issue_21481_correct"},"guarantee":"test_issue_21481 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_21481_correct","statement":"Path(test_issue_21481(x), test_issue_21481 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a366777e9198d42","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_issue_21481():
     b, e = symbols('b e')
     C = Piecewise(
@@ -2055,16 +2464,24 @@ def test_issue_21481():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8458(), test_issue_8458 produces the expected output) over Any ║
+# ║ Path(test_issue_8458(), p1.simplify() == sin(x) and p2.simplify() == sin(x) and p3.simplify() == Piecewise((0, Eq(x, -1)), (sin(x), True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8458 : Any → {Any | p1.simplify() == sin(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p1.simplify() == sin(x)                        ║
+# ║   ensures:  p2.simplify() == sin(x)                        ║
+# ║   ensures:  p3.simplify() == Piecewise((0, Eq(x, -1))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8458 : Any → {Any | result satisfies: p1.s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccedc961ae9aa0cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f8634337e76ce1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_8458","kind":"function","src_hash":"1c8c0710904e504a","in":{"base":"Any"},"out":{"base":"Any","pred":"p1.simplify() == sin(x) and p2.simplify() == sin(x) and p3.simplify() == Piecewise((0, Eq(x, -1)), (sin(x), True))"},"spec":{"lhs":"test_issue_8458()","rhs":"test_issue_8458 produces the expected output","over":{"base":"Any"},"name":"test_issue_8458_correct"},"guarantee":"test_issue_8458 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_8458_correct","statement":"Path(test_issue_8458(x), test_issue_8458 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccedc961ae9aa0cd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_8458","kind":"function","src_hash":"1c8c0710904e504a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p1.simplify() == sin(x) and p2.simplify() == sin(x) and p3.simplify() == Piecewise((0, Eq(x, -1)), (sin(x), True))"},"spec":{"lhs":"test_issue_8458()","rhs":"p1.simplify() == sin(x) and p2.simplify() == sin(x) and p3.simplify() == Piecewise((0, Eq(x, -1)), (sin(x), True))","over":{"base":"Any"},"name":"test_issue_8458_correct"},"guarantee":"p1.simplify() == sin(x); p2.simplify() == sin(x); p3.simplify() == Piecewise((0, Eq(x, -1)), (sin(x), True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_8458_correct","statement":"Path(test_issue_8458(x), p1.simplify() == sin(x); p2.simplify() == sin(x); p3.simplify() == Piecewise((0, Eq(x, -1)), (sin(x), True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f8634337e76ce1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p1.simplify() == sin(x)","p2.simplify() == sin(x)","p3.simplify() == Piecewise((0, Eq(x, -1)), (sin(x), True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_8458():
     x, y = symbols('x y')
     # Original issue
@@ -2079,16 +2496,24 @@ def test_issue_8458():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_16417(), test_issue_16417 produces the expected output) over Any ║
+# ║ Path(test_issue_16417(), unchanged(Piecewise, (1, Or(Eq(im(z), 0), Gt(re(z), 0))), (2, True)) and unchanged(Piecewise, (S.Pi, re(x) < 0), (0, Or(re(x) > 0, Ne(im(x), 0))), (S.NaN, True)) and p == Piecewise((S.Pi, r < 0), (0, r > 0), (S.NaN, True), evaluate=False) and p == Piecewise((0, Ne(im(i), 0)), (S.NaN, True), evaluate=False) and p == Piecewise((0, Ne(r, 0)), (S.NaN, True), evaluate=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_16417 : Any → {Any | unchanged(Piecewise, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unchanged(Piecewise, (1, Or(Eq(im(z), 0),...   ║
+# ║   ensures:  unchanged(Piecewise, (S.Pi, re(x) < 0), (...   ║
+# ║   ensures:  p == Piecewise((S.Pi, r < 0), (0, r > 0),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_16417 : Any → {Any | result satisfies: unc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 962751a3f9895d1c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e1f534f9914726e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_16417","kind":"function","src_hash":"30c97d642a3654be","in":{"base":"Any"},"out":{"base":"Any","pred":"unchanged(Piecewise, (1, Or(Eq(im(z), 0), Gt(re(z), 0))), (2, True)) and p == Piecewise((S.Pi, r < 0), (0, r > 0), (S.NaN, True), evaluate=False) and p == Piecewise((0, Ne(im(i), 0)), (S.NaN, True), evaluate=False) and p == Piecewise((0, Ne(r, 0)), (S.NaN, True), evaluate=False)"},"spec":{"lhs":"test_issue_16417()","rhs":"test_issue_16417 produces the expected output","over":{"base":"Any"},"name":"test_issue_16417_correct"},"guarantee":"test_issue_16417 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_16417_correct","statement":"Path(test_issue_16417(x), test_issue_16417 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"962751a3f9895d1c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_16417","kind":"function","src_hash":"30c97d642a3654be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unchanged(Piecewise, (1, Or(Eq(im(z), 0), Gt(re(z), 0))), (2, True)) and unchanged(Piecewise, (S.Pi, re(x) < 0), (0, Or(re(x) > 0, Ne(im(x), 0))), (S.NaN, True)) and p == Piecewise((S.Pi, r < 0), (0, r > 0), (S.NaN, True), evaluate=False) and p == Piecewise((0, Ne(im(i), 0)), (S.NaN, True), evaluate=False) and p == Piecewise((0, Ne(r, 0)), (S.NaN, True), evaluate=False)"},"spec":{"lhs":"test_issue_16417()","rhs":"unchanged(Piecewise, (1, Or(Eq(im(z), 0), Gt(re(z), 0))), (2, True)) and unchanged(Piecewise, (S.Pi, re(x) < 0), (0, Or(re(x) > 0, Ne(im(x), 0))), (S.NaN, True)) and p == Piecewise((S.Pi, r < 0), (0, r > 0), (S.NaN, True), evaluate=False) and p == Piecewise((0, Ne(im(i), 0)), (S.NaN, True), evaluate=False) and p == Piecewise((0, Ne(r, 0)), (S.NaN, True), evaluate=False)","over":{"base":"Any"},"name":"test_issue_16417_correct"},"guarantee":"unchanged(Piecewise, (1, Or(Eq(im(z), 0), Gt(re(z), 0))), (2, True)); unchanged(Piecewise, (S.Pi, re(x) < 0), (0, Or(re(x) > 0, Ne(im(x), 0))), (S.NaN, True)); p == Piecewise((S.Pi, r < 0), (0, r > 0), (S.NaN, True), evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_16417_correct","statement":"Path(test_issue_16417(x), unchanged(Piecewise, (1, Or(Eq(im(z), 0), Gt(re(z), 0))), (2, True)); unchanged(Piecewise, (S.Pi, re(x) < 0), (0, Or(re(x) > 0, Ne(im(x), 0))), (S.NaN, True)); p == Piecewise((S.Pi, r < 0), (0, r > 0), (S.NaN, True), evaluate=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e1f534f9914726e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unchanged(Piecewise, (1, Or(Eq(im(z), 0), Gt(re(z), 0))), (2, True))","unchanged(Piecewise, (S.Pi, re(x) < 0), (0, Or(re(x) > 0, Ne(im(x), 0))), (S.NaN, True))","p == Piecewise((S.Pi, r < 0), (0, r > 0), (S.NaN, True), evaluate=False)","p == Piecewise((0, Ne(im(i), 0)), (S.NaN, True), evaluate=False)","p == Piecewise((0, Ne(r, 0)), (S.NaN, True), evaluate=False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_16417():
     z = Symbol('z')
     assert unchanged(Piecewise, (1, Or(Eq(im(z), 0), Gt(re(z), 0))), (2, True))
@@ -2122,16 +2547,24 @@ def test_issue_16417():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eval_rewrite_as_KroneckerDelta(), test_eval_rewrite_as_KroneckerDelta produces the expected output) over Any ║
+# ║ Path(test_eval_rewrite_as_KroneckerDelta(), f(p1) == 1 - K(x, y) and f(p2) == n * K(0, t) * K(0, y) - n * K(0, t) - n * K(0, y) + n + x * K(0, y) - z * K(0, t) * K(0, y) + z * K(0, t) and f(p3) == 1 - K(x, y) and f(p4) == 4 - 3 * K(3, x) and f(p5) == -K(2, x) * K(2, y) + 2 * K(2, x) + 3 and f(p6) == -K(1, x) * K(4, y) + K(1, x) + K(4, y) and f(p7) == -K(2, x) * K(3, y) + K(3, y) + 1 and f(p8) == -3 * K(2, y) * K(3, x) + 3 * K(3, x) + 1 and f(p9) == 5 * K(1, y) * K(4, x) + 1 and f(p10) == -3 * K(-4, x) * K(1, y) + 4 and f(p11) == -K(-3, x) * K(2, y) + K(-3, x) + 1 and f(p12) == -2 * K(1, x) * K(3, y) + 2 * K(3, y) - 1 and f(p13) == -2 * K(2, x) * K(4, y) + 2 * K(2, x) + 2 * K(4, y) + 1 and f(p14) == 2 * K(0, x) * K(1, y) + 1 and f(p15) == -2 * K(2, y) * K(3, x) * K(4, x) * K(5, y) + K(2, y) * K(3, x) + 2 * K(2, y) * K(4, x) * K(5, y) - K(2, y) + 2 and f(p16) == K(m, n) * K(n, t) * K(n, x) - K(t, x) and f(p17) == K(m, n) * K(n, t) * K(n, x) - K(t, x) and f(p18) == 8 * K(-5, x) * K(1, y) * K(x, z) - 8 * K(-5, x) * K(x, z) - 8 * K(1, y) + 4 and f(p19) == p19 and f(p20) == p20 and f(p21) == p21 and f(p22) == K(-1, y) * K(0, x) - K(-1, y) * K(1, x) - K(0, x) + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eval_rewrite_as_KroneckerDelta : Any → {Any | f(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(p1) == 1 - K(x, y)                           ║
+# ║   ensures:  f(p2) == n * K(0, t) * K(0, y) - n * K(0,...   ║
+# ║   ensures:  f(p3) == 1 - K(x, y)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eval_rewrite_as_KroneckerDelta : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77797749205847ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d03593e1c24bf0d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_eval_rewrite_as_KroneckerDelta","kind":"function","src_hash":"6f8653547775b8b8","in":{"base":"Any"},"out":{"base":"Any","pred":"f(p1) == 1 - K(x, y) and f(p3) == 1 - K(x, y) and f(p4) == 4 - 3 * K(3, x) and f(p5) == -K(2, x) * K(2, y) + 2 * K(2, x) + 3 and f(p6) == -K(1, x) * K(4, y) + K(1, x) + K(4, y) and f(p7) == -K(2, x) * K(3, y) + K(3, y) + 1 and f(p8) == -3 * K(2, y) * K(3, x) + 3 * K(3, x) + 1 and f(p9) == 5 * K(1, y) * K(4, x) + 1 and f(p10) == -3 * K(-4, x) * K(1, y) + 4 and f(p11) == -K(-3, x) * K(2, y) + K(-3, x) + 1 and f(p12) == -2 * K(1, x) * K(3, y) + 2 * K(3, y) - 1 and f(p13) == -2 * K(2, x) * K(4, y) + 2 * K(2, x) + 2 * K(4, y) + 1 and f(p14) == 2 * K(0, x) * K(1, y) + 1 and f(p16) == K(m, n) * K(n, t) * K(n, x) - K(t, x) and f(p17) == K(m, n) * K(n, t) * K(n, x) - K(t, x) and f(p19) == p19 and f(p20) == p20 and f(p21) == p21 and f(p22) == K(-1, y) * K(0, x) - K(-1, y) * K(1, x) - K(0, x) + 1"},"spec":{"lhs":"test_eval_rewrite_as_KroneckerDelta()","rhs":"test_eval_rewrite_as_KroneckerDelta produces the expected output","over":{"base":"Any"},"name":"test_eval_rewrite_as_KroneckerDelta_correct"},"guarantee":"test_eval_rewrite_as_KroneckerDelta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_eval_rewrite_as_KroneckerDelta_correct","statement":"Path(test_eval_rewrite_as_KroneckerDelta(x), test_eval_rewrite_as_KroneckerDelta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77797749205847ec"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_eval_rewrite_as_KroneckerDelta","kind":"function","src_hash":"6f8653547775b8b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(p1) == 1 - K(x, y) and f(p2) == n * K(0, t) * K(0, y) - n * K(0, t) - n * K(0, y) + n + x * K(0, y) - z * K(0, t) * K(0, y) + z * K(0, t) and f(p3) == 1 - K(x, y) and f(p4) == 4 - 3 * K(3, x) and f(p5) == -K(2, x) * K(2, y) + 2 * K(2, x) + 3 and f(p6) == -K(1, x) * K(4, y) + K(1, x) + K(4, y) and f(p7) == -K(2, x) * K(3, y) + K(3, y) + 1 and f(p8) == -3 * K(2, y) * K(3, x) + 3 * K(3, x) + 1 and f(p9) == 5 * K(1, y) * K(4, x) + 1 and f(p10) == -3 * K(-4, x) * K(1, y) + 4 and f(p11) == -K(-3, x) * K(2, y) + K(-3, x) + 1 and f(p12) == -2 * K(1, x) * K(3, y) + 2 * K(3, y) - 1 and f(p13) == -2 * K(2, x) * K(4, y) + 2 * K(2, x) + 2 * K(4, y) + 1 and f(p14) == 2 * K(0, x) * K(1, y) + 1 and f(p15) == -2 * K(2, y) * K(3, x) * K(4, x) * K(5, y) + K(2, y) * K(3, x) + 2 * K(2, y) * K(4, x) * K(5, y) - K(2, y) + 2 and f(p16) == K(m, n) * K(n, t) * K(n, x) - K(t, x) and f(p17) == K(m, n) * K(n, t) * K(n, x) - K(t, x) and f(p18) == 8 * K(-5, x) * K(1, y) * K(x, z) - 8 * K(-5, x) * K(x, z) - 8 * K(1, y) + 4 and f(p19) == p19 and f(p20) == p20 and f(p21) == p21 and f(p22) == K(-1, y) * K(0, x) - K(-1, y) * K(1, x) - K(0, x) + 1"},"spec":{"lhs":"test_eval_rewrite_as_KroneckerDelta()","rhs":"f(p1) == 1 - K(x, y) and f(p2) == n * K(0, t) * K(0, y) - n * K(0, t) - n * K(0, y) + n + x * K(0, y) - z * K(0, t) * K(0, y) + z * K(0, t) and f(p3) == 1 - K(x, y) and f(p4) == 4 - 3 * K(3, x) and f(p5) == -K(2, x) * K(2, y) + 2 * K(2, x) + 3 and f(p6) == -K(1, x) * K(4, y) + K(1, x) + K(4, y) and f(p7) == -K(2, x) * K(3, y) + K(3, y) + 1 and f(p8) == -3 * K(2, y) * K(3, x) + 3 * K(3, x) + 1 and f(p9) == 5 * K(1, y) * K(4, x) + 1 and f(p10) == -3 * K(-4, x) * K(1, y) + 4 and f(p11) == -K(-3, x) * K(2, y) + K(-3, x) + 1 and f(p12) == -2 * K(1, x) * K(3, y) + 2 * K(3, y) - 1 and f(p13) == -2 * K(2, x) * K(4, y) + 2 * K(2, x) + 2 * K(4, y) + 1 and f(p14) == 2 * K(0, x) * K(1, y) + 1 and f(p15) == -2 * K(2, y) * K(3, x) * K(4, x) * K(5, y) + K(2, y) * K(3, x) + 2 * K(2, y) * K(4, x) * K(5, y) - K(2, y) + 2 and f(p16) == K(m, n) * K(n, t) * K(n, x) - K(t, x) and f(p17) == K(m, n) * K(n, t) * K(n, x) - K(t, x) and f(p18) == 8 * K(-5, x) * K(1, y) * K(x, z) - 8 * K(-5, x) * K(x, z) - 8 * K(1, y) + 4 and f(p19) == p19 and f(p20) == p20 and f(p21) == p21 and f(p22) == K(-1, y) * K(0, x) - K(-1, y) * K(1, x) - K(0, x) + 1","over":{"base":"Any"},"name":"test_eval_rewrite_as_KroneckerDelta_correct"},"guarantee":"f(p1) == 1 - K(x, y); f(p2) == n * K(0, t) * K(0, y) - n * K(0, t) - n * K(0, y) + n + x * K(0, y) - z * K(0, t) * K(0, y) + z * K(0, t); f(p3) == 1 - K(x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_eval_rewrite_as_KroneckerDelta_correct","statement":"Path(test_eval_rewrite_as_KroneckerDelta(x), f(p1) == 1 - K(x, y); f(p2) == n * K(0, t) * K(0, y) - n * K(0, t) - n * K(0, y) + n + x * K(0, y) - z * K(0, t) * K(0, y) + z * K(0, t); f(p3) == 1 - K(x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d03593e1c24bf0d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(p1) == 1 - K(x, y)","f(p2) == n * K(0, t) * K(0, y) - n * K(0, t) - n * K(0, y) + n + x * K(0, y) - z * K(0, t) * K(0, y) + z * K(0, t)","f(p3) == 1 - K(x, y)","f(p4) == 4 - 3 * K(3, x)","f(p5) == -K(2, x) * K(2, y) + 2 * K(2, x) + 3","f(p6) == -K(1, x) * K(4, y) + K(1, x) + K(4, y)","f(p7) == -K(2, x) * K(3, y) + K(3, y) + 1","f(p8) == -3 * K(2, y) * K(3, x) + 3 * K(3, x) + 1","f(p9) == 5 * K(1, y) * K(4, x) + 1","f(p10) == -3 * K(-4, x) * K(1, y) + 4","f(p11) == -K(-3, x) * K(2, y) + K(-3, x) + 1","f(p12) == -2 * K(1, x) * K(3, y) + 2 * K(3, y) - 1","f(p13) == -2 * K(2, x) * K(4, y) + 2 * K(2, x) + 2 * K(4, y) + 1","f(p14) == 2 * K(0, x) * K(1, y) + 1","f(p15) == -2 * K(2, y) * K(3, x) * K(4, x) * K(5, y) + K(2, y) * K(3, x) + 2 * K(2, y) * K(4, x) * K(5, y) - K(2, y) + 2","f(p16) == K(m, n) * K(n, t) * K(n, x) - K(t, x)","f(p17) == K(m, n) * K(n, t) * K(n, x) - K(t, x)","f(p18) == 8 * K(-5, x) * K(1, y) * K(x, z) - 8 * K(-5, x) * K(x, z) - 8 * K(1, y) + 4","f(p19) == p19","f(p20) == p20","f(p21) == p21","f(p22) == K(-1, y) * K(0, x) - K(-1, y) * K(1, x) - K(0, x) + 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":true}}
 def test_eval_rewrite_as_KroneckerDelta():
     x, y, z, n, t, m = symbols('x y z n t m')
     K = KroneckerDelta
@@ -2210,16 +2643,22 @@ def test_eval_rewrite_as_KroneckerDelta():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_identical_conds_issue(), test_identical_conds_issue produces the expected output) over Any ║
+# ║ Path(test_identical_conds_issue(), <unspecified:test_identical_conds_issue>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_identical_conds_issue : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1242f7b2c0c016c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_identical_conds_issue","kind":"function","src_hash":"a1b793cb1306b4d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_identical_conds_issue()","rhs":"test_identical_conds_issue produces the expected output","over":{"base":"Any"},"name":"test_identical_conds_issue_correct"},"guarantee":"test_identical_conds_issue produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_identical_conds_issue_correct","statement":"Path(test_identical_conds_issue(x), test_identical_conds_issue produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1242f7b2c0c016c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_identical_conds_issue","kind":"function","src_hash":"a1b793cb1306b4d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_identical_conds_issue()","rhs":"<unspecified:test_identical_conds_issue>","over":{"base":"Any"},"name":"test_identical_conds_issue_correct"},"guarantee":"test_identical_conds_issue produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_identical_conds_issue_correct","statement":"Path(test_identical_conds_issue(x), test_identical_conds_issue produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1242f7b2c0c016c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_identical_conds_issue():
     from sympy.stats import Uniform, density
     u1 = Uniform('u1', 0, 1)
@@ -2230,16 +2669,22 @@ def test_identical_conds_issue():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7370(), test_issue_7370 produces the expected output) over Any ║
+# ║ Path(test_issue_7370(), str(v) == '252.400000000000000000000000000') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7370 : Any → {Any | str(v) == '252.4000000...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(v) == '252.400000000000000000000000000'    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7370 : Any → {Any | result satisfies: str(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2852173f3f896b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 682fdc88e917cd74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_7370","kind":"function","src_hash":"b7da35afeec85b03","in":{"base":"Any"},"out":{"base":"Any","pred":"str(v) == '252.400000000000000000000000000'"},"spec":{"lhs":"test_issue_7370()","rhs":"test_issue_7370 produces the expected output","over":{"base":"Any"},"name":"test_issue_7370_correct"},"guarantee":"test_issue_7370 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_7370_correct","statement":"Path(test_issue_7370(x), test_issue_7370 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2852173f3f896b7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_7370","kind":"function","src_hash":"b7da35afeec85b03","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(v) == '252.400000000000000000000000000'"},"spec":{"lhs":"test_issue_7370()","rhs":"str(v) == '252.400000000000000000000000000'","over":{"base":"Any"},"name":"test_issue_7370_correct"},"guarantee":"str(v) == '252.400000000000000000000000000'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_7370_correct","statement":"Path(test_issue_7370(x), str(v) == '252.400000000000000000000000000')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"682fdc88e917cd74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(v) == '252.400000000000000000000000000'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7370():
     f = Piecewise((1, x <= 2400))
     v = integrate(f, (x, 0, Float("252.4", 30)))
@@ -2247,16 +2692,22 @@ def test_issue_7370():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14933(), test_issue_14933 produces the expected output) over Any ║
+# ║ Path(test_issue_14933(), p.xreplace(rep_dict) == Piecewise((1, ITE(inp[0, 0] > 0, inp[0, 0] < 0, True)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14933 : Any → {Any | p.xreplace(rep_dict) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.xreplace(rep_dict) == Piecewise((1, ITE...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14933 : Any → {Any | result satisfies: p.x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79502934939d1b58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34612db86eb425d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_14933","kind":"function","src_hash":"132c7b1ee578b73b","in":{"base":"Any"},"out":{"base":"Any","pred":"p.xreplace(rep_dict) == Piecewise((1, ITE(inp[0, 0] > 0, inp[0, 0] < 0, True)))"},"spec":{"lhs":"test_issue_14933()","rhs":"test_issue_14933 produces the expected output","over":{"base":"Any"},"name":"test_issue_14933_correct"},"guarantee":"test_issue_14933 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_14933_correct","statement":"Path(test_issue_14933(x), test_issue_14933 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79502934939d1b58"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_14933","kind":"function","src_hash":"132c7b1ee578b73b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.xreplace(rep_dict) == Piecewise((1, ITE(inp[0, 0] > 0, inp[0, 0] < 0, True)))"},"spec":{"lhs":"test_issue_14933()","rhs":"p.xreplace(rep_dict) == Piecewise((1, ITE(inp[0, 0] > 0, inp[0, 0] < 0, True)))","over":{"base":"Any"},"name":"test_issue_14933_correct"},"guarantee":"p.xreplace(rep_dict) == Piecewise((1, ITE(inp[0, 0] > 0, inp[0, 0] < 0, True)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_14933_correct","statement":"Path(test_issue_14933(x), p.xreplace(rep_dict) == Piecewise((1, ITE(inp[0, 0] > 0, inp[0, 0] < 0, True))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34612db86eb425d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.xreplace(rep_dict) == Piecewise((1, ITE(inp[0, 0] > 0, inp[0, 0] < 0, True)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14933():
     x = Symbol('x')
     y = Symbol('y')
@@ -2269,31 +2720,43 @@ def test_issue_14933():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_16715(), test_issue_16715 produces the expected output) over Any ║
+# ║ Path(test_issue_16715(), <unspecified:test_issue_16715>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_16715 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4bc71036dc54452  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_16715","kind":"function","src_hash":"e5e2492bda4ec5cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_16715()","rhs":"test_issue_16715 produces the expected output","over":{"base":"Any"},"name":"test_issue_16715_correct"},"guarantee":"test_issue_16715 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_16715_correct","statement":"Path(test_issue_16715(x), test_issue_16715 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4bc71036dc54452"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_16715","kind":"function","src_hash":"e5e2492bda4ec5cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_16715()","rhs":"<unspecified:test_issue_16715>","over":{"base":"Any"},"name":"test_issue_16715_correct"},"guarantee":"test_issue_16715 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_16715_correct","statement":"Path(test_issue_16715(x), test_issue_16715 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4bc71036dc54452","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_16715():
     raises(NotImplementedError, lambda: Piecewise((x, x<0), (0, y>1)).as_expr_set_pairs())
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_20360(), test_issue_20360 produces the expected output) over Any ║
+# ║ Path(test_issue_20360(), eq.simplify() == (2 * exp(pi * t * (2 * n - 1) / 2) - 2) / (pi * (2 * n - 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_20360 : Any → {Any | eq.simplify() == (2 *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq.simplify() == (2 * exp(pi * t * (2 * n...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_20360 : Any → {Any | result satisfies: eq....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a9838f30e72d823  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e064093cc3bd7751  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_20360","kind":"function","src_hash":"33726b6e6c706362","in":{"base":"Any"},"out":{"base":"Any","pred":"eq.simplify() == (2 * exp(pi * t * (2 * n - 1) / 2) - 2) / (pi * (2 * n - 1))"},"spec":{"lhs":"test_issue_20360()","rhs":"test_issue_20360 produces the expected output","over":{"base":"Any"},"name":"test_issue_20360_correct"},"guarantee":"test_issue_20360 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_20360_correct","statement":"Path(test_issue_20360(x), test_issue_20360 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a9838f30e72d823"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_20360","kind":"function","src_hash":"33726b6e6c706362","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq.simplify() == (2 * exp(pi * t * (2 * n - 1) / 2) - 2) / (pi * (2 * n - 1))"},"spec":{"lhs":"test_issue_20360()","rhs":"eq.simplify() == (2 * exp(pi * t * (2 * n - 1) / 2) - 2) / (pi * (2 * n - 1))","over":{"base":"Any"},"name":"test_issue_20360_correct"},"guarantee":"eq.simplify() == (2 * exp(pi * t * (2 * n - 1) / 2) - 2) / (pi * (2 * n - 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_20360_correct","statement":"Path(test_issue_20360(x), eq.simplify() == (2 * exp(pi * t * (2 * n - 1) / 2) - 2) / (pi * (2 * n - 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e064093cc3bd7751","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq.simplify() == (2 * exp(pi * t * (2 * n - 1) / 2) - 2) / (pi * (2 * n - 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_20360():
     t, tau = symbols("t tau", real=True)
     n = symbols("n", integer=True)
@@ -2303,16 +2766,24 @@ def test_issue_20360():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise_eval(), test_piecewise_eval produces the expected output) over Any ║
+# ║ Path(test_piecewise_eval(), f(Piecewise((x, (x > -oo) & (x < 3)))) == (x > -oo) & (x < 3) and f(Piecewise((x, (x > -oo) & (x < oo)))) == (x > -oo) & (x < oo) and f(Piecewise((x, (x > -3) & (x < 3)))) == (x > -3) & (x < 3) and f(Piecewise((x, (x > -3) & (x < oo)))) == (x > -3) & (x < oo) and f(Piecewise((x, (x <= 3) & (x > -oo)))) == (x <= 3) & (x > -oo) and f(Piecewise((x, (x <= 3) & (x > -3)))) == (x <= 3) & (x > -3) and f(Piecewise((x, (x >= -3) & (x < 3)))) == (x >= -3) & (x < 3) and f(Piecewise((x, (x >= -3) & (x < oo)))) == (x >= -3) & (x < oo) and f(Piecewise((x, (x >= -3) & (x <= 3)))) == (x >= -3) & (x <= 3) and f(Piecewise((x, (x <= oo) & (x > -oo)))) == (x > -oo) & (x <= oo) and f(Piecewise((x, (x <= oo) & (x > -3)))) == (x > -3) & (x <= oo) and f(Piecewise((x, (x >= -oo) & (x < 3)))) == (x < 3) & (x >= -oo) and f(Piecewise((x, (x >= -oo) & (x < oo)))) == (x < oo) & (x >= -oo) and f(Piecewise((x, (x >= -oo) & (x <= 3)))) == (x <= 3) & (x >= -oo) and f(Piecewise((x, (x >= -oo) & (x <= oo)))) == (x <= oo) & (x >= -oo) and f(Piecewise((x, (x >= -3) & (x <= oo)))) == (x >= -3) & (x <= oo) and f(Piecewise((x, (Abs(arg(a)) <= 1) | (Abs(arg(a)) < 1)))) == (Abs(arg(a)) <= 1) | (Abs(arg(a)) < 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise_eval : Any → {Any | f(Piecewise((x, (x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(Piecewise((x, (x > -oo) & (x < 3)))) ==...   ║
+# ║   ensures:  f(Piecewise((x, (x > -oo) & (x < oo)))) =...   ║
+# ║   ensures:  f(Piecewise((x, (x > -3) & (x < 3)))) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise_eval : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87164877f9611bd3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 764880e484a36b02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_eval","kind":"function","src_hash":"796e6bf572a18466","in":{"base":"Any"},"out":{"base":"Any","pred":"f(Piecewise((x, (x > -oo) & (x < 3)))) == (x > -oo) & (x < 3) and f(Piecewise((x, (x > -oo) & (x < oo)))) == (x > -oo) & (x < oo) and f(Piecewise((x, (x > -3) & (x < 3)))) == (x > -3) & (x < 3) and f(Piecewise((x, (x > -3) & (x < oo)))) == (x > -3) & (x < oo) and f(Piecewise((x, (x <= 3) & (x > -oo)))) == (x <= 3) & (x > -oo) and f(Piecewise((x, (x <= 3) & (x > -3)))) == (x <= 3) & (x > -3) and f(Piecewise((x, (x >= -3) & (x < 3)))) == (x >= -3) & (x < 3) and f(Piecewise((x, (x >= -3) & (x < oo)))) == (x >= -3) & (x < oo) and f(Piecewise((x, (x >= -3) & (x <= 3)))) == (x >= -3) & (x <= 3) and f(Piecewise((x, (x <= oo) & (x > -oo)))) == (x > -oo) & (x <= oo) and f(Piecewise((x, (x <= oo) & (x > -3)))) == (x > -3) & (x <= oo) and f(Piecewise((x, (x >= -oo) & (x < 3)))) == (x < 3) & (x >= -oo) and f(Piecewise((x, (x >= -oo) & (x < oo)))) == (x < oo) & (x >= -oo) and f(Piecewise((x, (x >= -oo) & (x <= 3)))) == (x <= 3) & (x >= -oo) and f(Piecewise((x, (x >= -oo) & (x <= oo)))) == (x <= oo) & (x >= -oo) and f(Piecewise((x, (x >= -3) & (x <= oo)))) == (x >= -3) & (x <= oo)"},"spec":{"lhs":"test_piecewise_eval()","rhs":"test_piecewise_eval produces the expected output","over":{"base":"Any"},"name":"test_piecewise_eval_correct"},"guarantee":"test_piecewise_eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_eval_correct","statement":"Path(test_piecewise_eval(x), test_piecewise_eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87164877f9611bd3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_eval","kind":"function","src_hash":"796e6bf572a18466","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(Piecewise((x, (x > -oo) & (x < 3)))) == (x > -oo) & (x < 3) and f(Piecewise((x, (x > -oo) & (x < oo)))) == (x > -oo) & (x < oo) and f(Piecewise((x, (x > -3) & (x < 3)))) == (x > -3) & (x < 3) and f(Piecewise((x, (x > -3) & (x < oo)))) == (x > -3) & (x < oo) and f(Piecewise((x, (x <= 3) & (x > -oo)))) == (x <= 3) & (x > -oo) and f(Piecewise((x, (x <= 3) & (x > -3)))) == (x <= 3) & (x > -3) and f(Piecewise((x, (x >= -3) & (x < 3)))) == (x >= -3) & (x < 3) and f(Piecewise((x, (x >= -3) & (x < oo)))) == (x >= -3) & (x < oo) and f(Piecewise((x, (x >= -3) & (x <= 3)))) == (x >= -3) & (x <= 3) and f(Piecewise((x, (x <= oo) & (x > -oo)))) == (x > -oo) & (x <= oo) and f(Piecewise((x, (x <= oo) & (x > -3)))) == (x > -3) & (x <= oo) and f(Piecewise((x, (x >= -oo) & (x < 3)))) == (x < 3) & (x >= -oo) and f(Piecewise((x, (x >= -oo) & (x < oo)))) == (x < oo) & (x >= -oo) and f(Piecewise((x, (x >= -oo) & (x <= 3)))) == (x <= 3) & (x >= -oo) and f(Piecewise((x, (x >= -oo) & (x <= oo)))) == (x <= oo) & (x >= -oo) and f(Piecewise((x, (x >= -3) & (x <= oo)))) == (x >= -3) & (x <= oo) and f(Piecewise((x, (Abs(arg(a)) <= 1) | (Abs(arg(a)) < 1)))) == (Abs(arg(a)) <= 1) | (Abs(arg(a)) < 1)"},"spec":{"lhs":"test_piecewise_eval()","rhs":"f(Piecewise((x, (x > -oo) & (x < 3)))) == (x > -oo) & (x < 3) and f(Piecewise((x, (x > -oo) & (x < oo)))) == (x > -oo) & (x < oo) and f(Piecewise((x, (x > -3) & (x < 3)))) == (x > -3) & (x < 3) and f(Piecewise((x, (x > -3) & (x < oo)))) == (x > -3) & (x < oo) and f(Piecewise((x, (x <= 3) & (x > -oo)))) == (x <= 3) & (x > -oo) and f(Piecewise((x, (x <= 3) & (x > -3)))) == (x <= 3) & (x > -3) and f(Piecewise((x, (x >= -3) & (x < 3)))) == (x >= -3) & (x < 3) and f(Piecewise((x, (x >= -3) & (x < oo)))) == (x >= -3) & (x < oo) and f(Piecewise((x, (x >= -3) & (x <= 3)))) == (x >= -3) & (x <= 3) and f(Piecewise((x, (x <= oo) & (x > -oo)))) == (x > -oo) & (x <= oo) and f(Piecewise((x, (x <= oo) & (x > -3)))) == (x > -3) & (x <= oo) and f(Piecewise((x, (x >= -oo) & (x < 3)))) == (x < 3) & (x >= -oo) and f(Piecewise((x, (x >= -oo) & (x < oo)))) == (x < oo) & (x >= -oo) and f(Piecewise((x, (x >= -oo) & (x <= 3)))) == (x <= 3) & (x >= -oo) and f(Piecewise((x, (x >= -oo) & (x <= oo)))) == (x <= oo) & (x >= -oo) and f(Piecewise((x, (x >= -3) & (x <= oo)))) == (x >= -3) & (x <= oo) and f(Piecewise((x, (Abs(arg(a)) <= 1) | (Abs(arg(a)) < 1)))) == (Abs(arg(a)) <= 1) | (Abs(arg(a)) < 1)","over":{"base":"Any"},"name":"test_piecewise_eval_correct"},"guarantee":"f(Piecewise((x, (x > -oo) & (x < 3)))) == (x > -oo) & (x < 3); f(Piecewise((x, (x > -oo) & (x < oo)))) == (x > -oo) & (x < oo); f(Piecewise((x, (x > -3) & (x < 3)))) == (x > -3) & (x < 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise_eval_correct","statement":"Path(test_piecewise_eval(x), f(Piecewise((x, (x > -oo) & (x < 3)))) == (x > -oo) & (x < 3); f(Piecewise((x, (x > -oo) & (x < oo)))) == (x > -oo) & (x < oo); f(Piecewise((x, (x > -3) & (x < 3)))) == (x > -3) & (x < 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"764880e484a36b02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(Piecewise((x, (x > -oo) & (x < 3)))) == (x > -oo) & (x < 3)","f(Piecewise((x, (x > -oo) & (x < oo)))) == (x > -oo) & (x < oo)","f(Piecewise((x, (x > -3) & (x < 3)))) == (x > -3) & (x < 3)","f(Piecewise((x, (x > -3) & (x < oo)))) == (x > -3) & (x < oo)","f(Piecewise((x, (x <= 3) & (x > -oo)))) == (x <= 3) & (x > -oo)","f(Piecewise((x, (x <= 3) & (x > -3)))) == (x <= 3) & (x > -3)","f(Piecewise((x, (x >= -3) & (x < 3)))) == (x >= -3) & (x < 3)","f(Piecewise((x, (x >= -3) & (x < oo)))) == (x >= -3) & (x < oo)","f(Piecewise((x, (x >= -3) & (x <= 3)))) == (x >= -3) & (x <= 3)","f(Piecewise((x, (x <= oo) & (x > -oo)))) == (x > -oo) & (x <= oo)","f(Piecewise((x, (x <= oo) & (x > -3)))) == (x > -3) & (x <= oo)","f(Piecewise((x, (x >= -oo) & (x < 3)))) == (x < 3) & (x >= -oo)","f(Piecewise((x, (x >= -oo) & (x < oo)))) == (x < oo) & (x >= -oo)","f(Piecewise((x, (x >= -oo) & (x <= 3)))) == (x <= 3) & (x >= -oo)","f(Piecewise((x, (x >= -oo) & (x <= oo)))) == (x <= oo) & (x >= -oo)","f(Piecewise((x, (x >= -3) & (x <= oo)))) == (x >= -3) & (x <= oo)","f(Piecewise((x, (Abs(arg(a)) <= 1) | (Abs(arg(a)) < 1)))) == (Abs(arg(a)) <= 1) | (Abs(arg(a)) < 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_piecewise_eval():
     # XXX these tests might need modification if this
     # simplification is moved out of eval and into
@@ -2358,16 +2829,22 @@ def test_piecewise_eval():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22533(), test_issue_22533 produces the expected output) over Any ║
+# ║ Path(test_issue_22533(), integrate(f, x) == Piecewise((-log(x), x <= 0), (log(x), True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22533 : Any → {Any | integrate(f, x) == Pi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(f, x) == Piecewise((-log(x), x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22533 : Any → {Any | result satisfies: int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8c75a1333e6d952  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a580bf141cfea442  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_22533","kind":"function","src_hash":"302962927ace95f5","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(f, x) == Piecewise((-log(x), x <= 0), (log(x), True))"},"spec":{"lhs":"test_issue_22533()","rhs":"test_issue_22533 produces the expected output","over":{"base":"Any"},"name":"test_issue_22533_correct"},"guarantee":"test_issue_22533 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_22533_correct","statement":"Path(test_issue_22533(x), test_issue_22533 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8c75a1333e6d952"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_22533","kind":"function","src_hash":"302962927ace95f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(f, x) == Piecewise((-log(x), x <= 0), (log(x), True))"},"spec":{"lhs":"test_issue_22533()","rhs":"integrate(f, x) == Piecewise((-log(x), x <= 0), (log(x), True))","over":{"base":"Any"},"name":"test_issue_22533_correct"},"guarantee":"integrate(f, x) == Piecewise((-log(x), x <= 0), (log(x), True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_22533_correct","statement":"Path(test_issue_22533(x), integrate(f, x) == Piecewise((-log(x), x <= 0), (log(x), True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a580bf141cfea442","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(f, x) == Piecewise((-log(x), x <= 0), (log(x), True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22533():
     x = Symbol('x', real=True)
     f = Piecewise((-1 / x, x <= 0), (1 / x, True))
@@ -2375,32 +2852,46 @@ def test_issue_22533():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_24072(), test_issue_24072 produces the expected output) over Any ║
+# ║ Path(test_issue_24072(), Piecewise((1, x > 1), (2, x <= 1), (3, x <= 1)) == Piecewise((1, x > 1), (2, True))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_24072 : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Piecewise((1, x > 1), (2, x <= 1), (3, x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_24072 : Any → {Any | result satisfies: Pie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3eec664eacdfefa4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92f2a12fe8f14ae9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_24072","kind":"function","src_hash":"8b28fe71fd098255","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_24072()","rhs":"test_issue_24072 produces the expected output","over":{"base":"Any"},"name":"test_issue_24072_correct"},"guarantee":"test_issue_24072 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_24072_correct","statement":"Path(test_issue_24072(x), test_issue_24072 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3eec664eacdfefa4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_issue_24072","kind":"function","src_hash":"8b28fe71fd098255","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Piecewise((1, x > 1), (2, x <= 1), (3, x <= 1)) == Piecewise((1, x > 1), (2, True))"},"spec":{"lhs":"test_issue_24072()","rhs":"Piecewise((1, x > 1), (2, x <= 1), (3, x <= 1)) == Piecewise((1, x > 1), (2, True))","over":{"base":"Any"},"name":"test_issue_24072_correct"},"guarantee":"Piecewise((1, x > 1), (2, x <= 1), (3, x <= 1)) == Piecewise((1, x > 1), (2, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_issue_24072_correct","statement":"Path(test_issue_24072(x), Piecewise((1, x > 1), (2, x <= 1), (3, x <= 1)) == Piecewise((1, x > 1), (2, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92f2a12fe8f14ae9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Piecewise((1, x > 1), (2, x <= 1), (3, x <= 1)) == Piecewise((1, x > 1), (2, True))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_24072():
     assert Piecewise((1, x > 1), (2, x <= 1), (3, x <= 1)
         ) == Piecewise((1, x > 1), (2, True))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_piecewise__eval_is_meromorphic(), issue 24127: tests eval_is_meromorphic auxiliary method) over Any ║
+# ║ Path(test_piecewise__eval_is_meromorphic(), f.is_meromorphic(x, I) is None and f.is_meromorphic(x, -1) == True and f.is_meromorphic(x, 0) == None and f.is_meromorphic(x, 1) == False and f.is_meromorphic(x, 2) == True and f.is_meromorphic(x, Symbol('a')) == None and f.is_meromorphic(x, Symbol('a', real=True)) == None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_piecewise__eval_is_meromorphic : Any → {Any | f....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.is_meromorphic(x, I) is None                 ║
+# ║   ensures:  f.is_meromorphic(x, -1) == True                ║
+# ║   ensures:  f.is_meromorphic(x, 0) == None                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_piecewise__eval_is_meromorphic : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bacb4f8352e03396  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78d0d14c2ece6801  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise__eval_is_meromorphic","kind":"function","src_hash":"bf2603c86589402d","in":{"base":"Any"},"out":{"base":"Any","pred":"f.is_meromorphic(x, I) is None and f.is_meromorphic(x, -1) == True and f.is_meromorphic(x, 0) == None and f.is_meromorphic(x, 1) == False and f.is_meromorphic(x, 2) == True and f.is_meromorphic(x, Symbol('a')) == None and f.is_meromorphic(x, Symbol('a', real=True)) == None"},"spec":{"lhs":"test_piecewise__eval_is_meromorphic()","rhs":"issue 24127: tests eval_is_meromorphic auxiliary method","over":{"base":"Any"},"name":"test_piecewise__eval_is_meromorphic_correct"},"guarantee":"issue 24127: tests eval_is_meromorphic auxiliary method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise__eval_is_meromorphic_correct","statement":"Path(test_piecewise__eval_is_meromorphic(x), issue 24127: tests eval_is_meromorphic auxiliary method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bacb4f8352e03396"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_piecewise.test_piecewise__eval_is_meromorphic","kind":"function","src_hash":"bf2603c86589402d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.is_meromorphic(x, I) is None and f.is_meromorphic(x, -1) == True and f.is_meromorphic(x, 0) == None and f.is_meromorphic(x, 1) == False and f.is_meromorphic(x, 2) == True and f.is_meromorphic(x, Symbol('a')) == None and f.is_meromorphic(x, Symbol('a', real=True)) == None"},"spec":{"lhs":"test_piecewise__eval_is_meromorphic()","rhs":"f.is_meromorphic(x, I) is None and f.is_meromorphic(x, -1) == True and f.is_meromorphic(x, 0) == None and f.is_meromorphic(x, 1) == False and f.is_meromorphic(x, 2) == True and f.is_meromorphic(x, Symbol('a')) == None and f.is_meromorphic(x, Symbol('a', real=True)) == None","over":{"base":"Any"},"name":"test_piecewise__eval_is_meromorphic_correct"},"guarantee":"f.is_meromorphic(x, I) is None; f.is_meromorphic(x, -1) == True; f.is_meromorphic(x, 0) == None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_piecewise.test_piecewise__eval_is_meromorphic_correct","statement":"Path(test_piecewise__eval_is_meromorphic(x), f.is_meromorphic(x, I) is None; f.is_meromorphic(x, -1) == True; f.is_meromorphic(x, 0) == None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78d0d14c2ece6801","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.is_meromorphic(x, I) is None","f.is_meromorphic(x, -1) == True","f.is_meromorphic(x, 0) == None","f.is_meromorphic(x, 1) == False","f.is_meromorphic(x, 2) == True","f.is_meromorphic(x, Symbol('a')) == None","f.is_meromorphic(x, Symbol('a', real=True)) == None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_piecewise__eval_is_meromorphic():
     """ Issue 24127: Tests eval_is_meromorphic auxiliary method """
     x = symbols('x', real=True)

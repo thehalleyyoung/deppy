@@ -32,16 +32,22 @@ x, y, z = symbols("x y z")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_first_match(exp), id) over Any                   ║
+# ║ Path(_get_first_match(expr, pattern), id) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  next(iter(matcher.match(expr)))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_first_match : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   matchpy.__module__                                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | path_compose | Compiled: ✓ | 5c3b73b9aba9c17a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_matchpy_connector._get_first_match","kind":"function","src_hash":"946c710ccff8974c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_first_match(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_first_match_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"next","by":"library_axiom"},{"fn":"iter","by":"library_axiom"},{"fn":"match","by":"library_axiom"}]},"assumes":[],"trust":["matchpy.__module__"],"compiled":true,"vhash":"5c3b73b9aba9c17a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_matchpy_connector._get_first_match","kind":"function","src_hash":"946c710ccff8974c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_first_match(expr, pattern)","rhs":"next(iter(matcher.match(expr)))","over":{"base":"Any"},"name":"_get_first_match_correct","kind":"composition"},"guarantee":"returns next(iter(matcher.match(expr)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"next","by":"library_axiom"},{"fn":"iter","by":"library_axiom"},{"fn":"match","by":"library_axiom"}]},"assumes":[],"trust":["matchpy.__module__"],"compiled":true,"vhash":"5c3b73b9aba9c17a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"next(iter(matcher.match(expr)))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_first_match(expr, pattern):
     from matchpy import ManyToOneMatcher, Pattern
 
@@ -51,17 +57,25 @@ def _get_first_match(expr, pattern):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matchpy_connector(), test_matchpy_connector produces the expected output) over Any ║
+# ║ Path(test_matchpy_connector(), p == Pattern(pattern) and subst == Substitution({'w_': y}) and subst == Substitution({'w__': Multiset([y, z])}) and subst == Substitution({'w___': Multiset()})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matchpy_connector : Any → {Any | p == Pattern(pa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == Pattern(pattern)                          ║
+# ║   ensures:  subst == Substitution({'w_': y})               ║
+# ║   ensures:  subst == Substitution({'w__': Multiset([y...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matchpy_connector : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   matchpy.__module__                                       ║
 # ║   multiset.__module__                                      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | e24cc4200fc6...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 8ea2dd2b96ef...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_matchpy_connector.test_matchpy_connector","kind":"function","src_hash":"ac7d997f708f633d","in":{"base":"Any"},"out":{"base":"Any","pred":"p == Pattern(pattern) and subst == Substitution({'w_': y}) and p == Pattern(pattern) and subst == Substitution({'w__': Multiset([y, z])}) and p == Pattern(pattern) and subst == Substitution({'w___': Multiset()})"},"spec":{"lhs":"test_matchpy_connector()","rhs":"test_matchpy_connector produces the expected output","over":{"base":"Any"},"name":"test_matchpy_connector_correct"},"guarantee":"test_matchpy_connector produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_matchpy_connector.test_matchpy_connector_correct","statement":"Path(test_matchpy_connector(x), test_matchpy_connector produces the expected output)"},"assumes":[],"trust":["matchpy.__module__","multiset.__module__"],"compiled":true,"vhash":"e24cc4200fc6dfbc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_matchpy_connector.test_matchpy_connector","kind":"function","src_hash":"ac7d997f708f633d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == Pattern(pattern) and subst == Substitution({'w_': y}) and subst == Substitution({'w__': Multiset([y, z])}) and subst == Substitution({'w___': Multiset()})"},"spec":{"lhs":"test_matchpy_connector()","rhs":"p == Pattern(pattern) and subst == Substitution({'w_': y}) and subst == Substitution({'w__': Multiset([y, z])}) and subst == Substitution({'w___': Multiset()})","over":{"base":"Any"},"name":"test_matchpy_connector_correct"},"guarantee":"p == Pattern(pattern); subst == Substitution({'w_': y}); subst == Substitution({'w__': Multiset([y, z])})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_matchpy_connector.test_matchpy_connector_correct","statement":"Path(test_matchpy_connector(x), p == Pattern(pattern); subst == Substitution({'w_': y}); subst == Substitution({'w__': Multiset([y, z])}))"},"assumes":[],"trust":["matchpy.__module__","multiset.__module__"],"compiled":true,"vhash":"8ea2dd2b96efbe83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == Pattern(pattern)","subst == Substitution({'w_': y})","subst == Substitution({'w__': Multiset([y, z])})","subst == Substitution({'w___': Multiset()})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_matchpy_connector():
     if matchpy is None:
         skip("matchpy not installed")
@@ -93,16 +107,24 @@ def test_matchpy_connector():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matchpy_optional(), test_matchpy_optional produces the expected output) over Any ║
+# ║ Path(test_matchpy_optional(), pa == Pattern(pattern) and subst == Substitution({'p': 2, 'q': 0}) and subst == Substitution({'p': 1, 'q': 3}) and subst == Substitution({'p': 1, 'q': 0}) and subst == Substitution({'p': y, 'q': z}) and replacer.replace(expr1) == sin(2) * cos(0) and replacer.replace(expr2) == sin(1) * cos(3) and replacer.replace(expr3) == sin(1) * cos(0) and replacer.replace(expr4) == sin(y) * cos(z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matchpy_optional : Any → {Any | pa == Pattern(pa...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pa == Pattern(pattern)                         ║
+# ║   ensures:  subst == Substitution({'p': 2, 'q': 0})        ║
+# ║   ensures:  subst == Substitution({'p': 1, 'q': 3})        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matchpy_optional : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   matchpy.__module__                                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 1e54091d469f...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | eb8a42e7e65d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_matchpy_connector.test_matchpy_optional","kind":"function","src_hash":"10f6636f1892c38c","in":{"base":"Any"},"out":{"base":"Any","pred":"pa == Pattern(pattern) and subst == Substitution({'p': 2, 'q': 0}) and pa == Pattern(pattern) and subst == Substitution({'p': 1, 'q': 3}) and pa == Pattern(pattern) and subst == Substitution({'p': 1, 'q': 0}) and pa == Pattern(pattern) and subst == Substitution({'p': y, 'q': z}) and replacer.replace(expr1) == sin(2) * cos(0) and replacer.replace(expr2) == sin(1) * cos(3) and replacer.replace(expr3) == sin(1) * cos(0) and replacer.replace(expr4) == sin(y) * cos(z)"},"spec":{"lhs":"test_matchpy_optional()","rhs":"test_matchpy_optional produces the expected output","over":{"base":"Any"},"name":"test_matchpy_optional_correct"},"guarantee":"test_matchpy_optional produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_matchpy_connector.test_matchpy_optional_correct","statement":"Path(test_matchpy_optional(x), test_matchpy_optional produces the expected output)"},"assumes":[],"trust":["matchpy.__module__"],"compiled":true,"vhash":"1e54091d469fcda9"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_matchpy_connector.test_matchpy_optional","kind":"function","src_hash":"10f6636f1892c38c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pa == Pattern(pattern) and subst == Substitution({'p': 2, 'q': 0}) and subst == Substitution({'p': 1, 'q': 3}) and subst == Substitution({'p': 1, 'q': 0}) and subst == Substitution({'p': y, 'q': z}) and replacer.replace(expr1) == sin(2) * cos(0) and replacer.replace(expr2) == sin(1) * cos(3) and replacer.replace(expr3) == sin(1) * cos(0) and replacer.replace(expr4) == sin(y) * cos(z)"},"spec":{"lhs":"test_matchpy_optional()","rhs":"pa == Pattern(pattern) and subst == Substitution({'p': 2, 'q': 0}) and subst == Substitution({'p': 1, 'q': 3}) and subst == Substitution({'p': 1, 'q': 0}) and subst == Substitution({'p': y, 'q': z}) and replacer.replace(expr1) == sin(2) * cos(0) and replacer.replace(expr2) == sin(1) * cos(3) and replacer.replace(expr3) == sin(1) * cos(0) and replacer.replace(expr4) == sin(y) * cos(z)","over":{"base":"Any"},"name":"test_matchpy_optional_correct"},"guarantee":"pa == Pattern(pattern); subst == Substitution({'p': 2, 'q': 0}); subst == Substitution({'p': 1, 'q': 3})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_matchpy_connector.test_matchpy_optional_correct","statement":"Path(test_matchpy_optional(x), pa == Pattern(pattern); subst == Substitution({'p': 2, 'q': 0}); subst == Substitution({'p': 1, 'q': 3}))"},"assumes":[],"trust":["matchpy.__module__"],"compiled":true,"vhash":"eb8a42e7e65d912a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pa == Pattern(pattern)","subst == Substitution({'p': 2, 'q': 0})","subst == Substitution({'p': 1, 'q': 3})","subst == Substitution({'p': 1, 'q': 0})","subst == Substitution({'p': y, 'q': z})","replacer.replace(expr1) == sin(2) * cos(0)","replacer.replace(expr2) == sin(1) * cos(3)","replacer.replace(expr3) == sin(1) * cos(0)","replacer.replace(expr4) == sin(y) * cos(z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_matchpy_optional():
     if matchpy is None:
         skip("matchpy not installed")
@@ -144,16 +166,22 @@ def test_matchpy_optional():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_replacer(), test_replacer produces the expected output) over Any ║
+# ║ Path(test_replacer(), <unspecified:test_replacer>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_replacer : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d0511c49a9a47c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_matchpy_connector.test_replacer","kind":"function","src_hash":"d69fdddec2a9a3a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_replacer()","rhs":"test_replacer produces the expected output","over":{"base":"Any"},"name":"test_replacer_correct"},"guarantee":"test_replacer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_matchpy_connector.test_replacer_correct","statement":"Path(test_replacer(x), test_replacer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d0511c49a9a47c4"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_matchpy_connector.test_replacer","kind":"function","src_hash":"d69fdddec2a9a3a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_replacer()","rhs":"<unspecified:test_replacer>","over":{"base":"Any"},"name":"test_replacer_correct"},"guarantee":"test_replacer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_matchpy_connector.test_replacer_correct","statement":"Path(test_replacer(x), test_replacer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d0511c49a9a47c4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_replacer():
     if matchpy is None:
         skip("matchpy not installed")
@@ -164,16 +192,24 @@ def test_replacer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_perform_test_replacer(inf), internal helper behaves correctly) over Any ║
+# ║ Path(_perform_test_replacer(info, lambdify), replacer.replace(Eq(3 * x, y)) == g(Eq(x, y / 3), [1, 2]) and replacer.replace(Eq(x ** 2 + 1, 0)) == g(Eq(x ** 2 + 1, 0), []) and replacer.replace(Eq(x ** 2, 4)) == g(Eq(x, 2) | Eq(x, -2), [1, 4]) and replacer.replace(Eq(x ** 2 + 4 * y * x + 4 * y ** 2, 0)) == g(Eq(x, -2 * y), [3])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _perform_test_replacer : Any → {Any | replacer.replac...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  replacer.replace(Eq(3 * x, y)) == g(Eq(x,...   ║
+# ║   ensures:  replacer.replace(Eq(x ** 2 + 1, 0)) == g(...   ║
+# ║   ensures:  replacer.replace(Eq(x ** 2, 4)) == g(Eq(x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _perform_test_replacer : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c8ab60bf15ce02e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96d3aa5956a74010  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_matchpy_connector._perform_test_replacer","kind":"function","src_hash":"ca541dab3d225bfd","in":{"base":"Any"},"out":{"base":"Any","pred":"replacer.replace(Eq(3 * x, y)) == g(Eq(x, y / 3), [1, 2]) and replacer.replace(Eq(x ** 2 + 1, 0)) == g(Eq(x ** 2 + 1, 0), []) and replacer.replace(Eq(x ** 2, 4)) == g(Eq(x, 2) | Eq(x, -2), [1, 4])"},"spec":{"lhs":"_perform_test_replacer(inf)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_perform_test_replacer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_matchpy_connector._perform_test_replacer_correct","statement":"Path(_perform_test_replacer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c8ab60bf15ce02e"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_matchpy_connector._perform_test_replacer","kind":"function","src_hash":"ca541dab3d225bfd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: replacer.replace(Eq(3 * x, y)) == g(Eq(x, y / 3), [1, 2]) and replacer.replace(Eq(x ** 2 + 1, 0)) == g(Eq(x ** 2 + 1, 0), []) and replacer.replace(Eq(x ** 2, 4)) == g(Eq(x, 2) | Eq(x, -2), [1, 4]) and replacer.replace(Eq(x ** 2 + 4 * y * x + 4 * y ** 2, 0)) == g(Eq(x, -2 * y), [3])"},"spec":{"lhs":"_perform_test_replacer(info, lambdify)","rhs":"replacer.replace(Eq(3 * x, y)) == g(Eq(x, y / 3), [1, 2]) and replacer.replace(Eq(x ** 2 + 1, 0)) == g(Eq(x ** 2 + 1, 0), []) and replacer.replace(Eq(x ** 2, 4)) == g(Eq(x, 2) | Eq(x, -2), [1, 4]) and replacer.replace(Eq(x ** 2 + 4 * y * x + 4 * y ** 2, 0)) == g(Eq(x, -2 * y), [3])","over":{"base":"Any"},"name":"_perform_test_replacer_correct"},"guarantee":"replacer.replace(Eq(3 * x, y)) == g(Eq(x, y / 3), [1, 2]); replacer.replace(Eq(x ** 2 + 1, 0)) == g(Eq(x ** 2 + 1, 0), []); replacer.replace(Eq(x ** 2, 4)) == g(Eq(x, 2) | Eq(x, -2), [1, 4])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_matchpy_connector._perform_test_replacer_correct","statement":"Path(_perform_test_replacer(x), replacer.replace(Eq(3 * x, y)) == g(Eq(x, y / 3), [1, 2]); replacer.replace(Eq(x ** 2 + 1, 0)) == g(Eq(x ** 2 + 1, 0), []); replacer.replace(Eq(x ** 2, 4)) == g(Eq(x, 2) | Eq(x, -2), [1, 4]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96d3aa5956a74010","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["replacer.replace(Eq(3 * x, y)) == g(Eq(x, y / 3), [1, 2])","replacer.replace(Eq(x ** 2 + 1, 0)) == g(Eq(x ** 2 + 1, 0), [])","replacer.replace(Eq(x ** 2, 4)) == g(Eq(x, 2) | Eq(x, -2), [1, 4])","replacer.replace(Eq(x ** 2 + 4 * y * x + 4 * y ** 2, 0)) == g(Eq(x, -2 * y), [3])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _perform_test_replacer(info, lambdify):
 
     x1_ = WildDot("x1_")
@@ -217,16 +253,22 @@ def _perform_test_replacer(info, lambdify):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_matchpy_object_pickle(), test_matchpy_object_pickle produces the expected output) over Any ║
+# ║ Path(test_matchpy_object_pickle(), a1 == a2) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_matchpy_object_pickle : Any → {Any | a1 == a2 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a1 == a2                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_matchpy_object_pickle : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5430a5c00f26ae06  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c91cc8bb71b9b923  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_matchpy_connector.test_matchpy_object_pickle","kind":"function","src_hash":"fe8aec2cc02a9127","in":{"base":"Any"},"out":{"base":"Any","pred":"a1 == a2 and a1 == a2 and a1 == a2 and a1 == a2"},"spec":{"lhs":"test_matchpy_object_pickle()","rhs":"test_matchpy_object_pickle produces the expected output","over":{"base":"Any"},"name":"test_matchpy_object_pickle_correct"},"guarantee":"test_matchpy_object_pickle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_matchpy_connector.test_matchpy_object_pickle_correct","statement":"Path(test_matchpy_object_pickle(x), test_matchpy_object_pickle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5430a5c00f26ae06"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_matchpy_connector.test_matchpy_object_pickle","kind":"function","src_hash":"fe8aec2cc02a9127","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a1 == a2"},"spec":{"lhs":"test_matchpy_object_pickle()","rhs":"a1 == a2","over":{"base":"Any"},"name":"test_matchpy_object_pickle_correct"},"guarantee":"a1 == a2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_matchpy_connector.test_matchpy_object_pickle_correct","statement":"Path(test_matchpy_object_pickle(x), a1 == a2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c91cc8bb71b9b923","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a1 == a2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_matchpy_object_pickle():
     if matchpy is None:
         return

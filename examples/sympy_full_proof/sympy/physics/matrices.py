@@ -23,16 +23,22 @@ from sympy.utilities.decorator import deprecated
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(msigma(i), returns a pauli matrix `\sigma_i` with `i=1,2,3`) over Any ║
+# ║ Path(msigma(i), Matrix(mat)) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix(mat)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ msigma : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f483f660fac3351  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97bddcad8d4b26da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.matrices.msigma","kind":"function","src_hash":"38bf5a2a01e5a98c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"msigma(i)","rhs":"returns a pauli matrix `\\sigma_i` with `i=1,2,3`","over":{"base":"Any"},"name":"msigma_correct"},"guarantee":"returns a pauli matrix `\\sigma_i` with `i=1,2,3`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.matrices.msigma_correct","statement":"Path(msigma(x), returns a pauli matrix `\\sigma_i` with `i=1,2,3`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f483f660fac3351"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.matrices.msigma","kind":"function","src_hash":"38bf5a2a01e5a98c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"msigma(i)","rhs":"Matrix(mat)","over":{"base":"Any"},"name":"msigma_correct"},"guarantee":"returns Matrix(mat)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.matrices.msigma_correct","statement":"Path(msigma(x), returns Matrix(mat))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97bddcad8d4b26da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix(mat)","pure":false,"effects":{"effect_type":"reads_state","raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def msigma(i):
     r"""Returns a Pauli matrix `\sigma_i` with `i=1,2,3`.
 
@@ -71,16 +77,22 @@ def msigma(i):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pat_matrix(m, ), returns the parallel axis theorem matrix to translate the inertia matrix a distance of `(dx, dy, dz)` for a body of mass m) over Any ║
+# ║ Path(pat_matrix(m, dx, dy), m * Matrix(mat)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  m * Matrix(mat)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pat_matrix : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b28d3a81bbe11004  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3d1bb16f72b80a4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.matrices.pat_matrix","kind":"function","src_hash":"659901d2cd58f5d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pat_matrix(m, )","rhs":"returns the parallel axis theorem matrix to translate the inertia matrix a distance of `(dx, dy, dz)` for a body of mass m","over":{"base":"Any"},"name":"pat_matrix_correct"},"guarantee":"returns the parallel axis theorem matrix to translate the inertia matrix a distance of `(dx, dy, dz)` for a body of mass m","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.matrices.pat_matrix_correct","statement":"Path(pat_matrix(x), returns the parallel axis theorem matrix to translate the inertia matrix a distance of `(dx, dy, dz)` for a body of mass m)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b28d3a81bbe11004"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.matrices.pat_matrix","kind":"function","src_hash":"659901d2cd58f5d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pat_matrix(m, dx, dy)","rhs":"m * Matrix(mat)","over":{"base":"Any"},"name":"pat_matrix_correct"},"guarantee":"returns m * Matrix(mat)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.matrices.pat_matrix_correct","statement":"Path(pat_matrix(x), returns m * Matrix(mat))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3d1bb16f72b80a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"m * Matrix(mat)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def pat_matrix(m, dx, dy, dz):
     """Returns the Parallel Axis Theorem matrix to translate the inertia
     matrix a distance of `(dx, dy, dz)` for a body of mass m.
@@ -112,16 +124,23 @@ def pat_matrix(m, dx, dy, dz):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mgamma(mu,), returns a dirac gamma matrix `\gamma^\mu` in the standard (dirac) representation) over Any ║
+# ║ Path(mgamma(mu, lower), <unspecified:mgamma>) over {Any | not (mu not in (0, 1, 2, 3, 5))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mgamma : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (mu not in (0, 1, 2, 3, 5))                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mgamma : {Any | not (mu not in (0, 1, 2, 3, 5))} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed68e87dff859e31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.matrices.mgamma","kind":"function","src_hash":"9a91c3f5744cbfdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mgamma(mu,)","rhs":"returns a dirac gamma matrix `\\gamma^\\mu` in the standard (dirac) representation","over":{"base":"Any"},"name":"mgamma_correct"},"guarantee":"returns a dirac gamma matrix `\\gamma^\\mu` in the standard (dirac) representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.matrices.mgamma_correct","statement":"Path(mgamma(x), returns a dirac gamma matrix `\\gamma^\\mu` in the standard (dirac) representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed68e87dff859e31"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.matrices.mgamma","kind":"function","src_hash":"9a91c3f5744cbfdb","in":{"base":"Any","pred":"not (mu not in (0, 1, 2, 3, 5))"},"out":{"base":"Any"},"spec":{"lhs":"mgamma(mu, lower)","rhs":"<unspecified:mgamma>","over":{"base":"Any","pred":"not (mu not in (0, 1, 2, 3, 5))"},"name":"mgamma_correct"},"guarantee":"returns a dirac gamma matrix `\\gamma^\\mu` in the standard (dirac) representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.matrices.mgamma_correct","statement":"Path(mgamma(x), returns a dirac gamma matrix `\\gamma^\\mu` in the standard (dirac) representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed68e87dff859e31","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (mu not in (0, 1, 2, 3, 5))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def mgamma(mu, lower=False):
     r"""Returns a Dirac gamma matrix `\gamma^\mu` in the standard
     (Dirac) representation.
@@ -217,14 +236,20 @@ minkowski_tensor = Matrix( (
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(mdft(n), id) over Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DFT(n).as_mutable()                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ mdft : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ffa71c4685330960   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.matrices.mdft","kind":"function","src_hash":"4868e91c3c516728","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mdft(n)","rhs":"expected_mdft","over":{"base":"Any"},"name":"mdft_correct","kind":"composition"},"guarantee":"","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"DFT","by":"library_axiom"},{"fn":"as_mutable","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffa71c4685330960"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.matrices.mdft","kind":"function","src_hash":"4868e91c3c516728","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mdft(n)","rhs":"DFT(n).as_mutable()","over":{"base":"Any"},"name":"mdft_correct","kind":"composition"},"guarantee":"returns DFT(n).as_mutable()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"DFT","by":"library_axiom"},{"fn":"as_mutable","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffa71c4685330960","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DFT(n).as_mutable()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def mdft(n):
     r"""
     .. deprecated:: 1.9

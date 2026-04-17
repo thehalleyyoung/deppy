@@ -21,14 +21,19 @@ from sympy.core.logic import fuzzy_and, fuzzy_or, fuzzy_not, fuzzy_xor
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a intervalMembership instance) preserved by intervalMembership(*args) over {Any | isinstance(other, intervalMembership)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ intervalMembership : {Any | isinstance(other, interva...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 505696d266adf99f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership","kind":"class","src_hash":"1149f83aca4c0274","in":{"base":"Any","pred":"isinstance(other, intervalMembership)"},"out":{"base":"Any"},"spec":{"lhs":"intervalMembership(*args)","rhs":"correctly constructs a intervalMembership instance","over":{"base":"Any","pred":"isinstance(other, intervalMembership)"},"name":"intervalMembership_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a intervalMembership instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_wrapped')","kind":"class","induction":"structural on _wrapped"}],"methods_preserving":["__init__","__getitem__","__len__","__iter__","__str__","__and__","__or__","__invert__","__xor__","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"505696d266adf99f"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership","kind":"class","src_hash":"1149f83aca4c0274","in":{"base":"Any","pred":"isinstance(other, intervalMembership)"},"out":{"base":"Any"},"spec":{"lhs":"intervalMembership(*args)","rhs":"correctly constructs a intervalMembership instance","over":{"base":"Any","pred":"isinstance(other, intervalMembership)"},"name":"intervalMembership_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_wrapped')","kind":"class","induction":"structural on _wrapped"}],"methods_preserving":["__init__","__getitem__","__len__","__iter__","__str__","__and__","__or__","__invert__","__xor__","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"505696d266adf99f","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_wrapped')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function intervalMembership not found in source"]}}
 class intervalMembership:
     """Represents a boolean expression returned by the comparison of
     the interval object.
@@ -48,30 +53,42 @@ class intervalMembership:
         - None
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(a, ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(a, b), <unspecified:__init__>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69d694416825dbac           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__init__","kind":"method","src_hash":"4ce096ea3a7676c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(a, )","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69d694416825dbac"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__init__","kind":"method","src_hash":"4ce096ea3a7676c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(a, b)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69d694416825dbac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, a, b):
         self._wrapped = (a, b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(i), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(i), self._wrapped[i]) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._wrapped[i]                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7407c8fedd229adc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__getitem__","kind":"method","src_hash":"6e994180acc57894","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7407c8fedd229adc"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__getitem__","kind":"method","src_hash":"6e994180acc57894","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"self._wrapped[i]","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self._wrapped[i]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7407c8fedd229adc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._wrapped[i]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._wrapped"],"raises":["IndexError"],"catches":["IndexError"]},"state_contract":{"exceptional_post":{"IndexError":["isinstance(raised, IndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, i):
         try:
             return self._wrapped[i]
@@ -81,59 +98,84 @@ class intervalMembership:
                 .format(i))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), 2) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f996759b32736dd4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__len__","kind":"method","src_hash":"48f3f6fa2961f437","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f996759b32736dd4"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__len__","kind":"method","src_hash":"48f3f6fa2961f437","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"2","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f996759b32736dd4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return 2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), iter(self._wrapped)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iter(self._wrapped)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4bcc689f07f2e215           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__iter__","kind":"method","src_hash":"fe56c10c321b6f01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bcc689f07f2e215"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__iter__","kind":"method","src_hash":"fe56c10c321b6f01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"iter(self._wrapped)","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns iter(self._wrapped)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4bcc689f07f2e215","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iter(self._wrapped)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._wrapped"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return iter(self._wrapped)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), 'intervalMembership({}, {})'.format(*self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'intervalMembership({}, {})'.format(*self)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6657e388c93c2d63           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__str__","kind":"method","src_hash":"0f777f06bfb4a570","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6657e388c93c2d63"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__str__","kind":"method","src_hash":"0f777f06bfb4a570","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'intervalMembership({}, {})'.format(*self)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns 'intervalMembership({}, {})'.format(*self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6657e388c93c2d63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'intervalMembership({}, {})'.format(*self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "intervalMembership({}, {})".format(*self)
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__and__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__and__(other), intervalMembership(fuzzy_and([a1, a2]), fuzzy_and([b1, b2]))) over {Any | isinstance(other, intervalMembership)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __and__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, intervalMembership)          ║
+# ║   returns:  intervalMembership(fuzzy_and([a1, a2]), f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __and__ : {Any | isinstance(other, intervalMembership...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f7429300eccf9401           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__and__","kind":"method","src_hash":"454fd3c8a0c360d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__and__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__and___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7429300eccf9401"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__and__","kind":"method","src_hash":"454fd3c8a0c360d3","in":{"base":"Any","pred":"isinstance(other, intervalMembership)"},"out":{"base":"Any"},"spec":{"lhs":"__and__(other)","rhs":"intervalMembership(fuzzy_and([a1, a2]), fuzzy_and([b1, b2]))","over":{"base":"Any","pred":"isinstance(other, intervalMembership)"},"name":"__and___correct"},"guarantee":"returns intervalMembership(fuzzy_and([a1, a2]), fuzzy_and([b1, b2]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7429300eccf9401","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, intervalMembership)"],"returns_expr":"intervalMembership(fuzzy_and([a1, a2]), fuzzy_and([b1, b2]))","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __and__(self, other):
         if not isinstance(other, intervalMembership):
             raise ValueError(
@@ -144,16 +186,23 @@ class intervalMembership:
         return intervalMembership(fuzzy_and([a1, a2]), fuzzy_and([b1, b2]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__or__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__or__(other), intervalMembership(fuzzy_or([a1, a2]), fuzzy_and([b1, b2]))) over {Any | isinstance(other, intervalMembership)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __or__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, intervalMembership)          ║
+# ║   returns:  intervalMembership(fuzzy_or([a1, a2]), fu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __or__ : {Any | isinstance(other, intervalMembership)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 604e0ac9b516d0de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__or__","kind":"method","src_hash":"9a1e2fa078cf72ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__or__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__or___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"604e0ac9b516d0de"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__or__","kind":"method","src_hash":"9a1e2fa078cf72ea","in":{"base":"Any","pred":"isinstance(other, intervalMembership)"},"out":{"base":"Any"},"spec":{"lhs":"__or__(other)","rhs":"intervalMembership(fuzzy_or([a1, a2]), fuzzy_and([b1, b2]))","over":{"base":"Any","pred":"isinstance(other, intervalMembership)"},"name":"__or___correct"},"guarantee":"returns intervalMembership(fuzzy_or([a1, a2]), fuzzy_and([b1, b2]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"604e0ac9b516d0de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, intervalMembership)"],"returns_expr":"intervalMembership(fuzzy_or([a1, a2]), fuzzy_and([b1, b2]))","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __or__(self, other):
         if not isinstance(other, intervalMembership):
             raise ValueError(
@@ -164,31 +213,44 @@ class intervalMembership:
         return intervalMembership(fuzzy_or([a1, a2]), fuzzy_and([b1, b2]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__invert__(), internal helper behaves correctly) over Any ║
+# ║ Path(__invert__(), intervalMembership(fuzzy_not(a), b)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  intervalMembership(fuzzy_not(a), b)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __invert__ : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fb746802dc0e14ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__invert__","kind":"method","src_hash":"16444ee66790ab7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__invert__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__invert___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb746802dc0e14ff"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__invert__","kind":"method","src_hash":"16444ee66790ab7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__invert__()","rhs":"intervalMembership(fuzzy_not(a), b)","over":{"base":"Any"},"name":"__invert___correct"},"guarantee":"returns intervalMembership(fuzzy_not(a), b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fb746802dc0e14ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"intervalMembership(fuzzy_not(a), b)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __invert__(self):
         a, b = self
         return intervalMembership(fuzzy_not(a), b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__xor__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__xor__(other), intervalMembership(fuzzy_xor([a1, a2]), fuzzy_and([b1, b2]))) over {Any | isinstance(other, intervalMembership)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __xor__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, intervalMembership)          ║
+# ║   returns:  intervalMembership(fuzzy_xor([a1, a2]), f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __xor__ : {Any | isinstance(other, intervalMembership...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 871e19f6faab8cb1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__xor__","kind":"method","src_hash":"c61755011887fd56","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__xor__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__xor___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"871e19f6faab8cb1"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__xor__","kind":"method","src_hash":"c61755011887fd56","in":{"base":"Any","pred":"isinstance(other, intervalMembership)"},"out":{"base":"Any"},"spec":{"lhs":"__xor__(other)","rhs":"intervalMembership(fuzzy_xor([a1, a2]), fuzzy_and([b1, b2]))","over":{"base":"Any","pred":"isinstance(other, intervalMembership)"},"name":"__xor___correct"},"guarantee":"returns intervalMembership(fuzzy_xor([a1, a2]), fuzzy_and([b1, b2]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"871e19f6faab8cb1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, intervalMembership)"],"returns_expr":"intervalMembership(fuzzy_xor([a1, a2]), fuzzy_and([b1, b2]))","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __xor__(self, other):
         if not isinstance(other, intervalMembership):
             raise ValueError(
@@ -199,29 +261,41 @@ class intervalMembership:
         return intervalMembership(fuzzy_xor([a1, a2]), fuzzy_and([b1, b2]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), self._wrapped == other) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._wrapped == other                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6b2e251332194475           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__eq__","kind":"method","src_hash":"8db7dd586c2bdf37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b2e251332194475"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__eq__","kind":"method","src_hash":"8db7dd586c2bdf37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"self._wrapped == other","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"returns self._wrapped == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b2e251332194475","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._wrapped == other","pure":false,"effects":{"effect_type":"reads_state","reads":["self._wrapped"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         return self._wrapped == other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), self._wrapped != other) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._wrapped != other                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e43c014156e75c2f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__ne__","kind":"method","src_hash":"b2ceb31e9df02109","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e43c014156e75c2f"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.intervalmath.interval_membership.intervalMembership.__ne__","kind":"method","src_hash":"b2ceb31e9df02109","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"self._wrapped != other","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns self._wrapped != other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e43c014156e75c2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._wrapped != other","pure":false,"effects":{"effect_type":"reads_state","reads":["self._wrapped"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):
         return self._wrapped != other

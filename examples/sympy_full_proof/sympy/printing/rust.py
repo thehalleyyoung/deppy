@@ -80,60 +80,84 @@ from sympy.printing.precedence import PRECEDENCE
 # Used in RustCodePrinter._print_Function(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(float_floor(), correctly constructs a float_floor instance) over Any ║
+# ║ Path(float_floor(), isinstance(self, floor)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ float_floor : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, floor)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ float_floor : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab7fcb9f191d6e42           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.float_floor","kind":"class","src_hash":"845d40e89d003ea5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"float_floor()","rhs":"correctly constructs a float_floor instance","over":{"base":"Any"},"name":"float_floor_correct"},"guarantee":"correctly constructs a float_floor instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab7fcb9f191d6e42"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.float_floor","kind":"class","src_hash":"845d40e89d003ea5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, floor)"},"spec":{"lhs":"float_floor()","rhs":"isinstance(self, floor)","over":{"base":"Any"},"name":"float_floor_correct"},"guarantee":"isinstance(self, floor)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab7fcb9f191d6e42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, floor)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function float_floor not found in source"]}}
 class float_floor(floor):
     """
     Same as `sympy.floor`, but mimics the Rust behavior of returning a float rather than an integer
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), False) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_integer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0812717870d53cfd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.float_floor._eval_is_integer","kind":"method","src_hash":"a6b3e88af450d9be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0812717870d53cfd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.float_floor._eval_is_integer","kind":"method","src_hash":"a6b3e88af450d9be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"False","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0812717870d53cfd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(float_ceiling(), correctly constructs a float_ceiling instance) over Any ║
+# ║ Path(float_ceiling(), isinstance(self, ceiling)) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ float_ceiling : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ceiling)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ float_ceiling : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 61d19972831209b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.float_ceiling","kind":"class","src_hash":"6c3f73bd464792d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"float_ceiling()","rhs":"correctly constructs a float_ceiling instance","over":{"base":"Any"},"name":"float_ceiling_correct"},"guarantee":"correctly constructs a float_ceiling instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61d19972831209b6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.float_ceiling","kind":"class","src_hash":"6c3f73bd464792d4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ceiling)"},"spec":{"lhs":"float_ceiling()","rhs":"isinstance(self, ceiling)","over":{"base":"Any"},"name":"float_ceiling_correct"},"guarantee":"isinstance(self, ceiling)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61d19972831209b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ceiling)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function float_ceiling not found in source"]}}
 class float_ceiling(ceiling):
     """
     Same as `sympy.ceiling`, but mimics the Rust behavior of returning a float rather than an integer
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), False) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_integer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb032a1d9d0aa109           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.float_ceiling._eval_is_integer","kind":"method","src_hash":"a6b3e88af450d9be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb032a1d9d0aa109"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.float_ceiling._eval_is_integer","kind":"method","src_hash":"a6b3e88af450d9be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"False","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb032a1d9d0aa109","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         return False
 
@@ -309,30 +333,44 @@ reserved_words = ['abstract',
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TypeCast(*args), correctly constructs a TypeCast instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TypeCast : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TypeCast : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 529f91124716dd44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.TypeCast","kind":"class","src_hash":"a4951a4d0ef67e69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TypeCast(*args)","rhs":"correctly constructs a TypeCast instance","over":{"base":"Any"},"name":"TypeCast_class_invariant"},"guarantee":"correctly constructs a TypeCast instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"529f91124716dd44"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.TypeCast","kind":"class","src_hash":"a4951a4d0ef67e69","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"TypeCast(*args)","rhs":"correctly constructs a TypeCast instance","over":{"base":"Any"},"name":"TypeCast_class_invariant"},"guarantee":"isinstance(self, Expr); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"529f91124716dd44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"],"invariants":["hasattr(self, 'explicit')","hasattr(self, '_assumptions')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function TypeCast not found in source"]}}
 class TypeCast(Expr):
     """
     The type casting operator of the Rust language.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(exp), initializes the instance correctly) over Any ║
+# ║ Path(__init__(expr, type_), <unspecified:__init__>) over {Any | hasattr(expr, '_assumptions') and hasattr(expr, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → None                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, '_assumptions')                  ║
+# ║   requires: hasattr(expr, 'is_integer')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(expr, '_assumptions') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa92d6765d5eccb5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.TypeCast.__init__","kind":"method","src_hash":"ed8cbcae52d15d7f","in":{"base":"Any"},"out":{"base":"None"},"spec":{"lhs":"__init__(exp)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa92d6765d5eccb5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.TypeCast.__init__","kind":"method","src_hash":"ed8cbcae52d15d7f","in":{"base":"Any","pred":"hasattr(expr, '_assumptions') and hasattr(expr, 'is_integer')"},"out":{"base":"None"},"spec":{"lhs":"__init__(expr, type_)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(expr, '_assumptions') and hasattr(expr, 'is_integer')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa92d6765d5eccb5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, '_assumptions')","hasattr(expr, 'is_integer')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["expr._assumptions","expr.is_integer","self.explicit"],"writes":["self._assumptions","self.explicit"]},"state_contract":{"modifies":["self._assumptions","self.explicit"],"old_bindings":{"old_self__assumptions":"self._assumptions","old_self_explicit":"self.explicit"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, expr, type_) -> None:
         super().__init__()
         self.explicit = expr.is_integer and type_ is not integer
@@ -342,45 +380,63 @@ class TypeCast(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expr(), returns the expr attribute) over Any          ║
+# ║ Path(expr(), self.args[0]) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expr : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 802efec0cfba2627           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.TypeCast.expr","kind":"property","src_hash":"8e47c443b9fdeae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"returns the expr attribute","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns the expr attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"802efec0cfba2627"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.TypeCast.expr","kind":"property","src_hash":"8e47c443b9fdeae3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expr()","rhs":"self.args[0]","over":{"base":"Any"},"name":"expr_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"802efec0cfba2627","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expr(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(type_(), returns the type_ attribute) over Any        ║
+# ║ Path(type_(), self.args[1]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ type_ : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 26685a15106024cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.TypeCast.type_","kind":"property","src_hash":"9cf471d2b4201750","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"type_()","rhs":"returns the type_ attribute","over":{"base":"Any"},"name":"type__correct"},"guarantee":"returns the type_ attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26685a15106024cd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.TypeCast.type_","kind":"property","src_hash":"9cf471d2b4201750","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"type_()","rhs":"self.args[1]","over":{"base":"Any"},"name":"type__correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26685a15106024cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def type_(self):
         return self.args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sort_key(ord), sort_key produces the expected output) over Any ║
+# ║ Path(sort_key(order), self.args[0].sort_key(order=order)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].sort_key(order=order)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sort_key : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2e5f7fc22de07341           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.TypeCast.sort_key","kind":"method","src_hash":"f9fc4b27eadb36b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sort_key(ord)","rhs":"sort_key produces the expected output","over":{"base":"Any"},"name":"sort_key_correct"},"guarantee":"sort_key produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e5f7fc22de07341"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.TypeCast.sort_key","kind":"method","src_hash":"f9fc4b27eadb36b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sort_key(order)","rhs":"self.args[0].sort_key(order=order)","over":{"base":"Any"},"name":"sort_key_correct"},"guarantee":"returns self.args[0].sort_key(order=order)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e5f7fc22de07341","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].sort_key(order=order)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sort_key(self, order=None):
         return self.args[0].sort_key(order=order)
 
@@ -388,14 +444,20 @@ class TypeCast(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a RustCodePrinter instance) preserved by RustCodePrinter(*args) over {Any | isinstance(expr, Expr) and isinstance(code, str) and isinstance(expr._imp_, Lambda)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CodePrinter)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RustCodePrinter : {Any | isinstance(expr, Expr) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89945153625f5941  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter","kind":"class","src_hash":"ba56f408b9c79425","in":{"base":"Any","pred":"isinstance(expr, Expr) and isinstance(code, str) and isinstance(expr._imp_, Lambda)"},"out":{"base":"Any"},"spec":{"lhs":"RustCodePrinter(*args)","rhs":"correctly constructs a RustCodePrinter instance","over":{"base":"Any","pred":"isinstance(expr, Expr) and isinstance(code, str) and isinstance(expr._imp_, Lambda)"},"name":"RustCodePrinter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a RustCodePrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions') and hasattr(self, '_dereference') and hasattr(self, 'reserved_words') and hasattr(self, 'function_overrides')","kind":"class","induction":"structural on known_functions, _dereference, reserved_words, function_overrides"}],"methods_preserving":["__init__","_rate_index_position","_get_statement","_get_comment","_declare_number_const","_format_code","_traverse_matrix_indices","_get_loop_opening_ending","_print_caller_var","_print_Function","_print_Mul","_print_Add","_print_Pow","_print_TypeCast","_print_Float","_print_Integer","_print_Rational","_print_Relational","_print_Indexed","_print_Idx","_print_Dummy","_print_Exp1","_print_Pi","_print_Infinity","_print_NegativeInfinity","_print_BooleanTrue","_print_BooleanFalse","_print_bool","_print_NaN","_print_Piecewise","_print_ITE","_print_MatrixBase","_print_SparseRepMatrix","_print_MatrixElement","_print_Symbol","_print_Assignment","_print_sign","_cast_to_float","_can_print","_collect_functions","_rewrite_known_functions","indent_code"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89945153625f5941"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter","kind":"class","src_hash":"ba56f408b9c79425","in":{"base":"Any","pred":"isinstance(expr, Expr) and isinstance(code, str) and isinstance(expr._imp_, Lambda)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CodePrinter)"},"spec":{"lhs":"RustCodePrinter(*args)","rhs":"correctly constructs a RustCodePrinter instance","over":{"base":"Any","pred":"isinstance(expr, Expr) and isinstance(code, str) and isinstance(expr._imp_, Lambda)"},"name":"RustCodePrinter_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CodePrinter); preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'known_functions') and hasattr(self, '_dereference') and hasattr(self, 'reserved_words') and hasattr(self, 'function_overrides')","kind":"class","induction":"structural on known_functions, _dereference, reserved_words, function_overrides"}],"methods_preserving":["__init__","_rate_index_position","_get_statement","_get_comment","_declare_number_const","_format_code","_traverse_matrix_indices","_get_loop_opening_ending","_print_caller_var","_print_Function","_print_Mul","_print_Add","_print_Pow","_print_TypeCast","_print_Float","_print_Integer","_print_Rational","_print_Relational","_print_Indexed","_print_Idx","_print_Dummy","_print_Exp1","_print_Pi","_print_Infinity","_print_NegativeInfinity","_print_BooleanTrue","_print_BooleanFalse","_print_bool","_print_NaN","_print_Piecewise","_print_ITE","_print_MatrixBase","_print_SparseRepMatrix","_print_MatrixElement","_print_Symbol","_print_Assignment","_print_sign","_cast_to_float","_can_print","_collect_functions","_rewrite_known_functions","indent_code"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89945153625f5941","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CodePrinter)"],"invariants":["hasattr(self, 'known_functions')","hasattr(self, '_dereference')","hasattr(self, 'reserved_words')","hasattr(self, 'function_overrides')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function RustCodePrinter not found in source"]}}
 class RustCodePrinter(CodePrinter):
     """A printer to convert SymPy expressions to strings of Rust code"""
     printmethod = "_rust_code"
@@ -421,16 +483,23 @@ class RustCodePrinter(CodePrinter):
     })
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(set), initializes the instance correctly) over Any ║
+# ║ Path(__init__(settings), <unspecified:__init__>) over {Any | hasattr(settings, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(settings, 'get')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(settings, 'get')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | edbd380edd9d6e2d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter.__init__","kind":"method","src_hash":"1cfefb0ac7e0c715","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(set)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edbd380edd9d6e2d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter.__init__","kind":"method","src_hash":"1cfefb0ac7e0c715","in":{"base":"Any","pred":"hasattr(settings, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(settings)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(settings, 'get')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edbd380edd9d6e2d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(settings, 'get')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.known_functions","settings.get"],"writes":["self._dereference","self.function_overrides","self.known_functions","self.reserved_words"],"calls_mutating":["self.known_functions.update"]},"state_contract":{"modifies":["self.*","self._dereference","self.function_overrides","self.known_functions","self.reserved_words"],"old_bindings":{"old_self__dereference":"self._dereference","old_self_function_overrides":"self.function_overrides","old_self_known_functions":"self.known_functions","old_self_reserved_words":"self.reserved_words"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, settings={}):
         CodePrinter.__init__(self, settings)
         self.known_functions = dict(known_functions)
@@ -441,102 +510,145 @@ class RustCodePrinter(CodePrinter):
         self.function_overrides = function_overrides
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rate_index_position(p), internal helper behaves correctly) over Any ║
+# ║ Path(_rate_index_position(p), p * 5) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  p * 5                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rate_index_position : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a79fd0f5ba11713f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._rate_index_position","kind":"method","src_hash":"b056d20fa49cff81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rate_index_position(p)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_rate_index_position_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a79fd0f5ba11713f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._rate_index_position","kind":"method","src_hash":"b056d20fa49cff81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rate_index_position(p)","rhs":"p * 5","over":{"base":"Any"},"name":"_rate_index_position_correct"},"guarantee":"returns p * 5","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a79fd0f5ba11713f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"p * 5","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rate_index_position(self, p):
         return p*5
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_statement(cod), internal helper behaves correctly) over Any ║
+# ║ Path(_get_statement(codestring), '%s;' % codestring) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s;' % codestring                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_statement : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 332e389d5cd18e14           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._get_statement","kind":"method","src_hash":"a36c898509962ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_statement(cod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_statement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"332e389d5cd18e14"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._get_statement","kind":"method","src_hash":"a36c898509962ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_statement(codestring)","rhs":"'%s;' % codestring","over":{"base":"Any"},"name":"_get_statement_correct"},"guarantee":"returns '%s;' % codestring","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"332e389d5cd18e14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s;' % codestring","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_statement(self, codestring):
         return "%s;" % codestring
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_comment(tex), internal helper behaves correctly) over Any ║
+# ║ Path(_get_comment(text), '// %s' % text) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '// %s' % text                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_comment : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0e39664d80a25c4f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._get_comment","kind":"method","src_hash":"36f7b1ce1992aabf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(tex)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e39664d80a25c4f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._get_comment","kind":"method","src_hash":"36f7b1ce1992aabf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_comment(text)","rhs":"'// %s' % text","over":{"base":"Any"},"name":"_get_comment_correct"},"guarantee":"returns '// %s' % text","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e39664d80a25c4f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'// %s' % text","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_comment(self, text):
         return "// %s" % text
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_declare_number_const(nam), internal helper behaves correctly) over Any ║
+# ║ Path(_declare_number_const(name, value), 'const %s: %s = %s;' % (name, type_, value)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'const %s: %s = %s;' % (name, type_, value)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _declare_number_const : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b61bcefc60ee408  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df6908c87e755cdd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._declare_number_const","kind":"method","src_hash":"c6d58df801653407","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_number_const(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_declare_number_const_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._declare_number_const_correct","statement":"Path(_declare_number_const(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b61bcefc60ee408"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._declare_number_const","kind":"method","src_hash":"c6d58df801653407","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_declare_number_const(name, value)","rhs":"'const %s: %s = %s;' % (name, type_, value)","over":{"base":"Any"},"name":"_declare_number_const_correct"},"guarantee":"returns 'const %s: %s = %s;' % (name, type_, value)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._declare_number_const_correct","statement":"Path(_declare_number_const(x), returns 'const %s: %s = %s;' % (name, type_, value))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df6908c87e755cdd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'const %s: %s = %s;' % (name, type_, value)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.type_aliases","self.type_mappings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _declare_number_const(self, name, value):
         type_ = self.type_mappings[self.type_aliases[real]]
         return "const %s: %s = %s;" % (name, type_, value)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_format_code(lin), internal helper behaves correctly) over Any ║
+# ║ Path(_format_code(lines), self.indent_code(lines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.indent_code(lines)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _format_code : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e79a7b96ff001d07           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._format_code","kind":"method","src_hash":"7bd71f7b561c870b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_format_code(lin)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e79a7b96ff001d07"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._format_code","kind":"method","src_hash":"7bd71f7b561c870b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_format_code(lines)","rhs":"self.indent_code(lines)","over":{"base":"Any"},"name":"_format_code_correct"},"guarantee":"returns self.indent_code(lines)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e79a7b96ff001d07","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.indent_code(lines)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.indent_code"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _format_code(self, lines):
         return self.indent_code(lines)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_traverse_matrix_indices(mat), id) over Any           ║
+# ║ Path(_traverse_matrix_indices(mat), id) over {Any | hasattr(mat, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _traverse_matrix_indices : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(mat, 'shape')                          ║
+# ║   returns:  ((i, j) for i in range(rows) for j in ran...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _traverse_matrix_indices : {Any | hasattr(mat, 'shape...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f6de3ca427f8ed18   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._traverse_matrix_indices","kind":"method","src_hash":"7b97ef82679caaae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_traverse_matrix_indices(mat)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_traverse_matrix_indices_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6de3ca427f8ed18"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._traverse_matrix_indices","kind":"method","src_hash":"7b97ef82679caaae","in":{"base":"Any","pred":"hasattr(mat, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_traverse_matrix_indices(mat)","rhs":"((i, j) for i in range(rows) for j in range(cols))","over":{"base":"Any","pred":"hasattr(mat, 'shape')"},"name":"_traverse_matrix_indices_correct","kind":"composition"},"guarantee":"returns ((i, j) for i in range(rows) for j in range(cols))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6de3ca427f8ed18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(mat, 'shape')"],"returns_expr":"((i, j) for i in range(rows) for j in range(cols))","pure":false,"effects":{"effect_type":"reads_state","reads":["mat.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _traverse_matrix_indices(self, mat):
         rows, cols = mat.shape
         return ((i, j) for i in range(rows) for j in range(cols))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_loop_opening_ending(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_get_loop_opening_ending(indices), (open_lines, close_lines)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (open_lines, close_lines)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_loop_opening_ending : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb359c35c607c80b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b80c257a6ca5f41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._get_loop_opening_ending","kind":"method","src_hash":"555f72c3dd0a4f10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_loop_opening_ending(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_loop_opening_ending_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._get_loop_opening_ending_correct","statement":"Path(_get_loop_opening_ending(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb359c35c607c80b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._get_loop_opening_ending","kind":"method","src_hash":"555f72c3dd0a4f10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_loop_opening_ending(indices)","rhs":"(open_lines, close_lines)","over":{"base":"Any"},"name":"_get_loop_opening_ending_correct"},"guarantee":"returns (open_lines, close_lines)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._get_loop_opening_ending_correct","statement":"Path(_get_loop_opening_ending(x), returns (open_lines, close_lines))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b80c257a6ca5f41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(open_lines, close_lines)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_loop_opening_ending(self, indices):
         open_lines = []
         close_lines = []
@@ -551,16 +663,28 @@ class RustCodePrinter(CodePrinter):
         return open_lines, close_lines
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_caller_var(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_caller_var(expr), result == ('(' + self._print(expr) + ')' if len(expr.args) > 1 else self._print(expr, _type=True) if expr.is_number else self._print(expr)) and result == '(' + self._print(expr) + ')' or result == self._print(expr, _type=True) or result == self._print(expr)) over {Any | hasattr(expr, 'is_number') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_caller_var : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  result == ('(' + self._print(expr) + ')' ...   ║
+# ║   ensures:  result == '(' + self._print(expr) + ')' o...   ║
+# ║   fiber[case_0]: len(expr.args) > 1 => '(' + self._pr...   ║
+# ║   fiber[case_1]: expr.is_number => self._print(expr, ...   ║
+# ║   fiber[case_2]: not (len(expr.args) > 1) and not (ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_caller_var : {Any | hasattr(expr, 'is_number')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd19cd0b2aeff141  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea885adb6994ff54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_caller_var","kind":"method","src_hash":"41fbe1a0d053d39d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_caller_var(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_caller_var_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_caller_var_correct","statement":"Path(_print_caller_var(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd19cd0b2aeff141"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_caller_var","kind":"method","src_hash":"41fbe1a0d053d39d","in":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == ('(' + self._print(expr) + ')' if len(expr.args) > 1 else self._print(expr, _type=True) if expr.is_number else self._print(expr)) and result == '(' + self._print(expr) + ')' or result == self._print(expr, _type=True) or result == self._print(expr)"},"spec":{"lhs":"_print_caller_var(expr)","rhs":"result == ('(' + self._print(expr) + ')' if len(expr.args) > 1 else self._print(expr, _type=True) if expr.is_number else self._print(expr)) and result == '(' + self._print(expr) + ')' or result == self._print(expr, _type=True) or result == self._print(expr)","over":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'args')"},"name":"_print_caller_var_correct"},"guarantee":"result == ('(' + self._print(expr) + ')' if len(expr.args) > 1 else self._print(expr, _type=True) if expr.is_number else self._print(expr)); result == '(' + self._print(expr) + ')' or result == self._print(expr, _type=True) or result == self._print(expr); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_caller_var_correct","statement":"Path(_print_caller_var(x), result == ('(' + self._print(expr) + ')' if len(expr.args) > 1 else self._print(expr, _type=True) if expr.is_number else self._print(expr)); result == '(' + self._print(expr) + ')' or result == self._print(expr, _type=True) or result == self._print(expr); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea885adb6994ff54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_number')","hasattr(expr, 'args')"],"ensures":["result == ('(' + self._print(expr) + ')' if len(expr.args) > 1 else self._print(expr, _type=True) if expr.is_number else self._print(expr))","result == '(' + self._print(expr) + ')' or result == self._print(expr, _type=True) or result == self._print(expr)"],"fibers":[{"name":"case_0","guard":"len(expr.args) > 1","ensures":["result == '(' + self._print(expr) + ')'"],"decidability":"z3","returns_expr":"'(' + self._print(expr) + ')'"},{"name":"case_1","guard":"expr.is_number","ensures":["result == self._print(expr, _type=True)"],"decidability":"library","returns_expr":"self._print(expr, _type=True)"},{"name":"case_2","guard":"not (len(expr.args) > 1) and not (expr.is_number)","ensures":["result == self._print(expr)"],"decidability":"z3","returns_expr":"self._print(expr)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.is_number","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_caller_var(self, expr):
         if len(expr.args) > 1:
             # for something like `sin(x + y + z)`,
@@ -573,16 +697,27 @@ class RustCodePrinter(CodePrinter):
             return self._print(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Function(exp), basic function for printing `function`) over Any ║
+# ║ Path(_print_Function(expr), <unspecified:_print_Function>) over {Any | hasattr(expr, 'func') and hasattr(expr, '_imp_') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Function : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   requires: hasattr(expr, '_imp_')                         ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   fiber[case_0]: expr.func.__name__ in self.known_fun...   ║
+# ║   fiber[case_1]: hasattr(expr, '_imp_') and isinstanc...   ║
+# ║   fiber[case_2]: not (expr.func.__name__ in self.know...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Function : {Any | hasattr(expr, 'func') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10bdaf40d4e20c46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef03bd7839a096b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Function","kind":"method","src_hash":"f6c8580df52bf9fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(exp)","rhs":"basic function for printing `function`","over":{"base":"Any"},"name":"_print_Function_correct"},"guarantee":"basic function for printing `function`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Function_correct","statement":"Path(_print_Function(x), basic function for printing `function`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10bdaf40d4e20c46"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Function","kind":"method","src_hash":"f6c8580df52bf9fb","in":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, '_imp_') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(expr)","rhs":"<unspecified:_print_Function>","over":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, '_imp_') and hasattr(expr, 'args')"},"name":"_print_Function_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Function_correct","statement":"Path(_print_Function(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef03bd7839a096b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'func')","hasattr(expr, '_imp_')","hasattr(expr, 'args')"],"fibers":[{"name":"case_0","guard":"expr.func.__name__ in self.known_functions","ensures":[],"decidability":"library"},{"name":"case_1","guard":"hasattr(expr, '_imp_') and isinstance(expr._imp_, Lambda)","ensures":["result == self._print(expr._imp_(*expr.args))"],"decidability":"structural","returns_expr":"self._print(expr._imp_(*expr.args))"},{"name":"case_2","guard":"not (expr.func.__name__ in self.known_functions) and not (hasattr(expr, '_imp_') and isinstance(expr._imp_, Lambda))","ensures":["result == self._print_not_supported(expr)"],"decidability":"structural","returns_expr":"self._print_not_supported(expr)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr._imp_","expr.args","expr.func","self._print","self._print_caller_var","self._print_not_supported","self.known_functions","self.stringify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Function(self, expr):
         """
         basic function for printing `Function`
@@ -635,16 +770,23 @@ class RustCodePrinter(CodePrinter):
             return self._print_not_supported(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Mul(exp), id) over Any                         ║
+# ║ Path(_print_Mul(expr), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Mul : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  super()._print_Mul(expr)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Mul : {Any | hasattr(expr, 'args')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 251333b64073bdca   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Mul","kind":"method","src_hash":"ec8943b7deb872f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Mul_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_print_Mul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"251333b64073bdca"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Mul","kind":"method","src_hash":"ec8943b7deb872f2","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(expr)","rhs":"super()._print_Mul(expr)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Mul_correct","kind":"composition"},"guarantee":"returns super()._print_Mul(expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_print_Mul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"251333b64073bdca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"super()._print_Mul(expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._cast_to_float"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Mul(self, expr):
         contains_floats = any(arg.is_real and not arg.is_integer for arg in expr.args)
         if contains_floats:
@@ -653,16 +795,23 @@ class RustCodePrinter(CodePrinter):
         return super()._print_Mul(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Add(exp), id) over Any                         ║
+# ║ Path(_print_Add(expr, order), id) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Add : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  super()._print_Add(expr, order)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Add : {Any | hasattr(expr, 'args')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ed41e54dccc6cb5b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Add","kind":"method","src_hash":"df9ff6068e1a73d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Add(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Add_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_print_Add","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed41e54dccc6cb5b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Add","kind":"method","src_hash":"df9ff6068e1a73d6","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Add(expr, order)","rhs":"super()._print_Add(expr, order)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Add_correct","kind":"composition"},"guarantee":"returns super()._print_Add(expr, order)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_print_Add","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed41e54dccc6cb5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"super()._print_Add(expr, order)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._cast_to_float"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Add(self, expr, order=None):
         contains_floats = any(arg.is_real and not arg.is_integer for arg in expr.args)
         if contains_floats:
@@ -671,16 +820,24 @@ class RustCodePrinter(CodePrinter):
         return super()._print_Add(expr, order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pow(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Pow(expr), <unspecified:_print_Pow>) over {Any | hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Pow : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Pow : {Any | hasattr(expr, 'base') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc6955c07356c6b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Pow","kind":"method","src_hash":"7dd50f58538accc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Pow_correct","statement":"Path(_print_Pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc6955c07356c6b5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Pow","kind":"method","src_hash":"7dd50f58538accc1","in":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(expr)","rhs":"<unspecified:_print_Pow>","over":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"_print_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Pow_correct","statement":"Path(_print_Pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc6955c07356c6b5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self._print","self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pow(self, expr):
         if expr.base.is_integer and not expr.exp.is_integer:
             expr = type(expr)(Float(expr.base), expr.exp)
@@ -688,16 +845,28 @@ class RustCodePrinter(CodePrinter):
         return self._print_Function(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_TypeCast(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_TypeCast(expr), result == (self._print(expr.expr) if not expr.explicit else self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]) and result == self._print(expr.expr) or result == self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]) over {Any | hasattr(expr, 'explicit') and hasattr(expr, 'expr') and hasattr(expr, 'type_')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_TypeCast : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'explicit')                      ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'type_')                         ║
+# ║   ensures:  result == (self._print(expr.expr) if not ...   ║
+# ║   ensures:  result == self._print(expr.expr) or resul...   ║
+# ║   fiber[case_0]: not expr.explicit => self._print(exp...   ║
+# ║   fiber[case_1]: not (not expr.explicit) => self._pri...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_TypeCast : {Any | hasattr(expr, 'explicit') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1117bcf93b146ec1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af3d25a03fc7aeab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_TypeCast","kind":"method","src_hash":"4e712ac0db31581d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_TypeCast(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_TypeCast_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_TypeCast_correct","statement":"Path(_print_TypeCast(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1117bcf93b146ec1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_TypeCast","kind":"method","src_hash":"4e712ac0db31581d","in":{"base":"Any","pred":"hasattr(expr, 'explicit') and hasattr(expr, 'expr') and hasattr(expr, 'type_')"},"out":{"base":"Any","pred":"result satisfies: result == (self._print(expr.expr) if not expr.explicit else self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]) and result == self._print(expr.expr) or result == self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]"},"spec":{"lhs":"_print_TypeCast(expr)","rhs":"result == (self._print(expr.expr) if not expr.explicit else self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]) and result == self._print(expr.expr) or result == self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]","over":{"base":"Any","pred":"hasattr(expr, 'explicit') and hasattr(expr, 'expr') and hasattr(expr, 'type_')"},"name":"_print_TypeCast_correct"},"guarantee":"result == (self._print(expr.expr) if not expr.explicit else self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]); result == self._print(expr.expr) or result == self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_TypeCast_correct","statement":"Path(_print_TypeCast(x), result == (self._print(expr.expr) if not expr.explicit else self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]); result == self._print(expr.expr) or result == self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af3d25a03fc7aeab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'explicit')","hasattr(expr, 'expr')","hasattr(expr, 'type_')"],"ensures":["result == (self._print(expr.expr) if not expr.explicit else self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]])","result == self._print(expr.expr) or result == self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]"],"fibers":[{"name":"case_0","guard":"not expr.explicit","ensures":["result == self._print(expr.expr)"],"decidability":"library","returns_expr":"self._print(expr.expr)"},{"name":"case_1","guard":"not (not expr.explicit)","ensures":["result == self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]"],"decidability":"library","returns_expr":"self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.explicit","expr.expr","expr.type_","self._print","self.type_aliases","self.type_mappings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_TypeCast(self, expr):
         if not expr.explicit:
             return self._print(expr.expr)
@@ -705,16 +874,25 @@ class RustCodePrinter(CodePrinter):
             return self._print(expr.expr) + ' as %s' % self.type_mappings[self.type_aliases[expr.type_]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Float(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Float(expr, _type), result == (ret + '_%s' % self.type_mappings[self.type_aliases[real]] if _type else ret) and result == ret + '_%s' % self.type_mappings[self.type_aliases[real]] or result == ret) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Float : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (ret + '_%s' % self.type_mappin...   ║
+# ║   ensures:  result == ret + '_%s' % self.type_mapping...   ║
+# ║   fiber[case_0]: _type => ret + '_%s' % self.type_map...   ║
+# ║   fiber[case_1]: not (_type) => ret                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Float : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c839a548b9eaf24  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bce1083d6755f324  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Float","kind":"method","src_hash":"15a09568d181f9b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Float(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Float_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Float_correct","statement":"Path(_print_Float(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c839a548b9eaf24"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Float","kind":"method","src_hash":"15a09568d181f9b4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (ret + '_%s' % self.type_mappings[self.type_aliases[real]] if _type else ret) and result == ret + '_%s' % self.type_mappings[self.type_aliases[real]] or result == ret"},"spec":{"lhs":"_print_Float(expr, _type)","rhs":"result == (ret + '_%s' % self.type_mappings[self.type_aliases[real]] if _type else ret) and result == ret + '_%s' % self.type_mappings[self.type_aliases[real]] or result == ret","over":{"base":"Any"},"name":"_print_Float_correct"},"guarantee":"result == (ret + '_%s' % self.type_mappings[self.type_aliases[real]] if _type else ret); result == ret + '_%s' % self.type_mappings[self.type_aliases[real]] or result == ret; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Float_correct","statement":"Path(_print_Float(x), result == (ret + '_%s' % self.type_mappings[self.type_aliases[real]] if _type else ret); result == ret + '_%s' % self.type_mappings[self.type_aliases[real]] or result == ret; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bce1083d6755f324","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (ret + '_%s' % self.type_mappings[self.type_aliases[real]] if _type else ret)","result == ret + '_%s' % self.type_mappings[self.type_aliases[real]] or result == ret"],"fibers":[{"name":"case_0","guard":"_type","ensures":["result == ret + '_%s' % self.type_mappings[self.type_aliases[real]]"],"decidability":"library","returns_expr":"ret + '_%s' % self.type_mappings[self.type_aliases[real]]"},{"name":"case_1","guard":"not (_type)","ensures":["result == ret"],"decidability":"library","returns_expr":"ret"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.type_aliases","self.type_mappings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Float(self, expr, _type=False):
         ret = super()._print_Float(expr)
         if _type:
@@ -723,16 +901,25 @@ class RustCodePrinter(CodePrinter):
             return ret
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Integer(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Integer(expr, _type), result == (ret + '_%s' % self.type_mappings[self.type_aliases[integer]] if _type else ret) and result == ret + '_%s' % self.type_mappings[self.type_aliases[integer]] or result == ret) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Integer : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (ret + '_%s' % self.type_mappin...   ║
+# ║   ensures:  result == ret + '_%s' % self.type_mapping...   ║
+# ║   fiber[case_0]: _type => ret + '_%s' % self.type_map...   ║
+# ║   fiber[case_1]: not (_type) => ret                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Integer : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6e8e25a7d2e4d82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3684c56bb887231  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Integer","kind":"method","src_hash":"db5926846ae5da42","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Integer(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Integer_correct","statement":"Path(_print_Integer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6e8e25a7d2e4d82"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Integer","kind":"method","src_hash":"db5926846ae5da42","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (ret + '_%s' % self.type_mappings[self.type_aliases[integer]] if _type else ret) and result == ret + '_%s' % self.type_mappings[self.type_aliases[integer]] or result == ret"},"spec":{"lhs":"_print_Integer(expr, _type)","rhs":"result == (ret + '_%s' % self.type_mappings[self.type_aliases[integer]] if _type else ret) and result == ret + '_%s' % self.type_mappings[self.type_aliases[integer]] or result == ret","over":{"base":"Any"},"name":"_print_Integer_correct"},"guarantee":"result == (ret + '_%s' % self.type_mappings[self.type_aliases[integer]] if _type else ret); result == ret + '_%s' % self.type_mappings[self.type_aliases[integer]] or result == ret; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Integer_correct","statement":"Path(_print_Integer(x), result == (ret + '_%s' % self.type_mappings[self.type_aliases[integer]] if _type else ret); result == ret + '_%s' % self.type_mappings[self.type_aliases[integer]] or result == ret; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3684c56bb887231","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (ret + '_%s' % self.type_mappings[self.type_aliases[integer]] if _type else ret)","result == ret + '_%s' % self.type_mappings[self.type_aliases[integer]] or result == ret"],"fibers":[{"name":"case_0","guard":"_type","ensures":["result == ret + '_%s' % self.type_mappings[self.type_aliases[integer]]"],"decidability":"library","returns_expr":"ret + '_%s' % self.type_mappings[self.type_aliases[integer]]"},{"name":"case_1","guard":"not (_type)","ensures":["result == ret"],"decidability":"library","returns_expr":"ret"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.type_aliases","self.type_mappings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Integer(self, expr, _type=False):
         ret = super()._print_Integer(expr)
         if _type:
@@ -741,32 +928,49 @@ class RustCodePrinter(CodePrinter):
             return ret
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Rational(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Rational(expr), '%d_%s/%d.0' % (p, float_suffix, q)) over {Any | hasattr(expr, 'p') and hasattr(expr, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Rational : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'p')                             ║
+# ║   requires: hasattr(expr, 'q')                             ║
+# ║   returns:  '%d_%s/%d.0' % (p, float_suffix, q)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Rational : {Any | hasattr(expr, 'p') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99271d6ed5999b65  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 772a9df9f079a346  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Rational","kind":"method","src_hash":"b90308a69b21ddd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Rational_correct","statement":"Path(_print_Rational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99271d6ed5999b65"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Rational","kind":"method","src_hash":"b90308a69b21ddd7","in":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(expr)","rhs":"'%d_%s/%d.0' % (p, float_suffix, q)","over":{"base":"Any","pred":"hasattr(expr, 'p') and hasattr(expr, 'q')"},"name":"_print_Rational_correct"},"guarantee":"returns '%d_%s/%d.0' % (p, float_suffix, q)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Rational_correct","statement":"Path(_print_Rational(x), returns '%d_%s/%d.0' % (p, float_suffix, q))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"772a9df9f079a346","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'p')","hasattr(expr, 'q')"],"returns_expr":"'%d_%s/%d.0' % (p, float_suffix, q)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.p","expr.q","self.type_aliases","self.type_mappings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Rational(self, expr):
         p, q = int(expr.p), int(expr.q)
         float_suffix = self.type_mappings[self.type_aliases[real]]
         return '%d_%s/%d.0' % (p, float_suffix, q)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Relational(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Relational(expr), '{} {} {}'.format(lhs_code, op, rhs_code)) over {Any | hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Relational : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'rel_op')                        ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   returns:  '{} {} {}'.format(lhs_code, op, rhs_code)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Relational : {Any | hasattr(expr, 'rel_op') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf3bfa131688d76e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d862c7a59f5e9c96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Relational","kind":"method","src_hash":"e9e9d35cd29cde20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Relational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Relational_correct","statement":"Path(_print_Relational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf3bfa131688d76e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Relational","kind":"method","src_hash":"e9e9d35cd29cde20","in":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(expr)","rhs":"'{} {} {}'.format(lhs_code, op, rhs_code)","over":{"base":"Any","pred":"hasattr(expr, 'rel_op') and hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"name":"_print_Relational_correct"},"guarantee":"returns '{} {} {}'.format(lhs_code, op, rhs_code)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Relational_correct","statement":"Path(_print_Relational(x), returns '{} {} {}'.format(lhs_code, op, rhs_code))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d862c7a59f5e9c96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'rel_op')","hasattr(expr, 'lhs')","hasattr(expr, 'rhs')"],"returns_expr":"'{} {} {}'.format(lhs_code, op, rhs_code)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.lhs","expr.rel_op","expr.rhs","self._cast_to_float","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Relational(self, expr):
         if (expr.lhs.is_integer and not expr.rhs.is_integer) or (expr.rhs.is_integer and not expr.lhs.is_integer):
             lhs = self._cast_to_float(expr.lhs)
@@ -780,16 +984,25 @@ class RustCodePrinter(CodePrinter):
         return "{} {} {}".format(lhs_code, op, rhs_code)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Indexed(exp), id) over Any                     ║
+# ║ Path(_print_Indexed(expr), id) over {Any | hasattr(expr, 'shape') and hasattr(expr, 'rank') and hasattr(expr, 'indices') and hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Indexed : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   requires: hasattr(expr, 'rank')                          ║
+# ║   requires: hasattr(expr, 'indices')                       ║
+# ║   returns:  '%s[%s]' % (self._print(expr.base.label),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Indexed : {Any | hasattr(expr, 'shape') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f0208adf450e0169   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Indexed","kind":"method","src_hash":"8277309a18374ac4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Indexed(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Indexed_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0208adf450e0169"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Indexed","kind":"method","src_hash":"8277309a18374ac4","in":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, 'rank') and hasattr(expr, 'indices') and hasattr(expr, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Indexed(expr)","rhs":"'%s[%s]' % (self._print(expr.base.label), self._print(elem))","over":{"base":"Any","pred":"hasattr(expr, 'shape') and hasattr(expr, 'rank') and hasattr(expr, 'indices') and hasattr(expr, 'base')"},"name":"_print_Indexed_correct","kind":"composition"},"guarantee":"returns '%s[%s]' % (self._print(expr.base.label), self._print(elem))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0208adf450e0169","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'shape')","hasattr(expr, 'rank')","hasattr(expr, 'indices')","hasattr(expr, 'base')"],"returns_expr":"'%s[%s]' % (self._print(expr.base.label), self._print(elem))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.indices","expr.rank","expr.shape","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Indexed(self, expr):
         # calculate index for 1d array
         dims = expr.shape
@@ -801,156 +1014,226 @@ class RustCodePrinter(CodePrinter):
         return "%s[%s]" % (self._print(expr.base.label), self._print(elem))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Idx(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Idx(expr), expr.label.name) over {Any | hasattr(expr, 'label')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Idx : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'label')                         ║
+# ║   returns:  expr.label.name                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Idx : {Any | hasattr(expr, 'label')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3bc43b745c1a5580           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Idx","kind":"method","src_hash":"6071cf00f9ed1ac1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Idx(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Idx_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3bc43b745c1a5580"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Idx","kind":"method","src_hash":"6071cf00f9ed1ac1","in":{"base":"Any","pred":"hasattr(expr, 'label')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Idx(expr)","rhs":"expr.label.name","over":{"base":"Any","pred":"hasattr(expr, 'label')"},"name":"_print_Idx_correct"},"guarantee":"returns expr.label.name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3bc43b745c1a5580","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'label')"],"returns_expr":"expr.label.name","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.label"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Idx(self, expr):
         return expr.label.name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Dummy(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Dummy(expr), expr.name) over {Any | hasattr(expr, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Dummy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'name')                          ║
+# ║   returns:  expr.name                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Dummy : {Any | hasattr(expr, 'name')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c8811b1310254ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Dummy","kind":"method","src_hash":"5db98bb971e9a80c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Dummy(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Dummy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c8811b1310254ff"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Dummy","kind":"method","src_hash":"5db98bb971e9a80c","in":{"base":"Any","pred":"hasattr(expr, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Dummy(expr)","rhs":"expr.name","over":{"base":"Any","pred":"hasattr(expr, 'name')"},"name":"_print_Dummy_correct"},"guarantee":"returns expr.name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c8811b1310254ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'name')"],"returns_expr":"expr.name","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Dummy(self, expr):
         return expr.name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Exp1(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Exp1(expr, _type), 'E') over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'E'                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Exp1 : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed6ea8002ced6a4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Exp1","kind":"method","src_hash":"24a545fc6911015c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed6ea8002ced6a4c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Exp1","kind":"method","src_hash":"24a545fc6911015c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(expr, _type)","rhs":"'E'","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"returns 'E'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed6ea8002ced6a4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'E'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Exp1(self, expr, _type=False):
         return "E"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pi(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Pi(expr, _type), 'PI') over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'PI'                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Pi : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 613d022ffb7b09e2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Pi","kind":"method","src_hash":"92dc723ca571ec0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pi(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"613d022ffb7b09e2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Pi","kind":"method","src_hash":"92dc723ca571ec0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pi(expr, _type)","rhs":"'PI'","over":{"base":"Any"},"name":"_print_Pi_correct"},"guarantee":"returns 'PI'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"613d022ffb7b09e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'PI'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pi(self, expr, _type=False):
         return 'PI'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Infinity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Infinity(expr, _type), 'INFINITY') over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'INFINITY'                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Infinity : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21e08b52703d6d29           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Infinity","kind":"method","src_hash":"dccdd7f8f2c60e5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Infinity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Infinity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21e08b52703d6d29"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Infinity","kind":"method","src_hash":"dccdd7f8f2c60e5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Infinity(expr, _type)","rhs":"'INFINITY'","over":{"base":"Any"},"name":"_print_Infinity_correct"},"guarantee":"returns 'INFINITY'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21e08b52703d6d29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'INFINITY'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Infinity(self, expr, _type=False):
         return 'INFINITY'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NegativeInfinity(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NegativeInfinity(expr, _type), 'NEG_INFINITY') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'NEG_INFINITY'                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_NegativeInfinity : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57850124d5118f38           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_NegativeInfinity","kind":"method","src_hash":"e987d1d44480dcf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeInfinity(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NegativeInfinity_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57850124d5118f38"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_NegativeInfinity","kind":"method","src_hash":"e987d1d44480dcf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NegativeInfinity(expr, _type)","rhs":"'NEG_INFINITY'","over":{"base":"Any"},"name":"_print_NegativeInfinity_correct"},"guarantee":"returns 'NEG_INFINITY'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57850124d5118f38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'NEG_INFINITY'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NegativeInfinity(self, expr, _type=False):
         return 'NEG_INFINITY'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BooleanTrue(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_BooleanTrue(expr, _type), 'true') over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'true'                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_BooleanTrue : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bad62a84e2e42a5c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_BooleanTrue","kind":"method","src_hash":"6cca19dbce5db050","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanTrue(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BooleanTrue_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bad62a84e2e42a5c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_BooleanTrue","kind":"method","src_hash":"6cca19dbce5db050","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanTrue(expr, _type)","rhs":"'true'","over":{"base":"Any"},"name":"_print_BooleanTrue_correct"},"guarantee":"returns 'true'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bad62a84e2e42a5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'true'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BooleanTrue(self, expr, _type=False):
         return "true"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BooleanFalse(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_BooleanFalse(expr, _type), 'false') over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'false'                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_BooleanFalse : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 79b87b91bc852a4b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_BooleanFalse","kind":"method","src_hash":"f8069485b98ad909","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanFalse(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BooleanFalse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79b87b91bc852a4b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_BooleanFalse","kind":"method","src_hash":"f8069485b98ad909","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanFalse(expr, _type)","rhs":"'false'","over":{"base":"Any"},"name":"_print_BooleanFalse_correct"},"guarantee":"returns 'false'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79b87b91bc852a4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'false'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BooleanFalse(self, expr, _type=False):
         return "false"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_bool(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_bool(expr, _type), str(expr).lower()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(expr).lower()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_bool : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 19b7690f02bce17c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_bool","kind":"method","src_hash":"53d11966294e12cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_bool(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_bool_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19b7690f02bce17c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_bool","kind":"method","src_hash":"53d11966294e12cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_bool(expr, _type)","rhs":"str(expr).lower()","over":{"base":"Any"},"name":"_print_bool_correct"},"guarantee":"returns str(expr).lower()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19b7690f02bce17c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(expr).lower()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_bool(self, expr, _type=False):
         return str(expr).lower()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NaN(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NaN(expr, _type), 'NAN') over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'NAN'                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_NaN : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dc1411a7be7adc15           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_NaN","kind":"method","src_hash":"afc7a5085aae6433","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NaN(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NaN_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc1411a7be7adc15"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_NaN","kind":"method","src_hash":"afc7a5085aae6433","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NaN(expr, _type)","rhs":"'NAN'","over":{"base":"Any"},"name":"_print_NaN_correct"},"guarantee":"returns 'NAN'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dc1411a7be7adc15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'NAN'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NaN(self, expr, _type=False):
         return "NAN"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Piecewise(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Piecewise(expr), len(lines) == old_len_lines + 1) over {Any | not (expr.args[-1].cond != True) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Piecewise : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (expr.args[-1].cond != True)               ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  len(lines) == old_len_lines + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Piecewise : {Any | not (expr.args[-1].cond != ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c47320568a17be18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b44d7e74c6dcf016  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Piecewise","kind":"method","src_hash":"22b9328c759bdf94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c47320568a17be18"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Piecewise","kind":"method","src_hash":"22b9328c759bdf94","in":{"base":"Any","pred":"not (expr.args[-1].cond != True) and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(lines) == old_len_lines + 1"},"spec":{"lhs":"_print_Piecewise(expr)","rhs":"len(lines) == old_len_lines + 1","over":{"base":"Any","pred":"not (expr.args[-1].cond != True) and hasattr(expr, 'args')"},"name":"_print_Piecewise_correct"},"guarantee":"len(lines) == old_len_lines + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), len(lines) == old_len_lines + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b44d7e74c6dcf016","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (expr.args[-1].cond != True)","hasattr(expr, 'args')"],"ensures":["len(lines) == old_len_lines + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print","self._settings"],"calls_mutating":["lines.append"],"raises":["ValueError"]},"state_contract":{"modifies":["lines.*"],"old_bindings":{"old_len_lines":"len(lines)"},"post_ensures":["len(lines) == old_len_lines + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Piecewise(self, expr):
         if expr.args[-1].cond != True:
             # We need the last conditional to be a True, otherwise the resulting
@@ -979,31 +1262,46 @@ class RustCodePrinter(CodePrinter):
             return "\n".join(lines)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_ITE(exp), id) over Any                         ║
+# ║ Path(_print_ITE(expr), id) over {Any | hasattr(expr, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_ITE : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'rewrite')                       ║
+# ║   returns:  self._print(expr.rewrite(Piecewise, deep=...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_ITE : {Any | hasattr(expr, 'rewrite')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e117ff4aa107c4b2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_ITE","kind":"method","src_hash":"93aaa913be1e7216","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_ITE(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_ITE_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e117ff4aa107c4b2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_ITE","kind":"method","src_hash":"93aaa913be1e7216","in":{"base":"Any","pred":"hasattr(expr, 'rewrite')"},"out":{"base":"Any"},"spec":{"lhs":"_print_ITE(expr)","rhs":"self._print(expr.rewrite(Piecewise, deep=False))","over":{"base":"Any","pred":"hasattr(expr, 'rewrite')"},"name":"_print_ITE_correct","kind":"composition"},"guarantee":"returns self._print(expr.rewrite(Piecewise, deep=False))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e117ff4aa107c4b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'rewrite')"],"returns_expr":"self._print(expr.rewrite(Piecewise, deep=False))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.rewrite","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_ITE(self, expr):
         from sympy.functions import Piecewise
         return self._print(expr.rewrite(Piecewise, deep=False))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixBase(A), id) over Any                    ║
+# ║ Path(_print_MatrixBase(A), id) over {Any | hasattr(A, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixBase : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'cols')                             ║
+# ║   fiber[case_0]: A.cols == 1 => '[%s]' % ', '.join((s...   ║
+# ║   fiber[case_1]: not (A.cols == 1)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixBase : {Any | hasattr(A, 'cols')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3901bc734656bdd7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_MatrixBase","kind":"method","src_hash":"a936b84b81150250","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixBase(A)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixBase_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3901bc734656bdd7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_MatrixBase","kind":"method","src_hash":"a936b84b81150250","in":{"base":"Any","pred":"hasattr(A, 'cols')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixBase(A)","rhs":"<unspecified:_print_MatrixBase>","over":{"base":"Any","pred":"hasattr(A, 'cols')"},"name":"_print_MatrixBase_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3901bc734656bdd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'cols')"],"fibers":[{"name":"case_0","guard":"A.cols == 1","ensures":["result == '[%s]' % ', '.join((self._print(a) for a in A))"],"decidability":"z3","returns_expr":"'[%s]' % ', '.join((self._print(a) for a in A))"},{"name":"case_1","guard":"not (A.cols == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.cols","self._print"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixBase(self, A):
         if A.cols == 1:
             return "[%s]" % ", ".join(self._print(a) for a in A)
@@ -1011,46 +1309,70 @@ class RustCodePrinter(CodePrinter):
             raise ValueError("Full Matrix Support in Rust need Crates (https://crates.io/keywords/matrix).")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_SparseRepMatrix(mat), internal helper behaves correctly) over Any ║
+# ║ Path(_print_SparseRepMatrix(mat), self._print_not_supported(mat)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_not_supported(mat)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_SparseRepMatrix : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b09d0073254b09b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_SparseRepMatrix","kind":"method","src_hash":"daa2e3e48722c384","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_SparseRepMatrix(mat)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_SparseRepMatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b09d0073254b09b6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_SparseRepMatrix","kind":"method","src_hash":"daa2e3e48722c384","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_SparseRepMatrix(mat)","rhs":"self._print_not_supported(mat)","over":{"base":"Any"},"name":"_print_SparseRepMatrix_correct"},"guarantee":"returns self._print_not_supported(mat)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b09d0073254b09b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_not_supported(mat)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_not_supported"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_SparseRepMatrix(self, mat):
         # do not allow sparse matrices to be made dense
         return self._print_not_supported(mat)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_MatrixElement(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_MatrixElement(expr), '%s[%s]' % (expr.parent, expr.j + expr.i * expr.parent.shape[1])) over {Any | hasattr(expr, 'parent') and hasattr(expr, 'j') and hasattr(expr, 'i')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_MatrixElement : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'parent')                        ║
+# ║   requires: hasattr(expr, 'j')                             ║
+# ║   requires: hasattr(expr, 'i')                             ║
+# ║   returns:  '%s[%s]' % (expr.parent, expr.j + expr.i ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_MatrixElement : {Any | hasattr(expr, 'parent')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edb2e3473df95142  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63291f0fa36ecd80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_MatrixElement","kind":"method","src_hash":"47ef55e225bbc0a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixElement(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_MatrixElement_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_MatrixElement_correct","statement":"Path(_print_MatrixElement(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edb2e3473df95142"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_MatrixElement","kind":"method","src_hash":"47ef55e225bbc0a3","in":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'j') and hasattr(expr, 'i')"},"out":{"base":"Any"},"spec":{"lhs":"_print_MatrixElement(expr)","rhs":"'%s[%s]' % (expr.parent, expr.j + expr.i * expr.parent.shape[1])","over":{"base":"Any","pred":"hasattr(expr, 'parent') and hasattr(expr, 'j') and hasattr(expr, 'i')"},"name":"_print_MatrixElement_correct"},"guarantee":"returns '%s[%s]' % (expr.parent, expr.j + expr.i * expr.parent.shape[1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_MatrixElement_correct","statement":"Path(_print_MatrixElement(x), returns '%s[%s]' % (expr.parent, expr.j + expr.i * expr.parent.shape[1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63291f0fa36ecd80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'parent')","hasattr(expr, 'j')","hasattr(expr, 'i')"],"returns_expr":"'%s[%s]' % (expr.parent, expr.j + expr.i * expr.parent.shape[1])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.i","expr.j","expr.parent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_MatrixElement(self, expr):
         return "%s[%s]" % (expr.parent,
                            expr.j + expr.i*expr.parent.shape[1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Symbol(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Symbol(expr), result == ('(*%s)' % name if expr in self._dereference else name) and result == '(*%s)' % name or result == name) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Symbol : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('(*%s)' % name if expr in self...   ║
+# ║   ensures:  result == '(*%s)' % name or result == name     ║
+# ║   fiber[case_0]: expr in self._dereference => '(*%s)'...   ║
+# ║   fiber[case_1]: not (expr in self._dereference) => name   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Symbol : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03f48d441680625a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bd8c669c0f62e34  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Symbol","kind":"method","src_hash":"a807e051fc5c1fb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Symbol(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Symbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03f48d441680625a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Symbol","kind":"method","src_hash":"a807e051fc5c1fb2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('(*%s)' % name if expr in self._dereference else name) and result == '(*%s)' % name or result == name"},"spec":{"lhs":"_print_Symbol(expr)","rhs":"result == ('(*%s)' % name if expr in self._dereference else name) and result == '(*%s)' % name or result == name","over":{"base":"Any"},"name":"_print_Symbol_correct"},"guarantee":"result == ('(*%s)' % name if expr in self._dereference else name); result == '(*%s)' % name or result == name; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), result == ('(*%s)' % name if expr in self._dereference else name); result == '(*%s)' % name or result == name; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bd8c669c0f62e34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('(*%s)' % name if expr in self._dereference else name)","result == '(*%s)' % name or result == name"],"fibers":[{"name":"case_0","guard":"expr in self._dereference","ensures":["result == '(*%s)' % name"],"decidability":"library","returns_expr":"'(*%s)' % name"},{"name":"case_1","guard":"not (expr in self._dereference)","ensures":["result == name"],"decidability":"library","returns_expr":"name"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._dereference"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Symbol(self, expr):
 
         name = super()._print_Symbol(expr)
@@ -1061,16 +1383,27 @@ class RustCodePrinter(CodePrinter):
             return name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Assignment(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Assignment(expr), result == (self._doprint_loops(rhs, lhs) if self._settings['contract'] and (lhs.has(IndexedBase) or rhs.has(IndexedBase)) else self._get_statement('%s = %s' % (lhs_code, rhs_code))) and result == self._doprint_loops(rhs, lhs) or result == self._get_statement('%s = %s' % (lhs_code, rhs_code))) over {Any | hasattr(expr, 'lhs') and hasattr(expr, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Assignment : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'lhs')                           ║
+# ║   requires: hasattr(expr, 'rhs')                           ║
+# ║   ensures:  result == (self._doprint_loops(rhs, lhs) ...   ║
+# ║   ensures:  result == self._doprint_loops(rhs, lhs) o...   ║
+# ║   fiber[case_0]: self._settings['contract'] and (lhs....   ║
+# ║   fiber[case_1]: not (self._settings['contract'] and ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Assignment : {Any | hasattr(expr, 'lhs') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e5c9b21dbf2ee9d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19ab65a08652b6d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Assignment","kind":"method","src_hash":"3af8d4116610a0af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Assignment(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Assignment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Assignment_correct","statement":"Path(_print_Assignment(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e5c9b21dbf2ee9d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_Assignment","kind":"method","src_hash":"3af8d4116610a0af","in":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"out":{"base":"Any","pred":"result satisfies: result == (self._doprint_loops(rhs, lhs) if self._settings['contract'] and (lhs.has(IndexedBase) or rhs.has(IndexedBase)) else self._get_statement('%s = %s' % (lhs_code, rhs_code))) and result == self._doprint_loops(rhs, lhs) or result == self._get_statement('%s = %s' % (lhs_code, rhs_code))"},"spec":{"lhs":"_print_Assignment(expr)","rhs":"result == (self._doprint_loops(rhs, lhs) if self._settings['contract'] and (lhs.has(IndexedBase) or rhs.has(IndexedBase)) else self._get_statement('%s = %s' % (lhs_code, rhs_code))) and result == self._doprint_loops(rhs, lhs) or result == self._get_statement('%s = %s' % (lhs_code, rhs_code))","over":{"base":"Any","pred":"hasattr(expr, 'lhs') and hasattr(expr, 'rhs')"},"name":"_print_Assignment_correct"},"guarantee":"result == (self._doprint_loops(rhs, lhs) if self._settings['contract'] and (lhs.has(IndexedBase) or rhs.has(IndexedBase)) else self._get_statement('%s = %s' % (lhs_code, rhs_code))); result == self._doprint_loops(rhs, lhs) or result == self._get_statement('%s = %s' % (lhs_code, rhs_code)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_Assignment_correct","statement":"Path(_print_Assignment(x), result == (self._doprint_loops(rhs, lhs) if self._settings['contract'] and (lhs.has(IndexedBase) or rhs.has(IndexedBase)) else self._get_statement('%s = %s' % (lhs_code, rhs_code))); result == self._doprint_loops(rhs, lhs) or result == self._get_statement('%s = %s' % (lhs_code, rhs_code)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19ab65a08652b6d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'lhs')","hasattr(expr, 'rhs')"],"ensures":["result == (self._doprint_loops(rhs, lhs) if self._settings['contract'] and (lhs.has(IndexedBase) or rhs.has(IndexedBase)) else self._get_statement('%s = %s' % (lhs_code, rhs_code)))","result == self._doprint_loops(rhs, lhs) or result == self._get_statement('%s = %s' % (lhs_code, rhs_code))"],"fibers":[{"name":"case_0","guard":"self._settings['contract'] and (lhs.has(IndexedBase) or rhs.has(IndexedBase))","ensures":["result == self._doprint_loops(rhs, lhs)"],"decidability":"library","returns_expr":"self._doprint_loops(rhs, lhs)"},{"name":"case_1","guard":"not (self._settings['contract'] and (lhs.has(IndexedBase) or rhs.has(IndexedBase)))","ensures":["result == self._get_statement('%s = %s' % (lhs_code, rhs_code))"],"decidability":"library","returns_expr":"self._get_statement('%s = %s' % (lhs_code, rhs_code))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.lhs","expr.rhs","self._doprint_loops","self._get_statement","self._print","self._settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Assignment(self, expr):
         from sympy.tensor.indexed import IndexedBase
         lhs = expr.lhs
@@ -1086,31 +1419,49 @@ class RustCodePrinter(CodePrinter):
             return self._get_statement("%s = %s" % (lhs_code, rhs_code))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_sign(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_sign(expr), '(if (%s == 0.0) { 0.0 } else { (%s).signum() })' % (arg, arg)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_sign : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  '(if (%s == 0.0) { 0.0 } else { (%s).sign...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_sign : {Any | hasattr(expr, 'args')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1bf4dd4a6315db6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c8148d09559c19c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_sign","kind":"method","src_hash":"52bb4c158bc5f559","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_sign(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_sign_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_sign_correct","statement":"Path(_print_sign(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1bf4dd4a6315db6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._print_sign","kind":"method","src_hash":"52bb4c158bc5f559","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_sign(expr)","rhs":"'(if (%s == 0.0) { 0.0 } else { (%s).signum() })' % (arg, arg)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_sign_correct"},"guarantee":"returns '(if (%s == 0.0) { 0.0 } else { (%s).signum() })' % (arg, arg)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._print_sign_correct","statement":"Path(_print_sign(x), returns '(if (%s == 0.0) { 0.0 } else { (%s).signum() })' % (arg, arg))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c8148d09559c19c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"'(if (%s == 0.0) { 0.0 } else { (%s).signum() })' % (arg, arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_sign(self, expr):
         arg = self._print(expr.args[0])
         return "(if (%s == 0.0) { 0.0 } else { (%s).signum() })" % (arg, arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cast_to_float(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_cast_to_float(expr), result == (TypeCast(expr, real) if not expr.is_number else Float(expr)) and result == TypeCast(expr, real) or result == Float(expr)) over {Any | hasattr(expr, 'is_number') and hasattr(expr, 'is_integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _cast_to_float : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_number')                     ║
+# ║   requires: hasattr(expr, 'is_integer')                    ║
+# ║   ensures:  result == (TypeCast(expr, real) if not ex...   ║
+# ║   ensures:  result == TypeCast(expr, real) or result ...   ║
+# ║   fiber[case_0]: not expr.is_number => TypeCast(expr,...   ║
+# ║   fiber[case_1]: expr.is_integer => Float(expr)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _cast_to_float : {Any | hasattr(expr, 'is_number') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d693146c1893b535  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e07e3ff53bdab05b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._cast_to_float","kind":"method","src_hash":"5f39eec5d0938bbf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cast_to_float(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_cast_to_float_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._cast_to_float_correct","statement":"Path(_cast_to_float(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d693146c1893b535"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._cast_to_float","kind":"method","src_hash":"5f39eec5d0938bbf","in":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'is_integer')"},"out":{"base":"Any","pred":"result satisfies: result == (TypeCast(expr, real) if not expr.is_number else Float(expr)) and result == TypeCast(expr, real) or result == Float(expr)"},"spec":{"lhs":"_cast_to_float(expr)","rhs":"result == (TypeCast(expr, real) if not expr.is_number else Float(expr)) and result == TypeCast(expr, real) or result == Float(expr)","over":{"base":"Any","pred":"hasattr(expr, 'is_number') and hasattr(expr, 'is_integer')"},"name":"_cast_to_float_correct"},"guarantee":"result == (TypeCast(expr, real) if not expr.is_number else Float(expr)); result == TypeCast(expr, real) or result == Float(expr); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._cast_to_float_correct","statement":"Path(_cast_to_float(x), result == (TypeCast(expr, real) if not expr.is_number else Float(expr)); result == TypeCast(expr, real) or result == Float(expr); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e07e3ff53bdab05b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_number')","hasattr(expr, 'is_integer')"],"ensures":["result == (TypeCast(expr, real) if not expr.is_number else Float(expr))","result == TypeCast(expr, real) or result == Float(expr)"],"fibers":[{"name":"case_0","guard":"not expr.is_number","ensures":["result == TypeCast(expr, real)"],"decidability":"library","returns_expr":"TypeCast(expr, real)"},{"name":"case_1","guard":"expr.is_integer","ensures":["result == Float(expr)"],"decidability":"library","returns_expr":"Float(expr)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.is_integer","expr.is_number"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _cast_to_float(self, expr):
         if not expr.is_number:
             return TypeCast(expr, real)
@@ -1119,16 +1470,22 @@ class RustCodePrinter(CodePrinter):
         return expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_can_print(nam), check if function ``name`` is either a known function or has its own printing method) over Any ║
+# ║ Path(_can_print(name), name in self.known_functions or name in function_overrides or getattr(self, '_print_{}'.format(name), False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  name in self.known_functions or name in f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _can_print : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 731d919742f3c86b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._can_print","kind":"method","src_hash":"c8e833b2a8d93631","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_can_print(nam)","rhs":"check if function ``name`` is either a known function or has its own printing method","over":{"base":"Any"},"name":"_can_print_correct"},"guarantee":"check if function ``name`` is either a known function or has its own printing method","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"731d919742f3c86b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._can_print","kind":"method","src_hash":"c8e833b2a8d93631","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_can_print(name)","rhs":"name in self.known_functions or name in function_overrides or getattr(self, '_print_{}'.format(name), False)","over":{"base":"Any"},"name":"_can_print_correct"},"guarantee":"returns name in self.known_functions or name in function_overrides or getattr(self, '_print_{}'.format(name), False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"731d919742f3c86b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"name in self.known_functions or name in function_overrides or getattr(self, '_print_{}'.format(name), False)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.known_functions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _can_print(self, name):
         """ Check if function ``name`` is either a known function or has its own
             printing method. Used to check if rewriting is possible."""
@@ -1139,16 +1496,25 @@ class RustCodePrinter(CodePrinter):
         return name in self.known_functions or name in function_overrides or getattr(self, '_print_{}'.format(name), False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_collect_functions(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_collect_functions(expr), <unspecified:_collect_functions>) over {Any | hasattr(expr, 'is_Function') and hasattr(expr, 'args') and hasattr(expr, 'func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _collect_functions : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_Function')                   ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _collect_functions : {Any | hasattr(expr, 'is_Functio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0459f69bd9365079  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._collect_functions","kind":"method","src_hash":"3206566962f7515c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_collect_functions(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_collect_functions_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._collect_functions_correct","statement":"Path(_collect_functions(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0459f69bd9365079"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._collect_functions","kind":"method","src_hash":"3206566962f7515c","in":{"base":"Any","pred":"hasattr(expr, 'is_Function') and hasattr(expr, 'args') and hasattr(expr, 'func')"},"out":{"base":"Any"},"spec":{"lhs":"_collect_functions(expr)","rhs":"<unspecified:_collect_functions>","over":{"base":"Any","pred":"hasattr(expr, 'is_Function') and hasattr(expr, 'args') and hasattr(expr, 'func')"},"name":"_collect_functions_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._collect_functions_correct","statement":"Path(_collect_functions(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0459f69bd9365079","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_Function')","hasattr(expr, 'args')","hasattr(expr, 'func')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _collect_functions(self, expr):
         functions = set()
         if isinstance(expr, Expr):
@@ -1159,16 +1525,23 @@ class RustCodePrinter(CodePrinter):
         return functions
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rewrite_known_functions(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_rewrite_known_functions(expr), <unspecified:_rewrite_known_functions>) over {Any | hasattr(expr, 'rewrite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rewrite_known_functions : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'rewrite')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rewrite_known_functions : {Any | hasattr(expr, 'rewr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 952c27a9fe687104  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._rewrite_known_functions","kind":"method","src_hash":"cc33b1b4c6128304","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_known_functions(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_rewrite_known_functions_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._rewrite_known_functions_correct","statement":"Path(_rewrite_known_functions(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"952c27a9fe687104"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter._rewrite_known_functions","kind":"method","src_hash":"cc33b1b4c6128304","in":{"base":"Any","pred":"hasattr(expr, 'rewrite')"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_known_functions(expr)","rhs":"<unspecified:_rewrite_known_functions>","over":{"base":"Any","pred":"hasattr(expr, 'rewrite')"},"name":"_rewrite_known_functions_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter._rewrite_known_functions_correct","statement":"Path(_rewrite_known_functions(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"952c27a9fe687104","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'rewrite')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.rewrite","self._can_print","self._collect_functions","self._rewriteable_functions"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rewrite_known_functions(self, expr):
         if not isinstance(expr, Expr):
             return expr
@@ -1187,16 +1560,23 @@ class RustCodePrinter(CodePrinter):
         return expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(indent_code(cod), accepts a string of code or a list of code lines) over Any ║
+# ║ Path(indent_code(code), <unspecified:indent_code>) over {Any | hasattr(code, 'splitlines')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ indent_code : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(code, 'splitlines')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ indent_code : {Any | hasattr(code, 'splitlines')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1833e1003c7044c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter.indent_code","kind":"method","src_hash":"693080650deb3e8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indent_code(cod)","rhs":"accepts a string of code or a list of code lines","over":{"base":"Any"},"name":"indent_code_correct"},"guarantee":"accepts a string of code or a list of code lines","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter.indent_code_correct","statement":"Path(indent_code(x), accepts a string of code or a list of code lines)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1833e1003c7044c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.rust.RustCodePrinter.indent_code","kind":"method","src_hash":"693080650deb3e8c","in":{"base":"Any","pred":"hasattr(code, 'splitlines')"},"out":{"base":"Any"},"spec":{"lhs":"indent_code(code)","rhs":"<unspecified:indent_code>","over":{"base":"Any","pred":"hasattr(code, 'splitlines')"},"name":"indent_code_correct"},"guarantee":"accepts a string of code or a list of code lines","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.rust.RustCodePrinter.indent_code_correct","statement":"Path(indent_code(x), accepts a string of code or a list of code lines)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1833e1003c7044c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(code, 'splitlines')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def indent_code(self, code):
         """Accepts a string of code or a list of code lines"""
 

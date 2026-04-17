@@ -38,7 +38,12 @@ A, B = Operator("A"), Operator("B")
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pauli_operators_types(), test_pauli_operators_types produces the expected output) over {Any | isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX) and isinstance(sy, SigmaY)} ║
+# ║ Path(test_pauli_operators_types(), isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX) and isinstance(sy, SigmaOpBase) and isinstance(sy, SigmaY) and isinstance(sz, SigmaOpBase) and isinstance(sz, SigmaZ) and isinstance(sm, SigmaOpBase) and isinstance(sm, SigmaMinus) and isinstance(sp, SigmaOpBase) and isinstance(sp, SigmaPlus)) over {Any | isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX) and isinstance(sy, SigmaY)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(sx, SigmaOpBase) and isinstanc...   ║
+# ║   ensures:  isinstance(sy, SigmaOpBase) and isinstanc...   ║
+# ║   ensures:  isinstance(sz, SigmaOpBase) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pauli_operators_types : {Any | isinstance(sx, Si...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -54,9 +59,12 @@ A, B = Operator("A"), Operator("B")
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?6 ✗15 VCs | 36.4ms                        ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 38750695...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types","kind":"function","src_hash":"3ff7203823f2c6b7","in":{"base":"Any","pred":"isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX) and isinstance(sy, SigmaY)"},"out":{"base":"Any","pred":"isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX) and isinstance(sy, SigmaOpBase) and isinstance(sy, SigmaY) and isinstance(sz, SigmaOpBase) and isinstance(sz, SigmaZ) and isinstance(sm, SigmaOpBase) and isinstance(sm, SigmaMinus) and isinstance(sp, SigmaOpBase) and isinstance(sp, SigmaPlus)"},"spec":{"lhs":"test_pauli_operators_types()","rhs":"test_pauli_operators_types produces the expected output","over":{"base":"Any","pred":"isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX) and isinstance(sy, SigmaY)"},"name":"test_pauli_operators_types_correct"},"guarantee":"test_pauli_operators_types produces the expected output","fibers":[{"name":"SigmaOpBase","pred":"isinstance(sx, SigmaOpBase)","path":{"lhs":"test_pauli_operators_types(x)","rhs":"test_pauli_operators_types produces the expected output","over":{"base":"SigmaOpBase","pred":"isinstance(sx, SigmaOpBase)"},"name":"test_pauli_operators_types_SigmaOpBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types_SigmaOpBase_correct","statement":"test_pauli_operators_types satisfies spec on SigmaOpBase inputs"},"trust":"LIBRARY"},{"name":"SigmaX","pred":"isinstance(sx, SigmaX)","path":{"lhs":"test_pauli_operators_types(x)","rhs":"test_pauli_operators_types produces the expected output","over":{"base":"SigmaX","pred":"isinstance(sx, SigmaX)"},"name":"test_pauli_operators_types_SigmaX_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types_SigmaX_correct","statement":"test_pauli_operators_types satisfies spec on SigmaX inputs"},"trust":"LIBRARY"},{"name":"SigmaY","pred":"isinstance(sy, SigmaY)","path":{"lhs":"test_pauli_operators_types(x)","rhs":"test_pauli_operators_types produces the expected output","over":{"base":"SigmaY","pred":"isinstance(sy, SigmaY)"},"name":"test_pauli_operators_types_SigmaY_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types_SigmaY_correct","statement":"test_pauli_operators_types satisfies spec on SigmaY inputs"},"trust":"LIBRARY"},{"name":"SigmaZ","pred":"isinstance(sz, SigmaZ)","path":{"lhs":"test_pauli_operators_types(x)","rhs":"test_pauli_operators_types produces the expected output","over":{"base":"SigmaZ","pred":"isinstance(sz, SigmaZ)"},"name":"test_pauli_operators_types_SigmaZ_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types_SigmaZ_correct","statement":"test_pauli_operators_types satisfies spec on SigmaZ inputs"},"trust":"LIBRARY"},{"name":"SigmaMinus","pred":"isinstance(sm, SigmaMinus)","path":{"lhs":"test_pauli_operators_types(x)","rhs":"test_pauli_operators_types produces the expected output","over":{"base":"SigmaMinus","pred":"isinstance(sm, SigmaMinus)"},"name":"test_pauli_operators_types_SigmaMinus_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types_SigmaMinus_correct","statement":"test_pauli_operators_types satisfies spec on SigmaMinus inputs"},"trust":"LIBRARY"},{"name":"SigmaPlus","pred":"isinstance(sp, SigmaPlus)","path":{"lhs":"test_pauli_operators_types(x)","rhs":"test_pauli_operators_types produces the expected output","over":{"base":"SigmaPlus","pred":"isinstance(sp, SigmaPlus)"},"name":"test_pauli_operators_types_SigmaPlus_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types_SigmaPlus_correct","statement":"test_pauli_operators_types satisfies spec on SigmaPlus inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3875069568b3e7bc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types","kind":"function","src_hash":"3ff7203823f2c6b7","in":{"base":"Any","pred":"isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX) and isinstance(sy, SigmaY)"},"out":{"base":"Any","pred":"result satisfies: isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX) and isinstance(sy, SigmaOpBase) and isinstance(sy, SigmaY) and isinstance(sz, SigmaOpBase) and isinstance(sz, SigmaZ) and isinstance(sm, SigmaOpBase) and isinstance(sm, SigmaMinus) and isinstance(sp, SigmaOpBase) and isinstance(sp, SigmaPlus)"},"spec":{"lhs":"test_pauli_operators_types()","rhs":"isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX) and isinstance(sy, SigmaOpBase) and isinstance(sy, SigmaY) and isinstance(sz, SigmaOpBase) and isinstance(sz, SigmaZ) and isinstance(sm, SigmaOpBase) and isinstance(sm, SigmaMinus) and isinstance(sp, SigmaOpBase) and isinstance(sp, SigmaPlus)","over":{"base":"Any","pred":"isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX) and isinstance(sy, SigmaY)"},"name":"test_pauli_operators_types_correct"},"guarantee":"isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX); isinstance(sy, SigmaOpBase) and isinstance(sy, SigmaY); isinstance(sz, SigmaOpBase) and isinstance(sz, SigmaZ)","fibers":[{"name":"SigmaOpBase","pred":"isinstance(sx, SigmaOpBase)","path":{"lhs":"test_pauli_operators_types(x)","rhs":"isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX); isinstance(sy, SigmaOpBase) and isinstance(sy, SigmaY); isinstance(sz, SigmaOpBase) and isinstance(sz, SigmaZ)","over":{"base":"SigmaOpBase","pred":"isinstance(sx, SigmaOpBase)"},"name":"test_pauli_operators_types_SigmaOpBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types_SigmaOpBase_correct","statement":"test_pauli_operators_types satisfies spec on SigmaOpBase inputs"},"trust":"LIBRARY"},{"name":"SigmaX","pred":"isinstance(sx, SigmaX)","path":{"lhs":"test_pauli_operators_types(x)","rhs":"isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX); isinstance(sy, SigmaOpBase) and isinstance(sy, SigmaY); isinstance(sz, SigmaOpBase) and isinstance(sz, SigmaZ)","over":{"base":"SigmaX","pred":"isinstance(sx, SigmaX)"},"name":"test_pauli_operators_types_SigmaX_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types_SigmaX_correct","statement":"test_pauli_operators_types satisfies spec on SigmaX inputs"},"trust":"LIBRARY"},{"name":"SigmaY","pred":"isinstance(sy, SigmaY)","path":{"lhs":"test_pauli_operators_types(x)","rhs":"isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX); isinstance(sy, SigmaOpBase) and isinstance(sy, SigmaY); isinstance(sz, SigmaOpBase) and isinstance(sz, SigmaZ)","over":{"base":"SigmaY","pred":"isinstance(sy, SigmaY)"},"name":"test_pauli_operators_types_SigmaY_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types_SigmaY_correct","statement":"test_pauli_operators_types satisfies spec on SigmaY inputs"},"trust":"LIBRARY"},{"name":"SigmaZ","pred":"isinstance(sz, SigmaZ)","path":{"lhs":"test_pauli_operators_types(x)","rhs":"isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX); isinstance(sy, SigmaOpBase) and isinstance(sy, SigmaY); isinstance(sz, SigmaOpBase) and isinstance(sz, SigmaZ)","over":{"base":"SigmaZ","pred":"isinstance(sz, SigmaZ)"},"name":"test_pauli_operators_types_SigmaZ_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types_SigmaZ_correct","statement":"test_pauli_operators_types satisfies spec on SigmaZ inputs"},"trust":"LIBRARY"},{"name":"SigmaMinus","pred":"isinstance(sm, SigmaMinus)","path":{"lhs":"test_pauli_operators_types(x)","rhs":"isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX); isinstance(sy, SigmaOpBase) and isinstance(sy, SigmaY); isinstance(sz, SigmaOpBase) and isinstance(sz, SigmaZ)","over":{"base":"SigmaMinus","pred":"isinstance(sm, SigmaMinus)"},"name":"test_pauli_operators_types_SigmaMinus_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types_SigmaMinus_correct","statement":"test_pauli_operators_types satisfies spec on SigmaMinus inputs"},"trust":"LIBRARY"},{"name":"SigmaPlus","pred":"isinstance(sp, SigmaPlus)","path":{"lhs":"test_pauli_operators_types(x)","rhs":"isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX); isinstance(sy, SigmaOpBase) and isinstance(sy, SigmaY); isinstance(sz, SigmaOpBase) and isinstance(sz, SigmaZ)","over":{"base":"SigmaPlus","pred":"isinstance(sp, SigmaPlus)"},"name":"test_pauli_operators_types_SigmaPlus_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_types_SigmaPlus_correct","statement":"test_pauli_operators_types satisfies spec on SigmaPlus inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3875069568b3e7bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX)","isinstance(sy, SigmaOpBase) and isinstance(sy, SigmaY)","isinstance(sz, SigmaOpBase) and isinstance(sz, SigmaZ)","isinstance(sm, SigmaOpBase) and isinstance(sm, SigmaMinus)","isinstance(sp, SigmaOpBase) and isinstance(sp, SigmaPlus)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":23,"n_verified":2,"n_assumed":6,"n_failed":15,"trust_level":"LIBRARY_ASSUMED","compile_ms":36.4,"verdict_class":"failed","binding":true}}
 def test_pauli_operators_types():
 
     assert isinstance(sx, SigmaOpBase) and isinstance(sx, SigmaX)
@@ -67,16 +75,24 @@ def test_pauli_operators_types():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pauli_operators_commutator(), test_pauli_operators_commutator produces the expected output) over Any ║
+# ║ Path(test_pauli_operators_commutator(), Commutator(sx, sy).doit() == 2 * I * sz and Commutator(sy, sz).doit() == 2 * I * sx and Commutator(sz, sx).doit() == 2 * I * sy) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pauli_operators_commutator : Any → {Any | Commut...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Commutator(sx, sy).doit() == 2 * I * sz        ║
+# ║   ensures:  Commutator(sy, sz).doit() == 2 * I * sx        ║
+# ║   ensures:  Commutator(sz, sx).doit() == 2 * I * sy        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pauli_operators_commutator : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba5954c5b68502f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f64b0d28902128bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_commutator","kind":"function","src_hash":"a5b1b1d695f8722c","in":{"base":"Any"},"out":{"base":"Any","pred":"Commutator(sx, sy).doit() == 2 * I * sz and Commutator(sy, sz).doit() == 2 * I * sx and Commutator(sz, sx).doit() == 2 * I * sy"},"spec":{"lhs":"test_pauli_operators_commutator()","rhs":"test_pauli_operators_commutator produces the expected output","over":{"base":"Any"},"name":"test_pauli_operators_commutator_correct"},"guarantee":"test_pauli_operators_commutator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_commutator_correct","statement":"Path(test_pauli_operators_commutator(x), test_pauli_operators_commutator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba5954c5b68502f9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_commutator","kind":"function","src_hash":"a5b1b1d695f8722c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Commutator(sx, sy).doit() == 2 * I * sz and Commutator(sy, sz).doit() == 2 * I * sx and Commutator(sz, sx).doit() == 2 * I * sy"},"spec":{"lhs":"test_pauli_operators_commutator()","rhs":"Commutator(sx, sy).doit() == 2 * I * sz and Commutator(sy, sz).doit() == 2 * I * sx and Commutator(sz, sx).doit() == 2 * I * sy","over":{"base":"Any"},"name":"test_pauli_operators_commutator_correct"},"guarantee":"Commutator(sx, sy).doit() == 2 * I * sz; Commutator(sy, sz).doit() == 2 * I * sx; Commutator(sz, sx).doit() == 2 * I * sy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_commutator_correct","statement":"Path(test_pauli_operators_commutator(x), Commutator(sx, sy).doit() == 2 * I * sz; Commutator(sy, sz).doit() == 2 * I * sx; Commutator(sz, sx).doit() == 2 * I * sy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f64b0d28902128bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Commutator(sx, sy).doit() == 2 * I * sz","Commutator(sy, sz).doit() == 2 * I * sx","Commutator(sz, sx).doit() == 2 * I * sy"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pauli_operators_commutator():
 
     assert Commutator(sx, sy).doit() == 2 * I * sz
@@ -85,16 +101,24 @@ def test_pauli_operators_commutator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pauli_operators_commutator_with_labels(), test_pauli_operators_commutator_with_labels produces the expected output) over Any ║
+# ║ Path(test_pauli_operators_commutator_with_labels(), Commutator(sx1, sy1).doit() == 2 * I * sz1 and Commutator(sy1, sz1).doit() == 2 * I * sx1 and Commutator(sz1, sx1).doit() == 2 * I * sy1 and Commutator(sx2, sy2).doit() == 2 * I * sz2 and Commutator(sy2, sz2).doit() == 2 * I * sx2 and Commutator(sz2, sx2).doit() == 2 * I * sy2 and Commutator(sx1, sy2).doit() == 0 and Commutator(sy1, sz2).doit() == 0 and Commutator(sz1, sx2).doit() == 0) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Commutator(sx1, sy1).doit() == 2 * I * sz1     ║
+# ║   ensures:  Commutator(sy1, sz1).doit() == 2 * I * sx1     ║
+# ║   ensures:  Commutator(sz1, sx1).doit() == 2 * I * sy1     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pauli_operators_commutator_with_labels : Any → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d78b2fe8f83fd8e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8feaefba4f8dd71  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_commutator_with_labels","kind":"function","src_hash":"aa143ff6d4d8521e","in":{"base":"Any"},"out":{"base":"Any","pred":"Commutator(sx1, sy1).doit() == 2 * I * sz1 and Commutator(sy1, sz1).doit() == 2 * I * sx1 and Commutator(sz1, sx1).doit() == 2 * I * sy1 and Commutator(sx2, sy2).doit() == 2 * I * sz2 and Commutator(sy2, sz2).doit() == 2 * I * sx2 and Commutator(sz2, sx2).doit() == 2 * I * sy2 and Commutator(sx1, sy2).doit() == 0 and Commutator(sy1, sz2).doit() == 0 and Commutator(sz1, sx2).doit() == 0"},"spec":{"lhs":"test_pauli_operators_commutator_with_labels()","rhs":"test_pauli_operators_commutator_with_labels produces the expected output","over":{"base":"Any"},"name":"test_pauli_operators_commutator_with_labels_correct"},"guarantee":"test_pauli_operators_commutator_with_labels produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_commutator_with_labels_correct","statement":"Path(test_pauli_operators_commutator_with_labels(x), test_pauli_operators_commutator_with_labels produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d78b2fe8f83fd8e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_commutator_with_labels","kind":"function","src_hash":"aa143ff6d4d8521e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Commutator(sx1, sy1).doit() == 2 * I * sz1 and Commutator(sy1, sz1).doit() == 2 * I * sx1 and Commutator(sz1, sx1).doit() == 2 * I * sy1 and Commutator(sx2, sy2).doit() == 2 * I * sz2 and Commutator(sy2, sz2).doit() == 2 * I * sx2 and Commutator(sz2, sx2).doit() == 2 * I * sy2 and Commutator(sx1, sy2).doit() == 0 and Commutator(sy1, sz2).doit() == 0 and Commutator(sz1, sx2).doit() == 0"},"spec":{"lhs":"test_pauli_operators_commutator_with_labels()","rhs":"Commutator(sx1, sy1).doit() == 2 * I * sz1 and Commutator(sy1, sz1).doit() == 2 * I * sx1 and Commutator(sz1, sx1).doit() == 2 * I * sy1 and Commutator(sx2, sy2).doit() == 2 * I * sz2 and Commutator(sy2, sz2).doit() == 2 * I * sx2 and Commutator(sz2, sx2).doit() == 2 * I * sy2 and Commutator(sx1, sy2).doit() == 0 and Commutator(sy1, sz2).doit() == 0 and Commutator(sz1, sx2).doit() == 0","over":{"base":"Any"},"name":"test_pauli_operators_commutator_with_labels_correct"},"guarantee":"Commutator(sx1, sy1).doit() == 2 * I * sz1; Commutator(sy1, sz1).doit() == 2 * I * sx1; Commutator(sz1, sx1).doit() == 2 * I * sy1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_commutator_with_labels_correct","statement":"Path(test_pauli_operators_commutator_with_labels(x), Commutator(sx1, sy1).doit() == 2 * I * sz1; Commutator(sy1, sz1).doit() == 2 * I * sx1; Commutator(sz1, sx1).doit() == 2 * I * sy1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8feaefba4f8dd71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Commutator(sx1, sy1).doit() == 2 * I * sz1","Commutator(sy1, sz1).doit() == 2 * I * sx1","Commutator(sz1, sx1).doit() == 2 * I * sy1","Commutator(sx2, sy2).doit() == 2 * I * sz2","Commutator(sy2, sz2).doit() == 2 * I * sx2","Commutator(sz2, sx2).doit() == 2 * I * sy2","Commutator(sx1, sy2).doit() == 0","Commutator(sy1, sz2).doit() == 0","Commutator(sz1, sx2).doit() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pauli_operators_commutator_with_labels():
 
     assert Commutator(sx1, sy1).doit() == 2 * I * sz1
@@ -111,16 +135,24 @@ def test_pauli_operators_commutator_with_labels():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pauli_operators_anticommutator(), test_pauli_operators_anticommutator produces the expected output) over Any ║
+# ║ Path(test_pauli_operators_anticommutator(), AntiCommutator(sy, sz).doit() == 0 and AntiCommutator(sz, sx).doit() == 0 and AntiCommutator(sx, sm).doit() == 1 and AntiCommutator(sx, sp).doit() == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pauli_operators_anticommutator : Any → {Any | An...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  AntiCommutator(sy, sz).doit() == 0             ║
+# ║   ensures:  AntiCommutator(sz, sx).doit() == 0             ║
+# ║   ensures:  AntiCommutator(sx, sm).doit() == 1             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pauli_operators_anticommutator : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07438a82f4b5b43a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1ab7027a26e9211  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_anticommutator","kind":"function","src_hash":"40e9ed901bdfeeef","in":{"base":"Any"},"out":{"base":"Any","pred":"AntiCommutator(sy, sz).doit() == 0 and AntiCommutator(sz, sx).doit() == 0 and AntiCommutator(sx, sm).doit() == 1 and AntiCommutator(sx, sp).doit() == 1"},"spec":{"lhs":"test_pauli_operators_anticommutator()","rhs":"test_pauli_operators_anticommutator produces the expected output","over":{"base":"Any"},"name":"test_pauli_operators_anticommutator_correct"},"guarantee":"test_pauli_operators_anticommutator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_anticommutator_correct","statement":"Path(test_pauli_operators_anticommutator(x), test_pauli_operators_anticommutator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07438a82f4b5b43a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_anticommutator","kind":"function","src_hash":"40e9ed901bdfeeef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: AntiCommutator(sy, sz).doit() == 0 and AntiCommutator(sz, sx).doit() == 0 and AntiCommutator(sx, sm).doit() == 1 and AntiCommutator(sx, sp).doit() == 1"},"spec":{"lhs":"test_pauli_operators_anticommutator()","rhs":"AntiCommutator(sy, sz).doit() == 0 and AntiCommutator(sz, sx).doit() == 0 and AntiCommutator(sx, sm).doit() == 1 and AntiCommutator(sx, sp).doit() == 1","over":{"base":"Any"},"name":"test_pauli_operators_anticommutator_correct"},"guarantee":"AntiCommutator(sy, sz).doit() == 0; AntiCommutator(sz, sx).doit() == 0; AntiCommutator(sx, sm).doit() == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_anticommutator_correct","statement":"Path(test_pauli_operators_anticommutator(x), AntiCommutator(sy, sz).doit() == 0; AntiCommutator(sz, sx).doit() == 0; AntiCommutator(sx, sm).doit() == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1ab7027a26e9211","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["AntiCommutator(sy, sz).doit() == 0","AntiCommutator(sz, sx).doit() == 0","AntiCommutator(sx, sm).doit() == 1","AntiCommutator(sx, sp).doit() == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pauli_operators_anticommutator():
 
     assert AntiCommutator(sy, sz).doit() == 0
@@ -130,16 +162,24 @@ def test_pauli_operators_anticommutator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pauli_operators_adjoint(), test_pauli_operators_adjoint produces the expected output) over Any ║
+# ║ Path(test_pauli_operators_adjoint(), Dagger(sx) == sx and Dagger(sy) == sy and Dagger(sz) == sz) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pauli_operators_adjoint : Any → {Any | Dagger(sx...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Dagger(sx) == sx                               ║
+# ║   ensures:  Dagger(sy) == sy                               ║
+# ║   ensures:  Dagger(sz) == sz                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pauli_operators_adjoint : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dffc1d4b3631b9ca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a9621b3e975f3bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_adjoint","kind":"function","src_hash":"86b51a8de96d4472","in":{"base":"Any"},"out":{"base":"Any","pred":"Dagger(sx) == sx and Dagger(sy) == sy and Dagger(sz) == sz"},"spec":{"lhs":"test_pauli_operators_adjoint()","rhs":"test_pauli_operators_adjoint produces the expected output","over":{"base":"Any"},"name":"test_pauli_operators_adjoint_correct"},"guarantee":"test_pauli_operators_adjoint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_adjoint_correct","statement":"Path(test_pauli_operators_adjoint(x), test_pauli_operators_adjoint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dffc1d4b3631b9ca"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_adjoint","kind":"function","src_hash":"86b51a8de96d4472","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Dagger(sx) == sx and Dagger(sy) == sy and Dagger(sz) == sz"},"spec":{"lhs":"test_pauli_operators_adjoint()","rhs":"Dagger(sx) == sx and Dagger(sy) == sy and Dagger(sz) == sz","over":{"base":"Any"},"name":"test_pauli_operators_adjoint_correct"},"guarantee":"Dagger(sx) == sx; Dagger(sy) == sy; Dagger(sz) == sz","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_adjoint_correct","statement":"Path(test_pauli_operators_adjoint(x), Dagger(sx) == sx; Dagger(sy) == sy; Dagger(sz) == sz)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a9621b3e975f3bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Dagger(sx) == sx","Dagger(sy) == sy","Dagger(sz) == sz"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_pauli_operators_adjoint():
 
     assert Dagger(sx) == sx
@@ -148,16 +188,24 @@ def test_pauli_operators_adjoint():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pauli_operators_adjoint_with_labels(), test_pauli_operators_adjoint_with_labels produces the expected output) over Any ║
+# ║ Path(test_pauli_operators_adjoint_with_labels(), Dagger(sx1) == sx1 and Dagger(sy1) == sy1 and Dagger(sz1) == sz1 and Dagger(sx1) != sx2 and Dagger(sy1) != sy2 and Dagger(sz1) != sz2) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Dagger(sx1) == sx1                             ║
+# ║   ensures:  Dagger(sy1) == sy1                             ║
+# ║   ensures:  Dagger(sz1) == sz1                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pauli_operators_adjoint_with_labels : Any → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e48eaf500722bec3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdded6a97ef9d264  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_adjoint_with_labels","kind":"function","src_hash":"1f5e7c04a52d2cee","in":{"base":"Any"},"out":{"base":"Any","pred":"Dagger(sx1) == sx1 and Dagger(sy1) == sy1 and Dagger(sz1) == sz1 and Dagger(sx1) != sx2 and Dagger(sy1) != sy2 and Dagger(sz1) != sz2"},"spec":{"lhs":"test_pauli_operators_adjoint_with_labels()","rhs":"test_pauli_operators_adjoint_with_labels produces the expected output","over":{"base":"Any"},"name":"test_pauli_operators_adjoint_with_labels_correct"},"guarantee":"test_pauli_operators_adjoint_with_labels produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_adjoint_with_labels_correct","statement":"Path(test_pauli_operators_adjoint_with_labels(x), test_pauli_operators_adjoint_with_labels produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e48eaf500722bec3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_adjoint_with_labels","kind":"function","src_hash":"1f5e7c04a52d2cee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Dagger(sx1) == sx1 and Dagger(sy1) == sy1 and Dagger(sz1) == sz1 and Dagger(sx1) != sx2 and Dagger(sy1) != sy2 and Dagger(sz1) != sz2"},"spec":{"lhs":"test_pauli_operators_adjoint_with_labels()","rhs":"Dagger(sx1) == sx1 and Dagger(sy1) == sy1 and Dagger(sz1) == sz1 and Dagger(sx1) != sx2 and Dagger(sy1) != sy2 and Dagger(sz1) != sz2","over":{"base":"Any"},"name":"test_pauli_operators_adjoint_with_labels_correct"},"guarantee":"Dagger(sx1) == sx1; Dagger(sy1) == sy1; Dagger(sz1) == sz1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_adjoint_with_labels_correct","statement":"Path(test_pauli_operators_adjoint_with_labels(x), Dagger(sx1) == sx1; Dagger(sy1) == sy1; Dagger(sz1) == sz1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdded6a97ef9d264","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Dagger(sx1) == sx1","Dagger(sy1) == sy1","Dagger(sz1) == sz1","Dagger(sx1) != sx2","Dagger(sy1) != sy2","Dagger(sz1) != sz2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pauli_operators_adjoint_with_labels():
 
     assert Dagger(sx1) == sx1
@@ -170,16 +218,24 @@ def test_pauli_operators_adjoint_with_labels():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pauli_operators_multiplication(), test_pauli_operators_multiplication produces the expected output) over Any ║
+# ║ Path(test_pauli_operators_multiplication(), qsimplify_pauli(sx * sx) == 1 and qsimplify_pauli(sy * sy) == 1 and qsimplify_pauli(sz * sz) == 1 and qsimplify_pauli(sx * sy) == I * sz and qsimplify_pauli(sy * sz) == I * sx and qsimplify_pauli(sz * sx) == I * sy and qsimplify_pauli(sy * sx) == -I * sz and qsimplify_pauli(sz * sy) == -I * sx and qsimplify_pauli(sx * sz) == -I * sy) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pauli_operators_multiplication : Any → {Any | qs...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qsimplify_pauli(sx * sx) == 1                  ║
+# ║   ensures:  qsimplify_pauli(sy * sy) == 1                  ║
+# ║   ensures:  qsimplify_pauli(sz * sz) == 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pauli_operators_multiplication : Any → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dcd8f906a36a6f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea3e9e6b217fc80f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_multiplication","kind":"function","src_hash":"8b49f3d616529a92","in":{"base":"Any"},"out":{"base":"Any","pred":"qsimplify_pauli(sx * sx) == 1 and qsimplify_pauli(sy * sy) == 1 and qsimplify_pauli(sz * sz) == 1 and qsimplify_pauli(sx * sy) == I * sz and qsimplify_pauli(sy * sz) == I * sx and qsimplify_pauli(sz * sx) == I * sy and qsimplify_pauli(sy * sx) == -I * sz and qsimplify_pauli(sz * sy) == -I * sx and qsimplify_pauli(sx * sz) == -I * sy"},"spec":{"lhs":"test_pauli_operators_multiplication()","rhs":"test_pauli_operators_multiplication produces the expected output","over":{"base":"Any"},"name":"test_pauli_operators_multiplication_correct"},"guarantee":"test_pauli_operators_multiplication produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_multiplication_correct","statement":"Path(test_pauli_operators_multiplication(x), test_pauli_operators_multiplication produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dcd8f906a36a6f2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_multiplication","kind":"function","src_hash":"8b49f3d616529a92","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qsimplify_pauli(sx * sx) == 1 and qsimplify_pauli(sy * sy) == 1 and qsimplify_pauli(sz * sz) == 1 and qsimplify_pauli(sx * sy) == I * sz and qsimplify_pauli(sy * sz) == I * sx and qsimplify_pauli(sz * sx) == I * sy and qsimplify_pauli(sy * sx) == -I * sz and qsimplify_pauli(sz * sy) == -I * sx and qsimplify_pauli(sx * sz) == -I * sy"},"spec":{"lhs":"test_pauli_operators_multiplication()","rhs":"qsimplify_pauli(sx * sx) == 1 and qsimplify_pauli(sy * sy) == 1 and qsimplify_pauli(sz * sz) == 1 and qsimplify_pauli(sx * sy) == I * sz and qsimplify_pauli(sy * sz) == I * sx and qsimplify_pauli(sz * sx) == I * sy and qsimplify_pauli(sy * sx) == -I * sz and qsimplify_pauli(sz * sy) == -I * sx and qsimplify_pauli(sx * sz) == -I * sy","over":{"base":"Any"},"name":"test_pauli_operators_multiplication_correct"},"guarantee":"qsimplify_pauli(sx * sx) == 1; qsimplify_pauli(sy * sy) == 1; qsimplify_pauli(sz * sz) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_multiplication_correct","statement":"Path(test_pauli_operators_multiplication(x), qsimplify_pauli(sx * sx) == 1; qsimplify_pauli(sy * sy) == 1; qsimplify_pauli(sz * sz) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea3e9e6b217fc80f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qsimplify_pauli(sx * sx) == 1","qsimplify_pauli(sy * sy) == 1","qsimplify_pauli(sz * sz) == 1","qsimplify_pauli(sx * sy) == I * sz","qsimplify_pauli(sy * sz) == I * sx","qsimplify_pauli(sz * sx) == I * sy","qsimplify_pauli(sy * sx) == -I * sz","qsimplify_pauli(sz * sy) == -I * sx","qsimplify_pauli(sx * sz) == -I * sy"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_pauli_operators_multiplication():
 
     assert qsimplify_pauli(sx * sx) == 1
@@ -196,7 +252,12 @@ def test_pauli_operators_multiplication():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pauli_operators_multiplication_with_labels(), test_pauli_operators_multiplication_with_labels produces the expected output) over {Any | isinstance(sx1 * sx2, Mul)} ║
+# ║ Path(test_pauli_operators_multiplication_with_labels(), qsimplify_pauli(sx1 * sx1) == 1 and qsimplify_pauli(sy1 * sy1) == 1 and qsimplify_pauli(sz1 * sz1) == 1 and isinstance(sx1 * sx2, Mul) and isinstance(sy1 * sy2, Mul) and isinstance(sz1 * sz2, Mul) and qsimplify_pauli(sx1 * sy1 * sx2 * sy2) == -sz1 * sz2 and qsimplify_pauli(sy1 * sz1 * sz2 * sx2) == -sx1 * sy2) over {Any | isinstance(sx1 * sx2, Mul)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qsimplify_pauli(sx1 * sx1) == 1                ║
+# ║   ensures:  qsimplify_pauli(sy1 * sy1) == 1                ║
+# ║   ensures:  qsimplify_pauli(sz1 * sz1) == 1                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pauli_operators_multiplication_with_labels : {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -208,9 +269,12 @@ def test_pauli_operators_multiplication():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 06f69727...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_multiplication_with_labels","kind":"function","src_hash":"d30f9e0bf3338400","in":{"base":"Any","pred":"isinstance(sx1 * sx2, Mul)"},"out":{"base":"Any","pred":"qsimplify_pauli(sx1 * sx1) == 1 and qsimplify_pauli(sy1 * sy1) == 1 and qsimplify_pauli(sz1 * sz1) == 1 and isinstance(sx1 * sx2, Mul) and isinstance(sy1 * sy2, Mul) and isinstance(sz1 * sz2, Mul) and qsimplify_pauli(sx1 * sy1 * sx2 * sy2) == -sz1 * sz2 and qsimplify_pauli(sy1 * sz1 * sz2 * sx2) == -sx1 * sy2"},"spec":{"lhs":"test_pauli_operators_multiplication_with_labels()","rhs":"test_pauli_operators_multiplication_with_labels produces the expected output","over":{"base":"Any","pred":"isinstance(sx1 * sx2, Mul)"},"name":"test_pauli_operators_multiplication_with_labels_correct"},"guarantee":"test_pauli_operators_multiplication_with_labels produces the expected output","fibers":[{"name":"Mul","pred":"isinstance(sx1 * sx2, Mul)","path":{"lhs":"test_pauli_operators_multiplication_with_labels(x)","rhs":"test_pauli_operators_multiplication_with_labels produces the expected output","over":{"base":"Mul","pred":"isinstance(sx1 * sx2, Mul)"},"name":"test_pauli_operators_multiplication_with_labels_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_multiplication_with_labels_Mul_correct","statement":"test_pauli_operators_multiplication_with_labels satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"06f6972740cba755"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_multiplication_with_labels","kind":"function","src_hash":"d30f9e0bf3338400","in":{"base":"Any","pred":"isinstance(sx1 * sx2, Mul)"},"out":{"base":"Any","pred":"result satisfies: qsimplify_pauli(sx1 * sx1) == 1 and qsimplify_pauli(sy1 * sy1) == 1 and qsimplify_pauli(sz1 * sz1) == 1 and isinstance(sx1 * sx2, Mul) and isinstance(sy1 * sy2, Mul) and isinstance(sz1 * sz2, Mul) and qsimplify_pauli(sx1 * sy1 * sx2 * sy2) == -sz1 * sz2 and qsimplify_pauli(sy1 * sz1 * sz2 * sx2) == -sx1 * sy2"},"spec":{"lhs":"test_pauli_operators_multiplication_with_labels()","rhs":"qsimplify_pauli(sx1 * sx1) == 1 and qsimplify_pauli(sy1 * sy1) == 1 and qsimplify_pauli(sz1 * sz1) == 1 and isinstance(sx1 * sx2, Mul) and isinstance(sy1 * sy2, Mul) and isinstance(sz1 * sz2, Mul) and qsimplify_pauli(sx1 * sy1 * sx2 * sy2) == -sz1 * sz2 and qsimplify_pauli(sy1 * sz1 * sz2 * sx2) == -sx1 * sy2","over":{"base":"Any","pred":"isinstance(sx1 * sx2, Mul)"},"name":"test_pauli_operators_multiplication_with_labels_correct"},"guarantee":"qsimplify_pauli(sx1 * sx1) == 1; qsimplify_pauli(sy1 * sy1) == 1; qsimplify_pauli(sz1 * sz1) == 1","fibers":[{"name":"Mul","pred":"isinstance(sx1 * sx2, Mul)","path":{"lhs":"test_pauli_operators_multiplication_with_labels(x)","rhs":"qsimplify_pauli(sx1 * sx1) == 1; qsimplify_pauli(sy1 * sy1) == 1; qsimplify_pauli(sz1 * sz1) == 1","over":{"base":"Mul","pred":"isinstance(sx1 * sx2, Mul)"},"name":"test_pauli_operators_multiplication_with_labels_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_operators_multiplication_with_labels_Mul_correct","statement":"test_pauli_operators_multiplication_with_labels satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"06f6972740cba755","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qsimplify_pauli(sx1 * sx1) == 1","qsimplify_pauli(sy1 * sy1) == 1","qsimplify_pauli(sz1 * sz1) == 1","isinstance(sx1 * sx2, Mul)","isinstance(sy1 * sy2, Mul)","isinstance(sz1 * sz2, Mul)","qsimplify_pauli(sx1 * sy1 * sx2 * sy2) == -sz1 * sz2","qsimplify_pauli(sy1 * sz1 * sz2 * sx2) == -sx1 * sy2"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":true}}
 def test_pauli_operators_multiplication_with_labels():
 
     assert qsimplify_pauli(sx1 * sx1) == 1
@@ -226,16 +290,24 @@ def test_pauli_operators_multiplication_with_labels():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pauli_states(), test_pauli_states produces the expected output) over Any ║
+# ║ Path(test_pauli_states(), qapply(sx * up) == down and qapply(sx * down) == up and qapply(sz * up) == up and qapply(sz * down) == -down and qapply(up * sx, dagger=True) == down and qapply(down * sx, dagger=True) == up and qapply(up * sz, dagger=True) == up and qapply(down * sz, dagger=True) == -down and Dagger(SigmaZKet(0)) == SigmaZBra(0) and Dagger(SigmaZBra(1)) == SigmaZKet(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pauli_states : Any → {Any | qapply(sx * up) == d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(sx * up) == down                        ║
+# ║   ensures:  qapply(sx * down) == up                        ║
+# ║   ensures:  qapply(sz * up) == up                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pauli_states : Any → {Any | result satisfies: qa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ced37bc0a453ba5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b78ffc314be9942  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_states","kind":"function","src_hash":"79bc48d9d12e10a4","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(sx * up) == down and qapply(sx * down) == up and qapply(sz * up) == up and qapply(sz * down) == -down and qapply(up * sx, dagger=True) == down and qapply(down * sx, dagger=True) == up and qapply(up * sz, dagger=True) == up and qapply(down * sz, dagger=True) == -down and Dagger(SigmaZKet(0)) == SigmaZBra(0) and Dagger(SigmaZBra(1)) == SigmaZKet(1)"},"spec":{"lhs":"test_pauli_states()","rhs":"test_pauli_states produces the expected output","over":{"base":"Any"},"name":"test_pauli_states_correct"},"guarantee":"test_pauli_states produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_states_correct","statement":"Path(test_pauli_states(x), test_pauli_states produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ced37bc0a453ba5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_pauli_states","kind":"function","src_hash":"79bc48d9d12e10a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(sx * up) == down and qapply(sx * down) == up and qapply(sz * up) == up and qapply(sz * down) == -down and qapply(up * sx, dagger=True) == down and qapply(down * sx, dagger=True) == up and qapply(up * sz, dagger=True) == up and qapply(down * sz, dagger=True) == -down and Dagger(SigmaZKet(0)) == SigmaZBra(0) and Dagger(SigmaZBra(1)) == SigmaZKet(1)"},"spec":{"lhs":"test_pauli_states()","rhs":"qapply(sx * up) == down and qapply(sx * down) == up and qapply(sz * up) == up and qapply(sz * down) == -down and qapply(up * sx, dagger=True) == down and qapply(down * sx, dagger=True) == up and qapply(up * sz, dagger=True) == up and qapply(down * sz, dagger=True) == -down and Dagger(SigmaZKet(0)) == SigmaZBra(0) and Dagger(SigmaZBra(1)) == SigmaZKet(1)","over":{"base":"Any"},"name":"test_pauli_states_correct"},"guarantee":"qapply(sx * up) == down; qapply(sx * down) == up; qapply(sz * up) == up","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_pauli_states_correct","statement":"Path(test_pauli_states(x), qapply(sx * up) == down; qapply(sx * down) == up; qapply(sz * up) == up)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b78ffc314be9942","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(sx * up) == down","qapply(sx * down) == up","qapply(sz * up) == up","qapply(sz * down) == -down","qapply(up * sx, dagger=True) == down","qapply(down * sx, dagger=True) == up","qapply(up * sz, dagger=True) == up","qapply(down * sz, dagger=True) == -down","Dagger(SigmaZKet(0)) == SigmaZBra(0)","Dagger(SigmaZBra(1)) == SigmaZKet(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_pauli_states():
     sx, sz = SigmaX(), SigmaZ()
 
@@ -262,16 +334,24 @@ def test_pauli_states():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_use_name(), test_use_name produces the expected output) over Any ║
+# ║ Path(test_use_name(), sm.use_name is False and sm1.use_name is True and sx.use_name is False and sx1.use_name is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_use_name : Any → {Any | sm.use_name is False and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sm.use_name is False                           ║
+# ║   ensures:  sm1.use_name is True                           ║
+# ║   ensures:  sx.use_name is False                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_use_name : Any → {Any | result satisfies: sm.use...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf26925a78fbebe0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a110fc4a47f2c2e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_use_name","kind":"function","src_hash":"380a4497bf4de20e","in":{"base":"Any"},"out":{"base":"Any","pred":"sm.use_name is False and sm1.use_name is True and sx.use_name is False and sx1.use_name is True"},"spec":{"lhs":"test_use_name()","rhs":"test_use_name produces the expected output","over":{"base":"Any"},"name":"test_use_name_correct"},"guarantee":"test_use_name produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_use_name_correct","statement":"Path(test_use_name(x), test_use_name produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf26925a78fbebe0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_use_name","kind":"function","src_hash":"380a4497bf4de20e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sm.use_name is False and sm1.use_name is True and sx.use_name is False and sx1.use_name is True"},"spec":{"lhs":"test_use_name()","rhs":"sm.use_name is False and sm1.use_name is True and sx.use_name is False and sx1.use_name is True","over":{"base":"Any"},"name":"test_use_name_correct"},"guarantee":"sm.use_name is False; sm1.use_name is True; sx.use_name is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_use_name_correct","statement":"Path(test_use_name(x), sm.use_name is False; sm1.use_name is True; sx.use_name is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a110fc4a47f2c2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sm.use_name is False","sm1.use_name is True","sx.use_name is False","sx1.use_name is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_use_name():
     assert sm.use_name is False
     assert sm1.use_name is True
@@ -280,16 +360,24 @@ def test_use_name():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_printing(), test_printing produces the expected output) over Any ║
+# ║ Path(test_printing(), latex(sx) == '{\\sigma_x}' and latex(sx1) == '{\\sigma_x^{(1)}}' and latex(sy) == '{\\sigma_y}' and latex(sy1) == '{\\sigma_y^{(1)}}' and latex(sz) == '{\\sigma_z}' and latex(sz1) == '{\\sigma_z^{(1)}}' and latex(sm) == '{\\sigma_-}' and latex(sm1) == '{\\sigma_-^{(1)}}' and latex(sp) == '{\\sigma_+}' and latex(sp1) == '{\\sigma_+^{(1)}}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_printing : Any → {Any | latex(sx) == '{\\sigma_x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  latex(sx) == '{\\sigma_x}'                     ║
+# ║   ensures:  latex(sx1) == '{\\sigma_x^{(1)}}'              ║
+# ║   ensures:  latex(sy) == '{\\sigma_y}'                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_printing : Any → {Any | result satisfies: latex(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6e8fc6994850f83  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2171c1c2ccd7bfda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_printing","kind":"function","src_hash":"1c073f864f3b6d8d","in":{"base":"Any"},"out":{"base":"Any","pred":"latex(sx) == '{\\\\sigma_x}' and latex(sx1) == '{\\\\sigma_x^{(1)}}' and latex(sy) == '{\\\\sigma_y}' and latex(sy1) == '{\\\\sigma_y^{(1)}}' and latex(sz) == '{\\\\sigma_z}' and latex(sz1) == '{\\\\sigma_z^{(1)}}' and latex(sm) == '{\\\\sigma_-}' and latex(sm1) == '{\\\\sigma_-^{(1)}}' and latex(sp) == '{\\\\sigma_+}' and latex(sp1) == '{\\\\sigma_+^{(1)}}'"},"spec":{"lhs":"test_printing()","rhs":"test_printing produces the expected output","over":{"base":"Any"},"name":"test_printing_correct"},"guarantee":"test_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_printing_correct","statement":"Path(test_printing(x), test_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6e8fc6994850f83"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_printing","kind":"function","src_hash":"1c073f864f3b6d8d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: latex(sx) == '{\\\\sigma_x}' and latex(sx1) == '{\\\\sigma_x^{(1)}}' and latex(sy) == '{\\\\sigma_y}' and latex(sy1) == '{\\\\sigma_y^{(1)}}' and latex(sz) == '{\\\\sigma_z}' and latex(sz1) == '{\\\\sigma_z^{(1)}}' and latex(sm) == '{\\\\sigma_-}' and latex(sm1) == '{\\\\sigma_-^{(1)}}' and latex(sp) == '{\\\\sigma_+}' and latex(sp1) == '{\\\\sigma_+^{(1)}}'"},"spec":{"lhs":"test_printing()","rhs":"latex(sx) == '{\\\\sigma_x}' and latex(sx1) == '{\\\\sigma_x^{(1)}}' and latex(sy) == '{\\\\sigma_y}' and latex(sy1) == '{\\\\sigma_y^{(1)}}' and latex(sz) == '{\\\\sigma_z}' and latex(sz1) == '{\\\\sigma_z^{(1)}}' and latex(sm) == '{\\\\sigma_-}' and latex(sm1) == '{\\\\sigma_-^{(1)}}' and latex(sp) == '{\\\\sigma_+}' and latex(sp1) == '{\\\\sigma_+^{(1)}}'","over":{"base":"Any"},"name":"test_printing_correct"},"guarantee":"latex(sx) == '{\\\\sigma_x}'; latex(sx1) == '{\\\\sigma_x^{(1)}}'; latex(sy) == '{\\\\sigma_y}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_printing_correct","statement":"Path(test_printing(x), latex(sx) == '{\\\\sigma_x}'; latex(sx1) == '{\\\\sigma_x^{(1)}}'; latex(sy) == '{\\\\sigma_y}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2171c1c2ccd7bfda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["latex(sx) == '{\\\\sigma_x}'","latex(sx1) == '{\\\\sigma_x^{(1)}}'","latex(sy) == '{\\\\sigma_y}'","latex(sy1) == '{\\\\sigma_y^{(1)}}'","latex(sz) == '{\\\\sigma_z}'","latex(sz1) == '{\\\\sigma_z^{(1)}}'","latex(sm) == '{\\\\sigma_-}'","latex(sm1) == '{\\\\sigma_-^{(1)}}'","latex(sp) == '{\\\\sigma_+}'","latex(sp1) == '{\\\\sigma_+^{(1)}}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_printing():
     assert latex(sx) == r'{\sigma_x}'
     assert latex(sx1) == r'{\sigma_x^{(1)}}'
@@ -304,16 +392,24 @@ def test_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_represent(), test_represent produces the expected output) over Any ║
+# ║ Path(test_represent(), represent(sx) == Matrix([[0, 1], [1, 0]]) and represent(sy) == Matrix([[0, -I], [I, 0]]) and represent(sz) == Matrix([[1, 0], [0, -1]]) and represent(sm) == Matrix([[0, 0], [1, 0]]) and represent(sp) == Matrix([[0, 1], [0, 0]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_represent : Any → {Any | represent(sx) == Matrix...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  represent(sx) == Matrix([[0, 1], [1, 0]])      ║
+# ║   ensures:  represent(sy) == Matrix([[0, -I], [I, 0]])     ║
+# ║   ensures:  represent(sz) == Matrix([[1, 0], [0, -1]])     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_represent : Any → {Any | result satisfies: repre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 820a41948ea6038a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae6a49bc6042849e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_represent","kind":"function","src_hash":"bd0ac305ff11ab78","in":{"base":"Any"},"out":{"base":"Any","pred":"represent(sx) == Matrix([[0, 1], [1, 0]]) and represent(sy) == Matrix([[0, -I], [I, 0]]) and represent(sz) == Matrix([[1, 0], [0, -1]]) and represent(sm) == Matrix([[0, 0], [1, 0]]) and represent(sp) == Matrix([[0, 1], [0, 0]])"},"spec":{"lhs":"test_represent()","rhs":"test_represent produces the expected output","over":{"base":"Any"},"name":"test_represent_correct"},"guarantee":"test_represent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_represent_correct","statement":"Path(test_represent(x), test_represent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"820a41948ea6038a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_pauli.test_represent","kind":"function","src_hash":"bd0ac305ff11ab78","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: represent(sx) == Matrix([[0, 1], [1, 0]]) and represent(sy) == Matrix([[0, -I], [I, 0]]) and represent(sz) == Matrix([[1, 0], [0, -1]]) and represent(sm) == Matrix([[0, 0], [1, 0]]) and represent(sp) == Matrix([[0, 1], [0, 0]])"},"spec":{"lhs":"test_represent()","rhs":"represent(sx) == Matrix([[0, 1], [1, 0]]) and represent(sy) == Matrix([[0, -I], [I, 0]]) and represent(sz) == Matrix([[1, 0], [0, -1]]) and represent(sm) == Matrix([[0, 0], [1, 0]]) and represent(sp) == Matrix([[0, 1], [0, 0]])","over":{"base":"Any"},"name":"test_represent_correct"},"guarantee":"represent(sx) == Matrix([[0, 1], [1, 0]]); represent(sy) == Matrix([[0, -I], [I, 0]]); represent(sz) == Matrix([[1, 0], [0, -1]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_pauli.test_represent_correct","statement":"Path(test_represent(x), represent(sx) == Matrix([[0, 1], [1, 0]]); represent(sy) == Matrix([[0, -I], [I, 0]]); represent(sz) == Matrix([[1, 0], [0, -1]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae6a49bc6042849e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["represent(sx) == Matrix([[0, 1], [1, 0]])","represent(sy) == Matrix([[0, -I], [I, 0]])","represent(sz) == Matrix([[1, 0], [0, -1]])","represent(sm) == Matrix([[0, 0], [1, 0]])","represent(sp) == Matrix([[0, 1], [0, 0]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_represent():
     assert represent(sx) == Matrix([[0, 1], [1, 0]])
     assert represent(sy) == Matrix([[0, -I], [I, 0]])

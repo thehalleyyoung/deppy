@@ -36,54 +36,78 @@ from sympy.core.numbers import (Float as SymPyReal, Integer as SymPyInteger, Rat
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_GMPYInteger(), correctly constructs a _GMPYInteger instance) over Any ║
+# ║ Path(_GMPYInteger(), <unspecified:_GMPYInteger>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _GMPYInteger : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd97bd4ccb7083c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.groundtypes._GMPYInteger","kind":"class","src_hash":"03ff2750143e2d99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_GMPYInteger()","rhs":"correctly constructs a _GMPYInteger instance","over":{"base":"Any"},"name":"_GMPYInteger_correct"},"guarantee":"correctly constructs a _GMPYInteger instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd97bd4ccb7083c5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.groundtypes._GMPYInteger","kind":"class","src_hash":"03ff2750143e2d99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_GMPYInteger()","rhs":"<unspecified:_GMPYInteger>","over":{"base":"Any"},"name":"_GMPYInteger_correct"},"guarantee":"correctly constructs a _GMPYInteger instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd97bd4ccb7083c5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function _GMPYInteger not found in source"]}}
 class _GMPYInteger:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(obj), initializes the instance correctly) over Any ║
+# ║ Path(__init__(obj), <unspecified:__init__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03baa73e6f37587b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.groundtypes._GMPYInteger.__init__","kind":"method","src_hash":"0475d8f53bc2e207","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(obj)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03baa73e6f37587b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.groundtypes._GMPYInteger.__init__","kind":"method","src_hash":"0475d8f53bc2e207","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(obj)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03baa73e6f37587b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, obj):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_GMPYRational(), correctly constructs a _GMPYRational instance) over Any ║
+# ║ Path(_GMPYRational(), <unspecified:_GMPYRational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _GMPYRational : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 09ea3702a111b135           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.groundtypes._GMPYRational","kind":"class","src_hash":"4432c72da4afdb1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_GMPYRational()","rhs":"correctly constructs a _GMPYRational instance","over":{"base":"Any"},"name":"_GMPYRational_correct"},"guarantee":"correctly constructs a _GMPYRational instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09ea3702a111b135"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.groundtypes._GMPYRational","kind":"class","src_hash":"4432c72da4afdb1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_GMPYRational()","rhs":"<unspecified:_GMPYRational>","over":{"base":"Any"},"name":"_GMPYRational_correct"},"guarantee":"correctly constructs a _GMPYRational instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"09ea3702a111b135","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function _GMPYRational not found in source"]}}
 class _GMPYRational:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(obj), initializes the instance correctly) over Any ║
+# ║ Path(__init__(obj), <unspecified:__init__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57fcf30b8faafc63           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.groundtypes._GMPYRational.__init__","kind":"method","src_hash":"0475d8f53bc2e207","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(obj)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57fcf30b8faafc63"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.groundtypes._GMPYRational.__init__","kind":"method","src_hash":"0475d8f53bc2e207","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(obj)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57fcf30b8faafc63","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, obj):
         pass
 

@@ -173,16 +173,22 @@ Examples which raised exceptions are {exceptions}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_example_keys(fun), internal helper behaves correctly) over Any ║
+# ║ Path(_add_example_keys(func), <unspecified:_add_example_keys>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _add_example_keys : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ee2545ba92b17f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._add_example_keys","kind":"function","src_hash":"acfe7d28d7affa69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_example_keys(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_add_example_keys_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._add_example_keys_correct","statement":"Path(_add_example_keys(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ee2545ba92b17f6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._add_example_keys","kind":"function","src_hash":"acfe7d28d7affa69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_example_keys(func)","rhs":"<unspecified:_add_example_keys>","over":{"base":"Any"},"name":"_add_example_keys_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._add_example_keys_correct","statement":"Path(_add_example_keys(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ee2545ba92b17f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _add_example_keys(func):
     def inner():
         solver=func()
@@ -207,16 +213,22 @@ def _add_example_keys(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ode_solver_test(ode), internal helper behaves correctly) over Any ║
+# ║ Path(_ode_solver_test(ode_examples, run_slow_test), <unspecified:_ode_solver_test>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ode_solver_test : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 700d9ee2499767ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._ode_solver_test","kind":"function","src_hash":"600ede8403309ad2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ode_solver_test(ode)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ode_solver_test_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._ode_solver_test_correct","statement":"Path(_ode_solver_test(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700d9ee2499767ea"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._ode_solver_test","kind":"function","src_hash":"600ede8403309ad2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ode_solver_test(ode_examples, run_slow_test)","rhs":"<unspecified:_ode_solver_test>","over":{"base":"Any"},"name":"_ode_solver_test_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._ode_solver_test_correct","statement":"Path(_ode_solver_test(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700d9ee2499767ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _ode_solver_test(ode_examples, run_slow_test=False):
     for example in ode_examples:
         if ((not run_slow_test) and example['slow']) or (run_slow_test and (not example['slow'])):
@@ -228,16 +240,22 @@ def _ode_solver_test(ode_examples, run_slow_test=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_all_hints(run), internal helper behaves correctly) over Any ║
+# ║ Path(_test_all_hints(runxfail), <unspecified:_test_all_hints>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _test_all_hints : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c7bfe0c57ddb495  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._test_all_hints","kind":"function","src_hash":"4e873e3949d1970f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_all_hints(run)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_test_all_hints_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._test_all_hints_correct","statement":"Path(_test_all_hints(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c7bfe0c57ddb495"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._test_all_hints","kind":"function","src_hash":"4e873e3949d1970f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_all_hints(runxfail)","rhs":"<unspecified:_test_all_hints>","over":{"base":"Any"},"name":"_test_all_hints_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._test_all_hints_correct","statement":"Path(_test_all_hints(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c7bfe0c57ddb495","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _test_all_hints(runxfail=False):
     all_hints = list(allhints)+["default"]
     all_examples = _get_all_examples()
@@ -249,16 +267,26 @@ def _test_all_hints(runxfail=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_dummy_sol(exp), id) over Any                    ║
+# ║ Path(_test_dummy_sol(expected_sol, dsolve_sol), id) over {Any | hasattr(expected_sol, 'dummy_eq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _test_dummy_sol : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expected_sol, 'dummy_eq')              ║
+# ║   ensures:  result == (any((expected_sol.dummy_eq(sub...   ║
+# ║   ensures:  result == any((expected_sol.dummy_eq(sub_...   ║
+# ║   fiber[list]: type(dsolve_sol) == list => any((expec...   ║
+# ║   fiber[list]: not (type(dsolve_sol) == list) => expe...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _test_dummy_sol : {Any | hasattr(expected_sol, 'dummy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d0ed99fccb7b86b3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._test_dummy_sol","kind":"function","src_hash":"7015301b130c3a32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_dummy_sol(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_test_dummy_sol_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"any","by":"library_axiom"},{"fn":"dummy_eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0ed99fccb7b86b3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._test_dummy_sol","kind":"function","src_hash":"7015301b130c3a32","in":{"base":"Any","pred":"hasattr(expected_sol, 'dummy_eq')"},"out":{"base":"Any","pred":"result satisfies: result == (any((expected_sol.dummy_eq(sub_dsol) for sub_dsol in dsolve_sol)) if type(dsolve_sol) == list else expected_sol.dummy_eq(dsolve_sol)) and result == any((expected_sol.dummy_eq(sub_dsol) for sub_dsol in dsolve_sol)) or result == expected_sol.dummy_eq(dsolve_sol)"},"spec":{"lhs":"_test_dummy_sol(expected_sol, dsolve_sol)","rhs":"result == (any((expected_sol.dummy_eq(sub_dsol) for sub_dsol in dsolve_sol)) if type(dsolve_sol) == list else expected_sol.dummy_eq(dsolve_sol)) and result == any((expected_sol.dummy_eq(sub_dsol) for sub_dsol in dsolve_sol)) or result == expected_sol.dummy_eq(dsolve_sol)","over":{"base":"Any","pred":"hasattr(expected_sol, 'dummy_eq')"},"name":"_test_dummy_sol_correct","kind":"composition"},"guarantee":"result == (any((expected_sol.dummy_eq(sub_dsol) for sub_dsol in dsolve_sol)) if type(dsolve_sol) == list else expected_sol.dummy_eq(dsolve_sol)); result == any((expected_sol.dummy_eq(sub_dsol) for sub_dsol in dsolve_sol)) or result == expected_sol.dummy_eq(dsolve_sol); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"any","by":"library_axiom"},{"fn":"dummy_eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0ed99fccb7b86b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expected_sol, 'dummy_eq')"],"ensures":["result == (any((expected_sol.dummy_eq(sub_dsol) for sub_dsol in dsolve_sol)) if type(dsolve_sol) == list else expected_sol.dummy_eq(dsolve_sol))","result == any((expected_sol.dummy_eq(sub_dsol) for sub_dsol in dsolve_sol)) or result == expected_sol.dummy_eq(dsolve_sol)"],"fibers":[{"name":"list","guard":"type(dsolve_sol) == list","ensures":["result == any((expected_sol.dummy_eq(sub_dsol) for sub_dsol in dsolve_sol))"],"decidability":"z3","returns_expr":"any((expected_sol.dummy_eq(sub_dsol) for sub_dsol in dsolve_sol))"},{"name":"list","guard":"not (type(dsolve_sol) == list)","ensures":["result == expected_sol.dummy_eq(dsolve_sol)"],"decidability":"z3","returns_expr":"expected_sol.dummy_eq(dsolve_sol)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expected_sol.dummy_eq"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _test_dummy_sol(expected_sol,dsolve_sol):
     if type(dsolve_sol)==list:
         return any(expected_sol.dummy_eq(sub_dsol) for sub_dsol in dsolve_sol)
@@ -267,16 +295,22 @@ def _test_dummy_sol(expected_sol,dsolve_sol):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_an_example(our), internal helper behaves correctly) over Any ║
+# ║ Path(_test_an_example(our_hint, example_name), <unspecified:_test_an_example>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _test_an_example : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f40043201fc65732  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._test_an_example","kind":"function","src_hash":"97c6c27aac516cda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_an_example(our)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_test_an_example_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._test_an_example_correct","statement":"Path(_test_an_example(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f40043201fc65732"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._test_an_example","kind":"function","src_hash":"97c6c27aac516cda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_an_example(our_hint, example_name)","rhs":"<unspecified:_test_an_example>","over":{"base":"Any"},"name":"_test_an_example_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._test_an_example_correct","statement":"Path(_test_an_example(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f40043201fc65732","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _test_an_example(our_hint, example_name):
     all_examples = _get_all_examples()
     for example in all_examples:
@@ -285,16 +319,22 @@ def _test_an_example(our_hint, example_name):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_particular_example(our), internal helper behaves correctly) over Any ║
+# ║ Path(_test_particular_example(our_hint, ode_example, solver_flag), <unspecified:_test_particular_example>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _test_particular_example : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d18c3f82e0ca3391  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._test_particular_example","kind":"function","src_hash":"f036bb7dce4072eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_particular_example(our)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_test_particular_example_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._test_particular_example_correct","statement":"Path(_test_particular_example(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d18c3f82e0ca3391"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._test_particular_example","kind":"function","src_hash":"f036bb7dce4072eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_particular_example(our_hint, ode_example, solver_flag)","rhs":"<unspecified:_test_particular_example>","over":{"base":"Any"},"name":"_test_particular_example_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._test_particular_example_correct","statement":"Path(_test_particular_example(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d18c3f82e0ca3391","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","raises":["AssertionError"],"catches":["Exception"],"io_operations":["print"]},"state_contract":{"exceptional_post":{"AssertionError":["isinstance(raised, AssertionError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _test_particular_example(our_hint, ode_example, solver_flag=False):
     eq = ode_example['eq']
     expected_sol = ode_example['sol']
@@ -376,16 +416,22 @@ def _test_particular_example(our_hint, ode_example, solver_flag=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_all_examples_for_one_hint(our), internal helper behaves correctly) over Any ║
+# ║ Path(_test_all_examples_for_one_hint(our_hint, all_examples, runxfail), <unspecified:_test_all_examples_for_one_hint>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _test_all_examples_for_one_hint : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2c3dd5b17416045  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._test_all_examples_for_one_hint","kind":"function","src_hash":"a56960c884738cf9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_all_examples_for_one_hint(our)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_test_all_examples_for_one_hint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._test_all_examples_for_one_hint_correct","statement":"Path(_test_all_examples_for_one_hint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2c3dd5b17416045"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._test_all_examples_for_one_hint","kind":"function","src_hash":"a56960c884738cf9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_all_examples_for_one_hint(our_hint, all_examples, runxfail)","rhs":"<unspecified:_test_all_examples_for_one_hint>","over":{"base":"Any"},"name":"_test_all_examples_for_one_hint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._test_all_examples_for_one_hint_correct","statement":"Path(_test_all_examples_for_one_hint(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2c3dd5b17416045","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _test_all_examples_for_one_hint(our_hint, all_examples=[], runxfail=None):
     if all_examples == []:
         all_examples = _get_all_examples()
@@ -413,16 +459,24 @@ def _test_all_examples_for_one_hint(our_hint, all_examples=[], runxfail=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SingleODESolver(), test_SingleODESolver produces the expected output) over Any ║
+# ║ Path(test_SingleODESolver(), solver.matches() is False and problem.order == 1 and problem.order == 4 and problem.is_autonomous == True and problem.is_autonomous == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SingleODESolver : Any → {Any | solver.matches() ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solver.matches() is False                      ║
+# ║   ensures:  problem.order == 1                             ║
+# ║   ensures:  problem.order == 4                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SingleODESolver : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 227b5ef252e8fdb2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c68faf251712881  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_SingleODESolver","kind":"function","src_hash":"06ab05e0eced1d4b","in":{"base":"Any"},"out":{"base":"Any","pred":"solver.matches() is False and problem.order == 1 and problem.order == 4 and problem.is_autonomous == True and problem.is_autonomous == False"},"spec":{"lhs":"test_SingleODESolver()","rhs":"test_SingleODESolver produces the expected output","over":{"base":"Any"},"name":"test_SingleODESolver_correct"},"guarantee":"test_SingleODESolver produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_SingleODESolver_correct","statement":"Path(test_SingleODESolver(x), test_SingleODESolver produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"227b5ef252e8fdb2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_SingleODESolver","kind":"function","src_hash":"06ab05e0eced1d4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solver.matches() is False and problem.order == 1 and problem.order == 4 and problem.is_autonomous == True and problem.is_autonomous == False"},"spec":{"lhs":"test_SingleODESolver()","rhs":"solver.matches() is False and problem.order == 1 and problem.order == 4 and problem.is_autonomous == True and problem.is_autonomous == False","over":{"base":"Any"},"name":"test_SingleODESolver_correct"},"guarantee":"solver.matches() is False; problem.order == 1; problem.order == 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_SingleODESolver_correct","statement":"Path(test_SingleODESolver(x), solver.matches() is False; problem.order == 1; problem.order == 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c68faf251712881","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solver.matches() is False","problem.order == 1","problem.order == 4","problem.is_autonomous == True","problem.is_autonomous == False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_SingleODESolver():
     # Test that not implemented methods give NotImplementedError
     # Subclasses should override these methods.
@@ -461,32 +515,45 @@ def test_SingleODESolver():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linear_coefficients(), test_linear_coefficients produces the expected output) over Any ║
+# ║ Path(test_linear_coefficients(), <unspecified:test_linear_coefficients>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linear_coefficients : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80f25e30400fd6f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_linear_coefficients","kind":"function","src_hash":"4cdcfb1d74211ce0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_linear_coefficients()","rhs":"test_linear_coefficients produces the expected output","over":{"base":"Any"},"name":"test_linear_coefficients_correct"},"guarantee":"test_linear_coefficients produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_linear_coefficients_correct","statement":"Path(test_linear_coefficients(x), test_linear_coefficients produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80f25e30400fd6f9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_linear_coefficients","kind":"function","src_hash":"4cdcfb1d74211ce0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_linear_coefficients()","rhs":"<unspecified:test_linear_coefficients>","over":{"base":"Any"},"name":"test_linear_coefficients_correct"},"guarantee":"test_linear_coefficients produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_linear_coefficients_correct","statement":"Path(test_linear_coefficients(x), test_linear_coefficients produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80f25e30400fd6f9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_linear_coefficients():
     _ode_solver_test(_get_examples_ode_sol_linear_coefficients)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_1st_homogeneous_coeff_ode(), test_1st_homogeneous_coeff_ode produces the expected output) over Any ║
+# ║ Path(test_1st_homogeneous_coeff_ode(), sid not in c1 and sdi not in c1 and sid not in c2 and sdi not in c2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_1st_homogeneous_coeff_ode : Any → {Any | sid not...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sid not in c1 and sdi not in c1                ║
+# ║   ensures:  sid not in c2 and sdi not in c2                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_1st_homogeneous_coeff_ode : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9f3b2b8422f6ae1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f68d13adab3652b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_1st_homogeneous_coeff_ode","kind":"function","src_hash":"6b49954567eb32e3","in":{"base":"Any"},"out":{"base":"Any","pred":"sid not in c1 and sdi not in c1 and sid not in c2 and sdi not in c2"},"spec":{"lhs":"test_1st_homogeneous_coeff_ode()","rhs":"test_1st_homogeneous_coeff_ode produces the expected output","over":{"base":"Any"},"name":"test_1st_homogeneous_coeff_ode_correct"},"guarantee":"test_1st_homogeneous_coeff_ode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_1st_homogeneous_coeff_ode_correct","statement":"Path(test_1st_homogeneous_coeff_ode(x), test_1st_homogeneous_coeff_ode produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9f3b2b8422f6ae1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_1st_homogeneous_coeff_ode","kind":"function","src_hash":"6b49954567eb32e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sid not in c1 and sdi not in c1 and sid not in c2 and sdi not in c2"},"spec":{"lhs":"test_1st_homogeneous_coeff_ode()","rhs":"sid not in c1 and sdi not in c1 and sid not in c2 and sdi not in c2","over":{"base":"Any"},"name":"test_1st_homogeneous_coeff_ode_correct"},"guarantee":"sid not in c1 and sdi not in c1; sid not in c2 and sdi not in c2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_1st_homogeneous_coeff_ode_correct","statement":"Path(test_1st_homogeneous_coeff_ode(x), sid not in c1 and sdi not in c1; sid not in c2 and sdi not in c2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f68d13adab3652b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sid not in c1 and sdi not in c1","sid not in c2 and sdi not in c2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_1st_homogeneous_coeff_ode():
     #These were marked as test_1st_homogeneous_coeff_corner_case
     eq1 = f(x).diff(x) - f(x)/x
@@ -503,16 +570,22 @@ def test_1st_homogeneous_coeff_ode():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slow_examples_1st_homogeneous_coeff_ode(), test_slow_examples_1st_homogeneous_coeff_ode produces the expected output) over Any ║
+# ║ Path(test_slow_examples_1st_homogeneous_coeff_ode(), <unspecified:test_slow_examples_1st_homogeneous_coeff_ode>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_slow_examples_1st_homogeneous_coeff_ode : Any → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb852d99a720543b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_1st_homogeneous_coeff_ode","kind":"function","src_hash":"d340756d49b17645","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_1st_homogeneous_coeff_ode()","rhs":"test_slow_examples_1st_homogeneous_coeff_ode produces the expected output","over":{"base":"Any"},"name":"test_slow_examples_1st_homogeneous_coeff_ode_correct"},"guarantee":"test_slow_examples_1st_homogeneous_coeff_ode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_1st_homogeneous_coeff_ode_correct","statement":"Path(test_slow_examples_1st_homogeneous_coeff_ode(x), test_slow_examples_1st_homogeneous_coeff_ode produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb852d99a720543b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_1st_homogeneous_coeff_ode","kind":"function","src_hash":"d340756d49b17645","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_1st_homogeneous_coeff_ode()","rhs":"<unspecified:test_slow_examples_1st_homogeneous_coeff_ode>","over":{"base":"Any"},"name":"test_slow_examples_1st_homogeneous_coeff_ode_correct"},"guarantee":"test_slow_examples_1st_homogeneous_coeff_ode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_1st_homogeneous_coeff_ode_correct","statement":"Path(test_slow_examples_1st_homogeneous_coeff_ode(x), test_slow_examples_1st_homogeneous_coeff_ode produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb852d99a720543b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_slow_examples_1st_homogeneous_coeff_ode():
     _ode_solver_test(_get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep, run_slow_test=True)
     _ode_solver_test(_get_examples_ode_sol_1st_homogeneous_coeff_best, run_slow_test=True)
@@ -520,79 +593,109 @@ def test_slow_examples_1st_homogeneous_coeff_ode():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nth_linear_constant_coeff_homogeneous(), test_nth_linear_constant_coeff_homogeneous produces the expected output) over Any ║
+# ║ Path(test_nth_linear_constant_coeff_homogeneous(), <unspecified:test_nth_linear_constant_coeff_homogeneous>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nth_linear_constant_coeff_homogeneous : Any → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47d6612bc40afdb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_homogeneous","kind":"function","src_hash":"ee9fc77d2ea7d143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nth_linear_constant_coeff_homogeneous()","rhs":"test_nth_linear_constant_coeff_homogeneous produces the expected output","over":{"base":"Any"},"name":"test_nth_linear_constant_coeff_homogeneous_correct"},"guarantee":"test_nth_linear_constant_coeff_homogeneous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_homogeneous_correct","statement":"Path(test_nth_linear_constant_coeff_homogeneous(x), test_nth_linear_constant_coeff_homogeneous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47d6612bc40afdb2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_homogeneous","kind":"function","src_hash":"ee9fc77d2ea7d143","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nth_linear_constant_coeff_homogeneous()","rhs":"<unspecified:test_nth_linear_constant_coeff_homogeneous>","over":{"base":"Any"},"name":"test_nth_linear_constant_coeff_homogeneous_correct"},"guarantee":"test_nth_linear_constant_coeff_homogeneous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_homogeneous_correct","statement":"Path(test_nth_linear_constant_coeff_homogeneous(x), test_nth_linear_constant_coeff_homogeneous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47d6612bc40afdb2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_nth_linear_constant_coeff_homogeneous():
     _ode_solver_test(_get_examples_ode_sol_nth_linear_constant_coeff_homogeneous)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slow_examples_nth_linear_constant_coeff_homogeneous(), test_slow_examples_nth_linear_constant_coeff_homogeneous produces the expected output) over Any ║
+# ║ Path(test_slow_examples_nth_linear_constant_coeff_homogeneous(), <unspecified:test_slow_examples_nth_linear_constant_coeff_homogeneous>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_slow_examples_nth_linear_constant_coeff_homogene...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7c33c64c57ab16e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_linear_constant_coeff_homogeneous","kind":"function","src_hash":"014592be2d6aca95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_nth_linear_constant_coeff_homogeneous()","rhs":"test_slow_examples_nth_linear_constant_coeff_homogeneous produces the expected output","over":{"base":"Any"},"name":"test_slow_examples_nth_linear_constant_coeff_homogeneous_correct"},"guarantee":"test_slow_examples_nth_linear_constant_coeff_homogeneous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_linear_constant_coeff_homogeneous_correct","statement":"Path(test_slow_examples_nth_linear_constant_coeff_homogeneous(x), test_slow_examples_nth_linear_constant_coeff_homogeneous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7c33c64c57ab16e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_linear_constant_coeff_homogeneous","kind":"function","src_hash":"014592be2d6aca95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_nth_linear_constant_coeff_homogeneous()","rhs":"<unspecified:test_slow_examples_nth_linear_constant_coeff_homogeneous>","over":{"base":"Any"},"name":"test_slow_examples_nth_linear_constant_coeff_homogeneous_correct"},"guarantee":"test_slow_examples_nth_linear_constant_coeff_homogeneous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_linear_constant_coeff_homogeneous_correct","statement":"Path(test_slow_examples_nth_linear_constant_coeff_homogeneous(x), test_slow_examples_nth_linear_constant_coeff_homogeneous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7c33c64c57ab16e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_slow_examples_nth_linear_constant_coeff_homogeneous():
     _ode_solver_test(_get_examples_ode_sol_nth_linear_constant_coeff_homogeneous, run_slow_test=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Airy_equation(), test_Airy_equation produces the expected output) over Any ║
+# ║ Path(test_Airy_equation(), <unspecified:test_Airy_equation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Airy_equation : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2637d625ea962f17  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_Airy_equation","kind":"function","src_hash":"5be5771bc9abf8a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Airy_equation()","rhs":"test_Airy_equation produces the expected output","over":{"base":"Any"},"name":"test_Airy_equation_correct"},"guarantee":"test_Airy_equation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_Airy_equation_correct","statement":"Path(test_Airy_equation(x), test_Airy_equation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2637d625ea962f17"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_Airy_equation","kind":"function","src_hash":"5be5771bc9abf8a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Airy_equation()","rhs":"<unspecified:test_Airy_equation>","over":{"base":"Any"},"name":"test_Airy_equation_correct"},"guarantee":"test_Airy_equation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_Airy_equation_correct","statement":"Path(test_Airy_equation(x), test_Airy_equation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2637d625ea962f17","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Airy_equation():
     _ode_solver_test(_get_examples_ode_sol_2nd_linear_airy)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lie_group(), test_lie_group produces the expected output) over Any ║
+# ║ Path(test_lie_group(), <unspecified:test_lie_group>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_lie_group : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d71e802400ea2600  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_lie_group","kind":"function","src_hash":"ef816e64517c5cd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lie_group()","rhs":"test_lie_group produces the expected output","over":{"base":"Any"},"name":"test_lie_group_correct"},"guarantee":"test_lie_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_lie_group_correct","statement":"Path(test_lie_group(x), test_lie_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d71e802400ea2600"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_lie_group","kind":"function","src_hash":"ef816e64517c5cd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_lie_group()","rhs":"<unspecified:test_lie_group>","over":{"base":"Any"},"name":"test_lie_group_correct"},"guarantee":"test_lie_group produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_lie_group_correct","statement":"Path(test_lie_group(x), test_lie_group produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d71e802400ea2600","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_lie_group():
     _ode_solver_test(_get_examples_ode_sol_lie_group)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_separable_reduced(), test_separable_reduced produces the expected output) over Any ║
+# ║ Path(test_separable_reduced(), classify_ode(eq) == ('factorable', 'separable_reduced', 'lie_group', 'separable_reduced_Integral')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_separable_reduced : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  classify_ode(eq) == ('factorable', 'separ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_separable_reduced : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12e3154d50d440a7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc61bf6b1acf95d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_separable_reduced","kind":"function","src_hash":"bae77f46c8cdb0ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_separable_reduced()","rhs":"test_separable_reduced produces the expected output","over":{"base":"Any"},"name":"test_separable_reduced_correct"},"guarantee":"test_separable_reduced produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_separable_reduced_correct","statement":"Path(test_separable_reduced(x), test_separable_reduced produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12e3154d50d440a7"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_separable_reduced","kind":"function","src_hash":"bae77f46c8cdb0ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: classify_ode(eq) == ('factorable', 'separable_reduced', 'lie_group', 'separable_reduced_Integral')"},"spec":{"lhs":"test_separable_reduced()","rhs":"classify_ode(eq) == ('factorable', 'separable_reduced', 'lie_group', 'separable_reduced_Integral')","over":{"base":"Any"},"name":"test_separable_reduced_correct"},"guarantee":"classify_ode(eq) == ('factorable', 'separable_reduced', 'lie_group', 'separable_reduced_Integral')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_separable_reduced_correct","statement":"Path(test_separable_reduced(x), classify_ode(eq) == ('factorable', 'separable_reduced', 'lie_group', 'separable_reduced_Integral'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc61bf6b1acf95d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["classify_ode(eq) == ('factorable', 'separable_reduced', 'lie_group', 'separable_reduced_Integral')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_separable_reduced():
     df = f(x).diff(x)
     eq = (x / f(x))*df  + tan(x**2*f(x) / (x**2*f(x) - 1))
@@ -603,47 +706,66 @@ def test_separable_reduced():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slow_examples_separable_reduced(), test_slow_examples_separable_reduced produces the expected output) over Any ║
+# ║ Path(test_slow_examples_separable_reduced(), <unspecified:test_slow_examples_separable_reduced>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_slow_examples_separable_reduced : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56af51a380aa613a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_separable_reduced","kind":"function","src_hash":"786be3d527f346c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_separable_reduced()","rhs":"test_slow_examples_separable_reduced produces the expected output","over":{"base":"Any"},"name":"test_slow_examples_separable_reduced_correct"},"guarantee":"test_slow_examples_separable_reduced produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_separable_reduced_correct","statement":"Path(test_slow_examples_separable_reduced(x), test_slow_examples_separable_reduced produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56af51a380aa613a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_separable_reduced","kind":"function","src_hash":"786be3d527f346c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_separable_reduced()","rhs":"<unspecified:test_slow_examples_separable_reduced>","over":{"base":"Any"},"name":"test_slow_examples_separable_reduced_correct"},"guarantee":"test_slow_examples_separable_reduced produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_separable_reduced_correct","statement":"Path(test_slow_examples_separable_reduced(x), test_slow_examples_separable_reduced produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56af51a380aa613a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_slow_examples_separable_reduced():
     _ode_solver_test(_get_examples_ode_sol_separable_reduced, run_slow_test=True)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2nd_2F1_hypergeometric(), test_2nd_2F1_hypergeometric produces the expected output) over Any ║
+# ║ Path(test_2nd_2F1_hypergeometric(), <unspecified:test_2nd_2F1_hypergeometric>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_2nd_2F1_hypergeometric : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 735e69f6dfff5eee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_2nd_2F1_hypergeometric","kind":"function","src_hash":"7aed93edec5ab2bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2nd_2F1_hypergeometric()","rhs":"test_2nd_2F1_hypergeometric produces the expected output","over":{"base":"Any"},"name":"test_2nd_2F1_hypergeometric_correct"},"guarantee":"test_2nd_2F1_hypergeometric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_2nd_2F1_hypergeometric_correct","statement":"Path(test_2nd_2F1_hypergeometric(x), test_2nd_2F1_hypergeometric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"735e69f6dfff5eee"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_2nd_2F1_hypergeometric","kind":"function","src_hash":"7aed93edec5ab2bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2nd_2F1_hypergeometric()","rhs":"<unspecified:test_2nd_2F1_hypergeometric>","over":{"base":"Any"},"name":"test_2nd_2F1_hypergeometric_correct"},"guarantee":"test_2nd_2F1_hypergeometric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_2nd_2F1_hypergeometric_correct","statement":"Path(test_2nd_2F1_hypergeometric(x), test_2nd_2F1_hypergeometric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"735e69f6dfff5eee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_2nd_2F1_hypergeometric():
     _ode_solver_test(_get_examples_ode_sol_2nd_2F1_hypergeometric)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2nd_2F1_hypergeometric_integral(), test_2nd_2F1_hypergeometric_integral produces the expected output) over Any ║
+# ║ Path(test_2nd_2F1_hypergeometric_integral(), sol == dsolve(eq, hint='2nd_hypergeometric_Integral') and checkodesol(eq, sol) == (True, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_2nd_2F1_hypergeometric_integral : Any → {Any | s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sol == dsolve(eq, hint='2nd_hypergeometri...   ║
+# ║   ensures:  checkodesol(eq, sol) == (True, 0)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_2nd_2F1_hypergeometric_integral : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68ede653e33ff1ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3886b333b516812  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_2nd_2F1_hypergeometric_integral","kind":"function","src_hash":"57261f1a8618d641","in":{"base":"Any"},"out":{"base":"Any","pred":"sol == dsolve(eq, hint='2nd_hypergeometric_Integral') and checkodesol(eq, sol) == (True, 0)"},"spec":{"lhs":"test_2nd_2F1_hypergeometric_integral()","rhs":"test_2nd_2F1_hypergeometric_integral produces the expected output","over":{"base":"Any"},"name":"test_2nd_2F1_hypergeometric_integral_correct"},"guarantee":"test_2nd_2F1_hypergeometric_integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_2nd_2F1_hypergeometric_integral_correct","statement":"Path(test_2nd_2F1_hypergeometric_integral(x), test_2nd_2F1_hypergeometric_integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68ede653e33ff1ee"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_2nd_2F1_hypergeometric_integral","kind":"function","src_hash":"57261f1a8618d641","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sol == dsolve(eq, hint='2nd_hypergeometric_Integral') and checkodesol(eq, sol) == (True, 0)"},"spec":{"lhs":"test_2nd_2F1_hypergeometric_integral()","rhs":"sol == dsolve(eq, hint='2nd_hypergeometric_Integral') and checkodesol(eq, sol) == (True, 0)","over":{"base":"Any"},"name":"test_2nd_2F1_hypergeometric_integral_correct"},"guarantee":"sol == dsolve(eq, hint='2nd_hypergeometric_Integral'); checkodesol(eq, sol) == (True, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_2nd_2F1_hypergeometric_integral_correct","statement":"Path(test_2nd_2F1_hypergeometric_integral(x), sol == dsolve(eq, hint='2nd_hypergeometric_Integral'); checkodesol(eq, sol) == (True, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3886b333b516812","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sol == dsolve(eq, hint='2nd_hypergeometric_Integral')","checkodesol(eq, sol) == (True, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_2nd_2F1_hypergeometric_integral():
     eq = x*(x-1)*f(x).diff(x, 2) + (-1+ S(7)/2*x)*f(x).diff(x) + f(x)
     sol = Eq(f(x), (C1 + C2*Integral(exp(Integral((1 - x/2)/(x*(x - 1)), x))/(1 -
@@ -655,31 +777,43 @@ def test_2nd_2F1_hypergeometric_integral():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2nd_nonlinear_autonomous_conserved(), test_2nd_nonlinear_autonomous_conserved produces the expected output) over Any ║
+# ║ Path(test_2nd_nonlinear_autonomous_conserved(), <unspecified:test_2nd_nonlinear_autonomous_conserved>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_2nd_nonlinear_autonomous_conserved : Any → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b751de464929fcf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_2nd_nonlinear_autonomous_conserved","kind":"function","src_hash":"2b4e5152fc31ba43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2nd_nonlinear_autonomous_conserved()","rhs":"test_2nd_nonlinear_autonomous_conserved produces the expected output","over":{"base":"Any"},"name":"test_2nd_nonlinear_autonomous_conserved_correct"},"guarantee":"test_2nd_nonlinear_autonomous_conserved produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_2nd_nonlinear_autonomous_conserved_correct","statement":"Path(test_2nd_nonlinear_autonomous_conserved(x), test_2nd_nonlinear_autonomous_conserved produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b751de464929fcf"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_2nd_nonlinear_autonomous_conserved","kind":"function","src_hash":"2b4e5152fc31ba43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2nd_nonlinear_autonomous_conserved()","rhs":"<unspecified:test_2nd_nonlinear_autonomous_conserved>","over":{"base":"Any"},"name":"test_2nd_nonlinear_autonomous_conserved_correct"},"guarantee":"test_2nd_nonlinear_autonomous_conserved produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_2nd_nonlinear_autonomous_conserved_correct","statement":"Path(test_2nd_nonlinear_autonomous_conserved(x), test_2nd_nonlinear_autonomous_conserved produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b751de464929fcf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_2nd_nonlinear_autonomous_conserved():
     _ode_solver_test(_get_examples_ode_sol_2nd_nonlinear_autonomous_conserved)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2nd_nonlinear_autonomous_conserved_integral(), test_2nd_nonlinear_autonomous_conserved_integral produces the expected output) over Any ║
+# ║ Path(test_2nd_nonlinear_autonomous_conserved_integral(), checkodesol(eq, [s.doit() for s in solved]) == [(True, 0), (True, 0)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checkodesol(eq, [s.doit() for s in solved...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_2nd_nonlinear_autonomous_conserved_integral : An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04cfc26090cee1f5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d995b39ba31a6d1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_2nd_nonlinear_autonomous_conserved_integral","kind":"function","src_hash":"d56405652f6d6dd1","in":{"base":"Any"},"out":{"base":"Any","pred":"checkodesol(eq, [s.doit() for s in solved]) == [(True, 0), (True, 0)] and a.dummy_eq(s)"},"spec":{"lhs":"test_2nd_nonlinear_autonomous_conserved_integral()","rhs":"test_2nd_nonlinear_autonomous_conserved_integral produces the expected output","over":{"base":"Any"},"name":"test_2nd_nonlinear_autonomous_conserved_integral_correct"},"guarantee":"test_2nd_nonlinear_autonomous_conserved_integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_2nd_nonlinear_autonomous_conserved_integral_correct","statement":"Path(test_2nd_nonlinear_autonomous_conserved_integral(x), test_2nd_nonlinear_autonomous_conserved_integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04cfc26090cee1f5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_2nd_nonlinear_autonomous_conserved_integral","kind":"function","src_hash":"d56405652f6d6dd1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checkodesol(eq, [s.doit() for s in solved]) == [(True, 0), (True, 0)]"},"spec":{"lhs":"test_2nd_nonlinear_autonomous_conserved_integral()","rhs":"checkodesol(eq, [s.doit() for s in solved]) == [(True, 0), (True, 0)]","over":{"base":"Any"},"name":"test_2nd_nonlinear_autonomous_conserved_integral_correct"},"guarantee":"checkodesol(eq, [s.doit() for s in solved]) == [(True, 0), (True, 0)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_2nd_nonlinear_autonomous_conserved_integral_correct","statement":"Path(test_2nd_nonlinear_autonomous_conserved_integral(x), checkodesol(eq, [s.doit() for s in solved]) == [(True, 0), (True, 0)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d995b39ba31a6d1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checkodesol(eq, [s.doit() for s in solved]) == [(True, 0), (True, 0)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_2nd_nonlinear_autonomous_conserved_integral():
     eq = f(x).diff(x, 2) + asin(f(x))
     actual = [Eq(Integral(1/sqrt(C1 - 2*Integral(asin(_u), _u)), (_u, f(x))), C2 + x),
@@ -693,32 +827,44 @@ def test_2nd_nonlinear_autonomous_conserved_integral():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_2nd_linear_bessel_equation(), test_2nd_linear_bessel_equation produces the expected output) over Any ║
+# ║ Path(test_2nd_linear_bessel_equation(), <unspecified:test_2nd_linear_bessel_equation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_2nd_linear_bessel_equation : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37f93d0d7a279baa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_2nd_linear_bessel_equation","kind":"function","src_hash":"abd5b00bc038d2dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2nd_linear_bessel_equation()","rhs":"test_2nd_linear_bessel_equation produces the expected output","over":{"base":"Any"},"name":"test_2nd_linear_bessel_equation_correct"},"guarantee":"test_2nd_linear_bessel_equation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_2nd_linear_bessel_equation_correct","statement":"Path(test_2nd_linear_bessel_equation(x), test_2nd_linear_bessel_equation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37f93d0d7a279baa"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_2nd_linear_bessel_equation","kind":"function","src_hash":"abd5b00bc038d2dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_2nd_linear_bessel_equation()","rhs":"<unspecified:test_2nd_linear_bessel_equation>","over":{"base":"Any"},"name":"test_2nd_linear_bessel_equation_correct"},"guarantee":"test_2nd_linear_bessel_equation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_2nd_linear_bessel_equation_correct","statement":"Path(test_2nd_linear_bessel_equation(x), test_2nd_linear_bessel_equation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37f93d0d7a279baa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_2nd_linear_bessel_equation():
     _ode_solver_test(_get_examples_ode_sol_2nd_linear_bessel)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nth_algebraic(), test_nth_algebraic produces the expected output) over Any ║
+# ║ Path(test_nth_algebraic(), solns_final == [Eq(f(x), C1 * exp(C2 * x))]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nth_algebraic : Any → {Any | solns_final == [Eq(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  solns_final == [Eq(f(x), C1 * exp(C2 * x))]    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nth_algebraic : Any → {Any | result satisfies: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81b9ff379663b331  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db6b2276c31b878f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_algebraic","kind":"function","src_hash":"94d6c252e8c2f064","in":{"base":"Any"},"out":{"base":"Any","pred":"solns_final == [Eq(f(x), C1 * exp(C2 * x))]"},"spec":{"lhs":"test_nth_algebraic()","rhs":"test_nth_algebraic produces the expected output","over":{"base":"Any"},"name":"test_nth_algebraic_correct"},"guarantee":"test_nth_algebraic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_algebraic_correct","statement":"Path(test_nth_algebraic(x), test_nth_algebraic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81b9ff379663b331"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_algebraic","kind":"function","src_hash":"94d6c252e8c2f064","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: solns_final == [Eq(f(x), C1 * exp(C2 * x))]"},"spec":{"lhs":"test_nth_algebraic()","rhs":"solns_final == [Eq(f(x), C1 * exp(C2 * x))]","over":{"base":"Any"},"name":"test_nth_algebraic_correct"},"guarantee":"solns_final == [Eq(f(x), C1 * exp(C2 * x))]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_algebraic_correct","statement":"Path(test_nth_algebraic(x), solns_final == [Eq(f(x), C1 * exp(C2 * x))])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db6b2276c31b878f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["solns_final == [Eq(f(x), C1 * exp(C2 * x))]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_nth_algebraic():
     eqn = f(x) + f(x)*f(x).diff(x)
     solns = [Eq(f(x), exp(x)),
@@ -731,47 +877,66 @@ def test_nth_algebraic():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slow_examples_nth_linear_constant_coeff_var_of_parameters(), test_slow_examples_nth_linear_constant_coeff_var_of_parameters produces the expected output) over Any ║
+# ║ Path(test_slow_examples_nth_linear_constant_coeff_var_of_parameters(), <unspecified:test_slow_examples_nth_linear_constant_coeff_var_of_parameters>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_slow_examples_nth_linear_constant_coeff_var_of_p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a1cbb8f90700351  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_linear_constant_coeff_var_of_parameters","kind":"function","src_hash":"0b6ab51692bd5e32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_nth_linear_constant_coeff_var_of_parameters()","rhs":"test_slow_examples_nth_linear_constant_coeff_var_of_parameters produces the expected output","over":{"base":"Any"},"name":"test_slow_examples_nth_linear_constant_coeff_var_of_parameters_correct"},"guarantee":"test_slow_examples_nth_linear_constant_coeff_var_of_parameters produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_linear_constant_coeff_var_of_parameters_correct","statement":"Path(test_slow_examples_nth_linear_constant_coeff_var_of_parameters(x), test_slow_examples_nth_linear_constant_coeff_var_of_parameters produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a1cbb8f90700351"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_linear_constant_coeff_var_of_parameters","kind":"function","src_hash":"0b6ab51692bd5e32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_nth_linear_constant_coeff_var_of_parameters()","rhs":"<unspecified:test_slow_examples_nth_linear_constant_coeff_var_of_parameters>","over":{"base":"Any"},"name":"test_slow_examples_nth_linear_constant_coeff_var_of_parameters_correct"},"guarantee":"test_slow_examples_nth_linear_constant_coeff_var_of_parameters produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_linear_constant_coeff_var_of_parameters_correct","statement":"Path(test_slow_examples_nth_linear_constant_coeff_var_of_parameters(x), test_slow_examples_nth_linear_constant_coeff_var_of_parameters produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a1cbb8f90700351","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_slow_examples_nth_linear_constant_coeff_var_of_parameters():
     _ode_solver_test(_get_examples_ode_sol_nth_linear_var_of_parameters, run_slow_test=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nth_linear_constant_coeff_var_of_parameters(), test_nth_linear_constant_coeff_var_of_parameters produces the expected output) over Any ║
+# ║ Path(test_nth_linear_constant_coeff_var_of_parameters(), <unspecified:test_nth_linear_constant_coeff_var_of_parameters>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nth_linear_constant_coeff_var_of_parameters : An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 044f63a55e784ba0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_var_of_parameters","kind":"function","src_hash":"34b3c906edb9769c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nth_linear_constant_coeff_var_of_parameters()","rhs":"test_nth_linear_constant_coeff_var_of_parameters produces the expected output","over":{"base":"Any"},"name":"test_nth_linear_constant_coeff_var_of_parameters_correct"},"guarantee":"test_nth_linear_constant_coeff_var_of_parameters produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_var_of_parameters_correct","statement":"Path(test_nth_linear_constant_coeff_var_of_parameters(x), test_nth_linear_constant_coeff_var_of_parameters produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"044f63a55e784ba0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_var_of_parameters","kind":"function","src_hash":"34b3c906edb9769c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_nth_linear_constant_coeff_var_of_parameters()","rhs":"<unspecified:test_nth_linear_constant_coeff_var_of_parameters>","over":{"base":"Any"},"name":"test_nth_linear_constant_coeff_var_of_parameters_correct"},"guarantee":"test_nth_linear_constant_coeff_var_of_parameters produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_var_of_parameters_correct","statement":"Path(test_nth_linear_constant_coeff_var_of_parameters(x), test_nth_linear_constant_coeff_var_of_parameters produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"044f63a55e784ba0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_nth_linear_constant_coeff_var_of_parameters():
     _ode_solver_test(_get_examples_ode_sol_nth_linear_var_of_parameters)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nth_linear_constant_coeff_variation_of_parameters__integral(), test_nth_linear_constant_coeff_variation_of_parameters__integral produces the expected output) over Any ║
+# ║ Path(test_nth_linear_constant_coeff_variation_of_parameters__integral(), sol_simp != sol_nsimp and checkodesol(eq, sol_simp, order=5, solve_for_func=False) == (True, 0)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sol_simp != sol_nsimp                          ║
+# ║   ensures:  checkodesol(eq, sol_simp, order=5, solve_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nth_linear_constant_coeff_variation_of_parameter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 630fa3f7d0619f37  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8c043664f6137db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_variation_of_parameters__integral","kind":"function","src_hash":"47a393178ac35f11","in":{"base":"Any"},"out":{"base":"Any","pred":"sol_simp != sol_nsimp and checkodesol(eq, sol_simp, order=5, solve_for_func=False) == (True, 0) and checkodesol(eq, sol_simp, order=5, solve_for_func=False) == (True, 0)"},"spec":{"lhs":"test_nth_linear_constant_coeff_variation_of_parameters__integral()","rhs":"test_nth_linear_constant_coeff_variation_of_parameters__integral produces the expected output","over":{"base":"Any"},"name":"test_nth_linear_constant_coeff_variation_of_parameters__integral_correct"},"guarantee":"test_nth_linear_constant_coeff_variation_of_parameters__integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_variation_of_parameters__integral_correct","statement":"Path(test_nth_linear_constant_coeff_variation_of_parameters__integral(x), test_nth_linear_constant_coeff_variation_of_parameters__integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"630fa3f7d0619f37"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_variation_of_parameters__integral","kind":"function","src_hash":"47a393178ac35f11","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sol_simp != sol_nsimp and checkodesol(eq, sol_simp, order=5, solve_for_func=False) == (True, 0)"},"spec":{"lhs":"test_nth_linear_constant_coeff_variation_of_parameters__integral()","rhs":"sol_simp != sol_nsimp and checkodesol(eq, sol_simp, order=5, solve_for_func=False) == (True, 0)","over":{"base":"Any"},"name":"test_nth_linear_constant_coeff_variation_of_parameters__integral_correct"},"guarantee":"sol_simp != sol_nsimp; checkodesol(eq, sol_simp, order=5, solve_for_func=False) == (True, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_variation_of_parameters__integral_correct","statement":"Path(test_nth_linear_constant_coeff_variation_of_parameters__integral(x), sol_simp != sol_nsimp; checkodesol(eq, sol_simp, order=5, solve_for_func=False) == (True, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8c043664f6137db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sol_simp != sol_nsimp","checkodesol(eq, sol_simp, order=5, solve_for_func=False) == (True, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_nth_linear_constant_coeff_variation_of_parameters__integral():
     # solve_variation_of_parameters shouldn't attempt to simplify the
     # Wronskian if simplify=False.  If wronskian() ever gets good enough
@@ -787,47 +952,65 @@ def test_nth_linear_constant_coeff_variation_of_parameters__integral():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slow_examples_1st_exact(), test_slow_examples_1st_exact produces the expected output) over Any ║
+# ║ Path(test_slow_examples_1st_exact(), <unspecified:test_slow_examples_1st_exact>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_slow_examples_1st_exact : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30e0cfe9352b8833  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_1st_exact","kind":"function","src_hash":"3f73f07b23d8887e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_1st_exact()","rhs":"test_slow_examples_1st_exact produces the expected output","over":{"base":"Any"},"name":"test_slow_examples_1st_exact_correct"},"guarantee":"test_slow_examples_1st_exact produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_1st_exact_correct","statement":"Path(test_slow_examples_1st_exact(x), test_slow_examples_1st_exact produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30e0cfe9352b8833"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_1st_exact","kind":"function","src_hash":"3f73f07b23d8887e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_1st_exact()","rhs":"<unspecified:test_slow_examples_1st_exact>","over":{"base":"Any"},"name":"test_slow_examples_1st_exact_correct"},"guarantee":"test_slow_examples_1st_exact produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_1st_exact_correct","statement":"Path(test_slow_examples_1st_exact(x), test_slow_examples_1st_exact produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30e0cfe9352b8833","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_slow_examples_1st_exact():
     _ode_solver_test(_get_examples_ode_sol_1st_exact, run_slow_test=True)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_1st_exact(), test_1st_exact produces the expected output) over Any ║
+# ║ Path(test_1st_exact(), <unspecified:test_1st_exact>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_1st_exact : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38e60979a772b448  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_1st_exact","kind":"function","src_hash":"e68b3b897cf34470","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_1st_exact()","rhs":"test_1st_exact produces the expected output","over":{"base":"Any"},"name":"test_1st_exact_correct"},"guarantee":"test_1st_exact produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_1st_exact_correct","statement":"Path(test_1st_exact(x), test_1st_exact produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38e60979a772b448"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_1st_exact","kind":"function","src_hash":"e68b3b897cf34470","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_1st_exact()","rhs":"<unspecified:test_1st_exact>","over":{"base":"Any"},"name":"test_1st_exact_correct"},"guarantee":"test_1st_exact produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_1st_exact_correct","statement":"Path(test_1st_exact(x), test_1st_exact produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38e60979a772b448","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_1st_exact():
     _ode_solver_test(_get_examples_ode_sol_1st_exact)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_1st_exact_integral(), test_1st_exact_integral produces the expected output) over Any ║
+# ║ Path(test_1st_exact_integral(), checkodesol(eq, sol_1, order=1, solve_for_func=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_1st_exact_integral : Any → {Any | checkodesol(eq...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  checkodesol(eq, sol_1, order=1, solve_for...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_1st_exact_integral : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1979be1d9c97721  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0778e86115ed5fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_1st_exact_integral","kind":"function","src_hash":"442f618ba58cf9e1","in":{"base":"Any"},"out":{"base":"Any","pred":"checkodesol(eq, sol_1, order=1, solve_for_func=False)"},"spec":{"lhs":"test_1st_exact_integral()","rhs":"test_1st_exact_integral produces the expected output","over":{"base":"Any"},"name":"test_1st_exact_integral_correct"},"guarantee":"test_1st_exact_integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_1st_exact_integral_correct","statement":"Path(test_1st_exact_integral(x), test_1st_exact_integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1979be1d9c97721"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_1st_exact_integral","kind":"function","src_hash":"442f618ba58cf9e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: checkodesol(eq, sol_1, order=1, solve_for_func=False)"},"spec":{"lhs":"test_1st_exact_integral()","rhs":"checkodesol(eq, sol_1, order=1, solve_for_func=False)","over":{"base":"Any"},"name":"test_1st_exact_integral_correct"},"guarantee":"checkodesol(eq, sol_1, order=1, solve_for_func=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_1st_exact_integral_correct","statement":"Path(test_1st_exact_integral(x), checkodesol(eq, sol_1, order=1, solve_for_func=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0778e86115ed5fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["checkodesol(eq, sol_1, order=1, solve_for_func=False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_1st_exact_integral():
     eq = cos(f(x)) - (x*sin(f(x)) - f(x)**2)*f(x).diff(x)
     sol_1 = dsolve(eq, f(x), simplify=False, hint='1st_exact_Integral')
@@ -836,64 +1019,88 @@ def test_1st_exact_integral():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slow_examples_nth_order_reducible(), test_slow_examples_nth_order_reducible produces the expected output) over Any ║
+# ║ Path(test_slow_examples_nth_order_reducible(), <unspecified:test_slow_examples_nth_order_reducible>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_slow_examples_nth_order_reducible : Any → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb114ebbac05acf6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_order_reducible","kind":"function","src_hash":"f0cb117b13d2a2da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_nth_order_reducible()","rhs":"test_slow_examples_nth_order_reducible produces the expected output","over":{"base":"Any"},"name":"test_slow_examples_nth_order_reducible_correct"},"guarantee":"test_slow_examples_nth_order_reducible produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_order_reducible_correct","statement":"Path(test_slow_examples_nth_order_reducible(x), test_slow_examples_nth_order_reducible produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb114ebbac05acf6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_order_reducible","kind":"function","src_hash":"f0cb117b13d2a2da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_nth_order_reducible()","rhs":"<unspecified:test_slow_examples_nth_order_reducible>","over":{"base":"Any"},"name":"test_slow_examples_nth_order_reducible_correct"},"guarantee":"test_slow_examples_nth_order_reducible produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_order_reducible_correct","statement":"Path(test_slow_examples_nth_order_reducible(x), test_slow_examples_nth_order_reducible produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb114ebbac05acf6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_slow_examples_nth_order_reducible():
     _ode_solver_test(_get_examples_ode_sol_nth_order_reducible, run_slow_test=True)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients(), test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients produces the expected output) over Any ║
+# ║ Path(test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients(), <unspecified:test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_slow_examples_nth_linear_constant_coeff_undeterm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b66c19eb9b05a2c3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients","kind":"function","src_hash":"2ab5d5b8ae8cf636","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients()","rhs":"test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients produces the expected output","over":{"base":"Any"},"name":"test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients_correct"},"guarantee":"test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients_correct","statement":"Path(test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients(x), test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b66c19eb9b05a2c3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients","kind":"function","src_hash":"2ab5d5b8ae8cf636","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients()","rhs":"<unspecified:test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients>","over":{"base":"Any"},"name":"test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients_correct"},"guarantee":"test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients_correct","statement":"Path(test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients(x), test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b66c19eb9b05a2c3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_slow_examples_nth_linear_constant_coeff_undetermined_coefficients():
     _ode_solver_test(_get_examples_ode_sol_nth_linear_undetermined_coefficients, run_slow_test=True)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slow_examples_separable(), test_slow_examples_separable produces the expected output) over Any ║
+# ║ Path(test_slow_examples_separable(), <unspecified:test_slow_examples_separable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_slow_examples_separable : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85e1dc96c2611c97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_separable","kind":"function","src_hash":"c76790cc4c3b77fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_separable()","rhs":"test_slow_examples_separable produces the expected output","over":{"base":"Any"},"name":"test_slow_examples_separable_correct"},"guarantee":"test_slow_examples_separable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_separable_correct","statement":"Path(test_slow_examples_separable(x), test_slow_examples_separable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85e1dc96c2611c97"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_separable","kind":"function","src_hash":"c76790cc4c3b77fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_separable()","rhs":"<unspecified:test_slow_examples_separable>","over":{"base":"Any"},"name":"test_slow_examples_separable_correct"},"guarantee":"test_slow_examples_separable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_separable_correct","statement":"Path(test_slow_examples_separable(x), test_slow_examples_separable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85e1dc96c2611c97","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_slow_examples_separable():
     _ode_solver_test(_get_examples_ode_sol_separable, run_slow_test=True)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nth_linear_constant_coeff_undetermined_coefficients(), test_nth_linear_constant_coeff_undetermined_coefficients produces the expected output) over Any ║
+# ║ Path(test_nth_linear_constant_coeff_undetermined_coefficients(), our_hint in classify_ode(eq)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  our_hint in classify_ode(eq)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nth_linear_constant_coeff_undetermined_coefficie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35c3bee0f0337ba2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 628baa0e56ea8c52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_undetermined_coefficients","kind":"function","src_hash":"2194e1dc124a5a44","in":{"base":"Any"},"out":{"base":"Any","pred":"our_hint in classify_ode(eq)"},"spec":{"lhs":"test_nth_linear_constant_coeff_undetermined_coefficients()","rhs":"test_nth_linear_constant_coeff_undetermined_coefficients produces the expected output","over":{"base":"Any"},"name":"test_nth_linear_constant_coeff_undetermined_coefficients_correct"},"guarantee":"test_nth_linear_constant_coeff_undetermined_coefficients produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_undetermined_coefficients_correct","statement":"Path(test_nth_linear_constant_coeff_undetermined_coefficients(x), test_nth_linear_constant_coeff_undetermined_coefficients produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35c3bee0f0337ba2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_undetermined_coefficients","kind":"function","src_hash":"2194e1dc124a5a44","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: our_hint in classify_ode(eq)"},"spec":{"lhs":"test_nth_linear_constant_coeff_undetermined_coefficients()","rhs":"our_hint in classify_ode(eq)","over":{"base":"Any"},"name":"test_nth_linear_constant_coeff_undetermined_coefficients_correct"},"guarantee":"our_hint in classify_ode(eq)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_linear_constant_coeff_undetermined_coefficients_correct","statement":"Path(test_nth_linear_constant_coeff_undetermined_coefficients(x), our_hint in classify_ode(eq))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"628baa0e56ea8c52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["our_hint in classify_ode(eq)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_nth_linear_constant_coeff_undetermined_coefficients():
     #issue-https://github.com/sympy/sympy/issues/5787
     # This test case is to show the classification of imaginary constants under
@@ -905,16 +1112,24 @@ def test_nth_linear_constant_coeff_undetermined_coefficients():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nth_order_reducible(), test_nth_order_reducible produces the expected output) over Any ║
+# ║ Path(test_nth_order_reducible(), F(D(y * f(x), x, y) + D(f(x), x)) == False and F(D(y * f(y), y, y) + D(f(y), y)) == False and F(f(x) * D(f(x), x) + D(f(x), x, 2)) == False and F(D(x * f(y), y, 2) + D(u * y * f(x), x, 3)) == False and F(D(f(y), y, 2) + D(f(y), y, 3) + D(f(x), x, 4)) == False and F(D(f(x), x, 2) + D(f(x), x, 3)) == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nth_order_reducible : Any → {Any | F(D(y * f(x),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  F(D(y * f(x), x, y) + D(f(x), x)) == False     ║
+# ║   ensures:  F(D(y * f(y), y, y) + D(f(y), y)) == False     ║
+# ║   ensures:  F(f(x) * D(f(x), x) + D(f(x), x, 2)) == F...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nth_order_reducible : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65a4d88a9dabb192  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bb5391d222345fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_order_reducible","kind":"function","src_hash":"d9a37cd67dcff6a8","in":{"base":"Any"},"out":{"base":"Any","pred":"F(D(y * f(x), x, y) + D(f(x), x)) == False and F(D(y * f(y), y, y) + D(f(y), y)) == False and F(f(x) * D(f(x), x) + D(f(x), x, 2)) == False and F(D(x * f(y), y, 2) + D(u * y * f(x), x, 3)) == False and F(D(f(y), y, 2) + D(f(y), y, 3) + D(f(x), x, 4)) == False and F(D(f(x), x, 2) + D(f(x), x, 3)) == True"},"spec":{"lhs":"test_nth_order_reducible()","rhs":"test_nth_order_reducible produces the expected output","over":{"base":"Any"},"name":"test_nth_order_reducible_correct"},"guarantee":"test_nth_order_reducible produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_order_reducible_correct","statement":"Path(test_nth_order_reducible(x), test_nth_order_reducible produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65a4d88a9dabb192"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_order_reducible","kind":"function","src_hash":"d9a37cd67dcff6a8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: F(D(y * f(x), x, y) + D(f(x), x)) == False and F(D(y * f(y), y, y) + D(f(y), y)) == False and F(f(x) * D(f(x), x) + D(f(x), x, 2)) == False and F(D(x * f(y), y, 2) + D(u * y * f(x), x, 3)) == False and F(D(f(y), y, 2) + D(f(y), y, 3) + D(f(x), x, 4)) == False and F(D(f(x), x, 2) + D(f(x), x, 3)) == True"},"spec":{"lhs":"test_nth_order_reducible()","rhs":"F(D(y * f(x), x, y) + D(f(x), x)) == False and F(D(y * f(y), y, y) + D(f(y), y)) == False and F(f(x) * D(f(x), x) + D(f(x), x, 2)) == False and F(D(x * f(y), y, 2) + D(u * y * f(x), x, 3)) == False and F(D(f(y), y, 2) + D(f(y), y, 3) + D(f(x), x, 4)) == False and F(D(f(x), x, 2) + D(f(x), x, 3)) == True","over":{"base":"Any"},"name":"test_nth_order_reducible_correct"},"guarantee":"F(D(y * f(x), x, y) + D(f(x), x)) == False; F(D(y * f(y), y, y) + D(f(y), y)) == False; F(f(x) * D(f(x), x) + D(f(x), x, 2)) == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_order_reducible_correct","statement":"Path(test_nth_order_reducible(x), F(D(y * f(x), x, y) + D(f(x), x)) == False; F(D(y * f(y), y, y) + D(f(y), y)) == False; F(f(x) * D(f(x), x) + D(f(x), x, 2)) == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bb5391d222345fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["F(D(y * f(x), x, y) + D(f(x), x)) == False","F(D(y * f(y), y, y) + D(f(y), y)) == False","F(f(x) * D(f(x), x) + D(f(x), x, 2)) == False","F(D(x * f(y), y, 2) + D(u * y * f(x), x, 3)) == False","F(D(f(y), y, 2) + D(f(y), y, 3) + D(f(x), x, 4)) == False","F(D(f(x), x, 2) + D(f(x), x, 3)) == True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_nth_order_reducible():
     F = lambda eq: NthOrderReducible(SingleODEProblem(eq, f(x), x))._matches()
     D = Derivative
@@ -929,32 +1144,44 @@ def test_nth_order_reducible():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_separable(), test_separable produces the expected output) over Any ║
+# ║ Path(test_separable(), <unspecified:test_separable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_separable : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2cf61268bfd9b63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_separable","kind":"function","src_hash":"1ecc8c7acd9b1e8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_separable()","rhs":"test_separable produces the expected output","over":{"base":"Any"},"name":"test_separable_correct"},"guarantee":"test_separable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_separable_correct","statement":"Path(test_separable(x), test_separable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2cf61268bfd9b63"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_separable","kind":"function","src_hash":"1ecc8c7acd9b1e8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_separable()","rhs":"<unspecified:test_separable>","over":{"base":"Any"},"name":"test_separable_correct"},"guarantee":"test_separable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_separable_correct","statement":"Path(test_separable(x), test_separable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2cf61268bfd9b63","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_separable():
     _ode_solver_test(_get_examples_ode_sol_separable)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_factorable(), test_factorable produces the expected output) over Any ║
+# ║ Path(test_factorable(), integrate(-asin(f(2 * x) + pi), x) == -Integral(asin(pi + f(2 * x)), x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_factorable : Any → {Any | integrate(-asin(f(2 * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  integrate(-asin(f(2 * x) + pi), x) == -In...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_factorable : Any → {Any | result satisfies: inte...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24a6df77b68d9ca7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e578d13bc1ead197  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_factorable","kind":"function","src_hash":"7f89e7eef1b240d0","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(-asin(f(2 * x) + pi), x) == -Integral(asin(pi + f(2 * x)), x)"},"spec":{"lhs":"test_factorable()","rhs":"test_factorable produces the expected output","over":{"base":"Any"},"name":"test_factorable_correct"},"guarantee":"test_factorable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_factorable_correct","statement":"Path(test_factorable(x), test_factorable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24a6df77b68d9ca7"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_factorable","kind":"function","src_hash":"7f89e7eef1b240d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: integrate(-asin(f(2 * x) + pi), x) == -Integral(asin(pi + f(2 * x)), x)"},"spec":{"lhs":"test_factorable()","rhs":"integrate(-asin(f(2 * x) + pi), x) == -Integral(asin(pi + f(2 * x)), x)","over":{"base":"Any"},"name":"test_factorable_correct"},"guarantee":"integrate(-asin(f(2 * x) + pi), x) == -Integral(asin(pi + f(2 * x)), x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_factorable_correct","statement":"Path(test_factorable(x), integrate(-asin(f(2 * x) + pi), x) == -Integral(asin(pi + f(2 * x)), x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e578d13bc1ead197","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["integrate(-asin(f(2 * x) + pi), x) == -Integral(asin(pi + f(2 * x)), x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_factorable():
     assert integrate(-asin(f(2*x)+pi), x) == -Integral(asin(pi + f(2*x)), x)
     _ode_solver_test(_get_examples_ode_sol_factorable)
@@ -962,108 +1189,152 @@ def test_factorable():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slow_examples_factorable(), test_slow_examples_factorable produces the expected output) over Any ║
+# ║ Path(test_slow_examples_factorable(), <unspecified:test_slow_examples_factorable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_slow_examples_factorable : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79d0909b72e15e72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_factorable","kind":"function","src_hash":"1efd2abdfa24397c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_factorable()","rhs":"test_slow_examples_factorable produces the expected output","over":{"base":"Any"},"name":"test_slow_examples_factorable_correct"},"guarantee":"test_slow_examples_factorable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_factorable_correct","statement":"Path(test_slow_examples_factorable(x), test_slow_examples_factorable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79d0909b72e15e72"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_slow_examples_factorable","kind":"function","src_hash":"1efd2abdfa24397c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_slow_examples_factorable()","rhs":"<unspecified:test_slow_examples_factorable>","over":{"base":"Any"},"name":"test_slow_examples_factorable_correct"},"guarantee":"test_slow_examples_factorable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_slow_examples_factorable_correct","statement":"Path(test_slow_examples_factorable(x), test_slow_examples_factorable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79d0909b72e15e72","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_slow_examples_factorable():
     _ode_solver_test(_get_examples_ode_sol_factorable, run_slow_test=True)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Riccati_special_minus2(), test_Riccati_special_minus2 produces the expected output) over Any ║
+# ║ Path(test_Riccati_special_minus2(), <unspecified:test_Riccati_special_minus2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Riccati_special_minus2 : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49b3c1f85600b10b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_Riccati_special_minus2","kind":"function","src_hash":"f6ee34367f6270e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Riccati_special_minus2()","rhs":"test_Riccati_special_minus2 produces the expected output","over":{"base":"Any"},"name":"test_Riccati_special_minus2_correct"},"guarantee":"test_Riccati_special_minus2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_Riccati_special_minus2_correct","statement":"Path(test_Riccati_special_minus2(x), test_Riccati_special_minus2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49b3c1f85600b10b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_Riccati_special_minus2","kind":"function","src_hash":"f6ee34367f6270e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Riccati_special_minus2()","rhs":"<unspecified:test_Riccati_special_minus2>","over":{"base":"Any"},"name":"test_Riccati_special_minus2_correct"},"guarantee":"test_Riccati_special_minus2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_Riccati_special_minus2_correct","statement":"Path(test_Riccati_special_minus2(x), test_Riccati_special_minus2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49b3c1f85600b10b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Riccati_special_minus2():
     _ode_solver_test(_get_examples_ode_sol_riccati)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_1st_rational_riccati(), test_1st_rational_riccati produces the expected output) over Any ║
+# ║ Path(test_1st_rational_riccati(), <unspecified:test_1st_rational_riccati>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_1st_rational_riccati : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57c40b6e7f5e284f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_1st_rational_riccati","kind":"function","src_hash":"2603422c0d286ffe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_1st_rational_riccati()","rhs":"test_1st_rational_riccati produces the expected output","over":{"base":"Any"},"name":"test_1st_rational_riccati_correct"},"guarantee":"test_1st_rational_riccati produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_1st_rational_riccati_correct","statement":"Path(test_1st_rational_riccati(x), test_1st_rational_riccati produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57c40b6e7f5e284f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_1st_rational_riccati","kind":"function","src_hash":"2603422c0d286ffe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_1st_rational_riccati()","rhs":"<unspecified:test_1st_rational_riccati>","over":{"base":"Any"},"name":"test_1st_rational_riccati_correct"},"guarantee":"test_1st_rational_riccati produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_1st_rational_riccati_correct","statement":"Path(test_1st_rational_riccati(x), test_1st_rational_riccati produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57c40b6e7f5e284f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_1st_rational_riccati():
     _ode_solver_test(_get_examples_ode_sol_1st_rational_riccati)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Bernoulli(), test_Bernoulli produces the expected output) over Any ║
+# ║ Path(test_Bernoulli(), <unspecified:test_Bernoulli>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Bernoulli : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afe128d4535de73d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_Bernoulli","kind":"function","src_hash":"061fa5e55931e162","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Bernoulli()","rhs":"test_Bernoulli produces the expected output","over":{"base":"Any"},"name":"test_Bernoulli_correct"},"guarantee":"test_Bernoulli produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_Bernoulli_correct","statement":"Path(test_Bernoulli(x), test_Bernoulli produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afe128d4535de73d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_Bernoulli","kind":"function","src_hash":"061fa5e55931e162","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Bernoulli()","rhs":"<unspecified:test_Bernoulli>","over":{"base":"Any"},"name":"test_Bernoulli_correct"},"guarantee":"test_Bernoulli produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_Bernoulli_correct","statement":"Path(test_Bernoulli(x), test_Bernoulli produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afe128d4535de73d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Bernoulli():
     _ode_solver_test(_get_examples_ode_sol_bernoulli)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_1st_linear(), test_1st_linear produces the expected output) over Any ║
+# ║ Path(test_1st_linear(), <unspecified:test_1st_linear>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_1st_linear : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc6e680e6c6055a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_1st_linear","kind":"function","src_hash":"7fd33edefaaf26ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_1st_linear()","rhs":"test_1st_linear produces the expected output","over":{"base":"Any"},"name":"test_1st_linear_correct"},"guarantee":"test_1st_linear produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_1st_linear_correct","statement":"Path(test_1st_linear(x), test_1st_linear produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc6e680e6c6055a9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_1st_linear","kind":"function","src_hash":"7fd33edefaaf26ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_1st_linear()","rhs":"<unspecified:test_1st_linear>","over":{"base":"Any"},"name":"test_1st_linear_correct"},"guarantee":"test_1st_linear produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_1st_linear_correct","statement":"Path(test_1st_linear(x), test_1st_linear produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc6e680e6c6055a9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_1st_linear():
     _ode_solver_test(_get_examples_ode_sol_1st_linear)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_almost_linear(), test_almost_linear produces the expected output) over Any ║
+# ║ Path(test_almost_linear(), <unspecified:test_almost_linear>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_almost_linear : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae4293449bf7accd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_almost_linear","kind":"function","src_hash":"d1faceb237218773","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_almost_linear()","rhs":"test_almost_linear produces the expected output","over":{"base":"Any"},"name":"test_almost_linear_correct"},"guarantee":"test_almost_linear produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_almost_linear_correct","statement":"Path(test_almost_linear(x), test_almost_linear produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae4293449bf7accd"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_almost_linear","kind":"function","src_hash":"d1faceb237218773","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_almost_linear()","rhs":"<unspecified:test_almost_linear>","over":{"base":"Any"},"name":"test_almost_linear_correct"},"guarantee":"test_almost_linear produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_almost_linear_correct","statement":"Path(test_almost_linear(x), test_almost_linear produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae4293449bf7accd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_almost_linear():
     _ode_solver_test(_get_examples_ode_sol_almost_linear)
 
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Liouville_ODE(), test_Liouville_ODE produces the expected output) over Any ║
+# ║ Path(test_Liouville_ODE(), hint not in not_Liouville1 and hint not in not_Liouville2 and hint + '_Integral' not in not_Liouville1 and hint + '_Integral' not in not_Liouville2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Liouville_ODE : Any → {Any | hint not in not_Lio...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hint not in not_Liouville1                     ║
+# ║   ensures:  hint not in not_Liouville2                     ║
+# ║   ensures:  hint + '_Integral' not in not_Liouville1       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Liouville_ODE : Any → {Any | result satisfies: h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcbcde9274879f9c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6674433483a00d53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_Liouville_ODE","kind":"function","src_hash":"559ceff73674a1b7","in":{"base":"Any"},"out":{"base":"Any","pred":"hint not in not_Liouville1 and hint not in not_Liouville2 and hint + '_Integral' not in not_Liouville1 and hint + '_Integral' not in not_Liouville2"},"spec":{"lhs":"test_Liouville_ODE()","rhs":"test_Liouville_ODE produces the expected output","over":{"base":"Any"},"name":"test_Liouville_ODE_correct"},"guarantee":"test_Liouville_ODE produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_Liouville_ODE_correct","statement":"Path(test_Liouville_ODE(x), test_Liouville_ODE produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcbcde9274879f9c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_Liouville_ODE","kind":"function","src_hash":"559ceff73674a1b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: hint not in not_Liouville1 and hint not in not_Liouville2 and hint + '_Integral' not in not_Liouville1 and hint + '_Integral' not in not_Liouville2"},"spec":{"lhs":"test_Liouville_ODE()","rhs":"hint not in not_Liouville1 and hint not in not_Liouville2 and hint + '_Integral' not in not_Liouville1 and hint + '_Integral' not in not_Liouville2","over":{"base":"Any"},"name":"test_Liouville_ODE_correct"},"guarantee":"hint not in not_Liouville1; hint not in not_Liouville2; hint + '_Integral' not in not_Liouville1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_Liouville_ODE_correct","statement":"Path(test_Liouville_ODE(x), hint not in not_Liouville1; hint not in not_Liouville2; hint + '_Integral' not in not_Liouville1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6674433483a00d53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hint not in not_Liouville1","hint not in not_Liouville2","hint + '_Integral' not in not_Liouville1","hint + '_Integral' not in not_Liouville2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Liouville_ODE():
     hint = 'Liouville'
     not_Liouville1 = classify_ode(diff(f(x), x)/x + f(x)*diff(f(x), x, x)/2 -
@@ -1079,16 +1350,22 @@ def test_Liouville_ODE():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nth_order_linear_euler_eq_homogeneous(), test_nth_order_linear_euler_eq_homogeneous produces the expected output) over Any ║
+# ║ Path(test_nth_order_linear_euler_eq_homogeneous(), our_hint in classify_ode(eq)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  our_hint in classify_ode(eq)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nth_order_linear_euler_eq_homogeneous : Any → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcdb9959d780bebe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 221f28eb02abec3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_order_linear_euler_eq_homogeneous","kind":"function","src_hash":"3dc561d2d423221d","in":{"base":"Any"},"out":{"base":"Any","pred":"our_hint in classify_ode(eq) and our_hint in classify_ode(eq)"},"spec":{"lhs":"test_nth_order_linear_euler_eq_homogeneous()","rhs":"test_nth_order_linear_euler_eq_homogeneous produces the expected output","over":{"base":"Any"},"name":"test_nth_order_linear_euler_eq_homogeneous_correct"},"guarantee":"test_nth_order_linear_euler_eq_homogeneous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_order_linear_euler_eq_homogeneous_correct","statement":"Path(test_nth_order_linear_euler_eq_homogeneous(x), test_nth_order_linear_euler_eq_homogeneous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcdb9959d780bebe"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_order_linear_euler_eq_homogeneous","kind":"function","src_hash":"3dc561d2d423221d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: our_hint in classify_ode(eq)"},"spec":{"lhs":"test_nth_order_linear_euler_eq_homogeneous()","rhs":"our_hint in classify_ode(eq)","over":{"base":"Any"},"name":"test_nth_order_linear_euler_eq_homogeneous_correct"},"guarantee":"our_hint in classify_ode(eq)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_order_linear_euler_eq_homogeneous_correct","statement":"Path(test_nth_order_linear_euler_eq_homogeneous(x), our_hint in classify_ode(eq))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"221f28eb02abec3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["our_hint in classify_ode(eq)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_nth_order_linear_euler_eq_homogeneous():
     x, t, a, b, c = symbols('x t a b c')
     y = Function('y')
@@ -1104,16 +1381,22 @@ def test_nth_order_linear_euler_eq_homogeneous():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients(), test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients produces the expected output) over Any ║
+# ║ Path(test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients(), our_hint in classify_ode(eq, f(x))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  our_hint in classify_ode(eq, f(x))             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nth_order_linear_euler_eq_nonhomogeneous_undeter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfc3f8225d6c222a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89edc10b5d08ac38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients","kind":"function","src_hash":"53b0c58c9375f69b","in":{"base":"Any"},"out":{"base":"Any","pred":"our_hint in classify_ode(eq, f(x)) and our_hint in classify_ode(eq, f(x))"},"spec":{"lhs":"test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients()","rhs":"test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients produces the expected output","over":{"base":"Any"},"name":"test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients_correct"},"guarantee":"test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients_correct","statement":"Path(test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients(x), test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfc3f8225d6c222a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients","kind":"function","src_hash":"53b0c58c9375f69b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: our_hint in classify_ode(eq, f(x))"},"spec":{"lhs":"test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients()","rhs":"our_hint in classify_ode(eq, f(x))","over":{"base":"Any"},"name":"test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients_correct"},"guarantee":"our_hint in classify_ode(eq, f(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients_correct","statement":"Path(test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients(x), our_hint in classify_ode(eq, f(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89edc10b5d08ac38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["our_hint in classify_ode(eq, f(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients():
     x, t = symbols('x t')
     a, b, c, d = symbols('a b c d', integer=True)
@@ -1130,16 +1413,22 @@ def test_nth_order_linear_euler_eq_nonhomogeneous_undetermined_coefficients():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters(), test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters produces the expected output) over Any ║
+# ║ Path(test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters(), our_hint in classify_ode(eq, f(x))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  our_hint in classify_ode(eq, f(x))             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nth_order_linear_euler_eq_nonhomogeneous_variati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19845d1b5c1890d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c87b9c22d2832c89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters","kind":"function","src_hash":"857eb687684df099","in":{"base":"Any"},"out":{"base":"Any","pred":"our_hint in classify_ode(eq, f(x)) and our_hint in classify_ode(eq, f(x))"},"spec":{"lhs":"test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters()","rhs":"test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters produces the expected output","over":{"base":"Any"},"name":"test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters_correct"},"guarantee":"test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters_correct","statement":"Path(test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters(x), test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19845d1b5c1890d1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single.test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters","kind":"function","src_hash":"857eb687684df099","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: our_hint in classify_ode(eq, f(x))"},"spec":{"lhs":"test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters()","rhs":"our_hint in classify_ode(eq, f(x))","over":{"base":"Any"},"name":"test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters_correct"},"guarantee":"our_hint in classify_ode(eq, f(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single.test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters_correct","statement":"Path(test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters(x), our_hint in classify_ode(eq, f(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c87b9c22d2832c89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["our_hint in classify_ode(eq, f(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters():
     x, t = symbols('x, t')
     a, b, c, d = symbols('a, b, c, d', integer=True)
@@ -1156,16 +1445,22 @@ def test_nth_order_linear_euler_eq_nonhomogeneous_variation_of_parameters():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_euler_homogeneous(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_euler_homogeneous(), <unspecified:_get_examples_ode_sol_euler_homogeneous>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_euler_homogeneous : Any → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c13506376171928  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_euler_homogeneous","kind":"function","src_hash":"014af86e4dbba6da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_euler_homogeneous()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_euler_homogeneous_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_euler_homogeneous_correct","statement":"Path(_get_examples_ode_sol_euler_homogeneous(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c13506376171928"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_euler_homogeneous","kind":"function","src_hash":"014af86e4dbba6da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_euler_homogeneous()","rhs":"<unspecified:_get_examples_ode_sol_euler_homogeneous>","over":{"base":"Any"},"name":"_get_examples_ode_sol_euler_homogeneous_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_euler_homogeneous_correct","statement":"Path(_get_examples_ode_sol_euler_homogeneous(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c13506376171928","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_euler_homogeneous():
     r1, r2, r3, r4, r5 = [rootof(x**5 - 14*x**4 + 71*x**3 - 154*x**2 + 120*x - 1, n) for n in range(5)]
     return {
@@ -1226,16 +1521,22 @@ def _get_examples_ode_sol_euler_homogeneous():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_euler_undetermined_coeff(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_euler_undetermined_coeff(), <unspecified:_get_examples_ode_sol_euler_undetermined_coeff>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_euler_undetermined_coeff : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77dd83fdefdd3392  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_euler_undetermined_coeff","kind":"function","src_hash":"27423c329e3a835b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_euler_undetermined_coeff()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_euler_undetermined_coeff_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_euler_undetermined_coeff_correct","statement":"Path(_get_examples_ode_sol_euler_undetermined_coeff(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77dd83fdefdd3392"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_euler_undetermined_coeff","kind":"function","src_hash":"27423c329e3a835b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_euler_undetermined_coeff()","rhs":"<unspecified:_get_examples_ode_sol_euler_undetermined_coeff>","over":{"base":"Any"},"name":"_get_examples_ode_sol_euler_undetermined_coeff_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_euler_undetermined_coeff_correct","statement":"Path(_get_examples_ode_sol_euler_undetermined_coeff(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77dd83fdefdd3392","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_euler_undetermined_coeff():
     return {
             'hint': "nth_linear_euler_eq_nonhomogeneous_undetermined_coefficients",
@@ -1282,16 +1583,22 @@ def _get_examples_ode_sol_euler_undetermined_coeff():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_euler_var_para(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_euler_var_para(), <unspecified:_get_examples_ode_sol_euler_var_para>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_euler_var_para : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a44d5aa9eab46ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_euler_var_para","kind":"function","src_hash":"9ec28a871d829502","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_euler_var_para()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_euler_var_para_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_euler_var_para_correct","statement":"Path(_get_examples_ode_sol_euler_var_para(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a44d5aa9eab46ca"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_euler_var_para","kind":"function","src_hash":"9ec28a871d829502","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_euler_var_para()","rhs":"<unspecified:_get_examples_ode_sol_euler_var_para>","over":{"base":"Any"},"name":"_get_examples_ode_sol_euler_var_para_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_euler_var_para_correct","statement":"Path(_get_examples_ode_sol_euler_var_para(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a44d5aa9eab46ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_euler_var_para():
     return {
             'hint': "nth_linear_euler_eq_nonhomogeneous_variation_of_parameters",
@@ -1332,16 +1639,22 @@ def _get_examples_ode_sol_euler_var_para():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_bernoulli(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_bernoulli(), <unspecified:_get_examples_ode_sol_bernoulli>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_bernoulli : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6efc846c0f2907f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_bernoulli","kind":"function","src_hash":"3e04684b819d932a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_bernoulli()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_bernoulli_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_bernoulli_correct","statement":"Path(_get_examples_ode_sol_bernoulli(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6efc846c0f2907f1"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_bernoulli","kind":"function","src_hash":"3e04684b819d932a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_bernoulli()","rhs":"<unspecified:_get_examples_ode_sol_bernoulli>","over":{"base":"Any"},"name":"_get_examples_ode_sol_bernoulli_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_bernoulli_correct","statement":"Path(_get_examples_ode_sol_bernoulli(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6efc846c0f2907f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_bernoulli():
     # Type: Bernoulli, f'(x) + p(x)*f(x) == q(x)*f(x)**n
     return {
@@ -1369,16 +1682,22 @@ def _get_examples_ode_sol_bernoulli():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_riccati(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_riccati(), <unspecified:_get_examples_ode_sol_riccati>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_riccati : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 545c3a554152a8dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_riccati","kind":"function","src_hash":"7e7fa7e40955bf69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_riccati()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_riccati_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_riccati_correct","statement":"Path(_get_examples_ode_sol_riccati(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"545c3a554152a8dd"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_riccati","kind":"function","src_hash":"7e7fa7e40955bf69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_riccati()","rhs":"<unspecified:_get_examples_ode_sol_riccati>","over":{"base":"Any"},"name":"_get_examples_ode_sol_riccati_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_riccati_correct","statement":"Path(_get_examples_ode_sol_riccati(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"545c3a554152a8dd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_riccati():
     # Type: Riccati special alpha = -2, a*dy/dx + b*y**2 + c*y/x +d/x**2
     return {
@@ -1395,16 +1714,22 @@ def _get_examples_ode_sol_riccati():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_1st_rational_riccati(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_1st_rational_riccati(), <unspecified:_get_examples_ode_sol_1st_rational_riccati>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_1st_rational_riccati : Any → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1af4ec5dcfbeb088  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_rational_riccati","kind":"function","src_hash":"7f1e39d4083d3834","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_1st_rational_riccati()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_1st_rational_riccati_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_rational_riccati_correct","statement":"Path(_get_examples_ode_sol_1st_rational_riccati(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1af4ec5dcfbeb088"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_rational_riccati","kind":"function","src_hash":"7f1e39d4083d3834","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_1st_rational_riccati()","rhs":"<unspecified:_get_examples_ode_sol_1st_rational_riccati>","over":{"base":"Any"},"name":"_get_examples_ode_sol_1st_rational_riccati_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_rational_riccati_correct","statement":"Path(_get_examples_ode_sol_1st_rational_riccati(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1af4ec5dcfbeb088","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_1st_rational_riccati():
     # Type: 1st Order Rational Riccati, dy/dx = a + b*y + c*y**2,
     # a, b, c are rational functions of x
@@ -1483,16 +1808,22 @@ def _get_examples_ode_sol_1st_rational_riccati():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_1st_linear(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_1st_linear(), <unspecified:_get_examples_ode_sol_1st_linear>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_1st_linear : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a280ed4dde6aaf2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_linear","kind":"function","src_hash":"456e092fdf06bdb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_1st_linear()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_1st_linear_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_linear_correct","statement":"Path(_get_examples_ode_sol_1st_linear(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a280ed4dde6aaf2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_linear","kind":"function","src_hash":"456e092fdf06bdb7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_1st_linear()","rhs":"<unspecified:_get_examples_ode_sol_1st_linear>","over":{"base":"Any"},"name":"_get_examples_ode_sol_1st_linear_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_linear_correct","statement":"Path(_get_examples_ode_sol_1st_linear(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a280ed4dde6aaf2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_1st_linear():
     # Type: first order linear form f'(x)+p(x)f(x)=q(x)
     return {
@@ -1509,16 +1840,22 @@ def _get_examples_ode_sol_1st_linear():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_factorable(), some hints are marked as xfail for examples because they missed additional algebraic solution which could be found by factorable hint) over Any ║
+# ║ Path(_get_examples_ode_sol_factorable(), <unspecified:_get_examples_ode_sol_factorable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_factorable : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed4d319c7cb93598  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_factorable","kind":"function","src_hash":"42b0dcbccfe2d587","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_factorable()","rhs":"some hints are marked as xfail for examples because they missed additional algebraic solution which could be found by factorable hint","over":{"base":"Any"},"name":"_get_examples_ode_sol_factorable_correct"},"guarantee":"some hints are marked as xfail for examples because they missed additional algebraic solution which could be found by factorable hint","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_factorable_correct","statement":"Path(_get_examples_ode_sol_factorable(x), some hints are marked as xfail for examples because they missed additional algebraic solution which could be found by factorable hint)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed4d319c7cb93598"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_factorable","kind":"function","src_hash":"42b0dcbccfe2d587","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_factorable()","rhs":"<unspecified:_get_examples_ode_sol_factorable>","over":{"base":"Any"},"name":"_get_examples_ode_sol_factorable_correct"},"guarantee":"some hints are marked as xfail for examples because they missed additional algebraic solution which could be found by factorable hint","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_factorable_correct","statement":"Path(_get_examples_ode_sol_factorable(x), some hints are marked as xfail for examples because they missed additional algebraic solution which could be found by factorable hint)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed4d319c7cb93598","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_factorable():
     """ some hints are marked as xfail for examples because they missed additional algebraic solution
     which could be found by Factorable hint. Fact_01 raise exception for
@@ -1675,16 +2012,22 @@ def _get_examples_ode_sol_factorable():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_almost_linear(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_almost_linear(), <unspecified:_get_examples_ode_sol_almost_linear>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_almost_linear : Any → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 799b79fe14951eb6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_almost_linear","kind":"function","src_hash":"375085885c42208f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_almost_linear()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_almost_linear_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_almost_linear_correct","statement":"Path(_get_examples_ode_sol_almost_linear(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"799b79fe14951eb6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_almost_linear","kind":"function","src_hash":"375085885c42208f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_almost_linear()","rhs":"<unspecified:_get_examples_ode_sol_almost_linear>","over":{"base":"Any"},"name":"_get_examples_ode_sol_almost_linear_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_almost_linear_correct","statement":"Path(_get_examples_ode_sol_almost_linear(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"799b79fe14951eb6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_almost_linear():
     from sympy.functions.special.error_functions import Ei
     A = Symbol('A', positive=True)
@@ -1729,16 +2072,22 @@ def _get_examples_ode_sol_almost_linear():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_liouville(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_liouville(), <unspecified:_get_examples_ode_sol_liouville>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_liouville : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f58cd021abbadbc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_liouville","kind":"function","src_hash":"d8834520ef747a75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_liouville()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_liouville_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_liouville_correct","statement":"Path(_get_examples_ode_sol_liouville(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f58cd021abbadbc8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_liouville","kind":"function","src_hash":"d8834520ef747a75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_liouville()","rhs":"<unspecified:_get_examples_ode_sol_liouville>","over":{"base":"Any"},"name":"_get_examples_ode_sol_liouville_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_liouville_correct","statement":"Path(_get_examples_ode_sol_liouville(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f58cd021abbadbc8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_liouville():
     n = Symbol('n')
     _y = Dummy('y')
@@ -1792,16 +2141,22 @@ def _get_examples_ode_sol_liouville():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_nth_algebraic(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_nth_algebraic(), <unspecified:_get_examples_ode_sol_nth_algebraic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_nth_algebraic : Any → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a921875c48744cc4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_algebraic","kind":"function","src_hash":"767f5da70edc3241","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_nth_algebraic()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_nth_algebraic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_algebraic_correct","statement":"Path(_get_examples_ode_sol_nth_algebraic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a921875c48744cc4"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_algebraic","kind":"function","src_hash":"767f5da70edc3241","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_nth_algebraic()","rhs":"<unspecified:_get_examples_ode_sol_nth_algebraic>","over":{"base":"Any"},"name":"_get_examples_ode_sol_nth_algebraic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_algebraic_correct","statement":"Path(_get_examples_ode_sol_nth_algebraic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a921875c48744cc4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_nth_algebraic():
     M, m, r, t = symbols('M m r t')
     phi = Function('phi')
@@ -1955,16 +2310,22 @@ def _get_examples_ode_sol_nth_algebraic():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_nth_order_reducible(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_nth_order_reducible(), <unspecified:_get_examples_ode_sol_nth_order_reducible>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_nth_order_reducible : Any → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4eff72c2b6dd17e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_order_reducible","kind":"function","src_hash":"6b5a4aba1702bf6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_nth_order_reducible()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_nth_order_reducible_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_order_reducible_correct","statement":"Path(_get_examples_ode_sol_nth_order_reducible(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4eff72c2b6dd17e9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_order_reducible","kind":"function","src_hash":"6b5a4aba1702bf6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_nth_order_reducible()","rhs":"<unspecified:_get_examples_ode_sol_nth_order_reducible>","over":{"base":"Any"},"name":"_get_examples_ode_sol_nth_order_reducible_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_order_reducible_correct","statement":"Path(_get_examples_ode_sol_nth_order_reducible(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4eff72c2b6dd17e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_nth_order_reducible():
     return {
             'hint': "nth_order_reducible",
@@ -2052,16 +2413,22 @@ def _get_examples_ode_sol_nth_order_reducible():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_nth_linear_undetermined_coefficients(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_nth_linear_undetermined_coefficients(), <unspecified:_get_examples_ode_sol_nth_linear_undetermined_coefficients>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_nth_linear_undetermined_coeffic...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ebd1d66fa753481  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_linear_undetermined_coefficients","kind":"function","src_hash":"7fea8a1141170e07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_nth_linear_undetermined_coefficients()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_nth_linear_undetermined_coefficients_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_linear_undetermined_coefficients_correct","statement":"Path(_get_examples_ode_sol_nth_linear_undetermined_coefficients(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ebd1d66fa753481"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_linear_undetermined_coefficients","kind":"function","src_hash":"7fea8a1141170e07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_nth_linear_undetermined_coefficients()","rhs":"<unspecified:_get_examples_ode_sol_nth_linear_undetermined_coefficients>","over":{"base":"Any"},"name":"_get_examples_ode_sol_nth_linear_undetermined_coefficients_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_linear_undetermined_coefficients_correct","statement":"Path(_get_examples_ode_sol_nth_linear_undetermined_coefficients(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ebd1d66fa753481","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.9,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_nth_linear_undetermined_coefficients():
     # examples 3-27 below are from Ordinary Differential Equations,
     #                     Tenenbaum and Pollard, pg. 231
@@ -2327,16 +2694,22 @@ def _get_examples_ode_sol_nth_linear_undetermined_coefficients():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_separable(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_separable(), <unspecified:_get_examples_ode_sol_separable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_separable : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 718a6d4991a27547  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_separable","kind":"function","src_hash":"6cd434963e108e9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_separable()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_separable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_separable_correct","statement":"Path(_get_examples_ode_sol_separable(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"718a6d4991a27547"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_separable","kind":"function","src_hash":"6cd434963e108e9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_separable()","rhs":"<unspecified:_get_examples_ode_sol_separable>","over":{"base":"Any"},"name":"_get_examples_ode_sol_separable_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_separable_correct","statement":"Path(_get_examples_ode_sol_separable(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"718a6d4991a27547","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_separable():
     # test_separable1-5 are from Ordinary Differential Equations, Tenenbaum and
     # Pollard, pg. 55
@@ -2518,16 +2891,22 @@ def _get_examples_ode_sol_separable():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_1st_exact(), example 7 is an exact equation that fails under the exact engine) over Any ║
+# ║ Path(_get_examples_ode_sol_1st_exact(), <unspecified:_get_examples_ode_sol_1st_exact>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_1st_exact : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1290c4cfaa9133b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_exact","kind":"function","src_hash":"9211561c6e36bb00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_1st_exact()","rhs":"example 7 is an exact equation that fails under the exact engine","over":{"base":"Any"},"name":"_get_examples_ode_sol_1st_exact_correct"},"guarantee":"example 7 is an exact equation that fails under the exact engine","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_exact_correct","statement":"Path(_get_examples_ode_sol_1st_exact(x), example 7 is an exact equation that fails under the exact engine)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1290c4cfaa9133b"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_exact","kind":"function","src_hash":"9211561c6e36bb00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_1st_exact()","rhs":"<unspecified:_get_examples_ode_sol_1st_exact>","over":{"base":"Any"},"name":"_get_examples_ode_sol_1st_exact_correct"},"guarantee":"example 7 is an exact equation that fails under the exact engine","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_exact_correct","statement":"Path(_get_examples_ode_sol_1st_exact(x), example 7 is an exact equation that fails under the exact engine)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1290c4cfaa9133b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_1st_exact():
     # Type: Exact differential equation, p(x,f) + q(x,f)*f' == 0,
     # where dp/df == dq/dx
@@ -2626,16 +3005,22 @@ def _get_examples_ode_sol_1st_exact():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_nth_linear_var_of_parameters(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_nth_linear_var_of_parameters(), <unspecified:_get_examples_ode_sol_nth_linear_var_of_parameters>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_nth_linear_var_of_parameters : ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e61196badb486025  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_linear_var_of_parameters","kind":"function","src_hash":"4a54d8cd866eb967","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_nth_linear_var_of_parameters()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_nth_linear_var_of_parameters_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_linear_var_of_parameters_correct","statement":"Path(_get_examples_ode_sol_nth_linear_var_of_parameters(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e61196badb486025"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_linear_var_of_parameters","kind":"function","src_hash":"4a54d8cd866eb967","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_nth_linear_var_of_parameters()","rhs":"<unspecified:_get_examples_ode_sol_nth_linear_var_of_parameters>","over":{"base":"Any"},"name":"_get_examples_ode_sol_nth_linear_var_of_parameters_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_linear_var_of_parameters_correct","statement":"Path(_get_examples_ode_sol_nth_linear_var_of_parameters(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e61196badb486025","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_nth_linear_var_of_parameters():
     g = exp(-x)
     f2 = f(x).diff(x, 2)
@@ -2742,16 +3127,22 @@ def _get_examples_ode_sol_nth_linear_var_of_parameters():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_2nd_linear_bessel(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_2nd_linear_bessel(), <unspecified:_get_examples_ode_sol_2nd_linear_bessel>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_2nd_linear_bessel : Any → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45e21527799d59f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_linear_bessel","kind":"function","src_hash":"f58f553e3c655278","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_2nd_linear_bessel()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_2nd_linear_bessel_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_linear_bessel_correct","statement":"Path(_get_examples_ode_sol_2nd_linear_bessel(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45e21527799d59f9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_linear_bessel","kind":"function","src_hash":"f58f553e3c655278","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_2nd_linear_bessel()","rhs":"<unspecified:_get_examples_ode_sol_2nd_linear_bessel>","over":{"base":"Any"},"name":"_get_examples_ode_sol_2nd_linear_bessel_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_linear_bessel_correct","statement":"Path(_get_examples_ode_sol_2nd_linear_bessel(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45e21527799d59f9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_2nd_linear_bessel():
     return {
             'hint': "2nd_linear_bessel",
@@ -2822,16 +3213,22 @@ def _get_examples_ode_sol_2nd_linear_bessel():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_2nd_2F1_hypergeometric(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_2nd_2F1_hypergeometric(), <unspecified:_get_examples_ode_sol_2nd_2F1_hypergeometric>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_2nd_2F1_hypergeometric : Any → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fac5c07f92192056  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_2F1_hypergeometric","kind":"function","src_hash":"9c09f433053b45c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_2nd_2F1_hypergeometric()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_2nd_2F1_hypergeometric_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_2F1_hypergeometric_correct","statement":"Path(_get_examples_ode_sol_2nd_2F1_hypergeometric(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fac5c07f92192056"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_2F1_hypergeometric","kind":"function","src_hash":"9c09f433053b45c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_2nd_2F1_hypergeometric()","rhs":"<unspecified:_get_examples_ode_sol_2nd_2F1_hypergeometric>","over":{"base":"Any"},"name":"_get_examples_ode_sol_2nd_2F1_hypergeometric_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_2F1_hypergeometric_correct","statement":"Path(_get_examples_ode_sol_2nd_2F1_hypergeometric(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fac5c07f92192056","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_2nd_2F1_hypergeometric():
     return {
             'hint': "2nd_hypergeometric",
@@ -2866,16 +3263,22 @@ def _get_examples_ode_sol_2nd_2F1_hypergeometric():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_2nd_nonlinear_autonomous_conserved(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_2nd_nonlinear_autonomous_conserved(), <unspecified:_get_examples_ode_sol_2nd_nonlinear_autonomous_conserved>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_2nd_nonlinear_autonomous_conser...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15727d71a3308aa9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_nonlinear_autonomous_conserved","kind":"function","src_hash":"0489455be92e2ea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_2nd_nonlinear_autonomous_conserved()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_2nd_nonlinear_autonomous_conserved_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_nonlinear_autonomous_conserved_correct","statement":"Path(_get_examples_ode_sol_2nd_nonlinear_autonomous_conserved(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15727d71a3308aa9"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_nonlinear_autonomous_conserved","kind":"function","src_hash":"0489455be92e2ea9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_2nd_nonlinear_autonomous_conserved()","rhs":"<unspecified:_get_examples_ode_sol_2nd_nonlinear_autonomous_conserved>","over":{"base":"Any"},"name":"_get_examples_ode_sol_2nd_nonlinear_autonomous_conserved_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_nonlinear_autonomous_conserved_correct","statement":"Path(_get_examples_ode_sol_2nd_nonlinear_autonomous_conserved(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15727d71a3308aa9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_2nd_nonlinear_autonomous_conserved():
     return {
             'hint': "2nd_nonlinear_autonomous_conserved",
@@ -2928,16 +3331,22 @@ def _get_examples_ode_sol_2nd_nonlinear_autonomous_conserved():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_separable_reduced(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_separable_reduced(), <unspecified:_get_examples_ode_sol_separable_reduced>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_separable_reduced : Any → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 5.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2458626f4e51951  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_separable_reduced","kind":"function","src_hash":"1bdbd33e5e538baf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_separable_reduced()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_separable_reduced_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_separable_reduced_correct","statement":"Path(_get_examples_ode_sol_separable_reduced(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2458626f4e51951"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_separable_reduced","kind":"function","src_hash":"1bdbd33e5e538baf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_separable_reduced()","rhs":"<unspecified:_get_examples_ode_sol_separable_reduced>","over":{"base":"Any"},"name":"_get_examples_ode_sol_separable_reduced_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_separable_reduced_correct","statement":"Path(_get_examples_ode_sol_separable_reduced(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2458626f4e51951","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.5,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_separable_reduced():
     df = f(x).diff(x)
     return {
@@ -3050,16 +3459,22 @@ Eq(f(x), sqrt(2)*sqrt(3*3**Rational(1,3)*(sqrt((3*exp(12*C1) + x**(-12))*exp(24*
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_lie_group(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_lie_group(), <unspecified:_get_examples_ode_sol_lie_group>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_lie_group : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58b53469edde755f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_lie_group","kind":"function","src_hash":"16b5bf6de78d0c91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_lie_group()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_lie_group_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_lie_group_correct","statement":"Path(_get_examples_ode_sol_lie_group(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58b53469edde755f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_lie_group","kind":"function","src_hash":"16b5bf6de78d0c91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_lie_group()","rhs":"<unspecified:_get_examples_ode_sol_lie_group>","over":{"base":"Any"},"name":"_get_examples_ode_sol_lie_group_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_lie_group_correct","statement":"Path(_get_examples_ode_sol_lie_group(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58b53469edde755f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_lie_group():
     a, b, c = symbols("a b c")
     return {
@@ -3180,16 +3595,22 @@ def _get_examples_ode_sol_lie_group():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_2nd_linear_airy(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_2nd_linear_airy(), <unspecified:_get_examples_ode_sol_2nd_linear_airy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_2nd_linear_airy : Any → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b47f7b7b97eaa78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_linear_airy","kind":"function","src_hash":"8fc48528e0df1c7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_2nd_linear_airy()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_2nd_linear_airy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_linear_airy_correct","statement":"Path(_get_examples_ode_sol_2nd_linear_airy(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b47f7b7b97eaa78"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_linear_airy","kind":"function","src_hash":"8fc48528e0df1c7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_2nd_linear_airy()","rhs":"<unspecified:_get_examples_ode_sol_2nd_linear_airy>","over":{"base":"Any"},"name":"_get_examples_ode_sol_2nd_linear_airy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_2nd_linear_airy_correct","statement":"Path(_get_examples_ode_sol_2nd_linear_airy(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b47f7b7b97eaa78","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_2nd_linear_airy():
     return {
             'hint': "2nd_linear_airy",
@@ -3210,16 +3631,22 @@ def _get_examples_ode_sol_2nd_linear_airy():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_nth_linear_constant_coeff_homogeneous(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_nth_linear_constant_coeff_homogeneous(), <unspecified:_get_examples_ode_sol_nth_linear_constant_coeff_homogeneous>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_nth_linear_constant_coeff_homog...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6371e572066204e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_linear_constant_coeff_homogeneous","kind":"function","src_hash":"51aacd1b7e9188b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_nth_linear_constant_coeff_homogeneous()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_nth_linear_constant_coeff_homogeneous_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_linear_constant_coeff_homogeneous_correct","statement":"Path(_get_examples_ode_sol_nth_linear_constant_coeff_homogeneous(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6371e572066204e0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_linear_constant_coeff_homogeneous","kind":"function","src_hash":"51aacd1b7e9188b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_nth_linear_constant_coeff_homogeneous()","rhs":"<unspecified:_get_examples_ode_sol_nth_linear_constant_coeff_homogeneous>","over":{"base":"Any"},"name":"_get_examples_ode_sol_nth_linear_constant_coeff_homogeneous_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_nth_linear_constant_coeff_homogeneous_correct","statement":"Path(_get_examples_ode_sol_nth_linear_constant_coeff_homogeneous(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6371e572066204e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.9,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_nth_linear_constant_coeff_homogeneous():
     # From Exercise 20, in Ordinary Differential Equations,
     #                      Tenenbaum and Pollard, pg. 220
@@ -3538,16 +3965,22 @@ def _get_examples_ode_sol_nth_linear_constant_coeff_homogeneous():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep(), <unspecified:_get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fd1272fa5b632e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep","kind":"function","src_hash":"89a54188d3473881","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep_correct","statement":"Path(_get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fd1272fa5b632e5"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep","kind":"function","src_hash":"89a54188d3473881","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep()","rhs":"<unspecified:_get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep>","over":{"base":"Any"},"name":"_get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep_correct","statement":"Path(_get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fd1272fa5b632e5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep():
     return {
             'hint': "1st_homogeneous_coeff_subs_dep_div_indep",
@@ -3590,16 +4023,22 @@ def _get_examples_ode_sol_1st_homogeneous_coeff_subs_dep_div_indep():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_linear_coefficients(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_linear_coefficients(), {'hint': 'linear_coefficients', 'func': f(x), 'examples': {'linear_coeff_01': {'eq': f(x).diff(x) + (3 + 2 * f(x)) / (x + 3), 'sol': [Eq(f(x), C1 / (x ** 2 + 6 * x + 9) - Rational(3, 2))]}}}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {'hint': 'linear_coefficients', 'func': f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_linear_coefficients : Any → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf9d9fbc408ca03a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d955eb1acd4d0331  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_linear_coefficients","kind":"function","src_hash":"9238f93b1a83bfb1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_linear_coefficients()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_linear_coefficients_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_linear_coefficients_correct","statement":"Path(_get_examples_ode_sol_linear_coefficients(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf9d9fbc408ca03a"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_linear_coefficients","kind":"function","src_hash":"9238f93b1a83bfb1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_linear_coefficients()","rhs":"{'hint': 'linear_coefficients', 'func': f(x), 'examples': {'linear_coeff_01': {'eq': f(x).diff(x) + (3 + 2 * f(x)) / (x + 3), 'sol': [Eq(f(x), C1 / (x ** 2 + 6 * x + 9) - Rational(3, 2))]}}}","over":{"base":"Any"},"name":"_get_examples_ode_sol_linear_coefficients_correct"},"guarantee":"returns {'hint': 'linear_coefficients', 'func': f(x), 'examples': {'linear_coeff_01': {'eq': f(x).diff(x) + (3 + 2 * f(x)) / (x + 3), 'sol': [Eq(f(x), C1 / (x ** 2 + 6 * x + 9) - Rational(3, 2))]}}}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_linear_coefficients_correct","statement":"Path(_get_examples_ode_sol_linear_coefficients(x), returns {'hint': 'linear_coefficients', 'func': f(x), 'examples': {'linear_coeff_01': {'eq': f(x).diff(x) + (3 + 2 * f(x)) / (x + 3), 'sol': [Eq(f(x), C1 / (x ** 2 + 6 * x + 9) - Rational(3, 2))]}}})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d955eb1acd4d0331","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{'hint': 'linear_coefficients', 'func': f(x), 'examples': {'linear_coeff_01': {'eq': f(x).diff(x) + (3 + 2 * f(x)) / (x + 3), 'sol': [Eq(f(x), C1 / (x ** 2 + 6 * x + 9) - Rational(3, 2))]}}}","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_linear_coefficients():
     return {
             'hint': "linear_coefficients",
@@ -3614,16 +4053,22 @@ def _get_examples_ode_sol_linear_coefficients():
 
 @_add_example_keys
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_examples_ode_sol_1st_homogeneous_coeff_best(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_examples_ode_sol_1st_homogeneous_coeff_best(), <unspecified:_get_examples_ode_sol_1st_homogeneous_coeff_best>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_examples_ode_sol_1st_homogeneous_coeff_best : An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c228209922643497  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_homogeneous_coeff_best","kind":"function","src_hash":"2c17230955ea5084","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_1st_homogeneous_coeff_best()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_examples_ode_sol_1st_homogeneous_coeff_best_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_homogeneous_coeff_best_correct","statement":"Path(_get_examples_ode_sol_1st_homogeneous_coeff_best(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c228209922643497"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_homogeneous_coeff_best","kind":"function","src_hash":"2c17230955ea5084","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_examples_ode_sol_1st_homogeneous_coeff_best()","rhs":"<unspecified:_get_examples_ode_sol_1st_homogeneous_coeff_best>","over":{"base":"Any"},"name":"_get_examples_ode_sol_1st_homogeneous_coeff_best_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_examples_ode_sol_1st_homogeneous_coeff_best_correct","statement":"Path(_get_examples_ode_sol_1st_homogeneous_coeff_best(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c228209922643497","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def _get_examples_ode_sol_1st_homogeneous_coeff_best():
     return {
             'hint': "1st_homogeneous_coeff_best",
@@ -3681,16 +4126,22 @@ def _get_examples_ode_sol_1st_homogeneous_coeff_best():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_all_examples(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_all_examples(), <unspecified:_get_all_examples>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_all_examples : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65e7fb8a20650d12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_all_examples","kind":"function","src_hash":"82392c2d4a20d9de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_all_examples()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_all_examples_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_all_examples_correct","statement":"Path(_get_all_examples(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65e7fb8a20650d12"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.tests.test_single._get_all_examples","kind":"function","src_hash":"82392c2d4a20d9de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_all_examples()","rhs":"<unspecified:_get_all_examples>","over":{"base":"Any"},"name":"_get_all_examples_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.tests.test_single._get_all_examples_correct","statement":"Path(_get_all_examples(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65e7fb8a20650d12","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_all_examples():
     all_examples = _get_examples_ode_sol_euler_homogeneous + \
     _get_examples_ode_sol_euler_undetermined_coeff + \

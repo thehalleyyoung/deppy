@@ -30,16 +30,22 @@ from sympy.utilities.misc import as_int
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_group(sym), construct a free group returning ``(freegroup, (f_0, f_1, ..., f_(n-1))``) over Any ║
+# ║ Path(free_group(symbols), (_free_group,) + tuple(_free_group.generators)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (_free_group,) + tuple(_free_group.genera...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_group : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbbc1968b9c57fb7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5360ce1be9d9352  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.free_group","kind":"function","src_hash":"f992b4f275ee2dd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_group(sym)","rhs":"construct a free group returning ``(freegroup, (f_0, f_1, ..., f_(n-1))``","over":{"base":"Any"},"name":"free_group_correct"},"guarantee":"construct a free group returning ``(freegroup, (f_0, f_1, ..., f_(n-1))``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.free_group_correct","statement":"Path(free_group(x), construct a free group returning ``(freegroup, (f_0, f_1, ..., f_(n-1))``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbbc1968b9c57fb7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.free_group","kind":"function","src_hash":"f992b4f275ee2dd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_group(symbols)","rhs":"(_free_group,) + tuple(_free_group.generators)","over":{"base":"Any"},"name":"free_group_correct"},"guarantee":"returns (_free_group,) + tuple(_free_group.generators)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.free_group_correct","statement":"Path(free_group(x), returns (_free_group,) + tuple(_free_group.generators))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5360ce1be9d9352","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(_free_group,) + tuple(_free_group.generators)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def free_group(symbols):
     """Construct a free group returning ``(FreeGroup, (f_0, f_1, ..., f_(n-1))``.
 
@@ -66,16 +72,22 @@ def free_group(symbols):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(xfree_group(sym), construct a free group returning ``(freegroup, (f_0, f_1, ..., f_(n-1)))``) over Any ║
+# ║ Path(xfree_group(symbols), (_free_group, _free_group.generators)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (_free_group, _free_group.generators)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ xfree_group : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c22ad1bf60611cb0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85c0c1fa3d2c5beb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.xfree_group","kind":"function","src_hash":"9bc494b7ef82c707","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xfree_group(sym)","rhs":"construct a free group returning ``(freegroup, (f_0, f_1, ..., f_(n-1)))``","over":{"base":"Any"},"name":"xfree_group_correct"},"guarantee":"construct a free group returning ``(freegroup, (f_0, f_1, ..., f_(n-1)))``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.xfree_group_correct","statement":"Path(xfree_group(x), construct a free group returning ``(freegroup, (f_0, f_1, ..., f_(n-1)))``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c22ad1bf60611cb0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.xfree_group","kind":"function","src_hash":"9bc494b7ef82c707","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"xfree_group(symbols)","rhs":"(_free_group, _free_group.generators)","over":{"base":"Any"},"name":"xfree_group_correct"},"guarantee":"returns (_free_group, _free_group.generators)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.xfree_group_correct","statement":"Path(xfree_group(x), returns (_free_group, _free_group.generators))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85c0c1fa3d2c5beb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(_free_group, _free_group.generators)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def xfree_group(symbols):
     """Construct a free group returning ``(FreeGroup, (f_0, f_1, ..., f_(n-1)))``.
 
@@ -102,16 +114,22 @@ def xfree_group(symbols):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vfree_group(sym), construct a free group and inject ``f_0, f_1, ..., f_(n-1)`` as symbols into the global namespace) over Any ║
+# ║ Path(vfree_group(symbols), <unspecified:vfree_group>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vfree_group : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ce962b97a9bd698  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.vfree_group","kind":"function","src_hash":"524a33c5b484f0d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vfree_group(sym)","rhs":"construct a free group and inject ``f_0, f_1, ..., f_(n-1)`` as symbols into the global namespace","over":{"base":"Any"},"name":"vfree_group_correct"},"guarantee":"construct a free group and inject ``f_0, f_1, ..., f_(n-1)`` as symbols into the global namespace","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.vfree_group_correct","statement":"Path(vfree_group(x), construct a free group and inject ``f_0, f_1, ..., f_(n-1)`` as symbols into the global namespace)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ce962b97a9bd698"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.vfree_group","kind":"function","src_hash":"524a33c5b484f0d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vfree_group(symbols)","rhs":"<unspecified:vfree_group>","over":{"base":"Any"},"name":"vfree_group_correct"},"guarantee":"construct a free group and inject ``f_0, f_1, ..., f_(n-1)`` as symbols into the global namespace","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.vfree_group_correct","statement":"Path(vfree_group(x), construct a free group and inject ``f_0, f_1, ..., f_(n-1)`` as symbols into the global namespace)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ce962b97a9bd698","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def vfree_group(symbols):
     """Construct a free group and inject ``f_0, f_1, ..., f_(n-1)`` as symbols
     into the global namespace.
@@ -139,7 +157,10 @@ def vfree_group(symbols):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parse_symbols(sym), internal helper behaves correctly) over {Any | isinstance(symbols, str) and isinstance(symbols, (Expr, FreeGroupElement)) and isinstance(s, Expr)} ║
+# ║ Path(_parse_symbols(symbols), <unspecified:_parse_symbols>) over {Any | isinstance(symbols, str) and isinstance(symbols, (Expr, FreeGroupElement)) and isinstance(s, Expr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _parse_symbols : {Any | isinstance(symbols, str) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -153,9 +174,12 @@ def vfree_group(symbols):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 8.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b9473a2d...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups._parse_symbols","kind":"function","src_hash":"6fd197037d8dd28c","in":{"base":"Any","pred":"isinstance(symbols, str) and isinstance(symbols, (Expr, FreeGroupElement)) and isinstance(s, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_parse_symbols(sym)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(symbols, str) and isinstance(symbols, (Expr, FreeGroupElement)) and isinstance(s, Expr)"},"name":"_parse_symbols_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"str","pred":"isinstance(symbols, str)","path":{"lhs":"_parse_symbols(x)","rhs":"internal helper behaves correctly","over":{"base":"str","pred":"isinstance(symbols, str)"},"name":"_parse_symbols_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups._parse_symbols_str_correct","statement":"_parse_symbols satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"(Expr","pred":"isinstance(symbols, (Expr, FreeGroupElement))","path":{"lhs":"_parse_symbols(x)","rhs":"internal helper behaves correctly","over":{"base":"(Expr","pred":"isinstance(symbols, (Expr, FreeGroupElement))"},"name":"_parse_symbols_(Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups._parse_symbols_(Expr_correct","statement":"_parse_symbols satisfies spec on (Expr inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(s, Expr)","path":{"lhs":"_parse_symbols(x)","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(s, Expr)"},"name":"_parse_symbols_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups._parse_symbols_Expr_correct","statement":"_parse_symbols satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b9473a2de9d97704"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups._parse_symbols","kind":"function","src_hash":"6fd197037d8dd28c","in":{"base":"Any","pred":"isinstance(symbols, str) and isinstance(symbols, (Expr, FreeGroupElement)) and isinstance(s, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_parse_symbols(symbols)","rhs":"<unspecified:_parse_symbols>","over":{"base":"Any","pred":"isinstance(symbols, str) and isinstance(symbols, (Expr, FreeGroupElement)) and isinstance(s, Expr)"},"name":"_parse_symbols_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"str","pred":"isinstance(symbols, str)","path":{"lhs":"_parse_symbols(x)","rhs":"internal helper behaves correctly","over":{"base":"str","pred":"isinstance(symbols, str)"},"name":"_parse_symbols_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups._parse_symbols_str_correct","statement":"_parse_symbols satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"(Expr","pred":"isinstance(symbols, (Expr, FreeGroupElement))","path":{"lhs":"_parse_symbols(x)","rhs":"internal helper behaves correctly","over":{"base":"(Expr","pred":"isinstance(symbols, (Expr, FreeGroupElement))"},"name":"_parse_symbols_(Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups._parse_symbols_(Expr_correct","statement":"_parse_symbols satisfies spec on (Expr inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(s, Expr)","path":{"lhs":"_parse_symbols(x)","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(s, Expr)"},"name":"_parse_symbols_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups._parse_symbols_Expr_correct","statement":"_parse_symbols satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b9473a2de9d97704","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(symbols, (Expr, FreeGroupElement))', 'isinstance(symbols, str)', 'all((isinstance(s, str) for s in symbols))', 'all((isinstance(s, Expr) for s in symbols))'}, fibers={'str', 'Expr', '(Expr'})"]}}
 def _parse_symbols(symbols):
     if not symbols:
         return ()
@@ -182,14 +206,20 @@ _free_group_cache: dict[int, FreeGroup] = {}
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FreeGroup instance) preserved by FreeGroup(*args) over {Any | isinstance(gen, self.dtype) and isinstance(i, FreeGroupElement) and isinstance(symbol, Symbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefaultPrinting)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FreeGroup : {Any | isinstance(gen, self.dtype) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f21d564c16105403  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup","kind":"class","src_hash":"e868d792be01998c","in":{"base":"Any","pred":"isinstance(gen, self.dtype) and isinstance(i, FreeGroupElement) and isinstance(symbol, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"FreeGroup(*args)","rhs":"correctly constructs a FreeGroup instance","over":{"base":"Any","pred":"isinstance(gen, self.dtype) and isinstance(i, FreeGroupElement) and isinstance(symbol, Symbol)"},"name":"FreeGroup_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FreeGroup instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_abelian","pred":"self.is_abelian","kind":"class"}],"methods_preserving":["__getnewargs__","__getstate__","clone","__contains__","__hash__","__len__","__str__","__getitem__","__eq__","index","order","elements","rank","is_abelian","identity","contains","center"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f21d564c16105403"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup","kind":"class","src_hash":"e868d792be01998c","in":{"base":"Any","pred":"isinstance(gen, self.dtype) and isinstance(i, FreeGroupElement) and isinstance(symbol, Symbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefaultPrinting)"},"spec":{"lhs":"FreeGroup(*args)","rhs":"correctly constructs a FreeGroup instance","over":{"base":"Any","pred":"isinstance(gen, self.dtype) and isinstance(i, FreeGroupElement) and isinstance(symbol, Symbol)"},"name":"FreeGroup_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, DefaultPrinting)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_abelian","pred":"self.is_abelian","kind":"class"}],"methods_preserving":["__getnewargs__","__getstate__","clone","__contains__","__hash__","__len__","__str__","__getitem__","__eq__","index","order","elements","rank","is_abelian","identity","contains","center"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f21d564c16105403","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefaultPrinting)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function FreeGroup not found in source"]}}
 class FreeGroup(DefaultPrinting):
     """
     Free group with finite or infinite number of generators. Its input API
@@ -216,16 +246,22 @@ class FreeGroup(DefaultPrinting):
     relators: list[Expr] = []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, symbols), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8e8a6b43f8c5d192           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__new__","kind":"method","src_hash":"a05bbf36ea4ff5c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e8a6b43f8c5d192"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__new__","kind":"method","src_hash":"a05bbf36ea4ff5c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, symbols)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8e8a6b43f8c5d192","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.__name__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, symbols):
         symbols = tuple(_parse_symbols(symbols))
         rank = len(symbols)
@@ -252,46 +288,66 @@ class FreeGroup(DefaultPrinting):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getnewargs__(), return a tuple of arguments that must be passed to __new__ in order to support pickling this object) over Any ║
+# ║ Path(__getnewargs__(), (self.symbols,)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.symbols,)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getnewargs__ : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e4555ffec0cbef61           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__getnewargs__","kind":"method","src_hash":"b714b7b6989dc2a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"return a tuple of arguments that must be passed to __new__ in order to support pickling this object","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"return a tuple of arguments that must be passed to __new__ in order to support pickling this object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4555ffec0cbef61"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__getnewargs__","kind":"method","src_hash":"b714b7b6989dc2a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"(self.symbols,)","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"returns (self.symbols,)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4555ffec0cbef61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.symbols,)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getnewargs__(self):
         """Return a tuple of arguments that must be passed to __new__ in order to support pickling this object."""
         return (self.symbols,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getstate__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getstate__(), None) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getstate__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7fe7c139392bd4e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__getstate__","kind":"method","src_hash":"5ea00b44a4974046","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getstate__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getstate___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7fe7c139392bd4e5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__getstate__","kind":"method","src_hash":"5ea00b44a4974046","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getstate__()","rhs":"None","over":{"base":"Any"},"name":"__getstate___correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7fe7c139392bd4e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getstate__(self):
         # Don't pickle any fields because they are regenerated within __new__
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_generators(gro), returns the generators of the freegroup) over Any ║
+# ║ Path(_generators(group), tuple(gens)) over {Any | hasattr(group, 'symbols') and hasattr(group, 'dtype')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _generators : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(group, 'symbols')                      ║
+# ║   requires: hasattr(group, 'dtype')                        ║
+# ║   returns:  tuple(gens)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _generators : {Any | hasattr(group, 'symbols') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bce5f065d3f599a8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e67816ab0de35a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup._generators","kind":"method","src_hash":"cdcb700bf8cf4a03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_generators(gro)","rhs":"returns the generators of the freegroup","over":{"base":"Any"},"name":"_generators_correct"},"guarantee":"returns the generators of the freegroup","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroup._generators_correct","statement":"Path(_generators(x), returns the generators of the freegroup)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bce5f065d3f599a8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup._generators","kind":"method","src_hash":"cdcb700bf8cf4a03","in":{"base":"Any","pred":"hasattr(group, 'symbols') and hasattr(group, 'dtype')"},"out":{"base":"Any"},"spec":{"lhs":"_generators(group)","rhs":"tuple(gens)","over":{"base":"Any","pred":"hasattr(group, 'symbols') and hasattr(group, 'dtype')"},"name":"_generators_correct"},"guarantee":"returns tuple(gens)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroup._generators_correct","statement":"Path(_generators(x), returns tuple(gens))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e67816ab0de35a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(group, 'symbols')","hasattr(group, 'dtype')"],"returns_expr":"tuple(gens)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _generators(group):
         """Returns the generators of the FreeGroup.
 
@@ -311,30 +367,43 @@ class FreeGroup(DefaultPrinting):
         return tuple(gens)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(clone(sym), clone produces the expected output) over Any ║
+# ║ Path(clone(symbols), self.__class__(symbols or self.symbols)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(symbols or self.symbols)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ clone : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cdc6dd5ce6ee488e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.clone","kind":"method","src_hash":"c73d9bd86deca0f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clone(sym)","rhs":"clone produces the expected output","over":{"base":"Any"},"name":"clone_correct"},"guarantee":"clone produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdc6dd5ce6ee488e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.clone","kind":"method","src_hash":"c73d9bd86deca0f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clone(symbols)","rhs":"self.__class__(symbols or self.symbols)","over":{"base":"Any"},"name":"clone_correct"},"guarantee":"returns self.__class__(symbols or self.symbols)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdc6dd5ce6ee488e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(symbols or self.symbols)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def clone(self, symbols=None):
         return self.__class__(symbols or self.symbols)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(i), correctly tests membership) over Any ║
+# ║ Path(__contains__(i), <unspecified:__contains__>) over {Any | hasattr(i, 'group')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(i, 'group')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : {Any | hasattr(i, 'group')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c9027b51fc358c96           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__contains__","kind":"method","src_hash":"87a63c4574fad140","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(i)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9027b51fc358c96"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__contains__","kind":"method","src_hash":"87a63c4574fad140","in":{"base":"Any","pred":"hasattr(i, 'group')"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(i)","rhs":"<unspecified:__contains__>","over":{"base":"Any","pred":"hasattr(i, 'group')"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9027b51fc358c96","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(i, 'group')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["i.group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, i):
         """Return True if ``i`` is contained in FreeGroup."""
         if not isinstance(i, FreeGroupElement):
@@ -343,44 +412,62 @@ class FreeGroup(DefaultPrinting):
         return self == group
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), self._hash) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._hash                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c733b94405ce3b6a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__hash__","kind":"method","src_hash":"96f49e4531c3bb98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c733b94405ce3b6a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__hash__","kind":"method","src_hash":"96f49e4531c3bb98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"self._hash","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns self._hash","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c733b94405ce3b6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._hash","pure":false,"effects":{"effect_type":"reads_state","reads":["self._hash"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return self._hash
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), self.rank) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rank                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba7d0c4116de29ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__len__","kind":"method","src_hash":"fb16d08454c91a83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba7d0c4116de29ae"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__len__","kind":"method","src_hash":"fb16d08454c91a83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"self.rank","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns self.rank","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba7d0c4116de29ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rank","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rank"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return self.rank
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab9df69c1905dabe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__str__","kind":"method","src_hash":"94ded180dda006b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab9df69c1905dabe"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__str__","kind":"method","src_hash":"94ded180dda006b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab9df69c1905dabe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.generators","self.rank"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         if self.rank > 30:
             str_form = "<free group with %s generators>" % self.rank
@@ -393,47 +480,66 @@ class FreeGroup(DefaultPrinting):
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ind), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(index), self.clone(symbols=symbols)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.clone(symbols=symbols)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 78fbdae2c5b665f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__getitem__","kind":"method","src_hash":"761725c6560c63cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78fbdae2c5b665f8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__getitem__","kind":"method","src_hash":"761725c6560c63cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(index)","rhs":"self.clone(symbols=symbols)","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self.clone(symbols=symbols)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"78fbdae2c5b665f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.clone(symbols=symbols)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.clone","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, index):
         symbols = self.symbols[index]
         return self.clone(symbols=symbols)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), self is other) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self is other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62fa486a70aaac3a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__eq__","kind":"method","src_hash":"effb7cd2b90f3a5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62fa486a70aaac3a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.__eq__","kind":"method","src_hash":"effb7cd2b90f3a5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"self is other","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"returns self is other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62fa486a70aaac3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self is other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """No ``FreeGroup`` is equal to any "other" ``FreeGroup``.
         """
         return self is other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(gen), return the index of the generator `gen` from ``(f_0, ..., f_(n-1))``) over Any ║
+# ║ Path(index(gen), <unspecified:index>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: isinstance(gen, self.dtype) => self....   ║
+# ║   fiber[case_1]: not (isinstance(gen, self.dtype))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ index : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ede78f6b31de7ac7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86e95691ae59411f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.index","kind":"method","src_hash":"e5cfd60d12b3abf9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(gen)","rhs":"return the index of the generator `gen` from ``(f_0, ..., f_(n-1))``","over":{"base":"Any"},"name":"index_correct"},"guarantee":"return the index of the generator `gen` from ``(f_0, ..., f_(n-1))``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroup.index_correct","statement":"Path(index(x), return the index of the generator `gen` from ``(f_0, ..., f_(n-1))``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ede78f6b31de7ac7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.index","kind":"method","src_hash":"e5cfd60d12b3abf9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(gen)","rhs":"<unspecified:index>","over":{"base":"Any"},"name":"index_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroup.index_correct","statement":"Path(index(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86e95691ae59411f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"isinstance(gen, self.dtype)","ensures":["result == self.generators.index(gen)"],"decidability":"structural","returns_expr":"self.generators.index(gen)"},{"name":"case_1","guard":"not (isinstance(gen, self.dtype))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.dtype","self.generators"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self, gen):
         """Return the index of the generator `gen` from ``(f_0, ..., f_(n-1))``.
 
@@ -454,16 +560,25 @@ class FreeGroup(DefaultPrinting):
             raise ValueError("expected a generator of Free Group %s, got %s" % (self, gen))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(), return the order of the free group) over Any ║
+# ║ Path(order(), result == (S.One if self.rank == 0 else S.Infinity) and result == S.One or result == S.Infinity) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ order : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.One if self.rank == 0 else S...   ║
+# ║   ensures:  result == S.One or result == S.Infinity        ║
+# ║   fiber[zero_or_none]: self.rank == 0 => S.One             ║
+# ║   fiber[zero_or_none]: not (self.rank == 0) => S.Infi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ order : Any → {Any | result satisfies: result == (S.O...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a99844b4497e49e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa6b82900f69f711  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.order","kind":"method","src_hash":"2080ed7a57369339","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"return the order of the free group","over":{"base":"Any"},"name":"order_correct"},"guarantee":"return the order of the free group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroup.order_correct","statement":"Path(order(x), return the order of the free group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a99844b4497e49e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.order","kind":"method","src_hash":"2080ed7a57369339","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.One if self.rank == 0 else S.Infinity) and result == S.One or result == S.Infinity"},"spec":{"lhs":"order()","rhs":"result == (S.One if self.rank == 0 else S.Infinity) and result == S.One or result == S.Infinity","over":{"base":"Any"},"name":"order_correct"},"guarantee":"result == (S.One if self.rank == 0 else S.Infinity); result == S.One or result == S.Infinity; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroup.order_correct","statement":"Path(order(x), result == (S.One if self.rank == 0 else S.Infinity); result == S.One or result == S.Infinity; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa6b82900f69f711","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.One if self.rank == 0 else S.Infinity)","result == S.One or result == S.Infinity"],"fibers":[{"name":"zero_or_none","guard":"self.rank == 0","ensures":["result == S.One"],"decidability":"z3","returns_expr":"S.One"},{"name":"zero_or_none","guard":"not (self.rank == 0)","ensures":["result == S.Infinity"],"decidability":"z3","returns_expr":"S.Infinity"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.rank"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self):
         """Return the order of the free group.
 
@@ -486,16 +601,23 @@ class FreeGroup(DefaultPrinting):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elements(), returns the elements attribute) over Any  ║
+# ║ Path(elements(), <unspecified:elements>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[zero_or_none]: self.rank == 0 => {self.identity}   ║
+# ║   fiber[zero_or_none]: not (self.rank == 0)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ elements : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 13da31f9c3e8ea5e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.elements","kind":"property","src_hash":"c4a37eea616fc0bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elements()","rhs":"returns the elements attribute","over":{"base":"Any"},"name":"elements_correct"},"guarantee":"returns the elements attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13da31f9c3e8ea5e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.elements","kind":"property","src_hash":"c4a37eea616fc0bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elements()","rhs":"<unspecified:elements>","over":{"base":"Any"},"name":"elements_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"13da31f9c3e8ea5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"zero_or_none","guard":"self.rank == 0","ensures":["result == {self.identity}"],"decidability":"z3","returns_expr":"{self.identity}"},{"name":"zero_or_none","guard":"not (self.rank == 0)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.identity","self.rank"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def elements(self):
         """
         Return the elements of the free group.
@@ -518,16 +640,22 @@ class FreeGroup(DefaultPrinting):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank(), returns the rank attribute) over Any          ║
+# ║ Path(rank(), self._rank) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rank                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3f5a1a89a2dd28f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.rank","kind":"property","src_hash":"9fcc3b46c63ba5b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"returns the rank attribute","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns the rank attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f5a1a89a2dd28f2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.rank","kind":"property","src_hash":"9fcc3b46c63ba5b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"self._rank","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns self._rank","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f5a1a89a2dd28f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rank","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rank"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank(self):
         r"""
         In group theory, the `rank` of a group `G`, denoted `G.rank`,
@@ -541,16 +669,22 @@ class FreeGroup(DefaultPrinting):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_abelian(), returns the is_abelian attribute) over Any ║
+# ║ Path(is_abelian(), self.rank in (0, 1)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rank in (0, 1)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_abelian : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f0b2415f9da15ea5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.is_abelian","kind":"property","src_hash":"009f7b3806fa1794","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_abelian()","rhs":"returns the is_abelian attribute","over":{"base":"Any"},"name":"is_abelian_correct"},"guarantee":"returns the is_abelian attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0b2415f9da15ea5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.is_abelian","kind":"property","src_hash":"009f7b3806fa1794","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_abelian()","rhs":"self.rank in (0, 1)","over":{"base":"Any"},"name":"is_abelian_correct"},"guarantee":"returns self.rank in (0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0b2415f9da15ea5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rank in (0, 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rank"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_abelian(self):
         """Returns if the group is Abelian.
 
@@ -567,31 +701,48 @@ class FreeGroup(DefaultPrinting):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(identity(), returns the identity attribute) over Any  ║
+# ║ Path(identity(), self.dtype()) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype()                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ identity : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5e56fe0055ccb7cb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.identity","kind":"property","src_hash":"8351cf76e2039b38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity()","rhs":"returns the identity attribute","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"returns the identity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e56fe0055ccb7cb"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.identity","kind":"property","src_hash":"8351cf76e2039b38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity()","rhs":"self.dtype()","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"returns self.dtype()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e56fe0055ccb7cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dtype"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def identity(self):
         """Returns the identity element of free group."""
         return self.dtype()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains(g), tests if free group element ``g`` belong to self, ``g``) over Any ║
+# ║ Path(contains(g), result == (False if not isinstance(g, FreeGroupElement) else False if self != g.group else True) and result == False or result == True) over {Any | hasattr(g, 'group')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(g, 'group')                            ║
+# ║   ensures:  result == (False if not isinstance(g, Fre...   ║
+# ║   ensures:  result == False or result == True              ║
+# ║   fiber[FreeGroupElement]: not isinstance(g, FreeGrou...   ║
+# ║   fiber[case_1]: self != g.group => False                  ║
+# ║   fiber[FreeGroupElement]: not (not isinstance(g, Fre...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains : {Any | hasattr(g, 'group')} → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8029afc4cc9285a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fc37ca64088f7b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.contains","kind":"method","src_hash":"79068d68a43f0775","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(g)","rhs":"tests if free group element ``g`` belong to self, ``g``","over":{"base":"Any"},"name":"contains_correct"},"guarantee":"tests if free group element ``g`` belong to self, ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroup.contains_correct","statement":"Path(contains(x), tests if free group element ``g`` belong to self, ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8029afc4cc9285a5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.contains","kind":"method","src_hash":"79068d68a43f0775","in":{"base":"Any","pred":"hasattr(g, 'group')"},"out":{"base":"Any","pred":"result satisfies: result == (False if not isinstance(g, FreeGroupElement) else False if self != g.group else True) and result == False or result == True"},"spec":{"lhs":"contains(g)","rhs":"result == (False if not isinstance(g, FreeGroupElement) else False if self != g.group else True) and result == False or result == True","over":{"base":"Any","pred":"hasattr(g, 'group')"},"name":"contains_correct"},"guarantee":"result == (False if not isinstance(g, FreeGroupElement) else False if self != g.group else True); result == False or result == True; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroup.contains_correct","statement":"Path(contains(x), result == (False if not isinstance(g, FreeGroupElement) else False if self != g.group else True); result == False or result == True; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fc37ca64088f7b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(g, 'group')"],"ensures":["result == (False if not isinstance(g, FreeGroupElement) else False if self != g.group else True)","result == False or result == True"],"fibers":[{"name":"FreeGroupElement","guard":"not isinstance(g, FreeGroupElement)","ensures":["result == False"],"decidability":"structural","returns_expr":"False"},{"name":"case_1","guard":"self != g.group","ensures":["result == False"],"decidability":"z3","returns_expr":"False"},{"name":"FreeGroupElement","guard":"not (not isinstance(g, FreeGroupElement)) and not (self != g.group)","ensures":["result == True"],"decidability":"structural","returns_expr":"True"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains(self, g):
         """Tests if Free Group element ``g`` belong to self, ``G``.
 
@@ -615,16 +766,22 @@ class FreeGroup(DefaultPrinting):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(center(), returns the center of the free group `self`) over Any ║
+# ║ Path(center(), {self.identity}) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {self.identity}                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ center : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4ebde3c224a6930f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.center","kind":"method","src_hash":"b019ab94479c67ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"returns the center of the free group `self`","over":{"base":"Any"},"name":"center_correct"},"guarantee":"returns the center of the free group `self`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ebde3c224a6930f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroup.center","kind":"method","src_hash":"b019ab94479c67ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"{self.identity}","over":{"base":"Any"},"name":"center_correct"},"guarantee":"returns {self.identity}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4ebde3c224a6930f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{self.identity}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.identity"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def center(self):
         """Returns the center of the free group `self`."""
         return {self.identity}
@@ -638,14 +795,22 @@ class FreeGroup(DefaultPrinting):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FreeGroupElement instance) preserved by FreeGroupElement(*args) over {Any | isinstance(words, dict) and isinstance(other, group.dtype) and isinstance(from_i, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, CantSympify)                  ║
+# ║   ensures:  isinstance(self, DefaultPrinting)              ║
+# ║   ensures:  isinstance(self, tuple)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FreeGroupElement : {Any | isinstance(words, dict) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 437555b7fd4a93cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement","kind":"class","src_hash":"c24a91b0e36c1aac","in":{"base":"Any","pred":"isinstance(words, dict) and isinstance(other, group.dtype) and isinstance(from_i, int)"},"out":{"base":"Any"},"spec":{"lhs":"FreeGroupElement(*args)","rhs":"correctly constructs a FreeGroupElement instance","over":{"base":"Any","pred":"isinstance(words, dict) and isinstance(other, group.dtype) and isinstance(from_i, int)"},"name":"FreeGroupElement_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FreeGroupElement instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_identity","pred":"self.is_identity","kind":"class"}],"methods_preserving":["new","__hash__","copy","is_identity","array_form","letter_form","__getitem__","index","letter_form_elm","ext_rep","__contains__","__str__","__pow__","__mul__","__truediv__","__rtruediv__","__add__","inverse","order","commutator","eliminate_words","eliminate_word","__len__","__eq__","__lt__","__le__","__gt__","__ge__","exponent_sum","generator_count","subword","subword_index","is_dependent","is_independent","contains_generators","cyclic_subword","cyclic_conjugates","is_cyclic_conjugate","number_syllables","exponent_syllable","generator_syllable","sub_syllables","substituted_word","is_cyclically_reduced","identity_cyclic_reduction","cyclic_reduction","power_of"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"437555b7fd4a93cf"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement","kind":"class","src_hash":"c24a91b0e36c1aac","in":{"base":"Any","pred":"isinstance(words, dict) and isinstance(other, group.dtype) and isinstance(from_i, int)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, CantSympify) and isinstance(self, DefaultPrinting) and isinstance(self, tuple)"},"spec":{"lhs":"FreeGroupElement(*args)","rhs":"correctly constructs a FreeGroupElement instance","over":{"base":"Any","pred":"isinstance(words, dict) and isinstance(other, group.dtype) and isinstance(from_i, int)"},"name":"FreeGroupElement_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, CantSympify); isinstance(self, DefaultPrinting); isinstance(self, tuple)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_identity","pred":"self.is_identity","kind":"class"}],"methods_preserving":["new","__hash__","copy","is_identity","array_form","letter_form","__getitem__","index","letter_form_elm","ext_rep","__contains__","__str__","__pow__","__mul__","__truediv__","__rtruediv__","__add__","inverse","order","commutator","eliminate_words","eliminate_word","__len__","__eq__","__lt__","__le__","__gt__","__ge__","exponent_sum","generator_count","subword","subword_index","is_dependent","is_independent","contains_generators","cyclic_subword","cyclic_conjugates","is_cyclic_conjugate","number_syllables","exponent_syllable","generator_syllable","sub_syllables","substituted_word","is_cyclically_reduced","identity_cyclic_reduction","cyclic_reduction","power_of"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"437555b7fd4a93cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, CantSympify)","isinstance(self, DefaultPrinting)","isinstance(self, tuple)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function FreeGroupElement not found in source"]}}
 class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
     """Used to create elements of FreeGroup. It cannot be used directly to
     create a free group element. It is called by the `dtype` method of the
@@ -656,32 +821,44 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
     is_assoc_word = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(ini), new produces the expected output) over Any  ║
+# ║ Path(new(init), self.__class__(init)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(init)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7b3105a9ce9c3ada           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.new","kind":"method","src_hash":"c68ad25f642a117a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(ini)","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b3105a9ce9c3ada"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.new","kind":"method","src_hash":"c68ad25f642a117a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(init)","rhs":"self.__class__(init)","over":{"base":"Any"},"name":"new_correct"},"guarantee":"returns self.__class__(init)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b3105a9ce9c3ada","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(init)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, init):
         return self.__class__(init)
 
     _hash = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), <unspecified:__hash__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 61a8aaa49028266f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__hash__","kind":"method","src_hash":"85a8553193c0562c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61a8aaa49028266f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__hash__","kind":"method","src_hash":"85a8553193c0562c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"<unspecified:__hash__>","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61a8aaa49028266f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._hash","self.group"],"writes":["self._hash"]},"state_contract":{"modifies":["self._hash"],"old_bindings":{"old_self__hash":"self._hash"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         _hash = self._hash
         if _hash is None:
@@ -689,46 +866,64 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return _hash
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(), copy produces the expected output) over Any   ║
+# ║ Path(copy(), self.new(self)) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.new(self)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ copy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c7a5322ee2052141           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.copy","kind":"method","src_hash":"8c2db8f329684a1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"copy produces the expected output","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"copy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7a5322ee2052141"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.copy","kind":"method","src_hash":"8c2db8f329684a1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"self.new(self)","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"returns self.new(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7a5322ee2052141","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.new(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copy(self):
         return self.new(self)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_identity(), returns the is_identity attribute) over Any ║
+# ║ Path(is_identity(), not self.array_form) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self.array_form                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_identity : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b4a326acca51d23d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.is_identity","kind":"property","src_hash":"88ba7e35aa0d2ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_identity()","rhs":"returns the is_identity attribute","over":{"base":"Any"},"name":"is_identity_correct"},"guarantee":"returns the is_identity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4a326acca51d23d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.is_identity","kind":"property","src_hash":"88ba7e35aa0d2ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_identity()","rhs":"not self.array_form","over":{"base":"Any"},"name":"is_identity_correct"},"guarantee":"returns not self.array_form","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4a326acca51d23d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self.array_form","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_identity(self):
         return not self.array_form
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(array_form(), returns the array_form attribute) over Any ║
+# ║ Path(array_form(), tuple(self)) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(self)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ array_form : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05b2501dca14eb00           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.array_form","kind":"property","src_hash":"9f637e71225942e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"array_form()","rhs":"returns the array_form attribute","over":{"base":"Any"},"name":"array_form_correct"},"guarantee":"returns the array_form attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05b2501dca14eb00"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.array_form","kind":"property","src_hash":"9f637e71225942e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"array_form()","rhs":"tuple(self)","over":{"base":"Any"},"name":"array_form_correct"},"guarantee":"returns tuple(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05b2501dca14eb00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def array_form(self):
         """
         SymPy provides two different internal kinds of representation
@@ -764,16 +959,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(letter_form(), returns the letter_form attribute) over Any ║
+# ║ Path(letter_form(), tuple(flatten([(i,) * j if j > 0 else (-i,) * -j for i, j in self.array_form]))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(flatten([(i,) * j if j > 0 else (-i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ letter_form : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a00f31b8abc2561f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.letter_form","kind":"property","src_hash":"36bddd9f8ddf8099","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"letter_form()","rhs":"returns the letter_form attribute","over":{"base":"Any"},"name":"letter_form_correct"},"guarantee":"returns the letter_form attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a00f31b8abc2561f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.letter_form","kind":"property","src_hash":"36bddd9f8ddf8099","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"letter_form()","rhs":"tuple(flatten([(i,) * j if j > 0 else (-i,) * -j for i, j in self.array_form]))","over":{"base":"Any"},"name":"letter_form_correct"},"guarantee":"returns tuple(flatten([(i,) * j if j > 0 else (-i,) * -j for i, j in self.array_form]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a00f31b8abc2561f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(flatten([(i,) * j if j > 0 else (-i,) * -j for i, j in self.array_form]))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def letter_form(self):
         """
         The letter representation of a ``FreeGroupElement`` is a tuple
@@ -803,16 +1004,25 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
                     for i, j in self.array_form]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(i), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(i), result == (group.dtype(((r, 1),)) if r.is_Symbol else group.dtype(((-r, -1),))) and result == group.dtype(((r, 1),)) or result == group.dtype(((-r, -1),))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (group.dtype(((r, 1),)) if r.is...   ║
+# ║   ensures:  result == group.dtype(((r, 1),)) or resul...   ║
+# ║   fiber[case_0]: r.is_Symbol => group.dtype(((r, 1),))     ║
+# ║   fiber[case_1]: not (r.is_Symbol) => group.dtype(((-...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb2b936ec22208b8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__getitem__","kind":"method","src_hash":"6edd9a438d510f22","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb2b936ec22208b8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__getitem__","kind":"method","src_hash":"6edd9a438d510f22","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (group.dtype(((r, 1),)) if r.is_Symbol else group.dtype(((-r, -1),))) and result == group.dtype(((r, 1),)) or result == group.dtype(((-r, -1),))"},"spec":{"lhs":"__getitem__(i)","rhs":"result == (group.dtype(((r, 1),)) if r.is_Symbol else group.dtype(((-r, -1),))) and result == group.dtype(((r, 1),)) or result == group.dtype(((-r, -1),))","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"result == (group.dtype(((r, 1),)) if r.is_Symbol else group.dtype(((-r, -1),))); result == group.dtype(((r, 1),)) or result == group.dtype(((-r, -1),)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb2b936ec22208b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (group.dtype(((r, 1),)) if r.is_Symbol else group.dtype(((-r, -1),)))","result == group.dtype(((r, 1),)) or result == group.dtype(((-r, -1),))"],"fibers":[{"name":"case_0","guard":"r.is_Symbol","ensures":["result == group.dtype(((r, 1),))"],"decidability":"library","returns_expr":"group.dtype(((r, 1),))"},{"name":"case_1","guard":"not (r.is_Symbol)","ensures":["result == group.dtype(((-r, -1),))"],"decidability":"library","returns_expr":"group.dtype(((-r, -1),))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.group","self.letter_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, i):
         group = self.group
         r = self.letter_form[i]
@@ -822,16 +1032,24 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
             return group.dtype(((-r, -1),))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(gen), index produces the expected output) over Any ║
+# ║ Path(index(gen), self.letter_form.index(gen.letter_form[0])) over {Any | not (len(gen) != 1) and hasattr(gen, 'letter_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ index : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(gen) != 1)                            ║
+# ║   requires: hasattr(gen, 'letter_form')                    ║
+# ║   returns:  self.letter_form.index(gen.letter_form[0])     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ index : {Any | not (len(gen) != 1) and hasattr(gen, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe47a8600727e0f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68c608bb20e6c6d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.index","kind":"method","src_hash":"59530f05937b9d1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(gen)","rhs":"index produces the expected output","over":{"base":"Any"},"name":"index_correct"},"guarantee":"index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.index_correct","statement":"Path(index(x), index produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe47a8600727e0f3"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.index","kind":"method","src_hash":"59530f05937b9d1d","in":{"base":"Any","pred":"not (len(gen) != 1) and hasattr(gen, 'letter_form')"},"out":{"base":"Any"},"spec":{"lhs":"index(gen)","rhs":"self.letter_form.index(gen.letter_form[0])","over":{"base":"Any","pred":"not (len(gen) != 1) and hasattr(gen, 'letter_form')"},"name":"index_correct"},"guarantee":"returns self.letter_form.index(gen.letter_form[0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.index_correct","statement":"Path(index(x), returns self.letter_form.index(gen.letter_form[0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68c608bb20e6c6d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(gen) != 1)","hasattr(gen, 'letter_form')"],"returns_expr":"self.letter_form.index(gen.letter_form[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["gen.letter_form","self.letter_form"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self, gen):
         if len(gen) != 1:
             raise ValueError()
@@ -839,16 +1057,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(letter_form_elm(), returns the letter_form_elm attribute) over Any ║
+# ║ Path(letter_form_elm(), [group.dtype(((elm, 1),)) if elm.is_Symbol else group.dtype(((-elm, -1),)) for elm in r]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [group.dtype(((elm, 1),)) if elm.is_Symbo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ letter_form_elm : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f8806e1e98da681           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.letter_form_elm","kind":"property","src_hash":"817df35f03c64c5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"letter_form_elm()","rhs":"returns the letter_form_elm attribute","over":{"base":"Any"},"name":"letter_form_elm_correct"},"guarantee":"returns the letter_form_elm attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f8806e1e98da681"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.letter_form_elm","kind":"property","src_hash":"817df35f03c64c5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"letter_form_elm()","rhs":"[group.dtype(((elm, 1),)) if elm.is_Symbol else group.dtype(((-elm, -1),)) for elm in r]","over":{"base":"Any"},"name":"letter_form_elm_correct"},"guarantee":"returns [group.dtype(((elm, 1),)) if elm.is_Symbol else group.dtype(((-elm, -1),)) for elm in r]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f8806e1e98da681","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[group.dtype(((elm, 1),)) if elm.is_Symbol else group.dtype(((-elm, -1),)) for elm in r]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.group","self.letter_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def letter_form_elm(self):
         """
         """
@@ -859,46 +1083,65 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ext_rep(), returns the ext_rep attribute) over Any    ║
+# ║ Path(ext_rep(), tuple(flatten(self.array_form))) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(flatten(self.array_form))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ext_rep : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5250f054c27851b8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.ext_rep","kind":"property","src_hash":"44055e76ecf81f5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ext_rep()","rhs":"returns the ext_rep attribute","over":{"base":"Any"},"name":"ext_rep_correct"},"guarantee":"returns the ext_rep attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5250f054c27851b8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.ext_rep","kind":"property","src_hash":"44055e76ecf81f5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ext_rep()","rhs":"tuple(flatten(self.array_form))","over":{"base":"Any"},"name":"ext_rep_correct"},"guarantee":"returns tuple(flatten(self.array_form))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5250f054c27851b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(flatten(self.array_form))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ext_rep(self):
         """This is called the External Representation of ``FreeGroupElement``
         """
         return tuple(flatten(self.array_form))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(gen), correctly tests membership) over Any ║
+# ║ Path(__contains__(gen), gen.array_form[0][0] in tuple([r[0] for r in self.array_form])) over {Any | hasattr(gen, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(gen, 'array_form')                     ║
+# ║   returns:  gen.array_form[0][0] in tuple([r[0] for r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : {Any | hasattr(gen, 'array_form')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 481d573c57a64639           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__contains__","kind":"method","src_hash":"a9f6fdfd1cb4b5a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(gen)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"481d573c57a64639"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__contains__","kind":"method","src_hash":"a9f6fdfd1cb4b5a9","in":{"base":"Any","pred":"hasattr(gen, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(gen)","rhs":"gen.array_form[0][0] in tuple([r[0] for r in self.array_form])","over":{"base":"Any","pred":"hasattr(gen, 'array_form')"},"name":"__contains___correct"},"guarantee":"returns gen.array_form[0][0] in tuple([r[0] for r in self.array_form])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"481d573c57a64639","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(gen, 'array_form')"],"returns_expr":"gen.array_form[0][0] in tuple([r[0] for r in self.array_form])","pure":false,"effects":{"effect_type":"reads_state","reads":["gen.array_form","self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, gen):
         return gen.array_form[0][0] in tuple([r[0] for r in self.array_form])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5fbba0bb82166d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__str__","kind":"method","src_hash":"ebe72a50f90d4648","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5fbba0bb82166d8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__str__","kind":"method","src_hash":"ebe72a50f90d4648","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5fbba0bb82166d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form","self.is_identity"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         if self.is_identity:
             return "<identity>"
@@ -923,16 +1166,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
     __repr__ = __str__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(n), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(n), <unspecified:__pow__>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pow__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47254945e4171406           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__pow__","kind":"method","src_hash":"290b249ddf8e4168","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47254945e4171406"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__pow__","kind":"method","src_hash":"290b249ddf8e4168","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"<unspecified:__pow__>","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47254945e4171406","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.group","self.inverse"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, n):
         n = as_int(n)
         result = self.group.identity
@@ -953,16 +1202,25 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | isinstance(other, group.dtype) and hasattr(other, 'is_identity') and hasattr(other, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(other, group.dtype)                 ║
+# ║   requires: hasattr(other, 'is_identity')                  ║
+# ║   requires: hasattr(other, 'array_form')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | isinstance(other, group.dtype) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f97913718dbc865e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__mul__","kind":"method","src_hash":"14150dfd3072fed7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f97913718dbc865e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__mul__","kind":"method","src_hash":"14150dfd3072fed7","in":{"base":"Any","pred":"isinstance(other, group.dtype) and hasattr(other, 'is_identity') and hasattr(other, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"isinstance(other, group.dtype) and hasattr(other, 'is_identity') and hasattr(other, 'array_form')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f97913718dbc865e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(other, group.dtype)","hasattr(other, 'is_identity')","hasattr(other, 'array_form')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.array_form","other.is_identity","self.array_form","self.group","self.is_identity"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         """Returns the product of elements belonging to the same ``FreeGroup``.
 
@@ -992,16 +1250,24 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return group.dtype(tuple(r))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), self * other.inverse()) over {Any | isinstance(other, group.dtype) and hasattr(other, 'inverse')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, group.dtype)                 ║
+# ║   requires: hasattr(other, 'inverse')                      ║
+# ║   returns:  self * other.inverse()                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | isinstance(other, group.dtype) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6f692619cbded52e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__truediv__","kind":"method","src_hash":"c17cc916e366c343","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f692619cbded52e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__truediv__","kind":"method","src_hash":"c17cc916e366c343","in":{"base":"Any","pred":"isinstance(other, group.dtype) and hasattr(other, 'inverse')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"self * other.inverse()","over":{"base":"Any","pred":"isinstance(other, group.dtype) and hasattr(other, 'inverse')"},"name":"__truediv___correct"},"guarantee":"returns self * other.inverse()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f692619cbded52e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, group.dtype)","hasattr(other, 'inverse')"],"returns_expr":"self * other.inverse()","pure":false,"effects":{"effect_type":"reads_state","reads":["other.inverse","self.group"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         group = self.group
         if not isinstance(other, group.dtype):
@@ -1010,16 +1276,23 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return self*(other.inverse())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(other), other * self.inverse()) over {Any | isinstance(other, group.dtype)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rtruediv__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, group.dtype)                 ║
+# ║   returns:  other * self.inverse()                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rtruediv__ : {Any | isinstance(other, group.dtype)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ef74a60c53eb41b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__rtruediv__","kind":"method","src_hash":"253c04ac222e3758","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ef74a60c53eb41b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__rtruediv__","kind":"method","src_hash":"253c04ac222e3758","in":{"base":"Any","pred":"isinstance(other, group.dtype)"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(other)","rhs":"other * self.inverse()","over":{"base":"Any","pred":"isinstance(other, group.dtype)"},"name":"__rtruediv___correct"},"guarantee":"returns other * self.inverse()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ef74a60c53eb41b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, group.dtype)"],"returns_expr":"other * self.inverse()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.group","self.inverse"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, other):
         group = self.group
         if not isinstance(other, group.dtype):
@@ -1028,30 +1301,42 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return other*(self.inverse())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 22435f58ad779099           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__add__","kind":"method","src_hash":"d5477671233be909","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"22435f58ad779099"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__add__","kind":"method","src_hash":"d5477671233be909","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"22435f58ad779099","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(), returns the inverse of a ``freegroupelement`` element) over Any ║
+# ║ Path(inverse(), group.dtype(r)) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  group.dtype(r)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ed092435f910470  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebed999adc46ec01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.inverse","kind":"method","src_hash":"e5d00ca4c7c012d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse()","rhs":"returns the inverse of a ``freegroupelement`` element","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of a ``freegroupelement`` element","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.inverse_correct","statement":"Path(inverse(x), returns the inverse of a ``freegroupelement`` element)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ed092435f910470"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.inverse","kind":"method","src_hash":"e5d00ca4c7c012d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse()","rhs":"group.dtype(r)","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns group.dtype(r)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.inverse_correct","statement":"Path(inverse(x), returns group.dtype(r))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebed999adc46ec01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"group.dtype(r)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form","self.group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(self):
         """
         Returns the inverse of a ``FreeGroupElement`` element
@@ -1072,16 +1357,25 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return group.dtype(r)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(), find the order of a ``freegroupelement``) over Any ║
+# ║ Path(order(), result == (S.One if self.is_identity else S.Infinity) and result == S.One or result == S.Infinity) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ order : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.One if self.is_identity else...   ║
+# ║   ensures:  result == S.One or result == S.Infinity        ║
+# ║   fiber[case_0]: self.is_identity => S.One                 ║
+# ║   fiber[case_1]: not (self.is_identity) => S.Infinity      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ order : Any → {Any | result satisfies: result == (S.O...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca9c36a0295c0905  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db2b521b35e3bac9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.order","kind":"method","src_hash":"b9eb5e5a9e62950d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"find the order of a ``freegroupelement``","over":{"base":"Any"},"name":"order_correct"},"guarantee":"find the order of a ``freegroupelement``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.order_correct","statement":"Path(order(x), find the order of a ``freegroupelement``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca9c36a0295c0905"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.order","kind":"method","src_hash":"b9eb5e5a9e62950d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.One if self.is_identity else S.Infinity) and result == S.One or result == S.Infinity"},"spec":{"lhs":"order()","rhs":"result == (S.One if self.is_identity else S.Infinity) and result == S.One or result == S.Infinity","over":{"base":"Any"},"name":"order_correct"},"guarantee":"result == (S.One if self.is_identity else S.Infinity); result == S.One or result == S.Infinity; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.order_correct","statement":"Path(order(x), result == (S.One if self.is_identity else S.Infinity); result == S.One or result == S.Infinity; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db2b521b35e3bac9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.One if self.is_identity else S.Infinity)","result == S.One or result == S.Infinity"],"fibers":[{"name":"case_0","guard":"self.is_identity","ensures":["result == S.One"],"decidability":"library","returns_expr":"S.One"},{"name":"case_1","guard":"not (self.is_identity)","ensures":["result == S.Infinity"],"decidability":"library","returns_expr":"S.Infinity"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_identity"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self):
         """Find the order of a ``FreeGroupElement``.
 
@@ -1100,16 +1394,25 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
             return S.Infinity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(commutator(oth), id) over Any                         ║
+# ║ Path(commutator(other), id) over {Any | isinstance(other, group.dtype) and hasattr(other, 'inverse')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ commutator : Any → {Any | result satisfies: ``~x*~sel...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, group.dtype)                 ║
+# ║   requires: hasattr(other, 'inverse')                      ║
+# ║   fiber[case_0]: not isinstance(other, group.dtype)        ║
+# ║   fiber[case_1]: not (not isinstance(other, group.dty...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ commutator : {Any | isinstance(other, group.dtype) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4bfac3c83adb11de   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.commutator","kind":"method","src_hash":"dca8500fd1315ca9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ``~x*~self*x*self``"},"spec":{"lhs":"commutator(oth)","rhs":"return the commutator of `self` and `x`: ``~x*~self*x*self``","over":{"base":"Any"},"name":"commutator_correct","kind":"composition"},"guarantee":"return the commutator of `self` and `x`: ``~x*~self*x*self``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inverse","by":"library_axiom"},{"fn":"inverse","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bfac3c83adb11de"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.commutator","kind":"method","src_hash":"dca8500fd1315ca9","in":{"base":"Any","pred":"isinstance(other, group.dtype) and hasattr(other, 'inverse')"},"out":{"base":"Any","pred":"result satisfies: ``~x*~self*x*self``"},"spec":{"lhs":"commutator(other)","rhs":"<unspecified:commutator>","over":{"base":"Any","pred":"isinstance(other, group.dtype) and hasattr(other, 'inverse')"},"name":"commutator_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"inverse","by":"library_axiom"},{"fn":"inverse","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bfac3c83adb11de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, group.dtype)","hasattr(other, 'inverse')"],"fibers":[{"name":"case_0","guard":"not isinstance(other, group.dtype)","ensures":[],"decidability":"structural"},{"name":"case_1","guard":"not (not isinstance(other, group.dtype))","ensures":["result == self.inverse() * other.inverse() * self * other"],"decidability":"structural","returns_expr":"self.inverse() * other.inverse() * self * other"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.inverse","self.group","self.inverse"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def commutator(self, other):
         """
         Return the commutator of `self` and `x`: ``~x*~self*x*self``
@@ -1123,16 +1426,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
             return self.inverse()*other.inverse()*self*other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eliminate_words(wor), replace each subword from the dictionary `words` by words[subword]. if words is a list, replace the words by the identity) over Any ║
+# ║ Path(eliminate_words(words, _all, inverse), <unspecified:eliminate_words>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eliminate_words : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee7f60f3da91cff8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.eliminate_words","kind":"method","src_hash":"51b46b44ae89ac53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eliminate_words(wor)","rhs":"replace each subword from the dictionary `words` by words[subword]. if words is a list, replace the words by the identity","over":{"base":"Any"},"name":"eliminate_words_correct"},"guarantee":"replace each subword from the dictionary `words` by words[subword]. if words is a list, replace the words by the identity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.eliminate_words_correct","statement":"Path(eliminate_words(x), replace each subword from the dictionary `words` by words[subword]. if words is a list, replace the words by the identity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee7f60f3da91cff8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.eliminate_words","kind":"method","src_hash":"51b46b44ae89ac53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eliminate_words(words, _all, inverse)","rhs":"<unspecified:eliminate_words>","over":{"base":"Any"},"name":"eliminate_words_correct"},"guarantee":"replace each subword from the dictionary `words` by words[subword]. if words is a list, replace the words by the identity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.eliminate_words_correct","statement":"Path(eliminate_words(x), replace each subword from the dictionary `words` by words[subword]. if words is a list, replace the words by the identity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee7f60f3da91cff8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eliminate_words(self, words, _all=False, inverse=True):
         '''
         Replace each subword from the dictionary `words` by words[subword].
@@ -1160,16 +1469,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return new
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eliminate_word(gen), for an associative word `self`, a subword `gen`, and an associative word `by` (identity by default), return the associative word obtained by replacing each occurrence of `gen` in `self` by `by`) over Any ║
+# ║ Path(eliminate_word(gen, by, _all), <unspecified:eliminate_word>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eliminate_word : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dafecd380f1f7d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.eliminate_word","kind":"method","src_hash":"b3ce192b72511127","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eliminate_word(gen)","rhs":"for an associative word `self`, a subword `gen`, and an associative word `by` (identity by default), return the associative word obtained by replacing each occurrence of `gen` in `self` by `by`","over":{"base":"Any"},"name":"eliminate_word_correct"},"guarantee":"for an associative word `self`, a subword `gen`, and an associative word `by` (identity by default), return the associative word obtained by replacing each occurrence of `gen` in `self` by `by`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.eliminate_word_correct","statement":"Path(eliminate_word(x), for an associative word `self`, a subword `gen`, and an associative word `by` (identity by default), return the associative word obtained by replacing each occurrence of `gen` in `self` by `by`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dafecd380f1f7d8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.eliminate_word","kind":"method","src_hash":"b3ce192b72511127","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eliminate_word(gen, by, _all)","rhs":"<unspecified:eliminate_word>","over":{"base":"Any"},"name":"eliminate_word_correct"},"guarantee":"for an associative word `self`, a subword `gen`, and an associative word `by` (identity by default), return the associative word obtained by replacing each occurrence of `gen` in `self` by `by`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.eliminate_word_correct","statement":"Path(eliminate_word(x), for an associative word `self`, a subword `gen`, and an associative word `by` (identity by default), return the associative word obtained by replacing each occurrence of `gen` in `self` by `by`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dafecd380f1f7d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.group","self.is_independent"],"catches":["ValueError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eliminate_word(self, gen, by=None, _all=False, inverse=True):
         """
         For an associative word `self`, a subword `gen`, and an associative
@@ -1230,16 +1545,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
             return word
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), sum((abs(j) for i, j in self))) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sum((abs(j) for i, j in self))                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f51725bd5f34a513           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__len__","kind":"method","src_hash":"9dc4b4aa93a2a7a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f51725bd5f34a513"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__len__","kind":"method","src_hash":"9dc4b4aa93a2a7a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"sum((abs(j) for i, j in self))","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns sum((abs(j) for i, j in self))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f51725bd5f34a513","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sum((abs(j) for i, j in self))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         """
         For an associative word `self`, returns the number of letters in it.
@@ -1261,16 +1582,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return sum(abs(j) for (i, j) in self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b2f137bfc3450e8b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__eq__","kind":"method","src_hash":"e726c891716f5bfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2f137bfc3450e8b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__eq__","kind":"method","src_hash":"e726c891716f5bfd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2f137bfc3450e8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """
         Two  associative words are equal if they are words over the
@@ -1307,16 +1634,23 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return tuple.__eq__(self, other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), the ordering of associative words is defined by length and lexicography (this ordering is called short-lex ordering), that is, shorter words are smaller than longer words, and words of the same length) over Any ║
+# ║ Path(__lt__(other), <unspecified:__lt__>) over {Any | isinstance(other, group.dtype)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __lt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(other, group.dtype)                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __lt__ : {Any | isinstance(other, group.dtype)} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3be0784cc6d13a43           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__lt__","kind":"method","src_hash":"7bd4446181ac3a30","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"the ordering of associative words is defined by length and lexicography (this ordering is called short-lex ordering), that is, shorter words are smaller than longer words, and words of the same length","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"the ordering of associative words is defined by length and lexicography (this ordering is called short-lex ordering), that is, shorter words are smaller than longer words, and words of the same length","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3be0784cc6d13a43"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__lt__","kind":"method","src_hash":"7bd4446181ac3a30","in":{"base":"Any","pred":"isinstance(other, group.dtype)"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"<unspecified:__lt__>","over":{"base":"Any","pred":"isinstance(other, group.dtype)"},"name":"__lt___correct"},"guarantee":"the ordering of associative words is defined by length and lexicography (this ordering is called short-lex ordering), that is, shorter words are smaller than longer words, and words of the same length","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3be0784cc6d13a43","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(other, group.dtype)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.group"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         """
         The  ordering  of  associative  words is defined by length and
@@ -1366,30 +1700,43 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__le__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__le__(other), self == other or self < other) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self == other or self < other                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __le__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7f091e5c66877399           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__le__","kind":"method","src_hash":"21f1e54bceee80fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f091e5c66877399"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__le__","kind":"method","src_hash":"21f1e54bceee80fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__le__(other)","rhs":"self == other or self < other","over":{"base":"Any"},"name":"__le___correct"},"guarantee":"returns self == other or self < other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7f091e5c66877399","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self == other or self < other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __le__(self, other):
         return (self == other or self < other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__gt__(oth), examples ========) over Any              ║
+# ║ Path(__gt__(other), not self <= other) over {Any | isinstance(other, group.dtype)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __gt__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(other, group.dtype)                 ║
+# ║   returns:  not self <= other                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __gt__ : {Any | isinstance(other, group.dtype)} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4229f67e7bf0f20b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__gt__","kind":"method","src_hash":"69cb5f79f6efed0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(oth)","rhs":"examples ========","over":{"base":"Any"},"name":"__gt___correct"},"guarantee":"examples ========","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4229f67e7bf0f20b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__gt__","kind":"method","src_hash":"69cb5f79f6efed0c","in":{"base":"Any","pred":"isinstance(other, group.dtype)"},"out":{"base":"Any"},"spec":{"lhs":"__gt__(other)","rhs":"not self <= other","over":{"base":"Any","pred":"isinstance(other, group.dtype)"},"name":"__gt___correct"},"guarantee":"returns not self <= other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4229f67e7bf0f20b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(other, group.dtype)"],"returns_expr":"not self <= other","pure":false,"effects":{"effect_type":"reads_state","reads":["self.group"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __gt__(self, other):
         """
 
@@ -1413,30 +1760,44 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return not self <= other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ge__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ge__(other), not self < other) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self < other                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ge__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9c1c68859dd907a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__ge__","kind":"method","src_hash":"58d8724a1d09d0a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ge___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c1c68859dd907a1"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.__ge__","kind":"method","src_hash":"58d8724a1d09d0a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ge__(other)","rhs":"not self < other","over":{"base":"Any"},"name":"__ge___correct"},"guarantee":"returns not self < other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c1c68859dd907a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self < other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ge__(self, other):
         return not self < other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exponent_sum(gen), for an associative word `self` and a generator or inverse of generator `gen`, ``exponent_sum`` returns the number of times `gen` appears in `self` minus the number of times its inverse appears in `sel) over Any ║
+# ║ Path(exponent_sum(gen), s[1] * sum((i[1] for i in self.array_form if i[0] == s[0]))) over {Any | not (len(gen) != 1) and hasattr(gen, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ exponent_sum : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(gen) != 1)                            ║
+# ║   requires: hasattr(gen, 'array_form')                     ║
+# ║   returns:  s[1] * sum((i[1] for i in self.array_form...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ exponent_sum : {Any | not (len(gen) != 1) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b6a69bcd2aa9107  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56f1bf2530ae4811  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.exponent_sum","kind":"method","src_hash":"f44c6645713106a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exponent_sum(gen)","rhs":"for an associative word `self` and a generator or inverse of generator `gen`, ``exponent_sum`` returns the number of times `gen` appears in `self` minus the number of times its inverse appears in `sel","over":{"base":"Any"},"name":"exponent_sum_correct"},"guarantee":"for an associative word `self` and a generator or inverse of generator `gen`, ``exponent_sum`` returns the number of times `gen` appears in `self` minus the number of times its inverse appears in `sel","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.exponent_sum_correct","statement":"Path(exponent_sum(x), for an associative word `self` and a generator or inverse of generator `gen`, ``exponent_sum`` returns the number of times `gen` appears in `self` minus the number of times its inverse appears in `sel)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b6a69bcd2aa9107"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.exponent_sum","kind":"method","src_hash":"f44c6645713106a6","in":{"base":"Any","pred":"not (len(gen) != 1) and hasattr(gen, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"exponent_sum(gen)","rhs":"s[1] * sum((i[1] for i in self.array_form if i[0] == s[0]))","over":{"base":"Any","pred":"not (len(gen) != 1) and hasattr(gen, 'array_form')"},"name":"exponent_sum_correct"},"guarantee":"returns s[1] * sum((i[1] for i in self.array_form if i[0] == s[0]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.exponent_sum_correct","statement":"Path(exponent_sum(x), returns s[1] * sum((i[1] for i in self.array_form if i[0] == s[0])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56f1bf2530ae4811","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(gen) != 1)","hasattr(gen, 'array_form')"],"returns_expr":"s[1] * sum((i[1] for i in self.array_form if i[0] == s[0]))","pure":false,"effects":{"effect_type":"reads_state","reads":["gen.array_form","self.array_form"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exponent_sum(self, gen):
         """
         For an associative word `self` and a generator or inverse of generator
@@ -1470,16 +1831,24 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return s[1]*sum(i[1] for i in self.array_form if i[0] == s[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generator_count(gen), id) over Any                    ║
+# ║ Path(generator_count(gen), id) over {Any | not (len(gen) != 1 or gen.array_form[0][1] < 0) and hasattr(gen, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ generator_count : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(gen) != 1 or gen.array_form[0][1...   ║
+# ║   requires: hasattr(gen, 'array_form')                     ║
+# ║   returns:  s[1] * sum((abs(i[1]) for i in self.array...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ generator_count : {Any | not (len(gen) != 1 or gen.ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9ae025e64f9aef16   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.generator_count","kind":"method","src_hash":"b4906e547013f946","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generator_count(gen)","rhs":"for an associative word `self` and a generator `gen`, ``generator_count`` returns the multiplicity of generator `gen` in `self`","over":{"base":"Any"},"name":"generator_count_correct","kind":"composition"},"guarantee":"for an associative word `self` and a generator `gen`, ``generator_count`` returns the multiplicity of generator `gen` in `self`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"abs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ae025e64f9aef16"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.generator_count","kind":"method","src_hash":"b4906e547013f946","in":{"base":"Any","pred":"not (len(gen) != 1 or gen.array_form[0][1] < 0) and hasattr(gen, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"generator_count(gen)","rhs":"s[1] * sum((abs(i[1]) for i in self.array_form if i[0] == s[0]))","over":{"base":"Any","pred":"not (len(gen) != 1 or gen.array_form[0][1] < 0) and hasattr(gen, 'array_form')"},"name":"generator_count_correct","kind":"composition"},"guarantee":"returns s[1] * sum((abs(i[1]) for i in self.array_form if i[0] == s[0]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"abs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ae025e64f9aef16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(gen) != 1 or gen.array_form[0][1] < 0)","hasattr(gen, 'array_form')"],"returns_expr":"s[1] * sum((abs(i[1]) for i in self.array_form if i[0] == s[0]))","pure":false,"effects":{"effect_type":"reads_state","reads":["gen.array_form","self.array_form"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def generator_count(self, gen):
         """
         For an associative word `self` and a generator `gen`,
@@ -1510,16 +1879,23 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return s[1]*sum(abs(i[1]) for i in self.array_form if i[0] == s[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subword(fro), for an associative word `self` and two positive integers `from_i` and `to_j`, `subword` returns the subword of `self` that begins at position `from_i` and ends at `to_j - 1`, indexing is done with ori) over Any ║
+# ║ Path(subword(from_i, to_j, strict), <unspecified:subword>) over {Any | not (from_i < 0 or to_j > len(self))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ subword : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (from_i < 0 or to_j > len(self))           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ subword : {Any | not (from_i < 0 or to_j > len(self))...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ddc1fd1ebbf6f95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.subword","kind":"method","src_hash":"92c933869ac1d1b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subword(fro)","rhs":"for an associative word `self` and two positive integers `from_i` and `to_j`, `subword` returns the subword of `self` that begins at position `from_i` and ends at `to_j - 1`, indexing is done with ori","over":{"base":"Any"},"name":"subword_correct"},"guarantee":"for an associative word `self` and two positive integers `from_i` and `to_j`, `subword` returns the subword of `self` that begins at position `from_i` and ends at `to_j - 1`, indexing is done with ori","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.subword_correct","statement":"Path(subword(x), for an associative word `self` and two positive integers `from_i` and `to_j`, `subword` returns the subword of `self` that begins at position `from_i` and ends at `to_j - 1`, indexing is done with ori)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ddc1fd1ebbf6f95"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.subword","kind":"method","src_hash":"92c933869ac1d1b8","in":{"base":"Any","pred":"not (from_i < 0 or to_j > len(self))"},"out":{"base":"Any"},"spec":{"lhs":"subword(from_i, to_j, strict)","rhs":"<unspecified:subword>","over":{"base":"Any","pred":"not (from_i < 0 or to_j > len(self))"},"name":"subword_correct"},"guarantee":"for an associative word `self` and two positive integers `from_i` and `to_j`, `subword` returns the subword of `self` that begins at position `from_i` and ends at `to_j - 1`, indexing is done with ori","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.subword_correct","statement":"Path(subword(x), for an associative word `self` and two positive integers `from_i` and `to_j`, `subword` returns the subword of `self` that begins at position `from_i` and ends at `to_j - 1`, indexing is done with ori)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ddc1fd1ebbf6f95","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (from_i < 0 or to_j > len(self))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.group","self.letter_form"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subword(self, from_i, to_j, strict=True):
         """
         For an associative word `self` and two positive integers `from_i` and
@@ -1551,16 +1927,24 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
             return group.dtype(array_form)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subword_index(wor), find the index of `word` in `self`) over Any ║
+# ║ Path(subword_index(word, start), <unspecified:subword_index>) over {Any | hasattr(word, 'letter_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ subword_index : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(word, 'letter_form')                   ║
+# ║   fiber[case_0]: index is not None => index                ║
+# ║   fiber[case_1]: not (index is not None)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ subword_index : {Any | hasattr(word, 'letter_form')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37a271857cfaab44  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f725d248c61e62c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.subword_index","kind":"method","src_hash":"99f26859ce72f464","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subword_index(wor)","rhs":"find the index of `word` in `self`","over":{"base":"Any"},"name":"subword_index_correct"},"guarantee":"find the index of `word` in `self`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.subword_index_correct","statement":"Path(subword_index(x), find the index of `word` in `self`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37a271857cfaab44"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.subword_index","kind":"method","src_hash":"99f26859ce72f464","in":{"base":"Any","pred":"hasattr(word, 'letter_form')"},"out":{"base":"Any"},"spec":{"lhs":"subword_index(word, start)","rhs":"<unspecified:subword_index>","over":{"base":"Any","pred":"hasattr(word, 'letter_form')"},"name":"subword_index_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.subword_index_correct","statement":"Path(subword_index(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f725d248c61e62c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(word, 'letter_form')"],"fibers":[{"name":"case_0","guard":"index is not None","ensures":["result == index"],"decidability":"library","returns_expr":"index"},{"name":"case_1","guard":"not (index is not None)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.letter_form","word.letter_form"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subword_index(self, word, start = 0):
         '''
         Find the index of `word` in `self`.
@@ -1589,16 +1973,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
             raise ValueError("The given word is not a subword of self")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_dependent(wor), examples ========) over Any        ║
+# ║ Path(is_dependent(word), <unspecified:is_dependent>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_dependent : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90fc7a0f7f866d68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.is_dependent","kind":"method","src_hash":"304c797ddd741887","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_dependent(wor)","rhs":"examples ========","over":{"base":"Any"},"name":"is_dependent_correct"},"guarantee":"examples ========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.is_dependent_correct","statement":"Path(is_dependent(x), examples ========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90fc7a0f7f866d68"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.is_dependent","kind":"method","src_hash":"304c797ddd741887","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_dependent(word)","rhs":"<unspecified:is_dependent>","over":{"base":"Any"},"name":"is_dependent_correct"},"guarantee":"examples ========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.is_dependent_correct","statement":"Path(is_dependent(x), examples ========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90fc7a0f7f866d68","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.subword_index"],"catches":["ValueError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_dependent(self, word):
         """
         Examples
@@ -1631,16 +2021,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
             return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_independent(wor), see also ========) over Any      ║
+# ║ Path(is_independent(word), not self.is_dependent(word)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self.is_dependent(word)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_independent : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0fd15cf0b721fd5f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.is_independent","kind":"method","src_hash":"f38a1a3b65edd6fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_independent(wor)","rhs":"see also ========","over":{"base":"Any"},"name":"is_independent_correct"},"guarantee":"see also ========","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0fd15cf0b721fd5f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.is_independent","kind":"method","src_hash":"f38a1a3b65edd6fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_independent(word)","rhs":"not self.is_dependent(word)","over":{"base":"Any"},"name":"is_independent_correct"},"guarantee":"returns not self.is_dependent(word)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0fd15cf0b721fd5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self.is_dependent(word)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_dependent"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_independent(self, word):
         """
 
@@ -1653,16 +2049,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return not self.is_dependent(word)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains_generators(), examples ========) over Any    ║
+# ║ Path(contains_generators(), <unspecified:contains_generators>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ contains_generators : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cbb632009db7368  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.contains_generators","kind":"method","src_hash":"bdcd85ac580f2f41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains_generators()","rhs":"examples ========","over":{"base":"Any"},"name":"contains_generators_correct"},"guarantee":"examples ========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.contains_generators_correct","statement":"Path(contains_generators(x), examples ========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cbb632009db7368"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.contains_generators","kind":"method","src_hash":"bdcd85ac580f2f41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains_generators()","rhs":"<unspecified:contains_generators>","over":{"base":"Any"},"name":"contains_generators_correct"},"guarantee":"examples ========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.contains_generators_correct","statement":"Path(contains_generators(x), examples ========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cbb632009db7368","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form","self.group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains_generators(self):
         """
         Examples
@@ -1681,16 +2083,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return gens
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cyclic_subword(fro), cyclic_subword produces the expected output) over Any ║
+# ║ Path(cyclic_subword(from_i, to_j), group.dtype(word)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  group.dtype(word)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cyclic_subword : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00b4fe920055e55a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cd66bf80b705938  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.cyclic_subword","kind":"method","src_hash":"99a0b4b55a63336a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cyclic_subword(fro)","rhs":"cyclic_subword produces the expected output","over":{"base":"Any"},"name":"cyclic_subword_correct"},"guarantee":"cyclic_subword produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.cyclic_subword_correct","statement":"Path(cyclic_subword(x), cyclic_subword produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00b4fe920055e55a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.cyclic_subword","kind":"method","src_hash":"99a0b4b55a63336a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cyclic_subword(from_i, to_j)","rhs":"group.dtype(word)","over":{"base":"Any"},"name":"cyclic_subword_correct"},"guarantee":"returns group.dtype(word)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.cyclic_subword_correct","statement":"Path(cyclic_subword(x), returns group.dtype(word))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cd66bf80b705938","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"group.dtype(word)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.group","self.letter_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cyclic_subword(self, from_i, to_j):
         group = self.group
         l = len(self)
@@ -1707,16 +2115,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return group.dtype(word)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cyclic_conjugates(), returns a words which are cyclic to the word `self`) over Any ║
+# ║ Path(cyclic_conjugates(), {self.cyclic_subword(i, i + len(self)) for i in range(len(self))}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {self.cyclic_subword(i, i + len(self)) fo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cyclic_conjugates : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5e4db59b764f2b3f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.cyclic_conjugates","kind":"method","src_hash":"e0ea204a332bbcc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cyclic_conjugates()","rhs":"returns a words which are cyclic to the word `self`","over":{"base":"Any"},"name":"cyclic_conjugates_correct"},"guarantee":"returns a words which are cyclic to the word `self`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e4db59b764f2b3f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.cyclic_conjugates","kind":"method","src_hash":"e0ea204a332bbcc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cyclic_conjugates()","rhs":"{self.cyclic_subword(i, i + len(self)) for i in range(len(self))}","over":{"base":"Any"},"name":"cyclic_conjugates_correct"},"guarantee":"returns {self.cyclic_subword(i, i + len(self)) for i in range(len(self))}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e4db59b764f2b3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{self.cyclic_subword(i, i + len(self)) for i in range(len(self))}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cyclic_subword"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cyclic_conjugates(self):
         """Returns a words which are cyclic to the word `self`.
 
@@ -1741,16 +2155,23 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return {self.cyclic_subword(i, i+len(self)) for i in range(len(self))}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_cyclic_conjugate(w), checks whether words ``self``, ``w`` are cyclic conjugates) over Any ║
+# ║ Path(is_cyclic_conjugate(w), <unspecified:is_cyclic_conjugate>) over {Any | hasattr(w, 'identity_cyclic_reduction')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_cyclic_conjugate : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(w, 'identity_cyclic_reduction')        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_cyclic_conjugate : {Any | hasattr(w, 'identity_cyc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc25019849b978ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.is_cyclic_conjugate","kind":"method","src_hash":"89b7356e4ae29c37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_cyclic_conjugate(w)","rhs":"checks whether words ``self``, ``w`` are cyclic conjugates","over":{"base":"Any"},"name":"is_cyclic_conjugate_correct"},"guarantee":"checks whether words ``self``, ``w`` are cyclic conjugates","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.is_cyclic_conjugate_correct","statement":"Path(is_cyclic_conjugate(x), checks whether words ``self``, ``w`` are cyclic conjugates)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc25019849b978ae"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.is_cyclic_conjugate","kind":"method","src_hash":"89b7356e4ae29c37","in":{"base":"Any","pred":"hasattr(w, 'identity_cyclic_reduction')"},"out":{"base":"Any"},"spec":{"lhs":"is_cyclic_conjugate(w)","rhs":"<unspecified:is_cyclic_conjugate>","over":{"base":"Any","pred":"hasattr(w, 'identity_cyclic_reduction')"},"name":"is_cyclic_conjugate_correct"},"guarantee":"checks whether words ``self``, ``w`` are cyclic conjugates","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.is_cyclic_conjugate_correct","statement":"Path(is_cyclic_conjugate(x), checks whether words ``self``, ``w`` are cyclic conjugates)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc25019849b978ae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(w, 'identity_cyclic_reduction')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.identity_cyclic_reduction","w.identity_cyclic_reduction"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_cyclic_conjugate(self, w):
         """
         Checks whether words ``self``, ``w`` are cyclic conjugates.
@@ -1785,16 +2206,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return str1 in str2 + ' ' + str2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(number_syllables(), returns the number of syllables of the associative word `self`) over Any ║
+# ║ Path(number_syllables(), len(self.array_form)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.array_form)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ number_syllables : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 729f43e67c43d9d9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.number_syllables","kind":"method","src_hash":"0036959d25d6b5c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"number_syllables()","rhs":"returns the number of syllables of the associative word `self`","over":{"base":"Any"},"name":"number_syllables_correct"},"guarantee":"returns the number of syllables of the associative word `self`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"729f43e67c43d9d9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.number_syllables","kind":"method","src_hash":"0036959d25d6b5c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"number_syllables()","rhs":"len(self.array_form)","over":{"base":"Any"},"name":"number_syllables_correct"},"guarantee":"returns len(self.array_form)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"729f43e67c43d9d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.array_form)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def number_syllables(self):
         """Returns the number of syllables of the associative word `self`.
 
@@ -1810,16 +2237,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return len(self.array_form)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exponent_syllable(i), returns the exponent of the `i`-th syllable of the associative word `self`) over Any ║
+# ║ Path(exponent_syllable(i), self.array_form[i][1]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.array_form[i][1]                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exponent_syllable : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bab03810b4fca3a9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.exponent_syllable","kind":"method","src_hash":"d1504549a5f2d0aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exponent_syllable(i)","rhs":"returns the exponent of the `i`-th syllable of the associative word `self`","over":{"base":"Any"},"name":"exponent_syllable_correct"},"guarantee":"returns the exponent of the `i`-th syllable of the associative word `self`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bab03810b4fca3a9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.exponent_syllable","kind":"method","src_hash":"d1504549a5f2d0aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exponent_syllable(i)","rhs":"self.array_form[i][1]","over":{"base":"Any"},"name":"exponent_syllable_correct"},"guarantee":"returns self.array_form[i][1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bab03810b4fca3a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.array_form[i][1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exponent_syllable(self, i):
         """
         Returns the exponent of the `i`-th syllable of the associative word
@@ -1838,16 +2271,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return self.array_form[i][1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generator_syllable(i), returns the symbol of the generator that is involved in the i-th syllable of the associative word `self`) over Any ║
+# ║ Path(generator_syllable(i), self.array_form[i][0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.array_form[i][0]                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generator_syllable : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a90390020d2f8c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.generator_syllable","kind":"method","src_hash":"958ed7f534fa28ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generator_syllable(i)","rhs":"returns the symbol of the generator that is involved in the i-th syllable of the associative word `self`","over":{"base":"Any"},"name":"generator_syllable_correct"},"guarantee":"returns the symbol of the generator that is involved in the i-th syllable of the associative word `self`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a90390020d2f8c8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.generator_syllable","kind":"method","src_hash":"958ed7f534fa28ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generator_syllable(i)","rhs":"self.array_form[i][0]","over":{"base":"Any"},"name":"generator_syllable_correct"},"guarantee":"returns self.array_form[i][0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a90390020d2f8c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.array_form[i][0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def generator_syllable(self, i):
         """
         Returns the symbol of the generator that is involved in the
@@ -1866,16 +2305,23 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return self.array_form[i][0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sub_syllables(fro), `sub_syllables` returns the subword of the associative word `self` that consists of syllables from positions `from_to` to `to_j`, where `from_to` and `to_j` must be positive integers and indexing is d) over Any ║
+# ║ Path(sub_syllables(from_i, to_j), <unspecified:sub_syllables>) over {Any | not (not isinstance(from_i, int) or not isinstance(to_j, int))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sub_syllables : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (not isinstance(from_i, int) or not i...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sub_syllables : {Any | not (not isinstance(from_i, in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3473a1a327d3308  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.sub_syllables","kind":"method","src_hash":"f994482fa5c71643","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sub_syllables(fro)","rhs":"`sub_syllables` returns the subword of the associative word `self` that consists of syllables from positions `from_to` to `to_j`, where `from_to` and `to_j` must be positive integers and indexing is d","over":{"base":"Any"},"name":"sub_syllables_correct"},"guarantee":"`sub_syllables` returns the subword of the associative word `self` that consists of syllables from positions `from_to` to `to_j`, where `from_to` and `to_j` must be positive integers and indexing is d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.sub_syllables_correct","statement":"Path(sub_syllables(x), `sub_syllables` returns the subword of the associative word `self` that consists of syllables from positions `from_to` to `to_j`, where `from_to` and `to_j` must be positive integers and indexing is d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3473a1a327d3308"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.sub_syllables","kind":"method","src_hash":"f994482fa5c71643","in":{"base":"Any","pred":"not (not isinstance(from_i, int) or not isinstance(to_j, int))"},"out":{"base":"Any"},"spec":{"lhs":"sub_syllables(from_i, to_j)","rhs":"<unspecified:sub_syllables>","over":{"base":"Any","pred":"not (not isinstance(from_i, int) or not isinstance(to_j, int))"},"name":"sub_syllables_correct"},"guarantee":"`sub_syllables` returns the subword of the associative word `self` that consists of syllables from positions `from_to` to `to_j`, where `from_to` and `to_j` must be positive integers and indexing is d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.sub_syllables_correct","statement":"Path(sub_syllables(x), `sub_syllables` returns the subword of the associative word `self` that consists of syllables from positions `from_to` to `to_j`, where `from_to` and `to_j` must be positive integers and indexing is d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3473a1a327d3308","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (not isinstance(from_i, int) or not isinstance(to_j, int))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.array_form","self.group"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sub_syllables(self, from_i, to_j):
         """
         `sub_syllables` returns the subword of the associative word `self` that
@@ -1905,16 +2351,23 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
             return group.dtype(r)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(substituted_word(fro), returns the associative word obtained by replacing the subword of `self` that begins at position `from_i` and ends at position `to_j - 1` by the associative word `by`) over Any ║
+# ║ Path(substituted_word(from_i, to_j, by), <unspecified:substituted_word>) over {Any | not (from_i >= to_j or from_i > lw or to_j > lw)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ substituted_word : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (from_i >= to_j or from_i > lw or to_...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ substituted_word : {Any | not (from_i >= to_j or from...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13c1b030fba1fa0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.substituted_word","kind":"method","src_hash":"b92e61c22fe788cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"substituted_word(fro)","rhs":"returns the associative word obtained by replacing the subword of `self` that begins at position `from_i` and ends at position `to_j - 1` by the associative word `by`","over":{"base":"Any"},"name":"substituted_word_correct"},"guarantee":"returns the associative word obtained by replacing the subword of `self` that begins at position `from_i` and ends at position `to_j - 1` by the associative word `by`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.substituted_word_correct","statement":"Path(substituted_word(x), returns the associative word obtained by replacing the subword of `self` that begins at position `from_i` and ends at position `to_j - 1` by the associative word `by`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13c1b030fba1fa0c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.substituted_word","kind":"method","src_hash":"b92e61c22fe788cd","in":{"base":"Any","pred":"not (from_i >= to_j or from_i > lw or to_j > lw)"},"out":{"base":"Any"},"spec":{"lhs":"substituted_word(from_i, to_j, by)","rhs":"<unspecified:substituted_word>","over":{"base":"Any","pred":"not (from_i >= to_j or from_i > lw or to_j > lw)"},"name":"substituted_word_correct"},"guarantee":"returns the associative word obtained by replacing the subword of `self` that begins at position `from_i` and ends at position `to_j - 1` by the associative word `by`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.substituted_word_correct","statement":"Path(substituted_word(x), returns the associative word obtained by replacing the subword of `self` that begins at position `from_i` and ends at position `to_j - 1` by the associative word `by`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13c1b030fba1fa0c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (from_i >= to_j or from_i > lw or to_j > lw)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.subword"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def substituted_word(self, from_i, to_j, by):
         """
         Returns the associative word obtained by replacing the subword of
@@ -1948,16 +2401,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
             return self.subword(0, from_i)*by*self.subword(to_j, lw)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_cyclically_reduced(), returns whether the word is cyclically reduced or not. a word is cyclically reduced if by forming the cycle of the word, the word is not reduced, i.e a word w = `a_1 ) over Any ║
+# ║ Path(is_cyclically_reduced(), <unspecified:is_cyclically_reduced>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_cyclically_reduced : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e064c8d7fdbbc7f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.is_cyclically_reduced","kind":"method","src_hash":"1d66541a5e8b6fa8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_cyclically_reduced()","rhs":"returns whether the word is cyclically reduced or not. a word is cyclically reduced if by forming the cycle of the word, the word is not reduced, i.e a word w = `a_1 ","over":{"base":"Any"},"name":"is_cyclically_reduced_correct"},"guarantee":"returns whether the word is cyclically reduced or not. a word is cyclically reduced if by forming the cycle of the word, the word is not reduced, i.e a word w = `a_1 ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.is_cyclically_reduced_correct","statement":"Path(is_cyclically_reduced(x), returns whether the word is cyclically reduced or not. a word is cyclically reduced if by forming the cycle of the word, the word is not reduced, i.e a word w = `a_1 )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e064c8d7fdbbc7f6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.is_cyclically_reduced","kind":"method","src_hash":"1d66541a5e8b6fa8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_cyclically_reduced()","rhs":"<unspecified:is_cyclically_reduced>","over":{"base":"Any"},"name":"is_cyclically_reduced_correct"},"guarantee":"returns whether the word is cyclically reduced or not. a word is cyclically reduced if by forming the cycle of the word, the word is not reduced, i.e a word w = `a_1 ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.is_cyclically_reduced_correct","statement":"Path(is_cyclically_reduced(x), returns whether the word is cyclically reduced or not. a word is cyclically reduced if by forming the cycle of the word, the word is not reduced, i.e a word w = `a_1 )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e064c8d7fdbbc7f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_cyclically_reduced(self):
         r"""Returns whether the word is cyclically reduced or not.
         A word is cyclically reduced if by forming the cycle of the
@@ -1980,16 +2439,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return self[0] != self[-1]**-1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(identity_cyclic_reduction(), return a unique cyclically reduced version of the word) over Any ║
+# ║ Path(identity_cyclic_reduction(), <unspecified:identity_cyclic_reduction>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ identity_cyclic_reduction : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61c075daa41ba34a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.identity_cyclic_reduction","kind":"method","src_hash":"a6c8618b4ff12b71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity_cyclic_reduction()","rhs":"return a unique cyclically reduced version of the word","over":{"base":"Any"},"name":"identity_cyclic_reduction_correct"},"guarantee":"return a unique cyclically reduced version of the word","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.identity_cyclic_reduction_correct","statement":"Path(identity_cyclic_reduction(x), return a unique cyclically reduced version of the word)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61c075daa41ba34a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.identity_cyclic_reduction","kind":"method","src_hash":"a6c8618b4ff12b71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity_cyclic_reduction()","rhs":"<unspecified:identity_cyclic_reduction>","over":{"base":"Any"},"name":"identity_cyclic_reduction_correct"},"guarantee":"return a unique cyclically reduced version of the word","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.identity_cyclic_reduction_correct","statement":"Path(identity_cyclic_reduction(x), return a unique cyclically reduced version of the word)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61c075daa41ba34a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.copy","self.group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def identity_cyclic_reduction(self):
         """Return a unique cyclically reduced version of the word.
 
@@ -2024,16 +2489,22 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return word
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cyclic_reduction(rem), return a cyclically reduced version of the word) over Any ║
+# ║ Path(cyclic_reduction(removed), <unspecified:cyclic_reduction>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cyclic_reduction : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d27b2c30892f39cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.cyclic_reduction","kind":"method","src_hash":"568359125a3714be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cyclic_reduction(rem)","rhs":"return a cyclically reduced version of the word","over":{"base":"Any"},"name":"cyclic_reduction_correct"},"guarantee":"return a cyclically reduced version of the word","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.cyclic_reduction_correct","statement":"Path(cyclic_reduction(x), return a cyclically reduced version of the word)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d27b2c30892f39cb"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.cyclic_reduction","kind":"method","src_hash":"568359125a3714be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cyclic_reduction(removed)","rhs":"<unspecified:cyclic_reduction>","over":{"base":"Any"},"name":"cyclic_reduction_correct"},"guarantee":"return a cyclically reduced version of the word","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.cyclic_reduction_correct","statement":"Path(cyclic_reduction(x), return a cyclically reduced version of the word)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d27b2c30892f39cb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.copy","self.group"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cyclic_reduction(self, removed=False):
         """Return a cyclically reduced version of the word. Unlike
         `identity_cyclic_reduction`, this will not cyclically permute
@@ -2073,16 +2544,23 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
         return word
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(power_of(oth), check if `self == other**n` for some integer n) over Any ║
+# ║ Path(power_of(other), <unspecified:power_of>) over {Any | hasattr(other, 'cyclic_reduction')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ power_of : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'cyclic_reduction')             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ power_of : {Any | hasattr(other, 'cyclic_reduction')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f85d880471b2d810  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.power_of","kind":"method","src_hash":"42c11b6aae752f1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"power_of(oth)","rhs":"check if `self == other**n` for some integer n","over":{"base":"Any"},"name":"power_of_correct"},"guarantee":"check if `self == other**n` for some integer n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.power_of_correct","statement":"Path(power_of(x), check if `self == other**n` for some integer n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f85d880471b2d810"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.FreeGroupElement.power_of","kind":"method","src_hash":"42c11b6aae752f1e","in":{"base":"Any","pred":"hasattr(other, 'cyclic_reduction')"},"out":{"base":"Any"},"spec":{"lhs":"power_of(other)","rhs":"<unspecified:power_of>","over":{"base":"Any","pred":"hasattr(other, 'cyclic_reduction')"},"name":"power_of_correct"},"guarantee":"check if `self == other**n` for some integer n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.FreeGroupElement.power_of_correct","statement":"Path(power_of(x), check if `self == other**n` for some integer n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f85d880471b2d810","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'cyclic_reduction')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.cyclic_reduction","self.contains_generators","self.cyclic_reduction","self.is_identity","self.subword"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def power_of(self, other):
         '''
         Check if `self == other**n` for some integer n.
@@ -2129,16 +2607,23 @@ class FreeGroupElement(CantSympify, DefaultPrinting, tuple):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(letter_form_to_array_form(arr), this method converts a list given with possible repetitions of elements in it) over Any ║
+# ║ Path(letter_form_to_array_form(array_form, group), <unspecified:letter_form_to_array_form>) over {Any | hasattr(group, 'symbols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ letter_form_to_array_form : Any → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(group, 'symbols')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ letter_form_to_array_form : {Any | hasattr(group, 'sy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27a74feaccbfc6bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.letter_form_to_array_form","kind":"function","src_hash":"dab3c872ef066915","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"letter_form_to_array_form(arr)","rhs":"this method converts a list given with possible repetitions of elements in it","over":{"base":"Any"},"name":"letter_form_to_array_form_correct"},"guarantee":"this method converts a list given with possible repetitions of elements in it","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.letter_form_to_array_form_correct","statement":"Path(letter_form_to_array_form(x), this method converts a list given with possible repetitions of elements in it)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27a74feaccbfc6bb"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.letter_form_to_array_form","kind":"function","src_hash":"dab3c872ef066915","in":{"base":"Any","pred":"hasattr(group, 'symbols')"},"out":{"base":"Any"},"spec":{"lhs":"letter_form_to_array_form(array_form, group)","rhs":"<unspecified:letter_form_to_array_form>","over":{"base":"Any","pred":"hasattr(group, 'symbols')"},"name":"letter_form_to_array_form_correct"},"guarantee":"this method converts a list given with possible repetitions of elements in it","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.letter_form_to_array_form_correct","statement":"Path(letter_form_to_array_form(x), this method converts a list given with possible repetitions of elements in it)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27a74feaccbfc6bb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(group, 'symbols')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def letter_form_to_array_form(array_form, group):
     """
     This method converts a list given with possible repetitions of elements in
@@ -2176,16 +2661,22 @@ def letter_form_to_array_form(array_form, group):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zero_mul_simp(l, ), used to combine two reduced words) over Any ║
+# ║ Path(zero_mul_simp(l, index), <unspecified:zero_mul_simp>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zero_mul_simp : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d62ca21948ee6f67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.zero_mul_simp","kind":"function","src_hash":"2a61f797eb4f6e43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero_mul_simp(l, )","rhs":"used to combine two reduced words","over":{"base":"Any"},"name":"zero_mul_simp_correct"},"guarantee":"used to combine two reduced words","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.zero_mul_simp_correct","statement":"Path(zero_mul_simp(x), used to combine two reduced words)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d62ca21948ee6f67"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.free_groups.zero_mul_simp","kind":"function","src_hash":"2a61f797eb4f6e43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero_mul_simp(l, index)","rhs":"<unspecified:zero_mul_simp>","over":{"base":"Any"},"name":"zero_mul_simp_correct"},"guarantee":"used to combine two reduced words","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.free_groups.zero_mul_simp_correct","statement":"Path(zero_mul_simp(x), used to combine two reduced words)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d62ca21948ee6f67","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","writes":["l[*]"]},"state_contract":{"modifies":["l[*]"],"old_bindings":{"old_l_star":"l[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def zero_mul_simp(l, index):
     """Used to combine two reduced words."""
     while index >=0 and index < len(l) - 1 and l[index][0] == l[index + 1][0]:

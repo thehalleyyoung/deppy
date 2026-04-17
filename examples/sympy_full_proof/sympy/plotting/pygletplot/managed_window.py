@@ -26,14 +26,20 @@ gl_lock = Lock()
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ManagedWindow instance) preserved by ManagedWindow(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ManagedWindow : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Window)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ManagedWindow : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc15a4a539b08a8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow","kind":"class","src_hash":"ad5105b1616f9032","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ManagedWindow(*args)","rhs":"correctly constructs a ManagedWindow instance","over":{"base":"Any"},"name":"ManagedWindow_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ManagedWindow instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'win_args') and hasattr(self, 'Thread')","kind":"class","induction":"structural on win_args, Thread"}],"methods_preserving":["__init__","__event_loop__","close","setup","update","draw"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc15a4a539b08a8e"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow","kind":"class","src_hash":"ad5105b1616f9032","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Window)"},"spec":{"lhs":"ManagedWindow(*args)","rhs":"correctly constructs a ManagedWindow instance","over":{"base":"Any"},"name":"ManagedWindow_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Window); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'win_args') and hasattr(self, 'Thread')","kind":"class","induction":"structural on win_args, Thread"}],"methods_preserving":["__init__","__event_loop__","close","setup","update","draw"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc15a4a539b08a8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Window)"],"invariants":["hasattr(self, 'win_args')","hasattr(self, 'Thread')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function ManagedWindow not found in source"]}}
 class ManagedWindow(Window):
     """
     A pyglet window with an event loop which executes automatically
@@ -47,16 +53,22 @@ class ManagedWindow(Window):
                             "resizable": True}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(**w), initializes the instance correctly) over Any ║
+# ║ Path(__init__(**win_args), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ff0b552945e60e33           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow.__init__","kind":"method","src_hash":"6517f51228f0b452","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(**w)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff0b552945e60e33"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow.__init__","kind":"method","src_hash":"6517f51228f0b452","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(**win_args)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ff0b552945e60e33","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, **win_args):
         """
         It is best not to override this function in the child
@@ -73,16 +85,22 @@ class ManagedWindow(Window):
         self.Thread.start()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__event_loop__(**w), the event loop thread function) over Any ║
+# ║ Path(__event_loop__(**win_args), len(self) == 0) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __event_loop__ : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == 0                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __event_loop__ : Any → {Any | result satisfies: len(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a49214be38533c75           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow.__event_loop__","kind":"method","src_hash":"96edd59a3b375eae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__event_loop__(**w)","rhs":"the event loop thread function","over":{"base":"Any"},"name":"__event_loop___correct"},"guarantee":"the event loop thread function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a49214be38533c75"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow.__event_loop__","kind":"method","src_hash":"96edd59a3b375eae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == 0"},"spec":{"lhs":"__event_loop__(**win_args)","rhs":"len(self) == 0","over":{"base":"Any"},"name":"__event_loop___correct"},"guarantee":"len(self) == 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a49214be38533c75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == 0"],"pure":false,"effects":{"effect_type":"io","reads":["self.clear","self.dispatch_events","self.draw","self.flip","self.fps_limit","self.has_exit","self.setup","self.switch_to","self.update","self.win_args"],"writes":["self.has_exit"],"calls_mutating":["self.clear","self.update"],"catches":["Exception"],"io_operations":["?.close","print"]},"state_contract":{"modifies":["self.*","self.has_exit"],"old_bindings":{"old_self_has_exit":"self.has_exit"},"post_ensures":["len(self) == 0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __event_loop__(self, **win_args):
         """
         The event loop thread function. Do not override or call
@@ -121,16 +139,22 @@ class ManagedWindow(Window):
         super().close()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(close(), closes the window) over Any                  ║
+# ║ Path(close(), <unspecified:close>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ close : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a6d2ec595ed4377  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow.close","kind":"method","src_hash":"ad01d4fe871af931","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"close()","rhs":"closes the window","over":{"base":"Any"},"name":"close_correct"},"guarantee":"closes the window","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.managed_window.ManagedWindow.close_correct","statement":"Path(close(x), closes the window)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a6d2ec595ed4377"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow.close","kind":"method","src_hash":"ad01d4fe871af931","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"close()","rhs":"<unspecified:close>","over":{"base":"Any"},"name":"close_correct"},"guarantee":"closes the window","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.managed_window.ManagedWindow.close_correct","statement":"Path(close(x), closes the window)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a6d2ec595ed4377","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self.has_exit"]},"state_contract":{"modifies":["self.has_exit"],"old_bindings":{"old_self_has_exit":"self.has_exit"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def close(self):
         """
         Closes the window.
@@ -138,16 +162,22 @@ class ManagedWindow(Window):
         self.has_exit = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(setup(), called once before the event loop begins. override this method in a child class) over Any ║
+# ║ Path(setup(), <unspecified:setup>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ setup : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7bb5d7e99179e04           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow.setup","kind":"method","src_hash":"c07a51dadd45e9d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"setup()","rhs":"called once before the event loop begins. override this method in a child class","over":{"base":"Any"},"name":"setup_correct"},"guarantee":"called once before the event loop begins. override this method in a child class","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7bb5d7e99179e04"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow.setup","kind":"method","src_hash":"c07a51dadd45e9d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"setup()","rhs":"<unspecified:setup>","over":{"base":"Any"},"name":"setup_correct"},"guarantee":"called once before the event loop begins. override this method in a child class","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7bb5d7e99179e04","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def setup(self):
         """
         Called once before the event loop begins.
@@ -158,16 +188,22 @@ class ManagedWindow(Window):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(update(dt), called before draw during each iteration of the event loop) over Any ║
+# ║ Path(update(dt), <unspecified:update>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ update : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc805af3f089f79b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow.update","kind":"method","src_hash":"e8274b284be094ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update(dt)","rhs":"called before draw during each iteration of the event loop","over":{"base":"Any"},"name":"update_correct"},"guarantee":"called before draw during each iteration of the event loop","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc805af3f089f79b"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow.update","kind":"method","src_hash":"e8274b284be094ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update(dt)","rhs":"<unspecified:update>","over":{"base":"Any"},"name":"update_correct"},"guarantee":"called before draw during each iteration of the event loop","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc805af3f089f79b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def update(self, dt):
         """
         Called before draw during each iteration of
@@ -178,16 +214,22 @@ class ManagedWindow(Window):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw(), called after update during each iteration of the event loop) over Any ║
+# ║ Path(draw(), <unspecified:draw>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 45d046b9d63c006a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow.draw","kind":"method","src_hash":"a90d2f75dbb57165","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"called after update during each iteration of the event loop","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"called after update during each iteration of the event loop","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45d046b9d63c006a"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.managed_window.ManagedWindow.draw","kind":"method","src_hash":"a90d2f75dbb57165","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"<unspecified:draw>","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"called after update during each iteration of the event loop","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"45d046b9d63c006a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw(self):
         """
         Called after update during each iteration of

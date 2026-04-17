@@ -30,14 +30,20 @@ from sympy.functions.special.hyper import hyper, meijerg
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(elliptic_k(*args), correctly constructs a elliptic_k instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ elliptic_k : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ elliptic_k : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 521942bff1c61ceb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k","kind":"class","src_hash":"b19e2a9cb477ec27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elliptic_k(*args)","rhs":"correctly constructs a elliptic_k instance","over":{"base":"Any"},"name":"elliptic_k_class_invariant"},"guarantee":"correctly constructs a elliptic_k instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"521942bff1c61ceb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k","kind":"class","src_hash":"b19e2a9cb477ec27","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"elliptic_k(*args)","rhs":"correctly constructs a elliptic_k instance","over":{"base":"Any"},"name":"elliptic_k_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"521942bff1c61ceb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function elliptic_k not found in source"]}}
 class elliptic_k(DefinedFunction):
     r"""
     The complete elliptic integral of the first kind, defined by
@@ -85,16 +91,26 @@ class elliptic_k(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, m), result == (pi * S.Half if m.is_zero else 8 * pi ** Rational(3, 2) / gamma(Rational(-1, 4)) ** 2 if m is S.Half else S.ComplexInfinity if m is S.One else gamma(Rational(1, 4)) ** 2 / (4 * sqrt(2 * pi)) if m is S.NegativeOne else S.Zero)) over {Any | hasattr(m, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'is_zero')                          ║
+# ║   ensures:  result == (pi * S.Half if m.is_zero else ...   ║
+# ║   fiber[case_0]: m.is_zero => pi * S.Half                  ║
+# ║   fiber[case_1]: m is S.Half => 8 * pi ** Rational(3,...   ║
+# ║   fiber[case_2]: m is S.One => S.ComplexInfinity           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(m, 'is_zero')} → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afab84f2ff996d78  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f364a4eb8096bba3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k.eval","kind":"classmethod","src_hash":"da69b33786702060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_k.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afab84f2ff996d78"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k.eval","kind":"classmethod","src_hash":"da69b33786702060","in":{"base":"Any","pred":"hasattr(m, 'is_zero')"},"out":{"base":"Any","pred":"result satisfies: result == (pi * S.Half if m.is_zero else 8 * pi ** Rational(3, 2) / gamma(Rational(-1, 4)) ** 2 if m is S.Half else S.ComplexInfinity if m is S.One else gamma(Rational(1, 4)) ** 2 / (4 * sqrt(2 * pi)) if m is S.NegativeOne else S.Zero)"},"spec":{"lhs":"eval(cls, m)","rhs":"result == (pi * S.Half if m.is_zero else 8 * pi ** Rational(3, 2) / gamma(Rational(-1, 4)) ** 2 if m is S.Half else S.ComplexInfinity if m is S.One else gamma(Rational(1, 4)) ** 2 / (4 * sqrt(2 * pi)) if m is S.NegativeOne else S.Zero)","over":{"base":"Any","pred":"hasattr(m, 'is_zero')"},"name":"eval_correct"},"guarantee":"result == (pi * S.Half if m.is_zero else 8 * pi ** Rational(3, 2) / gamma(Rational(-1, 4)) ** 2 if m is S.Half else S.ComplexInfinity if m is S.One else gamma(Rational(1, 4)) ** 2 / (4 * sqrt(2 * pi)) if m is S.NegativeOne else S.Zero); 5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_k.eval_correct","statement":"Path(eval(x), result == (pi * S.Half if m.is_zero else 8 * pi ** Rational(3, 2) / gamma(Rational(-1, 4)) ** 2 if m is S.Half else S.ComplexInfinity if m is S.One else gamma(Rational(1, 4)) ** 2 / (4 * sqrt(2 * pi)) if m is S.NegativeOne else S.Zero); 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f364a4eb8096bba3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'is_zero')"],"ensures":["result == (pi * S.Half if m.is_zero else 8 * pi ** Rational(3, 2) / gamma(Rational(-1, 4)) ** 2 if m is S.Half else S.ComplexInfinity if m is S.One else gamma(Rational(1, 4)) ** 2 / (4 * sqrt(2 * pi)) if m is S.NegativeOne else S.Zero)"],"fibers":[{"name":"case_0","guard":"m.is_zero","ensures":["result == pi * S.Half"],"decidability":"library","returns_expr":"pi * S.Half"},{"name":"case_1","guard":"m is S.Half","ensures":["result == 8 * pi ** Rational(3, 2) / gamma(Rational(-1, 4)) ** 2"],"decidability":"library","returns_expr":"8 * pi ** Rational(3, 2) / gamma(Rational(-1, 4)) ** 2"},{"name":"case_2","guard":"m is S.One","ensures":["result == S.ComplexInfinity"],"decidability":"library","returns_expr":"S.ComplexInfinity"},{"name":"case_3","guard":"m is S.NegativeOne","ensures":["result == gamma(Rational(1, 4)) ** 2 / (4 * sqrt(2 * pi))"],"decidability":"library","returns_expr":"gamma(Rational(1, 4)) ** 2 / (4 * sqrt(2 * pi))"},{"name":"case_4","guard":"m in (S.Infinity, S.NegativeInfinity, I * S.Infinity, I * S.NegativeInfinity, S.ComplexInfinity)","ensures":["result == S.Zero"],"decidability":"library","returns_expr":"S.Zero"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, m):
         if m.is_zero:
             return pi*S.Half
@@ -109,16 +125,22 @@ class elliptic_k(DefinedFunction):
             return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (elliptic_e(m) - (1 - m) * elliptic_k(m))...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9d35842c45d893c4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k.fdiff","kind":"method","src_hash":"3026529b352bb48f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"elliptic_e","by":"library_axiom"},{"fn":"elliptic_k","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d35842c45d893c4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k.fdiff","kind":"method","src_hash":"3026529b352bb48f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"(elliptic_e(m) - (1 - m) * elliptic_k(m)) / (2 * m * (1 - m))","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"returns (elliptic_e(m) - (1 - m) * elliptic_k(m)) / (2 * m * (1 - m))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"elliptic_e","by":"library_axiom"},{"fn":"elliptic_k","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d35842c45d893c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(elliptic_e(m) - (1 - m) * elliptic_k(m)) / (2 * m * (1 - m))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         m = self.args[0]
         return (elliptic_e(m) - (1 - m)*elliptic_k(m))/(2*m*(1 - m))
@@ -126,89 +148,125 @@ class elliptic_k(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(m.conjugate())                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 08d9787f33ba7b71   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_conjugate","kind":"method","src_hash":"552c833976aa9bc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08d9787f33ba7b71"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_conjugate","kind":"method","src_hash":"552c833976aa9bc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(m.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns self.func(m.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08d9787f33ba7b71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(m.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         m = self.args[0]
         if (m.is_real and (m - 1).is_positive) is False:
             return self.func(m.conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hyperexpand(self.rewrite(hyper)._eval_nse...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 00f40daae3314beb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_nseries","kind":"method","src_hash":"1ee7e9b9955f87ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyperexpand","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00f40daae3314beb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_nseries","kind":"method","src_hash":"1ee7e9b9955f87ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"hyperexpand(self.rewrite(hyper)._eval_nseries(x, n=n, logx=logx))","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"returns hyperexpand(self.rewrite(hyper)._eval_nseries(x, n=n, logx=logx))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyperexpand","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00f40daae3314beb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hyperexpand(self.rewrite(hyper)._eval_nseries(x, n=n, logx=logx))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         from sympy.simplify import hyperexpand
         return hyperexpand(self.rewrite(hyper)._eval_nseries(x, n=n, logx=logx))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_hyper(m, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_hyper(m, **kwargs), pi * S.Half * hyper((S.Half, S.Half), (S.One,), m)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi * S.Half * hyper((S.Half, S.Half), (S....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_hyper : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c1d0e14c2d11e49d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_rewrite_as_hyper","kind":"method","src_hash":"d12bbd2b16b7e334","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(m, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1d0e14c2d11e49d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_rewrite_as_hyper","kind":"method","src_hash":"d12bbd2b16b7e334","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(m, **kwargs)","rhs":"pi * S.Half * hyper((S.Half, S.Half), (S.One,), m)","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct"},"guarantee":"returns pi * S.Half * hyper((S.Half, S.Half), (S.One,), m)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c1d0e14c2d11e49d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi * S.Half * hyper((S.Half, S.Half), (S.One,), m)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_hyper(self, m, **kwargs):
         return pi*S.Half*hyper((S.Half, S.Half), (S.One,), m)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_meijerg(m, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_meijerg(m, **kwargs), meijerg(((S.Half, S.Half), []), ((S.Zero,), (S.Zero,)), -m) / 2) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  meijerg(((S.Half, S.Half), []), ((S.Zero,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_meijerg : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e04803bdaa303771           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_rewrite_as_meijerg","kind":"method","src_hash":"78c51b558d52e98f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_meijerg(m, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_meijerg_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e04803bdaa303771"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_rewrite_as_meijerg","kind":"method","src_hash":"78c51b558d52e98f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_meijerg(m, **kwargs)","rhs":"meijerg(((S.Half, S.Half), []), ((S.Zero,), (S.Zero,)), -m) / 2","over":{"base":"Any"},"name":"_eval_rewrite_as_meijerg_correct"},"guarantee":"returns meijerg(((S.Half, S.Half), []), ((S.Zero,), (S.Zero,)), -m) / 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e04803bdaa303771","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"meijerg(((S.Half, S.Half), []), ((S.Zero,), (S.Zero,)), -m) / 2","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_meijerg(self, m, **kwargs):
         return meijerg(((S.Half, S.Half), []), ((S.Zero,), (S.Zero,)), -m)/2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35c7d5174768910c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22733978c01aade0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_is_zero","kind":"method","src_hash":"c1113c997f1fd252","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35c7d5174768910c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_is_zero","kind":"method","src_hash":"c1113c997f1fd252","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22733978c01aade0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         m = self.args[0]
         if m.is_infinite:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Integral(*ar), id) over Any          ║
+# ║ Path(_eval_rewrite_as_Integral(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(1 / sqrt(1 - m * sin(t) ** 2), (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Integral : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f24b4407633fdc7d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_rewrite_as_Integral","kind":"method","src_hash":"6785a071baa6672d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f24b4407633fdc7d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_k._eval_rewrite_as_Integral","kind":"method","src_hash":"6785a071baa6672d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(*args, **kwargs)","rhs":"Integral(1 / sqrt(1 - m * sin(t) ** 2), (t, 0, pi / 2))","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct","kind":"composition"},"guarantee":"returns Integral(1 / sqrt(1 - m * sin(t) ** 2), (t, 0, pi / 2))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f24b4407633fdc7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(1 / sqrt(1 - m * sin(t) ** 2), (t, 0, pi / 2))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Integral(self, *args, **kwargs):
         from sympy.integrals.integrals import Integral
         t = Dummy(uniquely_named_symbol('t', args).name)
@@ -219,14 +277,20 @@ class elliptic_k(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(elliptic_f(*args), correctly constructs a elliptic_f instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ elliptic_f : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ elliptic_f : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14d9c6d78d147d8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_f","kind":"class","src_hash":"861f686ec29cf542","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elliptic_f(*args)","rhs":"correctly constructs a elliptic_f instance","over":{"base":"Any"},"name":"elliptic_f_class_invariant"},"guarantee":"correctly constructs a elliptic_f instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14d9c6d78d147d8b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_f","kind":"class","src_hash":"861f686ec29cf542","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"elliptic_f(*args)","rhs":"correctly constructs a elliptic_f instance","over":{"base":"Any"},"name":"elliptic_f_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14d9c6d78d147d8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function elliptic_f not found in source"]}}
 class elliptic_f(DefinedFunction):
     r"""
     The Legendre incomplete elliptic integral of the first
@@ -271,16 +335,25 @@ class elliptic_f(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, z, m), <unspecified:eval>) over {Any | hasattr(z, 'is_zero') and hasattr(m, 'is_zero') and hasattr(z, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(z, 'is_zero')                          ║
+# ║   requires: hasattr(m, 'is_zero')                          ║
+# ║   requires: hasattr(z, 'could_extract_minus_sign')         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(z, 'is_zero') and hasattr(m, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 664380755624b932  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_f.eval","kind":"classmethod","src_hash":"31983ce019dce986","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_f.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"664380755624b932"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_f.eval","kind":"classmethod","src_hash":"31983ce019dce986","in":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(m, 'is_zero') and hasattr(z, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, z, m)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(z, 'is_zero') and hasattr(m, 'is_zero') and hasattr(z, 'could_extract_minus_sign')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_f.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"664380755624b932","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(z, 'is_zero')","hasattr(m, 'is_zero')","hasattr(z, 'could_extract_minus_sign')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.is_zero","z.could_extract_minus_sign","z.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, z, m):
         if z.is_zero:
             return S.Zero
@@ -295,16 +368,25 @@ class elliptic_f(DefinedFunction):
             return -elliptic_f(-z, m)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), result == (1 / fm if argindex == 1 else elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm)) and result == 1 / fm or result == elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fdiff : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (1 / fm if argindex == 1 else e...   ║
+# ║   ensures:  result == 1 / fm or result == elliptic_e(...   ║
+# ║   fiber[case_0]: argindex == 1 => 1 / fm                   ║
+# ║   fiber[case_1]: argindex == 2 => elliptic_e(z, m) / ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fdiff : Any → {Any | result satisfies: result == (1 /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b5177ab66a905e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e033f8d839d7d29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_f.fdiff","kind":"method","src_hash":"482c19d813d0cf45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_f.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b5177ab66a905e0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_f.fdiff","kind":"method","src_hash":"482c19d813d0cf45","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (1 / fm if argindex == 1 else elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm)) and result == 1 / fm or result == elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm)"},"spec":{"lhs":"fdiff(argindex)","rhs":"result == (1 / fm if argindex == 1 else elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm)) and result == 1 / fm or result == elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm)","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"result == (1 / fm if argindex == 1 else elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm)); result == 1 / fm or result == elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_f.fdiff_correct","statement":"Path(fdiff(x), result == (1 / fm if argindex == 1 else elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm)); result == 1 / fm or result == elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e033f8d839d7d29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (1 / fm if argindex == 1 else elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm))","result == 1 / fm or result == elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm)"],"fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == 1 / fm"],"decidability":"z3","returns_expr":"1 / fm"},{"name":"case_1","guard":"argindex == 2","ensures":["result == elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm)"],"decidability":"z3","returns_expr":"elliptic_e(z, m) / (2 * m * (1 - m)) - elliptic_f(z, m) / (2 * m) - sin(2 * z) / (4 * (1 - m) * fm)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         z, m = self.args
         fm = sqrt(1 - m*sin(z)**2)
@@ -318,30 +400,42 @@ class elliptic_f(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(z.conjugate(), m.conjugate())        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 79193eb0502de439   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_f._eval_conjugate","kind":"method","src_hash":"c515a7ec8b38505f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79193eb0502de439"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_f._eval_conjugate","kind":"method","src_hash":"c515a7ec8b38505f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(z.conjugate(), m.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns self.func(z.conjugate(), m.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79193eb0502de439","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(z.conjugate(), m.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         z, m = self.args
         if (m.is_real and (m - 1).is_positive) is False:
             return self.func(z.conjugate(), m.conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Integral(*ar), id) over Any          ║
+# ║ Path(_eval_rewrite_as_Integral(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(1 / sqrt(1 - m * sin(t) ** 2), (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Integral : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 02e72aa93e912509   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_f._eval_rewrite_as_Integral","kind":"method","src_hash":"e0c50a2c5aa1e35c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02e72aa93e912509"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_f._eval_rewrite_as_Integral","kind":"method","src_hash":"e0c50a2c5aa1e35c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(*args, **kwargs)","rhs":"Integral(1 / sqrt(1 - m * sin(t) ** 2), (t, 0, z))","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct","kind":"composition"},"guarantee":"returns Integral(1 / sqrt(1 - m * sin(t) ** 2), (t, 0, z))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02e72aa93e912509","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(1 / sqrt(1 - m * sin(t) ** 2), (t, 0, z))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Integral(self, *args, **kwargs):
         from sympy.integrals.integrals import Integral
         t = Dummy(uniquely_named_symbol('t', args).name)
@@ -349,16 +443,22 @@ class elliptic_f(DefinedFunction):
         return Integral(1/(sqrt(1 - m*sin(t)**2)), (t, 0, z))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), <unspecified:_eval_is_zero>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d2fed5449b7ede9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_f._eval_is_zero","kind":"method","src_hash":"c5496c7cf8613354","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_f._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d2fed5449b7ede9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_f._eval_is_zero","kind":"method","src_hash":"c5496c7cf8613354","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"<unspecified:_eval_is_zero>","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_f._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d2fed5449b7ede9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         z, m = self.args
         if z.is_zero:
@@ -370,14 +470,20 @@ class elliptic_f(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(elliptic_e(*args), correctly constructs a elliptic_e instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ elliptic_e : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ elliptic_e : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c4443b4bdcfab93  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e","kind":"class","src_hash":"72bf3f79049e1813","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elliptic_e(*args)","rhs":"correctly constructs a elliptic_e instance","over":{"base":"Any"},"name":"elliptic_e_class_invariant"},"guarantee":"correctly constructs a elliptic_e instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c4443b4bdcfab93"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e","kind":"class","src_hash":"72bf3f79049e1813","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"elliptic_e(*args)","rhs":"correctly constructs a elliptic_e instance","over":{"base":"Any"},"name":"elliptic_e_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c4443b4bdcfab93","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function elliptic_e not found in source"]}}
 class elliptic_e(DefinedFunction):
     r"""
     Called with two arguments $z$ and $m$, evaluates the
@@ -428,16 +534,27 @@ class elliptic_e(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, m, z), <unspecified:eval>) over {Any | hasattr(m, 'is_zero') and hasattr(z, 'is_zero') and hasattr(z, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'is_zero')                          ║
+# ║   requires: hasattr(z, 'is_zero')                          ║
+# ║   requires: hasattr(z, 'could_extract_minus_sign')         ║
+# ║   fiber[case_0]: z is not None                             ║
+# ║   fiber[case_1]: m.is_zero => pi / 2                       ║
+# ║   fiber[case_2]: m is S.One => S.One                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(m, 'is_zero') and hasattr(z, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb399c49250a37dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 365972304b5f5239  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e.eval","kind":"classmethod","src_hash":"f3ed53c54e9b8723","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_e.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb399c49250a37dc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e.eval","kind":"classmethod","src_hash":"f3ed53c54e9b8723","in":{"base":"Any","pred":"hasattr(m, 'is_zero') and hasattr(z, 'is_zero') and hasattr(z, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, m, z)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(m, 'is_zero') and hasattr(z, 'is_zero') and hasattr(z, 'could_extract_minus_sign')"},"name":"eval_correct"},"guarantee":"6-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_e.eval_correct","statement":"Path(eval(x), 6-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"365972304b5f5239","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'is_zero')","hasattr(z, 'is_zero')","hasattr(z, 'could_extract_minus_sign')"],"fibers":[{"name":"case_0","guard":"z is not None","ensures":[],"decidability":"library"},{"name":"case_1","guard":"m.is_zero","ensures":["result == pi / 2"],"decidability":"library","returns_expr":"pi / 2"},{"name":"case_2","guard":"m is S.One","ensures":["result == S.One"],"decidability":"library","returns_expr":"S.One"},{"name":"case_3","guard":"m is S.Infinity","ensures":["result == I * S.Infinity"],"decidability":"library","returns_expr":"I * S.Infinity"},{"name":"case_4","guard":"m is S.NegativeInfinity","ensures":["result == S.Infinity"],"decidability":"library","returns_expr":"S.Infinity"},{"name":"case_5","guard":"m is S.ComplexInfinity","ensures":["result == S.ComplexInfinity"],"decidability":"library","returns_expr":"S.ComplexInfinity"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.is_zero","z.could_extract_minus_sign","z.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, m, z=None):
         if z is not None:
             z, m = m, z
@@ -465,16 +582,22 @@ class elliptic_e(DefinedFunction):
                 return S.ComplexInfinity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c96e12dc018f21b2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e.fdiff","kind":"method","src_hash":"dd118bd0ed798bc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c96e12dc018f21b2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e.fdiff","kind":"method","src_hash":"dd118bd0ed798bc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c96e12dc018f21b2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if len(self.args) == 2:
             z, m = self.args
@@ -491,14 +614,20 @@ class elliptic_e(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 283cddfb5cf5096c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e._eval_conjugate","kind":"method","src_hash":"9a1928f07d2657cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"283cddfb5cf5096c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e._eval_conjugate","kind":"method","src_hash":"9a1928f07d2657cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"<unspecified:_eval_conjugate>","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"283cddfb5cf5096c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         if len(self.args) == 2:
             z, m = self.args
@@ -510,16 +639,22 @@ class elliptic_e(DefinedFunction):
                 return self.func(m.conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7275bbd5e923b83d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e._eval_nseries","kind":"method","src_hash":"ac865f6f49249889","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyperexpand","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7275bbd5e923b83d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e._eval_nseries","kind":"method","src_hash":"ac865f6f49249889","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyperexpand","by":"library_axiom"},{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7275bbd5e923b83d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         from sympy.simplify import hyperexpand
         if len(self.args) == 1:
@@ -527,32 +662,44 @@ class elliptic_e(DefinedFunction):
         return super()._eval_nseries(x, n=n, logx=logx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_hyper(*ar), id) over Any             ║
+# ║ Path(_eval_rewrite_as_hyper(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 * hyper((Rational(-1, 2), S.Half),...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_hyper : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ffc22d0905a30592   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e._eval_rewrite_as_hyper","kind":"method","src_hash":"898979338c0e782b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffc22d0905a30592"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e._eval_rewrite_as_hyper","kind":"method","src_hash":"898979338c0e782b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_hyper(*args, **kwargs)","rhs":"pi / 2 * hyper((Rational(-1, 2), S.Half), (S.One,), m)","over":{"base":"Any"},"name":"_eval_rewrite_as_hyper_correct","kind":"composition"},"guarantee":"returns pi / 2 * hyper((Rational(-1, 2), S.Half), (S.One,), m)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"hyper","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffc22d0905a30592","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 * hyper((Rational(-1, 2), S.Half), (S.One,), m)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_hyper(self, *args, **kwargs):
         if len(args) == 1:
             m = args[0]
             return (pi/2)*hyper((Rational(-1, 2), S.Half), (S.One,), m)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_meijerg(*ar), id) over Any           ║
+# ║ Path(_eval_rewrite_as_meijerg(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -meijerg(((S.Half, Rational(3, 2)), []), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_meijerg : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 34840fd26b6ef8ed   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e._eval_rewrite_as_meijerg","kind":"method","src_hash":"4854b116d3e11207","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_meijerg(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_meijerg_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"meijerg","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34840fd26b6ef8ed"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e._eval_rewrite_as_meijerg","kind":"method","src_hash":"4854b116d3e11207","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_meijerg(*args, **kwargs)","rhs":"-meijerg(((S.Half, Rational(3, 2)), []), ((S.Zero,), (S.Zero,)), -m) / 4","over":{"base":"Any"},"name":"_eval_rewrite_as_meijerg_correct","kind":"composition"},"guarantee":"returns -meijerg(((S.Half, Rational(3, 2)), []), ((S.Zero,), (S.Zero,)), -m) / 4","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"meijerg","by":"library_axiom"},{"fn":"Rational","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34840fd26b6ef8ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-meijerg(((S.Half, Rational(3, 2)), []), ((S.Zero,), (S.Zero,)), -m) / 4","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_meijerg(self, *args, **kwargs):
         if len(args) == 1:
             m = args[0]
@@ -560,16 +707,22 @@ class elliptic_e(DefinedFunction):
                             ((S.Zero,), (S.Zero,)), -m)/4
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Integral(*ar), id) over Any          ║
+# ║ Path(_eval_rewrite_as_Integral(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(sqrt(1 - m * sin(t) ** 2), (t, 0...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Integral : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b8201af79ed83af9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e._eval_rewrite_as_Integral","kind":"method","src_hash":"195deb8a962ceae9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8201af79ed83af9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_e._eval_rewrite_as_Integral","kind":"method","src_hash":"195deb8a962ceae9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(*args, **kwargs)","rhs":"Integral(sqrt(1 - m * sin(t) ** 2), (t, 0, z))","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct","kind":"composition"},"guarantee":"returns Integral(sqrt(1 - m * sin(t) ** 2), (t, 0, z))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8201af79ed83af9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(sqrt(1 - m * sin(t) ** 2), (t, 0, z))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Integral(self, *args, **kwargs):
         from sympy.integrals.integrals import Integral
         z, m = (pi/2, self.args[0]) if len(self.args) == 1 else self.args
@@ -580,14 +733,20 @@ class elliptic_e(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(elliptic_pi(*args), correctly constructs a elliptic_pi instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ elliptic_pi : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ elliptic_pi : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9b42a98940bc750  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_pi","kind":"class","src_hash":"bc170023dc7d409b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elliptic_pi(*args)","rhs":"correctly constructs a elliptic_pi instance","over":{"base":"Any"},"name":"elliptic_pi_class_invariant"},"guarantee":"correctly constructs a elliptic_pi instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9b42a98940bc750"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_pi","kind":"class","src_hash":"bc170023dc7d409b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"elliptic_pi(*args)","rhs":"correctly constructs a elliptic_pi instance","over":{"base":"Any"},"name":"elliptic_pi_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9b42a98940bc750","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function elliptic_pi not found in source"]}}
 class elliptic_pi(DefinedFunction):
     r"""
     Called with three arguments $n$, $z$ and $m$, evaluates the
@@ -635,16 +794,25 @@ class elliptic_pi(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, n, m), <unspecified:eval>) over {Any | hasattr(n, 'is_zero') and hasattr(m, 'is_zero') and hasattr(m, 'is_extended_real') and hasattr(m, 'is_infinite') and hasattr(n, 'is_extended_real') and hasattr(n, 'is_infinite') and hasattr(z, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'is_zero')                          ║
+# ║   requires: hasattr(m, 'is_zero')                          ║
+# ║   requires: hasattr(m, 'is_extended_real')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(n, 'is_zero') and hasattr(m, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c99a33a0b263d29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_pi.eval","kind":"classmethod","src_hash":"bbd34d04372ca6a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_pi.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c99a33a0b263d29"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_pi.eval","kind":"classmethod","src_hash":"bbd34d04372ca6a1","in":{"base":"Any","pred":"hasattr(n, 'is_zero') and hasattr(m, 'is_zero') and hasattr(m, 'is_extended_real') and hasattr(m, 'is_infinite') and hasattr(n, 'is_extended_real') and hasattr(n, 'is_infinite') and hasattr(z, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, n, m)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(n, 'is_zero') and hasattr(m, 'is_zero') and hasattr(m, 'is_extended_real') and hasattr(m, 'is_infinite') and hasattr(n, 'is_extended_real') and hasattr(n, 'is_infinite') and hasattr(z, 'could_extract_minus_sign')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.elliptic_integrals.elliptic_pi.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c99a33a0b263d29","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'is_zero')","hasattr(m, 'is_zero')","hasattr(m, 'is_extended_real')","hasattr(m, 'is_infinite')","hasattr(n, 'is_extended_real')","hasattr(n, 'is_infinite')","hasattr(z, 'could_extract_minus_sign')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.is_extended_real","m.is_infinite","m.is_zero","n.is_extended_real","n.is_infinite","n.is_zero","z.could_extract_minus_sign"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, n, m, z=None):
         if z is not None:
             z, m = m, z
@@ -697,14 +865,21 @@ class elliptic_pi(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: len(self.args) == 3                       ║
+# ║   fiber[case_1]: not (len(self.args) == 3) => self.fu...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 18d330f62f9ed449   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_pi._eval_conjugate","kind":"method","src_hash":"6f2299eef129f2de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18d330f62f9ed449"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_pi._eval_conjugate","kind":"method","src_hash":"6f2299eef129f2de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"<unspecified:_eval_conjugate>","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18d330f62f9ed449","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"len(self.args) == 3","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (len(self.args) == 3)","ensures":["result == self.func(n.conjugate(), m.conjugate())"],"decidability":"z3","returns_expr":"self.func(n.conjugate(), m.conjugate())"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         if len(self.args) == 3:
             n, z, m = self.args
@@ -716,16 +891,22 @@ class elliptic_pi(DefinedFunction):
             return self.func(n.conjugate(), m.conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7dcbd9bfdb25c52e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_pi.fdiff","kind":"method","src_hash":"527ab1afee129a7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"elliptic_e","by":"library_axiom"},{"fn":"elliptic_f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dcbd9bfdb25c52e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_pi.fdiff","kind":"method","src_hash":"527ab1afee129a7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"elliptic_e","by":"library_axiom"},{"fn":"elliptic_f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dcbd9bfdb25c52e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if len(self.args) == 3:
             n, z, m = self.args
@@ -750,16 +931,22 @@ class elliptic_pi(DefinedFunction):
         raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Integral(*ar), id) over Any          ║
+# ║ Path(_eval_rewrite_as_Integral(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Integral(1 / ((1 - n * sin(t) ** 2) * sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Integral : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a6098e6053ba1e40   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_pi._eval_rewrite_as_Integral","kind":"method","src_hash":"fbdd8192f625f43c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6098e6053ba1e40"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.elliptic_integrals.elliptic_pi._eval_rewrite_as_Integral","kind":"method","src_hash":"fbdd8192f625f43c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Integral(*args, **kwargs)","rhs":"Integral(1 / ((1 - n * sin(t) ** 2) * sqrt(1 - m * sin(t) ** 2)), (t, 0, z))","over":{"base":"Any"},"name":"_eval_rewrite_as_Integral_correct","kind":"composition"},"guarantee":"returns Integral(1 / ((1 - n * sin(t) ** 2) * sqrt(1 - m * sin(t) ** 2)), (t, 0, z))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Integral","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6098e6053ba1e40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Integral(1 / ((1 - n * sin(t) ** 2) * sqrt(1 - m * sin(t) ** 2)), (t, 0, z))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Integral(self, *args, **kwargs):
         from sympy.integrals.integrals import Integral
         if len(self.args) == 2:

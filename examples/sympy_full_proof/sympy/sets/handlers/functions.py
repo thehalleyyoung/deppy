@@ -42,39 +42,57 @@ _set_function = Dispatcher('_set_function')
 
 @_set_function.register(FunctionClass, Set)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(f, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(f, x), None) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9eb4b3d79a7b7bea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"599858650d3a549f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9eb4b3d79a7b7bea"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"599858650d3a549f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(f, x)","rhs":"None","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9eb4b3d79a7b7bea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(f, x):
     return None
 
 @_set_function.register(FunctionUnion, FiniteSet)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(f, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(f, x), FiniteSet(*map(f, x))) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FiniteSet(*map(f, x))                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 111edd3df9c370d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"214959fb200c2ba7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"111edd3df9c370d8"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"214959fb200c2ba7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(f, x)","rhs":"FiniteSet(*map(f, x))","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns FiniteSet(*map(f, x))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"111edd3df9c370d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FiniteSet(*map(f, x))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(f, x):
     return FiniteSet(*map(f, x))
 
 @_set_function.register(Lambda, Interval)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(f, ), internal helper behaves correctly) over {Any | isinstance(soln_expr, FiniteSet)} ║
+# ║ Path(_(f, x), <unspecified:_>) over {Any | isinstance(soln_expr, FiniteSet) and hasattr(f, 'expr') and hasattr(x, 'left_open') and hasattr(x, 'right_open') and hasattr(f, 'variables') and hasattr(x, 'start') and hasattr(x, 'end')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : {Any | isinstance(soln_expr, FiniteSet)} → Any         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'expr')                             ║
+# ║   requires: hasattr(x, 'left_open')                        ║
+# ║   requires: hasattr(x, 'right_open')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | isinstance(soln_expr, FiniteSet) and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   FiniteSet: {isinstance(soln_expr, FiniteSet)} → lib...   ║
@@ -84,9 +102,12 @@ def _(f, x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 29a8bcf5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"197620db116bbb30","in":{"base":"Any","pred":"isinstance(soln_expr, FiniteSet)"},"out":{"base":"Any"},"spec":{"lhs":"_(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(soln_expr, FiniteSet)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"FiniteSet","pred":"isinstance(soln_expr, FiniteSet)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"FiniteSet","pred":"isinstance(soln_expr, FiniteSet)"},"name":"__FiniteSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.functions.__FiniteSet_correct","statement":"_ satisfies spec on FiniteSet inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"29a8bcf5108c6cfa"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"197620db116bbb30","in":{"base":"Any","pred":"isinstance(soln_expr, FiniteSet) and hasattr(f, 'expr') and hasattr(x, 'left_open') and hasattr(x, 'right_open') and hasattr(f, 'variables') and hasattr(x, 'start') and hasattr(x, 'end')"},"out":{"base":"Any"},"spec":{"lhs":"_(f, x)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"isinstance(soln_expr, FiniteSet) and hasattr(f, 'expr') and hasattr(x, 'left_open') and hasattr(x, 'right_open') and hasattr(f, 'variables') and hasattr(x, 'start') and hasattr(x, 'end')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"FiniteSet","pred":"isinstance(soln_expr, FiniteSet)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"FiniteSet","pred":"isinstance(soln_expr, FiniteSet)"},"name":"__FiniteSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.functions.__FiniteSet_correct","statement":"_ satisfies spec on FiniteSet inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"29a8bcf5108c6cfa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'expr')","hasattr(x, 'left_open')","hasattr(x, 'right_open')","hasattr(f, 'variables')","hasattr(x, 'start')","hasattr(x, 'end')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.expr","f.variables","x.end","x.left_open","x.right_open","x.start"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'_start <= _end', 'start == _end and start not in solns', 'end == _start and end not in solns', 'len(sing) == 0', 'start == _start and start not in solns', 'not (isinstance(soln_expr, FiniteSet) or soln_expr is S.EmptySet)', 'end == _end and end not in solns', 'len(sing) > 1', 'len(expr.free_symbols) > 1 or len(f.variables) != 1'}, fibers={'FiniteSet'})"]}}
 def _(f, x):
     from sympy.solvers.solveset import solveset
     from sympy.series import limit
@@ -179,16 +200,28 @@ def _(f, x):
 
 @_set_function.register(FunctionClass, Interval)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(f, ), id) over Any                                  ║
+# ║ Path(_(f, x), id) over {Any | hasattr(x, 'left_open') and hasattr(x, 'right_open') and hasattr(x, 'start') and hasattr(x, 'end')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'left_open')                        ║
+# ║   requires: hasattr(x, 'right_open')                       ║
+# ║   requires: hasattr(x, 'start')                            ║
+# ║   ensures:  result == (Interval(exp(x.start), exp(x.e...   ║
+# ║   ensures:  result == Interval(exp(x.start), exp(x.en...   ║
+# ║   fiber[case_0]: f == exp => Interval(exp(x.start), e...   ║
+# ║   fiber[case_1]: f == log => Interval(log(x.start), l...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(x, 'left_open') and hasattr(x, 'ri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 707f1a4d7b83fbcc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"47e9bace289f7741","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Interval","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"707f1a4d7b83fbcc"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"47e9bace289f7741","in":{"base":"Any","pred":"hasattr(x, 'left_open') and hasattr(x, 'right_open') and hasattr(x, 'start') and hasattr(x, 'end')"},"out":{"base":"Any","pred":"result satisfies: result == (Interval(exp(x.start), exp(x.end), x.left_open, x.right_open) if f == exp else Interval(log(x.start), log(x.end), x.left_open, x.right_open)) and result == Interval(exp(x.start), exp(x.end), x.left_open, x.right_open) or result == Interval(log(x.start), log(x.end), x.left_open, x.right_open)"},"spec":{"lhs":"_(f, x)","rhs":"result == (Interval(exp(x.start), exp(x.end), x.left_open, x.right_open) if f == exp else Interval(log(x.start), log(x.end), x.left_open, x.right_open)) and result == Interval(exp(x.start), exp(x.end), x.left_open, x.right_open) or result == Interval(log(x.start), log(x.end), x.left_open, x.right_open)","over":{"base":"Any","pred":"hasattr(x, 'left_open') and hasattr(x, 'right_open') and hasattr(x, 'start') and hasattr(x, 'end')"},"name":"__correct","kind":"composition"},"guarantee":"result == (Interval(exp(x.start), exp(x.end), x.left_open, x.right_open) if f == exp else Interval(log(x.start), log(x.end), x.left_open, x.right_open)); result == Interval(exp(x.start), exp(x.end), x.left_open, x.right_open) or result == Interval(log(x.start), log(x.end), x.left_open, x.right_open); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Interval","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"707f1a4d7b83fbcc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'left_open')","hasattr(x, 'right_open')","hasattr(x, 'start')","hasattr(x, 'end')"],"ensures":["result == (Interval(exp(x.start), exp(x.end), x.left_open, x.right_open) if f == exp else Interval(log(x.start), log(x.end), x.left_open, x.right_open))","result == Interval(exp(x.start), exp(x.end), x.left_open, x.right_open) or result == Interval(log(x.start), log(x.end), x.left_open, x.right_open)"],"fibers":[{"name":"case_0","guard":"f == exp","ensures":["result == Interval(exp(x.start), exp(x.end), x.left_open, x.right_open)"],"decidability":"z3","returns_expr":"Interval(exp(x.start), exp(x.end), x.left_open, x.right_open)"},{"name":"case_1","guard":"f == log","ensures":["result == Interval(log(x.start), log(x.end), x.left_open, x.right_open)"],"decidability":"z3","returns_expr":"Interval(log(x.start), log(x.end), x.left_open, x.right_open)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.end","x.left_open","x.right_open","x.start"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(f, x):
     if f == exp:
         return Interval(exp(x.start), exp(x.end), x.left_open, x.right_open)
@@ -198,31 +231,48 @@ def _(f, x):
 
 @_set_function.register(FunctionUnion, Union)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(f, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(f, x), Union(*(imageset(f, arg) for arg in x.args))) over {Any | hasattr(x, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'args')                             ║
+# ║   returns:  Union(*(imageset(f, arg) for arg in x.args))   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(x, 'args')} → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 96f3a0770e543437           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"d69c236525c5541a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96f3a0770e543437"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"d69c236525c5541a","in":{"base":"Any","pred":"hasattr(x, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(f, x)","rhs":"Union(*(imageset(f, arg) for arg in x.args))","over":{"base":"Any","pred":"hasattr(x, 'args')"},"name":"__correct"},"guarantee":"returns Union(*(imageset(f, arg) for arg in x.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"96f3a0770e543437","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'args')"],"returns_expr":"Union(*(imageset(f, arg) for arg in x.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["x.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(f, x):
     return Union(*(imageset(f, arg) for arg in x.args))
 
 @_set_function.register(FunctionUnion, Intersection)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(f, ), id) over Any                                  ║
+# ║ Path(_(f, x), id) over {Any | hasattr(x, 'args')}          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'args')                             ║
+# ║   ensures:  result == (Intersection(*(imageset(f, arg...   ║
+# ║   ensures:  result == Intersection(*(imageset(f, arg)...   ║
+# ║   fiber[case_0]: is_function_invertible_in_set(f, x) ...   ║
+# ║   fiber[case_1]: not (is_function_invertible_in_set(f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(x, 'args')} → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8827ce875b8f936d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"3e6bc0ab5b3542b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Intersection","by":"library_axiom"},{"fn":"imageset","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8827ce875b8f936d"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"3e6bc0ab5b3542b0","in":{"base":"Any","pred":"hasattr(x, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (Intersection(*(imageset(f, arg) for arg in x.args)) if is_function_invertible_in_set(f, x) else ImageSet(Lambda(_x, f(_x)), x)) and result == Intersection(*(imageset(f, arg) for arg in x.args)) or result == ImageSet(Lambda(_x, f(_x)), x)"},"spec":{"lhs":"_(f, x)","rhs":"result == (Intersection(*(imageset(f, arg) for arg in x.args)) if is_function_invertible_in_set(f, x) else ImageSet(Lambda(_x, f(_x)), x)) and result == Intersection(*(imageset(f, arg) for arg in x.args)) or result == ImageSet(Lambda(_x, f(_x)), x)","over":{"base":"Any","pred":"hasattr(x, 'args')"},"name":"__correct","kind":"composition"},"guarantee":"result == (Intersection(*(imageset(f, arg) for arg in x.args)) if is_function_invertible_in_set(f, x) else ImageSet(Lambda(_x, f(_x)), x)); result == Intersection(*(imageset(f, arg) for arg in x.args)) or result == ImageSet(Lambda(_x, f(_x)), x); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Intersection","by":"library_axiom"},{"fn":"imageset","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8827ce875b8f936d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'args')"],"ensures":["result == (Intersection(*(imageset(f, arg) for arg in x.args)) if is_function_invertible_in_set(f, x) else ImageSet(Lambda(_x, f(_x)), x))","result == Intersection(*(imageset(f, arg) for arg in x.args)) or result == ImageSet(Lambda(_x, f(_x)), x)"],"fibers":[{"name":"case_0","guard":"is_function_invertible_in_set(f, x)","ensures":["result == Intersection(*(imageset(f, arg) for arg in x.args))"],"decidability":"library","returns_expr":"Intersection(*(imageset(f, arg) for arg in x.args))"},{"name":"case_1","guard":"not (is_function_invertible_in_set(f, x))","ensures":["result == ImageSet(Lambda(_x, f(_x)), x)"],"decidability":"library","returns_expr":"ImageSet(Lambda(_x, f(_x)), x)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(f, x):
     # If the function is invertible, intersect the maps of the sets.
     if is_function_invertible_in_set(f, x):
@@ -232,39 +282,57 @@ def _(f, x):
 
 @_set_function.register(FunctionUnion, EmptySet)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(f, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(f, x), x) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == x                                    ║
+# ║   returns:  x                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : Any → {Any | result satisfies: result == (x)}          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2837b2d6a5b2bf13           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"f16e4cb158a59dc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2837b2d6a5b2bf13"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"f16e4cb158a59dc2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (x)"},"spec":{"lhs":"_(f, x)","rhs":"x","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns x; result == x","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2837b2d6a5b2bf13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == x"],"returns_expr":"x","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(f, x):
     return x
 
 @_set_function.register(FunctionUnion, Set)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(f, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(f, x), ImageSet(Lambda(_x, f(_x)), x)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImageSet(Lambda(_x, f(_x)), x)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 59988b9825d8d0d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"7930af92e6f5900e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(f, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59988b9825d8d0d2"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"7930af92e6f5900e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(f, x)","rhs":"ImageSet(Lambda(_x, f(_x)), x)","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns ImageSet(Lambda(_x, f(_x)), x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59988b9825d8d0d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImageSet(Lambda(_x, f(_x)), x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(f, x):
     return ImageSet(Lambda(_x, f(_x)), x)
 
 @_set_function.register(FunctionUnion, Range)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(f), internal helper behaves correctly) over {Any | isinstance(f.expr, Expr)} ║
+# ║ Path(_(f), <unspecified:_>) over {Any | isinstance(f.expr, Expr) and hasattr(f, 'expr') and hasattr(f, 'variables')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : {Any | isinstance(f.expr, Expr)} → Any                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'expr')                             ║
+# ║   requires: hasattr(f, 'variables')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | isinstance(f.expr, Expr) and hasattr(f, 'e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(f.expr, Expr)} → library_axiom         ║
@@ -274,9 +342,12 @@ def _(f, x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 96dbbe9e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"c7ac8f14e462d39e","in":{"base":"Any","pred":"isinstance(f.expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_(f)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(f.expr, Expr)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Expr","pred":"isinstance(f.expr, Expr)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(f.expr, Expr)"},"name":"__Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.functions.__Expr_correct","statement":"_ satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"96dbbe9edf611d1e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"c7ac8f14e462d39e","in":{"base":"Any","pred":"isinstance(f.expr, Expr) and hasattr(f, 'expr') and hasattr(f, 'variables')"},"out":{"base":"Any"},"spec":{"lhs":"_(f)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"isinstance(f.expr, Expr) and hasattr(f, 'expr') and hasattr(f, 'variables')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Expr","pred":"isinstance(f.expr, Expr)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(f.expr, Expr)"},"name":"__Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.functions.__Expr_correct","statement":"_ satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"96dbbe9edf611d1e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'expr')","hasattr(f, 'variables')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.expr","f.variables","self.size","self.start","self.step"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'F != expr', 'not isinstance(f.expr, Expr)', 'self.size == 1'}, fibers={'Expr'})"]}}
 def _(f, self):
     if not self:
         return S.EmptySet
@@ -302,9 +373,14 @@ def _(f, self):
 
 @_set_function.register(FunctionUnion, Integers)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(f), internal helper behaves correctly) over {Any | isinstance(expr, Expr)} ║
+# ║ Path(_(f), <unspecified:_>) over {Any | isinstance(expr, Expr) and hasattr(f, 'expr') and hasattr(f, 'variables')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : {Any | isinstance(expr, Expr)} → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'expr')                             ║
+# ║   requires: hasattr(f, 'variables')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | isinstance(expr, Expr) and hasattr(f, 'exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(expr, Expr)} → library_axiom           ║
@@ -314,9 +390,12 @@ def _(f, self):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fbf99972...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"daea46faf4f53f97","in":{"base":"Any","pred":"isinstance(expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_(f)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, Expr)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"__Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.functions.__Expr_correct","statement":"_ satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fbf9997255eb8aeb"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"daea46faf4f53f97","in":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(f, 'expr') and hasattr(f, 'variables')"},"out":{"base":"Any"},"spec":{"lhs":"_(f)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(f, 'expr') and hasattr(f, 'variables')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"__Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.functions.__Expr_correct","statement":"_ satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fbf9997255eb8aeb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'expr')","hasattr(f, 'variables')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, Expr)', 'expr == abs(n)', 'neg_count(f_x) < neg_count(fx)', 'expr != f.expr'}, fibers={'Expr'})"]}}
 def _(f, self):
     expr = f.expr
     if not isinstance(expr, Expr):
@@ -371,9 +450,14 @@ def _(f, self):
 
 @_set_function.register(FunctionUnion, Naturals)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(f), internal helper behaves correctly) over {Any | isinstance(expr, Expr)} ║
+# ║ Path(_(f), <unspecified:_>) over {Any | isinstance(expr, Expr) and hasattr(f, 'expr') and hasattr(f, 'variables')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : {Any | isinstance(expr, Expr)} → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'expr')                             ║
+# ║   requires: hasattr(f, 'variables')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | isinstance(expr, Expr) and hasattr(f, 'exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(expr, Expr)} → library_axiom           ║
@@ -383,9 +467,12 @@ def _(f, self):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | dd130959...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"dadd7f02311b44ad","in":{"base":"Any","pred":"isinstance(expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_(f)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, Expr)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"__Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.functions.__Expr_correct","statement":"_ satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dd1309599a9d8fce"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"dadd7f02311b44ad","in":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(f, 'expr') and hasattr(f, 'variables')"},"out":{"base":"Any"},"spec":{"lhs":"_(f)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(f, 'expr') and hasattr(f, 'variables')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"__Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.functions.__Expr_correct","statement":"_ satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dd1309599a9d8fce","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'expr')","hasattr(f, 'variables')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.expr","f.variables"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'c.is_Integer and step.is_Integer and (expr == step * x + c)', 'step > 0', 'c == 1', 'not isinstance(expr, Expr)', 'c == 0', 'expr == abs(x)', 'step == 1'}, fibers={'Expr'})"]}}
 def _(f, self):
     expr = f.expr
     if not isinstance(expr, Expr):
@@ -414,9 +501,13 @@ def _(f, self):
 
 @_set_function.register(FunctionUnion, Reals)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(f), internal helper behaves correctly) over {Any | isinstance(expr, Expr)} ║
+# ║ Path(_(f), _set_function(f, Interval(-oo, oo))) over {Any | isinstance(expr, Expr) and hasattr(f, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : {Any | isinstance(expr, Expr)} → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'expr')                             ║
+# ║   returns:  _set_function(f, Interval(-oo, oo))            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | isinstance(expr, Expr) and hasattr(f, 'exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(expr, Expr)} → library_axiom           ║
@@ -426,9 +517,12 @@ def _(f, self):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 53766c11...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"d2c3eaa49d439ec6","in":{"base":"Any","pred":"isinstance(expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_(f)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(expr, Expr)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"__Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.functions.__Expr_correct","statement":"_ satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"53766c11b912d5d3"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.functions._","kind":"function","src_hash":"d2c3eaa49d439ec6","in":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(f, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_(f)","rhs":"_set_function(f, Interval(-oo, oo))","over":{"base":"Any","pred":"isinstance(expr, Expr) and hasattr(f, 'expr')"},"name":"__correct"},"guarantee":"returns _set_function(f, Interval(-oo, oo))","fibers":[{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"_(x)","rhs":"returns _set_function(f, Interval(-oo, oo))","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"__Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.functions.__Expr_correct","statement":"_ satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"53766c11b912d5d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'expr')"],"returns_expr":"_set_function(f, Interval(-oo, oo))","pure":false,"effects":{"effect_type":"reads_state","reads":["f.expr"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, Expr)'}, fibers={'Expr'})"]}}
 def _(f, self):
     expr = f.expr
     if not isinstance(expr, Expr):

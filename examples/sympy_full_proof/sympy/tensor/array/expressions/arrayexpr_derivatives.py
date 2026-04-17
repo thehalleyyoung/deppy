@@ -37,16 +37,22 @@ from sympy.tensor.array.expressions.from_matrix_to_array import convert_matrix_t
 
 @singledispatch
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(array_derive(exp), derivatives (gradients) for array expressions) over Any ║
+# ║ Path(array_derive(expr, x), <unspecified:array_derive>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ array_derive : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f70989e08167edd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives.array_derive","kind":"function","src_hash":"ce3251c57a511eb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"array_derive(exp)","rhs":"derivatives (gradients) for array expressions","over":{"base":"Any"},"name":"array_derive_correct"},"guarantee":"derivatives (gradients) for array expressions","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f70989e08167edd"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives.array_derive","kind":"function","src_hash":"ce3251c57a511eb9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"array_derive(expr, x)","rhs":"<unspecified:array_derive>","over":{"base":"Any"},"name":"array_derive_correct"},"guarantee":"derivatives (gradients) for array expressions","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f70989e08167edd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def array_derive(expr, x):
     """
     Derivatives (gradients) for array expressions.
@@ -56,32 +62,54 @@ def array_derive(expr, x):
 
 @array_derive.register(Expr)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Expr  ║
+# ║ Path(_(expr, x), ZeroArray(*x.shape)) over {Expr | isinstance(expr, Expr) and isinstance(x, _ArrayExpr) and hasattr(x, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Expr → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, Expr)                         ║
+# ║   requires: isinstance(x, _ArrayExpr)                      ║
+# ║   requires: hasattr(x, 'shape')                            ║
+# ║   returns:  ZeroArray(*x.shape)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Expr | isinstance(expr, Expr) and isinstance(x, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4da6897e42043271           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"df189cb816092c02","in":{"base":"Expr"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Expr"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4da6897e42043271"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"df189cb816092c02","in":{"base":"Expr","pred":"isinstance(expr, Expr) and isinstance(x, _ArrayExpr) and hasattr(x, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"ZeroArray(*x.shape)","over":{"base":"Expr","pred":"isinstance(expr, Expr) and isinstance(x, _ArrayExpr) and hasattr(x, 'shape')"},"name":"__correct"},"guarantee":"returns ZeroArray(*x.shape)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4da6897e42043271","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, Expr)","isinstance(x, _ArrayExpr)","hasattr(x, 'shape')"],"returns_expr":"ZeroArray(*x.shape)","pure":false,"effects":{"effect_type":"reads_state","reads":["x.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr: Expr, x: _ArrayExpr):
     return ZeroArray(*x.shape)
 
 
 @array_derive.register(ArrayTensorProduct)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over ArrayTensorProduct ║
+# ║ Path(_(expr, x), result == (addend_list[0] if len(addend_list) == 1 else S.Zero if len(addend_list) == 0 else _array_add(*addend_list)) and result == addend_list[0] or result == S.Zero or result == _array_add(*addend_list)) over {ArrayTensorProduct | isinstance(expr, ArrayTensorProduct) and isinstance(x, Expr) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ArrayTensorProduct → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayTensorProduct)           ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  result == (addend_list[0] if len(addend_l...   ║
+# ║   ensures:  result == addend_list[0] or result == S.Z...   ║
+# ║   fiber[case_0]: len(addend_list) == 1 => addend_list[0]   ║
+# ║   fiber[zero_or_none]: len(addend_list) == 0 => S.Zero     ║
+# ║   fiber[zero_or_none]: not (len(addend_list) == 1) an...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ArrayTensorProduct | isinstance(expr, ArrayTenso...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7b6f64b8801dfa5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb2055507a664186  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"eb08926fd4a8ed31","in":{"base":"ArrayTensorProduct"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayTensorProduct"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7b6f64b8801dfa5"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"eb08926fd4a8ed31","in":{"base":"ArrayTensorProduct","pred":"isinstance(expr, ArrayTensorProduct) and isinstance(x, Expr) and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (addend_list[0] if len(addend_list) == 1 else S.Zero if len(addend_list) == 0 else _array_add(*addend_list)) and result == addend_list[0] or result == S.Zero or result == _array_add(*addend_list)"},"spec":{"lhs":"_(expr, x)","rhs":"result == (addend_list[0] if len(addend_list) == 1 else S.Zero if len(addend_list) == 0 else _array_add(*addend_list)) and result == addend_list[0] or result == S.Zero or result == _array_add(*addend_list)","over":{"base":"ArrayTensorProduct","pred":"isinstance(expr, ArrayTensorProduct) and isinstance(x, Expr) and hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"result == (addend_list[0] if len(addend_list) == 1 else S.Zero if len(addend_list) == 0 else _array_add(*addend_list)); result == addend_list[0] or result == S.Zero or result == _array_add(*addend_list); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), result == (addend_list[0] if len(addend_list) == 1 else S.Zero if len(addend_list) == 0 else _array_add(*addend_list)); result == addend_list[0] or result == S.Zero or result == _array_add(*addend_list); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb2055507a664186","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayTensorProduct)","isinstance(x, Expr)","hasattr(expr, 'args')"],"ensures":["result == (addend_list[0] if len(addend_list) == 1 else S.Zero if len(addend_list) == 0 else _array_add(*addend_list))","result == addend_list[0] or result == S.Zero or result == _array_add(*addend_list)"],"fibers":[{"name":"case_0","guard":"len(addend_list) == 1","ensures":["result == addend_list[0]"],"decidability":"z3","returns_expr":"addend_list[0]"},{"name":"zero_or_none","guard":"len(addend_list) == 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"zero_or_none","guard":"not (len(addend_list) == 1) and not (len(addend_list) == 0)","ensures":["result == _array_add(*addend_list)"],"decidability":"z3","returns_expr":"_array_add(*addend_list)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _(expr: ArrayTensorProduct, x: Expr):
     args = expr.args
     addend_list = []
@@ -113,16 +141,25 @@ def _(expr: ArrayTensorProduct, x: Expr):
 
 @array_derive.register(ArraySymbol)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over ArraySymbol ║
+# ║ Path(_(expr, x), <unspecified:_>) over {ArraySymbol | isinstance(expr, ArraySymbol) and isinstance(x, _ArrayExpr) and hasattr(x, 'shape') and hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ArraySymbol → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, ArraySymbol)                  ║
+# ║   requires: isinstance(x, _ArrayExpr)                      ║
+# ║   requires: hasattr(x, 'shape')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ArraySymbol | isinstance(expr, ArraySymbol) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4386b1a0193bbe40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"d256bae0fcd3a667","in":{"base":"ArraySymbol"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArraySymbol"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4386b1a0193bbe40"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"d256bae0fcd3a667","in":{"base":"ArraySymbol","pred":"isinstance(expr, ArraySymbol) and isinstance(x, _ArrayExpr) and hasattr(x, 'shape') and hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"<unspecified:_>","over":{"base":"ArraySymbol","pred":"isinstance(expr, ArraySymbol) and isinstance(x, _ArrayExpr) and hasattr(x, 'shape') and hasattr(expr, 'shape')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4386b1a0193bbe40","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, ArraySymbol)","isinstance(x, _ArrayExpr)","hasattr(x, 'shape')","hasattr(expr, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape","x.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr: ArraySymbol, x: _ArrayExpr):
     if expr == x:
         return _permute_dims(
@@ -134,16 +171,25 @@ def _(expr: ArraySymbol, x: _ArrayExpr):
 
 @array_derive.register(MatrixSymbol)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over MatrixSymbol ║
+# ║ Path(_(expr, x), <unspecified:_>) over {MatrixSymbol | isinstance(expr, MatrixSymbol) and isinstance(x, _ArrayExpr) and hasattr(expr, 'shape') and hasattr(x, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : MatrixSymbol → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, MatrixSymbol)                 ║
+# ║   requires: isinstance(x, _ArrayExpr)                      ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {MatrixSymbol | isinstance(expr, MatrixSymbol) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c93ab7452c389566  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"b6f4c92bc3d8afad","in":{"base":"MatrixSymbol"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"MatrixSymbol"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c93ab7452c389566"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"b6f4c92bc3d8afad","in":{"base":"MatrixSymbol","pred":"isinstance(expr, MatrixSymbol) and isinstance(x, _ArrayExpr) and hasattr(expr, 'shape') and hasattr(x, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"<unspecified:_>","over":{"base":"MatrixSymbol","pred":"isinstance(expr, MatrixSymbol) and isinstance(x, _ArrayExpr) and hasattr(expr, 'shape') and hasattr(x, 'shape')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c93ab7452c389566","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, MatrixSymbol)","isinstance(x, _ArrayExpr)","hasattr(expr, 'shape')","hasattr(x, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape","x.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr: MatrixSymbol, x: _ArrayExpr):
     m, n = expr.shape
     if expr == x:
@@ -156,48 +202,75 @@ def _(expr: MatrixSymbol, x: _ArrayExpr):
 
 @array_derive.register(Identity)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Identity ║
+# ║ Path(_(expr, x), ZeroArray(*x.shape + expr.shape)) over {Identity | isinstance(expr, Identity) and isinstance(x, _ArrayExpr) and hasattr(x, 'shape') and hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Identity → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, Identity)                     ║
+# ║   requires: isinstance(x, _ArrayExpr)                      ║
+# ║   requires: hasattr(x, 'shape')                            ║
+# ║   returns:  ZeroArray(*x.shape + expr.shape)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Identity | isinstance(expr, Identity) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08055686284afc39           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"559165e81efa6d8b","in":{"base":"Identity"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Identity"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08055686284afc39"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"559165e81efa6d8b","in":{"base":"Identity","pred":"isinstance(expr, Identity) and isinstance(x, _ArrayExpr) and hasattr(x, 'shape') and hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"ZeroArray(*x.shape + expr.shape)","over":{"base":"Identity","pred":"isinstance(expr, Identity) and isinstance(x, _ArrayExpr) and hasattr(x, 'shape') and hasattr(expr, 'shape')"},"name":"__correct"},"guarantee":"returns ZeroArray(*x.shape + expr.shape)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08055686284afc39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, Identity)","isinstance(x, _ArrayExpr)","hasattr(x, 'shape')","hasattr(expr, 'shape')"],"returns_expr":"ZeroArray(*x.shape + expr.shape)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape","x.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr: Identity, x: _ArrayExpr):
     return ZeroArray(*(x.shape + expr.shape))
 
 
 @array_derive.register(OneMatrix)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over OneMatrix ║
+# ║ Path(_(expr, x), ZeroArray(*x.shape + expr.shape)) over {OneMatrix | isinstance(expr, OneMatrix) and isinstance(x, _ArrayExpr) and hasattr(x, 'shape') and hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : OneMatrix → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, OneMatrix)                    ║
+# ║   requires: isinstance(x, _ArrayExpr)                      ║
+# ║   requires: hasattr(x, 'shape')                            ║
+# ║   returns:  ZeroArray(*x.shape + expr.shape)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {OneMatrix | isinstance(expr, OneMatrix) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d8fdcfa8997d11ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"cd1aeef084a69f86","in":{"base":"OneMatrix"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"OneMatrix"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8fdcfa8997d11ba"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"cd1aeef084a69f86","in":{"base":"OneMatrix","pred":"isinstance(expr, OneMatrix) and isinstance(x, _ArrayExpr) and hasattr(x, 'shape') and hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"ZeroArray(*x.shape + expr.shape)","over":{"base":"OneMatrix","pred":"isinstance(expr, OneMatrix) and isinstance(x, _ArrayExpr) and hasattr(x, 'shape') and hasattr(expr, 'shape')"},"name":"__correct"},"guarantee":"returns ZeroArray(*x.shape + expr.shape)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d8fdcfa8997d11ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, OneMatrix)","isinstance(x, _ArrayExpr)","hasattr(x, 'shape')","hasattr(expr, 'shape')"],"returns_expr":"ZeroArray(*x.shape + expr.shape)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape","x.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr: OneMatrix, x: _ArrayExpr):
     return ZeroArray(*(x.shape + expr.shape))
 
 
 @array_derive.register(Transpose)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Transpose ║
+# ║ Path(_(expr, x), _permute_dims(fd, [0, 1, 3, 2])) over {Transpose | isinstance(expr, Transpose) and isinstance(x, Expr) and hasattr(expr, 'arg')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Transpose → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, Transpose)                    ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   requires: hasattr(expr, 'arg')                           ║
+# ║   returns:  _permute_dims(fd, [0, 1, 3, 2])                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Transpose | isinstance(expr, Transpose) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08ee3c6aa3ecc08a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37a8684ee55d7ab7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"f6ea1ece9d254b1a","in":{"base":"Transpose"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Transpose"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08ee3c6aa3ecc08a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"f6ea1ece9d254b1a","in":{"base":"Transpose","pred":"isinstance(expr, Transpose) and isinstance(x, Expr) and hasattr(expr, 'arg')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"_permute_dims(fd, [0, 1, 3, 2])","over":{"base":"Transpose","pred":"isinstance(expr, Transpose) and isinstance(x, Expr) and hasattr(expr, 'arg')"},"name":"__correct"},"guarantee":"returns _permute_dims(fd, [0, 1, 3, 2])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), returns _permute_dims(fd, [0, 1, 3, 2]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37a8684ee55d7ab7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, Transpose)","isinstance(x, Expr)","hasattr(expr, 'arg')"],"returns_expr":"_permute_dims(fd, [0, 1, 3, 2])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.arg"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr: Transpose, x: Expr):
     # D(A.T, A) ==> (m,n,i,j) ==> D(A_ji, A_mn) = d_mj d_ni
     # D(B.T, A) ==> (m,n,i,j) ==> D(B_ji, A_mn)
@@ -207,16 +280,25 @@ def _(expr: Transpose, x: Expr):
 
 @array_derive.register(Inverse)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Inverse ║
+# ║ Path(_(expr, x), <unspecified:_>) over {Inverse | isinstance(expr, Inverse) and isinstance(x, Expr) and hasattr(expr, 'I')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Inverse → Any                                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, Inverse)                      ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   requires: hasattr(expr, 'I')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Inverse | isinstance(expr, Inverse) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b09aa13cf370fb0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"221d6b2d1cc82001","in":{"base":"Inverse"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Inverse"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b09aa13cf370fb0d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"221d6b2d1cc82001","in":{"base":"Inverse","pred":"isinstance(expr, Inverse) and isinstance(x, Expr) and hasattr(expr, 'I')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"<unspecified:_>","over":{"base":"Inverse","pred":"isinstance(expr, Inverse) and isinstance(x, Expr) and hasattr(expr, 'I')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b09aa13cf370fb0d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, Inverse)","isinstance(x, Expr)","hasattr(expr, 'I')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.I"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr: Inverse, x: Expr):
     mat = expr.I
     dexpr = array_derive(mat, x)
@@ -228,16 +310,26 @@ def _(expr: Inverse, x: Expr):
 
 @array_derive.register(ElementwiseApplyFunction)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over ElementwiseApplyFunction ║
+# ║ Path(_(expr, x), get_rank(expr) == 2 and get_rank(x) == 2) over {ElementwiseApplyFunction | isinstance(expr, ElementwiseApplyFunction) and isinstance(x, Expr) and hasattr(expr, '_get_function_fdiff') and hasattr(expr, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ElementwiseApplyFunction → {Any | get_rank(expr) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ElementwiseApplyFunction)     ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   requires: hasattr(expr, '_get_function_fdiff')           ║
+# ║   ensures:  get_rank(expr) == 2                            ║
+# ║   ensures:  get_rank(x) == 2                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ElementwiseApplyFunction | isinstance(expr, Elem...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b28872c0b993adb1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cbe678f0b08a69c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"52990be1ada9e65f","in":{"base":"ElementwiseApplyFunction"},"out":{"base":"Any","pred":"get_rank(expr) == 2 and get_rank(x) == 2"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ElementwiseApplyFunction"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b28872c0b993adb1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"52990be1ada9e65f","in":{"base":"ElementwiseApplyFunction","pred":"isinstance(expr, ElementwiseApplyFunction) and isinstance(x, Expr) and hasattr(expr, '_get_function_fdiff') and hasattr(expr, 'expr')"},"out":{"base":"Any","pred":"result satisfies: get_rank(expr) == 2 and get_rank(x) == 2"},"spec":{"lhs":"_(expr, x)","rhs":"get_rank(expr) == 2 and get_rank(x) == 2","over":{"base":"ElementwiseApplyFunction","pred":"isinstance(expr, ElementwiseApplyFunction) and isinstance(x, Expr) and hasattr(expr, '_get_function_fdiff') and hasattr(expr, 'expr')"},"name":"__correct"},"guarantee":"get_rank(expr) == 2; get_rank(x) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), get_rank(expr) == 2; get_rank(x) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cbe678f0b08a69c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ElementwiseApplyFunction)","isinstance(x, Expr)","hasattr(expr, '_get_function_fdiff')","hasattr(expr, 'expr')"],"ensures":["get_rank(expr) == 2","get_rank(x) == 2"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr._get_function_fdiff","expr.expr"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr: ElementwiseApplyFunction, x: Expr):
     assert get_rank(expr) == 2
     assert get_rank(x) == 2
@@ -255,16 +347,25 @@ def _(expr: ElementwiseApplyFunction, x: Expr):
 
 @array_derive.register(ArrayElementwiseApplyFunc)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over ArrayElementwiseApplyFunc ║
+# ║ Path(_(expr, x), _array_diagonal(tp, *diag_indices)) over {ArrayElementwiseApplyFunc | isinstance(expr, ArrayElementwiseApplyFunc) and isinstance(x, Expr) and hasattr(expr, 'expr') and hasattr(expr, '_get_function_fdiff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ArrayElementwiseApplyFunc → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayElementwiseApplyFunc)    ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   returns:  _array_diagonal(tp, *diag_indices)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ArrayElementwiseApplyFunc | isinstance(expr, Arr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6eb6012f24c81e6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80c40a41ee8ec907  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"5833278a9d654c9a","in":{"base":"ArrayElementwiseApplyFunc"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayElementwiseApplyFunc"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6eb6012f24c81e6e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"5833278a9d654c9a","in":{"base":"ArrayElementwiseApplyFunc","pred":"isinstance(expr, ArrayElementwiseApplyFunc) and isinstance(x, Expr) and hasattr(expr, 'expr') and hasattr(expr, '_get_function_fdiff')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"_array_diagonal(tp, *diag_indices)","over":{"base":"ArrayElementwiseApplyFunc","pred":"isinstance(expr, ArrayElementwiseApplyFunc) and isinstance(x, Expr) and hasattr(expr, 'expr') and hasattr(expr, '_get_function_fdiff')"},"name":"__correct"},"guarantee":"returns _array_diagonal(tp, *diag_indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), returns _array_diagonal(tp, *diag_indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80c40a41ee8ec907","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayElementwiseApplyFunc)","isinstance(x, Expr)","hasattr(expr, 'expr')","hasattr(expr, '_get_function_fdiff')"],"returns_expr":"_array_diagonal(tp, *diag_indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr._get_function_fdiff","expr.expr"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr: ArrayElementwiseApplyFunc, x: Expr):
     fdiff = expr._get_function_fdiff()
     subexpr = expr.expr
@@ -281,16 +382,24 @@ def _(expr: ArrayElementwiseApplyFunc, x: Expr):
 
 @array_derive.register(MatrixExpr)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over MatrixExpr ║
+# ║ Path(_(expr, x), array_derive(cg, x)) over {MatrixExpr | isinstance(expr, MatrixExpr) and isinstance(x, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : MatrixExpr → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, MatrixExpr)                   ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   returns:  array_derive(cg, x)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {MatrixExpr | isinstance(expr, MatrixExpr) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb1948bbb127e6c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aee4b33749dd3d55  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"e3a4d8c7ab5f4628","in":{"base":"MatrixExpr"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"MatrixExpr"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb1948bbb127e6c6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"e3a4d8c7ab5f4628","in":{"base":"MatrixExpr","pred":"isinstance(expr, MatrixExpr) and isinstance(x, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"array_derive(cg, x)","over":{"base":"MatrixExpr","pred":"isinstance(expr, MatrixExpr) and isinstance(x, Expr)"},"name":"__correct"},"guarantee":"returns array_derive(cg, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), returns array_derive(cg, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aee4b33749dd3d55","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, MatrixExpr)","isinstance(x, Expr)"],"returns_expr":"array_derive(cg, x)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr: MatrixExpr, x: Expr):
     cg = convert_matrix_to_array(expr)
     return array_derive(cg, x)
@@ -298,32 +407,49 @@ def _(expr: MatrixExpr, x: Expr):
 
 @array_derive.register(HadamardProduct)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over HadamardProduct ║
+# ║ Path(_(expr, x), <unspecified:_>) over {HadamardProduct | isinstance(expr, HadamardProduct) and isinstance(x, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : HadamardProduct → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, HadamardProduct)              ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {HadamardProduct | isinstance(expr, HadamardProdu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46ceec8871e00e0b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"b01ec6a5960bc5d3","in":{"base":"HadamardProduct"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"HadamardProduct"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46ceec8871e00e0b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"b01ec6a5960bc5d3","in":{"base":"HadamardProduct","pred":"isinstance(expr, HadamardProduct) and isinstance(x, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"<unspecified:_>","over":{"base":"HadamardProduct","pred":"isinstance(expr, HadamardProduct) and isinstance(x, Expr)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46ceec8871e00e0b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, HadamardProduct)","isinstance(x, Expr)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr: HadamardProduct, x: Expr):
     raise NotImplementedError()
 
 
 @array_derive.register(ArrayContraction)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over ArrayContraction ║
+# ║ Path(_(expr, x), _array_contraction(fd, *new_contraction_indices)) over {ArrayContraction | isinstance(expr, ArrayContraction) and isinstance(x, Expr) and hasattr(expr, 'contraction_indices') and hasattr(expr, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ArrayContraction → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayContraction)             ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   requires: hasattr(expr, 'contraction_indices')           ║
+# ║   returns:  _array_contraction(fd, *new_contraction_i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ArrayContraction | isinstance(expr, ArrayContrac...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ddad1a498d40f73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23e5f964017a9a1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"c104c9fc9ee3dd0c","in":{"base":"ArrayContraction"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayContraction"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ddad1a498d40f73"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"c104c9fc9ee3dd0c","in":{"base":"ArrayContraction","pred":"isinstance(expr, ArrayContraction) and isinstance(x, Expr) and hasattr(expr, 'contraction_indices') and hasattr(expr, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"_array_contraction(fd, *new_contraction_indices)","over":{"base":"ArrayContraction","pred":"isinstance(expr, ArrayContraction) and isinstance(x, Expr) and hasattr(expr, 'contraction_indices') and hasattr(expr, 'expr')"},"name":"__correct"},"guarantee":"returns _array_contraction(fd, *new_contraction_indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), returns _array_contraction(fd, *new_contraction_indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23e5f964017a9a1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayContraction)","isinstance(x, Expr)","hasattr(expr, 'contraction_indices')","hasattr(expr, 'expr')"],"returns_expr":"_array_contraction(fd, *new_contraction_indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.contraction_indices","expr.expr"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr: ArrayContraction, x: Expr):
     fd = array_derive(expr.expr, x)
     rank_x = len(get_shape(x))
@@ -334,16 +460,25 @@ def _(expr: ArrayContraction, x: Expr):
 
 @array_derive.register(ArrayDiagonal)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over ArrayDiagonal ║
+# ║ Path(_(expr, x), _array_diagonal(dsubexpr, *diag_indices)) over {ArrayDiagonal | isinstance(expr, ArrayDiagonal) and isinstance(x, Expr) and hasattr(expr, 'expr') and hasattr(expr, 'diagonal_indices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ArrayDiagonal → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayDiagonal)                ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   returns:  _array_diagonal(dsubexpr, *diag_indices)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ArrayDiagonal | isinstance(expr, ArrayDiagonal) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31ba1a56b6a2db85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84a95b1142fc3a50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"ce6f60c8327bd8f9","in":{"base":"ArrayDiagonal"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayDiagonal"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31ba1a56b6a2db85"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"ce6f60c8327bd8f9","in":{"base":"ArrayDiagonal","pred":"isinstance(expr, ArrayDiagonal) and isinstance(x, Expr) and hasattr(expr, 'expr') and hasattr(expr, 'diagonal_indices')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"_array_diagonal(dsubexpr, *diag_indices)","over":{"base":"ArrayDiagonal","pred":"isinstance(expr, ArrayDiagonal) and isinstance(x, Expr) and hasattr(expr, 'expr') and hasattr(expr, 'diagonal_indices')"},"name":"__correct"},"guarantee":"returns _array_diagonal(dsubexpr, *diag_indices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), returns _array_diagonal(dsubexpr, *diag_indices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84a95b1142fc3a50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayDiagonal)","isinstance(x, Expr)","hasattr(expr, 'expr')","hasattr(expr, 'diagonal_indices')"],"returns_expr":"_array_diagonal(dsubexpr, *diag_indices)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.diagonal_indices","expr.expr"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr: ArrayDiagonal, x: Expr):
     dsubexpr = array_derive(expr.expr, x)
     rank_x = len(get_shape(x))
@@ -353,32 +488,50 @@ def _(expr: ArrayDiagonal, x: Expr):
 
 @array_derive.register(ArrayAdd)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over ArrayAdd ║
+# ║ Path(_(expr, x), _array_add(*[array_derive(arg, x) for arg in expr.args])) over {ArrayAdd | isinstance(expr, ArrayAdd) and isinstance(x, Expr) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ArrayAdd → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayAdd)                     ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  _array_add(*[array_derive(arg, x) for arg...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ArrayAdd | isinstance(expr, ArrayAdd) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e7177d6c4a825ea2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"afaab5c81c431a95","in":{"base":"ArrayAdd"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayAdd"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7177d6c4a825ea2"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"afaab5c81c431a95","in":{"base":"ArrayAdd","pred":"isinstance(expr, ArrayAdd) and isinstance(x, Expr) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"_array_add(*[array_derive(arg, x) for arg in expr.args])","over":{"base":"ArrayAdd","pred":"isinstance(expr, ArrayAdd) and isinstance(x, Expr) and hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"returns _array_add(*[array_derive(arg, x) for arg in expr.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7177d6c4a825ea2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayAdd)","isinstance(x, Expr)","hasattr(expr, 'args')"],"returns_expr":"_array_add(*[array_derive(arg, x) for arg in expr.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr: ArrayAdd, x: Expr):
     return _array_add(*[array_derive(arg, x) for arg in expr.args])
 
 
 @array_derive.register(PermuteDims)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over PermuteDims ║
+# ║ Path(_(expr, x), _permute_dims(de, perm)) over {PermuteDims | isinstance(expr, PermuteDims) and isinstance(x, Expr) and hasattr(expr, 'expr') and hasattr(expr, 'permutation')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : PermuteDims → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, PermuteDims)                  ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   returns:  _permute_dims(de, perm)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {PermuteDims | isinstance(expr, PermuteDims) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f41e8e936c72540  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac089c999223ce39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"31034ba7c9054ddb","in":{"base":"PermuteDims"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"PermuteDims"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f41e8e936c72540"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"31034ba7c9054ddb","in":{"base":"PermuteDims","pred":"isinstance(expr, PermuteDims) and isinstance(x, Expr) and hasattr(expr, 'expr') and hasattr(expr, 'permutation')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"_permute_dims(de, perm)","over":{"base":"PermuteDims","pred":"isinstance(expr, PermuteDims) and isinstance(x, Expr) and hasattr(expr, 'expr') and hasattr(expr, 'permutation')"},"name":"__correct"},"guarantee":"returns _permute_dims(de, perm)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.arrayexpr_derivatives.__correct","statement":"Path(_(x), returns _permute_dims(de, perm))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac089c999223ce39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, PermuteDims)","isinstance(x, Expr)","hasattr(expr, 'expr')","hasattr(expr, 'permutation')"],"returns_expr":"_permute_dims(de, perm)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.permutation"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr: PermuteDims, x: Expr):
     de = array_derive(expr.expr, x)
     perm = [0, 1] + [i + 2 for i in expr.permutation.array_form]
@@ -387,32 +540,47 @@ def _(expr: PermuteDims, x: Expr):
 
 @array_derive.register(Reshape)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), id) over Reshape                              ║
+# ║ Path(_(expr, x), id) over {Reshape | isinstance(expr, Reshape) and isinstance(x, Expr) and hasattr(expr, 'expr') and hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Reshape → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, Reshape)                      ║
+# ║   requires: isinstance(x, Expr)                            ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   returns:  Reshape(de, get_shape(x) + expr.shape)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Reshape | isinstance(expr, Reshape) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5fa9d1c60f14cdca   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"1b323937aed3bda4","in":{"base":"Reshape"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Reshape"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Reshape","by":"library_axiom"},{"fn":"get_shape","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fa9d1c60f14cdca"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives._","kind":"function","src_hash":"1b323937aed3bda4","in":{"base":"Reshape","pred":"isinstance(expr, Reshape) and isinstance(x, Expr) and hasattr(expr, 'expr') and hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr, x)","rhs":"Reshape(de, get_shape(x) + expr.shape)","over":{"base":"Reshape","pred":"isinstance(expr, Reshape) and isinstance(x, Expr) and hasattr(expr, 'expr') and hasattr(expr, 'shape')"},"name":"__correct","kind":"composition"},"guarantee":"returns Reshape(de, get_shape(x) + expr.shape)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Reshape","by":"library_axiom"},{"fn":"get_shape","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fa9d1c60f14cdca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, Reshape)","isinstance(x, Expr)","hasattr(expr, 'expr')","hasattr(expr, 'shape')"],"returns_expr":"Reshape(de, get_shape(x) + expr.shape)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr: Reshape, x: Expr):
     de = array_derive(expr.expr, x)
     return Reshape(de, get_shape(x) + expr.shape)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_derive(exp), id) over Any                      ║
+# ║ Path(matrix_derive(expr, x), id) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  convert_array_to_matrix(dce).doit()            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matrix_derive : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d2ca263dc8e59491   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives.matrix_derive","kind":"function","src_hash":"b54b8f716ca539c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_derive(exp)","rhs":"matrix_derive produces the expected output","over":{"base":"Any"},"name":"matrix_derive_correct","kind":"composition"},"guarantee":"matrix_derive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert_array_to_matrix","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2ca263dc8e59491"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.arrayexpr_derivatives.matrix_derive","kind":"function","src_hash":"b54b8f716ca539c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_derive(expr, x)","rhs":"convert_array_to_matrix(dce).doit()","over":{"base":"Any"},"name":"matrix_derive_correct","kind":"composition"},"guarantee":"returns convert_array_to_matrix(dce).doit()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert_array_to_matrix","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2ca263dc8e59491","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"convert_array_to_matrix(dce).doit()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def matrix_derive(expr, x):
     from sympy.tensor.array.expressions.from_array_to_matrix import convert_array_to_matrix
     ce = convert_matrix_to_array(expr)

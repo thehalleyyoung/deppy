@@ -32,31 +32,45 @@ x, y, z = symbols('x,y,z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_printmethod(), test_printmethod produces the expected output) over Any ║
+# ║ Path(test_printmethod(), jscode(Abs(x)) == 'Math.abs(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_printmethod : Any → {Any | jscode(Abs(x)) == 'Ma...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(Abs(x)) == 'Math.abs(x)'                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_printmethod : Any → {Any | result satisfies: jsc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf224305ce2faf14  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 894a3734c8ce6e7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_printmethod","kind":"function","src_hash":"c9b4911e3cc0bf7f","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(Abs(x)) == 'Math.abs(x)'"},"spec":{"lhs":"test_printmethod()","rhs":"test_printmethod produces the expected output","over":{"base":"Any"},"name":"test_printmethod_correct"},"guarantee":"test_printmethod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_printmethod_correct","statement":"Path(test_printmethod(x), test_printmethod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf224305ce2faf14"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_printmethod","kind":"function","src_hash":"c9b4911e3cc0bf7f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(Abs(x)) == 'Math.abs(x)'"},"spec":{"lhs":"test_printmethod()","rhs":"jscode(Abs(x)) == 'Math.abs(x)'","over":{"base":"Any"},"name":"test_printmethod_correct"},"guarantee":"jscode(Abs(x)) == 'Math.abs(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_printmethod_correct","statement":"Path(test_printmethod(x), jscode(Abs(x)) == 'Math.abs(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"894a3734c8ce6e7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(Abs(x)) == 'Math.abs(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_printmethod():
     assert jscode(Abs(x)) == "Math.abs(x)"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_sqrt(), test_jscode_sqrt produces the expected output) over Any ║
+# ║ Path(test_jscode_sqrt(), jscode(sqrt(x)) == 'Math.sqrt(x)' and jscode(x ** 0.5) == 'Math.sqrt(x)' and jscode(x ** (S.One / 3)) == 'Math.cbrt(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_sqrt : Any → {Any | jscode(sqrt(x)) == 'M...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(sqrt(x)) == 'Math.sqrt(x)'              ║
+# ║   ensures:  jscode(x ** 0.5) == 'Math.sqrt(x)'             ║
+# ║   ensures:  jscode(x ** (S.One / 3)) == 'Math.cbrt(x)'     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_sqrt : Any → {Any | result satisfies: jsc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d209d35c08a56458  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 974e927b4a8df373  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_sqrt","kind":"function","src_hash":"d6a02d05c1a395b5","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(sqrt(x)) == 'Math.sqrt(x)' and jscode(x ** 0.5) == 'Math.sqrt(x)' and jscode(x ** (S.One / 3)) == 'Math.cbrt(x)'"},"spec":{"lhs":"test_jscode_sqrt()","rhs":"test_jscode_sqrt produces the expected output","over":{"base":"Any"},"name":"test_jscode_sqrt_correct"},"guarantee":"test_jscode_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_sqrt_correct","statement":"Path(test_jscode_sqrt(x), test_jscode_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d209d35c08a56458"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_sqrt","kind":"function","src_hash":"d6a02d05c1a395b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(sqrt(x)) == 'Math.sqrt(x)' and jscode(x ** 0.5) == 'Math.sqrt(x)' and jscode(x ** (S.One / 3)) == 'Math.cbrt(x)'"},"spec":{"lhs":"test_jscode_sqrt()","rhs":"jscode(sqrt(x)) == 'Math.sqrt(x)' and jscode(x ** 0.5) == 'Math.sqrt(x)' and jscode(x ** (S.One / 3)) == 'Math.cbrt(x)'","over":{"base":"Any"},"name":"test_jscode_sqrt_correct"},"guarantee":"jscode(sqrt(x)) == 'Math.sqrt(x)'; jscode(x ** 0.5) == 'Math.sqrt(x)'; jscode(x ** (S.One / 3)) == 'Math.cbrt(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_sqrt_correct","statement":"Path(test_jscode_sqrt(x), jscode(sqrt(x)) == 'Math.sqrt(x)'; jscode(x ** 0.5) == 'Math.sqrt(x)'; jscode(x ** (S.One / 3)) == 'Math.cbrt(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"974e927b4a8df373","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(sqrt(x)) == 'Math.sqrt(x)'","jscode(x ** 0.5) == 'Math.sqrt(x)'","jscode(x ** (S.One / 3)) == 'Math.cbrt(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jscode_sqrt():
     assert jscode(sqrt(x)) == "Math.sqrt(x)"
     assert jscode(x**0.5) == "Math.sqrt(x)"
@@ -64,16 +78,24 @@ def test_jscode_sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_Pow(), test_jscode_Pow produces the expected output) over Any ║
+# ║ Path(test_jscode_Pow(), jscode(x ** 3) == 'Math.pow(x, 3)' and jscode(x ** y ** 3) == 'Math.pow(x, Math.pow(y, 3))' and jscode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == 'Math.pow(3.5*2*x, -x + Math.pow(y, x))/(Math.pow(x, 2) + y)' and jscode(x ** (-1.0)) == '1/x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_Pow : Any → {Any | jscode(x ** 3) == 'Mat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(x ** 3) == 'Math.pow(x, 3)'             ║
+# ║   ensures:  jscode(x ** y ** 3) == 'Math.pow(x, Math....   ║
+# ║   ensures:  jscode(1 / (g(x) * 3.5) ** (x - y ** x) /...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_Pow : Any → {Any | result satisfies: jsco...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47c568e547725622  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47997dc37762bbd4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_Pow","kind":"function","src_hash":"71ee70f66fc689e3","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(x ** 3) == 'Math.pow(x, 3)' and jscode(x ** y ** 3) == 'Math.pow(x, Math.pow(y, 3))' and jscode(x ** (-1.0)) == '1/x'"},"spec":{"lhs":"test_jscode_Pow()","rhs":"test_jscode_Pow produces the expected output","over":{"base":"Any"},"name":"test_jscode_Pow_correct"},"guarantee":"test_jscode_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_Pow_correct","statement":"Path(test_jscode_Pow(x), test_jscode_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47c568e547725622"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_Pow","kind":"function","src_hash":"71ee70f66fc689e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(x ** 3) == 'Math.pow(x, 3)' and jscode(x ** y ** 3) == 'Math.pow(x, Math.pow(y, 3))' and jscode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == 'Math.pow(3.5*2*x, -x + Math.pow(y, x))/(Math.pow(x, 2) + y)' and jscode(x ** (-1.0)) == '1/x'"},"spec":{"lhs":"test_jscode_Pow()","rhs":"jscode(x ** 3) == 'Math.pow(x, 3)' and jscode(x ** y ** 3) == 'Math.pow(x, Math.pow(y, 3))' and jscode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == 'Math.pow(3.5*2*x, -x + Math.pow(y, x))/(Math.pow(x, 2) + y)' and jscode(x ** (-1.0)) == '1/x'","over":{"base":"Any"},"name":"test_jscode_Pow_correct"},"guarantee":"jscode(x ** 3) == 'Math.pow(x, 3)'; jscode(x ** y ** 3) == 'Math.pow(x, Math.pow(y, 3))'; jscode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == 'Math.pow(3.5*2*x, -x + Math.pow(y, x))/(Math.pow(x, 2) + y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_Pow_correct","statement":"Path(test_jscode_Pow(x), jscode(x ** 3) == 'Math.pow(x, 3)'; jscode(x ** y ** 3) == 'Math.pow(x, Math.pow(y, 3))'; jscode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == 'Math.pow(3.5*2*x, -x + Math.pow(y, x))/(Math.pow(x, 2) + y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47997dc37762bbd4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(x ** 3) == 'Math.pow(x, 3)'","jscode(x ** y ** 3) == 'Math.pow(x, Math.pow(y, 3))'","jscode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == 'Math.pow(3.5*2*x, -x + Math.pow(y, x))/(Math.pow(x, 2) + y)'","jscode(x ** (-1.0)) == '1/x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jscode_Pow():
     g = implemented_function('g', Lambda(x, 2*x))
     assert jscode(x**3) == "Math.pow(x, 3)"
@@ -84,16 +106,24 @@ def test_jscode_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_constants_mathh(), test_jscode_constants_mathh produces the expected output) over Any ║
+# ║ Path(test_jscode_constants_mathh(), jscode(exp(1)) == 'Math.E' and jscode(pi) == 'Math.PI' and jscode(oo) == 'Number.POSITIVE_INFINITY' and jscode(-oo) == 'Number.NEGATIVE_INFINITY') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_constants_mathh : Any → {Any | jscode(exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(exp(1)) == 'Math.E'                     ║
+# ║   ensures:  jscode(pi) == 'Math.PI'                        ║
+# ║   ensures:  jscode(oo) == 'Number.POSITIVE_INFINITY'       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_constants_mathh : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27d74fc6c64db0d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1bb231d218abcb1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_constants_mathh","kind":"function","src_hash":"4b07be3a706ec87e","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(exp(1)) == 'Math.E' and jscode(pi) == 'Math.PI' and jscode(oo) == 'Number.POSITIVE_INFINITY' and jscode(-oo) == 'Number.NEGATIVE_INFINITY'"},"spec":{"lhs":"test_jscode_constants_mathh()","rhs":"test_jscode_constants_mathh produces the expected output","over":{"base":"Any"},"name":"test_jscode_constants_mathh_correct"},"guarantee":"test_jscode_constants_mathh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_constants_mathh_correct","statement":"Path(test_jscode_constants_mathh(x), test_jscode_constants_mathh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27d74fc6c64db0d8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_constants_mathh","kind":"function","src_hash":"4b07be3a706ec87e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(exp(1)) == 'Math.E' and jscode(pi) == 'Math.PI' and jscode(oo) == 'Number.POSITIVE_INFINITY' and jscode(-oo) == 'Number.NEGATIVE_INFINITY'"},"spec":{"lhs":"test_jscode_constants_mathh()","rhs":"jscode(exp(1)) == 'Math.E' and jscode(pi) == 'Math.PI' and jscode(oo) == 'Number.POSITIVE_INFINITY' and jscode(-oo) == 'Number.NEGATIVE_INFINITY'","over":{"base":"Any"},"name":"test_jscode_constants_mathh_correct"},"guarantee":"jscode(exp(1)) == 'Math.E'; jscode(pi) == 'Math.PI'; jscode(oo) == 'Number.POSITIVE_INFINITY'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_constants_mathh_correct","statement":"Path(test_jscode_constants_mathh(x), jscode(exp(1)) == 'Math.E'; jscode(pi) == 'Math.PI'; jscode(oo) == 'Number.POSITIVE_INFINITY')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1bb231d218abcb1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(exp(1)) == 'Math.E'","jscode(pi) == 'Math.PI'","jscode(oo) == 'Number.POSITIVE_INFINITY'","jscode(-oo) == 'Number.NEGATIVE_INFINITY'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jscode_constants_mathh():
     assert jscode(exp(1)) == "Math.E"
     assert jscode(pi) == "Math.PI"
@@ -102,16 +132,24 @@ def test_jscode_constants_mathh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_constants_other(), test_jscode_constants_other produces the expected output) over Any ║
+# ║ Path(test_jscode_constants_other(), jscode(2 * GoldenRatio) == 'var GoldenRatio = %s;\n2*GoldenRatio' % GoldenRatio.evalf(17) and jscode(2 * Catalan) == 'var Catalan = %s;\n2*Catalan' % Catalan.evalf(17) and jscode(2 * EulerGamma) == 'var EulerGamma = %s;\n2*EulerGamma' % EulerGamma.evalf(17)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_constants_other : Any → {Any | jscode(2 *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(2 * GoldenRatio) == 'var GoldenRat...   ║
+# ║   ensures:  jscode(2 * Catalan) == 'var Catalan = %s;...   ║
+# ║   ensures:  jscode(2 * EulerGamma) == 'var EulerGamma...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_constants_other : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b51f64993cf56896  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6046995b2bacce83  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_constants_other","kind":"function","src_hash":"b7fe71b017d50d43","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(2 * Catalan) == 'var Catalan = %s;\\n2*Catalan' % Catalan.evalf(17)"},"spec":{"lhs":"test_jscode_constants_other()","rhs":"test_jscode_constants_other produces the expected output","over":{"base":"Any"},"name":"test_jscode_constants_other_correct"},"guarantee":"test_jscode_constants_other produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_constants_other_correct","statement":"Path(test_jscode_constants_other(x), test_jscode_constants_other produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b51f64993cf56896"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_constants_other","kind":"function","src_hash":"b7fe71b017d50d43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(2 * GoldenRatio) == 'var GoldenRatio = %s;\\n2*GoldenRatio' % GoldenRatio.evalf(17) and jscode(2 * Catalan) == 'var Catalan = %s;\\n2*Catalan' % Catalan.evalf(17) and jscode(2 * EulerGamma) == 'var EulerGamma = %s;\\n2*EulerGamma' % EulerGamma.evalf(17)"},"spec":{"lhs":"test_jscode_constants_other()","rhs":"jscode(2 * GoldenRatio) == 'var GoldenRatio = %s;\\n2*GoldenRatio' % GoldenRatio.evalf(17) and jscode(2 * Catalan) == 'var Catalan = %s;\\n2*Catalan' % Catalan.evalf(17) and jscode(2 * EulerGamma) == 'var EulerGamma = %s;\\n2*EulerGamma' % EulerGamma.evalf(17)","over":{"base":"Any"},"name":"test_jscode_constants_other_correct"},"guarantee":"jscode(2 * GoldenRatio) == 'var GoldenRatio = %s;\\n2*GoldenRatio' % GoldenRatio.evalf(17); jscode(2 * Catalan) == 'var Catalan = %s;\\n2*Catalan' % Catalan.evalf(17); jscode(2 * EulerGamma) == 'var EulerGamma = %s;\\n2*EulerGamma' % EulerGamma.evalf(17)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_constants_other_correct","statement":"Path(test_jscode_constants_other(x), jscode(2 * GoldenRatio) == 'var GoldenRatio = %s;\\n2*GoldenRatio' % GoldenRatio.evalf(17); jscode(2 * Catalan) == 'var Catalan = %s;\\n2*Catalan' % Catalan.evalf(17); jscode(2 * EulerGamma) == 'var EulerGamma = %s;\\n2*EulerGamma' % EulerGamma.evalf(17))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6046995b2bacce83","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(2 * GoldenRatio) == 'var GoldenRatio = %s;\\n2*GoldenRatio' % GoldenRatio.evalf(17)","jscode(2 * Catalan) == 'var Catalan = %s;\\n2*Catalan' % Catalan.evalf(17)","jscode(2 * EulerGamma) == 'var EulerGamma = %s;\\n2*EulerGamma' % EulerGamma.evalf(17)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jscode_constants_other():
     assert jscode(
         2*GoldenRatio) == "var GoldenRatio = %s;\n2*GoldenRatio" % GoldenRatio.evalf(17)
@@ -121,16 +159,24 @@ def test_jscode_constants_other():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_Rational(), test_jscode_Rational produces the expected output) over Any ║
+# ║ Path(test_jscode_Rational(), jscode(Rational(3, 7)) == '3/7' and jscode(Rational(18, 9)) == '2' and jscode(Rational(3, -7)) == '-3/7' and jscode(Rational(-3, -7)) == '3/7') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_Rational : Any → {Any | jscode(Rational(3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(Rational(3, 7)) == '3/7'                ║
+# ║   ensures:  jscode(Rational(18, 9)) == '2'                 ║
+# ║   ensures:  jscode(Rational(3, -7)) == '-3/7'              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_Rational : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eac5a79c8bca687b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0b2dea4dea1549b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_Rational","kind":"function","src_hash":"4f85e0742a6b4938","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(Rational(3, 7)) == '3/7' and jscode(Rational(18, 9)) == '2' and jscode(Rational(3, -7)) == '-3/7' and jscode(Rational(-3, -7)) == '3/7'"},"spec":{"lhs":"test_jscode_Rational()","rhs":"test_jscode_Rational produces the expected output","over":{"base":"Any"},"name":"test_jscode_Rational_correct"},"guarantee":"test_jscode_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_Rational_correct","statement":"Path(test_jscode_Rational(x), test_jscode_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eac5a79c8bca687b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_Rational","kind":"function","src_hash":"4f85e0742a6b4938","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(Rational(3, 7)) == '3/7' and jscode(Rational(18, 9)) == '2' and jscode(Rational(3, -7)) == '-3/7' and jscode(Rational(-3, -7)) == '3/7'"},"spec":{"lhs":"test_jscode_Rational()","rhs":"jscode(Rational(3, 7)) == '3/7' and jscode(Rational(18, 9)) == '2' and jscode(Rational(3, -7)) == '-3/7' and jscode(Rational(-3, -7)) == '3/7'","over":{"base":"Any"},"name":"test_jscode_Rational_correct"},"guarantee":"jscode(Rational(3, 7)) == '3/7'; jscode(Rational(18, 9)) == '2'; jscode(Rational(3, -7)) == '-3/7'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_Rational_correct","statement":"Path(test_jscode_Rational(x), jscode(Rational(3, 7)) == '3/7'; jscode(Rational(18, 9)) == '2'; jscode(Rational(3, -7)) == '-3/7')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0b2dea4dea1549b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(Rational(3, 7)) == '3/7'","jscode(Rational(18, 9)) == '2'","jscode(Rational(3, -7)) == '-3/7'","jscode(Rational(-3, -7)) == '3/7'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jscode_Rational():
     assert jscode(Rational(3, 7)) == "3/7"
     assert jscode(Rational(18, 9)) == "2"
@@ -139,16 +185,24 @@ def test_jscode_Rational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Relational(), test_Relational produces the expected output) over Any ║
+# ║ Path(test_Relational(), jscode(Eq(x, y)) == 'x == y' and jscode(Ne(x, y)) == 'x != y' and jscode(Le(x, y)) == 'x <= y' and jscode(Lt(x, y)) == 'x < y' and jscode(Gt(x, y)) == 'x > y' and jscode(Ge(x, y)) == 'x >= y') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Relational : Any → {Any | jscode(Eq(x, y)) == 'x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(Eq(x, y)) == 'x == y'                   ║
+# ║   ensures:  jscode(Ne(x, y)) == 'x != y'                   ║
+# ║   ensures:  jscode(Le(x, y)) == 'x <= y'                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Relational : Any → {Any | result satisfies: jsco...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75fb0033ce0bbed1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ac59608539cfd29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_Relational","kind":"function","src_hash":"f819f5d17efa407b","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(Eq(x, y)) == 'x == y' and jscode(Ne(x, y)) == 'x != y' and jscode(Le(x, y)) == 'x <= y' and jscode(Lt(x, y)) == 'x < y' and jscode(Gt(x, y)) == 'x > y' and jscode(Ge(x, y)) == 'x >= y'"},"spec":{"lhs":"test_Relational()","rhs":"test_Relational produces the expected output","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"test_Relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_Relational_correct","statement":"Path(test_Relational(x), test_Relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75fb0033ce0bbed1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_Relational","kind":"function","src_hash":"f819f5d17efa407b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(Eq(x, y)) == 'x == y' and jscode(Ne(x, y)) == 'x != y' and jscode(Le(x, y)) == 'x <= y' and jscode(Lt(x, y)) == 'x < y' and jscode(Gt(x, y)) == 'x > y' and jscode(Ge(x, y)) == 'x >= y'"},"spec":{"lhs":"test_Relational()","rhs":"jscode(Eq(x, y)) == 'x == y' and jscode(Ne(x, y)) == 'x != y' and jscode(Le(x, y)) == 'x <= y' and jscode(Lt(x, y)) == 'x < y' and jscode(Gt(x, y)) == 'x > y' and jscode(Ge(x, y)) == 'x >= y'","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"jscode(Eq(x, y)) == 'x == y'; jscode(Ne(x, y)) == 'x != y'; jscode(Le(x, y)) == 'x <= y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_Relational_correct","statement":"Path(test_Relational(x), jscode(Eq(x, y)) == 'x == y'; jscode(Ne(x, y)) == 'x != y'; jscode(Le(x, y)) == 'x <= y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ac59608539cfd29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(Eq(x, y)) == 'x == y'","jscode(Ne(x, y)) == 'x != y'","jscode(Le(x, y)) == 'x <= y'","jscode(Lt(x, y)) == 'x < y'","jscode(Gt(x, y)) == 'x > y'","jscode(Ge(x, y)) == 'x >= y'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Relational():
     assert jscode(Eq(x, y)) == "x == y"
     assert jscode(Ne(x, y)) == "x != y"
@@ -159,16 +213,24 @@ def test_Relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Mod(), test_Mod produces the expected output) over Any ║
+# ║ Path(test_Mod(), jscode(Mod(x, y)) == '((x % y) + y) % y' and jscode(Mod(x, x + y)) == '((x % (x + y)) + (x + y)) % (x + y)' and jscode(Mod(p1, p2)) == 'p1 % p2' and jscode(Mod(p1, p2 + 3)) == 'p1 % (p2 + 3)' and jscode(Mod(-3, -7, evaluate=False)) == '(-3) % (-7)' and jscode(-Mod(p1, p2)) == '-(p1 % p2)' and jscode(x * Mod(p1, p2)) == 'x*(p1 % p2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Mod : Any → {Any | jscode(Mod(x, y)) == '((x % y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(Mod(x, y)) == '((x % y) + y) % y'       ║
+# ║   ensures:  jscode(Mod(x, x + y)) == '((x % (x + y)) ...   ║
+# ║   ensures:  jscode(Mod(p1, p2)) == 'p1 % p2'               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Mod : Any → {Any | result satisfies: jscode(Mod(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e39bce1a1c3dad11  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2650c85d4c9ed933  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_Mod","kind":"function","src_hash":"1b7d64160f0c8ff2","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(Mod(x, y)) == '((x % y) + y) % y' and jscode(Mod(x, x + y)) == '((x % (x + y)) + (x + y)) % (x + y)' and jscode(Mod(p1, p2)) == 'p1 % p2' and jscode(Mod(p1, p2 + 3)) == 'p1 % (p2 + 3)' and jscode(Mod(-3, -7, evaluate=False)) == '(-3) % (-7)' and jscode(-Mod(p1, p2)) == '-(p1 % p2)' and jscode(x * Mod(p1, p2)) == 'x*(p1 % p2)'"},"spec":{"lhs":"test_Mod()","rhs":"test_Mod produces the expected output","over":{"base":"Any"},"name":"test_Mod_correct"},"guarantee":"test_Mod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_Mod_correct","statement":"Path(test_Mod(x), test_Mod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e39bce1a1c3dad11"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_Mod","kind":"function","src_hash":"1b7d64160f0c8ff2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(Mod(x, y)) == '((x % y) + y) % y' and jscode(Mod(x, x + y)) == '((x % (x + y)) + (x + y)) % (x + y)' and jscode(Mod(p1, p2)) == 'p1 % p2' and jscode(Mod(p1, p2 + 3)) == 'p1 % (p2 + 3)' and jscode(Mod(-3, -7, evaluate=False)) == '(-3) % (-7)' and jscode(-Mod(p1, p2)) == '-(p1 % p2)' and jscode(x * Mod(p1, p2)) == 'x*(p1 % p2)'"},"spec":{"lhs":"test_Mod()","rhs":"jscode(Mod(x, y)) == '((x % y) + y) % y' and jscode(Mod(x, x + y)) == '((x % (x + y)) + (x + y)) % (x + y)' and jscode(Mod(p1, p2)) == 'p1 % p2' and jscode(Mod(p1, p2 + 3)) == 'p1 % (p2 + 3)' and jscode(Mod(-3, -7, evaluate=False)) == '(-3) % (-7)' and jscode(-Mod(p1, p2)) == '-(p1 % p2)' and jscode(x * Mod(p1, p2)) == 'x*(p1 % p2)'","over":{"base":"Any"},"name":"test_Mod_correct"},"guarantee":"jscode(Mod(x, y)) == '((x % y) + y) % y'; jscode(Mod(x, x + y)) == '((x % (x + y)) + (x + y)) % (x + y)'; jscode(Mod(p1, p2)) == 'p1 % p2'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_Mod_correct","statement":"Path(test_Mod(x), jscode(Mod(x, y)) == '((x % y) + y) % y'; jscode(Mod(x, x + y)) == '((x % (x + y)) + (x + y)) % (x + y)'; jscode(Mod(p1, p2)) == 'p1 % p2')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2650c85d4c9ed933","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(Mod(x, y)) == '((x % y) + y) % y'","jscode(Mod(x, x + y)) == '((x % (x + y)) + (x + y)) % (x + y)'","jscode(Mod(p1, p2)) == 'p1 % p2'","jscode(Mod(p1, p2 + 3)) == 'p1 % (p2 + 3)'","jscode(Mod(-3, -7, evaluate=False)) == '(-3) % (-7)'","jscode(-Mod(p1, p2)) == '-(p1 % p2)'","jscode(x * Mod(p1, p2)) == 'x*(p1 % p2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Mod():
     assert jscode(Mod(x, y)) == '((x % y) + y) % y'
     assert jscode(Mod(x, x + y)) == '((x % (x + y)) + (x + y)) % (x + y)'
@@ -181,32 +243,47 @@ def test_Mod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_Integer(), test_jscode_Integer produces the expected output) over Any ║
+# ║ Path(test_jscode_Integer(), jscode(Integer(67)) == '67' and jscode(Integer(-1)) == '-1') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_Integer : Any → {Any | jscode(Integer(67)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(Integer(67)) == '67'                    ║
+# ║   ensures:  jscode(Integer(-1)) == '-1'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_Integer : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 929c51109806f4cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d38fbb472351622  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_Integer","kind":"function","src_hash":"8fb9d0f7372258ad","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(Integer(67)) == '67' and jscode(Integer(-1)) == '-1'"},"spec":{"lhs":"test_jscode_Integer()","rhs":"test_jscode_Integer produces the expected output","over":{"base":"Any"},"name":"test_jscode_Integer_correct"},"guarantee":"test_jscode_Integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_Integer_correct","statement":"Path(test_jscode_Integer(x), test_jscode_Integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"929c51109806f4cd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_Integer","kind":"function","src_hash":"8fb9d0f7372258ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(Integer(67)) == '67' and jscode(Integer(-1)) == '-1'"},"spec":{"lhs":"test_jscode_Integer()","rhs":"jscode(Integer(67)) == '67' and jscode(Integer(-1)) == '-1'","over":{"base":"Any"},"name":"test_jscode_Integer_correct"},"guarantee":"jscode(Integer(67)) == '67'; jscode(Integer(-1)) == '-1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_Integer_correct","statement":"Path(test_jscode_Integer(x), jscode(Integer(67)) == '67'; jscode(Integer(-1)) == '-1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d38fbb472351622","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(Integer(67)) == '67'","jscode(Integer(-1)) == '-1'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_jscode_Integer():
     assert jscode(Integer(67)) == "67"
     assert jscode(Integer(-1)) == "-1"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_functions(), test_jscode_functions produces the expected output) over Any ║
+# ║ Path(test_jscode_functions(), jscode(sin(x) ** cos(x)) == 'Math.pow(Math.sin(x), Math.cos(x))' and jscode(sinh(x) * cosh(x)) == 'Math.sinh(x)*Math.cosh(x)' and jscode(Max(x, y) + Min(x, y)) == 'Math.max(x, y) + Math.min(x, y)' and jscode(tanh(x) * acosh(y)) == 'Math.tanh(x)*Math.acosh(y)' and jscode(asin(x) - acos(y)) == '-Math.acos(y) + Math.asin(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_functions : Any → {Any | jscode(sin(x) **...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(sin(x) ** cos(x)) == 'Math.pow(Mat...   ║
+# ║   ensures:  jscode(sinh(x) * cosh(x)) == 'Math.sinh(x...   ║
+# ║   ensures:  jscode(Max(x, y) + Min(x, y)) == 'Math.ma...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_functions : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b59eed3de1e8bee4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a660992e56b3b189  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_functions","kind":"function","src_hash":"3f05cb45f56ce643","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(sin(x) ** cos(x)) == 'Math.pow(Math.sin(x), Math.cos(x))' and jscode(sinh(x) * cosh(x)) == 'Math.sinh(x)*Math.cosh(x)' and jscode(Max(x, y) + Min(x, y)) == 'Math.max(x, y) + Math.min(x, y)' and jscode(tanh(x) * acosh(y)) == 'Math.tanh(x)*Math.acosh(y)' and jscode(asin(x) - acos(y)) == '-Math.acos(y) + Math.asin(x)'"},"spec":{"lhs":"test_jscode_functions()","rhs":"test_jscode_functions produces the expected output","over":{"base":"Any"},"name":"test_jscode_functions_correct"},"guarantee":"test_jscode_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_functions_correct","statement":"Path(test_jscode_functions(x), test_jscode_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b59eed3de1e8bee4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_functions","kind":"function","src_hash":"3f05cb45f56ce643","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(sin(x) ** cos(x)) == 'Math.pow(Math.sin(x), Math.cos(x))' and jscode(sinh(x) * cosh(x)) == 'Math.sinh(x)*Math.cosh(x)' and jscode(Max(x, y) + Min(x, y)) == 'Math.max(x, y) + Math.min(x, y)' and jscode(tanh(x) * acosh(y)) == 'Math.tanh(x)*Math.acosh(y)' and jscode(asin(x) - acos(y)) == '-Math.acos(y) + Math.asin(x)'"},"spec":{"lhs":"test_jscode_functions()","rhs":"jscode(sin(x) ** cos(x)) == 'Math.pow(Math.sin(x), Math.cos(x))' and jscode(sinh(x) * cosh(x)) == 'Math.sinh(x)*Math.cosh(x)' and jscode(Max(x, y) + Min(x, y)) == 'Math.max(x, y) + Math.min(x, y)' and jscode(tanh(x) * acosh(y)) == 'Math.tanh(x)*Math.acosh(y)' and jscode(asin(x) - acos(y)) == '-Math.acos(y) + Math.asin(x)'","over":{"base":"Any"},"name":"test_jscode_functions_correct"},"guarantee":"jscode(sin(x) ** cos(x)) == 'Math.pow(Math.sin(x), Math.cos(x))'; jscode(sinh(x) * cosh(x)) == 'Math.sinh(x)*Math.cosh(x)'; jscode(Max(x, y) + Min(x, y)) == 'Math.max(x, y) + Math.min(x, y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_functions_correct","statement":"Path(test_jscode_functions(x), jscode(sin(x) ** cos(x)) == 'Math.pow(Math.sin(x), Math.cos(x))'; jscode(sinh(x) * cosh(x)) == 'Math.sinh(x)*Math.cosh(x)'; jscode(Max(x, y) + Min(x, y)) == 'Math.max(x, y) + Math.min(x, y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a660992e56b3b189","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(sin(x) ** cos(x)) == 'Math.pow(Math.sin(x), Math.cos(x))'","jscode(sinh(x) * cosh(x)) == 'Math.sinh(x)*Math.cosh(x)'","jscode(Max(x, y) + Min(x, y)) == 'Math.max(x, y) + Math.min(x, y)'","jscode(tanh(x) * acosh(y)) == 'Math.tanh(x)*Math.acosh(y)'","jscode(asin(x) - acos(y)) == '-Math.acos(y) + Math.asin(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jscode_functions():
     assert jscode(sin(x) ** cos(x)) == "Math.pow(Math.sin(x), Math.cos(x))"
     assert jscode(sinh(x) * cosh(x)) == "Math.sinh(x)*Math.cosh(x)"
@@ -216,16 +293,24 @@ def test_jscode_functions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_inline_function(), test_jscode_inline_function produces the expected output) over Any ║
+# ║ Path(test_jscode_inline_function(), jscode(g(x)) == '2*x' and jscode(g(x)) == 'var Catalan = %s;\n2*x/Catalan' % Catalan.evalf(17) and jscode(g(A[i]), assign_to=A[i]) == 'for (var i=0; i<n; i++){\n   A[i] = (A[i] + 1)*(A[i] + 2)*A[i];\n}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_inline_function : Any → {Any | jscode(g(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(g(x)) == '2*x'                          ║
+# ║   ensures:  jscode(g(x)) == 'var Catalan = %s;\n2*x/C...   ║
+# ║   ensures:  jscode(g(A[i]), assign_to=A[i]) == 'for (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_inline_function : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0d6fb02cc365dda  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6a3dee2401ed84b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_inline_function","kind":"function","src_hash":"9172425450a008c4","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(g(x)) == '2*x' and jscode(g(x)) == 'var Catalan = %s;\\n2*x/Catalan' % Catalan.evalf(17)"},"spec":{"lhs":"test_jscode_inline_function()","rhs":"test_jscode_inline_function produces the expected output","over":{"base":"Any"},"name":"test_jscode_inline_function_correct"},"guarantee":"test_jscode_inline_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_inline_function_correct","statement":"Path(test_jscode_inline_function(x), test_jscode_inline_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0d6fb02cc365dda"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_inline_function","kind":"function","src_hash":"9172425450a008c4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(g(x)) == '2*x' and jscode(g(x)) == 'var Catalan = %s;\\n2*x/Catalan' % Catalan.evalf(17) and jscode(g(A[i]), assign_to=A[i]) == 'for (var i=0; i<n; i++){\\n   A[i] = (A[i] + 1)*(A[i] + 2)*A[i];\\n}'"},"spec":{"lhs":"test_jscode_inline_function()","rhs":"jscode(g(x)) == '2*x' and jscode(g(x)) == 'var Catalan = %s;\\n2*x/Catalan' % Catalan.evalf(17) and jscode(g(A[i]), assign_to=A[i]) == 'for (var i=0; i<n; i++){\\n   A[i] = (A[i] + 1)*(A[i] + 2)*A[i];\\n}'","over":{"base":"Any"},"name":"test_jscode_inline_function_correct"},"guarantee":"jscode(g(x)) == '2*x'; jscode(g(x)) == 'var Catalan = %s;\\n2*x/Catalan' % Catalan.evalf(17); jscode(g(A[i]), assign_to=A[i]) == 'for (var i=0; i<n; i++){\\n   A[i] = (A[i] + 1)*(A[i] + 2)*A[i];\\n}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_inline_function_correct","statement":"Path(test_jscode_inline_function(x), jscode(g(x)) == '2*x'; jscode(g(x)) == 'var Catalan = %s;\\n2*x/Catalan' % Catalan.evalf(17); jscode(g(A[i]), assign_to=A[i]) == 'for (var i=0; i<n; i++){\\n   A[i] = (A[i] + 1)*(A[i] + 2)*A[i];\\n}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6a3dee2401ed84b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(g(x)) == '2*x'","jscode(g(x)) == 'var Catalan = %s;\\n2*x/Catalan' % Catalan.evalf(17)","jscode(g(A[i]), assign_to=A[i]) == 'for (var i=0; i<n; i++){\\n   A[i] = (A[i] + 1)*(A[i] + 2)*A[i];\\n}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jscode_inline_function():
     x = symbols('x')
     g = implemented_function('g', Lambda(x, 2*x))
@@ -243,32 +328,47 @@ def test_jscode_inline_function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_exceptions(), test_jscode_exceptions produces the expected output) over Any ║
+# ║ Path(test_jscode_exceptions(), jscode(ceiling(x)) == 'Math.ceil(x)' and jscode(Abs(x)) == 'Math.abs(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_exceptions : Any → {Any | jscode(ceiling(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(ceiling(x)) == 'Math.ceil(x)'           ║
+# ║   ensures:  jscode(Abs(x)) == 'Math.abs(x)'                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_exceptions : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c768b749999139d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c033baaf98e53815  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_exceptions","kind":"function","src_hash":"dc63bb10ef47ef45","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(ceiling(x)) == 'Math.ceil(x)' and jscode(Abs(x)) == 'Math.abs(x)'"},"spec":{"lhs":"test_jscode_exceptions()","rhs":"test_jscode_exceptions produces the expected output","over":{"base":"Any"},"name":"test_jscode_exceptions_correct"},"guarantee":"test_jscode_exceptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_exceptions_correct","statement":"Path(test_jscode_exceptions(x), test_jscode_exceptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c768b749999139d1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_exceptions","kind":"function","src_hash":"dc63bb10ef47ef45","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(ceiling(x)) == 'Math.ceil(x)' and jscode(Abs(x)) == 'Math.abs(x)'"},"spec":{"lhs":"test_jscode_exceptions()","rhs":"jscode(ceiling(x)) == 'Math.ceil(x)' and jscode(Abs(x)) == 'Math.abs(x)'","over":{"base":"Any"},"name":"test_jscode_exceptions_correct"},"guarantee":"jscode(ceiling(x)) == 'Math.ceil(x)'; jscode(Abs(x)) == 'Math.abs(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_exceptions_correct","statement":"Path(test_jscode_exceptions(x), jscode(ceiling(x)) == 'Math.ceil(x)'; jscode(Abs(x)) == 'Math.abs(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c033baaf98e53815","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(ceiling(x)) == 'Math.ceil(x)'","jscode(Abs(x)) == 'Math.abs(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_jscode_exceptions():
     assert jscode(ceiling(x)) == "Math.ceil(x)"
     assert jscode(Abs(x)) == "Math.abs(x)"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_boolean(), test_jscode_boolean produces the expected output) over Any ║
+# ║ Path(test_jscode_boolean(), jscode(x & y) == 'x && y' and jscode(x | y) == 'x || y' and jscode(~x) == '!x' and jscode(x & y & z) == 'x && y && z' and jscode(x | y | z) == 'x || y || z' and jscode(x & y | z) == 'z || x && y' and jscode((x | y) & z) == 'z && (x || y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_boolean : Any → {Any | jscode(x & y) == '...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(x & y) == 'x && y'                      ║
+# ║   ensures:  jscode(x | y) == 'x || y'                      ║
+# ║   ensures:  jscode(~x) == '!x'                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_boolean : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11320019f4af617a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df25d591eab669e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_boolean","kind":"function","src_hash":"7f83812c7c06c3fb","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(x & y) == 'x && y' and jscode(x | y) == 'x || y' and jscode(~x) == '!x' and jscode(x & y & z) == 'x && y && z' and jscode(x | y | z) == 'x || y || z' and jscode(x & y | z) == 'z || x && y' and jscode((x | y) & z) == 'z && (x || y)'"},"spec":{"lhs":"test_jscode_boolean()","rhs":"test_jscode_boolean produces the expected output","over":{"base":"Any"},"name":"test_jscode_boolean_correct"},"guarantee":"test_jscode_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_boolean_correct","statement":"Path(test_jscode_boolean(x), test_jscode_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11320019f4af617a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_boolean","kind":"function","src_hash":"7f83812c7c06c3fb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(x & y) == 'x && y' and jscode(x | y) == 'x || y' and jscode(~x) == '!x' and jscode(x & y & z) == 'x && y && z' and jscode(x | y | z) == 'x || y || z' and jscode(x & y | z) == 'z || x && y' and jscode((x | y) & z) == 'z && (x || y)'"},"spec":{"lhs":"test_jscode_boolean()","rhs":"jscode(x & y) == 'x && y' and jscode(x | y) == 'x || y' and jscode(~x) == '!x' and jscode(x & y & z) == 'x && y && z' and jscode(x | y | z) == 'x || y || z' and jscode(x & y | z) == 'z || x && y' and jscode((x | y) & z) == 'z && (x || y)'","over":{"base":"Any"},"name":"test_jscode_boolean_correct"},"guarantee":"jscode(x & y) == 'x && y'; jscode(x | y) == 'x || y'; jscode(~x) == '!x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_boolean_correct","statement":"Path(test_jscode_boolean(x), jscode(x & y) == 'x && y'; jscode(x | y) == 'x || y'; jscode(~x) == '!x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df25d591eab669e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(x & y) == 'x && y'","jscode(x | y) == 'x || y'","jscode(~x) == '!x'","jscode(x & y & z) == 'x && y && z'","jscode(x | y | z) == 'x || y || z'","jscode(x & y | z) == 'z || x && y'","jscode((x | y) & z) == 'z && (x || y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jscode_boolean():
     assert jscode(x & y) == "x && y"
     assert jscode(x | y) == "x || y"
@@ -280,16 +380,23 @@ def test_jscode_boolean():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_Piecewise(), test_jscode_Piecewise produces the expected output) over Any ║
+# ║ Path(test_jscode_Piecewise(), p == s and jscode(expr, assign_to='c') == 'if (x < 1) {\n   c = x;\n}\nelse {\n   c = Math.pow(x, 2);\n}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_Piecewise : Any → {Any | p == s}               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == s                                         ║
+# ║   ensures:  jscode(expr, assign_to='c') == 'if (x < 1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_Piecewise : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37fda4bf5b5a85d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c9363c418603803  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_Piecewise","kind":"function","src_hash":"e023fdd5397b5458","in":{"base":"Any"},"out":{"base":"Any","pred":"p == s"},"spec":{"lhs":"test_jscode_Piecewise()","rhs":"test_jscode_Piecewise produces the expected output","over":{"base":"Any"},"name":"test_jscode_Piecewise_correct"},"guarantee":"test_jscode_Piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_Piecewise_correct","statement":"Path(test_jscode_Piecewise(x), test_jscode_Piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37fda4bf5b5a85d1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_Piecewise","kind":"function","src_hash":"e023fdd5397b5458","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == s and jscode(expr, assign_to='c') == 'if (x < 1) {\\n   c = x;\\n}\\nelse {\\n   c = Math.pow(x, 2);\\n}'"},"spec":{"lhs":"test_jscode_Piecewise()","rhs":"p == s and jscode(expr, assign_to='c') == 'if (x < 1) {\\n   c = x;\\n}\\nelse {\\n   c = Math.pow(x, 2);\\n}'","over":{"base":"Any"},"name":"test_jscode_Piecewise_correct"},"guarantee":"p == s; jscode(expr, assign_to='c') == 'if (x < 1) {\\n   c = x;\\n}\\nelse {\\n   c = Math.pow(x, 2);\\n}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_Piecewise_correct","statement":"Path(test_jscode_Piecewise(x), p == s; jscode(expr, assign_to='c') == 'if (x < 1) {\\n   c = x;\\n}\\nelse {\\n   c = Math.pow(x, 2);\\n}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c9363c418603803","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == s","jscode(expr, assign_to='c') == 'if (x < 1) {\\n   c = x;\\n}\\nelse {\\n   c = Math.pow(x, 2);\\n}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jscode_Piecewise():
     expr = Piecewise((x, x < 1), (x**2, True))
     p = jscode(expr)
@@ -316,16 +423,22 @@ def test_jscode_Piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_Piecewise_deep(), test_jscode_Piecewise_deep produces the expected output) over Any ║
+# ║ Path(test_jscode_Piecewise_deep(), p == s) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_Piecewise_deep : Any → {Any | p == s}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == s                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_Piecewise_deep : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00c4c76367d509da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 271f936ecaf62dd8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_Piecewise_deep","kind":"function","src_hash":"fb09ccc837cc0f76","in":{"base":"Any"},"out":{"base":"Any","pred":"p == s"},"spec":{"lhs":"test_jscode_Piecewise_deep()","rhs":"test_jscode_Piecewise_deep produces the expected output","over":{"base":"Any"},"name":"test_jscode_Piecewise_deep_correct"},"guarantee":"test_jscode_Piecewise_deep produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_Piecewise_deep_correct","statement":"Path(test_jscode_Piecewise_deep(x), test_jscode_Piecewise_deep produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00c4c76367d509da"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_Piecewise_deep","kind":"function","src_hash":"fb09ccc837cc0f76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == s"},"spec":{"lhs":"test_jscode_Piecewise_deep()","rhs":"p == s","over":{"base":"Any"},"name":"test_jscode_Piecewise_deep_correct"},"guarantee":"p == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_Piecewise_deep_correct","statement":"Path(test_jscode_Piecewise_deep(x), p == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"271f936ecaf62dd8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jscode_Piecewise_deep():
     p = jscode(2*Piecewise((x, x < 1), (x**2, True)))
     s = \
@@ -341,31 +454,45 @@ def test_jscode_Piecewise_deep():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_settings(), test_jscode_settings produces the expected output) over Any ║
+# ║ Path(test_jscode_settings(), <unspecified:test_jscode_settings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_jscode_settings : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88c71fb0f19d40ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_settings","kind":"function","src_hash":"fc5ba6e4ae5ed290","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_jscode_settings()","rhs":"test_jscode_settings produces the expected output","over":{"base":"Any"},"name":"test_jscode_settings_correct"},"guarantee":"test_jscode_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_settings_correct","statement":"Path(test_jscode_settings(x), test_jscode_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88c71fb0f19d40ea"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_settings","kind":"function","src_hash":"fc5ba6e4ae5ed290","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_jscode_settings()","rhs":"<unspecified:test_jscode_settings>","over":{"base":"Any"},"name":"test_jscode_settings_correct"},"guarantee":"test_jscode_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_settings_correct","statement":"Path(test_jscode_settings(x), test_jscode_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88c71fb0f19d40ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_jscode_settings():
     raises(TypeError, lambda: jscode(sin(x), method="garbage"))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_Indexed(), test_jscode_Indexed produces the expected output) over Any ║
+# ║ Path(test_jscode_Indexed(), p._print_Indexed(x) == 'x[j]' and p._print_Indexed(A) == 'A[%s]' % (m * i + j) and p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k) and p._not_c == set()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_Indexed : Any → {Any | p._print_Indexed(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p._print_Indexed(x) == 'x[j]'                  ║
+# ║   ensures:  p._print_Indexed(A) == 'A[%s]' % (m * i + j)   ║
+# ║   ensures:  p._print_Indexed(B) == 'B[%s]' % (i * o *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_Indexed : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd8485669fe76c06  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a79a2fc38834a2b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_Indexed","kind":"function","src_hash":"fede409331e7343b","in":{"base":"Any"},"out":{"base":"Any","pred":"p._print_Indexed(x) == 'x[j]' and p._print_Indexed(A) == 'A[%s]' % (m * i + j) and p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k) and p._not_c == set()"},"spec":{"lhs":"test_jscode_Indexed()","rhs":"test_jscode_Indexed produces the expected output","over":{"base":"Any"},"name":"test_jscode_Indexed_correct"},"guarantee":"test_jscode_Indexed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_Indexed_correct","statement":"Path(test_jscode_Indexed(x), test_jscode_Indexed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd8485669fe76c06"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_Indexed","kind":"function","src_hash":"fede409331e7343b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p._print_Indexed(x) == 'x[j]' and p._print_Indexed(A) == 'A[%s]' % (m * i + j) and p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k) and p._not_c == set()"},"spec":{"lhs":"test_jscode_Indexed()","rhs":"p._print_Indexed(x) == 'x[j]' and p._print_Indexed(A) == 'A[%s]' % (m * i + j) and p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k) and p._not_c == set()","over":{"base":"Any"},"name":"test_jscode_Indexed_correct"},"guarantee":"p._print_Indexed(x) == 'x[j]'; p._print_Indexed(A) == 'A[%s]' % (m * i + j); p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_Indexed_correct","statement":"Path(test_jscode_Indexed(x), p._print_Indexed(x) == 'x[j]'; p._print_Indexed(A) == 'A[%s]' % (m * i + j); p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a79a2fc38834a2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p._print_Indexed(x) == 'x[j]'","p._print_Indexed(A) == 'A[%s]' % (m * i + j)","p._print_Indexed(B) == 'B[%s]' % (i * o * m + j * o + k)","p._not_c == set()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jscode_Indexed():
     n, m, o = symbols('n m o', integer=True)
     i, j, k = Idx('i', n), Idx('j', m), Idx('k', o)
@@ -383,16 +510,22 @@ def test_jscode_Indexed():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_loops_matrix_vector(), test_jscode_loops_matrix_vector produces the expected output) over Any ║
+# ║ Path(test_jscode_loops_matrix_vector(), c == s) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_loops_matrix_vector : Any → {Any | c == s}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_loops_matrix_vector : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd7dad3d0d6dda91  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e65f3943bad9bbd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_loops_matrix_vector","kind":"function","src_hash":"56cadc391dfa046b","in":{"base":"Any"},"out":{"base":"Any","pred":"c == s"},"spec":{"lhs":"test_jscode_loops_matrix_vector()","rhs":"test_jscode_loops_matrix_vector produces the expected output","over":{"base":"Any"},"name":"test_jscode_loops_matrix_vector_correct"},"guarantee":"test_jscode_loops_matrix_vector produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_loops_matrix_vector_correct","statement":"Path(test_jscode_loops_matrix_vector(x), test_jscode_loops_matrix_vector produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd7dad3d0d6dda91"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_loops_matrix_vector","kind":"function","src_hash":"56cadc391dfa046b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s"},"spec":{"lhs":"test_jscode_loops_matrix_vector()","rhs":"c == s","over":{"base":"Any"},"name":"test_jscode_loops_matrix_vector_correct"},"guarantee":"c == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_loops_matrix_vector_correct","statement":"Path(test_jscode_loops_matrix_vector(x), c == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e65f3943bad9bbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jscode_loops_matrix_vector():
     n, m = symbols('n m', integer=True)
     A = IndexedBase('A')
@@ -416,16 +549,22 @@ def test_jscode_loops_matrix_vector():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummy_loops(), test_dummy_loops produces the expected output) over Any ║
+# ║ Path(test_dummy_loops(), code == expected) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dummy_loops : Any → {Any | code == expected}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  code == expected                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dummy_loops : Any → {Any | result satisfies: cod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a82058374351b71  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1f58b2ada0ea468  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_dummy_loops","kind":"function","src_hash":"d49e89796cc68938","in":{"base":"Any"},"out":{"base":"Any","pred":"code == expected"},"spec":{"lhs":"test_dummy_loops()","rhs":"test_dummy_loops produces the expected output","over":{"base":"Any"},"name":"test_dummy_loops_correct"},"guarantee":"test_dummy_loops produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_dummy_loops_correct","statement":"Path(test_dummy_loops(x), test_dummy_loops produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a82058374351b71"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_dummy_loops","kind":"function","src_hash":"d49e89796cc68938","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: code == expected"},"spec":{"lhs":"test_dummy_loops()","rhs":"code == expected","over":{"base":"Any"},"name":"test_dummy_loops_correct"},"guarantee":"code == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_dummy_loops_correct","statement":"Path(test_dummy_loops(x), code == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1f58b2ada0ea468","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["code == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dummy_loops():
     i, m = symbols('i m', integer=True, cls=Dummy)
     x = IndexedBase('x')
@@ -442,16 +581,22 @@ def test_dummy_loops():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_loops_add(), test_jscode_loops_add produces the expected output) over Any ║
+# ║ Path(test_jscode_loops_add(), c == s) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_loops_add : Any → {Any | c == s}               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_loops_add : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fecc2beb7ecd20a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7535fc629d457bff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_loops_add","kind":"function","src_hash":"4e0456de748c7a0f","in":{"base":"Any"},"out":{"base":"Any","pred":"c == s"},"spec":{"lhs":"test_jscode_loops_add()","rhs":"test_jscode_loops_add produces the expected output","over":{"base":"Any"},"name":"test_jscode_loops_add_correct"},"guarantee":"test_jscode_loops_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_loops_add_correct","statement":"Path(test_jscode_loops_add(x), test_jscode_loops_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fecc2beb7ecd20a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_loops_add","kind":"function","src_hash":"4e0456de748c7a0f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s"},"spec":{"lhs":"test_jscode_loops_add()","rhs":"c == s","over":{"base":"Any"},"name":"test_jscode_loops_add_correct"},"guarantee":"c == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_loops_add_correct","statement":"Path(test_jscode_loops_add(x), c == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7535fc629d457bff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jscode_loops_add():
     n, m = symbols('n m', integer=True)
     A = IndexedBase('A')
@@ -476,16 +621,22 @@ def test_jscode_loops_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_loops_multiple_contractions(), test_jscode_loops_multiple_contractions produces the expected output) over Any ║
+# ║ Path(test_jscode_loops_multiple_contractions(), c == s) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_jscode_loops_multiple_contractions : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 346fd14dc61d017e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e033626bd14721e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_loops_multiple_contractions","kind":"function","src_hash":"69493d8681c8b374","in":{"base":"Any"},"out":{"base":"Any","pred":"c == s"},"spec":{"lhs":"test_jscode_loops_multiple_contractions()","rhs":"test_jscode_loops_multiple_contractions produces the expected output","over":{"base":"Any"},"name":"test_jscode_loops_multiple_contractions_correct"},"guarantee":"test_jscode_loops_multiple_contractions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_loops_multiple_contractions_correct","statement":"Path(test_jscode_loops_multiple_contractions(x), test_jscode_loops_multiple_contractions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"346fd14dc61d017e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_loops_multiple_contractions","kind":"function","src_hash":"69493d8681c8b374","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s"},"spec":{"lhs":"test_jscode_loops_multiple_contractions()","rhs":"c == s","over":{"base":"Any"},"name":"test_jscode_loops_multiple_contractions_correct"},"guarantee":"c == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_loops_multiple_contractions_correct","statement":"Path(test_jscode_loops_multiple_contractions(x), c == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e033626bd14721e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jscode_loops_multiple_contractions():
     n, m, o, p = symbols('n m o p', integer=True)
     a = IndexedBase('a')
@@ -515,16 +666,22 @@ def test_jscode_loops_multiple_contractions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_loops_addfactor(), test_jscode_loops_addfactor produces the expected output) over Any ║
+# ║ Path(test_jscode_loops_addfactor(), c == s) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_loops_addfactor : Any → {Any | c == s}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_loops_addfactor : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60b0692d0765e0dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64f08ceed5eb2930  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_loops_addfactor","kind":"function","src_hash":"2954b2b7c0d51657","in":{"base":"Any"},"out":{"base":"Any","pred":"c == s"},"spec":{"lhs":"test_jscode_loops_addfactor()","rhs":"test_jscode_loops_addfactor produces the expected output","over":{"base":"Any"},"name":"test_jscode_loops_addfactor_correct"},"guarantee":"test_jscode_loops_addfactor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_loops_addfactor_correct","statement":"Path(test_jscode_loops_addfactor(x), test_jscode_loops_addfactor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60b0692d0765e0dc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_loops_addfactor","kind":"function","src_hash":"2954b2b7c0d51657","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s"},"spec":{"lhs":"test_jscode_loops_addfactor()","rhs":"c == s","over":{"base":"Any"},"name":"test_jscode_loops_addfactor_correct"},"guarantee":"c == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_loops_addfactor_correct","statement":"Path(test_jscode_loops_addfactor(x), c == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64f08ceed5eb2930","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jscode_loops_addfactor():
     n, m, o, p = symbols('n m o p', integer=True)
     a = IndexedBase('a')
@@ -555,16 +712,22 @@ def test_jscode_loops_addfactor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jscode_loops_multiple_terms(), test_jscode_loops_multiple_terms produces the expected output) over Any ║
+# ║ Path(test_jscode_loops_multiple_terms(), c == s0 + s1 + s2 + s3[:-1] or c == s0 + s1 + s3 + s2[:-1] or c == s0 + s2 + s1 + s3[:-1] or (c == s0 + s2 + s3 + s1[:-1]) or (c == s0 + s3 + s1 + s2[:-1]) or (c == s0 + s3 + s2 + s1[:-1])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jscode_loops_multiple_terms : Any → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s0 + s1 + s2 + s3[:-1] or c == s0 + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jscode_loops_multiple_terms : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a87ae9f611134be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10f73b1ad1343345  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_loops_multiple_terms","kind":"function","src_hash":"a5698354f7441c65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_jscode_loops_multiple_terms()","rhs":"test_jscode_loops_multiple_terms produces the expected output","over":{"base":"Any"},"name":"test_jscode_loops_multiple_terms_correct"},"guarantee":"test_jscode_loops_multiple_terms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_loops_multiple_terms_correct","statement":"Path(test_jscode_loops_multiple_terms(x), test_jscode_loops_multiple_terms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a87ae9f611134be"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_jscode_loops_multiple_terms","kind":"function","src_hash":"a5698354f7441c65","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s0 + s1 + s2 + s3[:-1] or c == s0 + s1 + s3 + s2[:-1] or c == s0 + s2 + s1 + s3[:-1] or (c == s0 + s2 + s3 + s1[:-1]) or (c == s0 + s3 + s1 + s2[:-1]) or (c == s0 + s3 + s2 + s1[:-1])"},"spec":{"lhs":"test_jscode_loops_multiple_terms()","rhs":"c == s0 + s1 + s2 + s3[:-1] or c == s0 + s1 + s3 + s2[:-1] or c == s0 + s2 + s1 + s3[:-1] or (c == s0 + s2 + s3 + s1[:-1]) or (c == s0 + s3 + s1 + s2[:-1]) or (c == s0 + s3 + s2 + s1[:-1])","over":{"base":"Any"},"name":"test_jscode_loops_multiple_terms_correct"},"guarantee":"c == s0 + s1 + s2 + s3[:-1] or c == s0 + s1 + s3 + s2[:-1] or c == s0 + s2 + s1 + s3[:-1] or (c == s0 + s2 + s3 + s1[:-1]) or (c == s0 + s3 + s1 + s2[:-1]) or (c == s0 + s3 + s2 + s1[:-1])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_jscode_loops_multiple_terms_correct","statement":"Path(test_jscode_loops_multiple_terms(x), c == s0 + s1 + s2 + s3[:-1] or c == s0 + s1 + s3 + s2[:-1] or c == s0 + s2 + s1 + s3[:-1] or (c == s0 + s2 + s3 + s1[:-1]) or (c == s0 + s3 + s1 + s2[:-1]) or (c == s0 + s3 + s2 + s1[:-1]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10f73b1ad1343345","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s0 + s1 + s2 + s3[:-1] or c == s0 + s1 + s3 + s2[:-1] or c == s0 + s2 + s1 + s3[:-1] or (c == s0 + s2 + s3 + s1[:-1]) or (c == s0 + s3 + s1 + s2[:-1]) or (c == s0 + s3 + s2 + s1[:-1])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_jscode_loops_multiple_terms():
     n, m, o, p = symbols('n m o p', integer=True)
     a = IndexedBase('a')
@@ -614,16 +777,24 @@ def test_jscode_loops_multiple_terms():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_printing(), test_Matrix_printing produces the expected output) over Any ║
+# ║ Path(test_Matrix_printing(), jscode(mat, A) == 'A[0] = x*y;\nif (y > 0) {\n   A[1] = x + 2;\n}\nelse {\n   A[1] = y;\n}\nA[2] = Math.sin(z);' and jscode(expr) == '((x > 0) ? (\n   2*A[2]\n)\n: (\n   A[2]\n)) + Math.sin(A[1]) + A[0]' and jscode(m, M) == 'M[0] = Math.sin(q[1]);\nM[1] = 0;\nM[2] = Math.cos(q[2]);\nM[3] = q[1] + q[2];\nM[4] = q[3];\nM[5] = 5;\nM[6] = 2*q[4]/q[1];\nM[7] = Math.sqrt(q[0]) + 4;\nM[8] = 0;') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix_printing : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(mat, A) == 'A[0] = x*y;\nif (y > 0...   ║
+# ║   ensures:  jscode(expr) == '((x > 0) ? (\n   2*A[2]\...   ║
+# ║   ensures:  jscode(m, M) == 'M[0] = Math.sin(q[1]);\n...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix_printing : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d5172489552d143  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6719fd1c46b5324  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_Matrix_printing","kind":"function","src_hash":"d96084d28bc2b365","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Matrix_printing()","rhs":"test_Matrix_printing produces the expected output","over":{"base":"Any"},"name":"test_Matrix_printing_correct"},"guarantee":"test_Matrix_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_Matrix_printing_correct","statement":"Path(test_Matrix_printing(x), test_Matrix_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d5172489552d143"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_Matrix_printing","kind":"function","src_hash":"d96084d28bc2b365","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(mat, A) == 'A[0] = x*y;\\nif (y > 0) {\\n   A[1] = x + 2;\\n}\\nelse {\\n   A[1] = y;\\n}\\nA[2] = Math.sin(z);' and jscode(expr) == '((x > 0) ? (\\n   2*A[2]\\n)\\n: (\\n   A[2]\\n)) + Math.sin(A[1]) + A[0]' and jscode(m, M) == 'M[0] = Math.sin(q[1]);\\nM[1] = 0;\\nM[2] = Math.cos(q[2]);\\nM[3] = q[1] + q[2];\\nM[4] = q[3];\\nM[5] = 5;\\nM[6] = 2*q[4]/q[1];\\nM[7] = Math.sqrt(q[0]) + 4;\\nM[8] = 0;'"},"spec":{"lhs":"test_Matrix_printing()","rhs":"jscode(mat, A) == 'A[0] = x*y;\\nif (y > 0) {\\n   A[1] = x + 2;\\n}\\nelse {\\n   A[1] = y;\\n}\\nA[2] = Math.sin(z);' and jscode(expr) == '((x > 0) ? (\\n   2*A[2]\\n)\\n: (\\n   A[2]\\n)) + Math.sin(A[1]) + A[0]' and jscode(m, M) == 'M[0] = Math.sin(q[1]);\\nM[1] = 0;\\nM[2] = Math.cos(q[2]);\\nM[3] = q[1] + q[2];\\nM[4] = q[3];\\nM[5] = 5;\\nM[6] = 2*q[4]/q[1];\\nM[7] = Math.sqrt(q[0]) + 4;\\nM[8] = 0;'","over":{"base":"Any"},"name":"test_Matrix_printing_correct"},"guarantee":"jscode(mat, A) == 'A[0] = x*y;\\nif (y > 0) {\\n   A[1] = x + 2;\\n}\\nelse {\\n   A[1] = y;\\n}\\nA[2] = Math.sin(z);'; jscode(expr) == '((x > 0) ? (\\n   2*A[2]\\n)\\n: (\\n   A[2]\\n)) + Math.sin(A[1]) + A[0]'; jscode(m, M) == 'M[0] = Math.sin(q[1]);\\nM[1] = 0;\\nM[2] = Math.cos(q[2]);\\nM[3] = q[1] + q[2];\\nM[4] = q[3];\\nM[5] = 5;\\nM[6] = 2*q[4]/q[1];\\nM[7] = Math.sqrt(q[0]) + 4;\\nM[8] = 0;'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_Matrix_printing_correct","statement":"Path(test_Matrix_printing(x), jscode(mat, A) == 'A[0] = x*y;\\nif (y > 0) {\\n   A[1] = x + 2;\\n}\\nelse {\\n   A[1] = y;\\n}\\nA[2] = Math.sin(z);'; jscode(expr) == '((x > 0) ? (\\n   2*A[2]\\n)\\n: (\\n   A[2]\\n)) + Math.sin(A[1]) + A[0]'; jscode(m, M) == 'M[0] = Math.sin(q[1]);\\nM[1] = 0;\\nM[2] = Math.cos(q[2]);\\nM[3] = q[1] + q[2];\\nM[4] = q[3];\\nM[5] = 5;\\nM[6] = 2*q[4]/q[1];\\nM[7] = Math.sqrt(q[0]) + 4;\\nM[8] = 0;')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6719fd1c46b5324","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(mat, A) == 'A[0] = x*y;\\nif (y > 0) {\\n   A[1] = x + 2;\\n}\\nelse {\\n   A[1] = y;\\n}\\nA[2] = Math.sin(z);'","jscode(expr) == '((x > 0) ? (\\n   2*A[2]\\n)\\n: (\\n   A[2]\\n)) + Math.sin(A[1]) + A[0]'","jscode(m, M) == 'M[0] = Math.sin(q[1]);\\nM[1] = 0;\\nM[2] = Math.cos(q[2]);\\nM[3] = q[1] + q[2];\\nM[4] = q[3];\\nM[5] = 5;\\nM[6] = 2*q[4]/q[1];\\nM[7] = Math.sqrt(q[0]) + 4;\\nM[8] = 0;'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Matrix_printing():
     # Test returning a Matrix
     mat = Matrix([x*y, Piecewise((2 + x, y>0), (y, True)), sin(z)])
@@ -665,16 +836,24 @@ def test_Matrix_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixElement_printing(), test_MatrixElement_printing produces the expected output) over Any ║
+# ║ Path(test_MatrixElement_printing(), jscode(A[0, 0]) == 'A[0]' and jscode(3 * A[0, 0]) == '3*A[0]' and jscode(F) == '(A - B)[0]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixElement_printing : Any → {Any | jscode(A[0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  jscode(A[0, 0]) == 'A[0]'                      ║
+# ║   ensures:  jscode(3 * A[0, 0]) == '3*A[0]'                ║
+# ║   ensures:  jscode(F) == '(A - B)[0]'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixElement_printing : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5fdbae50ea09731  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86ca4465724fb5ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_MatrixElement_printing","kind":"function","src_hash":"75af5dd2cc06b08a","in":{"base":"Any"},"out":{"base":"Any","pred":"jscode(A[0, 0]) == 'A[0]' and jscode(3 * A[0, 0]) == '3*A[0]' and jscode(F) == '(A - B)[0]'"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"test_MatrixElement_printing produces the expected output","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"test_MatrixElement_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), test_MatrixElement_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5fdbae50ea09731"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_jscode.test_MatrixElement_printing","kind":"function","src_hash":"75af5dd2cc06b08a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: jscode(A[0, 0]) == 'A[0]' and jscode(3 * A[0, 0]) == '3*A[0]' and jscode(F) == '(A - B)[0]'"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"jscode(A[0, 0]) == 'A[0]' and jscode(3 * A[0, 0]) == '3*A[0]' and jscode(F) == '(A - B)[0]'","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"jscode(A[0, 0]) == 'A[0]'; jscode(3 * A[0, 0]) == '3*A[0]'; jscode(F) == '(A - B)[0]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_jscode.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), jscode(A[0, 0]) == 'A[0]'; jscode(3 * A[0, 0]) == '3*A[0]'; jscode(F) == '(A - B)[0]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86ca4465724fb5ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["jscode(A[0, 0]) == 'A[0]'","jscode(3 * A[0, 0]) == '3*A[0]'","jscode(F) == '(A - B)[0]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixElement_printing():
     # test cases for issue #11821
     A = MatrixSymbol("A", 1, 3)

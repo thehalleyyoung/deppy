@@ -43,44 +43,63 @@ from sympy.physics.quantum.gate import H, CNOT, X, Z, CGate, CGateS, SWAP, S, T,
 from sympy.physics.quantum.circuitplot import Mz
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(read_qasm(lin), read_qasm produces the expected output) over Any ║
+# ║ Path(read_qasm(lines), Qasm(*lines.splitlines())) over {Any | hasattr(lines, 'splitlines')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ read_qasm : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(lines, 'splitlines')                   ║
+# ║   returns:  Qasm(*lines.splitlines())                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ read_qasm : {Any | hasattr(lines, 'splitlines')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc02450a27a3b56b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.read_qasm","kind":"function","src_hash":"a88860e10cbaea9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"read_qasm(lin)","rhs":"read_qasm produces the expected output","over":{"base":"Any"},"name":"read_qasm_correct"},"guarantee":"read_qasm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc02450a27a3b56b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.read_qasm","kind":"function","src_hash":"a88860e10cbaea9d","in":{"base":"Any","pred":"hasattr(lines, 'splitlines')"},"out":{"base":"Any"},"spec":{"lhs":"read_qasm(lines)","rhs":"Qasm(*lines.splitlines())","over":{"base":"Any","pred":"hasattr(lines, 'splitlines')"},"name":"read_qasm_correct"},"guarantee":"returns Qasm(*lines.splitlines())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc02450a27a3b56b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(lines, 'splitlines')"],"returns_expr":"Qasm(*lines.splitlines())","pure":false,"effects":{"effect_type":"reads_state","reads":["lines.splitlines"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def read_qasm(lines):
     return Qasm(*lines.splitlines())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(read_qasm_file(fil), read_qasm_file produces the expected output) over Any ║
+# ║ Path(read_qasm_file(filename), Qasm(*open(filename).readlines())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Qasm(*open(filename).readlines())              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ read_qasm_file : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fe6cb4f2822b7c30           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.read_qasm_file","kind":"function","src_hash":"9bec859d85338bd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"read_qasm_file(fil)","rhs":"read_qasm_file produces the expected output","over":{"base":"Any"},"name":"read_qasm_file_correct"},"guarantee":"read_qasm_file produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe6cb4f2822b7c30"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.read_qasm_file","kind":"function","src_hash":"9bec859d85338bd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"read_qasm_file(filename)","rhs":"Qasm(*open(filename).readlines())","over":{"base":"Any"},"name":"read_qasm_file_correct"},"guarantee":"returns Qasm(*open(filename).readlines())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fe6cb4f2822b7c30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Qasm(*open(filename).readlines())","pure":false,"effects":{"effect_type":"io","io_operations":["open"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def read_qasm_file(filename):
     return Qasm(*open(filename).readlines())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flip_index(i, ), reorder qubit indices from largest to smallest) over Any ║
+# ║ Path(flip_index(i, n), n - i - 1) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  n - i - 1                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ flip_index : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 54544d4a74eca1c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.flip_index","kind":"function","src_hash":"632a568b7ed7a3d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flip_index(i, )","rhs":"reorder qubit indices from largest to smallest","over":{"base":"Any"},"name":"flip_index_correct"},"guarantee":"reorder qubit indices from largest to smallest","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54544d4a74eca1c4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.flip_index","kind":"function","src_hash":"632a568b7ed7a3d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flip_index(i, n)","rhs":"n - i - 1","over":{"base":"Any"},"name":"flip_index_correct"},"guarantee":"returns n - i - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54544d4a74eca1c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"n - i - 1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def flip_index(i, n):
     """Reorder qubit indices from largest to smallest.
 
@@ -93,16 +112,23 @@ def flip_index(i, n):
     return n-i-1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trim(lin), remove everything following comment # characters in line) over Any ║
+# ║ Path(trim(line), <unspecified:trim>) over {Any | hasattr(line, 'split')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ trim : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(line, 'split')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ trim : {Any | hasattr(line, 'split')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68bb4282fab16d58  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.trim","kind":"function","src_hash":"5a2178ea1da1a7ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"trim(lin)","rhs":"remove everything following comment # characters in line","over":{"base":"Any"},"name":"trim_correct"},"guarantee":"remove everything following comment # characters in line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.trim_correct","statement":"Path(trim(x), remove everything following comment # characters in line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68bb4282fab16d58"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.trim","kind":"function","src_hash":"5a2178ea1da1a7ee","in":{"base":"Any","pred":"hasattr(line, 'split')"},"out":{"base":"Any"},"spec":{"lhs":"trim(line)","rhs":"<unspecified:trim>","over":{"base":"Any","pred":"hasattr(line, 'split')"},"name":"trim_correct"},"guarantee":"remove everything following comment # characters in line","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.trim_correct","statement":"Path(trim(x), remove everything following comment # characters in line)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68bb4282fab16d58","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(line, 'split')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["line.split"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def trim(line):
     """Remove everything following comment # characters in line.
 
@@ -117,16 +143,23 @@ def trim(line):
     return line.split('#')[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_index(tar), get qubit labels from the rest of the line,and return indices) over Any ║
+# ║ Path(get_index(target, labels), flip_index(labels.index(target), nq)) over {Any | hasattr(labels, 'index')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_index : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(labels, 'index')                       ║
+# ║   returns:  flip_index(labels.index(target), nq)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_index : {Any | hasattr(labels, 'index')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39af2f47c7120834  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fe699111dedae26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.get_index","kind":"function","src_hash":"5ec69b56693e7c6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_index(tar)","rhs":"get qubit labels from the rest of the line,and return indices","over":{"base":"Any"},"name":"get_index_correct"},"guarantee":"get qubit labels from the rest of the line,and return indices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.get_index_correct","statement":"Path(get_index(x), get qubit labels from the rest of the line,and return indices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39af2f47c7120834"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.get_index","kind":"function","src_hash":"5ec69b56693e7c6b","in":{"base":"Any","pred":"hasattr(labels, 'index')"},"out":{"base":"Any"},"spec":{"lhs":"get_index(target, labels)","rhs":"flip_index(labels.index(target), nq)","over":{"base":"Any","pred":"hasattr(labels, 'index')"},"name":"get_index_correct"},"guarantee":"returns flip_index(labels.index(target), nq)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.get_index_correct","statement":"Path(get_index(x), returns flip_index(labels.index(target), nq))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fe699111dedae26","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(labels, 'index')"],"returns_expr":"flip_index(labels.index(target), nq)","pure":false,"effects":{"effect_type":"reads_state","reads":["labels.index"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def get_index(target, labels):
     """Get qubit labels from the rest of the line,and return indices
 
@@ -140,30 +173,42 @@ def get_index(target, labels):
     return flip_index(labels.index(target), nq)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_indices(tar), get_indices produces the expected output) over Any ║
+# ║ Path(get_indices(targets, labels), [get_index(t, labels) for t in targets]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [get_index(t, labels) for t in targets]        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_indices : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3dfa7ab1d3bbc37a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.get_indices","kind":"function","src_hash":"78dddbd2045fb756","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_indices(tar)","rhs":"get_indices produces the expected output","over":{"base":"Any"},"name":"get_indices_correct"},"guarantee":"get_indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3dfa7ab1d3bbc37a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.get_indices","kind":"function","src_hash":"78dddbd2045fb756","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_indices(targets, labels)","rhs":"[get_index(t, labels) for t in targets]","over":{"base":"Any"},"name":"get_indices_correct"},"guarantee":"returns [get_index(t, labels) for t in targets]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3dfa7ab1d3bbc37a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[get_index(t, labels) for t in targets]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def get_indices(targets, labels):
     return [get_index(t, labels) for t in targets]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nonblank(arg), nonblank produces the expected output) over Any ║
+# ║ Path(nonblank(args), <unspecified:nonblank>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nonblank : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f41fdd181b470c49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.nonblank","kind":"function","src_hash":"fbb8f55b78f31581","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nonblank(arg)","rhs":"nonblank produces the expected output","over":{"base":"Any"},"name":"nonblank_correct"},"guarantee":"nonblank produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.nonblank_correct","statement":"Path(nonblank(x), nonblank produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f41fdd181b470c49"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.nonblank","kind":"function","src_hash":"fbb8f55b78f31581","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nonblank(args)","rhs":"<unspecified:nonblank>","over":{"base":"Any"},"name":"nonblank_correct"},"guarantee":"nonblank produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.nonblank_correct","statement":"Path(nonblank(x), nonblank produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f41fdd181b470c49","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def nonblank(args):
     for line in args:
         line = trim(line)
@@ -173,32 +218,47 @@ def nonblank(args):
     return
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fullsplit(lin), id) over Any                          ║
+# ║ Path(fullsplit(line), id) over {Any | hasattr(line, 'split')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fullsplit : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(line, 'split')                         ║
+# ║   returns:  (fixcommand(words[0]), [s.strip() for s i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fullsplit : {Any | hasattr(line, 'split')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 17eb7ee77fa93608   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.fullsplit","kind":"function","src_hash":"c57fe2f794c93e62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fullsplit(lin)","rhs":"fullsplit produces the expected output","over":{"base":"Any"},"name":"fullsplit_correct","kind":"composition"},"guarantee":"fullsplit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fixcommand","by":"library_axiom"},{"fn":"strip","by":"library_axiom"},{"fn":"split","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17eb7ee77fa93608"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.fullsplit","kind":"function","src_hash":"c57fe2f794c93e62","in":{"base":"Any","pred":"hasattr(line, 'split')"},"out":{"base":"Any"},"spec":{"lhs":"fullsplit(line)","rhs":"(fixcommand(words[0]), [s.strip() for s in rest.split(',')])","over":{"base":"Any","pred":"hasattr(line, 'split')"},"name":"fullsplit_correct","kind":"composition"},"guarantee":"returns (fixcommand(words[0]), [s.strip() for s in rest.split(',')])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fixcommand","by":"library_axiom"},{"fn":"strip","by":"library_axiom"},{"fn":"split","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17eb7ee77fa93608","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(line, 'split')"],"returns_expr":"(fixcommand(words[0]), [s.strip() for s in rest.split(',')])","pure":false,"effects":{"effect_type":"reads_state","reads":["line.split"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def fullsplit(line):
     words = line.split()
     rest = ' '.join(words[1:])
     return fixcommand(words[0]), [s.strip() for s in rest.split(',')]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fixcommand(c), fix qasm command names) over Any       ║
+# ║ Path(fixcommand(c), <unspecified:fixcommand>) over {Any | hasattr(c, 'lower') and hasattr(c, 'replace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fixcommand : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(c, 'lower')                            ║
+# ║   requires: hasattr(c, 'replace')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fixcommand : {Any | hasattr(c, 'lower') and hasattr(c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd90a1028bda63ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.fixcommand","kind":"function","src_hash":"61588a9e6ff979d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fixcommand(c)","rhs":"fix qasm command names","over":{"base":"Any"},"name":"fixcommand_correct"},"guarantee":"fix qasm command names","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.fixcommand_correct","statement":"Path(fixcommand(x), fix qasm command names)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd90a1028bda63ac"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.fixcommand","kind":"function","src_hash":"61588a9e6ff979d5","in":{"base":"Any","pred":"hasattr(c, 'lower') and hasattr(c, 'replace')"},"out":{"base":"Any"},"spec":{"lhs":"fixcommand(c)","rhs":"<unspecified:fixcommand>","over":{"base":"Any","pred":"hasattr(c, 'lower') and hasattr(c, 'replace')"},"name":"fixcommand_correct"},"guarantee":"fix qasm command names","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.fixcommand_correct","statement":"Path(fixcommand(x), fix qasm command names)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd90a1028bda63ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(c, 'lower')","hasattr(c, 'replace')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["c.lower","c.replace"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def fixcommand(c):
     """Fix Qasm command names.
 
@@ -214,16 +274,24 @@ def fixcommand(c):
     return c
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stripquotes(s), replace explicit quotes in a string) over Any ║
+# ║ Path(stripquotes(s), s) over {Any | hasattr(s, 'replace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ stripquotes : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s, 'replace')                          ║
+# ║   ensures:  result == s                                    ║
+# ║   returns:  s                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ stripquotes : {Any | hasattr(s, 'replace')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 454f2d52d724e535  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 666a7edbf9e15436  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.stripquotes","kind":"function","src_hash":"bd682b785760c34d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stripquotes(s)","rhs":"replace explicit quotes in a string","over":{"base":"Any"},"name":"stripquotes_correct"},"guarantee":"replace explicit quotes in a string","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.stripquotes_correct","statement":"Path(stripquotes(x), replace explicit quotes in a string)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"454f2d52d724e535"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.stripquotes","kind":"function","src_hash":"bd682b785760c34d","in":{"base":"Any","pred":"hasattr(s, 'replace')"},"out":{"base":"Any","pred":"result satisfies: result == (s)"},"spec":{"lhs":"stripquotes(s)","rhs":"s","over":{"base":"Any","pred":"hasattr(s, 'replace')"},"name":"stripquotes_correct"},"guarantee":"returns s; result == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.stripquotes_correct","statement":"Path(stripquotes(x), returns s; result == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"666a7edbf9e15436","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s, 'replace')"],"ensures":["result == s"],"returns_expr":"s","pure":false,"effects":{"effect_type":"reads_state","reads":["s.replace"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def stripquotes(s):
     """Replace explicit quotes in a string.
 
@@ -242,14 +310,19 @@ def stripquotes(s):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Qasm instance) preserved by Qasm(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Qasm : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d207a00d771f6582  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm","kind":"class","src_hash":"6a1c61a402b81ff3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Qasm(*args)","rhs":"correctly constructs a Qasm instance","over":{"base":"Any"},"name":"Qasm_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Qasm instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'defs') and hasattr(self, 'circuit') and hasattr(self, 'labels') and hasattr(self, 'inits') and hasattr(self, 'kwargs')","kind":"class","induction":"structural on defs, circuit, labels, inits"}],"methods_preserving":["__init__","add","get_circuit","get_labels","plot","qubit","indices","index","nop","x","z","h","s","t","measure","cnot","swap","cphase","toffoli","cx","cz","defbox","qdef"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d207a00d771f6582"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm","kind":"class","src_hash":"6a1c61a402b81ff3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Qasm(*args)","rhs":"correctly constructs a Qasm instance","over":{"base":"Any"},"name":"Qasm_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'defs') and hasattr(self, 'circuit') and hasattr(self, 'labels') and hasattr(self, 'inits') and hasattr(self, 'kwargs')","kind":"class","induction":"structural on defs, circuit, labels, inits"}],"methods_preserving":["__init__","add","get_circuit","get_labels","plot","qubit","indices","index","nop","x","z","h","s","t","measure","cnot","swap","cphase","toffoli","cx","cz","defbox","qdef"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d207a00d771f6582","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'defs')","hasattr(self, 'circuit')","hasattr(self, 'labels')","hasattr(self, 'inits')","hasattr(self, 'kwargs')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Qasm not found in source"]}}
 class Qasm:
     """Class to form objects from Qasm lines
 
@@ -262,16 +335,22 @@ class Qasm:
     CNOT(1,0)*CNOT(0,1)*CNOT(1,0)
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d15bdc06c749ccdb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.__init__","kind":"method","src_hash":"834c34b5c2e4b4c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d15bdc06c749ccdb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.__init__","kind":"method","src_hash":"834c34b5c2e4b4c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d15bdc06c749ccdb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.add"],"writes":["self.circuit","self.defs","self.inits","self.kwargs","self.labels"],"calls_mutating":["self.add"]},"state_contract":{"modifies":["self.*","self.circuit","self.defs","self.inits","self.kwargs","self.labels"],"old_bindings":{"old_self_circuit":"self.circuit","old_self_defs":"self.defs","old_self_inits":"self.inits","old_self_kwargs":"self.kwargs","old_self_labels":"self.labels"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
         self.defs = {}
         self.circuit = []
@@ -281,16 +360,22 @@ class Qasm:
         self.kwargs = kwargs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(*li), add produces the expected output) over Any  ║
+# ║ Path(add(*lines), len(self) == old_len_self + 1) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add : Any → {Any | result satisfies: len(self) == old...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a070a428060911dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bbcb5968dd439ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.add","kind":"method","src_hash":"e2dbdbf3eb784714","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add(*li)","rhs":"add produces the expected output","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.add_correct","statement":"Path(add(x), add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a070a428060911dd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.add","kind":"method","src_hash":"e2dbdbf3eb784714","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"add(*lines)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"add_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.add_correct","statement":"Path(add(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bbcb5968dd439ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"io","reads":["self.circuit","self.defs","self.indices"],"calls_mutating":["self.circuit.append"],"io_operations":["print"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add(self, *lines):
         for line in nonblank(lines):
             command, rest = fullsplit(line)
@@ -308,302 +393,428 @@ class Qasm:
                 print("Function %s not defined. Skipping" % command)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_circuit(), get_circuit produces the expected output) over Any ║
+# ║ Path(get_circuit(), prod(reversed(self.circuit))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prod(reversed(self.circuit))                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_circuit : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6f13f3de58d67082           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.get_circuit","kind":"method","src_hash":"6bf2ec090def94a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_circuit()","rhs":"get_circuit produces the expected output","over":{"base":"Any"},"name":"get_circuit_correct"},"guarantee":"get_circuit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f13f3de58d67082"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.get_circuit","kind":"method","src_hash":"6bf2ec090def94a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_circuit()","rhs":"prod(reversed(self.circuit))","over":{"base":"Any"},"name":"get_circuit_correct"},"guarantee":"returns prod(reversed(self.circuit))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f13f3de58d67082","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prod(reversed(self.circuit))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.circuit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_circuit(self):
         return prod(reversed(self.circuit))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_labels(), get_labels produces the expected output) over Any ║
+# ║ Path(get_labels(), list(reversed(self.labels))) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  list(reversed(self.labels))                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_labels : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 235c1a29300e26a2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.get_labels","kind":"method","src_hash":"05c16ec850afd232","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_labels()","rhs":"get_labels produces the expected output","over":{"base":"Any"},"name":"get_labels_correct"},"guarantee":"get_labels produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"235c1a29300e26a2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.get_labels","kind":"method","src_hash":"05c16ec850afd232","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_labels()","rhs":"list(reversed(self.labels))","over":{"base":"Any"},"name":"get_labels_correct"},"guarantee":"returns list(reversed(self.labels))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"235c1a29300e26a2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"list(reversed(self.labels))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.labels"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_labels(self):
         return list(reversed(self.labels))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot(), plot produces the expected output) over Any   ║
+# ║ Path(plot(), <unspecified:plot>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ plot : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 024f8579e0584942  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.plot","kind":"method","src_hash":"c1d152e5b0ad6365","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot()","rhs":"plot produces the expected output","over":{"base":"Any"},"name":"plot_correct"},"guarantee":"plot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.plot_correct","statement":"Path(plot(x), plot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"024f8579e0584942"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.plot","kind":"method","src_hash":"c1d152e5b0ad6365","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"plot()","rhs":"<unspecified:plot>","over":{"base":"Any"},"name":"plot_correct"},"guarantee":"plot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.plot_correct","statement":"Path(plot(x), plot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"024f8579e0584942","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.get_circuit","self.get_labels","self.inits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def plot(self):
         from sympy.physics.quantum.circuitplot import CircuitPlot
         circuit, labels = self.get_circuit(), self.get_labels()
         CircuitPlot(circuit, len(labels), labels=labels, inits=self.inits)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(qubit(arg), qubit produces the expected output) over Any ║
+# ║ Path(qubit(arg, init), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ qubit : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ qubit : Any → {Any | result satisfies: len(self) == o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06f9348395babe6a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 239845e19ac260d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.qubit","kind":"method","src_hash":"0d3b4b1b07c62af1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qubit(arg)","rhs":"qubit produces the expected output","over":{"base":"Any"},"name":"qubit_correct"},"guarantee":"qubit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.qubit_correct","statement":"Path(qubit(x), qubit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06f9348395babe6a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.qubit","kind":"method","src_hash":"0d3b4b1b07c62af1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"qubit(arg, init)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"qubit_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.qubit_correct","statement":"Path(qubit(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"239845e19ac260d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.inits","self.labels"],"calls_mutating":["self.labels.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def qubit(self, arg, init=None):
         self.labels.append(arg)
         if init: self.inits[arg] = init
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(indices(arg), indices produces the expected output) over Any ║
+# ║ Path(indices(args), get_indices(args, self.labels)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  get_indices(args, self.labels)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ indices : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | db507a39d67577ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.indices","kind":"method","src_hash":"191a322d72c4f14b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indices(arg)","rhs":"indices produces the expected output","over":{"base":"Any"},"name":"indices_correct"},"guarantee":"indices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db507a39d67577ce"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.indices","kind":"method","src_hash":"191a322d72c4f14b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indices(args)","rhs":"get_indices(args, self.labels)","over":{"base":"Any"},"name":"indices_correct"},"guarantee":"returns get_indices(args, self.labels)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db507a39d67577ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"get_indices(args, self.labels)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.labels"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def indices(self, args):
         return get_indices(args, self.labels)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(arg), index produces the expected output) over Any ║
+# ║ Path(index(arg), get_index(arg, self.labels)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  get_index(arg, self.labels)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ index : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b2f52d31ae82d918           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.index","kind":"method","src_hash":"f20b8eca27b32a46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(arg)","rhs":"index produces the expected output","over":{"base":"Any"},"name":"index_correct"},"guarantee":"index produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2f52d31ae82d918"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.index","kind":"method","src_hash":"f20b8eca27b32a46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(arg)","rhs":"get_index(arg, self.labels)","over":{"base":"Any"},"name":"index_correct"},"guarantee":"returns get_index(arg, self.labels)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b2f52d31ae82d918","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"get_index(arg, self.labels)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.labels"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self, arg):
         return get_index(arg, self.labels)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nop(*ar), nop produces the expected output) over Any  ║
+# ║ Path(nop(*args), <unspecified:nop>) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nop : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 172cbdefa5155714           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.nop","kind":"method","src_hash":"b817db90159edbd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nop(*ar)","rhs":"nop produces the expected output","over":{"base":"Any"},"name":"nop_correct"},"guarantee":"nop produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"172cbdefa5155714"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.nop","kind":"method","src_hash":"b817db90159edbd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nop(*args)","rhs":"<unspecified:nop>","over":{"base":"Any"},"name":"nop_correct"},"guarantee":"nop produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"172cbdefa5155714","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nop(self, *args):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(x(arg), x produces the expected output) over Any      ║
+# ║ Path(x(arg), len(self) == old_len_self + 1) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ x : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ x : Any → {Any | result satisfies: len(self) == old_l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cadbfb2acc652db  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d3040007971c72e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.x","kind":"method","src_hash":"6787eb7847df2392","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"x(arg)","rhs":"x produces the expected output","over":{"base":"Any"},"name":"x_correct"},"guarantee":"x produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.x_correct","statement":"Path(x(x), x produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cadbfb2acc652db"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.x","kind":"method","src_hash":"6787eb7847df2392","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"x(arg)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"x_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.x_correct","statement":"Path(x(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d3040007971c72e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.circuit","self.index"],"calls_mutating":["self.circuit.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def x(self, arg):
         self.circuit.append(X(self.index(arg)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(z(arg), z produces the expected output) over Any      ║
+# ║ Path(z(arg), len(self) == old_len_self + 1) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ z : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ z : Any → {Any | result satisfies: len(self) == old_l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c32827dc04c42d77  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3d81a9740cfcac8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.z","kind":"method","src_hash":"dcc201ea0da7ea0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"z(arg)","rhs":"z produces the expected output","over":{"base":"Any"},"name":"z_correct"},"guarantee":"z produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.z_correct","statement":"Path(z(x), z produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c32827dc04c42d77"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.z","kind":"method","src_hash":"dcc201ea0da7ea0d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"z(arg)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"z_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.z_correct","statement":"Path(z(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3d81a9740cfcac8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.circuit","self.index"],"calls_mutating":["self.circuit.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def z(self, arg):
         self.circuit.append(Z(self.index(arg)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(h(arg), h produces the expected output) over Any      ║
+# ║ Path(h(arg), len(self) == old_len_self + 1) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ h : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ h : Any → {Any | result satisfies: len(self) == old_l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 552974e6e3afdab6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17d6ac13873803eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.h","kind":"method","src_hash":"580404b003d355c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"h(arg)","rhs":"h produces the expected output","over":{"base":"Any"},"name":"h_correct"},"guarantee":"h produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.h_correct","statement":"Path(h(x), h produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"552974e6e3afdab6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.h","kind":"method","src_hash":"580404b003d355c6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"h(arg)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"h_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.h_correct","statement":"Path(h(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17d6ac13873803eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.circuit","self.index"],"calls_mutating":["self.circuit.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def h(self, arg):
         self.circuit.append(H(self.index(arg)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(s(arg), s produces the expected output) over Any      ║
+# ║ Path(s(arg), len(self) == old_len_self + 1) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ s : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ s : Any → {Any | result satisfies: len(self) == old_l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ea508f1cb7e9773  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48af492ad7082aac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.s","kind":"method","src_hash":"4146094f40cca8c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"s(arg)","rhs":"s produces the expected output","over":{"base":"Any"},"name":"s_correct"},"guarantee":"s produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.s_correct","statement":"Path(s(x), s produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ea508f1cb7e9773"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.s","kind":"method","src_hash":"4146094f40cca8c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"s(arg)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"s_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.s_correct","statement":"Path(s(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48af492ad7082aac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.circuit","self.index"],"calls_mutating":["self.circuit.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def s(self, arg):
         self.circuit.append(S(self.index(arg)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(t(arg), t produces the expected output) over Any      ║
+# ║ Path(t(arg), len(self) == old_len_self + 1) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ t : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ t : Any → {Any | result satisfies: len(self) == old_l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 831215530d9ba05b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b372755db116ee5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.t","kind":"method","src_hash":"c4708546c42d11c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"t(arg)","rhs":"t produces the expected output","over":{"base":"Any"},"name":"t_correct"},"guarantee":"t produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.t_correct","statement":"Path(t(x), t produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"831215530d9ba05b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.t","kind":"method","src_hash":"c4708546c42d11c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"t(arg)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"t_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.t_correct","statement":"Path(t(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b372755db116ee5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.circuit","self.index"],"calls_mutating":["self.circuit.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def t(self, arg):
         self.circuit.append(T(self.index(arg)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(measure(arg), measure produces the expected output) over Any ║
+# ║ Path(measure(arg), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ measure : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ measure : Any → {Any | result satisfies: len(self) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d9759e2369cb358  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0de04796c7e2d3f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.measure","kind":"method","src_hash":"2cb6b686720e83d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"measure(arg)","rhs":"measure produces the expected output","over":{"base":"Any"},"name":"measure_correct"},"guarantee":"measure produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.measure_correct","statement":"Path(measure(x), measure produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d9759e2369cb358"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.measure","kind":"method","src_hash":"2cb6b686720e83d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"measure(arg)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"measure_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.measure_correct","statement":"Path(measure(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0de04796c7e2d3f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.circuit","self.index"],"calls_mutating":["self.circuit.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def measure(self, arg):
         self.circuit.append(Mz(self.index(arg)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cnot(a1,), cnot produces the expected output) over Any ║
+# ║ Path(cnot(a1, a2), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cnot : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cnot : Any → {Any | result satisfies: len(self) == ol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8359d2f4c54bbfcd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eac2f0265d1cd9ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.cnot","kind":"method","src_hash":"dfbd3043efef07f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cnot(a1,)","rhs":"cnot produces the expected output","over":{"base":"Any"},"name":"cnot_correct"},"guarantee":"cnot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.cnot_correct","statement":"Path(cnot(x), cnot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8359d2f4c54bbfcd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.cnot","kind":"method","src_hash":"dfbd3043efef07f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"cnot(a1, a2)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"cnot_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.cnot_correct","statement":"Path(cnot(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eac2f0265d1cd9ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.circuit","self.indices"],"calls_mutating":["self.circuit.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cnot(self, a1, a2):
         self.circuit.append(CNOT(*self.indices([a1, a2])))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(swap(a1,), swap produces the expected output) over Any ║
+# ║ Path(swap(a1, a2), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ swap : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ swap : Any → {Any | result satisfies: len(self) == ol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93d9b5c1285cdfa3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d735888027abd56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.swap","kind":"method","src_hash":"ec0c247353b59dfc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"swap(a1,)","rhs":"swap produces the expected output","over":{"base":"Any"},"name":"swap_correct"},"guarantee":"swap produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.swap_correct","statement":"Path(swap(x), swap produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93d9b5c1285cdfa3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.swap","kind":"method","src_hash":"ec0c247353b59dfc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"swap(a1, a2)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"swap_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.swap_correct","statement":"Path(swap(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d735888027abd56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.circuit","self.indices"],"calls_mutating":["self.circuit.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def swap(self, a1, a2):
         self.circuit.append(SWAP(*self.indices([a1, a2])))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cphase(a1,), cphase produces the expected output) over Any ║
+# ║ Path(cphase(a1, a2), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cphase : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cphase : Any → {Any | result satisfies: len(self) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fba9bcb0f9900e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29f32e065e5a509a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.cphase","kind":"method","src_hash":"b0f2416b6e0d447b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cphase(a1,)","rhs":"cphase produces the expected output","over":{"base":"Any"},"name":"cphase_correct"},"guarantee":"cphase produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.cphase_correct","statement":"Path(cphase(x), cphase produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fba9bcb0f9900e7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.cphase","kind":"method","src_hash":"b0f2416b6e0d447b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"cphase(a1, a2)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"cphase_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.cphase_correct","statement":"Path(cphase(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29f32e065e5a509a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.circuit","self.indices"],"calls_mutating":["self.circuit.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cphase(self, a1, a2):
         self.circuit.append(CPHASE(*self.indices([a1, a2])))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(toffoli(a1,), toffoli produces the expected output) over Any ║
+# ║ Path(toffoli(a1, a2, a3), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ toffoli : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ toffoli : Any → {Any | result satisfies: len(self) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49f913e598f660eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56e47aab624d7d95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.toffoli","kind":"method","src_hash":"c07373b844722e76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"toffoli(a1,)","rhs":"toffoli produces the expected output","over":{"base":"Any"},"name":"toffoli_correct"},"guarantee":"toffoli produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.toffoli_correct","statement":"Path(toffoli(x), toffoli produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49f913e598f660eb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.toffoli","kind":"method","src_hash":"c07373b844722e76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"toffoli(a1, a2, a3)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"toffoli_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.toffoli_correct","statement":"Path(toffoli(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56e47aab624d7d95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.circuit","self.indices"],"calls_mutating":["self.circuit.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def toffoli(self, a1, a2, a3):
         i1, i2, i3 = self.indices([a1, a2, a3])
         self.circuit.append(CGateS((i1, i2), X(i3)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cx(a1,), cx produces the expected output) over Any    ║
+# ║ Path(cx(a1, a2), len(self) == old_len_self + 1) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cx : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cx : Any → {Any | result satisfies: len(self) == old_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0aec943c967312c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4809ac78097a459f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.cx","kind":"method","src_hash":"81756bc90d0d4a2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cx(a1,)","rhs":"cx produces the expected output","over":{"base":"Any"},"name":"cx_correct"},"guarantee":"cx produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.cx_correct","statement":"Path(cx(x), cx produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0aec943c967312c4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.cx","kind":"method","src_hash":"81756bc90d0d4a2e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"cx(a1, a2)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"cx_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.cx_correct","statement":"Path(cx(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4809ac78097a459f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.circuit","self.indices"],"calls_mutating":["self.circuit.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cx(self, a1, a2):
         fi, fj = self.indices([a1, a2])
         self.circuit.append(CGate(fi, X(fj)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cz(a1,), cz produces the expected output) over Any    ║
+# ║ Path(cz(a1, a2), len(self) == old_len_self + 1) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cz : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cz : Any → {Any | result satisfies: len(self) == old_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7c6ea12470459af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a008167cbef96c38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.cz","kind":"method","src_hash":"4e3ad57058941399","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cz(a1,)","rhs":"cz produces the expected output","over":{"base":"Any"},"name":"cz_correct"},"guarantee":"cz produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.cz_correct","statement":"Path(cz(x), cz produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7c6ea12470459af"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.cz","kind":"method","src_hash":"4e3ad57058941399","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"cz(a1, a2)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"cz_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.cz_correct","statement":"Path(cz(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a008167cbef96c38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.circuit","self.indices"],"calls_mutating":["self.circuit.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cz(self, a1, a2):
         fi, fj = self.indices([a1, a2])
         self.circuit.append(CGate(fi, Z(fj)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(defbox(*ar), defbox produces the expected output) over Any ║
+# ║ Path(defbox(*args), <unspecified:defbox>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ defbox : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14dabece06f8f5ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.defbox","kind":"method","src_hash":"f92e04f8c00b0b94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"defbox(*ar)","rhs":"defbox produces the expected output","over":{"base":"Any"},"name":"defbox_correct"},"guarantee":"defbox produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.defbox_correct","statement":"Path(defbox(x), defbox produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14dabece06f8f5ed"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.defbox","kind":"method","src_hash":"f92e04f8c00b0b94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"defbox(*args)","rhs":"<unspecified:defbox>","over":{"base":"Any"},"name":"defbox_correct"},"guarantee":"defbox produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.defbox_correct","statement":"Path(defbox(x), defbox produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14dabece06f8f5ed","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def defbox(self, *args):
         print("defbox not supported yet. Skipping: ", args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(qdef(nam), qdef produces the expected output) over Any ║
+# ║ Path(qdef(name, ncontrols, symbol), <unspecified:qdef>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ qdef : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 025edb364f0a91d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.qdef","kind":"method","src_hash":"8b570285e3e63172","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qdef(nam)","rhs":"qdef produces the expected output","over":{"base":"Any"},"name":"qdef_correct"},"guarantee":"qdef produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.qdef_correct","statement":"Path(qdef(x), qdef produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"025edb364f0a91d3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.qasm.Qasm.qdef","kind":"method","src_hash":"8b570285e3e63172","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"qdef(name, ncontrols, symbol)","rhs":"<unspecified:qdef>","over":{"base":"Any"},"name":"qdef_correct"},"guarantee":"qdef produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.qasm.Qasm.qdef_correct","statement":"Path(qdef(x), qdef produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"025edb364f0a91d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.defs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def qdef(self, name, ncontrols, symbol):
         from sympy.physics.quantum.circuitplot import CreateOneQubitGate, CreateCGate
         ncontrols = int(ncontrols)

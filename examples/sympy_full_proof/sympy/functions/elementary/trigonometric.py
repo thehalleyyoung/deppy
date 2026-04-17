@@ -48,7 +48,14 @@ from sympy.utilities.iterables import numbered_symbols
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_imaginary_unit_as_coefficient(arg), helper to extract symbolic coefficient for imaginary unit) over {Any | isinstance(arg, Float)} ║
+# ║ Path(_imaginary_unit_as_coefficient(arg), result == (None if isinstance(arg, Float) else arg.as_coefficient(S.ImaginaryUnit)) and result == None or result == arg.as_coefficient(S.ImaginaryUnit)) over {Any | isinstance(arg, Float) and hasattr(arg, 'as_coefficient')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'as_coefficient')                 ║
+# ║   ensures:  result == (None if isinstance(arg, Float)...   ║
+# ║   ensures:  result == None or result == arg.as_coeffi...   ║
+# ║   fiber[Float]: isinstance(arg, Float) => None             ║
+# ║   fiber[Float]: not (isinstance(arg, Float)) => arg.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _imaginary_unit_as_coefficient : {Any | isinstance(ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -60,9 +67,12 @@ from sympy.utilities.iterables import numbered_symbols
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e672e002...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric._imaginary_unit_as_coefficient","kind":"function","src_hash":"f8aad25ac7631bf5","in":{"base":"Any","pred":"isinstance(arg, Float)"},"out":{"base":"Any"},"spec":{"lhs":"_imaginary_unit_as_coefficient(arg)","rhs":"helper to extract symbolic coefficient for imaginary unit","over":{"base":"Any","pred":"isinstance(arg, Float)"},"name":"_imaginary_unit_as_coefficient_correct"},"guarantee":"helper to extract symbolic coefficient for imaginary unit","fibers":[{"name":"Float","pred":"isinstance(arg, Float)","path":{"lhs":"_imaginary_unit_as_coefficient(x)","rhs":"helper to extract symbolic coefficient for imaginary unit","over":{"base":"Float","pred":"isinstance(arg, Float)"},"name":"_imaginary_unit_as_coefficient_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric._imaginary_unit_as_coefficient_Float_correct","statement":"_imaginary_unit_as_coefficient satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e672e00208a0c25b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric._imaginary_unit_as_coefficient","kind":"function","src_hash":"f8aad25ac7631bf5","in":{"base":"Any","pred":"isinstance(arg, Float) and hasattr(arg, 'as_coefficient')"},"out":{"base":"Any","pred":"result satisfies: result == (None if isinstance(arg, Float) else arg.as_coefficient(S.ImaginaryUnit)) and result == None or result == arg.as_coefficient(S.ImaginaryUnit)"},"spec":{"lhs":"_imaginary_unit_as_coefficient(arg)","rhs":"result == (None if isinstance(arg, Float) else arg.as_coefficient(S.ImaginaryUnit)) and result == None or result == arg.as_coefficient(S.ImaginaryUnit)","over":{"base":"Any","pred":"isinstance(arg, Float) and hasattr(arg, 'as_coefficient')"},"name":"_imaginary_unit_as_coefficient_correct"},"guarantee":"result == (None if isinstance(arg, Float) else arg.as_coefficient(S.ImaginaryUnit)); result == None or result == arg.as_coefficient(S.ImaginaryUnit); 2-fiber decomposition","fibers":[{"name":"Float","pred":"isinstance(arg, Float)","path":{"lhs":"_imaginary_unit_as_coefficient(x)","rhs":"result == (None if isinstance(arg, Float) else arg.as_coefficient(S.ImaginaryUnit)); result == None or result == arg.as_coefficient(S.ImaginaryUnit); 2-fiber decomposition","over":{"base":"Float","pred":"isinstance(arg, Float)"},"name":"_imaginary_unit_as_coefficient_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric._imaginary_unit_as_coefficient_Float_correct","statement":"_imaginary_unit_as_coefficient satisfies spec on Float inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e672e00208a0c25b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'as_coefficient')"],"ensures":["result == (None if isinstance(arg, Float) else arg.as_coefficient(S.ImaginaryUnit))","result == None or result == arg.as_coefficient(S.ImaginaryUnit)"],"fibers":[{"name":"Float","guard":"isinstance(arg, Float)","ensures":["result == None"],"decidability":"structural","returns_expr":"None"},{"name":"Float","guard":"not (isinstance(arg, Float))","ensures":["result == arg.as_coefficient(S.ImaginaryUnit)"],"decidability":"structural","returns_expr":"arg.as_coefficient(S.ImaginaryUnit)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.as_coefficient"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, Float)'}, fibers={'Float'})"]}}
 def _imaginary_unit_as_coefficient(arg):
     """ Helper to extract symbolic coefficient for imaginary unit """
     if isinstance(arg, Float):
@@ -78,14 +88,20 @@ def _imaginary_unit_as_coefficient(arg):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TrigonometricFunction(*args), correctly constructs a TrigonometricFunction instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TrigonometricFunction : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TrigonometricFunction : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65c41b0d290d10a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.TrigonometricFunction","kind":"class","src_hash":"94c1f162dd721508","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TrigonometricFunction(*args)","rhs":"correctly constructs a TrigonometricFunction instance","over":{"base":"Any"},"name":"TrigonometricFunction_class_invariant"},"guarantee":"correctly constructs a TrigonometricFunction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65c41b0d290d10a3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.TrigonometricFunction","kind":"class","src_hash":"94c1f162dd721508","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"TrigonometricFunction(*args)","rhs":"correctly constructs a TrigonometricFunction instance","over":{"base":"Any"},"name":"TrigonometricFunction_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65c41b0d290d10a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function TrigonometricFunction not found in source"]}}
 class TrigonometricFunction(DefinedFunction):
     """Base class for trigonometric functions. """
 
@@ -93,16 +109,23 @@ class TrigonometricFunction(DefinedFunction):
     _singularities = (S.ComplexInfinity,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_rational(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_rational(), <unspecified:_eval_is_rational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: s.func == self.func                       ║
+# ║   fiber[case_1]: not (s.func == self.func) => s.is_ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_rational : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fb3a925544ed942  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdbcbf626e172c5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.TrigonometricFunction._eval_is_rational","kind":"method","src_hash":"b6b9eecc0d6237bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.TrigonometricFunction._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fb3a925544ed942"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.TrigonometricFunction._eval_is_rational","kind":"method","src_hash":"b6b9eecc0d6237bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"<unspecified:_eval_is_rational>","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.TrigonometricFunction._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdbcbf626e172c5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"s.func == self.func","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (s.func == self.func)","ensures":["result == s.is_rational"],"decidability":"z3","returns_expr":"s.is_rational"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_rational(self):
         s = self.func(*self.args)
         if s.func == self.func:
@@ -112,16 +135,23 @@ class TrigonometricFunction(DefinedFunction):
             return s.is_rational
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_algebraic(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_algebraic(), <unspecified:_eval_is_algebraic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: s.func == self.func                       ║
+# ║   fiber[case_1]: not (s.func == self.func) => s.is_al...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_algebraic : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e19e2f2d85b1aecc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1033febab6c843c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.TrigonometricFunction._eval_is_algebraic","kind":"method","src_hash":"be5b9f421e770730","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_algebraic()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_algebraic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.TrigonometricFunction._eval_is_algebraic_correct","statement":"Path(_eval_is_algebraic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e19e2f2d85b1aecc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.TrigonometricFunction._eval_is_algebraic","kind":"method","src_hash":"be5b9f421e770730","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_algebraic()","rhs":"<unspecified:_eval_is_algebraic>","over":{"base":"Any"},"name":"_eval_is_algebraic_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.TrigonometricFunction._eval_is_algebraic_correct","statement":"Path(_eval_is_algebraic(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1033febab6c843c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"s.func == self.func","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (s.func == self.func)","ensures":["result == s.is_algebraic"],"decidability":"z3","returns_expr":"s.is_algebraic"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_algebraic(self):
         s = self.func(*self.args)
         if s.func == self.func:
@@ -134,31 +164,43 @@ class TrigonometricFunction(DefinedFunction):
             return s.is_algebraic
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_complex(dee), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_expand_complex(deep, **hints), re_part + im_part * S.ImaginaryUnit) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  re_part + im_part * S.ImaginaryUnit            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_complex : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfb456c5825e07b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee967741496a57cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.TrigonometricFunction._eval_expand_complex","kind":"method","src_hash":"70f5fc8baa1d2545","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_complex(dee)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_complex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.TrigonometricFunction._eval_expand_complex_correct","statement":"Path(_eval_expand_complex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfb456c5825e07b0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.TrigonometricFunction._eval_expand_complex","kind":"method","src_hash":"70f5fc8baa1d2545","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_complex(deep, **hints)","rhs":"re_part + im_part * S.ImaginaryUnit","over":{"base":"Any"},"name":"_eval_expand_complex_correct"},"guarantee":"returns re_part + im_part * S.ImaginaryUnit","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.TrigonometricFunction._eval_expand_complex_correct","statement":"Path(_eval_expand_complex(x), returns re_part + im_part * S.ImaginaryUnit)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee967741496a57cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"re_part + im_part * S.ImaginaryUnit","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_real_imag"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_complex(self, deep=True, **hints):
         re_part, im_part = self.as_real_imag(deep=deep, **hints)
         return re_part + im_part*S.ImaginaryUnit
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_as_real_imag(dee), internal helper behaves correctly) over Any ║
+# ║ Path(_as_real_imag(deep, **hints), <unspecified:_as_real_imag>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _as_real_imag : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 787d0265e217b39e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.TrigonometricFunction._as_real_imag","kind":"method","src_hash":"0ed7bfb52120e8c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_real_imag(dee)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_as_real_imag_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.TrigonometricFunction._as_real_imag_correct","statement":"Path(_as_real_imag(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"787d0265e217b39e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.TrigonometricFunction._as_real_imag","kind":"method","src_hash":"0ed7bfb52120e8c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_as_real_imag(deep, **hints)","rhs":"<unspecified:_as_real_imag>","over":{"base":"Any"},"name":"_as_real_imag_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.TrigonometricFunction._as_real_imag_correct","statement":"Path(_as_real_imag(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"787d0265e217b39e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _as_real_imag(self, deep=True, **hints):
         if self.args[0].is_extended_real:
             if deep:
@@ -173,16 +215,22 @@ class TrigonometricFunction(DefinedFunction):
         return (re, im)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_period(gen), internal helper behaves correctly) over Any ║
+# ║ Path(_period(general_period, symbol), <unspecified:_period>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _period : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a509d006bcd52f15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.TrigonometricFunction._period","kind":"method","src_hash":"cb40c260638a1654","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_period(gen)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_period_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.TrigonometricFunction._period_correct","statement":"Path(_period(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a509d006bcd52f15"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.TrigonometricFunction._period","kind":"method","src_hash":"cb40c260638a1654","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_period(general_period, symbol)","rhs":"<unspecified:_period>","over":{"base":"Any"},"name":"_period_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.TrigonometricFunction._period_correct","statement":"Path(_period(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a509d006bcd52f15","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _period(self, general_period, symbol=None):
         f = expand_mul(self.args[0])
         if symbol is None:
@@ -211,16 +259,22 @@ class TrigonometricFunction(DefinedFunction):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_table2(), internal helper behaves correctly) over Any ║
+# ║ Path(_table2(), {12: (3, 4), 20: (4, 5), 30: (5, 6), 15: (6, 10), 24: (6, 8), 40: (8, 10), 60: (20, 30), 120: (40, 60)}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {12: (3, 4), 20: (4, 5), 30: (5, 6), 15: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _table2 : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6a7592bf1171b52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ed351e4bcf4ccb7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric._table2","kind":"function","src_hash":"704a72a66f3508eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_table2()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_table2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric._table2_correct","statement":"Path(_table2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6a7592bf1171b52"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric._table2","kind":"function","src_hash":"704a72a66f3508eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_table2()","rhs":"{12: (3, 4), 20: (4, 5), 30: (5, 6), 15: (6, 10), 24: (6, 8), 40: (8, 10), 60: (20, 30), 120: (40, 60)}","over":{"base":"Any"},"name":"_table2_correct"},"guarantee":"returns {12: (3, 4), 20: (4, 5), 30: (5, 6), 15: (6, 10), 24: (6, 8), 40: (8, 10), 60: (20, 30), 120: (40, 60)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric._table2_correct","statement":"Path(_table2(x), returns {12: (3, 4), 20: (4, 5), 30: (5, 6), 15: (6, 10), 24: (6, 8), 40: (8, 10), 60: (20, 30), 120: (40, 60)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ed351e4bcf4ccb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{12: (3, 4), 20: (4, 5), 30: (5, 6), 15: (6, 10), 24: (6, 8), 40: (8, 10), 60: (20, 30), 120: (40, 60)}","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _table2():
     # If nested sqrt's are worse than un-evaluation
     # you can require q to be in (1, 2, 3, 4, 6, 12)
@@ -239,16 +293,22 @@ def _table2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_peeloff_pi(arg), split arg into two parts, a "rest" and a multiple of $\pi$. this assumes arg to be an add. the multiple of $\pi$ returned in the second position is always a rational) over Any ║
+# ║ Path(_peeloff_pi(arg), <unspecified:_peeloff_pi>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _peeloff_pi : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0f19bb035d9546f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric._peeloff_pi","kind":"function","src_hash":"6ac765a803d8b377","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_peeloff_pi(arg)","rhs":"split arg into two parts, a \"rest\" and a multiple of $\\pi$. this assumes arg to be an add. the multiple of $\\pi$ returned in the second position is always a rational","over":{"base":"Any"},"name":"_peeloff_pi_correct"},"guarantee":"split arg into two parts, a \"rest\" and a multiple of $\\pi$. this assumes arg to be an add. the multiple of $\\pi$ returned in the second position is always a rational","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric._peeloff_pi_correct","statement":"Path(_peeloff_pi(x), split arg into two parts, a \"rest\" and a multiple of $\\pi$. this assumes arg to be an add. the multiple of $\\pi$ returned in the second position is always a rational)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0f19bb035d9546f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric._peeloff_pi","kind":"function","src_hash":"6ac765a803d8b377","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_peeloff_pi(arg)","rhs":"<unspecified:_peeloff_pi>","over":{"base":"Any"},"name":"_peeloff_pi_correct"},"guarantee":"split arg into two parts, a \"rest\" and a multiple of $\\pi$. this assumes arg to be an add. the multiple of $\\pi$ returned in the second position is always a rational","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric._peeloff_pi_correct","statement":"Path(_peeloff_pi(x), split arg into two parts, a \"rest\" and a multiple of $\\pi$. this assumes arg to be an add. the multiple of $\\pi$ returned in the second position is always a rational)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0f19bb035d9546f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _peeloff_pi(arg):
     r"""
     Split ARG into two parts, a "rest" and a multiple of $\pi$.
@@ -287,16 +347,28 @@ def _peeloff_pi(arg):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pi_coeff(arg), when arg is a number times $\pi$ (e.g) over Expr ║
+# ║ Path(_pi_coeff(arg, cycles), isinstance(result, Expr | None)) over {Expr | isinstance(arg, Expr) and isinstance(cycles, int) and hasattr(arg, 'is_Mul') and hasattr(arg, 'is_zero') and hasattr(arg, 'coeff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pi_coeff : Expr → Expr | None                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(arg, Expr)                          ║
+# ║   requires: isinstance(cycles, int)                        ║
+# ║   requires: hasattr(arg, 'is_Mul')                         ║
+# ║   ensures:  isinstance(result, Expr | None)                ║
+# ║   fiber[case_0]: arg is pi => S.One                        ║
+# ║   fiber[case_1]: not arg => S.Zero                         ║
+# ║   fiber[case_2]: arg.is_Mul                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pi_coeff : {Expr | isinstance(arg, Expr) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93150d0f5edbcf70  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d3c7e69ce7c121b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric._pi_coeff","kind":"function","src_hash":"19ba0015252be018","in":{"base":"Expr"},"out":{"base":"Expr | None"},"spec":{"lhs":"_pi_coeff(arg)","rhs":"when arg is a number times $\\pi$ (e.g","over":{"base":"Expr"},"name":"_pi_coeff_correct"},"guarantee":"when arg is a number times $\\pi$ (e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric._pi_coeff_correct","statement":"Path(_pi_coeff(x), when arg is a number times $\\pi$ (e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93150d0f5edbcf70"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric._pi_coeff","kind":"function","src_hash":"19ba0015252be018","in":{"base":"Expr","pred":"isinstance(arg, Expr) and isinstance(cycles, int) and hasattr(arg, 'is_Mul') and hasattr(arg, 'is_zero') and hasattr(arg, 'coeff')"},"out":{"base":"Expr | None","pred":"result satisfies: isinstance(result, Expr | None)"},"spec":{"lhs":"_pi_coeff(arg, cycles)","rhs":"isinstance(result, Expr | None)","over":{"base":"Expr","pred":"isinstance(arg, Expr) and isinstance(cycles, int) and hasattr(arg, 'is_Mul') and hasattr(arg, 'is_zero') and hasattr(arg, 'coeff')"},"name":"_pi_coeff_correct"},"guarantee":"isinstance(result, Expr | None); 4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric._pi_coeff_correct","statement":"Path(_pi_coeff(x), isinstance(result, Expr | None); 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d3c7e69ce7c121b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(arg, Expr)","isinstance(cycles, int)","hasattr(arg, 'is_Mul')","hasattr(arg, 'is_zero')","hasattr(arg, 'coeff')"],"ensures":["isinstance(result, Expr | None)"],"fibers":[{"name":"case_0","guard":"arg is pi","ensures":["result == S.One"],"decidability":"library","returns_expr":"S.One"},{"name":"case_1","guard":"not arg","ensures":["result == S.Zero"],"decidability":"library","returns_expr":"S.Zero"},{"name":"case_2","guard":"arg.is_Mul","ensures":[],"decidability":"library"},{"name":"case_3","guard":"arg.is_zero","ensures":["result == S.Zero"],"decidability":"library","returns_expr":"S.Zero"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.coeff","arg.is_Mul","arg.is_zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _pi_coeff(arg: Expr, cycles: int = 1) -> Expr | None:
     r"""
     When arg is a Number times $\pi$ (e.g. $3\pi/2$) then return the Number
@@ -375,14 +447,20 @@ def _pi_coeff(arg: Expr, cycles: int = 1) -> Expr | None:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(sin(*args), correctly constructs a sin instance) over {Any | isinstance(arg, AccumBounds) and isinstance(arg, asin) and isinstance(arg, atan)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TrigonometricFunction)        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ sin : {Any | isinstance(arg, AccumBounds) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8dac741f5c0f42b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin","kind":"class","src_hash":"471858f7aa010b83","in":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, asin) and isinstance(arg, atan)"},"out":{"base":"Any"},"spec":{"lhs":"sin(*args)","rhs":"correctly constructs a sin instance","over":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, asin) and isinstance(arg, atan)"},"name":"sin_class_invariant"},"guarantee":"correctly constructs a sin instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8dac741f5c0f42b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin","kind":"class","src_hash":"471858f7aa010b83","in":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, asin) and isinstance(arg, atan)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TrigonometricFunction)"},"spec":{"lhs":"sin(*args)","rhs":"correctly constructs a sin instance","over":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, asin) and isinstance(arg, atan)"},"name":"sin_class_invariant"},"guarantee":"isinstance(self, TrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8dac741f5c0f42b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function sin not found in source"]}}
 class sin(TrigonometricFunction):
     r"""
     The sine function.
@@ -432,30 +510,43 @@ class sin(TrigonometricFunction):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(period(sym), period produces the expected output) over Any ║
+# ║ Path(period(symbol), self._period(2 * pi, symbol)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._period(2 * pi, symbol)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ period : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9b6d6d1e5059a477           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin.period","kind":"method","src_hash":"0acd3268e01a2843","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period(sym)","rhs":"period produces the expected output","over":{"base":"Any"},"name":"period_correct"},"guarantee":"period produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b6d6d1e5059a477"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin.period","kind":"method","src_hash":"0acd3268e01a2843","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period(symbol)","rhs":"self._period(2 * pi, symbol)","over":{"base":"Any"},"name":"period_correct"},"guarantee":"returns self._period(2 * pi, symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b6d6d1e5059a477","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._period(2 * pi, symbol)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._period"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def period(self, symbol=None):
         return self._period(2*pi, symbol)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => cos(self.args[0])        ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 889a6448dcd7ddad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b78ddcf0aeae888f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin.fdiff","kind":"method","src_hash":"2e0983ff7dbf2f2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"889a6448dcd7ddad"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin.fdiff","kind":"method","src_hash":"2e0983ff7dbf2f2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b78ddcf0aeae888f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == cos(self.args[0])"],"decidability":"z3","returns_expr":"cos(self.args[0])"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return cos(self.args[0])
@@ -464,16 +555,25 @@ class sin(TrigonometricFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args') and hasattr(arg, 'min') and hasattr(arg, 'max') and hasattr(arg, '_eval_func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_Add')                         ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a0b1a32cf692453  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin.eval","kind":"classmethod","src_hash":"bc1bf2f0fc619eee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a0b1a32cf692453"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin.eval","kind":"classmethod","src_hash":"bc1bf2f0fc619eee","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args') and hasattr(arg, 'min') and hasattr(arg, 'max') and hasattr(arg, '_eval_func')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args') and hasattr(arg, 'min') and hasattr(arg, 'max') and hasattr(arg, '_eval_func')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a0b1a32cf692453","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_Add')","hasattr(arg, 'is_zero')","hasattr(arg, 'could_extract_minus_sign')","hasattr(arg, 'args')","hasattr(arg, 'min')","hasattr(arg, 'max')","hasattr(arg, '_eval_func')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg._eval_func","arg.args","arg.could_extract_minus_sign","arg.is_Add","arg.is_Number","arg.is_zero","arg.max","arg.min"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         from sympy.calculus.accumulationbounds import AccumBounds
         from sympy.sets.setexpr import SetExpr
@@ -593,16 +693,23 @@ class sin(TrigonometricFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), taylor_term produces the expected output) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), <unspecified:taylor_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[negative]: n < 0 or n % 2 == 0 => S.Zero           ║
+# ║   fiber[negative]: not (n < 0 or n % 2 == 0)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ taylor_term : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ef135f597e36828  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 127e8a17126d0371  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin.taylor_term","kind":"staticmethod","src_hash":"a1435e22a834c004","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin.taylor_term_correct","statement":"Path(taylor_term(x), taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ef135f597e36828"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin.taylor_term","kind":"staticmethod","src_hash":"a1435e22a834c004","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"<unspecified:taylor_term>","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin.taylor_term_correct","statement":"Path(taylor_term(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"127e8a17126d0371","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"negative","guard":"n < 0 or n % 2 == 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n < 0 or n % 2 == 0)","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         if n < 0 or n % 2 == 0:
             return S.Zero
@@ -616,16 +723,23 @@ class sin(TrigonometricFunction):
                 return S.NegativeOne**(n//2)*x**n/factorial(n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over {Any | not (arg.subs(x, 0).has(S.NaN, S.ComplexInfinity))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_nseries : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (arg.subs(x, 0).has(S.NaN, S.ComplexI...   ║
+# ║   returns:  super()._eval_nseries(x, n=n, logx=logx, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_nseries : {Any | not (arg.subs(x, 0).has(S.NaN,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d55830baab0beb0a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_nseries","kind":"method","src_hash":"951cfecb8790124b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d55830baab0beb0a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_nseries","kind":"method","src_hash":"951cfecb8790124b","in":{"base":"Any","pred":"not (arg.subs(x, 0).has(S.NaN, S.ComplexInfinity))"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"super()._eval_nseries(x, n=n, logx=logx, cdir=cdir)","over":{"base":"Any","pred":"not (arg.subs(x, 0).has(S.NaN, S.ComplexInfinity))"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"returns super()._eval_nseries(x, n=n, logx=logx, cdir=cdir)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d55830baab0beb0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (arg.subs(x, 0).has(S.NaN, S.ComplexInfinity))"],"returns_expr":"super()._eval_nseries(x, n=n, logx=logx, cdir=cdir)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["PoleError"]},"state_contract":{"exceptional_post":{"PoleError":["isinstance(raised, PoleError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         arg = self.args[0]
         if logx is not None:
@@ -635,16 +749,24 @@ class sin(TrigonometricFunction):
         return super()._eval_nseries(x, n=n, logx=logx, cdir=cdir)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_exp(arg), id) over Any               ║
+# ║ Path(_eval_rewrite_as_exp(arg, **kwargs), id) over {Any | hasattr(arg, 'func') and hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_exp : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'func')                           ║
+# ║   requires: hasattr(arg, 'args')                           ║
+# ║   returns:  (exp(arg * I) - exp(-arg * I)) / (2 * I)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_exp : {Any | hasattr(arg, 'func') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 47cae2bc565796ae   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_exp","kind":"method","src_hash":"b963b8d87cfba032","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_exp(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_exp_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47cae2bc565796ae"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_exp","kind":"method","src_hash":"b963b8d87cfba032","in":{"base":"Any","pred":"hasattr(arg, 'func') and hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_exp(arg, **kwargs)","rhs":"(exp(arg * I) - exp(-arg * I)) / (2 * I)","over":{"base":"Any","pred":"hasattr(arg, 'func') and hasattr(arg, 'args')"},"name":"_eval_rewrite_as_exp_correct","kind":"composition"},"guarantee":"returns (exp(arg * I) - exp(-arg * I)) / (2 * I)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47cae2bc565796ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'func')","hasattr(arg, 'args')"],"returns_expr":"(exp(arg * I) - exp(-arg * I)) / (2 * I)","pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_exp(self, arg, **kwargs):
         from sympy.functions.elementary.hyperbolic import HyperbolicFunction
         I = S.ImaginaryUnit
@@ -653,16 +775,23 @@ class sin(TrigonometricFunction):
         return (exp(arg*I) - exp(-arg*I))/(2*I)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Pow(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Pow(arg, **kwargs), I * x ** (-I) / 2 - I * x ** I / 2) over {Any | hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_Pow : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'args')                           ║
+# ║   returns:  I * x ** (-I) / 2 - I * x ** I / 2             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_Pow : {Any | hasattr(arg, 'args')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e701a2a162dfae2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d31add039fea759f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_Pow","kind":"method","src_hash":"3bdc08d34455a0ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_Pow_correct","statement":"Path(_eval_rewrite_as_Pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e701a2a162dfae2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_Pow","kind":"method","src_hash":"3bdc08d34455a0ea","in":{"base":"Any","pred":"hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(arg, **kwargs)","rhs":"I * x ** (-I) / 2 - I * x ** I / 2","over":{"base":"Any","pred":"hasattr(arg, 'args')"},"name":"_eval_rewrite_as_Pow_correct"},"guarantee":"returns I * x ** (-I) / 2 - I * x ** I / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_Pow_correct","statement":"Path(_eval_rewrite_as_Pow(x), returns I * x ** (-I) / 2 - I * x ** I / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d31add039fea759f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'args')"],"returns_expr":"I * x ** (-I) / 2 - I * x ** I / 2","pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Pow(self, arg, **kwargs):
         if isinstance(arg, log):
             I = S.ImaginaryUnit
@@ -670,190 +799,269 @@ class sin(TrigonometricFunction):
             return I*x**-I/2 - I*x**I /2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_cos(arg, **kwargs), cos(arg - pi / 2, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cos(arg - pi / 2, evaluate=False)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cos : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7b845018fea2adbd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_cos","kind":"method","src_hash":"dad548934a35a520","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b845018fea2adbd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_cos","kind":"method","src_hash":"dad548934a35a520","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(arg, **kwargs)","rhs":"cos(arg - pi / 2, evaluate=False)","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"returns cos(arg - pi / 2, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7b845018fea2adbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cos(arg - pi / 2, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cos(self, arg, **kwargs):
         return cos(arg - pi/2, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tan(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_tan(arg, **kwargs), 2 * tan_half / (1 + tan_half ** 2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * tan_half / (1 + tan_half ** 2)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_tan : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc00e0a6956afe39  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6c4cda6174d89eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_tan","kind":"method","src_hash":"23871020c4831c91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tan(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_tan_correct","statement":"Path(_eval_rewrite_as_tan(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc00e0a6956afe39"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_tan","kind":"method","src_hash":"23871020c4831c91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tan(arg, **kwargs)","rhs":"2 * tan_half / (1 + tan_half ** 2)","over":{"base":"Any"},"name":"_eval_rewrite_as_tan_correct"},"guarantee":"returns 2 * tan_half / (1 + tan_half ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_tan_correct","statement":"Path(_eval_rewrite_as_tan(x), returns 2 * tan_half / (1 + tan_half ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6c4cda6174d89eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * tan_half / (1 + tan_half ** 2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tan(self, arg, **kwargs):
         tan_half = tan(S.Half*arg)
         return 2*tan_half/(1 + tan_half**2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sincos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sincos(arg, **kwargs), sin(arg) * cos(arg) / cos(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sin(arg) * cos(arg) / cos(arg)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sincos : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c48bbb9f6dc981b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_sincos","kind":"method","src_hash":"a7dcd2d245c97da7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sincos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sincos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c48bbb9f6dc981b2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_sincos","kind":"method","src_hash":"a7dcd2d245c97da7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sincos(arg, **kwargs)","rhs":"sin(arg) * cos(arg) / cos(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_sincos_correct"},"guarantee":"returns sin(arg) * cos(arg) / cos(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c48bbb9f6dc981b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sin(arg) * cos(arg) / cos(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sincos(self, arg, **kwargs):
         return sin(arg)*cos(arg)/cos(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cot(arg), id) over Any               ║
+# ║ Path(_eval_rewrite_as_cot(arg, **kwargs), id) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((0, And(Eq(im(arg), 0), Eq(Mod(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cot : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cf4d39b2af99e262   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_cot","kind":"method","src_hash":"b32d60b94e16c886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cot(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cot_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"And","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"im","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"Mod","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf4d39b2af99e262"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_cot","kind":"method","src_hash":"b32d60b94e16c886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cot(arg, **kwargs)","rhs":"Piecewise((0, And(Eq(im(arg), 0), Eq(Mod(arg, pi), 0))), (2 * cot_half / (1 + cot_half ** 2), True))","over":{"base":"Any"},"name":"_eval_rewrite_as_cot_correct","kind":"composition"},"guarantee":"returns Piecewise((0, And(Eq(im(arg), 0), Eq(Mod(arg, pi), 0))), (2 * cot_half / (1 + cot_half ** 2), True))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"And","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"im","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"Mod","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf4d39b2af99e262","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((0, And(Eq(im(arg), 0), Eq(Mod(arg, pi), 0))), (2 * cot_half / (1 + cot_half ** 2), True))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cot(self, arg, **kwargs):
         cot_half = cot(S.Half*arg)
         return Piecewise((0, And(Eq(im(arg), 0), Eq(Mod(arg, pi), 0))),
                          (2*cot_half/(1 + cot_half**2), True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_pow(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_pow(arg, **kwargs), self.rewrite(cos, **kwargs).rewrite(pow, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(cos, **kwargs).rewrite(pow, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_pow : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d76d8524b34dc897           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_pow","kind":"method","src_hash":"facd068c2cf33f90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_pow(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d76d8524b34dc897"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_pow","kind":"method","src_hash":"facd068c2cf33f90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_pow(arg, **kwargs)","rhs":"self.rewrite(cos, **kwargs).rewrite(pow, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_pow_correct"},"guarantee":"returns self.rewrite(cos, **kwargs).rewrite(pow, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d76d8524b34dc897","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(cos, **kwargs).rewrite(pow, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_pow(self, arg, **kwargs):
         return self.rewrite(cos, **kwargs).rewrite(pow, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sqrt(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sqrt(arg, **kwargs), self.rewrite(cos, **kwargs).rewrite(sqrt, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(cos, **kwargs).rewrite(sqrt,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sqrt : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 90be653d5ec7cfdb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_sqrt","kind":"method","src_hash":"a3e45458efe62d90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90be653d5ec7cfdb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_sqrt","kind":"method","src_hash":"a3e45458efe62d90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(arg, **kwargs)","rhs":"self.rewrite(cos, **kwargs).rewrite(sqrt, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"returns self.rewrite(cos, **kwargs).rewrite(sqrt, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90be653d5ec7cfdb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(cos, **kwargs).rewrite(sqrt, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sqrt(self, arg, **kwargs):
         return self.rewrite(cos, **kwargs).rewrite(sqrt, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_csc(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_csc(arg, **kwargs), 1 / csc(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / csc(arg)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_csc : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9301f085fadd71f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_csc","kind":"method","src_hash":"ba3bcae46faad319","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_csc(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_csc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9301f085fadd71f4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_csc","kind":"method","src_hash":"ba3bcae46faad319","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_csc(arg, **kwargs)","rhs":"1 / csc(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_csc_correct"},"guarantee":"returns 1 / csc(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9301f085fadd71f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / csc(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_csc(self, arg, **kwargs):
         return 1/csc(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sec(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sec(arg, **kwargs), 1 / sec(arg - pi / 2, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / sec(arg - pi / 2, evaluate=False)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sec : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28d518391762cfc0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_sec","kind":"method","src_hash":"b21c343212ffc427","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sec(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sec_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28d518391762cfc0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_sec","kind":"method","src_hash":"b21c343212ffc427","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sec(arg, **kwargs)","rhs":"1 / sec(arg - pi / 2, evaluate=False)","over":{"base":"Any"},"name":"_eval_rewrite_as_sec_correct"},"guarantee":"returns 1 / sec(arg - pi / 2, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28d518391762cfc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / sec(arg - pi / 2, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sec(self, arg, **kwargs):
         return 1/sec(arg - pi/2, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sinc(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sinc(arg, **kwargs), arg * sinc(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  arg * sinc(arg)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sinc : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7920b24ce56579c6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_sinc","kind":"method","src_hash":"02c9c143ad03f33a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sinc(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sinc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7920b24ce56579c6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_sinc","kind":"method","src_hash":"02c9c143ad03f33a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sinc(arg, **kwargs)","rhs":"arg * sinc(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_sinc_correct"},"guarantee":"returns arg * sinc(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7920b24ce56579c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"arg * sinc(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sinc(self, arg, **kwargs):
         return arg*sinc(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(arg), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besselj(arg, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(pi * arg / 2) * besselj(S.Half, arg)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9a16b0335b5aa366   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_besselj","kind":"method","src_hash":"c982d9d5b5071b3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a16b0335b5aa366"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_rewrite_as_besselj","kind":"method","src_hash":"c982d9d5b5071b3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(arg, **kwargs)","rhs":"sqrt(pi * arg / 2) * besselj(S.Half, arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"returns sqrt(pi * arg / 2) * besselj(S.Half, arg)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a16b0335b5aa366","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(pi * arg / 2) * besselj(S.Half, arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, arg, **kwargs):
         from sympy.functions.special.bessel import besselj
         return sqrt(pi*arg/2)*besselj(S.Half, arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(self.args[0].conjugate())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.args[0].conjugate())            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6373ab524f0f870a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6373ab524f0f870a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(self.args[0].conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(self.args[0].conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6373ab524f0f870a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.args[0].conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(self.args[0].conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_real_imag(dee), id) over Any                       ║
+# ║ Path(as_real_imag(deep, **hints), id) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (sin(re) * cosh(im), cos(re) * sinh(im))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_real_imag : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 409bf69c7820e8b5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin.as_real_imag","kind":"method","src_hash":"6466c53390259f26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(dee)","rhs":"as_real_imag produces the expected output","over":{"base":"Any"},"name":"as_real_imag_correct","kind":"composition"},"guarantee":"as_real_imag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"cosh","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"sinh","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"409bf69c7820e8b5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin.as_real_imag","kind":"method","src_hash":"6466c53390259f26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(deep, **hints)","rhs":"(sin(re) * cosh(im), cos(re) * sinh(im))","over":{"base":"Any"},"name":"as_real_imag_correct","kind":"composition"},"guarantee":"returns (sin(re) * cosh(im), cos(re) * sinh(im))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"cosh","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"sinh","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"409bf69c7820e8b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(sin(re) * cosh(im), cos(re) * sinh(im))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._as_real_imag"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_real_imag(self, deep=True, **hints):
         from sympy.functions.elementary.hyperbolic import cosh, sinh
         re, im = self._as_real_imag(deep=deep, **hints)
         return (sin(re)*cosh(im), cos(re)*sinh(im))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_trig(**h), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_expand_trig(**hints), <unspecified:_eval_expand_trig>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: arg.is_Add => sx * cy + sy * cx           ║
+# ║   fiber[case_1]: arg.is_Mul                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_trig : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc00499f9e16d009  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 632f2085d7968864  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_expand_trig","kind":"method","src_hash":"04b88e5ec0e06d3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_trig(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_trig_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_expand_trig_correct","statement":"Path(_eval_expand_trig(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc00499f9e16d009"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_expand_trig","kind":"method","src_hash":"04b88e5ec0e06d3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_trig(**hints)","rhs":"<unspecified:_eval_expand_trig>","over":{"base":"Any"},"name":"_eval_expand_trig_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_expand_trig_correct","statement":"Path(_eval_expand_trig(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"632f2085d7968864","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"arg.is_Add","ensures":["result == sx * cy + sy * cx"],"decidability":"library","returns_expr":"sx * cy + sy * cx"},{"name":"case_1","guard":"arg.is_Mul","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_trig(self, **hints):
         from sympy.functions.special.polynomials import chebyshevt, chebyshevu
         arg = self.args[0]
@@ -880,16 +1088,22 @@ class sin(TrigonometricFunction):
         return sin(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8fd515b05c75247  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_as_leading_term","kind":"method","src_hash":"b2c885a5fbb9e9ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8fd515b05c75247"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_as_leading_term","kind":"method","src_hash":"b2c885a5fbb9e9ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8fd515b05c75247","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         from sympy.calculus.accumulationbounds import AccumBounds
         arg = self.args[0]
@@ -905,63 +1119,87 @@ class sin(TrigonometricFunction):
         return self.func(x0) if x0.is_finite else self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), True) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3775325c020ac94a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee1a05e04b94fc0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_is_extended_real","kind":"method","src_hash":"eb01856ba3d0a39d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3775325c020ac94a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_is_extended_real","kind":"method","src_hash":"eb01856ba3d0a39d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee1a05e04b94fc0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         if self.args[0].is_extended_real:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_finite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_finite(), True) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_finite : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24265b967bfc5b4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77a209a3df1204d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_is_finite","kind":"method","src_hash":"13a05c7d331d9ac6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24265b967bfc5b4b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_is_finite","kind":"method","src_hash":"13a05c7d331d9ac6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77a209a3df1204d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_finite(self):
         arg = self.args[0]
         if arg.is_extended_real:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), pi_mult.is_integer) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi_mult.is_integer                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1883ebf76f7453e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79dbb5433643d552  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_is_zero","kind":"method","src_hash":"68c3572ff7c98b32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1883ebf76f7453e0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_is_zero","kind":"method","src_hash":"68c3572ff7c98b32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"pi_mult.is_integer","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"returns pi_mult.is_integer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), returns pi_mult.is_integer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79dbb5433643d552","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi_mult.is_integer","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         rest, pi_mult = _peeloff_pi(self.args[0])
         if rest.is_zero:
             return pi_mult.is_integer
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_complex(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_complex(), True) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_complex : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3178772c399d7e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab511f2108202de5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_is_complex","kind":"method","src_hash":"7ddb68ae6feb18c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_complex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_is_complex_correct","statement":"Path(_eval_is_complex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3178772c399d7e2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sin._eval_is_complex","kind":"method","src_hash":"7ddb68ae6feb18c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_complex_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sin._eval_is_complex_correct","statement":"Path(_eval_is_complex(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab511f2108202de5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_complex(self):
         if self.args[0].is_extended_real \
                 or self.args[0].is_complex:
@@ -971,14 +1209,20 @@ class sin(TrigonometricFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(cos(*args), correctly constructs a cos instance) over {Any | isinstance(arg, AccumBounds) and isinstance(arg, acos) and isinstance(arg, atan)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TrigonometricFunction)        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ cos : {Any | isinstance(arg, AccumBounds) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa58c2477d5d48d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos","kind":"class","src_hash":"23f5a4cfe12f36bb","in":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, acos) and isinstance(arg, atan)"},"out":{"base":"Any"},"spec":{"lhs":"cos(*args)","rhs":"correctly constructs a cos instance","over":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, acos) and isinstance(arg, atan)"},"name":"cos_class_invariant"},"guarantee":"correctly constructs a cos instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa58c2477d5d48d9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos","kind":"class","src_hash":"23f5a4cfe12f36bb","in":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, acos) and isinstance(arg, atan)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TrigonometricFunction)"},"spec":{"lhs":"cos(*args)","rhs":"correctly constructs a cos instance","over":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, acos) and isinstance(arg, atan)"},"name":"cos_class_invariant"},"guarantee":"isinstance(self, TrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa58c2477d5d48d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function cos not found in source"]}}
 class cos(TrigonometricFunction):
     """
     The cosine function.
@@ -1024,30 +1268,43 @@ class cos(TrigonometricFunction):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(period(sym), period produces the expected output) over Any ║
+# ║ Path(period(symbol), self._period(2 * pi, symbol)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._period(2 * pi, symbol)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ period : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6655b194e9440595           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos.period","kind":"method","src_hash":"0acd3268e01a2843","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period(sym)","rhs":"period produces the expected output","over":{"base":"Any"},"name":"period_correct"},"guarantee":"period produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6655b194e9440595"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos.period","kind":"method","src_hash":"0acd3268e01a2843","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period(symbol)","rhs":"self._period(2 * pi, symbol)","over":{"base":"Any"},"name":"period_correct"},"guarantee":"returns self._period(2 * pi, symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6655b194e9440595","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._period(2 * pi, symbol)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._period"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def period(self, symbol=None):
         return self._period(2*pi, symbol)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => -sin(self.args[0])       ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 115c23e8cc76a54f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e39a7ec4f090a3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos.fdiff","kind":"method","src_hash":"4f0022385fc219b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"115c23e8cc76a54f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos.fdiff","kind":"method","src_hash":"4f0022385fc219b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e39a7ec4f090a3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == -sin(self.args[0])"],"decidability":"z3","returns_expr":"-sin(self.args[0])"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return -sin(self.args[0])
@@ -1056,16 +1313,25 @@ class cos(TrigonometricFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_zero') and hasattr(arg, 'is_extended_real') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args') and hasattr(arg, 'is_finite') and hasattr(arg, '_eval_func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_Add')                         ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 026a5e927749e717  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos.eval","kind":"classmethod","src_hash":"62ac5afce5a7615b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"026a5e927749e717"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos.eval","kind":"classmethod","src_hash":"62ac5afce5a7615b","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_zero') and hasattr(arg, 'is_extended_real') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args') and hasattr(arg, 'is_finite') and hasattr(arg, '_eval_func')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_zero') and hasattr(arg, 'is_extended_real') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args') and hasattr(arg, 'is_finite') and hasattr(arg, '_eval_func')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"026a5e927749e717","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_Add')","hasattr(arg, 'is_zero')","hasattr(arg, 'is_extended_real')","hasattr(arg, 'could_extract_minus_sign')","hasattr(arg, 'args')","hasattr(arg, 'is_finite')","hasattr(arg, '_eval_func')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg._eval_func","arg.args","arg.could_extract_minus_sign","arg.is_Add","arg.is_Number","arg.is_extended_real","arg.is_finite","arg.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         from sympy.functions.special.polynomials import chebyshevt
         from sympy.calculus.accumulationbounds import AccumBounds
@@ -1208,16 +1474,23 @@ class cos(TrigonometricFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), taylor_term produces the expected output) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), <unspecified:taylor_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[negative]: n < 0 or n % 2 == 1 => S.Zero           ║
+# ║   fiber[negative]: not (n < 0 or n % 2 == 1)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ taylor_term : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac0839b226ccfaf6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bfaeea04ffededc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos.taylor_term","kind":"staticmethod","src_hash":"a917a71700942849","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos.taylor_term_correct","statement":"Path(taylor_term(x), taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac0839b226ccfaf6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos.taylor_term","kind":"staticmethod","src_hash":"a917a71700942849","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"<unspecified:taylor_term>","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos.taylor_term_correct","statement":"Path(taylor_term(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bfaeea04ffededc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"negative","guard":"n < 0 or n % 2 == 1","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n < 0 or n % 2 == 1)","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         if n < 0 or n % 2 == 1:
             return S.Zero
@@ -1231,16 +1504,23 @@ class cos(TrigonometricFunction):
                 return S.NegativeOne**(n//2)*x**n/factorial(n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over {Any | not (arg.subs(x, 0).has(S.NaN, S.ComplexInfinity))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_nseries : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (arg.subs(x, 0).has(S.NaN, S.ComplexI...   ║
+# ║   returns:  super()._eval_nseries(x, n=n, logx=logx, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_nseries : {Any | not (arg.subs(x, 0).has(S.NaN,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a0660f2f7a877768   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_nseries","kind":"method","src_hash":"951cfecb8790124b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0660f2f7a877768"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_nseries","kind":"method","src_hash":"951cfecb8790124b","in":{"base":"Any","pred":"not (arg.subs(x, 0).has(S.NaN, S.ComplexInfinity))"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"super()._eval_nseries(x, n=n, logx=logx, cdir=cdir)","over":{"base":"Any","pred":"not (arg.subs(x, 0).has(S.NaN, S.ComplexInfinity))"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"returns super()._eval_nseries(x, n=n, logx=logx, cdir=cdir)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0660f2f7a877768","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (arg.subs(x, 0).has(S.NaN, S.ComplexInfinity))"],"returns_expr":"super()._eval_nseries(x, n=n, logx=logx, cdir=cdir)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["PoleError"]},"state_contract":{"exceptional_post":{"PoleError":["isinstance(raised, PoleError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         arg = self.args[0]
         if logx is not None:
@@ -1250,16 +1530,24 @@ class cos(TrigonometricFunction):
         return super()._eval_nseries(x, n=n, logx=logx, cdir=cdir)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_exp(arg), id) over Any               ║
+# ║ Path(_eval_rewrite_as_exp(arg, **kwargs), id) over {Any | hasattr(arg, 'func') and hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_exp : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'func')                           ║
+# ║   requires: hasattr(arg, 'args')                           ║
+# ║   returns:  (exp(arg * I) + exp(-arg * I)) / 2             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_exp : {Any | hasattr(arg, 'func') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 90e9b59300eeb949   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_exp","kind":"method","src_hash":"8155f3e1d1879c23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_exp(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_exp_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90e9b59300eeb949"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_exp","kind":"method","src_hash":"8155f3e1d1879c23","in":{"base":"Any","pred":"hasattr(arg, 'func') and hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_exp(arg, **kwargs)","rhs":"(exp(arg * I) + exp(-arg * I)) / 2","over":{"base":"Any","pred":"hasattr(arg, 'func') and hasattr(arg, 'args')"},"name":"_eval_rewrite_as_exp_correct","kind":"composition"},"guarantee":"returns (exp(arg * I) + exp(-arg * I)) / 2","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90e9b59300eeb949","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'func')","hasattr(arg, 'args')"],"returns_expr":"(exp(arg * I) + exp(-arg * I)) / 2","pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_exp(self, arg, **kwargs):
         I = S.ImaginaryUnit
         from sympy.functions.elementary.hyperbolic import HyperbolicFunction
@@ -1268,16 +1556,23 @@ class cos(TrigonometricFunction):
         return (exp(arg*I) + exp(-arg*I))/2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Pow(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Pow(arg, **kwargs), x ** I / 2 + x ** (-I) / 2) over {Any | hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_Pow : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'args')                           ║
+# ║   returns:  x ** I / 2 + x ** (-I) / 2                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_Pow : {Any | hasattr(arg, 'args')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4da891dc4b0eca0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76b8e7c68f9fbb36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_Pow","kind":"method","src_hash":"0054b56e567c7c54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_Pow_correct","statement":"Path(_eval_rewrite_as_Pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4da891dc4b0eca0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_Pow","kind":"method","src_hash":"0054b56e567c7c54","in":{"base":"Any","pred":"hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(arg, **kwargs)","rhs":"x ** I / 2 + x ** (-I) / 2","over":{"base":"Any","pred":"hasattr(arg, 'args')"},"name":"_eval_rewrite_as_Pow_correct"},"guarantee":"returns x ** I / 2 + x ** (-I) / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_Pow_correct","statement":"Path(_eval_rewrite_as_Pow(x), returns x ** I / 2 + x ** (-I) / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76b8e7c68f9fbb36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'args')"],"returns_expr":"x ** I / 2 + x ** (-I) / 2","pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Pow(self, arg, **kwargs):
         if isinstance(arg, log):
             I = S.ImaginaryUnit
@@ -1285,89 +1580,126 @@ class cos(TrigonometricFunction):
             return x**I/2 + x**-I/2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sin(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sin(arg, **kwargs), sin(arg + pi / 2, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sin(arg + pi / 2, evaluate=False)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sin : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d1e8e4e0e32d72d1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_sin","kind":"method","src_hash":"6d5a459a08691c5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1e8e4e0e32d72d1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_sin","kind":"method","src_hash":"6d5a459a08691c5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(arg, **kwargs)","rhs":"sin(arg + pi / 2, evaluate=False)","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"returns sin(arg + pi / 2, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1e8e4e0e32d72d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sin(arg + pi / 2, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sin(self, arg, **kwargs):
         return sin(arg + pi/2, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tan(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_tan(arg, **kwargs), (1 - tan_half) / (1 + tan_half)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (1 - tan_half) / (1 + tan_half)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_tan : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c8435c4a8810f14  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdabe26e5c5c7ddc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_tan","kind":"method","src_hash":"93dad6b48bc8a6e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tan(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_tan_correct","statement":"Path(_eval_rewrite_as_tan(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c8435c4a8810f14"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_tan","kind":"method","src_hash":"93dad6b48bc8a6e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tan(arg, **kwargs)","rhs":"(1 - tan_half) / (1 + tan_half)","over":{"base":"Any"},"name":"_eval_rewrite_as_tan_correct"},"guarantee":"returns (1 - tan_half) / (1 + tan_half)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_tan_correct","statement":"Path(_eval_rewrite_as_tan(x), returns (1 - tan_half) / (1 + tan_half))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdabe26e5c5c7ddc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(1 - tan_half) / (1 + tan_half)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tan(self, arg, **kwargs):
         tan_half = tan(S.Half*arg)**2
         return (1 - tan_half)/(1 + tan_half)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sincos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sincos(arg, **kwargs), sin(arg) * cos(arg) / sin(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sin(arg) * cos(arg) / sin(arg)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sincos : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2cb01688fe719fd9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_sincos","kind":"method","src_hash":"2ad165fa45beb7ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sincos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sincos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2cb01688fe719fd9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_sincos","kind":"method","src_hash":"2ad165fa45beb7ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sincos(arg, **kwargs)","rhs":"sin(arg) * cos(arg) / sin(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_sincos_correct"},"guarantee":"returns sin(arg) * cos(arg) / sin(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2cb01688fe719fd9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sin(arg) * cos(arg) / sin(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sincos(self, arg, **kwargs):
         return sin(arg)*cos(arg)/sin(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cot(arg), id) over Any               ║
+# ║ Path(_eval_rewrite_as_cot(arg, **kwargs), id) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((1, And(Eq(im(arg), 0), Eq(Mod(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cot : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1c3a8c545132b521   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_cot","kind":"method","src_hash":"507a2496f145afff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cot(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cot_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"And","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"im","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"Mod","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c3a8c545132b521"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_cot","kind":"method","src_hash":"507a2496f145afff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cot(arg, **kwargs)","rhs":"Piecewise((1, And(Eq(im(arg), 0), Eq(Mod(arg, 2 * pi), 0))), ((cot_half - 1) / (cot_half + 1), True))","over":{"base":"Any"},"name":"_eval_rewrite_as_cot_correct","kind":"composition"},"guarantee":"returns Piecewise((1, And(Eq(im(arg), 0), Eq(Mod(arg, 2 * pi), 0))), ((cot_half - 1) / (cot_half + 1), True))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"And","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"im","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"},{"fn":"Mod","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c3a8c545132b521","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((1, And(Eq(im(arg), 0), Eq(Mod(arg, 2 * pi), 0))), ((cot_half - 1) / (cot_half + 1), True))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cot(self, arg, **kwargs):
         cot_half = cot(S.Half*arg)**2
         return Piecewise((1, And(Eq(im(arg), 0), Eq(Mod(arg, 2*pi), 0))),
                          ((cot_half - 1)/(cot_half + 1), True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_pow(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_pow(arg, **kwargs), self._eval_rewrite_as_sqrt(arg, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_rewrite_as_sqrt(arg, **kwargs)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_pow : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6051eacaf21250b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_pow","kind":"method","src_hash":"5c66e8f432bec065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_pow(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6051eacaf21250b2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_pow","kind":"method","src_hash":"5c66e8f432bec065","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_pow(arg, **kwargs)","rhs":"self._eval_rewrite_as_sqrt(arg, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_pow_correct"},"guarantee":"returns self._eval_rewrite_as_sqrt(arg, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6051eacaf21250b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_rewrite_as_sqrt(arg, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_rewrite_as_sqrt"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_pow(self, arg, **kwargs):
         return self._eval_rewrite_as_sqrt(arg, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sqrt(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sqrt(arg, **kwargs), <unspecified:_eval_rewrite_as_sqrt>) over {Any | isinstance(arg, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_sqrt : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(arg, Expr)                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_sqrt : {Any | isinstance(arg, Expr)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd93131d9487ee11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_sqrt","kind":"method","src_hash":"d43168df8e921bb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_sqrt_correct","statement":"Path(_eval_rewrite_as_sqrt(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd93131d9487ee11"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_sqrt","kind":"method","src_hash":"d43168df8e921bb0","in":{"base":"Any","pred":"isinstance(arg, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(arg, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_sqrt>","over":{"base":"Any","pred":"isinstance(arg, Expr)"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_sqrt_correct","statement":"Path(_eval_rewrite_as_sqrt(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd93131d9487ee11","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(arg, Expr)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sqrt(self, arg: Expr, **kwargs):
         from sympy.functions.special.polynomials import chebyshevt
 
@@ -1412,44 +1744,62 @@ class cos(TrigonometricFunction):
         return pcls.rewrite(sqrt, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sec(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sec(arg, **kwargs), 1 / sec(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / sec(arg)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sec : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed157de639f82570           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_sec","kind":"method","src_hash":"1808cd10791e745c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sec(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sec_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed157de639f82570"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_sec","kind":"method","src_hash":"1808cd10791e745c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sec(arg, **kwargs)","rhs":"1 / sec(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_sec_correct"},"guarantee":"returns 1 / sec(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed157de639f82570","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / sec(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sec(self, arg, **kwargs):
         return 1/sec(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_csc(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_csc(arg, **kwargs), 1 / sec(arg).rewrite(csc, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / sec(arg).rewrite(csc, **kwargs)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_csc : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d70eb5e6f822848           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_csc","kind":"method","src_hash":"2206527a1c479ede","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_csc(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_csc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d70eb5e6f822848"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_csc","kind":"method","src_hash":"2206527a1c479ede","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_csc(arg, **kwargs)","rhs":"1 / sec(arg).rewrite(csc, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_csc_correct"},"guarantee":"returns 1 / sec(arg).rewrite(csc, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d70eb5e6f822848","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / sec(arg).rewrite(csc, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_csc(self, arg, **kwargs):
         return 1/sec(arg).rewrite(csc, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_besselj(arg, **kwargs), Piecewise((sqrt(pi * arg / 2) * besselj(-S.Half, arg), Ne(arg, 0)), (1, True))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((sqrt(pi * arg / 2) * besselj(-...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc4ea2fccb9af7f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4d2259c95a2b045  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_besselj","kind":"method","src_hash":"67fac634e04afa3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_besselj_correct","statement":"Path(_eval_rewrite_as_besselj(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc4ea2fccb9af7f7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_besselj","kind":"method","src_hash":"67fac634e04afa3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(arg, **kwargs)","rhs":"Piecewise((sqrt(pi * arg / 2) * besselj(-S.Half, arg), Ne(arg, 0)), (1, True))","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct"},"guarantee":"returns Piecewise((sqrt(pi * arg / 2) * besselj(-S.Half, arg), Ne(arg, 0)), (1, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_rewrite_as_besselj_correct","statement":"Path(_eval_rewrite_as_besselj(x), returns Piecewise((sqrt(pi * arg / 2) * besselj(-S.Half, arg), Ne(arg, 0)), (1, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4d2259c95a2b045","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((sqrt(pi * arg / 2) * besselj(-S.Half, arg), Ne(arg, 0)), (1, True))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, arg, **kwargs):
         from sympy.functions.special.bessel import besselj
         return Piecewise(
@@ -1458,46 +1808,65 @@ class cos(TrigonometricFunction):
             )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(self.args[0].conjugate())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.args[0].conjugate())            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69699b229c9286a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69699b229c9286a7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(self.args[0].conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(self.args[0].conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69699b229c9286a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.args[0].conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(self.args[0].conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_real_imag(dee), id) over Any                       ║
+# ║ Path(as_real_imag(deep, **hints), id) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (cos(re) * cosh(im), -sin(re) * sinh(im))      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_real_imag : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e75cac81ae19b2b9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos.as_real_imag","kind":"method","src_hash":"55dfb86caa77a44e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(dee)","rhs":"as_real_imag produces the expected output","over":{"base":"Any"},"name":"as_real_imag_correct","kind":"composition"},"guarantee":"as_real_imag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"cosh","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"sinh","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e75cac81ae19b2b9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos.as_real_imag","kind":"method","src_hash":"55dfb86caa77a44e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(deep, **hints)","rhs":"(cos(re) * cosh(im), -sin(re) * sinh(im))","over":{"base":"Any"},"name":"as_real_imag_correct","kind":"composition"},"guarantee":"returns (cos(re) * cosh(im), -sin(re) * sinh(im))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"cosh","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"sinh","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e75cac81ae19b2b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(cos(re) * cosh(im), -sin(re) * sinh(im))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._as_real_imag"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_real_imag(self, deep=True, **hints):
         from sympy.functions.elementary.hyperbolic import cosh, sinh
         re, im = self._as_real_imag(deep=deep, **hints)
         return (cos(re)*cosh(im), -sin(re)*sinh(im))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_trig(**h), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_expand_trig(**hints), <unspecified:_eval_expand_trig>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: arg.is_Add => cx * cy - sx * sy           ║
+# ║   fiber[case_1]: arg.is_Mul                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_trig : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4df1f19a685743c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22978c4f4b023cb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_expand_trig","kind":"method","src_hash":"9cf93d2302d145ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_trig(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_trig_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_expand_trig_correct","statement":"Path(_eval_expand_trig(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4df1f19a685743c0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_expand_trig","kind":"method","src_hash":"9cf93d2302d145ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_trig(**hints)","rhs":"<unspecified:_eval_expand_trig>","over":{"base":"Any"},"name":"_eval_expand_trig_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_expand_trig_correct","statement":"Path(_eval_expand_trig(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22978c4f4b023cb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"arg.is_Add","ensures":["result == cx * cy - sx * sy"],"decidability":"library","returns_expr":"cx * cy - sx * sy"},{"name":"case_1","guard":"arg.is_Mul","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_trig(self, **hints):
         from sympy.functions.special.polynomials import chebyshevt
         arg = self.args[0]
@@ -1516,16 +1885,22 @@ class cos(TrigonometricFunction):
         return cos(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed54d99655495ed8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_as_leading_term","kind":"method","src_hash":"348b9e6b0f366f43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed54d99655495ed8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_as_leading_term","kind":"method","src_hash":"348b9e6b0f366f43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed54d99655495ed8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         from sympy.calculus.accumulationbounds import AccumBounds
         arg = self.args[0]
@@ -1541,31 +1916,43 @@ class cos(TrigonometricFunction):
         return self.func(x0) if x0.is_finite else self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), True) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8293e8c299ef102  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a270189e8aa0244f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_is_extended_real","kind":"method","src_hash":"eb01856ba3d0a39d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8293e8c299ef102"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_is_extended_real","kind":"method","src_hash":"eb01856ba3d0a39d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a270189e8aa0244f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         if self.args[0].is_extended_real:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_finite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_finite(), True) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_finite : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7867623021320284  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 786dd3dcb04650b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_is_finite","kind":"method","src_hash":"fe1d174419146f57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7867623021320284"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_is_finite","kind":"method","src_hash":"fe1d174419146f57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"786dd3dcb04650b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_finite(self):
         arg = self.args[0]
 
@@ -1573,32 +1960,44 @@ class cos(TrigonometricFunction):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_complex(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_complex(), True) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_complex : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7c3b74c656d81af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee2956263b70a76a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_is_complex","kind":"method","src_hash":"8e96b998d56efcd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_complex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_is_complex_correct","statement":"Path(_eval_is_complex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7c3b74c656d81af"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_is_complex","kind":"method","src_hash":"8e96b998d56efcd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_complex_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_is_complex_correct","statement":"Path(_eval_is_complex(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee2956263b70a76a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_complex(self):
         if self.args[0].is_extended_real \
             or self.args[0].is_complex:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), (pi_mult - S.Half).is_integer) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (pi_mult - S.Half).is_integer                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95b737cddf01b1b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d03981c37951ff09  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_is_zero","kind":"method","src_hash":"735000faaecfece8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95b737cddf01b1b2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cos._eval_is_zero","kind":"method","src_hash":"735000faaecfece8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"(pi_mult - S.Half).is_integer","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"returns (pi_mult - S.Half).is_integer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cos._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), returns (pi_mult - S.Half).is_integer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d03981c37951ff09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(pi_mult - S.Half).is_integer","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         rest, pi_mult = _peeloff_pi(self.args[0])
         if rest.is_zero and pi_mult:
@@ -1608,14 +2007,20 @@ class cos(TrigonometricFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(tan(*args), correctly constructs a tan instance) over {Any | isinstance(arg, AccumBounds) and isinstance(arg, atan) and isinstance(arg, atan2)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TrigonometricFunction)        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ tan : {Any | isinstance(arg, AccumBounds) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6433b4d0597f45d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan","kind":"class","src_hash":"3a12b2092ffc7d57","in":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, atan) and isinstance(arg, atan2)"},"out":{"base":"Any"},"spec":{"lhs":"tan(*args)","rhs":"correctly constructs a tan instance","over":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, atan) and isinstance(arg, atan2)"},"name":"tan_class_invariant"},"guarantee":"correctly constructs a tan instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6433b4d0597f45d3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan","kind":"class","src_hash":"3a12b2092ffc7d57","in":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, atan) and isinstance(arg, atan2)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TrigonometricFunction)"},"spec":{"lhs":"tan(*args)","rhs":"correctly constructs a tan instance","over":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, atan) and isinstance(arg, atan2)"},"name":"tan_class_invariant"},"guarantee":"isinstance(self, TrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6433b4d0597f45d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function tan not found in source"]}}
 class tan(TrigonometricFunction):
     """
     The tangent function.
@@ -1655,30 +2060,43 @@ class tan(TrigonometricFunction):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(period(sym), period produces the expected output) over Any ║
+# ║ Path(period(symbol), self._period(pi, symbol)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._period(pi, symbol)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ period : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a6390048b0a61182           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan.period","kind":"method","src_hash":"437bb8a00ade83be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period(sym)","rhs":"period produces the expected output","over":{"base":"Any"},"name":"period_correct"},"guarantee":"period produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6390048b0a61182"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan.period","kind":"method","src_hash":"437bb8a00ade83be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period(symbol)","rhs":"self._period(pi, symbol)","over":{"base":"Any"},"name":"period_correct"},"guarantee":"returns self._period(pi, symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6390048b0a61182","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._period(pi, symbol)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._period"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def period(self, symbol=None):
         return self._period(pi, symbol)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => S.One + self ** 2        ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98394017c1a8d220  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d849914229a86f5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan.fdiff","kind":"method","src_hash":"9105d29ec4a78f69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98394017c1a8d220"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan.fdiff","kind":"method","src_hash":"9105d29ec4a78f69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d849914229a86f5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == S.One + self ** 2"],"decidability":"z3","returns_expr":"S.One + self ** 2"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return S.One + self**2
@@ -1686,16 +2104,22 @@ class tan(TrigonometricFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(arg), returns the inverse of this function) over Any ║
+# ║ Path(inverse(argindex), <unspecified:inverse>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e302a279046bf23e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan.inverse","kind":"method","src_hash":"b266cb5f3e4bfaad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(arg)","rhs":"returns the inverse of this function","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e302a279046bf23e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan.inverse","kind":"method","src_hash":"b266cb5f3e4bfaad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(argindex)","rhs":"<unspecified:inverse>","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e302a279046bf23e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(self, argindex=1):
         """
         Returns the inverse of this function.
@@ -1704,16 +2128,25 @@ class tan(TrigonometricFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args') and hasattr(arg, 'min') and hasattr(arg, 'max')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_Add')                         ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 370d8a96acc392d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan.eval","kind":"classmethod","src_hash":"144ad3101e1edf1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"370d8a96acc392d0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan.eval","kind":"classmethod","src_hash":"144ad3101e1edf1a","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args') and hasattr(arg, 'min') and hasattr(arg, 'max')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args') and hasattr(arg, 'min') and hasattr(arg, 'max')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"370d8a96acc392d0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_Add')","hasattr(arg, 'is_zero')","hasattr(arg, 'could_extract_minus_sign')","hasattr(arg, 'args')","hasattr(arg, 'min')","hasattr(arg, 'max')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.could_extract_minus_sign","arg.is_Add","arg.is_Number","arg.is_zero","arg.max","arg.min"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         from sympy.calculus.accumulationbounds import AccumBounds
         if arg.is_Number:
@@ -1846,16 +2279,25 @@ class tan(TrigonometricFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), taylor_term produces the expected output) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), result == (S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** a * b * (b - 1) * B / F * x ** n) and result == S.Zero or result == S.NegativeOne ** a * b * (b - 1) * B / F * x ** n) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ taylor_term : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.Zero if n < 0 or n % 2 == 0 ...   ║
+# ║   ensures:  result == S.Zero or result == S.NegativeO...   ║
+# ║   fiber[negative]: n < 0 or n % 2 == 0 => S.Zero           ║
+# ║   fiber[negative]: not (n < 0 or n % 2 == 0) => S.Neg...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ taylor_term : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 830cf364313643d9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f05d3877eb349b38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan.taylor_term","kind":"staticmethod","src_hash":"e17efeb35ce9526d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan.taylor_term_correct","statement":"Path(taylor_term(x), taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"830cf364313643d9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan.taylor_term","kind":"staticmethod","src_hash":"e17efeb35ce9526d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** a * b * (b - 1) * B / F * x ** n) and result == S.Zero or result == S.NegativeOne ** a * b * (b - 1) * B / F * x ** n"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"result == (S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** a * b * (b - 1) * B / F * x ** n) and result == S.Zero or result == S.NegativeOne ** a * b * (b - 1) * B / F * x ** n","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"result == (S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** a * b * (b - 1) * B / F * x ** n); result == S.Zero or result == S.NegativeOne ** a * b * (b - 1) * B / F * x ** n; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan.taylor_term_correct","statement":"Path(taylor_term(x), result == (S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** a * b * (b - 1) * B / F * x ** n); result == S.Zero or result == S.NegativeOne ** a * b * (b - 1) * B / F * x ** n; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f05d3877eb349b38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** a * b * (b - 1) * B / F * x ** n)","result == S.Zero or result == S.NegativeOne ** a * b * (b - 1) * B / F * x ** n"],"fibers":[{"name":"negative","guard":"n < 0 or n % 2 == 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n < 0 or n % 2 == 0)","ensures":["result == S.NegativeOne ** a * b * (b - 1) * B / F * x ** n"],"decidability":"z3","returns_expr":"S.NegativeOne ** a * b * (b - 1) * B / F * x ** n"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         if n < 0 or n % 2 == 0:
             return S.Zero
@@ -1870,16 +2312,22 @@ class tan(TrigonometricFunction):
             return S.NegativeOne**a*b*(b - 1)*B/F*x**n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 84d64e666172fa41   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_nseries","kind":"method","src_hash":"b21a1e497bd23425","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84d64e666172fa41"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_nseries","kind":"method","src_hash":"b21a1e497bd23425","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84d64e666172fa41","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         i = self.args[0].limit(x, 0)*2/pi
         if i and i.is_Integer:
@@ -1887,16 +2335,23 @@ class tan(TrigonometricFunction):
         return super()._eval_nseries(x, n=n, logx=logx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Pow(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Pow(arg, **kwargs), I * (x ** (-I) - x ** I) / (x ** (-I) + x ** I)) over {Any | hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_Pow : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'args')                           ║
+# ║   returns:  I * (x ** (-I) - x ** I) / (x ** (-I) + x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_Pow : {Any | hasattr(arg, 'args')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea52e4061c1162e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9da0a344d3abc8bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_Pow","kind":"method","src_hash":"2a41a49c4ba97e2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_Pow_correct","statement":"Path(_eval_rewrite_as_Pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea52e4061c1162e0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_Pow","kind":"method","src_hash":"2a41a49c4ba97e2e","in":{"base":"Any","pred":"hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(arg, **kwargs)","rhs":"I * (x ** (-I) - x ** I) / (x ** (-I) + x ** I)","over":{"base":"Any","pred":"hasattr(arg, 'args')"},"name":"_eval_rewrite_as_Pow_correct"},"guarantee":"returns I * (x ** (-I) - x ** I) / (x ** (-I) + x ** I)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_Pow_correct","statement":"Path(_eval_rewrite_as_Pow(x), returns I * (x ** (-I) - x ** I) / (x ** (-I) + x ** I))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9da0a344d3abc8bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'args')"],"returns_expr":"I * (x ** (-I) - x ** I) / (x ** (-I) + x ** I)","pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Pow(self, arg, **kwargs):
         if isinstance(arg, log):
             I = S.ImaginaryUnit
@@ -1904,30 +2359,45 @@ class tan(TrigonometricFunction):
             return I*(x**-I - x**I)/(x**-I + x**I)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(self.args[0].conjugate())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.args[0].conjugate())            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8bb777b851dfa818           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bb777b851dfa818"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(self.args[0].conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(self.args[0].conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8bb777b851dfa818","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.args[0].conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(self.args[0].conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_real_imag(dee), id) over Any                       ║
+# ║ Path(as_real_imag(deep, **hints), id) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_real_imag : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((sin(2 * re) / denom, sinh(2 *...   ║
+# ║   ensures:  result == (sin(2 * re) / denom, sinh(2 * ...   ║
+# ║   fiber[case_0]: im => (sin(2 * re) / denom, sinh(2 *...   ║
+# ║   fiber[case_1]: not (im) => (self.func(re), S.Zero)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_real_imag : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 938b46dd9b1f4166   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan.as_real_imag","kind":"method","src_hash":"d2af9729136337c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(dee)","rhs":"as_real_imag produces the expected output","over":{"base":"Any"},"name":"as_real_imag_correct","kind":"composition"},"guarantee":"as_real_imag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"sinh","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"938b46dd9b1f4166"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan.as_real_imag","kind":"method","src_hash":"d2af9729136337c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((sin(2 * re) / denom, sinh(2 * im) / denom) if im else (self.func(re), S.Zero)) and result == (sin(2 * re) / denom, sinh(2 * im) / denom) or result == (self.func(re), S.Zero)"},"spec":{"lhs":"as_real_imag(deep, **hints)","rhs":"result == ((sin(2 * re) / denom, sinh(2 * im) / denom) if im else (self.func(re), S.Zero)) and result == (sin(2 * re) / denom, sinh(2 * im) / denom) or result == (self.func(re), S.Zero)","over":{"base":"Any"},"name":"as_real_imag_correct","kind":"composition"},"guarantee":"result == ((sin(2 * re) / denom, sinh(2 * im) / denom) if im else (self.func(re), S.Zero)); result == (sin(2 * re) / denom, sinh(2 * im) / denom) or result == (self.func(re), S.Zero); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"sinh","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"938b46dd9b1f4166","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((sin(2 * re) / denom, sinh(2 * im) / denom) if im else (self.func(re), S.Zero))","result == (sin(2 * re) / denom, sinh(2 * im) / denom) or result == (self.func(re), S.Zero)"],"fibers":[{"name":"case_0","guard":"im","ensures":["result == (sin(2 * re) / denom, sinh(2 * im) / denom)"],"decidability":"library","returns_expr":"(sin(2 * re) / denom, sinh(2 * im) / denom)"},{"name":"case_1","guard":"not (im)","ensures":["result == (self.func(re), S.Zero)"],"decidability":"library","returns_expr":"(self.func(re), S.Zero)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._as_real_imag","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_real_imag(self, deep=True, **hints):
         re, im = self._as_real_imag(deep=deep, **hints)
         if im:
@@ -1938,16 +2408,23 @@ class tan(TrigonometricFunction):
             return (self.func(re), S.Zero)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_trig(**h), id) over Any                  ║
+# ║ Path(_eval_expand_trig(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: arg.is_Add => (p[0] / p[1]).subs(lis...   ║
+# ║   fiber[case_1]: arg.is_Mul                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_trig : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0811c3b0b6f82aa2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_expand_trig","kind":"method","src_hash":"5e1824f1497b64c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_trig(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_trig_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0811c3b0b6f82aa2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_expand_trig","kind":"method","src_hash":"5e1824f1497b64c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_trig(**hints)","rhs":"<unspecified:_eval_expand_trig>","over":{"base":"Any"},"name":"_eval_expand_trig_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0811c3b0b6f82aa2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"arg.is_Add","ensures":["result == (p[0] / p[1]).subs(list(zip(Y, TX)))"],"decidability":"library","returns_expr":"(p[0] / p[1]).subs(list(zip(Y, TX)))"},{"name":"case_1","guard":"arg.is_Mul","ensures":[],"decidability":"library"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_trig(self, **hints):
         arg = self.args[0]
         x = None
@@ -1976,16 +2453,24 @@ class tan(TrigonometricFunction):
         return tan(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_exp(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_exp(arg, **kwargs), I * (neg_exp - pos_exp) / (neg_exp + pos_exp)) over {Any | hasattr(arg, 'func') and hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_exp : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'func')                           ║
+# ║   requires: hasattr(arg, 'args')                           ║
+# ║   returns:  I * (neg_exp - pos_exp) / (neg_exp + pos_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_exp : {Any | hasattr(arg, 'func') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b0f60681a6072d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68fcfa0e5593e189  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_exp","kind":"method","src_hash":"ad6703f3863e52a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_exp(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_exp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_exp_correct","statement":"Path(_eval_rewrite_as_exp(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b0f60681a6072d3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_exp","kind":"method","src_hash":"ad6703f3863e52a0","in":{"base":"Any","pred":"hasattr(arg, 'func') and hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_exp(arg, **kwargs)","rhs":"I * (neg_exp - pos_exp) / (neg_exp + pos_exp)","over":{"base":"Any","pred":"hasattr(arg, 'func') and hasattr(arg, 'args')"},"name":"_eval_rewrite_as_exp_correct"},"guarantee":"returns I * (neg_exp - pos_exp) / (neg_exp + pos_exp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_exp_correct","statement":"Path(_eval_rewrite_as_exp(x), returns I * (neg_exp - pos_exp) / (neg_exp + pos_exp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68fcfa0e5593e189","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'func')","hasattr(arg, 'args')"],"returns_expr":"I * (neg_exp - pos_exp) / (neg_exp + pos_exp)","pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_exp(self, arg, **kwargs):
         I = S.ImaginaryUnit
         from sympy.functions.elementary.hyperbolic import HyperbolicFunction
@@ -1995,104 +2480,146 @@ class tan(TrigonometricFunction):
         return I*(neg_exp - pos_exp)/(neg_exp + pos_exp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sin(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sin(x, **kwargs), 2 * sin(x) ** 2 / sin(2 * x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * sin(x) ** 2 / sin(2 * x)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sin : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3706a03764a37ddd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_sin","kind":"method","src_hash":"7a98415611ebf17d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3706a03764a37ddd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_sin","kind":"method","src_hash":"7a98415611ebf17d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(x, **kwargs)","rhs":"2 * sin(x) ** 2 / sin(2 * x)","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"returns 2 * sin(x) ** 2 / sin(2 * x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3706a03764a37ddd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * sin(x) ** 2 / sin(2 * x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sin(self, x, **kwargs):
         return 2*sin(x)**2/sin(2*x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cos(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_cos(x, **kwargs), cos(x - pi / 2, evaluate=False) / cos(x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cos(x - pi / 2, evaluate=False) / cos(x)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cos : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63e61aa7d00b07ca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_cos","kind":"method","src_hash":"06961f2a7cc21cd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63e61aa7d00b07ca"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_cos","kind":"method","src_hash":"06961f2a7cc21cd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(x, **kwargs)","rhs":"cos(x - pi / 2, evaluate=False) / cos(x)","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"returns cos(x - pi / 2, evaluate=False) / cos(x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63e61aa7d00b07ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cos(x - pi / 2, evaluate=False) / cos(x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cos(self, x, **kwargs):
         return cos(x - pi/2, evaluate=False)/cos(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sincos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sincos(arg, **kwargs), sin(arg) / cos(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sin(arg) / cos(arg)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sincos : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d51e1d57ca180e9b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_sincos","kind":"method","src_hash":"c7f24726f96ec310","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sincos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sincos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d51e1d57ca180e9b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_sincos","kind":"method","src_hash":"c7f24726f96ec310","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sincos(arg, **kwargs)","rhs":"sin(arg) / cos(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_sincos_correct"},"guarantee":"returns sin(arg) / cos(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d51e1d57ca180e9b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sin(arg) / cos(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sincos(self, arg, **kwargs):
         return sin(arg)/cos(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cot(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_cot(arg, **kwargs), 1 / cot(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / cot(arg)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cot : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 202ade0b964e59c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_cot","kind":"method","src_hash":"23c707a5e70f8b90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cot(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cot_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"202ade0b964e59c8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_cot","kind":"method","src_hash":"23c707a5e70f8b90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cot(arg, **kwargs)","rhs":"1 / cot(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_cot_correct"},"guarantee":"returns 1 / cot(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"202ade0b964e59c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / cot(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cot(self, arg, **kwargs):
         return 1/cot(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sec(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sec(arg, **kwargs), sin_in_sec_form / cos_in_sec_form) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sin_in_sec_form / cos_in_sec_form              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sec : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcca0f57cb5349d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e828f68528366eea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_sec","kind":"method","src_hash":"c895040aec698b9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sec(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sec_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_sec_correct","statement":"Path(_eval_rewrite_as_sec(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcca0f57cb5349d3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_sec","kind":"method","src_hash":"c895040aec698b9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sec(arg, **kwargs)","rhs":"sin_in_sec_form / cos_in_sec_form","over":{"base":"Any"},"name":"_eval_rewrite_as_sec_correct"},"guarantee":"returns sin_in_sec_form / cos_in_sec_form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_sec_correct","statement":"Path(_eval_rewrite_as_sec(x), returns sin_in_sec_form / cos_in_sec_form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e828f68528366eea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sin_in_sec_form / cos_in_sec_form","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sec(self, arg, **kwargs):
         sin_in_sec_form = sin(arg).rewrite(sec, **kwargs)
         cos_in_sec_form = cos(arg).rewrite(sec, **kwargs)
         return sin_in_sec_form/cos_in_sec_form
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_csc(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_csc(arg, **kwargs), sin_in_csc_form / cos_in_csc_form) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sin_in_csc_form / cos_in_csc_form              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_csc : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ab669e75ba2c022  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d09d6964635bce8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_csc","kind":"method","src_hash":"05e0534aeec045a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_csc(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_csc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_csc_correct","statement":"Path(_eval_rewrite_as_csc(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ab669e75ba2c022"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_csc","kind":"method","src_hash":"05e0534aeec045a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_csc(arg, **kwargs)","rhs":"sin_in_csc_form / cos_in_csc_form","over":{"base":"Any"},"name":"_eval_rewrite_as_csc_correct"},"guarantee":"returns sin_in_csc_form / cos_in_csc_form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_csc_correct","statement":"Path(_eval_rewrite_as_csc(x), returns sin_in_csc_form / cos_in_csc_form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d09d6964635bce8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sin_in_csc_form / cos_in_csc_form","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_csc(self, arg, **kwargs):
         sin_in_csc_form = sin(arg).rewrite(csc, **kwargs)
         cos_in_csc_form = cos(arg).rewrite(csc, **kwargs)
         return sin_in_csc_form/cos_in_csc_form
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_pow(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_pow(arg, **kwargs), <unspecified:_eval_rewrite_as_pow>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_pow : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d8ae90d87a952c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_pow","kind":"method","src_hash":"2964d4c130ff0c27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_pow(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_pow_correct","statement":"Path(_eval_rewrite_as_pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d8ae90d87a952c9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_pow","kind":"method","src_hash":"2964d4c130ff0c27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_pow(arg, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_pow>","over":{"base":"Any"},"name":"_eval_rewrite_as_pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_pow_correct","statement":"Path(_eval_rewrite_as_pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d8ae90d87a952c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_pow(self, arg, **kwargs):
         y = self.rewrite(cos, **kwargs).rewrite(pow, **kwargs)
         if y.has(cos):
@@ -2100,16 +2627,22 @@ class tan(TrigonometricFunction):
         return y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sqrt(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sqrt(arg, **kwargs), <unspecified:_eval_rewrite_as_sqrt>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sqrt : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fd19d51fc868131  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_sqrt","kind":"method","src_hash":"f6113a42ed4975e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_sqrt_correct","statement":"Path(_eval_rewrite_as_sqrt(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fd19d51fc868131"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_sqrt","kind":"method","src_hash":"f6113a42ed4975e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(arg, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_sqrt>","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_sqrt_correct","statement":"Path(_eval_rewrite_as_sqrt(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fd19d51fc868131","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sqrt(self, arg, **kwargs):
         y = self.rewrite(cos, **kwargs).rewrite(sqrt, **kwargs)
         if y.has(cos):
@@ -2117,31 +2650,43 @@ class tan(TrigonometricFunction):
         return y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(arg), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besselj(arg, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  besselj(S.Half, arg) / besselj(-S.Half, arg)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5d843c832b57d70e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_besselj","kind":"method","src_hash":"b43a5aa5a13f143e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d843c832b57d70e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_rewrite_as_besselj","kind":"method","src_hash":"b43a5aa5a13f143e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(arg, **kwargs)","rhs":"besselj(S.Half, arg) / besselj(-S.Half, arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"returns besselj(S.Half, arg) / besselj(-S.Half, arg)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d843c832b57d70e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"besselj(S.Half, arg) / besselj(-S.Half, arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, arg, **kwargs):
         from sympy.functions.special.bessel import besselj
         return besselj(S.Half, arg)/besselj(-S.Half, arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a3117c4c48c5a6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_as_leading_term","kind":"method","src_hash":"d1cc0ffe348b6ff2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a3117c4c48c5a6d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_as_leading_term","kind":"method","src_hash":"d1cc0ffe348b6ff2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a3117c4c48c5a6d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         from sympy.calculus.accumulationbounds import AccumBounds
         from sympy.functions.elementary.complexes import re
@@ -2158,47 +2703,65 @@ class tan(TrigonometricFunction):
         return self.func(x0) if x0.is_finite else self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), self.args[0].is_extended_real) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_extended_real                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1514fc94ba21e94d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_is_extended_real","kind":"method","src_hash":"4c15081d98776171","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1514fc94ba21e94d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_is_extended_real","kind":"method","src_hash":"4c15081d98776171","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"self.args[0].is_extended_real","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns self.args[0].is_extended_real","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1514fc94ba21e94d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_extended_real","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         # FIXME: currently tan(pi/2) return zoo
         return self.args[0].is_extended_real
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e3319b033a0d236  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84e08efaf4f0c2c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_is_real","kind":"method","src_hash":"631d486db9315e74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e3319b033a0d236"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_is_real","kind":"method","src_hash":"631d486db9315e74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_is_real_correct","statement":"Path(_eval_is_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84e08efaf4f0c2c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         arg = self.args[0]
         if arg.is_real and (arg/pi - S.Half).is_integer is False:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_finite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_finite(), <unspecified:_eval_is_finite>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_finite : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d79bbeee10901b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_is_finite","kind":"method","src_hash":"cbbf7143104ae0e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d79bbeee10901b8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_is_finite","kind":"method","src_hash":"cbbf7143104ae0e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"<unspecified:_eval_is_finite>","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d79bbeee10901b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_finite(self):
         arg = self.args[0]
 
@@ -2209,32 +2772,44 @@ class tan(TrigonometricFunction):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), pi_mult.is_integer) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi_mult.is_integer                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec7f73a302e85ef0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca1858648ac6a843  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_is_zero","kind":"method","src_hash":"68c3572ff7c98b32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec7f73a302e85ef0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_is_zero","kind":"method","src_hash":"68c3572ff7c98b32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"pi_mult.is_integer","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"returns pi_mult.is_integer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), returns pi_mult.is_integer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca1858648ac6a843","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi_mult.is_integer","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         rest, pi_mult = _peeloff_pi(self.args[0])
         if rest.is_zero:
             return pi_mult.is_integer
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_complex(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_complex(), True) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_complex : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce0ba96bbb8e3747  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1df9ed5a58bd80e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_is_complex","kind":"method","src_hash":"f672d529ad7d3770","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_complex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_is_complex_correct","statement":"Path(_eval_is_complex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce0ba96bbb8e3747"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.tan._eval_is_complex","kind":"method","src_hash":"f672d529ad7d3770","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_complex_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.tan._eval_is_complex_correct","statement":"Path(_eval_is_complex(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1df9ed5a58bd80e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_complex(self):
         arg = self.args[0]
 
@@ -2245,14 +2820,20 @@ class tan(TrigonometricFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(cot(*args), correctly constructs a cot instance) over {Any | isinstance(arg, AccumBounds) and isinstance(arg, acot) and isinstance(arg, atan)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TrigonometricFunction)        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ cot : {Any | isinstance(arg, AccumBounds) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21828fbc8bd6ea90  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot","kind":"class","src_hash":"748ac0f0b2feb16e","in":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, acot) and isinstance(arg, atan)"},"out":{"base":"Any"},"spec":{"lhs":"cot(*args)","rhs":"correctly constructs a cot instance","over":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, acot) and isinstance(arg, atan)"},"name":"cot_class_invariant"},"guarantee":"correctly constructs a cot instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21828fbc8bd6ea90"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot","kind":"class","src_hash":"748ac0f0b2feb16e","in":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, acot) and isinstance(arg, atan)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TrigonometricFunction)"},"spec":{"lhs":"cot(*args)","rhs":"correctly constructs a cot instance","over":{"base":"Any","pred":"isinstance(arg, AccumBounds) and isinstance(arg, acot) and isinstance(arg, atan)"},"name":"cot_class_invariant"},"guarantee":"isinstance(self, TrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21828fbc8bd6ea90","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function cot not found in source"]}}
 class cot(TrigonometricFunction):
     """
     The cotangent function.
@@ -2292,30 +2873,43 @@ class cot(TrigonometricFunction):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(period(sym), period produces the expected output) over Any ║
+# ║ Path(period(symbol), self._period(pi, symbol)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._period(pi, symbol)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ period : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c981d9365652de03           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot.period","kind":"method","src_hash":"437bb8a00ade83be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period(sym)","rhs":"period produces the expected output","over":{"base":"Any"},"name":"period_correct"},"guarantee":"period produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c981d9365652de03"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot.period","kind":"method","src_hash":"437bb8a00ade83be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period(symbol)","rhs":"self._period(pi, symbol)","over":{"base":"Any"},"name":"period_correct"},"guarantee":"returns self._period(pi, symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c981d9365652de03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._period(pi, symbol)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._period"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def period(self, symbol=None):
         return self._period(pi, symbol)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => S.NegativeOne - sel...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3087268c6a60571e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 636f02f96b7ccff4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot.fdiff","kind":"method","src_hash":"98717f8e694c690a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3087268c6a60571e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot.fdiff","kind":"method","src_hash":"98717f8e694c690a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"636f02f96b7ccff4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == S.NegativeOne - self ** 2"],"decidability":"z3","returns_expr":"S.NegativeOne - self ** 2"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return S.NegativeOne - self**2
@@ -2323,16 +2917,22 @@ class cot(TrigonometricFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(arg), returns the inverse of this function) over Any ║
+# ║ Path(inverse(argindex), <unspecified:inverse>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1084b1fdd6bb78aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot.inverse","kind":"method","src_hash":"8c9f6e44b1ce3122","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(arg)","rhs":"returns the inverse of this function","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1084b1fdd6bb78aa"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot.inverse","kind":"method","src_hash":"8c9f6e44b1ce3122","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(argindex)","rhs":"<unspecified:inverse>","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1084b1fdd6bb78aa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(self, argindex=1):
         """
         Returns the inverse of this function.
@@ -2341,16 +2941,25 @@ class cot(TrigonometricFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_Add')                         ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5dbdebfd1d92e97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot.eval","kind":"classmethod","src_hash":"89bcf3b4cfcdfa40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5dbdebfd1d92e97"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot.eval","kind":"classmethod","src_hash":"89bcf3b4cfcdfa40","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5dbdebfd1d92e97","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_Add')","hasattr(arg, 'is_zero')","hasattr(arg, 'could_extract_minus_sign')","hasattr(arg, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.could_extract_minus_sign","arg.is_Add","arg.is_Number","arg.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         from sympy.calculus.accumulationbounds import AccumBounds
         if arg.is_Number:
@@ -2458,16 +3067,26 @@ class cot(TrigonometricFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), taylor_term produces the expected output) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), result == (1 / sympify(x) if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n) and result == 1 / sympify(x) or result == S.Zero or result == S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ taylor_term : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (1 / sympify(x) if n == 0 else ...   ║
+# ║   ensures:  result == 1 / sympify(x) or result == S.Z...   ║
+# ║   fiber[zero_or_none]: n == 0 => 1 / sympify(x)            ║
+# ║   fiber[negative]: n < 0 or n % 2 == 0 => S.Zero           ║
+# ║   fiber[negative]: not (n == 0) and not (n < 0 or n %...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ taylor_term : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d682779e26d7d4a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d789aaaef359a9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot.taylor_term","kind":"staticmethod","src_hash":"1b3ceff6a155c71e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot.taylor_term_correct","statement":"Path(taylor_term(x), taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d682779e26d7d4a4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot.taylor_term","kind":"staticmethod","src_hash":"1b3ceff6a155c71e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (1 / sympify(x) if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n) and result == 1 / sympify(x) or result == S.Zero or result == S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"result == (1 / sympify(x) if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n) and result == 1 / sympify(x) or result == S.Zero or result == S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"result == (1 / sympify(x) if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n); result == 1 / sympify(x) or result == S.Zero or result == S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot.taylor_term_correct","statement":"Path(taylor_term(x), result == (1 / sympify(x) if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n); result == 1 / sympify(x) or result == S.Zero or result == S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d789aaaef359a9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (1 / sympify(x) if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n)","result == 1 / sympify(x) or result == S.Zero or result == S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n"],"fibers":[{"name":"zero_or_none","guard":"n == 0","ensures":["result == 1 / sympify(x)"],"decidability":"z3","returns_expr":"1 / sympify(x)"},{"name":"negative","guard":"n < 0 or n % 2 == 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n == 0) and not (n < 0 or n % 2 == 0)","ensures":["result == S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n"],"decidability":"z3","returns_expr":"S.NegativeOne ** ((n + 1) // 2) * 2 ** (n + 1) * B / F * x ** n"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         if n == 0:
             return 1/sympify(x)
@@ -2482,16 +3101,22 @@ class cot(TrigonometricFunction):
             return S.NegativeOne**((n + 1)//2)*2**(n + 1)*B/F*x**n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cb0f45c6756ea9cf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_nseries","kind":"method","src_hash":"d152577a52c0e114","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb0f45c6756ea9cf"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_nseries","kind":"method","src_hash":"d152577a52c0e114","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb0f45c6756ea9cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         i = self.args[0].limit(x, 0)/pi
         if i and i.is_Integer:
@@ -2499,30 +3124,45 @@ class cot(TrigonometricFunction):
         return self.rewrite(tan)._eval_nseries(x, n=n, logx=logx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(self.args[0].conjugate())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.args[0].conjugate())            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 97ac43f82b6ae3c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97ac43f82b6ae3c2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(self.args[0].conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(self.args[0].conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"97ac43f82b6ae3c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.args[0].conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(self.args[0].conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_real_imag(dee), id) over Any                       ║
+# ║ Path(as_real_imag(deep, **hints), id) over Any             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_real_imag : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((-sin(2 * re) / denom, sinh(2 ...   ║
+# ║   ensures:  result == (-sin(2 * re) / denom, sinh(2 *...   ║
+# ║   fiber[case_0]: im => (-sin(2 * re) / denom, sinh(2 ...   ║
+# ║   fiber[case_1]: not (im) => (self.func(re), S.Zero)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_real_imag : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 05c4e8ec27a02e8b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot.as_real_imag","kind":"method","src_hash":"df436c3725634e4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(dee)","rhs":"as_real_imag produces the expected output","over":{"base":"Any"},"name":"as_real_imag_correct","kind":"composition"},"guarantee":"as_real_imag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"sinh","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05c4e8ec27a02e8b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot.as_real_imag","kind":"method","src_hash":"df436c3725634e4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((-sin(2 * re) / denom, sinh(2 * im) / denom) if im else (self.func(re), S.Zero)) and result == (-sin(2 * re) / denom, sinh(2 * im) / denom) or result == (self.func(re), S.Zero)"},"spec":{"lhs":"as_real_imag(deep, **hints)","rhs":"result == ((-sin(2 * re) / denom, sinh(2 * im) / denom) if im else (self.func(re), S.Zero)) and result == (-sin(2 * re) / denom, sinh(2 * im) / denom) or result == (self.func(re), S.Zero)","over":{"base":"Any"},"name":"as_real_imag_correct","kind":"composition"},"guarantee":"result == ((-sin(2 * re) / denom, sinh(2 * im) / denom) if im else (self.func(re), S.Zero)); result == (-sin(2 * re) / denom, sinh(2 * im) / denom) or result == (self.func(re), S.Zero); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"sinh","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05c4e8ec27a02e8b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((-sin(2 * re) / denom, sinh(2 * im) / denom) if im else (self.func(re), S.Zero))","result == (-sin(2 * re) / denom, sinh(2 * im) / denom) or result == (self.func(re), S.Zero)"],"fibers":[{"name":"case_0","guard":"im","ensures":["result == (-sin(2 * re) / denom, sinh(2 * im) / denom)"],"decidability":"library","returns_expr":"(-sin(2 * re) / denom, sinh(2 * im) / denom)"},{"name":"case_1","guard":"not (im)","ensures":["result == (self.func(re), S.Zero)"],"decidability":"library","returns_expr":"(self.func(re), S.Zero)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._as_real_imag","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_real_imag(self, deep=True, **hints):
         re, im = self._as_real_imag(deep=deep, **hints)
         if im:
@@ -2533,16 +3173,24 @@ class cot(TrigonometricFunction):
             return (self.func(re), S.Zero)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_exp(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_exp(arg, **kwargs), I * (pos_exp + neg_exp) / (pos_exp - neg_exp)) over {Any | hasattr(arg, 'func') and hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_exp : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'func')                           ║
+# ║   requires: hasattr(arg, 'args')                           ║
+# ║   returns:  I * (pos_exp + neg_exp) / (pos_exp - neg_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_exp : {Any | hasattr(arg, 'func') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f50cb4bd19c88b2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a49a2aee80dd79eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_exp","kind":"method","src_hash":"46abd4a3ff4f19f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_exp(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_exp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_exp_correct","statement":"Path(_eval_rewrite_as_exp(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f50cb4bd19c88b2d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_exp","kind":"method","src_hash":"46abd4a3ff4f19f0","in":{"base":"Any","pred":"hasattr(arg, 'func') and hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_exp(arg, **kwargs)","rhs":"I * (pos_exp + neg_exp) / (pos_exp - neg_exp)","over":{"base":"Any","pred":"hasattr(arg, 'func') and hasattr(arg, 'args')"},"name":"_eval_rewrite_as_exp_correct"},"guarantee":"returns I * (pos_exp + neg_exp) / (pos_exp - neg_exp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_exp_correct","statement":"Path(_eval_rewrite_as_exp(x), returns I * (pos_exp + neg_exp) / (pos_exp - neg_exp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a49a2aee80dd79eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'func')","hasattr(arg, 'args')"],"returns_expr":"I * (pos_exp + neg_exp) / (pos_exp - neg_exp)","pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_exp(self, arg, **kwargs):
         from sympy.functions.elementary.hyperbolic import HyperbolicFunction
         I = S.ImaginaryUnit
@@ -2552,16 +3200,23 @@ class cot(TrigonometricFunction):
         return I*(pos_exp + neg_exp)/(pos_exp - neg_exp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Pow(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Pow(arg, **kwargs), -I * (x ** (-I) + x ** I) / (x ** (-I) - x ** I)) over {Any | hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_Pow : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'args')                           ║
+# ║   returns:  -I * (x ** (-I) + x ** I) / (x ** (-I) - ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_Pow : {Any | hasattr(arg, 'args')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5cdfaef46b91439  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e01bc6c2f0119f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_Pow","kind":"method","src_hash":"c082d6065fbd13d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_Pow_correct","statement":"Path(_eval_rewrite_as_Pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5cdfaef46b91439"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_Pow","kind":"method","src_hash":"c082d6065fbd13d3","in":{"base":"Any","pred":"hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(arg, **kwargs)","rhs":"-I * (x ** (-I) + x ** I) / (x ** (-I) - x ** I)","over":{"base":"Any","pred":"hasattr(arg, 'args')"},"name":"_eval_rewrite_as_Pow_correct"},"guarantee":"returns -I * (x ** (-I) + x ** I) / (x ** (-I) - x ** I)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_Pow_correct","statement":"Path(_eval_rewrite_as_Pow(x), returns -I * (x ** (-I) + x ** I) / (x ** (-I) - x ** I))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e01bc6c2f0119f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'args')"],"returns_expr":"-I * (x ** (-I) + x ** I) / (x ** (-I) - x ** I)","pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Pow(self, arg, **kwargs):
         if isinstance(arg, log):
             I = S.ImaginaryUnit
@@ -2569,104 +3224,146 @@ class cot(TrigonometricFunction):
             return -I*(x**-I + x**I)/(x**-I - x**I)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sin(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sin(x, **kwargs), sin(2 * x) / (2 * sin(x) ** 2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sin(2 * x) / (2 * sin(x) ** 2)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sin : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87b1934f9ac67cd3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_sin","kind":"method","src_hash":"56c08653369c41ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87b1934f9ac67cd3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_sin","kind":"method","src_hash":"56c08653369c41ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(x, **kwargs)","rhs":"sin(2 * x) / (2 * sin(x) ** 2)","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"returns sin(2 * x) / (2 * sin(x) ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87b1934f9ac67cd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sin(2 * x) / (2 * sin(x) ** 2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sin(self, x, **kwargs):
         return sin(2*x)/(2*(sin(x)**2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cos(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_cos(x, **kwargs), cos(x) / cos(x - pi / 2, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cos(x) / cos(x - pi / 2, evaluate=False)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cos : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9bcb9f711bbbc842           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_cos","kind":"method","src_hash":"67650952bb91493f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9bcb9f711bbbc842"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_cos","kind":"method","src_hash":"67650952bb91493f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(x, **kwargs)","rhs":"cos(x) / cos(x - pi / 2, evaluate=False)","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"returns cos(x) / cos(x - pi / 2, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9bcb9f711bbbc842","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cos(x) / cos(x - pi / 2, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cos(self, x, **kwargs):
         return cos(x)/cos(x - pi/2, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sincos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sincos(arg, **kwargs), cos(arg) / sin(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cos(arg) / sin(arg)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sincos : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c265cb59cd0f1c40           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_sincos","kind":"method","src_hash":"e21d70b48bc0b362","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sincos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sincos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c265cb59cd0f1c40"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_sincos","kind":"method","src_hash":"e21d70b48bc0b362","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sincos(arg, **kwargs)","rhs":"cos(arg) / sin(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_sincos_correct"},"guarantee":"returns cos(arg) / sin(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c265cb59cd0f1c40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cos(arg) / sin(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sincos(self, arg, **kwargs):
         return cos(arg)/sin(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tan(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_tan(arg, **kwargs), 1 / tan(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / tan(arg)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_tan : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0396ca6d83f49a92           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_tan","kind":"method","src_hash":"bf1a01e3e1c74342","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tan(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0396ca6d83f49a92"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_tan","kind":"method","src_hash":"bf1a01e3e1c74342","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tan(arg, **kwargs)","rhs":"1 / tan(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_tan_correct"},"guarantee":"returns 1 / tan(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0396ca6d83f49a92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / tan(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tan(self, arg, **kwargs):
         return 1/tan(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sec(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sec(arg, **kwargs), cos_in_sec_form / sin_in_sec_form) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cos_in_sec_form / sin_in_sec_form              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sec : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64dab02a83f233ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78199ee5aa5275eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_sec","kind":"method","src_hash":"04898d20c4f712a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sec(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sec_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_sec_correct","statement":"Path(_eval_rewrite_as_sec(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64dab02a83f233ad"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_sec","kind":"method","src_hash":"04898d20c4f712a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sec(arg, **kwargs)","rhs":"cos_in_sec_form / sin_in_sec_form","over":{"base":"Any"},"name":"_eval_rewrite_as_sec_correct"},"guarantee":"returns cos_in_sec_form / sin_in_sec_form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_sec_correct","statement":"Path(_eval_rewrite_as_sec(x), returns cos_in_sec_form / sin_in_sec_form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78199ee5aa5275eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cos_in_sec_form / sin_in_sec_form","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sec(self, arg, **kwargs):
         cos_in_sec_form = cos(arg).rewrite(sec, **kwargs)
         sin_in_sec_form = sin(arg).rewrite(sec, **kwargs)
         return cos_in_sec_form/sin_in_sec_form
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_csc(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_csc(arg, **kwargs), cos_in_csc_form / sin_in_csc_form) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cos_in_csc_form / sin_in_csc_form              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_csc : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d15ac75b9fd6180  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7df5c578cf1414e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_csc","kind":"method","src_hash":"3c68d78de37c4d89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_csc(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_csc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_csc_correct","statement":"Path(_eval_rewrite_as_csc(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d15ac75b9fd6180"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_csc","kind":"method","src_hash":"3c68d78de37c4d89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_csc(arg, **kwargs)","rhs":"cos_in_csc_form / sin_in_csc_form","over":{"base":"Any"},"name":"_eval_rewrite_as_csc_correct"},"guarantee":"returns cos_in_csc_form / sin_in_csc_form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_csc_correct","statement":"Path(_eval_rewrite_as_csc(x), returns cos_in_csc_form / sin_in_csc_form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7df5c578cf1414e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cos_in_csc_form / sin_in_csc_form","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_csc(self, arg, **kwargs):
         cos_in_csc_form = cos(arg).rewrite(csc, **kwargs)
         sin_in_csc_form = sin(arg).rewrite(csc, **kwargs)
         return cos_in_csc_form/sin_in_csc_form
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_pow(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_pow(arg, **kwargs), <unspecified:_eval_rewrite_as_pow>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_pow : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f96936d866246001  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_pow","kind":"method","src_hash":"2964d4c130ff0c27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_pow(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_pow_correct","statement":"Path(_eval_rewrite_as_pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f96936d866246001"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_pow","kind":"method","src_hash":"2964d4c130ff0c27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_pow(arg, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_pow>","over":{"base":"Any"},"name":"_eval_rewrite_as_pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_pow_correct","statement":"Path(_eval_rewrite_as_pow(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f96936d866246001","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_pow(self, arg, **kwargs):
         y = self.rewrite(cos, **kwargs).rewrite(pow, **kwargs)
         if y.has(cos):
@@ -2674,16 +3371,22 @@ class cot(TrigonometricFunction):
         return y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sqrt(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sqrt(arg, **kwargs), <unspecified:_eval_rewrite_as_sqrt>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sqrt : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a5e943acbf24a12  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_sqrt","kind":"method","src_hash":"f6113a42ed4975e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_sqrt_correct","statement":"Path(_eval_rewrite_as_sqrt(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a5e943acbf24a12"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_sqrt","kind":"method","src_hash":"f6113a42ed4975e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(arg, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_sqrt>","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_sqrt_correct","statement":"Path(_eval_rewrite_as_sqrt(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a5e943acbf24a12","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sqrt(self, arg, **kwargs):
         y = self.rewrite(cos, **kwargs).rewrite(sqrt, **kwargs)
         if y.has(cos):
@@ -2691,31 +3394,43 @@ class cot(TrigonometricFunction):
         return y
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(arg), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besselj(arg, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  besselj(-S.Half, arg) / besselj(S.Half, arg)   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1d95a543163395f3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_besselj","kind":"method","src_hash":"3505dfdd2edffa8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d95a543163395f3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_rewrite_as_besselj","kind":"method","src_hash":"3505dfdd2edffa8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(arg, **kwargs)","rhs":"besselj(-S.Half, arg) / besselj(S.Half, arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"returns besselj(-S.Half, arg) / besselj(S.Half, arg)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"besselj","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d95a543163395f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"besselj(-S.Half, arg) / besselj(S.Half, arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, arg, **kwargs):
         from sympy.functions.special.bessel import besselj
         return besselj(-S.Half, arg)/besselj(S.Half, arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 839437fe765d8123  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_as_leading_term","kind":"method","src_hash":"ef91b3175b68780e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"839437fe765d8123"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_as_leading_term","kind":"method","src_hash":"ef91b3175b68780e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"839437fe765d8123","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         from sympy.calculus.accumulationbounds import AccumBounds
         from sympy.functions.elementary.complexes import re
@@ -2732,30 +3447,43 @@ class cot(TrigonometricFunction):
         return self.func(x0) if x0.is_finite else self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), self.args[0].is_extended_real) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_extended_real                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba93a3e5e50c713a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_is_extended_real","kind":"method","src_hash":"f2959ee62bc56d70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba93a3e5e50c713a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_is_extended_real","kind":"method","src_hash":"f2959ee62bc56d70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"self.args[0].is_extended_real","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns self.args[0].is_extended_real","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba93a3e5e50c713a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_extended_real","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         return self.args[0].is_extended_real
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_trig(**h), id) over Any                  ║
+# ║ Path(_eval_expand_trig(**hints), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: arg.is_Add => (p[0] / p[1]).subs(lis...   ║
+# ║   fiber[case_1]: arg.is_Mul                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_trig : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9d3ce4b206b091fc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_expand_trig","kind":"method","src_hash":"16ff2c90ce569c06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_trig(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_trig_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d3ce4b206b091fc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_expand_trig","kind":"method","src_hash":"16ff2c90ce569c06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_trig(**hints)","rhs":"<unspecified:_eval_expand_trig>","over":{"base":"Any"},"name":"_eval_expand_trig_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"subs","by":"library_axiom"},{"fn":"list","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d3ce4b206b091fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"arg.is_Add","ensures":["result == (p[0] / p[1]).subs(list(zip(Y, CX)))"],"decidability":"library","returns_expr":"(p[0] / p[1]).subs(list(zip(Y, CX)))"},{"name":"case_1","guard":"arg.is_Mul","ensures":[],"decidability":"library"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_trig(self, **hints):
         arg = self.args[0]
         x = None
@@ -2783,16 +3511,22 @@ class cot(TrigonometricFunction):
         return cot(arg)  # XXX sec and csc return 1/cos and 1/sin
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_finite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_finite(), <unspecified:_eval_is_finite>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_finite : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf4306a4cbf599d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_is_finite","kind":"method","src_hash":"9bcb75f87ba050dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf4306a4cbf599d8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_is_finite","kind":"method","src_hash":"9bcb75f87ba050dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"<unspecified:_eval_is_finite>","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf4306a4cbf599d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_finite(self):
         arg = self.args[0]
         if arg.is_real and (arg/pi).is_integer is False:
@@ -2801,64 +3535,88 @@ class cot(TrigonometricFunction):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 938e9339ef06a244  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94819d459d5cbd65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_is_real","kind":"method","src_hash":"924885724a5277da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"938e9339ef06a244"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_is_real","kind":"method","src_hash":"924885724a5277da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_is_real_correct","statement":"Path(_eval_is_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94819d459d5cbd65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         arg = self.args[0]
         if arg.is_real and (arg/pi).is_integer is False:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_complex(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_complex(), True) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_complex : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 760dbce25e47a2af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb301e851458b4c4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_is_complex","kind":"method","src_hash":"c4a071e1257b190f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_complex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_is_complex_correct","statement":"Path(_eval_is_complex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"760dbce25e47a2af"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_is_complex","kind":"method","src_hash":"c4a071e1257b190f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_complex_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_is_complex_correct","statement":"Path(_eval_is_complex(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb301e851458b4c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_complex(self):
         arg = self.args[0]
         if arg.is_real and (arg/pi).is_integer is False:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), (pimult - S.Half).is_integer) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (pimult - S.Half).is_integer                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b58a5ea1d5df84da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a3ddc33e9e514c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_is_zero","kind":"method","src_hash":"5452e755e90dd131","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b58a5ea1d5df84da"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_is_zero","kind":"method","src_hash":"5452e755e90dd131","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"(pimult - S.Half).is_integer","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"returns (pimult - S.Half).is_integer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), returns (pimult - S.Half).is_integer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a3ddc33e9e514c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(pimult - S.Half).is_integer","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         rest, pimult = _peeloff_pi(self.args[0])
         if pimult and rest.is_zero:
             return (pimult - S.Half).is_integer
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_subs(old, new), <unspecified:_eval_subs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_subs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b33596bc9a9a3bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_subs","kind":"method","src_hash":"a76726ec6e990025","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b33596bc9a9a3bf"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.cot._eval_subs","kind":"method","src_hash":"a76726ec6e990025","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"<unspecified:_eval_subs>","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.cot._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b33596bc9a9a3bf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         arg = self.args[0]
         argnew = arg.subs(old, new)
@@ -2870,14 +3628,20 @@ class cot(TrigonometricFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ReciprocalTrigonometricFunction(*args), correctly constructs a ReciprocalTrigonometricFunction instance) over {Any | isinstance(i, cos) and isinstance(i, sin)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TrigonometricFunction)        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ReciprocalTrigonometricFunction : {Any | isinstance(i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0743fb1ba85eb79d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction","kind":"class","src_hash":"f2305526c0fc64d3","in":{"base":"Any","pred":"isinstance(i, cos) and isinstance(i, sin)"},"out":{"base":"Any"},"spec":{"lhs":"ReciprocalTrigonometricFunction(*args)","rhs":"correctly constructs a ReciprocalTrigonometricFunction instance","over":{"base":"Any","pred":"isinstance(i, cos) and isinstance(i, sin)"},"name":"ReciprocalTrigonometricFunction_class_invariant"},"guarantee":"correctly constructs a ReciprocalTrigonometricFunction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0743fb1ba85eb79d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction","kind":"class","src_hash":"f2305526c0fc64d3","in":{"base":"Any","pred":"isinstance(i, cos) and isinstance(i, sin)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TrigonometricFunction)"},"spec":{"lhs":"ReciprocalTrigonometricFunction(*args)","rhs":"correctly constructs a ReciprocalTrigonometricFunction instance","over":{"base":"Any","pred":"isinstance(i, cos) and isinstance(i, sin)"},"name":"ReciprocalTrigonometricFunction_class_invariant"},"guarantee":"isinstance(self, TrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0743fb1ba85eb79d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function ReciprocalTrigonometricFunction not found in source"]}}
 class ReciprocalTrigonometricFunction(TrigonometricFunction):
     """Base class for reciprocal functions of trigonometric functions. """
 
@@ -2894,16 +3658,25 @@ class ReciprocalTrigonometricFunction(TrigonometricFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args') and hasattr(arg, 'inverse')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'could_extract_minus_sign')       ║
+# ║   requires: hasattr(arg, 'args')                           ║
+# ║   requires: hasattr(arg, 'inverse')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'could_extract_minus_sign'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71106fef080381fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction.eval","kind":"classmethod","src_hash":"9280193ffe5408ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71106fef080381fc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction.eval","kind":"classmethod","src_hash":"9280193ffe5408ab","in":{"base":"Any","pred":"hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args') and hasattr(arg, 'inverse')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args') and hasattr(arg, 'inverse')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71106fef080381fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'could_extract_minus_sign')","hasattr(arg, 'args')","hasattr(arg, 'inverse')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.could_extract_minus_sign","arg.inverse","cls._is_even","cls._is_odd","cls._reciprocal_of"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.could_extract_minus_sign():
             if cls._is_even:
@@ -2941,32 +3714,44 @@ class ReciprocalTrigonometricFunction(TrigonometricFunction):
             return 1/t
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_call_reciprocal(met), id) over Any                   ║
+# ║ Path(_call_reciprocal(method_name, *args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  getattr(o, method_name)(*args, **kwargs)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _call_reciprocal : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 89188e4881649b7b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._call_reciprocal","kind":"method","src_hash":"bd89e74a24041fbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_call_reciprocal(met)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_call_reciprocal_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"getattr","by":"library_axiom"},{"fn":"method_name","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89188e4881649b7b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._call_reciprocal","kind":"method","src_hash":"bd89e74a24041fbb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_call_reciprocal(method_name, *args, **kwargs)","rhs":"getattr(o, method_name)(*args, **kwargs)","over":{"base":"Any"},"name":"_call_reciprocal_correct","kind":"composition"},"guarantee":"returns getattr(o, method_name)(*args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"getattr","by":"library_axiom"},{"fn":"method_name","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89188e4881649b7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"getattr(o, method_name)(*args, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._reciprocal_of","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _call_reciprocal(self, method_name, *args, **kwargs):
         # Calls method_name on _reciprocal_of
         o = self._reciprocal_of(self.args[0])
         return getattr(o, method_name)(*args, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_calculate_reciprocal(met), internal helper behaves correctly) over Any ║
+# ║ Path(_calculate_reciprocal(method_name, *args, **kwargs), 1 / t if t is not None else t) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / t if t is not None else t                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _calculate_reciprocal : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70ea2073345edc80  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 949ce1d81edcbc66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._calculate_reciprocal","kind":"method","src_hash":"4b4ff6ea83cd49ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_reciprocal(met)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_calculate_reciprocal_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._calculate_reciprocal_correct","statement":"Path(_calculate_reciprocal(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70ea2073345edc80"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._calculate_reciprocal","kind":"method","src_hash":"4b4ff6ea83cd49ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_calculate_reciprocal(method_name, *args, **kwargs)","rhs":"1 / t if t is not None else t","over":{"base":"Any"},"name":"_calculate_reciprocal_correct"},"guarantee":"returns 1 / t if t is not None else t","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._calculate_reciprocal_correct","statement":"Path(_calculate_reciprocal(x), returns 1 / t if t is not None else t)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"949ce1d81edcbc66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / t if t is not None else t","pure":false,"effects":{"effect_type":"reads_state","reads":["self._call_reciprocal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _calculate_reciprocal(self, method_name, *args, **kwargs):
         # If calling method_name on _reciprocal_of returns a value != None
         # then return the reciprocal of that value
@@ -2974,16 +3759,22 @@ class ReciprocalTrigonometricFunction(TrigonometricFunction):
         return 1/t if t is not None else t
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rewrite_reciprocal(met), internal helper behaves correctly) over Any ║
+# ║ Path(_rewrite_reciprocal(method_name, arg), 1 / t) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / t                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rewrite_reciprocal : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82f001b78537abfe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0d268056936525c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._rewrite_reciprocal","kind":"method","src_hash":"452b83865ea7b367","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_reciprocal(met)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_rewrite_reciprocal_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._rewrite_reciprocal_correct","statement":"Path(_rewrite_reciprocal(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82f001b78537abfe"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._rewrite_reciprocal","kind":"method","src_hash":"452b83865ea7b367","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_reciprocal(method_name, arg)","rhs":"1 / t","over":{"base":"Any"},"name":"_rewrite_reciprocal_correct"},"guarantee":"returns 1 / t","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._rewrite_reciprocal_correct","statement":"Path(_rewrite_reciprocal(x), returns 1 / t)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0d268056936525c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / t","pure":false,"effects":{"effect_type":"reads_state","reads":["self._call_reciprocal","self._reciprocal_of"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rewrite_reciprocal(self, method_name, arg):
         # Special handling for rewrite functions. If reciprocal rewrite returns
         # unmodified expression, then return None
@@ -2992,228 +3783,324 @@ class ReciprocalTrigonometricFunction(TrigonometricFunction):
             return 1/t
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_period(sym), id) over Any                            ║
+# ║ Path(_period(symbol), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._reciprocal_of(f).period(symbol)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _period : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3db5feccc3a01bc0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._period","kind":"method","src_hash":"f6266f79e602381f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_period(sym)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_period_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_reciprocal_of","by":"library_axiom"},{"fn":"period","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3db5feccc3a01bc0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._period","kind":"method","src_hash":"f6266f79e602381f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_period(symbol)","rhs":"self._reciprocal_of(f).period(symbol)","over":{"base":"Any"},"name":"_period_correct","kind":"composition"},"guarantee":"returns self._reciprocal_of(f).period(symbol)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_reciprocal_of","by":"library_axiom"},{"fn":"period","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3db5feccc3a01bc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._reciprocal_of(f).period(symbol)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._reciprocal_of","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _period(self, symbol):
         f = expand_mul(self.args[0])
         return self._reciprocal_of(f).period(symbol)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), -self._calculate_reciprocal('fdiff', argindex) / self ** 2) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -self._calculate_reciprocal('fdiff', argi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2a9fb4ee2d0b4c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction.fdiff","kind":"method","src_hash":"fbd13fa41e99edda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2a9fb4ee2d0b4c5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction.fdiff","kind":"method","src_hash":"fbd13fa41e99edda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"-self._calculate_reciprocal('fdiff', argindex) / self ** 2","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"returns -self._calculate_reciprocal('fdiff', argindex) / self ** 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2a9fb4ee2d0b4c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-self._calculate_reciprocal('fdiff', argindex) / self ** 2","pure":false,"effects":{"effect_type":"reads_state","reads":["self._calculate_reciprocal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         return -self._calculate_reciprocal("fdiff", argindex)/self**2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_exp(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_exp(arg, **kwargs), self._rewrite_reciprocal('_eval_rewrite_as_exp', arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rewrite_reciprocal('_eval_rewrite_a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_exp : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0116fee71cfc5c1c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_exp","kind":"method","src_hash":"d560298ef749e5f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_exp(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_exp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0116fee71cfc5c1c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_exp","kind":"method","src_hash":"d560298ef749e5f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_exp(arg, **kwargs)","rhs":"self._rewrite_reciprocal('_eval_rewrite_as_exp', arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_exp_correct"},"guarantee":"returns self._rewrite_reciprocal('_eval_rewrite_as_exp', arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0116fee71cfc5c1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rewrite_reciprocal('_eval_rewrite_as_exp', arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewrite_reciprocal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_exp(self, arg, **kwargs):
         return self._rewrite_reciprocal("_eval_rewrite_as_exp", arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Pow(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_Pow(arg, **kwargs), self._rewrite_reciprocal('_eval_rewrite_as_Pow', arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rewrite_reciprocal('_eval_rewrite_a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Pow : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3fc9873321612be2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_Pow","kind":"method","src_hash":"95c68155d6c728f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3fc9873321612be2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_Pow","kind":"method","src_hash":"95c68155d6c728f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(arg, **kwargs)","rhs":"self._rewrite_reciprocal('_eval_rewrite_as_Pow', arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_Pow_correct"},"guarantee":"returns self._rewrite_reciprocal('_eval_rewrite_as_Pow', arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3fc9873321612be2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rewrite_reciprocal('_eval_rewrite_as_Pow', arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewrite_reciprocal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Pow(self, arg, **kwargs):
         return self._rewrite_reciprocal("_eval_rewrite_as_Pow", arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sin(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sin(arg, **kwargs), self._rewrite_reciprocal('_eval_rewrite_as_sin', arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rewrite_reciprocal('_eval_rewrite_a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sin : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 80af024f455c72a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_sin","kind":"method","src_hash":"7830aeefe826ec0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80af024f455c72a6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_sin","kind":"method","src_hash":"7830aeefe826ec0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(arg, **kwargs)","rhs":"self._rewrite_reciprocal('_eval_rewrite_as_sin', arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"returns self._rewrite_reciprocal('_eval_rewrite_as_sin', arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80af024f455c72a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rewrite_reciprocal('_eval_rewrite_as_sin', arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewrite_reciprocal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sin(self, arg, **kwargs):
         return self._rewrite_reciprocal("_eval_rewrite_as_sin", arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_cos(arg, **kwargs), self._rewrite_reciprocal('_eval_rewrite_as_cos', arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rewrite_reciprocal('_eval_rewrite_a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cos : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7da0d51467c907c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_cos","kind":"method","src_hash":"5e926eb0bb38e069","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7da0d51467c907c4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_cos","kind":"method","src_hash":"5e926eb0bb38e069","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(arg, **kwargs)","rhs":"self._rewrite_reciprocal('_eval_rewrite_as_cos', arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"returns self._rewrite_reciprocal('_eval_rewrite_as_cos', arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7da0d51467c907c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rewrite_reciprocal('_eval_rewrite_as_cos', arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewrite_reciprocal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cos(self, arg, **kwargs):
         return self._rewrite_reciprocal("_eval_rewrite_as_cos", arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tan(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_tan(arg, **kwargs), self._rewrite_reciprocal('_eval_rewrite_as_tan', arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rewrite_reciprocal('_eval_rewrite_a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_tan : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 42694ea01db6d7f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_tan","kind":"method","src_hash":"2386e77fe9eb62e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tan(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42694ea01db6d7f6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_tan","kind":"method","src_hash":"2386e77fe9eb62e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tan(arg, **kwargs)","rhs":"self._rewrite_reciprocal('_eval_rewrite_as_tan', arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_tan_correct"},"guarantee":"returns self._rewrite_reciprocal('_eval_rewrite_as_tan', arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42694ea01db6d7f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rewrite_reciprocal('_eval_rewrite_as_tan', arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewrite_reciprocal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tan(self, arg, **kwargs):
         return self._rewrite_reciprocal("_eval_rewrite_as_tan", arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_pow(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_pow(arg, **kwargs), self._rewrite_reciprocal('_eval_rewrite_as_pow', arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rewrite_reciprocal('_eval_rewrite_a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_pow : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 15658ca15c720d43           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_pow","kind":"method","src_hash":"0240dd80560e105e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_pow(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_pow_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15658ca15c720d43"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_pow","kind":"method","src_hash":"0240dd80560e105e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_pow(arg, **kwargs)","rhs":"self._rewrite_reciprocal('_eval_rewrite_as_pow', arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_pow_correct"},"guarantee":"returns self._rewrite_reciprocal('_eval_rewrite_as_pow', arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15658ca15c720d43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rewrite_reciprocal('_eval_rewrite_as_pow', arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewrite_reciprocal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_pow(self, arg, **kwargs):
         return self._rewrite_reciprocal("_eval_rewrite_as_pow", arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sqrt(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sqrt(arg, **kwargs), self._rewrite_reciprocal('_eval_rewrite_as_sqrt', arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rewrite_reciprocal('_eval_rewrite_a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sqrt : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a394ee4fcbe46789           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_sqrt","kind":"method","src_hash":"971584de0fd2df63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a394ee4fcbe46789"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_rewrite_as_sqrt","kind":"method","src_hash":"971584de0fd2df63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(arg, **kwargs)","rhs":"self._rewrite_reciprocal('_eval_rewrite_as_sqrt', arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"returns self._rewrite_reciprocal('_eval_rewrite_as_sqrt', arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a394ee4fcbe46789","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rewrite_reciprocal('_eval_rewrite_as_sqrt', arg)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rewrite_reciprocal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sqrt(self, arg, **kwargs):
         return self._rewrite_reciprocal("_eval_rewrite_as_sqrt", arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(self.args[0].conjugate())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.args[0].conjugate())            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7dd0455496677af2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dd0455496677af2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_conjugate","kind":"method","src_hash":"d0191694cd86ac00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(self.args[0].conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(self.args[0].conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7dd0455496677af2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.args[0].conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(self.args[0].conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_real_imag(dee), id) over Any                       ║
+# ║ Path(as_real_imag(deep, **hints), id) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (1 / self._reciprocal_of(self.args[0])).a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_real_imag : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 606f5ceae269a42b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction.as_real_imag","kind":"method","src_hash":"16e6312294ef13ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(dee)","rhs":"as_real_imag produces the expected output","over":{"base":"Any"},"name":"as_real_imag_correct","kind":"composition"},"guarantee":"as_real_imag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_reciprocal_of","by":"library_axiom"},{"fn":"as_real_imag","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"606f5ceae269a42b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction.as_real_imag","kind":"method","src_hash":"16e6312294ef13ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(deep, **hints)","rhs":"(1 / self._reciprocal_of(self.args[0])).as_real_imag(deep, **hints)","over":{"base":"Any"},"name":"as_real_imag_correct","kind":"composition"},"guarantee":"returns (1 / self._reciprocal_of(self.args[0])).as_real_imag(deep, **hints)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_reciprocal_of","by":"library_axiom"},{"fn":"as_real_imag","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"606f5ceae269a42b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(1 / self._reciprocal_of(self.args[0])).as_real_imag(deep, **hints)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._reciprocal_of","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_real_imag(self, deep=True, **hints):
         return (1/self._reciprocal_of(self.args[0])).as_real_imag(deep,
                                                                   **hints)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_trig(**h), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_expand_trig(**hints), self._calculate_reciprocal('_eval_expand_trig', **hints)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._calculate_reciprocal('_eval_expand_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_trig : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4dbb22b430721c03           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_expand_trig","kind":"method","src_hash":"cd9ecf7ceb9ed68a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_trig(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_trig_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4dbb22b430721c03"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_expand_trig","kind":"method","src_hash":"cd9ecf7ceb9ed68a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_trig(**hints)","rhs":"self._calculate_reciprocal('_eval_expand_trig', **hints)","over":{"base":"Any"},"name":"_eval_expand_trig_correct"},"guarantee":"returns self._calculate_reciprocal('_eval_expand_trig', **hints)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4dbb22b430721c03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._calculate_reciprocal('_eval_expand_trig', **hints)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._calculate_reciprocal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_trig(self, **hints):
         return self._calculate_reciprocal("_eval_expand_trig", **hints)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), self._reciprocal_of(self.args[0])._eval_is_extended_real()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._reciprocal_of(self.args[0])._eval_i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 394809cbecd66c40           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_is_extended_real","kind":"method","src_hash":"4c77260ac0e93f62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"394809cbecd66c40"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_is_extended_real","kind":"method","src_hash":"4c77260ac0e93f62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"self._reciprocal_of(self.args[0])._eval_is_extended_real()","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns self._reciprocal_of(self.args[0])._eval_is_extended_real()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"394809cbecd66c40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._reciprocal_of(self.args[0])._eval_is_extended_real()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._reciprocal_of","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         return self._reciprocal_of(self.args[0])._eval_is_extended_real()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), (1 / self._reciprocal_of(self.args[0]))._eval_as_leading_term(x, logx=logx, cdir=cdir)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (1 / self._reciprocal_of(self.args[0]))._...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2da111a8110ebe9a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_as_leading_term","kind":"method","src_hash":"48722158c650a9ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2da111a8110ebe9a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_as_leading_term","kind":"method","src_hash":"48722158c650a9ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"(1 / self._reciprocal_of(self.args[0]))._eval_as_leading_term(x, logx=logx, cdir=cdir)","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"returns (1 / self._reciprocal_of(self.args[0]))._eval_as_leading_term(x, logx=logx, cdir=cdir)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2da111a8110ebe9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(1 / self._reciprocal_of(self.args[0]))._eval_as_leading_term(x, logx=logx, cdir=cdir)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._reciprocal_of","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         return (1/self._reciprocal_of(self.args[0]))._eval_as_leading_term(x, logx=logx, cdir=cdir)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_finite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_finite(), (1 / self._reciprocal_of(self.args[0])).is_finite) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (1 / self._reciprocal_of(self.args[0])).i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_finite : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cb6367be1a26d88c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_is_finite","kind":"method","src_hash":"924a768889ba7320","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb6367be1a26d88c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_is_finite","kind":"method","src_hash":"924a768889ba7320","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"(1 / self._reciprocal_of(self.args[0])).is_finite","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"returns (1 / self._reciprocal_of(self.args[0])).is_finite","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb6367be1a26d88c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(1 / self._reciprocal_of(self.args[0])).is_finite","pure":false,"effects":{"effect_type":"reads_state","reads":["self._reciprocal_of","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_finite(self):
         return (1/self._reciprocal_of(self.args[0])).is_finite
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), (1 / self._reciprocal_of(self.args[0]))._eval_nseries(x, n, logx)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (1 / self._reciprocal_of(self.args[0]))._...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d30ceccd59f64a9c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_nseries","kind":"method","src_hash":"11380db05000daec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d30ceccd59f64a9c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.ReciprocalTrigonometricFunction._eval_nseries","kind":"method","src_hash":"11380db05000daec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"(1 / self._reciprocal_of(self.args[0]))._eval_nseries(x, n, logx)","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"returns (1 / self._reciprocal_of(self.args[0]))._eval_nseries(x, n, logx)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d30ceccd59f64a9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(1 / self._reciprocal_of(self.args[0]))._eval_nseries(x, n, logx)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._reciprocal_of","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         return (1/self._reciprocal_of(self.args[0]))._eval_nseries(x, n, logx)
 
@@ -3221,14 +4108,20 @@ class ReciprocalTrigonometricFunction(TrigonometricFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(sec(*args), correctly constructs a sec instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sec : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ReciprocalTrigonometricF...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sec : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8395a2580c6a621  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec","kind":"class","src_hash":"600d2de5b83228c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sec(*args)","rhs":"correctly constructs a sec instance","over":{"base":"Any"},"name":"sec_class_invariant"},"guarantee":"correctly constructs a sec instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8395a2580c6a621"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec","kind":"class","src_hash":"600d2de5b83228c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ReciprocalTrigonometricFunction)"},"spec":{"lhs":"sec(*args)","rhs":"correctly constructs a sec instance","over":{"base":"Any"},"name":"sec_class_invariant"},"guarantee":"isinstance(self, ReciprocalTrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8395a2580c6a621","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ReciprocalTrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function sec not found in source"]}}
 class sec(ReciprocalTrigonometricFunction):
     """
     The secant function.
@@ -3269,115 +4162,164 @@ class sec(ReciprocalTrigonometricFunction):
     _is_even = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(period(sym), period produces the expected output) over Any ║
+# ║ Path(period(symbol), self._period(symbol)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._period(symbol)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ period : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b4795b2ee0e1dd5d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec.period","kind":"method","src_hash":"828470b37c53176c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period(sym)","rhs":"period produces the expected output","over":{"base":"Any"},"name":"period_correct"},"guarantee":"period produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4795b2ee0e1dd5d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec.period","kind":"method","src_hash":"828470b37c53176c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period(symbol)","rhs":"self._period(symbol)","over":{"base":"Any"},"name":"period_correct"},"guarantee":"returns self._period(symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4795b2ee0e1dd5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._period(symbol)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._period"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def period(self, symbol=None):
         return self._period(symbol)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cot(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_cot(arg, **kwargs), (cot_half_sq + 1) / (cot_half_sq - 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (cot_half_sq + 1) / (cot_half_sq - 1)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cot : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35b3f6f4fc5f1b73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2337f289cb87a669  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_cot","kind":"method","src_hash":"36ab0b9c424ff73c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cot(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cot_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_cot_correct","statement":"Path(_eval_rewrite_as_cot(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35b3f6f4fc5f1b73"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_cot","kind":"method","src_hash":"36ab0b9c424ff73c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cot(arg, **kwargs)","rhs":"(cot_half_sq + 1) / (cot_half_sq - 1)","over":{"base":"Any"},"name":"_eval_rewrite_as_cot_correct"},"guarantee":"returns (cot_half_sq + 1) / (cot_half_sq - 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_cot_correct","statement":"Path(_eval_rewrite_as_cot(x), returns (cot_half_sq + 1) / (cot_half_sq - 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2337f289cb87a669","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(cot_half_sq + 1) / (cot_half_sq - 1)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cot(self, arg, **kwargs):
         cot_half_sq = cot(arg/2)**2
         return (cot_half_sq + 1)/(cot_half_sq - 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_cos(arg, **kwargs), 1 / cos(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / cos(arg)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cos : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1426c1c020458ca4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_cos","kind":"method","src_hash":"f9ff269d1772623f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1426c1c020458ca4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_cos","kind":"method","src_hash":"f9ff269d1772623f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(arg, **kwargs)","rhs":"1 / cos(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"returns 1 / cos(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1426c1c020458ca4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / cos(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cos(self, arg, **kwargs):
         return (1/cos(arg))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sincos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sincos(arg, **kwargs), sin(arg) / (cos(arg) * sin(arg))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sin(arg) / (cos(arg) * sin(arg))               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sincos : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c650b3dd4ed885d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_sincos","kind":"method","src_hash":"482f47d384aecc65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sincos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sincos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c650b3dd4ed885d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_sincos","kind":"method","src_hash":"482f47d384aecc65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sincos(arg, **kwargs)","rhs":"sin(arg) / (cos(arg) * sin(arg))","over":{"base":"Any"},"name":"_eval_rewrite_as_sincos_correct"},"guarantee":"returns sin(arg) / (cos(arg) * sin(arg))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c650b3dd4ed885d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sin(arg) / (cos(arg) * sin(arg))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sincos(self, arg, **kwargs):
         return sin(arg)/(cos(arg)*sin(arg))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sin(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sin(arg, **kwargs), 1 / cos(arg).rewrite(sin, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / cos(arg).rewrite(sin, **kwargs)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sin : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c19a6dd2e21cb56d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_sin","kind":"method","src_hash":"d3b3d27666aba015","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c19a6dd2e21cb56d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_sin","kind":"method","src_hash":"d3b3d27666aba015","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(arg, **kwargs)","rhs":"1 / cos(arg).rewrite(sin, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"returns 1 / cos(arg).rewrite(sin, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c19a6dd2e21cb56d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / cos(arg).rewrite(sin, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sin(self, arg, **kwargs):
         return (1/cos(arg).rewrite(sin, **kwargs))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tan(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_tan(arg, **kwargs), 1 / cos(arg).rewrite(tan, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / cos(arg).rewrite(tan, **kwargs)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_tan : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d6a7189763f0744           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_tan","kind":"method","src_hash":"7b2ec54728029bad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tan(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d6a7189763f0744"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_tan","kind":"method","src_hash":"7b2ec54728029bad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tan(arg, **kwargs)","rhs":"1 / cos(arg).rewrite(tan, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_tan_correct"},"guarantee":"returns 1 / cos(arg).rewrite(tan, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d6a7189763f0744","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / cos(arg).rewrite(tan, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tan(self, arg, **kwargs):
         return (1/cos(arg).rewrite(tan, **kwargs))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_csc(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_csc(arg, **kwargs), csc(pi / 2 - arg, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  csc(pi / 2 - arg, evaluate=False)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_csc : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c156a2606f6ab5ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_csc","kind":"method","src_hash":"e9207e8cd249ccd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_csc(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_csc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c156a2606f6ab5ce"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_csc","kind":"method","src_hash":"e9207e8cd249ccd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_csc(arg, **kwargs)","rhs":"csc(pi / 2 - arg, evaluate=False)","over":{"base":"Any"},"name":"_eval_rewrite_as_csc_correct"},"guarantee":"returns csc(pi / 2 - arg, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c156a2606f6ab5ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"csc(pi / 2 - arg, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_csc(self, arg, **kwargs):
         return csc(pi/2 - arg, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => tan(self.args[0]) *...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0e72a3be481e1698   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec.fdiff","kind":"method","src_hash":"4e0e96f448cf5feb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tan","by":"library_axiom"},{"fn":"sec","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e72a3be481e1698"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec.fdiff","kind":"method","src_hash":"4e0e96f448cf5feb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tan","by":"library_axiom"},{"fn":"sec","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e72a3be481e1698","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == tan(self.args[0]) * sec(self.args[0])"],"decidability":"z3","returns_expr":"tan(self.args[0]) * sec(self.args[0])"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return tan(self.args[0])*sec(self.args[0])
@@ -3385,16 +4327,22 @@ class sec(ReciprocalTrigonometricFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_besselj(arg, **kwargs), Piecewise((1 / (sqrt(pi * arg) / sqrt(2) * besselj(-S.Half, arg)), Ne(arg, 0)), (1, True))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((1 / (sqrt(pi * arg) / sqrt(2) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d0af057404aaae7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7883ca64c4d2923a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_besselj","kind":"method","src_hash":"644920857018a911","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_besselj_correct","statement":"Path(_eval_rewrite_as_besselj(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d0af057404aaae7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_besselj","kind":"method","src_hash":"644920857018a911","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(arg, **kwargs)","rhs":"Piecewise((1 / (sqrt(pi * arg) / sqrt(2) * besselj(-S.Half, arg)), Ne(arg, 0)), (1, True))","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct"},"guarantee":"returns Piecewise((1 / (sqrt(pi * arg) / sqrt(2) * besselj(-S.Half, arg)), Ne(arg, 0)), (1, True))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sec._eval_rewrite_as_besselj_correct","statement":"Path(_eval_rewrite_as_besselj(x), returns Piecewise((1 / (sqrt(pi * arg) / sqrt(2) * besselj(-S.Half, arg)), Ne(arg, 0)), (1, True)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7883ca64c4d2923a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((1 / (sqrt(pi * arg) / sqrt(2) * besselj(-S.Half, arg)), Ne(arg, 0)), (1, True))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, arg, **kwargs):
         from sympy.functions.special.bessel import besselj
         return Piecewise(
@@ -3403,16 +4351,22 @@ class sec(ReciprocalTrigonometricFunction):
             )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_complex(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_complex(), True) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_complex : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c00966b44218b80d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4946dca1dc310763  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_is_complex","kind":"method","src_hash":"9c34aa5e29c647c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_complex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sec._eval_is_complex_correct","statement":"Path(_eval_is_complex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c00966b44218b80d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_is_complex","kind":"method","src_hash":"9c34aa5e29c647c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_complex_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sec._eval_is_complex_correct","statement":"Path(_eval_is_complex(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4946dca1dc310763","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_complex(self):
         arg = self.args[0]
 
@@ -3422,16 +4376,25 @@ class sec(ReciprocalTrigonometricFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), taylor_term produces the expected output) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), result == (S.Zero if n < 0 or n % 2 == 1 else S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k)) and result == S.Zero or result == S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ taylor_term : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.Zero if n < 0 or n % 2 == 1 ...   ║
+# ║   ensures:  result == S.Zero or result == S.NegativeO...   ║
+# ║   fiber[negative]: n < 0 or n % 2 == 1 => S.Zero           ║
+# ║   fiber[negative]: not (n < 0 or n % 2 == 1) => S.Neg...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ taylor_term : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6707de59641381dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68ed06b2f252ed69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec.taylor_term","kind":"staticmethod","src_hash":"e93314423e14befc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sec.taylor_term_correct","statement":"Path(taylor_term(x), taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6707de59641381dd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec.taylor_term","kind":"staticmethod","src_hash":"e93314423e14befc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.Zero if n < 0 or n % 2 == 1 else S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k)) and result == S.Zero or result == S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k)"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"result == (S.Zero if n < 0 or n % 2 == 1 else S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k)) and result == S.Zero or result == S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k)","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"result == (S.Zero if n < 0 or n % 2 == 1 else S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k)); result == S.Zero or result == S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sec.taylor_term_correct","statement":"Path(taylor_term(x), result == (S.Zero if n < 0 or n % 2 == 1 else S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k)); result == S.Zero or result == S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68ed06b2f252ed69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.Zero if n < 0 or n % 2 == 1 else S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k))","result == S.Zero or result == S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k)"],"fibers":[{"name":"negative","guard":"n < 0 or n % 2 == 1","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n < 0 or n % 2 == 1)","ensures":["result == S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k)"],"decidability":"z3","returns_expr":"S.NegativeOne ** k * euler(2 * k) / factorial(2 * k) * x ** (2 * k)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         # Reference Formula:
         # https://functions.wolfram.com/ElementaryFunctions/Sec/06/01/02/01/
@@ -3443,16 +4406,22 @@ class sec(ReciprocalTrigonometricFunction):
             return S.NegativeOne**k*euler(2*k)/factorial(2*k)*x**(2*k)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42e0f5f6c56126b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_as_leading_term","kind":"method","src_hash":"b786786d7e8b8cf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sec._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42e0f5f6c56126b4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sec._eval_as_leading_term","kind":"method","src_hash":"b786786d7e8b8cf5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sec._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42e0f5f6c56126b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         from sympy.calculus.accumulationbounds import AccumBounds
         from sympy.functions.elementary.complexes import re
@@ -3472,14 +4441,20 @@ class sec(ReciprocalTrigonometricFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(csc(*args), correctly constructs a csc instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ csc : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ReciprocalTrigonometricF...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ csc : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2eba75a3d75d463c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc","kind":"class","src_hash":"442bcc2f73db4585","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"csc(*args)","rhs":"correctly constructs a csc instance","over":{"base":"Any"},"name":"csc_class_invariant"},"guarantee":"correctly constructs a csc instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2eba75a3d75d463c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc","kind":"class","src_hash":"442bcc2f73db4585","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ReciprocalTrigonometricFunction)"},"spec":{"lhs":"csc(*args)","rhs":"correctly constructs a csc instance","over":{"base":"Any"},"name":"csc_class_invariant"},"guarantee":"isinstance(self, ReciprocalTrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2eba75a3d75d463c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ReciprocalTrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function csc not found in source"]}}
 class csc(ReciprocalTrigonometricFunction):
     """
     The cosecant function.
@@ -3520,130 +4495,185 @@ class csc(ReciprocalTrigonometricFunction):
     _is_odd = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(period(sym), period produces the expected output) over Any ║
+# ║ Path(period(symbol), self._period(symbol)) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._period(symbol)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ period : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 997af113f3fbcd19           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc.period","kind":"method","src_hash":"828470b37c53176c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period(sym)","rhs":"period produces the expected output","over":{"base":"Any"},"name":"period_correct"},"guarantee":"period produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"997af113f3fbcd19"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc.period","kind":"method","src_hash":"828470b37c53176c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"period(symbol)","rhs":"self._period(symbol)","over":{"base":"Any"},"name":"period_correct"},"guarantee":"returns self._period(symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"997af113f3fbcd19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._period(symbol)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._period"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def period(self, symbol=None):
         return self._period(symbol)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sin(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sin(arg, **kwargs), 1 / sin(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / sin(arg)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sin : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c7c86665080b11a0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_sin","kind":"method","src_hash":"c1918cef00c82dee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7c86665080b11a0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_sin","kind":"method","src_hash":"c1918cef00c82dee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(arg, **kwargs)","rhs":"1 / sin(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"returns 1 / sin(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c7c86665080b11a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / sin(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sin(self, arg, **kwargs):
         return (1/sin(arg))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sincos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sincos(arg, **kwargs), cos(arg) / (sin(arg) * cos(arg))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cos(arg) / (sin(arg) * cos(arg))               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sincos : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2cb2ab84ce973b4b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_sincos","kind":"method","src_hash":"167b20f4baf675cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sincos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sincos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2cb2ab84ce973b4b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_sincos","kind":"method","src_hash":"167b20f4baf675cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sincos(arg, **kwargs)","rhs":"cos(arg) / (sin(arg) * cos(arg))","over":{"base":"Any"},"name":"_eval_rewrite_as_sincos_correct"},"guarantee":"returns cos(arg) / (sin(arg) * cos(arg))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2cb2ab84ce973b4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cos(arg) / (sin(arg) * cos(arg))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sincos(self, arg, **kwargs):
         return cos(arg)/(sin(arg)*cos(arg))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cot(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_cot(arg, **kwargs), (1 + cot_half ** 2) / (2 * cot_half)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (1 + cot_half ** 2) / (2 * cot_half)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cot : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21551bdea5bd6b70  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce97e19854414e27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_cot","kind":"method","src_hash":"b45bfe00b7eefd2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cot(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cot_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_cot_correct","statement":"Path(_eval_rewrite_as_cot(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21551bdea5bd6b70"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_cot","kind":"method","src_hash":"b45bfe00b7eefd2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cot(arg, **kwargs)","rhs":"(1 + cot_half ** 2) / (2 * cot_half)","over":{"base":"Any"},"name":"_eval_rewrite_as_cot_correct"},"guarantee":"returns (1 + cot_half ** 2) / (2 * cot_half)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_cot_correct","statement":"Path(_eval_rewrite_as_cot(x), returns (1 + cot_half ** 2) / (2 * cot_half))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce97e19854414e27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(1 + cot_half ** 2) / (2 * cot_half)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cot(self, arg, **kwargs):
         cot_half = cot(arg/2)
         return (1 + cot_half**2)/(2*cot_half)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_cos(arg, **kwargs), 1 / sin(arg).rewrite(cos, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / sin(arg).rewrite(cos, **kwargs)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cos : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | db43e88c5df82307           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_cos","kind":"method","src_hash":"cacc801fb506209e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db43e88c5df82307"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_cos","kind":"method","src_hash":"cacc801fb506209e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(arg, **kwargs)","rhs":"1 / sin(arg).rewrite(cos, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct"},"guarantee":"returns 1 / sin(arg).rewrite(cos, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db43e88c5df82307","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / sin(arg).rewrite(cos, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cos(self, arg, **kwargs):
         return 1/sin(arg).rewrite(cos, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sec(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sec(arg, **kwargs), sec(pi / 2 - arg, evaluate=False)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sec(pi / 2 - arg, evaluate=False)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sec : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d6f68960421eae5a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_sec","kind":"method","src_hash":"7a007fe74c853519","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sec(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sec_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6f68960421eae5a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_sec","kind":"method","src_hash":"7a007fe74c853519","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sec(arg, **kwargs)","rhs":"sec(pi / 2 - arg, evaluate=False)","over":{"base":"Any"},"name":"_eval_rewrite_as_sec_correct"},"guarantee":"returns sec(pi / 2 - arg, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6f68960421eae5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sec(pi / 2 - arg, evaluate=False)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sec(self, arg, **kwargs):
         return sec(pi/2 - arg, evaluate=False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tan(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_tan(arg, **kwargs), 1 / sin(arg).rewrite(tan, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  1 / sin(arg).rewrite(tan, **kwargs)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_tan : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 50cbfacc4702b849           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_tan","kind":"method","src_hash":"f39162aa8a0f9dff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tan(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50cbfacc4702b849"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_tan","kind":"method","src_hash":"f39162aa8a0f9dff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tan(arg, **kwargs)","rhs":"1 / sin(arg).rewrite(tan, **kwargs)","over":{"base":"Any"},"name":"_eval_rewrite_as_tan_correct"},"guarantee":"returns 1 / sin(arg).rewrite(tan, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"50cbfacc4702b849","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"1 / sin(arg).rewrite(tan, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tan(self, arg, **kwargs):
         return (1/sin(arg).rewrite(tan, **kwargs))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_besselj(arg), id) over Any           ║
+# ║ Path(_eval_rewrite_as_besselj(arg, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(2 / pi) * (1 / (sqrt(arg) * besselj(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_besselj : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e256ccf59eb8b19a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_besselj","kind":"method","src_hash":"2b0b6c806485cc58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e256ccf59eb8b19a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_rewrite_as_besselj","kind":"method","src_hash":"2b0b6c806485cc58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_besselj(arg, **kwargs)","rhs":"sqrt(2 / pi) * (1 / (sqrt(arg) * besselj(S.Half, arg)))","over":{"base":"Any"},"name":"_eval_rewrite_as_besselj_correct","kind":"composition"},"guarantee":"returns sqrt(2 / pi) * (1 / (sqrt(arg) * besselj(S.Half, arg)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"besselj","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e256ccf59eb8b19a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(2 / pi) * (1 / (sqrt(arg) * besselj(S.Half, arg)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_besselj(self, arg, **kwargs):
         from sympy.functions.special.bessel import besselj
         return sqrt(2/pi)*(1/(sqrt(arg)*besselj(S.Half, arg)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => -cot(self.args[0]) ...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4943653543fffa47   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc.fdiff","kind":"method","src_hash":"71cb5590467be7d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cot","by":"library_axiom"},{"fn":"csc","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4943653543fffa47"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc.fdiff","kind":"method","src_hash":"71cb5590467be7d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cot","by":"library_axiom"},{"fn":"csc","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4943653543fffa47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == -cot(self.args[0]) * csc(self.args[0])"],"decidability":"z3","returns_expr":"-cot(self.args[0]) * csc(self.args[0])"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return -cot(self.args[0])*csc(self.args[0])
@@ -3651,16 +4681,22 @@ class csc(ReciprocalTrigonometricFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_complex(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_complex(), True) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_complex : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7532d08632d6dfeb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4131baa39d589670  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_is_complex","kind":"method","src_hash":"c4a071e1257b190f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_complex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.csc._eval_is_complex_correct","statement":"Path(_eval_is_complex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7532d08632d6dfeb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_is_complex","kind":"method","src_hash":"c4a071e1257b190f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_complex_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.csc._eval_is_complex_correct","statement":"Path(_eval_is_complex(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4131baa39d589670","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_complex(self):
         arg = self.args[0]
         if arg.is_real and (arg/pi).is_integer is False:
@@ -3669,16 +4705,26 @@ class csc(ReciprocalTrigonometricFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), taylor_term produces the expected output) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), result == (1 / sympify(x) if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k)) and result == 1 / sympify(x) or result == S.Zero or result == S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ taylor_term : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (1 / sympify(x) if n == 0 else ...   ║
+# ║   ensures:  result == 1 / sympify(x) or result == S.Z...   ║
+# ║   fiber[zero_or_none]: n == 0 => 1 / sympify(x)            ║
+# ║   fiber[negative]: n < 0 or n % 2 == 0 => S.Zero           ║
+# ║   fiber[negative]: not (n == 0) and not (n < 0 or n %...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ taylor_term : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 634930ca809eeea8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05158b2fce345109  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc.taylor_term","kind":"staticmethod","src_hash":"4424398ae8188181","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.csc.taylor_term_correct","statement":"Path(taylor_term(x), taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"634930ca809eeea8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc.taylor_term","kind":"staticmethod","src_hash":"4424398ae8188181","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (1 / sympify(x) if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k)) and result == 1 / sympify(x) or result == S.Zero or result == S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k)"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"result == (1 / sympify(x) if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k)) and result == 1 / sympify(x) or result == S.Zero or result == S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k)","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"result == (1 / sympify(x) if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k)); result == 1 / sympify(x) or result == S.Zero or result == S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.csc.taylor_term_correct","statement":"Path(taylor_term(x), result == (1 / sympify(x) if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k)); result == 1 / sympify(x) or result == S.Zero or result == S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05158b2fce345109","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (1 / sympify(x) if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k))","result == 1 / sympify(x) or result == S.Zero or result == S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k)"],"fibers":[{"name":"zero_or_none","guard":"n == 0","ensures":["result == 1 / sympify(x)"],"decidability":"z3","returns_expr":"1 / sympify(x)"},{"name":"negative","guard":"n < 0 or n % 2 == 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n == 0) and not (n < 0 or n % 2 == 0)","ensures":["result == S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k)"],"decidability":"z3","returns_expr":"S.NegativeOne ** (k - 1) * 2 * (2 ** (2 * k - 1) - 1) * bernoulli(2 * k) * x ** (2 * k - 1) / factorial(2 * k)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         if n == 0:
             return 1/sympify(x)
@@ -3691,16 +4737,22 @@ class csc(ReciprocalTrigonometricFunction):
                     bernoulli(2*k)*x**(2*k - 1)/factorial(2*k))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ae07b5125e1dbb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_as_leading_term","kind":"method","src_hash":"bb1792e1dd12b6b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.csc._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ae07b5125e1dbb2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.csc._eval_as_leading_term","kind":"method","src_hash":"bb1792e1dd12b6b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.csc._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ae07b5125e1dbb2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         from sympy.calculus.accumulationbounds import AccumBounds
         from sympy.functions.elementary.complexes import re
@@ -3720,14 +4772,20 @@ class csc(ReciprocalTrigonometricFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(sinc(*args), correctly constructs a sinc instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sinc : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sinc : Any → {Any | result satisfies: isinstance(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d406af709e204005  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc","kind":"class","src_hash":"05e922867b122d39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sinc(*args)","rhs":"correctly constructs a sinc instance","over":{"base":"Any"},"name":"sinc_class_invariant"},"guarantee":"correctly constructs a sinc instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d406af709e204005"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc","kind":"class","src_hash":"05e922867b122d39","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"sinc(*args)","rhs":"correctly constructs a sinc instance","over":{"base":"Any"},"name":"sinc_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d406af709e204005","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function sinc not found in source"]}}
 class sinc(DefinedFunction):
     r"""
     Represents an unnormalized sinc function:
@@ -3784,16 +4842,23 @@ class sinc(DefinedFunction):
     _singularities = (S.ComplexInfinity,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => cos(x) / x - sin(x)...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7b19ea0f2a361ad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84565c4bcc847e7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc.fdiff","kind":"method","src_hash":"e4f2ae3774a01c33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sinc.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7b19ea0f2a361ad"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc.fdiff","kind":"method","src_hash":"e4f2ae3774a01c33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sinc.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84565c4bcc847e7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == cos(x) / x - sin(x) / x ** 2"],"decidability":"z3","returns_expr":"cos(x) / x - sin(x) / x ** 2"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         x = self.args[0]
         if argindex == 1:
@@ -3809,16 +4874,25 @@ class sinc(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_zero') and hasattr(arg, 'is_Number') and hasattr(arg, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'could_extract_minus_sign')       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_zero') and hasattr(arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87b68bdd55d6bf42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc.eval","kind":"classmethod","src_hash":"0704f6a6c1d16a72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sinc.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87b68bdd55d6bf42"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc.eval","kind":"classmethod","src_hash":"0704f6a6c1d16a72","in":{"base":"Any","pred":"hasattr(arg, 'is_zero') and hasattr(arg, 'is_Number') and hasattr(arg, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_zero') and hasattr(arg, 'is_Number') and hasattr(arg, 'could_extract_minus_sign')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sinc.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87b68bdd55d6bf42","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_zero')","hasattr(arg, 'is_Number')","hasattr(arg, 'could_extract_minus_sign')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.could_extract_minus_sign","arg.is_Number","arg.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.is_zero:
             return S.One
@@ -3843,60 +4917,84 @@ class sinc(DefinedFunction):
                 return S.NegativeOne**(pi_coeff - S.Half)/arg
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (sin(x) / x)._eval_nseries(x, n, logx)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bc20cebb29104c6b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc._eval_nseries","kind":"method","src_hash":"ca42868a358c2c97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc20cebb29104c6b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc._eval_nseries","kind":"method","src_hash":"ca42868a358c2c97","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"(sin(x) / x)._eval_nseries(x, n, logx)","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"returns (sin(x) / x)._eval_nseries(x, n, logx)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc20cebb29104c6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(sin(x) / x)._eval_nseries(x, n, logx)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         x = self.args[0]
         return (sin(x)/x)._eval_nseries(x, n, logx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_jn(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_jn(arg, **kwargs), jn(0, arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  jn(0, arg)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_jn : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 800bccd2c5feac15  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bf22cbf4aa8c2fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc._eval_rewrite_as_jn","kind":"method","src_hash":"e69bce09ad440c5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_jn(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_jn_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sinc._eval_rewrite_as_jn_correct","statement":"Path(_eval_rewrite_as_jn(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"800bccd2c5feac15"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc._eval_rewrite_as_jn","kind":"method","src_hash":"e69bce09ad440c5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_jn(arg, **kwargs)","rhs":"jn(0, arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_jn_correct"},"guarantee":"returns jn(0, arg)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sinc._eval_rewrite_as_jn_correct","statement":"Path(_eval_rewrite_as_jn(x), returns jn(0, arg))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bf22cbf4aa8c2fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"jn(0, arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_jn(self, arg, **kwargs):
         from sympy.functions.special.bessel import jn
         return jn(0, arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sin(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sin(arg, **kwargs), Piecewise((sin(arg) / arg, Ne(arg, S.Zero)), (S.One, S.true))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((sin(arg) / arg, Ne(arg, S.Zero...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sin : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0044348bc11e0945           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc._eval_rewrite_as_sin","kind":"method","src_hash":"fbef1744efd1f45b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0044348bc11e0945"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc._eval_rewrite_as_sin","kind":"method","src_hash":"fbef1744efd1f45b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(arg, **kwargs)","rhs":"Piecewise((sin(arg) / arg, Ne(arg, S.Zero)), (S.One, S.true))","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct"},"guarantee":"returns Piecewise((sin(arg) / arg, Ne(arg, S.Zero)), (S.One, S.true))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0044348bc11e0945","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((sin(arg) / arg, Ne(arg, S.Zero)), (S.One, S.true))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sin(self, arg, **kwargs):
         return Piecewise((sin(arg)/arg, Ne(arg, S.Zero)), (S.One, S.true))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), <unspecified:_eval_is_zero>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7aa387a95c93fb50  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc._eval_is_zero","kind":"method","src_hash":"db25fd2ef6eb6e75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sinc._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7aa387a95c93fb50"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc._eval_is_zero","kind":"method","src_hash":"db25fd2ef6eb6e75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"<unspecified:_eval_is_zero>","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sinc._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7aa387a95c93fb50","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         if self.args[0].is_infinite:
             return True
@@ -3907,16 +5005,22 @@ class sinc(DefinedFunction):
             return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), True) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4317753490de8f6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7822ebdf249ac6bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc._eval_is_real","kind":"method","src_hash":"baa20fde44fd75a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sinc._eval_is_real_correct","statement":"Path(_eval_is_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4317753490de8f6e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.sinc._eval_is_real","kind":"method","src_hash":"baa20fde44fd75a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.sinc._eval_is_real_correct","statement":"Path(_eval_is_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7822ebdf249ac6bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         if self.args[0].is_extended_real or self.args[0].is_imaginary:
             return True
@@ -3932,14 +5036,20 @@ class sinc(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(InverseTrigonometricFunction(*args), correctly constructs a InverseTrigonometricFunction instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ InverseTrigonometricFunction : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ InverseTrigonometricFunction : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1ed706245da5684  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction","kind":"class","src_hash":"65223fd8fb5ab331","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"InverseTrigonometricFunction(*args)","rhs":"correctly constructs a InverseTrigonometricFunction instance","over":{"base":"Any"},"name":"InverseTrigonometricFunction_class_invariant"},"guarantee":"correctly constructs a InverseTrigonometricFunction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1ed706245da5684"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction","kind":"class","src_hash":"65223fd8fb5ab331","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"InverseTrigonometricFunction(*args)","rhs":"correctly constructs a InverseTrigonometricFunction instance","over":{"base":"Any"},"name":"InverseTrigonometricFunction_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1ed706245da5684","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function InverseTrigonometricFunction not found in source"]}}
 class InverseTrigonometricFunction(DefinedFunction):
     """Base class for inverse trigonometric functions."""
     _singularities: tuple[Expr, ...] = (S.One, S.NegativeOne, S.Zero, S.ComplexInfinity)
@@ -3947,16 +5057,22 @@ class InverseTrigonometricFunction(DefinedFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_asin_table(), internal helper behaves correctly) over Any ║
+# ║ Path(_asin_table(), <unspecified:_asin_table>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _asin_table : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ffcb53608074e98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction._asin_table","kind":"staticmethod","src_hash":"362993a4e34e8063","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_asin_table()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_asin_table_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction._asin_table_correct","statement":"Path(_asin_table(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ffcb53608074e98"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction._asin_table","kind":"staticmethod","src_hash":"362993a4e34e8063","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_asin_table()","rhs":"<unspecified:_asin_table>","over":{"base":"Any"},"name":"_asin_table_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction._asin_table_correct","statement":"Path(_asin_table(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ffcb53608074e98","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _asin_table():
         # Only keys with could_extract_minus_sign() == False
         # are actually needed.
@@ -3988,16 +5104,22 @@ class InverseTrigonometricFunction(DefinedFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_atan_table(), internal helper behaves correctly) over Any ║
+# ║ Path(_atan_table(), <unspecified:_atan_table>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _atan_table : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 005806ec6b9bff4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction._atan_table","kind":"staticmethod","src_hash":"2aee36d607f0c9f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_atan_table()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_atan_table_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction._atan_table_correct","statement":"Path(_atan_table(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"005806ec6b9bff4d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction._atan_table","kind":"staticmethod","src_hash":"2aee36d607f0c9f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_atan_table()","rhs":"<unspecified:_atan_table>","over":{"base":"Any"},"name":"_atan_table_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction._atan_table_correct","statement":"Path(_atan_table(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"005806ec6b9bff4d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _atan_table():
         # Only keys with could_extract_minus_sign() == False
         # are actually needed.
@@ -4020,16 +5142,22 @@ class InverseTrigonometricFunction(DefinedFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_acsc_table(), internal helper behaves correctly) over Any ║
+# ║ Path(_acsc_table(), <unspecified:_acsc_table>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _acsc_table : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e98cd9153a8bffe9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction._acsc_table","kind":"staticmethod","src_hash":"cd460691b6ef2c85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_acsc_table()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_acsc_table_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction._acsc_table_correct","statement":"Path(_acsc_table(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e98cd9153a8bffe9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction._acsc_table","kind":"staticmethod","src_hash":"cd460691b6ef2c85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_acsc_table()","rhs":"<unspecified:_acsc_table>","over":{"base":"Any"},"name":"_acsc_table_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.InverseTrigonometricFunction._acsc_table_correct","statement":"Path(_acsc_table(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e98cd9153a8bffe9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _acsc_table():
         # Keys for which could_extract_minus_sign()
         # will obviously return True are omitted.
@@ -4057,14 +5185,20 @@ class InverseTrigonometricFunction(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(asin(*args), correctly constructs a asin instance) over {Any | isinstance(arg, sin) and isinstance(arg, cos)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, InverseTrigonometricFunc...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ asin : {Any | isinstance(arg, sin) and isinstance(arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b23dfe877c3365c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin","kind":"class","src_hash":"b086d3671ea34754","in":{"base":"Any","pred":"isinstance(arg, sin) and isinstance(arg, cos)"},"out":{"base":"Any"},"spec":{"lhs":"asin(*args)","rhs":"correctly constructs a asin instance","over":{"base":"Any","pred":"isinstance(arg, sin) and isinstance(arg, cos)"},"name":"asin_class_invariant"},"guarantee":"correctly constructs a asin instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b23dfe877c3365c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin","kind":"class","src_hash":"b086d3671ea34754","in":{"base":"Any","pred":"isinstance(arg, sin) and isinstance(arg, cos)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, InverseTrigonometricFunction)"},"spec":{"lhs":"asin(*args)","rhs":"correctly constructs a asin instance","over":{"base":"Any","pred":"isinstance(arg, sin) and isinstance(arg, cos)"},"name":"asin_class_invariant"},"guarantee":"isinstance(self, InverseTrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b23dfe877c3365c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, InverseTrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function asin not found in source"]}}
 class asin(InverseTrigonometricFunction):
     r"""
     The inverse sine function.
@@ -4109,16 +5243,23 @@ class asin(InverseTrigonometricFunction):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => 1 / sqrt(1 - self.a...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aef7de1fcbdc79de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a964daaff360e84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin.fdiff","kind":"method","src_hash":"c18ba94ddc9ddb34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asin.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aef7de1fcbdc79de"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin.fdiff","kind":"method","src_hash":"c18ba94ddc9ddb34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asin.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a964daaff360e84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == 1 / sqrt(1 - self.args[0] ** 2)"],"decidability":"z3","returns_expr":"1 / sqrt(1 - self.args[0] ** 2)"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return 1/sqrt(1 - self.args[0]**2)
@@ -4126,16 +5267,23 @@ class asin(InverseTrigonometricFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_rational(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_rational(), <unspecified:_eval_is_rational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: s.func == self.func                       ║
+# ║   fiber[case_1]: not (s.func == self.func) => s.is_ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_rational : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdb6b9a3fffcc1a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a119920500b4952  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_is_rational","kind":"method","src_hash":"abd31c6d3df5ac0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asin._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdb6b9a3fffcc1a5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_is_rational","kind":"method","src_hash":"abd31c6d3df5ac0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"<unspecified:_eval_is_rational>","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asin._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a119920500b4952","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"s.func == self.func","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (s.func == self.func)","ensures":["result == s.is_rational"],"decidability":"z3","returns_expr":"s.is_rational"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_rational(self):
         s = self.func(*self.args)
         if s.func == self.func:
@@ -4145,45 +5293,66 @@ class asin(InverseTrigonometricFunction):
             return s.is_rational
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), self._eval_is_extended_real() and self.args[0].is_positive) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_is_extended_real() and self.ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6382ccfcd9ffcfa8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_is_positive","kind":"method","src_hash":"0787e2a5438de2dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6382ccfcd9ffcfa8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_is_positive","kind":"method","src_hash":"0787e2a5438de2dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"self._eval_is_extended_real() and self.args[0].is_positive","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"returns self._eval_is_extended_real() and self.args[0].is_positive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6382ccfcd9ffcfa8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_is_extended_real() and self.args[0].is_positive","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_is_extended_real","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         return self._eval_is_extended_real() and self.args[0].is_positive
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_negative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_negative(), self._eval_is_extended_real() and self.args[0].is_negative) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_is_extended_real() and self.ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_negative : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ffcd53cc45783189           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_is_negative","kind":"method","src_hash":"8d468f8d1757226b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffcd53cc45783189"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_is_negative","kind":"method","src_hash":"8d468f8d1757226b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"self._eval_is_extended_real() and self.args[0].is_negative","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"returns self._eval_is_extended_real() and self.args[0].is_negative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffcd53cc45783189","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_is_extended_real() and self.args[0].is_negative","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_is_extended_real","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_negative(self):
         return self._eval_is_extended_real() and self.args[0].is_negative
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_number')                      ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7f8eef60f750b26  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin.eval","kind":"classmethod","src_hash":"ad731bd3503c9f34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asin.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7f8eef60f750b26"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin.eval","kind":"classmethod","src_hash":"ad731bd3503c9f34","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asin.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7f8eef60f750b26","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_number')","hasattr(arg, 'is_zero')","hasattr(arg, 'could_extract_minus_sign')","hasattr(arg, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.could_extract_minus_sign","arg.is_Number","arg.is_number","arg.is_zero","cls._asin_table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
@@ -4241,16 +5410,23 @@ class asin(InverseTrigonometricFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), taylor_term produces the expected output) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), <unspecified:taylor_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[negative]: n < 0 or n % 2 == 0 => S.Zero           ║
+# ║   fiber[negative]: not (n < 0 or n % 2 == 0)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ taylor_term : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9499d24fe236b84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41b1c3895ff2bebd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin.taylor_term","kind":"staticmethod","src_hash":"267c85e46abf3d75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asin.taylor_term_correct","statement":"Path(taylor_term(x), taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9499d24fe236b84"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin.taylor_term","kind":"staticmethod","src_hash":"267c85e46abf3d75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"<unspecified:taylor_term>","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asin.taylor_term_correct","statement":"Path(taylor_term(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41b1c3895ff2bebd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"negative","guard":"n < 0 or n % 2 == 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n < 0 or n % 2 == 0)","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         if n < 0 or n % 2 == 0:
             return S.Zero
@@ -4266,16 +5442,22 @@ class asin(InverseTrigonometricFunction):
                 return R/F*x**n/n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), id) over Any              ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7374b34bdb27a1a3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_as_leading_term","kind":"method","src_hash":"e92c4a5a4aaf63c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7374b34bdb27a1a3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_as_leading_term","kind":"method","src_hash":"e92c4a5a4aaf63c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7374b34bdb27a1a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         arg = self.args[0]
         x0 = arg.subs(x, 0).cancel()
@@ -4301,16 +5483,22 @@ class asin(InverseTrigonometricFunction):
         return self.func(x0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f548c52ced4297bc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_nseries","kind":"method","src_hash":"51f6f61e6e1f231e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"O","by":"library_axiom"},{"fn":"O","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f548c52ced4297bc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_nseries","kind":"method","src_hash":"51f6f61e6e1f231e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"O","by":"library_axiom"},{"fn":"O","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f548c52ced4297bc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):  # asin
         from sympy.series.order import O
         arg0 = self.args[0].subs(x, 0)
@@ -4356,117 +5544,165 @@ class asin(InverseTrigonometricFunction):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acos(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acos(x, **kwargs), pi / 2 - acos(x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 - acos(x)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acos : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d54db077f0ed9003           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_rewrite_as_acos","kind":"method","src_hash":"8a66cfb8cad40754","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acos(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d54db077f0ed9003"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_rewrite_as_acos","kind":"method","src_hash":"8a66cfb8cad40754","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acos(x, **kwargs)","rhs":"pi / 2 - acos(x)","over":{"base":"Any"},"name":"_eval_rewrite_as_acos_correct"},"guarantee":"returns pi / 2 - acos(x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d54db077f0ed9003","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 - acos(x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acos(self, x, **kwargs):
         return pi/2 - acos(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_atan(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_atan(x, **kwargs), 2 * atan(x / (1 + sqrt(1 - x ** 2)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * atan(x / (1 + sqrt(1 - x ** 2)))           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_atan : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b83dea8c39f418ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_rewrite_as_atan","kind":"method","src_hash":"0eb23ae442074826","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_atan(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_atan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b83dea8c39f418ae"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_rewrite_as_atan","kind":"method","src_hash":"0eb23ae442074826","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_atan(x, **kwargs)","rhs":"2 * atan(x / (1 + sqrt(1 - x ** 2)))","over":{"base":"Any"},"name":"_eval_rewrite_as_atan_correct"},"guarantee":"returns 2 * atan(x / (1 + sqrt(1 - x ** 2)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b83dea8c39f418ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * atan(x / (1 + sqrt(1 - x ** 2)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_atan(self, x, **kwargs):
         return 2*atan(x/(1 + sqrt(1 - x**2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_log(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_log(x, **kwargs), -S.ImaginaryUnit * log(S.ImaginaryUnit * x + sqrt(1 - x ** 2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -S.ImaginaryUnit * log(S.ImaginaryUnit * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_log : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f457eab88858faa7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_rewrite_as_log","kind":"method","src_hash":"9961017ab0a73f0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f457eab88858faa7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_rewrite_as_log","kind":"method","src_hash":"9961017ab0a73f0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(x, **kwargs)","rhs":"-S.ImaginaryUnit * log(S.ImaginaryUnit * x + sqrt(1 - x ** 2))","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"returns -S.ImaginaryUnit * log(S.ImaginaryUnit * x + sqrt(1 - x ** 2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f457eab88858faa7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-S.ImaginaryUnit * log(S.ImaginaryUnit * x + sqrt(1 - x ** 2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_log(self, x, **kwargs):
         return -S.ImaginaryUnit*log(S.ImaginaryUnit*x + sqrt(1 - x**2))
 
     _eval_rewrite_as_tractable = _eval_rewrite_as_log
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acot(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acot(arg, **kwargs), 2 * acot((1 + sqrt(1 - arg ** 2)) / arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  2 * acot((1 + sqrt(1 - arg ** 2)) / arg)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acot : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a7e7c5953286bd1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_rewrite_as_acot","kind":"method","src_hash":"7fae73f5d161f666","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acot(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acot_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a7e7c5953286bd1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_rewrite_as_acot","kind":"method","src_hash":"7fae73f5d161f666","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acot(arg, **kwargs)","rhs":"2 * acot((1 + sqrt(1 - arg ** 2)) / arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_acot_correct"},"guarantee":"returns 2 * acot((1 + sqrt(1 - arg ** 2)) / arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a7e7c5953286bd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"2 * acot((1 + sqrt(1 - arg ** 2)) / arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acot(self, arg, **kwargs):
         return 2*acot((1 + sqrt(1 - arg**2))/arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_asec(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_asec(arg, **kwargs), pi / 2 - asec(1 / arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 - asec(1 / arg)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_asec : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5f30002034358a4b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_rewrite_as_asec","kind":"method","src_hash":"f9a95fefefffc9c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asec(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_asec_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f30002034358a4b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_rewrite_as_asec","kind":"method","src_hash":"f9a95fefefffc9c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asec(arg, **kwargs)","rhs":"pi / 2 - asec(1 / arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_asec_correct"},"guarantee":"returns pi / 2 - asec(1 / arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5f30002034358a4b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 - asec(1 / arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_asec(self, arg, **kwargs):
         return pi/2 - asec(1/arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acsc(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acsc(arg, **kwargs), acsc(1 / arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  acsc(1 / arg)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acsc : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6bc6c19c13d6d93f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_rewrite_as_acsc","kind":"method","src_hash":"c35a45701aac9bb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acsc(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acsc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6bc6c19c13d6d93f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_rewrite_as_acsc","kind":"method","src_hash":"c35a45701aac9bb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acsc(arg, **kwargs)","rhs":"acsc(1 / arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_acsc_correct"},"guarantee":"returns acsc(1 / arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6bc6c19c13d6d93f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"acsc(1 / arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acsc(self, arg, **kwargs):
         return acsc(1/arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), x.is_extended_real and (1 - abs(x)).is_nonnegative) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  x.is_extended_real and (1 - abs(x)).is_no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d88da209fbc3486c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d20223ad32b328e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_is_extended_real","kind":"method","src_hash":"c7922acc0f0a1b58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asin._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d88da209fbc3486c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin._eval_is_extended_real","kind":"method","src_hash":"c7922acc0f0a1b58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"x.is_extended_real and (1 - abs(x)).is_nonnegative","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns x.is_extended_real and (1 - abs(x)).is_nonnegative","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asin._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), returns x.is_extended_real and (1 - abs(x)).is_nonnegative)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d20223ad32b328e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"x.is_extended_real and (1 - abs(x)).is_nonnegative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         x = self.args[0]
         return x.is_extended_real and (1 - abs(x)).is_nonnegative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(arg), returns the inverse of this function) over Any ║
+# ║ Path(inverse(argindex), <unspecified:inverse>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9efc39eb8c33db54           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin.inverse","kind":"method","src_hash":"341cbef2770b3d51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(arg)","rhs":"returns the inverse of this function","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9efc39eb8c33db54"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asin.inverse","kind":"method","src_hash":"341cbef2770b3d51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(argindex)","rhs":"<unspecified:inverse>","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9efc39eb8c33db54","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(self, argindex=1):
         """
         Returns the inverse of this function.
@@ -4477,14 +5713,20 @@ class asin(InverseTrigonometricFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(acos(*args), correctly constructs a acos instance) over {Any | isinstance(narg, cos) and isinstance(narg, sin)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, InverseTrigonometricFunc...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ acos : {Any | isinstance(narg, cos) and isinstance(na...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c52e45bd92de886  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos","kind":"class","src_hash":"1094a03ac24ac57e","in":{"base":"Any","pred":"isinstance(narg, cos) and isinstance(narg, sin)"},"out":{"base":"Any"},"spec":{"lhs":"acos(*args)","rhs":"correctly constructs a acos instance","over":{"base":"Any","pred":"isinstance(narg, cos) and isinstance(narg, sin)"},"name":"acos_class_invariant"},"guarantee":"correctly constructs a acos instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c52e45bd92de886"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos","kind":"class","src_hash":"1094a03ac24ac57e","in":{"base":"Any","pred":"isinstance(narg, cos) and isinstance(narg, sin)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, InverseTrigonometricFunction)"},"spec":{"lhs":"acos(*args)","rhs":"correctly constructs a acos instance","over":{"base":"Any","pred":"isinstance(narg, cos) and isinstance(narg, sin)"},"name":"acos_class_invariant"},"guarantee":"isinstance(self, InverseTrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c52e45bd92de886","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, InverseTrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function acos not found in source"]}}
 class acos(InverseTrigonometricFunction):
     r"""
     The inverse cosine function.
@@ -4530,16 +5772,23 @@ class acos(InverseTrigonometricFunction):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => -1 / sqrt(1 - self....   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f99e61760f3153fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd8b35beafd67aa9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos.fdiff","kind":"method","src_hash":"b2d0d76d2b23eb92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f99e61760f3153fe"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos.fdiff","kind":"method","src_hash":"b2d0d76d2b23eb92","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd8b35beafd67aa9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == -1 / sqrt(1 - self.args[0] ** 2)"],"decidability":"z3","returns_expr":"-1 / sqrt(1 - self.args[0] ** 2)"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return -1/sqrt(1 - self.args[0]**2)
@@ -4547,16 +5796,23 @@ class acos(InverseTrigonometricFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_rational(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_rational(), <unspecified:_eval_is_rational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: s.func == self.func                       ║
+# ║   fiber[case_1]: not (s.func == self.func) => s.is_ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_rational : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2622a82b8a59a367  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52e2244f76fe46f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_is_rational","kind":"method","src_hash":"abd31c6d3df5ac0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2622a82b8a59a367"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_is_rational","kind":"method","src_hash":"abd31c6d3df5ac0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"<unspecified:_eval_is_rational>","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52e2244f76fe46f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"s.func == self.func","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (s.func == self.func)","ensures":["result == s.is_rational"],"decidability":"z3","returns_expr":"s.is_rational"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_rational(self):
         s = self.func(*self.args)
         if s.func == self.func:
@@ -4567,16 +5823,25 @@ class acos(InverseTrigonometricFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_Mul') and hasattr(arg, 'args') and hasattr(arg, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_number')                      ║
+# ║   requires: hasattr(arg, 'is_Mul')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4001490776ef5bf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos.eval","kind":"classmethod","src_hash":"f1ec593ee87e79fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4001490776ef5bf8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos.eval","kind":"classmethod","src_hash":"f1ec593ee87e79fb","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_Mul') and hasattr(arg, 'args') and hasattr(arg, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_Mul') and hasattr(arg, 'args') and hasattr(arg, 'is_zero')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4001490776ef5bf8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_number')","hasattr(arg, 'is_Mul')","hasattr(arg, 'args')","hasattr(arg, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.is_Mul","arg.is_Number","arg.is_number","arg.is_zero","cls._asin_table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
@@ -4634,16 +5899,24 @@ class acos(InverseTrigonometricFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), taylor_term produces the expected output) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), <unspecified:taylor_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[zero_or_none]: n == 0 => pi / 2                    ║
+# ║   fiber[negative]: n < 0 or n % 2 == 0 => S.Zero           ║
+# ║   fiber[negative]: not (n == 0) and not (n < 0 or n %...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ taylor_term : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c97c740f185cdf35  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 122cbc872d8dffc0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos.taylor_term","kind":"staticmethod","src_hash":"43961bea01607d66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos.taylor_term_correct","statement":"Path(taylor_term(x), taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c97c740f185cdf35"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos.taylor_term","kind":"staticmethod","src_hash":"43961bea01607d66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"<unspecified:taylor_term>","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos.taylor_term_correct","statement":"Path(taylor_term(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"122cbc872d8dffc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"zero_or_none","guard":"n == 0","ensures":["result == pi / 2"],"decidability":"z3","returns_expr":"pi / 2"},{"name":"negative","guard":"n < 0 or n % 2 == 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n == 0) and not (n < 0 or n % 2 == 0)","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         if n == 0:
             return pi/2
@@ -4661,16 +5934,22 @@ class acos(InverseTrigonometricFunction):
                 return -R/F*x**n/n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), id) over Any              ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 272b6194a53ae29f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_as_leading_term","kind":"method","src_hash":"23b9bfc10dacd7b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"272b6194a53ae29f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_as_leading_term","kind":"method","src_hash":"23b9bfc10dacd7b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"272b6194a53ae29f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         arg = self.args[0]
         x0 = arg.subs(x, 0).cancel()
@@ -4695,45 +5974,63 @@ class acos(InverseTrigonometricFunction):
         return self.func(x0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), x.is_extended_real and (1 - abs(x)).is_nonnegative) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  x.is_extended_real and (1 - abs(x)).is_no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65631a88a4039473  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e007ec684b8064a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_is_extended_real","kind":"method","src_hash":"c7922acc0f0a1b58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65631a88a4039473"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_is_extended_real","kind":"method","src_hash":"c7922acc0f0a1b58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"x.is_extended_real and (1 - abs(x)).is_nonnegative","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns x.is_extended_real and (1 - abs(x)).is_nonnegative","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), returns x.is_extended_real and (1 - abs(x)).is_nonnegative)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e007ec684b8064a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"x.is_extended_real and (1 - abs(x)).is_nonnegative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         x = self.args[0]
         return x.is_extended_real and (1 - abs(x)).is_nonnegative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_nonnegative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_nonnegative(), self._eval_is_extended_real()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_is_extended_real()                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_nonnegative : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a808cdc74a0a7f10           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_is_nonnegative","kind":"method","src_hash":"e198ca191e3b283b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonnegative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_nonnegative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a808cdc74a0a7f10"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_is_nonnegative","kind":"method","src_hash":"e198ca191e3b283b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonnegative()","rhs":"self._eval_is_extended_real()","over":{"base":"Any"},"name":"_eval_is_nonnegative_correct"},"guarantee":"returns self._eval_is_extended_real()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a808cdc74a0a7f10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_is_extended_real()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_is_extended_real"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_nonnegative(self):
         return self._eval_is_extended_real()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f44d5f320047850e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_nseries","kind":"method","src_hash":"0ffcc2f9a315bbe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"O","by":"library_axiom"},{"fn":"O","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f44d5f320047850e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_nseries","kind":"method","src_hash":"0ffcc2f9a315bbe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"O","by":"library_axiom"},{"fn":"O","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f44d5f320047850e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):  # acos
         from sympy.series.order import O
         arg0 = self.args[0].subs(x, 0)
@@ -4779,16 +6076,22 @@ class acos(InverseTrigonometricFunction):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_log(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_log(x, **kwargs), pi / 2 + S.ImaginaryUnit * log(S.ImaginaryUnit * x + sqrt(1 - x ** 2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 + S.ImaginaryUnit * log(S.Imaginar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_log : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a654a593ae44fb12  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82796d60e44c3097  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_log","kind":"method","src_hash":"d8dca4b347a416d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_log_correct","statement":"Path(_eval_rewrite_as_log(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a654a593ae44fb12"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_log","kind":"method","src_hash":"d8dca4b347a416d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(x, **kwargs)","rhs":"pi / 2 + S.ImaginaryUnit * log(S.ImaginaryUnit * x + sqrt(1 - x ** 2))","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"returns pi / 2 + S.ImaginaryUnit * log(S.ImaginaryUnit * x + sqrt(1 - x ** 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_log_correct","statement":"Path(_eval_rewrite_as_log(x), returns pi / 2 + S.ImaginaryUnit * log(S.ImaginaryUnit * x + sqrt(1 - x ** 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82796d60e44c3097","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 + S.ImaginaryUnit * log(S.ImaginaryUnit * x + sqrt(1 - x ** 2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_log(self, x, **kwargs):
         return pi/2 + S.ImaginaryUnit*\
             log(S.ImaginaryUnit*x + sqrt(1 - x**2))
@@ -4796,44 +6099,62 @@ class acos(InverseTrigonometricFunction):
     _eval_rewrite_as_tractable = _eval_rewrite_as_log
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_asin(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_asin(x, **kwargs), pi / 2 - asin(x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 - asin(x)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_asin : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 468f0a354ef81454           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_asin","kind":"method","src_hash":"84de95e3ba3f75dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asin(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_asin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"468f0a354ef81454"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_asin","kind":"method","src_hash":"84de95e3ba3f75dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asin(x, **kwargs)","rhs":"pi / 2 - asin(x)","over":{"base":"Any"},"name":"_eval_rewrite_as_asin_correct"},"guarantee":"returns pi / 2 - asin(x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"468f0a354ef81454","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 - asin(x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_asin(self, x, **kwargs):
         return pi/2 - asin(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_atan(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_atan(x, **kwargs), atan(sqrt(1 - x ** 2) / x) + pi / 2 * (1 - x * sqrt(1 / x ** 2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  atan(sqrt(1 - x ** 2) / x) + pi / 2 * (1 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_atan : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 91f659e1b86fb0e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_atan","kind":"method","src_hash":"f33805d2de5bb95b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_atan(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_atan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91f659e1b86fb0e1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_atan","kind":"method","src_hash":"f33805d2de5bb95b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_atan(x, **kwargs)","rhs":"atan(sqrt(1 - x ** 2) / x) + pi / 2 * (1 - x * sqrt(1 / x ** 2))","over":{"base":"Any"},"name":"_eval_rewrite_as_atan_correct"},"guarantee":"returns atan(sqrt(1 - x ** 2) / x) + pi / 2 * (1 - x * sqrt(1 / x ** 2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91f659e1b86fb0e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"atan(sqrt(1 - x ** 2) / x) + pi / 2 * (1 - x * sqrt(1 / x ** 2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_atan(self, x, **kwargs):
         return atan(sqrt(1 - x**2)/x) + (pi/2)*(1 - x*sqrt(1/x**2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(arg), returns the inverse of this function) over Any ║
+# ║ Path(inverse(argindex), <unspecified:inverse>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a01fa3a008495635           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos.inverse","kind":"method","src_hash":"7ea30177793d60d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(arg)","rhs":"returns the inverse of this function","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a01fa3a008495635"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos.inverse","kind":"method","src_hash":"7ea30177793d60d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(argindex)","rhs":"<unspecified:inverse>","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a01fa3a008495635","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(self, argindex=1):
         """
         Returns the inverse of this function.
@@ -4841,58 +6162,85 @@ class acos(InverseTrigonometricFunction):
         return cos
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acot(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acot(arg, **kwargs), pi / 2 - 2 * acot((1 + sqrt(1 - arg ** 2)) / arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 - 2 * acot((1 + sqrt(1 - arg ** 2)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acot : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b52297c7cdb13983           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_acot","kind":"method","src_hash":"ab2971e42006c29c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acot(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acot_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b52297c7cdb13983"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_acot","kind":"method","src_hash":"ab2971e42006c29c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acot(arg, **kwargs)","rhs":"pi / 2 - 2 * acot((1 + sqrt(1 - arg ** 2)) / arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_acot_correct"},"guarantee":"returns pi / 2 - 2 * acot((1 + sqrt(1 - arg ** 2)) / arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b52297c7cdb13983","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 - 2 * acot((1 + sqrt(1 - arg ** 2)) / arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acot(self, arg, **kwargs):
         return pi/2 - 2*acot((1 + sqrt(1 - arg**2))/arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_asec(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_asec(arg, **kwargs), asec(1 / arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  asec(1 / arg)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_asec : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bf694ad0e7f03706           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_asec","kind":"method","src_hash":"e5a1254d06b91d6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asec(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_asec_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf694ad0e7f03706"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_asec","kind":"method","src_hash":"e5a1254d06b91d6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asec(arg, **kwargs)","rhs":"asec(1 / arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_asec_correct"},"guarantee":"returns asec(1 / arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf694ad0e7f03706","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"asec(1 / arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_asec(self, arg, **kwargs):
         return asec(1/arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acsc(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acsc(arg, **kwargs), pi / 2 - acsc(1 / arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 - acsc(1 / arg)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acsc : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 501f3274688b893d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_acsc","kind":"method","src_hash":"262f0e3bf3bdb5af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acsc(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acsc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"501f3274688b893d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_rewrite_as_acsc","kind":"method","src_hash":"262f0e3bf3bdb5af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acsc(arg, **kwargs)","rhs":"pi / 2 - acsc(1 / arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_acsc_correct"},"guarantee":"returns pi / 2 - acsc(1 / arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"501f3274688b893d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 - acsc(1 / arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acsc(self, arg, **kwargs):
         return pi/2 - acsc(1/arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), result == (r if z.is_extended_real is False else r) and result == r) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_conjugate : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (r if z.is_extended_real is Fal...   ║
+# ║   ensures:  result == r                                    ║
+# ║   fiber[case_0]: z.is_extended_real is False => r          ║
+# ║   fiber[case_1]: z.is_extended_real and (z + 1).is_no...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_conjugate : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd214f9c4eef9d5f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97c5d0a1d570758a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_conjugate","kind":"method","src_hash":"bd96ede2d33d8233","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos._eval_conjugate_correct","statement":"Path(_eval_conjugate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd214f9c4eef9d5f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acos._eval_conjugate","kind":"method","src_hash":"bd96ede2d33d8233","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (r if z.is_extended_real is False else r) and result == r"},"spec":{"lhs":"_eval_conjugate()","rhs":"result == (r if z.is_extended_real is False else r) and result == r","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"result == (r if z.is_extended_real is False else r); result == r; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acos._eval_conjugate_correct","statement":"Path(_eval_conjugate(x), result == (r if z.is_extended_real is False else r); result == r; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97c5d0a1d570758a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (r if z.is_extended_real is False else r)","result == r"],"fibers":[{"name":"case_0","guard":"z.is_extended_real is False","ensures":["result == r"],"decidability":"library","returns_expr":"r"},{"name":"case_1","guard":"z.is_extended_real and (z + 1).is_nonnegative and (z - 1).is_nonpositive","ensures":["result == r"],"decidability":"library","returns_expr":"r"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         z = self.args[0]
         r = self.func(self.args[0].conjugate())
@@ -4905,14 +6253,20 @@ class acos(InverseTrigonometricFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(atan(*args), correctly constructs a atan instance) over {Any | isinstance(arg, tan) and isinstance(arg, cot)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, InverseTrigonometricFunc...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ atan : {Any | isinstance(arg, tan) and isinstance(arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51660de0efd9be14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan","kind":"class","src_hash":"677317dd52dc1258","in":{"base":"Any","pred":"isinstance(arg, tan) and isinstance(arg, cot)"},"out":{"base":"Any"},"spec":{"lhs":"atan(*args)","rhs":"correctly constructs a atan instance","over":{"base":"Any","pred":"isinstance(arg, tan) and isinstance(arg, cot)"},"name":"atan_class_invariant"},"guarantee":"correctly constructs a atan instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51660de0efd9be14"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan","kind":"class","src_hash":"677317dd52dc1258","in":{"base":"Any","pred":"isinstance(arg, tan) and isinstance(arg, cot)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, InverseTrigonometricFunction)"},"spec":{"lhs":"atan(*args)","rhs":"correctly constructs a atan instance","over":{"base":"Any","pred":"isinstance(arg, tan) and isinstance(arg, cot)"},"name":"atan_class_invariant"},"guarantee":"isinstance(self, InverseTrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51660de0efd9be14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, InverseTrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function atan not found in source"]}}
 class atan(InverseTrigonometricFunction):
     r"""
     The inverse tangent function.
@@ -4957,16 +6311,23 @@ class atan(InverseTrigonometricFunction):
     _singularities = (S.ImaginaryUnit, -S.ImaginaryUnit)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => 1 / (1 + self.args[...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0c2c423925c3656  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30360186ac5c385b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan.fdiff","kind":"method","src_hash":"c2a887311e24890f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0c2c423925c3656"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan.fdiff","kind":"method","src_hash":"c2a887311e24890f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30360186ac5c385b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == 1 / (1 + self.args[0] ** 2)"],"decidability":"z3","returns_expr":"1 / (1 + self.args[0] ** 2)"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return 1/(1 + self.args[0]**2)
@@ -4974,16 +6335,23 @@ class atan(InverseTrigonometricFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_rational(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_rational(), <unspecified:_eval_is_rational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: s.func == self.func                       ║
+# ║   fiber[case_1]: not (s.func == self.func) => s.is_ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_rational : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 134715f4b5cc30fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b12978fb2f965359  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_is_rational","kind":"method","src_hash":"abd31c6d3df5ac0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"134715f4b5cc30fc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_is_rational","kind":"method","src_hash":"abd31c6d3df5ac0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"<unspecified:_eval_is_rational>","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b12978fb2f965359","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"s.func == self.func","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (s.func == self.func)","ensures":["result == s.is_rational"],"decidability":"z3","returns_expr":"s.is_rational"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_rational(self):
         s = self.func(*self.args)
         if s.func == self.func:
@@ -4993,73 +6361,106 @@ class atan(InverseTrigonometricFunction):
             return s.is_rational
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), self.args[0].is_extended_positive) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_extended_positive              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 366e2be0c0c7da80           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_is_positive","kind":"method","src_hash":"5a51167ee7bac7f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"366e2be0c0c7da80"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_is_positive","kind":"method","src_hash":"5a51167ee7bac7f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"self.args[0].is_extended_positive","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"returns self.args[0].is_extended_positive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"366e2be0c0c7da80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_extended_positive","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         return self.args[0].is_extended_positive
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_nonnegative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_nonnegative(), self.args[0].is_extended_nonnegative) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_extended_nonnegative           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_nonnegative : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b44a38a959d390a5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_is_nonnegative","kind":"method","src_hash":"386eac63491f8bc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonnegative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_nonnegative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b44a38a959d390a5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_is_nonnegative","kind":"method","src_hash":"386eac63491f8bc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonnegative()","rhs":"self.args[0].is_extended_nonnegative","over":{"base":"Any"},"name":"_eval_is_nonnegative_correct"},"guarantee":"returns self.args[0].is_extended_nonnegative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b44a38a959d390a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_extended_nonnegative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_nonnegative(self):
         return self.args[0].is_extended_nonnegative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), self.args[0].is_zero) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_zero                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d50c10c5c076bfc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_is_zero","kind":"method","src_hash":"c4c0d87e0ed82bd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d50c10c5c076bfc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_is_zero","kind":"method","src_hash":"c4c0d87e0ed82bd5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"self.args[0].is_zero","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"returns self.args[0].is_zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d50c10c5c076bfc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_zero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         return self.args[0].is_zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_real(), self.args[0].is_extended_real) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_extended_real                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 53172e2e3a9010a3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_is_real","kind":"method","src_hash":"084377b805efddf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"53172e2e3a9010a3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_is_real","kind":"method","src_hash":"084377b805efddf6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_real()","rhs":"self.args[0].is_extended_real","over":{"base":"Any"},"name":"_eval_is_real_correct"},"guarantee":"returns self.args[0].is_extended_real","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"53172e2e3a9010a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_extended_real","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_real(self):
         return self.args[0].is_extended_real
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_number')                      ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaea8185ab6d4f07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan.eval","kind":"classmethod","src_hash":"6bd269712952cc10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaea8185ab6d4f07"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan.eval","kind":"classmethod","src_hash":"6bd269712952cc10","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaea8185ab6d4f07","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_number')","hasattr(arg, 'is_zero')","hasattr(arg, 'could_extract_minus_sign')","hasattr(arg, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.could_extract_minus_sign","arg.is_Number","arg.is_number","arg.is_zero","cls._atan_table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
@@ -5115,16 +6516,25 @@ class atan(InverseTrigonometricFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), taylor_term produces the expected output) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), result == (S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n - 1) // 2) * x ** n / n) and result == S.Zero or result == S.NegativeOne ** ((n - 1) // 2) * x ** n / n) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ taylor_term : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.Zero if n < 0 or n % 2 == 0 ...   ║
+# ║   ensures:  result == S.Zero or result == S.NegativeO...   ║
+# ║   fiber[negative]: n < 0 or n % 2 == 0 => S.Zero           ║
+# ║   fiber[negative]: not (n < 0 or n % 2 == 0) => S.Neg...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ taylor_term : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9c6209836b2434d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a7829fb2bb99d79  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan.taylor_term","kind":"staticmethod","src_hash":"49071a66b912b841","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan.taylor_term_correct","statement":"Path(taylor_term(x), taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9c6209836b2434d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan.taylor_term","kind":"staticmethod","src_hash":"49071a66b912b841","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n - 1) // 2) * x ** n / n) and result == S.Zero or result == S.NegativeOne ** ((n - 1) // 2) * x ** n / n"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"result == (S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n - 1) // 2) * x ** n / n) and result == S.Zero or result == S.NegativeOne ** ((n - 1) // 2) * x ** n / n","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"result == (S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n - 1) // 2) * x ** n / n); result == S.Zero or result == S.NegativeOne ** ((n - 1) // 2) * x ** n / n; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan.taylor_term_correct","statement":"Path(taylor_term(x), result == (S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n - 1) // 2) * x ** n / n); result == S.Zero or result == S.NegativeOne ** ((n - 1) // 2) * x ** n / n; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a7829fb2bb99d79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n - 1) // 2) * x ** n / n)","result == S.Zero or result == S.NegativeOne ** ((n - 1) // 2) * x ** n / n"],"fibers":[{"name":"negative","guard":"n < 0 or n % 2 == 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n < 0 or n % 2 == 0)","ensures":["result == S.NegativeOne ** ((n - 1) // 2) * x ** n / n"],"decidability":"z3","returns_expr":"S.NegativeOne ** ((n - 1) // 2) * x ** n / n"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         if n < 0 or n % 2 == 0:
             return S.Zero
@@ -5133,16 +6543,22 @@ class atan(InverseTrigonometricFunction):
             return S.NegativeOne**((n - 1)//2)*x**n/n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), id) over Any              ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 08ab458a147becf0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_as_leading_term","kind":"method","src_hash":"b508f7203e8e80bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08ab458a147becf0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_as_leading_term","kind":"method","src_hash":"b508f7203e8e80bf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08ab458a147becf0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         arg = self.args[0]
         x0 = arg.subs(x, 0).cancel()
@@ -5167,16 +6583,22 @@ class atan(InverseTrigonometricFunction):
         return self.func(x0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bf2cbad70f30e2c7   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_nseries","kind":"method","src_hash":"f02b878802f5b44c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf2cbad70f30e2c7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_nseries","kind":"method","src_hash":"f02b878802f5b44c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf2cbad70f30e2c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):  # atan
         arg0 = self.args[0].subs(x, 0)
 
@@ -5203,16 +6625,22 @@ class atan(InverseTrigonometricFunction):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_log(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_log(x, **kwargs), S.ImaginaryUnit / 2 * (log(S.One - S.ImaginaryUnit * x) - log(S.One + S.ImaginaryUnit * x))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.ImaginaryUnit / 2 * (log(S.One - S.Imag...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_log : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0963bdc7b39d58c5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 279832772e3dfd13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_log","kind":"method","src_hash":"7fffc5652f4da1e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_log_correct","statement":"Path(_eval_rewrite_as_log(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0963bdc7b39d58c5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_log","kind":"method","src_hash":"7fffc5652f4da1e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(x, **kwargs)","rhs":"S.ImaginaryUnit / 2 * (log(S.One - S.ImaginaryUnit * x) - log(S.One + S.ImaginaryUnit * x))","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"returns S.ImaginaryUnit / 2 * (log(S.One - S.ImaginaryUnit * x) - log(S.One + S.ImaginaryUnit * x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_log_correct","statement":"Path(_eval_rewrite_as_log(x), returns S.ImaginaryUnit / 2 * (log(S.One - S.ImaginaryUnit * x) - log(S.One + S.ImaginaryUnit * x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"279832772e3dfd13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.ImaginaryUnit / 2 * (log(S.One - S.ImaginaryUnit * x) - log(S.One + S.ImaginaryUnit * x))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_log(self, x, **kwargs):
         return S.ImaginaryUnit/2*(log(S.One - S.ImaginaryUnit*x)
             - log(S.One + S.ImaginaryUnit*x))
@@ -5220,16 +6648,25 @@ class atan(InverseTrigonometricFunction):
     _eval_rewrite_as_tractable = _eval_rewrite_as_log
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_aseries(n, ), id) over Any                      ║
+# ║ Path(_eval_aseries(n, args0, x), id) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_aseries : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((pi / 2 - atan(1 / self.args[0...   ║
+# ║   ensures:  result == (pi / 2 - atan(1 / self.args[0]...   ║
+# ║   fiber[case_0]: args0[0] in [S.Infinity, S.NegativeI...   ║
+# ║   fiber[case_1]: not (args0[0] in [S.Infinity, S.Nega...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_aseries : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a012c1036d9d96f5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_aseries","kind":"method","src_hash":"2ba05686b60ae445","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"atan","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a012c1036d9d96f5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_aseries","kind":"method","src_hash":"2ba05686b60ae445","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((pi / 2 - atan(1 / self.args[0]))._eval_nseries(x, n, logx) if args0[0] in [S.Infinity, S.NegativeInfinity] else super()._eval_aseries(n, args0, x, logx)) and result == (pi / 2 - atan(1 / self.args[0]))._eval_nseries(x, n, logx) or result == super()._eval_aseries(n, args0, x, logx)"},"spec":{"lhs":"_eval_aseries(n, args0, x)","rhs":"result == ((pi / 2 - atan(1 / self.args[0]))._eval_nseries(x, n, logx) if args0[0] in [S.Infinity, S.NegativeInfinity] else super()._eval_aseries(n, args0, x, logx)) and result == (pi / 2 - atan(1 / self.args[0]))._eval_nseries(x, n, logx) or result == super()._eval_aseries(n, args0, x, logx)","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"result == ((pi / 2 - atan(1 / self.args[0]))._eval_nseries(x, n, logx) if args0[0] in [S.Infinity, S.NegativeInfinity] else super()._eval_aseries(n, args0, x, logx)); result == (pi / 2 - atan(1 / self.args[0]))._eval_nseries(x, n, logx) or result == super()._eval_aseries(n, args0, x, logx); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"atan","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a012c1036d9d96f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((pi / 2 - atan(1 / self.args[0]))._eval_nseries(x, n, logx) if args0[0] in [S.Infinity, S.NegativeInfinity] else super()._eval_aseries(n, args0, x, logx))","result == (pi / 2 - atan(1 / self.args[0]))._eval_nseries(x, n, logx) or result == super()._eval_aseries(n, args0, x, logx)"],"fibers":[{"name":"case_0","guard":"args0[0] in [S.Infinity, S.NegativeInfinity]","ensures":["result == (pi / 2 - atan(1 / self.args[0]))._eval_nseries(x, n, logx)"],"decidability":"library","returns_expr":"(pi / 2 - atan(1 / self.args[0]))._eval_nseries(x, n, logx)"},{"name":"case_1","guard":"not (args0[0] in [S.Infinity, S.NegativeInfinity])","ensures":["result == super()._eval_aseries(n, args0, x, logx)"],"decidability":"library","returns_expr":"super()._eval_aseries(n, args0, x, logx)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_aseries(self, n, args0, x, logx):
         if args0[0] in [S.Infinity, S.NegativeInfinity]:
             return (pi/2 - atan(1/self.args[0]))._eval_nseries(x, n, logx)
@@ -5237,16 +6674,22 @@ class atan(InverseTrigonometricFunction):
             return super()._eval_aseries(n, args0, x, logx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(arg), returns the inverse of this function) over Any ║
+# ║ Path(inverse(argindex), <unspecified:inverse>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 099f531e98e1941d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan.inverse","kind":"method","src_hash":"ab6a570c50432883","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(arg)","rhs":"returns the inverse of this function","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"099f531e98e1941d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan.inverse","kind":"method","src_hash":"ab6a570c50432883","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(argindex)","rhs":"<unspecified:inverse>","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"099f531e98e1941d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(self, argindex=1):
         """
         Returns the inverse of this function.
@@ -5254,72 +6697,102 @@ class atan(InverseTrigonometricFunction):
         return tan
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_asin(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_asin(arg, **kwargs), sqrt(arg ** 2) / arg * (pi / 2 - asin(1 / sqrt(1 + arg ** 2)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(arg ** 2) / arg * (pi / 2 - asin(1 /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_asin : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 93fd17d5d87c7a09           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_asin","kind":"method","src_hash":"9304ea6d1448b419","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asin(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_asin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93fd17d5d87c7a09"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_asin","kind":"method","src_hash":"9304ea6d1448b419","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asin(arg, **kwargs)","rhs":"sqrt(arg ** 2) / arg * (pi / 2 - asin(1 / sqrt(1 + arg ** 2)))","over":{"base":"Any"},"name":"_eval_rewrite_as_asin_correct"},"guarantee":"returns sqrt(arg ** 2) / arg * (pi / 2 - asin(1 / sqrt(1 + arg ** 2)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"93fd17d5d87c7a09","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(arg ** 2) / arg * (pi / 2 - asin(1 / sqrt(1 + arg ** 2)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_asin(self, arg, **kwargs):
         return sqrt(arg**2)/arg*(pi/2 - asin(1/sqrt(1 + arg**2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acos(arg, **kwargs), sqrt(arg ** 2) / arg * acos(1 / sqrt(1 + arg ** 2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(arg ** 2) / arg * acos(1 / sqrt(1 + ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acos : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 069178ac4123778e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_acos","kind":"method","src_hash":"1fb22f45fd1e6b14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"069178ac4123778e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_acos","kind":"method","src_hash":"1fb22f45fd1e6b14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acos(arg, **kwargs)","rhs":"sqrt(arg ** 2) / arg * acos(1 / sqrt(1 + arg ** 2))","over":{"base":"Any"},"name":"_eval_rewrite_as_acos_correct"},"guarantee":"returns sqrt(arg ** 2) / arg * acos(1 / sqrt(1 + arg ** 2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"069178ac4123778e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(arg ** 2) / arg * acos(1 / sqrt(1 + arg ** 2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acos(self, arg, **kwargs):
         return sqrt(arg**2)/arg*acos(1/sqrt(1 + arg**2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acot(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acot(arg, **kwargs), acot(1 / arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  acot(1 / arg)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acot : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d07481ec359df7d5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_acot","kind":"method","src_hash":"d59e572567e8902c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acot(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acot_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d07481ec359df7d5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_acot","kind":"method","src_hash":"d59e572567e8902c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acot(arg, **kwargs)","rhs":"acot(1 / arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_acot_correct"},"guarantee":"returns acot(1 / arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d07481ec359df7d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"acot(1 / arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acot(self, arg, **kwargs):
         return acot(1/arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_asec(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_asec(arg, **kwargs), sqrt(arg ** 2) / arg * asec(sqrt(1 + arg ** 2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(arg ** 2) / arg * asec(sqrt(1 + arg ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_asec : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4418fdbeda3bf0e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_asec","kind":"method","src_hash":"33d0fadc8ee3cf64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asec(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_asec_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4418fdbeda3bf0e8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_asec","kind":"method","src_hash":"33d0fadc8ee3cf64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asec(arg, **kwargs)","rhs":"sqrt(arg ** 2) / arg * asec(sqrt(1 + arg ** 2))","over":{"base":"Any"},"name":"_eval_rewrite_as_asec_correct"},"guarantee":"returns sqrt(arg ** 2) / arg * asec(sqrt(1 + arg ** 2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4418fdbeda3bf0e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(arg ** 2) / arg * asec(sqrt(1 + arg ** 2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_asec(self, arg, **kwargs):
         return sqrt(arg**2)/arg*asec(sqrt(1 + arg**2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acsc(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acsc(arg, **kwargs), sqrt(arg ** 2) / arg * (pi / 2 - acsc(sqrt(1 + arg ** 2)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(arg ** 2) / arg * (pi / 2 - acsc(sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acsc : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc72d078fcfdc4b3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_acsc","kind":"method","src_hash":"72bb802f722f9f3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acsc(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acsc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc72d078fcfdc4b3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan._eval_rewrite_as_acsc","kind":"method","src_hash":"72bb802f722f9f3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acsc(arg, **kwargs)","rhs":"sqrt(arg ** 2) / arg * (pi / 2 - acsc(sqrt(1 + arg ** 2)))","over":{"base":"Any"},"name":"_eval_rewrite_as_acsc_correct"},"guarantee":"returns sqrt(arg ** 2) / arg * (pi / 2 - acsc(sqrt(1 + arg ** 2)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc72d078fcfdc4b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(arg ** 2) / arg * (pi / 2 - acsc(sqrt(1 + arg ** 2)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acsc(self, arg, **kwargs):
         return sqrt(arg**2)/arg*(pi/2 - acsc(sqrt(1 + arg**2)))
 
@@ -5327,14 +6800,20 @@ class atan(InverseTrigonometricFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(acot(*args), correctly constructs a acot instance) over {Any | isinstance(arg, cot) and isinstance(arg, tan)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, InverseTrigonometricFunc...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ acot : {Any | isinstance(arg, cot) and isinstance(arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0596853ac83c5edb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot","kind":"class","src_hash":"f8a8421f5c15965a","in":{"base":"Any","pred":"isinstance(arg, cot) and isinstance(arg, tan)"},"out":{"base":"Any"},"spec":{"lhs":"acot(*args)","rhs":"correctly constructs a acot instance","over":{"base":"Any","pred":"isinstance(arg, cot) and isinstance(arg, tan)"},"name":"acot_class_invariant"},"guarantee":"correctly constructs a acot instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0596853ac83c5edb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot","kind":"class","src_hash":"f8a8421f5c15965a","in":{"base":"Any","pred":"isinstance(arg, cot) and isinstance(arg, tan)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, InverseTrigonometricFunction)"},"spec":{"lhs":"acot(*args)","rhs":"correctly constructs a acot instance","over":{"base":"Any","pred":"isinstance(arg, cot) and isinstance(arg, tan)"},"name":"acot_class_invariant"},"guarantee":"isinstance(self, InverseTrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0596853ac83c5edb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, InverseTrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function acot not found in source"]}}
 class acot(InverseTrigonometricFunction):
     r"""
     The inverse cotangent function.
@@ -5381,16 +6860,23 @@ class acot(InverseTrigonometricFunction):
     _singularities = (S.ImaginaryUnit, -S.ImaginaryUnit)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => -1 / (1 + self.args...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27bfc2fa9a9a00d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7c2736ae96f3adb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot.fdiff","kind":"method","src_hash":"a8259c24e5211880","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acot.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27bfc2fa9a9a00d8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot.fdiff","kind":"method","src_hash":"a8259c24e5211880","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acot.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7c2736ae96f3adb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == -1 / (1 + self.args[0] ** 2)"],"decidability":"z3","returns_expr":"-1 / (1 + self.args[0] ** 2)"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return -1/(1 + self.args[0]**2)
@@ -5398,16 +6884,23 @@ class acot(InverseTrigonometricFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_rational(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_rational(), <unspecified:_eval_is_rational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: s.func == self.func                       ║
+# ║   fiber[case_1]: not (s.func == self.func) => s.is_ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_rational : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66c7361fa8e3f3fd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02826449865ed43b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_is_rational","kind":"method","src_hash":"abd31c6d3df5ac0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acot._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66c7361fa8e3f3fd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_is_rational","kind":"method","src_hash":"abd31c6d3df5ac0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"<unspecified:_eval_is_rational>","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acot._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02826449865ed43b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"s.func == self.func","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (s.func == self.func)","ensures":["result == s.is_rational"],"decidability":"z3","returns_expr":"s.is_rational"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_rational(self):
         s = self.func(*self.args)
         if s.func == self.func:
@@ -5417,59 +6910,86 @@ class acot(InverseTrigonometricFunction):
             return s.is_rational
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_positive(), self.args[0].is_nonnegative) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_nonnegative                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9b69766eb7fc3db1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_is_positive","kind":"method","src_hash":"5f6d91f945f8c6bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b69766eb7fc3db1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_is_positive","kind":"method","src_hash":"5f6d91f945f8c6bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_positive()","rhs":"self.args[0].is_nonnegative","over":{"base":"Any"},"name":"_eval_is_positive_correct"},"guarantee":"returns self.args[0].is_nonnegative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b69766eb7fc3db1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_nonnegative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_positive(self):
         return self.args[0].is_nonnegative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_negative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_negative(), self.args[0].is_negative) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_negative                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_negative : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 64fdf2ad1b425763           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_is_negative","kind":"method","src_hash":"ecf6c89fa0c7eb0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64fdf2ad1b425763"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_is_negative","kind":"method","src_hash":"ecf6c89fa0c7eb0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_negative()","rhs":"self.args[0].is_negative","over":{"base":"Any"},"name":"_eval_is_negative_correct"},"guarantee":"returns self.args[0].is_negative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64fdf2ad1b425763","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_negative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_negative(self):
         return self.args[0].is_negative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), self.args[0].is_extended_real) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_extended_real                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e484d73125842043           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_is_extended_real","kind":"method","src_hash":"f2959ee62bc56d70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e484d73125842043"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_is_extended_real","kind":"method","src_hash":"f2959ee62bc56d70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"self.args[0].is_extended_real","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns self.args[0].is_extended_real","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e484d73125842043","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_extended_real","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         return self.args[0].is_extended_real
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_number')                      ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb0f49cc34f3fba7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot.eval","kind":"classmethod","src_hash":"2af12255460d1497","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acot.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb0f49cc34f3fba7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot.eval","kind":"classmethod","src_hash":"2af12255460d1497","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_zero') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acot.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb0f49cc34f3fba7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_number')","hasattr(arg, 'is_zero')","hasattr(arg, 'could_extract_minus_sign')","hasattr(arg, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.could_extract_minus_sign","arg.is_Number","arg.is_number","arg.is_zero","cls._atan_table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.is_Number:
             if arg is S.NaN:
@@ -5526,16 +7046,26 @@ class acot(InverseTrigonometricFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), taylor_term produces the expected output) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), result == (pi / 2 if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n + 1) // 2) * x ** n / n) and result == pi / 2 or result == S.Zero or result == S.NegativeOne ** ((n + 1) // 2) * x ** n / n) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ taylor_term : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (pi / 2 if n == 0 else S.Zero i...   ║
+# ║   ensures:  result == pi / 2 or result == S.Zero or r...   ║
+# ║   fiber[zero_or_none]: n == 0 => pi / 2                    ║
+# ║   fiber[negative]: n < 0 or n % 2 == 0 => S.Zero           ║
+# ║   fiber[negative]: not (n == 0) and not (n < 0 or n %...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ taylor_term : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55c045e9318a0b1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86e1257cfab03c02  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot.taylor_term","kind":"staticmethod","src_hash":"bedccaf20e7798e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acot.taylor_term_correct","statement":"Path(taylor_term(x), taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55c045e9318a0b1f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot.taylor_term","kind":"staticmethod","src_hash":"bedccaf20e7798e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (pi / 2 if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n + 1) // 2) * x ** n / n) and result == pi / 2 or result == S.Zero or result == S.NegativeOne ** ((n + 1) // 2) * x ** n / n"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"result == (pi / 2 if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n + 1) // 2) * x ** n / n) and result == pi / 2 or result == S.Zero or result == S.NegativeOne ** ((n + 1) // 2) * x ** n / n","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"result == (pi / 2 if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n + 1) // 2) * x ** n / n); result == pi / 2 or result == S.Zero or result == S.NegativeOne ** ((n + 1) // 2) * x ** n / n; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acot.taylor_term_correct","statement":"Path(taylor_term(x), result == (pi / 2 if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n + 1) // 2) * x ** n / n); result == pi / 2 or result == S.Zero or result == S.NegativeOne ** ((n + 1) // 2) * x ** n / n; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86e1257cfab03c02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (pi / 2 if n == 0 else S.Zero if n < 0 or n % 2 == 0 else S.NegativeOne ** ((n + 1) // 2) * x ** n / n)","result == pi / 2 or result == S.Zero or result == S.NegativeOne ** ((n + 1) // 2) * x ** n / n"],"fibers":[{"name":"zero_or_none","guard":"n == 0","ensures":["result == pi / 2"],"decidability":"z3","returns_expr":"pi / 2"},{"name":"negative","guard":"n < 0 or n % 2 == 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n == 0) and not (n < 0 or n % 2 == 0)","ensures":["result == S.NegativeOne ** ((n + 1) // 2) * x ** n / n"],"decidability":"z3","returns_expr":"S.NegativeOne ** ((n + 1) // 2) * x ** n / n"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         if n == 0:
             return pi/2  # FIX THIS
@@ -5546,16 +7076,22 @@ class acot(InverseTrigonometricFunction):
             return S.NegativeOne**((n + 1)//2)*x**n/n
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), id) over Any              ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ae39a383e6f4213c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_as_leading_term","kind":"method","src_hash":"8d78ed9b393fb2b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae39a383e6f4213c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_as_leading_term","kind":"method","src_hash":"8d78ed9b393fb2b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae39a383e6f4213c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         arg = self.args[0]
         x0 = arg.subs(x, 0).cancel()
@@ -5580,16 +7116,22 @@ class acot(InverseTrigonometricFunction):
         return self.func(x0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0e6b204a05c18126   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_nseries","kind":"method","src_hash":"5dc42b0fdbe50a1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e6b204a05c18126"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_nseries","kind":"method","src_hash":"5dc42b0fdbe50a1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e6b204a05c18126","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):  # acot
         arg0 = self.args[0].subs(x, 0)
 
@@ -5618,16 +7160,25 @@ class acot(InverseTrigonometricFunction):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_aseries(n, ), id) over Any                      ║
+# ║ Path(_eval_aseries(n, args0, x), id) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_aseries : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (atan(1 / self.args[0])._eval_n...   ║
+# ║   ensures:  result == atan(1 / self.args[0])._eval_ns...   ║
+# ║   fiber[case_0]: args0[0] in [S.Infinity, S.NegativeI...   ║
+# ║   fiber[case_1]: not (args0[0] in [S.Infinity, S.Nega...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_aseries : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6d5b28bfb116bcdb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_aseries","kind":"method","src_hash":"ea835831b61c9b60","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_aseries(n, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"atan","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d5b28bfb116bcdb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_aseries","kind":"method","src_hash":"ea835831b61c9b60","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (atan(1 / self.args[0])._eval_nseries(x, n, logx) if args0[0] in [S.Infinity, S.NegativeInfinity] else super()._eval_aseries(n, args0, x, logx)) and result == atan(1 / self.args[0])._eval_nseries(x, n, logx) or result == super()._eval_aseries(n, args0, x, logx)"},"spec":{"lhs":"_eval_aseries(n, args0, x)","rhs":"result == (atan(1 / self.args[0])._eval_nseries(x, n, logx) if args0[0] in [S.Infinity, S.NegativeInfinity] else super()._eval_aseries(n, args0, x, logx)) and result == atan(1 / self.args[0])._eval_nseries(x, n, logx) or result == super()._eval_aseries(n, args0, x, logx)","over":{"base":"Any"},"name":"_eval_aseries_correct","kind":"composition"},"guarantee":"result == (atan(1 / self.args[0])._eval_nseries(x, n, logx) if args0[0] in [S.Infinity, S.NegativeInfinity] else super()._eval_aseries(n, args0, x, logx)); result == atan(1 / self.args[0])._eval_nseries(x, n, logx) or result == super()._eval_aseries(n, args0, x, logx); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"atan","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d5b28bfb116bcdb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (atan(1 / self.args[0])._eval_nseries(x, n, logx) if args0[0] in [S.Infinity, S.NegativeInfinity] else super()._eval_aseries(n, args0, x, logx))","result == atan(1 / self.args[0])._eval_nseries(x, n, logx) or result == super()._eval_aseries(n, args0, x, logx)"],"fibers":[{"name":"case_0","guard":"args0[0] in [S.Infinity, S.NegativeInfinity]","ensures":["result == atan(1 / self.args[0])._eval_nseries(x, n, logx)"],"decidability":"library","returns_expr":"atan(1 / self.args[0])._eval_nseries(x, n, logx)"},{"name":"case_1","guard":"not (args0[0] in [S.Infinity, S.NegativeInfinity])","ensures":["result == super()._eval_aseries(n, args0, x, logx)"],"decidability":"library","returns_expr":"super()._eval_aseries(n, args0, x, logx)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_aseries(self, n, args0, x, logx):
         if args0[0] in [S.Infinity, S.NegativeInfinity]:
             return atan(1/self.args[0])._eval_nseries(x, n, logx)
@@ -5635,16 +7186,22 @@ class acot(InverseTrigonometricFunction):
             return super()._eval_aseries(n, args0, x, logx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_log(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_log(x, **kwargs), S.ImaginaryUnit / 2 * (log(1 - S.ImaginaryUnit / x) - log(1 + S.ImaginaryUnit / x))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.ImaginaryUnit / 2 * (log(1 - S.Imaginar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_log : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 323dedc7f292b8b8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40a4c7f407f651f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_log","kind":"method","src_hash":"907435896e2de205","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_log_correct","statement":"Path(_eval_rewrite_as_log(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"323dedc7f292b8b8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_log","kind":"method","src_hash":"907435896e2de205","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(x, **kwargs)","rhs":"S.ImaginaryUnit / 2 * (log(1 - S.ImaginaryUnit / x) - log(1 + S.ImaginaryUnit / x))","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"returns S.ImaginaryUnit / 2 * (log(1 - S.ImaginaryUnit / x) - log(1 + S.ImaginaryUnit / x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_log_correct","statement":"Path(_eval_rewrite_as_log(x), returns S.ImaginaryUnit / 2 * (log(1 - S.ImaginaryUnit / x) - log(1 + S.ImaginaryUnit / x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40a4c7f407f651f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.ImaginaryUnit / 2 * (log(1 - S.ImaginaryUnit / x) - log(1 + S.ImaginaryUnit / x))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_log(self, x, **kwargs):
         return S.ImaginaryUnit/2*(log(1 - S.ImaginaryUnit/x)
             - log(1 + S.ImaginaryUnit/x))
@@ -5652,16 +7209,22 @@ class acot(InverseTrigonometricFunction):
     _eval_rewrite_as_tractable = _eval_rewrite_as_log
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(arg), returns the inverse of this function) over Any ║
+# ║ Path(inverse(argindex), <unspecified:inverse>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8ebf3137607ce8f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot.inverse","kind":"method","src_hash":"d4f1b99413e04862","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(arg)","rhs":"returns the inverse of this function","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ebf3137607ce8f6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot.inverse","kind":"method","src_hash":"d4f1b99413e04862","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(argindex)","rhs":"<unspecified:inverse>","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8ebf3137607ce8f6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(self, argindex=1):
         """
         Returns the inverse of this function.
@@ -5669,73 +7232,103 @@ class acot(InverseTrigonometricFunction):
         return cot
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_asin(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_asin(arg, **kwargs), arg * sqrt(1 / arg ** 2) * (pi / 2 - asin(sqrt(-arg ** 2) / sqrt(-arg ** 2 - 1)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  arg * sqrt(1 / arg ** 2) * (pi / 2 - asin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_asin : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55853d8aef4161e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b98fac361ddbfcc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_asin","kind":"method","src_hash":"684ffb0edbe5925d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asin(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_asin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_asin_correct","statement":"Path(_eval_rewrite_as_asin(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55853d8aef4161e9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_asin","kind":"method","src_hash":"684ffb0edbe5925d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asin(arg, **kwargs)","rhs":"arg * sqrt(1 / arg ** 2) * (pi / 2 - asin(sqrt(-arg ** 2) / sqrt(-arg ** 2 - 1)))","over":{"base":"Any"},"name":"_eval_rewrite_as_asin_correct"},"guarantee":"returns arg * sqrt(1 / arg ** 2) * (pi / 2 - asin(sqrt(-arg ** 2) / sqrt(-arg ** 2 - 1)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_asin_correct","statement":"Path(_eval_rewrite_as_asin(x), returns arg * sqrt(1 / arg ** 2) * (pi / 2 - asin(sqrt(-arg ** 2) / sqrt(-arg ** 2 - 1))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b98fac361ddbfcc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"arg * sqrt(1 / arg ** 2) * (pi / 2 - asin(sqrt(-arg ** 2) / sqrt(-arg ** 2 - 1)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_asin(self, arg, **kwargs):
         return (arg*sqrt(1/arg**2)*
                 (pi/2 - asin(sqrt(-arg**2)/sqrt(-arg**2 - 1))))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acos(arg, **kwargs), arg * sqrt(1 / arg ** 2) * acos(sqrt(-arg ** 2) / sqrt(-arg ** 2 - 1))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  arg * sqrt(1 / arg ** 2) * acos(sqrt(-arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acos : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 58d5fea873bab3be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_acos","kind":"method","src_hash":"3e913285629bd6bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58d5fea873bab3be"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_acos","kind":"method","src_hash":"3e913285629bd6bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acos(arg, **kwargs)","rhs":"arg * sqrt(1 / arg ** 2) * acos(sqrt(-arg ** 2) / sqrt(-arg ** 2 - 1))","over":{"base":"Any"},"name":"_eval_rewrite_as_acos_correct"},"guarantee":"returns arg * sqrt(1 / arg ** 2) * acos(sqrt(-arg ** 2) / sqrt(-arg ** 2 - 1))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58d5fea873bab3be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"arg * sqrt(1 / arg ** 2) * acos(sqrt(-arg ** 2) / sqrt(-arg ** 2 - 1))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acos(self, arg, **kwargs):
         return arg*sqrt(1/arg**2)*acos(sqrt(-arg**2)/sqrt(-arg**2 - 1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_atan(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_atan(arg, **kwargs), atan(1 / arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  atan(1 / arg)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_atan : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 282ee7ef2f8d830d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_atan","kind":"method","src_hash":"c024d7f334490f5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_atan(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_atan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"282ee7ef2f8d830d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_atan","kind":"method","src_hash":"c024d7f334490f5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_atan(arg, **kwargs)","rhs":"atan(1 / arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_atan_correct"},"guarantee":"returns atan(1 / arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"282ee7ef2f8d830d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"atan(1 / arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_atan(self, arg, **kwargs):
         return atan(1/arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_asec(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_asec(arg, **kwargs), arg * sqrt(1 / arg ** 2) * asec(sqrt((1 + arg ** 2) / arg ** 2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  arg * sqrt(1 / arg ** 2) * asec(sqrt((1 +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_asec : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ed1f5bc58ec95b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_asec","kind":"method","src_hash":"f0ac1a919f016b29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asec(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_asec_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ed1f5bc58ec95b7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_asec","kind":"method","src_hash":"f0ac1a919f016b29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asec(arg, **kwargs)","rhs":"arg * sqrt(1 / arg ** 2) * asec(sqrt((1 + arg ** 2) / arg ** 2))","over":{"base":"Any"},"name":"_eval_rewrite_as_asec_correct"},"guarantee":"returns arg * sqrt(1 / arg ** 2) * asec(sqrt((1 + arg ** 2) / arg ** 2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ed1f5bc58ec95b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"arg * sqrt(1 / arg ** 2) * asec(sqrt((1 + arg ** 2) / arg ** 2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_asec(self, arg, **kwargs):
         return arg*sqrt(1/arg**2)*asec(sqrt((1 + arg**2)/arg**2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acsc(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acsc(arg, **kwargs), arg * sqrt(1 / arg ** 2) * (pi / 2 - acsc(sqrt((1 + arg ** 2) / arg ** 2)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  arg * sqrt(1 / arg ** 2) * (pi / 2 - acsc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acsc : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a9f75af71bf94749           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_acsc","kind":"method","src_hash":"e6a8036b40e01f95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acsc(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acsc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9f75af71bf94749"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acot._eval_rewrite_as_acsc","kind":"method","src_hash":"e6a8036b40e01f95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acsc(arg, **kwargs)","rhs":"arg * sqrt(1 / arg ** 2) * (pi / 2 - acsc(sqrt((1 + arg ** 2) / arg ** 2)))","over":{"base":"Any"},"name":"_eval_rewrite_as_acsc_correct"},"guarantee":"returns arg * sqrt(1 / arg ** 2) * (pi / 2 - acsc(sqrt((1 + arg ** 2) / arg ** 2)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9f75af71bf94749","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"arg * sqrt(1 / arg ** 2) * (pi / 2 - acsc(sqrt((1 + arg ** 2) / arg ** 2)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acsc(self, arg, **kwargs):
         return arg*sqrt(1/arg**2)*(pi/2 - acsc(sqrt((1 + arg**2)/arg**2)))
 
@@ -5743,14 +7336,20 @@ class acot(InverseTrigonometricFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(asec(*args), correctly constructs a asec instance) over {Any | isinstance(narg, sec) and isinstance(narg, csc)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, InverseTrigonometricFunc...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ asec : {Any | isinstance(narg, sec) and isinstance(na...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3273b16a80ccb620  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec","kind":"class","src_hash":"cedb07ed2d950665","in":{"base":"Any","pred":"isinstance(narg, sec) and isinstance(narg, csc)"},"out":{"base":"Any"},"spec":{"lhs":"asec(*args)","rhs":"correctly constructs a asec instance","over":{"base":"Any","pred":"isinstance(narg, sec) and isinstance(narg, csc)"},"name":"asec_class_invariant"},"guarantee":"correctly constructs a asec instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3273b16a80ccb620"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec","kind":"class","src_hash":"cedb07ed2d950665","in":{"base":"Any","pred":"isinstance(narg, sec) and isinstance(narg, csc)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, InverseTrigonometricFunction)"},"spec":{"lhs":"asec(*args)","rhs":"correctly constructs a asec instance","over":{"base":"Any","pred":"isinstance(narg, sec) and isinstance(narg, csc)"},"name":"asec_class_invariant"},"guarantee":"isinstance(self, InverseTrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3273b16a80ccb620","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, InverseTrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function asec not found in source"]}}
 class asec(InverseTrigonometricFunction):
     r"""
     The inverse secant function.
@@ -5813,16 +7412,25 @@ class asec(InverseTrigonometricFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_zero') and hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_infinite') and hasattr(arg, 'is_Mul') and hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_number')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_zero') and hasattr(arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84d5c90693d96142  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec.eval","kind":"classmethod","src_hash":"c2603f314e38ed55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asec.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84d5c90693d96142"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec.eval","kind":"classmethod","src_hash":"c2603f314e38ed55","in":{"base":"Any","pred":"hasattr(arg, 'is_zero') and hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_infinite') and hasattr(arg, 'is_Mul') and hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_zero') and hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_infinite') and hasattr(arg, 'is_Mul') and hasattr(arg, 'args')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asec.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84d5c90693d96142","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_zero')","hasattr(arg, 'is_Number')","hasattr(arg, 'is_number')","hasattr(arg, 'is_infinite')","hasattr(arg, 'is_Mul')","hasattr(arg, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.is_Mul","arg.is_Number","arg.is_infinite","arg.is_number","arg.is_zero","cls._acsc_table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.is_zero:
             return S.ComplexInfinity
@@ -5872,16 +7480,23 @@ class asec(InverseTrigonometricFunction):
                 return pi/2 - acsc(narg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => 1 / (self.args[0] *...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49002784057be504  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71b4a2d5b97c10d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec.fdiff","kind":"method","src_hash":"4424006edc705bdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asec.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49002784057be504"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec.fdiff","kind":"method","src_hash":"4424006edc705bdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asec.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71b4a2d5b97c10d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == 1 / (self.args[0] ** 2 * sqrt(1 - 1 / self.args[0] ** 2))"],"decidability":"z3","returns_expr":"1 / (self.args[0] ** 2 * sqrt(1 - 1 / self.args[0] ** 2))"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return 1/(self.args[0]**2*sqrt(1 - 1/self.args[0]**2))
@@ -5889,16 +7504,22 @@ class asec(InverseTrigonometricFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(arg), returns the inverse of this function) over Any ║
+# ║ Path(inverse(argindex), <unspecified:inverse>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dbca1859629e4ec4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec.inverse","kind":"method","src_hash":"e67c9a76639e1897","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(arg)","rhs":"returns the inverse of this function","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbca1859629e4ec4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec.inverse","kind":"method","src_hash":"e67c9a76639e1897","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(argindex)","rhs":"<unspecified:inverse>","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbca1859629e4ec4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(self, argindex=1):
         """
         Returns the inverse of this function.
@@ -5908,16 +7529,24 @@ class asec(InverseTrigonometricFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), taylor_term produces the expected output) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), <unspecified:taylor_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[zero_or_none]: n == 0 => S.ImaginaryUnit * lo...   ║
+# ║   fiber[negative]: n < 0 or n % 2 == 1 => S.Zero           ║
+# ║   fiber[negative]: not (n == 0) and not (n < 0 or n %...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ taylor_term : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86ffdd71bf36a8ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eed686a84083cbf7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec.taylor_term","kind":"staticmethod","src_hash":"65776c2c2b3115ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asec.taylor_term_correct","statement":"Path(taylor_term(x), taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86ffdd71bf36a8ea"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec.taylor_term","kind":"staticmethod","src_hash":"65776c2c2b3115ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"<unspecified:taylor_term>","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asec.taylor_term_correct","statement":"Path(taylor_term(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eed686a84083cbf7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"zero_or_none","guard":"n == 0","ensures":["result == S.ImaginaryUnit * log(2 / x)"],"decidability":"z3","returns_expr":"S.ImaginaryUnit * log(2 / x)"},{"name":"negative","guard":"n < 0 or n % 2 == 1","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n == 0) and not (n < 0 or n % 2 == 1)","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         if n == 0:
             return S.ImaginaryUnit*log(2 / x)
@@ -5935,16 +7564,22 @@ class asec(InverseTrigonometricFunction):
                 return -S.ImaginaryUnit * R / F * x**n / 4
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), id) over Any              ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 96508ecc0c46eeb6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_as_leading_term","kind":"method","src_hash":"1e240d23d8454eec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96508ecc0c46eeb6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_as_leading_term","kind":"method","src_hash":"1e240d23d8454eec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96508ecc0c46eeb6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         arg = self.args[0]
         x0 = arg.subs(x, 0).cancel()
@@ -5969,16 +7604,22 @@ class asec(InverseTrigonometricFunction):
         return self.func(x0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e87f12417270159f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_nseries","kind":"method","src_hash":"22540487899bd66b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"removeO","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"expand","by":"library_axiom"},{"fn":"powsimp","by":"library_axiom"},{"fn":"O","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e87f12417270159f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_nseries","kind":"method","src_hash":"22540487899bd66b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"removeO","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"expand","by":"library_axiom"},{"fn":"powsimp","by":"library_axiom"},{"fn":"O","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e87f12417270159f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):  # asec
         from sympy.series.order import O
         arg0 = self.args[0].subs(x, 0)
@@ -6020,16 +7661,22 @@ class asec(InverseTrigonometricFunction):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), <unspecified:_eval_is_extended_real>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e5711a98b90c9e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_is_extended_real","kind":"method","src_hash":"a43da444d9906207","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asec._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e5711a98b90c9e9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_is_extended_real","kind":"method","src_hash":"a43da444d9906207","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"<unspecified:_eval_is_extended_real>","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.asec._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e5711a98b90c9e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         x = self.args[0]
         if x.is_extended_real is False:
@@ -6037,90 +7684,126 @@ class asec(InverseTrigonometricFunction):
         return fuzzy_or(((x - 1).is_nonnegative, (-x - 1).is_nonnegative))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_log(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_log(arg, **kwargs), pi / 2 + S.ImaginaryUnit * log(S.ImaginaryUnit / arg + sqrt(1 - 1 / arg ** 2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 + S.ImaginaryUnit * log(S.Imaginar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_log : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3bc33c1716bf8509           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_rewrite_as_log","kind":"method","src_hash":"de4f793e82e6ef24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3bc33c1716bf8509"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_rewrite_as_log","kind":"method","src_hash":"de4f793e82e6ef24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(arg, **kwargs)","rhs":"pi / 2 + S.ImaginaryUnit * log(S.ImaginaryUnit / arg + sqrt(1 - 1 / arg ** 2))","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"returns pi / 2 + S.ImaginaryUnit * log(S.ImaginaryUnit / arg + sqrt(1 - 1 / arg ** 2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3bc33c1716bf8509","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 + S.ImaginaryUnit * log(S.ImaginaryUnit / arg + sqrt(1 - 1 / arg ** 2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_log(self, arg, **kwargs):
         return pi/2 + S.ImaginaryUnit*log(S.ImaginaryUnit/arg + sqrt(1 - 1/arg**2))
 
     _eval_rewrite_as_tractable = _eval_rewrite_as_log
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_asin(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_asin(arg, **kwargs), pi / 2 - asin(1 / arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 - asin(1 / arg)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_asin : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2731df910a45e816           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_rewrite_as_asin","kind":"method","src_hash":"0e3565b9afd3d455","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asin(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_asin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2731df910a45e816"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_rewrite_as_asin","kind":"method","src_hash":"0e3565b9afd3d455","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asin(arg, **kwargs)","rhs":"pi / 2 - asin(1 / arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_asin_correct"},"guarantee":"returns pi / 2 - asin(1 / arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2731df910a45e816","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 - asin(1 / arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_asin(self, arg, **kwargs):
         return pi/2 - asin(1/arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acos(arg, **kwargs), acos(1 / arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  acos(1 / arg)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acos : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9cc514db77338676           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_rewrite_as_acos","kind":"method","src_hash":"a33827e685cf87d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cc514db77338676"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_rewrite_as_acos","kind":"method","src_hash":"a33827e685cf87d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acos(arg, **kwargs)","rhs":"acos(1 / arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_acos_correct"},"guarantee":"returns acos(1 / arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9cc514db77338676","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"acos(1 / arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acos(self, arg, **kwargs):
         return acos(1/arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_atan(x, ), id) over Any              ║
+# ║ Path(_eval_rewrite_as_atan(x, **kwargs), id) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 * (1 - sx2x) + sx2x * atan(sqrt(x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_atan : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 28e3d59d6fb8451d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_rewrite_as_atan","kind":"method","src_hash":"a6105ddc061c9c65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_atan(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_atan_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"atan","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28e3d59d6fb8451d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_rewrite_as_atan","kind":"method","src_hash":"a6105ddc061c9c65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_atan(x, **kwargs)","rhs":"pi / 2 * (1 - sx2x) + sx2x * atan(sqrt(x ** 2 - 1))","over":{"base":"Any"},"name":"_eval_rewrite_as_atan_correct","kind":"composition"},"guarantee":"returns pi / 2 * (1 - sx2x) + sx2x * atan(sqrt(x ** 2 - 1))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"atan","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28e3d59d6fb8451d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 * (1 - sx2x) + sx2x * atan(sqrt(x ** 2 - 1))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_atan(self, x, **kwargs):
         sx2x = sqrt(x**2)/x
         return pi/2*(1 - sx2x) + sx2x*atan(sqrt(x**2 - 1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acot(x, ), id) over Any              ║
+# ║ Path(_eval_rewrite_as_acot(x, **kwargs), id) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 * (1 - sx2x) + sx2x * acot(1 / sqr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acot : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 67641f0e47a451c6   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_rewrite_as_acot","kind":"method","src_hash":"6d9a6fd990a9e3a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acot(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acot_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"acot","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67641f0e47a451c6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_rewrite_as_acot","kind":"method","src_hash":"6d9a6fd990a9e3a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acot(x, **kwargs)","rhs":"pi / 2 * (1 - sx2x) + sx2x * acot(1 / sqrt(x ** 2 - 1))","over":{"base":"Any"},"name":"_eval_rewrite_as_acot_correct","kind":"composition"},"guarantee":"returns pi / 2 * (1 - sx2x) + sx2x * acot(1 / sqrt(x ** 2 - 1))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"acot","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67641f0e47a451c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 * (1 - sx2x) + sx2x * acot(1 / sqrt(x ** 2 - 1))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acot(self, x, **kwargs):
         sx2x = sqrt(x**2)/x
         return pi/2*(1 - sx2x) + sx2x*acot(1/sqrt(x**2 - 1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acsc(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acsc(arg, **kwargs), pi / 2 - acsc(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 - acsc(arg)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acsc : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08f4726d933b566b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_rewrite_as_acsc","kind":"method","src_hash":"3cc20ebf436589fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acsc(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acsc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08f4726d933b566b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.asec._eval_rewrite_as_acsc","kind":"method","src_hash":"3cc20ebf436589fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acsc(arg, **kwargs)","rhs":"pi / 2 - acsc(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_acsc_correct"},"guarantee":"returns pi / 2 - acsc(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08f4726d933b566b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 - acsc(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acsc(self, arg, **kwargs):
         return pi/2 - acsc(arg)
 
@@ -6128,14 +7811,20 @@ class asec(InverseTrigonometricFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(acsc(*args), correctly constructs a acsc instance) over {Any | isinstance(arg, csc) and isinstance(arg, sec)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, InverseTrigonometricFunc...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ acsc : {Any | isinstance(arg, csc) and isinstance(arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29528f7b377c7383  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc","kind":"class","src_hash":"7e0935b3ebcd492f","in":{"base":"Any","pred":"isinstance(arg, csc) and isinstance(arg, sec)"},"out":{"base":"Any"},"spec":{"lhs":"acsc(*args)","rhs":"correctly constructs a acsc instance","over":{"base":"Any","pred":"isinstance(arg, csc) and isinstance(arg, sec)"},"name":"acsc_class_invariant"},"guarantee":"correctly constructs a acsc instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29528f7b377c7383"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc","kind":"class","src_hash":"7e0935b3ebcd492f","in":{"base":"Any","pred":"isinstance(arg, csc) and isinstance(arg, sec)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, InverseTrigonometricFunction)"},"spec":{"lhs":"acsc(*args)","rhs":"correctly constructs a acsc instance","over":{"base":"Any","pred":"isinstance(arg, csc) and isinstance(arg, sec)"},"name":"acsc_class_invariant"},"guarantee":"isinstance(self, InverseTrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29528f7b377c7383","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, InverseTrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function acsc not found in source"]}}
 class acsc(InverseTrigonometricFunction):
     r"""
     The inverse cosecant function.
@@ -6181,16 +7870,25 @@ class acsc(InverseTrigonometricFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_zero') and hasattr(arg, 'is_Number') and hasattr(arg, 'is_infinite') and hasattr(arg, 'is_number') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_infinite')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_zero') and hasattr(arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0311125a07acaf1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc.eval","kind":"classmethod","src_hash":"376362248b90753b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acsc.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0311125a07acaf1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc.eval","kind":"classmethod","src_hash":"376362248b90753b","in":{"base":"Any","pred":"hasattr(arg, 'is_zero') and hasattr(arg, 'is_Number') and hasattr(arg, 'is_infinite') and hasattr(arg, 'is_number') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_zero') and hasattr(arg, 'is_Number') and hasattr(arg, 'is_infinite') and hasattr(arg, 'is_number') and hasattr(arg, 'could_extract_minus_sign') and hasattr(arg, 'args')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acsc.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0311125a07acaf1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_zero')","hasattr(arg, 'is_Number')","hasattr(arg, 'is_infinite')","hasattr(arg, 'is_number')","hasattr(arg, 'could_extract_minus_sign')","hasattr(arg, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.could_extract_minus_sign","arg.is_Number","arg.is_infinite","arg.is_number","arg.is_zero","cls._acsc_table"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         if arg.is_zero:
             return S.ComplexInfinity
@@ -6236,16 +7934,23 @@ class acsc(InverseTrigonometricFunction):
                 return pi/2 - asec(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => -1 / (self.args[0] ...   ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3a7e21cea5ba60c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c312ce81982eb447  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc.fdiff","kind":"method","src_hash":"e46527a1e3c3f5df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acsc.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3a7e21cea5ba60c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc.fdiff","kind":"method","src_hash":"e46527a1e3c3f5df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.acsc.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c312ce81982eb447","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == -1 / (self.args[0] ** 2 * sqrt(1 - 1 / self.args[0] ** 2))"],"decidability":"z3","returns_expr":"-1 / (self.args[0] ** 2 * sqrt(1 - 1 / self.args[0] ** 2))"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         if argindex == 1:
             return -1/(self.args[0]**2*sqrt(1 - 1/self.args[0]**2))
@@ -6253,16 +7958,22 @@ class acsc(InverseTrigonometricFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(arg), returns the inverse of this function) over Any ║
+# ║ Path(inverse(argindex), <unspecified:inverse>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a2df9fda822d87b0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc.inverse","kind":"method","src_hash":"77b0626d2e4762a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(arg)","rhs":"returns the inverse of this function","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2df9fda822d87b0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc.inverse","kind":"method","src_hash":"77b0626d2e4762a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(argindex)","rhs":"<unspecified:inverse>","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse of this function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a2df9fda822d87b0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(self, argindex=1):
         """
         Returns the inverse of this function.
@@ -6272,16 +7983,24 @@ class acsc(InverseTrigonometricFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), id) over Any                        ║
+# ║ Path(taylor_term(n, x, *previous_terms), id) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[zero_or_none]: n == 0 => pi / 2 - S.Imaginary...   ║
+# ║   fiber[negative]: n < 0 or n % 2 == 1 => S.Zero           ║
+# ║   fiber[negative]: not (n == 0) and not (n < 0 or n %...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ taylor_term : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2c7287844b3cd2f5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc.taylor_term","kind":"staticmethod","src_hash":"e00df5aa1d6dbd1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"taylor_term produces the expected output","over":{"base":"Any"},"name":"taylor_term_correct","kind":"composition"},"guarantee":"taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"log","by":"library_axiom"},{"fn":"log","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c7287844b3cd2f5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc.taylor_term","kind":"staticmethod","src_hash":"e00df5aa1d6dbd1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"<unspecified:taylor_term>","over":{"base":"Any"},"name":"taylor_term_correct","kind":"composition"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"log","by":"library_axiom"},{"fn":"log","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c7287844b3cd2f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"zero_or_none","guard":"n == 0","ensures":["result == pi / 2 - S.ImaginaryUnit * log(2) + S.ImaginaryUnit * log(x)"],"decidability":"z3","returns_expr":"pi / 2 - S.ImaginaryUnit * log(2) + S.ImaginaryUnit * log(x)"},{"name":"negative","guard":"n < 0 or n % 2 == 1","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"negative","guard":"not (n == 0) and not (n < 0 or n % 2 == 1)","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         if n == 0:
             return pi/2 - S.ImaginaryUnit*log(2) + S.ImaginaryUnit*log(x)
@@ -6299,16 +8018,22 @@ class acsc(InverseTrigonometricFunction):
                 return S.ImaginaryUnit * R / F * x**n / 4
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), id) over Any              ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3d2ae24da55ff7de   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_as_leading_term","kind":"method","src_hash":"51cb9281a27200f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d2ae24da55ff7de"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_as_leading_term","kind":"method","src_hash":"51cb9281a27200f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d2ae24da55ff7de","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         arg = self.args[0]
         x0 = arg.subs(x, 0).cancel()
@@ -6333,16 +8058,22 @@ class acsc(InverseTrigonometricFunction):
         return self.func(x0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 40b2e31a92105d51   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_nseries","kind":"method","src_hash":"bebd956dadd5a8c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"removeO","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"expand","by":"library_axiom"},{"fn":"powsimp","by":"library_axiom"},{"fn":"O","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40b2e31a92105d51"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_nseries","kind":"method","src_hash":"bebd956dadd5a8c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"removeO","by":"library_axiom"},{"fn":"subs","by":"library_axiom"},{"fn":"expand","by":"library_axiom"},{"fn":"powsimp","by":"library_axiom"},{"fn":"O","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40b2e31a92105d51","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):  # acsc
         from sympy.series.order import O
         arg0 = self.args[0].subs(x, 0)
@@ -6384,88 +8115,124 @@ class acsc(InverseTrigonometricFunction):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_log(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_log(arg, **kwargs), -S.ImaginaryUnit * log(S.ImaginaryUnit / arg + sqrt(1 - 1 / arg ** 2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -S.ImaginaryUnit * log(S.ImaginaryUnit / ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_log : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cdb23fb415556400           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_rewrite_as_log","kind":"method","src_hash":"ac5665fd8c50b960","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdb23fb415556400"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_rewrite_as_log","kind":"method","src_hash":"ac5665fd8c50b960","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(arg, **kwargs)","rhs":"-S.ImaginaryUnit * log(S.ImaginaryUnit / arg + sqrt(1 - 1 / arg ** 2))","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"returns -S.ImaginaryUnit * log(S.ImaginaryUnit / arg + sqrt(1 - 1 / arg ** 2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cdb23fb415556400","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-S.ImaginaryUnit * log(S.ImaginaryUnit / arg + sqrt(1 - 1 / arg ** 2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_log(self, arg, **kwargs):
         return -S.ImaginaryUnit*log(S.ImaginaryUnit/arg + sqrt(1 - 1/arg**2))
 
     _eval_rewrite_as_tractable = _eval_rewrite_as_log
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_asin(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_asin(arg, **kwargs), asin(1 / arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  asin(1 / arg)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_asin : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab4c0511c80146b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_rewrite_as_asin","kind":"method","src_hash":"3135f2cc936bf984","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asin(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_asin_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab4c0511c80146b2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_rewrite_as_asin","kind":"method","src_hash":"3135f2cc936bf984","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asin(arg, **kwargs)","rhs":"asin(1 / arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_asin_correct"},"guarantee":"returns asin(1 / arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab4c0511c80146b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"asin(1 / arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_asin(self, arg, **kwargs):
         return asin(1/arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acos(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acos(arg, **kwargs), pi / 2 - acos(1 / arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 - acos(1 / arg)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acos : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f0646b2692f7245d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_rewrite_as_acos","kind":"method","src_hash":"d241def29ec9a418","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acos_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0646b2692f7245d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_rewrite_as_acos","kind":"method","src_hash":"d241def29ec9a418","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acos(arg, **kwargs)","rhs":"pi / 2 - acos(1 / arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_acos_correct"},"guarantee":"returns pi / 2 - acos(1 / arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0646b2692f7245d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 - acos(1 / arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acos(self, arg, **kwargs):
         return pi/2 - acos(1/arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_atan(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_atan(x, **kwargs), sqrt(x ** 2) / x * (pi / 2 - atan(sqrt(x ** 2 - 1)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(x ** 2) / x * (pi / 2 - atan(sqrt(x ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_atan : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a6857ef31571fdfc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_rewrite_as_atan","kind":"method","src_hash":"54e1e0ecf9753915","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_atan(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_atan_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6857ef31571fdfc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_rewrite_as_atan","kind":"method","src_hash":"54e1e0ecf9753915","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_atan(x, **kwargs)","rhs":"sqrt(x ** 2) / x * (pi / 2 - atan(sqrt(x ** 2 - 1)))","over":{"base":"Any"},"name":"_eval_rewrite_as_atan_correct"},"guarantee":"returns sqrt(x ** 2) / x * (pi / 2 - atan(sqrt(x ** 2 - 1)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6857ef31571fdfc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(x ** 2) / x * (pi / 2 - atan(sqrt(x ** 2 - 1)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_atan(self, x, **kwargs):
         return sqrt(x**2)/x*(pi/2 - atan(sqrt(x**2 - 1)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_acot(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_acot(arg, **kwargs), sqrt(arg ** 2) / arg * (pi / 2 - acot(1 / sqrt(arg ** 2 - 1)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sqrt(arg ** 2) / arg * (pi / 2 - acot(1 /...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_acot : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b36c950c7bf9f48a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_rewrite_as_acot","kind":"method","src_hash":"c7b7d2dae6bc8d5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acot(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_acot_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b36c950c7bf9f48a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_rewrite_as_acot","kind":"method","src_hash":"c7b7d2dae6bc8d5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_acot(arg, **kwargs)","rhs":"sqrt(arg ** 2) / arg * (pi / 2 - acot(1 / sqrt(arg ** 2 - 1)))","over":{"base":"Any"},"name":"_eval_rewrite_as_acot_correct"},"guarantee":"returns sqrt(arg ** 2) / arg * (pi / 2 - acot(1 / sqrt(arg ** 2 - 1)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b36c950c7bf9f48a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sqrt(arg ** 2) / arg * (pi / 2 - acot(1 / sqrt(arg ** 2 - 1)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_acot(self, arg, **kwargs):
         return sqrt(arg**2)/arg*(pi/2 - acot(1/sqrt(arg**2 - 1)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_asec(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_asec(arg, **kwargs), pi / 2 - asec(arg)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pi / 2 - asec(arg)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_asec : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 907822264f9ffa11           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_rewrite_as_asec","kind":"method","src_hash":"18eaeabeec7dbbbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asec(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_asec_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"907822264f9ffa11"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.acsc._eval_rewrite_as_asec","kind":"method","src_hash":"18eaeabeec7dbbbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_asec(arg, **kwargs)","rhs":"pi / 2 - asec(arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_asec_correct"},"guarantee":"returns pi / 2 - asec(arg)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"907822264f9ffa11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pi / 2 - asec(arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_asec(self, arg, **kwargs):
         return pi/2 - asec(arg)
 
@@ -6473,14 +8240,20 @@ class acsc(InverseTrigonometricFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(atan2(*args), correctly constructs a atan2 instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ atan2 : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, InverseTrigonometricFunc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ atan2 : Any → {Any | result satisfies: isinstance(sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38b59fb8e43ad19a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2","kind":"class","src_hash":"0b7077fa0181f08b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"atan2(*args)","rhs":"correctly constructs a atan2 instance","over":{"base":"Any"},"name":"atan2_class_invariant"},"guarantee":"correctly constructs a atan2 instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38b59fb8e43ad19a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2","kind":"class","src_hash":"0b7077fa0181f08b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, InverseTrigonometricFunction)"},"spec":{"lhs":"atan2(*args)","rhs":"correctly constructs a atan2 instance","over":{"base":"Any"},"name":"atan2_class_invariant"},"guarantee":"isinstance(self, InverseTrigonometricFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38b59fb8e43ad19a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, InverseTrigonometricFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function atan2 not found in source"]}}
 class atan2(InverseTrigonometricFunction):
     r"""
     The function ``atan2(y, x)`` computes `\operatorname{atan}(y/x)` taking
@@ -6586,16 +8359,27 @@ class atan2(InverseTrigonometricFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, y, x), <unspecified:eval>) over {Any | hasattr(y, 'is_zero') and hasattr(x, 'is_extended_real') and hasattr(y, 'is_extended_real') and hasattr(x, 'is_positive') and hasattr(x, 'is_extended_nonzero') and hasattr(x, 'is_number') and hasattr(y, 'is_number') and hasattr(x, 'is_negative') and hasattr(x, 'is_imaginary') and hasattr(y, 'is_imaginary') and hasattr(y, 'is_negative') and hasattr(x, 'is_zero') and hasattr(y, 'is_nonnegative') and hasattr(y, 'is_positive')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(y, 'is_zero')                          ║
+# ║   requires: hasattr(x, 'is_extended_real')                 ║
+# ║   requires: hasattr(y, 'is_extended_real')                 ║
+# ║   fiber[case_0]: x is S.NegativeInfinity => 2 * pi * ...   ║
+# ║   fiber[case_1]: x is S.Infinity => S.Zero                 ║
+# ║   fiber[case_2]: x.is_imaginary and y.is_imaginary an...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(y, 'is_zero') and hasattr(x, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67ec19b5a22e0622  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a4e4a0a3d28b120  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2.eval","kind":"classmethod","src_hash":"06fa4eabbbdfed88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan2.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67ec19b5a22e0622"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2.eval","kind":"classmethod","src_hash":"06fa4eabbbdfed88","in":{"base":"Any","pred":"hasattr(y, 'is_zero') and hasattr(x, 'is_extended_real') and hasattr(y, 'is_extended_real') and hasattr(x, 'is_positive') and hasattr(x, 'is_extended_nonzero') and hasattr(x, 'is_number') and hasattr(y, 'is_number') and hasattr(x, 'is_negative') and hasattr(x, 'is_imaginary') and hasattr(y, 'is_imaginary') and hasattr(y, 'is_negative') and hasattr(x, 'is_zero') and hasattr(y, 'is_nonnegative') and hasattr(y, 'is_positive')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, y, x)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(y, 'is_zero') and hasattr(x, 'is_extended_real') and hasattr(y, 'is_extended_real') and hasattr(x, 'is_positive') and hasattr(x, 'is_extended_nonzero') and hasattr(x, 'is_number') and hasattr(y, 'is_number') and hasattr(x, 'is_negative') and hasattr(x, 'is_imaginary') and hasattr(y, 'is_imaginary') and hasattr(y, 'is_negative') and hasattr(x, 'is_zero') and hasattr(y, 'is_nonnegative') and hasattr(y, 'is_positive')"},"name":"eval_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan2.eval_correct","statement":"Path(eval(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a4e4a0a3d28b120","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(y, 'is_zero')","hasattr(x, 'is_extended_real')","hasattr(y, 'is_extended_real')","hasattr(x, 'is_positive')","hasattr(x, 'is_extended_nonzero')","hasattr(x, 'is_number')","hasattr(y, 'is_number')","hasattr(x, 'is_negative')","hasattr(x, 'is_imaginary')","hasattr(y, 'is_imaginary')","hasattr(y, 'is_negative')","hasattr(x, 'is_zero')","hasattr(y, 'is_nonnegative')","hasattr(y, 'is_positive')"],"fibers":[{"name":"case_0","guard":"x is S.NegativeInfinity","ensures":["result == 2 * pi * Heaviside(re(y)) - pi"],"decidability":"library","returns_expr":"2 * pi * Heaviside(re(y)) - pi"},{"name":"case_1","guard":"x is S.Infinity","ensures":["result == S.Zero"],"decidability":"library","returns_expr":"S.Zero"},{"name":"case_2","guard":"x.is_imaginary and y.is_imaginary and x.is_number and y.is_number","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.is_extended_nonzero","x.is_extended_real","x.is_imaginary","x.is_negative","x.is_number","x.is_positive","x.is_zero","y.is_extended_real","y.is_imaginary","y.is_negative","y.is_nonnegative","y.is_number","y.is_positive","y.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, y, x):
         from sympy.functions.special.delta_functions import Heaviside
         if x is S.NegativeInfinity:
@@ -6636,30 +8420,42 @@ class atan2(InverseTrigonometricFunction):
                 (x + S.ImaginaryUnit*y)/sqrt(x**2 + y**2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_log(y, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_log(y, x, **kwargs), -S.ImaginaryUnit * log((x + S.ImaginaryUnit * y) / sqrt(x ** 2 + y ** 2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -S.ImaginaryUnit * log((x + S.ImaginaryUn...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_log : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 894bda81420f8e42           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2._eval_rewrite_as_log","kind":"method","src_hash":"e7647cfe72af6a62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(y, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"894bda81420f8e42"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2._eval_rewrite_as_log","kind":"method","src_hash":"e7647cfe72af6a62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_log(y, x, **kwargs)","rhs":"-S.ImaginaryUnit * log((x + S.ImaginaryUnit * y) / sqrt(x ** 2 + y ** 2))","over":{"base":"Any"},"name":"_eval_rewrite_as_log_correct"},"guarantee":"returns -S.ImaginaryUnit * log((x + S.ImaginaryUnit * y) / sqrt(x ** 2 + y ** 2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"894bda81420f8e42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-S.ImaginaryUnit * log((x + S.ImaginaryUnit * y) / sqrt(x ** 2 + y ** 2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_log(self, y, x, **kwargs):
         return -S.ImaginaryUnit*log((x + S.ImaginaryUnit*y)/sqrt(x**2 + y**2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_atan(y, ), id) over Any              ║
+# ║ Path(_eval_rewrite_as_atan(y, x, **kwargs), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((2 * atan(y / (x + sqrt(x ** 2 ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_atan : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c5b2daea11340562   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2._eval_rewrite_as_atan","kind":"method","src_hash":"14e432627942a23c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_atan(y, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_atan_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"atan","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"Ne","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5b2daea11340562"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2._eval_rewrite_as_atan","kind":"method","src_hash":"14e432627942a23c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_atan(y, x, **kwargs)","rhs":"Piecewise((2 * atan(y / (x + sqrt(x ** 2 + y ** 2))), Ne(y, 0)), (pi, re(x) < 0), (0, Ne(x, 0)), (S.NaN, True))","over":{"base":"Any"},"name":"_eval_rewrite_as_atan_correct","kind":"composition"},"guarantee":"returns Piecewise((2 * atan(y / (x + sqrt(x ** 2 + y ** 2))), Ne(y, 0)), (pi, re(x) < 0), (0, Ne(x, 0)), (S.NaN, True))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"atan","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"},{"fn":"Ne","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5b2daea11340562","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((2 * atan(y / (x + sqrt(x ** 2 + y ** 2))), Ne(y, 0)), (pi, re(x) < 0), (0, Ne(x, 0)), (S.NaN, True))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_atan(self, y, x, **kwargs):
         return Piecewise((2*atan(y/(x + sqrt(x**2 + y**2))), Ne(y, 0)),
                          (pi, re(x) < 0),
@@ -6667,16 +8463,24 @@ class atan2(InverseTrigonometricFunction):
                          (S.NaN, True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_arg(y, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_arg(y, x, **kwargs), <unspecified:_eval_rewrite_as_arg>) over {Any | hasattr(x, 'is_extended_real') and hasattr(y, 'is_extended_real')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_arg : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(x, 'is_extended_real')                 ║
+# ║   requires: hasattr(y, 'is_extended_real')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_arg : {Any | hasattr(x, 'is_extended...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d40f0e9d5a470e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2._eval_rewrite_as_arg","kind":"method","src_hash":"3605f07cdd062de8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_arg(y, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_arg_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan2._eval_rewrite_as_arg_correct","statement":"Path(_eval_rewrite_as_arg(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d40f0e9d5a470e9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2._eval_rewrite_as_arg","kind":"method","src_hash":"3605f07cdd062de8","in":{"base":"Any","pred":"hasattr(x, 'is_extended_real') and hasattr(y, 'is_extended_real')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_arg(y, x, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_arg>","over":{"base":"Any","pred":"hasattr(x, 'is_extended_real') and hasattr(y, 'is_extended_real')"},"name":"_eval_rewrite_as_arg_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan2._eval_rewrite_as_arg_correct","statement":"Path(_eval_rewrite_as_arg(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d40f0e9d5a470e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(x, 'is_extended_real')","hasattr(y, 'is_extended_real')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.is_extended_real","y.is_extended_real"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_arg(self, y, x, **kwargs):
         if x.is_extended_real and y.is_extended_real:
             return arg_f(x + y*S.ImaginaryUnit)
@@ -6685,44 +8489,64 @@ class atan2(InverseTrigonometricFunction):
         return arg_f(n/sqrt(d)) - S.ImaginaryUnit*log(abs(n)/sqrt(abs(d)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), self.args[0].is_extended_real and self.args[1].is_extended_real) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_extended_real and self.ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d4886fbdbda37e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2._eval_is_extended_real","kind":"method","src_hash":"b118105cb38adcf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d4886fbdbda37e0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2._eval_is_extended_real","kind":"method","src_hash":"b118105cb38adcf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"self.args[0].is_extended_real and self.args[1].is_extended_real","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns self.args[0].is_extended_real and self.args[1].is_extended_real","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d4886fbdbda37e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_extended_real and self.args[1].is_extended_real","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         return self.args[0].is_extended_real and self.args[1].is_extended_real
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(self.args[0].conjugate(), self.args[1].conjugate())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.args[0].conjugate(), self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2c6830eb78dccfc5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2._eval_conjugate","kind":"method","src_hash":"50f20b58292ce7d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c6830eb78dccfc5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2._eval_conjugate","kind":"method","src_hash":"50f20b58292ce7d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(self.args[0].conjugate(), self.args[1].conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(self.args[0].conjugate(), self.args[1].conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c6830eb78dccfc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.args[0].conjugate(), self.args[1].conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(self.args[0].conjugate(), self.args[1].conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), fdiff produces the expected output) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => x / (x ** 2 + y ** 2)    ║
+# ║   fiber[case_1]: argindex == 2 => -y / (x ** 2 + y ** 2)   ║
+# ║   fiber[case_2]: not (argindex == 1) and not (arginde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d5c4a0f950167f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95c8b7ce0d9c8f16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2.fdiff","kind":"method","src_hash":"04c2d621191cca5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"fdiff produces the expected output","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan2.fdiff_correct","statement":"Path(fdiff(x), fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d5c4a0f950167f0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2.fdiff","kind":"method","src_hash":"04c2d621191cca5d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.trigonometric.atan2.fdiff_correct","statement":"Path(fdiff(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95c8b7ce0d9c8f16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == x / (x ** 2 + y ** 2)"],"decidability":"z3","returns_expr":"x / (x ** 2 + y ** 2)"},{"name":"case_1","guard":"argindex == 2","ensures":["result == -y / (x ** 2 + y ** 2)"],"decidability":"z3","returns_expr":"-y / (x ** 2 + y ** 2)"},{"name":"case_2","guard":"not (argindex == 1) and not (argindex == 2)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex):
         y, x = self.args
         if argindex == 1:
@@ -6735,16 +8559,22 @@ class atan2(InverseTrigonometricFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), id) over Any                        ║
+# ║ Path(_eval_evalf(prec), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super()._eval_evalf(prec)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 700667f23351cbcc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2._eval_evalf","kind":"method","src_hash":"394dbbabc3c78d07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700667f23351cbcc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.trigonometric.atan2._eval_evalf","kind":"method","src_hash":"394dbbabc3c78d07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"super()._eval_evalf(prec)","over":{"base":"Any"},"name":"_eval_evalf_correct","kind":"composition"},"guarantee":"returns super()._eval_evalf(prec)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_eval_evalf","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700667f23351cbcc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super()._eval_evalf(prec)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         y, x = self.args
         if x.is_extended_real and y.is_extended_real:

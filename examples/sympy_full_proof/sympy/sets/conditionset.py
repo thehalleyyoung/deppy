@@ -36,14 +36,20 @@ adummy = Dummy('conditionset')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ConditionSet(*args), correctly constructs a ConditionSet instance) over {Any | isinstance(condition, FiniteSet) and isinstance(base_set, cls) and isinstance(self.sym, Tuple)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ConditionSet : {Any | isinstance(condition, FiniteSet...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1d71d204579c7a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet","kind":"class","src_hash":"bae24af59a4c14f3","in":{"base":"Any","pred":"isinstance(condition, FiniteSet) and isinstance(base_set, cls) and isinstance(self.sym, Tuple)"},"out":{"base":"Any"},"spec":{"lhs":"ConditionSet(*args)","rhs":"correctly constructs a ConditionSet instance","over":{"base":"Any","pred":"isinstance(condition, FiniteSet) and isinstance(base_set, cls) and isinstance(self.sym, Tuple)"},"name":"ConditionSet_class_invariant"},"guarantee":"correctly constructs a ConditionSet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1d71d204579c7a6"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet","kind":"class","src_hash":"bae24af59a4c14f3","in":{"base":"Any","pred":"isinstance(condition, FiniteSet) and isinstance(base_set, cls) and isinstance(self.sym, Tuple)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set)"},"spec":{"lhs":"ConditionSet(*args)","rhs":"correctly constructs a ConditionSet instance","over":{"base":"Any","pred":"isinstance(condition, FiniteSet) and isinstance(base_set, cls) and isinstance(self.sym, Tuple)"},"name":"ConditionSet_class_invariant"},"guarantee":"isinstance(self, Set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1d71d204579c7a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ConditionSet not found in source"]}}
 class ConditionSet(Set):
     r"""
     Set of elements which satisfies a given condition.
@@ -114,16 +120,22 @@ class ConditionSet(Set):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, sym, condition), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d536c40fb8de60c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet.__new__","kind":"method","src_hash":"87f0b07798d57f00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d536c40fb8de60c"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet.__new__","kind":"method","src_hash":"87f0b07798d57f00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, sym, condition)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d536c40fb8de60c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, sym, condition, base_set=S.UniversalSet):
         sym = _sympify(sym)
         flat = flatten([sym])
@@ -219,46 +231,64 @@ with
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), cond_syms | self.base_set.free_symbols) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cond_syms | self.base_set.free_symbols         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cf5ba33c110fd370           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet.free_symbols","kind":"property","src_hash":"0aa64700c8848289","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf5ba33c110fd370"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet.free_symbols","kind":"property","src_hash":"0aa64700c8848289","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"cond_syms | self.base_set.free_symbols","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns cond_syms | self.base_set.free_symbols","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf5ba33c110fd370","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cond_syms | self.base_set.free_symbols","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base_set","self.condition","self.sym"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         cond_syms = self.condition.free_symbols - self.sym.free_symbols
         return cond_syms | self.base_set.free_symbols
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bound_symbols(), returns the bound_symbols attribute) over Any ║
+# ║ Path(bound_symbols(), flatten([self.sym])) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  flatten([self.sym])                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bound_symbols : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1e64a34a0620b9f7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet.bound_symbols","kind":"property","src_hash":"f2b9f2cc00c3af2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bound_symbols()","rhs":"returns the bound_symbols attribute","over":{"base":"Any"},"name":"bound_symbols_correct"},"guarantee":"returns the bound_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e64a34a0620b9f7"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet.bound_symbols","kind":"property","src_hash":"f2b9f2cc00c3af2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bound_symbols()","rhs":"flatten([self.sym])","over":{"base":"Any"},"name":"bound_symbols_correct"},"guarantee":"returns flatten([self.sym])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1e64a34a0620b9f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"flatten([self.sym])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sym"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bound_symbols(self):
         return flatten([self.sym])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_contains(other), <unspecified:_contains>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c81f6eba2c241882  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet._contains","kind":"method","src_hash":"9e955023a2d9345a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.conditionset.ConditionSet._contains_correct","statement":"Path(_contains(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c81f6eba2c241882"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet._contains","kind":"method","src_hash":"9e955023a2d9345a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(other)","rhs":"<unspecified:_contains>","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.conditionset.ConditionSet._contains_correct","statement":"Path(_contains(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c81f6eba2c241882","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base_set","self.condition","self.sym"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, other):
         def ok_sig(a, b):
             tuples = [isinstance(i, Tuple) for i in (a, b)]
@@ -289,16 +319,22 @@ with
             return And(base_cond, lambda_cond)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_relational(oth), id) over Any                      ║
+# ║ Path(as_relational(other), id) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And(f, self.base_set.contains(other))          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_relational : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e2c6f6c9e54c4427   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet.as_relational","kind":"method","src_hash":"b300833feea827c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(oth)","rhs":"as_relational produces the expected output","over":{"base":"Any"},"name":"as_relational_correct","kind":"composition"},"guarantee":"as_relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"And","by":"library_axiom"},{"fn":"contains","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2c6f6c9e54c4427"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet.as_relational","kind":"method","src_hash":"b300833feea827c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_relational(other)","rhs":"And(f, self.base_set.contains(other))","over":{"base":"Any"},"name":"as_relational_correct","kind":"composition"},"guarantee":"returns And(f, self.base_set.contains(other))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"And","by":"library_axiom"},{"fn":"contains","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2c6f6c9e54c4427","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And(f, self.base_set.contains(other))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base_set","self.condition","self.sym"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_relational(self, other):
         f = Lambda(self.sym, self.condition)
         if isinstance(self.sym, Tuple):
@@ -308,16 +344,22 @@ with
         return And(f, self.base_set.contains(other))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_subs(old, new), <unspecified:_eval_subs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_subs : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35a4c7269e7deb8b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet._eval_subs","kind":"method","src_hash":"a3d7f9e52ae3f66e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.conditionset.ConditionSet._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35a4c7269e7deb8b"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet._eval_subs","kind":"method","src_hash":"a3d7f9e52ae3f66e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"<unspecified:_eval_subs>","over":{"base":"Any"},"name":"_eval_subs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.conditionset.ConditionSet._eval_subs_correct","statement":"Path(_eval_subs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35a4c7269e7deb8b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         sym, cond, base = self.args
         dsym = sym.subs(old, adummy)
@@ -337,15 +379,21 @@ with
         return self.func(sym, cond, base)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kind(), internal helper behaves correctly) over Any  ║
+# ║ Path(_kind(), SetKind(self.sym.kind)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SetKind(self.sym.kind)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _kind : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da032e0f5c7cb2aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet._kind","kind":"method","src_hash":"559653a696298677","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da032e0f5c7cb2aa"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.conditionset.ConditionSet._kind","kind":"method","src_hash":"559653a696298677","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"SetKind(self.sym.kind)","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"returns SetKind(self.sym.kind)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da032e0f5c7cb2aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SetKind(self.sym.kind)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sym"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kind(self):
         return SetKind(self.sym.kind)

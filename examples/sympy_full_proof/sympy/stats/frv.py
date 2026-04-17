@@ -53,29 +53,44 @@ from sympy.stats.rv import (RandomDomain, ProductDomain, ConditionalDomain,
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FiniteDensity(*args), correctly constructs a FiniteDensity instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FiniteDensity : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, dict)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FiniteDensity : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e949bab815b86378  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDensity","kind":"class","src_hash":"cf5453833240483b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FiniteDensity(*args)","rhs":"correctly constructs a FiniteDensity instance","over":{"base":"Any"},"name":"FiniteDensity_class_invariant"},"guarantee":"correctly constructs a FiniteDensity instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e949bab815b86378"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDensity","kind":"class","src_hash":"cf5453833240483b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, dict)"},"spec":{"lhs":"FiniteDensity(*args)","rhs":"correctly constructs a FiniteDensity instance","over":{"base":"Any"},"name":"FiniteDensity_class_invariant"},"guarantee":"isinstance(self, dict)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e949bab815b86378","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, dict)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function FiniteDensity not found in source"]}}
 class FiniteDensity(dict):
     """
     A domain with Finite Density.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(ite), correctly applies the callable) over Any ║
+# ║ Path(__call__(item), result == (self[item] if item in self else 0) and result == self[item] or result == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __call__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self[item] if item in self els...   ║
+# ║   ensures:  result == self[item] or result == 0            ║
+# ║   fiber[case_0]: item in self => self[item]                ║
+# ║   fiber[case_1]: not (item in self) => 0                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __call__ : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 112477f4da8fa59b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDensity.__call__","kind":"method","src_hash":"4f46206bbec27f78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(ite)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"112477f4da8fa59b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDensity.__call__","kind":"method","src_hash":"4f46206bbec27f78","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self[item] if item in self else 0) and result == self[item] or result == 0"},"spec":{"lhs":"__call__(item)","rhs":"result == (self[item] if item in self else 0) and result == self[item] or result == 0","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"result == (self[item] if item in self else 0); result == self[item] or result == 0; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"112477f4da8fa59b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self[item] if item in self else 0)","result == self[item] or result == 0"],"fibers":[{"name":"case_0","guard":"item in self","ensures":["result == self[item]"],"decidability":"library","returns_expr":"self[item]"},{"name":"case_1","guard":"not (item in self)","ensures":["result == 0"],"decidability":"library","returns_expr":"0"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, item):
         """
         Make instance of a class callable.
@@ -92,16 +107,22 @@ class FiniteDensity(dict):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dict(), returns the dict attribute) over Any          ║
+# ║ Path(dict(), dict(self)) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dict(self)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dict : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f5689222a0bbf5a5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDensity.dict","kind":"property","src_hash":"fd3da94c356a854a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"returns the dict attribute","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns the dict attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5689222a0bbf5a5"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDensity.dict","kind":"property","src_hash":"fd3da94c356a854a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"dict(self)","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns dict(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5689222a0bbf5a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dict(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dict(self):
         """
         Return item as dictionary.
@@ -111,14 +132,20 @@ class FiniteDensity(dict):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FiniteDomain(*args), correctly constructs a FiniteDomain instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FiniteDomain : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, RandomDomain)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FiniteDomain : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66d6379725bb0284  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain","kind":"class","src_hash":"4909399ed8240626","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FiniteDomain(*args)","rhs":"correctly constructs a FiniteDomain instance","over":{"base":"Any"},"name":"FiniteDomain_class_invariant"},"guarantee":"correctly constructs a FiniteDomain instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66d6379725bb0284"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain","kind":"class","src_hash":"4909399ed8240626","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, RandomDomain)"},"spec":{"lhs":"FiniteDomain(*args)","rhs":"correctly constructs a FiniteDomain instance","over":{"base":"Any"},"name":"FiniteDomain_class_invariant"},"guarantee":"isinstance(self, RandomDomain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66d6379725bb0284","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, RandomDomain)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function FiniteDomain not found in source"]}}
 class FiniteDomain(RandomDomain):
     """
     A domain with discrete finite support
@@ -129,88 +156,124 @@ class FiniteDomain(RandomDomain):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symbols(), returns the symbols attribute) over Any    ║
+# ║ Path(symbols(), FiniteSet((sym for sym, val in self.elements))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FiniteSet((sym for sym, val in self.eleme...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symbols : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d0f10bfe51438ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain.symbols","kind":"property","src_hash":"991aec3c315a95ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbols()","rhs":"returns the symbols attribute","over":{"base":"Any"},"name":"symbols_correct"},"guarantee":"returns the symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d0f10bfe51438ab"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain.symbols","kind":"property","src_hash":"991aec3c315a95ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbols()","rhs":"FiniteSet((sym for sym, val in self.elements))","over":{"base":"Any"},"name":"symbols_correct"},"guarantee":"returns FiniteSet((sym for sym, val in self.elements))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d0f10bfe51438ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FiniteSet((sym for sym, val in self.elements))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.elements"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def symbols(self):
         return FiniteSet(sym for sym, val in self.elements)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elements(), returns the elements attribute) over Any  ║
+# ║ Path(elements(), self.args[0]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ elements : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cb23b14b066e0f08           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain.elements","kind":"property","src_hash":"708194910a352bff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elements()","rhs":"returns the elements attribute","over":{"base":"Any"},"name":"elements_correct"},"guarantee":"returns the elements attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb23b14b066e0f08"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain.elements","kind":"property","src_hash":"708194910a352bff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elements()","rhs":"self.args[0]","over":{"base":"Any"},"name":"elements_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb23b14b066e0f08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def elements(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dict(), returns the dict attribute) over Any          ║
+# ║ Path(dict(), FiniteSet(*[Dict(dict(el)) for el in self.elements])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FiniteSet(*[Dict(dict(el)) for el in self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dict : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d4d1538ac39851ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain.dict","kind":"property","src_hash":"8b71ebb2b1385f1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"returns the dict attribute","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns the dict attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4d1538ac39851ba"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain.dict","kind":"property","src_hash":"8b71ebb2b1385f1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"FiniteSet(*[Dict(dict(el)) for el in self.elements])","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns FiniteSet(*[Dict(dict(el)) for el in self.elements])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d4d1538ac39851ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FiniteSet(*[Dict(dict(el)) for el in self.elements])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.elements"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dict(self):
         return FiniteSet(*[Dict(dict(el)) for el in self.elements])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(oth), correctly tests membership) over Any ║
+# ║ Path(__contains__(other), other in self.elements) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  other in self.elements                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 229ab91ade4115a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain.__contains__","kind":"method","src_hash":"2e830f30abff275f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(oth)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"229ab91ade4115a1"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain.__contains__","kind":"method","src_hash":"2e830f30abff275f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(other)","rhs":"other in self.elements","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns other in self.elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"229ab91ade4115a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"other in self.elements","pure":false,"effects":{"effect_type":"reads_state","reads":["self.elements"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, other):
         return other in self.elements
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), self.elements.__iter__()) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.elements.__iter__()                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d985a00cedecd9e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain.__iter__","kind":"method","src_hash":"55ac1b72fae84eb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d985a00cedecd9e0"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain.__iter__","kind":"method","src_hash":"55ac1b72fae84eb5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"self.elements.__iter__()","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns self.elements.__iter__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d985a00cedecd9e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.elements.__iter__()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.elements"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return self.elements.__iter__()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_boolean(), as_boolean produces the expected output) over Any ║
+# ║ Path(as_boolean(), Or(*[And(*[Eq(sym, val) for sym, val in item]) for item in self])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Or(*[And(*[Eq(sym, val) for sym, val in i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_boolean : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e7ccd05444d008f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain.as_boolean","kind":"method","src_hash":"8d05ee67836edfbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_boolean()","rhs":"as_boolean produces the expected output","over":{"base":"Any"},"name":"as_boolean_correct"},"guarantee":"as_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7ccd05444d008f8"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FiniteDomain.as_boolean","kind":"method","src_hash":"8d05ee67836edfbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_boolean()","rhs":"Or(*[And(*[Eq(sym, val) for sym, val in item]) for item in self])","over":{"base":"Any"},"name":"as_boolean_correct"},"guarantee":"returns Or(*[And(*[Eq(sym, val) for sym, val in item]) for item in self])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7ccd05444d008f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Or(*[And(*[Eq(sym, val) for sym, val in item]) for item in self])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_boolean(self):
         return Or(*[And(*[Eq(sym, val) for sym, val in item]) for item in self])
 
@@ -218,14 +281,20 @@ class FiniteDomain(RandomDomain):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SingleFiniteDomain(*args), correctly constructs a SingleFiniteDomain instance) over {Any | isinstance(set, FiniteSet) and isinstance(set, Intersection)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FiniteDomain)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SingleFiniteDomain : {Any | isinstance(set, FiniteSet...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ba34db968e891e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain","kind":"class","src_hash":"f53373fc8a9235a1","in":{"base":"Any","pred":"isinstance(set, FiniteSet) and isinstance(set, Intersection)"},"out":{"base":"Any"},"spec":{"lhs":"SingleFiniteDomain(*args)","rhs":"correctly constructs a SingleFiniteDomain instance","over":{"base":"Any","pred":"isinstance(set, FiniteSet) and isinstance(set, Intersection)"},"name":"SingleFiniteDomain_class_invariant"},"guarantee":"correctly constructs a SingleFiniteDomain instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ba34db968e891e3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain","kind":"class","src_hash":"f53373fc8a9235a1","in":{"base":"Any","pred":"isinstance(set, FiniteSet) and isinstance(set, Intersection)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FiniteDomain)"},"spec":{"lhs":"SingleFiniteDomain(*args)","rhs":"correctly constructs a SingleFiniteDomain instance","over":{"base":"Any","pred":"isinstance(set, FiniteSet) and isinstance(set, Intersection)"},"name":"SingleFiniteDomain_class_invariant"},"guarantee":"isinstance(self, FiniteDomain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ba34db968e891e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FiniteDomain)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SingleFiniteDomain not found in source"]}}
 class SingleFiniteDomain(FiniteDomain):
     """
     A FiniteDomain over a single symbol/set
@@ -234,16 +303,22 @@ class SingleFiniteDomain(FiniteDomain):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, symbol, set), Basic.__new__(cls, symbol, set)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic.__new__(cls, symbol, set)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6838f70e51578583           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.__new__","kind":"method","src_hash":"fd782daf57d062b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6838f70e51578583"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.__new__","kind":"method","src_hash":"fd782daf57d062b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, symbol, set)","rhs":"Basic.__new__(cls, symbol, set)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, symbol, set)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6838f70e51578583","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic.__new__(cls, symbol, set)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, symbol, set):
         if not isinstance(set, FiniteSet) and \
             not isinstance(set, Intersection):
@@ -252,89 +327,125 @@ class SingleFiniteDomain(FiniteDomain):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symbol(), returns the symbol attribute) over Any      ║
+# ║ Path(symbol(), self.args[0]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symbol : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca903b8fb22e6c7b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.symbol","kind":"property","src_hash":"988cd9b2e06f340c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbol()","rhs":"returns the symbol attribute","over":{"base":"Any"},"name":"symbol_correct"},"guarantee":"returns the symbol attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca903b8fb22e6c7b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.symbol","kind":"property","src_hash":"988cd9b2e06f340c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbol()","rhs":"self.args[0]","over":{"base":"Any"},"name":"symbol_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca903b8fb22e6c7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def symbol(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symbols(), returns the symbols attribute) over Any    ║
+# ║ Path(symbols(), FiniteSet(self.symbol)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FiniteSet(self.symbol)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symbols : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f5f3d06dfd094c68           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.symbols","kind":"property","src_hash":"a8cde997062652a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbols()","rhs":"returns the symbols attribute","over":{"base":"Any"},"name":"symbols_correct"},"guarantee":"returns the symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5f3d06dfd094c68"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.symbols","kind":"property","src_hash":"a8cde997062652a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbols()","rhs":"FiniteSet(self.symbol)","over":{"base":"Any"},"name":"symbols_correct"},"guarantee":"returns FiniteSet(self.symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5f3d06dfd094c68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FiniteSet(self.symbol)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def symbols(self):
         return FiniteSet(self.symbol)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), self.args[1]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d2a2ccd57508bf0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.set","kind":"property","src_hash":"66eae7d4cc35a22e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d2a2ccd57508bf0"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.set","kind":"property","src_hash":"66eae7d4cc35a22e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"self.args[1]","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d2a2ccd57508bf0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elements(), returns the elements attribute) over Any  ║
+# ║ Path(elements(), FiniteSet(*[frozenset(((self.symbol, elem),)) for elem in self.set])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FiniteSet(*[frozenset(((self.symbol, elem...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ elements : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ceed3e7d5ca1f0de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.elements","kind":"property","src_hash":"75adfb781b19b67b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elements()","rhs":"returns the elements attribute","over":{"base":"Any"},"name":"elements_correct"},"guarantee":"returns the elements attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ceed3e7d5ca1f0de"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.elements","kind":"property","src_hash":"75adfb781b19b67b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elements()","rhs":"FiniteSet(*[frozenset(((self.symbol, elem),)) for elem in self.set])","over":{"base":"Any"},"name":"elements_correct"},"guarantee":"returns FiniteSet(*[frozenset(((self.symbol, elem),)) for elem in self.set])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ceed3e7d5ca1f0de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FiniteSet(*[frozenset(((self.symbol, elem),)) for elem in self.set])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.set","self.symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def elements(self):
         return FiniteSet(*[frozenset(((self.symbol, elem), )) for elem in self.set])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), (frozenset(((self.symbol, elem),)) for elem in self.set)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (frozenset(((self.symbol, elem),)) for el...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 06f696965816753d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.__iter__","kind":"method","src_hash":"8113458ffb741e8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06f696965816753d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.__iter__","kind":"method","src_hash":"8113458ffb741e8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"(frozenset(((self.symbol, elem),)) for elem in self.set)","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns (frozenset(((self.symbol, elem),)) for elem in self.set)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"06f696965816753d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(frozenset(((self.symbol, elem),)) for elem in self.set)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.set","self.symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return (frozenset(((self.symbol, elem),)) for elem in self.set)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(oth), correctly tests membership) over Any ║
+# ║ Path(__contains__(other), sym == self.symbol and val in self.set) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sym == self.symbol and val in self.set         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 27c2d6af8670b5ec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.__contains__","kind":"method","src_hash":"b033add93ff0920b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(oth)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27c2d6af8670b5ec"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDomain.__contains__","kind":"method","src_hash":"b033add93ff0920b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(other)","rhs":"sym == self.symbol and val in self.set","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns sym == self.symbol and val in self.set","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27c2d6af8670b5ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sym == self.symbol and val in self.set","pure":false,"effects":{"effect_type":"reads_state","reads":["self.set","self.symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, other):
         sym, val = tuple(other)[0]
         return sym == self.symbol and val in self.set
@@ -343,14 +454,21 @@ class SingleFiniteDomain(FiniteDomain):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ProductFiniteDomain(*args), correctly constructs a ProductFiniteDomain instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ProductFiniteDomain : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ProductDomain)                ║
+# ║   ensures:  isinstance(self, FiniteDomain)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ProductFiniteDomain : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 706eae1df32685f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFiniteDomain","kind":"class","src_hash":"16fa476c560814da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ProductFiniteDomain(*args)","rhs":"correctly constructs a ProductFiniteDomain instance","over":{"base":"Any"},"name":"ProductFiniteDomain_class_invariant"},"guarantee":"correctly constructs a ProductFiniteDomain instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"706eae1df32685f3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFiniteDomain","kind":"class","src_hash":"16fa476c560814da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ProductDomain) and isinstance(self, FiniteDomain)"},"spec":{"lhs":"ProductFiniteDomain(*args)","rhs":"correctly constructs a ProductFiniteDomain instance","over":{"base":"Any"},"name":"ProductFiniteDomain_class_invariant"},"guarantee":"isinstance(self, ProductDomain); isinstance(self, FiniteDomain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"706eae1df32685f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ProductDomain)","isinstance(self, FiniteDomain)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ProductFiniteDomain not found in source"]}}
 class ProductFiniteDomain(ProductDomain, FiniteDomain):
     """
     A Finite domain consisting of several other FiniteDomains
@@ -359,32 +477,44 @@ class ProductFiniteDomain(ProductDomain, FiniteDomain):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), (sumsets(items) for items in proditer)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (sumsets(items) for items in proditer)         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 04e914eb05d1fd4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFiniteDomain.__iter__","kind":"method","src_hash":"54a07c6b6b48cac7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04e914eb05d1fd4c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFiniteDomain.__iter__","kind":"method","src_hash":"54a07c6b6b48cac7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"(sumsets(items) for items in proditer)","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns (sumsets(items) for items in proditer)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04e914eb05d1fd4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(sumsets(items) for items in proditer)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domains"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         proditer = product(*self.domains)
         return (sumsets(items) for items in proditer)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elements(), returns the elements attribute) over Any  ║
+# ║ Path(elements(), FiniteSet(*self)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FiniteSet(*self)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ elements : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 73e1969e6bba9d94           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFiniteDomain.elements","kind":"property","src_hash":"2921da44ef574dc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elements()","rhs":"returns the elements attribute","over":{"base":"Any"},"name":"elements_correct"},"guarantee":"returns the elements attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73e1969e6bba9d94"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFiniteDomain.elements","kind":"property","src_hash":"2921da44ef574dc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elements()","rhs":"FiniteSet(*self)","over":{"base":"Any"},"name":"elements_correct"},"guarantee":"returns FiniteSet(*self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"73e1969e6bba9d94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FiniteSet(*self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def elements(self):
         return FiniteSet(*self)
 
@@ -392,14 +522,21 @@ class ProductFiniteDomain(ProductDomain, FiniteDomain):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ConditionalFiniteDomain(*args), correctly constructs a ConditionalFiniteDomain instance) over {Any | isinstance(self.fulldomain, SingleFiniteDomain)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ConditionalDomain)            ║
+# ║   ensures:  isinstance(self, ProductFiniteDomain)          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ConditionalFiniteDomain : {Any | isinstance(self.full...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 721336f04b089762  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain","kind":"class","src_hash":"51183b4a7f6b35ae","in":{"base":"Any","pred":"isinstance(self.fulldomain, SingleFiniteDomain)"},"out":{"base":"Any"},"spec":{"lhs":"ConditionalFiniteDomain(*args)","rhs":"correctly constructs a ConditionalFiniteDomain instance","over":{"base":"Any","pred":"isinstance(self.fulldomain, SingleFiniteDomain)"},"name":"ConditionalFiniteDomain_class_invariant"},"guarantee":"correctly constructs a ConditionalFiniteDomain instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"721336f04b089762"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain","kind":"class","src_hash":"51183b4a7f6b35ae","in":{"base":"Any","pred":"isinstance(self.fulldomain, SingleFiniteDomain)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ConditionalDomain) and isinstance(self, ProductFiniteDomain)"},"spec":{"lhs":"ConditionalFiniteDomain(*args)","rhs":"correctly constructs a ConditionalFiniteDomain instance","over":{"base":"Any","pred":"isinstance(self.fulldomain, SingleFiniteDomain)"},"name":"ConditionalFiniteDomain_class_invariant"},"guarantee":"isinstance(self, ConditionalDomain); isinstance(self, ProductFiniteDomain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"721336f04b089762","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ConditionalDomain)","isinstance(self, ProductFiniteDomain)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ConditionalFiniteDomain not found in source"]}}
 class ConditionalFiniteDomain(ConditionalDomain, ProductFiniteDomain):
     """
     A FiniteDomain that has been restricted by a condition
@@ -409,16 +546,22 @@ class ConditionalFiniteDomain(ConditionalDomain, ProductFiniteDomain):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), create a new instance of conditionalfinitedomain class) over Any ║
+# ║ Path(__new__(cls, domain, condition), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a035124a9fe23df7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain.__new__","kind":"method","src_hash":"c1c3f1b0325eb043","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"create a new instance of conditionalfinitedomain class","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"create a new instance of conditionalfinitedomain class","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a035124a9fe23df7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain.__new__","kind":"method","src_hash":"c1c3f1b0325eb043","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, domain, condition)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"create a new instance of conditionalfinitedomain class","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a035124a9fe23df7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, domain, condition):
         """
         Create a new instance of ConditionalFiniteDomain class
@@ -429,16 +572,25 @@ class ConditionalFiniteDomain(ConditionalDomain, ProductFiniteDomain):
         return Basic.__new__(cls, domain, cond)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test(ele), test the value) over Any                  ║
+# ║ Path(_test(elem), result == (val if val in [True, False] else val.lhs == val.rhs) and result == val or result == val.lhs == val.rhs) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _test : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (val if val in [True, False] el...   ║
+# ║   ensures:  result == val or result == val.lhs == val...   ║
+# ║   fiber[case_0]: val in [True, False] => val               ║
+# ║   fiber[case_1]: val.is_Equality => val.lhs == val.rhs     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _test : Any → {Any | result satisfies: result == (val...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f916bda94313381  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d21ec586562e6d7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain._test","kind":"method","src_hash":"8618ec8f9672c736","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test(ele)","rhs":"test the value","over":{"base":"Any"},"name":"_test_correct"},"guarantee":"test the value","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.ConditionalFiniteDomain._test_correct","statement":"Path(_test(x), test the value)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f916bda94313381"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain._test","kind":"method","src_hash":"8618ec8f9672c736","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (val if val in [True, False] else val.lhs == val.rhs) and result == val or result == val.lhs == val.rhs"},"spec":{"lhs":"_test(elem)","rhs":"result == (val if val in [True, False] else val.lhs == val.rhs) and result == val or result == val.lhs == val.rhs","over":{"base":"Any"},"name":"_test_correct"},"guarantee":"result == (val if val in [True, False] else val.lhs == val.rhs); result == val or result == val.lhs == val.rhs; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.ConditionalFiniteDomain._test_correct","statement":"Path(_test(x), result == (val if val in [True, False] else val.lhs == val.rhs); result == val or result == val.lhs == val.rhs; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d21ec586562e6d7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (val if val in [True, False] else val.lhs == val.rhs)","result == val or result == val.lhs == val.rhs"],"fibers":[{"name":"case_0","guard":"val in [True, False]","ensures":["result == val"],"decidability":"library","returns_expr":"val"},{"name":"case_1","guard":"val.is_Equality","ensures":["result == val.lhs == val.rhs"],"decidability":"library","returns_expr":"val.lhs == val.rhs"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.condition"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _test(self, elem):
         """
         Test the value. If value is boolean, return it. If value is equality
@@ -453,45 +605,64 @@ class ConditionalFiniteDomain(ConditionalDomain, ProductFiniteDomain):
         raise ValueError("Undecidable if %s" % str(val))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(oth), correctly tests membership) over Any ║
+# ║ Path(__contains__(other), other in self.fulldomain and self._test(other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  other in self.fulldomain and self._test(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b5ac022aa4b64c4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain.__contains__","kind":"method","src_hash":"83f2db70d21b066b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(oth)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b5ac022aa4b64c4"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain.__contains__","kind":"method","src_hash":"83f2db70d21b066b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(other)","rhs":"other in self.fulldomain and self._test(other)","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns other in self.fulldomain and self._test(other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b5ac022aa4b64c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"other in self.fulldomain and self._test(other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._test","self.fulldomain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, other):
         return other in self.fulldomain and self._test(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), (elem for elem in self.fulldomain if self._test(elem))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (elem for elem in self.fulldomain if self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b863fc67d59e8a32           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain.__iter__","kind":"method","src_hash":"7ced131fe001216f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b863fc67d59e8a32"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain.__iter__","kind":"method","src_hash":"7ced131fe001216f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"(elem for elem in self.fulldomain if self._test(elem))","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns (elem for elem in self.fulldomain if self._test(elem))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b863fc67d59e8a32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(elem for elem in self.fulldomain if self._test(elem))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._test","self.fulldomain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return (elem for elem in self.fulldomain if self._test(elem))
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), <unspecified:set>) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: isinstance(self.fulldomain, SingleFi...   ║
+# ║   fiber[case_1]: not (isinstance(self.fulldomain, Sin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c283cca18148ab87           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain.set","kind":"property","src_hash":"48608ab4d2090987","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c283cca18148ab87"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain.set","kind":"property","src_hash":"48608ab4d2090987","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"<unspecified:set>","over":{"base":"Any"},"name":"set_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c283cca18148ab87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"isinstance(self.fulldomain, SingleFiniteDomain)","ensures":["result == FiniteSet(*[elem for elem in self.fulldomain.set if frozenset(((self.fulldomain.symbol, elem),)) in self])"],"decidability":"structural","returns_expr":"FiniteSet(*[elem for elem in self.fulldomain.set if frozenset(((self.fulldomain.symbol, elem),)) in self])"},{"name":"case_1","guard":"not (isinstance(self.fulldomain, SingleFiniteDomain))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.fulldomain"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         if isinstance(self.fulldomain, SingleFiniteDomain):
             return FiniteSet(*[elem for elem in self.fulldomain.set
@@ -501,16 +672,22 @@ class ConditionalFiniteDomain(ConditionalDomain, ProductFiniteDomain):
                 "Not implemented on multi-dimensional conditional domain")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_boolean(), as_boolean produces the expected output) over Any ║
+# ║ Path(as_boolean(), FiniteDomain.as_boolean(self)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FiniteDomain.as_boolean(self)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_boolean : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e724193db988589           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain.as_boolean","kind":"method","src_hash":"eeb42a23866f2adf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_boolean()","rhs":"as_boolean produces the expected output","over":{"base":"Any"},"name":"as_boolean_correct"},"guarantee":"as_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e724193db988589"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ConditionalFiniteDomain.as_boolean","kind":"method","src_hash":"eeb42a23866f2adf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_boolean()","rhs":"FiniteDomain.as_boolean(self)","over":{"base":"Any"},"name":"as_boolean_correct"},"guarantee":"returns FiniteDomain.as_boolean(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e724193db988589","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FiniteDomain.as_boolean(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_boolean(self):
         return FiniteDomain.as_boolean(self)
 
@@ -518,89 +695,126 @@ class ConditionalFiniteDomain(ConditionalDomain, ProductFiniteDomain):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SingleFiniteDistribution(*args), correctly constructs a SingleFiniteDistribution instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SingleFiniteDistribution : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Distribution)                 ║
+# ║   ensures:  isinstance(self, NamedArgsMixin)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SingleFiniteDistribution : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a3b807d1f912102  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution","kind":"class","src_hash":"e4da598b8f7fd42a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SingleFiniteDistribution(*args)","rhs":"correctly constructs a SingleFiniteDistribution instance","over":{"base":"Any"},"name":"SingleFiniteDistribution_class_invariant"},"guarantee":"correctly constructs a SingleFiniteDistribution instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a3b807d1f912102"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution","kind":"class","src_hash":"e4da598b8f7fd42a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Distribution) and isinstance(self, NamedArgsMixin)"},"spec":{"lhs":"SingleFiniteDistribution(*args)","rhs":"correctly constructs a SingleFiniteDistribution instance","over":{"base":"Any"},"name":"SingleFiniteDistribution_class_invariant"},"guarantee":"isinstance(self, Distribution); isinstance(self, NamedArgsMixin)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a3b807d1f912102","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Distribution)","isinstance(self, NamedArgsMixin)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function SingleFiniteDistribution not found in source"]}}
 class SingleFiniteDistribution(Distribution, NamedArgsMixin):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), Basic.__new__(cls, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic.__new__(cls, *args)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3d2e0bfca3689bbc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.__new__","kind":"method","src_hash":"ce6276bc12031efc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d2e0bfca3689bbc"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.__new__","kind":"method","src_hash":"ce6276bc12031efc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"Basic.__new__(cls, *args)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3d2e0bfca3689bbc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic.__new__(cls, *args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         args = list(map(sympify, args))
         return Basic.__new__(cls, *args)
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check(*ar), check produces the expected output) over Any ║
+# ║ Path(check(*args), <unspecified:check>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ check : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc2339dcdcd67b40           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.check","kind":"staticmethod","src_hash":"1ae78338092cf8d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(*ar)","rhs":"check produces the expected output","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc2339dcdcd67b40"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.check","kind":"staticmethod","src_hash":"1ae78338092cf8d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check(*args)","rhs":"<unspecified:check>","over":{"base":"Any"},"name":"check_correct"},"guarantee":"check produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc2339dcdcd67b40","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def check(*args):
         pass
 
     @property # type: ignore
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dict(), returns the dict attribute) over Any          ║
+# ║ Path(dict(), <unspecified:dict>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dict : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4e41198488f140e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.dict","kind":"property","src_hash":"6088211658d807b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"returns the dict attribute","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns the dict attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e41198488f140e4"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.dict","kind":"property","src_hash":"6088211658d807b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dict()","rhs":"<unspecified:dict>","over":{"base":"Any"},"name":"dict_correct"},"guarantee":"returns the dict attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e41198488f140e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_symbolic","self.pmf","self.set"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dict(self):
         if self.is_symbolic:
             return Density(self)
         return {k: self.pmf(k) for k in self.set}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pmf(*ar), pmf produces the expected output) over Any  ║
+# ║ Path(pmf(*args), <unspecified:pmf>) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pmf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd34347f6ee5f31d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.pmf","kind":"method","src_hash":"ea62f74f4a86763b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(*ar)","rhs":"pmf produces the expected output","over":{"base":"Any"},"name":"pmf_correct"},"guarantee":"pmf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd34347f6ee5f31d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.pmf","kind":"method","src_hash":"ea62f74f4a86763b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(*args)","rhs":"<unspecified:pmf>","over":{"base":"Any"},"name":"pmf_correct"},"guarantee":"pmf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd34347f6ee5f31d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pmf(self, *args): # to be overridden by specific distribution
         raise NotImplementedError()
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), <unspecified:set>) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4df6de789b06bbf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.set","kind":"property","src_hash":"03a5f0e824db653a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4df6de789b06bbf"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.set","kind":"property","src_hash":"03a5f0e824db653a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"<unspecified:set>","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4df6de789b06bbf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self): # to be overridden by specific distribution
         raise NotImplementedError()
 
@@ -611,30 +825,42 @@ class SingleFiniteDistribution(Distribution, NamedArgsMixin):
     __getitem__ = property(lambda self: self.dict.__getitem__)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ar), correctly applies the callable) over Any ║
+# ║ Path(__call__(*args), self.pmf(*args)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.pmf(*args)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b5a2cd8ac6511d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.__call__","kind":"method","src_hash":"d37c094d3af39f87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ar)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b5a2cd8ac6511d2"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.__call__","kind":"method","src_hash":"d37c094d3af39f87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*args)","rhs":"self.pmf(*args)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns self.pmf(*args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b5a2cd8ac6511d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.pmf(*args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.pmf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *args):
         return self.pmf(*args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(oth), correctly tests membership) over Any ║
+# ║ Path(__contains__(other), other in self.set) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  other in self.set                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e8b27baf9725951d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.__contains__","kind":"method","src_hash":"cd54539f849dd41e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(oth)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8b27baf9725951d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFiniteDistribution.__contains__","kind":"method","src_hash":"cd54539f849dd41e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(other)","rhs":"other in self.set","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns other in self.set","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8b27baf9725951d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"other in self.set","pure":false,"effects":{"effect_type":"reads_state","reads":["self.set"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, other):
         return other in self.set
 
@@ -647,14 +873,20 @@ class SingleFiniteDistribution(Distribution, NamedArgsMixin):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FinitePSpace(*args), correctly constructs a FinitePSpace instance) over {Any | isinstance(list(density.keys())[0], FiniteSet) and isinstance(expr, (Logic, Relational)) and isinstance(condition, Relational)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PSpace)                       ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FinitePSpace : {Any | isinstance(list(density.keys())...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d051fb0d632e572f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace","kind":"class","src_hash":"99595d3a4d6618d2","in":{"base":"Any","pred":"isinstance(list(density.keys())[0], FiniteSet) and isinstance(expr, (Logic, Relational)) and isinstance(condition, Relational)"},"out":{"base":"Any","pred":"all((r.symbol in self.symbols for r in random_symbols(condition)))"},"spec":{"lhs":"FinitePSpace(*args)","rhs":"correctly constructs a FinitePSpace instance","over":{"base":"Any","pred":"isinstance(list(density.keys())[0], FiniteSet) and isinstance(expr, (Logic, Relational)) and isinstance(condition, Relational)"},"name":"FinitePSpace_class_invariant"},"guarantee":"correctly constructs a FinitePSpace instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d051fb0d632e572f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace","kind":"class","src_hash":"99595d3a4d6618d2","in":{"base":"Any","pred":"isinstance(list(density.keys())[0], FiniteSet) and isinstance(expr, (Logic, Relational)) and isinstance(condition, Relational)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PSpace)"},"spec":{"lhs":"FinitePSpace(*args)","rhs":"correctly constructs a FinitePSpace instance","over":{"base":"Any","pred":"isinstance(list(density.keys())[0], FiniteSet) and isinstance(expr, (Logic, Relational)) and isinstance(condition, Relational)"},"name":"FinitePSpace_class_invariant"},"guarantee":"isinstance(self, PSpace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d051fb0d632e572f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PSpace)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function FinitePSpace not found in source"]}}
 class FinitePSpace(PSpace):
     """
     A Finite Probability Space
@@ -664,16 +896,23 @@ class FinitePSpace(PSpace):
     is_Finite = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, domain, density), <unspecified:__new__>) over {Any | hasattr(density, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(density, 'items')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(density, 'items')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7faaea92995b7f4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.__new__","kind":"method","src_hash":"a394fe978e417464","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7faaea92995b7f4c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.__new__","kind":"method","src_hash":"a394fe978e417464","in":{"base":"Any","pred":"hasattr(density, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, domain, density)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(density, 'items')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7faaea92995b7f4c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(density, 'items')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["density.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, domain, density):
         density = {sympify(key): sympify(val)
                 for key, val in density.items()}
@@ -684,16 +923,22 @@ class FinitePSpace(PSpace):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prob_of(ele), prob_of produces the expected output) over Any ║
+# ║ Path(prob_of(elem), <unspecified:prob_of>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ prob_of : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 458c55f94cdc4cd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.prob_of","kind":"method","src_hash":"ca42f1ee5f76cb71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prob_of(ele)","rhs":"prob_of produces the expected output","over":{"base":"Any"},"name":"prob_of_correct"},"guarantee":"prob_of produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.FinitePSpace.prob_of_correct","statement":"Path(prob_of(x), prob_of produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"458c55f94cdc4cd2"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.prob_of","kind":"method","src_hash":"ca42f1ee5f76cb71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prob_of(elem)","rhs":"<unspecified:prob_of>","over":{"base":"Any"},"name":"prob_of_correct"},"guarantee":"prob_of produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.FinitePSpace.prob_of_correct","statement":"Path(prob_of(x), prob_of produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"458c55f94cdc4cd2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._density"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def prob_of(self, elem):
         elem = sympify(elem)
         density = self._density
@@ -702,31 +947,45 @@ class FinitePSpace(PSpace):
         return density.get(tuple(elem)[0][1], S.Zero)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(where(con), where produces the expected output) over Any ║
+# ║ Path(where(condition), ConditionalFiniteDomain(self.domain, condition)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ where : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((r.symbol in self.symbols for r in ra...   ║
+# ║   returns:  ConditionalFiniteDomain(self.domain, cond...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ where : Any → {Any | result satisfies: result == (Con...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac63821cbaacc2f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 522b13f106b05f85  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.where","kind":"method","src_hash":"d71cc507d272d57b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"where(con)","rhs":"where produces the expected output","over":{"base":"Any"},"name":"where_correct"},"guarantee":"where produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.FinitePSpace.where_correct","statement":"Path(where(x), where produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac63821cbaacc2f9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.where","kind":"method","src_hash":"d71cc507d272d57b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (ConditionalFiniteDomain(self.domain, condition))"},"spec":{"lhs":"where(condition)","rhs":"ConditionalFiniteDomain(self.domain, condition)","over":{"base":"Any"},"name":"where_correct"},"guarantee":"returns ConditionalFiniteDomain(self.domain, condition); all((r.symbol in self.symbols for r in random_symbols(condition)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.FinitePSpace.where_correct","statement":"Path(where(x), returns ConditionalFiniteDomain(self.domain, condition); all((r.symbol in self.symbols for r in random_symbols(condition))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"522b13f106b05f85","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((r.symbol in self.symbols for r in random_symbols(condition)))"],"returns_expr":"ConditionalFiniteDomain(self.domain, condition)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.symbols"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def where(self, condition):
         assert all(r.symbol in self.symbols for r in random_symbols(condition))
         return ConditionalFiniteDomain(self.domain, condition)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_density(exp), compute_density produces the expected output) over Any ║
+# ║ Path(compute_density(expr), <unspecified:compute_density>) over {Any | hasattr(expr, 'xreplace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compute_density : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'xreplace')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compute_density : {Any | hasattr(expr, 'xreplace')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73f6511cf5b33560  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.compute_density","kind":"method","src_hash":"db449544d3fe27ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_density(exp)","rhs":"compute_density produces the expected output","over":{"base":"Any"},"name":"compute_density_correct"},"guarantee":"compute_density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.FinitePSpace.compute_density_correct","statement":"Path(compute_density(x), compute_density produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73f6511cf5b33560"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.compute_density","kind":"method","src_hash":"db449544d3fe27ee","in":{"base":"Any","pred":"hasattr(expr, 'xreplace')"},"out":{"base":"Any"},"spec":{"lhs":"compute_density(expr)","rhs":"<unspecified:compute_density>","over":{"base":"Any","pred":"hasattr(expr, 'xreplace')"},"name":"compute_density_correct"},"guarantee":"compute_density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.FinitePSpace.compute_density_correct","statement":"Path(compute_density(x), compute_density produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73f6511cf5b33560","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'xreplace')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.xreplace","self.domain","self.prob_of","self.values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_density(self, expr):
         expr = rv_subs(expr, self.values)
         d = FiniteDensity()
@@ -738,16 +997,22 @@ class FinitePSpace(PSpace):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_cdf(exp), compute_cdf produces the expected output) over Any ║
+# ║ Path(compute_cdf(expr), dict(cdf)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dict(cdf)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compute_cdf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fea772e27b9b14b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40921bcd09a1219e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.compute_cdf","kind":"method","src_hash":"573e7ed21088cb91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_cdf(exp)","rhs":"compute_cdf produces the expected output","over":{"base":"Any"},"name":"compute_cdf_correct"},"guarantee":"compute_cdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.FinitePSpace.compute_cdf_correct","statement":"Path(compute_cdf(x), compute_cdf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fea772e27b9b14b3"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.compute_cdf","kind":"method","src_hash":"573e7ed21088cb91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_cdf(expr)","rhs":"dict(cdf)","over":{"base":"Any"},"name":"compute_cdf_correct"},"guarantee":"returns dict(cdf)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.FinitePSpace.compute_cdf_correct","statement":"Path(compute_cdf(x), returns dict(cdf))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40921bcd09a1219e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dict(cdf)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_cdf(self, expr):
         d = self.compute_density(expr)
         cum_prob = S.Zero
@@ -761,16 +1026,22 @@ class FinitePSpace(PSpace):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sorted_cdf(exp), sorted_cdf produces the expected output) over Any ║
+# ║ Path(sorted_cdf(expr, python_float), <unspecified:sorted_cdf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sorted_cdf : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bca08f0ecd0183f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.sorted_cdf","kind":"method","src_hash":"c49c63d0077f2dd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sorted_cdf(exp)","rhs":"sorted_cdf produces the expected output","over":{"base":"Any"},"name":"sorted_cdf_correct"},"guarantee":"sorted_cdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.FinitePSpace.sorted_cdf_correct","statement":"Path(sorted_cdf(x), sorted_cdf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bca08f0ecd0183f7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.sorted_cdf","kind":"method","src_hash":"c49c63d0077f2dd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sorted_cdf(expr, python_float)","rhs":"<unspecified:sorted_cdf>","over":{"base":"Any"},"name":"sorted_cdf_correct"},"guarantee":"sorted_cdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.FinitePSpace.sorted_cdf_correct","statement":"Path(sorted_cdf(x), sorted_cdf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bca08f0ecd0183f7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.compute_cdf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sorted_cdf(self, expr, python_float=False):
         cdf = self.compute_cdf(expr)
         items = list(cdf.items())
@@ -782,16 +1053,22 @@ class FinitePSpace(PSpace):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_characteristic_function(exp), id) over Any    ║
+# ║ Path(compute_characteristic_function(expr), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(t, sum((exp(I * k * t) * v for k, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compute_characteristic_function : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 99f22388e890d5fd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.compute_characteristic_function","kind":"method","src_hash":"b29b5439f73aa58d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_characteristic_function(exp)","rhs":"compute_characteristic_function produces the expected output","over":{"base":"Any"},"name":"compute_characteristic_function_correct","kind":"composition"},"guarantee":"compute_characteristic_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"sum","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"items","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99f22388e890d5fd"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.compute_characteristic_function","kind":"method","src_hash":"b29b5439f73aa58d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_characteristic_function(expr)","rhs":"Lambda(t, sum((exp(I * k * t) * v for k, v in d.items())))","over":{"base":"Any"},"name":"compute_characteristic_function_correct","kind":"composition"},"guarantee":"returns Lambda(t, sum((exp(I * k * t) * v for k, v in d.items())))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"sum","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"items","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99f22388e890d5fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(t, sum((exp(I * k * t) * v for k, v in d.items())))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.compute_density"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_characteristic_function(self, expr):
         d = self.compute_density(expr)
         t = Dummy('t', real=True)
@@ -800,16 +1077,22 @@ class FinitePSpace(PSpace):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_moment_generating_function(exp), id) over Any ║
+# ║ Path(compute_moment_generating_function(expr), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(t, sum((exp(k * t) * v for k, v in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compute_moment_generating_function : Any → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | afe5f752f13b7b2e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.compute_moment_generating_function","kind":"method","src_hash":"58fd555e16d4da0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_moment_generating_function(exp)","rhs":"compute_moment_generating_function produces the expected output","over":{"base":"Any"},"name":"compute_moment_generating_function_correct","kind":"composition"},"guarantee":"compute_moment_generating_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"sum","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"items","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afe5f752f13b7b2e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.compute_moment_generating_function","kind":"method","src_hash":"58fd555e16d4da0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_moment_generating_function(expr)","rhs":"Lambda(t, sum((exp(k * t) * v for k, v in d.items())))","over":{"base":"Any"},"name":"compute_moment_generating_function_correct","kind":"composition"},"guarantee":"returns Lambda(t, sum((exp(k * t) * v for k, v in d.items())))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"sum","by":"library_axiom"},{"fn":"exp","by":"library_axiom"},{"fn":"items","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afe5f752f13b7b2e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(t, sum((exp(k * t) * v for k, v in d.items())))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.compute_density"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_moment_generating_function(self, expr):
         d = self.compute_density(expr)
         t = Dummy('t', real=True)
@@ -817,16 +1100,23 @@ class FinitePSpace(PSpace):
         return Lambda(t, sum(exp(k*t)*v for k,v in d.items()))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_expectation(exp), id) over Any                ║
+# ║ Path(compute_expectation(expr, rvs, **kwargs), id) over {Any | hasattr(expr, 'xreplace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compute_expectation : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'xreplace')                      ║
+# ║   returns:  sum((Piecewise((prob * elem, blv), (S.Zer...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compute_expectation : {Any | hasattr(expr, 'xreplace'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2c51e7a58aaa6c50   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.compute_expectation","kind":"method","src_hash":"5473f261e7ddce24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_expectation(exp)","rhs":"compute_expectation produces the expected output","over":{"base":"Any"},"name":"compute_expectation_correct","kind":"composition"},"guarantee":"compute_expectation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"Piecewise","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c51e7a58aaa6c50"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.compute_expectation","kind":"method","src_hash":"5473f261e7ddce24","in":{"base":"Any","pred":"hasattr(expr, 'xreplace')"},"out":{"base":"Any"},"spec":{"lhs":"compute_expectation(expr, rvs, **kwargs)","rhs":"sum((Piecewise((prob * elem, blv), (S.Zero, True)) for prob, elem, blv in zip(probs, parse_domain, bools)))","over":{"base":"Any","pred":"hasattr(expr, 'xreplace')"},"name":"compute_expectation_correct","kind":"composition"},"guarantee":"returns sum((Piecewise((prob * elem, blv), (S.Zero, True)) for prob, elem, blv in zip(probs, parse_domain, bools)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"Piecewise","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c51e7a58aaa6c50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'xreplace')"],"returns_expr":"sum((Piecewise((prob * elem, blv), (S.Zero, True)) for prob, elem, blv in zip(probs, parse_domain, bools)))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.xreplace","self.domain","self.prob_of","self.values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_expectation(self, expr, rvs=None, **kwargs):
         rvs = rvs or self.values
         expr = rv_subs(expr, rvs)
@@ -841,16 +1131,22 @@ class FinitePSpace(PSpace):
                 for prob, elem, blv in zip(probs, parse_domain, bools))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_quantile(exp), id) over Any                   ║
+# ║ Path(compute_quantile(expr), id) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Lambda(p, Piecewise(*set))                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compute_quantile : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f703096e51e3dffc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.compute_quantile","kind":"method","src_hash":"2cbfbebff1b366f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_quantile(exp)","rhs":"compute_quantile produces the expected output","over":{"base":"Any"},"name":"compute_quantile_correct","kind":"composition"},"guarantee":"compute_quantile produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"Piecewise","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f703096e51e3dffc"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.compute_quantile","kind":"method","src_hash":"2cbfbebff1b366f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_quantile(expr)","rhs":"Lambda(p, Piecewise(*set))","over":{"base":"Any"},"name":"compute_quantile_correct","kind":"composition"},"guarantee":"returns Lambda(p, Piecewise(*set))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"Piecewise","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f703096e51e3dffc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Lambda(p, Piecewise(*set))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.compute_cdf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_quantile(self, expr):
         cdf = self.compute_cdf(expr)
         p = Dummy('p', real=True)
@@ -860,16 +1156,25 @@ class FinitePSpace(PSpace):
         return Lambda(p, Piecewise(*set))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(probability(con), id) over Any                        ║
+# ║ Path(probability(condition), id) over {Any | cond_symbols.issubset(self.symbols) and hasattr(condition, 'lhs') and hasattr(condition, 'rhs') and hasattr(condition, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ probability : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: cond_symbols.issubset(self.symbols)            ║
+# ║   requires: hasattr(condition, 'lhs')                      ║
+# ║   requires: hasattr(condition, 'rhs')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ probability : {Any | cond_symbols.issubset(self.symbo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 484df49c736e7b6f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.probability","kind":"method","src_hash":"cae7d4e67e0f3cef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"probability(con)","rhs":"probability produces the expected output","over":{"base":"Any"},"name":"probability_correct","kind":"composition"},"guarantee":"probability produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"Piecewise","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"484df49c736e7b6f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.probability","kind":"method","src_hash":"cae7d4e67e0f3cef","in":{"base":"Any","pred":"cond_symbols.issubset(self.symbols) and hasattr(condition, 'lhs') and hasattr(condition, 'rhs') and hasattr(condition, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"probability(condition)","rhs":"<unspecified:probability>","over":{"base":"Any","pred":"cond_symbols.issubset(self.symbols) and hasattr(condition, 'lhs') and hasattr(condition, 'rhs') and hasattr(condition, 'subs')"},"name":"probability_correct","kind":"composition"},"guarantee":"probability produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"Piecewise","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"484df49c736e7b6f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["cond_symbols.issubset(self.symbols)","hasattr(condition, 'lhs')","hasattr(condition, 'rhs')","hasattr(condition, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["condition.lhs","condition.rhs","condition.subs","self.domain","self.prob_of","self.symbols","self.where"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def probability(self, condition):
         cond_symbols = frozenset(rs.symbol for rs in random_symbols(condition))
         cond = rv_subs(condition)
@@ -885,16 +1190,22 @@ class FinitePSpace(PSpace):
         return sympify(sum(self.prob_of(elem) for elem in self.where(condition)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(conditional_space(con), conditional_space produces the expected output) over Any ║
+# ║ Path(conditional_space(condition), FinitePSpace(domain, density)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FinitePSpace(domain, density)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ conditional_space : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e853d2ad8a06d5f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4aa9c9870debbf82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.conditional_space","kind":"method","src_hash":"4b7d2e26486ffe09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conditional_space(con)","rhs":"conditional_space produces the expected output","over":{"base":"Any"},"name":"conditional_space_correct"},"guarantee":"conditional_space produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.FinitePSpace.conditional_space_correct","statement":"Path(conditional_space(x), conditional_space produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e853d2ad8a06d5f8"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.conditional_space","kind":"method","src_hash":"4b7d2e26486ffe09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conditional_space(condition)","rhs":"FinitePSpace(domain, density)","over":{"base":"Any"},"name":"conditional_space_correct"},"guarantee":"returns FinitePSpace(domain, density)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.FinitePSpace.conditional_space_correct","statement":"Path(conditional_space(x), returns FinitePSpace(domain, density))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aa9c9870debbf82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FinitePSpace(domain, density)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._density","self.probability","self.where"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def conditional_space(self, condition):
         domain = self.where(condition)
         prob = self.probability(condition)
@@ -903,16 +1214,22 @@ class FinitePSpace(PSpace):
         return FinitePSpace(domain, density)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sample(siz), internal sample method) over Any         ║
+# ║ Path(sample(size, library, seed), {self.value: self.distribution.sample(size, library, seed)}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {self.value: self.distribution.sample(siz...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sample : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a15cab6e8f12d94           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.sample","kind":"method","src_hash":"29a23244e78d5fd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sample(siz)","rhs":"internal sample method","over":{"base":"Any"},"name":"sample_correct"},"guarantee":"internal sample method","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a15cab6e8f12d94"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.FinitePSpace.sample","kind":"method","src_hash":"29a23244e78d5fd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sample(size, library, seed)","rhs":"{self.value: self.distribution.sample(size, library, seed)}","over":{"base":"Any"},"name":"sample_correct"},"guarantee":"returns {self.value: self.distribution.sample(size, library, seed)}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a15cab6e8f12d94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{self.value: self.distribution.sample(size, library, seed)}","pure":false,"effects":{"effect_type":"nondeterministic","reads":["self.distribution","self.value"],"nondeterministic_sources":["self.distribution.sample"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sample(self, size=(), library='scipy', seed=None):
         """
         Internal sample method
@@ -925,14 +1242,21 @@ class FinitePSpace(PSpace):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SingleFinitePSpace(*args), correctly constructs a SingleFinitePSpace instance) over {Any | isinstance(expr, (Relational, Logic))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SinglePSpace)                 ║
+# ║   ensures:  isinstance(self, FinitePSpace)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SingleFinitePSpace : {Any | isinstance(expr, (Relatio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88ddcf4365ad1144  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace","kind":"class","src_hash":"cafff35714b984a4","in":{"base":"Any","pred":"isinstance(expr, (Relational, Logic))"},"out":{"base":"Any"},"spec":{"lhs":"SingleFinitePSpace(*args)","rhs":"correctly constructs a SingleFinitePSpace instance","over":{"base":"Any","pred":"isinstance(expr, (Relational, Logic))"},"name":"SingleFinitePSpace_class_invariant"},"guarantee":"correctly constructs a SingleFinitePSpace instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88ddcf4365ad1144"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace","kind":"class","src_hash":"cafff35714b984a4","in":{"base":"Any","pred":"isinstance(expr, (Relational, Logic))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SinglePSpace) and isinstance(self, FinitePSpace)"},"spec":{"lhs":"SingleFinitePSpace(*args)","rhs":"correctly constructs a SingleFinitePSpace instance","over":{"base":"Any","pred":"isinstance(expr, (Relational, Logic))"},"name":"SingleFinitePSpace_class_invariant"},"guarantee":"isinstance(self, SinglePSpace); isinstance(self, FinitePSpace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88ddcf4365ad1144","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SinglePSpace)","isinstance(self, FinitePSpace)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function SingleFinitePSpace not found in source"]}}
 class SingleFinitePSpace(SinglePSpace, FinitePSpace):
     """
     A single finite probability space
@@ -945,31 +1269,43 @@ class SingleFinitePSpace(SinglePSpace, FinitePSpace):
     """
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(domain(), returns the domain attribute) over Any      ║
+# ║ Path(domain(), SingleFiniteDomain(self.symbol, self.distribution.set)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SingleFiniteDomain(self.symbol, self.dist...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ domain : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e8af7fc5e2e6fab1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.domain","kind":"property","src_hash":"14b6ec16b8d9fb04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain()","rhs":"returns the domain attribute","over":{"base":"Any"},"name":"domain_correct"},"guarantee":"returns the domain attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8af7fc5e2e6fab1"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.domain","kind":"property","src_hash":"14b6ec16b8d9fb04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain()","rhs":"SingleFiniteDomain(self.symbol, self.distribution.set)","over":{"base":"Any"},"name":"domain_correct"},"guarantee":"returns SingleFiniteDomain(self.symbol, self.distribution.set)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8af7fc5e2e6fab1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SingleFiniteDomain(self.symbol, self.distribution.set)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.distribution","self.symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def domain(self):
         return SingleFiniteDomain(self.symbol, self.distribution.set)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_symbolic(), returns the _is_symbolic attribute) over Any ║
+# ║ Path(_is_symbolic(), self.distribution.is_symbolic) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.distribution.is_symbolic                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_symbolic : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a489f792c77d472a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace._is_symbolic","kind":"property","src_hash":"444e590071dcdffa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_symbolic()","rhs":"returns the _is_symbolic attribute","over":{"base":"Any"},"name":"_is_symbolic_correct"},"guarantee":"returns the _is_symbolic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a489f792c77d472a"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace._is_symbolic","kind":"property","src_hash":"444e590071dcdffa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_symbolic()","rhs":"self.distribution.is_symbolic","over":{"base":"Any"},"name":"_is_symbolic_correct"},"guarantee":"returns self.distribution.is_symbolic","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a489f792c77d472a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.distribution.is_symbolic","pure":false,"effects":{"effect_type":"reads_state","reads":["self.distribution"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _is_symbolic(self):
         """
         Helper property to check if the distribution
@@ -980,62 +1316,86 @@ class SingleFinitePSpace(SinglePSpace, FinitePSpace):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(distribution(), returns the distribution attribute) over Any ║
+# ║ Path(distribution(), self.args[1]) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ distribution : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47dfd8375afb6780           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.distribution","kind":"property","src_hash":"50bd78f2b91566b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribution()","rhs":"returns the distribution attribute","over":{"base":"Any"},"name":"distribution_correct"},"guarantee":"returns the distribution attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47dfd8375afb6780"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.distribution","kind":"property","src_hash":"50bd78f2b91566b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"distribution()","rhs":"self.args[1]","over":{"base":"Any"},"name":"distribution_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47dfd8375afb6780","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def distribution(self):
         return self.args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pmf(exp), pmf produces the expected output) over Any  ║
+# ║ Path(pmf(expr), self.distribution.pmf(expr)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.distribution.pmf(expr)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pmf : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 04f95047f4a7f8aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.pmf","kind":"method","src_hash":"4cc58f4fcd81cb00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(exp)","rhs":"pmf produces the expected output","over":{"base":"Any"},"name":"pmf_correct"},"guarantee":"pmf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04f95047f4a7f8aa"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.pmf","kind":"method","src_hash":"4cc58f4fcd81cb00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pmf(expr)","rhs":"self.distribution.pmf(expr)","over":{"base":"Any"},"name":"pmf_correct"},"guarantee":"returns self.distribution.pmf(expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"04f95047f4a7f8aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.distribution.pmf(expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.distribution"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pmf(self, expr):
         return self.distribution.pmf(expr)
 
     @property # type: ignore
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_density(), returns the _density attribute) over Any  ║
+# ║ Path(_density(), {FiniteSet((self.symbol, val)): prob for val, prob in self.distribution.dict.items()}) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  {FiniteSet((self.symbol, val)): prob for ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _density : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9bc184239ad3520e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace._density","kind":"property","src_hash":"0e7dbab3f8774289","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_density()","rhs":"returns the _density attribute","over":{"base":"Any"},"name":"_density_correct"},"guarantee":"returns the _density attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9bc184239ad3520e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace._density","kind":"property","src_hash":"0e7dbab3f8774289","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_density()","rhs":"{FiniteSet((self.symbol, val)): prob for val, prob in self.distribution.dict.items()}","over":{"base":"Any"},"name":"_density_correct"},"guarantee":"returns {FiniteSet((self.symbol, val)): prob for val, prob in self.distribution.dict.items()}","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9bc184239ad3520e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"{FiniteSet((self.symbol, val)): prob for val, prob in self.distribution.dict.items()}","pure":false,"effects":{"effect_type":"reads_state","reads":["self.distribution","self.symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _density(self):
         return {FiniteSet((self.symbol, val)): prob
                     for val, prob in self.distribution.dict.items()}
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_characteristic_function(exp), id) over Any    ║
+# ║ Path(compute_characteristic_function(expr), id) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compute_characteristic_function : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c68f164e05ceaa4b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.compute_characteristic_function","kind":"method","src_hash":"98bcc2706e2d4b33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_characteristic_function(exp)","rhs":"compute_characteristic_function produces the expected output","over":{"base":"Any"},"name":"compute_characteristic_function_correct","kind":"composition"},"guarantee":"compute_characteristic_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"d","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c68f164e05ceaa4b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.compute_characteristic_function","kind":"method","src_hash":"98bcc2706e2d4b33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_characteristic_function(expr)","rhs":"<unspecified:compute_characteristic_function>","over":{"base":"Any"},"name":"compute_characteristic_function_correct","kind":"composition"},"guarantee":"compute_characteristic_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"d","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c68f164e05ceaa4b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_symbolic","self.args","self.compute_density","self.distribution","self.domain","self.values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_characteristic_function(self, expr):
         if self._is_symbolic:
             d = self.compute_density(expr)
@@ -1047,16 +1407,22 @@ class SingleFinitePSpace(SinglePSpace, FinitePSpace):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_moment_generating_function(exp), id) over Any ║
+# ║ Path(compute_moment_generating_function(expr), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compute_moment_generating_function : Any → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 277a28ba7228ae34   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.compute_moment_generating_function","kind":"method","src_hash":"d2d614c96e1b304e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_moment_generating_function(exp)","rhs":"compute_moment_generating_function produces the expected output","over":{"base":"Any"},"name":"compute_moment_generating_function_correct","kind":"composition"},"guarantee":"compute_moment_generating_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"d","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"277a28ba7228ae34"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.compute_moment_generating_function","kind":"method","src_hash":"d2d614c96e1b304e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_moment_generating_function(expr)","rhs":"<unspecified:compute_moment_generating_function>","over":{"base":"Any"},"name":"compute_moment_generating_function_correct","kind":"composition"},"guarantee":"compute_moment_generating_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"d","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"277a28ba7228ae34","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_symbolic","self.args","self.compute_density","self.distribution","self.domain","self.values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_moment_generating_function(self, expr):
         if self._is_symbolic:
             d = self.compute_density(expr)
@@ -1067,16 +1433,23 @@ class SingleFinitePSpace(SinglePSpace, FinitePSpace):
         return FinitePSpace(self.domain, self.distribution).compute_moment_generating_function(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_quantile(exp), id) over Any                   ║
+# ║ Path(compute_quantile(expr), id) over {Any | not (self._is_symbolic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compute_quantile : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self._is_symbolic)                        ║
+# ║   returns:  FinitePSpace(self.domain, self.distributi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compute_quantile : {Any | not (self._is_symbolic)} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f681e4914183cff9   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.compute_quantile","kind":"method","src_hash":"41aa05a689f79dd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_quantile(exp)","rhs":"compute_quantile produces the expected output","over":{"base":"Any"},"name":"compute_quantile_correct","kind":"composition"},"guarantee":"compute_quantile produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"FinitePSpace","by":"library_axiom"},{"fn":"compute_quantile","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f681e4914183cff9"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.compute_quantile","kind":"method","src_hash":"41aa05a689f79dd9","in":{"base":"Any","pred":"not (self._is_symbolic)"},"out":{"base":"Any"},"spec":{"lhs":"compute_quantile(expr)","rhs":"FinitePSpace(self.domain, self.distribution).compute_quantile(expr)","over":{"base":"Any","pred":"not (self._is_symbolic)"},"name":"compute_quantile_correct","kind":"composition"},"guarantee":"returns FinitePSpace(self.domain, self.distribution).compute_quantile(expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"FinitePSpace","by":"library_axiom"},{"fn":"compute_quantile","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f681e4914183cff9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self._is_symbolic)"],"returns_expr":"FinitePSpace(self.domain, self.distribution).compute_quantile(expr)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_symbolic","self.distribution","self.domain","self.values"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_quantile(self, expr):
         if self._is_symbolic:
             raise NotImplementedError("Computing quantile for random variables "
@@ -1086,16 +1459,23 @@ class SingleFinitePSpace(SinglePSpace, FinitePSpace):
         return FinitePSpace(self.domain, self.distribution).compute_quantile(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_density(exp), compute_density produces the expected output) over Any ║
+# ║ Path(compute_density(expr), <unspecified:compute_density>) over {Any | hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compute_density : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compute_density : {Any | hasattr(expr, 'subs')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acb54a4d425745c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.compute_density","kind":"method","src_hash":"fe7d76a53856d234","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_density(exp)","rhs":"compute_density produces the expected output","over":{"base":"Any"},"name":"compute_density_correct"},"guarantee":"compute_density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.SingleFinitePSpace.compute_density_correct","statement":"Path(compute_density(x), compute_density produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acb54a4d425745c6"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.compute_density","kind":"method","src_hash":"fe7d76a53856d234","in":{"base":"Any","pred":"hasattr(expr, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"compute_density(expr)","rhs":"<unspecified:compute_density>","over":{"base":"Any","pred":"hasattr(expr, 'subs')"},"name":"compute_density_correct"},"guarantee":"compute_density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.SingleFinitePSpace.compute_density_correct","statement":"Path(compute_density(x), compute_density produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acb54a4d425745c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.subs","self._is_symbolic","self.args","self.distribution","self.domain","self.pmf","self.values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_density(self, expr):
         if self._is_symbolic:
             rv = list(random_symbols(expr))[0]
@@ -1109,16 +1489,22 @@ class SingleFinitePSpace(SinglePSpace, FinitePSpace):
         return FinitePSpace(self.domain, self.distribution).compute_density(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_cdf(exp), id) over Any                        ║
+# ║ Path(compute_cdf(expr), id) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compute_cdf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | dcd9c2d1b0642498   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.compute_cdf","kind":"method","src_hash":"31d2d13e92d99bde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_cdf(exp)","rhs":"compute_cdf produces the expected output","over":{"base":"Any"},"name":"compute_cdf_correct","kind":"composition"},"guarantee":"compute_cdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"d","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcd9c2d1b0642498"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.compute_cdf","kind":"method","src_hash":"31d2d13e92d99bde","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_cdf(expr)","rhs":"<unspecified:compute_cdf>","over":{"base":"Any"},"name":"compute_cdf_correct","kind":"composition"},"guarantee":"compute_cdf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Lambda","by":"library_axiom"},{"fn":"Sum","by":"library_axiom"},{"fn":"d","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcd9c2d1b0642498","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_symbolic","self.args","self.compute_density","self.distribution","self.domain","self.values"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_cdf(self, expr):
         if self._is_symbolic:
             d = self.compute_density(expr)
@@ -1129,16 +1515,23 @@ class SingleFinitePSpace(SinglePSpace, FinitePSpace):
         return FinitePSpace(self.domain, self.distribution).compute_cdf(expr)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_expectation(exp), id) over Any                ║
+# ║ Path(compute_expectation(expr, rvs, **kwargs), id) over {Any | hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ compute_expectation : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ compute_expectation : {Any | hasattr(expr, 'subs')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c6407aea90d5b25d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.compute_expectation","kind":"method","src_hash":"19d94823152623ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_expectation(exp)","rhs":"compute_expectation produces the expected output","over":{"base":"Any"},"name":"compute_expectation_correct","kind":"composition"},"guarantee":"compute_expectation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"Piecewise","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6407aea90d5b25d"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.compute_expectation","kind":"method","src_hash":"19d94823152623ff","in":{"base":"Any","pred":"hasattr(expr, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"compute_expectation(expr, rvs, **kwargs)","rhs":"<unspecified:compute_expectation>","over":{"base":"Any","pred":"hasattr(expr, 'subs')"},"name":"compute_expectation_correct","kind":"composition"},"guarantee":"compute_expectation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Sum","by":"library_axiom"},{"fn":"Piecewise","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6407aea90d5b25d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.subs","self._is_symbolic","self.distribution","self.domain","self.pmf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_expectation(self, expr, rvs=None, **kwargs):
         if self._is_symbolic:
             rv = random_symbols(expr)[0]
@@ -1155,16 +1548,23 @@ class SingleFinitePSpace(SinglePSpace, FinitePSpace):
         return FinitePSpace(self.domain, self.distribution).compute_expectation(expr, rvs, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(probability(con), id) over Any                        ║
+# ║ Path(probability(condition), id) over {Any | not (self._is_symbolic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ probability : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self._is_symbolic)                        ║
+# ║   returns:  FinitePSpace(self.domain, self.distributi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ probability : {Any | not (self._is_symbolic)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ae36ac386a84dc53   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.probability","kind":"method","src_hash":"6e43c9136be3fde8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"probability(con)","rhs":"probability produces the expected output","over":{"base":"Any"},"name":"probability_correct","kind":"composition"},"guarantee":"probability produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"FinitePSpace","by":"library_axiom"},{"fn":"probability","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae36ac386a84dc53"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.probability","kind":"method","src_hash":"6e43c9136be3fde8","in":{"base":"Any","pred":"not (self._is_symbolic)"},"out":{"base":"Any"},"spec":{"lhs":"probability(condition)","rhs":"FinitePSpace(self.domain, self.distribution).probability(condition)","over":{"base":"Any","pred":"not (self._is_symbolic)"},"name":"probability_correct","kind":"composition"},"guarantee":"returns FinitePSpace(self.domain, self.distribution).probability(condition)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"FinitePSpace","by":"library_axiom"},{"fn":"probability","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae36ac386a84dc53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self._is_symbolic)"],"returns_expr":"FinitePSpace(self.domain, self.distribution).probability(condition)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_symbolic","self.distribution","self.domain"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def probability(self, condition):
         if self._is_symbolic:
             #TODO: Implement the mechanism for handling queries for symbolic sized distributions.
@@ -1174,16 +1574,22 @@ class SingleFinitePSpace(SinglePSpace, FinitePSpace):
         return FinitePSpace(self.domain, self.distribution).probability(condition)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(conditional_space(con), this method is used for transferring the computation to probability method because conditional space of random variables with symbolic dimensions is currently not possible) over Any ║
+# ║ Path(conditional_space(condition), FinitePSpace(domain, density)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FinitePSpace(domain, density)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ conditional_space : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a98a1cc5aa6ecc82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69e912b2b739e840  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.conditional_space","kind":"method","src_hash":"3a04cd965d6cc0bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conditional_space(con)","rhs":"this method is used for transferring the computation to probability method because conditional space of random variables with symbolic dimensions is currently not possible","over":{"base":"Any"},"name":"conditional_space_correct"},"guarantee":"this method is used for transferring the computation to probability method because conditional space of random variables with symbolic dimensions is currently not possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.SingleFinitePSpace.conditional_space_correct","statement":"Path(conditional_space(x), this method is used for transferring the computation to probability method because conditional space of random variables with symbolic dimensions is currently not possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a98a1cc5aa6ecc82"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.SingleFinitePSpace.conditional_space","kind":"method","src_hash":"3a04cd965d6cc0bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conditional_space(condition)","rhs":"FinitePSpace(domain, density)","over":{"base":"Any"},"name":"conditional_space_correct"},"guarantee":"returns FinitePSpace(domain, density)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.frv.SingleFinitePSpace.conditional_space_correct","statement":"Path(conditional_space(x), returns FinitePSpace(domain, density))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69e912b2b739e840","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FinitePSpace(domain, density)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._density","self._is_symbolic","self.probability","self.where"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def conditional_space(self, condition):
         """
         This method is used for transferring the
@@ -1203,46 +1609,65 @@ class SingleFinitePSpace(SinglePSpace, FinitePSpace):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ProductFinitePSpace(*args), correctly constructs a ProductFinitePSpace instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ProductFinitePSpace : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IndependentProductPSpace)     ║
+# ║   ensures:  isinstance(self, FinitePSpace)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ProductFinitePSpace : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbe3416a87fda992  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFinitePSpace","kind":"class","src_hash":"9f99c4acf1545b3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ProductFinitePSpace(*args)","rhs":"correctly constructs a ProductFinitePSpace instance","over":{"base":"Any"},"name":"ProductFinitePSpace_class_invariant"},"guarantee":"correctly constructs a ProductFinitePSpace instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbe3416a87fda992"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFinitePSpace","kind":"class","src_hash":"9f99c4acf1545b3b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IndependentProductPSpace) and isinstance(self, FinitePSpace)"},"spec":{"lhs":"ProductFinitePSpace(*args)","rhs":"correctly constructs a ProductFinitePSpace instance","over":{"base":"Any"},"name":"ProductFinitePSpace_class_invariant"},"guarantee":"isinstance(self, IndependentProductPSpace); isinstance(self, FinitePSpace)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbe3416a87fda992","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IndependentProductPSpace)","isinstance(self, FinitePSpace)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function ProductFinitePSpace not found in source"]}}
 class ProductFinitePSpace(IndependentProductPSpace, FinitePSpace):
     """
     A collection of several independent finite probability spaces
     """
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(domain(), returns the domain attribute) over Any      ║
+# ║ Path(domain(), ProductFiniteDomain(*[space.domain for space in self.spaces])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ProductFiniteDomain(*[space.domain for sp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ domain : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c3a541d5682f646           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFinitePSpace.domain","kind":"property","src_hash":"30c1508f721c0bb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain()","rhs":"returns the domain attribute","over":{"base":"Any"},"name":"domain_correct"},"guarantee":"returns the domain attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c3a541d5682f646"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFinitePSpace.domain","kind":"property","src_hash":"30c1508f721c0bb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"domain()","rhs":"ProductFiniteDomain(*[space.domain for space in self.spaces])","over":{"base":"Any"},"name":"domain_correct"},"guarantee":"returns ProductFiniteDomain(*[space.domain for space in self.spaces])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c3a541d5682f646","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ProductFiniteDomain(*[space.domain for space in self.spaces])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.spaces"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def domain(self):
         return ProductFiniteDomain(*[space.domain for space in self.spaces])
 
     @property  # type: ignore
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_density(), returns the _density attribute) over Any  ║
+# ║ Path(_density(), Dict(d)) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Dict(d)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _density : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ee234e9d2a4e22e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFinitePSpace._density","kind":"property","src_hash":"92122e83039bdbc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_density()","rhs":"returns the _density attribute","over":{"base":"Any"},"name":"_density_correct"},"guarantee":"returns the _density attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ee234e9d2a4e22e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFinitePSpace._density","kind":"property","src_hash":"92122e83039bdbc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_density()","rhs":"Dict(d)","over":{"base":"Any"},"name":"_density_correct"},"guarantee":"returns Dict(d)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ee234e9d2a4e22e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Dict(d)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.spaces"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _density(self):
         proditer = product(*[iter(space._density.items())
             for space in self.spaces])
@@ -1257,43 +1682,61 @@ class ProductFinitePSpace(IndependentProductPSpace, FinitePSpace):
     @property  # type: ignore
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(density(), returns the density attribute) over Any    ║
+# ║ Path(density(), Dict(self._density)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Dict(self._density)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ density : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a26ab91ac44e320           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFinitePSpace.density","kind":"property","src_hash":"35fa3e37d7677927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density()","rhs":"returns the density attribute","over":{"base":"Any"},"name":"density_correct"},"guarantee":"returns the density attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a26ab91ac44e320"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFinitePSpace.density","kind":"property","src_hash":"35fa3e37d7677927","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"density()","rhs":"Dict(self._density)","over":{"base":"Any"},"name":"density_correct"},"guarantee":"returns Dict(self._density)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a26ab91ac44e320","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Dict(self._density)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._density"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def density(self):
         return Dict(self._density)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(probability(con), probability produces the expected output) over Any ║
+# ║ Path(probability(condition), FinitePSpace.probability(self, condition)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FinitePSpace.probability(self, condition)      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ probability : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f4fcf2701dfe7bc4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFinitePSpace.probability","kind":"method","src_hash":"125a014749f2ad2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"probability(con)","rhs":"probability produces the expected output","over":{"base":"Any"},"name":"probability_correct"},"guarantee":"probability produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4fcf2701dfe7bc4"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFinitePSpace.probability","kind":"method","src_hash":"125a014749f2ad2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"probability(condition)","rhs":"FinitePSpace.probability(self, condition)","over":{"base":"Any"},"name":"probability_correct"},"guarantee":"returns FinitePSpace.probability(self, condition)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f4fcf2701dfe7bc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FinitePSpace.probability(self, condition)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def probability(self, condition):
         return FinitePSpace.probability(self, condition)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compute_density(exp), compute_density produces the expected output) over Any ║
+# ║ Path(compute_density(expr), FinitePSpace.compute_density(self, expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FinitePSpace.compute_density(self, expr)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compute_density : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb907c1ff76f3e14           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFinitePSpace.compute_density","kind":"method","src_hash":"d3f081476199a086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_density(exp)","rhs":"compute_density produces the expected output","over":{"base":"Any"},"name":"compute_density_correct"},"guarantee":"compute_density produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb907c1ff76f3e14"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.frv.ProductFinitePSpace.compute_density","kind":"method","src_hash":"d3f081476199a086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"compute_density(expr)","rhs":"FinitePSpace.compute_density(self, expr)","over":{"base":"Any"},"name":"compute_density_correct"},"guarantee":"returns FinitePSpace.compute_density(self, expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb907c1ff76f3e14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FinitePSpace.compute_density(self, expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def compute_density(self, expr):
         return FinitePSpace.compute_density(self, expr)

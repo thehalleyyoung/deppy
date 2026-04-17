@@ -16,16 +16,22 @@
 # ════════════════════════════════════════════════════════════════════
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pprint_nodes(sub), prettyprints systems of nodes) over Any ║
+# ║ Path(pprint_nodes(subtrees), <unspecified:pprint_nodes>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pprint_nodes : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26ca32c6f053339c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tree.pprint_nodes","kind":"function","src_hash":"261827be1394c7f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pprint_nodes(sub)","rhs":"prettyprints systems of nodes","over":{"base":"Any"},"name":"pprint_nodes_correct"},"guarantee":"prettyprints systems of nodes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tree.pprint_nodes_correct","statement":"Path(pprint_nodes(x), prettyprints systems of nodes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26ca32c6f053339c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tree.pprint_nodes","kind":"function","src_hash":"261827be1394c7f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pprint_nodes(subtrees)","rhs":"<unspecified:pprint_nodes>","over":{"base":"Any"},"name":"pprint_nodes_correct"},"guarantee":"prettyprints systems of nodes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tree.pprint_nodes_correct","statement":"Path(pprint_nodes(x), prettyprints systems of nodes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26ca32c6f053339c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def pprint_nodes(subtrees):
     """
     Prettyprints systems of nodes.
@@ -62,16 +68,23 @@ def pprint_nodes(subtrees):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(print_node(nod), returns information about the "node") over Any ║
+# ║ Path(print_node(node, assumptions), <unspecified:print_node>) over {Any | hasattr(node, '_assumptions')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ print_node : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(node, '_assumptions')                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ print_node : {Any | hasattr(node, '_assumptions')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7d2b18a962743a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tree.print_node","kind":"function","src_hash":"36839ebcf94be098","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_node(nod)","rhs":"returns information about the \"node\"","over":{"base":"Any"},"name":"print_node_correct"},"guarantee":"returns information about the \"node\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tree.print_node_correct","statement":"Path(print_node(x), returns information about the \"node\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7d2b18a962743a5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tree.print_node","kind":"function","src_hash":"36839ebcf94be098","in":{"base":"Any","pred":"hasattr(node, '_assumptions')"},"out":{"base":"Any"},"spec":{"lhs":"print_node(node, assumptions)","rhs":"<unspecified:print_node>","over":{"base":"Any","pred":"hasattr(node, '_assumptions')"},"name":"print_node_correct"},"guarantee":"returns information about the \"node\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tree.print_node_correct","statement":"Path(print_node(x), returns information about the \"node\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7d2b18a962743a5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(node, '_assumptions')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","node.__class__","node._assumptions"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def print_node(node, assumptions=True):
     """
     Returns information about the "node".
@@ -102,16 +115,23 @@ def print_node(node, assumptions=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tree(nod), returns a tree representation of "node" as a string) over Any ║
+# ║ Path(tree(node, assumptions), # HINT: tree may be idempotent: tree(tree(x)) == tree(x)) over {Any | hasattr(node, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tree : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(node, 'args')                          ║
+# ║   ensures:  # HINT: tree may be idempotent: tree(tree...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tree : {Any | hasattr(node, 'args')} → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10ab22b52052839a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbee4266741e4a70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tree.tree","kind":"function","src_hash":"9b0ae5a1cd4b232b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tree(nod)","rhs":"returns a tree representation of \"node\" as a string","over":{"base":"Any"},"name":"tree_correct"},"guarantee":"returns a tree representation of \"node\" as a string","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tree.tree_correct","statement":"Path(tree(x), returns a tree representation of \"node\" as a string)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10ab22b52052839a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tree.tree","kind":"function","src_hash":"9b0ae5a1cd4b232b","in":{"base":"Any","pred":"hasattr(node, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: tree may be idempotent: tree(tree(x)) == tree(x)"},"spec":{"lhs":"tree(node, assumptions)","rhs":"# HINT: tree may be idempotent: tree(tree(x)) == tree(x)","over":{"base":"Any","pred":"hasattr(node, 'args')"},"name":"tree_correct"},"guarantee":"# HINT: tree may be idempotent: tree(tree(x)) == tree(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tree.tree_correct","statement":"Path(tree(x), # HINT: tree may be idempotent: tree(tree(x)) == tree(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbee4266741e4a70","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(node, 'args')"],"ensures":["# HINT: tree may be idempotent: tree(tree(x)) == tree(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def tree(node, assumptions=True):
     """
     Returns a tree representation of "node" as a string.
@@ -144,16 +164,22 @@ def tree(node, assumptions=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(print_tree(nod), prints a tree representation of "node") over Any ║
+# ║ Path(print_tree(node, assumptions), <unspecified:print_tree>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ print_tree : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 581a2388ebd1fbcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tree.print_tree","kind":"function","src_hash":"b76c2599bc32b371","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_tree(nod)","rhs":"prints a tree representation of \"node\"","over":{"base":"Any"},"name":"print_tree_correct"},"guarantee":"prints a tree representation of \"node\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tree.print_tree_correct","statement":"Path(print_tree(x), prints a tree representation of \"node\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"581a2388ebd1fbcb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tree.print_tree","kind":"function","src_hash":"b76c2599bc32b371","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_tree(node, assumptions)","rhs":"<unspecified:print_tree>","over":{"base":"Any"},"name":"print_tree_correct"},"guarantee":"prints a tree representation of \"node\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tree.print_tree_correct","statement":"Path(print_tree(x), prints a tree representation of \"node\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"581a2388ebd1fbcb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def print_tree(node, assumptions=True):
     """
     Prints a tree representation of "node".

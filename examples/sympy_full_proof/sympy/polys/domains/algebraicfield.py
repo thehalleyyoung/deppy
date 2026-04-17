@@ -33,14 +33,22 @@ from sympy.utilities import public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a AlgebraicField instance) preserved by AlgebraicField(*args) over {Any | isinstance(other, AlgebraicField) and isinstance(ext[0], tuple)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Field)                        ║
+# ║   ensures:  isinstance(self, CharacteristicZero)           ║
+# ║   ensures:  isinstance(self, SimpleDomain)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AlgebraicField : {Any | isinstance(other, AlgebraicFi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1736af408e4d9115  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField","kind":"class","src_hash":"be926c19fcaf9db6","in":{"base":"Any","pred":"isinstance(other, AlgebraicField) and isinstance(ext[0], tuple)"},"out":{"base":"Any"},"spec":{"lhs":"AlgebraicField(*args)","rhs":"correctly constructs a AlgebraicField instance","over":{"base":"Any","pred":"isinstance(other, AlgebraicField) and isinstance(ext[0], tuple)"},"name":"AlgebraicField_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a AlgebraicField instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'orig_ext') and hasattr(self, 'ext') and hasattr(self, 'mod') and hasattr(self, 'domain') and hasattr(self, 'dom') and hasattr(self, 'ngens') and hasattr(self, 'symbols') and hasattr(self, 'gens')","kind":"class","induction":"structural on orig_ext, ext, mod, domain"}],"methods_preserving":["__init__","new","__str__","__hash__","__eq__","algebraic_field","to_alg_num","to_sympy","from_sympy","get_ring","is_positive","is_negative","is_nonpositive","is_nonnegative","numer","denom","_do_round_two","maximal_order","integral_basis","discriminant","primes_above","galois_group"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1736af408e4d9115"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField","kind":"class","src_hash":"be926c19fcaf9db6","in":{"base":"Any","pred":"isinstance(other, AlgebraicField) and isinstance(ext[0], tuple)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Field) and isinstance(self, CharacteristicZero) and isinstance(self, SimpleDomain)"},"spec":{"lhs":"AlgebraicField(*args)","rhs":"correctly constructs a AlgebraicField instance","over":{"base":"Any","pred":"isinstance(other, AlgebraicField) and isinstance(ext[0], tuple)"},"name":"AlgebraicField_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Field); isinstance(self, CharacteristicZero); isinstance(self, SimpleDomain); preserves 14 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'orig_ext') and hasattr(self, 'ext') and hasattr(self, 'mod') and hasattr(self, 'domain') and hasattr(self, 'dom') and hasattr(self, 'ngens') and hasattr(self, 'symbols') and hasattr(self, 'gens')","kind":"class","induction":"structural on orig_ext, ext, mod, domain"}],"methods_preserving":["__init__","new","__str__","__hash__","__eq__","algebraic_field","to_alg_num","to_sympy","from_sympy","get_ring","is_positive","is_negative","is_nonpositive","is_nonnegative","numer","denom","_do_round_two","maximal_order","integral_basis","discriminant","primes_above","galois_group"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1736af408e4d9115","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Field)","isinstance(self, CharacteristicZero)","isinstance(self, SimpleDomain)"],"invariants":["hasattr(self, 'orig_ext')","hasattr(self, 'ext')","hasattr(self, 'mod')","hasattr(self, 'domain')","hasattr(self, 'dom')","hasattr(self, 'ngens')","hasattr(self, 'symbols')","hasattr(self, 'gens')","hasattr(self, 'unit')","hasattr(self, 'zero')","hasattr(self, 'one')","hasattr(self, '_maximal_order')","hasattr(self, '_discriminant')","hasattr(self, '_nilradicals_mod_p')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function AlgebraicField not found in source"]}}
 class AlgebraicField(Field, CharacteristicZero, SimpleDomain):
     r"""Algebraic number field :ref:`QQ(a)`
 
@@ -279,16 +287,25 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain):
     has_assoc_Field = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(dom), initializes the instance correctly) over Any ║
+# ║ Path(__init__(dom, *ext, alias), self.domain == dom and self.dom == dom) over {Any | dom.is_QQ and hasattr(dom, 'is_QQ')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: dom.is_QQ                                      ║
+# ║   requires: hasattr(dom, 'is_QQ')                          ║
+# ║   ensures:  self.domain == dom                             ║
+# ║   ensures:  self.dom == dom                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | dom.is_QQ and hasattr(dom, 'is_QQ')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1c4ecd9a6755e50           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.__init__","kind":"method","src_hash":"0c6beaec5d5c804a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(dom)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1c4ecd9a6755e50"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.__init__","kind":"method","src_hash":"0c6beaec5d5c804a","in":{"base":"Any","pred":"dom.is_QQ and hasattr(dom, 'is_QQ')"},"out":{"base":"Any","pred":"result satisfies: self.domain == dom and self.dom == dom"},"spec":{"lhs":"__init__(dom, *ext, alias)","rhs":"self.domain == dom and self.dom == dom","over":{"base":"Any","pred":"dom.is_QQ and hasattr(dom, 'is_QQ')"},"name":"__init___correct"},"guarantee":"self.domain == dom; self.dom == dom","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1c4ecd9a6755e50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["dom.is_QQ","hasattr(dom, 'is_QQ')"],"ensures":["self.domain == dom","self.dom == dom"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dom.is_QQ","self.dtype","self.ext","self.mod"],"writes":["self._discriminant","self._maximal_order","self._nilradicals_mod_p","self.dom","self.domain","self.ext","self.gens","self.mod","self.ngens","self.one","self.orig_ext","self.symbols","self.unit","self.zero"],"raises":["DomainError"]},"state_contract":{"modifies":["self._discriminant","self._maximal_order","self._nilradicals_mod_p","self.dom","self.domain","self.ext","self.gens","self.mod","self.ngens","self.one","self.orig_ext","self.symbols","self.unit","self.zero"],"old_bindings":{"old_self__discriminant":"self._discriminant","old_self__maximal_order":"self._maximal_order","old_self__nilradicals_mod_p":"self._nilradicals_mod_p","old_self_dom":"self.dom","old_self_domain":"self.domain","old_self_ext":"self.ext","old_self_gens":"self.gens","old_self_mod":"self.mod","old_self_ngens":"self.ngens","old_self_one":"self.one","old_self_orig_ext":"self.orig_ext","old_self_symbols":"self.symbols","old_self_unit":"self.unit","old_self_zero":"self.zero"},"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, dom, *ext, alias=None):
         r"""
         Parameters
@@ -364,58 +381,87 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain):
         self._nilradicals_mod_p = {}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(ele), new produces the expected output) over Any  ║
+# ║ Path(new(element), self.dtype(element, self.mod.to_list(), self.dom)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dtype(element, self.mod.to_list(), s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 11a768f5053038e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.new","kind":"method","src_hash":"e1835ef26ed713e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(ele)","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11a768f5053038e0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.new","kind":"method","src_hash":"e1835ef26ed713e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(element)","rhs":"self.dtype(element, self.mod.to_list(), self.dom)","over":{"base":"Any"},"name":"new_correct"},"guarantee":"returns self.dtype(element, self.mod.to_list(), self.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11a768f5053038e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dtype(element, self.mod.to_list(), self.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.dtype","self.mod"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(self, element):
         return self.dtype(element, self.mod.to_list(), self.dom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), str(self.dom) + '<' + str(self.ext) + '>') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self.dom) + '<' + str(self.ext) + '>'      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5ec661c402840f27           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.__str__","kind":"method","src_hash":"92cc4d672d43411a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ec661c402840f27"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.__str__","kind":"method","src_hash":"92cc4d672d43411a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"str(self.dom) + '<' + str(self.ext) + '>'","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns str(self.dom) + '<' + str(self.ext) + '>'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ec661c402840f27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self.dom) + '<' + str(self.ext) + '>'","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.ext"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return str(self.dom) + '<' + str(self.ext) + '>'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((self.__class__.__name__, self.dtype, self.dom, self.ext))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((self.__class__.__name__, self.dtype...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1204c7990feef1b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.__hash__","kind":"method","src_hash":"cd3a159f5cea7728","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1204c7990feef1b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.__hash__","kind":"method","src_hash":"cd3a159f5cea7728","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((self.__class__.__name__, self.dtype, self.dom, self.ext))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((self.__class__.__name__, self.dtype, self.dom, self.ext))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1204c7990feef1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((self.__class__.__name__, self.dtype, self.dom, self.ext))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.dom","self.dtype","self.ext"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((self.__class__.__name__, self.dtype, self.dom, self.ext))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), result == (self.dtype == other.dtype and self.ext == other.ext if isinstance(other, AlgebraicField) else NotImplemented) and result == self.dtype == other.dtype and self.ext == other.ext or result == NotImplemented) over {Any | hasattr(other, 'dtype') and hasattr(other, 'ext')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'dtype')                        ║
+# ║   requires: hasattr(other, 'ext')                          ║
+# ║   ensures:  result == (self.dtype == other.dtype and ...   ║
+# ║   ensures:  result == self.dtype == other.dtype and s...   ║
+# ║   fiber[AlgebraicField]: isinstance(other, AlgebraicF...   ║
+# ║   fiber[AlgebraicField]: not (isinstance(other, Algeb...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'dtype') and hasattr(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 59d24de16a9c7273           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.__eq__","kind":"method","src_hash":"768fbbcd68f1033e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59d24de16a9c7273"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.__eq__","kind":"method","src_hash":"768fbbcd68f1033e","in":{"base":"Any","pred":"hasattr(other, 'dtype') and hasattr(other, 'ext')"},"out":{"base":"Any","pred":"result satisfies: result == (self.dtype == other.dtype and self.ext == other.ext if isinstance(other, AlgebraicField) else NotImplemented) and result == self.dtype == other.dtype and self.ext == other.ext or result == NotImplemented"},"spec":{"lhs":"__eq__(other)","rhs":"result == (self.dtype == other.dtype and self.ext == other.ext if isinstance(other, AlgebraicField) else NotImplemented) and result == self.dtype == other.dtype and self.ext == other.ext or result == NotImplemented","over":{"base":"Any","pred":"hasattr(other, 'dtype') and hasattr(other, 'ext')"},"name":"__eq___correct"},"guarantee":"result == (self.dtype == other.dtype and self.ext == other.ext if isinstance(other, AlgebraicField) else NotImplemented); result == self.dtype == other.dtype and self.ext == other.ext or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59d24de16a9c7273","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'dtype')","hasattr(other, 'ext')"],"ensures":["result == (self.dtype == other.dtype and self.ext == other.ext if isinstance(other, AlgebraicField) else NotImplemented)","result == self.dtype == other.dtype and self.ext == other.ext or result == NotImplemented"],"fibers":[{"name":"AlgebraicField","guard":"isinstance(other, AlgebraicField)","ensures":["result == self.dtype == other.dtype and self.ext == other.ext"],"decidability":"structural","returns_expr":"self.dtype == other.dtype and self.ext == other.ext"},{"name":"AlgebraicField","guard":"not (isinstance(other, AlgebraicField))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.dtype","other.ext","self.dtype","self.ext"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Returns ``True`` if two domains are equivalent. """
         if isinstance(other, AlgebraicField):
@@ -424,46 +470,64 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(algebraic_field(*ex), returns an algebraic field, i.e) over Any ║
+# ║ Path(algebraic_field(*extension, alias), AlgebraicField(self.dom, *(self.ext,) + extension, alias=alias)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  AlgebraicField(self.dom, *(self.ext,) + e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ algebraic_field : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1386a6a9f871af3a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.algebraic_field","kind":"method","src_hash":"9a98cd46fac00a18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"algebraic_field(*ex)","rhs":"returns an algebraic field, i.e","over":{"base":"Any"},"name":"algebraic_field_correct"},"guarantee":"returns an algebraic field, i.e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1386a6a9f871af3a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.algebraic_field","kind":"method","src_hash":"9a98cd46fac00a18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"algebraic_field(*extension, alias)","rhs":"AlgebraicField(self.dom, *(self.ext,) + extension, alias=alias)","over":{"base":"Any"},"name":"algebraic_field_correct"},"guarantee":"returns AlgebraicField(self.dom, *(self.ext,) + extension, alias=alias)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1386a6a9f871af3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"AlgebraicField(self.dom, *(self.ext,) + extension, alias=alias)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.ext"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def algebraic_field(self, *extension, alias=None):
         r"""Returns an algebraic field, i.e. `\mathbb{Q}(\alpha, \ldots)`. """
         return AlgebraicField(self.dom, *((self.ext,) + extension), alias=alias)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_alg_num(a), convert ``a`` of ``dtype`` to an :py:class:`~.algebraicnumber`) over Any ║
+# ║ Path(to_alg_num(a), self.ext.field_element(a)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ext.field_element(a)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_alg_num : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 313a9c7baa83e5ca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.to_alg_num","kind":"method","src_hash":"0125b7b2afcb7d79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_alg_num(a)","rhs":"convert ``a`` of ``dtype`` to an :py:class:`~.algebraicnumber`","over":{"base":"Any"},"name":"to_alg_num_correct"},"guarantee":"convert ``a`` of ``dtype`` to an :py:class:`~.algebraicnumber`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"313a9c7baa83e5ca"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.to_alg_num","kind":"method","src_hash":"0125b7b2afcb7d79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_alg_num(a)","rhs":"self.ext.field_element(a)","over":{"base":"Any"},"name":"to_alg_num_correct"},"guarantee":"returns self.ext.field_element(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"313a9c7baa83e5ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ext.field_element(a)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ext"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_alg_num(self, a):
         """Convert ``a`` of ``dtype`` to an :py:class:`~.AlgebraicNumber`. """
         return self.ext.field_element(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(a), convert ``a`` of ``dtype`` to a sympy object) over Any ║
+# ║ Path(to_sympy(a), self._converter(a)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._converter(a)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_sympy : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | faba0c1de8f95971  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 052c84828201c05b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.to_sympy","kind":"method","src_hash":"64c92a6c84d2e29d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"convert ``a`` of ``dtype`` to a sympy object","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"convert ``a`` of ``dtype`` to a sympy object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField.to_sympy_correct","statement":"Path(to_sympy(x), convert ``a`` of ``dtype`` to a sympy object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"faba0c1de8f95971"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.to_sympy","kind":"method","src_hash":"64c92a6c84d2e29d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"self._converter(a)","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"returns self._converter(a)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField.to_sympy_correct","statement":"Path(to_sympy(x), returns self._converter(a))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"052c84828201c05b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._converter(a)","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._converter"],"writes":["self._converter"]},"state_contract":{"modifies":["self._converter"],"old_bindings":{"old_self__converter":"self._converter"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self, a):
         """Convert ``a`` of ``dtype`` to a SymPy object. """
         # Precompute a converter to be reused:
@@ -475,14 +539,20 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(from_sympy(a), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ from_sympy : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d6ea671da80a5b6e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_sympy","kind":"method","src_hash":"2732c4ca30c14a93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"convert sympy's expression to ``dtype``","over":{"base":"Any"},"name":"from_sympy_correct","kind":"composition"},"guarantee":"convert sympy's expression to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"self","by":"library_axiom"},{"fn":"from_sympy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6ea671da80a5b6e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_sympy","kind":"method","src_hash":"2732c4ca30c14a93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"<unspecified:from_sympy>","over":{"base":"Any"},"name":"from_sympy_correct","kind":"composition"},"guarantee":"convert sympy's expression to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"self","by":"library_axiom"},{"fn":"from_sympy","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6ea671da80a5b6e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.ext"],"raises":["CoercionFailed"],"catches":["CoercionFailed"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(self, a):
         """Convert SymPy's expression to ``dtype``. """
         try:
@@ -499,271 +569,397 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain):
                 "%s is not a valid algebraic number in %s" % (a, self))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ(K1,), convert a python ``int`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ(K1, a, K0), K1(K1.dom.convert(a, K0))) over {Any | hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1(K1.dom.convert(a, K0))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ : {Any | hasattr(K1, 'dom')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4015a6fc711e9316           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_ZZ","kind":"method","src_hash":"fd90c4c82a71a3c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1,)","rhs":"convert a python ``int`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_correct"},"guarantee":"convert a python ``int`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4015a6fc711e9316"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_ZZ","kind":"method","src_hash":"fd90c4c82a71a3c6","in":{"base":"Any","pred":"hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1, a, K0)","rhs":"K1(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'dom')"},"name":"from_ZZ_correct"},"guarantee":"returns K1(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4015a6fc711e9316","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dom')"],"returns_expr":"K1(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ(K1, a, K0):
         """Convert a Python ``int`` object to ``dtype``. """
         return K1(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_python(K1,), convert a python ``int`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ_python(K1, a, K0), K1(K1.dom.convert(a, K0))) over {Any | hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1(K1.dom.convert(a, K0))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ_python : {Any | hasattr(K1, 'dom')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 282780d80038f6ed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_ZZ_python","kind":"method","src_hash":"da4655faf223818a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1,)","rhs":"convert a python ``int`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"convert a python ``int`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"282780d80038f6ed"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_ZZ_python","kind":"method","src_hash":"da4655faf223818a","in":{"base":"Any","pred":"hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1, a, K0)","rhs":"K1(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'dom')"},"name":"from_ZZ_python_correct"},"guarantee":"returns K1(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"282780d80038f6ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dom')"],"returns_expr":"K1(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_python(K1, a, K0):
         """Convert a Python ``int`` object to ``dtype``. """
         return K1(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ(K1,), convert a python ``fraction`` object to ``dtype``) over Any ║
+# ║ Path(from_QQ(K1, a, K0), K1(K1.dom.convert(a, K0))) over {Any | hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1(K1.dom.convert(a, K0))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ : {Any | hasattr(K1, 'dom')} → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a9d8a75521ca132f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_QQ","kind":"method","src_hash":"104aec2f775cbb29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(K1,)","rhs":"convert a python ``fraction`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_correct"},"guarantee":"convert a python ``fraction`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9d8a75521ca132f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_QQ","kind":"method","src_hash":"104aec2f775cbb29","in":{"base":"Any","pred":"hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(K1, a, K0)","rhs":"K1(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'dom')"},"name":"from_QQ_correct"},"guarantee":"returns K1(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9d8a75521ca132f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dom')"],"returns_expr":"K1(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ(K1, a, K0):
         """Convert a Python ``Fraction`` object to ``dtype``. """
         return K1(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_python(K1,), convert a python ``fraction`` object to ``dtype``) over Any ║
+# ║ Path(from_QQ_python(K1, a, K0), K1(K1.dom.convert(a, K0))) over {Any | hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1(K1.dom.convert(a, K0))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_python : {Any | hasattr(K1, 'dom')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7f4494920edea23           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_QQ_python","kind":"method","src_hash":"4b71ac11402d8017","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1,)","rhs":"convert a python ``fraction`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_python_correct"},"guarantee":"convert a python ``fraction`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7f4494920edea23"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_QQ_python","kind":"method","src_hash":"4b71ac11402d8017","in":{"base":"Any","pred":"hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1, a, K0)","rhs":"K1(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'dom')"},"name":"from_QQ_python_correct"},"guarantee":"returns K1(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7f4494920edea23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dom')"],"returns_expr":"K1(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_python(K1, a, K0):
         """Convert a Python ``Fraction`` object to ``dtype``. """
         return K1(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_gmpy(K1,), convert a gmpy ``mpz`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ_gmpy(K1, a, K0), K1(K1.dom.convert(a, K0))) over {Any | hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_ZZ_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1(K1.dom.convert(a, K0))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_ZZ_gmpy : {Any | hasattr(K1, 'dom')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a5ef4e1b77341a19           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_ZZ_gmpy","kind":"method","src_hash":"40c0d710ff9f6a13","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1,)","rhs":"convert a gmpy ``mpz`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"convert a gmpy ``mpz`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5ef4e1b77341a19"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_ZZ_gmpy","kind":"method","src_hash":"40c0d710ff9f6a13","in":{"base":"Any","pred":"hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1, a, K0)","rhs":"K1(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'dom')"},"name":"from_ZZ_gmpy_correct"},"guarantee":"returns K1(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a5ef4e1b77341a19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dom')"],"returns_expr":"K1(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_gmpy(K1, a, K0):
         """Convert a GMPY ``mpz`` object to ``dtype``. """
         return K1(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_gmpy(K1,), convert a gmpy ``mpq`` object to ``dtype``) over Any ║
+# ║ Path(from_QQ_gmpy(K1, a, K0), K1(K1.dom.convert(a, K0))) over {Any | hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1(K1.dom.convert(a, K0))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_gmpy : {Any | hasattr(K1, 'dom')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eef4d9a0c02293cd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_QQ_gmpy","kind":"method","src_hash":"61cdb900b631435d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1,)","rhs":"convert a gmpy ``mpq`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_gmpy_correct"},"guarantee":"convert a gmpy ``mpq`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eef4d9a0c02293cd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_QQ_gmpy","kind":"method","src_hash":"61cdb900b631435d","in":{"base":"Any","pred":"hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1, a, K0)","rhs":"K1(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'dom')"},"name":"from_QQ_gmpy_correct"},"guarantee":"returns K1(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eef4d9a0c02293cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dom')"],"returns_expr":"K1(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_gmpy(K1, a, K0):
         """Convert a GMPY ``mpq`` object to ``dtype``. """
         return K1(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_RealField(K1,), convert a mpmath ``mpf`` object to ``dtype``) over Any ║
+# ║ Path(from_RealField(K1, a, K0), K1(K1.dom.convert(a, K0))) over {Any | hasattr(K1, 'dom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_RealField : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'dom')                             ║
+# ║   returns:  K1(K1.dom.convert(a, K0))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_RealField : {Any | hasattr(K1, 'dom')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 26a63e389bfa4698           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_RealField","kind":"method","src_hash":"05631be0527680a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1,)","rhs":"convert a mpmath ``mpf`` object to ``dtype``","over":{"base":"Any"},"name":"from_RealField_correct"},"guarantee":"convert a mpmath ``mpf`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26a63e389bfa4698"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_RealField","kind":"method","src_hash":"05631be0527680a0","in":{"base":"Any","pred":"hasattr(K1, 'dom')"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1, a, K0)","rhs":"K1(K1.dom.convert(a, K0))","over":{"base":"Any","pred":"hasattr(K1, 'dom')"},"name":"from_RealField_correct"},"guarantee":"returns K1(K1.dom.convert(a, K0))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26a63e389bfa4698","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'dom')"],"returns_expr":"K1(K1.dom.convert(a, K0))","pure":false,"effects":{"effect_type":"reads_state","reads":["K1.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_RealField(K1, a, K0):
         """Convert a mpmath ``mpf`` object to ``dtype``. """
         return K1(K1.dom.convert(a, K0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_ring(), returns a ring associated with ``self``) over Any ║
+# ║ Path(get_ring(), <unspecified:get_ring>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_ring : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72cb5e0699689ccc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.get_ring","kind":"method","src_hash":"e749ecd3b2a4d68c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"returns a ring associated with ``self``","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns a ring associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField.get_ring_correct","statement":"Path(get_ring(x), returns a ring associated with ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72cb5e0699689ccc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.get_ring","kind":"method","src_hash":"e749ecd3b2a4d68c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"<unspecified:get_ring>","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns a ring associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField.get_ring_correct","statement":"Path(get_ring(x), returns a ring associated with ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72cb5e0699689ccc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["DomainError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_ring(self):
         """Returns a ring associated with ``self``. """
         raise DomainError('there is no ring associated with %s' % self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_positive(a), returns true if ``a`` is positive) over Any ║
+# ║ Path(is_positive(a), self.dom.is_positive(a.LC())) over {Any | hasattr(a, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_positive : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'LC')                               ║
+# ║   returns:  self.dom.is_positive(a.LC())                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_positive : {Any | hasattr(a, 'LC')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69f58a6736004908           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.is_positive","kind":"method","src_hash":"ce974c079d1569f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_positive(a)","rhs":"returns true if ``a`` is positive","over":{"base":"Any"},"name":"is_positive_correct"},"guarantee":"returns true if ``a`` is positive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69f58a6736004908"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.is_positive","kind":"method","src_hash":"ce974c079d1569f9","in":{"base":"Any","pred":"hasattr(a, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"is_positive(a)","rhs":"self.dom.is_positive(a.LC())","over":{"base":"Any","pred":"hasattr(a, 'LC')"},"name":"is_positive_correct"},"guarantee":"returns self.dom.is_positive(a.LC())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69f58a6736004908","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'LC')"],"returns_expr":"self.dom.is_positive(a.LC())","pure":false,"effects":{"effect_type":"reads_state","reads":["a.LC","self.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_positive(self, a):
         """Returns True if ``a`` is positive. """
         return self.dom.is_positive(a.LC())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_negative(a), returns true if ``a`` is negative) over Any ║
+# ║ Path(is_negative(a), self.dom.is_negative(a.LC())) over {Any | hasattr(a, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_negative : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'LC')                               ║
+# ║   returns:  self.dom.is_negative(a.LC())                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_negative : {Any | hasattr(a, 'LC')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d654aa0350c5c60           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.is_negative","kind":"method","src_hash":"c72b0e8d2bcc7de3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_negative(a)","rhs":"returns true if ``a`` is negative","over":{"base":"Any"},"name":"is_negative_correct"},"guarantee":"returns true if ``a`` is negative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d654aa0350c5c60"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.is_negative","kind":"method","src_hash":"c72b0e8d2bcc7de3","in":{"base":"Any","pred":"hasattr(a, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"is_negative(a)","rhs":"self.dom.is_negative(a.LC())","over":{"base":"Any","pred":"hasattr(a, 'LC')"},"name":"is_negative_correct"},"guarantee":"returns self.dom.is_negative(a.LC())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d654aa0350c5c60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'LC')"],"returns_expr":"self.dom.is_negative(a.LC())","pure":false,"effects":{"effect_type":"reads_state","reads":["a.LC","self.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_negative(self, a):
         """Returns True if ``a`` is negative. """
         return self.dom.is_negative(a.LC())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nonpositive(a), returns true if ``a`` is non-positive) over Any ║
+# ║ Path(is_nonpositive(a), self.dom.is_nonpositive(a.LC())) over {Any | hasattr(a, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_nonpositive : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'LC')                               ║
+# ║   returns:  self.dom.is_nonpositive(a.LC())                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_nonpositive : {Any | hasattr(a, 'LC')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b3d848e7410ff3c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.is_nonpositive","kind":"method","src_hash":"8e5bbb657b9d0186","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonpositive(a)","rhs":"returns true if ``a`` is non-positive","over":{"base":"Any"},"name":"is_nonpositive_correct"},"guarantee":"returns true if ``a`` is non-positive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3d848e7410ff3c3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.is_nonpositive","kind":"method","src_hash":"8e5bbb657b9d0186","in":{"base":"Any","pred":"hasattr(a, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"is_nonpositive(a)","rhs":"self.dom.is_nonpositive(a.LC())","over":{"base":"Any","pred":"hasattr(a, 'LC')"},"name":"is_nonpositive_correct"},"guarantee":"returns self.dom.is_nonpositive(a.LC())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3d848e7410ff3c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'LC')"],"returns_expr":"self.dom.is_nonpositive(a.LC())","pure":false,"effects":{"effect_type":"reads_state","reads":["a.LC","self.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nonpositive(self, a):
         """Returns True if ``a`` is non-positive. """
         return self.dom.is_nonpositive(a.LC())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nonnegative(a), returns true if ``a`` is non-negative) over Any ║
+# ║ Path(is_nonnegative(a), self.dom.is_nonnegative(a.LC())) over {Any | hasattr(a, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_nonnegative : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'LC')                               ║
+# ║   returns:  self.dom.is_nonnegative(a.LC())                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_nonnegative : {Any | hasattr(a, 'LC')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 527f6b84b82658f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.is_nonnegative","kind":"method","src_hash":"42b464c6bee177b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nonnegative(a)","rhs":"returns true if ``a`` is non-negative","over":{"base":"Any"},"name":"is_nonnegative_correct"},"guarantee":"returns true if ``a`` is non-negative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"527f6b84b82658f6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.is_nonnegative","kind":"method","src_hash":"42b464c6bee177b8","in":{"base":"Any","pred":"hasattr(a, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"is_nonnegative(a)","rhs":"self.dom.is_nonnegative(a.LC())","over":{"base":"Any","pred":"hasattr(a, 'LC')"},"name":"is_nonnegative_correct"},"guarantee":"returns self.dom.is_nonnegative(a.LC())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"527f6b84b82658f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'LC')"],"returns_expr":"self.dom.is_nonnegative(a.LC())","pure":false,"effects":{"effect_type":"reads_state","reads":["a.LC","self.dom"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nonnegative(self, a):
         """Returns True if ``a`` is non-negative. """
         return self.dom.is_nonnegative(a.LC())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(numer(a), returns numerator of ``a``) over Any        ║
+# ║ Path(numer(a), a) over Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ numer : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ numer : Any → {Any | result satisfies: result == (a)}      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 83b3501b199f6090           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.numer","kind":"method","src_hash":"8f2c757a6dbb4417","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numer(a)","rhs":"returns numerator of ``a``","over":{"base":"Any"},"name":"numer_correct"},"guarantee":"returns numerator of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83b3501b199f6090"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.numer","kind":"method","src_hash":"8f2c757a6dbb4417","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"numer(a)","rhs":"a","over":{"base":"Any"},"name":"numer_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83b3501b199f6090","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def numer(self, a):
         """Returns numerator of ``a``. """
         return a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(denom(a), returns denominator of ``a``) over Any      ║
+# ║ Path(denom(a), self.one) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.one                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ denom : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 95058ae34d735a0c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.denom","kind":"method","src_hash":"4a49d118833a5517","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"denom(a)","rhs":"returns denominator of ``a``","over":{"base":"Any"},"name":"denom_correct"},"guarantee":"returns denominator of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95058ae34d735a0c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.denom","kind":"method","src_hash":"4a49d118833a5517","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"denom(a)","rhs":"self.one","over":{"base":"Any"},"name":"denom_correct"},"guarantee":"returns self.one","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95058ae34d735a0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.one","pure":false,"effects":{"effect_type":"reads_state","reads":["self.one"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def denom(self, a):
         """Returns denominator of ``a``. """
         return self.one
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_AlgebraicField(K1,), convert algebraicfield element 'a' to another algebraicfield) over Any ║
+# ║ Path(from_AlgebraicField(K1, a, K0), K1.from_sympy(K0.to_sympy(a))) over {Any | hasattr(K1, 'from_sympy') and hasattr(K0, 'to_sympy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_AlgebraicField : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'from_sympy')                      ║
+# ║   requires: hasattr(K0, 'to_sympy')                        ║
+# ║   returns:  K1.from_sympy(K0.to_sympy(a))                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_AlgebraicField : {Any | hasattr(K1, 'from_sympy'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7c3b5be7be95457b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_AlgebraicField","kind":"method","src_hash":"5a866140d8b71ad7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(K1,)","rhs":"convert algebraicfield element 'a' to another algebraicfield","over":{"base":"Any"},"name":"from_AlgebraicField_correct"},"guarantee":"convert algebraicfield element 'a' to another algebraicfield","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c3b5be7be95457b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_AlgebraicField","kind":"method","src_hash":"5a866140d8b71ad7","in":{"base":"Any","pred":"hasattr(K1, 'from_sympy') and hasattr(K0, 'to_sympy')"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(K1, a, K0)","rhs":"K1.from_sympy(K0.to_sympy(a))","over":{"base":"Any","pred":"hasattr(K1, 'from_sympy') and hasattr(K0, 'to_sympy')"},"name":"from_AlgebraicField_correct"},"guarantee":"returns K1.from_sympy(K0.to_sympy(a))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7c3b5be7be95457b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'from_sympy')","hasattr(K0, 'to_sympy')"],"returns_expr":"K1.from_sympy(K0.to_sympy(a))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.to_sympy","K1.from_sympy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_AlgebraicField(K1, a, K0):
         """Convert AlgebraicField element 'a' to another AlgebraicField """
         return K1.from_sympy(K0.to_sympy(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_GaussianIntegerRing(K1,), convert a gaussianinteger element 'a' to ``dtype``) over Any ║
+# ║ Path(from_GaussianIntegerRing(K1, a, K0), K1.from_sympy(K0.to_sympy(a))) over {Any | hasattr(K1, 'from_sympy') and hasattr(K0, 'to_sympy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_GaussianIntegerRing : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'from_sympy')                      ║
+# ║   requires: hasattr(K0, 'to_sympy')                        ║
+# ║   returns:  K1.from_sympy(K0.to_sympy(a))                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_GaussianIntegerRing : {Any | hasattr(K1, 'from_s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5d5d71c84fceeb10           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_GaussianIntegerRing","kind":"method","src_hash":"f3a430074b5bdc35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianIntegerRing(K1,)","rhs":"convert a gaussianinteger element 'a' to ``dtype``","over":{"base":"Any"},"name":"from_GaussianIntegerRing_correct"},"guarantee":"convert a gaussianinteger element 'a' to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d5d71c84fceeb10"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_GaussianIntegerRing","kind":"method","src_hash":"f3a430074b5bdc35","in":{"base":"Any","pred":"hasattr(K1, 'from_sympy') and hasattr(K0, 'to_sympy')"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianIntegerRing(K1, a, K0)","rhs":"K1.from_sympy(K0.to_sympy(a))","over":{"base":"Any","pred":"hasattr(K1, 'from_sympy') and hasattr(K0, 'to_sympy')"},"name":"from_GaussianIntegerRing_correct"},"guarantee":"returns K1.from_sympy(K0.to_sympy(a))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5d5d71c84fceeb10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'from_sympy')","hasattr(K0, 'to_sympy')"],"returns_expr":"K1.from_sympy(K0.to_sympy(a))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.to_sympy","K1.from_sympy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_GaussianIntegerRing(K1, a, K0):
         """Convert a GaussianInteger element 'a' to ``dtype``. """
         return K1.from_sympy(K0.to_sympy(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_GaussianRationalField(K1,), convert a gaussianrational element 'a' to ``dtype``) over Any ║
+# ║ Path(from_GaussianRationalField(K1, a, K0), K1.from_sympy(K0.to_sympy(a))) over {Any | hasattr(K1, 'from_sympy') and hasattr(K0, 'to_sympy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_GaussianRationalField : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K1, 'from_sympy')                      ║
+# ║   requires: hasattr(K0, 'to_sympy')                        ║
+# ║   returns:  K1.from_sympy(K0.to_sympy(a))                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_GaussianRationalField : {Any | hasattr(K1, 'from...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 450edf1660dbf3fd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_GaussianRationalField","kind":"method","src_hash":"3acfd1bfd9f5cf99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianRationalField(K1,)","rhs":"convert a gaussianrational element 'a' to ``dtype``","over":{"base":"Any"},"name":"from_GaussianRationalField_correct"},"guarantee":"convert a gaussianrational element 'a' to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"450edf1660dbf3fd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.from_GaussianRationalField","kind":"method","src_hash":"3acfd1bfd9f5cf99","in":{"base":"Any","pred":"hasattr(K1, 'from_sympy') and hasattr(K0, 'to_sympy')"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianRationalField(K1, a, K0)","rhs":"K1.from_sympy(K0.to_sympy(a))","over":{"base":"Any","pred":"hasattr(K1, 'from_sympy') and hasattr(K0, 'to_sympy')"},"name":"from_GaussianRationalField_correct"},"guarantee":"returns K1.from_sympy(K0.to_sympy(a))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"450edf1660dbf3fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K1, 'from_sympy')","hasattr(K0, 'to_sympy')"],"returns_expr":"K1.from_sympy(K0.to_sympy(a))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.to_sympy","K1.from_sympy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_GaussianRationalField(K1, a, K0):
         """Convert a GaussianRational element 'a' to ``dtype``. """
         return K1.from_sympy(K0.to_sympy(a))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_do_round_two(), internal helper behaves correctly) over Any ║
+# ║ Path(_do_round_two(), <unspecified:_do_round_two>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _do_round_two : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8bd4068c4fae840  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField._do_round_two","kind":"method","src_hash":"b0f930d500d07617","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_do_round_two()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_do_round_two_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField._do_round_two_correct","statement":"Path(_do_round_two(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8bd4068c4fae840"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField._do_round_two","kind":"method","src_hash":"b0f930d500d07617","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_do_round_two()","rhs":"<unspecified:_do_round_two>","over":{"base":"Any"},"name":"_do_round_two_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField._do_round_two_correct","statement":"Path(_do_round_two(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8bd4068c4fae840","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._nilradicals_mod_p"],"writes":["self._discriminant","self._maximal_order"]},"state_contract":{"modifies":["self._discriminant","self._maximal_order"],"old_bindings":{"old_self__discriminant":"self._discriminant","old_self__maximal_order":"self._maximal_order"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _do_round_two(self):
         from sympy.polys.numberfields.basis import round_two
         ZK, dK = round_two(self, radicals=self._nilradicals_mod_p)
@@ -771,16 +967,22 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain):
         self._discriminant = dK
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(maximal_order(), compute the maximal order, or ring of integers, of the field) over Any ║
+# ║ Path(maximal_order(), self._maximal_order) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._maximal_order                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ maximal_order : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bbf6c8903e497c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7749b7509779c5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.maximal_order","kind":"method","src_hash":"0889b3455d465dcf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maximal_order()","rhs":"compute the maximal order, or ring of integers, of the field","over":{"base":"Any"},"name":"maximal_order_correct"},"guarantee":"compute the maximal order, or ring of integers, of the field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField.maximal_order_correct","statement":"Path(maximal_order(x), compute the maximal order, or ring of integers, of the field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bbf6c8903e497c2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.maximal_order","kind":"method","src_hash":"0889b3455d465dcf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"maximal_order()","rhs":"self._maximal_order","over":{"base":"Any"},"name":"maximal_order_correct"},"guarantee":"returns self._maximal_order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField.maximal_order_correct","statement":"Path(maximal_order(x), returns self._maximal_order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7749b7509779c5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._maximal_order","pure":false,"effects":{"effect_type":"reads_state","reads":["self._do_round_two","self._maximal_order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def maximal_order(self):
         """
         Compute the maximal order, or ring of integers, of the field.
@@ -801,16 +1003,25 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain):
         return self._maximal_order
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integral_basis(fmt), get an integral basis for the field) over Any ║
+# ║ Path(integral_basis(fmt), result == ([self.to_sympy(b) for b in B] if fmt == 'sympy' else [self.to_alg_num(b) for b in B]) and result == [self.to_sympy(b) for b in B] or result == [self.to_alg_num(b) for b in B]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ integral_basis : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ([self.to_sympy(b) for b in B] ...   ║
+# ║   ensures:  result == [self.to_sympy(b) for b in B] o...   ║
+# ║   fiber[case_0]: fmt == 'sympy' => [self.to_sympy(b) ...   ║
+# ║   fiber[case_1]: fmt == 'alg' => [self.to_alg_num(b) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ integral_basis : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3a80db57db4e7e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 312383960ce03be5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.integral_basis","kind":"method","src_hash":"b99430e2cd67486f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integral_basis(fmt)","rhs":"get an integral basis for the field","over":{"base":"Any"},"name":"integral_basis_correct"},"guarantee":"get an integral basis for the field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField.integral_basis_correct","statement":"Path(integral_basis(x), get an integral basis for the field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3a80db57db4e7e3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.integral_basis","kind":"method","src_hash":"b99430e2cd67486f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ([self.to_sympy(b) for b in B] if fmt == 'sympy' else [self.to_alg_num(b) for b in B]) and result == [self.to_sympy(b) for b in B] or result == [self.to_alg_num(b) for b in B]"},"spec":{"lhs":"integral_basis(fmt)","rhs":"result == ([self.to_sympy(b) for b in B] if fmt == 'sympy' else [self.to_alg_num(b) for b in B]) and result == [self.to_sympy(b) for b in B] or result == [self.to_alg_num(b) for b in B]","over":{"base":"Any"},"name":"integral_basis_correct"},"guarantee":"result == ([self.to_sympy(b) for b in B] if fmt == 'sympy' else [self.to_alg_num(b) for b in B]); result == [self.to_sympy(b) for b in B] or result == [self.to_alg_num(b) for b in B]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField.integral_basis_correct","statement":"Path(integral_basis(x), result == ([self.to_sympy(b) for b in B] if fmt == 'sympy' else [self.to_alg_num(b) for b in B]); result == [self.to_sympy(b) for b in B] or result == [self.to_alg_num(b) for b in B]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"312383960ce03be5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ([self.to_sympy(b) for b in B] if fmt == 'sympy' else [self.to_alg_num(b) for b in B])","result == [self.to_sympy(b) for b in B] or result == [self.to_alg_num(b) for b in B]"],"fibers":[{"name":"case_0","guard":"fmt == 'sympy'","ensures":["result == [self.to_sympy(b) for b in B]"],"decidability":"z3","returns_expr":"[self.to_sympy(b) for b in B]"},{"name":"case_1","guard":"fmt == 'alg'","ensures":["result == [self.to_alg_num(b) for b in B]"],"decidability":"z3","returns_expr":"[self.to_alg_num(b) for b in B]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.maximal_order","self.new","self.to_alg_num","self.to_sympy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def integral_basis(self, fmt=None):
         r"""
         Get an integral basis for the field.
@@ -867,16 +1078,22 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain):
         return B
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(discriminant(), get the discriminant of the field) over Any ║
+# ║ Path(discriminant(), self._discriminant) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._discriminant                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ discriminant : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fa68e0c88c34f14  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab134cf1a1ea3ad5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.discriminant","kind":"method","src_hash":"e043f805da815af3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"discriminant()","rhs":"get the discriminant of the field","over":{"base":"Any"},"name":"discriminant_correct"},"guarantee":"get the discriminant of the field","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField.discriminant_correct","statement":"Path(discriminant(x), get the discriminant of the field)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fa68e0c88c34f14"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.discriminant","kind":"method","src_hash":"e043f805da815af3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"discriminant()","rhs":"self._discriminant","over":{"base":"Any"},"name":"discriminant_correct"},"guarantee":"returns self._discriminant","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField.discriminant_correct","statement":"Path(discriminant(x), returns self._discriminant)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab134cf1a1ea3ad5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._discriminant","pure":false,"effects":{"effect_type":"reads_state","reads":["self._discriminant","self._do_round_two"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def discriminant(self):
         """Get the discriminant of the field."""
         if self._discriminant is None:
@@ -884,16 +1101,22 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain):
         return self._discriminant
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(primes_above(p), compute the prime ideals lying above a given rational prime *p*) over Any ║
+# ║ Path(primes_above(p), prime_decomp(p, ZK=ZK, dK=dK, radical=rad)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prime_decomp(p, ZK=ZK, dK=dK, radical=rad)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ primes_above : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8fa9c8f186145ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2ecc12ca76d72d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.primes_above","kind":"method","src_hash":"747a1f148593f2b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primes_above(p)","rhs":"compute the prime ideals lying above a given rational prime *p*","over":{"base":"Any"},"name":"primes_above_correct"},"guarantee":"compute the prime ideals lying above a given rational prime *p*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField.primes_above_correct","statement":"Path(primes_above(x), compute the prime ideals lying above a given rational prime *p*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8fa9c8f186145ae"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.primes_above","kind":"method","src_hash":"747a1f148593f2b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primes_above(p)","rhs":"prime_decomp(p, ZK=ZK, dK=dK, radical=rad)","over":{"base":"Any"},"name":"primes_above_correct"},"guarantee":"returns prime_decomp(p, ZK=ZK, dK=dK, radical=rad)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield.AlgebraicField.primes_above_correct","statement":"Path(primes_above(x), returns prime_decomp(p, ZK=ZK, dK=dK, radical=rad))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2ecc12ca76d72d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prime_decomp(p, ZK=ZK, dK=dK, radical=rad)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._nilradicals_mod_p","self.discriminant","self.maximal_order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def primes_above(self, p):
         """Compute the prime ideals lying above a given rational prime *p*."""
         from sympy.polys.numberfields.primes import prime_decomp
@@ -903,16 +1126,22 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain):
         return prime_decomp(p, ZK=ZK, dK=dK, radical=rad)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(galois_group(by_), id) over Any                       ║
+# ║ Path(galois_group(by_name, max_tries, randomize), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ext.minpoly_of_element().galois_grou...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ galois_group : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4a994c11091ad6a5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.galois_group","kind":"method","src_hash":"8279778f6be00739","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"galois_group(by_)","rhs":"compute the galois group of the galois closure of this field","over":{"base":"Any"},"name":"galois_group_correct","kind":"composition"},"guarantee":"compute the galois group of the galois closure of this field","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"minpoly_of_element","by":"library_axiom"},{"fn":"galois_group","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a994c11091ad6a5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield.AlgebraicField.galois_group","kind":"method","src_hash":"8279778f6be00739","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"galois_group(by_name, max_tries, randomize)","rhs":"self.ext.minpoly_of_element().galois_group(by_name=by_name, max_tries=max_tries, randomize=randomize)","over":{"base":"Any"},"name":"galois_group_correct","kind":"composition"},"guarantee":"returns self.ext.minpoly_of_element().galois_group(by_name=by_name, max_tries=max_tries, randomize=randomize)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"minpoly_of_element","by":"library_axiom"},{"fn":"galois_group","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a994c11091ad6a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ext.minpoly_of_element().galois_group(by_name=by_name, max_tries=max_tries, randomize=randomize)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ext"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def galois_group(self, by_name=False, max_tries=30, randomize=False):
         """
         Compute the Galois group of the Galois closure of this field.
@@ -950,16 +1179,25 @@ class AlgebraicField(Field, CharacteristicZero, SimpleDomain):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_make_converter(K), construct the converter to convert back to expr) over Any ║
+# ║ Path(_make_converter(K), <unspecified:_make_converter>) over {Any | hasattr(K, 'dom') and hasattr(K, 'ext') and hasattr(K, 'mod')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _make_converter : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'dom')                              ║
+# ║   requires: hasattr(K, 'ext')                              ║
+# ║   requires: hasattr(K, 'mod')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _make_converter : {Any | hasattr(K, 'dom') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 687c5ed1d883c904  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield._make_converter","kind":"function","src_hash":"f0d4dd0f26a0869c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_make_converter(K)","rhs":"construct the converter to convert back to expr","over":{"base":"Any"},"name":"_make_converter_correct"},"guarantee":"construct the converter to convert back to expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield._make_converter_correct","statement":"Path(_make_converter(x), construct the converter to convert back to expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"687c5ed1d883c904"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.algebraicfield._make_converter","kind":"function","src_hash":"f0d4dd0f26a0869c","in":{"base":"Any","pred":"hasattr(K, 'dom') and hasattr(K, 'ext') and hasattr(K, 'mod')"},"out":{"base":"Any"},"spec":{"lhs":"_make_converter(K)","rhs":"<unspecified:_make_converter>","over":{"base":"Any","pred":"hasattr(K, 'dom') and hasattr(K, 'ext') and hasattr(K, 'mod')"},"name":"_make_converter_correct"},"guarantee":"construct the converter to convert back to expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.algebraicfield._make_converter_correct","statement":"Path(_make_converter(x), construct the converter to convert back to expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"687c5ed1d883c904","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'dom')","hasattr(K, 'ext')","hasattr(K, 'mod')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _make_converter(K):
     """Construct the converter to convert back to Expr"""
     # Precompute the effect of converting to SymPy and expanding expressions

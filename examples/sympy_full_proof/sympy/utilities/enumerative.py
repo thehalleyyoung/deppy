@@ -109,14 +109,19 @@ time that would be spent skipping over zeros.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PartComponent instance) preserved by PartComponent(*args) over {Any | isinstance(other, self.__class__)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PartComponent : {Any | isinstance(other, self.__class...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d83dd867ca5bbdd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.PartComponent","kind":"class","src_hash":"ee31b2e084c4d9fc","in":{"base":"Any","pred":"isinstance(other, self.__class__)"},"out":{"base":"Any"},"spec":{"lhs":"PartComponent(*args)","rhs":"correctly constructs a PartComponent instance","over":{"base":"Any","pred":"isinstance(other, self.__class__)"},"name":"PartComponent_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PartComponent instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'c') and hasattr(self, 'u') and hasattr(self, 'v')","kind":"class","induction":"structural on c, u, v"}],"methods_preserving":["__init__","__repr__","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d83dd867ca5bbdd"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.PartComponent","kind":"class","src_hash":"ee31b2e084c4d9fc","in":{"base":"Any","pred":"isinstance(other, self.__class__)"},"out":{"base":"Any"},"spec":{"lhs":"PartComponent(*args)","rhs":"correctly constructs a PartComponent instance","over":{"base":"Any","pred":"isinstance(other, self.__class__)"},"name":"PartComponent_class_invariant","kind":"invariant"},"guarantee":"preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'c') and hasattr(self, 'u') and hasattr(self, 'v')","kind":"class","induction":"structural on c, u, v"}],"methods_preserving":["__init__","__repr__","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d83dd867ca5bbdd","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'c')","hasattr(self, 'u')","hasattr(self, 'v')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function PartComponent not found in source"]}}
 class PartComponent:
     """Internal class used in support of the multiset partitions
     enumerators and the associated visitor functions.
@@ -132,16 +137,22 @@ class PartComponent:
     __slots__ = ('c', 'u', 'v')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6ddee611ac2c3203           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.PartComponent.__init__","kind":"method","src_hash":"196d1ad6d88db5f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ddee611ac2c3203"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.PartComponent.__init__","kind":"method","src_hash":"196d1ad6d88db5f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6ddee611ac2c3203","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         self.c = 0   # Component number
         self.u = 0   # The as yet unpartitioned amount in component c
@@ -153,31 +164,46 @@ class PartComponent:
                      # its u attribute.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'c:%d u:%d v:%d' % (self.c, self.u, self.v)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'c:%d u:%d v:%d' % (self.c, self.u, self.v)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5c1136bb67c23732           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.PartComponent.__repr__","kind":"method","src_hash":"bd1723459902a3fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c1136bb67c23732"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.PartComponent.__repr__","kind":"method","src_hash":"bd1723459902a3fc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'c:%d u:%d v:%d' % (self.c, self.u, self.v)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'c:%d u:%d v:%d' % (self.c, self.u, self.v)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c1136bb67c23732","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'c:%d u:%d v:%d' % (self.c, self.u, self.v)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.c","self.u","self.v"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         "for debug/algorithm animation purposes"
         return 'c:%d u:%d v:%d' % (self.c, self.u, self.v)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), isinstance(other, self.__class__) and self.c == other.c and (self.u == other.u) and (self.v == other.v)) over {Any | hasattr(other, 'c') and hasattr(other, 'u') and hasattr(other, 'v')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'c')                            ║
+# ║   requires: hasattr(other, 'u')                            ║
+# ║   requires: hasattr(other, 'v')                            ║
+# ║   returns:  isinstance(other, self.__class__) and sel...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'c') and hasattr(other...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f172d8a68b6f095b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.PartComponent.__eq__","kind":"method","src_hash":"a4d1e76e6f40b17a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f172d8a68b6f095b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.PartComponent.__eq__","kind":"method","src_hash":"a4d1e76e6f40b17a","in":{"base":"Any","pred":"hasattr(other, 'c') and hasattr(other, 'u') and hasattr(other, 'v')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"isinstance(other, self.__class__) and self.c == other.c and (self.u == other.u) and (self.v == other.v)","over":{"base":"Any","pred":"hasattr(other, 'c') and hasattr(other, 'u') and hasattr(other, 'v')"},"name":"__eq___correct"},"guarantee":"returns isinstance(other, self.__class__) and self.c == other.c and (self.u == other.u) and (self.v == other.v)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f172d8a68b6f095b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'c')","hasattr(other, 'u')","hasattr(other, 'v')"],"returns_expr":"isinstance(other, self.__class__) and self.c == other.c and (self.u == other.u) and (self.v == other.v)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","other.c","other.u","other.v","self.__class__","self.c","self.u","self.v"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Define  value oriented equality, which is useful for testers"""
         return (isinstance(other, self.__class__) and
@@ -186,16 +212,22 @@ class PartComponent:
                 self.v == other.v)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), defined for consistency with __eq__) over Any ║
+# ║ Path(__ne__(other), not self == other) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a67146bf94c7a258           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.PartComponent.__ne__","kind":"method","src_hash":"77b133d82212a0b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"defined for consistency with __eq__","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"defined for consistency with __eq__","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a67146bf94c7a258"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.PartComponent.__ne__","kind":"method","src_hash":"77b133d82212a0b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"not self == other","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a67146bf94c7a258","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):
         """Defined for consistency with __eq__"""
         return not self == other
@@ -216,16 +248,22 @@ class PartComponent:
 # - flag variable x takes on values True/False instead of 1/0
 #
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiset_partitions_taocp(mul), enumerates partitions of a multiset) over Any ║
+# ║ Path(multiset_partitions_taocp(multiplicities), <unspecified:multiset_partitions_taocp>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ multiset_partitions_taocp : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee304430ce872732  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.multiset_partitions_taocp","kind":"function","src_hash":"e3b44b176a42e4e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiset_partitions_taocp(mul)","rhs":"enumerates partitions of a multiset","over":{"base":"Any"},"name":"multiset_partitions_taocp_correct"},"guarantee":"enumerates partitions of a multiset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.multiset_partitions_taocp_correct","statement":"Path(multiset_partitions_taocp(x), enumerates partitions of a multiset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee304430ce872732"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.multiset_partitions_taocp","kind":"function","src_hash":"e3b44b176a42e4e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiset_partitions_taocp(multiplicities)","rhs":"<unspecified:multiset_partitions_taocp>","over":{"base":"Any"},"name":"multiset_partitions_taocp_correct"},"guarantee":"enumerates partitions of a multiset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.multiset_partitions_taocp_correct","statement":"Path(multiset_partitions_taocp(x), enumerates partitions of a multiset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee304430ce872732","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def multiset_partitions_taocp(multiplicities):
     """Enumerates partitions of a multiset.
 
@@ -383,16 +421,22 @@ def multiset_partitions_taocp(multiplicities):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factoring_visitor(sta), use with multiset_partitions_taocp to enumerate the ways a number can be expressed as a product of factors) over Any ║
+# ║ Path(factoring_visitor(state, primes), <unspecified:factoring_visitor>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ factoring_visitor : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0260c8835c2f9455  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.factoring_visitor","kind":"function","src_hash":"6adc3199d9f00025","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factoring_visitor(sta)","rhs":"use with multiset_partitions_taocp to enumerate the ways a number can be expressed as a product of factors","over":{"base":"Any"},"name":"factoring_visitor_correct"},"guarantee":"use with multiset_partitions_taocp to enumerate the ways a number can be expressed as a product of factors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.factoring_visitor_correct","statement":"Path(factoring_visitor(x), use with multiset_partitions_taocp to enumerate the ways a number can be expressed as a product of factors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0260c8835c2f9455"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.factoring_visitor","kind":"function","src_hash":"6adc3199d9f00025","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factoring_visitor(state, primes)","rhs":"<unspecified:factoring_visitor>","over":{"base":"Any"},"name":"factoring_visitor_correct"},"guarantee":"use with multiset_partitions_taocp to enumerate the ways a number can be expressed as a product of factors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.factoring_visitor_correct","statement":"Path(factoring_visitor(x), use with multiset_partitions_taocp to enumerate the ways a number can be expressed as a product of factors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0260c8835c2f9455","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def factoring_visitor(state, primes):
     """Use with multiset_partitions_taocp to enumerate the ways a
     number can be expressed as a product of factors.  For this usage,
@@ -431,16 +475,22 @@ def factoring_visitor(state, primes):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(list_visitor(sta), return a list of lists to represent the partition) over Any ║
+# ║ Path(list_visitor(state, components), <unspecified:list_visitor>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ list_visitor : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4aeff26c5476e43a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.list_visitor","kind":"function","src_hash":"17a38281e1e08771","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"list_visitor(sta)","rhs":"return a list of lists to represent the partition","over":{"base":"Any"},"name":"list_visitor_correct"},"guarantee":"return a list of lists to represent the partition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.list_visitor_correct","statement":"Path(list_visitor(x), return a list of lists to represent the partition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aeff26c5476e43a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.list_visitor","kind":"function","src_hash":"17a38281e1e08771","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"list_visitor(state, components)","rhs":"<unspecified:list_visitor>","over":{"base":"Any"},"name":"list_visitor_correct"},"guarantee":"return a list of lists to represent the partition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.list_visitor_correct","statement":"Path(list_visitor(x), return a list of lists to represent the partition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4aeff26c5476e43a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def list_visitor(state, components):
     """Return a list of lists to represent the partition.
 
@@ -473,14 +523,19 @@ def list_visitor(state, components):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a MultisetPartitionTraverser instance) preserved by MultisetPartitionTraverser(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MultisetPartitionTraverser : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83fda1c97ff8b609  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser","kind":"class","src_hash":"1f7c13225a50debf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultisetPartitionTraverser(*args)","rhs":"correctly constructs a MultisetPartitionTraverser instance","over":{"base":"Any"},"name":"MultisetPartitionTraverser_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a MultisetPartitionTraverser instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'debug') and hasattr(self, 'k1') and hasattr(self, 'k2') and hasattr(self, 'p1') and hasattr(self, 'pstack') and hasattr(self, 'f') and hasattr(self, 'lpart') and hasattr(self, 'discarded')","kind":"class","induction":"structural on debug, k1, k2, p1"}],"methods_preserving":["__init__","db_trace","_initialize_enumeration","decrement_part","decrement_part_small","decrement_part_large","decrement_part_range","spread_part_multiplicity","top_part","enum_all","enum_small","enum_large","enum_range","count_partitions_slow","count_partitions"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83fda1c97ff8b609"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser","kind":"class","src_hash":"1f7c13225a50debf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"MultisetPartitionTraverser(*args)","rhs":"correctly constructs a MultisetPartitionTraverser instance","over":{"base":"Any"},"name":"MultisetPartitionTraverser_class_invariant","kind":"invariant"},"guarantee":"preserves 10 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'debug') and hasattr(self, 'k1') and hasattr(self, 'k2') and hasattr(self, 'p1') and hasattr(self, 'pstack') and hasattr(self, 'f') and hasattr(self, 'lpart') and hasattr(self, 'discarded')","kind":"class","induction":"structural on debug, k1, k2, p1"}],"methods_preserving":["__init__","db_trace","_initialize_enumeration","decrement_part","decrement_part_small","decrement_part_large","decrement_part_range","spread_part_multiplicity","top_part","enum_all","enum_small","enum_large","enum_range","count_partitions_slow","count_partitions"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83fda1c97ff8b609","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'debug')","hasattr(self, 'k1')","hasattr(self, 'k2')","hasattr(self, 'p1')","hasattr(self, 'pstack')","hasattr(self, 'f')","hasattr(self, 'lpart')","hasattr(self, 'discarded')","hasattr(self, 'dp_stack')","hasattr(self, 'dp_map')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function MultisetPartitionTraverser not found in source"]}}
 class MultisetPartitionTraverser():
     """
     Has methods to ``enumerate`` and ``count`` the partitions of a multiset.
@@ -526,16 +581,22 @@ class MultisetPartitionTraverser():
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6030a13639b66110           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.__init__","kind":"method","src_hash":"d9375b22182c960f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6030a13639b66110"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.__init__","kind":"method","src_hash":"d9375b22182c960f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6030a13639b66110","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         self.debug = False
         # TRACING variables.  These are useful for gathering
@@ -563,16 +624,23 @@ class MultisetPartitionTraverser():
             self.dp_map = {}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(db_trace(msg), useful for understanding/debugging the algorithms) over Any ║
+# ║ Path(db_trace(msg), <unspecified:db_trace>) over {Any | not (self.debug)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ db_trace : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self.debug)                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ db_trace : {Any | not (self.debug)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90adb08f641501de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.db_trace","kind":"method","src_hash":"4f943e3d3d13baba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"db_trace(msg)","rhs":"useful for understanding/debugging the algorithms","over":{"base":"Any"},"name":"db_trace_correct"},"guarantee":"useful for understanding/debugging the algorithms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.db_trace_correct","statement":"Path(db_trace(x), useful for understanding/debugging the algorithms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90adb08f641501de"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.db_trace","kind":"method","src_hash":"4f943e3d3d13baba","in":{"base":"Any","pred":"not (self.debug)"},"out":{"base":"Any"},"spec":{"lhs":"db_trace(msg)","rhs":"<unspecified:db_trace>","over":{"base":"Any","pred":"not (self.debug)"},"name":"db_trace_correct"},"guarantee":"useful for understanding/debugging the algorithms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.db_trace_correct","statement":"Path(db_trace(x), useful for understanding/debugging the algorithms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90adb08f641501de","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self.debug)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.debug"],"raises":["RuntimeError"]},"state_contract":{"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def db_trace(self, msg):
         """Useful for understanding/debugging the algorithms.  Not
         generally activated in end-user code."""
@@ -590,16 +658,22 @@ class MultisetPartitionTraverser():
     # Helper methods for enumeration
     #
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_initialize_enumeration(mul), allocates and initializes the partition stack) over Any ║
+# ║ Path(_initialize_enumeration(multiplicities), <unspecified:_initialize_enumeration>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _initialize_enumeration : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac7e05bf95cf5970  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser._initialize_enumeration","kind":"method","src_hash":"a28f889e2264d5f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_initialize_enumeration(mul)","rhs":"allocates and initializes the partition stack","over":{"base":"Any"},"name":"_initialize_enumeration_correct"},"guarantee":"allocates and initializes the partition stack","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser._initialize_enumeration_correct","statement":"Path(_initialize_enumeration(x), allocates and initializes the partition stack)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac7e05bf95cf5970"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser._initialize_enumeration","kind":"method","src_hash":"a28f889e2264d5f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_initialize_enumeration(multiplicities)","rhs":"<unspecified:_initialize_enumeration>","over":{"base":"Any"},"name":"_initialize_enumeration_correct"},"guarantee":"allocates and initializes the partition stack","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser._initialize_enumeration_correct","statement":"Path(_initialize_enumeration(x), allocates and initializes the partition stack)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac7e05bf95cf5970","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.f","self.pstack"],"writes":["self.f","self.lpart","self.pstack"]},"state_contract":{"modifies":["self.f","self.lpart","self.pstack"],"old_bindings":{"old_self_f":"self.f","old_self_lpart":"self.lpart","old_self_pstack":"self.pstack"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _initialize_enumeration(self, multiplicities):
         """Allocates and initializes the partition stack.
 
@@ -632,16 +706,22 @@ class MultisetPartitionTraverser():
     # versions of this method are needed if we want to restrict
     # sizes of the partitions produced.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(decrement_part(par), decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented) over Any ║
+# ║ Path(decrement_part(part), <unspecified:decrement_part>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ decrement_part : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b80a01d8a8caa96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part","kind":"method","src_hash":"bf0e7e869f6e4414","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decrement_part(par)","rhs":"decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented","over":{"base":"Any"},"name":"decrement_part_correct"},"guarantee":"decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_correct","statement":"Path(decrement_part(x), decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b80a01d8a8caa96"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part","kind":"method","src_hash":"bf0e7e869f6e4414","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decrement_part(part)","rhs":"<unspecified:decrement_part>","over":{"base":"Any"},"name":"decrement_part_correct"},"guarantee":"decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_correct","statement":"Path(decrement_part(x), decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b80a01d8a8caa96","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def decrement_part(self, part):
         """Decrements part (a subrange of pstack), if possible, returning
         True iff the part was successfully decremented.
@@ -673,16 +753,22 @@ class MultisetPartitionTraverser():
     # Version to allow number of parts to be bounded from above.
     # Corresponds to (a modified) step M5.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(decrement_part_small(par), decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented) over Any ║
+# ║ Path(decrement_part_small(part, ub), <unspecified:decrement_part_small>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ decrement_part_small : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 691a81a7147a174c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_small","kind":"method","src_hash":"b21eba5586dcec71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decrement_part_small(par)","rhs":"decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented","over":{"base":"Any"},"name":"decrement_part_small_correct"},"guarantee":"decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_small_correct","statement":"Path(decrement_part_small(x), decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"691a81a7147a174c"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_small","kind":"method","src_hash":"b21eba5586dcec71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decrement_part_small(part, ub)","rhs":"<unspecified:decrement_part_small>","over":{"base":"Any"},"name":"decrement_part_small_correct"},"guarantee":"decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_small_correct","statement":"Path(decrement_part_small(x), decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"691a81a7147a174c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.db_trace","self.lpart"],"writes":["self.k1","self.k2","self.p1"]},"state_contract":{"modifies":["self.k1","self.k2","self.p1"],"old_bindings":{"old_self_k1":"self.k1","old_self_k2":"self.k2","old_self_p1":"self.p1"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def decrement_part_small(self, part, ub):
         """Decrements part (a subrange of pstack), if possible, returning
         True iff the part was successfully decremented.
@@ -764,16 +850,22 @@ class MultisetPartitionTraverser():
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(decrement_part_large(par), decrements part, while respecting size constraint) over Any ║
+# ║ Path(decrement_part_large(part, amt, lb), <unspecified:decrement_part_large>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ decrement_part_large : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fc89500b770fade  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_large","kind":"method","src_hash":"180fbadf86eb55cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decrement_part_large(par)","rhs":"decrements part, while respecting size constraint","over":{"base":"Any"},"name":"decrement_part_large_correct"},"guarantee":"decrements part, while respecting size constraint","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_large_correct","statement":"Path(decrement_part_large(x), decrements part, while respecting size constraint)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fc89500b770fade"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_large","kind":"method","src_hash":"180fbadf86eb55cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decrement_part_large(part, amt, lb)","rhs":"<unspecified:decrement_part_large>","over":{"base":"Any"},"name":"decrement_part_large_correct"},"guarantee":"decrements part, while respecting size constraint","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_large_correct","statement":"Path(decrement_part_large(x), decrements part, while respecting size constraint)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fc89500b770fade","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.decrement_part","self.lpart"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def decrement_part_large(self, part, amt, lb):
         """Decrements part, while respecting size constraint.
 
@@ -842,16 +934,22 @@ class MultisetPartitionTraverser():
                     part[i].v = 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(decrement_part_range(par), decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented) over Any ║
+# ║ Path(decrement_part_range(part, lb, ub), self.decrement_part_small(part, ub) and self.decrement_part_large(part, 0, lb)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.decrement_part_small(part, ub) and s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ decrement_part_range : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7f7c95f349d6dcb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 409b5b6fec015566  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_range","kind":"method","src_hash":"7bd1fd5c308f2997","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decrement_part_range(par)","rhs":"decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented","over":{"base":"Any"},"name":"decrement_part_range_correct"},"guarantee":"decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_range_correct","statement":"Path(decrement_part_range(x), decrements part (a subrange of pstack), if possible, returning true iff the part was successfully decremented)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7f7c95f349d6dcb"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_range","kind":"method","src_hash":"7bd1fd5c308f2997","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decrement_part_range(part, lb, ub)","rhs":"self.decrement_part_small(part, ub) and self.decrement_part_large(part, 0, lb)","over":{"base":"Any"},"name":"decrement_part_range_correct"},"guarantee":"returns self.decrement_part_small(part, ub) and self.decrement_part_large(part, 0, lb)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.decrement_part_range_correct","statement":"Path(decrement_part_range(x), returns self.decrement_part_small(part, ub) and self.decrement_part_large(part, 0, lb))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"409b5b6fec015566","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.decrement_part_small(part, ub) and self.decrement_part_large(part, 0, lb)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.decrement_part_large","self.decrement_part_small"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def decrement_part_range(self, part, lb, ub):
         """Decrements part (a subrange of pstack), if possible, returning
         True iff the part was successfully decremented.
@@ -889,16 +987,22 @@ class MultisetPartitionTraverser():
             self.decrement_part_large(part, 0, lb)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(spread_part_multiplicity(), returns true if a new part has been created, and adjusts pstack, f and lpart as needed) over Any ║
+# ║ Path(spread_part_multiplicity(), <unspecified:spread_part_multiplicity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ spread_part_multiplicity : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e15eaae6dfa1723f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.spread_part_multiplicity","kind":"method","src_hash":"7412cc0c28b81d48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spread_part_multiplicity()","rhs":"returns true if a new part has been created, and adjusts pstack, f and lpart as needed","over":{"base":"Any"},"name":"spread_part_multiplicity_correct"},"guarantee":"returns true if a new part has been created, and adjusts pstack, f and lpart as needed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.spread_part_multiplicity_correct","statement":"Path(spread_part_multiplicity(x), returns true if a new part has been created, and adjusts pstack, f and lpart as needed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e15eaae6dfa1723f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.spread_part_multiplicity","kind":"method","src_hash":"7412cc0c28b81d48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spread_part_multiplicity()","rhs":"<unspecified:spread_part_multiplicity>","over":{"base":"Any"},"name":"spread_part_multiplicity_correct"},"guarantee":"returns true if a new part has been created, and adjusts pstack, f and lpart as needed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.spread_part_multiplicity_correct","statement":"Path(spread_part_multiplicity(x), returns true if a new part has been created, and adjusts pstack, f and lpart as needed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e15eaae6dfa1723f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.f","self.lpart","self.pstack"],"writes":["self.lpart"]},"state_contract":{"modifies":["self.lpart"],"old_bindings":{"old_self_lpart":"self.lpart"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def spread_part_multiplicity(self):
         """Returns True if a new part has been created, and
         adjusts pstack, f and lpart as needed.
@@ -945,16 +1049,22 @@ class MultisetPartitionTraverser():
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(top_part(), return current top part on the stack, as a slice of pstack) over Any ║
+# ║ Path(top_part(), self.pstack[self.f[self.lpart]:self.f[self.lpart + 1]]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.pstack[self.f[self.lpart]:self.f[sel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ top_part : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 66681050e549e996           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.top_part","kind":"method","src_hash":"2bf22c1bc8f907c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"top_part()","rhs":"return current top part on the stack, as a slice of pstack","over":{"base":"Any"},"name":"top_part_correct"},"guarantee":"return current top part on the stack, as a slice of pstack","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66681050e549e996"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.top_part","kind":"method","src_hash":"2bf22c1bc8f907c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"top_part()","rhs":"self.pstack[self.f[self.lpart]:self.f[self.lpart + 1]]","over":{"base":"Any"},"name":"top_part_correct"},"guarantee":"returns self.pstack[self.f[self.lpart]:self.f[self.lpart + 1]]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"66681050e549e996","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.pstack[self.f[self.lpart]:self.f[self.lpart + 1]]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.f","self.lpart","self.pstack"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def top_part(self):
         """Return current top part on the stack, as a slice of pstack.
 
@@ -964,16 +1074,22 @@ class MultisetPartitionTraverser():
     # Same interface and functionality as multiset_partitions_taocp(),
     # but some might find this refactored version easier to follow.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(enum_all(mul), enumerate the partitions of a multiset) over Any ║
+# ║ Path(enum_all(multiplicities), <unspecified:enum_all>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ enum_all : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2714362ac7f05b80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_all","kind":"method","src_hash":"0e823e864e634e5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"enum_all(mul)","rhs":"enumerate the partitions of a multiset","over":{"base":"Any"},"name":"enum_all_correct"},"guarantee":"enumerate the partitions of a multiset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_all_correct","statement":"Path(enum_all(x), enumerate the partitions of a multiset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2714362ac7f05b80"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_all","kind":"method","src_hash":"0e823e864e634e5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"enum_all(multiplicities)","rhs":"<unspecified:enum_all>","over":{"base":"Any"},"name":"enum_all_correct"},"guarantee":"enumerate the partitions of a multiset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_all_correct","statement":"Path(enum_all(x), enumerate the partitions of a multiset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2714362ac7f05b80","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._initialize_enumeration","self.decrement_part","self.f","self.lpart","self.pstack","self.spread_part_multiplicity","self.top_part"],"writes":["self.lpart"]},"state_contract":{"modifies":["self.lpart"],"old_bindings":{"old_self_lpart":"self.lpart"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def enum_all(self, multiplicities):
         """Enumerate the partitions of a multiset.
 
@@ -1022,16 +1138,22 @@ class MultisetPartitionTraverser():
                 self.lpart -= 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(enum_small(mul), enumerate multiset partitions with no more than ``ub`` parts) over Any ║
+# ║ Path(enum_small(multiplicities, ub), <unspecified:enum_small>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ enum_small : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41c38c9455f846d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_small","kind":"method","src_hash":"552acc8ba93ea4b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"enum_small(mul)","rhs":"enumerate multiset partitions with no more than ``ub`` parts","over":{"base":"Any"},"name":"enum_small_correct"},"guarantee":"enumerate multiset partitions with no more than ``ub`` parts","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_small_correct","statement":"Path(enum_small(x), enumerate multiset partitions with no more than ``ub`` parts)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41c38c9455f846d3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_small","kind":"method","src_hash":"552acc8ba93ea4b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"enum_small(multiplicities, ub)","rhs":"<unspecified:enum_small>","over":{"base":"Any"},"name":"enum_small_correct"},"guarantee":"enumerate multiset partitions with no more than ``ub`` parts","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_small_correct","statement":"Path(enum_small(x), enumerate multiset partitions with no more than ``ub`` parts)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41c38c9455f846d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._initialize_enumeration","self.db_trace","self.decrement_part_small","self.f","self.lpart","self.pstack","self.spread_part_multiplicity","self.top_part"],"writes":["self.discarded","self.lpart"]},"state_contract":{"modifies":["self.discarded","self.lpart"],"old_bindings":{"old_self_discarded":"self.discarded","old_self_lpart":"self.lpart"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def enum_small(self, multiplicities, ub):
         """Enumerate multiset partitions with no more than ``ub`` parts.
 
@@ -1100,16 +1222,22 @@ class MultisetPartitionTraverser():
             self.db_trace("decrement ok, about to expand")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(enum_large(mul), enumerate the partitions of a multiset with lb < num(parts)) over Any ║
+# ║ Path(enum_large(multiplicities, lb), <unspecified:enum_large>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ enum_large : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 126df52423e41aad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_large","kind":"method","src_hash":"60c5e6087789d623","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"enum_large(mul)","rhs":"enumerate the partitions of a multiset with lb < num(parts)","over":{"base":"Any"},"name":"enum_large_correct"},"guarantee":"enumerate the partitions of a multiset with lb < num(parts)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_large_correct","statement":"Path(enum_large(x), enumerate the partitions of a multiset with lb < num(parts))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"126df52423e41aad"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_large","kind":"method","src_hash":"60c5e6087789d623","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"enum_large(multiplicities, lb)","rhs":"<unspecified:enum_large>","over":{"base":"Any"},"name":"enum_large_correct"},"guarantee":"enumerate the partitions of a multiset with lb < num(parts)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_large_correct","statement":"Path(enum_large(x), enumerate the partitions of a multiset with lb < num(parts))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"126df52423e41aad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._initialize_enumeration","self.decrement_part_large","self.f","self.lpart","self.pstack","self.spread_part_multiplicity","self.top_part"],"writes":["self.discarded","self.lpart"]},"state_contract":{"modifies":["self.discarded","self.lpart"],"old_bindings":{"old_self_discarded":"self.discarded","old_self_lpart":"self.lpart"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def enum_large(self, multiplicities, lb):
         """Enumerate the partitions of a multiset with lb < num(parts)
 
@@ -1172,16 +1300,22 @@ class MultisetPartitionTraverser():
                 self.lpart -= 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(enum_range(mul), enumerate the partitions of a multiset with ``lb < num(parts) <= ub``) over Any ║
+# ║ Path(enum_range(multiplicities, lb, ub), <unspecified:enum_range>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ enum_range : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19e6636d373fe4a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_range","kind":"method","src_hash":"8527ca397b4a215d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"enum_range(mul)","rhs":"enumerate the partitions of a multiset with ``lb < num(parts) <= ub``","over":{"base":"Any"},"name":"enum_range_correct"},"guarantee":"enumerate the partitions of a multiset with ``lb < num(parts) <= ub``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_range_correct","statement":"Path(enum_range(x), enumerate the partitions of a multiset with ``lb < num(parts) <= ub``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19e6636d373fe4a3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_range","kind":"method","src_hash":"8527ca397b4a215d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"enum_range(multiplicities, lb, ub)","rhs":"<unspecified:enum_range>","over":{"base":"Any"},"name":"enum_range_correct"},"guarantee":"enumerate the partitions of a multiset with ``lb < num(parts) <= ub``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.enum_range_correct","statement":"Path(enum_range(x), enumerate the partitions of a multiset with ``lb < num(parts) <= ub``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19e6636d373fe4a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._initialize_enumeration","self.db_trace","self.decrement_part_large","self.decrement_part_range","self.f","self.lpart","self.pstack","self.spread_part_multiplicity","self.top_part"],"writes":["self.discarded","self.lpart"]},"state_contract":{"modifies":["self.discarded","self.lpart"],"old_bindings":{"old_self_discarded":"self.discarded","old_self_lpart":"self.lpart"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def enum_range(self, multiplicities, lb, ub):
 
         """Enumerate the partitions of a multiset with
@@ -1245,16 +1379,22 @@ class MultisetPartitionTraverser():
             self.db_trace("decrement ok, about to expand")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(count_partitions_slow(mul), returns the number of partitions of a multiset whose elements have the multiplicities given in ``multiplicities``) over Any ║
+# ║ Path(count_partitions_slow(multiplicities), self.pcount) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.pcount                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ count_partitions_slow : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb4cefe5587bc89b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1a7293a1a38ea3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.count_partitions_slow","kind":"method","src_hash":"34fb3debd5859a18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"count_partitions_slow(mul)","rhs":"returns the number of partitions of a multiset whose elements have the multiplicities given in ``multiplicities``","over":{"base":"Any"},"name":"count_partitions_slow_correct"},"guarantee":"returns the number of partitions of a multiset whose elements have the multiplicities given in ``multiplicities``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.count_partitions_slow_correct","statement":"Path(count_partitions_slow(x), returns the number of partitions of a multiset whose elements have the multiplicities given in ``multiplicities``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb4cefe5587bc89b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.count_partitions_slow","kind":"method","src_hash":"34fb3debd5859a18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"count_partitions_slow(multiplicities)","rhs":"self.pcount","over":{"base":"Any"},"name":"count_partitions_slow_correct"},"guarantee":"returns self.pcount","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.count_partitions_slow_correct","statement":"Path(count_partitions_slow(x), returns self.pcount)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1a7293a1a38ea3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.pcount","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._initialize_enumeration","self.decrement_part","self.lpart","self.pcount","self.spread_part_multiplicity","self.top_part"],"writes":["self.lpart","self.pcount"]},"state_contract":{"modifies":["self.lpart","self.pcount"],"old_bindings":{"old_self_lpart":"self.lpart","old_self_pcount":"self.pcount"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def count_partitions_slow(self, multiplicities):
         """Returns the number of partitions of a multiset whose elements
         have the multiplicities given in ``multiplicities``.
@@ -1287,16 +1427,25 @@ class MultisetPartitionTraverser():
                 self.lpart -= 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(count_partitions(mul), returns the number of partitions of a multiset whose components have the multiplicities given in ``multiplicities``) over Any ║
+# ║ Path(count_partitions(multiplicities), self.pcount) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ count_partitions : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ║   returns:  self.pcount                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ count_partitions : {Any | len(self) > 0} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21deb427413a7c94  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0de0527eb5eebd7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.count_partitions","kind":"method","src_hash":"372220ad5c99d3b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"count_partitions(mul)","rhs":"returns the number of partitions of a multiset whose components have the multiplicities given in ``multiplicities``","over":{"base":"Any"},"name":"count_partitions_correct"},"guarantee":"returns the number of partitions of a multiset whose components have the multiplicities given in ``multiplicities``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.count_partitions_correct","statement":"Path(count_partitions(x), returns the number of partitions of a multiset whose components have the multiplicities given in ``multiplicities``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21deb427413a7c94"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.MultisetPartitionTraverser.count_partitions","kind":"method","src_hash":"372220ad5c99d3b5","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (self.pcount)"},"spec":{"lhs":"count_partitions(multiplicities)","rhs":"self.pcount","over":{"base":"Any","pred":"len(self) > 0"},"name":"count_partitions_correct"},"guarantee":"returns self.pcount; len(self) == old_len_self + 1; len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.MultisetPartitionTraverser.count_partitions_correct","statement":"Path(count_partitions(x), returns self.pcount; len(self) == old_len_self + 1; len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0de0527eb5eebd7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self + 1","len(self) == old_len_self - 1"],"returns_expr":"self.pcount","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._initialize_enumeration","self.decrement_part","self.dp_map","self.dp_stack","self.lpart","self.pcount","self.spread_part_multiplicity","self.top_part"],"writes":["self.dp_stack","self.lpart","self.pcount"],"calls_mutating":["self.dp_stack.append","self.dp_stack.pop"]},"state_contract":{"modifies":["self.*","self.dp_stack","self.lpart","self.pcount"],"old_bindings":{"old_self_dp_stack":"self.dp_stack","old_self_lpart":"self.lpart","old_self_pcount":"self.pcount","old_len_self":"len(self)"},"pre_requires":["len(self) > 0"],"post_ensures":["len(self) == old_len_self + 1","len(self) == old_len_self - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def count_partitions(self, multiplicities):
         """Returns the number of partitions of a multiset whose components
         have the multiplicities given in ``multiplicities``.
@@ -1413,16 +1562,22 @@ class MultisetPartitionTraverser():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(part_key(par), helper for multisetpartitiontraverser.count_partitions that creates a key for ``part``, that only includes information which can affect the count for that part) over Any ║
+# ║ Path(part_key(part), tuple(rval)) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(rval)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ part_key : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79b6e729e92479d2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b81e77e7c238f4aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.part_key","kind":"function","src_hash":"c88a84821699e72d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"part_key(par)","rhs":"helper for multisetpartitiontraverser.count_partitions that creates a key for ``part``, that only includes information which can affect the count for that part","over":{"base":"Any"},"name":"part_key_correct"},"guarantee":"helper for multisetpartitiontraverser.count_partitions that creates a key for ``part``, that only includes information which can affect the count for that part","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.part_key_correct","statement":"Path(part_key(x), helper for multisetpartitiontraverser.count_partitions that creates a key for ``part``, that only includes information which can affect the count for that part)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79b6e729e92479d2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.enumerative.part_key","kind":"function","src_hash":"c88a84821699e72d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"part_key(part)","rhs":"tuple(rval)","over":{"base":"Any"},"name":"part_key_correct"},"guarantee":"returns tuple(rval)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.enumerative.part_key_correct","statement":"Path(part_key(x), returns tuple(rval))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b81e77e7c238f4aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(rval)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def part_key(part):
     """Helper for MultisetPartitionTraverser.count_partitions that
     creates a key for ``part``, that only includes information which can

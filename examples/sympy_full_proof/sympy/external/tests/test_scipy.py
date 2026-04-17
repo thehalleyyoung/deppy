@@ -33,16 +33,22 @@ from sympy.functions.special.bessel import jn_zeros
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eq(a, ), eq produces the expected output) over Any    ║
+# ║ Path(eq(a, b, tol), <unspecified:eq>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eq : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d15144f892382d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_scipy.eq","kind":"function","src_hash":"dbdc2c3c8631dbff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eq(a, )","rhs":"eq produces the expected output","over":{"base":"Any"},"name":"eq_correct"},"guarantee":"eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_scipy.eq_correct","statement":"Path(eq(x), eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d15144f892382d7"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_scipy.eq","kind":"function","src_hash":"dbdc2c3c8631dbff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eq(a, b, tol)","rhs":"<unspecified:eq>","over":{"base":"Any"},"name":"eq_correct"},"guarantee":"eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_scipy.eq_correct","statement":"Path(eq(x), eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d15144f892382d7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def eq(a, b, tol=1e-6):
     for x, y in zip(a, b):
         if not (abs(x - y) < tol):
@@ -51,16 +57,24 @@ def eq(a, b, tol=1e-6):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jn_zeros(), test_jn_zeros produces the expected output) over Any ║
+# ║ Path(test_jn_zeros(), eq(jn_zeros(0, 4, method='scipy'), [3.141592, 6.283185, 9.424777, 12.56637]) and eq(jn_zeros(1, 4, method='scipy'), [4.493409, 7.725251, 10.904121, 14.066193]) and eq(jn_zeros(2, 4, method='scipy'), [5.763459, 9.095011, 12.32294, 15.514603]) and eq(jn_zeros(3, 4, method='scipy'), [6.987932, 10.417118, 13.698023, 16.923621]) and eq(jn_zeros(4, 4, method='scipy'), [8.182561, 11.704907, 15.039664, 18.301255])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_jn_zeros : Any → {Any | eq(jn_zeros(0, 4, method...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq(jn_zeros(0, 4, method='scipy'), [3.141...   ║
+# ║   ensures:  eq(jn_zeros(1, 4, method='scipy'), [4.493...   ║
+# ║   ensures:  eq(jn_zeros(2, 4, method='scipy'), [5.763...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_jn_zeros : Any → {Any | result satisfies: eq(jn_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbe5ec2ff4f15b6b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77899c432d742e38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_scipy.test_jn_zeros","kind":"function","src_hash":"155193ad5ce1b895","in":{"base":"Any"},"out":{"base":"Any","pred":"eq(jn_zeros(0, 4, method='scipy'), [3.141592, 6.283185, 9.424777, 12.56637]) and eq(jn_zeros(1, 4, method='scipy'), [4.493409, 7.725251, 10.904121, 14.066193]) and eq(jn_zeros(2, 4, method='scipy'), [5.763459, 9.095011, 12.32294, 15.514603]) and eq(jn_zeros(3, 4, method='scipy'), [6.987932, 10.417118, 13.698023, 16.923621]) and eq(jn_zeros(4, 4, method='scipy'), [8.182561, 11.704907, 15.039664, 18.301255])"},"spec":{"lhs":"test_jn_zeros()","rhs":"test_jn_zeros produces the expected output","over":{"base":"Any"},"name":"test_jn_zeros_correct"},"guarantee":"test_jn_zeros produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_scipy.test_jn_zeros_correct","statement":"Path(test_jn_zeros(x), test_jn_zeros produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbe5ec2ff4f15b6b"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_scipy.test_jn_zeros","kind":"function","src_hash":"155193ad5ce1b895","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq(jn_zeros(0, 4, method='scipy'), [3.141592, 6.283185, 9.424777, 12.56637]) and eq(jn_zeros(1, 4, method='scipy'), [4.493409, 7.725251, 10.904121, 14.066193]) and eq(jn_zeros(2, 4, method='scipy'), [5.763459, 9.095011, 12.32294, 15.514603]) and eq(jn_zeros(3, 4, method='scipy'), [6.987932, 10.417118, 13.698023, 16.923621]) and eq(jn_zeros(4, 4, method='scipy'), [8.182561, 11.704907, 15.039664, 18.301255])"},"spec":{"lhs":"test_jn_zeros()","rhs":"eq(jn_zeros(0, 4, method='scipy'), [3.141592, 6.283185, 9.424777, 12.56637]) and eq(jn_zeros(1, 4, method='scipy'), [4.493409, 7.725251, 10.904121, 14.066193]) and eq(jn_zeros(2, 4, method='scipy'), [5.763459, 9.095011, 12.32294, 15.514603]) and eq(jn_zeros(3, 4, method='scipy'), [6.987932, 10.417118, 13.698023, 16.923621]) and eq(jn_zeros(4, 4, method='scipy'), [8.182561, 11.704907, 15.039664, 18.301255])","over":{"base":"Any"},"name":"test_jn_zeros_correct"},"guarantee":"eq(jn_zeros(0, 4, method='scipy'), [3.141592, 6.283185, 9.424777, 12.56637]); eq(jn_zeros(1, 4, method='scipy'), [4.493409, 7.725251, 10.904121, 14.066193]); eq(jn_zeros(2, 4, method='scipy'), [5.763459, 9.095011, 12.32294, 15.514603])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_scipy.test_jn_zeros_correct","statement":"Path(test_jn_zeros(x), eq(jn_zeros(0, 4, method='scipy'), [3.141592, 6.283185, 9.424777, 12.56637]); eq(jn_zeros(1, 4, method='scipy'), [4.493409, 7.725251, 10.904121, 14.066193]); eq(jn_zeros(2, 4, method='scipy'), [5.763459, 9.095011, 12.32294, 15.514603]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77899c432d742e38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq(jn_zeros(0, 4, method='scipy'), [3.141592, 6.283185, 9.424777, 12.56637])","eq(jn_zeros(1, 4, method='scipy'), [4.493409, 7.725251, 10.904121, 14.066193])","eq(jn_zeros(2, 4, method='scipy'), [5.763459, 9.095011, 12.32294, 15.514603])","eq(jn_zeros(3, 4, method='scipy'), [6.987932, 10.417118, 13.698023, 16.923621])","eq(jn_zeros(4, 4, method='scipy'), [8.182561, 11.704907, 15.039664, 18.301255])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_jn_zeros():
     assert eq(jn_zeros(0, 4, method="scipy"),
             [3.141592, 6.283185, 9.424777, 12.566370])

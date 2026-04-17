@@ -26,16 +26,24 @@ x, y, u, v = symbols('x y u v')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CXX98CodePrinter(), test_CXX98CodePrinter produces the expected output) over Any ║
+# ║ Path(test_CXX98CodePrinter(), CXX98CodePrinter().doprint(Max(x, 3)) in ('std::max(x, 3)', 'std::max(3, x)') and CXX98CodePrinter().doprint(Min(x, 3, sqrt(x))) == 'std::min(3, std::min(x, std::sqrt(x)))' and cxx98printer.language == 'C++' and cxx98printer.standard == 'C++98' and 'template' in cxx98printer.reserved_words and 'alignas' not in cxx98printer.reserved_words) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CXX98CodePrinter : Any → {Any | CXX98CodePrinter...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  CXX98CodePrinter().doprint(Max(x, 3)) in ...   ║
+# ║   ensures:  CXX98CodePrinter().doprint(Min(x, 3, sqrt...   ║
+# ║   ensures:  cxx98printer.language == 'C++'                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CXX98CodePrinter : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81b9dbc78c8c4385  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb32324746c922c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_CXX98CodePrinter","kind":"function","src_hash":"ab04434b4059cc87","in":{"base":"Any"},"out":{"base":"Any","pred":"CXX98CodePrinter().doprint(Max(x, 3)) in ('std::max(x, 3)', 'std::max(3, x)') and cxx98printer.language == 'C++' and cxx98printer.standard == 'C++98' and 'template' in cxx98printer.reserved_words and 'alignas' not in cxx98printer.reserved_words"},"spec":{"lhs":"test_CXX98CodePrinter()","rhs":"test_CXX98CodePrinter produces the expected output","over":{"base":"Any"},"name":"test_CXX98CodePrinter_correct"},"guarantee":"test_CXX98CodePrinter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cxx.test_CXX98CodePrinter_correct","statement":"Path(test_CXX98CodePrinter(x), test_CXX98CodePrinter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81b9dbc78c8c4385"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_CXX98CodePrinter","kind":"function","src_hash":"ab04434b4059cc87","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: CXX98CodePrinter().doprint(Max(x, 3)) in ('std::max(x, 3)', 'std::max(3, x)') and CXX98CodePrinter().doprint(Min(x, 3, sqrt(x))) == 'std::min(3, std::min(x, std::sqrt(x)))' and cxx98printer.language == 'C++' and cxx98printer.standard == 'C++98' and 'template' in cxx98printer.reserved_words and 'alignas' not in cxx98printer.reserved_words"},"spec":{"lhs":"test_CXX98CodePrinter()","rhs":"CXX98CodePrinter().doprint(Max(x, 3)) in ('std::max(x, 3)', 'std::max(3, x)') and CXX98CodePrinter().doprint(Min(x, 3, sqrt(x))) == 'std::min(3, std::min(x, std::sqrt(x)))' and cxx98printer.language == 'C++' and cxx98printer.standard == 'C++98' and 'template' in cxx98printer.reserved_words and 'alignas' not in cxx98printer.reserved_words","over":{"base":"Any"},"name":"test_CXX98CodePrinter_correct"},"guarantee":"CXX98CodePrinter().doprint(Max(x, 3)) in ('std::max(x, 3)', 'std::max(3, x)'); CXX98CodePrinter().doprint(Min(x, 3, sqrt(x))) == 'std::min(3, std::min(x, std::sqrt(x)))'; cxx98printer.language == 'C++'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cxx.test_CXX98CodePrinter_correct","statement":"Path(test_CXX98CodePrinter(x), CXX98CodePrinter().doprint(Max(x, 3)) in ('std::max(x, 3)', 'std::max(3, x)'); CXX98CodePrinter().doprint(Min(x, 3, sqrt(x))) == 'std::min(3, std::min(x, std::sqrt(x)))'; cxx98printer.language == 'C++')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb32324746c922c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["CXX98CodePrinter().doprint(Max(x, 3)) in ('std::max(x, 3)', 'std::max(3, x)')","CXX98CodePrinter().doprint(Min(x, 3, sqrt(x))) == 'std::min(3, std::min(x, std::sqrt(x)))'","cxx98printer.language == 'C++'","cxx98printer.standard == 'C++98'","'template' in cxx98printer.reserved_words","'alignas' not in cxx98printer.reserved_words"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CXX98CodePrinter():
     assert CXX98CodePrinter().doprint(Max(x, 3)) in ('std::max(x, 3)', 'std::max(3, x)')
     assert CXX98CodePrinter().doprint(Min(x, 3, sqrt(x))) == 'std::min(3, std::min(x, std::sqrt(x)))'
@@ -47,16 +55,24 @@ def test_CXX98CodePrinter():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CXX11CodePrinter(), test_CXX11CodePrinter produces the expected output) over Any ║
+# ║ Path(test_CXX11CodePrinter(), CXX11CodePrinter().doprint(log1p(x)) == 'std::log1p(x)' and cxx11printer.language == 'C++' and cxx11printer.standard == 'C++11' and 'operator' in cxx11printer.reserved_words and 'noexcept' in cxx11printer.reserved_words and 'concept' not in cxx11printer.reserved_words) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CXX11CodePrinter : Any → {Any | CXX11CodePrinter...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  CXX11CodePrinter().doprint(log1p(x)) == '...   ║
+# ║   ensures:  cxx11printer.language == 'C++'                 ║
+# ║   ensures:  cxx11printer.standard == 'C++11'               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CXX11CodePrinter : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20e542291bb4ca6f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 361dfbfa3662573a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_CXX11CodePrinter","kind":"function","src_hash":"87104795e0b411b6","in":{"base":"Any"},"out":{"base":"Any","pred":"CXX11CodePrinter().doprint(log1p(x)) == 'std::log1p(x)' and cxx11printer.language == 'C++' and cxx11printer.standard == 'C++11' and 'operator' in cxx11printer.reserved_words and 'noexcept' in cxx11printer.reserved_words and 'concept' not in cxx11printer.reserved_words"},"spec":{"lhs":"test_CXX11CodePrinter()","rhs":"test_CXX11CodePrinter produces the expected output","over":{"base":"Any"},"name":"test_CXX11CodePrinter_correct"},"guarantee":"test_CXX11CodePrinter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cxx.test_CXX11CodePrinter_correct","statement":"Path(test_CXX11CodePrinter(x), test_CXX11CodePrinter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20e542291bb4ca6f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_CXX11CodePrinter","kind":"function","src_hash":"87104795e0b411b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: CXX11CodePrinter().doprint(log1p(x)) == 'std::log1p(x)' and cxx11printer.language == 'C++' and cxx11printer.standard == 'C++11' and 'operator' in cxx11printer.reserved_words and 'noexcept' in cxx11printer.reserved_words and 'concept' not in cxx11printer.reserved_words"},"spec":{"lhs":"test_CXX11CodePrinter()","rhs":"CXX11CodePrinter().doprint(log1p(x)) == 'std::log1p(x)' and cxx11printer.language == 'C++' and cxx11printer.standard == 'C++11' and 'operator' in cxx11printer.reserved_words and 'noexcept' in cxx11printer.reserved_words and 'concept' not in cxx11printer.reserved_words","over":{"base":"Any"},"name":"test_CXX11CodePrinter_correct"},"guarantee":"CXX11CodePrinter().doprint(log1p(x)) == 'std::log1p(x)'; cxx11printer.language == 'C++'; cxx11printer.standard == 'C++11'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cxx.test_CXX11CodePrinter_correct","statement":"Path(test_CXX11CodePrinter(x), CXX11CodePrinter().doprint(log1p(x)) == 'std::log1p(x)'; cxx11printer.language == 'C++'; cxx11printer.standard == 'C++11')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"361dfbfa3662573a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["CXX11CodePrinter().doprint(log1p(x)) == 'std::log1p(x)'","cxx11printer.language == 'C++'","cxx11printer.standard == 'C++11'","'operator' in cxx11printer.reserved_words","'noexcept' in cxx11printer.reserved_words","'concept' not in cxx11printer.reserved_words"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CXX11CodePrinter():
     assert CXX11CodePrinter().doprint(log1p(x)) == 'std::log1p(x)'
 
@@ -71,14 +87,21 @@ def test_CXX11CodePrinter():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_subclass_print_method(), id) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subclass_print_method : Any → {Any | MyPrinter()...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MyPrinter().doprint(log1p(x)) == 'my_libr...   ║
+# ║   returns:  'my_library::log1p(%s)' % ', '.join(map(s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subclass_print_method : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d353f547e72dd58a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_subclass_print_method","kind":"function","src_hash":"cb244b6ba87d0e20","in":{"base":"Any"},"out":{"base":"Any","pred":"MyPrinter().doprint(log1p(x)) == 'my_library::log1p(x)'"},"spec":{"lhs":"test_subclass_print_method()","rhs":"test_subclass_print_method produces the expected output","over":{"base":"Any"},"name":"test_subclass_print_method_correct","kind":"composition"},"guarantee":"test_subclass_print_method produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"log1p","by":"library_axiom"},{"fn":"join","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d353f547e72dd58a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_subclass_print_method","kind":"function","src_hash":"cb244b6ba87d0e20","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('my_library::log1p(%s)' % ', '.join(map(self._print, expr.args)))"},"spec":{"lhs":"test_subclass_print_method()","rhs":"'my_library::log1p(%s)' % ', '.join(map(self._print, expr.args))","over":{"base":"Any"},"name":"test_subclass_print_method_correct","kind":"composition"},"guarantee":"returns 'my_library::log1p(%s)' % ', '.join(map(self._print, expr.args)); MyPrinter().doprint(log1p(x)) == 'my_library::log1p(x)'","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"log1p","by":"library_axiom"},{"fn":"join","by":"library_axiom"},{"fn":"map","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d353f547e72dd58a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MyPrinter().doprint(log1p(x)) == 'my_library::log1p(x)'"],"returns_expr":"'my_library::log1p(%s)' % ', '.join(map(self._print, expr.args))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_subclass_print_method():
     class MyPrinter(CXX11CodePrinter):
         def _print_log1p(self, expr):
@@ -88,16 +111,23 @@ def test_subclass_print_method():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subclass_print_method__ns(), test_subclass_print_method__ns produces the expected output) over Any ║
+# ║ Path(test_subclass_print_method__ns(), p.doprint(log1p(x)) == 'std::log1p(x)' and myp.doprint(log1p(x)) == 'my_library::log1p(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subclass_print_method__ns : Any → {Any | p.dopri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.doprint(log1p(x)) == 'std::log1p(x)'         ║
+# ║   ensures:  myp.doprint(log1p(x)) == 'my_library::log...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subclass_print_method__ns : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a7f86e8417ace3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6628291fc88c63a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_subclass_print_method__ns","kind":"function","src_hash":"397eeef22f53eddb","in":{"base":"Any"},"out":{"base":"Any","pred":"p.doprint(log1p(x)) == 'std::log1p(x)' and myp.doprint(log1p(x)) == 'my_library::log1p(x)'"},"spec":{"lhs":"test_subclass_print_method__ns()","rhs":"test_subclass_print_method__ns produces the expected output","over":{"base":"Any"},"name":"test_subclass_print_method__ns_correct"},"guarantee":"test_subclass_print_method__ns produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cxx.test_subclass_print_method__ns_correct","statement":"Path(test_subclass_print_method__ns(x), test_subclass_print_method__ns produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a7f86e8417ace3f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_subclass_print_method__ns","kind":"function","src_hash":"397eeef22f53eddb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.doprint(log1p(x)) == 'std::log1p(x)' and myp.doprint(log1p(x)) == 'my_library::log1p(x)'"},"spec":{"lhs":"test_subclass_print_method__ns()","rhs":"p.doprint(log1p(x)) == 'std::log1p(x)' and myp.doprint(log1p(x)) == 'my_library::log1p(x)'","over":{"base":"Any"},"name":"test_subclass_print_method__ns_correct"},"guarantee":"p.doprint(log1p(x)) == 'std::log1p(x)'; myp.doprint(log1p(x)) == 'my_library::log1p(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cxx.test_subclass_print_method__ns_correct","statement":"Path(test_subclass_print_method__ns(x), p.doprint(log1p(x)) == 'std::log1p(x)'; myp.doprint(log1p(x)) == 'my_library::log1p(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6628291fc88c63a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.doprint(log1p(x)) == 'std::log1p(x)'","myp.doprint(log1p(x)) == 'my_library::log1p(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_subclass_print_method__ns():
     class MyPrinter(CXX11CodePrinter):
         _ns = 'my_library::'
@@ -110,16 +140,24 @@ def test_subclass_print_method__ns():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CXX17CodePrinter(), test_CXX17CodePrinter produces the expected output) over Any ║
+# ║ Path(test_CXX17CodePrinter(), CXX17CodePrinter().doprint(beta(x, y)) == 'std::beta(x, y)' and CXX17CodePrinter().doprint(Ei(x)) == 'std::expint(x)' and CXX17CodePrinter().doprint(zeta(x)) == 'std::riemann_zeta(x)' and CXX17CodePrinter().doprint(frac(x)) == '(x - std::floor(x))' and CXX17CodePrinter().doprint(riemann_xi(x)) == '((1.0/2.0)*std::pow(M_PI, -1.0/2.0*x)*x*(x - 1)*std::tgamma((1.0/2.0)*x)*std::riemann_zeta(x))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CXX17CodePrinter : Any → {Any | CXX17CodePrinter...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  CXX17CodePrinter().doprint(beta(x, y)) ==...   ║
+# ║   ensures:  CXX17CodePrinter().doprint(Ei(x)) == 'std...   ║
+# ║   ensures:  CXX17CodePrinter().doprint(zeta(x)) == 's...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CXX17CodePrinter : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4378cae2aaaabfa7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7a4602b17444f37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_CXX17CodePrinter","kind":"function","src_hash":"21eff1580b3acd72","in":{"base":"Any"},"out":{"base":"Any","pred":"CXX17CodePrinter().doprint(beta(x, y)) == 'std::beta(x, y)' and CXX17CodePrinter().doprint(Ei(x)) == 'std::expint(x)' and CXX17CodePrinter().doprint(zeta(x)) == 'std::riemann_zeta(x)' and CXX17CodePrinter().doprint(frac(x)) == '(x - std::floor(x))'"},"spec":{"lhs":"test_CXX17CodePrinter()","rhs":"test_CXX17CodePrinter produces the expected output","over":{"base":"Any"},"name":"test_CXX17CodePrinter_correct"},"guarantee":"test_CXX17CodePrinter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cxx.test_CXX17CodePrinter_correct","statement":"Path(test_CXX17CodePrinter(x), test_CXX17CodePrinter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4378cae2aaaabfa7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_CXX17CodePrinter","kind":"function","src_hash":"21eff1580b3acd72","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: CXX17CodePrinter().doprint(beta(x, y)) == 'std::beta(x, y)' and CXX17CodePrinter().doprint(Ei(x)) == 'std::expint(x)' and CXX17CodePrinter().doprint(zeta(x)) == 'std::riemann_zeta(x)' and CXX17CodePrinter().doprint(frac(x)) == '(x - std::floor(x))' and CXX17CodePrinter().doprint(riemann_xi(x)) == '((1.0/2.0)*std::pow(M_PI, -1.0/2.0*x)*x*(x - 1)*std::tgamma((1.0/2.0)*x)*std::riemann_zeta(x))'"},"spec":{"lhs":"test_CXX17CodePrinter()","rhs":"CXX17CodePrinter().doprint(beta(x, y)) == 'std::beta(x, y)' and CXX17CodePrinter().doprint(Ei(x)) == 'std::expint(x)' and CXX17CodePrinter().doprint(zeta(x)) == 'std::riemann_zeta(x)' and CXX17CodePrinter().doprint(frac(x)) == '(x - std::floor(x))' and CXX17CodePrinter().doprint(riemann_xi(x)) == '((1.0/2.0)*std::pow(M_PI, -1.0/2.0*x)*x*(x - 1)*std::tgamma((1.0/2.0)*x)*std::riemann_zeta(x))'","over":{"base":"Any"},"name":"test_CXX17CodePrinter_correct"},"guarantee":"CXX17CodePrinter().doprint(beta(x, y)) == 'std::beta(x, y)'; CXX17CodePrinter().doprint(Ei(x)) == 'std::expint(x)'; CXX17CodePrinter().doprint(zeta(x)) == 'std::riemann_zeta(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cxx.test_CXX17CodePrinter_correct","statement":"Path(test_CXX17CodePrinter(x), CXX17CodePrinter().doprint(beta(x, y)) == 'std::beta(x, y)'; CXX17CodePrinter().doprint(Ei(x)) == 'std::expint(x)'; CXX17CodePrinter().doprint(zeta(x)) == 'std::riemann_zeta(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7a4602b17444f37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["CXX17CodePrinter().doprint(beta(x, y)) == 'std::beta(x, y)'","CXX17CodePrinter().doprint(Ei(x)) == 'std::expint(x)'","CXX17CodePrinter().doprint(zeta(x)) == 'std::riemann_zeta(x)'","CXX17CodePrinter().doprint(frac(x)) == '(x - std::floor(x))'","CXX17CodePrinter().doprint(riemann_xi(x)) == '((1.0/2.0)*std::pow(M_PI, -1.0/2.0*x)*x*(x - 1)*std::tgamma((1.0/2.0)*x)*std::riemann_zeta(x))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CXX17CodePrinter():
     assert CXX17CodePrinter().doprint(beta(x, y)) == 'std::beta(x, y)'
     assert CXX17CodePrinter().doprint(Ei(x)) == 'std::expint(x)'
@@ -131,30 +169,43 @@ def test_CXX17CodePrinter():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cxxcode(), test_cxxcode produces the expected output) over Any ║
+# ║ Path(test_cxxcode(), sorted(cxxcode(sqrt(x) * 0.5).split('*')) == sorted(['0.5', 'std::sqrt(x)'])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cxxcode : Any → {Any | sorted(cxxcode(sqrt(x) * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sorted(cxxcode(sqrt(x) * 0.5).split('*'))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cxxcode : Any → {Any | result satisfies: sorted(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 262ac7c208b42085  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e273f081a5faf56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_cxxcode","kind":"function","src_hash":"292507a38ca9ca74","in":{"base":"Any"},"out":{"base":"Any","pred":"sorted(cxxcode(sqrt(x) * 0.5).split('*')) == sorted(['0.5', 'std::sqrt(x)'])"},"spec":{"lhs":"test_cxxcode()","rhs":"test_cxxcode produces the expected output","over":{"base":"Any"},"name":"test_cxxcode_correct"},"guarantee":"test_cxxcode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cxx.test_cxxcode_correct","statement":"Path(test_cxxcode(x), test_cxxcode produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"262ac7c208b42085"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_cxxcode","kind":"function","src_hash":"292507a38ca9ca74","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sorted(cxxcode(sqrt(x) * 0.5).split('*')) == sorted(['0.5', 'std::sqrt(x)'])"},"spec":{"lhs":"test_cxxcode()","rhs":"sorted(cxxcode(sqrt(x) * 0.5).split('*')) == sorted(['0.5', 'std::sqrt(x)'])","over":{"base":"Any"},"name":"test_cxxcode_correct"},"guarantee":"sorted(cxxcode(sqrt(x) * 0.5).split('*')) == sorted(['0.5', 'std::sqrt(x)'])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cxx.test_cxxcode_correct","statement":"Path(test_cxxcode(x), sorted(cxxcode(sqrt(x) * 0.5).split('*')) == sorted(['0.5', 'std::sqrt(x)']))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e273f081a5faf56","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sorted(cxxcode(sqrt(x) * 0.5).split('*')) == sorted(['0.5', 'std::sqrt(x)'])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_cxxcode():
     assert sorted(cxxcode(sqrt(x)*.5).split('*')) == sorted(['0.5', 'std::sqrt(x)'])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cxxcode_nested_minmax(), test_cxxcode_nested_minmax produces the expected output) over Any ║
+# ║ Path(test_cxxcode_nested_minmax(), cxxcode(Max(Min(x, y), Min(u, v))) == 'std::max(std::min(u, v), std::min(x, y))' and cxxcode(Min(Max(x, y), Max(u, v))) == 'std::min(std::max(u, v), std::max(x, y))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cxxcode_nested_minmax : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cxxcode(Max(Min(x, y), Min(u, v))) == 'st...   ║
+# ║   ensures:  cxxcode(Min(Max(x, y), Max(u, v))) == 'st...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cxxcode_nested_minmax : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0a79c39ee7b5d2a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 388bcc0459975b61  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_cxxcode_nested_minmax","kind":"function","src_hash":"6e9f604f031dce5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_cxxcode_nested_minmax()","rhs":"test_cxxcode_nested_minmax produces the expected output","over":{"base":"Any"},"name":"test_cxxcode_nested_minmax_correct"},"guarantee":"test_cxxcode_nested_minmax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cxx.test_cxxcode_nested_minmax_correct","statement":"Path(test_cxxcode_nested_minmax(x), test_cxxcode_nested_minmax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0a79c39ee7b5d2a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_cxxcode_nested_minmax","kind":"function","src_hash":"6e9f604f031dce5f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cxxcode(Max(Min(x, y), Min(u, v))) == 'std::max(std::min(u, v), std::min(x, y))' and cxxcode(Min(Max(x, y), Max(u, v))) == 'std::min(std::max(u, v), std::max(x, y))'"},"spec":{"lhs":"test_cxxcode_nested_minmax()","rhs":"cxxcode(Max(Min(x, y), Min(u, v))) == 'std::max(std::min(u, v), std::min(x, y))' and cxxcode(Min(Max(x, y), Max(u, v))) == 'std::min(std::max(u, v), std::max(x, y))'","over":{"base":"Any"},"name":"test_cxxcode_nested_minmax_correct"},"guarantee":"cxxcode(Max(Min(x, y), Min(u, v))) == 'std::max(std::min(u, v), std::min(x, y))'; cxxcode(Min(Max(x, y), Max(u, v))) == 'std::min(std::max(u, v), std::max(x, y))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_cxx.test_cxxcode_nested_minmax_correct","statement":"Path(test_cxxcode_nested_minmax(x), cxxcode(Max(Min(x, y), Min(u, v))) == 'std::max(std::min(u, v), std::min(x, y))'; cxxcode(Min(Max(x, y), Max(u, v))) == 'std::min(std::max(u, v), std::max(x, y))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"388bcc0459975b61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cxxcode(Max(Min(x, y), Min(u, v))) == 'std::max(std::min(u, v), std::min(x, y))'","cxxcode(Min(Max(x, y), Max(u, v))) == 'std::min(std::max(u, v), std::max(x, y))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cxxcode_nested_minmax():
     assert cxxcode(Max(Min(x, y), Min(u, v))) \
         == 'std::max(std::min(u, v), std::min(x, y))'
@@ -164,14 +215,21 @@ def test_cxxcode_nested_minmax():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_subclass_Integer_Float(), id) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subclass_Integer_Float : Any → {Any | p.doprint(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.doprint(Float(0.5)) == 'bigFloat(bigInt...   ║
+# ║   ensures:  p.doprint(x ** (-1.0)) == 'bigFloat(bigIn...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subclass_Integer_Float : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 22946234a08af8ae   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_subclass_Integer_Float","kind":"function","src_hash":"4c55180666a171f5","in":{"base":"Any"},"out":{"base":"Any","pred":"p.doprint(Float(0.5)) == 'bigFloat(bigInt(\"1\"), bigInt(\"2\"))' and p.doprint(x ** (-1.0)) == 'bigFloat(bigInt(\"1\"), bigInt(\"1\"))/x' and p.doprint(i) == 'bigInt(\"%d\")' % i"},"spec":{"lhs":"test_subclass_Integer_Float()","rhs":"test_subclass_Integer_Float produces the expected output","over":{"base":"Any"},"name":"test_subclass_Integer_Float_correct","kind":"composition"},"guarantee":"test_subclass_Integer_Float produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"bigInt","by":"library_axiom"},{"fn":"super","by":"library_axiom"},{"fn":"_print_Integer","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22946234a08af8ae"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_cxx.test_subclass_Integer_Float","kind":"function","src_hash":"4c55180666a171f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.doprint(Float(0.5)) == 'bigFloat(bigInt(\"1\"), bigInt(\"2\"))' and p.doprint(x ** (-1.0)) == 'bigFloat(bigInt(\"1\"), bigInt(\"1\"))/x'"},"spec":{"lhs":"test_subclass_Integer_Float()","rhs":"p.doprint(Float(0.5)) == 'bigFloat(bigInt(\"1\"), bigInt(\"2\"))' and p.doprint(x ** (-1.0)) == 'bigFloat(bigInt(\"1\"), bigInt(\"1\"))/x'","over":{"base":"Any"},"name":"test_subclass_Integer_Float_correct","kind":"composition"},"guarantee":"p.doprint(Float(0.5)) == 'bigFloat(bigInt(\"1\"), bigInt(\"2\"))'; p.doprint(x ** (-1.0)) == 'bigFloat(bigInt(\"1\"), bigInt(\"1\"))/x'","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"bigInt","by":"library_axiom"},{"fn":"super","by":"library_axiom"},{"fn":"_print_Integer","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22946234a08af8ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.doprint(Float(0.5)) == 'bigFloat(bigInt(\"1\"), bigInt(\"2\"))'","p.doprint(x ** (-1.0)) == 'bigFloat(bigInt(\"1\"), bigInt(\"1\"))/x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_subclass_Integer_Float():
     class MyPrinter(CXX17CodePrinter):
         def _print_Integer(self, arg):

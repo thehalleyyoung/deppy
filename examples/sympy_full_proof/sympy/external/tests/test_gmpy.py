@@ -20,16 +20,23 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_iroot(), test_iroot produces the expected output) over Any ║
+# ║ Path(test_iroot(), iroot(2, LONG_MAX) == (1, False) and iroot(2, LONG_MAX + 1) == (1, False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_iroot : Any → {Any | iroot(2, LONG_MAX) == (1, F...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  iroot(2, LONG_MAX) == (1, False)               ║
+# ║   ensures:  iroot(2, LONG_MAX + 1) == (1, False)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_iroot : Any → {Any | result satisfies: iroot(2, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7516004ac281aff9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3d58043fd7436d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_gmpy.test_iroot","kind":"function","src_hash":"64ad3eca8f6dc2e3","in":{"base":"Any"},"out":{"base":"Any","pred":"iroot(2, LONG_MAX) == (1, False) and iroot(2, LONG_MAX + 1) == (1, False) and iroot(x, 1) == (x, True)"},"spec":{"lhs":"test_iroot()","rhs":"test_iroot produces the expected output","over":{"base":"Any"},"name":"test_iroot_correct"},"guarantee":"test_iroot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_gmpy.test_iroot_correct","statement":"Path(test_iroot(x), test_iroot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7516004ac281aff9"}
+# @cctt_verify {"v":2,"sym":"sympy.external.tests.test_gmpy.test_iroot","kind":"function","src_hash":"64ad3eca8f6dc2e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: iroot(2, LONG_MAX) == (1, False) and iroot(2, LONG_MAX + 1) == (1, False)"},"spec":{"lhs":"test_iroot()","rhs":"iroot(2, LONG_MAX) == (1, False) and iroot(2, LONG_MAX + 1) == (1, False)","over":{"base":"Any"},"name":"test_iroot_correct"},"guarantee":"iroot(2, LONG_MAX) == (1, False); iroot(2, LONG_MAX + 1) == (1, False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.external.tests.test_gmpy.test_iroot_correct","statement":"Path(test_iroot(x), iroot(2, LONG_MAX) == (1, False); iroot(2, LONG_MAX + 1) == (1, False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3d58043fd7436d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["iroot(2, LONG_MAX) == (1, False)","iroot(2, LONG_MAX + 1) == (1, False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_iroot():
     assert iroot(2, LONG_MAX) == (1, False)
     assert iroot(2, LONG_MAX + 1) == (1, False)

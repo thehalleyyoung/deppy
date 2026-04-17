@@ -25,7 +25,12 @@ from sympy import Symbol
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fermionoperator(), test_fermionoperator produces the expected output) over {Any | isinstance(c, FermionOp)} ║
+# ║ Path(test_fermionoperator(), isinstance(c, FermionOp) and isinstance(Dagger(c), FermionOp) and c.is_annihilation and not Dagger(c).is_annihilation and FermionOp('c') == FermionOp('c', True) and FermionOp('c') != FermionOp('d') and FermionOp('c', True) != FermionOp('c', False) and AntiCommutator(c, Dagger(c)).doit() == 1 and AntiCommutator(c, Dagger(d)).doit() == c * Dagger(d) + Dagger(d) * c) over {Any | isinstance(c, FermionOp)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(c, FermionOp)                       ║
+# ║   ensures:  isinstance(Dagger(c), FermionOp)               ║
+# ║   ensures:  c.is_annihilation                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_fermionoperator : {Any | isinstance(c, FermionOp...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -37,9 +42,12 @@ from sympy import Symbol
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a2a39fd7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_fermion.test_fermionoperator","kind":"function","src_hash":"28e636d19becccf9","in":{"base":"Any","pred":"isinstance(c, FermionOp)"},"out":{"base":"Any","pred":"isinstance(c, FermionOp) and isinstance(Dagger(c), FermionOp) and c.is_annihilation and not Dagger(c).is_annihilation and FermionOp('c') == FermionOp('c', True) and FermionOp('c') != FermionOp('d') and FermionOp('c', True) != FermionOp('c', False) and AntiCommutator(c, Dagger(c)).doit() == 1 and AntiCommutator(c, Dagger(d)).doit() == c * Dagger(d) + Dagger(d) * c"},"spec":{"lhs":"test_fermionoperator()","rhs":"test_fermionoperator produces the expected output","over":{"base":"Any","pred":"isinstance(c, FermionOp)"},"name":"test_fermionoperator_correct"},"guarantee":"test_fermionoperator produces the expected output","fibers":[{"name":"FermionOp","pred":"isinstance(c, FermionOp)","path":{"lhs":"test_fermionoperator(x)","rhs":"test_fermionoperator produces the expected output","over":{"base":"FermionOp","pred":"isinstance(c, FermionOp)"},"name":"test_fermionoperator_FermionOp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_fermion.test_fermionoperator_FermionOp_correct","statement":"test_fermionoperator satisfies spec on FermionOp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a2a39fd712b444a8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_fermion.test_fermionoperator","kind":"function","src_hash":"28e636d19becccf9","in":{"base":"Any","pred":"isinstance(c, FermionOp)"},"out":{"base":"Any","pred":"result satisfies: isinstance(c, FermionOp) and isinstance(Dagger(c), FermionOp) and c.is_annihilation and not Dagger(c).is_annihilation and FermionOp('c') == FermionOp('c', True) and FermionOp('c') != FermionOp('d') and FermionOp('c', True) != FermionOp('c', False) and AntiCommutator(c, Dagger(c)).doit() == 1 and AntiCommutator(c, Dagger(d)).doit() == c * Dagger(d) + Dagger(d) * c"},"spec":{"lhs":"test_fermionoperator()","rhs":"isinstance(c, FermionOp) and isinstance(Dagger(c), FermionOp) and c.is_annihilation and not Dagger(c).is_annihilation and FermionOp('c') == FermionOp('c', True) and FermionOp('c') != FermionOp('d') and FermionOp('c', True) != FermionOp('c', False) and AntiCommutator(c, Dagger(c)).doit() == 1 and AntiCommutator(c, Dagger(d)).doit() == c * Dagger(d) + Dagger(d) * c","over":{"base":"Any","pred":"isinstance(c, FermionOp)"},"name":"test_fermionoperator_correct"},"guarantee":"isinstance(c, FermionOp); isinstance(Dagger(c), FermionOp); c.is_annihilation","fibers":[{"name":"FermionOp","pred":"isinstance(c, FermionOp)","path":{"lhs":"test_fermionoperator(x)","rhs":"isinstance(c, FermionOp); isinstance(Dagger(c), FermionOp); c.is_annihilation","over":{"base":"FermionOp","pred":"isinstance(c, FermionOp)"},"name":"test_fermionoperator_FermionOp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_fermion.test_fermionoperator_FermionOp_correct","statement":"test_fermionoperator satisfies spec on FermionOp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a2a39fd712b444a8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(c, FermionOp)","isinstance(Dagger(c), FermionOp)","c.is_annihilation","not Dagger(c).is_annihilation","FermionOp('c') == FermionOp('c', True)","FermionOp('c') != FermionOp('d')","FermionOp('c', True) != FermionOp('c', False)","AntiCommutator(c, Dagger(c)).doit() == 1","AntiCommutator(c, Dagger(d)).doit() == c * Dagger(d) + Dagger(d) * c"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":true}}
 def test_fermionoperator():
     c = FermionOp('c')
     d = FermionOp('d')
@@ -60,16 +68,24 @@ def test_fermionoperator():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_fermion_states(), test_fermion_states produces the expected output) over Any ║
+# ║ Path(test_fermion_states(), (FermionFockBra(0) * FermionFockKet(1)).doit() == 0 and (FermionFockBra(1) * FermionFockKet(1)).doit() == 1 and qapply(c * FermionFockKet(1)) == FermionFockKet(0) and qapply(c * FermionFockKet(0)) == 0 and qapply(Dagger(c) * FermionFockKet(0)) == FermionFockKet(1) and qapply(Dagger(c) * FermionFockKet(1)) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_fermion_states : Any → {Any | (FermionFockBra(0)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (FermionFockBra(0) * FermionFockKet(1)).d...   ║
+# ║   ensures:  (FermionFockBra(1) * FermionFockKet(1)).d...   ║
+# ║   ensures:  qapply(c * FermionFockKet(1)) == FermionF...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_fermion_states : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3094362f481cf25  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c81446928a790d67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_fermion.test_fermion_states","kind":"function","src_hash":"3440b5f50fcde286","in":{"base":"Any"},"out":{"base":"Any","pred":"(FermionFockBra(0) * FermionFockKet(1)).doit() == 0 and (FermionFockBra(1) * FermionFockKet(1)).doit() == 1 and qapply(c * FermionFockKet(1)) == FermionFockKet(0) and qapply(c * FermionFockKet(0)) == 0 and qapply(Dagger(c) * FermionFockKet(0)) == FermionFockKet(1) and qapply(Dagger(c) * FermionFockKet(1)) == 0"},"spec":{"lhs":"test_fermion_states()","rhs":"test_fermion_states produces the expected output","over":{"base":"Any"},"name":"test_fermion_states_correct"},"guarantee":"test_fermion_states produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_fermion.test_fermion_states_correct","statement":"Path(test_fermion_states(x), test_fermion_states produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3094362f481cf25"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_fermion.test_fermion_states","kind":"function","src_hash":"3440b5f50fcde286","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (FermionFockBra(0) * FermionFockKet(1)).doit() == 0 and (FermionFockBra(1) * FermionFockKet(1)).doit() == 1 and qapply(c * FermionFockKet(1)) == FermionFockKet(0) and qapply(c * FermionFockKet(0)) == 0 and qapply(Dagger(c) * FermionFockKet(0)) == FermionFockKet(1) and qapply(Dagger(c) * FermionFockKet(1)) == 0"},"spec":{"lhs":"test_fermion_states()","rhs":"(FermionFockBra(0) * FermionFockKet(1)).doit() == 0 and (FermionFockBra(1) * FermionFockKet(1)).doit() == 1 and qapply(c * FermionFockKet(1)) == FermionFockKet(0) and qapply(c * FermionFockKet(0)) == 0 and qapply(Dagger(c) * FermionFockKet(0)) == FermionFockKet(1) and qapply(Dagger(c) * FermionFockKet(1)) == 0","over":{"base":"Any"},"name":"test_fermion_states_correct"},"guarantee":"(FermionFockBra(0) * FermionFockKet(1)).doit() == 0; (FermionFockBra(1) * FermionFockKet(1)).doit() == 1; qapply(c * FermionFockKet(1)) == FermionFockKet(0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_fermion.test_fermion_states_correct","statement":"Path(test_fermion_states(x), (FermionFockBra(0) * FermionFockKet(1)).doit() == 0; (FermionFockBra(1) * FermionFockKet(1)).doit() == 1; qapply(c * FermionFockKet(1)) == FermionFockKet(0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c81446928a790d67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(FermionFockBra(0) * FermionFockKet(1)).doit() == 0","(FermionFockBra(1) * FermionFockKet(1)).doit() == 1","qapply(c * FermionFockKet(1)) == FermionFockKet(0)","qapply(c * FermionFockKet(0)) == 0","qapply(Dagger(c) * FermionFockKet(0)) == FermionFockKet(1)","qapply(Dagger(c) * FermionFockKet(1)) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_fermion_states():
     c = FermionOp("c")
 
@@ -85,16 +101,24 @@ def test_fermion_states():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_power(), test_power produces the expected output) over Any ║
+# ║ Path(test_power(), c ** 0 == 1 and c ** 1 == c and c ** 2 == 0 and c ** 3 == 0 and Dagger(c) ** 1 == Dagger(c) and Dagger(c) ** 2 == 0 and (c ** Symbol('a')).func == sympy.core.power.Pow and (c ** Symbol('a')).args == (c, Symbol('a'))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_power : Any → {Any | c ** 0 == 1 and c ** 1 == c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c ** 0 == 1                                    ║
+# ║   ensures:  c ** 1 == c                                    ║
+# ║   ensures:  c ** 2 == 0                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_power : Any → {Any | result satisfies: c ** 0 ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f0905c6bec2e632  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3cc8e548b8092b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_fermion.test_power","kind":"function","src_hash":"161e45342d3df2ca","in":{"base":"Any"},"out":{"base":"Any","pred":"c ** 0 == 1 and c ** 1 == c and c ** 2 == 0 and c ** 3 == 0 and Dagger(c) ** 1 == Dagger(c) and Dagger(c) ** 2 == 0 and (c ** Symbol('a')).func == sympy.core.power.Pow and (c ** Symbol('a')).args == (c, Symbol('a'))"},"spec":{"lhs":"test_power()","rhs":"test_power produces the expected output","over":{"base":"Any"},"name":"test_power_correct"},"guarantee":"test_power produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_fermion.test_power_correct","statement":"Path(test_power(x), test_power produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f0905c6bec2e632"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_fermion.test_power","kind":"function","src_hash":"161e45342d3df2ca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c ** 0 == 1 and c ** 1 == c and c ** 2 == 0 and c ** 3 == 0 and Dagger(c) ** 1 == Dagger(c) and Dagger(c) ** 2 == 0 and (c ** Symbol('a')).func == sympy.core.power.Pow and (c ** Symbol('a')).args == (c, Symbol('a'))"},"spec":{"lhs":"test_power()","rhs":"c ** 0 == 1 and c ** 1 == c and c ** 2 == 0 and c ** 3 == 0 and Dagger(c) ** 1 == Dagger(c) and Dagger(c) ** 2 == 0 and (c ** Symbol('a')).func == sympy.core.power.Pow and (c ** Symbol('a')).args == (c, Symbol('a'))","over":{"base":"Any"},"name":"test_power_correct"},"guarantee":"c ** 0 == 1; c ** 1 == c; c ** 2 == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_fermion.test_power_correct","statement":"Path(test_power(x), c ** 0 == 1; c ** 1 == c; c ** 2 == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3cc8e548b8092b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c ** 0 == 1","c ** 1 == c","c ** 2 == 0","c ** 3 == 0","Dagger(c) ** 1 == Dagger(c)","Dagger(c) ** 2 == 0","(c ** Symbol('a')).func == sympy.core.power.Pow","(c ** Symbol('a')).args == (c, Symbol('a'))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_power():
     c = FermionOp("c")
     assert c**0 == 1

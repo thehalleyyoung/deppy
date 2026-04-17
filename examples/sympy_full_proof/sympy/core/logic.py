@@ -32,16 +32,22 @@ FuzzyBool = Optional[bool]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_torf(arg), return true if all args are true, false if they are all false, else none) over Any ║
+# ║ Path(_torf(args), <unspecified:_torf>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _torf : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bab677c1edc35d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic._torf","kind":"function","src_hash":"19c1e333dc69624f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_torf(arg)","rhs":"return true if all args are true, false if they are all false, else none","over":{"base":"Any"},"name":"_torf_correct"},"guarantee":"return true if all args are true, false if they are all false, else none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic._torf_correct","statement":"Path(_torf(x), return true if all args are true, false if they are all false, else none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bab677c1edc35d3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic._torf","kind":"function","src_hash":"19c1e333dc69624f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_torf(args)","rhs":"<unspecified:_torf>","over":{"base":"Any"},"name":"_torf_correct"},"guarantee":"return true if all args are true, false if they are all false, else none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic._torf_correct","statement":"Path(_torf(x), return true if all args are true, false if they are all false, else none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bab677c1edc35d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _torf(args):
     """Return True if all args are True, False if they
     are all False, else None.
@@ -69,16 +75,22 @@ def _torf(args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fuzzy_group(arg), return true if all args are true, none if there is any none else false unless ``quick_exit`` is true (then return none as soon as a second false is seen) over Any ║
+# ║ Path(_fuzzy_group(args, quick_exit), not saw_other) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not saw_other                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _fuzzy_group : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8faa9366dda1bb01  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 719079a6bfa422dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic._fuzzy_group","kind":"function","src_hash":"1998c3d09bd3244c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fuzzy_group(arg)","rhs":"return true if all args are true, none if there is any none else false unless ``quick_exit`` is true (then return none as soon as a second false is seen","over":{"base":"Any"},"name":"_fuzzy_group_correct"},"guarantee":"return true if all args are true, none if there is any none else false unless ``quick_exit`` is true (then return none as soon as a second false is seen","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic._fuzzy_group_correct","statement":"Path(_fuzzy_group(x), return true if all args are true, none if there is any none else false unless ``quick_exit`` is true (then return none as soon as a second false is seen)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8faa9366dda1bb01"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic._fuzzy_group","kind":"function","src_hash":"1998c3d09bd3244c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fuzzy_group(args, quick_exit)","rhs":"not saw_other","over":{"base":"Any"},"name":"_fuzzy_group_correct"},"guarantee":"returns not saw_other","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic._fuzzy_group_correct","statement":"Path(_fuzzy_group(x), returns not saw_other)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"719079a6bfa422dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not saw_other","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _fuzzy_group(args, quick_exit=False):
     """Return True if all args are True, None if there is any None else False
     unless ``quick_exit`` is True (then return None as soon as a second False
@@ -129,16 +141,22 @@ def _fuzzy_group(args, quick_exit=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fuzzy_bool(x), return true, false or none according to x) over Any ║
+# ║ Path(fuzzy_bool(x), <unspecified:fuzzy_bool>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fuzzy_bool : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06879a11a1570681  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.fuzzy_bool","kind":"function","src_hash":"d9e268f964893fc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fuzzy_bool(x)","rhs":"return true, false or none according to x","over":{"base":"Any"},"name":"fuzzy_bool_correct"},"guarantee":"return true, false or none according to x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.fuzzy_bool_correct","statement":"Path(fuzzy_bool(x), return true, false or none according to x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06879a11a1570681"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.fuzzy_bool","kind":"function","src_hash":"d9e268f964893fc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fuzzy_bool(x)","rhs":"<unspecified:fuzzy_bool>","over":{"base":"Any"},"name":"fuzzy_bool_correct"},"guarantee":"return true, false or none according to x","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.fuzzy_bool_correct","statement":"Path(fuzzy_bool(x), return true, false or none according to x)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06879a11a1570681","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def fuzzy_bool(x):
     """Return True, False or None according to x.
 
@@ -163,16 +181,22 @@ def fuzzy_bool(x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fuzzy_and(arg), return true (all true), false (any false) or none) over Any ║
+# ║ Path(fuzzy_and(args), <unspecified:fuzzy_and>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fuzzy_and : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 010ea9c9ceeda4a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.fuzzy_and","kind":"function","src_hash":"819bdddcdbf390b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fuzzy_and(arg)","rhs":"return true (all true), false (any false) or none","over":{"base":"Any"},"name":"fuzzy_and_correct"},"guarantee":"return true (all true), false (any false) or none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.fuzzy_and_correct","statement":"Path(fuzzy_and(x), return true (all true), false (any false) or none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"010ea9c9ceeda4a0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.fuzzy_and","kind":"function","src_hash":"819bdddcdbf390b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fuzzy_and(args)","rhs":"<unspecified:fuzzy_and>","over":{"base":"Any"},"name":"fuzzy_and_correct"},"guarantee":"return true (all true), false (any false) or none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.fuzzy_and_correct","statement":"Path(fuzzy_and(x), return true (all true), false (any false) or none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"010ea9c9ceeda4a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def fuzzy_and(args):
     """Return True (all True), False (any False) or None.
 
@@ -210,16 +234,25 @@ def fuzzy_and(args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fuzzy_not(v), not in fuzzy logic) over Any            ║
+# ║ Path(fuzzy_not(v), result == (v if v is None else not v) and result == v or result == not v) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fuzzy_not : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (v if v is None else not v)          ║
+# ║   ensures:  result == v or result == not v                 ║
+# ║   fiber[zero_or_none]: v is None => v                      ║
+# ║   fiber[zero_or_none]: not (v is None) => not v            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fuzzy_not : Any → {Any | result satisfies: result == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f60cc3e4adc1f3d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e28200b8d8c14533  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.fuzzy_not","kind":"function","src_hash":"ae521c69d3544ab2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fuzzy_not(v)","rhs":"not in fuzzy logic","over":{"base":"Any"},"name":"fuzzy_not_correct"},"guarantee":"not in fuzzy logic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.fuzzy_not_correct","statement":"Path(fuzzy_not(x), not in fuzzy logic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f60cc3e4adc1f3d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.fuzzy_not","kind":"function","src_hash":"ae521c69d3544ab2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (v if v is None else not v) and result == v or result == not v"},"spec":{"lhs":"fuzzy_not(v)","rhs":"result == (v if v is None else not v) and result == v or result == not v","over":{"base":"Any"},"name":"fuzzy_not_correct"},"guarantee":"result == (v if v is None else not v); result == v or result == not v; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.fuzzy_not_correct","statement":"Path(fuzzy_not(x), result == (v if v is None else not v); result == v or result == not v; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e28200b8d8c14533","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (v if v is None else not v)","result == v or result == not v"],"fibers":[{"name":"zero_or_none","guard":"v is None","ensures":["result == v"],"decidability":"structural","returns_expr":"v"},{"name":"zero_or_none","guard":"not (v is None)","ensures":["result == not v"],"decidability":"structural","returns_expr":"not v"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def fuzzy_not(v):
     """
     Not in fuzzy logic
@@ -244,16 +277,22 @@ def fuzzy_not(v):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fuzzy_or(arg), or in fuzzy logic) over Any            ║
+# ║ Path(fuzzy_or(args), <unspecified:fuzzy_or>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fuzzy_or : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0947b6c47833c04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.fuzzy_or","kind":"function","src_hash":"99304841038daa2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fuzzy_or(arg)","rhs":"or in fuzzy logic","over":{"base":"Any"},"name":"fuzzy_or_correct"},"guarantee":"or in fuzzy logic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.fuzzy_or_correct","statement":"Path(fuzzy_or(x), or in fuzzy logic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0947b6c47833c04"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.fuzzy_or","kind":"function","src_hash":"99304841038daa2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fuzzy_or(args)","rhs":"<unspecified:fuzzy_or>","over":{"base":"Any"},"name":"fuzzy_or_correct"},"guarantee":"or in fuzzy logic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.fuzzy_or_correct","statement":"Path(fuzzy_or(x), or in fuzzy logic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0947b6c47833c04","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def fuzzy_or(args):
     """
     Or in fuzzy logic. Returns True (any True), False (all False), or None
@@ -283,16 +322,22 @@ def fuzzy_or(args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fuzzy_xor(arg), return none if any element of args is not true or false, else true (if there are an odd number of true elements), else false) over Any ║
+# ║ Path(fuzzy_xor(args), t % 2 == 1) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  t % 2 == 1                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fuzzy_xor : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e20ec66195e85c4d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0cd4997c64cbbd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.fuzzy_xor","kind":"function","src_hash":"1ff928a4d5ffd6e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fuzzy_xor(arg)","rhs":"return none if any element of args is not true or false, else true (if there are an odd number of true elements), else false","over":{"base":"Any"},"name":"fuzzy_xor_correct"},"guarantee":"return none if any element of args is not true or false, else true (if there are an odd number of true elements), else false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.fuzzy_xor_correct","statement":"Path(fuzzy_xor(x), return none if any element of args is not true or false, else true (if there are an odd number of true elements), else false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e20ec66195e85c4d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.fuzzy_xor","kind":"function","src_hash":"1ff928a4d5ffd6e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fuzzy_xor(args)","rhs":"t % 2 == 1","over":{"base":"Any"},"name":"fuzzy_xor_correct"},"guarantee":"returns t % 2 == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.fuzzy_xor_correct","statement":"Path(fuzzy_xor(x), returns t % 2 == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0cd4997c64cbbd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"t % 2 == 1","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def fuzzy_xor(args):
     """Return None if any element of args is not True or False, else
     True (if there are an odd number of True elements), else False."""
@@ -307,16 +352,22 @@ def fuzzy_xor(args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fuzzy_nand(arg), return false if all args are true, true if they are all false, else none) over Any ║
+# ║ Path(fuzzy_nand(args), fuzzy_not(fuzzy_and(args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_not(fuzzy_and(args))                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fuzzy_nand : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c40d67d1a40ace58           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.fuzzy_nand","kind":"function","src_hash":"7d0d6726e11f07f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fuzzy_nand(arg)","rhs":"return false if all args are true, true if they are all false, else none","over":{"base":"Any"},"name":"fuzzy_nand_correct"},"guarantee":"return false if all args are true, true if they are all false, else none","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c40d67d1a40ace58"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.fuzzy_nand","kind":"function","src_hash":"7d0d6726e11f07f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fuzzy_nand(args)","rhs":"fuzzy_not(fuzzy_and(args))","over":{"base":"Any"},"name":"fuzzy_nand_correct"},"guarantee":"returns fuzzy_not(fuzzy_and(args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c40d67d1a40ace58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_not(fuzzy_and(args))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def fuzzy_nand(args):
     """Return False if all args are True, True if they are all False,
     else None."""
@@ -326,74 +377,109 @@ def fuzzy_nand(args):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Logic(*args), correctly constructs a Logic instance) over {Any | isinstance(b, type(a))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Logic : {Any | isinstance(b, type(a))} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e8434089875ec90  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic","kind":"class","src_hash":"a26f651c6dc2ccc5","in":{"base":"Any","pred":"isinstance(b, type(a))"},"out":{"base":"Any"},"spec":{"lhs":"Logic(*args)","rhs":"correctly constructs a Logic instance","over":{"base":"Any","pred":"isinstance(b, type(a))"},"name":"Logic_class_invariant"},"guarantee":"correctly constructs a Logic instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e8434089875ec90"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic","kind":"class","src_hash":"a26f651c6dc2ccc5","in":{"base":"Any","pred":"isinstance(b, type(a))"},"out":{"base":"Any"},"spec":{"lhs":"Logic(*args)","rhs":"correctly constructs a Logic instance","over":{"base":"Any","pred":"isinstance(b, type(a))"},"name":"Logic_class_invariant"},"guarantee":"correctly constructs a Logic instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e8434089875ec90","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Logic not found in source"]}}
 class Logic:
     """Logical expression"""
     # {} 'op' -> LogicClass
     op_2class: dict[str, type[Logic]] = {}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), <unspecified:__new__>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b38cc7d83b2bf976           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__new__","kind":"method","src_hash":"34fbeb156964e62f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b38cc7d83b2bf976"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__new__","kind":"method","src_hash":"34fbeb156964e62f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b38cc7d83b2bf976","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         obj = object.__new__(cls)
         obj.args = args
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getnewargs__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getnewargs__(), self.args) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getnewargs__ : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0d4096fe76c497ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__getnewargs__","kind":"method","src_hash":"75f151fdd360a74c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d4096fe76c497ba"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__getnewargs__","kind":"method","src_hash":"75f151fdd360a74c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"self.args","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"returns self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0d4096fe76c497ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getnewargs__(self):
         return self.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash((type(self).__name__,) + tuple(self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash((type(self).__name__,) + tuple(self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2ef2e7bcd3e54a4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__hash__","kind":"method","src_hash":"2e1d15e50a5f0787","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ef2e7bcd3e54a4c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__hash__","kind":"method","src_hash":"2e1d15e50a5f0787","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash((type(self).__name__,) + tuple(self.args))","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash((type(self).__name__,) + tuple(self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ef2e7bcd3e54a4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash((type(self).__name__,) + tuple(self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return hash((type(self).__name__,) + tuple(self.args))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(a, ), correctly determines equality) over Any  ║
+# ║ Path(__eq__(a, b), result == (False if not isinstance(b, type(a)) else a.args == b.args) and result == False or result == a.args == b.args) over {Any | hasattr(a, 'args') and hasattr(b, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'args')                             ║
+# ║   requires: hasattr(b, 'args')                             ║
+# ║   ensures:  result == (False if not isinstance(b, typ...   ║
+# ║   ensures:  result == False or result == a.args == b....   ║
+# ║   fiber[case_0]: not isinstance(b, type(a)) => False       ║
+# ║   fiber[case_1]: not (not isinstance(b, type(a))) => ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(a, 'args') and hasattr(b, 'ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 115111fd60627e39           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__eq__","kind":"method","src_hash":"f9add72f0134f9f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(a, )","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"115111fd60627e39"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__eq__","kind":"method","src_hash":"f9add72f0134f9f9","in":{"base":"Any","pred":"hasattr(a, 'args') and hasattr(b, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (False if not isinstance(b, type(a)) else a.args == b.args) and result == False or result == a.args == b.args"},"spec":{"lhs":"__eq__(a, b)","rhs":"result == (False if not isinstance(b, type(a)) else a.args == b.args) and result == False or result == a.args == b.args","over":{"base":"Any","pred":"hasattr(a, 'args') and hasattr(b, 'args')"},"name":"__eq___correct"},"guarantee":"result == (False if not isinstance(b, type(a)) else a.args == b.args); result == False or result == a.args == b.args; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"115111fd60627e39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'args')","hasattr(b, 'args')"],"ensures":["result == (False if not isinstance(b, type(a)) else a.args == b.args)","result == False or result == a.args == b.args"],"fibers":[{"name":"case_0","guard":"not isinstance(b, type(a))","ensures":["result == False"],"decidability":"structural","returns_expr":"False"},{"name":"case_1","guard":"not (not isinstance(b, type(a)))","ensures":["result == a.args == b.args"],"decidability":"structural","returns_expr":"a.args == b.args"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.args","b.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(a, b):
         if not isinstance(b, type(a)):
             return False
@@ -401,16 +487,27 @@ class Logic:
             return a.args == b.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(a, b), result == (True if not isinstance(b, type(a)) else a.args != b.args) and result == True or result == a.args != b.args) over {Any | hasattr(a, 'args') and hasattr(b, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __ne__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'args')                             ║
+# ║   requires: hasattr(b, 'args')                             ║
+# ║   ensures:  result == (True if not isinstance(b, type...   ║
+# ║   ensures:  result == True or result == a.args != b.args   ║
+# ║   fiber[case_0]: not isinstance(b, type(a)) => True        ║
+# ║   fiber[case_1]: not (not isinstance(b, type(a))) => ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __ne__ : {Any | hasattr(a, 'args') and hasattr(b, 'ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a7e60d9a10e42f3b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__ne__","kind":"method","src_hash":"337d203fe16b1508","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7e60d9a10e42f3b"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__ne__","kind":"method","src_hash":"337d203fe16b1508","in":{"base":"Any","pred":"hasattr(a, 'args') and hasattr(b, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (True if not isinstance(b, type(a)) else a.args != b.args) and result == True or result == a.args != b.args"},"spec":{"lhs":"__ne__(a, b)","rhs":"result == (True if not isinstance(b, type(a)) else a.args != b.args) and result == True or result == a.args != b.args","over":{"base":"Any","pred":"hasattr(a, 'args') and hasattr(b, 'args')"},"name":"__ne___correct"},"guarantee":"result == (True if not isinstance(b, type(a)) else a.args != b.args); result == True or result == a.args != b.args; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7e60d9a10e42f3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'args')","hasattr(b, 'args')"],"ensures":["result == (True if not isinstance(b, type(a)) else a.args != b.args)","result == True or result == a.args != b.args"],"fibers":[{"name":"case_0","guard":"not isinstance(b, type(a))","ensures":["result == True"],"decidability":"structural","returns_expr":"True"},{"name":"case_1","guard":"not (not isinstance(b, type(a)))","ensures":["result == a.args != b.args"],"decidability":"structural","returns_expr":"a.args != b.args"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.args","b.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(a, b):
         if not isinstance(b, type(a)):
             return True
@@ -418,32 +515,45 @@ class Logic:
             return a.args != b.args
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__lt__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__lt__(other), <unspecified:__lt__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __lt__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9d6143564e0672f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__lt__","kind":"method","src_hash":"06f3910694e0a6d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9d6143564e0672f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__lt__","kind":"method","src_hash":"06f3910694e0a6d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__lt__(other)","rhs":"<unspecified:__lt__>","over":{"base":"Any"},"name":"__lt___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9d6143564e0672f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__cmp__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __lt__(self, other):
         if self.__cmp__(other) == -1:
             return True
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__cmp__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__cmp__(other), (a > b) - (a < b)) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __cmp__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   returns:  (a > b) - (a < b)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __cmp__ : {Any | hasattr(other, 'args')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 605ecf8486f03953           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__cmp__","kind":"method","src_hash":"fa2a7b516c33c592","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__cmp__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__cmp___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"605ecf8486f03953"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__cmp__","kind":"method","src_hash":"fa2a7b516c33c592","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__cmp__(other)","rhs":"(a > b) - (a < b)","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__cmp___correct"},"guarantee":"returns (a > b) - (a < b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"605ecf8486f03953","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'args')"],"returns_expr":"(a > b) - (a < b)","pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __cmp__(self, other):
         if type(self) is not type(other):
             a = str(type(self))
@@ -454,16 +564,22 @@ class Logic:
         return (a > b) - (a < b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '%s(%s)' % (self.__class__.__name__, ', '.join((str(a) for a in self.args)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s(%s)' % (self.__class__.__name__, ', '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5c99e93abb022658           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__str__","kind":"method","src_hash":"9c2948f10a5dd975","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c99e93abb022658"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.__str__","kind":"method","src_hash":"9c2948f10a5dd975","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'%s(%s)' % (self.__class__.__name__, ', '.join((str(a) for a in self.args)))","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '%s(%s)' % (self.__class__.__name__, ', '.join((str(a) for a in self.args)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c99e93abb022658","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s(%s)' % (self.__class__.__name__, ', '.join((str(a) for a in self.args)))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return '%s(%s)' % (self.__class__.__name__,
                            ', '.join(str(a) for a in self.args))
@@ -472,16 +588,25 @@ class Logic:
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fromstring(tex), logic from string with space around & and | but none after !) over Any ║
+# ║ Path(fromstring(text), <unspecified:fromstring>) over {Any | not (schedop is not None) and not (lexpr is None) and hasattr(text, 'split')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fromstring : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (schedop is not None)                      ║
+# ║   requires: not (lexpr is None)                            ║
+# ║   requires: hasattr(text, 'split')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fromstring : {Any | not (schedop is not None) and not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f142f1d56a8a404  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.fromstring","kind":"staticmethod","src_hash":"1adc7cfb8f841a75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fromstring(tex)","rhs":"logic from string with space around & and | but none after !","over":{"base":"Any"},"name":"fromstring_correct"},"guarantee":"logic from string with space around & and | but none after !","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.Logic.fromstring_correct","statement":"Path(fromstring(x), logic from string with space around & and | but none after !)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f142f1d56a8a404"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Logic.fromstring","kind":"staticmethod","src_hash":"1adc7cfb8f841a75","in":{"base":"Any","pred":"not (schedop is not None) and not (lexpr is None) and hasattr(text, 'split')"},"out":{"base":"Any"},"spec":{"lhs":"fromstring(text)","rhs":"<unspecified:fromstring>","over":{"base":"Any","pred":"not (schedop is not None) and not (lexpr is None) and hasattr(text, 'split')"},"name":"fromstring_correct"},"guarantee":"logic from string with space around & and | but none after !","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.Logic.fromstring_correct","statement":"Path(fromstring(x), logic from string with space around & and | but none after !)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f142f1d56a8a404","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (schedop is not None)","not (lexpr is None)","hasattr(text, 'split')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["text.split"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fromstring(text):
         """Logic from string with space around & and | but none after !.
 
@@ -535,27 +660,42 @@ class Logic:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AndOr_Base(*args), correctly constructs a AndOr_Base instance) over {Any | isinstance(arg, Logic) and isinstance(arg, cls)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Logic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AndOr_Base : {Any | isinstance(arg, Logic) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa67351bb59a5818  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.AndOr_Base","kind":"class","src_hash":"258f3cc8185e4bea","in":{"base":"Any","pred":"isinstance(arg, Logic) and isinstance(arg, cls)"},"out":{"base":"Any"},"spec":{"lhs":"AndOr_Base(*args)","rhs":"correctly constructs a AndOr_Base instance","over":{"base":"Any","pred":"isinstance(arg, Logic) and isinstance(arg, cls)"},"name":"AndOr_Base_class_invariant"},"guarantee":"correctly constructs a AndOr_Base instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa67351bb59a5818"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.AndOr_Base","kind":"class","src_hash":"258f3cc8185e4bea","in":{"base":"Any","pred":"isinstance(arg, Logic) and isinstance(arg, cls)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Logic)"},"spec":{"lhs":"AndOr_Base(*args)","rhs":"correctly constructs a AndOr_Base instance","over":{"base":"Any","pred":"isinstance(arg, Logic) and isinstance(arg, cls)"},"name":"AndOr_Base_class_invariant"},"guarantee":"isinstance(self, Logic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa67351bb59a5818","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Logic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function AndOr_Base not found in source"]}}
 class AndOr_Base(Logic):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args), result == (args.pop() if len(args) == 1 else not cls.op_x_notx) and result == args.pop() or result == not cls.op_x_notx) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (args.pop() if len(args) == 1 e...   ║
+# ║   ensures:  result == args.pop() or result == not cls...   ║
+# ║   fiber[case_0]: len(args) == 1 => args.pop()              ║
+# ║   fiber[zero_or_none]: len(args) == 0 => not cls.op_x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : Any → {Any | result satisfies: result == (a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 01058449213f4f34           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.AndOr_Base.__new__","kind":"method","src_hash":"35cf51750dd4853f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01058449213f4f34"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.AndOr_Base.__new__","kind":"method","src_hash":"35cf51750dd4853f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (args.pop() if len(args) == 1 else not cls.op_x_notx) and result == args.pop() or result == not cls.op_x_notx"},"spec":{"lhs":"__new__(cls, *args)","rhs":"result == (args.pop() if len(args) == 1 else not cls.op_x_notx) and result == args.pop() or result == not cls.op_x_notx","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"result == (args.pop() if len(args) == 1 else not cls.op_x_notx); result == args.pop() or result == not cls.op_x_notx; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01058449213f4f34","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (args.pop() if len(args) == 1 else not cls.op_x_notx)","result == args.pop() or result == not cls.op_x_notx"],"fibers":[{"name":"case_0","guard":"len(args) == 1","ensures":["result == args.pop()"],"decidability":"z3","returns_expr":"args.pop()"},{"name":"zero_or_none","guard":"len(args) == 0","ensures":["result == not cls.op_x_notx"],"decidability":"z3","returns_expr":"not cls.op_x_notx"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args):
         bargs = []
         for a in args:
@@ -580,16 +720,23 @@ class AndOr_Base(Logic):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flatten(cls), flatten produces the expected output) over Any ║
+# ║ Path(flatten(cls, args), args) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ flatten : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == args                                 ║
+# ║   returns:  args                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ flatten : Any → {Any | result satisfies: result == (a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f56377d3e2256384  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94c5d1eece7581cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.AndOr_Base.flatten","kind":"classmethod","src_hash":"4e7be95990e0cf2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten(cls)","rhs":"flatten produces the expected output","over":{"base":"Any"},"name":"flatten_correct"},"guarantee":"flatten produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.AndOr_Base.flatten_correct","statement":"Path(flatten(x), flatten produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f56377d3e2256384"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.AndOr_Base.flatten","kind":"classmethod","src_hash":"4e7be95990e0cf2c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (args)"},"spec":{"lhs":"flatten(cls, args)","rhs":"args","over":{"base":"Any"},"name":"flatten_correct"},"guarantee":"returns args; result == args","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.AndOr_Base.flatten_correct","statement":"Path(flatten(x), returns args; result == args)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94c5d1eece7581cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == args"],"returns_expr":"args","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def flatten(cls, args):
         # quick-n-dirty flattening for And and Or
         args_queue = list(args)
@@ -613,44 +760,62 @@ class AndOr_Base(Logic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(And(*args), correctly constructs a And instance) over {Any | isinstance(arg, Or) and isinstance(orterms[j], Logic)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AndOr_Base)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ And : {Any | isinstance(arg, Or) and isinstance(orter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afa45b1be99b8245  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.And","kind":"class","src_hash":"6bd2e6db603afe92","in":{"base":"Any","pred":"isinstance(arg, Or) and isinstance(orterms[j], Logic)"},"out":{"base":"Any"},"spec":{"lhs":"And(*args)","rhs":"correctly constructs a And instance","over":{"base":"Any","pred":"isinstance(arg, Or) and isinstance(orterms[j], Logic)"},"name":"And_class_invariant"},"guarantee":"correctly constructs a And instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afa45b1be99b8245"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.And","kind":"class","src_hash":"6bd2e6db603afe92","in":{"base":"Any","pred":"isinstance(arg, Or) and isinstance(orterms[j], Logic)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AndOr_Base)"},"spec":{"lhs":"And(*args)","rhs":"correctly constructs a And instance","over":{"base":"Any","pred":"isinstance(arg, Or) and isinstance(orterms[j], Logic)"},"name":"And_class_invariant"},"guarantee":"isinstance(self, AndOr_Base)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afa45b1be99b8245","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AndOr_Base)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function And not found in source"]}}
 class And(AndOr_Base):
     op_x_notx = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_propagate_not(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_propagate_not(), Or(*[Not(a) for a in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Or(*[Not(a) for a in self.args])               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_propagate_not : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c118c84d055755f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.And._eval_propagate_not","kind":"method","src_hash":"981b37f898ea1537","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_propagate_not()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_propagate_not_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c118c84d055755f6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.And._eval_propagate_not","kind":"method","src_hash":"981b37f898ea1537","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_propagate_not()","rhs":"Or(*[Not(a) for a in self.args])","over":{"base":"Any"},"name":"_eval_propagate_not_correct"},"guarantee":"returns Or(*[Not(a) for a in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c118c84d055755f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Or(*[Not(a) for a in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_propagate_not(self):
         # !(a&b&c ...) == !a | !b | !c ...
         return Or(*[Not(a) for a in self.args])
 
     # (a|b|...) & c == (a&c) | (b&c) | ...
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expand(), expand produces the expected output) over Any ║
+# ║ Path(expand(), <unspecified:expand>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ expand : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85fe22c9d499fabc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.And.expand","kind":"method","src_hash":"35e3add1364aa37c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand()","rhs":"expand produces the expected output","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.And.expand_correct","statement":"Path(expand(x), expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85fe22c9d499fabc"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.And.expand","kind":"method","src_hash":"35e3add1364aa37c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"expand()","rhs":"<unspecified:expand>","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.logic.And.expand_correct","statement":"Path(expand(x), expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85fe22c9d499fabc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expand(self):
 
         # first locate Or
@@ -670,30 +835,42 @@ class And(AndOr_Base):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Or(), correctly constructs a Or instance) over Any    ║
+# ║ Path(Or(), isinstance(self, AndOr_Base)) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Or : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AndOr_Base)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Or : Any → {Any | result satisfies: isinstance(self, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 76318119a64c0718           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Or","kind":"class","src_hash":"23653fd11432fbb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Or()","rhs":"correctly constructs a Or instance","over":{"base":"Any"},"name":"Or_correct"},"guarantee":"correctly constructs a Or instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76318119a64c0718"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Or","kind":"class","src_hash":"23653fd11432fbb0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AndOr_Base)"},"spec":{"lhs":"Or()","rhs":"isinstance(self, AndOr_Base)","over":{"base":"Any"},"name":"Or_correct"},"guarantee":"isinstance(self, AndOr_Base)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76318119a64c0718","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AndOr_Base)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Or not found in source"]}}
 class Or(AndOr_Base):
     op_x_notx = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_propagate_not(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_propagate_not(), And(*[Not(a) for a in self.args])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  And(*[Not(a) for a in self.args])              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_propagate_not : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 35cd6aed10b4b9e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Or._eval_propagate_not","kind":"method","src_hash":"2bc7cd4b1aa877f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_propagate_not()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_propagate_not_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35cd6aed10b4b9e1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Or._eval_propagate_not","kind":"method","src_hash":"2bc7cd4b1aa877f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_propagate_not()","rhs":"And(*[Not(a) for a in self.args])","over":{"base":"Any"},"name":"_eval_propagate_not_correct"},"guarantee":"returns And(*[Not(a) for a in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35cd6aed10b4b9e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"And(*[Not(a) for a in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_propagate_not(self):
         # !(a|b|c ...) == !a & !b & !c ...
         return And(*[Not(a) for a in self.args])
@@ -702,27 +879,43 @@ class Or(AndOr_Base):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Not(*args), correctly constructs a Not instance) over {Any | isinstance(arg, str) and isinstance(arg, bool) and isinstance(arg, Not)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Logic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Not : {Any | isinstance(arg, str) and isinstance(arg,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8acd5775e26e16fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Not","kind":"class","src_hash":"a25fe14dbd15d794","in":{"base":"Any","pred":"isinstance(arg, str) and isinstance(arg, bool) and isinstance(arg, Not)"},"out":{"base":"Any"},"spec":{"lhs":"Not(*args)","rhs":"correctly constructs a Not instance","over":{"base":"Any","pred":"isinstance(arg, str) and isinstance(arg, bool) and isinstance(arg, Not)"},"name":"Not_class_invariant"},"guarantee":"correctly constructs a Not instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8acd5775e26e16fe"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Not","kind":"class","src_hash":"a25fe14dbd15d794","in":{"base":"Any","pred":"isinstance(arg, str) and isinstance(arg, bool) and isinstance(arg, Not)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Logic)"},"spec":{"lhs":"Not(*args)","rhs":"correctly constructs a Not instance","over":{"base":"Any","pred":"isinstance(arg, str) and isinstance(arg, bool) and isinstance(arg, Not)"},"name":"Not_class_invariant"},"guarantee":"isinstance(self, Logic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8acd5775e26e16fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Logic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Not not found in source"]}}
 class Not(Logic):
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, arg), <unspecified:__new__>) over {Any | hasattr(arg, 'args') and hasattr(arg, '_eval_propagate_not')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'args')                           ║
+# ║   requires: hasattr(arg, '_eval_propagate_not')            ║
+# ║   fiber[str]: isinstance(arg, str) => Logic.__new__(c...   ║
+# ║   fiber[bool]: isinstance(arg, bool) => not arg            ║
+# ║   fiber[Not]: isinstance(arg, Not) => arg.args[0]          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(arg, 'args') and hasattr(arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bca6c65456844d4a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Not.__new__","kind":"method","src_hash":"acfbc8517f3bc093","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bca6c65456844d4a"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Not.__new__","kind":"method","src_hash":"acfbc8517f3bc093","in":{"base":"Any","pred":"hasattr(arg, 'args') and hasattr(arg, '_eval_propagate_not')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, arg)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"hasattr(arg, 'args') and hasattr(arg, '_eval_propagate_not')"},"name":"__new___correct"},"guarantee":"5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bca6c65456844d4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'args')","hasattr(arg, '_eval_propagate_not')"],"fibers":[{"name":"str","guard":"isinstance(arg, str)","ensures":["result == Logic.__new__(cls, arg)"],"decidability":"structural","returns_expr":"Logic.__new__(cls, arg)"},{"name":"bool","guard":"isinstance(arg, bool)","ensures":["result == not arg"],"decidability":"structural","returns_expr":"not arg"},{"name":"Not","guard":"isinstance(arg, Not)","ensures":["result == arg.args[0]"],"decidability":"structural","returns_expr":"arg.args[0]"},{"name":"Logic","guard":"isinstance(arg, Logic)","ensures":["result == arg"],"decidability":"structural","returns_expr":"arg"},{"name":"str","guard":"not (isinstance(arg, str)) and not (isinstance(arg, bool)) and not (isinstance(arg, Not)) and not (isinstance(arg, Logic))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg._eval_propagate_not","arg.args"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, arg):
         if isinstance(arg, str):
             return Logic.__new__(cls, arg)
@@ -742,16 +935,22 @@ class Not(Logic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(arg(), returns the arg attribute) over Any            ║
+# ║ Path(arg(), self.args[0]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ arg : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fc2ef326861a702d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.logic.Not.arg","kind":"property","src_hash":"da33fbb8a9ee644c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arg()","rhs":"returns the arg attribute","over":{"base":"Any"},"name":"arg_correct"},"guarantee":"returns the arg attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc2ef326861a702d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.logic.Not.arg","kind":"property","src_hash":"da33fbb8a9ee644c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"arg()","rhs":"self.args[0]","over":{"base":"Any"},"name":"arg_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc2ef326861a702d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def arg(self):
         return self.args[0]
 

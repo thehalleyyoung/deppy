@@ -26,16 +26,24 @@ from sympy.physics.mechanics import (cross, dot, dynamicsymbols,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_aux_dep(), test_aux_dep produces the expected output) over Any ║
+# ║ Path(test_aux_dep(), Matrix(Fr_c).expand() == fr.expand() and Matrix(Fr_star_c.subs(kdd)).expand() == frstar.expand() and simplify(Matrix(Fr_star_steady).expand()).xreplace({0: 0.0}) == simplify(frstar_steady.expand()).xreplace({0: 0.0})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_aux_dep : Any → {Any | Matrix(Fr_c).expand() == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Matrix(Fr_c).expand() == fr.expand()           ║
+# ║   ensures:  Matrix(Fr_star_c.subs(kdd)).expand() == f...   ║
+# ║   ensures:  simplify(Matrix(Fr_star_steady).expand())...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_aux_dep : Any → {Any | result satisfies: Matrix(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e47937bd26d8c526  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51d32a43c17346c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane2.test_aux_dep","kind":"function","src_hash":"b1da607018a12651","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix(Fr_c).expand() == fr.expand() and Matrix(Fr_star_c.subs(kdd)).expand() == frstar.expand() and qdi not in syms_in_forcing"},"spec":{"lhs":"test_aux_dep()","rhs":"test_aux_dep produces the expected output","over":{"base":"Any"},"name":"test_aux_dep_correct"},"guarantee":"test_aux_dep produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane2.test_aux_dep_correct","statement":"Path(test_aux_dep(x), test_aux_dep produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e47937bd26d8c526"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane2.test_aux_dep","kind":"function","src_hash":"b1da607018a12651","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Matrix(Fr_c).expand() == fr.expand() and Matrix(Fr_star_c.subs(kdd)).expand() == frstar.expand() and simplify(Matrix(Fr_star_steady).expand()).xreplace({0: 0.0}) == simplify(frstar_steady.expand()).xreplace({0: 0.0})"},"spec":{"lhs":"test_aux_dep()","rhs":"Matrix(Fr_c).expand() == fr.expand() and Matrix(Fr_star_c.subs(kdd)).expand() == frstar.expand() and simplify(Matrix(Fr_star_steady).expand()).xreplace({0: 0.0}) == simplify(frstar_steady.expand()).xreplace({0: 0.0})","over":{"base":"Any"},"name":"test_aux_dep_correct"},"guarantee":"Matrix(Fr_c).expand() == fr.expand(); Matrix(Fr_star_c.subs(kdd)).expand() == frstar.expand(); simplify(Matrix(Fr_star_steady).expand()).xreplace({0: 0.0}) == simplify(frstar_steady.expand()).xreplace({0: 0.0})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane2.test_aux_dep_correct","statement":"Path(test_aux_dep(x), Matrix(Fr_c).expand() == fr.expand(); Matrix(Fr_star_c.subs(kdd)).expand() == frstar.expand(); simplify(Matrix(Fr_star_steady).expand()).xreplace({0: 0.0}) == simplify(frstar_steady.expand()).xreplace({0: 0.0}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51d32a43c17346c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Matrix(Fr_c).expand() == fr.expand()","Matrix(Fr_star_c.subs(kdd)).expand() == frstar.expand()","simplify(Matrix(Fr_star_steady).expand()).xreplace({0: 0.0}) == simplify(frstar_steady.expand()).xreplace({0: 0.0})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"assumed","binding":true}}
 def test_aux_dep():
     # This test is about rolling disc dynamics, comparing the results found
     # with KanesMethod to those found when deriving the equations "manually"
@@ -225,16 +233,22 @@ def test_aux_dep():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_non_central_inertia(), test_non_central_inertia produces the expected output) over Any ║
+# ║ Path(test_non_central_inertia(), (fr_star_expected - t).expand() == zeros(3, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_non_central_inertia : Any → {Any | (fr_star_expe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (fr_star_expected - t).expand() == zeros(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_non_central_inertia : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab51e9bc263c1588  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6344f3adc83acd89  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane2.test_non_central_inertia","kind":"function","src_hash":"e843d1cb410e8014","in":{"base":"Any"},"out":{"base":"Any","pred":"(fr_star_expected - t).expand() == zeros(3, 1) and (fr_star_expected - t).expand() == zeros(3, 1)"},"spec":{"lhs":"test_non_central_inertia()","rhs":"test_non_central_inertia produces the expected output","over":{"base":"Any"},"name":"test_non_central_inertia_correct"},"guarantee":"test_non_central_inertia produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane2.test_non_central_inertia_correct","statement":"Path(test_non_central_inertia(x), test_non_central_inertia produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab51e9bc263c1588"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane2.test_non_central_inertia","kind":"function","src_hash":"e843d1cb410e8014","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (fr_star_expected - t).expand() == zeros(3, 1)"},"spec":{"lhs":"test_non_central_inertia()","rhs":"(fr_star_expected - t).expand() == zeros(3, 1)","over":{"base":"Any"},"name":"test_non_central_inertia_correct"},"guarantee":"(fr_star_expected - t).expand() == zeros(3, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane2.test_non_central_inertia_correct","statement":"Path(test_non_central_inertia(x), (fr_star_expected - t).expand() == zeros(3, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6344f3adc83acd89","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(fr_star_expected - t).expand() == zeros(3, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_non_central_inertia():
     # This tests that the calculation of Fr* does not depend the point
     # about which the inertia of a rigid body is defined. This test solves
@@ -335,16 +349,23 @@ def test_non_central_inertia():
     assert (fr_star_expected - t).expand() == zeros(3, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sub_qdot(), test_sub_qdot produces the expected output) over Any ║
+# ║ Path(test_sub_qdot(), fr.expand() == fr_expected.expand() and (fr_star_expected - trigsimp(fr_star)).expand() == zeros(3, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sub_qdot : Any → {Any | fr.expand() == fr_expect...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fr.expand() == fr_expected.expand()            ║
+# ║   ensures:  (fr_star_expected - trigsimp(fr_star)).ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sub_qdot : Any → {Any | result satisfies: fr.exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8d093f3efeb63f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 885bda4c0d0e616b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane2.test_sub_qdot","kind":"function","src_hash":"c35d9edc09fc83fa","in":{"base":"Any"},"out":{"base":"Any","pred":"fr.expand() == fr_expected.expand() and (fr_star_expected - trigsimp(fr_star)).expand() == zeros(3, 1)"},"spec":{"lhs":"test_sub_qdot()","rhs":"test_sub_qdot produces the expected output","over":{"base":"Any"},"name":"test_sub_qdot_correct"},"guarantee":"test_sub_qdot produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane2.test_sub_qdot_correct","statement":"Path(test_sub_qdot(x), test_sub_qdot produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8d093f3efeb63f7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane2.test_sub_qdot","kind":"function","src_hash":"c35d9edc09fc83fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fr.expand() == fr_expected.expand() and (fr_star_expected - trigsimp(fr_star)).expand() == zeros(3, 1)"},"spec":{"lhs":"test_sub_qdot()","rhs":"fr.expand() == fr_expected.expand() and (fr_star_expected - trigsimp(fr_star)).expand() == zeros(3, 1)","over":{"base":"Any"},"name":"test_sub_qdot_correct"},"guarantee":"fr.expand() == fr_expected.expand(); (fr_star_expected - trigsimp(fr_star)).expand() == zeros(3, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane2.test_sub_qdot_correct","statement":"Path(test_sub_qdot(x), fr.expand() == fr_expected.expand(); (fr_star_expected - trigsimp(fr_star)).expand() == zeros(3, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"885bda4c0d0e616b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fr.expand() == fr_expected.expand()","(fr_star_expected - trigsimp(fr_star)).expand() == zeros(3, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_sub_qdot():
     # This test solves exercises 8.12, 8.17 from Kane 1985 and defines
     # some velocities in terms of q, qdot.
@@ -434,16 +455,23 @@ def test_sub_qdot():
     assert ((fr_star_expected - trigsimp(fr_star)).expand() == zeros(3, 1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sub_qdot2(), test_sub_qdot2 produces the expected output) over Any ║
+# ║ Path(test_sub_qdot2(), trigsimp(fr1.expand()) == trigsimp(fr1_expected.expand()) and trigsimp(fr2.expand()) == trigsimp(fr2_expected.expand())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sub_qdot2 : Any → {Any | trigsimp(fr1.expand()) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trigsimp(fr1.expand()) == trigsimp(fr1_ex...   ║
+# ║   ensures:  trigsimp(fr2.expand()) == trigsimp(fr2_ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sub_qdot2 : Any → {Any | result satisfies: trigs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b1f7b50d9c1b3ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c54a2f5f8cf291f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane2.test_sub_qdot2","kind":"function","src_hash":"c807439e46d35e72","in":{"base":"Any"},"out":{"base":"Any","pred":"trigsimp(fr1.expand()) == trigsimp(fr1_expected.expand()) and trigsimp(fr2.expand()) == trigsimp(fr2_expected.expand())"},"spec":{"lhs":"test_sub_qdot2()","rhs":"test_sub_qdot2 produces the expected output","over":{"base":"Any"},"name":"test_sub_qdot2_correct"},"guarantee":"test_sub_qdot2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane2.test_sub_qdot2_correct","statement":"Path(test_sub_qdot2(x), test_sub_qdot2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b1f7b50d9c1b3ce"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_kane2.test_sub_qdot2","kind":"function","src_hash":"c807439e46d35e72","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trigsimp(fr1.expand()) == trigsimp(fr1_expected.expand()) and trigsimp(fr2.expand()) == trigsimp(fr2_expected.expand())"},"spec":{"lhs":"test_sub_qdot2()","rhs":"trigsimp(fr1.expand()) == trigsimp(fr1_expected.expand()) and trigsimp(fr2.expand()) == trigsimp(fr2_expected.expand())","over":{"base":"Any"},"name":"test_sub_qdot2_correct"},"guarantee":"trigsimp(fr1.expand()) == trigsimp(fr1_expected.expand()); trigsimp(fr2.expand()) == trigsimp(fr2_expected.expand())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_kane2.test_sub_qdot2_correct","statement":"Path(test_sub_qdot2(x), trigsimp(fr1.expand()) == trigsimp(fr1_expected.expand()); trigsimp(fr2.expand()) == trigsimp(fr2_expected.expand()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c54a2f5f8cf291f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trigsimp(fr1.expand()) == trigsimp(fr1_expected.expand())","trigsimp(fr2.expand()) == trigsimp(fr2_expected.expand())"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_sub_qdot2():
     # This test solves exercises 8.3 from Kane 1985 and defines
     # all velocities in terms of q, qdot. We check that the generalized active

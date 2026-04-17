@@ -21,14 +21,20 @@ from sympy.core.basic import Atom
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RootSystem(*args), correctly constructs a RootSystem instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ RootSystem : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Atom)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ RootSystem : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81015fcb5f5a0aca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem","kind":"class","src_hash":"71f9f1b813a092f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"RootSystem(*args)","rhs":"correctly constructs a RootSystem instance","over":{"base":"Any"},"name":"RootSystem_class_invariant"},"guarantee":"correctly constructs a RootSystem instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81015fcb5f5a0aca"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem","kind":"class","src_hash":"71f9f1b813a092f9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Atom)"},"spec":{"lhs":"RootSystem(*args)","rhs":"correctly constructs a RootSystem instance","over":{"base":"Any"},"name":"RootSystem_class_invariant"},"guarantee":"isinstance(self, Atom)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81015fcb5f5a0aca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Atom)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function RootSystem not found in source"]}}
 class RootSystem(Atom):
     """Represent the root system of a simple Lie algebra
 
@@ -63,16 +69,22 @@ class RootSystem(Atom):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), create a new rootsystem object) over Any ║
+# ║ Path(__new__(cls, cartantype), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9f0d688918b1da2e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.__new__","kind":"method","src_hash":"b61547b6963546a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"create a new rootsystem object","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"create a new rootsystem object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f0d688918b1da2e"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.__new__","kind":"method","src_hash":"b61547b6963546a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, cartantype)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"create a new rootsystem object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9f0d688918b1da2e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, cartantype):
         """Create a new RootSystem object
 
@@ -88,16 +100,22 @@ class RootSystem(Atom):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simple_roots(), generate the simple roots of the lie algebra) over Any ║
+# ║ Path(simple_roots(), <unspecified:simple_roots>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simple_roots : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | caba111e4bf2d5d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.simple_roots","kind":"method","src_hash":"e868df0eb455ba46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simple_roots()","rhs":"generate the simple roots of the lie algebra","over":{"base":"Any"},"name":"simple_roots_correct"},"guarantee":"generate the simple roots of the lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.root_system.RootSystem.simple_roots_correct","statement":"Path(simple_roots(x), generate the simple roots of the lie algebra)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caba111e4bf2d5d3"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.simple_roots","kind":"method","src_hash":"e868df0eb455ba46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"simple_roots()","rhs":"<unspecified:simple_roots>","over":{"base":"Any"},"name":"simple_roots_correct"},"guarantee":"generate the simple roots of the lie algebra","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.root_system.RootSystem.simple_roots_correct","statement":"Path(simple_roots(x), generate the simple roots of the lie algebra)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"caba111e4bf2d5d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cartan_type"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def simple_roots(self):
         """Generate the simple roots of the Lie algebra
 
@@ -122,16 +140,22 @@ class RootSystem(Atom):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(all_roots(), generate all the roots of a given root system) over Any ║
+# ║ Path(all_roots(), <unspecified:all_roots>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ all_roots : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca1873ee8edfa39d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.all_roots","kind":"method","src_hash":"a6cf337963c33b04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"all_roots()","rhs":"generate all the roots of a given root system","over":{"base":"Any"},"name":"all_roots_correct"},"guarantee":"generate all the roots of a given root system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.root_system.RootSystem.all_roots_correct","statement":"Path(all_roots(x), generate all the roots of a given root system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca1873ee8edfa39d"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.all_roots","kind":"method","src_hash":"a6cf337963c33b04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"all_roots()","rhs":"<unspecified:all_roots>","over":{"base":"Any"},"name":"all_roots_correct"},"guarantee":"generate all the roots of a given root system","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.root_system.RootSystem.all_roots_correct","statement":"Path(all_roots(x), generate all the roots of a given root system)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca1873ee8edfa39d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cartan_type"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def all_roots(self):
         """Generate all the roots of a given root system
 
@@ -153,16 +177,22 @@ class RootSystem(Atom):
         return alpha
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(root_space(), return the span of the simple roots) over Any ║
+# ║ Path(root_space(), <unspecified:root_space>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ root_space : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92d744151a5141ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.root_space","kind":"method","src_hash":"c2e9c0b72707eed9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"root_space()","rhs":"return the span of the simple roots","over":{"base":"Any"},"name":"root_space_correct"},"guarantee":"return the span of the simple roots","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.root_system.RootSystem.root_space_correct","statement":"Path(root_space(x), return the span of the simple roots)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92d744151a5141ff"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.root_space","kind":"method","src_hash":"c2e9c0b72707eed9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"root_space()","rhs":"<unspecified:root_space>","over":{"base":"Any"},"name":"root_space_correct"},"guarantee":"return the span of the simple roots","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.root_system.RootSystem.root_space_correct","statement":"Path(root_space(x), return the span of the simple roots)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92d744151a5141ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cartan_type"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def root_space(self):
         """Return the span of the simple roots
 
@@ -185,16 +215,23 @@ class RootSystem(Atom):
         return rs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_simple_roots(roo), add two simple roots together) over Any ║
+# ║ Path(add_simple_roots(root1, root2), <unspecified:add_simple_roots>) over {Any | not (root1 > len(alpha) or root2 > len(alpha))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add_simple_roots : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (root1 > len(alpha) or root2 > len(al...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add_simple_roots : {Any | not (root1 > len(alpha) or ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 535899294f2fb08b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.add_simple_roots","kind":"method","src_hash":"b24d84edb6bd9706","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_simple_roots(roo)","rhs":"add two simple roots together","over":{"base":"Any"},"name":"add_simple_roots_correct"},"guarantee":"add two simple roots together","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.root_system.RootSystem.add_simple_roots_correct","statement":"Path(add_simple_roots(x), add two simple roots together)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"535899294f2fb08b"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.add_simple_roots","kind":"method","src_hash":"b24d84edb6bd9706","in":{"base":"Any","pred":"not (root1 > len(alpha) or root2 > len(alpha))"},"out":{"base":"Any"},"spec":{"lhs":"add_simple_roots(root1, root2)","rhs":"<unspecified:add_simple_roots>","over":{"base":"Any","pred":"not (root1 > len(alpha) or root2 > len(alpha))"},"name":"add_simple_roots_correct"},"guarantee":"add two simple roots together","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.root_system.RootSystem.add_simple_roots_correct","statement":"Path(add_simple_roots(x), add two simple roots together)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"535899294f2fb08b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (root1 > len(alpha) or root2 > len(alpha))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.simple_roots"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add_simple_roots(self, root1, root2):
         """Add two simple roots together
 
@@ -222,16 +259,25 @@ class RootSystem(Atom):
         return newroot
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add_as_roots(roo), add two roots together if and only if their sum is also a root) over Any ║
+# ║ Path(add_as_roots(root1, root2), result == (newroot if newroot in alpha.values() else 'The sum of these two roots is not a root') and result == newroot or result == 'The sum of these two roots is not a root') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add_as_roots : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (newroot if newroot in alpha.va...   ║
+# ║   ensures:  result == newroot or result == 'The sum o...   ║
+# ║   fiber[case_0]: newroot in alpha.values() => newroot      ║
+# ║   fiber[case_1]: not (newroot in alpha.values()) => '...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add_as_roots : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb2846d33c708e84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b725613da271e090  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.add_as_roots","kind":"method","src_hash":"5b7e82592940d4d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"add_as_roots(roo)","rhs":"add two roots together if and only if their sum is also a root","over":{"base":"Any"},"name":"add_as_roots_correct"},"guarantee":"add two roots together if and only if their sum is also a root","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.root_system.RootSystem.add_as_roots_correct","statement":"Path(add_as_roots(x), add two roots together if and only if their sum is also a root)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb2846d33c708e84"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.add_as_roots","kind":"method","src_hash":"5b7e82592940d4d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (newroot if newroot in alpha.values() else 'The sum of these two roots is not a root') and result == newroot or result == 'The sum of these two roots is not a root'"},"spec":{"lhs":"add_as_roots(root1, root2)","rhs":"result == (newroot if newroot in alpha.values() else 'The sum of these two roots is not a root') and result == newroot or result == 'The sum of these two roots is not a root'","over":{"base":"Any"},"name":"add_as_roots_correct"},"guarantee":"result == (newroot if newroot in alpha.values() else 'The sum of these two roots is not a root'); result == newroot or result == 'The sum of these two roots is not a root'; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.root_system.RootSystem.add_as_roots_correct","statement":"Path(add_as_roots(x), result == (newroot if newroot in alpha.values() else 'The sum of these two roots is not a root'); result == newroot or result == 'The sum of these two roots is not a root'; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b725613da271e090","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (newroot if newroot in alpha.values() else 'The sum of these two roots is not a root')","result == newroot or result == 'The sum of these two roots is not a root'"],"fibers":[{"name":"case_0","guard":"newroot in alpha.values()","ensures":["result == newroot"],"decidability":"library","returns_expr":"newroot"},{"name":"case_1","guard":"not (newroot in alpha.values())","ensures":["result == 'The sum of these two roots is not a root'"],"decidability":"library","returns_expr":"'The sum of these two roots is not a root'"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.all_roots"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add_as_roots(self, root1, root2):
         """Add two roots together if and only if their sum is also a root
 
@@ -260,16 +306,22 @@ class RootSystem(Atom):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cartan_matrix(), cartan matrix of lie algebra associated with this root system) over Any ║
+# ║ Path(cartan_matrix(), self.cartan_type.cartan_matrix()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.cartan_type.cartan_matrix()               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cartan_matrix : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 42c61ef93ad3ccb4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.cartan_matrix","kind":"method","src_hash":"cd1ec37051b5ab38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cartan_matrix()","rhs":"cartan matrix of lie algebra associated with this root system","over":{"base":"Any"},"name":"cartan_matrix_correct"},"guarantee":"cartan matrix of lie algebra associated with this root system","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42c61ef93ad3ccb4"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.cartan_matrix","kind":"method","src_hash":"cd1ec37051b5ab38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cartan_matrix()","rhs":"self.cartan_type.cartan_matrix()","over":{"base":"Any"},"name":"cartan_matrix_correct"},"guarantee":"returns self.cartan_type.cartan_matrix()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42c61ef93ad3ccb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.cartan_type.cartan_matrix()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cartan_type"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cartan_matrix(self):
         """Cartan matrix of Lie algebra associated with this root system
 
@@ -287,16 +339,22 @@ class RootSystem(Atom):
         return self.cartan_type.cartan_matrix()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dynkin_diagram(), dynkin diagram of the lie algebra associated with this root system) over Any ║
+# ║ Path(dynkin_diagram(), self.cartan_type.dynkin_diagram()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.cartan_type.dynkin_diagram()              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dynkin_diagram : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7aee2408eae714b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.dynkin_diagram","kind":"method","src_hash":"de7ae6be4bfc8dd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dynkin_diagram()","rhs":"dynkin diagram of the lie algebra associated with this root system","over":{"base":"Any"},"name":"dynkin_diagram_correct"},"guarantee":"dynkin diagram of the lie algebra associated with this root system","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7aee2408eae714b7"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.root_system.RootSystem.dynkin_diagram","kind":"method","src_hash":"de7ae6be4bfc8dd0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dynkin_diagram()","rhs":"self.cartan_type.dynkin_diagram()","over":{"base":"Any"},"name":"dynkin_diagram_correct"},"guarantee":"returns self.cartan_type.dynkin_diagram()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7aee2408eae714b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.cartan_type.dynkin_diagram()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.cartan_type"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dynkin_diagram(self):
         """Dynkin diagram of the Lie algebra associated with this root system
 

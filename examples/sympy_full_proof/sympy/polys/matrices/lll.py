@@ -24,16 +24,26 @@ from sympy.polys.matrices.exceptions import DMRankError, DMShapeError, DMValueEr
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ddm_lll(x, ), id) over Any                           ║
+# ║ Path(_ddm_lll(x, delta, return_transform), id) over {Any | not (QQ(1, 4) >= delta or delta >= QQ(1, 1)) and not (x.shape[0] > x.shape[1]) and not (x.domain != ZZ) and hasattr(x, 'domain') and hasattr(x, 'shape') and hasattr(x, 'copy') and hasattr(x, 'zeros') and hasattr(x, 'eye')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ddm_lll : Any → {Any | all((lovasz_condition(i) for ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (QQ(1, 4) >= delta or delta >= QQ(1, 1))   ║
+# ║   requires: not (x.shape[0] > x.shape[1])                  ║
+# ║   requires: not (x.domain != ZZ)                           ║
+# ║   ensures:  all((lovasz_condition(i) for i in range(1...   ║
+# ║   ensures:  all((mu_small(i, j) for i in range(m) for...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ddm_lll : {Any | not (QQ(1, 4) >= delta or delta >= ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d6c2bd46f4d039dd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.lll._ddm_lll","kind":"function","src_hash":"edc5b61a95e06dcb","in":{"base":"Any"},"out":{"base":"Any","pred":"all((lovasz_condition(i) for i in range(1, m))) and all((mu_small(i, j) for i in range(m) for j in range(i)))"},"spec":{"lhs":"_ddm_lll(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ddm_lll_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ZZ","by":"library_axiom"},{"fn":"mfloor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6c2bd46f4d039dd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.lll._ddm_lll","kind":"function","src_hash":"edc5b61a95e06dcb","in":{"base":"Any","pred":"not (QQ(1, 4) >= delta or delta >= QQ(1, 1)) and not (x.shape[0] > x.shape[1]) and not (x.domain != ZZ) and hasattr(x, 'domain') and hasattr(x, 'shape') and hasattr(x, 'copy') and hasattr(x, 'zeros') and hasattr(x, 'eye')"},"out":{"base":"Any","pred":"result satisfies: all((lovasz_condition(i) for i in range(1, m))) and all((mu_small(i, j) for i in range(m) for j in range(i)))"},"spec":{"lhs":"_ddm_lll(x, delta, return_transform)","rhs":"all((lovasz_condition(i) for i in range(1, m))) and all((mu_small(i, j) for i in range(m) for j in range(i)))","over":{"base":"Any","pred":"not (QQ(1, 4) >= delta or delta >= QQ(1, 1)) and not (x.shape[0] > x.shape[1]) and not (x.domain != ZZ) and hasattr(x, 'domain') and hasattr(x, 'shape') and hasattr(x, 'copy') and hasattr(x, 'zeros') and hasattr(x, 'eye')"},"name":"_ddm_lll_correct","kind":"composition"},"guarantee":"all((lovasz_condition(i) for i in range(1, m))); all((mu_small(i, j) for i in range(m) for j in range(i)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ZZ","by":"library_axiom"},{"fn":"mfloor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6c2bd46f4d039dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (QQ(1, 4) >= delta or delta >= QQ(1, 1))","not (x.shape[0] > x.shape[1])","not (x.domain != ZZ)","hasattr(x, 'domain')","hasattr(x, 'shape')","hasattr(x, 'copy')","hasattr(x, 'zeros')","hasattr(x, 'eye')"],"ensures":["all((lovasz_condition(i) for i in range(1, m)))","all((mu_small(i, j) for i in range(m) for j in range(i)))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["x.copy","x.domain","x.eye","x.shape","x.zeros"],"raises":["DMDomainError","DMRankError","DMShapeError","DMValueError"],"catches":["ZeroDivisionError"]},"state_contract":{"exceptional_post":{"DMDomainError":["isinstance(raised, DMDomainError)"],"DMRankError":["isinstance(raised, DMRankError)"],"DMShapeError":["isinstance(raised, DMShapeError)"],"DMValueError":["isinstance(raised, DMValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def _ddm_lll(x, delta=QQ(3, 4), return_transform=False):
     if QQ(1, 4) >= delta or delta >= QQ(1, 1):
         raise DMValueError("delta must lie in range (0.25, 1)")
@@ -115,30 +125,42 @@ def _ddm_lll(x, delta=QQ(3, 4), return_transform=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_lll(x, ), ddm_lll produces the expected output) over Any ║
+# ║ Path(ddm_lll(x, delta), _ddm_lll(x, delta=delta, return_transform=False)[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _ddm_lll(x, delta=delta, return_transform...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ddm_lll : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2c7a621f5061363a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.lll.ddm_lll","kind":"function","src_hash":"7be9f7935d8da7a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_lll(x, )","rhs":"ddm_lll produces the expected output","over":{"base":"Any"},"name":"ddm_lll_correct"},"guarantee":"ddm_lll produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c7a621f5061363a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.lll.ddm_lll","kind":"function","src_hash":"7be9f7935d8da7a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_lll(x, delta)","rhs":"_ddm_lll(x, delta=delta, return_transform=False)[0]","over":{"base":"Any"},"name":"ddm_lll_correct"},"guarantee":"returns _ddm_lll(x, delta=delta, return_transform=False)[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c7a621f5061363a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_ddm_lll(x, delta=delta, return_transform=False)[0]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def ddm_lll(x, delta=QQ(3, 4)):
     return _ddm_lll(x, delta=delta, return_transform=False)[0]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ddm_lll_transform(x, ), ddm_lll_transform produces the expected output) over Any ║
+# ║ Path(ddm_lll_transform(x, delta), _ddm_lll(x, delta=delta, return_transform=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _ddm_lll(x, delta=delta, return_transform...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ddm_lll_transform : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4870384b53b8185c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.lll.ddm_lll_transform","kind":"function","src_hash":"837a7466e655822b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_lll_transform(x, )","rhs":"ddm_lll_transform produces the expected output","over":{"base":"Any"},"name":"ddm_lll_transform_correct"},"guarantee":"ddm_lll_transform produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4870384b53b8185c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.lll.ddm_lll_transform","kind":"function","src_hash":"837a7466e655822b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ddm_lll_transform(x, delta)","rhs":"_ddm_lll(x, delta=delta, return_transform=True)","over":{"base":"Any"},"name":"ddm_lll_transform_correct"},"guarantee":"returns _ddm_lll(x, delta=delta, return_transform=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4870384b53b8185c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_ddm_lll(x, delta=delta, return_transform=True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def ddm_lll_transform(x, delta=QQ(3, 4)):
     return _ddm_lll(x, delta=delta, return_transform=True)

@@ -61,16 +61,23 @@ from sympy.core.cache import cacheit
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(migcdex(*x), compute extended gcd for multiple integers) over Any ║
+# ║ Path(migcdex(*x), isinstance(result, tuple) and # HINT: migcdex may be idempotent: migcdex(migcdex(x)) == migcdex(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ migcdex : Any → tuple[tuple[int, ...], int]                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  # HINT: migcdex may be idempotent: migcde...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ migcdex : Any → {tuple[tuple[int, ...], int] | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | daa1106063f42d38  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37f4a7418e2b6489  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.migcdex","kind":"function","src_hash":"1a6bb7ec24b50d37","in":{"base":"Any"},"out":{"base":"tuple[tuple[int, ...], int]"},"spec":{"lhs":"migcdex(*x)","rhs":"compute extended gcd for multiple integers","over":{"base":"Any"},"name":"migcdex_correct"},"guarantee":"compute extended gcd for multiple integers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary._trigonometric_special.migcdex_correct","statement":"Path(migcdex(x), compute extended gcd for multiple integers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"daa1106063f42d38"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.migcdex","kind":"function","src_hash":"1a6bb7ec24b50d37","in":{"base":"Any"},"out":{"base":"tuple[tuple[int, ...], int]","pred":"result satisfies: isinstance(result, tuple) and # HINT: migcdex may be idempotent: migcdex(migcdex(x)) == migcdex(x)"},"spec":{"lhs":"migcdex(*x)","rhs":"isinstance(result, tuple) and # HINT: migcdex may be idempotent: migcdex(migcdex(x)) == migcdex(x)","over":{"base":"Any"},"name":"migcdex_correct"},"guarantee":"isinstance(result, tuple); # HINT: migcdex may be idempotent: migcdex(migcdex(x)) == migcdex(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary._trigonometric_special.migcdex_correct","statement":"Path(migcdex(x), isinstance(result, tuple); # HINT: migcdex may be idempotent: migcdex(migcdex(x)) == migcdex(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37f4a7418e2b6489","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, tuple)","# HINT: migcdex may be idempotent: migcdex(migcdex(x)) == migcdex(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*x']"]}}
 def migcdex(*x: int) -> tuple[tuple[int, ...], int]:
     r"""Compute extended gcd for multiple integers.
 
@@ -112,16 +119,22 @@ def migcdex(*x: int) -> tuple[tuple[int, ...], int]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ipartfrac(*de), compute the partial fraction decomposition) over Any ║
+# ║ Path(ipartfrac(*denoms), isinstance(result, tuple)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ipartfrac : Any → tuple[int, ...]                          ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ipartfrac : Any → {tuple[int, ...] | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2ab8d3b9df881d7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a767b407c940b72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.ipartfrac","kind":"function","src_hash":"0f3be6f24200abe3","in":{"base":"Any"},"out":{"base":"tuple[int, ...]"},"spec":{"lhs":"ipartfrac(*de)","rhs":"compute the partial fraction decomposition","over":{"base":"Any"},"name":"ipartfrac_correct"},"guarantee":"compute the partial fraction decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary._trigonometric_special.ipartfrac_correct","statement":"Path(ipartfrac(x), compute the partial fraction decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2ab8d3b9df881d7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.ipartfrac","kind":"function","src_hash":"0f3be6f24200abe3","in":{"base":"Any"},"out":{"base":"tuple[int, ...]","pred":"result satisfies: isinstance(result, tuple)"},"spec":{"lhs":"ipartfrac(*denoms)","rhs":"isinstance(result, tuple)","over":{"base":"Any"},"name":"ipartfrac_correct"},"guarantee":"isinstance(result, tuple)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary._trigonometric_special.ipartfrac_correct","statement":"Path(ipartfrac(x), isinstance(result, tuple))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a767b407c940b72","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, tuple)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*denoms']"]}}
 def ipartfrac(*denoms: int) -> tuple[int, ...]:
     r"""Compute the partial fraction decomposition.
 
@@ -198,16 +211,24 @@ def ipartfrac(*denoms: int) -> tuple[int, ...]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fermat_coords(n), if n can be factored in terms of fermat primes with multiplicity of each being 1, return those primes, else none) over int ║
+# ║ Path(fermat_coords(n), isinstance(result, list) and all(isinstance(x, int] | None) for x in result)) over {int | isinstance(n, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ fermat_coords : int → list[int] | None                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, int] | None) for x in r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ fermat_coords : {int | isinstance(n, int)} → {list[in...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13876b357c7717dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91fe01dcf0283139  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.fermat_coords","kind":"function","src_hash":"294b50237b810101","in":{"base":"int"},"out":{"base":"list[int] | None"},"spec":{"lhs":"fermat_coords(n)","rhs":"if n can be factored in terms of fermat primes with multiplicity of each being 1, return those primes, else none","over":{"base":"int"},"name":"fermat_coords_correct"},"guarantee":"if n can be factored in terms of fermat primes with multiplicity of each being 1, return those primes, else none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary._trigonometric_special.fermat_coords_correct","statement":"Path(fermat_coords(x), if n can be factored in terms of fermat primes with multiplicity of each being 1, return those primes, else none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13876b357c7717dc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.fermat_coords","kind":"function","src_hash":"294b50237b810101","in":{"base":"int","pred":"isinstance(n, int)"},"out":{"base":"list[int] | None","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, int] | None) for x in result)"},"spec":{"lhs":"fermat_coords(n)","rhs":"isinstance(result, list) and all(isinstance(x, int] | None) for x in result)","over":{"base":"int","pred":"isinstance(n, int)"},"name":"fermat_coords_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, int] | None) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary._trigonometric_special.fermat_coords_correct","statement":"Path(fermat_coords(x), isinstance(result, list); all(isinstance(x, int] | None) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91fe01dcf0283139","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(n, int)"],"ensures":["isinstance(result, list)","all(isinstance(x, int] | None) for x in result)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def fermat_coords(n: int) -> list[int] | None:
     """If n can be factored in terms of Fermat primes with
     multiplicity of each being 1, return those primes, else
@@ -226,16 +247,23 @@ def fermat_coords(n: int) -> list[int] | None:
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cos_3(), computes $\cos \frac{\pi}{3}$ in square roots) over Any ║
+# ║ Path(cos_3(), S.Half) over Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cos_3 : Any → Expr                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  S.Half                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cos_3 : Any → {Expr | result satisfies: result == (S....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 940e19eb7c07d95d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.cos_3","kind":"function","src_hash":"93c404f3982815dd","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"cos_3()","rhs":"computes $\\cos \\frac{\\pi}{3}$ in square roots","over":{"base":"Any"},"name":"cos_3_correct"},"guarantee":"computes $\\cos \\frac{\\pi}{3}$ in square roots","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"940e19eb7c07d95d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.cos_3","kind":"function","src_hash":"93c404f3982815dd","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (S.Half)"},"spec":{"lhs":"cos_3()","rhs":"S.Half","over":{"base":"Any"},"name":"cos_3_correct"},"guarantee":"returns S.Half; isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"940e19eb7c07d95d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"S.Half","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def cos_3() -> Expr:
     r"""Computes $\cos \frac{\pi}{3}$ in square roots"""
     return S.Half
@@ -243,16 +271,23 @@ def cos_3() -> Expr:
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cos_5(), computes $\cos \frac{\pi}{5}$ in square roots) over Any ║
+# ║ Path(cos_5(), (sqrt(5) + 1) / 4) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cos_5 : Any → Expr                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  (sqrt(5) + 1) / 4                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cos_5 : Any → {Expr | result satisfies: result == ((s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4fd85b72e9efede1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.cos_5","kind":"function","src_hash":"bd93716fd867a819","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"cos_5()","rhs":"computes $\\cos \\frac{\\pi}{5}$ in square roots","over":{"base":"Any"},"name":"cos_5_correct"},"guarantee":"computes $\\cos \\frac{\\pi}{5}$ in square roots","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4fd85b72e9efede1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.cos_5","kind":"function","src_hash":"bd93716fd867a819","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == ((sqrt(5) + 1) / 4)"},"spec":{"lhs":"cos_5()","rhs":"(sqrt(5) + 1) / 4","over":{"base":"Any"},"name":"cos_5_correct"},"guarantee":"returns (sqrt(5) + 1) / 4; isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4fd85b72e9efede1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"(sqrt(5) + 1) / 4","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def cos_5() -> Expr:
     r"""Computes $\cos \frac{\pi}{5}$ in square roots"""
     return (sqrt(5) + 1) / 4
@@ -260,16 +295,23 @@ def cos_5() -> Expr:
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cos_17(), computes $\cos \frac{\pi}{17}$ in square roots) over Any ║
+# ║ Path(cos_17(), sqrt((15 + sqrt(17)) / 32 + sqrt(2) * (sqrt(17 - sqrt(17)) + sqrt(sqrt(2) * (-8 * sqrt(17 + sqrt(17)) - (1 - sqrt(17)) * sqrt(17 - sqrt(17))) + 6 * sqrt(17) + 34)) / 32)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cos_17 : Any → Expr                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ║   returns:  sqrt((15 + sqrt(17)) / 32 + sqrt(2) * (sq...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cos_17 : Any → {Expr | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62ff49e3f9001118  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f154116e592591b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.cos_17","kind":"function","src_hash":"b7f35dc532bf1822","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"cos_17()","rhs":"computes $\\cos \\frac{\\pi}{17}$ in square roots","over":{"base":"Any"},"name":"cos_17_correct"},"guarantee":"computes $\\cos \\frac{\\pi}{17}$ in square roots","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary._trigonometric_special.cos_17_correct","statement":"Path(cos_17(x), computes $\\cos \\frac{\\pi}{17}$ in square roots)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62ff49e3f9001118"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.cos_17","kind":"function","src_hash":"b7f35dc532bf1822","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: result == (sqrt((15 + sqrt(17)) / 32 + sqrt(2) * (sqrt(17 - sqrt(17)) + sqrt(sqrt(2) * (-8 * sqrt(17 + sqrt(17)) - (1 - sqrt(17)) * sqrt(17 - sqrt(17))) + 6 * sqrt(17) + 34)) / 32))"},"spec":{"lhs":"cos_17()","rhs":"sqrt((15 + sqrt(17)) / 32 + sqrt(2) * (sqrt(17 - sqrt(17)) + sqrt(sqrt(2) * (-8 * sqrt(17 + sqrt(17)) - (1 - sqrt(17)) * sqrt(17 - sqrt(17))) + 6 * sqrt(17) + 34)) / 32)","over":{"base":"Any"},"name":"cos_17_correct"},"guarantee":"returns sqrt((15 + sqrt(17)) / 32 + sqrt(2) * (sqrt(17 - sqrt(17)) + sqrt(sqrt(2) * (-8 * sqrt(17 + sqrt(17)) - (1 - sqrt(17)) * sqrt(17 - sqrt(17))) + 6 * sqrt(17) + 34)) / 32); isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary._trigonometric_special.cos_17_correct","statement":"Path(cos_17(x), returns sqrt((15 + sqrt(17)) / 32 + sqrt(2) * (sqrt(17 - sqrt(17)) + sqrt(sqrt(2) * (-8 * sqrt(17 + sqrt(17)) - (1 - sqrt(17)) * sqrt(17 - sqrt(17))) + 6 * sqrt(17) + 34)) / 32); isinstance(result, Expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f154116e592591b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, Expr)"],"returns_expr":"sqrt((15 + sqrt(17)) / 32 + sqrt(2) * (sqrt(17 - sqrt(17)) + sqrt(sqrt(2) * (-8 * sqrt(17 + sqrt(17)) - (1 - sqrt(17)) * sqrt(17 - sqrt(17))) + 6 * sqrt(17) + 34)) / 32)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def cos_17() -> Expr:
     r"""Computes $\cos \frac{\pi}{17}$ in square roots"""
     return sqrt(
@@ -282,14 +324,20 @@ def cos_17() -> Expr:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(cos_257(), id) over Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cos_257 : Any → Expr                                       ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   ensures:  isinstance(result, Expr)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cos_257 : Any → {Expr | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f1498b0f05714355   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.cos_257","kind":"function","src_hash":"7cef96c6d1be29f0","in":{"base":"Any"},"out":{"base":"Expr"},"spec":{"lhs":"cos_257()","rhs":"computes $\\cos \\frac{\\pi}{257}$ in square roots","over":{"base":"Any"},"name":"cos_257_correct","kind":"composition"},"guarantee":"computes $\\cos \\frac{\\pi}{257}$ in square roots","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1498b0f05714355"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.cos_257","kind":"function","src_hash":"7cef96c6d1be29f0","in":{"base":"Any"},"out":{"base":"Expr","pred":"result satisfies: isinstance(result, Expr)"},"spec":{"lhs":"cos_257()","rhs":"isinstance(result, Expr)","over":{"base":"Any"},"name":"cos_257_correct","kind":"composition"},"guarantee":"isinstance(result, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"sqrt","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1498b0f05714355","spec_source":"static","formal_spec":{"source":"static","strength":"partial","ensures":["isinstance(result, Expr)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def cos_257() -> Expr:
     r"""Computes $\cos \frac{\pi}{257}$ in square roots
 
@@ -333,16 +381,23 @@ def cos_257() -> Expr:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cos_table(), lazily evaluated table for $\cos \frac{\pi}{n}$ in square roots for $n \in \{3, 5, 17, 257, 65537\}$) over Any ║
+# ║ Path(cos_table(), {3: cos_3, 5: cos_5, 17: cos_17, 257: cos_257}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cos_table : Any → dict[int, Callable[[], Expr]]            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, dict)                       ║
+# ║   returns:  {3: cos_3, 5: cos_5, 17: cos_17, 257: cos...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cos_table : Any → {dict[int, Callable[[], Expr]] | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d746c9f3e6394a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65630bc097deb896  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.cos_table","kind":"function","src_hash":"01367e9308c1f896","in":{"base":"Any"},"out":{"base":"dict[int, Callable[[], Expr]]"},"spec":{"lhs":"cos_table()","rhs":"lazily evaluated table for $\\cos \\frac{\\pi}{n}$ in square roots for $n \\in \\{3, 5, 17, 257, 65537\\}$","over":{"base":"Any"},"name":"cos_table_correct"},"guarantee":"lazily evaluated table for $\\cos \\frac{\\pi}{n}$ in square roots for $n \\in \\{3, 5, 17, 257, 65537\\}$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary._trigonometric_special.cos_table_correct","statement":"Path(cos_table(x), lazily evaluated table for $\\cos \\frac{\\pi}{n}$ in square roots for $n \\in \\{3, 5, 17, 257, 65537\\}$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d746c9f3e6394a6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary._trigonometric_special.cos_table","kind":"function","src_hash":"01367e9308c1f896","in":{"base":"Any"},"out":{"base":"dict[int, Callable[[], Expr]]","pred":"result satisfies: result == ({3: cos_3, 5: cos_5, 17: cos_17, 257: cos_257})"},"spec":{"lhs":"cos_table()","rhs":"{3: cos_3, 5: cos_5, 17: cos_17, 257: cos_257}","over":{"base":"Any"},"name":"cos_table_correct"},"guarantee":"returns {3: cos_3, 5: cos_5, 17: cos_17, 257: cos_257}; isinstance(result, dict)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary._trigonometric_special.cos_table_correct","statement":"Path(cos_table(x), returns {3: cos_3, 5: cos_5, 17: cos_17, 257: cos_257}; isinstance(result, dict))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65630bc097deb896","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, dict)"],"returns_expr":"{3: cos_3, 5: cos_5, 17: cos_17, 257: cos_257}","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def cos_table() -> dict[int, Callable[[], Expr]]:
     r"""Lazily evaluated table for $\cos \frac{\pi}{n}$ in square roots for
     $n \in \{3, 5, 17, 257, 65537\}$.

@@ -32,14 +32,20 @@ from collections.abc import Iterable
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ArrayKind(*args), correctly constructs a ArrayKind instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ArrayKind : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Kind)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ArrayKind : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a84fbc7d2a829d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ArrayKind","kind":"class","src_hash":"c32c74e0e47055bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ArrayKind(*args)","rhs":"correctly constructs a ArrayKind instance","over":{"base":"Any"},"name":"ArrayKind_class_invariant"},"guarantee":"correctly constructs a ArrayKind instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a84fbc7d2a829d2"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ArrayKind","kind":"class","src_hash":"c32c74e0e47055bb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Kind)"},"spec":{"lhs":"ArrayKind(*args)","rhs":"correctly constructs a ArrayKind instance","over":{"base":"Any"},"name":"ArrayKind_class_invariant"},"guarantee":"isinstance(self, Kind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a84fbc7d2a829d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Kind)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function ArrayKind not found in source"]}}
 class ArrayKind(Kind):
     """
     Kind for N-dimensional array in SymPy.
@@ -94,47 +100,65 @@ class ArrayKind(Kind):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, element_kind), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bf53bae48b941a09           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ArrayKind.__new__","kind":"method","src_hash":"3fdd811326ffc1fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf53bae48b941a09"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ArrayKind.__new__","kind":"method","src_hash":"3fdd811326ffc1fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, element_kind)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf53bae48b941a09","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, element_kind=NumberKind):
         obj = super().__new__(cls, element_kind)
         obj.element_kind = element_kind
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'ArrayKind(%s)' % self.element_kind) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'ArrayKind(%s)' % self.element_kind            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b47e220e59b7b3f3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ArrayKind.__repr__","kind":"method","src_hash":"1cabbc72c196f0b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b47e220e59b7b3f3"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ArrayKind.__repr__","kind":"method","src_hash":"1cabbc72c196f0b6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'ArrayKind(%s)' % self.element_kind","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'ArrayKind(%s)' % self.element_kind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b47e220e59b7b3f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'ArrayKind(%s)' % self.element_kind","pure":false,"effects":{"effect_type":"reads_state","reads":["self.element_kind"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "ArrayKind(%s)" % self.element_kind
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_union(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_union(cls, kinds), ArrayKind(elemkind)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ArrayKind(elemkind)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _union : Any → 'ArrayKind'                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ef37822d385027a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 612caa4eb08fcff1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ArrayKind._union","kind":"classmethod","src_hash":"dba38bc35894d946","in":{"base":"Any"},"out":{"base":"'ArrayKind'"},"spec":{"lhs":"_union(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_union_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.ArrayKind._union_correct","statement":"Path(_union(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ef37822d385027a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ArrayKind._union","kind":"classmethod","src_hash":"dba38bc35894d946","in":{"base":"Any"},"out":{"base":"'ArrayKind'"},"spec":{"lhs":"_union(cls, kinds)","rhs":"ArrayKind(elemkind)","over":{"base":"Any"},"name":"_union_correct"},"guarantee":"returns ArrayKind(elemkind)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.ArrayKind._union_correct","statement":"Path(_union(x), returns ArrayKind(elemkind))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"612caa4eb08fcff1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ArrayKind(elemkind)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _union(cls, kinds) -> 'ArrayKind':
         elem_kinds = {e.kind for e in kinds}
         if len(elem_kinds) == 1:
@@ -147,14 +171,20 @@ class ArrayKind(Kind):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NDimArray(*args), correctly constructs a NDimArray instance) over {Any | isinstance(index, (SYMPY_INTS, Integer)) and isinstance(value, (Iterable, MatrixBase, NDimArray)) and isinstance(other, (Iterable, NDimArray, MatrixBase))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Printable)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ NDimArray : {Any | isinstance(index, (SYMPY_INTS, Int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b252f03290b2b6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray","kind":"class","src_hash":"3b93885d6aba5be7","in":{"base":"Any","pred":"isinstance(index, (SYMPY_INTS, Integer)) and isinstance(value, (Iterable, MatrixBase, NDimArray)) and isinstance(other, (Iterable, NDimArray, MatrixBase))"},"out":{"base":"Any"},"spec":{"lhs":"NDimArray(*args)","rhs":"correctly constructs a NDimArray instance","over":{"base":"Any","pred":"isinstance(index, (SYMPY_INTS, Integer)) and isinstance(value, (Iterable, MatrixBase, NDimArray)) and isinstance(other, (Iterable, NDimArray, MatrixBase))"},"name":"NDimArray_class_invariant"},"guarantee":"correctly constructs a NDimArray instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b252f03290b2b6b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray","kind":"class","src_hash":"3b93885d6aba5be7","in":{"base":"Any","pred":"isinstance(index, (SYMPY_INTS, Integer)) and isinstance(value, (Iterable, MatrixBase, NDimArray)) and isinstance(other, (Iterable, NDimArray, MatrixBase))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Printable)"},"spec":{"lhs":"NDimArray(*args)","rhs":"correctly constructs a NDimArray instance","over":{"base":"Any","pred":"isinstance(index, (SYMPY_INTS, Integer)) and isinstance(value, (Iterable, MatrixBase, NDimArray)) and isinstance(other, (Iterable, NDimArray, MatrixBase))"},"name":"NDimArray_class_invariant"},"guarantee":"isinstance(self, Printable)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b252f03290b2b6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Printable)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function NDimArray not found in source"]}}
 class NDimArray(Printable):
     """N-dimensional array.
 
@@ -212,45 +242,65 @@ class NDimArray(Printable):
     is_scalar = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, iterable, shape), ImmutableDenseNDimArray(iterable, shape, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImmutableDenseNDimArray(iterable, shape, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a33fd402b101c04e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__new__","kind":"method","src_hash":"f593bb321150dc68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a33fd402b101c04e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__new__","kind":"method","src_hash":"f593bb321150dc68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, iterable, shape)","rhs":"ImmutableDenseNDimArray(iterable, shape, **kwargs)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns ImmutableDenseNDimArray(iterable, shape, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a33fd402b101c04e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImmutableDenseNDimArray(iterable, shape, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, iterable, shape=None, **kwargs):
         from sympy.tensor.array import ImmutableDenseNDimArray
         return ImmutableDenseNDimArray(iterable, shape, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ind), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(index), <unspecified:__getitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d2db492db924f59           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__getitem__","kind":"method","src_hash":"fb429bc4cd572f8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d2db492db924f59"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__getitem__","kind":"method","src_hash":"fb429bc4cd572f8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(index)","rhs":"<unspecified:__getitem__>","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d2db492db924f59","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, index):
         raise NotImplementedError("A subclass of NDimArray should implement __getitem__")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_parse_index(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_parse_index(index), <unspecified:_parse_index>) over {Any | not (self._loop_size == 0) and not (len(index) != self._rank)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _parse_index : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self._loop_size == 0)                     ║
+# ║   requires: not (len(index) != self._rank)                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _parse_index : {Any | not (self._loop_size == 0) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 090e74ecb77ba315  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._parse_index","kind":"method","src_hash":"dcd48c52c0274b3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_parse_index(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_parse_index_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._parse_index_correct","statement":"Path(_parse_index(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"090e74ecb77ba315"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._parse_index","kind":"method","src_hash":"dcd48c52c0274b3c","in":{"base":"Any","pred":"not (self._loop_size == 0) and not (len(index) != self._rank)"},"out":{"base":"Any"},"spec":{"lhs":"_parse_index(index)","rhs":"<unspecified:_parse_index>","over":{"base":"Any","pred":"not (self._loop_size == 0) and not (len(index) != self._rank)"},"name":"_parse_index_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._parse_index_correct","statement":"Path(_parse_index(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"090e74ecb77ba315","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self._loop_size == 0)","not (len(index) != self._rank)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._loop_size","self._rank","self.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _parse_index(self, index):
         if isinstance(index, (SYMPY_INTS, Integer)):
             if index >= self._loop_size:
@@ -275,16 +325,22 @@ class NDimArray(Printable):
         return real_index
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_tuple_index(int), internal helper behaves correctly) over Any ║
+# ║ Path(_get_tuple_index(integer_index), tuple(index)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple(index)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_tuple_index : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b4fc253cd68a8ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b4317af09cf8316  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._get_tuple_index","kind":"method","src_hash":"2fcf4516b388f588","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_tuple_index(int)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_tuple_index_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._get_tuple_index_correct","statement":"Path(_get_tuple_index(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b4fc253cd68a8ff"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._get_tuple_index","kind":"method","src_hash":"2fcf4516b388f588","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_tuple_index(integer_index)","rhs":"tuple(index)","over":{"base":"Any"},"name":"_get_tuple_index_correct"},"guarantee":"returns tuple(index)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._get_tuple_index_correct","statement":"Path(_get_tuple_index(x), returns tuple(index))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b4317af09cf8316","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple(index)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_tuple_index(self, integer_index):
         index = []
         for sh in reversed(self.shape):
@@ -294,16 +350,22 @@ class NDimArray(Printable):
         return tuple(index)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_symbolic_index(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_check_symbolic_index(index), <unspecified:_check_symbolic_index>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_symbolic_index : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3374a46a6554d232  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._check_symbolic_index","kind":"method","src_hash":"9c8e3d3c2a4fdb85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_symbolic_index(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_symbolic_index_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._check_symbolic_index_correct","statement":"Path(_check_symbolic_index(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3374a46a6554d232"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._check_symbolic_index","kind":"method","src_hash":"9c8e3d3c2a4fdb85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_symbolic_index(index)","rhs":"<unspecified:_check_symbolic_index>","over":{"base":"Any"},"name":"_check_symbolic_index_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._check_symbolic_index_correct","statement":"Path(_check_symbolic_index(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3374a46a6554d232","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_symbolic_index(self, index):
         # Check if any index is symbolic:
         tuple_index = (index if isinstance(index, tuple) else (index,))
@@ -316,16 +378,23 @@ class NDimArray(Printable):
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_setter_iterable_check(val), internal helper behaves correctly) over Any ║
+# ║ Path(_setter_iterable_check(value), <unspecified:_setter_iterable_check>) over {Any | not (isinstance(value, (Iterable, MatrixBase, NDimArray)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _setter_iterable_check : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (isinstance(value, (Iterable, MatrixB...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _setter_iterable_check : {Any | not (isinstance(value...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bbc996557eb4545  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._setter_iterable_check","kind":"method","src_hash":"c24a06df2bd7a5a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_setter_iterable_check(val)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_setter_iterable_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._setter_iterable_check_correct","statement":"Path(_setter_iterable_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bbc996557eb4545"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._setter_iterable_check","kind":"method","src_hash":"c24a06df2bd7a5a3","in":{"base":"Any","pred":"not (isinstance(value, (Iterable, MatrixBase, NDimArray)))"},"out":{"base":"Any"},"spec":{"lhs":"_setter_iterable_check(value)","rhs":"<unspecified:_setter_iterable_check>","over":{"base":"Any","pred":"not (isinstance(value, (Iterable, MatrixBase, NDimArray)))"},"name":"_setter_iterable_check_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._setter_iterable_check_correct","statement":"Path(_setter_iterable_check(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bbc996557eb4545","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (isinstance(value, (Iterable, MatrixBase, NDimArray)))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _setter_iterable_check(self, value):
         from sympy.matrices.matrixbase import MatrixBase
         if isinstance(value, (Iterable, MatrixBase, NDimArray)):
@@ -333,16 +402,22 @@ class NDimArray(Printable):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_scan_iterable_shape(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_scan_iterable_shape(cls, iterable), <unspecified:_scan_iterable_shape>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _scan_iterable_shape : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d60e395f89dbeb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._scan_iterable_shape","kind":"classmethod","src_hash":"650a7c9dea3de94b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_scan_iterable_shape(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_scan_iterable_shape_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._scan_iterable_shape_correct","statement":"Path(_scan_iterable_shape(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d60e395f89dbeb8"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._scan_iterable_shape","kind":"classmethod","src_hash":"650a7c9dea3de94b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_scan_iterable_shape(cls, iterable)","rhs":"<unspecified:_scan_iterable_shape>","over":{"base":"Any"},"name":"_scan_iterable_shape_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._scan_iterable_shape_correct","statement":"Path(_scan_iterable_shape(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d60e395f89dbeb8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["result.extend"],"raises":["ValueError"]},"state_contract":{"modifies":["result.*"],"old_bindings":{"old_len_result":"len(result)"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _scan_iterable_shape(cls, iterable):
         def f(pointer):
             if not isinstance(pointer, Iterable):
@@ -363,16 +438,25 @@ class NDimArray(Printable):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_handle_ndarray_creation_inputs(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_handle_ndarray_creation_inputs(cls, iterable, shape), <unspecified:_handle_ndarray_creation_inputs>) over {Any | hasattr(iterable, 'copy') and hasattr(iterable, '_shape') and hasattr(iterable, '_sparse_array') and hasattr(iterable, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _handle_ndarray_creation_inputs : Any → Any                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(iterable, 'copy')                      ║
+# ║   requires: hasattr(iterable, '_shape')                    ║
+# ║   requires: hasattr(iterable, '_sparse_array')             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _handle_ndarray_creation_inputs : {Any | hasattr(iter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e960c111623b4f53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._handle_ndarray_creation_inputs","kind":"classmethod","src_hash":"697d1c9f3b9aa88a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_ndarray_creation_inputs(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_handle_ndarray_creation_inputs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._handle_ndarray_creation_inputs_correct","statement":"Path(_handle_ndarray_creation_inputs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e960c111623b4f53"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._handle_ndarray_creation_inputs","kind":"classmethod","src_hash":"697d1c9f3b9aa88a","in":{"base":"Any","pred":"hasattr(iterable, 'copy') and hasattr(iterable, '_shape') and hasattr(iterable, '_sparse_array') and hasattr(iterable, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_handle_ndarray_creation_inputs(cls, iterable, shape)","rhs":"<unspecified:_handle_ndarray_creation_inputs>","over":{"base":"Any","pred":"hasattr(iterable, 'copy') and hasattr(iterable, '_shape') and hasattr(iterable, '_sparse_array') and hasattr(iterable, 'shape')"},"name":"_handle_ndarray_creation_inputs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._handle_ndarray_creation_inputs_correct","statement":"Path(_handle_ndarray_creation_inputs(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e960c111623b4f53","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(iterable, 'copy')","hasattr(iterable, '_shape')","hasattr(iterable, '_sparse_array')","hasattr(iterable, 'shape')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["cls._scan_iterable_shape","iterable._shape","iterable._sparse_array","iterable.copy","iterable.shape"],"writes":["iterable[*]"],"raises":["TypeError"]},"state_contract":{"modifies":["iterable[*]"],"old_bindings":{"old_iterable_star":"iterable[*]"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _handle_ndarray_creation_inputs(cls, iterable=None, shape=None, **kwargs):
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.tensor.array import SparseNDimArray
@@ -420,16 +504,22 @@ class NDimArray(Printable):
         return tuple(shape), iterable
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), self._loop_size) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._loop_size                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 462d68fcbeefa728           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__len__","kind":"method","src_hash":"60567b7dc8d1e847","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"462d68fcbeefa728"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__len__","kind":"method","src_hash":"60567b7dc8d1e847","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"self._loop_size","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns self._loop_size","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"462d68fcbeefa728","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._loop_size","pure":false,"effects":{"effect_type":"reads_state","reads":["self._loop_size"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         """Overload common function len(). Returns number of elements in array.
 
@@ -448,16 +538,22 @@ class NDimArray(Printable):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self._shape) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._shape                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 19dbbc6e8c7066ed           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.shape","kind":"property","src_hash":"912fe979820acea5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19dbbc6e8c7066ed"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.shape","kind":"property","src_hash":"912fe979820acea5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self._shape","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self._shape","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19dbbc6e8c7066ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._shape","pure":false,"effects":{"effect_type":"reads_state","reads":["self._shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         """
         Returns array shape (dimension).
@@ -474,16 +570,22 @@ class NDimArray(Printable):
         return self._shape
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rank(), returns rank of array) over Any               ║
+# ║ Path(rank(), self._rank) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rank                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rank : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7e4396d95ebb5833           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.rank","kind":"method","src_hash":"ad08e9af3ba5d75d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"returns rank of array","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns rank of array","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e4396d95ebb5833"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.rank","kind":"method","src_hash":"ad08e9af3ba5d75d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rank()","rhs":"self._rank","over":{"base":"Any"},"name":"rank_correct"},"guarantee":"returns self._rank","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e4396d95ebb5833","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rank","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rank"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rank(self):
         """
         Returns rank of array.
@@ -500,16 +602,22 @@ class NDimArray(Printable):
         return self._rank
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diff(*ar), id) over Any                               ║
+# ║ Path(diff(*args, **kwargs), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ArrayDerivative(self.as_immutable(), *arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diff : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5d8df39e6b711055   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.diff","kind":"method","src_hash":"d355656b35024fc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(*ar)","rhs":"calculate the derivative of each element in the array","over":{"base":"Any"},"name":"diff_correct","kind":"composition"},"guarantee":"calculate the derivative of each element in the array","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ArrayDerivative","by":"library_axiom"},{"fn":"as_immutable","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d8df39e6b711055"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.diff","kind":"method","src_hash":"d355656b35024fc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diff(*args, **kwargs)","rhs":"ArrayDerivative(self.as_immutable(), *args, **kwargs)","over":{"base":"Any"},"name":"diff_correct","kind":"composition"},"guarantee":"returns ArrayDerivative(self.as_immutable(), *args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ArrayDerivative","by":"library_axiom"},{"fn":"as_immutable","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d8df39e6b711055","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ArrayDerivative(self.as_immutable(), *args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diff(self, *args, **kwargs):
         """
         Calculate the derivative of each element in the array.
@@ -529,45 +637,64 @@ class NDimArray(Printable):
         return ArrayDerivative(self.as_immutable(), *args, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative(base), self.applyfunc(lambda x: base.diff(x))) over {Any | hasattr(base, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_derivative : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(base, 'diff')                          ║
+# ║   returns:  self.applyfunc(lambda x: base.diff(x))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_derivative : {Any | hasattr(base, 'diff')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c49ccf46a050dcf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._eval_derivative","kind":"method","src_hash":"775e90f47caa976f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c49ccf46a050dcf"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._eval_derivative","kind":"method","src_hash":"775e90f47caa976f","in":{"base":"Any","pred":"hasattr(base, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(base)","rhs":"self.applyfunc(lambda x: base.diff(x))","over":{"base":"Any","pred":"hasattr(base, 'diff')"},"name":"_eval_derivative_correct"},"guarantee":"returns self.applyfunc(lambda x: base.diff(x))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c49ccf46a050dcf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(base, 'diff')"],"returns_expr":"self.applyfunc(lambda x: base.diff(x))","pure":false,"effects":{"effect_type":"reads_state","reads":["base.diff","self.applyfunc"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, base):
         # Types are (base: scalar, self: array)
         return self.applyfunc(lambda x: base.diff(x))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative_n_times(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_derivative_n_times(s, n), Basic._eval_derivative_n_times(self, s, n)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic._eval_derivative_n_times(self, s, n)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative_n_times : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac4edbfafa664085           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._eval_derivative_n_times","kind":"method","src_hash":"247353c3fc89357c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative_n_times(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_derivative_n_times_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac4edbfafa664085"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._eval_derivative_n_times","kind":"method","src_hash":"247353c3fc89357c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative_n_times(s, n)","rhs":"Basic._eval_derivative_n_times(self, s, n)","over":{"base":"Any"},"name":"_eval_derivative_n_times_correct"},"guarantee":"returns Basic._eval_derivative_n_times(self, s, n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac4edbfafa664085","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic._eval_derivative_n_times(self, s, n)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative_n_times(self, s, n):
         return Basic._eval_derivative_n_times(self, s, n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(applyfunc(f), id) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ applyfunc : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ce0987b72b6828b4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.applyfunc","kind":"method","src_hash":"180b7df09f6b944f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(f)","rhs":"apply a function to each element of the n-dim array","over":{"base":"Any"},"name":"applyfunc_correct","kind":"composition"},"guarantee":"apply a function to each element of the n-dim array","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"self","by":"library_axiom"},{"fn":"f","by":"library_axiom"},{"fn":"items","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce0987b72b6828b4"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.applyfunc","kind":"method","src_hash":"180b7df09f6b944f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"applyfunc(f)","rhs":"<unspecified:applyfunc>","over":{"base":"Any"},"name":"applyfunc_correct","kind":"composition"},"guarantee":"apply a function to each element of the n-dim array","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"self","by":"library_axiom"},{"fn":"f","by":"library_axiom"},{"fn":"items","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce0987b72b6828b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._sparse_array","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def applyfunc(self, f):
         """Apply a function to each element of the N-dim array.
 
@@ -590,16 +717,23 @@ class NDimArray(Printable):
         return type(self)(map(f, Flatten(self)), self.shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), id) over Any                          ║
+# ║ Path(_sympystr(printer), id) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 58ab839e59cf26b4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._sympystr","kind":"method","src_hash":"f98952394b474239","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"_print","by":"library_axiom"},{"fn":"_get_tuple_index","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58ab839e59cf26b4"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._sympystr","kind":"method","src_hash":"f98952394b474239","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer)","rhs":"<unspecified:_sympystr>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympystr_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"join","by":"library_axiom"},{"fn":"_print","by":"library_axiom"},{"fn":"_get_tuple_index","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58ab839e59cf26b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","printer._print","self.__class__","self._get_tuple_index","self._loop_size","self.rank","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer):
         def f(sh, shape_left, i, j):
             if len(shape_left) == 1:
@@ -617,14 +751,20 @@ class NDimArray(Printable):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(tolist(), id) over Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ tolist : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3d587665f366e535   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.tolist","kind":"method","src_hash":"8a657e61466355b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tolist()","rhs":"converting mutabledensendimarray to one-dim list","over":{"base":"Any"},"name":"tolist_correct","kind":"composition"},"guarantee":"converting mutabledensendimarray to one-dim list","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_get_tuple_index","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d587665f366e535"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.tolist","kind":"method","src_hash":"8a657e61466355b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tolist()","rhs":"<unspecified:tolist>","over":{"base":"Any"},"name":"tolist_correct","kind":"composition"},"guarantee":"converting mutabledensendimarray to one-dim list","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_get_tuple_index","by":"library_axiom"},{"fn":"range","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d587665f366e535","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tolist(self):
         """
         Converting MutableDenseNDimArray to one-dim list
@@ -653,16 +793,24 @@ class NDimArray(Printable):
         return f(self._loop_size, self.shape, 0, self._loop_size)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | not (self.shape != other.shape) and hasattr(other, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self.shape != other.shape)                ║
+# ║   requires: hasattr(other, 'shape')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | not (self.shape != other.shape) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c92682c7c7b590c6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__add__","kind":"method","src_hash":"0001746486efa591","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c92682c7c7b590c6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__add__","kind":"method","src_hash":"0001746486efa591","in":{"base":"Any","pred":"not (self.shape != other.shape) and hasattr(other, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"not (self.shape != other.shape) and hasattr(other, 'shape')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c92682c7c7b590c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self.shape != other.shape)","hasattr(other, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.shape","self.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         from sympy.tensor.array.arrayop import Flatten
 
@@ -676,16 +824,24 @@ class NDimArray(Printable):
         return type(self)(result_list, self.shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), <unspecified:__sub__>) over {Any | not (self.shape != other.shape) and hasattr(other, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (self.shape != other.shape)                ║
+# ║   requires: hasattr(other, 'shape')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | not (self.shape != other.shape) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77f4cba0ebba9a6e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__sub__","kind":"method","src_hash":"30c0c942941b000e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77f4cba0ebba9a6e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__sub__","kind":"method","src_hash":"30c0c942941b000e","in":{"base":"Any","pred":"not (self.shape != other.shape) and hasattr(other, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"<unspecified:__sub__>","over":{"base":"Any","pred":"not (self.shape != other.shape) and hasattr(other, 'shape')"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77f4cba0ebba9a6e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (self.shape != other.shape)","hasattr(other, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.shape","self.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         from sympy.tensor.array.arrayop import Flatten
 
@@ -699,16 +855,24 @@ class NDimArray(Printable):
         return type(self)(result_list, self.shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | not (isinstance(other, (Iterable, NDimArray, MatrixBase))) and hasattr(other, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (isinstance(other, (Iterable, NDimArr...   ║
+# ║   requires: hasattr(other, 'is_zero')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | not (isinstance(other, (Iterable, ND...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 29441d1270e77346           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__mul__","kind":"method","src_hash":"12bc24687f5ddb9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29441d1270e77346"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__mul__","kind":"method","src_hash":"12bc24687f5ddb9d","in":{"base":"Any","pred":"not (isinstance(other, (Iterable, NDimArray, MatrixBase))) and hasattr(other, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"not (isinstance(other, (Iterable, NDimArray, MatrixBase))) and hasattr(other, 'is_zero')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29441d1270e77346","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (isinstance(other, (Iterable, NDimArray, MatrixBase)))","hasattr(other, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_zero","self._sparse_array","self.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.tensor.array import SparseNDimArray
@@ -727,16 +891,24 @@ class NDimArray(Printable):
         return type(self)(result_list, self.shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rmul__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rmul__(other), <unspecified:__rmul__>) over {Any | not (isinstance(other, (Iterable, NDimArray, MatrixBase))) and hasattr(other, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __rmul__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (isinstance(other, (Iterable, NDimArr...   ║
+# ║   requires: hasattr(other, 'is_zero')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __rmul__ : {Any | not (isinstance(other, (Iterable, N...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e758d231d092c1af           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__rmul__","kind":"method","src_hash":"a9ddedcb1fb43549","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e758d231d092c1af"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__rmul__","kind":"method","src_hash":"a9ddedcb1fb43549","in":{"base":"Any","pred":"not (isinstance(other, (Iterable, NDimArray, MatrixBase))) and hasattr(other, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"__rmul__(other)","rhs":"<unspecified:__rmul__>","over":{"base":"Any","pred":"not (isinstance(other, (Iterable, NDimArray, MatrixBase))) and hasattr(other, 'is_zero')"},"name":"__rmul___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e758d231d092c1af","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (isinstance(other, (Iterable, NDimArray, MatrixBase)))","hasattr(other, 'is_zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.is_zero","self._sparse_array","self.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rmul__(self, other):
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.tensor.array import SparseNDimArray
@@ -755,16 +927,23 @@ class NDimArray(Printable):
         return type(self)(result_list, self.shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), <unspecified:__truediv__>) over {Any | not (isinstance(other, (Iterable, NDimArray, MatrixBase)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (isinstance(other, (Iterable, NDimArr...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | not (isinstance(other, (Iterable...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d857812d8b96f7ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__truediv__","kind":"method","src_hash":"b219fa8d5454eaa3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d857812d8b96f7ce"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__truediv__","kind":"method","src_hash":"b219fa8d5454eaa3","in":{"base":"Any","pred":"not (isinstance(other, (Iterable, NDimArray, MatrixBase)))"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"<unspecified:__truediv__>","over":{"base":"Any","pred":"not (isinstance(other, (Iterable, NDimArray, MatrixBase)))"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d857812d8b96f7ce","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (isinstance(other, (Iterable, NDimArray, MatrixBase)))"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._sparse_array","self.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.tensor.array import SparseNDimArray
@@ -781,30 +960,42 @@ class NDimArray(Printable):
         return type(self)(result_list, self.shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(other), <unspecified:__rtruediv__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rtruediv__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 028b18fe012a43fe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__rtruediv__","kind":"method","src_hash":"16d23adfdd50fa9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"028b18fe012a43fe"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__rtruediv__","kind":"method","src_hash":"16d23adfdd50fa9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(other)","rhs":"<unspecified:__rtruediv__>","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"028b18fe012a43fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, other):
         raise NotImplementedError('unsupported operation on NDimArray')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), <unspecified:__neg__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 86c3ab0c5ad787c2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__neg__","kind":"method","src_hash":"1ce563988061dcaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86c3ab0c5ad787c2"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__neg__","kind":"method","src_hash":"1ce563988061dcaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"<unspecified:__neg__>","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"86c3ab0c5ad787c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._sparse_array","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         from sympy.tensor.array import SparseNDimArray
         from sympy.tensor.array.arrayop import Flatten
@@ -816,16 +1007,22 @@ class NDimArray(Printable):
         return type(self)(result_list, self.shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), iterator()) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  iterator()                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7e567fdbbf55e752           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__iter__","kind":"method","src_hash":"73363de7d1d87579","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e567fdbbf55e752"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__iter__","kind":"method","src_hash":"73363de7d1d87579","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"iterator()","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns iterator()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e567fdbbf55e752","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"iterator()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         def iterator():
             if self._shape:
@@ -837,16 +1034,24 @@ class NDimArray(Printable):
         return iterator()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'shape') and hasattr(other, '_sparse_array')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'shape')                        ║
+# ║   requires: hasattr(other, '_sparse_array')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'shape') and hasattr(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 39a83c9c1e110a67           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__eq__","kind":"method","src_hash":"063ffeacc72001f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39a83c9c1e110a67"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__eq__","kind":"method","src_hash":"063ffeacc72001f7","in":{"base":"Any","pred":"hasattr(other, 'shape') and hasattr(other, '_sparse_array')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'shape') and hasattr(other, '_sparse_array')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39a83c9c1e110a67","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'shape')","hasattr(other, '_sparse_array')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._sparse_array","other.shape","self._sparse_array","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """
         NDimArray instances can be compared to each other.
@@ -881,30 +1086,43 @@ class NDimArray(Printable):
         return list(self) == list(other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(other), not self == other) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == other                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 561864ec1e252ece           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__ne__","kind":"method","src_hash":"3c9a6691f5a0eb67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"561864ec1e252ece"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.__ne__","kind":"method","src_hash":"3c9a6691f5a0eb67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(other)","rhs":"not self == other","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == other","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"561864ec1e252ece","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == other","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, other):
         return not self == other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_transpose(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_transpose(), permutedims(self, (1, 0))) over {Any | not (self.rank() != 2)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_transpose : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.rank() != 2)                         ║
+# ║   returns:  permutedims(self, (1, 0))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_transpose : {Any | not (self.rank() != 2)} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f009f121f814985e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ac75693533a88fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._eval_transpose","kind":"method","src_hash":"f5d7ca7695977518","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._eval_transpose_correct","statement":"Path(_eval_transpose(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f009f121f814985e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._eval_transpose","kind":"method","src_hash":"f5d7ca7695977518","in":{"base":"Any","pred":"not (self.rank() != 2)"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"permutedims(self, (1, 0))","over":{"base":"Any","pred":"not (self.rank() != 2)"},"name":"_eval_transpose_correct"},"guarantee":"returns permutedims(self, (1, 0))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._eval_transpose_correct","statement":"Path(_eval_transpose(x), returns permutedims(self, (1, 0)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ac75693533a88fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.rank() != 2)"],"returns_expr":"permutedims(self, (1, 0))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rank"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_transpose(self):
         if self.rank() != 2:
             raise ValueError("array rank not 2")
@@ -912,88 +1130,125 @@ class NDimArray(Printable):
         return permutedims(self, (1, 0))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transpose(), transpose produces the expected output) over Any ║
+# ║ Path(transpose(), self._eval_transpose()) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_transpose()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transpose : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b8aad4590dcde7d1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.transpose","kind":"method","src_hash":"977a1994a677c9f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose()","rhs":"transpose produces the expected output","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8aad4590dcde7d1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.transpose","kind":"method","src_hash":"977a1994a677c9f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transpose()","rhs":"self._eval_transpose()","over":{"base":"Any"},"name":"transpose_correct"},"guarantee":"returns self._eval_transpose()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8aad4590dcde7d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_transpose()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_transpose"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transpose(self):
         return self._eval_transpose()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_conjugate(), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func([i.conjugate() for i in Flatten...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5893f818d53aa172   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._eval_conjugate","kind":"method","src_hash":"27ec1ca6e873f921","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"Flatten","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5893f818d53aa172"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._eval_conjugate","kind":"method","src_hash":"27ec1ca6e873f921","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func([i.conjugate() for i in Flatten(self)], self.shape)","over":{"base":"Any"},"name":"_eval_conjugate_correct","kind":"composition"},"guarantee":"returns self.func([i.conjugate() for i in Flatten(self)], self.shape)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"Flatten","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5893f818d53aa172","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func([i.conjugate() for i in Flatten(self)], self.shape)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.func","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         from sympy.tensor.array.arrayop import Flatten
 
         return self.func([i.conjugate() for i in Flatten(self)], self.shape)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(conjugate(), conjugate produces the expected output) over Any ║
+# ║ Path(conjugate(), self._eval_conjugate()) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_conjugate()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ conjugate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d580a02990423828           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.conjugate","kind":"method","src_hash":"5c72e1e28adb6d70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjugate()","rhs":"conjugate produces the expected output","over":{"base":"Any"},"name":"conjugate_correct"},"guarantee":"conjugate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d580a02990423828"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.conjugate","kind":"method","src_hash":"5c72e1e28adb6d70","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjugate()","rhs":"self._eval_conjugate()","over":{"base":"Any"},"name":"conjugate_correct"},"guarantee":"returns self._eval_conjugate()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d580a02990423828","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_conjugate()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_conjugate"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def conjugate(self):
         return self._eval_conjugate()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_adjoint(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_adjoint(), self.transpose().conjugate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.transpose().conjugate()                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_adjoint : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7cbbd487efad4fd7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._eval_adjoint","kind":"method","src_hash":"8b020d36e7d2e6df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7cbbd487efad4fd7"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._eval_adjoint","kind":"method","src_hash":"8b020d36e7d2e6df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"self.transpose().conjugate()","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"returns self.transpose().conjugate()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7cbbd487efad4fd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.transpose().conjugate()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.transpose"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_adjoint(self):
         return self.transpose().conjugate()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(adjoint(), adjoint produces the expected output) over Any ║
+# ║ Path(adjoint(), self._eval_adjoint()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._eval_adjoint()                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ adjoint : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cb08a21bffd9aeb4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.adjoint","kind":"method","src_hash":"91cdcf514a30b245","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"adjoint()","rhs":"adjoint produces the expected output","over":{"base":"Any"},"name":"adjoint_correct"},"guarantee":"adjoint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb08a21bffd9aeb4"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray.adjoint","kind":"method","src_hash":"91cdcf514a30b245","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"adjoint()","rhs":"self._eval_adjoint()","over":{"base":"Any"},"name":"adjoint_correct"},"guarantee":"returns self._eval_adjoint()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb08a21bffd9aeb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._eval_adjoint()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_adjoint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def adjoint(self):
         return self._eval_adjoint()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_slice_expand(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_slice_expand(s, dim), <unspecified:_slice_expand>) over {Any | hasattr(s, 'indices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _slice_expand : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'indices')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _slice_expand : {Any | hasattr(s, 'indices')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0bb1a0fb3e2c4350  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._slice_expand","kind":"method","src_hash":"1329a16549367c17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_slice_expand(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_slice_expand_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._slice_expand_correct","statement":"Path(_slice_expand(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bb1a0fb3e2c4350"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._slice_expand","kind":"method","src_hash":"1329a16549367c17","in":{"base":"Any","pred":"hasattr(s, 'indices')"},"out":{"base":"Any"},"spec":{"lhs":"_slice_expand(s, dim)","rhs":"<unspecified:_slice_expand>","over":{"base":"Any","pred":"hasattr(s, 'indices')"},"name":"_slice_expand_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._slice_expand_correct","statement":"Path(_slice_expand(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0bb1a0fb3e2c4350","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'indices')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["s.indices"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _slice_expand(self, s, dim):
         if not isinstance(s, slice):
                 return (s,)
@@ -1001,32 +1256,44 @@ class NDimArray(Printable):
         return [start + i*step for i in range((stop-start)//step)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_slice_data_for_array_access(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_get_slice_data_for_array_access(index), (sl_factors, eindices)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (sl_factors, eindices)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_slice_data_for_array_access : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e09b1409d13dca3d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 652b7300a2441dbc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._get_slice_data_for_array_access","kind":"method","src_hash":"0e722923bd428c8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_slice_data_for_array_access(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_slice_data_for_array_access_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._get_slice_data_for_array_access_correct","statement":"Path(_get_slice_data_for_array_access(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e09b1409d13dca3d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._get_slice_data_for_array_access","kind":"method","src_hash":"0e722923bd428c8a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_slice_data_for_array_access(index)","rhs":"(sl_factors, eindices)","over":{"base":"Any"},"name":"_get_slice_data_for_array_access_correct"},"guarantee":"returns (sl_factors, eindices)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._get_slice_data_for_array_access_correct","statement":"Path(_get_slice_data_for_array_access(x), returns (sl_factors, eindices))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"652b7300a2441dbc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(sl_factors, eindices)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._slice_expand","self.shape"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_slice_data_for_array_access(self, index):
         sl_factors = [self._slice_expand(i, dim) for (i, dim) in zip(index, self.shape)]
         eindices = itertools.product(*sl_factors)
         return sl_factors, eindices
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_slice_data_for_array_assignment(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_get_slice_data_for_array_assignment(index, value), (value, eindices, slice_offsets)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (value, eindices, slice_offsets)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_slice_data_for_array_assignment : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50a564395a2396a4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a9301f05b8aa6a22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._get_slice_data_for_array_assignment","kind":"method","src_hash":"e263d74b25c0c28b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_slice_data_for_array_assignment(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_slice_data_for_array_assignment_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._get_slice_data_for_array_assignment_correct","statement":"Path(_get_slice_data_for_array_assignment(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50a564395a2396a4"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._get_slice_data_for_array_assignment","kind":"method","src_hash":"e263d74b25c0c28b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_slice_data_for_array_assignment(index, value)","rhs":"(value, eindices, slice_offsets)","over":{"base":"Any"},"name":"_get_slice_data_for_array_assignment_correct"},"guarantee":"returns (value, eindices, slice_offsets)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._get_slice_data_for_array_assignment_correct","statement":"Path(_get_slice_data_for_array_assignment(x), returns (value, eindices, slice_offsets))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9301f05b8aa6a22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(value, eindices, slice_offsets)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_slice_data_for_array_access"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_slice_data_for_array_assignment(self, index, value):
         if not isinstance(value, NDimArray):
             value = type(self)(value)
@@ -1037,16 +1304,24 @@ class NDimArray(Printable):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_special_bounds(cls), internal helper behaves correctly) over Any ║
+# ║ Path(_check_special_bounds(cls, flat_list, shape), <unspecified:_check_special_bounds>) over {Any | not (shape == () and len(flat_list) != 1) and not (shape == (0,) and len(flat_list) > 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_special_bounds : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (shape == () and len(flat_list) != 1)      ║
+# ║   requires: not (shape == (0,) and len(flat_list) > 0)     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_special_bounds : {Any | not (shape == () and l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce3bbae675074d52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._check_special_bounds","kind":"classmethod","src_hash":"72d2d89d8ba8c33e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_special_bounds(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_special_bounds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._check_special_bounds_correct","statement":"Path(_check_special_bounds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce3bbae675074d52"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._check_special_bounds","kind":"classmethod","src_hash":"72d2d89d8ba8c33e","in":{"base":"Any","pred":"not (shape == () and len(flat_list) != 1) and not (shape == (0,) and len(flat_list) > 0)"},"out":{"base":"Any"},"spec":{"lhs":"_check_special_bounds(cls, flat_list, shape)","rhs":"<unspecified:_check_special_bounds>","over":{"base":"Any","pred":"not (shape == () and len(flat_list) != 1) and not (shape == (0,) and len(flat_list) > 0)"},"name":"_check_special_bounds_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._check_special_bounds_correct","statement":"Path(_check_special_bounds(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce3bbae675074d52","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (shape == () and len(flat_list) != 1)","not (shape == (0,) and len(flat_list) > 0)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_special_bounds(cls, flat_list, shape):
         if shape == () and len(flat_list) != 1:
             raise ValueError("arrays without shape need one scalar value")
@@ -1054,16 +1329,24 @@ class NDimArray(Printable):
             raise ValueError("if array shape is (0,) there cannot be elements")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_index_for_getitem(ind), internal helper behaves correctly) over Any ║
+# ║ Path(_check_index_for_getitem(index), index) over {Any | not (len(index) > self.rank())} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_index_for_getitem : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(index) > self.rank())                 ║
+# ║   ensures:  result == index                                ║
+# ║   returns:  index                                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_index_for_getitem : {Any | not (len(index) > s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff6e5bca26f8845a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a6a8711435a6caa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._check_index_for_getitem","kind":"method","src_hash":"0c86c307cb117c77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_index_for_getitem(ind)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_index_for_getitem_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._check_index_for_getitem_correct","statement":"Path(_check_index_for_getitem(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff6e5bca26f8845a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.NDimArray._check_index_for_getitem","kind":"method","src_hash":"0c86c307cb117c77","in":{"base":"Any","pred":"not (len(index) > self.rank())"},"out":{"base":"Any","pred":"result satisfies: result == (index)"},"spec":{"lhs":"_check_index_for_getitem(index)","rhs":"index","over":{"base":"Any","pred":"not (len(index) > self.rank())"},"name":"_check_index_for_getitem_correct"},"guarantee":"returns index; result == index","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.ndim_array.NDimArray._check_index_for_getitem_correct","statement":"Path(_check_index_for_getitem(x), returns index; result == index)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a6a8711435a6caa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(index) > self.rank())"],"ensures":["result == index"],"returns_expr":"index","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rank"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_index_for_getitem(self, index):
         if isinstance(index, (SYMPY_INTS, Integer, slice)):
             index = (index,)
@@ -1081,55 +1364,81 @@ class NDimArray(Printable):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ImmutableNDimArray(*args), correctly constructs a ImmutableNDimArray instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ImmutableNDimArray : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, NDimArray)                    ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ImmutableNDimArray : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7fe1752546db60e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ImmutableNDimArray","kind":"class","src_hash":"9b02bddd8bb4ef7c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ImmutableNDimArray(*args)","rhs":"correctly constructs a ImmutableNDimArray instance","over":{"base":"Any"},"name":"ImmutableNDimArray_class_invariant"},"guarantee":"correctly constructs a ImmutableNDimArray instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7fe1752546db60e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ImmutableNDimArray","kind":"class","src_hash":"9b02bddd8bb4ef7c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, NDimArray) and isinstance(self, Basic)"},"spec":{"lhs":"ImmutableNDimArray(*args)","rhs":"correctly constructs a ImmutableNDimArray instance","over":{"base":"Any"},"name":"ImmutableNDimArray_class_invariant"},"guarantee":"isinstance(self, NDimArray); isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7fe1752546db60e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, NDimArray)","isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ImmutableNDimArray not found in source"]}}
 class ImmutableNDimArray(NDimArray, Basic):
     _op_priority = 11.0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), Basic.__hash__(self)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic.__hash__(self)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cb5d8b06cce63534           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ImmutableNDimArray.__hash__","kind":"method","src_hash":"e790eb6a6885ef9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb5d8b06cce63534"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ImmutableNDimArray.__hash__","kind":"method","src_hash":"e790eb6a6885ef9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"Basic.__hash__(self)","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns Basic.__hash__(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cb5d8b06cce63534","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic.__hash__(self)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         return Basic.__hash__(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_immutable(), as_immutable produces the expected output) over Any ║
+# ║ Path(as_immutable(), self) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_immutable : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_immutable : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e7464e1870037474           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ImmutableNDimArray.as_immutable","kind":"method","src_hash":"4f32312212d11de3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_immutable()","rhs":"as_immutable produces the expected output","over":{"base":"Any"},"name":"as_immutable_correct"},"guarantee":"as_immutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7464e1870037474"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ImmutableNDimArray.as_immutable","kind":"method","src_hash":"4f32312212d11de3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"as_immutable()","rhs":"self","over":{"base":"Any"},"name":"as_immutable_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e7464e1870037474","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_immutable(self):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_mutable(), as_mutable produces the expected output) over Any ║
+# ║ Path(as_mutable(), <unspecified:as_mutable>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_mutable : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 746f8356c2fa4707           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ImmutableNDimArray.as_mutable","kind":"method","src_hash":"2084fbeac9ed4886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_mutable()","rhs":"as_mutable produces the expected output","over":{"base":"Any"},"name":"as_mutable_correct"},"guarantee":"as_mutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"746f8356c2fa4707"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.ndim_array.ImmutableNDimArray.as_mutable","kind":"method","src_hash":"2084fbeac9ed4886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_mutable()","rhs":"<unspecified:as_mutable>","over":{"base":"Any"},"name":"as_mutable_correct"},"guarantee":"as_mutable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"746f8356c2fa4707","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_mutable(self):
         raise NotImplementedError("abstract method")

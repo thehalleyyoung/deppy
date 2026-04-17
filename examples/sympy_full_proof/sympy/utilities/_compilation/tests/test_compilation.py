@@ -56,31 +56,43 @@ def sigmoid(double [:] inp, double lim=350.0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(npy(dat), npy produces the expected output) over Any  ║
+# ║ Path(npy(data, lim), data / ((data / lim) ** 8 + 1) ** (1 / 8.0)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  data / ((data / lim) ** 8 + 1) ** (1 / 8.0)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ npy : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 22f43ff45b6fe8de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.tests.test_compilation.npy","kind":"function","src_hash":"f5a211016958e863","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"npy(dat)","rhs":"npy produces the expected output","over":{"base":"Any"},"name":"npy_correct"},"guarantee":"npy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"22f43ff45b6fe8de"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.tests.test_compilation.npy","kind":"function","src_hash":"f5a211016958e863","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"npy(data, lim)","rhs":"data / ((data / lim) ** 8 + 1) ** (1 / 8.0)","over":{"base":"Any"},"name":"npy_correct"},"guarantee":"returns data / ((data / lim) ** 8 + 1) ** (1 / 8.0)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"22f43ff45b6fe8de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"data / ((data / lim) ** 8 + 1) ** (1 / 8.0)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def npy(data, lim=350.0):
     return data/((data/lim)**8+1)**(1/8.)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_compile_link_import_strings(), test_compile_link_import_strings produces the expected output) over Any ║
+# ║ Path(test_compile_link_import_strings(), <unspecified:test_compile_link_import_strings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_compile_link_import_strings : Any → {Any | numpy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00bacbd506ab36dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.tests.test_compilation.test_compile_link_import_strings","kind":"function","src_hash":"595f051181dba3fc","in":{"base":"Any"},"out":{"base":"Any","pred":"numpy.allclose(res_mod, res_npy)"},"spec":{"lhs":"test_compile_link_import_strings()","rhs":"test_compile_link_import_strings produces the expected output","over":{"base":"Any"},"name":"test_compile_link_import_strings_correct"},"guarantee":"test_compile_link_import_strings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.tests.test_compilation.test_compile_link_import_strings_correct","statement":"Path(test_compile_link_import_strings(x), test_compile_link_import_strings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00bacbd506ab36dd"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.tests.test_compilation.test_compile_link_import_strings","kind":"function","src_hash":"595f051181dba3fc","in":{"base":"Any"},"out":{"base":"Any","pred":"numpy.allclose(res_mod, res_npy)"},"spec":{"lhs":"test_compile_link_import_strings()","rhs":"<unspecified:test_compile_link_import_strings>","over":{"base":"Any"},"name":"test_compile_link_import_strings_correct"},"guarantee":"test_compile_link_import_strings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.tests.test_compilation.test_compile_link_import_strings_correct","statement":"Path(test_compile_link_import_strings(x), test_compile_link_import_strings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00bacbd506ab36dd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["numpy.random.random"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_compile_link_import_strings():
     if not numpy:
         skip("numpy not installed.")
@@ -106,16 +118,23 @@ def test_compile_link_import_strings():
 
 @skip_under_pyodide("Emscripten does not support subprocesses")
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_compile_sources(), test_compile_sources produces the expected output) over Any ║
+# ║ Path(test_compile_sources(), os.path.exists(obj_path) and mod._foo(21) == 42) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_compile_sources : Any → {Any | os.path.exists(ob...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  os.path.exists(obj_path)                       ║
+# ║   ensures:  mod._foo(21) == 42                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_compile_sources : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29a3df7f3aff983a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0f38629b20d35e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.tests.test_compilation.test_compile_sources","kind":"function","src_hash":"04c2abb63565afee","in":{"base":"Any"},"out":{"base":"Any","pred":"os.path.exists(obj_path) and mod._foo(21) == 42 and 'foo' in nm_out.decode('utf-8')"},"spec":{"lhs":"test_compile_sources()","rhs":"test_compile_sources produces the expected output","over":{"base":"Any"},"name":"test_compile_sources_correct"},"guarantee":"test_compile_sources produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.tests.test_compilation.test_compile_sources_correct","statement":"Path(test_compile_sources(x), test_compile_sources produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29a3df7f3aff983a"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities._compilation.tests.test_compilation.test_compile_sources","kind":"function","src_hash":"04c2abb63565afee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: os.path.exists(obj_path) and mod._foo(21) == 42"},"spec":{"lhs":"test_compile_sources()","rhs":"os.path.exists(obj_path) and mod._foo(21) == 42","over":{"base":"Any"},"name":"test_compile_sources_correct"},"guarantee":"os.path.exists(obj_path); mod._foo(21) == 42","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities._compilation.tests.test_compilation.test_compile_sources_correct","statement":"Path(test_compile_sources(x), os.path.exists(obj_path); mod._foo(21) == 42)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0f38629b20d35e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["os.path.exists(obj_path)","mod._foo(21) == 42"],"pure":false,"effects":{"effect_type":"io","calls_mutating":["ofh.write"],"catches":["subprocess.CalledProcessError"],"io_operations":["ofh.write","open"]},"state_contract":{"modifies":["ofh.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_compile_sources():
     tmpdir = tempfile.mkdtemp()
 

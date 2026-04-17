@@ -37,14 +37,21 @@ x, y, z = symbols('x,y,z')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_printmethod(), id) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_printmethod : Any → {Any | rcode(fabs(x)) == 'ab...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(fabs(x)) == 'abs(x)'                     ║
+# ║   returns:  'abs(%s)' % printer._print(self.args[0])       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_printmethod : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 76b1d1660c295940   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_printmethod","kind":"function","src_hash":"bede1b18b0f31368","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(fabs(x)) == 'abs(x)'"},"spec":{"lhs":"test_printmethod()","rhs":"test_printmethod produces the expected output","over":{"base":"Any"},"name":"test_printmethod_correct","kind":"composition"},"guarantee":"test_printmethod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"abs","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76b1d1660c295940"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_printmethod","kind":"function","src_hash":"bede1b18b0f31368","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('abs(%s)' % printer._print(self.args[0]))"},"spec":{"lhs":"test_printmethod()","rhs":"'abs(%s)' % printer._print(self.args[0])","over":{"base":"Any"},"name":"test_printmethod_correct","kind":"composition"},"guarantee":"returns 'abs(%s)' % printer._print(self.args[0]); rcode(fabs(x)) == 'abs(x)'","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"abs","by":"library_axiom"},{"fn":"_print","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76b1d1660c295940","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(fabs(x)) == 'abs(x)'"],"returns_expr":"'abs(%s)' % printer._print(self.args[0])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_printmethod():
     class fabs(Abs):
         def _rcode(self, printer):
@@ -54,16 +61,23 @@ def test_printmethod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_sqrt(), test_rcode_sqrt produces the expected output) over Any ║
+# ║ Path(test_rcode_sqrt(), rcode(sqrt(x)) == 'sqrt(x)' and rcode(x ** 0.5) == 'sqrt(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_sqrt : Any → {Any | rcode(sqrt(x)) == 'sqr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(sqrt(x)) == 'sqrt(x)'                    ║
+# ║   ensures:  rcode(x ** 0.5) == 'sqrt(x)'                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_sqrt : Any → {Any | result satisfies: rcod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fdd62ccf34eac14  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c69d7c27ae88f3a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_sqrt","kind":"function","src_hash":"705407ac8bd7b943","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(sqrt(x)) == 'sqrt(x)' and rcode(x ** 0.5) == 'sqrt(x)' and rcode(sqrt(x)) == 'sqrt(x)'"},"spec":{"lhs":"test_rcode_sqrt()","rhs":"test_rcode_sqrt produces the expected output","over":{"base":"Any"},"name":"test_rcode_sqrt_correct"},"guarantee":"test_rcode_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_sqrt_correct","statement":"Path(test_rcode_sqrt(x), test_rcode_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fdd62ccf34eac14"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_sqrt","kind":"function","src_hash":"705407ac8bd7b943","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(sqrt(x)) == 'sqrt(x)' and rcode(x ** 0.5) == 'sqrt(x)'"},"spec":{"lhs":"test_rcode_sqrt()","rhs":"rcode(sqrt(x)) == 'sqrt(x)' and rcode(x ** 0.5) == 'sqrt(x)'","over":{"base":"Any"},"name":"test_rcode_sqrt_correct"},"guarantee":"rcode(sqrt(x)) == 'sqrt(x)'; rcode(x ** 0.5) == 'sqrt(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_sqrt_correct","statement":"Path(test_rcode_sqrt(x), rcode(sqrt(x)) == 'sqrt(x)'; rcode(x ** 0.5) == 'sqrt(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c69d7c27ae88f3a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(sqrt(x)) == 'sqrt(x)'","rcode(x ** 0.5) == 'sqrt(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_sqrt():
     assert rcode(sqrt(x)) == "sqrt(x)"
     assert rcode(x**0.5) == "sqrt(x)"
@@ -71,16 +85,24 @@ def test_rcode_sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_Pow(), test_rcode_Pow produces the expected output) over Any ║
+# ║ Path(test_rcode_Pow(), rcode(x ** 3) == 'x^3' and rcode(x ** y ** 3) == 'x^(y^3)' and rcode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x)^(-x + y^x)/(x^2 + y)' and rcode(x ** (-1.0)) == '1.0/x' and rcode(x ** Rational(2, 3)) == 'x^(2.0/3.0)' and rcode(x ** 3, user_functions={'Pow': _cond_cfunc}) == 'dpowi(x, 3)' and rcode(x ** 3.2, user_functions={'Pow': _cond_cfunc}) == 'pow(x, 3.2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_Pow : Any → {Any | rcode(x ** 3) == 'x^3' ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(x ** 3) == 'x^3'                         ║
+# ║   ensures:  rcode(x ** y ** 3) == 'x^(y^3)'                ║
+# ║   ensures:  rcode(1 / (g(x) * 3.5) ** (x - y ** x) / ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_Pow : Any → {Any | result satisfies: rcode...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0813015821e025dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5e2208414a1c7ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Pow","kind":"function","src_hash":"2343ee6be3f75ebc","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(x ** 3) == 'x^3' and rcode(x ** y ** 3) == 'x^(y^3)' and rcode(x ** (-1.0)) == '1.0/x' and rcode(x ** Rational(2, 3)) == 'x^(2.0/3.0)' and rcode(x ** 3, user_functions={'Pow': _cond_cfunc}) == 'dpowi(x, 3)' and rcode(x ** 3.2, user_functions={'Pow': _cond_cfunc}) == 'pow(x, 3.2)'"},"spec":{"lhs":"test_rcode_Pow()","rhs":"test_rcode_Pow produces the expected output","over":{"base":"Any"},"name":"test_rcode_Pow_correct"},"guarantee":"test_rcode_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Pow_correct","statement":"Path(test_rcode_Pow(x), test_rcode_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0813015821e025dd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Pow","kind":"function","src_hash":"2343ee6be3f75ebc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(x ** 3) == 'x^3' and rcode(x ** y ** 3) == 'x^(y^3)' and rcode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x)^(-x + y^x)/(x^2 + y)' and rcode(x ** (-1.0)) == '1.0/x' and rcode(x ** Rational(2, 3)) == 'x^(2.0/3.0)' and rcode(x ** 3, user_functions={'Pow': _cond_cfunc}) == 'dpowi(x, 3)' and rcode(x ** 3.2, user_functions={'Pow': _cond_cfunc}) == 'pow(x, 3.2)'"},"spec":{"lhs":"test_rcode_Pow()","rhs":"rcode(x ** 3) == 'x^3' and rcode(x ** y ** 3) == 'x^(y^3)' and rcode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x)^(-x + y^x)/(x^2 + y)' and rcode(x ** (-1.0)) == '1.0/x' and rcode(x ** Rational(2, 3)) == 'x^(2.0/3.0)' and rcode(x ** 3, user_functions={'Pow': _cond_cfunc}) == 'dpowi(x, 3)' and rcode(x ** 3.2, user_functions={'Pow': _cond_cfunc}) == 'pow(x, 3.2)'","over":{"base":"Any"},"name":"test_rcode_Pow_correct"},"guarantee":"rcode(x ** 3) == 'x^3'; rcode(x ** y ** 3) == 'x^(y^3)'; rcode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x)^(-x + y^x)/(x^2 + y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Pow_correct","statement":"Path(test_rcode_Pow(x), rcode(x ** 3) == 'x^3'; rcode(x ** y ** 3) == 'x^(y^3)'; rcode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x)^(-x + y^x)/(x^2 + y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5e2208414a1c7ca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(x ** 3) == 'x^3'","rcode(x ** y ** 3) == 'x^(y^3)'","rcode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x)^(-x + y^x)/(x^2 + y)'","rcode(x ** (-1.0)) == '1.0/x'","rcode(x ** Rational(2, 3)) == 'x^(2.0/3.0)'","rcode(x ** 3, user_functions={'Pow': _cond_cfunc}) == 'dpowi(x, 3)'","rcode(x ** 3.2, user_functions={'Pow': _cond_cfunc}) == 'pow(x, 3.2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rcode_Pow():
     assert rcode(x**3) == "x^3"
     assert rcode(x**(y**3)) == "x^(y^3)"
@@ -96,32 +118,46 @@ def test_rcode_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_Max(), test_rcode_Max produces the expected output) over Any ║
+# ║ Path(test_rcode_Max(), rcode(Max(x, x * x), user_functions={'Max': 'my_max', 'Pow': 'my_pow'}) == 'my_max(x, my_pow(x, 2))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_Max : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(Max(x, x * x), user_functions={'Max...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_Max : Any → {Any | result satisfies: rcode...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 741628b34bfae6a7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bdb2b174e0f64c57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Max","kind":"function","src_hash":"d744510426f064a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rcode_Max()","rhs":"test_rcode_Max produces the expected output","over":{"base":"Any"},"name":"test_rcode_Max_correct"},"guarantee":"test_rcode_Max produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Max_correct","statement":"Path(test_rcode_Max(x), test_rcode_Max produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"741628b34bfae6a7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Max","kind":"function","src_hash":"d744510426f064a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(Max(x, x * x), user_functions={'Max': 'my_max', 'Pow': 'my_pow'}) == 'my_max(x, my_pow(x, 2))'"},"spec":{"lhs":"test_rcode_Max()","rhs":"rcode(Max(x, x * x), user_functions={'Max': 'my_max', 'Pow': 'my_pow'}) == 'my_max(x, my_pow(x, 2))'","over":{"base":"Any"},"name":"test_rcode_Max_correct"},"guarantee":"rcode(Max(x, x * x), user_functions={'Max': 'my_max', 'Pow': 'my_pow'}) == 'my_max(x, my_pow(x, 2))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Max_correct","statement":"Path(test_rcode_Max(x), rcode(Max(x, x * x), user_functions={'Max': 'my_max', 'Pow': 'my_pow'}) == 'my_max(x, my_pow(x, 2))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bdb2b174e0f64c57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(Max(x, x * x), user_functions={'Max': 'my_max', 'Pow': 'my_pow'}) == 'my_max(x, my_pow(x, 2))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_rcode_Max():
     # Test for gh-11926
     assert rcode(Max(x,x*x),user_functions={"Max":"my_max", "Pow":"my_pow"}) == 'my_max(x, my_pow(x, 2))'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_constants_mathh(), test_rcode_constants_mathh produces the expected output) over Any ║
+# ║ Path(test_rcode_constants_mathh(), rcode(exp(1)) == 'exp(1)' and rcode(pi) == 'pi' and rcode(oo) == 'Inf' and rcode(-oo) == '-Inf') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_constants_mathh : Any → {Any | rcode(exp(1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(exp(1)) == 'exp(1)'                      ║
+# ║   ensures:  rcode(pi) == 'pi'                              ║
+# ║   ensures:  rcode(oo) == 'Inf'                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_constants_mathh : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c4d499306676265  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd30a6741c82a089  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_constants_mathh","kind":"function","src_hash":"8f13e70982b0b95b","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(exp(1)) == 'exp(1)' and rcode(pi) == 'pi' and rcode(oo) == 'Inf' and rcode(-oo) == '-Inf'"},"spec":{"lhs":"test_rcode_constants_mathh()","rhs":"test_rcode_constants_mathh produces the expected output","over":{"base":"Any"},"name":"test_rcode_constants_mathh_correct"},"guarantee":"test_rcode_constants_mathh produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_constants_mathh_correct","statement":"Path(test_rcode_constants_mathh(x), test_rcode_constants_mathh produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c4d499306676265"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_constants_mathh","kind":"function","src_hash":"8f13e70982b0b95b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(exp(1)) == 'exp(1)' and rcode(pi) == 'pi' and rcode(oo) == 'Inf' and rcode(-oo) == '-Inf'"},"spec":{"lhs":"test_rcode_constants_mathh()","rhs":"rcode(exp(1)) == 'exp(1)' and rcode(pi) == 'pi' and rcode(oo) == 'Inf' and rcode(-oo) == '-Inf'","over":{"base":"Any"},"name":"test_rcode_constants_mathh_correct"},"guarantee":"rcode(exp(1)) == 'exp(1)'; rcode(pi) == 'pi'; rcode(oo) == 'Inf'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_constants_mathh_correct","statement":"Path(test_rcode_constants_mathh(x), rcode(exp(1)) == 'exp(1)'; rcode(pi) == 'pi'; rcode(oo) == 'Inf')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd30a6741c82a089","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(exp(1)) == 'exp(1)'","rcode(pi) == 'pi'","rcode(oo) == 'Inf'","rcode(-oo) == '-Inf'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_constants_mathh():
     assert rcode(exp(1)) == "exp(1)"
     assert rcode(pi) == "pi"
@@ -130,16 +166,24 @@ def test_rcode_constants_mathh():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_constants_other(), test_rcode_constants_other produces the expected output) over Any ║
+# ║ Path(test_rcode_constants_other(), rcode(2 * GoldenRatio) == 'GoldenRatio = 1.61803398874989;\n2*GoldenRatio' and rcode(2 * Catalan) == 'Catalan = 0.915965594177219;\n2*Catalan' and rcode(2 * EulerGamma) == 'EulerGamma = 0.577215664901533;\n2*EulerGamma') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_constants_other : Any → {Any | rcode(2 * G...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(2 * GoldenRatio) == 'GoldenRatio = ...   ║
+# ║   ensures:  rcode(2 * Catalan) == 'Catalan = 0.915965...   ║
+# ║   ensures:  rcode(2 * EulerGamma) == 'EulerGamma = 0....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_constants_other : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe35790066784d42  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc2f7db5905d0887  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_constants_other","kind":"function","src_hash":"5801a4092e88c7be","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(2 * GoldenRatio) == 'GoldenRatio = 1.61803398874989;\\n2*GoldenRatio' and rcode(2 * Catalan) == 'Catalan = 0.915965594177219;\\n2*Catalan' and rcode(2 * EulerGamma) == 'EulerGamma = 0.577215664901533;\\n2*EulerGamma'"},"spec":{"lhs":"test_rcode_constants_other()","rhs":"test_rcode_constants_other produces the expected output","over":{"base":"Any"},"name":"test_rcode_constants_other_correct"},"guarantee":"test_rcode_constants_other produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_constants_other_correct","statement":"Path(test_rcode_constants_other(x), test_rcode_constants_other produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe35790066784d42"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_constants_other","kind":"function","src_hash":"5801a4092e88c7be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(2 * GoldenRatio) == 'GoldenRatio = 1.61803398874989;\\n2*GoldenRatio' and rcode(2 * Catalan) == 'Catalan = 0.915965594177219;\\n2*Catalan' and rcode(2 * EulerGamma) == 'EulerGamma = 0.577215664901533;\\n2*EulerGamma'"},"spec":{"lhs":"test_rcode_constants_other()","rhs":"rcode(2 * GoldenRatio) == 'GoldenRatio = 1.61803398874989;\\n2*GoldenRatio' and rcode(2 * Catalan) == 'Catalan = 0.915965594177219;\\n2*Catalan' and rcode(2 * EulerGamma) == 'EulerGamma = 0.577215664901533;\\n2*EulerGamma'","over":{"base":"Any"},"name":"test_rcode_constants_other_correct"},"guarantee":"rcode(2 * GoldenRatio) == 'GoldenRatio = 1.61803398874989;\\n2*GoldenRatio'; rcode(2 * Catalan) == 'Catalan = 0.915965594177219;\\n2*Catalan'; rcode(2 * EulerGamma) == 'EulerGamma = 0.577215664901533;\\n2*EulerGamma'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_constants_other_correct","statement":"Path(test_rcode_constants_other(x), rcode(2 * GoldenRatio) == 'GoldenRatio = 1.61803398874989;\\n2*GoldenRatio'; rcode(2 * Catalan) == 'Catalan = 0.915965594177219;\\n2*Catalan'; rcode(2 * EulerGamma) == 'EulerGamma = 0.577215664901533;\\n2*EulerGamma')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc2f7db5905d0887","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(2 * GoldenRatio) == 'GoldenRatio = 1.61803398874989;\\n2*GoldenRatio'","rcode(2 * Catalan) == 'Catalan = 0.915965594177219;\\n2*Catalan'","rcode(2 * EulerGamma) == 'EulerGamma = 0.577215664901533;\\n2*EulerGamma'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_constants_other():
     assert rcode(2*GoldenRatio) == "GoldenRatio = 1.61803398874989;\n2*GoldenRatio"
     assert rcode(
@@ -148,16 +192,24 @@ def test_rcode_constants_other():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_Rational(), test_rcode_Rational produces the expected output) over Any ║
+# ║ Path(test_rcode_Rational(), rcode(Rational(3, 7)) == '3.0/7.0' and rcode(Rational(18, 9)) == '2' and rcode(Rational(3, -7)) == '-3.0/7.0' and rcode(Rational(-3, -7)) == '3.0/7.0' and rcode(x + Rational(3, 7)) == 'x + 3.0/7.0' and rcode(Rational(3, 7) * x) == '(3.0/7.0)*x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_Rational : Any → {Any | rcode(Rational(3, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(Rational(3, 7)) == '3.0/7.0'             ║
+# ║   ensures:  rcode(Rational(18, 9)) == '2'                  ║
+# ║   ensures:  rcode(Rational(3, -7)) == '-3.0/7.0'           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_Rational : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5373ee482e31475c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 649334eeed102c6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Rational","kind":"function","src_hash":"27d90ae404a3a58d","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(Rational(3, 7)) == '3.0/7.0' and rcode(Rational(18, 9)) == '2' and rcode(Rational(3, -7)) == '-3.0/7.0' and rcode(Rational(-3, -7)) == '3.0/7.0' and rcode(x + Rational(3, 7)) == 'x + 3.0/7.0' and rcode(Rational(3, 7) * x) == '(3.0/7.0)*x'"},"spec":{"lhs":"test_rcode_Rational()","rhs":"test_rcode_Rational produces the expected output","over":{"base":"Any"},"name":"test_rcode_Rational_correct"},"guarantee":"test_rcode_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Rational_correct","statement":"Path(test_rcode_Rational(x), test_rcode_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5373ee482e31475c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Rational","kind":"function","src_hash":"27d90ae404a3a58d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(Rational(3, 7)) == '3.0/7.0' and rcode(Rational(18, 9)) == '2' and rcode(Rational(3, -7)) == '-3.0/7.0' and rcode(Rational(-3, -7)) == '3.0/7.0' and rcode(x + Rational(3, 7)) == 'x + 3.0/7.0' and rcode(Rational(3, 7) * x) == '(3.0/7.0)*x'"},"spec":{"lhs":"test_rcode_Rational()","rhs":"rcode(Rational(3, 7)) == '3.0/7.0' and rcode(Rational(18, 9)) == '2' and rcode(Rational(3, -7)) == '-3.0/7.0' and rcode(Rational(-3, -7)) == '3.0/7.0' and rcode(x + Rational(3, 7)) == 'x + 3.0/7.0' and rcode(Rational(3, 7) * x) == '(3.0/7.0)*x'","over":{"base":"Any"},"name":"test_rcode_Rational_correct"},"guarantee":"rcode(Rational(3, 7)) == '3.0/7.0'; rcode(Rational(18, 9)) == '2'; rcode(Rational(3, -7)) == '-3.0/7.0'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Rational_correct","statement":"Path(test_rcode_Rational(x), rcode(Rational(3, 7)) == '3.0/7.0'; rcode(Rational(18, 9)) == '2'; rcode(Rational(3, -7)) == '-3.0/7.0')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"649334eeed102c6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(Rational(3, 7)) == '3.0/7.0'","rcode(Rational(18, 9)) == '2'","rcode(Rational(3, -7)) == '-3.0/7.0'","rcode(Rational(-3, -7)) == '3.0/7.0'","rcode(x + Rational(3, 7)) == 'x + 3.0/7.0'","rcode(Rational(3, 7) * x) == '(3.0/7.0)*x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_Rational():
     assert rcode(Rational(3, 7)) == "3.0/7.0"
     assert rcode(Rational(18, 9)) == "2"
@@ -168,32 +220,47 @@ def test_rcode_Rational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_Integer(), test_rcode_Integer produces the expected output) over Any ║
+# ║ Path(test_rcode_Integer(), rcode(Integer(67)) == '67' and rcode(Integer(-1)) == '-1') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_Integer : Any → {Any | rcode(Integer(67)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(Integer(67)) == '67'                     ║
+# ║   ensures:  rcode(Integer(-1)) == '-1'                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_Integer : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b36952f92f2f3c9b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0223379393e8fac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Integer","kind":"function","src_hash":"9d257f826db1ab61","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(Integer(67)) == '67' and rcode(Integer(-1)) == '-1'"},"spec":{"lhs":"test_rcode_Integer()","rhs":"test_rcode_Integer produces the expected output","over":{"base":"Any"},"name":"test_rcode_Integer_correct"},"guarantee":"test_rcode_Integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Integer_correct","statement":"Path(test_rcode_Integer(x), test_rcode_Integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b36952f92f2f3c9b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Integer","kind":"function","src_hash":"9d257f826db1ab61","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(Integer(67)) == '67' and rcode(Integer(-1)) == '-1'"},"spec":{"lhs":"test_rcode_Integer()","rhs":"rcode(Integer(67)) == '67' and rcode(Integer(-1)) == '-1'","over":{"base":"Any"},"name":"test_rcode_Integer_correct"},"guarantee":"rcode(Integer(67)) == '67'; rcode(Integer(-1)) == '-1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Integer_correct","statement":"Path(test_rcode_Integer(x), rcode(Integer(67)) == '67'; rcode(Integer(-1)) == '-1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0223379393e8fac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(Integer(67)) == '67'","rcode(Integer(-1)) == '-1'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_rcode_Integer():
     assert rcode(Integer(67)) == "67"
     assert rcode(Integer(-1)) == "-1"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_functions(), test_rcode_functions produces the expected output) over Any ║
+# ║ Path(test_rcode_functions(), rcode(sin(x) ** cos(x)) == 'sin(x)^cos(x)' and rcode(factorial(x) + gamma(y)) == 'factorial(x) + gamma(y)' and rcode(beta(Min(x, y), Max(x, y))) == 'beta(min(x, y), max(x, y))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_functions : Any → {Any | rcode(sin(x) ** c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(sin(x) ** cos(x)) == 'sin(x)^cos(x)'     ║
+# ║   ensures:  rcode(factorial(x) + gamma(y)) == 'factor...   ║
+# ║   ensures:  rcode(beta(Min(x, y), Max(x, y))) == 'bet...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_functions : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 995aee10aa551854  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a221cb458a02e7c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_functions","kind":"function","src_hash":"f5197de2a2d650c8","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(sin(x) ** cos(x)) == 'sin(x)^cos(x)' and rcode(factorial(x) + gamma(y)) == 'factorial(x) + gamma(y)' and rcode(beta(Min(x, y), Max(x, y))) == 'beta(min(x, y), max(x, y))'"},"spec":{"lhs":"test_rcode_functions()","rhs":"test_rcode_functions produces the expected output","over":{"base":"Any"},"name":"test_rcode_functions_correct"},"guarantee":"test_rcode_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_functions_correct","statement":"Path(test_rcode_functions(x), test_rcode_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"995aee10aa551854"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_functions","kind":"function","src_hash":"f5197de2a2d650c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(sin(x) ** cos(x)) == 'sin(x)^cos(x)' and rcode(factorial(x) + gamma(y)) == 'factorial(x) + gamma(y)' and rcode(beta(Min(x, y), Max(x, y))) == 'beta(min(x, y), max(x, y))'"},"spec":{"lhs":"test_rcode_functions()","rhs":"rcode(sin(x) ** cos(x)) == 'sin(x)^cos(x)' and rcode(factorial(x) + gamma(y)) == 'factorial(x) + gamma(y)' and rcode(beta(Min(x, y), Max(x, y))) == 'beta(min(x, y), max(x, y))'","over":{"base":"Any"},"name":"test_rcode_functions_correct"},"guarantee":"rcode(sin(x) ** cos(x)) == 'sin(x)^cos(x)'; rcode(factorial(x) + gamma(y)) == 'factorial(x) + gamma(y)'; rcode(beta(Min(x, y), Max(x, y))) == 'beta(min(x, y), max(x, y))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_functions_correct","statement":"Path(test_rcode_functions(x), rcode(sin(x) ** cos(x)) == 'sin(x)^cos(x)'; rcode(factorial(x) + gamma(y)) == 'factorial(x) + gamma(y)'; rcode(beta(Min(x, y), Max(x, y))) == 'beta(min(x, y), max(x, y))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a221cb458a02e7c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(sin(x) ** cos(x)) == 'sin(x)^cos(x)'","rcode(factorial(x) + gamma(y)) == 'factorial(x) + gamma(y)'","rcode(beta(Min(x, y), Max(x, y))) == 'beta(min(x, y), max(x, y))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_functions():
     assert rcode(sin(x) ** cos(x)) == "sin(x)^cos(x)"
     assert rcode(factorial(x) + gamma(y)) == "factorial(x) + gamma(y)"
@@ -201,16 +268,24 @@ def test_rcode_functions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_inline_function(), test_rcode_inline_function produces the expected output) over Any ║
+# ║ Path(test_rcode_inline_function(), rcode(g(x)) == '2*x' and rcode(g(x)) == 'Catalan = %s;\n2*x/Catalan' % Catalan.n() and res == ref) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_inline_function : Any → {Any | rcode(g(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(g(x)) == '2*x'                           ║
+# ║   ensures:  rcode(g(x)) == 'Catalan = %s;\n2*x/Catala...   ║
+# ║   ensures:  res == ref                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_inline_function : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa71cad7d07ce13b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 910c9e37a5429bd4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_inline_function","kind":"function","src_hash":"37584f705db02bbf","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(g(x)) == '2*x' and rcode(g(x)) == 'Catalan = %s;\\n2*x/Catalan' % Catalan.n() and res == ref"},"spec":{"lhs":"test_rcode_inline_function()","rhs":"test_rcode_inline_function produces the expected output","over":{"base":"Any"},"name":"test_rcode_inline_function_correct"},"guarantee":"test_rcode_inline_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_inline_function_correct","statement":"Path(test_rcode_inline_function(x), test_rcode_inline_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa71cad7d07ce13b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_inline_function","kind":"function","src_hash":"37584f705db02bbf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(g(x)) == '2*x' and rcode(g(x)) == 'Catalan = %s;\\n2*x/Catalan' % Catalan.n() and res == ref"},"spec":{"lhs":"test_rcode_inline_function()","rhs":"rcode(g(x)) == '2*x' and rcode(g(x)) == 'Catalan = %s;\\n2*x/Catalan' % Catalan.n() and res == ref","over":{"base":"Any"},"name":"test_rcode_inline_function_correct"},"guarantee":"rcode(g(x)) == '2*x'; rcode(g(x)) == 'Catalan = %s;\\n2*x/Catalan' % Catalan.n(); res == ref","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_inline_function_correct","statement":"Path(test_rcode_inline_function(x), rcode(g(x)) == '2*x'; rcode(g(x)) == 'Catalan = %s;\\n2*x/Catalan' % Catalan.n(); res == ref)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"910c9e37a5429bd4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(g(x)) == '2*x'","rcode(g(x)) == 'Catalan = %s;\\n2*x/Catalan' % Catalan.n()","res == ref"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rcode_inline_function():
     x = symbols('x')
     g = implemented_function('g', Lambda(x, 2*x))
@@ -231,16 +306,24 @@ def test_rcode_inline_function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_exceptions(), test_rcode_exceptions produces the expected output) over Any ║
+# ║ Path(test_rcode_exceptions(), rcode(ceiling(x)) == 'ceiling(x)' and rcode(Abs(x)) == 'abs(x)' and rcode(gamma(x)) == 'gamma(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_exceptions : Any → {Any | rcode(ceiling(x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(ceiling(x)) == 'ceiling(x)'              ║
+# ║   ensures:  rcode(Abs(x)) == 'abs(x)'                      ║
+# ║   ensures:  rcode(gamma(x)) == 'gamma(x)'                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_exceptions : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f91157413da1ed2a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d9f815bad6ab315  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_exceptions","kind":"function","src_hash":"e7ec43a368e22b74","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(ceiling(x)) == 'ceiling(x)' and rcode(Abs(x)) == 'abs(x)' and rcode(gamma(x)) == 'gamma(x)'"},"spec":{"lhs":"test_rcode_exceptions()","rhs":"test_rcode_exceptions produces the expected output","over":{"base":"Any"},"name":"test_rcode_exceptions_correct"},"guarantee":"test_rcode_exceptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_exceptions_correct","statement":"Path(test_rcode_exceptions(x), test_rcode_exceptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f91157413da1ed2a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_exceptions","kind":"function","src_hash":"e7ec43a368e22b74","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(ceiling(x)) == 'ceiling(x)' and rcode(Abs(x)) == 'abs(x)' and rcode(gamma(x)) == 'gamma(x)'"},"spec":{"lhs":"test_rcode_exceptions()","rhs":"rcode(ceiling(x)) == 'ceiling(x)' and rcode(Abs(x)) == 'abs(x)' and rcode(gamma(x)) == 'gamma(x)'","over":{"base":"Any"},"name":"test_rcode_exceptions_correct"},"guarantee":"rcode(ceiling(x)) == 'ceiling(x)'; rcode(Abs(x)) == 'abs(x)'; rcode(gamma(x)) == 'gamma(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_exceptions_correct","statement":"Path(test_rcode_exceptions(x), rcode(ceiling(x)) == 'ceiling(x)'; rcode(Abs(x)) == 'abs(x)'; rcode(gamma(x)) == 'gamma(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d9f815bad6ab315","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(ceiling(x)) == 'ceiling(x)'","rcode(Abs(x)) == 'abs(x)'","rcode(gamma(x)) == 'gamma(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_exceptions():
     assert rcode(ceiling(x)) == "ceiling(x)"
     assert rcode(Abs(x)) == "abs(x)"
@@ -248,16 +331,24 @@ def test_rcode_exceptions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_user_functions(), test_rcode_user_functions produces the expected output) over Any ║
+# ║ Path(test_rcode_user_functions(), rcode(ceiling(x), user_functions=custom_functions) == 'myceil(x)' and rcode(Abs(x), user_functions=custom_functions) == 'fabs(x)' and rcode(Abs(n), user_functions=custom_functions) == 'abs(n)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_user_functions : Any → {Any | rcode(ceilin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(ceiling(x), user_functions=custom_f...   ║
+# ║   ensures:  rcode(Abs(x), user_functions=custom_funct...   ║
+# ║   ensures:  rcode(Abs(n), user_functions=custom_funct...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_user_functions : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2014d64a8b235830  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8cf93e231f711ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_user_functions","kind":"function","src_hash":"66ad04d1c3f53453","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(ceiling(x), user_functions=custom_functions) == 'myceil(x)' and rcode(Abs(x), user_functions=custom_functions) == 'fabs(x)' and rcode(Abs(n), user_functions=custom_functions) == 'abs(n)'"},"spec":{"lhs":"test_rcode_user_functions()","rhs":"test_rcode_user_functions produces the expected output","over":{"base":"Any"},"name":"test_rcode_user_functions_correct"},"guarantee":"test_rcode_user_functions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_user_functions_correct","statement":"Path(test_rcode_user_functions(x), test_rcode_user_functions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2014d64a8b235830"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_user_functions","kind":"function","src_hash":"66ad04d1c3f53453","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(ceiling(x), user_functions=custom_functions) == 'myceil(x)' and rcode(Abs(x), user_functions=custom_functions) == 'fabs(x)' and rcode(Abs(n), user_functions=custom_functions) == 'abs(n)'"},"spec":{"lhs":"test_rcode_user_functions()","rhs":"rcode(ceiling(x), user_functions=custom_functions) == 'myceil(x)' and rcode(Abs(x), user_functions=custom_functions) == 'fabs(x)' and rcode(Abs(n), user_functions=custom_functions) == 'abs(n)'","over":{"base":"Any"},"name":"test_rcode_user_functions_correct"},"guarantee":"rcode(ceiling(x), user_functions=custom_functions) == 'myceil(x)'; rcode(Abs(x), user_functions=custom_functions) == 'fabs(x)'; rcode(Abs(n), user_functions=custom_functions) == 'abs(n)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_user_functions_correct","statement":"Path(test_rcode_user_functions(x), rcode(ceiling(x), user_functions=custom_functions) == 'myceil(x)'; rcode(Abs(x), user_functions=custom_functions) == 'fabs(x)'; rcode(Abs(n), user_functions=custom_functions) == 'abs(n)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8cf93e231f711ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(ceiling(x), user_functions=custom_functions) == 'myceil(x)'","rcode(Abs(x), user_functions=custom_functions) == 'fabs(x)'","rcode(Abs(n), user_functions=custom_functions) == 'abs(n)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_user_functions():
     x = symbols('x', integer=False)
     n = symbols('n', integer=True)
@@ -271,16 +362,24 @@ def test_rcode_user_functions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_boolean(), test_rcode_boolean produces the expected output) over Any ║
+# ║ Path(test_rcode_boolean(), rcode(True) == 'True' and rcode(S.true) == 'True' and rcode(False) == 'False' and rcode(S.false) == 'False' and rcode(x & y) == 'x & y' and rcode(x | y) == 'x | y' and rcode(~x) == '!x' and rcode(x & y & z) == 'x & y & z' and rcode(x | y | z) == 'x | y | z' and rcode(x & y | z) == 'z | x & y' and rcode((x | y) & z) == 'z & (x | y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_boolean : Any → {Any | rcode(True) == 'Tru...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(True) == 'True'                          ║
+# ║   ensures:  rcode(S.true) == 'True'                        ║
+# ║   ensures:  rcode(False) == 'False'                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_boolean : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44a511f8e10d0493  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63559a4688cf53bd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_boolean","kind":"function","src_hash":"d6806ec2686d49b8","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(True) == 'True' and rcode(S.true) == 'True' and rcode(False) == 'False' and rcode(S.false) == 'False' and rcode(x & y) == 'x & y' and rcode(x | y) == 'x | y' and rcode(~x) == '!x' and rcode(x & y & z) == 'x & y & z' and rcode(x | y | z) == 'x | y | z' and rcode(x & y | z) == 'z | x & y' and rcode((x | y) & z) == 'z & (x | y)'"},"spec":{"lhs":"test_rcode_boolean()","rhs":"test_rcode_boolean produces the expected output","over":{"base":"Any"},"name":"test_rcode_boolean_correct"},"guarantee":"test_rcode_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_boolean_correct","statement":"Path(test_rcode_boolean(x), test_rcode_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44a511f8e10d0493"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_boolean","kind":"function","src_hash":"d6806ec2686d49b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(True) == 'True' and rcode(S.true) == 'True' and rcode(False) == 'False' and rcode(S.false) == 'False' and rcode(x & y) == 'x & y' and rcode(x | y) == 'x | y' and rcode(~x) == '!x' and rcode(x & y & z) == 'x & y & z' and rcode(x | y | z) == 'x | y | z' and rcode(x & y | z) == 'z | x & y' and rcode((x | y) & z) == 'z & (x | y)'"},"spec":{"lhs":"test_rcode_boolean()","rhs":"rcode(True) == 'True' and rcode(S.true) == 'True' and rcode(False) == 'False' and rcode(S.false) == 'False' and rcode(x & y) == 'x & y' and rcode(x | y) == 'x | y' and rcode(~x) == '!x' and rcode(x & y & z) == 'x & y & z' and rcode(x | y | z) == 'x | y | z' and rcode(x & y | z) == 'z | x & y' and rcode((x | y) & z) == 'z & (x | y)'","over":{"base":"Any"},"name":"test_rcode_boolean_correct"},"guarantee":"rcode(True) == 'True'; rcode(S.true) == 'True'; rcode(False) == 'False'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_boolean_correct","statement":"Path(test_rcode_boolean(x), rcode(True) == 'True'; rcode(S.true) == 'True'; rcode(False) == 'False')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63559a4688cf53bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(True) == 'True'","rcode(S.true) == 'True'","rcode(False) == 'False'","rcode(S.false) == 'False'","rcode(x & y) == 'x & y'","rcode(x | y) == 'x | y'","rcode(~x) == '!x'","rcode(x & y & z) == 'x & y & z'","rcode(x | y | z) == 'x | y | z'","rcode(x & y | z) == 'z | x & y'","rcode((x | y) & z) == 'z & (x | y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rcode_boolean():
     assert rcode(True) == "True"
     assert rcode(S.true) == "True"
@@ -295,16 +394,24 @@ def test_rcode_boolean():
     assert rcode((x | y) & z) == "z & (x | y)"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_Relational(), test_rcode_Relational produces the expected output) over Any ║
+# ║ Path(test_rcode_Relational(), rcode(Eq(x, y)) == 'x == y' and rcode(Ne(x, y)) == 'x != y' and rcode(Le(x, y)) == 'x <= y' and rcode(Lt(x, y)) == 'x < y' and rcode(Gt(x, y)) == 'x > y' and rcode(Ge(x, y)) == 'x >= y') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_Relational : Any → {Any | rcode(Eq(x, y)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(Eq(x, y)) == 'x == y'                    ║
+# ║   ensures:  rcode(Ne(x, y)) == 'x != y'                    ║
+# ║   ensures:  rcode(Le(x, y)) == 'x <= y'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_Relational : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47047fc8abd838a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05122366909eb968  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Relational","kind":"function","src_hash":"cfd49d4eba8202da","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(Eq(x, y)) == 'x == y' and rcode(Ne(x, y)) == 'x != y' and rcode(Le(x, y)) == 'x <= y' and rcode(Lt(x, y)) == 'x < y' and rcode(Gt(x, y)) == 'x > y' and rcode(Ge(x, y)) == 'x >= y'"},"spec":{"lhs":"test_rcode_Relational()","rhs":"test_rcode_Relational produces the expected output","over":{"base":"Any"},"name":"test_rcode_Relational_correct"},"guarantee":"test_rcode_Relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Relational_correct","statement":"Path(test_rcode_Relational(x), test_rcode_Relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47047fc8abd838a5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Relational","kind":"function","src_hash":"cfd49d4eba8202da","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(Eq(x, y)) == 'x == y' and rcode(Ne(x, y)) == 'x != y' and rcode(Le(x, y)) == 'x <= y' and rcode(Lt(x, y)) == 'x < y' and rcode(Gt(x, y)) == 'x > y' and rcode(Ge(x, y)) == 'x >= y'"},"spec":{"lhs":"test_rcode_Relational()","rhs":"rcode(Eq(x, y)) == 'x == y' and rcode(Ne(x, y)) == 'x != y' and rcode(Le(x, y)) == 'x <= y' and rcode(Lt(x, y)) == 'x < y' and rcode(Gt(x, y)) == 'x > y' and rcode(Ge(x, y)) == 'x >= y'","over":{"base":"Any"},"name":"test_rcode_Relational_correct"},"guarantee":"rcode(Eq(x, y)) == 'x == y'; rcode(Ne(x, y)) == 'x != y'; rcode(Le(x, y)) == 'x <= y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Relational_correct","statement":"Path(test_rcode_Relational(x), rcode(Eq(x, y)) == 'x == y'; rcode(Ne(x, y)) == 'x != y'; rcode(Le(x, y)) == 'x <= y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05122366909eb968","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(Eq(x, y)) == 'x == y'","rcode(Ne(x, y)) == 'x != y'","rcode(Le(x, y)) == 'x <= y'","rcode(Lt(x, y)) == 'x < y'","rcode(Gt(x, y)) == 'x > y'","rcode(Ge(x, y)) == 'x >= y'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_Relational():
     assert rcode(Eq(x, y)) == "x == y"
     assert rcode(Ne(x, y)) == "x != y"
@@ -315,16 +422,24 @@ def test_rcode_Relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_Piecewise(), test_rcode_Piecewise produces the expected output) over Any ║
+# ║ Path(test_rcode_Piecewise(), res == ref and rcode(expr) == '2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3))' and res == 'c = 2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3));' and rcode(expr) == '2*ifelse(x < 1,x,ifelse(x < 2,x^2,NA))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_Piecewise : Any → {Any | res == ref and re...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  res == ref                                     ║
+# ║   ensures:  rcode(expr) == '2*ifelse(x < 1,x,ifelse(x...   ║
+# ║   ensures:  res == 'c = 2*ifelse(x < 1,x,ifelse(x < 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_Piecewise : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e326f5f25843b17  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec3c9d17fe5257a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Piecewise","kind":"function","src_hash":"7ec672cd84024314","in":{"base":"Any"},"out":{"base":"Any","pred":"res == ref and res == ref and rcode(expr) == '2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3))' and res == 'c = 2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3));' and rcode(expr) == '2*ifelse(x < 1,x,ifelse(x < 2,x^2,NA))'"},"spec":{"lhs":"test_rcode_Piecewise()","rhs":"test_rcode_Piecewise produces the expected output","over":{"base":"Any"},"name":"test_rcode_Piecewise_correct"},"guarantee":"test_rcode_Piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Piecewise_correct","statement":"Path(test_rcode_Piecewise(x), test_rcode_Piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e326f5f25843b17"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Piecewise","kind":"function","src_hash":"7ec672cd84024314","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: res == ref and rcode(expr) == '2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3))' and res == 'c = 2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3));' and rcode(expr) == '2*ifelse(x < 1,x,ifelse(x < 2,x^2,NA))'"},"spec":{"lhs":"test_rcode_Piecewise()","rhs":"res == ref and rcode(expr) == '2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3))' and res == 'c = 2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3));' and rcode(expr) == '2*ifelse(x < 1,x,ifelse(x < 2,x^2,NA))'","over":{"base":"Any"},"name":"test_rcode_Piecewise_correct"},"guarantee":"res == ref; rcode(expr) == '2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3))'; res == 'c = 2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3));'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Piecewise_correct","statement":"Path(test_rcode_Piecewise(x), res == ref; rcode(expr) == '2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3))'; res == 'c = 2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3));')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec3c9d17fe5257a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["res == ref","rcode(expr) == '2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3))'","res == 'c = 2*ifelse(x < 1,x,ifelse(x < 2,x^2,x^3));'","rcode(expr) == '2*ifelse(x < 1,x,ifelse(x < 2,x^2,NA))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rcode_Piecewise():
     expr = Piecewise((x, x < 1), (x**2, True))
     res=rcode(expr)
@@ -348,16 +463,22 @@ def test_rcode_Piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_sinc(), test_rcode_sinc produces the expected output) over Any ║
+# ║ Path(test_rcode_sinc(), res == ref) over Any               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_sinc : Any → {Any | res == ref}                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  res == ref                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_sinc : Any → {Any | result satisfies: res ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da3487a53bfbf77d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88626ebad5f4d11e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_sinc","kind":"function","src_hash":"740c2e279058bac5","in":{"base":"Any"},"out":{"base":"Any","pred":"res == ref"},"spec":{"lhs":"test_rcode_sinc()","rhs":"test_rcode_sinc produces the expected output","over":{"base":"Any"},"name":"test_rcode_sinc_correct"},"guarantee":"test_rcode_sinc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_sinc_correct","statement":"Path(test_rcode_sinc(x), test_rcode_sinc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da3487a53bfbf77d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_sinc","kind":"function","src_hash":"740c2e279058bac5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: res == ref"},"spec":{"lhs":"test_rcode_sinc()","rhs":"res == ref","over":{"base":"Any"},"name":"test_rcode_sinc_correct"},"guarantee":"res == ref","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_sinc_correct","statement":"Path(test_rcode_sinc(x), res == ref)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88626ebad5f4d11e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["res == ref"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_rcode_sinc():
     from sympy.functions.elementary.trigonometric import sinc
     expr = sinc(x)
@@ -367,16 +488,23 @@ def test_rcode_sinc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_Piecewise_deep(), test_rcode_Piecewise_deep produces the expected output) over Any ║
+# ║ Path(test_rcode_Piecewise_deep(), p == '2*ifelse(x < 1,x,ifelse(x < 2,x + 1,x^2))' and p == ref) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_Piecewise_deep : Any → {Any | p == '2*ifel...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == '2*ifelse(x < 1,x,ifelse(x < 2,x + 1...   ║
+# ║   ensures:  p == ref                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_Piecewise_deep : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae44efe4cf9dc770  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 374877722263290f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Piecewise_deep","kind":"function","src_hash":"6c3160e09cd463d0","in":{"base":"Any"},"out":{"base":"Any","pred":"p == '2*ifelse(x < 1,x,ifelse(x < 2,x + 1,x^2))' and p == ref and p == ref"},"spec":{"lhs":"test_rcode_Piecewise_deep()","rhs":"test_rcode_Piecewise_deep produces the expected output","over":{"base":"Any"},"name":"test_rcode_Piecewise_deep_correct"},"guarantee":"test_rcode_Piecewise_deep produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Piecewise_deep_correct","statement":"Path(test_rcode_Piecewise_deep(x), test_rcode_Piecewise_deep produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae44efe4cf9dc770"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Piecewise_deep","kind":"function","src_hash":"6c3160e09cd463d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == '2*ifelse(x < 1,x,ifelse(x < 2,x + 1,x^2))' and p == ref"},"spec":{"lhs":"test_rcode_Piecewise_deep()","rhs":"p == '2*ifelse(x < 1,x,ifelse(x < 2,x + 1,x^2))' and p == ref","over":{"base":"Any"},"name":"test_rcode_Piecewise_deep_correct"},"guarantee":"p == '2*ifelse(x < 1,x,ifelse(x < 2,x + 1,x^2))'; p == ref","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Piecewise_deep_correct","statement":"Path(test_rcode_Piecewise_deep(x), p == '2*ifelse(x < 1,x,ifelse(x < 2,x + 1,x^2))'; p == ref)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"374877722263290f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == '2*ifelse(x < 1,x,ifelse(x < 2,x + 1,x^2))'","p == ref"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rcode_Piecewise_deep():
     p = rcode(2*Piecewise((x, x < 1), (x + 1, x < 2), (x**2, True)))
     assert p == "2*ifelse(x < 1,x,ifelse(x < 2,x + 1,x^2))"
@@ -391,16 +519,22 @@ def test_rcode_Piecewise_deep():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_ITE(), test_rcode_ITE produces the expected output) over Any ║
+# ║ Path(test_rcode_ITE(), p == ref) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_ITE : Any → {Any | p == ref}                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == ref                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_ITE : Any → {Any | result satisfies: p == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8cd165e0692c04e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a22389f67932c72b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_ITE","kind":"function","src_hash":"a2110a27f5fd508b","in":{"base":"Any"},"out":{"base":"Any","pred":"p == ref"},"spec":{"lhs":"test_rcode_ITE()","rhs":"test_rcode_ITE produces the expected output","over":{"base":"Any"},"name":"test_rcode_ITE_correct"},"guarantee":"test_rcode_ITE produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_ITE_correct","statement":"Path(test_rcode_ITE(x), test_rcode_ITE produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8cd165e0692c04e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_ITE","kind":"function","src_hash":"a2110a27f5fd508b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == ref"},"spec":{"lhs":"test_rcode_ITE()","rhs":"p == ref","over":{"base":"Any"},"name":"test_rcode_ITE_correct"},"guarantee":"p == ref","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_ITE_correct","statement":"Path(test_rcode_ITE(x), p == ref)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a22389f67932c72b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == ref"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_ITE():
     expr = ITE(x < 1, y, z)
     p = rcode(expr)
@@ -409,31 +543,45 @@ def test_rcode_ITE():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_settings(), test_rcode_settings produces the expected output) over Any ║
+# ║ Path(test_rcode_settings(), <unspecified:test_rcode_settings>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rcode_settings : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5b3802379a48b98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_settings","kind":"function","src_hash":"329fcd329ce4b3c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rcode_settings()","rhs":"test_rcode_settings produces the expected output","over":{"base":"Any"},"name":"test_rcode_settings_correct"},"guarantee":"test_rcode_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_settings_correct","statement":"Path(test_rcode_settings(x), test_rcode_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5b3802379a48b98"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_settings","kind":"function","src_hash":"329fcd329ce4b3c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rcode_settings()","rhs":"<unspecified:test_rcode_settings>","over":{"base":"Any"},"name":"test_rcode_settings_correct"},"guarantee":"test_rcode_settings produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_settings_correct","statement":"Path(test_rcode_settings(x), test_rcode_settings produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5b3802379a48b98","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_rcode_settings():
     raises(TypeError, lambda: rcode(sin(x), method="garbage"))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_Indexed(), test_rcode_Indexed produces the expected output) over Any ║
+# ║ Path(test_rcode_Indexed(), p._print_Indexed(x) == 'x[j]' and p._print_Indexed(A) == 'A[i, j]' and p._print_Indexed(B) == 'B[i, j, k]' and p._not_r == set()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_Indexed : Any → {Any | p._print_Indexed(x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p._print_Indexed(x) == 'x[j]'                  ║
+# ║   ensures:  p._print_Indexed(A) == 'A[i, j]'               ║
+# ║   ensures:  p._print_Indexed(B) == 'B[i, j, k]'            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_Indexed : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2bc1946876a73a0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4f35af4df09a9fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Indexed","kind":"function","src_hash":"39eac2f2bf3d2b60","in":{"base":"Any"},"out":{"base":"Any","pred":"p._print_Indexed(x) == 'x[j]' and p._print_Indexed(A) == 'A[i, j]' and p._print_Indexed(B) == 'B[i, j, k]' and p._not_r == set()"},"spec":{"lhs":"test_rcode_Indexed()","rhs":"test_rcode_Indexed produces the expected output","over":{"base":"Any"},"name":"test_rcode_Indexed_correct"},"guarantee":"test_rcode_Indexed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Indexed_correct","statement":"Path(test_rcode_Indexed(x), test_rcode_Indexed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2bc1946876a73a0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Indexed","kind":"function","src_hash":"39eac2f2bf3d2b60","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p._print_Indexed(x) == 'x[j]' and p._print_Indexed(A) == 'A[i, j]' and p._print_Indexed(B) == 'B[i, j, k]' and p._not_r == set()"},"spec":{"lhs":"test_rcode_Indexed()","rhs":"p._print_Indexed(x) == 'x[j]' and p._print_Indexed(A) == 'A[i, j]' and p._print_Indexed(B) == 'B[i, j, k]' and p._not_r == set()","over":{"base":"Any"},"name":"test_rcode_Indexed_correct"},"guarantee":"p._print_Indexed(x) == 'x[j]'; p._print_Indexed(A) == 'A[i, j]'; p._print_Indexed(B) == 'B[i, j, k]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Indexed_correct","statement":"Path(test_rcode_Indexed(x), p._print_Indexed(x) == 'x[j]'; p._print_Indexed(A) == 'A[i, j]'; p._print_Indexed(B) == 'B[i, j, k]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4f35af4df09a9fe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p._print_Indexed(x) == 'x[j]'","p._print_Indexed(A) == 'A[i, j]'","p._print_Indexed(B) == 'B[i, j, k]'","p._not_r == set()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rcode_Indexed():
     n, m, o = symbols('n m o', integer=True)
     i, j, k = Idx('i', n), Idx('j', m), Idx('k', o)
@@ -450,16 +598,22 @@ def test_rcode_Indexed():
     assert p._not_r == set()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_Indexed_without_looking_for_contraction(), test_rcode_Indexed_without_looking_for_contraction produces the expected output) over Any ║
+# ║ Path(test_rcode_Indexed_without_looking_for_contraction(), code0 == 'Dy[i] = (y[%s] - y[i])/(x[%s] - x[i]);' % (i + 1, i + 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  code0 == 'Dy[i] = (y[%s] - y[i])/(x[%s] -...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rcode_Indexed_without_looking_for_contraction : ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c347054b5344f33d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c259c8f6f972ad1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Indexed_without_looking_for_contraction","kind":"function","src_hash":"d1486f9b704d74e7","in":{"base":"Any"},"out":{"base":"Any","pred":"code0 == 'Dy[i] = (y[%s] - y[i])/(x[%s] - x[i]);' % (i + 1, i + 1)"},"spec":{"lhs":"test_rcode_Indexed_without_looking_for_contraction()","rhs":"test_rcode_Indexed_without_looking_for_contraction produces the expected output","over":{"base":"Any"},"name":"test_rcode_Indexed_without_looking_for_contraction_correct"},"guarantee":"test_rcode_Indexed_without_looking_for_contraction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Indexed_without_looking_for_contraction_correct","statement":"Path(test_rcode_Indexed_without_looking_for_contraction(x), test_rcode_Indexed_without_looking_for_contraction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c347054b5344f33d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Indexed_without_looking_for_contraction","kind":"function","src_hash":"d1486f9b704d74e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: code0 == 'Dy[i] = (y[%s] - y[i])/(x[%s] - x[i]);' % (i + 1, i + 1)"},"spec":{"lhs":"test_rcode_Indexed_without_looking_for_contraction()","rhs":"code0 == 'Dy[i] = (y[%s] - y[i])/(x[%s] - x[i]);' % (i + 1, i + 1)","over":{"base":"Any"},"name":"test_rcode_Indexed_without_looking_for_contraction_correct"},"guarantee":"code0 == 'Dy[i] = (y[%s] - y[i])/(x[%s] - x[i]);' % (i + 1, i + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Indexed_without_looking_for_contraction_correct","statement":"Path(test_rcode_Indexed_without_looking_for_contraction(x), code0 == 'Dy[i] = (y[%s] - y[i])/(x[%s] - x[i]);' % (i + 1, i + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c259c8f6f972ad1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["code0 == 'Dy[i] = (y[%s] - y[i])/(x[%s] - x[i]);' % (i + 1, i + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rcode_Indexed_without_looking_for_contraction():
     len_y = 5
     y = IndexedBase('y', shape=(len_y,))
@@ -472,16 +626,22 @@ def test_rcode_Indexed_without_looking_for_contraction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_loops_matrix_vector(), test_rcode_loops_matrix_vector produces the expected output) over Any ║
+# ║ Path(test_rcode_loops_matrix_vector(), c == s) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_loops_matrix_vector : Any → {Any | c == s}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_loops_matrix_vector : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d887d1dcf6a4595  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93f330af0a2e2b74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_loops_matrix_vector","kind":"function","src_hash":"7497000a17f29fa5","in":{"base":"Any"},"out":{"base":"Any","pred":"c == s"},"spec":{"lhs":"test_rcode_loops_matrix_vector()","rhs":"test_rcode_loops_matrix_vector produces the expected output","over":{"base":"Any"},"name":"test_rcode_loops_matrix_vector_correct"},"guarantee":"test_rcode_loops_matrix_vector produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_loops_matrix_vector_correct","statement":"Path(test_rcode_loops_matrix_vector(x), test_rcode_loops_matrix_vector produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d887d1dcf6a4595"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_loops_matrix_vector","kind":"function","src_hash":"7497000a17f29fa5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s"},"spec":{"lhs":"test_rcode_loops_matrix_vector()","rhs":"c == s","over":{"base":"Any"},"name":"test_rcode_loops_matrix_vector_correct"},"guarantee":"c == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_loops_matrix_vector_correct","statement":"Path(test_rcode_loops_matrix_vector(x), c == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93f330af0a2e2b74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_loops_matrix_vector():
     n, m = symbols('n m', integer=True)
     A = IndexedBase('A')
@@ -505,16 +665,22 @@ def test_rcode_loops_matrix_vector():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dummy_loops(), test_dummy_loops produces the expected output) over Any ║
+# ║ Path(test_dummy_loops(), code == expected) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dummy_loops : Any → {Any | code == expected}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  code == expected                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dummy_loops : Any → {Any | result satisfies: cod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0929553f603bc260  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76301bf745692fde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_dummy_loops","kind":"function","src_hash":"5859fb1a93891ff2","in":{"base":"Any"},"out":{"base":"Any","pred":"code == expected"},"spec":{"lhs":"test_dummy_loops()","rhs":"test_dummy_loops produces the expected output","over":{"base":"Any"},"name":"test_dummy_loops_correct"},"guarantee":"test_dummy_loops produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_dummy_loops_correct","statement":"Path(test_dummy_loops(x), test_dummy_loops produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0929553f603bc260"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_dummy_loops","kind":"function","src_hash":"5859fb1a93891ff2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: code == expected"},"spec":{"lhs":"test_dummy_loops()","rhs":"code == expected","over":{"base":"Any"},"name":"test_dummy_loops_correct"},"guarantee":"code == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_dummy_loops_correct","statement":"Path(test_dummy_loops(x), code == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76301bf745692fde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["code == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dummy_loops():
     # the following line could also be
     # [Dummy(s, integer=True) for s in 'im']
@@ -534,16 +700,22 @@ def test_dummy_loops():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_loops_add(), test_rcode_loops_add produces the expected output) over Any ║
+# ║ Path(test_rcode_loops_add(), c == s) over Any              ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_loops_add : Any → {Any | c == s}                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_loops_add : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fdff340f2526e56  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57fd7fdf30bb8b64  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_loops_add","kind":"function","src_hash":"8737d8dee4107672","in":{"base":"Any"},"out":{"base":"Any","pred":"c == s"},"spec":{"lhs":"test_rcode_loops_add()","rhs":"test_rcode_loops_add produces the expected output","over":{"base":"Any"},"name":"test_rcode_loops_add_correct"},"guarantee":"test_rcode_loops_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_loops_add_correct","statement":"Path(test_rcode_loops_add(x), test_rcode_loops_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fdff340f2526e56"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_loops_add","kind":"function","src_hash":"8737d8dee4107672","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s"},"spec":{"lhs":"test_rcode_loops_add()","rhs":"c == s","over":{"base":"Any"},"name":"test_rcode_loops_add_correct"},"guarantee":"c == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_loops_add_correct","statement":"Path(test_rcode_loops_add(x), c == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57fd7fdf30bb8b64","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_loops_add():
     n, m = symbols('n m', integer=True)
     A = IndexedBase('A')
@@ -568,16 +740,22 @@ def test_rcode_loops_add():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_loops_multiple_contractions(), test_rcode_loops_multiple_contractions produces the expected output) over Any ║
+# ║ Path(test_rcode_loops_multiple_contractions(), c == s) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rcode_loops_multiple_contractions : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c479e56800e857d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f8c5094204f1335  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_loops_multiple_contractions","kind":"function","src_hash":"570cc37cb11541d3","in":{"base":"Any"},"out":{"base":"Any","pred":"c == s"},"spec":{"lhs":"test_rcode_loops_multiple_contractions()","rhs":"test_rcode_loops_multiple_contractions produces the expected output","over":{"base":"Any"},"name":"test_rcode_loops_multiple_contractions_correct"},"guarantee":"test_rcode_loops_multiple_contractions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_loops_multiple_contractions_correct","statement":"Path(test_rcode_loops_multiple_contractions(x), test_rcode_loops_multiple_contractions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c479e56800e857d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_loops_multiple_contractions","kind":"function","src_hash":"570cc37cb11541d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s"},"spec":{"lhs":"test_rcode_loops_multiple_contractions()","rhs":"c == s","over":{"base":"Any"},"name":"test_rcode_loops_multiple_contractions_correct"},"guarantee":"c == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_loops_multiple_contractions_correct","statement":"Path(test_rcode_loops_multiple_contractions(x), c == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f8c5094204f1335","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_loops_multiple_contractions():
     n, m, o, p = symbols('n m o p', integer=True)
     a = IndexedBase('a')
@@ -607,16 +785,22 @@ def test_rcode_loops_multiple_contractions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_loops_addfactor(), test_rcode_loops_addfactor produces the expected output) over Any ║
+# ║ Path(test_rcode_loops_addfactor(), c == s) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_loops_addfactor : Any → {Any | c == s}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == s                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_loops_addfactor : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3170a27b78cc6a7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 440c801cb1d666b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_loops_addfactor","kind":"function","src_hash":"2538ca54705b3664","in":{"base":"Any"},"out":{"base":"Any","pred":"c == s"},"spec":{"lhs":"test_rcode_loops_addfactor()","rhs":"test_rcode_loops_addfactor produces the expected output","over":{"base":"Any"},"name":"test_rcode_loops_addfactor_correct"},"guarantee":"test_rcode_loops_addfactor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_loops_addfactor_correct","statement":"Path(test_rcode_loops_addfactor(x), test_rcode_loops_addfactor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3170a27b78cc6a7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_loops_addfactor","kind":"function","src_hash":"2538ca54705b3664","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == s"},"spec":{"lhs":"test_rcode_loops_addfactor()","rhs":"c == s","over":{"base":"Any"},"name":"test_rcode_loops_addfactor_correct"},"guarantee":"c == s","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_loops_addfactor_correct","statement":"Path(test_rcode_loops_addfactor(x), c == s)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"440c801cb1d666b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == s"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rcode_loops_addfactor():
     n, m, o, p = symbols('n m o p', integer=True)
     a = IndexedBase('a')
@@ -647,16 +831,22 @@ def test_rcode_loops_addfactor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_loops_multiple_terms(), test_rcode_loops_multiple_terms produces the expected output) over Any ║
+# ║ Path(test_rcode_loops_multiple_terms(), c == ref[0] or c == ref[1] or c == ref[2] or (c == ref[3]) or (c == ref[4]) or (c == ref[5])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_loops_multiple_terms : Any → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c == ref[0] or c == ref[1] or c == ref[2]...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_loops_multiple_terms : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8de358a10e493992  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bc0e8f18aa2bb9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_loops_multiple_terms","kind":"function","src_hash":"3c177465258ff884","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rcode_loops_multiple_terms()","rhs":"test_rcode_loops_multiple_terms produces the expected output","over":{"base":"Any"},"name":"test_rcode_loops_multiple_terms_correct"},"guarantee":"test_rcode_loops_multiple_terms produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_loops_multiple_terms_correct","statement":"Path(test_rcode_loops_multiple_terms(x), test_rcode_loops_multiple_terms produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8de358a10e493992"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_loops_multiple_terms","kind":"function","src_hash":"3c177465258ff884","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c == ref[0] or c == ref[1] or c == ref[2] or (c == ref[3]) or (c == ref[4]) or (c == ref[5])"},"spec":{"lhs":"test_rcode_loops_multiple_terms()","rhs":"c == ref[0] or c == ref[1] or c == ref[2] or (c == ref[3]) or (c == ref[4]) or (c == ref[5])","over":{"base":"Any"},"name":"test_rcode_loops_multiple_terms_correct"},"guarantee":"c == ref[0] or c == ref[1] or c == ref[2] or (c == ref[3]) or (c == ref[4]) or (c == ref[5])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_loops_multiple_terms_correct","statement":"Path(test_rcode_loops_multiple_terms(x), c == ref[0] or c == ref[1] or c == ref[2] or (c == ref[3]) or (c == ref[4]) or (c == ref[5]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bc0e8f18aa2bb9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c == ref[0] or c == ref[1] or c == ref[2] or (c == ref[3]) or (c == ref[4]) or (c == ref[5])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_rcode_loops_multiple_terms():
     n, m, o, p = symbols('n m o p', integer=True)
     a = IndexedBase('a')
@@ -715,32 +905,46 @@ def test_rcode_loops_multiple_terms():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dereference_printing(), test_dereference_printing produces the expected output) over Any ║
+# ║ Path(test_dereference_printing(), rcode(expr, dereference=[z]) == 'x + y + (*z) + sin((*z))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dereference_printing : Any → {Any | rcode(expr, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(expr, dereference=[z]) == 'x + y + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dereference_printing : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f476dabb098019b6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca207dae1c3411b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_dereference_printing","kind":"function","src_hash":"f19b8c7b0c85b282","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(expr, dereference=[z]) == 'x + y + (*z) + sin((*z))'"},"spec":{"lhs":"test_dereference_printing()","rhs":"test_dereference_printing produces the expected output","over":{"base":"Any"},"name":"test_dereference_printing_correct"},"guarantee":"test_dereference_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_dereference_printing_correct","statement":"Path(test_dereference_printing(x), test_dereference_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f476dabb098019b6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_dereference_printing","kind":"function","src_hash":"f19b8c7b0c85b282","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(expr, dereference=[z]) == 'x + y + (*z) + sin((*z))'"},"spec":{"lhs":"test_dereference_printing()","rhs":"rcode(expr, dereference=[z]) == 'x + y + (*z) + sin((*z))'","over":{"base":"Any"},"name":"test_dereference_printing_correct"},"guarantee":"rcode(expr, dereference=[z]) == 'x + y + (*z) + sin((*z))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_dereference_printing_correct","statement":"Path(test_dereference_printing(x), rcode(expr, dereference=[z]) == 'x + y + (*z) + sin((*z))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca207dae1c3411b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(expr, dereference=[z]) == 'x + y + (*z) + sin((*z))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_dereference_printing():
     expr = x + y + sin(z) + z
     assert rcode(expr, dereference=[z]) == "x + y + (*z) + sin((*z))"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_printing(), test_Matrix_printing produces the expected output) over Any ║
+# ║ Path(test_Matrix_printing(), p == 'A[0] = x*y;\nA[1] = ifelse(y > 0,x + 2,y);\nA[2] = sin(z);' and p == 'ifelse(x > 0,2*A[2],A[2]) + sin(A[1]) + A[0]' and rcode(m, M) == 'M[0] = sin(q[1]);\nM[1] = 0;\nM[2] = cos(q[2]);\nM[3] = q[1] + q[2];\nM[4] = q[3];\nM[5] = 5;\nM[6] = 2*q[4]/q[1];\nM[7] = sqrt(q[0]) + 4;\nM[8] = 0;') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix_printing : Any → {Any | p == 'A[0] = x*y;...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p == 'A[0] = x*y;\nA[1] = ifelse(y > 0,x ...   ║
+# ║   ensures:  p == 'ifelse(x > 0,2*A[2],A[2]) + sin(A[1...   ║
+# ║   ensures:  rcode(m, M) == 'M[0] = sin(q[1]);\nM[1] =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix_printing : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2efb8a39a7273e90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bd3f5d67442b9e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_Matrix_printing","kind":"function","src_hash":"04b69b153dffded8","in":{"base":"Any"},"out":{"base":"Any","pred":"p == 'A[0] = x*y;\\nA[1] = ifelse(y > 0,x + 2,y);\\nA[2] = sin(z);' and p == 'ifelse(x > 0,2*A[2],A[2]) + sin(A[1]) + A[0]'"},"spec":{"lhs":"test_Matrix_printing()","rhs":"test_Matrix_printing produces the expected output","over":{"base":"Any"},"name":"test_Matrix_printing_correct"},"guarantee":"test_Matrix_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_Matrix_printing_correct","statement":"Path(test_Matrix_printing(x), test_Matrix_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2efb8a39a7273e90"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_Matrix_printing","kind":"function","src_hash":"04b69b153dffded8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p == 'A[0] = x*y;\\nA[1] = ifelse(y > 0,x + 2,y);\\nA[2] = sin(z);' and p == 'ifelse(x > 0,2*A[2],A[2]) + sin(A[1]) + A[0]' and rcode(m, M) == 'M[0] = sin(q[1]);\\nM[1] = 0;\\nM[2] = cos(q[2]);\\nM[3] = q[1] + q[2];\\nM[4] = q[3];\\nM[5] = 5;\\nM[6] = 2*q[4]/q[1];\\nM[7] = sqrt(q[0]) + 4;\\nM[8] = 0;'"},"spec":{"lhs":"test_Matrix_printing()","rhs":"p == 'A[0] = x*y;\\nA[1] = ifelse(y > 0,x + 2,y);\\nA[2] = sin(z);' and p == 'ifelse(x > 0,2*A[2],A[2]) + sin(A[1]) + A[0]' and rcode(m, M) == 'M[0] = sin(q[1]);\\nM[1] = 0;\\nM[2] = cos(q[2]);\\nM[3] = q[1] + q[2];\\nM[4] = q[3];\\nM[5] = 5;\\nM[6] = 2*q[4]/q[1];\\nM[7] = sqrt(q[0]) + 4;\\nM[8] = 0;'","over":{"base":"Any"},"name":"test_Matrix_printing_correct"},"guarantee":"p == 'A[0] = x*y;\\nA[1] = ifelse(y > 0,x + 2,y);\\nA[2] = sin(z);'; p == 'ifelse(x > 0,2*A[2],A[2]) + sin(A[1]) + A[0]'; rcode(m, M) == 'M[0] = sin(q[1]);\\nM[1] = 0;\\nM[2] = cos(q[2]);\\nM[3] = q[1] + q[2];\\nM[4] = q[3];\\nM[5] = 5;\\nM[6] = 2*q[4]/q[1];\\nM[7] = sqrt(q[0]) + 4;\\nM[8] = 0;'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_Matrix_printing_correct","statement":"Path(test_Matrix_printing(x), p == 'A[0] = x*y;\\nA[1] = ifelse(y > 0,x + 2,y);\\nA[2] = sin(z);'; p == 'ifelse(x > 0,2*A[2],A[2]) + sin(A[1]) + A[0]'; rcode(m, M) == 'M[0] = sin(q[1]);\\nM[1] = 0;\\nM[2] = cos(q[2]);\\nM[3] = q[1] + q[2];\\nM[4] = q[3];\\nM[5] = 5;\\nM[6] = 2*q[4]/q[1];\\nM[7] = sqrt(q[0]) + 4;\\nM[8] = 0;')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bd3f5d67442b9e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p == 'A[0] = x*y;\\nA[1] = ifelse(y > 0,x + 2,y);\\nA[2] = sin(z);'","p == 'ifelse(x > 0,2*A[2],A[2]) + sin(A[1]) + A[0]'","rcode(m, M) == 'M[0] = sin(q[1]);\\nM[1] = 0;\\nM[2] = cos(q[2]);\\nM[3] = q[1] + q[2];\\nM[4] = q[3];\\nM[5] = 5;\\nM[6] = 2*q[4]/q[1];\\nM[7] = sqrt(q[0]) + 4;\\nM[8] = 0;'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Matrix_printing():
     # Test returning a Matrix
     mat = Matrix([x*y, Piecewise((2 + x, y>0), (y, True)), sin(z)])
@@ -773,16 +977,24 @@ def test_Matrix_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_sgn(), test_rcode_sgn produces the expected output) over Any ║
+# ║ Path(test_rcode_sgn(), rcode(expr) == 'y*sign(x)' and p == 'z = y*sign(x);' and p == 'x^2 + x*sign(x^2 + 2*x)' and p == 'sign(cos(x))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_sgn : Any → {Any | rcode(expr) == 'y*sign(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(expr) == 'y*sign(x)'                     ║
+# ║   ensures:  p == 'z = y*sign(x);'                          ║
+# ║   ensures:  p == 'x^2 + x*sign(x^2 + 2*x)'                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_sgn : Any → {Any | result satisfies: rcode...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8641fffd52ed23ac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98c72c6f01953cbd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_sgn","kind":"function","src_hash":"6f5cf65f74a802c8","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(expr) == 'y*sign(x)' and p == 'z = y*sign(x);' and p == 'x^2 + x*sign(x^2 + 2*x)' and p == 'sign(cos(x))'"},"spec":{"lhs":"test_rcode_sgn()","rhs":"test_rcode_sgn produces the expected output","over":{"base":"Any"},"name":"test_rcode_sgn_correct"},"guarantee":"test_rcode_sgn produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_sgn_correct","statement":"Path(test_rcode_sgn(x), test_rcode_sgn produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8641fffd52ed23ac"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_sgn","kind":"function","src_hash":"6f5cf65f74a802c8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(expr) == 'y*sign(x)' and p == 'z = y*sign(x);' and p == 'x^2 + x*sign(x^2 + 2*x)' and p == 'sign(cos(x))'"},"spec":{"lhs":"test_rcode_sgn()","rhs":"rcode(expr) == 'y*sign(x)' and p == 'z = y*sign(x);' and p == 'x^2 + x*sign(x^2 + 2*x)' and p == 'sign(cos(x))'","over":{"base":"Any"},"name":"test_rcode_sgn_correct"},"guarantee":"rcode(expr) == 'y*sign(x)'; p == 'z = y*sign(x);'; p == 'x^2 + x*sign(x^2 + 2*x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_sgn_correct","statement":"Path(test_rcode_sgn(x), rcode(expr) == 'y*sign(x)'; p == 'z = y*sign(x);'; p == 'x^2 + x*sign(x^2 + 2*x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98c72c6f01953cbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(expr) == 'y*sign(x)'","p == 'z = y*sign(x);'","p == 'x^2 + x*sign(x^2 + 2*x)'","p == 'sign(cos(x))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_sgn():
 
     expr = sign(x) * y
@@ -798,32 +1010,45 @@ def test_rcode_sgn():
     assert p == 'sign(cos(x))'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_Assignment(), test_rcode_Assignment produces the expected output) over Any ║
+# ║ Path(test_rcode_Assignment(), rcode(Assignment(x, y + z)) == 'x = y + z;' and rcode(aug_assign(x, '+', y + z)) == 'x += y + z;') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_Assignment : Any → {Any | rcode(Assignment...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(Assignment(x, y + z)) == 'x = y + z;'    ║
+# ║   ensures:  rcode(aug_assign(x, '+', y + z)) == 'x +=...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_Assignment : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a1d22ef14330c3d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76947e6c90ea5a6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Assignment","kind":"function","src_hash":"79882057c052ba40","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(Assignment(x, y + z)) == 'x = y + z;' and rcode(aug_assign(x, '+', y + z)) == 'x += y + z;'"},"spec":{"lhs":"test_rcode_Assignment()","rhs":"test_rcode_Assignment produces the expected output","over":{"base":"Any"},"name":"test_rcode_Assignment_correct"},"guarantee":"test_rcode_Assignment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Assignment_correct","statement":"Path(test_rcode_Assignment(x), test_rcode_Assignment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a1d22ef14330c3d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_Assignment","kind":"function","src_hash":"79882057c052ba40","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(Assignment(x, y + z)) == 'x = y + z;' and rcode(aug_assign(x, '+', y + z)) == 'x += y + z;'"},"spec":{"lhs":"test_rcode_Assignment()","rhs":"rcode(Assignment(x, y + z)) == 'x = y + z;' and rcode(aug_assign(x, '+', y + z)) == 'x += y + z;'","over":{"base":"Any"},"name":"test_rcode_Assignment_correct"},"guarantee":"rcode(Assignment(x, y + z)) == 'x = y + z;'; rcode(aug_assign(x, '+', y + z)) == 'x += y + z;'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_Assignment_correct","statement":"Path(test_rcode_Assignment(x), rcode(Assignment(x, y + z)) == 'x = y + z;'; rcode(aug_assign(x, '+', y + z)) == 'x += y + z;')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76947e6c90ea5a6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(Assignment(x, y + z)) == 'x = y + z;'","rcode(aug_assign(x, '+', y + z)) == 'x += y + z;'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_Assignment():
     assert rcode(Assignment(x, y + z)) == 'x = y + z;'
     assert rcode(aug_assign(x, '+', y + z)) == 'x += y + z;'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rcode_For(), test_rcode_For produces the expected output) over Any ║
+# ║ Path(test_rcode_For(), sol == 'for(x in seq(from=0, to=9, by=2){\n   y *= x;\n}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rcode_For : Any → {Any | sol == 'for(x in seq(fr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sol == 'for(x in seq(from=0, to=9, by=2){...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rcode_For : Any → {Any | result satisfies: sol =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1363189888014e62  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f8921a918b11cac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_For","kind":"function","src_hash":"036f5952742825cb","in":{"base":"Any"},"out":{"base":"Any","pred":"sol == 'for(x in seq(from=0, to=9, by=2){\\n   y *= x;\\n}'"},"spec":{"lhs":"test_rcode_For()","rhs":"test_rcode_For produces the expected output","over":{"base":"Any"},"name":"test_rcode_For_correct"},"guarantee":"test_rcode_For produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_For_correct","statement":"Path(test_rcode_For(x), test_rcode_For produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1363189888014e62"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_rcode_For","kind":"function","src_hash":"036f5952742825cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sol == 'for(x in seq(from=0, to=9, by=2){\\n   y *= x;\\n}'"},"spec":{"lhs":"test_rcode_For()","rhs":"sol == 'for(x in seq(from=0, to=9, by=2){\\n   y *= x;\\n}'","over":{"base":"Any"},"name":"test_rcode_For_correct"},"guarantee":"sol == 'for(x in seq(from=0, to=9, by=2){\\n   y *= x;\\n}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_rcode_For_correct","statement":"Path(test_rcode_For(x), sol == 'for(x in seq(from=0, to=9, by=2){\\n   y *= x;\\n}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f8921a918b11cac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sol == 'for(x in seq(from=0, to=9, by=2){\\n   y *= x;\\n}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rcode_For():
     f = For(x, Range(0, 10, 2), [aug_assign(y, '*', x)])
     sol = rcode(f)
@@ -833,16 +1058,24 @@ def test_rcode_For():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixElement_printing(), test_MatrixElement_printing produces the expected output) over Any ║
+# ║ Path(test_MatrixElement_printing(), rcode(A[0, 0]) == 'A[0]' and rcode(3 * A[0, 0]) == '3*A[0]' and rcode(F) == '(A - B)[0]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixElement_printing : Any → {Any | rcode(A[0,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rcode(A[0, 0]) == 'A[0]'                       ║
+# ║   ensures:  rcode(3 * A[0, 0]) == '3*A[0]'                 ║
+# ║   ensures:  rcode(F) == '(A - B)[0]'                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixElement_printing : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f582e5ecf2b09b18  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43a0ce373e95cd40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_MatrixElement_printing","kind":"function","src_hash":"5c83ab06861b86f8","in":{"base":"Any"},"out":{"base":"Any","pred":"rcode(A[0, 0]) == 'A[0]' and rcode(3 * A[0, 0]) == '3*A[0]' and rcode(F) == '(A - B)[0]'"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"test_MatrixElement_printing produces the expected output","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"test_MatrixElement_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), test_MatrixElement_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f582e5ecf2b09b18"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_rcode.test_MatrixElement_printing","kind":"function","src_hash":"5c83ab06861b86f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rcode(A[0, 0]) == 'A[0]' and rcode(3 * A[0, 0]) == '3*A[0]' and rcode(F) == '(A - B)[0]'"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"rcode(A[0, 0]) == 'A[0]' and rcode(3 * A[0, 0]) == '3*A[0]' and rcode(F) == '(A - B)[0]'","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"rcode(A[0, 0]) == 'A[0]'; rcode(3 * A[0, 0]) == '3*A[0]'; rcode(F) == '(A - B)[0]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_rcode.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), rcode(A[0, 0]) == 'A[0]'; rcode(3 * A[0, 0]) == '3*A[0]'; rcode(F) == '(A - B)[0]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43a0ce373e95cd40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rcode(A[0, 0]) == 'A[0]'","rcode(3 * A[0, 0]) == '3*A[0]'","rcode(F) == '(A - B)[0]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixElement_printing():
     # test cases for issue #11821
     A = MatrixSymbol("A", 1, 3)

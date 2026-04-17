@@ -24,16 +24,24 @@ from sympy.polys import Poly, PolynomialError
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_sqrt(exp), return true if expr is a sqrt, otherwise false) over Any ║
+# ║ Path(is_sqrt(expr), expr.is_Pow and expr.exp.is_Rational and (abs(expr.exp) is S.Half)) over {Any | hasattr(expr, 'is_Pow') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_sqrt : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Pow')                        ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   returns:  expr.is_Pow and expr.exp.is_Rational and ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_sqrt : {Any | hasattr(expr, 'is_Pow') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 80ea375ce92a70cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest.is_sqrt","kind":"function","src_hash":"805a60a9a28b1566","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_sqrt(exp)","rhs":"return true if expr is a sqrt, otherwise false","over":{"base":"Any"},"name":"is_sqrt_correct"},"guarantee":"return true if expr is a sqrt, otherwise false","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80ea375ce92a70cf"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest.is_sqrt","kind":"function","src_hash":"805a60a9a28b1566","in":{"base":"Any","pred":"hasattr(expr, 'is_Pow') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"is_sqrt(expr)","rhs":"expr.is_Pow and expr.exp.is_Rational and (abs(expr.exp) is S.Half)","over":{"base":"Any","pred":"hasattr(expr, 'is_Pow') and hasattr(expr, 'exp')"},"name":"is_sqrt_correct"},"guarantee":"returns expr.is_Pow and expr.exp.is_Rational and (abs(expr.exp) is S.Half)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80ea375ce92a70cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Pow')","hasattr(expr, 'exp')"],"returns_expr":"expr.is_Pow and expr.exp.is_Rational and (abs(expr.exp) is S.Half)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.exp","expr.is_Pow"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def is_sqrt(expr):
     """Return True if expr is a sqrt, otherwise False."""
 
@@ -41,16 +49,26 @@ def is_sqrt(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sqrt_depth(p), return the maximum depth of any square root argument of p) over Any ║
+# ║ Path(sqrt_depth(p), isinstance(result, int) and # HINT: sqrt_depth may be idempotent: sqrt_depth(sqrt_depth(x)) == sqrt_depth(x)) over {Any | hasattr(p, 'is_Atom') and hasattr(p, 'is_Add') and hasattr(p, 'is_Mul') and hasattr(p, 'base') and hasattr(p, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sqrt_depth : Any → int                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'is_Atom')                          ║
+# ║   requires: hasattr(p, 'is_Add')                           ║
+# ║   requires: hasattr(p, 'is_Mul')                           ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ║   ensures:  # HINT: sqrt_depth may be idempotent: sqr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sqrt_depth : {Any | hasattr(p, 'is_Atom') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92c961531ad47474  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ee3629a2d8a29a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest.sqrt_depth","kind":"function","src_hash":"32fd03fe1a8828c6","in":{"base":"Any"},"out":{"base":"int"},"spec":{"lhs":"sqrt_depth(p)","rhs":"return the maximum depth of any square root argument of p","over":{"base":"Any"},"name":"sqrt_depth_correct"},"guarantee":"return the maximum depth of any square root argument of p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest.sqrt_depth_correct","statement":"Path(sqrt_depth(x), return the maximum depth of any square root argument of p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92c961531ad47474"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest.sqrt_depth","kind":"function","src_hash":"32fd03fe1a8828c6","in":{"base":"Any","pred":"hasattr(p, 'is_Atom') and hasattr(p, 'is_Add') and hasattr(p, 'is_Mul') and hasattr(p, 'base') and hasattr(p, 'args')"},"out":{"base":"int","pred":"result satisfies: isinstance(result, int) and # HINT: sqrt_depth may be idempotent: sqrt_depth(sqrt_depth(x)) == sqrt_depth(x)"},"spec":{"lhs":"sqrt_depth(p)","rhs":"isinstance(result, int) and # HINT: sqrt_depth may be idempotent: sqrt_depth(sqrt_depth(x)) == sqrt_depth(x)","over":{"base":"Any","pred":"hasattr(p, 'is_Atom') and hasattr(p, 'is_Add') and hasattr(p, 'is_Mul') and hasattr(p, 'base') and hasattr(p, 'args')"},"name":"sqrt_depth_correct"},"guarantee":"isinstance(result, int); # HINT: sqrt_depth may be idempotent: sqrt_depth(sqrt_depth(x)) == sqrt_depth(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest.sqrt_depth_correct","statement":"Path(sqrt_depth(x), isinstance(result, int); # HINT: sqrt_depth may be idempotent: sqrt_depth(sqrt_depth(x)) == sqrt_depth(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ee3629a2d8a29a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'is_Atom')","hasattr(p, 'is_Add')","hasattr(p, 'is_Mul')","hasattr(p, 'base')","hasattr(p, 'args')"],"ensures":["isinstance(result, int)","# HINT: sqrt_depth may be idempotent: sqrt_depth(sqrt_depth(x)) == sqrt_depth(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.args","p.base","p.is_Add","p.is_Atom","p.is_Mul"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sqrt_depth(p) -> int:
     """Return the maximum depth of any square root argument of p.
 
@@ -81,16 +99,28 @@ def sqrt_depth(p) -> int:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_algebraic(p), return true if p is comprised of only rationals or square roots of rationals and algebraic operations) over Any ║
+# ║ Path(is_algebraic(p), result == (True if p.is_Rational else False if p.is_Atom else is_algebraic(p.base) if is_sqrt(p) or (p.is_Pow and p.exp.is_Integer) else all((is_algebraic(x) for x in p.args)) if p.is_Add or p.is_Mul else False)) over {Any | hasattr(p, 'is_Rational') and hasattr(p, 'is_Atom') and hasattr(p, 'is_Pow') and hasattr(p, 'base') and hasattr(p, 'is_Add') and hasattr(p, 'is_Mul') and hasattr(p, 'exp') and hasattr(p, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_algebraic : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'is_Rational')                      ║
+# ║   requires: hasattr(p, 'is_Atom')                          ║
+# ║   requires: hasattr(p, 'is_Pow')                           ║
+# ║   ensures:  result == (True if p.is_Rational else Fal...   ║
+# ║   fiber[case_0]: p.is_Rational => True                     ║
+# ║   fiber[case_1]: p.is_Atom => False                        ║
+# ║   fiber[case_2]: is_sqrt(p) or (p.is_Pow and p.exp.is...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_algebraic : {Any | hasattr(p, 'is_Rational') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e41686f3c1c9a754  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e80e79338a335d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest.is_algebraic","kind":"function","src_hash":"fb302961f938a6da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_algebraic(p)","rhs":"return true if p is comprised of only rationals or square roots of rationals and algebraic operations","over":{"base":"Any"},"name":"is_algebraic_correct"},"guarantee":"return true if p is comprised of only rationals or square roots of rationals and algebraic operations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest.is_algebraic_correct","statement":"Path(is_algebraic(x), return true if p is comprised of only rationals or square roots of rationals and algebraic operations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e41686f3c1c9a754"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest.is_algebraic","kind":"function","src_hash":"fb302961f938a6da","in":{"base":"Any","pred":"hasattr(p, 'is_Rational') and hasattr(p, 'is_Atom') and hasattr(p, 'is_Pow') and hasattr(p, 'base') and hasattr(p, 'is_Add') and hasattr(p, 'is_Mul') and hasattr(p, 'exp') and hasattr(p, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (True if p.is_Rational else False if p.is_Atom else is_algebraic(p.base) if is_sqrt(p) or (p.is_Pow and p.exp.is_Integer) else all((is_algebraic(x) for x in p.args)) if p.is_Add or p.is_Mul else False)"},"spec":{"lhs":"is_algebraic(p)","rhs":"result == (True if p.is_Rational else False if p.is_Atom else is_algebraic(p.base) if is_sqrt(p) or (p.is_Pow and p.exp.is_Integer) else all((is_algebraic(x) for x in p.args)) if p.is_Add or p.is_Mul else False)","over":{"base":"Any","pred":"hasattr(p, 'is_Rational') and hasattr(p, 'is_Atom') and hasattr(p, 'is_Pow') and hasattr(p, 'base') and hasattr(p, 'is_Add') and hasattr(p, 'is_Mul') and hasattr(p, 'exp') and hasattr(p, 'args')"},"name":"is_algebraic_correct"},"guarantee":"result == (True if p.is_Rational else False if p.is_Atom else is_algebraic(p.base) if is_sqrt(p) or (p.is_Pow and p.exp.is_Integer) else all((is_algebraic(x) for x in p.args)) if p.is_Add or p.is_Mul else False); 5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest.is_algebraic_correct","statement":"Path(is_algebraic(x), result == (True if p.is_Rational else False if p.is_Atom else is_algebraic(p.base) if is_sqrt(p) or (p.is_Pow and p.exp.is_Integer) else all((is_algebraic(x) for x in p.args)) if p.is_Add or p.is_Mul else False); 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e80e79338a335d9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'is_Rational')","hasattr(p, 'is_Atom')","hasattr(p, 'is_Pow')","hasattr(p, 'base')","hasattr(p, 'is_Add')","hasattr(p, 'is_Mul')","hasattr(p, 'exp')","hasattr(p, 'args')"],"ensures":["result == (True if p.is_Rational else False if p.is_Atom else is_algebraic(p.base) if is_sqrt(p) or (p.is_Pow and p.exp.is_Integer) else all((is_algebraic(x) for x in p.args)) if p.is_Add or p.is_Mul else False)"],"fibers":[{"name":"case_0","guard":"p.is_Rational","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_1","guard":"p.is_Atom","ensures":["result == False"],"decidability":"library","returns_expr":"False"},{"name":"case_2","guard":"is_sqrt(p) or (p.is_Pow and p.exp.is_Integer)","ensures":["result == is_algebraic(p.base)"],"decidability":"library","returns_expr":"is_algebraic(p.base)"},{"name":"case_3","guard":"p.is_Add or p.is_Mul","ensures":["result == all((is_algebraic(x) for x in p.args))"],"decidability":"library","returns_expr":"all((is_algebraic(x) for x in p.args))"},{"name":"case_4","guard":"not (p.is_Rational) and not (p.is_Atom) and not (is_sqrt(p) or (p.is_Pow and p.exp.is_Integer)) and not (p.is_Add or p.is_Mul)","ensures":["result == False"],"decidability":"library","returns_expr":"False"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.args","p.base","p.exp","p.is_Add","p.is_Atom","p.is_Mul","p.is_Pow","p.is_Rational"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_algebraic(p):
     """Return True if p is comprised of only Rationals or square roots
     of Rationals and algebraic operations.
@@ -120,16 +150,22 @@ def is_algebraic(p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_subsets(n), returns all possible subsets of the set (0, 1, ..., n-1) except the empty set, listed in reversed lexicographical order according to binary representation, so that the case of the fourth root is treat) over Any ║
+# ║ Path(_subsets(n), # HINT: _subsets may be idempotent: _subsets(_subsets(x)) == _subsets(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _subsets : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _subsets may be idempotent: _subs...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _subsets : Any → {Any | result satisfies: # HINT: _su...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c73fa3ed84ac0f90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e94b46c41be9c62c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._subsets","kind":"function","src_hash":"873eb85a47ab219e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_subsets(n)","rhs":"returns all possible subsets of the set (0, 1, ..., n-1) except the empty set, listed in reversed lexicographical order according to binary representation, so that the case of the fourth root is treat","over":{"base":"Any"},"name":"_subsets_correct"},"guarantee":"returns all possible subsets of the set (0, 1, ..., n-1) except the empty set, listed in reversed lexicographical order according to binary representation, so that the case of the fourth root is treat","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._subsets_correct","statement":"Path(_subsets(x), returns all possible subsets of the set (0, 1, ..., n-1) except the empty set, listed in reversed lexicographical order according to binary representation, so that the case of the fourth root is treat)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c73fa3ed84ac0f90"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._subsets","kind":"function","src_hash":"873eb85a47ab219e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _subsets may be idempotent: _subsets(_subsets(x)) == _subsets(x)"},"spec":{"lhs":"_subsets(n)","rhs":"# HINT: _subsets may be idempotent: _subsets(_subsets(x)) == _subsets(x)","over":{"base":"Any"},"name":"_subsets_correct"},"guarantee":"# HINT: _subsets may be idempotent: _subsets(_subsets(x)) == _subsets(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._subsets_correct","statement":"Path(_subsets(x), # HINT: _subsets may be idempotent: _subsets(_subsets(x)) == _subsets(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e94b46c41be9c62c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _subsets may be idempotent: _subsets(_subsets(x)) == _subsets(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _subsets(n):
     """
     Returns all possible subsets of the set (0, 1, ..., n-1) except the
@@ -160,16 +196,22 @@ def _subsets(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sqrtdenest(exp), denests sqrts in an expression that contain other square roots if possible, otherwise returns the expr unchanged) over Any ║
+# ║ Path(sqrtdenest(expr, max_iter), <unspecified:sqrtdenest>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sqrtdenest : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc6efde2c3c2595e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest.sqrtdenest","kind":"function","src_hash":"5d1f16092ac61a37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sqrtdenest(exp)","rhs":"denests sqrts in an expression that contain other square roots if possible, otherwise returns the expr unchanged","over":{"base":"Any"},"name":"sqrtdenest_correct"},"guarantee":"denests sqrts in an expression that contain other square roots if possible, otherwise returns the expr unchanged","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest.sqrtdenest_correct","statement":"Path(sqrtdenest(x), denests sqrts in an expression that contain other square roots if possible, otherwise returns the expr unchanged)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc6efde2c3c2595e"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest.sqrtdenest","kind":"function","src_hash":"5d1f16092ac61a37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sqrtdenest(expr, max_iter)","rhs":"<unspecified:sqrtdenest>","over":{"base":"Any"},"name":"sqrtdenest_correct"},"guarantee":"denests sqrts in an expression that contain other square roots if possible, otherwise returns the expr unchanged","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest.sqrtdenest_correct","statement":"Path(sqrtdenest(x), denests sqrts in an expression that contain other square roots if possible, otherwise returns the expr unchanged)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc6efde2c3c2595e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def sqrtdenest(expr, max_iter=3):
     """Denests sqrts in an expression that contain other square roots
     if possible, otherwise returns the expr unchanged. This is based on the
@@ -207,16 +249,25 @@ def sqrtdenest(expr, max_iter=3):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sqrt_match(p), return [a, b, r] for p.match(a + b*sqrt(r)) where, in addition to matching, sqrt(r) also has then maximal sqrt_depth among addends of p) over Any ║
+# ║ Path(_sqrt_match(p), <unspecified:_sqrt_match>) over {Any | hasattr(p, 'is_Number') and hasattr(p, 'is_Add') and hasattr(p, 'args') and hasattr(p, 'as_coeff_Mul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sqrt_match : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'is_Number')                        ║
+# ║   requires: hasattr(p, 'is_Add')                           ║
+# ║   requires: hasattr(p, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sqrt_match : {Any | hasattr(p, 'is_Number') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69a8593c7f6ccdb1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrt_match","kind":"function","src_hash":"56bb78f0415058e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sqrt_match(p)","rhs":"return [a, b, r] for p.match(a + b*sqrt(r)) where, in addition to matching, sqrt(r) also has then maximal sqrt_depth among addends of p","over":{"base":"Any"},"name":"_sqrt_match_correct"},"guarantee":"return [a, b, r] for p.match(a + b*sqrt(r)) where, in addition to matching, sqrt(r) also has then maximal sqrt_depth among addends of p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrt_match_correct","statement":"Path(_sqrt_match(x), return [a, b, r] for p.match(a + b*sqrt(r)) where, in addition to matching, sqrt(r) also has then maximal sqrt_depth among addends of p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69a8593c7f6ccdb1"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrt_match","kind":"function","src_hash":"56bb78f0415058e3","in":{"base":"Any","pred":"hasattr(p, 'is_Number') and hasattr(p, 'is_Add') and hasattr(p, 'args') and hasattr(p, 'as_coeff_Mul')"},"out":{"base":"Any"},"spec":{"lhs":"_sqrt_match(p)","rhs":"<unspecified:_sqrt_match>","over":{"base":"Any","pred":"hasattr(p, 'is_Number') and hasattr(p, 'is_Add') and hasattr(p, 'args') and hasattr(p, 'as_coeff_Mul')"},"name":"_sqrt_match_correct"},"guarantee":"return [a, b, r] for p.match(a + b*sqrt(r)) where, in addition to matching, sqrt(r) also has then maximal sqrt_depth among addends of p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrt_match_correct","statement":"Path(_sqrt_match(x), return [a, b, r] for p.match(a + b*sqrt(r)) where, in addition to matching, sqrt(r) also has then maximal sqrt_depth among addends of p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69a8593c7f6ccdb1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'is_Number')","hasattr(p, 'is_Add')","hasattr(p, 'args')","hasattr(p, 'as_coeff_Mul')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _sqrt_match(p):
     """Return [a, b, r] for p.match(a + b*sqrt(r)) where, in addition to
     matching, sqrt(r) also has then maximal sqrt_depth among addends of p.
@@ -297,22 +348,34 @@ def _sqrt_match(p):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SqrtdenestStopIteration(), correctly constructs a SqrtdenestStopIteration instance) over Any ║
+# ║ Path(SqrtdenestStopIteration(), isinstance(self, StopIteration)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SqrtdenestStopIteration : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, StopIteration)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SqrtdenestStopIteration : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 79f831080a71414d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest.SqrtdenestStopIteration","kind":"class","src_hash":"6e95712fa2f0c14f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SqrtdenestStopIteration()","rhs":"correctly constructs a SqrtdenestStopIteration instance","over":{"base":"Any"},"name":"SqrtdenestStopIteration_correct"},"guarantee":"correctly constructs a SqrtdenestStopIteration instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79f831080a71414d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest.SqrtdenestStopIteration","kind":"class","src_hash":"6e95712fa2f0c14f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, StopIteration)"},"spec":{"lhs":"SqrtdenestStopIteration()","rhs":"isinstance(self, StopIteration)","over":{"base":"Any"},"name":"SqrtdenestStopIteration_correct"},"guarantee":"isinstance(self, StopIteration)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"79f831080a71414d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, StopIteration)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function SqrtdenestStopIteration not found in source"]}}
 class SqrtdenestStopIteration(StopIteration):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sqrtdenest0(exp), returns expr after denesting its arguments) over {Any | isinstance(expr, Add) and isinstance(expr, Expr)} ║
+# ║ Path(_sqrtdenest0(expr), # HINT: _sqrtdenest0 may be idempotent: _sqrtdenest0(_sqrtdenest0(x)) == _sqrtdenest0(x)) over {Any | isinstance(expr, Add) and isinstance(expr, Expr) and hasattr(expr, 'args') and hasattr(expr, 'as_numer_denom') and hasattr(expr, 'func')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'as_numer_denom')                ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   ensures:  # HINT: _sqrtdenest0 may be idempotent: _...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sqrtdenest0 : {Any | isinstance(expr, Add) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -325,9 +388,12 @@ class SqrtdenestStopIteration(StopIteration):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b2e27eee...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrtdenest0","kind":"function","src_hash":"1cc43ecb0d198620","in":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_sqrtdenest0(exp)","rhs":"returns expr after denesting its arguments","over":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Expr)"},"name":"_sqrtdenest0_correct"},"guarantee":"returns expr after denesting its arguments","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"_sqrtdenest0(x)","rhs":"returns expr after denesting its arguments","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"_sqrtdenest0_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrtdenest0_Add_correct","statement":"_sqrtdenest0 satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"_sqrtdenest0(x)","rhs":"returns expr after denesting its arguments","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"_sqrtdenest0_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrtdenest0_Expr_correct","statement":"_sqrtdenest0 satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b2e27eeefb224d3f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrtdenest0","kind":"function","src_hash":"1cc43ecb0d198620","in":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Expr) and hasattr(expr, 'args') and hasattr(expr, 'as_numer_denom') and hasattr(expr, 'func')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _sqrtdenest0 may be idempotent: _sqrtdenest0(_sqrtdenest0(x)) == _sqrtdenest0(x)"},"spec":{"lhs":"_sqrtdenest0(expr)","rhs":"# HINT: _sqrtdenest0 may be idempotent: _sqrtdenest0(_sqrtdenest0(x)) == _sqrtdenest0(x)","over":{"base":"Any","pred":"isinstance(expr, Add) and isinstance(expr, Expr) and hasattr(expr, 'args') and hasattr(expr, 'as_numer_denom') and hasattr(expr, 'func')"},"name":"_sqrtdenest0_correct"},"guarantee":"# HINT: _sqrtdenest0 may be idempotent: _sqrtdenest0(_sqrtdenest0(x)) == _sqrtdenest0(x)","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"_sqrtdenest0(x)","rhs":"# HINT: _sqrtdenest0 may be idempotent: _sqrtdenest0(_sqrtdenest0(x)) == _sqrtdenest0(x)","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"_sqrtdenest0_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrtdenest0_Add_correct","statement":"_sqrtdenest0 satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(expr, Expr)","path":{"lhs":"_sqrtdenest0(x)","rhs":"# HINT: _sqrtdenest0 may be idempotent: _sqrtdenest0(_sqrtdenest0(x)) == _sqrtdenest0(x)","over":{"base":"Expr","pred":"isinstance(expr, Expr)"},"name":"_sqrtdenest0_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrtdenest0_Expr_correct","statement":"_sqrtdenest0 satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b2e27eeefb224d3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')","hasattr(expr, 'as_numer_denom')","hasattr(expr, 'func')"],"ensures":["# HINT: _sqrtdenest0 may be idempotent: _sqrtdenest0(_sqrtdenest0(x)) == _sqrtdenest0(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Expr)', 'len(args) > 2 and all(((x ** 2).is_Integer for x in args))', 'isinstance(expr, Add)'}, fibers={'Add', 'Expr'})"]}}
 def _sqrtdenest0(expr):
     """Returns expr after denesting its arguments."""
 
@@ -366,16 +432,25 @@ def _sqrtdenest0(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sqrtdenest_rec(exp), helper that denests the square root of three or more surds) over Any ║
+# ║ Path(_sqrtdenest_rec(expr), # HINT: _sqrtdenest_rec may be idempotent: _sqrtdenest_rec(_sqrtdenest_rec(x)) == _sqrtdenest_rec(x)) over {Any | hasattr(expr, 'is_Pow') and hasattr(expr, 'base') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sqrtdenest_rec : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Pow')                        ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  # HINT: _sqrtdenest_rec may be idempotent...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sqrtdenest_rec : {Any | hasattr(expr, 'is_Pow') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3badd2d86121fce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 268abd7f5dece03a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrtdenest_rec","kind":"function","src_hash":"be1e32643ffe8b2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sqrtdenest_rec(exp)","rhs":"helper that denests the square root of three or more surds","over":{"base":"Any"},"name":"_sqrtdenest_rec_correct"},"guarantee":"helper that denests the square root of three or more surds","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrtdenest_rec_correct","statement":"Path(_sqrtdenest_rec(x), helper that denests the square root of three or more surds)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3badd2d86121fce"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrtdenest_rec","kind":"function","src_hash":"be1e32643ffe8b2e","in":{"base":"Any","pred":"hasattr(expr, 'is_Pow') and hasattr(expr, 'base') and hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _sqrtdenest_rec may be idempotent: _sqrtdenest_rec(_sqrtdenest_rec(x)) == _sqrtdenest_rec(x)"},"spec":{"lhs":"_sqrtdenest_rec(expr)","rhs":"# HINT: _sqrtdenest_rec may be idempotent: _sqrtdenest_rec(_sqrtdenest_rec(x)) == _sqrtdenest_rec(x)","over":{"base":"Any","pred":"hasattr(expr, 'is_Pow') and hasattr(expr, 'base') and hasattr(expr, 'args')"},"name":"_sqrtdenest_rec_correct"},"guarantee":"# HINT: _sqrtdenest_rec may be idempotent: _sqrtdenest_rec(_sqrtdenest_rec(x)) == _sqrtdenest_rec(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrtdenest_rec_correct","statement":"Path(_sqrtdenest_rec(x), # HINT: _sqrtdenest_rec may be idempotent: _sqrtdenest_rec(_sqrtdenest_rec(x)) == _sqrtdenest_rec(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"268abd7f5dece03a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Pow')","hasattr(expr, 'base')","hasattr(expr, 'args')"],"ensures":["# HINT: _sqrtdenest_rec may be idempotent: _sqrtdenest_rec(_sqrtdenest_rec(x)) == _sqrtdenest_rec(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.base","expr.is_Pow"],"raises":["SqrtdenestStopIteration"]},"state_contract":{"exceptional_post":{"SqrtdenestStopIteration":["isinstance(raised, SqrtdenestStopIteration)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _sqrtdenest_rec(expr):
     """Helper that denests the square root of three or more surds.
 
@@ -441,16 +516,23 @@ def _sqrtdenest_rec(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sqrtdenest1(exp), return denested expr after denesting with simpler methods or, that failing, using the denester) over Any ║
+# ║ Path(_sqrtdenest1(expr, denester), <unspecified:_sqrtdenest1>) over {Any | hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sqrtdenest1 : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sqrtdenest1 : {Any | hasattr(expr, 'base')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f58ca34534e819c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrtdenest1","kind":"function","src_hash":"f804a58e55d18575","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sqrtdenest1(exp)","rhs":"return denested expr after denesting with simpler methods or, that failing, using the denester","over":{"base":"Any"},"name":"_sqrtdenest1_correct"},"guarantee":"return denested expr after denesting with simpler methods or, that failing, using the denester","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrtdenest1_correct","statement":"Path(_sqrtdenest1(x), return denested expr after denesting with simpler methods or, that failing, using the denester)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f58ca34534e819c9"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrtdenest1","kind":"function","src_hash":"f804a58e55d18575","in":{"base":"Any","pred":"hasattr(expr, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_sqrtdenest1(expr, denester)","rhs":"<unspecified:_sqrtdenest1>","over":{"base":"Any","pred":"hasattr(expr, 'base')"},"name":"_sqrtdenest1_correct"},"guarantee":"return denested expr after denesting with simpler methods or, that failing, using the denester","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrtdenest1_correct","statement":"Path(_sqrtdenest1(x), return denested expr after denesting with simpler methods or, that failing, using the denester)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f58ca34534e819c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _sqrtdenest1(expr, denester=True):
     """Return denested expr after denesting with simpler methods or, that
     failing, using the denester."""
@@ -511,16 +593,23 @@ def _sqrtdenest1(expr, denester=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sqrt_symbolic_denest(a, ), given an expression, sqrt(a + b*sqrt(b)), return the denested expression or none) over Any ║
+# ║ Path(_sqrt_symbolic_denest(a, b, r), <unspecified:_sqrt_symbolic_denest>) over {Any | hasattr(a, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sqrt_symbolic_denest : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sqrt_symbolic_denest : {Any | hasattr(a, 'subs')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf27f933b9f18177  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrt_symbolic_denest","kind":"function","src_hash":"676378aeed25c085","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sqrt_symbolic_denest(a, )","rhs":"given an expression, sqrt(a + b*sqrt(b)), return the denested expression or none","over":{"base":"Any"},"name":"_sqrt_symbolic_denest_correct"},"guarantee":"given an expression, sqrt(a + b*sqrt(b)), return the denested expression or none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrt_symbolic_denest_correct","statement":"Path(_sqrt_symbolic_denest(x), given an expression, sqrt(a + b*sqrt(b)), return the denested expression or none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf27f933b9f18177"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrt_symbolic_denest","kind":"function","src_hash":"676378aeed25c085","in":{"base":"Any","pred":"hasattr(a, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"_sqrt_symbolic_denest(a, b, r)","rhs":"<unspecified:_sqrt_symbolic_denest>","over":{"base":"Any","pred":"hasattr(a, 'subs')"},"name":"_sqrt_symbolic_denest_correct"},"guarantee":"given an expression, sqrt(a + b*sqrt(b)), return the denested expression or none","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrt_symbolic_denest_correct","statement":"Path(_sqrt_symbolic_denest(x), given an expression, sqrt(a + b*sqrt(b)), return the denested expression or none)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf27f933b9f18177","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.subs"],"catches":["PolynomialError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _sqrt_symbolic_denest(a, b, r):
     """Given an expression, sqrt(a + b*sqrt(b)), return the denested
     expression or None.
@@ -585,16 +674,22 @@ def _sqrt_symbolic_denest(a, b, r):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sqrt_numeric_denest(a, ), helper that denest $\sqrt{a + b \sqrt{r}}, d^2 = a^2 - b^2 r > 0$) over Any ║
+# ║ Path(_sqrt_numeric_denest(a, b, r), res.expand()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  res.expand()                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sqrt_numeric_denest : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b22d29c38ebe3b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6485c7d83c72b425  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrt_numeric_denest","kind":"function","src_hash":"bd7c5b8162a027aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sqrt_numeric_denest(a, )","rhs":"helper that denest $\\sqrt{a + b \\sqrt{r}}, d^2 = a^2 - b^2 r > 0$","over":{"base":"Any"},"name":"_sqrt_numeric_denest_correct"},"guarantee":"helper that denest $\\sqrt{a + b \\sqrt{r}}, d^2 = a^2 - b^2 r > 0$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrt_numeric_denest_correct","statement":"Path(_sqrt_numeric_denest(x), helper that denest $\\sqrt{a + b \\sqrt{r}}, d^2 = a^2 - b^2 r > 0$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b22d29c38ebe3b2"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrt_numeric_denest","kind":"function","src_hash":"bd7c5b8162a027aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sqrt_numeric_denest(a, b, r)","rhs":"res.expand()","over":{"base":"Any"},"name":"_sqrt_numeric_denest_correct"},"guarantee":"returns res.expand()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrt_numeric_denest_correct","statement":"Path(_sqrt_numeric_denest(x), returns res.expand())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6485c7d83c72b425","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"res.expand()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _sqrt_numeric_denest(a, b, r, d2):
     r"""Helper that denest
     $\sqrt{a + b \sqrt{r}}, d^2 = a^2 - b^2 r > 0$
@@ -616,16 +711,23 @@ def _sqrt_numeric_denest(a, b, r, d2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sqrt_biquadratic_denest(exp), denest expr = sqrt(a + b*sqrt(r)) where a, b, r are linear combinations of square roots of positive rationals on the rationals (sqrr) and r > 0, b != 0, d2 = a**2 - b**2*r > 0) over Any ║
+# ║ Path(sqrt_biquadratic_denest(expr, a, b), <unspecified:sqrt_biquadratic_denest>) over {Any | hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sqrt_biquadratic_denest : Any → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sqrt_biquadratic_denest : {Any | hasattr(expr, 'base'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4ff8c6e2b0a67e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest.sqrt_biquadratic_denest","kind":"function","src_hash":"78d8fc2913997622","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sqrt_biquadratic_denest(exp)","rhs":"denest expr = sqrt(a + b*sqrt(r)) where a, b, r are linear combinations of square roots of positive rationals on the rationals (sqrr) and r > 0, b != 0, d2 = a**2 - b**2*r > 0","over":{"base":"Any"},"name":"sqrt_biquadratic_denest_correct"},"guarantee":"denest expr = sqrt(a + b*sqrt(r)) where a, b, r are linear combinations of square roots of positive rationals on the rationals (sqrr) and r > 0, b != 0, d2 = a**2 - b**2*r > 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest.sqrt_biquadratic_denest_correct","statement":"Path(sqrt_biquadratic_denest(x), denest expr = sqrt(a + b*sqrt(r)) where a, b, r are linear combinations of square roots of positive rationals on the rationals (sqrr) and r > 0, b != 0, d2 = a**2 - b**2*r > 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4ff8c6e2b0a67e8"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest.sqrt_biquadratic_denest","kind":"function","src_hash":"78d8fc2913997622","in":{"base":"Any","pred":"hasattr(expr, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"sqrt_biquadratic_denest(expr, a, b)","rhs":"<unspecified:sqrt_biquadratic_denest>","over":{"base":"Any","pred":"hasattr(expr, 'base')"},"name":"sqrt_biquadratic_denest_correct"},"guarantee":"denest expr = sqrt(a + b*sqrt(r)) where a, b, r are linear combinations of square roots of positive rationals on the rationals (sqrr) and r > 0, b != 0, d2 = a**2 - b**2*r > 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest.sqrt_biquadratic_denest_correct","statement":"Path(sqrt_biquadratic_denest(x), denest expr = sqrt(a + b*sqrt(r)) where a, b, r are linear combinations of square roots of positive rationals on the rationals (sqrr) and r > 0, b != 0, d2 = a**2 - b**2*r > 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4ff8c6e2b0a67e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def sqrt_biquadratic_denest(expr, a, b, r, d2):
     """denest expr = sqrt(a + b*sqrt(r))
     where a, b, r are linear combinations of square roots of
@@ -701,16 +803,22 @@ def sqrt_biquadratic_denest(expr, a, b, r, d2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_denester(nes), denests a list of expressions that contain nested square roots) over Any ║
+# ║ Path(_denester(nested, av0, h), # HINT: _denester may be idempotent: _denester(_denester(x)) == _denester(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _denester : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: _denester may be idempotent: _den...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _denester : Any → {Any | result satisfies: # HINT: _d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3448e7741776129  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90075916e60cab7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._denester","kind":"function","src_hash":"a00fe13ca4574d02","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_denester(nes)","rhs":"denests a list of expressions that contain nested square roots","over":{"base":"Any"},"name":"_denester_correct"},"guarantee":"denests a list of expressions that contain nested square roots","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._denester_correct","statement":"Path(_denester(x), denests a list of expressions that contain nested square roots)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3448e7741776129"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._denester","kind":"function","src_hash":"a00fe13ca4574d02","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: # HINT: _denester may be idempotent: _denester(_denester(x)) == _denester(x)"},"spec":{"lhs":"_denester(nested, av0, h)","rhs":"# HINT: _denester may be idempotent: _denester(_denester(x)) == _denester(x)","over":{"base":"Any"},"name":"_denester_correct"},"guarantee":"# HINT: _denester may be idempotent: _denester(_denester(x)) == _denester(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._denester_correct","statement":"Path(_denester(x), # HINT: _denester may be idempotent: _denester(_denester(x)) == _denester(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90075916e60cab7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: _denester may be idempotent: _denester(_denester(x)) == _denester(x)"],"pure":false,"effects":{"effect_type":"mutates_args","writes":["av0[*]"]},"state_contract":{"modifies":["av0[*]"],"old_bindings":{"old_av0_star":"av0[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def _denester(nested, av0, h, max_depth_level):
     """Denests a list of expressions that contain nested square roots.
 
@@ -812,16 +920,26 @@ def _denester(nested, av0, h, max_depth_level):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sqrt_ratcomb(cs,), denest rational combinations of radicals) over Any ║
+# ║ Path(_sqrt_ratcomb(cs, args), len(args) == old_len_args - 1 and len(cs) == old_len_cs - 1) over {Any | hasattr(cs, 'pop') and hasattr(args, 'pop') and len(args) > 0 and len(cs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sqrt_ratcomb : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(cs, 'pop')                             ║
+# ║   requires: hasattr(args, 'pop')                           ║
+# ║   requires: len(args) > 0                                  ║
+# ║   ensures:  len(args) == old_len_args - 1                  ║
+# ║   ensures:  len(cs) == old_len_cs - 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sqrt_ratcomb : {Any | hasattr(cs, 'pop') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a32dfd56beb6939  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ede41d9fd5467d33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrt_ratcomb","kind":"function","src_hash":"ece41061ae04ed05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sqrt_ratcomb(cs,)","rhs":"denest rational combinations of radicals","over":{"base":"Any"},"name":"_sqrt_ratcomb_correct"},"guarantee":"denest rational combinations of radicals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrt_ratcomb_correct","statement":"Path(_sqrt_ratcomb(x), denest rational combinations of radicals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a32dfd56beb6939"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.sqrtdenest._sqrt_ratcomb","kind":"function","src_hash":"ece41061ae04ed05","in":{"base":"Any","pred":"hasattr(cs, 'pop') and hasattr(args, 'pop') and len(args) > 0 and len(cs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args - 1 and len(cs) == old_len_cs - 1"},"spec":{"lhs":"_sqrt_ratcomb(cs, args)","rhs":"len(args) == old_len_args - 1 and len(cs) == old_len_cs - 1","over":{"base":"Any","pred":"hasattr(cs, 'pop') and hasattr(args, 'pop') and len(args) > 0 and len(cs) > 0"},"name":"_sqrt_ratcomb_correct"},"guarantee":"len(args) == old_len_args - 1; len(cs) == old_len_cs - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.sqrtdenest._sqrt_ratcomb_correct","statement":"Path(_sqrt_ratcomb(x), len(args) == old_len_args - 1; len(cs) == old_len_cs - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ede41d9fd5467d33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(cs, 'pop')","hasattr(args, 'pop')","len(args) > 0","len(cs) > 0"],"ensures":["len(args) == old_len_args - 1","len(cs) == old_len_cs - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["args.pop","cs.pop"],"writes":["cs[*]"],"calls_mutating":["args.pop","cs.pop"]},"state_contract":{"modifies":["args.*","cs.*","cs[*]"],"old_bindings":{"old_cs_star":"cs[*]","old_len_args":"len(args)","old_len_cs":"len(cs)"},"pre_requires":["len(args) > 0","len(cs) > 0"],"post_ensures":["len(args) == old_len_args - 1","len(cs) == old_len_cs - 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _sqrt_ratcomb(cs, args):
     """Denest rational combinations of radicals.
 

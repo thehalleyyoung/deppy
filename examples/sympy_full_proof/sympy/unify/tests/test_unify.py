@@ -24,59 +24,87 @@ w,x,y,z = map(Variable, 'wxyz')
 C = Compound
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_associative(x), is_associative produces the expected output) over {Any | isinstance(x, Compound)} ║
+# ║ Path(is_associative(x), isinstance(x, Compound) and x.op in ('Add', 'Mul', 'CAdd', 'CMul')) over {Any | isinstance(x, Compound) and hasattr(x, 'op')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_associative : {Any | isinstance(x, Compound)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'op')                               ║
+# ║   returns:  isinstance(x, Compound) and x.op in ('Add...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_associative : {Any | isinstance(x, Compound) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b0c9014875f3b61b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.is_associative","kind":"function","src_hash":"934bb28ab56b986f","in":{"base":"Any","pred":"isinstance(x, Compound)"},"out":{"base":"Any"},"spec":{"lhs":"is_associative(x)","rhs":"is_associative produces the expected output","over":{"base":"Any","pred":"isinstance(x, Compound)"},"name":"is_associative_correct"},"guarantee":"is_associative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0c9014875f3b61b"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.is_associative","kind":"function","src_hash":"934bb28ab56b986f","in":{"base":"Any","pred":"isinstance(x, Compound) and hasattr(x, 'op')"},"out":{"base":"Any"},"spec":{"lhs":"is_associative(x)","rhs":"isinstance(x, Compound) and x.op in ('Add', 'Mul', 'CAdd', 'CMul')","over":{"base":"Any","pred":"isinstance(x, Compound) and hasattr(x, 'op')"},"name":"is_associative_correct"},"guarantee":"returns isinstance(x, Compound) and x.op in ('Add', 'Mul', 'CAdd', 'CMul')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0c9014875f3b61b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'op')"],"returns_expr":"isinstance(x, Compound) and x.op in ('Add', 'Mul', 'CAdd', 'CMul')","pure":false,"effects":{"effect_type":"reads_state","reads":["x.op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def is_associative(x):
     return isinstance(x, Compound) and (x.op in ('Add', 'Mul', 'CAdd', 'CMul'))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_commutative(x), is_commutative produces the expected output) over {Any | isinstance(x, Compound)} ║
+# ║ Path(is_commutative(x), isinstance(x, Compound) and x.op in ('CAdd', 'CMul')) over {Any | isinstance(x, Compound) and hasattr(x, 'op')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_commutative : {Any | isinstance(x, Compound)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'op')                               ║
+# ║   returns:  isinstance(x, Compound) and x.op in ('CAd...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_commutative : {Any | isinstance(x, Compound) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b5364913ff86065           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.is_commutative","kind":"function","src_hash":"5885440634226fe7","in":{"base":"Any","pred":"isinstance(x, Compound)"},"out":{"base":"Any"},"spec":{"lhs":"is_commutative(x)","rhs":"is_commutative produces the expected output","over":{"base":"Any","pred":"isinstance(x, Compound)"},"name":"is_commutative_correct"},"guarantee":"is_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b5364913ff86065"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.is_commutative","kind":"function","src_hash":"5885440634226fe7","in":{"base":"Any","pred":"isinstance(x, Compound) and hasattr(x, 'op')"},"out":{"base":"Any"},"spec":{"lhs":"is_commutative(x)","rhs":"isinstance(x, Compound) and x.op in ('CAdd', 'CMul')","over":{"base":"Any","pred":"isinstance(x, Compound) and hasattr(x, 'op')"},"name":"is_commutative_correct"},"guarantee":"returns isinstance(x, Compound) and x.op in ('CAdd', 'CMul')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b5364913ff86065","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'op')"],"returns_expr":"isinstance(x, Compound) and x.op in ('CAdd', 'CMul')","pure":false,"effects":{"effect_type":"reads_state","reads":["x.op"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def is_commutative(x):
     return isinstance(x, Compound) and (x.op in ('CAdd', 'CMul'))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unify(a, ), unify produces the expected output) over Any ║
+# ║ Path(unify(a, b, s), core.unify(a, b, s=s, is_associative=is_associative, is_commutative=is_commutative)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  core.unify(a, b, s=s, is_associative=is_a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unify : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d6fddb004fbfd80  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f76446640047886  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.unify","kind":"function","src_hash":"1ce5f587d47c66be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unify(a, )","rhs":"unify produces the expected output","over":{"base":"Any"},"name":"unify_correct"},"guarantee":"unify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.unify_correct","statement":"Path(unify(x), unify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d6fddb004fbfd80"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.unify","kind":"function","src_hash":"1ce5f587d47c66be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unify(a, b, s)","rhs":"core.unify(a, b, s=s, is_associative=is_associative, is_commutative=is_commutative)","over":{"base":"Any"},"name":"unify_correct"},"guarantee":"returns core.unify(a, b, s=s, is_associative=is_associative, is_commutative=is_commutative)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.unify_correct","statement":"Path(unify(x), returns core.unify(a, b, s=s, is_associative=is_associative, is_commutative=is_commutative))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f76446640047886","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"core.unify(a, b, s=s, is_associative=is_associative, is_commutative=is_commutative)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def unify(a, b, s={}):
     return core.unify(a, b, s=s, is_associative=is_associative,
                           is_commutative=is_commutative)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic(), test_basic produces the expected output) over Any ║
+# ║ Path(test_basic(), list(unify(a, x, {})) == [{x: a}] and list(unify(a, x, {x: 10})) == [] and list(unify(1, x, {})) == [{x: 1}] and list(unify(a, a, {})) == [{}] and list(unify((w, x), (y, z), {})) == [{w: y, x: z}] and list(unify(x, (a, b), {})) == [{x: (a, b)}] and list(unify((a, b), (x, x), {})) == [] and list(unify((y, z), (x, x), {})) != [] and list(unify((a, (b, c)), (a, (x, y)), {})) == [{x: b, y: c}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basic : Any → {Any | list(unify(a, x, {})) == [{...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(unify(a, x, {})) == [{x: a}]              ║
+# ║   ensures:  list(unify(a, x, {x: 10})) == []               ║
+# ║   ensures:  list(unify(1, x, {})) == [{x: 1}]              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basic : Any → {Any | result satisfies: list(unif...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26561366e058ccca  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 532fbb99b43d361d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_basic","kind":"function","src_hash":"6c771d061f5f79b5","in":{"base":"Any"},"out":{"base":"Any","pred":"list(unify(a, x, {})) == [{x: a}] and list(unify(a, x, {x: 10})) == [] and list(unify(1, x, {})) == [{x: 1}] and list(unify(a, a, {})) == [{}] and list(unify((w, x), (y, z), {})) == [{w: y, x: z}] and list(unify(x, (a, b), {})) == [{x: (a, b)}] and list(unify((a, b), (x, x), {})) == [] and list(unify((y, z), (x, x), {})) != [] and list(unify((a, (b, c)), (a, (x, y)), {})) == [{x: b, y: c}]"},"spec":{"lhs":"test_basic()","rhs":"test_basic produces the expected output","over":{"base":"Any"},"name":"test_basic_correct"},"guarantee":"test_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_basic_correct","statement":"Path(test_basic(x), test_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26561366e058ccca"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_basic","kind":"function","src_hash":"6c771d061f5f79b5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(unify(a, x, {})) == [{x: a}] and list(unify(a, x, {x: 10})) == [] and list(unify(1, x, {})) == [{x: 1}] and list(unify(a, a, {})) == [{}] and list(unify((w, x), (y, z), {})) == [{w: y, x: z}] and list(unify(x, (a, b), {})) == [{x: (a, b)}] and list(unify((a, b), (x, x), {})) == [] and list(unify((y, z), (x, x), {})) != [] and list(unify((a, (b, c)), (a, (x, y)), {})) == [{x: b, y: c}]"},"spec":{"lhs":"test_basic()","rhs":"list(unify(a, x, {})) == [{x: a}] and list(unify(a, x, {x: 10})) == [] and list(unify(1, x, {})) == [{x: 1}] and list(unify(a, a, {})) == [{}] and list(unify((w, x), (y, z), {})) == [{w: y, x: z}] and list(unify(x, (a, b), {})) == [{x: (a, b)}] and list(unify((a, b), (x, x), {})) == [] and list(unify((y, z), (x, x), {})) != [] and list(unify((a, (b, c)), (a, (x, y)), {})) == [{x: b, y: c}]","over":{"base":"Any"},"name":"test_basic_correct"},"guarantee":"list(unify(a, x, {})) == [{x: a}]; list(unify(a, x, {x: 10})) == []; list(unify(1, x, {})) == [{x: 1}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_basic_correct","statement":"Path(test_basic(x), list(unify(a, x, {})) == [{x: a}]; list(unify(a, x, {x: 10})) == []; list(unify(1, x, {})) == [{x: 1}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"532fbb99b43d361d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(unify(a, x, {})) == [{x: a}]","list(unify(a, x, {x: 10})) == []","list(unify(1, x, {})) == [{x: 1}]","list(unify(a, a, {})) == [{}]","list(unify((w, x), (y, z), {})) == [{w: y, x: z}]","list(unify(x, (a, b), {})) == [{x: (a, b)}]","list(unify((a, b), (x, x), {})) == []","list(unify((y, z), (x, x), {})) != []","list(unify((a, (b, c)), (a, (x, y)), {})) == [{x: b, y: c}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_basic():
     assert list(unify(a, x, {})) == [{x: a}]
     assert list(unify(a, x, {x: 10})) == []
@@ -90,16 +118,23 @@ def test_basic():
     assert list(unify((a, (b, c)), (a, (x, y)), {})) == [{x: b, y: c}]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ops(), test_ops produces the expected output) over Any ║
+# ║ Path(test_ops(), list(unify(C('Add', (a, b, c)), C('Add', (a, x, y)), {})) == [{x: b, y: c}] and list(unify(C('Add', (C('Mul', (1, 2)), b, c)), C('Add', (x, y, c)), {})) == [{x: C('Mul', (1, 2)), y: b}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ops : Any → {Any | list(unify(C('Add', (a, b, c)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(unify(C('Add', (a, b, c)), C('Add', ...   ║
+# ║   ensures:  list(unify(C('Add', (C('Mul', (1, 2)), b,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ops : Any → {Any | result satisfies: list(unify(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47ec7b4db41db518  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ed5097af9a70b6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_ops","kind":"function","src_hash":"5fdeb04647b96466","in":{"base":"Any"},"out":{"base":"Any","pred":"list(unify(C('Add', (a, b, c)), C('Add', (a, x, y)), {})) == [{x: b, y: c}]"},"spec":{"lhs":"test_ops()","rhs":"test_ops produces the expected output","over":{"base":"Any"},"name":"test_ops_correct"},"guarantee":"test_ops produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_ops_correct","statement":"Path(test_ops(x), test_ops produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47ec7b4db41db518"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_ops","kind":"function","src_hash":"5fdeb04647b96466","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(unify(C('Add', (a, b, c)), C('Add', (a, x, y)), {})) == [{x: b, y: c}] and list(unify(C('Add', (C('Mul', (1, 2)), b, c)), C('Add', (x, y, c)), {})) == [{x: C('Mul', (1, 2)), y: b}]"},"spec":{"lhs":"test_ops()","rhs":"list(unify(C('Add', (a, b, c)), C('Add', (a, x, y)), {})) == [{x: b, y: c}] and list(unify(C('Add', (C('Mul', (1, 2)), b, c)), C('Add', (x, y, c)), {})) == [{x: C('Mul', (1, 2)), y: b}]","over":{"base":"Any"},"name":"test_ops_correct"},"guarantee":"list(unify(C('Add', (a, b, c)), C('Add', (a, x, y)), {})) == [{x: b, y: c}]; list(unify(C('Add', (C('Mul', (1, 2)), b, c)), C('Add', (x, y, c)), {})) == [{x: C('Mul', (1, 2)), y: b}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_ops_correct","statement":"Path(test_ops(x), list(unify(C('Add', (a, b, c)), C('Add', (a, x, y)), {})) == [{x: b, y: c}]; list(unify(C('Add', (C('Mul', (1, 2)), b, c)), C('Add', (x, y, c)), {})) == [{x: C('Mul', (1, 2)), y: b}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ed5097af9a70b6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(unify(C('Add', (a, b, c)), C('Add', (a, x, y)), {})) == [{x: b, y: c}]","list(unify(C('Add', (C('Mul', (1, 2)), b, c)), C('Add', (x, y, c)), {})) == [{x: C('Mul', (1, 2)), y: b}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_ops():
     assert list(unify(C('Add', (a,b,c)), C('Add', (a,x,y)), {})) == \
             [{x:b, y:c}]
@@ -107,16 +142,22 @@ def test_ops():
             [{x: C('Mul', (1,2)), y:b}]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_associative(), test_associative produces the expected output) over Any ║
+# ║ Path(test_associative(), tuple(unify(c1, c2, {})) == ({x: 1, y: C('Add', (2, 3))}, {x: C('Add', (1, 2)), y: 3})) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_associative : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tuple(unify(c1, c2, {})) == ({x: 1, y: C(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_associative : Any → {Any | result satisfies: tup...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5c273e592db8bc8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7aa9e4ba9b364922  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_associative","kind":"function","src_hash":"8f1578e88fd95de8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_associative()","rhs":"test_associative produces the expected output","over":{"base":"Any"},"name":"test_associative_correct"},"guarantee":"test_associative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_associative_correct","statement":"Path(test_associative(x), test_associative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5c273e592db8bc8"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_associative","kind":"function","src_hash":"8f1578e88fd95de8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tuple(unify(c1, c2, {})) == ({x: 1, y: C('Add', (2, 3))}, {x: C('Add', (1, 2)), y: 3})"},"spec":{"lhs":"test_associative()","rhs":"tuple(unify(c1, c2, {})) == ({x: 1, y: C('Add', (2, 3))}, {x: C('Add', (1, 2)), y: 3})","over":{"base":"Any"},"name":"test_associative_correct"},"guarantee":"tuple(unify(c1, c2, {})) == ({x: 1, y: C('Add', (2, 3))}, {x: C('Add', (1, 2)), y: 3})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_associative_correct","statement":"Path(test_associative(x), tuple(unify(c1, c2, {})) == ({x: 1, y: C('Add', (2, 3))}, {x: C('Add', (1, 2)), y: 3}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7aa9e4ba9b364922","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tuple(unify(c1, c2, {})) == ({x: 1, y: C('Add', (2, 3))}, {x: C('Add', (1, 2)), y: 3})"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_associative():
     c1 = C('Add', (1,2,3))
     c2 = C('Add', (x,y))
@@ -124,16 +165,23 @@ def test_associative():
                                          {x: C('Add', (1, 2)), y: 3})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_commutative(), test_commutative produces the expected output) over Any ║
+# ║ Path(test_commutative(), {x: 1, y: C('CAdd', (2, 3))} in result and {x: 2, y: C('CAdd', (1, 3))} in result or {x: 2, y: C('CAdd', (3, 1))} in result) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_commutative : Any → {Any | {x: 1, y: C('CAdd', (...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  {x: 1, y: C('CAdd', (2, 3))} in result         ║
+# ║   ensures:  {x: 2, y: C('CAdd', (1, 3))} in result or...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_commutative : Any → {Any | result satisfies: {x:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47989ba5966fccc0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f75e58cee61ba4c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_commutative","kind":"function","src_hash":"f0b348db25c3ac12","in":{"base":"Any"},"out":{"base":"Any","pred":"{x: 1, y: C('CAdd', (2, 3))} in result"},"spec":{"lhs":"test_commutative()","rhs":"test_commutative produces the expected output","over":{"base":"Any"},"name":"test_commutative_correct"},"guarantee":"test_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_commutative_correct","statement":"Path(test_commutative(x), test_commutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47989ba5966fccc0"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_commutative","kind":"function","src_hash":"f0b348db25c3ac12","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: {x: 1, y: C('CAdd', (2, 3))} in result and {x: 2, y: C('CAdd', (1, 3))} in result or {x: 2, y: C('CAdd', (3, 1))} in result"},"spec":{"lhs":"test_commutative()","rhs":"{x: 1, y: C('CAdd', (2, 3))} in result and {x: 2, y: C('CAdd', (1, 3))} in result or {x: 2, y: C('CAdd', (3, 1))} in result","over":{"base":"Any"},"name":"test_commutative_correct"},"guarantee":"{x: 1, y: C('CAdd', (2, 3))} in result; {x: 2, y: C('CAdd', (1, 3))} in result or {x: 2, y: C('CAdd', (3, 1))} in result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_commutative_correct","statement":"Path(test_commutative(x), {x: 1, y: C('CAdd', (2, 3))} in result; {x: 2, y: C('CAdd', (1, 3))} in result or {x: 2, y: C('CAdd', (3, 1))} in result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f75e58cee61ba4c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["{x: 1, y: C('CAdd', (2, 3))} in result","{x: 2, y: C('CAdd', (1, 3))} in result or {x: 2, y: C('CAdd', (3, 1))} in result"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_commutative():
     c1 = C('CAdd', (1,2,3))
     c2 = C('CAdd', (x,y))
@@ -143,31 +191,43 @@ def test_commutative():
             {x: 2, y: C('CAdd', (3, 1))} in result)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_combinations_assoc(), internal helper behaves correctly) over Any ║
+# ║ Path(_test_combinations_assoc(), set(allcombinations((1, 2, 3), (a, b), True)) == {(((1, 2), (3,)), (a, b)), (((1,), (2, 3)), (a, b))}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _test_combinations_assoc : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(allcombinations((1, 2, 3), (a, b), Tr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _test_combinations_assoc : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8207a6403dbf9e0a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf83486f479c3a9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify._test_combinations_assoc","kind":"function","src_hash":"4e1725029afd0d4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_combinations_assoc()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_test_combinations_assoc_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify._test_combinations_assoc_correct","statement":"Path(_test_combinations_assoc(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8207a6403dbf9e0a"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify._test_combinations_assoc","kind":"function","src_hash":"4e1725029afd0d4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(allcombinations((1, 2, 3), (a, b), True)) == {(((1, 2), (3,)), (a, b)), (((1,), (2, 3)), (a, b))}"},"spec":{"lhs":"_test_combinations_assoc()","rhs":"set(allcombinations((1, 2, 3), (a, b), True)) == {(((1, 2), (3,)), (a, b)), (((1,), (2, 3)), (a, b))}","over":{"base":"Any"},"name":"_test_combinations_assoc_correct"},"guarantee":"set(allcombinations((1, 2, 3), (a, b), True)) == {(((1, 2), (3,)), (a, b)), (((1,), (2, 3)), (a, b))}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify._test_combinations_assoc_correct","statement":"Path(_test_combinations_assoc(x), set(allcombinations((1, 2, 3), (a, b), True)) == {(((1, 2), (3,)), (a, b)), (((1,), (2, 3)), (a, b))})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf83486f479c3a9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(allcombinations((1, 2, 3), (a, b), True)) == {(((1, 2), (3,)), (a, b)), (((1,), (2, 3)), (a, b))}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _test_combinations_assoc():
     assert set(allcombinations((1,2,3), (a,b), True)) == \
         {(((1, 2), (3,)), (a, b)), (((1,), (2, 3)), (a, b))}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_combinations_comm(), internal helper behaves correctly) over Any ║
+# ║ Path(_test_combinations_comm(), set(allcombinations((1, 2, 3), (a, b), None)) == {(((1,), (2, 3)), ('a', 'b')), (((2,), (3, 1)), ('a', 'b')), (((3,), (1, 2)), ('a', 'b')), (((1, 2), (3,)), ('a', 'b')), (((2, 3), (1,)), ('a', 'b')), (((3, 1), (2,)), ('a', 'b'))}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _test_combinations_comm : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(allcombinations((1, 2, 3), (a, b), No...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _test_combinations_comm : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7367c7017a0fecd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38b5a661dbb37c54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify._test_combinations_comm","kind":"function","src_hash":"935a60ec867ced14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_combinations_comm()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_test_combinations_comm_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify._test_combinations_comm_correct","statement":"Path(_test_combinations_comm(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7367c7017a0fecd"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify._test_combinations_comm","kind":"function","src_hash":"935a60ec867ced14","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(allcombinations((1, 2, 3), (a, b), None)) == {(((1,), (2, 3)), ('a', 'b')), (((2,), (3, 1)), ('a', 'b')), (((3,), (1, 2)), ('a', 'b')), (((1, 2), (3,)), ('a', 'b')), (((2, 3), (1,)), ('a', 'b')), (((3, 1), (2,)), ('a', 'b'))}"},"spec":{"lhs":"_test_combinations_comm()","rhs":"set(allcombinations((1, 2, 3), (a, b), None)) == {(((1,), (2, 3)), ('a', 'b')), (((2,), (3, 1)), ('a', 'b')), (((3,), (1, 2)), ('a', 'b')), (((1, 2), (3,)), ('a', 'b')), (((2, 3), (1,)), ('a', 'b')), (((3, 1), (2,)), ('a', 'b'))}","over":{"base":"Any"},"name":"_test_combinations_comm_correct"},"guarantee":"set(allcombinations((1, 2, 3), (a, b), None)) == {(((1,), (2, 3)), ('a', 'b')), (((2,), (3, 1)), ('a', 'b')), (((3,), (1, 2)), ('a', 'b')), (((1, 2), (3,)), ('a', 'b')), (((2, 3), (1,)), ('a', 'b')), (((3, 1), (2,)), ('a', 'b'))}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify._test_combinations_comm_correct","statement":"Path(_test_combinations_comm(x), set(allcombinations((1, 2, 3), (a, b), None)) == {(((1,), (2, 3)), ('a', 'b')), (((2,), (3, 1)), ('a', 'b')), (((3,), (1, 2)), ('a', 'b')), (((1, 2), (3,)), ('a', 'b')), (((2, 3), (1,)), ('a', 'b')), (((3, 1), (2,)), ('a', 'b'))})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38b5a661dbb37c54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(allcombinations((1, 2, 3), (a, b), None)) == {(((1,), (2, 3)), ('a', 'b')), (((2,), (3, 1)), ('a', 'b')), (((3,), (1, 2)), ('a', 'b')), (((1, 2), (3,)), ('a', 'b')), (((2, 3), (1,)), ('a', 'b')), (((3, 1), (2,)), ('a', 'b'))}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _test_combinations_comm():
     assert set(allcombinations((1,2,3), (a,b), None)) == \
         {(((1,), (2, 3)), ('a', 'b')), (((2,), (3, 1)), ('a', 'b')),
@@ -175,32 +235,45 @@ def _test_combinations_comm():
              (((2, 3), (1,)), ('a', 'b')), (((3, 1), (2,)), ('a', 'b'))}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_allcombinations(), test_allcombinations produces the expected output) over Any ║
+# ║ Path(test_allcombinations(), set(allcombinations((1, 2), (1, 2), 'commutative')) == {(((1,), (2,)), ((1,), (2,))), (((1,), (2,)), ((2,), (1,)))}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_allcombinations : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(allcombinations((1, 2), (1, 2), 'comm...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_allcombinations : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bba32b735aa6f424  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccbd1500aa4c96ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_allcombinations","kind":"function","src_hash":"8ab96faa8fc6dc79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_allcombinations()","rhs":"test_allcombinations produces the expected output","over":{"base":"Any"},"name":"test_allcombinations_correct"},"guarantee":"test_allcombinations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_allcombinations_correct","statement":"Path(test_allcombinations(x), test_allcombinations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bba32b735aa6f424"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_allcombinations","kind":"function","src_hash":"8ab96faa8fc6dc79","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(allcombinations((1, 2), (1, 2), 'commutative')) == {(((1,), (2,)), ((1,), (2,))), (((1,), (2,)), ((2,), (1,)))}"},"spec":{"lhs":"test_allcombinations()","rhs":"set(allcombinations((1, 2), (1, 2), 'commutative')) == {(((1,), (2,)), ((1,), (2,))), (((1,), (2,)), ((2,), (1,)))}","over":{"base":"Any"},"name":"test_allcombinations_correct"},"guarantee":"set(allcombinations((1, 2), (1, 2), 'commutative')) == {(((1,), (2,)), ((1,), (2,))), (((1,), (2,)), ((2,), (1,)))}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_allcombinations_correct","statement":"Path(test_allcombinations(x), set(allcombinations((1, 2), (1, 2), 'commutative')) == {(((1,), (2,)), ((1,), (2,))), (((1,), (2,)), ((2,), (1,)))})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccbd1500aa4c96ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(allcombinations((1, 2), (1, 2), 'commutative')) == {(((1,), (2,)), ((1,), (2,))), (((1,), (2,)), ((2,), (1,)))}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_allcombinations():
     assert set(allcombinations((1,2), (1,2), 'commutative')) ==\
         {(((1,),(2,)), ((1,),(2,))), (((1,),(2,)), ((2,),(1,)))}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_commutativity(), test_commutativity produces the expected output) over Any ║
+# ║ Path(test_commutativity(), is_commutative(c1) and is_commutative(c2) and len(list(unify(c1, c2, {}))) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_commutativity : Any → {Any | is_commutative(c1) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_commutative(c1) and is_commutative(c2)      ║
+# ║   ensures:  len(list(unify(c1, c2, {}))) == 2              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_commutativity : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d008b0d22441948e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9cacb9ae6125ba2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_commutativity","kind":"function","src_hash":"b6eb704a5a5c5d20","in":{"base":"Any"},"out":{"base":"Any","pred":"is_commutative(c1) and is_commutative(c2) and len(list(unify(c1, c2, {}))) == 2"},"spec":{"lhs":"test_commutativity()","rhs":"test_commutativity produces the expected output","over":{"base":"Any"},"name":"test_commutativity_correct"},"guarantee":"test_commutativity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_commutativity_correct","statement":"Path(test_commutativity(x), test_commutativity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d008b0d22441948e"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_commutativity","kind":"function","src_hash":"b6eb704a5a5c5d20","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_commutative(c1) and is_commutative(c2) and len(list(unify(c1, c2, {}))) == 2"},"spec":{"lhs":"test_commutativity()","rhs":"is_commutative(c1) and is_commutative(c2) and len(list(unify(c1, c2, {}))) == 2","over":{"base":"Any"},"name":"test_commutativity_correct"},"guarantee":"is_commutative(c1) and is_commutative(c2); len(list(unify(c1, c2, {}))) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_commutativity_correct","statement":"Path(test_commutativity(x), is_commutative(c1) and is_commutative(c2); len(list(unify(c1, c2, {}))) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9cacb9ae6125ba2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_commutative(c1) and is_commutative(c2)","len(list(unify(c1, c2, {}))) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_commutativity():
     c1 = Compound('CAdd', (a, b))
     c2 = Compound('CAdd', (x, y))
@@ -209,16 +282,23 @@ def test_commutativity():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CondVariable(), test_CondVariable produces the expected output) over Any ║
+# ║ Path(test_CondVariable(), list(unify(expr, pattern, {})) == [{x: 1, y: 2}] and list(unify(expr, pattern, {})) == []) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CondVariable : Any → {Any | list(unify(expr, pat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(unify(expr, pattern, {})) == [{x: 1,...   ║
+# ║   ensures:  list(unify(expr, pattern, {})) == []           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CondVariable : Any → {Any | result satisfies: li...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 535f9ecacc1f9fac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11b568e23378e25b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_CondVariable","kind":"function","src_hash":"f28124602ed84ce4","in":{"base":"Any"},"out":{"base":"Any","pred":"list(unify(expr, pattern, {})) == [{x: 1, y: 2}] and list(unify(expr, pattern, {})) == []"},"spec":{"lhs":"test_CondVariable()","rhs":"test_CondVariable produces the expected output","over":{"base":"Any"},"name":"test_CondVariable_correct"},"guarantee":"test_CondVariable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_CondVariable_correct","statement":"Path(test_CondVariable(x), test_CondVariable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"535f9ecacc1f9fac"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_CondVariable","kind":"function","src_hash":"f28124602ed84ce4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(unify(expr, pattern, {})) == [{x: 1, y: 2}] and list(unify(expr, pattern, {})) == []"},"spec":{"lhs":"test_CondVariable()","rhs":"list(unify(expr, pattern, {})) == [{x: 1, y: 2}] and list(unify(expr, pattern, {})) == []","over":{"base":"Any"},"name":"test_CondVariable_correct"},"guarantee":"list(unify(expr, pattern, {})) == [{x: 1, y: 2}]; list(unify(expr, pattern, {})) == []","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_CondVariable_correct","statement":"Path(test_CondVariable(x), list(unify(expr, pattern, {})) == [{x: 1, y: 2}]; list(unify(expr, pattern, {})) == [])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11b568e23378e25b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(unify(expr, pattern, {})) == [{x: 1, y: 2}]","list(unify(expr, pattern, {})) == []"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_CondVariable():
     expr = C('CAdd', (1, 2))
     x = Variable('x')
@@ -234,15 +314,21 @@ def test_CondVariable():
     assert list(unify(expr, pattern, {})) == []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_defaultdict(), test_defaultdict produces the expected output) over Any ║
+# ║ Path(test_defaultdict(), next(unify(Variable('x'), 'foo')) == {Variable('x'): 'foo'}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_defaultdict : Any → {Any | next(unify(Variable('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  next(unify(Variable('x'), 'foo')) == {Var...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_defaultdict : Any → {Any | result satisfies: nex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e5e961067507105  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34e44af4706ee1da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_defaultdict","kind":"function","src_hash":"654cf8218dddcd7a","in":{"base":"Any"},"out":{"base":"Any","pred":"next(unify(Variable('x'), 'foo')) == {Variable('x'): 'foo'}"},"spec":{"lhs":"test_defaultdict()","rhs":"test_defaultdict produces the expected output","over":{"base":"Any"},"name":"test_defaultdict_correct"},"guarantee":"test_defaultdict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_defaultdict_correct","statement":"Path(test_defaultdict(x), test_defaultdict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e5e961067507105"}
+# @cctt_verify {"v":2,"sym":"sympy.unify.tests.test_unify.test_defaultdict","kind":"function","src_hash":"654cf8218dddcd7a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: next(unify(Variable('x'), 'foo')) == {Variable('x'): 'foo'}"},"spec":{"lhs":"test_defaultdict()","rhs":"next(unify(Variable('x'), 'foo')) == {Variable('x'): 'foo'}","over":{"base":"Any"},"name":"test_defaultdict_correct"},"guarantee":"next(unify(Variable('x'), 'foo')) == {Variable('x'): 'foo'}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.unify.tests.test_unify.test_defaultdict_correct","statement":"Path(test_defaultdict(x), next(unify(Variable('x'), 'foo')) == {Variable('x'): 'foo'})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34e44af4706ee1da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["next(unify(Variable('x'), 'foo')) == {Variable('x'): 'foo'}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_defaultdict():
     assert next(unify(Variable('x'), 'foo')) == {Variable('x'): 'foo'}

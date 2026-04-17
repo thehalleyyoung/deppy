@@ -152,7 +152,13 @@ timeit = timethis('gruntz')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(compare(a, ), returns "<" if a<b, "=" for a == b, ">" for a>b) over {Any | isinstance(a, Basic) and isinstance(a, exp)} ║
+# ║ Path(compare(a, b, x), <unspecified:compare>) over {Any | isinstance(a, Basic) and isinstance(a, exp) and hasattr(a, 'exp') and hasattr(b, 'exp') and hasattr(a, 'is_Pow') and hasattr(b, 'is_Pow') and hasattr(a, 'base') and hasattr(b, 'base')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'exp')                              ║
+# ║   requires: hasattr(b, 'exp')                              ║
+# ║   requires: hasattr(a, 'is_Pow')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ compare : {Any | isinstance(a, Basic) and isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -165,9 +171,12 @@ timeit = timethis('gruntz')
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 85ff99b1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.compare","kind":"function","src_hash":"58a11736037eebad","in":{"base":"Any","pred":"isinstance(a, Basic) and isinstance(a, exp)"},"out":{"base":"Any"},"spec":{"lhs":"compare(a, )","rhs":"returns \"<\" if a<b, \"=\" for a == b, \">\" for a>b","over":{"base":"Any","pred":"isinstance(a, Basic) and isinstance(a, exp)"},"name":"compare_correct"},"guarantee":"returns \"<\" if a<b, \"=\" for a == b, \">\" for a>b","fibers":[{"name":"Basic","pred":"isinstance(a, Basic)","path":{"lhs":"compare(x)","rhs":"returns \"<\" if a<b, \"=\" for a == b, \">\" for a>b","over":{"base":"Basic","pred":"isinstance(a, Basic)"},"name":"compare_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.compare_Basic_correct","statement":"compare satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(a, exp)","path":{"lhs":"compare(x)","rhs":"returns \"<\" if a<b, \"=\" for a == b, \">\" for a>b","over":{"base":"exp","pred":"isinstance(a, exp)"},"name":"compare_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.compare_exp_correct","statement":"compare satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"85ff99b1bef4fef2"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.compare","kind":"function","src_hash":"58a11736037eebad","in":{"base":"Any","pred":"isinstance(a, Basic) and isinstance(a, exp) and hasattr(a, 'exp') and hasattr(b, 'exp') and hasattr(a, 'is_Pow') and hasattr(b, 'is_Pow') and hasattr(a, 'base') and hasattr(b, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"compare(a, b, x)","rhs":"<unspecified:compare>","over":{"base":"Any","pred":"isinstance(a, Basic) and isinstance(a, exp) and hasattr(a, 'exp') and hasattr(b, 'exp') and hasattr(a, 'is_Pow') and hasattr(b, 'is_Pow') and hasattr(a, 'base') and hasattr(b, 'base')"},"name":"compare_correct"},"guarantee":"returns \"<\" if a<b, \"=\" for a == b, \">\" for a>b","fibers":[{"name":"Basic","pred":"isinstance(a, Basic)","path":{"lhs":"compare(x)","rhs":"returns \"<\" if a<b, \"=\" for a == b, \">\" for a>b","over":{"base":"Basic","pred":"isinstance(a, Basic)"},"name":"compare_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.compare_Basic_correct","statement":"compare satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(a, exp)","path":{"lhs":"compare(x)","rhs":"returns \"<\" if a<b, \"=\" for a == b, \">\" for a>b","over":{"base":"exp","pred":"isinstance(a, exp)"},"name":"compare_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.compare_exp_correct","statement":"compare satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"85ff99b1bef4fef2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'exp')","hasattr(b, 'exp')","hasattr(a, 'is_Pow')","hasattr(b, 'is_Pow')","hasattr(a, 'base')","hasattr(b, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.base","a.exp","a.is_Pow","b.base","b.exp","b.is_Pow"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(a, Basic) and (isinstance(a, exp) or (a.is_Pow and a.base == S.Exp1))', 'isinstance(b, Basic) and (isinstance(b, exp) or (b.is_Pow and b.base == S.Exp1))', 'c == 0'}, fibers={'exp', 'Basic'})"]}}
 def compare(a, b, x):
     """Returns "<" if a<b, "=" for a == b, ">" for a>b"""
     # log(exp(...)) must always be simplified here for termination
@@ -189,14 +198,20 @@ def compare(a, b, x):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SubsSet instance) preserved by SubsSet(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SubsSet : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, dict)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SubsSet : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 080eb6d255484891  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet","kind":"class","src_hash":"075794f5332e6271","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SubsSet(*args)","rhs":"correctly constructs a SubsSet instance","over":{"base":"Any"},"name":"SubsSet_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SubsSet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'rewrites')","kind":"class","induction":"structural on rewrites"}],"methods_preserving":["__init__","__repr__","__getitem__","do_subs","meets","union","copy"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"080eb6d255484891"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet","kind":"class","src_hash":"075794f5332e6271","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, dict)"},"spec":{"lhs":"SubsSet(*args)","rhs":"correctly constructs a SubsSet instance","over":{"base":"Any"},"name":"SubsSet_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, dict); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'rewrites')","kind":"class","induction":"structural on rewrites"}],"methods_preserving":["__init__","__repr__","__getitem__","do_subs","meets","union","copy"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"080eb6d255484891","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, dict)"],"invariants":["hasattr(self, 'rewrites')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function SubsSet not found in source"]}}
 class SubsSet(dict):
     """
     Stores (expr, dummy) pairs, and how to rewrite expr-s.
@@ -245,60 +260,86 @@ class SubsSet(dict):
         exp(-w)/w + 1/w + x.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 94ad4bb048e43ac8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.__init__","kind":"method","src_hash":"4ef8c7ec95d15ec0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94ad4bb048e43ac8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.__init__","kind":"method","src_hash":"4ef8c7ec95d15ec0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94ad4bb048e43ac8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         self.rewrites = {}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), super().__repr__() + ', ' + self.rewrites.__repr__()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().__repr__() + ', ' + self.rewrites...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4601f853b586213e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.__repr__","kind":"method","src_hash":"7c74d11efaba64ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4601f853b586213e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.__repr__","kind":"method","src_hash":"7c74d11efaba64ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"super().__repr__() + ', ' + self.rewrites.__repr__()","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns super().__repr__() + ', ' + self.rewrites.__repr__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4601f853b586213e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().__repr__() + ', ' + self.rewrites.__repr__()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrites"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return super().__repr__() + ', ' + self.rewrites.__repr__()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(key), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(key), dict.__getitem__(self, key)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  dict.__getitem__(self, key)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 25292ae7e9a3ae8e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.__getitem__","kind":"method","src_hash":"04a7475689a30893","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25292ae7e9a3ae8e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.__getitem__","kind":"method","src_hash":"04a7475689a30893","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"dict.__getitem__(self, key)","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns dict.__getitem__(self, key)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"25292ae7e9a3ae8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"dict.__getitem__(self, key)","pure":false,"effects":{"effect_type":"mutates_self","writes":["self[*]"]},"state_contract":{"modifies":["self[*]"],"old_bindings":{"old_self_star":"self[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, key):
         if key not in self:
             self[key] = Dummy()
         return dict.__getitem__(self, key)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(do_subs(e), substitute the variables with expressions) over Any ║
+# ║ Path(do_subs(e), e) over {Any | hasattr(e, 'xreplace')}    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ do_subs : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'xreplace')                         ║
+# ║   ensures:  result == e                                    ║
+# ║   returns:  e                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ do_subs : {Any | hasattr(e, 'xreplace')} → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e01a2bd9ae949b7c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d14dbc7472d90ffb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.do_subs","kind":"method","src_hash":"8a5f1872eda72662","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"do_subs(e)","rhs":"substitute the variables with expressions","over":{"base":"Any"},"name":"do_subs_correct"},"guarantee":"substitute the variables with expressions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.SubsSet.do_subs_correct","statement":"Path(do_subs(x), substitute the variables with expressions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e01a2bd9ae949b7c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.do_subs","kind":"method","src_hash":"8a5f1872eda72662","in":{"base":"Any","pred":"hasattr(e, 'xreplace')"},"out":{"base":"Any","pred":"result satisfies: result == (e)"},"spec":{"lhs":"do_subs(e)","rhs":"e","over":{"base":"Any","pred":"hasattr(e, 'xreplace')"},"name":"do_subs_correct"},"guarantee":"returns e; result == e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.SubsSet.do_subs_correct","statement":"Path(do_subs(x), returns e; result == e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d14dbc7472d90ffb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'xreplace')"],"ensures":["result == e"],"returns_expr":"e","pure":false,"effects":{"effect_type":"reads_state","reads":["e.xreplace","self.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def do_subs(self, e):
         """Substitute the variables with expressions"""
         for expr, var in self.items():
@@ -306,31 +347,47 @@ class SubsSet(dict):
         return e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(meets(s2), tell whether or not self and s2 have non-empty intersection) over Any ║
+# ║ Path(meets(s2), set(self.keys()).intersection(list(s2.keys())) != set()) over {Any | hasattr(s2, 'keys')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ meets : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s2, 'keys')                            ║
+# ║   returns:  set(self.keys()).intersection(list(s2.key...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ meets : {Any | hasattr(s2, 'keys')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 27e2e949178cecaf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.meets","kind":"method","src_hash":"c20f5279d79f0f3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"meets(s2)","rhs":"tell whether or not self and s2 have non-empty intersection","over":{"base":"Any"},"name":"meets_correct"},"guarantee":"tell whether or not self and s2 have non-empty intersection","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27e2e949178cecaf"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.meets","kind":"method","src_hash":"c20f5279d79f0f3a","in":{"base":"Any","pred":"hasattr(s2, 'keys')"},"out":{"base":"Any"},"spec":{"lhs":"meets(s2)","rhs":"set(self.keys()).intersection(list(s2.keys())) != set()","over":{"base":"Any","pred":"hasattr(s2, 'keys')"},"name":"meets_correct"},"guarantee":"returns set(self.keys()).intersection(list(s2.keys())) != set()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27e2e949178cecaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s2, 'keys')"],"returns_expr":"set(self.keys()).intersection(list(s2.keys())) != set()","pure":false,"effects":{"effect_type":"reads_state","reads":["s2.keys","self.keys"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def meets(self, s2):
         """Tell whether or not self and s2 have non-empty intersection"""
         return set(self.keys()).intersection(list(s2.keys())) != set()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(union(s2,), compute the union of self and s2, adjusting exps) over Any ║
+# ║ Path(union(s2, exps), (res, exps)) over {Any | hasattr(s2, 'items') and hasattr(s2, 'rewrites') and hasattr(exps, 'xreplace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ union : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(s2, 'items')                           ║
+# ║   requires: hasattr(s2, 'rewrites')                        ║
+# ║   requires: hasattr(exps, 'xreplace')                      ║
+# ║   returns:  (res, exps)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ union : {Any | hasattr(s2, 'items') and hasattr(s2, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 042b150413a8835c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9b009db650ccd6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.union","kind":"method","src_hash":"e1d2bba23cbb2e77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"union(s2,)","rhs":"compute the union of self and s2, adjusting exps","over":{"base":"Any"},"name":"union_correct"},"guarantee":"compute the union of self and s2, adjusting exps","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.SubsSet.union_correct","statement":"Path(union(x), compute the union of self and s2, adjusting exps)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"042b150413a8835c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.union","kind":"method","src_hash":"e1d2bba23cbb2e77","in":{"base":"Any","pred":"hasattr(s2, 'items') and hasattr(s2, 'rewrites') and hasattr(exps, 'xreplace')"},"out":{"base":"Any"},"spec":{"lhs":"union(s2, exps)","rhs":"(res, exps)","over":{"base":"Any","pred":"hasattr(s2, 'items') and hasattr(s2, 'rewrites') and hasattr(exps, 'xreplace')"},"name":"union_correct"},"guarantee":"returns (res, exps)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.SubsSet.union_correct","statement":"Path(union(x), returns (res, exps))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9b009db650ccd6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(s2, 'items')","hasattr(s2, 'rewrites')","hasattr(exps, 'xreplace')"],"returns_expr":"(res, exps)","pure":false,"effects":{"effect_type":"reads_state","reads":["exps.xreplace","s2.items","s2.rewrites","self.copy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def union(self, s2, exps=None):
         """Compute the union of self and s2, adjusting exps"""
         res = self.copy()
@@ -347,16 +404,22 @@ class SubsSet(dict):
         return res, exps
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(copy(), create a shallow copy of subsset) over Any    ║
+# ║ Path(copy(), <unspecified:copy>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ copy : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2020c88e6eb7126d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.copy","kind":"method","src_hash":"a3b80111784f7232","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"create a shallow copy of subsset","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"create a shallow copy of subsset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.SubsSet.copy_correct","statement":"Path(copy(x), create a shallow copy of subsset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2020c88e6eb7126d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.SubsSet.copy","kind":"method","src_hash":"a3b80111784f7232","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"copy()","rhs":"<unspecified:copy>","over":{"base":"Any"},"name":"copy_correct"},"guarantee":"create a shallow copy of subsset","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.SubsSet.copy_correct","statement":"Path(copy(x), create a shallow copy of subsset)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2020c88e6eb7126d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.items","self.rewrites"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def copy(self):
         """Create a shallow copy of SubsSet"""
         r = SubsSet()
@@ -368,7 +431,13 @@ class SubsSet(dict):
 
 @debug
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mrv(e, ), returns a subsset of most rapidly varying (mrv) subexpressions of 'e', and e rewritten in terms of these) over {Any | isinstance(e, Basic) and isinstance(e, log) and isinstance(e, exp)} ║
+# ║ Path(mrv(e, x), # HINT: mrv may be idempotent: mrv(mrv(x)) == mrv(x)) over {Any | isinstance(e, Basic) and isinstance(e, log) and isinstance(e, exp) and isinstance(e, Basic) and hasattr(e, 'has') and hasattr(e, 'is_Mul') and hasattr(e, 'is_Add') and hasattr(e, 'as_independent') and hasattr(e, 'func') and hasattr(e, 'is_Pow') and hasattr(e, 'base') and hasattr(e, 'exp') and hasattr(e, 'args') and hasattr(e, 'is_Function') and hasattr(e, 'is_Derivative')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(e, Basic)                           ║
+# ║   requires: hasattr(e, 'has')                              ║
+# ║   requires: hasattr(e, 'is_Mul')                           ║
+# ║   ensures:  # HINT: mrv may be idempotent: mrv(mrv(x)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mrv : {Any | isinstance(e, Basic) and isinstance(e, l...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -383,9 +452,12 @@ class SubsSet(dict):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c2f406e0...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.mrv","kind":"function","src_hash":"c82026429ce9d952","in":{"base":"Any","pred":"isinstance(e, Basic) and isinstance(e, log) and isinstance(e, exp)"},"out":{"base":"Any"},"spec":{"lhs":"mrv(e, )","rhs":"returns a subsset of most rapidly varying (mrv) subexpressions of 'e', and e rewritten in terms of these","over":{"base":"Any","pred":"isinstance(e, Basic) and isinstance(e, log) and isinstance(e, exp)"},"name":"mrv_correct"},"guarantee":"returns a subsset of most rapidly varying (mrv) subexpressions of 'e', and e rewritten in terms of these","fibers":[{"name":"Basic","pred":"isinstance(e, Basic)","path":{"lhs":"mrv(x)","rhs":"returns a subsset of most rapidly varying (mrv) subexpressions of 'e', and e rewritten in terms of these","over":{"base":"Basic","pred":"isinstance(e, Basic)"},"name":"mrv_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.mrv_Basic_correct","statement":"mrv satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"log","pred":"isinstance(e, log)","path":{"lhs":"mrv(x)","rhs":"returns a subsset of most rapidly varying (mrv) subexpressions of 'e', and e rewritten in terms of these","over":{"base":"log","pred":"isinstance(e, log)"},"name":"mrv_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.mrv_log_correct","statement":"mrv satisfies spec on log inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(e, exp)","path":{"lhs":"mrv(x)","rhs":"returns a subsset of most rapidly varying (mrv) subexpressions of 'e', and e rewritten in terms of these","over":{"base":"exp","pred":"isinstance(e, exp)"},"name":"mrv_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.mrv_exp_correct","statement":"mrv satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"AppliedUndef","pred":"isinstance(e, AppliedUndef)","path":{"lhs":"mrv(x)","rhs":"returns a subsset of most rapidly varying (mrv) subexpressions of 'e', and e rewritten in terms of these","over":{"base":"AppliedUndef","pred":"isinstance(e, AppliedUndef)"},"name":"mrv_AppliedUndef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.mrv_AppliedUndef_correct","statement":"mrv satisfies spec on AppliedUndef inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c2f406e09843f206"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.mrv","kind":"function","src_hash":"c82026429ce9d952","in":{"base":"Any","pred":"isinstance(e, Basic) and isinstance(e, log) and isinstance(e, exp) and isinstance(e, Basic) and hasattr(e, 'has') and hasattr(e, 'is_Mul') and hasattr(e, 'is_Add') and hasattr(e, 'as_independent') and hasattr(e, 'func') and hasattr(e, 'is_Pow') and hasattr(e, 'base') and hasattr(e, 'exp') and hasattr(e, 'args') and hasattr(e, 'is_Function') and hasattr(e, 'is_Derivative')"},"out":{"base":"Any","pred":"result satisfies: # HINT: mrv may be idempotent: mrv(mrv(x)) == mrv(x)"},"spec":{"lhs":"mrv(e, x)","rhs":"# HINT: mrv may be idempotent: mrv(mrv(x)) == mrv(x)","over":{"base":"Any","pred":"isinstance(e, Basic) and isinstance(e, log) and isinstance(e, exp) and isinstance(e, Basic) and hasattr(e, 'has') and hasattr(e, 'is_Mul') and hasattr(e, 'is_Add') and hasattr(e, 'as_independent') and hasattr(e, 'func') and hasattr(e, 'is_Pow') and hasattr(e, 'base') and hasattr(e, 'exp') and hasattr(e, 'args') and hasattr(e, 'is_Function') and hasattr(e, 'is_Derivative')"},"name":"mrv_correct"},"guarantee":"# HINT: mrv may be idempotent: mrv(mrv(x)) == mrv(x)","fibers":[{"name":"Basic","pred":"isinstance(e, Basic)","path":{"lhs":"mrv(x)","rhs":"# HINT: mrv may be idempotent: mrv(mrv(x)) == mrv(x)","over":{"base":"Basic","pred":"isinstance(e, Basic)"},"name":"mrv_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.mrv_Basic_correct","statement":"mrv satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"log","pred":"isinstance(e, log)","path":{"lhs":"mrv(x)","rhs":"# HINT: mrv may be idempotent: mrv(mrv(x)) == mrv(x)","over":{"base":"log","pred":"isinstance(e, log)"},"name":"mrv_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.mrv_log_correct","statement":"mrv satisfies spec on log inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(e, exp)","path":{"lhs":"mrv(x)","rhs":"# HINT: mrv may be idempotent: mrv(mrv(x)) == mrv(x)","over":{"base":"exp","pred":"isinstance(e, exp)"},"name":"mrv_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.mrv_exp_correct","statement":"mrv satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"AppliedUndef","pred":"isinstance(e, AppliedUndef)","path":{"lhs":"mrv(x)","rhs":"# HINT: mrv may be idempotent: mrv(mrv(x)) == mrv(x)","over":{"base":"AppliedUndef","pred":"isinstance(e, AppliedUndef)"},"name":"mrv_AppliedUndef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.mrv_AppliedUndef_correct","statement":"mrv satisfies spec on AppliedUndef inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c2f406e09843f206","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(e, Basic)","hasattr(e, 'has')","hasattr(e, 'is_Mul')","hasattr(e, 'is_Add')","hasattr(e, 'as_independent')","hasattr(e, 'func')","hasattr(e, 'is_Pow')","hasattr(e, 'base')","hasattr(e, 'exp')","hasattr(e, 'args')","hasattr(e, 'is_Function')","hasattr(e, 'is_Derivative')"],"ensures":["# HINT: mrv may be idempotent: mrv(mrv(x)) == mrv(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.as_independent","e.base","e.exp","e.func","e.has","e.is_Add","e.is_Derivative","e.is_Function","e.is_Mul","e.is_Pow"],"raises":["NotImplementedError","TypeError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(e, Basic)', 'isinstance(e, log)', 'isinstance(e, exp) or (e.is_Pow and e.base == S.Exp1)', 'e == x', 'b1 == 1', 'd.func != e.func', 'isinstance(e, AppliedUndef)', 'isinstance(e.exp, log)', 'len(l2) != 1', 'e.is_Pow and e.base != S.Exp1'}, fibers={'exp', 'log', 'Basic', 'AppliedUndef'})"]}}
 def mrv(e, x):
     """Returns a SubsSet of most rapidly varying (mrv) subexpressions of 'e',
        and e rewritten in terms of these"""
@@ -462,9 +534,15 @@ def mrv(e, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mrv_max3(f, ), computes the maximum of two sets of expressions f and g, which are in the same comparability class, i.e) over {Any | isinstance(f, SubsSet)} ║
+# ║ Path(mrv_max3(f, expsf, g), <unspecified:mrv_max3>) over {Any | isinstance(f, SubsSet) and isinstance(f, SubsSet) and isinstance(g, SubsSet) and hasattr(f, 'meets') and hasattr(f, 'keys') and hasattr(g, 'keys')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mrv_max3 : {Any | isinstance(f, SubsSet)} → Any            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(f, SubsSet)                         ║
+# ║   requires: isinstance(g, SubsSet)                         ║
+# ║   requires: hasattr(f, 'meets')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mrv_max3 : {Any | isinstance(f, SubsSet) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   SubsSet: {isinstance(f, SubsSet)} → library_axiom        ║
@@ -474,9 +552,12 @@ def mrv(e, x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5091d3ce...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.mrv_max3","kind":"function","src_hash":"01bb4a2c87771231","in":{"base":"Any","pred":"isinstance(f, SubsSet)"},"out":{"base":"Any"},"spec":{"lhs":"mrv_max3(f, )","rhs":"computes the maximum of two sets of expressions f and g, which are in the same comparability class, i.e","over":{"base":"Any","pred":"isinstance(f, SubsSet)"},"name":"mrv_max3_correct"},"guarantee":"computes the maximum of two sets of expressions f and g, which are in the same comparability class, i.e","fibers":[{"name":"SubsSet","pred":"isinstance(f, SubsSet)","path":{"lhs":"mrv_max3(x)","rhs":"computes the maximum of two sets of expressions f and g, which are in the same comparability class, i.e","over":{"base":"SubsSet","pred":"isinstance(f, SubsSet)"},"name":"mrv_max3_SubsSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.mrv_max3_SubsSet_correct","statement":"mrv_max3 satisfies spec on SubsSet inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5091d3cea21d08af"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.mrv_max3","kind":"function","src_hash":"01bb4a2c87771231","in":{"base":"Any","pred":"isinstance(f, SubsSet) and isinstance(f, SubsSet) and isinstance(g, SubsSet) and hasattr(f, 'meets') and hasattr(f, 'keys') and hasattr(g, 'keys')"},"out":{"base":"Any"},"spec":{"lhs":"mrv_max3(f, expsf, g)","rhs":"<unspecified:mrv_max3>","over":{"base":"Any","pred":"isinstance(f, SubsSet) and isinstance(f, SubsSet) and isinstance(g, SubsSet) and hasattr(f, 'meets') and hasattr(f, 'keys') and hasattr(g, 'keys')"},"name":"mrv_max3_correct"},"guarantee":"computes the maximum of two sets of expressions f and g, which are in the same comparability class, i.e","fibers":[{"name":"SubsSet","pred":"isinstance(f, SubsSet)","path":{"lhs":"mrv_max3(x)","rhs":"computes the maximum of two sets of expressions f and g, which are in the same comparability class, i.e","over":{"base":"SubsSet","pred":"isinstance(f, SubsSet)"},"name":"mrv_max3_SubsSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.mrv_max3_SubsSet_correct","statement":"mrv_max3 satisfies spec on SubsSet inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5091d3cea21d08af","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(f, SubsSet)","isinstance(g, SubsSet)","hasattr(f, 'meets')","hasattr(f, 'keys')","hasattr(g, 'keys')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.keys","f.meets","g.keys"],"raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'g == SubsSet()', 'not isinstance(f, SubsSet)', \"c == '<'\", 'f == SubsSet()', \"c == '>'\", \"c != '='\", 'not isinstance(g, SubsSet)'}, fibers={'SubsSet'})"]}}
 def mrv_max3(f, expsf, g, expsg, union, expsboth, x):
     """
     Computes the maximum of two sets of expressions f and g, which
@@ -507,16 +588,25 @@ def mrv_max3(f, expsf, g, expsg, union, expsboth, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mrv_max1(f, ), id) over Any                           ║
+# ║ Path(mrv_max1(f, g, exps), id) over {Any | hasattr(f, 'union') and hasattr(g, 'do_subs') and hasattr(f, 'do_subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mrv_max1 : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(f, 'union')                            ║
+# ║   requires: hasattr(g, 'do_subs')                          ║
+# ║   requires: hasattr(f, 'do_subs')                          ║
+# ║   returns:  mrv_max3(f, g.do_subs(exps), g, f.do_subs...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mrv_max1 : {Any | hasattr(f, 'union') and hasattr(g, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 75a210de5b286998   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.mrv_max1","kind":"function","src_hash":"adaa6960a7ace7d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mrv_max1(f, )","rhs":"computes the maximum of two sets of expressions f and g, which are in the same comparability class, i.e","over":{"base":"Any"},"name":"mrv_max1_correct","kind":"composition"},"guarantee":"computes the maximum of two sets of expressions f and g, which are in the same comparability class, i.e","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"mrv_max3","by":"library_axiom"},{"fn":"do_subs","by":"library_axiom"},{"fn":"do_subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75a210de5b286998"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.mrv_max1","kind":"function","src_hash":"adaa6960a7ace7d4","in":{"base":"Any","pred":"hasattr(f, 'union') and hasattr(g, 'do_subs') and hasattr(f, 'do_subs')"},"out":{"base":"Any"},"spec":{"lhs":"mrv_max1(f, g, exps)","rhs":"mrv_max3(f, g.do_subs(exps), g, f.do_subs(exps), u, b, x)","over":{"base":"Any","pred":"hasattr(f, 'union') and hasattr(g, 'do_subs') and hasattr(f, 'do_subs')"},"name":"mrv_max1_correct","kind":"composition"},"guarantee":"returns mrv_max3(f, g.do_subs(exps), g, f.do_subs(exps), u, b, x)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"mrv_max3","by":"library_axiom"},{"fn":"do_subs","by":"library_axiom"},{"fn":"do_subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75a210de5b286998","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(f, 'union')","hasattr(g, 'do_subs')","hasattr(f, 'do_subs')"],"returns_expr":"mrv_max3(f, g.do_subs(exps), g, f.do_subs(exps), u, b, x)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.do_subs","f.union","g.do_subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def mrv_max1(f, g, exps, x):
     """Computes the maximum of two sets of expressions f and g, which
     are in the same comparability class, i.e. mrv_max1() compares (two elements of)
@@ -533,7 +623,13 @@ def mrv_max1(f, g, exps, x):
 @cacheit
 @timeit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sign(e, ), returns a sign of an expression e(x) for x->oo) over {Any | isinstance(e, Basic) and isinstance(e, exp) and isinstance(e, log)} ║
+# ║ Path(sign(e, x), # HINT: sign may be idempotent: sign(sign(x)) == sign(x)) over {Any | isinstance(e, Basic) and isinstance(e, exp) and isinstance(e, log) and isinstance(e, Basic) and hasattr(e, 'is_positive') and hasattr(e, 'is_negative') and hasattr(e, 'is_zero') and hasattr(e, 'has') and hasattr(e, 'is_Mul') and hasattr(e, 'as_two_terms') and hasattr(e, 'is_Pow') and hasattr(e, 'base') and hasattr(e, 'exp') and hasattr(e, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(e, Basic)                           ║
+# ║   requires: hasattr(e, 'is_positive')                      ║
+# ║   requires: hasattr(e, 'is_negative')                      ║
+# ║   ensures:  # HINT: sign may be idempotent: sign(sign...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ sign : {Any | isinstance(e, Basic) and isinstance(e, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -547,9 +643,12 @@ def mrv_max1(f, g, exps, x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?3 ✗1 VCs | 2.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 06d58fc6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.sign","kind":"function","src_hash":"f768eaa3e98eabd8","in":{"base":"Any","pred":"isinstance(e, Basic) and isinstance(e, exp) and isinstance(e, log)"},"out":{"base":"Any"},"spec":{"lhs":"sign(e, )","rhs":"returns a sign of an expression e(x) for x->oo","over":{"base":"Any","pred":"isinstance(e, Basic) and isinstance(e, exp) and isinstance(e, log)"},"name":"sign_correct"},"guarantee":"returns a sign of an expression e(x) for x->oo","fibers":[{"name":"Basic","pred":"isinstance(e, Basic)","path":{"lhs":"sign(x)","rhs":"returns a sign of an expression e(x) for x->oo","over":{"base":"Basic","pred":"isinstance(e, Basic)"},"name":"sign_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.sign_Basic_correct","statement":"sign satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(e, exp)","path":{"lhs":"sign(x)","rhs":"returns a sign of an expression e(x) for x->oo","over":{"base":"exp","pred":"isinstance(e, exp)"},"name":"sign_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.sign_exp_correct","statement":"sign satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"log","pred":"isinstance(e, log)","path":{"lhs":"sign(x)","rhs":"returns a sign of an expression e(x) for x->oo","over":{"base":"log","pred":"isinstance(e, log)"},"name":"sign_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.sign_log_correct","statement":"sign satisfies spec on log inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"06d58fc60cb132ec"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.sign","kind":"function","src_hash":"f768eaa3e98eabd8","in":{"base":"Any","pred":"isinstance(e, Basic) and isinstance(e, exp) and isinstance(e, log) and isinstance(e, Basic) and hasattr(e, 'is_positive') and hasattr(e, 'is_negative') and hasattr(e, 'is_zero') and hasattr(e, 'has') and hasattr(e, 'is_Mul') and hasattr(e, 'as_two_terms') and hasattr(e, 'is_Pow') and hasattr(e, 'base') and hasattr(e, 'exp') and hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: sign may be idempotent: sign(sign(x)) == sign(x)"},"spec":{"lhs":"sign(e, x)","rhs":"# HINT: sign may be idempotent: sign(sign(x)) == sign(x)","over":{"base":"Any","pred":"isinstance(e, Basic) and isinstance(e, exp) and isinstance(e, log) and isinstance(e, Basic) and hasattr(e, 'is_positive') and hasattr(e, 'is_negative') and hasattr(e, 'is_zero') and hasattr(e, 'has') and hasattr(e, 'is_Mul') and hasattr(e, 'as_two_terms') and hasattr(e, 'is_Pow') and hasattr(e, 'base') and hasattr(e, 'exp') and hasattr(e, 'args')"},"name":"sign_correct"},"guarantee":"# HINT: sign may be idempotent: sign(sign(x)) == sign(x)","fibers":[{"name":"Basic","pred":"isinstance(e, Basic)","path":{"lhs":"sign(x)","rhs":"# HINT: sign may be idempotent: sign(sign(x)) == sign(x)","over":{"base":"Basic","pred":"isinstance(e, Basic)"},"name":"sign_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.sign_Basic_correct","statement":"sign satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(e, exp)","path":{"lhs":"sign(x)","rhs":"# HINT: sign may be idempotent: sign(sign(x)) == sign(x)","over":{"base":"exp","pred":"isinstance(e, exp)"},"name":"sign_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.sign_exp_correct","statement":"sign satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"log","pred":"isinstance(e, log)","path":{"lhs":"sign(x)","rhs":"# HINT: sign may be idempotent: sign(sign(x)) == sign(x)","over":{"base":"log","pred":"isinstance(e, log)"},"name":"sign_log_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.sign_log_correct","statement":"sign satisfies spec on log inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"06d58fc60cb132ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(e, Basic)","hasattr(e, 'is_positive')","hasattr(e, 'is_negative')","hasattr(e, 'is_zero')","hasattr(e, 'has')","hasattr(e, 'is_Mul')","hasattr(e, 'as_two_terms')","hasattr(e, 'is_Pow')","hasattr(e, 'base')","hasattr(e, 'exp')","hasattr(e, 'args')"],"ensures":["# HINT: sign may be idempotent: sign(sign(x)) == sign(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.as_two_terms","e.base","e.exp","e.has","e.is_Mul","e.is_Pow","e.is_negative","e.is_positive","e.is_zero"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":4,"n_assumed":3,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(e, Basic)', 's == 1', 'isinstance(e, exp)', 'e == x', 'e.base == S.Exp1', 'isinstance(e, log) and e.args[0].is_positive'}, fibers={'exp', 'log', 'Basic'})"]}}
 def sign(e, x):
     """
     Returns a sign of an expression e(x) for x->oo.
@@ -611,9 +710,15 @@ def sign(e, x):
 @timeit
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(limitinf(e, ), limit e(x) for x-> oo) over {Any | isinstance(e, AccumBounds)} ║
+# ║ Path(limitinf(e, x), # HINT: limitinf may be idempotent: limitinf(limitinf(x)) == limitinf(x)) over {Any | isinstance(e, AccumBounds) and hasattr(e, 'has') and hasattr(x, 'is_integer') and hasattr(e, 'rewrite') and hasattr(x, 'is_positive') and hasattr(e, 'subs') and hasattr(e, 'min') and hasattr(e, 'max') and hasattr(e, 'expand')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ limitinf : {Any | isinstance(e, AccumBounds)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'has')                              ║
+# ║   requires: hasattr(x, 'is_integer')                       ║
+# ║   requires: hasattr(e, 'rewrite')                          ║
+# ║   ensures:  # HINT: limitinf may be idempotent: limit...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ limitinf : {Any | isinstance(e, AccumBounds) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   AccumBounds: {isinstance(e, AccumBounds)} → library...   ║
@@ -623,9 +728,12 @@ def sign(e, x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5e987133...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.limitinf","kind":"function","src_hash":"2fafd654ba9ed43b","in":{"base":"Any","pred":"isinstance(e, AccumBounds)"},"out":{"base":"Any"},"spec":{"lhs":"limitinf(e, )","rhs":"limit e(x) for x-> oo","over":{"base":"Any","pred":"isinstance(e, AccumBounds)"},"name":"limitinf_correct"},"guarantee":"limit e(x) for x-> oo","fibers":[{"name":"AccumBounds","pred":"isinstance(e, AccumBounds)","path":{"lhs":"limitinf(x)","rhs":"limit e(x) for x-> oo","over":{"base":"AccumBounds","pred":"isinstance(e, AccumBounds)"},"name":"limitinf_AccumBounds_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.limitinf_AccumBounds_correct","statement":"limitinf satisfies spec on AccumBounds inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5e9871335f475eb8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.limitinf","kind":"function","src_hash":"2fafd654ba9ed43b","in":{"base":"Any","pred":"isinstance(e, AccumBounds) and hasattr(e, 'has') and hasattr(x, 'is_integer') and hasattr(e, 'rewrite') and hasattr(x, 'is_positive') and hasattr(e, 'subs') and hasattr(e, 'min') and hasattr(e, 'max') and hasattr(e, 'expand')"},"out":{"base":"Any","pred":"result satisfies: # HINT: limitinf may be idempotent: limitinf(limitinf(x)) == limitinf(x)"},"spec":{"lhs":"limitinf(e, x)","rhs":"# HINT: limitinf may be idempotent: limitinf(limitinf(x)) == limitinf(x)","over":{"base":"Any","pred":"isinstance(e, AccumBounds) and hasattr(e, 'has') and hasattr(x, 'is_integer') and hasattr(e, 'rewrite') and hasattr(x, 'is_positive') and hasattr(e, 'subs') and hasattr(e, 'min') and hasattr(e, 'max') and hasattr(e, 'expand')"},"name":"limitinf_correct"},"guarantee":"# HINT: limitinf may be idempotent: limitinf(limitinf(x)) == limitinf(x)","fibers":[{"name":"AccumBounds","pred":"isinstance(e, AccumBounds)","path":{"lhs":"limitinf(x)","rhs":"# HINT: limitinf may be idempotent: limitinf(limitinf(x)) == limitinf(x)","over":{"base":"AccumBounds","pred":"isinstance(e, AccumBounds)"},"name":"limitinf_AccumBounds_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.limitinf_AccumBounds_correct","statement":"limitinf satisfies spec on AccumBounds inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5e9871335f475eb8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'has')","hasattr(x, 'is_integer')","hasattr(e, 'rewrite')","hasattr(x, 'is_positive')","hasattr(e, 'subs')","hasattr(e, 'min')","hasattr(e, 'max')","hasattr(e, 'expand')"],"ensures":["# HINT: limitinf may be idempotent: limitinf(limitinf(x)) == limitinf(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.expand","e.has","e.max","e.min","e.rewrite","e.subs","x.is_integer","x.is_positive"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'mrv_leadterm(e.min, x) != mrv_leadterm(e.max, x)', 'c0 == old', 'sig == 1', 'isinstance(e, AccumBounds)', 'sig == 0', 's == 0', 'sig == -1'}, fibers={'AccumBounds'})"]}}
 def limitinf(e, x):
     """Limit e(x) for x-> oo."""
     # rewrite e in terms of tractable functions only
@@ -672,16 +780,24 @@ def limitinf(e, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(moveup2(s, ), moveup2 produces the expected output) over Any ║
+# ║ Path(moveup2(s, x), <unspecified:moveup2>) over {Any | hasattr(s, 'items') and hasattr(s, 'rewrites')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ moveup2 : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(s, 'items')                            ║
+# ║   requires: hasattr(s, 'rewrites')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ moveup2 : {Any | hasattr(s, 'items') and hasattr(s, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45c8daae50875803  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.moveup2","kind":"function","src_hash":"b3bf41d56f1ff6d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"moveup2(s, )","rhs":"moveup2 produces the expected output","over":{"base":"Any"},"name":"moveup2_correct"},"guarantee":"moveup2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.moveup2_correct","statement":"Path(moveup2(x), moveup2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45c8daae50875803"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.moveup2","kind":"function","src_hash":"b3bf41d56f1ff6d7","in":{"base":"Any","pred":"hasattr(s, 'items') and hasattr(s, 'rewrites')"},"out":{"base":"Any"},"spec":{"lhs":"moveup2(s, x)","rhs":"<unspecified:moveup2>","over":{"base":"Any","pred":"hasattr(s, 'items') and hasattr(s, 'rewrites')"},"name":"moveup2_correct"},"guarantee":"moveup2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.moveup2_correct","statement":"Path(moveup2(x), moveup2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45c8daae50875803","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(s, 'items')","hasattr(s, 'rewrites')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["s.items","s.rewrites"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def moveup2(s, x):
     r = SubsSet()
     for expr, var in s.items():
@@ -692,16 +808,22 @@ def moveup2(s, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(moveup(l, ), moveup produces the expected output) over Any ║
+# ║ Path(moveup(l, x), [e.xreplace({x: exp(x)}) for e in l]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [e.xreplace({x: exp(x)}) for e in l]           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ moveup : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a0f904625593e68           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.moveup","kind":"function","src_hash":"31a807aedb7a0591","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"moveup(l, )","rhs":"moveup produces the expected output","over":{"base":"Any"},"name":"moveup_correct"},"guarantee":"moveup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a0f904625593e68"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.moveup","kind":"function","src_hash":"31a807aedb7a0591","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"moveup(l, x)","rhs":"[e.xreplace({x: exp(x)}) for e in l]","over":{"base":"Any"},"name":"moveup_correct"},"guarantee":"returns [e.xreplace({x: exp(x)}) for e in l]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a0f904625593e68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[e.xreplace({x: exp(x)}) for e in l]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def moveup(l, x):
     return [e.xreplace({x: exp(x)}) for e in l]
 
@@ -710,16 +832,23 @@ def moveup(l, x):
 @timeit
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mrv_leadterm(e, ), returns (c0, e0) for e) over Any   ║
+# ║ Path(mrv_leadterm(e, x), <unspecified:mrv_leadterm>) over {Any | hasattr(e, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mrv_leadterm : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'has')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mrv_leadterm : {Any | hasattr(e, 'has')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 278886583c469cac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.mrv_leadterm","kind":"function","src_hash":"61307c4e742d2398","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mrv_leadterm(e, )","rhs":"returns (c0, e0) for e","over":{"base":"Any"},"name":"mrv_leadterm_correct"},"guarantee":"returns (c0, e0) for e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.mrv_leadterm_correct","statement":"Path(mrv_leadterm(x), returns (c0, e0) for e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"278886583c469cac"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.mrv_leadterm","kind":"function","src_hash":"61307c4e742d2398","in":{"base":"Any","pred":"hasattr(e, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"mrv_leadterm(e, x)","rhs":"<unspecified:mrv_leadterm>","over":{"base":"Any","pred":"hasattr(e, 'has')"},"name":"mrv_leadterm_correct"},"guarantee":"returns (c0, e0) for e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.mrv_leadterm_correct","statement":"Path(mrv_leadterm(x), returns (c0, e0) for e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"278886583c469cac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'has')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.has"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def mrv_leadterm(e, x):
     """Returns (c0, e0) for e."""
     Omega = SubsSet()
@@ -773,16 +902,22 @@ def mrv_leadterm(e, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(build_expression_tree(Ome), helper function for rewrite) over Any ║
+# ║ Path(build_expression_tree(Omega, rewrites), <unspecified:build_expression_tree>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ build_expression_tree : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32c0f52bea123766  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.build_expression_tree","kind":"function","src_hash":"b70d5cbd559872f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"build_expression_tree(Ome)","rhs":"helper function for rewrite","over":{"base":"Any"},"name":"build_expression_tree_correct"},"guarantee":"helper function for rewrite","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.build_expression_tree_correct","statement":"Path(build_expression_tree(x), helper function for rewrite)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32c0f52bea123766"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.build_expression_tree","kind":"function","src_hash":"b70d5cbd559872f9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"build_expression_tree(Omega, rewrites)","rhs":"<unspecified:build_expression_tree>","over":{"base":"Any"},"name":"build_expression_tree_correct"},"guarantee":"helper function for rewrite","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.build_expression_tree_correct","statement":"Path(build_expression_tree(x), helper function for rewrite)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32c0f52bea123766","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def build_expression_tree(Omega, rewrites):
     r""" Helper function for rewrite.
 
@@ -826,7 +961,16 @@ def build_expression_tree(Omega, rewrites):
 @debug
 @timeit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rewrite(e, ), e(x) ) over {Any | isinstance(Omega, SubsSet) and isinstance(t, exp)} ║
+# ║ Path(rewrite(e, Omega, x), (f, logw)) over {Any | isinstance(Omega, SubsSet) and isinstance(t, exp) and isinstance(Omega, SubsSet) and not (len(Omega) == 0) and hasattr(Omega, 'rewrites') and hasattr(Omega, 'keys') and hasattr(Omega, 'sort') and hasattr(Omega, 'items')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(Omega, SubsSet)                     ║
+# ║   requires: not (len(Omega) == 0)                          ║
+# ║   requires: hasattr(Omega, 'rewrites')                     ║
+# ║   ensures:  len(O2) == old_len_O2 + 1                      ║
+# ║   ensures:  len(Omega) == old_len_Omega                    ║
+# ║   ensures:  len(denominators) == old_len_denominators...   ║
+# ║   returns:  (f, logw)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rewrite : {Any | isinstance(Omega, SubsSet) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -839,9 +983,12 @@ def build_expression_tree(Omega, rewrites):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 5.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 69ae6ddc...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.rewrite","kind":"function","src_hash":"1dad34f10e516665","in":{"base":"Any","pred":"isinstance(Omega, SubsSet) and isinstance(t, exp)"},"out":{"base":"Any","pred":"not f.has(var)"},"spec":{"lhs":"rewrite(e, )","rhs":"e(x) ","over":{"base":"Any","pred":"isinstance(Omega, SubsSet) and isinstance(t, exp)"},"name":"rewrite_correct"},"guarantee":"e(x) ","fibers":[{"name":"SubsSet","pred":"isinstance(Omega, SubsSet)","path":{"lhs":"rewrite(x)","rhs":"e(x) ","over":{"base":"SubsSet","pred":"isinstance(Omega, SubsSet)"},"name":"rewrite_SubsSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.rewrite_SubsSet_correct","statement":"rewrite satisfies spec on SubsSet inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(t, exp)","path":{"lhs":"rewrite(x)","rhs":"e(x) ","over":{"base":"exp","pred":"isinstance(t, exp)"},"name":"rewrite_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.rewrite_exp_correct","statement":"rewrite satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"69ae6ddc105b5c95"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.rewrite","kind":"function","src_hash":"1dad34f10e516665","in":{"base":"Any","pred":"isinstance(Omega, SubsSet) and isinstance(t, exp) and isinstance(Omega, SubsSet) and not (len(Omega) == 0) and hasattr(Omega, 'rewrites') and hasattr(Omega, 'keys') and hasattr(Omega, 'sort') and hasattr(Omega, 'items')"},"out":{"base":"Any","pred":"result satisfies: result == ((f, logw))"},"spec":{"lhs":"rewrite(e, Omega, x)","rhs":"(f, logw)","over":{"base":"Any","pred":"isinstance(Omega, SubsSet) and isinstance(t, exp) and isinstance(Omega, SubsSet) and not (len(Omega) == 0) and hasattr(Omega, 'rewrites') and hasattr(Omega, 'keys') and hasattr(Omega, 'sort') and hasattr(Omega, 'items')"},"name":"rewrite_correct"},"guarantee":"returns (f, logw); len(O2) == old_len_O2 + 1; len(Omega) == old_len_Omega; len(denominators) == old_len_denominators + 1","fibers":[{"name":"SubsSet","pred":"isinstance(Omega, SubsSet)","path":{"lhs":"rewrite(x)","rhs":"returns (f, logw); len(O2) == old_len_O2 + 1; len(Omega) == old_len_Omega; len(denominators) == old_len_denominators + 1","over":{"base":"SubsSet","pred":"isinstance(Omega, SubsSet)"},"name":"rewrite_SubsSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.rewrite_SubsSet_correct","statement":"rewrite satisfies spec on SubsSet inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(t, exp)","path":{"lhs":"rewrite(x)","rhs":"returns (f, logw); len(O2) == old_len_O2 + 1; len(Omega) == old_len_Omega; len(denominators) == old_len_denominators + 1","over":{"base":"exp","pred":"isinstance(t, exp)"},"name":"rewrite_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.rewrite_exp_correct","statement":"rewrite satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"69ae6ddc105b5c95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(Omega, SubsSet)","not (len(Omega) == 0)","hasattr(Omega, 'rewrites')","hasattr(Omega, 'keys')","hasattr(Omega, 'sort')","hasattr(Omega, 'items')"],"ensures":["len(O2) == old_len_O2 + 1","len(Omega) == old_len_Omega","len(denominators) == old_len_denominators + 1"],"returns_expr":"(f, logw)","pure":false,"effects":{"effect_type":"mutates_args","reads":["Omega.items","Omega.keys","Omega.rewrites","Omega.sort"],"calls_mutating":["O2.append","Omega.sort","denominators.append"],"raises":["NotImplementedError","TypeError","ValueError"]},"state_contract":{"modifies":["O2.*","Omega.*","denominators.*"],"old_bindings":{"old_len_O2":"len(O2)","old_len_Omega":"len(Omega)","old_len_denominators":"len(denominators)"},"post_ensures":["len(O2) == old_len_O2 + 1","len(Omega) == old_len_Omega","len(denominators) == old_len_denominators + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(Omega, SubsSet)', 'sig == 1', 'len(Omega) == 0', 'sig != 1 and sig != -1 and (not sig.has(AccumBounds))', 'not isinstance(rewrites[var], exp)', 'not isinstance(t, exp)'}, fibers={'exp', 'SubsSet'})"]}}
 def rewrite(e, Omega, x, wsym):
     """e(x) ... the function
     Omega ... the mrv set
@@ -922,16 +1069,25 @@ def rewrite(e, Omega, x, wsym):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gruntz(e, ), compute the limit of e(z) at the point z0 using the gruntz algorithm) over Any ║
+# ║ Path(gruntz(e, z, z0), r.rewrite('intractable', deep=True)) over {Any | z.is_symbol and hasattr(z, 'is_symbol') and hasattr(e, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gruntz : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: z.is_symbol                                    ║
+# ║   requires: hasattr(z, 'is_symbol')                        ║
+# ║   requires: hasattr(e, 'subs')                             ║
+# ║   returns:  r.rewrite('intractable', deep=True)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gruntz : {Any | z.is_symbol and hasattr(z, 'is_symbol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24d4f2c857053024  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46f47b897da3bbdc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.gruntz","kind":"function","src_hash":"123ba2f18644768a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gruntz(e, )","rhs":"compute the limit of e(z) at the point z0 using the gruntz algorithm","over":{"base":"Any"},"name":"gruntz_correct"},"guarantee":"compute the limit of e(z) at the point z0 using the gruntz algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.gruntz_correct","statement":"Path(gruntz(x), compute the limit of e(z) at the point z0 using the gruntz algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24d4f2c857053024"}
+# @cctt_verify {"v":2,"sym":"sympy.series.gruntz.gruntz","kind":"function","src_hash":"123ba2f18644768a","in":{"base":"Any","pred":"z.is_symbol and hasattr(z, 'is_symbol') and hasattr(e, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"gruntz(e, z, z0)","rhs":"r.rewrite('intractable', deep=True)","over":{"base":"Any","pred":"z.is_symbol and hasattr(z, 'is_symbol') and hasattr(e, 'subs')"},"name":"gruntz_correct"},"guarantee":"returns r.rewrite('intractable', deep=True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.gruntz.gruntz_correct","statement":"Path(gruntz(x), returns r.rewrite('intractable', deep=True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46f47b897da3bbdc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["z.is_symbol","hasattr(z, 'is_symbol')","hasattr(e, 'subs')"],"returns_expr":"r.rewrite('intractable', deep=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["e.subs","z.is_symbol"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def gruntz(e, z, z0, dir="+"):
     """
     Compute the limit of e(z) at the point z0 using the Gruntz algorithm.

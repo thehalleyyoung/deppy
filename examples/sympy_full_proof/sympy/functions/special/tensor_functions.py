@@ -33,16 +33,22 @@ from sympy.utilities.iterables import has_dups
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Eijk(*ar), represent the levi-civita symbol) over Any ║
+# ║ Path(Eijk(*args, **kwargs), LeviCivita(*args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  LeviCivita(*args, **kwargs)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Eijk : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8993d2db4738476e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.Eijk","kind":"function","src_hash":"58f447f012aa41b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Eijk(*ar)","rhs":"represent the levi-civita symbol","over":{"base":"Any"},"name":"Eijk_correct"},"guarantee":"represent the levi-civita symbol","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8993d2db4738476e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.Eijk","kind":"function","src_hash":"58f447f012aa41b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Eijk(*args, **kwargs)","rhs":"LeviCivita(*args, **kwargs)","over":{"base":"Any"},"name":"Eijk_correct"},"guarantee":"returns LeviCivita(*args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8993d2db4738476e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"LeviCivita(*args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', '**kwargs']"]}}
 def Eijk(*args, **kwargs):
     """
     Represent the Levi-Civita symbol.
@@ -59,16 +65,22 @@ def Eijk(*args, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_levicivita(*ar), evaluate levi-civita symbol) over Any ║
+# ║ Path(eval_levicivita(*args), prod((prod((args[j] - args[i] for j in range(i + 1, n))) / factorial(i) for i in range(n)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  prod((prod((args[j] - args[i] for j in ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval_levicivita : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a15eb0eebb67913a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c764b5eac04d1ebb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.eval_levicivita","kind":"function","src_hash":"0882874954f80f91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_levicivita(*ar)","rhs":"evaluate levi-civita symbol","over":{"base":"Any"},"name":"eval_levicivita_correct"},"guarantee":"evaluate levi-civita symbol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tensor_functions.eval_levicivita_correct","statement":"Path(eval_levicivita(x), evaluate levi-civita symbol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a15eb0eebb67913a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.eval_levicivita","kind":"function","src_hash":"0882874954f80f91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_levicivita(*args)","rhs":"prod((prod((args[j] - args[i] for j in range(i + 1, n))) / factorial(i) for i in range(n)))","over":{"base":"Any"},"name":"eval_levicivita_correct"},"guarantee":"returns prod((prod((args[j] - args[i] for j in range(i + 1, n))) / factorial(i) for i in range(n)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tensor_functions.eval_levicivita_correct","statement":"Path(eval_levicivita(x), returns prod((prod((args[j] - args[i] for j in range(i + 1, n))) / factorial(i) for i in range(n))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c764b5eac04d1ebb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"prod((prod((args[j] - args[i] for j in range(i + 1, n))) / factorial(i) for i in range(n)))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']"]}}
 def eval_levicivita(*args):
     """Evaluate Levi-Civita symbol."""
     n = len(args)
@@ -81,14 +93,20 @@ def eval_levicivita(*args):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LeviCivita(*args), correctly constructs a LeviCivita instance) over {Any | isinstance(a, (SYMPY_INTS, Integer))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ LeviCivita : {Any | isinstance(a, (SYMPY_INTS, Intege...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28eaae94db574867  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.LeviCivita","kind":"class","src_hash":"69e918e8c84cbd5c","in":{"base":"Any","pred":"isinstance(a, (SYMPY_INTS, Integer))"},"out":{"base":"Any"},"spec":{"lhs":"LeviCivita(*args)","rhs":"correctly constructs a LeviCivita instance","over":{"base":"Any","pred":"isinstance(a, (SYMPY_INTS, Integer))"},"name":"LeviCivita_class_invariant"},"guarantee":"correctly constructs a LeviCivita instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28eaae94db574867"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.LeviCivita","kind":"class","src_hash":"69e918e8c84cbd5c","in":{"base":"Any","pred":"isinstance(a, (SYMPY_INTS, Integer))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"LeviCivita(*args)","rhs":"correctly constructs a LeviCivita instance","over":{"base":"Any","pred":"isinstance(a, (SYMPY_INTS, Integer))"},"name":"LeviCivita_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28eaae94db574867","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function LeviCivita not found in source"]}}
 class LeviCivita(DefinedFunction):
     """
     Represent the Levi-Civita symbol.
@@ -128,16 +146,22 @@ class LeviCivita(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, *args), <unspecified:eval>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eval : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a203d8c00dccb766  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.LeviCivita.eval","kind":"classmethod","src_hash":"23b4099d1fc11095","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tensor_functions.LeviCivita.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a203d8c00dccb766"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.LeviCivita.eval","kind":"classmethod","src_hash":"23b4099d1fc11095","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, *args)","rhs":"<unspecified:eval>","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tensor_functions.LeviCivita.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a203d8c00dccb766","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, *args):
         if all(isinstance(a, (SYMPY_INTS, Integer)) for a in args):
             return eval_levicivita(*args)
@@ -145,16 +169,22 @@ class LeviCivita(DefinedFunction):
             return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), eval_levicivita(*self.args)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  eval_levicivita(*self.args)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 48dbc63232a2332d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.LeviCivita.doit","kind":"method","src_hash":"fc0b581e7a5a28ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48dbc63232a2332d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.LeviCivita.doit","kind":"method","src_hash":"fc0b581e7a5a28ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"eval_levicivita(*self.args)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns eval_levicivita(*self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48dbc63232a2332d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"eval_levicivita(*self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         return eval_levicivita(*self.args)
 
@@ -162,14 +192,20 @@ class LeviCivita(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a KroneckerDelta instance) preserved by KroneckerDelta(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ KroneckerDelta : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ KroneckerDelta : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 459f882bbdaa02ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta","kind":"class","src_hash":"2028649272d1c6fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"KroneckerDelta(*args)","rhs":"correctly constructs a KroneckerDelta instance","over":{"base":"Any"},"name":"KroneckerDelta_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a KroneckerDelta instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_above_fermi","pred":"self.is_above_fermi","kind":"class"},{"name":"is_below_fermi","pred":"self.is_below_fermi","kind":"class"},{"name":"is_only_above_fermi","pred":"self.is_only_above_fermi","kind":"class"},{"name":"is_only_below_fermi","pred":"self.is_only_below_fermi","kind":"class"}],"methods_preserving":["delta_range","_eval_power","is_above_fermi","is_below_fermi","is_only_above_fermi","is_only_below_fermi","indices_contain_equal_information","preferred_index","killable_index","_get_preferred_index","indices","_eval_rewrite_as_Piecewise"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"459f882bbdaa02ef"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta","kind":"class","src_hash":"2028649272d1c6fb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"KroneckerDelta(*args)","rhs":"correctly constructs a KroneckerDelta instance","over":{"base":"Any"},"name":"KroneckerDelta_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_above_fermi","pred":"self.is_above_fermi","kind":"class"},{"name":"is_below_fermi","pred":"self.is_below_fermi","kind":"class"},{"name":"is_only_above_fermi","pred":"self.is_only_above_fermi","kind":"class"},{"name":"is_only_below_fermi","pred":"self.is_only_below_fermi","kind":"class"}],"methods_preserving":["delta_range","_eval_power","is_above_fermi","is_below_fermi","is_only_above_fermi","is_only_below_fermi","indices_contain_equal_information","preferred_index","killable_index","_get_preferred_index","indices","_eval_rewrite_as_Piecewise"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"459f882bbdaa02ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function KroneckerDelta not found in source"]}}
 class KroneckerDelta(DefinedFunction):
     """
     The discrete, or Kronecker, delta function.
@@ -228,16 +264,24 @@ class KroneckerDelta(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), evaluates the discrete delta function) over Any ║
+# ║ Path(eval(cls, i, j), <unspecified:eval>) over {Any | hasattr(i, 'assumptions0') and hasattr(j, 'assumptions0')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(i, 'assumptions0')                     ║
+# ║   requires: hasattr(j, 'assumptions0')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(i, 'assumptions0') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de2c0050e14b50d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.eval","kind":"classmethod","src_hash":"5c57fe1340da6943","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"evaluates the discrete delta function","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"evaluates the discrete delta function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tensor_functions.KroneckerDelta.eval_correct","statement":"Path(eval(x), evaluates the discrete delta function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de2c0050e14b50d8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.eval","kind":"classmethod","src_hash":"5c57fe1340da6943","in":{"base":"Any","pred":"hasattr(i, 'assumptions0') and hasattr(j, 'assumptions0')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, i, j)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(i, 'assumptions0') and hasattr(j, 'assumptions0')"},"name":"eval_correct"},"guarantee":"evaluates the discrete delta function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tensor_functions.KroneckerDelta.eval_correct","statement":"Path(eval(x), evaluates the discrete delta function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de2c0050e14b50d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(i, 'assumptions0')","hasattr(j, 'assumptions0')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["i.assumptions0","j.assumptions0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, i, j, delta_range=None):
         """
         Evaluates the discrete delta function.
@@ -295,31 +339,45 @@ class KroneckerDelta(DefinedFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(delta_range(), returns the delta_range attribute) over Any ║
+# ║ Path(delta_range(), self.args[2]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ delta_range : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eb56f600b84e6137           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.delta_range","kind":"property","src_hash":"057cd82852b9dde2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"delta_range()","rhs":"returns the delta_range attribute","over":{"base":"Any"},"name":"delta_range_correct"},"guarantee":"returns the delta_range attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb56f600b84e6137"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.delta_range","kind":"property","src_hash":"057cd82852b9dde2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"delta_range()","rhs":"self.args[2]","over":{"base":"Any"},"name":"delta_range_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb56f600b84e6137","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def delta_range(self):
         if len(self.args) > 2:
             return self.args[2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_power(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_power(expt), <unspecified:_eval_power>) over {Any | hasattr(expt, 'is_positive') and hasattr(expt, 'is_negative')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_power : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expt, 'is_positive')                   ║
+# ║   requires: hasattr(expt, 'is_negative')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_power : {Any | hasattr(expt, 'is_positive') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c35ecfd902743be3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta._eval_power","kind":"method","src_hash":"188628064fc290b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_power_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tensor_functions.KroneckerDelta._eval_power_correct","statement":"Path(_eval_power(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c35ecfd902743be3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta._eval_power","kind":"method","src_hash":"188628064fc290b9","in":{"base":"Any","pred":"hasattr(expt, 'is_positive') and hasattr(expt, 'is_negative')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(expt)","rhs":"<unspecified:_eval_power>","over":{"base":"Any","pred":"hasattr(expt, 'is_positive') and hasattr(expt, 'is_negative')"},"name":"_eval_power_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tensor_functions.KroneckerDelta._eval_power_correct","statement":"Path(_eval_power(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c35ecfd902743be3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expt, 'is_positive')","hasattr(expt, 'is_negative')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expt.is_negative","expt.is_positive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_power(self, expt):
         if expt.is_positive:
             return self
@@ -328,16 +386,22 @@ class KroneckerDelta(DefinedFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_above_fermi(), returns the is_above_fermi attribute) over Any ║
+# ║ Path(is_above_fermi(), <unspecified:is_above_fermi>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_above_fermi : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1da50146c6cb4e7c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.is_above_fermi","kind":"property","src_hash":"60cf61e765933957","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_above_fermi()","rhs":"returns the is_above_fermi attribute","over":{"base":"Any"},"name":"is_above_fermi_correct"},"guarantee":"returns the is_above_fermi attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1da50146c6cb4e7c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.is_above_fermi","kind":"property","src_hash":"60cf61e765933957","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_above_fermi()","rhs":"<unspecified:is_above_fermi>","over":{"base":"Any"},"name":"is_above_fermi_correct"},"guarantee":"returns the is_above_fermi attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1da50146c6cb4e7c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_above_fermi(self):
         """
         True if Delta can be non-zero above fermi.
@@ -371,16 +435,22 @@ class KroneckerDelta(DefinedFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_below_fermi(), returns the is_below_fermi attribute) over Any ║
+# ║ Path(is_below_fermi(), <unspecified:is_below_fermi>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_below_fermi : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a04cfeed54e43765           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.is_below_fermi","kind":"property","src_hash":"0b6f44f9bfee655f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_below_fermi()","rhs":"returns the is_below_fermi attribute","over":{"base":"Any"},"name":"is_below_fermi_correct"},"guarantee":"returns the is_below_fermi attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a04cfeed54e43765"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.is_below_fermi","kind":"property","src_hash":"0b6f44f9bfee655f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_below_fermi()","rhs":"<unspecified:is_below_fermi>","over":{"base":"Any"},"name":"is_below_fermi_correct"},"guarantee":"returns the is_below_fermi attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a04cfeed54e43765","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_below_fermi(self):
         """
         True if Delta can be non-zero below fermi.
@@ -414,16 +484,22 @@ class KroneckerDelta(DefinedFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_only_above_fermi(), returns the is_only_above_fermi attribute) over Any ║
+# ║ Path(is_only_above_fermi(), (self.args[0].assumptions0.get('above_fermi') or self.args[1].assumptions0.get('above_fermi')) or False) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.args[0].assumptions0.get('above_fer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_only_above_fermi : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 697124851718bd25           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.is_only_above_fermi","kind":"property","src_hash":"c3d95bda6437eb3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_above_fermi()","rhs":"returns the is_only_above_fermi attribute","over":{"base":"Any"},"name":"is_only_above_fermi_correct"},"guarantee":"returns the is_only_above_fermi attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"697124851718bd25"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.is_only_above_fermi","kind":"property","src_hash":"c3d95bda6437eb3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_above_fermi()","rhs":"(self.args[0].assumptions0.get('above_fermi') or self.args[1].assumptions0.get('above_fermi')) or False","over":{"base":"Any"},"name":"is_only_above_fermi_correct"},"guarantee":"returns (self.args[0].assumptions0.get('above_fermi') or self.args[1].assumptions0.get('above_fermi')) or False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"697124851718bd25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.args[0].assumptions0.get('above_fermi') or self.args[1].assumptions0.get('above_fermi')) or False","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_only_above_fermi(self):
         """
         True if Delta is restricted to above fermi.
@@ -456,16 +532,22 @@ class KroneckerDelta(DefinedFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_only_below_fermi(), returns the is_only_below_fermi attribute) over Any ║
+# ║ Path(is_only_below_fermi(), (self.args[0].assumptions0.get('below_fermi') or self.args[1].assumptions0.get('below_fermi')) or False) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.args[0].assumptions0.get('below_fer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_only_below_fermi : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f5eeb41d6a3ce7ef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.is_only_below_fermi","kind":"property","src_hash":"190d01bfd3df0a2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_below_fermi()","rhs":"returns the is_only_below_fermi attribute","over":{"base":"Any"},"name":"is_only_below_fermi_correct"},"guarantee":"returns the is_only_below_fermi attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5eeb41d6a3ce7ef"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.is_only_below_fermi","kind":"property","src_hash":"190d01bfd3df0a2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_below_fermi()","rhs":"(self.args[0].assumptions0.get('below_fermi') or self.args[1].assumptions0.get('below_fermi')) or False","over":{"base":"Any"},"name":"is_only_below_fermi_correct"},"guarantee":"returns (self.args[0].assumptions0.get('below_fermi') or self.args[1].assumptions0.get('below_fermi')) or False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5eeb41d6a3ce7ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.args[0].assumptions0.get('below_fermi') or self.args[1].assumptions0.get('below_fermi')) or False","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_only_below_fermi(self):
         """
         True if Delta is restricted to below fermi.
@@ -498,16 +580,22 @@ class KroneckerDelta(DefinedFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(indices_contain_equal_information(), returns the indices_contain_equal_information attribute) over Any ║
+# ║ Path(indices_contain_equal_information(), <unspecified:indices_contain_equal_information>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ indices_contain_equal_information : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d6b63e140ce1419           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.indices_contain_equal_information","kind":"property","src_hash":"939dcbc4f3b56f57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indices_contain_equal_information()","rhs":"returns the indices_contain_equal_information attribute","over":{"base":"Any"},"name":"indices_contain_equal_information_correct"},"guarantee":"returns the indices_contain_equal_information attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d6b63e140ce1419"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.indices_contain_equal_information","kind":"property","src_hash":"939dcbc4f3b56f57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indices_contain_equal_information()","rhs":"<unspecified:indices_contain_equal_information>","over":{"base":"Any"},"name":"indices_contain_equal_information_correct"},"guarantee":"returns the indices_contain_equal_information attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d6b63e140ce1419","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.is_above_fermi","self.is_below_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def indices_contain_equal_information(self):
         """
         Returns True if indices are either both above or below fermi.
@@ -540,16 +628,25 @@ class KroneckerDelta(DefinedFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(preferred_index(), returns the preferred_index attribute) over Any ║
+# ║ Path(preferred_index(), result == (self.args[1] if self._get_preferred_index() else self.args[0]) and result == self.args[1] or result == self.args[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ preferred_index : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.args[1] if self._get_pref...   ║
+# ║   ensures:  result == self.args[1] or result == self....   ║
+# ║   fiber[case_0]: self._get_preferred_index() => self....   ║
+# ║   fiber[case_1]: not (self._get_preferred_index()) =>...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ preferred_index : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5593d6e3ccd1c1b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.preferred_index","kind":"property","src_hash":"5ac3319f992b0e04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"preferred_index()","rhs":"returns the preferred_index attribute","over":{"base":"Any"},"name":"preferred_index_correct"},"guarantee":"returns the preferred_index attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5593d6e3ccd1c1b7"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.preferred_index","kind":"property","src_hash":"5ac3319f992b0e04","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.args[1] if self._get_preferred_index() else self.args[0]) and result == self.args[1] or result == self.args[0]"},"spec":{"lhs":"preferred_index()","rhs":"result == (self.args[1] if self._get_preferred_index() else self.args[0]) and result == self.args[1] or result == self.args[0]","over":{"base":"Any"},"name":"preferred_index_correct"},"guarantee":"result == (self.args[1] if self._get_preferred_index() else self.args[0]); result == self.args[1] or result == self.args[0]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5593d6e3ccd1c1b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.args[1] if self._get_preferred_index() else self.args[0])","result == self.args[1] or result == self.args[0]"],"fibers":[{"name":"case_0","guard":"self._get_preferred_index()","ensures":["result == self.args[1]"],"decidability":"library","returns_expr":"self.args[1]"},{"name":"case_1","guard":"not (self._get_preferred_index())","ensures":["result == self.args[0]"],"decidability":"library","returns_expr":"self.args[0]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_preferred_index","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def preferred_index(self):
         """
         Returns the index which is preferred to keep in the final expression.
@@ -589,16 +686,25 @@ class KroneckerDelta(DefinedFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(killable_index(), returns the killable_index attribute) over Any ║
+# ║ Path(killable_index(), result == (self.args[0] if self._get_preferred_index() else self.args[1]) and result == self.args[0] or result == self.args[1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ killable_index : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.args[0] if self._get_pref...   ║
+# ║   ensures:  result == self.args[0] or result == self....   ║
+# ║   fiber[case_0]: self._get_preferred_index() => self....   ║
+# ║   fiber[case_1]: not (self._get_preferred_index()) =>...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ killable_index : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6989a1947b19d015           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.killable_index","kind":"property","src_hash":"a374135ded097bfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"killable_index()","rhs":"returns the killable_index attribute","over":{"base":"Any"},"name":"killable_index_correct"},"guarantee":"returns the killable_index attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6989a1947b19d015"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.killable_index","kind":"property","src_hash":"a374135ded097bfb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.args[0] if self._get_preferred_index() else self.args[1]) and result == self.args[0] or result == self.args[1]"},"spec":{"lhs":"killable_index()","rhs":"result == (self.args[0] if self._get_preferred_index() else self.args[1]) and result == self.args[0] or result == self.args[1]","over":{"base":"Any"},"name":"killable_index_correct"},"guarantee":"result == (self.args[0] if self._get_preferred_index() else self.args[1]); result == self.args[0] or result == self.args[1]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6989a1947b19d015","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.args[0] if self._get_preferred_index() else self.args[1])","result == self.args[0] or result == self.args[1]"],"fibers":[{"name":"case_0","guard":"self._get_preferred_index()","ensures":["result == self.args[0]"],"decidability":"library","returns_expr":"self.args[0]"},{"name":"case_1","guard":"not (self._get_preferred_index())","ensures":["result == self.args[1]"],"decidability":"library","returns_expr":"self.args[1]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._get_preferred_index","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def killable_index(self):
         """
         Returns the index which is preferred to substitute in the final
@@ -638,16 +744,24 @@ class KroneckerDelta(DefinedFunction):
             return self.args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_preferred_index(), returns the index which is preferred to keep in the final expression) over Any ║
+# ║ Path(_get_preferred_index(), <unspecified:_get_preferred_index>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not self.is_above_fermi                   ║
+# ║   fiber[case_1]: not self.is_below_fermi                   ║
+# ║   fiber[case_2]: not (not self.is_above_fermi) and no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_preferred_index : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b97f60e0e25504c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ae0e7c57880fbec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta._get_preferred_index","kind":"method","src_hash":"cb50390ee59fefce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_preferred_index()","rhs":"returns the index which is preferred to keep in the final expression","over":{"base":"Any"},"name":"_get_preferred_index_correct"},"guarantee":"returns the index which is preferred to keep in the final expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tensor_functions.KroneckerDelta._get_preferred_index_correct","statement":"Path(_get_preferred_index(x), returns the index which is preferred to keep in the final expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b97f60e0e25504c0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta._get_preferred_index","kind":"method","src_hash":"cb50390ee59fefce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_preferred_index()","rhs":"<unspecified:_get_preferred_index>","over":{"base":"Any"},"name":"_get_preferred_index_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.tensor_functions.KroneckerDelta._get_preferred_index_correct","statement":"Path(_get_preferred_index(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ae0e7c57880fbec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not self.is_above_fermi","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not self.is_below_fermi","ensures":[],"decidability":"library"},{"name":"case_2","guard":"not (not self.is_above_fermi) and not (not self.is_below_fermi)","ensures":["result == 0"],"decidability":"library","returns_expr":"0"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.is_above_fermi","self.is_below_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_preferred_index(self):
         """
         Returns the index which is preferred to keep in the final expression.
@@ -671,30 +785,42 @@ class KroneckerDelta(DefinedFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(indices(), returns the indices attribute) over Any    ║
+# ║ Path(indices(), self.args[0:2]) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0:2]                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ indices : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b17d3b248007be24           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.indices","kind":"property","src_hash":"29e424b00471457e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indices()","rhs":"returns the indices attribute","over":{"base":"Any"},"name":"indices_correct"},"guarantee":"returns the indices attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b17d3b248007be24"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta.indices","kind":"property","src_hash":"29e424b00471457e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indices()","rhs":"self.args[0:2]","over":{"base":"Any"},"name":"indices_correct"},"guarantee":"returns self.args[0:2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b17d3b248007be24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0:2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def indices(self):
         return self.args[0:2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Piecewise(*ar), id) over Any         ║
+# ║ Path(_eval_rewrite_as_Piecewise(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Piecewise((0, Ne(i, j)), (1, True))            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Piecewise : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0ff633dae9f0fd23   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta._eval_rewrite_as_Piecewise","kind":"method","src_hash":"29eb0a3e6cf0156c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Piecewise(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Piecewise_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Ne","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ff633dae9f0fd23"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.tensor_functions.KroneckerDelta._eval_rewrite_as_Piecewise","kind":"method","src_hash":"29eb0a3e6cf0156c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Piecewise(*args, **kwargs)","rhs":"Piecewise((0, Ne(i, j)), (1, True))","over":{"base":"Any"},"name":"_eval_rewrite_as_Piecewise_correct","kind":"composition"},"guarantee":"returns Piecewise((0, Ne(i, j)), (1, True))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Ne","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ff633dae9f0fd23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Piecewise((0, Ne(i, j)), (1, True))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Piecewise(self, *args, **kwargs):
         i, j = args
         return Piecewise((0, Ne(i, j)), (1, True))

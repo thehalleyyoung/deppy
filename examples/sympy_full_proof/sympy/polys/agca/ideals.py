@@ -24,14 +24,20 @@ from sympy.polys.polyutils import IntegerPowerable
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Ideal instance) preserved by Ideal(*args) over {Any | isinstance(other, Ideal) and isinstance(e, R.dtype) and isinstance(e, R.ring.dtype)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, IntegerPowerable)             ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Ideal : {Any | isinstance(other, Ideal) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da92b7ac4a930c6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal","kind":"class","src_hash":"d1409e64e088cacf","in":{"base":"Any","pred":"isinstance(other, Ideal) and isinstance(e, R.dtype) and isinstance(e, R.ring.dtype)"},"out":{"base":"Any"},"spec":{"lhs":"Ideal(*args)","rhs":"correctly constructs a Ideal instance","over":{"base":"Any","pred":"isinstance(other, Ideal) and isinstance(e, R.dtype) and isinstance(e, R.ring.dtype)"},"name":"Ideal_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Ideal instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ring')","kind":"class","induction":"structural on ring"}],"methods_preserving":["_contains_elem","_contains_ideal","_quotient","_intersect","is_whole_ring","is_zero","_equals","is_prime","is_maximal","is_radical","is_primary","is_principal","radical","depth","height","__init__","_check_ideal","contains","subset","quotient","intersect","saturate","union","product","reduce_element","__add__","__mul__","_zeroth_power","_first_power","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da92b7ac4a930c6a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal","kind":"class","src_hash":"d1409e64e088cacf","in":{"base":"Any","pred":"isinstance(other, Ideal) and isinstance(e, R.dtype) and isinstance(e, R.ring.dtype)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, IntegerPowerable)"},"spec":{"lhs":"Ideal(*args)","rhs":"correctly constructs a Ideal instance","over":{"base":"Any","pred":"isinstance(other, Ideal) and isinstance(e, R.dtype) and isinstance(e, R.ring.dtype)"},"name":"Ideal_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, IntegerPowerable); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ring')","kind":"class","induction":"structural on ring"}],"methods_preserving":["_contains_elem","_contains_ideal","_quotient","_intersect","is_whole_ring","is_zero","_equals","is_prime","is_maximal","is_radical","is_primary","is_principal","radical","depth","height","__init__","_check_ideal","contains","subset","quotient","intersect","saturate","union","product","reduce_element","__add__","__mul__","_zeroth_power","_first_power","__eq__","__ne__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da92b7ac4a930c6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, IntegerPowerable)"],"invariants":["hasattr(self, 'ring')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function Ideal not found in source"]}}
 class Ideal(IntegerPowerable):
     """
     Abstract base class for ideals.
@@ -68,226 +74,317 @@ class Ideal(IntegerPowerable):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains_elem(x), implementation of element containment) over Any ║
+# ║ Path(_contains_elem(x), <unspecified:_contains_elem>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains_elem : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c12e270e82aa14cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._contains_elem","kind":"method","src_hash":"88f4d553abd2d68c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains_elem(x)","rhs":"implementation of element containment","over":{"base":"Any"},"name":"_contains_elem_correct"},"guarantee":"implementation of element containment","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c12e270e82aa14cf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._contains_elem","kind":"method","src_hash":"88f4d553abd2d68c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains_elem(x)","rhs":"<unspecified:_contains_elem>","over":{"base":"Any"},"name":"_contains_elem_correct"},"guarantee":"implementation of element containment","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c12e270e82aa14cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains_elem(self, x):
         """Implementation of element containment."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains_ideal(I), implementation of ideal containment) over Any ║
+# ║ Path(_contains_ideal(I), <unspecified:_contains_ideal>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains_ideal : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05d7222afde0c9c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._contains_ideal","kind":"method","src_hash":"abfc731aa191358c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains_ideal(I)","rhs":"implementation of ideal containment","over":{"base":"Any"},"name":"_contains_ideal_correct"},"guarantee":"implementation of ideal containment","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05d7222afde0c9c8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._contains_ideal","kind":"method","src_hash":"abfc731aa191358c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains_ideal(I)","rhs":"<unspecified:_contains_ideal>","over":{"base":"Any"},"name":"_contains_ideal_correct"},"guarantee":"implementation of ideal containment","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05d7222afde0c9c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains_ideal(self, I):
         """Implementation of ideal containment."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_quotient(J), implementation of ideal quotient) over Any ║
+# ║ Path(_quotient(J), <unspecified:_quotient>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _quotient : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20b1fa2ff69dd27e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._quotient","kind":"method","src_hash":"ce6608cde92deb65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_quotient(J)","rhs":"implementation of ideal quotient","over":{"base":"Any"},"name":"_quotient_correct"},"guarantee":"implementation of ideal quotient","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20b1fa2ff69dd27e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._quotient","kind":"method","src_hash":"ce6608cde92deb65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_quotient(J)","rhs":"<unspecified:_quotient>","over":{"base":"Any"},"name":"_quotient_correct"},"guarantee":"implementation of ideal quotient","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20b1fa2ff69dd27e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _quotient(self, J):
         """Implementation of ideal quotient."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_intersect(J), implementation of ideal intersection) over Any ║
+# ║ Path(_intersect(J), <unspecified:_intersect>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _intersect : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ebdbe81ea737fdb7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._intersect","kind":"method","src_hash":"1946af49599a33b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_intersect(J)","rhs":"implementation of ideal intersection","over":{"base":"Any"},"name":"_intersect_correct"},"guarantee":"implementation of ideal intersection","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebdbe81ea737fdb7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._intersect","kind":"method","src_hash":"1946af49599a33b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_intersect(J)","rhs":"<unspecified:_intersect>","over":{"base":"Any"},"name":"_intersect_correct"},"guarantee":"implementation of ideal intersection","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebdbe81ea737fdb7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _intersect(self, J):
         """Implementation of ideal intersection."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_whole_ring(), return true if ``self`` is the whole ring) over Any ║
+# ║ Path(is_whole_ring(), <unspecified:is_whole_ring>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_whole_ring : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28a5e4b036b87d60           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_whole_ring","kind":"method","src_hash":"fe297432ba222ff0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_whole_ring()","rhs":"return true if ``self`` is the whole ring","over":{"base":"Any"},"name":"is_whole_ring_correct"},"guarantee":"return true if ``self`` is the whole ring","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28a5e4b036b87d60"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_whole_ring","kind":"method","src_hash":"fe297432ba222ff0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_whole_ring()","rhs":"<unspecified:is_whole_ring>","over":{"base":"Any"},"name":"is_whole_ring_correct"},"guarantee":"return true if ``self`` is the whole ring","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28a5e4b036b87d60","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_whole_ring(self):
         """Return True if ``self`` is the whole ring."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero(), return true if ``self`` is the zero ideal) over Any ║
+# ║ Path(is_zero(), <unspecified:is_zero>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c611797b66cbe90d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_zero","kind":"method","src_hash":"9265389513436668","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"return true if ``self`` is the zero ideal","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"return true if ``self`` is the zero ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c611797b66cbe90d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_zero","kind":"method","src_hash":"9265389513436668","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"<unspecified:is_zero>","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"return true if ``self`` is the zero ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c611797b66cbe90d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero(self):
         """Return True if ``self`` is the zero ideal."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_equals(J), implementation of ideal equality) over Any ║
+# ║ Path(_equals(J), self._contains_ideal(J) and J._contains_ideal(self)) over {Any | hasattr(J, '_contains_ideal')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _equals : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(J, '_contains_ideal')                  ║
+# ║   returns:  self._contains_ideal(J) and J._contains_i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _equals : {Any | hasattr(J, '_contains_ideal')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6464343dc53bdaf4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._equals","kind":"method","src_hash":"1890629d9d96becd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_equals(J)","rhs":"implementation of ideal equality","over":{"base":"Any"},"name":"_equals_correct"},"guarantee":"implementation of ideal equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6464343dc53bdaf4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._equals","kind":"method","src_hash":"1890629d9d96becd","in":{"base":"Any","pred":"hasattr(J, '_contains_ideal')"},"out":{"base":"Any"},"spec":{"lhs":"_equals(J)","rhs":"self._contains_ideal(J) and J._contains_ideal(self)","over":{"base":"Any","pred":"hasattr(J, '_contains_ideal')"},"name":"_equals_correct"},"guarantee":"returns self._contains_ideal(J) and J._contains_ideal(self)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6464343dc53bdaf4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(J, '_contains_ideal')"],"returns_expr":"self._contains_ideal(J) and J._contains_ideal(self)","pure":false,"effects":{"effect_type":"reads_state","reads":["J._contains_ideal","self._contains_ideal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _equals(self, J):
         """Implementation of ideal equality."""
         return self._contains_ideal(J) and J._contains_ideal(self)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_prime(), return true if ``self`` is a prime ideal) over Any ║
+# ║ Path(is_prime(), <unspecified:is_prime>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_prime : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 15ef7f088b63fb65           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_prime","kind":"method","src_hash":"9d4ee178a44d0d26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_prime()","rhs":"return true if ``self`` is a prime ideal","over":{"base":"Any"},"name":"is_prime_correct"},"guarantee":"return true if ``self`` is a prime ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15ef7f088b63fb65"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_prime","kind":"method","src_hash":"9d4ee178a44d0d26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_prime()","rhs":"<unspecified:is_prime>","over":{"base":"Any"},"name":"is_prime_correct"},"guarantee":"return true if ``self`` is a prime ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15ef7f088b63fb65","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_prime(self):
         """Return True if ``self`` is a prime ideal."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_maximal(), return true if ``self`` is a maximal ideal) over Any ║
+# ║ Path(is_maximal(), <unspecified:is_maximal>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_maximal : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f0b1feb74e6011e9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_maximal","kind":"method","src_hash":"c2fc457a64840632","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_maximal()","rhs":"return true if ``self`` is a maximal ideal","over":{"base":"Any"},"name":"is_maximal_correct"},"guarantee":"return true if ``self`` is a maximal ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0b1feb74e6011e9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_maximal","kind":"method","src_hash":"c2fc457a64840632","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_maximal()","rhs":"<unspecified:is_maximal>","over":{"base":"Any"},"name":"is_maximal_correct"},"guarantee":"return true if ``self`` is a maximal ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0b1feb74e6011e9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_maximal(self):
         """Return True if ``self`` is a maximal ideal."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_radical(), return true if ``self`` is a radical ideal) over Any ║
+# ║ Path(is_radical(), <unspecified:is_radical>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_radical : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8a5e13f9da5ab9ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_radical","kind":"method","src_hash":"9d55876fcc794340","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_radical()","rhs":"return true if ``self`` is a radical ideal","over":{"base":"Any"},"name":"is_radical_correct"},"guarantee":"return true if ``self`` is a radical ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a5e13f9da5ab9ee"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_radical","kind":"method","src_hash":"9d55876fcc794340","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_radical()","rhs":"<unspecified:is_radical>","over":{"base":"Any"},"name":"is_radical_correct"},"guarantee":"return true if ``self`` is a radical ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a5e13f9da5ab9ee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_radical(self):
         """Return True if ``self`` is a radical ideal."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_primary(), return true if ``self`` is a primary ideal) over Any ║
+# ║ Path(is_primary(), <unspecified:is_primary>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_primary : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dbf4c9177b211e72           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_primary","kind":"method","src_hash":"dbc985e4e3054c84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_primary()","rhs":"return true if ``self`` is a primary ideal","over":{"base":"Any"},"name":"is_primary_correct"},"guarantee":"return true if ``self`` is a primary ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbf4c9177b211e72"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_primary","kind":"method","src_hash":"dbc985e4e3054c84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_primary()","rhs":"<unspecified:is_primary>","over":{"base":"Any"},"name":"is_primary_correct"},"guarantee":"return true if ``self`` is a primary ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dbf4c9177b211e72","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_primary(self):
         """Return True if ``self`` is a primary ideal."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_principal(), return true if ``self`` is a principal ideal) over Any ║
+# ║ Path(is_principal(), <unspecified:is_principal>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_principal : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e896376ea50196ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_principal","kind":"method","src_hash":"b61a8afd0bd7d1b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_principal()","rhs":"return true if ``self`` is a principal ideal","over":{"base":"Any"},"name":"is_principal_correct"},"guarantee":"return true if ``self`` is a principal ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e896376ea50196ab"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.is_principal","kind":"method","src_hash":"b61a8afd0bd7d1b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_principal()","rhs":"<unspecified:is_principal>","over":{"base":"Any"},"name":"is_principal_correct"},"guarantee":"return true if ``self`` is a principal ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e896376ea50196ab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_principal(self):
         """Return True if ``self`` is a principal ideal."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(radical(), compute the radical of ``self``) over Any  ║
+# ║ Path(radical(), <unspecified:radical>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ radical : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 65e0e1a6f7996b6e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.radical","kind":"method","src_hash":"5028363306831b54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radical()","rhs":"compute the radical of ``self``","over":{"base":"Any"},"name":"radical_correct"},"guarantee":"compute the radical of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65e0e1a6f7996b6e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.radical","kind":"method","src_hash":"5028363306831b54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radical()","rhs":"<unspecified:radical>","over":{"base":"Any"},"name":"radical_correct"},"guarantee":"compute the radical of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"65e0e1a6f7996b6e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def radical(self):
         """Compute the radical of ``self``."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(depth(), compute the depth of ``self``) over Any      ║
+# ║ Path(depth(), <unspecified:depth>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ depth : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3dcc5ef638cfeb3a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.depth","kind":"method","src_hash":"5daab6811c0b405e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"depth()","rhs":"compute the depth of ``self``","over":{"base":"Any"},"name":"depth_correct"},"guarantee":"compute the depth of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3dcc5ef638cfeb3a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.depth","kind":"method","src_hash":"5daab6811c0b405e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"depth()","rhs":"<unspecified:depth>","over":{"base":"Any"},"name":"depth_correct"},"guarantee":"compute the depth of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3dcc5ef638cfeb3a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def depth(self):
         """Compute the depth of ``self``."""
         raise NotImplementedError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(height(), compute the height of ``self``) over Any    ║
+# ║ Path(height(), <unspecified:height>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ height : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6379141fc599dc30           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.height","kind":"method","src_hash":"3dac87411c3a05fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"height()","rhs":"compute the height of ``self``","over":{"base":"Any"},"name":"height_correct"},"guarantee":"compute the height of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6379141fc599dc30"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.height","kind":"method","src_hash":"3dac87411c3a05fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"height()","rhs":"<unspecified:height>","over":{"base":"Any"},"name":"height_correct"},"guarantee":"compute the height of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6379141fc599dc30","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def height(self):
         """Compute the height of ``self``."""
         raise NotImplementedError
@@ -297,30 +394,44 @@ class Ideal(IntegerPowerable):
     # non-implemented methods end here
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rin), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ring), self.ring == ring) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.ring == ring                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.ring =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c010b870cae3e21           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.__init__","kind":"method","src_hash":"985c4c531746f3a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rin)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c010b870cae3e21"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.__init__","kind":"method","src_hash":"985c4c531746f3a4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.ring == ring"},"spec":{"lhs":"__init__(ring)","rhs":"self.ring == ring","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.ring == ring","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c010b870cae3e21","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.ring == ring"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ring):
         self.ring = ring
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_ideal(J), helper to check ``j`` is an ideal of our ring) over Any ║
+# ║ Path(_check_ideal(J), <unspecified:_check_ideal>) over {Any | not (not isinstance(J, Ideal) or J.ring != self.ring) and hasattr(J, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_ideal : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (not isinstance(J, Ideal) or J.ring !...   ║
+# ║   requires: hasattr(J, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_ideal : {Any | not (not isinstance(J, Ideal) o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ced77ad17fb08b03  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._check_ideal","kind":"method","src_hash":"e8603fde26e1655e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_ideal(J)","rhs":"helper to check ``j`` is an ideal of our ring","over":{"base":"Any"},"name":"_check_ideal_correct"},"guarantee":"helper to check ``j`` is an ideal of our ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.Ideal._check_ideal_correct","statement":"Path(_check_ideal(x), helper to check ``j`` is an ideal of our ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ced77ad17fb08b03"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._check_ideal","kind":"method","src_hash":"e8603fde26e1655e","in":{"base":"Any","pred":"not (not isinstance(J, Ideal) or J.ring != self.ring) and hasattr(J, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"_check_ideal(J)","rhs":"<unspecified:_check_ideal>","over":{"base":"Any","pred":"not (not isinstance(J, Ideal) or J.ring != self.ring) and hasattr(J, 'ring')"},"name":"_check_ideal_correct"},"guarantee":"helper to check ``j`` is an ideal of our ring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.Ideal._check_ideal_correct","statement":"Path(_check_ideal(x), helper to check ``j`` is an ideal of our ring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ced77ad17fb08b03","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (not isinstance(J, Ideal) or J.ring != self.ring)","hasattr(J, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["J.ring","self.ring"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_ideal(self, J):
         """Helper to check ``J`` is an ideal of our ring."""
         if not isinstance(J, Ideal) or J.ring != self.ring:
@@ -328,16 +439,22 @@ class Ideal(IntegerPowerable):
                 'J must be an ideal of %s, got %s' % (self.ring, J))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains(ele), return true if ``elem`` is an element of this ideal) over Any ║
+# ║ Path(contains(elem), self._contains_elem(self.ring.convert(elem))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._contains_elem(self.ring.convert(elem))   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ contains : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 806f009512d3f2df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.contains","kind":"method","src_hash":"58564ad5b6bfb585","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(ele)","rhs":"return true if ``elem`` is an element of this ideal","over":{"base":"Any"},"name":"contains_correct"},"guarantee":"return true if ``elem`` is an element of this ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"806f009512d3f2df"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.contains","kind":"method","src_hash":"58564ad5b6bfb585","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(elem)","rhs":"self._contains_elem(self.ring.convert(elem))","over":{"base":"Any"},"name":"contains_correct"},"guarantee":"returns self._contains_elem(self.ring.convert(elem))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"806f009512d3f2df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._contains_elem(self.ring.convert(elem))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._contains_elem","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains(self, elem):
         """
         Return True if ``elem`` is an element of this ideal.
@@ -355,16 +472,22 @@ class Ideal(IntegerPowerable):
         return self._contains_elem(self.ring.convert(elem))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subset(oth), returns true if ``other`` is is a subset of ``self``) over Any ║
+# ║ Path(subset(other), <unspecified:subset>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ subset : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5083ca69f40c9741  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.subset","kind":"method","src_hash":"dcb07801a7e8bdcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subset(oth)","rhs":"returns true if ``other`` is is a subset of ``self``","over":{"base":"Any"},"name":"subset_correct"},"guarantee":"returns true if ``other`` is is a subset of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.Ideal.subset_correct","statement":"Path(subset(x), returns true if ``other`` is is a subset of ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5083ca69f40c9741"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.subset","kind":"method","src_hash":"dcb07801a7e8bdcc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subset(other)","rhs":"<unspecified:subset>","over":{"base":"Any"},"name":"subset_correct"},"guarantee":"returns true if ``other`` is is a subset of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.Ideal.subset_correct","statement":"Path(subset(x), returns true if ``other`` is is a subset of ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5083ca69f40c9741","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._contains_elem","self._contains_ideal"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subset(self, other):
         """
         Returns True if ``other`` is is a subset of ``self``.
@@ -389,16 +512,22 @@ class Ideal(IntegerPowerable):
         return all(self._contains_elem(x) for x in other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quotient(J, ), compute the ideal quotient of ``self`` by ``j``) over Any ║
+# ║ Path(quotient(J, **opts), self._quotient(J, **opts)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._quotient(J, **opts)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quotient : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74fab4d493cb99a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3f38bcc330c1c6e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.quotient","kind":"method","src_hash":"65fa6640231c59ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient(J, )","rhs":"compute the ideal quotient of ``self`` by ``j``","over":{"base":"Any"},"name":"quotient_correct"},"guarantee":"compute the ideal quotient of ``self`` by ``j``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.Ideal.quotient_correct","statement":"Path(quotient(x), compute the ideal quotient of ``self`` by ``j``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74fab4d493cb99a1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.quotient","kind":"method","src_hash":"65fa6640231c59ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quotient(J, **opts)","rhs":"self._quotient(J, **opts)","over":{"base":"Any"},"name":"quotient_correct"},"guarantee":"returns self._quotient(J, **opts)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.Ideal.quotient_correct","statement":"Path(quotient(x), returns self._quotient(J, **opts))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3f38bcc330c1c6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._quotient(J, **opts)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._check_ideal","self._quotient"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quotient(self, J, **opts):
         r"""
         Compute the ideal quotient of ``self`` by ``J``.
@@ -419,16 +548,22 @@ class Ideal(IntegerPowerable):
         return self._quotient(J, **opts)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(intersect(J), compute the intersection of self with ideal j) over Any ║
+# ║ Path(intersect(J), self._intersect(J)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._intersect(J)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ intersect : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60def507db72d882  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0ac87130c6f52b9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.intersect","kind":"method","src_hash":"3b34ebb7eee71f64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersect(J)","rhs":"compute the intersection of self with ideal j","over":{"base":"Any"},"name":"intersect_correct"},"guarantee":"compute the intersection of self with ideal j","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.Ideal.intersect_correct","statement":"Path(intersect(x), compute the intersection of self with ideal j)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60def507db72d882"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.intersect","kind":"method","src_hash":"3b34ebb7eee71f64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"intersect(J)","rhs":"self._intersect(J)","over":{"base":"Any"},"name":"intersect_correct"},"guarantee":"returns self._intersect(J)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.Ideal.intersect_correct","statement":"Path(intersect(x), returns self._intersect(J))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0ac87130c6f52b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._intersect(J)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._check_ideal","self._intersect"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def intersect(self, J):
         """
         Compute the intersection of self with ideal J.
@@ -446,16 +581,22 @@ class Ideal(IntegerPowerable):
         return self._intersect(J)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(saturate(J), compute the ideal saturation of ``self`` by ``j``) over Any ║
+# ║ Path(saturate(J), <unspecified:saturate>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ saturate : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 293f2ee154fc9f63           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.saturate","kind":"method","src_hash":"4770bef4c48cc426","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"saturate(J)","rhs":"compute the ideal saturation of ``self`` by ``j``","over":{"base":"Any"},"name":"saturate_correct"},"guarantee":"compute the ideal saturation of ``self`` by ``j``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"293f2ee154fc9f63"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.saturate","kind":"method","src_hash":"4770bef4c48cc426","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"saturate(J)","rhs":"<unspecified:saturate>","over":{"base":"Any"},"name":"saturate_correct"},"guarantee":"compute the ideal saturation of ``self`` by ``j``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"293f2ee154fc9f63","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def saturate(self, J):
         r"""
         Compute the ideal saturation of ``self`` by ``J``.
@@ -467,16 +608,22 @@ class Ideal(IntegerPowerable):
         # Note this can be implemented using repeated quotient
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(union(J), compute the ideal generated by the union of ``self`` and ``j``) over Any ║
+# ║ Path(union(J), self._union(J)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._union(J)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ union : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42a1335e76702ad9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dea8b1358dcb2973  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.union","kind":"method","src_hash":"aa5ab87e31200cc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"union(J)","rhs":"compute the ideal generated by the union of ``self`` and ``j``","over":{"base":"Any"},"name":"union_correct"},"guarantee":"compute the ideal generated by the union of ``self`` and ``j``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.Ideal.union_correct","statement":"Path(union(x), compute the ideal generated by the union of ``self`` and ``j``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42a1335e76702ad9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.union","kind":"method","src_hash":"aa5ab87e31200cc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"union(J)","rhs":"self._union(J)","over":{"base":"Any"},"name":"union_correct"},"guarantee":"returns self._union(J)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.Ideal.union_correct","statement":"Path(union(x), returns self._union(J))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dea8b1358dcb2973","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._union(J)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._check_ideal","self._union"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def union(self, J):
         """
         Compute the ideal generated by the union of ``self`` and ``J``.
@@ -493,16 +640,22 @@ class Ideal(IntegerPowerable):
         return self._union(J)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(product(J), compute the ideal product of ``self`` and ``j``) over Any ║
+# ║ Path(product(J), self._product(J)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._product(J)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ product : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 879776d2024c916c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05578ecf7be1f25a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.product","kind":"method","src_hash":"a538bcd3aa3c243a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"product(J)","rhs":"compute the ideal product of ``self`` and ``j``","over":{"base":"Any"},"name":"product_correct"},"guarantee":"compute the ideal product of ``self`` and ``j``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.Ideal.product_correct","statement":"Path(product(x), compute the ideal product of ``self`` and ``j``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"879776d2024c916c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.product","kind":"method","src_hash":"a538bcd3aa3c243a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"product(J)","rhs":"self._product(J)","over":{"base":"Any"},"name":"product_correct"},"guarantee":"returns self._product(J)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.Ideal.product_correct","statement":"Path(product(x), returns self._product(J))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05578ecf7be1f25a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._product(J)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._check_ideal","self._product"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def product(self, J):
         r"""
         Compute the ideal product of ``self`` and ``J``.
@@ -522,16 +675,23 @@ class Ideal(IntegerPowerable):
         return self._product(J)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_element(x), reduce the element ``x`` of our ring modulo the ideal ``self``) over Any ║
+# ║ Path(reduce_element(x), x) over Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ reduce_element : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == x                                    ║
+# ║   returns:  x                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ reduce_element : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2dff8e8129448894           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.reduce_element","kind":"method","src_hash":"0af2eb9a185e4e07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_element(x)","rhs":"reduce the element ``x`` of our ring modulo the ideal ``self``","over":{"base":"Any"},"name":"reduce_element_correct"},"guarantee":"reduce the element ``x`` of our ring modulo the ideal ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2dff8e8129448894"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.reduce_element","kind":"method","src_hash":"0af2eb9a185e4e07","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (x)"},"spec":{"lhs":"reduce_element(x)","rhs":"x","over":{"base":"Any"},"name":"reduce_element_correct"},"guarantee":"returns x; result == x","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2dff8e8129448894","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == x"],"returns_expr":"x","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce_element(self, x):
         """
         Reduce the element ``x`` of our ring modulo the ideal ``self``.
@@ -542,16 +702,22 @@ class Ideal(IntegerPowerable):
         return x
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(e), returns the sum/concatenation) over Any   ║
+# ║ Path(__add__(e), <unspecified:__add__>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be290e206defa966           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.__add__","kind":"method","src_hash":"db0cda6ddd6cdfc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(e)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be290e206defa966"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.__add__","kind":"method","src_hash":"db0cda6ddd6cdfc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(e)","rhs":"<unspecified:__add__>","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be290e206defa966","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._check_ideal","self.ring","self.union"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, e):
         if not isinstance(e, Ideal):
             R = self.ring.quotient_ring(self)
@@ -566,16 +732,22 @@ class Ideal(IntegerPowerable):
     __radd__ = __add__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(e), returns the product) over Any             ║
+# ║ Path(__mul__(e), <unspecified:__mul__>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4861d05892323ba7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.__mul__","kind":"method","src_hash":"31dd723ecee7527a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(e)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4861d05892323ba7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.__mul__","kind":"method","src_hash":"31dd723ecee7527a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(e)","rhs":"<unspecified:__mul__>","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4861d05892323ba7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._check_ideal","self.product","self.ring"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, e):
         if not isinstance(e, Ideal):
             try:
@@ -588,62 +760,87 @@ class Ideal(IntegerPowerable):
     __rmul__ = __mul__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_zeroth_power(), internal helper behaves correctly) over Any ║
+# ║ Path(_zeroth_power(), self.ring.ideal(1)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ring.ideal(1)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _zeroth_power : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9726b8db9923bebb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._zeroth_power","kind":"method","src_hash":"191041ee084bdc61","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_zeroth_power()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_zeroth_power_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9726b8db9923bebb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._zeroth_power","kind":"method","src_hash":"191041ee084bdc61","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_zeroth_power()","rhs":"self.ring.ideal(1)","over":{"base":"Any"},"name":"_zeroth_power_correct"},"guarantee":"returns self.ring.ideal(1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9726b8db9923bebb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ring.ideal(1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _zeroth_power(self):
         return self.ring.ideal(1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_first_power(), internal helper behaves correctly) over Any ║
+# ║ Path(_first_power(), self * 1) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self * 1                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _first_power : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 947a6b21370c81c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._first_power","kind":"method","src_hash":"45a1469c325ba410","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_first_power()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_first_power_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"947a6b21370c81c7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal._first_power","kind":"method","src_hash":"45a1469c325ba410","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_first_power()","rhs":"self * 1","over":{"base":"Any"},"name":"_first_power_correct"},"guarantee":"returns self * 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"947a6b21370c81c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self * 1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _first_power(self):
         # Raising to any power but 1 returns a new instance. So we mult by 1
         # here so that the first power is no exception.
         return self * 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(e), correctly determines equality) over Any    ║
+# ║ Path(__eq__(e), <unspecified:__eq__>) over {Any | hasattr(e, 'ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'ring')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(e, 'ring')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 686efc249ee9e4bd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.__eq__","kind":"method","src_hash":"aa6268d7e7e7db1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(e)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"686efc249ee9e4bd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.__eq__","kind":"method","src_hash":"aa6268d7e7e7db1c","in":{"base":"Any","pred":"hasattr(e, 'ring')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(e)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(e, 'ring')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"686efc249ee9e4bd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.ring","self._equals","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, e):
         if not isinstance(e, Ideal) or e.ring != self.ring:
             return False
         return self._equals(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__ne__(e), internal helper behaves correctly) over Any ║
+# ║ Path(__ne__(e), not self == e) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self == e                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __ne__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef84549f2068ccdb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.__ne__","kind":"method","src_hash":"6d35853016306e3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef84549f2068ccdb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.Ideal.__ne__","kind":"method","src_hash":"6d35853016306e3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__ne__(e)","rhs":"not self == e","over":{"base":"Any"},"name":"__ne___correct"},"guarantee":"returns not self == e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef84549f2068ccdb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self == e","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __ne__(self, e):
         return not (self == e)
 
@@ -651,14 +848,20 @@ class Ideal(IntegerPowerable):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ModuleImplementedIdeal instance) preserved by ModuleImplementedIdeal(*args) over {Any | isinstance(J, ModuleImplementedIdeal)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Ideal)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ModuleImplementedIdeal : {Any | isinstance(J, ModuleI...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 231c0c079dff7345  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal","kind":"class","src_hash":"a94b8f1b422a8c64","in":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal)"},"out":{"base":"Any"},"spec":{"lhs":"ModuleImplementedIdeal(*args)","rhs":"correctly constructs a ModuleImplementedIdeal instance","over":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal)"},"name":"ModuleImplementedIdeal_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ModuleImplementedIdeal instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_module')","kind":"class","induction":"structural on _module"}],"methods_preserving":["__init__","_contains_elem","_contains_ideal","_intersect","_quotient","_union","gens","is_zero","is_whole_ring","__repr__","_product","in_terms_of_generators","reduce_element"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"231c0c079dff7345"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal","kind":"class","src_hash":"a94b8f1b422a8c64","in":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Ideal)"},"spec":{"lhs":"ModuleImplementedIdeal(*args)","rhs":"correctly constructs a ModuleImplementedIdeal instance","over":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal)"},"name":"ModuleImplementedIdeal_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Ideal); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_module')","kind":"class","induction":"structural on _module"}],"methods_preserving":["__init__","_contains_elem","_contains_ideal","_intersect","_quotient","_union","gens","is_zero","is_whole_ring","__repr__","_product","in_terms_of_generators","reduce_element"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"231c0c079dff7345","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Ideal)"],"invariants":["hasattr(self, '_module')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function ModuleImplementedIdeal not found in source"]}}
 class ModuleImplementedIdeal(Ideal):
     """
     Ideal implementation relying on the modules code.
@@ -669,93 +872,137 @@ class ModuleImplementedIdeal(Ideal):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rin), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ring, module), self._module == module) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self._module == module                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self._modul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5cdc2f6ae6fac444           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.__init__","kind":"method","src_hash":"e755f8a85df08939","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rin)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5cdc2f6ae6fac444"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.__init__","kind":"method","src_hash":"e755f8a85df08939","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self._module == module"},"spec":{"lhs":"__init__(ring, module)","rhs":"self._module == module","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self._module == module","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5cdc2f6ae6fac444","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self._module == module"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ring, module):
         Ideal.__init__(self, ring)
         self._module = module
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains_elem(x), internal helper behaves correctly) over Any ║
+# ║ Path(_contains_elem(x), self._module.contains([x])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._module.contains([x])                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _contains_elem : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2aa1ddaf784fcdc5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal._contains_elem","kind":"method","src_hash":"c34c0d0c1575d19a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains_elem(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_elem_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2aa1ddaf784fcdc5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal._contains_elem","kind":"method","src_hash":"c34c0d0c1575d19a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains_elem(x)","rhs":"self._module.contains([x])","over":{"base":"Any"},"name":"_contains_elem_correct"},"guarantee":"returns self._module.contains([x])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2aa1ddaf784fcdc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._module.contains([x])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains_elem(self, x):
         return self._module.contains([x])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains_ideal(J), internal helper behaves correctly) over Any ║
+# ║ Path(_contains_ideal(J), self._module.is_submodule(J._module)) over {Any | isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _contains_ideal : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(J, ModuleImplementedIdeal)          ║
+# ║   requires: hasattr(J, '_module')                          ║
+# ║   returns:  self._module.is_submodule(J._module)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _contains_ideal : {Any | isinstance(J, ModuleImplemen...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1975b3a84dc469a8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9aeb5a42d3572d59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal._contains_ideal","kind":"method","src_hash":"ad9af2940d528827","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains_ideal(J)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_ideal_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.ModuleImplementedIdeal._contains_ideal_correct","statement":"Path(_contains_ideal(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1975b3a84dc469a8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal._contains_ideal","kind":"method","src_hash":"ad9af2940d528827","in":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')"},"out":{"base":"Any"},"spec":{"lhs":"_contains_ideal(J)","rhs":"self._module.is_submodule(J._module)","over":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')"},"name":"_contains_ideal_correct"},"guarantee":"returns self._module.is_submodule(J._module)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.ModuleImplementedIdeal._contains_ideal_correct","statement":"Path(_contains_ideal(x), returns self._module.is_submodule(J._module))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9aeb5a42d3572d59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(J, ModuleImplementedIdeal)","hasattr(J, '_module')"],"returns_expr":"self._module.is_submodule(J._module)","pure":false,"effects":{"effect_type":"reads_state","reads":["J._module","self._module"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains_ideal(self, J):
         if not isinstance(J, ModuleImplementedIdeal):
             raise NotImplementedError
         return self._module.is_submodule(J._module)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_intersect(J), id) over Any                           ║
+# ║ Path(_intersect(J), id) over {Any | isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _intersect : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(J, ModuleImplementedIdeal)          ║
+# ║   requires: hasattr(J, '_module')                          ║
+# ║   returns:  self.__class__(self.ring, self._module.in...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _intersect : {Any | isinstance(J, ModuleImplementedId...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9923a7b8757d2b74   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal._intersect","kind":"method","src_hash":"ebc2c26ef9bb195d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_intersect(J)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_intersect_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"intersect","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9923a7b8757d2b74"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal._intersect","kind":"method","src_hash":"ebc2c26ef9bb195d","in":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')"},"out":{"base":"Any"},"spec":{"lhs":"_intersect(J)","rhs":"self.__class__(self.ring, self._module.intersect(J._module))","over":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')"},"name":"_intersect_correct","kind":"composition"},"guarantee":"returns self.__class__(self.ring, self._module.intersect(J._module))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"intersect","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9923a7b8757d2b74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(J, ModuleImplementedIdeal)","hasattr(J, '_module')"],"returns_expr":"self.__class__(self.ring, self._module.intersect(J._module))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","J._module","self.__class__","self._module","self.ring"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _intersect(self, J):
         if not isinstance(J, ModuleImplementedIdeal):
             raise NotImplementedError
         return self.__class__(self.ring, self._module.intersect(J._module))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_quotient(J, ), internal helper behaves correctly) over Any ║
+# ║ Path(_quotient(J, **opts), self._module.module_quotient(J._module, **opts)) over {Any | isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _quotient : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(J, ModuleImplementedIdeal)          ║
+# ║   requires: hasattr(J, '_module')                          ║
+# ║   returns:  self._module.module_quotient(J._module, *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _quotient : {Any | isinstance(J, ModuleImplementedIde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7b31cd12ebab288  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1515c91a4caeb846  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal._quotient","kind":"method","src_hash":"0f7284eb13edffee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_quotient(J, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_quotient_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.ModuleImplementedIdeal._quotient_correct","statement":"Path(_quotient(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7b31cd12ebab288"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal._quotient","kind":"method","src_hash":"0f7284eb13edffee","in":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')"},"out":{"base":"Any"},"spec":{"lhs":"_quotient(J, **opts)","rhs":"self._module.module_quotient(J._module, **opts)","over":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')"},"name":"_quotient_correct"},"guarantee":"returns self._module.module_quotient(J._module, **opts)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.agca.ideals.ModuleImplementedIdeal._quotient_correct","statement":"Path(_quotient(x), returns self._module.module_quotient(J._module, **opts))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1515c91a4caeb846","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(J, ModuleImplementedIdeal)","hasattr(J, '_module')"],"returns_expr":"self._module.module_quotient(J._module, **opts)","pure":false,"effects":{"effect_type":"reads_state","reads":["J._module","self._module"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _quotient(self, J, **opts):
         if not isinstance(J, ModuleImplementedIdeal):
             raise NotImplementedError
         return self._module.module_quotient(J._module, **opts)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_union(J), id) over Any                               ║
+# ║ Path(_union(J), id) over {Any | isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _union : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(J, ModuleImplementedIdeal)          ║
+# ║   requires: hasattr(J, '_module')                          ║
+# ║   returns:  self.__class__(self.ring, self._module.un...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _union : {Any | isinstance(J, ModuleImplementedIdeal)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0efea087e716153c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal._union","kind":"method","src_hash":"15d25e6f7175988f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_union(J)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_union_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"union","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0efea087e716153c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal._union","kind":"method","src_hash":"15d25e6f7175988f","in":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')"},"out":{"base":"Any"},"spec":{"lhs":"_union(J)","rhs":"self.__class__(self.ring, self._module.union(J._module))","over":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')"},"name":"_union_correct","kind":"composition"},"guarantee":"returns self.__class__(self.ring, self._module.union(J._module))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"union","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0efea087e716153c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(J, ModuleImplementedIdeal)","hasattr(J, '_module')"],"returns_expr":"self.__class__(self.ring, self._module.union(J._module))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","J._module","self.__class__","self._module","self.ring"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _union(self, J):
         if not isinstance(J, ModuleImplementedIdeal):
             raise NotImplementedError
@@ -763,16 +1010,22 @@ class ModuleImplementedIdeal(Ideal):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gens(), returns the gens attribute) over Any          ║
+# ║ Path(gens(), (x[0] for x in self._module.gens)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (x[0] for x in self._module.gens)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gens : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0736e5d096d04496           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.gens","kind":"property","src_hash":"c29338cead16bd53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gens()","rhs":"returns the gens attribute","over":{"base":"Any"},"name":"gens_correct"},"guarantee":"returns the gens attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0736e5d096d04496"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.gens","kind":"property","src_hash":"c29338cead16bd53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gens()","rhs":"(x[0] for x in self._module.gens)","over":{"base":"Any"},"name":"gens_correct"},"guarantee":"returns (x[0] for x in self._module.gens)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0736e5d096d04496","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(x[0] for x in self._module.gens)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gens(self):
         """
         Return generators for ``self``.
@@ -788,16 +1041,22 @@ class ModuleImplementedIdeal(Ideal):
         return (x[0] for x in self._module.gens)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero(), return true if ``self`` is the zero ideal) over Any ║
+# ║ Path(is_zero(), self._module.is_zero()) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._module.is_zero()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 789708d5cb99d192           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.is_zero","kind":"method","src_hash":"85c680ca1c95bb54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"return true if ``self`` is the zero ideal","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"return true if ``self`` is the zero ideal","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"789708d5cb99d192"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.is_zero","kind":"method","src_hash":"85c680ca1c95bb54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"self._module.is_zero()","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns self._module.is_zero()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"789708d5cb99d192","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._module.is_zero()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero(self):
         """
         Return True if ``self`` is the zero ideal.
@@ -815,16 +1074,22 @@ class ModuleImplementedIdeal(Ideal):
         return self._module.is_zero()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_whole_ring(), return true if ``self`` is the whole ring, i.e) over Any ║
+# ║ Path(is_whole_ring(), self._module.is_full_module()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._module.is_full_module()                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_whole_ring : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 980131d1386a5dbf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.is_whole_ring","kind":"method","src_hash":"3a7cfa549a484b0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_whole_ring()","rhs":"return true if ``self`` is the whole ring, i.e","over":{"base":"Any"},"name":"is_whole_ring_correct"},"guarantee":"return true if ``self`` is the whole ring, i.e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"980131d1386a5dbf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.is_whole_ring","kind":"method","src_hash":"3a7cfa549a484b0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_whole_ring()","rhs":"self._module.is_full_module()","over":{"base":"Any"},"name":"is_whole_ring_correct"},"guarantee":"returns self._module.is_full_module()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"980131d1386a5dbf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._module.is_full_module()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_whole_ring(self):
         """
         Return True if ``self`` is the whole ring, i.e. one generator is a unit.
@@ -844,16 +1109,22 @@ class ModuleImplementedIdeal(Ideal):
         return self._module.is_full_module()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), '<' + ','.join((sstr(g) for g in gens)) + '>') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<' + ','.join((sstr(g) for g in gens)) +...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fee979b6b9d23983           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.__repr__","kind":"method","src_hash":"2b12ec9ccbe2f3f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fee979b6b9d23983"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.__repr__","kind":"method","src_hash":"2b12ec9ccbe2f3f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'<' + ','.join((sstr(g) for g in gens)) + '>'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns '<' + ','.join((sstr(g) for g in gens)) + '>'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fee979b6b9d23983","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<' + ','.join((sstr(g) for g in gens)) + '>'","pure":false,"effects":{"effect_type":"reads_state","reads":["self._module","self.ring"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         from sympy.printing.str import sstr
         gens = [self.ring.to_sympy(x) for [x] in self._module.gens]
@@ -861,16 +1132,24 @@ class ModuleImplementedIdeal(Ideal):
 
     # NOTE this is the only method using the fact that the module is a SubModule
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_product(J), id) over Any                             ║
+# ║ Path(_product(J), id) over {Any | isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _product : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(J, ModuleImplementedIdeal)          ║
+# ║   requires: hasattr(J, '_module')                          ║
+# ║   returns:  self.__class__(self.ring, self._module.su...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _product : {Any | isinstance(J, ModuleImplementedIdea...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 0d23d9e26688a145   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal._product","kind":"method","src_hash":"3b09e35218b007b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_product(J)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_product_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"submodule","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d23d9e26688a145"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal._product","kind":"method","src_hash":"3b09e35218b007b2","in":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')"},"out":{"base":"Any"},"spec":{"lhs":"_product(J)","rhs":"self.__class__(self.ring, self._module.submodule(*[[x * y] for [x] in self._module.gens for [y] in J._module.gens]))","over":{"base":"Any","pred":"isinstance(J, ModuleImplementedIdeal) and hasattr(J, '_module')"},"name":"_product_correct","kind":"composition"},"guarantee":"returns self.__class__(self.ring, self._module.submodule(*[[x * y] for [x] in self._module.gens for [y] in J._module.gens]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"__class__","by":"library_axiom"},{"fn":"submodule","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d23d9e26688a145","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(J, ModuleImplementedIdeal)","hasattr(J, '_module')"],"returns_expr":"self.__class__(self.ring, self._module.submodule(*[[x * y] for [x] in self._module.gens for [y] in J._module.gens]))","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","J._module","self.__class__","self._module","self.ring"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _product(self, J):
         if not isinstance(J, ModuleImplementedIdeal):
             raise NotImplementedError
@@ -878,16 +1157,22 @@ class ModuleImplementedIdeal(Ideal):
             *[[x*y] for [x] in self._module.gens for [y] in J._module.gens]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(in_terms_of_generators(e), express ``e`` in terms of the generators of ``self``) over Any ║
+# ║ Path(in_terms_of_generators(e), self._module.in_terms_of_generators([e])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._module.in_terms_of_generators([e])       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ in_terms_of_generators : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e349cf215b8c2059           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.in_terms_of_generators","kind":"method","src_hash":"ccec5b4e7c17cb2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"in_terms_of_generators(e)","rhs":"express ``e`` in terms of the generators of ``self``","over":{"base":"Any"},"name":"in_terms_of_generators_correct"},"guarantee":"express ``e`` in terms of the generators of ``self``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e349cf215b8c2059"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.in_terms_of_generators","kind":"method","src_hash":"ccec5b4e7c17cb2a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"in_terms_of_generators(e)","rhs":"self._module.in_terms_of_generators([e])","over":{"base":"Any"},"name":"in_terms_of_generators_correct"},"guarantee":"returns self._module.in_terms_of_generators([e])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e349cf215b8c2059","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._module.in_terms_of_generators([e])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def in_terms_of_generators(self, e):
         """
         Express ``e`` in terms of the generators of ``self``.
@@ -904,15 +1189,21 @@ class ModuleImplementedIdeal(Ideal):
         return self._module.in_terms_of_generators([e])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduce_element(x, ), reduce_element produces the expected output) over Any ║
+# ║ Path(reduce_element(x, **options), self._module.reduce_element([x], **options)[0]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._module.reduce_element([x], **option...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reduce_element : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | da559a5f80a1f32a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.reduce_element","kind":"method","src_hash":"483812d6cf9f709e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_element(x, )","rhs":"reduce_element produces the expected output","over":{"base":"Any"},"name":"reduce_element_correct"},"guarantee":"reduce_element produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da559a5f80a1f32a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.agca.ideals.ModuleImplementedIdeal.reduce_element","kind":"method","src_hash":"483812d6cf9f709e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduce_element(x, **options)","rhs":"self._module.reduce_element([x], **options)[0]","over":{"base":"Any"},"name":"reduce_element_correct"},"guarantee":"returns self._module.reduce_element([x], **options)[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"da559a5f80a1f32a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._module.reduce_element([x], **options)[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reduce_element(self, x, **options):
         return self._module.reduce_element([x], **options)[0]

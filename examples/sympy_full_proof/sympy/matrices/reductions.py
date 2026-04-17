@@ -25,16 +25,23 @@ from .determinant import _find_reasonable_pivot
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_row_reduce_list(mat), row reduce a flat list representation of a matrix and return a tuple (rref_matrix, pivot_cols, swaps) where ``rref_matrix`` is a flat list, ``pivot_cols`` are the pivot columns and ``swaps`` are any r) over Any ║
+# ║ Path(_row_reduce_list(mat, rows, cols), len(pivot_cols) == old_len_pivot_cols + 1 and len(swaps) == old_len_swaps + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _row_reduce_list : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(pivot_cols) == old_len_pivot_cols + 1      ║
+# ║   ensures:  len(swaps) == old_len_swaps + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _row_reduce_list : Any → {Any | result satisfies: len...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc337fde6e29fa81  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4efc8c105485d029  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._row_reduce_list","kind":"function","src_hash":"df6fab880a1e12b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_row_reduce_list(mat)","rhs":"row reduce a flat list representation of a matrix and return a tuple (rref_matrix, pivot_cols, swaps) where ``rref_matrix`` is a flat list, ``pivot_cols`` are the pivot columns and ``swaps`` are any r","over":{"base":"Any"},"name":"_row_reduce_list_correct"},"guarantee":"row reduce a flat list representation of a matrix and return a tuple (rref_matrix, pivot_cols, swaps) where ``rref_matrix`` is a flat list, ``pivot_cols`` are the pivot columns and ``swaps`` are any r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._row_reduce_list_correct","statement":"Path(_row_reduce_list(x), row reduce a flat list representation of a matrix and return a tuple (rref_matrix, pivot_cols, swaps) where ``rref_matrix`` is a flat list, ``pivot_cols`` are the pivot columns and ``swaps`` are any r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc337fde6e29fa81"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._row_reduce_list","kind":"function","src_hash":"df6fab880a1e12b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(pivot_cols) == old_len_pivot_cols + 1 and len(swaps) == old_len_swaps + 1"},"spec":{"lhs":"_row_reduce_list(mat, rows, cols)","rhs":"len(pivot_cols) == old_len_pivot_cols + 1 and len(swaps) == old_len_swaps + 1","over":{"base":"Any"},"name":"_row_reduce_list_correct"},"guarantee":"len(pivot_cols) == old_len_pivot_cols + 1; len(swaps) == old_len_swaps + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._row_reduce_list_correct","statement":"Path(_row_reduce_list(x), len(pivot_cols) == old_len_pivot_cols + 1; len(swaps) == old_len_swaps + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4efc8c105485d029","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(pivot_cols) == old_len_pivot_cols + 1","len(swaps) == old_len_swaps + 1"],"pure":false,"effects":{"effect_type":"mutates_args","writes":["mat[*]"],"calls_mutating":["pivot_cols.append","swaps.append"]},"state_contract":{"modifies":["mat[*]","pivot_cols.*","swaps.*"],"old_bindings":{"old_mat_star":"mat[*]","old_len_pivot_cols":"len(pivot_cols)","old_len_swaps":"len(swaps)"},"post_ensures":["len(pivot_cols) == old_len_pivot_cols + 1","len(swaps) == old_len_swaps + 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def _row_reduce_list(mat, rows, cols, one, iszerofunc, simpfunc,
                 normalize_last=True, normalize=True, zero_above=True):
     """Row reduce a flat list representation of a matrix and return a tuple
@@ -150,16 +157,25 @@ def _row_reduce_list(mat, rows, cols, one, iszerofunc, simpfunc,
 
 # This functions is a candidate for caching if it gets implemented for matrices.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_row_reduce(M, ), internal helper behaves correctly) over Any ║
+# ║ Path(_row_reduce(M, iszerofunc, simpfunc), (M._new(M.rows, M.cols, mat), pivot_cols, swaps)) over {Any | hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'one') and hasattr(M, '_new')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _row_reduce : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   requires: hasattr(M, 'one')                              ║
+# ║   returns:  (M._new(M.rows, M.cols, mat), pivot_cols,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _row_reduce : {Any | hasattr(M, 'rows') and hasattr(M...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a8fcbe906a9a53a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d2e0b747b208f59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._row_reduce","kind":"function","src_hash":"82afe1076b6f485f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_row_reduce(M, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_row_reduce_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._row_reduce_correct","statement":"Path(_row_reduce(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a8fcbe906a9a53a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._row_reduce","kind":"function","src_hash":"82afe1076b6f485f","in":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'one') and hasattr(M, '_new')"},"out":{"base":"Any"},"spec":{"lhs":"_row_reduce(M, iszerofunc, simpfunc)","rhs":"(M._new(M.rows, M.cols, mat), pivot_cols, swaps)","over":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'one') and hasattr(M, '_new')"},"name":"_row_reduce_correct"},"guarantee":"returns (M._new(M.rows, M.cols, mat), pivot_cols, swaps)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._row_reduce_correct","statement":"Path(_row_reduce(x), returns (M._new(M.rows, M.cols, mat), pivot_cols, swaps))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d2e0b747b208f59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'one')","hasattr(M, '_new')"],"returns_expr":"(M._new(M.rows, M.cols, mat), pivot_cols, swaps)","pure":false,"effects":{"effect_type":"reads_state","reads":["M._new","M.cols","M.one","M.rows"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _row_reduce(M, iszerofunc, simpfunc, normalize_last=True,
                 normalize=True, zero_above=True):
 
@@ -171,16 +187,24 @@ def _row_reduce(M, iszerofunc, simpfunc, normalize_last=True,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_echelon(M, ), returns `true` if the matrix is in echelon form) over Any ║
+# ║ Path(_is_echelon(M, iszerofunc), # HINT: _is_echelon may be idempotent: _is_echelon(_is_echelon(x)) == _is_echelon(x)) over {Any | hasattr(M, 'rows') and hasattr(M, 'cols')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_echelon : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   ensures:  # HINT: _is_echelon may be idempotent: _i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_echelon : {Any | hasattr(M, 'rows') and hasattr(M...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 163466bf2073ff6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c0749b21df3e290  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._is_echelon","kind":"function","src_hash":"9d62ce309a15bd73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_echelon(M, )","rhs":"returns `true` if the matrix is in echelon form","over":{"base":"Any"},"name":"_is_echelon_correct"},"guarantee":"returns `true` if the matrix is in echelon form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._is_echelon_correct","statement":"Path(_is_echelon(x), returns `true` if the matrix is in echelon form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"163466bf2073ff6e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._is_echelon","kind":"function","src_hash":"9d62ce309a15bd73","in":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _is_echelon may be idempotent: _is_echelon(_is_echelon(x)) == _is_echelon(x)"},"spec":{"lhs":"_is_echelon(M, iszerofunc)","rhs":"# HINT: _is_echelon may be idempotent: _is_echelon(_is_echelon(x)) == _is_echelon(x)","over":{"base":"Any","pred":"hasattr(M, 'rows') and hasattr(M, 'cols')"},"name":"_is_echelon_correct"},"guarantee":"# HINT: _is_echelon may be idempotent: _is_echelon(_is_echelon(x)) == _is_echelon(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._is_echelon_correct","statement":"Path(_is_echelon(x), # HINT: _is_echelon may be idempotent: _is_echelon(_is_echelon(x)) == _is_echelon(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c0749b21df3e290","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'rows')","hasattr(M, 'cols')"],"ensures":["# HINT: _is_echelon may be idempotent: _is_echelon(_is_echelon(x)) == _is_echelon(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.cols","M.rows"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _is_echelon(M, iszerofunc=_iszero):
     """Returns `True` if the matrix is in echelon form. That is, all rows of
     zeros are at the bottom, and below each leading non-zero in a row are
@@ -198,7 +222,10 @@ def _is_echelon(M, iszerofunc=_iszero):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_echelon_form(M, ), returns a matrix row-equivalent to ``m`` that is in echelon form) over {Any | isinstance(simplify, FunctionType)} ║
+# ║ Path(_echelon_form(M, iszerofunc, simplify), <unspecified:_echelon_form>) over {Any | isinstance(simplify, FunctionType)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _echelon_form : {Any | isinstance(simplify, FunctionT...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -210,9 +237,12 @@ def _is_echelon(M, iszerofunc=_iszero):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ebba8bab...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._echelon_form","kind":"function","src_hash":"4f93c17ab8fea92e","in":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"out":{"base":"Any"},"spec":{"lhs":"_echelon_form(M, )","rhs":"returns a matrix row-equivalent to ``m`` that is in echelon form","over":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"name":"_echelon_form_correct"},"guarantee":"returns a matrix row-equivalent to ``m`` that is in echelon form","fibers":[{"name":"FunctionType","pred":"isinstance(simplify, FunctionType)","path":{"lhs":"_echelon_form(x)","rhs":"returns a matrix row-equivalent to ``m`` that is in echelon form","over":{"base":"FunctionType","pred":"isinstance(simplify, FunctionType)"},"name":"_echelon_form_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._echelon_form_FunctionType_correct","statement":"_echelon_form satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ebba8babe2dee0dc"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._echelon_form","kind":"function","src_hash":"4f93c17ab8fea92e","in":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"out":{"base":"Any"},"spec":{"lhs":"_echelon_form(M, iszerofunc, simplify)","rhs":"<unspecified:_echelon_form>","over":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"name":"_echelon_form_correct"},"guarantee":"returns a matrix row-equivalent to ``m`` that is in echelon form","fibers":[{"name":"FunctionType","pred":"isinstance(simplify, FunctionType)","path":{"lhs":"_echelon_form(x)","rhs":"returns a matrix row-equivalent to ``m`` that is in echelon form","over":{"base":"FunctionType","pred":"isinstance(simplify, FunctionType)"},"name":"_echelon_form_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._echelon_form_FunctionType_correct","statement":"_echelon_form satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ebba8babe2dee0dc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def _echelon_form(M, iszerofunc=_iszero, simplify=False, with_pivots=False):
     """Returns a matrix row-equivalent to ``M`` that is in echelon form. Note
     that echelon form of a matrix is *not* unique, however, properties like the
@@ -242,9 +272,15 @@ def _echelon_form(M, iszerofunc=_iszero, simplify=False, with_pivots=False):
 
 # This functions is a candidate for caching if it gets implemented for matrices.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rank(M, ), returns the rank of a matrix) over {Any | isinstance(simplify, FunctionType)} ║
+# ║ Path(_rank(M, iszerofunc, simplify), <unspecified:_rank>) over {Any | isinstance(simplify, FunctionType) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'det') and hasattr(M, 'permute')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rank : {Any | isinstance(simplify, FunctionType)} → Any   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   requires: hasattr(M, 'cols')                             ║
+# ║   requires: hasattr(M, 'det')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rank : {Any | isinstance(simplify, FunctionType) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   FunctionType: {isinstance(simplify, FunctionType)} ...   ║
@@ -254,9 +290,12 @@ def _echelon_form(M, iszerofunc=_iszero, simplify=False, with_pivots=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 017fabab...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._rank","kind":"function","src_hash":"b61d9130a5b5065c","in":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"out":{"base":"Any"},"spec":{"lhs":"_rank(M, )","rhs":"returns the rank of a matrix","over":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"name":"_rank_correct"},"guarantee":"returns the rank of a matrix","fibers":[{"name":"FunctionType","pred":"isinstance(simplify, FunctionType)","path":{"lhs":"_rank(x)","rhs":"returns the rank of a matrix","over":{"base":"FunctionType","pred":"isinstance(simplify, FunctionType)"},"name":"_rank_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._rank_FunctionType_correct","statement":"_rank satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"017fabab6da22902"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._rank","kind":"function","src_hash":"b61d9130a5b5065c","in":{"base":"Any","pred":"isinstance(simplify, FunctionType) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'det') and hasattr(M, 'permute')"},"out":{"base":"Any"},"spec":{"lhs":"_rank(M, iszerofunc, simplify)","rhs":"<unspecified:_rank>","over":{"base":"Any","pred":"isinstance(simplify, FunctionType) and hasattr(M, 'rows') and hasattr(M, 'cols') and hasattr(M, 'det') and hasattr(M, 'permute')"},"name":"_rank_correct"},"guarantee":"returns the rank of a matrix","fibers":[{"name":"FunctionType","pred":"isinstance(simplify, FunctionType)","path":{"lhs":"_rank(x)","rhs":"returns the rank of a matrix","over":{"base":"FunctionType","pred":"isinstance(simplify, FunctionType)"},"name":"_rank_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._rank_FunctionType_correct","statement":"_rank satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"017fabab6da22902","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, 'rows')","hasattr(M, 'cols')","hasattr(M, 'det')","hasattr(M, 'permute')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.cols","M.det","M.permute","M.rows"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'M.rows <= 1 or M.cols <= 1', 'M.rows <= 0 or M.cols <= 0', 'M.rows == 2 and M.cols == 2'}, fibers={'FunctionType'})"]}}
 def _rank(M, iszerofunc=_iszero, simplify=False):
     """Returns the rank of a matrix.
 
@@ -328,16 +367,23 @@ def _rank(M, iszerofunc=_iszero, simplify=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_to_DM_ZZ_QQ(M), internal helper behaves correctly) over Any ║
+# ║ Path(_to_DM_ZZ_QQ(M), <unspecified:_to_DM_ZZ_QQ>) over {Any | hasattr(M, '_rep')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _to_DM_ZZ_QQ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(M, '_rep')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _to_DM_ZZ_QQ : {Any | hasattr(M, '_rep')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3436e5bd760ca39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._to_DM_ZZ_QQ","kind":"function","src_hash":"b02e4d887ea265a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_to_DM_ZZ_QQ(M)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_to_DM_ZZ_QQ_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._to_DM_ZZ_QQ_correct","statement":"Path(_to_DM_ZZ_QQ(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3436e5bd760ca39"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._to_DM_ZZ_QQ","kind":"function","src_hash":"b02e4d887ea265a9","in":{"base":"Any","pred":"hasattr(M, '_rep')"},"out":{"base":"Any"},"spec":{"lhs":"_to_DM_ZZ_QQ(M)","rhs":"<unspecified:_to_DM_ZZ_QQ>","over":{"base":"Any","pred":"hasattr(M, '_rep')"},"name":"_to_DM_ZZ_QQ_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._to_DM_ZZ_QQ_correct","statement":"Path(_to_DM_ZZ_QQ(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3436e5bd760ca39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(M, '_rep')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M._rep"],"catches":["CoercionFailed"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _to_DM_ZZ_QQ(M):
     # We have to test for _rep here because there are tests that otherwise fail
     # with e.g. "AttributeError: 'SubspaceOnlyMatrix' object has no attribute
@@ -369,16 +415,25 @@ def _to_DM_ZZ_QQ(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rref_dm(dM), compute the reduced row echelon form of a domainmatrix) over Any ║
+# ║ Path(_rref_dm(dM), (M_rref, pivots)) over {Any | hasattr(dM, 'domain') and hasattr(dM, 'rref_den') and hasattr(dM, 'rref')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rref_dm : Any → {Any | False}                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(dM, 'domain')                          ║
+# ║   requires: hasattr(dM, 'rref_den')                        ║
+# ║   requires: hasattr(dM, 'rref')                            ║
+# ║   returns:  (M_rref, pivots)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rref_dm : {Any | hasattr(dM, 'domain') and hasattr(d...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 688c3f4d37e55211  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16101882c5c2b2f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._rref_dm","kind":"function","src_hash":"a210e97d0151aeba","in":{"base":"Any"},"out":{"base":"Any","pred":"False"},"spec":{"lhs":"_rref_dm(dM)","rhs":"compute the reduced row echelon form of a domainmatrix","over":{"base":"Any"},"name":"_rref_dm_correct"},"guarantee":"compute the reduced row echelon form of a domainmatrix","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._rref_dm_correct","statement":"Path(_rref_dm(x), compute the reduced row echelon form of a domainmatrix)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"688c3f4d37e55211"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._rref_dm","kind":"function","src_hash":"a210e97d0151aeba","in":{"base":"Any","pred":"hasattr(dM, 'domain') and hasattr(dM, 'rref_den') and hasattr(dM, 'rref')"},"out":{"base":"Any","pred":"False"},"spec":{"lhs":"_rref_dm(dM)","rhs":"(M_rref, pivots)","over":{"base":"Any","pred":"hasattr(dM, 'domain') and hasattr(dM, 'rref_den') and hasattr(dM, 'rref')"},"name":"_rref_dm_correct"},"guarantee":"returns (M_rref, pivots)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._rref_dm_correct","statement":"Path(_rref_dm(x), returns (M_rref, pivots))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16101882c5c2b2f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(dM, 'domain')","hasattr(dM, 'rref_den')","hasattr(dM, 'rref')"],"returns_expr":"(M_rref, pivots)","pure":false,"effects":{"effect_type":"reads_state","reads":["dM.domain","dM.rref","dM.rref_den"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rref_dm(dM):
     """Compute the reduced row echelon form of a DomainMatrix."""
     K = dM.domain
@@ -397,7 +452,10 @@ def _rref_dm(dM):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rref(M, ), return reduced row-echelon form of matrix and indices of pivot vars) over {Any | isinstance(simplify, FunctionType)} ║
+# ║ Path(_rref(M, iszerofunc, simplify), <unspecified:_rref>) over {Any | isinstance(simplify, FunctionType)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _rref : {Any | isinstance(simplify, FunctionType)} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -409,9 +467,12 @@ def _rref_dm(dM):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0cc6fd09...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._rref","kind":"function","src_hash":"ea540ef1f208b824","in":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"out":{"base":"Any"},"spec":{"lhs":"_rref(M, )","rhs":"return reduced row-echelon form of matrix and indices of pivot vars","over":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"name":"_rref_correct"},"guarantee":"return reduced row-echelon form of matrix and indices of pivot vars","fibers":[{"name":"FunctionType","pred":"isinstance(simplify, FunctionType)","path":{"lhs":"_rref(x)","rhs":"return reduced row-echelon form of matrix and indices of pivot vars","over":{"base":"FunctionType","pred":"isinstance(simplify, FunctionType)"},"name":"_rref_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._rref_FunctionType_correct","statement":"_rref satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0cc6fd0976bacc64"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.reductions._rref","kind":"function","src_hash":"ea540ef1f208b824","in":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"out":{"base":"Any"},"spec":{"lhs":"_rref(M, iszerofunc, simplify)","rhs":"<unspecified:_rref>","over":{"base":"Any","pred":"isinstance(simplify, FunctionType)"},"name":"_rref_correct"},"guarantee":"return reduced row-echelon form of matrix and indices of pivot vars","fibers":[{"name":"FunctionType","pred":"isinstance(simplify, FunctionType)","path":{"lhs":"_rref(x)","rhs":"return reduced row-echelon form of matrix and indices of pivot vars","over":{"base":"FunctionType","pred":"isinstance(simplify, FunctionType)"},"name":"_rref_FunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.reductions._rref_FunctionType_correct","statement":"_rref satisfies spec on FunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0cc6fd0976bacc64","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(simplify, FunctionType)'}, fibers={'FunctionType'})"]}}
 def _rref(M, iszerofunc=_iszero, simplify=False, pivots=True,
         normalize_last=True):
     """Return reduced row-echelon form of matrix and indices

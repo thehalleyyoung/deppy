@@ -22,16 +22,22 @@ from sympy.polys.fields import vfield
 from sympy.polys.domains import QQ
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vring(), test_vring produces the expected output) over Any ║
+# ║ Path(test_vring(), <unspecified:test_vring>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_vring : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42c91be1ae4f2416  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_injections.test_vring","kind":"function","src_hash":"81438a2c067c428d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_vring()","rhs":"test_vring produces the expected output","over":{"base":"Any"},"name":"test_vring_correct"},"guarantee":"test_vring produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_injections.test_vring_correct","statement":"Path(test_vring(x), test_vring produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42c91be1ae4f2416"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_injections.test_vring","kind":"function","src_hash":"81438a2c067c428d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_vring()","rhs":"<unspecified:test_vring>","over":{"base":"Any"},"name":"test_vring_correct"},"guarantee":"test_vring produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_injections.test_vring_correct","statement":"Path(test_vring(x), test_vring produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42c91be1ae4f2416","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vring():
     ns = {'vring':vring, 'QQ':QQ}
     exec('R = vring("r", QQ)', ns)
@@ -50,16 +56,22 @@ def test_vring():
     exec('assert rfg == R.gens[2]', ns)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vfield(), test_vfield produces the expected output) over Any ║
+# ║ Path(test_vfield(), <unspecified:test_vfield>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_vfield : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68a627d80a9ef0e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_injections.test_vfield","kind":"function","src_hash":"8a77bbcc7d383b2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_vfield()","rhs":"test_vfield produces the expected output","over":{"base":"Any"},"name":"test_vfield_correct"},"guarantee":"test_vfield produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_injections.test_vfield_correct","statement":"Path(test_vfield(x), test_vfield produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68a627d80a9ef0e7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_injections.test_vfield","kind":"function","src_hash":"8a77bbcc7d383b2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_vfield()","rhs":"<unspecified:test_vfield>","over":{"base":"Any"},"name":"test_vfield_correct"},"guarantee":"test_vfield produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_injections.test_vfield_correct","statement":"Path(test_vfield(x), test_vfield produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68a627d80a9ef0e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vfield():
     ns = {'vfield':vfield, 'QQ':QQ}
     exec('F = vfield("f", QQ)', ns)

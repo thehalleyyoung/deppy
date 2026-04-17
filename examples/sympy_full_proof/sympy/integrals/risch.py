@@ -68,16 +68,22 @@ from sympy.utilities.iterables import numbered_symbols
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integer_powers(exp), id) over Any                     ║
+# ║ Path(integer_powers(exprs), id) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sorted(iter(newterms.items()), key=lambda...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ integer_powers : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b45a062a45eb5629   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integer_powers","kind":"function","src_hash":"a200ab61d6b30934","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integer_powers(exp)","rhs":"rewrites a list of expressions as integer multiples of each other","over":{"base":"Any"},"name":"integer_powers_correct","kind":"composition"},"guarantee":"rewrites a list of expressions as integer multiples of each other","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"iter","by":"library_axiom"},{"fn":"items","by":"library_axiom"},{"fn":"sort_key","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b45a062a45eb5629"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integer_powers","kind":"function","src_hash":"a200ab61d6b30934","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integer_powers(exprs)","rhs":"sorted(iter(newterms.items()), key=lambda item: item[0].sort_key())","over":{"base":"Any"},"name":"integer_powers_correct","kind":"composition"},"guarantee":"returns sorted(iter(newterms.items()), key=lambda item: item[0].sort_key())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sorted","by":"library_axiom"},{"fn":"iter","by":"library_axiom"},{"fn":"items","by":"library_axiom"},{"fn":"sort_key","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b45a062a45eb5629","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sorted(iter(newterms.items()), key=lambda item: item[0].sort_key())","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def integer_powers(exprs):
     """
     Rewrites a list of expressions as integer multiples of each other.
@@ -148,14 +154,19 @@ def integer_powers(exprs):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DifferentialExtension instance) preserved by DifferentialExtension(*args) over {Any | isinstance(i.base, exp) and isinstance(getattr(self, attr), GeneratorType)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DifferentialExtension : {Any | isinstance(i.base, exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bc5480b6641537d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension","kind":"class","src_hash":"808bf6a2a90a0d86","in":{"base":"Any","pred":"isinstance(i.base, exp) and isinstance(getattr(self, attr), GeneratorType)"},"out":{"base":"Any"},"spec":{"lhs":"DifferentialExtension(*args)","rhs":"correctly constructs a DifferentialExtension instance","over":{"base":"Any","pred":"isinstance(i.base, exp) and isinstance(getattr(self, attr), GeneratorType)"},"name":"DifferentialExtension_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DifferentialExtension instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'f') and hasattr(self, 'x') and hasattr(self, 'dummy') and hasattr(self, 'newf') and hasattr(self, 'newf') and hasattr(self, 'f') and hasattr(self, 'fd')","kind":"class","induction":"structural on f, x, dummy, newf"}],"methods_preserving":["__init__","__getattr__","_rewrite_exps_pows","_rewrite_logs","_auto_attrs","_exp_part","_log_part","_important_attrs","__repr__","__str__","__eq__","reset","indices","increment_level","decrement_level"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bc5480b6641537d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension","kind":"class","src_hash":"808bf6a2a90a0d86","in":{"base":"Any","pred":"isinstance(i.base, exp) and isinstance(getattr(self, attr), GeneratorType)"},"out":{"base":"Any"},"spec":{"lhs":"DifferentialExtension(*args)","rhs":"correctly constructs a DifferentialExtension instance","over":{"base":"Any","pred":"isinstance(i.base, exp) and isinstance(getattr(self, attr), GeneratorType)"},"name":"DifferentialExtension_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'f') and hasattr(self, 'x') and hasattr(self, 'dummy') and hasattr(self, 'newf') and hasattr(self, 'newf') and hasattr(self, 'f') and hasattr(self, 'fd')","kind":"class","induction":"structural on f, x, dummy, newf"}],"methods_preserving":["__init__","__getattr__","_rewrite_exps_pows","_rewrite_logs","_auto_attrs","_exp_part","_log_part","_important_attrs","__repr__","__str__","__eq__","reset","indices","increment_level","decrement_level"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bc5480b6641537d","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'f')","hasattr(self, 'x')","hasattr(self, 'dummy')","hasattr(self, 'newf')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function DifferentialExtension not found in source"]}}
 class DifferentialExtension:
     """
     A container for all the information relating to a differential extension.
@@ -207,16 +218,25 @@ class DifferentialExtension:
         'ts', 'dummy')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(f, ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(f, x, handle_first), self.f == f and self.x == x and self.dummy == dummy) over {Any | not (handle_first not in ('log', 'exp'))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (handle_first not in ('log', 'exp'))       ║
+# ║   ensures:  self.f == f                                    ║
+# ║   ensures:  self.x == x                                    ║
+# ║   ensures:  self.dummy == dummy                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | not (handle_first not in ('log', 'e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f2f439b9dc3f5fb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.__init__","kind":"method","src_hash":"fdfd4b9b70a7eae0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(f, )","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f2f439b9dc3f5fb"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.__init__","kind":"method","src_hash":"fdfd4b9b70a7eae0","in":{"base":"Any","pred":"not (handle_first not in ('log', 'exp'))"},"out":{"base":"Any","pred":"result satisfies: self.f == f and self.x == x and self.dummy == dummy"},"spec":{"lhs":"__init__(f, x, handle_first)","rhs":"self.f == f and self.x == x and self.dummy == dummy","over":{"base":"Any","pred":"not (handle_first not in ('log', 'exp'))"},"name":"__init___correct"},"guarantee":"self.f == f; self.x == x; self.dummy == dummy","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f2f439b9dc3f5fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (handle_first not in ('log', 'exp'))"],"ensures":["self.f == f","self.x == x","self.dummy == dummy"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.T","self._auto_attrs","self._exp_part","self._log_part","self._rewrite_exps_pows","self._rewrite_logs","self.f","self.newf","self.reset","self.t"],"writes":["self.dummy","self.f","self.newf","self.x"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"modifies":["self.dummy","self.f","self.newf","self.x"],"old_bindings":{"old_self_dummy":"self.dummy","old_self_f":"self.f","old_self_newf":"self.newf","old_self_x":"self.x"},"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, f=None, x=None, handle_first='log', dummy=False, extension=None, rewrite_complex=None):
         """
         Tries to build a transcendental extension tower from ``f`` with respect to ``x``.
@@ -337,16 +357,23 @@ class DifferentialExtension:
         return
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getattr__(att), internal helper behaves correctly) over Any ║
+# ║ Path(__getattr__(attr), None) over {Any | not (attr not in self.__slots__)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getattr__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (attr not in self.__slots__)               ║
+# ║   returns:  None                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getattr__ : {Any | not (attr not in self.__slots__)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 925f4e07596ce50e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.__getattr__","kind":"method","src_hash":"8e8bdc8c89b97895","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getattr__(att)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getattr___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"925f4e07596ce50e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.__getattr__","kind":"method","src_hash":"8e8bdc8c89b97895","in":{"base":"Any","pred":"not (attr not in self.__slots__)"},"out":{"base":"Any"},"spec":{"lhs":"__getattr__(attr)","rhs":"None","over":{"base":"Any","pred":"not (attr not in self.__slots__)"},"name":"__getattr___correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"925f4e07596ce50e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (attr not in self.__slots__)"],"returns_expr":"None","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__slots__","self.__slots__"],"raises":["AttributeError"]},"state_contract":{"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getattr__(self, attr):
         # Avoid AttributeErrors when debugging
         if attr not in self.__slots__:
@@ -354,16 +381,25 @@ class DifferentialExtension:
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rewrite_exps_pows(exp), rewrite exps/pows for better processing) over Any ║
+# ║ Path(_rewrite_exps_pows(exps, pows, numpows), (exps, pows, numpows, sympows, log_new_extension)) over {Any | hasattr(exps, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rewrite_exps_pows : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(exps, 'append')                        ║
+# ║   ensures:  len(exps) == old_len_exps + 1                  ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ║   returns:  (exps, pows, numpows, sympows, log_new_ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rewrite_exps_pows : {Any | hasattr(exps, 'append')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0a13ffdb95c86b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 271c02fa7037cc32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension._rewrite_exps_pows","kind":"method","src_hash":"ac666b03bd2bf720","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_exps_pows(exp)","rhs":"rewrite exps/pows for better processing","over":{"base":"Any"},"name":"_rewrite_exps_pows_correct"},"guarantee":"rewrite exps/pows for better processing","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension._rewrite_exps_pows_correct","statement":"Path(_rewrite_exps_pows(x), rewrite exps/pows for better processing)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0a13ffdb95c86b5"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension._rewrite_exps_pows","kind":"method","src_hash":"ac666b03bd2bf720","in":{"base":"Any","pred":"hasattr(exps, 'append')"},"out":{"base":"Any","pred":"result satisfies: result == ((exps, pows, numpows, sympows, log_new_extension))"},"spec":{"lhs":"_rewrite_exps_pows(exps, pows, numpows)","rhs":"(exps, pows, numpows, sympows, log_new_extension)","over":{"base":"Any","pred":"hasattr(exps, 'append')"},"name":"_rewrite_exps_pows_correct"},"guarantee":"returns (exps, pows, numpows, sympows, log_new_extension); len(exps) == old_len_exps + 1; len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension._rewrite_exps_pows_correct","statement":"Path(_rewrite_exps_pows(x), returns (exps, pows, numpows, sympows, log_new_extension); len(exps) == old_len_exps + 1; len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"271c02fa7037cc32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(exps, 'append')"],"ensures":["len(exps) == old_len_exps + 1","len(self) == old_len_self + 1"],"returns_expr":"(exps, pows, numpows, sympows, log_new_extension)","pure":false,"effects":{"effect_type":"mutates_args","reads":["exps.append","self.T","self._log_part","self.backsubs","self.newf","self.t"],"writes":["self.backsubs","self.newf"],"calls_mutating":["exps.append","self.backsubs.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["exps.*","self.*","self.backsubs","self.newf"],"old_bindings":{"old_self_backsubs":"self.backsubs","old_self_newf":"self.newf","old_len_exps":"len(exps)","old_len_self":"len(self)"},"post_ensures":["len(exps) == old_len_exps + 1","len(self) == old_len_self + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rewrite_exps_pows(self, exps, pows, numpows,
             sympows, log_new_extension):
         """
@@ -472,16 +508,25 @@ class DifferentialExtension:
         return exps, pows, numpows, sympows, log_new_extension
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rewrite_logs(log), rewrite logs for better processing) over Any ║
+# ║ Path(_rewrite_logs(logs, symlogs), (logs, symlogs)) over {Any | hasattr(logs, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rewrite_logs : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(logs, 'append')                        ║
+# ║   ensures:  len(logs) == old_len_logs + 1                  ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ║   returns:  (logs, symlogs)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rewrite_logs : {Any | hasattr(logs, 'append')} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f6f5a0442c0ea7a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a0397a2bfd1b4e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension._rewrite_logs","kind":"method","src_hash":"6b2346e70f83d7c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rewrite_logs(log)","rhs":"rewrite logs for better processing","over":{"base":"Any"},"name":"_rewrite_logs_correct"},"guarantee":"rewrite logs for better processing","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension._rewrite_logs_correct","statement":"Path(_rewrite_logs(x), rewrite logs for better processing)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f6f5a0442c0ea7a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension._rewrite_logs","kind":"method","src_hash":"6b2346e70f83d7c4","in":{"base":"Any","pred":"hasattr(logs, 'append')"},"out":{"base":"Any","pred":"result satisfies: result == ((logs, symlogs))"},"spec":{"lhs":"_rewrite_logs(logs, symlogs)","rhs":"(logs, symlogs)","over":{"base":"Any","pred":"hasattr(logs, 'append')"},"name":"_rewrite_logs_correct"},"guarantee":"returns (logs, symlogs); len(logs) == old_len_logs + 1; len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension._rewrite_logs_correct","statement":"Path(_rewrite_logs(x), returns (logs, symlogs); len(logs) == old_len_logs + 1; len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a0397a2bfd1b4e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(logs, 'append')"],"ensures":["len(logs) == old_len_logs + 1","len(self) == old_len_self + 1"],"returns_expr":"(logs, symlogs)","pure":false,"effects":{"effect_type":"mutates_args","reads":["logs.append","self.T","self.backsubs","self.newf"],"writes":["self.newf"],"calls_mutating":["logs.append","self.backsubs.append"]},"state_contract":{"modifies":["logs.*","self.*","self.newf"],"old_bindings":{"old_self_newf":"self.newf","old_len_logs":"len(logs)","old_len_self":"len(self)"},"post_ensures":["len(logs) == old_len_logs + 1","len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _rewrite_logs(self, logs, symlogs):
         """
         Rewrite logs for better processing.
@@ -517,16 +562,22 @@ class DifferentialExtension:
         return logs, symlogs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_auto_attrs(), set attributes that are generated automatically) over Any ║
+# ║ Path(_auto_attrs(), <unspecified:_auto_attrs>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _auto_attrs : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 935491df809686e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension._auto_attrs","kind":"method","src_hash":"916f039a1881571c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_auto_attrs()","rhs":"set attributes that are generated automatically","over":{"base":"Any"},"name":"_auto_attrs_correct"},"guarantee":"set attributes that are generated automatically","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension._auto_attrs_correct","statement":"Path(_auto_attrs(x), set attributes that are generated automatically)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"935491df809686e8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension._auto_attrs","kind":"method","src_hash":"916f039a1881571c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_auto_attrs()","rhs":"<unspecified:_auto_attrs>","over":{"base":"Any"},"name":"_auto_attrs_correct"},"guarantee":"set attributes that are generated automatically","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension._auto_attrs_correct","statement":"Path(_auto_attrs(x), set attributes that are generated automatically)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"935491df809686e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.D","self.T","self.cases","self.level","self.x"],"writes":["self.T","self.case","self.cases","self.d","self.level","self.t","self.x"]},"state_contract":{"modifies":["self.T","self.case","self.cases","self.d","self.level","self.t","self.x"],"old_bindings":{"old_self_T":"self.T","old_self_case":"self.case","old_self_cases":"self.cases","old_self_d":"self.d","old_self_level":"self.level","old_self_t":"self.t","old_self_x":"self.x"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _auto_attrs(self):
         """
         Set attributes that are generated automatically.
@@ -543,16 +594,23 @@ class DifferentialExtension:
         self.case = self.cases[self.level]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_exp_part(exp), try to build an exponential extension) over Any ║
+# ║ Path(_exp_part(exps), len(others) == old_len_others and len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _exp_part : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(others) == old_len_others                  ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _exp_part : Any → {Any | result satisfies: len(others...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f5943c01dabb4bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8a737919c43f91f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension._exp_part","kind":"method","src_hash":"4dc223faa4aa61cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_exp_part(exp)","rhs":"try to build an exponential extension","over":{"base":"Any"},"name":"_exp_part_correct"},"guarantee":"try to build an exponential extension","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension._exp_part_correct","statement":"Path(_exp_part(x), try to build an exponential extension)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f5943c01dabb4bf"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension._exp_part","kind":"method","src_hash":"4dc223faa4aa61cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(others) == old_len_others and len(self) == old_len_self + 1"},"spec":{"lhs":"_exp_part(exps)","rhs":"len(others) == old_len_others and len(self) == old_len_self + 1","over":{"base":"Any"},"name":"_exp_part_correct"},"guarantee":"len(others) == old_len_others; len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension._exp_part_correct","statement":"Path(_exp_part(x), len(others) == old_len_others; len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8a737919c43f91f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(others) == old_len_others","len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.D","self.T","self.Tfuncs","self.dummy","self.extargs","self.exts","self.newf","self.t","self.ts","self.x"],"writes":["self.Tfuncs","self.newf","self.t"],"calls_mutating":["others.sort","self.D.append","self.T.append","self.extargs.append","self.exts.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["others.*","self.*","self.Tfuncs","self.newf","self.t"],"old_bindings":{"old_self_Tfuncs":"self.Tfuncs","old_self_newf":"self.newf","old_self_t":"self.t","old_len_others":"len(others)","old_len_self":"len(self)"},"post_ensures":["len(others) == old_len_others","len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(self) == old_len_self + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _exp_part(self, exps):
         """
         Try to build an exponential extension.
@@ -663,16 +721,22 @@ class DifferentialExtension:
         return new_extension
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_log_part(log), try to build a logarithmic extension) over Any ║
+# ║ Path(_log_part(logs), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _log_part : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _log_part : Any → {Any | result satisfies: len(self) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bda9e5ef6794fa85  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a359b75e5be26e1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension._log_part","kind":"method","src_hash":"1d8c1a295ebeb262","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_log_part(log)","rhs":"try to build a logarithmic extension","over":{"base":"Any"},"name":"_log_part_correct"},"guarantee":"try to build a logarithmic extension","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension._log_part_correct","statement":"Path(_log_part(x), try to build a logarithmic extension)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bda9e5ef6794fa85"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension._log_part","kind":"method","src_hash":"1d8c1a295ebeb262","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"_log_part(logs)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"_log_part_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension._log_part_correct","statement":"Path(_log_part(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a359b75e5be26e1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.D","self.T","self.dummy","self.extargs","self.exts","self.newf","self.t","self.ts","self.x"],"writes":["self.Tfuncs","self.newf","self.t"],"calls_mutating":["self.D.append","self.T.append","self.extargs.append","self.exts.append"]},"state_contract":{"modifies":["self.*","self.Tfuncs","self.newf","self.t"],"old_bindings":{"old_self_Tfuncs":"self.Tfuncs","old_self_newf":"self.newf","old_self_t":"self.t","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(self) == old_len_self + 1","len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _log_part(self, logs):
         """
         Try to build a logarithmic extension.
@@ -728,16 +792,22 @@ class DifferentialExtension:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_important_attrs(), returns the _important_attrs attribute) over Any ║
+# ║ Path(_important_attrs(), (self.fa, self.fd, self.D, self.T, self.Tfuncs, self.backsubs, self.exts, self.extargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.fa, self.fd, self.D, self.T, self.T...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _important_attrs : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8af20ecc78691376           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension._important_attrs","kind":"property","src_hash":"b5d77c0df83b6d9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_important_attrs()","rhs":"returns the _important_attrs attribute","over":{"base":"Any"},"name":"_important_attrs_correct"},"guarantee":"returns the _important_attrs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8af20ecc78691376"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension._important_attrs","kind":"property","src_hash":"b5d77c0df83b6d9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_important_attrs()","rhs":"(self.fa, self.fd, self.D, self.T, self.Tfuncs, self.backsubs, self.exts, self.extargs)","over":{"base":"Any"},"name":"_important_attrs_correct"},"guarantee":"returns (self.fa, self.fd, self.D, self.T, self.Tfuncs, self.backsubs, self.exts, self.extargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8af20ecc78691376","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.fa, self.fd, self.D, self.T, self.Tfuncs, self.backsubs, self.exts, self.extargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.D","self.T","self.Tfuncs","self.backsubs","self.extargs","self.exts","self.fa","self.fd"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _important_attrs(self):
         """
         Returns some of the more important attributes of self.
@@ -758,16 +828,22 @@ class DifferentialExtension:
     # also this printing is supposed to contain all the important
     # attributes of a DifferentialExtension object
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), self.__class__.__name__ + '(dict(%r))' % r) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__.__name__ + '(dict(%r))' % r     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ea0d94381401b112           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.__repr__","kind":"method","src_hash":"019e3e63ab46258e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea0d94381401b112"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.__repr__","kind":"method","src_hash":"019e3e63ab46258e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"self.__class__.__name__ + '(dict(%r))' % r","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns self.__class__.__name__ + '(dict(%r))' % r","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea0d94381401b112","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__.__name__ + '(dict(%r))' % r","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","*.__slots__","self.__class__","self.__slots__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         # no need to have GeneratorType object printed in it
         r = [(attr, getattr(self, attr)) for attr in self.__slots__
@@ -776,16 +852,22 @@ class DifferentialExtension:
 
     # fancy printing of DifferentialExtension object
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self.__class__.__name__ + '({fa=%s, fd=%s, D=%s})' % (self.fa, self.fd, self.D)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__.__name__ + '({fa=%s, fd=%s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | be02446c60771922           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.__str__","kind":"method","src_hash":"731ad9f82e50ab4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be02446c60771922"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.__str__","kind":"method","src_hash":"731ad9f82e50ab4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self.__class__.__name__ + '({fa=%s, fd=%s, D=%s})' % (self.fa, self.fd, self.D)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self.__class__.__name__ + '({fa=%s, fd=%s, D=%s})' % (self.fa, self.fd, self.D)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"be02446c60771922","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__.__name__ + '({fa=%s, fd=%s, D=%s})' % (self.fa, self.fd, self.D)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.D","self.__class__","self.fa","self.fd"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return (self.__class__.__name__ + '({fa=%s, fd=%s, D=%s})' %
                 (self.fa, self.fd, self.D))
@@ -795,16 +877,22 @@ class DifferentialExtension:
     # may return D1 != D2 as True, since 'level' or other attribute
     # may differ
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __eq__ : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb938dd6acc10a3e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.__eq__","kind":"method","src_hash":"02b8c2fbdcaff594","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb938dd6acc10a3e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.__eq__","kind":"method","src_hash":"02b8c2fbdcaff594","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb938dd6acc10a3e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","*.__slots__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         for attr in self.__class__.__slots__:
             d1, d2 = getattr(self, attr), getattr(other, attr)
@@ -813,16 +901,22 @@ class DifferentialExtension:
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reset(), reset self to an initial state) over Any     ║
+# ║ Path(reset(), <unspecified:reset>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reset : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afe537f6474cc00e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.reset","kind":"method","src_hash":"5c48f3fab576968f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reset()","rhs":"reset self to an initial state","over":{"base":"Any"},"name":"reset_correct"},"guarantee":"reset self to an initial state","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension.reset_correct","statement":"Path(reset(x), reset self to an initial state)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afe537f6474cc00e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.reset","kind":"method","src_hash":"5c48f3fab576968f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reset()","rhs":"<unspecified:reset>","over":{"base":"Any"},"name":"reset_correct"},"guarantee":"reset self to an initial state","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension.reset_correct","statement":"Path(reset(x), reset self to an initial state)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afe537f6474cc00e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.dummy","self.f","self.x"],"writes":["self.D","self.T","self.Tfuncs","self.backsubs","self.extargs","self.exts","self.level","self.newf","self.t","self.ts"]},"state_contract":{"modifies":["self.D","self.T","self.Tfuncs","self.backsubs","self.extargs","self.exts","self.level","self.newf","self.t","self.ts"],"old_bindings":{"old_self_D":"self.D","old_self_T":"self.T","old_self_Tfuncs":"self.Tfuncs","old_self_backsubs":"self.backsubs","old_self_extargs":"self.extargs","old_self_exts":"self.exts","old_self_level":"self.level","old_self_newf":"self.newf","old_self_t":"self.t","old_self_ts":"self.ts"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reset(self):
         """
         Reset self to an initial state.  Used by __init__.
@@ -845,16 +939,22 @@ class DifferentialExtension:
         self.newf = self.f
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(indices(ext), parameters ==========) over Any         ║
+# ║ Path(indices(extension), [i for i, ext in enumerate(self.exts) if ext == extension]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [i for i, ext in enumerate(self.exts) if ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ indices : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ee1bc718a9689a7e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.indices","kind":"method","src_hash":"d504546d5e024341","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indices(ext)","rhs":"parameters ==========","over":{"base":"Any"},"name":"indices_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee1bc718a9689a7e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.indices","kind":"method","src_hash":"d504546d5e024341","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"indices(extension)","rhs":"[i for i, ext in enumerate(self.exts) if ext == extension]","over":{"base":"Any"},"name":"indices_correct"},"guarantee":"returns [i for i, ext in enumerate(self.exts) if ext == extension]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ee1bc718a9689a7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[i for i, ext in enumerate(self.exts) if ext == extension]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exts"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def indices(self, extension):
         """
         Parameters
@@ -885,16 +985,23 @@ class DifferentialExtension:
         return [i for i, ext in enumerate(self.exts) if ext == extension]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(increment_level(), increment the level of self) over Any ║
+# ║ Path(increment_level(), None) over {Any | not (self.level >= -1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ increment_level : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.level >= -1)                         ║
+# ║   returns:  None                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ increment_level : {Any | not (self.level >= -1)} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a5ab1c525c0bf3a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c20a8a1b3c1a62a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.increment_level","kind":"method","src_hash":"ec85452e73c57358","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"increment_level()","rhs":"increment the level of self","over":{"base":"Any"},"name":"increment_level_correct"},"guarantee":"increment the level of self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension.increment_level_correct","statement":"Path(increment_level(x), increment the level of self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a5ab1c525c0bf3a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.increment_level","kind":"method","src_hash":"ec85452e73c57358","in":{"base":"Any","pred":"not (self.level >= -1)"},"out":{"base":"Any"},"spec":{"lhs":"increment_level()","rhs":"None","over":{"base":"Any","pred":"not (self.level >= -1)"},"name":"increment_level_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension.increment_level_correct","statement":"Path(increment_level(x), returns None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c20a8a1b3c1a62a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.level >= -1)"],"returns_expr":"None","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.D","self.T","self.cases","self.level"],"writes":["self.case","self.d","self.level","self.t"],"raises":["ValueError"]},"state_contract":{"modifies":["self.case","self.d","self.level","self.t"],"old_bindings":{"old_self_case":"self.case","old_self_d":"self.d","old_self_level":"self.level","old_self_t":"self.t"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def increment_level(self):
         """
         Increment the level of self.
@@ -917,16 +1024,23 @@ class DifferentialExtension:
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(decrement_level(), decrease the level of self) over Any ║
+# ║ Path(decrement_level(), None) over {Any | not (self.level <= -len(self.T))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ decrement_level : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.level <= -len(self.T))               ║
+# ║   returns:  None                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ decrement_level : {Any | not (self.level <= -len(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fdbba514f31adac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2d6eea4396199bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.decrement_level","kind":"method","src_hash":"946bc3a5037b6309","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"decrement_level()","rhs":"decrease the level of self","over":{"base":"Any"},"name":"decrement_level_correct"},"guarantee":"decrease the level of self","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension.decrement_level_correct","statement":"Path(decrement_level(x), decrease the level of self)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fdbba514f31adac"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DifferentialExtension.decrement_level","kind":"method","src_hash":"946bc3a5037b6309","in":{"base":"Any","pred":"not (self.level <= -len(self.T))"},"out":{"base":"Any"},"spec":{"lhs":"decrement_level()","rhs":"None","over":{"base":"Any","pred":"not (self.level <= -len(self.T))"},"name":"decrement_level_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.DifferentialExtension.decrement_level_correct","statement":"Path(decrement_level(x), returns None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2d6eea4396199bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.level <= -len(self.T))"],"returns_expr":"None","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.D","self.T","self.cases","self.level"],"writes":["self.case","self.d","self.level","self.t"],"raises":["ValueError"]},"state_contract":{"modifies":["self.case","self.d","self.level","self.t"],"old_bindings":{"old_self_case":"self.case","old_self_d":"self.d","old_self_level":"self.level","old_self_t":"self.t"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def decrement_level(self):
         """
         Decrease the level of self.
@@ -950,16 +1064,23 @@ class DifferentialExtension:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(update_sets(seq), update_sets produces the expected output) over Any ║
+# ║ Path(update_sets(seq, atoms, func), list(s)) over {Any | hasattr(atoms, 'intersection')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ update_sets : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(atoms, 'intersection')                 ║
+# ║   returns:  list(s)                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ update_sets : {Any | hasattr(atoms, 'intersection')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f00be23e5f80591f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 177f2bfbd881470c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.update_sets","kind":"function","src_hash":"78288e9fa3ec3741","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"update_sets(seq)","rhs":"update_sets produces the expected output","over":{"base":"Any"},"name":"update_sets_correct"},"guarantee":"update_sets produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.update_sets_correct","statement":"Path(update_sets(x), update_sets produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f00be23e5f80591f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.update_sets","kind":"function","src_hash":"78288e9fa3ec3741","in":{"base":"Any","pred":"hasattr(atoms, 'intersection')"},"out":{"base":"Any"},"spec":{"lhs":"update_sets(seq, atoms, func)","rhs":"list(s)","over":{"base":"Any","pred":"hasattr(atoms, 'intersection')"},"name":"update_sets_correct"},"guarantee":"returns list(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.update_sets_correct","statement":"Path(update_sets(x), returns list(s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"177f2bfbd881470c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(atoms, 'intersection')"],"returns_expr":"list(s)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def update_sets(seq, atoms, func):
     s = set(seq)
     s = atoms.intersection(s)
@@ -971,14 +1092,19 @@ def update_sets(seq, atoms, func):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a DecrementLevel instance) preserved by DecrementLevel(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DecrementLevel : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35f89ec08ee332b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DecrementLevel","kind":"class","src_hash":"7c3a52c83092afc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DecrementLevel(*args)","rhs":"correctly constructs a DecrementLevel instance","over":{"base":"Any"},"name":"DecrementLevel_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a DecrementLevel instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'DE')","kind":"class","induction":"structural on DE"}],"methods_preserving":["__init__","__enter__","__exit__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35f89ec08ee332b4"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DecrementLevel","kind":"class","src_hash":"7c3a52c83092afc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"DecrementLevel(*args)","rhs":"correctly constructs a DecrementLevel instance","over":{"base":"Any"},"name":"DecrementLevel_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'DE')","kind":"class","induction":"structural on DE"}],"methods_preserving":["__init__","__enter__","__exit__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35f89ec08ee332b4","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'DE')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function DecrementLevel not found in source"]}}
 class DecrementLevel:
     """
     A context manager for decrementing the level of a DifferentialExtension.
@@ -986,60 +1112,84 @@ class DecrementLevel:
     __slots__ = ('DE',)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(DE), initializes the instance correctly) over Any ║
+# ║ Path(__init__(DE), self.DE == DE) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.DE == DE                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.DE == DE}   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2e8346892ab79fbf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DecrementLevel.__init__","kind":"method","src_hash":"2e25c9b226a612e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(DE)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e8346892ab79fbf"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DecrementLevel.__init__","kind":"method","src_hash":"2e25c9b226a612e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.DE == DE"},"spec":{"lhs":"__init__(DE)","rhs":"self.DE == DE","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.DE == DE","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2e8346892ab79fbf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.DE == DE"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, DE):
         self.DE = DE
         return
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__enter__(), internal helper behaves correctly) over Any ║
+# ║ Path(__enter__(), <unspecified:__enter__>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __enter__ : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 681e7e92034cbd9f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DecrementLevel.__enter__","kind":"method","src_hash":"601fbe90ceda1c10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__enter__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__enter___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"681e7e92034cbd9f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DecrementLevel.__enter__","kind":"method","src_hash":"601fbe90ceda1c10","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__enter__()","rhs":"<unspecified:__enter__>","over":{"base":"Any"},"name":"__enter___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"681e7e92034cbd9f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.DE"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __enter__(self):
         self.DE.decrement_level()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__exit__(exc), internal helper behaves correctly) over Any ║
+# ║ Path(__exit__(exc_type, exc_value, traceback), <unspecified:__exit__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __exit__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6b52a0829d2a7c3e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DecrementLevel.__exit__","kind":"method","src_hash":"395e5e485d0100c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__exit__(exc)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__exit___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b52a0829d2a7c3e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.DecrementLevel.__exit__","kind":"method","src_hash":"395e5e485d0100c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__exit__(exc_type, exc_value, traceback)","rhs":"<unspecified:__exit__>","over":{"base":"Any"},"name":"__exit___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b52a0829d2a7c3e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.DE"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __exit__(self, exc_type, exc_value, traceback):
         self.DE.increment_level()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NonElementaryIntegralException(), correctly constructs a NonElementaryIntegralException instance) over Any ║
+# ║ Path(NonElementaryIntegralException(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NonElementaryIntegralException : Any → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NonElementaryIntegralException : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57fad120210aa1f8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.NonElementaryIntegralException","kind":"class","src_hash":"6c79e00f6eff414c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NonElementaryIntegralException()","rhs":"correctly constructs a NonElementaryIntegralException instance","over":{"base":"Any"},"name":"NonElementaryIntegralException_correct"},"guarantee":"correctly constructs a NonElementaryIntegralException instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57fad120210aa1f8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.NonElementaryIntegralException","kind":"class","src_hash":"6c79e00f6eff414c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"NonElementaryIntegralException()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"NonElementaryIntegralException_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57fad120210aa1f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function NonElementaryIntegralException not found in source"]}}
 class NonElementaryIntegralException(Exception):
     """
     Exception used by subroutines within the Risch algorithm to indicate to one
@@ -1054,16 +1204,25 @@ class NonElementaryIntegralException(Exception):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gcdex_diophantine(a, ), extended euclidean algorithm, diophantine version) over Any ║
+# ║ Path(gcdex_diophantine(a, b, c), (s, t)) over {Any | hasattr(a, 'half_gcdex') and hasattr(c, 'exquo') and hasattr(b, 'degree')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gcdex_diophantine : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'half_gcdex')                       ║
+# ║   requires: hasattr(c, 'exquo')                            ║
+# ║   requires: hasattr(b, 'degree')                           ║
+# ║   returns:  (s, t)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gcdex_diophantine : {Any | hasattr(a, 'half_gcdex') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0c40ed06c65c9264  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc8572dd17ac7834  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.gcdex_diophantine","kind":"function","src_hash":"6395c640ad356ebd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gcdex_diophantine(a, )","rhs":"extended euclidean algorithm, diophantine version","over":{"base":"Any"},"name":"gcdex_diophantine_correct"},"guarantee":"extended euclidean algorithm, diophantine version","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.gcdex_diophantine_correct","statement":"Path(gcdex_diophantine(x), extended euclidean algorithm, diophantine version)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0c40ed06c65c9264"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.gcdex_diophantine","kind":"function","src_hash":"6395c640ad356ebd","in":{"base":"Any","pred":"hasattr(a, 'half_gcdex') and hasattr(c, 'exquo') and hasattr(b, 'degree')"},"out":{"base":"Any"},"spec":{"lhs":"gcdex_diophantine(a, b, c)","rhs":"(s, t)","over":{"base":"Any","pred":"hasattr(a, 'half_gcdex') and hasattr(c, 'exquo') and hasattr(b, 'degree')"},"name":"gcdex_diophantine_correct"},"guarantee":"returns (s, t)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.gcdex_diophantine_correct","statement":"Path(gcdex_diophantine(x), returns (s, t))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc8572dd17ac7834","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'half_gcdex')","hasattr(c, 'exquo')","hasattr(b, 'degree')"],"returns_expr":"(s, t)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.half_gcdex","b.degree","c.exquo"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def gcdex_diophantine(a, b, c):
     """
     Extended Euclidean Algorithm, Diophantine version.
@@ -1088,9 +1247,14 @@ def gcdex_diophantine(a, b, c):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(frac_in(f, ), returns the tuple (fa, fd), where fa and fd are polys in t) over {Any | isinstance(f, tuple)} ║
+# ║ Path(frac_in(f, t, cancel), (fa, fd)) over {Any | isinstance(f, tuple) and not (fa is None or fd is None) and hasattr(f, 'as_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ frac_in : {Any | isinstance(f, tuple)} → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (fa is None or fd is None)                 ║
+# ║   requires: hasattr(f, 'as_expr')                          ║
+# ║   returns:  (fa, fd)                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ frac_in : {Any | isinstance(f, tuple) and not (fa is ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   tuple: {isinstance(f, tuple)} → library_axiom            ║
@@ -1100,9 +1264,12 @@ def gcdex_diophantine(a, b, c):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | bb645add...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.frac_in","kind":"function","src_hash":"ff10cac2205b4b6e","in":{"base":"Any","pred":"isinstance(f, tuple)"},"out":{"base":"Any"},"spec":{"lhs":"frac_in(f, )","rhs":"returns the tuple (fa, fd), where fa and fd are polys in t","over":{"base":"Any","pred":"isinstance(f, tuple)"},"name":"frac_in_correct"},"guarantee":"returns the tuple (fa, fd), where fa and fd are polys in t","fibers":[{"name":"tuple","pred":"isinstance(f, tuple)","path":{"lhs":"frac_in(x)","rhs":"returns the tuple (fa, fd), where fa and fd are polys in t","over":{"base":"tuple","pred":"isinstance(f, tuple)"},"name":"frac_in_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.frac_in_tuple_correct","statement":"frac_in satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bb645addbcf4ff95"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.frac_in","kind":"function","src_hash":"ff10cac2205b4b6e","in":{"base":"Any","pred":"isinstance(f, tuple) and not (fa is None or fd is None) and hasattr(f, 'as_expr')"},"out":{"base":"Any"},"spec":{"lhs":"frac_in(f, t, cancel)","rhs":"(fa, fd)","over":{"base":"Any","pred":"isinstance(f, tuple) and not (fa is None or fd is None) and hasattr(f, 'as_expr')"},"name":"frac_in_correct"},"guarantee":"returns (fa, fd)","fibers":[{"name":"tuple","pred":"isinstance(f, tuple)","path":{"lhs":"frac_in(x)","rhs":"returns (fa, fd)","over":{"base":"tuple","pred":"isinstance(f, tuple)"},"name":"frac_in_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.frac_in_tuple_correct","statement":"frac_in satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"bb645addbcf4ff95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (fa is None or fd is None)","hasattr(f, 'as_expr')"],"returns_expr":"(fa, fd)","pure":false,"effects":{"effect_type":"reads_state","reads":["f.as_expr"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['f', 't'], spec=['f', 't', 'cancel', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'fa is None or fd is None', 'isinstance(f, tuple)'}, fibers={'tuple'})"]}}
 def frac_in(f, t, *, cancel=False, **kwargs):
     """
     Returns the tuple (fa, fd), where fa and fd are Polys in t.
@@ -1128,16 +1295,23 @@ def frac_in(f, t, *, cancel=False, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_poly_1t(p, ), (hackish) way to convert an element ``p`` of k[t, 1/t] to k[t, z]) over Any ║
+# ║ Path(as_poly_1t(p, t, z), <unspecified:as_poly_1t>) over {Any | pd.is_monomial} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_poly_1t : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: pd.is_monomial                                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_poly_1t : {Any | pd.is_monomial} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5631ca2f6529e8b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.as_poly_1t","kind":"function","src_hash":"57a19ed3a4cb99e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_poly_1t(p, )","rhs":"(hackish) way to convert an element ``p`` of k[t, 1/t] to k[t, z]","over":{"base":"Any"},"name":"as_poly_1t_correct"},"guarantee":"(hackish) way to convert an element ``p`` of k[t, 1/t] to k[t, z]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.as_poly_1t_correct","statement":"Path(as_poly_1t(x), (hackish) way to convert an element ``p`` of k[t, 1/t] to k[t, z])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5631ca2f6529e8b8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.as_poly_1t","kind":"function","src_hash":"57a19ed3a4cb99e6","in":{"base":"Any","pred":"pd.is_monomial"},"out":{"base":"Any"},"spec":{"lhs":"as_poly_1t(p, t, z)","rhs":"<unspecified:as_poly_1t>","over":{"base":"Any","pred":"pd.is_monomial"},"name":"as_poly_1t_correct"},"guarantee":"(hackish) way to convert an element ``p`` of k[t, 1/t] to k[t, z]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.as_poly_1t_correct","statement":"Path(as_poly_1t(x), (hackish) way to convert an element ``p`` of k[t, 1/t] to k[t, z])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5631ca2f6529e8b8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["pd.is_monomial"],"pure":false,"effects":{"effect_type":"reads_state","raises":["PolynomialError"]},"state_contract":{"exceptional_post":{"PolynomialError":["isinstance(raised, PolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def as_poly_1t(p, t, z):
     """
     (Hackish) way to convert an element ``p`` of K[t, 1/t] to K[t, z].
@@ -1185,16 +1359,25 @@ def as_poly_1t(p, t, z):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(derivation(p, ), computes dp) over Any                ║
+# ║ Path(derivation(p, DE, coefficientD), <unspecified:derivation>) over {Any | hasattr(DE, 't') and hasattr(DE, 'D') and hasattr(DE, 'T') and hasattr(DE, 'level') and hasattr(DE, 'decrement_level') and hasattr(p, 'as_poly') and hasattr(DE, 'increment_level') and hasattr(p, 'as_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ derivation : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(DE, 'D')                               ║
+# ║   requires: hasattr(DE, 'T')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ derivation : {Any | hasattr(DE, 't') and hasattr(DE, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb0a27e687a3e5ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.derivation","kind":"function","src_hash":"7768d532f48eff27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"derivation(p, )","rhs":"computes dp","over":{"base":"Any"},"name":"derivation_correct"},"guarantee":"computes dp","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.derivation_correct","statement":"Path(derivation(x), computes dp)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb0a27e687a3e5ef"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.derivation","kind":"function","src_hash":"7768d532f48eff27","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'D') and hasattr(DE, 'T') and hasattr(DE, 'level') and hasattr(DE, 'decrement_level') and hasattr(p, 'as_poly') and hasattr(DE, 'increment_level') and hasattr(p, 'as_expr')"},"out":{"base":"Any"},"spec":{"lhs":"derivation(p, DE, coefficientD)","rhs":"<unspecified:derivation>","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'D') and hasattr(DE, 'T') and hasattr(DE, 'level') and hasattr(DE, 'decrement_level') and hasattr(p, 'as_poly') and hasattr(DE, 'increment_level') and hasattr(p, 'as_expr')"},"name":"derivation_correct"},"guarantee":"computes dp","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.derivation_correct","statement":"Path(derivation(x), computes dp)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb0a27e687a3e5ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')","hasattr(DE, 'D')","hasattr(DE, 'T')","hasattr(DE, 'level')","hasattr(DE, 'decrement_level')","hasattr(p, 'as_poly')","hasattr(DE, 'increment_level')","hasattr(p, 'as_expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.D","DE.T","DE.decrement_level","DE.increment_level","DE.level","DE.t","p.as_expr","p.as_poly"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def derivation(p, DE, coefficientD=False, basic=False):
     """
     Computes Dp.
@@ -1248,16 +1431,25 @@ def derivation(p, DE, coefficientD=False, basic=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_case(d, ), returns the type of the derivation d) over Any ║
+# ║ Path(get_case(d, t), <unspecified:get_case>) over {Any | hasattr(d, 'is_one') and hasattr(d, 'rem') and hasattr(d, 'degree') and hasattr(d, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_case : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(d, 'is_one')                           ║
+# ║   requires: hasattr(d, 'rem')                              ║
+# ║   requires: hasattr(d, 'degree')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_case : {Any | hasattr(d, 'is_one') and hasattr(d,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f04f60bb59501016  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.get_case","kind":"function","src_hash":"0806999f993b24cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_case(d, )","rhs":"returns the type of the derivation d","over":{"base":"Any"},"name":"get_case_correct"},"guarantee":"returns the type of the derivation d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.get_case_correct","statement":"Path(get_case(x), returns the type of the derivation d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f04f60bb59501016"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.get_case","kind":"function","src_hash":"0806999f993b24cc","in":{"base":"Any","pred":"hasattr(d, 'is_one') and hasattr(d, 'rem') and hasattr(d, 'degree') and hasattr(d, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"get_case(d, t)","rhs":"<unspecified:get_case>","over":{"base":"Any","pred":"hasattr(d, 'is_one') and hasattr(d, 'rem') and hasattr(d, 'degree') and hasattr(d, 'expr')"},"name":"get_case_correct"},"guarantee":"returns the type of the derivation d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.get_case_correct","statement":"Path(get_case(x), returns the type of the derivation d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f04f60bb59501016","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(d, 'is_one')","hasattr(d, 'rem')","hasattr(d, 'degree')","hasattr(d, 'expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["d.degree","d.expr","d.is_one","d.rem"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def get_case(d, t):
     """
     Returns the type of the derivation d.
@@ -1279,16 +1471,25 @@ def get_case(d, t):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(splitfactor(p, ), splitting factorization) over Any   ║
+# ║ Path(splitfactor(p, DE, coefficientD), # HINT: splitfactor may be idempotent: splitfactor(splitfactor(x)) == splitfactor(x)) over {Any | hasattr(p, 'is_zero') and hasattr(DE, 't') and hasattr(p, 'exquo') and hasattr(DE, 'T') and hasattr(p, 'get_domain') and hasattr(p, 'expr') and hasattr(DE, 'level') and hasattr(p, 'gcd') and hasattr(p, 'diff') and hasattr(p, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ splitfactor : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'is_zero')                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(p, 'exquo')                            ║
+# ║   ensures:  # HINT: splitfactor may be idempotent: sp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ splitfactor : {Any | hasattr(p, 'is_zero') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adf05bf6a7d3baa4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 813fee595f59594f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.splitfactor","kind":"function","src_hash":"6bd73de62072a723","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"splitfactor(p, )","rhs":"splitting factorization","over":{"base":"Any"},"name":"splitfactor_correct"},"guarantee":"splitting factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.splitfactor_correct","statement":"Path(splitfactor(x), splitting factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adf05bf6a7d3baa4"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.splitfactor","kind":"function","src_hash":"6bd73de62072a723","in":{"base":"Any","pred":"hasattr(p, 'is_zero') and hasattr(DE, 't') and hasattr(p, 'exquo') and hasattr(DE, 'T') and hasattr(p, 'get_domain') and hasattr(p, 'expr') and hasattr(DE, 'level') and hasattr(p, 'gcd') and hasattr(p, 'diff') and hasattr(p, 'as_poly')"},"out":{"base":"Any","pred":"result satisfies: # HINT: splitfactor may be idempotent: splitfactor(splitfactor(x)) == splitfactor(x)"},"spec":{"lhs":"splitfactor(p, DE, coefficientD)","rhs":"# HINT: splitfactor may be idempotent: splitfactor(splitfactor(x)) == splitfactor(x)","over":{"base":"Any","pred":"hasattr(p, 'is_zero') and hasattr(DE, 't') and hasattr(p, 'exquo') and hasattr(DE, 'T') and hasattr(p, 'get_domain') and hasattr(p, 'expr') and hasattr(DE, 'level') and hasattr(p, 'gcd') and hasattr(p, 'diff') and hasattr(p, 'as_poly')"},"name":"splitfactor_correct"},"guarantee":"# HINT: splitfactor may be idempotent: splitfactor(splitfactor(x)) == splitfactor(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.splitfactor_correct","statement":"Path(splitfactor(x), # HINT: splitfactor may be idempotent: splitfactor(splitfactor(x)) == splitfactor(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"813fee595f59594f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'is_zero')","hasattr(DE, 't')","hasattr(p, 'exquo')","hasattr(DE, 'T')","hasattr(p, 'get_domain')","hasattr(p, 'expr')","hasattr(DE, 'level')","hasattr(p, 'gcd')","hasattr(p, 'diff')","hasattr(p, 'as_poly')"],"ensures":["# HINT: splitfactor may be idempotent: splitfactor(splitfactor(x)) == splitfactor(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def splitfactor(p, DE, coefficientD=False, z=None):
     """
     Splitting factorization.
@@ -1333,16 +1534,25 @@ def splitfactor(p, DE, coefficientD=False, z=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(splitfactor_sqf(p, ), splitting square-free factorization) over Any ║
+# ║ Path(splitfactor_sqf(p, DE, coefficientD), <unspecified:splitfactor_sqf>) over {Any | hasattr(p, 'is_zero') and hasattr(p, 'sqf_list_include') and hasattr(DE, 'T') and hasattr(DE, 't') and hasattr(DE, 'level')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ splitfactor_sqf : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(p, 'is_zero')                          ║
+# ║   requires: hasattr(p, 'sqf_list_include')                 ║
+# ║   requires: hasattr(DE, 'T')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ splitfactor_sqf : {Any | hasattr(p, 'is_zero') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ff5cc33b17a94d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.splitfactor_sqf","kind":"function","src_hash":"5f6fffae210d2ddc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"splitfactor_sqf(p, )","rhs":"splitting square-free factorization","over":{"base":"Any"},"name":"splitfactor_sqf_correct"},"guarantee":"splitting square-free factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.splitfactor_sqf_correct","statement":"Path(splitfactor_sqf(x), splitting square-free factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ff5cc33b17a94d6"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.splitfactor_sqf","kind":"function","src_hash":"5f6fffae210d2ddc","in":{"base":"Any","pred":"hasattr(p, 'is_zero') and hasattr(p, 'sqf_list_include') and hasattr(DE, 'T') and hasattr(DE, 't') and hasattr(DE, 'level')"},"out":{"base":"Any"},"spec":{"lhs":"splitfactor_sqf(p, DE, coefficientD)","rhs":"<unspecified:splitfactor_sqf>","over":{"base":"Any","pred":"hasattr(p, 'is_zero') and hasattr(p, 'sqf_list_include') and hasattr(DE, 'T') and hasattr(DE, 't') and hasattr(DE, 'level')"},"name":"splitfactor_sqf_correct"},"guarantee":"splitting square-free factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.splitfactor_sqf_correct","statement":"Path(splitfactor_sqf(x), splitting square-free factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ff5cc33b17a94d6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(p, 'is_zero')","hasattr(p, 'sqf_list_include')","hasattr(DE, 'T')","hasattr(DE, 't')","hasattr(DE, 'level')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def splitfactor_sqf(p, DE, coefficientD=False, z=None, basic=False):
     """
     Splitting Square-free Factorization.
@@ -1382,16 +1592,25 @@ def splitfactor_sqf(p, DE, coefficientD=False, z=None, basic=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(canonical_representation(a, ), canonical representation) over Any ║
+# ║ Path(canonical_representation(a, d, DE), (q, (b, ds), (c, dn))) over {Any | hasattr(DE, 't') and hasattr(a, 'div') and hasattr(a, 'mul') and hasattr(d, 'mul') and hasattr(d, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ canonical_representation : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(a, 'div')                              ║
+# ║   requires: hasattr(a, 'mul')                              ║
+# ║   returns:  (q, (b, ds), (c, dn))                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ canonical_representation : {Any | hasattr(DE, 't') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4984c0d0b9cd006  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc80c0638ddfeed0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.canonical_representation","kind":"function","src_hash":"8ab45f119333b5a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"canonical_representation(a, )","rhs":"canonical representation","over":{"base":"Any"},"name":"canonical_representation_correct"},"guarantee":"canonical representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.canonical_representation_correct","statement":"Path(canonical_representation(x), canonical representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4984c0d0b9cd006"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.canonical_representation","kind":"function","src_hash":"8ab45f119333b5a6","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(a, 'div') and hasattr(a, 'mul') and hasattr(d, 'mul') and hasattr(d, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"canonical_representation(a, d, DE)","rhs":"(q, (b, ds), (c, dn))","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(a, 'div') and hasattr(a, 'mul') and hasattr(d, 'mul') and hasattr(d, 'LC')"},"name":"canonical_representation_correct"},"guarantee":"returns (q, (b, ds), (c, dn))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.canonical_representation_correct","statement":"Path(canonical_representation(x), returns (q, (b, ds), (c, dn)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc80c0638ddfeed0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 't')","hasattr(a, 'div')","hasattr(a, 'mul')","hasattr(d, 'mul')","hasattr(d, 'LC')"],"returns_expr":"(q, (b, ds), (c, dn))","pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t","a.div","a.mul","d.LC","d.mul"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def canonical_representation(a, d, DE):
     """
     Canonical Representation.
@@ -1419,16 +1638,25 @@ def canonical_representation(a, d, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hermite_reduce(a, ), hermite reduction - mack's linear version) over Any ║
+# ║ Path(hermite_reduce(a, d, DE), ((ga, gd), (r, d), (rra, rrd))) over {Any | hasattr(DE, 't') and hasattr(d, 'div') and hasattr(a, 'div') and hasattr(a, 'mul') and hasattr(d, 'mul') and hasattr(d, 'LC') and hasattr(a, 'as_poly') and hasattr(d, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ hermite_reduce : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(d, 'div')                              ║
+# ║   requires: hasattr(a, 'div')                              ║
+# ║   returns:  ((ga, gd), (r, d), (rra, rrd))                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ hermite_reduce : {Any | hasattr(DE, 't') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | afa2af9a6c9aabe6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb609cee3ab89e86  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.hermite_reduce","kind":"function","src_hash":"b85c39e2c7832eed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hermite_reduce(a, )","rhs":"hermite reduction - mack's linear version","over":{"base":"Any"},"name":"hermite_reduce_correct"},"guarantee":"hermite reduction - mack's linear version","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.hermite_reduce_correct","statement":"Path(hermite_reduce(x), hermite reduction - mack's linear version)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"afa2af9a6c9aabe6"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.hermite_reduce","kind":"function","src_hash":"b85c39e2c7832eed","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(d, 'div') and hasattr(a, 'div') and hasattr(a, 'mul') and hasattr(d, 'mul') and hasattr(d, 'LC') and hasattr(a, 'as_poly') and hasattr(d, 'to_field')"},"out":{"base":"Any"},"spec":{"lhs":"hermite_reduce(a, d, DE)","rhs":"((ga, gd), (r, d), (rra, rrd))","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(d, 'div') and hasattr(a, 'div') and hasattr(a, 'mul') and hasattr(d, 'mul') and hasattr(d, 'LC') and hasattr(a, 'as_poly') and hasattr(d, 'to_field')"},"name":"hermite_reduce_correct"},"guarantee":"returns ((ga, gd), (r, d), (rra, rrd))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.hermite_reduce_correct","statement":"Path(hermite_reduce(x), returns ((ga, gd), (r, d), (rra, rrd)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb609cee3ab89e86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 't')","hasattr(d, 'div')","hasattr(a, 'div')","hasattr(a, 'mul')","hasattr(d, 'mul')","hasattr(d, 'LC')","hasattr(a, 'as_poly')","hasattr(d, 'to_field')"],"returns_expr":"((ga, gd), (r, d), (rra, rrd))","pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t","a.as_poly","a.div","a.mul","d.LC","d.div","d.mul","d.to_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def hermite_reduce(a, d, DE):
     """
     Hermite Reduction - Mack's Linear Version.
@@ -1486,16 +1714,25 @@ def hermite_reduce(a, d, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(polynomial_reduce(p, ), polynomial reduction) over Any ║
+# ║ Path(polynomial_reduce(p, DE), (q, p)) over {Any | hasattr(DE, 't') and hasattr(p, 'degree') and hasattr(DE, 'd') and hasattr(p, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ polynomial_reduce : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(p, 'degree')                           ║
+# ║   requires: hasattr(DE, 'd')                               ║
+# ║   returns:  (q, p)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ polynomial_reduce : {Any | hasattr(DE, 't') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e50f63cad586bddd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bee5bccbe4f3880  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.polynomial_reduce","kind":"function","src_hash":"09106e9fa3e848bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polynomial_reduce(p, )","rhs":"polynomial reduction","over":{"base":"Any"},"name":"polynomial_reduce_correct"},"guarantee":"polynomial reduction","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.polynomial_reduce_correct","statement":"Path(polynomial_reduce(x), polynomial reduction)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e50f63cad586bddd"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.polynomial_reduce","kind":"function","src_hash":"09106e9fa3e848bc","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(p, 'degree') and hasattr(DE, 'd') and hasattr(p, 'as_poly')"},"out":{"base":"Any"},"spec":{"lhs":"polynomial_reduce(p, DE)","rhs":"(q, p)","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(p, 'degree') and hasattr(DE, 'd') and hasattr(p, 'as_poly')"},"name":"polynomial_reduce_correct"},"guarantee":"returns (q, p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.polynomial_reduce_correct","statement":"Path(polynomial_reduce(x), returns (q, p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bee5bccbe4f3880","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 't')","hasattr(p, 'degree')","hasattr(DE, 'd')","hasattr(p, 'as_poly')"],"returns_expr":"(q, p)","pure":false,"effects":{"effect_type":"reads_state","reads":["DE.d","DE.t","p.as_poly","p.degree"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def polynomial_reduce(p, DE):
     """
     Polynomial Reduction.
@@ -1519,16 +1756,25 @@ def polynomial_reduce(p, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(laurent_series(a, ), contribution of ``f`` to the full partial fraction decomposition of a/d) over Any ║
+# ║ Path(laurent_series(a, d, F), <unspecified:laurent_series>) over {Any | hasattr(DE, 't') and hasattr(d, 'quo') and hasattr(F, 'degree') and hasattr(F, 'div')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ laurent_series : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(d, 'quo')                              ║
+# ║   requires: hasattr(F, 'degree')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ laurent_series : {Any | hasattr(DE, 't') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3049dd052d42879c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.laurent_series","kind":"function","src_hash":"6a84d86b3c7f52ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"laurent_series(a, )","rhs":"contribution of ``f`` to the full partial fraction decomposition of a/d","over":{"base":"Any"},"name":"laurent_series_correct"},"guarantee":"contribution of ``f`` to the full partial fraction decomposition of a/d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.laurent_series_correct","statement":"Path(laurent_series(x), contribution of ``f`` to the full partial fraction decomposition of a/d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3049dd052d42879c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.laurent_series","kind":"function","src_hash":"6a84d86b3c7f52ed","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(d, 'quo') and hasattr(F, 'degree') and hasattr(F, 'div')"},"out":{"base":"Any"},"spec":{"lhs":"laurent_series(a, d, F)","rhs":"<unspecified:laurent_series>","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(d, 'quo') and hasattr(F, 'degree') and hasattr(F, 'div')"},"name":"laurent_series_correct"},"guarantee":"contribution of ``f`` to the full partial fraction decomposition of a/d","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.laurent_series_correct","statement":"Path(laurent_series(x), contribution of ``f`` to the full partial fraction decomposition of a/d)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3049dd052d42879c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')","hasattr(d, 'quo')","hasattr(F, 'degree')","hasattr(F, 'div')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def laurent_series(a, d, F, n, DE):
     """
     Contribution of ``F`` to the full partial fraction decomposition of A/D.
@@ -1596,16 +1842,24 @@ def laurent_series(a, d, F, n, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(recognize_derivative(a, ), compute the squarefree factorization of the denominator of f and for each di the polynomial h in k[x] (see theorem 2.7.1), using the laurentseries algorithm) over Any ║
+# ║ Path(recognize_derivative(a, d, DE), <unspecified:recognize_derivative>) over {Any | hasattr(a, 'cancel') and hasattr(a, 'div')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ recognize_derivative : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'cancel')                           ║
+# ║   requires: hasattr(a, 'div')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ recognize_derivative : {Any | hasattr(a, 'cancel') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 220c490d8b4e55d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.recognize_derivative","kind":"function","src_hash":"182d443e09ece811","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"recognize_derivative(a, )","rhs":"compute the squarefree factorization of the denominator of f and for each di the polynomial h in k[x] (see theorem 2.7.1), using the laurentseries algorithm","over":{"base":"Any"},"name":"recognize_derivative_correct"},"guarantee":"compute the squarefree factorization of the denominator of f and for each di the polynomial h in k[x] (see theorem 2.7.1), using the laurentseries algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.recognize_derivative_correct","statement":"Path(recognize_derivative(x), compute the squarefree factorization of the denominator of f and for each di the polynomial h in k[x] (see theorem 2.7.1), using the laurentseries algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"220c490d8b4e55d8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.recognize_derivative","kind":"function","src_hash":"182d443e09ece811","in":{"base":"Any","pred":"hasattr(a, 'cancel') and hasattr(a, 'div')"},"out":{"base":"Any"},"spec":{"lhs":"recognize_derivative(a, d, DE)","rhs":"<unspecified:recognize_derivative>","over":{"base":"Any","pred":"hasattr(a, 'cancel') and hasattr(a, 'div')"},"name":"recognize_derivative_correct"},"guarantee":"compute the squarefree factorization of the denominator of f and for each di the polynomial h in k[x] (see theorem 2.7.1), using the laurentseries algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.recognize_derivative_correct","statement":"Path(recognize_derivative(x), compute the squarefree factorization of the denominator of f and for each di the polynomial h in k[x] (see theorem 2.7.1), using the laurentseries algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"220c490d8b4e55d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'cancel')","hasattr(a, 'div')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.cancel","a.div"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def recognize_derivative(a, d, DE, z=None):
     """
     Compute the squarefree factorization of the denominator of f
@@ -1633,16 +1887,25 @@ def recognize_derivative(a, d, DE, z=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(recognize_log_derivative(a, ), there exists a v in k(x)* such that f = dv/v where f a rational function if and only if f can be written as f = a/d where d is squarefree,deg(a) < deg(d), gcd(a, d) = 1, and all the roots of the roths) over Any ║
+# ║ Path(recognize_log_derivative(a, d, DE), <unspecified:recognize_log_derivative>) over {Any | hasattr(a, 'cancel') and hasattr(a, 'div') and hasattr(DE, 't') and hasattr(d, 'resultant')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ recognize_log_derivative : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'cancel')                           ║
+# ║   requires: hasattr(a, 'div')                              ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ recognize_log_derivative : {Any | hasattr(a, 'cancel'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2629211d5b64849  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.recognize_log_derivative","kind":"function","src_hash":"72175bb5b04e897d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"recognize_log_derivative(a, )","rhs":"there exists a v in k(x)* such that f = dv/v where f a rational function if and only if f can be written as f = a/d where d is squarefree,deg(a) < deg(d), gcd(a, d) = 1, and all the roots of the roths","over":{"base":"Any"},"name":"recognize_log_derivative_correct"},"guarantee":"there exists a v in k(x)* such that f = dv/v where f a rational function if and only if f can be written as f = a/d where d is squarefree,deg(a) < deg(d), gcd(a, d) = 1, and all the roots of the roths","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.recognize_log_derivative_correct","statement":"Path(recognize_log_derivative(x), there exists a v in k(x)* such that f = dv/v where f a rational function if and only if f can be written as f = a/d where d is squarefree,deg(a) < deg(d), gcd(a, d) = 1, and all the roots of the roths)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2629211d5b64849"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.recognize_log_derivative","kind":"function","src_hash":"72175bb5b04e897d","in":{"base":"Any","pred":"hasattr(a, 'cancel') and hasattr(a, 'div') and hasattr(DE, 't') and hasattr(d, 'resultant')"},"out":{"base":"Any"},"spec":{"lhs":"recognize_log_derivative(a, d, DE)","rhs":"<unspecified:recognize_log_derivative>","over":{"base":"Any","pred":"hasattr(a, 'cancel') and hasattr(a, 'div') and hasattr(DE, 't') and hasattr(d, 'resultant')"},"name":"recognize_log_derivative_correct"},"guarantee":"there exists a v in k(x)* such that f = dv/v where f a rational function if and only if f can be written as f = a/d where d is squarefree,deg(a) < deg(d), gcd(a, d) = 1, and all the roots of the roths","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.recognize_log_derivative_correct","statement":"Path(recognize_log_derivative(x), there exists a v in k(x)* such that f = dv/v where f a rational function if and only if f can be written as f = a/d where d is squarefree,deg(a) < deg(d), gcd(a, d) = 1, and all the roots of the roths)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2629211d5b64849","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'cancel')","hasattr(a, 'div')","hasattr(DE, 't')","hasattr(d, 'resultant')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t","a.cancel","a.div","d.resultant"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def recognize_log_derivative(a, d, DE, z=None):
     """
     There exists a v in K(x)* such that f = dv/v
@@ -1674,16 +1937,25 @@ def recognize_log_derivative(a, d, DE, z=None):
     return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(residue_reduce(a, ), lazard-rioboo-rothstein-trager resultant reduction) over Any ║
+# ║ Path(residue_reduce(a, d, DE), <unspecified:residue_reduce>) over {Any | hasattr(a, 'is_zero') and hasattr(a, 'cancel') and hasattr(a, 'div') and hasattr(DE, 't') and hasattr(DE, 'T') and hasattr(d, 'degree') and hasattr(d, 'resultant') and hasattr(DE, 'level') and hasattr(a, 'to_field') and hasattr(d, 'LC') and hasattr(d, 'to_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ residue_reduce : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'is_zero')                          ║
+# ║   requires: hasattr(a, 'cancel')                           ║
+# ║   requires: hasattr(a, 'div')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ residue_reduce : {Any | hasattr(a, 'is_zero') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27486cef6dca7b68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.residue_reduce","kind":"function","src_hash":"9f667747d930d1cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"residue_reduce(a, )","rhs":"lazard-rioboo-rothstein-trager resultant reduction","over":{"base":"Any"},"name":"residue_reduce_correct"},"guarantee":"lazard-rioboo-rothstein-trager resultant reduction","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.residue_reduce_correct","statement":"Path(residue_reduce(x), lazard-rioboo-rothstein-trager resultant reduction)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27486cef6dca7b68"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.residue_reduce","kind":"function","src_hash":"9f667747d930d1cb","in":{"base":"Any","pred":"hasattr(a, 'is_zero') and hasattr(a, 'cancel') and hasattr(a, 'div') and hasattr(DE, 't') and hasattr(DE, 'T') and hasattr(d, 'degree') and hasattr(d, 'resultant') and hasattr(DE, 'level') and hasattr(a, 'to_field') and hasattr(d, 'LC') and hasattr(d, 'to_field')"},"out":{"base":"Any"},"spec":{"lhs":"residue_reduce(a, d, DE)","rhs":"<unspecified:residue_reduce>","over":{"base":"Any","pred":"hasattr(a, 'is_zero') and hasattr(a, 'cancel') and hasattr(a, 'div') and hasattr(DE, 't') and hasattr(DE, 'T') and hasattr(d, 'degree') and hasattr(d, 'resultant') and hasattr(DE, 'level') and hasattr(a, 'to_field') and hasattr(d, 'LC') and hasattr(d, 'to_field')"},"name":"residue_reduce_correct"},"guarantee":"lazard-rioboo-rothstein-trager resultant reduction","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.residue_reduce_correct","statement":"Path(residue_reduce(x), lazard-rioboo-rothstein-trager resultant reduction)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27486cef6dca7b68","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'is_zero')","hasattr(a, 'cancel')","hasattr(a, 'div')","hasattr(DE, 't')","hasattr(DE, 'T')","hasattr(d, 'degree')","hasattr(d, 'resultant')","hasattr(DE, 'level')","hasattr(a, 'to_field')","hasattr(d, 'LC')","hasattr(d, 'to_field')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def residue_reduce(a, d, DE, z=None, invert=True):
     """
     Lazard-Rioboo-Rothstein-Trager resultant reduction.
@@ -1773,16 +2045,25 @@ def residue_reduce(a, d, DE, z=None, invert=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(residue_reduce_to_basic(H, ), id) over Any            ║
+# ║ Path(residue_reduce_to_basic(H, DE, z), id) over {Any | hasattr(DE, 'T') and hasattr(DE, 'x') and hasattr(DE, 'Tfuncs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ residue_reduce_to_basic : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 'T')                               ║
+# ║   requires: hasattr(DE, 'x')                               ║
+# ║   requires: hasattr(DE, 'Tfuncs')                          ║
+# ║   returns:  sum((RootSum(a[0].as_poly(z), Lambda(i, i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ residue_reduce_to_basic : {Any | hasattr(DE, 'T') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5b4097fa03bd5a94   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.residue_reduce_to_basic","kind":"function","src_hash":"fc3e164b477af7bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"residue_reduce_to_basic(H, )","rhs":"converts the tuple returned by residue_reduce() into a basic expression","over":{"base":"Any"},"name":"residue_reduce_to_basic_correct","kind":"composition"},"guarantee":"converts the tuple returned by residue_reduce() into a basic expression","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"RootSum","by":"library_axiom"},{"fn":"as_poly","by":"library_axiom"},{"fn":"Lambda","by":"library_axiom"},{"fn":"log","by":"library_axiom"},{"fn":"as_expr","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b4097fa03bd5a94"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.residue_reduce_to_basic","kind":"function","src_hash":"fc3e164b477af7bb","in":{"base":"Any","pred":"hasattr(DE, 'T') and hasattr(DE, 'x') and hasattr(DE, 'Tfuncs')"},"out":{"base":"Any"},"spec":{"lhs":"residue_reduce_to_basic(H, DE, z)","rhs":"sum((RootSum(a[0].as_poly(z), Lambda(i, i * log(a[1].as_expr()).subs({z: i}).subs(s))) for a in H))","over":{"base":"Any","pred":"hasattr(DE, 'T') and hasattr(DE, 'x') and hasattr(DE, 'Tfuncs')"},"name":"residue_reduce_to_basic_correct","kind":"composition"},"guarantee":"returns sum((RootSum(a[0].as_poly(z), Lambda(i, i * log(a[1].as_expr()).subs({z: i}).subs(s))) for a in H))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"RootSum","by":"library_axiom"},{"fn":"as_poly","by":"library_axiom"},{"fn":"Lambda","by":"library_axiom"},{"fn":"log","by":"library_axiom"},{"fn":"as_expr","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b4097fa03bd5a94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 'T')","hasattr(DE, 'x')","hasattr(DE, 'Tfuncs')"],"returns_expr":"sum((RootSum(a[0].as_poly(z), Lambda(i, i * log(a[1].as_expr()).subs({z: i}).subs(s))) for a in H))","pure":false,"effects":{"effect_type":"reads_state","reads":["DE.T","DE.Tfuncs","DE.x"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def residue_reduce_to_basic(H, DE, z):
     """
     Converts the tuple returned by residue_reduce() into a Basic expression.
@@ -1796,16 +2077,22 @@ def residue_reduce_to_basic(H, DE, z):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(residue_reduce_derivation(H, ), id) over Any          ║
+# ║ Path(residue_reduce_derivation(H, DE, z), id) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S(sum((RootSum(a[0].as_poly(z), Lambda(i,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ residue_reduce_derivation : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5ea3655573ea1aff   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.residue_reduce_derivation","kind":"function","src_hash":"d6339870b3739088","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"residue_reduce_derivation(H, )","rhs":"computes the derivation of an expression returned by residue_reduce()","over":{"base":"Any"},"name":"residue_reduce_derivation_correct","kind":"composition"},"guarantee":"computes the derivation of an expression returned by residue_reduce()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"S","by":"library_axiom"},{"fn":"sum","by":"library_axiom"},{"fn":"RootSum","by":"library_axiom"},{"fn":"as_poly","by":"library_axiom"},{"fn":"Lambda","by":"library_axiom"},{"fn":"derivation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ea3655573ea1aff"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.residue_reduce_derivation","kind":"function","src_hash":"d6339870b3739088","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"residue_reduce_derivation(H, DE, z)","rhs":"S(sum((RootSum(a[0].as_poly(z), Lambda(i, i * derivation(a[1], DE).as_expr().subs(z, i) / a[1].as_expr().subs(z, i))) for a in H)))","over":{"base":"Any"},"name":"residue_reduce_derivation_correct","kind":"composition"},"guarantee":"returns S(sum((RootSum(a[0].as_poly(z), Lambda(i, i * derivation(a[1], DE).as_expr().subs(z, i) / a[1].as_expr().subs(z, i))) for a in H)))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"S","by":"library_axiom"},{"fn":"sum","by":"library_axiom"},{"fn":"RootSum","by":"library_axiom"},{"fn":"as_poly","by":"library_axiom"},{"fn":"Lambda","by":"library_axiom"},{"fn":"derivation","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ea3655573ea1aff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S(sum((RootSum(a[0].as_poly(z), Lambda(i, i * derivation(a[1], DE).as_expr().subs(z, i) / a[1].as_expr().subs(z, i))) for a in H)))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def residue_reduce_derivation(H, DE, z):
     """
     Computes the derivation of an expression returned by residue_reduce().
@@ -1820,16 +2107,25 @@ def residue_reduce_derivation(H, DE, z):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integrate_primitive_polynomial(p, ), integration of primitive polynomials) over Any ║
+# ║ Path(integrate_primitive_polynomial(p, DE), <unspecified:integrate_primitive_polynomial>) over {Any | hasattr(DE, 't') and hasattr(DE, 'd') and hasattr(p, 'degree') and hasattr(p, 'expr') and hasattr(DE, 'T') and hasattr(p, 'LC') and hasattr(DE, 'level')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ integrate_primitive_polynomial : Any → Any                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(DE, 'd')                               ║
+# ║   requires: hasattr(p, 'degree')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ integrate_primitive_polynomial : {Any | hasattr(DE, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c96681eabbb16eb9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integrate_primitive_polynomial","kind":"function","src_hash":"b8e19827d1b3eef9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate_primitive_polynomial(p, )","rhs":"integration of primitive polynomials","over":{"base":"Any"},"name":"integrate_primitive_polynomial_correct"},"guarantee":"integration of primitive polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.integrate_primitive_polynomial_correct","statement":"Path(integrate_primitive_polynomial(x), integration of primitive polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c96681eabbb16eb9"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integrate_primitive_polynomial","kind":"function","src_hash":"b8e19827d1b3eef9","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'd') and hasattr(p, 'degree') and hasattr(p, 'expr') and hasattr(DE, 'T') and hasattr(p, 'LC') and hasattr(DE, 'level')"},"out":{"base":"Any"},"spec":{"lhs":"integrate_primitive_polynomial(p, DE)","rhs":"<unspecified:integrate_primitive_polynomial>","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'd') and hasattr(p, 'degree') and hasattr(p, 'expr') and hasattr(DE, 'T') and hasattr(p, 'LC') and hasattr(DE, 'level')"},"name":"integrate_primitive_polynomial_correct"},"guarantee":"integration of primitive polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.integrate_primitive_polynomial_correct","statement":"Path(integrate_primitive_polynomial(x), integration of primitive polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c96681eabbb16eb9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')","hasattr(DE, 'd')","hasattr(p, 'degree')","hasattr(p, 'expr')","hasattr(DE, 'T')","hasattr(p, 'LC')","hasattr(DE, 'level')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.T","DE.d","DE.level","DE.t","p.LC","p.degree","p.expr"],"raises":["NonElementaryIntegralException"],"catches":["NonElementaryIntegralException"]},"state_contract":{"exceptional_post":{"NonElementaryIntegralException":["isinstance(raised, NonElementaryIntegralException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def integrate_primitive_polynomial(p, DE):
     """
     Integration of primitive polynomials.
@@ -1877,16 +2173,25 @@ def integrate_primitive_polynomial(p, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integrate_primitive(a, ), integration of primitive functions) over Any ║
+# ║ Path(integrate_primitive(a, d, DE), <unspecified:integrate_primitive>) over {Any | hasattr(DE, 't') and hasattr(DE, 'x') and hasattr(DE, 'T') and hasattr(DE, 'Tfuncs') and hasattr(a, 'as_expr') and hasattr(d, 'as_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ integrate_primitive : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(DE, 'x')                               ║
+# ║   requires: hasattr(DE, 'T')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ integrate_primitive : {Any | hasattr(DE, 't') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84bd784fa283932e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integrate_primitive","kind":"function","src_hash":"20950bcc82975c81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate_primitive(a, )","rhs":"integration of primitive functions","over":{"base":"Any"},"name":"integrate_primitive_correct"},"guarantee":"integration of primitive functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.integrate_primitive_correct","statement":"Path(integrate_primitive(x), integration of primitive functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84bd784fa283932e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integrate_primitive","kind":"function","src_hash":"20950bcc82975c81","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'x') and hasattr(DE, 'T') and hasattr(DE, 'Tfuncs') and hasattr(a, 'as_expr') and hasattr(d, 'as_expr')"},"out":{"base":"Any"},"spec":{"lhs":"integrate_primitive(a, d, DE)","rhs":"<unspecified:integrate_primitive>","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'x') and hasattr(DE, 'T') and hasattr(DE, 'Tfuncs') and hasattr(a, 'as_expr') and hasattr(d, 'as_expr')"},"name":"integrate_primitive_correct"},"guarantee":"integration of primitive functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.integrate_primitive_correct","statement":"Path(integrate_primitive(x), integration of primitive functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84bd784fa283932e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')","hasattr(DE, 'x')","hasattr(DE, 'T')","hasattr(DE, 'Tfuncs')","hasattr(a, 'as_expr')","hasattr(d, 'as_expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.T","DE.Tfuncs","DE.t","DE.x","a.as_expr","d.as_expr"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def integrate_primitive(a, d, DE, z=None):
     """
     Integration of primitive functions.
@@ -1937,16 +2242,25 @@ def integrate_primitive(a, d, DE, z=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integrate_hyperexponential_polynomial(p, ), integration of hyperexponential polynomials) over Any ║
+# ║ Path(integrate_hyperexponential_polynomial(p, DE, z), <unspecified:integrate_hyperexponential_polynomial>) over {Any | hasattr(DE, 't') and hasattr(p, 'is_zero') and hasattr(DE, 'd') and hasattr(p, 'degree') and hasattr(p, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ integrate_hyperexponential_polynomial : Any → Any          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(p, 'is_zero')                          ║
+# ║   requires: hasattr(DE, 'd')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ integrate_hyperexponential_polynomial : {Any | hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46315ca12a5d479c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integrate_hyperexponential_polynomial","kind":"function","src_hash":"b2430d09e384eff2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate_hyperexponential_polynomial(p, )","rhs":"integration of hyperexponential polynomials","over":{"base":"Any"},"name":"integrate_hyperexponential_polynomial_correct"},"guarantee":"integration of hyperexponential polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.integrate_hyperexponential_polynomial_correct","statement":"Path(integrate_hyperexponential_polynomial(x), integration of hyperexponential polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46315ca12a5d479c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integrate_hyperexponential_polynomial","kind":"function","src_hash":"b2430d09e384eff2","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(p, 'is_zero') and hasattr(DE, 'd') and hasattr(p, 'degree') and hasattr(p, 'as_poly')"},"out":{"base":"Any"},"spec":{"lhs":"integrate_hyperexponential_polynomial(p, DE, z)","rhs":"<unspecified:integrate_hyperexponential_polynomial>","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(p, 'is_zero') and hasattr(DE, 'd') and hasattr(p, 'degree') and hasattr(p, 'as_poly')"},"name":"integrate_hyperexponential_polynomial_correct"},"guarantee":"integration of hyperexponential polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.integrate_hyperexponential_polynomial_correct","statement":"Path(integrate_hyperexponential_polynomial(x), integration of hyperexponential polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46315ca12a5d479c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')","hasattr(p, 'is_zero')","hasattr(DE, 'd')","hasattr(p, 'degree')","hasattr(p, 'as_poly')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.d","DE.t","p.as_poly","p.degree","p.is_zero"],"catches":["NonElementaryIntegralException"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def integrate_hyperexponential_polynomial(p, DE, z):
     """
     Integration of hyperexponential polynomials.
@@ -2000,16 +2314,25 @@ def integrate_hyperexponential_polynomial(p, DE, z):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integrate_hyperexponential(a, ), integration of hyperexponential functions) over Any ║
+# ║ Path(integrate_hyperexponential(a, d, DE), <unspecified:integrate_hyperexponential>) over {Any | hasattr(DE, 't') and hasattr(DE, 'x') and hasattr(DE, 'T') and hasattr(DE, 'Tfuncs') and hasattr(a, 'as_expr') and hasattr(d, 'as_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ integrate_hyperexponential : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(DE, 'x')                               ║
+# ║   requires: hasattr(DE, 'T')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ integrate_hyperexponential : {Any | hasattr(DE, 't') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cbce81e9924ce06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integrate_hyperexponential","kind":"function","src_hash":"ac5aa92c63ee98c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate_hyperexponential(a, )","rhs":"integration of hyperexponential functions","over":{"base":"Any"},"name":"integrate_hyperexponential_correct"},"guarantee":"integration of hyperexponential functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.integrate_hyperexponential_correct","statement":"Path(integrate_hyperexponential(x), integration of hyperexponential functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cbce81e9924ce06"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integrate_hyperexponential","kind":"function","src_hash":"ac5aa92c63ee98c0","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'x') and hasattr(DE, 'T') and hasattr(DE, 'Tfuncs') and hasattr(a, 'as_expr') and hasattr(d, 'as_expr')"},"out":{"base":"Any"},"spec":{"lhs":"integrate_hyperexponential(a, d, DE)","rhs":"<unspecified:integrate_hyperexponential>","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'x') and hasattr(DE, 'T') and hasattr(DE, 'Tfuncs') and hasattr(a, 'as_expr') and hasattr(d, 'as_expr')"},"name":"integrate_hyperexponential_correct"},"guarantee":"integration of hyperexponential functions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.integrate_hyperexponential_correct","statement":"Path(integrate_hyperexponential(x), integration of hyperexponential functions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cbce81e9924ce06","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')","hasattr(DE, 'x')","hasattr(DE, 'T')","hasattr(DE, 'Tfuncs')","hasattr(a, 'as_expr')","hasattr(d, 'as_expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.T","DE.Tfuncs","DE.t","DE.x","a.as_expr","d.as_expr"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def integrate_hyperexponential(a, d, DE, z=None, conds='piecewise'):
     """
     Integration of hyperexponential functions.
@@ -2076,16 +2399,24 @@ def integrate_hyperexponential(a, d, DE, z=None, conds='piecewise'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integrate_hypertangent_polynomial(p, ), integration of hypertangent polynomials) over Any ║
+# ║ Path(integrate_hypertangent_polynomial(p, DE), (q, c)) over {Any | hasattr(DE, 't') and hasattr(DE, 'd')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ integrate_hypertangent_polynomial : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(DE, 'd')                               ║
+# ║   returns:  (q, c)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ integrate_hypertangent_polynomial : {Any | hasattr(DE...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 265250f750fe1835  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cae9a41b9817c0a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integrate_hypertangent_polynomial","kind":"function","src_hash":"c5d87982c59d9f03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate_hypertangent_polynomial(p, )","rhs":"integration of hypertangent polynomials","over":{"base":"Any"},"name":"integrate_hypertangent_polynomial_correct"},"guarantee":"integration of hypertangent polynomials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.integrate_hypertangent_polynomial_correct","statement":"Path(integrate_hypertangent_polynomial(x), integration of hypertangent polynomials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"265250f750fe1835"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integrate_hypertangent_polynomial","kind":"function","src_hash":"c5d87982c59d9f03","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'd')"},"out":{"base":"Any"},"spec":{"lhs":"integrate_hypertangent_polynomial(p, DE)","rhs":"(q, c)","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'd')"},"name":"integrate_hypertangent_polynomial_correct"},"guarantee":"returns (q, c)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.integrate_hypertangent_polynomial_correct","statement":"Path(integrate_hypertangent_polynomial(x), returns (q, c))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cae9a41b9817c0a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 't')","hasattr(DE, 'd')"],"returns_expr":"(q, c)","pure":false,"effects":{"effect_type":"reads_state","reads":["DE.d","DE.t"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def integrate_hypertangent_polynomial(p, DE):
     """
     Integration of hypertangent polynomials.
@@ -2106,16 +2437,25 @@ def integrate_hypertangent_polynomial(p, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integrate_nonlinear_no_specials(a, ), integration of nonlinear monomials with no specials) over Any ║
+# ║ Path(integrate_nonlinear_no_specials(a, d, DE), <unspecified:integrate_nonlinear_no_specials>) over {Any | hasattr(DE, 't') and hasattr(DE, 'T') and hasattr(DE, 'x') and hasattr(DE, 'Tfuncs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ integrate_nonlinear_no_specials : Any → Any                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(DE, 'T')                               ║
+# ║   requires: hasattr(DE, 'x')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ integrate_nonlinear_no_specials : {Any | hasattr(DE, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f29145fca88908b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integrate_nonlinear_no_specials","kind":"function","src_hash":"39e901711a8810e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integrate_nonlinear_no_specials(a, )","rhs":"integration of nonlinear monomials with no specials","over":{"base":"Any"},"name":"integrate_nonlinear_no_specials_correct"},"guarantee":"integration of nonlinear monomials with no specials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.integrate_nonlinear_no_specials_correct","statement":"Path(integrate_nonlinear_no_specials(x), integration of nonlinear monomials with no specials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f29145fca88908b3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.integrate_nonlinear_no_specials","kind":"function","src_hash":"39e901711a8810e2","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'T') and hasattr(DE, 'x') and hasattr(DE, 'Tfuncs')"},"out":{"base":"Any"},"spec":{"lhs":"integrate_nonlinear_no_specials(a, d, DE)","rhs":"<unspecified:integrate_nonlinear_no_specials>","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'T') and hasattr(DE, 'x') and hasattr(DE, 'Tfuncs')"},"name":"integrate_nonlinear_no_specials_correct"},"guarantee":"integration of nonlinear monomials with no specials","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.integrate_nonlinear_no_specials_correct","statement":"Path(integrate_nonlinear_no_specials(x), integration of nonlinear monomials with no specials)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f29145fca88908b3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')","hasattr(DE, 'T')","hasattr(DE, 'x')","hasattr(DE, 'Tfuncs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.T","DE.Tfuncs","DE.t","DE.x"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def integrate_nonlinear_no_specials(a, d, DE, z=None):
     """
     Integration of nonlinear monomials with no specials.
@@ -2164,16 +2504,22 @@ def integrate_nonlinear_no_specials(a, d, DE, z=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(NonElementaryIntegral(), correctly constructs a NonElementaryIntegral instance) over Any ║
+# ║ Path(NonElementaryIntegral(), isinstance(self, Integral)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ NonElementaryIntegral : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Integral)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ NonElementaryIntegral : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d5336bd6d82e43f9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.NonElementaryIntegral","kind":"class","src_hash":"48d6944bfe278e9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"NonElementaryIntegral()","rhs":"correctly constructs a NonElementaryIntegral instance","over":{"base":"Any"},"name":"NonElementaryIntegral_correct"},"guarantee":"correctly constructs a NonElementaryIntegral instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5336bd6d82e43f9"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.NonElementaryIntegral","kind":"class","src_hash":"48d6944bfe278e9a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Integral)"},"spec":{"lhs":"NonElementaryIntegral()","rhs":"isinstance(self, Integral)","over":{"base":"Any"},"name":"NonElementaryIntegral_correct"},"guarantee":"isinstance(self, Integral)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d5336bd6d82e43f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Integral)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function NonElementaryIntegral not found in source"]}}
 class NonElementaryIntegral(Integral):
     """
     Represents a nonelementary Integral.
@@ -2225,7 +2571,10 @@ class NonElementaryIntegral(Integral):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(risch_integrate(f, ), the risch integration algorithm) over {Any | isinstance(i, NonElementaryIntegral)} ║
+# ║ Path(risch_integrate(f, x, extension), <unspecified:risch_integrate>) over {Any | isinstance(i, NonElementaryIntegral)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ risch_integrate : {Any | isinstance(i, NonElementaryI...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2237,9 +2586,12 @@ class NonElementaryIntegral(Integral):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 859340ed...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.risch_integrate","kind":"function","src_hash":"e33018521946cce6","in":{"base":"Any","pred":"isinstance(i, NonElementaryIntegral)"},"out":{"base":"Any"},"spec":{"lhs":"risch_integrate(f, )","rhs":"the risch integration algorithm","over":{"base":"Any","pred":"isinstance(i, NonElementaryIntegral)"},"name":"risch_integrate_correct"},"guarantee":"the risch integration algorithm","fibers":[{"name":"NonElementaryIntegral","pred":"isinstance(i, NonElementaryIntegral)","path":{"lhs":"risch_integrate(x)","rhs":"the risch integration algorithm","over":{"base":"NonElementaryIntegral","pred":"isinstance(i, NonElementaryIntegral)"},"name":"risch_integrate_NonElementaryIntegral_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.risch_integrate_NonElementaryIntegral_correct","statement":"risch_integrate satisfies spec on NonElementaryIntegral inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"859340ed627a3fcf"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.risch.risch_integrate","kind":"function","src_hash":"e33018521946cce6","in":{"base":"Any","pred":"isinstance(i, NonElementaryIntegral)"},"out":{"base":"Any"},"spec":{"lhs":"risch_integrate(f, x, extension)","rhs":"<unspecified:risch_integrate>","over":{"base":"Any","pred":"isinstance(i, NonElementaryIntegral)"},"name":"risch_integrate_correct"},"guarantee":"the risch integration algorithm","fibers":[{"name":"NonElementaryIntegral","pred":"isinstance(i, NonElementaryIntegral)","path":{"lhs":"risch_integrate(x)","rhs":"the risch integration algorithm","over":{"base":"NonElementaryIntegral","pred":"isinstance(i, NonElementaryIntegral)"},"name":"risch_integrate_NonElementaryIntegral_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.risch.risch_integrate_NonElementaryIntegral_correct","statement":"risch_integrate satisfies spec on NonElementaryIntegral inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"859340ed627a3fcf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"case == 'base'\", 'isinstance(i, NonElementaryIntegral)', \"not fa.expr.has(DE.t) and (not fd.expr.has(DE.t)) and (not case == 'base')\", \"case == 'exp'\", \"case == 'primitive'\"}, fibers={'NonElementaryIntegral'})"]}}
 def risch_integrate(f, x, extension=None, handle_first='log',
                     separate_integral=False, rewrite_complex=None,
                     conds='piecewise'):

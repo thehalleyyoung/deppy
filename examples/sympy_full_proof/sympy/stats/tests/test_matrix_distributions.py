@@ -31,16 +31,22 @@ from sympy.external import import_module
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixPSpace(), test_MatrixPSpace produces the expected output) over Any ║
+# ║ Path(test_MatrixPSpace(), MP.distribution == M) over Any   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixPSpace : Any → {Any | MP.distribution == M}     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MP.distribution == M                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixPSpace : Any → {Any | result satisfies: MP...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8dd55e1e20438889  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e852849c417f75ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_MatrixPSpace","kind":"function","src_hash":"dd51fae3350c43f8","in":{"base":"Any"},"out":{"base":"Any","pred":"MP.distribution == M"},"spec":{"lhs":"test_MatrixPSpace()","rhs":"test_MatrixPSpace produces the expected output","over":{"base":"Any"},"name":"test_MatrixPSpace_correct"},"guarantee":"test_MatrixPSpace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_MatrixPSpace_correct","statement":"Path(test_MatrixPSpace(x), test_MatrixPSpace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dd55e1e20438889"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_MatrixPSpace","kind":"function","src_hash":"dd51fae3350c43f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MP.distribution == M"},"spec":{"lhs":"test_MatrixPSpace()","rhs":"MP.distribution == M","over":{"base":"Any"},"name":"test_MatrixPSpace_correct"},"guarantee":"MP.distribution == M","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_MatrixPSpace_correct","statement":"Path(test_MatrixPSpace(x), MP.distribution == M)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e852849c417f75ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MP.distribution == M"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixPSpace():
     M = MatrixGammaDistribution(1, 2, [[2, 1], [1, 2]])
     MP = MatrixPSpace('M', M, 2, 2)
@@ -48,7 +54,12 @@ def test_MatrixPSpace():
     raises(ValueError, lambda: MatrixPSpace('M', M, 1.2, 2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixGamma(), test_MatrixGamma produces the expected output) over {Any | isinstance(density(M), MatrixGammaDistribution)} ║
+# ║ Path(test_MatrixGamma(), M.pspace.distribution.set == MatrixSet(2, 2, S.Reals) and isinstance(density(M), MatrixGammaDistribution) and density(M)(X).doit() == num / (4 * pi * sqrt(Determinant(X))) and density(M)([[2, 1], [1, 2]]).doit() == sqrt(3) * exp(-2) / (12 * pi) and density(M)([X, Y]).doit() == exp(-X[0, 0] / 2 - Y[0, 1] / 2) / (4 * pi * sqrt(X[0, 0] * Y[0, 1] - X[0, 1] * Y[0, 0])) and density(M2)(Y).dummy_eq(exprd)) over {Any | isinstance(density(M), MatrixGammaDistribution)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.pspace.distribution.set == MatrixSet(2,...   ║
+# ║   ensures:  isinstance(density(M), MatrixGammaDistrib...   ║
+# ║   ensures:  density(M)(X).doit() == num / (4 * pi * s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_MatrixGamma : {Any | isinstance(density(M), Matr...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -60,9 +71,12 @@ def test_MatrixPSpace():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0cdf2970...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_MatrixGamma","kind":"function","src_hash":"321c9057ca927bb8","in":{"base":"Any","pred":"isinstance(density(M), MatrixGammaDistribution)"},"out":{"base":"Any","pred":"M.pspace.distribution.set == MatrixSet(2, 2, S.Reals) and isinstance(density(M), MatrixGammaDistribution) and density(M)(X).doit() == num / (4 * pi * sqrt(Determinant(X))) and density(M)([[2, 1], [1, 2]]).doit() == sqrt(3) * exp(-2) / (12 * pi) and density(M2)(Y).dummy_eq(exprd)"},"spec":{"lhs":"test_MatrixGamma()","rhs":"test_MatrixGamma produces the expected output","over":{"base":"Any","pred":"isinstance(density(M), MatrixGammaDistribution)"},"name":"test_MatrixGamma_correct"},"guarantee":"test_MatrixGamma produces the expected output","fibers":[{"name":"MatrixGammaDistribution","pred":"isinstance(density(M), MatrixGammaDistribution)","path":{"lhs":"test_MatrixGamma(x)","rhs":"test_MatrixGamma produces the expected output","over":{"base":"MatrixGammaDistribution","pred":"isinstance(density(M), MatrixGammaDistribution)"},"name":"test_MatrixGamma_MatrixGammaDistribution_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_MatrixGamma_MatrixGammaDistribution_correct","statement":"test_MatrixGamma satisfies spec on MatrixGammaDistribution inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0cdf29700f996f6e"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_MatrixGamma","kind":"function","src_hash":"321c9057ca927bb8","in":{"base":"Any","pred":"isinstance(density(M), MatrixGammaDistribution)"},"out":{"base":"Any","pred":"result satisfies: M.pspace.distribution.set == MatrixSet(2, 2, S.Reals) and isinstance(density(M), MatrixGammaDistribution) and density(M)(X).doit() == num / (4 * pi * sqrt(Determinant(X))) and density(M)([[2, 1], [1, 2]]).doit() == sqrt(3) * exp(-2) / (12 * pi) and density(M)([X, Y]).doit() == exp(-X[0, 0] / 2 - Y[0, 1] / 2) / (4 * pi * sqrt(X[0, 0] * Y[0, 1] - X[0, 1] * Y[0, 0])) and density(M2)(Y).dummy_eq(exprd)"},"spec":{"lhs":"test_MatrixGamma()","rhs":"M.pspace.distribution.set == MatrixSet(2, 2, S.Reals) and isinstance(density(M), MatrixGammaDistribution) and density(M)(X).doit() == num / (4 * pi * sqrt(Determinant(X))) and density(M)([[2, 1], [1, 2]]).doit() == sqrt(3) * exp(-2) / (12 * pi) and density(M)([X, Y]).doit() == exp(-X[0, 0] / 2 - Y[0, 1] / 2) / (4 * pi * sqrt(X[0, 0] * Y[0, 1] - X[0, 1] * Y[0, 0])) and density(M2)(Y).dummy_eq(exprd)","over":{"base":"Any","pred":"isinstance(density(M), MatrixGammaDistribution)"},"name":"test_MatrixGamma_correct"},"guarantee":"M.pspace.distribution.set == MatrixSet(2, 2, S.Reals); isinstance(density(M), MatrixGammaDistribution); density(M)(X).doit() == num / (4 * pi * sqrt(Determinant(X)))","fibers":[{"name":"MatrixGammaDistribution","pred":"isinstance(density(M), MatrixGammaDistribution)","path":{"lhs":"test_MatrixGamma(x)","rhs":"M.pspace.distribution.set == MatrixSet(2, 2, S.Reals); isinstance(density(M), MatrixGammaDistribution); density(M)(X).doit() == num / (4 * pi * sqrt(Determinant(X)))","over":{"base":"MatrixGammaDistribution","pred":"isinstance(density(M), MatrixGammaDistribution)"},"name":"test_MatrixGamma_MatrixGammaDistribution_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_MatrixGamma_MatrixGammaDistribution_correct","statement":"test_MatrixGamma satisfies spec on MatrixGammaDistribution inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0cdf29700f996f6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.pspace.distribution.set == MatrixSet(2, 2, S.Reals)","isinstance(density(M), MatrixGammaDistribution)","density(M)(X).doit() == num / (4 * pi * sqrt(Determinant(X)))","density(M)([[2, 1], [1, 2]]).doit() == sqrt(3) * exp(-2) / (12 * pi)","density(M)([X, Y]).doit() == exp(-X[0, 0] / 2 - Y[0, 1] / 2) / (4 * pi * sqrt(X[0, 0] * Y[0, 1] - X[0, 1] * Y[0, 0]))","density(M2)(Y).dummy_eq(exprd)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":true}}
 def test_MatrixGamma():
     M = MatrixGamma('M', 1, 2, [[1, 0], [0, 1]])
     assert M.pspace.distribution.set == MatrixSet(2, 2, S.Reals)
@@ -96,16 +110,24 @@ def test_MatrixGamma():
     raises(ValueError, lambda: MatrixGamma('M', -1, 2, [[1, 0], [0]]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Wishart(), test_Wishart produces the expected output) over Any ║
+# ║ Path(test_Wishart(), W.pspace.distribution.set == MatrixSet(2, 2, S.Reals) and density(W)(X).doit() == term1 * Determinant(X) / (24 * pi) and density(W)([[2, 1], [1, 2]]).doit() == exp(-2) / (8 * pi) and density(W)(Y).dummy_eq(exprd)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Wishart : Any → {Any | W.pspace.distribution.set...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  W.pspace.distribution.set == MatrixSet(2,...   ║
+# ║   ensures:  density(W)(X).doit() == term1 * Determina...   ║
+# ║   ensures:  density(W)([[2, 1], [1, 2]]).doit() == ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Wishart : Any → {Any | result satisfies: W.pspac...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cec51052d817f47  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18e73808267d95cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_Wishart","kind":"function","src_hash":"1d976d1175c2d542","in":{"base":"Any"},"out":{"base":"Any","pred":"W.pspace.distribution.set == MatrixSet(2, 2, S.Reals) and density(W)(X).doit() == term1 * Determinant(X) / (24 * pi) and density(W)([[2, 1], [1, 2]]).doit() == exp(-2) / (8 * pi) and density(W)(Y).dummy_eq(exprd)"},"spec":{"lhs":"test_Wishart()","rhs":"test_Wishart produces the expected output","over":{"base":"Any"},"name":"test_Wishart_correct"},"guarantee":"test_Wishart produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_Wishart_correct","statement":"Path(test_Wishart(x), test_Wishart produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cec51052d817f47"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_Wishart","kind":"function","src_hash":"1d976d1175c2d542","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: W.pspace.distribution.set == MatrixSet(2, 2, S.Reals) and density(W)(X).doit() == term1 * Determinant(X) / (24 * pi) and density(W)([[2, 1], [1, 2]]).doit() == exp(-2) / (8 * pi) and density(W)(Y).dummy_eq(exprd)"},"spec":{"lhs":"test_Wishart()","rhs":"W.pspace.distribution.set == MatrixSet(2, 2, S.Reals) and density(W)(X).doit() == term1 * Determinant(X) / (24 * pi) and density(W)([[2, 1], [1, 2]]).doit() == exp(-2) / (8 * pi) and density(W)(Y).dummy_eq(exprd)","over":{"base":"Any"},"name":"test_Wishart_correct"},"guarantee":"W.pspace.distribution.set == MatrixSet(2, 2, S.Reals); density(W)(X).doit() == term1 * Determinant(X) / (24 * pi); density(W)([[2, 1], [1, 2]]).doit() == exp(-2) / (8 * pi)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_Wishart_correct","statement":"Path(test_Wishart(x), W.pspace.distribution.set == MatrixSet(2, 2, S.Reals); density(W)(X).doit() == term1 * Determinant(X) / (24 * pi); density(W)([[2, 1], [1, 2]]).doit() == exp(-2) / (8 * pi))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18e73808267d95cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["W.pspace.distribution.set == MatrixSet(2, 2, S.Reals)","density(W)(X).doit() == term1 * Determinant(X) / (24 * pi)","density(W)([[2, 1], [1, 2]]).doit() == exp(-2) / (8 * pi)","density(W)(Y).dummy_eq(exprd)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_Wishart():
     W = Wishart('W', 5, [[1, 0], [0, 1]])
     assert W.pspace.distribution.set == MatrixSet(2, 2, S.Reals)
@@ -129,16 +151,24 @@ def test_Wishart():
     raises(ValueError, lambda: Wishart('W',  2, [[1, 0], [0]]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixNormal(), test_MatrixNormal produces the expected output) over Any ║
+# ║ Path(test_MatrixNormal(), M.pspace.distribution.set == MatrixSet(1, 2, S.Reals) and density(M)(X).doit() == sqrt(3) * term1 / (24 * pi) and density(M)([[7, 8]]).doit() == sqrt(3) * exp(-S(1) / 3) / (24 * pi) and density(M)(Y).doit() == exprd) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixNormal : Any → {Any | M.pspace.distributio...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.pspace.distribution.set == MatrixSet(1,...   ║
+# ║   ensures:  density(M)(X).doit() == sqrt(3) * term1 /...   ║
+# ║   ensures:  density(M)([[7, 8]]).doit() == sqrt(3) * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixNormal : Any → {Any | result satisfies: M....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c93bfdeb5e95076  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1af87bddd7d4ff5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_MatrixNormal","kind":"function","src_hash":"0193a803519b2d56","in":{"base":"Any"},"out":{"base":"Any","pred":"M.pspace.distribution.set == MatrixSet(1, 2, S.Reals) and density(M)(X).doit() == sqrt(3) * term1 / (24 * pi) and density(M)([[7, 8]]).doit() == sqrt(3) * exp(-S(1) / 3) / (24 * pi) and density(M)(Y).doit() == exprd"},"spec":{"lhs":"test_MatrixNormal()","rhs":"test_MatrixNormal produces the expected output","over":{"base":"Any"},"name":"test_MatrixNormal_correct"},"guarantee":"test_MatrixNormal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_MatrixNormal_correct","statement":"Path(test_MatrixNormal(x), test_MatrixNormal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c93bfdeb5e95076"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_MatrixNormal","kind":"function","src_hash":"0193a803519b2d56","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.pspace.distribution.set == MatrixSet(1, 2, S.Reals) and density(M)(X).doit() == sqrt(3) * term1 / (24 * pi) and density(M)([[7, 8]]).doit() == sqrt(3) * exp(-S(1) / 3) / (24 * pi) and density(M)(Y).doit() == exprd"},"spec":{"lhs":"test_MatrixNormal()","rhs":"M.pspace.distribution.set == MatrixSet(1, 2, S.Reals) and density(M)(X).doit() == sqrt(3) * term1 / (24 * pi) and density(M)([[7, 8]]).doit() == sqrt(3) * exp(-S(1) / 3) / (24 * pi) and density(M)(Y).doit() == exprd","over":{"base":"Any"},"name":"test_MatrixNormal_correct"},"guarantee":"M.pspace.distribution.set == MatrixSet(1, 2, S.Reals); density(M)(X).doit() == sqrt(3) * term1 / (24 * pi); density(M)([[7, 8]]).doit() == sqrt(3) * exp(-S(1) / 3) / (24 * pi)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_MatrixNormal_correct","statement":"Path(test_MatrixNormal(x), M.pspace.distribution.set == MatrixSet(1, 2, S.Reals); density(M)(X).doit() == sqrt(3) * term1 / (24 * pi); density(M)([[7, 8]]).doit() == sqrt(3) * exp(-S(1) / 3) / (24 * pi))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1af87bddd7d4ff5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.pspace.distribution.set == MatrixSet(1, 2, S.Reals)","density(M)(X).doit() == sqrt(3) * term1 / (24 * pi)","density(M)([[7, 8]]).doit() == sqrt(3) * exp(-S(1) / 3) / (24 * pi)","density(M)(Y).doit() == exprd"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_MatrixNormal():
     M = MatrixNormal('M', [[5, 6]], [4], [[2, 1], [1, 2]])
     assert M.pspace.distribution.set == MatrixSet(1, 2, S.Reals)
@@ -166,16 +196,24 @@ def test_MatrixNormal():
     raises(ValueError, lambda: MatrixNormal('M', [[1, 2]], [1], [[1, 0]]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixStudentT(), test_MatrixStudentT produces the expected output) over Any ║
+# ║ Path(test_MatrixStudentT(), M.pspace.distribution.set == MatrixSet(1, 2, S.Reals) and density(M)(X) == D and density(M)(Y) == exprd) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixStudentT : Any → {Any | M.pspace.distribut...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.pspace.distribution.set == MatrixSet(1,...   ║
+# ║   ensures:  density(M)(X) == D                             ║
+# ║   ensures:  density(M)(Y) == exprd                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixStudentT : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93881f54a5ef6f07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbeec7a945e947ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_MatrixStudentT","kind":"function","src_hash":"fd36ebf115de700f","in":{"base":"Any"},"out":{"base":"Any","pred":"M.pspace.distribution.set == MatrixSet(1, 2, S.Reals) and density(M)(X) == D and density(M)(Y) == exprd"},"spec":{"lhs":"test_MatrixStudentT()","rhs":"test_MatrixStudentT produces the expected output","over":{"base":"Any"},"name":"test_MatrixStudentT_correct"},"guarantee":"test_MatrixStudentT produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_MatrixStudentT_correct","statement":"Path(test_MatrixStudentT(x), test_MatrixStudentT produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93881f54a5ef6f07"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_MatrixStudentT","kind":"function","src_hash":"fd36ebf115de700f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.pspace.distribution.set == MatrixSet(1, 2, S.Reals) and density(M)(X) == D and density(M)(Y) == exprd"},"spec":{"lhs":"test_MatrixStudentT()","rhs":"M.pspace.distribution.set == MatrixSet(1, 2, S.Reals) and density(M)(X) == D and density(M)(Y) == exprd","over":{"base":"Any"},"name":"test_MatrixStudentT_correct"},"guarantee":"M.pspace.distribution.set == MatrixSet(1, 2, S.Reals); density(M)(X) == D; density(M)(Y) == exprd","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_MatrixStudentT_correct","statement":"Path(test_MatrixStudentT(x), M.pspace.distribution.set == MatrixSet(1, 2, S.Reals); density(M)(X) == D; density(M)(Y) == exprd)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbeec7a945e947ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.pspace.distribution.set == MatrixSet(1, 2, S.Reals)","density(M)(X) == D","density(M)(Y) == exprd"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_MatrixStudentT():
     M = MatrixStudentT('M', 2, [[5, 6]], [[2, 1], [1, 2]], [4])
     assert M.pspace.distribution.set == MatrixSet(1, 2, S.Reals)
@@ -209,16 +247,22 @@ def test_MatrixStudentT():
     raises(ValueError, lambda: MatrixStudentT('M', -1, [1, 2], [[1, 0], [0, 1]], [4]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_scipy(), test_sample_scipy produces the expected output) over Any ║
+# ║ Path(test_sample_scipy(), <unspecified:test_sample_scipy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_scipy : Any → {Any | Matrix(sam) in X.psp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f0f1717b910e2d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_sample_scipy","kind":"function","src_hash":"7f2e79d349d2cf2d","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix(sam) in X.pspace.distribution.set"},"spec":{"lhs":"test_sample_scipy()","rhs":"test_sample_scipy produces the expected output","over":{"base":"Any"},"name":"test_sample_scipy_correct"},"guarantee":"test_sample_scipy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_sample_scipy_correct","statement":"Path(test_sample_scipy(x), test_sample_scipy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f0f1717b910e2d7"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_sample_scipy","kind":"function","src_hash":"7f2e79d349d2cf2d","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix(sam) in X.pspace.distribution.set"},"spec":{"lhs":"test_sample_scipy()","rhs":"<unspecified:test_sample_scipy>","over":{"base":"Any"},"name":"test_sample_scipy_correct"},"guarantee":"test_sample_scipy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_sample_scipy_correct","statement":"Path(test_sample_scipy(x), test_sample_scipy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f0f1717b910e2d7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sample_scipy():
     distribs_scipy = [
         MatrixNormal('M', [[5, 6]], [4], [[2, 1], [1, 2]]),
@@ -238,16 +282,22 @@ def test_sample_scipy():
         raises(NotImplementedError, lambda: sample(M, size=3))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_pymc(), test_sample_pymc produces the expected output) over Any ║
+# ║ Path(test_sample_pymc(), <unspecified:test_sample_pymc>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_pymc : Any → {Any | Matrix(sam) in X.pspa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13ad3d9a71d808de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_sample_pymc","kind":"function","src_hash":"441c668293121480","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix(sam) in X.pspace.distribution.set"},"spec":{"lhs":"test_sample_pymc()","rhs":"test_sample_pymc produces the expected output","over":{"base":"Any"},"name":"test_sample_pymc_correct"},"guarantee":"test_sample_pymc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_sample_pymc_correct","statement":"Path(test_sample_pymc(x), test_sample_pymc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13ad3d9a71d808de"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_sample_pymc","kind":"function","src_hash":"441c668293121480","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix(sam) in X.pspace.distribution.set"},"spec":{"lhs":"test_sample_pymc()","rhs":"<unspecified:test_sample_pymc>","over":{"base":"Any"},"name":"test_sample_pymc_correct"},"guarantee":"test_sample_pymc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_sample_pymc_correct","statement":"Path(test_sample_pymc(x), test_sample_pymc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13ad3d9a71d808de","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sample_pymc():
     distribs_pymc = [
         MatrixNormal('M', [[5, 6], [3, 4]], [[1, 0], [0, 1]], [[2, 1], [1, 2]]),
@@ -266,16 +316,22 @@ def test_sample_pymc():
         raises(NotImplementedError, lambda: sample(M, size=3))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_seed(), test_sample_seed produces the expected output) over Any ║
+# ║ Path(test_sample_seed(), <unspecified:test_sample_seed>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_seed : Any → {Any | (s0[i] == s1[i]).all(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f346daef2761f52b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_sample_seed","kind":"function","src_hash":"20b63bfd42f12590","in":{"base":"Any"},"out":{"base":"Any","pred":"(s0[i] == s1[i]).all() and (s1[i] != s2[i]).all()"},"spec":{"lhs":"test_sample_seed()","rhs":"test_sample_seed produces the expected output","over":{"base":"Any"},"name":"test_sample_seed_correct"},"guarantee":"test_sample_seed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_sample_seed_correct","statement":"Path(test_sample_seed(x), test_sample_seed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f346daef2761f52b"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_matrix_distributions.test_sample_seed","kind":"function","src_hash":"20b63bfd42f12590","in":{"base":"Any"},"out":{"base":"Any","pred":"(s0[i] == s1[i]).all() and (s1[i] != s2[i]).all()"},"spec":{"lhs":"test_sample_seed()","rhs":"<unspecified:test_sample_seed>","over":{"base":"Any"},"name":"test_sample_seed_correct"},"guarantee":"test_sample_seed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_matrix_distributions.test_sample_seed_correct","statement":"Path(test_sample_seed(x), test_sample_seed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f346daef2761f52b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","catches":["NotImplementedError"],"nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sample_seed():
     X = MatrixNormal('M', [[5, 6], [3, 4]], [[1, 0], [0, 1]], [[2, 1], [1, 2]])
 

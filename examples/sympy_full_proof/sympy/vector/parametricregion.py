@@ -29,14 +29,20 @@ from sympy.vector import ImplicitRegion
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ParametricRegion(*args), correctly constructs a ParametricRegion instance) over {Any | isinstance(bounds, Tuple) and isinstance(bound, (tuple, Tuple))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ParametricRegion : {Any | isinstance(bounds, Tuple) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19d8a07b2f14a897  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.ParametricRegion","kind":"class","src_hash":"0a7a358aa45eda4c","in":{"base":"Any","pred":"isinstance(bounds, Tuple) and isinstance(bound, (tuple, Tuple))"},"out":{"base":"Any"},"spec":{"lhs":"ParametricRegion(*args)","rhs":"correctly constructs a ParametricRegion instance","over":{"base":"Any","pred":"isinstance(bounds, Tuple) and isinstance(bound, (tuple, Tuple))"},"name":"ParametricRegion_class_invariant"},"guarantee":"correctly constructs a ParametricRegion instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19d8a07b2f14a897"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.ParametricRegion","kind":"class","src_hash":"0a7a358aa45eda4c","in":{"base":"Any","pred":"isinstance(bounds, Tuple) and isinstance(bound, (tuple, Tuple))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"ParametricRegion(*args)","rhs":"correctly constructs a ParametricRegion instance","over":{"base":"Any","pred":"isinstance(bounds, Tuple) and isinstance(bound, (tuple, Tuple))"},"name":"ParametricRegion_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19d8a07b2f14a897","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function ParametricRegion not found in source"]}}
 class ParametricRegion(Basic):
     """
     Represents a parametric region in space.
@@ -80,16 +86,22 @@ class ParametricRegion(Basic):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, definition, *bounds), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87506a0f344081c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.ParametricRegion.__new__","kind":"method","src_hash":"5a1ca38d4e027b77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87506a0f344081c7"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.ParametricRegion.__new__","kind":"method","src_hash":"5a1ca38d4e027b77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, definition, *bounds)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87506a0f344081c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, definition, *bounds):
         parameters = ()
         limits = {}
@@ -117,77 +129,107 @@ class ParametricRegion(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(definition(), returns the definition attribute) over Any ║
+# ║ Path(definition(), self.args[0]) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ definition : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | adbc7818bcbdffbc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.ParametricRegion.definition","kind":"property","src_hash":"000a8a646dc17099","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"definition()","rhs":"returns the definition attribute","over":{"base":"Any"},"name":"definition_correct"},"guarantee":"returns the definition attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adbc7818bcbdffbc"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.ParametricRegion.definition","kind":"property","src_hash":"000a8a646dc17099","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"definition()","rhs":"self.args[0]","over":{"base":"Any"},"name":"definition_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"adbc7818bcbdffbc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def definition(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(limits(), returns the limits attribute) over Any      ║
+# ║ Path(limits(), self._limits) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._limits                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ limits : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dda6d7e5b23a2eca           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.ParametricRegion.limits","kind":"property","src_hash":"cfb5a872dfb98c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limits()","rhs":"returns the limits attribute","over":{"base":"Any"},"name":"limits_correct"},"guarantee":"returns the limits attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dda6d7e5b23a2eca"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.ParametricRegion.limits","kind":"property","src_hash":"cfb5a872dfb98c39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limits()","rhs":"self._limits","over":{"base":"Any"},"name":"limits_correct"},"guarantee":"returns self._limits","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dda6d7e5b23a2eca","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._limits","pure":false,"effects":{"effect_type":"reads_state","reads":["self._limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def limits(self):
         return self._limits
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parameters(), returns the parameters attribute) over Any ║
+# ║ Path(parameters(), self._parameters) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._parameters                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parameters : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a544e19ffc1df7aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.ParametricRegion.parameters","kind":"property","src_hash":"6d55edfaf48bb554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parameters()","rhs":"returns the parameters attribute","over":{"base":"Any"},"name":"parameters_correct"},"guarantee":"returns the parameters attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a544e19ffc1df7aa"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.ParametricRegion.parameters","kind":"property","src_hash":"6d55edfaf48bb554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parameters()","rhs":"self._parameters","over":{"base":"Any"},"name":"parameters_correct"},"guarantee":"returns self._parameters","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a544e19ffc1df7aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._parameters","pure":false,"effects":{"effect_type":"reads_state","reads":["self._parameters"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def parameters(self):
         return self._parameters
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dimensions(), returns the dimensions attribute) over Any ║
+# ║ Path(dimensions(), len(self.limits)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.limits)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dimensions : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8abe43857db98ce3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.ParametricRegion.dimensions","kind":"property","src_hash":"85322fd43e644668","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimensions()","rhs":"returns the dimensions attribute","over":{"base":"Any"},"name":"dimensions_correct"},"guarantee":"returns the dimensions attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8abe43857db98ce3"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.ParametricRegion.dimensions","kind":"property","src_hash":"85322fd43e644668","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dimensions()","rhs":"len(self.limits)","over":{"base":"Any"},"name":"dimensions_correct"},"guarantee":"returns len(self.limits)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8abe43857db98ce3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.limits)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dimensions(self):
         return len(self.limits)
 
 
 @singledispatch
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parametric_region_list(reg), returns a list of parametricregion objects representing the geometric region) over Any ║
+# ║ Path(parametric_region_list(reg), <unspecified:parametric_region_list>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parametric_region_list : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67381007c3d149a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.parametric_region_list","kind":"function","src_hash":"10e67cc03cd58e03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parametric_region_list(reg)","rhs":"returns a list of parametricregion objects representing the geometric region","over":{"base":"Any"},"name":"parametric_region_list_correct"},"guarantee":"returns a list of parametricregion objects representing the geometric region","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.parametricregion.parametric_region_list_correct","statement":"Path(parametric_region_list(x), returns a list of parametricregion objects representing the geometric region)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67381007c3d149a3"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion.parametric_region_list","kind":"function","src_hash":"10e67cc03cd58e03","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parametric_region_list(reg)","rhs":"<unspecified:parametric_region_list>","over":{"base":"Any"},"name":"parametric_region_list_correct"},"guarantee":"returns a list of parametricregion objects representing the geometric region","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.parametricregion.parametric_region_list_correct","statement":"Path(parametric_region_list(x), returns a list of parametricregion objects representing the geometric region)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67381007c3d149a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def parametric_region_list(reg):
     """
     Returns a list of ParametricRegion objects representing the geometric region.
@@ -227,32 +269,48 @@ def parametric_region_list(reg):
 
 @parametric_region_list.register(Point)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(obj), internal helper behaves correctly) over Any   ║
+# ║ Path(_(obj), [ParametricRegion(obj.args)]) over {Any | hasattr(obj, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(obj, 'args')                           ║
+# ║   returns:  [ParametricRegion(obj.args)]                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(obj, 'args')} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5dc81f4dee5374a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion._","kind":"function","src_hash":"a895bedabb670a48","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(obj)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5dc81f4dee5374a1"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion._","kind":"function","src_hash":"a895bedabb670a48","in":{"base":"Any","pred":"hasattr(obj, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(obj)","rhs":"[ParametricRegion(obj.args)]","over":{"base":"Any","pred":"hasattr(obj, 'args')"},"name":"__correct"},"guarantee":"returns [ParametricRegion(obj.args)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5dc81f4dee5374a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(obj, 'args')"],"returns_expr":"[ParametricRegion(obj.args)]","pure":false,"effects":{"effect_type":"reads_state","reads":["obj.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(obj):
     return [ParametricRegion(obj.args)]
 
 
 @parametric_region_list.register(Curve)  # type: ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(obj), internal helper behaves correctly) over Any   ║
+# ║ Path(_(obj), [ParametricRegion(definition, bounds)]) over {Any | hasattr(obj, 'limits') and hasattr(obj, 'arbitrary_point') and hasattr(obj, 'parameter')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(obj, 'limits')                         ║
+# ║   requires: hasattr(obj, 'arbitrary_point')                ║
+# ║   requires: hasattr(obj, 'parameter')                      ║
+# ║   returns:  [ParametricRegion(definition, bounds)]         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(obj, 'limits') and hasattr(obj, 'a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70a141d528543ebb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 557e1f725b164e80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion._","kind":"function","src_hash":"e5cb9c3ab8325688","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(obj)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.parametricregion.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70a141d528543ebb"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion._","kind":"function","src_hash":"e5cb9c3ab8325688","in":{"base":"Any","pred":"hasattr(obj, 'limits') and hasattr(obj, 'arbitrary_point') and hasattr(obj, 'parameter')"},"out":{"base":"Any"},"spec":{"lhs":"_(obj)","rhs":"[ParametricRegion(definition, bounds)]","over":{"base":"Any","pred":"hasattr(obj, 'limits') and hasattr(obj, 'arbitrary_point') and hasattr(obj, 'parameter')"},"name":"__correct"},"guarantee":"returns [ParametricRegion(definition, bounds)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.parametricregion.__correct","statement":"Path(_(x), returns [ParametricRegion(definition, bounds)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"557e1f725b164e80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(obj, 'limits')","hasattr(obj, 'arbitrary_point')","hasattr(obj, 'parameter')"],"returns_expr":"[ParametricRegion(definition, bounds)]","pure":false,"effects":{"effect_type":"reads_state","reads":["obj.arbitrary_point","obj.limits","obj.parameter"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(obj):
     definition = obj.arbitrary_point(obj.parameter).args
     bounds = obj.limits
@@ -261,16 +319,23 @@ def _(obj):
 
 @parametric_region_list.register(Ellipse) # type: ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(obj), internal helper behaves correctly) over Any   ║
+# ║ Path(_(obj, parameter), [ParametricRegion(definition, bounds)]) over {Any | hasattr(obj, 'arbitrary_point')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(obj, 'arbitrary_point')                ║
+# ║   returns:  [ParametricRegion(definition, bounds)]         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(obj, 'arbitrary_point')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | deef26ba856f1f3e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f25d611693ff3a78  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion._","kind":"function","src_hash":"f19589afbc23b24d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(obj)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.parametricregion.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"deef26ba856f1f3e"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion._","kind":"function","src_hash":"f19589afbc23b24d","in":{"base":"Any","pred":"hasattr(obj, 'arbitrary_point')"},"out":{"base":"Any"},"spec":{"lhs":"_(obj, parameter)","rhs":"[ParametricRegion(definition, bounds)]","over":{"base":"Any","pred":"hasattr(obj, 'arbitrary_point')"},"name":"__correct"},"guarantee":"returns [ParametricRegion(definition, bounds)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.parametricregion.__correct","statement":"Path(_(x), returns [ParametricRegion(definition, bounds)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f25d611693ff3a78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(obj, 'arbitrary_point')"],"returns_expr":"[ParametricRegion(definition, bounds)]","pure":false,"effects":{"effect_type":"reads_state","reads":["obj.arbitrary_point"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(obj, parameter='t'):
     definition = obj.arbitrary_point(parameter).args
     t = _symbol(parameter, real=True)
@@ -280,16 +345,24 @@ def _(obj, parameter='t'):
 
 @parametric_region_list.register(Segment) # type: ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(obj), internal helper behaves correctly) over Any   ║
+# ║ Path(_(obj, parameter), [ParametricRegion(definition_tuple, bounds)]) over {Any | hasattr(obj, 'arbitrary_point') and hasattr(obj, 'points')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(obj, 'arbitrary_point')                ║
+# ║   requires: hasattr(obj, 'points')                         ║
+# ║   returns:  [ParametricRegion(definition_tuple, bounds)]   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(obj, 'arbitrary_point') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 883afcfa721ae63c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a9c39e0c1d0a51a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion._","kind":"function","src_hash":"4f8ce2a328d1f318","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(obj)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.parametricregion.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"883afcfa721ae63c"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion._","kind":"function","src_hash":"4f8ce2a328d1f318","in":{"base":"Any","pred":"hasattr(obj, 'arbitrary_point') and hasattr(obj, 'points')"},"out":{"base":"Any"},"spec":{"lhs":"_(obj, parameter)","rhs":"[ParametricRegion(definition_tuple, bounds)]","over":{"base":"Any","pred":"hasattr(obj, 'arbitrary_point') and hasattr(obj, 'points')"},"name":"__correct"},"guarantee":"returns [ParametricRegion(definition_tuple, bounds)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.parametricregion.__correct","statement":"Path(_(x), returns [ParametricRegion(definition_tuple, bounds)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a9c39e0c1d0a51a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(obj, 'arbitrary_point')","hasattr(obj, 'points')"],"returns_expr":"[ParametricRegion(definition_tuple, bounds)]","pure":false,"effects":{"effect_type":"reads_state","reads":["obj.arbitrary_point","obj.points"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _(obj, parameter='t'):
     t = _symbol(parameter, real=True)
     definition = obj.arbitrary_point(t).args
@@ -308,16 +381,23 @@ def _(obj, parameter='t'):
 
 @parametric_region_list.register(Polygon) # type: ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(obj), internal helper behaves correctly) over Any   ║
+# ║ Path(_(obj, parameter), <unspecified:_>) over {Any | hasattr(obj, 'sides')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(obj, 'sides')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(obj, 'sides')} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a24b11ac20ffd0a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion._","kind":"function","src_hash":"f0c5959ffacc5d51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(obj)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.parametricregion.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a24b11ac20ffd0a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion._","kind":"function","src_hash":"f0c5959ffacc5d51","in":{"base":"Any","pred":"hasattr(obj, 'sides')"},"out":{"base":"Any"},"spec":{"lhs":"_(obj, parameter)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(obj, 'sides')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.parametricregion.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a24b11ac20ffd0a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(obj, 'sides')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["obj.sides"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(obj, parameter='t'):
     l = [parametric_region_list(side, parameter)[0] for side in obj.sides]
     return l
@@ -325,16 +405,24 @@ def _(obj, parameter='t'):
 
 @parametric_region_list.register(ImplicitRegion) # type: ignore
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(obj), internal helper behaves correctly) over Any   ║
+# ║ Path(_(obj, parameters), [ParametricRegion(definition, *bounds)]) over {Any | hasattr(obj, 'rational_parametrization') and hasattr(obj, 'variables')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(obj, 'rational_parametrization')       ║
+# ║   requires: hasattr(obj, 'variables')                      ║
+# ║   returns:  [ParametricRegion(definition, *bounds)]        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(obj, 'rational_parametrization') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c9e0eb7c26c2318  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48a5375f9d6c20e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion._","kind":"function","src_hash":"e5f817acefd7e186","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(obj)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.parametricregion.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c9e0eb7c26c2318"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.parametricregion._","kind":"function","src_hash":"e5f817acefd7e186","in":{"base":"Any","pred":"hasattr(obj, 'rational_parametrization') and hasattr(obj, 'variables')"},"out":{"base":"Any"},"spec":{"lhs":"_(obj, parameters)","rhs":"[ParametricRegion(definition, *bounds)]","over":{"base":"Any","pred":"hasattr(obj, 'rational_parametrization') and hasattr(obj, 'variables')"},"name":"__correct"},"guarantee":"returns [ParametricRegion(definition, *bounds)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.parametricregion.__correct","statement":"Path(_(x), returns [ParametricRegion(definition, *bounds)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48a5375f9d6c20e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(obj, 'rational_parametrization')","hasattr(obj, 'variables')"],"returns_expr":"[ParametricRegion(definition, *bounds)]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(obj, parameters=('t', 's')):
     definition = obj.rational_parametrization(parameters)
     bounds = []

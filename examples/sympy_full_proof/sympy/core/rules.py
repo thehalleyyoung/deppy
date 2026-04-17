@@ -22,14 +22,19 @@ Replacement rules.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Transform instance) preserved by Transform(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Transform : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 430070c8032e2f74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.rules.Transform","kind":"class","src_hash":"10bc1071a38eac90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Transform(*args)","rhs":"correctly constructs a Transform instance","over":{"base":"Any"},"name":"Transform_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Transform instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_transform') and hasattr(self, '_filter')","kind":"class","induction":"structural on _transform, _filter"}],"methods_preserving":["__init__","__contains__","__getitem__","get"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"430070c8032e2f74"}
+# @cctt_verify {"v":2,"sym":"sympy.core.rules.Transform","kind":"class","src_hash":"10bc1071a38eac90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Transform(*args)","rhs":"correctly constructs a Transform instance","over":{"base":"Any"},"name":"Transform_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_transform') and hasattr(self, '_filter')","kind":"class","induction":"structural on _transform, _filter"}],"methods_preserving":["__init__","__contains__","__getitem__","get"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"430070c8032e2f74","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_transform')","hasattr(self, '_filter')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Transform not found in source"]}}
 class Transform:
     """
     Immutable mapping that can be used as a generic transformation rule.
@@ -75,45 +80,65 @@ class Transform:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(tra), initializes the instance correctly) over Any ║
+# ║ Path(__init__(transform, filter), self._transform == transform and self._filter == filter) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self._transform == transform                   ║
+# ║   ensures:  self._filter == filter                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self._trans...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba719fba2ac76af3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.rules.Transform.__init__","kind":"method","src_hash":"85d6a85cdeee9a79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(tra)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba719fba2ac76af3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.rules.Transform.__init__","kind":"method","src_hash":"85d6a85cdeee9a79","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self._transform == transform and self._filter == filter"},"spec":{"lhs":"__init__(transform, filter)","rhs":"self._transform == transform and self._filter == filter","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self._transform == transform; self._filter == filter","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba719fba2ac76af3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self._transform == transform","self._filter == filter"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, transform, filter=lambda x: True):
         self._transform = transform
         self._filter = filter
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(ite), correctly tests membership) over Any ║
+# ║ Path(__contains__(item), self._filter(item)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._filter(item)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 23a6b5b543937946           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.rules.Transform.__contains__","kind":"method","src_hash":"1c1961bdea2b9262","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(ite)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23a6b5b543937946"}
+# @cctt_verify {"v":2,"sym":"sympy.core.rules.Transform.__contains__","kind":"method","src_hash":"1c1961bdea2b9262","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(item)","rhs":"self._filter(item)","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns self._filter(item)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23a6b5b543937946","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._filter(item)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._filter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, item):
         return self._filter(item)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(key), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(key), <unspecified:__getitem__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: self._filter(key) => self._transform...   ║
+# ║   fiber[case_1]: not (self._filter(key))                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e291fc7772838246           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.rules.Transform.__getitem__","kind":"method","src_hash":"fdbedaf73aac77ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e291fc7772838246"}
+# @cctt_verify {"v":2,"sym":"sympy.core.rules.Transform.__getitem__","kind":"method","src_hash":"fdbedaf73aac77ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(key)","rhs":"<unspecified:__getitem__>","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e291fc7772838246","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"self._filter(key)","ensures":["result == self._transform(key)"],"decidability":"library","returns_expr":"self._transform(key)"},{"name":"case_1","guard":"not (self._filter(key))","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._filter","self._transform"],"raises":["KeyError"]},"state_contract":{"exceptional_post":{"KeyError":["isinstance(raised, KeyError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, key):
         if self._filter(key):
             return self._transform(key)
@@ -121,16 +146,25 @@ class Transform:
             raise KeyError(key)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get(ite), get produces the expected output) over Any  ║
+# ║ Path(get(item, default), result == (self[item] if item in self else default) and result == self[item] or result == default) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self[item] if item in self els...   ║
+# ║   ensures:  result == self[item] or result == default      ║
+# ║   fiber[case_0]: item in self => self[item]                ║
+# ║   fiber[case_1]: not (item in self) => default             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get : Any → {Any | result satisfies: result == (self[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0124f2dd41845a33  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6dd647f2a2e96bc1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.rules.Transform.get","kind":"method","src_hash":"b217791ff34f7903","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get(ite)","rhs":"get produces the expected output","over":{"base":"Any"},"name":"get_correct"},"guarantee":"get produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.rules.Transform.get_correct","statement":"Path(get(x), get produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0124f2dd41845a33"}
+# @cctt_verify {"v":2,"sym":"sympy.core.rules.Transform.get","kind":"method","src_hash":"b217791ff34f7903","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self[item] if item in self else default) and result == self[item] or result == default"},"spec":{"lhs":"get(item, default)","rhs":"result == (self[item] if item in self else default) and result == self[item] or result == default","over":{"base":"Any"},"name":"get_correct"},"guarantee":"result == (self[item] if item in self else default); result == self[item] or result == default; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.rules.Transform.get_correct","statement":"Path(get(x), result == (self[item] if item in self else default); result == self[item] or result == default; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6dd647f2a2e96bc1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self[item] if item in self else default)","result == self[item] or result == default"],"fibers":[{"name":"case_0","guard":"item in self","ensures":["result == self[item]"],"decidability":"library","returns_expr":"self[item]"},{"name":"case_1","guard":"not (item in self)","ensures":["result == default"],"decidability":"library","returns_expr":"default"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get(self, item, default=None):
         if item in self:
             return self[item]

@@ -52,14 +52,20 @@ from sympy.utilities.misc import filldedent
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Integral(*args), correctly constructs a Integral instance) over {Any | isinstance(function, Poly) and isinstance(u, Expr) and isinstance(self.function, Sum)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AddWithLimits)                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Integral : {Any | isinstance(function, Poly) and isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 7.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 213458b9666cf8e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral","kind":"class","src_hash":"1925ddcf2bd588ee","in":{"base":"Any","pred":"isinstance(function, Poly) and isinstance(u, Expr) and isinstance(self.function, Sum)"},"out":{"base":"Any"},"spec":{"lhs":"Integral(*args)","rhs":"correctly constructs a Integral instance","over":{"base":"Any","pred":"isinstance(function, Poly) and isinstance(u, Expr) and isinstance(self.function, Sum)"},"name":"Integral_class_invariant"},"guarantee":"correctly constructs a Integral instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"213458b9666cf8e8"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral","kind":"class","src_hash":"1925ddcf2bd588ee","in":{"base":"Any","pred":"isinstance(function, Poly) and isinstance(u, Expr) and isinstance(self.function, Sum)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AddWithLimits)"},"spec":{"lhs":"Integral(*args)","rhs":"correctly constructs a Integral instance","over":{"base":"Any","pred":"isinstance(function, Poly) and isinstance(u, Expr) and isinstance(self.function, Sum)"},"name":"Integral_class_invariant"},"guarantee":"isinstance(self, AddWithLimits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"213458b9666cf8e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AddWithLimits)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Integral not found in source"]}}
 class Integral(AddWithLimits):
     """Represents unevaluated integral."""
 
@@ -68,16 +74,23 @@ class Integral(AddWithLimits):
     args: tuple[Expr, Tuple] # type: ignore
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), create an unevaluated integral) over Any ║
+# ║ Path(__new__(cls, function, *symbols), isinstance(result, Integral)) over {Any | hasattr(function, '_eval_Integral')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Integral                                   ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: hasattr(function, '_eval_Integral')            ║
+# ║   ensures:  isinstance(result, Integral)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(function, '_eval_Integral')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 898691c13aa220f3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.__new__","kind":"method","src_hash":"bdc8d033b0947aca","in":{"base":"Any"},"out":{"base":"Integral"},"spec":{"lhs":"__new__(cls)","rhs":"create an unevaluated integral","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"create an unevaluated integral","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"898691c13aa220f3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.__new__","kind":"method","src_hash":"bdc8d033b0947aca","in":{"base":"Any","pred":"hasattr(function, '_eval_Integral')"},"out":{"base":"Integral","pred":"result satisfies: isinstance(result, Integral)"},"spec":{"lhs":"__new__(cls, function, *symbols)","rhs":"isinstance(result, Integral)","over":{"base":"Any","pred":"hasattr(function, '_eval_Integral')"},"name":"__new___correct"},"guarantee":"isinstance(result, Integral)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"898691c13aa220f3","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["hasattr(function, '_eval_Integral')"],"ensures":["isinstance(result, Integral)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["function._eval_Integral"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, function, *symbols, **assumptions) -> Integral:
         """Create an unevaluated integral.
 
@@ -137,31 +150,43 @@ class Integral(AddWithLimits):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getnewargs__(), internal helper behaves correctly) over Any ║
+# ║ Path(__getnewargs__(), (self.function,) + tuple([tuple(xab) for xab in self.limits])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.function,) + tuple([tuple(xab) for ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getnewargs__ : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7bb3d0089e67286c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.__getnewargs__","kind":"method","src_hash":"79c1c4d37fd84a68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7bb3d0089e67286c"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.__getnewargs__","kind":"method","src_hash":"79c1c4d37fd84a68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getnewargs__()","rhs":"(self.function,) + tuple([tuple(xab) for xab in self.limits])","over":{"base":"Any"},"name":"__getnewargs___correct"},"guarantee":"returns (self.function,) + tuple([tuple(xab) for xab in self.limits])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7bb3d0089e67286c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.function,) + tuple([tuple(xab) for xab in self.limits])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getnewargs__(self):
         return (self.function,) + tuple([tuple(xab) for xab in self.limits])
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(free_symbols(), returns the free_symbols attribute) over Any ║
+# ║ Path(free_symbols(), super().free_symbols) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  super().free_symbols                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ free_symbols : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1224c262bbc27e43           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.free_symbols","kind":"property","src_hash":"c33598bb0bb89811","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"returns the free_symbols attribute","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns the free_symbols attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1224c262bbc27e43"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.free_symbols","kind":"property","src_hash":"c33598bb0bb89811","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"free_symbols()","rhs":"super().free_symbols","over":{"base":"Any"},"name":"free_symbols_correct"},"guarantee":"returns super().free_symbols","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1224c262bbc27e43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"super().free_symbols","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def free_symbols(self):
         """
         This method returns the symbols that will exist when the
@@ -187,16 +212,22 @@ class Integral(AddWithLimits):
         return super().free_symbols
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), <unspecified:_eval_is_zero>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e8f7491ba45db39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_is_zero","kind":"method","src_hash":"ef8a0c9a360ccd36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e8f7491ba45db39"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_is_zero","kind":"method","src_hash":"ef8a0c9a360ccd36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"<unspecified:_eval_is_zero>","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e8f7491ba45db39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         # This is a very naive and quick test, not intended to do the integral to
         # answer whether it is zero or not, e.g. Integral(sin(x), (x, 0, 2*pi))
@@ -233,16 +264,27 @@ class Integral(AddWithLimits):
             return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transform(x, ), performs a change of variables from `x` to `u` using the relationship given by `x` and `u` which will define the transformations `f` and `f` (which are inverses of each other) as follows:) over Any ║
+# ║ Path(transform(x, u), len(newfuncs) == old_len_newfuncs - 1 and len(newlimits) == old_len_newlimits + 1 and len(ufree) == old_len_ufree - 1 and len(xfree) == old_len_xfree - 1) over {Any | not (len(xfree) > 1) and hasattr(u, 'free_symbols') and hasattr(x, 'is_Symbol') and hasattr(u, 'is_Symbol') and hasattr(x, 'free_symbols') and hasattr(x, 'subs') and hasattr(u, 'subs') and len(newfuncs) > 0 and len(ufree) > 0 and len(xfree) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ transform : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(xfree) > 1)                           ║
+# ║   requires: hasattr(u, 'free_symbols')                     ║
+# ║   requires: hasattr(x, 'is_Symbol')                        ║
+# ║   ensures:  len(newfuncs) == old_len_newfuncs - 1          ║
+# ║   ensures:  len(newlimits) == old_len_newlimits + 1        ║
+# ║   ensures:  len(ufree) == old_len_ufree - 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ transform : {Any | not (len(xfree) > 1) and hasattr(u...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52a8a912e40efb0d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c57f38107362b81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.transform","kind":"method","src_hash":"056e6df1122e43e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transform(x, )","rhs":"performs a change of variables from `x` to `u` using the relationship given by `x` and `u` which will define the transformations `f` and `f` (which are inverses of each other) as follows:","over":{"base":"Any"},"name":"transform_correct"},"guarantee":"performs a change of variables from `x` to `u` using the relationship given by `x` and `u` which will define the transformations `f` and `f` (which are inverses of each other) as follows:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral.transform_correct","statement":"Path(transform(x), performs a change of variables from `x` to `u` using the relationship given by `x` and `u` which will define the transformations `f` and `f` (which are inverses of each other) as follows:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52a8a912e40efb0d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.transform","kind":"method","src_hash":"056e6df1122e43e0","in":{"base":"Any","pred":"not (len(xfree) > 1) and hasattr(u, 'free_symbols') and hasattr(x, 'is_Symbol') and hasattr(u, 'is_Symbol') and hasattr(x, 'free_symbols') and hasattr(x, 'subs') and hasattr(u, 'subs') and len(newfuncs) > 0 and len(ufree) > 0 and len(xfree) > 0"},"out":{"base":"Any","pred":"result satisfies: len(newfuncs) == old_len_newfuncs - 1 and len(newlimits) == old_len_newlimits + 1 and len(ufree) == old_len_ufree - 1 and len(xfree) == old_len_xfree - 1"},"spec":{"lhs":"transform(x, u)","rhs":"len(newfuncs) == old_len_newfuncs - 1 and len(newlimits) == old_len_newlimits + 1 and len(ufree) == old_len_ufree - 1 and len(xfree) == old_len_xfree - 1","over":{"base":"Any","pred":"not (len(xfree) > 1) and hasattr(u, 'free_symbols') and hasattr(x, 'is_Symbol') and hasattr(u, 'is_Symbol') and hasattr(x, 'free_symbols') and hasattr(x, 'subs') and hasattr(u, 'subs') and len(newfuncs) > 0 and len(ufree) > 0 and len(xfree) > 0"},"name":"transform_correct"},"guarantee":"len(newfuncs) == old_len_newfuncs - 1; len(newlimits) == old_len_newlimits + 1; len(ufree) == old_len_ufree - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral.transform_correct","statement":"Path(transform(x), len(newfuncs) == old_len_newfuncs - 1; len(newlimits) == old_len_newlimits + 1; len(ufree) == old_len_ufree - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c57f38107362b81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(xfree) > 1)","hasattr(u, 'free_symbols')","hasattr(x, 'is_Symbol')","hasattr(u, 'is_Symbol')","hasattr(x, 'free_symbols')","hasattr(x, 'subs')","hasattr(u, 'subs')","len(newfuncs) > 0","len(ufree) > 0","len(xfree) > 0"],"ensures":["len(newfuncs) == old_len_newfuncs - 1","len(newlimits) == old_len_newlimits + 1","len(ufree) == old_len_ufree - 1","len(xfree) == old_len_xfree - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.func","self.function","self.limits","self.transform","self.variables","self.xreplace","u.free_symbols","u.is_Symbol","u.subs","x.free_symbols","x.is_Symbol","x.subs"],"calls_mutating":["newfuncs.pop","newlimits.append","ufree.pop","xfree.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["newfuncs.*","newlimits.*","ufree.*","xfree.*"],"old_bindings":{"old_len_newfuncs":"len(newfuncs)","old_len_newlimits":"len(newlimits)","old_len_ufree":"len(ufree)","old_len_xfree":"len(xfree)"},"pre_requires":["len(newfuncs) > 0","len(ufree) > 0","len(xfree) > 0"],"post_ensures":["len(newfuncs) == old_len_newfuncs - 1","len(newlimits) == old_len_newlimits + 1","len(ufree) == old_len_ufree - 1","len(xfree) == old_len_xfree - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transform(self, x, u):
         r"""
         Performs a change of variables from `x` to `u` using the relationship
@@ -464,16 +506,24 @@ class Integral(AddWithLimits):
         return self.func(newfunc, *newlimits)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), perform the integration using any hints given) over Any ║
+# ║ Path(doit(**hints), len(args) == old_len_args + 1 and len(integrals) == old_len_integrals + 1 and len(others) == old_len_others + 1 and len(piecewises) == old_len_piecewises + 1 and len(undone_limits) == old_len_undone_limits + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doit : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(args) == old_len_args + 1                  ║
+# ║   ensures:  len(integrals) == old_len_integrals + 1        ║
+# ║   ensures:  len(others) == old_len_others + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doit : Any → {Any | result satisfies: len(args) == ol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dd98d90b5e317ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a28bab20edd1926  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.doit","kind":"method","src_hash":"4cae41c9f14a1dd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"perform the integration using any hints given","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"perform the integration using any hints given","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral.doit_correct","statement":"Path(doit(x), perform the integration using any hints given)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dd98d90b5e317ef"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.doit","kind":"method","src_hash":"4cae41c9f14a1dd2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args + 1 and len(integrals) == old_len_integrals + 1 and len(others) == old_len_others + 1 and len(piecewises) == old_len_piecewises + 1 and len(undone_limits) == old_len_undone_limits + 1"},"spec":{"lhs":"doit(**hints)","rhs":"len(args) == old_len_args + 1 and len(integrals) == old_len_integrals + 1 and len(others) == old_len_others + 1 and len(piecewises) == old_len_piecewises + 1 and len(undone_limits) == old_len_undone_limits + 1","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"len(args) == old_len_args + 1; len(integrals) == old_len_integrals + 1; len(others) == old_len_others + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral.doit_correct","statement":"Path(doit(x), len(args) == old_len_args + 1; len(integrals) == old_len_integrals + 1; len(others) == old_len_others + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a28bab20edd1926","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(args) == old_len_args + 1","len(integrals) == old_len_integrals + 1","len(others) == old_len_others + 1","len(piecewises) == old_len_piecewises + 1","len(undone_limits) == old_len_undone_limits + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_integral","self.func","self.function","self.is_zero","self.limits","self.variables","self.xreplace"],"calls_mutating":["args.append","gens.remove","integrals.append","others.append","piecewises.append","ulj.update","undone_limits.append"],"raises":["NotImplementedError","ValueError"],"catches":["NotImplementedError"]},"state_contract":{"modifies":["args.*","gens.*","integrals.*","others.*","piecewises.*","ulj.*","undone_limits.*"],"old_bindings":{"old_len_args":"len(args)","old_len_integrals":"len(integrals)","old_len_others":"len(others)","old_len_piecewises":"len(piecewises)","old_len_ulj":"len(ulj)","old_len_undone_limits":"len(undone_limits)"},"post_ensures":["len(args) == old_len_args + 1","len(integrals) == old_len_integrals + 1","len(others) == old_len_others + 1","len(piecewises) == old_len_piecewises + 1","len(undone_limits) == old_len_undone_limits + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """
         Perform the integration using any hints given.
@@ -822,16 +872,22 @@ class Integral(AddWithLimits):
         return function
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_derivative(sym), evaluate the derivative of the current integral object by differentiating under the integral sign [1], using the fundamental theorem of calculus [2] when possible) over Any ║
+# ║ Path(_eval_derivative(sym), <unspecified:_eval_derivative>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_derivative : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec77e2e093b0b00a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_derivative","kind":"method","src_hash":"945c24c9aed98654","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(sym)","rhs":"evaluate the derivative of the current integral object by differentiating under the integral sign [1], using the fundamental theorem of calculus [2] when possible","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"evaluate the derivative of the current integral object by differentiating under the integral sign [1], using the fundamental theorem of calculus [2] when possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral._eval_derivative_correct","statement":"Path(_eval_derivative(x), evaluate the derivative of the current integral object by differentiating under the integral sign [1], using the fundamental theorem of calculus [2] when possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec77e2e093b0b00a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_derivative","kind":"method","src_hash":"945c24c9aed98654","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_derivative(sym)","rhs":"<unspecified:_eval_derivative>","over":{"base":"Any"},"name":"_eval_derivative_correct"},"guarantee":"evaluate the derivative of the current integral object by differentiating under the integral sign [1], using the fundamental theorem of calculus [2] when possible","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral._eval_derivative_correct","statement":"Path(_eval_derivative(x), evaluate the derivative of the current integral object by differentiating under the integral sign [1], using the fundamental theorem of calculus [2] when possible)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec77e2e093b0b00a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_derivative(self, sym):
         """Evaluate the derivative of the current Integral object by
         differentiating under the integral sign [1], using the Fundamental
@@ -926,16 +982,25 @@ class Integral(AddWithLimits):
         return rv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_integral(f, ), calculate the anti-derivative to the function f(x)) over Any ║
+# ║ Path(_eval_integral(f, x, meijerg), <unspecified:_eval_integral>) over {Any | hasattr(f, 'as_poly') and hasattr(f, 'integrate') and hasattr(f, 'piecewise_integrate') and hasattr(f, 'has') and hasattr(f, 'is_Add')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_integral : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'as_poly')                          ║
+# ║   requires: hasattr(f, 'integrate')                        ║
+# ║   requires: hasattr(f, 'piecewise_integrate')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_integral : {Any | hasattr(f, 'as_poly') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a8881010a21a7fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_integral","kind":"method","src_hash":"bb5de8c91dd19108","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_integral(f, )","rhs":"calculate the anti-derivative to the function f(x)","over":{"base":"Any"},"name":"_eval_integral_correct"},"guarantee":"calculate the anti-derivative to the function f(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral._eval_integral_correct","statement":"Path(_eval_integral(x), calculate the anti-derivative to the function f(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a8881010a21a7fb"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_integral","kind":"method","src_hash":"bb5de8c91dd19108","in":{"base":"Any","pred":"hasattr(f, 'as_poly') and hasattr(f, 'integrate') and hasattr(f, 'piecewise_integrate') and hasattr(f, 'has') and hasattr(f, 'is_Add')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_integral(f, x, meijerg)","rhs":"<unspecified:_eval_integral>","over":{"base":"Any","pred":"hasattr(f, 'as_poly') and hasattr(f, 'integrate') and hasattr(f, 'piecewise_integrate') and hasattr(f, 'has') and hasattr(f, 'is_Add')"},"name":"_eval_integral_correct"},"guarantee":"calculate the anti-derivative to the function f(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral._eval_integral_correct","statement":"Path(_eval_integral(x), calculate the anti-derivative to the function f(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a8881010a21a7fb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'as_poly')","hasattr(f, 'integrate')","hasattr(f, 'piecewise_integrate')","hasattr(f, 'has')","hasattr(f, 'is_Add')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_integral(self, f, x, meijerg=None, risch=None, manual=None,
                        heurisch=None, conds='piecewise',final=None):
         """
@@ -1280,16 +1345,22 @@ class Integral(AddWithLimits):
         return Add(*parts)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_lseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_lseries(x, logx, cdir), <unspecified:_eval_lseries>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_lseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf0b7ed60162f02a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_lseries","kind":"method","src_hash":"57095d907394b3cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_lseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_lseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral._eval_lseries_correct","statement":"Path(_eval_lseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf0b7ed60162f02a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_lseries","kind":"method","src_hash":"57095d907394b3cd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_lseries(x, logx, cdir)","rhs":"<unspecified:_eval_lseries>","over":{"base":"Any"},"name":"_eval_lseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral._eval_lseries_correct","statement":"Path(_eval_lseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf0b7ed60162f02a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_dummy"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_lseries(self, x, logx=None, cdir=0):
         expr = self.as_dummy()
         symb = x
@@ -1301,16 +1372,22 @@ class Integral(AddWithLimits):
             yield integrate(term, *expr.limits)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  integrate(terms, *self.limits) + Add(*ord...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3a836ff6c6ea719e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_nseries","kind":"method","src_hash":"c6e5455fe635216d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"integrate","by":"library_axiom"},{"fn":"Add","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a836ff6c6ea719e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_nseries","kind":"method","src_hash":"c6e5455fe635216d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"integrate(terms, *self.limits) + Add(*order) * x","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"returns integrate(terms, *self.limits) + Add(*order) * x","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"integrate","by":"library_axiom"},{"fn":"Add","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a836ff6c6ea719e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"integrate(terms, *self.limits) + Add(*order) * x","pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.limits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx=None, cdir=0):
         symb = x
         for l in self.limits:
@@ -1323,16 +1400,22 @@ class Integral(AddWithLimits):
         return integrate(terms, *self.limits) + Add(*order)*x
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), integrate(leading_term, *self.args[1:])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  integrate(leading_term, *self.args[1:])        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 620d73bf2b6c09ab  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f078593a7aeb2bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_as_leading_term","kind":"method","src_hash":"97e41c2e41b5b6dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"620d73bf2b6c09ab"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_as_leading_term","kind":"method","src_hash":"97e41c2e41b5b6dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"integrate(leading_term, *self.args[1:])","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"returns integrate(leading_term, *self.args[1:])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), returns integrate(leading_term, *self.args[1:]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f078593a7aeb2bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"integrate(leading_term, *self.args[1:])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         series_gen = self.args[0].lseries(x)
         for leading_term in series_gen:
@@ -1341,16 +1424,22 @@ class Integral(AddWithLimits):
         return integrate(leading_term, *self.args[1:])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), id) over Any                     ║
+# ║ Path(_eval_simplify(**kwargs), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2fa0e5f151eaf63a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_simplify","kind":"method","src_hash":"6ec5797ee4cd34a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"simplify","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fa0e5f151eaf63a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral._eval_simplify","kind":"method","src_hash":"6ec5797ee4cd34a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"<unspecified:_eval_simplify>","over":{"base":"Any"},"name":"_eval_simplify_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"func","by":"library_axiom"},{"fn":"simplify","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fa0e5f151eaf63a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         expr = factor_terms(self)
         if isinstance(expr, Integral):
@@ -1359,16 +1448,25 @@ class Integral(AddWithLimits):
         return expr.simplify(**kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_sum(n, ), approximates a definite integral by a sum) over Any ║
+# ║ Path(as_sum(n, method, evaluate), result.doit() if evaluate else result) over {Any | not (len(limits) > 1) and not (n.is_positive is False or n.is_integer is False or n.is_finite is False) and hasattr(n, 'is_positive') and hasattr(n, 'is_integer') and hasattr(n, 'is_finite')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ as_sum : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(limits) > 1)                          ║
+# ║   requires: not (n.is_positive is False or n.is_integ...   ║
+# ║   requires: hasattr(n, 'is_positive')                      ║
+# ║   returns:  result.doit() if evaluate else result          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ as_sum : {Any | not (len(limits) > 1) and not (n.is_p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3e933bd519396d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36cd14c6d8d4bf5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.as_sum","kind":"method","src_hash":"c0fff1091f40fcb0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_sum(n, )","rhs":"approximates a definite integral by a sum","over":{"base":"Any"},"name":"as_sum_correct"},"guarantee":"approximates a definite integral by a sum","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral.as_sum_correct","statement":"Path(as_sum(x), approximates a definite integral by a sum)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3e933bd519396d5"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.as_sum","kind":"method","src_hash":"c0fff1091f40fcb0","in":{"base":"Any","pred":"not (len(limits) > 1) and not (n.is_positive is False or n.is_integer is False or n.is_finite is False) and hasattr(n, 'is_positive') and hasattr(n, 'is_integer') and hasattr(n, 'is_finite')"},"out":{"base":"Any"},"spec":{"lhs":"as_sum(n, method, evaluate)","rhs":"result.doit() if evaluate else result","over":{"base":"Any","pred":"not (len(limits) > 1) and not (n.is_positive is False or n.is_integer is False or n.is_finite is False) and hasattr(n, 'is_positive') and hasattr(n, 'is_integer') and hasattr(n, 'is_finite')"},"name":"as_sum_correct"},"guarantee":"returns result.doit() if evaluate else result","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral.as_sum_correct","statement":"Path(as_sum(x), returns result.doit() if evaluate else result)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36cd14c6d8d4bf5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(limits) > 1)","not (n.is_positive is False or n.is_integer is False or n.is_finite is False)","hasattr(n, 'is_positive')","hasattr(n, 'is_integer')","hasattr(n, 'is_finite')"],"returns_expr":"result.doit() if evaluate else result","pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_finite","n.is_integer","n.is_positive","self.function","self.limits"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_sum(self, n=None, method="midpoint", evaluate=True):
         """
         Approximates a definite integral by a sum.
@@ -1511,16 +1609,24 @@ class Integral(AddWithLimits):
         return result.doit() if evaluate else result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(principal_value(**k), compute the cauchy principal value of the definite integral of a real function in the given interval on the real axis) over Any ║
+# ║ Path(principal_value(**kwargs), <unspecified:principal_value>) over {Any | not (len(self.limits) != 1 or len(list(self.limits[0])) != 3) and a.is_comparable and b.is_comparable and (a <= b)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ principal_value : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(self.limits) != 1 or len(list(se...   ║
+# ║   requires: a.is_comparable and b.is_comparable and (...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ principal_value : {Any | not (len(self.limits) != 1 o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2dcfcd7f8bc2c3f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.principal_value","kind":"method","src_hash":"66181dbca53bf7d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"principal_value(**k)","rhs":"compute the cauchy principal value of the definite integral of a real function in the given interval on the real axis","over":{"base":"Any"},"name":"principal_value_correct"},"guarantee":"compute the cauchy principal value of the definite integral of a real function in the given interval on the real axis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral.principal_value_correct","statement":"Path(principal_value(x), compute the cauchy principal value of the definite integral of a real function in the given interval on the real axis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2dcfcd7f8bc2c3f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.Integral.principal_value","kind":"method","src_hash":"66181dbca53bf7d5","in":{"base":"Any","pred":"not (len(self.limits) != 1 or len(list(self.limits[0])) != 3) and a.is_comparable and b.is_comparable and (a <= b)"},"out":{"base":"Any"},"spec":{"lhs":"principal_value(**kwargs)","rhs":"<unspecified:principal_value>","over":{"base":"Any","pred":"not (len(self.limits) != 1 or len(list(self.limits[0])) != 3) and a.is_comparable and b.is_comparable and (a <= b)"},"name":"principal_value_correct"},"guarantee":"compute the cauchy principal value of the definite integral of a real function in the given interval on the real axis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.Integral.principal_value_correct","statement":"Path(principal_value(x), compute the cauchy principal value of the definite integral of a real function in the given interval on the real axis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2dcfcd7f8bc2c3f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(self.limits) != 1 or len(list(self.limits[0])) != 3)","a.is_comparable and b.is_comparable and (a <= b)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.function","self.limits"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def principal_value(self, **kwargs):
         """
         Compute the Cauchy Principal Value of the definite integral of a real function in the given interval
@@ -1586,9 +1692,15 @@ class Integral(AddWithLimits):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integrate(*ar), integrate(f, var, ...)) over {Any | isinstance(integral, Integral)} ║
+# ║ Path(integrate(*args, meijerg, conds), result == (integral.doit(**doit_flags) if isinstance(integral, Integral) else integral.func(*new_args)) and result == integral.doit(**doit_flags) or result == integral.func(*new_args)) over {Any | isinstance(integral, Integral)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ integrate : {Any | isinstance(integral, Integral)} → Any   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (integral.doit(**doit_flags) if...   ║
+# ║   ensures:  result == integral.doit(**doit_flags) or ...   ║
+# ║   fiber[Integral]: isinstance(integral, Integral) => ...   ║
+# ║   fiber[Integral]: not (isinstance(integral, Integral...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ integrate : {Any | isinstance(integral, Integral)} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Integral: {isinstance(integral, Integral)} → librar...   ║
@@ -1598,9 +1710,12 @@ class Integral(AddWithLimits):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 552e90a1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.integrate","kind":"function","src_hash":"d42a282dae0b6c9f","in":{"base":"Any","pred":"isinstance(integral, Integral)"},"out":{"base":"Any"},"spec":{"lhs":"integrate(*ar)","rhs":"integrate(f, var, ...)","over":{"base":"Any","pred":"isinstance(integral, Integral)"},"name":"integrate_correct"},"guarantee":"integrate(f, var, ...)","fibers":[{"name":"Integral","pred":"isinstance(integral, Integral)","path":{"lhs":"integrate(x)","rhs":"integrate(f, var, ...)","over":{"base":"Integral","pred":"isinstance(integral, Integral)"},"name":"integrate_Integral_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.integrate_Integral_correct","statement":"integrate satisfies spec on Integral inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"552e90a1a948ced1"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.integrate","kind":"function","src_hash":"d42a282dae0b6c9f","in":{"base":"Any","pred":"isinstance(integral, Integral)"},"out":{"base":"Any","pred":"result satisfies: result == (integral.doit(**doit_flags) if isinstance(integral, Integral) else integral.func(*new_args)) and result == integral.doit(**doit_flags) or result == integral.func(*new_args)"},"spec":{"lhs":"integrate(*args, meijerg, conds)","rhs":"result == (integral.doit(**doit_flags) if isinstance(integral, Integral) else integral.func(*new_args)) and result == integral.doit(**doit_flags) or result == integral.func(*new_args)","over":{"base":"Any","pred":"isinstance(integral, Integral)"},"name":"integrate_correct"},"guarantee":"result == (integral.doit(**doit_flags) if isinstance(integral, Integral) else integral.func(*new_args)); result == integral.doit(**doit_flags) or result == integral.func(*new_args); 2-fiber decomposition","fibers":[{"name":"Integral","pred":"isinstance(integral, Integral)","path":{"lhs":"integrate(x)","rhs":"result == (integral.doit(**doit_flags) if isinstance(integral, Integral) else integral.func(*new_args)); result == integral.doit(**doit_flags) or result == integral.func(*new_args); 2-fiber decomposition","over":{"base":"Integral","pred":"isinstance(integral, Integral)"},"name":"integrate_Integral_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.integrate_Integral_correct","statement":"integrate satisfies spec on Integral inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"552e90a1a948ced1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (integral.doit(**doit_flags) if isinstance(integral, Integral) else integral.func(*new_args))","result == integral.doit(**doit_flags) or result == integral.func(*new_args)"],"fibers":[{"name":"Integral","guard":"isinstance(integral, Integral)","ensures":["result == integral.doit(**doit_flags)"],"decidability":"structural","returns_expr":"integral.doit(**doit_flags)"},{"name":"Integral","guard":"not (isinstance(integral, Integral))","ensures":["result == integral.func(*new_args)"],"decidability":"structural","returns_expr":"integral.func(*new_args)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args', 'meijerg', 'conds', 'risch', 'heurisch', 'manual', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'isinstance(integral, Integral)'}, fibers={'Integral'})"]}}
 def integrate(*args, meijerg=None, conds='piecewise', risch=None, heurisch=None, manual=None, **kwargs):
     """integrate(f, var, ...)
 
@@ -1777,9 +1892,15 @@ def integrate(*args, meijerg=None, conds='piecewise', risch=None, heurisch=None,
         return integral.func(*new_args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(line_integrate(fie), line_integrate(field, curve, variables)) over {Any | isinstance(curve, Curve)} ║
+# ║ Path(line_integrate(field, curve, vars), <unspecified:line_integrate>) over {Any | isinstance(curve, Curve) and F and isinstance(curve, Curve) and is_sequence(vars) and hasattr(curve, 'parameter') and hasattr(curve, 'functions') and hasattr(curve, 'limits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ line_integrate : {Any | isinstance(curve, Curve)} → Any    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: F                                              ║
+# ║   requires: isinstance(curve, Curve)                       ║
+# ║   requires: is_sequence(vars)                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ line_integrate : {Any | isinstance(curve, Curve) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Curve: {isinstance(curve, Curve)} → library_axiom        ║
@@ -1789,9 +1910,12 @@ def integrate(*args, meijerg=None, conds='piecewise', risch=None, heurisch=None,
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e8cdec11...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.line_integrate","kind":"function","src_hash":"210d7f4ba2f492f5","in":{"base":"Any","pred":"isinstance(curve, Curve)"},"out":{"base":"Any"},"spec":{"lhs":"line_integrate(fie)","rhs":"line_integrate(field, curve, variables)","over":{"base":"Any","pred":"isinstance(curve, Curve)"},"name":"line_integrate_correct"},"guarantee":"line_integrate(field, curve, variables)","fibers":[{"name":"Curve","pred":"isinstance(curve, Curve)","path":{"lhs":"line_integrate(x)","rhs":"line_integrate(field, curve, variables)","over":{"base":"Curve","pred":"isinstance(curve, Curve)"},"name":"line_integrate_Curve_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.line_integrate_Curve_correct","statement":"line_integrate satisfies spec on Curve inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e8cdec11e3bc71a9"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals.line_integrate","kind":"function","src_hash":"210d7f4ba2f492f5","in":{"base":"Any","pred":"isinstance(curve, Curve) and F and isinstance(curve, Curve) and is_sequence(vars) and hasattr(curve, 'parameter') and hasattr(curve, 'functions') and hasattr(curve, 'limits')"},"out":{"base":"Any"},"spec":{"lhs":"line_integrate(field, curve, vars)","rhs":"<unspecified:line_integrate>","over":{"base":"Any","pred":"isinstance(curve, Curve) and F and isinstance(curve, Curve) and is_sequence(vars) and hasattr(curve, 'parameter') and hasattr(curve, 'functions') and hasattr(curve, 'limits')"},"name":"line_integrate_correct"},"guarantee":"line_integrate(field, curve, variables)","fibers":[{"name":"Curve","pred":"isinstance(curve, Curve)","path":{"lhs":"line_integrate(x)","rhs":"line_integrate(field, curve, variables)","over":{"base":"Curve","pred":"isinstance(curve, Curve)"},"name":"line_integrate_Curve_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.integrals.line_integrate_Curve_correct","statement":"line_integrate satisfies spec on Curve inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e8cdec11e3bc71a9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["F","isinstance(curve, Curve)","is_sequence(vars)","hasattr(curve, 'parameter')","hasattr(curve, 'functions')","hasattr(curve, 'limits')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["curve.functions","curve.limits","curve.parameter"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(curve, Curve)', 'len(curve.functions) != len(vars)'}, fibers={'Curve'})"]}}
 def line_integrate(field, curve, vars):
     """line_integrate(field, Curve, variables)
 
@@ -1846,16 +1970,23 @@ def line_integrate(field, curve, vars):
 
 @shape.register(Integral)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over Any   ║
+# ║ Path(_(expr), shape(expr.function)) over {Any | hasattr(expr, 'function')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'function')                      ║
+# ║   returns:  shape(expr.function)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(expr, 'function')} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6e79861753173928           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals._","kind":"function","src_hash":"4663ec0e415d11bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e79861753173928"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.integrals._","kind":"function","src_hash":"4663ec0e415d11bd","in":{"base":"Any","pred":"hasattr(expr, 'function')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr)","rhs":"shape(expr.function)","over":{"base":"Any","pred":"hasattr(expr, 'function')"},"name":"__correct"},"guarantee":"returns shape(expr.function)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6e79861753173928","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'function')"],"returns_expr":"shape(expr.function)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr):
     return shape(expr.function)
 

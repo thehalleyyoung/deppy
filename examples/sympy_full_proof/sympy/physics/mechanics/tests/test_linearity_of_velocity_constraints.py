@@ -22,16 +22,22 @@ from sympy.testing import pytest
 from sympy.solvers.solveset import NonlinearError
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_linearity_of_motion_constraints(), test_linearity_of_motion_constraints produces the expected output) over Any ║
+# ║ Path(test_linearity_of_motion_constraints(), <unspecified:test_linearity_of_motion_constraints>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_linearity_of_motion_constraints : Any → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 504ac3ff61f42e3f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearity_of_velocity_constraints.test_linearity_of_motion_constraints","kind":"function","src_hash":"694322794266f654","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_linearity_of_motion_constraints()","rhs":"test_linearity_of_motion_constraints produces the expected output","over":{"base":"Any"},"name":"test_linearity_of_motion_constraints_correct"},"guarantee":"test_linearity_of_motion_constraints produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearity_of_velocity_constraints.test_linearity_of_motion_constraints_correct","statement":"Path(test_linearity_of_motion_constraints(x), test_linearity_of_motion_constraints produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"504ac3ff61f42e3f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_linearity_of_velocity_constraints.test_linearity_of_motion_constraints","kind":"function","src_hash":"694322794266f654","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_linearity_of_motion_constraints()","rhs":"<unspecified:test_linearity_of_motion_constraints>","over":{"base":"Any"},"name":"test_linearity_of_motion_constraints_correct"},"guarantee":"test_linearity_of_motion_constraints produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_linearity_of_velocity_constraints.test_linearity_of_motion_constraints_correct","statement":"Path(test_linearity_of_motion_constraints(x), test_linearity_of_motion_constraints produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"504ac3ff61f42e3f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_linearity_of_motion_constraints():
     # Test that an error is raised by KanesMethod if nonlinear velocity
     # constraints are supplied.

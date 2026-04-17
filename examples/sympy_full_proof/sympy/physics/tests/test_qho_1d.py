@@ -30,16 +30,22 @@ nu = m * omega / hbar
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_wavefunction(), test_wavefunction produces the expected output) over Any ║
+# ║ Path(test_wavefunction(), <unspecified:test_wavefunction>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_wavefunction : Any → {Any | simplify(psi_n(n, x,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f96ed3b4a80891d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_qho_1d.test_wavefunction","kind":"function","src_hash":"637bb47c0b2560ce","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(psi_n(n, x, m, omega) - Psi[n]) == 0"},"spec":{"lhs":"test_wavefunction()","rhs":"test_wavefunction produces the expected output","over":{"base":"Any"},"name":"test_wavefunction_correct"},"guarantee":"test_wavefunction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_qho_1d.test_wavefunction_correct","statement":"Path(test_wavefunction(x), test_wavefunction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f96ed3b4a80891d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_qho_1d.test_wavefunction","kind":"function","src_hash":"637bb47c0b2560ce","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(psi_n(n, x, m, omega) - Psi[n]) == 0"},"spec":{"lhs":"test_wavefunction()","rhs":"<unspecified:test_wavefunction>","over":{"base":"Any"},"name":"test_wavefunction_correct"},"guarantee":"test_wavefunction produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_qho_1d.test_wavefunction_correct","statement":"Path(test_wavefunction(x), test_wavefunction produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f96ed3b4a80891d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_wavefunction():
     Psi = {
         0: (nu/pi)**Rational(1, 4) * exp(-nu * x**2 /2),
@@ -52,16 +58,22 @@ def test_wavefunction():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_norm(n), test_norm produces the expected output) over Any ║
+# ║ Path(test_norm(n), <unspecified:test_norm>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_norm : Any → {Any | integrate(psi_n(i, x, 1, 1) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b0da0b41bee4ed4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_qho_1d.test_norm","kind":"function","src_hash":"8eba813bbb5cd5d4","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(psi_n(i, x, 1, 1) ** 2, (x, -oo, oo)) == 1"},"spec":{"lhs":"test_norm(n)","rhs":"test_norm produces the expected output","over":{"base":"Any"},"name":"test_norm_correct"},"guarantee":"test_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_qho_1d.test_norm_correct","statement":"Path(test_norm(x), test_norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b0da0b41bee4ed4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_qho_1d.test_norm","kind":"function","src_hash":"8eba813bbb5cd5d4","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(psi_n(i, x, 1, 1) ** 2, (x, -oo, oo)) == 1"},"spec":{"lhs":"test_norm(n)","rhs":"<unspecified:test_norm>","over":{"base":"Any"},"name":"test_norm_correct"},"guarantee":"test_norm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_qho_1d.test_norm_correct","statement":"Path(test_norm(x), test_norm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b0da0b41bee4ed4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_norm(n=1):
     # Maximum "n" which is tested:
     for i in range(n + 1):
@@ -69,16 +81,22 @@ def test_norm(n=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_orthogonality(n), test_orthogonality produces the expected output) over Any ║
+# ║ Path(test_orthogonality(n), <unspecified:test_orthogonality>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_orthogonality : Any → {Any | integrate(psi_n(i, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4dbcc1f2298d818  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_qho_1d.test_orthogonality","kind":"function","src_hash":"3fec9adb1da3a9f4","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(psi_n(i, x, 1, 1) * psi_n(j, x, 1, 1), (x, -oo, oo)) == 0"},"spec":{"lhs":"test_orthogonality(n)","rhs":"test_orthogonality produces the expected output","over":{"base":"Any"},"name":"test_orthogonality_correct"},"guarantee":"test_orthogonality produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_qho_1d.test_orthogonality_correct","statement":"Path(test_orthogonality(x), test_orthogonality produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4dbcc1f2298d818"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_qho_1d.test_orthogonality","kind":"function","src_hash":"3fec9adb1da3a9f4","in":{"base":"Any"},"out":{"base":"Any","pred":"integrate(psi_n(i, x, 1, 1) * psi_n(j, x, 1, 1), (x, -oo, oo)) == 0"},"spec":{"lhs":"test_orthogonality(n)","rhs":"<unspecified:test_orthogonality>","over":{"base":"Any"},"name":"test_orthogonality_correct"},"guarantee":"test_orthogonality produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_qho_1d.test_orthogonality_correct","statement":"Path(test_orthogonality(x), test_orthogonality produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4dbcc1f2298d818","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_orthogonality(n=1):
     # Maximum "n" which is tested:
     for i in range(n + 1):
@@ -88,32 +106,44 @@ def test_orthogonality(n=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_energies(n), test_energies produces the expected output) over Any ║
+# ║ Path(test_energies(n), <unspecified:test_energies>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_energies : Any → {Any | E_n(i, omega) == hbar * ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94b979be6a79615c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_qho_1d.test_energies","kind":"function","src_hash":"bcfaed7e032bc71f","in":{"base":"Any"},"out":{"base":"Any","pred":"E_n(i, omega) == hbar * omega * (i + S.Half)"},"spec":{"lhs":"test_energies(n)","rhs":"test_energies produces the expected output","over":{"base":"Any"},"name":"test_energies_correct"},"guarantee":"test_energies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_qho_1d.test_energies_correct","statement":"Path(test_energies(x), test_energies produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94b979be6a79615c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_qho_1d.test_energies","kind":"function","src_hash":"bcfaed7e032bc71f","in":{"base":"Any"},"out":{"base":"Any","pred":"E_n(i, omega) == hbar * omega * (i + S.Half)"},"spec":{"lhs":"test_energies(n)","rhs":"<unspecified:test_energies>","over":{"base":"Any"},"name":"test_energies_correct"},"guarantee":"test_energies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_qho_1d.test_energies_correct","statement":"Path(test_energies(x), test_energies produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94b979be6a79615c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_energies(n=1):
     # Maximum "n" which is tested:
     for i in range(n + 1):
         assert E_n(i, omega) == hbar * omega * (i + S.Half)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_coherent_state(n), test_coherent_state produces the expected output) over Any ║
+# ║ Path(test_coherent_state(n), <unspecified:test_coherent_state>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_coherent_state : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2478edbfc851fe2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_qho_1d.test_coherent_state","kind":"function","src_hash":"00e9f969a5d0d93d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_coherent_state(n)","rhs":"test_coherent_state produces the expected output","over":{"base":"Any"},"name":"test_coherent_state_correct"},"guarantee":"test_coherent_state produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_qho_1d.test_coherent_state_correct","statement":"Path(test_coherent_state(x), test_coherent_state produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2478edbfc851fe2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.tests.test_qho_1d.test_coherent_state","kind":"function","src_hash":"00e9f969a5d0d93d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_coherent_state(n)","rhs":"<unspecified:test_coherent_state>","over":{"base":"Any"},"name":"test_coherent_state_correct"},"guarantee":"test_coherent_state produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.tests.test_qho_1d.test_coherent_state_correct","statement":"Path(test_coherent_state(x), test_coherent_state produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2478edbfc851fe2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_coherent_state(n=10):
     # Maximum "n" which is tested:
     # test whether coherent state is the eigenstate of annihilation operator

@@ -22,16 +22,24 @@ x = Symbol('x')
 t = Symbol('t')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_arch_init(), test_arch_init produces the expected output) over Any ║
+# ║ Path(test_arch_init(), a.get_loads == {'distributed': {}, 'concentrated': {}} and a.reaction_force == {Symbol('R_A_x'): 0, Symbol('R_A_y'): 0, Symbol('R_B_x'): 0, Symbol('R_B_y'): 0} and a.supports == {'left': 'hinge', 'right': 'hinge'} and a.left_support == (0, 0) and a.right_support == (10, 0) and a.get_shape_eqn == 5 - (x - 5) ** 2 / 5 and a.supports == {'left': 'roller', 'right': 'hinge'} and simplify(a.get_shape_eqn) == simplify(9 / 5 - (x - 6) ** 2 / 20)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_arch_init : Any → {Any | a.get_loads == {'distri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.get_loads == {'distributed': {}, 'conce...   ║
+# ║   ensures:  a.reaction_force == {Symbol('R_A_x'): 0, ...   ║
+# ║   ensures:  a.supports == {'left': 'hinge', 'right': ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_arch_init : Any → {Any | result satisfies: a.get...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fdac9ac1895330e8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d40157ec7374b460  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_arch.test_arch_init","kind":"function","src_hash":"1fa6fbd73da568f5","in":{"base":"Any"},"out":{"base":"Any","pred":"a.get_loads == {'distributed': {}, 'concentrated': {}} and a.supports == {'left': 'hinge', 'right': 'hinge'} and a.left_support == (0, 0) and a.right_support == (10, 0) and a.get_shape_eqn == 5 - (x - 5) ** 2 / 5 and a.supports == {'left': 'roller', 'right': 'hinge'} and simplify(a.get_shape_eqn) == simplify(9 / 5 - (x - 6) ** 2 / 20)"},"spec":{"lhs":"test_arch_init()","rhs":"test_arch_init produces the expected output","over":{"base":"Any"},"name":"test_arch_init_correct"},"guarantee":"test_arch_init produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_arch.test_arch_init_correct","statement":"Path(test_arch_init(x), test_arch_init produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fdac9ac1895330e8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_arch.test_arch_init","kind":"function","src_hash":"1fa6fbd73da568f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.get_loads == {'distributed': {}, 'concentrated': {}} and a.reaction_force == {Symbol('R_A_x'): 0, Symbol('R_A_y'): 0, Symbol('R_B_x'): 0, Symbol('R_B_y'): 0} and a.supports == {'left': 'hinge', 'right': 'hinge'} and a.left_support == (0, 0) and a.right_support == (10, 0) and a.get_shape_eqn == 5 - (x - 5) ** 2 / 5 and a.supports == {'left': 'roller', 'right': 'hinge'} and simplify(a.get_shape_eqn) == simplify(9 / 5 - (x - 6) ** 2 / 20)"},"spec":{"lhs":"test_arch_init()","rhs":"a.get_loads == {'distributed': {}, 'concentrated': {}} and a.reaction_force == {Symbol('R_A_x'): 0, Symbol('R_A_y'): 0, Symbol('R_B_x'): 0, Symbol('R_B_y'): 0} and a.supports == {'left': 'hinge', 'right': 'hinge'} and a.left_support == (0, 0) and a.right_support == (10, 0) and a.get_shape_eqn == 5 - (x - 5) ** 2 / 5 and a.supports == {'left': 'roller', 'right': 'hinge'} and simplify(a.get_shape_eqn) == simplify(9 / 5 - (x - 6) ** 2 / 20)","over":{"base":"Any"},"name":"test_arch_init_correct"},"guarantee":"a.get_loads == {'distributed': {}, 'concentrated': {}}; a.reaction_force == {Symbol('R_A_x'): 0, Symbol('R_A_y'): 0, Symbol('R_B_x'): 0, Symbol('R_B_y'): 0}; a.supports == {'left': 'hinge', 'right': 'hinge'}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_arch.test_arch_init_correct","statement":"Path(test_arch_init(x), a.get_loads == {'distributed': {}, 'concentrated': {}}; a.reaction_force == {Symbol('R_A_x'): 0, Symbol('R_A_y'): 0, Symbol('R_B_x'): 0, Symbol('R_B_y'): 0}; a.supports == {'left': 'hinge', 'right': 'hinge'})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d40157ec7374b460","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.get_loads == {'distributed': {}, 'concentrated': {}}","a.reaction_force == {Symbol('R_A_x'): 0, Symbol('R_A_y'): 0, Symbol('R_B_x'): 0, Symbol('R_B_y'): 0}","a.supports == {'left': 'hinge', 'right': 'hinge'}","a.left_support == (0, 0)","a.right_support == (10, 0)","a.get_shape_eqn == 5 - (x - 5) ** 2 / 5","a.supports == {'left': 'roller', 'right': 'hinge'}","simplify(a.get_shape_eqn) == simplify(9 / 5 - (x - 6) ** 2 / 20)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_arch_init():
     a = Arch((0,0),(10,0),crown_x=5,crown_y=5)
     assert a.get_loads == {'distributed': {}, 'concentrated': {}}
@@ -48,16 +56,24 @@ def test_arch_init():
     assert simplify(a.get_shape_eqn) == simplify(9/5 - (x - 6)**2/20)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_arch_support(), test_arch_support produces the expected output) over Any ║
+# ║ Path(test_arch_support(), abs(a.reaction_force[Symbol('R_A_x')] - 83.33333333333333) < 1e-11 and abs(a.reaction_force[Symbol('R_B_y')] - 90.0) < 1e-11 and abs(a.reaction_force[Symbol('R_B_x')] + 83.33333333333333) < 1e-11 and abs(a.reaction_force[Symbol('R_A_y')] - 140.0) < 1e-11) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_arch_support : Any → {Any | abs(a.reaction_force...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(a.reaction_force[Symbol('R_A_x')] - 8...   ║
+# ║   ensures:  abs(a.reaction_force[Symbol('R_B_y')] - 9...   ║
+# ║   ensures:  abs(a.reaction_force[Symbol('R_B_x')] + 8...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_arch_support : Any → {Any | result satisfies: ab...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e239bdce0ee93f64  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63c3c137a031c647  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_arch.test_arch_support","kind":"function","src_hash":"6a549732cc58f839","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(a.reaction_force[Symbol('R_A_x')] - 83.33333333333333) < 1e-11 and abs(a.reaction_force[Symbol('R_B_y')] - 90.0) < 1e-11 and abs(a.reaction_force[Symbol('R_B_x')] + 83.33333333333333) < 1e-11 and abs(a.reaction_force[Symbol('R_A_y')] - 140.0) < 1e-11"},"spec":{"lhs":"test_arch_support()","rhs":"test_arch_support produces the expected output","over":{"base":"Any"},"name":"test_arch_support_correct"},"guarantee":"test_arch_support produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_arch.test_arch_support_correct","statement":"Path(test_arch_support(x), test_arch_support produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e239bdce0ee93f64"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_arch.test_arch_support","kind":"function","src_hash":"6a549732cc58f839","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(a.reaction_force[Symbol('R_A_x')] - 83.33333333333333) < 1e-11 and abs(a.reaction_force[Symbol('R_B_y')] - 90.0) < 1e-11 and abs(a.reaction_force[Symbol('R_B_x')] + 83.33333333333333) < 1e-11 and abs(a.reaction_force[Symbol('R_A_y')] - 140.0) < 1e-11"},"spec":{"lhs":"test_arch_support()","rhs":"abs(a.reaction_force[Symbol('R_A_x')] - 83.33333333333333) < 1e-11 and abs(a.reaction_force[Symbol('R_B_y')] - 90.0) < 1e-11 and abs(a.reaction_force[Symbol('R_B_x')] + 83.33333333333333) < 1e-11 and abs(a.reaction_force[Symbol('R_A_y')] - 140.0) < 1e-11","over":{"base":"Any"},"name":"test_arch_support_correct"},"guarantee":"abs(a.reaction_force[Symbol('R_A_x')] - 83.33333333333333) < 1e-11; abs(a.reaction_force[Symbol('R_B_y')] - 90.0) < 1e-11; abs(a.reaction_force[Symbol('R_B_x')] + 83.33333333333333) < 1e-11","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_arch.test_arch_support_correct","statement":"Path(test_arch_support(x), abs(a.reaction_force[Symbol('R_A_x')] - 83.33333333333333) < 1e-11; abs(a.reaction_force[Symbol('R_B_y')] - 90.0) < 1e-11; abs(a.reaction_force[Symbol('R_B_x')] + 83.33333333333333) < 1e-11)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63c3c137a031c647","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(a.reaction_force[Symbol('R_A_x')] - 83.33333333333333) < 1e-11","abs(a.reaction_force[Symbol('R_B_y')] - 90.0) < 1e-11","abs(a.reaction_force[Symbol('R_B_x')] + 83.33333333333333) < 1e-11","abs(a.reaction_force[Symbol('R_A_y')] - 140.0) < 1e-11"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_arch_support():
     a = Arch((0,0),(40,0),crown_x=20,crown_y=12)
     a.apply_load(-1,'C',8,150,angle=270)
@@ -69,16 +85,24 @@ def test_arch_support():
     assert abs(a.reaction_force[Symbol("R_A_y")] - 140.00000000000000) < 10e-12
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_arch_member(), test_arch_member produces the expected output) over Any ║
+# ║ Path(test_arch_member(), a.reaction_force[Symbol('R_A_x')] == 0 and abs(a.reaction_force[Symbol('R_A_y')] - 6.75) < 1e-11 and a.reaction_force[Symbol('R_B_x')] == 0 and abs(a.reaction_force[Symbol('R_B_y')] - 5.25) < 1e-11) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_arch_member : Any → {Any | a.reaction_force[Symb...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.reaction_force[Symbol('R_A_x')] == 0         ║
+# ║   ensures:  abs(a.reaction_force[Symbol('R_A_y')] - 6...   ║
+# ║   ensures:  a.reaction_force[Symbol('R_B_x')] == 0         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_arch_member : Any → {Any | result satisfies: a.r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f6cdcd078811ec4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef8b2067c0a78e1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_arch.test_arch_member","kind":"function","src_hash":"90194cdc9d54d49e","in":{"base":"Any"},"out":{"base":"Any","pred":"a.reaction_force[Symbol('R_A_x')] == 0 and abs(a.reaction_force[Symbol('R_A_y')] - 6.75) < 1e-11 and a.reaction_force[Symbol('R_B_x')] == 0 and abs(a.reaction_force[Symbol('R_B_y')] - 5.25) < 1e-11"},"spec":{"lhs":"test_arch_member()","rhs":"test_arch_member produces the expected output","over":{"base":"Any"},"name":"test_arch_member_correct"},"guarantee":"test_arch_member produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_arch.test_arch_member_correct","statement":"Path(test_arch_member(x), test_arch_member produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f6cdcd078811ec4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_arch.test_arch_member","kind":"function","src_hash":"90194cdc9d54d49e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.reaction_force[Symbol('R_A_x')] == 0 and abs(a.reaction_force[Symbol('R_A_y')] - 6.75) < 1e-11 and a.reaction_force[Symbol('R_B_x')] == 0 and abs(a.reaction_force[Symbol('R_B_y')] - 5.25) < 1e-11"},"spec":{"lhs":"test_arch_member()","rhs":"a.reaction_force[Symbol('R_A_x')] == 0 and abs(a.reaction_force[Symbol('R_A_y')] - 6.75) < 1e-11 and a.reaction_force[Symbol('R_B_x')] == 0 and abs(a.reaction_force[Symbol('R_B_y')] - 5.25) < 1e-11","over":{"base":"Any"},"name":"test_arch_member_correct"},"guarantee":"a.reaction_force[Symbol('R_A_x')] == 0; abs(a.reaction_force[Symbol('R_A_y')] - 6.75) < 1e-11; a.reaction_force[Symbol('R_B_x')] == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_arch.test_arch_member_correct","statement":"Path(test_arch_member(x), a.reaction_force[Symbol('R_A_x')] == 0; abs(a.reaction_force[Symbol('R_A_y')] - 6.75) < 1e-11; a.reaction_force[Symbol('R_B_x')] == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef8b2067c0a78e1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.reaction_force[Symbol('R_A_x')] == 0","abs(a.reaction_force[Symbol('R_A_y')] - 6.75) < 1e-11","a.reaction_force[Symbol('R_B_x')] == 0","abs(a.reaction_force[Symbol('R_B_y')] - 5.25) < 1e-11"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_arch_member():
     a = Arch((0,0),(40,0),crown_x=20,crown_y=15)
     a.change_support_type(right_support='roller')
@@ -93,16 +117,24 @@ def test_arch_member():
     assert abs(a.reaction_force[Symbol("R_B_y")] - 5.250000000000000) < 10e-12
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbol_magnitude(), test_symbol_magnitude produces the expected output) over Any ║
+# ║ Path(test_symbol_magnitude(), a.reaction_force[Symbol('R_A_x')] == -(4 * t) / 5 and a.reaction_force[Symbol('R_A_y')] == -(3 * t) / 2 and a.reaction_force[Symbol('R_B_x')] == 4 * t / 5 and a.reaction_force[Symbol('R_B_y')] == -t / 2 and a.bending_moment_at(4) == -5 * t / 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_symbol_magnitude : Any → {Any | a.reaction_force...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a.reaction_force[Symbol('R_A_x')] == -(4 ...   ║
+# ║   ensures:  a.reaction_force[Symbol('R_A_y')] == -(3 ...   ║
+# ║   ensures:  a.reaction_force[Symbol('R_B_x')] == 4 * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_symbol_magnitude : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65afdc52c03dff09  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72eede7344692c8f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_arch.test_symbol_magnitude","kind":"function","src_hash":"3e2f8f6d026441a1","in":{"base":"Any"},"out":{"base":"Any","pred":"a.reaction_force[Symbol('R_A_x')] == -(4 * t) / 5 and a.reaction_force[Symbol('R_A_y')] == -(3 * t) / 2 and a.reaction_force[Symbol('R_B_x')] == 4 * t / 5 and a.reaction_force[Symbol('R_B_y')] == -t / 2 and a.bending_moment_at(4) == -5 * t / 2"},"spec":{"lhs":"test_symbol_magnitude()","rhs":"test_symbol_magnitude produces the expected output","over":{"base":"Any"},"name":"test_symbol_magnitude_correct"},"guarantee":"test_symbol_magnitude produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_arch.test_symbol_magnitude_correct","statement":"Path(test_symbol_magnitude(x), test_symbol_magnitude produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65afdc52c03dff09"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_arch.test_symbol_magnitude","kind":"function","src_hash":"3e2f8f6d026441a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a.reaction_force[Symbol('R_A_x')] == -(4 * t) / 5 and a.reaction_force[Symbol('R_A_y')] == -(3 * t) / 2 and a.reaction_force[Symbol('R_B_x')] == 4 * t / 5 and a.reaction_force[Symbol('R_B_y')] == -t / 2 and a.bending_moment_at(4) == -5 * t / 2"},"spec":{"lhs":"test_symbol_magnitude()","rhs":"a.reaction_force[Symbol('R_A_x')] == -(4 * t) / 5 and a.reaction_force[Symbol('R_A_y')] == -(3 * t) / 2 and a.reaction_force[Symbol('R_B_x')] == 4 * t / 5 and a.reaction_force[Symbol('R_B_y')] == -t / 2 and a.bending_moment_at(4) == -5 * t / 2","over":{"base":"Any"},"name":"test_symbol_magnitude_correct"},"guarantee":"a.reaction_force[Symbol('R_A_x')] == -(4 * t) / 5; a.reaction_force[Symbol('R_A_y')] == -(3 * t) / 2; a.reaction_force[Symbol('R_B_x')] == 4 * t / 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_arch.test_symbol_magnitude_correct","statement":"Path(test_symbol_magnitude(x), a.reaction_force[Symbol('R_A_x')] == -(4 * t) / 5; a.reaction_force[Symbol('R_A_y')] == -(3 * t) / 2; a.reaction_force[Symbol('R_B_x')] == 4 * t / 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72eede7344692c8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a.reaction_force[Symbol('R_A_x')] == -(4 * t) / 5","a.reaction_force[Symbol('R_A_y')] == -(3 * t) / 2","a.reaction_force[Symbol('R_B_x')] == 4 * t / 5","a.reaction_force[Symbol('R_B_y')] == -t / 2","a.bending_moment_at(4) == -5 * t / 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_symbol_magnitude():
     a = Arch((0,0),(16,0),crown_x=8,crown_y=5)
     a.apply_load(0,'C',start=3,end=5,mag=t)
@@ -114,16 +146,23 @@ def test_symbol_magnitude():
     assert a.bending_moment_at(4) == -5*t/2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_forces(), test_forces produces the expected output) over Any ║
+# ║ Path(test_forces(), abs(a.axial_force_at(7.999999999999999) - 149.430523405935) < 1e-12 and abs(a.shear_force_at(7.999999999999999) - 64.9227473161196) < 1e-12) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_forces : Any → {Any | abs(a.axial_force_at(7.999...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(a.axial_force_at(7.999999999999999) -...   ║
+# ║   ensures:  abs(a.shear_force_at(7.999999999999999) -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_forces : Any → {Any | result satisfies: abs(a.ax...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11ae435a07b9da8e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 297cad06a70dee67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_arch.test_forces","kind":"function","src_hash":"826d3df085d3c1a1","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(a.axial_force_at(7.999999999999999) - 149.430523405935) < 1e-12 and abs(a.shear_force_at(7.999999999999999) - 64.9227473161196) < 1e-12"},"spec":{"lhs":"test_forces()","rhs":"test_forces produces the expected output","over":{"base":"Any"},"name":"test_forces_correct"},"guarantee":"test_forces produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_arch.test_forces_correct","statement":"Path(test_forces(x), test_forces produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11ae435a07b9da8e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.continuum_mechanics.tests.test_arch.test_forces","kind":"function","src_hash":"826d3df085d3c1a1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(a.axial_force_at(7.999999999999999) - 149.430523405935) < 1e-12 and abs(a.shear_force_at(7.999999999999999) - 64.9227473161196) < 1e-12"},"spec":{"lhs":"test_forces()","rhs":"abs(a.axial_force_at(7.999999999999999) - 149.430523405935) < 1e-12 and abs(a.shear_force_at(7.999999999999999) - 64.9227473161196) < 1e-12","over":{"base":"Any"},"name":"test_forces_correct"},"guarantee":"abs(a.axial_force_at(7.999999999999999) - 149.430523405935) < 1e-12; abs(a.shear_force_at(7.999999999999999) - 64.9227473161196) < 1e-12","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.continuum_mechanics.tests.test_arch.test_forces_correct","statement":"Path(test_forces(x), abs(a.axial_force_at(7.999999999999999) - 149.430523405935) < 1e-12; abs(a.shear_force_at(7.999999999999999) - 64.9227473161196) < 1e-12)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"297cad06a70dee67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(a.axial_force_at(7.999999999999999) - 149.430523405935) < 1e-12","abs(a.shear_force_at(7.999999999999999) - 64.9227473161196) < 1e-12"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_forces():
     a = Arch((0,0),(40,0),crown_x=20,crown_y=12)
     a.apply_load(-1,'C',8,150,angle=270)

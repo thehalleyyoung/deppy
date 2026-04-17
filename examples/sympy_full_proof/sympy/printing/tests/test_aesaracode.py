@@ -71,16 +71,22 @@ f_t = sy.Function('f')(t)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(aesara_code_(exp), wrapper for aesara_code that uses a new, empty cache by default) over Any ║
+# ║ Path(aesara_code_(expr, **kwargs), aesara_code(expr, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  aesara_code(expr, **kwargs)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ aesara_code_ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72cdcbc90830f316  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 558817f586003639  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.aesara_code_","kind":"function","src_hash":"08ca13673b1e2aef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"aesara_code_(exp)","rhs":"wrapper for aesara_code that uses a new, empty cache by default","over":{"base":"Any"},"name":"aesara_code__correct"},"guarantee":"wrapper for aesara_code that uses a new, empty cache by default","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.aesara_code__correct","statement":"Path(aesara_code_(x), wrapper for aesara_code that uses a new, empty cache by default)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72cdcbc90830f316"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.aesara_code_","kind":"function","src_hash":"08ca13673b1e2aef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"aesara_code_(expr, **kwargs)","rhs":"aesara_code(expr, **kwargs)","over":{"base":"Any"},"name":"aesara_code__correct"},"guarantee":"returns aesara_code(expr, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.aesara_code__correct","statement":"Path(aesara_code_(x), returns aesara_code(expr, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"558817f586003639","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"aesara_code(expr, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**kwargs']"]}}
 def aesara_code_(expr, **kwargs):
     """ Wrapper for aesara_code that uses a new, empty cache by default. """
     kwargs.setdefault('cache', {})
@@ -88,16 +94,22 @@ def aesara_code_(expr, **kwargs):
         return aesara_code(expr, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(aesara_function_(inp), wrapper for aesara_function that uses a new, empty cache by default) over Any ║
+# ║ Path(aesara_function_(inputs, outputs, **kwargs), aesara_function(inputs, outputs, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  aesara_function(inputs, outputs, **kwargs)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ aesara_function_ : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2bb80c97a9d023c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ad20d6344c6f0cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.aesara_function_","kind":"function","src_hash":"e8a5473bb9505903","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"aesara_function_(inp)","rhs":"wrapper for aesara_function that uses a new, empty cache by default","over":{"base":"Any"},"name":"aesara_function__correct"},"guarantee":"wrapper for aesara_function that uses a new, empty cache by default","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.aesara_function__correct","statement":"Path(aesara_function_(x), wrapper for aesara_function that uses a new, empty cache by default)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2bb80c97a9d023c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.aesara_function_","kind":"function","src_hash":"e8a5473bb9505903","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"aesara_function_(inputs, outputs, **kwargs)","rhs":"aesara_function(inputs, outputs, **kwargs)","over":{"base":"Any"},"name":"aesara_function__correct"},"guarantee":"returns aesara_function(inputs, outputs, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.aesara_function__correct","statement":"Path(aesara_function_(x), returns aesara_function(inputs, outputs, **kwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ad20d6344c6f0cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"aesara_function(inputs, outputs, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['inputs', 'outputs'], spec=['inputs', 'outputs', '**kwargs']"]}}
 def aesara_function_(inputs, outputs, **kwargs):
     """ Wrapper for aesara_function that uses a new, empty cache by default. """
     kwargs.setdefault('cache', {})
@@ -106,16 +118,22 @@ def aesara_function_(inputs, outputs, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fgraph_of(*ex), transform sympy expressions into aesara computation) over Any ║
+# ║ Path(fgraph_of(*exprs), aesara.graph.fg.FunctionGraph(ins, outs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  aesara.graph.fg.FunctionGraph(ins, outs)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fgraph_of : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 422a6e11712ec9a1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b61d5ba9cbabd19e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.fgraph_of","kind":"function","src_hash":"c8fcbe2accf5cb27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fgraph_of(*ex)","rhs":"transform sympy expressions into aesara computation","over":{"base":"Any"},"name":"fgraph_of_correct"},"guarantee":"transform sympy expressions into aesara computation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.fgraph_of_correct","statement":"Path(fgraph_of(x), transform sympy expressions into aesara computation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"422a6e11712ec9a1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.fgraph_of","kind":"function","src_hash":"c8fcbe2accf5cb27","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fgraph_of(*exprs)","rhs":"aesara.graph.fg.FunctionGraph(ins, outs)","over":{"base":"Any"},"name":"fgraph_of_correct"},"guarantee":"returns aesara.graph.fg.FunctionGraph(ins, outs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.fgraph_of_correct","statement":"Path(fgraph_of(x), returns aesara.graph.fg.FunctionGraph(ins, outs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b61d5ba9cbabd19e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"aesara.graph.fg.FunctionGraph(ins, outs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*exprs']"]}}
 def fgraph_of(*exprs):
     """ Transform SymPy expressions into Aesara Computation.
 
@@ -135,16 +153,24 @@ def fgraph_of(*exprs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(aesara_simplify(fgr), simplify a aesara computation) over Any ║
+# ║ Path(aesara_simplify(fgraph), fgraph) over {Any | hasattr(fgraph, 'clone')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ aesara_simplify : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fgraph, 'clone')                       ║
+# ║   ensures:  result == fgraph                               ║
+# ║   returns:  fgraph                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ aesara_simplify : {Any | hasattr(fgraph, 'clone')} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53ab6bd4d3c5d15c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8ddc0be1d7c550a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.aesara_simplify","kind":"function","src_hash":"e25d74fee12abd59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"aesara_simplify(fgr)","rhs":"simplify a aesara computation","over":{"base":"Any"},"name":"aesara_simplify_correct"},"guarantee":"simplify a aesara computation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.aesara_simplify_correct","statement":"Path(aesara_simplify(x), simplify a aesara computation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53ab6bd4d3c5d15c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.aesara_simplify","kind":"function","src_hash":"e25d74fee12abd59","in":{"base":"Any","pred":"hasattr(fgraph, 'clone')"},"out":{"base":"Any","pred":"result satisfies: result == (fgraph)"},"spec":{"lhs":"aesara_simplify(fgraph)","rhs":"fgraph","over":{"base":"Any","pred":"hasattr(fgraph, 'clone')"},"name":"aesara_simplify_correct"},"guarantee":"returns fgraph; result == fgraph","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.aesara_simplify_correct","statement":"Path(aesara_simplify(x), returns fgraph; result == fgraph)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8ddc0be1d7c550a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fgraph, 'clone')"],"ensures":["result == fgraph"],"returns_expr":"fgraph","pure":false,"effects":{"effect_type":"reads_state","reads":["fgraph.clone"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def aesara_simplify(fgraph):
     """ Simplify a Aesara Computation.
 
@@ -163,7 +189,10 @@ def aesara_simplify(fgraph):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(theq(a, ), test two aesara objects for equality) over {Any | isinstance(a, numeric_types) and isinstance(a, (tuple, list))} ║
+# ║ Path(theq(a, b), <unspecified:theq>) over {Any | isinstance(a, numeric_types) and isinstance(a, (tuple, list))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ theq : {Any | isinstance(a, numeric_types) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -176,9 +205,12 @@ def aesara_simplify(fgraph):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 586a3942...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.theq","kind":"function","src_hash":"6d8d4494840be8b9","in":{"base":"Any","pred":"isinstance(a, numeric_types) and isinstance(a, (tuple, list))"},"out":{"base":"Any"},"spec":{"lhs":"theq(a, )","rhs":"test two aesara objects for equality","over":{"base":"Any","pred":"isinstance(a, numeric_types) and isinstance(a, (tuple, list))"},"name":"theq_correct"},"guarantee":"test two aesara objects for equality","fibers":[{"name":"numeric_types","pred":"isinstance(a, numeric_types)","path":{"lhs":"theq(x)","rhs":"test two aesara objects for equality","over":{"base":"numeric_types","pred":"isinstance(a, numeric_types)"},"name":"theq_numeric_types_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.theq_numeric_types_correct","statement":"theq satisfies spec on numeric_types inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(a, (tuple, list))","path":{"lhs":"theq(x)","rhs":"test two aesara objects for equality","over":{"base":"(tuple","pred":"isinstance(a, (tuple, list))"},"name":"theq_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.theq_(tuple_correct","statement":"theq satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"586a39426bbfb135"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.theq","kind":"function","src_hash":"6d8d4494840be8b9","in":{"base":"Any","pred":"isinstance(a, numeric_types) and isinstance(a, (tuple, list))"},"out":{"base":"Any"},"spec":{"lhs":"theq(a, b)","rhs":"<unspecified:theq>","over":{"base":"Any","pred":"isinstance(a, numeric_types) and isinstance(a, (tuple, list))"},"name":"theq_correct"},"guarantee":"test two aesara objects for equality","fibers":[{"name":"numeric_types","pred":"isinstance(a, numeric_types)","path":{"lhs":"theq(x)","rhs":"test two aesara objects for equality","over":{"base":"numeric_types","pred":"isinstance(a, numeric_types)"},"name":"theq_numeric_types_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.theq_numeric_types_correct","statement":"theq satisfies spec on numeric_types inputs"},"trust":"LIBRARY"},{"name":"(tuple","pred":"isinstance(a, (tuple, list))","path":{"lhs":"theq(x)","rhs":"test two aesara objects for equality","over":{"base":"(tuple","pred":"isinstance(a, (tuple, list))"},"name":"theq_(tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.theq_(tuple_correct","statement":"theq satisfies spec on (tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"586a39426bbfb135","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"argstr == ''\", 'not (a_is_seq and b_is_seq) or type(a) != type(b)'}, fibers={'(tuple', 'numeric_types'})"]}}
 def theq(a, b):
     """ Test two Aesara objects for equality.
 
@@ -228,16 +260,24 @@ def theq(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_example_symbols(), check that the example symbols in this module print to their aesara equivalents, as many of the other tests depend on this) over Any ║
+# ║ Path(test_example_symbols(), theq(xt, aesara_code_(x)) and theq(yt, aesara_code_(y)) and theq(zt, aesara_code_(z)) and theq(Xt, aesara_code_(X)) and theq(Yt, aesara_code_(Y)) and theq(Zt, aesara_code_(Z))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_example_symbols : Any → {Any | theq(xt, aesara_c...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theq(xt, aesara_code_(x))                      ║
+# ║   ensures:  theq(yt, aesara_code_(y))                      ║
+# ║   ensures:  theq(zt, aesara_code_(z))                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_example_symbols : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 097c95c769e823d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb6aaddba61dc30f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_example_symbols","kind":"function","src_hash":"ab3e61439e77dce7","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(xt, aesara_code_(x)) and theq(yt, aesara_code_(y)) and theq(zt, aesara_code_(z)) and theq(Xt, aesara_code_(X)) and theq(Yt, aesara_code_(Y)) and theq(Zt, aesara_code_(Z))"},"spec":{"lhs":"test_example_symbols()","rhs":"check that the example symbols in this module print to their aesara equivalents, as many of the other tests depend on this","over":{"base":"Any"},"name":"test_example_symbols_correct"},"guarantee":"check that the example symbols in this module print to their aesara equivalents, as many of the other tests depend on this","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_example_symbols_correct","statement":"Path(test_example_symbols(x), check that the example symbols in this module print to their aesara equivalents, as many of the other tests depend on this)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"097c95c769e823d8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_example_symbols","kind":"function","src_hash":"ab3e61439e77dce7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theq(xt, aesara_code_(x)) and theq(yt, aesara_code_(y)) and theq(zt, aesara_code_(z)) and theq(Xt, aesara_code_(X)) and theq(Yt, aesara_code_(Y)) and theq(Zt, aesara_code_(Z))"},"spec":{"lhs":"test_example_symbols()","rhs":"theq(xt, aesara_code_(x)) and theq(yt, aesara_code_(y)) and theq(zt, aesara_code_(z)) and theq(Xt, aesara_code_(X)) and theq(Yt, aesara_code_(Y)) and theq(Zt, aesara_code_(Z))","over":{"base":"Any"},"name":"test_example_symbols_correct"},"guarantee":"theq(xt, aesara_code_(x)); theq(yt, aesara_code_(y)); theq(zt, aesara_code_(z))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_example_symbols_correct","statement":"Path(test_example_symbols(x), theq(xt, aesara_code_(x)); theq(yt, aesara_code_(y)); theq(zt, aesara_code_(z)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb6aaddba61dc30f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theq(xt, aesara_code_(x))","theq(yt, aesara_code_(y))","theq(zt, aesara_code_(z))","theq(Xt, aesara_code_(X))","theq(Yt, aesara_code_(Y))","theq(Zt, aesara_code_(Z))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_example_symbols():
     """
     Check that the example symbols in this module print to their Aesara
@@ -252,7 +292,12 @@ def test_example_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Symbol(), test printing a symbol to a aesara variable) over {Any | isinstance(xx, Variable)} ║
+# ║ Path(test_Symbol(), isinstance(xx, Variable) and xx.broadcastable == () and xx.name == x.name and xx2.broadcastable == (False,) and xx2.name == x.name) over {Any | isinstance(xx, Variable)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(xx, Variable)                       ║
+# ║   ensures:  xx.broadcastable == ()                         ║
+# ║   ensures:  xx.name == x.name                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Symbol : {Any | isinstance(xx, Variable)} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -264,9 +309,12 @@ def test_example_symbols():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7b07bd58...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Symbol","kind":"function","src_hash":"c80e1a23bcdb4078","in":{"base":"Any","pred":"isinstance(xx, Variable)"},"out":{"base":"Any","pred":"isinstance(xx, Variable) and xx.broadcastable == () and xx.name == x.name and xx2.broadcastable == (False,) and xx2.name == x.name"},"spec":{"lhs":"test_Symbol()","rhs":"test printing a symbol to a aesara variable","over":{"base":"Any","pred":"isinstance(xx, Variable)"},"name":"test_Symbol_correct"},"guarantee":"test printing a symbol to a aesara variable","fibers":[{"name":"Variable","pred":"isinstance(xx, Variable)","path":{"lhs":"test_Symbol(x)","rhs":"test printing a symbol to a aesara variable","over":{"base":"Variable","pred":"isinstance(xx, Variable)"},"name":"test_Symbol_Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Symbol_Variable_correct","statement":"test_Symbol satisfies spec on Variable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7b07bd58d2251f3f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Symbol","kind":"function","src_hash":"c80e1a23bcdb4078","in":{"base":"Any","pred":"isinstance(xx, Variable)"},"out":{"base":"Any","pred":"result satisfies: isinstance(xx, Variable) and xx.broadcastable == () and xx.name == x.name and xx2.broadcastable == (False,) and xx2.name == x.name"},"spec":{"lhs":"test_Symbol()","rhs":"isinstance(xx, Variable) and xx.broadcastable == () and xx.name == x.name and xx2.broadcastable == (False,) and xx2.name == x.name","over":{"base":"Any","pred":"isinstance(xx, Variable)"},"name":"test_Symbol_correct"},"guarantee":"isinstance(xx, Variable); xx.broadcastable == (); xx.name == x.name","fibers":[{"name":"Variable","pred":"isinstance(xx, Variable)","path":{"lhs":"test_Symbol(x)","rhs":"isinstance(xx, Variable); xx.broadcastable == (); xx.name == x.name","over":{"base":"Variable","pred":"isinstance(xx, Variable)"},"name":"test_Symbol_Variable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Symbol_Variable_correct","statement":"test_Symbol satisfies spec on Variable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7b07bd58d2251f3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(xx, Variable)","xx.broadcastable == ()","xx.name == x.name","xx2.broadcastable == (False,)","xx2.name == x.name"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":true}}
 def test_Symbol():
     """ Test printing a Symbol to a aesara variable. """
     xx = aesara_code_(x)
@@ -279,7 +327,11 @@ def test_Symbol():
     assert xx2.name == x.name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSymbol(), test printing a matrixsymbol to a aesara variable) over {Any | isinstance(XX, TensorVariable)} ║
+# ║ Path(test_MatrixSymbol(), isinstance(XX, TensorVariable) and XX.broadcastable == (False, False)) over {Any | isinstance(XX, TensorVariable)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(XX, TensorVariable)                 ║
+# ║   ensures:  XX.broadcastable == (False, False)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_MatrixSymbol : {Any | isinstance(XX, TensorVaria...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -291,9 +343,12 @@ def test_Symbol():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 30e53420...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_MatrixSymbol","kind":"function","src_hash":"1613ba43265315d4","in":{"base":"Any","pred":"isinstance(XX, TensorVariable)"},"out":{"base":"Any","pred":"isinstance(XX, TensorVariable) and XX.broadcastable == (False, False)"},"spec":{"lhs":"test_MatrixSymbol()","rhs":"test printing a matrixsymbol to a aesara variable","over":{"base":"Any","pred":"isinstance(XX, TensorVariable)"},"name":"test_MatrixSymbol_correct"},"guarantee":"test printing a matrixsymbol to a aesara variable","fibers":[{"name":"TensorVariable","pred":"isinstance(XX, TensorVariable)","path":{"lhs":"test_MatrixSymbol(x)","rhs":"test printing a matrixsymbol to a aesara variable","over":{"base":"TensorVariable","pred":"isinstance(XX, TensorVariable)"},"name":"test_MatrixSymbol_TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_MatrixSymbol_TensorVariable_correct","statement":"test_MatrixSymbol satisfies spec on TensorVariable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"30e53420c9800af3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_MatrixSymbol","kind":"function","src_hash":"1613ba43265315d4","in":{"base":"Any","pred":"isinstance(XX, TensorVariable)"},"out":{"base":"Any","pred":"result satisfies: isinstance(XX, TensorVariable) and XX.broadcastable == (False, False)"},"spec":{"lhs":"test_MatrixSymbol()","rhs":"isinstance(XX, TensorVariable) and XX.broadcastable == (False, False)","over":{"base":"Any","pred":"isinstance(XX, TensorVariable)"},"name":"test_MatrixSymbol_correct"},"guarantee":"isinstance(XX, TensorVariable); XX.broadcastable == (False, False)","fibers":[{"name":"TensorVariable","pred":"isinstance(XX, TensorVariable)","path":{"lhs":"test_MatrixSymbol(x)","rhs":"isinstance(XX, TensorVariable); XX.broadcastable == (False, False)","over":{"base":"TensorVariable","pred":"isinstance(XX, TensorVariable)"},"name":"test_MatrixSymbol_TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_MatrixSymbol_TensorVariable_correct","statement":"test_MatrixSymbol satisfies spec on TensorVariable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"30e53420c9800af3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(XX, TensorVariable)","XX.broadcastable == (False, False)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":true}}
 def test_MatrixSymbol():
     """ Test printing a MatrixSymbol to a aesara variable. """
     XX = aesara_code_(X)
@@ -302,16 +357,22 @@ def test_MatrixSymbol():
 
 @SKIP  # TODO - this is currently not checked but should be implemented
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSymbol_wrong_dims(), test matrixsymbol with invalid broadcastable) over Any ║
+# ║ Path(test_MatrixSymbol_wrong_dims(), <unspecified:test_MatrixSymbol_wrong_dims>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_MatrixSymbol_wrong_dims : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bc54006f8c91744  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_MatrixSymbol_wrong_dims","kind":"function","src_hash":"512a97d554e3ccf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_MatrixSymbol_wrong_dims()","rhs":"test matrixsymbol with invalid broadcastable","over":{"base":"Any"},"name":"test_MatrixSymbol_wrong_dims_correct"},"guarantee":"test matrixsymbol with invalid broadcastable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_MatrixSymbol_wrong_dims_correct","statement":"Path(test_MatrixSymbol_wrong_dims(x), test matrixsymbol with invalid broadcastable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bc54006f8c91744"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_MatrixSymbol_wrong_dims","kind":"function","src_hash":"512a97d554e3ccf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_MatrixSymbol_wrong_dims()","rhs":"<unspecified:test_MatrixSymbol_wrong_dims>","over":{"base":"Any"},"name":"test_MatrixSymbol_wrong_dims_correct"},"guarantee":"test matrixsymbol with invalid broadcastable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_MatrixSymbol_wrong_dims_correct","statement":"Path(test_MatrixSymbol_wrong_dims(x), test matrixsymbol with invalid broadcastable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bc54006f8c91744","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixSymbol_wrong_dims():
     """ Test MatrixSymbol with invalid broadcastable. """
     bcs = [(), (False,), (True,), (True, False), (False, True,), (True, True)]
@@ -320,7 +381,12 @@ def test_MatrixSymbol_wrong_dims():
             aesara_code_(X, broadcastables={X: bc})
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_AppliedUndef(), test printing appliedundef instance, which works similarly to symbol) over {Any | isinstance(ftt, TensorVariable)} ║
+# ║ Path(test_AppliedUndef(), isinstance(ftt, TensorVariable) and ftt.broadcastable == () and ftt.name == 'f_t') over {Any | isinstance(ftt, TensorVariable)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(ftt, TensorVariable)                ║
+# ║   ensures:  ftt.broadcastable == ()                        ║
+# ║   ensures:  ftt.name == 'f_t'                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_AppliedUndef : {Any | isinstance(ftt, TensorVari...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -332,9 +398,12 @@ def test_MatrixSymbol_wrong_dims():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1bfe0879...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_AppliedUndef","kind":"function","src_hash":"90bc6370f2b2dbb8","in":{"base":"Any","pred":"isinstance(ftt, TensorVariable)"},"out":{"base":"Any","pred":"isinstance(ftt, TensorVariable) and ftt.broadcastable == () and ftt.name == 'f_t'"},"spec":{"lhs":"test_AppliedUndef()","rhs":"test printing appliedundef instance, which works similarly to symbol","over":{"base":"Any","pred":"isinstance(ftt, TensorVariable)"},"name":"test_AppliedUndef_correct"},"guarantee":"test printing appliedundef instance, which works similarly to symbol","fibers":[{"name":"TensorVariable","pred":"isinstance(ftt, TensorVariable)","path":{"lhs":"test_AppliedUndef(x)","rhs":"test printing appliedundef instance, which works similarly to symbol","over":{"base":"TensorVariable","pred":"isinstance(ftt, TensorVariable)"},"name":"test_AppliedUndef_TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_AppliedUndef_TensorVariable_correct","statement":"test_AppliedUndef satisfies spec on TensorVariable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1bfe087951ab1e0a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_AppliedUndef","kind":"function","src_hash":"90bc6370f2b2dbb8","in":{"base":"Any","pred":"isinstance(ftt, TensorVariable)"},"out":{"base":"Any","pred":"result satisfies: isinstance(ftt, TensorVariable) and ftt.broadcastable == () and ftt.name == 'f_t'"},"spec":{"lhs":"test_AppliedUndef()","rhs":"isinstance(ftt, TensorVariable) and ftt.broadcastable == () and ftt.name == 'f_t'","over":{"base":"Any","pred":"isinstance(ftt, TensorVariable)"},"name":"test_AppliedUndef_correct"},"guarantee":"isinstance(ftt, TensorVariable); ftt.broadcastable == (); ftt.name == 'f_t'","fibers":[{"name":"TensorVariable","pred":"isinstance(ftt, TensorVariable)","path":{"lhs":"test_AppliedUndef(x)","rhs":"isinstance(ftt, TensorVariable); ftt.broadcastable == (); ftt.name == 'f_t'","over":{"base":"TensorVariable","pred":"isinstance(ftt, TensorVariable)"},"name":"test_AppliedUndef_TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_AppliedUndef_TensorVariable_correct","statement":"test_AppliedUndef satisfies spec on TensorVariable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1bfe087951ab1e0a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(ftt, TensorVariable)","ftt.broadcastable == ()","ftt.name == 'f_t'"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":true}}
 def test_AppliedUndef():
     """ Test printing AppliedUndef instance, which works similarly to Symbol. """
     ftt = aesara_code_(f_t)
@@ -344,47 +413,66 @@ def test_AppliedUndef():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_add(), test_add produces the expected output) over Any ║
+# ║ Path(test_add(), comp.owner.op == aesara.tensor.add) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_add : Any → {Any | comp.owner.op == aesara.tenso...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  comp.owner.op == aesara.tensor.add             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_add : Any → {Any | result satisfies: comp.owner....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d29dd6c249e1e458  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3741c704356fb946  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_add","kind":"function","src_hash":"ef278bf9e69755b0","in":{"base":"Any"},"out":{"base":"Any","pred":"comp.owner.op == aesara.tensor.add"},"spec":{"lhs":"test_add()","rhs":"test_add produces the expected output","over":{"base":"Any"},"name":"test_add_correct"},"guarantee":"test_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_add_correct","statement":"Path(test_add(x), test_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d29dd6c249e1e458"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_add","kind":"function","src_hash":"ef278bf9e69755b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: comp.owner.op == aesara.tensor.add"},"spec":{"lhs":"test_add()","rhs":"comp.owner.op == aesara.tensor.add","over":{"base":"Any"},"name":"test_add_correct"},"guarantee":"comp.owner.op == aesara.tensor.add","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_add_correct","statement":"Path(test_add(x), comp.owner.op == aesara.tensor.add)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3741c704356fb946","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["comp.owner.op == aesara.tensor.add"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_add():
     expr = x + y
     comp = aesara_code_(expr)
     assert comp.owner.op == aesara.tensor.add
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trig(), test_trig produces the expected output) over Any ║
+# ║ Path(test_trig(), theq(aesara_code_(sy.sin(x)), aet.sin(xt)) and theq(aesara_code_(sy.tan(x)), aet.tan(xt))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trig : Any → {Any | theq(aesara_code_(sy.sin(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theq(aesara_code_(sy.sin(x)), aet.sin(xt))     ║
+# ║   ensures:  theq(aesara_code_(sy.tan(x)), aet.tan(xt))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trig : Any → {Any | result satisfies: theq(aesar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01a2ce7df3472f37  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 476650416d4d7d05  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_trig","kind":"function","src_hash":"400e1be65d43ed0f","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(aesara_code_(sy.sin(x)), aet.sin(xt)) and theq(aesara_code_(sy.tan(x)), aet.tan(xt))"},"spec":{"lhs":"test_trig()","rhs":"test_trig produces the expected output","over":{"base":"Any"},"name":"test_trig_correct"},"guarantee":"test_trig produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_trig_correct","statement":"Path(test_trig(x), test_trig produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01a2ce7df3472f37"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_trig","kind":"function","src_hash":"400e1be65d43ed0f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theq(aesara_code_(sy.sin(x)), aet.sin(xt)) and theq(aesara_code_(sy.tan(x)), aet.tan(xt))"},"spec":{"lhs":"test_trig()","rhs":"theq(aesara_code_(sy.sin(x)), aet.sin(xt)) and theq(aesara_code_(sy.tan(x)), aet.tan(xt))","over":{"base":"Any"},"name":"test_trig_correct"},"guarantee":"theq(aesara_code_(sy.sin(x)), aet.sin(xt)); theq(aesara_code_(sy.tan(x)), aet.tan(xt))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_trig_correct","statement":"Path(test_trig(x), theq(aesara_code_(sy.sin(x)), aet.sin(xt)); theq(aesara_code_(sy.tan(x)), aet.tan(xt)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"476650416d4d7d05","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theq(aesara_code_(sy.sin(x)), aet.sin(xt))","theq(aesara_code_(sy.tan(x)), aet.tan(xt))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trig():
     assert theq(aesara_code_(sy.sin(x)), aet.sin(xt))
     assert theq(aesara_code_(sy.tan(x)), aet.tan(xt))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_many(), test printing a complex expression with multiple symbols) over Any ║
+# ║ Path(test_many(), theq(comp, expected)) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_many : Any → {Any | theq(comp, expected)}             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theq(comp, expected)                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_many : Any → {Any | result satisfies: theq(comp,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e9cf41ed0fadea6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a77280d08cc8527  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_many","kind":"function","src_hash":"e466dc002ddcd479","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(comp, expected)"},"spec":{"lhs":"test_many()","rhs":"test printing a complex expression with multiple symbols","over":{"base":"Any"},"name":"test_many_correct"},"guarantee":"test printing a complex expression with multiple symbols","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_many_correct","statement":"Path(test_many(x), test printing a complex expression with multiple symbols)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e9cf41ed0fadea6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_many","kind":"function","src_hash":"e466dc002ddcd479","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theq(comp, expected)"},"spec":{"lhs":"test_many()","rhs":"theq(comp, expected)","over":{"base":"Any"},"name":"test_many_correct"},"guarantee":"theq(comp, expected)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_many_correct","statement":"Path(test_many(x), theq(comp, expected))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a77280d08cc8527","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theq(comp, expected)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_many():
     """ Test printing a complex expression with multiple symbols. """
     expr = sy.exp(x**2 + sy.cos(y)) * sy.log(2*z)
@@ -394,16 +482,24 @@ def test_many():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dtype(), test specifying specific data types through the dtype argument) over Any ║
+# ║ Path(test_dtype(), aesara_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64') and aesara_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32' and aesara_code_(x + y, dtypes={x: 'float64', y: 'float32'}).type.dtype == 'float64') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dtype : Any → {Any | aesara_code_(x, dtypes={x: ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  aesara_code_(x, dtypes={x: 'floatX'}).typ...   ║
+# ║   ensures:  aesara_code_(x + 1, dtypes={x: 'float32'}...   ║
+# ║   ensures:  aesara_code_(x + y, dtypes={x: 'float64',...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dtype : Any → {Any | result satisfies: aesara_co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7dd74370063993e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a23a45cde07b8ee3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_dtype","kind":"function","src_hash":"f556c31844b20273","in":{"base":"Any"},"out":{"base":"Any","pred":"aesara_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64') and aesara_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32' and aesara_code_(x, dtypes={x: dtype}).type.dtype == dtype"},"spec":{"lhs":"test_dtype()","rhs":"test specifying specific data types through the dtype argument","over":{"base":"Any"},"name":"test_dtype_correct"},"guarantee":"test specifying specific data types through the dtype argument","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_dtype_correct","statement":"Path(test_dtype(x), test specifying specific data types through the dtype argument)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7dd74370063993e2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_dtype","kind":"function","src_hash":"f556c31844b20273","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: aesara_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64') and aesara_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32' and aesara_code_(x + y, dtypes={x: 'float64', y: 'float32'}).type.dtype == 'float64'"},"spec":{"lhs":"test_dtype()","rhs":"aesara_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64') and aesara_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32' and aesara_code_(x + y, dtypes={x: 'float64', y: 'float32'}).type.dtype == 'float64'","over":{"base":"Any"},"name":"test_dtype_correct"},"guarantee":"aesara_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64'); aesara_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32'; aesara_code_(x + y, dtypes={x: 'float64', y: 'float32'}).type.dtype == 'float64'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_dtype_correct","statement":"Path(test_dtype(x), aesara_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64'); aesara_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32'; aesara_code_(x + y, dtypes={x: 'float64', y: 'float32'}).type.dtype == 'float64')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a23a45cde07b8ee3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["aesara_code_(x, dtypes={x: 'floatX'}).type.dtype in ('float32', 'float64')","aesara_code_(x + 1, dtypes={x: 'float32'}).type.dtype == 'float32'","aesara_code_(x + y, dtypes={x: 'float64', y: 'float32'}).type.dtype == 'float64'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dtype():
     """ Test specifying specific data types through the dtype argument. """
     for dtype in ['float32', 'float64', 'int8', 'int16', 'int32', 'int64']:
@@ -418,16 +514,22 @@ def test_dtype():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_broadcastables(), test the "broadcastables" argument when printing symbol-like objects) over Any ║
+# ║ Path(test_broadcastables(), <unspecified:test_broadcastables>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_broadcastables : Any → {Any | aesara_code_(s, br...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82f0c2b533c1eb1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_broadcastables","kind":"function","src_hash":"cec9e78c4485b312","in":{"base":"Any"},"out":{"base":"Any","pred":"aesara_code_(s, broadcastables={s: bc}).broadcastable == bc"},"spec":{"lhs":"test_broadcastables()","rhs":"test the \"broadcastables\" argument when printing symbol-like objects","over":{"base":"Any"},"name":"test_broadcastables_correct"},"guarantee":"test the \"broadcastables\" argument when printing symbol-like objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_broadcastables_correct","statement":"Path(test_broadcastables(x), test the \"broadcastables\" argument when printing symbol-like objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82f0c2b533c1eb1d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_broadcastables","kind":"function","src_hash":"cec9e78c4485b312","in":{"base":"Any"},"out":{"base":"Any","pred":"aesara_code_(s, broadcastables={s: bc}).broadcastable == bc"},"spec":{"lhs":"test_broadcastables()","rhs":"<unspecified:test_broadcastables>","over":{"base":"Any"},"name":"test_broadcastables_correct"},"guarantee":"test the \"broadcastables\" argument when printing symbol-like objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_broadcastables_correct","statement":"Path(test_broadcastables(x), test the \"broadcastables\" argument when printing symbol-like objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82f0c2b533c1eb1d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_broadcastables():
     """ Test the "broadcastables" argument when printing symbol-like objects. """
 
@@ -439,16 +541,22 @@ def test_broadcastables():
     # TODO - matrix broadcasting?
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_broadcasting(), test "broadcastable" attribute after applying element-wise binary op) over Any ║
+# ║ Path(test_broadcasting(), <unspecified:test_broadcasting>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_broadcasting : Any → {Any | comp.broadcastable =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfd33618c9bdc3a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_broadcasting","kind":"function","src_hash":"a78de03ca21f5a80","in":{"base":"Any"},"out":{"base":"Any","pred":"comp.broadcastable == bc3"},"spec":{"lhs":"test_broadcasting()","rhs":"test \"broadcastable\" attribute after applying element-wise binary op","over":{"base":"Any"},"name":"test_broadcasting_correct"},"guarantee":"test \"broadcastable\" attribute after applying element-wise binary op","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_broadcasting_correct","statement":"Path(test_broadcasting(x), test \"broadcastable\" attribute after applying element-wise binary op)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfd33618c9bdc3a0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_broadcasting","kind":"function","src_hash":"a78de03ca21f5a80","in":{"base":"Any"},"out":{"base":"Any","pred":"comp.broadcastable == bc3"},"spec":{"lhs":"test_broadcasting()","rhs":"<unspecified:test_broadcasting>","over":{"base":"Any"},"name":"test_broadcasting_correct"},"guarantee":"test \"broadcastable\" attribute after applying element-wise binary op","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_broadcasting_correct","statement":"Path(test_broadcasting(x), test \"broadcastable\" attribute after applying element-wise binary op)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfd33618c9bdc3a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_broadcasting():
     """ Test "broadcastable" attribute after applying element-wise binary op. """
 
@@ -468,7 +576,11 @@ def test_broadcasting():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatMul(), test_MatMul produces the expected output) over {Any | isinstance(expr_t.owner.op, Dot)} ║
+# ║ Path(test_MatMul(), isinstance(expr_t.owner.op, Dot) and theq(expr_t, Xt.dot(Yt).dot(Zt))) over {Any | isinstance(expr_t.owner.op, Dot)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(expr_t.owner.op, Dot)               ║
+# ║   ensures:  theq(expr_t, Xt.dot(Yt).dot(Zt))               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_MatMul : {Any | isinstance(expr_t.owner.op, Dot)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -480,9 +592,12 @@ def test_broadcasting():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 42af4946...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_MatMul","kind":"function","src_hash":"565ff0f24d6e9fd9","in":{"base":"Any","pred":"isinstance(expr_t.owner.op, Dot)"},"out":{"base":"Any","pred":"isinstance(expr_t.owner.op, Dot) and theq(expr_t, Xt.dot(Yt).dot(Zt))"},"spec":{"lhs":"test_MatMul()","rhs":"test_MatMul produces the expected output","over":{"base":"Any","pred":"isinstance(expr_t.owner.op, Dot)"},"name":"test_MatMul_correct"},"guarantee":"test_MatMul produces the expected output","fibers":[{"name":"Dot","pred":"isinstance(expr_t.owner.op, Dot)","path":{"lhs":"test_MatMul(x)","rhs":"test_MatMul produces the expected output","over":{"base":"Dot","pred":"isinstance(expr_t.owner.op, Dot)"},"name":"test_MatMul_Dot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_MatMul_Dot_correct","statement":"test_MatMul satisfies spec on Dot inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"42af4946d21c66fd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_MatMul","kind":"function","src_hash":"565ff0f24d6e9fd9","in":{"base":"Any","pred":"isinstance(expr_t.owner.op, Dot)"},"out":{"base":"Any","pred":"result satisfies: isinstance(expr_t.owner.op, Dot) and theq(expr_t, Xt.dot(Yt).dot(Zt))"},"spec":{"lhs":"test_MatMul()","rhs":"isinstance(expr_t.owner.op, Dot) and theq(expr_t, Xt.dot(Yt).dot(Zt))","over":{"base":"Any","pred":"isinstance(expr_t.owner.op, Dot)"},"name":"test_MatMul_correct"},"guarantee":"isinstance(expr_t.owner.op, Dot); theq(expr_t, Xt.dot(Yt).dot(Zt))","fibers":[{"name":"Dot","pred":"isinstance(expr_t.owner.op, Dot)","path":{"lhs":"test_MatMul(x)","rhs":"isinstance(expr_t.owner.op, Dot); theq(expr_t, Xt.dot(Yt).dot(Zt))","over":{"base":"Dot","pred":"isinstance(expr_t.owner.op, Dot)"},"name":"test_MatMul_Dot_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_MatMul_Dot_correct","statement":"test_MatMul satisfies spec on Dot inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"42af4946d21c66fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(expr_t.owner.op, Dot)","theq(expr_t, Xt.dot(Yt).dot(Zt))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"failed","binding":true}}
 def test_MatMul():
     expr = X*Y*Z
     expr_t = aesara_code_(expr)
@@ -490,7 +605,10 @@ def test_MatMul():
     assert theq(expr_t, Xt.dot(Yt).dot(Zt))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Transpose(), test_Transpose produces the expected output) over {Any | isinstance(aesara_code_(X.T).owner.op, DimShuffle)} ║
+# ║ Path(test_Transpose(), isinstance(aesara_code_(X.T).owner.op, DimShuffle)) over {Any | isinstance(aesara_code_(X.T).owner.op, DimShuffle)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(aesara_code_(X.T).owner.op, Di...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Transpose : {Any | isinstance(aesara_code_(X.T)....   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -502,14 +620,20 @@ def test_MatMul():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cfabbfd3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Transpose","kind":"function","src_hash":"e2006b574dbc0f8f","in":{"base":"Any","pred":"isinstance(aesara_code_(X.T).owner.op, DimShuffle)"},"out":{"base":"Any","pred":"isinstance(aesara_code_(X.T).owner.op, DimShuffle)"},"spec":{"lhs":"test_Transpose()","rhs":"test_Transpose produces the expected output","over":{"base":"Any","pred":"isinstance(aesara_code_(X.T).owner.op, DimShuffle)"},"name":"test_Transpose_correct"},"guarantee":"test_Transpose produces the expected output","fibers":[{"name":"DimShuffle","pred":"isinstance(aesara_code_(X.T).owner.op, DimShuffle)","path":{"lhs":"test_Transpose(x)","rhs":"test_Transpose produces the expected output","over":{"base":"DimShuffle","pred":"isinstance(aesara_code_(X.T).owner.op, DimShuffle)"},"name":"test_Transpose_DimShuffle_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Transpose_DimShuffle_correct","statement":"test_Transpose satisfies spec on DimShuffle inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cfabbfd35795961d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Transpose","kind":"function","src_hash":"e2006b574dbc0f8f","in":{"base":"Any","pred":"isinstance(aesara_code_(X.T).owner.op, DimShuffle)"},"out":{"base":"Any","pred":"result satisfies: isinstance(aesara_code_(X.T).owner.op, DimShuffle)"},"spec":{"lhs":"test_Transpose()","rhs":"isinstance(aesara_code_(X.T).owner.op, DimShuffle)","over":{"base":"Any","pred":"isinstance(aesara_code_(X.T).owner.op, DimShuffle)"},"name":"test_Transpose_correct"},"guarantee":"isinstance(aesara_code_(X.T).owner.op, DimShuffle)","fibers":[{"name":"DimShuffle","pred":"isinstance(aesara_code_(X.T).owner.op, DimShuffle)","path":{"lhs":"test_Transpose(x)","rhs":"isinstance(aesara_code_(X.T).owner.op, DimShuffle)","over":{"base":"DimShuffle","pred":"isinstance(aesara_code_(X.T).owner.op, DimShuffle)"},"name":"test_Transpose_DimShuffle_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Transpose_DimShuffle_correct","statement":"test_Transpose satisfies spec on DimShuffle inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cfabbfd35795961d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(aesara_code_(X.T).owner.op, DimShuffle)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def test_Transpose():
     assert isinstance(aesara_code_(X.T).owner.op, DimShuffle)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatAdd(), test_MatAdd produces the expected output) over {Any | isinstance(aesara_code_(expr).owner.op, Elemwise)} ║
+# ║ Path(test_MatAdd(), isinstance(aesara_code_(expr).owner.op, Elemwise)) over {Any | isinstance(aesara_code_(expr).owner.op, Elemwise)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(aesara_code_(expr).owner.op, E...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_MatAdd : {Any | isinstance(aesara_code_(expr).ow...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -521,69 +645,97 @@ def test_Transpose():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e917a259...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_MatAdd","kind":"function","src_hash":"7244ee07bc6cd6a3","in":{"base":"Any","pred":"isinstance(aesara_code_(expr).owner.op, Elemwise)"},"out":{"base":"Any","pred":"isinstance(aesara_code_(expr).owner.op, Elemwise)"},"spec":{"lhs":"test_MatAdd()","rhs":"test_MatAdd produces the expected output","over":{"base":"Any","pred":"isinstance(aesara_code_(expr).owner.op, Elemwise)"},"name":"test_MatAdd_correct"},"guarantee":"test_MatAdd produces the expected output","fibers":[{"name":"Elemwise","pred":"isinstance(aesara_code_(expr).owner.op, Elemwise)","path":{"lhs":"test_MatAdd(x)","rhs":"test_MatAdd produces the expected output","over":{"base":"Elemwise","pred":"isinstance(aesara_code_(expr).owner.op, Elemwise)"},"name":"test_MatAdd_Elemwise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_MatAdd_Elemwise_correct","statement":"test_MatAdd satisfies spec on Elemwise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e917a25981a27a73"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_MatAdd","kind":"function","src_hash":"7244ee07bc6cd6a3","in":{"base":"Any","pred":"isinstance(aesara_code_(expr).owner.op, Elemwise)"},"out":{"base":"Any","pred":"result satisfies: isinstance(aesara_code_(expr).owner.op, Elemwise)"},"spec":{"lhs":"test_MatAdd()","rhs":"isinstance(aesara_code_(expr).owner.op, Elemwise)","over":{"base":"Any","pred":"isinstance(aesara_code_(expr).owner.op, Elemwise)"},"name":"test_MatAdd_correct"},"guarantee":"isinstance(aesara_code_(expr).owner.op, Elemwise)","fibers":[{"name":"Elemwise","pred":"isinstance(aesara_code_(expr).owner.op, Elemwise)","path":{"lhs":"test_MatAdd(x)","rhs":"isinstance(aesara_code_(expr).owner.op, Elemwise)","over":{"base":"Elemwise","pred":"isinstance(aesara_code_(expr).owner.op, Elemwise)"},"name":"test_MatAdd_Elemwise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_MatAdd_Elemwise_correct","statement":"test_MatAdd satisfies spec on Elemwise inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e917a25981a27a73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(aesara_code_(expr).owner.op, Elemwise)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def test_MatAdd():
     expr = X+Y+Z
     assert isinstance(aesara_code_(expr).owner.op, Elemwise)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Rationals(), test_Rationals produces the expected output) over Any ║
+# ║ Path(test_Rationals(), theq(aesara_code_(sy.Integer(2) / 3), true_divide(2, 3)) and theq(aesara_code_(S.Half), true_divide(1, 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Rationals : Any → {Any | theq(aesara_code_(sy.In...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theq(aesara_code_(sy.Integer(2) / 3), tru...   ║
+# ║   ensures:  theq(aesara_code_(S.Half), true_divide(1,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Rationals : Any → {Any | result satisfies: theq(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae36d3b179f90845  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e15d638e883694a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Rationals","kind":"function","src_hash":"0a1e8b73c205cadd","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(aesara_code_(sy.Integer(2) / 3), true_divide(2, 3)) and theq(aesara_code_(S.Half), true_divide(1, 2))"},"spec":{"lhs":"test_Rationals()","rhs":"test_Rationals produces the expected output","over":{"base":"Any"},"name":"test_Rationals_correct"},"guarantee":"test_Rationals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Rationals_correct","statement":"Path(test_Rationals(x), test_Rationals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae36d3b179f90845"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Rationals","kind":"function","src_hash":"0a1e8b73c205cadd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theq(aesara_code_(sy.Integer(2) / 3), true_divide(2, 3)) and theq(aesara_code_(S.Half), true_divide(1, 2))"},"spec":{"lhs":"test_Rationals()","rhs":"theq(aesara_code_(sy.Integer(2) / 3), true_divide(2, 3)) and theq(aesara_code_(S.Half), true_divide(1, 2))","over":{"base":"Any"},"name":"test_Rationals_correct"},"guarantee":"theq(aesara_code_(sy.Integer(2) / 3), true_divide(2, 3)); theq(aesara_code_(S.Half), true_divide(1, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Rationals_correct","statement":"Path(test_Rationals(x), theq(aesara_code_(sy.Integer(2) / 3), true_divide(2, 3)); theq(aesara_code_(S.Half), true_divide(1, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e15d638e883694a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theq(aesara_code_(sy.Integer(2) / 3), true_divide(2, 3))","theq(aesara_code_(S.Half), true_divide(1, 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Rationals():
     assert theq(aesara_code_(sy.Integer(2) / 3), true_divide(2, 3))
     assert theq(aesara_code_(S.Half), true_divide(1, 2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Integers(), test_Integers produces the expected output) over Any ║
+# ║ Path(test_Integers(), aesara_code_(sy.Integer(3)) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Integers : Any → {Any | aesara_code_(sy.Integer(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  aesara_code_(sy.Integer(3)) == 3               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Integers : Any → {Any | result satisfies: aesara...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e0ece442f2c6e4e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d94df53127582c0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Integers","kind":"function","src_hash":"86cbd9704014d22b","in":{"base":"Any"},"out":{"base":"Any","pred":"aesara_code_(sy.Integer(3)) == 3"},"spec":{"lhs":"test_Integers()","rhs":"test_Integers produces the expected output","over":{"base":"Any"},"name":"test_Integers_correct"},"guarantee":"test_Integers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Integers_correct","statement":"Path(test_Integers(x), test_Integers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e0ece442f2c6e4e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Integers","kind":"function","src_hash":"86cbd9704014d22b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: aesara_code_(sy.Integer(3)) == 3"},"spec":{"lhs":"test_Integers()","rhs":"aesara_code_(sy.Integer(3)) == 3","over":{"base":"Any"},"name":"test_Integers_correct"},"guarantee":"aesara_code_(sy.Integer(3)) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Integers_correct","statement":"Path(test_Integers(x), aesara_code_(sy.Integer(3)) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d94df53127582c0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["aesara_code_(sy.Integer(3)) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Integers():
     assert aesara_code_(sy.Integer(3)) == 3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_factorial(), test_factorial produces the expected output) over Any ║
+# ║ Path(test_factorial(), aesara_code_(sy.factorial(n))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_factorial : Any → {Any | aesara_code_(sy.factori...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  aesara_code_(sy.factorial(n))                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_factorial : Any → {Any | result satisfies: aesar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbc3b7104f798027  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec06b0a1dd18b4a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_factorial","kind":"function","src_hash":"b4775d4eb39c0554","in":{"base":"Any"},"out":{"base":"Any","pred":"aesara_code_(sy.factorial(n))"},"spec":{"lhs":"test_factorial()","rhs":"test_factorial produces the expected output","over":{"base":"Any"},"name":"test_factorial_correct"},"guarantee":"test_factorial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_factorial_correct","statement":"Path(test_factorial(x), test_factorial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbc3b7104f798027"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_factorial","kind":"function","src_hash":"b4775d4eb39c0554","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: aesara_code_(sy.factorial(n))"},"spec":{"lhs":"test_factorial()","rhs":"aesara_code_(sy.factorial(n))","over":{"base":"Any"},"name":"test_factorial_correct"},"guarantee":"aesara_code_(sy.factorial(n))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_factorial_correct","statement":"Path(test_factorial(x), aesara_code_(sy.factorial(n)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec06b0a1dd18b4a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["aesara_code_(sy.factorial(n))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_factorial():
     n = sy.Symbol('n')
     assert aesara_code_(sy.factorial(n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Derivative(), test_Derivative produces the expected output) over Any ║
+# ║ Path(test_Derivative(), <unspecified:test_Derivative>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Derivative : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00c740e0ad3dfff8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Derivative","kind":"function","src_hash":"5f73465637430ebd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Derivative()","rhs":"test_Derivative produces the expected output","over":{"base":"Any"},"name":"test_Derivative_correct"},"guarantee":"test_Derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Derivative_correct","statement":"Path(test_Derivative(x), test_Derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00c740e0ad3dfff8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Derivative","kind":"function","src_hash":"5f73465637430ebd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Derivative()","rhs":"<unspecified:test_Derivative>","over":{"base":"Any"},"name":"test_Derivative_correct"},"guarantee":"test_Derivative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Derivative_correct","statement":"Path(test_Derivative(x), test_Derivative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00c740e0ad3dfff8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Derivative():
     with ignore_warnings(UserWarning):
         simp = lambda expr: aesara_simplify(fgraph_of(expr))
@@ -592,32 +744,45 @@ def test_Derivative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_aesara_function_simple(), test aesara_function() with single output) over Any ║
+# ║ Path(test_aesara_function_simple(), f(2, 3) == 5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_aesara_function_simple : Any → {Any | f(2, 3) == 5}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(2, 3) == 5                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_aesara_function_simple : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80bad9201f52e018  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cde6b935d09744ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_simple","kind":"function","src_hash":"f6ee93e980df1512","in":{"base":"Any"},"out":{"base":"Any","pred":"f(2, 3) == 5"},"spec":{"lhs":"test_aesara_function_simple()","rhs":"test aesara_function() with single output","over":{"base":"Any"},"name":"test_aesara_function_simple_correct"},"guarantee":"test aesara_function() with single output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_simple_correct","statement":"Path(test_aesara_function_simple(x), test aesara_function() with single output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80bad9201f52e018"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_simple","kind":"function","src_hash":"f6ee93e980df1512","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(2, 3) == 5"},"spec":{"lhs":"test_aesara_function_simple()","rhs":"f(2, 3) == 5","over":{"base":"Any"},"name":"test_aesara_function_simple_correct"},"guarantee":"f(2, 3) == 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_simple_correct","statement":"Path(test_aesara_function_simple(x), f(2, 3) == 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cde6b935d09744ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(2, 3) == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_aesara_function_simple():
     """ Test aesara_function() with single output. """
     f = aesara_function_([x, y], [x+y])
     assert f(2, 3) == 5
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_aesara_function_multi(), test aesara_function() with multiple outputs) over Any ║
+# ║ Path(test_aesara_function_multi(), o1 == 5 and o2 == -1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_aesara_function_multi : Any → {Any | o1 == 5 and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  o1 == 5                                        ║
+# ║   ensures:  o2 == -1                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_aesara_function_multi : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee40e861c3b245b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec9c3942f1792b92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_multi","kind":"function","src_hash":"58717348d08bbded","in":{"base":"Any"},"out":{"base":"Any","pred":"o1 == 5 and o2 == -1"},"spec":{"lhs":"test_aesara_function_multi()","rhs":"test aesara_function() with multiple outputs","over":{"base":"Any"},"name":"test_aesara_function_multi_correct"},"guarantee":"test aesara_function() with multiple outputs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_multi_correct","statement":"Path(test_aesara_function_multi(x), test aesara_function() with multiple outputs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee40e861c3b245b7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_multi","kind":"function","src_hash":"58717348d08bbded","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: o1 == 5 and o2 == -1"},"spec":{"lhs":"test_aesara_function_multi()","rhs":"o1 == 5 and o2 == -1","over":{"base":"Any"},"name":"test_aesara_function_multi_correct"},"guarantee":"o1 == 5; o2 == -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_multi_correct","statement":"Path(test_aesara_function_multi(x), o1 == 5; o2 == -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec9c3942f1792b92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["o1 == 5","o2 == -1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_aesara_function_multi():
     """ Test aesara_function() with multiple outputs. """
     f = aesara_function_([x, y], [x+y, x-y])
@@ -626,16 +791,23 @@ def test_aesara_function_multi():
     assert o2 == -1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_aesara_function_numpy(), test aesara_function() vs numpy implementation) over Any ║
+# ║ Path(test_aesara_function_numpy(), np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_aesara_function_numpy : Any → {Any | np.linalg.n...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  np.linalg.norm(f([1, 2], [3, 4]) - np.asa...   ║
+# ║   ensures:  np.linalg.norm(f(xx, yy) - 3 * np.arange(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_aesara_function_numpy : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5235cceb57ad2b46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6013342d88b3a0c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_numpy","kind":"function","src_hash":"a2d3713b4031cd93","in":{"base":"Any"},"out":{"base":"Any","pred":"np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09"},"spec":{"lhs":"test_aesara_function_numpy()","rhs":"test aesara_function() vs numpy implementation","over":{"base":"Any"},"name":"test_aesara_function_numpy_correct"},"guarantee":"test aesara_function() vs numpy implementation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_numpy_correct","statement":"Path(test_aesara_function_numpy(x), test aesara_function() vs numpy implementation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5235cceb57ad2b46"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_numpy","kind":"function","src_hash":"a2d3713b4031cd93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09"},"spec":{"lhs":"test_aesara_function_numpy()","rhs":"np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09","over":{"base":"Any"},"name":"test_aesara_function_numpy_correct"},"guarantee":"np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09; np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_numpy_correct","statement":"Path(test_aesara_function_numpy(x), np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09; np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6013342d88b3a0c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["np.linalg.norm(f([1, 2], [3, 4]) - np.asarray([4, 6])) < 1e-09","np.linalg.norm(f(xx, yy) - 3 * np.arange(3)) < 1e-09"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_aesara_function_numpy():
     """ Test aesara_function() vs Numpy implementation. """
     f = aesara_function_([x, y], [x+y], dim=1,
@@ -650,7 +822,10 @@ def test_aesara_function_numpy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_aesara_function_matrix(), test_aesara_function_matrix produces the expected output) over {Any | isinstance(f(1.0, 2.0, 3.0), type([]))} ║
+# ║ Path(test_aesara_function_matrix(), isinstance(f(1.0, 2.0, 3.0), type([]))) over {Any | isinstance(f(1.0, 2.0, 3.0), type([]))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(f(1.0, 2.0, 3.0), type([]))         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_aesara_function_matrix : {Any | isinstance(f(1.0...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -662,9 +837,12 @@ def test_aesara_function_numpy():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b88d5379...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_matrix","kind":"function","src_hash":"9a1521723d9ea046","in":{"base":"Any","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"out":{"base":"Any","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"spec":{"lhs":"test_aesara_function_matrix()","rhs":"test_aesara_function_matrix produces the expected output","over":{"base":"Any","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"name":"test_aesara_function_matrix_correct"},"guarantee":"test_aesara_function_matrix produces the expected output","fibers":[{"name":"2_0","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))","path":{"lhs":"test_aesara_function_matrix(x)","rhs":"test_aesara_function_matrix produces the expected output","over":{"base":"2.0","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"name":"test_aesara_function_matrix_2.0_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_matrix_2.0_correct","statement":"test_aesara_function_matrix satisfies spec on 2.0 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b88d53797519285c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_matrix","kind":"function","src_hash":"9a1521723d9ea046","in":{"base":"Any","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"out":{"base":"Any","pred":"result satisfies: isinstance(f(1.0, 2.0, 3.0), type([]))"},"spec":{"lhs":"test_aesara_function_matrix()","rhs":"isinstance(f(1.0, 2.0, 3.0), type([]))","over":{"base":"Any","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"name":"test_aesara_function_matrix_correct"},"guarantee":"isinstance(f(1.0, 2.0, 3.0), type([]))","fibers":[{"name":"2_0","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))","path":{"lhs":"test_aesara_function_matrix(x)","rhs":"isinstance(f(1.0, 2.0, 3.0), type([]))","over":{"base":"2.0","pred":"isinstance(f(1.0, 2.0, 3.0), type([]))"},"name":"test_aesara_function_matrix_2.0_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_matrix_2.0_correct","statement":"test_aesara_function_matrix satisfies spec on 2.0 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b88d53797519285c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(f(1.0, 2.0, 3.0), type([]))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"failed","binding":true}}
 def test_aesara_function_matrix():
     m = sy.Matrix([[x, y], [z, x + y + z]])
     expected = np.array([[1.0, 2.0], [3.0, 1.0 + 2.0 + 3.0]])
@@ -678,16 +856,24 @@ def test_aesara_function_matrix():
     np.testing.assert_allclose(f(1.0, 2.0, 3.0)[1], expected)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dim_handling(), test_dim_handling produces the expected output) over Any ║
+# ║ Path(test_dim_handling(), dim_handling([x], dim=2) == {x: (False, False)} and dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True), y: (False, False)} and dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dim_handling : Any → {Any | dim_handling([x], di...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dim_handling([x], dim=2) == {x: (False, F...   ║
+# ║   ensures:  dim_handling([x, y], dims={x: 1, y: 2}) =...   ║
+# ║   ensures:  dim_handling([x], broadcastables={x: (Fal...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dim_handling : Any → {Any | result satisfies: di...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | edc88cd6fa97efc2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80311750db268a22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_dim_handling","kind":"function","src_hash":"a9c641a05c58dd2f","in":{"base":"Any"},"out":{"base":"Any","pred":"dim_handling([x], dim=2) == {x: (False, False)} and dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}"},"spec":{"lhs":"test_dim_handling()","rhs":"test_dim_handling produces the expected output","over":{"base":"Any"},"name":"test_dim_handling_correct"},"guarantee":"test_dim_handling produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_dim_handling_correct","statement":"Path(test_dim_handling(x), test_dim_handling produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"edc88cd6fa97efc2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_dim_handling","kind":"function","src_hash":"a9c641a05c58dd2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dim_handling([x], dim=2) == {x: (False, False)} and dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True), y: (False, False)} and dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}"},"spec":{"lhs":"test_dim_handling()","rhs":"dim_handling([x], dim=2) == {x: (False, False)} and dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True), y: (False, False)} and dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}","over":{"base":"Any"},"name":"test_dim_handling_correct"},"guarantee":"dim_handling([x], dim=2) == {x: (False, False)}; dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True), y: (False, False)}; dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_dim_handling_correct","statement":"Path(test_dim_handling(x), dim_handling([x], dim=2) == {x: (False, False)}; dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True), y: (False, False)}; dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80311750db268a22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dim_handling([x], dim=2) == {x: (False, False)}","dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True), y: (False, False)}","dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dim_handling():
     assert dim_handling([x], dim=2) == {x: (False, False)}
     assert dim_handling([x, y], dims={x: 1, y: 2}) == {x: (False, True),
@@ -695,16 +881,23 @@ def test_dim_handling():
     assert dim_handling([x], broadcastables={x: (False,)}) == {x: (False,)}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_aesara_function_kwargs(), test passing additional kwargs from aesara_function() to aesara.function()) over Any ║
+# ║ Path(test_aesara_function_kwargs(), np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_aesara_function_kwargs : Any → {Any | np.linalg....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  np.linalg.norm(f([1, 2], [3, 4], [0, 0]) ...   ║
+# ║   ensures:  np.linalg.norm(f(xx, yy, zz) - 3 * np.ara...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_aesara_function_kwargs : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   numpy.__module__                                         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 91331b9c869b...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 75e3b22b2c1c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_kwargs","kind":"function","src_hash":"c9ae421b19aa5c93","in":{"base":"Any"},"out":{"base":"Any","pred":"np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09"},"spec":{"lhs":"test_aesara_function_kwargs()","rhs":"test passing additional kwargs from aesara_function() to aesara.function()","over":{"base":"Any"},"name":"test_aesara_function_kwargs_correct"},"guarantee":"test passing additional kwargs from aesara_function() to aesara.function()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_kwargs_correct","statement":"Path(test_aesara_function_kwargs(x), test passing additional kwargs from aesara_function() to aesara.function())"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"91331b9c869b83cb"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_kwargs","kind":"function","src_hash":"c9ae421b19aa5c93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09"},"spec":{"lhs":"test_aesara_function_kwargs()","rhs":"np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09 and np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09","over":{"base":"Any"},"name":"test_aesara_function_kwargs_correct"},"guarantee":"np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09; np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_kwargs_correct","statement":"Path(test_aesara_function_kwargs(x), np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09; np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09)"},"assumes":[],"trust":["numpy.__module__"],"compiled":true,"vhash":"75e3b22b2c1c1a82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["np.linalg.norm(f([1, 2], [3, 4], [0, 0]) - np.asarray([4, 6])) < 1e-09","np.linalg.norm(f(xx, yy, zz) - 3 * np.arange(3)) < 1e-09"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_aesara_function_kwargs():
     """
     Test passing additional kwargs from aesara_function() to aesara.function().
@@ -723,7 +916,10 @@ def test_aesara_function_kwargs():
     assert np.linalg.norm(f(xx, yy, zz) - 3*np.arange(3)) < 1e-9
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_aesara_function_scalar(), test the "scalar" argument to aesara_function()) over {Any | isinstance(f.aesara_function, Function) and isinstance(out_values, list) and isinstance(value, np.number)} ║
+# ║ Path(test_aesara_function_scalar(), <unspecified:test_aesara_function_scalar>) over {Any | isinstance(f.aesara_function, Function) and isinstance(out_values, list) and isinstance(value, np.number)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_aesara_function_scalar : {Any | isinstance(f.aes...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -738,9 +934,12 @@ def test_aesara_function_kwargs():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?4 ✗6 VCs | 6.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | aa74daff...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_scalar","kind":"function","src_hash":"1bb2748264559b45","in":{"base":"Any","pred":"isinstance(f.aesara_function, Function) and isinstance(out_values, list) and isinstance(value, np.number)"},"out":{"base":"Any","pred":"isinstance(f.aesara_function, Function) and len(out_dims) == len(out_values) and isinstance(value, np.number) and isinstance(value, np.ndarray) and value.ndim == d"},"spec":{"lhs":"test_aesara_function_scalar()","rhs":"test the \"scalar\" argument to aesara_function()","over":{"base":"Any","pred":"isinstance(f.aesara_function, Function) and isinstance(out_values, list) and isinstance(value, np.number)"},"name":"test_aesara_function_scalar_correct"},"guarantee":"test the \"scalar\" argument to aesara_function()","fibers":[{"name":"Function","pred":"isinstance(f.aesara_function, Function)","path":{"lhs":"test_aesara_function_scalar(x)","rhs":"test the \"scalar\" argument to aesara_function()","over":{"base":"Function","pred":"isinstance(f.aesara_function, Function)"},"name":"test_aesara_function_scalar_Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_scalar_Function_correct","statement":"test_aesara_function_scalar satisfies spec on Function inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(out_values, list)","path":{"lhs":"test_aesara_function_scalar(x)","rhs":"test the \"scalar\" argument to aesara_function()","over":{"base":"list","pred":"isinstance(out_values, list)"},"name":"test_aesara_function_scalar_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_scalar_list_correct","statement":"test_aesara_function_scalar satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"np_number","pred":"isinstance(value, np.number)","path":{"lhs":"test_aesara_function_scalar(x)","rhs":"test the \"scalar\" argument to aesara_function()","over":{"base":"np.number","pred":"isinstance(value, np.number)"},"name":"test_aesara_function_scalar_np.number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_scalar_np.number_correct","statement":"test_aesara_function_scalar satisfies spec on np.number inputs"},"trust":"LIBRARY"},{"name":"np_ndarray","pred":"isinstance(value, np.ndarray)","path":{"lhs":"test_aesara_function_scalar(x)","rhs":"test the \"scalar\" argument to aesara_function()","over":{"base":"np.ndarray","pred":"isinstance(value, np.ndarray)"},"name":"test_aesara_function_scalar_np.ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_scalar_np.ndarray_correct","statement":"test_aesara_function_scalar satisfies spec on np.ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aa74daff998a7989"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_scalar","kind":"function","src_hash":"1bb2748264559b45","in":{"base":"Any","pred":"isinstance(f.aesara_function, Function) and isinstance(out_values, list) and isinstance(value, np.number)"},"out":{"base":"Any","pred":"isinstance(f.aesara_function, Function) and len(out_dims) == len(out_values) and isinstance(value, np.number) and isinstance(value, np.ndarray) and value.ndim == d"},"spec":{"lhs":"test_aesara_function_scalar()","rhs":"<unspecified:test_aesara_function_scalar>","over":{"base":"Any","pred":"isinstance(f.aesara_function, Function) and isinstance(out_values, list) and isinstance(value, np.number)"},"name":"test_aesara_function_scalar_correct"},"guarantee":"test the \"scalar\" argument to aesara_function()","fibers":[{"name":"Function","pred":"isinstance(f.aesara_function, Function)","path":{"lhs":"test_aesara_function_scalar(x)","rhs":"test the \"scalar\" argument to aesara_function()","over":{"base":"Function","pred":"isinstance(f.aesara_function, Function)"},"name":"test_aesara_function_scalar_Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_scalar_Function_correct","statement":"test_aesara_function_scalar satisfies spec on Function inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(out_values, list)","path":{"lhs":"test_aesara_function_scalar(x)","rhs":"test the \"scalar\" argument to aesara_function()","over":{"base":"list","pred":"isinstance(out_values, list)"},"name":"test_aesara_function_scalar_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_scalar_list_correct","statement":"test_aesara_function_scalar satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"np_number","pred":"isinstance(value, np.number)","path":{"lhs":"test_aesara_function_scalar(x)","rhs":"test the \"scalar\" argument to aesara_function()","over":{"base":"np.number","pred":"isinstance(value, np.number)"},"name":"test_aesara_function_scalar_np.number_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_scalar_np.number_correct","statement":"test_aesara_function_scalar satisfies spec on np.number inputs"},"trust":"LIBRARY"},{"name":"np_ndarray","pred":"isinstance(value, np.ndarray)","path":{"lhs":"test_aesara_function_scalar(x)","rhs":"test the \"scalar\" argument to aesara_function()","over":{"base":"np.ndarray","pred":"isinstance(value, np.ndarray)"},"name":"test_aesara_function_scalar_np.ndarray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_scalar_np.ndarray_correct","statement":"test_aesara_function_scalar satisfies spec on np.ndarray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aa74daff998a7989","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":2,"n_assumed":4,"n_failed":6,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'scalar and d == 0', 'not isinstance(out_values, list)'}, fibers={'np_number', 'Function', 'np_ndarray', 'list'})"]}}
 def test_aesara_function_scalar():
     """ Test the "scalar" argument to aesara_function(). """
     from aesara.compile.function.types import Function
@@ -785,16 +984,22 @@ def test_aesara_function_scalar():
                     assert value.ndim == d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_aesara_function_bad_kwarg(), passing an unknown keyword argument to aesara_function() should raise an exception) over Any ║
+# ║ Path(test_aesara_function_bad_kwarg(), <unspecified:test_aesara_function_bad_kwarg>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_aesara_function_bad_kwarg : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 312ac64b0682413c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_bad_kwarg","kind":"function","src_hash":"1cd28e422e492b9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_aesara_function_bad_kwarg()","rhs":"passing an unknown keyword argument to aesara_function() should raise an exception","over":{"base":"Any"},"name":"test_aesara_function_bad_kwarg_correct"},"guarantee":"passing an unknown keyword argument to aesara_function() should raise an exception","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_bad_kwarg_correct","statement":"Path(test_aesara_function_bad_kwarg(x), passing an unknown keyword argument to aesara_function() should raise an exception)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"312ac64b0682413c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_aesara_function_bad_kwarg","kind":"function","src_hash":"1cd28e422e492b9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_aesara_function_bad_kwarg()","rhs":"<unspecified:test_aesara_function_bad_kwarg>","over":{"base":"Any"},"name":"test_aesara_function_bad_kwarg_correct"},"guarantee":"passing an unknown keyword argument to aesara_function() should raise an exception","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_aesara_function_bad_kwarg_correct","statement":"Path(test_aesara_function_bad_kwarg(x), passing an unknown keyword argument to aesara_function() should raise an exception)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"312ac64b0682413c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_aesara_function_bad_kwarg():
     """
     Passing an unknown keyword argument to aesara_function() should raise an
@@ -804,16 +1009,24 @@ def test_aesara_function_bad_kwarg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_slice(), test_slice produces the expected output) over Any ║
+# ║ Path(test_slice(), aesara_code_(slice(1, 2, 3)) == slice(1, 2, 3) and theq_slice(aesara_code_(slice(x, y), dtypes=dtypes), slice(xt, yt)) and theq_slice(aesara_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_slice : Any → {Any | aesara_code_(slice(1, 2, 3)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  aesara_code_(slice(1, 2, 3)) == slice(1, ...   ║
+# ║   ensures:  theq_slice(aesara_code_(slice(x, y), dtyp...   ║
+# ║   ensures:  theq_slice(aesara_code_(slice(1, x, 3), d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_slice : Any → {Any | result satisfies: aesara_co...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad666d42eec2ae4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b29b481df6043090  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_slice","kind":"function","src_hash":"e6c959543deff68e","in":{"base":"Any"},"out":{"base":"Any","pred":"aesara_code_(slice(1, 2, 3)) == slice(1, 2, 3) and theq_slice(aesara_code_(slice(x, y), dtypes=dtypes), slice(xt, yt)) and theq_slice(aesara_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))"},"spec":{"lhs":"test_slice()","rhs":"test_slice produces the expected output","over":{"base":"Any"},"name":"test_slice_correct"},"guarantee":"test_slice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_slice_correct","statement":"Path(test_slice(x), test_slice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad666d42eec2ae4b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_slice","kind":"function","src_hash":"e6c959543deff68e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: aesara_code_(slice(1, 2, 3)) == slice(1, 2, 3) and theq_slice(aesara_code_(slice(x, y), dtypes=dtypes), slice(xt, yt)) and theq_slice(aesara_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))"},"spec":{"lhs":"test_slice()","rhs":"aesara_code_(slice(1, 2, 3)) == slice(1, 2, 3) and theq_slice(aesara_code_(slice(x, y), dtypes=dtypes), slice(xt, yt)) and theq_slice(aesara_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))","over":{"base":"Any"},"name":"test_slice_correct"},"guarantee":"aesara_code_(slice(1, 2, 3)) == slice(1, 2, 3); theq_slice(aesara_code_(slice(x, y), dtypes=dtypes), slice(xt, yt)); theq_slice(aesara_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_slice_correct","statement":"Path(test_slice(x), aesara_code_(slice(1, 2, 3)) == slice(1, 2, 3); theq_slice(aesara_code_(slice(x, y), dtypes=dtypes), slice(xt, yt)); theq_slice(aesara_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b29b481df6043090","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["aesara_code_(slice(1, 2, 3)) == slice(1, 2, 3)","theq_slice(aesara_code_(slice(x, y), dtypes=dtypes), slice(xt, yt))","theq_slice(aesara_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_slice():
     assert aesara_code_(slice(1, 2, 3)) == slice(1, 2, 3)
 
@@ -833,16 +1046,24 @@ def test_slice():
     assert theq_slice(aesara_code_(slice(1, x, 3), dtypes=dtypes), slice(1, xt, 3))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSlice(), test_MatrixSlice produces the expected output) over Any ║
+# ║ Path(test_MatrixSlice(), tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s)) and Yt.owner.inputs[0] == aesara_code_(X, cache=cache) and all((Yt.owner.inputs[i].data == i for i in range(1, 7)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixSlice : Any → {Any | tuple(Yt.owner.op.idx...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tuple(Yt.owner.op.idx_list) == (slice(s, ...   ║
+# ║   ensures:  Yt.owner.inputs[0] == aesara_code_(X, cac...   ║
+# ║   ensures:  all((Yt.owner.inputs[i].data == i for i i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixSlice : Any → {Any | result satisfies: tup...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dec1d12be010bf74  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 835a6f6b517abae3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_MatrixSlice","kind":"function","src_hash":"c2072148df4350e9","in":{"base":"Any"},"out":{"base":"Any","pred":"tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s)) and Yt.owner.inputs[0] == aesara_code_(X, cache=cache) and all((Yt.owner.inputs[i].data == i for i in range(1, 7)))"},"spec":{"lhs":"test_MatrixSlice()","rhs":"test_MatrixSlice produces the expected output","over":{"base":"Any"},"name":"test_MatrixSlice_correct"},"guarantee":"test_MatrixSlice produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_MatrixSlice_correct","statement":"Path(test_MatrixSlice(x), test_MatrixSlice produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dec1d12be010bf74"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_MatrixSlice","kind":"function","src_hash":"c2072148df4350e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s)) and Yt.owner.inputs[0] == aesara_code_(X, cache=cache) and all((Yt.owner.inputs[i].data == i for i in range(1, 7)))"},"spec":{"lhs":"test_MatrixSlice()","rhs":"tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s)) and Yt.owner.inputs[0] == aesara_code_(X, cache=cache) and all((Yt.owner.inputs[i].data == i for i in range(1, 7)))","over":{"base":"Any"},"name":"test_MatrixSlice_correct"},"guarantee":"tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s)); Yt.owner.inputs[0] == aesara_code_(X, cache=cache); all((Yt.owner.inputs[i].data == i for i in range(1, 7)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_MatrixSlice_correct","statement":"Path(test_MatrixSlice(x), tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s)); Yt.owner.inputs[0] == aesara_code_(X, cache=cache); all((Yt.owner.inputs[i].data == i for i in range(1, 7))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"835a6f6b517abae3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tuple(Yt.owner.op.idx_list) == (slice(s, s, s), slice(s, s, s))","Yt.owner.inputs[0] == aesara_code_(X, cache=cache)","all((Yt.owner.inputs[i].data == i for i in range(1, 7)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_MatrixSlice():
     cache = {}
 
@@ -867,16 +1088,22 @@ def test_MatrixSlice():
     # assert Yt.owner.op.idx_list[0].stop == kt
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockMatrix(), test_BlockMatrix produces the expected output) over Any ║
+# ║ Path(test_BlockMatrix(), any((theq(Blockt, solution) for solution in solutions))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_BlockMatrix : Any → {Any | any((theq(Blockt, sol...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  any((theq(Blockt, solution) for solution ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_BlockMatrix : Any → {Any | result satisfies: any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbacae9d5700256b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ef3f36d1219ae47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_BlockMatrix","kind":"function","src_hash":"ce03c8d6f521b3d1","in":{"base":"Any"},"out":{"base":"Any","pred":"any((theq(Blockt, solution) for solution in solutions))"},"spec":{"lhs":"test_BlockMatrix()","rhs":"test_BlockMatrix produces the expected output","over":{"base":"Any"},"name":"test_BlockMatrix_correct"},"guarantee":"test_BlockMatrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_BlockMatrix_correct","statement":"Path(test_BlockMatrix(x), test_BlockMatrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbacae9d5700256b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_BlockMatrix","kind":"function","src_hash":"ce03c8d6f521b3d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: any((theq(Blockt, solution) for solution in solutions))"},"spec":{"lhs":"test_BlockMatrix()","rhs":"any((theq(Blockt, solution) for solution in solutions))","over":{"base":"Any"},"name":"test_BlockMatrix_correct"},"guarantee":"any((theq(Blockt, solution) for solution in solutions))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_BlockMatrix_correct","statement":"Path(test_BlockMatrix(x), any((theq(Blockt, solution) for solution in solutions)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ef3f36d1219ae47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["any((theq(Blockt, solution) for solution in solutions))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_BlockMatrix():
     n = sy.Symbol('n', integer=True)
     A, B, C, D = [sy.MatrixSymbol(name, n, n) for name in 'ABCD']
@@ -889,16 +1116,22 @@ def test_BlockMatrix():
 
 @SKIP
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_BlockMatrix_Inverse_execution(), test_BlockMatrix_Inverse_execution produces the expected output) over Any ║
+# ║ Path(test_BlockMatrix_Inverse_execution(), np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_BlockMatrix_Inverse_execution : Any → {Any | np....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  np.allclose(f(*ninputs), fblocked(*ninput...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_BlockMatrix_Inverse_execution : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ff6c081670a62f5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 498718b2257c7485  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_BlockMatrix_Inverse_execution","kind":"function","src_hash":"e53aebafc82a437d","in":{"base":"Any"},"out":{"base":"Any","pred":"np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05)"},"spec":{"lhs":"test_BlockMatrix_Inverse_execution()","rhs":"test_BlockMatrix_Inverse_execution produces the expected output","over":{"base":"Any"},"name":"test_BlockMatrix_Inverse_execution_correct"},"guarantee":"test_BlockMatrix_Inverse_execution produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_BlockMatrix_Inverse_execution_correct","statement":"Path(test_BlockMatrix_Inverse_execution(x), test_BlockMatrix_Inverse_execution produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ff6c081670a62f5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_BlockMatrix_Inverse_execution","kind":"function","src_hash":"e53aebafc82a437d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05)"},"spec":{"lhs":"test_BlockMatrix_Inverse_execution()","rhs":"np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05)","over":{"base":"Any"},"name":"test_BlockMatrix_Inverse_execution_correct"},"guarantee":"np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_BlockMatrix_Inverse_execution_correct","statement":"Path(test_BlockMatrix_Inverse_execution(x), np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"498718b2257c7485","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-05)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_BlockMatrix_Inverse_execution():
     k, n = 2, 4
     dtype = 'float32'
@@ -925,7 +1158,10 @@ def test_BlockMatrix_Inverse_execution():
     assert np.allclose(f(*ninputs), fblocked(*ninputs), rtol=1e-5)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DenseMatrix(), test_DenseMatrix produces the expected output) over {Any | isinstance(tX, TensorVariable) and isinstance(tX.owner.op, Join)} ║
+# ║ Path(test_DenseMatrix(), <unspecified:test_DenseMatrix>) over {Any | isinstance(tX, TensorVariable) and isinstance(tX.owner.op, Join)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DenseMatrix : {Any | isinstance(tX, TensorVariab...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -938,9 +1174,12 @@ def test_BlockMatrix_Inverse_execution():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c7c5fce6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_DenseMatrix","kind":"function","src_hash":"c1b62c19158d0020","in":{"base":"Any","pred":"isinstance(tX, TensorVariable) and isinstance(tX.owner.op, Join)"},"out":{"base":"Any","pred":"isinstance(tX, TensorVariable) and isinstance(tX.owner.op, Join)"},"spec":{"lhs":"test_DenseMatrix()","rhs":"test_DenseMatrix produces the expected output","over":{"base":"Any","pred":"isinstance(tX, TensorVariable) and isinstance(tX.owner.op, Join)"},"name":"test_DenseMatrix_correct"},"guarantee":"test_DenseMatrix produces the expected output","fibers":[{"name":"TensorVariable","pred":"isinstance(tX, TensorVariable)","path":{"lhs":"test_DenseMatrix(x)","rhs":"test_DenseMatrix produces the expected output","over":{"base":"TensorVariable","pred":"isinstance(tX, TensorVariable)"},"name":"test_DenseMatrix_TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_DenseMatrix_TensorVariable_correct","statement":"test_DenseMatrix satisfies spec on TensorVariable inputs"},"trust":"LIBRARY"},{"name":"Join","pred":"isinstance(tX.owner.op, Join)","path":{"lhs":"test_DenseMatrix(x)","rhs":"test_DenseMatrix produces the expected output","over":{"base":"Join","pred":"isinstance(tX.owner.op, Join)"},"name":"test_DenseMatrix_Join_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_DenseMatrix_Join_correct","statement":"test_DenseMatrix satisfies spec on Join inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c7c5fce648bde981"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_DenseMatrix","kind":"function","src_hash":"c1b62c19158d0020","in":{"base":"Any","pred":"isinstance(tX, TensorVariable) and isinstance(tX.owner.op, Join)"},"out":{"base":"Any","pred":"isinstance(tX, TensorVariable) and isinstance(tX.owner.op, Join)"},"spec":{"lhs":"test_DenseMatrix()","rhs":"<unspecified:test_DenseMatrix>","over":{"base":"Any","pred":"isinstance(tX, TensorVariable) and isinstance(tX.owner.op, Join)"},"name":"test_DenseMatrix_correct"},"guarantee":"test_DenseMatrix produces the expected output","fibers":[{"name":"TensorVariable","pred":"isinstance(tX, TensorVariable)","path":{"lhs":"test_DenseMatrix(x)","rhs":"test_DenseMatrix produces the expected output","over":{"base":"TensorVariable","pred":"isinstance(tX, TensorVariable)"},"name":"test_DenseMatrix_TensorVariable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_DenseMatrix_TensorVariable_correct","statement":"test_DenseMatrix satisfies spec on TensorVariable inputs"},"trust":"LIBRARY"},{"name":"Join","pred":"isinstance(tX.owner.op, Join)","path":{"lhs":"test_DenseMatrix(x)","rhs":"test_DenseMatrix produces the expected output","over":{"base":"Join","pred":"isinstance(tX.owner.op, Join)"},"name":"test_DenseMatrix_Join_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_DenseMatrix_Join_correct","statement":"test_DenseMatrix satisfies spec on Join inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c7c5fce648bde981","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":true}}
 def test_DenseMatrix():
     from aesara.tensor.basic import Join
 
@@ -953,16 +1192,22 @@ def test_DenseMatrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cache_basic(), test single symbol-like objects are cached when printed by themselves) over Any ║
+# ║ Path(test_cache_basic(), <unspecified:test_cache_basic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_cache_basic : Any → {Any | aesara_code_(s1, cach...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e008019056a26be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_cache_basic","kind":"function","src_hash":"c75bf2057e7536de","in":{"base":"Any"},"out":{"base":"Any","pred":"aesara_code_(s1, cache=cache) is st and aesara_code_(s1, cache={}) is not st and aesara_code_(s2, cache=cache) is st"},"spec":{"lhs":"test_cache_basic()","rhs":"test single symbol-like objects are cached when printed by themselves","over":{"base":"Any"},"name":"test_cache_basic_correct"},"guarantee":"test single symbol-like objects are cached when printed by themselves","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_cache_basic_correct","statement":"Path(test_cache_basic(x), test single symbol-like objects are cached when printed by themselves)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e008019056a26be"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_cache_basic","kind":"function","src_hash":"c75bf2057e7536de","in":{"base":"Any"},"out":{"base":"Any","pred":"aesara_code_(s1, cache=cache) is st and aesara_code_(s1, cache={}) is not st and aesara_code_(s2, cache=cache) is st"},"spec":{"lhs":"test_cache_basic()","rhs":"<unspecified:test_cache_basic>","over":{"base":"Any"},"name":"test_cache_basic_correct"},"guarantee":"test single symbol-like objects are cached when printed by themselves","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_cache_basic_correct","statement":"Path(test_cache_basic(x), test single symbol-like objects are cached when printed by themselves)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e008019056a26be","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cache_basic():
     """ Test single symbol-like objects are cached when printed by themselves. """
 
@@ -987,16 +1232,22 @@ def test_cache_basic():
         assert aesara_code_(s2, cache=cache) is st
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_global_cache(), test use of the global cache) over Any ║
+# ║ Path(test_global_cache(), <unspecified:test_global_cache>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_global_cache : Any → {Any | aesara_code(s) is st}     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64d51fb71c1f21ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_global_cache","kind":"function","src_hash":"7330dcb87ffdf9bb","in":{"base":"Any"},"out":{"base":"Any","pred":"aesara_code(s) is st"},"spec":{"lhs":"test_global_cache()","rhs":"test use of the global cache","over":{"base":"Any"},"name":"test_global_cache_correct"},"guarantee":"test use of the global cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_global_cache_correct","statement":"Path(test_global_cache(x), test use of the global cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64d51fb71c1f21ac"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_global_cache","kind":"function","src_hash":"7330dcb87ffdf9bb","in":{"base":"Any"},"out":{"base":"Any","pred":"aesara_code(s) is st"},"spec":{"lhs":"test_global_cache()","rhs":"<unspecified:test_global_cache>","over":{"base":"Any"},"name":"test_global_cache_correct"},"guarantee":"test use of the global cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_global_cache_correct","statement":"Path(test_global_cache(x), test use of the global cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64d51fb71c1f21ac","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_global_cache():
     """ Test use of the global cache. """
     from sympy.printing.aesaracode import global_cache
@@ -1016,16 +1267,22 @@ def test_global_cache():
         global_cache.update(backup)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cache_types_distinct(), test that symbol-like objects of different types (symbol, matrixsymbol, appliedundef) are distinguished by the cache even if they have the same name) over Any ║
+# ║ Path(test_cache_types_distinct(), len(set(map(id, printed.values()))) == len(symbols)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cache_types_distinct : Any → {Any | len(set(map(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(set(map(id, printed.values()))) == le...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cache_types_distinct : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c218128d0b7e5ecd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28fa375a0f97e90d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_cache_types_distinct","kind":"function","src_hash":"6d84bb262cf8416a","in":{"base":"Any"},"out":{"base":"Any","pred":"len(set(map(id, printed.values()))) == len(symbols) and st not in printed.values() and aesara_code(s, cache=cache) is st"},"spec":{"lhs":"test_cache_types_distinct()","rhs":"test that symbol-like objects of different types (symbol, matrixsymbol, appliedundef) are distinguished by the cache even if they have the same name","over":{"base":"Any"},"name":"test_cache_types_distinct_correct"},"guarantee":"test that symbol-like objects of different types (symbol, matrixsymbol, appliedundef) are distinguished by the cache even if they have the same name","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_cache_types_distinct_correct","statement":"Path(test_cache_types_distinct(x), test that symbol-like objects of different types (symbol, matrixsymbol, appliedundef) are distinguished by the cache even if they have the same name)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c218128d0b7e5ecd"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_cache_types_distinct","kind":"function","src_hash":"6d84bb262cf8416a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(set(map(id, printed.values()))) == len(symbols)"},"spec":{"lhs":"test_cache_types_distinct()","rhs":"len(set(map(id, printed.values()))) == len(symbols)","over":{"base":"Any"},"name":"test_cache_types_distinct_correct"},"guarantee":"len(set(map(id, printed.values()))) == len(symbols)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_cache_types_distinct_correct","statement":"Path(test_cache_types_distinct(x), len(set(map(id, printed.values()))) == len(symbols))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28fa375a0f97e90d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(set(map(id, printed.values()))) == len(symbols)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_cache_types_distinct():
     """
     Test that symbol-like objects of different types (Symbol, MatrixSymbol,
@@ -1051,16 +1308,23 @@ def test_cache_types_distinct():
             assert aesara_code(s, cache=cache) is st
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbols_are_created_once(), test that a symbol is cached and reused when it appears in an expression more than once) over Any ║
+# ║ Path(test_symbols_are_created_once(), theq(comp, xt + xt) and not theq(comp, xt + aesara_code_(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_symbols_are_created_once : Any → {Any | theq(com...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theq(comp, xt + xt)                            ║
+# ║   ensures:  not theq(comp, xt + aesara_code_(x))           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_symbols_are_created_once : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58acc44f4df9524c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f11f4114929f5982  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_symbols_are_created_once","kind":"function","src_hash":"fa97998d4b282426","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(comp, xt + xt) and not theq(comp, xt + aesara_code_(x))"},"spec":{"lhs":"test_symbols_are_created_once()","rhs":"test that a symbol is cached and reused when it appears in an expression more than once","over":{"base":"Any"},"name":"test_symbols_are_created_once_correct"},"guarantee":"test that a symbol is cached and reused when it appears in an expression more than once","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_symbols_are_created_once_correct","statement":"Path(test_symbols_are_created_once(x), test that a symbol is cached and reused when it appears in an expression more than once)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58acc44f4df9524c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_symbols_are_created_once","kind":"function","src_hash":"fa97998d4b282426","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theq(comp, xt + xt) and not theq(comp, xt + aesara_code_(x))"},"spec":{"lhs":"test_symbols_are_created_once()","rhs":"theq(comp, xt + xt) and not theq(comp, xt + aesara_code_(x))","over":{"base":"Any"},"name":"test_symbols_are_created_once_correct"},"guarantee":"theq(comp, xt + xt); not theq(comp, xt + aesara_code_(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_symbols_are_created_once_correct","statement":"Path(test_symbols_are_created_once(x), theq(comp, xt + xt); not theq(comp, xt + aesara_code_(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f11f4114929f5982","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theq(comp, xt + xt)","not theq(comp, xt + aesara_code_(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_symbols_are_created_once():
     """
     Test that a symbol is cached and reused when it appears in an expression
@@ -1073,7 +1337,10 @@ def test_symbols_are_created_once():
     assert not theq(comp, xt + aesara_code_(x))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cache_complex(), test caching on a complicated expression with multiple symbols appearing multiple times) over {Any | isinstance(v, aesara.graph.basic.Constant)} ║
+# ║ Path(test_cache_complex(), seen == symbol_names) over {Any | isinstance(v, aesara.graph.basic.Constant)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  seen == symbol_names                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_cache_complex : {Any | isinstance(v, aesara.grap...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1085,9 +1352,12 @@ def test_symbols_are_created_once():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c036caf9...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_cache_complex","kind":"function","src_hash":"9d7d8a1d884424e5","in":{"base":"Any","pred":"isinstance(v, aesara.graph.basic.Constant)"},"out":{"base":"Any","pred":"seen == symbol_names and v.name in symbol_names and v.name not in seen"},"spec":{"lhs":"test_cache_complex()","rhs":"test caching on a complicated expression with multiple symbols appearing multiple times","over":{"base":"Any","pred":"isinstance(v, aesara.graph.basic.Constant)"},"name":"test_cache_complex_correct"},"guarantee":"test caching on a complicated expression with multiple symbols appearing multiple times","fibers":[{"name":"aesara_graph_basic_Constant","pred":"isinstance(v, aesara.graph.basic.Constant)","path":{"lhs":"test_cache_complex(x)","rhs":"test caching on a complicated expression with multiple symbols appearing multiple times","over":{"base":"aesara.graph.basic.Constant","pred":"isinstance(v, aesara.graph.basic.Constant)"},"name":"test_cache_complex_aesara.graph.basic.Constant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_cache_complex_aesara.graph.basic.Constant_correct","statement":"test_cache_complex satisfies spec on aesara.graph.basic.Constant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c036caf9b0a27030"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_cache_complex","kind":"function","src_hash":"9d7d8a1d884424e5","in":{"base":"Any","pred":"isinstance(v, aesara.graph.basic.Constant)"},"out":{"base":"Any","pred":"result satisfies: seen == symbol_names"},"spec":{"lhs":"test_cache_complex()","rhs":"seen == symbol_names","over":{"base":"Any","pred":"isinstance(v, aesara.graph.basic.Constant)"},"name":"test_cache_complex_correct"},"guarantee":"seen == symbol_names","fibers":[{"name":"aesara_graph_basic_Constant","pred":"isinstance(v, aesara.graph.basic.Constant)","path":{"lhs":"test_cache_complex(x)","rhs":"seen == symbol_names","over":{"base":"aesara.graph.basic.Constant","pred":"isinstance(v, aesara.graph.basic.Constant)"},"name":"test_cache_complex_aesara.graph.basic.Constant_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_cache_complex_aesara.graph.basic.Constant_correct","statement":"test_cache_complex satisfies spec on aesara.graph.basic.Constant inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c036caf9b0a27030","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["seen == symbol_names"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'v.owner is None and (not isinstance(v, aesara.graph.basic.Constant))'}, fibers={'aesara_graph_basic_Constant'})"]}}
 def test_cache_complex():
     """
     Test caching on a complicated expression with multiple symbols appearing
@@ -1113,16 +1383,23 @@ def test_cache_complex():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Piecewise(), test_Piecewise produces the expected output) over Any ║
+# ║ Path(test_Piecewise(), result.owner.op == aet.switch and theq(result, expected)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Piecewise : Any → {Any | result.owner.op == aet....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result.owner.op == aet.switch                  ║
+# ║   ensures:  theq(result, expected)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Piecewise : Any → {Any | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a17c2a0db922b835  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b73ff92bd75bd6fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Piecewise","kind":"function","src_hash":"f46d1959fe33b85b","in":{"base":"Any"},"out":{"base":"Any","pred":"result.owner.op == aet.switch and theq(result, expected) and theq(result, expected) and theq(result, expected)"},"spec":{"lhs":"test_Piecewise()","rhs":"test_Piecewise produces the expected output","over":{"base":"Any"},"name":"test_Piecewise_correct"},"guarantee":"test_Piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Piecewise_correct","statement":"Path(test_Piecewise(x), test_Piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a17c2a0db922b835"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Piecewise","kind":"function","src_hash":"f46d1959fe33b85b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result.owner.op == aet.switch and theq(result, expected)"},"spec":{"lhs":"test_Piecewise()","rhs":"result.owner.op == aet.switch and theq(result, expected)","over":{"base":"Any"},"name":"test_Piecewise_correct"},"guarantee":"result.owner.op == aet.switch; theq(result, expected)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Piecewise_correct","statement":"Path(test_Piecewise(x), result.owner.op == aet.switch; theq(result, expected))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b73ff92bd75bd6fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result.owner.op == aet.switch","theq(result, expected)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Piecewise():
     # A piecewise linear
     expr = sy.Piecewise((0, x<0), (x, x<2), (1, True))  # ___/III
@@ -1146,16 +1423,24 @@ def test_Piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Relationals(), test_Relationals produces the expected output) over Any ║
+# ║ Path(test_Relationals(), theq(aesara_code_(sy.Eq(x, y)), aet.eq(xt, yt)) and theq(aesara_code_(x > y), xt > yt) and theq(aesara_code_(x < y), xt < yt) and theq(aesara_code_(x >= y), xt >= yt) and theq(aesara_code_(x <= y), xt <= yt)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Relationals : Any → {Any | theq(aesara_code_(sy....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  theq(aesara_code_(sy.Eq(x, y)), aet.eq(xt...   ║
+# ║   ensures:  theq(aesara_code_(x > y), xt > yt)             ║
+# ║   ensures:  theq(aesara_code_(x < y), xt < yt)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Relationals : Any → {Any | result satisfies: the...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ad38f68357eef70  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d609643d4ec589d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Relationals","kind":"function","src_hash":"59bf535dabf625e9","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(aesara_code_(sy.Eq(x, y)), aet.eq(xt, yt)) and theq(aesara_code_(x > y), xt > yt) and theq(aesara_code_(x < y), xt < yt) and theq(aesara_code_(x >= y), xt >= yt) and theq(aesara_code_(x <= y), xt <= yt)"},"spec":{"lhs":"test_Relationals()","rhs":"test_Relationals produces the expected output","over":{"base":"Any"},"name":"test_Relationals_correct"},"guarantee":"test_Relationals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Relationals_correct","statement":"Path(test_Relationals(x), test_Relationals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ad38f68357eef70"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_Relationals","kind":"function","src_hash":"59bf535dabf625e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: theq(aesara_code_(sy.Eq(x, y)), aet.eq(xt, yt)) and theq(aesara_code_(x > y), xt > yt) and theq(aesara_code_(x < y), xt < yt) and theq(aesara_code_(x >= y), xt >= yt) and theq(aesara_code_(x <= y), xt <= yt)"},"spec":{"lhs":"test_Relationals()","rhs":"theq(aesara_code_(sy.Eq(x, y)), aet.eq(xt, yt)) and theq(aesara_code_(x > y), xt > yt) and theq(aesara_code_(x < y), xt < yt) and theq(aesara_code_(x >= y), xt >= yt) and theq(aesara_code_(x <= y), xt <= yt)","over":{"base":"Any"},"name":"test_Relationals_correct"},"guarantee":"theq(aesara_code_(sy.Eq(x, y)), aet.eq(xt, yt)); theq(aesara_code_(x > y), xt > yt); theq(aesara_code_(x < y), xt < yt)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_Relationals_correct","statement":"Path(test_Relationals(x), theq(aesara_code_(sy.Eq(x, y)), aet.eq(xt, yt)); theq(aesara_code_(x > y), xt > yt); theq(aesara_code_(x < y), xt < yt))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d609643d4ec589d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["theq(aesara_code_(sy.Eq(x, y)), aet.eq(xt, yt))","theq(aesara_code_(x > y), xt > yt)","theq(aesara_code_(x < y), xt < yt)","theq(aesara_code_(x >= y), xt >= yt)","theq(aesara_code_(x <= y), xt <= yt)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Relationals():
     assert theq(aesara_code_(sy.Eq(x, y)), aet.eq(xt, yt))
     # assert theq(aesara_code_(sy.Ne(x, y)), aet.neq(xt, yt))  # TODO - implement
@@ -1166,16 +1451,22 @@ def test_Relationals():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complexfunctions(), test_complexfunctions produces the expected output) over Any ║
+# ║ Path(test_complexfunctions(), <unspecified:test_complexfunctions>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_complexfunctions : Any → {Any | theq(aesara_code...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   aesara.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | f8aa9a95ad34...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_complexfunctions","kind":"function","src_hash":"da4f693c1dbd3e7a","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(aesara_code(y * conjugate(x), dtypes=dtypes), yt * xt.conj()) and theq(aesara_code((1 + 2j) * x), xt * (atv(1.0) + atv(2.0) * cplx(0, 1)))"},"spec":{"lhs":"test_complexfunctions()","rhs":"test_complexfunctions produces the expected output","over":{"base":"Any"},"name":"test_complexfunctions_correct"},"guarantee":"test_complexfunctions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_complexfunctions_correct","statement":"Path(test_complexfunctions(x), test_complexfunctions produces the expected output)"},"assumes":[],"trust":["aesara.__module__"],"compiled":true,"vhash":"f8aa9a95ad348145"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_complexfunctions","kind":"function","src_hash":"da4f693c1dbd3e7a","in":{"base":"Any"},"out":{"base":"Any","pred":"theq(aesara_code(y * conjugate(x), dtypes=dtypes), yt * xt.conj()) and theq(aesara_code((1 + 2j) * x), xt * (atv(1.0) + atv(2.0) * cplx(0, 1)))"},"spec":{"lhs":"test_complexfunctions()","rhs":"<unspecified:test_complexfunctions>","over":{"base":"Any"},"name":"test_complexfunctions_correct"},"guarantee":"test_complexfunctions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_complexfunctions_correct","statement":"Path(test_complexfunctions(x), test_complexfunctions produces the expected output)"},"assumes":[],"trust":["aesara.__module__"],"compiled":true,"vhash":"f8aa9a95ad348145","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_complexfunctions():
     dtypes = {x:'complex128', y:'complex128'}
     with warns_deprecated_sympy():
@@ -1189,16 +1480,22 @@ def test_complexfunctions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constantfunctions(), test_constantfunctions produces the expected output) over Any ║
+# ║ Path(test_constantfunctions(), tf() == 1 + 1j) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_constantfunctions : Any → {Any | tf() == 1 + 1j}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  tf() == 1 + 1j                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_constantfunctions : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef6c148164f454b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a34282efd1ed7f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_constantfunctions","kind":"function","src_hash":"089a7b8193716722","in":{"base":"Any"},"out":{"base":"Any","pred":"tf() == 1 + 1j"},"spec":{"lhs":"test_constantfunctions()","rhs":"test_constantfunctions produces the expected output","over":{"base":"Any"},"name":"test_constantfunctions_correct"},"guarantee":"test_constantfunctions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_constantfunctions_correct","statement":"Path(test_constantfunctions(x), test_constantfunctions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef6c148164f454b7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_aesaracode.test_constantfunctions","kind":"function","src_hash":"089a7b8193716722","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: tf() == 1 + 1j"},"spec":{"lhs":"test_constantfunctions()","rhs":"tf() == 1 + 1j","over":{"base":"Any"},"name":"test_constantfunctions_correct"},"guarantee":"tf() == 1 + 1j","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_aesaracode.test_constantfunctions_correct","statement":"Path(test_constantfunctions(x), tf() == 1 + 1j)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a34282efd1ed7f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["tf() == 1 + 1j"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_constantfunctions():
     with warns_deprecated_sympy():
         tf = aesara_function([],[1+1j])

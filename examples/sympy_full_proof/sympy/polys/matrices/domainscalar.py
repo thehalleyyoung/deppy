@@ -34,30 +34,45 @@ from sympy.polys.domains import Domain, ZZ
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(DomainScalar(*args), correctly constructs a DomainScalar instance) over {Any | isinstance(domain, Domain) and isinstance(other, DomainScalar) and isinstance(other, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ DomainScalar : {Any | isinstance(domain, Domain) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ecf74527e25dc8d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar","kind":"class","src_hash":"2a60847120c66d1e","in":{"base":"Any","pred":"isinstance(domain, Domain) and isinstance(other, DomainScalar) and isinstance(other, int)"},"out":{"base":"Any"},"spec":{"lhs":"DomainScalar(*args)","rhs":"correctly constructs a DomainScalar instance","over":{"base":"Any","pred":"isinstance(domain, Domain) and isinstance(other, DomainScalar) and isinstance(other, int)"},"name":"DomainScalar_class_invariant"},"guarantee":"correctly constructs a DomainScalar instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecf74527e25dc8d0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar","kind":"class","src_hash":"2a60847120c66d1e","in":{"base":"Any","pred":"isinstance(domain, Domain) and isinstance(other, DomainScalar) and isinstance(other, int)"},"out":{"base":"Any"},"spec":{"lhs":"DomainScalar(*args)","rhs":"correctly constructs a DomainScalar instance","over":{"base":"Any","pred":"isinstance(domain, Domain) and isinstance(other, DomainScalar) and isinstance(other, int)"},"name":"DomainScalar_class_invariant"},"guarantee":"correctly constructs a DomainScalar instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ecf74527e25dc8d0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function DomainScalar not found in source"]}}
 class DomainScalar:
     r"""
     docstring
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, element, domain), cls.new(element, domain)) over {Any | isinstance(domain, Domain) and domain.of_type(element) and hasattr(domain, 'of_type')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(domain, Domain)                     ║
+# ║   requires: domain.of_type(element)                        ║
+# ║   requires: hasattr(domain, 'of_type')                     ║
+# ║   returns:  cls.new(element, domain)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(domain, Domain) and domai...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d625ee0573a5f3fd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__new__","kind":"method","src_hash":"e44ec7c4c5502028","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d625ee0573a5f3fd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__new__","kind":"method","src_hash":"e44ec7c4c5502028","in":{"base":"Any","pred":"isinstance(domain, Domain) and domain.of_type(element) and hasattr(domain, 'of_type')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, element, domain)","rhs":"cls.new(element, domain)","over":{"base":"Any","pred":"isinstance(domain, Domain) and domain.of_type(element) and hasattr(domain, 'of_type')"},"name":"__new___correct"},"guarantee":"returns cls.new(element, domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d625ee0573a5f3fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(domain, Domain)","domain.of_type(element)","hasattr(domain, 'of_type')"],"returns_expr":"cls.new(element, domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.new","domain.of_type"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, element, domain):
         if not isinstance(domain, Domain):
             raise TypeError("domain should be of type Domain")
@@ -67,16 +82,22 @@ class DomainScalar:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(new(cls), new produces the expected output) over Any  ║
+# ║ Path(new(cls, element, domain), <unspecified:new>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ new : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e309cd5ecdf5aedf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.new","kind":"classmethod","src_hash":"8fa2a2335effa8e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(cls)","rhs":"new produces the expected output","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainscalar.DomainScalar.new_correct","statement":"Path(new(x), new produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e309cd5ecdf5aedf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.new","kind":"classmethod","src_hash":"8fa2a2335effa8e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"new(cls, element, domain)","rhs":"<unspecified:new>","over":{"base":"Any"},"name":"new_correct"},"guarantee":"new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainscalar.DomainScalar.new_correct","statement":"Path(new(x), new produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e309cd5ecdf5aedf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def new(cls, element, domain):
         obj = super().__new__(cls)
         obj.element = element
@@ -84,118 +105,170 @@ class DomainScalar:
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), repr(self.element)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  repr(self.element)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f0bf385edb342d6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__repr__","kind":"method","src_hash":"61de06aee5b76be3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f0bf385edb342d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__repr__","kind":"method","src_hash":"61de06aee5b76be3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"repr(self.element)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns repr(self.element)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f0bf385edb342d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"repr(self.element)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.element"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return repr(self.element)
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sympy(cls), from_sympy produces the expected output) over Any ║
+# ║ Path(from_sympy(cls, expr), cls.new(element, domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls.new(element, domain)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_sympy : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e90fd0ac74a8404  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b79a0fef6ae3d58f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.from_sympy","kind":"classmethod","src_hash":"481aa2a948e2e0e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(cls)","rhs":"from_sympy produces the expected output","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"from_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainscalar.DomainScalar.from_sympy_correct","statement":"Path(from_sympy(x), from_sympy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e90fd0ac74a8404"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.from_sympy","kind":"classmethod","src_hash":"481aa2a948e2e0e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(cls, expr)","rhs":"cls.new(element, domain)","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"returns cls.new(element, domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainscalar.DomainScalar.from_sympy_correct","statement":"Path(from_sympy(x), returns cls.new(element, domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b79a0fef6ae3d58f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls.new(element, domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(cls, expr):
         [domain, [element]] = construct_domain([expr])
         return cls.new(element, domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(), to_sympy produces the expected output) over Any ║
+# ║ Path(to_sympy(), self.domain.to_sympy(self.element)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.domain.to_sympy(self.element)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_sympy : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 023ee3d395abcf2d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.to_sympy","kind":"method","src_hash":"d620fdb5d1926b62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy()","rhs":"to_sympy produces the expected output","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"to_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"023ee3d395abcf2d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.to_sympy","kind":"method","src_hash":"d620fdb5d1926b62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy()","rhs":"self.domain.to_sympy(self.element)","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"returns self.domain.to_sympy(self.element)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"023ee3d395abcf2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.domain.to_sympy(self.element)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.element"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self):
         return self.domain.to_sympy(self.element)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_domain(dom), to_domain produces the expected output) over Any ║
+# ║ Path(to_domain(domain), self.new(element, domain)) over {Any | hasattr(domain, 'convert_from')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_domain : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(domain, 'convert_from')                ║
+# ║   returns:  self.new(element, domain)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_domain : {Any | hasattr(domain, 'convert_from')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a41e3e65e2a9358f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42fabb64165eb521  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.to_domain","kind":"method","src_hash":"f1968974f0084063","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_domain(dom)","rhs":"to_domain produces the expected output","over":{"base":"Any"},"name":"to_domain_correct"},"guarantee":"to_domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainscalar.DomainScalar.to_domain_correct","statement":"Path(to_domain(x), to_domain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a41e3e65e2a9358f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.to_domain","kind":"method","src_hash":"f1968974f0084063","in":{"base":"Any","pred":"hasattr(domain, 'convert_from')"},"out":{"base":"Any"},"spec":{"lhs":"to_domain(domain)","rhs":"self.new(element, domain)","over":{"base":"Any","pred":"hasattr(domain, 'convert_from')"},"name":"to_domain_correct"},"guarantee":"returns self.new(element, domain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.domainscalar.DomainScalar.to_domain_correct","statement":"Path(to_domain(x), returns self.new(element, domain))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42fabb64165eb521","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(domain, 'convert_from')"],"returns_expr":"self.new(element, domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["domain.convert_from","self.domain","self.element","self.new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_domain(self, domain):
         element = domain.convert_from(self.element, self.domain)
         return self.new(element, domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_to(dom), convert_to produces the expected output) over Any ║
+# ║ Path(convert_to(domain), self.to_domain(domain)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.to_domain(domain)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convert_to : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5e57b6ba5d0cc9a6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.convert_to","kind":"method","src_hash":"064da5beecb15aa8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_to(dom)","rhs":"convert_to produces the expected output","over":{"base":"Any"},"name":"convert_to_correct"},"guarantee":"convert_to produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e57b6ba5d0cc9a6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.convert_to","kind":"method","src_hash":"064da5beecb15aa8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_to(domain)","rhs":"self.to_domain(domain)","over":{"base":"Any"},"name":"convert_to_correct"},"guarantee":"returns self.to_domain(domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5e57b6ba5d0cc9a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.to_domain(domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.to_domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def convert_to(self, domain):
         return self.to_domain(domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unify(oth), id) over Any                              ║
+# ║ Path(unify(other), id) over {Any | hasattr(other, 'domain') and hasattr(other, 'to_domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ unify : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'domain')                       ║
+# ║   requires: hasattr(other, 'to_domain')                    ║
+# ║   returns:  (self.to_domain(domain), other.to_domain(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ unify : {Any | hasattr(other, 'domain') and hasattr(o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c283973a72fb0a73   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.unify","kind":"method","src_hash":"628e90130294fc76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unify(oth)","rhs":"unify produces the expected output","over":{"base":"Any"},"name":"unify_correct","kind":"composition"},"guarantee":"unify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"to_domain","by":"library_axiom"},{"fn":"to_domain","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c283973a72fb0a73"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.unify","kind":"method","src_hash":"628e90130294fc76","in":{"base":"Any","pred":"hasattr(other, 'domain') and hasattr(other, 'to_domain')"},"out":{"base":"Any"},"spec":{"lhs":"unify(other)","rhs":"(self.to_domain(domain), other.to_domain(domain))","over":{"base":"Any","pred":"hasattr(other, 'domain') and hasattr(other, 'to_domain')"},"name":"unify_correct","kind":"composition"},"guarantee":"returns (self.to_domain(domain), other.to_domain(domain))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"to_domain","by":"library_axiom"},{"fn":"to_domain","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c283973a72fb0a73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'domain')","hasattr(other, 'to_domain')"],"returns_expr":"(self.to_domain(domain), other.to_domain(domain))","pure":false,"effects":{"effect_type":"reads_state","reads":["other.domain","other.to_domain","self.domain","self.to_domain"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unify(self, other):
         domain = self.domain.unify(other.domain)
         return self.to_domain(domain), other.to_domain(domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__bool__(), correctly converts to boolean) over Any   ║
+# ║ Path(__bool__(), bool(self.element)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  bool(self.element)                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __bool__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 840fd98e435d8c19           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__bool__","kind":"method","src_hash":"b0c2da147ce428b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"correctly converts to boolean","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"correctly converts to boolean","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"840fd98e435d8c19"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__bool__","kind":"method","src_hash":"b0c2da147ce428b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__bool__()","rhs":"bool(self.element)","over":{"base":"Any"},"name":"__bool___correct"},"guarantee":"returns bool(self.element)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"840fd98e435d8c19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"bool(self.element)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.element"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __bool__(self):
         return bool(self.element)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over {Any | hasattr(other, 'element')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __add__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'element')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __add__ : {Any | hasattr(other, 'element')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 312b4e231f6d3124           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__add__","kind":"method","src_hash":"c0eb730764fb787e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"312b4e231f6d3124"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__add__","kind":"method","src_hash":"c0eb730764fb787e","in":{"base":"Any","pred":"hasattr(other, 'element')"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any","pred":"hasattr(other, 'element')"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"312b4e231f6d3124","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'element')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.element","self.domain","self.element","self.new","self.unify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         if not isinstance(other, DomainScalar):
             return NotImplemented
@@ -203,16 +276,23 @@ class DomainScalar:
         return self.new(self.element + other.element, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__sub__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__sub__(other), <unspecified:__sub__>) over {Any | hasattr(other, 'element')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __sub__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'element')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __sub__ : {Any | hasattr(other, 'element')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0acddcef7db035a4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__sub__","kind":"method","src_hash":"edee64d2e2ec6a98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0acddcef7db035a4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__sub__","kind":"method","src_hash":"edee64d2e2ec6a98","in":{"base":"Any","pred":"hasattr(other, 'element')"},"out":{"base":"Any"},"spec":{"lhs":"__sub__(other)","rhs":"<unspecified:__sub__>","over":{"base":"Any","pred":"hasattr(other, 'element')"},"name":"__sub___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0acddcef7db035a4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'element')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.element","self.domain","self.element","self.new","self.unify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __sub__(self, other):
         if not isinstance(other, DomainScalar):
             return NotImplemented
@@ -220,16 +300,23 @@ class DomainScalar:
         return self.new(self.element - other.element, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'element')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'element')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'element')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b5bb710f5ebadfba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__mul__","kind":"method","src_hash":"58d62ce70a95794c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5bb710f5ebadfba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__mul__","kind":"method","src_hash":"58d62ce70a95794c","in":{"base":"Any","pred":"hasattr(other, 'element')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'element')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5bb710f5ebadfba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'element')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.element","self.domain","self.element","self.new","self.unify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         if not isinstance(other, DomainScalar):
             if isinstance(other, int):
@@ -241,16 +328,23 @@ class DomainScalar:
         return self.new(self.element * other.element, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__floordiv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__floordiv__(other), <unspecified:__floordiv__>) over {Any | hasattr(other, 'element')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __floordiv__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'element')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __floordiv__ : {Any | hasattr(other, 'element')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 01a7090d5df66802           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__floordiv__","kind":"method","src_hash":"5373b30ccee68c6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__floordiv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__floordiv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01a7090d5df66802"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__floordiv__","kind":"method","src_hash":"5373b30ccee68c6f","in":{"base":"Any","pred":"hasattr(other, 'element')"},"out":{"base":"Any"},"spec":{"lhs":"__floordiv__(other)","rhs":"<unspecified:__floordiv__>","over":{"base":"Any","pred":"hasattr(other, 'element')"},"name":"__floordiv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"01a7090d5df66802","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'element')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.element","self.domain","self.element","self.new","self.unify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __floordiv__(self, other):
         if not isinstance(other, DomainScalar):
             return NotImplemented
@@ -258,16 +352,23 @@ class DomainScalar:
         return self.new(self.domain.quo(self.element, other.element), self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mod__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__mod__(other), <unspecified:__mod__>) over {Any | hasattr(other, 'element')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mod__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'element')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mod__ : {Any | hasattr(other, 'element')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e40d73afcdd34320           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__mod__","kind":"method","src_hash":"07e7a613ff99648a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mod__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__mod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e40d73afcdd34320"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__mod__","kind":"method","src_hash":"07e7a613ff99648a","in":{"base":"Any","pred":"hasattr(other, 'element')"},"out":{"base":"Any"},"spec":{"lhs":"__mod__(other)","rhs":"<unspecified:__mod__>","over":{"base":"Any","pred":"hasattr(other, 'element')"},"name":"__mod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e40d73afcdd34320","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'element')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.element","self.domain","self.element","self.new","self.unify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mod__(self, other):
         if not isinstance(other, DomainScalar):
             return NotImplemented
@@ -275,16 +376,23 @@ class DomainScalar:
         return self.new(self.domain.rem(self.element, other.element), self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__divmod__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__divmod__(other), <unspecified:__divmod__>) over {Any | hasattr(other, 'element')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __divmod__ : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'element')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __divmod__ : {Any | hasattr(other, 'element')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7701bea93b97feb4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__divmod__","kind":"method","src_hash":"0367006f2a8829ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__divmod__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__divmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7701bea93b97feb4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__divmod__","kind":"method","src_hash":"0367006f2a8829ae","in":{"base":"Any","pred":"hasattr(other, 'element')"},"out":{"base":"Any"},"spec":{"lhs":"__divmod__(other)","rhs":"<unspecified:__divmod__>","over":{"base":"Any","pred":"hasattr(other, 'element')"},"name":"__divmod___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7701bea93b97feb4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'element')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.element","self.domain","self.element","self.new","self.unify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __divmod__(self, other):
         if not isinstance(other, DomainScalar):
             return NotImplemented
@@ -293,89 +401,127 @@ class DomainScalar:
         return (self.new(q, self.domain), self.new(r, self.domain))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pow__(n), internal helper behaves correctly) over Any ║
+# ║ Path(__pow__(n), <unspecified:__pow__>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pow__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 11d16c23b7a8dff2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__pow__","kind":"method","src_hash":"196daf5c8c525554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11d16c23b7a8dff2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__pow__","kind":"method","src_hash":"196daf5c8c525554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pow__(n)","rhs":"<unspecified:__pow__>","over":{"base":"Any"},"name":"__pow___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11d16c23b7a8dff2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.element","self.new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pow__(self, n):
         if not isinstance(n, int):
             return NotImplemented
         return self.new(self.element**n, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__pos__(), internal helper behaves correctly) over Any ║
+# ║ Path(__pos__(), self.new(+self.element, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.new(+self.element, self.domain)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __pos__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eabdf7e2485082f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__pos__","kind":"method","src_hash":"8db3eb8b044e2d54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pos__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__pos___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eabdf7e2485082f1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__pos__","kind":"method","src_hash":"8db3eb8b044e2d54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__pos__()","rhs":"self.new(+self.element, self.domain)","over":{"base":"Any"},"name":"__pos___correct"},"guarantee":"returns self.new(+self.element, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eabdf7e2485082f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.new(+self.element, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.element","self.new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __pos__(self):
         return self.new(+self.element, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__neg__(), returns the additive inverse) over Any     ║
+# ║ Path(__neg__(), self.new(-self.element, self.domain)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.new(-self.element, self.domain)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __neg__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b4cc300fa6dce7a4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__neg__","kind":"method","src_hash":"dd0120be552af610","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"returns the additive inverse","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns the additive inverse","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4cc300fa6dce7a4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__neg__","kind":"method","src_hash":"dd0120be552af610","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__neg__()","rhs":"self.new(-self.element, self.domain)","over":{"base":"Any"},"name":"__neg___correct"},"guarantee":"returns self.new(-self.element, self.domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b4cc300fa6dce7a4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.new(-self.element, self.domain)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.element","self.new"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __neg__(self):
         return self.new(-self.element, self.domain)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'element') and hasattr(other, 'domain')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'element')                      ║
+# ║   requires: hasattr(other, 'domain')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'element') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f399da91d89b0c29           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__eq__","kind":"method","src_hash":"b545e3e70a1d934d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f399da91d89b0c29"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.__eq__","kind":"method","src_hash":"b545e3e70a1d934d","in":{"base":"Any","pred":"hasattr(other, 'element') and hasattr(other, 'domain')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'element') and hasattr(other, 'domain')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f399da91d89b0c29","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'element')","hasattr(other, 'domain')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.domain","other.element","self.domain","self.element"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if not isinstance(other, DomainScalar):
             return NotImplemented
         return self.element == other.element and self.domain == other.domain
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_zero(), is_zero produces the expected output) over Any ║
+# ║ Path(is_zero(), self.element == self.domain.zero) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.element == self.domain.zero               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_zero : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 27ee2a8db44ed007           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.is_zero","kind":"method","src_hash":"f7dc145f6e9e21fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"is_zero produces the expected output","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"is_zero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27ee2a8db44ed007"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.is_zero","kind":"method","src_hash":"f7dc145f6e9e21fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_zero()","rhs":"self.element == self.domain.zero","over":{"base":"Any"},"name":"is_zero_correct"},"guarantee":"returns self.element == self.domain.zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"27ee2a8db44ed007","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.element == self.domain.zero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.element"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_zero(self):
         return self.element == self.domain.zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_one(), is_one produces the expected output) over Any ║
+# ║ Path(is_one(), self.element == self.domain.one) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.element == self.domain.one                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_one : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ca57541f53d6a18           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.is_one","kind":"method","src_hash":"d2ad7a0589471456","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_one()","rhs":"is_one produces the expected output","over":{"base":"Any"},"name":"is_one_correct"},"guarantee":"is_one produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ca57541f53d6a18"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.domainscalar.DomainScalar.is_one","kind":"method","src_hash":"d2ad7a0589471456","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_one()","rhs":"self.element == self.domain.one","over":{"base":"Any"},"name":"is_one_correct"},"guarantee":"returns self.element == self.domain.one","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ca57541f53d6a18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.element == self.domain.one","pure":false,"effects":{"effect_type":"reads_state","reads":["self.domain","self.element"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_one(self):
         return self.element == self.domain.one

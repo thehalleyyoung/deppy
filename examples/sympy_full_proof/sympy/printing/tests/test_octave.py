@@ -49,32 +49,47 @@ x, y, z = symbols('x,y,z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Integer(), test_Integer produces the expected output) over Any ║
+# ║ Path(test_Integer(), mcode(Integer(67)) == '67' and mcode(Integer(-1)) == '-1') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Integer : Any → {Any | mcode(Integer(67)) == '67...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(Integer(67)) == '67'                     ║
+# ║   ensures:  mcode(Integer(-1)) == '-1'                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Integer : Any → {Any | result satisfies: mcode(I...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccd232c9e8838ccc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a748e4a0d23277b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Integer","kind":"function","src_hash":"aa811f712e4f61d7","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(Integer(67)) == '67' and mcode(Integer(-1)) == '-1'"},"spec":{"lhs":"test_Integer()","rhs":"test_Integer produces the expected output","over":{"base":"Any"},"name":"test_Integer_correct"},"guarantee":"test_Integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Integer_correct","statement":"Path(test_Integer(x), test_Integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccd232c9e8838ccc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Integer","kind":"function","src_hash":"aa811f712e4f61d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(Integer(67)) == '67' and mcode(Integer(-1)) == '-1'"},"spec":{"lhs":"test_Integer()","rhs":"mcode(Integer(67)) == '67' and mcode(Integer(-1)) == '-1'","over":{"base":"Any"},"name":"test_Integer_correct"},"guarantee":"mcode(Integer(67)) == '67'; mcode(Integer(-1)) == '-1'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Integer_correct","statement":"Path(test_Integer(x), mcode(Integer(67)) == '67'; mcode(Integer(-1)) == '-1')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a748e4a0d23277b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(Integer(67)) == '67'","mcode(Integer(-1)) == '-1'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Integer():
     assert mcode(Integer(67)) == "67"
     assert mcode(Integer(-1)) == "-1"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Rational(), test_Rational produces the expected output) over Any ║
+# ║ Path(test_Rational(), mcode(Rational(3, 7)) == '3/7' and mcode(Rational(18, 9)) == '2' and mcode(Rational(3, -7)) == '-3/7' and mcode(Rational(-3, -7)) == '3/7' and mcode(x + Rational(3, 7)) == 'x + 3/7' and mcode(Rational(3, 7) * x) == '3*x/7') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Rational : Any → {Any | mcode(Rational(3, 7)) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(Rational(3, 7)) == '3/7'                 ║
+# ║   ensures:  mcode(Rational(18, 9)) == '2'                  ║
+# ║   ensures:  mcode(Rational(3, -7)) == '-3/7'               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Rational : Any → {Any | result satisfies: mcode(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 884838d838960f9c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c345af149e955563  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Rational","kind":"function","src_hash":"e0afd7d8ad9ffc63","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(Rational(3, 7)) == '3/7' and mcode(Rational(18, 9)) == '2' and mcode(Rational(3, -7)) == '-3/7' and mcode(Rational(-3, -7)) == '3/7' and mcode(x + Rational(3, 7)) == 'x + 3/7' and mcode(Rational(3, 7) * x) == '3*x/7'"},"spec":{"lhs":"test_Rational()","rhs":"test_Rational produces the expected output","over":{"base":"Any"},"name":"test_Rational_correct"},"guarantee":"test_Rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Rational_correct","statement":"Path(test_Rational(x), test_Rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"884838d838960f9c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Rational","kind":"function","src_hash":"e0afd7d8ad9ffc63","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(Rational(3, 7)) == '3/7' and mcode(Rational(18, 9)) == '2' and mcode(Rational(3, -7)) == '-3/7' and mcode(Rational(-3, -7)) == '3/7' and mcode(x + Rational(3, 7)) == 'x + 3/7' and mcode(Rational(3, 7) * x) == '3*x/7'"},"spec":{"lhs":"test_Rational()","rhs":"mcode(Rational(3, 7)) == '3/7' and mcode(Rational(18, 9)) == '2' and mcode(Rational(3, -7)) == '-3/7' and mcode(Rational(-3, -7)) == '3/7' and mcode(x + Rational(3, 7)) == 'x + 3/7' and mcode(Rational(3, 7) * x) == '3*x/7'","over":{"base":"Any"},"name":"test_Rational_correct"},"guarantee":"mcode(Rational(3, 7)) == '3/7'; mcode(Rational(18, 9)) == '2'; mcode(Rational(3, -7)) == '-3/7'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Rational_correct","statement":"Path(test_Rational(x), mcode(Rational(3, 7)) == '3/7'; mcode(Rational(18, 9)) == '2'; mcode(Rational(3, -7)) == '-3/7')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c345af149e955563","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(Rational(3, 7)) == '3/7'","mcode(Rational(18, 9)) == '2'","mcode(Rational(3, -7)) == '-3/7'","mcode(Rational(-3, -7)) == '3/7'","mcode(x + Rational(3, 7)) == 'x + 3/7'","mcode(Rational(3, 7) * x) == '3*x/7'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Rational():
     assert mcode(Rational(3, 7)) == "3/7"
     assert mcode(Rational(18, 9)) == "2"
@@ -85,16 +100,24 @@ def test_Rational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Relational(), test_Relational produces the expected output) over Any ║
+# ║ Path(test_Relational(), mcode(Eq(x, y)) == 'x == y' and mcode(Ne(x, y)) == 'x != y' and mcode(Le(x, y)) == 'x <= y' and mcode(Lt(x, y)) == 'x < y' and mcode(Gt(x, y)) == 'x > y' and mcode(Ge(x, y)) == 'x >= y') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Relational : Any → {Any | mcode(Eq(x, y)) == 'x ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(Eq(x, y)) == 'x == y'                    ║
+# ║   ensures:  mcode(Ne(x, y)) == 'x != y'                    ║
+# ║   ensures:  mcode(Le(x, y)) == 'x <= y'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Relational : Any → {Any | result satisfies: mcod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25155ee8584ebb73  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f434ee913f901331  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Relational","kind":"function","src_hash":"58fc4c5e97490d43","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(Eq(x, y)) == 'x == y' and mcode(Ne(x, y)) == 'x != y' and mcode(Le(x, y)) == 'x <= y' and mcode(Lt(x, y)) == 'x < y' and mcode(Gt(x, y)) == 'x > y' and mcode(Ge(x, y)) == 'x >= y'"},"spec":{"lhs":"test_Relational()","rhs":"test_Relational produces the expected output","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"test_Relational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Relational_correct","statement":"Path(test_Relational(x), test_Relational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25155ee8584ebb73"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Relational","kind":"function","src_hash":"58fc4c5e97490d43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(Eq(x, y)) == 'x == y' and mcode(Ne(x, y)) == 'x != y' and mcode(Le(x, y)) == 'x <= y' and mcode(Lt(x, y)) == 'x < y' and mcode(Gt(x, y)) == 'x > y' and mcode(Ge(x, y)) == 'x >= y'"},"spec":{"lhs":"test_Relational()","rhs":"mcode(Eq(x, y)) == 'x == y' and mcode(Ne(x, y)) == 'x != y' and mcode(Le(x, y)) == 'x <= y' and mcode(Lt(x, y)) == 'x < y' and mcode(Gt(x, y)) == 'x > y' and mcode(Ge(x, y)) == 'x >= y'","over":{"base":"Any"},"name":"test_Relational_correct"},"guarantee":"mcode(Eq(x, y)) == 'x == y'; mcode(Ne(x, y)) == 'x != y'; mcode(Le(x, y)) == 'x <= y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Relational_correct","statement":"Path(test_Relational(x), mcode(Eq(x, y)) == 'x == y'; mcode(Ne(x, y)) == 'x != y'; mcode(Le(x, y)) == 'x <= y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f434ee913f901331","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(Eq(x, y)) == 'x == y'","mcode(Ne(x, y)) == 'x != y'","mcode(Le(x, y)) == 'x <= y'","mcode(Lt(x, y)) == 'x < y'","mcode(Gt(x, y)) == 'x > y'","mcode(Ge(x, y)) == 'x >= y'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Relational():
     assert mcode(Eq(x, y)) == "x == y"
     assert mcode(Ne(x, y)) == "x != y"
@@ -105,16 +128,24 @@ def test_Relational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Function(), test_Function produces the expected output) over Any ║
+# ║ Path(test_Function(), mcode(sin(x) ** cos(x)) == 'sin(x).^cos(x)' and mcode(sign(x)) == 'sign(x)' and mcode(exp(x)) == 'exp(x)' and mcode(log(x)) == 'log(x)' and mcode(factorial(x)) == 'factorial(x)' and mcode(floor(x)) == 'floor(x)' and mcode(atan2(y, x)) == 'atan2(y, x)' and mcode(beta(x, y)) == 'beta(x, y)' and mcode(polylog(x, y)) == 'polylog(x, y)' and mcode(harmonic(x)) == 'harmonic(x)' and mcode(bernoulli(x)) == 'bernoulli(x)' and mcode(bernoulli(x, y)) == 'bernoulli(x, y)' and mcode(legendre(x, y)) == 'legendre(x, y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Function : Any → {Any | mcode(sin(x) ** cos(x)) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(sin(x) ** cos(x)) == 'sin(x).^cos(x)'    ║
+# ║   ensures:  mcode(sign(x)) == 'sign(x)'                    ║
+# ║   ensures:  mcode(exp(x)) == 'exp(x)'                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Function : Any → {Any | result satisfies: mcode(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09be4d2d954ce021  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b7217f20ad02079  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Function","kind":"function","src_hash":"04d45c5a04bd0d8b","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(sin(x) ** cos(x)) == 'sin(x).^cos(x)' and mcode(sign(x)) == 'sign(x)' and mcode(exp(x)) == 'exp(x)' and mcode(log(x)) == 'log(x)' and mcode(factorial(x)) == 'factorial(x)' and mcode(floor(x)) == 'floor(x)' and mcode(atan2(y, x)) == 'atan2(y, x)' and mcode(beta(x, y)) == 'beta(x, y)' and mcode(polylog(x, y)) == 'polylog(x, y)' and mcode(harmonic(x)) == 'harmonic(x)' and mcode(bernoulli(x)) == 'bernoulli(x)' and mcode(bernoulli(x, y)) == 'bernoulli(x, y)' and mcode(legendre(x, y)) == 'legendre(x, y)'"},"spec":{"lhs":"test_Function()","rhs":"test_Function produces the expected output","over":{"base":"Any"},"name":"test_Function_correct"},"guarantee":"test_Function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Function_correct","statement":"Path(test_Function(x), test_Function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09be4d2d954ce021"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Function","kind":"function","src_hash":"04d45c5a04bd0d8b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(sin(x) ** cos(x)) == 'sin(x).^cos(x)' and mcode(sign(x)) == 'sign(x)' and mcode(exp(x)) == 'exp(x)' and mcode(log(x)) == 'log(x)' and mcode(factorial(x)) == 'factorial(x)' and mcode(floor(x)) == 'floor(x)' and mcode(atan2(y, x)) == 'atan2(y, x)' and mcode(beta(x, y)) == 'beta(x, y)' and mcode(polylog(x, y)) == 'polylog(x, y)' and mcode(harmonic(x)) == 'harmonic(x)' and mcode(bernoulli(x)) == 'bernoulli(x)' and mcode(bernoulli(x, y)) == 'bernoulli(x, y)' and mcode(legendre(x, y)) == 'legendre(x, y)'"},"spec":{"lhs":"test_Function()","rhs":"mcode(sin(x) ** cos(x)) == 'sin(x).^cos(x)' and mcode(sign(x)) == 'sign(x)' and mcode(exp(x)) == 'exp(x)' and mcode(log(x)) == 'log(x)' and mcode(factorial(x)) == 'factorial(x)' and mcode(floor(x)) == 'floor(x)' and mcode(atan2(y, x)) == 'atan2(y, x)' and mcode(beta(x, y)) == 'beta(x, y)' and mcode(polylog(x, y)) == 'polylog(x, y)' and mcode(harmonic(x)) == 'harmonic(x)' and mcode(bernoulli(x)) == 'bernoulli(x)' and mcode(bernoulli(x, y)) == 'bernoulli(x, y)' and mcode(legendre(x, y)) == 'legendre(x, y)'","over":{"base":"Any"},"name":"test_Function_correct"},"guarantee":"mcode(sin(x) ** cos(x)) == 'sin(x).^cos(x)'; mcode(sign(x)) == 'sign(x)'; mcode(exp(x)) == 'exp(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Function_correct","statement":"Path(test_Function(x), mcode(sin(x) ** cos(x)) == 'sin(x).^cos(x)'; mcode(sign(x)) == 'sign(x)'; mcode(exp(x)) == 'exp(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b7217f20ad02079","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(sin(x) ** cos(x)) == 'sin(x).^cos(x)'","mcode(sign(x)) == 'sign(x)'","mcode(exp(x)) == 'exp(x)'","mcode(log(x)) == 'log(x)'","mcode(factorial(x)) == 'factorial(x)'","mcode(floor(x)) == 'floor(x)'","mcode(atan2(y, x)) == 'atan2(y, x)'","mcode(beta(x, y)) == 'beta(x, y)'","mcode(polylog(x, y)) == 'polylog(x, y)'","mcode(harmonic(x)) == 'harmonic(x)'","mcode(bernoulli(x)) == 'bernoulli(x)'","mcode(bernoulli(x, y)) == 'bernoulli(x, y)'","mcode(legendre(x, y)) == 'legendre(x, y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Function():
     assert mcode(sin(x) ** cos(x)) == "sin(x).^cos(x)"
     assert mcode(sign(x)) == "sign(x)"
@@ -132,16 +163,24 @@ def test_Function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Function_change_name(), test_Function_change_name produces the expected output) over Any ║
+# ║ Path(test_Function_change_name(), mcode(abs(x)) == 'abs(x)' and mcode(ceiling(x)) == 'ceil(x)' and mcode(arg(x)) == 'angle(x)' and mcode(im(x)) == 'imag(x)' and mcode(re(x)) == 'real(x)' and mcode(conjugate(x)) == 'conj(x)' and mcode(chebyshevt(y, x)) == 'chebyshevT(y, x)' and mcode(chebyshevu(y, x)) == 'chebyshevU(y, x)' and mcode(laguerre(x, y)) == 'laguerreL(x, y)' and mcode(Chi(x)) == 'coshint(x)' and mcode(Shi(x)) == 'sinhint(x)' and mcode(Ci(x)) == 'cosint(x)' and mcode(Si(x)) == 'sinint(x)' and mcode(li(x)) == 'logint(x)' and mcode(loggamma(x)) == 'gammaln(x)' and mcode(polygamma(x, y)) == 'psi(x, y)' and mcode(RisingFactorial(x, y)) == 'pochhammer(x, y)' and mcode(DiracDelta(x)) == 'dirac(x)' and mcode(DiracDelta(x, 3)) == 'dirac(3, x)' and mcode(Heaviside(x)) == 'heaviside(x, 1/2)' and mcode(Heaviside(x, y)) == 'heaviside(x, y)' and mcode(binomial(x, y)) == 'bincoeff(x, y)' and mcode(Mod(x, y)) == 'mod(x, y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Function_change_name : Any → {Any | mcode(abs(x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(abs(x)) == 'abs(x)'                      ║
+# ║   ensures:  mcode(ceiling(x)) == 'ceil(x)'                 ║
+# ║   ensures:  mcode(arg(x)) == 'angle(x)'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Function_change_name : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a8e19a1a9f980d4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e7da4f1f2fda7ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Function_change_name","kind":"function","src_hash":"67b0cf28a164107c","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(abs(x)) == 'abs(x)' and mcode(ceiling(x)) == 'ceil(x)' and mcode(arg(x)) == 'angle(x)' and mcode(im(x)) == 'imag(x)' and mcode(re(x)) == 'real(x)' and mcode(conjugate(x)) == 'conj(x)' and mcode(chebyshevt(y, x)) == 'chebyshevT(y, x)' and mcode(chebyshevu(y, x)) == 'chebyshevU(y, x)' and mcode(laguerre(x, y)) == 'laguerreL(x, y)' and mcode(Chi(x)) == 'coshint(x)' and mcode(Shi(x)) == 'sinhint(x)' and mcode(Ci(x)) == 'cosint(x)' and mcode(Si(x)) == 'sinint(x)' and mcode(li(x)) == 'logint(x)' and mcode(loggamma(x)) == 'gammaln(x)' and mcode(polygamma(x, y)) == 'psi(x, y)' and mcode(RisingFactorial(x, y)) == 'pochhammer(x, y)' and mcode(DiracDelta(x)) == 'dirac(x)' and mcode(DiracDelta(x, 3)) == 'dirac(3, x)' and mcode(Heaviside(x)) == 'heaviside(x, 1/2)' and mcode(Heaviside(x, y)) == 'heaviside(x, y)' and mcode(binomial(x, y)) == 'bincoeff(x, y)' and mcode(Mod(x, y)) == 'mod(x, y)'"},"spec":{"lhs":"test_Function_change_name()","rhs":"test_Function_change_name produces the expected output","over":{"base":"Any"},"name":"test_Function_change_name_correct"},"guarantee":"test_Function_change_name produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Function_change_name_correct","statement":"Path(test_Function_change_name(x), test_Function_change_name produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a8e19a1a9f980d4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Function_change_name","kind":"function","src_hash":"67b0cf28a164107c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(abs(x)) == 'abs(x)' and mcode(ceiling(x)) == 'ceil(x)' and mcode(arg(x)) == 'angle(x)' and mcode(im(x)) == 'imag(x)' and mcode(re(x)) == 'real(x)' and mcode(conjugate(x)) == 'conj(x)' and mcode(chebyshevt(y, x)) == 'chebyshevT(y, x)' and mcode(chebyshevu(y, x)) == 'chebyshevU(y, x)' and mcode(laguerre(x, y)) == 'laguerreL(x, y)' and mcode(Chi(x)) == 'coshint(x)' and mcode(Shi(x)) == 'sinhint(x)' and mcode(Ci(x)) == 'cosint(x)' and mcode(Si(x)) == 'sinint(x)' and mcode(li(x)) == 'logint(x)' and mcode(loggamma(x)) == 'gammaln(x)' and mcode(polygamma(x, y)) == 'psi(x, y)' and mcode(RisingFactorial(x, y)) == 'pochhammer(x, y)' and mcode(DiracDelta(x)) == 'dirac(x)' and mcode(DiracDelta(x, 3)) == 'dirac(3, x)' and mcode(Heaviside(x)) == 'heaviside(x, 1/2)' and mcode(Heaviside(x, y)) == 'heaviside(x, y)' and mcode(binomial(x, y)) == 'bincoeff(x, y)' and mcode(Mod(x, y)) == 'mod(x, y)'"},"spec":{"lhs":"test_Function_change_name()","rhs":"mcode(abs(x)) == 'abs(x)' and mcode(ceiling(x)) == 'ceil(x)' and mcode(arg(x)) == 'angle(x)' and mcode(im(x)) == 'imag(x)' and mcode(re(x)) == 'real(x)' and mcode(conjugate(x)) == 'conj(x)' and mcode(chebyshevt(y, x)) == 'chebyshevT(y, x)' and mcode(chebyshevu(y, x)) == 'chebyshevU(y, x)' and mcode(laguerre(x, y)) == 'laguerreL(x, y)' and mcode(Chi(x)) == 'coshint(x)' and mcode(Shi(x)) == 'sinhint(x)' and mcode(Ci(x)) == 'cosint(x)' and mcode(Si(x)) == 'sinint(x)' and mcode(li(x)) == 'logint(x)' and mcode(loggamma(x)) == 'gammaln(x)' and mcode(polygamma(x, y)) == 'psi(x, y)' and mcode(RisingFactorial(x, y)) == 'pochhammer(x, y)' and mcode(DiracDelta(x)) == 'dirac(x)' and mcode(DiracDelta(x, 3)) == 'dirac(3, x)' and mcode(Heaviside(x)) == 'heaviside(x, 1/2)' and mcode(Heaviside(x, y)) == 'heaviside(x, y)' and mcode(binomial(x, y)) == 'bincoeff(x, y)' and mcode(Mod(x, y)) == 'mod(x, y)'","over":{"base":"Any"},"name":"test_Function_change_name_correct"},"guarantee":"mcode(abs(x)) == 'abs(x)'; mcode(ceiling(x)) == 'ceil(x)'; mcode(arg(x)) == 'angle(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Function_change_name_correct","statement":"Path(test_Function_change_name(x), mcode(abs(x)) == 'abs(x)'; mcode(ceiling(x)) == 'ceil(x)'; mcode(arg(x)) == 'angle(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e7da4f1f2fda7ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(abs(x)) == 'abs(x)'","mcode(ceiling(x)) == 'ceil(x)'","mcode(arg(x)) == 'angle(x)'","mcode(im(x)) == 'imag(x)'","mcode(re(x)) == 'real(x)'","mcode(conjugate(x)) == 'conj(x)'","mcode(chebyshevt(y, x)) == 'chebyshevT(y, x)'","mcode(chebyshevu(y, x)) == 'chebyshevU(y, x)'","mcode(laguerre(x, y)) == 'laguerreL(x, y)'","mcode(Chi(x)) == 'coshint(x)'","mcode(Shi(x)) == 'sinhint(x)'","mcode(Ci(x)) == 'cosint(x)'","mcode(Si(x)) == 'sinint(x)'","mcode(li(x)) == 'logint(x)'","mcode(loggamma(x)) == 'gammaln(x)'","mcode(polygamma(x, y)) == 'psi(x, y)'","mcode(RisingFactorial(x, y)) == 'pochhammer(x, y)'","mcode(DiracDelta(x)) == 'dirac(x)'","mcode(DiracDelta(x, 3)) == 'dirac(3, x)'","mcode(Heaviside(x)) == 'heaviside(x, 1/2)'","mcode(Heaviside(x, y)) == 'heaviside(x, y)'","mcode(binomial(x, y)) == 'bincoeff(x, y)'","mcode(Mod(x, y)) == 'mod(x, y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_Function_change_name():
     assert mcode(abs(x)) == "abs(x)"
     assert mcode(ceiling(x)) == "ceil(x)"
@@ -169,16 +208,24 @@ def test_Function_change_name():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_minmax(), test_minmax produces the expected output) over Any ║
+# ║ Path(test_minmax(), mcode(Max(x, y) + Min(x, y)) == 'max(x, y) + min(x, y)' and mcode(Max(x, y, z)) == 'max(x, max(y, z))' and mcode(Min(x, y, z)) == 'min(x, min(y, z))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_minmax : Any → {Any | mcode(Max(x, y) + Min(x, y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(Max(x, y) + Min(x, y)) == 'max(x, y...   ║
+# ║   ensures:  mcode(Max(x, y, z)) == 'max(x, max(y, z))'     ║
+# ║   ensures:  mcode(Min(x, y, z)) == 'min(x, min(y, z))'     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_minmax : Any → {Any | result satisfies: mcode(Ma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6e1190642e0e901  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 062f2464d4933fd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_minmax","kind":"function","src_hash":"37109ae62fd1549a","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(Max(x, y) + Min(x, y)) == 'max(x, y) + min(x, y)' and mcode(Max(x, y, z)) == 'max(x, max(y, z))' and mcode(Min(x, y, z)) == 'min(x, min(y, z))'"},"spec":{"lhs":"test_minmax()","rhs":"test_minmax produces the expected output","over":{"base":"Any"},"name":"test_minmax_correct"},"guarantee":"test_minmax produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_minmax_correct","statement":"Path(test_minmax(x), test_minmax produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6e1190642e0e901"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_minmax","kind":"function","src_hash":"37109ae62fd1549a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(Max(x, y) + Min(x, y)) == 'max(x, y) + min(x, y)' and mcode(Max(x, y, z)) == 'max(x, max(y, z))' and mcode(Min(x, y, z)) == 'min(x, min(y, z))'"},"spec":{"lhs":"test_minmax()","rhs":"mcode(Max(x, y) + Min(x, y)) == 'max(x, y) + min(x, y)' and mcode(Max(x, y, z)) == 'max(x, max(y, z))' and mcode(Min(x, y, z)) == 'min(x, min(y, z))'","over":{"base":"Any"},"name":"test_minmax_correct"},"guarantee":"mcode(Max(x, y) + Min(x, y)) == 'max(x, y) + min(x, y)'; mcode(Max(x, y, z)) == 'max(x, max(y, z))'; mcode(Min(x, y, z)) == 'min(x, min(y, z))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_minmax_correct","statement":"Path(test_minmax(x), mcode(Max(x, y) + Min(x, y)) == 'max(x, y) + min(x, y)'; mcode(Max(x, y, z)) == 'max(x, max(y, z))'; mcode(Min(x, y, z)) == 'min(x, min(y, z))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"062f2464d4933fd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(Max(x, y) + Min(x, y)) == 'max(x, y) + min(x, y)'","mcode(Max(x, y, z)) == 'max(x, max(y, z))'","mcode(Min(x, y, z)) == 'min(x, min(y, z))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_minmax():
     assert mcode(Max(x, y) + Min(x, y)) == "max(x, y) + min(x, y)"
     assert mcode(Max(x, y, z)) == "max(x, max(y, z))"
@@ -186,16 +233,24 @@ def test_minmax():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Pow(), test_Pow produces the expected output) over Any ║
+# ║ Path(test_Pow(), mcode(x ** 3) == 'x.^3' and mcode(x ** y ** 3) == 'x.^(y.^3)' and mcode(x ** Rational(2, 3)) == 'x.^(2/3)' and mcode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x).^(-x + y.^x)./(x.^2 + y)' and mcode(Mul(-2, x, Pow(Mul(y, y, evaluate=False), -1, evaluate=False), evaluate=False)) == '-2*x./(y.*y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Pow : Any → {Any | mcode(x ** 3) == 'x.^3' and m...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(x ** 3) == 'x.^3'                        ║
+# ║   ensures:  mcode(x ** y ** 3) == 'x.^(y.^3)'              ║
+# ║   ensures:  mcode(x ** Rational(2, 3)) == 'x.^(2/3)'       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Pow : Any → {Any | result satisfies: mcode(x ** ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0d8cfa3abccc4f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3d244f2bf4dc91f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Pow","kind":"function","src_hash":"05c1030463d28978","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(x ** 3) == 'x.^3' and mcode(x ** y ** 3) == 'x.^(y.^3)' and mcode(x ** Rational(2, 3)) == 'x.^(2/3)'"},"spec":{"lhs":"test_Pow()","rhs":"test_Pow produces the expected output","over":{"base":"Any"},"name":"test_Pow_correct"},"guarantee":"test_Pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Pow_correct","statement":"Path(test_Pow(x), test_Pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0d8cfa3abccc4f8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Pow","kind":"function","src_hash":"05c1030463d28978","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(x ** 3) == 'x.^3' and mcode(x ** y ** 3) == 'x.^(y.^3)' and mcode(x ** Rational(2, 3)) == 'x.^(2/3)' and mcode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x).^(-x + y.^x)./(x.^2 + y)' and mcode(Mul(-2, x, Pow(Mul(y, y, evaluate=False), -1, evaluate=False), evaluate=False)) == '-2*x./(y.*y)'"},"spec":{"lhs":"test_Pow()","rhs":"mcode(x ** 3) == 'x.^3' and mcode(x ** y ** 3) == 'x.^(y.^3)' and mcode(x ** Rational(2, 3)) == 'x.^(2/3)' and mcode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x).^(-x + y.^x)./(x.^2 + y)' and mcode(Mul(-2, x, Pow(Mul(y, y, evaluate=False), -1, evaluate=False), evaluate=False)) == '-2*x./(y.*y)'","over":{"base":"Any"},"name":"test_Pow_correct"},"guarantee":"mcode(x ** 3) == 'x.^3'; mcode(x ** y ** 3) == 'x.^(y.^3)'; mcode(x ** Rational(2, 3)) == 'x.^(2/3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Pow_correct","statement":"Path(test_Pow(x), mcode(x ** 3) == 'x.^3'; mcode(x ** y ** 3) == 'x.^(y.^3)'; mcode(x ** Rational(2, 3)) == 'x.^(2/3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3d244f2bf4dc91f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(x ** 3) == 'x.^3'","mcode(x ** y ** 3) == 'x.^(y.^3)'","mcode(x ** Rational(2, 3)) == 'x.^(2/3)'","mcode(1 / (g(x) * 3.5) ** (x - y ** x) / (x ** 2 + y)) == '(3.5*2*x).^(-x + y.^x)./(x.^2 + y)'","mcode(Mul(-2, x, Pow(Mul(y, y, evaluate=False), -1, evaluate=False), evaluate=False)) == '-2*x./(y.*y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Pow():
     assert mcode(x**3) == "x.^3"
     assert mcode(x**(y**3)) == "x.^(y.^3)"
@@ -209,16 +264,24 @@ def test_Pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_basic_ops(), test_basic_ops produces the expected output) over Any ║
+# ║ Path(test_basic_ops(), mcode(x * y) == 'x.*y' and mcode(x + y) == 'x + y' and mcode(x - y) == 'x - y' and mcode(-x) == '-x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_basic_ops : Any → {Any | mcode(x * y) == 'x.*y' ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(x * y) == 'x.*y'                         ║
+# ║   ensures:  mcode(x + y) == 'x + y'                        ║
+# ║   ensures:  mcode(x - y) == 'x - y'                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_basic_ops : Any → {Any | result satisfies: mcode...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bb1ac5046a884b6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4f4a9500f410b82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_basic_ops","kind":"function","src_hash":"572ba5fc9979432a","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(x * y) == 'x.*y' and mcode(x + y) == 'x + y' and mcode(x - y) == 'x - y' and mcode(-x) == '-x'"},"spec":{"lhs":"test_basic_ops()","rhs":"test_basic_ops produces the expected output","over":{"base":"Any"},"name":"test_basic_ops_correct"},"guarantee":"test_basic_ops produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_basic_ops_correct","statement":"Path(test_basic_ops(x), test_basic_ops produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bb1ac5046a884b6"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_basic_ops","kind":"function","src_hash":"572ba5fc9979432a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(x * y) == 'x.*y' and mcode(x + y) == 'x + y' and mcode(x - y) == 'x - y' and mcode(-x) == '-x'"},"spec":{"lhs":"test_basic_ops()","rhs":"mcode(x * y) == 'x.*y' and mcode(x + y) == 'x + y' and mcode(x - y) == 'x - y' and mcode(-x) == '-x'","over":{"base":"Any"},"name":"test_basic_ops_correct"},"guarantee":"mcode(x * y) == 'x.*y'; mcode(x + y) == 'x + y'; mcode(x - y) == 'x - y'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_basic_ops_correct","statement":"Path(test_basic_ops(x), mcode(x * y) == 'x.*y'; mcode(x + y) == 'x + y'; mcode(x - y) == 'x - y')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4f4a9500f410b82","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(x * y) == 'x.*y'","mcode(x + y) == 'x + y'","mcode(x - y) == 'x - y'","mcode(-x) == '-x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_basic_ops():
     assert mcode(x*y) == "x.*y"
     assert mcode(x + y) == "x + y"
@@ -227,16 +290,24 @@ def test_basic_ops():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_1_over_x_and_sqrt(), test_1_over_x_and_sqrt produces the expected output) over Any ║
+# ║ Path(test_1_over_x_and_sqrt(), mcode(1 / x) == '1./x' and mcode(x ** (-1)) == mcode(x ** (-1.0)) == '1./x' and mcode(1 / sqrt(x)) == '1./sqrt(x)' and mcode(x ** (-S.Half)) == mcode(x ** (-0.5)) == '1./sqrt(x)' and mcode(sqrt(x)) == 'sqrt(x)' and mcode(x ** S.Half) == mcode(x ** 0.5) == 'sqrt(x)' and mcode(1 / pi) == '1/pi' and mcode(pi ** (-1)) == mcode(pi ** (-1.0)) == '1/pi' and mcode(pi ** (-0.5)) == '1/sqrt(pi)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_1_over_x_and_sqrt : Any → {Any | mcode(1 / x) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(1 / x) == '1./x'                         ║
+# ║   ensures:  mcode(x ** (-1)) == mcode(x ** (-1.0)) ==...   ║
+# ║   ensures:  mcode(1 / sqrt(x)) == '1./sqrt(x)'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_1_over_x_and_sqrt : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e1ea052d9846bec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3baf4a11a1c67fec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_1_over_x_and_sqrt","kind":"function","src_hash":"a3029d4bffe2fd96","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(1 / x) == '1./x' and mcode(x ** (-1)) == mcode(x ** (-1.0)) == '1./x' and mcode(1 / sqrt(x)) == '1./sqrt(x)' and mcode(x ** (-S.Half)) == mcode(x ** (-0.5)) == '1./sqrt(x)' and mcode(sqrt(x)) == 'sqrt(x)' and mcode(x ** S.Half) == mcode(x ** 0.5) == 'sqrt(x)' and mcode(1 / pi) == '1/pi' and mcode(pi ** (-1)) == mcode(pi ** (-1.0)) == '1/pi' and mcode(pi ** (-0.5)) == '1/sqrt(pi)'"},"spec":{"lhs":"test_1_over_x_and_sqrt()","rhs":"test_1_over_x_and_sqrt produces the expected output","over":{"base":"Any"},"name":"test_1_over_x_and_sqrt_correct"},"guarantee":"test_1_over_x_and_sqrt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_1_over_x_and_sqrt_correct","statement":"Path(test_1_over_x_and_sqrt(x), test_1_over_x_and_sqrt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e1ea052d9846bec"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_1_over_x_and_sqrt","kind":"function","src_hash":"a3029d4bffe2fd96","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(1 / x) == '1./x' and mcode(x ** (-1)) == mcode(x ** (-1.0)) == '1./x' and mcode(1 / sqrt(x)) == '1./sqrt(x)' and mcode(x ** (-S.Half)) == mcode(x ** (-0.5)) == '1./sqrt(x)' and mcode(sqrt(x)) == 'sqrt(x)' and mcode(x ** S.Half) == mcode(x ** 0.5) == 'sqrt(x)' and mcode(1 / pi) == '1/pi' and mcode(pi ** (-1)) == mcode(pi ** (-1.0)) == '1/pi' and mcode(pi ** (-0.5)) == '1/sqrt(pi)'"},"spec":{"lhs":"test_1_over_x_and_sqrt()","rhs":"mcode(1 / x) == '1./x' and mcode(x ** (-1)) == mcode(x ** (-1.0)) == '1./x' and mcode(1 / sqrt(x)) == '1./sqrt(x)' and mcode(x ** (-S.Half)) == mcode(x ** (-0.5)) == '1./sqrt(x)' and mcode(sqrt(x)) == 'sqrt(x)' and mcode(x ** S.Half) == mcode(x ** 0.5) == 'sqrt(x)' and mcode(1 / pi) == '1/pi' and mcode(pi ** (-1)) == mcode(pi ** (-1.0)) == '1/pi' and mcode(pi ** (-0.5)) == '1/sqrt(pi)'","over":{"base":"Any"},"name":"test_1_over_x_and_sqrt_correct"},"guarantee":"mcode(1 / x) == '1./x'; mcode(x ** (-1)) == mcode(x ** (-1.0)) == '1./x'; mcode(1 / sqrt(x)) == '1./sqrt(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_1_over_x_and_sqrt_correct","statement":"Path(test_1_over_x_and_sqrt(x), mcode(1 / x) == '1./x'; mcode(x ** (-1)) == mcode(x ** (-1.0)) == '1./x'; mcode(1 / sqrt(x)) == '1./sqrt(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3baf4a11a1c67fec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(1 / x) == '1./x'","mcode(x ** (-1)) == mcode(x ** (-1.0)) == '1./x'","mcode(1 / sqrt(x)) == '1./sqrt(x)'","mcode(x ** (-S.Half)) == mcode(x ** (-0.5)) == '1./sqrt(x)'","mcode(sqrt(x)) == 'sqrt(x)'","mcode(x ** S.Half) == mcode(x ** 0.5) == 'sqrt(x)'","mcode(1 / pi) == '1/pi'","mcode(pi ** (-1)) == mcode(pi ** (-1.0)) == '1/pi'","mcode(pi ** (-0.5)) == '1/sqrt(pi)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_1_over_x_and_sqrt():
     # 1.0 and 0.5 would do something different in regular StrPrinter,
     # but these are exact in IEEE floating point so no different here.
@@ -252,16 +323,24 @@ def test_1_over_x_and_sqrt():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mix_number_mult_symbols(), test_mix_number_mult_symbols produces the expected output) over Any ║
+# ║ Path(test_mix_number_mult_symbols(), mcode(3 * x) == '3*x' and mcode(pi * x) == 'pi*x' and mcode(3 / x) == '3./x' and mcode(pi / x) == 'pi./x' and mcode(x / 3) == 'x/3' and mcode(x / pi) == 'x/pi' and mcode(x * y) == 'x.*y' and mcode(3 * x * y) == '3*x.*y' and mcode(3 * pi * x * y) == '3*pi*x.*y' and mcode(x / y) == 'x./y' and mcode(3 * x / y) == '3*x./y' and mcode(x * y / z) == 'x.*y./z' and mcode(x / y * z) == 'x.*z./y' and mcode(1 / x / y) == '1./(x.*y)' and mcode(2 * pi * x / y / z) == '2*pi*x./(y.*z)' and mcode(3 * pi / x) == '3*pi./x' and mcode(S(3) / 5) == '3/5' and mcode(S(3) / 5 * x) == '3*x/5' and mcode(x / y / z) == 'x./(y.*z)' and mcode((x + y) / z) == '(x + y)./z' and mcode((x + y) / (z + x)) == '(x + y)./(x + z)' and mcode((x + y) / EulerGamma) == '(x + y)/%s' % EulerGamma.evalf(17) and mcode(x / 3 / pi) == 'x/(3*pi)' and mcode(S(3) / 5 * x * y / pi) == '3*x.*y/(5*pi)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mix_number_mult_symbols : Any → {Any | mcode(3 *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(3 * x) == '3*x'                          ║
+# ║   ensures:  mcode(pi * x) == 'pi*x'                        ║
+# ║   ensures:  mcode(3 / x) == '3./x'                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mix_number_mult_symbols : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a80b8cebd0e20fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f32c98074583f3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_mix_number_mult_symbols","kind":"function","src_hash":"5ccf9968c0a7d765","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(3 * x) == '3*x' and mcode(pi * x) == 'pi*x' and mcode(3 / x) == '3./x' and mcode(pi / x) == 'pi./x' and mcode(x / 3) == 'x/3' and mcode(x / pi) == 'x/pi' and mcode(x * y) == 'x.*y' and mcode(3 * x * y) == '3*x.*y' and mcode(3 * pi * x * y) == '3*pi*x.*y' and mcode(x / y) == 'x./y' and mcode(3 * x / y) == '3*x./y' and mcode(x * y / z) == 'x.*y./z' and mcode(x / y * z) == 'x.*z./y' and mcode(1 / x / y) == '1./(x.*y)' and mcode(2 * pi * x / y / z) == '2*pi*x./(y.*z)' and mcode(3 * pi / x) == '3*pi./x' and mcode(S(3) / 5) == '3/5' and mcode(S(3) / 5 * x) == '3*x/5' and mcode(x / y / z) == 'x./(y.*z)' and mcode((x + y) / z) == '(x + y)./z' and mcode((x + y) / (z + x)) == '(x + y)./(x + z)' and mcode((x + y) / EulerGamma) == '(x + y)/%s' % EulerGamma.evalf(17) and mcode(x / 3 / pi) == 'x/(3*pi)' and mcode(S(3) / 5 * x * y / pi) == '3*x.*y/(5*pi)'"},"spec":{"lhs":"test_mix_number_mult_symbols()","rhs":"test_mix_number_mult_symbols produces the expected output","over":{"base":"Any"},"name":"test_mix_number_mult_symbols_correct"},"guarantee":"test_mix_number_mult_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_mix_number_mult_symbols_correct","statement":"Path(test_mix_number_mult_symbols(x), test_mix_number_mult_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a80b8cebd0e20fe"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_mix_number_mult_symbols","kind":"function","src_hash":"5ccf9968c0a7d765","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(3 * x) == '3*x' and mcode(pi * x) == 'pi*x' and mcode(3 / x) == '3./x' and mcode(pi / x) == 'pi./x' and mcode(x / 3) == 'x/3' and mcode(x / pi) == 'x/pi' and mcode(x * y) == 'x.*y' and mcode(3 * x * y) == '3*x.*y' and mcode(3 * pi * x * y) == '3*pi*x.*y' and mcode(x / y) == 'x./y' and mcode(3 * x / y) == '3*x./y' and mcode(x * y / z) == 'x.*y./z' and mcode(x / y * z) == 'x.*z./y' and mcode(1 / x / y) == '1./(x.*y)' and mcode(2 * pi * x / y / z) == '2*pi*x./(y.*z)' and mcode(3 * pi / x) == '3*pi./x' and mcode(S(3) / 5) == '3/5' and mcode(S(3) / 5 * x) == '3*x/5' and mcode(x / y / z) == 'x./(y.*z)' and mcode((x + y) / z) == '(x + y)./z' and mcode((x + y) / (z + x)) == '(x + y)./(x + z)' and mcode((x + y) / EulerGamma) == '(x + y)/%s' % EulerGamma.evalf(17) and mcode(x / 3 / pi) == 'x/(3*pi)' and mcode(S(3) / 5 * x * y / pi) == '3*x.*y/(5*pi)'"},"spec":{"lhs":"test_mix_number_mult_symbols()","rhs":"mcode(3 * x) == '3*x' and mcode(pi * x) == 'pi*x' and mcode(3 / x) == '3./x' and mcode(pi / x) == 'pi./x' and mcode(x / 3) == 'x/3' and mcode(x / pi) == 'x/pi' and mcode(x * y) == 'x.*y' and mcode(3 * x * y) == '3*x.*y' and mcode(3 * pi * x * y) == '3*pi*x.*y' and mcode(x / y) == 'x./y' and mcode(3 * x / y) == '3*x./y' and mcode(x * y / z) == 'x.*y./z' and mcode(x / y * z) == 'x.*z./y' and mcode(1 / x / y) == '1./(x.*y)' and mcode(2 * pi * x / y / z) == '2*pi*x./(y.*z)' and mcode(3 * pi / x) == '3*pi./x' and mcode(S(3) / 5) == '3/5' and mcode(S(3) / 5 * x) == '3*x/5' and mcode(x / y / z) == 'x./(y.*z)' and mcode((x + y) / z) == '(x + y)./z' and mcode((x + y) / (z + x)) == '(x + y)./(x + z)' and mcode((x + y) / EulerGamma) == '(x + y)/%s' % EulerGamma.evalf(17) and mcode(x / 3 / pi) == 'x/(3*pi)' and mcode(S(3) / 5 * x * y / pi) == '3*x.*y/(5*pi)'","over":{"base":"Any"},"name":"test_mix_number_mult_symbols_correct"},"guarantee":"mcode(3 * x) == '3*x'; mcode(pi * x) == 'pi*x'; mcode(3 / x) == '3./x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_mix_number_mult_symbols_correct","statement":"Path(test_mix_number_mult_symbols(x), mcode(3 * x) == '3*x'; mcode(pi * x) == 'pi*x'; mcode(3 / x) == '3./x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f32c98074583f3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(3 * x) == '3*x'","mcode(pi * x) == 'pi*x'","mcode(3 / x) == '3./x'","mcode(pi / x) == 'pi./x'","mcode(x / 3) == 'x/3'","mcode(x / pi) == 'x/pi'","mcode(x * y) == 'x.*y'","mcode(3 * x * y) == '3*x.*y'","mcode(3 * pi * x * y) == '3*pi*x.*y'","mcode(x / y) == 'x./y'","mcode(3 * x / y) == '3*x./y'","mcode(x * y / z) == 'x.*y./z'","mcode(x / y * z) == 'x.*z./y'","mcode(1 / x / y) == '1./(x.*y)'","mcode(2 * pi * x / y / z) == '2*pi*x./(y.*z)'","mcode(3 * pi / x) == '3*pi./x'","mcode(S(3) / 5) == '3/5'","mcode(S(3) / 5 * x) == '3*x/5'","mcode(x / y / z) == 'x./(y.*z)'","mcode((x + y) / z) == '(x + y)./z'","mcode((x + y) / (z + x)) == '(x + y)./(x + z)'","mcode((x + y) / EulerGamma) == '(x + y)/%s' % EulerGamma.evalf(17)","mcode(x / 3 / pi) == 'x/(3*pi)'","mcode(S(3) / 5 * x * y / pi) == '3*x.*y/(5*pi)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_mix_number_mult_symbols():
     assert mcode(3*x) == "3*x"
     assert mcode(pi*x) == "pi*x"
@@ -290,16 +369,24 @@ def test_mix_number_mult_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mix_number_pow_symbols(), test_mix_number_pow_symbols produces the expected output) over Any ║
+# ║ Path(test_mix_number_pow_symbols(), mcode(pi ** 3) == 'pi^3' and mcode(x ** 2) == 'x.^2' and mcode(x ** pi ** 3) == 'x.^(pi^3)' and mcode(x ** y) == 'x.^y' and mcode(x ** y ** z) == 'x.^(y.^z)' and mcode((x ** y) ** z) == '(x.^y).^z') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mix_number_pow_symbols : Any → {Any | mcode(pi *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(pi ** 3) == 'pi^3'                       ║
+# ║   ensures:  mcode(x ** 2) == 'x.^2'                        ║
+# ║   ensures:  mcode(x ** pi ** 3) == 'x.^(pi^3)'             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mix_number_pow_symbols : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d0980a9113c5f75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d2c0508cba37d6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_mix_number_pow_symbols","kind":"function","src_hash":"734840c1b0391620","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(pi ** 3) == 'pi^3' and mcode(x ** 2) == 'x.^2' and mcode(x ** pi ** 3) == 'x.^(pi^3)' and mcode(x ** y) == 'x.^y' and mcode(x ** y ** z) == 'x.^(y.^z)' and mcode((x ** y) ** z) == '(x.^y).^z'"},"spec":{"lhs":"test_mix_number_pow_symbols()","rhs":"test_mix_number_pow_symbols produces the expected output","over":{"base":"Any"},"name":"test_mix_number_pow_symbols_correct"},"guarantee":"test_mix_number_pow_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_mix_number_pow_symbols_correct","statement":"Path(test_mix_number_pow_symbols(x), test_mix_number_pow_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d0980a9113c5f75"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_mix_number_pow_symbols","kind":"function","src_hash":"734840c1b0391620","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(pi ** 3) == 'pi^3' and mcode(x ** 2) == 'x.^2' and mcode(x ** pi ** 3) == 'x.^(pi^3)' and mcode(x ** y) == 'x.^y' and mcode(x ** y ** z) == 'x.^(y.^z)' and mcode((x ** y) ** z) == '(x.^y).^z'"},"spec":{"lhs":"test_mix_number_pow_symbols()","rhs":"mcode(pi ** 3) == 'pi^3' and mcode(x ** 2) == 'x.^2' and mcode(x ** pi ** 3) == 'x.^(pi^3)' and mcode(x ** y) == 'x.^y' and mcode(x ** y ** z) == 'x.^(y.^z)' and mcode((x ** y) ** z) == '(x.^y).^z'","over":{"base":"Any"},"name":"test_mix_number_pow_symbols_correct"},"guarantee":"mcode(pi ** 3) == 'pi^3'; mcode(x ** 2) == 'x.^2'; mcode(x ** pi ** 3) == 'x.^(pi^3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_mix_number_pow_symbols_correct","statement":"Path(test_mix_number_pow_symbols(x), mcode(pi ** 3) == 'pi^3'; mcode(x ** 2) == 'x.^2'; mcode(x ** pi ** 3) == 'x.^(pi^3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d2c0508cba37d6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(pi ** 3) == 'pi^3'","mcode(x ** 2) == 'x.^2'","mcode(x ** pi ** 3) == 'x.^(pi^3)'","mcode(x ** y) == 'x.^y'","mcode(x ** y ** z) == 'x.^(y.^z)'","mcode((x ** y) ** z) == '(x.^y).^z'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mix_number_pow_symbols():
     assert mcode(pi**3) == 'pi^3'
     assert mcode(x**2) == 'x.^2'
@@ -310,16 +397,24 @@ def test_mix_number_pow_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_imag(), test_imag produces the expected output) over Any ║
+# ║ Path(test_imag(), mcode(I) == '1i' and mcode(5 * I) == '5i' and mcode(S(3) / 2 * I) == '3*1i/2' and mcode(3 + 4 * I) == '3 + 4i' and mcode(sqrt(3) * I) == 'sqrt(3)*1i') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_imag : Any → {Any | mcode(I) == '1i' and mcode(5...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(I) == '1i'                               ║
+# ║   ensures:  mcode(5 * I) == '5i'                           ║
+# ║   ensures:  mcode(S(3) / 2 * I) == '3*1i/2'                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_imag : Any → {Any | result satisfies: mcode(I) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 594713da9524310e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ef91433262f0ea0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_imag","kind":"function","src_hash":"2271c88b55c9d531","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(I) == '1i' and mcode(5 * I) == '5i' and mcode(S(3) / 2 * I) == '3*1i/2' and mcode(3 + 4 * I) == '3 + 4i' and mcode(sqrt(3) * I) == 'sqrt(3)*1i'"},"spec":{"lhs":"test_imag()","rhs":"test_imag produces the expected output","over":{"base":"Any"},"name":"test_imag_correct"},"guarantee":"test_imag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_imag_correct","statement":"Path(test_imag(x), test_imag produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"594713da9524310e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_imag","kind":"function","src_hash":"2271c88b55c9d531","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(I) == '1i' and mcode(5 * I) == '5i' and mcode(S(3) / 2 * I) == '3*1i/2' and mcode(3 + 4 * I) == '3 + 4i' and mcode(sqrt(3) * I) == 'sqrt(3)*1i'"},"spec":{"lhs":"test_imag()","rhs":"mcode(I) == '1i' and mcode(5 * I) == '5i' and mcode(S(3) / 2 * I) == '3*1i/2' and mcode(3 + 4 * I) == '3 + 4i' and mcode(sqrt(3) * I) == 'sqrt(3)*1i'","over":{"base":"Any"},"name":"test_imag_correct"},"guarantee":"mcode(I) == '1i'; mcode(5 * I) == '5i'; mcode(S(3) / 2 * I) == '3*1i/2'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_imag_correct","statement":"Path(test_imag(x), mcode(I) == '1i'; mcode(5 * I) == '5i'; mcode(S(3) / 2 * I) == '3*1i/2')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ef91433262f0ea0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(I) == '1i'","mcode(5 * I) == '5i'","mcode(S(3) / 2 * I) == '3*1i/2'","mcode(3 + 4 * I) == '3 + 4i'","mcode(sqrt(3) * I) == 'sqrt(3)*1i'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_imag():
     I = S('I')
     assert mcode(I) == "1i"
@@ -330,16 +425,24 @@ def test_imag():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constants(), test_constants produces the expected output) over Any ║
+# ║ Path(test_constants(), mcode(pi) == 'pi' and mcode(oo) == 'inf' and mcode(-oo) == '-inf' and mcode(S.NegativeInfinity) == '-inf' and mcode(S.NaN) == 'NaN' and mcode(S.Exp1) == 'exp(1)' and mcode(exp(1)) == 'exp(1)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_constants : Any → {Any | mcode(pi) == 'pi' and m...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(pi) == 'pi'                              ║
+# ║   ensures:  mcode(oo) == 'inf'                             ║
+# ║   ensures:  mcode(-oo) == '-inf'                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_constants : Any → {Any | result satisfies: mcode...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f946f8e5dea8f1e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6afd4b7a5c5bdd0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_constants","kind":"function","src_hash":"56db727e98b926f5","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(pi) == 'pi' and mcode(oo) == 'inf' and mcode(-oo) == '-inf' and mcode(S.NegativeInfinity) == '-inf' and mcode(S.NaN) == 'NaN' and mcode(S.Exp1) == 'exp(1)' and mcode(exp(1)) == 'exp(1)'"},"spec":{"lhs":"test_constants()","rhs":"test_constants produces the expected output","over":{"base":"Any"},"name":"test_constants_correct"},"guarantee":"test_constants produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_constants_correct","statement":"Path(test_constants(x), test_constants produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f946f8e5dea8f1e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_constants","kind":"function","src_hash":"56db727e98b926f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(pi) == 'pi' and mcode(oo) == 'inf' and mcode(-oo) == '-inf' and mcode(S.NegativeInfinity) == '-inf' and mcode(S.NaN) == 'NaN' and mcode(S.Exp1) == 'exp(1)' and mcode(exp(1)) == 'exp(1)'"},"spec":{"lhs":"test_constants()","rhs":"mcode(pi) == 'pi' and mcode(oo) == 'inf' and mcode(-oo) == '-inf' and mcode(S.NegativeInfinity) == '-inf' and mcode(S.NaN) == 'NaN' and mcode(S.Exp1) == 'exp(1)' and mcode(exp(1)) == 'exp(1)'","over":{"base":"Any"},"name":"test_constants_correct"},"guarantee":"mcode(pi) == 'pi'; mcode(oo) == 'inf'; mcode(-oo) == '-inf'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_constants_correct","statement":"Path(test_constants(x), mcode(pi) == 'pi'; mcode(oo) == 'inf'; mcode(-oo) == '-inf')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6afd4b7a5c5bdd0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(pi) == 'pi'","mcode(oo) == 'inf'","mcode(-oo) == '-inf'","mcode(S.NegativeInfinity) == '-inf'","mcode(S.NaN) == 'NaN'","mcode(S.Exp1) == 'exp(1)'","mcode(exp(1)) == 'exp(1)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_constants():
     assert mcode(pi) == "pi"
     assert mcode(oo) == "inf"
@@ -351,16 +454,24 @@ def test_constants():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constants_other(), test_constants_other produces the expected output) over Any ║
+# ║ Path(test_constants_other(), mcode(2 * GoldenRatio) == '2*(1+sqrt(5))/2' and mcode(2 * Catalan) == '2*%s' % Catalan.evalf(17) and mcode(2 * EulerGamma) == '2*%s' % EulerGamma.evalf(17)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_constants_other : Any → {Any | mcode(2 * GoldenR...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(2 * GoldenRatio) == '2*(1+sqrt(5))/2'    ║
+# ║   ensures:  mcode(2 * Catalan) == '2*%s' % Catalan.ev...   ║
+# ║   ensures:  mcode(2 * EulerGamma) == '2*%s' % EulerGa...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_constants_other : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c916868c04ae17be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c29ea401ec07e168  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_constants_other","kind":"function","src_hash":"cebe68278285a873","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(2 * GoldenRatio) == '2*(1+sqrt(5))/2' and mcode(2 * Catalan) == '2*%s' % Catalan.evalf(17) and mcode(2 * EulerGamma) == '2*%s' % EulerGamma.evalf(17)"},"spec":{"lhs":"test_constants_other()","rhs":"test_constants_other produces the expected output","over":{"base":"Any"},"name":"test_constants_other_correct"},"guarantee":"test_constants_other produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_constants_other_correct","statement":"Path(test_constants_other(x), test_constants_other produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c916868c04ae17be"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_constants_other","kind":"function","src_hash":"cebe68278285a873","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(2 * GoldenRatio) == '2*(1+sqrt(5))/2' and mcode(2 * Catalan) == '2*%s' % Catalan.evalf(17) and mcode(2 * EulerGamma) == '2*%s' % EulerGamma.evalf(17)"},"spec":{"lhs":"test_constants_other()","rhs":"mcode(2 * GoldenRatio) == '2*(1+sqrt(5))/2' and mcode(2 * Catalan) == '2*%s' % Catalan.evalf(17) and mcode(2 * EulerGamma) == '2*%s' % EulerGamma.evalf(17)","over":{"base":"Any"},"name":"test_constants_other_correct"},"guarantee":"mcode(2 * GoldenRatio) == '2*(1+sqrt(5))/2'; mcode(2 * Catalan) == '2*%s' % Catalan.evalf(17); mcode(2 * EulerGamma) == '2*%s' % EulerGamma.evalf(17)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_constants_other_correct","statement":"Path(test_constants_other(x), mcode(2 * GoldenRatio) == '2*(1+sqrt(5))/2'; mcode(2 * Catalan) == '2*%s' % Catalan.evalf(17); mcode(2 * EulerGamma) == '2*%s' % EulerGamma.evalf(17))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c29ea401ec07e168","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(2 * GoldenRatio) == '2*(1+sqrt(5))/2'","mcode(2 * Catalan) == '2*%s' % Catalan.evalf(17)","mcode(2 * EulerGamma) == '2*%s' % EulerGamma.evalf(17)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_constants_other():
     assert mcode(2*GoldenRatio) == "2*(1+sqrt(5))/2"
     assert mcode(2*Catalan) == "2*%s" % Catalan.evalf(17)
@@ -368,16 +479,24 @@ def test_constants_other():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_boolean(), test_boolean produces the expected output) over Any ║
+# ║ Path(test_boolean(), mcode(x & y) == 'x & y' and mcode(x | y) == 'x | y' and mcode(~x) == '~x' and mcode(x & y & z) == 'x & y & z' and mcode(x | y | z) == 'x | y | z' and mcode(x & y | z) == 'z | x & y' and mcode((x | y) & z) == 'z & (x | y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_boolean : Any → {Any | mcode(x & y) == 'x & y' a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(x & y) == 'x & y'                        ║
+# ║   ensures:  mcode(x | y) == 'x | y'                        ║
+# ║   ensures:  mcode(~x) == '~x'                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_boolean : Any → {Any | result satisfies: mcode(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e83b96a6ab00ba7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 035d559ec3a27538  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_boolean","kind":"function","src_hash":"c67f8bc066c6e4d0","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(x & y) == 'x & y' and mcode(x | y) == 'x | y' and mcode(~x) == '~x' and mcode(x & y & z) == 'x & y & z' and mcode(x | y | z) == 'x | y | z' and mcode(x & y | z) == 'z | x & y' and mcode((x | y) & z) == 'z & (x | y)'"},"spec":{"lhs":"test_boolean()","rhs":"test_boolean produces the expected output","over":{"base":"Any"},"name":"test_boolean_correct"},"guarantee":"test_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_boolean_correct","statement":"Path(test_boolean(x), test_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e83b96a6ab00ba7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_boolean","kind":"function","src_hash":"c67f8bc066c6e4d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(x & y) == 'x & y' and mcode(x | y) == 'x | y' and mcode(~x) == '~x' and mcode(x & y & z) == 'x & y & z' and mcode(x | y | z) == 'x | y | z' and mcode(x & y | z) == 'z | x & y' and mcode((x | y) & z) == 'z & (x | y)'"},"spec":{"lhs":"test_boolean()","rhs":"mcode(x & y) == 'x & y' and mcode(x | y) == 'x | y' and mcode(~x) == '~x' and mcode(x & y & z) == 'x & y & z' and mcode(x | y | z) == 'x | y | z' and mcode(x & y | z) == 'z | x & y' and mcode((x | y) & z) == 'z & (x | y)'","over":{"base":"Any"},"name":"test_boolean_correct"},"guarantee":"mcode(x & y) == 'x & y'; mcode(x | y) == 'x | y'; mcode(~x) == '~x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_boolean_correct","statement":"Path(test_boolean(x), mcode(x & y) == 'x & y'; mcode(x | y) == 'x | y'; mcode(~x) == '~x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"035d559ec3a27538","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(x & y) == 'x & y'","mcode(x | y) == 'x | y'","mcode(~x) == '~x'","mcode(x & y & z) == 'x & y & z'","mcode(x | y | z) == 'x | y | z'","mcode(x & y | z) == 'z | x & y'","mcode((x | y) & z) == 'z & (x | y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_boolean():
     assert mcode(x & y) == "x & y"
     assert mcode(x | y) == "x | y"
@@ -389,16 +508,24 @@ def test_boolean():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_KroneckerDelta(), test_KroneckerDelta produces the expected output) over Any ║
+# ║ Path(test_KroneckerDelta(), mcode(KroneckerDelta(x, y)) == 'double(x == y)' and mcode(KroneckerDelta(x, y + 1)) == 'double(x == (y + 1))' and mcode(KroneckerDelta(2 ** x, y)) == 'double((2.^x) == y)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_KroneckerDelta : Any → {Any | mcode(KroneckerDel...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(KroneckerDelta(x, y)) == 'double(x ...   ║
+# ║   ensures:  mcode(KroneckerDelta(x, y + 1)) == 'doubl...   ║
+# ║   ensures:  mcode(KroneckerDelta(2 ** x, y)) == 'doub...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_KroneckerDelta : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0143f1608e9a48e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7efcde3b600b41a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_KroneckerDelta","kind":"function","src_hash":"aaeff22932793583","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(KroneckerDelta(x, y)) == 'double(x == y)' and mcode(KroneckerDelta(x, y + 1)) == 'double(x == (y + 1))' and mcode(KroneckerDelta(2 ** x, y)) == 'double((2.^x) == y)'"},"spec":{"lhs":"test_KroneckerDelta()","rhs":"test_KroneckerDelta produces the expected output","over":{"base":"Any"},"name":"test_KroneckerDelta_correct"},"guarantee":"test_KroneckerDelta produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_KroneckerDelta_correct","statement":"Path(test_KroneckerDelta(x), test_KroneckerDelta produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0143f1608e9a48e0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_KroneckerDelta","kind":"function","src_hash":"aaeff22932793583","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(KroneckerDelta(x, y)) == 'double(x == y)' and mcode(KroneckerDelta(x, y + 1)) == 'double(x == (y + 1))' and mcode(KroneckerDelta(2 ** x, y)) == 'double((2.^x) == y)'"},"spec":{"lhs":"test_KroneckerDelta()","rhs":"mcode(KroneckerDelta(x, y)) == 'double(x == y)' and mcode(KroneckerDelta(x, y + 1)) == 'double(x == (y + 1))' and mcode(KroneckerDelta(2 ** x, y)) == 'double((2.^x) == y)'","over":{"base":"Any"},"name":"test_KroneckerDelta_correct"},"guarantee":"mcode(KroneckerDelta(x, y)) == 'double(x == y)'; mcode(KroneckerDelta(x, y + 1)) == 'double(x == (y + 1))'; mcode(KroneckerDelta(2 ** x, y)) == 'double((2.^x) == y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_KroneckerDelta_correct","statement":"Path(test_KroneckerDelta(x), mcode(KroneckerDelta(x, y)) == 'double(x == y)'; mcode(KroneckerDelta(x, y + 1)) == 'double(x == (y + 1))'; mcode(KroneckerDelta(2 ** x, y)) == 'double((2.^x) == y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7efcde3b600b41a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(KroneckerDelta(x, y)) == 'double(x == y)'","mcode(KroneckerDelta(x, y + 1)) == 'double(x == (y + 1))'","mcode(KroneckerDelta(2 ** x, y)) == 'double((2.^x) == y)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_KroneckerDelta():
     from sympy.functions import KroneckerDelta
     assert mcode(KroneckerDelta(x, y)) == "double(x == y)"
@@ -407,16 +534,24 @@ def test_KroneckerDelta():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrices(), test_Matrices produces the expected output) over Any ║
+# ║ Path(test_Matrices(), mcode(Matrix(1, 1, [10])) == '10' and mcode(A) == expected and mcode(A[:, 0]) == '[1; 0; 0]' and mcode(A[0, :]) == '[1 sin(x/2) abs(x)]' and mcode(Matrix(0, 0, [])) == '[]' and mcode(Matrix(0, 3, [])) == 'zeros(0, 3)' and mcode(Matrix([[x, x - y, -y]])) == '[x x - y -y]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrices : Any → {Any | mcode(Matrix(1, 1, [10])...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(Matrix(1, 1, [10])) == '10'              ║
+# ║   ensures:  mcode(A) == expected                           ║
+# ║   ensures:  mcode(A[:, 0]) == '[1; 0; 0]'                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrices : Any → {Any | result satisfies: mcode(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7390aab9266979a8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c65e66dc173ac67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Matrices","kind":"function","src_hash":"28299d3327dc8a09","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(Matrix(1, 1, [10])) == '10' and mcode(A) == expected and mcode(A[:, 0]) == '[1; 0; 0]' and mcode(A[0, :]) == '[1 sin(x/2) abs(x)]' and mcode(Matrix(0, 0, [])) == '[]' and mcode(Matrix(0, 3, [])) == 'zeros(0, 3)' and mcode(Matrix([[x, x - y, -y]])) == '[x x - y -y]'"},"spec":{"lhs":"test_Matrices()","rhs":"test_Matrices produces the expected output","over":{"base":"Any"},"name":"test_Matrices_correct"},"guarantee":"test_Matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Matrices_correct","statement":"Path(test_Matrices(x), test_Matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7390aab9266979a8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Matrices","kind":"function","src_hash":"28299d3327dc8a09","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(Matrix(1, 1, [10])) == '10' and mcode(A) == expected and mcode(A[:, 0]) == '[1; 0; 0]' and mcode(A[0, :]) == '[1 sin(x/2) abs(x)]' and mcode(Matrix(0, 0, [])) == '[]' and mcode(Matrix(0, 3, [])) == 'zeros(0, 3)' and mcode(Matrix([[x, x - y, -y]])) == '[x x - y -y]'"},"spec":{"lhs":"test_Matrices()","rhs":"mcode(Matrix(1, 1, [10])) == '10' and mcode(A) == expected and mcode(A[:, 0]) == '[1; 0; 0]' and mcode(A[0, :]) == '[1 sin(x/2) abs(x)]' and mcode(Matrix(0, 0, [])) == '[]' and mcode(Matrix(0, 3, [])) == 'zeros(0, 3)' and mcode(Matrix([[x, x - y, -y]])) == '[x x - y -y]'","over":{"base":"Any"},"name":"test_Matrices_correct"},"guarantee":"mcode(Matrix(1, 1, [10])) == '10'; mcode(A) == expected; mcode(A[:, 0]) == '[1; 0; 0]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Matrices_correct","statement":"Path(test_Matrices(x), mcode(Matrix(1, 1, [10])) == '10'; mcode(A) == expected; mcode(A[:, 0]) == '[1; 0; 0]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c65e66dc173ac67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(Matrix(1, 1, [10])) == '10'","mcode(A) == expected","mcode(A[:, 0]) == '[1; 0; 0]'","mcode(A[0, :]) == '[1 sin(x/2) abs(x)]'","mcode(Matrix(0, 0, [])) == '[]'","mcode(Matrix(0, 3, [])) == 'zeros(0, 3)'","mcode(Matrix([[x, x - y, -y]])) == '[x x - y -y]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_Matrices():
     assert mcode(Matrix(1, 1, [10])) == "10"
     A = Matrix([[1, sin(x/2), abs(x)],
@@ -435,16 +570,23 @@ def test_Matrices():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_entries_hadamard(), test_vector_entries_hadamard produces the expected output) over Any ║
+# ║ Path(test_vector_entries_hadamard(), mcode(A) == '[1 sin(2./x) 3*pi./(5*x)]' and mcode(A.T) == '[1; sin(2./x); 3*pi./(5*x)]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_entries_hadamard : Any → {Any | mcode(A) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(A) == '[1 sin(2./x) 3*pi./(5*x)]'        ║
+# ║   ensures:  mcode(A.T) == '[1; sin(2./x); 3*pi./(5*x)]'    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_entries_hadamard : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a554be8ce3308975  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d297119355ffbc2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_vector_entries_hadamard","kind":"function","src_hash":"be227ed3daf15269","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(A) == '[1 sin(2./x) 3*pi./(5*x)]' and mcode(A.T) == '[1; sin(2./x); 3*pi./(5*x)]'"},"spec":{"lhs":"test_vector_entries_hadamard()","rhs":"test_vector_entries_hadamard produces the expected output","over":{"base":"Any"},"name":"test_vector_entries_hadamard_correct"},"guarantee":"test_vector_entries_hadamard produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_vector_entries_hadamard_correct","statement":"Path(test_vector_entries_hadamard(x), test_vector_entries_hadamard produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a554be8ce3308975"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_vector_entries_hadamard","kind":"function","src_hash":"be227ed3daf15269","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(A) == '[1 sin(2./x) 3*pi./(5*x)]' and mcode(A.T) == '[1; sin(2./x); 3*pi./(5*x)]'"},"spec":{"lhs":"test_vector_entries_hadamard()","rhs":"mcode(A) == '[1 sin(2./x) 3*pi./(5*x)]' and mcode(A.T) == '[1; sin(2./x); 3*pi./(5*x)]'","over":{"base":"Any"},"name":"test_vector_entries_hadamard_correct"},"guarantee":"mcode(A) == '[1 sin(2./x) 3*pi./(5*x)]'; mcode(A.T) == '[1; sin(2./x); 3*pi./(5*x)]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_vector_entries_hadamard_correct","statement":"Path(test_vector_entries_hadamard(x), mcode(A) == '[1 sin(2./x) 3*pi./(5*x)]'; mcode(A.T) == '[1; sin(2./x); 3*pi./(5*x)]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d297119355ffbc2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(A) == '[1 sin(2./x) 3*pi./(5*x)]'","mcode(A.T) == '[1; sin(2./x); 3*pi./(5*x)]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vector_entries_hadamard():
     # For a row or column, user might to use the other dimension
     A = Matrix([[1, sin(2/x), 3*pi/x/5]])
@@ -454,16 +596,22 @@ def test_vector_entries_hadamard():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrices_entries_not_hadamard(), test_Matrices_entries_not_hadamard produces the expected output) over Any ║
+# ║ Path(test_Matrices_entries_not_hadamard(), mcode(A) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrices_entries_not_hadamard : Any → {Any | mco...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(A) == expected                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrices_entries_not_hadamard : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab66360b43482717  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d414d44380817d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Matrices_entries_not_hadamard","kind":"function","src_hash":"88862bc5432ff059","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(A) == expected"},"spec":{"lhs":"test_Matrices_entries_not_hadamard()","rhs":"test_Matrices_entries_not_hadamard produces the expected output","over":{"base":"Any"},"name":"test_Matrices_entries_not_hadamard_correct"},"guarantee":"test_Matrices_entries_not_hadamard produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Matrices_entries_not_hadamard_correct","statement":"Path(test_Matrices_entries_not_hadamard(x), test_Matrices_entries_not_hadamard produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab66360b43482717"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_Matrices_entries_not_hadamard","kind":"function","src_hash":"88862bc5432ff059","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(A) == expected"},"spec":{"lhs":"test_Matrices_entries_not_hadamard()","rhs":"mcode(A) == expected","over":{"base":"Any"},"name":"test_Matrices_entries_not_hadamard_correct"},"guarantee":"mcode(A) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_Matrices_entries_not_hadamard_correct","statement":"Path(test_Matrices_entries_not_hadamard(x), mcode(A) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d414d44380817d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(A) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Matrices_entries_not_hadamard():
     # For Matrix with col >= 2, row >= 2, they need to be scalars
     # FIXME: is it worth worrying about this?  Its not wrong, just
@@ -475,16 +623,24 @@ def test_Matrices_entries_not_hadamard():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSymbol(), test_MatrixSymbol produces the expected output) over Any ║
+# ║ Path(test_MatrixSymbol(), mcode(A * B) == 'A*B' and mcode(B * A) == 'B*A' and mcode(2 * A * B) == '2*A*B' and mcode(B * 2 * A) == '2*B*A' and mcode(A * (B + 3 * Identity(n))) == 'A*(3*eye(n) + B)' and mcode(A ** x ** 2) == 'A^(x.^2)' and mcode(A ** 3) == 'A^3' and mcode(A ** S.Half) == 'A^(1/2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixSymbol : Any → {Any | mcode(A * B) == 'A*B...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(A * B) == 'A*B'                          ║
+# ║   ensures:  mcode(B * A) == 'B*A'                          ║
+# ║   ensures:  mcode(2 * A * B) == '2*A*B'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixSymbol : Any → {Any | result satisfies: mc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0f98be406165925  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47dff36c770dbf06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_MatrixSymbol","kind":"function","src_hash":"a49e637716bbdbcf","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(A * B) == 'A*B' and mcode(B * A) == 'B*A' and mcode(2 * A * B) == '2*A*B' and mcode(B * 2 * A) == '2*B*A' and mcode(A * (B + 3 * Identity(n))) == 'A*(3*eye(n) + B)' and mcode(A ** x ** 2) == 'A^(x.^2)' and mcode(A ** 3) == 'A^3' and mcode(A ** S.Half) == 'A^(1/2)'"},"spec":{"lhs":"test_MatrixSymbol()","rhs":"test_MatrixSymbol produces the expected output","over":{"base":"Any"},"name":"test_MatrixSymbol_correct"},"guarantee":"test_MatrixSymbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_MatrixSymbol_correct","statement":"Path(test_MatrixSymbol(x), test_MatrixSymbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0f98be406165925"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_MatrixSymbol","kind":"function","src_hash":"a49e637716bbdbcf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(A * B) == 'A*B' and mcode(B * A) == 'B*A' and mcode(2 * A * B) == '2*A*B' and mcode(B * 2 * A) == '2*B*A' and mcode(A * (B + 3 * Identity(n))) == 'A*(3*eye(n) + B)' and mcode(A ** x ** 2) == 'A^(x.^2)' and mcode(A ** 3) == 'A^3' and mcode(A ** S.Half) == 'A^(1/2)'"},"spec":{"lhs":"test_MatrixSymbol()","rhs":"mcode(A * B) == 'A*B' and mcode(B * A) == 'B*A' and mcode(2 * A * B) == '2*A*B' and mcode(B * 2 * A) == '2*B*A' and mcode(A * (B + 3 * Identity(n))) == 'A*(3*eye(n) + B)' and mcode(A ** x ** 2) == 'A^(x.^2)' and mcode(A ** 3) == 'A^3' and mcode(A ** S.Half) == 'A^(1/2)'","over":{"base":"Any"},"name":"test_MatrixSymbol_correct"},"guarantee":"mcode(A * B) == 'A*B'; mcode(B * A) == 'B*A'; mcode(2 * A * B) == '2*A*B'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_MatrixSymbol_correct","statement":"Path(test_MatrixSymbol(x), mcode(A * B) == 'A*B'; mcode(B * A) == 'B*A'; mcode(2 * A * B) == '2*A*B')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47dff36c770dbf06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(A * B) == 'A*B'","mcode(B * A) == 'B*A'","mcode(2 * A * B) == '2*A*B'","mcode(B * 2 * A) == '2*B*A'","mcode(A * (B + 3 * Identity(n))) == 'A*(3*eye(n) + B)'","mcode(A ** x ** 2) == 'A^(x.^2)'","mcode(A ** 3) == 'A^3'","mcode(A ** S.Half) == 'A^(1/2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_MatrixSymbol():
     n = Symbol('n', integer=True)
     A = MatrixSymbol('A', n, n)
@@ -500,16 +656,22 @@ def test_MatrixSymbol():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSolve(), test_MatrixSolve produces the expected output) over Any ║
+# ║ Path(test_MatrixSolve(), mcode(MatrixSolve(A, x)) == 'A \\ x') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixSolve : Any → {Any | mcode(MatrixSolve(A, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(MatrixSolve(A, x)) == 'A \\ x'           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixSolve : Any → {Any | result satisfies: mco...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cb1e75510ea5c8f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 356028ae8b414280  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_MatrixSolve","kind":"function","src_hash":"b50bfd5f513c66ad","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(MatrixSolve(A, x)) == 'A \\\\ x'"},"spec":{"lhs":"test_MatrixSolve()","rhs":"test_MatrixSolve produces the expected output","over":{"base":"Any"},"name":"test_MatrixSolve_correct"},"guarantee":"test_MatrixSolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_MatrixSolve_correct","statement":"Path(test_MatrixSolve(x), test_MatrixSolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cb1e75510ea5c8f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_MatrixSolve","kind":"function","src_hash":"b50bfd5f513c66ad","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(MatrixSolve(A, x)) == 'A \\\\ x'"},"spec":{"lhs":"test_MatrixSolve()","rhs":"mcode(MatrixSolve(A, x)) == 'A \\\\ x'","over":{"base":"Any"},"name":"test_MatrixSolve_correct"},"guarantee":"mcode(MatrixSolve(A, x)) == 'A \\\\ x'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_MatrixSolve_correct","statement":"Path(test_MatrixSolve(x), mcode(MatrixSolve(A, x)) == 'A \\\\ x')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"356028ae8b414280","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(MatrixSolve(A, x)) == 'A \\\\ x'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixSolve():
     n = Symbol('n', integer=True)
     A = MatrixSymbol('A', n, n)
@@ -517,31 +679,45 @@ def test_MatrixSolve():
     assert mcode(MatrixSolve(A, x)) == "A \\ x"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_special_matrices(), test_special_matrices produces the expected output) over Any ║
+# ║ Path(test_special_matrices(), mcode(6 * Identity(3)) == '6*eye(3)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_special_matrices : Any → {Any | mcode(6 * Identi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(6 * Identity(3)) == '6*eye(3)'           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_special_matrices : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97fdc9204d72db9f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc208e7c15c44346  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_special_matrices","kind":"function","src_hash":"9a7e20294b5c11f4","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(6 * Identity(3)) == '6*eye(3)'"},"spec":{"lhs":"test_special_matrices()","rhs":"test_special_matrices produces the expected output","over":{"base":"Any"},"name":"test_special_matrices_correct"},"guarantee":"test_special_matrices produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_special_matrices_correct","statement":"Path(test_special_matrices(x), test_special_matrices produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97fdc9204d72db9f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_special_matrices","kind":"function","src_hash":"9a7e20294b5c11f4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(6 * Identity(3)) == '6*eye(3)'"},"spec":{"lhs":"test_special_matrices()","rhs":"mcode(6 * Identity(3)) == '6*eye(3)'","over":{"base":"Any"},"name":"test_special_matrices_correct"},"guarantee":"mcode(6 * Identity(3)) == '6*eye(3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_special_matrices_correct","statement":"Path(test_special_matrices(x), mcode(6 * Identity(3)) == '6*eye(3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc208e7c15c44346","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(6 * Identity(3)) == '6*eye(3)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_special_matrices():
     assert mcode(6*Identity(3)) == "6*eye(3)"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_containers(), test_containers produces the expected output) over Any ║
+# ║ Path(test_containers(), mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}' and mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}' and mcode([1]) == '{1}' and mcode((1,)) == '{1}' and mcode(Tuple(*[1, 2, 3])) == '{1, 2, 3}' and mcode((1, x * y, (3, x ** 2))) == '{1, x.*y, {3, x.^2}}' and mcode((1, eye(3), Matrix(0, 0, []), [])) == '{1, [1 0 0; 0 1 0; 0 0 1], [], {}}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_containers : Any → {Any | mcode((1, 2, (3, 4))) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10...   ║
+# ║   ensures:  mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}'      ║
+# ║   ensures:  mcode([1]) == '{1}'                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_containers : Any → {Any | result satisfies: mcod...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1fef4ac357a2c7e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cfbdac06cffdc96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_containers","kind":"function","src_hash":"c59bf15ba3742f99","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}' and mcode([1]) == '{1}' and mcode((1,)) == '{1}' and mcode(Tuple(*[1, 2, 3])) == '{1, 2, 3}' and mcode((1, x * y, (3, x ** 2))) == '{1, x.*y, {3, x.^2}}'"},"spec":{"lhs":"test_containers()","rhs":"test_containers produces the expected output","over":{"base":"Any"},"name":"test_containers_correct"},"guarantee":"test_containers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_containers_correct","statement":"Path(test_containers(x), test_containers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1fef4ac357a2c7e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_containers","kind":"function","src_hash":"c59bf15ba3742f99","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}' and mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}' and mcode([1]) == '{1}' and mcode((1,)) == '{1}' and mcode(Tuple(*[1, 2, 3])) == '{1, 2, 3}' and mcode((1, x * y, (3, x ** 2))) == '{1, x.*y, {3, x.^2}}' and mcode((1, eye(3), Matrix(0, 0, []), [])) == '{1, [1 0 0; 0 1 0; 0 0 1], [], {}}'"},"spec":{"lhs":"test_containers()","rhs":"mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}' and mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}' and mcode([1]) == '{1}' and mcode((1,)) == '{1}' and mcode(Tuple(*[1, 2, 3])) == '{1, 2, 3}' and mcode((1, x * y, (3, x ** 2))) == '{1, x.*y, {3, x.^2}}' and mcode((1, eye(3), Matrix(0, 0, []), [])) == '{1, [1 0 0; 0 1 0; 0 0 1], [], {}}'","over":{"base":"Any"},"name":"test_containers_correct"},"guarantee":"mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}'; mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}'; mcode([1]) == '{1}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_containers_correct","statement":"Path(test_containers(x), mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}'; mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}'; mcode([1]) == '{1}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cfbdac06cffdc96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == '{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}'","mcode((1, 2, (3, 4))) == '{1, 2, {3, 4}}'","mcode([1]) == '{1}'","mcode((1,)) == '{1}'","mcode(Tuple(*[1, 2, 3])) == '{1, 2, 3}'","mcode((1, x * y, (3, x ** 2))) == '{1, x.*y, {3, x.^2}}'","mcode((1, eye(3), Matrix(0, 0, []), [])) == '{1, [1 0 0; 0 1 0; 0 0 1], [], {}}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_containers():
     assert mcode([1, 2, 3, [4, 5, [6, 7]], 8, [9, 10], 11]) == \
         "{1, 2, 3, {4, 5, {6, 7}}, 8, {9, 10}, 11}"
@@ -555,16 +731,22 @@ def test_containers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_octave_noninline(), test_octave_noninline produces the expected output) over Any ║
+# ║ Path(test_octave_noninline(), source == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_octave_noninline : Any → {Any | source == expected}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  source == expected                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_octave_noninline : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ab43826dcddd003  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb1fd5c6a794ccc0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_noninline","kind":"function","src_hash":"6e0a49ea74567883","in":{"base":"Any"},"out":{"base":"Any","pred":"source == expected"},"spec":{"lhs":"test_octave_noninline()","rhs":"test_octave_noninline produces the expected output","over":{"base":"Any"},"name":"test_octave_noninline_correct"},"guarantee":"test_octave_noninline produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_noninline_correct","statement":"Path(test_octave_noninline(x), test_octave_noninline produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ab43826dcddd003"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_noninline","kind":"function","src_hash":"6e0a49ea74567883","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: source == expected"},"spec":{"lhs":"test_octave_noninline()","rhs":"source == expected","over":{"base":"Any"},"name":"test_octave_noninline_correct"},"guarantee":"source == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_noninline_correct","statement":"Path(test_octave_noninline(x), source == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb1fd5c6a794ccc0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["source == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_octave_noninline():
     source = mcode((x+y)/Catalan, assign_to='me', inline=False)
     expected = (
@@ -575,16 +757,24 @@ def test_octave_noninline():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_octave_piecewise(), test_octave_piecewise produces the expected output) over Any ║
+# ║ Path(test_octave_piecewise(), mcode(expr) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))' and mcode(expr, assign_to='r') == 'r = ((x < 1).*(x) + (~(x < 1)).*(x.^2));' and mcode(expr, assign_to='r', inline=False) == 'if (x < 1)\n  r = x;\nelse\n  r = x.^2;\nend' and mcode(expr) == expected and mcode(expr, assign_to='r') == 'r = ' + expected + ';' and mcode(expr, assign_to='r', inline=False) == 'if (x < 1)\n  r = x.^2;\nelseif (x < 2)\n  r = x.^3;\nelseif (x < 3)\n  r = x.^4;\nelse\n  r = x.^5;\nend') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_octave_piecewise : Any → {Any | mcode(expr) == '...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(expr) == '((x < 1).*(x) + (~(x < 1)...   ║
+# ║   ensures:  mcode(expr, assign_to='r') == 'r = ((x < ...   ║
+# ║   ensures:  mcode(expr, assign_to='r', inline=False) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_octave_piecewise : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 635d6fdfcb5256f5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e695dc923ef15055  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_piecewise","kind":"function","src_hash":"3cb49b9df77eb611","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(expr) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))' and mcode(expr, assign_to='r') == 'r = ((x < 1).*(x) + (~(x < 1)).*(x.^2));' and mcode(expr) == expected and mcode(expr, assign_to='r') == 'r = ' + expected + ';'"},"spec":{"lhs":"test_octave_piecewise()","rhs":"test_octave_piecewise produces the expected output","over":{"base":"Any"},"name":"test_octave_piecewise_correct"},"guarantee":"test_octave_piecewise produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_piecewise_correct","statement":"Path(test_octave_piecewise(x), test_octave_piecewise produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"635d6fdfcb5256f5"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_piecewise","kind":"function","src_hash":"3cb49b9df77eb611","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(expr) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))' and mcode(expr, assign_to='r') == 'r = ((x < 1).*(x) + (~(x < 1)).*(x.^2));' and mcode(expr, assign_to='r', inline=False) == 'if (x < 1)\\n  r = x;\\nelse\\n  r = x.^2;\\nend' and mcode(expr) == expected and mcode(expr, assign_to='r') == 'r = ' + expected + ';' and mcode(expr, assign_to='r', inline=False) == 'if (x < 1)\\n  r = x.^2;\\nelseif (x < 2)\\n  r = x.^3;\\nelseif (x < 3)\\n  r = x.^4;\\nelse\\n  r = x.^5;\\nend'"},"spec":{"lhs":"test_octave_piecewise()","rhs":"mcode(expr) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))' and mcode(expr, assign_to='r') == 'r = ((x < 1).*(x) + (~(x < 1)).*(x.^2));' and mcode(expr, assign_to='r', inline=False) == 'if (x < 1)\\n  r = x;\\nelse\\n  r = x.^2;\\nend' and mcode(expr) == expected and mcode(expr, assign_to='r') == 'r = ' + expected + ';' and mcode(expr, assign_to='r', inline=False) == 'if (x < 1)\\n  r = x.^2;\\nelseif (x < 2)\\n  r = x.^3;\\nelseif (x < 3)\\n  r = x.^4;\\nelse\\n  r = x.^5;\\nend'","over":{"base":"Any"},"name":"test_octave_piecewise_correct"},"guarantee":"mcode(expr) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))'; mcode(expr, assign_to='r') == 'r = ((x < 1).*(x) + (~(x < 1)).*(x.^2));'; mcode(expr, assign_to='r', inline=False) == 'if (x < 1)\\n  r = x;\\nelse\\n  r = x.^2;\\nend'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_piecewise_correct","statement":"Path(test_octave_piecewise(x), mcode(expr) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))'; mcode(expr, assign_to='r') == 'r = ((x < 1).*(x) + (~(x < 1)).*(x.^2));'; mcode(expr, assign_to='r', inline=False) == 'if (x < 1)\\n  r = x;\\nelse\\n  r = x.^2;\\nend')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e695dc923ef15055","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(expr) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))'","mcode(expr, assign_to='r') == 'r = ((x < 1).*(x) + (~(x < 1)).*(x.^2));'","mcode(expr, assign_to='r', inline=False) == 'if (x < 1)\\n  r = x;\\nelse\\n  r = x.^2;\\nend'","mcode(expr) == expected","mcode(expr, assign_to='r') == 'r = ' + expected + ';'","mcode(expr, assign_to='r', inline=False) == 'if (x < 1)\\n  r = x.^2;\\nelseif (x < 2)\\n  r = x.^3;\\nelseif (x < 3)\\n  r = x.^4;\\nelse\\n  r = x.^5;\\nend'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_octave_piecewise():
     expr = Piecewise((x, x < 1), (x**2, True))
     assert mcode(expr) == "((x < 1).*(x) + (~(x < 1)).*(x.^2))"
@@ -618,16 +808,24 @@ def test_octave_piecewise():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_octave_piecewise_times_const(), test_octave_piecewise_times_const produces the expected output) over Any ║
+# ║ Path(test_octave_piecewise_times_const(), mcode(2 * pw) == '2*((x < 1).*(x) + (~(x < 1)).*(x.^2))' and mcode(pw / x) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./x' and mcode(pw / (x * y)) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./(x.*y)' and mcode(pw / 3) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))/3') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_octave_piecewise_times_const : Any → {Any | mcod...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(2 * pw) == '2*((x < 1).*(x) + (~(x ...   ║
+# ║   ensures:  mcode(pw / x) == '((x < 1).*(x) + (~(x < ...   ║
+# ║   ensures:  mcode(pw / (x * y)) == '((x < 1).*(x) + (...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_octave_piecewise_times_const : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30c4fe53ba0a6b90  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be0e0fe76655ecf6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_piecewise_times_const","kind":"function","src_hash":"2fe268a9c3e69b0d","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(2 * pw) == '2*((x < 1).*(x) + (~(x < 1)).*(x.^2))' and mcode(pw / x) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./x' and mcode(pw / (x * y)) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./(x.*y)' and mcode(pw / 3) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))/3'"},"spec":{"lhs":"test_octave_piecewise_times_const()","rhs":"test_octave_piecewise_times_const produces the expected output","over":{"base":"Any"},"name":"test_octave_piecewise_times_const_correct"},"guarantee":"test_octave_piecewise_times_const produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_piecewise_times_const_correct","statement":"Path(test_octave_piecewise_times_const(x), test_octave_piecewise_times_const produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30c4fe53ba0a6b90"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_piecewise_times_const","kind":"function","src_hash":"2fe268a9c3e69b0d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(2 * pw) == '2*((x < 1).*(x) + (~(x < 1)).*(x.^2))' and mcode(pw / x) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./x' and mcode(pw / (x * y)) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./(x.*y)' and mcode(pw / 3) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))/3'"},"spec":{"lhs":"test_octave_piecewise_times_const()","rhs":"mcode(2 * pw) == '2*((x < 1).*(x) + (~(x < 1)).*(x.^2))' and mcode(pw / x) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./x' and mcode(pw / (x * y)) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./(x.*y)' and mcode(pw / 3) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))/3'","over":{"base":"Any"},"name":"test_octave_piecewise_times_const_correct"},"guarantee":"mcode(2 * pw) == '2*((x < 1).*(x) + (~(x < 1)).*(x.^2))'; mcode(pw / x) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./x'; mcode(pw / (x * y)) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./(x.*y)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_piecewise_times_const_correct","statement":"Path(test_octave_piecewise_times_const(x), mcode(2 * pw) == '2*((x < 1).*(x) + (~(x < 1)).*(x.^2))'; mcode(pw / x) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./x'; mcode(pw / (x * y)) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./(x.*y)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be0e0fe76655ecf6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(2 * pw) == '2*((x < 1).*(x) + (~(x < 1)).*(x.^2))'","mcode(pw / x) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./x'","mcode(pw / (x * y)) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))./(x.*y)'","mcode(pw / 3) == '((x < 1).*(x) + (~(x < 1)).*(x.^2))/3'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_octave_piecewise_times_const():
     pw = Piecewise((x, x < 1), (x**2, True))
     assert mcode(2*pw) == "2*((x < 1).*(x) + (~(x < 1)).*(x.^2))"
@@ -637,16 +835,23 @@ def test_octave_piecewise_times_const():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_octave_matrix_assign_to(), test_octave_matrix_assign_to produces the expected output) over Any ║
+# ║ Path(test_octave_matrix_assign_to(), mcode(A, assign_to='a') == 'a = [1 2 3];' and mcode(A, assign_to='A') == 'A = [1 2; 3 4];') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_octave_matrix_assign_to : Any → {Any | mcode(A, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(A, assign_to='a') == 'a = [1 2 3];'      ║
+# ║   ensures:  mcode(A, assign_to='A') == 'A = [1 2; 3 4];'   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_octave_matrix_assign_to : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11e1e2a416d06026  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b19a05014fadef43  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_matrix_assign_to","kind":"function","src_hash":"1a83eff7af9b57f8","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(A, assign_to='a') == 'a = [1 2 3];' and mcode(A, assign_to='A') == 'A = [1 2; 3 4];'"},"spec":{"lhs":"test_octave_matrix_assign_to()","rhs":"test_octave_matrix_assign_to produces the expected output","over":{"base":"Any"},"name":"test_octave_matrix_assign_to_correct"},"guarantee":"test_octave_matrix_assign_to produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_matrix_assign_to_correct","statement":"Path(test_octave_matrix_assign_to(x), test_octave_matrix_assign_to produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11e1e2a416d06026"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_matrix_assign_to","kind":"function","src_hash":"1a83eff7af9b57f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(A, assign_to='a') == 'a = [1 2 3];' and mcode(A, assign_to='A') == 'A = [1 2; 3 4];'"},"spec":{"lhs":"test_octave_matrix_assign_to()","rhs":"mcode(A, assign_to='a') == 'a = [1 2 3];' and mcode(A, assign_to='A') == 'A = [1 2; 3 4];'","over":{"base":"Any"},"name":"test_octave_matrix_assign_to_correct"},"guarantee":"mcode(A, assign_to='a') == 'a = [1 2 3];'; mcode(A, assign_to='A') == 'A = [1 2; 3 4];'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_matrix_assign_to_correct","statement":"Path(test_octave_matrix_assign_to(x), mcode(A, assign_to='a') == 'a = [1 2 3];'; mcode(A, assign_to='A') == 'A = [1 2; 3 4];')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b19a05014fadef43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(A, assign_to='a') == 'a = [1 2 3];'","mcode(A, assign_to='A') == 'A = [1 2; 3 4];'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_octave_matrix_assign_to():
     A = Matrix([[1, 2, 3]])
     assert mcode(A, assign_to='a') == "a = [1 2 3];"
@@ -655,16 +860,22 @@ def test_octave_matrix_assign_to():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_octave_matrix_assign_to_more(), test_octave_matrix_assign_to_more produces the expected output) over Any ║
+# ║ Path(test_octave_matrix_assign_to_more(), mcode(A, assign_to=B) == 'B = [1 2 3];') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_octave_matrix_assign_to_more : Any → {Any | mcod...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(A, assign_to=B) == 'B = [1 2 3];'        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_octave_matrix_assign_to_more : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c6efd94e3ee4851  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1589de227ae89409  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_matrix_assign_to_more","kind":"function","src_hash":"0566f4a2663a63b6","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(A, assign_to=B) == 'B = [1 2 3];'"},"spec":{"lhs":"test_octave_matrix_assign_to_more()","rhs":"test_octave_matrix_assign_to_more produces the expected output","over":{"base":"Any"},"name":"test_octave_matrix_assign_to_more_correct"},"guarantee":"test_octave_matrix_assign_to_more produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_matrix_assign_to_more_correct","statement":"Path(test_octave_matrix_assign_to_more(x), test_octave_matrix_assign_to_more produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c6efd94e3ee4851"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_matrix_assign_to_more","kind":"function","src_hash":"0566f4a2663a63b6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(A, assign_to=B) == 'B = [1 2 3];'"},"spec":{"lhs":"test_octave_matrix_assign_to_more()","rhs":"mcode(A, assign_to=B) == 'B = [1 2 3];'","over":{"base":"Any"},"name":"test_octave_matrix_assign_to_more_correct"},"guarantee":"mcode(A, assign_to=B) == 'B = [1 2 3];'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_matrix_assign_to_more_correct","statement":"Path(test_octave_matrix_assign_to_more(x), mcode(A, assign_to=B) == 'B = [1 2 3];')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1589de227ae89409","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(A, assign_to=B) == 'B = [1 2 3];'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_octave_matrix_assign_to_more():
     # assigning to Symbol or MatrixSymbol requires lhs/rhs match
     A = Matrix([[1, 2, 3]])
@@ -676,16 +887,22 @@ def test_octave_matrix_assign_to_more():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_octave_matrix_1x1(), test_octave_matrix_1x1 produces the expected output) over Any ║
+# ║ Path(test_octave_matrix_1x1(), mcode(A, assign_to=B) == 'B = 3;') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_octave_matrix_1x1 : Any → {Any | mcode(A, assign...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(A, assign_to=B) == 'B = 3;'              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_octave_matrix_1x1 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f752239acb6304cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c32858d8eeb8afaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_matrix_1x1","kind":"function","src_hash":"71245cc24ac52f5d","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(A, assign_to=B) == 'B = 3;'"},"spec":{"lhs":"test_octave_matrix_1x1()","rhs":"test_octave_matrix_1x1 produces the expected output","over":{"base":"Any"},"name":"test_octave_matrix_1x1_correct"},"guarantee":"test_octave_matrix_1x1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_matrix_1x1_correct","statement":"Path(test_octave_matrix_1x1(x), test_octave_matrix_1x1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f752239acb6304cc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_matrix_1x1","kind":"function","src_hash":"71245cc24ac52f5d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(A, assign_to=B) == 'B = 3;'"},"spec":{"lhs":"test_octave_matrix_1x1()","rhs":"mcode(A, assign_to=B) == 'B = 3;'","over":{"base":"Any"},"name":"test_octave_matrix_1x1_correct"},"guarantee":"mcode(A, assign_to=B) == 'B = 3;'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_matrix_1x1_correct","statement":"Path(test_octave_matrix_1x1(x), mcode(A, assign_to=B) == 'B = 3;')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c32858d8eeb8afaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(A, assign_to=B) == 'B = 3;'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_octave_matrix_1x1():
     A = Matrix([[3]])
     B = MatrixSymbol('B', 1, 1)
@@ -697,16 +914,24 @@ def test_octave_matrix_1x1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_octave_matrix_elements(), test_octave_matrix_elements produces the expected output) over Any ║
+# ║ Path(test_octave_matrix_elements(), mcode(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x.^2 + x.*y + 2' and mcode(A) == 'AA' and mcode(A[0, 0] ** 2 + sin(A[0, 1]) + A[0, 2]) == 'sin(AA(1, 2)) + AA(1, 1).^2 + AA(1, 3)' and mcode(sum(A)) == 'AA(1, 1) + AA(1, 2) + AA(1, 3)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_octave_matrix_elements : Any → {Any | mcode(A[0,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) =...   ║
+# ║   ensures:  mcode(A) == 'AA'                               ║
+# ║   ensures:  mcode(A[0, 0] ** 2 + sin(A[0, 1]) + A[0, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_octave_matrix_elements : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30ea507337927e14  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1e2e1a8a037e604  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_matrix_elements","kind":"function","src_hash":"1df90d6044c932ae","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x.^2 + x.*y + 2' and mcode(A) == 'AA' and mcode(sum(A)) == 'AA(1, 1) + AA(1, 2) + AA(1, 3)'"},"spec":{"lhs":"test_octave_matrix_elements()","rhs":"test_octave_matrix_elements produces the expected output","over":{"base":"Any"},"name":"test_octave_matrix_elements_correct"},"guarantee":"test_octave_matrix_elements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_matrix_elements_correct","statement":"Path(test_octave_matrix_elements(x), test_octave_matrix_elements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30ea507337927e14"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_matrix_elements","kind":"function","src_hash":"1df90d6044c932ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x.^2 + x.*y + 2' and mcode(A) == 'AA' and mcode(A[0, 0] ** 2 + sin(A[0, 1]) + A[0, 2]) == 'sin(AA(1, 2)) + AA(1, 1).^2 + AA(1, 3)' and mcode(sum(A)) == 'AA(1, 1) + AA(1, 2) + AA(1, 3)'"},"spec":{"lhs":"test_octave_matrix_elements()","rhs":"mcode(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x.^2 + x.*y + 2' and mcode(A) == 'AA' and mcode(A[0, 0] ** 2 + sin(A[0, 1]) + A[0, 2]) == 'sin(AA(1, 2)) + AA(1, 1).^2 + AA(1, 3)' and mcode(sum(A)) == 'AA(1, 1) + AA(1, 2) + AA(1, 3)'","over":{"base":"Any"},"name":"test_octave_matrix_elements_correct"},"guarantee":"mcode(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x.^2 + x.*y + 2'; mcode(A) == 'AA'; mcode(A[0, 0] ** 2 + sin(A[0, 1]) + A[0, 2]) == 'sin(AA(1, 2)) + AA(1, 1).^2 + AA(1, 3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_matrix_elements_correct","statement":"Path(test_octave_matrix_elements(x), mcode(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x.^2 + x.*y + 2'; mcode(A) == 'AA'; mcode(A[0, 0] ** 2 + sin(A[0, 1]) + A[0, 2]) == 'sin(AA(1, 2)) + AA(1, 1).^2 + AA(1, 3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1e2e1a8a037e604","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(A[0, 0] ** 2 + A[0, 1] + A[0, 2]) == 'x.^2 + x.*y + 2'","mcode(A) == 'AA'","mcode(A[0, 0] ** 2 + sin(A[0, 1]) + A[0, 2]) == 'sin(AA(1, 2)) + AA(1, 1).^2 + AA(1, 3)'","mcode(sum(A)) == 'AA(1, 1) + AA(1, 2) + AA(1, 3)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_octave_matrix_elements():
     A = Matrix([[x, 2, x*y]])
     assert mcode(A[0, 0]**2 + A[0, 1] + A[0, 2]) == "x.^2 + x.*y + 2"
@@ -718,16 +943,24 @@ def test_octave_matrix_elements():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_octave_boolean(), test_octave_boolean produces the expected output) over Any ║
+# ║ Path(test_octave_boolean(), mcode(True) == 'true' and mcode(S.true) == 'true' and mcode(False) == 'false' and mcode(S.false) == 'false') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_octave_boolean : Any → {Any | mcode(True) == 'tr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(True) == 'true'                          ║
+# ║   ensures:  mcode(S.true) == 'true'                        ║
+# ║   ensures:  mcode(False) == 'false'                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_octave_boolean : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8496bdb12160128  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dad162627692782d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_boolean","kind":"function","src_hash":"8394a63e91665b35","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(True) == 'true' and mcode(S.true) == 'true' and mcode(False) == 'false' and mcode(S.false) == 'false'"},"spec":{"lhs":"test_octave_boolean()","rhs":"test_octave_boolean produces the expected output","over":{"base":"Any"},"name":"test_octave_boolean_correct"},"guarantee":"test_octave_boolean produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_boolean_correct","statement":"Path(test_octave_boolean(x), test_octave_boolean produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8496bdb12160128"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_boolean","kind":"function","src_hash":"8394a63e91665b35","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(True) == 'true' and mcode(S.true) == 'true' and mcode(False) == 'false' and mcode(S.false) == 'false'"},"spec":{"lhs":"test_octave_boolean()","rhs":"mcode(True) == 'true' and mcode(S.true) == 'true' and mcode(False) == 'false' and mcode(S.false) == 'false'","over":{"base":"Any"},"name":"test_octave_boolean_correct"},"guarantee":"mcode(True) == 'true'; mcode(S.true) == 'true'; mcode(False) == 'false'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_boolean_correct","statement":"Path(test_octave_boolean(x), mcode(True) == 'true'; mcode(S.true) == 'true'; mcode(False) == 'false')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dad162627692782d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(True) == 'true'","mcode(S.true) == 'true'","mcode(False) == 'false'","mcode(S.false) == 'false'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_octave_boolean():
     assert mcode(True) == "true"
     assert mcode(S.true) == "true"
@@ -736,16 +969,22 @@ def test_octave_boolean():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_octave_not_supported(), test_octave_not_supported produces the expected output) over Any ║
+# ║ Path(test_octave_not_supported(), mcode(f(x).diff(x), strict=False) == '% Not supported in Octave:\n% Derivative\nDerivative(f(x), x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_octave_not_supported : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(f(x).diff(x), strict=False) == '% N...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_octave_not_supported : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9e67da4784e81cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 334b0ad2ef9ab155  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_not_supported","kind":"function","src_hash":"11d5d61b464670ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_octave_not_supported()","rhs":"test_octave_not_supported produces the expected output","over":{"base":"Any"},"name":"test_octave_not_supported_correct"},"guarantee":"test_octave_not_supported produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_not_supported_correct","statement":"Path(test_octave_not_supported(x), test_octave_not_supported produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9e67da4784e81cf"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_not_supported","kind":"function","src_hash":"11d5d61b464670ea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(f(x).diff(x), strict=False) == '% Not supported in Octave:\\n% Derivative\\nDerivative(f(x), x)'"},"spec":{"lhs":"test_octave_not_supported()","rhs":"mcode(f(x).diff(x), strict=False) == '% Not supported in Octave:\\n% Derivative\\nDerivative(f(x), x)'","over":{"base":"Any"},"name":"test_octave_not_supported_correct"},"guarantee":"mcode(f(x).diff(x), strict=False) == '% Not supported in Octave:\\n% Derivative\\nDerivative(f(x), x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_not_supported_correct","statement":"Path(test_octave_not_supported(x), mcode(f(x).diff(x), strict=False) == '% Not supported in Octave:\\n% Derivative\\nDerivative(f(x), x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"334b0ad2ef9ab155","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(f(x).diff(x), strict=False) == '% Not supported in Octave:\\n% Derivative\\nDerivative(f(x), x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_octave_not_supported():
     with raises(NotImplementedError):
         mcode(S.ComplexInfinity)
@@ -758,16 +997,22 @@ def test_octave_not_supported():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_octave_not_supported_not_on_whitelist(), test_octave_not_supported_not_on_whitelist produces the expected output) over Any ║
+# ║ Path(test_octave_not_supported_not_on_whitelist(), <unspecified:test_octave_not_supported_not_on_whitelist>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_octave_not_supported_not_on_whitelist : Any → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53cf3b34f6ebc320  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_not_supported_not_on_whitelist","kind":"function","src_hash":"aef52baa2e10f149","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_octave_not_supported_not_on_whitelist()","rhs":"test_octave_not_supported_not_on_whitelist produces the expected output","over":{"base":"Any"},"name":"test_octave_not_supported_not_on_whitelist_correct"},"guarantee":"test_octave_not_supported_not_on_whitelist produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_not_supported_not_on_whitelist_correct","statement":"Path(test_octave_not_supported_not_on_whitelist(x), test_octave_not_supported_not_on_whitelist produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53cf3b34f6ebc320"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_not_supported_not_on_whitelist","kind":"function","src_hash":"aef52baa2e10f149","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_octave_not_supported_not_on_whitelist()","rhs":"<unspecified:test_octave_not_supported_not_on_whitelist>","over":{"base":"Any"},"name":"test_octave_not_supported_not_on_whitelist_correct"},"guarantee":"test_octave_not_supported_not_on_whitelist produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_not_supported_not_on_whitelist_correct","statement":"Path(test_octave_not_supported_not_on_whitelist(x), test_octave_not_supported_not_on_whitelist produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53cf3b34f6ebc320","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_octave_not_supported_not_on_whitelist():
     from sympy.functions.special.polynomials import assoc_laguerre
     with raises(NotImplementedError):
@@ -775,16 +1020,23 @@ def test_octave_not_supported_not_on_whitelist():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_octave_expint(), test_octave_expint produces the expected output) over Any ║
+# ║ Path(test_octave_expint(), mcode(expint(1, x)) == 'expint(x)' and mcode(expint(y, x), strict=False) == '% Not supported in Octave:\n% expint\nexpint(y, x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_octave_expint : Any → {Any | mcode(expint(1, x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(expint(1, x)) == 'expint(x)'             ║
+# ║   ensures:  mcode(expint(y, x), strict=False) == '% N...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_octave_expint : Any → {Any | result satisfies: m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3554737d6e0e91a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02cf6bcd246a9750  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_expint","kind":"function","src_hash":"d2eb6c609eb04188","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(expint(1, x)) == 'expint(x)'"},"spec":{"lhs":"test_octave_expint()","rhs":"test_octave_expint produces the expected output","over":{"base":"Any"},"name":"test_octave_expint_correct"},"guarantee":"test_octave_expint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_expint_correct","statement":"Path(test_octave_expint(x), test_octave_expint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3554737d6e0e91a"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_octave_expint","kind":"function","src_hash":"d2eb6c609eb04188","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(expint(1, x)) == 'expint(x)' and mcode(expint(y, x), strict=False) == '% Not supported in Octave:\\n% expint\\nexpint(y, x)'"},"spec":{"lhs":"test_octave_expint()","rhs":"mcode(expint(1, x)) == 'expint(x)' and mcode(expint(y, x), strict=False) == '% Not supported in Octave:\\n% expint\\nexpint(y, x)'","over":{"base":"Any"},"name":"test_octave_expint_correct"},"guarantee":"mcode(expint(1, x)) == 'expint(x)'; mcode(expint(y, x), strict=False) == '% Not supported in Octave:\\n% expint\\nexpint(y, x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_octave_expint_correct","statement":"Path(test_octave_expint(x), mcode(expint(1, x)) == 'expint(x)'; mcode(expint(y, x), strict=False) == '% Not supported in Octave:\\n% expint\\nexpint(y, x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02cf6bcd246a9750","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(expint(1, x)) == 'expint(x)'","mcode(expint(y, x), strict=False) == '% Not supported in Octave:\\n% expint\\nexpint(y, x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_octave_expint():
     assert mcode(expint(1, x)) == "expint(x)"
     with raises(NotImplementedError):
@@ -797,16 +1049,22 @@ def test_octave_expint():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trick_indent_with_end_else_words(), test_trick_indent_with_end_else_words produces the expected output) over Any ║
+# ║ Path(test_trick_indent_with_end_else_words(), mcode(pw, inline=False) == 'if (x < 0)\n  endless\nelseif (x <= 1)\n  elsewhere\nelse\n  1\nend') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trick_indent_with_end_else_words : Any → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(pw, inline=False) == 'if (x < 0)\n ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trick_indent_with_end_else_words : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3e532f0196eb908  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5984686e4ac1c54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_trick_indent_with_end_else_words","kind":"function","src_hash":"111ca99676cf09be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_trick_indent_with_end_else_words()","rhs":"test_trick_indent_with_end_else_words produces the expected output","over":{"base":"Any"},"name":"test_trick_indent_with_end_else_words_correct"},"guarantee":"test_trick_indent_with_end_else_words produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_trick_indent_with_end_else_words_correct","statement":"Path(test_trick_indent_with_end_else_words(x), test_trick_indent_with_end_else_words produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3e532f0196eb908"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_trick_indent_with_end_else_words","kind":"function","src_hash":"111ca99676cf09be","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(pw, inline=False) == 'if (x < 0)\\n  endless\\nelseif (x <= 1)\\n  elsewhere\\nelse\\n  1\\nend'"},"spec":{"lhs":"test_trick_indent_with_end_else_words()","rhs":"mcode(pw, inline=False) == 'if (x < 0)\\n  endless\\nelseif (x <= 1)\\n  elsewhere\\nelse\\n  1\\nend'","over":{"base":"Any"},"name":"test_trick_indent_with_end_else_words_correct"},"guarantee":"mcode(pw, inline=False) == 'if (x < 0)\\n  endless\\nelseif (x <= 1)\\n  elsewhere\\nelse\\n  1\\nend'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_trick_indent_with_end_else_words_correct","statement":"Path(test_trick_indent_with_end_else_words(x), mcode(pw, inline=False) == 'if (x < 0)\\n  endless\\nelseif (x <= 1)\\n  elsewhere\\nelse\\n  1\\nend')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5984686e4ac1c54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(pw, inline=False) == 'if (x < 0)\\n  endless\\nelseif (x <= 1)\\n  elsewhere\\nelse\\n  1\\nend'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trick_indent_with_end_else_words():
     # words starting with "end" or "else" do not confuse the indenter
     t1 = S('endless')
@@ -823,16 +1081,24 @@ def test_trick_indent_with_end_else_words():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hadamard(), test_hadamard produces the expected output) over Any ║
+# ║ Path(test_hadamard(), mcode(C) == 'A.*B' and mcode(C * v) == '(A.*B)*v' and mcode(h * C * v) == 'h*(A.*B)*v' and mcode(C * A) == '(A.*B)*A' and mcode(C * x * y) == '(x.*y)*(A.*B)' and mcode(HadamardPower(A, n)) == 'A.**n' and mcode(HadamardPower(A, 1 + n)) == 'A.**(n + 1)' and mcode(HadamardPower(A * B.T, 1 + n)) == '(A*B.T).**(n + 1)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hadamard : Any → {Any | mcode(C) == 'A.*B' and m...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(C) == 'A.*B'                             ║
+# ║   ensures:  mcode(C * v) == '(A.*B)*v'                     ║
+# ║   ensures:  mcode(h * C * v) == 'h*(A.*B)*v'               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hadamard : Any → {Any | result satisfies: mcode(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b05057db78087594  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e954e51fc92ae6e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_hadamard","kind":"function","src_hash":"52393e24b419b1fc","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(C) == 'A.*B' and mcode(C * v) == '(A.*B)*v' and mcode(h * C * v) == 'h*(A.*B)*v' and mcode(C * A) == '(A.*B)*A' and mcode(C * x * y) == '(x.*y)*(A.*B)' and mcode(HadamardPower(A, n)) == 'A.**n' and mcode(HadamardPower(A, 1 + n)) == 'A.**(n + 1)' and mcode(HadamardPower(A * B.T, 1 + n)) == '(A*B.T).**(n + 1)'"},"spec":{"lhs":"test_hadamard()","rhs":"test_hadamard produces the expected output","over":{"base":"Any"},"name":"test_hadamard_correct"},"guarantee":"test_hadamard produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_hadamard_correct","statement":"Path(test_hadamard(x), test_hadamard produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b05057db78087594"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_hadamard","kind":"function","src_hash":"52393e24b419b1fc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(C) == 'A.*B' and mcode(C * v) == '(A.*B)*v' and mcode(h * C * v) == 'h*(A.*B)*v' and mcode(C * A) == '(A.*B)*A' and mcode(C * x * y) == '(x.*y)*(A.*B)' and mcode(HadamardPower(A, n)) == 'A.**n' and mcode(HadamardPower(A, 1 + n)) == 'A.**(n + 1)' and mcode(HadamardPower(A * B.T, 1 + n)) == '(A*B.T).**(n + 1)'"},"spec":{"lhs":"test_hadamard()","rhs":"mcode(C) == 'A.*B' and mcode(C * v) == '(A.*B)*v' and mcode(h * C * v) == 'h*(A.*B)*v' and mcode(C * A) == '(A.*B)*A' and mcode(C * x * y) == '(x.*y)*(A.*B)' and mcode(HadamardPower(A, n)) == 'A.**n' and mcode(HadamardPower(A, 1 + n)) == 'A.**(n + 1)' and mcode(HadamardPower(A * B.T, 1 + n)) == '(A*B.T).**(n + 1)'","over":{"base":"Any"},"name":"test_hadamard_correct"},"guarantee":"mcode(C) == 'A.*B'; mcode(C * v) == '(A.*B)*v'; mcode(h * C * v) == 'h*(A.*B)*v'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_hadamard_correct","statement":"Path(test_hadamard(x), mcode(C) == 'A.*B'; mcode(C * v) == '(A.*B)*v'; mcode(h * C * v) == 'h*(A.*B)*v')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e954e51fc92ae6e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(C) == 'A.*B'","mcode(C * v) == '(A.*B)*v'","mcode(h * C * v) == 'h*(A.*B)*v'","mcode(C * A) == '(A.*B)*A'","mcode(C * x * y) == '(x.*y)*(A.*B)'","mcode(HadamardPower(A, n)) == 'A.**n'","mcode(HadamardPower(A, 1 + n)) == 'A.**(n + 1)'","mcode(HadamardPower(A * B.T, 1 + n)) == '(A*B.T).**(n + 1)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_hadamard():
     A = MatrixSymbol('A', 3, 3)
     B = MatrixSymbol('B', 3, 3)
@@ -854,16 +1120,22 @@ def test_hadamard():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sparse(), test_sparse produces the expected output) over Any ║
+# ║ Path(test_sparse(), mcode(M) == 'sparse([4 2 3 1 2], [1 3 3 4 4], [x.*y 20 10 30 22], 5, 6)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sparse : Any → {Any | mcode(M) == 'sparse([4 2 3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(M) == 'sparse([4 2 3 1 2], [1 3 3 4...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sparse : Any → {Any | result satisfies: mcode(M)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffb8b89391187ab4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5902e73b32fbcaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_sparse","kind":"function","src_hash":"ed8ffea65ab49c42","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(M) == 'sparse([4 2 3 1 2], [1 3 3 4 4], [x.*y 20 10 30 22], 5, 6)'"},"spec":{"lhs":"test_sparse()","rhs":"test_sparse produces the expected output","over":{"base":"Any"},"name":"test_sparse_correct"},"guarantee":"test_sparse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_sparse_correct","statement":"Path(test_sparse(x), test_sparse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffb8b89391187ab4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_sparse","kind":"function","src_hash":"ed8ffea65ab49c42","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(M) == 'sparse([4 2 3 1 2], [1 3 3 4 4], [x.*y 20 10 30 22], 5, 6)'"},"spec":{"lhs":"test_sparse()","rhs":"mcode(M) == 'sparse([4 2 3 1 2], [1 3 3 4 4], [x.*y 20 10 30 22], 5, 6)'","over":{"base":"Any"},"name":"test_sparse_correct"},"guarantee":"mcode(M) == 'sparse([4 2 3 1 2], [1 3 3 4 4], [x.*y 20 10 30 22], 5, 6)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_sparse_correct","statement":"Path(test_sparse(x), mcode(M) == 'sparse([4 2 3 1 2], [1 3 3 4 4], [x.*y 20 10 30 22], 5, 6)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5902e73b32fbcaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(M) == 'sparse([4 2 3 1 2], [1 3 3 4 4], [x.*y 20 10 30 22], 5, 6)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sparse():
     M = SparseMatrix(5, 6, {})
     M[2, 2] = 10
@@ -877,16 +1149,24 @@ def test_sparse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sinc(), test_sinc produces the expected output) over Any ║
+# ║ Path(test_sinc(), mcode(sinc(x)) == 'sinc(x/pi)' and mcode(sinc(x + 3)) == 'sinc((x + 3)/pi)' and mcode(sinc(pi * (x + 3))) == 'sinc(x + 3)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sinc : Any → {Any | mcode(sinc(x)) == 'sinc(x/pi...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(sinc(x)) == 'sinc(x/pi)'                 ║
+# ║   ensures:  mcode(sinc(x + 3)) == 'sinc((x + 3)/pi)'       ║
+# ║   ensures:  mcode(sinc(pi * (x + 3))) == 'sinc(x + 3)'     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sinc : Any → {Any | result satisfies: mcode(sinc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1fe182f77bdb812  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c647787a5d31b74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_sinc","kind":"function","src_hash":"11227cc2575d8f16","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(sinc(x)) == 'sinc(x/pi)' and mcode(sinc(x + 3)) == 'sinc((x + 3)/pi)' and mcode(sinc(pi * (x + 3))) == 'sinc(x + 3)'"},"spec":{"lhs":"test_sinc()","rhs":"test_sinc produces the expected output","over":{"base":"Any"},"name":"test_sinc_correct"},"guarantee":"test_sinc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_sinc_correct","statement":"Path(test_sinc(x), test_sinc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1fe182f77bdb812"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_sinc","kind":"function","src_hash":"11227cc2575d8f16","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(sinc(x)) == 'sinc(x/pi)' and mcode(sinc(x + 3)) == 'sinc((x + 3)/pi)' and mcode(sinc(pi * (x + 3))) == 'sinc(x + 3)'"},"spec":{"lhs":"test_sinc()","rhs":"mcode(sinc(x)) == 'sinc(x/pi)' and mcode(sinc(x + 3)) == 'sinc((x + 3)/pi)' and mcode(sinc(pi * (x + 3))) == 'sinc(x + 3)'","over":{"base":"Any"},"name":"test_sinc_correct"},"guarantee":"mcode(sinc(x)) == 'sinc(x/pi)'; mcode(sinc(x + 3)) == 'sinc((x + 3)/pi)'; mcode(sinc(pi * (x + 3))) == 'sinc(x + 3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_sinc_correct","statement":"Path(test_sinc(x), mcode(sinc(x)) == 'sinc(x/pi)'; mcode(sinc(x + 3)) == 'sinc((x + 3)/pi)'; mcode(sinc(pi * (x + 3))) == 'sinc(x + 3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c647787a5d31b74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(sinc(x)) == 'sinc(x/pi)'","mcode(sinc(x + 3)) == 'sinc((x + 3)/pi)'","mcode(sinc(pi * (x + 3))) == 'sinc(x + 3)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sinc():
     assert mcode(sinc(x)) == 'sinc(x/pi)'
     assert mcode(sinc(x + 3)) == 'sinc((x + 3)/pi)'
@@ -894,16 +1174,22 @@ def test_sinc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trigfun(), test_trigfun produces the expected output) over Any ║
+# ║ Path(test_trigfun(), <unspecified:test_trigfun>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_trigfun : Any → {Any | octave_code(f(x) == f.__n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05b6d22bd1b7dbf4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_trigfun","kind":"function","src_hash":"1e58f86b56e50a18","in":{"base":"Any"},"out":{"base":"Any","pred":"octave_code(f(x) == f.__name__ + '(x)')"},"spec":{"lhs":"test_trigfun()","rhs":"test_trigfun produces the expected output","over":{"base":"Any"},"name":"test_trigfun_correct"},"guarantee":"test_trigfun produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_trigfun_correct","statement":"Path(test_trigfun(x), test_trigfun produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05b6d22bd1b7dbf4"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_trigfun","kind":"function","src_hash":"1e58f86b56e50a18","in":{"base":"Any"},"out":{"base":"Any","pred":"octave_code(f(x) == f.__name__ + '(x)')"},"spec":{"lhs":"test_trigfun()","rhs":"<unspecified:test_trigfun>","over":{"base":"Any"},"name":"test_trigfun_correct"},"guarantee":"test_trigfun produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_trigfun_correct","statement":"Path(test_trigfun(x), test_trigfun produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05b6d22bd1b7dbf4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trigfun():
     for f in (sin, cos, tan, cot, sec, csc, asin, acos, acot, atan, asec, acsc,
               sinh, cosh, tanh, coth, csch, sech, asinh, acosh, atanh, acoth,
@@ -912,16 +1198,24 @@ def test_trigfun():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_specfun(), test_specfun produces the expected output) over Any ║
+# ║ Path(test_specfun(), octave_code(hankel1(n, x)) == 'besselh(n, 1, x)' and octave_code(hankel2(n, x)) == 'besselh(n, 2, x)' and octave_code(airyai(x)) == 'airy(0, x)' and octave_code(airyaiprime(x)) == 'airy(1, x)' and octave_code(airybi(x)) == 'airy(2, x)' and octave_code(airybiprime(x)) == 'airy(3, x)' and octave_code(uppergamma(n, x)) == "(gammainc(x, n, 'upper').*gamma(n))" and octave_code(lowergamma(n, x)) == '(gammainc(x, n).*gamma(n))' and octave_code(z ** lowergamma(n, x)) == 'z.^(gammainc(x, n).*gamma(n))' and octave_code(jn(n, x)) == 'sqrt(2)*sqrt(pi)*sqrt(1./x).*besselj(n + 1/2, x)/2' and octave_code(yn(n, x)) == 'sqrt(2)*sqrt(pi)*sqrt(1./x).*bessely(n + 1/2, x)/2' and octave_code(LambertW(x)) == 'lambertw(x)' and octave_code(LambertW(x, n)) == 'lambertw(n, x)' and octave_code(Ei(x)) == '(logint(exp(x)))' and octave_code(dirichlet_eta(x)) == '(((x == 1).*(log(2)) + (~(x == 1)).*((1 - 2.^(1 - x)).*zeta(x))))' and octave_code(riemann_xi(x)) == '(pi.^(-x/2).*x.*(x - 1).*gamma(x/2).*zeta(x)/2)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_specfun : Any → {Any | octave_code(hankel1(n, x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  octave_code(hankel1(n, x)) == 'besselh(n,...   ║
+# ║   ensures:  octave_code(hankel2(n, x)) == 'besselh(n,...   ║
+# ║   ensures:  octave_code(airyai(x)) == 'airy(0, x)'         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_specfun : Any → {Any | result satisfies: octave_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2b09dabaa77b3446  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1889d5a14df3bb3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_specfun","kind":"function","src_hash":"261fad2a1ac23028","in":{"base":"Any"},"out":{"base":"Any","pred":"octave_code(hankel1(n, x)) == 'besselh(n, 1, x)' and octave_code(hankel2(n, x)) == 'besselh(n, 2, x)' and octave_code(airyai(x)) == 'airy(0, x)' and octave_code(airyaiprime(x)) == 'airy(1, x)' and octave_code(airybi(x)) == 'airy(2, x)' and octave_code(airybiprime(x)) == 'airy(3, x)' and octave_code(uppergamma(n, x)) == \"(gammainc(x, n, 'upper').*gamma(n))\" and octave_code(lowergamma(n, x)) == '(gammainc(x, n).*gamma(n))' and octave_code(z ** lowergamma(n, x)) == 'z.^(gammainc(x, n).*gamma(n))' and octave_code(jn(n, x)) == 'sqrt(2)*sqrt(pi)*sqrt(1./x).*besselj(n + 1/2, x)/2' and octave_code(yn(n, x)) == 'sqrt(2)*sqrt(pi)*sqrt(1./x).*bessely(n + 1/2, x)/2' and octave_code(LambertW(x)) == 'lambertw(x)' and octave_code(LambertW(x, n)) == 'lambertw(n, x)' and octave_code(Ei(x)) == '(logint(exp(x)))' and octave_code(riemann_xi(x)) == '(pi.^(-x/2).*x.*(x - 1).*gamma(x/2).*zeta(x)/2)' and octave_code(f(n, x)) == f.__name__ + '(n, x)' and octave_code(f(x)) == f.__name__ + '(x)'"},"spec":{"lhs":"test_specfun()","rhs":"test_specfun produces the expected output","over":{"base":"Any"},"name":"test_specfun_correct"},"guarantee":"test_specfun produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_specfun_correct","statement":"Path(test_specfun(x), test_specfun produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2b09dabaa77b3446"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_specfun","kind":"function","src_hash":"261fad2a1ac23028","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: octave_code(hankel1(n, x)) == 'besselh(n, 1, x)' and octave_code(hankel2(n, x)) == 'besselh(n, 2, x)' and octave_code(airyai(x)) == 'airy(0, x)' and octave_code(airyaiprime(x)) == 'airy(1, x)' and octave_code(airybi(x)) == 'airy(2, x)' and octave_code(airybiprime(x)) == 'airy(3, x)' and octave_code(uppergamma(n, x)) == \"(gammainc(x, n, 'upper').*gamma(n))\" and octave_code(lowergamma(n, x)) == '(gammainc(x, n).*gamma(n))' and octave_code(z ** lowergamma(n, x)) == 'z.^(gammainc(x, n).*gamma(n))' and octave_code(jn(n, x)) == 'sqrt(2)*sqrt(pi)*sqrt(1./x).*besselj(n + 1/2, x)/2' and octave_code(yn(n, x)) == 'sqrt(2)*sqrt(pi)*sqrt(1./x).*bessely(n + 1/2, x)/2' and octave_code(LambertW(x)) == 'lambertw(x)' and octave_code(LambertW(x, n)) == 'lambertw(n, x)' and octave_code(Ei(x)) == '(logint(exp(x)))' and octave_code(dirichlet_eta(x)) == '(((x == 1).*(log(2)) + (~(x == 1)).*((1 - 2.^(1 - x)).*zeta(x))))' and octave_code(riemann_xi(x)) == '(pi.^(-x/2).*x.*(x - 1).*gamma(x/2).*zeta(x)/2)'"},"spec":{"lhs":"test_specfun()","rhs":"octave_code(hankel1(n, x)) == 'besselh(n, 1, x)' and octave_code(hankel2(n, x)) == 'besselh(n, 2, x)' and octave_code(airyai(x)) == 'airy(0, x)' and octave_code(airyaiprime(x)) == 'airy(1, x)' and octave_code(airybi(x)) == 'airy(2, x)' and octave_code(airybiprime(x)) == 'airy(3, x)' and octave_code(uppergamma(n, x)) == \"(gammainc(x, n, 'upper').*gamma(n))\" and octave_code(lowergamma(n, x)) == '(gammainc(x, n).*gamma(n))' and octave_code(z ** lowergamma(n, x)) == 'z.^(gammainc(x, n).*gamma(n))' and octave_code(jn(n, x)) == 'sqrt(2)*sqrt(pi)*sqrt(1./x).*besselj(n + 1/2, x)/2' and octave_code(yn(n, x)) == 'sqrt(2)*sqrt(pi)*sqrt(1./x).*bessely(n + 1/2, x)/2' and octave_code(LambertW(x)) == 'lambertw(x)' and octave_code(LambertW(x, n)) == 'lambertw(n, x)' and octave_code(Ei(x)) == '(logint(exp(x)))' and octave_code(dirichlet_eta(x)) == '(((x == 1).*(log(2)) + (~(x == 1)).*((1 - 2.^(1 - x)).*zeta(x))))' and octave_code(riemann_xi(x)) == '(pi.^(-x/2).*x.*(x - 1).*gamma(x/2).*zeta(x)/2)'","over":{"base":"Any"},"name":"test_specfun_correct"},"guarantee":"octave_code(hankel1(n, x)) == 'besselh(n, 1, x)'; octave_code(hankel2(n, x)) == 'besselh(n, 2, x)'; octave_code(airyai(x)) == 'airy(0, x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_specfun_correct","statement":"Path(test_specfun(x), octave_code(hankel1(n, x)) == 'besselh(n, 1, x)'; octave_code(hankel2(n, x)) == 'besselh(n, 2, x)'; octave_code(airyai(x)) == 'airy(0, x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1889d5a14df3bb3b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["octave_code(hankel1(n, x)) == 'besselh(n, 1, x)'","octave_code(hankel2(n, x)) == 'besselh(n, 2, x)'","octave_code(airyai(x)) == 'airy(0, x)'","octave_code(airyaiprime(x)) == 'airy(1, x)'","octave_code(airybi(x)) == 'airy(2, x)'","octave_code(airybiprime(x)) == 'airy(3, x)'","octave_code(uppergamma(n, x)) == \"(gammainc(x, n, 'upper').*gamma(n))\"","octave_code(lowergamma(n, x)) == '(gammainc(x, n).*gamma(n))'","octave_code(z ** lowergamma(n, x)) == 'z.^(gammainc(x, n).*gamma(n))'","octave_code(jn(n, x)) == 'sqrt(2)*sqrt(pi)*sqrt(1./x).*besselj(n + 1/2, x)/2'","octave_code(yn(n, x)) == 'sqrt(2)*sqrt(pi)*sqrt(1./x).*bessely(n + 1/2, x)/2'","octave_code(LambertW(x)) == 'lambertw(x)'","octave_code(LambertW(x, n)) == 'lambertw(n, x)'","octave_code(Ei(x)) == '(logint(exp(x)))'","octave_code(dirichlet_eta(x)) == '(((x == 1).*(log(2)) + (~(x == 1)).*((1 - 2.^(1 - x)).*zeta(x))))'","octave_code(riemann_xi(x)) == '(pi.^(-x/2).*x.*(x - 1).*gamma(x/2).*zeta(x)/2)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_specfun():
     n = Symbol('n')
     for f in [besselj, bessely, besseli, besselk]:
@@ -949,16 +1243,24 @@ def test_specfun():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixElement_printing(), test_MatrixElement_printing produces the expected output) over Any ║
+# ║ Path(test_MatrixElement_printing(), mcode(A[0, 0]) == 'A(1, 1)' and mcode(3 * A[0, 0]) == '3*A(1, 1)' and mcode(F) == '(A - B)(1, 1)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixElement_printing : Any → {Any | mcode(A[0,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mcode(A[0, 0]) == 'A(1, 1)'                    ║
+# ║   ensures:  mcode(3 * A[0, 0]) == '3*A(1, 1)'              ║
+# ║   ensures:  mcode(F) == '(A - B)(1, 1)'                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixElement_printing : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eaf39b4e7b9d73e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3c32f48ab0475f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_MatrixElement_printing","kind":"function","src_hash":"971f54d8f6867372","in":{"base":"Any"},"out":{"base":"Any","pred":"mcode(A[0, 0]) == 'A(1, 1)' and mcode(3 * A[0, 0]) == '3*A(1, 1)' and mcode(F) == '(A - B)(1, 1)'"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"test_MatrixElement_printing produces the expected output","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"test_MatrixElement_printing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), test_MatrixElement_printing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eaf39b4e7b9d73e7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_MatrixElement_printing","kind":"function","src_hash":"971f54d8f6867372","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mcode(A[0, 0]) == 'A(1, 1)' and mcode(3 * A[0, 0]) == '3*A(1, 1)' and mcode(F) == '(A - B)(1, 1)'"},"spec":{"lhs":"test_MatrixElement_printing()","rhs":"mcode(A[0, 0]) == 'A(1, 1)' and mcode(3 * A[0, 0]) == '3*A(1, 1)' and mcode(F) == '(A - B)(1, 1)'","over":{"base":"Any"},"name":"test_MatrixElement_printing_correct"},"guarantee":"mcode(A[0, 0]) == 'A(1, 1)'; mcode(3 * A[0, 0]) == '3*A(1, 1)'; mcode(F) == '(A - B)(1, 1)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_MatrixElement_printing_correct","statement":"Path(test_MatrixElement_printing(x), mcode(A[0, 0]) == 'A(1, 1)'; mcode(3 * A[0, 0]) == '3*A(1, 1)'; mcode(F) == '(A - B)(1, 1)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3c32f48ab0475f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mcode(A[0, 0]) == 'A(1, 1)'","mcode(3 * A[0, 0]) == '3*A(1, 1)'","mcode(F) == '(A - B)(1, 1)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixElement_printing():
     # test cases for issue #11821
     A = MatrixSymbol("A", 1, 3)
@@ -973,16 +1275,22 @@ def test_MatrixElement_printing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_zeta_printing_issue_14820(), test_zeta_printing_issue_14820 produces the expected output) over Any ║
+# ║ Path(test_zeta_printing_issue_14820(), octave_code(zeta(x)) == 'zeta(x)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_zeta_printing_issue_14820 : Any → {Any | octave_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  octave_code(zeta(x)) == 'zeta(x)'              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_zeta_printing_issue_14820 : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c399585b5cc5405  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86c13c767f2b4960  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_zeta_printing_issue_14820","kind":"function","src_hash":"b49f1b93a667dd21","in":{"base":"Any"},"out":{"base":"Any","pred":"octave_code(zeta(x)) == 'zeta(x)'"},"spec":{"lhs":"test_zeta_printing_issue_14820()","rhs":"test_zeta_printing_issue_14820 produces the expected output","over":{"base":"Any"},"name":"test_zeta_printing_issue_14820_correct"},"guarantee":"test_zeta_printing_issue_14820 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_zeta_printing_issue_14820_correct","statement":"Path(test_zeta_printing_issue_14820(x), test_zeta_printing_issue_14820 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c399585b5cc5405"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_zeta_printing_issue_14820","kind":"function","src_hash":"b49f1b93a667dd21","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: octave_code(zeta(x)) == 'zeta(x)'"},"spec":{"lhs":"test_zeta_printing_issue_14820()","rhs":"octave_code(zeta(x)) == 'zeta(x)'","over":{"base":"Any"},"name":"test_zeta_printing_issue_14820_correct"},"guarantee":"octave_code(zeta(x)) == 'zeta(x)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_zeta_printing_issue_14820_correct","statement":"Path(test_zeta_printing_issue_14820(x), octave_code(zeta(x)) == 'zeta(x)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86c13c767f2b4960","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["octave_code(zeta(x)) == 'zeta(x)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_zeta_printing_issue_14820():
     assert octave_code(zeta(x)) == 'zeta(x)'
     with raises(NotImplementedError):
@@ -990,16 +1298,23 @@ def test_zeta_printing_issue_14820():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_automatic_rewrite(), test_automatic_rewrite produces the expected output) over Any ║
+# ║ Path(test_automatic_rewrite(), octave_code(Li(x)) == '(logint(x) - logint(2))' and octave_code(erf2(x, y)) == '(-erf(x) + erf(y))') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_automatic_rewrite : Any → {Any | octave_code(Li(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  octave_code(Li(x)) == '(logint(x) - login...   ║
+# ║   ensures:  octave_code(erf2(x, y)) == '(-erf(x) + er...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_automatic_rewrite : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd0b8dd1d102d587  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bf655064bf67522  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_automatic_rewrite","kind":"function","src_hash":"4551b8caae6fff41","in":{"base":"Any"},"out":{"base":"Any","pred":"octave_code(Li(x)) == '(logint(x) - logint(2))' and octave_code(erf2(x, y)) == '(-erf(x) + erf(y))'"},"spec":{"lhs":"test_automatic_rewrite()","rhs":"test_automatic_rewrite produces the expected output","over":{"base":"Any"},"name":"test_automatic_rewrite_correct"},"guarantee":"test_automatic_rewrite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_automatic_rewrite_correct","statement":"Path(test_automatic_rewrite(x), test_automatic_rewrite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd0b8dd1d102d587"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_octave.test_automatic_rewrite","kind":"function","src_hash":"4551b8caae6fff41","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: octave_code(Li(x)) == '(logint(x) - logint(2))' and octave_code(erf2(x, y)) == '(-erf(x) + erf(y))'"},"spec":{"lhs":"test_automatic_rewrite()","rhs":"octave_code(Li(x)) == '(logint(x) - logint(2))' and octave_code(erf2(x, y)) == '(-erf(x) + erf(y))'","over":{"base":"Any"},"name":"test_automatic_rewrite_correct"},"guarantee":"octave_code(Li(x)) == '(logint(x) - logint(2))'; octave_code(erf2(x, y)) == '(-erf(x) + erf(y))'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_octave.test_automatic_rewrite_correct","statement":"Path(test_automatic_rewrite(x), octave_code(Li(x)) == '(logint(x) - logint(2))'; octave_code(erf2(x, y)) == '(-erf(x) + erf(y))')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bf655064bf67522","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["octave_code(Li(x)) == '(logint(x) - logint(2))'","octave_code(erf2(x, y)) == '(-erf(x) + erf(y))'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_automatic_rewrite():
     assert octave_code(Li(x)) == '(logint(x) - logint(2))'
     assert octave_code(erf2(x, y)) == '(-erf(x) + erf(y))'

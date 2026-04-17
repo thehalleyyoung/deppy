@@ -28,16 +28,24 @@ from sympy.utilities.misc import (translate, replace, ordinal, rawlines,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_translate(), test_translate produces the expected output) over Any ║
+# ║ Path(test_translate(), translate(abc, None, 'a') == 'bc' and translate(abc, None, '') == 'abc' and translate(abc, {'a': 'x'}, 'c') == 'xb' and translate(abc, {'a': 'bc'}, 'c') == 'bcb' and translate(abc, {'ab': 'x'}, 'c') == 'x' and translate(abc, {'ab': ''}, 'c') == '' and translate(abc, {'bc': 'x'}, 'c') == 'ab' and translate(abc, {'abc': 'x', 'a': 'y'}) == 'x' and translate(abc, 'a', 'x', u) == 'xbc' and (u in translate(abc, 'a', u, u)) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_translate : Any → {Any | translate(abc, None, 'a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  translate(abc, None, 'a') == 'bc'              ║
+# ║   ensures:  translate(abc, None, '') == 'abc'              ║
+# ║   ensures:  translate(abc, {'a': 'x'}, 'c') == 'xb'        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_translate : Any → {Any | result satisfies: trans...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c40834b26486c9ee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd062120370977d7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_translate","kind":"function","src_hash":"7b170b4a3806d903","in":{"base":"Any"},"out":{"base":"Any","pred":"translate(abc, None, 'a') == 'bc' and translate(abc, None, '') == 'abc' and translate(abc, {'a': 'x'}, 'c') == 'xb' and translate(abc, {'a': 'bc'}, 'c') == 'bcb' and translate(abc, {'ab': 'x'}, 'c') == 'x' and translate(abc, {'ab': ''}, 'c') == '' and translate(abc, {'bc': 'x'}, 'c') == 'ab' and translate(abc, {'abc': 'x', 'a': 'y'}) == 'x' and translate(abc, 'a', 'x', u) == 'xbc' and (u in translate(abc, 'a', u, u)) is True"},"spec":{"lhs":"test_translate()","rhs":"test_translate produces the expected output","over":{"base":"Any"},"name":"test_translate_correct"},"guarantee":"test_translate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_translate_correct","statement":"Path(test_translate(x), test_translate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c40834b26486c9ee"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_translate","kind":"function","src_hash":"7b170b4a3806d903","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: translate(abc, None, 'a') == 'bc' and translate(abc, None, '') == 'abc' and translate(abc, {'a': 'x'}, 'c') == 'xb' and translate(abc, {'a': 'bc'}, 'c') == 'bcb' and translate(abc, {'ab': 'x'}, 'c') == 'x' and translate(abc, {'ab': ''}, 'c') == '' and translate(abc, {'bc': 'x'}, 'c') == 'ab' and translate(abc, {'abc': 'x', 'a': 'y'}) == 'x' and translate(abc, 'a', 'x', u) == 'xbc' and (u in translate(abc, 'a', u, u)) is True"},"spec":{"lhs":"test_translate()","rhs":"translate(abc, None, 'a') == 'bc' and translate(abc, None, '') == 'abc' and translate(abc, {'a': 'x'}, 'c') == 'xb' and translate(abc, {'a': 'bc'}, 'c') == 'bcb' and translate(abc, {'ab': 'x'}, 'c') == 'x' and translate(abc, {'ab': ''}, 'c') == '' and translate(abc, {'bc': 'x'}, 'c') == 'ab' and translate(abc, {'abc': 'x', 'a': 'y'}) == 'x' and translate(abc, 'a', 'x', u) == 'xbc' and (u in translate(abc, 'a', u, u)) is True","over":{"base":"Any"},"name":"test_translate_correct"},"guarantee":"translate(abc, None, 'a') == 'bc'; translate(abc, None, '') == 'abc'; translate(abc, {'a': 'x'}, 'c') == 'xb'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_translate_correct","statement":"Path(test_translate(x), translate(abc, None, 'a') == 'bc'; translate(abc, None, '') == 'abc'; translate(abc, {'a': 'x'}, 'c') == 'xb')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd062120370977d7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["translate(abc, None, 'a') == 'bc'","translate(abc, None, '') == 'abc'","translate(abc, {'a': 'x'}, 'c') == 'xb'","translate(abc, {'a': 'bc'}, 'c') == 'bcb'","translate(abc, {'ab': 'x'}, 'c') == 'x'","translate(abc, {'ab': ''}, 'c') == ''","translate(abc, {'bc': 'x'}, 'c') == 'ab'","translate(abc, {'abc': 'x', 'a': 'y'}) == 'x'","translate(abc, 'a', 'x', u) == 'xbc'","(u in translate(abc, 'a', u, u)) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_translate():
     abc = 'abc'
     assert translate(abc, None, 'a') == 'bc'
@@ -54,16 +62,24 @@ def test_translate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_replace(), test_replace produces the expected output) over Any ║
+# ║ Path(test_replace(), replace('abc', ('a', 'b')) == 'bbc' and replace('abc', {'a': 'Aa'}) == 'Aabc' and replace('abc', ('a', 'b'), ('c', 'C')) == 'bbC') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_replace : Any → {Any | replace('abc', ('a', 'b')...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  replace('abc', ('a', 'b')) == 'bbc'            ║
+# ║   ensures:  replace('abc', {'a': 'Aa'}) == 'Aabc'          ║
+# ║   ensures:  replace('abc', ('a', 'b'), ('c', 'C')) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_replace : Any → {Any | result satisfies: replace...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3622221269abda7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92dd2290a92787eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_replace","kind":"function","src_hash":"1ac9fd1a88564aee","in":{"base":"Any"},"out":{"base":"Any","pred":"replace('abc', ('a', 'b')) == 'bbc' and replace('abc', {'a': 'Aa'}) == 'Aabc' and replace('abc', ('a', 'b'), ('c', 'C')) == 'bbC'"},"spec":{"lhs":"test_replace()","rhs":"test_replace produces the expected output","over":{"base":"Any"},"name":"test_replace_correct"},"guarantee":"test_replace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_replace_correct","statement":"Path(test_replace(x), test_replace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3622221269abda7"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_replace","kind":"function","src_hash":"1ac9fd1a88564aee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: replace('abc', ('a', 'b')) == 'bbc' and replace('abc', {'a': 'Aa'}) == 'Aabc' and replace('abc', ('a', 'b'), ('c', 'C')) == 'bbC'"},"spec":{"lhs":"test_replace()","rhs":"replace('abc', ('a', 'b')) == 'bbc' and replace('abc', {'a': 'Aa'}) == 'Aabc' and replace('abc', ('a', 'b'), ('c', 'C')) == 'bbC'","over":{"base":"Any"},"name":"test_replace_correct"},"guarantee":"replace('abc', ('a', 'b')) == 'bbc'; replace('abc', {'a': 'Aa'}) == 'Aabc'; replace('abc', ('a', 'b'), ('c', 'C')) == 'bbC'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_replace_correct","statement":"Path(test_replace(x), replace('abc', ('a', 'b')) == 'bbc'; replace('abc', {'a': 'Aa'}) == 'Aabc'; replace('abc', ('a', 'b'), ('c', 'C')) == 'bbC')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92dd2290a92787eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["replace('abc', ('a', 'b')) == 'bbc'","replace('abc', {'a': 'Aa'}) == 'Aabc'","replace('abc', ('a', 'b'), ('c', 'C')) == 'bbC'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_replace():
     assert replace('abc', ('a', 'b')) == 'bbc'
     assert replace('abc', {'a': 'Aa'}) == 'Aabc'
@@ -71,16 +87,24 @@ def test_replace():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_ordinal(), test_ordinal produces the expected output) over Any ║
+# ║ Path(test_ordinal(), ordinal(-1) == '-1st' and ordinal(0) == '0th' and ordinal(1) == '1st' and ordinal(2) == '2nd' and ordinal(3) == '3rd' and all((ordinal(i).endswith('th') for i in range(4, 21))) and ordinal(100) == '100th' and ordinal(101) == '101st' and ordinal(102) == '102nd' and ordinal(103) == '103rd' and ordinal(104) == '104th' and ordinal(200) == '200th' and all((ordinal(i) == str(i) + 'th' for i in range(-220, -203)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_ordinal : Any → {Any | ordinal(-1) == '-1st' and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ordinal(-1) == '-1st'                          ║
+# ║   ensures:  ordinal(0) == '0th'                            ║
+# ║   ensures:  ordinal(1) == '1st'                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_ordinal : Any → {Any | result satisfies: ordinal...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db546f5507736b9f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aede04596db7d816  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_ordinal","kind":"function","src_hash":"bb290ceb334c1699","in":{"base":"Any"},"out":{"base":"Any","pred":"ordinal(-1) == '-1st' and ordinal(0) == '0th' and ordinal(1) == '1st' and ordinal(2) == '2nd' and ordinal(3) == '3rd' and all((ordinal(i).endswith('th') for i in range(4, 21))) and ordinal(100) == '100th' and ordinal(101) == '101st' and ordinal(102) == '102nd' and ordinal(103) == '103rd' and ordinal(104) == '104th' and ordinal(200) == '200th' and all((ordinal(i) == str(i) + 'th' for i in range(-220, -203)))"},"spec":{"lhs":"test_ordinal()","rhs":"test_ordinal produces the expected output","over":{"base":"Any"},"name":"test_ordinal_correct"},"guarantee":"test_ordinal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_ordinal_correct","statement":"Path(test_ordinal(x), test_ordinal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db546f5507736b9f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_ordinal","kind":"function","src_hash":"bb290ceb334c1699","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ordinal(-1) == '-1st' and ordinal(0) == '0th' and ordinal(1) == '1st' and ordinal(2) == '2nd' and ordinal(3) == '3rd' and all((ordinal(i).endswith('th') for i in range(4, 21))) and ordinal(100) == '100th' and ordinal(101) == '101st' and ordinal(102) == '102nd' and ordinal(103) == '103rd' and ordinal(104) == '104th' and ordinal(200) == '200th' and all((ordinal(i) == str(i) + 'th' for i in range(-220, -203)))"},"spec":{"lhs":"test_ordinal()","rhs":"ordinal(-1) == '-1st' and ordinal(0) == '0th' and ordinal(1) == '1st' and ordinal(2) == '2nd' and ordinal(3) == '3rd' and all((ordinal(i).endswith('th') for i in range(4, 21))) and ordinal(100) == '100th' and ordinal(101) == '101st' and ordinal(102) == '102nd' and ordinal(103) == '103rd' and ordinal(104) == '104th' and ordinal(200) == '200th' and all((ordinal(i) == str(i) + 'th' for i in range(-220, -203)))","over":{"base":"Any"},"name":"test_ordinal_correct"},"guarantee":"ordinal(-1) == '-1st'; ordinal(0) == '0th'; ordinal(1) == '1st'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_ordinal_correct","statement":"Path(test_ordinal(x), ordinal(-1) == '-1st'; ordinal(0) == '0th'; ordinal(1) == '1st')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aede04596db7d816","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ordinal(-1) == '-1st'","ordinal(0) == '0th'","ordinal(1) == '1st'","ordinal(2) == '2nd'","ordinal(3) == '3rd'","all((ordinal(i).endswith('th') for i in range(4, 21)))","ordinal(100) == '100th'","ordinal(101) == '101st'","ordinal(102) == '102nd'","ordinal(103) == '103rd'","ordinal(104) == '104th'","ordinal(200) == '200th'","all((ordinal(i) == str(i) + 'th' for i in range(-220, -203)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_ordinal():
     assert ordinal(-1) == '-1st'
     assert ordinal(0) == '0th'
@@ -98,16 +122,24 @@ def test_ordinal():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rawlines(), test_rawlines produces the expected output) over Any ║
+# ║ Path(test_rawlines(), rawlines('a a\na') == "dedent('''\\\n    a a\n    a''')" and rawlines('a a') == "'a a'" and rawlines(strlines('\\le"ft')) == '(\n    \'(\\n\'\n    \'r\\\'\\\\le"ft\\\'\\n\'\n    \')\'\n)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rawlines : Any → {Any | rawlines('a a\na') == "d...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rawlines('a a\na') == "dedent('''\\\n    ...   ║
+# ║   ensures:  rawlines('a a') == "'a a'"                     ║
+# ║   ensures:  rawlines(strlines('\\le"ft')) == '(\n    ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rawlines : Any → {Any | result satisfies: rawlin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2aac678a1fb6e626  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fa01699a808aff8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_rawlines","kind":"function","src_hash":"ecf73782532972fa","in":{"base":"Any"},"out":{"base":"Any","pred":"rawlines('a a\\na') == \"dedent('''\\\\\\n    a a\\n    a''')\" and rawlines('a a') == \"'a a'\""},"spec":{"lhs":"test_rawlines()","rhs":"test_rawlines produces the expected output","over":{"base":"Any"},"name":"test_rawlines_correct"},"guarantee":"test_rawlines produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_rawlines_correct","statement":"Path(test_rawlines(x), test_rawlines produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2aac678a1fb6e626"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_rawlines","kind":"function","src_hash":"ecf73782532972fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rawlines('a a\\na') == \"dedent('''\\\\\\n    a a\\n    a''')\" and rawlines('a a') == \"'a a'\" and rawlines(strlines('\\\\le\"ft')) == '(\\n    \\'(\\\\n\\'\\n    \\'r\\\\\\'\\\\\\\\le\"ft\\\\\\'\\\\n\\'\\n    \\')\\'\\n)'"},"spec":{"lhs":"test_rawlines()","rhs":"rawlines('a a\\na') == \"dedent('''\\\\\\n    a a\\n    a''')\" and rawlines('a a') == \"'a a'\" and rawlines(strlines('\\\\le\"ft')) == '(\\n    \\'(\\\\n\\'\\n    \\'r\\\\\\'\\\\\\\\le\"ft\\\\\\'\\\\n\\'\\n    \\')\\'\\n)'","over":{"base":"Any"},"name":"test_rawlines_correct"},"guarantee":"rawlines('a a\\na') == \"dedent('''\\\\\\n    a a\\n    a''')\"; rawlines('a a') == \"'a a'\"; rawlines(strlines('\\\\le\"ft')) == '(\\n    \\'(\\\\n\\'\\n    \\'r\\\\\\'\\\\\\\\le\"ft\\\\\\'\\\\n\\'\\n    \\')\\'\\n)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_rawlines_correct","statement":"Path(test_rawlines(x), rawlines('a a\\na') == \"dedent('''\\\\\\n    a a\\n    a''')\"; rawlines('a a') == \"'a a'\"; rawlines(strlines('\\\\le\"ft')) == '(\\n    \\'(\\\\n\\'\\n    \\'r\\\\\\'\\\\\\\\le\"ft\\\\\\'\\\\n\\'\\n    \\')\\'\\n)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fa01699a808aff8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rawlines('a a\\na') == \"dedent('''\\\\\\n    a a\\n    a''')\"","rawlines('a a') == \"'a a'\"","rawlines(strlines('\\\\le\"ft')) == '(\\n    \\'(\\\\n\\'\\n    \\'r\\\\\\'\\\\\\\\le\"ft\\\\\\'\\\\n\\'\\n    \\')\\'\\n)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rawlines():
     assert rawlines('a a\na') == "dedent('''\\\n    a a\n    a''')"
     assert rawlines('a a') == "'a a'"
@@ -120,16 +152,24 @@ def test_rawlines():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_strlines(), test_strlines produces the expected output) over Any ║
+# ║ Path(test_strlines(), strlines(q, 10) == dedent('        (\n        \'this quo\'\n        \'te (") i\'\n        \'s in the\'\n        \' middle\'\n        )') and q == 'this quote (") is in the middle' and strlines(q, 20) == dedent('        (\n        "this quote (\') is "\n        "in the middle"\n        )') and strlines('\\left') == "(\nr'\\left'\n)" and strlines('\\left', short=True) == "r'\\left'" and strlines('\\le"ft') == '(\nr\'\\le"ft\'\n)' and strlines(q) == rawlines(q)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_strlines : Any → {Any | q == 'this quote (") is ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  strlines(q, 10) == dedent('        (\n   ...   ║
+# ║   ensures:  q == 'this quote (") is in the middle'         ║
+# ║   ensures:  strlines(q, 20) == dedent('        (\n   ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_strlines : Any → {Any | result satisfies: strlin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d0b90f8ae99f5c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89af7921970db5af  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_strlines","kind":"function","src_hash":"252019b188b547ef","in":{"base":"Any"},"out":{"base":"Any","pred":"q == 'this quote (\") is in the middle' and strlines('\\\\left') == \"(\\nr'\\\\left'\\n)\" and strlines('\\\\left', short=True) == \"r'\\\\left'\" and strlines('\\\\le\"ft') == '(\\nr\\'\\\\le\"ft\\'\\n)' and strlines(q) == rawlines(q)"},"spec":{"lhs":"test_strlines()","rhs":"test_strlines produces the expected output","over":{"base":"Any"},"name":"test_strlines_correct"},"guarantee":"test_strlines produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_strlines_correct","statement":"Path(test_strlines(x), test_strlines produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d0b90f8ae99f5c3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_strlines","kind":"function","src_hash":"252019b188b547ef","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: strlines(q, 10) == dedent('        (\\n        \\'this quo\\'\\n        \\'te (\") i\\'\\n        \\'s in the\\'\\n        \\' middle\\'\\n        )') and q == 'this quote (\") is in the middle' and strlines(q, 20) == dedent('        (\\n        \"this quote (\\') is \"\\n        \"in the middle\"\\n        )') and strlines('\\\\left') == \"(\\nr'\\\\left'\\n)\" and strlines('\\\\left', short=True) == \"r'\\\\left'\" and strlines('\\\\le\"ft') == '(\\nr\\'\\\\le\"ft\\'\\n)' and strlines(q) == rawlines(q)"},"spec":{"lhs":"test_strlines()","rhs":"strlines(q, 10) == dedent('        (\\n        \\'this quo\\'\\n        \\'te (\") i\\'\\n        \\'s in the\\'\\n        \\' middle\\'\\n        )') and q == 'this quote (\") is in the middle' and strlines(q, 20) == dedent('        (\\n        \"this quote (\\') is \"\\n        \"in the middle\"\\n        )') and strlines('\\\\left') == \"(\\nr'\\\\left'\\n)\" and strlines('\\\\left', short=True) == \"r'\\\\left'\" and strlines('\\\\le\"ft') == '(\\nr\\'\\\\le\"ft\\'\\n)' and strlines(q) == rawlines(q)","over":{"base":"Any"},"name":"test_strlines_correct"},"guarantee":"strlines(q, 10) == dedent('        (\\n        \\'this quo\\'\\n        \\'te (\") i\\'\\n        \\'s in the\\'\\n        \\' middle\\'\\n        )'); q == 'this quote (\") is in the middle'; strlines(q, 20) == dedent('        (\\n        \"this quote (\\') is \"\\n        \"in the middle\"\\n        )')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_strlines_correct","statement":"Path(test_strlines(x), strlines(q, 10) == dedent('        (\\n        \\'this quo\\'\\n        \\'te (\") i\\'\\n        \\'s in the\\'\\n        \\' middle\\'\\n        )'); q == 'this quote (\") is in the middle'; strlines(q, 20) == dedent('        (\\n        \"this quote (\\') is \"\\n        \"in the middle\"\\n        )'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89af7921970db5af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["strlines(q, 10) == dedent('        (\\n        \\'this quo\\'\\n        \\'te (\") i\\'\\n        \\'s in the\\'\\n        \\' middle\\'\\n        )')","q == 'this quote (\") is in the middle'","strlines(q, 20) == dedent('        (\\n        \"this quote (\\') is \"\\n        \"in the middle\"\\n        )')","strlines('\\\\left') == \"(\\nr'\\\\left'\\n)\"","strlines('\\\\left', short=True) == \"r'\\\\left'\"","strlines('\\\\le\"ft') == '(\\nr\\'\\\\le\"ft\\'\\n)'","strlines(q) == rawlines(q)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_strlines():
     q = 'this quote (") is in the middle'
     # the following assert rhs was prepared with
@@ -167,16 +207,22 @@ def test_strlines():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_translate_args(), test_translate_args produces the expected output) over Any ║
+# ║ Path(test_translate_args(), translate('s', None, None, None) == 's') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_translate_args : Any → {Any | translate('s', Non...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  translate('s', None, None, None) == 's'        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_translate_args : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 708871464dac71f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6877cfe6d71a4c2f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_translate_args","kind":"function","src_hash":"3fa98a11afbee953","in":{"base":"Any"},"out":{"base":"Any","pred":"translate('s', None, None, None) == 's' and False and False"},"spec":{"lhs":"test_translate_args()","rhs":"test_translate_args produces the expected output","over":{"base":"Any"},"name":"test_translate_args_correct"},"guarantee":"test_translate_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_translate_args_correct","statement":"Path(test_translate_args(x), test_translate_args produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"708871464dac71f3"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_translate_args","kind":"function","src_hash":"3fa98a11afbee953","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: translate('s', None, None, None) == 's'"},"spec":{"lhs":"test_translate_args()","rhs":"translate('s', None, None, None) == 's'","over":{"base":"Any"},"name":"test_translate_args_correct"},"guarantee":"translate('s', None, None, None) == 's'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_translate_args_correct","statement":"Path(test_translate_args(x), translate('s', None, None, None) == 's')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6877cfe6d71a4c2f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["translate('s', None, None, None) == 's'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_translate_args():
     try:
         translate(None, None, None, 'not_none')
@@ -197,16 +243,22 @@ def test_translate_args():
 
 @skip_under_pyodide("Cannot create subprocess under pyodide.")
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_debug_output(), test_debug_output produces the expected output) over Any ║
+# ║ Path(test_debug_output(), expected in err) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_debug_output : Any → {Any | expected in err}          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expected in err                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_debug_output : Any → {Any | result satisfies: ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b1ec5b4f02a30df  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 671f733cff61a1d0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_debug_output","kind":"function","src_hash":"0fce2bbdca78a8c2","in":{"base":"Any"},"out":{"base":"Any","pred":"expected in err"},"spec":{"lhs":"test_debug_output()","rhs":"test_debug_output produces the expected output","over":{"base":"Any"},"name":"test_debug_output_correct"},"guarantee":"test_debug_output produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_debug_output_correct","statement":"Path(test_debug_output(x), test_debug_output produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b1ec5b4f02a30df"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_debug_output","kind":"function","src_hash":"0fce2bbdca78a8c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expected in err"},"spec":{"lhs":"test_debug_output()","rhs":"expected in err","over":{"base":"Any"},"name":"test_debug_output_correct"},"guarantee":"expected in err","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_debug_output_correct","statement":"Path(test_debug_output(x), expected in err)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"671f733cff61a1d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expected in err"],"pure":false,"effects":{"effect_type":"io","io_operations":["Popen"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_debug_output():
     env = os.environ.copy()
     env['SYMPY_DEBUG'] = 'True'
@@ -221,16 +273,22 @@ def test_debug_output():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_as_int(), test_as_int produces the expected output) over Any ║
+# ║ Path(test_as_int(), as_int(True, strict=False) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_as_int : Any → {Any | as_int(True, strict=False)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  as_int(True, strict=False) == 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_as_int : Any → {Any | result satisfies: as_int(T...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c805a9c75e0c687b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1526bb503a811b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_as_int","kind":"function","src_hash":"7bc5c6b8da2c20f0","in":{"base":"Any"},"out":{"base":"Any","pred":"as_int(True, strict=False) == 1"},"spec":{"lhs":"test_as_int()","rhs":"test_as_int produces the expected output","over":{"base":"Any"},"name":"test_as_int_correct"},"guarantee":"test_as_int produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_as_int_correct","statement":"Path(test_as_int(x), test_as_int produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c805a9c75e0c687b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_as_int","kind":"function","src_hash":"7bc5c6b8da2c20f0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: as_int(True, strict=False) == 1"},"spec":{"lhs":"test_as_int()","rhs":"as_int(True, strict=False) == 1","over":{"base":"Any"},"name":"test_as_int_correct"},"guarantee":"as_int(True, strict=False) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_as_int_correct","statement":"Path(test_as_int(x), as_int(True, strict=False) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1526bb503a811b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["as_int(True, strict=False) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_as_int():
     raises(ValueError, lambda : as_int(True))
     raises(ValueError, lambda : as_int(1.1))
@@ -249,16 +307,22 @@ def test_as_int():
     assert as_int(True, strict=False) == 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_find_executable(), test_deprecated_find_executable produces the expected output) over Any ║
+# ║ Path(test_deprecated_find_executable(), <unspecified:test_deprecated_find_executable>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_find_executable : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 123d02c9c7c94a3b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_deprecated_find_executable","kind":"function","src_hash":"47dc6e334b705980","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_find_executable()","rhs":"test_deprecated_find_executable produces the expected output","over":{"base":"Any"},"name":"test_deprecated_find_executable_correct"},"guarantee":"test_deprecated_find_executable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_deprecated_find_executable_correct","statement":"Path(test_deprecated_find_executable(x), test_deprecated_find_executable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"123d02c9c7c94a3b"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.tests.test_misc.test_deprecated_find_executable","kind":"function","src_hash":"47dc6e334b705980","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_find_executable()","rhs":"<unspecified:test_deprecated_find_executable>","over":{"base":"Any"},"name":"test_deprecated_find_executable_correct"},"guarantee":"test_deprecated_find_executable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.tests.test_misc.test_deprecated_find_executable_correct","statement":"Path(test_deprecated_find_executable(x), test_deprecated_find_executable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"123d02c9c7c94a3b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_deprecated_find_executable():
     with warns_deprecated_sympy():
         find_executable('python')

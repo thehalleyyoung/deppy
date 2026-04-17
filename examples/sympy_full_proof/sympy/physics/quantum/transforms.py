@@ -71,16 +71,22 @@ of quantum expressions.
 
 @_transform_state_pair.register(Expr, Expr)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_expr(a, ), default transformer that does nothing for base types) over Any ║
+# ║ Path(_transform_expr(a, b), None) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _transform_expr : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d0f0c2f5c4642dbe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_expr","kind":"function","src_hash":"6ddcdd7e14fdb175","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_expr(a, )","rhs":"default transformer that does nothing for base types","over":{"base":"Any"},"name":"_transform_expr_correct"},"guarantee":"default transformer that does nothing for base types","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0f0c2f5c4642dbe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_expr","kind":"function","src_hash":"6ddcdd7e14fdb175","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_expr(a, b)","rhs":"None","over":{"base":"Any"},"name":"_transform_expr_correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d0f0c2f5c4642dbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _transform_expr(a, b):
     """Default transformer that does nothing for base types."""
     return None
@@ -105,48 +111,66 @@ _transform_state_pair.add(
 
 @_transform_state_pair.register(BraBase, KetBase)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_bra_ket(a, ), transform a bra*ket -> innerproduct(bra, ket)) over Any ║
+# ║ Path(_transform_bra_ket(a, b), (InnerProduct(a, b),)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (InnerProduct(a, b),)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _transform_bra_ket : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c80df9618001396           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_bra_ket","kind":"function","src_hash":"49c71f204063c6d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_bra_ket(a, )","rhs":"transform a bra*ket -> innerproduct(bra, ket)","over":{"base":"Any"},"name":"_transform_bra_ket_correct"},"guarantee":"transform a bra*ket -> innerproduct(bra, ket)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c80df9618001396"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_bra_ket","kind":"function","src_hash":"49c71f204063c6d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_bra_ket(a, b)","rhs":"(InnerProduct(a, b),)","over":{"base":"Any"},"name":"_transform_bra_ket_correct"},"guarantee":"returns (InnerProduct(a, b),)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c80df9618001396","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(InnerProduct(a, b),)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _transform_bra_ket(a, b):
     """Transform a bra*ket -> InnerProduct(bra, ket)."""
     return (InnerProduct(a, b),)
 
 @_transform_state_pair.register(KetBase, BraBase)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_ket_bra(a, ), transform a ket*bra -> outerproduct(ket, bra)) over Any ║
+# ║ Path(_transform_ket_bra(a, b), (OuterProduct(a, b),)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (OuterProduct(a, b),)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _transform_ket_bra : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0584e3cbd7000cf0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_ket_bra","kind":"function","src_hash":"ca572968694bf49b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_ket_bra(a, )","rhs":"transform a ket*bra -> outerproduct(ket, bra)","over":{"base":"Any"},"name":"_transform_ket_bra_correct"},"guarantee":"transform a ket*bra -> outerproduct(ket, bra)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0584e3cbd7000cf0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_ket_bra","kind":"function","src_hash":"ca572968694bf49b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_ket_bra(a, b)","rhs":"(OuterProduct(a, b),)","over":{"base":"Any"},"name":"_transform_ket_bra_correct"},"guarantee":"returns (OuterProduct(a, b),)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0584e3cbd7000cf0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(OuterProduct(a, b),)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _transform_ket_bra(a, b):
     """Transform a keT*bra -> OuterProduct(ket, bra)."""
     return (OuterProduct(a, b),)
 
 @_transform_state_pair.register(KetBase, KetBase)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_ket_ket(a, ), raise a typeerror if a user tries to multiply two kets) over Any ║
+# ║ Path(_transform_ket_ket(a, b), <unspecified:_transform_ket_ket>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _transform_ket_ket : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b15927ad8e01e3ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_ket_ket","kind":"function","src_hash":"6c964d3cce76148c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_ket_ket(a, )","rhs":"raise a typeerror if a user tries to multiply two kets","over":{"base":"Any"},"name":"_transform_ket_ket_correct"},"guarantee":"raise a typeerror if a user tries to multiply two kets","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._transform_ket_ket_correct","statement":"Path(_transform_ket_ket(x), raise a typeerror if a user tries to multiply two kets)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b15927ad8e01e3ec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_ket_ket","kind":"function","src_hash":"6c964d3cce76148c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_ket_ket(a, b)","rhs":"<unspecified:_transform_ket_ket>","over":{"base":"Any"},"name":"_transform_ket_ket_correct"},"guarantee":"raise a typeerror if a user tries to multiply two kets","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._transform_ket_ket_correct","statement":"Path(_transform_ket_ket(x), raise a typeerror if a user tries to multiply two kets)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b15927ad8e01e3ec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _transform_ket_ket(a, b):
     """Raise a TypeError if a user tries to multiply two kets.
 
@@ -158,16 +182,22 @@ def _transform_ket_ket(a, b):
 
 @_transform_state_pair.register(BraBase, BraBase)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_bra_bra(a, ), raise a typeerror if a user tries to multiply two bras) over Any ║
+# ║ Path(_transform_bra_bra(a, b), <unspecified:_transform_bra_bra>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _transform_bra_bra : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2032abeb0842260b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_bra_bra","kind":"function","src_hash":"68b0092eccb4fefa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_bra_bra(a, )","rhs":"raise a typeerror if a user tries to multiply two bras","over":{"base":"Any"},"name":"_transform_bra_bra_correct"},"guarantee":"raise a typeerror if a user tries to multiply two bras","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._transform_bra_bra_correct","statement":"Path(_transform_bra_bra(x), raise a typeerror if a user tries to multiply two bras)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2032abeb0842260b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_bra_bra","kind":"function","src_hash":"68b0092eccb4fefa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_bra_bra(a, b)","rhs":"<unspecified:_transform_bra_bra>","over":{"base":"Any"},"name":"_transform_bra_bra_correct"},"guarantee":"raise a typeerror if a user tries to multiply two bras","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._transform_bra_bra_correct","statement":"Path(_transform_bra_bra(x), raise a typeerror if a user tries to multiply two bras)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2032abeb0842260b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _transform_bra_bra(a, b):
     """Raise a TypeError if a user tries to multiply two bras.
 
@@ -179,46 +209,70 @@ def _transform_bra_bra(a, b):
 
 @_transform_state_pair.register(OuterProduct, KetBase)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_op_ket(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_transform_op_ket(a, b), (InnerProduct(a.bra, b), a.ket)) over {Any | hasattr(a, 'ket') and hasattr(a, 'bra')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transform_op_ket : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'ket')                              ║
+# ║   requires: hasattr(a, 'bra')                              ║
+# ║   returns:  (InnerProduct(a.bra, b), a.ket)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transform_op_ket : {Any | hasattr(a, 'ket') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa9ccc38b1288afb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_op_ket","kind":"function","src_hash":"7af07f9802ec62bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_op_ket(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_transform_op_ket_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa9ccc38b1288afb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_op_ket","kind":"function","src_hash":"7af07f9802ec62bc","in":{"base":"Any","pred":"hasattr(a, 'ket') and hasattr(a, 'bra')"},"out":{"base":"Any"},"spec":{"lhs":"_transform_op_ket(a, b)","rhs":"(InnerProduct(a.bra, b), a.ket)","over":{"base":"Any","pred":"hasattr(a, 'ket') and hasattr(a, 'bra')"},"name":"_transform_op_ket_correct"},"guarantee":"returns (InnerProduct(a.bra, b), a.ket)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa9ccc38b1288afb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'ket')","hasattr(a, 'bra')"],"returns_expr":"(InnerProduct(a.bra, b), a.ket)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.bra","a.ket"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _transform_op_ket(a, b):
     return (InnerProduct(a.bra, b), a.ket)
 
 @_transform_state_pair.register(BraBase, OuterProduct)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_bra_op(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_transform_bra_op(a, b), (InnerProduct(a, b.ket), b.bra)) over {Any | hasattr(b, 'bra') and hasattr(b, 'ket')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transform_bra_op : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(b, 'bra')                              ║
+# ║   requires: hasattr(b, 'ket')                              ║
+# ║   returns:  (InnerProduct(a, b.ket), b.bra)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transform_bra_op : {Any | hasattr(b, 'bra') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b99004a5fb711f3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_bra_op","kind":"function","src_hash":"b952e013abd37b6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_bra_op(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_transform_bra_op_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b99004a5fb711f3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_bra_op","kind":"function","src_hash":"b952e013abd37b6e","in":{"base":"Any","pred":"hasattr(b, 'bra') and hasattr(b, 'ket')"},"out":{"base":"Any"},"spec":{"lhs":"_transform_bra_op(a, b)","rhs":"(InnerProduct(a, b.ket), b.bra)","over":{"base":"Any","pred":"hasattr(b, 'bra') and hasattr(b, 'ket')"},"name":"_transform_bra_op_correct"},"guarantee":"returns (InnerProduct(a, b.ket), b.bra)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b99004a5fb711f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(b, 'bra')","hasattr(b, 'ket')"],"returns_expr":"(InnerProduct(a, b.ket), b.bra)","pure":false,"effects":{"effect_type":"reads_state","reads":["b.bra","b.ket"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _transform_bra_op(a, b):
     return (InnerProduct(a, b.ket), b.bra)
 
 @_transform_state_pair.register(TensorProduct, KetBase)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_tp_ket(a, ), raise a typeerror if a user tries to multiply tensorproduct(*kets)*ket) over Any ║
+# ║ Path(_transform_tp_ket(a, b), <unspecified:_transform_tp_ket>) over {Any | not (a.kind == KetKind) and hasattr(a, 'kind')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transform_tp_ket : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (a.kind == KetKind)                        ║
+# ║   requires: hasattr(a, 'kind')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transform_tp_ket : {Any | not (a.kind == KetKind) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3efc4751e4b4b98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_tp_ket","kind":"function","src_hash":"6c63c234d2fb46d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_tp_ket(a, )","rhs":"raise a typeerror if a user tries to multiply tensorproduct(*kets)*ket","over":{"base":"Any"},"name":"_transform_tp_ket_correct"},"guarantee":"raise a typeerror if a user tries to multiply tensorproduct(*kets)*ket","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._transform_tp_ket_correct","statement":"Path(_transform_tp_ket(x), raise a typeerror if a user tries to multiply tensorproduct(*kets)*ket)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3efc4751e4b4b98"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_tp_ket","kind":"function","src_hash":"6c63c234d2fb46d2","in":{"base":"Any","pred":"not (a.kind == KetKind) and hasattr(a, 'kind')"},"out":{"base":"Any"},"spec":{"lhs":"_transform_tp_ket(a, b)","rhs":"<unspecified:_transform_tp_ket>","over":{"base":"Any","pred":"not (a.kind == KetKind) and hasattr(a, 'kind')"},"name":"_transform_tp_ket_correct"},"guarantee":"raise a typeerror if a user tries to multiply tensorproduct(*kets)*ket","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._transform_tp_ket_correct","statement":"Path(_transform_tp_ket(x), raise a typeerror if a user tries to multiply tensorproduct(*kets)*ket)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3efc4751e4b4b98","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (a.kind == KetKind)","hasattr(a, 'kind')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.kind"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _transform_tp_ket(a, b):
     """Raise a TypeError if a user tries to multiply TensorProduct(*kets)*ket.
 
@@ -231,16 +285,24 @@ def _transform_tp_ket(a, b):
 
 @_transform_state_pair.register(KetBase, TensorProduct)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_ket_tp(a, ), raise a typeerror if a user tries to multiply ket*tensorproduct(*kets)) over Any ║
+# ║ Path(_transform_ket_tp(a, b), <unspecified:_transform_ket_tp>) over {Any | not (b.kind == KetKind) and hasattr(b, 'kind')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transform_ket_tp : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (b.kind == KetKind)                        ║
+# ║   requires: hasattr(b, 'kind')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transform_ket_tp : {Any | not (b.kind == KetKind) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25bc6f323c65601b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_ket_tp","kind":"function","src_hash":"5e8aaa2eacef0603","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_ket_tp(a, )","rhs":"raise a typeerror if a user tries to multiply ket*tensorproduct(*kets)","over":{"base":"Any"},"name":"_transform_ket_tp_correct"},"guarantee":"raise a typeerror if a user tries to multiply ket*tensorproduct(*kets)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._transform_ket_tp_correct","statement":"Path(_transform_ket_tp(x), raise a typeerror if a user tries to multiply ket*tensorproduct(*kets))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25bc6f323c65601b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_ket_tp","kind":"function","src_hash":"5e8aaa2eacef0603","in":{"base":"Any","pred":"not (b.kind == KetKind) and hasattr(b, 'kind')"},"out":{"base":"Any"},"spec":{"lhs":"_transform_ket_tp(a, b)","rhs":"<unspecified:_transform_ket_tp>","over":{"base":"Any","pred":"not (b.kind == KetKind) and hasattr(b, 'kind')"},"name":"_transform_ket_tp_correct"},"guarantee":"raise a typeerror if a user tries to multiply ket*tensorproduct(*kets)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._transform_ket_tp_correct","statement":"Path(_transform_ket_tp(x), raise a typeerror if a user tries to multiply ket*tensorproduct(*kets))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25bc6f323c65601b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (b.kind == KetKind)","hasattr(b, 'kind')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["b.kind"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _transform_ket_tp(a, b):
     """Raise a TypeError if a user tries to multiply ket*TensorProduct(*kets).
 
@@ -253,16 +315,24 @@ def _transform_ket_tp(a, b):
 
 @_transform_state_pair.register(TensorProduct, BraBase)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_tp_bra(a, ), raise a typeerror if a user tries to multiply tensorproduct(*bras)*bra) over Any ║
+# ║ Path(_transform_tp_bra(a, b), <unspecified:_transform_tp_bra>) over {Any | not (a.kind == BraKind) and hasattr(a, 'kind')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transform_tp_bra : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (a.kind == BraKind)                        ║
+# ║   requires: hasattr(a, 'kind')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transform_tp_bra : {Any | not (a.kind == BraKind) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70d173fb6c195a40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_tp_bra","kind":"function","src_hash":"c0033810b620dd49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_tp_bra(a, )","rhs":"raise a typeerror if a user tries to multiply tensorproduct(*bras)*bra","over":{"base":"Any"},"name":"_transform_tp_bra_correct"},"guarantee":"raise a typeerror if a user tries to multiply tensorproduct(*bras)*bra","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._transform_tp_bra_correct","statement":"Path(_transform_tp_bra(x), raise a typeerror if a user tries to multiply tensorproduct(*bras)*bra)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70d173fb6c195a40"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_tp_bra","kind":"function","src_hash":"c0033810b620dd49","in":{"base":"Any","pred":"not (a.kind == BraKind) and hasattr(a, 'kind')"},"out":{"base":"Any"},"spec":{"lhs":"_transform_tp_bra(a, b)","rhs":"<unspecified:_transform_tp_bra>","over":{"base":"Any","pred":"not (a.kind == BraKind) and hasattr(a, 'kind')"},"name":"_transform_tp_bra_correct"},"guarantee":"raise a typeerror if a user tries to multiply tensorproduct(*bras)*bra","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._transform_tp_bra_correct","statement":"Path(_transform_tp_bra(x), raise a typeerror if a user tries to multiply tensorproduct(*bras)*bra)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70d173fb6c195a40","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (a.kind == BraKind)","hasattr(a, 'kind')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.kind"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _transform_tp_bra(a, b):
     """Raise a TypeError if a user tries to multiply TensorProduct(*bras)*bra.
 
@@ -275,16 +345,24 @@ def _transform_tp_bra(a, b):
 
 @_transform_state_pair.register(BraBase, TensorProduct)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_bra_tp(a, ), raise a typeerror if a user tries to multiply bra*tensorproduct(*bras)) over Any ║
+# ║ Path(_transform_bra_tp(a, b), <unspecified:_transform_bra_tp>) over {Any | not (b.kind == BraKind) and hasattr(b, 'kind')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transform_bra_tp : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (b.kind == BraKind)                        ║
+# ║   requires: hasattr(b, 'kind')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transform_bra_tp : {Any | not (b.kind == BraKind) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f9b87dc007ad28d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_bra_tp","kind":"function","src_hash":"e316643b946b34af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_bra_tp(a, )","rhs":"raise a typeerror if a user tries to multiply bra*tensorproduct(*bras)","over":{"base":"Any"},"name":"_transform_bra_tp_correct"},"guarantee":"raise a typeerror if a user tries to multiply bra*tensorproduct(*bras)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._transform_bra_tp_correct","statement":"Path(_transform_bra_tp(x), raise a typeerror if a user tries to multiply bra*tensorproduct(*bras))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f9b87dc007ad28d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_bra_tp","kind":"function","src_hash":"e316643b946b34af","in":{"base":"Any","pred":"not (b.kind == BraKind) and hasattr(b, 'kind')"},"out":{"base":"Any"},"spec":{"lhs":"_transform_bra_tp(a, b)","rhs":"<unspecified:_transform_bra_tp>","over":{"base":"Any","pred":"not (b.kind == BraKind) and hasattr(b, 'kind')"},"name":"_transform_bra_tp_correct"},"guarantee":"raise a typeerror if a user tries to multiply bra*tensorproduct(*bras)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._transform_bra_tp_correct","statement":"Path(_transform_bra_tp(x), raise a typeerror if a user tries to multiply bra*tensorproduct(*bras))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f9b87dc007ad28d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (b.kind == BraKind)","hasattr(b, 'kind')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["b.kind"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _transform_bra_tp(a, b):
     """Raise a TypeError if a user tries to multiply bra*TensorProduct(*bras).
 
@@ -297,16 +375,25 @@ def _transform_bra_tp(a, b):
 
 @_transform_state_pair.register(TensorProduct, TensorProduct)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_tp_tp(a, ), id) over Any                   ║
+# ║ Path(_transform_tp_tp(a, b), id) over {Any | hasattr(a, 'args') and hasattr(b, 'args') and hasattr(a, 'kind') and hasattr(b, 'kind')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transform_tp_tp : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'args')                             ║
+# ║   requires: hasattr(b, 'args')                             ║
+# ║   requires: hasattr(a, 'kind')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transform_tp_tp : {Any | hasattr(a, 'args') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | a9bb3506587b7b15   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_tp_tp","kind":"function","src_hash":"54680431587796a7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_tp_tp(a, )","rhs":"combine a product of tensor products if their number of args matches","over":{"base":"Any"},"name":"_transform_tp_tp_correct","kind":"composition"},"guarantee":"combine a product of tensor products if their number of args matches","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"InnerProduct","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9bb3506587b7b15"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_tp_tp","kind":"function","src_hash":"54680431587796a7","in":{"base":"Any","pred":"hasattr(a, 'args') and hasattr(b, 'args') and hasattr(a, 'kind') and hasattr(b, 'kind')"},"out":{"base":"Any"},"spec":{"lhs":"_transform_tp_tp(a, b)","rhs":"<unspecified:_transform_tp_tp>","over":{"base":"Any","pred":"hasattr(a, 'args') and hasattr(b, 'args') and hasattr(a, 'kind') and hasattr(b, 'kind')"},"name":"_transform_tp_tp_correct","kind":"composition"},"guarantee":"combine a product of tensor products if their number of args matches","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tuple","by":"library_axiom"},{"fn":"InnerProduct","by":"library_axiom"},{"fn":"zip","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a9bb3506587b7b15","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'args')","hasattr(b, 'args')","hasattr(a, 'kind')","hasattr(b, 'kind')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.args","a.kind","b.args","b.kind"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _transform_tp_tp(a, b):
     """Combine a product of tensor products if their number of args matches."""
     debug('_transform_tp_tp', a, b)
@@ -318,16 +405,25 @@ def _transform_tp_tp(a, b):
 
 @_transform_state_pair.register(OuterProduct, OuterProduct)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_op_op(a, ), extract an inner produt from a product of outer products) over Any ║
+# ║ Path(_transform_op_op(a, b), (InnerProduct(a.bra, b.ket), OuterProduct(a.ket, b.bra))) over {Any | hasattr(a, 'bra') and hasattr(b, 'ket') and hasattr(a, 'ket') and hasattr(b, 'bra')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transform_op_op : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'bra')                              ║
+# ║   requires: hasattr(b, 'ket')                              ║
+# ║   requires: hasattr(a, 'ket')                              ║
+# ║   returns:  (InnerProduct(a.bra, b.ket), OuterProduct...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transform_op_op : {Any | hasattr(a, 'bra') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47f318a974ed098f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_op_op","kind":"function","src_hash":"4d4358ae1a3283e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_transform_op_op(a, )","rhs":"extract an inner produt from a product of outer products","over":{"base":"Any"},"name":"_transform_op_op_correct"},"guarantee":"extract an inner produt from a product of outer products","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47f318a974ed098f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._transform_op_op","kind":"function","src_hash":"4d4358ae1a3283e7","in":{"base":"Any","pred":"hasattr(a, 'bra') and hasattr(b, 'ket') and hasattr(a, 'ket') and hasattr(b, 'bra')"},"out":{"base":"Any"},"spec":{"lhs":"_transform_op_op(a, b)","rhs":"(InnerProduct(a.bra, b.ket), OuterProduct(a.ket, b.bra))","over":{"base":"Any","pred":"hasattr(a, 'bra') and hasattr(b, 'ket') and hasattr(a, 'ket') and hasattr(b, 'bra')"},"name":"_transform_op_op_correct"},"guarantee":"returns (InnerProduct(a.bra, b.ket), OuterProduct(a.ket, b.bra))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47f318a974ed098f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'bra')","hasattr(b, 'ket')","hasattr(a, 'ket')","hasattr(b, 'bra')"],"returns_expr":"(InnerProduct(a.bra, b.ket), OuterProduct(a.ket, b.bra))","pure":false,"effects":{"effect_type":"reads_state","reads":["a.bra","a.ket","b.bra","b.ket"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _transform_op_op(a, b):
     """Extract an inner produt from a product of outer products."""
     return (InnerProduct(a.bra, b.ket), OuterProduct(a.ket, b.bra))
@@ -339,16 +435,23 @@ def _transform_op_op(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_postprocess_state_mul(exp), transform a ``mul`` of quantum expressions into canonical form) over Any ║
+# ║ Path(_postprocess_state_mul(expr), Mul._from_args(result, is_commutative=False)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _postprocess_state_mul : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  Mul._from_args(result, is_commutative=False)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _postprocess_state_mul : {Any | hasattr(expr, 'args')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3d3b744621e44a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11d15dd3d96a74f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._postprocess_state_mul","kind":"function","src_hash":"6f9bf938b582e378","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_postprocess_state_mul(exp)","rhs":"transform a ``mul`` of quantum expressions into canonical form","over":{"base":"Any"},"name":"_postprocess_state_mul_correct"},"guarantee":"transform a ``mul`` of quantum expressions into canonical form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._postprocess_state_mul_correct","statement":"Path(_postprocess_state_mul(x), transform a ``mul`` of quantum expressions into canonical form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3d3b744621e44a3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._postprocess_state_mul","kind":"function","src_hash":"6f9bf938b582e378","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_postprocess_state_mul(expr)","rhs":"Mul._from_args(result, is_commutative=False)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_postprocess_state_mul_correct"},"guarantee":"returns Mul._from_args(result, is_commutative=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._postprocess_state_mul_correct","statement":"Path(_postprocess_state_mul(x), returns Mul._from_args(result, is_commutative=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11d15dd3d96a74f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"returns_expr":"Mul._from_args(result, is_commutative=False)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _postprocess_state_mul(expr):
     """Transform a ``Mul`` of quantum expressions into canonical form.
 
@@ -413,16 +516,24 @@ def _postprocess_state_mul(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_postprocess_state_pow(exp), handle bras and kets raised to powers) over Any ║
+# ║ Path(_postprocess_state_pow(expr), <unspecified:_postprocess_state_pow>) over {Any | not (base.kind == KetKind or base.kind == BraKind) and hasattr(expr, 'as_base_exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _postprocess_state_pow : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (base.kind == KetKind or base.kind ==...   ║
+# ║   requires: hasattr(expr, 'as_base_exp')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _postprocess_state_pow : {Any | not (base.kind == Ket...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3272fddf7d1cf615  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._postprocess_state_pow","kind":"function","src_hash":"4f7e7a3e27095d91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_postprocess_state_pow(exp)","rhs":"handle bras and kets raised to powers","over":{"base":"Any"},"name":"_postprocess_state_pow_correct"},"guarantee":"handle bras and kets raised to powers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._postprocess_state_pow_correct","statement":"Path(_postprocess_state_pow(x), handle bras and kets raised to powers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3272fddf7d1cf615"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._postprocess_state_pow","kind":"function","src_hash":"4f7e7a3e27095d91","in":{"base":"Any","pred":"not (base.kind == KetKind or base.kind == BraKind) and hasattr(expr, 'as_base_exp')"},"out":{"base":"Any"},"spec":{"lhs":"_postprocess_state_pow(expr)","rhs":"<unspecified:_postprocess_state_pow>","over":{"base":"Any","pred":"not (base.kind == KetKind or base.kind == BraKind) and hasattr(expr, 'as_base_exp')"},"name":"_postprocess_state_pow_correct"},"guarantee":"handle bras and kets raised to powers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._postprocess_state_pow_correct","statement":"Path(_postprocess_state_pow(x), handle bras and kets raised to powers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3272fddf7d1cf615","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (base.kind == KetKind or base.kind == BraKind)","hasattr(expr, 'as_base_exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_base_exp"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _postprocess_state_pow(expr):
     """Handle bras and kets raised to powers.
 
@@ -437,7 +548,12 @@ def _postprocess_state_pow(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_postprocess_tp_pow(exp), handle tensorproduct(*operators)**(positive integer)) over {Any | isinstance(base, TensorProduct)} ║
+# ║ Path(_postprocess_tp_pow(expr), TensorProduct(*new_args)) over {Any | isinstance(base, TensorProduct) and hasattr(expr, 'as_base_exp') and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'as_base_exp')                   ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  TensorProduct(*new_args)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _postprocess_tp_pow : {Any | isinstance(base, TensorP...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -449,9 +565,12 @@ def _postprocess_state_pow(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 78b1556e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._postprocess_tp_pow","kind":"function","src_hash":"0a3970263ee62768","in":{"base":"Any","pred":"isinstance(base, TensorProduct)"},"out":{"base":"Any"},"spec":{"lhs":"_postprocess_tp_pow(exp)","rhs":"handle tensorproduct(*operators)**(positive integer)","over":{"base":"Any","pred":"isinstance(base, TensorProduct)"},"name":"_postprocess_tp_pow_correct"},"guarantee":"handle tensorproduct(*operators)**(positive integer)","fibers":[{"name":"TensorProduct","pred":"isinstance(base, TensorProduct)","path":{"lhs":"_postprocess_tp_pow(x)","rhs":"handle tensorproduct(*operators)**(positive integer)","over":{"base":"TensorProduct","pred":"isinstance(base, TensorProduct)"},"name":"_postprocess_tp_pow_TensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._postprocess_tp_pow_TensorProduct_correct","statement":"_postprocess_tp_pow satisfies spec on TensorProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"78b1556e8c461eff"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.transforms._postprocess_tp_pow","kind":"function","src_hash":"0a3970263ee62768","in":{"base":"Any","pred":"isinstance(base, TensorProduct) and hasattr(expr, 'as_base_exp') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_postprocess_tp_pow(expr)","rhs":"TensorProduct(*new_args)","over":{"base":"Any","pred":"isinstance(base, TensorProduct) and hasattr(expr, 'as_base_exp') and hasattr(expr, 'args')"},"name":"_postprocess_tp_pow_correct"},"guarantee":"returns TensorProduct(*new_args)","fibers":[{"name":"TensorProduct","pred":"isinstance(base, TensorProduct)","path":{"lhs":"_postprocess_tp_pow(x)","rhs":"returns TensorProduct(*new_args)","over":{"base":"TensorProduct","pred":"isinstance(base, TensorProduct)"},"name":"_postprocess_tp_pow_TensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.transforms._postprocess_tp_pow_TensorProduct_correct","statement":"_postprocess_tp_pow satisfies spec on TensorProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"78b1556e8c461eff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'as_base_exp')","hasattr(expr, 'args')"],"returns_expr":"TensorProduct(*new_args)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.as_base_exp"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(base, TensorProduct) and exp.is_integer and exp.is_positive and (base.kind == OperatorKind)'}, fibers={'TensorProduct'})"]}}
 def _postprocess_tp_pow(expr):
     """Handle TensorProduct(*operators)**(positive integer).
 

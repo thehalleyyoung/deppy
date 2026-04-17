@@ -44,16 +44,22 @@ from .ecm import _ecm_one_factor
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(smoothness(n), return the b-smooth and b-power smooth values of n) over Any ║
+# ║ Path(smoothness(n), <unspecified:smoothness>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ smoothness : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 898178a29387e158  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.smoothness","kind":"function","src_hash":"7ba5889047d42819","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"smoothness(n)","rhs":"return the b-smooth and b-power smooth values of n","over":{"base":"Any"},"name":"smoothness_correct"},"guarantee":"return the b-smooth and b-power smooth values of n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.smoothness_correct","statement":"Path(smoothness(x), return the b-smooth and b-power smooth values of n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"898178a29387e158"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.smoothness","kind":"function","src_hash":"7ba5889047d42819","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"smoothness(n)","rhs":"<unspecified:smoothness>","over":{"base":"Any"},"name":"smoothness_correct"},"guarantee":"return the b-smooth and b-power smooth values of n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.smoothness_correct","statement":"Path(smoothness(x), return the b-smooth and b-power smooth values of n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"898178a29387e158","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def smoothness(n):
     """
     Return the B-smooth and B-power smooth values of n.
@@ -85,7 +91,11 @@ def smoothness(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(smoothness_p(n, ), return a list of [m, (p, (m, sm(p + m), psm(p + m)))...] where:) over {Any | isinstance(n, str) and isinstance(n, tuple)} ║
+# ║ Path(smoothness_p(n, m, power), # HINT: smoothness_p may be idempotent: smoothness_p(smoothness_p(x)) == smoothness_p(x)) over {Any | isinstance(n, str) and isinstance(n, tuple) and hasattr(n, 'splitlines')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'splitlines')                       ║
+# ║   ensures:  # HINT: smoothness_p may be idempotent: s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ smoothness_p : {Any | isinstance(n, str) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -98,9 +108,12 @@ def smoothness(n):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 454819f9...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.smoothness_p","kind":"function","src_hash":"1175c3f9f20ac60e","in":{"base":"Any","pred":"isinstance(n, str) and isinstance(n, tuple)"},"out":{"base":"Any"},"spec":{"lhs":"smoothness_p(n, )","rhs":"return a list of [m, (p, (m, sm(p + m), psm(p + m)))...] where:","over":{"base":"Any","pred":"isinstance(n, str) and isinstance(n, tuple)"},"name":"smoothness_p_correct"},"guarantee":"return a list of [m, (p, (m, sm(p + m), psm(p + m)))...] where:","fibers":[{"name":"str","pred":"isinstance(n, str)","path":{"lhs":"smoothness_p(x)","rhs":"return a list of [m, (p, (m, sm(p + m), psm(p + m)))...] where:","over":{"base":"str","pred":"isinstance(n, str)"},"name":"smoothness_p_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.smoothness_p_str_correct","statement":"smoothness_p satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"tuple","pred":"isinstance(n, tuple)","path":{"lhs":"smoothness_p(x)","rhs":"return a list of [m, (p, (m, sm(p + m), psm(p + m)))...] where:","over":{"base":"tuple","pred":"isinstance(n, tuple)"},"name":"smoothness_p_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.smoothness_p_tuple_correct","statement":"smoothness_p satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"454819f9b4f445c1"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.smoothness_p","kind":"function","src_hash":"1175c3f9f20ac60e","in":{"base":"Any","pred":"isinstance(n, str) and isinstance(n, tuple) and hasattr(n, 'splitlines')"},"out":{"base":"Any","pred":"result satisfies: # HINT: smoothness_p may be idempotent: smoothness_p(smoothness_p(x)) == smoothness_p(x)"},"spec":{"lhs":"smoothness_p(n, m, power)","rhs":"# HINT: smoothness_p may be idempotent: smoothness_p(smoothness_p(x)) == smoothness_p(x)","over":{"base":"Any","pred":"isinstance(n, str) and isinstance(n, tuple) and hasattr(n, 'splitlines')"},"name":"smoothness_p_correct"},"guarantee":"# HINT: smoothness_p may be idempotent: smoothness_p(smoothness_p(x)) == smoothness_p(x)","fibers":[{"name":"str","pred":"isinstance(n, str)","path":{"lhs":"smoothness_p(x)","rhs":"# HINT: smoothness_p may be idempotent: smoothness_p(smoothness_p(x)) == smoothness_p(x)","over":{"base":"str","pred":"isinstance(n, str)"},"name":"smoothness_p_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.smoothness_p_str_correct","statement":"smoothness_p satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"tuple","pred":"isinstance(n, tuple)","path":{"lhs":"smoothness_p(x)","rhs":"# HINT: smoothness_p may be idempotent: smoothness_p(smoothness_p(x)) == smoothness_p(x)","over":{"base":"tuple","pred":"isinstance(n, tuple)"},"name":"smoothness_p_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.smoothness_p_tuple_correct","statement":"smoothness_p satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"454819f9b4f445c1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'splitlines')"],"ensures":["# HINT: smoothness_p may be idempotent: smoothness_p(smoothness_p(x)) == smoothness_p(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(n, str)', 'not isinstance(n, tuple)', 'isinstance(n, tuple)'}, fibers={'str', 'tuple'})"]}}
 def smoothness_p(n, m=-1, power=0, visual=None):
     """
     Return a list of [m, (p, (M, sm(p + m), psm(p + m)))...]
@@ -204,7 +217,13 @@ def smoothness_p(n, m=-1, power=0, visual=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiplicity(p, ), find the greatest integer m such that p**m divides n) over {Any | isinstance(i, (SYMPY_INTS, Rational)) and isinstance(p, (SYMPY_INTS, Integer)) and isinstance(n, factorial)} ║
+# ║ Path(multiplicity(p, n), # HINT: multiplicity may be idempotent: multiplicity(multiplicity(x)) == multiplicity(x)) over {Any | isinstance(i, (SYMPY_INTS, Rational)) and isinstance(p, (SYMPY_INTS, Integer)) and isinstance(n, factorial) and not (n == 0) and hasattr(p, 'q') and hasattr(n, 'p') and hasattr(p, 'p') and hasattr(n, 'q') and hasattr(n, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n == 0)                                   ║
+# ║   requires: hasattr(p, 'q')                                ║
+# ║   requires: hasattr(n, 'p')                                ║
+# ║   ensures:  # HINT: multiplicity may be idempotent: m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ multiplicity : {Any | isinstance(i, (SYMPY_INTS, Rati...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -219,9 +238,12 @@ def smoothness_p(n, m=-1, power=0, visual=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?3 ✗4 VCs | 4.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | eaad700f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.multiplicity","kind":"function","src_hash":"54c6ca300952942a","in":{"base":"Any","pred":"isinstance(i, (SYMPY_INTS, Rational)) and isinstance(p, (SYMPY_INTS, Integer)) and isinstance(n, factorial)"},"out":{"base":"Any"},"spec":{"lhs":"multiplicity(p, )","rhs":"find the greatest integer m such that p**m divides n","over":{"base":"Any","pred":"isinstance(i, (SYMPY_INTS, Rational)) and isinstance(p, (SYMPY_INTS, Integer)) and isinstance(n, factorial)"},"name":"multiplicity_correct"},"guarantee":"find the greatest integer m such that p**m divides n","fibers":[{"name":"(SYMPY_INTS","pred":"isinstance(i, (SYMPY_INTS, Rational))","path":{"lhs":"multiplicity(x)","rhs":"find the greatest integer m such that p**m divides n","over":{"base":"(SYMPY_INTS","pred":"isinstance(i, (SYMPY_INTS, Rational))"},"name":"multiplicity_(SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.multiplicity_(SYMPY_INTS_correct","statement":"multiplicity satisfies spec on (SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"(SYMPY_INTS","pred":"isinstance(p, (SYMPY_INTS, Integer))","path":{"lhs":"multiplicity(x)","rhs":"find the greatest integer m such that p**m divides n","over":{"base":"(SYMPY_INTS","pred":"isinstance(p, (SYMPY_INTS, Integer))"},"name":"multiplicity_(SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.multiplicity_(SYMPY_INTS_correct","statement":"multiplicity satisfies spec on (SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"factorial","pred":"isinstance(n, factorial)","path":{"lhs":"multiplicity(x)","rhs":"find the greatest integer m such that p**m divides n","over":{"base":"factorial","pred":"isinstance(n, factorial)"},"name":"multiplicity_factorial_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.multiplicity_factorial_correct","statement":"multiplicity satisfies spec on factorial inputs"},"trust":"LIBRARY"},{"name":"Integer","pred":"isinstance(n.args[0], Integer)","path":{"lhs":"multiplicity(x)","rhs":"find the greatest integer m such that p**m divides n","over":{"base":"Integer","pred":"isinstance(n.args[0], Integer)"},"name":"multiplicity_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.multiplicity_Integer_correct","statement":"multiplicity satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"eaad700fbb71ab81"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.multiplicity","kind":"function","src_hash":"54c6ca300952942a","in":{"base":"Any","pred":"isinstance(i, (SYMPY_INTS, Rational)) and isinstance(p, (SYMPY_INTS, Integer)) and isinstance(n, factorial) and not (n == 0) and hasattr(p, 'q') and hasattr(n, 'p') and hasattr(p, 'p') and hasattr(n, 'q') and hasattr(n, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: multiplicity may be idempotent: multiplicity(multiplicity(x)) == multiplicity(x)"},"spec":{"lhs":"multiplicity(p, n)","rhs":"# HINT: multiplicity may be idempotent: multiplicity(multiplicity(x)) == multiplicity(x)","over":{"base":"Any","pred":"isinstance(i, (SYMPY_INTS, Rational)) and isinstance(p, (SYMPY_INTS, Integer)) and isinstance(n, factorial) and not (n == 0) and hasattr(p, 'q') and hasattr(n, 'p') and hasattr(p, 'p') and hasattr(n, 'q') and hasattr(n, 'args')"},"name":"multiplicity_correct"},"guarantee":"# HINT: multiplicity may be idempotent: multiplicity(multiplicity(x)) == multiplicity(x)","fibers":[{"name":"(SYMPY_INTS","pred":"isinstance(i, (SYMPY_INTS, Rational))","path":{"lhs":"multiplicity(x)","rhs":"# HINT: multiplicity may be idempotent: multiplicity(multiplicity(x)) == multiplicity(x)","over":{"base":"(SYMPY_INTS","pred":"isinstance(i, (SYMPY_INTS, Rational))"},"name":"multiplicity_(SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.multiplicity_(SYMPY_INTS_correct","statement":"multiplicity satisfies spec on (SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"(SYMPY_INTS","pred":"isinstance(p, (SYMPY_INTS, Integer))","path":{"lhs":"multiplicity(x)","rhs":"# HINT: multiplicity may be idempotent: multiplicity(multiplicity(x)) == multiplicity(x)","over":{"base":"(SYMPY_INTS","pred":"isinstance(p, (SYMPY_INTS, Integer))"},"name":"multiplicity_(SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.multiplicity_(SYMPY_INTS_correct","statement":"multiplicity satisfies spec on (SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"factorial","pred":"isinstance(n, factorial)","path":{"lhs":"multiplicity(x)","rhs":"# HINT: multiplicity may be idempotent: multiplicity(multiplicity(x)) == multiplicity(x)","over":{"base":"factorial","pred":"isinstance(n, factorial)"},"name":"multiplicity_factorial_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.multiplicity_factorial_correct","statement":"multiplicity satisfies spec on factorial inputs"},"trust":"LIBRARY"},{"name":"Integer","pred":"isinstance(n.args[0], Integer)","path":{"lhs":"multiplicity(x)","rhs":"# HINT: multiplicity may be idempotent: multiplicity(multiplicity(x)) == multiplicity(x)","over":{"base":"Integer","pred":"isinstance(n.args[0], Integer)"},"name":"multiplicity_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.multiplicity_Integer_correct","statement":"multiplicity satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"eaad700fbb71ab81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n == 0)","hasattr(p, 'q')","hasattr(n, 'p')","hasattr(p, 'p')","hasattr(n, 'q')","hasattr(n, 'args')"],"ensures":["# HINT: multiplicity may be idempotent: multiplicity(multiplicity(x)) == multiplicity(x)"],"pure":false,"effects":{"effect_type":"io","reads":["n.args","n.p","n.q","p.p","p.q"],"raises":["ValueError"],"catches":["ValueError"],"io_operations":["remove"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":1,"n_assumed":3,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'all((isinstance(i, (SYMPY_INTS, Rational)) for i in (p, n)))', 'n.p == 1', 'p.p == 1', 'n == 0', 'isinstance(p, (SYMPY_INTS, Integer)) and isinstance(n, factorial) and isinstance(n.args[0], Integer) and (n.args[0] >= 0)', 'p.q == 1'}, fibers={'Integer', '(SYMPY_INTS', 'factorial'})"]}}
 def multiplicity(p, n):
     """
     Find the greatest integer m such that p**m divides n.
@@ -289,16 +311,24 @@ def multiplicity(p, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(multiplicity_in_factorial(p, ), return the largest integer ``m`` such that ``p**m`` divides ``n!`` without calculating the factorial of ``n``) over Any ║
+# ║ Path(multiplicity_in_factorial(p, n), min(((n + k - sum(digits(n, k))) // (k - 1) // v for v, k in f.items()))) over {Any | not (p <= 0) and not (n < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ multiplicity_in_factorial : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (p <= 0)                                   ║
+# ║   requires: not (n < 0)                                    ║
+# ║   returns:  min(((n + k - sum(digits(n, k))) // (k - ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ multiplicity_in_factorial : {Any | not (p <= 0) and n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84ef1473e099742f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63ad5af7fd005310  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.multiplicity_in_factorial","kind":"function","src_hash":"b81d87e23efbd1e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"multiplicity_in_factorial(p, )","rhs":"return the largest integer ``m`` such that ``p**m`` divides ``n!`` without calculating the factorial of ``n``","over":{"base":"Any"},"name":"multiplicity_in_factorial_correct"},"guarantee":"return the largest integer ``m`` such that ``p**m`` divides ``n!`` without calculating the factorial of ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.multiplicity_in_factorial_correct","statement":"Path(multiplicity_in_factorial(x), return the largest integer ``m`` such that ``p**m`` divides ``n!`` without calculating the factorial of ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84ef1473e099742f"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.multiplicity_in_factorial","kind":"function","src_hash":"b81d87e23efbd1e9","in":{"base":"Any","pred":"not (p <= 0) and not (n < 0)"},"out":{"base":"Any"},"spec":{"lhs":"multiplicity_in_factorial(p, n)","rhs":"min(((n + k - sum(digits(n, k))) // (k - 1) // v for v, k in f.items()))","over":{"base":"Any","pred":"not (p <= 0) and not (n < 0)"},"name":"multiplicity_in_factorial_correct"},"guarantee":"returns min(((n + k - sum(digits(n, k))) // (k - 1) // v for v, k in f.items()))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.multiplicity_in_factorial_correct","statement":"Path(multiplicity_in_factorial(x), returns min(((n + k - sum(digits(n, k))) // (k - 1) // v for v, k in f.items())))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63ad5af7fd005310","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (p <= 0)","not (n < 0)"],"returns_expr":"min(((n + k - sum(digits(n, k))) // (k - 1) // v for v, k in f.items()))","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def multiplicity_in_factorial(p, n):
     """return the largest integer ``m`` such that ``p**m`` divides ``n!``
     without calculating the factorial of ``n``.
@@ -363,16 +393,23 @@ def multiplicity_in_factorial(p, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_perfect_power(n, ), return integers ``(b, e)`` such that ``n == b**e`` if ``n`` is a unique perfect power with ``e > 1``, else ``false`` (e.g) over Any ║
+# ║ Path(_perfect_power(n, next_p), <unspecified:_perfect_power>) over {Any | hasattr(n, 'bit_length')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _perfect_power : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'bit_length')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _perfect_power : {Any | hasattr(n, 'bit_length')} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6705e77e198ca70b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._perfect_power","kind":"function","src_hash":"2f5fc825172cbf41","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_perfect_power(n, )","rhs":"return integers ``(b, e)`` such that ``n == b**e`` if ``n`` is a unique perfect power with ``e > 1``, else ``false`` (e.g","over":{"base":"Any"},"name":"_perfect_power_correct"},"guarantee":"return integers ``(b, e)`` such that ``n == b**e`` if ``n`` is a unique perfect power with ``e > 1``, else ``false`` (e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_._perfect_power_correct","statement":"Path(_perfect_power(x), return integers ``(b, e)`` such that ``n == b**e`` if ``n`` is a unique perfect power with ``e > 1``, else ``false`` (e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6705e77e198ca70b"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._perfect_power","kind":"function","src_hash":"2f5fc825172cbf41","in":{"base":"Any","pred":"hasattr(n, 'bit_length')"},"out":{"base":"Any"},"spec":{"lhs":"_perfect_power(n, next_p)","rhs":"<unspecified:_perfect_power>","over":{"base":"Any","pred":"hasattr(n, 'bit_length')"},"name":"_perfect_power_correct"},"guarantee":"return integers ``(b, e)`` such that ``n == b**e`` if ``n`` is a unique perfect power with ``e > 1``, else ``false`` (e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_._perfect_power_correct","statement":"Path(_perfect_power(x), return integers ``(b, e)`` such that ``n == b**e`` if ``n`` is a unique perfect power with ``e > 1``, else ``false`` (e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6705e77e198ca70b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'bit_length')"],"pure":false,"effects":{"effect_type":"io","reads":["n.bit_length"],"io_operations":["remove"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def _perfect_power(n, next_p=2):
     """ Return integers ``(b, e)`` such that ``n == b**e`` if ``n`` is a unique
     perfect power with ``e > 1``, else ``False`` (e.g. 1 is not a perfect power).
@@ -523,7 +560,13 @@ def _perfect_power(n, next_p=2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(perfect_power(n, ), return ``(b, e)`` such that ``n`` == ``b**e`` if ``n`` is a unique perfect power with ``e > 1``, else ``false`` (e.g) over {Any | isinstance(n, Rational) and isinstance(n, Integer)} ║
+# ║ Path(perfect_power(n, candidates, big), # HINT: perfect_power may be idempotent: perfect_power(perfect_power(x)) == perfect_power(x)) over {Any | isinstance(n, Rational) and isinstance(n, Integer) and hasattr(n, 'p') and hasattr(n, 'q') and hasattr(n, 'func')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'p')                                ║
+# ║   requires: hasattr(n, 'q')                                ║
+# ║   requires: hasattr(n, 'func')                             ║
+# ║   ensures:  # HINT: perfect_power may be idempotent: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ perfect_power : {Any | isinstance(n, Rational) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -536,9 +579,12 @@ def _perfect_power(n, next_p=2):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 3.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 902d431e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.perfect_power","kind":"function","src_hash":"5d4aa721ecb762f7","in":{"base":"Any","pred":"isinstance(n, Rational) and isinstance(n, Integer)"},"out":{"base":"Any"},"spec":{"lhs":"perfect_power(n, )","rhs":"return ``(b, e)`` such that ``n`` == ``b**e`` if ``n`` is a unique perfect power with ``e > 1``, else ``false`` (e.g","over":{"base":"Any","pred":"isinstance(n, Rational) and isinstance(n, Integer)"},"name":"perfect_power_correct"},"guarantee":"return ``(b, e)`` such that ``n`` == ``b**e`` if ``n`` is a unique perfect power with ``e > 1``, else ``false`` (e.g","fibers":[{"name":"Rational","pred":"isinstance(n, Rational)","path":{"lhs":"perfect_power(x)","rhs":"return ``(b, e)`` such that ``n`` == ``b**e`` if ``n`` is a unique perfect power with ``e > 1``, else ``false`` (e.g","over":{"base":"Rational","pred":"isinstance(n, Rational)"},"name":"perfect_power_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.perfect_power_Rational_correct","statement":"perfect_power satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"Integer","pred":"isinstance(n, Integer)","path":{"lhs":"perfect_power(x)","rhs":"return ``(b, e)`` such that ``n`` == ``b**e`` if ``n`` is a unique perfect power with ``e > 1``, else ``false`` (e.g","over":{"base":"Integer","pred":"isinstance(n, Integer)"},"name":"perfect_power_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.perfect_power_Integer_correct","statement":"perfect_power satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"902d431e25a5f2ff"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.perfect_power","kind":"function","src_hash":"5d4aa721ecb762f7","in":{"base":"Any","pred":"isinstance(n, Rational) and isinstance(n, Integer) and hasattr(n, 'p') and hasattr(n, 'q') and hasattr(n, 'func')"},"out":{"base":"Any","pred":"result satisfies: # HINT: perfect_power may be idempotent: perfect_power(perfect_power(x)) == perfect_power(x)"},"spec":{"lhs":"perfect_power(n, candidates, big)","rhs":"# HINT: perfect_power may be idempotent: perfect_power(perfect_power(x)) == perfect_power(x)","over":{"base":"Any","pred":"isinstance(n, Rational) and isinstance(n, Integer) and hasattr(n, 'p') and hasattr(n, 'q') and hasattr(n, 'func')"},"name":"perfect_power_correct"},"guarantee":"# HINT: perfect_power may be idempotent: perfect_power(perfect_power(x)) == perfect_power(x)","fibers":[{"name":"Rational","pred":"isinstance(n, Rational)","path":{"lhs":"perfect_power(x)","rhs":"# HINT: perfect_power may be idempotent: perfect_power(perfect_power(x)) == perfect_power(x)","over":{"base":"Rational","pred":"isinstance(n, Rational)"},"name":"perfect_power_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.perfect_power_Rational_correct","statement":"perfect_power satisfies spec on Rational inputs"},"trust":"LIBRARY"},{"name":"Integer","pred":"isinstance(n, Integer)","path":{"lhs":"perfect_power(x)","rhs":"# HINT: perfect_power may be idempotent: perfect_power(perfect_power(x)) == perfect_power(x)","over":{"base":"Integer","pred":"isinstance(n, Integer)"},"name":"perfect_power_Integer_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.perfect_power_Integer_correct","statement":"perfect_power satisfies spec on Integer inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"902d431e25a5f2ff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'p')","hasattr(n, 'q')","hasattr(n, 'func')"],"ensures":["# HINT: perfect_power may be idempotent: perfect_power(perfect_power(x)) == perfect_power(x)"],"pure":false,"effects":{"effect_type":"io","reads":["n.func","n.p","n.q"],"io_operations":["remove"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'g == 1', 'e == 1', 'factor and n % fac == 0', 'isinstance(n, Rational) and (not isinstance(n, Integer))', 'candidates is None', 'n <= 3', 'candidates is None and big', 'n % 2 == 0', 'e <= 1', 'n < 0', 'abs(int(b + 0.5) - b) > 0.01', 'e0[0] != e', 'p == 1', 'e % p == 0', 'logn / e < 40'}, fibers={'Integer', 'Rational'})"]}}
 def perfect_power(n, candidates=None, big=True, factor=True):
     """
     Return ``(b, e)`` such that ``n`` == ``b**e`` if ``n`` is a unique
@@ -768,14 +814,20 @@ def perfect_power(n, candidates=None, big=True, factor=True):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FactorCache instance) preserved by FactorCache(*args) over int | None ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FactorCache : int | None → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, MutableMapping)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FactorCache : int | None → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8180cc0fa91bef7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache","kind":"class","src_hash":"f9952e75cb55bf02","in":{"base":"int | None"},"out":{"base":"Any"},"spec":{"lhs":"FactorCache(*args)","rhs":"correctly constructs a FactorCache instance","over":{"base":"int | None"},"name":"FactorCache_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FactorCache instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'maxsize')","kind":"class","induction":"structural on maxsize"}],"methods_preserving":["get_external","__init__","__len__","__contains__","__getitem__","__setitem__","__delitem__","__iter__","cache_clear","maxsize","maxsize","get","add","get_external"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8180cc0fa91bef7e"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache","kind":"class","src_hash":"f9952e75cb55bf02","in":{"base":"int | None"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, MutableMapping)"},"spec":{"lhs":"FactorCache(*args)","rhs":"correctly constructs a FactorCache instance","over":{"base":"int | None"},"name":"FactorCache_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, MutableMapping); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'maxsize')","kind":"class","induction":"structural on maxsize"}],"methods_preserving":["get_external","__init__","__len__","__contains__","__getitem__","__setitem__","__delitem__","__iter__","cache_clear","maxsize","maxsize","get","add","get_external"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8180cc0fa91bef7e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, MutableMapping)"],"invariants":["hasattr(self, 'maxsize')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function FactorCache not found in source"]}}
 class FactorCache(MutableMapping):
     """ Provides a cache for prime factors.
     ``factor_cache`` is pre-prepared as an instance of ``FactorCache``,
@@ -812,59 +864,88 @@ class FactorCache(MutableMapping):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(max), initializes the instance correctly) over Any ║
+# ║ Path(__init__(maxsize), self.maxsize == maxsize) over {Any | isinstance(maxsize, int | None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(maxsize, int | None)                ║
+# ║   ensures:  self.maxsize == maxsize                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(maxsize, int | None)} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 354f1f14629bcc1e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__init__","kind":"method","src_hash":"2c52341b4d9c43da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(max)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"354f1f14629bcc1e"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__init__","kind":"method","src_hash":"2c52341b4d9c43da","in":{"base":"Any","pred":"isinstance(maxsize, int | None)"},"out":{"base":"Any","pred":"result satisfies: self.maxsize == maxsize"},"spec":{"lhs":"__init__(maxsize)","rhs":"self.maxsize == maxsize","over":{"base":"Any","pred":"isinstance(maxsize, int | None)"},"name":"__init___correct"},"guarantee":"self.maxsize == maxsize","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"354f1f14629bcc1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(maxsize, int | None)"],"ensures":["self.maxsize == maxsize"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, maxsize: int | None = None):
         self._cache: OrderedDict[int, int] = OrderedDict()
         self.maxsize = maxsize
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self._cache)) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __len__ : Any → int                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ║   returns:  len(self._cache)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __len__ : Any → {int | result satisfies: result == (l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 19102804aa53cc8f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__len__","kind":"method","src_hash":"416d8a0fbb09f8a0","in":{"base":"Any"},"out":{"base":"int"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19102804aa53cc8f"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__len__","kind":"method","src_hash":"416d8a0fbb09f8a0","in":{"base":"Any"},"out":{"base":"int","pred":"result satisfies: result == (len(self._cache))"},"spec":{"lhs":"__len__()","rhs":"len(self._cache)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self._cache); isinstance(result, int)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"19102804aa53cc8f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, int)"],"returns_expr":"len(self._cache)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cache"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self) -> int:
         return len(self._cache)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(n), correctly tests membership) over Any ║
+# ║ Path(__contains__(n), n in self._cache) over Any           ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → bool                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ║   returns:  n in self._cache                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : Any → {bool | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e4517507ffc07abc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__contains__","kind":"method","src_hash":"a2a5d3782764b744","in":{"base":"Any"},"out":{"base":"bool"},"spec":{"lhs":"__contains__(n)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4517507ffc07abc"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__contains__","kind":"method","src_hash":"a2a5d3782764b744","in":{"base":"Any"},"out":{"base":"bool","pred":"result satisfies: result == (n in self._cache)"},"spec":{"lhs":"__contains__(n)","rhs":"n in self._cache","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns n in self._cache; isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4517507ffc07abc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, bool)"],"returns_expr":"n in self._cache","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cache"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, n) -> bool:
         return n in self._cache
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(n), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(n), isinstance(result, int)) over {Any | isinstance(n, int) and not (factor is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → int                                    ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   requires: not (factor is None)                           ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : {Any | isinstance(n, int) and not (fact...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eac369941b763f65           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__getitem__","kind":"method","src_hash":"c537b289da60599a","in":{"base":"Any"},"out":{"base":"int"},"spec":{"lhs":"__getitem__(n)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eac369941b763f65"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__getitem__","kind":"method","src_hash":"c537b289da60599a","in":{"base":"Any","pred":"isinstance(n, int) and not (factor is None)"},"out":{"base":"int","pred":"result satisfies: isinstance(result, int)"},"spec":{"lhs":"__getitem__(n)","rhs":"isinstance(result, int)","over":{"base":"Any","pred":"isinstance(n, int) and not (factor is None)"},"name":"__getitem___correct"},"guarantee":"isinstance(result, int)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eac369941b763f65","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(n, int)","not (factor is None)"],"ensures":["isinstance(result, int)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.get"],"raises":["KeyError"]},"state_contract":{"exceptional_post":{"KeyError":["isinstance(raised, KeyError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, n: int) -> int:
         factor = self.get(n)
         if factor is None:
@@ -872,16 +953,25 @@ class FactorCache(MutableMapping):
         return factor
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__setitem__(n, ), correctly sets the element at the given index) over Any ║
+# ║ Path(__setitem__(n, factor), <unspecified:__setitem__>) over {Any | isinstance(n, int) and isinstance(factor, int) and 1 < factor <= n and n % factor == 0 and isprime(factor)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __setitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   requires: isinstance(factor, int)                        ║
+# ║   requires: 1 < factor <= n and n % factor == 0 and i...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __setitem__ : {Any | isinstance(n, int) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 48f0665d6f656410           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__setitem__","kind":"method","src_hash":"3eaa3ad2f0806ffb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(n, )","rhs":"correctly sets the element at the given index","over":{"base":"Any"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48f0665d6f656410"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__setitem__","kind":"method","src_hash":"3eaa3ad2f0806ffb","in":{"base":"Any","pred":"isinstance(n, int) and isinstance(factor, int) and 1 < factor <= n and n % factor == 0 and isprime(factor)"},"out":{"base":"Any"},"spec":{"lhs":"__setitem__(n, factor)","rhs":"<unspecified:__setitem__>","over":{"base":"Any","pred":"isinstance(n, int) and isinstance(factor, int) and 1 < factor <= n and n % factor == 0 and isprime(factor)"},"name":"__setitem___correct"},"guarantee":"correctly sets the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48f0665d6f656410","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(n, int)","isinstance(factor, int)","1 < factor <= n and n % factor == 0 and isprime(factor)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._cache","self.maxsize"],"calls_mutating":["self._cache.popitem"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __setitem__(self, n: int, factor: int):
         if not (1 < factor <= n and n % factor == 0 and isprime(factor)):
             raise ValueError(f"{factor} is not a prime factor of {n}")
@@ -890,78 +980,112 @@ class FactorCache(MutableMapping):
             self._cache.popitem(False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__delitem__(n), internal helper behaves correctly) over Any ║
+# ║ Path(__delitem__(n), <unspecified:__delitem__>) over {Any | isinstance(n, int) and not (n not in self._cache)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __delitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   requires: not (n not in self._cache)                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __delitem__ : {Any | isinstance(n, int) and not (n no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c76345a785875f8d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__delitem__","kind":"method","src_hash":"cfa847da1fa74b68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__delitem__(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__delitem___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c76345a785875f8d"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__delitem__","kind":"method","src_hash":"cfa847da1fa74b68","in":{"base":"Any","pred":"isinstance(n, int) and not (n not in self._cache)"},"out":{"base":"Any"},"spec":{"lhs":"__delitem__(n)","rhs":"<unspecified:__delitem__>","over":{"base":"Any","pred":"isinstance(n, int) and not (n not in self._cache)"},"name":"__delitem___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c76345a785875f8d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(n, int)","not (n not in self._cache)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._cache"],"raises":["KeyError"]},"state_contract":{"exceptional_post":{"KeyError":["isinstance(raised, KeyError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __delitem__(self, n: int):
         if n not in self._cache:
             raise KeyError(f"{n} does not exist.")
         del self._cache[n]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), self._cache.__iter__()) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._cache.__iter__()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __iter__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 674fd4ce8f93dec7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__iter__","kind":"method","src_hash":"da11786bfc060c35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"674fd4ce8f93dec7"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.__iter__","kind":"method","src_hash":"da11786bfc060c35","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"self._cache.__iter__()","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns self._cache.__iter__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"674fd4ce8f93dec7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._cache.__iter__()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._cache"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return self._cache.__iter__()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cache_clear(), clear the cache) over Any              ║
+# ║ Path(cache_clear(), <unspecified:cache_clear>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cache_clear : Any → None                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b67cbd8cbc5e30ca  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.cache_clear","kind":"method","src_hash":"5b0e02b69eb72253","in":{"base":"Any"},"out":{"base":"None"},"spec":{"lhs":"cache_clear()","rhs":"clear the cache","over":{"base":"Any"},"name":"cache_clear_correct"},"guarantee":"clear the cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.FactorCache.cache_clear_correct","statement":"Path(cache_clear(x), clear the cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b67cbd8cbc5e30ca"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.cache_clear","kind":"method","src_hash":"5b0e02b69eb72253","in":{"base":"Any"},"out":{"base":"None"},"spec":{"lhs":"cache_clear()","rhs":"<unspecified:cache_clear>","over":{"base":"Any"},"name":"cache_clear_correct"},"guarantee":"clear the cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.FactorCache.cache_clear_correct","statement":"Path(cache_clear(x), clear the cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b67cbd8cbc5e30ca","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._cache"]},"state_contract":{"modifies":["self._cache"],"old_bindings":{"old_self__cache":"self._cache"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cache_clear(self) -> None:
         """ Clear the cache """
         self._cache = OrderedDict()
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(maxsize(), returns the maxsize attribute) over Any    ║
+# ║ Path(maxsize(), self._maxsize) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._maxsize                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ maxsize : Any → int | None                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a841214d8a9de3ee           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.maxsize","kind":"property","src_hash":"b2db7c313b195177","in":{"base":"Any"},"out":{"base":"int | None"},"spec":{"lhs":"maxsize()","rhs":"returns the maxsize attribute","over":{"base":"Any"},"name":"maxsize_correct"},"guarantee":"returns the maxsize attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a841214d8a9de3ee"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.maxsize","kind":"property","src_hash":"b2db7c313b195177","in":{"base":"Any"},"out":{"base":"int | None"},"spec":{"lhs":"maxsize()","rhs":"self._maxsize","over":{"base":"Any"},"name":"maxsize_correct"},"guarantee":"returns self._maxsize","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a841214d8a9de3ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._maxsize","pure":false,"effects":{"effect_type":"reads_state","reads":["self._maxsize"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def maxsize(self) -> int | None:
         """ Returns the maximum cache size; if ``None``, it is unlimited. """
         return self._maxsize
 
     @maxsize.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(maxsize(val), maxsize produces the expected output) over Any ║
+# ║ Path(maxsize(value), <unspecified:maxsize>) over {Any | isinstance(value, int | None) and not (value is not None and value <= 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ maxsize : Any → None                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(value, int | None)                  ║
+# ║   requires: not (value is not None and value <= 0)         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ maxsize : {Any | isinstance(value, int | None) and no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b25921efb7941436  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.maxsize","kind":"method","src_hash":"6b6a627502048a5c","in":{"base":"Any"},"out":{"base":"None"},"spec":{"lhs":"maxsize(val)","rhs":"maxsize produces the expected output","over":{"base":"Any"},"name":"maxsize_correct"},"guarantee":"maxsize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.FactorCache.maxsize_correct","statement":"Path(maxsize(x), maxsize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b25921efb7941436"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.maxsize","kind":"method","src_hash":"6b6a627502048a5c","in":{"base":"Any","pred":"isinstance(value, int | None) and not (value is not None and value <= 0)"},"out":{"base":"None"},"spec":{"lhs":"maxsize(value)","rhs":"<unspecified:maxsize>","over":{"base":"Any","pred":"isinstance(value, int | None) and not (value is not None and value <= 0)"},"name":"maxsize_correct"},"guarantee":"maxsize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.FactorCache.maxsize_correct","statement":"Path(maxsize(x), maxsize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b25921efb7941436","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(value, int | None)","not (value is not None and value <= 0)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._cache"],"writes":["self._maxsize"],"calls_mutating":["self._cache.popitem"],"raises":["ValueError"]},"state_contract":{"modifies":["self.*","self._maxsize"],"old_bindings":{"old_self__maxsize":"self._maxsize"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def maxsize(self, value: int | None) -> None:
         if value is not None and value <= 0:
             raise ValueError("maxsize must be None or a non-negative integer.")
@@ -971,16 +1095,23 @@ class FactorCache(MutableMapping):
                 self._cache.popitem(False)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get(n, ), return the prime factor of ``n``. if it does not exist in the cache, return the value of ``default``) over Any ║
+# ║ Path(get(n, default), <unspecified:get>) over {Any | isinstance(n, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get : {Any | isinstance(n, int)} → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4da9b00dc4bb1b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.get","kind":"method","src_hash":"30c5b626a0e59fd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get(n, )","rhs":"return the prime factor of ``n``. if it does not exist in the cache, return the value of ``default``","over":{"base":"Any"},"name":"get_correct"},"guarantee":"return the prime factor of ``n``. if it does not exist in the cache, return the value of ``default``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.FactorCache.get_correct","statement":"Path(get(x), return the prime factor of ``n``. if it does not exist in the cache, return the value of ``default``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4da9b00dc4bb1b7"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.get","kind":"method","src_hash":"30c5b626a0e59fd3","in":{"base":"Any","pred":"isinstance(n, int)"},"out":{"base":"Any"},"spec":{"lhs":"get(n, default)","rhs":"<unspecified:get>","over":{"base":"Any","pred":"isinstance(n, int)"},"name":"get_correct"},"guarantee":"return the prime factor of ``n``. if it does not exist in the cache, return the value of ``default``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.FactorCache.get_correct","statement":"Path(get(x), return the prime factor of ``n``. if it does not exist in the cache, return the value of ``default``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4da9b00dc4bb1b7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(n, int)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._cache","self.add","self.get_external"],"calls_mutating":["self.add"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get(self, n: int, default=None):
         """ Return the prime factor of ``n``.
         If it does not exist in the cache, return the value of ``default``.
@@ -997,32 +1128,49 @@ class FactorCache(MutableMapping):
         return default
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(add(n, ), add produces the expected output) over Any  ║
+# ║ Path(add(n, factors), <unspecified:add>) over {Any | isinstance(n, int) and isinstance(factors, list[int])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ add : Any → None                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   requires: isinstance(factors, list[int])                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ add : {Any | isinstance(n, int) and isinstance(factor...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e63788a3938c384  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.add","kind":"method","src_hash":"0449783d8fe61a81","in":{"base":"Any"},"out":{"base":"None"},"spec":{"lhs":"add(n, )","rhs":"add produces the expected output","over":{"base":"Any"},"name":"add_correct"},"guarantee":"add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.FactorCache.add_correct","statement":"Path(add(x), add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e63788a3938c384"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.add","kind":"method","src_hash":"0449783d8fe61a81","in":{"base":"Any","pred":"isinstance(n, int) and isinstance(factors, list[int])"},"out":{"base":"None"},"spec":{"lhs":"add(n, factors)","rhs":"<unspecified:add>","over":{"base":"Any","pred":"isinstance(n, int) and isinstance(factors, list[int])"},"name":"add_correct"},"guarantee":"add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.FactorCache.add_correct","statement":"Path(add(x), add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e63788a3938c384","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(n, int)","isinstance(factors, list[int])"],"pure":false,"effects":{"effect_type":"io","writes":["self[*]"],"io_operations":["remove"]},"state_contract":{"modifies":["self[*]"],"old_bindings":{"old_self_star":"self[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def add(self, n: int, factors: list[int]) -> None:
         for p in sorted(factors, reverse=True):
             self[n] = p
             n, _ = remove(n, p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_external(n), get_external produces the expected output) over Any ║
+# ║ Path(get_external(n), None) over {Any | isinstance(n, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_external : Any → list[int] | None                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, int] | None) for x in r...   ║
+# ║   returns:  None                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_external : {Any | isinstance(n, int)} → {list[int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47bdb4aa86dc37f5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.get_external","kind":"method","src_hash":"064fcb64ee2bee44","in":{"base":"Any"},"out":{"base":"list[int] | None"},"spec":{"lhs":"get_external(n)","rhs":"get_external produces the expected output","over":{"base":"Any"},"name":"get_external_correct"},"guarantee":"get_external produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47bdb4aa86dc37f5"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.FactorCache.get_external","kind":"method","src_hash":"064fcb64ee2bee44","in":{"base":"Any","pred":"isinstance(n, int)"},"out":{"base":"list[int] | None","pred":"result satisfies: result == (None)"},"spec":{"lhs":"get_external(n)","rhs":"None","over":{"base":"Any","pred":"isinstance(n, int)"},"name":"get_external_correct"},"guarantee":"returns None; isinstance(result, list); all(isinstance(x, int] | None) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47bdb4aa86dc37f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(n, int)"],"ensures":["isinstance(result, list)","all(isinstance(x, int] | None) for x in result)"],"returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_external(self, n: int) -> list[int] | None:
         return None
 
@@ -1031,16 +1179,23 @@ factor_cache = FactorCache(maxsize=1000)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pollard_rho(n, ), use pollard's rho method to try to extract a nontrivial factor of ``n``) over Any ║
+# ║ Path(pollard_rho(n, s, a), <unspecified:pollard_rho>) over {Any | not (n < 5)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pollard_rho : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (n < 5)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pollard_rho : {Any | not (n < 5)} → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6114155f062473a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.pollard_rho","kind":"function","src_hash":"b323d137c7e2c0f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pollard_rho(n, )","rhs":"use pollard's rho method to try to extract a nontrivial factor of ``n``","over":{"base":"Any"},"name":"pollard_rho_correct"},"guarantee":"use pollard's rho method to try to extract a nontrivial factor of ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.pollard_rho_correct","statement":"Path(pollard_rho(x), use pollard's rho method to try to extract a nontrivial factor of ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6114155f062473a5"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.pollard_rho","kind":"function","src_hash":"b323d137c7e2c0f2","in":{"base":"Any","pred":"not (n < 5)"},"out":{"base":"Any"},"spec":{"lhs":"pollard_rho(n, s, a)","rhs":"<unspecified:pollard_rho>","over":{"base":"Any","pred":"not (n < 5)"},"name":"pollard_rho_correct"},"guarantee":"use pollard's rho method to try to extract a nontrivial factor of ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.pollard_rho_correct","statement":"Path(pollard_rho(x), use pollard's rho method to try to extract a nontrivial factor of ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6114155f062473a5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (n < 5)"],"pure":false,"effects":{"effect_type":"nondeterministic","raises":["ValueError"],"nondeterministic_sources":["randint"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def pollard_rho(n, s=2, a=1, retries=5, seed=1234, max_steps=None, F=None):
     r"""
     Use Pollard's rho method to try to extract a nontrivial factor
@@ -1157,16 +1312,23 @@ def pollard_rho(n, s=2, a=1, retries=5, seed=1234, max_steps=None, F=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pollard_pm1(n, ), use pollard's p-1 method to try to extract a nontrivial factor of ``n``) over Any ║
+# ║ Path(pollard_pm1(n, B, a), int(g)) over {Any | not (n < 4 or B < 3)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pollard_pm1 : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 4 or B < 3)                           ║
+# ║   returns:  int(g)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pollard_pm1 : {Any | not (n < 4 or B < 3)} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17ff27d711d19db3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75dae42584f343a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.pollard_pm1","kind":"function","src_hash":"77b6f4510cae3c76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pollard_pm1(n, )","rhs":"use pollard's p-1 method to try to extract a nontrivial factor of ``n``","over":{"base":"Any"},"name":"pollard_pm1_correct"},"guarantee":"use pollard's p-1 method to try to extract a nontrivial factor of ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.pollard_pm1_correct","statement":"Path(pollard_pm1(x), use pollard's p-1 method to try to extract a nontrivial factor of ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17ff27d711d19db3"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.pollard_pm1","kind":"function","src_hash":"77b6f4510cae3c76","in":{"base":"Any","pred":"not (n < 4 or B < 3)"},"out":{"base":"Any"},"spec":{"lhs":"pollard_pm1(n, B, a)","rhs":"int(g)","over":{"base":"Any","pred":"not (n < 4 or B < 3)"},"name":"pollard_pm1_correct"},"guarantee":"returns int(g)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.pollard_pm1_correct","statement":"Path(pollard_pm1(x), returns int(g))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75dae42584f343a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 4 or B < 3)"],"returns_expr":"int(g)","pure":false,"effects":{"effect_type":"nondeterministic","raises":["ValueError"],"nondeterministic_sources":["randint"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def pollard_pm1(n, B=10, a=2, retries=0, seed=1234):
     """
     Use Pollard's p-1 method to try to extract a nontrivial factor
@@ -1322,16 +1484,23 @@ def pollard_pm1(n, B=10, a=2, retries=0, seed=1234):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_trial(fac), id) over Any                             ║
+# ║ Path(_trial(factors, n, candidates), id) over {Any | hasattr(factors, 'keys')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _trial : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(factors, 'keys')                       ║
+# ║   returns:  (int(n), len(factors) != nfactors)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _trial : {Any | hasattr(factors, 'keys')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1efe49733a5c466d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._trial","kind":"function","src_hash":"d96bb33bf3f2aa33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trial(fac)","rhs":"helper function for integer factorization","over":{"base":"Any"},"name":"_trial_correct","kind":"composition"},"guarantee":"helper function for integer factorization","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1efe49733a5c466d"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._trial","kind":"function","src_hash":"d96bb33bf3f2aa33","in":{"base":"Any","pred":"hasattr(factors, 'keys')"},"out":{"base":"Any"},"spec":{"lhs":"_trial(factors, n, candidates)","rhs":"(int(n), len(factors) != nfactors)","over":{"base":"Any","pred":"hasattr(factors, 'keys')"},"name":"_trial_correct","kind":"composition"},"guarantee":"returns (int(n), len(factors) != nfactors)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"int","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1efe49733a5c466d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(factors, 'keys')"],"returns_expr":"(int(n), len(factors) != nfactors)","pure":false,"effects":{"effect_type":"io","reads":["factors.keys"],"writes":["factors[*]"],"io_operations":["print","remove"]},"state_contract":{"modifies":["factors[*]"],"old_bindings":{"old_factors_star":"factors[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _trial(factors, n, candidates, verbose=False):
     """
     Helper function for integer factorization. Trial factors ``n`
@@ -1355,16 +1524,22 @@ def _trial(factors, n, candidates, verbose=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_termination(fac), helper function for integer factorization) over Any ║
+# ║ Path(_check_termination(factors, n, limit), <unspecified:_check_termination>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_termination : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 225974328ae4dea2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._check_termination","kind":"function","src_hash":"1e24cdf204b9022c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_termination(fac)","rhs":"helper function for integer factorization","over":{"base":"Any"},"name":"_check_termination_correct"},"guarantee":"helper function for integer factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_._check_termination_correct","statement":"Path(_check_termination(x), helper function for integer factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"225974328ae4dea2"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._check_termination","kind":"function","src_hash":"1e24cdf204b9022c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_termination(factors, n, limit)","rhs":"<unspecified:_check_termination>","over":{"base":"Any"},"name":"_check_termination_correct"},"guarantee":"helper function for integer factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_._check_termination_correct","statement":"Path(_check_termination(x), helper function for integer factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"225974328ae4dea2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","writes":["factors[*]"],"io_operations":["print"]},"state_contract":{"modifies":["factors[*]"],"old_bindings":{"old_factors_star":"factors[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _check_termination(factors, n, limit, use_trial, use_rho, use_pm1,
                        verbose, next_p):
     """
@@ -1416,16 +1591,22 @@ complete_msg = 'Factorization is complete.'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_factorint_small(fac), return the value of n and either a 0 (indicating that factorization up to the limit was complete) or else the next near-prime that would have been tested) over Any ║
+# ║ Path(_factorint_small(factors, n, limit), <unspecified:_factorint_small>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _factorint_small : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6103c6c3c2925c98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._factorint_small","kind":"function","src_hash":"4b83a4abdbad1a53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_factorint_small(fac)","rhs":"return the value of n and either a 0 (indicating that factorization up to the limit was complete) or else the next near-prime that would have been tested","over":{"base":"Any"},"name":"_factorint_small_correct"},"guarantee":"return the value of n and either a 0 (indicating that factorization up to the limit was complete) or else the next near-prime that would have been tested","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_._factorint_small_correct","statement":"Path(_factorint_small(x), return the value of n and either a 0 (indicating that factorization up to the limit was complete) or else the next near-prime that would have been tested)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6103c6c3c2925c98"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._factorint_small","kind":"function","src_hash":"4b83a4abdbad1a53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_factorint_small(factors, n, limit)","rhs":"<unspecified:_factorint_small>","over":{"base":"Any"},"name":"_factorint_small_correct"},"guarantee":"return the value of n and either a 0 (indicating that factorization up to the limit was complete) or else the next near-prime that would have been tested","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_._factorint_small_correct","statement":"Path(_factorint_small(x), return the value of n and either a 0 (indicating that factorization up to the limit was complete) or else the next near-prime that would have been tested)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6103c6c3c2925c98","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","writes":["factors[*]"],"io_operations":["remove"]},"state_contract":{"modifies":["factors[*]"],"old_bindings":{"old_factors_star":"factors[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _factorint_small(factors, n, limit, fail_max, next_p=2):
     """
     Return the value of n and either a 0 (indicating that factorization up
@@ -1530,7 +1711,14 @@ def _factorint_small(factors, n, limit, fail_max, next_p=2):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factorint(n, ), given a positive integer ``n``, ``factorint(n)`` returns a dict containing the prime factors of ``n`` as keys and their respective multiplicities as values) over {Any | isinstance(n, Dict) and isinstance(n, factorial) and isinstance(n, Mul)} ║
+# ║ Path(factorint(n, limit, use_trial), use_trial or use_rho or use_pm1 or use_ecm and len(factordict) == old_len_factordict - 1) over {Any | isinstance(n, Dict) and isinstance(n, factorial) and isinstance(n, Mul) and hasattr(n, 'args') and hasattr(n, 'func') and hasattr(n, 'as_powers_dict') and len(factordict) > 0} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'args')                             ║
+# ║   requires: hasattr(n, 'func')                             ║
+# ║   requires: hasattr(n, 'as_powers_dict')                   ║
+# ║   ensures:  use_trial or use_rho or use_pm1 or use_ecm     ║
+# ║   ensures:  len(factordict) == old_len_factordict - 1      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ factorint : {Any | isinstance(n, Dict) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1546,9 +1734,12 @@ def _factorint_small(factors, n, limit, fail_max, next_p=2):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓16 ?6 ✗1 VCs | 11.2ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5528d028...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.factorint","kind":"function","src_hash":"d98ae2aba0f02492","in":{"base":"Any","pred":"isinstance(n, Dict) and isinstance(n, factorial) and isinstance(n, Mul)"},"out":{"base":"Any","pred":"use_trial or use_rho or use_pm1 or use_ecm"},"spec":{"lhs":"factorint(n, )","rhs":"given a positive integer ``n``, ``factorint(n)`` returns a dict containing the prime factors of ``n`` as keys and their respective multiplicities as values","over":{"base":"Any","pred":"isinstance(n, Dict) and isinstance(n, factorial) and isinstance(n, Mul)"},"name":"factorint_correct"},"guarantee":"given a positive integer ``n``, ``factorint(n)`` returns a dict containing the prime factors of ``n`` as keys and their respective multiplicities as values","fibers":[{"name":"Dict","pred":"isinstance(n, Dict)","path":{"lhs":"factorint(x)","rhs":"given a positive integer ``n``, ``factorint(n)`` returns a dict containing the prime factors of ``n`` as keys and their respective multiplicities as values","over":{"base":"Dict","pred":"isinstance(n, Dict)"},"name":"factorint_Dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorint_Dict_correct","statement":"factorint satisfies spec on Dict inputs"},"trust":"LIBRARY"},{"name":"factorial","pred":"isinstance(n, factorial)","path":{"lhs":"factorint(x)","rhs":"given a positive integer ``n``, ``factorint(n)`` returns a dict containing the prime factors of ``n`` as keys and their respective multiplicities as values","over":{"base":"factorial","pred":"isinstance(n, factorial)"},"name":"factorint_factorial_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorint_factorial_correct","statement":"factorint satisfies spec on factorial inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(n, Mul)","path":{"lhs":"factorint(x)","rhs":"given a positive integer ``n``, ``factorint(n)`` returns a dict containing the prime factors of ``n`` as keys and their respective multiplicities as values","over":{"base":"Mul","pred":"isinstance(n, Mul)"},"name":"factorint_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorint_Mul_correct","statement":"factorint satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(n, (Mul, dict))","path":{"lhs":"factorint(x)","rhs":"given a positive integer ``n``, ``factorint(n)`` returns a dict containing the prime factors of ``n`` as keys and their respective multiplicities as values","over":{"base":"(Mul","pred":"isinstance(n, (Mul, dict))"},"name":"factorint_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorint_(Mul_correct","statement":"factorint satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"(dict","pred":"isinstance(n, (dict, Mul))","path":{"lhs":"factorint(x)","rhs":"given a positive integer ``n``, ``factorint(n)`` returns a dict containing the prime factors of ``n`` as keys and their respective multiplicities as values","over":{"base":"(dict","pred":"isinstance(n, (dict, Mul))"},"name":"factorint_(dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorint_(dict_correct","statement":"factorint satisfies spec on (dict inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(n, dict)","path":{"lhs":"factorint(x)","rhs":"given a positive integer ``n``, ``factorint(n)`` returns a dict containing the prime factors of ``n`` as keys and their respective multiplicities as values","over":{"base":"dict","pred":"isinstance(n, dict)"},"name":"factorint_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorint_dict_correct","statement":"factorint satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5528d028c2f9c57a"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.factorint","kind":"function","src_hash":"d98ae2aba0f02492","in":{"base":"Any","pred":"isinstance(n, Dict) and isinstance(n, factorial) and isinstance(n, Mul) and hasattr(n, 'args') and hasattr(n, 'func') and hasattr(n, 'as_powers_dict') and len(factordict) > 0"},"out":{"base":"Any","pred":"result satisfies: use_trial or use_rho or use_pm1 or use_ecm and len(factordict) == old_len_factordict - 1"},"spec":{"lhs":"factorint(n, limit, use_trial)","rhs":"use_trial or use_rho or use_pm1 or use_ecm and len(factordict) == old_len_factordict - 1","over":{"base":"Any","pred":"isinstance(n, Dict) and isinstance(n, factorial) and isinstance(n, Mul) and hasattr(n, 'args') and hasattr(n, 'func') and hasattr(n, 'as_powers_dict') and len(factordict) > 0"},"name":"factorint_correct"},"guarantee":"use_trial or use_rho or use_pm1 or use_ecm; len(factordict) == old_len_factordict - 1","fibers":[{"name":"Dict","pred":"isinstance(n, Dict)","path":{"lhs":"factorint(x)","rhs":"use_trial or use_rho or use_pm1 or use_ecm; len(factordict) == old_len_factordict - 1","over":{"base":"Dict","pred":"isinstance(n, Dict)"},"name":"factorint_Dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorint_Dict_correct","statement":"factorint satisfies spec on Dict inputs"},"trust":"LIBRARY"},{"name":"factorial","pred":"isinstance(n, factorial)","path":{"lhs":"factorint(x)","rhs":"use_trial or use_rho or use_pm1 or use_ecm; len(factordict) == old_len_factordict - 1","over":{"base":"factorial","pred":"isinstance(n, factorial)"},"name":"factorint_factorial_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorint_factorial_correct","statement":"factorint satisfies spec on factorial inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(n, Mul)","path":{"lhs":"factorint(x)","rhs":"use_trial or use_rho or use_pm1 or use_ecm; len(factordict) == old_len_factordict - 1","over":{"base":"Mul","pred":"isinstance(n, Mul)"},"name":"factorint_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorint_Mul_correct","statement":"factorint satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(n, (Mul, dict))","path":{"lhs":"factorint(x)","rhs":"use_trial or use_rho or use_pm1 or use_ecm; len(factordict) == old_len_factordict - 1","over":{"base":"(Mul","pred":"isinstance(n, (Mul, dict))"},"name":"factorint_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorint_(Mul_correct","statement":"factorint satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"(dict","pred":"isinstance(n, (dict, Mul))","path":{"lhs":"factorint(x)","rhs":"use_trial or use_rho or use_pm1 or use_ecm; len(factordict) == old_len_factordict - 1","over":{"base":"(dict","pred":"isinstance(n, (dict, Mul))"},"name":"factorint_(dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorint_(dict_correct","statement":"factorint satisfies spec on (dict inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(n, dict)","path":{"lhs":"factorint(x)","rhs":"use_trial or use_rho or use_pm1 or use_ecm; len(factordict) == old_len_factordict - 1","over":{"base":"dict","pred":"isinstance(n, dict)"},"name":"factorint_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorint_dict_correct","statement":"factorint satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":6,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5528d028c2f9c57a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'args')","hasattr(n, 'func')","hasattr(n, 'as_powers_dict')","len(factordict) > 0"],"ensures":["use_trial or use_rho or use_pm1 or use_ecm","len(factordict) == old_len_factordict - 1"],"pure":false,"effects":{"effect_type":"io","reads":["n.args","n.as_powers_dict","n.func"],"calls_mutating":["args.extend","factor_cache.add","factordict.pop"],"io_operations":["print","remove"]},"state_contract":{"modifies":["args.*","factor_cache.*","factordict.*"],"old_bindings":{"old_len_args":"len(args)","old_len_factordict":"len(factordict)"},"pre_requires":["len(factordict) > 0"],"post_ensures":["len(factordict) == old_len_factordict - 1"]}},"c4_verdict":{"valid":false,"n_vcs":23,"n_verified":16,"n_assumed":6,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":11.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'m > 1', 'c < next_p ** 2 or isprime(c)', 'high > _limit', 'isinstance(n, dict)', 'x >= 20', 'factordict and isinstance(n, (Mul, dict))', 'isinstance(n, factorial)', 'next_p == 0', 'factordict == {}', 'n < 10', 'len(sn) > 50', '(n % 4 == 1) ^ a & 1', 'limit and limit < 2', 'isinstance(n, (dict, Mul))', 'visual and (not isinstance(n, (Mul, dict)))', 'limit and next_p > limit', 'n < 0', 'isinstance(n, Mul)', 'n > 1', 'n == 1', 'isinstance(n, Dict)', 'factor < next_p ** 2 or isprime(factor)', 'use_ecm and iteration >= 3 and (num_digits(n) >= 24)'}, fibers={'(dict', 'Dict', 'factorial', 'dict', '(Mul', 'Mul'})"]}}
 def factorint(n, limit=None, use_trial=True, use_rho=True, use_pm1=True,
               use_ecm=True, verbose=False, visual=None, multiple=False):
     r"""
@@ -1983,16 +2174,24 @@ def factorint(n, limit=None, use_trial=True, use_rho=True, use_pm1=True,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factorrat(rat), given a rational ``r``, ``factorrat(r)`` returns a dict containing the prime factors of ``r`` as keys and their respective multiplicities as values) over Any ║
+# ║ Path(factorrat(rat, limit, use_trial), # HINT: factorrat may be idempotent: factorrat(factorrat(x)) == factorrat(x)) over {Any | hasattr(rat, 'p') and hasattr(rat, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ factorrat : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rat, 'p')                              ║
+# ║   requires: hasattr(rat, 'q')                              ║
+# ║   ensures:  # HINT: factorrat may be idempotent: fact...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ factorrat : {Any | hasattr(rat, 'p') and hasattr(rat,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 342bdd2aa8003d0c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46d7783917cbe74e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.factorrat","kind":"function","src_hash":"bd3db21692c1c178","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"factorrat(rat)","rhs":"given a rational ``r``, ``factorrat(r)`` returns a dict containing the prime factors of ``r`` as keys and their respective multiplicities as values","over":{"base":"Any"},"name":"factorrat_correct"},"guarantee":"given a rational ``r``, ``factorrat(r)`` returns a dict containing the prime factors of ``r`` as keys and their respective multiplicities as values","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorrat_correct","statement":"Path(factorrat(x), given a rational ``r``, ``factorrat(r)`` returns a dict containing the prime factors of ``r`` as keys and their respective multiplicities as values)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"342bdd2aa8003d0c"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.factorrat","kind":"function","src_hash":"bd3db21692c1c178","in":{"base":"Any","pred":"hasattr(rat, 'p') and hasattr(rat, 'q')"},"out":{"base":"Any","pred":"result satisfies: # HINT: factorrat may be idempotent: factorrat(factorrat(x)) == factorrat(x)"},"spec":{"lhs":"factorrat(rat, limit, use_trial)","rhs":"# HINT: factorrat may be idempotent: factorrat(factorrat(x)) == factorrat(x)","over":{"base":"Any","pred":"hasattr(rat, 'p') and hasattr(rat, 'q')"},"name":"factorrat_correct"},"guarantee":"# HINT: factorrat may be idempotent: factorrat(factorrat(x)) == factorrat(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.factorrat_correct","statement":"Path(factorrat(x), # HINT: factorrat may be idempotent: factorrat(factorrat(x)) == factorrat(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46d7783917cbe74e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rat, 'p')","hasattr(rat, 'q')"],"ensures":["# HINT: factorrat may be idempotent: factorrat(factorrat(x)) == factorrat(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def factorrat(rat, limit=None, use_trial=True, use_rho=True, use_pm1=True,
               verbose=False, visual=None, multiple=False):
     r"""
@@ -2055,16 +2254,22 @@ def factorrat(rat, limit=None, use_trial=True, use_rho=True, use_pm1=True,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(primefactors(n, ), return a sorted list of n's prime factors, ignoring multiplicity and any composite factor that remains if the limit was set too low for complete factorization) over Any ║
+# ║ Path(primefactors(n, limit, verbose), <unspecified:primefactors>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ primefactors : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae9cfd68b6a16b88  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.primefactors","kind":"function","src_hash":"1cbd32e07ae4a6bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primefactors(n, )","rhs":"return a sorted list of n's prime factors, ignoring multiplicity and any composite factor that remains if the limit was set too low for complete factorization","over":{"base":"Any"},"name":"primefactors_correct"},"guarantee":"return a sorted list of n's prime factors, ignoring multiplicity and any composite factor that remains if the limit was set too low for complete factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.primefactors_correct","statement":"Path(primefactors(x), return a sorted list of n's prime factors, ignoring multiplicity and any composite factor that remains if the limit was set too low for complete factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae9cfd68b6a16b88"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.primefactors","kind":"function","src_hash":"1cbd32e07ae4a6bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primefactors(n, limit, verbose)","rhs":"<unspecified:primefactors>","over":{"base":"Any"},"name":"primefactors_correct"},"guarantee":"return a sorted list of n's prime factors, ignoring multiplicity and any composite factor that remains if the limit was set too low for complete factorization","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.primefactors_correct","statement":"Path(primefactors(x), return a sorted list of n's prime factors, ignoring multiplicity and any composite factor that remains if the limit was set too low for complete factorization)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae9cfd68b6a16b88","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['n', 'limit', 'verbose'], spec=['n', 'limit', 'verbose', '**kwargs']"]}}
 def primefactors(n, limit=None, verbose=False, **kwargs):
     """Return a sorted list of n's prime factors, ignoring multiplicity
     and any composite factor that remains if the limit was set too low
@@ -2125,16 +2330,22 @@ def primefactors(n, limit=None, verbose=False, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_divisors(n, ), helper function for divisors which generates the divisors) over Any ║
+# ║ Path(_divisors(n, proper), <unspecified:_divisors>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _divisors : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d91913dabf48adcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._divisors","kind":"function","src_hash":"7a9a1ef809880a82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_divisors(n, )","rhs":"helper function for divisors which generates the divisors","over":{"base":"Any"},"name":"_divisors_correct"},"guarantee":"helper function for divisors which generates the divisors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_._divisors_correct","statement":"Path(_divisors(x), helper function for divisors which generates the divisors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d91913dabf48adcb"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._divisors","kind":"function","src_hash":"7a9a1ef809880a82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_divisors(n, proper)","rhs":"<unspecified:_divisors>","over":{"base":"Any"},"name":"_divisors_correct"},"guarantee":"helper function for divisors which generates the divisors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_._divisors_correct","statement":"Path(_divisors(x), helper function for divisors which generates the divisors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d91913dabf48adcb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _divisors(n, proper=False):
     """Helper function for divisors which generates the divisors.
 
@@ -2171,16 +2382,22 @@ def _divisors(n, proper=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(divisors(n, ), return all divisors of n sorted from 1..n by default. if generator is ``true`` an unordered generator is returned) over Any ║
+# ║ Path(divisors(n, generator, proper), rv if generator else sorted(rv)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv if generator else sorted(rv)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ divisors : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73fc398c67487385  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb9483225d3c3a70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.divisors","kind":"function","src_hash":"dd066f79c65cfbd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divisors(n, )","rhs":"return all divisors of n sorted from 1..n by default. if generator is ``true`` an unordered generator is returned","over":{"base":"Any"},"name":"divisors_correct"},"guarantee":"return all divisors of n sorted from 1..n by default. if generator is ``true`` an unordered generator is returned","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.divisors_correct","statement":"Path(divisors(x), return all divisors of n sorted from 1..n by default. if generator is ``true`` an unordered generator is returned)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73fc398c67487385"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.divisors","kind":"function","src_hash":"dd066f79c65cfbd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divisors(n, generator, proper)","rhs":"rv if generator else sorted(rv)","over":{"base":"Any"},"name":"divisors_correct"},"guarantee":"returns rv if generator else sorted(rv)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.divisors_correct","statement":"Path(divisors(x), returns rv if generator else sorted(rv))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb9483225d3c3a70","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv if generator else sorted(rv)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def divisors(n, generator=False, proper=False):
     r"""
     Return all divisors of n sorted from 1..n by default.
@@ -2218,16 +2435,23 @@ def divisors(n, generator=False, proper=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(divisor_count(n, ), return the number of divisors of ``n``) over Any ║
+# ║ Path(divisor_count(n, modulus, proper), <unspecified:divisor_count>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: not modulus => 0                          ║
+# ║   fiber[case_1]: modulus != 1                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ divisor_count : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dada83b1d6085395  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aff9c00cabf1528d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.divisor_count","kind":"function","src_hash":"09f11ab349cc6fd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divisor_count(n, )","rhs":"return the number of divisors of ``n``","over":{"base":"Any"},"name":"divisor_count_correct"},"guarantee":"return the number of divisors of ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.divisor_count_correct","statement":"Path(divisor_count(x), return the number of divisors of ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dada83b1d6085395"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.divisor_count","kind":"function","src_hash":"09f11ab349cc6fd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divisor_count(n, modulus, proper)","rhs":"<unspecified:divisor_count>","over":{"base":"Any"},"name":"divisor_count_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.divisor_count_correct","statement":"Path(divisor_count(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aff9c00cabf1528d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"not modulus","ensures":["result == 0"],"decidability":"library","returns_expr":"0"},{"name":"case_1","guard":"modulus != 1","ensures":[],"decidability":"z3"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def divisor_count(n, modulus=1, proper=False):
     """
     Return the number of divisors of ``n``. If ``modulus`` is not 1 then only
@@ -2267,16 +2491,22 @@ def divisor_count(n, modulus=1, proper=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(proper_divisors(n, ), return all divisors of n except n, sorted by default. if generator is ``true`` an unordered generator is returned) over Any ║
+# ║ Path(proper_divisors(n, generator), divisors(n, generator=generator, proper=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  divisors(n, generator=generator, proper=T...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ proper_divisors : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c9352b89d7e8b6c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.proper_divisors","kind":"function","src_hash":"cb418ffbaa668643","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"proper_divisors(n, )","rhs":"return all divisors of n except n, sorted by default. if generator is ``true`` an unordered generator is returned","over":{"base":"Any"},"name":"proper_divisors_correct"},"guarantee":"return all divisors of n except n, sorted by default. if generator is ``true`` an unordered generator is returned","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9352b89d7e8b6c3"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.proper_divisors","kind":"function","src_hash":"cb418ffbaa668643","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"proper_divisors(n, generator)","rhs":"divisors(n, generator=generator, proper=True)","over":{"base":"Any"},"name":"proper_divisors_correct"},"guarantee":"returns divisors(n, generator=generator, proper=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c9352b89d7e8b6c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"divisors(n, generator=generator, proper=True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def proper_divisors(n, generator=False):
     """
     Return all divisors of n except n, sorted by default.
@@ -2303,16 +2533,22 @@ def proper_divisors(n, generator=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(proper_divisor_count(n, ), return the number of proper divisors of ``n``) over Any ║
+# ║ Path(proper_divisor_count(n, modulus), divisor_count(n, modulus=modulus, proper=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  divisor_count(n, modulus=modulus, proper=...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ proper_divisor_count : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f8f97d66fb7b9386           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.proper_divisor_count","kind":"function","src_hash":"6c0908e6fa904798","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"proper_divisor_count(n, )","rhs":"return the number of proper divisors of ``n``","over":{"base":"Any"},"name":"proper_divisor_count_correct"},"guarantee":"return the number of proper divisors of ``n``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8f97d66fb7b9386"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.proper_divisor_count","kind":"function","src_hash":"6c0908e6fa904798","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"proper_divisor_count(n, modulus)","rhs":"divisor_count(n, modulus=modulus, proper=True)","over":{"base":"Any"},"name":"proper_divisor_count_correct"},"guarantee":"returns divisor_count(n, modulus=modulus, proper=True)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8f97d66fb7b9386","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"divisor_count(n, modulus=modulus, proper=True)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def proper_divisor_count(n, modulus=1):
     """
     Return the number of proper divisors of ``n``.
@@ -2338,14 +2574,20 @@ def proper_divisor_count(n, modulus=1):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_udivisors(n), id) over Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _udivisors : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 73682d4f6b0be431   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._udivisors","kind":"function","src_hash":"bfe2da7c3bc523e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_udivisors(n)","rhs":"helper function for udivisors which generates the unitary divisors","over":{"base":"Any"},"name":"_udivisors_correct","kind":"composition"},"guarantee":"helper function for udivisors which generates the unitary divisors","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorint","by":"library_axiom"},{"fn":"items","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73682d4f6b0be431"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._udivisors","kind":"function","src_hash":"bfe2da7c3bc523e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_udivisors(n)","rhs":"<unspecified:_udivisors>","over":{"base":"Any"},"name":"_udivisors_correct","kind":"composition"},"guarantee":"helper function for udivisors which generates the unitary divisors","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"factorint","by":"library_axiom"},{"fn":"items","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73682d4f6b0be431","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _udivisors(n):
     """Helper function for udivisors which generates the unitary divisors.
 
@@ -2374,16 +2616,22 @@ def _udivisors(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(udivisors(n, ), return all unitary divisors of n sorted from 1..n by default. if generator is ``true`` an unordered generator is returned) over Any ║
+# ║ Path(udivisors(n, generator), rv if generator else sorted(rv)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv if generator else sorted(rv)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ udivisors : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23799eb51325f5ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cb4e237afcb30c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.udivisors","kind":"function","src_hash":"9e1c2e701d8bbf9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"udivisors(n, )","rhs":"return all unitary divisors of n sorted from 1..n by default. if generator is ``true`` an unordered generator is returned","over":{"base":"Any"},"name":"udivisors_correct"},"guarantee":"return all unitary divisors of n sorted from 1..n by default. if generator is ``true`` an unordered generator is returned","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.udivisors_correct","statement":"Path(udivisors(x), return all unitary divisors of n sorted from 1..n by default. if generator is ``true`` an unordered generator is returned)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23799eb51325f5ae"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.udivisors","kind":"function","src_hash":"9e1c2e701d8bbf9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"udivisors(n, generator)","rhs":"rv if generator else sorted(rv)","over":{"base":"Any"},"name":"udivisors_correct"},"guarantee":"returns rv if generator else sorted(rv)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.udivisors_correct","statement":"Path(udivisors(x), returns rv if generator else sorted(rv))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cb4e237afcb30c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv if generator else sorted(rv)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def udivisors(n, generator=False):
     r"""
     Return all unitary divisors of n sorted from 1..n by default.
@@ -2422,16 +2670,22 @@ def udivisors(n, generator=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(udivisor_count(n), return the number of unitary divisors of ``n``) over Any ║
+# ║ Path(udivisor_count(n), <unspecified:udivisor_count>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ udivisor_count : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f07a1ff2a7eae7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.udivisor_count","kind":"function","src_hash":"0c8dc2b5c426995a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"udivisor_count(n)","rhs":"return the number of unitary divisors of ``n``","over":{"base":"Any"},"name":"udivisor_count_correct"},"guarantee":"return the number of unitary divisors of ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.udivisor_count_correct","statement":"Path(udivisor_count(x), return the number of unitary divisors of ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f07a1ff2a7eae7b"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.udivisor_count","kind":"function","src_hash":"0c8dc2b5c426995a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"udivisor_count(n)","rhs":"<unspecified:udivisor_count>","over":{"base":"Any"},"name":"udivisor_count_correct"},"guarantee":"return the number of unitary divisors of ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.udivisor_count_correct","statement":"Path(udivisor_count(x), return the number of unitary divisors of ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f07a1ff2a7eae7b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def udivisor_count(n):
     """
     Return the number of unitary divisors of ``n``.
@@ -2466,16 +2720,22 @@ def udivisor_count(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_antidivisors(n), helper function for antidivisors which generates the antidivisors) over Any ║
+# ║ Path(_antidivisors(n), <unspecified:_antidivisors>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _antidivisors : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5fff70e685d9ef3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._antidivisors","kind":"function","src_hash":"eff42c62b34cf82c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_antidivisors(n)","rhs":"helper function for antidivisors which generates the antidivisors","over":{"base":"Any"},"name":"_antidivisors_correct"},"guarantee":"helper function for antidivisors which generates the antidivisors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_._antidivisors_correct","statement":"Path(_antidivisors(x), helper function for antidivisors which generates the antidivisors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5fff70e685d9ef3"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._antidivisors","kind":"function","src_hash":"eff42c62b34cf82c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_antidivisors(n)","rhs":"<unspecified:_antidivisors>","over":{"base":"Any"},"name":"_antidivisors_correct"},"guarantee":"helper function for antidivisors which generates the antidivisors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_._antidivisors_correct","statement":"Path(_antidivisors(x), helper function for antidivisors which generates the antidivisors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5fff70e685d9ef3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _antidivisors(n):
     """Helper function for antidivisors which generates the antidivisors.
 
@@ -2501,16 +2761,22 @@ def _antidivisors(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(antidivisors(n, ), return all antidivisors of n sorted from 1..n by default) over Any ║
+# ║ Path(antidivisors(n, generator), rv if generator else sorted(rv)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rv if generator else sorted(rv)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ antidivisors : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d344ab8359548acf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8d3353281ea55e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.antidivisors","kind":"function","src_hash":"67301291bebe68e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"antidivisors(n, )","rhs":"return all antidivisors of n sorted from 1..n by default","over":{"base":"Any"},"name":"antidivisors_correct"},"guarantee":"return all antidivisors of n sorted from 1..n by default","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.antidivisors_correct","statement":"Path(antidivisors(x), return all antidivisors of n sorted from 1..n by default)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d344ab8359548acf"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.antidivisors","kind":"function","src_hash":"67301291bebe68e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"antidivisors(n, generator)","rhs":"rv if generator else sorted(rv)","over":{"base":"Any"},"name":"antidivisors_correct"},"guarantee":"returns rv if generator else sorted(rv)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.antidivisors_correct","statement":"Path(antidivisors(x), returns rv if generator else sorted(rv))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8d3353281ea55e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rv if generator else sorted(rv)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def antidivisors(n, generator=False):
     r"""
     Return all antidivisors of n sorted from 1..n by default.
@@ -2544,16 +2810,22 @@ def antidivisors(n, generator=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(antidivisor_count(n), return the number of antidivisors [1]_ of ``n``) over Any ║
+# ║ Path(antidivisor_count(n), <unspecified:antidivisor_count>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ antidivisor_count : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd9c7331094e5a07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.antidivisor_count","kind":"function","src_hash":"98840e53284b5e6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"antidivisor_count(n)","rhs":"return the number of antidivisors [1]_ of ``n``","over":{"base":"Any"},"name":"antidivisor_count_correct"},"guarantee":"return the number of antidivisors [1]_ of ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.antidivisor_count_correct","statement":"Path(antidivisor_count(x), return the number of antidivisors [1]_ of ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd9c7331094e5a07"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.antidivisor_count","kind":"function","src_hash":"98840e53284b5e6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"antidivisor_count(n)","rhs":"<unspecified:antidivisor_count>","over":{"base":"Any"},"name":"antidivisor_count_correct"},"guarantee":"return the number of antidivisors [1]_ of ``n``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.antidivisor_count_correct","statement":"Path(antidivisor_count(x), return the number of antidivisors [1]_ of ``n``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd9c7331094e5a07","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def antidivisor_count(n):
     """
     Return the number of antidivisors [1]_ of ``n``.
@@ -2595,16 +2867,22 @@ The `sympy.ntheory.factor_.totient` has been moved to `sympy.functions.combinato
 deprecated_since_version="1.13",
 active_deprecations_target='deprecated-ntheory-symbolic-functions')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(totient(n), calculate the euler totient function phi(n)) over Any ║
+# ║ Path(totient(n), _totient(n)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _totient(n)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ totient : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d25695d1c72071f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 262d7812f35df3aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.totient","kind":"function","src_hash":"8f703151bf4a0f7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"totient(n)","rhs":"calculate the euler totient function phi(n)","over":{"base":"Any"},"name":"totient_correct"},"guarantee":"calculate the euler totient function phi(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.totient_correct","statement":"Path(totient(x), calculate the euler totient function phi(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d25695d1c72071f4"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.totient","kind":"function","src_hash":"8f703151bf4a0f7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"totient(n)","rhs":"_totient(n)","over":{"base":"Any"},"name":"totient_correct"},"guarantee":"returns _totient(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.totient_correct","statement":"Path(totient(x), returns _totient(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"262d7812f35df3aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_totient(n)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def totient(n):
     r"""
     Calculate the Euler totient function phi(n)
@@ -2655,16 +2933,22 @@ The `sympy.ntheory.factor_.reduced_totient` has been moved to `sympy.functions.c
 deprecated_since_version="1.13",
 active_deprecations_target='deprecated-ntheory-symbolic-functions')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reduced_totient(n), calculate the carmichael reduced totient function lambda(n)) over Any ║
+# ║ Path(reduced_totient(n), _reduced_totient(n)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _reduced_totient(n)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reduced_totient : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59fc13dca3da4a87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16e3d3c2d1df5f9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.reduced_totient","kind":"function","src_hash":"491e70f57f1ece6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduced_totient(n)","rhs":"calculate the carmichael reduced totient function lambda(n)","over":{"base":"Any"},"name":"reduced_totient_correct"},"guarantee":"calculate the carmichael reduced totient function lambda(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.reduced_totient_correct","statement":"Path(reduced_totient(x), calculate the carmichael reduced totient function lambda(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59fc13dca3da4a87"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.reduced_totient","kind":"function","src_hash":"491e70f57f1ece6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reduced_totient(n)","rhs":"_reduced_totient(n)","over":{"base":"Any"},"name":"reduced_totient_correct"},"guarantee":"returns _reduced_totient(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.reduced_totient_correct","statement":"Path(reduced_totient(x), returns _reduced_totient(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16e3d3c2d1df5f9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_reduced_totient(n)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def reduced_totient(n):
     r"""
     Calculate the Carmichael reduced totient function lambda(n)
@@ -2710,16 +2994,22 @@ The `sympy.ntheory.factor_.divisor_sigma` has been moved to `sympy.functions.com
 deprecated_since_version="1.13",
 active_deprecations_target='deprecated-ntheory-symbolic-functions')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(divisor_sigma(n, ), calculate the divisor function `\sigma_k(n)` for positive integer n) over Any ║
+# ║ Path(divisor_sigma(n, k), func_divisor_sigma(n, k)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  func_divisor_sigma(n, k)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ divisor_sigma : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37aff527a6b241c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f38f11bf128bd91c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.divisor_sigma","kind":"function","src_hash":"aa488ddc08996cad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divisor_sigma(n, )","rhs":"calculate the divisor function `\\sigma_k(n)` for positive integer n","over":{"base":"Any"},"name":"divisor_sigma_correct"},"guarantee":"calculate the divisor function `\\sigma_k(n)` for positive integer n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.divisor_sigma_correct","statement":"Path(divisor_sigma(x), calculate the divisor function `\\sigma_k(n)` for positive integer n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37aff527a6b241c6"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.divisor_sigma","kind":"function","src_hash":"aa488ddc08996cad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"divisor_sigma(n, k)","rhs":"func_divisor_sigma(n, k)","over":{"base":"Any"},"name":"divisor_sigma_correct"},"guarantee":"returns func_divisor_sigma(n, k)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.divisor_sigma_correct","statement":"Path(divisor_sigma(x), returns func_divisor_sigma(n, k))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f38f11bf128bd91c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"func_divisor_sigma(n, k)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def divisor_sigma(n, k=1):
     r"""
     Calculate the divisor function `\sigma_k(n)` for positive integer n
@@ -2786,16 +3076,24 @@ def divisor_sigma(n, k=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_divisor_sigma(n, ), id) over int                     ║
+# ║ Path(_divisor_sigma(n, k), id) over {int | isinstance(n, int) and isinstance(k, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _divisor_sigma : int → int                                 ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(n, int)                             ║
+# ║   requires: isinstance(k, int)                             ║
+# ║   ensures:  isinstance(result, int)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _divisor_sigma : {int | isinstance(n, int) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | db14f60e69b2933c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._divisor_sigma","kind":"function","src_hash":"18424c1946405fc8","in":{"base":"int"},"out":{"base":"int"},"spec":{"lhs":"_divisor_sigma(n, )","rhs":"calculate the divisor function `\\sigma_k(n)` for positive integer n","over":{"base":"int"},"name":"_divisor_sigma_correct","kind":"composition"},"guarantee":"calculate the divisor function `\\sigma_k(n)` for positive integer n","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prod","by":"library_axiom"},{"fn":"factorint","by":"library_axiom"},{"fn":"values","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db14f60e69b2933c"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_._divisor_sigma","kind":"function","src_hash":"18424c1946405fc8","in":{"base":"int","pred":"isinstance(n, int) and isinstance(k, int)"},"out":{"base":"int","pred":"result satisfies: isinstance(result, int)"},"spec":{"lhs":"_divisor_sigma(n, k)","rhs":"isinstance(result, int)","over":{"base":"int","pred":"isinstance(n, int) and isinstance(k, int)"},"name":"_divisor_sigma_correct","kind":"composition"},"guarantee":"isinstance(result, int)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"prod","by":"library_axiom"},{"fn":"factorint","by":"library_axiom"},{"fn":"values","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db14f60e69b2933c","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(n, int)","isinstance(k, int)"],"ensures":["isinstance(result, int)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _divisor_sigma(n:int, k:int=1) -> int:
     r""" Calculate the divisor function `\sigma_k(n)` for positive integer n
 
@@ -2819,16 +3117,25 @@ def _divisor_sigma(n:int, k:int=1) -> int:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(core(n, ), calculate core(n, t) = `core_t(n)` of a positive integer n) over Any ║
+# ║ Path(core(n, t), <unspecified:core>) over {Any | not (n <= 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ core : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n <= 0)                                   ║
+# ║   fiber[case_0]: n <= 0                                    ║
+# ║   fiber[case_1]: t <= 1                                    ║
+# ║   fiber[case_2]: not (n <= 0) and not (t <= 1) => y        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ core : {Any | not (n <= 0)} → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82695a20cc5064c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01bd8fcd64123084  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.core","kind":"function","src_hash":"074fb0c7593b7a4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"core(n, )","rhs":"calculate core(n, t) = `core_t(n)` of a positive integer n","over":{"base":"Any"},"name":"core_correct"},"guarantee":"calculate core(n, t) = `core_t(n)` of a positive integer n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.core_correct","statement":"Path(core(x), calculate core(n, t) = `core_t(n)` of a positive integer n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82695a20cc5064c8"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.core","kind":"function","src_hash":"074fb0c7593b7a4b","in":{"base":"Any","pred":"not (n <= 0)"},"out":{"base":"Any"},"spec":{"lhs":"core(n, t)","rhs":"<unspecified:core>","over":{"base":"Any","pred":"not (n <= 0)"},"name":"core_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.core_correct","statement":"Path(core(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01bd8fcd64123084","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n <= 0)"],"fibers":[{"name":"case_0","guard":"n <= 0","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"t <= 1","ensures":[],"decidability":"z3"},{"name":"case_2","guard":"not (n <= 0) and not (t <= 1)","ensures":["result == y"],"decidability":"z3","returns_expr":"y"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def core(n, t=2):
     r"""
     Calculate core(n, t) = `core_t(n)` of a positive integer n
@@ -2901,16 +3208,22 @@ The `sympy.ntheory.factor_.udivisor_sigma` has been moved to `sympy.functions.co
 deprecated_since_version="1.13",
 active_deprecations_target='deprecated-ntheory-symbolic-functions')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(udivisor_sigma(n, ), calculate the unitary divisor function `\sigma_k^*(n)` for positive integer n) over Any ║
+# ║ Path(udivisor_sigma(n, k), _udivisor_sigma(n, k)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _udivisor_sigma(n, k)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ udivisor_sigma : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15055fcb0d9ff0c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 217c035e16012034  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.udivisor_sigma","kind":"function","src_hash":"5bbb0ac7243cdde1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"udivisor_sigma(n, )","rhs":"calculate the unitary divisor function `\\sigma_k^*(n)` for positive integer n","over":{"base":"Any"},"name":"udivisor_sigma_correct"},"guarantee":"calculate the unitary divisor function `\\sigma_k^*(n)` for positive integer n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.udivisor_sigma_correct","statement":"Path(udivisor_sigma(x), calculate the unitary divisor function `\\sigma_k^*(n)` for positive integer n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15055fcb0d9ff0c9"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.udivisor_sigma","kind":"function","src_hash":"5bbb0ac7243cdde1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"udivisor_sigma(n, k)","rhs":"_udivisor_sigma(n, k)","over":{"base":"Any"},"name":"udivisor_sigma_correct"},"guarantee":"returns _udivisor_sigma(n, k)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.udivisor_sigma_correct","statement":"Path(udivisor_sigma(x), returns _udivisor_sigma(n, k))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"217c035e16012034","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_udivisor_sigma(n, k)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def udivisor_sigma(n, k=1):
     r"""
     Calculate the unitary divisor function `\sigma_k^*(n)` for positive integer n
@@ -2978,16 +3291,22 @@ The `sympy.ntheory.factor_.primenu` has been moved to `sympy.functions.combinato
 deprecated_since_version="1.13",
 active_deprecations_target='deprecated-ntheory-symbolic-functions')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(primenu(n), calculate the number of distinct prime factors for a positive integer n) over Any ║
+# ║ Path(primenu(n), _primenu(n)) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _primenu(n)                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ primenu : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 611c73fc500a4374  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 169f598876afe2e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.primenu","kind":"function","src_hash":"8afa797a381c8ac9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primenu(n)","rhs":"calculate the number of distinct prime factors for a positive integer n","over":{"base":"Any"},"name":"primenu_correct"},"guarantee":"calculate the number of distinct prime factors for a positive integer n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.primenu_correct","statement":"Path(primenu(x), calculate the number of distinct prime factors for a positive integer n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"611c73fc500a4374"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.primenu","kind":"function","src_hash":"8afa797a381c8ac9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primenu(n)","rhs":"_primenu(n)","over":{"base":"Any"},"name":"primenu_correct"},"guarantee":"returns _primenu(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.primenu_correct","statement":"Path(primenu(x), returns _primenu(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"169f598876afe2e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_primenu(n)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def primenu(n):
     r"""
     Calculate the number of distinct prime factors for a positive integer n.
@@ -3037,16 +3356,22 @@ The `sympy.ntheory.factor_.primeomega` has been moved to `sympy.functions.combin
 deprecated_since_version="1.13",
 active_deprecations_target='deprecated-ntheory-symbolic-functions')
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(primeomega(n), calculate the number of prime factors counting multiplicities for a positive integer n) over Any ║
+# ║ Path(primeomega(n), _primeomega(n)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _primeomega(n)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ primeomega : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a0358c7ee1ee549  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d26d9afd199aeed8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.primeomega","kind":"function","src_hash":"a7ec37d31390d4c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primeomega(n)","rhs":"calculate the number of prime factors counting multiplicities for a positive integer n","over":{"base":"Any"},"name":"primeomega_correct"},"guarantee":"calculate the number of prime factors counting multiplicities for a positive integer n","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.primeomega_correct","statement":"Path(primeomega(x), calculate the number of prime factors counting multiplicities for a positive integer n)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a0358c7ee1ee549"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.primeomega","kind":"function","src_hash":"a7ec37d31390d4c6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"primeomega(n)","rhs":"_primeomega(n)","over":{"base":"Any"},"name":"primeomega_correct"},"guarantee":"returns _primeomega(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.primeomega_correct","statement":"Path(primeomega(x), returns _primeomega(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d26d9afd199aeed8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_primeomega(n)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def primeomega(n):
     r"""
     Calculate the number of prime factors counting multiplicities for a
@@ -3093,16 +3418,24 @@ def primeomega(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mersenne_prime_exponent(nth), returns the exponent ``i`` for the nth mersenne prime (which has the form `2^i - 1`)) over Any ║
+# ║ Path(mersenne_prime_exponent(nth), MERSENNE_PRIME_EXPONENTS[n - 1]) over {Any | not (n < 1) and not (n > 51)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mersenne_prime_exponent : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 1)                                    ║
+# ║   requires: not (n > 51)                                   ║
+# ║   returns:  MERSENNE_PRIME_EXPONENTS[n - 1]                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mersenne_prime_exponent : {Any | not (n < 1) and not ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b36ed1f1653c06d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe81a95d3040cc2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.mersenne_prime_exponent","kind":"function","src_hash":"3e9b1566375cee67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mersenne_prime_exponent(nth)","rhs":"returns the exponent ``i`` for the nth mersenne prime (which has the form `2^i - 1`)","over":{"base":"Any"},"name":"mersenne_prime_exponent_correct"},"guarantee":"returns the exponent ``i`` for the nth mersenne prime (which has the form `2^i - 1`)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.mersenne_prime_exponent_correct","statement":"Path(mersenne_prime_exponent(x), returns the exponent ``i`` for the nth mersenne prime (which has the form `2^i - 1`))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b36ed1f1653c06d"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.mersenne_prime_exponent","kind":"function","src_hash":"3e9b1566375cee67","in":{"base":"Any","pred":"not (n < 1) and not (n > 51)"},"out":{"base":"Any"},"spec":{"lhs":"mersenne_prime_exponent(nth)","rhs":"MERSENNE_PRIME_EXPONENTS[n - 1]","over":{"base":"Any","pred":"not (n < 1) and not (n > 51)"},"name":"mersenne_prime_exponent_correct"},"guarantee":"returns MERSENNE_PRIME_EXPONENTS[n - 1]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.mersenne_prime_exponent_correct","statement":"Path(mersenne_prime_exponent(x), returns MERSENNE_PRIME_EXPONENTS[n - 1])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe81a95d3040cc2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 1)","not (n > 51)"],"returns_expr":"MERSENNE_PRIME_EXPONENTS[n - 1]","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def mersenne_prime_exponent(nth):
     """Returns the exponent ``i`` for the nth Mersenne prime (which
     has the form `2^i - 1`).
@@ -3125,16 +3458,23 @@ def mersenne_prime_exponent(nth):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_perfect(n), returns true if ``n`` is a perfect number, else false) over Any ║
+# ║ Path(is_perfect(n), <unspecified:is_perfect>) over {Any | hasattr(n, 'bit_length')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_perfect : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(n, 'bit_length')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_perfect : {Any | hasattr(n, 'bit_length')} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f7c1eaa0cbfbebf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.is_perfect","kind":"function","src_hash":"6d5954c122ff9dca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_perfect(n)","rhs":"returns true if ``n`` is a perfect number, else false","over":{"base":"Any"},"name":"is_perfect_correct"},"guarantee":"returns true if ``n`` is a perfect number, else false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.is_perfect_correct","statement":"Path(is_perfect(x), returns true if ``n`` is a perfect number, else false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f7c1eaa0cbfbebf"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.is_perfect","kind":"function","src_hash":"6d5954c122ff9dca","in":{"base":"Any","pred":"hasattr(n, 'bit_length')"},"out":{"base":"Any"},"spec":{"lhs":"is_perfect(n)","rhs":"<unspecified:is_perfect>","over":{"base":"Any","pred":"hasattr(n, 'bit_length')"},"name":"is_perfect_correct"},"guarantee":"returns true if ``n`` is a perfect number, else false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.is_perfect_correct","statement":"Path(is_perfect(x), returns true if ``n`` is a perfect number, else false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f7c1eaa0cbfbebf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(n, 'bit_length')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.bit_length"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def is_perfect(n):
     """Returns True if ``n`` is a perfect number, else False.
 
@@ -3195,16 +3535,22 @@ def is_perfect(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(abundance(n), returns the difference between the sum of the positive proper divisors of a number and the number) over Any ║
+# ║ Path(abundance(n), _divisor_sigma(n) - 2 * n) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _divisor_sigma(n) - 2 * n                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ abundance : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 37aefbbb23490314           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.abundance","kind":"function","src_hash":"d6eeba13fe1dd169","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"abundance(n)","rhs":"returns the difference between the sum of the positive proper divisors of a number and the number","over":{"base":"Any"},"name":"abundance_correct"},"guarantee":"returns the difference between the sum of the positive proper divisors of a number and the number","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37aefbbb23490314"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.abundance","kind":"function","src_hash":"d6eeba13fe1dd169","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"abundance(n)","rhs":"_divisor_sigma(n) - 2 * n","over":{"base":"Any"},"name":"abundance_correct"},"guarantee":"returns _divisor_sigma(n) - 2 * n","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37aefbbb23490314","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_divisor_sigma(n) - 2 * n","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def abundance(n):
     """Returns the difference between the sum of the positive
     proper divisors of a number and the number.
@@ -3226,16 +3572,22 @@ def abundance(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_abundant(n), returns true if ``n`` is an abundant number, else false) over Any ║
+# ║ Path(is_abundant(n), <unspecified:is_abundant>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_abundant : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb28e9c4b2ec9b1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.is_abundant","kind":"function","src_hash":"576c06e796aa2f79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_abundant(n)","rhs":"returns true if ``n`` is an abundant number, else false","over":{"base":"Any"},"name":"is_abundant_correct"},"guarantee":"returns true if ``n`` is an abundant number, else false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.is_abundant_correct","statement":"Path(is_abundant(x), returns true if ``n`` is an abundant number, else false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb28e9c4b2ec9b1a"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.is_abundant","kind":"function","src_hash":"576c06e796aa2f79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_abundant(n)","rhs":"<unspecified:is_abundant>","over":{"base":"Any"},"name":"is_abundant_correct"},"guarantee":"returns true if ``n`` is an abundant number, else false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.is_abundant_correct","statement":"Path(is_abundant(x), returns true if ``n`` is an abundant number, else false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb28e9c4b2ec9b1a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_abundant(n):
     """Returns True if ``n`` is an abundant number, else False.
 
@@ -3263,16 +3615,22 @@ def is_abundant(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_deficient(n), returns true if ``n`` is a deficient number, else false) over Any ║
+# ║ Path(is_deficient(n), <unspecified:is_deficient>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_deficient : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6a64849fa85d830  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.is_deficient","kind":"function","src_hash":"6998e0140968c1dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_deficient(n)","rhs":"returns true if ``n`` is a deficient number, else false","over":{"base":"Any"},"name":"is_deficient_correct"},"guarantee":"returns true if ``n`` is a deficient number, else false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.is_deficient_correct","statement":"Path(is_deficient(x), returns true if ``n`` is a deficient number, else false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6a64849fa85d830"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.is_deficient","kind":"function","src_hash":"6998e0140968c1dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_deficient(n)","rhs":"<unspecified:is_deficient>","over":{"base":"Any"},"name":"is_deficient_correct"},"guarantee":"returns true if ``n`` is a deficient number, else false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.is_deficient_correct","statement":"Path(is_deficient(x), returns true if ``n`` is a deficient number, else false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6a64849fa85d830","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_deficient(n):
     """Returns True if ``n`` is a deficient number, else False.
 
@@ -3300,16 +3658,22 @@ def is_deficient(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_amicable(m, ), returns true if the numbers `m` and `n` are "amicable", else false) over Any ║
+# ║ Path(is_amicable(m, n), m != n and m + n == _divisor_sigma(m) == _divisor_sigma(n)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  m != n and m + n == _divisor_sigma(m) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_amicable : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a408ece947e461b3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.is_amicable","kind":"function","src_hash":"528aacaafc128513","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_amicable(m, )","rhs":"returns true if the numbers `m` and `n` are \"amicable\", else false","over":{"base":"Any"},"name":"is_amicable_correct"},"guarantee":"returns true if the numbers `m` and `n` are \"amicable\", else false","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a408ece947e461b3"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.is_amicable","kind":"function","src_hash":"528aacaafc128513","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_amicable(m, n)","rhs":"m != n and m + n == _divisor_sigma(m) == _divisor_sigma(n)","over":{"base":"Any"},"name":"is_amicable_correct"},"guarantee":"returns m != n and m + n == _divisor_sigma(m) == _divisor_sigma(n)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a408ece947e461b3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"m != n and m + n == _divisor_sigma(m) == _divisor_sigma(n)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def is_amicable(m, n):
     """Returns True if the numbers `m` and `n` are "amicable", else False.
 
@@ -3336,16 +3700,22 @@ def is_amicable(m, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_carmichael(n), returns true if the numbers `n` is carmichael number, else false) over Any ║
+# ║ Path(is_carmichael(n), <unspecified:is_carmichael>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_carmichael : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf9f0576a0ee2500  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.is_carmichael","kind":"function","src_hash":"df15d8e30adab211","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_carmichael(n)","rhs":"returns true if the numbers `n` is carmichael number, else false","over":{"base":"Any"},"name":"is_carmichael_correct"},"guarantee":"returns true if the numbers `n` is carmichael number, else false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.is_carmichael_correct","statement":"Path(is_carmichael(x), returns true if the numbers `n` is carmichael number, else false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf9f0576a0ee2500"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.is_carmichael","kind":"function","src_hash":"df15d8e30adab211","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_carmichael(n)","rhs":"<unspecified:is_carmichael>","over":{"base":"Any"},"name":"is_carmichael_correct"},"guarantee":"returns true if the numbers `n` is carmichael number, else false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.is_carmichael_correct","statement":"Path(is_carmichael(x), returns true if the numbers `n` is carmichael number, else false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf9f0576a0ee2500","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def is_carmichael(n):
     """ Returns True if the numbers `n` is Carmichael number, else False.
 
@@ -3368,16 +3738,22 @@ def is_carmichael(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_carmichael_numbers_in_range(x, ), id) over Any   ║
+# ║ Path(find_carmichael_numbers_in_range(x, y), id) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_carmichael_numbers_in_range : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d6e16db8d0f9b789   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.find_carmichael_numbers_in_range","kind":"function","src_hash":"758ced1cdbfbe395","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_carmichael_numbers_in_range(x, )","rhs":"returns a list of the number of carmichael in the range","over":{"base":"Any"},"name":"find_carmichael_numbers_in_range_correct","kind":"composition"},"guarantee":"returns a list of the number of carmichael in the range","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"is_carmichael","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6e16db8d0f9b789"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.find_carmichael_numbers_in_range","kind":"function","src_hash":"758ced1cdbfbe395","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_carmichael_numbers_in_range(x, y)","rhs":"<unspecified:find_carmichael_numbers_in_range>","over":{"base":"Any"},"name":"find_carmichael_numbers_in_range_correct","kind":"composition"},"guarantee":"returns a list of the number of carmichael in the range","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"range","by":"library_axiom"},{"fn":"is_carmichael","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6e16db8d0f9b789","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def find_carmichael_numbers_in_range(x, y):
     """ Returns a list of the number of Carmichael in the range
 
@@ -3397,16 +3773,22 @@ def find_carmichael_numbers_in_range(x, y):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_first_n_carmichaels(n), returns the first n carmichael numbers) over Any ║
+# ║ Path(find_first_n_carmichaels(n), <unspecified:find_first_n_carmichaels>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ find_first_n_carmichaels : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 72c5d0cceadb7471  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.find_first_n_carmichaels","kind":"function","src_hash":"ca17ccf8f9868554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_first_n_carmichaels(n)","rhs":"returns the first n carmichael numbers","over":{"base":"Any"},"name":"find_first_n_carmichaels_correct"},"guarantee":"returns the first n carmichael numbers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.find_first_n_carmichaels_correct","statement":"Path(find_first_n_carmichaels(x), returns the first n carmichael numbers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72c5d0cceadb7471"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.find_first_n_carmichaels","kind":"function","src_hash":"ca17ccf8f9868554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"find_first_n_carmichaels(n)","rhs":"<unspecified:find_first_n_carmichaels>","over":{"base":"Any"},"name":"find_first_n_carmichaels_correct"},"guarantee":"returns the first n carmichael numbers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.find_first_n_carmichaels_correct","statement":"Path(find_first_n_carmichaels(x), returns the first n carmichael numbers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"72c5d0cceadb7471","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def find_first_n_carmichaels(n):
     """ Returns the first n Carmichael numbers.
 
@@ -3433,16 +3815,23 @@ def find_first_n_carmichaels(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dra(n, ), returns the additive digital root of a natural number ``n`` in base ``b`` which is a single digit value obtained by an iterative process of summing digits, on each iteration using the result from the ) over Any ║
+# ║ Path(dra(n, b), <unspecified:dra>) over {Any | not (b <= 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dra : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (b <= 1)                                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dra : {Any | not (b <= 1)} → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da3cd13b8aa7415d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.dra","kind":"function","src_hash":"80ff26d618c5d6cc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dra(n, )","rhs":"returns the additive digital root of a natural number ``n`` in base ``b`` which is a single digit value obtained by an iterative process of summing digits, on each iteration using the result from the ","over":{"base":"Any"},"name":"dra_correct"},"guarantee":"returns the additive digital root of a natural number ``n`` in base ``b`` which is a single digit value obtained by an iterative process of summing digits, on each iteration using the result from the ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.dra_correct","statement":"Path(dra(x), returns the additive digital root of a natural number ``n`` in base ``b`` which is a single digit value obtained by an iterative process of summing digits, on each iteration using the result from the )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da3cd13b8aa7415d"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.dra","kind":"function","src_hash":"80ff26d618c5d6cc","in":{"base":"Any","pred":"not (b <= 1)"},"out":{"base":"Any"},"spec":{"lhs":"dra(n, b)","rhs":"<unspecified:dra>","over":{"base":"Any","pred":"not (b <= 1)"},"name":"dra_correct"},"guarantee":"returns the additive digital root of a natural number ``n`` in base ``b`` which is a single digit value obtained by an iterative process of summing digits, on each iteration using the result from the ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.dra_correct","statement":"Path(dra(x), returns the additive digital root of a natural number ``n`` in base ``b`` which is a single digit value obtained by an iterative process of summing digits, on each iteration using the result from the )"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da3cd13b8aa7415d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (b <= 1)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dra(n, b):
     """
     Returns the additive digital root of a natural number ``n`` in base ``b``
@@ -3476,16 +3865,23 @@ def dra(n, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(drm(n, ), returns the multiplicative digital root of a natural number ``n`` in a given base ``b`` which is a single digit value obtained by an iterative process of multiplying digits, on each iteration using th) over Any ║
+# ║ Path(drm(n, b), <unspecified:drm>) over {Any | not (b <= 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ drm : Any → Any                                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (b <= 1)                                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ drm : {Any | not (b <= 1)} → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d971fd0b87d0e129  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.drm","kind":"function","src_hash":"a9d0a4c30bc6ce20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"drm(n, )","rhs":"returns the multiplicative digital root of a natural number ``n`` in a given base ``b`` which is a single digit value obtained by an iterative process of multiplying digits, on each iteration using th","over":{"base":"Any"},"name":"drm_correct"},"guarantee":"returns the multiplicative digital root of a natural number ``n`` in a given base ``b`` which is a single digit value obtained by an iterative process of multiplying digits, on each iteration using th","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.drm_correct","statement":"Path(drm(x), returns the multiplicative digital root of a natural number ``n`` in a given base ``b`` which is a single digit value obtained by an iterative process of multiplying digits, on each iteration using th)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d971fd0b87d0e129"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.factor_.drm","kind":"function","src_hash":"a9d0a4c30bc6ce20","in":{"base":"Any","pred":"not (b <= 1)"},"out":{"base":"Any"},"spec":{"lhs":"drm(n, b)","rhs":"<unspecified:drm>","over":{"base":"Any","pred":"not (b <= 1)"},"name":"drm_correct"},"guarantee":"returns the multiplicative digital root of a natural number ``n`` in a given base ``b`` which is a single digit value obtained by an iterative process of multiplying digits, on each iteration using th","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.factor_.drm_correct","statement":"Path(drm(x), returns the multiplicative digital root of a natural number ``n`` in a given base ``b`` which is a single digit value obtained by an iterative process of multiplying digits, on each iteration using th)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d971fd0b87d0e129","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (b <= 1)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def drm(n, b):
     """
     Returns the multiplicative digital root of a natural number ``n`` in a given

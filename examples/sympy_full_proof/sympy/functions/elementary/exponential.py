@@ -52,14 +52,20 @@ from sympy.ntheory.factor_ import factorint
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ExpBase(*args), correctly constructs a ExpBase instance) over {Any | isinstance(arg, Sum)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ExpBase : {Any | isinstance(arg, Sum)} → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ExpBase : {Any | isinstance(arg, Sum)} → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 534b1ede9daf58b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase","kind":"class","src_hash":"0e84999f283b1fc0","in":{"base":"Any","pred":"isinstance(arg, Sum)"},"out":{"base":"Any"},"spec":{"lhs":"ExpBase(*args)","rhs":"correctly constructs a ExpBase instance","over":{"base":"Any","pred":"isinstance(arg, Sum)"},"name":"ExpBase_class_invariant"},"guarantee":"correctly constructs a ExpBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"534b1ede9daf58b1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase","kind":"class","src_hash":"0e84999f283b1fc0","in":{"base":"Any","pred":"isinstance(arg, Sum)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"ExpBase(*args)","rhs":"correctly constructs a ExpBase instance","over":{"base":"Any","pred":"isinstance(arg, Sum)"},"name":"ExpBase_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"534b1ede9daf58b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function ExpBase not found in source"]}}
 class ExpBase(DefinedFunction):
 
     unbranched = True
@@ -67,30 +73,42 @@ class ExpBase(DefinedFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kind(), returns the kind attribute) over Any          ║
+# ║ Path(kind(), self.exp.kind) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.exp.kind                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ kind : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b37d3cab27d1b4e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase.kind","kind":"property","src_hash":"bbd5cf0f08e51cdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"returns the kind attribute","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns the kind attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b37d3cab27d1b4e6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase.kind","kind":"property","src_hash":"bbd5cf0f08e51cdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kind()","rhs":"self.exp.kind","over":{"base":"Any"},"name":"kind_correct"},"guarantee":"returns self.exp.kind","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b37d3cab27d1b4e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.exp.kind","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kind(self):
         return self.exp.kind
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(arg), returns the inverse function of ``exp(x)``) over Any ║
+# ║ Path(inverse(argindex), <unspecified:inverse>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2a1627bb609cd362           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase.inverse","kind":"method","src_hash":"c4c8dc61ca545b15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(arg)","rhs":"returns the inverse function of ``exp(x)``","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse function of ``exp(x)``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a1627bb609cd362"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase.inverse","kind":"method","src_hash":"c4c8dc61ca545b15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(argindex)","rhs":"<unspecified:inverse>","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns the inverse function of ``exp(x)``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a1627bb609cd362","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(self, argindex=1):
         """
         Returns the inverse function of ``exp(x)``.
@@ -98,16 +116,22 @@ class ExpBase(DefinedFunction):
         return log
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_numer_denom(), returns this with a positive exponent as a 2-tuple (a fraction)) over Any ║
+# ║ Path(as_numer_denom(), <unspecified:as_numer_denom>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_numer_denom : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6895cd78510ce0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase.as_numer_denom","kind":"method","src_hash":"097ab18ae4e72688","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_numer_denom()","rhs":"returns this with a positive exponent as a 2-tuple (a fraction)","over":{"base":"Any"},"name":"as_numer_denom_correct"},"guarantee":"returns this with a positive exponent as a 2-tuple (a fraction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.ExpBase.as_numer_denom_correct","statement":"Path(as_numer_denom(x), returns this with a positive exponent as a 2-tuple (a fraction))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6895cd78510ce0d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase.as_numer_denom","kind":"method","src_hash":"097ab18ae4e72688","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_numer_denom()","rhs":"<unspecified:as_numer_denom>","over":{"base":"Any"},"name":"as_numer_denom_correct"},"guarantee":"returns this with a positive exponent as a 2-tuple (a fraction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.ExpBase.as_numer_denom_correct","statement":"Path(as_numer_denom(x), returns this with a positive exponent as a 2-tuple (a fraction))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6895cd78510ce0d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exp","self.func","self.is_commutative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_numer_denom(self):
         """
         Returns this with a positive exponent as a 2-tuple (a fraction).
@@ -136,16 +160,22 @@ class ExpBase(DefinedFunction):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exp(), returns the exp attribute) over Any            ║
+# ║ Path(exp(), self.args[0]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exp : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8c1ce637f221134e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase.exp","kind":"property","src_hash":"511a9fca03ba5683","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exp()","rhs":"returns the exp attribute","over":{"base":"Any"},"name":"exp_correct"},"guarantee":"returns the exp attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c1ce637f221134e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase.exp","kind":"property","src_hash":"511a9fca03ba5683","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exp()","rhs":"self.args[0]","over":{"base":"Any"},"name":"exp_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8c1ce637f221134e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exp(self):
         """
         Returns the exponent of the function.
@@ -153,16 +183,22 @@ class ExpBase(DefinedFunction):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_base_exp(), returns the 2-tuple (base, exponent)) over Any ║
+# ║ Path(as_base_exp(), (self.func(1), Mul(*self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.func(1), Mul(*self.args))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_base_exp : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9961e681122ef54e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase.as_base_exp","kind":"method","src_hash":"5e13b28e1732a271","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_base_exp()","rhs":"returns the 2-tuple (base, exponent)","over":{"base":"Any"},"name":"as_base_exp_correct"},"guarantee":"returns the 2-tuple (base, exponent)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9961e681122ef54e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase.as_base_exp","kind":"method","src_hash":"5e13b28e1732a271","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_base_exp()","rhs":"(self.func(1), Mul(*self.args))","over":{"base":"Any"},"name":"as_base_exp_correct"},"guarantee":"returns (self.func(1), Mul(*self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9961e681122ef54e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.func(1), Mul(*self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_base_exp(self):
         """
         Returns the 2-tuple (base, exponent).
@@ -170,58 +206,82 @@ class ExpBase(DefinedFunction):
         return self.func(1), Mul(*self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_adjoint(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_adjoint(), self.func(self.exp.adjoint())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.exp.adjoint())                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_adjoint : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f7eeef89bbf47bb3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_adjoint","kind":"method","src_hash":"c47a6a49c96c4aa9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7eeef89bbf47bb3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_adjoint","kind":"method","src_hash":"c47a6a49c96c4aa9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_adjoint()","rhs":"self.func(self.exp.adjoint())","over":{"base":"Any"},"name":"_eval_adjoint_correct"},"guarantee":"returns self.func(self.exp.adjoint())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f7eeef89bbf47bb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.exp.adjoint())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exp","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_adjoint(self):
         return self.func(self.exp.adjoint())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_conjugate(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_conjugate(), self.func(self.exp.conjugate())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.exp.conjugate())                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_conjugate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d536127063d213c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_conjugate","kind":"method","src_hash":"f4e5465927624a38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d536127063d213c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_conjugate","kind":"method","src_hash":"f4e5465927624a38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_conjugate()","rhs":"self.func(self.exp.conjugate())","over":{"base":"Any"},"name":"_eval_conjugate_correct"},"guarantee":"returns self.func(self.exp.conjugate())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d536127063d213c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.exp.conjugate())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exp","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_conjugate(self):
         return self.func(self.exp.conjugate())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_transpose(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_transpose(), self.func(self.exp.transpose())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.exp.transpose())                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_transpose : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05784d167a6a5a37           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_transpose","kind":"method","src_hash":"2eabf3eb0012ac12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05784d167a6a5a37"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_transpose","kind":"method","src_hash":"2eabf3eb0012ac12","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_transpose()","rhs":"self.func(self.exp.transpose())","over":{"base":"Any"},"name":"_eval_transpose_correct"},"guarantee":"returns self.func(self.exp.transpose())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05784d167a6a5a37","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.exp.transpose())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exp","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_transpose(self):
         return self.func(self.exp.transpose())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_finite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_finite(), <unspecified:_eval_is_finite>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_finite : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e73a617b996f6b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_is_finite","kind":"method","src_hash":"0e79a2617cd68706","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.ExpBase._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e73a617b996f6b0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_is_finite","kind":"method","src_hash":"0e79a2617cd68706","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"<unspecified:_eval_is_finite>","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.ExpBase._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e73a617b996f6b0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_finite(self):
         arg = self.exp
         if arg.is_infinite:
@@ -233,16 +293,23 @@ class ExpBase(DefinedFunction):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_rational(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_rational(), <unspecified:_eval_is_rational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: s.func == self.func                       ║
+# ║   fiber[case_1]: not (s.func == self.func) => s.is_ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_rational : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31aaea055442f6a9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac3b6ac7e911fd22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_is_rational","kind":"method","src_hash":"cf3f219153447107","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.ExpBase._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31aaea055442f6a9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_is_rational","kind":"method","src_hash":"cf3f219153447107","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"<unspecified:_eval_is_rational>","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.ExpBase._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac3b6ac7e911fd22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"s.func == self.func","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (s.func == self.func)","ensures":["result == s.is_rational"],"decidability":"z3","returns_expr":"s.is_rational"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_rational(self):
         s = self.func(*self.args)
         if s.func == self.func:
@@ -255,30 +322,42 @@ class ExpBase(DefinedFunction):
             return s.is_rational
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), self.exp is S.NegativeInfinity) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.exp is S.NegativeInfinity                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 52f5564006bdb490           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_is_zero","kind":"method","src_hash":"96f51bd654911241","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52f5564006bdb490"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_is_zero","kind":"method","src_hash":"96f51bd654911241","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"self.exp is S.NegativeInfinity","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"returns self.exp is S.NegativeInfinity","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52f5564006bdb490","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.exp is S.NegativeInfinity","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         return self.exp is S.NegativeInfinity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_power(oth), id) over Any                        ║
+# ║ Path(_eval_power(other), id) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Pow._eval_power(Pow(b, e, evaluate=False)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_power : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 870f7cafbb3b7f8c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_power","kind":"method","src_hash":"127e095ad313d195","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(oth)","rhs":"exp(arg)**e -> exp(arg*e) if assumptions allow it","over":{"base":"Any"},"name":"_eval_power_correct","kind":"composition"},"guarantee":"exp(arg)**e -> exp(arg*e) if assumptions allow it","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_eval_power","by":"library_axiom"},{"fn":"Pow","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"870f7cafbb3b7f8c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_power","kind":"method","src_hash":"127e095ad313d195","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(other)","rhs":"Pow._eval_power(Pow(b, e, evaluate=False), other)","over":{"base":"Any"},"name":"_eval_power_correct","kind":"composition"},"guarantee":"returns Pow._eval_power(Pow(b, e, evaluate=False), other)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_eval_power","by":"library_axiom"},{"fn":"Pow","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"870f7cafbb3b7f8c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Pow._eval_power(Pow(b, e, evaluate=False), other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.as_base_exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_power(self, other):
         """exp(arg)**e -> exp(arg*e) if assumptions allow it.
         """
@@ -286,16 +365,25 @@ class ExpBase(DefinedFunction):
         return Pow._eval_power(Pow(b, e, evaluate=False), other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_power_exp(**h), id) over Any             ║
+# ║ Path(_eval_expand_power_exp(**hints), id) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_expand_power_exp : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Mul.fromiter((self.func(x) for...   ║
+# ║   ensures:  result == Mul.fromiter((self.func(x) for ...   ║
+# ║   fiber[case_0]: arg.is_Add and arg.is_commutative =>...   ║
+# ║   fiber[Sum]: isinstance(arg, Sum) and arg.is_commuta...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_expand_power_exp : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d6354e6148295bc4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_expand_power_exp","kind":"method","src_hash":"52eb6d2cd19a250a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_power_exp(**h)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_power_exp_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fromiter","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6354e6148295bc4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpBase._eval_expand_power_exp","kind":"method","src_hash":"52eb6d2cd19a250a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Mul.fromiter((self.func(x) for x in arg.args)) if arg.is_Add and arg.is_commutative else Product(self.func(arg.function), *arg.limits)) and result == Mul.fromiter((self.func(x) for x in arg.args)) or result == Product(self.func(arg.function), *arg.limits)"},"spec":{"lhs":"_eval_expand_power_exp(**hints)","rhs":"result == (Mul.fromiter((self.func(x) for x in arg.args)) if arg.is_Add and arg.is_commutative else Product(self.func(arg.function), *arg.limits)) and result == Mul.fromiter((self.func(x) for x in arg.args)) or result == Product(self.func(arg.function), *arg.limits)","over":{"base":"Any"},"name":"_eval_expand_power_exp_correct","kind":"composition"},"guarantee":"result == (Mul.fromiter((self.func(x) for x in arg.args)) if arg.is_Add and arg.is_commutative else Product(self.func(arg.function), *arg.limits)); result == Mul.fromiter((self.func(x) for x in arg.args)) or result == Product(self.func(arg.function), *arg.limits); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fromiter","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6354e6148295bc4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Mul.fromiter((self.func(x) for x in arg.args)) if arg.is_Add and arg.is_commutative else Product(self.func(arg.function), *arg.limits))","result == Mul.fromiter((self.func(x) for x in arg.args)) or result == Product(self.func(arg.function), *arg.limits)"],"fibers":[{"name":"case_0","guard":"arg.is_Add and arg.is_commutative","ensures":["result == Mul.fromiter((self.func(x) for x in arg.args))"],"decidability":"library","returns_expr":"Mul.fromiter((self.func(x) for x in arg.args))"},{"name":"Sum","guard":"isinstance(arg, Sum) and arg.is_commutative","ensures":["result == Product(self.func(arg.function), *arg.limits)"],"decidability":"structural","returns_expr":"Product(self.func(arg.function), *arg.limits)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_power_exp(self, **hints):
         from sympy.concrete.products import Product
         from sympy.concrete.summations import Sum
@@ -310,14 +398,20 @@ class ExpBase(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(exp_polar(*args), correctly constructs a exp_polar instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ exp_polar : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ExpBase)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ exp_polar : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d670db78529c4881  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp_polar","kind":"class","src_hash":"6d54dcebfa29e27c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exp_polar(*args)","rhs":"correctly constructs a exp_polar instance","over":{"base":"Any"},"name":"exp_polar_class_invariant"},"guarantee":"correctly constructs a exp_polar instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d670db78529c4881"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp_polar","kind":"class","src_hash":"6d54dcebfa29e27c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ExpBase)"},"spec":{"lhs":"exp_polar(*args)","rhs":"correctly constructs a exp_polar instance","over":{"base":"Any"},"name":"exp_polar_class_invariant"},"guarantee":"isinstance(self, ExpBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d670db78529c4881","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ExpBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function exp_polar not found in source"]}}
 class exp_polar(ExpBase):
     r"""
     Represent a *polar number* (see g-function Sphinx documentation).
@@ -360,30 +454,42 @@ class exp_polar(ExpBase):
     is_comparable = False  # cannot be evalf'd
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_Abs(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_Abs(), exp(re(self.args[0]))) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  exp(re(self.args[0]))                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_Abs : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e48951b6fb499502           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp_polar._eval_Abs","kind":"method","src_hash":"8add5ee575e3f1da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Abs()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_Abs_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e48951b6fb499502"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp_polar._eval_Abs","kind":"method","src_hash":"8add5ee575e3f1da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_Abs()","rhs":"exp(re(self.args[0]))","over":{"base":"Any"},"name":"_eval_Abs_correct"},"guarantee":"returns exp(re(self.args[0]))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e48951b6fb499502","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"exp(re(self.args[0]))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_Abs(self):   # Abs is never a polar number
         return exp(re(self.args[0]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), careful! any evalf of polar numbers is flaky) over Any ║
+# ║ Path(_eval_evalf(prec), <unspecified:_eval_evalf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0196cd83a5418f01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp_polar._eval_evalf","kind":"method","src_hash":"2ece1a7ff66de8ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"careful! any evalf of polar numbers is flaky","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"careful! any evalf of polar numbers is flaky","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp_polar._eval_evalf_correct","statement":"Path(_eval_evalf(x), careful! any evalf of polar numbers is flaky)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0196cd83a5418f01"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp_polar._eval_evalf","kind":"method","src_hash":"2ece1a7ff66de8ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"<unspecified:_eval_evalf>","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"careful! any evalf of polar numbers is flaky","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp_polar._eval_evalf_correct","statement":"Path(_eval_evalf(x), careful! any evalf of polar numbers is flaky)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0196cd83a5418f01","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"catches":["TypeError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         """ Careful! any evalf of polar numbers is flaky """
         i = im(self.args[0])
@@ -400,45 +506,63 @@ class exp_polar(ExpBase):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_power(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_power(other), self.func(self.args[0] * other)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(self.args[0] * other)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_power : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 35e9fd00ef8ab787           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp_polar._eval_power","kind":"method","src_hash":"f0315c9a902563b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_power_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35e9fd00ef8ab787"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp_polar._eval_power","kind":"method","src_hash":"f0315c9a902563b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_power(other)","rhs":"self.func(self.args[0] * other)","over":{"base":"Any"},"name":"_eval_power_correct"},"guarantee":"returns self.func(self.args[0] * other)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"35e9fd00ef8ab787","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(self.args[0] * other)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_power(self, other):
         return self.func(self.args[0]*other)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), True) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c38f697191f1b28b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adeb902a2984d258  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp_polar._eval_is_extended_real","kind":"method","src_hash":"eb01856ba3d0a39d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp_polar._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c38f697191f1b28b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp_polar._eval_is_extended_real","kind":"method","src_hash":"eb01856ba3d0a39d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp_polar._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adeb902a2984d258","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         if self.args[0].is_extended_real:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_base_exp(), as_base_exp produces the expected output) over Any ║
+# ║ Path(as_base_exp(), <unspecified:as_base_exp>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_base_exp : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 822bd83be762073a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp_polar.as_base_exp","kind":"method","src_hash":"6ded351b93b97b8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_base_exp()","rhs":"as_base_exp produces the expected output","over":{"base":"Any"},"name":"as_base_exp_correct"},"guarantee":"as_base_exp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp_polar.as_base_exp_correct","statement":"Path(as_base_exp(x), as_base_exp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"822bd83be762073a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp_polar.as_base_exp","kind":"method","src_hash":"6ded351b93b97b8d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_base_exp()","rhs":"<unspecified:as_base_exp>","over":{"base":"Any"},"name":"as_base_exp_correct"},"guarantee":"as_base_exp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp_polar.as_base_exp_correct","statement":"Path(as_base_exp(x), as_base_exp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"822bd83be762073a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_base_exp(self):
         # XXX exp_polar(0) is special!
         if self.args[0] == 0:
@@ -449,26 +573,39 @@ class exp_polar(ExpBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ExpMeta(*args), correctly constructs a ExpMeta instance) over {Any | isinstance(instance, Pow)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ExpMeta : {Any | isinstance(instance, Pow)} → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FunctionClass)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ExpMeta : {Any | isinstance(instance, Pow)} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55091e66051aead4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpMeta","kind":"class","src_hash":"97837bf4c81da519","in":{"base":"Any","pred":"isinstance(instance, Pow)"},"out":{"base":"Any"},"spec":{"lhs":"ExpMeta(*args)","rhs":"correctly constructs a ExpMeta instance","over":{"base":"Any","pred":"isinstance(instance, Pow)"},"name":"ExpMeta_class_invariant"},"guarantee":"correctly constructs a ExpMeta instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55091e66051aead4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpMeta","kind":"class","src_hash":"97837bf4c81da519","in":{"base":"Any","pred":"isinstance(instance, Pow)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FunctionClass)"},"spec":{"lhs":"ExpMeta(*args)","rhs":"correctly constructs a ExpMeta instance","over":{"base":"Any","pred":"isinstance(instance, Pow)"},"name":"ExpMeta_class_invariant"},"guarantee":"isinstance(self, FunctionClass)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55091e66051aead4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FunctionClass)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function ExpMeta not found in source"]}}
 class ExpMeta(FunctionClass):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__instancecheck__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__instancecheck__(cls, instance), <unspecified:__instancecheck__>) over {Any | hasattr(instance, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __instancecheck__ : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(instance, 'base')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __instancecheck__ : {Any | hasattr(instance, 'base')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | acde42540bdffe07           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpMeta.__instancecheck__","kind":"method","src_hash":"2f79ed98f36d103f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__instancecheck__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__instancecheck___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acde42540bdffe07"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.ExpMeta.__instancecheck__","kind":"method","src_hash":"2f79ed98f36d103f","in":{"base":"Any","pred":"hasattr(instance, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"__instancecheck__(cls, instance)","rhs":"<unspecified:__instancecheck__>","over":{"base":"Any","pred":"hasattr(instance, 'base')"},"name":"__instancecheck___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acde42540bdffe07","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(instance, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","*.__mro__","instance.__class__","instance.base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __instancecheck__(cls, instance):
         if exp in instance.__class__.__mro__:
             return True
@@ -478,14 +615,20 @@ class ExpMeta(FunctionClass):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(exp(*args), correctly constructs a exp instance) over {Any | isinstance(arg, MatrixBase) and isinstance(arg0, AccumBounds) and isinstance(old, exp)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ExpBase)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ exp : {Any | isinstance(arg, MatrixBase) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 134277eadd5fdcdd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp","kind":"class","src_hash":"7ef8860c396ae3d3","in":{"base":"Any","pred":"isinstance(arg, MatrixBase) and isinstance(arg0, AccumBounds) and isinstance(old, exp)"},"out":{"base":"Any"},"spec":{"lhs":"exp(*args)","rhs":"correctly constructs a exp instance","over":{"base":"Any","pred":"isinstance(arg, MatrixBase) and isinstance(arg0, AccumBounds) and isinstance(old, exp)"},"name":"exp_class_invariant"},"guarantee":"correctly constructs a exp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"134277eadd5fdcdd"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp","kind":"class","src_hash":"7ef8860c396ae3d3","in":{"base":"Any","pred":"isinstance(arg, MatrixBase) and isinstance(arg0, AccumBounds) and isinstance(old, exp)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ExpBase)"},"spec":{"lhs":"exp(*args)","rhs":"correctly constructs a exp instance","over":{"base":"Any","pred":"isinstance(arg, MatrixBase) and isinstance(arg0, AccumBounds) and isinstance(old, exp)"},"name":"exp_class_invariant"},"guarantee":"isinstance(self, ExpBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"134277eadd5fdcdd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ExpBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function exp not found in source"]}}
 class exp(ExpBase, metaclass=ExpMeta):
     """
     The exponential function, :math:`e^x`.
@@ -514,16 +657,23 @@ class exp(ExpBase, metaclass=ExpMeta):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), returns the first derivative of this function) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => self                     ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e45d93d5fcfc0a8a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d872499dc251b90  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp.fdiff","kind":"method","src_hash":"9aeb5473967b8e89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"returns the first derivative of this function","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"returns the first derivative of this function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp.fdiff_correct","statement":"Path(fdiff(x), returns the first derivative of this function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e45d93d5fcfc0a8a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp.fdiff","kind":"method","src_hash":"9aeb5473967b8e89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d872499dc251b90","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == self"],"decidability":"z3","returns_expr":"self"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         """
         Returns the first derivative of this function.
@@ -534,16 +684,22 @@ class exp(ExpBase, metaclass=ExpMeta):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_refine(ass), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_refine(assumptions), <unspecified:_eval_refine>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_refine : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dca237ef81d4d659  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_refine","kind":"method","src_hash":"0aa5083076f3f191","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_refine(ass)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_refine_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_refine_correct","statement":"Path(_eval_refine(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dca237ef81d4d659"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_refine","kind":"method","src_hash":"0aa5083076f3f191","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_refine(assumptions)","rhs":"<unspecified:_eval_refine>","over":{"base":"Any"},"name":"_eval_refine_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_refine_correct","statement":"Path(_eval_refine(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dca237ef81d4d659","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_refine(self, assumptions):
         from sympy.assumptions import ask, Q
         arg = self.args[0]
@@ -566,16 +722,27 @@ class exp(ExpBase, metaclass=ExpMeta):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_zero') and hasattr(arg, 'exp') and hasattr(arg, 'is_Number') and hasattr(arg, 'args') and hasattr(arg, 'is_Mul') and hasattr(arg, 'min') and hasattr(arg, 'max') and hasattr(arg, '_eval_func') and hasattr(arg, 'is_Add') and hasattr(arg, 'as_coefficient') and hasattr(arg, 'as_coeff_Mul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   requires: hasattr(arg, 'exp')                            ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   fiber[MatrixBase]: isinstance(arg, MatrixBase) => a...   ║
+# ║   fiber[case_1]: global_parameters.exp_is_pow => Pow(...   ║
+# ║   fiber[case_2]: arg.is_Number                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_zero') and hasattr(arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e6c9fb1c2fa3497  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7a3514d421d0860  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp.eval","kind":"classmethod","src_hash":"7d768fa4d0ec4f26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e6c9fb1c2fa3497"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp.eval","kind":"classmethod","src_hash":"7d768fa4d0ec4f26","in":{"base":"Any","pred":"hasattr(arg, 'is_zero') and hasattr(arg, 'exp') and hasattr(arg, 'is_Number') and hasattr(arg, 'args') and hasattr(arg, 'is_Mul') and hasattr(arg, 'min') and hasattr(arg, 'max') and hasattr(arg, '_eval_func') and hasattr(arg, 'is_Add') and hasattr(arg, 'as_coefficient') and hasattr(arg, 'as_coeff_Mul')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_zero') and hasattr(arg, 'exp') and hasattr(arg, 'is_Number') and hasattr(arg, 'args') and hasattr(arg, 'is_Mul') and hasattr(arg, 'min') and hasattr(arg, 'max') and hasattr(arg, '_eval_func') and hasattr(arg, 'is_Add') and hasattr(arg, 'as_coefficient') and hasattr(arg, 'as_coeff_Mul')"},"name":"eval_correct"},"guarantee":"9-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp.eval_correct","statement":"Path(eval(x), 9-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7a3514d421d0860","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'is_zero')","hasattr(arg, 'exp')","hasattr(arg, 'is_Number')","hasattr(arg, 'args')","hasattr(arg, 'is_Mul')","hasattr(arg, 'min')","hasattr(arg, 'max')","hasattr(arg, '_eval_func')","hasattr(arg, 'is_Add')","hasattr(arg, 'as_coefficient')","hasattr(arg, 'as_coeff_Mul')"],"fibers":[{"name":"MatrixBase","guard":"isinstance(arg, MatrixBase)","ensures":["result == arg.exp()"],"decidability":"structural","returns_expr":"arg.exp()"},{"name":"case_1","guard":"global_parameters.exp_is_pow","ensures":["result == Pow(S.Exp1, arg)"],"decidability":"library","returns_expr":"Pow(S.Exp1, arg)"},{"name":"case_2","guard":"arg.is_Number","ensures":[],"decidability":"library"},{"name":"case_3","guard":"arg is S.ComplexInfinity","ensures":["result == S.NaN"],"decidability":"library","returns_expr":"S.NaN"},{"name":"log","guard":"isinstance(arg, log)","ensures":["result == arg.args[0]"],"decidability":"structural","returns_expr":"arg.args[0]"},{"name":"AccumBounds","guard":"isinstance(arg, AccumBounds)","ensures":["result == AccumBounds(exp(arg.min), exp(arg.max))"],"decidability":"structural","returns_expr":"AccumBounds(exp(arg.min), exp(arg.max))"},{"name":"SetExpr","guard":"isinstance(arg, SetExpr)","ensures":["result == arg._eval_func(cls)"],"decidability":"structural","returns_expr":"arg._eval_func(cls)"},{"name":"case_7","guard":"arg.is_Mul","ensures":["result == log_term ** Mul(*coeffs) if log_term else None"],"decidability":"library","returns_expr":"log_term ** Mul(*coeffs) if log_term else None"},{"name":"case_8","guard":"arg.is_Add","ensures":[],"decidability":"library"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         from sympy.calculus import AccumBounds
         from sympy.matrices.matrixbase import MatrixBase
@@ -683,16 +850,22 @@ class exp(ExpBase, metaclass=ExpMeta):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base(), returns the base attribute) over Any          ║
+# ║ Path(base(), S.Exp1) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.Exp1                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7276fca705415d1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp.base","kind":"property","src_hash":"397e73196e7d53b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base()","rhs":"returns the base attribute","over":{"base":"Any"},"name":"base_correct"},"guarantee":"returns the base attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7276fca705415d1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp.base","kind":"property","src_hash":"397e73196e7d53b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base()","rhs":"S.Exp1","over":{"base":"Any"},"name":"base_correct"},"guarantee":"returns S.Exp1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7276fca705415d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.Exp1","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base(self):
         """
         Returns the base of the exponential function.
@@ -702,16 +875,22 @@ class exp(ExpBase, metaclass=ExpMeta):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), calculates the next term in the taylor series expansion) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), <unspecified:taylor_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ taylor_term : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 090114fe3ef890b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp.taylor_term","kind":"staticmethod","src_hash":"d91aa7a41b3a0bb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"calculates the next term in the taylor series expansion","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"calculates the next term in the taylor series expansion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp.taylor_term_correct","statement":"Path(taylor_term(x), calculates the next term in the taylor series expansion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"090114fe3ef890b4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp.taylor_term","kind":"staticmethod","src_hash":"d91aa7a41b3a0bb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"<unspecified:taylor_term>","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"calculates the next term in the taylor series expansion","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp.taylor_term_correct","statement":"Path(taylor_term(x), calculates the next term in the taylor series expansion)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"090114fe3ef890b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):
         """
         Calculates the next term in the Taylor series expansion.
@@ -728,16 +907,22 @@ class exp(ExpBase, metaclass=ExpMeta):
         return x**n/factorial(n)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_real_imag(dee), id) over Any                       ║
+# ║ Path(as_real_imag(deep, **hints), id) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (exp(re) * cos, exp(re) * sin)                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_real_imag : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 51bc7d58eabbd1a5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp.as_real_imag","kind":"method","src_hash":"9e9d54e2f0c2c231","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(dee)","rhs":"returns this function as a 2-tuple representing a complex number","over":{"base":"Any"},"name":"as_real_imag_correct","kind":"composition"},"guarantee":"returns this function as a 2-tuple representing a complex number","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51bc7d58eabbd1a5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp.as_real_imag","kind":"method","src_hash":"9e9d54e2f0c2c231","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(deep, **hints)","rhs":"(exp(re) * cos, exp(re) * sin)","over":{"base":"Any"},"name":"as_real_imag_correct","kind":"composition"},"guarantee":"returns (exp(re) * cos, exp(re) * sin)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"exp","by":"library_axiom"},{"fn":"exp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51bc7d58eabbd1a5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(exp(re) * cos, exp(re) * sin)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_real_imag(self, deep=True, **hints):
         """
         Returns this function as a 2-tuple representing a complex number.
@@ -771,16 +956,25 @@ class exp(ExpBase, metaclass=ExpMeta):
         return (exp(re)*cos, exp(re)*sin)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_subs(old), id) over Any                         ║
+# ║ Path(_eval_subs(old, new), id) over {Any | hasattr(old, 'is_Pow') and hasattr(new, 'is_Function') and hasattr(old, 'exp') and hasattr(old, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_subs : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(old, 'is_Pow')                         ║
+# ║   requires: hasattr(new, 'is_Function')                    ║
+# ║   requires: hasattr(old, 'exp')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_subs : {Any | hasattr(old, 'is_Pow') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 90f714a08645b00f   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_subs","kind":"method","src_hash":"f197c94a1cc1b487","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_subs_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_eval_subs","by":"library_axiom"},{"fn":"f","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90f714a08645b00f"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_subs","kind":"method","src_hash":"f197c94a1cc1b487","in":{"base":"Any","pred":"hasattr(old, 'is_Pow') and hasattr(new, 'is_Function') and hasattr(old, 'exp') and hasattr(old, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_subs(old, new)","rhs":"<unspecified:_eval_subs>","over":{"base":"Any","pred":"hasattr(old, 'is_Pow') and hasattr(new, 'is_Function') and hasattr(old, 'exp') and hasattr(old, 'base')"},"name":"_eval_subs_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_eval_subs","by":"library_axiom"},{"fn":"f","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90f714a08645b00f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(old, 'is_Pow')","hasattr(new, 'is_Function')","hasattr(old, 'exp')","hasattr(old, 'base')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["new.is_Function","old.base","old.exp","old.is_Pow","self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_subs(self, old, new):
         # keep processing of power-like args centralized in Pow
         if old.is_Pow:  # handle (exp(3*log(x))).subs(x**2, z) -> z**(3/2)
@@ -797,16 +991,25 @@ class exp(ExpBase, metaclass=ExpMeta):
         return super()._eval_subs(old, new)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), result == (True if self.args[0].is_extended_real else arg2.is_even) and result == True or result == arg2.is_even) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_extended_real : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if self.args[0].is_extend...   ║
+# ║   ensures:  result == True or result == arg2.is_even       ║
+# ║   fiber[case_0]: self.args[0].is_extended_real => True     ║
+# ║   fiber[case_1]: self.args[0].is_imaginary => arg2.is...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_extended_real : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fa20687bf9aaa3b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b18e6c2013da077  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_is_extended_real","kind":"method","src_hash":"455709909e2f4bd2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fa20687bf9aaa3b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_is_extended_real","kind":"method","src_hash":"455709909e2f4bd2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if self.args[0].is_extended_real else arg2.is_even) and result == True or result == arg2.is_even"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"result == (True if self.args[0].is_extended_real else arg2.is_even) and result == True or result == arg2.is_even","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"result == (True if self.args[0].is_extended_real else arg2.is_even); result == True or result == arg2.is_even; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), result == (True if self.args[0].is_extended_real else arg2.is_even); result == True or result == arg2.is_even; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b18e6c2013da077","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if self.args[0].is_extended_real else arg2.is_even)","result == True or result == arg2.is_even"],"fibers":[{"name":"case_0","guard":"self.args[0].is_extended_real","ensures":["result == True"],"decidability":"library","returns_expr":"True"},{"name":"case_1","guard":"self.args[0].is_imaginary","ensures":["result == arg2.is_even"],"decidability":"library","returns_expr":"arg2.is_even"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         if self.args[0].is_extended_real:
             return True
@@ -817,14 +1020,20 @@ class exp(ExpBase, metaclass=ExpMeta):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_is_complex(), id) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_or(complex_extended_negative(self.a...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_complex : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 71a25247450ba4e2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_is_complex","kind":"method","src_hash":"bb893a4d2bbccf47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_complex_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fuzzy_or","by":"library_axiom"},{"fn":"complex_extended_negative","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71a25247450ba4e2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_is_complex","kind":"method","src_hash":"bb893a4d2bbccf47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"fuzzy_or(complex_extended_negative(self.args[0]))","over":{"base":"Any"},"name":"_eval_is_complex_correct","kind":"composition"},"guarantee":"returns fuzzy_or(complex_extended_negative(self.args[0]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fuzzy_or","by":"library_axiom"},{"fn":"complex_extended_negative","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71a25247450ba4e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_or(complex_extended_negative(self.args[0]))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_complex(self):
         def complex_extended_negative(arg):
             yield arg.is_complex
@@ -832,16 +1041,22 @@ class exp(ExpBase, metaclass=ExpMeta):
         return fuzzy_or(complex_extended_negative(self.args[0]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_algebraic(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_algebraic(), <unspecified:_eval_is_algebraic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_algebraic : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 387159b5c8063c82  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_is_algebraic","kind":"method","src_hash":"56820f5dc9baa4c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_algebraic()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_algebraic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_is_algebraic_correct","statement":"Path(_eval_is_algebraic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"387159b5c8063c82"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_is_algebraic","kind":"method","src_hash":"56820f5dc9baa4c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_algebraic()","rhs":"<unspecified:_eval_is_algebraic>","over":{"base":"Any"},"name":"_eval_is_algebraic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_is_algebraic_correct","statement":"Path(_eval_is_algebraic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"387159b5c8063c82","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_algebraic(self):
         if (self.exp / pi / I).is_rational:
             return True
@@ -852,16 +1067,25 @@ class exp(ExpBase, metaclass=ExpMeta):
                 return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_positive(), result == (self.args[0] is not S.NegativeInfinity if self.exp.is_extended_real else arg2.is_even) and result == self.args[0] is not S.NegativeInfinity or result == arg2.is_even) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_extended_positive : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.args[0] is not S.Negative...   ║
+# ║   ensures:  result == self.args[0] is not S.NegativeI...   ║
+# ║   fiber[case_0]: self.exp.is_extended_real => self.ar...   ║
+# ║   fiber[case_1]: self.exp.is_imaginary => arg2.is_even     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_extended_positive : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 647892cd936b6ef8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d842ca3598c63b41  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_is_extended_positive","kind":"method","src_hash":"242e5df68fef7e73","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_is_extended_positive_correct","statement":"Path(_eval_is_extended_positive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"647892cd936b6ef8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_is_extended_positive","kind":"method","src_hash":"242e5df68fef7e73","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.args[0] is not S.NegativeInfinity if self.exp.is_extended_real else arg2.is_even) and result == self.args[0] is not S.NegativeInfinity or result == arg2.is_even"},"spec":{"lhs":"_eval_is_extended_positive()","rhs":"result == (self.args[0] is not S.NegativeInfinity if self.exp.is_extended_real else arg2.is_even) and result == self.args[0] is not S.NegativeInfinity or result == arg2.is_even","over":{"base":"Any"},"name":"_eval_is_extended_positive_correct"},"guarantee":"result == (self.args[0] is not S.NegativeInfinity if self.exp.is_extended_real else arg2.is_even); result == self.args[0] is not S.NegativeInfinity or result == arg2.is_even; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_is_extended_positive_correct","statement":"Path(_eval_is_extended_positive(x), result == (self.args[0] is not S.NegativeInfinity if self.exp.is_extended_real else arg2.is_even); result == self.args[0] is not S.NegativeInfinity or result == arg2.is_even; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d842ca3598c63b41","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.args[0] is not S.NegativeInfinity if self.exp.is_extended_real else arg2.is_even)","result == self.args[0] is not S.NegativeInfinity or result == arg2.is_even"],"fibers":[{"name":"case_0","guard":"self.exp.is_extended_real","ensures":["result == self.args[0] is not S.NegativeInfinity"],"decidability":"library","returns_expr":"self.args[0] is not S.NegativeInfinity"},{"name":"case_1","guard":"self.exp.is_imaginary","ensures":["result == arg2.is_even"],"decidability":"library","returns_expr":"arg2.is_even"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.exp"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_positive(self):
         if self.exp.is_extended_real:
             return self.args[0] is not S.NegativeInfinity
@@ -870,16 +1094,24 @@ class exp(ExpBase, metaclass=ExpMeta):
             return arg2.is_even
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), <unspecified:_eval_nseries>) over {Any | hasattr(x, 'is_Rational') and hasattr(x, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_nseries : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(x, 'is_Rational')                      ║
+# ║   requires: hasattr(x, 'q')                                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_nseries : {Any | hasattr(x, 'is_Rational') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3fc68c3ff2c0a7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_nseries","kind":"method","src_hash":"617dadfda8326fe8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3fc68c3ff2c0a7a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_nseries","kind":"method","src_hash":"617dadfda8326fe8","in":{"base":"Any","pred":"hasattr(x, 'is_Rational') and hasattr(x, 'q')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any","pred":"hasattr(x, 'is_Rational') and hasattr(x, 'q')"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3fc68c3ff2c0a7a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(x, 'is_Rational')","hasattr(x, 'q')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.exp","x.is_Rational","x.q"],"raises":["PoleError"]},"state_contract":{"exceptional_post":{"PoleError":["isinstance(raised, PoleError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         # NOTE Please see the comment at the beginning of this file, labelled
         #      IMPORTANT.
@@ -928,16 +1160,22 @@ class exp(ExpBase, metaclass=ExpMeta):
         return r
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_taylor(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_taylor(x, n), Add(*l)) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*l)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _taylor : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c4d135ddb251e91  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d4b84288e806fd0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._taylor","kind":"method","src_hash":"1c850200204fdf58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_taylor(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_taylor_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._taylor_correct","statement":"Path(_taylor(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c4d135ddb251e91"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._taylor","kind":"method","src_hash":"1c850200204fdf58","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_taylor(x, n)","rhs":"Add(*l)","over":{"base":"Any"},"name":"_taylor_correct"},"guarantee":"returns Add(*l)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._taylor_correct","statement":"Path(_taylor(x), returns Add(*l))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d4b84288e806fd0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*l)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _taylor(self, x, n):
         l = []
         g = None
@@ -948,16 +1186,22 @@ class exp(ExpBase, metaclass=ExpMeta):
         return Add(*l)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 746690ca67d348fe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_as_leading_term","kind":"method","src_hash":"103dfb109c9302c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"746690ca67d348fe"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_as_leading_term","kind":"method","src_hash":"103dfb109c9302c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"746690ca67d348fe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["PoleError"]},"state_contract":{"exceptional_post":{"PoleError":["isinstance(raised, PoleError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         from sympy.calculus.util import AccumBounds
         arg = self.args[0].cancel().as_leading_term(x, logx=logx)
@@ -980,61 +1224,87 @@ class exp(ExpBase, metaclass=ExpMeta):
         raise PoleError("Cannot expand %s around 0" % (self))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sin(arg), id) over Any               ║
+# ║ Path(_eval_rewrite_as_sin(arg, **kwargs), id) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sin(I * arg + pi / 2) - I * sin(I * arg)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_sin : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3b16cb424c9bbea5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_rewrite_as_sin","kind":"method","src_hash":"2e405ecb983e7a4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b16cb424c9bbea5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_rewrite_as_sin","kind":"method","src_hash":"2e405ecb983e7a4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sin(arg, **kwargs)","rhs":"sin(I * arg + pi / 2) - I * sin(I * arg)","over":{"base":"Any"},"name":"_eval_rewrite_as_sin_correct","kind":"composition"},"guarantee":"returns sin(I * arg + pi / 2) - I * sin(I * arg)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sin","by":"library_axiom"},{"fn":"sin","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b16cb424c9bbea5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sin(I * arg + pi / 2) - I * sin(I * arg)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sin(self, arg, **kwargs):
         from sympy.functions.elementary.trigonometric import sin
         return sin(I*arg + pi/2) - I*sin(I*arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_cos(arg), id) over Any               ║
+# ║ Path(_eval_rewrite_as_cos(arg, **kwargs), id) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cos(I * arg) + I * cos(I * arg + pi / 2)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_cos : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b121dc7867374550   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_rewrite_as_cos","kind":"method","src_hash":"f19bda371e922674","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"cos","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b121dc7867374550"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_rewrite_as_cos","kind":"method","src_hash":"f19bda371e922674","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_cos(arg, **kwargs)","rhs":"cos(I * arg) + I * cos(I * arg + pi / 2)","over":{"base":"Any"},"name":"_eval_rewrite_as_cos_correct","kind":"composition"},"guarantee":"returns cos(I * arg) + I * cos(I * arg + pi / 2)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cos","by":"library_axiom"},{"fn":"cos","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b121dc7867374550","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cos(I * arg) + I * cos(I * arg + pi / 2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_cos(self, arg, **kwargs):
         from sympy.functions.elementary.trigonometric import cos
         return cos(I*arg) + I*cos(I*arg + pi/2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_tanh(arg), id) over Any              ║
+# ║ Path(_eval_rewrite_as_tanh(arg, **kwargs), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (1 + tanh(arg / 2)) / (1 - tanh(arg / 2))      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_tanh : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 2d9e48bd2d21880c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_rewrite_as_tanh","kind":"method","src_hash":"c556de1bb31f6c9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tanh(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_tanh_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tanh","by":"library_axiom"},{"fn":"tanh","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d9e48bd2d21880c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_rewrite_as_tanh","kind":"method","src_hash":"c556de1bb31f6c9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_tanh(arg, **kwargs)","rhs":"(1 + tanh(arg / 2)) / (1 - tanh(arg / 2))","over":{"base":"Any"},"name":"_eval_rewrite_as_tanh_correct","kind":"composition"},"guarantee":"returns (1 + tanh(arg / 2)) / (1 - tanh(arg / 2))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"tanh","by":"library_axiom"},{"fn":"tanh","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d9e48bd2d21880c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(1 + tanh(arg / 2)) / (1 - tanh(arg / 2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_tanh(self, arg, **kwargs):
         from sympy.functions.elementary.hyperbolic import tanh
         return (1 + tanh(arg/2))/(1 - tanh(arg/2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_sqrt(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_sqrt(arg, **kwargs), cosine + I * sine) over {Any | hasattr(arg, 'is_Mul') and hasattr(arg, 'coeff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_sqrt : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'is_Mul')                         ║
+# ║   requires: hasattr(arg, 'coeff')                          ║
+# ║   returns:  cosine + I * sine                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_sqrt : {Any | hasattr(arg, 'is_Mul')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c10b526ae0dc6fc5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 565b6525bcfc117c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_rewrite_as_sqrt","kind":"method","src_hash":"329272a4845afcf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_rewrite_as_sqrt_correct","statement":"Path(_eval_rewrite_as_sqrt(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c10b526ae0dc6fc5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_rewrite_as_sqrt","kind":"method","src_hash":"329272a4845afcf4","in":{"base":"Any","pred":"hasattr(arg, 'is_Mul') and hasattr(arg, 'coeff')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_sqrt(arg, **kwargs)","rhs":"cosine + I * sine","over":{"base":"Any","pred":"hasattr(arg, 'is_Mul') and hasattr(arg, 'coeff')"},"name":"_eval_rewrite_as_sqrt_correct"},"guarantee":"returns cosine + I * sine","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.exp._eval_rewrite_as_sqrt_correct","statement":"Path(_eval_rewrite_as_sqrt(x), returns cosine + I * sine)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"565b6525bcfc117c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'is_Mul')","hasattr(arg, 'coeff')"],"returns_expr":"cosine + I * sine","pure":false,"effects":{"effect_type":"reads_state","reads":["arg.coeff","arg.is_Mul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_sqrt(self, arg, **kwargs):
         from sympy.functions.elementary.trigonometric import sin, cos
         if arg.is_Mul:
@@ -1045,16 +1315,25 @@ class exp(ExpBase, metaclass=ExpMeta):
                     return cosine + I*sine
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Pow(arg), id) over Any               ║
+# ║ Path(_eval_rewrite_as_Pow(arg, **kwargs), id) over {Any | hasattr(arg, 'is_Mul') and hasattr(arg, 'args') and hasattr(arg, 'coeff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_Pow : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'is_Mul')                         ║
+# ║   requires: hasattr(arg, 'args')                           ║
+# ║   requires: hasattr(arg, 'coeff')                          ║
+# ║   returns:  Pow(logs[0].args[0], arg.coeff(logs[0]))       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_Pow : {Any | hasattr(arg, 'is_Mul') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6da9bce93587c3d4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_rewrite_as_Pow","kind":"method","src_hash":"42f84686ffbbe722","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_Pow_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Pow","by":"library_axiom"},{"fn":"coeff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6da9bce93587c3d4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.exp._eval_rewrite_as_Pow","kind":"method","src_hash":"42f84686ffbbe722","in":{"base":"Any","pred":"hasattr(arg, 'is_Mul') and hasattr(arg, 'args') and hasattr(arg, 'coeff')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Pow(arg, **kwargs)","rhs":"Pow(logs[0].args[0], arg.coeff(logs[0]))","over":{"base":"Any","pred":"hasattr(arg, 'is_Mul') and hasattr(arg, 'args') and hasattr(arg, 'coeff')"},"name":"_eval_rewrite_as_Pow_correct","kind":"composition"},"guarantee":"returns Pow(logs[0].args[0], arg.coeff(logs[0]))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Pow","by":"library_axiom"},{"fn":"coeff","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6da9bce93587c3d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'is_Mul')","hasattr(arg, 'args')","hasattr(arg, 'coeff')"],"returns_expr":"Pow(logs[0].args[0], arg.coeff(logs[0]))","pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.coeff","arg.is_Mul"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Pow(self, arg, **kwargs):
         if arg.is_Mul:
             logs = [a for a in arg.args if isinstance(a, log) and len(a.args) == 1]
@@ -1063,16 +1342,23 @@ class exp(ExpBase, metaclass=ExpMeta):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(match_real_imag(exp), try to match expr with $a + ib$ for real $a$ and $b$) over Any ║
+# ║ Path(match_real_imag(expr), <unspecified:match_real_imag>) over {Any | hasattr(expr, 'as_independent')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ match_real_imag : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'as_independent')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ match_real_imag : {Any | hasattr(expr, 'as_independen...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33d3c7a79ce610fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.match_real_imag","kind":"function","src_hash":"a27700c23f545233","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"match_real_imag(exp)","rhs":"try to match expr with $a + ib$ for real $a$ and $b$","over":{"base":"Any"},"name":"match_real_imag_correct"},"guarantee":"try to match expr with $a + ib$ for real $a$ and $b$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.match_real_imag_correct","statement":"Path(match_real_imag(x), try to match expr with $a + ib$ for real $a$ and $b$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33d3c7a79ce610fc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.match_real_imag","kind":"function","src_hash":"a27700c23f545233","in":{"base":"Any","pred":"hasattr(expr, 'as_independent')"},"out":{"base":"Any"},"spec":{"lhs":"match_real_imag(expr)","rhs":"<unspecified:match_real_imag>","over":{"base":"Any","pred":"hasattr(expr, 'as_independent')"},"name":"match_real_imag_correct"},"guarantee":"try to match expr with $a + ib$ for real $a$ and $b$","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.match_real_imag_correct","statement":"Path(match_real_imag(x), try to match expr with $a + ib$ for real $a$ and $b$)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33d3c7a79ce610fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'as_independent')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_independent"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def match_real_imag(expr):
     r"""
     Try to match expr with $a + Ib$ for real $a$ and $b$.
@@ -1097,14 +1383,20 @@ def match_real_imag(expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(log(*args), correctly constructs a log instance) over {Any | isinstance(p, Order) and isinstance(arg, exp) and isinstance(arg, exp_polar)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ log : {Any | isinstance(p, Order) and isinstance(arg,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 3.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81a3e466ad4d1687  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log","kind":"class","src_hash":"883644f42de6e7a8","in":{"base":"Any","pred":"isinstance(p, Order) and isinstance(arg, exp) and isinstance(arg, exp_polar)"},"out":{"base":"Any"},"spec":{"lhs":"log(*args)","rhs":"correctly constructs a log instance","over":{"base":"Any","pred":"isinstance(p, Order) and isinstance(arg, exp) and isinstance(arg, exp_polar)"},"name":"log_class_invariant"},"guarantee":"correctly constructs a log instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81a3e466ad4d1687"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log","kind":"class","src_hash":"883644f42de6e7a8","in":{"base":"Any","pred":"isinstance(p, Order) and isinstance(arg, exp) and isinstance(arg, exp_polar)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"log(*args)","rhs":"correctly constructs a log instance","over":{"base":"Any","pred":"isinstance(p, Order) and isinstance(arg, exp) and isinstance(arg, exp_polar)"},"name":"log_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81a3e466ad4d1687","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function log not found in source"]}}
 class log(DefinedFunction):
     r"""
     The natural logarithm function `\ln(x)` or `\log(x)`.
@@ -1144,16 +1436,23 @@ class log(DefinedFunction):
     _singularities = (S.Zero, S.ComplexInfinity)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), returns the first derivative of the function) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: argindex == 1 => 1 / self.args[0]         ║
+# ║   fiber[case_1]: not (argindex == 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d21870df2c59fadb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9185cd9e462640d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log.fdiff","kind":"method","src_hash":"3666c34878ac3fee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"returns the first derivative of the function","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"returns the first derivative of the function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log.fdiff_correct","statement":"Path(fdiff(x), returns the first derivative of the function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d21870df2c59fadb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log.fdiff","kind":"method","src_hash":"3666c34878ac3fee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log.fdiff_correct","statement":"Path(fdiff(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9185cd9e462640d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"argindex == 1","ensures":["result == 1 / self.args[0]"],"decidability":"z3","returns_expr":"1 / self.args[0]"},{"name":"case_1","guard":"not (argindex == 1)","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         """
         Returns the first derivative of the function.
@@ -1164,16 +1463,22 @@ class log(DefinedFunction):
             raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inverse(arg), returns `e^x`, the inverse function of `\log(x)`) over Any ║
+# ║ Path(inverse(argindex), <unspecified:inverse>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ inverse : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 26b1244a49983bc9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log.inverse","kind":"method","src_hash":"5b1a56f4d5110222","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(arg)","rhs":"returns `e^x`, the inverse function of `\\log(x)`","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns `e^x`, the inverse function of `\\log(x)`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26b1244a49983bc9"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log.inverse","kind":"method","src_hash":"5b1a56f4d5110222","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inverse(argindex)","rhs":"<unspecified:inverse>","over":{"base":"Any"},"name":"inverse_correct"},"guarantee":"returns `e^x`, the inverse function of `\\log(x)`","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26b1244a49983bc9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def inverse(self, argindex=1):
         r"""
         Returns `e^x`, the inverse function of `\log(x)`.
@@ -1182,16 +1487,25 @@ class log(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, arg, base), <unspecified:eval>) over {Any | hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_zero') and hasattr(arg, 'is_Pow') and hasattr(arg, 'exp') and hasattr(arg, 'is_negative') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_algebraic') and hasattr(arg, 'base') and hasattr(arg, 'as_coefficient') and hasattr(arg, 'as_independent') and hasattr(arg, 'min') and hasattr(arg, '_eval_func') and hasattr(arg, 'is_Rational') and hasattr(arg, 'max') and hasattr(arg, 'p') and hasattr(arg, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_Number')                      ║
+# ║   requires: hasattr(arg, 'is_number')                      ║
+# ║   requires: hasattr(arg, 'is_zero')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_Number') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7cdb15e0e3419c29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log.eval","kind":"classmethod","src_hash":"edf40ec3a510b75b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cdb15e0e3419c29"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log.eval","kind":"classmethod","src_hash":"edf40ec3a510b75b","in":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_zero') and hasattr(arg, 'is_Pow') and hasattr(arg, 'exp') and hasattr(arg, 'is_negative') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_algebraic') and hasattr(arg, 'base') and hasattr(arg, 'as_coefficient') and hasattr(arg, 'as_independent') and hasattr(arg, 'min') and hasattr(arg, '_eval_func') and hasattr(arg, 'is_Rational') and hasattr(arg, 'max') and hasattr(arg, 'p') and hasattr(arg, 'q')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg, base)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_Number') and hasattr(arg, 'is_number') and hasattr(arg, 'is_zero') and hasattr(arg, 'is_Pow') and hasattr(arg, 'exp') and hasattr(arg, 'is_negative') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_algebraic') and hasattr(arg, 'base') and hasattr(arg, 'as_coefficient') and hasattr(arg, 'as_independent') and hasattr(arg, 'min') and hasattr(arg, '_eval_func') and hasattr(arg, 'is_Rational') and hasattr(arg, 'max') and hasattr(arg, 'p') and hasattr(arg, 'q')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7cdb15e0e3419c29","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_Number')","hasattr(arg, 'is_number')","hasattr(arg, 'is_zero')","hasattr(arg, 'is_Pow')","hasattr(arg, 'exp')","hasattr(arg, 'is_negative')","hasattr(arg, 'is_Add')","hasattr(arg, 'is_algebraic')","hasattr(arg, 'base')","hasattr(arg, 'as_coefficient')","hasattr(arg, 'as_independent')","hasattr(arg, 'min')","hasattr(arg, '_eval_func')","hasattr(arg, 'is_Rational')","hasattr(arg, 'max')","hasattr(arg, 'p')","hasattr(arg, 'q')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg._eval_func","arg.as_coefficient","arg.as_independent","arg.base","arg.exp","arg.is_Add","arg.is_Number","arg.is_Pow","arg.is_Rational","arg.is_algebraic","arg.is_negative","arg.is_number","arg.is_zero","arg.max","arg.min","arg.p","arg.q"],"catches":["ValueError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg, base=None):
         from sympy.calculus import AccumBounds
         from sympy.sets.setexpr import SetExpr
@@ -1320,16 +1634,22 @@ class log(DefinedFunction):
     @staticmethod
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(taylor_term(n, ), returns the next term in the taylor series expansion of `\log(1+x)`) over Any ║
+# ║ Path(taylor_term(n, x, *previous_terms), <unspecified:taylor_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ taylor_term : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1289053c9b895bb1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log.taylor_term","kind":"staticmethod","src_hash":"f661ab1bc6263b8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, )","rhs":"returns the next term in the taylor series expansion of `\\log(1+x)`","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"returns the next term in the taylor series expansion of `\\log(1+x)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log.taylor_term_correct","statement":"Path(taylor_term(x), returns the next term in the taylor series expansion of `\\log(1+x)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1289053c9b895bb1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log.taylor_term","kind":"staticmethod","src_hash":"f661ab1bc6263b8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"taylor_term(n, x, *previous_terms)","rhs":"<unspecified:taylor_term>","over":{"base":"Any"},"name":"taylor_term_correct"},"guarantee":"returns the next term in the taylor series expansion of `\\log(1+x)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log.taylor_term_correct","statement":"Path(taylor_term(x), returns the next term in the taylor series expansion of `\\log(1+x)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1289053c9b895bb1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def taylor_term(n, x, *previous_terms):  # of log(1+x)
         r"""
         Returns the next term in the Taylor series expansion of `\log(1+x)`.
@@ -1347,16 +1667,22 @@ class log(DefinedFunction):
         return (1 - 2*(n % 2)) * x**(n + 1)/(n + 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_expand_log(dee), id) over Any                   ║
+# ║ Path(_eval_expand_log(deep, **hints), id) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_expand_log : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 9e3d48ac7f5ba85e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_expand_log","kind":"method","src_hash":"a1b62c36970913c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_log(dee)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_expand_log_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"expand_log","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e3d48ac7f5ba85e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_expand_log","kind":"method","src_hash":"a1b62c36970913c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_expand_log(deep, **hints)","rhs":"<unspecified:_eval_expand_log>","over":{"base":"Any"},"name":"_eval_expand_log_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"expand_log","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e3d48ac7f5ba85e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_expand_log(self, deep=True, **hints):
         from sympy.concrete import Sum, Product
         force = hints.get('force', False)
@@ -1415,16 +1741,22 @@ class log(DefinedFunction):
         return self.func(arg)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_simplify(**k), id) over Any                     ║
+# ║ Path(_eval_simplify(**kwargs), id) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_simplify : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 76ce7b720718dc08   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_simplify","kind":"method","src_hash":"eaa5fc42e1765a94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**k)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_simplify_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"simplify","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76ce7b720718dc08"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_simplify","kind":"method","src_hash":"eaa5fc42e1765a94","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_simplify(**kwargs)","rhs":"<unspecified:_eval_simplify>","over":{"base":"Any"},"name":"_eval_simplify_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"simplify","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76ce7b720718dc08","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_simplify(self, **kwargs):
         from sympy.simplify.simplify import expand_log, simplify, inversecombine
         if len(self.args) == 2:  # it's unevaluated
@@ -1437,16 +1769,22 @@ class log(DefinedFunction):
         return min([expr, self], key=kwargs['measure'])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_real_imag(dee), returns this function as a complex coordinate) over Any ║
+# ║ Path(as_real_imag(deep, **hints), <unspecified:as_real_imag>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_real_imag : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30c0e7449040979e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log.as_real_imag","kind":"method","src_hash":"16c22c27b1424ad3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(dee)","rhs":"returns this function as a complex coordinate","over":{"base":"Any"},"name":"as_real_imag_correct"},"guarantee":"returns this function as a complex coordinate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log.as_real_imag_correct","statement":"Path(as_real_imag(x), returns this function as a complex coordinate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30c0e7449040979e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log.as_real_imag","kind":"method","src_hash":"16c22c27b1424ad3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_real_imag(deep, **hints)","rhs":"<unspecified:as_real_imag>","over":{"base":"Any"},"name":"as_real_imag_correct"},"guarantee":"returns this function as a complex coordinate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log.as_real_imag_correct","statement":"Path(as_real_imag(x), returns this function as a complex coordinate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30c0e7449040979e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_real_imag(self, deep=True, **hints):
         """
         Returns this function as a complex coordinate.
@@ -1480,16 +1818,23 @@ class log(DefinedFunction):
             return log(sarg_abs), sarg_arg
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_rational(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_rational(), <unspecified:_eval_is_rational>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: s.func == self.func                       ║
+# ║   fiber[case_1]: not (s.func == self.func) => s.is_ra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_rational : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d283418a977d7b3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2006230c42507dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_rational","kind":"method","src_hash":"3c7146004cd27a88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d283418a977d7b3"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_rational","kind":"method","src_hash":"3c7146004cd27a88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_rational()","rhs":"<unspecified:_eval_is_rational>","over":{"base":"Any"},"name":"_eval_is_rational_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log._eval_is_rational_correct","statement":"Path(_eval_is_rational(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2006230c42507dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"s.func == self.func","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (s.func == self.func)","ensures":["result == s.is_rational"],"decidability":"z3","returns_expr":"s.is_rational"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_rational(self):
         s = self.func(*self.args)
         if s.func == self.func:
@@ -1501,16 +1846,23 @@ class log(DefinedFunction):
             return s.is_rational
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_algebraic(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_algebraic(), <unspecified:_eval_is_algebraic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: s.func == self.func                       ║
+# ║   fiber[case_1]: not (s.func == self.func) => s.is_al...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_algebraic : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e3ad7cf0352b919  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ebd3830f88c63dd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_algebraic","kind":"method","src_hash":"89a45312902898c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_algebraic()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_algebraic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log._eval_is_algebraic_correct","statement":"Path(_eval_is_algebraic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e3ad7cf0352b919"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_algebraic","kind":"method","src_hash":"89a45312902898c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_algebraic()","rhs":"<unspecified:_eval_is_algebraic>","over":{"base":"Any"},"name":"_eval_is_algebraic_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log._eval_is_algebraic_correct","statement":"Path(_eval_is_algebraic(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ebd3830f88c63dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"s.func == self.func","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (s.func == self.func)","ensures":["result == s.is_algebraic"],"decidability":"z3","returns_expr":"s.is_algebraic"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_algebraic(self):
         s = self.func(*self.args)
         if s.func == self.func:
@@ -1523,45 +1875,63 @@ class log(DefinedFunction):
             return s.is_algebraic
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), self.args[0].is_extended_positive) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_extended_positive              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f35798cfa47d31ef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_extended_real","kind":"method","src_hash":"a52221e002ca5609","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f35798cfa47d31ef"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_extended_real","kind":"method","src_hash":"a52221e002ca5609","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"self.args[0].is_extended_positive","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"returns self.args[0].is_extended_positive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f35798cfa47d31ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_extended_positive","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         return self.args[0].is_extended_positive
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_eval_is_complex(), id) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fuzzy_and([z.is_complex, fuzzy_not(z.is_z...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_complex : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e7ac4305b08fa6c2   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_complex","kind":"method","src_hash":"2c3cd6fb1b1b9e83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_complex_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fuzzy_and","by":"library_axiom"},{"fn":"fuzzy_not","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7ac4305b08fa6c2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_complex","kind":"method","src_hash":"2c3cd6fb1b1b9e83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_complex()","rhs":"fuzzy_and([z.is_complex, fuzzy_not(z.is_zero)])","over":{"base":"Any"},"name":"_eval_is_complex_correct","kind":"composition"},"guarantee":"returns fuzzy_and([z.is_complex, fuzzy_not(z.is_zero)])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fuzzy_and","by":"library_axiom"},{"fn":"fuzzy_not","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7ac4305b08fa6c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fuzzy_and([z.is_complex, fuzzy_not(z.is_zero)])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_complex(self):
         z = self.args[0]
         return fuzzy_and([z.is_complex, fuzzy_not(z.is_zero)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_finite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_finite(), <unspecified:_eval_is_finite>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_finite : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 436348ecef7c47c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_finite","kind":"method","src_hash":"a2a7dd41dae4b02a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"436348ecef7c47c8"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_finite","kind":"method","src_hash":"a2a7dd41dae4b02a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"<unspecified:_eval_is_finite>","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log._eval_is_finite_correct","statement":"Path(_eval_is_finite(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"436348ecef7c47c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_finite(self):
         arg = self.args[0]
         if arg.is_zero:
@@ -1569,58 +1939,83 @@ class log(DefinedFunction):
         return arg.is_finite
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_positive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_positive(), (self.args[0] - 1).is_extended_positive) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.args[0] - 1).is_extended_positive        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_positive : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | edf0142fc2da09ef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_extended_positive","kind":"method","src_hash":"2c6c81d59ea78570","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_positive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_positive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edf0142fc2da09ef"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_extended_positive","kind":"method","src_hash":"2c6c81d59ea78570","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_positive()","rhs":"(self.args[0] - 1).is_extended_positive","over":{"base":"Any"},"name":"_eval_is_extended_positive_correct"},"guarantee":"returns (self.args[0] - 1).is_extended_positive","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"edf0142fc2da09ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.args[0] - 1).is_extended_positive","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_positive(self):
         return (self.args[0] - 1).is_extended_positive
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), (self.args[0] - 1).is_zero) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.args[0] - 1).is_zero                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_zero : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2ed08482561cc55d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_zero","kind":"method","src_hash":"a4b6e8c194d982ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ed08482561cc55d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_zero","kind":"method","src_hash":"a4b6e8c194d982ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"(self.args[0] - 1).is_zero","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"returns (self.args[0] - 1).is_zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2ed08482561cc55d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.args[0] - 1).is_zero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         return (self.args[0] - 1).is_zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_nonnegative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_nonnegative(), (self.args[0] - 1).is_extended_nonnegative) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.args[0] - 1).is_extended_nonnegative     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_nonnegative : Any → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f15acc7d1cda88be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_extended_nonnegative","kind":"method","src_hash":"54b1118c8a0f05a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_nonnegative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_nonnegative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f15acc7d1cda88be"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_is_extended_nonnegative","kind":"method","src_hash":"54b1118c8a0f05a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_nonnegative()","rhs":"(self.args[0] - 1).is_extended_nonnegative","over":{"base":"Any"},"name":"_eval_is_extended_nonnegative_correct"},"guarantee":"returns (self.args[0] - 1).is_extended_nonnegative","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f15acc7d1cda88be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.args[0] - 1).is_extended_nonnegative","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_nonnegative(self):
         return (self.args[0] - 1).is_extended_nonnegative
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), <unspecified:_eval_nseries>) over {Any | hasattr(logx, 'could_extract_minus_sign')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_nseries : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(logx, 'could_extract_minus_sign')      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_nseries : {Any | hasattr(logx, 'could_extract_m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7e1dc0e23bc4530  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_nseries","kind":"method","src_hash":"1390fbe1ff2a6faf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7e1dc0e23bc4530"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_nseries","kind":"method","src_hash":"1390fbe1ff2a6faf","in":{"base":"Any","pred":"hasattr(logx, 'could_extract_minus_sign')"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any","pred":"hasattr(logx, 'could_extract_minus_sign')"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7e1dc0e23bc4530","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(logx, 'could_extract_minus_sign')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["logx.could_extract_minus_sign","self.args","self.expand"],"catches":["ValueError"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         # NOTE Please see the comment at the beginning of this file, labelled
         #      IMPORTANT.
@@ -1738,16 +2133,22 @@ class log(DefinedFunction):
         return res + Order(x**n, x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f84bc69ac30a1be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_as_leading_term","kind":"method","src_hash":"f366e2c0e5280074","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f84bc69ac30a1be"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.log._eval_as_leading_term","kind":"method","src_hash":"f366e2c0e5280074","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.log._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f84bc69ac30a1be","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["PoleError"],"catches":["ValueError"]},"state_contract":{"exceptional_post":{"PoleError":["isinstance(raised, PoleError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         # NOTE
         # Refer https://github.com/sympy/sympy/pull/23592 for more information
@@ -1796,14 +2197,20 @@ class log(DefinedFunction):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LambertW(*args), correctly constructs a LambertW instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LambertW : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LambertW : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9072b72c0b695b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW","kind":"class","src_hash":"92559507da1e57ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LambertW(*args)","rhs":"correctly constructs a LambertW instance","over":{"base":"Any"},"name":"LambertW_class_invariant"},"guarantee":"correctly constructs a LambertW instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9072b72c0b695b1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW","kind":"class","src_hash":"92559507da1e57ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"LambertW(*args)","rhs":"correctly constructs a LambertW instance","over":{"base":"Any"},"name":"LambertW_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9072b72c0b695b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function LambertW not found in source"]}}
 class LambertW(DefinedFunction):
     r"""
     The Lambert W function $W(z)$ is defined as the inverse
@@ -1843,16 +2250,25 @@ class LambertW(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, x, k), <unspecified:eval>) over {Any | hasattr(k, 'is_zero') and hasattr(x, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(k, 'is_zero')                          ║
+# ║   requires: hasattr(x, 'is_zero')                          ║
+# ║   fiber[case_0]: k == S.Zero => cls(x)                     ║
+# ║   fiber[zero_or_none]: k is None                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(k, 'is_zero') and hasattr(x, 'i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 51b794ba02f00beb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c48447923f45224e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW.eval","kind":"classmethod","src_hash":"5f3a3de3ca0877f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.LambertW.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"51b794ba02f00beb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW.eval","kind":"classmethod","src_hash":"5f3a3de3ca0877f1","in":{"base":"Any","pred":"hasattr(k, 'is_zero') and hasattr(x, 'is_zero')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, x, k)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(k, 'is_zero') and hasattr(x, 'is_zero')"},"name":"eval_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.LambertW.eval_correct","statement":"Path(eval(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c48447923f45224e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(k, 'is_zero')","hasattr(x, 'is_zero')"],"fibers":[{"name":"case_0","guard":"k == S.Zero","ensures":["result == cls(x)"],"decidability":"z3","returns_expr":"cls(x)"},{"name":"zero_or_none","guard":"k is None","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["k.is_zero","x.is_zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, x, k=None):
         if k == S.Zero:
             return cls(x)
@@ -1889,16 +2305,22 @@ class LambertW(DefinedFunction):
                 return -Integer(2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), id) over Any                              ║
+# ║ Path(fdiff(argindex), id) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7536437fba35bbfb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW.fdiff","kind":"method","src_hash":"b51304c7e0bbf321","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"return the first derivative of this function","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"return the first derivative of this function","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"LambertW","by":"library_axiom"},{"fn":"LambertW","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7536437fba35bbfb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW.fdiff","kind":"method","src_hash":"b51304c7e0bbf321","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct","kind":"composition"},"guarantee":"return the first derivative of this function","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"LambertW","by":"library_axiom"},{"fn":"LambertW","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7536437fba35bbfb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         """
         Return the first derivative of this function.
@@ -1916,16 +2338,22 @@ class LambertW(DefinedFunction):
         raise ArgumentIndexError(self, argindex)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_extended_real(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_extended_real(), <unspecified:_eval_is_extended_real>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_extended_real : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c50b2be248ec122  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW._eval_is_extended_real","kind":"method","src_hash":"5eefecb3056553ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.LambertW._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c50b2be248ec122"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW._eval_is_extended_real","kind":"method","src_hash":"5eefecb3056553ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_extended_real()","rhs":"<unspecified:_eval_is_extended_real>","over":{"base":"Any"},"name":"_eval_is_extended_real_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.LambertW._eval_is_extended_real_correct","statement":"Path(_eval_is_extended_real(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c50b2be248ec122","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_extended_real(self):
         x = self.args[0]
         if len(self.args) == 1:
@@ -1947,30 +2375,43 @@ class LambertW(DefinedFunction):
                 return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_finite(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_finite(), self.args[0].is_finite) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].is_finite                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_finite : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d1d87e24a3956c3d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW._eval_is_finite","kind":"method","src_hash":"8d871050dfaef4ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1d87e24a3956c3d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW._eval_is_finite","kind":"method","src_hash":"8d871050dfaef4ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_finite()","rhs":"self.args[0].is_finite","over":{"base":"Any"},"name":"_eval_is_finite_correct"},"guarantee":"returns self.args[0].is_finite","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1d87e24a3956c3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].is_finite","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_finite(self):
         return self.args[0].is_finite
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_algebraic(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_algebraic(), <unspecified:_eval_is_algebraic>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: s.func == self.func                       ║
+# ║   fiber[case_1]: not (s.func == self.func) => s.is_al...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_algebraic : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1593735d5f41189  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c66c7403116cde38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW._eval_is_algebraic","kind":"method","src_hash":"3fb1ea83f9aa0337","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_algebraic()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_algebraic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.LambertW._eval_is_algebraic_correct","statement":"Path(_eval_is_algebraic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1593735d5f41189"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW._eval_is_algebraic","kind":"method","src_hash":"3fb1ea83f9aa0337","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_algebraic()","rhs":"<unspecified:_eval_is_algebraic>","over":{"base":"Any"},"name":"_eval_is_algebraic_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.LambertW._eval_is_algebraic_correct","statement":"Path(_eval_is_algebraic(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c66c7403116cde38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"s.func == self.func","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"not (s.func == self.func)","ensures":["result == s.is_algebraic"],"decidability":"z3","returns_expr":"s.is_algebraic"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_algebraic(self):
         s = self.func(*self.args)
         if s.func == self.func:
@@ -1980,16 +2421,22 @@ class LambertW(DefinedFunction):
             return s.is_algebraic
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), <unspecified:_eval_as_leading_term>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 77db88a6d3627d90  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW._eval_as_leading_term","kind":"method","src_hash":"329dabe8535c6416","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.LambertW._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77db88a6d3627d90"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW._eval_as_leading_term","kind":"method","src_hash":"329dabe8535c6416","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"<unspecified:_eval_as_leading_term>","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.LambertW._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"77db88a6d3627d90","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         if len(self.args) == 1:
             arg = self.args[0]
@@ -1999,16 +2446,22 @@ class LambertW(DefinedFunction):
             return arg.as_leading_term(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), <unspecified:_eval_nseries>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8d7aac432b0142b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW._eval_nseries","kind":"method","src_hash":"f126e5585759e4e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.LambertW._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8d7aac432b0142b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW._eval_nseries","kind":"method","src_hash":"f126e5585759e4e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"<unspecified:_eval_nseries>","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.LambertW._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8d7aac432b0142b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         if len(self.args) == 1:
             from sympy.functions.elementary.integers import ceiling
@@ -2029,16 +2482,25 @@ class LambertW(DefinedFunction):
         return super()._eval_nseries(x, n, logx)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_zero(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_zero(), result == (x.is_zero if len(self.args) == 1 else fuzzy_and([x.is_zero, self.args[1].is_zero])) and result == x.is_zero or result == fuzzy_and([x.is_zero, self.args[1].is_zero])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_zero : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (x.is_zero if len(self.args) ==...   ║
+# ║   ensures:  result == x.is_zero or result == fuzzy_an...   ║
+# ║   fiber[case_0]: len(self.args) == 1 => x.is_zero          ║
+# ║   fiber[case_1]: not (len(self.args) == 1) => fuzzy_a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_zero : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5de6d419faf5e8fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 517f5db5247166a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW._eval_is_zero","kind":"method","src_hash":"4ddc28f06d83a46e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_zero()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.LambertW._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5de6d419faf5e8fb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential.LambertW._eval_is_zero","kind":"method","src_hash":"4ddc28f06d83a46e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (x.is_zero if len(self.args) == 1 else fuzzy_and([x.is_zero, self.args[1].is_zero])) and result == x.is_zero or result == fuzzy_and([x.is_zero, self.args[1].is_zero])"},"spec":{"lhs":"_eval_is_zero()","rhs":"result == (x.is_zero if len(self.args) == 1 else fuzzy_and([x.is_zero, self.args[1].is_zero])) and result == x.is_zero or result == fuzzy_and([x.is_zero, self.args[1].is_zero])","over":{"base":"Any"},"name":"_eval_is_zero_correct"},"guarantee":"result == (x.is_zero if len(self.args) == 1 else fuzzy_and([x.is_zero, self.args[1].is_zero])); result == x.is_zero or result == fuzzy_and([x.is_zero, self.args[1].is_zero]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential.LambertW._eval_is_zero_correct","statement":"Path(_eval_is_zero(x), result == (x.is_zero if len(self.args) == 1 else fuzzy_and([x.is_zero, self.args[1].is_zero])); result == x.is_zero or result == fuzzy_and([x.is_zero, self.args[1].is_zero]); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"517f5db5247166a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (x.is_zero if len(self.args) == 1 else fuzzy_and([x.is_zero, self.args[1].is_zero]))","result == x.is_zero or result == fuzzy_and([x.is_zero, self.args[1].is_zero])"],"fibers":[{"name":"case_0","guard":"len(self.args) == 1","ensures":["result == x.is_zero"],"decidability":"z3","returns_expr":"x.is_zero"},{"name":"case_1","guard":"not (len(self.args) == 1)","ensures":["result == fuzzy_and([x.is_zero, self.args[1].is_zero])"],"decidability":"z3","returns_expr":"fuzzy_and([x.is_zero, self.args[1].is_zero])"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_zero(self):
         x = self.args[0]
         if len(self.args) == 1:
@@ -2049,16 +2511,22 @@ class LambertW(DefinedFunction):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_log_atan_table(), internal helper behaves correctly) over Any ║
+# ║ Path(_log_atan_table(), <unspecified:_log_atan_table>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _log_atan_table : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05ebae04e9c80bc0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential._log_atan_table","kind":"function","src_hash":"fe88562f23596ee7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_log_atan_table()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_log_atan_table_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential._log_atan_table_correct","statement":"Path(_log_atan_table(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05ebae04e9c80bc0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.exponential._log_atan_table","kind":"function","src_hash":"fe88562f23596ee7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_log_atan_table()","rhs":"<unspecified:_log_atan_table>","over":{"base":"Any"},"name":"_log_atan_table_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.exponential._log_atan_table_correct","statement":"Path(_log_atan_table(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05ebae04e9c80bc0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _log_atan_table():
     return {
         # first quadrant only

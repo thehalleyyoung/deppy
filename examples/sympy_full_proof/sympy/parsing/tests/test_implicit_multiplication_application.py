@@ -32,16 +32,22 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_implicit_multiplication(), test_implicit_multiplication produces the expected output) over Any ║
+# ║ Path(test_implicit_multiplication(), <unspecified:test_implicit_multiplication>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_implicit_multiplication : Any → {Any | implicit ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57e38fa5138c1fc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_implicit_multiplication_application.test_implicit_multiplication","kind":"function","src_hash":"d3134770b0e7263f","in":{"base":"Any"},"out":{"base":"Any","pred":"implicit == normal"},"spec":{"lhs":"test_implicit_multiplication()","rhs":"test_implicit_multiplication produces the expected output","over":{"base":"Any"},"name":"test_implicit_multiplication_correct"},"guarantee":"test_implicit_multiplication produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_implicit_multiplication_application.test_implicit_multiplication_correct","statement":"Path(test_implicit_multiplication(x), test_implicit_multiplication produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57e38fa5138c1fc5"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_implicit_multiplication_application.test_implicit_multiplication","kind":"function","src_hash":"d3134770b0e7263f","in":{"base":"Any"},"out":{"base":"Any","pred":"implicit == normal"},"spec":{"lhs":"test_implicit_multiplication()","rhs":"<unspecified:test_implicit_multiplication>","over":{"base":"Any"},"name":"test_implicit_multiplication_correct"},"guarantee":"test_implicit_multiplication produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_implicit_multiplication_application.test_implicit_multiplication_correct","statement":"Path(test_implicit_multiplication(x), test_implicit_multiplication produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57e38fa5138c1fc5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_implicit_multiplication():
     cases = {
         '5x': '5*x',
@@ -76,16 +82,22 @@ def test_implicit_multiplication():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_implicit_application(), test_implicit_application produces the expected output) over Any ║
+# ║ Path(test_implicit_application(), <unspecified:test_implicit_application>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_implicit_application : Any → {Any | implicit == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3fc2ef52cd2e18e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_implicit_multiplication_application.test_implicit_application","kind":"function","src_hash":"ab967471cbef77b7","in":{"base":"Any"},"out":{"base":"Any","pred":"implicit == normal"},"spec":{"lhs":"test_implicit_application()","rhs":"test_implicit_application produces the expected output","over":{"base":"Any"},"name":"test_implicit_application_correct"},"guarantee":"test_implicit_application produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_implicit_multiplication_application.test_implicit_application_correct","statement":"Path(test_implicit_application(x), test_implicit_application produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fc2ef52cd2e18e4"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_implicit_multiplication_application.test_implicit_application","kind":"function","src_hash":"ab967471cbef77b7","in":{"base":"Any"},"out":{"base":"Any","pred":"implicit == normal"},"spec":{"lhs":"test_implicit_application()","rhs":"<unspecified:test_implicit_application>","over":{"base":"Any"},"name":"test_implicit_application_correct"},"guarantee":"test_implicit_application produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_implicit_multiplication_application.test_implicit_application_correct","statement":"Path(test_implicit_application(x), test_implicit_application produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3fc2ef52cd2e18e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_implicit_application():
     cases = {
         'factorial': 'factorial',
@@ -111,16 +123,22 @@ def test_implicit_application():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_exponentiation(), test_function_exponentiation produces the expected output) over Any ║
+# ║ Path(test_function_exponentiation(), parse_expr('x**2', local_dict={'x': sympy.Symbol('x')}, transformations=transformations2) == parse_expr('x**2')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_function_exponentiation : Any → {Any | implicit ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('x**2', local_dict={'x': sympy...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_function_exponentiation : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0962f893c711611  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5c7e2fffb82071f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_implicit_multiplication_application.test_function_exponentiation","kind":"function","src_hash":"b182e6a25f030b58","in":{"base":"Any"},"out":{"base":"Any","pred":"implicit == normal"},"spec":{"lhs":"test_function_exponentiation()","rhs":"test_function_exponentiation produces the expected output","over":{"base":"Any"},"name":"test_function_exponentiation_correct"},"guarantee":"test_function_exponentiation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_implicit_multiplication_application.test_function_exponentiation_correct","statement":"Path(test_function_exponentiation(x), test_function_exponentiation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0962f893c711611"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_implicit_multiplication_application.test_function_exponentiation","kind":"function","src_hash":"b182e6a25f030b58","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('x**2', local_dict={'x': sympy.Symbol('x')}, transformations=transformations2) == parse_expr('x**2')"},"spec":{"lhs":"test_function_exponentiation()","rhs":"parse_expr('x**2', local_dict={'x': sympy.Symbol('x')}, transformations=transformations2) == parse_expr('x**2')","over":{"base":"Any"},"name":"test_function_exponentiation_correct"},"guarantee":"parse_expr('x**2', local_dict={'x': sympy.Symbol('x')}, transformations=transformations2) == parse_expr('x**2')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_implicit_multiplication_application.test_function_exponentiation_correct","statement":"Path(test_function_exponentiation(x), parse_expr('x**2', local_dict={'x': sympy.Symbol('x')}, transformations=transformations2) == parse_expr('x**2'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5c7e2fffb82071f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('x**2', local_dict={'x': sympy.Symbol('x')}, transformations=transformations2) == parse_expr('x**2')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_function_exponentiation():
     cases = {
         'sin**2(x)': 'sin(x)**2',
@@ -145,16 +163,24 @@ def test_function_exponentiation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_symbol_splitting(), test_symbol_splitting produces the expected output) over Any ║
+# ║ Path(test_symbol_splitting(), parse_expr('unsplittable', transformations=transformations) == parse_expr('unsplittable') and parse_expr('names', transformations=transformations) == parse_expr('names') and parse_expr('xy', transformations=transformations) == parse_expr('x*y')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_symbol_splitting : Any → {Any | parse_expr('name...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('unsplittable', transformation...   ║
+# ║   ensures:  parse_expr('names', transformations=trans...   ║
+# ║   ensures:  parse_expr('xy', transformations=transfor...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_symbol_splitting : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 238dcd699b42df0f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aec66be96a1bb4eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_implicit_multiplication_application.test_symbol_splitting","kind":"function","src_hash":"983b7214f30a874f","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('names', transformations=transformations) == parse_expr('names') and parse_expr('xy', transformations=transformations) == parse_expr('x*y') and parse_expr(letter, transformations=transformations) == parse_expr(letter) and parse_expr(letter, transformations=transformations) == parse_expr(letter)"},"spec":{"lhs":"test_symbol_splitting()","rhs":"test_symbol_splitting produces the expected output","over":{"base":"Any"},"name":"test_symbol_splitting_correct"},"guarantee":"test_symbol_splitting produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_implicit_multiplication_application.test_symbol_splitting_correct","statement":"Path(test_symbol_splitting(x), test_symbol_splitting produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"238dcd699b42df0f"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_implicit_multiplication_application.test_symbol_splitting","kind":"function","src_hash":"983b7214f30a874f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('unsplittable', transformations=transformations) == parse_expr('unsplittable') and parse_expr('names', transformations=transformations) == parse_expr('names') and parse_expr('xy', transformations=transformations) == parse_expr('x*y')"},"spec":{"lhs":"test_symbol_splitting()","rhs":"parse_expr('unsplittable', transformations=transformations) == parse_expr('unsplittable') and parse_expr('names', transformations=transformations) == parse_expr('names') and parse_expr('xy', transformations=transformations) == parse_expr('x*y')","over":{"base":"Any"},"name":"test_symbol_splitting_correct"},"guarantee":"parse_expr('unsplittable', transformations=transformations) == parse_expr('unsplittable'); parse_expr('names', transformations=transformations) == parse_expr('names'); parse_expr('xy', transformations=transformations) == parse_expr('x*y')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_implicit_multiplication_application.test_symbol_splitting_correct","statement":"Path(test_symbol_splitting(x), parse_expr('unsplittable', transformations=transformations) == parse_expr('unsplittable'); parse_expr('names', transformations=transformations) == parse_expr('names'); parse_expr('xy', transformations=transformations) == parse_expr('x*y'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aec66be96a1bb4eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('unsplittable', transformations=transformations) == parse_expr('unsplittable')","parse_expr('names', transformations=transformations) == parse_expr('names')","parse_expr('xy', transformations=transformations) == parse_expr('x*y')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_symbol_splitting():
     # By default Greek letter names should not be split (lambda is a keyword
     # so skip it)
@@ -202,16 +228,22 @@ def test_symbol_splitting():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_all_implicit_steps(), test_all_implicit_steps produces the expected output) over Any ║
+# ║ Path(test_all_implicit_steps(), <unspecified:test_all_implicit_steps>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_all_implicit_steps : Any → {Any | implicit == no...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c341318510968ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_implicit_multiplication_application.test_all_implicit_steps","kind":"function","src_hash":"4f2ca28d83cfeb29","in":{"base":"Any"},"out":{"base":"Any","pred":"implicit == normal"},"spec":{"lhs":"test_all_implicit_steps()","rhs":"test_all_implicit_steps produces the expected output","over":{"base":"Any"},"name":"test_all_implicit_steps_correct"},"guarantee":"test_all_implicit_steps produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_implicit_multiplication_application.test_all_implicit_steps_correct","statement":"Path(test_all_implicit_steps(x), test_all_implicit_steps produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c341318510968ae"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_implicit_multiplication_application.test_all_implicit_steps","kind":"function","src_hash":"4f2ca28d83cfeb29","in":{"base":"Any"},"out":{"base":"Any","pred":"implicit == normal"},"spec":{"lhs":"test_all_implicit_steps()","rhs":"<unspecified:test_all_implicit_steps>","over":{"base":"Any"},"name":"test_all_implicit_steps_correct"},"guarantee":"test_all_implicit_steps produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_implicit_multiplication_application.test_all_implicit_steps_correct","statement":"Path(test_all_implicit_steps(x), test_all_implicit_steps produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c341318510968ae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_all_implicit_steps():
     cases = {
         '2x': '2*x',  # implicit multiplication
@@ -256,16 +288,23 @@ def test_all_implicit_steps():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_no_methods_implicit_multiplication(), test_no_methods_implicit_multiplication produces the expected output) over Any ║
+# ║ Path(test_no_methods_implicit_multiplication(), expr == True and expr == u / (u ** 2 + 1)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr == True                                   ║
+# ║   ensures:  expr == u / (u ** 2 + 1)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_no_methods_implicit_multiplication : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3214a00f0804b0b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fbf48c1d0338696  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_implicit_multiplication_application.test_no_methods_implicit_multiplication","kind":"function","src_hash":"57ebb9e811ea534f","in":{"base":"Any"},"out":{"base":"Any","pred":"expr == True and expr == u / (u ** 2 + 1)"},"spec":{"lhs":"test_no_methods_implicit_multiplication()","rhs":"test_no_methods_implicit_multiplication produces the expected output","over":{"base":"Any"},"name":"test_no_methods_implicit_multiplication_correct"},"guarantee":"test_no_methods_implicit_multiplication produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_implicit_multiplication_application.test_no_methods_implicit_multiplication_correct","statement":"Path(test_no_methods_implicit_multiplication(x), test_no_methods_implicit_multiplication produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3214a00f0804b0b"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_implicit_multiplication_application.test_no_methods_implicit_multiplication","kind":"function","src_hash":"57ebb9e811ea534f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr == True and expr == u / (u ** 2 + 1)"},"spec":{"lhs":"test_no_methods_implicit_multiplication()","rhs":"expr == True and expr == u / (u ** 2 + 1)","over":{"base":"Any"},"name":"test_no_methods_implicit_multiplication_correct"},"guarantee":"expr == True; expr == u / (u ** 2 + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_implicit_multiplication_application.test_no_methods_implicit_multiplication_correct","statement":"Path(test_no_methods_implicit_multiplication(x), expr == True; expr == u / (u ** 2 + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fbf48c1d0338696","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr == True","expr == u / (u ** 2 + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_no_methods_implicit_multiplication():
     # Issue 21020
     u = sympy.Symbol('u')

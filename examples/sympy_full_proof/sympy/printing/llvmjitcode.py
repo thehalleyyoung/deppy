@@ -44,27 +44,41 @@ __doctest_requires__ = {('llvm_callable'): ['llvmlite']}
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a LLVMJitPrinter instance) preserved by LLVMJitPrinter(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LLVMJitPrinter : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Printer)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LLVMJitPrinter : Any → {Any | result satisfies: isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be07d84ba3593c31  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter","kind":"class","src_hash":"ee25d79a52a693fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LLVMJitPrinter(*args)","rhs":"correctly constructs a LLVMJitPrinter instance","over":{"base":"Any"},"name":"LLVMJitPrinter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a LLVMJitPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'func_arg_map') and hasattr(self, 'fp_type') and hasattr(self, 'module') and hasattr(self, 'builder') and hasattr(self, 'fn') and hasattr(self, 'ext_fn') and hasattr(self, 'tmp_var')","kind":"class","induction":"structural on func_arg_map, fp_type, module, builder"}],"methods_preserving":["__init__","_add_tmp_var","_print_Number","_print_Integer","_print_Symbol","_print_Pow","_print_Mul","_print_Add","_print_Function","emptyPrinter"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be07d84ba3593c31"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter","kind":"class","src_hash":"ee25d79a52a693fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Printer)"},"spec":{"lhs":"LLVMJitPrinter(*args)","rhs":"correctly constructs a LLVMJitPrinter instance","over":{"base":"Any"},"name":"LLVMJitPrinter_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Printer); preserves 7 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'func_arg_map') and hasattr(self, 'fp_type') and hasattr(self, 'module') and hasattr(self, 'builder') and hasattr(self, 'fn') and hasattr(self, 'ext_fn') and hasattr(self, 'tmp_var')","kind":"class","induction":"structural on func_arg_map, fp_type, module, builder"}],"methods_preserving":["__init__","_add_tmp_var","_print_Number","_print_Integer","_print_Symbol","_print_Pow","_print_Mul","_print_Add","_print_Function","emptyPrinter"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be07d84ba3593c31","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Printer)"],"invariants":["hasattr(self, 'func_arg_map')","hasattr(self, 'fp_type')","hasattr(self, 'module')","hasattr(self, 'builder')","hasattr(self, 'fn')","hasattr(self, 'ext_fn')","hasattr(self, 'tmp_var')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function LLVMJitPrinter not found in source"]}}
 class LLVMJitPrinter(Printer):
     '''Convert expressions to LLVM IR'''
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(mod), initializes the instance correctly) over Any ║
+# ║ Path(__init__(module, builder, fn), len(kwargs) == old_len_kwargs - 1) over {Any | llvmlite and len(kwargs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: llvmlite                                       ║
+# ║   requires: len(kwargs) > 0                                ║
+# ║   ensures:  len(kwargs) == old_len_kwargs - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | llvmlite and len(kwargs) > 0} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dad87bd4c079cb39           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter.__init__","kind":"method","src_hash":"1e6a5aea4de07b55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(mod)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dad87bd4c079cb39"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter.__init__","kind":"method","src_hash":"1e6a5aea4de07b55","in":{"base":"Any","pred":"llvmlite and len(kwargs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(kwargs) == old_len_kwargs - 1"},"spec":{"lhs":"__init__(module, builder, fn)","rhs":"len(kwargs) == old_len_kwargs - 1","over":{"base":"Any","pred":"llvmlite and len(kwargs) > 0"},"name":"__init___correct"},"guarantee":"len(kwargs) == old_len_kwargs - 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dad87bd4c079cb39","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["llvmlite","len(kwargs) > 0"],"ensures":["len(kwargs) == old_len_kwargs - 1"],"pure":false,"effects":{"effect_type":"reads_state","writes":["self.builder","self.ext_fn","self.fn","self.fp_type","self.func_arg_map","self.module","self.tmp_var"],"calls_mutating":["kwargs.pop"],"raises":["ImportError"]},"state_contract":{"modifies":["kwargs.*","self.builder","self.ext_fn","self.fn","self.fp_type","self.func_arg_map","self.module","self.tmp_var"],"old_bindings":{"old_self_builder":"self.builder","old_self_ext_fn":"self.ext_fn","old_self_fn":"self.fn","old_self_fp_type":"self.fp_type","old_self_func_arg_map":"self.func_arg_map","old_self_module":"self.module","old_self_tmp_var":"self.tmp_var","old_len_kwargs":"len(kwargs)"},"pre_requires":["len(kwargs) > 0"],"post_ensures":["len(kwargs) == old_len_kwargs - 1"],"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, module, builder, fn, *args, **kwargs):
         self.func_arg_map = kwargs.pop("func_arg_map", {})
         if not llvmlite:
@@ -78,58 +92,84 @@ class LLVMJitPrinter(Printer):
         self.tmp_var = {}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_tmp_var(nam), internal helper behaves correctly) over Any ║
+# ║ Path(_add_tmp_var(name, value), <unspecified:_add_tmp_var>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _add_tmp_var : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b17c2a33f59836c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._add_tmp_var","kind":"method","src_hash":"38f5d9251960493d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_tmp_var(nam)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_add_tmp_var_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitPrinter._add_tmp_var_correct","statement":"Path(_add_tmp_var(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b17c2a33f59836c7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._add_tmp_var","kind":"method","src_hash":"38f5d9251960493d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_tmp_var(name, value)","rhs":"<unspecified:_add_tmp_var>","over":{"base":"Any"},"name":"_add_tmp_var_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitPrinter._add_tmp_var_correct","statement":"Path(_add_tmp_var(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b17c2a33f59836c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.tmp_var"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add_tmp_var(self, name, value):
         self.tmp_var[name] = value
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Number(n), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Number(n), ll.Constant(self.fp_type, float(n))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ll.Constant(self.fp_type, float(n))            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Number : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6aa547ae992ce1c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Number","kind":"method","src_hash":"966809376e73e90b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Number(n)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Number_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6aa547ae992ce1c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Number","kind":"method","src_hash":"966809376e73e90b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Number(n)","rhs":"ll.Constant(self.fp_type, float(n))","over":{"base":"Any"},"name":"_print_Number_correct"},"guarantee":"returns ll.Constant(self.fp_type, float(n))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6aa547ae992ce1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ll.Constant(self.fp_type, float(n))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fp_type"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Number(self, n):
         return ll.Constant(self.fp_type, float(n))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Integer(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Integer(expr), ll.Constant(self.fp_type, float(expr.p))) over {Any | hasattr(expr, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Integer : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'p')                             ║
+# ║   returns:  ll.Constant(self.fp_type, float(expr.p))       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Integer : {Any | hasattr(expr, 'p')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e8dfbd908dc9043           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Integer","kind":"method","src_hash":"1f5683cf4e1ca367","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Integer(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e8dfbd908dc9043"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Integer","kind":"method","src_hash":"1f5683cf4e1ca367","in":{"base":"Any","pred":"hasattr(expr, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Integer(expr)","rhs":"ll.Constant(self.fp_type, float(expr.p))","over":{"base":"Any","pred":"hasattr(expr, 'p')"},"name":"_print_Integer_correct"},"guarantee":"returns ll.Constant(self.fp_type, float(expr.p))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e8dfbd908dc9043","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'p')"],"returns_expr":"ll.Constant(self.fp_type, float(expr.p))","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.p","self.fp_type"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Integer(self, expr):
         return ll.Constant(self.fp_type, float(expr.p))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Symbol(s), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Symbol(s), <unspecified:_print_Symbol>) over {Any | val} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Symbol : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: val                                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Symbol : {Any | val} → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a8c52fa03e6376d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Symbol","kind":"method","src_hash":"ce4683ebeaf6c442","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Symbol(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Symbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a8c52fa03e6376d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Symbol","kind":"method","src_hash":"ce4683ebeaf6c442","in":{"base":"Any","pred":"val"},"out":{"base":"Any"},"spec":{"lhs":"_print_Symbol(s)","rhs":"<unspecified:_print_Symbol>","over":{"base":"Any","pred":"val"},"name":"_print_Symbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a8c52fa03e6376d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["val"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.func_arg_map","self.tmp_var"],"raises":["LookupError"]},"state_contract":{"exceptional_post":{"LookupError":["isinstance(raised, LookupError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Symbol(self, s):
         val = self.tmp_var.get(s)
         if not val:
@@ -140,16 +180,24 @@ class LLVMJitPrinter(Printer):
         return val
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Pow(exp), id) over Any                         ║
+# ║ Path(_print_Pow(expr), id) over {Any | hasattr(expr, 'base') and hasattr(expr, 'exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Pow : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Pow : {Any | hasattr(expr, 'base') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f896650990c52f68   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Pow","kind":"method","src_hash":"75e7d19199a5aec2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Pow_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fdiv","by":"library_axiom"},{"fn":"Constant","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f896650990c52f68"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Pow","kind":"method","src_hash":"75e7d19199a5aec2","in":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Pow(expr)","rhs":"<unspecified:_print_Pow>","over":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'exp')"},"name":"_print_Pow_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"fdiv","by":"library_axiom"},{"fn":"Constant","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f896650990c52f68","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'base')","hasattr(expr, 'exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.exp","self._print","self.builder","self.ext_fn","self.fp_type","self.module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Pow(self, expr):
         base0 = self._print(expr.base)
         if expr.exp == S.NegativeOne:
@@ -173,16 +221,23 @@ class LLVMJitPrinter(Printer):
         return self.builder.call(fn, [base0, exp0], "pow")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Mul(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Mul(expr), <unspecified:_print_Mul>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Mul : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Mul : {Any | hasattr(expr, 'args')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24865e4b5efcc34f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Mul","kind":"method","src_hash":"0e4ee5a0813b480c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Mul_correct","statement":"Path(_print_Mul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24865e4b5efcc34f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Mul","kind":"method","src_hash":"0e4ee5a0813b480c","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Mul(expr)","rhs":"<unspecified:_print_Mul>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Mul_correct","statement":"Path(_print_Mul(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24865e4b5efcc34f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print","self.builder"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Mul(self, expr):
         nodes = [self._print(a) for a in expr.args]
         e = nodes[0]
@@ -191,16 +246,23 @@ class LLVMJitPrinter(Printer):
         return e
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Add(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Add(expr), <unspecified:_print_Add>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Add : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Add : {Any | hasattr(expr, 'args')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6bab4684e46a6df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Add","kind":"method","src_hash":"738c104ea3671d36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Add(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Add_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Add_correct","statement":"Path(_print_Add(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6bab4684e46a6df"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Add","kind":"method","src_hash":"738c104ea3671d36","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Add(expr)","rhs":"<unspecified:_print_Add>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_print_Add_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Add_correct","statement":"Path(_print_Add(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6bab4684e46a6df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","self._print","self.builder"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Add(self, expr):
         nodes = [self._print(a) for a in expr.args]
         e = nodes[0]
@@ -211,16 +273,24 @@ class LLVMJitPrinter(Printer):
     # TODO - assumes all called functions take one double precision argument.
     #        Should have a list of math library functions to validate this.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Function(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Function(expr), self.builder.call(fn, [e0], name)) over {Any | hasattr(expr, 'func') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Function : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  self.builder.call(fn, [e0], name)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Function : {Any | hasattr(expr, 'func') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57b93d4c4ab08761  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25ce1487cc83893b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Function","kind":"method","src_hash":"bcc58c2f862d66a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Function_correct","statement":"Path(_print_Function(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57b93d4c4ab08761"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Function","kind":"method","src_hash":"bcc58c2f862d66a0","in":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(expr)","rhs":"self.builder.call(fn, [e0], name)","over":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, 'args')"},"name":"_print_Function_correct"},"guarantee":"returns self.builder.call(fn, [e0], name)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitPrinter._print_Function_correct","statement":"Path(_print_Function(x), returns self.builder.call(fn, [e0], name))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25ce1487cc83893b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'func')","hasattr(expr, 'args')"],"returns_expr":"self.builder.call(fn, [e0], name)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.func","self._print","self.builder","self.ext_fn","self.fp_type","self.module"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Function(self, expr):
         name = expr.func.__name__
         e0 = self._print(expr.args[0])
@@ -232,16 +302,22 @@ class LLVMJitPrinter(Printer):
         return self.builder.call(fn, [e0], name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(emptyPrinter(exp), emptyPrinter produces the expected output) over Any ║
+# ║ Path(emptyPrinter(expr), <unspecified:emptyPrinter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ emptyPrinter : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea9ea9e0884fdf39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter.emptyPrinter","kind":"method","src_hash":"e4c814adedca90bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"emptyPrinter(exp)","rhs":"emptyPrinter produces the expected output","over":{"base":"Any"},"name":"emptyPrinter_correct"},"guarantee":"emptyPrinter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitPrinter.emptyPrinter_correct","statement":"Path(emptyPrinter(x), emptyPrinter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea9ea9e0884fdf39"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitPrinter.emptyPrinter","kind":"method","src_hash":"e4c814adedca90bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"emptyPrinter(expr)","rhs":"<unspecified:emptyPrinter>","over":{"base":"Any"},"name":"emptyPrinter_correct"},"guarantee":"emptyPrinter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitPrinter.emptyPrinter_correct","statement":"Path(emptyPrinter(x), emptyPrinter produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea9ea9e0884fdf39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def emptyPrinter(self, expr):
         raise TypeError("Unsupported type for LLVM JIT conversion: %s"
                         % type(expr))
@@ -252,40 +328,60 @@ class LLVMJitPrinter(Printer):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LLVMJitCallbackPrinter(*args), correctly constructs a LLVMJitCallbackPrinter instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LLVMJitCallbackPrinter : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LLVMJitPrinter)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LLVMJitCallbackPrinter : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe300e5aecaabf7d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCallbackPrinter","kind":"class","src_hash":"b080862fdea13a14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LLVMJitCallbackPrinter(*args)","rhs":"correctly constructs a LLVMJitCallbackPrinter instance","over":{"base":"Any"},"name":"LLVMJitCallbackPrinter_class_invariant"},"guarantee":"correctly constructs a LLVMJitCallbackPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe300e5aecaabf7d"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCallbackPrinter","kind":"class","src_hash":"b080862fdea13a14","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LLVMJitPrinter)"},"spec":{"lhs":"LLVMJitCallbackPrinter(*args)","rhs":"correctly constructs a LLVMJitCallbackPrinter instance","over":{"base":"Any"},"name":"LLVMJitCallbackPrinter_class_invariant"},"guarantee":"isinstance(self, LLVMJitPrinter)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe300e5aecaabf7d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LLVMJitPrinter)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function LLVMJitCallbackPrinter not found in source"]}}
 class LLVMJitCallbackPrinter(LLVMJitPrinter):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1b4edcf0c9869eba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCallbackPrinter.__init__","kind":"method","src_hash":"fdd66439f51a83f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b4edcf0c9869eba"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCallbackPrinter.__init__","kind":"method","src_hash":"fdd66439f51a83f1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1b4edcf0c9869eba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Indexed(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Indexed(expr), <unspecified:_print_Indexed>) over {Any | hasattr(expr, 'base') and hasattr(expr, 'indices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Indexed : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'base')                          ║
+# ║   requires: hasattr(expr, 'indices')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Indexed : {Any | hasattr(expr, 'base') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1716f23a88cbb501  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCallbackPrinter._print_Indexed","kind":"method","src_hash":"3ba7af1b0e6528ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Indexed(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Indexed_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCallbackPrinter._print_Indexed_correct","statement":"Path(_print_Indexed(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1716f23a88cbb501"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCallbackPrinter._print_Indexed","kind":"method","src_hash":"3ba7af1b0e6528ce","in":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'indices')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Indexed(expr)","rhs":"<unspecified:_print_Indexed>","over":{"base":"Any","pred":"hasattr(expr, 'base') and hasattr(expr, 'indices')"},"name":"_print_Indexed_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCallbackPrinter._print_Indexed_correct","statement":"Path(_print_Indexed(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1716f23a88cbb501","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'base')","hasattr(expr, 'indices')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.base","expr.indices","self.builder","self.fp_type","self.func_arg_map"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Indexed(self, expr):
         array, idx = self.func_arg_map[expr.base]
         offset = int(expr.indices[0].evalf())
@@ -295,16 +391,23 @@ class LLVMJitCallbackPrinter(LLVMJitPrinter):
         return value
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Symbol(s), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Symbol(s), <unspecified:_print_Symbol>) over {Any | array} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Symbol : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: array                                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Symbol : {Any | array} → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 571b6b0f9ed8fcb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCallbackPrinter._print_Symbol","kind":"method","src_hash":"816c034a3e2097f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Symbol(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Symbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCallbackPrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"571b6b0f9ed8fcb3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCallbackPrinter._print_Symbol","kind":"method","src_hash":"816c034a3e2097f3","in":{"base":"Any","pred":"array"},"out":{"base":"Any"},"spec":{"lhs":"_print_Symbol(s)","rhs":"<unspecified:_print_Symbol>","over":{"base":"Any","pred":"array"},"name":"_print_Symbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCallbackPrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"571b6b0f9ed8fcb3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["array"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.builder","self.fp_type","self.func_arg_map","self.tmp_var"],"raises":["LookupError"]},"state_contract":{"exceptional_post":{"LookupError":["isinstance(raised, LookupError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Symbol(self, s):
         val = self.tmp_var.get(s)
         if val:
@@ -332,26 +435,37 @@ current_link_suffix = 0
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a LLVMJitCode instance) preserved by LLVMJitCode(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ LLVMJitCode : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c0e88db7cd93662  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode","kind":"class","src_hash":"ddeeb1afe7f01710","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LLVMJitCode(*args)","rhs":"correctly constructs a LLVMJitCode instance","over":{"base":"Any"},"name":"LLVMJitCode_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a LLVMJitCode instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'signature') and hasattr(self, 'fp_type') and hasattr(self, 'module') and hasattr(self, 'fn') and hasattr(self, 'llvm_arg_types') and hasattr(self, 'llvm_ret_type') and hasattr(self, 'param_dict') and hasattr(self, 'link_name')","kind":"class","induction":"structural on signature, fp_type, module, fn"}],"methods_preserving":["__init__","_from_ctype","_create_args","_create_function_base","_create_param_dict","_create_function","_wrap_return","_convert_expr","_compile_function"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c0e88db7cd93662"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode","kind":"class","src_hash":"ddeeb1afe7f01710","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LLVMJitCode(*args)","rhs":"correctly constructs a LLVMJitCode instance","over":{"base":"Any"},"name":"LLVMJitCode_class_invariant","kind":"invariant"},"guarantee":"preserves 8 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'signature') and hasattr(self, 'fp_type') and hasattr(self, 'module') and hasattr(self, 'fn') and hasattr(self, 'llvm_arg_types') and hasattr(self, 'llvm_ret_type') and hasattr(self, 'param_dict') and hasattr(self, 'link_name')","kind":"class","induction":"structural on signature, fp_type, module, fn"}],"methods_preserving":["__init__","_from_ctype","_create_args","_create_function_base","_create_param_dict","_create_function","_wrap_return","_convert_expr","_compile_function"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c0e88db7cd93662","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'signature')","hasattr(self, 'fp_type')","hasattr(self, 'module')","hasattr(self, 'fn')","hasattr(self, 'llvm_arg_types')","hasattr(self, 'llvm_ret_type')","hasattr(self, 'param_dict')","hasattr(self, 'link_name')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function LLVMJitCode not found in source"]}}
 class LLVMJitCode:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(sig), initializes the instance correctly) over Any ║
+# ║ Path(__init__(signature), self.signature == signature) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.signature == signature                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.signat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df797991a3c444f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode.__init__","kind":"method","src_hash":"ed72920e63541b52","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(sig)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df797991a3c444f1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode.__init__","kind":"method","src_hash":"ed72920e63541b52","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.signature == signature"},"spec":{"lhs":"__init__(signature)","rhs":"self.signature == signature","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.signature == signature","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df797991a3c444f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.signature == signature"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, signature):
         self.signature = signature
         self.fp_type = ll.DoubleType()
@@ -363,16 +477,22 @@ class LLVMJitCode:
         self.link_name = ''
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_from_ctype(cty), internal helper behaves correctly) over Any ║
+# ║ Path(_from_ctype(ctype), <unspecified:_from_ctype>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _from_ctype : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8baaae811b0c8110  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._from_ctype","kind":"method","src_hash":"8e0db1927d5248ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_ctype(cty)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_from_ctype_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._from_ctype_correct","statement":"Path(_from_ctype(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8baaae811b0c8110"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._from_ctype","kind":"method","src_hash":"8e0db1927d5248ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_ctype(ctype)","rhs":"<unspecified:_from_ctype>","over":{"base":"Any"},"name":"_from_ctype_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._from_ctype_correct","statement":"Path(_from_ctype(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8baaae811b0c8110","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self.fp_type"],"io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _from_ctype(self, ctype):
         if ctype == ctypes.c_int:
             return ll.IntType(32)
@@ -388,16 +508,22 @@ class LLVMJitCode:
         print("Unhandled ctype = %s" % str(ctype))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_args(fun), create types for function arguments) over Any ║
+# ║ Path(_create_args(func_args), <unspecified:_create_args>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_args : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b16179ba142fbc7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._create_args","kind":"method","src_hash":"8252c63c9f41190d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_args(fun)","rhs":"create types for function arguments","over":{"base":"Any"},"name":"_create_args_correct"},"guarantee":"create types for function arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._create_args_correct","statement":"Path(_create_args(x), create types for function arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b16179ba142fbc7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._create_args","kind":"method","src_hash":"8252c63c9f41190d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_args(func_args)","rhs":"<unspecified:_create_args>","over":{"base":"Any"},"name":"_create_args_correct"},"guarantee":"create types for function arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._create_args_correct","statement":"Path(_create_args(x), create types for function arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b16179ba142fbc7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._from_ctype","self.signature"],"writes":["self.llvm_arg_types","self.llvm_ret_type"]},"state_contract":{"modifies":["self.llvm_arg_types","self.llvm_ret_type"],"old_bindings":{"old_self_llvm_arg_types":"self.llvm_arg_types","old_self_llvm_ret_type":"self.llvm_ret_type"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_args(self, func_args):
         """Create types for function arguments"""
         self.llvm_ret_type = self._from_ctype(self.signature.ret_type)
@@ -405,16 +531,22 @@ class LLVMJitCode:
             [self._from_ctype(a) for a in self.signature.arg_ctypes]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_function_base(), create function with name and type signature) over Any ║
+# ║ Path(_create_function_base(), <unspecified:_create_function_base>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_function_base : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83229077566884a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._create_function_base","kind":"method","src_hash":"b6a216b5a836af0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_function_base()","rhs":"create function with name and type signature","over":{"base":"Any"},"name":"_create_function_base_correct"},"guarantee":"create function with name and type signature","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._create_function_base_correct","statement":"Path(_create_function_base(x), create function with name and type signature)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83229077566884a3"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._create_function_base","kind":"method","src_hash":"b6a216b5a836af0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_function_base()","rhs":"<unspecified:_create_function_base>","over":{"base":"Any"},"name":"_create_function_base_correct"},"guarantee":"create function with name and type signature","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._create_function_base_correct","statement":"Path(_create_function_base(x), create function with name and type signature)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83229077566884a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_global","reads":["self.link_name","self.llvm_arg_types","self.llvm_ret_type","self.module"],"writes":["self.fn","self.link_name"],"calls_mutating":["link_names.add"],"globals_read":["current_link_suffix"],"globals_written":["current_link_suffix"]},"state_contract":{"modifies":["link_names.*","self.fn","self.link_name"],"old_bindings":{"old_self_fn":"self.fn","old_self_link_name":"self.link_name"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_function_base(self):
         """Create function with name and type signature"""
         global current_link_suffix
@@ -427,16 +559,22 @@ class LLVMJitCode:
         self.fn = ll.Function(self.module, fn_type, name=self.link_name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_param_dict(fun), mapping of symbolic values to function arguments) over Any ║
+# ║ Path(_create_param_dict(func_args), <unspecified:_create_param_dict>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_param_dict : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50f6c6d2a2eeb8e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._create_param_dict","kind":"method","src_hash":"4ce41a48c1b640fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_param_dict(fun)","rhs":"mapping of symbolic values to function arguments","over":{"base":"Any"},"name":"_create_param_dict_correct"},"guarantee":"mapping of symbolic values to function arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._create_param_dict_correct","statement":"Path(_create_param_dict(x), mapping of symbolic values to function arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50f6c6d2a2eeb8e8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._create_param_dict","kind":"method","src_hash":"4ce41a48c1b640fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_param_dict(func_args)","rhs":"<unspecified:_create_param_dict>","over":{"base":"Any"},"name":"_create_param_dict_correct"},"guarantee":"mapping of symbolic values to function arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._create_param_dict_correct","statement":"Path(_create_param_dict(x), mapping of symbolic values to function arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50f6c6d2a2eeb8e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fn","self.param_dict"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_param_dict(self, func_args):
         """Mapping of symbolic values to function arguments"""
         for i, a in enumerate(func_args):
@@ -444,16 +582,22 @@ class LLVMJitCode:
             self.param_dict[a] = self.fn.args[i]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_function(exp), create function body and return llvm ir) over Any ║
+# ║ Path(_create_function(expr), <unspecified:_create_function>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_function : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8159169b5d29acc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._create_function","kind":"method","src_hash":"0ae2e0b063631c21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_function(exp)","rhs":"create function body and return llvm ir","over":{"base":"Any"},"name":"_create_function_correct"},"guarantee":"create function body and return llvm ir","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._create_function_correct","statement":"Path(_create_function(x), create function body and return llvm ir)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8159169b5d29acc"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._create_function","kind":"method","src_hash":"0ae2e0b063631c21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_function(expr)","rhs":"<unspecified:_create_function>","over":{"base":"Any"},"name":"_create_function_correct"},"guarantee":"create function body and return llvm ir","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._create_function_correct","statement":"Path(_create_function(x), create function body and return llvm ir)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8159169b5d29acc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._convert_expr","self._wrap_return","self.fn","self.module","self.param_dict"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_function(self, expr):
         """Create function body and return LLVM IR"""
         bb_entry = self.fn.append_basic_block('entry')
@@ -469,16 +613,24 @@ class LLVMJitCode:
         return strmod
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_wrap_return(lj,), internal helper behaves correctly) over Any ║
+# ║ Path(_wrap_return(lj, vals), <unspecified:_wrap_return>) over {Any | hasattr(lj, 'module') and hasattr(lj, 'builder')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _wrap_return : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(lj, 'module')                          ║
+# ║   requires: hasattr(lj, 'builder')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _wrap_return : {Any | hasattr(lj, 'module') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68b36bc198d7dfb9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._wrap_return","kind":"method","src_hash":"8b5dd8d2512c30d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_wrap_return(lj,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_wrap_return_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._wrap_return_correct","statement":"Path(_wrap_return(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68b36bc198d7dfb9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._wrap_return","kind":"method","src_hash":"8b5dd8d2512c30d7","in":{"base":"Any","pred":"hasattr(lj, 'module') and hasattr(lj, 'builder')"},"out":{"base":"Any"},"spec":{"lhs":"_wrap_return(lj, vals)","rhs":"<unspecified:_wrap_return>","over":{"base":"Any","pred":"hasattr(lj, 'module') and hasattr(lj, 'builder')"},"name":"_wrap_return_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._wrap_return_correct","statement":"Path(_wrap_return(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68b36bc198d7dfb9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(lj, 'module')","hasattr(lj, 'builder')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _wrap_return(self, lj, vals):
         # Return a single double if there is one return value,
         #  else return a tuple of doubles.
@@ -515,16 +667,24 @@ class LLVMJitCode:
         return final_val
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_convert_expr(lj,), internal helper behaves correctly) over Any ║
+# ║ Path(_convert_expr(lj, expr), <unspecified:_convert_expr>) over {Any | hasattr(lj, '_print') and hasattr(lj, '_add_tmp_var')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _convert_expr : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(lj, '_print')                          ║
+# ║   requires: hasattr(lj, '_add_tmp_var')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _convert_expr : {Any | hasattr(lj, '_print') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 515131a8bff9b9d9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._convert_expr","kind":"method","src_hash":"8a73d1323dc1743e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_convert_expr(lj,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_convert_expr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._convert_expr_correct","statement":"Path(_convert_expr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"515131a8bff9b9d9"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._convert_expr","kind":"method","src_hash":"8a73d1323dc1743e","in":{"base":"Any","pred":"hasattr(lj, '_print') and hasattr(lj, '_add_tmp_var')"},"out":{"base":"Any"},"spec":{"lhs":"_convert_expr(lj, expr)","rhs":"<unspecified:_convert_expr>","over":{"base":"Any","pred":"hasattr(lj, '_print') and hasattr(lj, '_add_tmp_var')"},"name":"_convert_expr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._convert_expr_correct","statement":"Path(_convert_expr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"515131a8bff9b9d9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(lj, '_print')","hasattr(lj, '_add_tmp_var')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["lj._add_tmp_var","lj._print","self.signature"],"raises":["NotImplementedError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _convert_expr(self, lj, expr):
         try:
             # Match CSE return data structure.
@@ -544,16 +704,22 @@ class LLVMJitCode:
         return vals
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_compile_function(str), internal helper behaves correctly) over Any ║
+# ║ Path(_compile_function(strmod), len(exe_engines) == old_len_exe_engines + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _compile_function : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(exe_engines) == old_len_exe_engines + 1    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _compile_function : Any → {Any | result satisfies: le...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f63f66a57ea07784  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f5a0dca68e4ae23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._compile_function","kind":"method","src_hash":"4f565d50014a076b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_compile_function(str)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_compile_function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._compile_function_correct","statement":"Path(_compile_function(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f63f66a57ea07784"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCode._compile_function","kind":"method","src_hash":"4f565d50014a076b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(exe_engines) == old_len_exe_engines + 1"},"spec":{"lhs":"_compile_function(strmod)","rhs":"len(exe_engines) == old_len_exe_engines + 1","over":{"base":"Any"},"name":"_compile_function_correct"},"guarantee":"len(exe_engines) == old_len_exe_engines + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCode._compile_function_correct","statement":"Path(_compile_function(x), len(exe_engines) == old_len_exe_engines + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f5a0dca68e4ae23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(exe_engines) == old_len_exe_engines + 1"],"pure":false,"effects":{"effect_type":"io","reads":["self.link_name"],"calls_mutating":["exe_engines.append"],"io_operations":["print"]},"state_contract":{"modifies":["exe_engines.*"],"old_bindings":{"old_len_exe_engines":"len(exe_engines)"},"post_ensures":["len(exe_engines) == old_len_exe_engines + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _compile_function(self, strmod):
         llmod = llvm.parse_assembly(strmod)
 
@@ -582,40 +748,58 @@ class LLVMJitCode:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LLVMJitCodeCallback(*args), correctly constructs a LLVMJitCodeCallback instance) over {Any | isinstance(a, IndexedBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LLVMJitCode)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ LLVMJitCodeCallback : {Any | isinstance(a, IndexedBas...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7f674cb1c1f1b5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCodeCallback","kind":"class","src_hash":"933dec5e70f06200","in":{"base":"Any","pred":"isinstance(a, IndexedBase)"},"out":{"base":"Any"},"spec":{"lhs":"LLVMJitCodeCallback(*args)","rhs":"correctly constructs a LLVMJitCodeCallback instance","over":{"base":"Any","pred":"isinstance(a, IndexedBase)"},"name":"LLVMJitCodeCallback_class_invariant"},"guarantee":"correctly constructs a LLVMJitCodeCallback instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7f674cb1c1f1b5c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCodeCallback","kind":"class","src_hash":"933dec5e70f06200","in":{"base":"Any","pred":"isinstance(a, IndexedBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LLVMJitCode)"},"spec":{"lhs":"LLVMJitCodeCallback(*args)","rhs":"correctly constructs a LLVMJitCodeCallback instance","over":{"base":"Any","pred":"isinstance(a, IndexedBase)"},"name":"LLVMJitCodeCallback_class_invariant"},"guarantee":"isinstance(self, LLVMJitCode)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7f674cb1c1f1b5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LLVMJitCode)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function LLVMJitCodeCallback not found in source"]}}
 class LLVMJitCodeCallback(LLVMJitCode):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(sig), initializes the instance correctly) over Any ║
+# ║ Path(__init__(signature), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a5385b8395497e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCodeCallback.__init__","kind":"method","src_hash":"a7a44148f010cf8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(sig)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a5385b8395497e8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCodeCallback.__init__","kind":"method","src_hash":"a7a44148f010cf8e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(signature)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a5385b8395497e8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, signature):
         super().__init__(signature)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_param_dict(fun), internal helper behaves correctly) over Any ║
+# ║ Path(_create_param_dict(func_args), <unspecified:_create_param_dict>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_param_dict : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 172c3f32f52353da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCodeCallback._create_param_dict","kind":"method","src_hash":"42e6d4b13688327c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_param_dict(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_create_param_dict_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCodeCallback._create_param_dict_correct","statement":"Path(_create_param_dict(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"172c3f32f52353da"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCodeCallback._create_param_dict","kind":"method","src_hash":"42e6d4b13688327c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_param_dict(func_args)","rhs":"<unspecified:_create_param_dict>","over":{"base":"Any"},"name":"_create_param_dict_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCodeCallback._create_param_dict_correct","statement":"Path(_create_param_dict(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"172c3f32f52353da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fn","self.param_dict","self.signature"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_param_dict(self, func_args):
         for i, a in enumerate(func_args):
             if isinstance(a, IndexedBase):
@@ -626,16 +810,22 @@ class LLVMJitCodeCallback(LLVMJitCode):
                                       i)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_function(exp), create function body and return llvm ir) over Any ║
+# ║ Path(_create_function(expr), <unspecified:_create_function>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_function : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87061c14ec78d4fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCodeCallback._create_function","kind":"method","src_hash":"97f04a3f94b236f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_function(exp)","rhs":"create function body and return llvm ir","over":{"base":"Any"},"name":"_create_function_correct"},"guarantee":"create function body and return llvm ir","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCodeCallback._create_function_correct","statement":"Path(_create_function(x), create function body and return llvm ir)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87061c14ec78d4fa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.LLVMJitCodeCallback._create_function","kind":"method","src_hash":"97f04a3f94b236f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_function(expr)","rhs":"<unspecified:_create_function>","over":{"base":"Any"},"name":"_create_function_correct"},"guarantee":"create function body and return llvm ir","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.LLVMJitCodeCallback._create_function_correct","statement":"Path(_create_function(x), create function body and return llvm ir)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87061c14ec78d4fa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._convert_expr","self._wrap_return","self.fn","self.fp_type","self.module","self.param_dict","self.signature"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_function(self, expr):
         """Create function body and return LLVM IR"""
         bb_entry = self.fn.append_basic_block('entry')
@@ -664,26 +854,37 @@ class LLVMJitCodeCallback(LLVMJitCode):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a CodeSignature instance) preserved by CodeSignature(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CodeSignature : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 155df7199c1a3595  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.CodeSignature","kind":"class","src_hash":"a4a7dcbd99a7604e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CodeSignature(*args)","rhs":"correctly constructs a CodeSignature instance","over":{"base":"Any"},"name":"CodeSignature_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a CodeSignature instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ret_type') and hasattr(self, 'arg_ctypes') and hasattr(self, 'input_arg') and hasattr(self, 'ret_arg')","kind":"class","induction":"structural on ret_type, arg_ctypes, input_arg, ret_arg"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"155df7199c1a3595"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.CodeSignature","kind":"class","src_hash":"a4a7dcbd99a7604e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CodeSignature(*args)","rhs":"correctly constructs a CodeSignature instance","over":{"base":"Any"},"name":"CodeSignature_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'ret_type') and hasattr(self, 'arg_ctypes') and hasattr(self, 'input_arg') and hasattr(self, 'ret_arg')","kind":"class","induction":"structural on ret_type, arg_ctypes, input_arg, ret_arg"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"155df7199c1a3595","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'ret_type')","hasattr(self, 'arg_ctypes')","hasattr(self, 'input_arg')","hasattr(self, 'ret_arg')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function CodeSignature not found in source"]}}
 class CodeSignature:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ret), initializes the instance correctly) over Any ║
+# ║ Path(__init__(ret_type), self.ret_type == ret_type) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.ret_type == ret_type                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.ret_ty...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d048419e5d3178e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.CodeSignature.__init__","kind":"method","src_hash":"0b3e1f80b56cce1e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ret)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d048419e5d3178e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.CodeSignature.__init__","kind":"method","src_hash":"0b3e1f80b56cce1e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.ret_type == ret_type"},"spec":{"lhs":"__init__(ret_type)","rhs":"self.ret_type == ret_type","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.ret_type == ret_type","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d048419e5d3178e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.ret_type == ret_type"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, ret_type):
         self.ret_type = ret_type
         self.arg_ctypes = []
@@ -697,16 +898,22 @@ class CodeSignature:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_llvm_jit_code(arg), create a native code function from a sympy expression) over Any ║
+# ║ Path(_llvm_jit_code(args, expr, signature), <unspecified:_llvm_jit_code>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _llvm_jit_code : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e1bf973304fee68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode._llvm_jit_code","kind":"function","src_hash":"ed6b3ae56b2f57e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_llvm_jit_code(arg)","rhs":"create a native code function from a sympy expression","over":{"base":"Any"},"name":"_llvm_jit_code_correct"},"guarantee":"create a native code function from a sympy expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode._llvm_jit_code_correct","statement":"Path(_llvm_jit_code(x), create a native code function from a sympy expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e1bf973304fee68"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode._llvm_jit_code","kind":"function","src_hash":"ed6b3ae56b2f57e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_llvm_jit_code(args, expr, signature)","rhs":"<unspecified:_llvm_jit_code>","over":{"base":"Any"},"name":"_llvm_jit_code_correct"},"guarantee":"create a native code function from a sympy expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode._llvm_jit_code_correct","statement":"Path(_llvm_jit_code(x), create a native code function from a sympy expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e1bf973304fee68","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _llvm_jit_code(args, expr, signature, callback_type):
     """Create a native code function from a SymPy expression"""
     if callback_type is None:
@@ -727,16 +934,23 @@ def _llvm_jit_code(args, expr, signature, callback_type):
 
 @doctest_depends_on(modules=('llvmlite', 'scipy'))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(llvm_callable(arg), compile function from a sympy expression) over Any ║
+# ║ Path(llvm_callable(args, expr, callback_type), len(arg_ctypes) == old_len_arg_ctypes + 1) over {Any | llvmlite} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ llvm_callable : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: llvmlite                                       ║
+# ║   ensures:  len(arg_ctypes) == old_len_arg_ctypes + 1      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ llvm_callable : {Any | llvmlite} → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 423e8df7fc8dc72f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5edd2283158ffa9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.llvm_callable","kind":"function","src_hash":"bf9d6bbad191d060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"llvm_callable(arg)","rhs":"compile function from a sympy expression","over":{"base":"Any"},"name":"llvm_callable_correct"},"guarantee":"compile function from a sympy expression","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.llvm_callable_correct","statement":"Path(llvm_callable(x), compile function from a sympy expression)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"423e8df7fc8dc72f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.llvmjitcode.llvm_callable","kind":"function","src_hash":"bf9d6bbad191d060","in":{"base":"Any","pred":"llvmlite"},"out":{"base":"Any","pred":"result satisfies: len(arg_ctypes) == old_len_arg_ctypes + 1"},"spec":{"lhs":"llvm_callable(args, expr, callback_type)","rhs":"len(arg_ctypes) == old_len_arg_ctypes + 1","over":{"base":"Any","pred":"llvmlite"},"name":"llvm_callable_correct"},"guarantee":"len(arg_ctypes) == old_len_arg_ctypes + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.llvmjitcode.llvm_callable_correct","statement":"Path(llvm_callable(x), len(arg_ctypes) == old_len_arg_ctypes + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5edd2283158ffa9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["llvmlite"],"ensures":["len(arg_ctypes) == old_len_arg_ctypes + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["arg_ctypes.append"],"raises":["ImportError","ValueError"]},"state_contract":{"modifies":["arg_ctypes.*"],"old_bindings":{"old_len_arg_ctypes":"len(arg_ctypes)"},"post_ensures":["len(arg_ctypes) == old_len_arg_ctypes + 1"],"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def llvm_callable(args, expr, callback_type=None):
     '''Compile function from a SymPy expression
 

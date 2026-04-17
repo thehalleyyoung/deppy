@@ -37,16 +37,24 @@ from sympy.physics.quantum import Dagger
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gate(), test a basic gate) over Any              ║
+# ║ Path(test_gate(), h.min_qubits == 2 and h.nqubits == 1 and h0_w1 == h0_w2 and h0_w1 != h1_w1 and h1_w1 != h0_w2 and cnot_10_w1 == cnot_10_w2 and cnot_10_w1 != cnot_01_w1 and cnot_10_w2 != cnot_01_w1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gate : Any → {Any | h.min_qubits == 2 and h.nqub...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h.min_qubits == 2                              ║
+# ║   ensures:  h.nqubits == 1                                 ║
+# ║   ensures:  h0_w1 == h0_w2                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gate : Any → {Any | result satisfies: h.min_qubi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 513050c2f5ff6f6b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c881071f560c96ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_gate","kind":"function","src_hash":"cdc52222b5bbe5e8","in":{"base":"Any"},"out":{"base":"Any","pred":"h.min_qubits == 2 and h.nqubits == 1 and h0_w1 == h0_w2 and h0_w1 != h1_w1 and h1_w1 != h0_w2 and cnot_10_w1 == cnot_10_w2 and cnot_10_w1 != cnot_01_w1 and cnot_10_w2 != cnot_01_w1"},"spec":{"lhs":"test_gate()","rhs":"test a basic gate","over":{"base":"Any"},"name":"test_gate_correct"},"guarantee":"test a basic gate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_gate_correct","statement":"Path(test_gate(x), test a basic gate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"513050c2f5ff6f6b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_gate","kind":"function","src_hash":"cdc52222b5bbe5e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h.min_qubits == 2 and h.nqubits == 1 and h0_w1 == h0_w2 and h0_w1 != h1_w1 and h1_w1 != h0_w2 and cnot_10_w1 == cnot_10_w2 and cnot_10_w1 != cnot_01_w1 and cnot_10_w2 != cnot_01_w1"},"spec":{"lhs":"test_gate()","rhs":"h.min_qubits == 2 and h.nqubits == 1 and h0_w1 == h0_w2 and h0_w1 != h1_w1 and h1_w1 != h0_w2 and cnot_10_w1 == cnot_10_w2 and cnot_10_w1 != cnot_01_w1 and cnot_10_w2 != cnot_01_w1","over":{"base":"Any"},"name":"test_gate_correct"},"guarantee":"h.min_qubits == 2; h.nqubits == 1; h0_w1 == h0_w2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_gate_correct","statement":"Path(test_gate(x), h.min_qubits == 2; h.nqubits == 1; h0_w1 == h0_w2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c881071f560c96ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h.min_qubits == 2","h.nqubits == 1","h0_w1 == h0_w2","h0_w1 != h1_w1","h1_w1 != h0_w2","cnot_10_w1 == cnot_10_w2","cnot_10_w1 != cnot_01_w1","cnot_10_w2 != cnot_01_w1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gate():
     """Test a basic gate."""
     h = HadamardGate(1)
@@ -73,16 +81,24 @@ def test_gate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_UGate(), test_UGate produces the expected output) over Any ║
+# ║ Path(test_UGate(), represent(u1, nqubits=1) == uMat and qapply(u1 * Qubit('0')) == a * Qubit('0') + c * Qubit('1') and qapply(u1 * Qubit('1')) == b * Qubit('0') + d * Qubit('1')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_UGate : Any → {Any | represent(u1, nqubits=1) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  represent(u1, nqubits=1) == uMat               ║
+# ║   ensures:  qapply(u1 * Qubit('0')) == a * Qubit('0')...   ║
+# ║   ensures:  qapply(u1 * Qubit('1')) == b * Qubit('0')...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_UGate : Any → {Any | result satisfies: represent...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 517dd93310400861  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 722dcb87e3fcffba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_UGate","kind":"function","src_hash":"adc2843057e56d22","in":{"base":"Any"},"out":{"base":"Any","pred":"represent(u1, nqubits=1) == uMat and qapply(u1 * Qubit('0')) == a * Qubit('0') + c * Qubit('1') and qapply(u1 * Qubit('1')) == b * Qubit('0') + d * Qubit('1')"},"spec":{"lhs":"test_UGate()","rhs":"test_UGate produces the expected output","over":{"base":"Any"},"name":"test_UGate_correct"},"guarantee":"test_UGate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_UGate_correct","statement":"Path(test_UGate(x), test_UGate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"517dd93310400861"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_UGate","kind":"function","src_hash":"adc2843057e56d22","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: represent(u1, nqubits=1) == uMat and qapply(u1 * Qubit('0')) == a * Qubit('0') + c * Qubit('1') and qapply(u1 * Qubit('1')) == b * Qubit('0') + d * Qubit('1')"},"spec":{"lhs":"test_UGate()","rhs":"represent(u1, nqubits=1) == uMat and qapply(u1 * Qubit('0')) == a * Qubit('0') + c * Qubit('1') and qapply(u1 * Qubit('1')) == b * Qubit('0') + d * Qubit('1')","over":{"base":"Any"},"name":"test_UGate_correct"},"guarantee":"represent(u1, nqubits=1) == uMat; qapply(u1 * Qubit('0')) == a * Qubit('0') + c * Qubit('1'); qapply(u1 * Qubit('1')) == b * Qubit('0') + d * Qubit('1')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_UGate_correct","statement":"Path(test_UGate(x), represent(u1, nqubits=1) == uMat; qapply(u1 * Qubit('0')) == a * Qubit('0') + c * Qubit('1'); qapply(u1 * Qubit('1')) == b * Qubit('0') + d * Qubit('1'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"722dcb87e3fcffba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["represent(u1, nqubits=1) == uMat","qapply(u1 * Qubit('0')) == a * Qubit('0') + c * Qubit('1')","qapply(u1 * Qubit('1')) == b * Qubit('0') + d * Qubit('1')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_UGate():
     a, b, c, d = symbols('a,b,c,d')
     uMat = Matrix([[a, b], [c, d]])
@@ -102,16 +118,24 @@ def test_UGate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cgate(), test the general cgate) over Any        ║
+# ║ Path(test_cgate(), represent(CGate(1, XGate(0)), nqubits=2) == CNOTMatrix and represent(ToffoliGate, nqubits=3) == Matrix([[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 1, 0]]) and qapply(ToffoliGate * Qubit('1001')) == matrix_to_qubit(represent(ToffoliGate * Qubit('1001'), nqubits=4)) and qapply(ToffoliGate * Qubit('0000')) == matrix_to_qubit(represent(ToffoliGate * Qubit('0000'), nqubits=4)) and represent(CYGate.decompose(), nqubits=2) == CYGate_matrix and qapply(CZGate * Qubit('11')) == -Qubit('11') and matrix_to_qubit(represent(CZGate * Qubit('11'), nqubits=2)) == -Qubit('11') and represent(CZGate.decompose(), nqubits=2) == CZGate_matrix and qapply(CPhaseGate * Qubit('11')) == I * Qubit('11') and matrix_to_qubit(represent(CPhaseGate * Qubit('11'), nqubits=2)) == I * Qubit('11') and Dagger(CZGate) == CZGate and pow(CZGate, 1) == Dagger(CZGate) and Dagger(CZGate) == CZGate.inverse() and Dagger(CPhaseGate) != CPhaseGate and Dagger(CPhaseGate) == CPhaseGate.inverse() and Dagger(CPhaseGate) == pow(CPhaseGate, -1) and pow(CPhaseGate, -1) == CPhaseGate.inverse()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cgate : Any → {Any | represent(CGate(1, XGate(0)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  represent(CGate(1, XGate(0)), nqubits=2) ...   ║
+# ║   ensures:  represent(ToffoliGate, nqubits=3) == Matr...   ║
+# ║   ensures:  qapply(ToffoliGate * Qubit('1001')) == ma...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cgate : Any → {Any | result satisfies: represent...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b5af942da4992fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f87a26787e7b70e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_cgate","kind":"function","src_hash":"4964bcc0a0a7d861","in":{"base":"Any"},"out":{"base":"Any","pred":"represent(CGate(1, XGate(0)), nqubits=2) == CNOTMatrix and represent(CYGate.decompose(), nqubits=2) == CYGate_matrix and qapply(CZGate * Qubit('11')) == -Qubit('11') and matrix_to_qubit(represent(CZGate * Qubit('11'), nqubits=2)) == -Qubit('11') and represent(CZGate.decompose(), nqubits=2) == CZGate_matrix and qapply(CPhaseGate * Qubit('11')) == I * Qubit('11') and Dagger(CZGate) == CZGate and pow(CZGate, 1) == Dagger(CZGate) and Dagger(CZGate) == CZGate.inverse() and Dagger(CPhaseGate) != CPhaseGate and Dagger(CPhaseGate) == CPhaseGate.inverse() and Dagger(CPhaseGate) == pow(CPhaseGate, -1) and pow(CPhaseGate, -1) == CPhaseGate.inverse()"},"spec":{"lhs":"test_cgate()","rhs":"test the general cgate","over":{"base":"Any"},"name":"test_cgate_correct"},"guarantee":"test the general cgate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_cgate_correct","statement":"Path(test_cgate(x), test the general cgate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b5af942da4992fb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_cgate","kind":"function","src_hash":"4964bcc0a0a7d861","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: represent(CGate(1, XGate(0)), nqubits=2) == CNOTMatrix and represent(ToffoliGate, nqubits=3) == Matrix([[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 1, 0]]) and qapply(ToffoliGate * Qubit('1001')) == matrix_to_qubit(represent(ToffoliGate * Qubit('1001'), nqubits=4)) and qapply(ToffoliGate * Qubit('0000')) == matrix_to_qubit(represent(ToffoliGate * Qubit('0000'), nqubits=4)) and represent(CYGate.decompose(), nqubits=2) == CYGate_matrix and qapply(CZGate * Qubit('11')) == -Qubit('11') and matrix_to_qubit(represent(CZGate * Qubit('11'), nqubits=2)) == -Qubit('11') and represent(CZGate.decompose(), nqubits=2) == CZGate_matrix and qapply(CPhaseGate * Qubit('11')) == I * Qubit('11') and matrix_to_qubit(represent(CPhaseGate * Qubit('11'), nqubits=2)) == I * Qubit('11') and Dagger(CZGate) == CZGate and pow(CZGate, 1) == Dagger(CZGate) and Dagger(CZGate) == CZGate.inverse() and Dagger(CPhaseGate) != CPhaseGate and Dagger(CPhaseGate) == CPhaseGate.inverse() and Dagger(CPhaseGate) == pow(CPhaseGate, -1) and pow(CPhaseGate, -1) == CPhaseGate.inverse()"},"spec":{"lhs":"test_cgate()","rhs":"represent(CGate(1, XGate(0)), nqubits=2) == CNOTMatrix and represent(ToffoliGate, nqubits=3) == Matrix([[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 1, 0]]) and qapply(ToffoliGate * Qubit('1001')) == matrix_to_qubit(represent(ToffoliGate * Qubit('1001'), nqubits=4)) and qapply(ToffoliGate * Qubit('0000')) == matrix_to_qubit(represent(ToffoliGate * Qubit('0000'), nqubits=4)) and represent(CYGate.decompose(), nqubits=2) == CYGate_matrix and qapply(CZGate * Qubit('11')) == -Qubit('11') and matrix_to_qubit(represent(CZGate * Qubit('11'), nqubits=2)) == -Qubit('11') and represent(CZGate.decompose(), nqubits=2) == CZGate_matrix and qapply(CPhaseGate * Qubit('11')) == I * Qubit('11') and matrix_to_qubit(represent(CPhaseGate * Qubit('11'), nqubits=2)) == I * Qubit('11') and Dagger(CZGate) == CZGate and pow(CZGate, 1) == Dagger(CZGate) and Dagger(CZGate) == CZGate.inverse() and Dagger(CPhaseGate) != CPhaseGate and Dagger(CPhaseGate) == CPhaseGate.inverse() and Dagger(CPhaseGate) == pow(CPhaseGate, -1) and pow(CPhaseGate, -1) == CPhaseGate.inverse()","over":{"base":"Any"},"name":"test_cgate_correct"},"guarantee":"represent(CGate(1, XGate(0)), nqubits=2) == CNOTMatrix; represent(ToffoliGate, nqubits=3) == Matrix([[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 1, 0]]); qapply(ToffoliGate * Qubit('1001')) == matrix_to_qubit(represent(ToffoliGate * Qubit('1001'), nqubits=4))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_cgate_correct","statement":"Path(test_cgate(x), represent(CGate(1, XGate(0)), nqubits=2) == CNOTMatrix; represent(ToffoliGate, nqubits=3) == Matrix([[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 1, 0]]); qapply(ToffoliGate * Qubit('1001')) == matrix_to_qubit(represent(ToffoliGate * Qubit('1001'), nqubits=4)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f87a26787e7b70e2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["represent(CGate(1, XGate(0)), nqubits=2) == CNOTMatrix","represent(ToffoliGate, nqubits=3) == Matrix([[1, 0, 0, 0, 0, 0, 0, 0], [0, 1, 0, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0, 0], [0, 0, 0, 1, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0, 0], [0, 0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 0, 1, 0]])","qapply(ToffoliGate * Qubit('1001')) == matrix_to_qubit(represent(ToffoliGate * Qubit('1001'), nqubits=4))","qapply(ToffoliGate * Qubit('0000')) == matrix_to_qubit(represent(ToffoliGate * Qubit('0000'), nqubits=4))","represent(CYGate.decompose(), nqubits=2) == CYGate_matrix","qapply(CZGate * Qubit('11')) == -Qubit('11')","matrix_to_qubit(represent(CZGate * Qubit('11'), nqubits=2)) == -Qubit('11')","represent(CZGate.decompose(), nqubits=2) == CZGate_matrix","qapply(CPhaseGate * Qubit('11')) == I * Qubit('11')","matrix_to_qubit(represent(CPhaseGate * Qubit('11'), nqubits=2)) == I * Qubit('11')","Dagger(CZGate) == CZGate","pow(CZGate, 1) == Dagger(CZGate)","Dagger(CZGate) == CZGate.inverse()","Dagger(CPhaseGate) != CPhaseGate","Dagger(CPhaseGate) == CPhaseGate.inverse()","Dagger(CPhaseGate) == pow(CPhaseGate, -1)","pow(CPhaseGate, -1) == CPhaseGate.inverse()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_cgate():
     """Test the general CGate."""
     # Test single control functionality
@@ -166,16 +190,24 @@ def test_cgate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_UGate_CGate_combo(), test_UGate_CGate_combo produces the expected output) over Any ║
+# ║ Path(test_UGate_CGate_combo(), represent(cu1, nqubits=2) == cMat and qapply(cu1 * Qubit('10')) == a * Qubit('10') + c * Qubit('11') and qapply(cu1 * Qubit('11')) == b * Qubit('10') + d * Qubit('11') and qapply(cu1 * Qubit('01')) == Qubit('01') and qapply(cu1 * Qubit('00')) == Qubit('00')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_UGate_CGate_combo : Any → {Any | represent(cu1, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  represent(cu1, nqubits=2) == cMat              ║
+# ║   ensures:  qapply(cu1 * Qubit('10')) == a * Qubit('1...   ║
+# ║   ensures:  qapply(cu1 * Qubit('11')) == b * Qubit('1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_UGate_CGate_combo : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1578dbcb141453d5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 207644b9380a8936  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_UGate_CGate_combo","kind":"function","src_hash":"04628cd798b43f8c","in":{"base":"Any"},"out":{"base":"Any","pred":"represent(cu1, nqubits=2) == cMat and qapply(cu1 * Qubit('10')) == a * Qubit('10') + c * Qubit('11') and qapply(cu1 * Qubit('11')) == b * Qubit('10') + d * Qubit('11') and qapply(cu1 * Qubit('01')) == Qubit('01') and qapply(cu1 * Qubit('00')) == Qubit('00')"},"spec":{"lhs":"test_UGate_CGate_combo()","rhs":"test_UGate_CGate_combo produces the expected output","over":{"base":"Any"},"name":"test_UGate_CGate_combo_correct"},"guarantee":"test_UGate_CGate_combo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_UGate_CGate_combo_correct","statement":"Path(test_UGate_CGate_combo(x), test_UGate_CGate_combo produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1578dbcb141453d5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_UGate_CGate_combo","kind":"function","src_hash":"04628cd798b43f8c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: represent(cu1, nqubits=2) == cMat and qapply(cu1 * Qubit('10')) == a * Qubit('10') + c * Qubit('11') and qapply(cu1 * Qubit('11')) == b * Qubit('10') + d * Qubit('11') and qapply(cu1 * Qubit('01')) == Qubit('01') and qapply(cu1 * Qubit('00')) == Qubit('00')"},"spec":{"lhs":"test_UGate_CGate_combo()","rhs":"represent(cu1, nqubits=2) == cMat and qapply(cu1 * Qubit('10')) == a * Qubit('10') + c * Qubit('11') and qapply(cu1 * Qubit('11')) == b * Qubit('10') + d * Qubit('11') and qapply(cu1 * Qubit('01')) == Qubit('01') and qapply(cu1 * Qubit('00')) == Qubit('00')","over":{"base":"Any"},"name":"test_UGate_CGate_combo_correct"},"guarantee":"represent(cu1, nqubits=2) == cMat; qapply(cu1 * Qubit('10')) == a * Qubit('10') + c * Qubit('11'); qapply(cu1 * Qubit('11')) == b * Qubit('10') + d * Qubit('11')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_UGate_CGate_combo_correct","statement":"Path(test_UGate_CGate_combo(x), represent(cu1, nqubits=2) == cMat; qapply(cu1 * Qubit('10')) == a * Qubit('10') + c * Qubit('11'); qapply(cu1 * Qubit('11')) == b * Qubit('10') + d * Qubit('11'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"207644b9380a8936","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["represent(cu1, nqubits=2) == cMat","qapply(cu1 * Qubit('10')) == a * Qubit('10') + c * Qubit('11')","qapply(cu1 * Qubit('11')) == b * Qubit('10') + d * Qubit('11')","qapply(cu1 * Qubit('01')) == Qubit('01')","qapply(cu1 * Qubit('00')) == Qubit('00')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_UGate_CGate_combo():
     a, b, c, d = symbols('a,b,c,d')
     uMat = Matrix([[a, b], [c, d]])
@@ -198,16 +230,24 @@ def test_UGate_CGate_combo():
             qubit_to_matrix(qapply(u2*IntQubit(i, 2)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_UGate_OneQubitGate_combo(), test_UGate_OneQubitGate_combo produces the expected output) over Any ║
+# ║ Path(test_UGate_OneQubitGate_combo(), represent(u1, nqubits=2) == cMat1 and represent(H(0) * u2, nqubits=1) == cMat2_1 and represent(u2 * H(0), nqubits=1) == cMat2_2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_UGate_OneQubitGate_combo : Any → {Any | represen...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  represent(u1, nqubits=2) == cMat1              ║
+# ║   ensures:  represent(H(0) * u2, nqubits=1) == cMat2_1     ║
+# ║   ensures:  represent(u2 * H(0), nqubits=1) == cMat2_2     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_UGate_OneQubitGate_combo : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a33e4e688ab8872f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff91d3c88d274d47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_UGate_OneQubitGate_combo","kind":"function","src_hash":"df4b4c85eae16e63","in":{"base":"Any"},"out":{"base":"Any","pred":"represent(u1, nqubits=2) == cMat1 and represent(H(0) * u2, nqubits=1) == cMat2_1 and represent(u2 * H(0), nqubits=1) == cMat2_2"},"spec":{"lhs":"test_UGate_OneQubitGate_combo()","rhs":"test_UGate_OneQubitGate_combo produces the expected output","over":{"base":"Any"},"name":"test_UGate_OneQubitGate_combo_correct"},"guarantee":"test_UGate_OneQubitGate_combo produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_UGate_OneQubitGate_combo_correct","statement":"Path(test_UGate_OneQubitGate_combo(x), test_UGate_OneQubitGate_combo produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a33e4e688ab8872f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_UGate_OneQubitGate_combo","kind":"function","src_hash":"df4b4c85eae16e63","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: represent(u1, nqubits=2) == cMat1 and represent(H(0) * u2, nqubits=1) == cMat2_1 and represent(u2 * H(0), nqubits=1) == cMat2_2"},"spec":{"lhs":"test_UGate_OneQubitGate_combo()","rhs":"represent(u1, nqubits=2) == cMat1 and represent(H(0) * u2, nqubits=1) == cMat2_1 and represent(u2 * H(0), nqubits=1) == cMat2_2","over":{"base":"Any"},"name":"test_UGate_OneQubitGate_combo_correct"},"guarantee":"represent(u1, nqubits=2) == cMat1; represent(H(0) * u2, nqubits=1) == cMat2_1; represent(u2 * H(0), nqubits=1) == cMat2_2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_UGate_OneQubitGate_combo_correct","statement":"Path(test_UGate_OneQubitGate_combo(x), represent(u1, nqubits=2) == cMat1; represent(H(0) * u2, nqubits=1) == cMat2_1; represent(u2 * H(0), nqubits=1) == cMat2_2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff91d3c88d274d47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["represent(u1, nqubits=2) == cMat1","represent(H(0) * u2, nqubits=1) == cMat2_1","represent(u2 * H(0), nqubits=1) == cMat2_2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_UGate_OneQubitGate_combo():
     v, w, f, g = symbols('v w f g')
     uMat1 = ImmutableMatrix([[v, w], [f, g]])
@@ -224,16 +264,22 @@ def test_UGate_OneQubitGate_combo():
     assert represent(u2*H(0), nqubits=1) == cMat2_2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_represent_hadamard(), test the representation of the hadamard gate) over Any ║
+# ║ Path(test_represent_hadamard(), answer == Matrix([sqrt2_inv, sqrt2_inv, 0, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_represent_hadamard : Any → {Any | answer == Matr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  answer == Matrix([sqrt2_inv, sqrt2_inv, 0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_represent_hadamard : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9097449b2d1600f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ce57fc140964d06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_represent_hadamard","kind":"function","src_hash":"54cf1b4c7b1f087f","in":{"base":"Any"},"out":{"base":"Any","pred":"answer == Matrix([sqrt2_inv, sqrt2_inv, 0, 0])"},"spec":{"lhs":"test_represent_hadamard()","rhs":"test the representation of the hadamard gate","over":{"base":"Any"},"name":"test_represent_hadamard_correct"},"guarantee":"test the representation of the hadamard gate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_represent_hadamard_correct","statement":"Path(test_represent_hadamard(x), test the representation of the hadamard gate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9097449b2d1600f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_represent_hadamard","kind":"function","src_hash":"54cf1b4c7b1f087f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: answer == Matrix([sqrt2_inv, sqrt2_inv, 0, 0])"},"spec":{"lhs":"test_represent_hadamard()","rhs":"answer == Matrix([sqrt2_inv, sqrt2_inv, 0, 0])","over":{"base":"Any"},"name":"test_represent_hadamard_correct"},"guarantee":"answer == Matrix([sqrt2_inv, sqrt2_inv, 0, 0])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_represent_hadamard_correct","statement":"Path(test_represent_hadamard(x), answer == Matrix([sqrt2_inv, sqrt2_inv, 0, 0]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ce57fc140964d06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["answer == Matrix([sqrt2_inv, sqrt2_inv, 0, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_represent_hadamard():
     """Test the representation of the hadamard gate."""
     circuit = HadamardGate(0)*Qubit('00')
@@ -243,16 +289,22 @@ def test_represent_hadamard():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_represent_xgate(), test the representation of the x gate) over Any ║
+# ║ Path(test_represent_xgate(), Matrix([0, 1, 0, 0]) == answer) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_represent_xgate : Any → {Any | Matrix([0, 1, 0, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Matrix([0, 1, 0, 0]) == answer                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_represent_xgate : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a0b1275442df557  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c63119b111c33d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_represent_xgate","kind":"function","src_hash":"6b0da3e738f45bd0","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix([0, 1, 0, 0]) == answer"},"spec":{"lhs":"test_represent_xgate()","rhs":"test the representation of the x gate","over":{"base":"Any"},"name":"test_represent_xgate_correct"},"guarantee":"test the representation of the x gate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_represent_xgate_correct","statement":"Path(test_represent_xgate(x), test the representation of the x gate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a0b1275442df557"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_represent_xgate","kind":"function","src_hash":"6b0da3e738f45bd0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Matrix([0, 1, 0, 0]) == answer"},"spec":{"lhs":"test_represent_xgate()","rhs":"Matrix([0, 1, 0, 0]) == answer","over":{"base":"Any"},"name":"test_represent_xgate_correct"},"guarantee":"Matrix([0, 1, 0, 0]) == answer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_represent_xgate_correct","statement":"Path(test_represent_xgate(x), Matrix([0, 1, 0, 0]) == answer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c63119b111c33d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Matrix([0, 1, 0, 0]) == answer"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_represent_xgate():
     """Test the representation of the X gate."""
     circuit = XGate(0)*Qubit('00')
@@ -261,16 +313,22 @@ def test_represent_xgate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_represent_ygate(), test the representation of the y gate) over Any ║
+# ║ Path(test_represent_ygate(), answer[0] == 0 and answer[1] == I and (answer[2] == 0) and (answer[3] == 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_represent_ygate : Any → {Any | answer[0] == 0 an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  answer[0] == 0 and answer[1] == I and (an...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_represent_ygate : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1c906c8fb9fe815  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14d7453e421ecf52  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_represent_ygate","kind":"function","src_hash":"f72c4074f50b6199","in":{"base":"Any"},"out":{"base":"Any","pred":"answer[0] == 0 and answer[1] == I and (answer[2] == 0) and (answer[3] == 0)"},"spec":{"lhs":"test_represent_ygate()","rhs":"test the representation of the y gate","over":{"base":"Any"},"name":"test_represent_ygate_correct"},"guarantee":"test the representation of the y gate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_represent_ygate_correct","statement":"Path(test_represent_ygate(x), test the representation of the y gate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1c906c8fb9fe815"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_represent_ygate","kind":"function","src_hash":"f72c4074f50b6199","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: answer[0] == 0 and answer[1] == I and (answer[2] == 0) and (answer[3] == 0)"},"spec":{"lhs":"test_represent_ygate()","rhs":"answer[0] == 0 and answer[1] == I and (answer[2] == 0) and (answer[3] == 0)","over":{"base":"Any"},"name":"test_represent_ygate_correct"},"guarantee":"answer[0] == 0 and answer[1] == I and (answer[2] == 0) and (answer[3] == 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_represent_ygate_correct","statement":"Path(test_represent_ygate(x), answer[0] == 0 and answer[1] == I and (answer[2] == 0) and (answer[3] == 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14d7453e421ecf52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["answer[0] == 0 and answer[1] == I and (answer[2] == 0) and (answer[3] == 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_represent_ygate():
     """Test the representation of the Y gate."""
     circuit = YGate(0)*Qubit('00')
@@ -280,16 +338,22 @@ def test_represent_ygate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_represent_zgate(), test the representation of the z gate) over Any ║
+# ║ Path(test_represent_zgate(), Matrix([1, 0, 0, 0]) == answer) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_represent_zgate : Any → {Any | Matrix([1, 0, 0, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Matrix([1, 0, 0, 0]) == answer                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_represent_zgate : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fc465edcb1efa6b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9be8313bae35178  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_represent_zgate","kind":"function","src_hash":"f72a1d3fd0eed64e","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix([1, 0, 0, 0]) == answer"},"spec":{"lhs":"test_represent_zgate()","rhs":"test the representation of the z gate","over":{"base":"Any"},"name":"test_represent_zgate_correct"},"guarantee":"test the representation of the z gate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_represent_zgate_correct","statement":"Path(test_represent_zgate(x), test the representation of the z gate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fc465edcb1efa6b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_represent_zgate","kind":"function","src_hash":"f72a1d3fd0eed64e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Matrix([1, 0, 0, 0]) == answer"},"spec":{"lhs":"test_represent_zgate()","rhs":"Matrix([1, 0, 0, 0]) == answer","over":{"base":"Any"},"name":"test_represent_zgate_correct"},"guarantee":"Matrix([1, 0, 0, 0]) == answer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_represent_zgate_correct","statement":"Path(test_represent_zgate(x), Matrix([1, 0, 0, 0]) == answer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9be8313bae35178","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Matrix([1, 0, 0, 0]) == answer"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_represent_zgate():
     """Test the representation of the Z gate."""
     circuit = ZGate(0)*Qubit('00')
@@ -298,16 +362,22 @@ def test_represent_zgate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_represent_phasegate(), test the representation of the s gate) over Any ║
+# ║ Path(test_represent_phasegate(), Matrix([0, I, 0, 0]) == answer) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_represent_phasegate : Any → {Any | Matrix([0, I,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Matrix([0, I, 0, 0]) == answer                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_represent_phasegate : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85fa13d00f5cd7e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 307343c0923aba14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_represent_phasegate","kind":"function","src_hash":"6fc015121350d435","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix([0, I, 0, 0]) == answer"},"spec":{"lhs":"test_represent_phasegate()","rhs":"test the representation of the s gate","over":{"base":"Any"},"name":"test_represent_phasegate_correct"},"guarantee":"test the representation of the s gate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_represent_phasegate_correct","statement":"Path(test_represent_phasegate(x), test the representation of the s gate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85fa13d00f5cd7e9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_represent_phasegate","kind":"function","src_hash":"6fc015121350d435","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Matrix([0, I, 0, 0]) == answer"},"spec":{"lhs":"test_represent_phasegate()","rhs":"Matrix([0, I, 0, 0]) == answer","over":{"base":"Any"},"name":"test_represent_phasegate_correct"},"guarantee":"Matrix([0, I, 0, 0]) == answer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_represent_phasegate_correct","statement":"Path(test_represent_phasegate(x), Matrix([0, I, 0, 0]) == answer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"307343c0923aba14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Matrix([0, I, 0, 0]) == answer"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_represent_phasegate():
     """Test the representation of the S gate."""
     circuit = PhaseGate(0)*Qubit('01')
@@ -316,16 +386,22 @@ def test_represent_phasegate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_represent_tgate(), test the representation of the t gate) over Any ║
+# ║ Path(test_represent_tgate(), Matrix([0, exp(I * pi / 4), 0, 0]) == represent(circuit, nqubits=2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_represent_tgate : Any → {Any | Matrix([0, exp(I ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Matrix([0, exp(I * pi / 4), 0, 0]) == rep...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_represent_tgate : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdaef88fa12fb46d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f29d4bd3410477be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_represent_tgate","kind":"function","src_hash":"316ecbd1d0acb752","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix([0, exp(I * pi / 4), 0, 0]) == represent(circuit, nqubits=2)"},"spec":{"lhs":"test_represent_tgate()","rhs":"test the representation of the t gate","over":{"base":"Any"},"name":"test_represent_tgate_correct"},"guarantee":"test the representation of the t gate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_represent_tgate_correct","statement":"Path(test_represent_tgate(x), test the representation of the t gate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdaef88fa12fb46d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_represent_tgate","kind":"function","src_hash":"316ecbd1d0acb752","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Matrix([0, exp(I * pi / 4), 0, 0]) == represent(circuit, nqubits=2)"},"spec":{"lhs":"test_represent_tgate()","rhs":"Matrix([0, exp(I * pi / 4), 0, 0]) == represent(circuit, nqubits=2)","over":{"base":"Any"},"name":"test_represent_tgate_correct"},"guarantee":"Matrix([0, exp(I * pi / 4), 0, 0]) == represent(circuit, nqubits=2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_represent_tgate_correct","statement":"Path(test_represent_tgate(x), Matrix([0, exp(I * pi / 4), 0, 0]) == represent(circuit, nqubits=2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f29d4bd3410477be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Matrix([0, exp(I * pi / 4), 0, 0]) == represent(circuit, nqubits=2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_represent_tgate():
     """Test the representation of the T gate."""
     circuit = TGate(0)*Qubit('01')
@@ -333,16 +409,22 @@ def test_represent_tgate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_compound_gates(), test a compound gate representation) over Any ║
+# ║ Path(test_compound_gates(), Matrix([I / sqrt(2), I / sqrt(2), 0, 0]) == answer) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_compound_gates : Any → {Any | Matrix([I / sqrt(2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Matrix([I / sqrt(2), I / sqrt(2), 0, 0]) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_compound_gates : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e34cba1a00864a35  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6041b753655d9d6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_compound_gates","kind":"function","src_hash":"76d16953904917b7","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix([I / sqrt(2), I / sqrt(2), 0, 0]) == answer"},"spec":{"lhs":"test_compound_gates()","rhs":"test a compound gate representation","over":{"base":"Any"},"name":"test_compound_gates_correct"},"guarantee":"test a compound gate representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_compound_gates_correct","statement":"Path(test_compound_gates(x), test a compound gate representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e34cba1a00864a35"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_compound_gates","kind":"function","src_hash":"76d16953904917b7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Matrix([I / sqrt(2), I / sqrt(2), 0, 0]) == answer"},"spec":{"lhs":"test_compound_gates()","rhs":"Matrix([I / sqrt(2), I / sqrt(2), 0, 0]) == answer","over":{"base":"Any"},"name":"test_compound_gates_correct"},"guarantee":"Matrix([I / sqrt(2), I / sqrt(2), 0, 0]) == answer","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_compound_gates_correct","statement":"Path(test_compound_gates(x), Matrix([I / sqrt(2), I / sqrt(2), 0, 0]) == answer)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6041b753655d9d6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Matrix([I / sqrt(2), I / sqrt(2), 0, 0]) == answer"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_compound_gates():
     """Test a compound gate representation."""
     circuit = YGate(0)*ZGate(0)*XGate(0)*HadamardGate(0)*Qubit('00')
@@ -351,16 +433,24 @@ def test_compound_gates():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cnot_gate(), test the cnot gate) over Any        ║
+# ║ Path(test_cnot_gate(), represent(circuit, nqubits=2) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]]) and matrix_to_qubit(represent(circuit, nqubits=3)) == qapply(circuit) and Dagger(circuit) == circuit and Dagger(Dagger(circuit)) == circuit and circuit * circuit == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cnot_gate : Any → {Any | matrix_to_qubit(represe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  represent(circuit, nqubits=2) == Matrix([...   ║
+# ║   ensures:  matrix_to_qubit(represent(circuit, nqubit...   ║
+# ║   ensures:  Dagger(circuit) == circuit                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cnot_gate : Any → {Any | result satisfies: repre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce1eb80037f2cb27  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1304bca1806ca91f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_cnot_gate","kind":"function","src_hash":"dbc48633633d840c","in":{"base":"Any"},"out":{"base":"Any","pred":"matrix_to_qubit(represent(circuit, nqubits=3)) == qapply(circuit) and Dagger(circuit) == circuit and Dagger(Dagger(circuit)) == circuit and circuit * circuit == 1"},"spec":{"lhs":"test_cnot_gate()","rhs":"test the cnot gate","over":{"base":"Any"},"name":"test_cnot_gate_correct"},"guarantee":"test the cnot gate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_cnot_gate_correct","statement":"Path(test_cnot_gate(x), test the cnot gate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce1eb80037f2cb27"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_cnot_gate","kind":"function","src_hash":"dbc48633633d840c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: represent(circuit, nqubits=2) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]]) and matrix_to_qubit(represent(circuit, nqubits=3)) == qapply(circuit) and Dagger(circuit) == circuit and Dagger(Dagger(circuit)) == circuit and circuit * circuit == 1"},"spec":{"lhs":"test_cnot_gate()","rhs":"represent(circuit, nqubits=2) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]]) and matrix_to_qubit(represent(circuit, nqubits=3)) == qapply(circuit) and Dagger(circuit) == circuit and Dagger(Dagger(circuit)) == circuit and circuit * circuit == 1","over":{"base":"Any"},"name":"test_cnot_gate_correct"},"guarantee":"represent(circuit, nqubits=2) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]]); matrix_to_qubit(represent(circuit, nqubits=3)) == qapply(circuit); Dagger(circuit) == circuit","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_cnot_gate_correct","statement":"Path(test_cnot_gate(x), represent(circuit, nqubits=2) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]]); matrix_to_qubit(represent(circuit, nqubits=3)) == qapply(circuit); Dagger(circuit) == circuit)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1304bca1806ca91f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["represent(circuit, nqubits=2) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1], [0, 0, 1, 0]])","matrix_to_qubit(represent(circuit, nqubits=3)) == qapply(circuit)","Dagger(circuit) == circuit","Dagger(Dagger(circuit)) == circuit","circuit * circuit == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_cnot_gate():
     """Test the CNOT gate."""
     circuit = CNotGate(1, 0)
@@ -377,16 +467,24 @@ def test_cnot_gate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gate_sort(), test gate_sort) over Any            ║
+# ║ Path(test_gate_sort(), e == H(0) ** 2 * CNOT(0, 1) * X(0) * X(1) ** 2 and gate_sort(Z(0) * X(0)) == -X(0) * Z(0) and gate_sort(Z(0) * X(0) ** 2) == X(0) ** 2 * Z(0) and gate_sort(Y(0) * H(0)) == -H(0) * Y(0) and gate_sort(Y(0) * X(0)) == -X(0) * Y(0) and gate_sort(Z(0) * Y(0)) == -Y(0) * Z(0) and gate_sort(T(0) * S(0)) == S(0) * T(0) and gate_sort(Z(0) * S(0)) == S(0) * Z(0) and gate_sort(Z(0) * T(0)) == T(0) * Z(0) and gate_sort(Z(0) * CNOT(0, 1)) == CNOT(0, 1) * Z(0) and gate_sort(S(0) * CNOT(0, 1)) == CNOT(0, 1) * S(0) and gate_sort(T(0) * CNOT(0, 1)) == CNOT(0, 1) * T(0) and gate_sort(X(1) * CNOT(0, 1)) == CNOT(0, 1) * X(1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gate_sort : Any → {Any | e == H(0) ** 2 * CNOT(0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e == H(0) ** 2 * CNOT(0, 1) * X(0) * X(1)...   ║
+# ║   ensures:  gate_sort(Z(0) * X(0)) == -X(0) * Z(0)         ║
+# ║   ensures:  gate_sort(Z(0) * X(0) ** 2) == X(0) ** 2 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gate_sort : Any → {Any | result satisfies: e == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 229a6463ed4d9b96  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc2e4610dbdf9a0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_gate_sort","kind":"function","src_hash":"5d3e99a3b3b94bb6","in":{"base":"Any"},"out":{"base":"Any","pred":"e == H(0) ** 2 * CNOT(0, 1) * X(0) * X(1) ** 2 and gate_sort(Z(0) * X(0)) == -X(0) * Z(0) and gate_sort(Z(0) * X(0) ** 2) == X(0) ** 2 * Z(0) and gate_sort(Y(0) * H(0)) == -H(0) * Y(0) and gate_sort(Y(0) * X(0)) == -X(0) * Y(0) and gate_sort(Z(0) * Y(0)) == -Y(0) * Z(0) and gate_sort(T(0) * S(0)) == S(0) * T(0) and gate_sort(Z(0) * S(0)) == S(0) * Z(0) and gate_sort(Z(0) * T(0)) == T(0) * Z(0) and gate_sort(Z(0) * CNOT(0, 1)) == CNOT(0, 1) * Z(0) and gate_sort(S(0) * CNOT(0, 1)) == CNOT(0, 1) * S(0) and gate_sort(T(0) * CNOT(0, 1)) == CNOT(0, 1) * T(0) and gate_sort(X(1) * CNOT(0, 1)) == CNOT(0, 1) * X(1) and gate_sort(g(2) * g(1) * g(0)) == g(0) * g(1) * g(2)"},"spec":{"lhs":"test_gate_sort()","rhs":"test gate_sort","over":{"base":"Any"},"name":"test_gate_sort_correct"},"guarantee":"test gate_sort","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_gate_sort_correct","statement":"Path(test_gate_sort(x), test gate_sort)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"229a6463ed4d9b96"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_gate_sort","kind":"function","src_hash":"5d3e99a3b3b94bb6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e == H(0) ** 2 * CNOT(0, 1) * X(0) * X(1) ** 2 and gate_sort(Z(0) * X(0)) == -X(0) * Z(0) and gate_sort(Z(0) * X(0) ** 2) == X(0) ** 2 * Z(0) and gate_sort(Y(0) * H(0)) == -H(0) * Y(0) and gate_sort(Y(0) * X(0)) == -X(0) * Y(0) and gate_sort(Z(0) * Y(0)) == -Y(0) * Z(0) and gate_sort(T(0) * S(0)) == S(0) * T(0) and gate_sort(Z(0) * S(0)) == S(0) * Z(0) and gate_sort(Z(0) * T(0)) == T(0) * Z(0) and gate_sort(Z(0) * CNOT(0, 1)) == CNOT(0, 1) * Z(0) and gate_sort(S(0) * CNOT(0, 1)) == CNOT(0, 1) * S(0) and gate_sort(T(0) * CNOT(0, 1)) == CNOT(0, 1) * T(0) and gate_sort(X(1) * CNOT(0, 1)) == CNOT(0, 1) * X(1)"},"spec":{"lhs":"test_gate_sort()","rhs":"e == H(0) ** 2 * CNOT(0, 1) * X(0) * X(1) ** 2 and gate_sort(Z(0) * X(0)) == -X(0) * Z(0) and gate_sort(Z(0) * X(0) ** 2) == X(0) ** 2 * Z(0) and gate_sort(Y(0) * H(0)) == -H(0) * Y(0) and gate_sort(Y(0) * X(0)) == -X(0) * Y(0) and gate_sort(Z(0) * Y(0)) == -Y(0) * Z(0) and gate_sort(T(0) * S(0)) == S(0) * T(0) and gate_sort(Z(0) * S(0)) == S(0) * Z(0) and gate_sort(Z(0) * T(0)) == T(0) * Z(0) and gate_sort(Z(0) * CNOT(0, 1)) == CNOT(0, 1) * Z(0) and gate_sort(S(0) * CNOT(0, 1)) == CNOT(0, 1) * S(0) and gate_sort(T(0) * CNOT(0, 1)) == CNOT(0, 1) * T(0) and gate_sort(X(1) * CNOT(0, 1)) == CNOT(0, 1) * X(1)","over":{"base":"Any"},"name":"test_gate_sort_correct"},"guarantee":"e == H(0) ** 2 * CNOT(0, 1) * X(0) * X(1) ** 2; gate_sort(Z(0) * X(0)) == -X(0) * Z(0); gate_sort(Z(0) * X(0) ** 2) == X(0) ** 2 * Z(0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_gate_sort_correct","statement":"Path(test_gate_sort(x), e == H(0) ** 2 * CNOT(0, 1) * X(0) * X(1) ** 2; gate_sort(Z(0) * X(0)) == -X(0) * Z(0); gate_sort(Z(0) * X(0) ** 2) == X(0) ** 2 * Z(0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc2e4610dbdf9a0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e == H(0) ** 2 * CNOT(0, 1) * X(0) * X(1) ** 2","gate_sort(Z(0) * X(0)) == -X(0) * Z(0)","gate_sort(Z(0) * X(0) ** 2) == X(0) ** 2 * Z(0)","gate_sort(Y(0) * H(0)) == -H(0) * Y(0)","gate_sort(Y(0) * X(0)) == -X(0) * Y(0)","gate_sort(Z(0) * Y(0)) == -Y(0) * Z(0)","gate_sort(T(0) * S(0)) == S(0) * T(0)","gate_sort(Z(0) * S(0)) == S(0) * Z(0)","gate_sort(Z(0) * T(0)) == T(0) * Z(0)","gate_sort(Z(0) * CNOT(0, 1)) == CNOT(0, 1) * Z(0)","gate_sort(S(0) * CNOT(0, 1)) == CNOT(0, 1) * S(0)","gate_sort(T(0) * CNOT(0, 1)) == CNOT(0, 1) * T(0)","gate_sort(X(1) * CNOT(0, 1)) == CNOT(0, 1) * X(1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_gate_sort():
     """Test gate_sort."""
     for g in (X, Y, Z, H, S, T):
@@ -416,16 +514,24 @@ def test_gate_sort():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gate_simp(), test gate_simp) over Any            ║
+# ║ Path(test_gate_simp(), gate_simp(e) == H(0) * CNOT(0, 1) * S(4) * X(0) * Z(4) and gate_simp(X(0) * X(0)) == 1 and gate_simp(Y(0) * Y(0)) == 1 and gate_simp(Z(0) * Z(0)) == 1 and gate_simp(H(0) * H(0)) == 1 and gate_simp(T(0) * T(0)) == S(0) and gate_simp(S(0) * S(0)) == Z(0) and gate_simp(Integer(1)) == Integer(1) and gate_simp(X(0) ** 2 + Y(0) ** 2) == Integer(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gate_simp : Any → {Any | gate_simp(e) == H(0) * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gate_simp(e) == H(0) * CNOT(0, 1) * S(4) ...   ║
+# ║   ensures:  gate_simp(X(0) * X(0)) == 1                    ║
+# ║   ensures:  gate_simp(Y(0) * Y(0)) == 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gate_simp : Any → {Any | result satisfies: gate_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ae3e7a6d722c0b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff4c059ac15ecd20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_gate_simp","kind":"function","src_hash":"8f44b9ff2c54815c","in":{"base":"Any"},"out":{"base":"Any","pred":"gate_simp(e) == H(0) * CNOT(0, 1) * S(4) * X(0) * Z(4) and gate_simp(X(0) * X(0)) == 1 and gate_simp(Y(0) * Y(0)) == 1 and gate_simp(Z(0) * Z(0)) == 1 and gate_simp(H(0) * H(0)) == 1 and gate_simp(T(0) * T(0)) == S(0) and gate_simp(S(0) * S(0)) == Z(0) and gate_simp(Integer(1)) == Integer(1) and gate_simp(X(0) ** 2 + Y(0) ** 2) == Integer(2)"},"spec":{"lhs":"test_gate_simp()","rhs":"test gate_simp","over":{"base":"Any"},"name":"test_gate_simp_correct"},"guarantee":"test gate_simp","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_gate_simp_correct","statement":"Path(test_gate_simp(x), test gate_simp)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ae3e7a6d722c0b4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_gate_simp","kind":"function","src_hash":"8f44b9ff2c54815c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gate_simp(e) == H(0) * CNOT(0, 1) * S(4) * X(0) * Z(4) and gate_simp(X(0) * X(0)) == 1 and gate_simp(Y(0) * Y(0)) == 1 and gate_simp(Z(0) * Z(0)) == 1 and gate_simp(H(0) * H(0)) == 1 and gate_simp(T(0) * T(0)) == S(0) and gate_simp(S(0) * S(0)) == Z(0) and gate_simp(Integer(1)) == Integer(1) and gate_simp(X(0) ** 2 + Y(0) ** 2) == Integer(2)"},"spec":{"lhs":"test_gate_simp()","rhs":"gate_simp(e) == H(0) * CNOT(0, 1) * S(4) * X(0) * Z(4) and gate_simp(X(0) * X(0)) == 1 and gate_simp(Y(0) * Y(0)) == 1 and gate_simp(Z(0) * Z(0)) == 1 and gate_simp(H(0) * H(0)) == 1 and gate_simp(T(0) * T(0)) == S(0) and gate_simp(S(0) * S(0)) == Z(0) and gate_simp(Integer(1)) == Integer(1) and gate_simp(X(0) ** 2 + Y(0) ** 2) == Integer(2)","over":{"base":"Any"},"name":"test_gate_simp_correct"},"guarantee":"gate_simp(e) == H(0) * CNOT(0, 1) * S(4) * X(0) * Z(4); gate_simp(X(0) * X(0)) == 1; gate_simp(Y(0) * Y(0)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_gate_simp_correct","statement":"Path(test_gate_simp(x), gate_simp(e) == H(0) * CNOT(0, 1) * S(4) * X(0) * Z(4); gate_simp(X(0) * X(0)) == 1; gate_simp(Y(0) * Y(0)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff4c059ac15ecd20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gate_simp(e) == H(0) * CNOT(0, 1) * S(4) * X(0) * Z(4)","gate_simp(X(0) * X(0)) == 1","gate_simp(Y(0) * Y(0)) == 1","gate_simp(Z(0) * Z(0)) == 1","gate_simp(H(0) * H(0)) == 1","gate_simp(T(0) * T(0)) == S(0)","gate_simp(S(0) * S(0)) == Z(0)","gate_simp(Integer(1)) == Integer(1)","gate_simp(X(0) ** 2 + Y(0) ** 2) == Integer(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_gate_simp():
     """Test gate_simp."""
     e = H(0)*X(1)*H(0)**2*CNOT(0, 1)*X(1)**3*X(0)*Z(3)**2*S(4)**3
@@ -441,16 +547,23 @@ def test_gate_simp():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_swap_gate(), test the swap gate) over Any        ║
+# ║ Path(test_swap_gate(), represent(SwapGate(1, 0).decompose(), nqubits=2) == swap_gate_matrix and qapply(SwapGate(1, 3) * Qubit('0010')) == Qubit('1000')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_swap_gate : Any → {Any | represent(SwapGate(1, 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  represent(SwapGate(1, 0).decompose(), nqu...   ║
+# ║   ensures:  qapply(SwapGate(1, 3) * Qubit('0010')) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_swap_gate : Any → {Any | result satisfies: repre...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37fadc902086a055  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89cd58bb65871daa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_swap_gate","kind":"function","src_hash":"b19661b25aa8a78e","in":{"base":"Any"},"out":{"base":"Any","pred":"represent(SwapGate(1, 0).decompose(), nqubits=2) == swap_gate_matrix and qapply(SwapGate(1, 3) * Qubit('0010')) == Qubit('1000')"},"spec":{"lhs":"test_swap_gate()","rhs":"test the swap gate","over":{"base":"Any"},"name":"test_swap_gate_correct"},"guarantee":"test the swap gate","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_swap_gate_correct","statement":"Path(test_swap_gate(x), test the swap gate)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37fadc902086a055"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_swap_gate","kind":"function","src_hash":"b19661b25aa8a78e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: represent(SwapGate(1, 0).decompose(), nqubits=2) == swap_gate_matrix and qapply(SwapGate(1, 3) * Qubit('0010')) == Qubit('1000')"},"spec":{"lhs":"test_swap_gate()","rhs":"represent(SwapGate(1, 0).decompose(), nqubits=2) == swap_gate_matrix and qapply(SwapGate(1, 3) * Qubit('0010')) == Qubit('1000')","over":{"base":"Any"},"name":"test_swap_gate_correct"},"guarantee":"represent(SwapGate(1, 0).decompose(), nqubits=2) == swap_gate_matrix; qapply(SwapGate(1, 3) * Qubit('0010')) == Qubit('1000')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_swap_gate_correct","statement":"Path(test_swap_gate(x), represent(SwapGate(1, 0).decompose(), nqubits=2) == swap_gate_matrix; qapply(SwapGate(1, 3) * Qubit('0010')) == Qubit('1000'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89cd58bb65871daa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["represent(SwapGate(1, 0).decompose(), nqubits=2) == swap_gate_matrix","qapply(SwapGate(1, 3) * Qubit('0010')) == Qubit('1000')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_swap_gate():
     """Test the SWAP gate."""
     swap_gate_matrix = Matrix(
@@ -465,16 +578,22 @@ def test_swap_gate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_one_qubit_commutators(), test single qubit gate commutation relations) over Any ║
+# ║ Path(test_one_qubit_commutators(), <unspecified:test_one_qubit_commutators>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_one_qubit_commutators : Any → {Any | a == b and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce661ad38fc33d0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_one_qubit_commutators","kind":"function","src_hash":"37fc3cdbbb0caf43","in":{"base":"Any"},"out":{"base":"Any","pred":"a == b and e.doit() == 0"},"spec":{"lhs":"test_one_qubit_commutators()","rhs":"test single qubit gate commutation relations","over":{"base":"Any"},"name":"test_one_qubit_commutators_correct"},"guarantee":"test single qubit gate commutation relations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_one_qubit_commutators_correct","statement":"Path(test_one_qubit_commutators(x), test single qubit gate commutation relations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce661ad38fc33d0d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_one_qubit_commutators","kind":"function","src_hash":"37fc3cdbbb0caf43","in":{"base":"Any"},"out":{"base":"Any","pred":"a == b and e.doit() == 0"},"spec":{"lhs":"test_one_qubit_commutators()","rhs":"<unspecified:test_one_qubit_commutators>","over":{"base":"Any"},"name":"test_one_qubit_commutators_correct"},"guarantee":"test single qubit gate commutation relations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_one_qubit_commutators_correct","statement":"Path(test_one_qubit_commutators(x), test single qubit gate commutation relations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce661ad38fc33d0d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_one_qubit_commutators():
     """Test single qubit gate commutation relations."""
     for g1 in (IdentityGate, X, Y, Z, H, T, S):
@@ -489,16 +608,22 @@ def test_one_qubit_commutators():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_one_qubit_anticommutators(), test single qubit gate anticommutation relations) over Any ║
+# ║ Path(test_one_qubit_anticommutators(), <unspecified:test_one_qubit_anticommutators>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_one_qubit_anticommutators : Any → {Any | a == b ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 824015aa8c3d6c1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_one_qubit_anticommutators","kind":"function","src_hash":"6c3258331085b01b","in":{"base":"Any"},"out":{"base":"Any","pred":"a == b and a == b"},"spec":{"lhs":"test_one_qubit_anticommutators()","rhs":"test single qubit gate anticommutation relations","over":{"base":"Any"},"name":"test_one_qubit_anticommutators_correct"},"guarantee":"test single qubit gate anticommutation relations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_one_qubit_anticommutators_correct","statement":"Path(test_one_qubit_anticommutators(x), test single qubit gate anticommutation relations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"824015aa8c3d6c1f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_one_qubit_anticommutators","kind":"function","src_hash":"6c3258331085b01b","in":{"base":"Any"},"out":{"base":"Any","pred":"a == b and a == b"},"spec":{"lhs":"test_one_qubit_anticommutators()","rhs":"<unspecified:test_one_qubit_anticommutators>","over":{"base":"Any"},"name":"test_one_qubit_anticommutators_correct"},"guarantee":"test single qubit gate anticommutation relations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_one_qubit_anticommutators_correct","statement":"Path(test_one_qubit_anticommutators(x), test single qubit gate anticommutation relations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"824015aa8c3d6c1f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_one_qubit_anticommutators():
     """Test single qubit gate anticommutation relations."""
     for g1 in (IdentityGate, X, Y, Z, H):
@@ -514,16 +639,24 @@ def test_one_qubit_anticommutators():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_cnot_commutators(), test commutators of involving cnot gates) over Any ║
+# ║ Path(test_cnot_commutators(), Commutator(CNOT(0, 1), Z(0)).doit() == 0 and Commutator(CNOT(0, 1), T(0)).doit() == 0 and Commutator(CNOT(0, 1), S(0)).doit() == 0 and Commutator(CNOT(0, 1), X(1)).doit() == 0 and Commutator(CNOT(0, 1), CNOT(0, 1)).doit() == 0 and Commutator(CNOT(0, 1), CNOT(0, 2)).doit() == 0 and Commutator(CNOT(0, 2), CNOT(0, 1)).doit() == 0 and Commutator(CNOT(1, 2), CNOT(1, 0)).doit() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_cnot_commutators : Any → {Any | Commutator(CNOT(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Commutator(CNOT(0, 1), Z(0)).doit() == 0       ║
+# ║   ensures:  Commutator(CNOT(0, 1), T(0)).doit() == 0       ║
+# ║   ensures:  Commutator(CNOT(0, 1), S(0)).doit() == 0       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_cnot_commutators : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de6a7235a9508915  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93b43da0db9bbc15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_cnot_commutators","kind":"function","src_hash":"b528ab1bfc131f3b","in":{"base":"Any"},"out":{"base":"Any","pred":"Commutator(CNOT(0, 1), Z(0)).doit() == 0 and Commutator(CNOT(0, 1), T(0)).doit() == 0 and Commutator(CNOT(0, 1), S(0)).doit() == 0 and Commutator(CNOT(0, 1), X(1)).doit() == 0 and Commutator(CNOT(0, 1), CNOT(0, 1)).doit() == 0 and Commutator(CNOT(0, 1), CNOT(0, 2)).doit() == 0 and Commutator(CNOT(0, 2), CNOT(0, 1)).doit() == 0 and Commutator(CNOT(1, 2), CNOT(1, 0)).doit() == 0"},"spec":{"lhs":"test_cnot_commutators()","rhs":"test commutators of involving cnot gates","over":{"base":"Any"},"name":"test_cnot_commutators_correct"},"guarantee":"test commutators of involving cnot gates","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_cnot_commutators_correct","statement":"Path(test_cnot_commutators(x), test commutators of involving cnot gates)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de6a7235a9508915"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_cnot_commutators","kind":"function","src_hash":"b528ab1bfc131f3b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Commutator(CNOT(0, 1), Z(0)).doit() == 0 and Commutator(CNOT(0, 1), T(0)).doit() == 0 and Commutator(CNOT(0, 1), S(0)).doit() == 0 and Commutator(CNOT(0, 1), X(1)).doit() == 0 and Commutator(CNOT(0, 1), CNOT(0, 1)).doit() == 0 and Commutator(CNOT(0, 1), CNOT(0, 2)).doit() == 0 and Commutator(CNOT(0, 2), CNOT(0, 1)).doit() == 0 and Commutator(CNOT(1, 2), CNOT(1, 0)).doit() == 0"},"spec":{"lhs":"test_cnot_commutators()","rhs":"Commutator(CNOT(0, 1), Z(0)).doit() == 0 and Commutator(CNOT(0, 1), T(0)).doit() == 0 and Commutator(CNOT(0, 1), S(0)).doit() == 0 and Commutator(CNOT(0, 1), X(1)).doit() == 0 and Commutator(CNOT(0, 1), CNOT(0, 1)).doit() == 0 and Commutator(CNOT(0, 1), CNOT(0, 2)).doit() == 0 and Commutator(CNOT(0, 2), CNOT(0, 1)).doit() == 0 and Commutator(CNOT(1, 2), CNOT(1, 0)).doit() == 0","over":{"base":"Any"},"name":"test_cnot_commutators_correct"},"guarantee":"Commutator(CNOT(0, 1), Z(0)).doit() == 0; Commutator(CNOT(0, 1), T(0)).doit() == 0; Commutator(CNOT(0, 1), S(0)).doit() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_cnot_commutators_correct","statement":"Path(test_cnot_commutators(x), Commutator(CNOT(0, 1), Z(0)).doit() == 0; Commutator(CNOT(0, 1), T(0)).doit() == 0; Commutator(CNOT(0, 1), S(0)).doit() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93b43da0db9bbc15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Commutator(CNOT(0, 1), Z(0)).doit() == 0","Commutator(CNOT(0, 1), T(0)).doit() == 0","Commutator(CNOT(0, 1), S(0)).doit() == 0","Commutator(CNOT(0, 1), X(1)).doit() == 0","Commutator(CNOT(0, 1), CNOT(0, 1)).doit() == 0","Commutator(CNOT(0, 1), CNOT(0, 2)).doit() == 0","Commutator(CNOT(0, 2), CNOT(0, 1)).doit() == 0","Commutator(CNOT(1, 2), CNOT(1, 0)).doit() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_cnot_commutators():
     """Test commutators of involving CNOT gates."""
     assert Commutator(CNOT(0, 1), Z(0)).doit() == 0
@@ -537,7 +670,12 @@ def test_cnot_commutators():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_random_circuit(), test_random_circuit produces the expected output) over {Any | isinstance(c, Mul) and isinstance(m, Matrix)} ║
+# ║ Path(test_random_circuit(), isinstance(c, Mul) and m.shape == (8, 8) and isinstance(m, Matrix)) over {Any | isinstance(c, Mul) and isinstance(m, Matrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(c, Mul)                             ║
+# ║   ensures:  m.shape == (8, 8)                              ║
+# ║   ensures:  isinstance(m, Matrix)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_random_circuit : {Any | isinstance(c, Mul) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -550,9 +688,12 @@ def test_cnot_commutators():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9e33a66c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_random_circuit","kind":"function","src_hash":"5d51703289c7d7d8","in":{"base":"Any","pred":"isinstance(c, Mul) and isinstance(m, Matrix)"},"out":{"base":"Any","pred":"isinstance(c, Mul) and m.shape == (8, 8) and isinstance(m, Matrix)"},"spec":{"lhs":"test_random_circuit()","rhs":"test_random_circuit produces the expected output","over":{"base":"Any","pred":"isinstance(c, Mul) and isinstance(m, Matrix)"},"name":"test_random_circuit_correct"},"guarantee":"test_random_circuit produces the expected output","fibers":[{"name":"Mul","pred":"isinstance(c, Mul)","path":{"lhs":"test_random_circuit(x)","rhs":"test_random_circuit produces the expected output","over":{"base":"Mul","pred":"isinstance(c, Mul)"},"name":"test_random_circuit_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_random_circuit_Mul_correct","statement":"test_random_circuit satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(m, Matrix)","path":{"lhs":"test_random_circuit(x)","rhs":"test_random_circuit produces the expected output","over":{"base":"Matrix","pred":"isinstance(m, Matrix)"},"name":"test_random_circuit_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_random_circuit_Matrix_correct","statement":"test_random_circuit satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9e33a66cf0f50018"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_random_circuit","kind":"function","src_hash":"5d51703289c7d7d8","in":{"base":"Any","pred":"isinstance(c, Mul) and isinstance(m, Matrix)"},"out":{"base":"Any","pred":"result satisfies: isinstance(c, Mul) and m.shape == (8, 8) and isinstance(m, Matrix)"},"spec":{"lhs":"test_random_circuit()","rhs":"isinstance(c, Mul) and m.shape == (8, 8) and isinstance(m, Matrix)","over":{"base":"Any","pred":"isinstance(c, Mul) and isinstance(m, Matrix)"},"name":"test_random_circuit_correct"},"guarantee":"isinstance(c, Mul); m.shape == (8, 8); isinstance(m, Matrix)","fibers":[{"name":"Mul","pred":"isinstance(c, Mul)","path":{"lhs":"test_random_circuit(x)","rhs":"isinstance(c, Mul); m.shape == (8, 8); isinstance(m, Matrix)","over":{"base":"Mul","pred":"isinstance(c, Mul)"},"name":"test_random_circuit_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_random_circuit_Mul_correct","statement":"test_random_circuit satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(m, Matrix)","path":{"lhs":"test_random_circuit(x)","rhs":"isinstance(c, Mul); m.shape == (8, 8); isinstance(m, Matrix)","over":{"base":"Matrix","pred":"isinstance(m, Matrix)"},"name":"test_random_circuit_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_random_circuit_Matrix_correct","statement":"test_random_circuit satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9e33a66cf0f50018","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(c, Mul)","m.shape == (8, 8)","isinstance(m, Matrix)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.0,"verdict_class":"failed","binding":true}}
 def test_random_circuit():
     c = random_circuit(10, 3)
     assert isinstance(c, Mul)
@@ -562,16 +703,22 @@ def test_random_circuit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hermitian_XGate(), test_hermitian_XGate produces the expected output) over Any ║
+# ║ Path(test_hermitian_XGate(), x == x_dagger) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hermitian_XGate : Any → {Any | x == x_dagger}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x == x_dagger                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hermitian_XGate : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35816eb7cc299421  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45ff562cffabeab9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_hermitian_XGate","kind":"function","src_hash":"5fff921770c3748d","in":{"base":"Any"},"out":{"base":"Any","pred":"x == x_dagger"},"spec":{"lhs":"test_hermitian_XGate()","rhs":"test_hermitian_XGate produces the expected output","over":{"base":"Any"},"name":"test_hermitian_XGate_correct"},"guarantee":"test_hermitian_XGate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_hermitian_XGate_correct","statement":"Path(test_hermitian_XGate(x), test_hermitian_XGate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35816eb7cc299421"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_hermitian_XGate","kind":"function","src_hash":"5fff921770c3748d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x == x_dagger"},"spec":{"lhs":"test_hermitian_XGate()","rhs":"x == x_dagger","over":{"base":"Any"},"name":"test_hermitian_XGate_correct"},"guarantee":"x == x_dagger","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_hermitian_XGate_correct","statement":"Path(test_hermitian_XGate(x), x == x_dagger)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45ff562cffabeab9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x == x_dagger"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_hermitian_XGate():
     x = XGate(1, 2)
     x_dagger = Dagger(x)
@@ -580,16 +727,22 @@ def test_hermitian_XGate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hermitian_YGate(), test_hermitian_YGate produces the expected output) over Any ║
+# ║ Path(test_hermitian_YGate(), y == y_dagger) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hermitian_YGate : Any → {Any | y == y_dagger}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  y == y_dagger                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hermitian_YGate : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13e5eb12be818416  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07759c1c93922208  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_hermitian_YGate","kind":"function","src_hash":"3684199eed02043d","in":{"base":"Any"},"out":{"base":"Any","pred":"y == y_dagger"},"spec":{"lhs":"test_hermitian_YGate()","rhs":"test_hermitian_YGate produces the expected output","over":{"base":"Any"},"name":"test_hermitian_YGate_correct"},"guarantee":"test_hermitian_YGate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_hermitian_YGate_correct","statement":"Path(test_hermitian_YGate(x), test_hermitian_YGate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13e5eb12be818416"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_hermitian_YGate","kind":"function","src_hash":"3684199eed02043d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: y == y_dagger"},"spec":{"lhs":"test_hermitian_YGate()","rhs":"y == y_dagger","over":{"base":"Any"},"name":"test_hermitian_YGate_correct"},"guarantee":"y == y_dagger","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_hermitian_YGate_correct","statement":"Path(test_hermitian_YGate(x), y == y_dagger)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07759c1c93922208","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["y == y_dagger"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_hermitian_YGate():
     y = YGate(1, 2)
     y_dagger = Dagger(y)
@@ -598,16 +751,22 @@ def test_hermitian_YGate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hermitian_ZGate(), test_hermitian_ZGate produces the expected output) over Any ║
+# ║ Path(test_hermitian_ZGate(), z == z_dagger) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hermitian_ZGate : Any → {Any | z == z_dagger}         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  z == z_dagger                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hermitian_ZGate : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc41a2b63f0bb6f3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3647a31599b9a1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_hermitian_ZGate","kind":"function","src_hash":"ff7bdf8441310f50","in":{"base":"Any"},"out":{"base":"Any","pred":"z == z_dagger"},"spec":{"lhs":"test_hermitian_ZGate()","rhs":"test_hermitian_ZGate produces the expected output","over":{"base":"Any"},"name":"test_hermitian_ZGate_correct"},"guarantee":"test_hermitian_ZGate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_hermitian_ZGate_correct","statement":"Path(test_hermitian_ZGate(x), test_hermitian_ZGate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc41a2b63f0bb6f3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_hermitian_ZGate","kind":"function","src_hash":"ff7bdf8441310f50","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: z == z_dagger"},"spec":{"lhs":"test_hermitian_ZGate()","rhs":"z == z_dagger","over":{"base":"Any"},"name":"test_hermitian_ZGate_correct"},"guarantee":"z == z_dagger","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_hermitian_ZGate_correct","statement":"Path(test_hermitian_ZGate(x), z == z_dagger)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3647a31599b9a1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["z == z_dagger"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_hermitian_ZGate():
     z = ZGate(1, 2)
     z_dagger = Dagger(z)
@@ -616,16 +775,22 @@ def test_hermitian_ZGate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unitary_XGate(), test_unitary_XGate produces the expected output) over Any ║
+# ║ Path(test_unitary_XGate(), x * x_dagger == 1) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unitary_XGate : Any → {Any | x * x_dagger == 1}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x * x_dagger == 1                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unitary_XGate : Any → {Any | result satisfies: x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9c8fa242431e012  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 61f84627c007144c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_unitary_XGate","kind":"function","src_hash":"0907cbedf2ca3ca3","in":{"base":"Any"},"out":{"base":"Any","pred":"x * x_dagger == 1"},"spec":{"lhs":"test_unitary_XGate()","rhs":"test_unitary_XGate produces the expected output","over":{"base":"Any"},"name":"test_unitary_XGate_correct"},"guarantee":"test_unitary_XGate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_unitary_XGate_correct","statement":"Path(test_unitary_XGate(x), test_unitary_XGate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9c8fa242431e012"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_unitary_XGate","kind":"function","src_hash":"0907cbedf2ca3ca3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x * x_dagger == 1"},"spec":{"lhs":"test_unitary_XGate()","rhs":"x * x_dagger == 1","over":{"base":"Any"},"name":"test_unitary_XGate_correct"},"guarantee":"x * x_dagger == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_unitary_XGate_correct","statement":"Path(test_unitary_XGate(x), x * x_dagger == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"61f84627c007144c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x * x_dagger == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_unitary_XGate():
     x = XGate(1, 2)
     x_dagger = Dagger(x)
@@ -634,16 +799,22 @@ def test_unitary_XGate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unitary_YGate(), test_unitary_YGate produces the expected output) over Any ║
+# ║ Path(test_unitary_YGate(), y * y_dagger == 1) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unitary_YGate : Any → {Any | y * y_dagger == 1}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  y * y_dagger == 1                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unitary_YGate : Any → {Any | result satisfies: y...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fd82cd62fe6046d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 937bff0b69eae40d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_unitary_YGate","kind":"function","src_hash":"f9a6f7eee1e64c8b","in":{"base":"Any"},"out":{"base":"Any","pred":"y * y_dagger == 1"},"spec":{"lhs":"test_unitary_YGate()","rhs":"test_unitary_YGate produces the expected output","over":{"base":"Any"},"name":"test_unitary_YGate_correct"},"guarantee":"test_unitary_YGate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_unitary_YGate_correct","statement":"Path(test_unitary_YGate(x), test_unitary_YGate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fd82cd62fe6046d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_unitary_YGate","kind":"function","src_hash":"f9a6f7eee1e64c8b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: y * y_dagger == 1"},"spec":{"lhs":"test_unitary_YGate()","rhs":"y * y_dagger == 1","over":{"base":"Any"},"name":"test_unitary_YGate_correct"},"guarantee":"y * y_dagger == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_unitary_YGate_correct","statement":"Path(test_unitary_YGate(x), y * y_dagger == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"937bff0b69eae40d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["y * y_dagger == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_unitary_YGate():
     y = YGate(1, 2)
     y_dagger = Dagger(y)
@@ -652,16 +823,22 @@ def test_unitary_YGate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unitary_ZGate(), test_unitary_ZGate produces the expected output) over Any ║
+# ║ Path(test_unitary_ZGate(), z * z_dagger == 1) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unitary_ZGate : Any → {Any | z * z_dagger == 1}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  z * z_dagger == 1                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unitary_ZGate : Any → {Any | result satisfies: z...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9947ea7358fcc48  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a47fae110d74d056  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_unitary_ZGate","kind":"function","src_hash":"12b75863cd9456f4","in":{"base":"Any"},"out":{"base":"Any","pred":"z * z_dagger == 1"},"spec":{"lhs":"test_unitary_ZGate()","rhs":"test_unitary_ZGate produces the expected output","over":{"base":"Any"},"name":"test_unitary_ZGate_correct"},"guarantee":"test_unitary_ZGate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_unitary_ZGate_correct","statement":"Path(test_unitary_ZGate(x), test_unitary_ZGate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9947ea7358fcc48"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_gate.test_unitary_ZGate","kind":"function","src_hash":"12b75863cd9456f4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: z * z_dagger == 1"},"spec":{"lhs":"test_unitary_ZGate()","rhs":"z * z_dagger == 1","over":{"base":"Any"},"name":"test_unitary_ZGate_correct"},"guarantee":"z * z_dagger == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_gate.test_unitary_ZGate_correct","statement":"Path(test_unitary_ZGate(x), z * z_dagger == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a47fae110d74d056","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["z * z_dagger == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_unitary_ZGate():
     z = ZGate(1, 2)
     z_dagger = Dagger(z)

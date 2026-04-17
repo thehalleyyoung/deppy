@@ -133,16 +133,24 @@ d338abbd602547adf0ba38209cf746ce7677afa1c52075606085cbfe4e8ae88dd87aaaf9b04cf9aa
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hex_pi_nth_digits(), test_hex_pi_nth_digits produces the expected output) over Any ║
+# ║ Path(test_hex_pi_nth_digits(), pi_hex_digits(0) == '3243f6a8885a30' and pi_hex_digits(1) == '243f6a8885a308' and pi_hex_digits(10000) == '68ac8fcfb8016c' and pi_hex_digits(13) == '08d313198a2e03' and pi_hex_digits(0, 3) == '324' and pi_hex_digits(0, 0) == '' and pi_hex_digits(n, prec) == dig[n:n + prec]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hex_pi_nth_digits : Any → {Any | pi_hex_digits(0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  pi_hex_digits(0) == '3243f6a8885a30'           ║
+# ║   ensures:  pi_hex_digits(1) == '243f6a8885a308'           ║
+# ║   ensures:  pi_hex_digits(10000) == '68ac8fcfb8016c'       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hex_pi_nth_digits : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 359e0728961af987  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b69fa82dcb3caef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_bbp_pi.test_hex_pi_nth_digits","kind":"function","src_hash":"de929738c76193b8","in":{"base":"Any"},"out":{"base":"Any","pred":"pi_hex_digits(0) == '3243f6a8885a30' and pi_hex_digits(1) == '243f6a8885a308' and pi_hex_digits(10000) == '68ac8fcfb8016c' and pi_hex_digits(13) == '08d313198a2e03' and pi_hex_digits(0, 3) == '324' and pi_hex_digits(0, 0) == '' and pi_hex_digits(n, prec) == dig[n:n + prec]"},"spec":{"lhs":"test_hex_pi_nth_digits()","rhs":"test_hex_pi_nth_digits produces the expected output","over":{"base":"Any"},"name":"test_hex_pi_nth_digits_correct"},"guarantee":"test_hex_pi_nth_digits produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_bbp_pi.test_hex_pi_nth_digits_correct","statement":"Path(test_hex_pi_nth_digits(x), test_hex_pi_nth_digits produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"359e0728961af987"}
+# @cctt_verify {"v":2,"sym":"sympy.ntheory.tests.test_bbp_pi.test_hex_pi_nth_digits","kind":"function","src_hash":"de929738c76193b8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: pi_hex_digits(0) == '3243f6a8885a30' and pi_hex_digits(1) == '243f6a8885a308' and pi_hex_digits(10000) == '68ac8fcfb8016c' and pi_hex_digits(13) == '08d313198a2e03' and pi_hex_digits(0, 3) == '324' and pi_hex_digits(0, 0) == '' and pi_hex_digits(n, prec) == dig[n:n + prec]"},"spec":{"lhs":"test_hex_pi_nth_digits()","rhs":"pi_hex_digits(0) == '3243f6a8885a30' and pi_hex_digits(1) == '243f6a8885a308' and pi_hex_digits(10000) == '68ac8fcfb8016c' and pi_hex_digits(13) == '08d313198a2e03' and pi_hex_digits(0, 3) == '324' and pi_hex_digits(0, 0) == '' and pi_hex_digits(n, prec) == dig[n:n + prec]","over":{"base":"Any"},"name":"test_hex_pi_nth_digits_correct"},"guarantee":"pi_hex_digits(0) == '3243f6a8885a30'; pi_hex_digits(1) == '243f6a8885a308'; pi_hex_digits(10000) == '68ac8fcfb8016c'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.ntheory.tests.test_bbp_pi.test_hex_pi_nth_digits_correct","statement":"Path(test_hex_pi_nth_digits(x), pi_hex_digits(0) == '3243f6a8885a30'; pi_hex_digits(1) == '243f6a8885a308'; pi_hex_digits(10000) == '68ac8fcfb8016c')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b69fa82dcb3caef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["pi_hex_digits(0) == '3243f6a8885a30'","pi_hex_digits(1) == '243f6a8885a308'","pi_hex_digits(10000) == '68ac8fcfb8016c'","pi_hex_digits(13) == '08d313198a2e03'","pi_hex_digits(0, 3) == '324'","pi_hex_digits(0, 0) == ''","pi_hex_digits(n, prec) == dig[n:n + prec]"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["randint"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_hex_pi_nth_digits():
     assert pi_hex_digits(0) == '3243f6a8885a30'
     assert pi_hex_digits(1) ==  '243f6a8885a308'

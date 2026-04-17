@@ -39,16 +39,22 @@ from sympy.parsing.sympy_parser import (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sympy_parser(), test_sympy_parser produces the expected output) over Any ║
+# ║ Path(test_sympy_parser(), <unspecified:test_sympy_parser>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sympy_parser : Any → {Any | parse_expr(text) == ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7ef744a3793aee69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_sympy_parser","kind":"function","src_hash":"2f054b87e756d98c","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr(text) == result"},"spec":{"lhs":"test_sympy_parser()","rhs":"test_sympy_parser produces the expected output","over":{"base":"Any"},"name":"test_sympy_parser_correct"},"guarantee":"test_sympy_parser produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_sympy_parser_correct","statement":"Path(test_sympy_parser(x), test_sympy_parser produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ef744a3793aee69"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_sympy_parser","kind":"function","src_hash":"2f054b87e756d98c","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr(text) == result"},"spec":{"lhs":"test_sympy_parser()","rhs":"<unspecified:test_sympy_parser>","over":{"base":"Any"},"name":"test_sympy_parser_correct"},"guarantee":"test_sympy_parser produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_sympy_parser_correct","statement":"Path(test_sympy_parser(x), test_sympy_parser produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7ef744a3793aee69","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_sympy_parser():
     x = Symbol('x')
     inputs = {
@@ -100,16 +106,22 @@ def test_sympy_parser():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rationalize(), test_rationalize produces the expected output) over Any ║
+# ║ Path(test_rationalize(), <unspecified:test_rationalize>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rationalize : Any → {Any | parse_expr(text, tran...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fce8bfe4365b9751  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_rationalize","kind":"function","src_hash":"5e55937cf5947995","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr(text, transformations=transformations) == result"},"spec":{"lhs":"test_rationalize()","rhs":"test_rationalize produces the expected output","over":{"base":"Any"},"name":"test_rationalize_correct"},"guarantee":"test_rationalize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_rationalize_correct","statement":"Path(test_rationalize(x), test_rationalize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fce8bfe4365b9751"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_rationalize","kind":"function","src_hash":"5e55937cf5947995","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr(text, transformations=transformations) == result"},"spec":{"lhs":"test_rationalize()","rhs":"<unspecified:test_rationalize>","over":{"base":"Any"},"name":"test_rationalize_correct"},"guarantee":"test_rationalize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_rationalize_correct","statement":"Path(test_rationalize(x), test_rationalize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fce8bfe4365b9751","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rationalize():
     inputs = {
         '0.123': Rational(123, 1000)
@@ -120,16 +132,22 @@ def test_rationalize():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_factorial_fail(), test_factorial_fail produces the expected output) over Any ║
+# ║ Path(test_factorial_fail(), <unspecified:test_factorial_fail>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_factorial_fail : Any → {Any | False and True}         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 951501fa8948ebcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_factorial_fail","kind":"function","src_hash":"2e1452b285d16bc0","in":{"base":"Any"},"out":{"base":"Any","pred":"False and True"},"spec":{"lhs":"test_factorial_fail()","rhs":"test_factorial_fail produces the expected output","over":{"base":"Any"},"name":"test_factorial_fail_correct"},"guarantee":"test_factorial_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_factorial_fail_correct","statement":"Path(test_factorial_fail(x), test_factorial_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"951501fa8948ebcb"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_factorial_fail","kind":"function","src_hash":"2e1452b285d16bc0","in":{"base":"Any"},"out":{"base":"Any","pred":"False and True"},"spec":{"lhs":"test_factorial_fail()","rhs":"<unspecified:test_factorial_fail>","over":{"base":"Any"},"name":"test_factorial_fail_correct"},"guarantee":"test_factorial_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_factorial_fail_correct","statement":"Path(test_factorial_fail(x), test_factorial_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"951501fa8948ebcb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_factorial_fail():
     inputs = ['x!!!', 'x!!!!', '(!)']
 
@@ -143,16 +161,22 @@ def test_factorial_fail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_repeated_fail(), test_repeated_fail produces the expected output) over Any ║
+# ║ Path(test_repeated_fail(), <unspecified:test_repeated_fail>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_repeated_fail : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4835c3a71e6bebe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_repeated_fail","kind":"function","src_hash":"18058f62d5ebfbb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_repeated_fail()","rhs":"test_repeated_fail produces the expected output","over":{"base":"Any"},"name":"test_repeated_fail_correct"},"guarantee":"test_repeated_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_repeated_fail_correct","statement":"Path(test_repeated_fail(x), test_repeated_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4835c3a71e6bebe"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_repeated_fail","kind":"function","src_hash":"18058f62d5ebfbb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_repeated_fail()","rhs":"<unspecified:test_repeated_fail>","over":{"base":"Any"},"name":"test_repeated_fail_correct"},"guarantee":"test_repeated_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_repeated_fail_correct","statement":"Path(test_repeated_fail(x), test_repeated_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4835c3a71e6bebe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_repeated_fail():
     inputs = ['1[1]', '.1e1[1]', '0x1[1]', '1.1j[1]', '1.1[1 + 1]',
         '0.1[[1]]', '0x1.1[1]']
@@ -169,32 +193,45 @@ def test_repeated_fail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_repeated_dot_only(), test_repeated_dot_only produces the expected output) over Any ║
+# ║ Path(test_repeated_dot_only(), parse_expr('.[1]') == Rational(1, 9) and parse_expr('1 + .[1]') == Rational(10, 9)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_repeated_dot_only : Any → {Any | parse_expr('.[1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('.[1]') == Rational(1, 9)           ║
+# ║   ensures:  parse_expr('1 + .[1]') == Rational(10, 9)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_repeated_dot_only : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8b19831a6f7814d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be7d09b4b9012c4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_repeated_dot_only","kind":"function","src_hash":"d507fb94ca218169","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('.[1]') == Rational(1, 9) and parse_expr('1 + .[1]') == Rational(10, 9)"},"spec":{"lhs":"test_repeated_dot_only()","rhs":"test_repeated_dot_only produces the expected output","over":{"base":"Any"},"name":"test_repeated_dot_only_correct"},"guarantee":"test_repeated_dot_only produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_repeated_dot_only_correct","statement":"Path(test_repeated_dot_only(x), test_repeated_dot_only produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8b19831a6f7814d"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_repeated_dot_only","kind":"function","src_hash":"d507fb94ca218169","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('.[1]') == Rational(1, 9) and parse_expr('1 + .[1]') == Rational(10, 9)"},"spec":{"lhs":"test_repeated_dot_only()","rhs":"parse_expr('.[1]') == Rational(1, 9) and parse_expr('1 + .[1]') == Rational(10, 9)","over":{"base":"Any"},"name":"test_repeated_dot_only_correct"},"guarantee":"parse_expr('.[1]') == Rational(1, 9); parse_expr('1 + .[1]') == Rational(10, 9)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_repeated_dot_only_correct","statement":"Path(test_repeated_dot_only(x), parse_expr('.[1]') == Rational(1, 9); parse_expr('1 + .[1]') == Rational(10, 9))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be7d09b4b9012c4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('.[1]') == Rational(1, 9)","parse_expr('1 + .[1]') == Rational(10, 9)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_repeated_dot_only():
     assert parse_expr('.[1]') == Rational(1, 9)
     assert parse_expr('1 + .[1]') == Rational(10, 9)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_local_dict(), test_local_dict produces the expected output) over Any ║
+# ║ Path(test_local_dict(), <unspecified:test_local_dict>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_local_dict : Any → {Any | parse_expr(text, local...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f3151dc20a36622  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_local_dict","kind":"function","src_hash":"062b406fd1bbdd0d","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr(text, local_dict=local_dict) == result"},"spec":{"lhs":"test_local_dict()","rhs":"test_local_dict produces the expected output","over":{"base":"Any"},"name":"test_local_dict_correct"},"guarantee":"test_local_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_local_dict_correct","statement":"Path(test_local_dict(x), test_local_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f3151dc20a36622"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_local_dict","kind":"function","src_hash":"062b406fd1bbdd0d","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr(text, local_dict=local_dict) == result"},"spec":{"lhs":"test_local_dict()","rhs":"<unspecified:test_local_dict>","over":{"base":"Any"},"name":"test_local_dict_correct"},"guarantee":"test_local_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_local_dict_correct","statement":"Path(test_local_dict(x), test_local_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f3151dc20a36622","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_local_dict():
     local_dict = {
         'my_function': lambda x: x + 2
@@ -207,16 +244,22 @@ def test_local_dict():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_local_dict_split_implmult(), test_local_dict_split_implmult produces the expected output) over Any ║
+# ║ Path(test_local_dict_split_implmult(), parse_expr('yx', local_dict={'x': w}, transformations=t) == y * w) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_local_dict_split_implmult : Any → {Any | parse_e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('yx', local_dict={'x': w}, tra...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_local_dict_split_implmult : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 734d6c04c9cb1572  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20013bbd7694f214  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_local_dict_split_implmult","kind":"function","src_hash":"f4b7a46b23401d27","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('yx', local_dict={'x': w}, transformations=t) == y * w"},"spec":{"lhs":"test_local_dict_split_implmult()","rhs":"test_local_dict_split_implmult produces the expected output","over":{"base":"Any"},"name":"test_local_dict_split_implmult_correct"},"guarantee":"test_local_dict_split_implmult produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_local_dict_split_implmult_correct","statement":"Path(test_local_dict_split_implmult(x), test_local_dict_split_implmult produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"734d6c04c9cb1572"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_local_dict_split_implmult","kind":"function","src_hash":"f4b7a46b23401d27","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('yx', local_dict={'x': w}, transformations=t) == y * w"},"spec":{"lhs":"test_local_dict_split_implmult()","rhs":"parse_expr('yx', local_dict={'x': w}, transformations=t) == y * w","over":{"base":"Any"},"name":"test_local_dict_split_implmult_correct"},"guarantee":"parse_expr('yx', local_dict={'x': w}, transformations=t) == y * w","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_local_dict_split_implmult_correct","statement":"Path(test_local_dict_split_implmult(x), parse_expr('yx', local_dict={'x': w}, transformations=t) == y * w)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20013bbd7694f214","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('yx', local_dict={'x': w}, transformations=t) == y * w"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_local_dict_split_implmult():
     t = standard_transformations + (split_symbols, implicit_multiplication,)
     w = Symbol('w', real=True)
@@ -225,16 +268,22 @@ def test_local_dict_split_implmult():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_local_dict_symbol_to_fcn(), test_local_dict_symbol_to_fcn produces the expected output) over Any ║
+# ║ Path(test_local_dict_symbol_to_fcn(), parse_expr('foo(x)', local_dict=d) == d['foo'](x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_local_dict_symbol_to_fcn : Any → {Any | parse_ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('foo(x)', local_dict=d) == d['...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_local_dict_symbol_to_fcn : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3edb7b3f883eb16  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93421293e6f1ec81  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_local_dict_symbol_to_fcn","kind":"function","src_hash":"8315450655b08105","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('foo(x)', local_dict=d) == d['foo'](x)"},"spec":{"lhs":"test_local_dict_symbol_to_fcn()","rhs":"test_local_dict_symbol_to_fcn produces the expected output","over":{"base":"Any"},"name":"test_local_dict_symbol_to_fcn_correct"},"guarantee":"test_local_dict_symbol_to_fcn produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_local_dict_symbol_to_fcn_correct","statement":"Path(test_local_dict_symbol_to_fcn(x), test_local_dict_symbol_to_fcn produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3edb7b3f883eb16"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_local_dict_symbol_to_fcn","kind":"function","src_hash":"8315450655b08105","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('foo(x)', local_dict=d) == d['foo'](x)"},"spec":{"lhs":"test_local_dict_symbol_to_fcn()","rhs":"parse_expr('foo(x)', local_dict=d) == d['foo'](x)","over":{"base":"Any"},"name":"test_local_dict_symbol_to_fcn_correct"},"guarantee":"parse_expr('foo(x)', local_dict=d) == d['foo'](x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_local_dict_symbol_to_fcn_correct","statement":"Path(test_local_dict_symbol_to_fcn(x), parse_expr('foo(x)', local_dict=d) == d['foo'](x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93421293e6f1ec81","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('foo(x)', local_dict=d) == d['foo'](x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_local_dict_symbol_to_fcn():
     x = Symbol('x')
     d = {'foo': Function('bar')}
@@ -244,16 +293,22 @@ def test_local_dict_symbol_to_fcn():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_global_dict(), test_global_dict produces the expected output) over Any ║
+# ║ Path(test_global_dict(), <unspecified:test_global_dict>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_global_dict : Any → {Any | parse_expr(text, glob...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73c17bbc5e9fe192  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_global_dict","kind":"function","src_hash":"b06abdca262b063f","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr(text, global_dict=global_dict) == result"},"spec":{"lhs":"test_global_dict()","rhs":"test_global_dict produces the expected output","over":{"base":"Any"},"name":"test_global_dict_correct"},"guarantee":"test_global_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_global_dict_correct","statement":"Path(test_global_dict(x), test_global_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73c17bbc5e9fe192"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_global_dict","kind":"function","src_hash":"b06abdca262b063f","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr(text, global_dict=global_dict) == result"},"spec":{"lhs":"test_global_dict()","rhs":"<unspecified:test_global_dict>","over":{"base":"Any"},"name":"test_global_dict_correct"},"guarantee":"test_global_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_global_dict_correct","statement":"Path(test_global_dict(x), test_global_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73c17bbc5e9fe192","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_global_dict():
     global_dict = {
         'Symbol': Symbol
@@ -266,7 +321,10 @@ def test_global_dict():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_no_globals(), test_no_globals produces the expected output) over {Any | isinstance(obj, types.BuiltinFunctionType)} ║
+# ║ Path(test_no_globals(), <unspecified:test_no_globals>) over {Any | isinstance(obj, types.BuiltinFunctionType)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_no_globals : {Any | isinstance(obj, types.Builti...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -278,9 +336,12 @@ def test_global_dict():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ab03f8b3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_no_globals","kind":"function","src_hash":"0555666ff8443a95","in":{"base":"Any","pred":"isinstance(obj, types.BuiltinFunctionType)"},"out":{"base":"Any","pred":"obj == Symbol(name)"},"spec":{"lhs":"test_no_globals()","rhs":"test_no_globals produces the expected output","over":{"base":"Any","pred":"isinstance(obj, types.BuiltinFunctionType)"},"name":"test_no_globals_correct"},"guarantee":"test_no_globals produces the expected output","fibers":[{"name":"types_BuiltinFunctionType","pred":"isinstance(obj, types.BuiltinFunctionType)","path":{"lhs":"test_no_globals(x)","rhs":"test_no_globals produces the expected output","over":{"base":"types.BuiltinFunctionType","pred":"isinstance(obj, types.BuiltinFunctionType)"},"name":"test_no_globals_types.BuiltinFunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_no_globals_types.BuiltinFunctionType_correct","statement":"test_no_globals satisfies spec on types.BuiltinFunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ab03f8b3428e8999"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_no_globals","kind":"function","src_hash":"0555666ff8443a95","in":{"base":"Any","pred":"isinstance(obj, types.BuiltinFunctionType)"},"out":{"base":"Any","pred":"obj == Symbol(name)"},"spec":{"lhs":"test_no_globals()","rhs":"<unspecified:test_no_globals>","over":{"base":"Any","pred":"isinstance(obj, types.BuiltinFunctionType)"},"name":"test_no_globals_correct"},"guarantee":"test_no_globals produces the expected output","fibers":[{"name":"types_BuiltinFunctionType","pred":"isinstance(obj, types.BuiltinFunctionType)","path":{"lhs":"test_no_globals(x)","rhs":"test_no_globals produces the expected output","over":{"base":"types.BuiltinFunctionType","pred":"isinstance(obj, types.BuiltinFunctionType)"},"name":"test_no_globals_types.BuiltinFunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_no_globals_types.BuiltinFunctionType_correct","statement":"test_no_globals satisfies spec on types.BuiltinFunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ab03f8b3428e8999","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(obj, types.BuiltinFunctionType)'}, fibers={'types_BuiltinFunctionType'})"]}}
 def test_no_globals():
 
     # Replicate creating the default global_dict:
@@ -303,32 +364,45 @@ def test_no_globals():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_2515(), test_issue_2515 produces the expected output) over Any ║
+# ║ Path(test_issue_2515(), <unspecified:test_issue_2515>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_2515 : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d9eed99d03923aea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_issue_2515","kind":"function","src_hash":"3b9455033e98fe23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_2515()","rhs":"test_issue_2515 produces the expected output","over":{"base":"Any"},"name":"test_issue_2515_correct"},"guarantee":"test_issue_2515 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_issue_2515_correct","statement":"Path(test_issue_2515(x), test_issue_2515 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9eed99d03923aea"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_issue_2515","kind":"function","src_hash":"3b9455033e98fe23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_2515()","rhs":"<unspecified:test_issue_2515>","over":{"base":"Any"},"name":"test_issue_2515_correct"},"guarantee":"test_issue_2515 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_issue_2515_correct","statement":"Path(test_issue_2515(x), test_issue_2515 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d9eed99d03923aea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_2515():
     raises(TokenError, lambda: parse_expr('(()'))
     raises(TokenError, lambda: parse_expr('"""'))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7663(), test_issue_7663 produces the expected output) over Any ║
+# ║ Path(test_issue_7663(), parse_expr(e, evaluate=False) == parse_expr(e, evaluate=False) and parse_expr(e, evaluate=False).equals(2 * (x + 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7663 : Any → {Any | parse_expr(e, evaluate...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr(e, evaluate=False) == parse_ex...   ║
+# ║   ensures:  parse_expr(e, evaluate=False).equals(2 * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7663 : Any → {Any | result satisfies: pars...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d2a2c60cab0538d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7b3773a0203c232  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_issue_7663","kind":"function","src_hash":"6b0cc30a3c4a3c1f","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr(e, evaluate=False) == parse_expr(e, evaluate=False) and parse_expr(e, evaluate=False).equals(2 * (x + 1))"},"spec":{"lhs":"test_issue_7663()","rhs":"test_issue_7663 produces the expected output","over":{"base":"Any"},"name":"test_issue_7663_correct"},"guarantee":"test_issue_7663 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_issue_7663_correct","statement":"Path(test_issue_7663(x), test_issue_7663 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d2a2c60cab0538d"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_issue_7663","kind":"function","src_hash":"6b0cc30a3c4a3c1f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr(e, evaluate=False) == parse_expr(e, evaluate=False) and parse_expr(e, evaluate=False).equals(2 * (x + 1))"},"spec":{"lhs":"test_issue_7663()","rhs":"parse_expr(e, evaluate=False) == parse_expr(e, evaluate=False) and parse_expr(e, evaluate=False).equals(2 * (x + 1))","over":{"base":"Any"},"name":"test_issue_7663_correct"},"guarantee":"parse_expr(e, evaluate=False) == parse_expr(e, evaluate=False); parse_expr(e, evaluate=False).equals(2 * (x + 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_issue_7663_correct","statement":"Path(test_issue_7663(x), parse_expr(e, evaluate=False) == parse_expr(e, evaluate=False); parse_expr(e, evaluate=False).equals(2 * (x + 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7b3773a0203c232","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr(e, evaluate=False) == parse_expr(e, evaluate=False)","parse_expr(e, evaluate=False).equals(2 * (x + 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7663():
     x = Symbol('x')
     e = '2*(x+1)'
@@ -336,16 +410,22 @@ def test_issue_7663():
     assert parse_expr(e, evaluate=False).equals(2*(x+1))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_recursive_evaluate_false_10560(), test_recursive_evaluate_false_10560 produces the expected output) over Any ║
+# ║ Path(test_recursive_evaluate_false_10560(), <unspecified:test_recursive_evaluate_false_10560>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_recursive_evaluate_false_10560 : Any → {Any | pa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a66cdbd5ac2870e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_recursive_evaluate_false_10560","kind":"function","src_hash":"79e28c9ea05f80a4","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr(text, evaluate=False) == parse_expr(result, evaluate=False)"},"spec":{"lhs":"test_recursive_evaluate_false_10560()","rhs":"test_recursive_evaluate_false_10560 produces the expected output","over":{"base":"Any"},"name":"test_recursive_evaluate_false_10560_correct"},"guarantee":"test_recursive_evaluate_false_10560 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_recursive_evaluate_false_10560_correct","statement":"Path(test_recursive_evaluate_false_10560(x), test_recursive_evaluate_false_10560 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a66cdbd5ac2870e"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_recursive_evaluate_false_10560","kind":"function","src_hash":"79e28c9ea05f80a4","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr(text, evaluate=False) == parse_expr(result, evaluate=False)"},"spec":{"lhs":"test_recursive_evaluate_false_10560()","rhs":"<unspecified:test_recursive_evaluate_false_10560>","over":{"base":"Any"},"name":"test_recursive_evaluate_false_10560_correct"},"guarantee":"test_recursive_evaluate_false_10560 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_recursive_evaluate_false_10560_correct","statement":"Path(test_recursive_evaluate_false_10560(x), test_recursive_evaluate_false_10560 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a66cdbd5ac2870e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_recursive_evaluate_false_10560():
     inputs = {
         '4*-3' : '4*-3',
@@ -358,16 +438,23 @@ def test_recursive_evaluate_false_10560():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_evaluate_false(), test_function_evaluate_false produces the expected output) over Any ║
+# ║ Path(test_function_evaluate_false(), str(parse_expr('ln(0)', evaluate=False)) == 'log(0)' and str(parse_expr('cbrt(0)', evaluate=False)) == '0**(1/3)') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_function_evaluate_false : Any → {Any | str(parse...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(parse_expr('ln(0)', evaluate=False)) ...   ║
+# ║   ensures:  str(parse_expr('cbrt(0)', evaluate=False)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_function_evaluate_false : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2365b3fcbba9112b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7bfecba47e0cac1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_function_evaluate_false","kind":"function","src_hash":"87f3222c7518d1b9","in":{"base":"Any"},"out":{"base":"Any","pred":"str(parse_expr('ln(0)', evaluate=False)) == 'log(0)' and str(parse_expr('cbrt(0)', evaluate=False)) == '0**(1/3)' and case == str(expr) != str(expr.doit())"},"spec":{"lhs":"test_function_evaluate_false()","rhs":"test_function_evaluate_false produces the expected output","over":{"base":"Any"},"name":"test_function_evaluate_false_correct"},"guarantee":"test_function_evaluate_false produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_function_evaluate_false_correct","statement":"Path(test_function_evaluate_false(x), test_function_evaluate_false produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2365b3fcbba9112b"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_function_evaluate_false","kind":"function","src_hash":"87f3222c7518d1b9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(parse_expr('ln(0)', evaluate=False)) == 'log(0)' and str(parse_expr('cbrt(0)', evaluate=False)) == '0**(1/3)'"},"spec":{"lhs":"test_function_evaluate_false()","rhs":"str(parse_expr('ln(0)', evaluate=False)) == 'log(0)' and str(parse_expr('cbrt(0)', evaluate=False)) == '0**(1/3)'","over":{"base":"Any"},"name":"test_function_evaluate_false_correct"},"guarantee":"str(parse_expr('ln(0)', evaluate=False)) == 'log(0)'; str(parse_expr('cbrt(0)', evaluate=False)) == '0**(1/3)'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_function_evaluate_false_correct","statement":"Path(test_function_evaluate_false(x), str(parse_expr('ln(0)', evaluate=False)) == 'log(0)'; str(parse_expr('cbrt(0)', evaluate=False)) == '0**(1/3)')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7bfecba47e0cac1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(parse_expr('ln(0)', evaluate=False)) == 'log(0)'","str(parse_expr('cbrt(0)', evaluate=False)) == '0**(1/3)'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_function_evaluate_false():
     inputs = [
         'Abs(0)', 'im(0)', 're(0)', 'sign(0)', 'arg(0)', 'conjugate(0)',
@@ -385,16 +472,22 @@ def test_function_evaluate_false():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10773(), test_issue_10773 produces the expected output) over Any ║
+# ║ Path(test_issue_10773(), <unspecified:test_issue_10773>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_10773 : Any → {Any | parse_expr(text, eval...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39df9c34c9e6a11e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_issue_10773","kind":"function","src_hash":"94523987d99c0d23","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr(text, evaluate=False) == parse_expr(result, evaluate=False)"},"spec":{"lhs":"test_issue_10773()","rhs":"test_issue_10773 produces the expected output","over":{"base":"Any"},"name":"test_issue_10773_correct"},"guarantee":"test_issue_10773 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_issue_10773_correct","statement":"Path(test_issue_10773(x), test_issue_10773 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39df9c34c9e6a11e"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_issue_10773","kind":"function","src_hash":"94523987d99c0d23","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr(text, evaluate=False) == parse_expr(result, evaluate=False)"},"spec":{"lhs":"test_issue_10773()","rhs":"<unspecified:test_issue_10773>","over":{"base":"Any"},"name":"test_issue_10773_correct"},"guarantee":"test_issue_10773 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_issue_10773_correct","statement":"Path(test_issue_10773(x), test_issue_10773 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39df9c34c9e6a11e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_10773():
     inputs = {
     '-10/5': '(-10)/5',
@@ -405,16 +498,23 @@ def test_issue_10773():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_split_symbols(), test_split_symbols produces the expected output) over Any ║
+# ║ Path(test_split_symbols(), parse_expr('xy') == xy and parse_expr('xy', transformations=transformations) == x * y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_split_symbols : Any → {Any | parse_expr('xy') ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('xy') == xy                         ║
+# ║   ensures:  parse_expr('xy', transformations=transfor...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_split_symbols : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd935ae23c42d936  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88d7e2ed2c6f9aae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_split_symbols","kind":"function","src_hash":"b5a27da9aa18b198","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('xy') == xy and parse_expr('xy', transformations=transformations) == x * y"},"spec":{"lhs":"test_split_symbols()","rhs":"test_split_symbols produces the expected output","over":{"base":"Any"},"name":"test_split_symbols_correct"},"guarantee":"test_split_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_split_symbols_correct","statement":"Path(test_split_symbols(x), test_split_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd935ae23c42d936"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_split_symbols","kind":"function","src_hash":"b5a27da9aa18b198","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('xy') == xy and parse_expr('xy', transformations=transformations) == x * y"},"spec":{"lhs":"test_split_symbols()","rhs":"parse_expr('xy') == xy and parse_expr('xy', transformations=transformations) == x * y","over":{"base":"Any"},"name":"test_split_symbols_correct"},"guarantee":"parse_expr('xy') == xy; parse_expr('xy', transformations=transformations) == x * y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_split_symbols_correct","statement":"Path(test_split_symbols(x), parse_expr('xy') == xy; parse_expr('xy', transformations=transformations) == x * y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88d7e2ed2c6f9aae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('xy') == xy","parse_expr('xy', transformations=transformations) == x * y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_split_symbols():
     transformations = standard_transformations + \
                       (split_symbols, implicit_multiplication,)
@@ -428,16 +528,23 @@ def test_split_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_split_symbols_function(), test_split_symbols_function produces the expected output) over Any ║
+# ║ Path(test_split_symbols_function(), parse_expr('ay(x+1)', transformations=transformations) == a * y * (x + 1) and parse_expr('af(x+1)', transformations=transformations, local_dict={'f': f}) == a * f(x + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_split_symbols_function : Any → {Any | parse_expr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('ay(x+1)', transformations=tra...   ║
+# ║   ensures:  parse_expr('af(x+1)', transformations=tra...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_split_symbols_function : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54fd95fd775fe6bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd9621f0f24f7279  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_split_symbols_function","kind":"function","src_hash":"485f5986cc3cdb96","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('ay(x+1)', transformations=transformations) == a * y * (x + 1)"},"spec":{"lhs":"test_split_symbols_function()","rhs":"test_split_symbols_function produces the expected output","over":{"base":"Any"},"name":"test_split_symbols_function_correct"},"guarantee":"test_split_symbols_function produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_split_symbols_function_correct","statement":"Path(test_split_symbols_function(x), test_split_symbols_function produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54fd95fd775fe6bf"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_split_symbols_function","kind":"function","src_hash":"485f5986cc3cdb96","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('ay(x+1)', transformations=transformations) == a * y * (x + 1) and parse_expr('af(x+1)', transformations=transformations, local_dict={'f': f}) == a * f(x + 1)"},"spec":{"lhs":"test_split_symbols_function()","rhs":"parse_expr('ay(x+1)', transformations=transformations) == a * y * (x + 1) and parse_expr('af(x+1)', transformations=transformations, local_dict={'f': f}) == a * f(x + 1)","over":{"base":"Any"},"name":"test_split_symbols_function_correct"},"guarantee":"parse_expr('ay(x+1)', transformations=transformations) == a * y * (x + 1); parse_expr('af(x+1)', transformations=transformations, local_dict={'f': f}) == a * f(x + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_split_symbols_function_correct","statement":"Path(test_split_symbols_function(x), parse_expr('ay(x+1)', transformations=transformations) == a * y * (x + 1); parse_expr('af(x+1)', transformations=transformations, local_dict={'f': f}) == a * f(x + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd9621f0f24f7279","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('ay(x+1)', transformations=transformations) == a * y * (x + 1)","parse_expr('af(x+1)', transformations=transformations, local_dict={'f': f}) == a * f(x + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_split_symbols_function():
     transformations = standard_transformations + \
                       (split_symbols, implicit_multiplication,)
@@ -453,16 +560,24 @@ def test_split_symbols_function():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_functional_exponent(), test_functional_exponent produces the expected output) over Any ║
+# ║ Path(test_functional_exponent(), parse_expr('sin^2(x)', transformations=t) == sin(x) ** 2 and parse_expr('sin^y(x)', transformations=t) == sin(x) ** y and parse_expr('exp^y(x)', transformations=t) == exp(x) ** y and parse_expr('E^y(x)', transformations=t) == exp(yfcn(x)) and parse_expr('a^y(x)', transformations=t) == a ** yfcn(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_functional_exponent : Any → {Any | parse_expr('s...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('sin^2(x)', transformations=t)...   ║
+# ║   ensures:  parse_expr('sin^y(x)', transformations=t)...   ║
+# ║   ensures:  parse_expr('exp^y(x)', transformations=t)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_functional_exponent : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 714b9972f22c2bb6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 547653725cf7c64e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_functional_exponent","kind":"function","src_hash":"19b301cbe3ea2ecd","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('sin^2(x)', transformations=t) == sin(x) ** 2 and parse_expr('sin^y(x)', transformations=t) == sin(x) ** y and parse_expr('exp^y(x)', transformations=t) == exp(x) ** y and parse_expr('E^y(x)', transformations=t) == exp(yfcn(x)) and parse_expr('a^y(x)', transformations=t) == a ** yfcn(x)"},"spec":{"lhs":"test_functional_exponent()","rhs":"test_functional_exponent produces the expected output","over":{"base":"Any"},"name":"test_functional_exponent_correct"},"guarantee":"test_functional_exponent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_functional_exponent_correct","statement":"Path(test_functional_exponent(x), test_functional_exponent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"714b9972f22c2bb6"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_functional_exponent","kind":"function","src_hash":"19b301cbe3ea2ecd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('sin^2(x)', transformations=t) == sin(x) ** 2 and parse_expr('sin^y(x)', transformations=t) == sin(x) ** y and parse_expr('exp^y(x)', transformations=t) == exp(x) ** y and parse_expr('E^y(x)', transformations=t) == exp(yfcn(x)) and parse_expr('a^y(x)', transformations=t) == a ** yfcn(x)"},"spec":{"lhs":"test_functional_exponent()","rhs":"parse_expr('sin^2(x)', transformations=t) == sin(x) ** 2 and parse_expr('sin^y(x)', transformations=t) == sin(x) ** y and parse_expr('exp^y(x)', transformations=t) == exp(x) ** y and parse_expr('E^y(x)', transformations=t) == exp(yfcn(x)) and parse_expr('a^y(x)', transformations=t) == a ** yfcn(x)","over":{"base":"Any"},"name":"test_functional_exponent_correct"},"guarantee":"parse_expr('sin^2(x)', transformations=t) == sin(x) ** 2; parse_expr('sin^y(x)', transformations=t) == sin(x) ** y; parse_expr('exp^y(x)', transformations=t) == exp(x) ** y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_functional_exponent_correct","statement":"Path(test_functional_exponent(x), parse_expr('sin^2(x)', transformations=t) == sin(x) ** 2; parse_expr('sin^y(x)', transformations=t) == sin(x) ** y; parse_expr('exp^y(x)', transformations=t) == exp(x) ** y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"547653725cf7c64e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('sin^2(x)', transformations=t) == sin(x) ** 2","parse_expr('sin^y(x)', transformations=t) == sin(x) ** y","parse_expr('exp^y(x)', transformations=t) == exp(x) ** y","parse_expr('E^y(x)', transformations=t) == exp(yfcn(x))","parse_expr('a^y(x)', transformations=t) == a ** yfcn(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_functional_exponent():
     t = standard_transformations + (convert_xor, function_exponentiation)
     x = Symbol('x')
@@ -477,16 +592,22 @@ def test_functional_exponent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_parentheses_implicit_multiplication(), test_match_parentheses_implicit_multiplication produces the expected output) over Any ║
+# ║ Path(test_match_parentheses_implicit_multiplication(), <unspecified:test_match_parentheses_implicit_multiplication>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_match_parentheses_implicit_multiplication : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03c56a5c4a60c6a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_match_parentheses_implicit_multiplication","kind":"function","src_hash":"5d937b8da3b8a467","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_match_parentheses_implicit_multiplication()","rhs":"test_match_parentheses_implicit_multiplication produces the expected output","over":{"base":"Any"},"name":"test_match_parentheses_implicit_multiplication_correct"},"guarantee":"test_match_parentheses_implicit_multiplication produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_match_parentheses_implicit_multiplication_correct","statement":"Path(test_match_parentheses_implicit_multiplication(x), test_match_parentheses_implicit_multiplication produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03c56a5c4a60c6a1"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_match_parentheses_implicit_multiplication","kind":"function","src_hash":"5d937b8da3b8a467","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_match_parentheses_implicit_multiplication()","rhs":"<unspecified:test_match_parentheses_implicit_multiplication>","over":{"base":"Any"},"name":"test_match_parentheses_implicit_multiplication_correct"},"guarantee":"test_match_parentheses_implicit_multiplication produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_match_parentheses_implicit_multiplication_correct","statement":"Path(test_match_parentheses_implicit_multiplication(x), test_match_parentheses_implicit_multiplication produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03c56a5c4a60c6a1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_match_parentheses_implicit_multiplication():
     transformations = standard_transformations + \
                       (implicit_multiplication,)
@@ -494,16 +615,24 @@ def test_match_parentheses_implicit_multiplication():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_convert_equals_signs(), test_convert_equals_signs produces the expected output) over Any ║
+# ║ Path(test_convert_equals_signs(), parse_expr('1*2=x', transformations=transformations) == Eq(2, x) and parse_expr('y = x', transformations=transformations) == Eq(y, x) and parse_expr('(2*y = x) = False', transformations=transformations) == Eq(Eq(2 * y, x), False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_convert_equals_signs : Any → {Any | parse_expr('...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('1*2=x', transformations=trans...   ║
+# ║   ensures:  parse_expr('y = x', transformations=trans...   ║
+# ║   ensures:  parse_expr('(2*y = x) = False', transform...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_convert_equals_signs : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 217ddde310326659  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 872c41a1fa01c99e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_convert_equals_signs","kind":"function","src_hash":"f643885870376a64","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('1*2=x', transformations=transformations) == Eq(2, x) and parse_expr('y = x', transformations=transformations) == Eq(y, x)"},"spec":{"lhs":"test_convert_equals_signs()","rhs":"test_convert_equals_signs produces the expected output","over":{"base":"Any"},"name":"test_convert_equals_signs_correct"},"guarantee":"test_convert_equals_signs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_convert_equals_signs_correct","statement":"Path(test_convert_equals_signs(x), test_convert_equals_signs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"217ddde310326659"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_convert_equals_signs","kind":"function","src_hash":"f643885870376a64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('1*2=x', transformations=transformations) == Eq(2, x) and parse_expr('y = x', transformations=transformations) == Eq(y, x) and parse_expr('(2*y = x) = False', transformations=transformations) == Eq(Eq(2 * y, x), False)"},"spec":{"lhs":"test_convert_equals_signs()","rhs":"parse_expr('1*2=x', transformations=transformations) == Eq(2, x) and parse_expr('y = x', transformations=transformations) == Eq(y, x) and parse_expr('(2*y = x) = False', transformations=transformations) == Eq(Eq(2 * y, x), False)","over":{"base":"Any"},"name":"test_convert_equals_signs_correct"},"guarantee":"parse_expr('1*2=x', transformations=transformations) == Eq(2, x); parse_expr('y = x', transformations=transformations) == Eq(y, x); parse_expr('(2*y = x) = False', transformations=transformations) == Eq(Eq(2 * y, x), False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_convert_equals_signs_correct","statement":"Path(test_convert_equals_signs(x), parse_expr('1*2=x', transformations=transformations) == Eq(2, x); parse_expr('y = x', transformations=transformations) == Eq(y, x); parse_expr('(2*y = x) = False', transformations=transformations) == Eq(Eq(2 * y, x), False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"872c41a1fa01c99e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('1*2=x', transformations=transformations) == Eq(2, x)","parse_expr('y = x', transformations=transformations) == Eq(y, x)","parse_expr('(2*y = x) = False', transformations=transformations) == Eq(Eq(2 * y, x), False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_convert_equals_signs():
     transformations = standard_transformations + \
                         (convert_equals_signs, )
@@ -516,32 +645,46 @@ def test_convert_equals_signs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parse_function_issue_3539(), test_parse_function_issue_3539 produces the expected output) over Any ║
+# ║ Path(test_parse_function_issue_3539(), parse_expr('f(x)') == f(x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_parse_function_issue_3539 : Any → {Any | parse_e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('f(x)') == f(x)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_parse_function_issue_3539 : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcaa817caf29f89f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4131208812672b96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_parse_function_issue_3539","kind":"function","src_hash":"ed7bea594e9e2fc1","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('f(x)') == f(x)"},"spec":{"lhs":"test_parse_function_issue_3539()","rhs":"test_parse_function_issue_3539 produces the expected output","over":{"base":"Any"},"name":"test_parse_function_issue_3539_correct"},"guarantee":"test_parse_function_issue_3539 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_parse_function_issue_3539_correct","statement":"Path(test_parse_function_issue_3539(x), test_parse_function_issue_3539 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcaa817caf29f89f"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_parse_function_issue_3539","kind":"function","src_hash":"ed7bea594e9e2fc1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('f(x)') == f(x)"},"spec":{"lhs":"test_parse_function_issue_3539()","rhs":"parse_expr('f(x)') == f(x)","over":{"base":"Any"},"name":"test_parse_function_issue_3539_correct"},"guarantee":"parse_expr('f(x)') == f(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_parse_function_issue_3539_correct","statement":"Path(test_parse_function_issue_3539(x), parse_expr('f(x)') == f(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4131208812672b96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('f(x)') == f(x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_parse_function_issue_3539():
     x = Symbol('x')
     f = Function('f')
     assert parse_expr('f(x)') == f(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_24288(), test_issue_24288 produces the expected output) over Any ║
+# ║ Path(test_issue_24288(), parse_expr('1 < 2', evaluate=False) == Lt(1, 2, evaluate=False) and parse_expr('1 <= 2', evaluate=False) == Le(1, 2, evaluate=False) and parse_expr('1 > 2', evaluate=False) == Gt(1, 2, evaluate=False) and parse_expr('1 >= 2', evaluate=False) == Ge(1, 2, evaluate=False) and parse_expr('1 != 2', evaluate=False) == Ne(1, 2, evaluate=False) and parse_expr('1 == 2', evaluate=False) == Eq(1, 2, evaluate=False) and parse_expr('1 < 2 < 3', evaluate=False) == And(Lt(1, 2, evaluate=False), Lt(2, 3, evaluate=False), evaluate=False) and parse_expr('1 <= 2 <= 3', evaluate=False) == And(Le(1, 2, evaluate=False), Le(2, 3, evaluate=False), evaluate=False) and parse_expr('1 < 2 <= 3 < 4', evaluate=False) == And(Lt(1, 2, evaluate=False), Le(2, 3, evaluate=False), Lt(3, 4, evaluate=False), evaluate=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_24288 : Any → {Any | parse_expr('1 < 2', e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('1 < 2', evaluate=False) == Lt...   ║
+# ║   ensures:  parse_expr('1 <= 2', evaluate=False) == L...   ║
+# ║   ensures:  parse_expr('1 > 2', evaluate=False) == Gt...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_24288 : Any → {Any | result satisfies: par...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24ce4c9061988468  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75daf17a343d2212  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_issue_24288","kind":"function","src_hash":"223ae3516f8b460f","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('1 < 2', evaluate=False) == Lt(1, 2, evaluate=False) and parse_expr('1 <= 2', evaluate=False) == Le(1, 2, evaluate=False) and parse_expr('1 > 2', evaluate=False) == Gt(1, 2, evaluate=False) and parse_expr('1 >= 2', evaluate=False) == Ge(1, 2, evaluate=False) and parse_expr('1 != 2', evaluate=False) == Ne(1, 2, evaluate=False) and parse_expr('1 == 2', evaluate=False) == Eq(1, 2, evaluate=False)"},"spec":{"lhs":"test_issue_24288()","rhs":"test_issue_24288 produces the expected output","over":{"base":"Any"},"name":"test_issue_24288_correct"},"guarantee":"test_issue_24288 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_issue_24288_correct","statement":"Path(test_issue_24288(x), test_issue_24288 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24ce4c9061988468"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_issue_24288","kind":"function","src_hash":"223ae3516f8b460f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('1 < 2', evaluate=False) == Lt(1, 2, evaluate=False) and parse_expr('1 <= 2', evaluate=False) == Le(1, 2, evaluate=False) and parse_expr('1 > 2', evaluate=False) == Gt(1, 2, evaluate=False) and parse_expr('1 >= 2', evaluate=False) == Ge(1, 2, evaluate=False) and parse_expr('1 != 2', evaluate=False) == Ne(1, 2, evaluate=False) and parse_expr('1 == 2', evaluate=False) == Eq(1, 2, evaluate=False) and parse_expr('1 < 2 < 3', evaluate=False) == And(Lt(1, 2, evaluate=False), Lt(2, 3, evaluate=False), evaluate=False) and parse_expr('1 <= 2 <= 3', evaluate=False) == And(Le(1, 2, evaluate=False), Le(2, 3, evaluate=False), evaluate=False) and parse_expr('1 < 2 <= 3 < 4', evaluate=False) == And(Lt(1, 2, evaluate=False), Le(2, 3, evaluate=False), Lt(3, 4, evaluate=False), evaluate=False)"},"spec":{"lhs":"test_issue_24288()","rhs":"parse_expr('1 < 2', evaluate=False) == Lt(1, 2, evaluate=False) and parse_expr('1 <= 2', evaluate=False) == Le(1, 2, evaluate=False) and parse_expr('1 > 2', evaluate=False) == Gt(1, 2, evaluate=False) and parse_expr('1 >= 2', evaluate=False) == Ge(1, 2, evaluate=False) and parse_expr('1 != 2', evaluate=False) == Ne(1, 2, evaluate=False) and parse_expr('1 == 2', evaluate=False) == Eq(1, 2, evaluate=False) and parse_expr('1 < 2 < 3', evaluate=False) == And(Lt(1, 2, evaluate=False), Lt(2, 3, evaluate=False), evaluate=False) and parse_expr('1 <= 2 <= 3', evaluate=False) == And(Le(1, 2, evaluate=False), Le(2, 3, evaluate=False), evaluate=False) and parse_expr('1 < 2 <= 3 < 4', evaluate=False) == And(Lt(1, 2, evaluate=False), Le(2, 3, evaluate=False), Lt(3, 4, evaluate=False), evaluate=False)","over":{"base":"Any"},"name":"test_issue_24288_correct"},"guarantee":"parse_expr('1 < 2', evaluate=False) == Lt(1, 2, evaluate=False); parse_expr('1 <= 2', evaluate=False) == Le(1, 2, evaluate=False); parse_expr('1 > 2', evaluate=False) == Gt(1, 2, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_issue_24288_correct","statement":"Path(test_issue_24288(x), parse_expr('1 < 2', evaluate=False) == Lt(1, 2, evaluate=False); parse_expr('1 <= 2', evaluate=False) == Le(1, 2, evaluate=False); parse_expr('1 > 2', evaluate=False) == Gt(1, 2, evaluate=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75daf17a343d2212","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('1 < 2', evaluate=False) == Lt(1, 2, evaluate=False)","parse_expr('1 <= 2', evaluate=False) == Le(1, 2, evaluate=False)","parse_expr('1 > 2', evaluate=False) == Gt(1, 2, evaluate=False)","parse_expr('1 >= 2', evaluate=False) == Ge(1, 2, evaluate=False)","parse_expr('1 != 2', evaluate=False) == Ne(1, 2, evaluate=False)","parse_expr('1 == 2', evaluate=False) == Eq(1, 2, evaluate=False)","parse_expr('1 < 2 < 3', evaluate=False) == And(Lt(1, 2, evaluate=False), Lt(2, 3, evaluate=False), evaluate=False)","parse_expr('1 <= 2 <= 3', evaluate=False) == And(Le(1, 2, evaluate=False), Le(2, 3, evaluate=False), evaluate=False)","parse_expr('1 < 2 <= 3 < 4', evaluate=False) == And(Lt(1, 2, evaluate=False), Le(2, 3, evaluate=False), Lt(3, 4, evaluate=False), evaluate=False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_issue_24288():
     assert parse_expr("1 < 2", evaluate=False) == Lt(1, 2, evaluate=False)
     assert parse_expr("1 <= 2", evaluate=False) == Le(1, 2, evaluate=False)
@@ -560,16 +703,23 @@ def test_issue_24288():
     raises(ValueError, lambda: parse_expr("1 is not 2", evaluate=False))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_split_symbols_numeric(), test_split_symbols_numeric produces the expected output) over Any ║
+# ║ Path(test_split_symbols_numeric(), expr1 == expr2 == 2 ** n * 3 ** n and expr1 == n * 12 * n * 34) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_split_symbols_numeric : Any → {Any | expr1 == ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr1 == expr2 == 2 ** n * 3 ** n              ║
+# ║   ensures:  expr1 == n * 12 * n * 34                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_split_symbols_numeric : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0184b793e6f7b450  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8aa450b96d240ad4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_split_symbols_numeric","kind":"function","src_hash":"64ece8acd15aac8c","in":{"base":"Any"},"out":{"base":"Any","pred":"expr1 == expr2 == 2 ** n * 3 ** n and expr1 == n * 12 * n * 34"},"spec":{"lhs":"test_split_symbols_numeric()","rhs":"test_split_symbols_numeric produces the expected output","over":{"base":"Any"},"name":"test_split_symbols_numeric_correct"},"guarantee":"test_split_symbols_numeric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_split_symbols_numeric_correct","statement":"Path(test_split_symbols_numeric(x), test_split_symbols_numeric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0184b793e6f7b450"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_split_symbols_numeric","kind":"function","src_hash":"64ece8acd15aac8c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr1 == expr2 == 2 ** n * 3 ** n and expr1 == n * 12 * n * 34"},"spec":{"lhs":"test_split_symbols_numeric()","rhs":"expr1 == expr2 == 2 ** n * 3 ** n and expr1 == n * 12 * n * 34","over":{"base":"Any"},"name":"test_split_symbols_numeric_correct"},"guarantee":"expr1 == expr2 == 2 ** n * 3 ** n; expr1 == n * 12 * n * 34","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_split_symbols_numeric_correct","statement":"Path(test_split_symbols_numeric(x), expr1 == expr2 == 2 ** n * 3 ** n; expr1 == n * 12 * n * 34)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8aa450b96d240ad4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr1 == expr2 == 2 ** n * 3 ** n","expr1 == n * 12 * n * 34"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_split_symbols_numeric():
     transformations = (
         standard_transformations +
@@ -585,31 +735,45 @@ def test_split_symbols_numeric():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unicode_names(), test_unicode_names produces the expected output) over Any ║
+# ║ Path(test_unicode_names(), parse_expr('α') == Symbol('α')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unicode_names : Any → {Any | parse_expr('α') == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('α') == Symbol('α')                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unicode_names : Any → {Any | result satisfies: p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2347d73a987f2bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17afbfc79aa0cab3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_unicode_names","kind":"function","src_hash":"528ae245c4f8526a","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('\u03b1') == Symbol('\u03b1')"},"spec":{"lhs":"test_unicode_names()","rhs":"test_unicode_names produces the expected output","over":{"base":"Any"},"name":"test_unicode_names_correct"},"guarantee":"test_unicode_names produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_unicode_names_correct","statement":"Path(test_unicode_names(x), test_unicode_names produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2347d73a987f2bc"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_unicode_names","kind":"function","src_hash":"528ae245c4f8526a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('\u03b1') == Symbol('\u03b1')"},"spec":{"lhs":"test_unicode_names()","rhs":"parse_expr('\u03b1') == Symbol('\u03b1')","over":{"base":"Any"},"name":"test_unicode_names_correct"},"guarantee":"parse_expr('\u03b1') == Symbol('\u03b1')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_unicode_names_correct","statement":"Path(test_unicode_names(x), parse_expr('\u03b1') == Symbol('\u03b1'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17afbfc79aa0cab3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('\u03b1') == Symbol('\u03b1')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_unicode_names():
     assert parse_expr('α') == Symbol('α')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_python3_features(), test_python3_features produces the expected output) over Any ║
+# ║ Path(test_python3_features(), parse_expr('123_456') == 123456 and parse_expr('1.2[3_4]') == parse_expr('1.2[34]') == Rational(611, 495) and parse_expr('1.2[012_012]') == parse_expr('1.2[012012]') == Rational(400, 333) and parse_expr('.[3_4]') == parse_expr('.[34]') == Rational(34, 99) and parse_expr('.1[3_4]') == parse_expr('.1[34]') == Rational(133, 990) and parse_expr('123_123.123_123[3_4]') == parse_expr('123123.123123[34]') == Rational(12189189189211, 99000000)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_python3_features : Any → {Any | parse_expr('123_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('123_456') == 123456                ║
+# ║   ensures:  parse_expr('1.2[3_4]') == parse_expr('1.2...   ║
+# ║   ensures:  parse_expr('1.2[012_012]') == parse_expr(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_python3_features : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1d8c7749185b966  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f30939ac66c3628  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_python3_features","kind":"function","src_hash":"a403ea637db8520a","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('123_456') == 123456 and parse_expr('1.2[3_4]') == parse_expr('1.2[34]') == Rational(611, 495) and parse_expr('1.2[012_012]') == parse_expr('1.2[012012]') == Rational(400, 333) and parse_expr('.[3_4]') == parse_expr('.[34]') == Rational(34, 99) and parse_expr('.1[3_4]') == parse_expr('.1[34]') == Rational(133, 990)"},"spec":{"lhs":"test_python3_features()","rhs":"test_python3_features produces the expected output","over":{"base":"Any"},"name":"test_python3_features_correct"},"guarantee":"test_python3_features produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_python3_features_correct","statement":"Path(test_python3_features(x), test_python3_features produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1d8c7749185b966"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_python3_features","kind":"function","src_hash":"a403ea637db8520a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('123_456') == 123456 and parse_expr('1.2[3_4]') == parse_expr('1.2[34]') == Rational(611, 495) and parse_expr('1.2[012_012]') == parse_expr('1.2[012012]') == Rational(400, 333) and parse_expr('.[3_4]') == parse_expr('.[34]') == Rational(34, 99) and parse_expr('.1[3_4]') == parse_expr('.1[34]') == Rational(133, 990) and parse_expr('123_123.123_123[3_4]') == parse_expr('123123.123123[34]') == Rational(12189189189211, 99000000)"},"spec":{"lhs":"test_python3_features()","rhs":"parse_expr('123_456') == 123456 and parse_expr('1.2[3_4]') == parse_expr('1.2[34]') == Rational(611, 495) and parse_expr('1.2[012_012]') == parse_expr('1.2[012012]') == Rational(400, 333) and parse_expr('.[3_4]') == parse_expr('.[34]') == Rational(34, 99) and parse_expr('.1[3_4]') == parse_expr('.1[34]') == Rational(133, 990) and parse_expr('123_123.123_123[3_4]') == parse_expr('123123.123123[34]') == Rational(12189189189211, 99000000)","over":{"base":"Any"},"name":"test_python3_features_correct"},"guarantee":"parse_expr('123_456') == 123456; parse_expr('1.2[3_4]') == parse_expr('1.2[34]') == Rational(611, 495); parse_expr('1.2[012_012]') == parse_expr('1.2[012012]') == Rational(400, 333)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_python3_features_correct","statement":"Path(test_python3_features(x), parse_expr('123_456') == 123456; parse_expr('1.2[3_4]') == parse_expr('1.2[34]') == Rational(611, 495); parse_expr('1.2[012_012]') == parse_expr('1.2[012012]') == Rational(400, 333))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f30939ac66c3628","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('123_456') == 123456","parse_expr('1.2[3_4]') == parse_expr('1.2[34]') == Rational(611, 495)","parse_expr('1.2[012_012]') == parse_expr('1.2[012012]') == Rational(400, 333)","parse_expr('.[3_4]') == parse_expr('.[34]') == Rational(34, 99)","parse_expr('.1[3_4]') == parse_expr('.1[34]') == Rational(133, 990)","parse_expr('123_123.123_123[3_4]') == parse_expr('123123.123123[34]') == Rational(12189189189211, 99000000)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_python3_features():
     assert parse_expr("123_456") == 123456
     assert parse_expr("1.2[3_4]") == parse_expr("1.2[34]") == Rational(611, 495)
@@ -620,16 +784,22 @@ def test_python3_features():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19501(), test_issue_19501 produces the expected output) over Any ║
+# ║ Path(test_issue_19501(), eq.free_symbols == {x}) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19501 : Any → {Any | eq.free_symbols == {x}}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq.free_symbols == {x}                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19501 : Any → {Any | result satisfies: eq....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0c55ac2770ff88c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e48ac560b7986729  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_issue_19501","kind":"function","src_hash":"9a54816c02dc4ab9","in":{"base":"Any"},"out":{"base":"Any","pred":"eq.free_symbols == {x}"},"spec":{"lhs":"test_issue_19501()","rhs":"test_issue_19501 produces the expected output","over":{"base":"Any"},"name":"test_issue_19501_correct"},"guarantee":"test_issue_19501 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_issue_19501_correct","statement":"Path(test_issue_19501(x), test_issue_19501 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0c55ac2770ff88c"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_issue_19501","kind":"function","src_hash":"9a54816c02dc4ab9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq.free_symbols == {x}"},"spec":{"lhs":"test_issue_19501()","rhs":"eq.free_symbols == {x}","over":{"base":"Any"},"name":"test_issue_19501_correct"},"guarantee":"eq.free_symbols == {x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_issue_19501_correct","statement":"Path(test_issue_19501(x), eq.free_symbols == {x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e48ac560b7986729","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq.free_symbols == {x}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_19501():
     x = Symbol('x')
     eq = parse_expr('E**x(1+x)', local_dict={'x': x}, transformations=(
@@ -639,16 +809,24 @@ def test_issue_19501():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parsing_definitions(), test_parsing_definitions produces the expected output) over Any ║
+# ║ Path(test_parsing_definitions(), len(_transformation) == 12 and _transformation[0] == lambda_notation and _transformation[1] == auto_symbol and _transformation[2] == repeated_decimals and _transformation[3] == auto_number and _transformation[4] == factorial_notation and _transformation[5] == implicit_multiplication_application and _transformation[6] == convert_xor and _transformation[7] == implicit_application and _transformation[8] == implicit_multiplication and _transformation[9] == convert_equals_signs and _transformation[10] == function_exponentiation and _transformation[11] == rationalize and T[:5] == T[0, 1, 2, 3, 4] == standard_transformations and T[-1, 0] == (t[len(t) - 1], t[0]) and T[:5, 8] == standard_transformations + (t[8],) and parse_expr('0.3x^2', transformations='all') == 3 * x ** 2 / 10 and parse_expr('sin 3x', transformations='implicit') == sin(3 * x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_parsing_definitions : Any → {Any | len(_transfor...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(_transformation) == 12                     ║
+# ║   ensures:  _transformation[0] == lambda_notation          ║
+# ║   ensures:  _transformation[1] == auto_symbol              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_parsing_definitions : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76e1628dc80c2c9b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ef958431bac9e2c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_parsing_definitions","kind":"function","src_hash":"137f035e7ad5b9d7","in":{"base":"Any"},"out":{"base":"Any","pred":"len(_transformation) == 12 and _transformation[0] == lambda_notation and _transformation[1] == auto_symbol and _transformation[2] == repeated_decimals and _transformation[3] == auto_number and _transformation[4] == factorial_notation and _transformation[5] == implicit_multiplication_application and _transformation[6] == convert_xor and _transformation[7] == implicit_application and _transformation[8] == implicit_multiplication and _transformation[9] == convert_equals_signs and _transformation[10] == function_exponentiation and _transformation[11] == rationalize and T[:5] == T[0, 1, 2, 3, 4] == standard_transformations and T[-1, 0] == (t[len(t) - 1], t[0]) and T[:5, 8] == standard_transformations + (t[8],) and parse_expr('0.3x^2', transformations='all') == 3 * x ** 2 / 10 and parse_expr('sin 3x', transformations='implicit') == sin(3 * x)"},"spec":{"lhs":"test_parsing_definitions()","rhs":"test_parsing_definitions produces the expected output","over":{"base":"Any"},"name":"test_parsing_definitions_correct"},"guarantee":"test_parsing_definitions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_parsing_definitions_correct","statement":"Path(test_parsing_definitions(x), test_parsing_definitions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76e1628dc80c2c9b"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_parsing_definitions","kind":"function","src_hash":"137f035e7ad5b9d7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(_transformation) == 12 and _transformation[0] == lambda_notation and _transformation[1] == auto_symbol and _transformation[2] == repeated_decimals and _transformation[3] == auto_number and _transformation[4] == factorial_notation and _transformation[5] == implicit_multiplication_application and _transformation[6] == convert_xor and _transformation[7] == implicit_application and _transformation[8] == implicit_multiplication and _transformation[9] == convert_equals_signs and _transformation[10] == function_exponentiation and _transformation[11] == rationalize and T[:5] == T[0, 1, 2, 3, 4] == standard_transformations and T[-1, 0] == (t[len(t) - 1], t[0]) and T[:5, 8] == standard_transformations + (t[8],) and parse_expr('0.3x^2', transformations='all') == 3 * x ** 2 / 10 and parse_expr('sin 3x', transformations='implicit') == sin(3 * x)"},"spec":{"lhs":"test_parsing_definitions()","rhs":"len(_transformation) == 12 and _transformation[0] == lambda_notation and _transformation[1] == auto_symbol and _transformation[2] == repeated_decimals and _transformation[3] == auto_number and _transformation[4] == factorial_notation and _transformation[5] == implicit_multiplication_application and _transformation[6] == convert_xor and _transformation[7] == implicit_application and _transformation[8] == implicit_multiplication and _transformation[9] == convert_equals_signs and _transformation[10] == function_exponentiation and _transformation[11] == rationalize and T[:5] == T[0, 1, 2, 3, 4] == standard_transformations and T[-1, 0] == (t[len(t) - 1], t[0]) and T[:5, 8] == standard_transformations + (t[8],) and parse_expr('0.3x^2', transformations='all') == 3 * x ** 2 / 10 and parse_expr('sin 3x', transformations='implicit') == sin(3 * x)","over":{"base":"Any"},"name":"test_parsing_definitions_correct"},"guarantee":"len(_transformation) == 12; _transformation[0] == lambda_notation; _transformation[1] == auto_symbol","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_parsing_definitions_correct","statement":"Path(test_parsing_definitions(x), len(_transformation) == 12; _transformation[0] == lambda_notation; _transformation[1] == auto_symbol)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ef958431bac9e2c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(_transformation) == 12","_transformation[0] == lambda_notation","_transformation[1] == auto_symbol","_transformation[2] == repeated_decimals","_transformation[3] == auto_number","_transformation[4] == factorial_notation","_transformation[5] == implicit_multiplication_application","_transformation[6] == convert_xor","_transformation[7] == implicit_application","_transformation[8] == implicit_multiplication","_transformation[9] == convert_equals_signs","_transformation[10] == function_exponentiation","_transformation[11] == rationalize","T[:5] == T[0, 1, 2, 3, 4] == standard_transformations","T[-1, 0] == (t[len(t) - 1], t[0])","T[:5, 8] == standard_transformations + (t[8],)","parse_expr('0.3x^2', transformations='all') == 3 * x ** 2 / 10","parse_expr('sin 3x', transformations='implicit') == sin(3 * x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_parsing_definitions():
     from sympy.abc import x
     assert len(_transformation) == 12  # if this changes, extend below
@@ -673,16 +851,22 @@ def test_parsing_definitions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_builtins(), test_builtins produces the expected output) over Any ║
+# ║ Path(test_builtins(), str(parse_expr('pow(38, -1, 97)')) == '23') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_builtins : Any → {Any | str(parse_expr('pow(38, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(parse_expr('pow(38, -1, 97)')) == '23'     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_builtins : Any → {Any | result satisfies: str(pa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55169cc887ae401a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52f6c96177224e76  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_builtins","kind":"function","src_hash":"1e35f727399f2792","in":{"base":"Any"},"out":{"base":"Any","pred":"str(parse_expr('pow(38, -1, 97)')) == '23' and parse_expr(built_in_func_call) == parse_expr(sympy_func_call)"},"spec":{"lhs":"test_builtins()","rhs":"test_builtins produces the expected output","over":{"base":"Any"},"name":"test_builtins_correct"},"guarantee":"test_builtins produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_builtins_correct","statement":"Path(test_builtins(x), test_builtins produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55169cc887ae401a"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_builtins","kind":"function","src_hash":"1e35f727399f2792","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(parse_expr('pow(38, -1, 97)')) == '23'"},"spec":{"lhs":"test_builtins()","rhs":"str(parse_expr('pow(38, -1, 97)')) == '23'","over":{"base":"Any"},"name":"test_builtins_correct"},"guarantee":"str(parse_expr('pow(38, -1, 97)')) == '23'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_builtins_correct","statement":"Path(test_builtins(x), str(parse_expr('pow(38, -1, 97)')) == '23')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52f6c96177224e76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(parse_expr('pow(38, -1, 97)')) == '23'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_builtins():
     cases = [
         ('abs(x)', 'Abs(x)'),
@@ -696,16 +880,22 @@ def test_builtins():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_22822(), test_issue_22822 produces the expected output) over Any ║
+# ║ Path(test_issue_22822(), parse_expr('some_parameter is None', data) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_22822 : Any → {Any | parse_expr('some_para...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  parse_expr('some_parameter is None', data...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_22822 : Any → {Any | result satisfies: par...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b3ab8aa7295a20a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08e9771c78456a40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_issue_22822","kind":"function","src_hash":"cf8b0f3b99213c22","in":{"base":"Any"},"out":{"base":"Any","pred":"parse_expr('some_parameter is None', data) is True"},"spec":{"lhs":"test_issue_22822()","rhs":"test_issue_22822 produces the expected output","over":{"base":"Any"},"name":"test_issue_22822_correct"},"guarantee":"test_issue_22822 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_issue_22822_correct","statement":"Path(test_issue_22822(x), test_issue_22822 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b3ab8aa7295a20a"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_sympy_parser.test_issue_22822","kind":"function","src_hash":"cf8b0f3b99213c22","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: parse_expr('some_parameter is None', data) is True"},"spec":{"lhs":"test_issue_22822()","rhs":"parse_expr('some_parameter is None', data) is True","over":{"base":"Any"},"name":"test_issue_22822_correct"},"guarantee":"parse_expr('some_parameter is None', data) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_sympy_parser.test_issue_22822_correct","statement":"Path(test_issue_22822(x), parse_expr('some_parameter is None', data) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08e9771c78456a40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["parse_expr('some_parameter is None', data) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_22822():
     raises(ValueError, lambda: parse_expr('x', {'': 1}))
     data = {'some_parameter': None}

@@ -151,16 +151,22 @@ MODULES = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_import(mod), creates a global translation dictionary for module) over Any ║
+# ║ Path(_import(module, reload), len(namespace) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _import : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(namespace) == 0                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _import : Any → {Any | result satisfies: len(namespac...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31a6bee8caff1b31  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d103c272911a3df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._import","kind":"function","src_hash":"8829c565aa512f71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_import(mod)","rhs":"creates a global translation dictionary for module","over":{"base":"Any"},"name":"_import_correct"},"guarantee":"creates a global translation dictionary for module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._import_correct","statement":"Path(_import(x), creates a global translation dictionary for module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31a6bee8caff1b31"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._import","kind":"function","src_hash":"8829c565aa512f71","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(namespace) == 0"},"spec":{"lhs":"_import(module, reload)","rhs":"len(namespace) == 0","over":{"base":"Any"},"name":"_import_correct"},"guarantee":"len(namespace) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._import_correct","statement":"Path(_import(x), len(namespace) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d103c272911a3df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(namespace) == 0"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__dict__","module.__dict__"],"calls_mutating":["namespace.clear","namespace.update"],"raises":["ImportError","NameError"],"catches":["ImportError","KeyError"]},"state_contract":{"modifies":["namespace.*"],"old_bindings":{"old_len_namespace":"len(namespace)"},"post_ensures":["len(namespace) == 0"],"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"],"NameError":["isinstance(raised, NameError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _import(module, reload=False):
     """
     Creates a global translation dictionary for module.
@@ -224,7 +230,13 @@ _lambdify_generated_counter = 1
 
 @doctest_depends_on(modules=('numpy', 'scipy', 'tensorflow',), python_version=(3,))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lambdify(arg), convert a sympy expression into a function that allows for fast numeric evaluation) over {Any | isinstance(args, set) and isinstance(modules, (dict, str)) and isinstance(args, Expr)} ║
+# ║ Path(lambdify(args, expr, modules), len(imp_mod_lines) == old_len_imp_mod_lines + 1 and len(names) == old_len_names + 1 and len(namespaces) == old_len_namespaces + 1) over {Any | isinstance(args, set) and isinstance(modules, (dict, str)) and isinstance(args, Expr) and hasattr(expr, 'atoms')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   ensures:  len(imp_mod_lines) == old_len_imp_mod_lin...   ║
+# ║   ensures:  len(names) == old_len_names + 1                ║
+# ║   ensures:  len(namespaces) == old_len_namespaces + 1      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lambdify : {Any | isinstance(args, set) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -239,9 +251,12 @@ _lambdify_generated_counter = 1
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?4 ✗6 VCs | 16.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 57fa9281...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify.lambdify","kind":"function","src_hash":"89c7d01114a1ca7f","in":{"base":"Any","pred":"isinstance(args, set) and isinstance(modules, (dict, str)) and isinstance(args, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"lambdify(arg)","rhs":"convert a sympy expression into a function that allows for fast numeric evaluation","over":{"base":"Any","pred":"isinstance(args, set) and isinstance(modules, (dict, str)) and isinstance(args, Expr)"},"name":"lambdify_correct"},"guarantee":"convert a sympy expression into a function that allows for fast numeric evaluation","fibers":[{"name":"set","pred":"isinstance(args, set)","path":{"lhs":"lambdify(x)","rhs":"convert a sympy expression into a function that allows for fast numeric evaluation","over":{"base":"set","pred":"isinstance(args, set)"},"name":"lambdify_set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdify_set_correct","statement":"lambdify satisfies spec on set inputs"},"trust":"LIBRARY"},{"name":"(dict","pred":"isinstance(modules, (dict, str))","path":{"lhs":"lambdify(x)","rhs":"convert a sympy expression into a function that allows for fast numeric evaluation","over":{"base":"(dict","pred":"isinstance(modules, (dict, str))"},"name":"lambdify_(dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdify_(dict_correct","statement":"lambdify satisfies spec on (dict inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(args, Expr)","path":{"lhs":"lambdify(x)","rhs":"convert a sympy expression into a function that allows for fast numeric evaluation","over":{"base":"Expr","pred":"isinstance(args, Expr)"},"name":"lambdify_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdify_Expr_correct","statement":"lambdify satisfies spec on Expr inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(m, dict)","path":{"lhs":"lambdify(x)","rhs":"convert a sympy expression into a function that allows for fast numeric evaluation","over":{"base":"dict","pred":"isinstance(m, dict)"},"name":"lambdify_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdify_dict_correct","statement":"lambdify satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"57fa9281c698e570"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify.lambdify","kind":"function","src_hash":"89c7d01114a1ca7f","in":{"base":"Any","pred":"isinstance(args, set) and isinstance(modules, (dict, str)) and isinstance(args, Expr) and hasattr(expr, 'atoms')"},"out":{"base":"Any","pred":"result satisfies: len(imp_mod_lines) == old_len_imp_mod_lines + 1 and len(names) == old_len_names + 1 and len(namespaces) == old_len_namespaces + 1"},"spec":{"lhs":"lambdify(args, expr, modules)","rhs":"len(imp_mod_lines) == old_len_imp_mod_lines + 1 and len(names) == old_len_names + 1 and len(namespaces) == old_len_namespaces + 1","over":{"base":"Any","pred":"isinstance(args, set) and isinstance(modules, (dict, str)) and isinstance(args, Expr) and hasattr(expr, 'atoms')"},"name":"lambdify_correct"},"guarantee":"len(imp_mod_lines) == old_len_imp_mod_lines + 1; len(names) == old_len_names + 1; len(namespaces) == old_len_namespaces + 1","fibers":[{"name":"set","pred":"isinstance(args, set)","path":{"lhs":"lambdify(x)","rhs":"len(imp_mod_lines) == old_len_imp_mod_lines + 1; len(names) == old_len_names + 1; len(namespaces) == old_len_namespaces + 1","over":{"base":"set","pred":"isinstance(args, set)"},"name":"lambdify_set_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdify_set_correct","statement":"lambdify satisfies spec on set inputs"},"trust":"LIBRARY"},{"name":"(dict","pred":"isinstance(modules, (dict, str))","path":{"lhs":"lambdify(x)","rhs":"len(imp_mod_lines) == old_len_imp_mod_lines + 1; len(names) == old_len_names + 1; len(namespaces) == old_len_namespaces + 1","over":{"base":"(dict","pred":"isinstance(modules, (dict, str))"},"name":"lambdify_(dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdify_(dict_correct","statement":"lambdify satisfies spec on (dict inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(args, Expr)","path":{"lhs":"lambdify(x)","rhs":"len(imp_mod_lines) == old_len_imp_mod_lines + 1; len(names) == old_len_names + 1; len(namespaces) == old_len_namespaces + 1","over":{"base":"Expr","pred":"isinstance(args, Expr)"},"name":"lambdify_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdify_Expr_correct","statement":"lambdify satisfies spec on Expr inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(m, dict)","path":{"lhs":"lambdify(x)","rhs":"len(imp_mod_lines) == old_len_imp_mod_lines + 1; len(names) == old_len_names + 1; len(namespaces) == old_len_namespaces + 1","over":{"base":"dict","pred":"isinstance(m, dict)"},"name":"lambdify_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdify_dict_correct","statement":"lambdify satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"57fa9281c698e570","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'atoms')"],"ensures":["len(imp_mod_lines) == old_len_imp_mod_lines + 1","len(names) == old_len_names + 1","len(namespaces) == old_len_namespaces + 1"],"pure":false,"effects":{"effect_type":"mutates_global","reads":["expr.atoms"],"calls_mutating":["imp_mod_lines.append","names.append","namespace.update","namespaces.append"],"raises":["TypeError"],"catches":["ImportError"],"globals_read":["_lambdify_generated_counter"],"globals_written":["_lambdify_generated_counter"]},"state_contract":{"modifies":["imp_mod_lines.*","names.*","namespace.*","namespaces.*"],"old_bindings":{"old_len_imp_mod_lines":"len(imp_mod_lines)","old_len_names":"len(names)","old_len_namespace":"len(namespace)","old_len_namespaces":"len(namespaces)"},"post_ensures":["len(imp_mod_lines) == old_len_imp_mod_lines + 1","len(names) == old_len_names + 1","len(namespaces) == old_len_namespaces + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":2,"n_assumed":4,"n_failed":6,"trust_level":"LIBRARY_ASSUMED","compile_ms":16.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(name_list) == 1', 'modules is None', 'isinstance(args, set)', 'isinstance(m, dict)', 'len(expr_str) > 78', \"isinstance(modules, (dict, str)) or not hasattr(modules, '__iter__')\", 'cse == True', \"_module_present('numexpr', modules) and len(modules) > 1\", 'printer is None'}, fibers={'dict', '(dict', 'Expr', 'set'})"]}}
 def lambdify(args, expr, modules=None, printer=None, use_imps=True,
              dummify=False, cse=False, docstring_limit=1000):
     """Convert a SymPy expression into a function that allows for fast
@@ -1003,16 +1018,22 @@ or tuple for the function arguments.
     return func
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_module_present(mod), internal helper behaves correctly) over Any ║
+# ║ Path(_module_present(modname, modlist), <unspecified:_module_present>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _module_present : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 509d1c55cf34f5a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._module_present","kind":"function","src_hash":"f00becc7e6ac3441","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_module_present(mod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_module_present_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._module_present_correct","statement":"Path(_module_present(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"509d1c55cf34f5a6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._module_present","kind":"function","src_hash":"f00becc7e6ac3441","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_module_present(modname, modlist)","rhs":"<unspecified:_module_present>","over":{"base":"Any"},"name":"_module_present_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._module_present_correct","statement":"Path(_module_present(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"509d1c55cf34f5a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _module_present(modname, modlist):
     if modname in modlist:
         return True
@@ -1022,7 +1043,12 @@ def _module_present(modname, modlist):
     return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_namespace(m), this is used by _lambdify to parse its arguments) over {Any | isinstance(m, str) and isinstance(m, dict)} ║
+# ║ Path(_get_namespace(m), <unspecified:_get_namespace>) over {Any | isinstance(m, str) and isinstance(m, dict)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[str]: isinstance(m, str) => MODULES[m][0]          ║
+# ║   fiber[dict]: isinstance(m, dict) => m                    ║
+# ║   fiber[case_2]: hasattr(m, '__dict__') => m.__dict__      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_namespace : {Any | isinstance(m, str) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1035,9 +1061,12 @@ def _module_present(modname, modlist):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f087eeff...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._get_namespace","kind":"function","src_hash":"c010c66662c6e438","in":{"base":"Any","pred":"isinstance(m, str) and isinstance(m, dict)"},"out":{"base":"Any"},"spec":{"lhs":"_get_namespace(m)","rhs":"this is used by _lambdify to parse its arguments","over":{"base":"Any","pred":"isinstance(m, str) and isinstance(m, dict)"},"name":"_get_namespace_correct"},"guarantee":"this is used by _lambdify to parse its arguments","fibers":[{"name":"str","pred":"isinstance(m, str)","path":{"lhs":"_get_namespace(x)","rhs":"this is used by _lambdify to parse its arguments","over":{"base":"str","pred":"isinstance(m, str)"},"name":"_get_namespace_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._get_namespace_str_correct","statement":"_get_namespace satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(m, dict)","path":{"lhs":"_get_namespace(x)","rhs":"this is used by _lambdify to parse its arguments","over":{"base":"dict","pred":"isinstance(m, dict)"},"name":"_get_namespace_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._get_namespace_dict_correct","statement":"_get_namespace satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f087eeff9d95fc01"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._get_namespace","kind":"function","src_hash":"c010c66662c6e438","in":{"base":"Any","pred":"isinstance(m, str) and isinstance(m, dict)"},"out":{"base":"Any"},"spec":{"lhs":"_get_namespace(m)","rhs":"<unspecified:_get_namespace>","over":{"base":"Any","pred":"isinstance(m, str) and isinstance(m, dict)"},"name":"_get_namespace_correct"},"guarantee":"4-fiber decomposition","fibers":[{"name":"str","pred":"isinstance(m, str)","path":{"lhs":"_get_namespace(x)","rhs":"4-fiber decomposition","over":{"base":"str","pred":"isinstance(m, str)"},"name":"_get_namespace_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._get_namespace_str_correct","statement":"_get_namespace satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(m, dict)","path":{"lhs":"_get_namespace(x)","rhs":"4-fiber decomposition","over":{"base":"dict","pred":"isinstance(m, dict)"},"name":"_get_namespace_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._get_namespace_dict_correct","statement":"_get_namespace satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f087eeff9d95fc01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"str","guard":"isinstance(m, str)","ensures":["result == MODULES[m][0]"],"decidability":"structural","returns_expr":"MODULES[m][0]"},{"name":"dict","guard":"isinstance(m, dict)","ensures":["result == m"],"decidability":"structural","returns_expr":"m"},{"name":"case_2","guard":"hasattr(m, '__dict__')","ensures":["result == m.__dict__"],"decidability":"structural","returns_expr":"m.__dict__"},{"name":"str","guard":"not (isinstance(m, str)) and not (isinstance(m, dict)) and not (hasattr(m, '__dict__'))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__dict__","m.__dict__"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(m, dict)', 'isinstance(m, str)'}, fibers={'dict', 'str'})"]}}
 def _get_namespace(m):
     """
     This is used by _lambdify to parse its arguments.
@@ -1054,7 +1083,14 @@ def _get_namespace(m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_recursive_to_string(dop), functions in lambdify accept both sympy types and non-sympy types such as python lists and tuples) over {Any | isinstance(arg, (Basic, MatrixBase)) and isinstance(arg, list) and isinstance(arg, str)} ║
+# ║ Path(_recursive_to_string(doprint, arg), result == (doprint(arg) if isinstance(arg, (Basic, MatrixBase)) else left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right if iterable(arg) else arg if isinstance(arg, str) else doprint(arg)) and result == doprint(arg) or result == left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right or result == arg) over {Any | isinstance(arg, (Basic, MatrixBase)) and isinstance(arg, list) and isinstance(arg, str)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (doprint(arg) if isinstance(arg...   ║
+# ║   ensures:  result == doprint(arg) or result == left ...   ║
+# ║   fiber[case_0]: isinstance(arg, (Basic, MatrixBase))...   ║
+# ║   fiber[case_1]: iterable(arg) => left + ', '.join((_...   ║
+# ║   fiber[str]: isinstance(arg, str) => arg                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _recursive_to_string : {Any | isinstance(arg, (Basic,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1069,9 +1105,12 @@ def _get_namespace(m):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 3.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 17ea738f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._recursive_to_string","kind":"function","src_hash":"240c613db5d92c2a","in":{"base":"Any","pred":"isinstance(arg, (Basic, MatrixBase)) and isinstance(arg, list) and isinstance(arg, str)"},"out":{"base":"Any"},"spec":{"lhs":"_recursive_to_string(dop)","rhs":"functions in lambdify accept both sympy types and non-sympy types such as python lists and tuples","over":{"base":"Any","pred":"isinstance(arg, (Basic, MatrixBase)) and isinstance(arg, list) and isinstance(arg, str)"},"name":"_recursive_to_string_correct"},"guarantee":"functions in lambdify accept both sympy types and non-sympy types such as python lists and tuples","fibers":[{"name":"(Basic","pred":"isinstance(arg, (Basic, MatrixBase))","path":{"lhs":"_recursive_to_string(x)","rhs":"functions in lambdify accept both sympy types and non-sympy types such as python lists and tuples","over":{"base":"(Basic","pred":"isinstance(arg, (Basic, MatrixBase))"},"name":"_recursive_to_string_(Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._recursive_to_string_(Basic_correct","statement":"_recursive_to_string satisfies spec on (Basic inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(arg, list)","path":{"lhs":"_recursive_to_string(x)","rhs":"functions in lambdify accept both sympy types and non-sympy types such as python lists and tuples","over":{"base":"list","pred":"isinstance(arg, list)"},"name":"_recursive_to_string_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._recursive_to_string_list_correct","statement":"_recursive_to_string satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(arg, str)","path":{"lhs":"_recursive_to_string(x)","rhs":"functions in lambdify accept both sympy types and non-sympy types such as python lists and tuples","over":{"base":"str","pred":"isinstance(arg, str)"},"name":"_recursive_to_string_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._recursive_to_string_str_correct","statement":"_recursive_to_string satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"tuple","pred":"isinstance(arg, tuple)","path":{"lhs":"_recursive_to_string(x)","rhs":"functions in lambdify accept both sympy types and non-sympy types such as python lists and tuples","over":{"base":"tuple","pred":"isinstance(arg, tuple)"},"name":"_recursive_to_string_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._recursive_to_string_tuple_correct","statement":"_recursive_to_string satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"17ea738f3c8defe2"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._recursive_to_string","kind":"function","src_hash":"240c613db5d92c2a","in":{"base":"Any","pred":"isinstance(arg, (Basic, MatrixBase)) and isinstance(arg, list) and isinstance(arg, str)"},"out":{"base":"Any","pred":"result satisfies: result == (doprint(arg) if isinstance(arg, (Basic, MatrixBase)) else left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right if iterable(arg) else arg if isinstance(arg, str) else doprint(arg)) and result == doprint(arg) or result == left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right or result == arg"},"spec":{"lhs":"_recursive_to_string(doprint, arg)","rhs":"result == (doprint(arg) if isinstance(arg, (Basic, MatrixBase)) else left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right if iterable(arg) else arg if isinstance(arg, str) else doprint(arg)) and result == doprint(arg) or result == left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right or result == arg","over":{"base":"Any","pred":"isinstance(arg, (Basic, MatrixBase)) and isinstance(arg, list) and isinstance(arg, str)"},"name":"_recursive_to_string_correct"},"guarantee":"result == (doprint(arg) if isinstance(arg, (Basic, MatrixBase)) else left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right if iterable(arg) else arg if isinstance(arg, str) else doprint(arg)); result == doprint(arg) or result == left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right or result == arg; 4-fiber decomposition","fibers":[{"name":"(Basic","pred":"isinstance(arg, (Basic, MatrixBase))","path":{"lhs":"_recursive_to_string(x)","rhs":"result == (doprint(arg) if isinstance(arg, (Basic, MatrixBase)) else left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right if iterable(arg) else arg if isinstance(arg, str) else doprint(arg)); result == doprint(arg) or result == left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right or result == arg; 4-fiber decomposition","over":{"base":"(Basic","pred":"isinstance(arg, (Basic, MatrixBase))"},"name":"_recursive_to_string_(Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._recursive_to_string_(Basic_correct","statement":"_recursive_to_string satisfies spec on (Basic inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(arg, list)","path":{"lhs":"_recursive_to_string(x)","rhs":"result == (doprint(arg) if isinstance(arg, (Basic, MatrixBase)) else left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right if iterable(arg) else arg if isinstance(arg, str) else doprint(arg)); result == doprint(arg) or result == left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right or result == arg; 4-fiber decomposition","over":{"base":"list","pred":"isinstance(arg, list)"},"name":"_recursive_to_string_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._recursive_to_string_list_correct","statement":"_recursive_to_string satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(arg, str)","path":{"lhs":"_recursive_to_string(x)","rhs":"result == (doprint(arg) if isinstance(arg, (Basic, MatrixBase)) else left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right if iterable(arg) else arg if isinstance(arg, str) else doprint(arg)); result == doprint(arg) or result == left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right or result == arg; 4-fiber decomposition","over":{"base":"str","pred":"isinstance(arg, str)"},"name":"_recursive_to_string_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._recursive_to_string_str_correct","statement":"_recursive_to_string satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"tuple","pred":"isinstance(arg, tuple)","path":{"lhs":"_recursive_to_string(x)","rhs":"result == (doprint(arg) if isinstance(arg, (Basic, MatrixBase)) else left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right if iterable(arg) else arg if isinstance(arg, str) else doprint(arg)); result == doprint(arg) or result == left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right or result == arg; 4-fiber decomposition","over":{"base":"tuple","pred":"isinstance(arg, tuple)"},"name":"_recursive_to_string_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._recursive_to_string_tuple_correct","statement":"_recursive_to_string satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"17ea738f3c8defe2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (doprint(arg) if isinstance(arg, (Basic, MatrixBase)) else left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right if iterable(arg) else arg if isinstance(arg, str) else doprint(arg))","result == doprint(arg) or result == left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right or result == arg"],"fibers":[{"name":"case_0","guard":"isinstance(arg, (Basic, MatrixBase))","ensures":["result == doprint(arg)"],"decidability":"structural","returns_expr":"doprint(arg)"},{"name":"case_1","guard":"iterable(arg)","ensures":["result == left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right"],"decidability":"library","returns_expr":"left + ', '.join((_recursive_to_string(doprint, e) for e in arg)) + right"},{"name":"str","guard":"isinstance(arg, str)","ensures":["result == arg"],"decidability":"structural","returns_expr":"arg"},{"name":"str","guard":"not (isinstance(arg, (Basic, MatrixBase))) and not (iterable(arg)) and not (isinstance(arg, str))","ensures":["result == doprint(arg)"],"decidability":"structural","returns_expr":"doprint(arg)"}],"pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, list)', 'isinstance(arg, str)', 'isinstance(arg, tuple)', 'isinstance(arg, (Basic, MatrixBase))'}, fibers={'(Basic', 'str', 'tuple', 'list'})"]}}
 def _recursive_to_string(doprint, arg):
     """Functions in lambdify accept both SymPy types and non-SymPy types such as python
     lists and tuples. This method ensures that we only call the doprint method of the
@@ -1098,7 +1137,12 @@ def _recursive_to_string(doprint, arg):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lambdastr(arg), returns a string that can be evaluated to a lambda function) over {Any | isinstance(args, str) and isinstance(expr, Basic) and isinstance(args, DeferredVector)} ║
+# ║ Path(lambdastr(args, expr, printer), # HINT: lambdastr may be idempotent: lambdastr(lambdastr(x)) == lambdastr(x)) over {Any | isinstance(args, str) and isinstance(expr, Basic) and isinstance(args, DeferredVector) and hasattr(expr, 'xreplace') and hasattr(printer, 'doprint')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'xreplace')                      ║
+# ║   requires: hasattr(printer, 'doprint')                    ║
+# ║   ensures:  # HINT: lambdastr may be idempotent: lamb...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lambdastr : {Any | isinstance(args, str) and isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1114,9 +1158,12 @@ def _recursive_to_string(doprint, arg):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓5 ?5 ✗7 VCs | 24.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e3c2bb3e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify.lambdastr","kind":"function","src_hash":"f580b48822d472df","in":{"base":"Any","pred":"isinstance(args, str) and isinstance(expr, Basic) and isinstance(args, DeferredVector)"},"out":{"base":"Any"},"spec":{"lhs":"lambdastr(arg)","rhs":"returns a string that can be evaluated to a lambda function","over":{"base":"Any","pred":"isinstance(args, str) and isinstance(expr, Basic) and isinstance(args, DeferredVector)"},"name":"lambdastr_correct"},"guarantee":"returns a string that can be evaluated to a lambda function","fibers":[{"name":"str","pred":"isinstance(args, str)","path":{"lhs":"lambdastr(x)","rhs":"returns a string that can be evaluated to a lambda function","over":{"base":"str","pred":"isinstance(args, str)"},"name":"lambdastr_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdastr_str_correct","statement":"lambdastr satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"lambdastr(x)","rhs":"returns a string that can be evaluated to a lambda function","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"lambdastr_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdastr_Basic_correct","statement":"lambdastr satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"DeferredVector","pred":"isinstance(args, DeferredVector)","path":{"lhs":"lambdastr(x)","rhs":"returns a string that can be evaluated to a lambda function","over":{"base":"DeferredVector","pred":"isinstance(args, DeferredVector)"},"name":"lambdastr_DeferredVector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdastr_DeferredVector_correct","statement":"lambdastr satisfies spec on DeferredVector inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(expr, list)","path":{"lhs":"lambdastr(x)","rhs":"returns a string that can be evaluated to a lambda function","over":{"base":"list","pred":"isinstance(expr, list)"},"name":"lambdastr_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdastr_list_correct","statement":"lambdastr satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"(Function","pred":"isinstance(args, (Function, Symbol, Derivative))","path":{"lhs":"lambdastr(x)","rhs":"returns a string that can be evaluated to a lambda function","over":{"base":"(Function","pred":"isinstance(args, (Function, Symbol, Derivative))"},"name":"lambdastr_(Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdastr_(Function_correct","statement":"lambdastr satisfies spec on (Function inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e3c2bb3e806f4380"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify.lambdastr","kind":"function","src_hash":"f580b48822d472df","in":{"base":"Any","pred":"isinstance(args, str) and isinstance(expr, Basic) and isinstance(args, DeferredVector) and hasattr(expr, 'xreplace') and hasattr(printer, 'doprint')"},"out":{"base":"Any","pred":"result satisfies: # HINT: lambdastr may be idempotent: lambdastr(lambdastr(x)) == lambdastr(x)"},"spec":{"lhs":"lambdastr(args, expr, printer)","rhs":"# HINT: lambdastr may be idempotent: lambdastr(lambdastr(x)) == lambdastr(x)","over":{"base":"Any","pred":"isinstance(args, str) and isinstance(expr, Basic) and isinstance(args, DeferredVector) and hasattr(expr, 'xreplace') and hasattr(printer, 'doprint')"},"name":"lambdastr_correct"},"guarantee":"# HINT: lambdastr may be idempotent: lambdastr(lambdastr(x)) == lambdastr(x)","fibers":[{"name":"str","pred":"isinstance(args, str)","path":{"lhs":"lambdastr(x)","rhs":"# HINT: lambdastr may be idempotent: lambdastr(lambdastr(x)) == lambdastr(x)","over":{"base":"str","pred":"isinstance(args, str)"},"name":"lambdastr_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdastr_str_correct","statement":"lambdastr satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"lambdastr(x)","rhs":"# HINT: lambdastr may be idempotent: lambdastr(lambdastr(x)) == lambdastr(x)","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"lambdastr_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdastr_Basic_correct","statement":"lambdastr satisfies spec on Basic inputs"},"trust":"LIBRARY"},{"name":"DeferredVector","pred":"isinstance(args, DeferredVector)","path":{"lhs":"lambdastr(x)","rhs":"# HINT: lambdastr may be idempotent: lambdastr(lambdastr(x)) == lambdastr(x)","over":{"base":"DeferredVector","pred":"isinstance(args, DeferredVector)"},"name":"lambdastr_DeferredVector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdastr_DeferredVector_correct","statement":"lambdastr satisfies spec on DeferredVector inputs"},"trust":"LIBRARY"},{"name":"list","pred":"isinstance(expr, list)","path":{"lhs":"lambdastr(x)","rhs":"# HINT: lambdastr may be idempotent: lambdastr(lambdastr(x)) == lambdastr(x)","over":{"base":"list","pred":"isinstance(expr, list)"},"name":"lambdastr_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdastr_list_correct","statement":"lambdastr satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"(Function","pred":"isinstance(args, (Function, Symbol, Derivative))","path":{"lhs":"lambdastr(x)","rhs":"# HINT: lambdastr may be idempotent: lambdastr(lambdastr(x)) == lambdastr(x)","over":{"base":"(Function","pred":"isinstance(args, (Function, Symbol, Derivative))"},"name":"lambdastr_(Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.lambdastr_(Function_correct","statement":"lambdastr satisfies spec on (Function inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e3c2bb3e806f4380","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'xreplace')","hasattr(printer, 'doprint')"],"ensures":["# HINT: lambdastr may be idempotent: lambdastr(lambdastr(x)) == lambdastr(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":5,"n_assumed":5,"n_failed":7,"trust_level":"LIBRARY_ASSUMED","compile_ms":24.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, list)', 'dummify is None', 'isinstance(args, (Function, Symbol, Derivative))', 'isinstance(args, DeferredVector)', 'isinstance(expr, str)', 'isinstance(expr, Basic)', 'isinstance(args, str)'}, fibers={'(Function', 'DeferredVector', 'list', 'str', 'Basic'})"]}}
 def lambdastr(args, expr, printer=None, dummify=None):
     """
     Returns a string that can be evaluated to a lambda function.
@@ -1237,26 +1284,39 @@ def lambdastr(args, expr, printer=None, dummify=None):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a _EvaluatorPrinter instance) preserved by _EvaluatorPrinter(*args) over {Any | isinstance(expr, (Basic, MatrixBase)) and isinstance(ident, str) and isinstance(expr, DeferredVector)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _EvaluatorPrinter : {Any | isinstance(expr, (Basic, M...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f180cb900a5c6bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter","kind":"class","src_hash":"5096b142e6c64b0b","in":{"base":"Any","pred":"isinstance(expr, (Basic, MatrixBase)) and isinstance(ident, str) and isinstance(expr, DeferredVector)"},"out":{"base":"Any"},"spec":{"lhs":"_EvaluatorPrinter(*args)","rhs":"correctly constructs a _EvaluatorPrinter instance","over":{"base":"Any","pred":"isinstance(expr, (Basic, MatrixBase)) and isinstance(ident, str) and isinstance(expr, DeferredVector)"},"name":"_EvaluatorPrinter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a _EvaluatorPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_dummify') and hasattr(self, '_exprrepr') and hasattr(self, '_exprrepr') and hasattr(self, '_argrepr')","kind":"class","induction":"structural on _dummify, _exprrepr, _exprrepr, _argrepr"}],"methods_preserving":["__init__","doprint","_preprocess","_subexpr","_print_funcargwrapping","_print_unpacking","_handle_Subs"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f180cb900a5c6bf"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter","kind":"class","src_hash":"5096b142e6c64b0b","in":{"base":"Any","pred":"isinstance(expr, (Basic, MatrixBase)) and isinstance(ident, str) and isinstance(expr, DeferredVector)"},"out":{"base":"Any"},"spec":{"lhs":"_EvaluatorPrinter(*args)","rhs":"correctly constructs a _EvaluatorPrinter instance","over":{"base":"Any","pred":"isinstance(expr, (Basic, MatrixBase)) and isinstance(ident, str) and isinstance(expr, DeferredVector)"},"name":"_EvaluatorPrinter_class_invariant","kind":"invariant"},"guarantee":"preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_dummify') and hasattr(self, '_exprrepr') and hasattr(self, '_exprrepr') and hasattr(self, '_argrepr')","kind":"class","induction":"structural on _dummify, _exprrepr, _exprrepr, _argrepr"}],"methods_preserving":["__init__","doprint","_preprocess","_subexpr","_print_funcargwrapping","_print_unpacking","_handle_Subs"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f180cb900a5c6bf","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_dummify')","hasattr(self, '_argrepr')","hasattr(self, '_exprrepr')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function _EvaluatorPrinter not found in source"]}}
 class _EvaluatorPrinter:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pri), initializes the instance correctly) over Any ║
+# ║ Path(__init__(printer, dummify), self._dummify == dummify and self._exprrepr == printer) over {Any | hasattr(printer, 'doprint')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, 'doprint')                    ║
+# ║   ensures:  self._dummify == dummify                       ║
+# ║   ensures:  self._exprrepr == printer                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(printer, 'doprint')} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 26d2bb563c6e37d6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter.__init__","kind":"method","src_hash":"b8d21f34825b1a6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pri)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26d2bb563c6e37d6"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter.__init__","kind":"method","src_hash":"b8d21f34825b1a6c","in":{"base":"Any","pred":"hasattr(printer, 'doprint')"},"out":{"base":"Any","pred":"result satisfies: self._dummify == dummify and self._exprrepr == printer"},"spec":{"lhs":"__init__(printer, dummify)","rhs":"self._dummify == dummify and self._exprrepr == printer","over":{"base":"Any","pred":"hasattr(printer, 'doprint')"},"name":"__init___correct"},"guarantee":"self._dummify == dummify; self._exprrepr == printer","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26d2bb563c6e37d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, 'doprint')"],"ensures":["self._dummify == dummify","self._exprrepr == printer"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, printer=None, dummify=False):
         self._dummify = dummify
 
@@ -1284,16 +1344,22 @@ class _EvaluatorPrinter:
         self._argrepr = LambdaPrinter().doprint
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doprint(fun), returns the function definition code as a string) over Any ║
+# ║ Path(doprint(funcname, args, expr), '\n'.join(funclines) + '\n') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\n'.join(funclines) + '\n'                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doprint : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65355d0eac685549  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0d715f177d2ff2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter.doprint","kind":"method","src_hash":"44cffc18fed63681","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doprint(fun)","rhs":"returns the function definition code as a string","over":{"base":"Any"},"name":"doprint_correct"},"guarantee":"returns the function definition code as a string","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._EvaluatorPrinter.doprint_correct","statement":"Path(doprint(x), returns the function definition code as a string)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65355d0eac685549"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter.doprint","kind":"method","src_hash":"44cffc18fed63681","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doprint(funcname, args, expr)","rhs":"'\\n'.join(funclines) + '\\n'","over":{"base":"Any"},"name":"doprint_correct"},"guarantee":"returns '\\n'.join(funclines) + '\\n'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._EvaluatorPrinter.doprint_correct","statement":"Path(doprint(x), returns '\\n'.join(funclines) + '\\n')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0d715f177d2ff2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\n'.join(funclines) + '\\n'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doprint(self, funcname, args, expr, *, cses=()):
         """
         Returns the function definition code as a string.
@@ -1358,31 +1424,44 @@ class _EvaluatorPrinter:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_safe_ident(cls), id) over Any                     ║
+# ║ Path(_is_safe_ident(cls, ident), id) over {Any | hasattr(ident, 'isidentifier')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_safe_ident : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(ident, 'isidentifier')                 ║
+# ║   returns:  isinstance(ident, str) and ident.isidenti...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_safe_ident : {Any | hasattr(ident, 'isidentifier'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1707a8a36de9e1dc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter._is_safe_ident","kind":"classmethod","src_hash":"9ec82a3a54ecaf0f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_safe_ident(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_is_safe_ident_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"isinstance","by":"library_axiom"},{"fn":"isidentifier","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1707a8a36de9e1dc"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter._is_safe_ident","kind":"classmethod","src_hash":"9ec82a3a54ecaf0f","in":{"base":"Any","pred":"hasattr(ident, 'isidentifier')"},"out":{"base":"Any"},"spec":{"lhs":"_is_safe_ident(cls, ident)","rhs":"isinstance(ident, str) and ident.isidentifier() and (not keyword.iskeyword(ident))","over":{"base":"Any","pred":"hasattr(ident, 'isidentifier')"},"name":"_is_safe_ident_correct","kind":"composition"},"guarantee":"returns isinstance(ident, str) and ident.isidentifier() and (not keyword.iskeyword(ident))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"isinstance","by":"library_axiom"},{"fn":"isidentifier","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1707a8a36de9e1dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(ident, 'isidentifier')"],"returns_expr":"isinstance(ident, str) and ident.isidentifier() and (not keyword.iskeyword(ident))","pure":false,"effects":{"effect_type":"reads_state","reads":["ident.isidentifier"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _is_safe_ident(cls, ident):
         return isinstance(ident, str) and ident.isidentifier() \
                 and not keyword.iskeyword(ident)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_preprocess(arg), preprocess args, expr to replace arguments that do not map to valid python identifiers) over Any ║
+# ║ Path(_preprocess(args, expr, cses), (argstrs, expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (argstrs, expr)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _preprocess : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d04411411e4319ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2a4a08b0aa2b21b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter._preprocess","kind":"method","src_hash":"764309b4770b1abc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocess(arg)","rhs":"preprocess args, expr to replace arguments that do not map to valid python identifiers","over":{"base":"Any"},"name":"_preprocess_correct"},"guarantee":"preprocess args, expr to replace arguments that do not map to valid python identifiers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._EvaluatorPrinter._preprocess_correct","statement":"Path(_preprocess(x), preprocess args, expr to replace arguments that do not map to valid python identifiers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d04411411e4319ce"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter._preprocess","kind":"method","src_hash":"764309b4770b1abc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_preprocess(args, expr, cses)","rhs":"(argstrs, expr)","over":{"base":"Any"},"name":"_preprocess_correct"},"guarantee":"returns (argstrs, expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._EvaluatorPrinter._preprocess_correct","statement":"Path(_preprocess(x), returns (argstrs, expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2a4a08b0aa2b21b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(argstrs, expr)","pure":false,"effects":{"effect_type":"mutates_args","reads":["self._argrepr","self._dummify","self._is_safe_ident","self._preprocess","self._subexpr"],"writes":["_dummies_dict[*]"]},"state_contract":{"modifies":["_dummies_dict[*]"],"old_bindings":{"old__dummies_dict_star":"_dummies_dict[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _preprocess(self, args, expr, cses=(), _dummies_dict=None):
         """Preprocess args, expr to replace arguments that do not map
         to valid Python identifiers.
@@ -1438,16 +1517,25 @@ class _EvaluatorPrinter:
         return argstrs, expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_subexpr(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_subexpr(expr, dummies_dict), expr) over {Any | hasattr(expr, 'keys') and hasattr(expr, 'values')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _subexpr : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'keys')                          ║
+# ║   requires: hasattr(expr, 'values')                        ║
+# ║   ensures:  result == expr                                 ║
+# ║   returns:  expr                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _subexpr : {Any | hasattr(expr, 'keys') and hasattr(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20beeb30f6abdabd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 034ebdf2630cb2ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter._subexpr","kind":"method","src_hash":"243340683ec94f74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_subexpr(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_subexpr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._EvaluatorPrinter._subexpr_correct","statement":"Path(_subexpr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20beeb30f6abdabd"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter._subexpr","kind":"method","src_hash":"243340683ec94f74","in":{"base":"Any","pred":"hasattr(expr, 'keys') and hasattr(expr, 'values')"},"out":{"base":"Any","pred":"result satisfies: result == (expr)"},"spec":{"lhs":"_subexpr(expr, dummies_dict)","rhs":"expr","over":{"base":"Any","pred":"hasattr(expr, 'keys') and hasattr(expr, 'values')"},"name":"_subexpr_correct"},"guarantee":"returns expr; result == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._EvaluatorPrinter._subexpr_correct","statement":"Path(_subexpr(x), returns expr; result == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"034ebdf2630cb2ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'keys')","hasattr(expr, 'values')"],"ensures":["result == expr"],"returns_expr":"expr","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.keys","expr.values","self._subexpr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _subexpr(self, expr, dummies_dict):
         from sympy.matrices import DeferredVector
         from sympy.core.sympify import sympify
@@ -1470,16 +1558,22 @@ class _EvaluatorPrinter:
         return expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_funcargwrapping(arg), generate argument wrapping code) over Any ║
+# ║ Path(_print_funcargwrapping(args), []) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  []                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_funcargwrapping : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 624de2d43f9692dd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter._print_funcargwrapping","kind":"method","src_hash":"101a69f9f127f604","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_funcargwrapping(arg)","rhs":"generate argument wrapping code","over":{"base":"Any"},"name":"_print_funcargwrapping_correct"},"guarantee":"generate argument wrapping code","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"624de2d43f9692dd"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter._print_funcargwrapping","kind":"method","src_hash":"101a69f9f127f604","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_funcargwrapping(args)","rhs":"[]","over":{"base":"Any"},"name":"_print_funcargwrapping_correct"},"guarantee":"returns []","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"624de2d43f9692dd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_funcargwrapping(self, args):
         """Generate argument wrapping code.
 
@@ -1491,16 +1585,22 @@ class _EvaluatorPrinter:
         return []
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_unpacking(unp), id) over Any                   ║
+# ║ Path(_print_unpacking(unpackto, arg), id) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_unpacking : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c2563cf3db97bca8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter._print_unpacking","kind":"method","src_hash":"1918a3a4c9b059c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_unpacking(unp)","rhs":"generate argument unpacking code","over":{"base":"Any"},"name":"_print_unpacking_correct","kind":"composition"},"guarantee":"generate argument unpacking code","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2563cf3db97bca8"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter._print_unpacking","kind":"method","src_hash":"1918a3a4c9b059c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_unpacking(unpackto, arg)","rhs":"<unspecified:_print_unpacking>","over":{"base":"Any"},"name":"_print_unpacking_correct","kind":"composition"},"guarantee":"generate argument unpacking code","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"join","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2563cf3db97bca8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_unpacking(self, unpackto, arg):
         """Generate argument unpacking code.
 
@@ -1515,16 +1615,24 @@ class _EvaluatorPrinter:
         return ['{} = {}'.format(unpack_lhs(unpackto), arg)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_handle_Subs(exp), any instance of subs is extracted and returned as assignment pairs) over Any ║
+# ║ Path(_handle_Subs(expr, out), len(out) == old_len_out + 1) over {Any | hasattr(expr, 'replace') and hasattr(out, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _handle_Subs : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'replace')                       ║
+# ║   requires: hasattr(out, 'append')                         ║
+# ║   ensures:  len(out) == old_len_out + 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _handle_Subs : {Any | hasattr(expr, 'replace') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d89e229329c44777  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa566043c6d777fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter._handle_Subs","kind":"method","src_hash":"4aa4dead7e1058c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_handle_Subs(exp)","rhs":"any instance of subs is extracted and returned as assignment pairs","over":{"base":"Any"},"name":"_handle_Subs_correct"},"guarantee":"any instance of subs is extracted and returned as assignment pairs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._EvaluatorPrinter._handle_Subs_correct","statement":"Path(_handle_Subs(x), any instance of subs is extracted and returned as assignment pairs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d89e229329c44777"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._EvaluatorPrinter._handle_Subs","kind":"method","src_hash":"4aa4dead7e1058c7","in":{"base":"Any","pred":"hasattr(expr, 'replace') and hasattr(out, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(out) == old_len_out + 1"},"spec":{"lhs":"_handle_Subs(expr, out)","rhs":"len(out) == old_len_out + 1","over":{"base":"Any","pred":"hasattr(expr, 'replace') and hasattr(out, 'append')"},"name":"_handle_Subs_correct"},"guarantee":"len(out) == old_len_out + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._EvaluatorPrinter._handle_Subs_correct","statement":"Path(_handle_Subs(x), len(out) == old_len_out + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa566043c6d777fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'replace')","hasattr(out, 'append')"],"ensures":["len(out) == old_len_out + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["expr.replace","out.append","self._handle_Subs"],"calls_mutating":["out.append"]},"state_contract":{"modifies":["out.*"],"old_bindings":{"old_len_out":"len(out)"},"post_ensures":["len(out) == old_len_out + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _handle_Subs(self, expr, out):
         """Any instance of Subs is extracted and returned as assignment pairs."""
         from sympy.core.basic import Basic
@@ -1549,26 +1657,38 @@ class _EvaluatorPrinter:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_TensorflowEvaluatorPrinter(*args), correctly constructs a _TensorflowEvaluatorPrinter instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _TensorflowEvaluatorPrinter : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _EvaluatorPrinter)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _TensorflowEvaluatorPrinter : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 661cc5df2bce2bc1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._TensorflowEvaluatorPrinter","kind":"class","src_hash":"85aab27a691b84f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_TensorflowEvaluatorPrinter(*args)","rhs":"correctly constructs a _TensorflowEvaluatorPrinter instance","over":{"base":"Any"},"name":"_TensorflowEvaluatorPrinter_class_invariant"},"guarantee":"correctly constructs a _TensorflowEvaluatorPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"661cc5df2bce2bc1"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._TensorflowEvaluatorPrinter","kind":"class","src_hash":"85aab27a691b84f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _EvaluatorPrinter)"},"spec":{"lhs":"_TensorflowEvaluatorPrinter(*args)","rhs":"correctly constructs a _TensorflowEvaluatorPrinter instance","over":{"base":"Any"},"name":"_TensorflowEvaluatorPrinter_class_invariant"},"guarantee":"isinstance(self, _EvaluatorPrinter)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"661cc5df2bce2bc1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _EvaluatorPrinter)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function _TensorflowEvaluatorPrinter not found in source"]}}
 class _TensorflowEvaluatorPrinter(_EvaluatorPrinter):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_unpacking(lva), id) over Any                   ║
+# ║ Path(_print_unpacking(lvalues, rvalue), id) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ['[{}] = [{}]'.format(', '.join(flatten(l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_unpacking : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | c22b8139a1188e02   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._TensorflowEvaluatorPrinter._print_unpacking","kind":"method","src_hash":"fa0866aadc0041d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_unpacking(lva)","rhs":"generate argument unpacking code","over":{"base":"Any"},"name":"_print_unpacking_correct","kind":"composition"},"guarantee":"generate argument unpacking code","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"join","by":"library_axiom"},{"fn":"flatten","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c22b8139a1188e02"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._TensorflowEvaluatorPrinter._print_unpacking","kind":"method","src_hash":"fa0866aadc0041d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_unpacking(lvalues, rvalue)","rhs":"['[{}] = [{}]'.format(', '.join(flatten(lvalues)), indexed)]","over":{"base":"Any"},"name":"_print_unpacking_correct","kind":"composition"},"guarantee":"returns ['[{}] = [{}]'.format(', '.join(flatten(lvalues)), indexed)]","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"format","by":"library_axiom"},{"fn":"join","by":"library_axiom"},{"fn":"flatten","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c22b8139a1188e02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"['[{}] = [{}]'.format(', '.join(flatten(lvalues)), indexed)]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_unpacking(self, lvalues, rvalue):
         """Generate argument unpacking code.
 
@@ -1594,7 +1714,13 @@ class _TensorflowEvaluatorPrinter(_EvaluatorPrinter):
         return ['[{}] = [{}]'.format(', '.join(flatten(lvalues)), indexed)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_imp_namespace(exp), return namespace dict with function implementations) over {Any | isinstance(func, FunctionClass) and isinstance(expr, dict)} ║
+# ║ Path(_imp_namespace(expr, namespace), # HINT: _imp_namespace may be idempotent: _imp_namespace(_imp_namespace(x)) == _imp_namespace(x)) over {Any | isinstance(func, FunctionClass) and isinstance(expr, dict) and hasattr(expr, 'args') and hasattr(expr, 'items') and hasattr(expr, 'func')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'items')                         ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   ensures:  # HINT: _imp_namespace may be idempotent:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _imp_namespace : {Any | isinstance(func, FunctionClas...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1607,9 +1733,12 @@ class _TensorflowEvaluatorPrinter(_EvaluatorPrinter):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 646328ff...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._imp_namespace","kind":"function","src_hash":"f3b752b458386908","in":{"base":"Any","pred":"isinstance(func, FunctionClass) and isinstance(expr, dict)"},"out":{"base":"Any"},"spec":{"lhs":"_imp_namespace(exp)","rhs":"return namespace dict with function implementations","over":{"base":"Any","pred":"isinstance(func, FunctionClass) and isinstance(expr, dict)"},"name":"_imp_namespace_correct"},"guarantee":"return namespace dict with function implementations","fibers":[{"name":"FunctionClass","pred":"isinstance(func, FunctionClass)","path":{"lhs":"_imp_namespace(x)","rhs":"return namespace dict with function implementations","over":{"base":"FunctionClass","pred":"isinstance(func, FunctionClass)"},"name":"_imp_namespace_FunctionClass_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._imp_namespace_FunctionClass_correct","statement":"_imp_namespace satisfies spec on FunctionClass inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(expr, dict)","path":{"lhs":"_imp_namespace(x)","rhs":"return namespace dict with function implementations","over":{"base":"dict","pred":"isinstance(expr, dict)"},"name":"_imp_namespace_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._imp_namespace_dict_correct","statement":"_imp_namespace satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"646328ffa83bcd92"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._imp_namespace","kind":"function","src_hash":"f3b752b458386908","in":{"base":"Any","pred":"isinstance(func, FunctionClass) and isinstance(expr, dict) and hasattr(expr, 'args') and hasattr(expr, 'items') and hasattr(expr, 'func')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _imp_namespace may be idempotent: _imp_namespace(_imp_namespace(x)) == _imp_namespace(x)"},"spec":{"lhs":"_imp_namespace(expr, namespace)","rhs":"# HINT: _imp_namespace may be idempotent: _imp_namespace(_imp_namespace(x)) == _imp_namespace(x)","over":{"base":"Any","pred":"isinstance(func, FunctionClass) and isinstance(expr, dict) and hasattr(expr, 'args') and hasattr(expr, 'items') and hasattr(expr, 'func')"},"name":"_imp_namespace_correct"},"guarantee":"# HINT: _imp_namespace may be idempotent: _imp_namespace(_imp_namespace(x)) == _imp_namespace(x)","fibers":[{"name":"FunctionClass","pred":"isinstance(func, FunctionClass)","path":{"lhs":"_imp_namespace(x)","rhs":"# HINT: _imp_namespace may be idempotent: _imp_namespace(_imp_namespace(x)) == _imp_namespace(x)","over":{"base":"FunctionClass","pred":"isinstance(func, FunctionClass)"},"name":"_imp_namespace_FunctionClass_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._imp_namespace_FunctionClass_correct","statement":"_imp_namespace satisfies spec on FunctionClass inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(expr, dict)","path":{"lhs":"_imp_namespace(x)","rhs":"# HINT: _imp_namespace may be idempotent: _imp_namespace(_imp_namespace(x)) == _imp_namespace(x)","over":{"base":"dict","pred":"isinstance(expr, dict)"},"name":"_imp_namespace_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._imp_namespace_dict_correct","statement":"_imp_namespace satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"646328ffa83bcd92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')","hasattr(expr, 'items')","hasattr(expr, 'func')"],"ensures":["# HINT: _imp_namespace may be idempotent: _imp_namespace(_imp_namespace(x)) == _imp_namespace(x)"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["expr.args","expr.func","expr.items"],"writes":["namespace[*]"],"raises":["ValueError"]},"state_contract":{"modifies":["namespace[*]"],"old_bindings":{"old_namespace_star":"namespace[*]"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(func, FunctionClass)', 'namespace is None', 'name in namespace and namespace[name] != imp', 'isinstance(expr, dict)'}, fibers={'dict', 'FunctionClass'})"]}}
 def _imp_namespace(expr, namespace=None):
     """ Return namespace dict with function implementations
 
@@ -1679,7 +1808,12 @@ def _imp_namespace(expr, namespace=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(implemented_function(sym), add numerical ``implementation`` to function ``symfunc``) over {Any | isinstance(symfunc, UndefinedFunction) and isinstance(symfunc, str)} ║
+# ║ Path(implemented_function(symfunc, implementation), symfunc) over {Any | isinstance(symfunc, UndefinedFunction) and isinstance(symfunc, str) and hasattr(symfunc, '_kwargs')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(symfunc, '_kwargs')                    ║
+# ║   ensures:  result == symfunc                              ║
+# ║   returns:  symfunc                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ implemented_function : {Any | isinstance(symfunc, Und...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1692,9 +1826,12 @@ def _imp_namespace(expr, namespace=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 098a0d53...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify.implemented_function","kind":"function","src_hash":"ce30e45be789a643","in":{"base":"Any","pred":"isinstance(symfunc, UndefinedFunction) and isinstance(symfunc, str)"},"out":{"base":"Any"},"spec":{"lhs":"implemented_function(sym)","rhs":"add numerical ``implementation`` to function ``symfunc``","over":{"base":"Any","pred":"isinstance(symfunc, UndefinedFunction) and isinstance(symfunc, str)"},"name":"implemented_function_correct"},"guarantee":"add numerical ``implementation`` to function ``symfunc``","fibers":[{"name":"UndefinedFunction","pred":"isinstance(symfunc, UndefinedFunction)","path":{"lhs":"implemented_function(x)","rhs":"add numerical ``implementation`` to function ``symfunc``","over":{"base":"UndefinedFunction","pred":"isinstance(symfunc, UndefinedFunction)"},"name":"implemented_function_UndefinedFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.implemented_function_UndefinedFunction_correct","statement":"implemented_function satisfies spec on UndefinedFunction inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(symfunc, str)","path":{"lhs":"implemented_function(x)","rhs":"add numerical ``implementation`` to function ``symfunc``","over":{"base":"str","pred":"isinstance(symfunc, str)"},"name":"implemented_function_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.implemented_function_str_correct","statement":"implemented_function satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"098a0d53d7c8884f"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify.implemented_function","kind":"function","src_hash":"ce30e45be789a643","in":{"base":"Any","pred":"isinstance(symfunc, UndefinedFunction) and isinstance(symfunc, str) and hasattr(symfunc, '_kwargs')"},"out":{"base":"Any","pred":"result satisfies: result == (symfunc)"},"spec":{"lhs":"implemented_function(symfunc, implementation)","rhs":"symfunc","over":{"base":"Any","pred":"isinstance(symfunc, UndefinedFunction) and isinstance(symfunc, str) and hasattr(symfunc, '_kwargs')"},"name":"implemented_function_correct"},"guarantee":"returns symfunc; result == symfunc","fibers":[{"name":"UndefinedFunction","pred":"isinstance(symfunc, UndefinedFunction)","path":{"lhs":"implemented_function(x)","rhs":"returns symfunc; result == symfunc","over":{"base":"UndefinedFunction","pred":"isinstance(symfunc, UndefinedFunction)"},"name":"implemented_function_UndefinedFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.implemented_function_UndefinedFunction_correct","statement":"implemented_function satisfies spec on UndefinedFunction inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(symfunc, str)","path":{"lhs":"implemented_function(x)","rhs":"returns symfunc; result == symfunc","over":{"base":"str","pred":"isinstance(symfunc, str)"},"name":"implemented_function_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify.implemented_function_str_correct","statement":"implemented_function satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"098a0d53d7c8884f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(symfunc, '_kwargs')"],"ensures":["result == symfunc"],"returns_expr":"symfunc","pure":false,"effects":{"effect_type":"reads_state","reads":["symfunc.__name__","symfunc._kwargs"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(symfunc, UndefinedFunction)', 'not isinstance(symfunc, UndefinedFunction)', 'isinstance(symfunc, str)'}, fibers={'str', 'UndefinedFunction'})"]}}
 def implemented_function(symfunc, implementation):
     """ Add numerical ``implementation`` to function ``symfunc``.
 
@@ -1752,16 +1889,22 @@ def implemented_function(symfunc, implementation):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_too_large_for_docstring(exp), decide whether an ``expr`` is too large to be fully rendered in a ``lambdify`` docstring) over Any ║
+# ║ Path(_too_large_for_docstring(expr, limit), <unspecified:_too_large_for_docstring>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _too_large_for_docstring : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0078cde5730da70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._too_large_for_docstring","kind":"function","src_hash":"0e87bb047d28f45b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_too_large_for_docstring(exp)","rhs":"decide whether an ``expr`` is too large to be fully rendered in a ``lambdify`` docstring","over":{"base":"Any"},"name":"_too_large_for_docstring_correct"},"guarantee":"decide whether an ``expr`` is too large to be fully rendered in a ``lambdify`` docstring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._too_large_for_docstring_correct","statement":"Path(_too_large_for_docstring(x), decide whether an ``expr`` is too large to be fully rendered in a ``lambdify`` docstring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0078cde5730da70"}
+# @cctt_verify {"v":2,"sym":"sympy.utilities.lambdify._too_large_for_docstring","kind":"function","src_hash":"0e87bb047d28f45b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_too_large_for_docstring(expr, limit)","rhs":"<unspecified:_too_large_for_docstring>","over":{"base":"Any"},"name":"_too_large_for_docstring_correct"},"guarantee":"decide whether an ``expr`` is too large to be fully rendered in a ``lambdify`` docstring","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.utilities.lambdify._too_large_for_docstring_correct","statement":"Path(_too_large_for_docstring(x), decide whether an ``expr`` is too large to be fully rendered in a ``lambdify`` docstring)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0078cde5730da70","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _too_large_for_docstring(expr, limit):
     """Decide whether an ``Expr`` is too large to be fully rendered in a
     ``lambdify`` docstring.

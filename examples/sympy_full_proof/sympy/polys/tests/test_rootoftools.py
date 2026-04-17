@@ -47,7 +47,12 @@ from sympy.abc import a, b, x, y, z, r
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf___new__(), test_CRootOf___new__ produces the expected output) over {Any | isinstance(r, RootOf)} ║
+# ║ Path(test_CRootOf___new__(), rootof(x, 0) == 0 and rootof(x, -1) == 0 and rootof(x, S.Zero) == 0 and rootof(x - 1, 0) == 1 and rootof(x - 1, -1) == 1 and rootof(x + 1, 0) == -1 and rootof(x + 1, -1) == -1 and rootof(x ** 2 + 2 * x + 3, 0) == -1 - I * sqrt(2) and rootof(x ** 2 + 2 * x + 3, 1) == -1 + I * sqrt(2) and rootof(x ** 2 + 2 * x + 3, -1) == -1 + I * sqrt(2) and rootof(x ** 2 + 2 * x + 3, -2) == -1 - I * sqrt(2) and isinstance(r, RootOf) is True and rootof((x - 1) * (x + 1), 0, radicals=False) == -1 and rootof((x - 1) * (x + 1), 1, radicals=False) == 1 and rootof((x - 1) * (x + 1), -1, radicals=False) == 1 and rootof((x - 1) * (x + 1), -2, radicals=False) == -1 and rootof((x - 1) * (x + 1), 0, radicals=True) == -1 and rootof((x - 1) * (x + 1), 1, radicals=True) == 1 and rootof((x - 1) * (x + 1), -1, radicals=True) == 1 and rootof((x - 1) * (x + 1), -2, radicals=True) == -1 and rootof((x - 1) * (x ** 3 + x + 3), 0) == rootof(x ** 3 + x + 3, 0) and rootof((x - 1) * (x ** 3 + x + 3), 1) == 1 and rootof((x - 1) * (x ** 3 + x + 3), 2) == rootof(x ** 3 + x + 3, 1) and rootof((x - 1) * (x ** 3 + x + 3), 3) == rootof(x ** 3 + x + 3, 2) and rootof((x - 1) * (x ** 3 + x + 3), -1) == rootof(x ** 3 + x + 3, 2) and rootof((x - 1) * (x ** 3 + x + 3), -2) == rootof(x ** 3 + x + 3, 1) and rootof((x - 1) * (x ** 3 + x + 3), -3) == 1 and rootof((x - 1) * (x ** 3 + x + 3), -4) == rootof(x ** 3 + x + 3, 0) and rootof(x ** 4 + 3 * x ** 3, 0) == -3 and rootof(x ** 4 + 3 * x ** 3, 1) == 0 and rootof(x ** 4 + 3 * x ** 3, 2) == 0 and rootof(x ** 4 + 3 * x ** 3, 3) == 0 and rootof(Poly(x - y, x), 0) == y and rootof(Poly(x ** 2 - y, x), 0) == -sqrt(y) and rootof(Poly(x ** 2 - y, x), 1) == sqrt(y) and rootof(Poly(x ** 3 - y, x), 0) == y ** Rational(1, 3) and rootof(y * x ** 3 + y * x + 2 * y, x, 0) == -1 and rootof(x ** 3 + x + 1, 0).is_commutative is True) over {Any | isinstance(r, RootOf)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rootof(x, 0) == 0                              ║
+# ║   ensures:  rootof(x, -1) == 0                             ║
+# ║   ensures:  rootof(x, S.Zero) == 0                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_CRootOf___new__ : {Any | isinstance(r, RootOf)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -59,9 +64,12 @@ from sympy.abc import a, b, x, y, z, r
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 3.5ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f0403c86...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf___new__","kind":"function","src_hash":"2a6f9c418d9be075","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any","pred":"rootof(x, 0) == 0 and rootof(x, -1) == 0 and rootof(x, S.Zero) == 0 and rootof(x - 1, 0) == 1 and rootof(x - 1, -1) == 1 and rootof(x + 1, 0) == -1 and rootof(x + 1, -1) == -1 and rootof(x ** 2 + 2 * x + 3, 0) == -1 - I * sqrt(2) and rootof(x ** 2 + 2 * x + 3, 1) == -1 + I * sqrt(2) and rootof(x ** 2 + 2 * x + 3, -1) == -1 + I * sqrt(2) and rootof(x ** 2 + 2 * x + 3, -2) == -1 - I * sqrt(2) and isinstance(r, RootOf) is True and isinstance(r, RootOf) is True and isinstance(r, RootOf) is True and isinstance(r, RootOf) is True and rootof((x - 1) * (x + 1), 0, radicals=False) == -1 and rootof((x - 1) * (x + 1), 1, radicals=False) == 1 and rootof((x - 1) * (x + 1), -1, radicals=False) == 1 and rootof((x - 1) * (x + 1), -2, radicals=False) == -1 and rootof((x - 1) * (x + 1), 0, radicals=True) == -1 and rootof((x - 1) * (x + 1), 1, radicals=True) == 1 and rootof((x - 1) * (x + 1), -1, radicals=True) == 1 and rootof((x - 1) * (x + 1), -2, radicals=True) == -1 and rootof((x - 1) * (x ** 3 + x + 3), 0) == rootof(x ** 3 + x + 3, 0) and rootof((x - 1) * (x ** 3 + x + 3), 1) == 1 and rootof((x - 1) * (x ** 3 + x + 3), 2) == rootof(x ** 3 + x + 3, 1) and rootof((x - 1) * (x ** 3 + x + 3), 3) == rootof(x ** 3 + x + 3, 2) and rootof((x - 1) * (x ** 3 + x + 3), -1) == rootof(x ** 3 + x + 3, 2) and rootof((x - 1) * (x ** 3 + x + 3), -2) == rootof(x ** 3 + x + 3, 1) and rootof((x - 1) * (x ** 3 + x + 3), -3) == 1 and rootof((x - 1) * (x ** 3 + x + 3), -4) == rootof(x ** 3 + x + 3, 0) and rootof(x ** 4 + 3 * x ** 3, 0) == -3 and rootof(x ** 4 + 3 * x ** 3, 1) == 0 and rootof(x ** 4 + 3 * x ** 3, 2) == 0 and rootof(x ** 4 + 3 * x ** 3, 3) == 0 and rootof(Poly(x - y, x), 0) == y and rootof(Poly(x ** 2 - y, x), 0) == -sqrt(y) and rootof(Poly(x ** 2 - y, x), 1) == sqrt(y) and rootof(Poly(x ** 3 - y, x), 0) == y ** Rational(1, 3) and rootof(y * x ** 3 + y * x + 2 * y, x, 0) == -1 and rootof(x ** 3 + x + 1, 0).is_commutative is True"},"spec":{"lhs":"test_CRootOf___new__()","rhs":"test_CRootOf___new__ produces the expected output","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"test_CRootOf___new___correct"},"guarantee":"test_CRootOf___new__ produces the expected output","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"test_CRootOf___new__(x)","rhs":"test_CRootOf___new__ produces the expected output","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"test_CRootOf___new___RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf___new___RootOf_correct","statement":"test_CRootOf___new__ satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f0403c868d01a790"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf___new__","kind":"function","src_hash":"2a6f9c418d9be075","in":{"base":"Any","pred":"isinstance(r, RootOf)"},"out":{"base":"Any","pred":"result satisfies: rootof(x, 0) == 0 and rootof(x, -1) == 0 and rootof(x, S.Zero) == 0 and rootof(x - 1, 0) == 1 and rootof(x - 1, -1) == 1 and rootof(x + 1, 0) == -1 and rootof(x + 1, -1) == -1 and rootof(x ** 2 + 2 * x + 3, 0) == -1 - I * sqrt(2) and rootof(x ** 2 + 2 * x + 3, 1) == -1 + I * sqrt(2) and rootof(x ** 2 + 2 * x + 3, -1) == -1 + I * sqrt(2) and rootof(x ** 2 + 2 * x + 3, -2) == -1 - I * sqrt(2) and isinstance(r, RootOf) is True and rootof((x - 1) * (x + 1), 0, radicals=False) == -1 and rootof((x - 1) * (x + 1), 1, radicals=False) == 1 and rootof((x - 1) * (x + 1), -1, radicals=False) == 1 and rootof((x - 1) * (x + 1), -2, radicals=False) == -1 and rootof((x - 1) * (x + 1), 0, radicals=True) == -1 and rootof((x - 1) * (x + 1), 1, radicals=True) == 1 and rootof((x - 1) * (x + 1), -1, radicals=True) == 1 and rootof((x - 1) * (x + 1), -2, radicals=True) == -1 and rootof((x - 1) * (x ** 3 + x + 3), 0) == rootof(x ** 3 + x + 3, 0) and rootof((x - 1) * (x ** 3 + x + 3), 1) == 1 and rootof((x - 1) * (x ** 3 + x + 3), 2) == rootof(x ** 3 + x + 3, 1) and rootof((x - 1) * (x ** 3 + x + 3), 3) == rootof(x ** 3 + x + 3, 2) and rootof((x - 1) * (x ** 3 + x + 3), -1) == rootof(x ** 3 + x + 3, 2) and rootof((x - 1) * (x ** 3 + x + 3), -2) == rootof(x ** 3 + x + 3, 1) and rootof((x - 1) * (x ** 3 + x + 3), -3) == 1 and rootof((x - 1) * (x ** 3 + x + 3), -4) == rootof(x ** 3 + x + 3, 0) and rootof(x ** 4 + 3 * x ** 3, 0) == -3 and rootof(x ** 4 + 3 * x ** 3, 1) == 0 and rootof(x ** 4 + 3 * x ** 3, 2) == 0 and rootof(x ** 4 + 3 * x ** 3, 3) == 0 and rootof(Poly(x - y, x), 0) == y and rootof(Poly(x ** 2 - y, x), 0) == -sqrt(y) and rootof(Poly(x ** 2 - y, x), 1) == sqrt(y) and rootof(Poly(x ** 3 - y, x), 0) == y ** Rational(1, 3) and rootof(y * x ** 3 + y * x + 2 * y, x, 0) == -1 and rootof(x ** 3 + x + 1, 0).is_commutative is True"},"spec":{"lhs":"test_CRootOf___new__()","rhs":"rootof(x, 0) == 0 and rootof(x, -1) == 0 and rootof(x, S.Zero) == 0 and rootof(x - 1, 0) == 1 and rootof(x - 1, -1) == 1 and rootof(x + 1, 0) == -1 and rootof(x + 1, -1) == -1 and rootof(x ** 2 + 2 * x + 3, 0) == -1 - I * sqrt(2) and rootof(x ** 2 + 2 * x + 3, 1) == -1 + I * sqrt(2) and rootof(x ** 2 + 2 * x + 3, -1) == -1 + I * sqrt(2) and rootof(x ** 2 + 2 * x + 3, -2) == -1 - I * sqrt(2) and isinstance(r, RootOf) is True and rootof((x - 1) * (x + 1), 0, radicals=False) == -1 and rootof((x - 1) * (x + 1), 1, radicals=False) == 1 and rootof((x - 1) * (x + 1), -1, radicals=False) == 1 and rootof((x - 1) * (x + 1), -2, radicals=False) == -1 and rootof((x - 1) * (x + 1), 0, radicals=True) == -1 and rootof((x - 1) * (x + 1), 1, radicals=True) == 1 and rootof((x - 1) * (x + 1), -1, radicals=True) == 1 and rootof((x - 1) * (x + 1), -2, radicals=True) == -1 and rootof((x - 1) * (x ** 3 + x + 3), 0) == rootof(x ** 3 + x + 3, 0) and rootof((x - 1) * (x ** 3 + x + 3), 1) == 1 and rootof((x - 1) * (x ** 3 + x + 3), 2) == rootof(x ** 3 + x + 3, 1) and rootof((x - 1) * (x ** 3 + x + 3), 3) == rootof(x ** 3 + x + 3, 2) and rootof((x - 1) * (x ** 3 + x + 3), -1) == rootof(x ** 3 + x + 3, 2) and rootof((x - 1) * (x ** 3 + x + 3), -2) == rootof(x ** 3 + x + 3, 1) and rootof((x - 1) * (x ** 3 + x + 3), -3) == 1 and rootof((x - 1) * (x ** 3 + x + 3), -4) == rootof(x ** 3 + x + 3, 0) and rootof(x ** 4 + 3 * x ** 3, 0) == -3 and rootof(x ** 4 + 3 * x ** 3, 1) == 0 and rootof(x ** 4 + 3 * x ** 3, 2) == 0 and rootof(x ** 4 + 3 * x ** 3, 3) == 0 and rootof(Poly(x - y, x), 0) == y and rootof(Poly(x ** 2 - y, x), 0) == -sqrt(y) and rootof(Poly(x ** 2 - y, x), 1) == sqrt(y) and rootof(Poly(x ** 3 - y, x), 0) == y ** Rational(1, 3) and rootof(y * x ** 3 + y * x + 2 * y, x, 0) == -1 and rootof(x ** 3 + x + 1, 0).is_commutative is True","over":{"base":"Any","pred":"isinstance(r, RootOf)"},"name":"test_CRootOf___new___correct"},"guarantee":"rootof(x, 0) == 0; rootof(x, -1) == 0; rootof(x, S.Zero) == 0","fibers":[{"name":"RootOf","pred":"isinstance(r, RootOf)","path":{"lhs":"test_CRootOf___new__(x)","rhs":"rootof(x, 0) == 0; rootof(x, -1) == 0; rootof(x, S.Zero) == 0","over":{"base":"RootOf","pred":"isinstance(r, RootOf)"},"name":"test_CRootOf___new___RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf___new___RootOf_correct","statement":"test_CRootOf___new__ satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f0403c868d01a790","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rootof(x, 0) == 0","rootof(x, -1) == 0","rootof(x, S.Zero) == 0","rootof(x - 1, 0) == 1","rootof(x - 1, -1) == 1","rootof(x + 1, 0) == -1","rootof(x + 1, -1) == -1","rootof(x ** 2 + 2 * x + 3, 0) == -1 - I * sqrt(2)","rootof(x ** 2 + 2 * x + 3, 1) == -1 + I * sqrt(2)","rootof(x ** 2 + 2 * x + 3, -1) == -1 + I * sqrt(2)","rootof(x ** 2 + 2 * x + 3, -2) == -1 - I * sqrt(2)","isinstance(r, RootOf) is True","rootof((x - 1) * (x + 1), 0, radicals=False) == -1","rootof((x - 1) * (x + 1), 1, radicals=False) == 1","rootof((x - 1) * (x + 1), -1, radicals=False) == 1","rootof((x - 1) * (x + 1), -2, radicals=False) == -1","rootof((x - 1) * (x + 1), 0, radicals=True) == -1","rootof((x - 1) * (x + 1), 1, radicals=True) == 1","rootof((x - 1) * (x + 1), -1, radicals=True) == 1","rootof((x - 1) * (x + 1), -2, radicals=True) == -1","rootof((x - 1) * (x ** 3 + x + 3), 0) == rootof(x ** 3 + x + 3, 0)","rootof((x - 1) * (x ** 3 + x + 3), 1) == 1","rootof((x - 1) * (x ** 3 + x + 3), 2) == rootof(x ** 3 + x + 3, 1)","rootof((x - 1) * (x ** 3 + x + 3), 3) == rootof(x ** 3 + x + 3, 2)","rootof((x - 1) * (x ** 3 + x + 3), -1) == rootof(x ** 3 + x + 3, 2)","rootof((x - 1) * (x ** 3 + x + 3), -2) == rootof(x ** 3 + x + 3, 1)","rootof((x - 1) * (x ** 3 + x + 3), -3) == 1","rootof((x - 1) * (x ** 3 + x + 3), -4) == rootof(x ** 3 + x + 3, 0)","rootof(x ** 4 + 3 * x ** 3, 0) == -3","rootof(x ** 4 + 3 * x ** 3, 1) == 0","rootof(x ** 4 + 3 * x ** 3, 2) == 0","rootof(x ** 4 + 3 * x ** 3, 3) == 0","rootof(Poly(x - y, x), 0) == y","rootof(Poly(x ** 2 - y, x), 0) == -sqrt(y)","rootof(Poly(x ** 2 - y, x), 1) == sqrt(y)","rootof(Poly(x ** 3 - y, x), 0) == y ** Rational(1, 3)","rootof(y * x ** 3 + y * x + 2 * y, x, 0) == -1","rootof(x ** 3 + x + 1, 0).is_commutative is True"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.5,"verdict_class":"failed","binding":true}}
 def test_CRootOf___new__():
     assert rootof(x, 0) == 0
     assert rootof(x, -1) == 0
@@ -147,16 +155,23 @@ def test_CRootOf___new__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf_attributes(), test_CRootOf_attributes produces the expected output) over Any ║
+# ║ Path(test_CRootOf_attributes(), r.is_number and r.free_symbols == set()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf_attributes : Any → {Any | r.is_number an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r.is_number                                    ║
+# ║   ensures:  r.free_symbols == set()                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf_attributes : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42bb7474af9b0d49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95cdcf071aa96801  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_attributes","kind":"function","src_hash":"7447811ef3a8c47f","in":{"base":"Any"},"out":{"base":"Any","pred":"r.is_number and r.free_symbols == set()"},"spec":{"lhs":"test_CRootOf_attributes()","rhs":"test_CRootOf_attributes produces the expected output","over":{"base":"Any"},"name":"test_CRootOf_attributes_correct"},"guarantee":"test_CRootOf_attributes produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_attributes_correct","statement":"Path(test_CRootOf_attributes(x), test_CRootOf_attributes produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42bb7474af9b0d49"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_attributes","kind":"function","src_hash":"7447811ef3a8c47f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r.is_number and r.free_symbols == set()"},"spec":{"lhs":"test_CRootOf_attributes()","rhs":"r.is_number and r.free_symbols == set()","over":{"base":"Any"},"name":"test_CRootOf_attributes_correct"},"guarantee":"r.is_number; r.free_symbols == set()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_attributes_correct","statement":"Path(test_CRootOf_attributes(x), r.is_number; r.free_symbols == set())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95cdcf071aa96801","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r.is_number","r.free_symbols == set()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CRootOf_attributes():
     r = rootof(x**3 + x + 3, 0)
     assert r.is_number
@@ -169,16 +184,24 @@ def test_CRootOf_attributes():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf___eq__(), test_CRootOf___eq__ produces the expected output) over Any ║
+# ║ Path(test_CRootOf___eq__(), (rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 0)) is True and (rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 1)) is False and (rootof(x ** 3 + x + 3, 1) == rootof(x ** 3 + x + 3, 1)) is True and (rootof(x ** 3 + x + 3, 1) == rootof(x ** 3 + x + 3, 2)) is False and (rootof(x ** 3 + x + 3, 2) == rootof(x ** 3 + x + 3, 2)) is True and (rootof(x ** 3 + x + 3, 0) == rootof(y ** 3 + y + 3, 0)) is True and (rootof(x ** 3 + x + 3, 0) == rootof(y ** 3 + y + 3, 1)) is False and (rootof(x ** 3 + x + 3, 1) == rootof(y ** 3 + y + 3, 1)) is True and (rootof(x ** 3 + x + 3, 1) == rootof(y ** 3 + y + 3, 2)) is False and (rootof(x ** 3 + x + 3, 2) == rootof(y ** 3 + y + 3, 2)) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf___eq__ : Any → {Any | (rootof(x ** 3 + x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (rootof(x ** 3 + x + 3, 0) == rootof(x **...   ║
+# ║   ensures:  (rootof(x ** 3 + x + 3, 0) == rootof(x **...   ║
+# ║   ensures:  (rootof(x ** 3 + x + 3, 1) == rootof(x **...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf___eq__ : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36dd6891a5739332  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7aac0673c73bb3f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf___eq__","kind":"function","src_hash":"eac0f7a8838a5686","in":{"base":"Any"},"out":{"base":"Any","pred":"(rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 0)) is True and (rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 1)) is False and (rootof(x ** 3 + x + 3, 1) == rootof(x ** 3 + x + 3, 1)) is True and (rootof(x ** 3 + x + 3, 1) == rootof(x ** 3 + x + 3, 2)) is False and (rootof(x ** 3 + x + 3, 2) == rootof(x ** 3 + x + 3, 2)) is True and (rootof(x ** 3 + x + 3, 0) == rootof(y ** 3 + y + 3, 0)) is True and (rootof(x ** 3 + x + 3, 0) == rootof(y ** 3 + y + 3, 1)) is False and (rootof(x ** 3 + x + 3, 1) == rootof(y ** 3 + y + 3, 1)) is True and (rootof(x ** 3 + x + 3, 1) == rootof(y ** 3 + y + 3, 2)) is False and (rootof(x ** 3 + x + 3, 2) == rootof(y ** 3 + y + 3, 2)) is True"},"spec":{"lhs":"test_CRootOf___eq__()","rhs":"test_CRootOf___eq__ produces the expected output","over":{"base":"Any"},"name":"test_CRootOf___eq___correct"},"guarantee":"test_CRootOf___eq__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf___eq___correct","statement":"Path(test_CRootOf___eq__(x), test_CRootOf___eq__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36dd6891a5739332"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf___eq__","kind":"function","src_hash":"eac0f7a8838a5686","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 0)) is True and (rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 1)) is False and (rootof(x ** 3 + x + 3, 1) == rootof(x ** 3 + x + 3, 1)) is True and (rootof(x ** 3 + x + 3, 1) == rootof(x ** 3 + x + 3, 2)) is False and (rootof(x ** 3 + x + 3, 2) == rootof(x ** 3 + x + 3, 2)) is True and (rootof(x ** 3 + x + 3, 0) == rootof(y ** 3 + y + 3, 0)) is True and (rootof(x ** 3 + x + 3, 0) == rootof(y ** 3 + y + 3, 1)) is False and (rootof(x ** 3 + x + 3, 1) == rootof(y ** 3 + y + 3, 1)) is True and (rootof(x ** 3 + x + 3, 1) == rootof(y ** 3 + y + 3, 2)) is False and (rootof(x ** 3 + x + 3, 2) == rootof(y ** 3 + y + 3, 2)) is True"},"spec":{"lhs":"test_CRootOf___eq__()","rhs":"(rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 0)) is True and (rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 1)) is False and (rootof(x ** 3 + x + 3, 1) == rootof(x ** 3 + x + 3, 1)) is True and (rootof(x ** 3 + x + 3, 1) == rootof(x ** 3 + x + 3, 2)) is False and (rootof(x ** 3 + x + 3, 2) == rootof(x ** 3 + x + 3, 2)) is True and (rootof(x ** 3 + x + 3, 0) == rootof(y ** 3 + y + 3, 0)) is True and (rootof(x ** 3 + x + 3, 0) == rootof(y ** 3 + y + 3, 1)) is False and (rootof(x ** 3 + x + 3, 1) == rootof(y ** 3 + y + 3, 1)) is True and (rootof(x ** 3 + x + 3, 1) == rootof(y ** 3 + y + 3, 2)) is False and (rootof(x ** 3 + x + 3, 2) == rootof(y ** 3 + y + 3, 2)) is True","over":{"base":"Any"},"name":"test_CRootOf___eq___correct"},"guarantee":"(rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 0)) is True; (rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 1)) is False; (rootof(x ** 3 + x + 3, 1) == rootof(x ** 3 + x + 3, 1)) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf___eq___correct","statement":"Path(test_CRootOf___eq__(x), (rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 0)) is True; (rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 1)) is False; (rootof(x ** 3 + x + 3, 1) == rootof(x ** 3 + x + 3, 1)) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7aac0673c73bb3f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 0)) is True","(rootof(x ** 3 + x + 3, 0) == rootof(x ** 3 + x + 3, 1)) is False","(rootof(x ** 3 + x + 3, 1) == rootof(x ** 3 + x + 3, 1)) is True","(rootof(x ** 3 + x + 3, 1) == rootof(x ** 3 + x + 3, 2)) is False","(rootof(x ** 3 + x + 3, 2) == rootof(x ** 3 + x + 3, 2)) is True","(rootof(x ** 3 + x + 3, 0) == rootof(y ** 3 + y + 3, 0)) is True","(rootof(x ** 3 + x + 3, 0) == rootof(y ** 3 + y + 3, 1)) is False","(rootof(x ** 3 + x + 3, 1) == rootof(y ** 3 + y + 3, 1)) is True","(rootof(x ** 3 + x + 3, 1) == rootof(y ** 3 + y + 3, 2)) is False","(rootof(x ** 3 + x + 3, 2) == rootof(y ** 3 + y + 3, 2)) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_CRootOf___eq__():
     assert (rootof(x**3 + x + 3, 0) == rootof(x**3 + x + 3, 0)) is True
     assert (rootof(x**3 + x + 3, 0) == rootof(x**3 + x + 3, 1)) is False
@@ -194,16 +217,24 @@ def test_CRootOf___eq__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf___eval_Eq__(), test_CRootOf___eval_Eq__ produces the expected output) over Any ║
+# ║ Path(test_CRootOf___eval_Eq__(), Eq(r, r1) is S.false and Eq(r, r) is S.true and unchanged(Eq, r, x) and Eq(r, 0) is S.false and Eq(r, S.Infinity) is S.false and Eq(r, I) is S.false and unchanged(Eq, r, f(0)) and [Eq(rootof(eq, i), j) for i in range(3) for j in sol].count(True) == 3 and Eq(rootof(eq, 0), 1 + S.ImaginaryUnit) == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf___eval_Eq__ : Any → {Any | Eq(r, r1) is ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Eq(r, r1) is S.false                           ║
+# ║   ensures:  Eq(r, r) is S.true                             ║
+# ║   ensures:  unchanged(Eq, r, x)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf___eval_Eq__ : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c76a51d1d90068e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08a6a9e7d4a12165  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf___eval_Eq__","kind":"function","src_hash":"717601a1f036a0b0","in":{"base":"Any"},"out":{"base":"Any","pred":"Eq(r, r1) is S.false and Eq(r, r) is S.true and unchanged(Eq, r, x) and Eq(r, 0) is S.false and Eq(r, S.Infinity) is S.false and Eq(r, I) is S.false and unchanged(Eq, r, f(0)) and [Eq(rootof(eq, i), j) for i in range(3) for j in sol].count(True) == 3 and Eq(rootof(eq, 0), 1 + S.ImaginaryUnit) == False and Eq(r, s) is S.false and Eq(r, s) is S.true"},"spec":{"lhs":"test_CRootOf___eval_Eq__()","rhs":"test_CRootOf___eval_Eq__ produces the expected output","over":{"base":"Any"},"name":"test_CRootOf___eval_Eq___correct"},"guarantee":"test_CRootOf___eval_Eq__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf___eval_Eq___correct","statement":"Path(test_CRootOf___eval_Eq__(x), test_CRootOf___eval_Eq__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c76a51d1d90068e9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf___eval_Eq__","kind":"function","src_hash":"717601a1f036a0b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Eq(r, r1) is S.false and Eq(r, r) is S.true and unchanged(Eq, r, x) and Eq(r, 0) is S.false and Eq(r, S.Infinity) is S.false and Eq(r, I) is S.false and unchanged(Eq, r, f(0)) and [Eq(rootof(eq, i), j) for i in range(3) for j in sol].count(True) == 3 and Eq(rootof(eq, 0), 1 + S.ImaginaryUnit) == False"},"spec":{"lhs":"test_CRootOf___eval_Eq__()","rhs":"Eq(r, r1) is S.false and Eq(r, r) is S.true and unchanged(Eq, r, x) and Eq(r, 0) is S.false and Eq(r, S.Infinity) is S.false and Eq(r, I) is S.false and unchanged(Eq, r, f(0)) and [Eq(rootof(eq, i), j) for i in range(3) for j in sol].count(True) == 3 and Eq(rootof(eq, 0), 1 + S.ImaginaryUnit) == False","over":{"base":"Any"},"name":"test_CRootOf___eval_Eq___correct"},"guarantee":"Eq(r, r1) is S.false; Eq(r, r) is S.true; unchanged(Eq, r, x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf___eval_Eq___correct","statement":"Path(test_CRootOf___eval_Eq__(x), Eq(r, r1) is S.false; Eq(r, r) is S.true; unchanged(Eq, r, x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08a6a9e7d4a12165","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Eq(r, r1) is S.false","Eq(r, r) is S.true","unchanged(Eq, r, x)","Eq(r, 0) is S.false","Eq(r, S.Infinity) is S.false","Eq(r, I) is S.false","unchanged(Eq, r, f(0))","[Eq(rootof(eq, i), j) for i in range(3) for j in sol].count(True) == 3","Eq(rootof(eq, 0), 1 + S.ImaginaryUnit) == False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_CRootOf___eval_Eq__():
     f = Function('f')
     eq = x**3 + x + 3
@@ -232,16 +263,24 @@ def test_CRootOf___eval_Eq__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf_is_real(), test_CRootOf_is_real produces the expected output) over Any ║
+# ║ Path(test_CRootOf_is_real(), rootof(x ** 3 + x + 3, 0).is_real is True and rootof(x ** 3 + x + 3, 1).is_real is False and rootof(x ** 3 + x + 3, 2).is_real is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf_is_real : Any → {Any | rootof(x ** 3 + x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rootof(x ** 3 + x + 3, 0).is_real is True      ║
+# ║   ensures:  rootof(x ** 3 + x + 3, 1).is_real is False     ║
+# ║   ensures:  rootof(x ** 3 + x + 3, 2).is_real is False     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf_is_real : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1396c9f258ef3cfa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a73f0b83331b6ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_is_real","kind":"function","src_hash":"3e56b88054d33442","in":{"base":"Any"},"out":{"base":"Any","pred":"rootof(x ** 3 + x + 3, 0).is_real is True and rootof(x ** 3 + x + 3, 1).is_real is False and rootof(x ** 3 + x + 3, 2).is_real is False"},"spec":{"lhs":"test_CRootOf_is_real()","rhs":"test_CRootOf_is_real produces the expected output","over":{"base":"Any"},"name":"test_CRootOf_is_real_correct"},"guarantee":"test_CRootOf_is_real produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_is_real_correct","statement":"Path(test_CRootOf_is_real(x), test_CRootOf_is_real produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1396c9f258ef3cfa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_is_real","kind":"function","src_hash":"3e56b88054d33442","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rootof(x ** 3 + x + 3, 0).is_real is True and rootof(x ** 3 + x + 3, 1).is_real is False and rootof(x ** 3 + x + 3, 2).is_real is False"},"spec":{"lhs":"test_CRootOf_is_real()","rhs":"rootof(x ** 3 + x + 3, 0).is_real is True and rootof(x ** 3 + x + 3, 1).is_real is False and rootof(x ** 3 + x + 3, 2).is_real is False","over":{"base":"Any"},"name":"test_CRootOf_is_real_correct"},"guarantee":"rootof(x ** 3 + x + 3, 0).is_real is True; rootof(x ** 3 + x + 3, 1).is_real is False; rootof(x ** 3 + x + 3, 2).is_real is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_is_real_correct","statement":"Path(test_CRootOf_is_real(x), rootof(x ** 3 + x + 3, 0).is_real is True; rootof(x ** 3 + x + 3, 1).is_real is False; rootof(x ** 3 + x + 3, 2).is_real is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a73f0b83331b6ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rootof(x ** 3 + x + 3, 0).is_real is True","rootof(x ** 3 + x + 3, 1).is_real is False","rootof(x ** 3 + x + 3, 2).is_real is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CRootOf_is_real():
     assert rootof(x**3 + x + 3, 0).is_real is True
     assert rootof(x**3 + x + 3, 1).is_real is False
@@ -249,31 +288,45 @@ def test_CRootOf_is_real():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf_is_complex(), test_CRootOf_is_complex produces the expected output) over Any ║
+# ║ Path(test_CRootOf_is_complex(), rootof(x ** 3 + x + 3, 0).is_complex is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf_is_complex : Any → {Any | rootof(x ** 3 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rootof(x ** 3 + x + 3, 0).is_complex is True   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf_is_complex : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dcb7b4c17d46e4c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc59138bb6b112de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_is_complex","kind":"function","src_hash":"6b295a6fccecb17e","in":{"base":"Any"},"out":{"base":"Any","pred":"rootof(x ** 3 + x + 3, 0).is_complex is True"},"spec":{"lhs":"test_CRootOf_is_complex()","rhs":"test_CRootOf_is_complex produces the expected output","over":{"base":"Any"},"name":"test_CRootOf_is_complex_correct"},"guarantee":"test_CRootOf_is_complex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_is_complex_correct","statement":"Path(test_CRootOf_is_complex(x), test_CRootOf_is_complex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dcb7b4c17d46e4c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_is_complex","kind":"function","src_hash":"6b295a6fccecb17e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rootof(x ** 3 + x + 3, 0).is_complex is True"},"spec":{"lhs":"test_CRootOf_is_complex()","rhs":"rootof(x ** 3 + x + 3, 0).is_complex is True","over":{"base":"Any"},"name":"test_CRootOf_is_complex_correct"},"guarantee":"rootof(x ** 3 + x + 3, 0).is_complex is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_is_complex_correct","statement":"Path(test_CRootOf_is_complex(x), rootof(x ** 3 + x + 3, 0).is_complex is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc59138bb6b112de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rootof(x ** 3 + x + 3, 0).is_complex is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_CRootOf_is_complex():
     assert rootof(x**3 + x + 3, 0).is_complex is True
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf_is_algebraic(), test_CRootOf_is_algebraic produces the expected output) over Any ║
+# ║ Path(test_CRootOf_is_algebraic(), rootof(x ** 3 + x + 3, 0).is_algebraic is True and rootof(x ** 3 + x + 3, 1).is_algebraic is True and rootof(x ** 3 + x + 3, 2).is_algebraic is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf_is_algebraic : Any → {Any | rootof(x ** ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rootof(x ** 3 + x + 3, 0).is_algebraic is...   ║
+# ║   ensures:  rootof(x ** 3 + x + 3, 1).is_algebraic is...   ║
+# ║   ensures:  rootof(x ** 3 + x + 3, 2).is_algebraic is...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf_is_algebraic : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c63c29f20cb87da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0976068595ba8cc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_is_algebraic","kind":"function","src_hash":"0448614a717eab15","in":{"base":"Any"},"out":{"base":"Any","pred":"rootof(x ** 3 + x + 3, 0).is_algebraic is True and rootof(x ** 3 + x + 3, 1).is_algebraic is True and rootof(x ** 3 + x + 3, 2).is_algebraic is True"},"spec":{"lhs":"test_CRootOf_is_algebraic()","rhs":"test_CRootOf_is_algebraic produces the expected output","over":{"base":"Any"},"name":"test_CRootOf_is_algebraic_correct"},"guarantee":"test_CRootOf_is_algebraic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_is_algebraic_correct","statement":"Path(test_CRootOf_is_algebraic(x), test_CRootOf_is_algebraic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c63c29f20cb87da"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_is_algebraic","kind":"function","src_hash":"0448614a717eab15","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rootof(x ** 3 + x + 3, 0).is_algebraic is True and rootof(x ** 3 + x + 3, 1).is_algebraic is True and rootof(x ** 3 + x + 3, 2).is_algebraic is True"},"spec":{"lhs":"test_CRootOf_is_algebraic()","rhs":"rootof(x ** 3 + x + 3, 0).is_algebraic is True and rootof(x ** 3 + x + 3, 1).is_algebraic is True and rootof(x ** 3 + x + 3, 2).is_algebraic is True","over":{"base":"Any"},"name":"test_CRootOf_is_algebraic_correct"},"guarantee":"rootof(x ** 3 + x + 3, 0).is_algebraic is True; rootof(x ** 3 + x + 3, 1).is_algebraic is True; rootof(x ** 3 + x + 3, 2).is_algebraic is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_is_algebraic_correct","statement":"Path(test_CRootOf_is_algebraic(x), rootof(x ** 3 + x + 3, 0).is_algebraic is True; rootof(x ** 3 + x + 3, 1).is_algebraic is True; rootof(x ** 3 + x + 3, 2).is_algebraic is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0976068595ba8cc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rootof(x ** 3 + x + 3, 0).is_algebraic is True","rootof(x ** 3 + x + 3, 1).is_algebraic is True","rootof(x ** 3 + x + 3, 2).is_algebraic is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CRootOf_is_algebraic():
     assert rootof(x**3 + x + 3, 0).is_algebraic is True
     assert rootof(x**3 + x + 3, 1).is_algebraic is True
@@ -281,47 +334,68 @@ def test_CRootOf_is_algebraic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf_subs(), test_CRootOf_subs produces the expected output) over Any ║
+# ║ Path(test_CRootOf_subs(), rootof(x ** 3 + x + 1, 0).subs(x, y) == rootof(y ** 3 + y + 1, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf_subs : Any → {Any | rootof(x ** 3 + x + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rootof(x ** 3 + x + 1, 0).subs(x, y) == r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf_subs : Any → {Any | result satisfies: ro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f3fba17938e455c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 669e3084bd7f3a42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_subs","kind":"function","src_hash":"48e19e6f2038a0a2","in":{"base":"Any"},"out":{"base":"Any","pred":"rootof(x ** 3 + x + 1, 0).subs(x, y) == rootof(y ** 3 + y + 1, 0)"},"spec":{"lhs":"test_CRootOf_subs()","rhs":"test_CRootOf_subs produces the expected output","over":{"base":"Any"},"name":"test_CRootOf_subs_correct"},"guarantee":"test_CRootOf_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_subs_correct","statement":"Path(test_CRootOf_subs(x), test_CRootOf_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f3fba17938e455c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_subs","kind":"function","src_hash":"48e19e6f2038a0a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rootof(x ** 3 + x + 1, 0).subs(x, y) == rootof(y ** 3 + y + 1, 0)"},"spec":{"lhs":"test_CRootOf_subs()","rhs":"rootof(x ** 3 + x + 1, 0).subs(x, y) == rootof(y ** 3 + y + 1, 0)","over":{"base":"Any"},"name":"test_CRootOf_subs_correct"},"guarantee":"rootof(x ** 3 + x + 1, 0).subs(x, y) == rootof(y ** 3 + y + 1, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_subs_correct","statement":"Path(test_CRootOf_subs(x), rootof(x ** 3 + x + 1, 0).subs(x, y) == rootof(y ** 3 + y + 1, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"669e3084bd7f3a42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rootof(x ** 3 + x + 1, 0).subs(x, y) == rootof(y ** 3 + y + 1, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CRootOf_subs():
     assert rootof(x**3 + x + 1, 0).subs(x, y) == rootof(y**3 + y + 1, 0)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf_diff(), test_CRootOf_diff produces the expected output) over Any ║
+# ║ Path(test_CRootOf_diff(), rootof(x ** 3 + x + 1, 0).diff(x) == 0 and rootof(x ** 3 + x + 1, 0).diff(y) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf_diff : Any → {Any | rootof(x ** 3 + x + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rootof(x ** 3 + x + 1, 0).diff(x) == 0         ║
+# ║   ensures:  rootof(x ** 3 + x + 1, 0).diff(y) == 0         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf_diff : Any → {Any | result satisfies: ro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfa5b349393a7e5e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffdc65536a591c28  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_diff","kind":"function","src_hash":"ba71c1a6bc53017a","in":{"base":"Any"},"out":{"base":"Any","pred":"rootof(x ** 3 + x + 1, 0).diff(x) == 0 and rootof(x ** 3 + x + 1, 0).diff(y) == 0"},"spec":{"lhs":"test_CRootOf_diff()","rhs":"test_CRootOf_diff produces the expected output","over":{"base":"Any"},"name":"test_CRootOf_diff_correct"},"guarantee":"test_CRootOf_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_diff_correct","statement":"Path(test_CRootOf_diff(x), test_CRootOf_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfa5b349393a7e5e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_diff","kind":"function","src_hash":"ba71c1a6bc53017a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rootof(x ** 3 + x + 1, 0).diff(x) == 0 and rootof(x ** 3 + x + 1, 0).diff(y) == 0"},"spec":{"lhs":"test_CRootOf_diff()","rhs":"rootof(x ** 3 + x + 1, 0).diff(x) == 0 and rootof(x ** 3 + x + 1, 0).diff(y) == 0","over":{"base":"Any"},"name":"test_CRootOf_diff_correct"},"guarantee":"rootof(x ** 3 + x + 1, 0).diff(x) == 0; rootof(x ** 3 + x + 1, 0).diff(y) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_diff_correct","statement":"Path(test_CRootOf_diff(x), rootof(x ** 3 + x + 1, 0).diff(x) == 0; rootof(x ** 3 + x + 1, 0).diff(y) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffdc65536a591c28","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rootof(x ** 3 + x + 1, 0).diff(x) == 0","rootof(x ** 3 + x + 1, 0).diff(y) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CRootOf_diff():
     assert rootof(x**3 + x + 1, 0).diff(x) == 0
     assert rootof(x**3 + x + 1, 0).diff(y) == 0
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf_evalf(), test_CRootOf_evalf produces the expected output) over Any ║
+# ║ Path(test_CRootOf_evalf(), real.epsilon_eq(Float('-1.2134116627622296341')) and re.epsilon_eq(Float('0.60670583138111481707')) and im.epsilon_eq(-Float('1.45061224918844152650')) and im.epsilon_eq(Float('1.45061224918844152650')) and roots == ['-0.86113631159405258', '-0.33998104358485626', '0.33998104358485626', '0.86113631159405258'] and re.epsilon_eq(Float('-1.84208596619025438271')) and re.epsilon_eq(Float('-0.351854240827371999559')) and im.epsilon_eq(Float('-1.709561043370328882010')) and im.epsilon_eq(Float('+1.709561043370328882010')) and re.epsilon_eq(Float('+1.272897223922499190910')) and im.epsilon_eq(Float('-0.719798681483861386681')) and im.epsilon_eq(Float('+0.719798681483861386681')) and str(rootof(x ** 5 + 2 * x ** 4 + x ** 3 - 68719476736, 0).n(3)) == '147.' and a == c and b < d and b == -d and r.n(2) == r.n(100).n(2) and r0.n(4) == Float(-1.0, 4) * I and r1.n(4) == Float(1.0, 4) * I and str(rootof(4 * x ** 5 + 16 * x ** 3 + 12 * x ** 2 + 7, 0).n(3)) == '-0.976' and c._eval_evalf(2) and str(RootOf(x ** 16 + 32 * x ** 14 + 508 * x ** 12 + 5440 * x ** 10 + 39510 * x ** 8 + 204320 * x ** 6 + 755548 * x ** 4 + 1434496 * x ** 2 + 877969, 10).n(2)) == '-3.4*I' and abs(RootOf(x ** 4 + 10 * x ** 2 + 1, 0).n(2)) < 0.4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf_evalf : Any → {Any | real.epsilon_eq(Flo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  real.epsilon_eq(Float('-1.213411662762229...   ║
+# ║   ensures:  re.epsilon_eq(Float('0.606705831381114817...   ║
+# ║   ensures:  im.epsilon_eq(-Float('1.45061224918844152...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf_evalf : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e36bd1f4cc11f03b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5546de041399acb7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_evalf","kind":"function","src_hash":"a1f94fcf552330df","in":{"base":"Any"},"out":{"base":"Any","pred":"real.epsilon_eq(Float('-1.2134116627622296341')) and re.epsilon_eq(Float('0.60670583138111481707')) and im.epsilon_eq(-Float('1.45061224918844152650')) and re.epsilon_eq(Float('0.60670583138111481707')) and im.epsilon_eq(Float('1.45061224918844152650')) and re.epsilon_eq(Float('-1.84208596619025438271')) and re.epsilon_eq(Float('-0.351854240827371999559')) and im.epsilon_eq(Float('-1.709561043370328882010')) and re.epsilon_eq(Float('-0.351854240827371999559')) and im.epsilon_eq(Float('+1.709561043370328882010')) and re.epsilon_eq(Float('+1.272897223922499190910')) and im.epsilon_eq(Float('-0.719798681483861386681')) and re.epsilon_eq(Float('+1.272897223922499190910')) and im.epsilon_eq(Float('+0.719798681483861386681')) and str(rootof(x ** 5 + 2 * x ** 4 + x ** 3 - 68719476736, 0).n(3)) == '147.' and a == c and b < d and b == -d and r.n(2) == r.n(100).n(2) and r0.n(4) == Float(-1.0, 4) * I and r1.n(4) == Float(1.0, 4) * I and str(rootof(4 * x ** 5 + 16 * x ** 3 + 12 * x ** 2 + 7, 0).n(3)) == '-0.976' and c._eval_evalf(2) and abs(RootOf(x ** 4 + 10 * x ** 2 + 1, 0).n(2)) < 0.4 and i != ri._get_interval() and i == ri._get_interval() and i == i.func(*i.args)"},"spec":{"lhs":"test_CRootOf_evalf()","rhs":"test_CRootOf_evalf produces the expected output","over":{"base":"Any"},"name":"test_CRootOf_evalf_correct"},"guarantee":"test_CRootOf_evalf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_evalf_correct","statement":"Path(test_CRootOf_evalf(x), test_CRootOf_evalf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e36bd1f4cc11f03b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_evalf","kind":"function","src_hash":"a1f94fcf552330df","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: real.epsilon_eq(Float('-1.2134116627622296341')) and re.epsilon_eq(Float('0.60670583138111481707')) and im.epsilon_eq(-Float('1.45061224918844152650')) and im.epsilon_eq(Float('1.45061224918844152650')) and roots == ['-0.86113631159405258', '-0.33998104358485626', '0.33998104358485626', '0.86113631159405258'] and re.epsilon_eq(Float('-1.84208596619025438271')) and re.epsilon_eq(Float('-0.351854240827371999559')) and im.epsilon_eq(Float('-1.709561043370328882010')) and im.epsilon_eq(Float('+1.709561043370328882010')) and re.epsilon_eq(Float('+1.272897223922499190910')) and im.epsilon_eq(Float('-0.719798681483861386681')) and im.epsilon_eq(Float('+0.719798681483861386681')) and str(rootof(x ** 5 + 2 * x ** 4 + x ** 3 - 68719476736, 0).n(3)) == '147.' and a == c and b < d and b == -d and r.n(2) == r.n(100).n(2) and r0.n(4) == Float(-1.0, 4) * I and r1.n(4) == Float(1.0, 4) * I and str(rootof(4 * x ** 5 + 16 * x ** 3 + 12 * x ** 2 + 7, 0).n(3)) == '-0.976' and c._eval_evalf(2) and str(RootOf(x ** 16 + 32 * x ** 14 + 508 * x ** 12 + 5440 * x ** 10 + 39510 * x ** 8 + 204320 * x ** 6 + 755548 * x ** 4 + 1434496 * x ** 2 + 877969, 10).n(2)) == '-3.4*I' and abs(RootOf(x ** 4 + 10 * x ** 2 + 1, 0).n(2)) < 0.4"},"spec":{"lhs":"test_CRootOf_evalf()","rhs":"real.epsilon_eq(Float('-1.2134116627622296341')) and re.epsilon_eq(Float('0.60670583138111481707')) and im.epsilon_eq(-Float('1.45061224918844152650')) and im.epsilon_eq(Float('1.45061224918844152650')) and roots == ['-0.86113631159405258', '-0.33998104358485626', '0.33998104358485626', '0.86113631159405258'] and re.epsilon_eq(Float('-1.84208596619025438271')) and re.epsilon_eq(Float('-0.351854240827371999559')) and im.epsilon_eq(Float('-1.709561043370328882010')) and im.epsilon_eq(Float('+1.709561043370328882010')) and re.epsilon_eq(Float('+1.272897223922499190910')) and im.epsilon_eq(Float('-0.719798681483861386681')) and im.epsilon_eq(Float('+0.719798681483861386681')) and str(rootof(x ** 5 + 2 * x ** 4 + x ** 3 - 68719476736, 0).n(3)) == '147.' and a == c and b < d and b == -d and r.n(2) == r.n(100).n(2) and r0.n(4) == Float(-1.0, 4) * I and r1.n(4) == Float(1.0, 4) * I and str(rootof(4 * x ** 5 + 16 * x ** 3 + 12 * x ** 2 + 7, 0).n(3)) == '-0.976' and c._eval_evalf(2) and str(RootOf(x ** 16 + 32 * x ** 14 + 508 * x ** 12 + 5440 * x ** 10 + 39510 * x ** 8 + 204320 * x ** 6 + 755548 * x ** 4 + 1434496 * x ** 2 + 877969, 10).n(2)) == '-3.4*I' and abs(RootOf(x ** 4 + 10 * x ** 2 + 1, 0).n(2)) < 0.4","over":{"base":"Any"},"name":"test_CRootOf_evalf_correct"},"guarantee":"real.epsilon_eq(Float('-1.2134116627622296341')); re.epsilon_eq(Float('0.60670583138111481707')); im.epsilon_eq(-Float('1.45061224918844152650'))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_evalf_correct","statement":"Path(test_CRootOf_evalf(x), real.epsilon_eq(Float('-1.2134116627622296341')); re.epsilon_eq(Float('0.60670583138111481707')); im.epsilon_eq(-Float('1.45061224918844152650')))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5546de041399acb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["real.epsilon_eq(Float('-1.2134116627622296341'))","re.epsilon_eq(Float('0.60670583138111481707'))","im.epsilon_eq(-Float('1.45061224918844152650'))","im.epsilon_eq(Float('1.45061224918844152650'))","roots == ['-0.86113631159405258', '-0.33998104358485626', '0.33998104358485626', '0.86113631159405258']","re.epsilon_eq(Float('-1.84208596619025438271'))","re.epsilon_eq(Float('-0.351854240827371999559'))","im.epsilon_eq(Float('-1.709561043370328882010'))","im.epsilon_eq(Float('+1.709561043370328882010'))","re.epsilon_eq(Float('+1.272897223922499190910'))","im.epsilon_eq(Float('-0.719798681483861386681'))","im.epsilon_eq(Float('+0.719798681483861386681'))","str(rootof(x ** 5 + 2 * x ** 4 + x ** 3 - 68719476736, 0).n(3)) == '147.'","a == c","b < d","b == -d","r.n(2) == r.n(100).n(2)","r0.n(4) == Float(-1.0, 4) * I","r1.n(4) == Float(1.0, 4) * I","str(rootof(4 * x ** 5 + 16 * x ** 3 + 12 * x ** 2 + 7, 0).n(3)) == '-0.976'","c._eval_evalf(2)","str(RootOf(x ** 16 + 32 * x ** 14 + 508 * x ** 12 + 5440 * x ** 10 + 39510 * x ** 8 + 204320 * x ** 6 + 755548 * x ** 4 + 1434496 * x ** 2 + 877969, 10).n(2)) == '-3.4*I'","abs(RootOf(x ** 4 + 10 * x ** 2 + 1, 0).n(2)) < 0.4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_CRootOf_evalf():
     real = rootof(x**3 + x + 3, 0).evalf(n=20)
 
@@ -414,16 +488,23 @@ def test_CRootOf_evalf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_24978(), test_issue_24978 produces the expected output) over Any ║
+# ║ Path(test_issue_24978(), r.poly.as_expr() == x ** 2 - 2 and r.poly in rootoftools._reals_cache) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_24978 : Any → {Any | r.poly.as_expr() == x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r.poly.as_expr() == x ** 2 - 2                 ║
+# ║   ensures:  r.poly in rootoftools._reals_cache             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_24978 : Any → {Any | result satisfies: r.p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca14f2d7de5d5b50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6b11be97793cfb3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_issue_24978","kind":"function","src_hash":"fdf043d468ea5f43","in":{"base":"Any"},"out":{"base":"Any","pred":"r.poly.as_expr() == x ** 2 - 2 and r.poly in rootoftools._reals_cache"},"spec":{"lhs":"test_issue_24978()","rhs":"test_issue_24978 produces the expected output","over":{"base":"Any"},"name":"test_issue_24978_correct"},"guarantee":"test_issue_24978 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_issue_24978_correct","statement":"Path(test_issue_24978(x), test_issue_24978 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca14f2d7de5d5b50"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_issue_24978","kind":"function","src_hash":"fdf043d468ea5f43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r.poly.as_expr() == x ** 2 - 2 and r.poly in rootoftools._reals_cache"},"spec":{"lhs":"test_issue_24978()","rhs":"r.poly.as_expr() == x ** 2 - 2 and r.poly in rootoftools._reals_cache","over":{"base":"Any"},"name":"test_issue_24978_correct"},"guarantee":"r.poly.as_expr() == x ** 2 - 2; r.poly in rootoftools._reals_cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_issue_24978_correct","statement":"Path(test_issue_24978(x), r.poly.as_expr() == x ** 2 - 2; r.poly in rootoftools._reals_cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6b11be97793cfb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r.poly.as_expr() == x ** 2 - 2","r.poly in rootoftools._reals_cache"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_24978():
     # Irreducible poly with negative leading coeff is normalized
     # (factor of -1 is extracted), before being stored as CRootOf.poly.
@@ -437,16 +518,22 @@ def test_issue_24978():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf_evalf_caching_bug(), test_CRootOf_evalf_caching_bug produces the expected output) over Any ║
+# ║ Path(test_CRootOf_evalf_caching_bug(), a == b) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf_evalf_caching_bug : Any → {Any | a == b}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  a == b                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf_evalf_caching_bug : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1a798b4a86c3ff5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbf36a6b50b890d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_evalf_caching_bug","kind":"function","src_hash":"117d540526b80b9f","in":{"base":"Any"},"out":{"base":"Any","pred":"a == b"},"spec":{"lhs":"test_CRootOf_evalf_caching_bug()","rhs":"test_CRootOf_evalf_caching_bug produces the expected output","over":{"base":"Any"},"name":"test_CRootOf_evalf_caching_bug_correct"},"guarantee":"test_CRootOf_evalf_caching_bug produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_evalf_caching_bug_correct","statement":"Path(test_CRootOf_evalf_caching_bug(x), test_CRootOf_evalf_caching_bug produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1a798b4a86c3ff5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_evalf_caching_bug","kind":"function","src_hash":"117d540526b80b9f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: a == b"},"spec":{"lhs":"test_CRootOf_evalf_caching_bug()","rhs":"a == b","over":{"base":"Any"},"name":"test_CRootOf_evalf_caching_bug_correct"},"guarantee":"a == b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_evalf_caching_bug_correct","statement":"Path(test_CRootOf_evalf_caching_bug(x), a == b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbf36a6b50b890d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["a == b"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_CRootOf_evalf_caching_bug():
     r = rootof(x**5 - 5*x + 12, 1)
     r.n()
@@ -458,16 +545,24 @@ def test_CRootOf_evalf_caching_bug():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf_real_roots(), test_CRootOf_real_roots produces the expected output) over Any ║
+# ║ Path(test_CRootOf_real_roots(), Poly(x ** 5 + x + 1).real_roots() == [rootof(x ** 3 - x ** 2 + 1, 0)] and Poly(x ** 5 + x + 1).real_roots(radicals=False) == [rootof(x ** 3 - x ** 2 + 1, 0)] and CRootOf.real_roots(p) == [S(-1), S(-1), S(-1), S(-1) / 3] and Poly(x ** 3 + sqrt(2) * x ** 2 - 1, x, extension=True).real_roots() == [rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 0)] and Poly(x ** 5 + sqrt(2) * x ** 3 - 1, x, extension=True).real_roots() == [rootof(x ** 10 - 2 * x ** 6 - 2 * x ** 5 + 1, 0)] and Poly(x ** 5 + r * x - 1, x, extension=True).real_roots() == [rootof(x ** 25 - 5 * x ** 20 + x ** 17 + 10 * x ** 15 - 3 * x ** 12 - 10 * x ** 10 + 3 * x ** 7 + 6 * x ** 5 - x ** 2 - 1, 0)] and Poly((x - 1) * (x - sqrt(2)) ** 2, x, extension=True).real_roots() == [S(1), sqrt(2), sqrt(2)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf_real_roots : Any → {Any | Poly(x ** 5 + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Poly(x ** 5 + x + 1).real_roots() == [roo...   ║
+# ║   ensures:  Poly(x ** 5 + x + 1).real_roots(radicals=...   ║
+# ║   ensures:  CRootOf.real_roots(p) == [S(-1), S(-1), S...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf_real_roots : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e27ca6c0c5ee00d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebca72a79910179f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_real_roots","kind":"function","src_hash":"6ee2e1c320cca9a6","in":{"base":"Any"},"out":{"base":"Any","pred":"Poly(x ** 5 + x + 1).real_roots() == [rootof(x ** 3 - x ** 2 + 1, 0)] and CRootOf.real_roots(p) == [S(-1), S(-1), S(-1), S(-1) / 3]"},"spec":{"lhs":"test_CRootOf_real_roots()","rhs":"test_CRootOf_real_roots produces the expected output","over":{"base":"Any"},"name":"test_CRootOf_real_roots_correct"},"guarantee":"test_CRootOf_real_roots produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_real_roots_correct","statement":"Path(test_CRootOf_real_roots(x), test_CRootOf_real_roots produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e27ca6c0c5ee00d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_real_roots","kind":"function","src_hash":"6ee2e1c320cca9a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Poly(x ** 5 + x + 1).real_roots() == [rootof(x ** 3 - x ** 2 + 1, 0)] and Poly(x ** 5 + x + 1).real_roots(radicals=False) == [rootof(x ** 3 - x ** 2 + 1, 0)] and CRootOf.real_roots(p) == [S(-1), S(-1), S(-1), S(-1) / 3] and Poly(x ** 3 + sqrt(2) * x ** 2 - 1, x, extension=True).real_roots() == [rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 0)] and Poly(x ** 5 + sqrt(2) * x ** 3 - 1, x, extension=True).real_roots() == [rootof(x ** 10 - 2 * x ** 6 - 2 * x ** 5 + 1, 0)] and Poly(x ** 5 + r * x - 1, x, extension=True).real_roots() == [rootof(x ** 25 - 5 * x ** 20 + x ** 17 + 10 * x ** 15 - 3 * x ** 12 - 10 * x ** 10 + 3 * x ** 7 + 6 * x ** 5 - x ** 2 - 1, 0)] and Poly((x - 1) * (x - sqrt(2)) ** 2, x, extension=True).real_roots() == [S(1), sqrt(2), sqrt(2)]"},"spec":{"lhs":"test_CRootOf_real_roots()","rhs":"Poly(x ** 5 + x + 1).real_roots() == [rootof(x ** 3 - x ** 2 + 1, 0)] and Poly(x ** 5 + x + 1).real_roots(radicals=False) == [rootof(x ** 3 - x ** 2 + 1, 0)] and CRootOf.real_roots(p) == [S(-1), S(-1), S(-1), S(-1) / 3] and Poly(x ** 3 + sqrt(2) * x ** 2 - 1, x, extension=True).real_roots() == [rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 0)] and Poly(x ** 5 + sqrt(2) * x ** 3 - 1, x, extension=True).real_roots() == [rootof(x ** 10 - 2 * x ** 6 - 2 * x ** 5 + 1, 0)] and Poly(x ** 5 + r * x - 1, x, extension=True).real_roots() == [rootof(x ** 25 - 5 * x ** 20 + x ** 17 + 10 * x ** 15 - 3 * x ** 12 - 10 * x ** 10 + 3 * x ** 7 + 6 * x ** 5 - x ** 2 - 1, 0)] and Poly((x - 1) * (x - sqrt(2)) ** 2, x, extension=True).real_roots() == [S(1), sqrt(2), sqrt(2)]","over":{"base":"Any"},"name":"test_CRootOf_real_roots_correct"},"guarantee":"Poly(x ** 5 + x + 1).real_roots() == [rootof(x ** 3 - x ** 2 + 1, 0)]; Poly(x ** 5 + x + 1).real_roots(radicals=False) == [rootof(x ** 3 - x ** 2 + 1, 0)]; CRootOf.real_roots(p) == [S(-1), S(-1), S(-1), S(-1) / 3]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_real_roots_correct","statement":"Path(test_CRootOf_real_roots(x), Poly(x ** 5 + x + 1).real_roots() == [rootof(x ** 3 - x ** 2 + 1, 0)]; Poly(x ** 5 + x + 1).real_roots(radicals=False) == [rootof(x ** 3 - x ** 2 + 1, 0)]; CRootOf.real_roots(p) == [S(-1), S(-1), S(-1), S(-1) / 3])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebca72a79910179f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Poly(x ** 5 + x + 1).real_roots() == [rootof(x ** 3 - x ** 2 + 1, 0)]","Poly(x ** 5 + x + 1).real_roots(radicals=False) == [rootof(x ** 3 - x ** 2 + 1, 0)]","CRootOf.real_roots(p) == [S(-1), S(-1), S(-1), S(-1) / 3]","Poly(x ** 3 + sqrt(2) * x ** 2 - 1, x, extension=True).real_roots() == [rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 0)]","Poly(x ** 5 + sqrt(2) * x ** 3 - 1, x, extension=True).real_roots() == [rootof(x ** 10 - 2 * x ** 6 - 2 * x ** 5 + 1, 0)]","Poly(x ** 5 + r * x - 1, x, extension=True).real_roots() == [rootof(x ** 25 - 5 * x ** 20 + x ** 17 + 10 * x ** 15 - 3 * x ** 12 - 10 * x ** 10 + 3 * x ** 7 + 6 * x ** 5 - x ** 2 - 1, 0)]","Poly((x - 1) * (x - sqrt(2)) ** 2, x, extension=True).real_roots() == [S(1), sqrt(2), sqrt(2)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_CRootOf_real_roots():
     assert Poly(x**5 + x + 1).real_roots() == [rootof(x**3 - x**2 + 1, 0)]
     assert Poly(x**5 + x + 1).real_roots(radicals=False) == [rootof(
@@ -498,16 +593,24 @@ def test_CRootOf_real_roots():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf_all_roots(), test_CRootOf_all_roots produces the expected output) over Any ║
+# ║ Path(test_CRootOf_all_roots(), Poly(x ** 5 + x + 1).all_roots() == [rootof(x ** 3 - x ** 2 + 1, 0), Rational(-1, 2) - sqrt(3) * I / 2, Rational(-1, 2) + sqrt(3) * I / 2, rootof(x ** 3 - x ** 2 + 1, 1), rootof(x ** 3 - x ** 2 + 1, 2)] and Poly(x ** 5 + x + 1).all_roots(radicals=False) == [rootof(x ** 3 - x ** 2 + 1, 0), rootof(x ** 2 + x + 1, 0, radicals=False), rootof(x ** 2 + x + 1, 1, radicals=False), rootof(x ** 3 - x ** 2 + 1, 1), rootof(x ** 3 - x ** 2 + 1, 2)] and Poly(x ** 3 + sqrt(2) * x ** 2 - 1, x, extension=True).all_roots() == [rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 0), rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 2), rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 3)] and Poly((x - 1) * (x - sqrt(2)) ** 2 * (x - I) * (x + I), x, extension=True).all_roots() == [S(1), sqrt(2), sqrt(2), -I, I] and Poly(x ** 2 - I / 2, x, extension=True).all_roots() == [S(1) / 2 + I / 2, -S(1) / 2 - I / 2]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf_all_roots : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Poly(x ** 5 + x + 1).all_roots() == [root...   ║
+# ║   ensures:  Poly(x ** 5 + x + 1).all_roots(radicals=F...   ║
+# ║   ensures:  Poly(x ** 3 + sqrt(2) * x ** 2 - 1, x, ex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf_all_roots : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68e36536a404d3e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c281f3b47bd04c68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_all_roots","kind":"function","src_hash":"81c42a0b849206bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_CRootOf_all_roots()","rhs":"test_CRootOf_all_roots produces the expected output","over":{"base":"Any"},"name":"test_CRootOf_all_roots_correct"},"guarantee":"test_CRootOf_all_roots produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_all_roots_correct","statement":"Path(test_CRootOf_all_roots(x), test_CRootOf_all_roots produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68e36536a404d3e6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_all_roots","kind":"function","src_hash":"81c42a0b849206bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Poly(x ** 5 + x + 1).all_roots() == [rootof(x ** 3 - x ** 2 + 1, 0), Rational(-1, 2) - sqrt(3) * I / 2, Rational(-1, 2) + sqrt(3) * I / 2, rootof(x ** 3 - x ** 2 + 1, 1), rootof(x ** 3 - x ** 2 + 1, 2)] and Poly(x ** 5 + x + 1).all_roots(radicals=False) == [rootof(x ** 3 - x ** 2 + 1, 0), rootof(x ** 2 + x + 1, 0, radicals=False), rootof(x ** 2 + x + 1, 1, radicals=False), rootof(x ** 3 - x ** 2 + 1, 1), rootof(x ** 3 - x ** 2 + 1, 2)] and Poly(x ** 3 + sqrt(2) * x ** 2 - 1, x, extension=True).all_roots() == [rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 0), rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 2), rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 3)] and Poly((x - 1) * (x - sqrt(2)) ** 2 * (x - I) * (x + I), x, extension=True).all_roots() == [S(1), sqrt(2), sqrt(2), -I, I] and Poly(x ** 2 - I / 2, x, extension=True).all_roots() == [S(1) / 2 + I / 2, -S(1) / 2 - I / 2]"},"spec":{"lhs":"test_CRootOf_all_roots()","rhs":"Poly(x ** 5 + x + 1).all_roots() == [rootof(x ** 3 - x ** 2 + 1, 0), Rational(-1, 2) - sqrt(3) * I / 2, Rational(-1, 2) + sqrt(3) * I / 2, rootof(x ** 3 - x ** 2 + 1, 1), rootof(x ** 3 - x ** 2 + 1, 2)] and Poly(x ** 5 + x + 1).all_roots(radicals=False) == [rootof(x ** 3 - x ** 2 + 1, 0), rootof(x ** 2 + x + 1, 0, radicals=False), rootof(x ** 2 + x + 1, 1, radicals=False), rootof(x ** 3 - x ** 2 + 1, 1), rootof(x ** 3 - x ** 2 + 1, 2)] and Poly(x ** 3 + sqrt(2) * x ** 2 - 1, x, extension=True).all_roots() == [rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 0), rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 2), rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 3)] and Poly((x - 1) * (x - sqrt(2)) ** 2 * (x - I) * (x + I), x, extension=True).all_roots() == [S(1), sqrt(2), sqrt(2), -I, I] and Poly(x ** 2 - I / 2, x, extension=True).all_roots() == [S(1) / 2 + I / 2, -S(1) / 2 - I / 2]","over":{"base":"Any"},"name":"test_CRootOf_all_roots_correct"},"guarantee":"Poly(x ** 5 + x + 1).all_roots() == [rootof(x ** 3 - x ** 2 + 1, 0), Rational(-1, 2) - sqrt(3) * I / 2, Rational(-1, 2) + sqrt(3) * I / 2, rootof(x ** 3 - x ** 2 + 1, 1), rootof(x ** 3 - x ** 2 + 1, 2)]; Poly(x ** 5 + x + 1).all_roots(radicals=False) == [rootof(x ** 3 - x ** 2 + 1, 0), rootof(x ** 2 + x + 1, 0, radicals=False), rootof(x ** 2 + x + 1, 1, radicals=False), rootof(x ** 3 - x ** 2 + 1, 1), rootof(x ** 3 - x ** 2 + 1, 2)]; Poly(x ** 3 + sqrt(2) * x ** 2 - 1, x, extension=True).all_roots() == [rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 0), rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 2), rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 3)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_all_roots_correct","statement":"Path(test_CRootOf_all_roots(x), Poly(x ** 5 + x + 1).all_roots() == [rootof(x ** 3 - x ** 2 + 1, 0), Rational(-1, 2) - sqrt(3) * I / 2, Rational(-1, 2) + sqrt(3) * I / 2, rootof(x ** 3 - x ** 2 + 1, 1), rootof(x ** 3 - x ** 2 + 1, 2)]; Poly(x ** 5 + x + 1).all_roots(radicals=False) == [rootof(x ** 3 - x ** 2 + 1, 0), rootof(x ** 2 + x + 1, 0, radicals=False), rootof(x ** 2 + x + 1, 1, radicals=False), rootof(x ** 3 - x ** 2 + 1, 1), rootof(x ** 3 - x ** 2 + 1, 2)]; Poly(x ** 3 + sqrt(2) * x ** 2 - 1, x, extension=True).all_roots() == [rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 0), rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 2), rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 3)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c281f3b47bd04c68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Poly(x ** 5 + x + 1).all_roots() == [rootof(x ** 3 - x ** 2 + 1, 0), Rational(-1, 2) - sqrt(3) * I / 2, Rational(-1, 2) + sqrt(3) * I / 2, rootof(x ** 3 - x ** 2 + 1, 1), rootof(x ** 3 - x ** 2 + 1, 2)]","Poly(x ** 5 + x + 1).all_roots(radicals=False) == [rootof(x ** 3 - x ** 2 + 1, 0), rootof(x ** 2 + x + 1, 0, radicals=False), rootof(x ** 2 + x + 1, 1, radicals=False), rootof(x ** 3 - x ** 2 + 1, 1), rootof(x ** 3 - x ** 2 + 1, 2)]","Poly(x ** 3 + sqrt(2) * x ** 2 - 1, x, extension=True).all_roots() == [rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 0), rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 2), rootof(x ** 6 - 2 * x ** 4 - 2 * x ** 3 + 1, 3)]","Poly((x - 1) * (x - sqrt(2)) ** 2 * (x - I) * (x + I), x, extension=True).all_roots() == [S(1), sqrt(2), sqrt(2), -I, I]","Poly(x ** 2 - I / 2, x, extension=True).all_roots() == [S(1) / 2 + I / 2, -S(1) / 2 - I / 2]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_CRootOf_all_roots():
     assert Poly(x**5 + x + 1).all_roots() == [
         rootof(x**3 - x**2 + 1, 0),
@@ -547,7 +650,10 @@ def test_CRootOf_all_roots():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf_eval_rational(), test_CRootOf_eval_rational produces the expected output) over {Any | isinstance(root, Rational)} ║
+# ║ Path(test_CRootOf_eval_rational(), roots == ['-0.86113631159405258', '-0.33998104358485626', '0.33998104358485626', '0.86113631159405258']) over {Any | isinstance(root, Rational)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  roots == ['-0.86113631159405258', '-0.339...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_CRootOf_eval_rational : {Any | isinstance(root, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -559,9 +665,12 @@ def test_CRootOf_all_roots():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d245ddac...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_eval_rational","kind":"function","src_hash":"03fe58b0741f286e","in":{"base":"Any","pred":"isinstance(root, Rational)"},"out":{"base":"Any","pred":"isinstance(root, Rational)"},"spec":{"lhs":"test_CRootOf_eval_rational()","rhs":"test_CRootOf_eval_rational produces the expected output","over":{"base":"Any","pred":"isinstance(root, Rational)"},"name":"test_CRootOf_eval_rational_correct"},"guarantee":"test_CRootOf_eval_rational produces the expected output","fibers":[{"name":"Rational","pred":"isinstance(root, Rational)","path":{"lhs":"test_CRootOf_eval_rational(x)","rhs":"test_CRootOf_eval_rational produces the expected output","over":{"base":"Rational","pred":"isinstance(root, Rational)"},"name":"test_CRootOf_eval_rational_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_eval_rational_Rational_correct","statement":"test_CRootOf_eval_rational satisfies spec on Rational inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d245ddac874d7ad1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_eval_rational","kind":"function","src_hash":"03fe58b0741f286e","in":{"base":"Any","pred":"isinstance(root, Rational)"},"out":{"base":"Any","pred":"result satisfies: roots == ['-0.86113631159405258', '-0.33998104358485626', '0.33998104358485626', '0.86113631159405258']"},"spec":{"lhs":"test_CRootOf_eval_rational()","rhs":"roots == ['-0.86113631159405258', '-0.33998104358485626', '0.33998104358485626', '0.86113631159405258']","over":{"base":"Any","pred":"isinstance(root, Rational)"},"name":"test_CRootOf_eval_rational_correct"},"guarantee":"roots == ['-0.86113631159405258', '-0.33998104358485626', '0.33998104358485626', '0.86113631159405258']","fibers":[{"name":"Rational","pred":"isinstance(root, Rational)","path":{"lhs":"test_CRootOf_eval_rational(x)","rhs":"roots == ['-0.86113631159405258', '-0.33998104358485626', '0.33998104358485626', '0.86113631159405258']","over":{"base":"Rational","pred":"isinstance(root, Rational)"},"name":"test_CRootOf_eval_rational_Rational_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_eval_rational_Rational_correct","statement":"test_CRootOf_eval_rational satisfies spec on Rational inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d245ddac874d7ad1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["roots == ['-0.86113631159405258', '-0.33998104358485626', '0.33998104358485626', '0.86113631159405258']"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":true}}
 def test_CRootOf_eval_rational():
     p = legendre_poly(4, x, polys=True)
     roots = [r.eval_rational(n=18) for r in p.real_roots()]
@@ -577,16 +686,24 @@ def test_CRootOf_eval_rational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CRootOf_lazy(), test_CRootOf_lazy produces the expected output) over Any ║
+# ║ Path(test_CRootOf_lazy(), r.poly not in rootoftools._reals_cache and r.poly not in rootoftools._complexes_cache and r.poly in rootoftools._reals_cache and r.poly in rootoftools._complexes_cache) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CRootOf_lazy : Any → {Any | r.poly not in rootof...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r.poly not in rootoftools._reals_cache         ║
+# ║   ensures:  r.poly not in rootoftools._complexes_cache     ║
+# ║   ensures:  r.poly in rootoftools._reals_cache             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CRootOf_lazy : Any → {Any | result satisfies: r....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30e495562058b068  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37dac57049d0977e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_lazy","kind":"function","src_hash":"f5fa866ba9c85d89","in":{"base":"Any"},"out":{"base":"Any","pred":"r.poly not in rootoftools._reals_cache and r.poly not in rootoftools._complexes_cache and r.poly in rootoftools._reals_cache and r.poly not in rootoftools._complexes_cache and r.poly not in rootoftools._reals_cache and r.poly not in rootoftools._complexes_cache and r.poly in rootoftools._reals_cache and r.poly in rootoftools._complexes_cache and r.poly in rootoftools._reals_cache and r.poly not in rootoftools._complexes_cache and r.poly in rootoftools._reals_cache and r.poly in rootoftools._complexes_cache"},"spec":{"lhs":"test_CRootOf_lazy()","rhs":"test_CRootOf_lazy produces the expected output","over":{"base":"Any"},"name":"test_CRootOf_lazy_correct"},"guarantee":"test_CRootOf_lazy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_lazy_correct","statement":"Path(test_CRootOf_lazy(x), test_CRootOf_lazy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30e495562058b068"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_CRootOf_lazy","kind":"function","src_hash":"f5fa866ba9c85d89","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r.poly not in rootoftools._reals_cache and r.poly not in rootoftools._complexes_cache and r.poly in rootoftools._reals_cache and r.poly in rootoftools._complexes_cache"},"spec":{"lhs":"test_CRootOf_lazy()","rhs":"r.poly not in rootoftools._reals_cache and r.poly not in rootoftools._complexes_cache and r.poly in rootoftools._reals_cache and r.poly in rootoftools._complexes_cache","over":{"base":"Any"},"name":"test_CRootOf_lazy_correct"},"guarantee":"r.poly not in rootoftools._reals_cache; r.poly not in rootoftools._complexes_cache; r.poly in rootoftools._reals_cache","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_CRootOf_lazy_correct","statement":"Path(test_CRootOf_lazy(x), r.poly not in rootoftools._reals_cache; r.poly not in rootoftools._complexes_cache; r.poly in rootoftools._reals_cache)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37dac57049d0977e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r.poly not in rootoftools._reals_cache","r.poly not in rootoftools._complexes_cache","r.poly in rootoftools._reals_cache","r.poly in rootoftools._complexes_cache"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_CRootOf_lazy():
     # irreducible poly with both real and complex roots:
     f = Poly(x**3 + 2*x + 2)
@@ -632,7 +749,12 @@ def test_CRootOf_lazy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RootSum___new__(), test_RootSum___new__ produces the expected output) over {Any | isinstance(s, RootSum)} ║
+# ║ Path(test_RootSum___new__(), isinstance(s, RootSum) is True and RootSum(f ** 2, g) == 2 * RootSum(f, g) and RootSum((x - 7) * f ** 3, g) == log(7 * x) + 3 * RootSum(f, g) and hash(RootSum((x - 7) * f ** 3, g)) == hash(log(7 * x) + 3 * RootSum(f, g)) and RootSum(f, exp) == RootSum(f, Lambda(x, exp(x))) and RootSum(f, log) == RootSum(f, Lambda(x, log(x))) and isinstance(RootSum(f, auto=False), RootSum) is True and RootSum(f) == 0 and RootSum(f, Lambda(x, x)) == 0 and RootSum(f, Lambda(x, x ** 2)) == -2 and RootSum(f, Lambda(x, 1)) == 3 and RootSum(f, Lambda(x, 2)) == 6 and RootSum(f, auto=False).is_commutative is True and RootSum(f, Lambda(x, 1 / (x + x ** 2))) == Rational(11, 3) and RootSum(f, Lambda(x, y / (x + x ** 2))) == Rational(11, 3) * y and RootSum(x ** 2 - 1, Lambda(x, 3 * x ** 2), x) == 6 and RootSum(x ** 2 - y, Lambda(x, 3 * x ** 2), x) == 6 * y and RootSum(x ** 2 - 1, Lambda(x, z * x ** 2), x) == 2 * z and RootSum(x ** 2 - y, Lambda(x, z * x ** 2), x) == 2 * z * y and RootSum(x ** 2 - 1, Lambda(x, exp(x)), quadratic=True) == exp(-1) + exp(1) and RootSum(x ** 3 + a * x + a ** 3, tan, x) == RootSum(x ** 3 + x + 1, Lambda(x, tan(a * x))) and RootSum(a ** 3 * x ** 3 + a * x + 1, tan, x) == RootSum(x ** 3 + x + 1, Lambda(x, tan(x / a)))) over {Any | isinstance(s, RootSum)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(s, RootSum) is True                 ║
+# ║   ensures:  RootSum(f ** 2, g) == 2 * RootSum(f, g)        ║
+# ║   ensures:  RootSum((x - 7) * f ** 3, g) == log(7 * x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_RootSum___new__ : {Any | isinstance(s, RootSum)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -644,9 +766,12 @@ def test_CRootOf_lazy():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d125f1f5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum___new__","kind":"function","src_hash":"4f5902b5d9deb354","in":{"base":"Any","pred":"isinstance(s, RootSum)"},"out":{"base":"Any","pred":"isinstance(s, RootSum) is True and RootSum(f ** 2, g) == 2 * RootSum(f, g) and RootSum((x - 7) * f ** 3, g) == log(7 * x) + 3 * RootSum(f, g) and hash(RootSum((x - 7) * f ** 3, g)) == hash(log(7 * x) + 3 * RootSum(f, g)) and RootSum(f, exp) == RootSum(f, Lambda(x, exp(x))) and RootSum(f, log) == RootSum(f, Lambda(x, log(x))) and isinstance(RootSum(f, auto=False), RootSum) is True and RootSum(f) == 0 and RootSum(f, Lambda(x, x)) == 0 and RootSum(f, Lambda(x, x ** 2)) == -2 and RootSum(f, Lambda(x, 1)) == 3 and RootSum(f, Lambda(x, 2)) == 6 and RootSum(f, auto=False).is_commutative is True and RootSum(f, Lambda(x, 1 / (x + x ** 2))) == Rational(11, 3) and RootSum(f, Lambda(x, y / (x + x ** 2))) == Rational(11, 3) * y and RootSum(x ** 2 - 1, Lambda(x, 3 * x ** 2), x) == 6 and RootSum(x ** 2 - y, Lambda(x, 3 * x ** 2), x) == 6 * y and RootSum(x ** 2 - 1, Lambda(x, z * x ** 2), x) == 2 * z and RootSum(x ** 2 - y, Lambda(x, z * x ** 2), x) == 2 * z * y and RootSum(x ** 2 - 1, Lambda(x, exp(x)), quadratic=True) == exp(-1) + exp(1)"},"spec":{"lhs":"test_RootSum___new__()","rhs":"test_RootSum___new__ produces the expected output","over":{"base":"Any","pred":"isinstance(s, RootSum)"},"name":"test_RootSum___new___correct"},"guarantee":"test_RootSum___new__ produces the expected output","fibers":[{"name":"RootSum","pred":"isinstance(s, RootSum)","path":{"lhs":"test_RootSum___new__(x)","rhs":"test_RootSum___new__ produces the expected output","over":{"base":"RootSum","pred":"isinstance(s, RootSum)"},"name":"test_RootSum___new___RootSum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum___new___RootSum_correct","statement":"test_RootSum___new__ satisfies spec on RootSum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d125f1f5393c5d60"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum___new__","kind":"function","src_hash":"4f5902b5d9deb354","in":{"base":"Any","pred":"isinstance(s, RootSum)"},"out":{"base":"Any","pred":"result satisfies: isinstance(s, RootSum) is True and RootSum(f ** 2, g) == 2 * RootSum(f, g) and RootSum((x - 7) * f ** 3, g) == log(7 * x) + 3 * RootSum(f, g) and hash(RootSum((x - 7) * f ** 3, g)) == hash(log(7 * x) + 3 * RootSum(f, g)) and RootSum(f, exp) == RootSum(f, Lambda(x, exp(x))) and RootSum(f, log) == RootSum(f, Lambda(x, log(x))) and isinstance(RootSum(f, auto=False), RootSum) is True and RootSum(f) == 0 and RootSum(f, Lambda(x, x)) == 0 and RootSum(f, Lambda(x, x ** 2)) == -2 and RootSum(f, Lambda(x, 1)) == 3 and RootSum(f, Lambda(x, 2)) == 6 and RootSum(f, auto=False).is_commutative is True and RootSum(f, Lambda(x, 1 / (x + x ** 2))) == Rational(11, 3) and RootSum(f, Lambda(x, y / (x + x ** 2))) == Rational(11, 3) * y and RootSum(x ** 2 - 1, Lambda(x, 3 * x ** 2), x) == 6 and RootSum(x ** 2 - y, Lambda(x, 3 * x ** 2), x) == 6 * y and RootSum(x ** 2 - 1, Lambda(x, z * x ** 2), x) == 2 * z and RootSum(x ** 2 - y, Lambda(x, z * x ** 2), x) == 2 * z * y and RootSum(x ** 2 - 1, Lambda(x, exp(x)), quadratic=True) == exp(-1) + exp(1) and RootSum(x ** 3 + a * x + a ** 3, tan, x) == RootSum(x ** 3 + x + 1, Lambda(x, tan(a * x))) and RootSum(a ** 3 * x ** 3 + a * x + 1, tan, x) == RootSum(x ** 3 + x + 1, Lambda(x, tan(x / a)))"},"spec":{"lhs":"test_RootSum___new__()","rhs":"isinstance(s, RootSum) is True and RootSum(f ** 2, g) == 2 * RootSum(f, g) and RootSum((x - 7) * f ** 3, g) == log(7 * x) + 3 * RootSum(f, g) and hash(RootSum((x - 7) * f ** 3, g)) == hash(log(7 * x) + 3 * RootSum(f, g)) and RootSum(f, exp) == RootSum(f, Lambda(x, exp(x))) and RootSum(f, log) == RootSum(f, Lambda(x, log(x))) and isinstance(RootSum(f, auto=False), RootSum) is True and RootSum(f) == 0 and RootSum(f, Lambda(x, x)) == 0 and RootSum(f, Lambda(x, x ** 2)) == -2 and RootSum(f, Lambda(x, 1)) == 3 and RootSum(f, Lambda(x, 2)) == 6 and RootSum(f, auto=False).is_commutative is True and RootSum(f, Lambda(x, 1 / (x + x ** 2))) == Rational(11, 3) and RootSum(f, Lambda(x, y / (x + x ** 2))) == Rational(11, 3) * y and RootSum(x ** 2 - 1, Lambda(x, 3 * x ** 2), x) == 6 and RootSum(x ** 2 - y, Lambda(x, 3 * x ** 2), x) == 6 * y and RootSum(x ** 2 - 1, Lambda(x, z * x ** 2), x) == 2 * z and RootSum(x ** 2 - y, Lambda(x, z * x ** 2), x) == 2 * z * y and RootSum(x ** 2 - 1, Lambda(x, exp(x)), quadratic=True) == exp(-1) + exp(1) and RootSum(x ** 3 + a * x + a ** 3, tan, x) == RootSum(x ** 3 + x + 1, Lambda(x, tan(a * x))) and RootSum(a ** 3 * x ** 3 + a * x + 1, tan, x) == RootSum(x ** 3 + x + 1, Lambda(x, tan(x / a)))","over":{"base":"Any","pred":"isinstance(s, RootSum)"},"name":"test_RootSum___new___correct"},"guarantee":"isinstance(s, RootSum) is True; RootSum(f ** 2, g) == 2 * RootSum(f, g); RootSum((x - 7) * f ** 3, g) == log(7 * x) + 3 * RootSum(f, g)","fibers":[{"name":"RootSum","pred":"isinstance(s, RootSum)","path":{"lhs":"test_RootSum___new__(x)","rhs":"isinstance(s, RootSum) is True; RootSum(f ** 2, g) == 2 * RootSum(f, g); RootSum((x - 7) * f ** 3, g) == log(7 * x) + 3 * RootSum(f, g)","over":{"base":"RootSum","pred":"isinstance(s, RootSum)"},"name":"test_RootSum___new___RootSum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum___new___RootSum_correct","statement":"test_RootSum___new__ satisfies spec on RootSum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d125f1f5393c5d60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(s, RootSum) is True","RootSum(f ** 2, g) == 2 * RootSum(f, g)","RootSum((x - 7) * f ** 3, g) == log(7 * x) + 3 * RootSum(f, g)","hash(RootSum((x - 7) * f ** 3, g)) == hash(log(7 * x) + 3 * RootSum(f, g))","RootSum(f, exp) == RootSum(f, Lambda(x, exp(x)))","RootSum(f, log) == RootSum(f, Lambda(x, log(x)))","isinstance(RootSum(f, auto=False), RootSum) is True","RootSum(f) == 0","RootSum(f, Lambda(x, x)) == 0","RootSum(f, Lambda(x, x ** 2)) == -2","RootSum(f, Lambda(x, 1)) == 3","RootSum(f, Lambda(x, 2)) == 6","RootSum(f, auto=False).is_commutative is True","RootSum(f, Lambda(x, 1 / (x + x ** 2))) == Rational(11, 3)","RootSum(f, Lambda(x, y / (x + x ** 2))) == Rational(11, 3) * y","RootSum(x ** 2 - 1, Lambda(x, 3 * x ** 2), x) == 6","RootSum(x ** 2 - y, Lambda(x, 3 * x ** 2), x) == 6 * y","RootSum(x ** 2 - 1, Lambda(x, z * x ** 2), x) == 2 * z","RootSum(x ** 2 - y, Lambda(x, z * x ** 2), x) == 2 * z * y","RootSum(x ** 2 - 1, Lambda(x, exp(x)), quadratic=True) == exp(-1) + exp(1)","RootSum(x ** 3 + a * x + a ** 3, tan, x) == RootSum(x ** 3 + x + 1, Lambda(x, tan(a * x)))","RootSum(a ** 3 * x ** 3 + a * x + 1, tan, x) == RootSum(x ** 3 + x + 1, Lambda(x, tan(x / a)))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":true}}
 def test_RootSum___new__():
     f = x**3 + x + 3
 
@@ -697,16 +822,24 @@ def test_RootSum___new__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RootSum_free_symbols(), test_RootSum_free_symbols produces the expected output) over Any ║
+# ║ Path(test_RootSum_free_symbols(), RootSum(x ** 3 + x + 3, Lambda(r, exp(r))).free_symbols == set() and RootSum(x ** 3 + x + 3, Lambda(r, exp(a * r))).free_symbols == {a} and RootSum(x ** 3 + x + y, Lambda(r, exp(a * r)), x).free_symbols == {a, y}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RootSum_free_symbols : Any → {Any | RootSum(x **...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  RootSum(x ** 3 + x + 3, Lambda(r, exp(r))...   ║
+# ║   ensures:  RootSum(x ** 3 + x + 3, Lambda(r, exp(a *...   ║
+# ║   ensures:  RootSum(x ** 3 + x + y, Lambda(r, exp(a *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RootSum_free_symbols : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2c35f1f529dcaaa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2c6fb04629b4aee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_free_symbols","kind":"function","src_hash":"3949f38fea82e8a9","in":{"base":"Any"},"out":{"base":"Any","pred":"RootSum(x ** 3 + x + 3, Lambda(r, exp(r))).free_symbols == set() and RootSum(x ** 3 + x + 3, Lambda(r, exp(a * r))).free_symbols == {a} and RootSum(x ** 3 + x + y, Lambda(r, exp(a * r)), x).free_symbols == {a, y}"},"spec":{"lhs":"test_RootSum_free_symbols()","rhs":"test_RootSum_free_symbols produces the expected output","over":{"base":"Any"},"name":"test_RootSum_free_symbols_correct"},"guarantee":"test_RootSum_free_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_free_symbols_correct","statement":"Path(test_RootSum_free_symbols(x), test_RootSum_free_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2c35f1f529dcaaa"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_free_symbols","kind":"function","src_hash":"3949f38fea82e8a9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: RootSum(x ** 3 + x + 3, Lambda(r, exp(r))).free_symbols == set() and RootSum(x ** 3 + x + 3, Lambda(r, exp(a * r))).free_symbols == {a} and RootSum(x ** 3 + x + y, Lambda(r, exp(a * r)), x).free_symbols == {a, y}"},"spec":{"lhs":"test_RootSum_free_symbols()","rhs":"RootSum(x ** 3 + x + 3, Lambda(r, exp(r))).free_symbols == set() and RootSum(x ** 3 + x + 3, Lambda(r, exp(a * r))).free_symbols == {a} and RootSum(x ** 3 + x + y, Lambda(r, exp(a * r)), x).free_symbols == {a, y}","over":{"base":"Any"},"name":"test_RootSum_free_symbols_correct"},"guarantee":"RootSum(x ** 3 + x + 3, Lambda(r, exp(r))).free_symbols == set(); RootSum(x ** 3 + x + 3, Lambda(r, exp(a * r))).free_symbols == {a}; RootSum(x ** 3 + x + y, Lambda(r, exp(a * r)), x).free_symbols == {a, y}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_free_symbols_correct","statement":"Path(test_RootSum_free_symbols(x), RootSum(x ** 3 + x + 3, Lambda(r, exp(r))).free_symbols == set(); RootSum(x ** 3 + x + 3, Lambda(r, exp(a * r))).free_symbols == {a}; RootSum(x ** 3 + x + y, Lambda(r, exp(a * r)), x).free_symbols == {a, y})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2c6fb04629b4aee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["RootSum(x ** 3 + x + 3, Lambda(r, exp(r))).free_symbols == set()","RootSum(x ** 3 + x + 3, Lambda(r, exp(a * r))).free_symbols == {a}","RootSum(x ** 3 + x + y, Lambda(r, exp(a * r)), x).free_symbols == {a, y}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RootSum_free_symbols():
     assert RootSum(x**3 + x + 3, Lambda(r, exp(r))).free_symbols == set()
     assert RootSum(x**3 + x + 3, Lambda(r, exp(a*r))).free_symbols == {a}
@@ -715,16 +848,24 @@ def test_RootSum_free_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RootSum___eq__(), test_RootSum___eq__ produces the expected output) over Any ║
+# ║ Path(test_RootSum___eq__(), (RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 1, f)) is True and (RootSum(x ** 3 + x + 1, f) == RootSum(y ** 3 + y + 1, f)) is True and (RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 2, f)) is False and (RootSum(x ** 3 + x + 1, f) == RootSum(y ** 3 + y + 2, f)) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RootSum___eq__ : Any → {Any | (RootSum(x ** 3 + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (RootSum(x ** 3 + x + 1, f) == RootSum(x ...   ║
+# ║   ensures:  (RootSum(x ** 3 + x + 1, f) == RootSum(y ...   ║
+# ║   ensures:  (RootSum(x ** 3 + x + 1, f) == RootSum(x ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RootSum___eq__ : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f2e457ec19cdeed  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08ff15e2391a6025  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum___eq__","kind":"function","src_hash":"342561cefbb32d99","in":{"base":"Any"},"out":{"base":"Any","pred":"(RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 1, f)) is True and (RootSum(x ** 3 + x + 1, f) == RootSum(y ** 3 + y + 1, f)) is True and (RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 2, f)) is False and (RootSum(x ** 3 + x + 1, f) == RootSum(y ** 3 + y + 2, f)) is False"},"spec":{"lhs":"test_RootSum___eq__()","rhs":"test_RootSum___eq__ produces the expected output","over":{"base":"Any"},"name":"test_RootSum___eq___correct"},"guarantee":"test_RootSum___eq__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum___eq___correct","statement":"Path(test_RootSum___eq__(x), test_RootSum___eq__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f2e457ec19cdeed"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum___eq__","kind":"function","src_hash":"342561cefbb32d99","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 1, f)) is True and (RootSum(x ** 3 + x + 1, f) == RootSum(y ** 3 + y + 1, f)) is True and (RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 2, f)) is False and (RootSum(x ** 3 + x + 1, f) == RootSum(y ** 3 + y + 2, f)) is False"},"spec":{"lhs":"test_RootSum___eq__()","rhs":"(RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 1, f)) is True and (RootSum(x ** 3 + x + 1, f) == RootSum(y ** 3 + y + 1, f)) is True and (RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 2, f)) is False and (RootSum(x ** 3 + x + 1, f) == RootSum(y ** 3 + y + 2, f)) is False","over":{"base":"Any"},"name":"test_RootSum___eq___correct"},"guarantee":"(RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 1, f)) is True; (RootSum(x ** 3 + x + 1, f) == RootSum(y ** 3 + y + 1, f)) is True; (RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 2, f)) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum___eq___correct","statement":"Path(test_RootSum___eq__(x), (RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 1, f)) is True; (RootSum(x ** 3 + x + 1, f) == RootSum(y ** 3 + y + 1, f)) is True; (RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 2, f)) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08ff15e2391a6025","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 1, f)) is True","(RootSum(x ** 3 + x + 1, f) == RootSum(y ** 3 + y + 1, f)) is True","(RootSum(x ** 3 + x + 1, f) == RootSum(x ** 3 + x + 2, f)) is False","(RootSum(x ** 3 + x + 1, f) == RootSum(y ** 3 + y + 2, f)) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_RootSum___eq__():
     f = Lambda(x, exp(x))
 
@@ -736,7 +877,12 @@ def test_RootSum___eq__():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RootSum_doit(), test_RootSum_doit produces the expected output) over {Any | isinstance(rs, RootSum)} ║
+# ║ Path(test_RootSum_doit(), isinstance(rs, RootSum) is True and rs.doit() == exp(-I) + exp(I) and rs.doit() == exp(-sqrt(-a)) + exp(sqrt(-a))) over {Any | isinstance(rs, RootSum)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(rs, RootSum) is True                ║
+# ║   ensures:  rs.doit() == exp(-I) + exp(I)                  ║
+# ║   ensures:  rs.doit() == exp(-sqrt(-a)) + exp(sqrt(-a))    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_RootSum_doit : {Any | isinstance(rs, RootSum)} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -748,9 +894,12 @@ def test_RootSum___eq__():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7cae3808...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_doit","kind":"function","src_hash":"741dd231f0e355f6","in":{"base":"Any","pred":"isinstance(rs, RootSum)"},"out":{"base":"Any","pred":"isinstance(rs, RootSum) is True and rs.doit() == exp(-I) + exp(I) and isinstance(rs, RootSum) is True and rs.doit() == exp(-sqrt(-a)) + exp(sqrt(-a))"},"spec":{"lhs":"test_RootSum_doit()","rhs":"test_RootSum_doit produces the expected output","over":{"base":"Any","pred":"isinstance(rs, RootSum)"},"name":"test_RootSum_doit_correct"},"guarantee":"test_RootSum_doit produces the expected output","fibers":[{"name":"RootSum","pred":"isinstance(rs, RootSum)","path":{"lhs":"test_RootSum_doit(x)","rhs":"test_RootSum_doit produces the expected output","over":{"base":"RootSum","pred":"isinstance(rs, RootSum)"},"name":"test_RootSum_doit_RootSum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_doit_RootSum_correct","statement":"test_RootSum_doit satisfies spec on RootSum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7cae38082f7b20bf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_doit","kind":"function","src_hash":"741dd231f0e355f6","in":{"base":"Any","pred":"isinstance(rs, RootSum)"},"out":{"base":"Any","pred":"result satisfies: isinstance(rs, RootSum) is True and rs.doit() == exp(-I) + exp(I) and rs.doit() == exp(-sqrt(-a)) + exp(sqrt(-a))"},"spec":{"lhs":"test_RootSum_doit()","rhs":"isinstance(rs, RootSum) is True and rs.doit() == exp(-I) + exp(I) and rs.doit() == exp(-sqrt(-a)) + exp(sqrt(-a))","over":{"base":"Any","pred":"isinstance(rs, RootSum)"},"name":"test_RootSum_doit_correct"},"guarantee":"isinstance(rs, RootSum) is True; rs.doit() == exp(-I) + exp(I); rs.doit() == exp(-sqrt(-a)) + exp(sqrt(-a))","fibers":[{"name":"RootSum","pred":"isinstance(rs, RootSum)","path":{"lhs":"test_RootSum_doit(x)","rhs":"isinstance(rs, RootSum) is True; rs.doit() == exp(-I) + exp(I); rs.doit() == exp(-sqrt(-a)) + exp(sqrt(-a))","over":{"base":"RootSum","pred":"isinstance(rs, RootSum)"},"name":"test_RootSum_doit_RootSum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_doit_RootSum_correct","statement":"test_RootSum_doit satisfies spec on RootSum inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7cae38082f7b20bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(rs, RootSum) is True","rs.doit() == exp(-I) + exp(I)","rs.doit() == exp(-sqrt(-a)) + exp(sqrt(-a))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":true}}
 def test_RootSum_doit():
     rs = RootSum(x**2 + 1, exp)
 
@@ -764,16 +913,24 @@ def test_RootSum_doit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RootSum_evalf(), test_RootSum_evalf produces the expected output) over Any ║
+# ║ Path(test_RootSum_evalf(), rs.evalf(n=20, chop=True).epsilon_eq(Float('1.0806046117362794348')) and rs.evalf(n=15, chop=True).epsilon_eq(Float('1.08060461173628')) and rs.evalf() == rs) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RootSum_evalf : Any → {Any | rs.evalf(n=20, chop...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rs.evalf(n=20, chop=True).epsilon_eq(Floa...   ║
+# ║   ensures:  rs.evalf(n=15, chop=True).epsilon_eq(Floa...   ║
+# ║   ensures:  rs.evalf() == rs                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RootSum_evalf : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fd58f28ec9b87cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6242ecdeabad89b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_evalf","kind":"function","src_hash":"08dd6f0dba5fef55","in":{"base":"Any"},"out":{"base":"Any","pred":"rs.evalf(n=20, chop=True).epsilon_eq(Float('1.0806046117362794348')) and rs.evalf(n=15, chop=True).epsilon_eq(Float('1.08060461173628')) and rs.evalf() == rs"},"spec":{"lhs":"test_RootSum_evalf()","rhs":"test_RootSum_evalf produces the expected output","over":{"base":"Any"},"name":"test_RootSum_evalf_correct"},"guarantee":"test_RootSum_evalf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_evalf_correct","statement":"Path(test_RootSum_evalf(x), test_RootSum_evalf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fd58f28ec9b87cc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_evalf","kind":"function","src_hash":"08dd6f0dba5fef55","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rs.evalf(n=20, chop=True).epsilon_eq(Float('1.0806046117362794348')) and rs.evalf(n=15, chop=True).epsilon_eq(Float('1.08060461173628')) and rs.evalf() == rs"},"spec":{"lhs":"test_RootSum_evalf()","rhs":"rs.evalf(n=20, chop=True).epsilon_eq(Float('1.0806046117362794348')) and rs.evalf(n=15, chop=True).epsilon_eq(Float('1.08060461173628')) and rs.evalf() == rs","over":{"base":"Any"},"name":"test_RootSum_evalf_correct"},"guarantee":"rs.evalf(n=20, chop=True).epsilon_eq(Float('1.0806046117362794348')); rs.evalf(n=15, chop=True).epsilon_eq(Float('1.08060461173628')); rs.evalf() == rs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_evalf_correct","statement":"Path(test_RootSum_evalf(x), rs.evalf(n=20, chop=True).epsilon_eq(Float('1.0806046117362794348')); rs.evalf(n=15, chop=True).epsilon_eq(Float('1.08060461173628')); rs.evalf() == rs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6242ecdeabad89b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rs.evalf(n=20, chop=True).epsilon_eq(Float('1.0806046117362794348'))","rs.evalf(n=15, chop=True).epsilon_eq(Float('1.08060461173628'))","rs.evalf() == rs"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RootSum_evalf():
     rs = RootSum(x**2 + 1, exp)
 
@@ -786,16 +943,22 @@ def test_RootSum_evalf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RootSum_diff(), test_RootSum_diff produces the expected output) over Any ║
+# ║ Path(test_RootSum_diff(), RootSum(f, g).diff(x) == RootSum(f, h)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RootSum_diff : Any → {Any | RootSum(f, g).diff(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  RootSum(f, g).diff(x) == RootSum(f, h)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RootSum_diff : Any → {Any | result satisfies: Ro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcb084fefaaa17e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f48b88fbe596b7a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_diff","kind":"function","src_hash":"764f0334aa4f11c9","in":{"base":"Any"},"out":{"base":"Any","pred":"RootSum(f, g).diff(x) == RootSum(f, h)"},"spec":{"lhs":"test_RootSum_diff()","rhs":"test_RootSum_diff produces the expected output","over":{"base":"Any"},"name":"test_RootSum_diff_correct"},"guarantee":"test_RootSum_diff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_diff_correct","statement":"Path(test_RootSum_diff(x), test_RootSum_diff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcb084fefaaa17e1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_diff","kind":"function","src_hash":"764f0334aa4f11c9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: RootSum(f, g).diff(x) == RootSum(f, h)"},"spec":{"lhs":"test_RootSum_diff()","rhs":"RootSum(f, g).diff(x) == RootSum(f, h)","over":{"base":"Any"},"name":"test_RootSum_diff_correct"},"guarantee":"RootSum(f, g).diff(x) == RootSum(f, h)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_diff_correct","statement":"Path(test_RootSum_diff(x), RootSum(f, g).diff(x) == RootSum(f, h))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f48b88fbe596b7a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["RootSum(f, g).diff(x) == RootSum(f, h)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RootSum_diff():
     f = x**3 + x + 3
 
@@ -806,16 +969,23 @@ def test_RootSum_diff():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RootSum_subs(), test_RootSum_subs produces the expected output) over Any ║
+# ║ Path(test_RootSum_subs(), RootSum(f, g).subs(y, 1) == RootSum(f, g) and RootSum(f, g).subs(x, y) == RootSum(F, G)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RootSum_subs : Any → {Any | RootSum(f, g).subs(y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  RootSum(f, g).subs(y, 1) == RootSum(f, g)      ║
+# ║   ensures:  RootSum(f, g).subs(x, y) == RootSum(F, G)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RootSum_subs : Any → {Any | result satisfies: Ro...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 003cef870ab8a456  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bfe4d809b65ccde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_subs","kind":"function","src_hash":"f49414162061bcde","in":{"base":"Any"},"out":{"base":"Any","pred":"RootSum(f, g).subs(y, 1) == RootSum(f, g) and RootSum(f, g).subs(x, y) == RootSum(F, G)"},"spec":{"lhs":"test_RootSum_subs()","rhs":"test_RootSum_subs produces the expected output","over":{"base":"Any"},"name":"test_RootSum_subs_correct"},"guarantee":"test_RootSum_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_subs_correct","statement":"Path(test_RootSum_subs(x), test_RootSum_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"003cef870ab8a456"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_subs","kind":"function","src_hash":"f49414162061bcde","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: RootSum(f, g).subs(y, 1) == RootSum(f, g) and RootSum(f, g).subs(x, y) == RootSum(F, G)"},"spec":{"lhs":"test_RootSum_subs()","rhs":"RootSum(f, g).subs(y, 1) == RootSum(f, g) and RootSum(f, g).subs(x, y) == RootSum(F, G)","over":{"base":"Any"},"name":"test_RootSum_subs_correct"},"guarantee":"RootSum(f, g).subs(y, 1) == RootSum(f, g); RootSum(f, g).subs(x, y) == RootSum(F, G)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_subs_correct","statement":"Path(test_RootSum_subs(x), RootSum(f, g).subs(y, 1) == RootSum(f, g); RootSum(f, g).subs(x, y) == RootSum(F, G))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bfe4d809b65ccde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["RootSum(f, g).subs(y, 1) == RootSum(f, g)","RootSum(f, g).subs(x, y) == RootSum(F, G)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RootSum_subs():
     f = x**3 + x + 3
     g = Lambda(r, exp(r*x))
@@ -828,16 +998,23 @@ def test_RootSum_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RootSum_rational(), test_RootSum_rational produces the expected output) over Any ║
+# ║ Path(test_RootSum_rational(), RootSum(z ** 5 - z + 1, Lambda(z, z / (x - z))) == (4 * x - 5) / (x ** 5 - x + 1) and RootSum(f, g).diff(x) == -((5 * exp(2 * x) - 6 * exp(x) + 4) * exp(x) / (exp(3 * x) - exp(2 * x) + 1)) / 7) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RootSum_rational : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  RootSum(z ** 5 - z + 1, Lambda(z, z / (x ...   ║
+# ║   ensures:  RootSum(f, g).diff(x) == -((5 * exp(2 * x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RootSum_rational : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 62fd79c1b72456bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6e360b18cb4dbbc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_rational","kind":"function","src_hash":"cbae00c7c88336ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_RootSum_rational()","rhs":"test_RootSum_rational produces the expected output","over":{"base":"Any"},"name":"test_RootSum_rational_correct"},"guarantee":"test_RootSum_rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_rational_correct","statement":"Path(test_RootSum_rational(x), test_RootSum_rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"62fd79c1b72456bf"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_rational","kind":"function","src_hash":"cbae00c7c88336ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: RootSum(z ** 5 - z + 1, Lambda(z, z / (x - z))) == (4 * x - 5) / (x ** 5 - x + 1) and RootSum(f, g).diff(x) == -((5 * exp(2 * x) - 6 * exp(x) + 4) * exp(x) / (exp(3 * x) - exp(2 * x) + 1)) / 7"},"spec":{"lhs":"test_RootSum_rational()","rhs":"RootSum(z ** 5 - z + 1, Lambda(z, z / (x - z))) == (4 * x - 5) / (x ** 5 - x + 1) and RootSum(f, g).diff(x) == -((5 * exp(2 * x) - 6 * exp(x) + 4) * exp(x) / (exp(3 * x) - exp(2 * x) + 1)) / 7","over":{"base":"Any"},"name":"test_RootSum_rational_correct"},"guarantee":"RootSum(z ** 5 - z + 1, Lambda(z, z / (x - z))) == (4 * x - 5) / (x ** 5 - x + 1); RootSum(f, g).diff(x) == -((5 * exp(2 * x) - 6 * exp(x) + 4) * exp(x) / (exp(3 * x) - exp(2 * x) + 1)) / 7","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_rational_correct","statement":"Path(test_RootSum_rational(x), RootSum(z ** 5 - z + 1, Lambda(z, z / (x - z))) == (4 * x - 5) / (x ** 5 - x + 1); RootSum(f, g).diff(x) == -((5 * exp(2 * x) - 6 * exp(x) + 4) * exp(x) / (exp(3 * x) - exp(2 * x) + 1)) / 7)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6e360b18cb4dbbc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["RootSum(z ** 5 - z + 1, Lambda(z, z / (x - z))) == (4 * x - 5) / (x ** 5 - x + 1)","RootSum(f, g).diff(x) == -((5 * exp(2 * x) - 6 * exp(x) + 4) * exp(x) / (exp(3 * x) - exp(2 * x) + 1)) / 7"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_RootSum_rational():
     assert RootSum(
         z**5 - z + 1, Lambda(z, z/(x - z))) == (4*x - 5)/(x**5 - x + 1)
@@ -851,16 +1028,22 @@ def test_RootSum_rational():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RootSum_independent(), test_RootSum_independent produces the expected output) over Any ║
+# ║ Path(test_RootSum_independent(), RootSum(f, g, x).as_ordered_terms() == [10 * r0, 15 * r1, 126]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RootSum_independent : Any → {Any | RootSum(f, g,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  RootSum(f, g, x).as_ordered_terms() == [1...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RootSum_independent : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce3343f52c60b1b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00685cff78619b7a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_independent","kind":"function","src_hash":"56dfb552a6d2cd97","in":{"base":"Any"},"out":{"base":"Any","pred":"RootSum(f, g, x).as_ordered_terms() == [10 * r0, 15 * r1, 126]"},"spec":{"lhs":"test_RootSum_independent()","rhs":"test_RootSum_independent produces the expected output","over":{"base":"Any"},"name":"test_RootSum_independent_correct"},"guarantee":"test_RootSum_independent produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_independent_correct","statement":"Path(test_RootSum_independent(x), test_RootSum_independent produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce3343f52c60b1b4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootSum_independent","kind":"function","src_hash":"56dfb552a6d2cd97","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: RootSum(f, g, x).as_ordered_terms() == [10 * r0, 15 * r1, 126]"},"spec":{"lhs":"test_RootSum_independent()","rhs":"RootSum(f, g, x).as_ordered_terms() == [10 * r0, 15 * r1, 126]","over":{"base":"Any"},"name":"test_RootSum_independent_correct"},"guarantee":"RootSum(f, g, x).as_ordered_terms() == [10 * r0, 15 * r1, 126]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootSum_independent_correct","statement":"Path(test_RootSum_independent(x), RootSum(f, g, x).as_ordered_terms() == [10 * r0, 15 * r1, 126])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00685cff78619b7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["RootSum(f, g, x).as_ordered_terms() == [10 * r0, 15 * r1, 126]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RootSum_independent():
     f = (x**3 - a)**2*(x**4 - b)**3
 
@@ -874,16 +1057,22 @@ def test_RootSum_independent():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7876(), test_issue_7876 produces the expected output) over Any ║
+# ║ Path(test_issue_7876(), frozenset(l1) == frozenset(l2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7876 : Any → {Any | frozenset(l1) == froze...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  frozenset(l1) == frozenset(l2)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7876 : Any → {Any | result satisfies: froz...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6a38d37aed31b5f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6af905bea8e52cb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_issue_7876","kind":"function","src_hash":"bd406a22c434de8e","in":{"base":"Any"},"out":{"base":"Any","pred":"frozenset(l1) == frozenset(l2)"},"spec":{"lhs":"test_issue_7876()","rhs":"test_issue_7876 produces the expected output","over":{"base":"Any"},"name":"test_issue_7876_correct"},"guarantee":"test_issue_7876 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_issue_7876_correct","statement":"Path(test_issue_7876(x), test_issue_7876 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6a38d37aed31b5f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_issue_7876","kind":"function","src_hash":"bd406a22c434de8e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: frozenset(l1) == frozenset(l2)"},"spec":{"lhs":"test_issue_7876()","rhs":"frozenset(l1) == frozenset(l2)","over":{"base":"Any"},"name":"test_issue_7876_correct"},"guarantee":"frozenset(l1) == frozenset(l2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_issue_7876_correct","statement":"Path(test_issue_7876(x), frozenset(l1) == frozenset(l2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6af905bea8e52cb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["frozenset(l1) == frozenset(l2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7876():
     l1 = Poly(x**6 - x + 1, x).all_roots()
     l2 = [rootof(x**6 - x + 1, i) for i in range(6)]
@@ -891,16 +1080,22 @@ def test_issue_7876():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8316(), test_issue_8316 produces the expected output) over Any ║
+# ║ Path(test_issue_8316(), len(f.all_roots()) == 8) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8316 : Any → {Any | len(f.all_roots()) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(f.all_roots()) == 8                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8316 : Any → {Any | result satisfies: len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfc0b6f61e5a5d95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f90696d659fdf882  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_issue_8316","kind":"function","src_hash":"418296fe2e95f191","in":{"base":"Any"},"out":{"base":"Any","pred":"len(f.all_roots()) == 8 and len(f.all_roots()) == 8"},"spec":{"lhs":"test_issue_8316()","rhs":"test_issue_8316 produces the expected output","over":{"base":"Any"},"name":"test_issue_8316_correct"},"guarantee":"test_issue_8316 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_issue_8316_correct","statement":"Path(test_issue_8316(x), test_issue_8316 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfc0b6f61e5a5d95"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_issue_8316","kind":"function","src_hash":"418296fe2e95f191","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(f.all_roots()) == 8"},"spec":{"lhs":"test_issue_8316()","rhs":"len(f.all_roots()) == 8","over":{"base":"Any"},"name":"test_issue_8316_correct"},"guarantee":"len(f.all_roots()) == 8","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_issue_8316_correct","statement":"Path(test_issue_8316(x), len(f.all_roots()) == 8)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f90696d659fdf882","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(f.all_roots()) == 8"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_8316():
     f = Poly(7*x**8 - 9)
     assert len(f.all_roots()) == 8
@@ -911,14 +1106,22 @@ def test_issue_8316():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test__imag_count(), id) over Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test__imag_count : Any → {Any | imag_count(Poly(x ** ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  imag_count(Poly(x ** 6 + 10 * x ** 2 + 1)...   ║
+# ║   ensures:  imag_count(Poly(x ** 2)) == 0                  ║
+# ║   ensures:  imag_count(Poly([1] * 3 + [-1], x)) == 0       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test__imag_count : Any → {Any | result satisfies: ima...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8463ea4a9add912c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test__imag_count","kind":"function","src_hash":"874249bb3d689b10","in":{"base":"Any"},"out":{"base":"Any","pred":"imag_count(Poly(x ** 6 + 10 * x ** 2 + 1)) == 2 and imag_count(Poly(x ** 2)) == 0 and imag_count(Poly([1] * 3 + [-1], x)) == 0 and imag_count(Poly(x ** 3 + 1)) == 0 and imag_count(Poly(x ** 2 + 1)) == 2 and imag_count(Poly(x ** 2 - 1)) == 0 and imag_count(Poly(x ** 4 - 1)) == 2 and imag_count(Poly(x ** 4 + 1)) == 0 and imag_count(Poly([1, 2, 3], x)) == 0 and imag_count(Poly(x ** 3 + x + 1)) == 0 and imag_count(Poly(x ** 4 + x + 1)) == 0 and imag_count(q(-1, -2, 2)) == 4 and imag_count(q(-1, 2, 2)) == 2 and imag_count(q(1, 2, 2)) == 0 and imag_count(q(1, 2, 4)) == 4 and imag_count(q(-1, 2, 4)) == 2 and imag_count(q(-1, -2, 4)) == 0"},"spec":{"lhs":"test__imag_count()","rhs":"test__imag_count produces the expected output","over":{"base":"Any"},"name":"test__imag_count_correct","kind":"composition"},"guarantee":"test__imag_count produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"_imag_count_of_factor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8463ea4a9add912c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test__imag_count","kind":"function","src_hash":"874249bb3d689b10","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: imag_count(Poly(x ** 6 + 10 * x ** 2 + 1)) == 2 and imag_count(Poly(x ** 2)) == 0 and imag_count(Poly([1] * 3 + [-1], x)) == 0 and imag_count(Poly(x ** 3 + 1)) == 0 and imag_count(Poly(x ** 2 + 1)) == 2 and imag_count(Poly(x ** 2 - 1)) == 0 and imag_count(Poly(x ** 4 - 1)) == 2 and imag_count(Poly(x ** 4 + 1)) == 0 and imag_count(Poly([1, 2, 3], x)) == 0 and imag_count(Poly(x ** 3 + x + 1)) == 0 and imag_count(Poly(x ** 4 + x + 1)) == 0 and imag_count(q(-1, -2, 2)) == 4 and imag_count(q(-1, 2, 2)) == 2 and imag_count(q(1, 2, 2)) == 0 and imag_count(q(1, 2, 4)) == 4 and imag_count(q(-1, 2, 4)) == 2 and imag_count(q(-1, -2, 4)) == 0"},"spec":{"lhs":"test__imag_count()","rhs":"imag_count(Poly(x ** 6 + 10 * x ** 2 + 1)) == 2 and imag_count(Poly(x ** 2)) == 0 and imag_count(Poly([1] * 3 + [-1], x)) == 0 and imag_count(Poly(x ** 3 + 1)) == 0 and imag_count(Poly(x ** 2 + 1)) == 2 and imag_count(Poly(x ** 2 - 1)) == 0 and imag_count(Poly(x ** 4 - 1)) == 2 and imag_count(Poly(x ** 4 + 1)) == 0 and imag_count(Poly([1, 2, 3], x)) == 0 and imag_count(Poly(x ** 3 + x + 1)) == 0 and imag_count(Poly(x ** 4 + x + 1)) == 0 and imag_count(q(-1, -2, 2)) == 4 and imag_count(q(-1, 2, 2)) == 2 and imag_count(q(1, 2, 2)) == 0 and imag_count(q(1, 2, 4)) == 4 and imag_count(q(-1, 2, 4)) == 2 and imag_count(q(-1, -2, 4)) == 0","over":{"base":"Any"},"name":"test__imag_count_correct","kind":"composition"},"guarantee":"imag_count(Poly(x ** 6 + 10 * x ** 2 + 1)) == 2; imag_count(Poly(x ** 2)) == 0; imag_count(Poly([1] * 3 + [-1], x)) == 0","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sum","by":"library_axiom"},{"fn":"_imag_count_of_factor","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8463ea4a9add912c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["imag_count(Poly(x ** 6 + 10 * x ** 2 + 1)) == 2","imag_count(Poly(x ** 2)) == 0","imag_count(Poly([1] * 3 + [-1], x)) == 0","imag_count(Poly(x ** 3 + 1)) == 0","imag_count(Poly(x ** 2 + 1)) == 2","imag_count(Poly(x ** 2 - 1)) == 0","imag_count(Poly(x ** 4 - 1)) == 2","imag_count(Poly(x ** 4 + 1)) == 0","imag_count(Poly([1, 2, 3], x)) == 0","imag_count(Poly(x ** 3 + x + 1)) == 0","imag_count(Poly(x ** 4 + x + 1)) == 0","imag_count(q(-1, -2, 2)) == 4","imag_count(q(-1, 2, 2)) == 2","imag_count(q(1, 2, 2)) == 0","imag_count(q(1, 2, 4)) == 4","imag_count(q(-1, 2, 4)) == 2","imag_count(q(-1, -2, 4)) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test__imag_count():
     from sympy.polys.rootoftools import _imag_count_of_factor
     def imag_count(p):
@@ -946,16 +1149,22 @@ def test__imag_count():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_RootOf_is_imaginary(), test_RootOf_is_imaginary produces the expected output) over Any ║
+# ║ Path(test_RootOf_is_imaginary(), r.is_imaginary and i.ax * i.bx <= 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_RootOf_is_imaginary : Any → {Any | r.is_imaginar...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  r.is_imaginary and i.ax * i.bx <= 0            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_RootOf_is_imaginary : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43d526c8bbddc04c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd856d6d8b2642b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootOf_is_imaginary","kind":"function","src_hash":"6eed6de2344fcac4","in":{"base":"Any"},"out":{"base":"Any","pred":"r.is_imaginary and i.ax * i.bx <= 0"},"spec":{"lhs":"test_RootOf_is_imaginary()","rhs":"test_RootOf_is_imaginary produces the expected output","over":{"base":"Any"},"name":"test_RootOf_is_imaginary_correct"},"guarantee":"test_RootOf_is_imaginary produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootOf_is_imaginary_correct","statement":"Path(test_RootOf_is_imaginary(x), test_RootOf_is_imaginary produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43d526c8bbddc04c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_RootOf_is_imaginary","kind":"function","src_hash":"6eed6de2344fcac4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: r.is_imaginary and i.ax * i.bx <= 0"},"spec":{"lhs":"test_RootOf_is_imaginary()","rhs":"r.is_imaginary and i.ax * i.bx <= 0","over":{"base":"Any"},"name":"test_RootOf_is_imaginary_correct"},"guarantee":"r.is_imaginary and i.ax * i.bx <= 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_RootOf_is_imaginary_correct","statement":"Path(test_RootOf_is_imaginary(x), r.is_imaginary and i.ax * i.bx <= 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd856d6d8b2642b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["r.is_imaginary and i.ax * i.bx <= 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_RootOf_is_imaginary():
     r = RootOf(x**4 + 4*x**2 + 1, 1)
     i = r._get_interval()
@@ -963,16 +1172,23 @@ def test_RootOf_is_imaginary():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_disjoint(), test_is_disjoint produces the expected output) over Any ║
+# ║ Path(test_is_disjoint(), ir.is_disjoint(ii) and ii.is_disjoint(ir)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_disjoint : Any → {Any | ir.is_disjoint(ii) an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ir.is_disjoint(ii)                             ║
+# ║   ensures:  ii.is_disjoint(ir)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_disjoint : Any → {Any | result satisfies: ir....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70419443a74243e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2054394c9d12e80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_is_disjoint","kind":"function","src_hash":"8c1828205309ce7f","in":{"base":"Any"},"out":{"base":"Any","pred":"ir.is_disjoint(ii) and ii.is_disjoint(ir)"},"spec":{"lhs":"test_is_disjoint()","rhs":"test_is_disjoint produces the expected output","over":{"base":"Any"},"name":"test_is_disjoint_correct"},"guarantee":"test_is_disjoint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_is_disjoint_correct","statement":"Path(test_is_disjoint(x), test_is_disjoint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70419443a74243e2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_is_disjoint","kind":"function","src_hash":"8c1828205309ce7f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ir.is_disjoint(ii) and ii.is_disjoint(ir)"},"spec":{"lhs":"test_is_disjoint()","rhs":"ir.is_disjoint(ii) and ii.is_disjoint(ir)","over":{"base":"Any"},"name":"test_is_disjoint_correct"},"guarantee":"ir.is_disjoint(ii); ii.is_disjoint(ir)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_is_disjoint_correct","statement":"Path(test_is_disjoint(x), ir.is_disjoint(ii); ii.is_disjoint(ir))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2054394c9d12e80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ir.is_disjoint(ii)","ii.is_disjoint(ir)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_disjoint():
     eq = x**3 + 5*x + 1
     ir = rootof(eq, 0)._get_interval()
@@ -982,16 +1198,24 @@ def test_is_disjoint():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pure_key_dict(), test_pure_key_dict produces the expected output) over Any ║
+# ║ Path(test_pure_key_dict(), (x in p) is False and (1 in p) is False and x in p and y in p and p[y] == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_pure_key_dict : Any → {Any | (x in p) is False a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (x in p) is False                              ║
+# ║   ensures:  (1 in p) is False                              ║
+# ║   ensures:  x in p                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_pure_key_dict : Any → {Any | result satisfies: (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 616eda57acd028b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b16892f9cfe3c4e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_pure_key_dict","kind":"function","src_hash":"52ce8476968bad1e","in":{"base":"Any"},"out":{"base":"Any","pred":"(x in p) is False and (1 in p) is False and x in p and y in p and p[y] == 1"},"spec":{"lhs":"test_pure_key_dict()","rhs":"test_pure_key_dict produces the expected output","over":{"base":"Any"},"name":"test_pure_key_dict_correct"},"guarantee":"test_pure_key_dict produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_pure_key_dict_correct","statement":"Path(test_pure_key_dict(x), test_pure_key_dict produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"616eda57acd028b4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_pure_key_dict","kind":"function","src_hash":"52ce8476968bad1e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (x in p) is False and (1 in p) is False and x in p and y in p and p[y] == 1"},"spec":{"lhs":"test_pure_key_dict()","rhs":"(x in p) is False and (1 in p) is False and x in p and y in p and p[y] == 1","over":{"base":"Any"},"name":"test_pure_key_dict_correct"},"guarantee":"(x in p) is False; (1 in p) is False; x in p","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_pure_key_dict_correct","statement":"Path(test_pure_key_dict(x), (x in p) is False; (1 in p) is False; x in p)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b16892f9cfe3c4e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(x in p) is False","(1 in p) is False","x in p","y in p","p[y] == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pure_key_dict():
     p = D()
     assert (x in p) is False
@@ -1008,16 +1232,24 @@ def test_pure_key_dict():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_eval_approx_relative(), test_eval_approx_relative produces the expected output) over Any ║
+# ║ Path(test_eval_approx_relative(), [i.eval_rational(0.1) for i in t] == [Rational(-21, 220), Rational(15, 256) - I * 805 / 256, Rational(15, 256) + I * 805 / 256] and [i.eval_rational(0.1, 0.0001) for i in t] == [Rational(-21, 220), Rational(3275, 65536) - I * 414645 / 131072, Rational(3275, 65536) + I * 414645 / 131072] and S(t[0]._get_interval().dx) < 0.1 and S(t[1]._get_interval().dx) < 0.1 and S(t[1]._get_interval().dy) < 0.0001 and S(t[2]._get_interval().dx) < 0.1 and S(t[2]._get_interval().dy) < 0.0001 and [i.eval_rational(0.0001, 0.0001) for i in t] == [Rational(-2001, 20020), Rational(6545, 131072) - I * 414645 / 131072, Rational(6545, 131072) + I * 414645 / 131072] and S(t[0]._get_interval().dx) < 0.0001 and S(t[1]._get_interval().dx) < 0.0001 and S(t[2]._get_interval().dx) < 0.0001 and [i.eval_rational(n=2) for i in t] == [Rational(-202201, 2024022), Rational(104755, 2097152) - I * 6634255 / 2097152, Rational(104755, 2097152) + I * 6634255 / 2097152] and abs(S(t[0]._get_interval().dx) / t[0]) < 0.01 and abs(S(t[1]._get_interval().dx) / t[1]).n() < 0.01 and abs(S(t[1]._get_interval().dy) / t[1]).n() < 0.01 and abs(S(t[2]._get_interval().dx) / t[2]).n() < 0.01 and abs(S(t[2]._get_interval().dy) / t[2]).n() < 0.01 and [i.eval_rational(n=3) for i in t] == [Rational(-202201, 2024022), Rational(1676045, 33554432) - I * 106148135 / 33554432, Rational(1676045, 33554432) + I * 106148135 / 33554432] and abs(S(t[0]._get_interval().dx) / t[0]) < 0.001 and abs(S(t[1]._get_interval().dx) / t[1]).n() < 0.001 and abs(S(t[1]._get_interval().dy) / t[1]).n() < 0.001 and abs(S(t[2]._get_interval().dx) / t[2]).n() < 0.001 and abs(S(t[2]._get_interval().dy) / t[2]).n() < 0.001 and [str(i) for i in a] == ['-0.10', '0.05 - 3.2*I', '0.05 + 3.2*I'] and all((abs(((a[i] - t[i]) / t[i]).n()) < 0.01 for i in range(len(a))))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_eval_approx_relative : Any → {Any | S(t[0]._get_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  [i.eval_rational(0.1) for i in t] == [Rat...   ║
+# ║   ensures:  [i.eval_rational(0.1, 0.0001) for i in t]...   ║
+# ║   ensures:  S(t[0]._get_interval().dx) < 0.1               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_eval_approx_relative : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 380c65a2bb5f748f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2be41fd09b2717a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_eval_approx_relative","kind":"function","src_hash":"6ecae2329f93a6b2","in":{"base":"Any"},"out":{"base":"Any","pred":"S(t[0]._get_interval().dx) < 0.1 and S(t[1]._get_interval().dx) < 0.1 and S(t[1]._get_interval().dy) < 0.0001 and S(t[2]._get_interval().dx) < 0.1 and S(t[2]._get_interval().dy) < 0.0001 and S(t[0]._get_interval().dx) < 0.0001 and S(t[1]._get_interval().dx) < 0.0001 and S(t[1]._get_interval().dy) < 0.0001 and S(t[2]._get_interval().dx) < 0.0001 and S(t[2]._get_interval().dy) < 0.0001 and abs(S(t[0]._get_interval().dx) / t[0]) < 0.01 and abs(S(t[1]._get_interval().dx) / t[1]).n() < 0.01 and abs(S(t[1]._get_interval().dy) / t[1]).n() < 0.01 and abs(S(t[2]._get_interval().dx) / t[2]).n() < 0.01 and abs(S(t[2]._get_interval().dy) / t[2]).n() < 0.01 and abs(S(t[0]._get_interval().dx) / t[0]) < 0.001 and abs(S(t[1]._get_interval().dx) / t[1]).n() < 0.001 and abs(S(t[1]._get_interval().dy) / t[1]).n() < 0.001 and abs(S(t[2]._get_interval().dx) / t[2]).n() < 0.001 and abs(S(t[2]._get_interval().dy) / t[2]).n() < 0.001 and [str(i) for i in a] == ['-0.10', '0.05 - 3.2*I', '0.05 + 3.2*I'] and all((abs(((a[i] - t[i]) / t[i]).n()) < 0.01 for i in range(len(a))))"},"spec":{"lhs":"test_eval_approx_relative()","rhs":"test_eval_approx_relative produces the expected output","over":{"base":"Any"},"name":"test_eval_approx_relative_correct"},"guarantee":"test_eval_approx_relative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_eval_approx_relative_correct","statement":"Path(test_eval_approx_relative(x), test_eval_approx_relative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"380c65a2bb5f748f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_eval_approx_relative","kind":"function","src_hash":"6ecae2329f93a6b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: [i.eval_rational(0.1) for i in t] == [Rational(-21, 220), Rational(15, 256) - I * 805 / 256, Rational(15, 256) + I * 805 / 256] and [i.eval_rational(0.1, 0.0001) for i in t] == [Rational(-21, 220), Rational(3275, 65536) - I * 414645 / 131072, Rational(3275, 65536) + I * 414645 / 131072] and S(t[0]._get_interval().dx) < 0.1 and S(t[1]._get_interval().dx) < 0.1 and S(t[1]._get_interval().dy) < 0.0001 and S(t[2]._get_interval().dx) < 0.1 and S(t[2]._get_interval().dy) < 0.0001 and [i.eval_rational(0.0001, 0.0001) for i in t] == [Rational(-2001, 20020), Rational(6545, 131072) - I * 414645 / 131072, Rational(6545, 131072) + I * 414645 / 131072] and S(t[0]._get_interval().dx) < 0.0001 and S(t[1]._get_interval().dx) < 0.0001 and S(t[2]._get_interval().dx) < 0.0001 and [i.eval_rational(n=2) for i in t] == [Rational(-202201, 2024022), Rational(104755, 2097152) - I * 6634255 / 2097152, Rational(104755, 2097152) + I * 6634255 / 2097152] and abs(S(t[0]._get_interval().dx) / t[0]) < 0.01 and abs(S(t[1]._get_interval().dx) / t[1]).n() < 0.01 and abs(S(t[1]._get_interval().dy) / t[1]).n() < 0.01 and abs(S(t[2]._get_interval().dx) / t[2]).n() < 0.01 and abs(S(t[2]._get_interval().dy) / t[2]).n() < 0.01 and [i.eval_rational(n=3) for i in t] == [Rational(-202201, 2024022), Rational(1676045, 33554432) - I * 106148135 / 33554432, Rational(1676045, 33554432) + I * 106148135 / 33554432] and abs(S(t[0]._get_interval().dx) / t[0]) < 0.001 and abs(S(t[1]._get_interval().dx) / t[1]).n() < 0.001 and abs(S(t[1]._get_interval().dy) / t[1]).n() < 0.001 and abs(S(t[2]._get_interval().dx) / t[2]).n() < 0.001 and abs(S(t[2]._get_interval().dy) / t[2]).n() < 0.001 and [str(i) for i in a] == ['-0.10', '0.05 - 3.2*I', '0.05 + 3.2*I'] and all((abs(((a[i] - t[i]) / t[i]).n()) < 0.01 for i in range(len(a))))"},"spec":{"lhs":"test_eval_approx_relative()","rhs":"[i.eval_rational(0.1) for i in t] == [Rational(-21, 220), Rational(15, 256) - I * 805 / 256, Rational(15, 256) + I * 805 / 256] and [i.eval_rational(0.1, 0.0001) for i in t] == [Rational(-21, 220), Rational(3275, 65536) - I * 414645 / 131072, Rational(3275, 65536) + I * 414645 / 131072] and S(t[0]._get_interval().dx) < 0.1 and S(t[1]._get_interval().dx) < 0.1 and S(t[1]._get_interval().dy) < 0.0001 and S(t[2]._get_interval().dx) < 0.1 and S(t[2]._get_interval().dy) < 0.0001 and [i.eval_rational(0.0001, 0.0001) for i in t] == [Rational(-2001, 20020), Rational(6545, 131072) - I * 414645 / 131072, Rational(6545, 131072) + I * 414645 / 131072] and S(t[0]._get_interval().dx) < 0.0001 and S(t[1]._get_interval().dx) < 0.0001 and S(t[2]._get_interval().dx) < 0.0001 and [i.eval_rational(n=2) for i in t] == [Rational(-202201, 2024022), Rational(104755, 2097152) - I * 6634255 / 2097152, Rational(104755, 2097152) + I * 6634255 / 2097152] and abs(S(t[0]._get_interval().dx) / t[0]) < 0.01 and abs(S(t[1]._get_interval().dx) / t[1]).n() < 0.01 and abs(S(t[1]._get_interval().dy) / t[1]).n() < 0.01 and abs(S(t[2]._get_interval().dx) / t[2]).n() < 0.01 and abs(S(t[2]._get_interval().dy) / t[2]).n() < 0.01 and [i.eval_rational(n=3) for i in t] == [Rational(-202201, 2024022), Rational(1676045, 33554432) - I * 106148135 / 33554432, Rational(1676045, 33554432) + I * 106148135 / 33554432] and abs(S(t[0]._get_interval().dx) / t[0]) < 0.001 and abs(S(t[1]._get_interval().dx) / t[1]).n() < 0.001 and abs(S(t[1]._get_interval().dy) / t[1]).n() < 0.001 and abs(S(t[2]._get_interval().dx) / t[2]).n() < 0.001 and abs(S(t[2]._get_interval().dy) / t[2]).n() < 0.001 and [str(i) for i in a] == ['-0.10', '0.05 - 3.2*I', '0.05 + 3.2*I'] and all((abs(((a[i] - t[i]) / t[i]).n()) < 0.01 for i in range(len(a))))","over":{"base":"Any"},"name":"test_eval_approx_relative_correct"},"guarantee":"[i.eval_rational(0.1) for i in t] == [Rational(-21, 220), Rational(15, 256) - I * 805 / 256, Rational(15, 256) + I * 805 / 256]; [i.eval_rational(0.1, 0.0001) for i in t] == [Rational(-21, 220), Rational(3275, 65536) - I * 414645 / 131072, Rational(3275, 65536) + I * 414645 / 131072]; S(t[0]._get_interval().dx) < 0.1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_eval_approx_relative_correct","statement":"Path(test_eval_approx_relative(x), [i.eval_rational(0.1) for i in t] == [Rational(-21, 220), Rational(15, 256) - I * 805 / 256, Rational(15, 256) + I * 805 / 256]; [i.eval_rational(0.1, 0.0001) for i in t] == [Rational(-21, 220), Rational(3275, 65536) - I * 414645 / 131072, Rational(3275, 65536) + I * 414645 / 131072]; S(t[0]._get_interval().dx) < 0.1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2be41fd09b2717a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["[i.eval_rational(0.1) for i in t] == [Rational(-21, 220), Rational(15, 256) - I * 805 / 256, Rational(15, 256) + I * 805 / 256]","[i.eval_rational(0.1, 0.0001) for i in t] == [Rational(-21, 220), Rational(3275, 65536) - I * 414645 / 131072, Rational(3275, 65536) + I * 414645 / 131072]","S(t[0]._get_interval().dx) < 0.1","S(t[1]._get_interval().dx) < 0.1","S(t[1]._get_interval().dy) < 0.0001","S(t[2]._get_interval().dx) < 0.1","S(t[2]._get_interval().dy) < 0.0001","[i.eval_rational(0.0001, 0.0001) for i in t] == [Rational(-2001, 20020), Rational(6545, 131072) - I * 414645 / 131072, Rational(6545, 131072) + I * 414645 / 131072]","S(t[0]._get_interval().dx) < 0.0001","S(t[1]._get_interval().dx) < 0.0001","S(t[2]._get_interval().dx) < 0.0001","[i.eval_rational(n=2) for i in t] == [Rational(-202201, 2024022), Rational(104755, 2097152) - I * 6634255 / 2097152, Rational(104755, 2097152) + I * 6634255 / 2097152]","abs(S(t[0]._get_interval().dx) / t[0]) < 0.01","abs(S(t[1]._get_interval().dx) / t[1]).n() < 0.01","abs(S(t[1]._get_interval().dy) / t[1]).n() < 0.01","abs(S(t[2]._get_interval().dx) / t[2]).n() < 0.01","abs(S(t[2]._get_interval().dy) / t[2]).n() < 0.01","[i.eval_rational(n=3) for i in t] == [Rational(-202201, 2024022), Rational(1676045, 33554432) - I * 106148135 / 33554432, Rational(1676045, 33554432) + I * 106148135 / 33554432]","abs(S(t[0]._get_interval().dx) / t[0]) < 0.001","abs(S(t[1]._get_interval().dx) / t[1]).n() < 0.001","abs(S(t[1]._get_interval().dy) / t[1]).n() < 0.001","abs(S(t[2]._get_interval().dx) / t[2]).n() < 0.001","abs(S(t[2]._get_interval().dy) / t[2]).n() < 0.001","[str(i) for i in a] == ['-0.10', '0.05 - 3.2*I', '0.05 + 3.2*I']","all((abs(((a[i] - t[i]) / t[i]).n()) < 0.01 for i in range(len(a))))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_eval_approx_relative():
     CRootOf.clear_cache()
     t = [CRootOf(x**3 + 10*x + 1, i) for i in range(3)]
@@ -1071,16 +1303,22 @@ def test_eval_approx_relative():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_15920(), test_issue_15920 produces the expected output) over Any ║
+# ║ Path(test_issue_15920(), unchanged(Eq, r, p)) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_15920 : Any → {Any | unchanged(Eq, r, p)}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unchanged(Eq, r, p)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_15920 : Any → {Any | result satisfies: unc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b8752567dc2287e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1df8b12d4085782b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_issue_15920","kind":"function","src_hash":"a84c1c9e5cb6a4cb","in":{"base":"Any"},"out":{"base":"Any","pred":"unchanged(Eq, r, p)"},"spec":{"lhs":"test_issue_15920()","rhs":"test_issue_15920 produces the expected output","over":{"base":"Any"},"name":"test_issue_15920_correct"},"guarantee":"test_issue_15920 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_issue_15920_correct","statement":"Path(test_issue_15920(x), test_issue_15920 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b8752567dc2287e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_issue_15920","kind":"function","src_hash":"a84c1c9e5cb6a4cb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unchanged(Eq, r, p)"},"spec":{"lhs":"test_issue_15920()","rhs":"unchanged(Eq, r, p)","over":{"base":"Any"},"name":"test_issue_15920_correct"},"guarantee":"unchanged(Eq, r, p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_issue_15920_correct","statement":"Path(test_issue_15920(x), unchanged(Eq, r, p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1df8b12d4085782b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unchanged(Eq, r, p)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_15920():
     r = rootof(x**5 - x + 1, 0)
     p = Integral(x, (x, 1, y))
@@ -1088,16 +1326,24 @@ def test_issue_15920():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_19113(), test_issue_19113 produces the expected output) over Any ║
+# ║ Path(test_issue_19113(), str(Poly(eq).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]' and str(Poly(eq.subs(y, tan(y))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]' and str(Poly(eq.subs(y, tan(x))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_19113 : Any → {Any | str(Poly(eq).real_roo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(Poly(eq).real_roots()) == '[CRootOf(x...   ║
+# ║   ensures:  str(Poly(eq.subs(y, tan(y))).real_roots()...   ║
+# ║   ensures:  str(Poly(eq.subs(y, tan(x))).real_roots()...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_19113 : Any → {Any | result satisfies: str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 443fe1bb9cc7aeff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3237c37a12e164f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_issue_19113","kind":"function","src_hash":"7199097e66efb1bc","in":{"base":"Any"},"out":{"base":"Any","pred":"str(Poly(eq).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]' and str(Poly(eq.subs(y, tan(y))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]' and str(Poly(eq.subs(y, tan(x))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]'"},"spec":{"lhs":"test_issue_19113()","rhs":"test_issue_19113 produces the expected output","over":{"base":"Any"},"name":"test_issue_19113_correct"},"guarantee":"test_issue_19113 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_issue_19113_correct","statement":"Path(test_issue_19113(x), test_issue_19113 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"443fe1bb9cc7aeff"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_rootoftools.test_issue_19113","kind":"function","src_hash":"7199097e66efb1bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(Poly(eq).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]' and str(Poly(eq.subs(y, tan(y))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]' and str(Poly(eq.subs(y, tan(x))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]'"},"spec":{"lhs":"test_issue_19113()","rhs":"str(Poly(eq).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]' and str(Poly(eq.subs(y, tan(y))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]' and str(Poly(eq.subs(y, tan(x))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]'","over":{"base":"Any"},"name":"test_issue_19113_correct"},"guarantee":"str(Poly(eq).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]'; str(Poly(eq.subs(y, tan(y))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]'; str(Poly(eq.subs(y, tan(x))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_rootoftools.test_issue_19113_correct","statement":"Path(test_issue_19113(x), str(Poly(eq).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]'; str(Poly(eq.subs(y, tan(y))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]'; str(Poly(eq.subs(y, tan(x))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3237c37a12e164f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(Poly(eq).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]'","str(Poly(eq.subs(y, tan(y))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]'","str(Poly(eq.subs(y, tan(x))).real_roots()) == '[CRootOf(x**3 - x + 1, 0)]'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_19113():
     eq = y**3 - y + 1
     # generator is a canonical x in RootOf

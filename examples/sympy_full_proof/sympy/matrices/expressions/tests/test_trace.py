@@ -35,7 +35,12 @@ C = MatrixSymbol('C', 3, 4)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Trace(), test_Trace produces the expected output) over {Any | isinstance(Trace(A), Trace) and isinstance(Trace(A), MatrixExpr)} ║
+# ║ Path(test_Trace(), isinstance(Trace(A), Trace) and not isinstance(Trace(A), MatrixExpr) and trace(eye(3)) == 3 and trace(Matrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])) == 15 and adjoint(Trace(A)) == trace(Adjoint(A)) and conjugate(Trace(A)) == trace(Adjoint(A)) and transpose(Trace(A)) == Trace(A) and trace(Identity(5)) == 5 and trace(ZeroMatrix(5, 5)) == 0 and trace(OneMatrix(1, 1)) == 1 and trace(OneMatrix(2, 2)) == 2 and trace(OneMatrix(n, n)) == n and trace(2 * A * B) == 2 * Trace(A * B) and trace(A.T) == trace(A) and trace(F) == 0 + 0 + (1 + 1) + (2 + 2) and Trace(A).arg is A and str(trace(A)) == str(Trace(A).doit()) and Trace(A).is_commutative is True) over {Any | isinstance(Trace(A), Trace) and isinstance(Trace(A), MatrixExpr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(Trace(A), Trace)                    ║
+# ║   ensures:  not isinstance(Trace(A), MatrixExpr)           ║
+# ║   ensures:  trace(eye(3)) == 3                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Trace : {Any | isinstance(Trace(A), Trace) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -48,9 +53,12 @@ C = MatrixSymbol('C', 3, 4)
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 71d6af63...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_Trace","kind":"function","src_hash":"0181185952945c2a","in":{"base":"Any","pred":"isinstance(Trace(A), Trace) and isinstance(Trace(A), MatrixExpr)"},"out":{"base":"Any","pred":"isinstance(Trace(A), Trace) and not isinstance(Trace(A), MatrixExpr) and trace(eye(3)) == 3 and trace(Matrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])) == 15 and adjoint(Trace(A)) == trace(Adjoint(A)) and conjugate(Trace(A)) == trace(Adjoint(A)) and transpose(Trace(A)) == Trace(A) and trace(Identity(5)) == 5 and trace(ZeroMatrix(5, 5)) == 0 and trace(OneMatrix(1, 1)) == 1 and trace(OneMatrix(2, 2)) == 2 and trace(OneMatrix(n, n)) == n and trace(2 * A * B) == 2 * Trace(A * B) and trace(A.T) == trace(A) and trace(F) == 0 + 0 + (1 + 1) + (2 + 2) and Trace(A).arg is A and str(trace(A)) == str(Trace(A).doit()) and Trace(A).is_commutative is True"},"spec":{"lhs":"test_Trace()","rhs":"test_Trace produces the expected output","over":{"base":"Any","pred":"isinstance(Trace(A), Trace) and isinstance(Trace(A), MatrixExpr)"},"name":"test_Trace_correct"},"guarantee":"test_Trace produces the expected output","fibers":[{"name":"Trace","pred":"isinstance(Trace(A), Trace)","path":{"lhs":"test_Trace(x)","rhs":"test_Trace produces the expected output","over":{"base":"Trace","pred":"isinstance(Trace(A), Trace)"},"name":"test_Trace_Trace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_Trace_correct","statement":"test_Trace satisfies spec on Trace inputs"},"trust":"LIBRARY"},{"name":"MatrixExpr","pred":"isinstance(Trace(A), MatrixExpr)","path":{"lhs":"test_Trace(x)","rhs":"test_Trace produces the expected output","over":{"base":"MatrixExpr","pred":"isinstance(Trace(A), MatrixExpr)"},"name":"test_Trace_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_MatrixExpr_correct","statement":"test_Trace satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"71d6af63c799d008"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_Trace","kind":"function","src_hash":"0181185952945c2a","in":{"base":"Any","pred":"isinstance(Trace(A), Trace) and isinstance(Trace(A), MatrixExpr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(Trace(A), Trace) and not isinstance(Trace(A), MatrixExpr) and trace(eye(3)) == 3 and trace(Matrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])) == 15 and adjoint(Trace(A)) == trace(Adjoint(A)) and conjugate(Trace(A)) == trace(Adjoint(A)) and transpose(Trace(A)) == Trace(A) and trace(Identity(5)) == 5 and trace(ZeroMatrix(5, 5)) == 0 and trace(OneMatrix(1, 1)) == 1 and trace(OneMatrix(2, 2)) == 2 and trace(OneMatrix(n, n)) == n and trace(2 * A * B) == 2 * Trace(A * B) and trace(A.T) == trace(A) and trace(F) == 0 + 0 + (1 + 1) + (2 + 2) and Trace(A).arg is A and str(trace(A)) == str(Trace(A).doit()) and Trace(A).is_commutative is True"},"spec":{"lhs":"test_Trace()","rhs":"isinstance(Trace(A), Trace) and not isinstance(Trace(A), MatrixExpr) and trace(eye(3)) == 3 and trace(Matrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])) == 15 and adjoint(Trace(A)) == trace(Adjoint(A)) and conjugate(Trace(A)) == trace(Adjoint(A)) and transpose(Trace(A)) == Trace(A) and trace(Identity(5)) == 5 and trace(ZeroMatrix(5, 5)) == 0 and trace(OneMatrix(1, 1)) == 1 and trace(OneMatrix(2, 2)) == 2 and trace(OneMatrix(n, n)) == n and trace(2 * A * B) == 2 * Trace(A * B) and trace(A.T) == trace(A) and trace(F) == 0 + 0 + (1 + 1) + (2 + 2) and Trace(A).arg is A and str(trace(A)) == str(Trace(A).doit()) and Trace(A).is_commutative is True","over":{"base":"Any","pred":"isinstance(Trace(A), Trace) and isinstance(Trace(A), MatrixExpr)"},"name":"test_Trace_correct"},"guarantee":"isinstance(Trace(A), Trace); not isinstance(Trace(A), MatrixExpr); trace(eye(3)) == 3","fibers":[{"name":"Trace","pred":"isinstance(Trace(A), Trace)","path":{"lhs":"test_Trace(x)","rhs":"isinstance(Trace(A), Trace); not isinstance(Trace(A), MatrixExpr); trace(eye(3)) == 3","over":{"base":"Trace","pred":"isinstance(Trace(A), Trace)"},"name":"test_Trace_Trace_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_Trace_correct","statement":"test_Trace satisfies spec on Trace inputs"},"trust":"LIBRARY"},{"name":"MatrixExpr","pred":"isinstance(Trace(A), MatrixExpr)","path":{"lhs":"test_Trace(x)","rhs":"isinstance(Trace(A), Trace); not isinstance(Trace(A), MatrixExpr); trace(eye(3)) == 3","over":{"base":"MatrixExpr","pred":"isinstance(Trace(A), MatrixExpr)"},"name":"test_Trace_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_MatrixExpr_correct","statement":"test_Trace satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"71d6af63c799d008","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(Trace(A), Trace)","not isinstance(Trace(A), MatrixExpr)","trace(eye(3)) == 3","trace(Matrix(3, 3, [1, 2, 3, 4, 5, 6, 7, 8, 9])) == 15","adjoint(Trace(A)) == trace(Adjoint(A))","conjugate(Trace(A)) == trace(Adjoint(A))","transpose(Trace(A)) == Trace(A)","trace(Identity(5)) == 5","trace(ZeroMatrix(5, 5)) == 0","trace(OneMatrix(1, 1)) == 1","trace(OneMatrix(2, 2)) == 2","trace(OneMatrix(n, n)) == n","trace(2 * A * B) == 2 * Trace(A * B)","trace(A.T) == trace(A)","trace(F) == 0 + 0 + (1 + 1) + (2 + 2)","Trace(A).arg is A","str(trace(A)) == str(Trace(A).doit())","Trace(A).is_commutative is True"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"failed","binding":true}}
 def test_Trace():
     assert isinstance(Trace(A), Trace)
     assert not isinstance(Trace(A), MatrixExpr)
@@ -86,16 +94,24 @@ def test_Trace():
     assert Trace(A).is_commutative is True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Trace_A_plus_B(), test_Trace_A_plus_B produces the expected output) over Any ║
+# ║ Path(test_Trace_A_plus_B(), trace(A + B) == Trace(A) + Trace(B) and Trace(A + B).arg == MatAdd(A, B) and Trace(A + B).doit() == Trace(A) + Trace(B)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Trace_A_plus_B : Any → {Any | trace(A + B) == Tr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trace(A + B) == Trace(A) + Trace(B)            ║
+# ║   ensures:  Trace(A + B).arg == MatAdd(A, B)               ║
+# ║   ensures:  Trace(A + B).doit() == Trace(A) + Trace(B)     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Trace_A_plus_B : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7e47dc1bf9f0722  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63bb07459ff83e08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_Trace_A_plus_B","kind":"function","src_hash":"4646e1fa6e82e8d1","in":{"base":"Any"},"out":{"base":"Any","pred":"trace(A + B) == Trace(A) + Trace(B) and Trace(A + B).arg == MatAdd(A, B) and Trace(A + B).doit() == Trace(A) + Trace(B)"},"spec":{"lhs":"test_Trace_A_plus_B()","rhs":"test_Trace_A_plus_B produces the expected output","over":{"base":"Any"},"name":"test_Trace_A_plus_B_correct"},"guarantee":"test_Trace_A_plus_B produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_A_plus_B_correct","statement":"Path(test_Trace_A_plus_B(x), test_Trace_A_plus_B produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7e47dc1bf9f0722"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_Trace_A_plus_B","kind":"function","src_hash":"4646e1fa6e82e8d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trace(A + B) == Trace(A) + Trace(B) and Trace(A + B).arg == MatAdd(A, B) and Trace(A + B).doit() == Trace(A) + Trace(B)"},"spec":{"lhs":"test_Trace_A_plus_B()","rhs":"trace(A + B) == Trace(A) + Trace(B) and Trace(A + B).arg == MatAdd(A, B) and Trace(A + B).doit() == Trace(A) + Trace(B)","over":{"base":"Any"},"name":"test_Trace_A_plus_B_correct"},"guarantee":"trace(A + B) == Trace(A) + Trace(B); Trace(A + B).arg == MatAdd(A, B); Trace(A + B).doit() == Trace(A) + Trace(B)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_A_plus_B_correct","statement":"Path(test_Trace_A_plus_B(x), trace(A + B) == Trace(A) + Trace(B); Trace(A + B).arg == MatAdd(A, B); Trace(A + B).doit() == Trace(A) + Trace(B))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63bb07459ff83e08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trace(A + B) == Trace(A) + Trace(B)","Trace(A + B).arg == MatAdd(A, B)","Trace(A + B).doit() == Trace(A) + Trace(B)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Trace_A_plus_B():
     assert trace(A + B) == Trace(A) + Trace(B)
     assert Trace(A + B).arg == MatAdd(A, B)
@@ -103,16 +119,23 @@ def test_Trace_A_plus_B():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Trace_MatAdd_doit(), test_Trace_MatAdd_doit produces the expected output) over Any ║
+# ║ Path(test_Trace_MatAdd_doit(), Trace(q).arg == q and Trace(q).doit() == 18 - 2 * Trace(Y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Trace_MatAdd_doit : Any → {Any | Trace(q).arg ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Trace(q).arg == q                              ║
+# ║   ensures:  Trace(q).doit() == 18 - 2 * Trace(Y)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Trace_MatAdd_doit : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f596b5384c35927  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 586b35f92d3889e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_Trace_MatAdd_doit","kind":"function","src_hash":"5f1f470fe86daae1","in":{"base":"Any"},"out":{"base":"Any","pred":"Trace(q).arg == q and Trace(q).doit() == 18 - 2 * Trace(Y)"},"spec":{"lhs":"test_Trace_MatAdd_doit()","rhs":"test_Trace_MatAdd_doit produces the expected output","over":{"base":"Any"},"name":"test_Trace_MatAdd_doit_correct"},"guarantee":"test_Trace_MatAdd_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_MatAdd_doit_correct","statement":"Path(test_Trace_MatAdd_doit(x), test_Trace_MatAdd_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f596b5384c35927"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_Trace_MatAdd_doit","kind":"function","src_hash":"5f1f470fe86daae1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Trace(q).arg == q and Trace(q).doit() == 18 - 2 * Trace(Y)"},"spec":{"lhs":"test_Trace_MatAdd_doit()","rhs":"Trace(q).arg == q and Trace(q).doit() == 18 - 2 * Trace(Y)","over":{"base":"Any"},"name":"test_Trace_MatAdd_doit_correct"},"guarantee":"Trace(q).arg == q; Trace(q).doit() == 18 - 2 * Trace(Y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_MatAdd_doit_correct","statement":"Path(test_Trace_MatAdd_doit(x), Trace(q).arg == q; Trace(q).doit() == 18 - 2 * Trace(Y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"586b35f92d3889e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Trace(q).arg == q","Trace(q).doit() == 18 - 2 * Trace(Y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Trace_MatAdd_doit():
     # See issue #9028
     X = ImmutableMatrix([[1, 2, 3]]*3)
@@ -123,16 +146,24 @@ def test_Trace_MatAdd_doit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Trace_MatPow_doit(), test_Trace_MatPow_doit produces the expected output) over Any ║
+# ║ Path(test_Trace_MatPow_doit(), Trace(X).doit() == 5 and Trace(q).arg == q and Trace(q).doit() == 29) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Trace_MatPow_doit : Any → {Any | Trace(X).doit()...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Trace(X).doit() == 5                           ║
+# ║   ensures:  Trace(q).arg == q                              ║
+# ║   ensures:  Trace(q).doit() == 29                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Trace_MatPow_doit : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 00bd902ac86d6860  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c214deb63b5caa4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_Trace_MatPow_doit","kind":"function","src_hash":"7dd20d9e42e555a5","in":{"base":"Any"},"out":{"base":"Any","pred":"Trace(X).doit() == 5 and Trace(q).arg == q and Trace(q).doit() == 29"},"spec":{"lhs":"test_Trace_MatPow_doit()","rhs":"test_Trace_MatPow_doit produces the expected output","over":{"base":"Any"},"name":"test_Trace_MatPow_doit_correct"},"guarantee":"test_Trace_MatPow_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_MatPow_doit_correct","statement":"Path(test_Trace_MatPow_doit(x), test_Trace_MatPow_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"00bd902ac86d6860"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_Trace_MatPow_doit","kind":"function","src_hash":"7dd20d9e42e555a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Trace(X).doit() == 5 and Trace(q).arg == q and Trace(q).doit() == 29"},"spec":{"lhs":"test_Trace_MatPow_doit()","rhs":"Trace(X).doit() == 5 and Trace(q).arg == q and Trace(q).doit() == 29","over":{"base":"Any"},"name":"test_Trace_MatPow_doit_correct"},"guarantee":"Trace(X).doit() == 5; Trace(q).arg == q; Trace(q).doit() == 29","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_MatPow_doit_correct","statement":"Path(test_Trace_MatPow_doit(x), Trace(X).doit() == 5; Trace(q).arg == q; Trace(q).doit() == 29)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c214deb63b5caa4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Trace(X).doit() == 5","Trace(q).arg == q","Trace(q).doit() == 29"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Trace_MatPow_doit():
     X = Matrix([[1, 2], [3, 4]])
     assert Trace(X).doit() == 5
@@ -142,16 +173,22 @@ def test_Trace_MatPow_doit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Trace_MutableMatrix_plus(), test_Trace_MutableMatrix_plus produces the expected output) over Any ║
+# ║ Path(test_Trace_MutableMatrix_plus(), Trace(X) + Trace(X) == 2 * Trace(X)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Trace_MutableMatrix_plus : Any → {Any | Trace(X)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Trace(X) + Trace(X) == 2 * Trace(X)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Trace_MutableMatrix_plus : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d20d871e07167ed8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a6ac941f91d9dc2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_Trace_MutableMatrix_plus","kind":"function","src_hash":"f9d0fe69f348e713","in":{"base":"Any"},"out":{"base":"Any","pred":"Trace(X) + Trace(X) == 2 * Trace(X)"},"spec":{"lhs":"test_Trace_MutableMatrix_plus()","rhs":"test_Trace_MutableMatrix_plus produces the expected output","over":{"base":"Any"},"name":"test_Trace_MutableMatrix_plus_correct"},"guarantee":"test_Trace_MutableMatrix_plus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_MutableMatrix_plus_correct","statement":"Path(test_Trace_MutableMatrix_plus(x), test_Trace_MutableMatrix_plus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d20d871e07167ed8"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_Trace_MutableMatrix_plus","kind":"function","src_hash":"f9d0fe69f348e713","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Trace(X) + Trace(X) == 2 * Trace(X)"},"spec":{"lhs":"test_Trace_MutableMatrix_plus()","rhs":"Trace(X) + Trace(X) == 2 * Trace(X)","over":{"base":"Any"},"name":"test_Trace_MutableMatrix_plus_correct"},"guarantee":"Trace(X) + Trace(X) == 2 * Trace(X)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_MutableMatrix_plus_correct","statement":"Path(test_Trace_MutableMatrix_plus(x), Trace(X) + Trace(X) == 2 * Trace(X))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a6ac941f91d9dc2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Trace(X) + Trace(X) == 2 * Trace(X)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Trace_MutableMatrix_plus():
     # See issue #9043
     X = Matrix([[1, 2], [3, 4]])
@@ -159,16 +196,22 @@ def test_Trace_MutableMatrix_plus():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Trace_doit_deep_False(), test_Trace_doit_deep_False produces the expected output) over Any ║
+# ║ Path(test_Trace_doit_deep_False(), Trace(q).doit(deep=False).arg == q) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Trace_doit_deep_False : Any → {Any | Trace(q).do...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Trace(q).doit(deep=False).arg == q             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Trace_doit_deep_False : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0abced29ed8ee3cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85b92752046bc234  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_Trace_doit_deep_False","kind":"function","src_hash":"05488da2c3672ea8","in":{"base":"Any"},"out":{"base":"Any","pred":"Trace(q).doit(deep=False).arg == q and Trace(q).doit(deep=False).arg == q and Trace(q).doit(deep=False).arg == q"},"spec":{"lhs":"test_Trace_doit_deep_False()","rhs":"test_Trace_doit_deep_False produces the expected output","over":{"base":"Any"},"name":"test_Trace_doit_deep_False_correct"},"guarantee":"test_Trace_doit_deep_False produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_doit_deep_False_correct","statement":"Path(test_Trace_doit_deep_False(x), test_Trace_doit_deep_False produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0abced29ed8ee3cd"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_Trace_doit_deep_False","kind":"function","src_hash":"05488da2c3672ea8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Trace(q).doit(deep=False).arg == q"},"spec":{"lhs":"test_Trace_doit_deep_False()","rhs":"Trace(q).doit(deep=False).arg == q","over":{"base":"Any"},"name":"test_Trace_doit_deep_False_correct"},"guarantee":"Trace(q).doit(deep=False).arg == q","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_Trace_doit_deep_False_correct","statement":"Path(test_Trace_doit_deep_False(x), Trace(q).doit(deep=False).arg == q)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85b92752046bc234","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Trace(q).doit(deep=False).arg == q"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Trace_doit_deep_False():
     X = Matrix([[1, 2], [3, 4]])
     q = MatPow(X, 2)
@@ -180,16 +223,23 @@ def test_Trace_doit_deep_False():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trace_constant_factor(), test_trace_constant_factor produces the expected output) over Any ║
+# ║ Path(test_trace_constant_factor(), trace(2 * A) == 2 * Trace(A) and trace(MatMul(2, X)) == 10) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trace_constant_factor : Any → {Any | trace(2 * A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trace(2 * A) == 2 * Trace(A)                   ║
+# ║   ensures:  trace(MatMul(2, X)) == 10                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trace_constant_factor : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90d16c4881d5eec0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea75ea333c98b2da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_trace_constant_factor","kind":"function","src_hash":"90f94d0f42a224aa","in":{"base":"Any"},"out":{"base":"Any","pred":"trace(2 * A) == 2 * Trace(A) and trace(MatMul(2, X)) == 10"},"spec":{"lhs":"test_trace_constant_factor()","rhs":"test_trace_constant_factor produces the expected output","over":{"base":"Any"},"name":"test_trace_constant_factor_correct"},"guarantee":"test_trace_constant_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_trace_constant_factor_correct","statement":"Path(test_trace_constant_factor(x), test_trace_constant_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90d16c4881d5eec0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_trace_constant_factor","kind":"function","src_hash":"90f94d0f42a224aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trace(2 * A) == 2 * Trace(A) and trace(MatMul(2, X)) == 10"},"spec":{"lhs":"test_trace_constant_factor()","rhs":"trace(2 * A) == 2 * Trace(A) and trace(MatMul(2, X)) == 10","over":{"base":"Any"},"name":"test_trace_constant_factor_correct"},"guarantee":"trace(2 * A) == 2 * Trace(A); trace(MatMul(2, X)) == 10","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_trace_constant_factor_correct","statement":"Path(test_trace_constant_factor(x), trace(2 * A) == 2 * Trace(A); trace(MatMul(2, X)) == 10)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea75ea333c98b2da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trace(2 * A) == 2 * Trace(A)","trace(MatMul(2, X)) == 10"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trace_constant_factor():
     # Issue 9052: gave 2*Trace(MatMul(A)) instead of 2*Trace(A)
     assert trace(2*A) == 2*Trace(A)
@@ -198,32 +248,47 @@ def test_trace_constant_factor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trace_rewrite(), test_trace_rewrite produces the expected output) over Any ║
+# ║ Path(test_trace_rewrite(), trace(A).rewrite(Sum) == Sum(A[i, i], (i, 0, n - 1)) and trace(eye(3)).rewrite(Sum) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trace_rewrite : Any → {Any | trace(A).rewrite(Su...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  trace(A).rewrite(Sum) == Sum(A[i, i], (i,...   ║
+# ║   ensures:  trace(eye(3)).rewrite(Sum) == 3                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trace_rewrite : Any → {Any | result satisfies: t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 593480046a4f394e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 797807597d6fbf06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_trace_rewrite","kind":"function","src_hash":"2edfe9d6cf9b920f","in":{"base":"Any"},"out":{"base":"Any","pred":"trace(A).rewrite(Sum) == Sum(A[i, i], (i, 0, n - 1)) and trace(eye(3)).rewrite(Sum) == 3"},"spec":{"lhs":"test_trace_rewrite()","rhs":"test_trace_rewrite produces the expected output","over":{"base":"Any"},"name":"test_trace_rewrite_correct"},"guarantee":"test_trace_rewrite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_trace_rewrite_correct","statement":"Path(test_trace_rewrite(x), test_trace_rewrite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"593480046a4f394e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_trace_rewrite","kind":"function","src_hash":"2edfe9d6cf9b920f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: trace(A).rewrite(Sum) == Sum(A[i, i], (i, 0, n - 1)) and trace(eye(3)).rewrite(Sum) == 3"},"spec":{"lhs":"test_trace_rewrite()","rhs":"trace(A).rewrite(Sum) == Sum(A[i, i], (i, 0, n - 1)) and trace(eye(3)).rewrite(Sum) == 3","over":{"base":"Any"},"name":"test_trace_rewrite_correct"},"guarantee":"trace(A).rewrite(Sum) == Sum(A[i, i], (i, 0, n - 1)); trace(eye(3)).rewrite(Sum) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_trace_rewrite_correct","statement":"Path(test_trace_rewrite(x), trace(A).rewrite(Sum) == Sum(A[i, i], (i, 0, n - 1)); trace(eye(3)).rewrite(Sum) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"797807597d6fbf06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["trace(A).rewrite(Sum) == Sum(A[i, i], (i, 0, n - 1))","trace(eye(3)).rewrite(Sum) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trace_rewrite():
     assert trace(A).rewrite(Sum) == Sum(A[i, i], (i, 0, n - 1))
     assert trace(eye(3)).rewrite(Sum) == 3
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trace_normalize(), test_trace_normalize produces the expected output) over Any ║
+# ║ Path(test_trace_normalize(), Trace(B * A) != Trace(A * B) and Trace(B * A)._normalize() == Trace(A * B) and Trace(B * A.T)._normalize() == Trace(A * B.T)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trace_normalize : Any → {Any | Trace(B * A) != T...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Trace(B * A) != Trace(A * B)                   ║
+# ║   ensures:  Trace(B * A)._normalize() == Trace(A * B)      ║
+# ║   ensures:  Trace(B * A.T)._normalize() == Trace(A * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trace_normalize : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef755839a9331bcc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 189e9af99fb86cd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_trace_normalize","kind":"function","src_hash":"e2d2d538faf05e4c","in":{"base":"Any"},"out":{"base":"Any","pred":"Trace(B * A) != Trace(A * B) and Trace(B * A)._normalize() == Trace(A * B) and Trace(B * A.T)._normalize() == Trace(A * B.T)"},"spec":{"lhs":"test_trace_normalize()","rhs":"test_trace_normalize produces the expected output","over":{"base":"Any"},"name":"test_trace_normalize_correct"},"guarantee":"test_trace_normalize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_trace_normalize_correct","statement":"Path(test_trace_normalize(x), test_trace_normalize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef755839a9331bcc"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_trace_normalize","kind":"function","src_hash":"e2d2d538faf05e4c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Trace(B * A) != Trace(A * B) and Trace(B * A)._normalize() == Trace(A * B) and Trace(B * A.T)._normalize() == Trace(A * B.T)"},"spec":{"lhs":"test_trace_normalize()","rhs":"Trace(B * A) != Trace(A * B) and Trace(B * A)._normalize() == Trace(A * B) and Trace(B * A.T)._normalize() == Trace(A * B.T)","over":{"base":"Any"},"name":"test_trace_normalize_correct"},"guarantee":"Trace(B * A) != Trace(A * B); Trace(B * A)._normalize() == Trace(A * B); Trace(B * A.T)._normalize() == Trace(A * B.T)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_trace_normalize_correct","statement":"Path(test_trace_normalize(x), Trace(B * A) != Trace(A * B); Trace(B * A)._normalize() == Trace(A * B); Trace(B * A.T)._normalize() == Trace(A * B.T))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"189e9af99fb86cd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Trace(B * A) != Trace(A * B)","Trace(B * A)._normalize() == Trace(A * B)","Trace(B * A.T)._normalize() == Trace(A * B.T)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trace_normalize():
     assert Trace(B*A) != Trace(A*B)
     assert Trace(B*A)._normalize() == Trace(A*B)
@@ -231,16 +296,23 @@ def test_trace_normalize():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_trace_as_explicit(), test_trace_as_explicit produces the expected output) over Any ║
+# ║ Path(test_trace_as_explicit(), Trace(X).as_explicit() == X[0, 0] + X[1, 1] + X[2, 2] and Trace(eye(3)).as_explicit() == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_trace_as_explicit : Any → {Any | Trace(X).as_exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Trace(X).as_explicit() == X[0, 0] + X[1, ...   ║
+# ║   ensures:  Trace(eye(3)).as_explicit() == 3               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_trace_as_explicit : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f62f8f81e31f24d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db240b28357d3df6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_trace_as_explicit","kind":"function","src_hash":"8d324e7ffdf7856e","in":{"base":"Any"},"out":{"base":"Any","pred":"Trace(X).as_explicit() == X[0, 0] + X[1, 1] + X[2, 2] and Trace(eye(3)).as_explicit() == 3"},"spec":{"lhs":"test_trace_as_explicit()","rhs":"test_trace_as_explicit produces the expected output","over":{"base":"Any"},"name":"test_trace_as_explicit_correct"},"guarantee":"test_trace_as_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_trace_as_explicit_correct","statement":"Path(test_trace_as_explicit(x), test_trace_as_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f62f8f81e31f24d0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_trace.test_trace_as_explicit","kind":"function","src_hash":"8d324e7ffdf7856e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Trace(X).as_explicit() == X[0, 0] + X[1, 1] + X[2, 2] and Trace(eye(3)).as_explicit() == 3"},"spec":{"lhs":"test_trace_as_explicit()","rhs":"Trace(X).as_explicit() == X[0, 0] + X[1, 1] + X[2, 2] and Trace(eye(3)).as_explicit() == 3","over":{"base":"Any"},"name":"test_trace_as_explicit_correct"},"guarantee":"Trace(X).as_explicit() == X[0, 0] + X[1, 1] + X[2, 2]; Trace(eye(3)).as_explicit() == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_trace.test_trace_as_explicit_correct","statement":"Path(test_trace_as_explicit(x), Trace(X).as_explicit() == X[0, 0] + X[1, 1] + X[2, 2]; Trace(eye(3)).as_explicit() == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db240b28357d3df6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Trace(X).as_explicit() == X[0, 0] + X[1, 1] + X[2, 2]","Trace(eye(3)).as_explicit() == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_trace_as_explicit():
     raises(ValueError, lambda: Trace(A).as_explicit())
 

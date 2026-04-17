@@ -29,16 +29,24 @@ x, y, z = symbols('x y z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_class_handler_registry(), test_class_handler_registry produces the expected output) over Any ║
+# ║ Path(test_class_handler_registry(), my_handler_registry[Basic] == (frozenset(), frozenset()) and my_handler_registry[Expr] == (frozenset(), frozenset({fact2})) and my_handler_registry[Mul] == (frozenset({fact1}), frozenset({fact2}))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_class_handler_registry : Any → {Any | my_handler...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  my_handler_registry[Basic] == (frozenset(...   ║
+# ║   ensures:  my_handler_registry[Expr] == (frozenset()...   ║
+# ║   ensures:  my_handler_registry[Mul] == (frozenset({f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_class_handler_registry : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b37efea30d55a67e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 438b17de68387dcb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_sathandlers.test_class_handler_registry","kind":"function","src_hash":"c5a167bd315d00db","in":{"base":"Any"},"out":{"base":"Any","pred":"my_handler_registry[Basic] == (frozenset(), frozenset()) and my_handler_registry[Expr] == (frozenset(), frozenset({fact2})) and my_handler_registry[Mul] == (frozenset({fact1}), frozenset({fact2}))"},"spec":{"lhs":"test_class_handler_registry()","rhs":"test_class_handler_registry produces the expected output","over":{"base":"Any"},"name":"test_class_handler_registry_correct"},"guarantee":"test_class_handler_registry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_sathandlers.test_class_handler_registry_correct","statement":"Path(test_class_handler_registry(x), test_class_handler_registry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b37efea30d55a67e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_sathandlers.test_class_handler_registry","kind":"function","src_hash":"c5a167bd315d00db","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: my_handler_registry[Basic] == (frozenset(), frozenset()) and my_handler_registry[Expr] == (frozenset(), frozenset({fact2})) and my_handler_registry[Mul] == (frozenset({fact1}), frozenset({fact2}))"},"spec":{"lhs":"test_class_handler_registry()","rhs":"my_handler_registry[Basic] == (frozenset(), frozenset()) and my_handler_registry[Expr] == (frozenset(), frozenset({fact2})) and my_handler_registry[Mul] == (frozenset({fact1}), frozenset({fact2}))","over":{"base":"Any"},"name":"test_class_handler_registry_correct"},"guarantee":"my_handler_registry[Basic] == (frozenset(), frozenset()); my_handler_registry[Expr] == (frozenset(), frozenset({fact2})); my_handler_registry[Mul] == (frozenset({fact1}), frozenset({fact2}))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_sathandlers.test_class_handler_registry_correct","statement":"Path(test_class_handler_registry(x), my_handler_registry[Basic] == (frozenset(), frozenset()); my_handler_registry[Expr] == (frozenset(), frozenset({fact2})); my_handler_registry[Mul] == (frozenset({fact1}), frozenset({fact2})))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"438b17de68387dcb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["my_handler_registry[Basic] == (frozenset(), frozenset())","my_handler_registry[Expr] == (frozenset(), frozenset({fact2}))","my_handler_registry[Mul] == (frozenset({fact1}), frozenset({fact2}))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_class_handler_registry():
     my_handler_registry = ClassFactRegistry()
 
@@ -56,32 +64,46 @@ def test_class_handler_registry():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_allargs(), test_allargs produces the expected output) over Any ║
+# ║ Path(test_allargs(), allargs(x, Q.zero(x), x * y) == And(Q.zero(x), Q.zero(y)) and allargs(x, Q.positive(x) | Q.negative(x), x * y) == And(Q.positive(x) | Q.negative(x), Q.positive(y) | Q.negative(y))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_allargs : Any → {Any | allargs(x, Q.zero(x), x *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  allargs(x, Q.zero(x), x * y) == And(Q.zer...   ║
+# ║   ensures:  allargs(x, Q.positive(x) | Q.negative(x),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_allargs : Any → {Any | result satisfies: allargs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5586badeceb1072c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88977cb9ef3883c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_sathandlers.test_allargs","kind":"function","src_hash":"4466903061d04510","in":{"base":"Any"},"out":{"base":"Any","pred":"allargs(x, Q.zero(x), x * y) == And(Q.zero(x), Q.zero(y))"},"spec":{"lhs":"test_allargs()","rhs":"test_allargs produces the expected output","over":{"base":"Any"},"name":"test_allargs_correct"},"guarantee":"test_allargs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_sathandlers.test_allargs_correct","statement":"Path(test_allargs(x), test_allargs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5586badeceb1072c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_sathandlers.test_allargs","kind":"function","src_hash":"4466903061d04510","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: allargs(x, Q.zero(x), x * y) == And(Q.zero(x), Q.zero(y)) and allargs(x, Q.positive(x) | Q.negative(x), x * y) == And(Q.positive(x) | Q.negative(x), Q.positive(y) | Q.negative(y))"},"spec":{"lhs":"test_allargs()","rhs":"allargs(x, Q.zero(x), x * y) == And(Q.zero(x), Q.zero(y)) and allargs(x, Q.positive(x) | Q.negative(x), x * y) == And(Q.positive(x) | Q.negative(x), Q.positive(y) | Q.negative(y))","over":{"base":"Any"},"name":"test_allargs_correct"},"guarantee":"allargs(x, Q.zero(x), x * y) == And(Q.zero(x), Q.zero(y)); allargs(x, Q.positive(x) | Q.negative(x), x * y) == And(Q.positive(x) | Q.negative(x), Q.positive(y) | Q.negative(y))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_sathandlers.test_allargs_correct","statement":"Path(test_allargs(x), allargs(x, Q.zero(x), x * y) == And(Q.zero(x), Q.zero(y)); allargs(x, Q.positive(x) | Q.negative(x), x * y) == And(Q.positive(x) | Q.negative(x), Q.positive(y) | Q.negative(y)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88977cb9ef3883c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["allargs(x, Q.zero(x), x * y) == And(Q.zero(x), Q.zero(y))","allargs(x, Q.positive(x) | Q.negative(x), x * y) == And(Q.positive(x) | Q.negative(x), Q.positive(y) | Q.negative(y))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_allargs():
     assert allargs(x, Q.zero(x), x*y) == And(Q.zero(x), Q.zero(y))
     assert allargs(x, Q.positive(x) | Q.negative(x), x*y) == And(Q.positive(x) | Q.negative(x), Q.positive(y) | Q.negative(y))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_anyarg(), test_anyarg produces the expected output) over Any ║
+# ║ Path(test_anyarg(), anyarg(x, Q.zero(x), x * y) == Or(Q.zero(x), Q.zero(y)) and anyarg(x, Q.positive(x) & Q.negative(x), x * y) == Or(Q.positive(x) & Q.negative(x), Q.positive(y) & Q.negative(y))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_anyarg : Any → {Any | anyarg(x, Q.zero(x), x * y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  anyarg(x, Q.zero(x), x * y) == Or(Q.zero(...   ║
+# ║   ensures:  anyarg(x, Q.positive(x) & Q.negative(x), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_anyarg : Any → {Any | result satisfies: anyarg(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71ba04113429f095  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43f461169d7fbc1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_sathandlers.test_anyarg","kind":"function","src_hash":"4def5ad039a70467","in":{"base":"Any"},"out":{"base":"Any","pred":"anyarg(x, Q.zero(x), x * y) == Or(Q.zero(x), Q.zero(y))"},"spec":{"lhs":"test_anyarg()","rhs":"test_anyarg produces the expected output","over":{"base":"Any"},"name":"test_anyarg_correct"},"guarantee":"test_anyarg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_sathandlers.test_anyarg_correct","statement":"Path(test_anyarg(x), test_anyarg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71ba04113429f095"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_sathandlers.test_anyarg","kind":"function","src_hash":"4def5ad039a70467","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: anyarg(x, Q.zero(x), x * y) == Or(Q.zero(x), Q.zero(y)) and anyarg(x, Q.positive(x) & Q.negative(x), x * y) == Or(Q.positive(x) & Q.negative(x), Q.positive(y) & Q.negative(y))"},"spec":{"lhs":"test_anyarg()","rhs":"anyarg(x, Q.zero(x), x * y) == Or(Q.zero(x), Q.zero(y)) and anyarg(x, Q.positive(x) & Q.negative(x), x * y) == Or(Q.positive(x) & Q.negative(x), Q.positive(y) & Q.negative(y))","over":{"base":"Any"},"name":"test_anyarg_correct"},"guarantee":"anyarg(x, Q.zero(x), x * y) == Or(Q.zero(x), Q.zero(y)); anyarg(x, Q.positive(x) & Q.negative(x), x * y) == Or(Q.positive(x) & Q.negative(x), Q.positive(y) & Q.negative(y))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_sathandlers.test_anyarg_correct","statement":"Path(test_anyarg(x), anyarg(x, Q.zero(x), x * y) == Or(Q.zero(x), Q.zero(y)); anyarg(x, Q.positive(x) & Q.negative(x), x * y) == Or(Q.positive(x) & Q.negative(x), Q.positive(y) & Q.negative(y)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43f461169d7fbc1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["anyarg(x, Q.zero(x), x * y) == Or(Q.zero(x), Q.zero(y))","anyarg(x, Q.positive(x) & Q.negative(x), x * y) == Or(Q.positive(x) & Q.negative(x), Q.positive(y) & Q.negative(y))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_anyarg():
     assert anyarg(x, Q.zero(x), x*y) == Or(Q.zero(x), Q.zero(y))
     assert anyarg(x, Q.positive(x) & Q.negative(x), x*y) == \
@@ -89,16 +111,24 @@ def test_anyarg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exactlyonearg(), test_exactlyonearg produces the expected output) over Any ║
+# ║ Path(test_exactlyonearg(), exactlyonearg(x, Q.zero(x), x * y) == Or(Q.zero(x) & ~Q.zero(y), Q.zero(y) & ~Q.zero(x)) and exactlyonearg(x, Q.zero(x), x * y * z) == Or(Q.zero(x) & ~Q.zero(y) & ~Q.zero(z), Q.zero(y) & ~Q.zero(x) & ~Q.zero(z), Q.zero(z) & ~Q.zero(x) & ~Q.zero(y)) and exactlyonearg(x, Q.positive(x) | Q.negative(x), x * y) == Or((Q.positive(x) | Q.negative(x)) & ~(Q.positive(y) | Q.negative(y)), (Q.positive(y) | Q.negative(y)) & ~(Q.positive(x) | Q.negative(x)))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exactlyonearg : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exactlyonearg(x, Q.zero(x), x * y) == Or(...   ║
+# ║   ensures:  exactlyonearg(x, Q.zero(x), x * y * z) ==...   ║
+# ║   ensures:  exactlyonearg(x, Q.positive(x) | Q.negati...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exactlyonearg : Any → {Any | result satisfies: e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36d03707a5297f74  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d38fcebc22b2ffb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_sathandlers.test_exactlyonearg","kind":"function","src_hash":"90b8330b6ea5d3fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_exactlyonearg()","rhs":"test_exactlyonearg produces the expected output","over":{"base":"Any"},"name":"test_exactlyonearg_correct"},"guarantee":"test_exactlyonearg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_sathandlers.test_exactlyonearg_correct","statement":"Path(test_exactlyonearg(x), test_exactlyonearg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36d03707a5297f74"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.tests.test_sathandlers.test_exactlyonearg","kind":"function","src_hash":"90b8330b6ea5d3fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exactlyonearg(x, Q.zero(x), x * y) == Or(Q.zero(x) & ~Q.zero(y), Q.zero(y) & ~Q.zero(x)) and exactlyonearg(x, Q.zero(x), x * y * z) == Or(Q.zero(x) & ~Q.zero(y) & ~Q.zero(z), Q.zero(y) & ~Q.zero(x) & ~Q.zero(z), Q.zero(z) & ~Q.zero(x) & ~Q.zero(y)) and exactlyonearg(x, Q.positive(x) | Q.negative(x), x * y) == Or((Q.positive(x) | Q.negative(x)) & ~(Q.positive(y) | Q.negative(y)), (Q.positive(y) | Q.negative(y)) & ~(Q.positive(x) | Q.negative(x)))"},"spec":{"lhs":"test_exactlyonearg()","rhs":"exactlyonearg(x, Q.zero(x), x * y) == Or(Q.zero(x) & ~Q.zero(y), Q.zero(y) & ~Q.zero(x)) and exactlyonearg(x, Q.zero(x), x * y * z) == Or(Q.zero(x) & ~Q.zero(y) & ~Q.zero(z), Q.zero(y) & ~Q.zero(x) & ~Q.zero(z), Q.zero(z) & ~Q.zero(x) & ~Q.zero(y)) and exactlyonearg(x, Q.positive(x) | Q.negative(x), x * y) == Or((Q.positive(x) | Q.negative(x)) & ~(Q.positive(y) | Q.negative(y)), (Q.positive(y) | Q.negative(y)) & ~(Q.positive(x) | Q.negative(x)))","over":{"base":"Any"},"name":"test_exactlyonearg_correct"},"guarantee":"exactlyonearg(x, Q.zero(x), x * y) == Or(Q.zero(x) & ~Q.zero(y), Q.zero(y) & ~Q.zero(x)); exactlyonearg(x, Q.zero(x), x * y * z) == Or(Q.zero(x) & ~Q.zero(y) & ~Q.zero(z), Q.zero(y) & ~Q.zero(x) & ~Q.zero(z), Q.zero(z) & ~Q.zero(x) & ~Q.zero(y)); exactlyonearg(x, Q.positive(x) | Q.negative(x), x * y) == Or((Q.positive(x) | Q.negative(x)) & ~(Q.positive(y) | Q.negative(y)), (Q.positive(y) | Q.negative(y)) & ~(Q.positive(x) | Q.negative(x)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.tests.test_sathandlers.test_exactlyonearg_correct","statement":"Path(test_exactlyonearg(x), exactlyonearg(x, Q.zero(x), x * y) == Or(Q.zero(x) & ~Q.zero(y), Q.zero(y) & ~Q.zero(x)); exactlyonearg(x, Q.zero(x), x * y * z) == Or(Q.zero(x) & ~Q.zero(y) & ~Q.zero(z), Q.zero(y) & ~Q.zero(x) & ~Q.zero(z), Q.zero(z) & ~Q.zero(x) & ~Q.zero(y)); exactlyonearg(x, Q.positive(x) | Q.negative(x), x * y) == Or((Q.positive(x) | Q.negative(x)) & ~(Q.positive(y) | Q.negative(y)), (Q.positive(y) | Q.negative(y)) & ~(Q.positive(x) | Q.negative(x))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d38fcebc22b2ffb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exactlyonearg(x, Q.zero(x), x * y) == Or(Q.zero(x) & ~Q.zero(y), Q.zero(y) & ~Q.zero(x))","exactlyonearg(x, Q.zero(x), x * y * z) == Or(Q.zero(x) & ~Q.zero(y) & ~Q.zero(z), Q.zero(y) & ~Q.zero(x) & ~Q.zero(z), Q.zero(z) & ~Q.zero(x) & ~Q.zero(y))","exactlyonearg(x, Q.positive(x) | Q.negative(x), x * y) == Or((Q.positive(x) | Q.negative(x)) & ~(Q.positive(y) | Q.negative(y)), (Q.positive(y) | Q.negative(y)) & ~(Q.positive(x) | Q.negative(x)))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_exactlyonearg():
     assert exactlyonearg(x, Q.zero(x), x*y) == \
         Or(Q.zero(x) & ~Q.zero(y), Q.zero(y) & ~Q.zero(x))

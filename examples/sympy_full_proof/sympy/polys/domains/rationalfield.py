@@ -32,14 +32,22 @@ from sympy.utilities import public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(RationalField(*args), correctly constructs a RationalField instance) over {Any | isinstance(other, RationalField)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Field)                        ║
+# ║   ensures:  isinstance(self, CharacteristicZero)           ║
+# ║   ensures:  isinstance(self, SimpleDomain)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RationalField : {Any | isinstance(other, RationalFiel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfef2207a01b3abe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField","kind":"class","src_hash":"d4d8a035034e18da","in":{"base":"Any","pred":"isinstance(other, RationalField)"},"out":{"base":"Any"},"spec":{"lhs":"RationalField(*args)","rhs":"correctly constructs a RationalField instance","over":{"base":"Any","pred":"isinstance(other, RationalField)"},"name":"RationalField_class_invariant"},"guarantee":"correctly constructs a RationalField instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfef2207a01b3abe"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField","kind":"class","src_hash":"d4d8a035034e18da","in":{"base":"Any","pred":"isinstance(other, RationalField)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Field) and isinstance(self, CharacteristicZero) and isinstance(self, SimpleDomain)"},"spec":{"lhs":"RationalField(*args)","rhs":"correctly constructs a RationalField instance","over":{"base":"Any","pred":"isinstance(other, RationalField)"},"name":"RationalField_class_invariant"},"guarantee":"isinstance(self, Field); isinstance(self, CharacteristicZero); isinstance(self, SimpleDomain)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfef2207a01b3abe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Field)","isinstance(self, CharacteristicZero)","isinstance(self, SimpleDomain)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function RationalField not found in source"]}}
 class RationalField(Field, CharacteristicZero, SimpleDomain):
     r"""Abstract base class for the domain :ref:`QQ`.
 
@@ -71,30 +79,45 @@ class RationalField(Field, CharacteristicZero, SimpleDomain):
     tp = type(one)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a540a9c6eec2f12           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.__init__","kind":"method","src_hash":"8da0b8b4d1415086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a540a9c6eec2f12"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.__init__","kind":"method","src_hash":"8da0b8b4d1415086","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a540a9c6eec2f12","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), result == (True if isinstance(other, RationalField) else NotImplemented) and result == True or result == NotImplemented) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (True if isinstance(other, Rati...   ║
+# ║   ensures:  result == True or result == NotImplemented     ║
+# ║   fiber[RationalField]: isinstance(other, RationalFie...   ║
+# ║   fiber[RationalField]: not (isinstance(other, Ration...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : Any → {Any | result satisfies: result == (Tr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef31c017e8f5dc54           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.__eq__","kind":"method","src_hash":"5fb706251d079039","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef31c017e8f5dc54"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.__eq__","kind":"method","src_hash":"5fb706251d079039","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (True if isinstance(other, RationalField) else NotImplemented) and result == True or result == NotImplemented"},"spec":{"lhs":"__eq__(other)","rhs":"result == (True if isinstance(other, RationalField) else NotImplemented) and result == True or result == NotImplemented","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"result == (True if isinstance(other, RationalField) else NotImplemented); result == True or result == NotImplemented; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef31c017e8f5dc54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (True if isinstance(other, RationalField) else NotImplemented)","result == True or result == NotImplemented"],"fibers":[{"name":"RationalField","guard":"isinstance(other, RationalField)","ensures":["result == True"],"decidability":"structural","returns_expr":"True"},{"name":"RationalField","guard":"not (isinstance(other, RationalField))","ensures":["result == NotImplemented"],"decidability":"structural","returns_expr":"NotImplemented"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         """Returns ``True`` if two domains are equivalent. """
         if isinstance(other, RationalField):
@@ -103,62 +126,93 @@ class RationalField(Field, CharacteristicZero, SimpleDomain):
             return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__hash__(), returns a consistent hash value) over Any ║
+# ║ Path(__hash__(), hash('QQ')) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  hash('QQ')                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __hash__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c4ae48c65b94312e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.__hash__","kind":"method","src_hash":"56d2416cdb147a28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"returns a consistent hash value","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns a consistent hash value","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4ae48c65b94312e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.__hash__","kind":"method","src_hash":"56d2416cdb147a28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__hash__()","rhs":"hash('QQ')","over":{"base":"Any"},"name":"__hash___correct"},"guarantee":"returns hash('QQ')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c4ae48c65b94312e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"hash('QQ')","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __hash__(self):
         """Returns hash code of ``self``. """
         return hash('QQ')
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_ring(), returns ring associated with ``self``) over Any ║
+# ║ Path(get_ring(), <unspecified:get_ring>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_ring : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5335e0f6f7f23e9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.get_ring","kind":"method","src_hash":"54a701f88aaff422","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"returns ring associated with ``self``","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns ring associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.rationalfield.RationalField.get_ring_correct","statement":"Path(get_ring(x), returns ring associated with ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5335e0f6f7f23e9d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.get_ring","kind":"method","src_hash":"54a701f88aaff422","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_ring()","rhs":"<unspecified:get_ring>","over":{"base":"Any"},"name":"get_ring_correct"},"guarantee":"returns ring associated with ``self``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.rationalfield.RationalField.get_ring_correct","statement":"Path(get_ring(x), returns ring associated with ``self``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5335e0f6f7f23e9d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_ring(self):
         """Returns ring associated with ``self``. """
         from sympy.polys.domains import ZZ
         return ZZ
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_sympy(a), convert ``a`` to a sympy object) over Any ║
+# ║ Path(to_sympy(a), SymPyRational(int(a.numerator), int(a.denominator))) over {Any | hasattr(a, 'numerator') and hasattr(a, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_sympy : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   returns:  SymPyRational(int(a.numerator), int(a.den...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_sympy : {Any | hasattr(a, 'numerator') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f9a0dd66b4151f5c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.to_sympy","kind":"method","src_hash":"c744f54a176d6787","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"convert ``a`` to a sympy object","over":{"base":"Any"},"name":"to_sympy_correct"},"guarantee":"convert ``a`` to a sympy object","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9a0dd66b4151f5c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.to_sympy","kind":"method","src_hash":"c744f54a176d6787","in":{"base":"Any","pred":"hasattr(a, 'numerator') and hasattr(a, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"to_sympy(a)","rhs":"SymPyRational(int(a.numerator), int(a.denominator))","over":{"base":"Any","pred":"hasattr(a, 'numerator') and hasattr(a, 'denominator')"},"name":"to_sympy_correct"},"guarantee":"returns SymPyRational(int(a.numerator), int(a.denominator))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f9a0dd66b4151f5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'numerator')","hasattr(a, 'denominator')"],"returns_expr":"SymPyRational(int(a.numerator), int(a.denominator))","pure":false,"effects":{"effect_type":"reads_state","reads":["a.denominator","a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_sympy(self, a):
         """Convert ``a`` to a SymPy object. """
         return SymPyRational(int(a.numerator), int(a.denominator))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_sympy(a), convert sympy's integer to ``dtype``) over Any ║
+# ║ Path(from_sympy(a), <unspecified:from_sympy>) over {Any | hasattr(a, 'is_Rational') and hasattr(a, 'is_Float') and hasattr(a, 'p') and hasattr(a, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_sympy : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'is_Rational')                      ║
+# ║   requires: hasattr(a, 'is_Float')                         ║
+# ║   requires: hasattr(a, 'p')                                ║
+# ║   fiber[case_0]: a.is_Rational => MPQ(a.p, a.q)            ║
+# ║   fiber[case_1]: a.is_Float => MPQ(*map(int, RR.to_ra...   ║
+# ║   fiber[case_2]: not (a.is_Rational) and not (a.is_Fl...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_sympy : {Any | hasattr(a, 'is_Rational') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c359056ef7370c98  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94fe3b56a6a12d9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_sympy","kind":"method","src_hash":"36ae08e2ca3483e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"convert sympy's integer to ``dtype``","over":{"base":"Any"},"name":"from_sympy_correct"},"guarantee":"convert sympy's integer to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.rationalfield.RationalField.from_sympy_correct","statement":"Path(from_sympy(x), convert sympy's integer to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c359056ef7370c98"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_sympy","kind":"method","src_hash":"36ae08e2ca3483e9","in":{"base":"Any","pred":"hasattr(a, 'is_Rational') and hasattr(a, 'is_Float') and hasattr(a, 'p') and hasattr(a, 'q')"},"out":{"base":"Any"},"spec":{"lhs":"from_sympy(a)","rhs":"<unspecified:from_sympy>","over":{"base":"Any","pred":"hasattr(a, 'is_Rational') and hasattr(a, 'is_Float') and hasattr(a, 'p') and hasattr(a, 'q')"},"name":"from_sympy_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.rationalfield.RationalField.from_sympy_correct","statement":"Path(from_sympy(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94fe3b56a6a12d9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'is_Rational')","hasattr(a, 'is_Float')","hasattr(a, 'p')","hasattr(a, 'q')"],"fibers":[{"name":"case_0","guard":"a.is_Rational","ensures":["result == MPQ(a.p, a.q)"],"decidability":"library","returns_expr":"MPQ(a.p, a.q)"},{"name":"case_1","guard":"a.is_Float","ensures":["result == MPQ(*map(int, RR.to_rational(a)))"],"decidability":"library","returns_expr":"MPQ(*map(int, RR.to_rational(a)))"},{"name":"case_2","guard":"not (a.is_Rational) and not (a.is_Float)","ensures":[],"decidability":"library"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.is_Float","a.is_Rational","a.p","a.q"],"raises":["CoercionFailed"]},"state_contract":{"exceptional_post":{"CoercionFailed":["isinstance(raised, CoercionFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_sympy(self, a):
         """Convert SymPy's Integer to ``dtype``. """
         if a.is_Rational:
@@ -170,16 +224,22 @@ class RationalField(Field, CharacteristicZero, SimpleDomain):
             raise CoercionFailed("expected `Rational` object, got %s" % a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(algebraic_field(*ex), returns an algebraic field, i.e) over Any ║
+# ║ Path(algebraic_field(*extension, alias), AlgebraicField(self, *extension, alias=alias)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  AlgebraicField(self, *extension, alias=al...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ algebraic_field : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1da2c85ee4585b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d66639327f2062c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.algebraic_field","kind":"method","src_hash":"296504028b186058","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"algebraic_field(*ex)","rhs":"returns an algebraic field, i.e","over":{"base":"Any"},"name":"algebraic_field_correct"},"guarantee":"returns an algebraic field, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.rationalfield.RationalField.algebraic_field_correct","statement":"Path(algebraic_field(x), returns an algebraic field, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1da2c85ee4585b4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.algebraic_field","kind":"method","src_hash":"296504028b186058","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"algebraic_field(*extension, alias)","rhs":"AlgebraicField(self, *extension, alias=alias)","over":{"base":"Any"},"name":"algebraic_field_correct"},"guarantee":"returns AlgebraicField(self, *extension, alias=alias)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.rationalfield.RationalField.algebraic_field_correct","statement":"Path(algebraic_field(x), returns AlgebraicField(self, *extension, alias=alias))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d66639327f2062c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"AlgebraicField(self, *extension, alias=alias)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def algebraic_field(self, *extension, alias=None):
         r"""Returns an algebraic field, i.e. `\mathbb{Q}(\alpha, \ldots)`.
 
@@ -211,16 +271,25 @@ class RationalField(Field, CharacteristicZero, SimpleDomain):
         return AlgebraicField(self, *extension, alias=alias)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_AlgebraicField(K1,), id) over Any                ║
+# ║ Path(from_AlgebraicField(K1, a, K0), id) over {Any | hasattr(a, 'is_ground') and hasattr(K1, 'convert') and hasattr(K0, 'dom') and hasattr(a, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_AlgebraicField : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'is_ground')                        ║
+# ║   requires: hasattr(K1, 'convert')                         ║
+# ║   requires: hasattr(K0, 'dom')                             ║
+# ║   returns:  K1.convert(a.LC(), K0.dom)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_AlgebraicField : {Any | hasattr(a, 'is_ground') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | e16682386f61f96d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_AlgebraicField","kind":"method","src_hash":"29f2c3ec30f3e0a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(K1,)","rhs":"convert a :py:class:`~.anp` object to :ref:`qq`","over":{"base":"Any"},"name":"from_AlgebraicField_correct","kind":"composition"},"guarantee":"convert a :py:class:`~.anp` object to :ref:`qq`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert","by":"library_axiom"},{"fn":"LC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e16682386f61f96d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_AlgebraicField","kind":"method","src_hash":"29f2c3ec30f3e0a8","in":{"base":"Any","pred":"hasattr(a, 'is_ground') and hasattr(K1, 'convert') and hasattr(K0, 'dom') and hasattr(a, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"from_AlgebraicField(K1, a, K0)","rhs":"K1.convert(a.LC(), K0.dom)","over":{"base":"Any","pred":"hasattr(a, 'is_ground') and hasattr(K1, 'convert') and hasattr(K0, 'dom') and hasattr(a, 'LC')"},"name":"from_AlgebraicField_correct","kind":"composition"},"guarantee":"returns K1.convert(a.LC(), K0.dom)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"convert","by":"library_axiom"},{"fn":"LC","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e16682386f61f96d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'is_ground')","hasattr(K1, 'convert')","hasattr(K0, 'dom')","hasattr(a, 'LC')"],"returns_expr":"K1.convert(a.LC(), K0.dom)","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.dom","K1.convert","a.LC","a.is_ground"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_AlgebraicField(K1, a, K0):
         """Convert a :py:class:`~.ANP` object to :ref:`QQ`.
 
@@ -230,227 +299,329 @@ class RationalField(Field, CharacteristicZero, SimpleDomain):
             return K1.convert(a.LC(), K0.dom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ(K1,), convert a python ``int`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ(K1, a, K0), MPQ(a)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MPQ(a)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_ZZ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8107a5be95df9eb3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_ZZ","kind":"method","src_hash":"97781b0a298115a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1,)","rhs":"convert a python ``int`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_correct"},"guarantee":"convert a python ``int`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8107a5be95df9eb3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_ZZ","kind":"method","src_hash":"97781b0a298115a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ(K1, a, K0)","rhs":"MPQ(a)","over":{"base":"Any"},"name":"from_ZZ_correct"},"guarantee":"returns MPQ(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8107a5be95df9eb3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MPQ(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ(K1, a, K0):
         """Convert a Python ``int`` object to ``dtype``. """
         return MPQ(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_python(K1,), convert a python ``int`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ_python(K1, a, K0), MPQ(a)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MPQ(a)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_ZZ_python : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9749d19b4dc7b7bc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_ZZ_python","kind":"method","src_hash":"feb6c89d2c7dfb36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1,)","rhs":"convert a python ``int`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"convert a python ``int`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9749d19b4dc7b7bc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_ZZ_python","kind":"method","src_hash":"feb6c89d2c7dfb36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_python(K1, a, K0)","rhs":"MPQ(a)","over":{"base":"Any"},"name":"from_ZZ_python_correct"},"guarantee":"returns MPQ(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9749d19b4dc7b7bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MPQ(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_python(K1, a, K0):
         """Convert a Python ``int`` object to ``dtype``. """
         return MPQ(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ(K1,), convert a python ``fraction`` object to ``dtype``) over Any ║
+# ║ Path(from_QQ(K1, a, K0), MPQ(a.numerator, a.denominator)) over {Any | hasattr(a, 'numerator') and hasattr(a, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   returns:  MPQ(a.numerator, a.denominator)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ : {Any | hasattr(a, 'numerator') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 77efa58924151234           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_QQ","kind":"method","src_hash":"497e337f5369f05d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(K1,)","rhs":"convert a python ``fraction`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_correct"},"guarantee":"convert a python ``fraction`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77efa58924151234"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_QQ","kind":"method","src_hash":"497e337f5369f05d","in":{"base":"Any","pred":"hasattr(a, 'numerator') and hasattr(a, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ(K1, a, K0)","rhs":"MPQ(a.numerator, a.denominator)","over":{"base":"Any","pred":"hasattr(a, 'numerator') and hasattr(a, 'denominator')"},"name":"from_QQ_correct"},"guarantee":"returns MPQ(a.numerator, a.denominator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"77efa58924151234","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'numerator')","hasattr(a, 'denominator')"],"returns_expr":"MPQ(a.numerator, a.denominator)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.denominator","a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ(K1, a, K0):
         """Convert a Python ``Fraction`` object to ``dtype``. """
         return MPQ(a.numerator, a.denominator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_python(K1,), convert a python ``fraction`` object to ``dtype``) over Any ║
+# ║ Path(from_QQ_python(K1, a, K0), MPQ(a.numerator, a.denominator)) over {Any | hasattr(a, 'numerator') and hasattr(a, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_python : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   returns:  MPQ(a.numerator, a.denominator)                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_python : {Any | hasattr(a, 'numerator') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ef6fd4f0349b548b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_QQ_python","kind":"method","src_hash":"664f65ca1bf9a33e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1,)","rhs":"convert a python ``fraction`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_python_correct"},"guarantee":"convert a python ``fraction`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef6fd4f0349b548b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_QQ_python","kind":"method","src_hash":"664f65ca1bf9a33e","in":{"base":"Any","pred":"hasattr(a, 'numerator') and hasattr(a, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_python(K1, a, K0)","rhs":"MPQ(a.numerator, a.denominator)","over":{"base":"Any","pred":"hasattr(a, 'numerator') and hasattr(a, 'denominator')"},"name":"from_QQ_python_correct"},"guarantee":"returns MPQ(a.numerator, a.denominator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ef6fd4f0349b548b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'numerator')","hasattr(a, 'denominator')"],"returns_expr":"MPQ(a.numerator, a.denominator)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.denominator","a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_python(K1, a, K0):
         """Convert a Python ``Fraction`` object to ``dtype``. """
         return MPQ(a.numerator, a.denominator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_ZZ_gmpy(K1,), convert a gmpy ``mpz`` object to ``dtype``) over Any ║
+# ║ Path(from_ZZ_gmpy(K1, a, K0), MPQ(a)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MPQ(a)                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_ZZ_gmpy : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ffa302f820a89d5c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_ZZ_gmpy","kind":"method","src_hash":"93e93c0f7b049a49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1,)","rhs":"convert a gmpy ``mpz`` object to ``dtype``","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"convert a gmpy ``mpz`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffa302f820a89d5c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_ZZ_gmpy","kind":"method","src_hash":"93e93c0f7b049a49","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_ZZ_gmpy(K1, a, K0)","rhs":"MPQ(a)","over":{"base":"Any"},"name":"from_ZZ_gmpy_correct"},"guarantee":"returns MPQ(a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ffa302f820a89d5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MPQ(a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_ZZ_gmpy(K1, a, K0):
         """Convert a GMPY ``mpz`` object to ``dtype``. """
         return MPQ(a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_QQ_gmpy(K1,), convert a gmpy ``mpq`` object to ``dtype``) over Any ║
+# ║ Path(from_QQ_gmpy(K1, a, K0), a) over Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_QQ_gmpy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_QQ_gmpy : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28e147e30fc4527e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_QQ_gmpy","kind":"method","src_hash":"6f03e9c6dc1ba527","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_QQ_gmpy(K1,)","rhs":"convert a gmpy ``mpq`` object to ``dtype``","over":{"base":"Any"},"name":"from_QQ_gmpy_correct"},"guarantee":"convert a gmpy ``mpq`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28e147e30fc4527e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_QQ_gmpy","kind":"method","src_hash":"6f03e9c6dc1ba527","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"from_QQ_gmpy(K1, a, K0)","rhs":"a","over":{"base":"Any"},"name":"from_QQ_gmpy_correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28e147e30fc4527e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_QQ_gmpy(K1, a, K0):
         """Convert a GMPY ``mpq`` object to ``dtype``. """
         return a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_GaussianRationalField(K1,), convert a ``gaussianelement`` object to ``dtype``) over Any ║
+# ║ Path(from_GaussianRationalField(K1, a, K0), MPQ(a.x)) over {Any | hasattr(a, 'y') and hasattr(a, 'x')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_GaussianRationalField : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'y')                                ║
+# ║   requires: hasattr(a, 'x')                                ║
+# ║   returns:  MPQ(a.x)                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_GaussianRationalField : {Any | hasattr(a, 'y') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f47663799d3ef91a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15e2eb86bb69c35c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_GaussianRationalField","kind":"method","src_hash":"0a12bfb79023a1d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianRationalField(K1,)","rhs":"convert a ``gaussianelement`` object to ``dtype``","over":{"base":"Any"},"name":"from_GaussianRationalField_correct"},"guarantee":"convert a ``gaussianelement`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.rationalfield.RationalField.from_GaussianRationalField_correct","statement":"Path(from_GaussianRationalField(x), convert a ``gaussianelement`` object to ``dtype``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f47663799d3ef91a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_GaussianRationalField","kind":"method","src_hash":"0a12bfb79023a1d6","in":{"base":"Any","pred":"hasattr(a, 'y') and hasattr(a, 'x')"},"out":{"base":"Any"},"spec":{"lhs":"from_GaussianRationalField(K1, a, K0)","rhs":"MPQ(a.x)","over":{"base":"Any","pred":"hasattr(a, 'y') and hasattr(a, 'x')"},"name":"from_GaussianRationalField_correct"},"guarantee":"returns MPQ(a.x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.rationalfield.RationalField.from_GaussianRationalField_correct","statement":"Path(from_GaussianRationalField(x), returns MPQ(a.x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15e2eb86bb69c35c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'y')","hasattr(a, 'x')"],"returns_expr":"MPQ(a.x)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.x","a.y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_GaussianRationalField(K1, a, K0):
         """Convert a ``GaussianElement`` object to ``dtype``. """
         if a.y == 0:
             return MPQ(a.x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_RealField(K1,), convert a mpmath ``mpf`` object to ``dtype``) over Any ║
+# ║ Path(from_RealField(K1, a, K0), MPQ(*map(int, K0.to_rational(a)))) over {Any | hasattr(K0, 'to_rational')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ from_RealField : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K0, 'to_rational')                     ║
+# ║   returns:  MPQ(*map(int, K0.to_rational(a)))              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ from_RealField : {Any | hasattr(K0, 'to_rational')} →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 18d6ac3a13ff80d5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_RealField","kind":"method","src_hash":"691a83e2f5e74f81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1,)","rhs":"convert a mpmath ``mpf`` object to ``dtype``","over":{"base":"Any"},"name":"from_RealField_correct"},"guarantee":"convert a mpmath ``mpf`` object to ``dtype``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18d6ac3a13ff80d5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.from_RealField","kind":"method","src_hash":"691a83e2f5e74f81","in":{"base":"Any","pred":"hasattr(K0, 'to_rational')"},"out":{"base":"Any"},"spec":{"lhs":"from_RealField(K1, a, K0)","rhs":"MPQ(*map(int, K0.to_rational(a)))","over":{"base":"Any","pred":"hasattr(K0, 'to_rational')"},"name":"from_RealField_correct"},"guarantee":"returns MPQ(*map(int, K0.to_rational(a)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"18d6ac3a13ff80d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K0, 'to_rational')"],"returns_expr":"MPQ(*map(int, K0.to_rational(a)))","pure":false,"effects":{"effect_type":"reads_state","reads":["K0.to_rational"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_RealField(K1, a, K0):
         """Convert a mpmath ``mpf`` object to ``dtype``. """
         return MPQ(*map(int, K0.to_rational(a)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exquo(a, ), exact quotient of ``a`` and ``b``, implies ``__truediv__``) over Any ║
+# ║ Path(exquo(a, b), MPQ(a) / MPQ(b)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MPQ(a) / MPQ(b)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exquo : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b15154620bac3154           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.exquo","kind":"method","src_hash":"ce23c35f86e09fab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exquo(a, )","rhs":"exact quotient of ``a`` and ``b``, implies ``__truediv__``","over":{"base":"Any"},"name":"exquo_correct"},"guarantee":"exact quotient of ``a`` and ``b``, implies ``__truediv__``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b15154620bac3154"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.exquo","kind":"method","src_hash":"ce23c35f86e09fab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exquo(a, b)","rhs":"MPQ(a) / MPQ(b)","over":{"base":"Any"},"name":"exquo_correct"},"guarantee":"returns MPQ(a) / MPQ(b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b15154620bac3154","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MPQ(a) / MPQ(b)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exquo(self, a, b):
         """Exact quotient of ``a`` and ``b``, implies ``__truediv__``.  """
         return MPQ(a) / MPQ(b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quo(a, ), quotient of ``a`` and ``b``, implies ``__truediv__``) over Any ║
+# ║ Path(quo(a, b), MPQ(a) / MPQ(b)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  MPQ(a) / MPQ(b)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quo : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9c5c9321d02dbfe2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.quo","kind":"method","src_hash":"aa64ab8268b4cd80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(a, )","rhs":"quotient of ``a`` and ``b``, implies ``__truediv__``","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"quotient of ``a`` and ``b``, implies ``__truediv__``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c5c9321d02dbfe2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.quo","kind":"method","src_hash":"aa64ab8268b4cd80","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quo(a, b)","rhs":"MPQ(a) / MPQ(b)","over":{"base":"Any"},"name":"quo_correct"},"guarantee":"returns MPQ(a) / MPQ(b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9c5c9321d02dbfe2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"MPQ(a) / MPQ(b)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def quo(self, a, b):
         """Quotient of ``a`` and ``b``, implies ``__truediv__``. """
         return MPQ(a) / MPQ(b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rem(a, ), remainder of ``a`` and ``b``, implies nothing) over Any ║
+# ║ Path(rem(a, b), self.zero) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.zero                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rem : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0ff5aa3706b29d24           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.rem","kind":"method","src_hash":"2ef596440ae31eb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rem(a, )","rhs":"remainder of ``a`` and ``b``, implies nothing","over":{"base":"Any"},"name":"rem_correct"},"guarantee":"remainder of ``a`` and ``b``, implies nothing","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ff5aa3706b29d24"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.rem","kind":"method","src_hash":"2ef596440ae31eb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rem(a, b)","rhs":"self.zero","over":{"base":"Any"},"name":"rem_correct"},"guarantee":"returns self.zero","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ff5aa3706b29d24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.zero","pure":false,"effects":{"effect_type":"reads_state","reads":["self.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rem(self, a, b):
         """Remainder of ``a`` and ``b``, implies nothing.  """
         return self.zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(div(a, ), division of ``a`` and ``b``, implies ``__truediv__``) over Any ║
+# ║ Path(div(a, b), (MPQ(a) / MPQ(b), self.zero)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (MPQ(a) / MPQ(b), self.zero)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ div : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 58f8baa9d1bed2cb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.div","kind":"method","src_hash":"39e715c9569b7ce6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(a, )","rhs":"division of ``a`` and ``b``, implies ``__truediv__``","over":{"base":"Any"},"name":"div_correct"},"guarantee":"division of ``a`` and ``b``, implies ``__truediv__``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58f8baa9d1bed2cb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.div","kind":"method","src_hash":"39e715c9569b7ce6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"div(a, b)","rhs":"(MPQ(a) / MPQ(b), self.zero)","over":{"base":"Any"},"name":"div_correct"},"guarantee":"returns (MPQ(a) / MPQ(b), self.zero)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58f8baa9d1bed2cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(MPQ(a) / MPQ(b), self.zero)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.zero"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def div(self, a, b):
         """Division of ``a`` and ``b``, implies ``__truediv__``. """
         return MPQ(a) / MPQ(b), self.zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(numer(a), returns numerator of ``a``) over Any        ║
+# ║ Path(numer(a), a.numerator) over {Any | hasattr(a, 'numerator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ numer : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   returns:  a.numerator                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ numer : {Any | hasattr(a, 'numerator')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a66014d6ddb19b02           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.numer","kind":"method","src_hash":"32b932c53d7d3ee1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"numer(a)","rhs":"returns numerator of ``a``","over":{"base":"Any"},"name":"numer_correct"},"guarantee":"returns numerator of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a66014d6ddb19b02"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.numer","kind":"method","src_hash":"32b932c53d7d3ee1","in":{"base":"Any","pred":"hasattr(a, 'numerator')"},"out":{"base":"Any"},"spec":{"lhs":"numer(a)","rhs":"a.numerator","over":{"base":"Any","pred":"hasattr(a, 'numerator')"},"name":"numer_correct"},"guarantee":"returns a.numerator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a66014d6ddb19b02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'numerator')"],"returns_expr":"a.numerator","pure":false,"effects":{"effect_type":"reads_state","reads":["a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def numer(self, a):
         """Returns numerator of ``a``. """
         return a.numerator
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(denom(a), returns denominator of ``a``) over Any      ║
+# ║ Path(denom(a), a.denominator) over {Any | hasattr(a, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ denom : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   returns:  a.denominator                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ denom : {Any | hasattr(a, 'denominator')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fc10c854948ce746           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.denom","kind":"method","src_hash":"38064f1b0e19e1b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"denom(a)","rhs":"returns denominator of ``a``","over":{"base":"Any"},"name":"denom_correct"},"guarantee":"returns denominator of ``a``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc10c854948ce746"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.denom","kind":"method","src_hash":"38064f1b0e19e1b7","in":{"base":"Any","pred":"hasattr(a, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"denom(a)","rhs":"a.denominator","over":{"base":"Any","pred":"hasattr(a, 'denominator')"},"name":"denom_correct"},"guarantee":"returns a.denominator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc10c854948ce746","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'denominator')"],"returns_expr":"a.denominator","pure":false,"effects":{"effect_type":"reads_state","reads":["a.denominator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def denom(self, a):
         """Returns denominator of ``a``. """
         return a.denominator
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_square(a), return ``true`` if ``a`` is a square) over Any ║
+# ║ Path(is_square(a), is_square(a.numerator) and is_square(a.denominator)) over {Any | hasattr(a, 'numerator') and hasattr(a, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_square : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   returns:  is_square(a.numerator) and is_square(a.de...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_square : {Any | hasattr(a, 'numerator') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b72418037d65e110           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.is_square","kind":"method","src_hash":"dc0f71fae6189b90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_square(a)","rhs":"return ``true`` if ``a`` is a square","over":{"base":"Any"},"name":"is_square_correct"},"guarantee":"return ``true`` if ``a`` is a square","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b72418037d65e110"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.is_square","kind":"method","src_hash":"dc0f71fae6189b90","in":{"base":"Any","pred":"hasattr(a, 'numerator') and hasattr(a, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"is_square(a)","rhs":"is_square(a.numerator) and is_square(a.denominator)","over":{"base":"Any","pred":"hasattr(a, 'numerator') and hasattr(a, 'denominator')"},"name":"is_square_correct"},"guarantee":"returns is_square(a.numerator) and is_square(a.denominator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b72418037d65e110","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'numerator')","hasattr(a, 'denominator')"],"returns_expr":"is_square(a.numerator) and is_square(a.denominator)","pure":false,"effects":{"effect_type":"reads_state","reads":["a.denominator","a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_square(self, a):
         """Return ``True`` if ``a`` is a square.
 
@@ -462,16 +633,24 @@ class RationalField(Field, CharacteristicZero, SimpleDomain):
         return is_square(a.numerator) and is_square(a.denominator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exsqrt(a), non-negative square root of ``a`` if ``a`` is a square) over Any ║
+# ║ Path(exsqrt(a), <unspecified:exsqrt>) over {Any | hasattr(a, 'numerator') and hasattr(a, 'denominator')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ exsqrt : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'numerator')                        ║
+# ║   requires: hasattr(a, 'denominator')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ exsqrt : {Any | hasattr(a, 'numerator') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 156fa666805b3551  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.exsqrt","kind":"method","src_hash":"3772ab993d058d0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exsqrt(a)","rhs":"non-negative square root of ``a`` if ``a`` is a square","over":{"base":"Any"},"name":"exsqrt_correct"},"guarantee":"non-negative square root of ``a`` if ``a`` is a square","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.rationalfield.RationalField.exsqrt_correct","statement":"Path(exsqrt(x), non-negative square root of ``a`` if ``a`` is a square)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"156fa666805b3551"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.rationalfield.RationalField.exsqrt","kind":"method","src_hash":"3772ab993d058d0e","in":{"base":"Any","pred":"hasattr(a, 'numerator') and hasattr(a, 'denominator')"},"out":{"base":"Any"},"spec":{"lhs":"exsqrt(a)","rhs":"<unspecified:exsqrt>","over":{"base":"Any","pred":"hasattr(a, 'numerator') and hasattr(a, 'denominator')"},"name":"exsqrt_correct"},"guarantee":"non-negative square root of ``a`` if ``a`` is a square","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.domains.rationalfield.RationalField.exsqrt_correct","statement":"Path(exsqrt(x), non-negative square root of ``a`` if ``a`` is a square)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"156fa666805b3551","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'numerator')","hasattr(a, 'denominator')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.denominator","a.numerator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exsqrt(self, a):
         """Non-negative square root of ``a`` if ``a`` is a square.
 

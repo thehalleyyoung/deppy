@@ -50,16 +50,23 @@ eye = Matrix.eye
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prde_normal_denom(fa,), parametric risch differential equation - normal part of the denominator) over Any ║
+# ║ Path(prde_normal_denom(fa, fd, G), (a, (ba, bd), G, h)) over {Any | hasattr(DE, 't')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prde_normal_denom : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   returns:  (a, (ba, bd), G, h)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prde_normal_denom : {Any | hasattr(DE, 't')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0dd84a6237ab6dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d6504b297bf5d9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_normal_denom","kind":"function","src_hash":"bfc05f1dde44424b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prde_normal_denom(fa,)","rhs":"parametric risch differential equation - normal part of the denominator","over":{"base":"Any"},"name":"prde_normal_denom_correct"},"guarantee":"parametric risch differential equation - normal part of the denominator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_normal_denom_correct","statement":"Path(prde_normal_denom(x), parametric risch differential equation - normal part of the denominator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0dd84a6237ab6dd"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_normal_denom","kind":"function","src_hash":"bfc05f1dde44424b","in":{"base":"Any","pred":"hasattr(DE, 't')"},"out":{"base":"Any"},"spec":{"lhs":"prde_normal_denom(fa, fd, G)","rhs":"(a, (ba, bd), G, h)","over":{"base":"Any","pred":"hasattr(DE, 't')"},"name":"prde_normal_denom_correct"},"guarantee":"returns (a, (ba, bd), G, h)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_normal_denom_correct","statement":"Path(prde_normal_denom(x), returns (a, (ba, bd), G, h))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d6504b297bf5d9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 't')"],"returns_expr":"(a, (ba, bd), G, h)","pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def prde_normal_denom(fa, fd, G, DE):
     """
     Parametric Risch Differential Equation - Normal part of the denominator.
@@ -92,16 +99,25 @@ def prde_normal_denom(fa, fd, G, DE):
     return (a, (ba, bd), G, h)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(real_imag(ba,), helper function, to get the real and imaginary part of a rational function evaluated at sqrt(-1) without actually evaluating it at sqrt(-1)) over Any ║
+# ║ Path(real_imag(ba, bd, gen), (ba[0], ba[1], bd)) over {Any | hasattr(bd, 'as_poly') and hasattr(ba, 'as_poly') and hasattr(bd, 'items') and hasattr(ba, 'items')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ real_imag : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(bd, 'as_poly')                         ║
+# ║   requires: hasattr(ba, 'as_poly')                         ║
+# ║   requires: hasattr(bd, 'items')                           ║
+# ║   returns:  (ba[0], ba[1], bd)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ real_imag : {Any | hasattr(bd, 'as_poly') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6ff04b391126636  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a912989e259c8ff3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.real_imag","kind":"function","src_hash":"7cc6ebc5ed78cfae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"real_imag(ba,)","rhs":"helper function, to get the real and imaginary part of a rational function evaluated at sqrt(-1) without actually evaluating it at sqrt(-1)","over":{"base":"Any"},"name":"real_imag_correct"},"guarantee":"helper function, to get the real and imaginary part of a rational function evaluated at sqrt(-1) without actually evaluating it at sqrt(-1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.real_imag_correct","statement":"Path(real_imag(x), helper function, to get the real and imaginary part of a rational function evaluated at sqrt(-1) without actually evaluating it at sqrt(-1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6ff04b391126636"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.real_imag","kind":"function","src_hash":"7cc6ebc5ed78cfae","in":{"base":"Any","pred":"hasattr(bd, 'as_poly') and hasattr(ba, 'as_poly') and hasattr(bd, 'items') and hasattr(ba, 'items')"},"out":{"base":"Any"},"spec":{"lhs":"real_imag(ba, bd, gen)","rhs":"(ba[0], ba[1], bd)","over":{"base":"Any","pred":"hasattr(bd, 'as_poly') and hasattr(ba, 'as_poly') and hasattr(bd, 'items') and hasattr(ba, 'items')"},"name":"real_imag_correct"},"guarantee":"returns (ba[0], ba[1], bd)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.real_imag_correct","statement":"Path(real_imag(x), returns (ba[0], ba[1], bd))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a912989e259c8ff3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(bd, 'as_poly')","hasattr(ba, 'as_poly')","hasattr(bd, 'items')","hasattr(ba, 'items')"],"returns_expr":"(ba[0], ba[1], bd)","pure":false,"effects":{"effect_type":"reads_state","reads":["ba.as_poly","ba.items","bd.as_poly","bd.items"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def real_imag(ba, bd, gen):
     """
     Helper function, to get the real and imaginary part of a rational function
@@ -131,16 +147,25 @@ def real_imag(ba, bd, gen):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prde_special_denom(a, ), parametric risch differential equation - special part of the denominator) over Any ║
+# ║ Path(prde_special_denom(a, ba, bd), <unspecified:prde_special_denom>) over {Any | hasattr(DE, 'case') and hasattr(DE, 't') and hasattr(ba, 'quo') and hasattr(DE, 'd') and hasattr(a, 'eval') and hasattr(bd, 'eval') and hasattr(ba, 'eval')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prde_special_denom : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 'case')                            ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(ba, 'quo')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prde_special_denom : {Any | hasattr(DE, 'case') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8266b3a41ec01ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_special_denom","kind":"function","src_hash":"e675c0b1b59526ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prde_special_denom(a, )","rhs":"parametric risch differential equation - special part of the denominator","over":{"base":"Any"},"name":"prde_special_denom_correct"},"guarantee":"parametric risch differential equation - special part of the denominator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_special_denom_correct","statement":"Path(prde_special_denom(x), parametric risch differential equation - special part of the denominator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8266b3a41ec01ab"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_special_denom","kind":"function","src_hash":"e675c0b1b59526ba","in":{"base":"Any","pred":"hasattr(DE, 'case') and hasattr(DE, 't') and hasattr(ba, 'quo') and hasattr(DE, 'd') and hasattr(a, 'eval') and hasattr(bd, 'eval') and hasattr(ba, 'eval')"},"out":{"base":"Any"},"spec":{"lhs":"prde_special_denom(a, ba, bd)","rhs":"<unspecified:prde_special_denom>","over":{"base":"Any","pred":"hasattr(DE, 'case') and hasattr(DE, 't') and hasattr(ba, 'quo') and hasattr(DE, 'd') and hasattr(a, 'eval') and hasattr(bd, 'eval') and hasattr(ba, 'eval')"},"name":"prde_special_denom_correct"},"guarantee":"parametric risch differential equation - special part of the denominator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_special_denom_correct","statement":"Path(prde_special_denom(x), parametric risch differential equation - special part of the denominator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8266b3a41ec01ab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 'case')","hasattr(DE, 't')","hasattr(ba, 'quo')","hasattr(DE, 'd')","hasattr(a, 'eval')","hasattr(bd, 'eval')","hasattr(ba, 'eval')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.case","DE.d","DE.t","a.eval","ba.eval","ba.quo","bd.eval"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def prde_special_denom(a, ba, bd, G, DE, case='auto'):
     """
     Parametric Risch Differential Equation - Special part of the denominator.
@@ -223,16 +248,23 @@ def prde_special_denom(a, ba, bd, G, DE, case='auto'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prde_linear_constraints(a, ), parametric risch differential equation - generate linear constraints on the constants) over Any ║
+# ║ Path(prde_linear_constraints(a, b, G), (qs, M)) over {Any | hasattr(DE, 't')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prde_linear_constraints : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   returns:  (qs, M)                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prde_linear_constraints : {Any | hasattr(DE, 't')} → Any   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3e42686c0ac70c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1ff10ca101cccbc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_linear_constraints","kind":"function","src_hash":"b2cd0a094a702d0d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prde_linear_constraints(a, )","rhs":"parametric risch differential equation - generate linear constraints on the constants","over":{"base":"Any"},"name":"prde_linear_constraints_correct"},"guarantee":"parametric risch differential equation - generate linear constraints on the constants","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_linear_constraints_correct","statement":"Path(prde_linear_constraints(x), parametric risch differential equation - generate linear constraints on the constants)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3e42686c0ac70c2"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_linear_constraints","kind":"function","src_hash":"b2cd0a094a702d0d","in":{"base":"Any","pred":"hasattr(DE, 't')"},"out":{"base":"Any"},"spec":{"lhs":"prde_linear_constraints(a, b, G)","rhs":"(qs, M)","over":{"base":"Any","pred":"hasattr(DE, 't')"},"name":"prde_linear_constraints_correct"},"guarantee":"returns (qs, M)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_linear_constraints_correct","statement":"Path(prde_linear_constraints(x), returns (qs, M))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1ff10ca101cccbc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 't')"],"returns_expr":"(qs, M)","pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def prde_linear_constraints(a, b, G, DE):
     """
     Parametric Risch Differential Equation - Generate linear constraints on the constants.
@@ -267,16 +299,23 @@ def prde_linear_constraints(a, b, G, DE):
     return (qs, M)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(poly_linear_constraints(p, ), given p = [p1, ..., pm] in k[t]^m and d in k[t], return q = [q1, ..., qm] in k[t]^m and a matrix m with entries in k such that sum(ci*pi, (i, 1, m)), for c1, ..., cm in k, is divisible by d if and onl) over Any ║
+# ║ Path(poly_linear_constraints(p, d), (q, M)) over {Any | hasattr(d, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ poly_linear_constraints : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(d, 'gens')                             ║
+# ║   returns:  (q, M)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ poly_linear_constraints : {Any | hasattr(d, 'gens')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c949afa29a719ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 950aeaec16459051  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.poly_linear_constraints","kind":"function","src_hash":"0dd46c64715390fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"poly_linear_constraints(p, )","rhs":"given p = [p1, ..., pm] in k[t]^m and d in k[t], return q = [q1, ..., qm] in k[t]^m and a matrix m with entries in k such that sum(ci*pi, (i, 1, m)), for c1, ..., cm in k, is divisible by d if and onl","over":{"base":"Any"},"name":"poly_linear_constraints_correct"},"guarantee":"given p = [p1, ..., pm] in k[t]^m and d in k[t], return q = [q1, ..., qm] in k[t]^m and a matrix m with entries in k such that sum(ci*pi, (i, 1, m)), for c1, ..., cm in k, is divisible by d if and onl","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.poly_linear_constraints_correct","statement":"Path(poly_linear_constraints(x), given p = [p1, ..., pm] in k[t]^m and d in k[t], return q = [q1, ..., qm] in k[t]^m and a matrix m with entries in k such that sum(ci*pi, (i, 1, m)), for c1, ..., cm in k, is divisible by d if and onl)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c949afa29a719ce"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.poly_linear_constraints","kind":"function","src_hash":"0dd46c64715390fe","in":{"base":"Any","pred":"hasattr(d, 'gens')"},"out":{"base":"Any"},"spec":{"lhs":"poly_linear_constraints(p, d)","rhs":"(q, M)","over":{"base":"Any","pred":"hasattr(d, 'gens')"},"name":"poly_linear_constraints_correct"},"guarantee":"returns (q, M)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.poly_linear_constraints_correct","statement":"Path(poly_linear_constraints(x), returns (q, M))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"950aeaec16459051","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(d, 'gens')"],"returns_expr":"(q, M)","pure":false,"effects":{"effect_type":"reads_state","reads":["d.gens"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def poly_linear_constraints(p, d):
     """
     Given p = [p1, ..., pm] in k[t]^m and d in k[t], return
@@ -297,16 +336,25 @@ def poly_linear_constraints(p, d):
     return q, M
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(constant_system(A, ), generate a system for the constant solutions) over Any ║
+# ║ Path(constant_system(A, u, DE), <unspecified:constant_system>) over {Any | hasattr(A, 'row_join') and hasattr(A, 'cols') and hasattr(A, 'rows') and hasattr(DE, 'T') and hasattr(A, 'col_join') and hasattr(u, 'col_join') and hasattr(u, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ constant_system : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'row_join')                         ║
+# ║   requires: hasattr(A, 'cols')                             ║
+# ║   requires: hasattr(A, 'rows')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ constant_system : {Any | hasattr(A, 'row_join') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0a481b0d3628ec3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.constant_system","kind":"function","src_hash":"b55dce997d8f0d1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"constant_system(A, )","rhs":"generate a system for the constant solutions","over":{"base":"Any"},"name":"constant_system_correct"},"guarantee":"generate a system for the constant solutions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.constant_system_correct","statement":"Path(constant_system(x), generate a system for the constant solutions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0a481b0d3628ec3"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.constant_system","kind":"function","src_hash":"b55dce997d8f0d1f","in":{"base":"Any","pred":"hasattr(A, 'row_join') and hasattr(A, 'cols') and hasattr(A, 'rows') and hasattr(DE, 'T') and hasattr(A, 'col_join') and hasattr(u, 'col_join') and hasattr(u, 'gens')"},"out":{"base":"Any"},"spec":{"lhs":"constant_system(A, u, DE)","rhs":"<unspecified:constant_system>","over":{"base":"Any","pred":"hasattr(A, 'row_join') and hasattr(A, 'cols') and hasattr(A, 'rows') and hasattr(DE, 'T') and hasattr(A, 'col_join') and hasattr(u, 'col_join') and hasattr(u, 'gens')"},"name":"constant_system_correct"},"guarantee":"generate a system for the constant solutions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.constant_system_correct","statement":"Path(constant_system(x), generate a system for the constant solutions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0a481b0d3628ec3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'row_join')","hasattr(A, 'cols')","hasattr(A, 'rows')","hasattr(DE, 'T')","hasattr(A, 'col_join')","hasattr(u, 'col_join')","hasattr(u, 'gens')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.col_join","A.cols","A.row_join","A.rows","DE.T","u.col_join","u.gens"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def constant_system(A, u, DE):
     """
     Generate a system for the constant solutions.
@@ -378,16 +426,24 @@ def constant_system(A, u, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prde_spde(a, ), special polynomial differential equation algorithm: parametric version) over Any ║
+# ║ Path(prde_spde(a, b, Q), (A, B, Qq, R, n1)) over {Any | hasattr(a, 'degree') and hasattr(DE, 't')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prde_spde : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'degree')                           ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   returns:  (A, B, Qq, R, n1)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prde_spde : {Any | hasattr(a, 'degree') and hasattr(D...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb53998224f908de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40483d1cb395aee7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_spde","kind":"function","src_hash":"11ed3aea7e7e23f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prde_spde(a, )","rhs":"special polynomial differential equation algorithm: parametric version","over":{"base":"Any"},"name":"prde_spde_correct"},"guarantee":"special polynomial differential equation algorithm: parametric version","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_spde_correct","statement":"Path(prde_spde(x), special polynomial differential equation algorithm: parametric version)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb53998224f908de"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_spde","kind":"function","src_hash":"11ed3aea7e7e23f4","in":{"base":"Any","pred":"hasattr(a, 'degree') and hasattr(DE, 't')"},"out":{"base":"Any"},"spec":{"lhs":"prde_spde(a, b, Q)","rhs":"(A, B, Qq, R, n1)","over":{"base":"Any","pred":"hasattr(a, 'degree') and hasattr(DE, 't')"},"name":"prde_spde_correct"},"guarantee":"returns (A, B, Qq, R, n1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_spde_correct","statement":"Path(prde_spde(x), returns (A, B, Qq, R, n1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40483d1cb395aee7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'degree')","hasattr(DE, 't')"],"returns_expr":"(A, B, Qq, R, n1)","pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t","a.degree"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def prde_spde(a, b, Q, n, DE):
     """
     Special Polynomial Differential Equation algorithm: Parametric Version.
@@ -414,16 +470,25 @@ def prde_spde(a, b, Q, n, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prde_no_cancel_b_large(b, ), parametric poly risch differential equation - no cancellation: deg(b) large enough) over Any ║
+# ║ Path(prde_no_cancel_b_large(b, Q, n), (H, A)) over {Any | hasattr(b, 'degree') and hasattr(DE, 't') and hasattr(b, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prde_no_cancel_b_large : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(b, 'degree')                           ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(b, 'LC')                               ║
+# ║   returns:  (H, A)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prde_no_cancel_b_large : {Any | hasattr(b, 'degree') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f738d9a03e243de7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d73b747fe83eb192  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_no_cancel_b_large","kind":"function","src_hash":"aad8858f4a11698c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prde_no_cancel_b_large(b, )","rhs":"parametric poly risch differential equation - no cancellation: deg(b) large enough","over":{"base":"Any"},"name":"prde_no_cancel_b_large_correct"},"guarantee":"parametric poly risch differential equation - no cancellation: deg(b) large enough","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_no_cancel_b_large_correct","statement":"Path(prde_no_cancel_b_large(x), parametric poly risch differential equation - no cancellation: deg(b) large enough)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f738d9a03e243de7"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_no_cancel_b_large","kind":"function","src_hash":"aad8858f4a11698c","in":{"base":"Any","pred":"hasattr(b, 'degree') and hasattr(DE, 't') and hasattr(b, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"prde_no_cancel_b_large(b, Q, n)","rhs":"(H, A)","over":{"base":"Any","pred":"hasattr(b, 'degree') and hasattr(DE, 't') and hasattr(b, 'LC')"},"name":"prde_no_cancel_b_large_correct"},"guarantee":"returns (H, A)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_no_cancel_b_large_correct","statement":"Path(prde_no_cancel_b_large(x), returns (H, A))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d73b747fe83eb192","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(b, 'degree')","hasattr(DE, 't')","hasattr(b, 'LC')"],"returns_expr":"(H, A)","pure":false,"effects":{"effect_type":"mutates_args","reads":["DE.t","b.LC","b.degree"],"writes":["Q[*]"]},"state_contract":{"modifies":["Q[*]"],"old_bindings":{"old_Q_star":"Q[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def prde_no_cancel_b_large(b, Q, n, DE):
     """
     Parametric Poly Risch Differential Equation - No cancellation: deg(b) large enough.
@@ -461,16 +526,25 @@ def prde_no_cancel_b_large(b, Q, n, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prde_no_cancel_b_small(b, ), parametric poly risch differential equation - no cancellation: deg(b) small enough) over Any ║
+# ║ Path(prde_no_cancel_b_small(b, Q, n), <unspecified:prde_no_cancel_b_small>) over {Any | hasattr(DE, 't') and hasattr(DE, 'case') and hasattr(b, 'degree') and hasattr(DE, 'd') and hasattr(b, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prde_no_cancel_b_small : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(DE, 'case')                            ║
+# ║   requires: hasattr(b, 'degree')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prde_no_cancel_b_small : {Any | hasattr(DE, 't') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6942813b6683e32e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_no_cancel_b_small","kind":"function","src_hash":"568e0380ae951e6d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prde_no_cancel_b_small(b, )","rhs":"parametric poly risch differential equation - no cancellation: deg(b) small enough","over":{"base":"Any"},"name":"prde_no_cancel_b_small_correct"},"guarantee":"parametric poly risch differential equation - no cancellation: deg(b) small enough","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_no_cancel_b_small_correct","statement":"Path(prde_no_cancel_b_small(x), parametric poly risch differential equation - no cancellation: deg(b) small enough)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6942813b6683e32e"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_no_cancel_b_small","kind":"function","src_hash":"568e0380ae951e6d","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'case') and hasattr(b, 'degree') and hasattr(DE, 'd') and hasattr(b, 'LC')"},"out":{"base":"Any"},"spec":{"lhs":"prde_no_cancel_b_small(b, Q, n)","rhs":"<unspecified:prde_no_cancel_b_small>","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(DE, 'case') and hasattr(b, 'degree') and hasattr(DE, 'd') and hasattr(b, 'LC')"},"name":"prde_no_cancel_b_small_correct"},"guarantee":"parametric poly risch differential equation - no cancellation: deg(b) small enough","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_no_cancel_b_small_correct","statement":"Path(prde_no_cancel_b_small(x), parametric poly risch differential equation - no cancellation: deg(b) small enough)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6942813b6683e32e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')","hasattr(DE, 'case')","hasattr(b, 'degree')","hasattr(DE, 'd')","hasattr(b, 'LC')"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["DE.case","DE.d","DE.t","b.LC","b.degree"],"writes":["Q[*]"]},"state_contract":{"modifies":["Q[*]"],"old_bindings":{"old_Q_star":"Q[*]"}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def prde_no_cancel_b_small(b, Q, n, DE):
     """
     Parametric Poly Risch Differential Equation - No cancellation: deg(b) small enough.
@@ -572,16 +646,25 @@ def prde_no_cancel_b_small(b, Q, n, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prde_cancel_liouvillian(b, ), pg, 237) over Any       ║
+# ║ Path(prde_cancel_liouvillian(b, Q, n), (H, M)) over {Any | hasattr(DE, 'case') and hasattr(DE, 't') and hasattr(b, 'gens')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prde_cancel_liouvillian : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 'case')                            ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(b, 'gens')                             ║
+# ║   returns:  (H, M)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prde_cancel_liouvillian : {Any | hasattr(DE, 'case') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84e7acead2b4ae34  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ddbd8fa87455159  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_cancel_liouvillian","kind":"function","src_hash":"dbfb0fe7c07e3372","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prde_cancel_liouvillian(b, )","rhs":"pg, 237","over":{"base":"Any"},"name":"prde_cancel_liouvillian_correct"},"guarantee":"pg, 237","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_cancel_liouvillian_correct","statement":"Path(prde_cancel_liouvillian(x), pg, 237)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84e7acead2b4ae34"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.prde_cancel_liouvillian","kind":"function","src_hash":"dbfb0fe7c07e3372","in":{"base":"Any","pred":"hasattr(DE, 'case') and hasattr(DE, 't') and hasattr(b, 'gens')"},"out":{"base":"Any"},"spec":{"lhs":"prde_cancel_liouvillian(b, Q, n)","rhs":"(H, M)","over":{"base":"Any","pred":"hasattr(DE, 'case') and hasattr(DE, 't') and hasattr(b, 'gens')"},"name":"prde_cancel_liouvillian_correct"},"guarantee":"returns (H, M)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.prde_cancel_liouvillian_correct","statement":"Path(prde_cancel_liouvillian(x), returns (H, M))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ddbd8fa87455159","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 'case')","hasattr(DE, 't')","hasattr(b, 'gens')"],"returns_expr":"(H, M)","pure":false,"effects":{"effect_type":"reads_state","reads":["DE.case","DE.t","b.gens"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def prde_cancel_liouvillian(b, Q, n, DE):
     """
     Pg, 237.
@@ -631,16 +714,25 @@ def prde_cancel_liouvillian(b, Q, n, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(param_poly_rischDE(a, ), polynomial solutions of a parametric risch differential equation) over Any ║
+# ║ Path(param_poly_rischDE(a, b, q), # HINT: param_poly_rischDE may be idempotent: param_poly_rischDE(param_poly_rischDE(x)) == param_poly_rischDE(x)) over {Any | hasattr(a, 'is_ground') and hasattr(a, 'one') and hasattr(DE, 't') and hasattr(a, 'LC') and hasattr(a, 'gcd') and hasattr(a, 'quo') and hasattr(b, 'quo') and hasattr(b, 'is_zero') and hasattr(a, 'zero') and hasattr(DE, 'case') and hasattr(b, 'to_field') and hasattr(b, 'degree') and hasattr(DE, 'd') and hasattr(b, 'as_poly')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ param_poly_rischDE : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'is_ground')                        ║
+# ║   requires: hasattr(a, 'one')                              ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   ensures:  # HINT: param_poly_rischDE may be idempot...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ param_poly_rischDE : {Any | hasattr(a, 'is_ground') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 849a582be0d7a542  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84c4c9955c8daa6e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.param_poly_rischDE","kind":"function","src_hash":"f5760cd2edd2b774","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"param_poly_rischDE(a, )","rhs":"polynomial solutions of a parametric risch differential equation","over":{"base":"Any"},"name":"param_poly_rischDE_correct"},"guarantee":"polynomial solutions of a parametric risch differential equation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.param_poly_rischDE_correct","statement":"Path(param_poly_rischDE(x), polynomial solutions of a parametric risch differential equation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"849a582be0d7a542"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.param_poly_rischDE","kind":"function","src_hash":"f5760cd2edd2b774","in":{"base":"Any","pred":"hasattr(a, 'is_ground') and hasattr(a, 'one') and hasattr(DE, 't') and hasattr(a, 'LC') and hasattr(a, 'gcd') and hasattr(a, 'quo') and hasattr(b, 'quo') and hasattr(b, 'is_zero') and hasattr(a, 'zero') and hasattr(DE, 'case') and hasattr(b, 'to_field') and hasattr(b, 'degree') and hasattr(DE, 'd') and hasattr(b, 'as_poly')"},"out":{"base":"Any","pred":"result satisfies: # HINT: param_poly_rischDE may be idempotent: param_poly_rischDE(param_poly_rischDE(x)) == param_poly_rischDE(x)"},"spec":{"lhs":"param_poly_rischDE(a, b, q)","rhs":"# HINT: param_poly_rischDE may be idempotent: param_poly_rischDE(param_poly_rischDE(x)) == param_poly_rischDE(x)","over":{"base":"Any","pred":"hasattr(a, 'is_ground') and hasattr(a, 'one') and hasattr(DE, 't') and hasattr(a, 'LC') and hasattr(a, 'gcd') and hasattr(a, 'quo') and hasattr(b, 'quo') and hasattr(b, 'is_zero') and hasattr(a, 'zero') and hasattr(DE, 'case') and hasattr(b, 'to_field') and hasattr(b, 'degree') and hasattr(DE, 'd') and hasattr(b, 'as_poly')"},"name":"param_poly_rischDE_correct"},"guarantee":"# HINT: param_poly_rischDE may be idempotent: param_poly_rischDE(param_poly_rischDE(x)) == param_poly_rischDE(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.param_poly_rischDE_correct","statement":"Path(param_poly_rischDE(x), # HINT: param_poly_rischDE may be idempotent: param_poly_rischDE(param_poly_rischDE(x)) == param_poly_rischDE(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84c4c9955c8daa6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'is_ground')","hasattr(a, 'one')","hasattr(DE, 't')","hasattr(a, 'LC')","hasattr(a, 'gcd')","hasattr(a, 'quo')","hasattr(b, 'quo')","hasattr(b, 'is_zero')","hasattr(a, 'zero')","hasattr(DE, 'case')","hasattr(b, 'to_field')","hasattr(b, 'degree')","hasattr(DE, 'd')","hasattr(b, 'as_poly')"],"ensures":["# HINT: param_poly_rischDE may be idempotent: param_poly_rischDE(param_poly_rischDE(x)) == param_poly_rischDE(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.case","DE.d","DE.t","a.LC","a.gcd","a.is_ground","a.one","a.quo","a.zero","b.as_poly","b.degree","b.is_zero","b.quo","b.to_field"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def param_poly_rischDE(a, b, q, n, DE):
     """Polynomial solutions of a parametric Risch differential equation.
 
@@ -779,16 +871,23 @@ def param_poly_rischDE(a, b, q, n, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(param_rischDE(fa,), solve a parametric risch differential equation: dy + f*y == sum(ci*gi, (i, 1, m))) over Any ║
+# ║ Path(param_rischDE(fa, fd, G), <unspecified:param_rischDE>) over {Any | hasattr(DE, 't')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ param_rischDE : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ param_rischDE : {Any | hasattr(DE, 't')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 412c01d611275f10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.param_rischDE","kind":"function","src_hash":"e89cf72456b2ab25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"param_rischDE(fa,)","rhs":"solve a parametric risch differential equation: dy + f*y == sum(ci*gi, (i, 1, m))","over":{"base":"Any"},"name":"param_rischDE_correct"},"guarantee":"solve a parametric risch differential equation: dy + f*y == sum(ci*gi, (i, 1, m))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.param_rischDE_correct","statement":"Path(param_rischDE(x), solve a parametric risch differential equation: dy + f*y == sum(ci*gi, (i, 1, m)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"412c01d611275f10"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.param_rischDE","kind":"function","src_hash":"e89cf72456b2ab25","in":{"base":"Any","pred":"hasattr(DE, 't')"},"out":{"base":"Any"},"spec":{"lhs":"param_rischDE(fa, fd, G)","rhs":"<unspecified:param_rischDE>","over":{"base":"Any","pred":"hasattr(DE, 't')"},"name":"param_rischDE_correct"},"guarantee":"solve a parametric risch differential equation: dy + f*y == sum(ci*gi, (i, 1, m))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.param_rischDE_correct","statement":"Path(param_rischDE(x), solve a parametric risch differential equation: dy + f*y == sum(ci*gi, (i, 1, m)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"412c01d611275f10","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 't')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t"],"catches":["NotImplementedError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def param_rischDE(fa, fd, G, DE):
     """
     Solve a Parametric Risch Differential Equation: Dy + f*y == Sum(ci*Gi, (i, 1, m)).
@@ -926,16 +1025,25 @@ def param_rischDE(fa, fd, G, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(limited_integrate_reduce(fa,), simpler version of step 1 & 2 for the limited integration problem) over Any ║
+# ║ Path(limited_integrate_reduce(fa, fd, G), (a, b, a, N, (a * hn * fa).cancel(fd, include=True), V)) over {Any | hasattr(DE, 'case') and hasattr(DE, 't') and hasattr(DE, 'd')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ limited_integrate_reduce : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 'case')                            ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(DE, 'd')                               ║
+# ║   returns:  (a, b, a, N, (a * hn * fa).cancel(fd, inc...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ limited_integrate_reduce : {Any | hasattr(DE, 'case')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9df7b13c32f94c75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 107666728b33d4a1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.limited_integrate_reduce","kind":"function","src_hash":"20cec725978c1318","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limited_integrate_reduce(fa,)","rhs":"simpler version of step 1 & 2 for the limited integration problem","over":{"base":"Any"},"name":"limited_integrate_reduce_correct"},"guarantee":"simpler version of step 1 & 2 for the limited integration problem","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.limited_integrate_reduce_correct","statement":"Path(limited_integrate_reduce(x), simpler version of step 1 & 2 for the limited integration problem)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9df7b13c32f94c75"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.limited_integrate_reduce","kind":"function","src_hash":"20cec725978c1318","in":{"base":"Any","pred":"hasattr(DE, 'case') and hasattr(DE, 't') and hasattr(DE, 'd')"},"out":{"base":"Any"},"spec":{"lhs":"limited_integrate_reduce(fa, fd, G)","rhs":"(a, b, a, N, (a * hn * fa).cancel(fd, include=True), V)","over":{"base":"Any","pred":"hasattr(DE, 'case') and hasattr(DE, 't') and hasattr(DE, 'd')"},"name":"limited_integrate_reduce_correct"},"guarantee":"returns (a, b, a, N, (a * hn * fa).cancel(fd, include=True), V)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.limited_integrate_reduce_correct","statement":"Path(limited_integrate_reduce(x), returns (a, b, a, N, (a * hn * fa).cancel(fd, include=True), V))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"107666728b33d4a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 'case')","hasattr(DE, 't')","hasattr(DE, 'd')"],"returns_expr":"(a, b, a, N, (a * hn * fa).cancel(fd, include=True), V)","pure":false,"effects":{"effect_type":"reads_state","reads":["DE.case","DE.d","DE.t"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def limited_integrate_reduce(fa, fd, G, DE):
     """
     Simpler version of step 1 & 2 for the limited integration problem.
@@ -987,16 +1095,28 @@ def limited_integrate_reduce(fa, fd, G, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(limited_integrate(fa,), solves the limited integration problem: f = dv + sum(ci*wi, (i, 1, n))) over Any ║
+# ║ Path(limited_integrate(fa, fd, G), result == (None if not V else (Y, C)) and result == None or result == (Y, C)) over {Any | hasattr(DE, 't') and hasattr(fd, 'monic') and hasattr(fd, 'LC')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ limited_integrate : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(fd, 'monic')                           ║
+# ║   requires: hasattr(fd, 'LC')                              ║
+# ║   ensures:  result == (None if not V else (Y, C))          ║
+# ║   ensures:  result == None or result == (Y, C)             ║
+# ║   fiber[case_0]: not V => None                             ║
+# ║   fiber[case_1]: not (not V) => (Y, C)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ limited_integrate : {Any | hasattr(DE, 't') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a7f6fb480bef2f5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6b46147e6864ea4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.limited_integrate","kind":"function","src_hash":"c2becacffd4fb4e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limited_integrate(fa,)","rhs":"solves the limited integration problem: f = dv + sum(ci*wi, (i, 1, n))","over":{"base":"Any"},"name":"limited_integrate_correct"},"guarantee":"solves the limited integration problem: f = dv + sum(ci*wi, (i, 1, n))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.limited_integrate_correct","statement":"Path(limited_integrate(x), solves the limited integration problem: f = dv + sum(ci*wi, (i, 1, n)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a7f6fb480bef2f5"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.limited_integrate","kind":"function","src_hash":"c2becacffd4fb4e9","in":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(fd, 'monic') and hasattr(fd, 'LC')"},"out":{"base":"Any","pred":"result satisfies: result == (None if not V else (Y, C)) and result == None or result == (Y, C)"},"spec":{"lhs":"limited_integrate(fa, fd, G)","rhs":"result == (None if not V else (Y, C)) and result == None or result == (Y, C)","over":{"base":"Any","pred":"hasattr(DE, 't') and hasattr(fd, 'monic') and hasattr(fd, 'LC')"},"name":"limited_integrate_correct"},"guarantee":"result == (None if not V else (Y, C)); result == None or result == (Y, C); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.limited_integrate_correct","statement":"Path(limited_integrate(x), result == (None if not V else (Y, C)); result == None or result == (Y, C); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6b46147e6864ea4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 't')","hasattr(fd, 'monic')","hasattr(fd, 'LC')"],"ensures":["result == (None if not V else (Y, C))","result == None or result == (Y, C)"],"fibers":[{"name":"case_0","guard":"not V","ensures":["result == None"],"decidability":"library","returns_expr":"None"},{"name":"case_1","guard":"not (not V)","ensures":["result == (Y, C)"],"decidability":"library","returns_expr":"(Y, C)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t","fd.LC","fd.monic"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def limited_integrate(fa, fd, G, DE):
     """
     Solves the limited integration problem:  f = Dv + Sum(ci*wi, (i, 1, n))
@@ -1029,16 +1149,25 @@ def limited_integrate(fa, fd, G, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parametric_log_deriv_heu(fa,), parametric logarithmic derivative heuristic) over Any ║
+# ║ Path(parametric_log_deriv_heu(fa, fd, wa), <unspecified:parametric_log_deriv_heu>) over {Any | hasattr(fa, 'div') and hasattr(wa, 'div') and hasattr(DE, 't') and hasattr(wd, 'monic') and hasattr(fd, 'as_poly') and hasattr(wd, 'as_poly') and hasattr(fd, 'monic')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ parametric_log_deriv_heu : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(fa, 'div')                             ║
+# ║   requires: hasattr(wa, 'div')                             ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ parametric_log_deriv_heu : {Any | hasattr(fa, 'div') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f996ad1db5f3730  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.parametric_log_deriv_heu","kind":"function","src_hash":"3f113ad83c4a1e2c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parametric_log_deriv_heu(fa,)","rhs":"parametric logarithmic derivative heuristic","over":{"base":"Any"},"name":"parametric_log_deriv_heu_correct"},"guarantee":"parametric logarithmic derivative heuristic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.parametric_log_deriv_heu_correct","statement":"Path(parametric_log_deriv_heu(x), parametric logarithmic derivative heuristic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f996ad1db5f3730"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.parametric_log_deriv_heu","kind":"function","src_hash":"3f113ad83c4a1e2c","in":{"base":"Any","pred":"hasattr(fa, 'div') and hasattr(wa, 'div') and hasattr(DE, 't') and hasattr(wd, 'monic') and hasattr(fd, 'as_poly') and hasattr(wd, 'as_poly') and hasattr(fd, 'monic')"},"out":{"base":"Any"},"spec":{"lhs":"parametric_log_deriv_heu(fa, fd, wa)","rhs":"<unspecified:parametric_log_deriv_heu>","over":{"base":"Any","pred":"hasattr(fa, 'div') and hasattr(wa, 'div') and hasattr(DE, 't') and hasattr(wd, 'monic') and hasattr(fd, 'as_poly') and hasattr(wd, 'as_poly') and hasattr(fd, 'monic')"},"name":"parametric_log_deriv_heu_correct"},"guarantee":"parametric logarithmic derivative heuristic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.parametric_log_deriv_heu_correct","statement":"Path(parametric_log_deriv_heu(x), parametric logarithmic derivative heuristic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f996ad1db5f3730","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(fa, 'div')","hasattr(wa, 'div')","hasattr(DE, 't')","hasattr(wd, 'monic')","hasattr(fd, 'as_poly')","hasattr(wd, 'as_poly')","hasattr(fd, 'monic')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.t","fa.div","fd.as_poly","fd.monic","wa.div","wd.as_poly","wd.monic"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def parametric_log_deriv_heu(fa, fd, wa, wd, DE, c1=None):
     """
     Parametric logarithmic derivative heuristic.
@@ -1131,16 +1260,22 @@ def parametric_log_deriv_heu(fa, fd, wa, wd, DE, c1=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parametric_log_deriv(fa,), parametric_log_deriv produces the expected output) over Any ║
+# ║ Path(parametric_log_deriv(fa, fd, wa), <unspecified:parametric_log_deriv>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parametric_log_deriv : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 672b5bb2ca509c39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.parametric_log_deriv","kind":"function","src_hash":"69d13e6459a89dd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parametric_log_deriv(fa,)","rhs":"parametric_log_deriv produces the expected output","over":{"base":"Any"},"name":"parametric_log_deriv_correct"},"guarantee":"parametric_log_deriv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.parametric_log_deriv_correct","statement":"Path(parametric_log_deriv(x), parametric_log_deriv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"672b5bb2ca509c39"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.parametric_log_deriv","kind":"function","src_hash":"69d13e6459a89dd6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parametric_log_deriv(fa, fd, wa)","rhs":"<unspecified:parametric_log_deriv>","over":{"base":"Any"},"name":"parametric_log_deriv_correct"},"guarantee":"parametric_log_deriv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.parametric_log_deriv_correct","statement":"Path(parametric_log_deriv(x), parametric_log_deriv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"672b5bb2ca509c39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def parametric_log_deriv(fa, fd, wa, wd, DE):
     # TODO: Write the full algorithm using the structure theorems.
 #    try:
@@ -1154,16 +1289,26 @@ def parametric_log_deriv(fa, fd, wa, wd, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_deriv_k(fa,), checks if df/f is the derivative of an element of k(t)) over Any ║
+# ║ Path(is_deriv_k(fa, fd, DE), len(l) == old_len_l + 1 and len(ld) == old_len_ld + 1) over {Any | hasattr(DE, 'exts') and hasattr(DE, 'D') and hasattr(DE, 'indices') and hasattr(DE, 'cases') and hasattr(DE, 'extargs') and hasattr(DE, 'T') and hasattr(fa, 'as_expr') and hasattr(fd, 'as_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_deriv_k : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(DE, 'exts')                            ║
+# ║   requires: hasattr(DE, 'D')                               ║
+# ║   requires: hasattr(DE, 'indices')                         ║
+# ║   ensures:  len(l) == old_len_l + 1                        ║
+# ║   ensures:  len(ld) == old_len_ld + 1                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_deriv_k : {Any | hasattr(DE, 'exts') and hasattr(D...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd25eddcee857f2d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ee264074b92aba3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.is_deriv_k","kind":"function","src_hash":"22fbceea7c64ef4c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_deriv_k(fa,)","rhs":"checks if df/f is the derivative of an element of k(t)","over":{"base":"Any"},"name":"is_deriv_k_correct"},"guarantee":"checks if df/f is the derivative of an element of k(t)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.is_deriv_k_correct","statement":"Path(is_deriv_k(x), checks if df/f is the derivative of an element of k(t))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd25eddcee857f2d"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.is_deriv_k","kind":"function","src_hash":"22fbceea7c64ef4c","in":{"base":"Any","pred":"hasattr(DE, 'exts') and hasattr(DE, 'D') and hasattr(DE, 'indices') and hasattr(DE, 'cases') and hasattr(DE, 'extargs') and hasattr(DE, 'T') and hasattr(fa, 'as_expr') and hasattr(fd, 'as_expr')"},"out":{"base":"Any","pred":"result satisfies: len(l) == old_len_l + 1 and len(ld) == old_len_ld + 1"},"spec":{"lhs":"is_deriv_k(fa, fd, DE)","rhs":"len(l) == old_len_l + 1 and len(ld) == old_len_ld + 1","over":{"base":"Any","pred":"hasattr(DE, 'exts') and hasattr(DE, 'D') and hasattr(DE, 'indices') and hasattr(DE, 'cases') and hasattr(DE, 'extargs') and hasattr(DE, 'T') and hasattr(fa, 'as_expr') and hasattr(fd, 'as_expr')"},"name":"is_deriv_k_correct"},"guarantee":"len(l) == old_len_l + 1; len(ld) == old_len_ld + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.is_deriv_k_correct","statement":"Path(is_deriv_k(x), len(l) == old_len_l + 1; len(ld) == old_len_ld + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ee264074b92aba3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(DE, 'exts')","hasattr(DE, 'D')","hasattr(DE, 'indices')","hasattr(DE, 'cases')","hasattr(DE, 'extargs')","hasattr(DE, 'T')","hasattr(fa, 'as_expr')","hasattr(fd, 'as_expr')"],"ensures":["len(l) == old_len_l + 1","len(ld) == old_len_ld + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.D","DE.T","DE.cases","DE.extargs","DE.exts","DE.indices","fa.as_expr","fd.as_expr"],"calls_mutating":["l.append","ld.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["l.*","ld.*"],"old_bindings":{"old_len_l":"len(l)","old_len_ld":"len(ld)"},"post_ensures":["len(l) == old_len_l + 1","len(ld) == old_len_ld + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def is_deriv_k(fa, fd, DE):
     r"""
     Checks if Df/f is the derivative of an element of k(t).
@@ -1287,16 +1432,25 @@ def is_deriv_k(fa, fd, DE):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_log_deriv_k_t_radical(fa,), checks if df is the logarithmic derivative of a k(t)-radical) over Any ║
+# ║ Path(is_log_deriv_k_t_radical(fa, fd, DE), <unspecified:is_log_deriv_k_t_radical>) over {Any | hasattr(DE, 'exts') and hasattr(DE, 'D') and hasattr(DE, 'indices') and hasattr(DE, 'cases') and hasattr(DE, 'T') and hasattr(DE, 'extargs') and hasattr(fa, 'as_expr') and hasattr(fd, 'as_expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_log_deriv_k_t_radical : Any → Any                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(DE, 'exts')                            ║
+# ║   requires: hasattr(DE, 'D')                               ║
+# ║   requires: hasattr(DE, 'indices')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_log_deriv_k_t_radical : {Any | hasattr(DE, 'exts')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a77ba435f168112  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.is_log_deriv_k_t_radical","kind":"function","src_hash":"bfad91977ea4f34c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_log_deriv_k_t_radical(fa,)","rhs":"checks if df is the logarithmic derivative of a k(t)-radical","over":{"base":"Any"},"name":"is_log_deriv_k_t_radical_correct"},"guarantee":"checks if df is the logarithmic derivative of a k(t)-radical","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.is_log_deriv_k_t_radical_correct","statement":"Path(is_log_deriv_k_t_radical(x), checks if df is the logarithmic derivative of a k(t)-radical)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a77ba435f168112"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.is_log_deriv_k_t_radical","kind":"function","src_hash":"bfad91977ea4f34c","in":{"base":"Any","pred":"hasattr(DE, 'exts') and hasattr(DE, 'D') and hasattr(DE, 'indices') and hasattr(DE, 'cases') and hasattr(DE, 'T') and hasattr(DE, 'extargs') and hasattr(fa, 'as_expr') and hasattr(fd, 'as_expr')"},"out":{"base":"Any"},"spec":{"lhs":"is_log_deriv_k_t_radical(fa, fd, DE)","rhs":"<unspecified:is_log_deriv_k_t_radical>","over":{"base":"Any","pred":"hasattr(DE, 'exts') and hasattr(DE, 'D') and hasattr(DE, 'indices') and hasattr(DE, 'cases') and hasattr(DE, 'T') and hasattr(DE, 'extargs') and hasattr(fa, 'as_expr') and hasattr(fd, 'as_expr')"},"name":"is_log_deriv_k_t_radical_correct"},"guarantee":"checks if df is the logarithmic derivative of a k(t)-radical","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.is_log_deriv_k_t_radical_correct","statement":"Path(is_log_deriv_k_t_radical(x), checks if df is the logarithmic derivative of a k(t)-radical)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a77ba435f168112","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(DE, 'exts')","hasattr(DE, 'D')","hasattr(DE, 'indices')","hasattr(DE, 'cases')","hasattr(DE, 'T')","hasattr(DE, 'extargs')","hasattr(fa, 'as_expr')","hasattr(fd, 'as_expr')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.D","DE.T","DE.cases","DE.extargs","DE.exts","DE.indices","fa.as_expr","fd.as_expr"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def is_log_deriv_k_t_radical(fa, fd, DE, Df=True):
     r"""
     Checks if Df is the logarithmic derivative of a k(t)-radical.
@@ -1421,16 +1575,25 @@ def is_log_deriv_k_t_radical(fa, fd, DE, Df=True):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_log_deriv_k_t_radical_in_field(fa,), checks if f can be written as the logarithmic derivative of a k(t)-radical) over Any ║
+# ║ Path(is_log_deriv_k_t_radical_in_field(fa, fd, DE), # HINT: is_log_deriv_k_t_radical_in_field may be idempotent: is_log_deriv_k_t_radical_in_field(is_log_deriv_k_t_radical_in_field(x)) == is_log_deriv_k_t_radical_in_field(x)) over {Any | hasattr(fa, 'cancel') and hasattr(DE, 't') and hasattr(DE, 'case') and hasattr(fa, 'as_expr') and hasattr(fd, 'as_expr') and hasattr(DE, 'd') and hasattr(fd, 'is_sqf') and hasattr(fa, 'degree') and hasattr(fd, 'degree')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_log_deriv_k_t_radical_in_field : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(fa, 'cancel')                          ║
+# ║   requires: hasattr(DE, 't')                               ║
+# ║   requires: hasattr(DE, 'case')                            ║
+# ║   ensures:  # HINT: is_log_deriv_k_t_radical_in_field...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_log_deriv_k_t_radical_in_field : {Any | hasattr(fa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15433f582031e99b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9c99962394f4e00  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.is_log_deriv_k_t_radical_in_field","kind":"function","src_hash":"762d649f5ab96faf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_log_deriv_k_t_radical_in_field(fa,)","rhs":"checks if f can be written as the logarithmic derivative of a k(t)-radical","over":{"base":"Any"},"name":"is_log_deriv_k_t_radical_in_field_correct"},"guarantee":"checks if f can be written as the logarithmic derivative of a k(t)-radical","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.is_log_deriv_k_t_radical_in_field_correct","statement":"Path(is_log_deriv_k_t_radical_in_field(x), checks if f can be written as the logarithmic derivative of a k(t)-radical)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15433f582031e99b"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.prde.is_log_deriv_k_t_radical_in_field","kind":"function","src_hash":"762d649f5ab96faf","in":{"base":"Any","pred":"hasattr(fa, 'cancel') and hasattr(DE, 't') and hasattr(DE, 'case') and hasattr(fa, 'as_expr') and hasattr(fd, 'as_expr') and hasattr(DE, 'd') and hasattr(fd, 'is_sqf') and hasattr(fa, 'degree') and hasattr(fd, 'degree')"},"out":{"base":"Any","pred":"result satisfies: # HINT: is_log_deriv_k_t_radical_in_field may be idempotent: is_log_deriv_k_t_radical_in_field(is_log_deriv_k_t_radical_in_field(x)) == is_log_deriv_k_t_radical_in_field(x)"},"spec":{"lhs":"is_log_deriv_k_t_radical_in_field(fa, fd, DE)","rhs":"# HINT: is_log_deriv_k_t_radical_in_field may be idempotent: is_log_deriv_k_t_radical_in_field(is_log_deriv_k_t_radical_in_field(x)) == is_log_deriv_k_t_radical_in_field(x)","over":{"base":"Any","pred":"hasattr(fa, 'cancel') and hasattr(DE, 't') and hasattr(DE, 'case') and hasattr(fa, 'as_expr') and hasattr(fd, 'as_expr') and hasattr(DE, 'd') and hasattr(fd, 'is_sqf') and hasattr(fa, 'degree') and hasattr(fd, 'degree')"},"name":"is_log_deriv_k_t_radical_in_field_correct"},"guarantee":"# HINT: is_log_deriv_k_t_radical_in_field may be idempotent: is_log_deriv_k_t_radical_in_field(is_log_deriv_k_t_radical_in_field(x)) == is_log_deriv_k_t_radical_in_field(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.prde.is_log_deriv_k_t_radical_in_field_correct","statement":"Path(is_log_deriv_k_t_radical_in_field(x), # HINT: is_log_deriv_k_t_radical_in_field may be idempotent: is_log_deriv_k_t_radical_in_field(is_log_deriv_k_t_radical_in_field(x)) == is_log_deriv_k_t_radical_in_field(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9c99962394f4e00","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(fa, 'cancel')","hasattr(DE, 't')","hasattr(DE, 'case')","hasattr(fa, 'as_expr')","hasattr(fd, 'as_expr')","hasattr(DE, 'd')","hasattr(fd, 'is_sqf')","hasattr(fa, 'degree')","hasattr(fd, 'degree')"],"ensures":["# HINT: is_log_deriv_k_t_radical_in_field may be idempotent: is_log_deriv_k_t_radical_in_field(is_log_deriv_k_t_radical_in_field(x)) == is_log_deriv_k_t_radical_in_field(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["DE.case","DE.d","DE.t","fa.as_expr","fa.cancel","fa.degree","fd.as_expr","fd.degree","fd.is_sqf"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def is_log_deriv_k_t_radical_in_field(fa, fd, DE, case='auto', z=None):
     """
     Checks if f can be written as the logarithmic derivative of a k(t)-radical.

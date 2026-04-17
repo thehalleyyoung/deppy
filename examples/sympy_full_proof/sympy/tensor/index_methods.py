@@ -37,30 +37,42 @@ from sympy.utilities import sift
 from collections import OrderedDict
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(IndexConformanceException(), correctly constructs a IndexConformanceException instance) over Any ║
+# ║ Path(IndexConformanceException(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ IndexConformanceException : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ IndexConformanceException : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9a3562790639141a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods.IndexConformanceException","kind":"class","src_hash":"26c15c05787411df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"IndexConformanceException()","rhs":"correctly constructs a IndexConformanceException instance","over":{"base":"Any"},"name":"IndexConformanceException_correct"},"guarantee":"correctly constructs a IndexConformanceException instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a3562790639141a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods.IndexConformanceException","kind":"class","src_hash":"26c15c05787411df","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"IndexConformanceException()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"IndexConformanceException_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9a3562790639141a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function IndexConformanceException not found in source"]}}
 class IndexConformanceException(Exception):
     pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_unique_and_repeated(ind), returns the unique and repeated indices) over Any ║
+# ║ Path(_unique_and_repeated(inds), sift(uniq, lambda x: uniq[x], binary=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  sift(uniq, lambda x: uniq[x], binary=True)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _unique_and_repeated : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4372aa4f86d5c803  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ca0a69b54bf533a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods._unique_and_repeated","kind":"function","src_hash":"66ae3276ae4a7533","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_unique_and_repeated(ind)","rhs":"returns the unique and repeated indices","over":{"base":"Any"},"name":"_unique_and_repeated_correct"},"guarantee":"returns the unique and repeated indices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods._unique_and_repeated_correct","statement":"Path(_unique_and_repeated(x), returns the unique and repeated indices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4372aa4f86d5c803"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods._unique_and_repeated","kind":"function","src_hash":"66ae3276ae4a7533","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_unique_and_repeated(inds)","rhs":"sift(uniq, lambda x: uniq[x], binary=True)","over":{"base":"Any"},"name":"_unique_and_repeated_correct"},"guarantee":"returns sift(uniq, lambda x: uniq[x], binary=True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods._unique_and_repeated_correct","statement":"Path(_unique_and_repeated(x), returns sift(uniq, lambda x: uniq[x], binary=True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ca0a69b54bf533a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"sift(uniq, lambda x: uniq[x], binary=True)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _unique_and_repeated(inds):
     """
     Returns the unique and repeated indices. Also note, from the examples given below
@@ -82,16 +94,22 @@ def _unique_and_repeated(inds):
     return sift(uniq, lambda x: uniq[x], binary=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_remove_repeated(ind), id) over Any                   ║
+# ║ Path(_remove_repeated(inds), id) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (set(u), tuple(r))                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _remove_repeated : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3ec9ed76be368c3c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods._remove_repeated","kind":"function","src_hash":"59e4bf0a51954a98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_repeated(ind)","rhs":"removes repeated objects from sequences","over":{"base":"Any"},"name":"_remove_repeated_correct","kind":"composition"},"guarantee":"removes repeated objects from sequences","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"set","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ec9ed76be368c3c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods._remove_repeated","kind":"function","src_hash":"59e4bf0a51954a98","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_repeated(inds)","rhs":"(set(u), tuple(r))","over":{"base":"Any"},"name":"_remove_repeated_correct","kind":"composition"},"guarantee":"returns (set(u), tuple(r))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"set","by":"library_axiom"},{"fn":"tuple","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ec9ed76be368c3c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(set(u), tuple(r))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _remove_repeated(inds):
     """
     Removes repeated objects from sequences
@@ -113,16 +131,26 @@ def _remove_repeated(inds):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_indices_Mul(exp), determine the outer indices of a mul object) over Any ║
+# ║ Path(_get_indices_Mul(expr, return_dummies), result == ((inds, symmetry, dummies) if return_dummies else (inds, symmetry)) and result == (inds, symmetry, dummies) or result == (inds, symmetry)) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_indices_Mul : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  result == ((inds, symmetry, dummies) if r...   ║
+# ║   ensures:  result == (inds, symmetry, dummies) or re...   ║
+# ║   fiber[case_0]: return_dummies => (inds, symmetry, d...   ║
+# ║   fiber[case_1]: not (return_dummies) => (inds, symme...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_indices_Mul : {Any | hasattr(expr, 'args')} → {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cfe9b428d5062b35  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e102a95e8becfa5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods._get_indices_Mul","kind":"function","src_hash":"fcf385b85687e3c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_indices_Mul(exp)","rhs":"determine the outer indices of a mul object","over":{"base":"Any"},"name":"_get_indices_Mul_correct"},"guarantee":"determine the outer indices of a mul object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods._get_indices_Mul_correct","statement":"Path(_get_indices_Mul(x), determine the outer indices of a mul object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cfe9b428d5062b35"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods._get_indices_Mul","kind":"function","src_hash":"fcf385b85687e3c5","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == ((inds, symmetry, dummies) if return_dummies else (inds, symmetry)) and result == (inds, symmetry, dummies) or result == (inds, symmetry)"},"spec":{"lhs":"_get_indices_Mul(expr, return_dummies)","rhs":"result == ((inds, symmetry, dummies) if return_dummies else (inds, symmetry)) and result == (inds, symmetry, dummies) or result == (inds, symmetry)","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_get_indices_Mul_correct"},"guarantee":"result == ((inds, symmetry, dummies) if return_dummies else (inds, symmetry)); result == (inds, symmetry, dummies) or result == (inds, symmetry); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods._get_indices_Mul_correct","statement":"Path(_get_indices_Mul(x), result == ((inds, symmetry, dummies) if return_dummies else (inds, symmetry)); result == (inds, symmetry, dummies) or result == (inds, symmetry); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e102a95e8becfa5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'args')"],"ensures":["result == ((inds, symmetry, dummies) if return_dummies else (inds, symmetry))","result == (inds, symmetry, dummies) or result == (inds, symmetry)"],"fibers":[{"name":"case_0","guard":"return_dummies","ensures":["result == (inds, symmetry, dummies)"],"decidability":"library","returns_expr":"(inds, symmetry, dummies)"},{"name":"case_1","guard":"not (return_dummies)","ensures":["result == (inds, symmetry)"],"decidability":"library","returns_expr":"(inds, symmetry)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _get_indices_Mul(expr, return_dummies=False):
     """Determine the outer indices of a Mul object.
 
@@ -163,16 +191,23 @@ def _get_indices_Mul(expr, return_dummies=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_indices_Pow(exp), determine outer indices of a power or an exponential) over Any ║
+# ║ Path(_get_indices_Pow(expr), (inds, symmetries)) over {Any | hasattr(expr, 'as_base_exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_indices_Pow : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'as_base_exp')                   ║
+# ║   returns:  (inds, symmetries)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_indices_Pow : {Any | hasattr(expr, 'as_base_exp'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86c1b27e9bea87ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a7fa786db48d329  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods._get_indices_Pow","kind":"function","src_hash":"e6320eb7f39e8fc1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_indices_Pow(exp)","rhs":"determine outer indices of a power or an exponential","over":{"base":"Any"},"name":"_get_indices_Pow_correct"},"guarantee":"determine outer indices of a power or an exponential","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods._get_indices_Pow_correct","statement":"Path(_get_indices_Pow(x), determine outer indices of a power or an exponential)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86c1b27e9bea87ba"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods._get_indices_Pow","kind":"function","src_hash":"e6320eb7f39e8fc1","in":{"base":"Any","pred":"hasattr(expr, 'as_base_exp')"},"out":{"base":"Any"},"spec":{"lhs":"_get_indices_Pow(expr)","rhs":"(inds, symmetries)","over":{"base":"Any","pred":"hasattr(expr, 'as_base_exp')"},"name":"_get_indices_Pow_correct"},"guarantee":"returns (inds, symmetries)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods._get_indices_Pow_correct","statement":"Path(_get_indices_Pow(x), returns (inds, symmetries))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a7fa786db48d329","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'as_base_exp')"],"returns_expr":"(inds, symmetries)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_base_exp"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _get_indices_Pow(expr):
     """Determine outer indices of a power or an exponential.
 
@@ -226,16 +261,24 @@ def _get_indices_Pow(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_indices_Add(exp), determine outer indices of an add object) over Any ║
+# ║ Path(_get_indices_Add(expr), <unspecified:_get_indices_Add>) over {Any | all((x == non_scalars[0] for x in non_scalars[1:])) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_indices_Add : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: all((x == non_scalars[0] for x in non_sca...   ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_indices_Add : {Any | all((x == non_scalars[0] fo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf0d86436bd0586e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods._get_indices_Add","kind":"function","src_hash":"aca9b746a7f6dfd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_indices_Add(exp)","rhs":"determine outer indices of an add object","over":{"base":"Any"},"name":"_get_indices_Add_correct"},"guarantee":"determine outer indices of an add object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods._get_indices_Add_correct","statement":"Path(_get_indices_Add(x), determine outer indices of an add object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf0d86436bd0586e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods._get_indices_Add","kind":"function","src_hash":"aca9b746a7f6dfd4","in":{"base":"Any","pred":"all((x == non_scalars[0] for x in non_scalars[1:])) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_get_indices_Add(expr)","rhs":"<unspecified:_get_indices_Add>","over":{"base":"Any","pred":"all((x == non_scalars[0] for x in non_scalars[1:])) and hasattr(expr, 'args')"},"name":"_get_indices_Add_correct"},"guarantee":"determine outer indices of an add object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods._get_indices_Add_correct","statement":"Path(_get_indices_Add(x), determine outer indices of an add object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf0d86436bd0586e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["all((x == non_scalars[0] for x in non_scalars[1:]))","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"],"raises":["IndexConformanceException"]},"state_contract":{"exceptional_post":{"IndexConformanceException":["isinstance(raised, IndexConformanceException)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _get_indices_Add(expr):
     """Determine outer indices of an Add object.
 
@@ -283,7 +326,15 @@ def _get_indices_Add(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_indices(exp), determine the outer indices of expression ``expr``) over {Any | isinstance(expr, Indexed) and isinstance(expr, Idx) and isinstance(expr, exp)} ║
+# ║ Path(get_indices(expr), <unspecified:get_indices>) over {Any | isinstance(expr, Indexed) and isinstance(expr, Idx) and isinstance(expr, exp) and hasattr(expr, 'indices') and hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Pow') and hasattr(expr, 'args') and hasattr(expr, 'has')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'indices')                       ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   fiber[Indexed]: isinstance(expr, Indexed) => (inds,...   ║
+# ║   fiber[zero_or_none]: expr is None => (set(), {})         ║
+# ║   fiber[Idx]: isinstance(expr, Idx) => ({expr}, {})        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_indices : {Any | isinstance(expr, Indexed) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -299,9 +350,12 @@ def _get_indices_Add(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓11 ?5 ✗1 VCs | 6.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5e5afb80...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods.get_indices","kind":"function","src_hash":"e3db66e7e36111b0","in":{"base":"Any","pred":"isinstance(expr, Indexed) and isinstance(expr, Idx) and isinstance(expr, exp)"},"out":{"base":"Any"},"spec":{"lhs":"get_indices(exp)","rhs":"determine the outer indices of expression ``expr``","over":{"base":"Any","pred":"isinstance(expr, Indexed) and isinstance(expr, Idx) and isinstance(expr, exp)"},"name":"get_indices_correct"},"guarantee":"determine the outer indices of expression ``expr``","fibers":[{"name":"Indexed","pred":"isinstance(expr, Indexed)","path":{"lhs":"get_indices(x)","rhs":"determine the outer indices of expression ``expr``","over":{"base":"Indexed","pred":"isinstance(expr, Indexed)"},"name":"get_indices_Indexed_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_indices_Indexed_correct","statement":"get_indices satisfies spec on Indexed inputs"},"trust":"LIBRARY"},{"name":"Idx","pred":"isinstance(expr, Idx)","path":{"lhs":"get_indices(x)","rhs":"determine the outer indices of expression ``expr``","over":{"base":"Idx","pred":"isinstance(expr, Idx)"},"name":"get_indices_Idx_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_indices_Idx_correct","statement":"get_indices satisfies spec on Idx inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(expr, exp)","path":{"lhs":"get_indices(x)","rhs":"determine the outer indices of expression ``expr``","over":{"base":"exp","pred":"isinstance(expr, exp)"},"name":"get_indices_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_indices_exp_correct","statement":"get_indices satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"Piecewise","pred":"isinstance(expr, Piecewise)","path":{"lhs":"get_indices(x)","rhs":"determine the outer indices of expression ``expr``","over":{"base":"Piecewise","pred":"isinstance(expr, Piecewise)"},"name":"get_indices_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_indices_Piecewise_correct","statement":"get_indices satisfies spec on Piecewise inputs"},"trust":"LIBRARY"},{"name":"Function","pred":"isinstance(expr, Function)","path":{"lhs":"get_indices(x)","rhs":"determine the outer indices of expression ``expr``","over":{"base":"Function","pred":"isinstance(expr, Function)"},"name":"get_indices_Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_indices_Function_correct","statement":"get_indices satisfies spec on Function inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5e5afb80df373421"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods.get_indices","kind":"function","src_hash":"e3db66e7e36111b0","in":{"base":"Any","pred":"isinstance(expr, Indexed) and isinstance(expr, Idx) and isinstance(expr, exp) and hasattr(expr, 'indices') and hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Pow') and hasattr(expr, 'args') and hasattr(expr, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"get_indices(expr)","rhs":"<unspecified:get_indices>","over":{"base":"Any","pred":"isinstance(expr, Indexed) and isinstance(expr, Idx) and isinstance(expr, exp) and hasattr(expr, 'indices') and hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Pow') and hasattr(expr, 'args') and hasattr(expr, 'has')"},"name":"get_indices_correct"},"guarantee":"5-fiber decomposition","fibers":[{"name":"Indexed","pred":"isinstance(expr, Indexed)","path":{"lhs":"get_indices(x)","rhs":"5-fiber decomposition","over":{"base":"Indexed","pred":"isinstance(expr, Indexed)"},"name":"get_indices_Indexed_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_indices_Indexed_correct","statement":"get_indices satisfies spec on Indexed inputs"},"trust":"LIBRARY"},{"name":"Idx","pred":"isinstance(expr, Idx)","path":{"lhs":"get_indices(x)","rhs":"5-fiber decomposition","over":{"base":"Idx","pred":"isinstance(expr, Idx)"},"name":"get_indices_Idx_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_indices_Idx_correct","statement":"get_indices satisfies spec on Idx inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(expr, exp)","path":{"lhs":"get_indices(x)","rhs":"5-fiber decomposition","over":{"base":"exp","pred":"isinstance(expr, exp)"},"name":"get_indices_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_indices_exp_correct","statement":"get_indices satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"Piecewise","pred":"isinstance(expr, Piecewise)","path":{"lhs":"get_indices(x)","rhs":"5-fiber decomposition","over":{"base":"Piecewise","pred":"isinstance(expr, Piecewise)"},"name":"get_indices_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_indices_Piecewise_correct","statement":"get_indices satisfies spec on Piecewise inputs"},"trust":"LIBRARY"},{"name":"Function","pred":"isinstance(expr, Function)","path":{"lhs":"get_indices(x)","rhs":"5-fiber decomposition","over":{"base":"Function","pred":"isinstance(expr, Function)"},"name":"get_indices_Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_indices_Function_correct","statement":"get_indices satisfies spec on Function inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5e5afb80df373421","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'indices')","hasattr(expr, 'is_Atom')","hasattr(expr, 'is_Mul')","hasattr(expr, 'is_Add')","hasattr(expr, 'is_Pow')","hasattr(expr, 'args')","hasattr(expr, 'has')"],"fibers":[{"name":"Indexed","guard":"isinstance(expr, Indexed)","ensures":["result == (inds, {})"],"decidability":"structural","returns_expr":"(inds, {})"},{"name":"zero_or_none","guard":"expr is None","ensures":["result == (set(), {})"],"decidability":"structural","returns_expr":"(set(), {})"},{"name":"Idx","guard":"isinstance(expr, Idx)","ensures":["result == ({expr}, {})"],"decidability":"structural","returns_expr":"({expr}, {})"},{"name":"case_3","guard":"expr.is_Atom","ensures":["result == (set(), {})"],"decidability":"library","returns_expr":"(set(), {})"},{"name":"Indexed","guard":"not (isinstance(expr, Indexed)) and not (expr is None) and not (isinstance(expr, Idx)) and not (expr.is_Atom)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.has","expr.indices","expr.is_Add","expr.is_Atom","expr.is_Mul","expr.is_Pow"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":11,"n_assumed":5,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":6.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'expr.is_Pow or isinstance(expr, exp)', 'isinstance(expr, Idx)', 'isinstance(expr, Piecewise)', 'isinstance(expr, Indexed)', 'expr is None', 'isinstance(expr, Function)'}, fibers={'Function', 'Piecewise', 'exp', 'Indexed', 'Idx'})"]}}
 def get_indices(expr):
     """Determine the outer indices of expression ``expr``
 
@@ -399,7 +453,18 @@ def get_indices(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_contraction_structure(exp), determine dummy indices of ``expr`` and describe its structure) over {Any | isinstance(expr, Indexed) and isinstance(expr, exp) and isinstance(expr, Piecewise)} ║
+# ║ Path(get_contraction_structure(expr), len(deeplist) == old_len_deeplist + 1 and len(dicts) == old_len_dicts + 1 and len(nested) == old_len_nested + 1) over {Any | isinstance(expr, Indexed) and isinstance(expr, exp) and isinstance(expr, Piecewise) and hasattr(expr, 'is_Atom') and hasattr(expr, 'indices') and hasattr(expr, 'is_Mul') and hasattr(expr, 'args') and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Add') and hasattr(expr, 'as_base_exp') and hasattr(expr, 'has')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   requires: hasattr(expr, 'indices')                       ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   ensures:  len(deeplist) == old_len_deeplist + 1          ║
+# ║   ensures:  len(dicts) == old_len_dicts + 1                ║
+# ║   ensures:  len(nested) == old_len_nested + 1              ║
+# ║   fiber[Indexed]: isinstance(expr, Indexed) => {key o...   ║
+# ║   fiber[case_1]: expr.is_Atom => {None: {expr}}            ║
+# ║   fiber[case_2]: expr.is_Mul => result                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_contraction_structure : {Any | isinstance(expr, I...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -414,9 +479,12 @@ def get_indices(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6a41bd56...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods.get_contraction_structure","kind":"function","src_hash":"425380e4576f8bb2","in":{"base":"Any","pred":"isinstance(expr, Indexed) and isinstance(expr, exp) and isinstance(expr, Piecewise)"},"out":{"base":"Any"},"spec":{"lhs":"get_contraction_structure(exp)","rhs":"determine dummy indices of ``expr`` and describe its structure","over":{"base":"Any","pred":"isinstance(expr, Indexed) and isinstance(expr, exp) and isinstance(expr, Piecewise)"},"name":"get_contraction_structure_correct"},"guarantee":"determine dummy indices of ``expr`` and describe its structure","fibers":[{"name":"Indexed","pred":"isinstance(expr, Indexed)","path":{"lhs":"get_contraction_structure(x)","rhs":"determine dummy indices of ``expr`` and describe its structure","over":{"base":"Indexed","pred":"isinstance(expr, Indexed)"},"name":"get_contraction_structure_Indexed_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_contraction_structure_Indexed_correct","statement":"get_contraction_structure satisfies spec on Indexed inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(expr, exp)","path":{"lhs":"get_contraction_structure(x)","rhs":"determine dummy indices of ``expr`` and describe its structure","over":{"base":"exp","pred":"isinstance(expr, exp)"},"name":"get_contraction_structure_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_contraction_structure_exp_correct","statement":"get_contraction_structure satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"Piecewise","pred":"isinstance(expr, Piecewise)","path":{"lhs":"get_contraction_structure(x)","rhs":"determine dummy indices of ``expr`` and describe its structure","over":{"base":"Piecewise","pred":"isinstance(expr, Piecewise)"},"name":"get_contraction_structure_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_contraction_structure_Piecewise_correct","statement":"get_contraction_structure satisfies spec on Piecewise inputs"},"trust":"LIBRARY"},{"name":"Function","pred":"isinstance(expr, Function)","path":{"lhs":"get_contraction_structure(x)","rhs":"determine dummy indices of ``expr`` and describe its structure","over":{"base":"Function","pred":"isinstance(expr, Function)"},"name":"get_contraction_structure_Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_contraction_structure_Function_correct","statement":"get_contraction_structure satisfies spec on Function inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6a41bd56237f229f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.index_methods.get_contraction_structure","kind":"function","src_hash":"425380e4576f8bb2","in":{"base":"Any","pred":"isinstance(expr, Indexed) and isinstance(expr, exp) and isinstance(expr, Piecewise) and hasattr(expr, 'is_Atom') and hasattr(expr, 'indices') and hasattr(expr, 'is_Mul') and hasattr(expr, 'args') and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Add') and hasattr(expr, 'as_base_exp') and hasattr(expr, 'has')"},"out":{"base":"Any","pred":"result satisfies: len(deeplist) == old_len_deeplist + 1 and len(dicts) == old_len_dicts + 1 and len(nested) == old_len_nested + 1"},"spec":{"lhs":"get_contraction_structure(expr)","rhs":"len(deeplist) == old_len_deeplist + 1 and len(dicts) == old_len_dicts + 1 and len(nested) == old_len_nested + 1","over":{"base":"Any","pred":"isinstance(expr, Indexed) and isinstance(expr, exp) and isinstance(expr, Piecewise) and hasattr(expr, 'is_Atom') and hasattr(expr, 'indices') and hasattr(expr, 'is_Mul') and hasattr(expr, 'args') and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Add') and hasattr(expr, 'as_base_exp') and hasattr(expr, 'has')"},"name":"get_contraction_structure_correct"},"guarantee":"len(deeplist) == old_len_deeplist + 1; len(dicts) == old_len_dicts + 1; len(nested) == old_len_nested + 1; 8-fiber decomposition","fibers":[{"name":"Indexed","pred":"isinstance(expr, Indexed)","path":{"lhs":"get_contraction_structure(x)","rhs":"len(deeplist) == old_len_deeplist + 1; len(dicts) == old_len_dicts + 1; len(nested) == old_len_nested + 1; 8-fiber decomposition","over":{"base":"Indexed","pred":"isinstance(expr, Indexed)"},"name":"get_contraction_structure_Indexed_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_contraction_structure_Indexed_correct","statement":"get_contraction_structure satisfies spec on Indexed inputs"},"trust":"LIBRARY"},{"name":"exp","pred":"isinstance(expr, exp)","path":{"lhs":"get_contraction_structure(x)","rhs":"len(deeplist) == old_len_deeplist + 1; len(dicts) == old_len_dicts + 1; len(nested) == old_len_nested + 1; 8-fiber decomposition","over":{"base":"exp","pred":"isinstance(expr, exp)"},"name":"get_contraction_structure_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_contraction_structure_exp_correct","statement":"get_contraction_structure satisfies spec on exp inputs"},"trust":"LIBRARY"},{"name":"Piecewise","pred":"isinstance(expr, Piecewise)","path":{"lhs":"get_contraction_structure(x)","rhs":"len(deeplist) == old_len_deeplist + 1; len(dicts) == old_len_dicts + 1; len(nested) == old_len_nested + 1; 8-fiber decomposition","over":{"base":"Piecewise","pred":"isinstance(expr, Piecewise)"},"name":"get_contraction_structure_Piecewise_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_contraction_structure_Piecewise_correct","statement":"get_contraction_structure satisfies spec on Piecewise inputs"},"trust":"LIBRARY"},{"name":"Function","pred":"isinstance(expr, Function)","path":{"lhs":"get_contraction_structure(x)","rhs":"len(deeplist) == old_len_deeplist + 1; len(dicts) == old_len_dicts + 1; len(nested) == old_len_nested + 1; 8-fiber decomposition","over":{"base":"Function","pred":"isinstance(expr, Function)"},"name":"get_contraction_structure_Function_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.index_methods.get_contraction_structure_Function_correct","statement":"get_contraction_structure satisfies spec on Function inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6a41bd56237f229f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Atom')","hasattr(expr, 'indices')","hasattr(expr, 'is_Mul')","hasattr(expr, 'args')","hasattr(expr, 'is_Pow')","hasattr(expr, 'is_Add')","hasattr(expr, 'as_base_exp')","hasattr(expr, 'has')"],"ensures":["len(deeplist) == old_len_deeplist + 1","len(dicts) == old_len_dicts + 1","len(nested) == old_len_nested + 1"],"fibers":[{"name":"Indexed","guard":"isinstance(expr, Indexed)","ensures":["result == {key or None: {expr}}"],"decidability":"structural","returns_expr":"{key or None: {expr}}"},{"name":"case_1","guard":"expr.is_Atom","ensures":["result == {None: {expr}}"],"decidability":"library","returns_expr":"{None: {expr}}"},{"name":"case_2","guard":"expr.is_Mul","ensures":["result == result"],"decidability":"library","returns_expr":"result"},{"name":"exp","guard":"expr.is_Pow or isinstance(expr, exp)","ensures":["result == result"],"decidability":"structural","returns_expr":"result"},{"name":"case_4","guard":"expr.is_Add","ensures":["result == result"],"decidability":"library","returns_expr":"result"},{"name":"Piecewise","guard":"isinstance(expr, Piecewise)","ensures":["result == {None: expr}"],"decidability":"structural","returns_expr":"{None: expr}"},{"name":"Function","guard":"isinstance(expr, Function)","ensures":["result == d"],"decidability":"structural","returns_expr":"d"},{"name":"case_7","guard":"not expr.has(Indexed)","ensures":["result == {None: {expr}}"],"decidability":"library","returns_expr":"{None: {expr}}"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.as_base_exp","expr.has","expr.indices","expr.is_Add","expr.is_Atom","expr.is_Mul","expr.is_Pow"],"calls_mutating":["deeplist.append","dicts.append","nested.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["deeplist.*","dicts.*","nested.*"],"old_bindings":{"old_len_deeplist":"len(deeplist)","old_len_dicts":"len(dicts)","old_len_nested":"len(nested)"},"post_ensures":["len(deeplist) == old_len_deeplist + 1","len(dicts) == old_len_dicts + 1","len(nested) == old_len_nested + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not (None in facd and len(facd) == 1)', 'expr.is_Pow or isinstance(expr, exp)', 'isinstance(expr, Piecewise)', 'not (None in d and len(d) == 1)', 'not (None in deep and len(deep) == 1)', 'isinstance(expr, Indexed)', 'isinstance(expr, Function)'}, fibers={'exp', 'Indexed', 'Function', 'Piecewise'})"]}}
 def get_contraction_structure(expr):
     """Determine dummy indices of ``expr`` and describe its structure
 

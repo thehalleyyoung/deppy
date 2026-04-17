@@ -32,16 +32,22 @@ from sympy.matrices.kind import MatrixKind
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(satask(pro), function to evaluate the proposition with assumptions using sat algorithm) over Any ║
+# ║ Path(satask(proposition, assumptions, context), check_satisfiability(props, _props, sat)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  check_satisfiability(props, _props, sat)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ satask : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 103496ddb817b51e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ede29edce2fec80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.satask.satask","kind":"function","src_hash":"1a9926e347039d15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"satask(pro)","rhs":"function to evaluate the proposition with assumptions using sat algorithm","over":{"base":"Any"},"name":"satask_correct"},"guarantee":"function to evaluate the proposition with assumptions using sat algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.satask.satask_correct","statement":"Path(satask(x), function to evaluate the proposition with assumptions using sat algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"103496ddb817b51e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.satask.satask","kind":"function","src_hash":"1a9926e347039d15","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"satask(proposition, assumptions, context)","rhs":"check_satisfiability(props, _props, sat)","over":{"base":"Any"},"name":"satask_correct"},"guarantee":"returns check_satisfiability(props, _props, sat)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.satask.satask_correct","statement":"Path(satask(x), returns check_satisfiability(props, _props, sat))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ede29edce2fec80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"check_satisfiability(props, _props, sat)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def satask(proposition, assumptions=True, context=global_assumptions,
         use_known_facts=True, iterations=oo):
     """
@@ -111,16 +117,23 @@ def satask(proposition, assumptions=True, context=global_assumptions,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(check_satisfiability(pro), check_satisfiability produces the expected output) over Any ║
+# ║ Path(check_satisfiability(prop, _prop, factbase), <unspecified:check_satisfiability>) over {Any | hasattr(factbase, 'copy')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ check_satisfiability : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(factbase, 'copy')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ check_satisfiability : {Any | hasattr(factbase, 'copy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 802d043ffdc2fcb8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.satask.check_satisfiability","kind":"function","src_hash":"079b01aa6e05fc9b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"check_satisfiability(pro)","rhs":"check_satisfiability produces the expected output","over":{"base":"Any"},"name":"check_satisfiability_correct"},"guarantee":"check_satisfiability produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.satask.check_satisfiability_correct","statement":"Path(check_satisfiability(x), check_satisfiability produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"802d043ffdc2fcb8"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.satask.check_satisfiability","kind":"function","src_hash":"079b01aa6e05fc9b","in":{"base":"Any","pred":"hasattr(factbase, 'copy')"},"out":{"base":"Any"},"spec":{"lhs":"check_satisfiability(prop, _prop, factbase)","rhs":"<unspecified:check_satisfiability>","over":{"base":"Any","pred":"hasattr(factbase, 'copy')"},"name":"check_satisfiability_correct"},"guarantee":"check_satisfiability produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.satask.check_satisfiability_correct","statement":"Path(check_satisfiability(x), check_satisfiability produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"802d043ffdc2fcb8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(factbase, 'copy')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["factbase.copy"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def check_satisfiability(prop, _prop, factbase):
     sat_true = factbase.copy()
     sat_false = factbase.copy()
@@ -146,7 +159,13 @@ def check_satisfiability(prop, _prop, factbase):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extract_predargs(pro), extract every expression in the argument of predicates from *proposition*, *assumptions* and *context*) over {Any | isinstance(key, AppliedPredicate)} ║
+# ║ Path(extract_predargs(proposition, assumptions, context), <unspecified:extract_predargs>) over {Any | isinstance(key, AppliedPredicate) and hasattr(proposition, 'all_predicates') and hasattr(assumptions, 'all_predicates') and hasattr(context, 'all_predicates')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(proposition, 'all_predicates')         ║
+# ║   requires: hasattr(assumptions, 'all_predicates')         ║
+# ║   requires: hasattr(context, 'all_predicates')             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extract_predargs : {Any | isinstance(key, AppliedPred...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -158,9 +177,12 @@ def check_satisfiability(prop, _prop, factbase):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4df6626a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.satask.extract_predargs","kind":"function","src_hash":"b4e1a512f53f9143","in":{"base":"Any","pred":"isinstance(key, AppliedPredicate)"},"out":{"base":"Any"},"spec":{"lhs":"extract_predargs(pro)","rhs":"extract every expression in the argument of predicates from *proposition*, *assumptions* and *context*","over":{"base":"Any","pred":"isinstance(key, AppliedPredicate)"},"name":"extract_predargs_correct"},"guarantee":"extract every expression in the argument of predicates from *proposition*, *assumptions* and *context*","fibers":[{"name":"AppliedPredicate","pred":"isinstance(key, AppliedPredicate)","path":{"lhs":"extract_predargs(x)","rhs":"extract every expression in the argument of predicates from *proposition*, *assumptions* and *context*","over":{"base":"AppliedPredicate","pred":"isinstance(key, AppliedPredicate)"},"name":"extract_predargs_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.satask.extract_predargs_AppliedPredicate_correct","statement":"extract_predargs satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4df6626a03cb8310"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.satask.extract_predargs","kind":"function","src_hash":"b4e1a512f53f9143","in":{"base":"Any","pred":"isinstance(key, AppliedPredicate) and hasattr(proposition, 'all_predicates') and hasattr(assumptions, 'all_predicates') and hasattr(context, 'all_predicates')"},"out":{"base":"Any"},"spec":{"lhs":"extract_predargs(proposition, assumptions, context)","rhs":"<unspecified:extract_predargs>","over":{"base":"Any","pred":"isinstance(key, AppliedPredicate) and hasattr(proposition, 'all_predicates') and hasattr(assumptions, 'all_predicates') and hasattr(context, 'all_predicates')"},"name":"extract_predargs_correct"},"guarantee":"extract every expression in the argument of predicates from *proposition*, *assumptions* and *context*","fibers":[{"name":"AppliedPredicate","pred":"isinstance(key, AppliedPredicate)","path":{"lhs":"extract_predargs(x)","rhs":"extract every expression in the argument of predicates from *proposition*, *assumptions* and *context*","over":{"base":"AppliedPredicate","pred":"isinstance(key, AppliedPredicate)"},"name":"extract_predargs_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.satask.extract_predargs_AppliedPredicate_correct","statement":"extract_predargs satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4df6626a03cb8310","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(proposition, 'all_predicates')","hasattr(assumptions, 'all_predicates')","hasattr(context, 'all_predicates')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(key, AppliedPredicate)', 'syms & req_keys != set()'}, fibers={'AppliedPredicate'})"]}}
 def extract_predargs(proposition, assumptions=None, context=None):
     """
     Extract every expression in the argument of predicates from *proposition*,
@@ -219,9 +241,14 @@ def extract_predargs(proposition, assumptions=None, context=None):
     return exprs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(find_symbols(pre), find every :obj:`~.symbol` in *pred*) over {Any | isinstance(pred, CNF)} ║
+# ║ Path(find_symbols(pred), # HINT: find_symbols may be idempotent: find_symbols(find_symbols(x)) == find_symbols(x)) over {Any | isinstance(pred, CNF) and hasattr(pred, 'atoms') and hasattr(pred, 'all_predicates')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ find_symbols : {Any | isinstance(pred, CNF)} → Any         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(pred, 'atoms')                         ║
+# ║   requires: hasattr(pred, 'all_predicates')                ║
+# ║   ensures:  # HINT: find_symbols may be idempotent: f...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ find_symbols : {Any | isinstance(pred, CNF) and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   CNF: {isinstance(pred, CNF)} → library_axiom             ║
@@ -231,9 +258,12 @@ def extract_predargs(proposition, assumptions=None, context=None):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5f1f21fb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.satask.find_symbols","kind":"function","src_hash":"ac89296c32d34076","in":{"base":"Any","pred":"isinstance(pred, CNF)"},"out":{"base":"Any"},"spec":{"lhs":"find_symbols(pre)","rhs":"find every :obj:`~.symbol` in *pred*","over":{"base":"Any","pred":"isinstance(pred, CNF)"},"name":"find_symbols_correct"},"guarantee":"find every :obj:`~.symbol` in *pred*","fibers":[{"name":"CNF","pred":"isinstance(pred, CNF)","path":{"lhs":"find_symbols(x)","rhs":"find every :obj:`~.symbol` in *pred*","over":{"base":"CNF","pred":"isinstance(pred, CNF)"},"name":"find_symbols_CNF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.satask.find_symbols_CNF_correct","statement":"find_symbols satisfies spec on CNF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5f1f21fb19974c2b"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.satask.find_symbols","kind":"function","src_hash":"ac89296c32d34076","in":{"base":"Any","pred":"isinstance(pred, CNF) and hasattr(pred, 'atoms') and hasattr(pred, 'all_predicates')"},"out":{"base":"Any","pred":"result satisfies: # HINT: find_symbols may be idempotent: find_symbols(find_symbols(x)) == find_symbols(x)"},"spec":{"lhs":"find_symbols(pred)","rhs":"# HINT: find_symbols may be idempotent: find_symbols(find_symbols(x)) == find_symbols(x)","over":{"base":"Any","pred":"isinstance(pred, CNF) and hasattr(pred, 'atoms') and hasattr(pred, 'all_predicates')"},"name":"find_symbols_correct"},"guarantee":"# HINT: find_symbols may be idempotent: find_symbols(find_symbols(x)) == find_symbols(x)","fibers":[{"name":"CNF","pred":"isinstance(pred, CNF)","path":{"lhs":"find_symbols(x)","rhs":"# HINT: find_symbols may be idempotent: find_symbols(find_symbols(x)) == find_symbols(x)","over":{"base":"CNF","pred":"isinstance(pred, CNF)"},"name":"find_symbols_CNF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.satask.find_symbols_CNF_correct","statement":"find_symbols satisfies spec on CNF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5f1f21fb19974c2b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(pred, 'atoms')","hasattr(pred, 'all_predicates')"],"ensures":["# HINT: find_symbols may be idempotent: find_symbols(find_symbols(x)) == find_symbols(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["pred.all_predicates","pred.atoms"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(pred, CNF)'}, fibers={'CNF'})"]}}
 def find_symbols(pred):
     """
     Find every :obj:`~.Symbol` in *pred*.
@@ -253,7 +283,11 @@ def find_symbols(pred):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_relevant_clsfacts(exp), extract relevant facts from the items in *exprs*) over {Any | isinstance(key, AppliedPredicate)} ║
+# ║ Path(get_relevant_clsfacts(exprs, relevant_facts), (newexprs - exprs, relevant_facts)) over {Any | isinstance(key, AppliedPredicate) and hasattr(relevant_facts, '_and')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(relevant_facts, '_and')                ║
+# ║   returns:  (newexprs - exprs, relevant_facts)             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_relevant_clsfacts : {Any | isinstance(key, Applie...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -265,9 +299,12 @@ def find_symbols(pred):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1879a862...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.satask.get_relevant_clsfacts","kind":"function","src_hash":"ccc323f1ecf5b9e4","in":{"base":"Any","pred":"isinstance(key, AppliedPredicate)"},"out":{"base":"Any"},"spec":{"lhs":"get_relevant_clsfacts(exp)","rhs":"extract relevant facts from the items in *exprs*","over":{"base":"Any","pred":"isinstance(key, AppliedPredicate)"},"name":"get_relevant_clsfacts_correct"},"guarantee":"extract relevant facts from the items in *exprs*","fibers":[{"name":"AppliedPredicate","pred":"isinstance(key, AppliedPredicate)","path":{"lhs":"get_relevant_clsfacts(x)","rhs":"extract relevant facts from the items in *exprs*","over":{"base":"AppliedPredicate","pred":"isinstance(key, AppliedPredicate)"},"name":"get_relevant_clsfacts_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.satask.get_relevant_clsfacts_AppliedPredicate_correct","statement":"get_relevant_clsfacts satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1879a8626e59a591"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.satask.get_relevant_clsfacts","kind":"function","src_hash":"ccc323f1ecf5b9e4","in":{"base":"Any","pred":"isinstance(key, AppliedPredicate) and hasattr(relevant_facts, '_and')"},"out":{"base":"Any"},"spec":{"lhs":"get_relevant_clsfacts(exprs, relevant_facts)","rhs":"(newexprs - exprs, relevant_facts)","over":{"base":"Any","pred":"isinstance(key, AppliedPredicate) and hasattr(relevant_facts, '_and')"},"name":"get_relevant_clsfacts_correct"},"guarantee":"returns (newexprs - exprs, relevant_facts)","fibers":[{"name":"AppliedPredicate","pred":"isinstance(key, AppliedPredicate)","path":{"lhs":"get_relevant_clsfacts(x)","rhs":"returns (newexprs - exprs, relevant_facts)","over":{"base":"AppliedPredicate","pred":"isinstance(key, AppliedPredicate)"},"name":"get_relevant_clsfacts_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.satask.get_relevant_clsfacts_AppliedPredicate_correct","statement":"get_relevant_clsfacts satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1879a8626e59a591","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(relevant_facts, '_and')"],"returns_expr":"(newexprs - exprs, relevant_facts)","pure":false,"effects":{"effect_type":"reads_state","reads":["relevant_facts._and"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(key, AppliedPredicate)'}, fibers={'AppliedPredicate'})"]}}
 def get_relevant_clsfacts(exprs, relevant_facts=None):
     """
     Extract relevant facts from the items in *exprs*. Facts are defined in
@@ -354,16 +391,22 @@ def get_relevant_clsfacts(exprs, relevant_facts=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_all_relevant_facts(pro), extract all relevant facts from *proposition* and *assumptions*) over Any ║
+# ║ Path(get_all_relevant_facts(proposition, assumptions, context), <unspecified:get_all_relevant_facts>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_all_relevant_facts : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6717067a6d9f5d40  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.satask.get_all_relevant_facts","kind":"function","src_hash":"d512eccab60fa14a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_all_relevant_facts(pro)","rhs":"extract all relevant facts from *proposition* and *assumptions*","over":{"base":"Any"},"name":"get_all_relevant_facts_correct"},"guarantee":"extract all relevant facts from *proposition* and *assumptions*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.satask.get_all_relevant_facts_correct","statement":"Path(get_all_relevant_facts(x), extract all relevant facts from *proposition* and *assumptions*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6717067a6d9f5d40"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.satask.get_all_relevant_facts","kind":"function","src_hash":"d512eccab60fa14a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_all_relevant_facts(proposition, assumptions, context)","rhs":"<unspecified:get_all_relevant_facts>","over":{"base":"Any"},"name":"get_all_relevant_facts_correct"},"guarantee":"extract all relevant facts from *proposition* and *assumptions*","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.satask.get_all_relevant_facts_correct","statement":"Path(get_all_relevant_facts(x), extract all relevant facts from *proposition* and *assumptions*)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6717067a6d9f5d40","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def get_all_relevant_facts(proposition, assumptions, context,
         use_known_facts=True, iterations=oo):
     """

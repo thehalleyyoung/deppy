@@ -26,16 +26,25 @@ U = None
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deduce_alpha_implications(), test_deduce_alpha_implications produces the expected output) over Any ║
+# ║ Path(test_deduce_alpha_implications(), (I, P)) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_deduce_alpha_implications : Any → {Any | P == {'...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  I == {'a': {'b', 'c'}, 'b': {'c'}, Not('b...   ║
+# ║   ensures:  P == {'a': {'b', 'c'}, 'b': {'a', 'c'}, '...   ║
+# ║   ensures:  D([('a', 'a'), ('a', 'a')]) == ({}, {})        ║
+# ║   returns:  (I, P)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_deduce_alpha_implications : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eda81d4e8db7e4ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 590d765c318c5ade  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_deduce_alpha_implications","kind":"function","src_hash":"cecf05ca2c1566f5","in":{"base":"Any"},"out":{"base":"Any","pred":"P == {'a': {'b', 'c'}, 'b': {'a', 'c'}, 'c': {'a', 'b'}} and P == {'a': {'b', 'c'}, 'b': {'a', 'c'}, 'c': {'a', 'b'}} and D([('a', 'a'), ('a', 'a')]) == ({}, {}) and P == {'a': {'b', 'c'}, 'b': {'a', 'c'}, 'c': {'a', 'b'}} and P == {'a': {'b', 'c'}, 'b': {'a', 'c'}, 'c': {'a', 'b'}} and P == {'rat': {'int', 'real'}, 'real': {'int', 'rat'}, 'int': {'rat', 'real'}}"},"spec":{"lhs":"test_deduce_alpha_implications()","rhs":"test_deduce_alpha_implications produces the expected output","over":{"base":"Any"},"name":"test_deduce_alpha_implications_correct"},"guarantee":"test_deduce_alpha_implications produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_deduce_alpha_implications_correct","statement":"Path(test_deduce_alpha_implications(x), test_deduce_alpha_implications produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eda81d4e8db7e4ce"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_deduce_alpha_implications","kind":"function","src_hash":"cecf05ca2c1566f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((I, P))"},"spec":{"lhs":"test_deduce_alpha_implications()","rhs":"(I, P)","over":{"base":"Any"},"name":"test_deduce_alpha_implications_correct"},"guarantee":"returns (I, P); I == {'a': {'b', 'c'}, 'b': {'c'}, Not('b'): {Not('a')}, Not('c'): {Not('a'), Not('b')}}; P == {'a': {'b', 'c'}, 'b': {'a', 'c'}, 'c': {'a', 'b'}}; D([('a', 'a'), ('a', 'a')]) == ({}, {})","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_deduce_alpha_implications_correct","statement":"Path(test_deduce_alpha_implications(x), returns (I, P); I == {'a': {'b', 'c'}, 'b': {'c'}, Not('b'): {Not('a')}, Not('c'): {Not('a'), Not('b')}}; P == {'a': {'b', 'c'}, 'b': {'a', 'c'}, 'c': {'a', 'b'}}; D([('a', 'a'), ('a', 'a')]) == ({}, {}))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"590d765c318c5ade","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["I == {'a': {'b', 'c'}, 'b': {'c'}, Not('b'): {Not('a')}, Not('c'): {Not('a'), Not('b')}}","P == {'a': {'b', 'c'}, 'b': {'a', 'c'}, 'c': {'a', 'b'}}","D([('a', 'a'), ('a', 'a')]) == ({}, {})","D([('a', 'b'), ('b', 'a')]) == ({'a': {'b'}, 'b': {'a'}, Not('a'): {Not('b')}, Not('b'): {Not('a')}}, {'a': {'b'}, 'b': {'a'}})","I == {'a': {Not('b'), Not('c')}, 'b': {Not('a')}, 'c': {'b', Not('a')}, Not('b'): {Not('c')}}","I == {'a': {'c'}, Not('a'): {'b'}, Not('b'): {'a', 'c'}, Not('c'): {Not('a'), 'b'}}","I == {'a': {'b', 'c', 'd', 'e'}, 'b': {'c', 'd', 'e'}, 'c': {'d', 'e'}, 'd': {'e'}, Not('b'): {Not('a')}, Not('c'): {Not('a'), Not('b')}, Not('d'): {Not('a'), Not('b'), Not('c')}, Not('e'): {Not('a'), Not('b'), Not('c'), Not('d')}}","P == {'a': {'b', 'c', 'd', 'e'}, 'b': {'a', 'c', 'd', 'e'}, 'c': {'a', 'b', 'd', 'e'}, 'd': {'a', 'b', 'c', 'e'}, 'e': {'a', 'b', 'c', 'd'}}","I == {'int': {'rat', 'real'}, 'rat': {'real'}, Not('real'): {Not('rat'), Not('int')}, Not('rat'): {Not('int')}}","P == {'rat': {'int', 'real'}, 'real': {'int', 'rat'}, 'int': {'rat', 'real'}}"],"returns_expr":"(I, P)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_deduce_alpha_implications():
     def D(i):
         I = deduce_alpha_implications(i)
@@ -97,16 +106,25 @@ def test_deduce_alpha_implications():
 
 # TODO move me to appropriate place
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_apply_beta_to_alpha_route(), test_apply_beta_to_alpha_route produces the expected output) over Any ║
+# ║ Path(test_apply_beta_to_alpha_route(), (set(), [bidx])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_apply_beta_to_alpha_route : Any → {Any | APPLY(A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  APPLY(A, B) == {'x': ({'a'}, []), 'a': Q(...   ║
+# ║   ensures:  APPLY(A, B) == {'x': ({'a'}, []), Not('x'...   ║
+# ║   ensures:  APPLY(A, B) == {'x': ({'a', 'b', 'c'}, []...   ║
+# ║   returns:  (set(), [bidx])                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_apply_beta_to_alpha_route : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf537b3e5e6cd2c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 105e41efb490ff45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_apply_beta_to_alpha_route","kind":"function","src_hash":"bcceeba3f028fd4d","in":{"base":"Any"},"out":{"base":"Any","pred":"APPLY(A, B) == {'x': ({'a'}, []), 'a': Q(0), 'b': Q(0)} and APPLY(A, B) == {'x': ({'a'}, []), Not('x'): Q(0), 'a': Q(0)} and APPLY(A, B) == {'x': ({'a', 'b', 'c'}, []), 'a': Q(0), 'b': Q(0)} and APPLY(A, B) == {'x': ({'a'}, [0]), 'a': Q(0), 'b': Q(0)} and APPLY(A, B) == {'x': ({'a', 'b', 'c'}, []), 'a': Q(0), 'b': Q(0)} and APPLY(A, B) == {'x': ({'a', 'b'}, [0]), 'a': Q(0), 'b': Q(0), 'c': Q(0)} and APPLY(A, B) == {'x': ({'a', 'b'}, []), 'a': Q(0), Not('b'): Q(0)} and APPLY(A, B) == {'x': ({'a', 'b'}, []), 'b': Q(0), 'c': Q(0)}"},"spec":{"lhs":"test_apply_beta_to_alpha_route()","rhs":"test_apply_beta_to_alpha_route produces the expected output","over":{"base":"Any"},"name":"test_apply_beta_to_alpha_route_correct"},"guarantee":"test_apply_beta_to_alpha_route produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_apply_beta_to_alpha_route_correct","statement":"Path(test_apply_beta_to_alpha_route(x), test_apply_beta_to_alpha_route produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf537b3e5e6cd2c6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_apply_beta_to_alpha_route","kind":"function","src_hash":"bcceeba3f028fd4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((set(), [bidx]))"},"spec":{"lhs":"test_apply_beta_to_alpha_route()","rhs":"(set(), [bidx])","over":{"base":"Any"},"name":"test_apply_beta_to_alpha_route_correct"},"guarantee":"returns (set(), [bidx]); APPLY(A, B) == {'x': ({'a'}, []), 'a': Q(0), 'b': Q(0)}; APPLY(A, B) == {'x': ({'a'}, []), Not('x'): Q(0), 'a': Q(0)}; APPLY(A, B) == {'x': ({'a', 'b', 'c'}, []), 'a': Q(0), 'b': Q(0)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_apply_beta_to_alpha_route_correct","statement":"Path(test_apply_beta_to_alpha_route(x), returns (set(), [bidx]); APPLY(A, B) == {'x': ({'a'}, []), 'a': Q(0), 'b': Q(0)}; APPLY(A, B) == {'x': ({'a'}, []), Not('x'): Q(0), 'a': Q(0)}; APPLY(A, B) == {'x': ({'a', 'b', 'c'}, []), 'a': Q(0), 'b': Q(0)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"105e41efb490ff45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["APPLY(A, B) == {'x': ({'a'}, []), 'a': Q(0), 'b': Q(0)}","APPLY(A, B) == {'x': ({'a'}, []), Not('x'): Q(0), 'a': Q(0)}","APPLY(A, B) == {'x': ({'a', 'b', 'c'}, []), 'a': Q(0), 'b': Q(0)}","APPLY(A, B) == {'x': ({'a'}, [0]), 'a': Q(0), 'b': Q(0)}","APPLY(A, B) == {'x': ({'a', 'b'}, [0]), 'a': Q(0), 'b': Q(0), 'c': Q(0)}","APPLY(A, B) == {'x': ({'a', 'b', 'c', 'd'}, []), 'c': ({'d'}, []), 'a': Q(0), 'b': Q(0)}","APPLY(A, B) == {'x': ({'a', 'b', 'c', 'd', 'e'}, []), 'c': ({'d', 'e'}, []), 'a': Q(0), 'b': Q(0), 'd': Q(1)}","APPLY(A, B) == {'x': ({'a', 'b', 'y', 'z'}, []), 'a': (set(), [0, 1]), 'y': Q(0), 'b': Q(1)}","APPLY(A, B) == {'x': ({'a', 'b'}, []), 'a': Q(0), Not('b'): Q(0)}","APPLY(A, B) == {Not('x'): ({Not('a'), Not('b')}, []), Not('a'): Q(0), 'b': Q(0)}","APPLY(A, B) == {'x': ({'a', 'b'}, []), 'b': Q(0), 'c': Q(0)}","APPLY(A, B) == {'x': ({'a', 'b', 'c', 'p'}, []), 'c': ({'p', 'a'}, []), 'a': Q(0), 'b': Q(0)}"],"returns_expr":"(set(), [bidx])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_apply_beta_to_alpha_route():
     APPLY = apply_beta_to_alpha_route
 
@@ -194,16 +212,23 @@ def test_apply_beta_to_alpha_route():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FactRules_parse(), test_FactRules_parse produces the expected output) over Any ║
+# ║ Path(test_FactRules_parse(), f.prereq == {'b': {'a'}, 'a': {'b'}} and f.prereq == {'z': {'nz'}, 'nz': {'z'}}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FactRules_parse : Any → {Any | f.prereq == {'b':...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f.prereq == {'b': {'a'}, 'a': {'b'}}           ║
+# ║   ensures:  f.prereq == {'z': {'nz'}, 'nz': {'z'}}         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FactRules_parse : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13c3e66c0ad4da70  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26ff7f67cd20f3e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_parse","kind":"function","src_hash":"63df4c81811852af","in":{"base":"Any"},"out":{"base":"Any","pred":"f.prereq == {'b': {'a'}, 'a': {'b'}} and f.prereq == {'b': {'a'}, 'a': {'b'}} and f.prereq == {'b': {'a'}, 'a': {'b'}} and f.prereq == {'b': {'a'}, 'a': {'b'}} and f.prereq == {'z': {'nz'}, 'nz': {'z'}}"},"spec":{"lhs":"test_FactRules_parse()","rhs":"test_FactRules_parse produces the expected output","over":{"base":"Any"},"name":"test_FactRules_parse_correct"},"guarantee":"test_FactRules_parse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_parse_correct","statement":"Path(test_FactRules_parse(x), test_FactRules_parse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13c3e66c0ad4da70"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_parse","kind":"function","src_hash":"63df4c81811852af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f.prereq == {'b': {'a'}, 'a': {'b'}} and f.prereq == {'z': {'nz'}, 'nz': {'z'}}"},"spec":{"lhs":"test_FactRules_parse()","rhs":"f.prereq == {'b': {'a'}, 'a': {'b'}} and f.prereq == {'z': {'nz'}, 'nz': {'z'}}","over":{"base":"Any"},"name":"test_FactRules_parse_correct"},"guarantee":"f.prereq == {'b': {'a'}, 'a': {'b'}}; f.prereq == {'z': {'nz'}, 'nz': {'z'}}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_parse_correct","statement":"Path(test_FactRules_parse(x), f.prereq == {'b': {'a'}, 'a': {'b'}}; f.prereq == {'z': {'nz'}, 'nz': {'z'}})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26ff7f67cd20f3e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f.prereq == {'b': {'a'}, 'a': {'b'}}","f.prereq == {'z': {'nz'}, 'nz': {'z'}}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FactRules_parse():
     f = FactRules('a -> b')
     assert f.prereq == {'b': {'a'}, 'a': {'b'}}
@@ -222,31 +247,45 @@ def test_FactRules_parse():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FactRules_parse2(), test_FactRules_parse2 produces the expected output) over Any ║
+# ║ Path(test_FactRules_parse2(), <unspecified:test_FactRules_parse2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_FactRules_parse2 : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f210ac59fcd193d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_parse2","kind":"function","src_hash":"1ec91ab3f86ba08e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_FactRules_parse2()","rhs":"test_FactRules_parse2 produces the expected output","over":{"base":"Any"},"name":"test_FactRules_parse2_correct"},"guarantee":"test_FactRules_parse2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_parse2_correct","statement":"Path(test_FactRules_parse2(x), test_FactRules_parse2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f210ac59fcd193d1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_parse2","kind":"function","src_hash":"1ec91ab3f86ba08e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_FactRules_parse2()","rhs":"<unspecified:test_FactRules_parse2>","over":{"base":"Any"},"name":"test_FactRules_parse2_correct"},"guarantee":"test_FactRules_parse2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_parse2_correct","statement":"Path(test_FactRules_parse2(x), test_FactRules_parse2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f210ac59fcd193d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_FactRules_parse2():
     raises(ValueError, lambda: FactRules('a -> !a'))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FactRules_deduce(), test_FactRules_deduce produces the expected output) over Any ║
+# ║ Path(test_FactRules_deduce(), D({'a': T}) == {'a': T, 'b': T, 'c': T, 'd': T, 'e': T} and D({'b': T}) == {'b': T, 'c': T, 'd': T, 'e': T} and D({'c': T}) == {'c': T, 'e': T} and D({'d': T}) == {'d': T} and D({'e': T}) == {'e': T} and D({'a': F}) == {'a': F} and D({'b': F}) == {'a': F, 'b': F} and D({'c': F}) == {'a': F, 'b': F, 'c': F} and D({'d': F}) == {'a': F, 'b': F, 'd': F} and D({'a': U}) == {'a': U}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FactRules_deduce : Any → {Any | D({'a': T}) == {...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  D({'a': T}) == {'a': T, 'b': T, 'c': T, '...   ║
+# ║   ensures:  D({'b': T}) == {'b': T, 'c': T, 'd': T, '...   ║
+# ║   ensures:  D({'c': T}) == {'c': T, 'e': T}                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FactRules_deduce : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c06aecff2fb0bf03  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6db78a9ac70bb8e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_deduce","kind":"function","src_hash":"b3ccaf5950342663","in":{"base":"Any"},"out":{"base":"Any","pred":"D({'a': T}) == {'a': T, 'b': T, 'c': T, 'd': T, 'e': T} and D({'b': T}) == {'b': T, 'c': T, 'd': T, 'e': T} and D({'c': T}) == {'c': T, 'e': T} and D({'d': T}) == {'d': T} and D({'e': T}) == {'e': T} and D({'a': F}) == {'a': F} and D({'b': F}) == {'a': F, 'b': F} and D({'c': F}) == {'a': F, 'b': F, 'c': F} and D({'d': F}) == {'a': F, 'b': F, 'd': F} and D({'a': U}) == {'a': U}"},"spec":{"lhs":"test_FactRules_deduce()","rhs":"test_FactRules_deduce produces the expected output","over":{"base":"Any"},"name":"test_FactRules_deduce_correct"},"guarantee":"test_FactRules_deduce produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_deduce_correct","statement":"Path(test_FactRules_deduce(x), test_FactRules_deduce produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c06aecff2fb0bf03"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_deduce","kind":"function","src_hash":"b3ccaf5950342663","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: D({'a': T}) == {'a': T, 'b': T, 'c': T, 'd': T, 'e': T} and D({'b': T}) == {'b': T, 'c': T, 'd': T, 'e': T} and D({'c': T}) == {'c': T, 'e': T} and D({'d': T}) == {'d': T} and D({'e': T}) == {'e': T} and D({'a': F}) == {'a': F} and D({'b': F}) == {'a': F, 'b': F} and D({'c': F}) == {'a': F, 'b': F, 'c': F} and D({'d': F}) == {'a': F, 'b': F, 'd': F} and D({'a': U}) == {'a': U}"},"spec":{"lhs":"test_FactRules_deduce()","rhs":"D({'a': T}) == {'a': T, 'b': T, 'c': T, 'd': T, 'e': T} and D({'b': T}) == {'b': T, 'c': T, 'd': T, 'e': T} and D({'c': T}) == {'c': T, 'e': T} and D({'d': T}) == {'d': T} and D({'e': T}) == {'e': T} and D({'a': F}) == {'a': F} and D({'b': F}) == {'a': F, 'b': F} and D({'c': F}) == {'a': F, 'b': F, 'c': F} and D({'d': F}) == {'a': F, 'b': F, 'd': F} and D({'a': U}) == {'a': U}","over":{"base":"Any"},"name":"test_FactRules_deduce_correct"},"guarantee":"D({'a': T}) == {'a': T, 'b': T, 'c': T, 'd': T, 'e': T}; D({'b': T}) == {'b': T, 'c': T, 'd': T, 'e': T}; D({'c': T}) == {'c': T, 'e': T}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_deduce_correct","statement":"Path(test_FactRules_deduce(x), D({'a': T}) == {'a': T, 'b': T, 'c': T, 'd': T, 'e': T}; D({'b': T}) == {'b': T, 'c': T, 'd': T, 'e': T}; D({'c': T}) == {'c': T, 'e': T})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6db78a9ac70bb8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["D({'a': T}) == {'a': T, 'b': T, 'c': T, 'd': T, 'e': T}","D({'b': T}) == {'b': T, 'c': T, 'd': T, 'e': T}","D({'c': T}) == {'c': T, 'e': T}","D({'d': T}) == {'d': T}","D({'e': T}) == {'e': T}","D({'a': F}) == {'a': F}","D({'b': F}) == {'a': F, 'b': F}","D({'c': F}) == {'a': F, 'b': F, 'c': F}","D({'d': F}) == {'a': F, 'b': F, 'd': F}","D({'a': U}) == {'a': U}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_FactRules_deduce():
     f = FactRules(['a -> b', 'b -> c', 'b -> d', 'c -> e'])
 
@@ -270,16 +309,24 @@ def test_FactRules_deduce():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FactRules_deduce2(), test_FactRules_deduce2 produces the expected output) over Any ║
+# ║ Path(test_FactRules_deduce2(), D({'pos': T}) == {'pos': T, 'neg': F, 'z': F} and D({'pos': F}) == {'pos': F} and D({'neg': T}) == {'pos': F, 'neg': T} and D({'neg': F}) == {'neg': F} and D({'z': T}) == {'pos': F, 'z': T} and D({'z': F}) == {'z': F} and D({'neg': T}) == {'pos': F, 'neg': T, 'z': F} and D({'z': T}) == {'pos': F, 'neg': F, 'z': T}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FactRules_deduce2 : Any → {Any | D({'pos': T}) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  D({'pos': T}) == {'pos': T, 'neg': F, 'z'...   ║
+# ║   ensures:  D({'pos': F}) == {'pos': F}                    ║
+# ║   ensures:  D({'neg': T}) == {'pos': F, 'neg': T}          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FactRules_deduce2 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a38c64e01b3076ef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a71e4ee8f4c4aca8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_deduce2","kind":"function","src_hash":"793f73cc8e83d3d1","in":{"base":"Any"},"out":{"base":"Any","pred":"D({'pos': T}) == {'pos': T, 'neg': F, 'z': F} and D({'pos': F}) == {'pos': F} and D({'neg': T}) == {'pos': F, 'neg': T} and D({'neg': F}) == {'neg': F} and D({'z': T}) == {'pos': F, 'z': T} and D({'z': F}) == {'z': F} and D({'pos': T}) == {'pos': T, 'neg': F, 'z': F} and D({'pos': F}) == {'pos': F} and D({'neg': T}) == {'pos': F, 'neg': T, 'z': F} and D({'neg': F}) == {'neg': F} and D({'z': T}) == {'pos': F, 'neg': F, 'z': T} and D({'z': F}) == {'z': F}"},"spec":{"lhs":"test_FactRules_deduce2()","rhs":"test_FactRules_deduce2 produces the expected output","over":{"base":"Any"},"name":"test_FactRules_deduce2_correct"},"guarantee":"test_FactRules_deduce2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_deduce2_correct","statement":"Path(test_FactRules_deduce2(x), test_FactRules_deduce2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a38c64e01b3076ef"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_deduce2","kind":"function","src_hash":"793f73cc8e83d3d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: D({'pos': T}) == {'pos': T, 'neg': F, 'z': F} and D({'pos': F}) == {'pos': F} and D({'neg': T}) == {'pos': F, 'neg': T} and D({'neg': F}) == {'neg': F} and D({'z': T}) == {'pos': F, 'z': T} and D({'z': F}) == {'z': F} and D({'neg': T}) == {'pos': F, 'neg': T, 'z': F} and D({'z': T}) == {'pos': F, 'neg': F, 'z': T}"},"spec":{"lhs":"test_FactRules_deduce2()","rhs":"D({'pos': T}) == {'pos': T, 'neg': F, 'z': F} and D({'pos': F}) == {'pos': F} and D({'neg': T}) == {'pos': F, 'neg': T} and D({'neg': F}) == {'neg': F} and D({'z': T}) == {'pos': F, 'z': T} and D({'z': F}) == {'z': F} and D({'neg': T}) == {'pos': F, 'neg': T, 'z': F} and D({'z': T}) == {'pos': F, 'neg': F, 'z': T}","over":{"base":"Any"},"name":"test_FactRules_deduce2_correct"},"guarantee":"D({'pos': T}) == {'pos': T, 'neg': F, 'z': F}; D({'pos': F}) == {'pos': F}; D({'neg': T}) == {'pos': F, 'neg': T}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_deduce2_correct","statement":"Path(test_FactRules_deduce2(x), D({'pos': T}) == {'pos': T, 'neg': F, 'z': F}; D({'pos': F}) == {'pos': F}; D({'neg': T}) == {'pos': F, 'neg': T})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a71e4ee8f4c4aca8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["D({'pos': T}) == {'pos': T, 'neg': F, 'z': F}","D({'pos': F}) == {'pos': F}","D({'neg': T}) == {'pos': F, 'neg': T}","D({'neg': F}) == {'neg': F}","D({'z': T}) == {'pos': F, 'z': T}","D({'z': F}) == {'z': F}","D({'neg': T}) == {'pos': F, 'neg': T, 'z': F}","D({'z': T}) == {'pos': F, 'neg': F, 'z': T}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_FactRules_deduce2():
     # pos/neg/zero, but the rules are not sufficient to derive all relations
     f = FactRules(['pos -> !neg', 'pos -> !z'])
@@ -308,16 +355,24 @@ def test_FactRules_deduce2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FactRules_deduce_multiple(), test_FactRules_deduce_multiple produces the expected output) over Any ║
+# ║ Path(test_FactRules_deduce_multiple(), D({'real': T}) == {'real': T} and D({'real': F}) == {'real': F, 'pos': F, 'npos': F} and D({'pos': T}) == {'real': T, 'pos': T} and D({'npos': T}) == {'real': T, 'npos': T} and D({'pos': F, 'npos': F}) == {'real': F, 'pos': F, 'npos': F} and D({'real': T, 'pos': F}) == {'real': T, 'pos': F, 'npos': T} and D({'real': T, 'npos': F}) == {'real': T, 'pos': T, 'npos': F} and D({'pos': T, 'npos': F}) == {'real': T, 'pos': T, 'npos': F} and D({'pos': F, 'npos': T}) == {'real': T, 'pos': F, 'npos': T}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FactRules_deduce_multiple : Any → {Any | D({'rea...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  D({'real': T}) == {'real': T}                  ║
+# ║   ensures:  D({'real': F}) == {'real': F, 'pos': F, '...   ║
+# ║   ensures:  D({'pos': T}) == {'real': T, 'pos': T}         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FactRules_deduce_multiple : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 556cdff678b7a6b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6de60966b1ccd72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_deduce_multiple","kind":"function","src_hash":"e4b75daa863b3c93","in":{"base":"Any"},"out":{"base":"Any","pred":"D({'real': T}) == {'real': T} and D({'real': F}) == {'real': F, 'pos': F, 'npos': F} and D({'pos': T}) == {'real': T, 'pos': T} and D({'npos': T}) == {'real': T, 'npos': T} and D({'pos': F, 'npos': F}) == {'real': F, 'pos': F, 'npos': F} and D({'real': T, 'pos': F}) == {'real': T, 'pos': F, 'npos': T} and D({'real': T, 'npos': F}) == {'real': T, 'pos': T, 'npos': F} and D({'pos': T, 'npos': F}) == {'real': T, 'pos': T, 'npos': F} and D({'pos': F, 'npos': T}) == {'real': T, 'pos': F, 'npos': T}"},"spec":{"lhs":"test_FactRules_deduce_multiple()","rhs":"test_FactRules_deduce_multiple produces the expected output","over":{"base":"Any"},"name":"test_FactRules_deduce_multiple_correct"},"guarantee":"test_FactRules_deduce_multiple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_deduce_multiple_correct","statement":"Path(test_FactRules_deduce_multiple(x), test_FactRules_deduce_multiple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"556cdff678b7a6b0"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_deduce_multiple","kind":"function","src_hash":"e4b75daa863b3c93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: D({'real': T}) == {'real': T} and D({'real': F}) == {'real': F, 'pos': F, 'npos': F} and D({'pos': T}) == {'real': T, 'pos': T} and D({'npos': T}) == {'real': T, 'npos': T} and D({'pos': F, 'npos': F}) == {'real': F, 'pos': F, 'npos': F} and D({'real': T, 'pos': F}) == {'real': T, 'pos': F, 'npos': T} and D({'real': T, 'npos': F}) == {'real': T, 'pos': T, 'npos': F} and D({'pos': T, 'npos': F}) == {'real': T, 'pos': T, 'npos': F} and D({'pos': F, 'npos': T}) == {'real': T, 'pos': F, 'npos': T}"},"spec":{"lhs":"test_FactRules_deduce_multiple()","rhs":"D({'real': T}) == {'real': T} and D({'real': F}) == {'real': F, 'pos': F, 'npos': F} and D({'pos': T}) == {'real': T, 'pos': T} and D({'npos': T}) == {'real': T, 'npos': T} and D({'pos': F, 'npos': F}) == {'real': F, 'pos': F, 'npos': F} and D({'real': T, 'pos': F}) == {'real': T, 'pos': F, 'npos': T} and D({'real': T, 'npos': F}) == {'real': T, 'pos': T, 'npos': F} and D({'pos': T, 'npos': F}) == {'real': T, 'pos': T, 'npos': F} and D({'pos': F, 'npos': T}) == {'real': T, 'pos': F, 'npos': T}","over":{"base":"Any"},"name":"test_FactRules_deduce_multiple_correct"},"guarantee":"D({'real': T}) == {'real': T}; D({'real': F}) == {'real': F, 'pos': F, 'npos': F}; D({'pos': T}) == {'real': T, 'pos': T}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_deduce_multiple_correct","statement":"Path(test_FactRules_deduce_multiple(x), D({'real': T}) == {'real': T}; D({'real': F}) == {'real': F, 'pos': F, 'npos': F}; D({'pos': T}) == {'real': T, 'pos': T})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6de60966b1ccd72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["D({'real': T}) == {'real': T}","D({'real': F}) == {'real': F, 'pos': F, 'npos': F}","D({'pos': T}) == {'real': T, 'pos': T}","D({'npos': T}) == {'real': T, 'npos': T}","D({'pos': F, 'npos': F}) == {'real': F, 'pos': F, 'npos': F}","D({'real': T, 'pos': F}) == {'real': T, 'pos': F, 'npos': T}","D({'real': T, 'npos': F}) == {'real': T, 'pos': T, 'npos': F}","D({'pos': T, 'npos': F}) == {'real': T, 'pos': T, 'npos': F}","D({'pos': F, 'npos': T}) == {'real': T, 'pos': F, 'npos': T}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_FactRules_deduce_multiple():
     # deduction that involves _several_ starting points
     f = FactRules(['real == pos | npos'])
@@ -342,16 +397,24 @@ def test_FactRules_deduce_multiple():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FactRules_deduce_multiple2(), test_FactRules_deduce_multiple2 produces the expected output) over Any ║
+# ║ Path(test_FactRules_deduce_multiple2(), D({'real': T}) == {'real': T} and D({'real': F}) == {'real': F, 'neg': F, 'zero': F, 'pos': F} and D({'neg': T}) == {'real': T, 'neg': T} and D({'zero': T}) == {'real': T, 'zero': T} and D({'pos': T}) == {'real': T, 'pos': T} and D({'neg': F, 'zero': F, 'pos': F}) == {'real': F, 'neg': F, 'zero': F, 'pos': F} and D({'real': T, 'neg': F}) == {'real': T, 'neg': F} and D({'real': T, 'zero': F}) == {'real': T, 'zero': F} and D({'real': T, 'pos': F}) == {'real': T, 'pos': F} and D({'real': T, 'zero': F, 'pos': F}) == {'real': T, 'neg': T, 'zero': F, 'pos': F} and D({'real': T, 'neg': F, 'pos': F}) == {'real': T, 'neg': F, 'zero': T, 'pos': F} and D({'real': T, 'neg': F, 'zero': F}) == {'real': T, 'neg': F, 'zero': F, 'pos': T} and D({'neg': T, 'zero': F, 'pos': F}) == {'real': T, 'neg': T, 'zero': F, 'pos': F} and D({'neg': F, 'zero': T, 'pos': F}) == {'real': T, 'neg': F, 'zero': T, 'pos': F} and D({'neg': F, 'zero': F, 'pos': T}) == {'real': T, 'neg': F, 'zero': F, 'pos': T}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FactRules_deduce_multiple2 : Any → {Any | D({'re...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  D({'real': T}) == {'real': T}                  ║
+# ║   ensures:  D({'real': F}) == {'real': F, 'neg': F, '...   ║
+# ║   ensures:  D({'neg': T}) == {'real': T, 'neg': T}         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FactRules_deduce_multiple2 : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 859c28b6b0dd5888  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f315526040ef09ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_deduce_multiple2","kind":"function","src_hash":"f5116085bda6e86a","in":{"base":"Any"},"out":{"base":"Any","pred":"D({'real': T}) == {'real': T} and D({'real': F}) == {'real': F, 'neg': F, 'zero': F, 'pos': F} and D({'neg': T}) == {'real': T, 'neg': T} and D({'zero': T}) == {'real': T, 'zero': T} and D({'pos': T}) == {'real': T, 'pos': T} and D({'real': T, 'neg': F}) == {'real': T, 'neg': F} and D({'real': T, 'zero': F}) == {'real': T, 'zero': F} and D({'real': T, 'pos': F}) == {'real': T, 'pos': F}"},"spec":{"lhs":"test_FactRules_deduce_multiple2()","rhs":"test_FactRules_deduce_multiple2 produces the expected output","over":{"base":"Any"},"name":"test_FactRules_deduce_multiple2_correct"},"guarantee":"test_FactRules_deduce_multiple2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_deduce_multiple2_correct","statement":"Path(test_FactRules_deduce_multiple2(x), test_FactRules_deduce_multiple2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"859c28b6b0dd5888"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_deduce_multiple2","kind":"function","src_hash":"f5116085bda6e86a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: D({'real': T}) == {'real': T} and D({'real': F}) == {'real': F, 'neg': F, 'zero': F, 'pos': F} and D({'neg': T}) == {'real': T, 'neg': T} and D({'zero': T}) == {'real': T, 'zero': T} and D({'pos': T}) == {'real': T, 'pos': T} and D({'neg': F, 'zero': F, 'pos': F}) == {'real': F, 'neg': F, 'zero': F, 'pos': F} and D({'real': T, 'neg': F}) == {'real': T, 'neg': F} and D({'real': T, 'zero': F}) == {'real': T, 'zero': F} and D({'real': T, 'pos': F}) == {'real': T, 'pos': F} and D({'real': T, 'zero': F, 'pos': F}) == {'real': T, 'neg': T, 'zero': F, 'pos': F} and D({'real': T, 'neg': F, 'pos': F}) == {'real': T, 'neg': F, 'zero': T, 'pos': F} and D({'real': T, 'neg': F, 'zero': F}) == {'real': T, 'neg': F, 'zero': F, 'pos': T} and D({'neg': T, 'zero': F, 'pos': F}) == {'real': T, 'neg': T, 'zero': F, 'pos': F} and D({'neg': F, 'zero': T, 'pos': F}) == {'real': T, 'neg': F, 'zero': T, 'pos': F} and D({'neg': F, 'zero': F, 'pos': T}) == {'real': T, 'neg': F, 'zero': F, 'pos': T}"},"spec":{"lhs":"test_FactRules_deduce_multiple2()","rhs":"D({'real': T}) == {'real': T} and D({'real': F}) == {'real': F, 'neg': F, 'zero': F, 'pos': F} and D({'neg': T}) == {'real': T, 'neg': T} and D({'zero': T}) == {'real': T, 'zero': T} and D({'pos': T}) == {'real': T, 'pos': T} and D({'neg': F, 'zero': F, 'pos': F}) == {'real': F, 'neg': F, 'zero': F, 'pos': F} and D({'real': T, 'neg': F}) == {'real': T, 'neg': F} and D({'real': T, 'zero': F}) == {'real': T, 'zero': F} and D({'real': T, 'pos': F}) == {'real': T, 'pos': F} and D({'real': T, 'zero': F, 'pos': F}) == {'real': T, 'neg': T, 'zero': F, 'pos': F} and D({'real': T, 'neg': F, 'pos': F}) == {'real': T, 'neg': F, 'zero': T, 'pos': F} and D({'real': T, 'neg': F, 'zero': F}) == {'real': T, 'neg': F, 'zero': F, 'pos': T} and D({'neg': T, 'zero': F, 'pos': F}) == {'real': T, 'neg': T, 'zero': F, 'pos': F} and D({'neg': F, 'zero': T, 'pos': F}) == {'real': T, 'neg': F, 'zero': T, 'pos': F} and D({'neg': F, 'zero': F, 'pos': T}) == {'real': T, 'neg': F, 'zero': F, 'pos': T}","over":{"base":"Any"},"name":"test_FactRules_deduce_multiple2_correct"},"guarantee":"D({'real': T}) == {'real': T}; D({'real': F}) == {'real': F, 'neg': F, 'zero': F, 'pos': F}; D({'neg': T}) == {'real': T, 'neg': T}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_deduce_multiple2_correct","statement":"Path(test_FactRules_deduce_multiple2(x), D({'real': T}) == {'real': T}; D({'real': F}) == {'real': F, 'neg': F, 'zero': F, 'pos': F}; D({'neg': T}) == {'real': T, 'neg': T})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f315526040ef09ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["D({'real': T}) == {'real': T}","D({'real': F}) == {'real': F, 'neg': F, 'zero': F, 'pos': F}","D({'neg': T}) == {'real': T, 'neg': T}","D({'zero': T}) == {'real': T, 'zero': T}","D({'pos': T}) == {'real': T, 'pos': T}","D({'neg': F, 'zero': F, 'pos': F}) == {'real': F, 'neg': F, 'zero': F, 'pos': F}","D({'real': T, 'neg': F}) == {'real': T, 'neg': F}","D({'real': T, 'zero': F}) == {'real': T, 'zero': F}","D({'real': T, 'pos': F}) == {'real': T, 'pos': F}","D({'real': T, 'zero': F, 'pos': F}) == {'real': T, 'neg': T, 'zero': F, 'pos': F}","D({'real': T, 'neg': F, 'pos': F}) == {'real': T, 'neg': F, 'zero': T, 'pos': F}","D({'real': T, 'neg': F, 'zero': F}) == {'real': T, 'neg': F, 'zero': F, 'pos': T}","D({'neg': T, 'zero': F, 'pos': F}) == {'real': T, 'neg': T, 'zero': F, 'pos': F}","D({'neg': F, 'zero': T, 'pos': F}) == {'real': T, 'neg': F, 'zero': T, 'pos': F}","D({'neg': F, 'zero': F, 'pos': T}) == {'real': T, 'neg': F, 'zero': F, 'pos': T}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_FactRules_deduce_multiple2():
     f = FactRules(['real == neg | zero | pos'])
 
@@ -389,16 +452,23 @@ def test_FactRules_deduce_multiple2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FactRules_deduce_base(), test_FactRules_deduce_base produces the expected output) over Any ║
+# ║ Path(test_FactRules_deduce_base(), base == {'real': T, 'neg': F} and base == {'real': T, 'neg': F, 'zero': F, 'pos': T}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FactRules_deduce_base : Any → {Any | base == {'r...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  base == {'real': T, 'neg': F}                  ║
+# ║   ensures:  base == {'real': T, 'neg': F, 'zero': F, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FactRules_deduce_base : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5f9c3463cff21ae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eff9bf0e37ea4c42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_deduce_base","kind":"function","src_hash":"11425457fbbbaefe","in":{"base":"Any"},"out":{"base":"Any","pred":"base == {'real': T, 'neg': F} and base == {'real': T, 'neg': F, 'zero': F, 'pos': T}"},"spec":{"lhs":"test_FactRules_deduce_base()","rhs":"test_FactRules_deduce_base produces the expected output","over":{"base":"Any"},"name":"test_FactRules_deduce_base_correct"},"guarantee":"test_FactRules_deduce_base produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_deduce_base_correct","statement":"Path(test_FactRules_deduce_base(x), test_FactRules_deduce_base produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5f9c3463cff21ae"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_deduce_base","kind":"function","src_hash":"11425457fbbbaefe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: base == {'real': T, 'neg': F} and base == {'real': T, 'neg': F, 'zero': F, 'pos': T}"},"spec":{"lhs":"test_FactRules_deduce_base()","rhs":"base == {'real': T, 'neg': F} and base == {'real': T, 'neg': F, 'zero': F, 'pos': T}","over":{"base":"Any"},"name":"test_FactRules_deduce_base_correct"},"guarantee":"base == {'real': T, 'neg': F}; base == {'real': T, 'neg': F, 'zero': F, 'pos': T}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_deduce_base_correct","statement":"Path(test_FactRules_deduce_base(x), base == {'real': T, 'neg': F}; base == {'real': T, 'neg': F, 'zero': F, 'pos': T})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eff9bf0e37ea4c42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["base == {'real': T, 'neg': F}","base == {'real': T, 'neg': F, 'zero': F, 'pos': T}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FactRules_deduce_base():
     # deduction that starts from base
 
@@ -415,16 +485,24 @@ def test_FactRules_deduce_base():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_FactRules_deduce_staticext(), test_FactRules_deduce_staticext produces the expected output) over Any ║
+# ║ Path(test_FactRules_deduce_staticext(), ('npos', True) in f.full_implications['neg', True] and ('nneg', True) in f.full_implications['pos', True] and ('nneg', True) in f.full_implications['zero', True] and ('npos', True) in f.full_implications['zero', True]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_FactRules_deduce_staticext : Any → {Any | ('npos...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ('npos', True) in f.full_implications['ne...   ║
+# ║   ensures:  ('nneg', True) in f.full_implications['po...   ║
+# ║   ensures:  ('nneg', True) in f.full_implications['ze...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_FactRules_deduce_staticext : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5ea90bd3d7e04c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26a7e9877a0d3009  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_deduce_staticext","kind":"function","src_hash":"2a2f0ed334dcd468","in":{"base":"Any"},"out":{"base":"Any","pred":"('npos', True) in f.full_implications['neg', True] and ('nneg', True) in f.full_implications['pos', True] and ('nneg', True) in f.full_implications['zero', True] and ('npos', True) in f.full_implications['zero', True]"},"spec":{"lhs":"test_FactRules_deduce_staticext()","rhs":"test_FactRules_deduce_staticext produces the expected output","over":{"base":"Any"},"name":"test_FactRules_deduce_staticext_correct"},"guarantee":"test_FactRules_deduce_staticext produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_deduce_staticext_correct","statement":"Path(test_FactRules_deduce_staticext(x), test_FactRules_deduce_staticext produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5ea90bd3d7e04c9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_facts.test_FactRules_deduce_staticext","kind":"function","src_hash":"2a2f0ed334dcd468","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ('npos', True) in f.full_implications['neg', True] and ('nneg', True) in f.full_implications['pos', True] and ('nneg', True) in f.full_implications['zero', True] and ('npos', True) in f.full_implications['zero', True]"},"spec":{"lhs":"test_FactRules_deduce_staticext()","rhs":"('npos', True) in f.full_implications['neg', True] and ('nneg', True) in f.full_implications['pos', True] and ('nneg', True) in f.full_implications['zero', True] and ('npos', True) in f.full_implications['zero', True]","over":{"base":"Any"},"name":"test_FactRules_deduce_staticext_correct"},"guarantee":"('npos', True) in f.full_implications['neg', True]; ('nneg', True) in f.full_implications['pos', True]; ('nneg', True) in f.full_implications['zero', True]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_facts.test_FactRules_deduce_staticext_correct","statement":"Path(test_FactRules_deduce_staticext(x), ('npos', True) in f.full_implications['neg', True]; ('nneg', True) in f.full_implications['pos', True]; ('nneg', True) in f.full_implications['zero', True])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26a7e9877a0d3009","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["('npos', True) in f.full_implications['neg', True]","('nneg', True) in f.full_implications['pos', True]","('nneg', True) in f.full_implications['zero', True]","('npos', True) in f.full_implications['zero', True]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_FactRules_deduce_staticext():
     # verify that static beta-extensions deduction takes place
     f = FactRules(['real  == neg | zero | pos',

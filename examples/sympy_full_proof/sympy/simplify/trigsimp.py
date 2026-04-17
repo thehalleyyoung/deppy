@@ -43,7 +43,11 @@ from sympy.utilities.iterables import iterable
 from sympy.utilities.misc import debug
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trigsimp_groebner(exp), simplify trigonometric expressions using a groebner basis algorithm) over {Any | isinstance(e, (SYMPY_INTS, Integer)) and isinstance(e, FunctionClass)} ║
+# ║ Path(trigsimp_groebner(expr, hints, quick), <unspecified:trigsimp_groebner>) over {Any | isinstance(e, (SYMPY_INTS, Integer)) and isinstance(e, FunctionClass) and hasattr(expr, 'subs')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ trigsimp_groebner : {Any | isinstance(e, (SYMPY_INTS,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -56,9 +60,12 @@ from sympy.utilities.misc import debug
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 5.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0ebe1099...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp.trigsimp_groebner","kind":"function","src_hash":"1b0d8cfc960d4942","in":{"base":"Any","pred":"isinstance(e, (SYMPY_INTS, Integer)) and isinstance(e, FunctionClass)"},"out":{"base":"Any"},"spec":{"lhs":"trigsimp_groebner(exp)","rhs":"simplify trigonometric expressions using a groebner basis algorithm","over":{"base":"Any","pred":"isinstance(e, (SYMPY_INTS, Integer)) and isinstance(e, FunctionClass)"},"name":"trigsimp_groebner_correct"},"guarantee":"simplify trigonometric expressions using a groebner basis algorithm","fibers":[{"name":"(SYMPY_INTS","pred":"isinstance(e, (SYMPY_INTS, Integer))","path":{"lhs":"trigsimp_groebner(x)","rhs":"simplify trigonometric expressions using a groebner basis algorithm","over":{"base":"(SYMPY_INTS","pred":"isinstance(e, (SYMPY_INTS, Integer))"},"name":"trigsimp_groebner_(SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp.trigsimp_groebner_(SYMPY_INTS_correct","statement":"trigsimp_groebner satisfies spec on (SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"FunctionClass","pred":"isinstance(e, FunctionClass)","path":{"lhs":"trigsimp_groebner(x)","rhs":"simplify trigonometric expressions using a groebner basis algorithm","over":{"base":"FunctionClass","pred":"isinstance(e, FunctionClass)"},"name":"trigsimp_groebner_FunctionClass_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp.trigsimp_groebner_FunctionClass_correct","statement":"trigsimp_groebner satisfies spec on FunctionClass inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0ebe1099f6f91482"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp.trigsimp_groebner","kind":"function","src_hash":"1b0d8cfc960d4942","in":{"base":"Any","pred":"isinstance(e, (SYMPY_INTS, Integer)) and isinstance(e, FunctionClass) and hasattr(expr, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"trigsimp_groebner(expr, hints, quick)","rhs":"<unspecified:trigsimp_groebner>","over":{"base":"Any","pred":"isinstance(e, (SYMPY_INTS, Integer)) and isinstance(e, FunctionClass) and hasattr(expr, 'subs')"},"name":"trigsimp_groebner_correct"},"guarantee":"simplify trigonometric expressions using a groebner basis algorithm","fibers":[{"name":"(SYMPY_INTS","pred":"isinstance(e, (SYMPY_INTS, Integer))","path":{"lhs":"trigsimp_groebner(x)","rhs":"simplify trigonometric expressions using a groebner basis algorithm","over":{"base":"(SYMPY_INTS","pred":"isinstance(e, (SYMPY_INTS, Integer))"},"name":"trigsimp_groebner_(SYMPY_INTS_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp.trigsimp_groebner_(SYMPY_INTS_correct","statement":"trigsimp_groebner satisfies spec on (SYMPY_INTS inputs"},"trust":"LIBRARY"},{"name":"FunctionClass","pred":"isinstance(e, FunctionClass)","path":{"lhs":"trigsimp_groebner(x)","rhs":"simplify trigonometric expressions using a groebner basis algorithm","over":{"base":"FunctionClass","pred":"isinstance(e, FunctionClass)"},"name":"trigsimp_groebner_FunctionClass_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp.trigsimp_groebner_FunctionClass_correct","statement":"trigsimp_groebner satisfies spec on FunctionClass inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0ebe1099f6f91482","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'subs')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(e, (SYMPY_INTS, Integer))', 'fn == t', 'fn == tan', 'isinstance(e, FunctionClass)', 'fn == tanh', 'coeff == 1 and fn in [c, s]'}, fibers={'(SYMPY_INTS', 'FunctionClass'})"]}}
 def trigsimp_groebner(expr, hints=[], quick=False, order="grlex",
                       polynomial=False):
     """
@@ -461,7 +468,11 @@ _trigs = (TrigonometricFunction, HyperbolicFunction)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_trigsimp_inverse(rv), internal helper behaves correctly) over {Any | isinstance(rv, atan2) and isinstance(rv.args[0], g()) and isinstance(g()(1), TrigonometricFunction)} ║
+# ║ Path(_trigsimp_inverse(rv), <unspecified:_trigsimp_inverse>) over {Any | isinstance(rv, atan2) and isinstance(rv.args[0], g()) and isinstance(g()(1), TrigonometricFunction) and hasattr(rv, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(rv, 'args')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _trigsimp_inverse : {Any | isinstance(rv, atan2) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -477,9 +488,12 @@ _trigs = (TrigonometricFunction, HyperbolicFunction)
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?5 ✗11 VCs | 10.0ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | aee178e2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._trigsimp_inverse","kind":"function","src_hash":"574b5e9d6e2c8e00","in":{"base":"Any","pred":"isinstance(rv, atan2) and isinstance(rv.args[0], g()) and isinstance(g()(1), TrigonometricFunction)"},"out":{"base":"Any"},"spec":{"lhs":"_trigsimp_inverse(rv)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(rv, atan2) and isinstance(rv.args[0], g()) and isinstance(g()(1), TrigonometricFunction)"},"name":"_trigsimp_inverse_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"atan2","pred":"isinstance(rv, atan2)","path":{"lhs":"_trigsimp_inverse(x)","rhs":"internal helper behaves correctly","over":{"base":"atan2","pred":"isinstance(rv, atan2)"},"name":"_trigsimp_inverse_atan2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigsimp_inverse_atan2_correct","statement":"_trigsimp_inverse satisfies spec on atan2 inputs"},"trust":"LIBRARY"},{"name":"g(","pred":"isinstance(rv.args[0], g())","path":{"lhs":"_trigsimp_inverse(x)","rhs":"internal helper behaves correctly","over":{"base":"g(","pred":"isinstance(rv.args[0], g())"},"name":"_trigsimp_inverse_g(_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigsimp_inverse_g(_correct","statement":"_trigsimp_inverse satisfies spec on g( inputs"},"trust":"LIBRARY"},{"name":"TrigonometricFunction","pred":"isinstance(g()(1), TrigonometricFunction)","path":{"lhs":"_trigsimp_inverse(x)","rhs":"internal helper behaves correctly","over":{"base":"TrigonometricFunction","pred":"isinstance(g()(1), TrigonometricFunction)"},"name":"_trigsimp_inverse_TrigonometricFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigsimp_inverse_TrigonometricFunction_correct","statement":"_trigsimp_inverse satisfies spec on TrigonometricFunction inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(y, sin)","path":{"lhs":"_trigsimp_inverse(x)","rhs":"internal helper behaves correctly","over":{"base":"sin","pred":"isinstance(y, sin)"},"name":"_trigsimp_inverse_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigsimp_inverse_sin_correct","statement":"_trigsimp_inverse satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(x, cos)","path":{"lhs":"_trigsimp_inverse(x)","rhs":"internal helper behaves correctly","over":{"base":"cos","pred":"isinstance(x, cos)"},"name":"_trigsimp_inverse_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigsimp_inverse_cos_correct","statement":"_trigsimp_inverse satisfies spec on cos inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aee178e227ca22ff"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._trigsimp_inverse","kind":"function","src_hash":"574b5e9d6e2c8e00","in":{"base":"Any","pred":"isinstance(rv, atan2) and isinstance(rv.args[0], g()) and isinstance(g()(1), TrigonometricFunction) and hasattr(rv, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_trigsimp_inverse(rv)","rhs":"<unspecified:_trigsimp_inverse>","over":{"base":"Any","pred":"isinstance(rv, atan2) and isinstance(rv.args[0], g()) and isinstance(g()(1), TrigonometricFunction) and hasattr(rv, 'args')"},"name":"_trigsimp_inverse_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"atan2","pred":"isinstance(rv, atan2)","path":{"lhs":"_trigsimp_inverse(x)","rhs":"internal helper behaves correctly","over":{"base":"atan2","pred":"isinstance(rv, atan2)"},"name":"_trigsimp_inverse_atan2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigsimp_inverse_atan2_correct","statement":"_trigsimp_inverse satisfies spec on atan2 inputs"},"trust":"LIBRARY"},{"name":"g(","pred":"isinstance(rv.args[0], g())","path":{"lhs":"_trigsimp_inverse(x)","rhs":"internal helper behaves correctly","over":{"base":"g(","pred":"isinstance(rv.args[0], g())"},"name":"_trigsimp_inverse_g(_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigsimp_inverse_g(_correct","statement":"_trigsimp_inverse satisfies spec on g( inputs"},"trust":"LIBRARY"},{"name":"TrigonometricFunction","pred":"isinstance(g()(1), TrigonometricFunction)","path":{"lhs":"_trigsimp_inverse(x)","rhs":"internal helper behaves correctly","over":{"base":"TrigonometricFunction","pred":"isinstance(g()(1), TrigonometricFunction)"},"name":"_trigsimp_inverse_TrigonometricFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigsimp_inverse_TrigonometricFunction_correct","statement":"_trigsimp_inverse satisfies spec on TrigonometricFunction inputs"},"trust":"LIBRARY"},{"name":"sin","pred":"isinstance(y, sin)","path":{"lhs":"_trigsimp_inverse(x)","rhs":"internal helper behaves correctly","over":{"base":"sin","pred":"isinstance(y, sin)"},"name":"_trigsimp_inverse_sin_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigsimp_inverse_sin_correct","statement":"_trigsimp_inverse satisfies spec on sin inputs"},"trust":"LIBRARY"},{"name":"cos","pred":"isinstance(x, cos)","path":{"lhs":"_trigsimp_inverse(x)","rhs":"internal helper behaves correctly","over":{"base":"cos","pred":"isinstance(x, cos)"},"name":"_trigsimp_inverse_cos_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigsimp_inverse_cos_correct","statement":"_trigsimp_inverse satisfies spec on cos inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aee178e227ca22ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(rv, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["rv.args"],"catches":["IndexError"]}},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":1,"n_assumed":5,"n_failed":11,"trust_level":"LIBRARY_ASSUMED","compile_ms":10.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(rv, atan2)', 'isinstance(y, sin) and isinstance(x, cos)', 'isinstance(y, cos) and isinstance(x, sin)', 'g is not None and isinstance(rv.args[0], g()) and isinstance(g()(1), TrigonometricFunction)'}, fibers={'g(', 'sin', 'cos', 'atan2', 'TrigonometricFunction'})"]}}
 def _trigsimp_inverse(rv):
 
     def check_args(x, y):
@@ -515,7 +529,10 @@ def _trigsimp_inverse(rv):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trigsimp(exp), returns a reduced expression by using known trig identities) over {Any | isinstance(new, Expr)} ║
+# ║ Path(trigsimp(expr, inverse, **opts), <unspecified:trigsimp>) over {Any | isinstance(new, Expr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ trigsimp : {Any | isinstance(new, Expr)} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -527,9 +544,12 @@ def _trigsimp_inverse(rv):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | f559d2d1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp.trigsimp","kind":"function","src_hash":"448d576967e8db24","in":{"base":"Any","pred":"isinstance(new, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"trigsimp(exp)","rhs":"returns a reduced expression by using known trig identities","over":{"base":"Any","pred":"isinstance(new, Expr)"},"name":"trigsimp_correct"},"guarantee":"returns a reduced expression by using known trig identities","fibers":[{"name":"Expr","pred":"isinstance(new, Expr)","path":{"lhs":"trigsimp(x)","rhs":"returns a reduced expression by using known trig identities","over":{"base":"Expr","pred":"isinstance(new, Expr)"},"name":"trigsimp_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp.trigsimp_Expr_correct","statement":"trigsimp satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f559d2d1bb3b8cff"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp.trigsimp","kind":"function","src_hash":"448d576967e8db24","in":{"base":"Any","pred":"isinstance(new, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"trigsimp(expr, inverse, **opts)","rhs":"<unspecified:trigsimp>","over":{"base":"Any","pred":"isinstance(new, Expr)"},"name":"trigsimp_correct"},"guarantee":"returns a reduced expression by using known trig identities","fibers":[{"name":"Expr","pred":"isinstance(new, Expr)","path":{"lhs":"trigsimp(x)","rhs":"returns a reduced expression by using known trig identities","over":{"base":"Expr","pred":"isinstance(new, Expr)"},"name":"trigsimp_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp.trigsimp_Expr_correct","statement":"trigsimp satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"f559d2d1bb3b8cff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'inverse'], spec=['expr', 'inverse', '**opts']","Poor branch-fiber coverage: 0% (branches={'not isinstance(new, Expr)'}, fibers={'Expr'})"]}}
 def trigsimp(expr, inverse=False, **opts):
     """Returns a reduced expression by using known trig identities.
 
@@ -639,9 +659,15 @@ def trigsimp(expr, inverse=False, **opts):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exptrigsimp(exp), simplifies exponential / trigonometric / hyperbolic functions) over {Any | isinstance(expr, exp)} ║
+# ║ Path(exptrigsimp(expr), <unspecified:exptrigsimp>) over {Any | isinstance(expr, exp) and hasattr(expr, 'has') and hasattr(expr, 'is_Pow') and hasattr(expr, 'exp') and hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ exptrigsimp : {Any | isinstance(expr, exp)} → Any          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   requires: hasattr(expr, 'is_Pow')                        ║
+# ║   requires: hasattr(expr, 'exp')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ exptrigsimp : {Any | isinstance(expr, exp) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   exp: {isinstance(expr, exp)} → library_axiom             ║
@@ -651,9 +677,12 @@ def trigsimp(expr, inverse=False, **opts):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 53c457c8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp.exptrigsimp","kind":"function","src_hash":"2b11884d79616e97","in":{"base":"Any","pred":"isinstance(expr, exp)"},"out":{"base":"Any"},"spec":{"lhs":"exptrigsimp(exp)","rhs":"simplifies exponential / trigonometric / hyperbolic functions","over":{"base":"Any","pred":"isinstance(expr, exp)"},"name":"exptrigsimp_correct"},"guarantee":"simplifies exponential / trigonometric / hyperbolic functions","fibers":[{"name":"exp","pred":"isinstance(expr, exp)","path":{"lhs":"exptrigsimp(x)","rhs":"simplifies exponential / trigonometric / hyperbolic functions","over":{"base":"exp","pred":"isinstance(expr, exp)"},"name":"exptrigsimp_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp.exptrigsimp_exp_correct","statement":"exptrigsimp satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"53c457c8c3ff37cf"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp.exptrigsimp","kind":"function","src_hash":"2b11884d79616e97","in":{"base":"Any","pred":"isinstance(expr, exp) and hasattr(expr, 'has') and hasattr(expr, 'is_Pow') and hasattr(expr, 'exp') and hasattr(expr, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"exptrigsimp(expr)","rhs":"<unspecified:exptrigsimp>","over":{"base":"Any","pred":"isinstance(expr, exp) and hasattr(expr, 'has') and hasattr(expr, 'is_Pow') and hasattr(expr, 'exp') and hasattr(expr, 'base')"},"name":"exptrigsimp_correct"},"guarantee":"simplifies exponential / trigonometric / hyperbolic functions","fibers":[{"name":"exp","pred":"isinstance(expr, exp)","path":{"lhs":"exptrigsimp(x)","rhs":"simplifies exponential / trigonometric / hyperbolic functions","over":{"base":"exp","pred":"isinstance(expr, exp)"},"name":"exptrigsimp_exp_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp.exptrigsimp_exp_correct","statement":"exptrigsimp satisfies spec on exp inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"53c457c8c3ff37cf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'has')","hasattr(expr, 'is_Pow')","hasattr(expr, 'exp')","hasattr(expr, 'base')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'sign == 1', 'len(noncommutative_part) > 1', 'newd[1 - sign * S.Exp1 ** x] == -m', 'k.is_Add and len(k.args) == 2', 'ee == -x * m / 2', 'isinstance(expr, exp) or (expr.is_Pow and expr.base == S.Exp1)'}, fibers={'exp'})"]}}
 def exptrigsimp(expr):
     """
     Simplifies exponential / trigonometric / hyperbolic functions.
@@ -750,9 +779,15 @@ def exptrigsimp(expr):
 #-------------------- the old trigsimp routines ---------------------
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(trigsimp_old(exp), reduces expression by using known trig identities) over {Any | isinstance(d, dict)} ║
+# ║ Path(trigsimp_old(expr, first, **opts), len(opts) == old_len_opts - 1) over {Any | isinstance(d, dict) and hasattr(expr, 'has') and hasattr(expr, 'atoms') and hasattr(expr, 'as_independent') and hasattr(expr, 'is_Add') and len(opts) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ trigsimp_old : {Any | isinstance(d, dict)} → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   requires: hasattr(expr, 'as_independent')                ║
+# ║   ensures:  len(opts) == old_len_opts - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ trigsimp_old : {Any | isinstance(d, dict) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   dict: {isinstance(d, dict)} → library_axiom              ║
@@ -762,9 +797,12 @@ def exptrigsimp(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 034b741b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp.trigsimp_old","kind":"function","src_hash":"6a58973c5b3949b6","in":{"base":"Any","pred":"isinstance(d, dict)"},"out":{"base":"Any"},"spec":{"lhs":"trigsimp_old(exp)","rhs":"reduces expression by using known trig identities","over":{"base":"Any","pred":"isinstance(d, dict)"},"name":"trigsimp_old_correct"},"guarantee":"reduces expression by using known trig identities","fibers":[{"name":"dict","pred":"isinstance(d, dict)","path":{"lhs":"trigsimp_old(x)","rhs":"reduces expression by using known trig identities","over":{"base":"dict","pred":"isinstance(d, dict)"},"name":"trigsimp_old_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp.trigsimp_old_dict_correct","statement":"trigsimp_old satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"034b741bb4dcaf5d"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp.trigsimp_old","kind":"function","src_hash":"6a58973c5b3949b6","in":{"base":"Any","pred":"isinstance(d, dict) and hasattr(expr, 'has') and hasattr(expr, 'atoms') and hasattr(expr, 'as_independent') and hasattr(expr, 'is_Add') and len(opts) > 0"},"out":{"base":"Any","pred":"result satisfies: len(opts) == old_len_opts - 1"},"spec":{"lhs":"trigsimp_old(expr, first, **opts)","rhs":"len(opts) == old_len_opts - 1","over":{"base":"Any","pred":"isinstance(d, dict) and hasattr(expr, 'has') and hasattr(expr, 'atoms') and hasattr(expr, 'as_independent') and hasattr(expr, 'is_Add') and len(opts) > 0"},"name":"trigsimp_old_correct"},"guarantee":"len(opts) == old_len_opts - 1","fibers":[{"name":"dict","pred":"isinstance(d, dict)","path":{"lhs":"trigsimp_old(x)","rhs":"len(opts) == old_len_opts - 1","over":{"base":"dict","pred":"isinstance(d, dict)"},"name":"trigsimp_old_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp.trigsimp_old_dict_correct","statement":"trigsimp_old satisfies spec on dict inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"034b741bb4dcaf5d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'has')","hasattr(expr, 'atoms')","hasattr(expr, 'as_independent')","hasattr(expr, 'is_Add')","len(opts) > 0"],"ensures":["len(opts) == old_len_opts - 1"],"pure":false,"effects":{"effect_type":"io","reads":["expr.as_independent","expr.atoms","expr.has","expr.is_Add"],"calls_mutating":["opts.pop"],"io_operations":["print"]},"state_contract":{"modifies":["opts.*"],"old_bindings":{"old_len_opts":"len(opts)"},"pre_requires":["len(opts) > 0"],"post_ensures":["len(opts) == old_len_opts - 1"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', 'first', '**opts']","Poor branch-fiber coverage: 0% (branches={'vnew == v', 'len(trigsyms) > 1', 'isinstance(d, dict)', 'f != result'}, fibers={'dict'})"]}}
 def trigsimp_old(expr, *, first=True, **opts):
     """
     Reduces expression by using known trig identities.
@@ -902,16 +940,25 @@ def trigsimp_old(expr, *, first=True, **opts):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dotrig(a, ), helper to tell whether ``a`` and ``b`` have the same sorts of symbols in them -- no need to test hyperbolic patterns against expressions that have no hyperbolics in them) over Any ║
+# ║ Path(_dotrig(a, b), a.func == b.func and (a.has(TrigonometricFunction) and b.has(TrigonometricFunction) or (a.has(HyperbolicFunction) and b.has(HyperbolicFunction)))) over {Any | hasattr(a, 'func') and hasattr(b, 'func') and hasattr(a, 'has') and hasattr(b, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _dotrig : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'func')                             ║
+# ║   requires: hasattr(b, 'func')                             ║
+# ║   requires: hasattr(a, 'has')                              ║
+# ║   returns:  a.func == b.func and (a.has(Trigonometric...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _dotrig : {Any | hasattr(a, 'func') and hasattr(b, 'f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3e8fa958981b502  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de57170e1f158d3e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._dotrig","kind":"function","src_hash":"4980b5d71ee5d77b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dotrig(a, )","rhs":"helper to tell whether ``a`` and ``b`` have the same sorts of symbols in them -- no need to test hyperbolic patterns against expressions that have no hyperbolics in them","over":{"base":"Any"},"name":"_dotrig_correct"},"guarantee":"helper to tell whether ``a`` and ``b`` have the same sorts of symbols in them -- no need to test hyperbolic patterns against expressions that have no hyperbolics in them","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._dotrig_correct","statement":"Path(_dotrig(x), helper to tell whether ``a`` and ``b`` have the same sorts of symbols in them -- no need to test hyperbolic patterns against expressions that have no hyperbolics in them)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3e8fa958981b502"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._dotrig","kind":"function","src_hash":"4980b5d71ee5d77b","in":{"base":"Any","pred":"hasattr(a, 'func') and hasattr(b, 'func') and hasattr(a, 'has') and hasattr(b, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"_dotrig(a, b)","rhs":"a.func == b.func and (a.has(TrigonometricFunction) and b.has(TrigonometricFunction) or (a.has(HyperbolicFunction) and b.has(HyperbolicFunction)))","over":{"base":"Any","pred":"hasattr(a, 'func') and hasattr(b, 'func') and hasattr(a, 'has') and hasattr(b, 'has')"},"name":"_dotrig_correct"},"guarantee":"returns a.func == b.func and (a.has(TrigonometricFunction) and b.has(TrigonometricFunction) or (a.has(HyperbolicFunction) and b.has(HyperbolicFunction)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._dotrig_correct","statement":"Path(_dotrig(x), returns a.func == b.func and (a.has(TrigonometricFunction) and b.has(TrigonometricFunction) or (a.has(HyperbolicFunction) and b.has(HyperbolicFunction))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de57170e1f158d3e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'func')","hasattr(b, 'func')","hasattr(a, 'has')","hasattr(b, 'has')"],"returns_expr":"a.func == b.func and (a.has(TrigonometricFunction) and b.has(TrigonometricFunction) or (a.has(HyperbolicFunction) and b.has(HyperbolicFunction)))","pure":false,"effects":{"effect_type":"reads_state","reads":["a.func","a.has","b.func","b.has"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _dotrig(a, b):
     """Helper to tell whether ``a`` and ``b`` have the same sorts
     of symbols in them -- no need to test hyperbolic patterns against
@@ -923,16 +970,22 @@ def _dotrig(a, b):
 
 _trigpat = None
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_trigpats(), internal helper behaves correctly) over Any ║
+# ║ Path(_trigpats(), <unspecified:_trigpats>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _trigpats : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3db39ecdeec817e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._trigpats","kind":"function","src_hash":"ec8fc38b90c9732d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trigpats()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_trigpats_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigpats_correct","statement":"Path(_trigpats(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3db39ecdeec817e3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._trigpats","kind":"function","src_hash":"ec8fc38b90c9732d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trigpats()","rhs":"<unspecified:_trigpats>","over":{"base":"Any"},"name":"_trigpats_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigpats_correct","statement":"Path(_trigpats(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3db39ecdeec817e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_global","globals_read":["_trigpat"],"globals_written":["_trigpat"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":true}}
 def _trigpats():
     global _trigpat
     a, b, c = symbols('a b c', cls=Wild)
@@ -1018,16 +1071,23 @@ def _trigpats():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_replace_mul_fpowxgpow(exp), helper for _match_div_rewrite) over Any ║
+# ║ Path(_replace_mul_fpowxgpow(expr, f, g), <unspecified:_replace_mul_fpowxgpow>) over {Any | hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _replace_mul_fpowxgpow : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _replace_mul_fpowxgpow : {Any | hasattr(expr, 'args')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99c7986650bd83b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._replace_mul_fpowxgpow","kind":"function","src_hash":"5ddf88aa1bf16083","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_replace_mul_fpowxgpow(exp)","rhs":"helper for _match_div_rewrite","over":{"base":"Any"},"name":"_replace_mul_fpowxgpow_correct"},"guarantee":"helper for _match_div_rewrite","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._replace_mul_fpowxgpow_correct","statement":"Path(_replace_mul_fpowxgpow(x), helper for _match_div_rewrite)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99c7986650bd83b3"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._replace_mul_fpowxgpow","kind":"function","src_hash":"5ddf88aa1bf16083","in":{"base":"Any","pred":"hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_replace_mul_fpowxgpow(expr, f, g)","rhs":"<unspecified:_replace_mul_fpowxgpow>","over":{"base":"Any","pred":"hasattr(expr, 'args')"},"name":"_replace_mul_fpowxgpow_correct"},"guarantee":"helper for _match_div_rewrite","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._replace_mul_fpowxgpow_correct","statement":"Path(_replace_mul_fpowxgpow(x), helper for _match_div_rewrite)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99c7986650bd83b3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _replace_mul_fpowxgpow(expr, f, g, rexp, h, rexph):
     """Helper for _match_div_rewrite.
 
@@ -1077,16 +1137,24 @@ _midn = lambda x: -x
 _one = lambda x: S.One
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_match_div_rewrite(exp), helper for __trigsimp) over Any ║
+# ║ Path(_match_div_rewrite(expr, i), <unspecified:_match_div_rewrite>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[zero_or_none]: i == 0                              ║
+# ║   fiber[case_1]: i == 1                                    ║
+# ║   fiber[case_2]: i == 2                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _match_div_rewrite : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32964df935a3f4d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 48c2132f6df8d96f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._match_div_rewrite","kind":"function","src_hash":"856691e777de4d90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_match_div_rewrite(exp)","rhs":"helper for __trigsimp","over":{"base":"Any"},"name":"_match_div_rewrite_correct"},"guarantee":"helper for __trigsimp","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._match_div_rewrite_correct","statement":"Path(_match_div_rewrite(x), helper for __trigsimp)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32964df935a3f4d0"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._match_div_rewrite","kind":"function","src_hash":"856691e777de4d90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_match_div_rewrite(expr, i)","rhs":"<unspecified:_match_div_rewrite>","over":{"base":"Any"},"name":"_match_div_rewrite_correct"},"guarantee":"13-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._match_div_rewrite_correct","statement":"Path(_match_div_rewrite(x), 13-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"48c2132f6df8d96f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"zero_or_none","guard":"i == 0","ensures":[],"decidability":"z3"},{"name":"case_1","guard":"i == 1","ensures":[],"decidability":"z3"},{"name":"case_2","guard":"i == 2","ensures":[],"decidability":"z3"},{"name":"case_3","guard":"i == 3","ensures":[],"decidability":"z3"},{"name":"case_4","guard":"i == 4","ensures":[],"decidability":"z3"},{"name":"case_5","guard":"i == 5","ensures":[],"decidability":"z3"},{"name":"case_6","guard":"i == 8","ensures":[],"decidability":"z3"},{"name":"case_7","guard":"i == 9","ensures":[],"decidability":"z3"},{"name":"case_8","guard":"i == 10","ensures":[],"decidability":"z3"},{"name":"case_9","guard":"i == 11","ensures":[],"decidability":"z3"},{"name":"case_10","guard":"i == 12","ensures":[],"decidability":"z3"},{"name":"case_11","guard":"i == 13","ensures":[],"decidability":"z3"},{"name":"zero_or_none","guard":"not (i == 0) and not (i == 1) and not (i == 2) and not (i == 3) and not (i == 4) and not (i == 5) and not (i == 8) and not (i == 9) and not (i == 10) and not (i == 11) and not (i == 12) and not (i == 13)","ensures":["result == None"],"decidability":"z3","returns_expr":"None"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _match_div_rewrite(expr, i):
     """helper for __trigsimp"""
     if i == 0:
@@ -1132,16 +1200,23 @@ def _match_div_rewrite(expr, i):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_trigsimp(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_trigsimp(expr, deep), <unspecified:_trigsimp>) over {Any | hasattr(expr, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _trigsimp : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _trigsimp : {Any | hasattr(expr, 'has')} → Any             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c3384b61ef23685  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._trigsimp","kind":"function","src_hash":"17574e393150ecba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_trigsimp(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_trigsimp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigsimp_correct","statement":"Path(_trigsimp(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c3384b61ef23685"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._trigsimp","kind":"function","src_hash":"17574e393150ecba","in":{"base":"Any","pred":"hasattr(expr, 'has')"},"out":{"base":"Any"},"spec":{"lhs":"_trigsimp(expr, deep)","rhs":"<unspecified:_trigsimp>","over":{"base":"Any","pred":"hasattr(expr, 'has')"},"name":"_trigsimp_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._trigsimp_correct","statement":"Path(_trigsimp(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c3384b61ef23685","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'has')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.has"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _trigsimp(expr, deep=False):
     # protect the cache from non-trig patterns; we only allow
     # trig patterns to enter the cache
@@ -1152,16 +1227,25 @@ def _trigsimp(expr, deep=False):
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__trigsimp(exp), recursive helper for trigsimp) over Any ║
+# ║ Path(__trigsimp(expr, deep), len(args) == old_len_args + 1) over {Any | hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Add') and hasattr(expr, 'args') and hasattr(expr, 'is_commutative') and hasattr(expr, 'is_Pow') and hasattr(expr, 'atoms') and hasattr(expr, 'rewrite') and hasattr(expr, 'args_cnc') and hasattr(expr, 'match') and hasattr(expr, 'func') and hasattr(expr, 'has')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __trigsimp : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  len(args) == old_len_args + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __trigsimp : {Any | hasattr(expr, 'is_Mul') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f46fea63c8f58a6b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp.__trigsimp","kind":"function","src_hash":"50b3f921d9569f1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__trigsimp(exp)","rhs":"recursive helper for trigsimp","over":{"base":"Any"},"name":"__trigsimp_correct"},"guarantee":"recursive helper for trigsimp","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f46fea63c8f58a6b"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp.__trigsimp","kind":"function","src_hash":"50b3f921d9569f1a","in":{"base":"Any","pred":"hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Add') and hasattr(expr, 'args') and hasattr(expr, 'is_commutative') and hasattr(expr, 'is_Pow') and hasattr(expr, 'atoms') and hasattr(expr, 'rewrite') and hasattr(expr, 'args_cnc') and hasattr(expr, 'match') and hasattr(expr, 'func') and hasattr(expr, 'has')"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args + 1"},"spec":{"lhs":"__trigsimp(expr, deep)","rhs":"len(args) == old_len_args + 1","over":{"base":"Any","pred":"hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Add') and hasattr(expr, 'args') and hasattr(expr, 'is_commutative') and hasattr(expr, 'is_Pow') and hasattr(expr, 'atoms') and hasattr(expr, 'rewrite') and hasattr(expr, 'args_cnc') and hasattr(expr, 'match') and hasattr(expr, 'func') and hasattr(expr, 'has')"},"name":"__trigsimp_correct"},"guarantee":"len(args) == old_len_args + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f46fea63c8f58a6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'is_Mul')","hasattr(expr, 'is_Add')","hasattr(expr, 'args')","hasattr(expr, 'is_commutative')","hasattr(expr, 'is_Pow')","hasattr(expr, 'atoms')","hasattr(expr, 'rewrite')","hasattr(expr, 'args_cnc')","hasattr(expr, 'match')","hasattr(expr, 'func')","hasattr(expr, 'has')"],"ensures":["len(args) == old_len_args + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.args_cnc","expr.atoms","expr.func","expr.has","expr.is_Add","expr.is_Mul","expr.is_Pow","expr.is_commutative","expr.match","expr.rewrite"],"calls_mutating":["args.append","m.setdefault"],"raises":["TypeError"],"catches":["TypeError"]},"state_contract":{"modifies":["args.*","m.*"],"old_bindings":{"old_len_args":"len(args)"},"post_ensures":["len(args) == old_len_args + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":1.0,"verdict_class":"failed","binding":true}}
 def __trigsimp(expr, deep=False):
     """recursive helper for trigsimp"""
     from sympy.simplify.fu import TR10i
@@ -1293,9 +1377,15 @@ def __trigsimp(expr, deep=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(futrig(e, ), return simplified ``e`` using fu-like transformations. this is not the "fu" algorithm) over {Any | isinstance(e, Basic)} ║
+# ║ Path(futrig(e, hyper, **kwargs), <unspecified:futrig>) over {Any | isinstance(e, Basic) and hasattr(e, 'args') and hasattr(e, 'is_Mul') and hasattr(e, 'has') and hasattr(e, 'as_coeff_Mul')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ futrig : {Any | isinstance(e, Basic)} → Any                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   requires: hasattr(e, 'is_Mul')                           ║
+# ║   requires: hasattr(e, 'has')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ futrig : {Any | isinstance(e, Basic) and hasattr(e, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(e, Basic)} → library_axiom            ║
@@ -1305,9 +1395,12 @@ def __trigsimp(expr, deep=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ef1b63c7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp.futrig","kind":"function","src_hash":"a01f7c7161d2f49d","in":{"base":"Any","pred":"isinstance(e, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"futrig(e, )","rhs":"return simplified ``e`` using fu-like transformations. this is not the \"fu\" algorithm","over":{"base":"Any","pred":"isinstance(e, Basic)"},"name":"futrig_correct"},"guarantee":"return simplified ``e`` using fu-like transformations. this is not the \"fu\" algorithm","fibers":[{"name":"Basic","pred":"isinstance(e, Basic)","path":{"lhs":"futrig(x)","rhs":"return simplified ``e`` using fu-like transformations. this is not the \"fu\" algorithm","over":{"base":"Basic","pred":"isinstance(e, Basic)"},"name":"futrig_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp.futrig_Basic_correct","statement":"futrig satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef1b63c74b0ea89f"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp.futrig","kind":"function","src_hash":"a01f7c7161d2f49d","in":{"base":"Any","pred":"isinstance(e, Basic) and hasattr(e, 'args') and hasattr(e, 'is_Mul') and hasattr(e, 'has') and hasattr(e, 'as_coeff_Mul')"},"out":{"base":"Any"},"spec":{"lhs":"futrig(e, hyper, **kwargs)","rhs":"<unspecified:futrig>","over":{"base":"Any","pred":"isinstance(e, Basic) and hasattr(e, 'args') and hasattr(e, 'is_Mul') and hasattr(e, 'has') and hasattr(e, 'as_coeff_Mul')"},"name":"futrig_correct"},"guarantee":"return simplified ``e`` using fu-like transformations. this is not the \"fu\" algorithm","fibers":[{"name":"Basic","pred":"isinstance(e, Basic)","path":{"lhs":"futrig(x)","rhs":"return simplified ``e`` using fu-like transformations. this is not the \"fu\" algorithm","over":{"base":"Basic","pred":"isinstance(e, Basic)"},"name":"futrig_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp.futrig_Basic_correct","statement":"futrig satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ef1b63c74b0ea89f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'args')","hasattr(e, 'is_Mul')","hasattr(e, 'has')","hasattr(e, 'as_coeff_Mul')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.as_coeff_Mul","e.has","e.is_Mul"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['e'], spec=['e', 'hyper', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'not isinstance(e, Basic)', 'e != old and e.is_Mul and e.args[0].is_Rational'}, fibers={'Basic'})"]}}
 def futrig(e, *, hyper=True, **kwargs):
     """Return simplified ``e`` using Fu-like transformations.
     This is not the "Fu" algorithm. This is called by default
@@ -1352,16 +1445,25 @@ def futrig(e, *, hyper=True, **kwargs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_futrig(e), helper for futrig) over Any               ║
+# ║ Path(_futrig(e), <unspecified:_futrig>) over {Any | hasattr(e, 'is_Mul') and hasattr(e, 'has') and hasattr(e, 'as_independent')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _futrig : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'is_Mul')                           ║
+# ║   requires: hasattr(e, 'has')                              ║
+# ║   requires: hasattr(e, 'as_independent')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _futrig : {Any | hasattr(e, 'is_Mul') and hasattr(e, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 472402a9e940e90e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._futrig","kind":"function","src_hash":"13223f7064fd5adf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_futrig(e)","rhs":"helper for futrig","over":{"base":"Any"},"name":"_futrig_correct"},"guarantee":"helper for futrig","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._futrig_correct","statement":"Path(_futrig(x), helper for futrig)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"472402a9e940e90e"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._futrig","kind":"function","src_hash":"13223f7064fd5adf","in":{"base":"Any","pred":"hasattr(e, 'is_Mul') and hasattr(e, 'has') and hasattr(e, 'as_independent')"},"out":{"base":"Any"},"spec":{"lhs":"_futrig(e)","rhs":"<unspecified:_futrig>","over":{"base":"Any","pred":"hasattr(e, 'is_Mul') and hasattr(e, 'has') and hasattr(e, 'as_independent')"},"name":"_futrig_correct"},"guarantee":"helper for futrig","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._futrig_correct","statement":"Path(_futrig(x), helper for futrig)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"472402a9e940e90e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'is_Mul')","hasattr(e, 'has')","hasattr(e, 'as_independent')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.as_independent","e.has","e.is_Mul"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _futrig(e):
     """Helper for futrig."""
     from sympy.simplify.fu import (
@@ -1426,7 +1528,12 @@ def _futrig(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_Expr(e), _eapply helper to tell whether ``e`` and all its args are exprs) over {Any | isinstance(e, Derivative) and isinstance(e, Expr)} ║
+# ║ Path(_is_Expr(e), # HINT: _is_Expr may be idempotent: _is_Expr(_is_Expr(x)) == _is_Expr(x)) over {Any | isinstance(e, Derivative) and isinstance(e, Expr) and hasattr(e, 'expr') and hasattr(e, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'expr')                             ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  # HINT: _is_Expr may be idempotent: _is_E...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_Expr : {Any | isinstance(e, Derivative) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1439,9 +1546,12 @@ def _futrig(e):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4703b953...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._is_Expr","kind":"function","src_hash":"5da39dd7410b3084","in":{"base":"Any","pred":"isinstance(e, Derivative) and isinstance(e, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_is_Expr(e)","rhs":"_eapply helper to tell whether ``e`` and all its args are exprs","over":{"base":"Any","pred":"isinstance(e, Derivative) and isinstance(e, Expr)"},"name":"_is_Expr_correct"},"guarantee":"_eapply helper to tell whether ``e`` and all its args are exprs","fibers":[{"name":"Derivative","pred":"isinstance(e, Derivative)","path":{"lhs":"_is_Expr(x)","rhs":"_eapply helper to tell whether ``e`` and all its args are exprs","over":{"base":"Derivative","pred":"isinstance(e, Derivative)"},"name":"_is_Expr_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._is_Expr_Derivative_correct","statement":"_is_Expr satisfies spec on Derivative inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(e, Expr)","path":{"lhs":"_is_Expr(x)","rhs":"_eapply helper to tell whether ``e`` and all its args are exprs","over":{"base":"Expr","pred":"isinstance(e, Expr)"},"name":"_is_Expr_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._is_Expr_Expr_correct","statement":"_is_Expr satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4703b95384ec4f30"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._is_Expr","kind":"function","src_hash":"5da39dd7410b3084","in":{"base":"Any","pred":"isinstance(e, Derivative) and isinstance(e, Expr) and hasattr(e, 'expr') and hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _is_Expr may be idempotent: _is_Expr(_is_Expr(x)) == _is_Expr(x)"},"spec":{"lhs":"_is_Expr(e)","rhs":"# HINT: _is_Expr may be idempotent: _is_Expr(_is_Expr(x)) == _is_Expr(x)","over":{"base":"Any","pred":"isinstance(e, Derivative) and isinstance(e, Expr) and hasattr(e, 'expr') and hasattr(e, 'args')"},"name":"_is_Expr_correct"},"guarantee":"# HINT: _is_Expr may be idempotent: _is_Expr(_is_Expr(x)) == _is_Expr(x)","fibers":[{"name":"Derivative","pred":"isinstance(e, Derivative)","path":{"lhs":"_is_Expr(x)","rhs":"# HINT: _is_Expr may be idempotent: _is_Expr(_is_Expr(x)) == _is_Expr(x)","over":{"base":"Derivative","pred":"isinstance(e, Derivative)"},"name":"_is_Expr_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._is_Expr_Derivative_correct","statement":"_is_Expr satisfies spec on Derivative inputs"},"trust":"LIBRARY"},{"name":"Expr","pred":"isinstance(e, Expr)","path":{"lhs":"_is_Expr(x)","rhs":"# HINT: _is_Expr may be idempotent: _is_Expr(_is_Expr(x)) == _is_Expr(x)","over":{"base":"Expr","pred":"isinstance(e, Expr)"},"name":"_is_Expr_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._is_Expr_Expr_correct","statement":"_is_Expr satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4703b95384ec4f30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'expr')","hasattr(e, 'args')"],"ensures":["# HINT: _is_Expr may be idempotent: _is_Expr(_is_Expr(x)) == _is_Expr(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.expr"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(e, Expr)', 'isinstance(e, Derivative)'}, fibers={'Derivative', 'Expr'})"]}}
 def _is_Expr(e):
     """_eapply helper to tell whether ``e`` and all its args
     are Exprs."""
@@ -1453,9 +1563,14 @@ def _is_Expr(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eapply(fun), apply ``func`` to ``e`` if all args are exprs else only apply it to those args that *are* exprs) over {Any | isinstance(e, Expr)} ║
+# ║ Path(_eapply(func, e, cond), # HINT: _eapply may be idempotent: _eapply(_eapply(x)) == _eapply(x)) over {Any | isinstance(e, Expr) and hasattr(e, 'func') and hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eapply : {Any | isinstance(e, Expr)} → Any                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'func')                             ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  # HINT: _eapply may be idempotent: _eappl...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eapply : {Any | isinstance(e, Expr) and hasattr(e, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Expr: {isinstance(e, Expr)} → library_axiom              ║
@@ -1465,9 +1580,12 @@ def _is_Expr(e):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 64b247ac...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._eapply","kind":"function","src_hash":"96c306d5b81351b4","in":{"base":"Any","pred":"isinstance(e, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_eapply(fun)","rhs":"apply ``func`` to ``e`` if all args are exprs else only apply it to those args that *are* exprs","over":{"base":"Any","pred":"isinstance(e, Expr)"},"name":"_eapply_correct"},"guarantee":"apply ``func`` to ``e`` if all args are exprs else only apply it to those args that *are* exprs","fibers":[{"name":"Expr","pred":"isinstance(e, Expr)","path":{"lhs":"_eapply(x)","rhs":"apply ``func`` to ``e`` if all args are exprs else only apply it to those args that *are* exprs","over":{"base":"Expr","pred":"isinstance(e, Expr)"},"name":"_eapply_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._eapply_Expr_correct","statement":"_eapply satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"64b247ac7e6d6f79"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.trigsimp._eapply","kind":"function","src_hash":"96c306d5b81351b4","in":{"base":"Any","pred":"isinstance(e, Expr) and hasattr(e, 'func') and hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _eapply may be idempotent: _eapply(_eapply(x)) == _eapply(x)"},"spec":{"lhs":"_eapply(func, e, cond)","rhs":"# HINT: _eapply may be idempotent: _eapply(_eapply(x)) == _eapply(x)","over":{"base":"Any","pred":"isinstance(e, Expr) and hasattr(e, 'func') and hasattr(e, 'args')"},"name":"_eapply_correct"},"guarantee":"# HINT: _eapply may be idempotent: _eapply(_eapply(x)) == _eapply(x)","fibers":[{"name":"Expr","pred":"isinstance(e, Expr)","path":{"lhs":"_eapply(x)","rhs":"# HINT: _eapply may be idempotent: _eapply(_eapply(x)) == _eapply(x)","over":{"base":"Expr","pred":"isinstance(e, Expr)"},"name":"_eapply_Expr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.trigsimp._eapply_Expr_correct","statement":"_eapply satisfies spec on Expr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"64b247ac7e6d6f79","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'func')","hasattr(e, 'args')"],"ensures":["# HINT: _eapply may be idempotent: _eapply(_eapply(x)) == _eapply(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.func"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(e, Expr)'}, fibers={'Expr'})"]}}
 def _eapply(func, e, cond=None):
     """Apply ``func`` to ``e`` if all args are Exprs else only
     apply it to those args that *are* Exprs."""

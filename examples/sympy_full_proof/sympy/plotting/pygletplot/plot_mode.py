@@ -27,14 +27,20 @@ from sympy.utilities.iterables import is_sequence
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PlotMode(*args), correctly constructs a PlotMode instance) over {Any | isinstance(mode_arg, str) and isinstance(args[0], GeometryEntity)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PlotObject)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PlotMode : {Any | isinstance(mode_arg, str) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76853ef4de73ffa9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode","kind":"class","src_hash":"b1afebfe6ac8fd72","in":{"base":"Any","pred":"isinstance(mode_arg, str) and isinstance(args[0], GeometryEntity)"},"out":{"base":"Any"},"spec":{"lhs":"PlotMode(*args)","rhs":"correctly constructs a PlotMode instance","over":{"base":"Any","pred":"isinstance(mode_arg, str) and isinstance(args[0], GeometryEntity)"},"name":"PlotMode_class_invariant"},"guarantee":"correctly constructs a PlotMode instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76853ef4de73ffa9"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode","kind":"class","src_hash":"b1afebfe6ac8fd72","in":{"base":"Any","pred":"isinstance(mode_arg, str) and isinstance(args[0], GeometryEntity)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PlotObject)"},"spec":{"lhs":"PlotMode(*args)","rhs":"correctly constructs a PlotMode instance","over":{"base":"Any","pred":"isinstance(mode_arg, str) and isinstance(args[0], GeometryEntity)"},"name":"PlotMode_class_invariant"},"guarantee":"isinstance(self, PlotObject)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76853ef4de73ffa9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PlotObject)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function PlotMode not found in source"]}}
 class PlotMode(PlotObject):
     """
     Grandparent class for plotting
@@ -63,16 +69,22 @@ class PlotMode(PlotObject):
     ## classes, and PlotModeBase provides
     ## a base implementation.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(draw(), draw produces the expected output) over Any   ║
+# ║ Path(draw(), <unspecified:draw>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ draw : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b0e2fb0df38e9ad4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode.draw","kind":"method","src_hash":"5ff381add3ded92c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"draw produces the expected output","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"draw produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0e2fb0df38e9ad4"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode.draw","kind":"method","src_hash":"5ff381add3ded92c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"draw()","rhs":"<unspecified:draw>","over":{"base":"Any"},"name":"draw_correct"},"guarantee":"draw produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b0e2fb0df38e9ad4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def draw(self):
         raise NotImplementedError()
 
@@ -97,16 +109,22 @@ class PlotMode(PlotObject):
     _i_var_max, _d_var_max = 2, 3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), this is the function which interprets arguments given to plot.__init__ and plot.__setattr__) over Any ║
+# ║ Path(__new__(cls, *args, **kwargs), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e8021e58cf582bc2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode.__new__","kind":"method","src_hash":"de2e0e7ac5036e6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"this is the function which interprets arguments given to plot.__init__ and plot.__setattr__","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"this is the function which interprets arguments given to plot.__init__ and plot.__setattr__","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8021e58cf582bc2"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode.__new__","kind":"method","src_hash":"de2e0e7ac5036e6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, **kwargs)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"this is the function which interprets arguments given to plot.__init__ and plot.__setattr__","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8021e58cf582bc2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **kwargs):
         """
         This is the function which interprets
@@ -139,16 +157,22 @@ class PlotMode(PlotObject):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_mode(mod), tries to return an appropriate mode class. intended to be called only by __new__) over Any ║
+# ║ Path(_get_mode(mode_arg, i_var_count, d_var_count), <unspecified:_get_mode>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_mode : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fab1b73a1910ddf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._get_mode","kind":"staticmethod","src_hash":"cf57af0b4631bc83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_mode(mod)","rhs":"tries to return an appropriate mode class. intended to be called only by __new__","over":{"base":"Any"},"name":"_get_mode_correct"},"guarantee":"tries to return an appropriate mode class. intended to be called only by __new__","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._get_mode_correct","statement":"Path(_get_mode(x), tries to return an appropriate mode class. intended to be called only by __new__)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fab1b73a1910ddf"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._get_mode","kind":"staticmethod","src_hash":"cf57af0b4631bc83","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_mode(mode_arg, i_var_count, d_var_count)","rhs":"<unspecified:_get_mode>","over":{"base":"Any"},"name":"_get_mode_correct"},"guarantee":"tries to return an appropriate mode class. intended to be called only by __new__","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._get_mode_correct","statement":"Path(_get_mode(x), tries to return an appropriate mode class. intended to be called only by __new__)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fab1b73a1910ddf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_mode(mode_arg, i_var_count, d_var_count):
         """
         Tries to return an appropriate mode class.
@@ -224,16 +248,22 @@ class PlotMode(PlotObject):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_default_mode(i, ), internal helper behaves correctly) over Any ║
+# ║ Path(_get_default_mode(i, d, i_vars), <unspecified:_get_default_mode>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_default_mode : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56fa8d7dd671a7be  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._get_default_mode","kind":"staticmethod","src_hash":"73baae262ca64a5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_default_mode(i, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_default_mode_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._get_default_mode_correct","statement":"Path(_get_default_mode(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56fa8d7dd671a7be"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._get_default_mode","kind":"staticmethod","src_hash":"73baae262ca64a5c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_default_mode(i, d, i_vars)","rhs":"<unspecified:_get_default_mode>","over":{"base":"Any"},"name":"_get_default_mode_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._get_default_mode_correct","statement":"Path(_get_default_mode(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56fa8d7dd671a7be","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"],"catches":["KeyError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_default_mode(i, d, i_vars=-1):
         if i_vars == -1:
             i_vars = i
@@ -252,16 +282,23 @@ class PlotMode(PlotObject):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_aliased_mode(ali), internal helper behaves correctly) over Any ║
+# ║ Path(_get_aliased_mode(alias, i, d), <unspecified:_get_aliased_mode>) over {Any | not (alias not in PlotMode._mode_alias_list)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_aliased_mode : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (alias not in PlotMode._mode_alias_list)   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_aliased_mode : {Any | not (alias not in PlotMode...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c683177be8ebfd35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._get_aliased_mode","kind":"staticmethod","src_hash":"9d0063ea149ae751","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_aliased_mode(ali)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_aliased_mode_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._get_aliased_mode_correct","statement":"Path(_get_aliased_mode(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c683177be8ebfd35"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._get_aliased_mode","kind":"staticmethod","src_hash":"9d0063ea149ae751","in":{"base":"Any","pred":"not (alias not in PlotMode._mode_alias_list)"},"out":{"base":"Any"},"spec":{"lhs":"_get_aliased_mode(alias, i, d)","rhs":"<unspecified:_get_aliased_mode>","over":{"base":"Any","pred":"not (alias not in PlotMode._mode_alias_list)"},"name":"_get_aliased_mode_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._get_aliased_mode_correct","statement":"Path(_get_aliased_mode(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c683177be8ebfd35","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (alias not in PlotMode._mode_alias_list)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_aliased_mode(alias, i, d, i_vars=-1):
         if i_vars == -1:
             i_vars = i
@@ -285,16 +322,22 @@ class PlotMode(PlotObject):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_register(cls), called once for each user-usable plot mode. for cartesian2d, it is invoked after the class definition: cartesian2d._register()) over Any ║
+# ║ Path(_register(cls), len(PlotMode) == old_len_PlotMode + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _register : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(PlotMode) == old_len_PlotMode + 1          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _register : Any → {Any | result satisfies: len(PlotMo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 466d7b7efb06e5c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6495c1ebdf105ca4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._register","kind":"classmethod","src_hash":"9a6e8c3a710981cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_register(cls)","rhs":"called once for each user-usable plot mode. for cartesian2d, it is invoked after the class definition: cartesian2d._register()","over":{"base":"Any"},"name":"_register_correct"},"guarantee":"called once for each user-usable plot mode. for cartesian2d, it is invoked after the class definition: cartesian2d._register()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._register_correct","statement":"Path(_register(x), called once for each user-usable plot mode. for cartesian2d, it is invoked after the class definition: cartesian2d._register())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"466d7b7efb06e5c9"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._register","kind":"classmethod","src_hash":"9a6e8c3a710981cf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(PlotMode) == old_len_PlotMode + 1"},"spec":{"lhs":"_register(cls)","rhs":"len(PlotMode) == old_len_PlotMode + 1","over":{"base":"Any"},"name":"_register_correct"},"guarantee":"len(PlotMode) == old_len_PlotMode + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._register_correct","statement":"Path(_register(x), len(PlotMode) == old_len_PlotMode + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6495c1ebdf105ca4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(PlotMode) == old_len_PlotMode + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.__name__","cls._init_mode","cls.aliases","cls.d_var_count","cls.i_var_count","cls.is_default"],"calls_mutating":["PlotMode._mode_alias_list.append"],"raises":["RuntimeError"],"catches":["Exception"]},"state_contract":{"modifies":["PlotMode.*"],"old_bindings":{"old_len_PlotMode":"len(PlotMode)"},"post_ensures":["len(PlotMode) == old_len_PlotMode + 1"],"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _register(cls):
         """
         Called once for each user-usable plot mode.
@@ -328,16 +371,22 @@ class PlotMode(PlotObject):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_init_mode(cls), initializes the plot mode based on the 'mode-specific parameters' above. only intended to be called by plotmode._register()) over Any ║
+# ║ Path(_init_mode(cls), [Symbol(s) for s in symbol_str]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [Symbol(s) for s in symbol_str]                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _init_mode : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d51c039d305901ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e05ac41bf198d6e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._init_mode","kind":"classmethod","src_hash":"71f0d6ed0facf137","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_init_mode(cls)","rhs":"initializes the plot mode based on the 'mode-specific parameters' above. only intended to be called by plotmode._register()","over":{"base":"Any"},"name":"_init_mode_correct"},"guarantee":"initializes the plot mode based on the 'mode-specific parameters' above. only intended to be called by plotmode._register()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._init_mode_correct","statement":"Path(_init_mode(x), initializes the plot mode based on the 'mode-specific parameters' above. only intended to be called by plotmode._register())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d51c039d305901ce"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._init_mode","kind":"classmethod","src_hash":"71f0d6ed0facf137","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_init_mode(cls)","rhs":"[Symbol(s) for s in symbol_str]","over":{"base":"Any"},"name":"_init_mode_correct"},"guarantee":"returns [Symbol(s) for s in symbol_str]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._init_mode_correct","statement":"Path(_init_mode(x), returns [Symbol(s) for s in symbol_str])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e05ac41bf198d6e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[Symbol(s) for s in symbol_str]","pure":false,"effects":{"effect_type":"mutates_args","reads":["cls.__name__","cls.aliases","cls.d_var_count","cls.d_vars","cls.i_var_count","cls.i_vars","cls.intervals"],"writes":["cls._was_initialized","cls.d_var_count","cls.d_vars","cls.i_var_count","cls.i_vars","cls.primary_alias"],"raises":["ValueError"]},"state_contract":{"modifies":["cls._was_initialized","cls.d_var_count","cls.d_vars","cls.i_var_count","cls.i_vars","cls.primary_alias"],"old_bindings":{"old_cls__was_initialized":"cls._was_initialized","old_cls_d_var_count":"cls.d_var_count","old_cls_d_vars":"cls.d_vars","old_cls_i_var_count":"cls.i_var_count","old_cls_i_vars":"cls.i_vars","old_cls_primary_alias":"cls.primary_alias"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _init_mode(cls):
         """
         Initializes the plot mode based on
@@ -396,16 +445,22 @@ class PlotMode(PlotObject):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_i_vars(fun), internal helper behaves correctly) over Any ║
+# ║ Path(_find_i_vars(functions, intervals), len(i_vars) == old_len_i_vars + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _find_i_vars : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(i_vars) == old_len_i_vars + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _find_i_vars : Any → {Any | result satisfies: len(i_v...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38ea42c864836243  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5054e8275c88abe8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._find_i_vars","kind":"staticmethod","src_hash":"7c24718f0e9abd63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_i_vars(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_find_i_vars_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._find_i_vars_correct","statement":"Path(_find_i_vars(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38ea42c864836243"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._find_i_vars","kind":"staticmethod","src_hash":"7c24718f0e9abd63","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(i_vars) == old_len_i_vars + 1"},"spec":{"lhs":"_find_i_vars(functions, intervals)","rhs":"len(i_vars) == old_len_i_vars + 1","over":{"base":"Any"},"name":"_find_i_vars_correct"},"guarantee":"len(i_vars) == old_len_i_vars + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._find_i_vars_correct","statement":"Path(_find_i_vars(x), len(i_vars) == old_len_i_vars + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5054e8275c88abe8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(i_vars) == old_len_i_vars + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["i_vars.append"],"raises":["ValueError"]},"state_contract":{"modifies":["i_vars.*"],"old_bindings":{"old_len_i_vars":"len(i_vars)"},"post_ensures":["len(i_vars) == old_len_i_vars + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _find_i_vars(functions, intervals):
         i_vars = []
 
@@ -431,16 +486,22 @@ class PlotMode(PlotObject):
         return i_vars
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fill_i_vars(i_v), internal helper behaves correctly) over Any ║
+# ║ Path(_fill_i_vars(i_vars), <unspecified:_fill_i_vars>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _fill_i_vars : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cccc1c0fe9198b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._fill_i_vars","kind":"method","src_hash":"a134e6077c5a27e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fill_i_vars(i_v)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_fill_i_vars_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._fill_i_vars_correct","statement":"Path(_fill_i_vars(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cccc1c0fe9198b4"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._fill_i_vars","kind":"method","src_hash":"a134e6077c5a27e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fill_i_vars(i_vars)","rhs":"<unspecified:_fill_i_vars>","over":{"base":"Any"},"name":"_fill_i_vars_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._fill_i_vars_correct","statement":"Path(_fill_i_vars(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cccc1c0fe9198b4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.i_vars"],"writes":["self.i_vars"]},"state_contract":{"modifies":["self.i_vars"],"old_bindings":{"old_self_i_vars":"self.i_vars"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fill_i_vars(self, i_vars):
         # copy default i_vars
         self.i_vars = [Symbol(str(i)) for i in self.i_vars]
@@ -449,16 +510,22 @@ class PlotMode(PlotObject):
             self.i_vars[i] = i_vars[i]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_fill_intervals(int), internal helper behaves correctly) over Any ║
+# ║ Path(_fill_intervals(intervals), len(v_used) == old_len_v_used + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _fill_intervals : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(v_used) == old_len_v_used + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _fill_intervals : Any → {Any | result satisfies: len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f106ec92397e0cb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fa1b9c95c2a7fe8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._fill_intervals","kind":"method","src_hash":"8646a14f5ac57470","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_fill_intervals(int)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_fill_intervals_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._fill_intervals_correct","statement":"Path(_fill_intervals(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f106ec92397e0cb"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._fill_intervals","kind":"method","src_hash":"8646a14f5ac57470","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(v_used) == old_len_v_used + 1"},"spec":{"lhs":"_fill_intervals(intervals)","rhs":"len(v_used) == old_len_v_used + 1","over":{"base":"Any"},"name":"_fill_intervals_correct"},"guarantee":"len(v_used) == old_len_v_used + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._fill_intervals_correct","statement":"Path(_fill_intervals(x), len(v_used) == old_len_v_used + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fa1b9c95c2a7fe8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(v_used) == old_len_v_used + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.i_vars","self.intervals"],"writes":["self.intervals"],"calls_mutating":["v_used.append"],"raises":["ValueError"]},"state_contract":{"modifies":["self.intervals","v_used.*"],"old_bindings":{"old_self_intervals":"self.intervals","old_len_v_used":"len(v_used)"},"post_ensures":["len(v_used) == old_len_v_used + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _fill_intervals(self, intervals):
         # copy default intervals
         self.intervals = [PlotInterval(i) for i in self.intervals]
@@ -482,16 +549,24 @@ class PlotMode(PlotObject):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_interpret_args(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_interpret_args(args), (functions, intervals)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _interpret_args : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(functions) == old_len_functions + 1        ║
+# ║   ensures:  len(intervals) == old_len_intervals + 1        ║
+# ║   returns:  (functions, intervals)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _interpret_args : Any → {Any | result satisfies: resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3289f3c57c3d0213  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12b4d8213d1fe2f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._interpret_args","kind":"staticmethod","src_hash":"f5cc8863fd6dc012","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_interpret_args(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_interpret_args_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._interpret_args_correct","statement":"Path(_interpret_args(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3289f3c57c3d0213"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._interpret_args","kind":"staticmethod","src_hash":"f5cc8863fd6dc012","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((functions, intervals))"},"spec":{"lhs":"_interpret_args(args)","rhs":"(functions, intervals)","over":{"base":"Any"},"name":"_interpret_args_correct"},"guarantee":"returns (functions, intervals); len(functions) == old_len_functions + 1; len(intervals) == old_len_intervals + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._interpret_args_correct","statement":"Path(_interpret_args(x), returns (functions, intervals); len(functions) == old_len_functions + 1; len(intervals) == old_len_intervals + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12b4d8213d1fe2f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(functions) == old_len_functions + 1","len(intervals) == old_len_intervals + 1"],"returns_expr":"(functions, intervals)","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["functions.append","intervals.append"],"raises":["ValueError"],"catches":["TypeError"]},"state_contract":{"modifies":["functions.*","intervals.*"],"old_bindings":{"old_len_functions":"len(functions)","old_len_intervals":"len(intervals)"},"post_ensures":["len(functions) == old_len_functions + 1","len(intervals) == old_len_intervals + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _interpret_args(args):
         interval_wrong_order = "PlotInterval %s was given before any function(s)."
         interpret_error = "Could not interpret %s as a function or interval."
@@ -522,16 +597,22 @@ class PlotMode(PlotObject):
 
     @staticmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_extract_options(arg), internal helper behaves correctly) over Any ║
+# ║ Path(_extract_options(args, kwargs), (newargs, newkwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (newargs, newkwargs)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _extract_options : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25d8978bbed681e4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b6096c84ab89050  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._extract_options","kind":"staticmethod","src_hash":"6e77408e52a2304c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_extract_options(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_extract_options_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._extract_options_correct","statement":"Path(_extract_options(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25d8978bbed681e4"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.PlotMode._extract_options","kind":"staticmethod","src_hash":"6e77408e52a2304c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_extract_options(args, kwargs)","rhs":"(newargs, newkwargs)","over":{"base":"Any"},"name":"_extract_options_correct"},"guarantee":"returns (newargs, newkwargs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.PlotMode._extract_options_correct","statement":"Path(_extract_options(x), returns (newargs, newkwargs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b6096c84ab89050","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(newargs, newkwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _extract_options(args, kwargs):
         newkwargs, newargs = {}, []
         for a in args:
@@ -544,16 +625,22 @@ class PlotMode(PlotObject):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(var_count_error(is_), used to format an error message which differs slightly in 4 places) over Any ║
+# ║ Path(var_count_error(is_independent, is_plotting), '%s with more than %i %s variables is not supported.' % (v, n, s)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s with more than %i %s variables is not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ var_count_error : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65798362abf03333  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f595a885ee83325  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.var_count_error","kind":"function","src_hash":"fd81d964ec81ef38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var_count_error(is_)","rhs":"used to format an error message which differs slightly in 4 places","over":{"base":"Any"},"name":"var_count_error_correct"},"guarantee":"used to format an error message which differs slightly in 4 places","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.var_count_error_correct","statement":"Path(var_count_error(x), used to format an error message which differs slightly in 4 places)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65798362abf03333"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_mode.var_count_error","kind":"function","src_hash":"fd81d964ec81ef38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"var_count_error(is_independent, is_plotting)","rhs":"'%s with more than %i %s variables is not supported.' % (v, n, s)","over":{"base":"Any"},"name":"var_count_error_correct"},"guarantee":"returns '%s with more than %i %s variables is not supported.' % (v, n, s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_mode.var_count_error_correct","statement":"Path(var_count_error(x), returns '%s with more than %i %s variables is not supported.' % (v, n, s))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f595a885ee83325","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s with more than %i %s variables is not supported.' % (v, n, s)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def var_count_error(is_independent, is_plotting):
     """
     Used to format an error message which differs

@@ -23,9 +23,15 @@ __all__ = ['inertia', 'inertia_of_point_mass', 'Inertia']
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inertia(fra), simple way to create inertia dyadic object) over {Any | isinstance(frame, ReferenceFrame)} ║
+# ║ Path(inertia(frame, ixx, iyy), <unspecified:inertia>) over {Any | isinstance(frame, ReferenceFrame) and isinstance(frame, ReferenceFrame) and hasattr(frame, 'z') and hasattr(frame, 'y') and hasattr(frame, 'x')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ inertia : {Any | isinstance(frame, ReferenceFrame)} →...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(frame, ReferenceFrame)              ║
+# ║   requires: hasattr(frame, 'z')                            ║
+# ║   requires: hasattr(frame, 'y')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ inertia : {Any | isinstance(frame, ReferenceFrame) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   ReferenceFrame: {isinstance(frame, ReferenceFrame)}...   ║
@@ -35,9 +41,12 @@ __all__ = ['inertia', 'inertia_of_point_mass', 'Inertia']
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6425713c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.inertia","kind":"function","src_hash":"9e79b996901200a1","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame)"},"out":{"base":"Any"},"spec":{"lhs":"inertia(fra)","rhs":"simple way to create inertia dyadic object","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame)"},"name":"inertia_correct"},"guarantee":"simple way to create inertia dyadic object","fibers":[{"name":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)","path":{"lhs":"inertia(x)","rhs":"simple way to create inertia dyadic object","over":{"base":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)"},"name":"inertia_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.inertia.inertia_ReferenceFrame_correct","statement":"inertia satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6425713cf25be01b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.inertia","kind":"function","src_hash":"9e79b996901200a1","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(frame, ReferenceFrame) and hasattr(frame, 'z') and hasattr(frame, 'y') and hasattr(frame, 'x')"},"out":{"base":"Any"},"spec":{"lhs":"inertia(frame, ixx, iyy)","rhs":"<unspecified:inertia>","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(frame, ReferenceFrame) and hasattr(frame, 'z') and hasattr(frame, 'y') and hasattr(frame, 'x')"},"name":"inertia_correct"},"guarantee":"simple way to create inertia dyadic object","fibers":[{"name":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)","path":{"lhs":"inertia(x)","rhs":"simple way to create inertia dyadic object","over":{"base":"ReferenceFrame","pred":"isinstance(frame, ReferenceFrame)"},"name":"inertia_ReferenceFrame_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.inertia.inertia_ReferenceFrame_correct","statement":"inertia satisfies spec on ReferenceFrame inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6425713cf25be01b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(frame, ReferenceFrame)","hasattr(frame, 'z')","hasattr(frame, 'y')","hasattr(frame, 'x')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["frame.x","frame.y","frame.z"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(frame, ReferenceFrame)'}, fibers={'ReferenceFrame'})"]}}
 def inertia(frame, ixx, iyy, izz, ixy=0, iyz=0, izx=0):
     """Simple way to create inertia Dyadic object.
 
@@ -87,16 +96,25 @@ def inertia(frame, ixx, iyy, izz, ixy=0, iyz=0, izx=0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(inertia_of_point_mass(mas), inertia dyadic of a point mass relative to point o) over Any ║
+# ║ Path(inertia_of_point_mass(mass, pos_vec, frame), mass * ((outer(frame.x, frame.x) + outer(frame.y, frame.y) + outer(frame.z, frame.z)) * pos_vec.dot(pos_vec) - outer(pos_vec, pos_vec))) over {Any | hasattr(pos_vec, 'dot') and hasattr(frame, 'z') and hasattr(frame, 'x') and hasattr(frame, 'y')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ inertia_of_point_mass : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(pos_vec, 'dot')                        ║
+# ║   requires: hasattr(frame, 'z')                            ║
+# ║   requires: hasattr(frame, 'x')                            ║
+# ║   returns:  mass * ((outer(frame.x, frame.x) + outer(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ inertia_of_point_mass : {Any | hasattr(pos_vec, 'dot'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1cd58684781233d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc37ac268c5840f4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.inertia_of_point_mass","kind":"function","src_hash":"f4ea6cc7313c1f16","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"inertia_of_point_mass(mas)","rhs":"inertia dyadic of a point mass relative to point o","over":{"base":"Any"},"name":"inertia_of_point_mass_correct"},"guarantee":"inertia dyadic of a point mass relative to point o","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.inertia.inertia_of_point_mass_correct","statement":"Path(inertia_of_point_mass(x), inertia dyadic of a point mass relative to point o)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1cd58684781233d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.inertia_of_point_mass","kind":"function","src_hash":"f4ea6cc7313c1f16","in":{"base":"Any","pred":"hasattr(pos_vec, 'dot') and hasattr(frame, 'z') and hasattr(frame, 'x') and hasattr(frame, 'y')"},"out":{"base":"Any"},"spec":{"lhs":"inertia_of_point_mass(mass, pos_vec, frame)","rhs":"mass * ((outer(frame.x, frame.x) + outer(frame.y, frame.y) + outer(frame.z, frame.z)) * pos_vec.dot(pos_vec) - outer(pos_vec, pos_vec))","over":{"base":"Any","pred":"hasattr(pos_vec, 'dot') and hasattr(frame, 'z') and hasattr(frame, 'x') and hasattr(frame, 'y')"},"name":"inertia_of_point_mass_correct"},"guarantee":"returns mass * ((outer(frame.x, frame.x) + outer(frame.y, frame.y) + outer(frame.z, frame.z)) * pos_vec.dot(pos_vec) - outer(pos_vec, pos_vec))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.inertia.inertia_of_point_mass_correct","statement":"Path(inertia_of_point_mass(x), returns mass * ((outer(frame.x, frame.x) + outer(frame.y, frame.y) + outer(frame.z, frame.z)) * pos_vec.dot(pos_vec) - outer(pos_vec, pos_vec)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc37ac268c5840f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(pos_vec, 'dot')","hasattr(frame, 'z')","hasattr(frame, 'x')","hasattr(frame, 'y')"],"returns_expr":"mass * ((outer(frame.x, frame.x) + outer(frame.y, frame.y) + outer(frame.z, frame.z)) * pos_vec.dot(pos_vec) - outer(pos_vec, pos_vec))","pure":false,"effects":{"effect_type":"reads_state","reads":["frame.x","frame.y","frame.z","pos_vec.dot"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def inertia_of_point_mass(mass, pos_vec, frame):
     """Inertia dyadic of a point mass relative to point O.
 
@@ -133,14 +151,20 @@ def inertia_of_point_mass(mass, pos_vec, frame):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Inertia(*args), correctly constructs a Inertia instance) over {Any | isinstance(dyadic, Point) and isinstance(point, Dyadic)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, namedtuple('Inertia', ['...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Inertia : {Any | isinstance(dyadic, Point) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08f01cd6f223dc96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.Inertia","kind":"class","src_hash":"dd19d2a6639291eb","in":{"base":"Any","pred":"isinstance(dyadic, Point) and isinstance(point, Dyadic)"},"out":{"base":"Any"},"spec":{"lhs":"Inertia(*args)","rhs":"correctly constructs a Inertia instance","over":{"base":"Any","pred":"isinstance(dyadic, Point) and isinstance(point, Dyadic)"},"name":"Inertia_class_invariant"},"guarantee":"correctly constructs a Inertia instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08f01cd6f223dc96"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.Inertia","kind":"class","src_hash":"dd19d2a6639291eb","in":{"base":"Any","pred":"isinstance(dyadic, Point) and isinstance(point, Dyadic)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, namedtuple('Inertia', ['dyadic', 'point']))"},"spec":{"lhs":"Inertia(*args)","rhs":"correctly constructs a Inertia instance","over":{"base":"Any","pred":"isinstance(dyadic, Point) and isinstance(point, Dyadic)"},"name":"Inertia_class_invariant"},"guarantee":"isinstance(self, namedtuple('Inertia', ['dyadic', 'point']))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08f01cd6f223dc96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, namedtuple('Inertia', ['dyadic', 'point']))"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Inertia not found in source"]}}
 class Inertia(namedtuple('Inertia', ['dyadic', 'point'])):
     """Inertia object consisting of a Dyadic and a Point of reference.
 
@@ -178,16 +202,24 @@ class Inertia(namedtuple('Inertia', ['dyadic', 'point'])):
     __slots__ = ()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, dyadic, point), super().__new__(cls, dyadic, point)) over {Any | isinstance(point, Point) and isinstance(dyadic, Dyadic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(point, Point)                       ║
+# ║   requires: isinstance(dyadic, Dyadic)                     ║
+# ║   returns:  super().__new__(cls, dyadic, point)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(point, Point) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a020c52e41203590           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.Inertia.__new__","kind":"method","src_hash":"e13f9bd3b88f59ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a020c52e41203590"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.Inertia.__new__","kind":"method","src_hash":"e13f9bd3b88f59ab","in":{"base":"Any","pred":"isinstance(point, Point) and isinstance(dyadic, Dyadic)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, dyadic, point)","rhs":"super().__new__(cls, dyadic, point)","over":{"base":"Any","pred":"isinstance(point, Point) and isinstance(dyadic, Dyadic)"},"name":"__new___correct"},"guarantee":"returns super().__new__(cls, dyadic, point)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a020c52e41203590","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(point, Point)","isinstance(dyadic, Dyadic)"],"returns_expr":"super().__new__(cls, dyadic, point)","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, dyadic, point):
         # Switch order if given in the wrong order
         if isinstance(dyadic, Point) and isinstance(point, Dyadic):
@@ -200,16 +232,22 @@ class Inertia(namedtuple('Inertia', ['dyadic', 'point'])):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(from_inertia_scalars(cls), id) over Any               ║
+# ║ Path(from_inertia_scalars(cls, point, frame), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls(inertia(frame, ixx, iyy, izz, ixy, iy...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ from_inertia_scalars : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 34ff40f7e29a7b40   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.Inertia.from_inertia_scalars","kind":"classmethod","src_hash":"abce10e900b0d00a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_inertia_scalars(cls)","rhs":"simple way to create an inertia object based on the tensor values","over":{"base":"Any"},"name":"from_inertia_scalars_correct","kind":"composition"},"guarantee":"simple way to create an inertia object based on the tensor values","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cls","by":"library_axiom"},{"fn":"inertia","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34ff40f7e29a7b40"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.Inertia.from_inertia_scalars","kind":"classmethod","src_hash":"abce10e900b0d00a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"from_inertia_scalars(cls, point, frame)","rhs":"cls(inertia(frame, ixx, iyy, izz, ixy, iyz, izx), point)","over":{"base":"Any"},"name":"from_inertia_scalars_correct","kind":"composition"},"guarantee":"returns cls(inertia(frame, ixx, iyy, izz, ixy, iyz, izx), point)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"cls","by":"library_axiom"},{"fn":"inertia","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34ff40f7e29a7b40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls(inertia(frame, ixx, iyy, izz, ixy, iyz, izx), point)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def from_inertia_scalars(cls, point, frame, ixx, iyy, izz, ixy=0, iyz=0,
                              izx=0):
         """Simple way to create an Inertia object based on the tensor values.
@@ -263,32 +301,44 @@ class Inertia(namedtuple('Inertia', ['dyadic', 'point'])):
         return cls(inertia(frame, ixx, iyy, izz, ixy, iyz, izx), point)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__add__(oth), returns the sum/concatenation) over Any ║
+# ║ Path(__add__(other), <unspecified:__add__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __add__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 68d42f539a17df3d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.Inertia.__add__","kind":"method","src_hash":"608f70db93891a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(oth)","rhs":"returns the sum/concatenation","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68d42f539a17df3d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.Inertia.__add__","kind":"method","src_hash":"608f70db93891a9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__add__(other)","rhs":"<unspecified:__add__>","over":{"base":"Any"},"name":"__add___correct"},"guarantee":"returns the sum/concatenation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"68d42f539a17df3d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","other.__class__","self.__class__"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __add__(self, other):
         raise TypeError(f"unsupported operand type(s) for +: "
                         f"'{self.__class__.__name__}' and "
                         f"'{other.__class__.__name__}'")
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __mul__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 87cb3a311a0a5e78           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.Inertia.__mul__","kind":"method","src_hash":"7b1a6784aca697ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87cb3a311a0a5e78"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.inertia.Inertia.__mul__","kind":"method","src_hash":"7b1a6784aca697ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"87cb3a311a0a5e78","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","other.__class__","self.__class__"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         raise TypeError(f"unsupported operand type(s) for *: "
                         f"'{self.__class__.__name__}' and "

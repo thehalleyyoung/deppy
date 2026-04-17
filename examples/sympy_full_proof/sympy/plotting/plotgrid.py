@@ -33,14 +33,19 @@ __doctest_requires__ = {
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PlotGrid instance) preserved by PlotGrid(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PlotGrid : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76445cd28992e090  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid","kind":"class","src_hash":"c6052ba14148220e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotGrid(*args)","rhs":"correctly constructs a PlotGrid instance","over":{"base":"Any"},"name":"PlotGrid_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PlotGrid instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'matplotlib') and hasattr(self, 'nrows') and hasattr(self, 'ncolumns') and hasattr(self, '_series') and hasattr(self, '_fig') and hasattr(self, 'args') and hasattr(self, 'size')","kind":"class","induction":"structural on matplotlib, nrows, ncolumns, _series"}],"methods_preserving":["__init__","_create_figure","fig","_backend","close","show","save","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76445cd28992e090"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid","kind":"class","src_hash":"c6052ba14148220e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotGrid(*args)","rhs":"correctly constructs a PlotGrid instance","over":{"base":"Any"},"name":"PlotGrid_class_invariant","kind":"invariant"},"guarantee":"preserves 7 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'matplotlib') and hasattr(self, 'nrows') and hasattr(self, 'ncolumns') and hasattr(self, '_series') and hasattr(self, '_fig') and hasattr(self, 'args') and hasattr(self, 'size')","kind":"class","induction":"structural on matplotlib, nrows, ncolumns, _series"}],"methods_preserving":["__init__","_create_figure","fig","_backend","close","show","save","__str__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76445cd28992e090","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'matplotlib')","hasattr(self, 'nrows')","hasattr(self, 'ncolumns')","hasattr(self, '_series')","hasattr(self, '_fig')","hasattr(self, 'args')","hasattr(self, 'size')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function PlotGrid not found in source"]}}
 class PlotGrid:
     """This class helps to plot subplots from already created SymPy plots
     in a single figure.
@@ -118,16 +123,22 @@ class PlotGrid:
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nro), initializes the instance correctly) over Any ║
+# ║ Path(__init__(nrows, ncolumns, *args), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: len(self) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 049cf5999528206b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid.__init__","kind":"method","src_hash":"56fc6c60bee9b83f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nro)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"049cf5999528206b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid.__init__","kind":"method","src_hash":"56fc6c60bee9b83f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"__init__(nrows, ncolumns, *args)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"049cf5999528206b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._series","self.matplotlib","self.show"],"writes":["self._fig","self._series","self.args","self.matplotlib","self.ncolumns","self.nrows","self.size"],"calls_mutating":["self._series.append"]},"state_contract":{"modifies":["self.*","self._fig","self._series","self.args","self.matplotlib","self.ncolumns","self.nrows","self.size"],"old_bindings":{"old_self__fig":"self._fig","old_self__series":"self._series","old_self_args":"self.args","old_self_matplotlib":"self.matplotlib","old_self_ncolumns":"self.ncolumns","old_self_nrows":"self.nrows","old_self_size":"self.size","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, nrows, ncolumns, *args, show=True, size=None, **kwargs):
         """
         Parameters
@@ -178,16 +189,22 @@ class PlotGrid:
             self.show()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_create_figure(), internal helper behaves correctly) over Any ║
+# ║ Path(_create_figure(), <unspecified:_create_figure>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _create_figure : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 29f7a878d9d7b61a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid._create_figure","kind":"method","src_hash":"57ab51b2f48aaa1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_figure()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_create_figure_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plotgrid.PlotGrid._create_figure_correct","statement":"Path(_create_figure(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29f7a878d9d7b61a"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid._create_figure","kind":"method","src_hash":"57ab51b2f48aaa1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_create_figure()","rhs":"<unspecified:_create_figure>","over":{"base":"Any"},"name":"_create_figure_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plotgrid.PlotGrid._create_figure_correct","statement":"Path(_create_figure(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"29f7a878d9d7b61a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._fig","self.args","self.matplotlib","self.ncolumns","self.nrows","self.size"],"writes":["self._fig"]},"state_contract":{"modifies":["self._fig"],"old_bindings":{"old_self__fig":"self._fig"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _create_figure(self):
         gs = self.matplotlib.gridspec.GridSpec(self.nrows, self.ncolumns)
         mapping = {}
@@ -210,16 +227,22 @@ class PlotGrid:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fig(), returns the fig attribute) over Any            ║
+# ║ Path(fig(), self._fig) over Any                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._fig                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fig : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a1a0042a67c09c92           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid.fig","kind":"property","src_hash":"e4abf71f022ee467","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fig()","rhs":"returns the fig attribute","over":{"base":"Any"},"name":"fig_correct"},"guarantee":"returns the fig attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1a0042a67c09c92"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid.fig","kind":"property","src_hash":"e4abf71f022ee467","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fig()","rhs":"self._fig","over":{"base":"Any"},"name":"fig_correct"},"guarantee":"returns self._fig","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a1a0042a67c09c92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._fig","pure":false,"effects":{"effect_type":"reads_state","reads":["self._create_figure","self._fig"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fig(self):
         if not self._fig:
             self._create_figure()
@@ -227,44 +250,63 @@ class PlotGrid:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_backend(), returns the _backend attribute) over Any  ║
+# ║ Path(_backend(), self) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _backend : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _backend : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a07a8cd4d4324c5b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid._backend","kind":"property","src_hash":"673a9a1dd22bae82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_backend()","rhs":"returns the _backend attribute","over":{"base":"Any"},"name":"_backend_correct"},"guarantee":"returns the _backend attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a07a8cd4d4324c5b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid._backend","kind":"property","src_hash":"673a9a1dd22bae82","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"_backend()","rhs":"self","over":{"base":"Any"},"name":"_backend_correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a07a8cd4d4324c5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _backend(self):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(close(), close produces the expected output) over Any ║
+# ║ Path(close(), <unspecified:close>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ close : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f02741b796387eb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid.close","kind":"method","src_hash":"d3c6aecd5a9ce93d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"close()","rhs":"close produces the expected output","over":{"base":"Any"},"name":"close_correct"},"guarantee":"close produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plotgrid.PlotGrid.close_correct","statement":"Path(close(x), close produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f02741b796387eb0"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid.close","kind":"method","src_hash":"d3c6aecd5a9ce93d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"close()","rhs":"<unspecified:close>","over":{"base":"Any"},"name":"close_correct"},"guarantee":"close produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plotgrid.PlotGrid.close_correct","statement":"Path(close(x), close produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f02741b796387eb0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self.fig","self.matplotlib"],"calls_mutating":["self.matplotlib.pyplot.close"],"io_operations":["self.matplotlib.pyplot.close"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def close(self):
         self.matplotlib.pyplot.close(self.fig)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(show(), show produces the expected output) over Any   ║
+# ║ Path(show(), <unspecified:show>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ show : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c216552e64847664  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid.show","kind":"method","src_hash":"90319e15b2c55950","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"show()","rhs":"show produces the expected output","over":{"base":"Any"},"name":"show_correct"},"guarantee":"show produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plotgrid.PlotGrid.show_correct","statement":"Path(show(x), show produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c216552e64847664"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid.show","kind":"method","src_hash":"90319e15b2c55950","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"show()","rhs":"<unspecified:show>","over":{"base":"Any"},"name":"show_correct"},"guarantee":"show produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plotgrid.PlotGrid.show_correct","statement":"Path(show(x), show produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c216552e64847664","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","reads":["self.close","self.fig","self.matplotlib"],"calls_mutating":["self.close"],"io_operations":["self.close"]},"state_contract":{"modifies":["self.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def show(self):
         if base_backend._show:
             self.fig.tight_layout()
@@ -273,30 +315,42 @@ class PlotGrid:
             self.close()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(save(pat), save produces the expected output) over Any ║
+# ║ Path(save(path), <unspecified:save>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ save : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78e0cf695b2f3537  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid.save","kind":"method","src_hash":"cf16767ff17dced7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"save(pat)","rhs":"save produces the expected output","over":{"base":"Any"},"name":"save_correct"},"guarantee":"save produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plotgrid.PlotGrid.save_correct","statement":"Path(save(x), save produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78e0cf695b2f3537"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid.save","kind":"method","src_hash":"cf16767ff17dced7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"save(path)","rhs":"<unspecified:save>","over":{"base":"Any"},"name":"save_correct"},"guarantee":"save produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plotgrid.PlotGrid.save_correct","statement":"Path(save(x), save produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78e0cf695b2f3537","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.fig"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def save(self, path):
         self.fig.savefig(path)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), 'PlotGrid object containing:\n' + '\n'.join(plot_strs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'PlotGrid object containing:\n' + '\n'.jo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4eef56dbd86b7cdc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid.__str__","kind":"method","src_hash":"6dadc483d4abae3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4eef56dbd86b7cdc"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plotgrid.PlotGrid.__str__","kind":"method","src_hash":"6dadc483d4abae3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'PlotGrid object containing:\\n' + '\\n'.join(plot_strs)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns 'PlotGrid object containing:\\n' + '\\n'.join(plot_strs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4eef56dbd86b7cdc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'PlotGrid object containing:\\n' + '\\n'.join(plot_strs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         plot_strs = [('Plot[%d]:' % i) + str(plot)
                       for i, plot in enumerate(self.args)]

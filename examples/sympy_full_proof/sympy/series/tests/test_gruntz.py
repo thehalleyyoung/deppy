@@ -50,16 +50,22 @@ runslow = False
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sskip(), internal helper behaves correctly) over Any ║
+# ║ Path(_sskip(), <unspecified:_sskip>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sskip : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 709489cfcf49021c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz._sskip","kind":"function","src_hash":"f5fd3360fd3b6c9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sskip()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sskip_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz._sskip_correct","statement":"Path(_sskip(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"709489cfcf49021c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz._sskip","kind":"function","src_hash":"f5fd3360fd3b6c9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sskip()","rhs":"<unspecified:_sskip>","over":{"base":"Any"},"name":"_sskip_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz._sskip_correct","statement":"Path(_sskip(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"709489cfcf49021c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _sskip():
     if not runslow:
         skip("slow")
@@ -67,16 +73,24 @@ def _sskip():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gruntz_evaluation(), test_gruntz_evaluation produces the expected output) over Any ║
+# ║ Path(test_gruntz_evaluation(), gruntz(exp(x) * (exp(1 / x - exp(-x)) - exp(1 / x)), x, oo) == -1 and gruntz(exp(x) * (exp(1 / x + exp(-x) + exp(-x ** 2)) - exp(1 / x - exp(-exp(x)))), x, oo) == 1 and gruntz(exp(exp(x - exp(-x)) / (1 - 1 / x)) - exp(exp(x)), x, oo) is oo and gruntz(exp(exp(exp(x + exp(-x)))) / exp(exp(exp(x))), x, oo) is oo and gruntz(exp(exp(exp(x))) / exp(exp(exp(x - exp(-exp(x))))), x, oo) is oo and gruntz(exp(exp(exp(x))) / exp(exp(exp(x - exp(-exp(exp(x)))))), x, oo) == 1 and gruntz(exp(exp(x)) / exp(exp(x - exp(-exp(exp(x))))), x, oo) == 1 and gruntz(log(x) ** 2 * exp(sqrt(log(x)) * log(log(x)) ** 2 * exp(sqrt(log(log(x))) * log(log(log(x))) ** 3)) / sqrt(x), x, oo) == 0 and gruntz(x * log(x) * log(x * exp(x) - x ** 2) ** 2 / log(log(x ** 2 + 2 * exp(exp(3 * x ** 3 * log(x))))), x, oo) == Rational(1, 3) and gruntz((exp(x * exp(-x) / (exp(-x) + exp(-2 * x ** 2 / (x + 1)))) - exp(x)) / x, x, oo) == -exp(2) and gruntz((3 ** x + 5 ** x) ** (1 / x), x, oo) == 5 and gruntz(x / log(x ** log(x ** (log(2) / log(x)))), x, oo) is oo and gruntz(exp(exp(2 * log(x ** 5 + x) * log(log(x)))) / exp(exp(10 * log(x) * log(log(x)))), x, oo) is oo and gruntz(exp(exp(Rational(5, 2) * x ** Rational(-5, 7) + Rational(21, 8) * x ** Rational(6, 11) + 2 * x ** (-8) + Rational(54, 17) * x ** Rational(49, 45))) ** 8 / log(log(-log(Rational(4, 3) * x ** Rational(-5, 14)))) ** Rational(7, 6), x, oo) is oo and gruntz((exp(4 * x * exp(-x) / (1 / exp(x) + 1 / exp(2 * x ** 2 / (x + 1)))) - exp(x)) / exp(x) ** 4, x, oo) == 1 and gruntz(exp(x * exp(-x) / (exp(-x) + exp(-2 * x ** 2 / (x + 1)))) / exp(x), x, oo) == 1 and gruntz(log(x) * (log(log(x) + log(log(x))) - log(log(x))) / log(log(x) + log(log(log(x)))), x, oo) == 1 and gruntz(exp(log(log(x + exp(log(x) * log(log(x))))) / log(log(log(exp(x) + x + log(x))))), x, oo) == E and gruntz(exp(exp(exp(x + exp(-x)))) / exp(exp(x)), x, oo) is oo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gruntz_evaluation : Any → {Any | gruntz(exp(x) *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(exp(x) * (exp(1 / x - exp(-x)) - e...   ║
+# ║   ensures:  gruntz(exp(x) * (exp(1 / x + exp(-x) + ex...   ║
+# ║   ensures:  gruntz(exp(exp(x - exp(-x)) / (1 - 1 / x)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gruntz_evaluation : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d8226179a0ce73c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94a07b89bcf7a95f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_evaluation","kind":"function","src_hash":"a2579a780961edf9","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(exp(x) * (exp(1 / x - exp(-x)) - exp(1 / x)), x, oo) == -1 and gruntz(exp(exp(x - exp(-x)) / (1 - 1 / x)) - exp(exp(x)), x, oo) is oo and gruntz(exp(exp(exp(x + exp(-x)))) / exp(exp(exp(x))), x, oo) is oo and gruntz(exp(exp(exp(x))) / exp(exp(exp(x - exp(-exp(x))))), x, oo) is oo and gruntz(exp(exp(exp(x))) / exp(exp(exp(x - exp(-exp(exp(x)))))), x, oo) == 1 and gruntz(exp(exp(x)) / exp(exp(x - exp(-exp(exp(x))))), x, oo) == 1 and gruntz((3 ** x + 5 ** x) ** (1 / x), x, oo) == 5 and gruntz(x / log(x ** log(x ** (log(2) / log(x)))), x, oo) is oo and gruntz(exp(exp(exp(x + exp(-x)))) / exp(exp(x)), x, oo) is oo"},"spec":{"lhs":"test_gruntz_evaluation()","rhs":"test_gruntz_evaluation produces the expected output","over":{"base":"Any"},"name":"test_gruntz_evaluation_correct"},"guarantee":"test_gruntz_evaluation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_evaluation_correct","statement":"Path(test_gruntz_evaluation(x), test_gruntz_evaluation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d8226179a0ce73c4"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_evaluation","kind":"function","src_hash":"a2579a780961edf9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(exp(x) * (exp(1 / x - exp(-x)) - exp(1 / x)), x, oo) == -1 and gruntz(exp(x) * (exp(1 / x + exp(-x) + exp(-x ** 2)) - exp(1 / x - exp(-exp(x)))), x, oo) == 1 and gruntz(exp(exp(x - exp(-x)) / (1 - 1 / x)) - exp(exp(x)), x, oo) is oo and gruntz(exp(exp(exp(x + exp(-x)))) / exp(exp(exp(x))), x, oo) is oo and gruntz(exp(exp(exp(x))) / exp(exp(exp(x - exp(-exp(x))))), x, oo) is oo and gruntz(exp(exp(exp(x))) / exp(exp(exp(x - exp(-exp(exp(x)))))), x, oo) == 1 and gruntz(exp(exp(x)) / exp(exp(x - exp(-exp(exp(x))))), x, oo) == 1 and gruntz(log(x) ** 2 * exp(sqrt(log(x)) * log(log(x)) ** 2 * exp(sqrt(log(log(x))) * log(log(log(x))) ** 3)) / sqrt(x), x, oo) == 0 and gruntz(x * log(x) * log(x * exp(x) - x ** 2) ** 2 / log(log(x ** 2 + 2 * exp(exp(3 * x ** 3 * log(x))))), x, oo) == Rational(1, 3) and gruntz((exp(x * exp(-x) / (exp(-x) + exp(-2 * x ** 2 / (x + 1)))) - exp(x)) / x, x, oo) == -exp(2) and gruntz((3 ** x + 5 ** x) ** (1 / x), x, oo) == 5 and gruntz(x / log(x ** log(x ** (log(2) / log(x)))), x, oo) is oo and gruntz(exp(exp(2 * log(x ** 5 + x) * log(log(x)))) / exp(exp(10 * log(x) * log(log(x)))), x, oo) is oo and gruntz(exp(exp(Rational(5, 2) * x ** Rational(-5, 7) + Rational(21, 8) * x ** Rational(6, 11) + 2 * x ** (-8) + Rational(54, 17) * x ** Rational(49, 45))) ** 8 / log(log(-log(Rational(4, 3) * x ** Rational(-5, 14)))) ** Rational(7, 6), x, oo) is oo and gruntz((exp(4 * x * exp(-x) / (1 / exp(x) + 1 / exp(2 * x ** 2 / (x + 1)))) - exp(x)) / exp(x) ** 4, x, oo) == 1 and gruntz(exp(x * exp(-x) / (exp(-x) + exp(-2 * x ** 2 / (x + 1)))) / exp(x), x, oo) == 1 and gruntz(log(x) * (log(log(x) + log(log(x))) - log(log(x))) / log(log(x) + log(log(log(x)))), x, oo) == 1 and gruntz(exp(log(log(x + exp(log(x) * log(log(x))))) / log(log(log(exp(x) + x + log(x))))), x, oo) == E and gruntz(exp(exp(exp(x + exp(-x)))) / exp(exp(x)), x, oo) is oo"},"spec":{"lhs":"test_gruntz_evaluation()","rhs":"gruntz(exp(x) * (exp(1 / x - exp(-x)) - exp(1 / x)), x, oo) == -1 and gruntz(exp(x) * (exp(1 / x + exp(-x) + exp(-x ** 2)) - exp(1 / x - exp(-exp(x)))), x, oo) == 1 and gruntz(exp(exp(x - exp(-x)) / (1 - 1 / x)) - exp(exp(x)), x, oo) is oo and gruntz(exp(exp(exp(x + exp(-x)))) / exp(exp(exp(x))), x, oo) is oo and gruntz(exp(exp(exp(x))) / exp(exp(exp(x - exp(-exp(x))))), x, oo) is oo and gruntz(exp(exp(exp(x))) / exp(exp(exp(x - exp(-exp(exp(x)))))), x, oo) == 1 and gruntz(exp(exp(x)) / exp(exp(x - exp(-exp(exp(x))))), x, oo) == 1 and gruntz(log(x) ** 2 * exp(sqrt(log(x)) * log(log(x)) ** 2 * exp(sqrt(log(log(x))) * log(log(log(x))) ** 3)) / sqrt(x), x, oo) == 0 and gruntz(x * log(x) * log(x * exp(x) - x ** 2) ** 2 / log(log(x ** 2 + 2 * exp(exp(3 * x ** 3 * log(x))))), x, oo) == Rational(1, 3) and gruntz((exp(x * exp(-x) / (exp(-x) + exp(-2 * x ** 2 / (x + 1)))) - exp(x)) / x, x, oo) == -exp(2) and gruntz((3 ** x + 5 ** x) ** (1 / x), x, oo) == 5 and gruntz(x / log(x ** log(x ** (log(2) / log(x)))), x, oo) is oo and gruntz(exp(exp(2 * log(x ** 5 + x) * log(log(x)))) / exp(exp(10 * log(x) * log(log(x)))), x, oo) is oo and gruntz(exp(exp(Rational(5, 2) * x ** Rational(-5, 7) + Rational(21, 8) * x ** Rational(6, 11) + 2 * x ** (-8) + Rational(54, 17) * x ** Rational(49, 45))) ** 8 / log(log(-log(Rational(4, 3) * x ** Rational(-5, 14)))) ** Rational(7, 6), x, oo) is oo and gruntz((exp(4 * x * exp(-x) / (1 / exp(x) + 1 / exp(2 * x ** 2 / (x + 1)))) - exp(x)) / exp(x) ** 4, x, oo) == 1 and gruntz(exp(x * exp(-x) / (exp(-x) + exp(-2 * x ** 2 / (x + 1)))) / exp(x), x, oo) == 1 and gruntz(log(x) * (log(log(x) + log(log(x))) - log(log(x))) / log(log(x) + log(log(log(x)))), x, oo) == 1 and gruntz(exp(log(log(x + exp(log(x) * log(log(x))))) / log(log(log(exp(x) + x + log(x))))), x, oo) == E and gruntz(exp(exp(exp(x + exp(-x)))) / exp(exp(x)), x, oo) is oo","over":{"base":"Any"},"name":"test_gruntz_evaluation_correct"},"guarantee":"gruntz(exp(x) * (exp(1 / x - exp(-x)) - exp(1 / x)), x, oo) == -1; gruntz(exp(x) * (exp(1 / x + exp(-x) + exp(-x ** 2)) - exp(1 / x - exp(-exp(x)))), x, oo) == 1; gruntz(exp(exp(x - exp(-x)) / (1 - 1 / x)) - exp(exp(x)), x, oo) is oo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_evaluation_correct","statement":"Path(test_gruntz_evaluation(x), gruntz(exp(x) * (exp(1 / x - exp(-x)) - exp(1 / x)), x, oo) == -1; gruntz(exp(x) * (exp(1 / x + exp(-x) + exp(-x ** 2)) - exp(1 / x - exp(-exp(x)))), x, oo) == 1; gruntz(exp(exp(x - exp(-x)) / (1 - 1 / x)) - exp(exp(x)), x, oo) is oo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94a07b89bcf7a95f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(exp(x) * (exp(1 / x - exp(-x)) - exp(1 / x)), x, oo) == -1","gruntz(exp(x) * (exp(1 / x + exp(-x) + exp(-x ** 2)) - exp(1 / x - exp(-exp(x)))), x, oo) == 1","gruntz(exp(exp(x - exp(-x)) / (1 - 1 / x)) - exp(exp(x)), x, oo) is oo","gruntz(exp(exp(exp(x + exp(-x)))) / exp(exp(exp(x))), x, oo) is oo","gruntz(exp(exp(exp(x))) / exp(exp(exp(x - exp(-exp(x))))), x, oo) is oo","gruntz(exp(exp(exp(x))) / exp(exp(exp(x - exp(-exp(exp(x)))))), x, oo) == 1","gruntz(exp(exp(x)) / exp(exp(x - exp(-exp(exp(x))))), x, oo) == 1","gruntz(log(x) ** 2 * exp(sqrt(log(x)) * log(log(x)) ** 2 * exp(sqrt(log(log(x))) * log(log(log(x))) ** 3)) / sqrt(x), x, oo) == 0","gruntz(x * log(x) * log(x * exp(x) - x ** 2) ** 2 / log(log(x ** 2 + 2 * exp(exp(3 * x ** 3 * log(x))))), x, oo) == Rational(1, 3)","gruntz((exp(x * exp(-x) / (exp(-x) + exp(-2 * x ** 2 / (x + 1)))) - exp(x)) / x, x, oo) == -exp(2)","gruntz((3 ** x + 5 ** x) ** (1 / x), x, oo) == 5","gruntz(x / log(x ** log(x ** (log(2) / log(x)))), x, oo) is oo","gruntz(exp(exp(2 * log(x ** 5 + x) * log(log(x)))) / exp(exp(10 * log(x) * log(log(x)))), x, oo) is oo","gruntz(exp(exp(Rational(5, 2) * x ** Rational(-5, 7) + Rational(21, 8) * x ** Rational(6, 11) + 2 * x ** (-8) + Rational(54, 17) * x ** Rational(49, 45))) ** 8 / log(log(-log(Rational(4, 3) * x ** Rational(-5, 14)))) ** Rational(7, 6), x, oo) is oo","gruntz((exp(4 * x * exp(-x) / (1 / exp(x) + 1 / exp(2 * x ** 2 / (x + 1)))) - exp(x)) / exp(x) ** 4, x, oo) == 1","gruntz(exp(x * exp(-x) / (exp(-x) + exp(-2 * x ** 2 / (x + 1)))) / exp(x), x, oo) == 1","gruntz(log(x) * (log(log(x) + log(log(x))) - log(log(x))) / log(log(x) + log(log(log(x)))), x, oo) == 1","gruntz(exp(log(log(x + exp(log(x) * log(log(x))))) / log(log(log(exp(x) + x + log(x))))), x, oo) == E","gruntz(exp(exp(exp(x + exp(-x)))) / exp(exp(x)), x, oo) is oo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def test_gruntz_evaluation():
     # Gruntz' thesis pp. 122 to 123
     # 8.1
@@ -134,16 +148,23 @@ def test_gruntz_evaluation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gruntz_evaluation_slow(), test_gruntz_evaluation_slow produces the expected output) over Any ║
+# ║ Path(test_gruntz_evaluation_slow(), gruntz(exp(exp(exp(x) / (1 - 1 / x))) - exp(exp(exp(x) / (1 - 1 / x - log(x) ** (-log(x))))), x, oo) is -oo and gruntz(exp(exp(-x / (1 + exp(-x)))) * exp(-x / (1 + exp(-x / (1 + exp(-x))))) * exp(exp(-x + exp(-x / (1 + exp(-x))))) / exp(-x / (1 + exp(-x))) ** 2 - exp(x) + x, x, oo) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gruntz_evaluation_slow : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(exp(exp(exp(x) / (1 - 1 / x))) - e...   ║
+# ║   ensures:  gruntz(exp(exp(-x / (1 + exp(-x)))) * exp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gruntz_evaluation_slow : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58979af8cd785bae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea5b2df291b07d57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_evaluation_slow","kind":"function","src_hash":"3b78c990a7607274","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_gruntz_evaluation_slow()","rhs":"test_gruntz_evaluation_slow produces the expected output","over":{"base":"Any"},"name":"test_gruntz_evaluation_slow_correct"},"guarantee":"test_gruntz_evaluation_slow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_evaluation_slow_correct","statement":"Path(test_gruntz_evaluation_slow(x), test_gruntz_evaluation_slow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58979af8cd785bae"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_evaluation_slow","kind":"function","src_hash":"3b78c990a7607274","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(exp(exp(exp(x) / (1 - 1 / x))) - exp(exp(exp(x) / (1 - 1 / x - log(x) ** (-log(x))))), x, oo) is -oo and gruntz(exp(exp(-x / (1 + exp(-x)))) * exp(-x / (1 + exp(-x / (1 + exp(-x))))) * exp(exp(-x + exp(-x / (1 + exp(-x))))) / exp(-x / (1 + exp(-x))) ** 2 - exp(x) + x, x, oo) == 2"},"spec":{"lhs":"test_gruntz_evaluation_slow()","rhs":"gruntz(exp(exp(exp(x) / (1 - 1 / x))) - exp(exp(exp(x) / (1 - 1 / x - log(x) ** (-log(x))))), x, oo) is -oo and gruntz(exp(exp(-x / (1 + exp(-x)))) * exp(-x / (1 + exp(-x / (1 + exp(-x))))) * exp(exp(-x + exp(-x / (1 + exp(-x))))) / exp(-x / (1 + exp(-x))) ** 2 - exp(x) + x, x, oo) == 2","over":{"base":"Any"},"name":"test_gruntz_evaluation_slow_correct"},"guarantee":"gruntz(exp(exp(exp(x) / (1 - 1 / x))) - exp(exp(exp(x) / (1 - 1 / x - log(x) ** (-log(x))))), x, oo) is -oo; gruntz(exp(exp(-x / (1 + exp(-x)))) * exp(-x / (1 + exp(-x / (1 + exp(-x))))) * exp(exp(-x + exp(-x / (1 + exp(-x))))) / exp(-x / (1 + exp(-x))) ** 2 - exp(x) + x, x, oo) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_evaluation_slow_correct","statement":"Path(test_gruntz_evaluation_slow(x), gruntz(exp(exp(exp(x) / (1 - 1 / x))) - exp(exp(exp(x) / (1 - 1 / x - log(x) ** (-log(x))))), x, oo) is -oo; gruntz(exp(exp(-x / (1 + exp(-x)))) * exp(-x / (1 + exp(-x / (1 + exp(-x))))) * exp(exp(-x + exp(-x / (1 + exp(-x))))) / exp(-x / (1 + exp(-x))) ** 2 - exp(x) + x, x, oo) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea5b2df291b07d57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(exp(exp(exp(x) / (1 - 1 / x))) - exp(exp(exp(x) / (1 - 1 / x - log(x) ** (-log(x))))), x, oo) is -oo","gruntz(exp(exp(-x / (1 + exp(-x)))) * exp(-x / (1 + exp(-x / (1 + exp(-x))))) * exp(exp(-x + exp(-x / (1 + exp(-x))))) / exp(-x / (1 + exp(-x))) ** 2 - exp(x) + x, x, oo) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_gruntz_evaluation_slow():
     _sskip()
     # 8.4
@@ -157,16 +178,24 @@ def test_gruntz_evaluation_slow():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gruntz_eval_special(), test_gruntz_eval_special produces the expected output) over Any ║
+# ║ Path(test_gruntz_eval_special(), gruntz(exp(x) * (sin(1 / x + exp(-x)) - sin(1 / x + exp(-x ** 2))), x, oo) == 1 and gruntz((erf(x - exp(-exp(x))) - erf(x)) * exp(exp(x)) * exp(x ** 2), x, oo) == -2 / sqrt(pi) and gruntz(exp(exp(x)) * (exp(sin(1 / x + exp(-exp(x)))) - exp(sin(1 / x))), x, oo) == 1 and gruntz(exp(x) * (gamma(x + exp(-x)) - gamma(x)), x, oo) is oo and gruntz(exp(exp(digamma(digamma(x)))) / x, x, oo) == exp(Rational(-1, 2)) and gruntz(exp(exp(digamma(log(x)))) / x, x, oo) == exp(Rational(-1, 2)) and gruntz(digamma(digamma(digamma(x))), x, oo) is oo and gruntz(loggamma(loggamma(x)), x, oo) is oo and gruntz(((gamma(x + 1 / gamma(x)) - gamma(x)) / log(x) - cos(1 / x)) * x * log(x), x, oo) == Rational(-1, 2) and gruntz(x * (gamma(x - 1 / gamma(x)) - gamma(x) + log(x)), x, oo) == S.Half and gruntz((gamma(x + 1 / gamma(x)) - gamma(x)) / log(x), x, oo) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gruntz_eval_special : Any → {Any | gruntz(exp(x)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(exp(x) * (sin(1 / x + exp(-x)) - s...   ║
+# ║   ensures:  gruntz((erf(x - exp(-exp(x))) - erf(x)) *...   ║
+# ║   ensures:  gruntz(exp(exp(x)) * (exp(sin(1 / x + exp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gruntz_eval_special : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08b782aa964055b8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a12083b0e577eaf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_eval_special","kind":"function","src_hash":"9352a0b3cd13e30c","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(exp(x) * (sin(1 / x + exp(-x)) - sin(1 / x + exp(-x ** 2))), x, oo) == 1 and gruntz(exp(x) * (gamma(x + exp(-x)) - gamma(x)), x, oo) is oo and gruntz(exp(exp(digamma(digamma(x)))) / x, x, oo) == exp(Rational(-1, 2)) and gruntz(exp(exp(digamma(log(x)))) / x, x, oo) == exp(Rational(-1, 2)) and gruntz(digamma(digamma(digamma(x))), x, oo) is oo and gruntz(loggamma(loggamma(x)), x, oo) is oo and gruntz(x * (gamma(x - 1 / gamma(x)) - gamma(x) + log(x)), x, oo) == S.Half and gruntz((gamma(x + 1 / gamma(x)) - gamma(x)) / log(x), x, oo) == 1"},"spec":{"lhs":"test_gruntz_eval_special()","rhs":"test_gruntz_eval_special produces the expected output","over":{"base":"Any"},"name":"test_gruntz_eval_special_correct"},"guarantee":"test_gruntz_eval_special produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_eval_special_correct","statement":"Path(test_gruntz_eval_special(x), test_gruntz_eval_special produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08b782aa964055b8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_eval_special","kind":"function","src_hash":"9352a0b3cd13e30c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(exp(x) * (sin(1 / x + exp(-x)) - sin(1 / x + exp(-x ** 2))), x, oo) == 1 and gruntz((erf(x - exp(-exp(x))) - erf(x)) * exp(exp(x)) * exp(x ** 2), x, oo) == -2 / sqrt(pi) and gruntz(exp(exp(x)) * (exp(sin(1 / x + exp(-exp(x)))) - exp(sin(1 / x))), x, oo) == 1 and gruntz(exp(x) * (gamma(x + exp(-x)) - gamma(x)), x, oo) is oo and gruntz(exp(exp(digamma(digamma(x)))) / x, x, oo) == exp(Rational(-1, 2)) and gruntz(exp(exp(digamma(log(x)))) / x, x, oo) == exp(Rational(-1, 2)) and gruntz(digamma(digamma(digamma(x))), x, oo) is oo and gruntz(loggamma(loggamma(x)), x, oo) is oo and gruntz(((gamma(x + 1 / gamma(x)) - gamma(x)) / log(x) - cos(1 / x)) * x * log(x), x, oo) == Rational(-1, 2) and gruntz(x * (gamma(x - 1 / gamma(x)) - gamma(x) + log(x)), x, oo) == S.Half and gruntz((gamma(x + 1 / gamma(x)) - gamma(x)) / log(x), x, oo) == 1"},"spec":{"lhs":"test_gruntz_eval_special()","rhs":"gruntz(exp(x) * (sin(1 / x + exp(-x)) - sin(1 / x + exp(-x ** 2))), x, oo) == 1 and gruntz((erf(x - exp(-exp(x))) - erf(x)) * exp(exp(x)) * exp(x ** 2), x, oo) == -2 / sqrt(pi) and gruntz(exp(exp(x)) * (exp(sin(1 / x + exp(-exp(x)))) - exp(sin(1 / x))), x, oo) == 1 and gruntz(exp(x) * (gamma(x + exp(-x)) - gamma(x)), x, oo) is oo and gruntz(exp(exp(digamma(digamma(x)))) / x, x, oo) == exp(Rational(-1, 2)) and gruntz(exp(exp(digamma(log(x)))) / x, x, oo) == exp(Rational(-1, 2)) and gruntz(digamma(digamma(digamma(x))), x, oo) is oo and gruntz(loggamma(loggamma(x)), x, oo) is oo and gruntz(((gamma(x + 1 / gamma(x)) - gamma(x)) / log(x) - cos(1 / x)) * x * log(x), x, oo) == Rational(-1, 2) and gruntz(x * (gamma(x - 1 / gamma(x)) - gamma(x) + log(x)), x, oo) == S.Half and gruntz((gamma(x + 1 / gamma(x)) - gamma(x)) / log(x), x, oo) == 1","over":{"base":"Any"},"name":"test_gruntz_eval_special_correct"},"guarantee":"gruntz(exp(x) * (sin(1 / x + exp(-x)) - sin(1 / x + exp(-x ** 2))), x, oo) == 1; gruntz((erf(x - exp(-exp(x))) - erf(x)) * exp(exp(x)) * exp(x ** 2), x, oo) == -2 / sqrt(pi); gruntz(exp(exp(x)) * (exp(sin(1 / x + exp(-exp(x)))) - exp(sin(1 / x))), x, oo) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_eval_special_correct","statement":"Path(test_gruntz_eval_special(x), gruntz(exp(x) * (sin(1 / x + exp(-x)) - sin(1 / x + exp(-x ** 2))), x, oo) == 1; gruntz((erf(x - exp(-exp(x))) - erf(x)) * exp(exp(x)) * exp(x ** 2), x, oo) == -2 / sqrt(pi); gruntz(exp(exp(x)) * (exp(sin(1 / x + exp(-exp(x)))) - exp(sin(1 / x))), x, oo) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a12083b0e577eaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(exp(x) * (sin(1 / x + exp(-x)) - sin(1 / x + exp(-x ** 2))), x, oo) == 1","gruntz((erf(x - exp(-exp(x))) - erf(x)) * exp(exp(x)) * exp(x ** 2), x, oo) == -2 / sqrt(pi)","gruntz(exp(exp(x)) * (exp(sin(1 / x + exp(-exp(x)))) - exp(sin(1 / x))), x, oo) == 1","gruntz(exp(x) * (gamma(x + exp(-x)) - gamma(x)), x, oo) is oo","gruntz(exp(exp(digamma(digamma(x)))) / x, x, oo) == exp(Rational(-1, 2))","gruntz(exp(exp(digamma(log(x)))) / x, x, oo) == exp(Rational(-1, 2))","gruntz(digamma(digamma(digamma(x))), x, oo) is oo","gruntz(loggamma(loggamma(x)), x, oo) is oo","gruntz(((gamma(x + 1 / gamma(x)) - gamma(x)) / log(x) - cos(1 / x)) * x * log(x), x, oo) == Rational(-1, 2)","gruntz(x * (gamma(x - 1 / gamma(x)) - gamma(x) + log(x)), x, oo) == S.Half","gruntz((gamma(x + 1 / gamma(x)) - gamma(x)) / log(x), x, oo) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_gruntz_eval_special():
     # Gruntz, p. 126
     assert gruntz(exp(x)*(sin(1/x + exp(-x)) - sin(1/x + exp(-x**2))), x, oo) == 1
@@ -187,16 +216,23 @@ def test_gruntz_eval_special():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gruntz_eval_special_slow(), test_gruntz_eval_special_slow produces the expected output) over Any ║
+# ║ Path(test_gruntz_eval_special_slow(), gruntz(gamma(x + 1) / sqrt(2 * pi) - exp(-x) * (x ** (x + S.Half) + x ** (x - S.Half) / 12), x, oo) is oo and gruntz(exp(exp(exp(digamma(digamma(digamma(x)))))) / x, x, oo) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gruntz_eval_special_slow : Any → {Any | gruntz(e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(gamma(x + 1) / sqrt(2 * pi) - exp(...   ║
+# ║   ensures:  gruntz(exp(exp(exp(digamma(digamma(digamm...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gruntz_eval_special_slow : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db2e2ce35cc7ed6f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a62b89a1d5f2751  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_eval_special_slow","kind":"function","src_hash":"8f94a1c107eb198d","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(exp(exp(exp(digamma(digamma(digamma(x)))))) / x, x, oo) == 0"},"spec":{"lhs":"test_gruntz_eval_special_slow()","rhs":"test_gruntz_eval_special_slow produces the expected output","over":{"base":"Any"},"name":"test_gruntz_eval_special_slow_correct"},"guarantee":"test_gruntz_eval_special_slow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_eval_special_slow_correct","statement":"Path(test_gruntz_eval_special_slow(x), test_gruntz_eval_special_slow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db2e2ce35cc7ed6f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_eval_special_slow","kind":"function","src_hash":"8f94a1c107eb198d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(gamma(x + 1) / sqrt(2 * pi) - exp(-x) * (x ** (x + S.Half) + x ** (x - S.Half) / 12), x, oo) is oo and gruntz(exp(exp(exp(digamma(digamma(digamma(x)))))) / x, x, oo) == 0"},"spec":{"lhs":"test_gruntz_eval_special_slow()","rhs":"gruntz(gamma(x + 1) / sqrt(2 * pi) - exp(-x) * (x ** (x + S.Half) + x ** (x - S.Half) / 12), x, oo) is oo and gruntz(exp(exp(exp(digamma(digamma(digamma(x)))))) / x, x, oo) == 0","over":{"base":"Any"},"name":"test_gruntz_eval_special_slow_correct"},"guarantee":"gruntz(gamma(x + 1) / sqrt(2 * pi) - exp(-x) * (x ** (x + S.Half) + x ** (x - S.Half) / 12), x, oo) is oo; gruntz(exp(exp(exp(digamma(digamma(digamma(x)))))) / x, x, oo) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_eval_special_slow_correct","statement":"Path(test_gruntz_eval_special_slow(x), gruntz(gamma(x + 1) / sqrt(2 * pi) - exp(-x) * (x ** (x + S.Half) + x ** (x - S.Half) / 12), x, oo) is oo; gruntz(exp(exp(exp(digamma(digamma(digamma(x)))))) / x, x, oo) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a62b89a1d5f2751","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(gamma(x + 1) / sqrt(2 * pi) - exp(-x) * (x ** (x + S.Half) + x ** (x - S.Half) / 12), x, oo) is oo","gruntz(exp(exp(exp(digamma(digamma(digamma(x)))))) / x, x, oo) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gruntz_eval_special_slow():
     _sskip()
     assert gruntz(gamma(x + 1)/sqrt(2*pi)
@@ -206,16 +242,22 @@ def test_gruntz_eval_special_slow():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_grunts_eval_special_slow_sometimes_fail(), test_grunts_eval_special_slow_sometimes_fail produces the expected output) over Any ║
+# ║ Path(test_grunts_eval_special_slow_sometimes_fail(), gruntz(exp(gamma(x - exp(-x)) * exp(1 / x)) - exp(gamma(x)), x, oo) is oo) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(exp(gamma(x - exp(-x)) * exp(1 / x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_grunts_eval_special_slow_sometimes_fail : Any → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f589c117b3eebb9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f259afb3736ed592  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_grunts_eval_special_slow_sometimes_fail","kind":"function","src_hash":"9d7cc7a9abef4654","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(exp(gamma(x - exp(-x)) * exp(1 / x)) - exp(gamma(x)), x, oo) is oo"},"spec":{"lhs":"test_grunts_eval_special_slow_sometimes_fail()","rhs":"test_grunts_eval_special_slow_sometimes_fail produces the expected output","over":{"base":"Any"},"name":"test_grunts_eval_special_slow_sometimes_fail_correct"},"guarantee":"test_grunts_eval_special_slow_sometimes_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_grunts_eval_special_slow_sometimes_fail_correct","statement":"Path(test_grunts_eval_special_slow_sometimes_fail(x), test_grunts_eval_special_slow_sometimes_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f589c117b3eebb9"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_grunts_eval_special_slow_sometimes_fail","kind":"function","src_hash":"9d7cc7a9abef4654","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(exp(gamma(x - exp(-x)) * exp(1 / x)) - exp(gamma(x)), x, oo) is oo"},"spec":{"lhs":"test_grunts_eval_special_slow_sometimes_fail()","rhs":"gruntz(exp(gamma(x - exp(-x)) * exp(1 / x)) - exp(gamma(x)), x, oo) is oo","over":{"base":"Any"},"name":"test_grunts_eval_special_slow_sometimes_fail_correct"},"guarantee":"gruntz(exp(gamma(x - exp(-x)) * exp(1 / x)) - exp(gamma(x)), x, oo) is oo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_grunts_eval_special_slow_sometimes_fail_correct","statement":"Path(test_grunts_eval_special_slow_sometimes_fail(x), gruntz(exp(gamma(x - exp(-x)) * exp(1 / x)) - exp(gamma(x)), x, oo) is oo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f259afb3736ed592","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(exp(gamma(x - exp(-x)) * exp(1 / x)) - exp(gamma(x)), x, oo) is oo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_grunts_eval_special_slow_sometimes_fail():
     _sskip()
     # XXX This sometimes fails!!!
@@ -223,32 +265,44 @@ def test_grunts_eval_special_slow_sometimes_fail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gruntz_Ei(), test_gruntz_Ei produces the expected output) over Any ║
+# ║ Path(test_gruntz_Ei(), gruntz((Ei(x - exp(-exp(x))) - Ei(x)) * exp(-x) * exp(exp(x)) * x, x, oo) == -1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gruntz_Ei : Any → {Any | gruntz((Ei(x - exp(-exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz((Ei(x - exp(-exp(x))) - Ei(x)) * e...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gruntz_Ei : Any → {Any | result satisfies: grunt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ab35454dcc69e232  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bacb45a68a35e00d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_Ei","kind":"function","src_hash":"5d64ffa0c24f6c64","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz((Ei(x - exp(-exp(x))) - Ei(x)) * exp(-x) * exp(exp(x)) * x, x, oo) == -1"},"spec":{"lhs":"test_gruntz_Ei()","rhs":"test_gruntz_Ei produces the expected output","over":{"base":"Any"},"name":"test_gruntz_Ei_correct"},"guarantee":"test_gruntz_Ei produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_Ei_correct","statement":"Path(test_gruntz_Ei(x), test_gruntz_Ei produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab35454dcc69e232"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_Ei","kind":"function","src_hash":"5d64ffa0c24f6c64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz((Ei(x - exp(-exp(x))) - Ei(x)) * exp(-x) * exp(exp(x)) * x, x, oo) == -1"},"spec":{"lhs":"test_gruntz_Ei()","rhs":"gruntz((Ei(x - exp(-exp(x))) - Ei(x)) * exp(-x) * exp(exp(x)) * x, x, oo) == -1","over":{"base":"Any"},"name":"test_gruntz_Ei_correct"},"guarantee":"gruntz((Ei(x - exp(-exp(x))) - Ei(x)) * exp(-x) * exp(exp(x)) * x, x, oo) == -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_Ei_correct","statement":"Path(test_gruntz_Ei(x), gruntz((Ei(x - exp(-exp(x))) - Ei(x)) * exp(-x) * exp(exp(x)) * x, x, oo) == -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bacb45a68a35e00d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz((Ei(x - exp(-exp(x))) - Ei(x)) * exp(-x) * exp(exp(x)) * x, x, oo) == -1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gruntz_Ei():
     assert gruntz((Ei(x - exp(-exp(x))) - Ei(x)) *exp(-x)*exp(exp(x))*x, x, oo) == -1
 
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gruntz_eval_special_fail(), test_gruntz_eval_special_fail produces the expected output) over Any ║
+# ║ Path(test_gruntz_eval_special_fail(), gruntz(exp((log(2) + 1) * x) * (zeta(x + exp(-x)) - zeta(x)), x, oo) == -log(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gruntz_eval_special_fail : Any → {Any | gruntz(e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(exp((log(2) + 1) * x) * (zeta(x + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gruntz_eval_special_fail : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 036080598b6ef84e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 010eb6d32a796220  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_eval_special_fail","kind":"function","src_hash":"7385af594273c26f","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(exp((log(2) + 1) * x) * (zeta(x + exp(-x)) - zeta(x)), x, oo) == -log(2)"},"spec":{"lhs":"test_gruntz_eval_special_fail()","rhs":"test_gruntz_eval_special_fail produces the expected output","over":{"base":"Any"},"name":"test_gruntz_eval_special_fail_correct"},"guarantee":"test_gruntz_eval_special_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_eval_special_fail_correct","statement":"Path(test_gruntz_eval_special_fail(x), test_gruntz_eval_special_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"036080598b6ef84e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_eval_special_fail","kind":"function","src_hash":"7385af594273c26f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(exp((log(2) + 1) * x) * (zeta(x + exp(-x)) - zeta(x)), x, oo) == -log(2)"},"spec":{"lhs":"test_gruntz_eval_special_fail()","rhs":"gruntz(exp((log(2) + 1) * x) * (zeta(x + exp(-x)) - zeta(x)), x, oo) == -log(2)","over":{"base":"Any"},"name":"test_gruntz_eval_special_fail_correct"},"guarantee":"gruntz(exp((log(2) + 1) * x) * (zeta(x + exp(-x)) - zeta(x)), x, oo) == -log(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_eval_special_fail_correct","statement":"Path(test_gruntz_eval_special_fail(x), gruntz(exp((log(2) + 1) * x) * (zeta(x + exp(-x)) - zeta(x)), x, oo) == -log(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"010eb6d32a796220","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(exp((log(2) + 1) * x) * (zeta(x + exp(-x)) - zeta(x)), x, oo) == -log(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gruntz_eval_special_fail():
     # TODO zeta function series
     assert gruntz(
@@ -258,16 +312,24 @@ def test_gruntz_eval_special_fail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gruntz_hyperbolic(), test_gruntz_hyperbolic produces the expected output) over Any ║
+# ║ Path(test_gruntz_hyperbolic(), gruntz(cosh(x), x, oo) is oo and gruntz(cosh(x), x, -oo) is oo and gruntz(sinh(x), x, oo) is oo and gruntz(sinh(x), x, -oo) is -oo and gruntz(2 * cosh(x) * exp(x), x, oo) is oo and gruntz(2 * cosh(x) * exp(x), x, -oo) == 1 and gruntz(2 * sinh(x) * exp(x), x, oo) is oo and gruntz(2 * sinh(x) * exp(x), x, -oo) == -1 and gruntz(tanh(x), x, oo) == 1 and gruntz(tanh(x), x, -oo) == -1 and gruntz(coth(x), x, oo) == 1 and gruntz(coth(x), x, -oo) == -1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gruntz_hyperbolic : Any → {Any | gruntz(cosh(x),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(cosh(x), x, oo) is oo                   ║
+# ║   ensures:  gruntz(cosh(x), x, -oo) is oo                  ║
+# ║   ensures:  gruntz(sinh(x), x, oo) is oo                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gruntz_hyperbolic : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b75167fb1de68b07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96ed535ce9f17b71  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_hyperbolic","kind":"function","src_hash":"67d7ac1c1afd78ae","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(cosh(x), x, oo) is oo and gruntz(cosh(x), x, -oo) is oo and gruntz(sinh(x), x, oo) is oo and gruntz(sinh(x), x, -oo) is -oo and gruntz(2 * cosh(x) * exp(x), x, oo) is oo and gruntz(2 * cosh(x) * exp(x), x, -oo) == 1 and gruntz(2 * sinh(x) * exp(x), x, oo) is oo and gruntz(2 * sinh(x) * exp(x), x, -oo) == -1 and gruntz(tanh(x), x, oo) == 1 and gruntz(tanh(x), x, -oo) == -1 and gruntz(coth(x), x, oo) == 1 and gruntz(coth(x), x, -oo) == -1"},"spec":{"lhs":"test_gruntz_hyperbolic()","rhs":"test_gruntz_hyperbolic produces the expected output","over":{"base":"Any"},"name":"test_gruntz_hyperbolic_correct"},"guarantee":"test_gruntz_hyperbolic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_hyperbolic_correct","statement":"Path(test_gruntz_hyperbolic(x), test_gruntz_hyperbolic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b75167fb1de68b07"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_hyperbolic","kind":"function","src_hash":"67d7ac1c1afd78ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(cosh(x), x, oo) is oo and gruntz(cosh(x), x, -oo) is oo and gruntz(sinh(x), x, oo) is oo and gruntz(sinh(x), x, -oo) is -oo and gruntz(2 * cosh(x) * exp(x), x, oo) is oo and gruntz(2 * cosh(x) * exp(x), x, -oo) == 1 and gruntz(2 * sinh(x) * exp(x), x, oo) is oo and gruntz(2 * sinh(x) * exp(x), x, -oo) == -1 and gruntz(tanh(x), x, oo) == 1 and gruntz(tanh(x), x, -oo) == -1 and gruntz(coth(x), x, oo) == 1 and gruntz(coth(x), x, -oo) == -1"},"spec":{"lhs":"test_gruntz_hyperbolic()","rhs":"gruntz(cosh(x), x, oo) is oo and gruntz(cosh(x), x, -oo) is oo and gruntz(sinh(x), x, oo) is oo and gruntz(sinh(x), x, -oo) is -oo and gruntz(2 * cosh(x) * exp(x), x, oo) is oo and gruntz(2 * cosh(x) * exp(x), x, -oo) == 1 and gruntz(2 * sinh(x) * exp(x), x, oo) is oo and gruntz(2 * sinh(x) * exp(x), x, -oo) == -1 and gruntz(tanh(x), x, oo) == 1 and gruntz(tanh(x), x, -oo) == -1 and gruntz(coth(x), x, oo) == 1 and gruntz(coth(x), x, -oo) == -1","over":{"base":"Any"},"name":"test_gruntz_hyperbolic_correct"},"guarantee":"gruntz(cosh(x), x, oo) is oo; gruntz(cosh(x), x, -oo) is oo; gruntz(sinh(x), x, oo) is oo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_hyperbolic_correct","statement":"Path(test_gruntz_hyperbolic(x), gruntz(cosh(x), x, oo) is oo; gruntz(cosh(x), x, -oo) is oo; gruntz(sinh(x), x, oo) is oo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96ed535ce9f17b71","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(cosh(x), x, oo) is oo","gruntz(cosh(x), x, -oo) is oo","gruntz(sinh(x), x, oo) is oo","gruntz(sinh(x), x, -oo) is -oo","gruntz(2 * cosh(x) * exp(x), x, oo) is oo","gruntz(2 * cosh(x) * exp(x), x, -oo) == 1","gruntz(2 * sinh(x) * exp(x), x, oo) is oo","gruntz(2 * sinh(x) * exp(x), x, -oo) == -1","gruntz(tanh(x), x, oo) == 1","gruntz(tanh(x), x, -oo) == -1","gruntz(coth(x), x, oo) == 1","gruntz(coth(x), x, -oo) == -1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_gruntz_hyperbolic():
     assert gruntz(cosh(x), x, oo) is oo
     assert gruntz(cosh(x), x, -oo) is oo
@@ -284,16 +346,24 @@ def test_gruntz_hyperbolic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_compare1(), test_compare1 produces the expected output) over Any ║
+# ║ Path(test_compare1(), compare(2, x, x) == '<' and compare(x, exp(x), x) == '<' and compare(exp(x), exp(x ** 2), x) == '<' and compare(exp(x ** 2), exp(exp(x)), x) == '<' and compare(1, exp(exp(x)), x) == '<' and compare(x, 2, x) == '>' and compare(exp(x), x, x) == '>' and compare(exp(x ** 2), exp(x), x) == '>' and compare(exp(exp(x)), exp(x ** 2), x) == '>' and compare(exp(exp(x)), 1, x) == '>' and compare(2, 3, x) == '=' and compare(3, -5, x) == '=' and compare(2, -5, x) == '=' and compare(x, x ** 2, x) == '=' and compare(x ** 2, x ** 3, x) == '=' and compare(x ** 3, 1 / x, x) == '=' and compare(1 / x, x ** m, x) == '=' and compare(x ** m, -x, x) == '=' and compare(exp(x), exp(-x), x) == '=' and compare(exp(-x), exp(2 * x), x) == '=' and compare(exp(2 * x), exp(x) ** 2, x) == '=' and compare(exp(x) ** 2, exp(x + exp(-x)), x) == '=' and compare(exp(x), exp(x + exp(-x)), x) == '=' and compare(exp(x ** 2), 1 / exp(x ** 2), x) == '=') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_compare1 : Any → {Any | compare(2, x, x) == '<' ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  compare(2, x, x) == '<'                        ║
+# ║   ensures:  compare(x, exp(x), x) == '<'                   ║
+# ║   ensures:  compare(exp(x), exp(x ** 2), x) == '<'         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_compare1 : Any → {Any | result satisfies: compar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8b3359603ff6e7b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ce77a695c6fe6c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_compare1","kind":"function","src_hash":"14929b19f98b538b","in":{"base":"Any"},"out":{"base":"Any","pred":"compare(2, x, x) == '<' and compare(x, exp(x), x) == '<' and compare(exp(x), exp(x ** 2), x) == '<' and compare(exp(x ** 2), exp(exp(x)), x) == '<' and compare(1, exp(exp(x)), x) == '<' and compare(x, 2, x) == '>' and compare(exp(x), x, x) == '>' and compare(exp(x ** 2), exp(x), x) == '>' and compare(exp(exp(x)), exp(x ** 2), x) == '>' and compare(exp(exp(x)), 1, x) == '>' and compare(2, 3, x) == '=' and compare(3, -5, x) == '=' and compare(2, -5, x) == '=' and compare(x, x ** 2, x) == '=' and compare(x ** 2, x ** 3, x) == '=' and compare(x ** 3, 1 / x, x) == '=' and compare(1 / x, x ** m, x) == '=' and compare(x ** m, -x, x) == '=' and compare(exp(x), exp(-x), x) == '=' and compare(exp(-x), exp(2 * x), x) == '=' and compare(exp(2 * x), exp(x) ** 2, x) == '=' and compare(exp(x) ** 2, exp(x + exp(-x)), x) == '=' and compare(exp(x), exp(x + exp(-x)), x) == '=' and compare(exp(x ** 2), 1 / exp(x ** 2), x) == '='"},"spec":{"lhs":"test_compare1()","rhs":"test_compare1 produces the expected output","over":{"base":"Any"},"name":"test_compare1_correct"},"guarantee":"test_compare1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_compare1_correct","statement":"Path(test_compare1(x), test_compare1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8b3359603ff6e7b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_compare1","kind":"function","src_hash":"14929b19f98b538b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: compare(2, x, x) == '<' and compare(x, exp(x), x) == '<' and compare(exp(x), exp(x ** 2), x) == '<' and compare(exp(x ** 2), exp(exp(x)), x) == '<' and compare(1, exp(exp(x)), x) == '<' and compare(x, 2, x) == '>' and compare(exp(x), x, x) == '>' and compare(exp(x ** 2), exp(x), x) == '>' and compare(exp(exp(x)), exp(x ** 2), x) == '>' and compare(exp(exp(x)), 1, x) == '>' and compare(2, 3, x) == '=' and compare(3, -5, x) == '=' and compare(2, -5, x) == '=' and compare(x, x ** 2, x) == '=' and compare(x ** 2, x ** 3, x) == '=' and compare(x ** 3, 1 / x, x) == '=' and compare(1 / x, x ** m, x) == '=' and compare(x ** m, -x, x) == '=' and compare(exp(x), exp(-x), x) == '=' and compare(exp(-x), exp(2 * x), x) == '=' and compare(exp(2 * x), exp(x) ** 2, x) == '=' and compare(exp(x) ** 2, exp(x + exp(-x)), x) == '=' and compare(exp(x), exp(x + exp(-x)), x) == '=' and compare(exp(x ** 2), 1 / exp(x ** 2), x) == '='"},"spec":{"lhs":"test_compare1()","rhs":"compare(2, x, x) == '<' and compare(x, exp(x), x) == '<' and compare(exp(x), exp(x ** 2), x) == '<' and compare(exp(x ** 2), exp(exp(x)), x) == '<' and compare(1, exp(exp(x)), x) == '<' and compare(x, 2, x) == '>' and compare(exp(x), x, x) == '>' and compare(exp(x ** 2), exp(x), x) == '>' and compare(exp(exp(x)), exp(x ** 2), x) == '>' and compare(exp(exp(x)), 1, x) == '>' and compare(2, 3, x) == '=' and compare(3, -5, x) == '=' and compare(2, -5, x) == '=' and compare(x, x ** 2, x) == '=' and compare(x ** 2, x ** 3, x) == '=' and compare(x ** 3, 1 / x, x) == '=' and compare(1 / x, x ** m, x) == '=' and compare(x ** m, -x, x) == '=' and compare(exp(x), exp(-x), x) == '=' and compare(exp(-x), exp(2 * x), x) == '=' and compare(exp(2 * x), exp(x) ** 2, x) == '=' and compare(exp(x) ** 2, exp(x + exp(-x)), x) == '=' and compare(exp(x), exp(x + exp(-x)), x) == '=' and compare(exp(x ** 2), 1 / exp(x ** 2), x) == '='","over":{"base":"Any"},"name":"test_compare1_correct"},"guarantee":"compare(2, x, x) == '<'; compare(x, exp(x), x) == '<'; compare(exp(x), exp(x ** 2), x) == '<'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_compare1_correct","statement":"Path(test_compare1(x), compare(2, x, x) == '<'; compare(x, exp(x), x) == '<'; compare(exp(x), exp(x ** 2), x) == '<')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ce77a695c6fe6c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["compare(2, x, x) == '<'","compare(x, exp(x), x) == '<'","compare(exp(x), exp(x ** 2), x) == '<'","compare(exp(x ** 2), exp(exp(x)), x) == '<'","compare(1, exp(exp(x)), x) == '<'","compare(x, 2, x) == '>'","compare(exp(x), x, x) == '>'","compare(exp(x ** 2), exp(x), x) == '>'","compare(exp(exp(x)), exp(x ** 2), x) == '>'","compare(exp(exp(x)), 1, x) == '>'","compare(2, 3, x) == '='","compare(3, -5, x) == '='","compare(2, -5, x) == '='","compare(x, x ** 2, x) == '='","compare(x ** 2, x ** 3, x) == '='","compare(x ** 3, 1 / x, x) == '='","compare(1 / x, x ** m, x) == '='","compare(x ** m, -x, x) == '='","compare(exp(x), exp(-x), x) == '='","compare(exp(-x), exp(2 * x), x) == '='","compare(exp(2 * x), exp(x) ** 2, x) == '='","compare(exp(x) ** 2, exp(x + exp(-x)), x) == '='","compare(exp(x), exp(x + exp(-x)), x) == '='","compare(exp(x ** 2), 1 / exp(x ** 2), x) == '='"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_compare1():
     assert compare(2, x, x) == "<"
     assert compare(x, exp(x), x) == "<"
@@ -327,16 +397,24 @@ def test_compare1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_compare2(), test_compare2 produces the expected output) over Any ║
+# ║ Path(test_compare2(), compare(exp(x), x ** 5, x) == '>' and compare(exp(x ** 2), exp(x) ** 2, x) == '>' and compare(exp(x), exp(x + exp(-x)), x) == '=' and compare(exp(x + exp(-x)), exp(x), x) == '=' and compare(exp(x + exp(-x)), exp(-x), x) == '=' and compare(exp(-x), x, x) == '>' and compare(x, exp(-x), x) == '<' and compare(exp(x + 1 / x), x, x) == '>' and compare(exp(-exp(x)), exp(x), x) == '>' and compare(exp(exp(-exp(x)) + x), exp(-exp(x)), x) == '<') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_compare2 : Any → {Any | compare(exp(x), x ** 5, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  compare(exp(x), x ** 5, x) == '>'              ║
+# ║   ensures:  compare(exp(x ** 2), exp(x) ** 2, x) == '>'    ║
+# ║   ensures:  compare(exp(x), exp(x + exp(-x)), x) == '='    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_compare2 : Any → {Any | result satisfies: compar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a2b7720d9594f52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f07b85dd7bd6476  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_compare2","kind":"function","src_hash":"3c1893b529dc9e9b","in":{"base":"Any"},"out":{"base":"Any","pred":"compare(exp(x), x ** 5, x) == '>' and compare(exp(x ** 2), exp(x) ** 2, x) == '>' and compare(exp(x), exp(x + exp(-x)), x) == '=' and compare(exp(x + exp(-x)), exp(x), x) == '=' and compare(exp(x + exp(-x)), exp(-x), x) == '=' and compare(exp(-x), x, x) == '>' and compare(x, exp(-x), x) == '<' and compare(exp(x + 1 / x), x, x) == '>' and compare(exp(-exp(x)), exp(x), x) == '>' and compare(exp(exp(-exp(x)) + x), exp(-exp(x)), x) == '<'"},"spec":{"lhs":"test_compare2()","rhs":"test_compare2 produces the expected output","over":{"base":"Any"},"name":"test_compare2_correct"},"guarantee":"test_compare2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_compare2_correct","statement":"Path(test_compare2(x), test_compare2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a2b7720d9594f52"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_compare2","kind":"function","src_hash":"3c1893b529dc9e9b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: compare(exp(x), x ** 5, x) == '>' and compare(exp(x ** 2), exp(x) ** 2, x) == '>' and compare(exp(x), exp(x + exp(-x)), x) == '=' and compare(exp(x + exp(-x)), exp(x), x) == '=' and compare(exp(x + exp(-x)), exp(-x), x) == '=' and compare(exp(-x), x, x) == '>' and compare(x, exp(-x), x) == '<' and compare(exp(x + 1 / x), x, x) == '>' and compare(exp(-exp(x)), exp(x), x) == '>' and compare(exp(exp(-exp(x)) + x), exp(-exp(x)), x) == '<'"},"spec":{"lhs":"test_compare2()","rhs":"compare(exp(x), x ** 5, x) == '>' and compare(exp(x ** 2), exp(x) ** 2, x) == '>' and compare(exp(x), exp(x + exp(-x)), x) == '=' and compare(exp(x + exp(-x)), exp(x), x) == '=' and compare(exp(x + exp(-x)), exp(-x), x) == '=' and compare(exp(-x), x, x) == '>' and compare(x, exp(-x), x) == '<' and compare(exp(x + 1 / x), x, x) == '>' and compare(exp(-exp(x)), exp(x), x) == '>' and compare(exp(exp(-exp(x)) + x), exp(-exp(x)), x) == '<'","over":{"base":"Any"},"name":"test_compare2_correct"},"guarantee":"compare(exp(x), x ** 5, x) == '>'; compare(exp(x ** 2), exp(x) ** 2, x) == '>'; compare(exp(x), exp(x + exp(-x)), x) == '='","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_compare2_correct","statement":"Path(test_compare2(x), compare(exp(x), x ** 5, x) == '>'; compare(exp(x ** 2), exp(x) ** 2, x) == '>'; compare(exp(x), exp(x + exp(-x)), x) == '=')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f07b85dd7bd6476","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["compare(exp(x), x ** 5, x) == '>'","compare(exp(x ** 2), exp(x) ** 2, x) == '>'","compare(exp(x), exp(x + exp(-x)), x) == '='","compare(exp(x + exp(-x)), exp(x), x) == '='","compare(exp(x + exp(-x)), exp(-x), x) == '='","compare(exp(-x), x, x) == '>'","compare(x, exp(-x), x) == '<'","compare(exp(x + 1 / x), x, x) == '>'","compare(exp(-exp(x)), exp(x), x) == '>'","compare(exp(exp(-exp(x)) + x), exp(-exp(x)), x) == '<'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_compare2():
     assert compare(exp(x), x**5, x) == ">"
     assert compare(exp(x**2), exp(x)**2, x) == ">"
@@ -351,31 +429,45 @@ def test_compare2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_compare3(), test_compare3 produces the expected output) over Any ║
+# ║ Path(test_compare3(), compare(exp(exp(x)), exp(x + exp(-exp(x))), x) == '>') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_compare3 : Any → {Any | compare(exp(exp(x)), exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  compare(exp(exp(x)), exp(x + exp(-exp(x))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_compare3 : Any → {Any | result satisfies: compar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f37fb2db2b5c7993  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9df7d157c6b824c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_compare3","kind":"function","src_hash":"556a7e8afbce31ca","in":{"base":"Any"},"out":{"base":"Any","pred":"compare(exp(exp(x)), exp(x + exp(-exp(x))), x) == '>'"},"spec":{"lhs":"test_compare3()","rhs":"test_compare3 produces the expected output","over":{"base":"Any"},"name":"test_compare3_correct"},"guarantee":"test_compare3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_compare3_correct","statement":"Path(test_compare3(x), test_compare3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f37fb2db2b5c7993"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_compare3","kind":"function","src_hash":"556a7e8afbce31ca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: compare(exp(exp(x)), exp(x + exp(-exp(x))), x) == '>'"},"spec":{"lhs":"test_compare3()","rhs":"compare(exp(exp(x)), exp(x + exp(-exp(x))), x) == '>'","over":{"base":"Any"},"name":"test_compare3_correct"},"guarantee":"compare(exp(exp(x)), exp(x + exp(-exp(x))), x) == '>'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_compare3_correct","statement":"Path(test_compare3(x), compare(exp(exp(x)), exp(x + exp(-exp(x))), x) == '>')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9df7d157c6b824c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["compare(exp(exp(x)), exp(x + exp(-exp(x))), x) == '>'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_compare3():
     assert compare(exp(exp(x)), exp(x + exp(-exp(x))), x) == ">"
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sign1(), test_sign1 produces the expected output) over Any ║
+# ║ Path(test_sign1(), sign(Rational(0), x) == 0 and sign(Rational(3), x) == 1 and sign(Rational(-5), x) == -1 and sign(log(x), x) == 1 and sign(exp(-x), x) == 1 and sign(exp(x), x) == 1 and sign(-exp(x), x) == -1 and sign(3 - 1 / x, x) == 1 and sign(-3 - 1 / x, x) == -1 and sign(sin(1 / x), x) == 1 and sign(x ** Integer(2), x) == 1 and sign(x ** 2, x) == 1 and sign(x ** 5, x) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sign1 : Any → {Any | sign(Rational(0), x) == 0 a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sign(Rational(0), x) == 0                      ║
+# ║   ensures:  sign(Rational(3), x) == 1                      ║
+# ║   ensures:  sign(Rational(-5), x) == -1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sign1 : Any → {Any | result satisfies: sign(Rati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 526b4844f8e29f74  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abe2cf22bd32131c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_sign1","kind":"function","src_hash":"b3680e2fa6a0755d","in":{"base":"Any"},"out":{"base":"Any","pred":"sign(Rational(0), x) == 0 and sign(Rational(3), x) == 1 and sign(Rational(-5), x) == -1 and sign(log(x), x) == 1 and sign(exp(-x), x) == 1 and sign(exp(x), x) == 1 and sign(-exp(x), x) == -1 and sign(3 - 1 / x, x) == 1 and sign(-3 - 1 / x, x) == -1 and sign(sin(1 / x), x) == 1 and sign(x ** Integer(2), x) == 1 and sign(x ** 2, x) == 1 and sign(x ** 5, x) == 1"},"spec":{"lhs":"test_sign1()","rhs":"test_sign1 produces the expected output","over":{"base":"Any"},"name":"test_sign1_correct"},"guarantee":"test_sign1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_sign1_correct","statement":"Path(test_sign1(x), test_sign1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"526b4844f8e29f74"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_sign1","kind":"function","src_hash":"b3680e2fa6a0755d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sign(Rational(0), x) == 0 and sign(Rational(3), x) == 1 and sign(Rational(-5), x) == -1 and sign(log(x), x) == 1 and sign(exp(-x), x) == 1 and sign(exp(x), x) == 1 and sign(-exp(x), x) == -1 and sign(3 - 1 / x, x) == 1 and sign(-3 - 1 / x, x) == -1 and sign(sin(1 / x), x) == 1 and sign(x ** Integer(2), x) == 1 and sign(x ** 2, x) == 1 and sign(x ** 5, x) == 1"},"spec":{"lhs":"test_sign1()","rhs":"sign(Rational(0), x) == 0 and sign(Rational(3), x) == 1 and sign(Rational(-5), x) == -1 and sign(log(x), x) == 1 and sign(exp(-x), x) == 1 and sign(exp(x), x) == 1 and sign(-exp(x), x) == -1 and sign(3 - 1 / x, x) == 1 and sign(-3 - 1 / x, x) == -1 and sign(sin(1 / x), x) == 1 and sign(x ** Integer(2), x) == 1 and sign(x ** 2, x) == 1 and sign(x ** 5, x) == 1","over":{"base":"Any"},"name":"test_sign1_correct"},"guarantee":"sign(Rational(0), x) == 0; sign(Rational(3), x) == 1; sign(Rational(-5), x) == -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_sign1_correct","statement":"Path(test_sign1(x), sign(Rational(0), x) == 0; sign(Rational(3), x) == 1; sign(Rational(-5), x) == -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abe2cf22bd32131c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sign(Rational(0), x) == 0","sign(Rational(3), x) == 1","sign(Rational(-5), x) == -1","sign(log(x), x) == 1","sign(exp(-x), x) == 1","sign(exp(x), x) == 1","sign(-exp(x), x) == -1","sign(3 - 1 / x, x) == 1","sign(-3 - 1 / x, x) == -1","sign(sin(1 / x), x) == 1","sign(x ** Integer(2), x) == 1","sign(x ** 2, x) == 1","sign(x ** 5, x) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sign1():
     assert sign(Rational(0), x) == 0
     assert sign(Rational(3), x) == 1
@@ -393,16 +485,24 @@ def test_sign1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sign2(), test_sign2 produces the expected output) over Any ║
+# ║ Path(test_sign2(), sign(x, x) == 1 and sign(-x, x) == -1 and sign(y, x) == 1 and sign(-y, x) == -1 and sign(y * x, x) == 1 and sign(-y * x, x) == -1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sign2 : Any → {Any | sign(x, x) == 1 and sign(-x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sign(x, x) == 1                                ║
+# ║   ensures:  sign(-x, x) == -1                              ║
+# ║   ensures:  sign(y, x) == 1                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sign2 : Any → {Any | result satisfies: sign(x, x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78f4f231369a7f19  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5981bdbf34d541d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_sign2","kind":"function","src_hash":"6c1fa8877920b471","in":{"base":"Any"},"out":{"base":"Any","pred":"sign(x, x) == 1 and sign(-x, x) == -1 and sign(y, x) == 1 and sign(-y, x) == -1 and sign(y * x, x) == 1 and sign(-y * x, x) == -1"},"spec":{"lhs":"test_sign2()","rhs":"test_sign2 produces the expected output","over":{"base":"Any"},"name":"test_sign2_correct"},"guarantee":"test_sign2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_sign2_correct","statement":"Path(test_sign2(x), test_sign2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78f4f231369a7f19"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_sign2","kind":"function","src_hash":"6c1fa8877920b471","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sign(x, x) == 1 and sign(-x, x) == -1 and sign(y, x) == 1 and sign(-y, x) == -1 and sign(y * x, x) == 1 and sign(-y * x, x) == -1"},"spec":{"lhs":"test_sign2()","rhs":"sign(x, x) == 1 and sign(-x, x) == -1 and sign(y, x) == 1 and sign(-y, x) == -1 and sign(y * x, x) == 1 and sign(-y * x, x) == -1","over":{"base":"Any"},"name":"test_sign2_correct"},"guarantee":"sign(x, x) == 1; sign(-x, x) == -1; sign(y, x) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_sign2_correct","statement":"Path(test_sign2(x), sign(x, x) == 1; sign(-x, x) == -1; sign(y, x) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5981bdbf34d541d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sign(x, x) == 1","sign(-x, x) == -1","sign(y, x) == 1","sign(-y, x) == -1","sign(y * x, x) == 1","sign(-y * x, x) == -1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sign2():
     assert sign(x, x) == 1
     assert sign(-x, x) == -1
@@ -414,31 +514,45 @@ def test_sign2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mmrv(a, ), mmrv produces the expected output) over Any ║
+# ║ Path(mmrv(a, b), set(mrv(a, b)[0].keys())) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  set(mrv(a, b)[0].keys())                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mmrv : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 15758369c0e0b5cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.mmrv","kind":"function","src_hash":"e83bdb2202a45cdc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mmrv(a, )","rhs":"mmrv produces the expected output","over":{"base":"Any"},"name":"mmrv_correct"},"guarantee":"mmrv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15758369c0e0b5cc"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.mmrv","kind":"function","src_hash":"e83bdb2202a45cdc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mmrv(a, b)","rhs":"set(mrv(a, b)[0].keys())","over":{"base":"Any"},"name":"mmrv_correct"},"guarantee":"returns set(mrv(a, b)[0].keys())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15758369c0e0b5cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"set(mrv(a, b)[0].keys())","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def mmrv(a, b):
     return set(mrv(a, b)[0].keys())
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mrv1(), test_mrv1 produces the expected output) over Any ║
+# ║ Path(test_mrv1(), mmrv(x, x) == {x} and mmrv(x + 1 / x, x) == {x} and mmrv(x ** 2, x) == {x} and mmrv(log(x), x) == {x} and mmrv(exp(x), x) == {exp(x)} and mmrv(exp(-x), x) == {exp(-x)} and mmrv(exp(x ** 2), x) == {exp(x ** 2)} and mmrv(-exp(1 / x), x) == {x} and mmrv(exp(x + 1 / x), x) == {exp(x + 1 / x)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mrv1 : Any → {Any | mmrv(x, x) == {x} and mmrv(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mmrv(x, x) == {x}                              ║
+# ║   ensures:  mmrv(x + 1 / x, x) == {x}                      ║
+# ║   ensures:  mmrv(x ** 2, x) == {x}                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mrv1 : Any → {Any | result satisfies: mmrv(x, x)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a30a4e5e8ec4dec5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bae531ff3a465975  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv1","kind":"function","src_hash":"c5feb14fd4b33c05","in":{"base":"Any"},"out":{"base":"Any","pred":"mmrv(x, x) == {x} and mmrv(x + 1 / x, x) == {x} and mmrv(x ** 2, x) == {x} and mmrv(log(x), x) == {x} and mmrv(exp(x), x) == {exp(x)} and mmrv(exp(-x), x) == {exp(-x)} and mmrv(exp(x ** 2), x) == {exp(x ** 2)} and mmrv(-exp(1 / x), x) == {x} and mmrv(exp(x + 1 / x), x) == {exp(x + 1 / x)}"},"spec":{"lhs":"test_mrv1()","rhs":"test_mrv1 produces the expected output","over":{"base":"Any"},"name":"test_mrv1_correct"},"guarantee":"test_mrv1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv1_correct","statement":"Path(test_mrv1(x), test_mrv1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a30a4e5e8ec4dec5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv1","kind":"function","src_hash":"c5feb14fd4b33c05","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mmrv(x, x) == {x} and mmrv(x + 1 / x, x) == {x} and mmrv(x ** 2, x) == {x} and mmrv(log(x), x) == {x} and mmrv(exp(x), x) == {exp(x)} and mmrv(exp(-x), x) == {exp(-x)} and mmrv(exp(x ** 2), x) == {exp(x ** 2)} and mmrv(-exp(1 / x), x) == {x} and mmrv(exp(x + 1 / x), x) == {exp(x + 1 / x)}"},"spec":{"lhs":"test_mrv1()","rhs":"mmrv(x, x) == {x} and mmrv(x + 1 / x, x) == {x} and mmrv(x ** 2, x) == {x} and mmrv(log(x), x) == {x} and mmrv(exp(x), x) == {exp(x)} and mmrv(exp(-x), x) == {exp(-x)} and mmrv(exp(x ** 2), x) == {exp(x ** 2)} and mmrv(-exp(1 / x), x) == {x} and mmrv(exp(x + 1 / x), x) == {exp(x + 1 / x)}","over":{"base":"Any"},"name":"test_mrv1_correct"},"guarantee":"mmrv(x, x) == {x}; mmrv(x + 1 / x, x) == {x}; mmrv(x ** 2, x) == {x}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv1_correct","statement":"Path(test_mrv1(x), mmrv(x, x) == {x}; mmrv(x + 1 / x, x) == {x}; mmrv(x ** 2, x) == {x})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bae531ff3a465975","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mmrv(x, x) == {x}","mmrv(x + 1 / x, x) == {x}","mmrv(x ** 2, x) == {x}","mmrv(log(x), x) == {x}","mmrv(exp(x), x) == {exp(x)}","mmrv(exp(-x), x) == {exp(-x)}","mmrv(exp(x ** 2), x) == {exp(x ** 2)}","mmrv(-exp(1 / x), x) == {x}","mmrv(exp(x + 1 / x), x) == {exp(x + 1 / x)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_mrv1():
     assert mmrv(x, x) == {x}
     assert mmrv(x + 1/x, x) == {x}
@@ -452,16 +566,24 @@ def test_mrv1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mrv2a(), test_mrv2a produces the expected output) over Any ║
+# ║ Path(test_mrv2a(), mmrv(exp(x + exp(-exp(x))), x) == {exp(-exp(x))} and mmrv(exp(x + exp(-x)), x) == {exp(x + exp(-x)), exp(-x)} and mmrv(exp(1 / x + exp(-x)), x) == {exp(-x)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mrv2a : Any → {Any | mmrv(exp(x + exp(-exp(x))),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mmrv(exp(x + exp(-exp(x))), x) == {exp(-e...   ║
+# ║   ensures:  mmrv(exp(x + exp(-x)), x) == {exp(x + exp...   ║
+# ║   ensures:  mmrv(exp(1 / x + exp(-x)), x) == {exp(-x)}     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mrv2a : Any → {Any | result satisfies: mmrv(exp(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52d786a2ce62b61d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c938f13a8aba345  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv2a","kind":"function","src_hash":"dd440f9ec096b62c","in":{"base":"Any"},"out":{"base":"Any","pred":"mmrv(exp(x + exp(-exp(x))), x) == {exp(-exp(x))} and mmrv(exp(x + exp(-x)), x) == {exp(x + exp(-x)), exp(-x)} and mmrv(exp(1 / x + exp(-x)), x) == {exp(-x)}"},"spec":{"lhs":"test_mrv2a()","rhs":"test_mrv2a produces the expected output","over":{"base":"Any"},"name":"test_mrv2a_correct"},"guarantee":"test_mrv2a produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv2a_correct","statement":"Path(test_mrv2a(x), test_mrv2a produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52d786a2ce62b61d"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv2a","kind":"function","src_hash":"dd440f9ec096b62c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mmrv(exp(x + exp(-exp(x))), x) == {exp(-exp(x))} and mmrv(exp(x + exp(-x)), x) == {exp(x + exp(-x)), exp(-x)} and mmrv(exp(1 / x + exp(-x)), x) == {exp(-x)}"},"spec":{"lhs":"test_mrv2a()","rhs":"mmrv(exp(x + exp(-exp(x))), x) == {exp(-exp(x))} and mmrv(exp(x + exp(-x)), x) == {exp(x + exp(-x)), exp(-x)} and mmrv(exp(1 / x + exp(-x)), x) == {exp(-x)}","over":{"base":"Any"},"name":"test_mrv2a_correct"},"guarantee":"mmrv(exp(x + exp(-exp(x))), x) == {exp(-exp(x))}; mmrv(exp(x + exp(-x)), x) == {exp(x + exp(-x)), exp(-x)}; mmrv(exp(1 / x + exp(-x)), x) == {exp(-x)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv2a_correct","statement":"Path(test_mrv2a(x), mmrv(exp(x + exp(-exp(x))), x) == {exp(-exp(x))}; mmrv(exp(x + exp(-x)), x) == {exp(x + exp(-x)), exp(-x)}; mmrv(exp(1 / x + exp(-x)), x) == {exp(-x)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c938f13a8aba345","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mmrv(exp(x + exp(-exp(x))), x) == {exp(-exp(x))}","mmrv(exp(x + exp(-x)), x) == {exp(x + exp(-x)), exp(-x)}","mmrv(exp(1 / x + exp(-x)), x) == {exp(-x)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mrv2a():
     assert mmrv(exp(x + exp(-exp(x))), x) == {exp(-exp(x))}
     assert mmrv(exp(x + exp(-x)), x) == {exp(x + exp(-x)), exp(-x)}
@@ -471,16 +593,22 @@ def test_mrv2a():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mrv2b(), test_mrv2b produces the expected output) over Any ║
+# ║ Path(test_mrv2b(), mmrv(exp(x + exp(-x ** 2)), x) == {exp(-x ** 2)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mrv2b : Any → {Any | mmrv(exp(x + exp(-x ** 2)),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mmrv(exp(x + exp(-x ** 2)), x) == {exp(-x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mrv2b : Any → {Any | result satisfies: mmrv(exp(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d26034350fd0cea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c9a52e46d21c3b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv2b","kind":"function","src_hash":"552a92bc21a91b5b","in":{"base":"Any"},"out":{"base":"Any","pred":"mmrv(exp(x + exp(-x ** 2)), x) == {exp(-x ** 2)}"},"spec":{"lhs":"test_mrv2b()","rhs":"test_mrv2b produces the expected output","over":{"base":"Any"},"name":"test_mrv2b_correct"},"guarantee":"test_mrv2b produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv2b_correct","statement":"Path(test_mrv2b(x), test_mrv2b produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d26034350fd0cea"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv2b","kind":"function","src_hash":"552a92bc21a91b5b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mmrv(exp(x + exp(-x ** 2)), x) == {exp(-x ** 2)}"},"spec":{"lhs":"test_mrv2b()","rhs":"mmrv(exp(x + exp(-x ** 2)), x) == {exp(-x ** 2)}","over":{"base":"Any"},"name":"test_mrv2b_correct"},"guarantee":"mmrv(exp(x + exp(-x ** 2)), x) == {exp(-x ** 2)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv2b_correct","statement":"Path(test_mrv2b(x), mmrv(exp(x + exp(-x ** 2)), x) == {exp(-x ** 2)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c9a52e46d21c3b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mmrv(exp(x + exp(-x ** 2)), x) == {exp(-x ** 2)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_mrv2b():
     assert mmrv(exp(x + exp(-x**2)), x) == {exp(-x**2)}
 
@@ -488,16 +616,22 @@ def test_mrv2b():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mrv2c(), test_mrv2c produces the expected output) over Any ║
+# ║ Path(test_mrv2c(), mmrv(exp(-x + 1 / x ** 2) - exp(x + 1 / x), x) == {exp(x + 1 / x), exp(1 / x ** 2 - x)}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mrv2c : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mmrv(exp(-x + 1 / x ** 2) - exp(x + 1 / x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mrv2c : Any → {Any | result satisfies: mmrv(exp(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e2119aa8edfc2903  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ad1c14c93010e13  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv2c","kind":"function","src_hash":"0efede547ff61167","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_mrv2c()","rhs":"test_mrv2c produces the expected output","over":{"base":"Any"},"name":"test_mrv2c_correct"},"guarantee":"test_mrv2c produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv2c_correct","statement":"Path(test_mrv2c(x), test_mrv2c produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e2119aa8edfc2903"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv2c","kind":"function","src_hash":"0efede547ff61167","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mmrv(exp(-x + 1 / x ** 2) - exp(x + 1 / x), x) == {exp(x + 1 / x), exp(1 / x ** 2 - x)}"},"spec":{"lhs":"test_mrv2c()","rhs":"mmrv(exp(-x + 1 / x ** 2) - exp(x + 1 / x), x) == {exp(x + 1 / x), exp(1 / x ** 2 - x)}","over":{"base":"Any"},"name":"test_mrv2c_correct"},"guarantee":"mmrv(exp(-x + 1 / x ** 2) - exp(x + 1 / x), x) == {exp(x + 1 / x), exp(1 / x ** 2 - x)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv2c_correct","statement":"Path(test_mrv2c(x), mmrv(exp(-x + 1 / x ** 2) - exp(x + 1 / x), x) == {exp(x + 1 / x), exp(1 / x ** 2 - x)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ad1c14c93010e13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mmrv(exp(-x + 1 / x ** 2) - exp(x + 1 / x), x) == {exp(x + 1 / x), exp(1 / x ** 2 - x)}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mrv2c():
     assert mmrv(
         exp(-x + 1/x**2) - exp(x + 1/x), x) == {exp(x + 1/x), exp(1/x**2 - x)}
@@ -506,16 +640,24 @@ def test_mrv2c():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mrv3(), test_mrv3 produces the expected output) over Any ║
+# ║ Path(test_mrv3(), mmrv(exp(x ** 2) + x * exp(x) + log(x) ** x / x, x) == {exp(x ** 2)} and mmrv(exp(x) * (exp(1 / x + exp(-x)) - exp(1 / x)), x) == {exp(x), exp(-x)} and mmrv(log(x ** 2 + 2 * exp(exp(3 * x ** 3 * log(x)))), x) == {exp(exp(3 * x ** 3 * log(x)))} and mmrv(log(x - log(x)) / log(x), x) == {x} and mmrv((exp(1 / x - exp(-x)) - exp(1 / x)) * exp(x), x) == {exp(x), exp(-x)} and mmrv(1 / exp(-x + exp(-x)) - exp(x), x) == {exp(x), exp(-x), exp(x - exp(-x))} and mmrv(log(log(x * exp(x * exp(x)) + 1)), x) == {exp(x * exp(x))} and mmrv(exp(exp(log(log(x) + 1 / x))), x) == {x}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mrv3 : Any → {Any | mmrv(exp(x ** 2) + x * exp(x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mmrv(exp(x ** 2) + x * exp(x) + log(x) **...   ║
+# ║   ensures:  mmrv(exp(x) * (exp(1 / x + exp(-x)) - exp...   ║
+# ║   ensures:  mmrv(log(x ** 2 + 2 * exp(exp(3 * x ** 3 ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mrv3 : Any → {Any | result satisfies: mmrv(exp(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90cbfffd5daf3205  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6658aff7184898c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv3","kind":"function","src_hash":"dddec4894703e4bd","in":{"base":"Any"},"out":{"base":"Any","pred":"mmrv(exp(x ** 2) + x * exp(x) + log(x) ** x / x, x) == {exp(x ** 2)} and mmrv(exp(x) * (exp(1 / x + exp(-x)) - exp(1 / x)), x) == {exp(x), exp(-x)} and mmrv(log(x - log(x)) / log(x), x) == {x} and mmrv((exp(1 / x - exp(-x)) - exp(1 / x)) * exp(x), x) == {exp(x), exp(-x)} and mmrv(1 / exp(-x + exp(-x)) - exp(x), x) == {exp(x), exp(-x), exp(x - exp(-x))} and mmrv(log(log(x * exp(x * exp(x)) + 1)), x) == {exp(x * exp(x))} and mmrv(exp(exp(log(log(x) + 1 / x))), x) == {x}"},"spec":{"lhs":"test_mrv3()","rhs":"test_mrv3 produces the expected output","over":{"base":"Any"},"name":"test_mrv3_correct"},"guarantee":"test_mrv3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv3_correct","statement":"Path(test_mrv3(x), test_mrv3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90cbfffd5daf3205"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv3","kind":"function","src_hash":"dddec4894703e4bd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mmrv(exp(x ** 2) + x * exp(x) + log(x) ** x / x, x) == {exp(x ** 2)} and mmrv(exp(x) * (exp(1 / x + exp(-x)) - exp(1 / x)), x) == {exp(x), exp(-x)} and mmrv(log(x ** 2 + 2 * exp(exp(3 * x ** 3 * log(x)))), x) == {exp(exp(3 * x ** 3 * log(x)))} and mmrv(log(x - log(x)) / log(x), x) == {x} and mmrv((exp(1 / x - exp(-x)) - exp(1 / x)) * exp(x), x) == {exp(x), exp(-x)} and mmrv(1 / exp(-x + exp(-x)) - exp(x), x) == {exp(x), exp(-x), exp(x - exp(-x))} and mmrv(log(log(x * exp(x * exp(x)) + 1)), x) == {exp(x * exp(x))} and mmrv(exp(exp(log(log(x) + 1 / x))), x) == {x}"},"spec":{"lhs":"test_mrv3()","rhs":"mmrv(exp(x ** 2) + x * exp(x) + log(x) ** x / x, x) == {exp(x ** 2)} and mmrv(exp(x) * (exp(1 / x + exp(-x)) - exp(1 / x)), x) == {exp(x), exp(-x)} and mmrv(log(x ** 2 + 2 * exp(exp(3 * x ** 3 * log(x)))), x) == {exp(exp(3 * x ** 3 * log(x)))} and mmrv(log(x - log(x)) / log(x), x) == {x} and mmrv((exp(1 / x - exp(-x)) - exp(1 / x)) * exp(x), x) == {exp(x), exp(-x)} and mmrv(1 / exp(-x + exp(-x)) - exp(x), x) == {exp(x), exp(-x), exp(x - exp(-x))} and mmrv(log(log(x * exp(x * exp(x)) + 1)), x) == {exp(x * exp(x))} and mmrv(exp(exp(log(log(x) + 1 / x))), x) == {x}","over":{"base":"Any"},"name":"test_mrv3_correct"},"guarantee":"mmrv(exp(x ** 2) + x * exp(x) + log(x) ** x / x, x) == {exp(x ** 2)}; mmrv(exp(x) * (exp(1 / x + exp(-x)) - exp(1 / x)), x) == {exp(x), exp(-x)}; mmrv(log(x ** 2 + 2 * exp(exp(3 * x ** 3 * log(x)))), x) == {exp(exp(3 * x ** 3 * log(x)))}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv3_correct","statement":"Path(test_mrv3(x), mmrv(exp(x ** 2) + x * exp(x) + log(x) ** x / x, x) == {exp(x ** 2)}; mmrv(exp(x) * (exp(1 / x + exp(-x)) - exp(1 / x)), x) == {exp(x), exp(-x)}; mmrv(log(x ** 2 + 2 * exp(exp(3 * x ** 3 * log(x)))), x) == {exp(exp(3 * x ** 3 * log(x)))})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6658aff7184898c0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mmrv(exp(x ** 2) + x * exp(x) + log(x) ** x / x, x) == {exp(x ** 2)}","mmrv(exp(x) * (exp(1 / x + exp(-x)) - exp(1 / x)), x) == {exp(x), exp(-x)}","mmrv(log(x ** 2 + 2 * exp(exp(3 * x ** 3 * log(x)))), x) == {exp(exp(3 * x ** 3 * log(x)))}","mmrv(log(x - log(x)) / log(x), x) == {x}","mmrv((exp(1 / x - exp(-x)) - exp(1 / x)) * exp(x), x) == {exp(x), exp(-x)}","mmrv(1 / exp(-x + exp(-x)) - exp(x), x) == {exp(x), exp(-x), exp(x - exp(-x))}","mmrv(log(log(x * exp(x * exp(x)) + 1)), x) == {exp(x * exp(x))}","mmrv(exp(exp(log(log(x) + 1 / x))), x) == {x}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_mrv3():
     assert mmrv(exp(x**2) + x*exp(x) + log(x)**x/x, x) == {exp(x**2)}
     assert mmrv(
@@ -532,16 +674,23 @@ def test_mrv3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mrv4(), test_mrv4 produces the expected output) over Any ║
+# ║ Path(test_mrv4(), mmrv((ln(ln(x) + ln(ln(x))) - ln(ln(x))) / ln(ln(x) + ln(ln(ln(x)))) * ln(x), x) == {x} and mmrv(log(log(x * exp(x * exp(x)) + 1)) - exp(exp(log(log(x) + 1 / x))), x) == {exp(x * exp(x))}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mrv4 : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mmrv((ln(ln(x) + ln(ln(x))) - ln(ln(x))) ...   ║
+# ║   ensures:  mmrv(log(log(x * exp(x * exp(x)) + 1)) - ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mrv4 : Any → {Any | result satisfies: mmrv((ln(l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 295f677368f2b12e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 303177e2548da9b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv4","kind":"function","src_hash":"56dd9bceb5fb6442","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_mrv4()","rhs":"test_mrv4 produces the expected output","over":{"base":"Any"},"name":"test_mrv4_correct"},"guarantee":"test_mrv4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv4_correct","statement":"Path(test_mrv4(x), test_mrv4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"295f677368f2b12e"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv4","kind":"function","src_hash":"56dd9bceb5fb6442","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mmrv((ln(ln(x) + ln(ln(x))) - ln(ln(x))) / ln(ln(x) + ln(ln(ln(x)))) * ln(x), x) == {x} and mmrv(log(log(x * exp(x * exp(x)) + 1)) - exp(exp(log(log(x) + 1 / x))), x) == {exp(x * exp(x))}"},"spec":{"lhs":"test_mrv4()","rhs":"mmrv((ln(ln(x) + ln(ln(x))) - ln(ln(x))) / ln(ln(x) + ln(ln(ln(x)))) * ln(x), x) == {x} and mmrv(log(log(x * exp(x * exp(x)) + 1)) - exp(exp(log(log(x) + 1 / x))), x) == {exp(x * exp(x))}","over":{"base":"Any"},"name":"test_mrv4_correct"},"guarantee":"mmrv((ln(ln(x) + ln(ln(x))) - ln(ln(x))) / ln(ln(x) + ln(ln(ln(x)))) * ln(x), x) == {x}; mmrv(log(log(x * exp(x * exp(x)) + 1)) - exp(exp(log(log(x) + 1 / x))), x) == {exp(x * exp(x))}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv4_correct","statement":"Path(test_mrv4(x), mmrv((ln(ln(x) + ln(ln(x))) - ln(ln(x))) / ln(ln(x) + ln(ln(ln(x)))) * ln(x), x) == {x}; mmrv(log(log(x * exp(x * exp(x)) + 1)) - exp(exp(log(log(x) + 1 / x))), x) == {exp(x * exp(x))})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"303177e2548da9b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mmrv((ln(ln(x) + ln(ln(x))) - ln(ln(x))) / ln(ln(x) + ln(ln(ln(x)))) * ln(x), x) == {x}","mmrv(log(log(x * exp(x * exp(x)) + 1)) - exp(exp(log(log(x) + 1 / x))), x) == {exp(x * exp(x))}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_mrv4():
     ln = log
     assert mmrv((ln(ln(x) + ln(ln(x))) - ln(ln(x)))/ln(ln(x) + ln(ln(ln(x))))*ln(x),
@@ -551,31 +700,45 @@ def test_mrv4():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mrewrite(a, ), mrewrite produces the expected output) over Any ║
+# ║ Path(mrewrite(a, b, c), rewrite(a[1], a[0], b, c)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rewrite(a[1], a[0], b, c)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mrewrite : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0e21e0346f1aa5ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.mrewrite","kind":"function","src_hash":"45b81c8ca266fc26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mrewrite(a, )","rhs":"mrewrite produces the expected output","over":{"base":"Any"},"name":"mrewrite_correct"},"guarantee":"mrewrite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e21e0346f1aa5ae"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.mrewrite","kind":"function","src_hash":"45b81c8ca266fc26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mrewrite(a, b, c)","rhs":"rewrite(a[1], a[0], b, c)","over":{"base":"Any"},"name":"mrewrite_correct"},"guarantee":"returns rewrite(a[1], a[0], b, c)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e21e0346f1aa5ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rewrite(a[1], a[0], b, c)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def mrewrite(a, b, c):
     return rewrite(a[1], a[0], b, c)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rewrite1(), test_rewrite1 produces the expected output) over Any ║
+# ║ Path(test_rewrite1(), mrewrite(mrv(e, x), x, m) == (1 / m, -x) and mrewrite(mrv(e, x), x, m) == (1 / m, -x ** 2) and mrewrite(mrv(e, x), x, m) == (1 / m, -x - 1 / x) and mrewrite(mrv(e, x), x, m) == ((-m * exp(m) + m) * exp(-m) / m ** 2, -x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rewrite1 : Any → {Any | mrewrite(mrv(e, x), x, m...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mrewrite(mrv(e, x), x, m) == (1 / m, -x)       ║
+# ║   ensures:  mrewrite(mrv(e, x), x, m) == (1 / m, -x *...   ║
+# ║   ensures:  mrewrite(mrv(e, x), x, m) == (1 / m, -x -...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rewrite1 : Any → {Any | result satisfies: mrewri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d3ba3b8483f4a08  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc82a8b944990135  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_rewrite1","kind":"function","src_hash":"07c6f40b31190280","in":{"base":"Any"},"out":{"base":"Any","pred":"mrewrite(mrv(e, x), x, m) == (1 / m, -x) and mrewrite(mrv(e, x), x, m) == (1 / m, -x ** 2) and mrewrite(mrv(e, x), x, m) == (1 / m, -x - 1 / x) and mrewrite(mrv(e, x), x, m) == ((-m * exp(m) + m) * exp(-m) / m ** 2, -x)"},"spec":{"lhs":"test_rewrite1()","rhs":"test_rewrite1 produces the expected output","over":{"base":"Any"},"name":"test_rewrite1_correct"},"guarantee":"test_rewrite1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_rewrite1_correct","statement":"Path(test_rewrite1(x), test_rewrite1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d3ba3b8483f4a08"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_rewrite1","kind":"function","src_hash":"07c6f40b31190280","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mrewrite(mrv(e, x), x, m) == (1 / m, -x) and mrewrite(mrv(e, x), x, m) == (1 / m, -x ** 2) and mrewrite(mrv(e, x), x, m) == (1 / m, -x - 1 / x) and mrewrite(mrv(e, x), x, m) == ((-m * exp(m) + m) * exp(-m) / m ** 2, -x)"},"spec":{"lhs":"test_rewrite1()","rhs":"mrewrite(mrv(e, x), x, m) == (1 / m, -x) and mrewrite(mrv(e, x), x, m) == (1 / m, -x ** 2) and mrewrite(mrv(e, x), x, m) == (1 / m, -x - 1 / x) and mrewrite(mrv(e, x), x, m) == ((-m * exp(m) + m) * exp(-m) / m ** 2, -x)","over":{"base":"Any"},"name":"test_rewrite1_correct"},"guarantee":"mrewrite(mrv(e, x), x, m) == (1 / m, -x); mrewrite(mrv(e, x), x, m) == (1 / m, -x ** 2); mrewrite(mrv(e, x), x, m) == (1 / m, -x - 1 / x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_rewrite1_correct","statement":"Path(test_rewrite1(x), mrewrite(mrv(e, x), x, m) == (1 / m, -x); mrewrite(mrv(e, x), x, m) == (1 / m, -x ** 2); mrewrite(mrv(e, x), x, m) == (1 / m, -x - 1 / x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc82a8b944990135","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mrewrite(mrv(e, x), x, m) == (1 / m, -x)","mrewrite(mrv(e, x), x, m) == (1 / m, -x ** 2)","mrewrite(mrv(e, x), x, m) == (1 / m, -x - 1 / x)","mrewrite(mrv(e, x), x, m) == ((-m * exp(m) + m) * exp(-m) / m ** 2, -x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rewrite1():
     e = exp(x)
     assert mrewrite(mrv(e, x), x, m) == (1/m, -x)
@@ -588,16 +751,23 @@ def test_rewrite1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rewrite2(), test_rewrite2 produces the expected output) over Any ║
+# ║ Path(test_rewrite2(), mmrv(e, x) == {exp(x)} and mrewrite(mrv(e, x), x, m) == (1 / m * log(x), -x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rewrite2 : Any → {Any | mmrv(e, x) == {exp(x)} a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mmrv(e, x) == {exp(x)}                         ║
+# ║   ensures:  mrewrite(mrv(e, x), x, m) == (1 / m * log...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rewrite2 : Any → {Any | result satisfies: mmrv(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ef565c4c3cea050  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f181ce07ab879e77  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_rewrite2","kind":"function","src_hash":"d977ba032e11de52","in":{"base":"Any"},"out":{"base":"Any","pred":"mmrv(e, x) == {exp(x)} and mrewrite(mrv(e, x), x, m) == (1 / m * log(x), -x)"},"spec":{"lhs":"test_rewrite2()","rhs":"test_rewrite2 produces the expected output","over":{"base":"Any"},"name":"test_rewrite2_correct"},"guarantee":"test_rewrite2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_rewrite2_correct","statement":"Path(test_rewrite2(x), test_rewrite2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ef565c4c3cea050"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_rewrite2","kind":"function","src_hash":"d977ba032e11de52","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mmrv(e, x) == {exp(x)} and mrewrite(mrv(e, x), x, m) == (1 / m * log(x), -x)"},"spec":{"lhs":"test_rewrite2()","rhs":"mmrv(e, x) == {exp(x)} and mrewrite(mrv(e, x), x, m) == (1 / m * log(x), -x)","over":{"base":"Any"},"name":"test_rewrite2_correct"},"guarantee":"mmrv(e, x) == {exp(x)}; mrewrite(mrv(e, x), x, m) == (1 / m * log(x), -x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_rewrite2_correct","statement":"Path(test_rewrite2(x), mmrv(e, x) == {exp(x)}; mrewrite(mrv(e, x), x, m) == (1 / m * log(x), -x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f181ce07ab879e77","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mmrv(e, x) == {exp(x)}","mrewrite(mrv(e, x), x, m) == (1 / m * log(x), -x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rewrite2():
     e = exp(x)*log(log(exp(x)))
     assert mmrv(e, x) == {exp(x)}
@@ -607,16 +777,22 @@ def test_rewrite2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rewrite3(), test_rewrite3 produces the expected output) over Any ║
+# ║ Path(test_rewrite3(), mrewrite(mrv(e, x), x, m) in [(-1 / m + m * exp((x ** 2 + x) / x ** 3), -x - 1 / x), ((m ** 2 - exp((x ** 2 + x) / x ** 3)) / m, x ** (-2) - x)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rewrite3 : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mrewrite(mrv(e, x), x, m) in [(-1 / m + m...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rewrite3 : Any → {Any | result satisfies: mrewri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e4fb7b91c64432b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 692514e6379a64f5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_rewrite3","kind":"function","src_hash":"1e5838d308c30d86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rewrite3()","rhs":"test_rewrite3 produces the expected output","over":{"base":"Any"},"name":"test_rewrite3_correct"},"guarantee":"test_rewrite3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_rewrite3_correct","statement":"Path(test_rewrite3(x), test_rewrite3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e4fb7b91c64432b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_rewrite3","kind":"function","src_hash":"1e5838d308c30d86","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mrewrite(mrv(e, x), x, m) in [(-1 / m + m * exp((x ** 2 + x) / x ** 3), -x - 1 / x), ((m ** 2 - exp((x ** 2 + x) / x ** 3)) / m, x ** (-2) - x)]"},"spec":{"lhs":"test_rewrite3()","rhs":"mrewrite(mrv(e, x), x, m) in [(-1 / m + m * exp((x ** 2 + x) / x ** 3), -x - 1 / x), ((m ** 2 - exp((x ** 2 + x) / x ** 3)) / m, x ** (-2) - x)]","over":{"base":"Any"},"name":"test_rewrite3_correct"},"guarantee":"mrewrite(mrv(e, x), x, m) in [(-1 / m + m * exp((x ** 2 + x) / x ** 3), -x - 1 / x), ((m ** 2 - exp((x ** 2 + x) / x ** 3)) / m, x ** (-2) - x)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_rewrite3_correct","statement":"Path(test_rewrite3(x), mrewrite(mrv(e, x), x, m) in [(-1 / m + m * exp((x ** 2 + x) / x ** 3), -x - 1 / x), ((m ** 2 - exp((x ** 2 + x) / x ** 3)) / m, x ** (-2) - x)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"692514e6379a64f5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mrewrite(mrv(e, x), x, m) in [(-1 / m + m * exp((x ** 2 + x) / x ** 3), -x - 1 / x), ((m ** 2 - exp((x ** 2 + x) / x ** 3)) / m, x ** (-2) - x)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rewrite3():
     e = exp(-x + 1/x**2) - exp(x + 1/x)
     #both of these are correct and should be equivalent:
@@ -625,16 +801,24 @@ def test_rewrite3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mrv_leadterm1(), test_mrv_leadterm1 produces the expected output) over Any ║
+# ║ Path(test_mrv_leadterm1(), mrv_leadterm(-exp(1 / x), x) == (-1, 0) and mrv_leadterm(1 / exp(-x + exp(-x)) - exp(x), x) == (-1, 0) and mrv_leadterm((exp(1 / x - exp(-x)) - exp(1 / x)) * exp(x), x) == (-exp(1 / x), 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mrv_leadterm1 : Any → {Any | mrv_leadterm(-exp(1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mrv_leadterm(-exp(1 / x), x) == (-1, 0)        ║
+# ║   ensures:  mrv_leadterm(1 / exp(-x + exp(-x)) - exp(...   ║
+# ║   ensures:  mrv_leadterm((exp(1 / x - exp(-x)) - exp(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mrv_leadterm1 : Any → {Any | result satisfies: m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1633da143715d548  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3aa49818b3217fcf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv_leadterm1","kind":"function","src_hash":"07093a4bc36e4736","in":{"base":"Any"},"out":{"base":"Any","pred":"mrv_leadterm(-exp(1 / x), x) == (-1, 0) and mrv_leadterm(1 / exp(-x + exp(-x)) - exp(x), x) == (-1, 0)"},"spec":{"lhs":"test_mrv_leadterm1()","rhs":"test_mrv_leadterm1 produces the expected output","over":{"base":"Any"},"name":"test_mrv_leadterm1_correct"},"guarantee":"test_mrv_leadterm1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv_leadterm1_correct","statement":"Path(test_mrv_leadterm1(x), test_mrv_leadterm1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1633da143715d548"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv_leadterm1","kind":"function","src_hash":"07093a4bc36e4736","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mrv_leadterm(-exp(1 / x), x) == (-1, 0) and mrv_leadterm(1 / exp(-x + exp(-x)) - exp(x), x) == (-1, 0) and mrv_leadterm((exp(1 / x - exp(-x)) - exp(1 / x)) * exp(x), x) == (-exp(1 / x), 0)"},"spec":{"lhs":"test_mrv_leadterm1()","rhs":"mrv_leadterm(-exp(1 / x), x) == (-1, 0) and mrv_leadterm(1 / exp(-x + exp(-x)) - exp(x), x) == (-1, 0) and mrv_leadterm((exp(1 / x - exp(-x)) - exp(1 / x)) * exp(x), x) == (-exp(1 / x), 0)","over":{"base":"Any"},"name":"test_mrv_leadterm1_correct"},"guarantee":"mrv_leadterm(-exp(1 / x), x) == (-1, 0); mrv_leadterm(1 / exp(-x + exp(-x)) - exp(x), x) == (-1, 0); mrv_leadterm((exp(1 / x - exp(-x)) - exp(1 / x)) * exp(x), x) == (-exp(1 / x), 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv_leadterm1_correct","statement":"Path(test_mrv_leadterm1(x), mrv_leadterm(-exp(1 / x), x) == (-1, 0); mrv_leadterm(1 / exp(-x + exp(-x)) - exp(x), x) == (-1, 0); mrv_leadterm((exp(1 / x - exp(-x)) - exp(1 / x)) * exp(x), x) == (-exp(1 / x), 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3aa49818b3217fcf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mrv_leadterm(-exp(1 / x), x) == (-1, 0)","mrv_leadterm(1 / exp(-x + exp(-x)) - exp(x), x) == (-1, 0)","mrv_leadterm((exp(1 / x - exp(-x)) - exp(1 / x)) * exp(x), x) == (-exp(1 / x), 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mrv_leadterm1():
     assert mrv_leadterm(-exp(1/x), x) == (-1, 0)
     assert mrv_leadterm(1/exp(-x + exp(-x)) - exp(x), x) == (-1, 0)
@@ -643,16 +827,22 @@ def test_mrv_leadterm1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mrv_leadterm2(), test_mrv_leadterm2 produces the expected output) over Any ║
+# ║ Path(test_mrv_leadterm2(), mrv_leadterm((log(exp(x) + x) - x) / log(exp(x) + log(x)) * exp(x), x) == (1, 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mrv_leadterm2 : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mrv_leadterm((log(exp(x) + x) - x) / log(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mrv_leadterm2 : Any → {Any | result satisfies: m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d75145f79db8525  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a39c8abeeb85f592  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv_leadterm2","kind":"function","src_hash":"1ee0045fa5789efa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_mrv_leadterm2()","rhs":"test_mrv_leadterm2 produces the expected output","over":{"base":"Any"},"name":"test_mrv_leadterm2_correct"},"guarantee":"test_mrv_leadterm2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv_leadterm2_correct","statement":"Path(test_mrv_leadterm2(x), test_mrv_leadterm2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d75145f79db8525"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv_leadterm2","kind":"function","src_hash":"1ee0045fa5789efa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mrv_leadterm((log(exp(x) + x) - x) / log(exp(x) + log(x)) * exp(x), x) == (1, 0)"},"spec":{"lhs":"test_mrv_leadterm2()","rhs":"mrv_leadterm((log(exp(x) + x) - x) / log(exp(x) + log(x)) * exp(x), x) == (1, 0)","over":{"base":"Any"},"name":"test_mrv_leadterm2_correct"},"guarantee":"mrv_leadterm((log(exp(x) + x) - x) / log(exp(x) + log(x)) * exp(x), x) == (1, 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv_leadterm2_correct","statement":"Path(test_mrv_leadterm2(x), mrv_leadterm((log(exp(x) + x) - x) / log(exp(x) + log(x)) * exp(x), x) == (1, 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a39c8abeeb85f592","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mrv_leadterm((log(exp(x) + x) - x) / log(exp(x) + log(x)) * exp(x), x) == (1, 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mrv_leadterm2():
     #Gruntz: p51, 3.25
     assert mrv_leadterm((log(exp(x) + x) - x)/log(exp(x) + log(x))*exp(x), x) == \
@@ -660,16 +850,23 @@ def test_mrv_leadterm2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mrv_leadterm3(), test_mrv_leadterm3 produces the expected output) over Any ║
+# ║ Path(test_mrv_leadterm3(), mmrv(exp(-x + exp(-x) * exp(-x * log(x))), x) == {exp(-x - x * log(x))} and mrv_leadterm(exp(-x + exp(-x) * exp(-x * log(x))), x) == (exp(-x), 0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mrv_leadterm3 : Any → {Any | mmrv(exp(-x + exp(-...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mmrv(exp(-x + exp(-x) * exp(-x * log(x)))...   ║
+# ║   ensures:  mrv_leadterm(exp(-x + exp(-x) * exp(-x * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mrv_leadterm3 : Any → {Any | result satisfies: m...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 860855e9c2a381cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | beb844272d4bb33b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv_leadterm3","kind":"function","src_hash":"c12aaf014593ab3c","in":{"base":"Any"},"out":{"base":"Any","pred":"mmrv(exp(-x + exp(-x) * exp(-x * log(x))), x) == {exp(-x - x * log(x))} and mrv_leadterm(exp(-x + exp(-x) * exp(-x * log(x))), x) == (exp(-x), 0)"},"spec":{"lhs":"test_mrv_leadterm3()","rhs":"test_mrv_leadterm3 produces the expected output","over":{"base":"Any"},"name":"test_mrv_leadterm3_correct"},"guarantee":"test_mrv_leadterm3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv_leadterm3_correct","statement":"Path(test_mrv_leadterm3(x), test_mrv_leadterm3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"860855e9c2a381cd"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_mrv_leadterm3","kind":"function","src_hash":"c12aaf014593ab3c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mmrv(exp(-x + exp(-x) * exp(-x * log(x))), x) == {exp(-x - x * log(x))} and mrv_leadterm(exp(-x + exp(-x) * exp(-x * log(x))), x) == (exp(-x), 0)"},"spec":{"lhs":"test_mrv_leadterm3()","rhs":"mmrv(exp(-x + exp(-x) * exp(-x * log(x))), x) == {exp(-x - x * log(x))} and mrv_leadterm(exp(-x + exp(-x) * exp(-x * log(x))), x) == (exp(-x), 0)","over":{"base":"Any"},"name":"test_mrv_leadterm3_correct"},"guarantee":"mmrv(exp(-x + exp(-x) * exp(-x * log(x))), x) == {exp(-x - x * log(x))}; mrv_leadterm(exp(-x + exp(-x) * exp(-x * log(x))), x) == (exp(-x), 0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_mrv_leadterm3_correct","statement":"Path(test_mrv_leadterm3(x), mmrv(exp(-x + exp(-x) * exp(-x * log(x))), x) == {exp(-x - x * log(x))}; mrv_leadterm(exp(-x + exp(-x) * exp(-x * log(x))), x) == (exp(-x), 0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"beb844272d4bb33b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mmrv(exp(-x + exp(-x) * exp(-x * log(x))), x) == {exp(-x - x * log(x))}","mrv_leadterm(exp(-x + exp(-x) * exp(-x * log(x))), x) == (exp(-x), 0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mrv_leadterm3():
     #Gruntz: p56, 3.27
     assert mmrv(exp(-x + exp(-x)*exp(-x*log(x))), x) == {exp(-x - x*log(x))}
@@ -677,16 +874,24 @@ def test_mrv_leadterm3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_limit1(), test_limit1 produces the expected output) over Any ║
+# ║ Path(test_limit1(), gruntz(x, x, oo) is oo and gruntz(x, x, -oo) is -oo and gruntz(-x, x, oo) is -oo and gruntz(x ** 2, x, -oo) is oo and gruntz(-x ** 2, x, oo) is -oo and gruntz(x * log(x), x, 0, dir='+') == 0 and gruntz(1 / x, x, oo) == 0 and gruntz(exp(x), x, oo) is oo and gruntz(-exp(x), x, oo) is -oo and gruntz(exp(x) / x, x, oo) is oo and gruntz(1 / x - exp(-x), x, oo) == 0 and gruntz(x + 1 / x, x, oo) is oo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_limit1 : Any → {Any | gruntz(x, x, oo) is oo and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(x, x, oo) is oo                         ║
+# ║   ensures:  gruntz(x, x, -oo) is -oo                       ║
+# ║   ensures:  gruntz(-x, x, oo) is -oo                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_limit1 : Any → {Any | result satisfies: gruntz(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e5ae256f3fdabd7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3f7490023ca4a49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_limit1","kind":"function","src_hash":"7645c9cc5d2bd674","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(x, x, oo) is oo and gruntz(x, x, -oo) is -oo and gruntz(-x, x, oo) is -oo and gruntz(x ** 2, x, -oo) is oo and gruntz(-x ** 2, x, oo) is -oo and gruntz(x * log(x), x, 0, dir='+') == 0 and gruntz(1 / x, x, oo) == 0 and gruntz(exp(x), x, oo) is oo and gruntz(-exp(x), x, oo) is -oo and gruntz(exp(x) / x, x, oo) is oo and gruntz(1 / x - exp(-x), x, oo) == 0 and gruntz(x + 1 / x, x, oo) is oo"},"spec":{"lhs":"test_limit1()","rhs":"test_limit1 produces the expected output","over":{"base":"Any"},"name":"test_limit1_correct"},"guarantee":"test_limit1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_limit1_correct","statement":"Path(test_limit1(x), test_limit1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e5ae256f3fdabd7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_limit1","kind":"function","src_hash":"7645c9cc5d2bd674","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(x, x, oo) is oo and gruntz(x, x, -oo) is -oo and gruntz(-x, x, oo) is -oo and gruntz(x ** 2, x, -oo) is oo and gruntz(-x ** 2, x, oo) is -oo and gruntz(x * log(x), x, 0, dir='+') == 0 and gruntz(1 / x, x, oo) == 0 and gruntz(exp(x), x, oo) is oo and gruntz(-exp(x), x, oo) is -oo and gruntz(exp(x) / x, x, oo) is oo and gruntz(1 / x - exp(-x), x, oo) == 0 and gruntz(x + 1 / x, x, oo) is oo"},"spec":{"lhs":"test_limit1()","rhs":"gruntz(x, x, oo) is oo and gruntz(x, x, -oo) is -oo and gruntz(-x, x, oo) is -oo and gruntz(x ** 2, x, -oo) is oo and gruntz(-x ** 2, x, oo) is -oo and gruntz(x * log(x), x, 0, dir='+') == 0 and gruntz(1 / x, x, oo) == 0 and gruntz(exp(x), x, oo) is oo and gruntz(-exp(x), x, oo) is -oo and gruntz(exp(x) / x, x, oo) is oo and gruntz(1 / x - exp(-x), x, oo) == 0 and gruntz(x + 1 / x, x, oo) is oo","over":{"base":"Any"},"name":"test_limit1_correct"},"guarantee":"gruntz(x, x, oo) is oo; gruntz(x, x, -oo) is -oo; gruntz(-x, x, oo) is -oo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_limit1_correct","statement":"Path(test_limit1(x), gruntz(x, x, oo) is oo; gruntz(x, x, -oo) is -oo; gruntz(-x, x, oo) is -oo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3f7490023ca4a49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(x, x, oo) is oo","gruntz(x, x, -oo) is -oo","gruntz(-x, x, oo) is -oo","gruntz(x ** 2, x, -oo) is oo","gruntz(-x ** 2, x, oo) is -oo","gruntz(x * log(x), x, 0, dir='+') == 0","gruntz(1 / x, x, oo) == 0","gruntz(exp(x), x, oo) is oo","gruntz(-exp(x), x, oo) is -oo","gruntz(exp(x) / x, x, oo) is oo","gruntz(1 / x - exp(-x), x, oo) == 0","gruntz(x + 1 / x, x, oo) is oo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_limit1():
     assert gruntz(x, x, oo) is oo
     assert gruntz(x, x, -oo) is -oo
@@ -703,16 +908,24 @@ def test_limit1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_limit2(), test_limit2 produces the expected output) over Any ║
+# ║ Path(test_limit2(), gruntz(x ** x, x, 0, dir='+') == 1 and gruntz((exp(x) - 1) / x, x, 0) == 1 and gruntz(1 + 1 / x, x, oo) == 1 and gruntz(-exp(1 / x), x, oo) == -1 and gruntz(x + exp(-x), x, oo) is oo and gruntz(x + exp(-x ** 2), x, oo) is oo and gruntz(x + exp(-exp(x)), x, oo) is oo and gruntz(13 + 1 / x - exp(-x), x, oo) == 13) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_limit2 : Any → {Any | gruntz(x ** x, x, 0, dir='...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(x ** x, x, 0, dir='+') == 1             ║
+# ║   ensures:  gruntz((exp(x) - 1) / x, x, 0) == 1            ║
+# ║   ensures:  gruntz(1 + 1 / x, x, oo) == 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_limit2 : Any → {Any | result satisfies: gruntz(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1bbe15a8e41ae2f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83f264babca5796f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_limit2","kind":"function","src_hash":"f65e03f54b9386e1","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(x ** x, x, 0, dir='+') == 1 and gruntz((exp(x) - 1) / x, x, 0) == 1 and gruntz(1 + 1 / x, x, oo) == 1 and gruntz(-exp(1 / x), x, oo) == -1 and gruntz(x + exp(-x), x, oo) is oo and gruntz(x + exp(-x ** 2), x, oo) is oo and gruntz(x + exp(-exp(x)), x, oo) is oo and gruntz(13 + 1 / x - exp(-x), x, oo) == 13"},"spec":{"lhs":"test_limit2()","rhs":"test_limit2 produces the expected output","over":{"base":"Any"},"name":"test_limit2_correct"},"guarantee":"test_limit2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_limit2_correct","statement":"Path(test_limit2(x), test_limit2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1bbe15a8e41ae2f"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_limit2","kind":"function","src_hash":"f65e03f54b9386e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(x ** x, x, 0, dir='+') == 1 and gruntz((exp(x) - 1) / x, x, 0) == 1 and gruntz(1 + 1 / x, x, oo) == 1 and gruntz(-exp(1 / x), x, oo) == -1 and gruntz(x + exp(-x), x, oo) is oo and gruntz(x + exp(-x ** 2), x, oo) is oo and gruntz(x + exp(-exp(x)), x, oo) is oo and gruntz(13 + 1 / x - exp(-x), x, oo) == 13"},"spec":{"lhs":"test_limit2()","rhs":"gruntz(x ** x, x, 0, dir='+') == 1 and gruntz((exp(x) - 1) / x, x, 0) == 1 and gruntz(1 + 1 / x, x, oo) == 1 and gruntz(-exp(1 / x), x, oo) == -1 and gruntz(x + exp(-x), x, oo) is oo and gruntz(x + exp(-x ** 2), x, oo) is oo and gruntz(x + exp(-exp(x)), x, oo) is oo and gruntz(13 + 1 / x - exp(-x), x, oo) == 13","over":{"base":"Any"},"name":"test_limit2_correct"},"guarantee":"gruntz(x ** x, x, 0, dir='+') == 1; gruntz((exp(x) - 1) / x, x, 0) == 1; gruntz(1 + 1 / x, x, oo) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_limit2_correct","statement":"Path(test_limit2(x), gruntz(x ** x, x, 0, dir='+') == 1; gruntz((exp(x) - 1) / x, x, 0) == 1; gruntz(1 + 1 / x, x, oo) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83f264babca5796f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(x ** x, x, 0, dir='+') == 1","gruntz((exp(x) - 1) / x, x, 0) == 1","gruntz(1 + 1 / x, x, oo) == 1","gruntz(-exp(1 / x), x, oo) == -1","gruntz(x + exp(-x), x, oo) is oo","gruntz(x + exp(-x ** 2), x, oo) is oo","gruntz(x + exp(-exp(x)), x, oo) is oo","gruntz(13 + 1 / x - exp(-x), x, oo) == 13"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_limit2():
     assert gruntz(x**x, x, 0, dir="+") == 1
     assert gruntz((exp(x) - 1)/x, x, 0) == 1
@@ -725,16 +938,24 @@ def test_limit2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_limit3(), test_limit3 produces the expected output) over Any ║
+# ║ Path(test_limit3(), gruntz(x - log(1 + exp(x)), x, oo) == 0 and gruntz(x - log(a + exp(x)), x, oo) == 0 and gruntz(exp(x) / (1 + exp(x)), x, oo) == 1 and gruntz(exp(x) / (a + exp(x)), x, oo) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_limit3 : Any → {Any | gruntz(x - log(1 + exp(x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(x - log(1 + exp(x)), x, oo) == 0        ║
+# ║   ensures:  gruntz(x - log(a + exp(x)), x, oo) == 0        ║
+# ║   ensures:  gruntz(exp(x) / (1 + exp(x)), x, oo) == 1      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_limit3 : Any → {Any | result satisfies: gruntz(x...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6aafb014690c2e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 126c83b2c0b7c000  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_limit3","kind":"function","src_hash":"e8926c84cd96b53c","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(x - log(1 + exp(x)), x, oo) == 0 and gruntz(x - log(a + exp(x)), x, oo) == 0 and gruntz(exp(x) / (1 + exp(x)), x, oo) == 1 and gruntz(exp(x) / (a + exp(x)), x, oo) == 1"},"spec":{"lhs":"test_limit3()","rhs":"test_limit3 produces the expected output","over":{"base":"Any"},"name":"test_limit3_correct"},"guarantee":"test_limit3 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_limit3_correct","statement":"Path(test_limit3(x), test_limit3 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6aafb014690c2e5"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_limit3","kind":"function","src_hash":"e8926c84cd96b53c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(x - log(1 + exp(x)), x, oo) == 0 and gruntz(x - log(a + exp(x)), x, oo) == 0 and gruntz(exp(x) / (1 + exp(x)), x, oo) == 1 and gruntz(exp(x) / (a + exp(x)), x, oo) == 1"},"spec":{"lhs":"test_limit3()","rhs":"gruntz(x - log(1 + exp(x)), x, oo) == 0 and gruntz(x - log(a + exp(x)), x, oo) == 0 and gruntz(exp(x) / (1 + exp(x)), x, oo) == 1 and gruntz(exp(x) / (a + exp(x)), x, oo) == 1","over":{"base":"Any"},"name":"test_limit3_correct"},"guarantee":"gruntz(x - log(1 + exp(x)), x, oo) == 0; gruntz(x - log(a + exp(x)), x, oo) == 0; gruntz(exp(x) / (1 + exp(x)), x, oo) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_limit3_correct","statement":"Path(test_limit3(x), gruntz(x - log(1 + exp(x)), x, oo) == 0; gruntz(x - log(a + exp(x)), x, oo) == 0; gruntz(exp(x) / (1 + exp(x)), x, oo) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"126c83b2c0b7c000","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(x - log(1 + exp(x)), x, oo) == 0","gruntz(x - log(a + exp(x)), x, oo) == 0","gruntz(exp(x) / (1 + exp(x)), x, oo) == 1","gruntz(exp(x) / (a + exp(x)), x, oo) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_limit3():
     a = Symbol('a')
     assert gruntz(x - log(1 + exp(x)), x, oo) == 0
@@ -744,16 +965,23 @@ def test_limit3():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_limit4(), test_limit4 produces the expected output) over Any ║
+# ║ Path(test_limit4(), gruntz((3 ** x + 5 ** x) ** (1 / x), x, oo) == 5 and gruntz((3 ** (1 / x) + 5 ** (1 / x)) ** x, x, 0) == 5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_limit4 : Any → {Any | gruntz((3 ** x + 5 ** x) *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz((3 ** x + 5 ** x) ** (1 / x), x, o...   ║
+# ║   ensures:  gruntz((3 ** (1 / x) + 5 ** (1 / x)) ** x...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_limit4 : Any → {Any | result satisfies: gruntz((...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58c80cb477f2e2d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3770e112b6c4f08  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_limit4","kind":"function","src_hash":"2a1306e57360dec6","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz((3 ** x + 5 ** x) ** (1 / x), x, oo) == 5 and gruntz((3 ** (1 / x) + 5 ** (1 / x)) ** x, x, 0) == 5"},"spec":{"lhs":"test_limit4()","rhs":"test_limit4 produces the expected output","over":{"base":"Any"},"name":"test_limit4_correct"},"guarantee":"test_limit4 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_limit4_correct","statement":"Path(test_limit4(x), test_limit4 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58c80cb477f2e2d0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_limit4","kind":"function","src_hash":"2a1306e57360dec6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz((3 ** x + 5 ** x) ** (1 / x), x, oo) == 5 and gruntz((3 ** (1 / x) + 5 ** (1 / x)) ** x, x, 0) == 5"},"spec":{"lhs":"test_limit4()","rhs":"gruntz((3 ** x + 5 ** x) ** (1 / x), x, oo) == 5 and gruntz((3 ** (1 / x) + 5 ** (1 / x)) ** x, x, 0) == 5","over":{"base":"Any"},"name":"test_limit4_correct"},"guarantee":"gruntz((3 ** x + 5 ** x) ** (1 / x), x, oo) == 5; gruntz((3 ** (1 / x) + 5 ** (1 / x)) ** x, x, 0) == 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_limit4_correct","statement":"Path(test_limit4(x), gruntz((3 ** x + 5 ** x) ** (1 / x), x, oo) == 5; gruntz((3 ** (1 / x) + 5 ** (1 / x)) ** x, x, 0) == 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3770e112b6c4f08","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz((3 ** x + 5 ** x) ** (1 / x), x, oo) == 5","gruntz((3 ** (1 / x) + 5 ** (1 / x)) ** x, x, 0) == 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_limit4():
     #issue 3463
     assert gruntz((3**x + 5**x)**(1/x), x, oo) == 5
@@ -763,16 +991,22 @@ def test_limit4():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MrvTestCase_page47_ex3_21(), test_MrvTestCase_page47_ex3_21 produces the expected output) over Any ║
+# ║ Path(test_MrvTestCase_page47_ex3_21(), mmrv(expr, x) == {1 / h, exp(-x), exp(x), exp(x - h), exp(x / (1 + h))}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MrvTestCase_page47_ex3_21 : Any → {Any | mmrv(ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  mmrv(expr, x) == {1 / h, exp(-x), exp(x),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MrvTestCase_page47_ex3_21 : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87b6adf54f713754  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8640b020cb8c2142  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_MrvTestCase_page47_ex3_21","kind":"function","src_hash":"306f491f4b0467fd","in":{"base":"Any"},"out":{"base":"Any","pred":"mmrv(expr, x) == {1 / h, exp(-x), exp(x), exp(x - h), exp(x / (1 + h))}"},"spec":{"lhs":"test_MrvTestCase_page47_ex3_21()","rhs":"test_MrvTestCase_page47_ex3_21 produces the expected output","over":{"base":"Any"},"name":"test_MrvTestCase_page47_ex3_21_correct"},"guarantee":"test_MrvTestCase_page47_ex3_21 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_MrvTestCase_page47_ex3_21_correct","statement":"Path(test_MrvTestCase_page47_ex3_21(x), test_MrvTestCase_page47_ex3_21 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87b6adf54f713754"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_MrvTestCase_page47_ex3_21","kind":"function","src_hash":"306f491f4b0467fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: mmrv(expr, x) == {1 / h, exp(-x), exp(x), exp(x - h), exp(x / (1 + h))}"},"spec":{"lhs":"test_MrvTestCase_page47_ex3_21()","rhs":"mmrv(expr, x) == {1 / h, exp(-x), exp(x), exp(x - h), exp(x / (1 + h))}","over":{"base":"Any"},"name":"test_MrvTestCase_page47_ex3_21_correct"},"guarantee":"mmrv(expr, x) == {1 / h, exp(-x), exp(x), exp(x - h), exp(x / (1 + h))}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_MrvTestCase_page47_ex3_21_correct","statement":"Path(test_MrvTestCase_page47_ex3_21(x), mmrv(expr, x) == {1 / h, exp(-x), exp(x), exp(x - h), exp(x / (1 + h))})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8640b020cb8c2142","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["mmrv(expr, x) == {1 / h, exp(-x), exp(x), exp(x - h), exp(x / (1 + h))}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MrvTestCase_page47_ex3_21():
     h = exp(-x/(1 + exp(-x)))
     expr = exp(h)*exp(-x/(1 + h))*exp(exp(-x + h))/h**2 - exp(x) + x
@@ -780,16 +1014,24 @@ def test_MrvTestCase_page47_ex3_21():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_gruntz_I(), test_gruntz_I produces the expected output) over Any ║
+# ║ Path(test_gruntz_I(), gruntz(I * x, x, oo) == I * oo and gruntz(y * I * x, x, oo) == y * I * oo and gruntz(y * 3 * I * x, x, oo) == y * I * oo and gruntz(y * 3 * sin(I) * x, x, oo) == y * I * oo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_gruntz_I : Any → {Any | gruntz(I * x, x, oo) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(I * x, x, oo) == I * oo                 ║
+# ║   ensures:  gruntz(y * I * x, x, oo) == y * I * oo         ║
+# ║   ensures:  gruntz(y * 3 * I * x, x, oo) == y * I * oo     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_gruntz_I : Any → {Any | result satisfies: gruntz...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58e6909b93658416  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a8d4475a64cd51ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_I","kind":"function","src_hash":"819ad5836d8e5ff0","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(I * x, x, oo) == I * oo and gruntz(y * I * x, x, oo) == y * I * oo and gruntz(y * 3 * I * x, x, oo) == y * I * oo and gruntz(y * 3 * sin(I) * x, x, oo) == y * I * oo"},"spec":{"lhs":"test_gruntz_I()","rhs":"test_gruntz_I produces the expected output","over":{"base":"Any"},"name":"test_gruntz_I_correct"},"guarantee":"test_gruntz_I produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_I_correct","statement":"Path(test_gruntz_I(x), test_gruntz_I produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58e6909b93658416"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_gruntz_I","kind":"function","src_hash":"819ad5836d8e5ff0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(I * x, x, oo) == I * oo and gruntz(y * I * x, x, oo) == y * I * oo and gruntz(y * 3 * I * x, x, oo) == y * I * oo and gruntz(y * 3 * sin(I) * x, x, oo) == y * I * oo"},"spec":{"lhs":"test_gruntz_I()","rhs":"gruntz(I * x, x, oo) == I * oo and gruntz(y * I * x, x, oo) == y * I * oo and gruntz(y * 3 * I * x, x, oo) == y * I * oo and gruntz(y * 3 * sin(I) * x, x, oo) == y * I * oo","over":{"base":"Any"},"name":"test_gruntz_I_correct"},"guarantee":"gruntz(I * x, x, oo) == I * oo; gruntz(y * I * x, x, oo) == y * I * oo; gruntz(y * 3 * I * x, x, oo) == y * I * oo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_gruntz_I_correct","statement":"Path(test_gruntz_I(x), gruntz(I * x, x, oo) == I * oo; gruntz(y * I * x, x, oo) == y * I * oo; gruntz(y * 3 * I * x, x, oo) == y * I * oo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a8d4475a64cd51ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(I * x, x, oo) == I * oo","gruntz(y * I * x, x, oo) == y * I * oo","gruntz(y * 3 * I * x, x, oo) == y * I * oo","gruntz(y * 3 * sin(I) * x, x, oo) == y * I * oo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_gruntz_I():
     y = Symbol("y")
     assert gruntz(I*x, x, oo) == I*oo
@@ -799,31 +1041,45 @@ def test_gruntz_I():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4814(), test_issue_4814 produces the expected output) over Any ║
+# ║ Path(test_issue_4814(), gruntz((x + 1) ** (1 / log(x + 1)), x, oo) == E) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4814 : Any → {Any | gruntz((x + 1) ** (1 /...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz((x + 1) ** (1 / log(x + 1)), x, oo...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4814 : Any → {Any | result satisfies: grun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db60d2530c3a6765  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c1b45db5842fe63  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_4814","kind":"function","src_hash":"7ba30f212f755199","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz((x + 1) ** (1 / log(x + 1)), x, oo) == E"},"spec":{"lhs":"test_issue_4814()","rhs":"test_issue_4814 produces the expected output","over":{"base":"Any"},"name":"test_issue_4814_correct"},"guarantee":"test_issue_4814 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_4814_correct","statement":"Path(test_issue_4814(x), test_issue_4814 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db60d2530c3a6765"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_4814","kind":"function","src_hash":"7ba30f212f755199","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz((x + 1) ** (1 / log(x + 1)), x, oo) == E"},"spec":{"lhs":"test_issue_4814()","rhs":"gruntz((x + 1) ** (1 / log(x + 1)), x, oo) == E","over":{"base":"Any"},"name":"test_issue_4814_correct"},"guarantee":"gruntz((x + 1) ** (1 / log(x + 1)), x, oo) == E","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_4814_correct","statement":"Path(test_issue_4814(x), gruntz((x + 1) ** (1 / log(x + 1)), x, oo) == E)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c1b45db5842fe63","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz((x + 1) ** (1 / log(x + 1)), x, oo) == E"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_4814():
     assert gruntz((x + 1)**(1/log(x + 1)), x, oo) == E
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_intractable(), test_intractable produces the expected output) over Any ║
+# ║ Path(test_intractable(), gruntz(1 / gamma(x), x, oo) == 0 and gruntz(1 / loggamma(x), x, oo) == 0 and gruntz(gamma(x) / loggamma(x), x, oo) is oo and gruntz(exp(gamma(x)) / gamma(x), x, oo) is oo and gruntz(gamma(x), x, 3) == 2 and gruntz(gamma(Rational(1, 7) + 1 / x), x, oo) == gamma(Rational(1, 7)) and gruntz(log(x ** x) / log(gamma(x)), x, oo) == 1 and gruntz(log(gamma(gamma(x))) / exp(x), x, oo) is oo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_intractable : Any → {Any | gruntz(1 / gamma(x), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(1 / gamma(x), x, oo) == 0               ║
+# ║   ensures:  gruntz(1 / loggamma(x), x, oo) == 0            ║
+# ║   ensures:  gruntz(gamma(x) / loggamma(x), x, oo) is oo    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_intractable : Any → {Any | result satisfies: gru...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2273cc5a1a686113  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcb0baf9e798155e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_intractable","kind":"function","src_hash":"d61e4a0912e6e28e","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(1 / gamma(x), x, oo) == 0 and gruntz(1 / loggamma(x), x, oo) == 0 and gruntz(gamma(x) / loggamma(x), x, oo) is oo and gruntz(exp(gamma(x)) / gamma(x), x, oo) is oo and gruntz(gamma(x), x, 3) == 2 and gruntz(gamma(Rational(1, 7) + 1 / x), x, oo) == gamma(Rational(1, 7)) and gruntz(log(x ** x) / log(gamma(x)), x, oo) == 1 and gruntz(log(gamma(gamma(x))) / exp(x), x, oo) is oo"},"spec":{"lhs":"test_intractable()","rhs":"test_intractable produces the expected output","over":{"base":"Any"},"name":"test_intractable_correct"},"guarantee":"test_intractable produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_intractable_correct","statement":"Path(test_intractable(x), test_intractable produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2273cc5a1a686113"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_intractable","kind":"function","src_hash":"d61e4a0912e6e28e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(1 / gamma(x), x, oo) == 0 and gruntz(1 / loggamma(x), x, oo) == 0 and gruntz(gamma(x) / loggamma(x), x, oo) is oo and gruntz(exp(gamma(x)) / gamma(x), x, oo) is oo and gruntz(gamma(x), x, 3) == 2 and gruntz(gamma(Rational(1, 7) + 1 / x), x, oo) == gamma(Rational(1, 7)) and gruntz(log(x ** x) / log(gamma(x)), x, oo) == 1 and gruntz(log(gamma(gamma(x))) / exp(x), x, oo) is oo"},"spec":{"lhs":"test_intractable()","rhs":"gruntz(1 / gamma(x), x, oo) == 0 and gruntz(1 / loggamma(x), x, oo) == 0 and gruntz(gamma(x) / loggamma(x), x, oo) is oo and gruntz(exp(gamma(x)) / gamma(x), x, oo) is oo and gruntz(gamma(x), x, 3) == 2 and gruntz(gamma(Rational(1, 7) + 1 / x), x, oo) == gamma(Rational(1, 7)) and gruntz(log(x ** x) / log(gamma(x)), x, oo) == 1 and gruntz(log(gamma(gamma(x))) / exp(x), x, oo) is oo","over":{"base":"Any"},"name":"test_intractable_correct"},"guarantee":"gruntz(1 / gamma(x), x, oo) == 0; gruntz(1 / loggamma(x), x, oo) == 0; gruntz(gamma(x) / loggamma(x), x, oo) is oo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_intractable_correct","statement":"Path(test_intractable(x), gruntz(1 / gamma(x), x, oo) == 0; gruntz(1 / loggamma(x), x, oo) == 0; gruntz(gamma(x) / loggamma(x), x, oo) is oo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcb0baf9e798155e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(1 / gamma(x), x, oo) == 0","gruntz(1 / loggamma(x), x, oo) == 0","gruntz(gamma(x) / loggamma(x), x, oo) is oo","gruntz(exp(gamma(x)) / gamma(x), x, oo) is oo","gruntz(gamma(x), x, 3) == 2","gruntz(gamma(Rational(1, 7) + 1 / x), x, oo) == gamma(Rational(1, 7))","gruntz(log(x ** x) / log(gamma(x)), x, oo) == 1","gruntz(log(gamma(gamma(x))) / exp(x), x, oo) is oo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_intractable():
     assert gruntz(1/gamma(x), x, oo) == 0
     assert gruntz(1/loggamma(x), x, oo) == 0
@@ -836,16 +1092,23 @@ def test_intractable():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_aseries_trig(), test_aseries_trig produces the expected output) over Any ║
+# ║ Path(test_aseries_trig(), cancel(gruntz(1 / log(atan(x)), x, oo) - 1 / (log(pi) + log(S.Half))) == 0 and gruntz(1 / acot(x), x, -oo) is -oo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_aseries_trig : Any → {Any | cancel(gruntz(1 / lo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cancel(gruntz(1 / log(atan(x)), x, oo) - ...   ║
+# ║   ensures:  gruntz(1 / acot(x), x, -oo) is -oo             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_aseries_trig : Any → {Any | result satisfies: ca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 727ea726124e2e48  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea242479a2714f19  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_aseries_trig","kind":"function","src_hash":"e7d5bdb77a2f515f","in":{"base":"Any"},"out":{"base":"Any","pred":"cancel(gruntz(1 / log(atan(x)), x, oo) - 1 / (log(pi) + log(S.Half))) == 0 and gruntz(1 / acot(x), x, -oo) is -oo"},"spec":{"lhs":"test_aseries_trig()","rhs":"test_aseries_trig produces the expected output","over":{"base":"Any"},"name":"test_aseries_trig_correct"},"guarantee":"test_aseries_trig produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_aseries_trig_correct","statement":"Path(test_aseries_trig(x), test_aseries_trig produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"727ea726124e2e48"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_aseries_trig","kind":"function","src_hash":"e7d5bdb77a2f515f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cancel(gruntz(1 / log(atan(x)), x, oo) - 1 / (log(pi) + log(S.Half))) == 0 and gruntz(1 / acot(x), x, -oo) is -oo"},"spec":{"lhs":"test_aseries_trig()","rhs":"cancel(gruntz(1 / log(atan(x)), x, oo) - 1 / (log(pi) + log(S.Half))) == 0 and gruntz(1 / acot(x), x, -oo) is -oo","over":{"base":"Any"},"name":"test_aseries_trig_correct"},"guarantee":"cancel(gruntz(1 / log(atan(x)), x, oo) - 1 / (log(pi) + log(S.Half))) == 0; gruntz(1 / acot(x), x, -oo) is -oo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_aseries_trig_correct","statement":"Path(test_aseries_trig(x), cancel(gruntz(1 / log(atan(x)), x, oo) - 1 / (log(pi) + log(S.Half))) == 0; gruntz(1 / acot(x), x, -oo) is -oo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea242479a2714f19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cancel(gruntz(1 / log(atan(x)), x, oo) - 1 / (log(pi) + log(S.Half))) == 0","gruntz(1 / acot(x), x, -oo) is -oo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_aseries_trig():
     assert cancel(gruntz(1/log(atan(x)), x, oo)
            - 1/(log(pi) + log(S.Half))) == 0
@@ -853,46 +1116,64 @@ def test_aseries_trig():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_log_series(), test_exp_log_series produces the expected output) over Any ║
+# ║ Path(test_exp_log_series(), gruntz(x / log(log(x * exp(x))), x, oo) is oo) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_log_series : Any → {Any | gruntz(x / log(log...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(x / log(log(x * exp(x))), x, oo) i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_log_series : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33c424aba5c83714  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e33fb7ad9129d9ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_exp_log_series","kind":"function","src_hash":"7c6d3dd0104ada4b","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(x / log(log(x * exp(x))), x, oo) is oo"},"spec":{"lhs":"test_exp_log_series()","rhs":"test_exp_log_series produces the expected output","over":{"base":"Any"},"name":"test_exp_log_series_correct"},"guarantee":"test_exp_log_series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_exp_log_series_correct","statement":"Path(test_exp_log_series(x), test_exp_log_series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33c424aba5c83714"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_exp_log_series","kind":"function","src_hash":"7c6d3dd0104ada4b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(x / log(log(x * exp(x))), x, oo) is oo"},"spec":{"lhs":"test_exp_log_series()","rhs":"gruntz(x / log(log(x * exp(x))), x, oo) is oo","over":{"base":"Any"},"name":"test_exp_log_series_correct"},"guarantee":"gruntz(x / log(log(x * exp(x))), x, oo) is oo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_exp_log_series_correct","statement":"Path(test_exp_log_series(x), gruntz(x / log(log(x * exp(x))), x, oo) is oo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e33fb7ad9129d9ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(x / log(log(x * exp(x))), x, oo) is oo"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_exp_log_series():
     assert gruntz(x/log(log(x*exp(x))), x, oo) is oo
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_3644(), test_issue_3644 produces the expected output) over Any ║
+# ║ Path(test_issue_3644(), gruntz(((x ** 7 + x + 1) / (2 ** x + x ** 2)) ** (-1 / x), x, oo) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_3644 : Any → {Any | gruntz(((x ** 7 + x + ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(((x ** 7 + x + 1) / (2 ** x + x **...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_3644 : Any → {Any | result satisfies: grun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b10fc0dd610618c1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c34219b78b5de2d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_3644","kind":"function","src_hash":"e9cc42c798b342d9","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(((x ** 7 + x + 1) / (2 ** x + x ** 2)) ** (-1 / x), x, oo) == 2"},"spec":{"lhs":"test_issue_3644()","rhs":"test_issue_3644 produces the expected output","over":{"base":"Any"},"name":"test_issue_3644_correct"},"guarantee":"test_issue_3644 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_3644_correct","statement":"Path(test_issue_3644(x), test_issue_3644 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b10fc0dd610618c1"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_3644","kind":"function","src_hash":"e9cc42c798b342d9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(((x ** 7 + x + 1) / (2 ** x + x ** 2)) ** (-1 / x), x, oo) == 2"},"spec":{"lhs":"test_issue_3644()","rhs":"gruntz(((x ** 7 + x + 1) / (2 ** x + x ** 2)) ** (-1 / x), x, oo) == 2","over":{"base":"Any"},"name":"test_issue_3644_correct"},"guarantee":"gruntz(((x ** 7 + x + 1) / (2 ** x + x ** 2)) ** (-1 / x), x, oo) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_3644_correct","statement":"Path(test_issue_3644(x), gruntz(((x ** 7 + x + 1) / (2 ** x + x ** 2)) ** (-1 / x), x, oo) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c34219b78b5de2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(((x ** 7 + x + 1) / (2 ** x + x ** 2)) ** (-1 / x), x, oo) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_3644():
     assert gruntz(((x**7 + x + 1)/(2**x + x**2))**(-1/x), x, oo) == 2
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6843(), test_issue_6843 produces the expected output) over Any ║
+# ║ Path(test_issue_6843(), gruntz(r, x, 1).simplify() == n / 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6843 : Any → {Any | gruntz(r, x, 1).simpli...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(r, x, 1).simplify() == n / 2            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6843 : Any → {Any | result satisfies: grun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15fa94b898e14007  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a42b551102f105f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_6843","kind":"function","src_hash":"415f15061ada1ac2","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(r, x, 1).simplify() == n / 2"},"spec":{"lhs":"test_issue_6843()","rhs":"test_issue_6843 produces the expected output","over":{"base":"Any"},"name":"test_issue_6843_correct"},"guarantee":"test_issue_6843 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_6843_correct","statement":"Path(test_issue_6843(x), test_issue_6843 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15fa94b898e14007"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_6843","kind":"function","src_hash":"415f15061ada1ac2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(r, x, 1).simplify() == n / 2"},"spec":{"lhs":"test_issue_6843()","rhs":"gruntz(r, x, 1).simplify() == n / 2","over":{"base":"Any"},"name":"test_issue_6843_correct"},"guarantee":"gruntz(r, x, 1).simplify() == n / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_6843_correct","statement":"Path(test_issue_6843(x), gruntz(r, x, 1).simplify() == n / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a42b551102f105f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(r, x, 1).simplify() == n / 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6843():
     n = Symbol('n', integer=True, positive=True)
     r = (n + 1)*x**(n + 1)/(x**(n + 1) - 1) - x/(x - 1)
@@ -900,32 +1181,45 @@ def test_issue_6843():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4190(), test_issue_4190 produces the expected output) over Any ║
+# ║ Path(test_issue_4190(), gruntz(x - gamma(1 / x), x, oo) == S.EulerGamma) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4190 : Any → {Any | gruntz(x - gamma(1 / x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(x - gamma(1 / x), x, oo) == S.Eule...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4190 : Any → {Any | result satisfies: grun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 772755f7eda2e93a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fde247f77b177982  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_4190","kind":"function","src_hash":"7a3ddb5cbb1f4dba","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(x - gamma(1 / x), x, oo) == S.EulerGamma"},"spec":{"lhs":"test_issue_4190()","rhs":"test_issue_4190 produces the expected output","over":{"base":"Any"},"name":"test_issue_4190_correct"},"guarantee":"test_issue_4190 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_4190_correct","statement":"Path(test_issue_4190(x), test_issue_4190 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"772755f7eda2e93a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_4190","kind":"function","src_hash":"7a3ddb5cbb1f4dba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(x - gamma(1 / x), x, oo) == S.EulerGamma"},"spec":{"lhs":"test_issue_4190()","rhs":"gruntz(x - gamma(1 / x), x, oo) == S.EulerGamma","over":{"base":"Any"},"name":"test_issue_4190_correct"},"guarantee":"gruntz(x - gamma(1 / x), x, oo) == S.EulerGamma","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_4190_correct","statement":"Path(test_issue_4190(x), gruntz(x - gamma(1 / x), x, oo) == S.EulerGamma)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fde247f77b177982","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(x - gamma(1 / x), x, oo) == S.EulerGamma"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_4190():
     assert gruntz(x - gamma(1/x), x, oo) == S.EulerGamma
 
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5172(), test_issue_5172 produces the expected output) over Any ║
+# ║ Path(test_issue_5172(), gruntz(expr.subs(c, m), n, oo) == 1 and gruntz(expr.subs(c, p), n, oo).simplify() == (2 ** (p + 1) + r - 1) / (r + 1) ** (p + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5172 : Any → {Any | gruntz(expr.subs(c, m)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(expr.subs(c, m), n, oo) == 1            ║
+# ║   ensures:  gruntz(expr.subs(c, p), n, oo).simplify()...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5172 : Any → {Any | result satisfies: grun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 938e6f1e7f44fde0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df1a81275e218998  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_5172","kind":"function","src_hash":"44f77af02c248f64","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(expr.subs(c, m), n, oo) == 1"},"spec":{"lhs":"test_issue_5172()","rhs":"test_issue_5172 produces the expected output","over":{"base":"Any"},"name":"test_issue_5172_correct"},"guarantee":"test_issue_5172 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_5172_correct","statement":"Path(test_issue_5172(x), test_issue_5172 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"938e6f1e7f44fde0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_5172","kind":"function","src_hash":"44f77af02c248f64","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(expr.subs(c, m), n, oo) == 1 and gruntz(expr.subs(c, p), n, oo).simplify() == (2 ** (p + 1) + r - 1) / (r + 1) ** (p + 1)"},"spec":{"lhs":"test_issue_5172()","rhs":"gruntz(expr.subs(c, m), n, oo) == 1 and gruntz(expr.subs(c, p), n, oo).simplify() == (2 ** (p + 1) + r - 1) / (r + 1) ** (p + 1)","over":{"base":"Any"},"name":"test_issue_5172_correct"},"guarantee":"gruntz(expr.subs(c, m), n, oo) == 1; gruntz(expr.subs(c, p), n, oo).simplify() == (2 ** (p + 1) + r - 1) / (r + 1) ** (p + 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_5172_correct","statement":"Path(test_issue_5172(x), gruntz(expr.subs(c, m), n, oo) == 1; gruntz(expr.subs(c, p), n, oo).simplify() == (2 ** (p + 1) + r - 1) / (r + 1) ** (p + 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df1a81275e218998","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(expr.subs(c, m), n, oo) == 1","gruntz(expr.subs(c, p), n, oo).simplify() == (2 ** (p + 1) + r - 1) / (r + 1) ** (p + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_5172():
     n = Symbol('n')
     r = Symbol('r', positive=True)
@@ -942,63 +1236,88 @@ def test_issue_5172():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_4109(), test_issue_4109 produces the expected output) over Any ║
+# ║ Path(test_issue_4109(), gruntz(1 / gamma(x), x, 0) == 0 and gruntz(x * gamma(x), x, 0) == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_4109 : Any → {Any | gruntz(1 / gamma(x), x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(1 / gamma(x), x, 0) == 0                ║
+# ║   ensures:  gruntz(x * gamma(x), x, 0) == 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_4109 : Any → {Any | result satisfies: grun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef1ee1b4b4f5efe6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d2cc9e8f61447672  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_4109","kind":"function","src_hash":"bbea758a2d702a18","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(1 / gamma(x), x, 0) == 0 and gruntz(x * gamma(x), x, 0) == 1"},"spec":{"lhs":"test_issue_4109()","rhs":"test_issue_4109 produces the expected output","over":{"base":"Any"},"name":"test_issue_4109_correct"},"guarantee":"test_issue_4109 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_4109_correct","statement":"Path(test_issue_4109(x), test_issue_4109 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef1ee1b4b4f5efe6"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_4109","kind":"function","src_hash":"bbea758a2d702a18","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(1 / gamma(x), x, 0) == 0 and gruntz(x * gamma(x), x, 0) == 1"},"spec":{"lhs":"test_issue_4109()","rhs":"gruntz(1 / gamma(x), x, 0) == 0 and gruntz(x * gamma(x), x, 0) == 1","over":{"base":"Any"},"name":"test_issue_4109_correct"},"guarantee":"gruntz(1 / gamma(x), x, 0) == 0; gruntz(x * gamma(x), x, 0) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_4109_correct","statement":"Path(test_issue_4109(x), gruntz(1 / gamma(x), x, 0) == 0; gruntz(x * gamma(x), x, 0) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d2cc9e8f61447672","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(1 / gamma(x), x, 0) == 0","gruntz(x * gamma(x), x, 0) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_4109():
     assert gruntz(1/gamma(x), x, 0) == 0
     assert gruntz(x*gamma(x), x, 0) == 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6682(), test_issue_6682 produces the expected output) over Any ║
+# ║ Path(test_issue_6682(), gruntz(exp(2 * Ei(-x)) / x ** 2, x, 0) == exp(2 * EulerGamma)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6682 : Any → {Any | gruntz(exp(2 * Ei(-x))...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(exp(2 * Ei(-x)) / x ** 2, x, 0) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6682 : Any → {Any | result satisfies: grun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66871c1c8085c4a7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e646226b80242d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_6682","kind":"function","src_hash":"64141cc0a01f70fe","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(exp(2 * Ei(-x)) / x ** 2, x, 0) == exp(2 * EulerGamma)"},"spec":{"lhs":"test_issue_6682()","rhs":"test_issue_6682 produces the expected output","over":{"base":"Any"},"name":"test_issue_6682_correct"},"guarantee":"test_issue_6682 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_6682_correct","statement":"Path(test_issue_6682(x), test_issue_6682 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66871c1c8085c4a7"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_6682","kind":"function","src_hash":"64141cc0a01f70fe","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(exp(2 * Ei(-x)) / x ** 2, x, 0) == exp(2 * EulerGamma)"},"spec":{"lhs":"test_issue_6682()","rhs":"gruntz(exp(2 * Ei(-x)) / x ** 2, x, 0) == exp(2 * EulerGamma)","over":{"base":"Any"},"name":"test_issue_6682_correct"},"guarantee":"gruntz(exp(2 * Ei(-x)) / x ** 2, x, 0) == exp(2 * EulerGamma)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_6682_correct","statement":"Path(test_issue_6682(x), gruntz(exp(2 * Ei(-x)) / x ** 2, x, 0) == exp(2 * EulerGamma))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e646226b80242d1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(exp(2 * Ei(-x)) / x ** 2, x, 0) == exp(2 * EulerGamma)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6682():
     assert gruntz(exp(2*Ei(-x))/x**2, x, 0) == exp(2*EulerGamma)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7096(), test_issue_7096 produces the expected output) over Any ║
+# ║ Path(test_issue_7096(), gruntz(x ** (-pi), x, 0, dir='-') == oo * sign((-1) ** (-pi))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_7096 : Any → {Any | gruntz(x ** (-pi), x, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(x ** (-pi), x, 0, dir='-') == oo *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_7096 : Any → {Any | result satisfies: grun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5859208774140c53  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d25713a82afc80f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_7096","kind":"function","src_hash":"5262ee59ef47de5b","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(x ** (-pi), x, 0, dir='-') == oo * sign((-1) ** (-pi))"},"spec":{"lhs":"test_issue_7096()","rhs":"test_issue_7096 produces the expected output","over":{"base":"Any"},"name":"test_issue_7096_correct"},"guarantee":"test_issue_7096 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_7096_correct","statement":"Path(test_issue_7096(x), test_issue_7096 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5859208774140c53"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_7096","kind":"function","src_hash":"5262ee59ef47de5b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(x ** (-pi), x, 0, dir='-') == oo * sign((-1) ** (-pi))"},"spec":{"lhs":"test_issue_7096()","rhs":"gruntz(x ** (-pi), x, 0, dir='-') == oo * sign((-1) ** (-pi))","over":{"base":"Any"},"name":"test_issue_7096_correct"},"guarantee":"gruntz(x ** (-pi), x, 0, dir='-') == oo * sign((-1) ** (-pi))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_7096_correct","statement":"Path(test_issue_7096(x), gruntz(x ** (-pi), x, 0, dir='-') == oo * sign((-1) ** (-pi)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d25713a82afc80f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(x ** (-pi), x, 0, dir='-') == oo * sign((-1) ** (-pi))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7096():
     from sympy.functions import sign
     assert gruntz(x**-pi, x, 0, dir='-') == oo*sign((-1)**(-pi))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_7391_8166(), test_issue_7391_8166 produces the expected output) over Any ║
+# ║ Path(test_issue_7391_8166(), <unspecified:test_issue_7391_8166>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_7391_8166 : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d2e3265c586b0c0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_7391_8166","kind":"function","src_hash":"eaf16a4148d2e8b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_7391_8166()","rhs":"test_issue_7391_8166 produces the expected output","over":{"base":"Any"},"name":"test_issue_7391_8166_correct"},"guarantee":"test_issue_7391_8166 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_7391_8166_correct","statement":"Path(test_issue_7391_8166(x), test_issue_7391_8166 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d2e3265c586b0c0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_7391_8166","kind":"function","src_hash":"eaf16a4148d2e8b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_7391_8166()","rhs":"<unspecified:test_issue_7391_8166>","over":{"base":"Any"},"name":"test_issue_7391_8166_correct"},"guarantee":"test_issue_7391_8166 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_7391_8166_correct","statement":"Path(test_issue_7391_8166(x), test_issue_7391_8166 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d2e3265c586b0c0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_7391_8166():
     f = Function('f')
     # limit should depend on the continuity of the expression at the point passed
@@ -1007,16 +1326,23 @@ def test_issue_7391_8166():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_24210_25885(), test_issue_24210_25885 produces the expected output) over Any ║
+# ║ Path(test_issue_24210_25885(), gruntz(eq, x, oo) == ans and gruntz(1 / eq, x, oo) == 1 / ans) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_24210_25885 : Any → {Any | gruntz(eq, x, o...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  gruntz(eq, x, oo) == ans                       ║
+# ║   ensures:  gruntz(1 / eq, x, oo) == 1 / ans               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_24210_25885 : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6d1402f7be632f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa9071be77f01063  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_24210_25885","kind":"function","src_hash":"c8db84eac3b0c01e","in":{"base":"Any"},"out":{"base":"Any","pred":"gruntz(eq, x, oo) == ans and gruntz(1 / eq, x, oo) == 1 / ans"},"spec":{"lhs":"test_issue_24210_25885()","rhs":"test_issue_24210_25885 produces the expected output","over":{"base":"Any"},"name":"test_issue_24210_25885_correct"},"guarantee":"test_issue_24210_25885 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_24210_25885_correct","statement":"Path(test_issue_24210_25885(x), test_issue_24210_25885 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6d1402f7be632f8"}
+# @cctt_verify {"v":2,"sym":"sympy.series.tests.test_gruntz.test_issue_24210_25885","kind":"function","src_hash":"c8db84eac3b0c01e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: gruntz(eq, x, oo) == ans and gruntz(1 / eq, x, oo) == 1 / ans"},"spec":{"lhs":"test_issue_24210_25885()","rhs":"gruntz(eq, x, oo) == ans and gruntz(1 / eq, x, oo) == 1 / ans","over":{"base":"Any"},"name":"test_issue_24210_25885_correct"},"guarantee":"gruntz(eq, x, oo) == ans; gruntz(1 / eq, x, oo) == 1 / ans","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.tests.test_gruntz.test_issue_24210_25885_correct","statement":"Path(test_issue_24210_25885(x), gruntz(eq, x, oo) == ans; gruntz(1 / eq, x, oo) == 1 / ans)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa9071be77f01063","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["gruntz(eq, x, oo) == ans","gruntz(1 / eq, x, oo) == 1 / ans"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_24210_25885():
     eq = exp(x)/(1+1/x)**x**2
     ans = sqrt(E)

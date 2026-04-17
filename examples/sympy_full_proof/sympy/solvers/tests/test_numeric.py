@@ -32,16 +32,22 @@ from sympy.utilities.decorator import conserve_mpmath_dps
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nsolve_fail(), test_nsolve_fail produces the expected output) over Any ║
+# ║ Path(test_nsolve_fail(), ans > 0.46 and ans < 0.47) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nsolve_fail : Any → {Any | ans > 0.46 and ans < ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ans > 0.46 and ans < 0.47                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nsolve_fail : Any → {Any | result satisfies: ans...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 893615b4670161e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d2216ab4d5b91d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve_fail","kind":"function","src_hash":"0af5681010e78c77","in":{"base":"Any"},"out":{"base":"Any","pred":"ans > 0.46 and ans < 0.47"},"spec":{"lhs":"test_nsolve_fail()","rhs":"test_nsolve_fail produces the expected output","over":{"base":"Any"},"name":"test_nsolve_fail_correct"},"guarantee":"test_nsolve_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_fail_correct","statement":"Path(test_nsolve_fail(x), test_nsolve_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"893615b4670161e7"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve_fail","kind":"function","src_hash":"0af5681010e78c77","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ans > 0.46 and ans < 0.47"},"spec":{"lhs":"test_nsolve_fail()","rhs":"ans > 0.46 and ans < 0.47","over":{"base":"Any"},"name":"test_nsolve_fail_correct"},"guarantee":"ans > 0.46 and ans < 0.47","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_fail_correct","statement":"Path(test_nsolve_fail(x), ans > 0.46 and ans < 0.47)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d2216ab4d5b91d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ans > 0.46 and ans < 0.47"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_nsolve_fail():
     x = symbols('x')
     # Sometimes it is better to use the numerator (issue 4829)
@@ -52,16 +58,22 @@ def test_nsolve_fail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nsolve_denominator(), test_nsolve_denominator produces the expected output) over Any ║
+# ║ Path(test_nsolve_denominator(), ans == -1.0) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nsolve_denominator : Any → {Any | ans == -1.0}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  ans == -1.0                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nsolve_denominator : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25941f0f4e97401e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 961b74042bd4ea1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve_denominator","kind":"function","src_hash":"0332c61cc76414af","in":{"base":"Any"},"out":{"base":"Any","pred":"ans == -1.0"},"spec":{"lhs":"test_nsolve_denominator()","rhs":"test_nsolve_denominator produces the expected output","over":{"base":"Any"},"name":"test_nsolve_denominator_correct"},"guarantee":"test_nsolve_denominator produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_denominator_correct","statement":"Path(test_nsolve_denominator(x), test_nsolve_denominator produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25941f0f4e97401e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve_denominator","kind":"function","src_hash":"0332c61cc76414af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: ans == -1.0"},"spec":{"lhs":"test_nsolve_denominator()","rhs":"ans == -1.0","over":{"base":"Any"},"name":"test_nsolve_denominator_correct"},"guarantee":"ans == -1.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_denominator_correct","statement":"Path(test_nsolve_denominator(x), ans == -1.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"961b74042bd4ea1d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["ans == -1.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_nsolve_denominator():
     x = symbols('x')
     # Test that nsolve uses the full expression (numerator and denominator).
@@ -70,16 +82,24 @@ def test_nsolve_denominator():
     assert ans == -1.0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nsolve(), test_nsolve produces the expected output) over Any ║
+# ║ Path(test_nsolve(), nsolve(sin(x), 2) - pi.evalf() < 1e-15 and nsolve(Eq(2 * x, 2), x, -10) == nsolve(2 * x - 2, -10) and list(map(round, getroot((1, 1, 1)))) == [2, 1, 0] and nsolve([Eq(f1, 0), Eq(f2, 0), Eq(f3, 0)], [x, y, z], (1, 1, 1)) and abs(nsolve(1 / (0.001 + a) ** 3 - 6 / (0.9 - a) ** 3, a, 0.3) - mpf('0.31883011387318591')) < 1e-15) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nsolve : Any → {Any | nsolve(sin(x), 2) - pi.eva...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nsolve(sin(x), 2) - pi.evalf() < 1e-15         ║
+# ║   ensures:  nsolve(Eq(2 * x, 2), x, -10) == nsolve(2 ...   ║
+# ║   ensures:  list(map(round, getroot((1, 1, 1)))) == [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nsolve : Any → {Any | result satisfies: nsolve(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e3aad6392cb4613  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7015433cc2188e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve","kind":"function","src_hash":"d9a8d092bf2f26a5","in":{"base":"Any"},"out":{"base":"Any","pred":"nsolve(sin(x), 2) - pi.evalf() < 1e-15 and nsolve(Eq(2 * x, 2), x, -10) == nsolve(2 * x - 2, -10) and list(map(round, getroot((1, 1, 1)))) == [2, 1, 0] and nsolve([Eq(f1, 0), Eq(f2, 0), Eq(f3, 0)], [x, y, z], (1, 1, 1)) and mnorm(F(*x), 1) <= 1e-10 and mnorm(F(*root), 1) <= 1e-08"},"spec":{"lhs":"test_nsolve()","rhs":"test_nsolve produces the expected output","over":{"base":"Any"},"name":"test_nsolve_correct"},"guarantee":"test_nsolve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_correct","statement":"Path(test_nsolve(x), test_nsolve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e3aad6392cb4613"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve","kind":"function","src_hash":"d9a8d092bf2f26a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nsolve(sin(x), 2) - pi.evalf() < 1e-15 and nsolve(Eq(2 * x, 2), x, -10) == nsolve(2 * x - 2, -10) and list(map(round, getroot((1, 1, 1)))) == [2, 1, 0] and nsolve([Eq(f1, 0), Eq(f2, 0), Eq(f3, 0)], [x, y, z], (1, 1, 1)) and abs(nsolve(1 / (0.001 + a) ** 3 - 6 / (0.9 - a) ** 3, a, 0.3) - mpf('0.31883011387318591')) < 1e-15"},"spec":{"lhs":"test_nsolve()","rhs":"nsolve(sin(x), 2) - pi.evalf() < 1e-15 and nsolve(Eq(2 * x, 2), x, -10) == nsolve(2 * x - 2, -10) and list(map(round, getroot((1, 1, 1)))) == [2, 1, 0] and nsolve([Eq(f1, 0), Eq(f2, 0), Eq(f3, 0)], [x, y, z], (1, 1, 1)) and abs(nsolve(1 / (0.001 + a) ** 3 - 6 / (0.9 - a) ** 3, a, 0.3) - mpf('0.31883011387318591')) < 1e-15","over":{"base":"Any"},"name":"test_nsolve_correct"},"guarantee":"nsolve(sin(x), 2) - pi.evalf() < 1e-15; nsolve(Eq(2 * x, 2), x, -10) == nsolve(2 * x - 2, -10); list(map(round, getroot((1, 1, 1)))) == [2, 1, 0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_correct","statement":"Path(test_nsolve(x), nsolve(sin(x), 2) - pi.evalf() < 1e-15; nsolve(Eq(2 * x, 2), x, -10) == nsolve(2 * x - 2, -10); list(map(round, getroot((1, 1, 1)))) == [2, 1, 0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7015433cc2188e3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nsolve(sin(x), 2) - pi.evalf() < 1e-15","nsolve(Eq(2 * x, 2), x, -10) == nsolve(2 * x - 2, -10)","list(map(round, getroot((1, 1, 1)))) == [2, 1, 0]","nsolve([Eq(f1, 0), Eq(f2, 0), Eq(f3, 0)], [x, y, z], (1, 1, 1))","abs(nsolve(1 / (0.001 + a) ** 3 - 6 / (0.9 - a) ** 3, a, 0.3) - mpf('0.31883011387318591')) < 1e-15"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_nsolve():
     # onedimensional
     x = Symbol('x')
@@ -122,32 +142,44 @@ def test_nsolve():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6408(), test_issue_6408 produces the expected output) over Any ║
+# ║ Path(test_issue_6408(), nsolve(Piecewise((x, x < 1), (x ** 2, True)), x, 2) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6408 : Any → {Any | nsolve(Piecewise((x, x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nsolve(Piecewise((x, x < 1), (x ** 2, Tru...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6408 : Any → {Any | result satisfies: nsol...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6f61bddfd2a01f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcadb60e2a25ce84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_issue_6408","kind":"function","src_hash":"c507058850fb33ed","in":{"base":"Any"},"out":{"base":"Any","pred":"nsolve(Piecewise((x, x < 1), (x ** 2, True)), x, 2) == 0"},"spec":{"lhs":"test_issue_6408()","rhs":"test_issue_6408 produces the expected output","over":{"base":"Any"},"name":"test_issue_6408_correct"},"guarantee":"test_issue_6408 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_issue_6408_correct","statement":"Path(test_issue_6408(x), test_issue_6408 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6f61bddfd2a01f8"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_issue_6408","kind":"function","src_hash":"c507058850fb33ed","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nsolve(Piecewise((x, x < 1), (x ** 2, True)), x, 2) == 0"},"spec":{"lhs":"test_issue_6408()","rhs":"nsolve(Piecewise((x, x < 1), (x ** 2, True)), x, 2) == 0","over":{"base":"Any"},"name":"test_issue_6408_correct"},"guarantee":"nsolve(Piecewise((x, x < 1), (x ** 2, True)), x, 2) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_issue_6408_correct","statement":"Path(test_issue_6408(x), nsolve(Piecewise((x, x < 1), (x ** 2, True)), x, 2) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcadb60e2a25ce84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nsolve(Piecewise((x, x < 1), (x ** 2, True)), x, 2) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6408():
     x = Symbol('x')
     assert nsolve(Piecewise((x, x < 1), (x**2, True)), x, 2) == 0
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6408_integral(), test_issue_6408_integral produces the expected output) over Any ║
+# ║ Path(test_issue_6408_integral(), nsolve(Integral(x * y, (x, 0, 5)), y, 2) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6408_integral : Any → {Any | nsolve(Integr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nsolve(Integral(x * y, (x, 0, 5)), y, 2) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6408_integral : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d76a86ea47966e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 621bdc83f2ec3227  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_issue_6408_integral","kind":"function","src_hash":"788a4327e91d5887","in":{"base":"Any"},"out":{"base":"Any","pred":"nsolve(Integral(x * y, (x, 0, 5)), y, 2) == 0"},"spec":{"lhs":"test_issue_6408_integral()","rhs":"test_issue_6408_integral produces the expected output","over":{"base":"Any"},"name":"test_issue_6408_integral_correct"},"guarantee":"test_issue_6408_integral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_issue_6408_integral_correct","statement":"Path(test_issue_6408_integral(x), test_issue_6408_integral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d76a86ea47966e0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_issue_6408_integral","kind":"function","src_hash":"788a4327e91d5887","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nsolve(Integral(x * y, (x, 0, 5)), y, 2) == 0"},"spec":{"lhs":"test_issue_6408_integral()","rhs":"nsolve(Integral(x * y, (x, 0, 5)), y, 2) == 0","over":{"base":"Any"},"name":"test_issue_6408_integral_correct"},"guarantee":"nsolve(Integral(x * y, (x, 0, 5)), y, 2) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_issue_6408_integral_correct","statement":"Path(test_issue_6408_integral(x), nsolve(Integral(x * y, (x, 0, 5)), y, 2) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"621bdc83f2ec3227","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nsolve(Integral(x * y, (x, 0, 5)), y, 2) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6408_integral():
     x, y = symbols('x y')
     assert nsolve(Integral(x*y, (x, 0, 5)), y, 2) == 0
@@ -155,16 +187,22 @@ def test_issue_6408_integral():
 
 @conserve_mpmath_dps
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_increased_dps(), test_increased_dps produces the expected output) over Any ║
+# ║ Path(test_increased_dps(), abs(sqrt(pi).evalf(128) - q) < 1e-128) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_increased_dps : Any → {Any | abs(sqrt(pi).evalf(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(sqrt(pi).evalf(128) - q) < 1e-128          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_increased_dps : Any → {Any | result satisfies: a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   mpmath.__module__                                        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 7fa121847048...  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟡 LIBRARY | library_axiom | Compiled: ✓ | 31d715342f7e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_increased_dps","kind":"function","src_hash":"ec6d4a12832d53f8","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(sqrt(pi).evalf(128) - q) < 1e-128"},"spec":{"lhs":"test_increased_dps()","rhs":"test_increased_dps produces the expected output","over":{"base":"Any"},"name":"test_increased_dps_correct"},"guarantee":"test_increased_dps produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_increased_dps_correct","statement":"Path(test_increased_dps(x), test_increased_dps produces the expected output)"},"assumes":[],"trust":["mpmath.__module__"],"compiled":true,"vhash":"7fa121847048e509"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_increased_dps","kind":"function","src_hash":"ec6d4a12832d53f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(sqrt(pi).evalf(128) - q) < 1e-128"},"spec":{"lhs":"test_increased_dps()","rhs":"abs(sqrt(pi).evalf(128) - q) < 1e-128","over":{"base":"Any"},"name":"test_increased_dps_correct"},"guarantee":"abs(sqrt(pi).evalf(128) - q) < 1e-128","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_increased_dps_correct","statement":"Path(test_increased_dps(x), abs(sqrt(pi).evalf(128) - q) < 1e-128)"},"assumes":[],"trust":["mpmath.__module__"],"compiled":true,"vhash":"31d715342f7e2b0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(sqrt(pi).evalf(128) - q) < 1e-128"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_increased_dps():
     # Issue 8564
     import mpmath
@@ -176,7 +214,12 @@ def test_increased_dps():
     assert abs(sqrt(pi).evalf(128) - q) < 1e-128
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nsolve_precision(), test_nsolve_precision produces the expected output) over {Any | isinstance(sol, Float) and isinstance(sols, Matrix)} ║
+# ║ Path(test_nsolve_precision(), abs(sqrt(pi).evalf(128) - sol) < 1e-128 and isinstance(sol, Float) and isinstance(sols, Matrix) and sols.shape == (2, 1) and abs(sqrt(pi).evalf(128) - sols[0]) < 1e-128 and abs(sqrt(sqrt(pi)).evalf(128) - sols[1]) < 1e-128 and all((isinstance(i, Float) for i in sols))) over {Any | isinstance(sol, Float) and isinstance(sols, Matrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(sqrt(pi).evalf(128) - sol) < 1e-128        ║
+# ║   ensures:  isinstance(sol, Float)                         ║
+# ║   ensures:  isinstance(sols, Matrix)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_nsolve_precision : {Any | isinstance(sol, Float)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -189,9 +232,12 @@ def test_increased_dps():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 4.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d3f5f052...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve_precision","kind":"function","src_hash":"5d964a63cd8c45e6","in":{"base":"Any","pred":"isinstance(sol, Float) and isinstance(sols, Matrix)"},"out":{"base":"Any","pred":"abs(sqrt(pi).evalf(128) - sol) < 1e-128 and isinstance(sol, Float) and isinstance(sols, Matrix) and sols.shape == (2, 1) and abs(sqrt(pi).evalf(128) - sols[0]) < 1e-128 and abs(sqrt(sqrt(pi)).evalf(128) - sols[1]) < 1e-128 and all((isinstance(i, Float) for i in sols))"},"spec":{"lhs":"test_nsolve_precision()","rhs":"test_nsolve_precision produces the expected output","over":{"base":"Any","pred":"isinstance(sol, Float) and isinstance(sols, Matrix)"},"name":"test_nsolve_precision_correct"},"guarantee":"test_nsolve_precision produces the expected output","fibers":[{"name":"Float","pred":"isinstance(sol, Float)","path":{"lhs":"test_nsolve_precision(x)","rhs":"test_nsolve_precision produces the expected output","over":{"base":"Float","pred":"isinstance(sol, Float)"},"name":"test_nsolve_precision_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_precision_Float_correct","statement":"test_nsolve_precision satisfies spec on Float inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(sols, Matrix)","path":{"lhs":"test_nsolve_precision(x)","rhs":"test_nsolve_precision produces the expected output","over":{"base":"Matrix","pred":"isinstance(sols, Matrix)"},"name":"test_nsolve_precision_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_precision_Matrix_correct","statement":"test_nsolve_precision satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d3f5f052b9368af3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve_precision","kind":"function","src_hash":"5d964a63cd8c45e6","in":{"base":"Any","pred":"isinstance(sol, Float) and isinstance(sols, Matrix)"},"out":{"base":"Any","pred":"result satisfies: abs(sqrt(pi).evalf(128) - sol) < 1e-128 and isinstance(sol, Float) and isinstance(sols, Matrix) and sols.shape == (2, 1) and abs(sqrt(pi).evalf(128) - sols[0]) < 1e-128 and abs(sqrt(sqrt(pi)).evalf(128) - sols[1]) < 1e-128 and all((isinstance(i, Float) for i in sols))"},"spec":{"lhs":"test_nsolve_precision()","rhs":"abs(sqrt(pi).evalf(128) - sol) < 1e-128 and isinstance(sol, Float) and isinstance(sols, Matrix) and sols.shape == (2, 1) and abs(sqrt(pi).evalf(128) - sols[0]) < 1e-128 and abs(sqrt(sqrt(pi)).evalf(128) - sols[1]) < 1e-128 and all((isinstance(i, Float) for i in sols))","over":{"base":"Any","pred":"isinstance(sol, Float) and isinstance(sols, Matrix)"},"name":"test_nsolve_precision_correct"},"guarantee":"abs(sqrt(pi).evalf(128) - sol) < 1e-128; isinstance(sol, Float); isinstance(sols, Matrix)","fibers":[{"name":"Float","pred":"isinstance(sol, Float)","path":{"lhs":"test_nsolve_precision(x)","rhs":"abs(sqrt(pi).evalf(128) - sol) < 1e-128; isinstance(sol, Float); isinstance(sols, Matrix)","over":{"base":"Float","pred":"isinstance(sol, Float)"},"name":"test_nsolve_precision_Float_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_precision_Float_correct","statement":"test_nsolve_precision satisfies spec on Float inputs"},"trust":"LIBRARY"},{"name":"Matrix","pred":"isinstance(sols, Matrix)","path":{"lhs":"test_nsolve_precision(x)","rhs":"abs(sqrt(pi).evalf(128) - sol) < 1e-128; isinstance(sol, Float); isinstance(sols, Matrix)","over":{"base":"Matrix","pred":"isinstance(sols, Matrix)"},"name":"test_nsolve_precision_Matrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_precision_Matrix_correct","statement":"test_nsolve_precision satisfies spec on Matrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d3f5f052b9368af3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(sqrt(pi).evalf(128) - sol) < 1e-128","isinstance(sol, Float)","isinstance(sols, Matrix)","sols.shape == (2, 1)","abs(sqrt(pi).evalf(128) - sols[0]) < 1e-128","abs(sqrt(sqrt(pi)).evalf(128) - sols[1]) < 1e-128","all((isinstance(i, Float) for i in sols))"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.7,"verdict_class":"failed","binding":true}}
 def test_nsolve_precision():
     x, y = symbols('x y')
     sol = nsolve(x**2 - pi, x, 3, prec=128)
@@ -206,16 +252,24 @@ def test_nsolve_precision():
     assert all(isinstance(i, Float) for i in sols)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nsolve_complex(), test_nsolve_complex produces the expected output) over Any ║
+# ║ Path(test_nsolve_complex(), nsolve(x ** 2 + 2, 1j) == sqrt(2.0) * I and nsolve(x ** 2 + 2, I) == sqrt(2.0) * I and nsolve([x ** 2 + 2, y ** 2 + 2], [x, y], [I, I]) == Matrix([sqrt(2.0) * I, sqrt(2.0) * I])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nsolve_complex : Any → {Any | nsolve(x ** 2 + 2,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nsolve(x ** 2 + 2, 1j) == sqrt(2.0) * I        ║
+# ║   ensures:  nsolve(x ** 2 + 2, I) == sqrt(2.0) * I         ║
+# ║   ensures:  nsolve([x ** 2 + 2, y ** 2 + 2], [x, y], ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nsolve_complex : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c05562ba91c125b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ba22a08f4a95f6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve_complex","kind":"function","src_hash":"8ed49d46aeac942c","in":{"base":"Any"},"out":{"base":"Any","pred":"nsolve(x ** 2 + 2, 1j) == sqrt(2.0) * I and nsolve(x ** 2 + 2, I) == sqrt(2.0) * I"},"spec":{"lhs":"test_nsolve_complex()","rhs":"test_nsolve_complex produces the expected output","over":{"base":"Any"},"name":"test_nsolve_complex_correct"},"guarantee":"test_nsolve_complex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_complex_correct","statement":"Path(test_nsolve_complex(x), test_nsolve_complex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c05562ba91c125b0"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve_complex","kind":"function","src_hash":"8ed49d46aeac942c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nsolve(x ** 2 + 2, 1j) == sqrt(2.0) * I and nsolve(x ** 2 + 2, I) == sqrt(2.0) * I and nsolve([x ** 2 + 2, y ** 2 + 2], [x, y], [I, I]) == Matrix([sqrt(2.0) * I, sqrt(2.0) * I])"},"spec":{"lhs":"test_nsolve_complex()","rhs":"nsolve(x ** 2 + 2, 1j) == sqrt(2.0) * I and nsolve(x ** 2 + 2, I) == sqrt(2.0) * I and nsolve([x ** 2 + 2, y ** 2 + 2], [x, y], [I, I]) == Matrix([sqrt(2.0) * I, sqrt(2.0) * I])","over":{"base":"Any"},"name":"test_nsolve_complex_correct"},"guarantee":"nsolve(x ** 2 + 2, 1j) == sqrt(2.0) * I; nsolve(x ** 2 + 2, I) == sqrt(2.0) * I; nsolve([x ** 2 + 2, y ** 2 + 2], [x, y], [I, I]) == Matrix([sqrt(2.0) * I, sqrt(2.0) * I])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_complex_correct","statement":"Path(test_nsolve_complex(x), nsolve(x ** 2 + 2, 1j) == sqrt(2.0) * I; nsolve(x ** 2 + 2, I) == sqrt(2.0) * I; nsolve([x ** 2 + 2, y ** 2 + 2], [x, y], [I, I]) == Matrix([sqrt(2.0) * I, sqrt(2.0) * I]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ba22a08f4a95f6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nsolve(x ** 2 + 2, 1j) == sqrt(2.0) * I","nsolve(x ** 2 + 2, I) == sqrt(2.0) * I","nsolve([x ** 2 + 2, y ** 2 + 2], [x, y], [I, I]) == Matrix([sqrt(2.0) * I, sqrt(2.0) * I])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_nsolve_complex():
     x, y = symbols('x y')
 
@@ -226,16 +280,24 @@ def test_nsolve_complex():
     assert nsolve([x**2 + 2, y**2 + 2], [x, y], [I, I]) == Matrix([sqrt(2.)*I, sqrt(2.)*I])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nsolve_dict_kwarg(), test_nsolve_dict_kwarg produces the expected output) over Any ║
+# ║ Path(test_nsolve_dict_kwarg(), nsolve(x ** 2 - 2, 1, dict=True) == [{x: sqrt(2.0)}] and nsolve(x ** 2 + 2, I, dict=True) == [{x: sqrt(2.0) * I}] and nsolve([x ** 2 + y ** 2 - 5, x ** 2 - y ** 2 + 1], [x, y], [1, 1], dict=True) == [{x: sqrt(2.0), y: sqrt(3.0)}]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nsolve_dict_kwarg : Any → {Any | nsolve(x ** 2 -...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nsolve(x ** 2 - 2, 1, dict=True) == [{x: ...   ║
+# ║   ensures:  nsolve(x ** 2 + 2, I, dict=True) == [{x: ...   ║
+# ║   ensures:  nsolve([x ** 2 + y ** 2 - 5, x ** 2 - y *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nsolve_dict_kwarg : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8706df240445dd98  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbd78390e69a87b6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve_dict_kwarg","kind":"function","src_hash":"96026fc3b2ed7237","in":{"base":"Any"},"out":{"base":"Any","pred":"nsolve(x ** 2 - 2, 1, dict=True) == [{x: sqrt(2.0)}] and nsolve(x ** 2 + 2, I, dict=True) == [{x: sqrt(2.0) * I}]"},"spec":{"lhs":"test_nsolve_dict_kwarg()","rhs":"test_nsolve_dict_kwarg produces the expected output","over":{"base":"Any"},"name":"test_nsolve_dict_kwarg_correct"},"guarantee":"test_nsolve_dict_kwarg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_dict_kwarg_correct","statement":"Path(test_nsolve_dict_kwarg(x), test_nsolve_dict_kwarg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8706df240445dd98"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve_dict_kwarg","kind":"function","src_hash":"96026fc3b2ed7237","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nsolve(x ** 2 - 2, 1, dict=True) == [{x: sqrt(2.0)}] and nsolve(x ** 2 + 2, I, dict=True) == [{x: sqrt(2.0) * I}] and nsolve([x ** 2 + y ** 2 - 5, x ** 2 - y ** 2 + 1], [x, y], [1, 1], dict=True) == [{x: sqrt(2.0), y: sqrt(3.0)}]"},"spec":{"lhs":"test_nsolve_dict_kwarg()","rhs":"nsolve(x ** 2 - 2, 1, dict=True) == [{x: sqrt(2.0)}] and nsolve(x ** 2 + 2, I, dict=True) == [{x: sqrt(2.0) * I}] and nsolve([x ** 2 + y ** 2 - 5, x ** 2 - y ** 2 + 1], [x, y], [1, 1], dict=True) == [{x: sqrt(2.0), y: sqrt(3.0)}]","over":{"base":"Any"},"name":"test_nsolve_dict_kwarg_correct"},"guarantee":"nsolve(x ** 2 - 2, 1, dict=True) == [{x: sqrt(2.0)}]; nsolve(x ** 2 + 2, I, dict=True) == [{x: sqrt(2.0) * I}]; nsolve([x ** 2 + y ** 2 - 5, x ** 2 - y ** 2 + 1], [x, y], [1, 1], dict=True) == [{x: sqrt(2.0), y: sqrt(3.0)}]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_dict_kwarg_correct","statement":"Path(test_nsolve_dict_kwarg(x), nsolve(x ** 2 - 2, 1, dict=True) == [{x: sqrt(2.0)}]; nsolve(x ** 2 + 2, I, dict=True) == [{x: sqrt(2.0) * I}]; nsolve([x ** 2 + y ** 2 - 5, x ** 2 - y ** 2 + 1], [x, y], [1, 1], dict=True) == [{x: sqrt(2.0), y: sqrt(3.0)}])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbd78390e69a87b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nsolve(x ** 2 - 2, 1, dict=True) == [{x: sqrt(2.0)}]","nsolve(x ** 2 + 2, I, dict=True) == [{x: sqrt(2.0) * I}]","nsolve([x ** 2 + y ** 2 - 5, x ** 2 - y ** 2 + 1], [x, y], [1, 1], dict=True) == [{x: sqrt(2.0), y: sqrt(3.0)}]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_nsolve_dict_kwarg():
     x, y = symbols('x y')
     # one variable
@@ -249,32 +311,45 @@ def test_nsolve_dict_kwarg():
         [{x: sqrt(2.), y: sqrt(3.)}]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nsolve_rational(), test_nsolve_rational produces the expected output) over Any ║
+# ║ Path(test_nsolve_rational(), nsolve(x - Rational(1, 3), 0, prec=100) == Rational(1, 3).evalf(100)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nsolve_rational : Any → {Any | nsolve(x - Ration...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nsolve(x - Rational(1, 3), 0, prec=100) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nsolve_rational : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a6b2409d356e7f6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44535bbca29c98c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve_rational","kind":"function","src_hash":"fd620fc54be4502f","in":{"base":"Any"},"out":{"base":"Any","pred":"nsolve(x - Rational(1, 3), 0, prec=100) == Rational(1, 3).evalf(100)"},"spec":{"lhs":"test_nsolve_rational()","rhs":"test_nsolve_rational produces the expected output","over":{"base":"Any"},"name":"test_nsolve_rational_correct"},"guarantee":"test_nsolve_rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_rational_correct","statement":"Path(test_nsolve_rational(x), test_nsolve_rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a6b2409d356e7f6"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_nsolve_rational","kind":"function","src_hash":"fd620fc54be4502f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nsolve(x - Rational(1, 3), 0, prec=100) == Rational(1, 3).evalf(100)"},"spec":{"lhs":"test_nsolve_rational()","rhs":"nsolve(x - Rational(1, 3), 0, prec=100) == Rational(1, 3).evalf(100)","over":{"base":"Any"},"name":"test_nsolve_rational_correct"},"guarantee":"nsolve(x - Rational(1, 3), 0, prec=100) == Rational(1, 3).evalf(100)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_nsolve_rational_correct","statement":"Path(test_nsolve_rational(x), nsolve(x - Rational(1, 3), 0, prec=100) == Rational(1, 3).evalf(100))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44535bbca29c98c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nsolve(x - Rational(1, 3), 0, prec=100) == Rational(1, 3).evalf(100)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_nsolve_rational():
     x = symbols('x')
     assert nsolve(x - Rational(1, 3), 0, prec=100) == Rational(1, 3).evalf(100)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_14950(), test_issue_14950 produces the expected output) over Any ║
+# ║ Path(test_issue_14950(), nsolve(eqn, x, x0) == nfloat(-x0) and nsolve(eqn.T, x.T, x0.T) == nfloat(-x0)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_14950 : Any → {Any | nsolve(eqn, x, x0) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  nsolve(eqn, x, x0) == nfloat(-x0)              ║
+# ║   ensures:  nsolve(eqn.T, x.T, x0.T) == nfloat(-x0)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_14950 : Any → {Any | result satisfies: nso...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d02ac89d9f1d160  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65091fb2a9356f3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_issue_14950","kind":"function","src_hash":"ed88d21d796b4872","in":{"base":"Any"},"out":{"base":"Any","pred":"nsolve(eqn, x, x0) == nfloat(-x0) and nsolve(eqn.T, x.T, x0.T) == nfloat(-x0)"},"spec":{"lhs":"test_issue_14950()","rhs":"test_issue_14950 produces the expected output","over":{"base":"Any"},"name":"test_issue_14950_correct"},"guarantee":"test_issue_14950 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_issue_14950_correct","statement":"Path(test_issue_14950(x), test_issue_14950 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d02ac89d9f1d160"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.tests.test_numeric.test_issue_14950","kind":"function","src_hash":"ed88d21d796b4872","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: nsolve(eqn, x, x0) == nfloat(-x0) and nsolve(eqn.T, x.T, x0.T) == nfloat(-x0)"},"spec":{"lhs":"test_issue_14950()","rhs":"nsolve(eqn, x, x0) == nfloat(-x0) and nsolve(eqn.T, x.T, x0.T) == nfloat(-x0)","over":{"base":"Any"},"name":"test_issue_14950_correct"},"guarantee":"nsolve(eqn, x, x0) == nfloat(-x0); nsolve(eqn.T, x.T, x0.T) == nfloat(-x0)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.tests.test_numeric.test_issue_14950_correct","statement":"Path(test_issue_14950(x), nsolve(eqn, x, x0) == nfloat(-x0); nsolve(eqn.T, x.T, x0.T) == nfloat(-x0))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65091fb2a9356f3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["nsolve(eqn, x, x0) == nfloat(-x0)","nsolve(eqn.T, x.T, x0.T) == nfloat(-x0)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_14950():
     x = Matrix(symbols('t s'))
     x0 = Matrix([17, 23])

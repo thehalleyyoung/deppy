@@ -33,16 +33,24 @@ C = MatrixSymbol('C', m, k)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_HadamardProduct(), test_HadamardProduct produces the expected output) over Any ║
+# ║ Path(test_HadamardProduct(), HadamardProduct(A, B, A).shape == A.shape and HadamardProduct(A, 2 * B, -A)[1, 1] == -2 * A[1, 1] * B[1, 1] * A[1, 1] and mix.shape == (n, k) and set(HadamardProduct(A, B, A).T.args) == {A.T, A.T, B.T}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_HadamardProduct : Any → {Any | HadamardProduct(A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  HadamardProduct(A, B, A).shape == A.shape      ║
+# ║   ensures:  HadamardProduct(A, 2 * B, -A)[1, 1] == -2...   ║
+# ║   ensures:  mix.shape == (n, k)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_HadamardProduct : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c25d82628e08c24  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1798ff789818dba9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_HadamardProduct","kind":"function","src_hash":"b183b914db5c8a23","in":{"base":"Any"},"out":{"base":"Any","pred":"HadamardProduct(A, B, A).shape == A.shape and HadamardProduct(A, 2 * B, -A)[1, 1] == -2 * A[1, 1] * B[1, 1] * A[1, 1] and mix.shape == (n, k) and set(HadamardProduct(A, B, A).T.args) == {A.T, A.T, B.T}"},"spec":{"lhs":"test_HadamardProduct()","rhs":"test_HadamardProduct produces the expected output","over":{"base":"Any"},"name":"test_HadamardProduct_correct"},"guarantee":"test_HadamardProduct produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_HadamardProduct_correct","statement":"Path(test_HadamardProduct(x), test_HadamardProduct produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c25d82628e08c24"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_HadamardProduct","kind":"function","src_hash":"b183b914db5c8a23","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: HadamardProduct(A, B, A).shape == A.shape and HadamardProduct(A, 2 * B, -A)[1, 1] == -2 * A[1, 1] * B[1, 1] * A[1, 1] and mix.shape == (n, k) and set(HadamardProduct(A, B, A).T.args) == {A.T, A.T, B.T}"},"spec":{"lhs":"test_HadamardProduct()","rhs":"HadamardProduct(A, B, A).shape == A.shape and HadamardProduct(A, 2 * B, -A)[1, 1] == -2 * A[1, 1] * B[1, 1] * A[1, 1] and mix.shape == (n, k) and set(HadamardProduct(A, B, A).T.args) == {A.T, A.T, B.T}","over":{"base":"Any"},"name":"test_HadamardProduct_correct"},"guarantee":"HadamardProduct(A, B, A).shape == A.shape; HadamardProduct(A, 2 * B, -A)[1, 1] == -2 * A[1, 1] * B[1, 1] * A[1, 1]; mix.shape == (n, k)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_HadamardProduct_correct","statement":"Path(test_HadamardProduct(x), HadamardProduct(A, B, A).shape == A.shape; HadamardProduct(A, 2 * B, -A)[1, 1] == -2 * A[1, 1] * B[1, 1] * A[1, 1]; mix.shape == (n, k))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1798ff789818dba9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["HadamardProduct(A, B, A).shape == A.shape","HadamardProduct(A, 2 * B, -A)[1, 1] == -2 * A[1, 1] * B[1, 1] * A[1, 1]","mix.shape == (n, k)","set(HadamardProduct(A, B, A).T.args) == {A.T, A.T, B.T}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_HadamardProduct():
     assert HadamardProduct(A, B, A).shape == A.shape
 
@@ -59,31 +67,43 @@ def test_HadamardProduct():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_HadamardProduct_isnt_commutative(), test_HadamardProduct_isnt_commutative produces the expected output) over Any ║
+# ║ Path(test_HadamardProduct_isnt_commutative(), HadamardProduct(A, B) != HadamardProduct(B, A)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  HadamardProduct(A, B) != HadamardProduct(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_HadamardProduct_isnt_commutative : Any → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbb870a8be254d22  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc1d35afb06dea5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_HadamardProduct_isnt_commutative","kind":"function","src_hash":"0acd8fae00559472","in":{"base":"Any"},"out":{"base":"Any","pred":"HadamardProduct(A, B) != HadamardProduct(B, A)"},"spec":{"lhs":"test_HadamardProduct_isnt_commutative()","rhs":"test_HadamardProduct_isnt_commutative produces the expected output","over":{"base":"Any"},"name":"test_HadamardProduct_isnt_commutative_correct"},"guarantee":"test_HadamardProduct_isnt_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_HadamardProduct_isnt_commutative_correct","statement":"Path(test_HadamardProduct_isnt_commutative(x), test_HadamardProduct_isnt_commutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbb870a8be254d22"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_HadamardProduct_isnt_commutative","kind":"function","src_hash":"0acd8fae00559472","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: HadamardProduct(A, B) != HadamardProduct(B, A)"},"spec":{"lhs":"test_HadamardProduct_isnt_commutative()","rhs":"HadamardProduct(A, B) != HadamardProduct(B, A)","over":{"base":"Any"},"name":"test_HadamardProduct_isnt_commutative_correct"},"guarantee":"HadamardProduct(A, B) != HadamardProduct(B, A)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_HadamardProduct_isnt_commutative_correct","statement":"Path(test_HadamardProduct_isnt_commutative(x), HadamardProduct(A, B) != HadamardProduct(B, A))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc1d35afb06dea5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["HadamardProduct(A, B) != HadamardProduct(B, A)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_HadamardProduct_isnt_commutative():
     assert HadamardProduct(A, B) != HadamardProduct(B, A)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_mixed_indexing(), test_mixed_indexing produces the expected output) over Any ║
+# ║ Path(test_mixed_indexing(), (X * HadamardProduct(Y, Z))[0, 0] == X[0, 0] * Y[0, 0] * Z[0, 0] + X[0, 1] * Y[1, 0] * Z[1, 0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_mixed_indexing : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (X * HadamardProduct(Y, Z))[0, 0] == X[0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_mixed_indexing : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2377be35a416b910  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21d756d82db90e91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_mixed_indexing","kind":"function","src_hash":"396f861a57bca1e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_mixed_indexing()","rhs":"test_mixed_indexing produces the expected output","over":{"base":"Any"},"name":"test_mixed_indexing_correct"},"guarantee":"test_mixed_indexing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_mixed_indexing_correct","statement":"Path(test_mixed_indexing(x), test_mixed_indexing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2377be35a416b910"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_mixed_indexing","kind":"function","src_hash":"396f861a57bca1e3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (X * HadamardProduct(Y, Z))[0, 0] == X[0, 0] * Y[0, 0] * Z[0, 0] + X[0, 1] * Y[1, 0] * Z[1, 0]"},"spec":{"lhs":"test_mixed_indexing()","rhs":"(X * HadamardProduct(Y, Z))[0, 0] == X[0, 0] * Y[0, 0] * Z[0, 0] + X[0, 1] * Y[1, 0] * Z[1, 0]","over":{"base":"Any"},"name":"test_mixed_indexing_correct"},"guarantee":"(X * HadamardProduct(Y, Z))[0, 0] == X[0, 0] * Y[0, 0] * Z[0, 0] + X[0, 1] * Y[1, 0] * Z[1, 0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_mixed_indexing_correct","statement":"Path(test_mixed_indexing(x), (X * HadamardProduct(Y, Z))[0, 0] == X[0, 0] * Y[0, 0] * Z[0, 0] + X[0, 1] * Y[1, 0] * Z[1, 0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21d756d82db90e91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(X * HadamardProduct(Y, Z))[0, 0] == X[0, 0] * Y[0, 0] * Z[0, 0] + X[0, 1] * Y[1, 0] * Z[1, 0]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_mixed_indexing():
     X = MatrixSymbol('X', 2, 2)
     Y = MatrixSymbol('Y', 2, 2)
@@ -94,7 +114,12 @@ def test_mixed_indexing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_canonicalize(), test_canonicalize produces the expected output) over {Any | isinstance(expr, HadamardProduct) and isinstance(expr2, MatrixSymbol)} ║
+# ║ Path(test_canonicalize(), isinstance(expr, HadamardProduct) and isinstance(expr2, MatrixSymbol) and HadamardProduct(Z, X).doit() == Z and HadamardProduct(U, X, X, U).doit() == HadamardPower(X, 2) and HadamardProduct(X, U, Y).doit() == HadamardProduct(X, Y) and HadamardProduct(X, Z, U, Y).doit() == Z) over {Any | isinstance(expr, HadamardProduct) and isinstance(expr2, MatrixSymbol)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(expr, HadamardProduct)              ║
+# ║   ensures:  isinstance(expr2, MatrixSymbol)                ║
+# ║   ensures:  HadamardProduct(Z, X).doit() == Z              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_canonicalize : {Any | isinstance(expr, HadamardP...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -107,9 +132,12 @@ def test_mixed_indexing():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 5.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1ef256f1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_canonicalize","kind":"function","src_hash":"6b4f568146789b2d","in":{"base":"Any","pred":"isinstance(expr, HadamardProduct) and isinstance(expr2, MatrixSymbol)"},"out":{"base":"Any","pred":"isinstance(expr, HadamardProduct) and isinstance(expr2, MatrixSymbol) and HadamardProduct(Z, X).doit() == Z and HadamardProduct(U, X, X, U).doit() == HadamardPower(X, 2) and HadamardProduct(X, U, Y).doit() == HadamardProduct(X, Y) and HadamardProduct(X, Z, U, Y).doit() == Z"},"spec":{"lhs":"test_canonicalize()","rhs":"test_canonicalize produces the expected output","over":{"base":"Any","pred":"isinstance(expr, HadamardProduct) and isinstance(expr2, MatrixSymbol)"},"name":"test_canonicalize_correct"},"guarantee":"test_canonicalize produces the expected output","fibers":[{"name":"HadamardProduct","pred":"isinstance(expr, HadamardProduct)","path":{"lhs":"test_canonicalize(x)","rhs":"test_canonicalize produces the expected output","over":{"base":"HadamardProduct","pred":"isinstance(expr, HadamardProduct)"},"name":"test_canonicalize_HadamardProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_canonicalize_HadamardProduct_correct","statement":"test_canonicalize satisfies spec on HadamardProduct inputs"},"trust":"LIBRARY"},{"name":"MatrixSymbol","pred":"isinstance(expr2, MatrixSymbol)","path":{"lhs":"test_canonicalize(x)","rhs":"test_canonicalize produces the expected output","over":{"base":"MatrixSymbol","pred":"isinstance(expr2, MatrixSymbol)"},"name":"test_canonicalize_MatrixSymbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_canonicalize_MatrixSymbol_correct","statement":"test_canonicalize satisfies spec on MatrixSymbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1ef256f1cee06a6d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_canonicalize","kind":"function","src_hash":"6b4f568146789b2d","in":{"base":"Any","pred":"isinstance(expr, HadamardProduct) and isinstance(expr2, MatrixSymbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(expr, HadamardProduct) and isinstance(expr2, MatrixSymbol) and HadamardProduct(Z, X).doit() == Z and HadamardProduct(U, X, X, U).doit() == HadamardPower(X, 2) and HadamardProduct(X, U, Y).doit() == HadamardProduct(X, Y) and HadamardProduct(X, Z, U, Y).doit() == Z"},"spec":{"lhs":"test_canonicalize()","rhs":"isinstance(expr, HadamardProduct) and isinstance(expr2, MatrixSymbol) and HadamardProduct(Z, X).doit() == Z and HadamardProduct(U, X, X, U).doit() == HadamardPower(X, 2) and HadamardProduct(X, U, Y).doit() == HadamardProduct(X, Y) and HadamardProduct(X, Z, U, Y).doit() == Z","over":{"base":"Any","pred":"isinstance(expr, HadamardProduct) and isinstance(expr2, MatrixSymbol)"},"name":"test_canonicalize_correct"},"guarantee":"isinstance(expr, HadamardProduct); isinstance(expr2, MatrixSymbol); HadamardProduct(Z, X).doit() == Z","fibers":[{"name":"HadamardProduct","pred":"isinstance(expr, HadamardProduct)","path":{"lhs":"test_canonicalize(x)","rhs":"isinstance(expr, HadamardProduct); isinstance(expr2, MatrixSymbol); HadamardProduct(Z, X).doit() == Z","over":{"base":"HadamardProduct","pred":"isinstance(expr, HadamardProduct)"},"name":"test_canonicalize_HadamardProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_canonicalize_HadamardProduct_correct","statement":"test_canonicalize satisfies spec on HadamardProduct inputs"},"trust":"LIBRARY"},{"name":"MatrixSymbol","pred":"isinstance(expr2, MatrixSymbol)","path":{"lhs":"test_canonicalize(x)","rhs":"isinstance(expr, HadamardProduct); isinstance(expr2, MatrixSymbol); HadamardProduct(Z, X).doit() == Z","over":{"base":"MatrixSymbol","pred":"isinstance(expr2, MatrixSymbol)"},"name":"test_canonicalize_MatrixSymbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_canonicalize_MatrixSymbol_correct","statement":"test_canonicalize satisfies spec on MatrixSymbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1ef256f1cee06a6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(expr, HadamardProduct)","isinstance(expr2, MatrixSymbol)","HadamardProduct(Z, X).doit() == Z","HadamardProduct(U, X, X, U).doit() == HadamardPower(X, 2)","HadamardProduct(X, U, Y).doit() == HadamardProduct(X, Y)","HadamardProduct(X, Z, U, Y).doit() == Z"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.2,"verdict_class":"failed","binding":true}}
 def test_canonicalize():
     X = MatrixSymbol('X', 2, 2)
     Y = MatrixSymbol('Y', 2, 2)
@@ -127,7 +155,12 @@ def test_canonicalize():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hadamard(), test_hadamard produces the expected output) over {Any | isinstance(hadamard_product(A, B), HadamardProduct)} ║
+# ║ Path(test_hadamard(), hadamard_product(A) == A and isinstance(hadamard_product(A, B), HadamardProduct) and hadamard_product(A, B).doit() == hadamard_product(A, B) and hadamard_product(X, I) == HadamardProduct(I, X) and isinstance(hadamard_product(X, I), HadamardProduct) and expr.doit() == a) over {Any | isinstance(hadamard_product(A, B), HadamardProduct)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hadamard_product(A) == A                       ║
+# ║   ensures:  isinstance(hadamard_product(A, B), Hadama...   ║
+# ║   ensures:  hadamard_product(A, B).doit() == hadamard...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_hadamard : {Any | isinstance(hadamard_product(A,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -139,9 +172,12 @@ def test_canonicalize():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 745ffaec...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard","kind":"function","src_hash":"ea70fd91b93fe76b","in":{"base":"Any","pred":"isinstance(hadamard_product(A, B), HadamardProduct)"},"out":{"base":"Any","pred":"hadamard_product(A) == A and isinstance(hadamard_product(A, B), HadamardProduct) and hadamard_product(A, B).doit() == hadamard_product(A, B) and hadamard_product(X, I) == HadamardProduct(I, X) and isinstance(hadamard_product(X, I), HadamardProduct) and expr.doit() == a"},"spec":{"lhs":"test_hadamard()","rhs":"test_hadamard produces the expected output","over":{"base":"Any","pred":"isinstance(hadamard_product(A, B), HadamardProduct)"},"name":"test_hadamard_correct"},"guarantee":"test_hadamard produces the expected output","fibers":[{"name":"B","pred":"isinstance(hadamard_product(A, B), HadamardProduct)","path":{"lhs":"test_hadamard(x)","rhs":"test_hadamard produces the expected output","over":{"base":"B","pred":"isinstance(hadamard_product(A, B), HadamardProduct)"},"name":"test_hadamard_B_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_B_correct","statement":"test_hadamard satisfies spec on B inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"745ffaec62a5b9eb"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard","kind":"function","src_hash":"ea70fd91b93fe76b","in":{"base":"Any","pred":"isinstance(hadamard_product(A, B), HadamardProduct)"},"out":{"base":"Any","pred":"result satisfies: hadamard_product(A) == A and isinstance(hadamard_product(A, B), HadamardProduct) and hadamard_product(A, B).doit() == hadamard_product(A, B) and hadamard_product(X, I) == HadamardProduct(I, X) and isinstance(hadamard_product(X, I), HadamardProduct) and expr.doit() == a"},"spec":{"lhs":"test_hadamard()","rhs":"hadamard_product(A) == A and isinstance(hadamard_product(A, B), HadamardProduct) and hadamard_product(A, B).doit() == hadamard_product(A, B) and hadamard_product(X, I) == HadamardProduct(I, X) and isinstance(hadamard_product(X, I), HadamardProduct) and expr.doit() == a","over":{"base":"Any","pred":"isinstance(hadamard_product(A, B), HadamardProduct)"},"name":"test_hadamard_correct"},"guarantee":"hadamard_product(A) == A; isinstance(hadamard_product(A, B), HadamardProduct); hadamard_product(A, B).doit() == hadamard_product(A, B)","fibers":[{"name":"B","pred":"isinstance(hadamard_product(A, B), HadamardProduct)","path":{"lhs":"test_hadamard(x)","rhs":"hadamard_product(A) == A; isinstance(hadamard_product(A, B), HadamardProduct); hadamard_product(A, B).doit() == hadamard_product(A, B)","over":{"base":"B","pred":"isinstance(hadamard_product(A, B), HadamardProduct)"},"name":"test_hadamard_B_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_B_correct","statement":"test_hadamard satisfies spec on B inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"745ffaec62a5b9eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hadamard_product(A) == A","isinstance(hadamard_product(A, B), HadamardProduct)","hadamard_product(A, B).doit() == hadamard_product(A, B)","hadamard_product(X, I) == HadamardProduct(I, X)","isinstance(hadamard_product(X, I), HadamardProduct)","expr.doit() == a"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":true}}
 def test_hadamard():
     m, n, p = symbols('m, n, p', integer=True)
     A = MatrixSymbol('A', m, n)
@@ -165,16 +201,24 @@ def test_hadamard():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hadamard_product_with_explicit_mat(), test_hadamard_product_with_explicit_mat produces the expected output) over Any ║
+# ║ Path(test_hadamard_product_with_explicit_mat(), expr == ret and expr == HadamardProduct(ret, X) and expr == Matrix([[A[0, 0], 0, 0], [0, A[1, 1], 0], [0, 0, A[2, 2]]]) and expr == eye(3)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr == ret                                    ║
+# ║   ensures:  expr == HadamardProduct(ret, X)                ║
+# ║   ensures:  expr == Matrix([[A[0, 0], 0, 0], [0, A[1,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_hadamard_product_with_explicit_mat : Any → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d734bac5d2a88b91  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3989a54d8370b64c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_product_with_explicit_mat","kind":"function","src_hash":"22ee57489a825740","in":{"base":"Any"},"out":{"base":"Any","pred":"expr == ret and expr == HadamardProduct(ret, X) and expr == Matrix([[A[0, 0], 0, 0], [0, A[1, 1], 0], [0, 0, A[2, 2]]]) and expr == eye(3)"},"spec":{"lhs":"test_hadamard_product_with_explicit_mat()","rhs":"test_hadamard_product_with_explicit_mat produces the expected output","over":{"base":"Any"},"name":"test_hadamard_product_with_explicit_mat_correct"},"guarantee":"test_hadamard_product_with_explicit_mat produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_product_with_explicit_mat_correct","statement":"Path(test_hadamard_product_with_explicit_mat(x), test_hadamard_product_with_explicit_mat produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d734bac5d2a88b91"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_product_with_explicit_mat","kind":"function","src_hash":"22ee57489a825740","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr == ret and expr == HadamardProduct(ret, X) and expr == Matrix([[A[0, 0], 0, 0], [0, A[1, 1], 0], [0, 0, A[2, 2]]]) and expr == eye(3)"},"spec":{"lhs":"test_hadamard_product_with_explicit_mat()","rhs":"expr == ret and expr == HadamardProduct(ret, X) and expr == Matrix([[A[0, 0], 0, 0], [0, A[1, 1], 0], [0, 0, A[2, 2]]]) and expr == eye(3)","over":{"base":"Any"},"name":"test_hadamard_product_with_explicit_mat_correct"},"guarantee":"expr == ret; expr == HadamardProduct(ret, X); expr == Matrix([[A[0, 0], 0, 0], [0, A[1, 1], 0], [0, 0, A[2, 2]]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_product_with_explicit_mat_correct","statement":"Path(test_hadamard_product_with_explicit_mat(x), expr == ret; expr == HadamardProduct(ret, X); expr == Matrix([[A[0, 0], 0, 0], [0, A[1, 1], 0], [0, 0, A[2, 2]]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3989a54d8370b64c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr == ret","expr == HadamardProduct(ret, X)","expr == Matrix([[A[0, 0], 0, 0], [0, A[1, 1], 0], [0, 0, A[2, 2]]])","expr == eye(3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_hadamard_product_with_explicit_mat():
     A = MatrixSymbol("A", 3, 3).as_explicit()
     B = MatrixSymbol("B", 3, 3).as_explicit()
@@ -191,7 +235,12 @@ def test_hadamard_product_with_explicit_mat():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hadamard_power(), test_hadamard_power produces the expected output) over {Any | isinstance(hadamard_power(A, 2), HadamardPower)} ║
+# ║ Path(test_hadamard_power(), hadamard_power(A, 1) == A and isinstance(hadamard_power(A, 2), HadamardPower) and hadamard_power(A, n).T == hadamard_power(A.T, n) and hadamard_power(A, n)[0, 0] == A[0, 0] ** n and hadamard_power(m, n) == m ** n) over {Any | isinstance(hadamard_power(A, 2), HadamardPower)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  hadamard_power(A, 1) == A                      ║
+# ║   ensures:  isinstance(hadamard_power(A, 2), Hadamard...   ║
+# ║   ensures:  hadamard_power(A, n).T == hadamard_power(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_hadamard_power : {Any | isinstance(hadamard_powe...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -203,9 +252,12 @@ def test_hadamard_product_with_explicit_mat():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5651c853...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_power","kind":"function","src_hash":"be6cc34beff9122a","in":{"base":"Any","pred":"isinstance(hadamard_power(A, 2), HadamardPower)"},"out":{"base":"Any","pred":"hadamard_power(A, 1) == A and isinstance(hadamard_power(A, 2), HadamardPower) and hadamard_power(A, n).T == hadamard_power(A.T, n) and hadamard_power(A, n)[0, 0] == A[0, 0] ** n and hadamard_power(m, n) == m ** n"},"spec":{"lhs":"test_hadamard_power()","rhs":"test_hadamard_power produces the expected output","over":{"base":"Any","pred":"isinstance(hadamard_power(A, 2), HadamardPower)"},"name":"test_hadamard_power_correct"},"guarantee":"test_hadamard_power produces the expected output","fibers":[{"name":"2","pred":"isinstance(hadamard_power(A, 2), HadamardPower)","path":{"lhs":"test_hadamard_power(x)","rhs":"test_hadamard_power produces the expected output","over":{"base":"2","pred":"isinstance(hadamard_power(A, 2), HadamardPower)"},"name":"test_hadamard_power_2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_power_2_correct","statement":"test_hadamard_power satisfies spec on 2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5651c853e5146683"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_power","kind":"function","src_hash":"be6cc34beff9122a","in":{"base":"Any","pred":"isinstance(hadamard_power(A, 2), HadamardPower)"},"out":{"base":"Any","pred":"result satisfies: hadamard_power(A, 1) == A and isinstance(hadamard_power(A, 2), HadamardPower) and hadamard_power(A, n).T == hadamard_power(A.T, n) and hadamard_power(A, n)[0, 0] == A[0, 0] ** n and hadamard_power(m, n) == m ** n"},"spec":{"lhs":"test_hadamard_power()","rhs":"hadamard_power(A, 1) == A and isinstance(hadamard_power(A, 2), HadamardPower) and hadamard_power(A, n).T == hadamard_power(A.T, n) and hadamard_power(A, n)[0, 0] == A[0, 0] ** n and hadamard_power(m, n) == m ** n","over":{"base":"Any","pred":"isinstance(hadamard_power(A, 2), HadamardPower)"},"name":"test_hadamard_power_correct"},"guarantee":"hadamard_power(A, 1) == A; isinstance(hadamard_power(A, 2), HadamardPower); hadamard_power(A, n).T == hadamard_power(A.T, n)","fibers":[{"name":"2","pred":"isinstance(hadamard_power(A, 2), HadamardPower)","path":{"lhs":"test_hadamard_power(x)","rhs":"hadamard_power(A, 1) == A; isinstance(hadamard_power(A, 2), HadamardPower); hadamard_power(A, n).T == hadamard_power(A.T, n)","over":{"base":"2","pred":"isinstance(hadamard_power(A, 2), HadamardPower)"},"name":"test_hadamard_power_2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_power_2_correct","statement":"test_hadamard_power satisfies spec on 2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5651c853e5146683","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["hadamard_power(A, 1) == A","isinstance(hadamard_power(A, 2), HadamardPower)","hadamard_power(A, n).T == hadamard_power(A.T, n)","hadamard_power(A, n)[0, 0] == A[0, 0] ** n","hadamard_power(m, n) == m ** n"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":true}}
 def test_hadamard_power():
     m, n, p = symbols('m, n, p', integer=True)
     A = MatrixSymbol('A', m, n)
@@ -219,16 +271,24 @@ def test_hadamard_power():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_hadamard_power_explicit(), test_hadamard_power_explicit produces the expected output) over Any ║
+# ║ Path(test_hadamard_power_explicit(), HadamardPower(a, b) == a ** b and HadamardPower(a, B).as_explicit() == Matrix([[a ** B[0, 0], a ** B[0, 1]], [a ** B[1, 0], a ** B[1, 1]]]) and HadamardPower(A, b).as_explicit() == Matrix([[A[0, 0] ** b, A[0, 1] ** b], [A[1, 0] ** b, A[1, 1] ** b]]) and HadamardPower(A, B).as_explicit() == Matrix([[A[0, 0] ** B[0, 0], A[0, 1] ** B[0, 1]], [A[1, 0] ** B[1, 0], A[1, 1] ** B[1, 1]]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_hadamard_power_explicit : Any → {Any | HadamardP...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  HadamardPower(a, b) == a ** b                  ║
+# ║   ensures:  HadamardPower(a, B).as_explicit() == Matr...   ║
+# ║   ensures:  HadamardPower(A, b).as_explicit() == Matr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_hadamard_power_explicit : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58f19a5f2e7c9724  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42b24fbdd6583ac8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_power_explicit","kind":"function","src_hash":"6587da621526b46d","in":{"base":"Any"},"out":{"base":"Any","pred":"HadamardPower(a, b) == a ** b"},"spec":{"lhs":"test_hadamard_power_explicit()","rhs":"test_hadamard_power_explicit produces the expected output","over":{"base":"Any"},"name":"test_hadamard_power_explicit_correct"},"guarantee":"test_hadamard_power_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_power_explicit_correct","statement":"Path(test_hadamard_power_explicit(x), test_hadamard_power_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58f19a5f2e7c9724"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_power_explicit","kind":"function","src_hash":"6587da621526b46d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: HadamardPower(a, b) == a ** b and HadamardPower(a, B).as_explicit() == Matrix([[a ** B[0, 0], a ** B[0, 1]], [a ** B[1, 0], a ** B[1, 1]]]) and HadamardPower(A, b).as_explicit() == Matrix([[A[0, 0] ** b, A[0, 1] ** b], [A[1, 0] ** b, A[1, 1] ** b]]) and HadamardPower(A, B).as_explicit() == Matrix([[A[0, 0] ** B[0, 0], A[0, 1] ** B[0, 1]], [A[1, 0] ** B[1, 0], A[1, 1] ** B[1, 1]]])"},"spec":{"lhs":"test_hadamard_power_explicit()","rhs":"HadamardPower(a, b) == a ** b and HadamardPower(a, B).as_explicit() == Matrix([[a ** B[0, 0], a ** B[0, 1]], [a ** B[1, 0], a ** B[1, 1]]]) and HadamardPower(A, b).as_explicit() == Matrix([[A[0, 0] ** b, A[0, 1] ** b], [A[1, 0] ** b, A[1, 1] ** b]]) and HadamardPower(A, B).as_explicit() == Matrix([[A[0, 0] ** B[0, 0], A[0, 1] ** B[0, 1]], [A[1, 0] ** B[1, 0], A[1, 1] ** B[1, 1]]])","over":{"base":"Any"},"name":"test_hadamard_power_explicit_correct"},"guarantee":"HadamardPower(a, b) == a ** b; HadamardPower(a, B).as_explicit() == Matrix([[a ** B[0, 0], a ** B[0, 1]], [a ** B[1, 0], a ** B[1, 1]]]); HadamardPower(A, b).as_explicit() == Matrix([[A[0, 0] ** b, A[0, 1] ** b], [A[1, 0] ** b, A[1, 1] ** b]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_hadamard_power_explicit_correct","statement":"Path(test_hadamard_power_explicit(x), HadamardPower(a, b) == a ** b; HadamardPower(a, B).as_explicit() == Matrix([[a ** B[0, 0], a ** B[0, 1]], [a ** B[1, 0], a ** B[1, 1]]]); HadamardPower(A, b).as_explicit() == Matrix([[A[0, 0] ** b, A[0, 1] ** b], [A[1, 0] ** b, A[1, 1] ** b]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42b24fbdd6583ac8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["HadamardPower(a, b) == a ** b","HadamardPower(a, B).as_explicit() == Matrix([[a ** B[0, 0], a ** B[0, 1]], [a ** B[1, 0], a ** B[1, 1]]])","HadamardPower(A, b).as_explicit() == Matrix([[A[0, 0] ** b, A[0, 1] ** b], [A[1, 0] ** b, A[1, 1] ** b]])","HadamardPower(A, B).as_explicit() == Matrix([[A[0, 0] ** B[0, 0], A[0, 1] ** B[0, 1]], [A[1, 0] ** B[1, 0], A[1, 1] ** B[1, 1]]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_hadamard_power_explicit():
     A = MatrixSymbol('A', 2, 2)
     B = MatrixSymbol('B', 2, 2)
@@ -253,16 +313,22 @@ def test_hadamard_power_explicit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_shape_error(), test_shape_error produces the expected output) over Any ║
+# ║ Path(test_shape_error(), <unspecified:test_shape_error>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_shape_error : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c92f7e9f41f6a91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_shape_error","kind":"function","src_hash":"1853f2dc920341fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_shape_error()","rhs":"test_shape_error produces the expected output","over":{"base":"Any"},"name":"test_shape_error_correct"},"guarantee":"test_shape_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_shape_error_correct","statement":"Path(test_shape_error(x), test_shape_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c92f7e9f41f6a91"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_hadamard.test_shape_error","kind":"function","src_hash":"1853f2dc920341fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_shape_error()","rhs":"<unspecified:test_shape_error>","over":{"base":"Any"},"name":"test_shape_error_correct"},"guarantee":"test_shape_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_hadamard.test_shape_error_correct","statement":"Path(test_shape_error(x), test_shape_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c92f7e9f41f6a91","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_shape_error():
     A = MatrixSymbol('A', 2, 3)
     B = MatrixSymbol('B', 3, 3)

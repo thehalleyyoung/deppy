@@ -44,7 +44,13 @@ from sympy.tensor.array.expressions.utils import _get_mapping_from_subranks
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_candidate_for_matmul_from_contraction(sca), internal helper behaves correctly) over {list[int | None] | isinstance(arg_with_ind2.element, MatrixExpr)} ║
+# ║ Path(_get_candidate_for_matmul_from_contraction(scan_indices, remaining_args), isinstance(result, tuple) and len(result) == 3) over {list[int | None] | isinstance(arg_with_ind2.element, MatrixExpr) and isinstance(scan_indices, list[int | None]) and isinstance(remaining_args, list[_ArgE])} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(scan_indices, list[int | None])     ║
+# ║   requires: isinstance(remaining_args, list[_ArgE])        ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  len(result) == 3                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_candidate_for_matmul_from_contraction : {list[in...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -56,9 +62,12 @@ from sympy.tensor.array.expressions.utils import _get_mapping_from_subranks
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0393d709...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._get_candidate_for_matmul_from_contraction","kind":"function","src_hash":"c152931425b502e6","in":{"base":"list[int | None]","pred":"isinstance(arg_with_ind2.element, MatrixExpr)"},"out":{"base":"tuple[_ArgE | None, bool, int]"},"spec":{"lhs":"_get_candidate_for_matmul_from_contraction(sca)","rhs":"internal helper behaves correctly","over":{"base":"list[int | None]","pred":"isinstance(arg_with_ind2.element, MatrixExpr)"},"name":"_get_candidate_for_matmul_from_contraction_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixExpr","pred":"isinstance(arg_with_ind2.element, MatrixExpr)","path":{"lhs":"_get_candidate_for_matmul_from_contraction(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixExpr","pred":"isinstance(arg_with_ind2.element, MatrixExpr)"},"name":"_get_candidate_for_matmul_from_contraction_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._get_candidate_for_matmul_from_contraction_MatrixExpr_correct","statement":"_get_candidate_for_matmul_from_contraction satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0393d709a20bf596"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._get_candidate_for_matmul_from_contraction","kind":"function","src_hash":"c152931425b502e6","in":{"base":"list[int | None]","pred":"isinstance(arg_with_ind2.element, MatrixExpr) and isinstance(scan_indices, list[int | None]) and isinstance(remaining_args, list[_ArgE])"},"out":{"base":"tuple[_ArgE | None, bool, int]","pred":"result satisfies: isinstance(result, tuple) and len(result) == 3"},"spec":{"lhs":"_get_candidate_for_matmul_from_contraction(scan_indices, remaining_args)","rhs":"isinstance(result, tuple) and len(result) == 3","over":{"base":"list[int | None]","pred":"isinstance(arg_with_ind2.element, MatrixExpr) and isinstance(scan_indices, list[int | None]) and isinstance(remaining_args, list[_ArgE])"},"name":"_get_candidate_for_matmul_from_contraction_correct"},"guarantee":"isinstance(result, tuple); len(result) == 3","fibers":[{"name":"MatrixExpr","pred":"isinstance(arg_with_ind2.element, MatrixExpr)","path":{"lhs":"_get_candidate_for_matmul_from_contraction(x)","rhs":"isinstance(result, tuple); len(result) == 3","over":{"base":"MatrixExpr","pred":"isinstance(arg_with_ind2.element, MatrixExpr)"},"name":"_get_candidate_for_matmul_from_contraction_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._get_candidate_for_matmul_from_contraction_MatrixExpr_correct","statement":"_get_candidate_for_matmul_from_contraction satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0393d709a20bf596","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(scan_indices, list[int | None])","isinstance(remaining_args, list[_ArgE])"],"ensures":["isinstance(result, tuple)","len(result) == 3"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(scan_indices_int) == 0', 'candidate is None', 'not isinstance(arg_with_ind2.element, MatrixExpr)', 'candidate_index != -1 and candidate_index != index', 'set(arg_with_ind2.indices) == {index}'}, fibers={'MatrixExpr'})"]}}
 def _get_candidate_for_matmul_from_contraction(scan_indices: list[int | None], remaining_args: list[_ArgE]) -> tuple[_ArgE | None, bool, int]:
 
     scan_indices_int: list[int] = [i for i in scan_indices if i is not None]
@@ -93,16 +102,25 @@ def _get_candidate_for_matmul_from_contraction(scan_indices: list[int | None], r
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_insert_candidate_into_editor(edi), internal helper behaves correctly) over _EditArrayContraction ║
+# ║ Path(_insert_candidate_into_editor(editor, arg_with_ind, candidate), (new_arge, other_index)) over {_EditArrayContraction | isinstance(editor, _EditArrayContraction) and isinstance(arg_with_ind, _ArgE) and isinstance(candidate, _ArgE) and isinstance(transpose1, bool) and isinstance(transpose2, bool) and hasattr(candidate, 'element') and hasattr(candidate, 'indices') and hasattr(arg_with_ind, 'element') and hasattr(editor, 'args_with_ind')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _insert_candidate_into_editor : _EditArrayContraction...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(editor, _EditArrayContraction)      ║
+# ║   requires: isinstance(arg_with_ind, _ArgE)                ║
+# ║   requires: isinstance(candidate, _ArgE)                   ║
+# ║   returns:  (new_arge, other_index)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _insert_candidate_into_editor : {_EditArrayContractio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de73e8d926dcb4d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10d4d04d37c2cd01  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._insert_candidate_into_editor","kind":"function","src_hash":"ad5f32c2d88445e5","in":{"base":"_EditArrayContraction"},"out":{"base":"Any"},"spec":{"lhs":"_insert_candidate_into_editor(edi)","rhs":"internal helper behaves correctly","over":{"base":"_EditArrayContraction"},"name":"_insert_candidate_into_editor_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._insert_candidate_into_editor_correct","statement":"Path(_insert_candidate_into_editor(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de73e8d926dcb4d0"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._insert_candidate_into_editor","kind":"function","src_hash":"ad5f32c2d88445e5","in":{"base":"_EditArrayContraction","pred":"isinstance(editor, _EditArrayContraction) and isinstance(arg_with_ind, _ArgE) and isinstance(candidate, _ArgE) and isinstance(transpose1, bool) and isinstance(transpose2, bool) and hasattr(candidate, 'element') and hasattr(candidate, 'indices') and hasattr(arg_with_ind, 'element') and hasattr(editor, 'args_with_ind')"},"out":{"base":"Any"},"spec":{"lhs":"_insert_candidate_into_editor(editor, arg_with_ind, candidate)","rhs":"(new_arge, other_index)","over":{"base":"_EditArrayContraction","pred":"isinstance(editor, _EditArrayContraction) and isinstance(arg_with_ind, _ArgE) and isinstance(candidate, _ArgE) and isinstance(transpose1, bool) and isinstance(transpose2, bool) and hasattr(candidate, 'element') and hasattr(candidate, 'indices') and hasattr(arg_with_ind, 'element') and hasattr(editor, 'args_with_ind')"},"name":"_insert_candidate_into_editor_correct"},"guarantee":"returns (new_arge, other_index)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._insert_candidate_into_editor_correct","statement":"Path(_insert_candidate_into_editor(x), returns (new_arge, other_index))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10d4d04d37c2cd01","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(editor, _EditArrayContraction)","isinstance(arg_with_ind, _ArgE)","isinstance(candidate, _ArgE)","isinstance(transpose1, bool)","isinstance(transpose2, bool)","hasattr(candidate, 'element')","hasattr(candidate, 'indices')","hasattr(arg_with_ind, 'element')","hasattr(editor, 'args_with_ind')"],"returns_expr":"(new_arge, other_index)","pure":false,"effects":{"effect_type":"mutates_args","reads":["arg_with_ind.element","candidate.element","candidate.indices","editor.args_with_ind"],"calls_mutating":["editor.args_with_ind.remove"]},"state_contract":{"modifies":["editor.*"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _insert_candidate_into_editor(editor: _EditArrayContraction, arg_with_ind: _ArgE, candidate: _ArgE, transpose1: bool, transpose2: bool):
     other = candidate.element
     other_index: int | None
@@ -118,7 +136,10 @@ def _insert_candidate_into_editor(editor: _EditArrayContraction, arg_with_ind: _
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_support_function_tp1_recognize(con), internal helper behaves correctly) over {Any | isinstance(arg_with_ind.element, MatrixExpr)} ║
+# ║ Path(_support_function_tp1_recognize(contraction_indices, args), <unspecified:_support_function_tp1_recognize>) over {Any | isinstance(arg_with_ind.element, MatrixExpr)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _support_function_tp1_recognize : {Any | isinstance(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -130,9 +151,12 @@ def _insert_candidate_into_editor(editor: _EditArrayContraction, arg_with_ind: _
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8629b206...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._support_function_tp1_recognize","kind":"function","src_hash":"0338403e6a922798","in":{"base":"Any","pred":"isinstance(arg_with_ind.element, MatrixExpr)"},"out":{"base":"Any"},"spec":{"lhs":"_support_function_tp1_recognize(con)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(arg_with_ind.element, MatrixExpr)"},"name":"_support_function_tp1_recognize_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixExpr","pred":"isinstance(arg_with_ind.element, MatrixExpr)","path":{"lhs":"_support_function_tp1_recognize(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixExpr","pred":"isinstance(arg_with_ind.element, MatrixExpr)"},"name":"_support_function_tp1_recognize_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._support_function_tp1_recognize_MatrixExpr_correct","statement":"_support_function_tp1_recognize satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8629b206267cb5c5"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._support_function_tp1_recognize","kind":"function","src_hash":"0338403e6a922798","in":{"base":"Any","pred":"isinstance(arg_with_ind.element, MatrixExpr)"},"out":{"base":"Any"},"spec":{"lhs":"_support_function_tp1_recognize(contraction_indices, args)","rhs":"<unspecified:_support_function_tp1_recognize>","over":{"base":"Any","pred":"isinstance(arg_with_ind.element, MatrixExpr)"},"name":"_support_function_tp1_recognize_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixExpr","pred":"isinstance(arg_with_ind.element, MatrixExpr)","path":{"lhs":"_support_function_tp1_recognize(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixExpr","pred":"isinstance(arg_with_ind.element, MatrixExpr)"},"name":"_support_function_tp1_recognize_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._support_function_tp1_recognize_MatrixExpr_correct","statement":"_support_function_tp1_recognize satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8629b206267cb5c5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'second_frequency == 2', 'not isinstance(arg_with_ind.element, MatrixExpr)', 'len(set_indices) == 1 and set_indices != {None}', 'first_frequency == 2', 'len(contraction_indices) == 0', 'found_index == first_index', 'first_index is not None and first_frequency == 1 and (first_index == second_index)'}, fibers={'MatrixExpr'})"]}}
 def _support_function_tp1_recognize(contraction_indices, args):
     if len(contraction_indices) == 0:
         return _a2m_tensor_product(*args)
@@ -192,7 +216,12 @@ def _support_function_tp1_recognize(contraction_indices, args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_trivial_matrices_rewrite(exp), internal helper behaves correctly) over {ArrayTensorProduct | isinstance(arg, MatrixExpr) and isinstance(arg, MatMul)} ║
+# ║ Path(_find_trivial_matrices_rewrite(expr), <unspecified:_find_trivial_matrices_rewrite>) over {ArrayTensorProduct | isinstance(arg, MatrixExpr) and isinstance(arg, MatMul) and isinstance(expr, ArrayTensorProduct) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, ArrayTensorProduct)           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _find_trivial_matrices_rewrite : {ArrayTensorProduct ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -205,9 +234,12 @@ def _support_function_tp1_recognize(contraction_indices, args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 843149fa...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._find_trivial_matrices_rewrite","kind":"function","src_hash":"80bcf731c4c44a39","in":{"base":"ArrayTensorProduct","pred":"isinstance(arg, MatrixExpr) and isinstance(arg, MatMul)"},"out":{"base":"Any"},"spec":{"lhs":"_find_trivial_matrices_rewrite(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayTensorProduct","pred":"isinstance(arg, MatrixExpr) and isinstance(arg, MatMul)"},"name":"_find_trivial_matrices_rewrite_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixExpr","pred":"isinstance(arg, MatrixExpr)","path":{"lhs":"_find_trivial_matrices_rewrite(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixExpr","pred":"isinstance(arg, MatrixExpr)"},"name":"_find_trivial_matrices_rewrite_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._find_trivial_matrices_rewrite_MatrixExpr_correct","statement":"_find_trivial_matrices_rewrite satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"MatMul","pred":"isinstance(arg, MatMul)","path":{"lhs":"_find_trivial_matrices_rewrite(x)","rhs":"internal helper behaves correctly","over":{"base":"MatMul","pred":"isinstance(arg, MatMul)"},"name":"_find_trivial_matrices_rewrite_MatMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._find_trivial_matrices_rewrite_MatMul_correct","statement":"_find_trivial_matrices_rewrite satisfies spec on MatMul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"843149faa2044de1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._find_trivial_matrices_rewrite","kind":"function","src_hash":"80bcf731c4c44a39","in":{"base":"ArrayTensorProduct","pred":"isinstance(arg, MatrixExpr) and isinstance(arg, MatMul) and isinstance(expr, ArrayTensorProduct) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_find_trivial_matrices_rewrite(expr)","rhs":"<unspecified:_find_trivial_matrices_rewrite>","over":{"base":"ArrayTensorProduct","pred":"isinstance(arg, MatrixExpr) and isinstance(arg, MatMul) and isinstance(expr, ArrayTensorProduct) and hasattr(expr, 'args')"},"name":"_find_trivial_matrices_rewrite_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixExpr","pred":"isinstance(arg, MatrixExpr)","path":{"lhs":"_find_trivial_matrices_rewrite(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixExpr","pred":"isinstance(arg, MatrixExpr)"},"name":"_find_trivial_matrices_rewrite_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._find_trivial_matrices_rewrite_MatrixExpr_correct","statement":"_find_trivial_matrices_rewrite satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"MatMul","pred":"isinstance(arg, MatMul)","path":{"lhs":"_find_trivial_matrices_rewrite(x)","rhs":"internal helper behaves correctly","over":{"base":"MatMul","pred":"isinstance(arg, MatMul)"},"name":"_find_trivial_matrices_rewrite_MatMul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._find_trivial_matrices_rewrite_MatMul_correct","statement":"_find_trivial_matrices_rewrite satisfies spec on MatMul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"843149faa2044de1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, ArrayTensorProduct)","hasattr(expr, 'args')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'arg.shape == (1, 1)', 'pos is None', 'pos is None and isinstance(arg, MatMul)', 'isinstance(e, MatrixExpr) and e.shape[1] == 1', 'isinstance(arg, MatrixExpr)'}, fibers={'MatrixExpr', 'MatMul'})"]}}
 def _find_trivial_matrices_rewrite(expr: ArrayTensorProduct):
     # If there are matrices of trivial shape in the tensor product (i.e. shape
     # (1, 1)), try to check if there is a suitable non-trivial MatMul where the
@@ -246,7 +278,12 @@ def _find_trivial_matrices_rewrite(expr: ArrayTensorProduct):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_trivial_kronecker_products_broadcast(exp), internal helper behaves correctly) over {ArrayTensorProduct | isinstance(newargs[-1], MatrixExpr)} ║
+# ║ Path(_find_trivial_kronecker_products_broadcast(expr), (_array_tensor_product(*newargs), removed)) over {ArrayTensorProduct | isinstance(newargs[-1], MatrixExpr) and isinstance(expr, ArrayTensorProduct) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayTensorProduct)           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  (_array_tensor_product(*newargs), removed)     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _find_trivial_kronecker_products_broadcast : {ArrayTe...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -258,9 +295,12 @@ def _find_trivial_matrices_rewrite(expr: ArrayTensorProduct):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 510d1673...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._find_trivial_kronecker_products_broadcast","kind":"function","src_hash":"81ab5d53c37f4772","in":{"base":"ArrayTensorProduct","pred":"isinstance(newargs[-1], MatrixExpr)"},"out":{"base":"Any"},"spec":{"lhs":"_find_trivial_kronecker_products_broadcast(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayTensorProduct","pred":"isinstance(newargs[-1], MatrixExpr)"},"name":"_find_trivial_kronecker_products_broadcast_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixExpr","pred":"isinstance(newargs[-1], MatrixExpr)","path":{"lhs":"_find_trivial_kronecker_products_broadcast(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixExpr","pred":"isinstance(newargs[-1], MatrixExpr)"},"name":"_find_trivial_kronecker_products_broadcast_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._find_trivial_kronecker_products_broadcast_MatrixExpr_correct","statement":"_find_trivial_kronecker_products_broadcast satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"510d16730cfc4265"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._find_trivial_kronecker_products_broadcast","kind":"function","src_hash":"81ab5d53c37f4772","in":{"base":"ArrayTensorProduct","pred":"isinstance(newargs[-1], MatrixExpr) and isinstance(expr, ArrayTensorProduct) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_find_trivial_kronecker_products_broadcast(expr)","rhs":"(_array_tensor_product(*newargs), removed)","over":{"base":"ArrayTensorProduct","pred":"isinstance(newargs[-1], MatrixExpr) and isinstance(expr, ArrayTensorProduct) and hasattr(expr, 'args')"},"name":"_find_trivial_kronecker_products_broadcast_correct"},"guarantee":"returns (_array_tensor_product(*newargs), removed)","fibers":[{"name":"MatrixExpr","pred":"isinstance(newargs[-1], MatrixExpr)","path":{"lhs":"_find_trivial_kronecker_products_broadcast(x)","rhs":"returns (_array_tensor_product(*newargs), removed)","over":{"base":"MatrixExpr","pred":"isinstance(newargs[-1], MatrixExpr)"},"name":"_find_trivial_kronecker_products_broadcast_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._find_trivial_kronecker_products_broadcast_MatrixExpr_correct","statement":"_find_trivial_kronecker_products_broadcast satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"510d16730cfc4265","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayTensorProduct)","hasattr(expr, 'args')"],"returns_expr":"(_array_tensor_product(*newargs), removed)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'1 not in shape and len(newargs) > 0 and (get_shape(newargs[-1]) == (1, 1))', 'shape == (1, 1) and len(newargs) > 0 and (1 not in get_shape(newargs[-1])) and isinstance(newargs[-1], MatrixExpr) and isinstance(arg, MatrixExpr)'}, fibers={'MatrixExpr'})"]}}
 def _find_trivial_kronecker_products_broadcast(expr: ArrayTensorProduct):
     newargs: list[Basic] = []
     removed = []
@@ -286,32 +326,50 @@ def _find_trivial_kronecker_products_broadcast(expr: ArrayTensorProduct):
 
 @singledispatch
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_array2matrix(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_array2matrix(expr), expr) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _array2matrix : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == expr                                 ║
+# ║   returns:  expr                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _array2matrix : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f20ea003e77035eb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._array2matrix","kind":"function","src_hash":"c3e934e689437e55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_array2matrix(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_array2matrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f20ea003e77035eb"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._array2matrix","kind":"function","src_hash":"c3e934e689437e55","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (expr)"},"spec":{"lhs":"_array2matrix(expr)","rhs":"expr","over":{"base":"Any"},"name":"_array2matrix_correct"},"guarantee":"returns expr; result == expr","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f20ea003e77035eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == expr"],"returns_expr":"expr","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _array2matrix(expr):
     return expr
 
 
 @_array2matrix.register(ZeroArray)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over ZeroArray ║
+# ║ Path(_(expr), result == (ZeroMatrix(*expr.shape) if get_rank(expr) == 2 else expr) and result == ZeroMatrix(*expr.shape) or result == expr) over {ZeroArray | isinstance(expr, ZeroArray) and hasattr(expr, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ZeroArray → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ZeroArray)                    ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   ensures:  result == (ZeroMatrix(*expr.shape) if get...   ║
+# ║   ensures:  result == ZeroMatrix(*expr.shape) or resu...   ║
+# ║   fiber[case_0]: get_rank(expr) == 2 => ZeroMatrix(*e...   ║
+# ║   fiber[case_1]: not (get_rank(expr) == 2) => expr         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ZeroArray | isinstance(expr, ZeroArray) and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d7db1a587082c6e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cda5f5499531c43d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"f8586eeb743f8476","in":{"base":"ZeroArray"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ZeroArray"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d7db1a587082c6e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"f8586eeb743f8476","in":{"base":"ZeroArray","pred":"isinstance(expr, ZeroArray) and hasattr(expr, 'shape')"},"out":{"base":"Any","pred":"result satisfies: result == (ZeroMatrix(*expr.shape) if get_rank(expr) == 2 else expr) and result == ZeroMatrix(*expr.shape) or result == expr"},"spec":{"lhs":"_(expr)","rhs":"result == (ZeroMatrix(*expr.shape) if get_rank(expr) == 2 else expr) and result == ZeroMatrix(*expr.shape) or result == expr","over":{"base":"ZeroArray","pred":"isinstance(expr, ZeroArray) and hasattr(expr, 'shape')"},"name":"__correct"},"guarantee":"result == (ZeroMatrix(*expr.shape) if get_rank(expr) == 2 else expr); result == ZeroMatrix(*expr.shape) or result == expr; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__correct","statement":"Path(_(x), result == (ZeroMatrix(*expr.shape) if get_rank(expr) == 2 else expr); result == ZeroMatrix(*expr.shape) or result == expr; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cda5f5499531c43d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ZeroArray)","hasattr(expr, 'shape')"],"ensures":["result == (ZeroMatrix(*expr.shape) if get_rank(expr) == 2 else expr)","result == ZeroMatrix(*expr.shape) or result == expr"],"fibers":[{"name":"case_0","guard":"get_rank(expr) == 2","ensures":["result == ZeroMatrix(*expr.shape)"],"decidability":"z3","returns_expr":"ZeroMatrix(*expr.shape)"},{"name":"case_1","guard":"not (get_rank(expr) == 2)","ensures":["result == expr"],"decidability":"z3","returns_expr":"expr"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.shape"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr: ZeroArray):
     if get_rank(expr) == 2:
         return ZeroMatrix(*expr.shape)
@@ -321,23 +379,37 @@ def _(expr: ZeroArray):
 
 @_array2matrix.register(ArrayTensorProduct)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over ArrayTensorProduct ║
+# ║ Path(_(expr), _a2m_tensor_product(*[_array2matrix(arg) for arg in expr.args])) over {ArrayTensorProduct | isinstance(expr, ArrayTensorProduct) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ArrayTensorProduct → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayTensorProduct)           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  _a2m_tensor_product(*[_array2matrix(arg) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ArrayTensorProduct | isinstance(expr, ArrayTenso...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4932e76e6e1c8846           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"dabf82a0aa90ac2a","in":{"base":"ArrayTensorProduct"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayTensorProduct"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4932e76e6e1c8846"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"dabf82a0aa90ac2a","in":{"base":"ArrayTensorProduct","pred":"isinstance(expr, ArrayTensorProduct) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr)","rhs":"_a2m_tensor_product(*[_array2matrix(arg) for arg in expr.args])","over":{"base":"ArrayTensorProduct","pred":"isinstance(expr, ArrayTensorProduct) and hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"returns _a2m_tensor_product(*[_array2matrix(arg) for arg in expr.args])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4932e76e6e1c8846","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayTensorProduct)","hasattr(expr, 'args')"],"returns_expr":"_a2m_tensor_product(*[_array2matrix(arg) for arg in expr.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(expr: ArrayTensorProduct):
     return _a2m_tensor_product(*[_array2matrix(arg) for arg in expr.args])
 
 
 @_array2matrix.register(ArrayContraction)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over {ArrayContraction | isinstance(subexpr, ArrayTensorProduct) and isinstance(expr, ArrayContraction) and isinstance(subexpr, MatrixExpr)} ║
+# ║ Path(_(expr), <unspecified:_>) over {ArrayContraction | isinstance(subexpr, ArrayTensorProduct) and isinstance(expr, ArrayContraction) and isinstance(subexpr, MatrixExpr) and isinstance(expr, ArrayContraction) and hasattr(expr, 'expr') and hasattr(expr, 'contraction_indices') and hasattr(expr, 'flatten_contraction_of_diagonal') and hasattr(expr, 'split_multiple_contractions')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, ArrayContraction)             ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'contraction_indices')           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : {ArrayContraction | isinstance(subexpr, ArrayTens...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -353,9 +425,12 @@ def _(expr: ArrayTensorProduct):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?5 ✗8 VCs | 21.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | aee250a3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"5396ed0f901ec1a1","in":{"base":"ArrayContraction","pred":"isinstance(subexpr, ArrayTensorProduct) and isinstance(expr, ArrayContraction) and isinstance(subexpr, MatrixExpr)"},"out":{"base":"Any","pred":"isinstance(newexpr, ArrayContraction) and expr.contraction_indices == ((0, 1),)"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayContraction","pred":"isinstance(subexpr, ArrayTensorProduct) and isinstance(expr, ArrayContraction) and isinstance(subexpr, MatrixExpr)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ArrayTensorProduct","pred":"isinstance(subexpr, ArrayTensorProduct)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayTensorProduct","pred":"isinstance(subexpr, ArrayTensorProduct)"},"name":"__ArrayTensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayTensorProduct_correct","statement":"_ satisfies spec on ArrayTensorProduct inputs"},"trust":"LIBRARY"},{"name":"ArrayContraction","pred":"isinstance(expr, ArrayContraction)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayContraction","pred":"isinstance(expr, ArrayContraction)"},"name":"__ArrayContraction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayContraction_correct","statement":"_ satisfies spec on ArrayContraction inputs"},"trust":"LIBRARY"},{"name":"MatrixExpr","pred":"isinstance(subexpr, MatrixExpr)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixExpr","pred":"isinstance(subexpr, MatrixExpr)"},"name":"__MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__MatrixExpr_correct","statement":"_ satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"ArrayAdd","pred":"isinstance(newexpr, ArrayAdd)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayAdd","pred":"isinstance(newexpr, ArrayAdd)"},"name":"__ArrayAdd_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayAdd_correct","statement":"_ satisfies spec on ArrayAdd inputs"},"trust":"LIBRARY"},{"name":"_CodegenArrayAbstract","pred":"isinstance(subexpr, _CodegenArrayAbstract)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(subexpr, _CodegenArrayAbstract)"},"name":"___CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.___CodegenArrayAbstract_correct","statement":"_ satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aee250a3ea559606"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"5396ed0f901ec1a1","in":{"base":"ArrayContraction","pred":"isinstance(subexpr, ArrayTensorProduct) and isinstance(expr, ArrayContraction) and isinstance(subexpr, MatrixExpr) and isinstance(expr, ArrayContraction) and hasattr(expr, 'expr') and hasattr(expr, 'contraction_indices') and hasattr(expr, 'flatten_contraction_of_diagonal') and hasattr(expr, 'split_multiple_contractions')"},"out":{"base":"Any","pred":"isinstance(newexpr, ArrayContraction) and expr.contraction_indices == ((0, 1),)"},"spec":{"lhs":"_(expr)","rhs":"<unspecified:_>","over":{"base":"ArrayContraction","pred":"isinstance(subexpr, ArrayTensorProduct) and isinstance(expr, ArrayContraction) and isinstance(subexpr, MatrixExpr) and isinstance(expr, ArrayContraction) and hasattr(expr, 'expr') and hasattr(expr, 'contraction_indices') and hasattr(expr, 'flatten_contraction_of_diagonal') and hasattr(expr, 'split_multiple_contractions')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ArrayTensorProduct","pred":"isinstance(subexpr, ArrayTensorProduct)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayTensorProduct","pred":"isinstance(subexpr, ArrayTensorProduct)"},"name":"__ArrayTensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayTensorProduct_correct","statement":"_ satisfies spec on ArrayTensorProduct inputs"},"trust":"LIBRARY"},{"name":"ArrayContraction","pred":"isinstance(expr, ArrayContraction)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayContraction","pred":"isinstance(expr, ArrayContraction)"},"name":"__ArrayContraction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayContraction_correct","statement":"_ satisfies spec on ArrayContraction inputs"},"trust":"LIBRARY"},{"name":"MatrixExpr","pred":"isinstance(subexpr, MatrixExpr)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixExpr","pred":"isinstance(subexpr, MatrixExpr)"},"name":"__MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__MatrixExpr_correct","statement":"_ satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"ArrayAdd","pred":"isinstance(newexpr, ArrayAdd)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayAdd","pred":"isinstance(newexpr, ArrayAdd)"},"name":"__ArrayAdd_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayAdd_correct","statement":"_ satisfies spec on ArrayAdd inputs"},"trust":"LIBRARY"},{"name":"_CodegenArrayAbstract","pred":"isinstance(subexpr, _CodegenArrayAbstract)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(subexpr, _CodegenArrayAbstract)"},"name":"___CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.___CodegenArrayAbstract_correct","statement":"_ satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aee250a3ea559606","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, ArrayContraction)","hasattr(expr, 'expr')","hasattr(expr, 'contraction_indices')","hasattr(expr, 'flatten_contraction_of_diagonal')","hasattr(expr, 'split_multiple_contractions')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.contraction_indices","expr.expr","expr.flatten_contraction_of_diagonal","expr.split_multiple_contractions"]}},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":4,"n_assumed":5,"n_failed":8,"trust_level":"LIBRARY_ASSUMED","compile_ms":21.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(subexpr, ArrayTensorProduct)', 'any((i > 2 for i in newexpr.subranks))', 'not isinstance(subexpr, _CodegenArrayAbstract)', 'isinstance(subexpr, MatrixExpr)', 'contraction_indices == ((0,), (1,)) or (contraction_indices == ((0,),) and subexpr.shape[1] == 1) or (contraction_indices == ((1,),) and subexpr.shape[0] == 1)', 'isinstance(newexpr, ArrayAdd)', 'not isinstance(expr, ArrayContraction)', 'isinstance(ret, MatrixExpr)'}, fibers={'ArrayContraction', 'ArrayTensorProduct', 'ArrayAdd', 'MatrixExpr', '_CodegenArrayAbstract'})"]}}
 def _(expr: ArrayContraction):
     expr = expr.flatten_contraction_of_diagonal()
     expr = identify_removable_identity_matrices(expr)
@@ -398,7 +473,13 @@ def _(expr: ArrayContraction):
 
 @_array2matrix.register(ArrayDiagonal)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over {ArrayDiagonal | isinstance(pexpr, ArrayDiagonal)} ║
+# ║ Path(_(expr), <unspecified:_>) over {ArrayDiagonal | isinstance(pexpr, ArrayDiagonal) and isinstance(expr, ArrayDiagonal) and hasattr(expr, 'expr') and hasattr(expr, 'diagonal_indices')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, ArrayDiagonal)                ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'diagonal_indices')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : {ArrayDiagonal | isinstance(pexpr, ArrayDiagonal)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -410,9 +491,12 @@ def _(expr: ArrayContraction):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 23c19622...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"272ce8c5639cf7dc","in":{"base":"ArrayDiagonal","pred":"isinstance(pexpr, ArrayDiagonal)"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayDiagonal","pred":"isinstance(pexpr, ArrayDiagonal)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ArrayDiagonal","pred":"isinstance(pexpr, ArrayDiagonal)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayDiagonal","pred":"isinstance(pexpr, ArrayDiagonal)"},"name":"__ArrayDiagonal_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayDiagonal_correct","statement":"_ satisfies spec on ArrayDiagonal inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"23c196227f389dfd"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"272ce8c5639cf7dc","in":{"base":"ArrayDiagonal","pred":"isinstance(pexpr, ArrayDiagonal) and isinstance(expr, ArrayDiagonal) and hasattr(expr, 'expr') and hasattr(expr, 'diagonal_indices')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr)","rhs":"<unspecified:_>","over":{"base":"ArrayDiagonal","pred":"isinstance(pexpr, ArrayDiagonal) and isinstance(expr, ArrayDiagonal) and hasattr(expr, 'expr') and hasattr(expr, 'diagonal_indices')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ArrayDiagonal","pred":"isinstance(pexpr, ArrayDiagonal)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayDiagonal","pred":"isinstance(pexpr, ArrayDiagonal)"},"name":"__ArrayDiagonal_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayDiagonal_correct","statement":"_ satisfies spec on ArrayDiagonal inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"23c196227f389dfd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, ArrayDiagonal)","hasattr(expr, 'expr')","hasattr(expr, 'diagonal_indices')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.diagonal_indices","expr.expr"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(pexpr, ArrayDiagonal)', 'expr == pexpr'}, fibers={'ArrayDiagonal'})"]}}
 def _(expr: ArrayDiagonal):
     pexpr = _array_diagonal(_array2matrix(expr.expr), *expr.diagonal_indices)
     pexpr = identify_hadamard_products(pexpr)
@@ -425,7 +509,18 @@ def _(expr: ArrayDiagonal):
 
 @_array2matrix.register(PermuteDims)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over {PermuteDims | isinstance(expr.expr, ArrayTensorProduct) and isinstance(expr.expr, ArrayContraction)} ║
+# ║ Path(_(expr), len(newargs) == old_len_newargs + 1 and len(newpos) == old_len_newpos + 1 and len(scalars) == old_len_scalars + 1 and result == (_a2m_transpose(_array2matrix(expr.expr)) if expr.permutation.array_form == [1, 0] else _permute_dims(_a2m_tensor_product(*scalars, *newargs), _af_invert(newperm)) if isinstance(expr.expr, ArrayTensorProduct) else _a2m_tensor_product(*args_array) if isinstance(expr.expr, ArrayContraction) else expr) and result == _a2m_transpose(_array2matrix(expr.expr)) or result == _permute_dims(_a2m_tensor_product(*scalars, *newargs), _af_invert(newperm)) or result == _a2m_tensor_product(*args_array) or result == expr) over {PermuteDims | isinstance(expr.expr, ArrayTensorProduct) and isinstance(expr.expr, ArrayContraction) and isinstance(expr, PermuteDims) and hasattr(expr, 'permutation') and hasattr(expr, 'expr')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, PermuteDims)                  ║
+# ║   requires: hasattr(expr, 'permutation')                   ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   ensures:  len(newargs) == old_len_newargs + 1            ║
+# ║   ensures:  len(newpos) == old_len_newpos + 1              ║
+# ║   ensures:  len(scalars) == old_len_scalars + 1            ║
+# ║   fiber[case_0]: expr.permutation.array_form == [1, 0...   ║
+# ║   fiber[case_1]: isinstance(expr.expr, ArrayTensorPro...   ║
+# ║   fiber[case_2]: isinstance(expr.expr, ArrayContracti...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : {PermuteDims | isinstance(expr.expr, ArrayTensorP...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -438,9 +533,12 @@ def _(expr: ArrayDiagonal):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | aa18c948...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"0ca6f6504d314725","in":{"base":"PermuteDims","pred":"isinstance(expr.expr, ArrayTensorProduct) and isinstance(expr.expr, ArrayContraction)"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"PermuteDims","pred":"isinstance(expr.expr, ArrayTensorProduct) and isinstance(expr.expr, ArrayContraction)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ArrayTensorProduct","pred":"isinstance(expr.expr, ArrayTensorProduct)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayTensorProduct","pred":"isinstance(expr.expr, ArrayTensorProduct)"},"name":"__ArrayTensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayTensorProduct_correct","statement":"_ satisfies spec on ArrayTensorProduct inputs"},"trust":"LIBRARY"},{"name":"ArrayContraction","pred":"isinstance(expr.expr, ArrayContraction)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayContraction","pred":"isinstance(expr.expr, ArrayContraction)"},"name":"__ArrayContraction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayContraction_correct","statement":"_ satisfies spec on ArrayContraction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aa18c94841fbd372"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"0ca6f6504d314725","in":{"base":"PermuteDims","pred":"isinstance(expr.expr, ArrayTensorProduct) and isinstance(expr.expr, ArrayContraction) and isinstance(expr, PermuteDims) and hasattr(expr, 'permutation') and hasattr(expr, 'expr')"},"out":{"base":"Any","pred":"result satisfies: len(newargs) == old_len_newargs + 1 and len(newpos) == old_len_newpos + 1 and len(scalars) == old_len_scalars + 1 and result == (_a2m_transpose(_array2matrix(expr.expr)) if expr.permutation.array_form == [1, 0] else _permute_dims(_a2m_tensor_product(*scalars, *newargs), _af_invert(newperm)) if isinstance(expr.expr, ArrayTensorProduct) else _a2m_tensor_product(*args_array) if isinstance(expr.expr, ArrayContraction) else expr) and result == _a2m_transpose(_array2matrix(expr.expr)) or result == _permute_dims(_a2m_tensor_product(*scalars, *newargs), _af_invert(newperm)) or result == _a2m_tensor_product(*args_array) or result == expr"},"spec":{"lhs":"_(expr)","rhs":"len(newargs) == old_len_newargs + 1 and len(newpos) == old_len_newpos + 1 and len(scalars) == old_len_scalars + 1 and result == (_a2m_transpose(_array2matrix(expr.expr)) if expr.permutation.array_form == [1, 0] else _permute_dims(_a2m_tensor_product(*scalars, *newargs), _af_invert(newperm)) if isinstance(expr.expr, ArrayTensorProduct) else _a2m_tensor_product(*args_array) if isinstance(expr.expr, ArrayContraction) else expr) and result == _a2m_transpose(_array2matrix(expr.expr)) or result == _permute_dims(_a2m_tensor_product(*scalars, *newargs), _af_invert(newperm)) or result == _a2m_tensor_product(*args_array) or result == expr","over":{"base":"PermuteDims","pred":"isinstance(expr.expr, ArrayTensorProduct) and isinstance(expr.expr, ArrayContraction) and isinstance(expr, PermuteDims) and hasattr(expr, 'permutation') and hasattr(expr, 'expr')"},"name":"__correct"},"guarantee":"len(newargs) == old_len_newargs + 1; len(newpos) == old_len_newpos + 1; len(scalars) == old_len_scalars + 1; 4-fiber decomposition","fibers":[{"name":"ArrayTensorProduct","pred":"isinstance(expr.expr, ArrayTensorProduct)","path":{"lhs":"_(x)","rhs":"len(newargs) == old_len_newargs + 1; len(newpos) == old_len_newpos + 1; len(scalars) == old_len_scalars + 1; 4-fiber decomposition","over":{"base":"ArrayTensorProduct","pred":"isinstance(expr.expr, ArrayTensorProduct)"},"name":"__ArrayTensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayTensorProduct_correct","statement":"_ satisfies spec on ArrayTensorProduct inputs"},"trust":"LIBRARY"},{"name":"ArrayContraction","pred":"isinstance(expr.expr, ArrayContraction)","path":{"lhs":"_(x)","rhs":"len(newargs) == old_len_newargs + 1; len(newpos) == old_len_newpos + 1; len(scalars) == old_len_scalars + 1; 4-fiber decomposition","over":{"base":"ArrayContraction","pred":"isinstance(expr.expr, ArrayContraction)"},"name":"__ArrayContraction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayContraction_correct","statement":"_ satisfies spec on ArrayContraction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aa18c94841fbd372","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, PermuteDims)","hasattr(expr, 'permutation')","hasattr(expr, 'expr')"],"ensures":["len(newargs) == old_len_newargs + 1","len(newpos) == old_len_newpos + 1","len(scalars) == old_len_scalars + 1","result == (_a2m_transpose(_array2matrix(expr.expr)) if expr.permutation.array_form == [1, 0] else _permute_dims(_a2m_tensor_product(*scalars, *newargs), _af_invert(newperm)) if isinstance(expr.expr, ArrayTensorProduct) else _a2m_tensor_product(*args_array) if isinstance(expr.expr, ArrayContraction) else expr)","result == _a2m_transpose(_array2matrix(expr.expr)) or result == _permute_dims(_a2m_tensor_product(*scalars, *newargs), _af_invert(newperm)) or result == _a2m_tensor_product(*args_array) or result == expr"],"fibers":[{"name":"case_0","guard":"expr.permutation.array_form == [1, 0]","ensures":["result == _a2m_transpose(_array2matrix(expr.expr))"],"decidability":"z3","returns_expr":"_a2m_transpose(_array2matrix(expr.expr))"},{"name":"case_1","guard":"isinstance(expr.expr, ArrayTensorProduct)","ensures":["result == _permute_dims(_a2m_tensor_product(*scalars, *newargs), _af_invert(newperm))"],"decidability":"structural","returns_expr":"_permute_dims(_a2m_tensor_product(*scalars, *newargs), _af_invert(newperm))"},{"name":"case_2","guard":"isinstance(expr.expr, ArrayContraction)","ensures":["result == _a2m_tensor_product(*args_array)"],"decidability":"structural","returns_expr":"_a2m_tensor_product(*args_array)"},{"name":"case_3","guard":"not (expr.permutation.array_form == [1, 0]) and not (isinstance(expr.expr, ArrayTensorProduct)) and not (isinstance(expr.expr, ArrayContraction))","ensures":["result == expr"],"decidability":"structural","returns_expr":"expr"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.permutation"],"calls_mutating":["newargs.append","newperm.extend","newpos.append","scalars.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["newargs.*","newperm.*","newpos.*","scalars.*"],"old_bindings":{"old_len_newargs":"len(newargs)","old_len_newperm":"len(newperm)","old_len_newpos":"len(newpos)","old_len_scalars":"len(scalars)"},"post_ensures":["len(newargs) == old_len_newargs + 1","len(newpos) == old_len_newpos + 1","len(scalars) == old_len_scalars + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'pos == sorted(pos)', 'len(pos) == 2', 'len(pos) == 0', 'p1 // 2 != p2 // 2', 'p1 > p2', 'expr.permutation.array_form == [1, 0]', 'isinstance(expr.expr, ArrayTensorProduct)', 'isinstance(expr.expr, ArrayContraction)', 'not isinstance(mat_mul_lines, ArrayTensorProduct)'}, fibers={'ArrayContraction', 'ArrayTensorProduct'})"]}}
 def _(expr: PermuteDims):
     if expr.permutation.array_form == [1, 0]:
         return _a2m_transpose(_array2matrix(expr.expr))
@@ -493,16 +591,24 @@ def _(expr: PermuteDims):
 
 @_array2matrix.register(ArrayAdd)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over ArrayAdd ║
+# ║ Path(_(expr), _a2m_add(*addends)) over {ArrayAdd | isinstance(expr, ArrayAdd) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ArrayAdd → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayAdd)                     ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  _a2m_add(*addends)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ArrayAdd | isinstance(expr, ArrayAdd) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 718ef1c8e08ec006  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e07a1a256e89069  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"21ecb7daa21b454e","in":{"base":"ArrayAdd"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayAdd"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"718ef1c8e08ec006"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"21ecb7daa21b454e","in":{"base":"ArrayAdd","pred":"isinstance(expr, ArrayAdd) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr)","rhs":"_a2m_add(*addends)","over":{"base":"ArrayAdd","pred":"isinstance(expr, ArrayAdd) and hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"returns _a2m_add(*addends)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__correct","statement":"Path(_(x), returns _a2m_add(*addends))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e07a1a256e89069","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayAdd)","hasattr(expr, 'args')"],"returns_expr":"_a2m_add(*addends)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(expr: ArrayAdd):
     addends = [_array2matrix(arg) for arg in expr.args]
     return _a2m_add(*addends)
@@ -510,7 +616,16 @@ def _(expr: ArrayAdd):
 
 @_array2matrix.register(ArrayElementwiseApplyFunc)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over {ArrayElementwiseApplyFunc | isinstance(subexpr, MatrixExpr)} ║
+# ║ Path(_(expr), result == (ElementwiseApplyFunction(expr.function, subexpr) if isinstance(subexpr, MatrixExpr) else ArrayElementwiseApplyFunc(expr.function, subexpr)) and result == ElementwiseApplyFunction(expr.function, subexpr) or result == ArrayElementwiseApplyFunc(expr.function, subexpr)) over {ArrayElementwiseApplyFunc | isinstance(subexpr, MatrixExpr) and isinstance(expr, ArrayElementwiseApplyFunc) and hasattr(expr, 'expr') and hasattr(expr, 'function')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayElementwiseApplyFunc)    ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'function')                      ║
+# ║   ensures:  result == (ElementwiseApplyFunction(expr....   ║
+# ║   ensures:  result == ElementwiseApplyFunction(expr.f...   ║
+# ║   fiber[MatrixExpr]: isinstance(subexpr, MatrixExpr) ...   ║
+# ║   fiber[MatrixExpr]: not (isinstance(subexpr, MatrixE...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : {ArrayElementwiseApplyFunc | isinstance(subexpr, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -522,9 +637,12 @@ def _(expr: ArrayAdd):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4ede0584...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"ebeeb25f45c0d62e","in":{"base":"ArrayElementwiseApplyFunc","pred":"isinstance(subexpr, MatrixExpr)"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayElementwiseApplyFunc","pred":"isinstance(subexpr, MatrixExpr)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixExpr","pred":"isinstance(subexpr, MatrixExpr)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixExpr","pred":"isinstance(subexpr, MatrixExpr)"},"name":"__MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__MatrixExpr_correct","statement":"_ satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4ede058485ebee54"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"ebeeb25f45c0d62e","in":{"base":"ArrayElementwiseApplyFunc","pred":"isinstance(subexpr, MatrixExpr) and isinstance(expr, ArrayElementwiseApplyFunc) and hasattr(expr, 'expr') and hasattr(expr, 'function')"},"out":{"base":"Any","pred":"result satisfies: result == (ElementwiseApplyFunction(expr.function, subexpr) if isinstance(subexpr, MatrixExpr) else ArrayElementwiseApplyFunc(expr.function, subexpr)) and result == ElementwiseApplyFunction(expr.function, subexpr) or result == ArrayElementwiseApplyFunc(expr.function, subexpr)"},"spec":{"lhs":"_(expr)","rhs":"result == (ElementwiseApplyFunction(expr.function, subexpr) if isinstance(subexpr, MatrixExpr) else ArrayElementwiseApplyFunc(expr.function, subexpr)) and result == ElementwiseApplyFunction(expr.function, subexpr) or result == ArrayElementwiseApplyFunc(expr.function, subexpr)","over":{"base":"ArrayElementwiseApplyFunc","pred":"isinstance(subexpr, MatrixExpr) and isinstance(expr, ArrayElementwiseApplyFunc) and hasattr(expr, 'expr') and hasattr(expr, 'function')"},"name":"__correct"},"guarantee":"result == (ElementwiseApplyFunction(expr.function, subexpr) if isinstance(subexpr, MatrixExpr) else ArrayElementwiseApplyFunc(expr.function, subexpr)); result == ElementwiseApplyFunction(expr.function, subexpr) or result == ArrayElementwiseApplyFunc(expr.function, subexpr); 2-fiber decomposition","fibers":[{"name":"MatrixExpr","pred":"isinstance(subexpr, MatrixExpr)","path":{"lhs":"_(x)","rhs":"result == (ElementwiseApplyFunction(expr.function, subexpr) if isinstance(subexpr, MatrixExpr) else ArrayElementwiseApplyFunc(expr.function, subexpr)); result == ElementwiseApplyFunction(expr.function, subexpr) or result == ArrayElementwiseApplyFunc(expr.function, subexpr); 2-fiber decomposition","over":{"base":"MatrixExpr","pred":"isinstance(subexpr, MatrixExpr)"},"name":"__MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__MatrixExpr_correct","statement":"_ satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4ede058485ebee54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayElementwiseApplyFunc)","hasattr(expr, 'expr')","hasattr(expr, 'function')"],"ensures":["result == (ElementwiseApplyFunction(expr.function, subexpr) if isinstance(subexpr, MatrixExpr) else ArrayElementwiseApplyFunc(expr.function, subexpr))","result == ElementwiseApplyFunction(expr.function, subexpr) or result == ArrayElementwiseApplyFunc(expr.function, subexpr)"],"fibers":[{"name":"MatrixExpr","guard":"isinstance(subexpr, MatrixExpr)","ensures":["result == ElementwiseApplyFunction(expr.function, subexpr)"],"decidability":"structural","returns_expr":"ElementwiseApplyFunction(expr.function, subexpr)"},{"name":"MatrixExpr","guard":"not (isinstance(subexpr, MatrixExpr))","ensures":["result == ArrayElementwiseApplyFunc(expr.function, subexpr)"],"decidability":"structural","returns_expr":"ArrayElementwiseApplyFunc(expr.function, subexpr)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.function"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(subexpr, MatrixExpr)', 'subexpr.shape != (1, 1)'}, fibers={'MatrixExpr'})"]}}
 def _(expr: ArrayElementwiseApplyFunc):
     subexpr = _array2matrix(expr.expr)
     if isinstance(subexpr, MatrixExpr):
@@ -542,9 +660,15 @@ def _(expr: ArrayElementwiseApplyFunc):
 
 @_array2matrix.register(ArrayElement)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over {ArrayElement | isinstance(ret, MatrixExpr)} ║
+# ║ Path(_(expr), <unspecified:_>) over {ArrayElement | isinstance(ret, MatrixExpr) and isinstance(expr, ArrayElement) and hasattr(expr, 'name') and hasattr(expr, 'indices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : {ArrayElement | isinstance(ret, MatrixExpr)} → Any     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, ArrayElement)                 ║
+# ║   requires: hasattr(expr, 'name')                          ║
+# ║   requires: hasattr(expr, 'indices')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ArrayElement | isinstance(ret, MatrixExpr) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   MatrixExpr: {isinstance(ret, MatrixExpr)} → library...   ║
@@ -554,9 +678,12 @@ def _(expr: ArrayElementwiseApplyFunc):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 01c0a027...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"81c9834e6575a681","in":{"base":"ArrayElement","pred":"isinstance(ret, MatrixExpr)"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayElement","pred":"isinstance(ret, MatrixExpr)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixExpr","pred":"isinstance(ret, MatrixExpr)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixExpr","pred":"isinstance(ret, MatrixExpr)"},"name":"__MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__MatrixExpr_correct","statement":"_ satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"01c0a0272719b87d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"81c9834e6575a681","in":{"base":"ArrayElement","pred":"isinstance(ret, MatrixExpr) and isinstance(expr, ArrayElement) and hasattr(expr, 'name') and hasattr(expr, 'indices')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr)","rhs":"<unspecified:_>","over":{"base":"ArrayElement","pred":"isinstance(ret, MatrixExpr) and isinstance(expr, ArrayElement) and hasattr(expr, 'name') and hasattr(expr, 'indices')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"MatrixExpr","pred":"isinstance(ret, MatrixExpr)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixExpr","pred":"isinstance(ret, MatrixExpr)"},"name":"__MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__MatrixExpr_correct","statement":"_ satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"01c0a0272719b87d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, ArrayElement)","hasattr(expr, 'name')","hasattr(expr, 'indices')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.indices","expr.name"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(ret, MatrixExpr)'}, fibers={'MatrixExpr'})"]}}
 def _(expr: ArrayElement):
     ret = _array2matrix(expr.name)
     if isinstance(ret, MatrixExpr):
@@ -566,23 +693,34 @@ def _(expr: ArrayElement):
 
 @singledispatch
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_remove_trivial_dims(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_remove_trivial_dims(expr), (expr, [])) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (expr, [])                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _remove_trivial_dims : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 60fd25038ca2c71b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._remove_trivial_dims","kind":"function","src_hash":"3548860053b7e664","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_trivial_dims(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_remove_trivial_dims_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60fd25038ca2c71b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._remove_trivial_dims","kind":"function","src_hash":"3548860053b7e664","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_trivial_dims(expr)","rhs":"(expr, [])","over":{"base":"Any"},"name":"_remove_trivial_dims_correct"},"guarantee":"returns (expr, [])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60fd25038ca2c71b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(expr, [])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _remove_trivial_dims(expr):
     return expr, []
 
 
 @_remove_trivial_dims.register(ArrayTensorProduct)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over {ArrayTensorProduct | isinstance(newexpr, ArrayTensorProduct) and isinstance(arg, OneArray) and isinstance(arg, (MatrixExpr, MatrixBase))} ║
+# ║ Path(_(expr), (newexpr, newremoved)) over {ArrayTensorProduct | isinstance(newexpr, ArrayTensorProduct) and isinstance(arg, OneArray) and isinstance(arg, (MatrixExpr, MatrixBase)) and isinstance(expr, ArrayTensorProduct) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayTensorProduct)           ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   returns:  (newexpr, newremoved)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : {ArrayTensorProduct | isinstance(newexpr, ArrayTe...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -596,9 +734,12 @@ def _remove_trivial_dims(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 8.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2fc08707...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"32dffb86caa754bc","in":{"base":"ArrayTensorProduct","pred":"isinstance(newexpr, ArrayTensorProduct) and isinstance(arg, OneArray) and isinstance(arg, (MatrixExpr, MatrixBase))"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayTensorProduct","pred":"isinstance(newexpr, ArrayTensorProduct) and isinstance(arg, OneArray) and isinstance(arg, (MatrixExpr, MatrixBase))"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ArrayTensorProduct","pred":"isinstance(newexpr, ArrayTensorProduct)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayTensorProduct","pred":"isinstance(newexpr, ArrayTensorProduct)"},"name":"__ArrayTensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayTensorProduct_correct","statement":"_ satisfies spec on ArrayTensorProduct inputs"},"trust":"LIBRARY"},{"name":"OneArray","pred":"isinstance(arg, OneArray)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"OneArray","pred":"isinstance(arg, OneArray)"},"name":"__OneArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__OneArray_correct","statement":"_ satisfies spec on OneArray inputs"},"trust":"LIBRARY"},{"name":"(MatrixExpr","pred":"isinstance(arg, (MatrixExpr, MatrixBase))","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"(MatrixExpr","pred":"isinstance(arg, (MatrixExpr, MatrixBase))"},"name":"__(MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__(MatrixExpr_correct","statement":"_ satisfies spec on (MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2fc087070c4a1d02"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"32dffb86caa754bc","in":{"base":"ArrayTensorProduct","pred":"isinstance(newexpr, ArrayTensorProduct) and isinstance(arg, OneArray) and isinstance(arg, (MatrixExpr, MatrixBase)) and isinstance(expr, ArrayTensorProduct) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr)","rhs":"(newexpr, newremoved)","over":{"base":"ArrayTensorProduct","pred":"isinstance(newexpr, ArrayTensorProduct) and isinstance(arg, OneArray) and isinstance(arg, (MatrixExpr, MatrixBase)) and isinstance(expr, ArrayTensorProduct) and hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"returns (newexpr, newremoved)","fibers":[{"name":"ArrayTensorProduct","pred":"isinstance(newexpr, ArrayTensorProduct)","path":{"lhs":"_(x)","rhs":"returns (newexpr, newremoved)","over":{"base":"ArrayTensorProduct","pred":"isinstance(newexpr, ArrayTensorProduct)"},"name":"__ArrayTensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayTensorProduct_correct","statement":"_ satisfies spec on ArrayTensorProduct inputs"},"trust":"LIBRARY"},{"name":"OneArray","pred":"isinstance(arg, OneArray)","path":{"lhs":"_(x)","rhs":"returns (newexpr, newremoved)","over":{"base":"OneArray","pred":"isinstance(arg, OneArray)"},"name":"__OneArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__OneArray_correct","statement":"_ satisfies spec on OneArray inputs"},"trust":"LIBRARY"},{"name":"(MatrixExpr","pred":"isinstance(arg, (MatrixExpr, MatrixBase))","path":{"lhs":"_(x)","rhs":"returns (newexpr, newremoved)","over":{"base":"(MatrixExpr","pred":"isinstance(arg, (MatrixExpr, MatrixBase))"},"name":"__(MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__(MatrixExpr_correct","statement":"_ satisfies spec on (MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2fc087070c4a1d02","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayTensorProduct)","hasattr(expr, 'args')"],"returns_expr":"(newexpr, newremoved)","pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(newargs) == 0', 'pending == k', 'arg.shape == (1, 1)', 'prev.shape[0] == 1', 'newargs[-1].shape[1] == 1', \"getattr(arg, 'is_Identity', False) and arg.shape == (1, 1)\", 'isinstance(newexpr, ArrayTensorProduct)', 'isinstance(arg, OneArray)', 'pending is None', 'arg.shape[1] == 1', 'not isinstance(arg, (MatrixExpr, MatrixBase))'}, fibers={'ArrayTensorProduct', '(MatrixExpr', 'OneArray'})"]}}
 def _(expr: ArrayTensorProduct):
     # Recognize expressions like [x, y] with shape (k, 1, k, 1) as `x*y.T`.
     # The matrix expression has to be equivalent to the tensor product of the
@@ -678,16 +819,24 @@ def _(expr: ArrayTensorProduct):
 
 @_remove_trivial_dims.register(ArrayAdd)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over ArrayAdd ║
+# ║ Path(_(expr), <unspecified:_>) over {ArrayAdd | isinstance(expr, ArrayAdd) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ArrayAdd → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, ArrayAdd)                     ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ArrayAdd | isinstance(expr, ArrayAdd) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d47a268b55c592ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"878f76059ce950a0","in":{"base":"ArrayAdd"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayAdd"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d47a268b55c592ef"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"878f76059ce950a0","in":{"base":"ArrayAdd","pred":"isinstance(expr, ArrayAdd) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr)","rhs":"<unspecified:_>","over":{"base":"ArrayAdd","pred":"isinstance(expr, ArrayAdd) and hasattr(expr, 'args')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d47a268b55c592ef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, ArrayAdd)","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr: ArrayAdd):
     rec = [_remove_trivial_dims(arg) for arg in expr.args]
     newargs, removed = zip(*rec)
@@ -701,16 +850,25 @@ def _(expr: ArrayAdd):
 
 @_remove_trivial_dims.register(PermuteDims)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over PermuteDims ║
+# ║ Path(_(expr), (newexpr, premoved)) over {PermuteDims | isinstance(expr, PermuteDims) and hasattr(expr, 'expr') and hasattr(expr, 'permutation')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : PermuteDims → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, PermuteDims)                  ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'permutation')                   ║
+# ║   returns:  (newexpr, premoved)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {PermuteDims | isinstance(expr, PermuteDims) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8b487b1f18f5a4d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d34288c253169b29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"ae8166b7b465eafe","in":{"base":"PermuteDims"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"PermuteDims"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8b487b1f18f5a4d"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"ae8166b7b465eafe","in":{"base":"PermuteDims","pred":"isinstance(expr, PermuteDims) and hasattr(expr, 'expr') and hasattr(expr, 'permutation')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr)","rhs":"(newexpr, premoved)","over":{"base":"PermuteDims","pred":"isinstance(expr, PermuteDims) and hasattr(expr, 'expr') and hasattr(expr, 'permutation')"},"name":"__correct"},"guarantee":"returns (newexpr, premoved)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__correct","statement":"Path(_(x), returns (newexpr, premoved))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d34288c253169b29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, PermuteDims)","hasattr(expr, 'expr')","hasattr(expr, 'permutation')"],"returns_expr":"(newexpr, premoved)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.permutation"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _(expr: PermuteDims):
     subexpr, subremoved = _remove_trivial_dims(expr.expr)
     p = expr.permutation.array_form
@@ -729,7 +887,13 @@ def _(expr: PermuteDims):
 
 @_remove_trivial_dims.register(ArrayContraction)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over {ArrayContraction | isinstance(expr, ArrayContraction)} ║
+# ║ Path(_(expr), <unspecified:_>) over {ArrayContraction | isinstance(expr, ArrayContraction) and isinstance(expr, ArrayContraction) and hasattr(expr, 'expr') and hasattr(expr, 'contraction_indices')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, ArrayContraction)             ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'contraction_indices')           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : {ArrayContraction | isinstance(expr, ArrayContrac...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -741,9 +905,12 @@ def _(expr: PermuteDims):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e77061ad...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"d35f3ecb8030a8d7","in":{"base":"ArrayContraction","pred":"isinstance(expr, ArrayContraction)"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayContraction","pred":"isinstance(expr, ArrayContraction)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ArrayContraction","pred":"isinstance(expr, ArrayContraction)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayContraction","pred":"isinstance(expr, ArrayContraction)"},"name":"__ArrayContraction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayContraction_correct","statement":"_ satisfies spec on ArrayContraction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e77061ad49c20964"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"d35f3ecb8030a8d7","in":{"base":"ArrayContraction","pred":"isinstance(expr, ArrayContraction) and isinstance(expr, ArrayContraction) and hasattr(expr, 'expr') and hasattr(expr, 'contraction_indices')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr)","rhs":"<unspecified:_>","over":{"base":"ArrayContraction","pred":"isinstance(expr, ArrayContraction) and isinstance(expr, ArrayContraction) and hasattr(expr, 'expr') and hasattr(expr, 'contraction_indices')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ArrayContraction","pred":"isinstance(expr, ArrayContraction)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayContraction","pred":"isinstance(expr, ArrayContraction)"},"name":"__ArrayContraction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayContraction_correct","statement":"_ satisfies spec on ArrayContraction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e77061ad49c20964","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, ArrayContraction)","hasattr(expr, 'expr')","hasattr(expr, 'contraction_indices')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.contraction_indices","expr.expr"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, ArrayContraction)', 'new_expr != expr'}, fibers={'ArrayContraction'})"]}}
 def _(expr: ArrayContraction):
     new_expr, removed0 = _array_contraction_to_diagonal_multiple_identity(expr)
     if new_expr != expr:
@@ -770,7 +937,14 @@ def _(expr: ArrayContraction):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_remove_diagonalized_identity_matrices(exp), internal helper behaves correctly) over {ArrayDiagonal | isinstance(expr, ArrayDiagonal) and isinstance(arg_with_ind.element, Identity) and isinstance(other.element, MatrixExpr)} ║
+# ║ Path(_remove_diagonalized_identity_matrices(expr), (editor.to_array_contraction(), removed)) over {ArrayDiagonal | isinstance(expr, ArrayDiagonal) and isinstance(arg_with_ind.element, Identity) and isinstance(other.element, MatrixExpr) and isinstance(expr, ArrayDiagonal) and hasattr(expr, 'diagonal_indices') and hasattr(expr, 'expr')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayDiagonal)                ║
+# ║   requires: hasattr(expr, 'diagonal_indices')              ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   ensures:  isinstance(expr, ArrayDiagonal)                ║
+# ║   returns:  (editor.to_array_contraction(), removed)       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _remove_diagonalized_identity_matrices : {ArrayDiagon...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -784,9 +958,12 @@ def _(expr: ArrayContraction):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?3 ✗4 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | dad8fc43...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._remove_diagonalized_identity_matrices","kind":"function","src_hash":"7be90afc12dd7901","in":{"base":"ArrayDiagonal","pred":"isinstance(expr, ArrayDiagonal) and isinstance(arg_with_ind.element, Identity) and isinstance(other.element, MatrixExpr)"},"out":{"base":"Any","pred":"isinstance(expr, ArrayDiagonal)"},"spec":{"lhs":"_remove_diagonalized_identity_matrices(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayDiagonal","pred":"isinstance(expr, ArrayDiagonal) and isinstance(arg_with_ind.element, Identity) and isinstance(other.element, MatrixExpr)"},"name":"_remove_diagonalized_identity_matrices_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ArrayDiagonal","pred":"isinstance(expr, ArrayDiagonal)","path":{"lhs":"_remove_diagonalized_identity_matrices(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayDiagonal","pred":"isinstance(expr, ArrayDiagonal)"},"name":"_remove_diagonalized_identity_matrices_ArrayDiagonal_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._remove_diagonalized_identity_matrices_ArrayDiagonal_correct","statement":"_remove_diagonalized_identity_matrices satisfies spec on ArrayDiagonal inputs"},"trust":"LIBRARY"},{"name":"Identity","pred":"isinstance(arg_with_ind.element, Identity)","path":{"lhs":"_remove_diagonalized_identity_matrices(x)","rhs":"internal helper behaves correctly","over":{"base":"Identity","pred":"isinstance(arg_with_ind.element, Identity)"},"name":"_remove_diagonalized_identity_matrices_Identity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._remove_diagonalized_identity_matrices_Identity_correct","statement":"_remove_diagonalized_identity_matrices satisfies spec on Identity inputs"},"trust":"LIBRARY"},{"name":"MatrixExpr","pred":"isinstance(other.element, MatrixExpr)","path":{"lhs":"_remove_diagonalized_identity_matrices(x)","rhs":"internal helper behaves correctly","over":{"base":"MatrixExpr","pred":"isinstance(other.element, MatrixExpr)"},"name":"_remove_diagonalized_identity_matrices_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._remove_diagonalized_identity_matrices_MatrixExpr_correct","statement":"_remove_diagonalized_identity_matrices satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dad8fc4374ed3431"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._remove_diagonalized_identity_matrices","kind":"function","src_hash":"7be90afc12dd7901","in":{"base":"ArrayDiagonal","pred":"isinstance(expr, ArrayDiagonal) and isinstance(arg_with_ind.element, Identity) and isinstance(other.element, MatrixExpr) and isinstance(expr, ArrayDiagonal) and hasattr(expr, 'diagonal_indices') and hasattr(expr, 'expr')"},"out":{"base":"Any","pred":"result satisfies: result == ((editor.to_array_contraction(), removed))"},"spec":{"lhs":"_remove_diagonalized_identity_matrices(expr)","rhs":"(editor.to_array_contraction(), removed)","over":{"base":"ArrayDiagonal","pred":"isinstance(expr, ArrayDiagonal) and isinstance(arg_with_ind.element, Identity) and isinstance(other.element, MatrixExpr) and isinstance(expr, ArrayDiagonal) and hasattr(expr, 'diagonal_indices') and hasattr(expr, 'expr')"},"name":"_remove_diagonalized_identity_matrices_correct"},"guarantee":"returns (editor.to_array_contraction(), removed); isinstance(expr, ArrayDiagonal)","fibers":[{"name":"ArrayDiagonal","pred":"isinstance(expr, ArrayDiagonal)","path":{"lhs":"_remove_diagonalized_identity_matrices(x)","rhs":"returns (editor.to_array_contraction(), removed); isinstance(expr, ArrayDiagonal)","over":{"base":"ArrayDiagonal","pred":"isinstance(expr, ArrayDiagonal)"},"name":"_remove_diagonalized_identity_matrices_ArrayDiagonal_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._remove_diagonalized_identity_matrices_ArrayDiagonal_correct","statement":"_remove_diagonalized_identity_matrices satisfies spec on ArrayDiagonal inputs"},"trust":"LIBRARY"},{"name":"Identity","pred":"isinstance(arg_with_ind.element, Identity)","path":{"lhs":"_remove_diagonalized_identity_matrices(x)","rhs":"returns (editor.to_array_contraction(), removed); isinstance(expr, ArrayDiagonal)","over":{"base":"Identity","pred":"isinstance(arg_with_ind.element, Identity)"},"name":"_remove_diagonalized_identity_matrices_Identity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._remove_diagonalized_identity_matrices_Identity_correct","statement":"_remove_diagonalized_identity_matrices satisfies spec on Identity inputs"},"trust":"LIBRARY"},{"name":"MatrixExpr","pred":"isinstance(other.element, MatrixExpr)","path":{"lhs":"_remove_diagonalized_identity_matrices(x)","rhs":"returns (editor.to_array_contraction(), removed); isinstance(expr, ArrayDiagonal)","over":{"base":"MatrixExpr","pred":"isinstance(other.element, MatrixExpr)"},"name":"_remove_diagonalized_identity_matrices_MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._remove_diagonalized_identity_matrices_MatrixExpr_correct","statement":"_remove_diagonalized_identity_matrices satisfies spec on MatrixExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dad8fc4374ed3431","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayDiagonal)","hasattr(expr, 'diagonal_indices')","hasattr(expr, 'expr')"],"ensures":["isinstance(expr, ArrayDiagonal)"],"returns_expr":"(editor.to_array_contraction(), removed)","pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":1,"n_assumed":3,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(other.element, MatrixExpr)', 'isinstance(arg_with_ind.element, Identity)', 'None in arg_with_ind.indices and any((i is not None and (i < 0) == True for i in arg_with_ind.indices))'}, fibers={'Identity', 'ArrayDiagonal', 'MatrixExpr'})"]}}
 def _remove_diagonalized_identity_matrices(expr: ArrayDiagonal):
     assert isinstance(expr, ArrayDiagonal)
     editor = _EditArrayContraction(expr)
@@ -817,7 +994,13 @@ def _remove_diagonalized_identity_matrices(expr: ArrayDiagonal):
 
 @_remove_trivial_dims.register(ArrayDiagonal)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over {ArrayDiagonal | isinstance(newexpr2, ArrayDiagonal)} ║
+# ║ Path(_(expr), <unspecified:_>) over {ArrayDiagonal | isinstance(newexpr2, ArrayDiagonal) and isinstance(expr, ArrayDiagonal) and hasattr(expr, 'expr') and hasattr(expr, 'diagonal_indices')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, ArrayDiagonal)                ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'diagonal_indices')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : {ArrayDiagonal | isinstance(newexpr2, ArrayDiagon...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -829,9 +1012,12 @@ def _remove_diagonalized_identity_matrices(expr: ArrayDiagonal):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1e2f0984...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"aa0a14a0f1103bc8","in":{"base":"ArrayDiagonal","pred":"isinstance(newexpr2, ArrayDiagonal)"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayDiagonal","pred":"isinstance(newexpr2, ArrayDiagonal)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ArrayDiagonal","pred":"isinstance(newexpr2, ArrayDiagonal)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayDiagonal","pred":"isinstance(newexpr2, ArrayDiagonal)"},"name":"__ArrayDiagonal_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayDiagonal_correct","statement":"_ satisfies spec on ArrayDiagonal inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1e2f0984384a9fbd"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"aa0a14a0f1103bc8","in":{"base":"ArrayDiagonal","pred":"isinstance(newexpr2, ArrayDiagonal) and isinstance(expr, ArrayDiagonal) and hasattr(expr, 'expr') and hasattr(expr, 'diagonal_indices')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr)","rhs":"<unspecified:_>","over":{"base":"ArrayDiagonal","pred":"isinstance(newexpr2, ArrayDiagonal) and isinstance(expr, ArrayDiagonal) and hasattr(expr, 'expr') and hasattr(expr, 'diagonal_indices')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ArrayDiagonal","pred":"isinstance(newexpr2, ArrayDiagonal)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayDiagonal","pred":"isinstance(newexpr2, ArrayDiagonal)"},"name":"__ArrayDiagonal_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__ArrayDiagonal_correct","statement":"_ satisfies spec on ArrayDiagonal inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1e2f0984384a9fbd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, ArrayDiagonal)","hasattr(expr, 'expr')","hasattr(expr, 'diagonal_indices')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.diagonal_indices","expr.expr"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(newexpr2, ArrayDiagonal)', 'len(new_diag_tuple) == 1', 'len(new_diag_indices) > 0'}, fibers={'ArrayDiagonal'})"]}}
 def _(expr: ArrayDiagonal):
     newexpr, removed = _remove_trivial_dims(expr.expr)
     shifts = list(accumulate([0] + [1 if i in removed else 0 for i in range(get_rank(expr.expr))]))
@@ -860,16 +1046,25 @@ def _(expr: ArrayDiagonal):
 
 @_remove_trivial_dims.register(ElementwiseApplyFunction)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over ElementwiseApplyFunction ║
+# ║ Path(_(expr), <unspecified:_>) over {ElementwiseApplyFunction | isinstance(expr, ElementwiseApplyFunction) and hasattr(expr, 'expr') and hasattr(expr, 'function')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ElementwiseApplyFunction → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, ElementwiseApplyFunction)     ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'function')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ElementwiseApplyFunction | isinstance(expr, Elem...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5bde9bc46ef2cf15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"712acc823b13b71b","in":{"base":"ElementwiseApplyFunction"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ElementwiseApplyFunction"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bde9bc46ef2cf15"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"712acc823b13b71b","in":{"base":"ElementwiseApplyFunction","pred":"isinstance(expr, ElementwiseApplyFunction) and hasattr(expr, 'expr') and hasattr(expr, 'function')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr)","rhs":"<unspecified:_>","over":{"base":"ElementwiseApplyFunction","pred":"isinstance(expr, ElementwiseApplyFunction) and hasattr(expr, 'expr') and hasattr(expr, 'function')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5bde9bc46ef2cf15","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, ElementwiseApplyFunction)","hasattr(expr, 'expr')","hasattr(expr, 'function')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.function"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _(expr: ElementwiseApplyFunction):
     subexpr, removed = _remove_trivial_dims(expr.expr)
     if subexpr.shape == (1, 1):
@@ -880,32 +1075,47 @@ def _(expr: ElementwiseApplyFunction):
 
 @_remove_trivial_dims.register(ArrayElementwiseApplyFunc)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(exp), internal helper behaves correctly) over ArrayElementwiseApplyFunc ║
+# ║ Path(_(expr), (ArrayElementwiseApplyFunc(expr.function, subexpr), removed)) over {ArrayElementwiseApplyFunc | isinstance(expr, ArrayElementwiseApplyFunc) and hasattr(expr, 'expr') and hasattr(expr, 'function')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : ArrayElementwiseApplyFunc → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayElementwiseApplyFunc)    ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'function')                      ║
+# ║   returns:  (ArrayElementwiseApplyFunc(expr.function,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {ArrayElementwiseApplyFunc | isinstance(expr, Arr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ebfb87fa62b5f05f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be4ead1985c4a74f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"ebc101e56ec0405a","in":{"base":"ArrayElementwiseApplyFunc"},"out":{"base":"Any"},"spec":{"lhs":"_(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayElementwiseApplyFunc"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ebfb87fa62b5f05f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._","kind":"function","src_hash":"ebc101e56ec0405a","in":{"base":"ArrayElementwiseApplyFunc","pred":"isinstance(expr, ArrayElementwiseApplyFunc) and hasattr(expr, 'expr') and hasattr(expr, 'function')"},"out":{"base":"Any"},"spec":{"lhs":"_(expr)","rhs":"(ArrayElementwiseApplyFunc(expr.function, subexpr), removed)","over":{"base":"ArrayElementwiseApplyFunc","pred":"isinstance(expr, ArrayElementwiseApplyFunc) and hasattr(expr, 'expr') and hasattr(expr, 'function')"},"name":"__correct"},"guarantee":"returns (ArrayElementwiseApplyFunc(expr.function, subexpr), removed)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.__correct","statement":"Path(_(x), returns (ArrayElementwiseApplyFunc(expr.function, subexpr), removed))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be4ead1985c4a74f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayElementwiseApplyFunc)","hasattr(expr, 'expr')","hasattr(expr, 'function')"],"returns_expr":"(ArrayElementwiseApplyFunc(expr.function, subexpr), removed)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.expr","expr.function"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(expr: ArrayElementwiseApplyFunc):
     subexpr, removed = _remove_trivial_dims(expr.expr)
     return ArrayElementwiseApplyFunc(expr.function, subexpr), removed
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_array_to_matrix(exp), recognize matrix expressions in codegen objects) over Any ║
+# ║ Path(convert_array_to_matrix(expr), <unspecified:convert_array_to_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ convert_array_to_matrix : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0567ca05003e65c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix.convert_array_to_matrix","kind":"function","src_hash":"a6820d69cb006b68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_array_to_matrix(exp)","rhs":"recognize matrix expressions in codegen objects","over":{"base":"Any"},"name":"convert_array_to_matrix_correct"},"guarantee":"recognize matrix expressions in codegen objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.convert_array_to_matrix_correct","statement":"Path(convert_array_to_matrix(x), recognize matrix expressions in codegen objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0567ca05003e65c"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix.convert_array_to_matrix","kind":"function","src_hash":"a6820d69cb006b68","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"convert_array_to_matrix(expr)","rhs":"<unspecified:convert_array_to_matrix>","over":{"base":"Any"},"name":"convert_array_to_matrix_correct"},"guarantee":"recognize matrix expressions in codegen objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.convert_array_to_matrix_correct","statement":"Path(convert_array_to_matrix(x), recognize matrix expressions in codegen objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0567ca05003e65c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def convert_array_to_matrix(expr):
     r"""
     Recognize matrix expressions in codegen objects.
@@ -989,7 +1199,13 @@ def convert_array_to_matrix(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_array_diag2contr_diagmatrix(exp), internal helper behaves correctly) over {ArrayDiagonal | isinstance(expr.expr, ArrayTensorProduct)} ║
+# ║ Path(_array_diag2contr_diagmatrix(expr), <unspecified:_array_diag2contr_diagmatrix>) over {ArrayDiagonal | isinstance(expr.expr, ArrayTensorProduct) and isinstance(expr, ArrayDiagonal) and hasattr(expr, 'expr') and hasattr(expr, 'diagonal_indices')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, ArrayDiagonal)                ║
+# ║   requires: hasattr(expr, 'expr')                          ║
+# ║   requires: hasattr(expr, 'diagonal_indices')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _array_diag2contr_diagmatrix : {ArrayDiagonal | isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1001,9 +1217,12 @@ def convert_array_to_matrix(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e16c0e14...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._array_diag2contr_diagmatrix","kind":"function","src_hash":"78b1c5c192424367","in":{"base":"ArrayDiagonal","pred":"isinstance(expr.expr, ArrayTensorProduct)"},"out":{"base":"Any"},"spec":{"lhs":"_array_diag2contr_diagmatrix(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayDiagonal","pred":"isinstance(expr.expr, ArrayTensorProduct)"},"name":"_array_diag2contr_diagmatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ArrayTensorProduct","pred":"isinstance(expr.expr, ArrayTensorProduct)","path":{"lhs":"_array_diag2contr_diagmatrix(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayTensorProduct","pred":"isinstance(expr.expr, ArrayTensorProduct)"},"name":"_array_diag2contr_diagmatrix_ArrayTensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._array_diag2contr_diagmatrix_ArrayTensorProduct_correct","statement":"_array_diag2contr_diagmatrix satisfies spec on ArrayTensorProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e16c0e141e551ec6"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._array_diag2contr_diagmatrix","kind":"function","src_hash":"78b1c5c192424367","in":{"base":"ArrayDiagonal","pred":"isinstance(expr.expr, ArrayTensorProduct) and isinstance(expr, ArrayDiagonal) and hasattr(expr, 'expr') and hasattr(expr, 'diagonal_indices')"},"out":{"base":"Any"},"spec":{"lhs":"_array_diag2contr_diagmatrix(expr)","rhs":"<unspecified:_array_diag2contr_diagmatrix>","over":{"base":"ArrayDiagonal","pred":"isinstance(expr.expr, ArrayTensorProduct) and isinstance(expr, ArrayDiagonal) and hasattr(expr, 'expr') and hasattr(expr, 'diagonal_indices')"},"name":"_array_diag2contr_diagmatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"ArrayTensorProduct","pred":"isinstance(expr.expr, ArrayTensorProduct)","path":{"lhs":"_array_diag2contr_diagmatrix(x)","rhs":"internal helper behaves correctly","over":{"base":"ArrayTensorProduct","pred":"isinstance(expr.expr, ArrayTensorProduct)"},"name":"_array_diag2contr_diagmatrix_ArrayTensorProduct_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._array_diag2contr_diagmatrix_ArrayTensorProduct_correct","statement":"_array_diag2contr_diagmatrix satisfies spec on ArrayTensorProduct inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e16c0e141e551ec6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, ArrayDiagonal)","hasattr(expr, 'expr')","hasattr(expr, 'diagonal_indices')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'arg1.shape[pos1_in2] == 1', 'len(abs_pos) != 2', 'arg1.shape[pos1_inner] != 1', 'arg2.shape[pos2_in2] == 1', 'get_rank(arg1) != 2 or get_rank(arg2) != 2', 'isinstance(expr.expr, ArrayTensorProduct)', 'arg2.shape[pos2_inner] != 1'}, fibers={'ArrayTensorProduct'})"]}}
 def _array_diag2contr_diagmatrix(expr: ArrayDiagonal):
     if isinstance(expr.expr, ArrayTensorProduct):
         args = list(expr.expr.args)
@@ -1061,7 +1280,13 @@ def _array_diag2contr_diagmatrix(expr: ArrayDiagonal):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_a2m_mul(*ar), internal helper behaves correctly) over {Any | isinstance(i, _CodegenArrayAbstract)} ║
+# ║ Path(_a2m_mul(*args), result == (MatMul(*args).doit() if not any((isinstance(i, _CodegenArrayAbstract) for i in args)) else _array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))])) and result == MatMul(*args).doit() or result == _array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))])) over {Any | isinstance(i, _CodegenArrayAbstract)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (MatMul(*args).doit() if not an...   ║
+# ║   ensures:  result == MatMul(*args).doit() or result ...   ║
+# ║   fiber[_CodegenArrayAbstract]: not any((isinstance(i...   ║
+# ║   fiber[_CodegenArrayAbstract]: not (not any((isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _a2m_mul : {Any | isinstance(i, _CodegenArrayAbstract...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1073,9 +1298,12 @@ def _array_diag2contr_diagmatrix(expr: ArrayDiagonal):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9c1ba321...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_mul","kind":"function","src_hash":"70626b1461f45c3d","in":{"base":"Any","pred":"isinstance(i, _CodegenArrayAbstract)"},"out":{"base":"Any"},"spec":{"lhs":"_a2m_mul(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(i, _CodegenArrayAbstract)"},"name":"_a2m_mul_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(i, _CodegenArrayAbstract)","path":{"lhs":"_a2m_mul(x)","rhs":"internal helper behaves correctly","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(i, _CodegenArrayAbstract)"},"name":"_a2m_mul__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_mul__CodegenArrayAbstract_correct","statement":"_a2m_mul satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9c1ba3212aee3d7f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_mul","kind":"function","src_hash":"70626b1461f45c3d","in":{"base":"Any","pred":"isinstance(i, _CodegenArrayAbstract)"},"out":{"base":"Any","pred":"result satisfies: result == (MatMul(*args).doit() if not any((isinstance(i, _CodegenArrayAbstract) for i in args)) else _array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))])) and result == MatMul(*args).doit() or result == _array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))])"},"spec":{"lhs":"_a2m_mul(*args)","rhs":"result == (MatMul(*args).doit() if not any((isinstance(i, _CodegenArrayAbstract) for i in args)) else _array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))])) and result == MatMul(*args).doit() or result == _array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))])","over":{"base":"Any","pred":"isinstance(i, _CodegenArrayAbstract)"},"name":"_a2m_mul_correct"},"guarantee":"result == (MatMul(*args).doit() if not any((isinstance(i, _CodegenArrayAbstract) for i in args)) else _array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))])); result == MatMul(*args).doit() or result == _array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))]); 2-fiber decomposition","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(i, _CodegenArrayAbstract)","path":{"lhs":"_a2m_mul(x)","rhs":"result == (MatMul(*args).doit() if not any((isinstance(i, _CodegenArrayAbstract) for i in args)) else _array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))])); result == MatMul(*args).doit() or result == _array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))]); 2-fiber decomposition","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(i, _CodegenArrayAbstract)"},"name":"_a2m_mul__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_mul__CodegenArrayAbstract_correct","statement":"_a2m_mul satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9c1ba3212aee3d7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (MatMul(*args).doit() if not any((isinstance(i, _CodegenArrayAbstract) for i in args)) else _array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))]))","result == MatMul(*args).doit() or result == _array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))])"],"fibers":[{"name":"_CodegenArrayAbstract","guard":"not any((isinstance(i, _CodegenArrayAbstract) for i in args))","ensures":["result == MatMul(*args).doit()"],"decidability":"structural","returns_expr":"MatMul(*args).doit()"},{"name":"_CodegenArrayAbstract","guard":"not (not any((isinstance(i, _CodegenArrayAbstract) for i in args)))","ensures":["result == _array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))])"],"decidability":"structural","returns_expr":"_array_contraction(_array_tensor_product(*args), *[(2 * i - 1, 2 * i) for i in range(1, len(args))])"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']","Poor branch-fiber coverage: 0% (branches={'not any((isinstance(i, _CodegenArrayAbstract) for i in args))'}, fibers={'_CodegenArrayAbstract'})"]}}
 def _a2m_mul(*args):
     if not any(isinstance(i, _CodegenArrayAbstract) for i in args):
         from sympy.matrices.expressions.matmul import MatMul
@@ -1088,7 +1316,10 @@ def _a2m_mul(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_a2m_tensor_product(*ar), internal helper behaves correctly) over {Any | isinstance(arg, (MatrixExpr, _ArrayExpr, _CodegenArrayAbstract)) and isinstance(arrays[0], _CodegenArrayAbstract)} ║
+# ║ Path(_a2m_tensor_product(*args), <unspecified:_a2m_tensor_product>) over {Any | isinstance(arg, (MatrixExpr, _ArrayExpr, _CodegenArrayAbstract)) and isinstance(arrays[0], _CodegenArrayAbstract)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _a2m_tensor_product : {Any | isinstance(arg, (MatrixE...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1101,9 +1332,12 @@ def _a2m_mul(*args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 0.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1e0a1e4c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_tensor_product","kind":"function","src_hash":"70bc61425bc21cbe","in":{"base":"Any","pred":"isinstance(arg, (MatrixExpr, _ArrayExpr, _CodegenArrayAbstract)) and isinstance(arrays[0], _CodegenArrayAbstract)"},"out":{"base":"Any"},"spec":{"lhs":"_a2m_tensor_product(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(arg, (MatrixExpr, _ArrayExpr, _CodegenArrayAbstract)) and isinstance(arrays[0], _CodegenArrayAbstract)"},"name":"_a2m_tensor_product_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"(MatrixExpr","pred":"isinstance(arg, (MatrixExpr, _ArrayExpr, _CodegenArrayAbstract))","path":{"lhs":"_a2m_tensor_product(x)","rhs":"internal helper behaves correctly","over":{"base":"(MatrixExpr","pred":"isinstance(arg, (MatrixExpr, _ArrayExpr, _CodegenArrayAbstract))"},"name":"_a2m_tensor_product_(MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_tensor_product_(MatrixExpr_correct","statement":"_a2m_tensor_product satisfies spec on (MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"_CodegenArrayAbstract","pred":"isinstance(arrays[0], _CodegenArrayAbstract)","path":{"lhs":"_a2m_tensor_product(x)","rhs":"internal helper behaves correctly","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(arrays[0], _CodegenArrayAbstract)"},"name":"_a2m_tensor_product__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_tensor_product__CodegenArrayAbstract_correct","statement":"_a2m_tensor_product satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1e0a1e4c21eda1c5"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_tensor_product","kind":"function","src_hash":"70bc61425bc21cbe","in":{"base":"Any","pred":"isinstance(arg, (MatrixExpr, _ArrayExpr, _CodegenArrayAbstract)) and isinstance(arrays[0], _CodegenArrayAbstract)"},"out":{"base":"Any"},"spec":{"lhs":"_a2m_tensor_product(*args)","rhs":"<unspecified:_a2m_tensor_product>","over":{"base":"Any","pred":"isinstance(arg, (MatrixExpr, _ArrayExpr, _CodegenArrayAbstract)) and isinstance(arrays[0], _CodegenArrayAbstract)"},"name":"_a2m_tensor_product_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"(MatrixExpr","pred":"isinstance(arg, (MatrixExpr, _ArrayExpr, _CodegenArrayAbstract))","path":{"lhs":"_a2m_tensor_product(x)","rhs":"internal helper behaves correctly","over":{"base":"(MatrixExpr","pred":"isinstance(arg, (MatrixExpr, _ArrayExpr, _CodegenArrayAbstract))"},"name":"_a2m_tensor_product_(MatrixExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_tensor_product_(MatrixExpr_correct","statement":"_a2m_tensor_product satisfies spec on (MatrixExpr inputs"},"trust":"LIBRARY"},{"name":"_CodegenArrayAbstract","pred":"isinstance(arrays[0], _CodegenArrayAbstract)","path":{"lhs":"_a2m_tensor_product(x)","rhs":"internal helper behaves correctly","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(arrays[0], _CodegenArrayAbstract)"},"name":"_a2m_tensor_product__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_tensor_product__CodegenArrayAbstract_correct","statement":"_a2m_tensor_product satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1e0a1e4c21eda1c5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']","Poor branch-fiber coverage: 0% (branches={'isinstance(arg, (MatrixExpr, _ArrayExpr, _CodegenArrayAbstract))', 'len(arrays) == 0', 'scalar != 1', 'isinstance(arrays[0], _CodegenArrayAbstract)'}, fibers={'(MatrixExpr', '_CodegenArrayAbstract'})"]}}
 def _a2m_tensor_product(*args):
     scalars = []
     arrays = []
@@ -1124,7 +1358,13 @@ def _a2m_tensor_product(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_a2m_add(*ar), internal helper behaves correctly) over {Any | isinstance(i, _CodegenArrayAbstract)} ║
+# ║ Path(_a2m_add(*args), result == (MatAdd(*args).doit() if not any((isinstance(i, _CodegenArrayAbstract) for i in args)) else _array_add(*args)) and result == MatAdd(*args).doit() or result == _array_add(*args)) over {Any | isinstance(i, _CodegenArrayAbstract)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (MatAdd(*args).doit() if not an...   ║
+# ║   ensures:  result == MatAdd(*args).doit() or result ...   ║
+# ║   fiber[_CodegenArrayAbstract]: not any((isinstance(i...   ║
+# ║   fiber[_CodegenArrayAbstract]: not (not any((isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _a2m_add : {Any | isinstance(i, _CodegenArrayAbstract...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1136,9 +1376,12 @@ def _a2m_tensor_product(*args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 7a51eef3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_add","kind":"function","src_hash":"e993d3ddcde22726","in":{"base":"Any","pred":"isinstance(i, _CodegenArrayAbstract)"},"out":{"base":"Any"},"spec":{"lhs":"_a2m_add(*ar)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(i, _CodegenArrayAbstract)"},"name":"_a2m_add_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(i, _CodegenArrayAbstract)","path":{"lhs":"_a2m_add(x)","rhs":"internal helper behaves correctly","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(i, _CodegenArrayAbstract)"},"name":"_a2m_add__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_add__CodegenArrayAbstract_correct","statement":"_a2m_add satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7a51eef3e0ccd00a"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_add","kind":"function","src_hash":"e993d3ddcde22726","in":{"base":"Any","pred":"isinstance(i, _CodegenArrayAbstract)"},"out":{"base":"Any","pred":"result satisfies: result == (MatAdd(*args).doit() if not any((isinstance(i, _CodegenArrayAbstract) for i in args)) else _array_add(*args)) and result == MatAdd(*args).doit() or result == _array_add(*args)"},"spec":{"lhs":"_a2m_add(*args)","rhs":"result == (MatAdd(*args).doit() if not any((isinstance(i, _CodegenArrayAbstract) for i in args)) else _array_add(*args)) and result == MatAdd(*args).doit() or result == _array_add(*args)","over":{"base":"Any","pred":"isinstance(i, _CodegenArrayAbstract)"},"name":"_a2m_add_correct"},"guarantee":"result == (MatAdd(*args).doit() if not any((isinstance(i, _CodegenArrayAbstract) for i in args)) else _array_add(*args)); result == MatAdd(*args).doit() or result == _array_add(*args); 2-fiber decomposition","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(i, _CodegenArrayAbstract)","path":{"lhs":"_a2m_add(x)","rhs":"result == (MatAdd(*args).doit() if not any((isinstance(i, _CodegenArrayAbstract) for i in args)) else _array_add(*args)); result == MatAdd(*args).doit() or result == _array_add(*args); 2-fiber decomposition","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(i, _CodegenArrayAbstract)"},"name":"_a2m_add__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_add__CodegenArrayAbstract_correct","statement":"_a2m_add satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"7a51eef3e0ccd00a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (MatAdd(*args).doit() if not any((isinstance(i, _CodegenArrayAbstract) for i in args)) else _array_add(*args))","result == MatAdd(*args).doit() or result == _array_add(*args)"],"fibers":[{"name":"_CodegenArrayAbstract","guard":"not any((isinstance(i, _CodegenArrayAbstract) for i in args))","ensures":["result == MatAdd(*args).doit()"],"decidability":"structural","returns_expr":"MatAdd(*args).doit()"},{"name":"_CodegenArrayAbstract","guard":"not (not any((isinstance(i, _CodegenArrayAbstract) for i in args)))","ensures":["result == _array_add(*args)"],"decidability":"structural","returns_expr":"_array_add(*args)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']","Poor branch-fiber coverage: 0% (branches={'not any((isinstance(i, _CodegenArrayAbstract) for i in args))'}, fibers={'_CodegenArrayAbstract'})"]}}
 def _a2m_add(*args):
     if not any(isinstance(i, _CodegenArrayAbstract) for i in args):
         from sympy.matrices.expressions.matadd import MatAdd
@@ -1148,7 +1391,13 @@ def _a2m_add(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_a2m_trace(arg), internal helper behaves correctly) over {Any | isinstance(arg, _CodegenArrayAbstract)} ║
+# ║ Path(_a2m_trace(arg), result == (_array_contraction(arg, (0, 1)) if isinstance(arg, _CodegenArrayAbstract) else Trace(arg)) and result == _array_contraction(arg, (0, 1)) or result == Trace(arg)) over {Any | isinstance(arg, _CodegenArrayAbstract)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (_array_contraction(arg, (0, 1)...   ║
+# ║   ensures:  result == _array_contraction(arg, (0, 1))...   ║
+# ║   fiber[_CodegenArrayAbstract]: isinstance(arg, _Code...   ║
+# ║   fiber[_CodegenArrayAbstract]: not (isinstance(arg, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _a2m_trace : {Any | isinstance(arg, _CodegenArrayAbst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1160,9 +1409,12 @@ def _a2m_add(*args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 77f8f360...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_trace","kind":"function","src_hash":"b5cbb9758b3cf705","in":{"base":"Any","pred":"isinstance(arg, _CodegenArrayAbstract)"},"out":{"base":"Any"},"spec":{"lhs":"_a2m_trace(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(arg, _CodegenArrayAbstract)"},"name":"_a2m_trace_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(arg, _CodegenArrayAbstract)","path":{"lhs":"_a2m_trace(x)","rhs":"internal helper behaves correctly","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(arg, _CodegenArrayAbstract)"},"name":"_a2m_trace__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_trace__CodegenArrayAbstract_correct","statement":"_a2m_trace satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"77f8f360c14e9735"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_trace","kind":"function","src_hash":"b5cbb9758b3cf705","in":{"base":"Any","pred":"isinstance(arg, _CodegenArrayAbstract)"},"out":{"base":"Any","pred":"result satisfies: result == (_array_contraction(arg, (0, 1)) if isinstance(arg, _CodegenArrayAbstract) else Trace(arg)) and result == _array_contraction(arg, (0, 1)) or result == Trace(arg)"},"spec":{"lhs":"_a2m_trace(arg)","rhs":"result == (_array_contraction(arg, (0, 1)) if isinstance(arg, _CodegenArrayAbstract) else Trace(arg)) and result == _array_contraction(arg, (0, 1)) or result == Trace(arg)","over":{"base":"Any","pred":"isinstance(arg, _CodegenArrayAbstract)"},"name":"_a2m_trace_correct"},"guarantee":"result == (_array_contraction(arg, (0, 1)) if isinstance(arg, _CodegenArrayAbstract) else Trace(arg)); result == _array_contraction(arg, (0, 1)) or result == Trace(arg); 2-fiber decomposition","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(arg, _CodegenArrayAbstract)","path":{"lhs":"_a2m_trace(x)","rhs":"result == (_array_contraction(arg, (0, 1)) if isinstance(arg, _CodegenArrayAbstract) else Trace(arg)); result == _array_contraction(arg, (0, 1)) or result == Trace(arg); 2-fiber decomposition","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(arg, _CodegenArrayAbstract)"},"name":"_a2m_trace__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_trace__CodegenArrayAbstract_correct","statement":"_a2m_trace satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"77f8f360c14e9735","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (_array_contraction(arg, (0, 1)) if isinstance(arg, _CodegenArrayAbstract) else Trace(arg))","result == _array_contraction(arg, (0, 1)) or result == Trace(arg)"],"fibers":[{"name":"_CodegenArrayAbstract","guard":"isinstance(arg, _CodegenArrayAbstract)","ensures":["result == _array_contraction(arg, (0, 1))"],"decidability":"structural","returns_expr":"_array_contraction(arg, (0, 1))"},{"name":"_CodegenArrayAbstract","guard":"not (isinstance(arg, _CodegenArrayAbstract))","ensures":["result == Trace(arg)"],"decidability":"structural","returns_expr":"Trace(arg)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, _CodegenArrayAbstract)'}, fibers={'_CodegenArrayAbstract'})"]}}
 def _a2m_trace(arg):
     if isinstance(arg, _CodegenArrayAbstract):
         return _array_contraction(arg, (0, 1))
@@ -1172,7 +1424,13 @@ def _a2m_trace(arg):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_a2m_transpose(arg), internal helper behaves correctly) over {Any | isinstance(arg, _CodegenArrayAbstract)} ║
+# ║ Path(_a2m_transpose(arg), result == (_permute_dims(arg, [1, 0]) if isinstance(arg, _CodegenArrayAbstract) else Transpose(arg).doit()) and result == _permute_dims(arg, [1, 0]) or result == Transpose(arg).doit()) over {Any | isinstance(arg, _CodegenArrayAbstract)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (_permute_dims(arg, [1, 0]) if ...   ║
+# ║   ensures:  result == _permute_dims(arg, [1, 0]) or r...   ║
+# ║   fiber[_CodegenArrayAbstract]: isinstance(arg, _Code...   ║
+# ║   fiber[_CodegenArrayAbstract]: not (isinstance(arg, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _a2m_transpose : {Any | isinstance(arg, _CodegenArray...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1184,9 +1442,12 @@ def _a2m_trace(arg):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | dac2b283...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_transpose","kind":"function","src_hash":"b0426800db26f739","in":{"base":"Any","pred":"isinstance(arg, _CodegenArrayAbstract)"},"out":{"base":"Any"},"spec":{"lhs":"_a2m_transpose(arg)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(arg, _CodegenArrayAbstract)"},"name":"_a2m_transpose_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(arg, _CodegenArrayAbstract)","path":{"lhs":"_a2m_transpose(x)","rhs":"internal helper behaves correctly","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(arg, _CodegenArrayAbstract)"},"name":"_a2m_transpose__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_transpose__CodegenArrayAbstract_correct","statement":"_a2m_transpose satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dac2b283668379a1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_transpose","kind":"function","src_hash":"b0426800db26f739","in":{"base":"Any","pred":"isinstance(arg, _CodegenArrayAbstract)"},"out":{"base":"Any","pred":"result satisfies: result == (_permute_dims(arg, [1, 0]) if isinstance(arg, _CodegenArrayAbstract) else Transpose(arg).doit()) and result == _permute_dims(arg, [1, 0]) or result == Transpose(arg).doit()"},"spec":{"lhs":"_a2m_transpose(arg)","rhs":"result == (_permute_dims(arg, [1, 0]) if isinstance(arg, _CodegenArrayAbstract) else Transpose(arg).doit()) and result == _permute_dims(arg, [1, 0]) or result == Transpose(arg).doit()","over":{"base":"Any","pred":"isinstance(arg, _CodegenArrayAbstract)"},"name":"_a2m_transpose_correct"},"guarantee":"result == (_permute_dims(arg, [1, 0]) if isinstance(arg, _CodegenArrayAbstract) else Transpose(arg).doit()); result == _permute_dims(arg, [1, 0]) or result == Transpose(arg).doit(); 2-fiber decomposition","fibers":[{"name":"_CodegenArrayAbstract","pred":"isinstance(arg, _CodegenArrayAbstract)","path":{"lhs":"_a2m_transpose(x)","rhs":"result == (_permute_dims(arg, [1, 0]) if isinstance(arg, _CodegenArrayAbstract) else Transpose(arg).doit()); result == _permute_dims(arg, [1, 0]) or result == Transpose(arg).doit(); 2-fiber decomposition","over":{"base":"_CodegenArrayAbstract","pred":"isinstance(arg, _CodegenArrayAbstract)"},"name":"_a2m_transpose__CodegenArrayAbstract_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._a2m_transpose__CodegenArrayAbstract_correct","statement":"_a2m_transpose satisfies spec on _CodegenArrayAbstract inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"dac2b283668379a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (_permute_dims(arg, [1, 0]) if isinstance(arg, _CodegenArrayAbstract) else Transpose(arg).doit())","result == _permute_dims(arg, [1, 0]) or result == Transpose(arg).doit()"],"fibers":[{"name":"_CodegenArrayAbstract","guard":"isinstance(arg, _CodegenArrayAbstract)","ensures":["result == _permute_dims(arg, [1, 0])"],"decidability":"structural","returns_expr":"_permute_dims(arg, [1, 0])"},{"name":"_CodegenArrayAbstract","guard":"not (isinstance(arg, _CodegenArrayAbstract))","ensures":["result == Transpose(arg).doit()"],"decidability":"structural","returns_expr":"Transpose(arg).doit()"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, _CodegenArrayAbstract)'}, fibers={'_CodegenArrayAbstract'})"]}}
 def _a2m_transpose(arg):
     if isinstance(arg, _CodegenArrayAbstract):
         return _permute_dims(arg, [1, 0])
@@ -1196,16 +1457,23 @@ def _a2m_transpose(arg):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(identify_hadamard_products(exp), identify_hadamard_products produces the expected output) over ArrayContraction | ArrayDiagonal ║
+# ║ Path(identify_hadamard_products(expr), <unspecified:identify_hadamard_products>) over {ArrayContraction | ArrayDiagonal | isinstance(expr, ArrayContraction | ArrayDiagonal)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ identify_hadamard_products : ArrayContraction | Array...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(expr, ArrayContraction | Array...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ identify_hadamard_products : {ArrayContraction | Arra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a5c007a7aa42678  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix.identify_hadamard_products","kind":"function","src_hash":"da814d8bf2643f45","in":{"base":"ArrayContraction | ArrayDiagonal"},"out":{"base":"Any"},"spec":{"lhs":"identify_hadamard_products(exp)","rhs":"identify_hadamard_products produces the expected output","over":{"base":"ArrayContraction | ArrayDiagonal"},"name":"identify_hadamard_products_correct"},"guarantee":"identify_hadamard_products produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.identify_hadamard_products_correct","statement":"Path(identify_hadamard_products(x), identify_hadamard_products produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a5c007a7aa42678"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix.identify_hadamard_products","kind":"function","src_hash":"da814d8bf2643f45","in":{"base":"ArrayContraction | ArrayDiagonal","pred":"isinstance(expr, ArrayContraction | ArrayDiagonal)"},"out":{"base":"Any"},"spec":{"lhs":"identify_hadamard_products(expr)","rhs":"<unspecified:identify_hadamard_products>","over":{"base":"ArrayContraction | ArrayDiagonal","pred":"isinstance(expr, ArrayContraction | ArrayDiagonal)"},"name":"identify_hadamard_products_correct"},"guarantee":"identify_hadamard_products produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.identify_hadamard_products_correct","statement":"Path(identify_hadamard_products(x), identify_hadamard_products produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a5c007a7aa42678","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(expr, ArrayContraction | ArrayDiagonal)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def identify_hadamard_products(expr: ArrayContraction | ArrayDiagonal):
 
     editor: _EditArrayContraction = _EditArrayContraction(expr)
@@ -1271,7 +1539,10 @@ def identify_hadamard_products(expr: ArrayContraction | ArrayDiagonal):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(identify_removable_identity_matrices(exp), identify_removable_identity_matrices produces the expected output) over {Any | isinstance(arg_with_ind.element, Identity)} ║
+# ║ Path(identify_removable_identity_matrices(expr), editor.to_array_contraction()) over {Any | isinstance(arg_with_ind.element, Identity)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  editor.to_array_contraction()                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ identify_removable_identity_matrices : {Any | isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1283,9 +1554,12 @@ def identify_hadamard_products(expr: ArrayContraction | ArrayDiagonal):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 30e5ae17...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix.identify_removable_identity_matrices","kind":"function","src_hash":"6b01d91ecdaad5d3","in":{"base":"Any","pred":"isinstance(arg_with_ind.element, Identity)"},"out":{"base":"Any"},"spec":{"lhs":"identify_removable_identity_matrices(exp)","rhs":"identify_removable_identity_matrices produces the expected output","over":{"base":"Any","pred":"isinstance(arg_with_ind.element, Identity)"},"name":"identify_removable_identity_matrices_correct"},"guarantee":"identify_removable_identity_matrices produces the expected output","fibers":[{"name":"Identity","pred":"isinstance(arg_with_ind.element, Identity)","path":{"lhs":"identify_removable_identity_matrices(x)","rhs":"identify_removable_identity_matrices produces the expected output","over":{"base":"Identity","pred":"isinstance(arg_with_ind.element, Identity)"},"name":"identify_removable_identity_matrices_Identity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.identify_removable_identity_matrices_Identity_correct","statement":"identify_removable_identity_matrices satisfies spec on Identity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"30e5ae17281cee9f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix.identify_removable_identity_matrices","kind":"function","src_hash":"6b01d91ecdaad5d3","in":{"base":"Any","pred":"isinstance(arg_with_ind.element, Identity)"},"out":{"base":"Any"},"spec":{"lhs":"identify_removable_identity_matrices(expr)","rhs":"editor.to_array_contraction()","over":{"base":"Any","pred":"isinstance(arg_with_ind.element, Identity)"},"name":"identify_removable_identity_matrices_correct"},"guarantee":"returns editor.to_array_contraction()","fibers":[{"name":"Identity","pred":"isinstance(arg_with_ind.element, Identity)","path":{"lhs":"identify_removable_identity_matrices(x)","rhs":"returns editor.to_array_contraction()","over":{"base":"Identity","pred":"isinstance(arg_with_ind.element, Identity)"},"name":"identify_removable_identity_matrices_Identity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.identify_removable_identity_matrices_Identity_correct","statement":"identify_removable_identity_matrices satisfies spec on Identity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"30e5ae17281cee9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"editor.to_array_contraction()","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'counted == 1', 'counted > 2', 'counted == 3', 'isinstance(arg_with_ind.element, Identity)', 'arg_with_ind.indices == [None, None]', 'arg_with_ind.indices[0] == arg_with_ind.indices[1]', 'counted > 1'}, fibers={'Identity'})"]}}
 def identify_removable_identity_matrices(expr):
     editor = _EditArrayContraction(expr)
 
@@ -1346,7 +1620,11 @@ def identify_removable_identity_matrices(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(remove_identity_matrices(exp), remove_identity_matrices produces the expected output) over {ArrayContraction | isinstance(i.element, Identity)} ║
+# ║ Path(remove_identity_matrices(expr), (ret_expr2, removed)) over {ArrayContraction | isinstance(i.element, Identity) and isinstance(expr, ArrayContraction)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayContraction)             ║
+# ║   returns:  (ret_expr2, removed)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ remove_identity_matrices : {ArrayContraction | isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1358,9 +1636,12 @@ def identify_removable_identity_matrices(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1d1fd838...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix.remove_identity_matrices","kind":"function","src_hash":"05f5fc6a0e523fad","in":{"base":"ArrayContraction","pred":"isinstance(i.element, Identity)"},"out":{"base":"Any","pred":"len(pos) == 1"},"spec":{"lhs":"remove_identity_matrices(exp)","rhs":"remove_identity_matrices produces the expected output","over":{"base":"ArrayContraction","pred":"isinstance(i.element, Identity)"},"name":"remove_identity_matrices_correct"},"guarantee":"remove_identity_matrices produces the expected output","fibers":[{"name":"Identity","pred":"isinstance(i.element, Identity)","path":{"lhs":"remove_identity_matrices(x)","rhs":"remove_identity_matrices produces the expected output","over":{"base":"Identity","pred":"isinstance(i.element, Identity)"},"name":"remove_identity_matrices_Identity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.remove_identity_matrices_Identity_correct","statement":"remove_identity_matrices satisfies spec on Identity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1d1fd838349d8c7f"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix.remove_identity_matrices","kind":"function","src_hash":"05f5fc6a0e523fad","in":{"base":"ArrayContraction","pred":"isinstance(i.element, Identity) and isinstance(expr, ArrayContraction)"},"out":{"base":"Any","pred":"len(pos) == 1"},"spec":{"lhs":"remove_identity_matrices(expr)","rhs":"(ret_expr2, removed)","over":{"base":"ArrayContraction","pred":"isinstance(i.element, Identity) and isinstance(expr, ArrayContraction)"},"name":"remove_identity_matrices_correct"},"guarantee":"returns (ret_expr2, removed)","fibers":[{"name":"Identity","pred":"isinstance(i.element, Identity)","path":{"lhs":"remove_identity_matrices(x)","rhs":"returns (ret_expr2, removed)","over":{"base":"Identity","pred":"isinstance(i.element, Identity)"},"name":"remove_identity_matrices_Identity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix.remove_identity_matrices_Identity_correct","statement":"remove_identity_matrices satisfies spec on Identity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1d1fd838349d8c7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayContraction)"],"returns_expr":"(ret_expr2, removed)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'number_identity_matrices != len(args) - 1 or number_identity_matrices == 0'}, fibers={'Identity'})"]}}
 def remove_identity_matrices(expr: ArrayContraction):
     editor = _EditArrayContraction(expr)
     removed: list[int] = []
@@ -1427,16 +1708,26 @@ def remove_identity_matrices(expr: ArrayContraction):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_combine_removed(dim), internal helper behaves correctly) over int ║
+# ║ Path(_combine_removed(dim, removed1, removed2), isinstance(result, list) and all(isinstance(x, int) for x in result)) over {int | isinstance(dim, int) and isinstance(removed1, list[int]) and isinstance(removed2, list[int])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _combine_removed : int → list[int]                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(dim, int)                           ║
+# ║   requires: isinstance(removed1, list[int])                ║
+# ║   requires: isinstance(removed2, list[int])                ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, int) for x in result)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _combine_removed : {int | isinstance(dim, int) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 414ff624bc3dbd4b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 557fb3e80274e115  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._combine_removed","kind":"function","src_hash":"03c49dbe752fe339","in":{"base":"int"},"out":{"base":"list[int]"},"spec":{"lhs":"_combine_removed(dim)","rhs":"internal helper behaves correctly","over":{"base":"int"},"name":"_combine_removed_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._combine_removed_correct","statement":"Path(_combine_removed(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"414ff624bc3dbd4b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._combine_removed","kind":"function","src_hash":"03c49dbe752fe339","in":{"base":"int","pred":"isinstance(dim, int) and isinstance(removed1, list[int]) and isinstance(removed2, list[int])"},"out":{"base":"list[int]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, int) for x in result)"},"spec":{"lhs":"_combine_removed(dim, removed1, removed2)","rhs":"isinstance(result, list) and all(isinstance(x, int) for x in result)","over":{"base":"int","pred":"isinstance(dim, int) and isinstance(removed1, list[int]) and isinstance(removed2, list[int])"},"name":"_combine_removed_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, int) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._combine_removed_correct","statement":"Path(_combine_removed(x), isinstance(result, list); all(isinstance(x, int) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"557fb3e80274e115","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(dim, int)","isinstance(removed1, list[int])","isinstance(removed2, list[int])"],"ensures":["isinstance(result, list)","all(isinstance(x, int) for x in result)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _combine_removed(dim: int, removed1: list[int], removed2: list[int]) -> list[int]:
     # Concatenate two axis removal operations as performed by
     # _remove_trivial_dims,
@@ -1461,7 +1752,11 @@ def _combine_removed(dim: int, removed1: list[int], removed2: list[int]) -> list
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_array_contraction_to_diagonal_multiple_identity(exp), internal helper behaves correctly) over {ArrayContraction | isinstance(arg.element, Identity)} ║
+# ║ Path(_array_contraction_to_diagonal_multiple_identity(expr), (new_expr, removed)) over {ArrayContraction | isinstance(arg.element, Identity) and isinstance(expr, ArrayContraction)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, ArrayContraction)             ║
+# ║   returns:  (new_expr, removed)                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _array_contraction_to_diagonal_multiple_identity : {A...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1473,9 +1768,12 @@ def _combine_removed(dim: int, removed1: list[int], removed2: list[int]) -> list
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 965e4769...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._array_contraction_to_diagonal_multiple_identity","kind":"function","src_hash":"9dd1c24dc513fb38","in":{"base":"ArrayContraction","pred":"isinstance(arg.element, Identity)"},"out":{"base":"Any"},"spec":{"lhs":"_array_contraction_to_diagonal_multiple_identity(exp)","rhs":"internal helper behaves correctly","over":{"base":"ArrayContraction","pred":"isinstance(arg.element, Identity)"},"name":"_array_contraction_to_diagonal_multiple_identity_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Identity","pred":"isinstance(arg.element, Identity)","path":{"lhs":"_array_contraction_to_diagonal_multiple_identity(x)","rhs":"internal helper behaves correctly","over":{"base":"Identity","pred":"isinstance(arg.element, Identity)"},"name":"_array_contraction_to_diagonal_multiple_identity_Identity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._array_contraction_to_diagonal_multiple_identity_Identity_correct","statement":"_array_contraction_to_diagonal_multiple_identity satisfies spec on Identity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"965e4769d9e80166"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.expressions.from_array_to_matrix._array_contraction_to_diagonal_multiple_identity","kind":"function","src_hash":"9dd1c24dc513fb38","in":{"base":"ArrayContraction","pred":"isinstance(arg.element, Identity) and isinstance(expr, ArrayContraction)"},"out":{"base":"Any"},"spec":{"lhs":"_array_contraction_to_diagonal_multiple_identity(expr)","rhs":"(new_expr, removed)","over":{"base":"ArrayContraction","pred":"isinstance(arg.element, Identity) and isinstance(expr, ArrayContraction)"},"name":"_array_contraction_to_diagonal_multiple_identity_correct"},"guarantee":"returns (new_expr, removed)","fibers":[{"name":"Identity","pred":"isinstance(arg.element, Identity)","path":{"lhs":"_array_contraction_to_diagonal_multiple_identity(x)","rhs":"returns (new_expr, removed)","over":{"base":"Identity","pred":"isinstance(arg.element, Identity)"},"name":"_array_contraction_to_diagonal_multiple_identity_Identity_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.expressions.from_array_to_matrix._array_contraction_to_diagonal_multiple_identity_Identity_correct","statement":"_array_contraction_to_diagonal_multiple_identity satisfies spec on Identity inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"965e4769d9e80166","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, ArrayContraction)"],"returns_expr":"(new_expr, removed)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg.element, Identity)', 'len(args) + len(identities) < 3', 'len(identities) == 0', 'e.element is None'}, fibers={'Identity'})"]}}
 def _array_contraction_to_diagonal_multiple_identity(expr: ArrayContraction):
     editor = _EditArrayContraction(expr)
     editor.track_permutation_start()

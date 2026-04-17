@@ -21,16 +21,25 @@ from .exceptions import NonSquareMatrixError
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_connected_components(M), returns the list of connected vertices of the graph when a square matrix is viewed as a weighted graph) over Any ║
+# ║ Path(_connected_components(M), connected_components((V, E))) over {Any | M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'todok')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _connected_components : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   returns:  connected_components((V, E))                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _connected_components : {Any | M.is_square and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cd7e31625011278  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b48f82e3a5694037  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.graph._connected_components","kind":"function","src_hash":"910cf749dc013064","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_connected_components(M)","rhs":"returns the list of connected vertices of the graph when a square matrix is viewed as a weighted graph","over":{"base":"Any"},"name":"_connected_components_correct"},"guarantee":"returns the list of connected vertices of the graph when a square matrix is viewed as a weighted graph","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.graph._connected_components_correct","statement":"Path(_connected_components(x), returns the list of connected vertices of the graph when a square matrix is viewed as a weighted graph)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cd7e31625011278"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.graph._connected_components","kind":"function","src_hash":"910cf749dc013064","in":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'todok')"},"out":{"base":"Any"},"spec":{"lhs":"_connected_components(M)","rhs":"connected_components((V, E))","over":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'todok')"},"name":"_connected_components_correct"},"guarantee":"returns connected_components((V, E))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.graph._connected_components_correct","statement":"Path(_connected_components(x), returns connected_components((V, E)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b48f82e3a5694037","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["M.is_square","hasattr(M, 'is_square')","hasattr(M, 'rows')","hasattr(M, 'todok')"],"returns_expr":"connected_components((V, E))","pure":false,"effects":{"effect_type":"reads_state","reads":["M.is_square","M.rows","M.todok"],"raises":["NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _connected_components(M):
     """Returns the list of connected vertices of the graph when
     a square matrix is viewed as a weighted graph.
@@ -69,16 +78,25 @@ def _connected_components(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_strongly_connected_components(M), returns the list of strongly connected vertices of the graph when a square matrix is viewed as a weighted graph) over Any ║
+# ║ Path(_strongly_connected_components(M), <unspecified:_strongly_connected_components>) over {Any | M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'todok')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _strongly_connected_components : Any → Any                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: M.is_square                                    ║
+# ║   requires: hasattr(M, 'is_square')                        ║
+# ║   requires: hasattr(M, 'rows')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _strongly_connected_components : {Any | M.is_square a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e05d9cf39cfe40f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.graph._strongly_connected_components","kind":"function","src_hash":"d95bc376a06da9bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_strongly_connected_components(M)","rhs":"returns the list of strongly connected vertices of the graph when a square matrix is viewed as a weighted graph","over":{"base":"Any"},"name":"_strongly_connected_components_correct"},"guarantee":"returns the list of strongly connected vertices of the graph when a square matrix is viewed as a weighted graph","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.graph._strongly_connected_components_correct","statement":"Path(_strongly_connected_components(x), returns the list of strongly connected vertices of the graph when a square matrix is viewed as a weighted graph)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e05d9cf39cfe40f0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.graph._strongly_connected_components","kind":"function","src_hash":"d95bc376a06da9bd","in":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'todok')"},"out":{"base":"Any"},"spec":{"lhs":"_strongly_connected_components(M)","rhs":"<unspecified:_strongly_connected_components>","over":{"base":"Any","pred":"M.is_square and hasattr(M, 'is_square') and hasattr(M, 'rows') and hasattr(M, 'todok')"},"name":"_strongly_connected_components_correct"},"guarantee":"returns the list of strongly connected vertices of the graph when a square matrix is viewed as a weighted graph","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.graph._strongly_connected_components_correct","statement":"Path(_strongly_connected_components(x), returns the list of strongly connected vertices of the graph when a square matrix is viewed as a weighted graph)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e05d9cf39cfe40f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["M.is_square","hasattr(M, 'is_square')","hasattr(M, 'rows')","hasattr(M, 'todok')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["M.is_square","M.rows","M.todok"],"raises":["NonSquareMatrixError"]},"state_contract":{"exceptional_post":{"NonSquareMatrixError":["isinstance(raised, NonSquareMatrixError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _strongly_connected_components(M):
     """Returns the list of strongly connected vertices of the graph when
     a square matrix is viewed as a weighted graph.
@@ -114,16 +132,23 @@ def _strongly_connected_components(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_connected_components_decomposition(M), decomposes a square matrix into block diagonal form only using the permutations) over Any ║
+# ║ Path(_connected_components_decomposition(M), (P, B)) over {Any | hasattr(M, 'connected_components')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _connected_components_decomposition : Any → Any            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'connected_components')             ║
+# ║   returns:  (P, B)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _connected_components_decomposition : {Any | hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc2f2fe5a4cae6e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7505202b6d0b0204  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.graph._connected_components_decomposition","kind":"function","src_hash":"fff79996a00e2119","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_connected_components_decomposition(M)","rhs":"decomposes a square matrix into block diagonal form only using the permutations","over":{"base":"Any"},"name":"_connected_components_decomposition_correct"},"guarantee":"decomposes a square matrix into block diagonal form only using the permutations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.graph._connected_components_decomposition_correct","statement":"Path(_connected_components_decomposition(x), decomposes a square matrix into block diagonal form only using the permutations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc2f2fe5a4cae6e5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.graph._connected_components_decomposition","kind":"function","src_hash":"fff79996a00e2119","in":{"base":"Any","pred":"hasattr(M, 'connected_components')"},"out":{"base":"Any"},"spec":{"lhs":"_connected_components_decomposition(M)","rhs":"(P, B)","over":{"base":"Any","pred":"hasattr(M, 'connected_components')"},"name":"_connected_components_decomposition_correct"},"guarantee":"returns (P, B)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.graph._connected_components_decomposition_correct","statement":"Path(_connected_components_decomposition(x), returns (P, B))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7505202b6d0b0204","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'connected_components')"],"returns_expr":"(P, B)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _connected_components_decomposition(M):
     """Decomposes a square matrix into block diagonal form only
     using the permutations.
@@ -211,16 +236,23 @@ def _connected_components_decomposition(M):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_strongly_connected_components_decomposition(M, ), decomposes a square matrix into block triangular form only using the permutations) over Any ║
+# ║ Path(_strongly_connected_components_decomposition(M, lower), (P, B)) over {Any | hasattr(M, 'strongly_connected_components')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _strongly_connected_components_decomposition : Any → Any   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(M, 'strongly_connected_components')    ║
+# ║   returns:  (P, B)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _strongly_connected_components_decomposition : {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9afe4c0f47efae7f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0fa2a0545e1d03de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.graph._strongly_connected_components_decomposition","kind":"function","src_hash":"466a4b02139fe36a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_strongly_connected_components_decomposition(M, )","rhs":"decomposes a square matrix into block triangular form only using the permutations","over":{"base":"Any"},"name":"_strongly_connected_components_decomposition_correct"},"guarantee":"decomposes a square matrix into block triangular form only using the permutations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.graph._strongly_connected_components_decomposition_correct","statement":"Path(_strongly_connected_components_decomposition(x), decomposes a square matrix into block triangular form only using the permutations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9afe4c0f47efae7f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.graph._strongly_connected_components_decomposition","kind":"function","src_hash":"466a4b02139fe36a","in":{"base":"Any","pred":"hasattr(M, 'strongly_connected_components')"},"out":{"base":"Any"},"spec":{"lhs":"_strongly_connected_components_decomposition(M, lower)","rhs":"(P, B)","over":{"base":"Any","pred":"hasattr(M, 'strongly_connected_components')"},"name":"_strongly_connected_components_decomposition_correct"},"guarantee":"returns (P, B)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.graph._strongly_connected_components_decomposition_correct","statement":"Path(_strongly_connected_components_decomposition(x), returns (P, B))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0fa2a0545e1d03de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(M, 'strongly_connected_components')"],"returns_expr":"(P, B)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _strongly_connected_components_decomposition(M, lower=True):
     """Decomposes a square matrix into block triangular form only
     using the permutations.

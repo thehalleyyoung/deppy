@@ -27,16 +27,24 @@ from sympy.abc import x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_purestr(), test_purestr produces the expected output) over Any ║
+# ║ Path(test_purestr(), purestr(Symbol('x')) == "Symbol('x')" and purestr(Basic(S(1), S(2))) == 'Basic(Integer(1), Integer(2))' and purestr(Float(2)) == "Float('2.0', precision=53)" and purestr(Symbol('x'), with_args=True) == ("Symbol('x')", ()) and purestr(Basic(S(1), S(2)), with_args=True) == ('Basic(Integer(1), Integer(2))', ('Integer(1)', 'Integer(2)')) and purestr(Float(2), with_args=True) == ("Float('2.0', precision=53)", ())) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_purestr : Any → {Any | purestr(Symbol('x')) == "...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  purestr(Symbol('x')) == "Symbol('x')"          ║
+# ║   ensures:  purestr(Basic(S(1), S(2))) == 'Basic(Inte...   ║
+# ║   ensures:  purestr(Float(2)) == "Float('2.0', precis...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_purestr : Any → {Any | result satisfies: purestr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5965e32084844790  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ee960d2a252a2d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_purestr","kind":"function","src_hash":"0e0afca0beff8b46","in":{"base":"Any"},"out":{"base":"Any","pred":"purestr(Symbol('x')) == \"Symbol('x')\" and purestr(Basic(S(1), S(2))) == 'Basic(Integer(1), Integer(2))' and purestr(Float(2)) == \"Float('2.0', precision=53)\" and purestr(Symbol('x'), with_args=True) == (\"Symbol('x')\", ()) and purestr(Float(2), with_args=True) == (\"Float('2.0', precision=53)\", ())"},"spec":{"lhs":"test_purestr()","rhs":"test_purestr produces the expected output","over":{"base":"Any"},"name":"test_purestr_correct"},"guarantee":"test_purestr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_purestr_correct","statement":"Path(test_purestr(x), test_purestr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5965e32084844790"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_purestr","kind":"function","src_hash":"0e0afca0beff8b46","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: purestr(Symbol('x')) == \"Symbol('x')\" and purestr(Basic(S(1), S(2))) == 'Basic(Integer(1), Integer(2))' and purestr(Float(2)) == \"Float('2.0', precision=53)\" and purestr(Symbol('x'), with_args=True) == (\"Symbol('x')\", ()) and purestr(Basic(S(1), S(2)), with_args=True) == ('Basic(Integer(1), Integer(2))', ('Integer(1)', 'Integer(2)')) and purestr(Float(2), with_args=True) == (\"Float('2.0', precision=53)\", ())"},"spec":{"lhs":"test_purestr()","rhs":"purestr(Symbol('x')) == \"Symbol('x')\" and purestr(Basic(S(1), S(2))) == 'Basic(Integer(1), Integer(2))' and purestr(Float(2)) == \"Float('2.0', precision=53)\" and purestr(Symbol('x'), with_args=True) == (\"Symbol('x')\", ()) and purestr(Basic(S(1), S(2)), with_args=True) == ('Basic(Integer(1), Integer(2))', ('Integer(1)', 'Integer(2)')) and purestr(Float(2), with_args=True) == (\"Float('2.0', precision=53)\", ())","over":{"base":"Any"},"name":"test_purestr_correct"},"guarantee":"purestr(Symbol('x')) == \"Symbol('x')\"; purestr(Basic(S(1), S(2))) == 'Basic(Integer(1), Integer(2))'; purestr(Float(2)) == \"Float('2.0', precision=53)\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_purestr_correct","statement":"Path(test_purestr(x), purestr(Symbol('x')) == \"Symbol('x')\"; purestr(Basic(S(1), S(2))) == 'Basic(Integer(1), Integer(2))'; purestr(Float(2)) == \"Float('2.0', precision=53)\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ee960d2a252a2d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["purestr(Symbol('x')) == \"Symbol('x')\"","purestr(Basic(S(1), S(2))) == 'Basic(Integer(1), Integer(2))'","purestr(Float(2)) == \"Float('2.0', precision=53)\"","purestr(Symbol('x'), with_args=True) == (\"Symbol('x')\", ())","purestr(Basic(S(1), S(2)), with_args=True) == ('Basic(Integer(1), Integer(2))', ('Integer(1)', 'Integer(2)'))","purestr(Float(2), with_args=True) == (\"Float('2.0', precision=53)\", ())"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_purestr():
     assert purestr(Symbol('x')) == "Symbol('x')"
     assert purestr(Basic(S(1), S(2))) == "Basic(Integer(1), Integer(2))"
@@ -50,16 +58,23 @@ def test_purestr():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_styleof(), test_styleof produces the expected output) over Any ║
+# ║ Path(test_styleof(), styleof(Basic(S(1)), styles) == {'color': 'blue', 'shape': 'ellipse'} and styleof(x + 1, styles) == {'color': 'black', 'shape': 'ellipse'}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_styleof : Any → {Any | styleof(Basic(S(1)), styl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  styleof(Basic(S(1)), styles) == {'color':...   ║
+# ║   ensures:  styleof(x + 1, styles) == {'color': 'blac...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_styleof : Any → {Any | result satisfies: styleof...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 46952a0846bb8113  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 92d282b815f7b8d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_styleof","kind":"function","src_hash":"97cd43ffeb20fa2c","in":{"base":"Any"},"out":{"base":"Any","pred":"styleof(Basic(S(1)), styles) == {'color': 'blue', 'shape': 'ellipse'} and styleof(x + 1, styles) == {'color': 'black', 'shape': 'ellipse'}"},"spec":{"lhs":"test_styleof()","rhs":"test_styleof produces the expected output","over":{"base":"Any"},"name":"test_styleof_correct"},"guarantee":"test_styleof produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_styleof_correct","statement":"Path(test_styleof(x), test_styleof produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"46952a0846bb8113"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_styleof","kind":"function","src_hash":"97cd43ffeb20fa2c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: styleof(Basic(S(1)), styles) == {'color': 'blue', 'shape': 'ellipse'} and styleof(x + 1, styles) == {'color': 'black', 'shape': 'ellipse'}"},"spec":{"lhs":"test_styleof()","rhs":"styleof(Basic(S(1)), styles) == {'color': 'blue', 'shape': 'ellipse'} and styleof(x + 1, styles) == {'color': 'black', 'shape': 'ellipse'}","over":{"base":"Any"},"name":"test_styleof_correct"},"guarantee":"styleof(Basic(S(1)), styles) == {'color': 'blue', 'shape': 'ellipse'}; styleof(x + 1, styles) == {'color': 'black', 'shape': 'ellipse'}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_styleof_correct","statement":"Path(test_styleof(x), styleof(Basic(S(1)), styles) == {'color': 'blue', 'shape': 'ellipse'}; styleof(x + 1, styles) == {'color': 'black', 'shape': 'ellipse'})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"92d282b815f7b8d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["styleof(Basic(S(1)), styles) == {'color': 'blue', 'shape': 'ellipse'}","styleof(x + 1, styles) == {'color': 'black', 'shape': 'ellipse'}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_styleof():
     styles = [(Basic, {'color': 'blue', 'shape': 'ellipse'}),
               (Expr,  {'color': 'black'})]
@@ -69,31 +84,45 @@ def test_styleof():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_attrprint(), test_attrprint produces the expected output) over Any ║
+# ║ Path(test_attrprint(), attrprint({'color': 'blue', 'shape': 'ellipse'}) == '"color"="blue", "shape"="ellipse"') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_attrprint : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  attrprint({'color': 'blue', 'shape': 'ell...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_attrprint : Any → {Any | result satisfies: attrp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20c5ebc184667143  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 566c8f51171e9694  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_attrprint","kind":"function","src_hash":"9c721014deded042","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_attrprint()","rhs":"test_attrprint produces the expected output","over":{"base":"Any"},"name":"test_attrprint_correct"},"guarantee":"test_attrprint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_attrprint_correct","statement":"Path(test_attrprint(x), test_attrprint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20c5ebc184667143"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_attrprint","kind":"function","src_hash":"9c721014deded042","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: attrprint({'color': 'blue', 'shape': 'ellipse'}) == '\"color\"=\"blue\", \"shape\"=\"ellipse\"'"},"spec":{"lhs":"test_attrprint()","rhs":"attrprint({'color': 'blue', 'shape': 'ellipse'}) == '\"color\"=\"blue\", \"shape\"=\"ellipse\"'","over":{"base":"Any"},"name":"test_attrprint_correct"},"guarantee":"attrprint({'color': 'blue', 'shape': 'ellipse'}) == '\"color\"=\"blue\", \"shape\"=\"ellipse\"'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_attrprint_correct","statement":"Path(test_attrprint(x), attrprint({'color': 'blue', 'shape': 'ellipse'}) == '\"color\"=\"blue\", \"shape\"=\"ellipse\"')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"566c8f51171e9694","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["attrprint({'color': 'blue', 'shape': 'ellipse'}) == '\"color\"=\"blue\", \"shape\"=\"ellipse\"'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_attrprint():
     assert attrprint({'color': 'blue', 'shape': 'ellipse'}) == \
            '"color"="blue", "shape"="ellipse"'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dotnode(), test_dotnode produces the expected output) over Any ║
+# ║ Path(test_dotnode(), dotnode(x, repeat=False) == '"Symbol(\'x\')" ["color"="black", "label"="x", "shape"="ellipse"];' and dotnode(x + 2, repeat=False) == '"Add(Integer(2), Symbol(\'x\'))" ["color"="black", "label"="Add", "shape"="ellipse"];' and dotnode(x + x ** 2, repeat=False) == '"Add(Symbol(\'x\'), Pow(Symbol(\'x\'), Integer(2)))" ["color"="black", "label"="Add", "shape"="ellipse"];' and dotnode(x + x ** 2, repeat=True) == '"Add(Symbol(\'x\'), Pow(Symbol(\'x\'), Integer(2)))_()" ["color"="black", "label"="Add", "shape"="ellipse"];') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dotnode : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dotnode(x, repeat=False) == '"Symbol(\'x\...   ║
+# ║   ensures:  dotnode(x + 2, repeat=False) == '"Add(Int...   ║
+# ║   ensures:  dotnode(x + x ** 2, repeat=False) == '"Ad...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dotnode : Any → {Any | result satisfies: dotnode...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50b21950a9298cac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfe690aade5709d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_dotnode","kind":"function","src_hash":"b26c5efa2aa0efd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dotnode()","rhs":"test_dotnode produces the expected output","over":{"base":"Any"},"name":"test_dotnode_correct"},"guarantee":"test_dotnode produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_dotnode_correct","statement":"Path(test_dotnode(x), test_dotnode produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50b21950a9298cac"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_dotnode","kind":"function","src_hash":"b26c5efa2aa0efd9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dotnode(x, repeat=False) == '\"Symbol(\\'x\\')\" [\"color\"=\"black\", \"label\"=\"x\", \"shape\"=\"ellipse\"];' and dotnode(x + 2, repeat=False) == '\"Add(Integer(2), Symbol(\\'x\\'))\" [\"color\"=\"black\", \"label\"=\"Add\", \"shape\"=\"ellipse\"];' and dotnode(x + x ** 2, repeat=False) == '\"Add(Symbol(\\'x\\'), Pow(Symbol(\\'x\\'), Integer(2)))\" [\"color\"=\"black\", \"label\"=\"Add\", \"shape\"=\"ellipse\"];' and dotnode(x + x ** 2, repeat=True) == '\"Add(Symbol(\\'x\\'), Pow(Symbol(\\'x\\'), Integer(2)))_()\" [\"color\"=\"black\", \"label\"=\"Add\", \"shape\"=\"ellipse\"];'"},"spec":{"lhs":"test_dotnode()","rhs":"dotnode(x, repeat=False) == '\"Symbol(\\'x\\')\" [\"color\"=\"black\", \"label\"=\"x\", \"shape\"=\"ellipse\"];' and dotnode(x + 2, repeat=False) == '\"Add(Integer(2), Symbol(\\'x\\'))\" [\"color\"=\"black\", \"label\"=\"Add\", \"shape\"=\"ellipse\"];' and dotnode(x + x ** 2, repeat=False) == '\"Add(Symbol(\\'x\\'), Pow(Symbol(\\'x\\'), Integer(2)))\" [\"color\"=\"black\", \"label\"=\"Add\", \"shape\"=\"ellipse\"];' and dotnode(x + x ** 2, repeat=True) == '\"Add(Symbol(\\'x\\'), Pow(Symbol(\\'x\\'), Integer(2)))_()\" [\"color\"=\"black\", \"label\"=\"Add\", \"shape\"=\"ellipse\"];'","over":{"base":"Any"},"name":"test_dotnode_correct"},"guarantee":"dotnode(x, repeat=False) == '\"Symbol(\\'x\\')\" [\"color\"=\"black\", \"label\"=\"x\", \"shape\"=\"ellipse\"];'; dotnode(x + 2, repeat=False) == '\"Add(Integer(2), Symbol(\\'x\\'))\" [\"color\"=\"black\", \"label\"=\"Add\", \"shape\"=\"ellipse\"];'; dotnode(x + x ** 2, repeat=False) == '\"Add(Symbol(\\'x\\'), Pow(Symbol(\\'x\\'), Integer(2)))\" [\"color\"=\"black\", \"label\"=\"Add\", \"shape\"=\"ellipse\"];'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_dotnode_correct","statement":"Path(test_dotnode(x), dotnode(x, repeat=False) == '\"Symbol(\\'x\\')\" [\"color\"=\"black\", \"label\"=\"x\", \"shape\"=\"ellipse\"];'; dotnode(x + 2, repeat=False) == '\"Add(Integer(2), Symbol(\\'x\\'))\" [\"color\"=\"black\", \"label\"=\"Add\", \"shape\"=\"ellipse\"];'; dotnode(x + x ** 2, repeat=False) == '\"Add(Symbol(\\'x\\'), Pow(Symbol(\\'x\\'), Integer(2)))\" [\"color\"=\"black\", \"label\"=\"Add\", \"shape\"=\"ellipse\"];')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfe690aade5709d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dotnode(x, repeat=False) == '\"Symbol(\\'x\\')\" [\"color\"=\"black\", \"label\"=\"x\", \"shape\"=\"ellipse\"];'","dotnode(x + 2, repeat=False) == '\"Add(Integer(2), Symbol(\\'x\\'))\" [\"color\"=\"black\", \"label\"=\"Add\", \"shape\"=\"ellipse\"];'","dotnode(x + x ** 2, repeat=False) == '\"Add(Symbol(\\'x\\'), Pow(Symbol(\\'x\\'), Integer(2)))\" [\"color\"=\"black\", \"label\"=\"Add\", \"shape\"=\"ellipse\"];'","dotnode(x + x ** 2, repeat=True) == '\"Add(Symbol(\\'x\\'), Pow(Symbol(\\'x\\'), Integer(2)))_()\" [\"color\"=\"black\", \"label\"=\"Add\", \"shape\"=\"ellipse\"];'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dotnode():
 
     assert dotnode(x, repeat=False) == \
@@ -111,16 +140,23 @@ def test_dotnode():
         '["color"="black", "label"="Add", "shape"="ellipse"];'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dotedges(), test_dotedges produces the expected output) over Any ║
+# ║ Path(test_dotedges(), sorted(dotedges(x + 2, repeat=False)) == ['"Add(Integer(2), Symbol(\'x\'))" -> "Integer(2)";', '"Add(Integer(2), Symbol(\'x\'))" -> "Symbol(\'x\')";'] and sorted(dotedges(x + 2, repeat=True)) == ['"Add(Integer(2), Symbol(\'x\'))_()" -> "Integer(2)_(0,)";', '"Add(Integer(2), Symbol(\'x\'))_()" -> "Symbol(\'x\')_(1,)";']) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dotedges : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sorted(dotedges(x + 2, repeat=False)) == ...   ║
+# ║   ensures:  sorted(dotedges(x + 2, repeat=True)) == [...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dotedges : Any → {Any | result satisfies: sorted...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6146b042862d510f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb9dbbc9fa4614f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_dotedges","kind":"function","src_hash":"b66032181989de90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dotedges()","rhs":"test_dotedges produces the expected output","over":{"base":"Any"},"name":"test_dotedges_correct"},"guarantee":"test_dotedges produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_dotedges_correct","statement":"Path(test_dotedges(x), test_dotedges produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6146b042862d510f"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_dotedges","kind":"function","src_hash":"b66032181989de90","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sorted(dotedges(x + 2, repeat=False)) == ['\"Add(Integer(2), Symbol(\\'x\\'))\" -> \"Integer(2)\";', '\"Add(Integer(2), Symbol(\\'x\\'))\" -> \"Symbol(\\'x\\')\";'] and sorted(dotedges(x + 2, repeat=True)) == ['\"Add(Integer(2), Symbol(\\'x\\'))_()\" -> \"Integer(2)_(0,)\";', '\"Add(Integer(2), Symbol(\\'x\\'))_()\" -> \"Symbol(\\'x\\')_(1,)\";']"},"spec":{"lhs":"test_dotedges()","rhs":"sorted(dotedges(x + 2, repeat=False)) == ['\"Add(Integer(2), Symbol(\\'x\\'))\" -> \"Integer(2)\";', '\"Add(Integer(2), Symbol(\\'x\\'))\" -> \"Symbol(\\'x\\')\";'] and sorted(dotedges(x + 2, repeat=True)) == ['\"Add(Integer(2), Symbol(\\'x\\'))_()\" -> \"Integer(2)_(0,)\";', '\"Add(Integer(2), Symbol(\\'x\\'))_()\" -> \"Symbol(\\'x\\')_(1,)\";']","over":{"base":"Any"},"name":"test_dotedges_correct"},"guarantee":"sorted(dotedges(x + 2, repeat=False)) == ['\"Add(Integer(2), Symbol(\\'x\\'))\" -> \"Integer(2)\";', '\"Add(Integer(2), Symbol(\\'x\\'))\" -> \"Symbol(\\'x\\')\";']; sorted(dotedges(x + 2, repeat=True)) == ['\"Add(Integer(2), Symbol(\\'x\\'))_()\" -> \"Integer(2)_(0,)\";', '\"Add(Integer(2), Symbol(\\'x\\'))_()\" -> \"Symbol(\\'x\\')_(1,)\";']","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_dotedges_correct","statement":"Path(test_dotedges(x), sorted(dotedges(x + 2, repeat=False)) == ['\"Add(Integer(2), Symbol(\\'x\\'))\" -> \"Integer(2)\";', '\"Add(Integer(2), Symbol(\\'x\\'))\" -> \"Symbol(\\'x\\')\";']; sorted(dotedges(x + 2, repeat=True)) == ['\"Add(Integer(2), Symbol(\\'x\\'))_()\" -> \"Integer(2)_(0,)\";', '\"Add(Integer(2), Symbol(\\'x\\'))_()\" -> \"Symbol(\\'x\\')_(1,)\";'])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb9dbbc9fa4614f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sorted(dotedges(x + 2, repeat=False)) == ['\"Add(Integer(2), Symbol(\\'x\\'))\" -> \"Integer(2)\";', '\"Add(Integer(2), Symbol(\\'x\\'))\" -> \"Symbol(\\'x\\')\";']","sorted(dotedges(x + 2, repeat=True)) == ['\"Add(Integer(2), Symbol(\\'x\\'))_()\" -> \"Integer(2)_(0,)\";', '\"Add(Integer(2), Symbol(\\'x\\'))_()\" -> \"Symbol(\\'x\\')_(1,)\";']"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dotedges():
     assert sorted(dotedges(x+2, repeat=False)) == [
         '"Add(Integer(2), Symbol(\'x\'))" -> "Integer(2)";',
@@ -132,16 +168,24 @@ def test_dotedges():
     ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dotprint(), test_dotprint produces the expected output) over Any ║
+# ║ Path(test_dotprint(), all((e in text for e in dotedges(x + 2, repeat=False))) and all((n in text for n in [dotnode(expr, repeat=False) for expr in (x, Integer(2), x + 2)])) and 'digraph' in text and all((e in text for e in dotedges(x + x ** 2, repeat=False))) and all((n in text for n in [dotnode(expr, repeat=False) for expr in (x, Integer(2), x ** 2)])) and all((e in text for e in dotedges(x + x ** 2, repeat=True))) and all((n in text for n in [dotnode(expr, pos=()) for expr in [x + x ** 2]])) and all((e in text for e in dotedges(x ** x, repeat=True))) and all((n in text for n in [dotnode(x, pos=(0,)), dotnode(x, pos=(1,))]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dotprint : Any → {Any | all((e in text for e in ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  all((e in text for e in dotedges(x + 2, r...   ║
+# ║   ensures:  all((n in text for n in [dotnode(expr, re...   ║
+# ║   ensures:  'digraph' in text                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dotprint : Any → {Any | result satisfies: all((e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34a4f3c82a9b705c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f278a85914b91dbb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_dotprint","kind":"function","src_hash":"808725d7cbe9e7f7","in":{"base":"Any"},"out":{"base":"Any","pred":"all((e in text for e in dotedges(x + 2, repeat=False))) and 'digraph' in text and all((e in text for e in dotedges(x + x ** 2, repeat=False))) and 'digraph' in text and all((e in text for e in dotedges(x + x ** 2, repeat=True))) and all((n in text for n in [dotnode(expr, pos=()) for expr in [x + x ** 2]])) and all((e in text for e in dotedges(x ** x, repeat=True))) and all((n in text for n in [dotnode(x, pos=(0,)), dotnode(x, pos=(1,))])) and 'digraph' in text"},"spec":{"lhs":"test_dotprint()","rhs":"test_dotprint produces the expected output","over":{"base":"Any"},"name":"test_dotprint_correct"},"guarantee":"test_dotprint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_dotprint_correct","statement":"Path(test_dotprint(x), test_dotprint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34a4f3c82a9b705c"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_dotprint","kind":"function","src_hash":"808725d7cbe9e7f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: all((e in text for e in dotedges(x + 2, repeat=False))) and all((n in text for n in [dotnode(expr, repeat=False) for expr in (x, Integer(2), x + 2)])) and 'digraph' in text and all((e in text for e in dotedges(x + x ** 2, repeat=False))) and all((n in text for n in [dotnode(expr, repeat=False) for expr in (x, Integer(2), x ** 2)])) and all((e in text for e in dotedges(x + x ** 2, repeat=True))) and all((n in text for n in [dotnode(expr, pos=()) for expr in [x + x ** 2]])) and all((e in text for e in dotedges(x ** x, repeat=True))) and all((n in text for n in [dotnode(x, pos=(0,)), dotnode(x, pos=(1,))]))"},"spec":{"lhs":"test_dotprint()","rhs":"all((e in text for e in dotedges(x + 2, repeat=False))) and all((n in text for n in [dotnode(expr, repeat=False) for expr in (x, Integer(2), x + 2)])) and 'digraph' in text and all((e in text for e in dotedges(x + x ** 2, repeat=False))) and all((n in text for n in [dotnode(expr, repeat=False) for expr in (x, Integer(2), x ** 2)])) and all((e in text for e in dotedges(x + x ** 2, repeat=True))) and all((n in text for n in [dotnode(expr, pos=()) for expr in [x + x ** 2]])) and all((e in text for e in dotedges(x ** x, repeat=True))) and all((n in text for n in [dotnode(x, pos=(0,)), dotnode(x, pos=(1,))]))","over":{"base":"Any"},"name":"test_dotprint_correct"},"guarantee":"all((e in text for e in dotedges(x + 2, repeat=False))); all((n in text for n in [dotnode(expr, repeat=False) for expr in (x, Integer(2), x + 2)])); 'digraph' in text","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_dotprint_correct","statement":"Path(test_dotprint(x), all((e in text for e in dotedges(x + 2, repeat=False))); all((n in text for n in [dotnode(expr, repeat=False) for expr in (x, Integer(2), x + 2)])); 'digraph' in text)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f278a85914b91dbb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["all((e in text for e in dotedges(x + 2, repeat=False)))","all((n in text for n in [dotnode(expr, repeat=False) for expr in (x, Integer(2), x + 2)]))","'digraph' in text","all((e in text for e in dotedges(x + x ** 2, repeat=False)))","all((n in text for n in [dotnode(expr, repeat=False) for expr in (x, Integer(2), x ** 2)]))","all((e in text for e in dotedges(x + x ** 2, repeat=True)))","all((n in text for n in [dotnode(expr, pos=()) for expr in [x + x ** 2]]))","all((e in text for e in dotedges(x ** x, repeat=True)))","all((n in text for n in [dotnode(x, pos=(0,)), dotnode(x, pos=(1,))]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_dotprint():
     text = dotprint(x+2, repeat=False)
     assert all(e in text for e in dotedges(x+2, repeat=False))
@@ -170,16 +214,24 @@ def test_dotprint():
     assert 'digraph' in text
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dotprint_depth(), test_dotprint_depth produces the expected output) over Any ║
+# ║ Path(test_dotprint_depth(), dotnode(3 * x + 2) in text and dotnode(x) not in text and 'depth' not in text) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dotprint_depth : Any → {Any | dotnode(3 * x + 2)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dotnode(3 * x + 2) in text                     ║
+# ║   ensures:  dotnode(x) not in text                         ║
+# ║   ensures:  'depth' not in text                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dotprint_depth : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efefe561723d769b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32ba9af524659647  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_dotprint_depth","kind":"function","src_hash":"3c4e1afd4f796011","in":{"base":"Any"},"out":{"base":"Any","pred":"dotnode(3 * x + 2) in text and dotnode(x) not in text and 'depth' not in text"},"spec":{"lhs":"test_dotprint_depth()","rhs":"test_dotprint_depth produces the expected output","over":{"base":"Any"},"name":"test_dotprint_depth_correct"},"guarantee":"test_dotprint_depth produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_dotprint_depth_correct","statement":"Path(test_dotprint_depth(x), test_dotprint_depth produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efefe561723d769b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_dotprint_depth","kind":"function","src_hash":"3c4e1afd4f796011","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dotnode(3 * x + 2) in text and dotnode(x) not in text and 'depth' not in text"},"spec":{"lhs":"test_dotprint_depth()","rhs":"dotnode(3 * x + 2) in text and dotnode(x) not in text and 'depth' not in text","over":{"base":"Any"},"name":"test_dotprint_depth_correct"},"guarantee":"dotnode(3 * x + 2) in text; dotnode(x) not in text; 'depth' not in text","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_dotprint_depth_correct","statement":"Path(test_dotprint_depth(x), dotnode(3 * x + 2) in text; dotnode(x) not in text; 'depth' not in text)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32ba9af524659647","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dotnode(3 * x + 2) in text","dotnode(x) not in text","'depth' not in text"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dotprint_depth():
     text = dotprint(3*x+2, depth=1)
     assert dotnode(3*x+2) in text
@@ -188,16 +240,22 @@ def test_dotprint_depth():
     assert "depth" not in text
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Matrix_and_non_basics(), test_Matrix_and_non_basics produces the expected output) over Any ║
+# ║ Path(test_Matrix_and_non_basics(), dotprint(MatrixSymbol('X', n, n)) == 'digraph{\n\n# Graph style\n"ordering"="out"\n"rankdir"="TD"\n\n#########\n# Nodes #\n#########\n\n"MatrixSymbol(Str(\'X\'), Symbol(\'n\'), Symbol(\'n\'))_()" ["color"="black", "label"="MatrixSymbol", "shape"="ellipse"];\n"Str(\'X\')_(0,)" ["color"="blue", "label"="X", "shape"="ellipse"];\n"Symbol(\'n\')_(1,)" ["color"="black", "label"="n", "shape"="ellipse"];\n"Symbol(\'n\')_(2,)" ["color"="black", "label"="n", "shape"="ellipse"];\n\n#########\n# Edges #\n#########\n\n"MatrixSymbol(Str(\'X\'), Symbol(\'n\'), Symbol(\'n\'))_()" -> "Str(\'X\')_(0,)";\n"MatrixSymbol(Str(\'X\'), Symbol(\'n\'), Symbol(\'n\'))_()" -> "Symbol(\'n\')_(1,)";\n"MatrixSymbol(Str(\'X\'), Symbol(\'n\'), Symbol(\'n\'))_()" -> "Symbol(\'n\')_(2,)";\n}') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Matrix_and_non_basics : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dotprint(MatrixSymbol('X', n, n)) == 'dig...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Matrix_and_non_basics : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 412d003679f1569b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d975b7df0165b643  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_Matrix_and_non_basics","kind":"function","src_hash":"496bab1aec2fa5f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_Matrix_and_non_basics()","rhs":"test_Matrix_and_non_basics produces the expected output","over":{"base":"Any"},"name":"test_Matrix_and_non_basics_correct"},"guarantee":"test_Matrix_and_non_basics produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_Matrix_and_non_basics_correct","statement":"Path(test_Matrix_and_non_basics(x), test_Matrix_and_non_basics produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"412d003679f1569b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_Matrix_and_non_basics","kind":"function","src_hash":"496bab1aec2fa5f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dotprint(MatrixSymbol('X', n, n)) == 'digraph{\\n\\n# Graph style\\n\"ordering\"=\"out\"\\n\"rankdir\"=\"TD\"\\n\\n#########\\n# Nodes #\\n#########\\n\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" [\"color\"=\"black\", \"label\"=\"MatrixSymbol\", \"shape\"=\"ellipse\"];\\n\"Str(\\'X\\')_(0,)\" [\"color\"=\"blue\", \"label\"=\"X\", \"shape\"=\"ellipse\"];\\n\"Symbol(\\'n\\')_(1,)\" [\"color\"=\"black\", \"label\"=\"n\", \"shape\"=\"ellipse\"];\\n\"Symbol(\\'n\\')_(2,)\" [\"color\"=\"black\", \"label\"=\"n\", \"shape\"=\"ellipse\"];\\n\\n#########\\n# Edges #\\n#########\\n\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Str(\\'X\\')_(0,)\";\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Symbol(\\'n\\')_(1,)\";\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Symbol(\\'n\\')_(2,)\";\\n}'"},"spec":{"lhs":"test_Matrix_and_non_basics()","rhs":"dotprint(MatrixSymbol('X', n, n)) == 'digraph{\\n\\n# Graph style\\n\"ordering\"=\"out\"\\n\"rankdir\"=\"TD\"\\n\\n#########\\n# Nodes #\\n#########\\n\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" [\"color\"=\"black\", \"label\"=\"MatrixSymbol\", \"shape\"=\"ellipse\"];\\n\"Str(\\'X\\')_(0,)\" [\"color\"=\"blue\", \"label\"=\"X\", \"shape\"=\"ellipse\"];\\n\"Symbol(\\'n\\')_(1,)\" [\"color\"=\"black\", \"label\"=\"n\", \"shape\"=\"ellipse\"];\\n\"Symbol(\\'n\\')_(2,)\" [\"color\"=\"black\", \"label\"=\"n\", \"shape\"=\"ellipse\"];\\n\\n#########\\n# Edges #\\n#########\\n\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Str(\\'X\\')_(0,)\";\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Symbol(\\'n\\')_(1,)\";\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Symbol(\\'n\\')_(2,)\";\\n}'","over":{"base":"Any"},"name":"test_Matrix_and_non_basics_correct"},"guarantee":"dotprint(MatrixSymbol('X', n, n)) == 'digraph{\\n\\n# Graph style\\n\"ordering\"=\"out\"\\n\"rankdir\"=\"TD\"\\n\\n#########\\n# Nodes #\\n#########\\n\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" [\"color\"=\"black\", \"label\"=\"MatrixSymbol\", \"shape\"=\"ellipse\"];\\n\"Str(\\'X\\')_(0,)\" [\"color\"=\"blue\", \"label\"=\"X\", \"shape\"=\"ellipse\"];\\n\"Symbol(\\'n\\')_(1,)\" [\"color\"=\"black\", \"label\"=\"n\", \"shape\"=\"ellipse\"];\\n\"Symbol(\\'n\\')_(2,)\" [\"color\"=\"black\", \"label\"=\"n\", \"shape\"=\"ellipse\"];\\n\\n#########\\n# Edges #\\n#########\\n\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Str(\\'X\\')_(0,)\";\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Symbol(\\'n\\')_(1,)\";\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Symbol(\\'n\\')_(2,)\";\\n}'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_Matrix_and_non_basics_correct","statement":"Path(test_Matrix_and_non_basics(x), dotprint(MatrixSymbol('X', n, n)) == 'digraph{\\n\\n# Graph style\\n\"ordering\"=\"out\"\\n\"rankdir\"=\"TD\"\\n\\n#########\\n# Nodes #\\n#########\\n\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" [\"color\"=\"black\", \"label\"=\"MatrixSymbol\", \"shape\"=\"ellipse\"];\\n\"Str(\\'X\\')_(0,)\" [\"color\"=\"blue\", \"label\"=\"X\", \"shape\"=\"ellipse\"];\\n\"Symbol(\\'n\\')_(1,)\" [\"color\"=\"black\", \"label\"=\"n\", \"shape\"=\"ellipse\"];\\n\"Symbol(\\'n\\')_(2,)\" [\"color\"=\"black\", \"label\"=\"n\", \"shape\"=\"ellipse\"];\\n\\n#########\\n# Edges #\\n#########\\n\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Str(\\'X\\')_(0,)\";\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Symbol(\\'n\\')_(1,)\";\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Symbol(\\'n\\')_(2,)\";\\n}')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d975b7df0165b643","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dotprint(MatrixSymbol('X', n, n)) == 'digraph{\\n\\n# Graph style\\n\"ordering\"=\"out\"\\n\"rankdir\"=\"TD\"\\n\\n#########\\n# Nodes #\\n#########\\n\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" [\"color\"=\"black\", \"label\"=\"MatrixSymbol\", \"shape\"=\"ellipse\"];\\n\"Str(\\'X\\')_(0,)\" [\"color\"=\"blue\", \"label\"=\"X\", \"shape\"=\"ellipse\"];\\n\"Symbol(\\'n\\')_(1,)\" [\"color\"=\"black\", \"label\"=\"n\", \"shape\"=\"ellipse\"];\\n\"Symbol(\\'n\\')_(2,)\" [\"color\"=\"black\", \"label\"=\"n\", \"shape\"=\"ellipse\"];\\n\\n#########\\n# Edges #\\n#########\\n\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Str(\\'X\\')_(0,)\";\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Symbol(\\'n\\')_(1,)\";\\n\"MatrixSymbol(Str(\\'X\\'), Symbol(\\'n\\'), Symbol(\\'n\\'))_()\" -> \"Symbol(\\'n\\')_(2,)\";\\n}'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_Matrix_and_non_basics():
     from sympy.matrices.expressions.matexpr import MatrixSymbol
     n = Symbol('n')
@@ -228,16 +286,23 @@ def test_Matrix_and_non_basics():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_labelfunc(), test_labelfunc produces the expected output) over Any ║
+# ║ Path(test_labelfunc(), "Symbol('x')" in text and 'Integer(2)' in text) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_labelfunc : Any → {Any | "Symbol('x')" in text a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  "Symbol('x')" in text                          ║
+# ║   ensures:  'Integer(2)' in text                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_labelfunc : Any → {Any | result satisfies: "Symb...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3a615b56a66da64  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f628af211f3aa59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_labelfunc","kind":"function","src_hash":"a59e3ace998c941d","in":{"base":"Any"},"out":{"base":"Any","pred":"\"Symbol('x')\" in text and 'Integer(2)' in text"},"spec":{"lhs":"test_labelfunc()","rhs":"test_labelfunc produces the expected output","over":{"base":"Any"},"name":"test_labelfunc_correct"},"guarantee":"test_labelfunc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_labelfunc_correct","statement":"Path(test_labelfunc(x), test_labelfunc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3a615b56a66da64"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_labelfunc","kind":"function","src_hash":"a59e3ace998c941d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: \"Symbol('x')\" in text and 'Integer(2)' in text"},"spec":{"lhs":"test_labelfunc()","rhs":"\"Symbol('x')\" in text and 'Integer(2)' in text","over":{"base":"Any"},"name":"test_labelfunc_correct"},"guarantee":"\"Symbol('x')\" in text; 'Integer(2)' in text","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_labelfunc_correct","statement":"Path(test_labelfunc(x), \"Symbol('x')\" in text; 'Integer(2)' in text)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f628af211f3aa59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["\"Symbol('x')\" in text","'Integer(2)' in text"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_labelfunc():
     text = dotprint(x + 2, labelfunc=srepr)
     assert "Symbol('x')" in text
@@ -245,16 +310,23 @@ def test_labelfunc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_commutative(), test_commutative produces the expected output) over Any ║
+# ║ Path(test_commutative(), dotprint(x + y) == dotprint(y + x) and dotprint(x * y) != dotprint(y * x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_commutative : Any → {Any | dotprint(x + y) == do...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  dotprint(x + y) == dotprint(y + x)             ║
+# ║   ensures:  dotprint(x * y) != dotprint(y * x)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_commutative : Any → {Any | result satisfies: dot...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b295ae48f5be403  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b236fed1db34c010  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_commutative","kind":"function","src_hash":"8f8ee47de4f8d4b1","in":{"base":"Any"},"out":{"base":"Any","pred":"dotprint(x + y) == dotprint(y + x) and dotprint(x * y) != dotprint(y * x)"},"spec":{"lhs":"test_commutative()","rhs":"test_commutative produces the expected output","over":{"base":"Any"},"name":"test_commutative_correct"},"guarantee":"test_commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_commutative_correct","statement":"Path(test_commutative(x), test_commutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b295ae48f5be403"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.tests.test_dot.test_commutative","kind":"function","src_hash":"8f8ee47de4f8d4b1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: dotprint(x + y) == dotprint(y + x) and dotprint(x * y) != dotprint(y * x)"},"spec":{"lhs":"test_commutative()","rhs":"dotprint(x + y) == dotprint(y + x) and dotprint(x * y) != dotprint(y * x)","over":{"base":"Any"},"name":"test_commutative_correct"},"guarantee":"dotprint(x + y) == dotprint(y + x); dotprint(x * y) != dotprint(y * x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.tests.test_dot.test_commutative_correct","statement":"Path(test_commutative(x), dotprint(x + y) == dotprint(y + x); dotprint(x * y) != dotprint(y * x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b236fed1db34c010","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["dotprint(x + y) == dotprint(y + x)","dotprint(x * y) != dotprint(y * x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_commutative():
     x, y = symbols('x y', commutative=False)
     assert dotprint(x + y) == dotprint(y + x)

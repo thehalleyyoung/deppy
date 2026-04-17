@@ -85,91 +85,127 @@ __all__ = [
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SecondQuantizationError(), correctly constructs a SecondQuantizationError instance) over Any ║
+# ║ Path(SecondQuantizationError(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SecondQuantizationError : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SecondQuantizationError : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a445e0a9c2e8f61           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SecondQuantizationError","kind":"class","src_hash":"8c4198c909695b3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SecondQuantizationError()","rhs":"correctly constructs a SecondQuantizationError instance","over":{"base":"Any"},"name":"SecondQuantizationError_correct"},"guarantee":"correctly constructs a SecondQuantizationError instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a445e0a9c2e8f61"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SecondQuantizationError","kind":"class","src_hash":"8c4198c909695b3d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"SecondQuantizationError()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"SecondQuantizationError_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a445e0a9c2e8f61","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function SecondQuantizationError not found in source"]}}
 class SecondQuantizationError(Exception):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(AppliesOnlyToSymbolicIndex(), correctly constructs a AppliesOnlyToSymbolicIndex instance) over Any ║
+# ║ Path(AppliesOnlyToSymbolicIndex(), isinstance(self, SecondQuantizationError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AppliesOnlyToSymbolicIndex : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SecondQuantizationError)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AppliesOnlyToSymbolicIndex : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 760b48d4194b106d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AppliesOnlyToSymbolicIndex","kind":"class","src_hash":"72bc2c1457ed9ec6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AppliesOnlyToSymbolicIndex()","rhs":"correctly constructs a AppliesOnlyToSymbolicIndex instance","over":{"base":"Any"},"name":"AppliesOnlyToSymbolicIndex_correct"},"guarantee":"correctly constructs a AppliesOnlyToSymbolicIndex instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"760b48d4194b106d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AppliesOnlyToSymbolicIndex","kind":"class","src_hash":"72bc2c1457ed9ec6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SecondQuantizationError)"},"spec":{"lhs":"AppliesOnlyToSymbolicIndex()","rhs":"isinstance(self, SecondQuantizationError)","over":{"base":"Any"},"name":"AppliesOnlyToSymbolicIndex_correct"},"guarantee":"isinstance(self, SecondQuantizationError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"760b48d4194b106d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SecondQuantizationError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function AppliesOnlyToSymbolicIndex not found in source"]}}
 class AppliesOnlyToSymbolicIndex(SecondQuantizationError):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ContractionAppliesOnlyToFermions(), correctly constructs a ContractionAppliesOnlyToFermions instance) over Any ║
+# ║ Path(ContractionAppliesOnlyToFermions(), isinstance(self, SecondQuantizationError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ContractionAppliesOnlyToFermions : Any → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SecondQuantizationError)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ContractionAppliesOnlyToFermions : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e4272e706aba8629           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.ContractionAppliesOnlyToFermions","kind":"class","src_hash":"a206db2779d70481","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ContractionAppliesOnlyToFermions()","rhs":"correctly constructs a ContractionAppliesOnlyToFermions instance","over":{"base":"Any"},"name":"ContractionAppliesOnlyToFermions_correct"},"guarantee":"correctly constructs a ContractionAppliesOnlyToFermions instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4272e706aba8629"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.ContractionAppliesOnlyToFermions","kind":"class","src_hash":"a206db2779d70481","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SecondQuantizationError)"},"spec":{"lhs":"ContractionAppliesOnlyToFermions()","rhs":"isinstance(self, SecondQuantizationError)","over":{"base":"Any"},"name":"ContractionAppliesOnlyToFermions_correct"},"guarantee":"isinstance(self, SecondQuantizationError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4272e706aba8629","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SecondQuantizationError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ContractionAppliesOnlyToFermions not found in source"]}}
 class ContractionAppliesOnlyToFermions(SecondQuantizationError):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ViolationOfPauliPrinciple(), correctly constructs a ViolationOfPauliPrinciple instance) over Any ║
+# ║ Path(ViolationOfPauliPrinciple(), isinstance(self, SecondQuantizationError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ViolationOfPauliPrinciple : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SecondQuantizationError)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ViolationOfPauliPrinciple : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aed64900726148d6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.ViolationOfPauliPrinciple","kind":"class","src_hash":"c3bc6612d319ffbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ViolationOfPauliPrinciple()","rhs":"correctly constructs a ViolationOfPauliPrinciple instance","over":{"base":"Any"},"name":"ViolationOfPauliPrinciple_correct"},"guarantee":"correctly constructs a ViolationOfPauliPrinciple instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aed64900726148d6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.ViolationOfPauliPrinciple","kind":"class","src_hash":"c3bc6612d319ffbc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SecondQuantizationError)"},"spec":{"lhs":"ViolationOfPauliPrinciple()","rhs":"isinstance(self, SecondQuantizationError)","over":{"base":"Any"},"name":"ViolationOfPauliPrinciple_correct"},"guarantee":"isinstance(self, SecondQuantizationError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aed64900726148d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SecondQuantizationError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ViolationOfPauliPrinciple not found in source"]}}
 class ViolationOfPauliPrinciple(SecondQuantizationError):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SubstitutionOfAmbigousOperatorFailed(), correctly constructs a SubstitutionOfAmbigousOperatorFailed instance) over Any ║
+# ║ Path(SubstitutionOfAmbigousOperatorFailed(), isinstance(self, SecondQuantizationError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SubstitutionOfAmbigousOperatorFailed : Any → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SecondQuantizationError)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SubstitutionOfAmbigousOperatorFailed : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e9941868d5c75442           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SubstitutionOfAmbigousOperatorFailed","kind":"class","src_hash":"d0a10f5d685c7bc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SubstitutionOfAmbigousOperatorFailed()","rhs":"correctly constructs a SubstitutionOfAmbigousOperatorFailed instance","over":{"base":"Any"},"name":"SubstitutionOfAmbigousOperatorFailed_correct"},"guarantee":"correctly constructs a SubstitutionOfAmbigousOperatorFailed instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9941868d5c75442"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SubstitutionOfAmbigousOperatorFailed","kind":"class","src_hash":"d0a10f5d685c7bc5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SecondQuantizationError)"},"spec":{"lhs":"SubstitutionOfAmbigousOperatorFailed()","rhs":"isinstance(self, SecondQuantizationError)","over":{"base":"Any"},"name":"SubstitutionOfAmbigousOperatorFailed_correct"},"guarantee":"isinstance(self, SecondQuantizationError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9941868d5c75442","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SecondQuantizationError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function SubstitutionOfAmbigousOperatorFailed not found in source"]}}
 class SubstitutionOfAmbigousOperatorFailed(SecondQuantizationError):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(WicksTheoremDoesNotApply(), correctly constructs a WicksTheoremDoesNotApply instance) over Any ║
+# ║ Path(WicksTheoremDoesNotApply(), isinstance(self, SecondQuantizationError)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ WicksTheoremDoesNotApply : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SecondQuantizationError)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ WicksTheoremDoesNotApply : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4e39c731490c8edb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.WicksTheoremDoesNotApply","kind":"class","src_hash":"99e60791254485ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"WicksTheoremDoesNotApply()","rhs":"correctly constructs a WicksTheoremDoesNotApply instance","over":{"base":"Any"},"name":"WicksTheoremDoesNotApply_correct"},"guarantee":"correctly constructs a WicksTheoremDoesNotApply instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e39c731490c8edb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.WicksTheoremDoesNotApply","kind":"class","src_hash":"99e60791254485ea","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SecondQuantizationError)"},"spec":{"lhs":"WicksTheoremDoesNotApply()","rhs":"isinstance(self, SecondQuantizationError)","over":{"base":"Any"},"name":"WicksTheoremDoesNotApply_correct"},"guarantee":"isinstance(self, SecondQuantizationError)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4e39c731490c8edb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SecondQuantizationError)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function WicksTheoremDoesNotApply not found in source"]}}
 class WicksTheoremDoesNotApply(SecondQuantizationError):
     pass
 
@@ -177,14 +213,20 @@ class WicksTheoremDoesNotApply(SecondQuantizationError):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Dagger(*args), correctly constructs a Dagger instance) over {Any | isinstance(r, Basic) and isinstance(arg, Function) and isinstance(arg, Symbol)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Dagger : {Any | isinstance(r, Basic) and isinstance(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 900e2af460bb0448  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Dagger","kind":"class","src_hash":"953e074114926e4b","in":{"base":"Any","pred":"isinstance(r, Basic) and isinstance(arg, Function) and isinstance(arg, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"Dagger(*args)","rhs":"correctly constructs a Dagger instance","over":{"base":"Any","pred":"isinstance(r, Basic) and isinstance(arg, Function) and isinstance(arg, Symbol)"},"name":"Dagger_class_invariant"},"guarantee":"correctly constructs a Dagger instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"900e2af460bb0448"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Dagger","kind":"class","src_hash":"953e074114926e4b","in":{"base":"Any","pred":"isinstance(r, Basic) and isinstance(arg, Function) and isinstance(arg, Symbol)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Dagger(*args)","rhs":"correctly constructs a Dagger instance","over":{"base":"Any","pred":"isinstance(r, Basic) and isinstance(arg, Function) and isinstance(arg, Symbol)"},"name":"Dagger_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"900e2af460bb0448","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function Dagger not found in source"]}}
 class Dagger(Expr):
     """
     Hermitian conjugate of creation/annihilation operators.
@@ -204,16 +246,22 @@ class Dagger(Expr):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, arg), <unspecified:__new__>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 916d2d35e0269b85           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Dagger.__new__","kind":"method","src_hash":"20689fee05997542","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"916d2d35e0269b85"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Dagger.__new__","kind":"method","src_hash":"20689fee05997542","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, arg)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"916d2d35e0269b85","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.eval"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, arg):
         arg = sympify(arg)
         r = cls.eval(arg)
@@ -224,16 +272,25 @@ class Dagger(Expr):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), evaluates the dagger instance) over Any    ║
+# ║ Path(eval(cls, arg), <unspecified:eval>) over {Any | hasattr(arg, 'is_commutative') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_Mul') and hasattr(arg, 'is_Number') and hasattr(arg, 'is_Pow') and hasattr(arg, 'func') and hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(arg, 'is_commutative')                 ║
+# ║   requires: hasattr(arg, 'is_Add')                         ║
+# ║   requires: hasattr(arg, 'is_Mul')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(arg, 'is_commutative') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66830f40fdaff192  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Dagger.eval","kind":"classmethod","src_hash":"dc212bac62ab2ccc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"evaluates the dagger instance","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"evaluates the dagger instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.Dagger.eval_correct","statement":"Path(eval(x), evaluates the dagger instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66830f40fdaff192"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Dagger.eval","kind":"classmethod","src_hash":"dc212bac62ab2ccc","in":{"base":"Any","pred":"hasattr(arg, 'is_commutative') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_Mul') and hasattr(arg, 'is_Number') and hasattr(arg, 'is_Pow') and hasattr(arg, 'func') and hasattr(arg, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, arg)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(arg, 'is_commutative') and hasattr(arg, 'is_Add') and hasattr(arg, 'is_Mul') and hasattr(arg, 'is_Number') and hasattr(arg, 'is_Pow') and hasattr(arg, 'func') and hasattr(arg, 'args')"},"name":"eval_correct"},"guarantee":"evaluates the dagger instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.Dagger.eval_correct","statement":"Path(eval(x), evaluates the dagger instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66830f40fdaff192","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(arg, 'is_commutative')","hasattr(arg, 'is_Add')","hasattr(arg, 'is_Mul')","hasattr(arg, 'is_Number')","hasattr(arg, 'is_Pow')","hasattr(arg, 'func')","hasattr(arg, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.func","arg.is_Add","arg.is_Mul","arg.is_Number","arg.is_Pow","arg.is_commutative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, arg):
         """
         Evaluates the Dagger instance.
@@ -276,31 +333,43 @@ class Dagger(Expr):
             return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dagger_(), internal helper behaves correctly) over Any ║
+# ║ Path(_dagger_(), self.args[0]) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dagger_ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 52358d8ecf056243           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Dagger._dagger_","kind":"method","src_hash":"5ed35d05b9c7aa9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52358d8ecf056243"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Dagger._dagger_","kind":"method","src_hash":"5ed35d05b9c7aa9f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"self.args[0]","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"52358d8ecf056243","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _dagger_(self):
         return self.args[0]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(TensorSymbol(), correctly constructs a TensorSymbol instance) over Any ║
+# ║ Path(TensorSymbol(), isinstance(self, Expr)) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ TensorSymbol : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ TensorSymbol : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c38e369bda03b6de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.TensorSymbol","kind":"class","src_hash":"6f2a2b0fe4da0d01","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TensorSymbol()","rhs":"correctly constructs a TensorSymbol instance","over":{"base":"Any"},"name":"TensorSymbol_correct"},"guarantee":"correctly constructs a TensorSymbol instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c38e369bda03b6de"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.TensorSymbol","kind":"class","src_hash":"6f2a2b0fe4da0d01","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"TensorSymbol()","rhs":"isinstance(self, Expr)","over":{"base":"Any"},"name":"TensorSymbol_correct"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c38e369bda03b6de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function TensorSymbol not found in source"]}}
 class TensorSymbol(Expr):
 
     is_commutative = True
@@ -309,14 +378,20 @@ class TensorSymbol(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AntiSymmetricTensor(*args), correctly constructs a AntiSymmetricTensor instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AntiSymmetricTensor : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, TensorSymbol)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AntiSymmetricTensor : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0655b11d6a4012c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor","kind":"class","src_hash":"181dd06b26f088e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AntiSymmetricTensor(*args)","rhs":"correctly constructs a AntiSymmetricTensor instance","over":{"base":"Any"},"name":"AntiSymmetricTensor_class_invariant"},"guarantee":"correctly constructs a AntiSymmetricTensor instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0655b11d6a4012c2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor","kind":"class","src_hash":"181dd06b26f088e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, TensorSymbol)"},"spec":{"lhs":"AntiSymmetricTensor(*args)","rhs":"correctly constructs a AntiSymmetricTensor instance","over":{"base":"Any"},"name":"AntiSymmetricTensor_class_invariant"},"guarantee":"isinstance(self, TensorSymbol)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0655b11d6a4012c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, TensorSymbol)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function AntiSymmetricTensor not found in source"]}}
 class AntiSymmetricTensor(TensorSymbol):
     """Stores upper and lower indices in separate Tuple's.
 
@@ -339,16 +414,25 @@ class AntiSymmetricTensor(TensorSymbol):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, symbol, upper), result == (-TensorSymbol.__new__(cls, symbol, upper, lower) if (signu + signl) % 2 else TensorSymbol.__new__(cls, symbol, upper, lower)) and result == -TensorSymbol.__new__(cls, symbol, upper, lower) or result == TensorSymbol.__new__(cls, symbol, upper, lower)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (-TensorSymbol.__new__(cls, sym...   ║
+# ║   ensures:  result == -TensorSymbol.__new__(cls, symb...   ║
+# ║   fiber[case_0]: (signu + signl) % 2 => -TensorSymbol...   ║
+# ║   fiber[case_1]: not ((signu + signl) % 2) => TensorS...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : Any → {Any | result satisfies: result == (-...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ec8daece3d336e27           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor.__new__","kind":"method","src_hash":"9a53bda820cd5060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec8daece3d336e27"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor.__new__","kind":"method","src_hash":"9a53bda820cd5060","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (-TensorSymbol.__new__(cls, symbol, upper, lower) if (signu + signl) % 2 else TensorSymbol.__new__(cls, symbol, upper, lower)) and result == -TensorSymbol.__new__(cls, symbol, upper, lower) or result == TensorSymbol.__new__(cls, symbol, upper, lower)"},"spec":{"lhs":"__new__(cls, symbol, upper)","rhs":"result == (-TensorSymbol.__new__(cls, symbol, upper, lower) if (signu + signl) % 2 else TensorSymbol.__new__(cls, symbol, upper, lower)) and result == -TensorSymbol.__new__(cls, symbol, upper, lower) or result == TensorSymbol.__new__(cls, symbol, upper, lower)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"result == (-TensorSymbol.__new__(cls, symbol, upper, lower) if (signu + signl) % 2 else TensorSymbol.__new__(cls, symbol, upper, lower)); result == -TensorSymbol.__new__(cls, symbol, upper, lower) or result == TensorSymbol.__new__(cls, symbol, upper, lower); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ec8daece3d336e27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (-TensorSymbol.__new__(cls, symbol, upper, lower) if (signu + signl) % 2 else TensorSymbol.__new__(cls, symbol, upper, lower))","result == -TensorSymbol.__new__(cls, symbol, upper, lower) or result == TensorSymbol.__new__(cls, symbol, upper, lower)"],"fibers":[{"name":"case_0","guard":"(signu + signl) % 2","ensures":["result == -TensorSymbol.__new__(cls, symbol, upper, lower)"],"decidability":"library","returns_expr":"-TensorSymbol.__new__(cls, symbol, upper, lower)"},{"name":"case_1","guard":"not ((signu + signl) % 2)","ensures":["result == TensorSymbol.__new__(cls, symbol, upper, lower)"],"decidability":"library","returns_expr":"TensorSymbol.__new__(cls, symbol, upper, lower)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, symbol, upper, lower):
 
         try:
@@ -371,16 +455,23 @@ class AntiSymmetricTensor(TensorSymbol):
             return TensorSymbol.__new__(cls, symbol, upper, lower)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer), '{%s^{%s}_{%s}}' % (self.symbol, ''.join([printer._print(i) for i in self.args[1]]), ''.join([printer._print(i) for i in self.args[2]]))) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '{%s^{%s}_{%s}}' % (self.symbol, ''.join(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a94046ab50ed3e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d473e4a78e8a504a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor._latex","kind":"method","src_hash":"292c67e90ae197a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.AntiSymmetricTensor._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a94046ab50ed3e9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor._latex","kind":"method","src_hash":"292c67e90ae197a9","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer)","rhs":"'{%s^{%s}_{%s}}' % (self.symbol, ''.join([printer._print(i) for i in self.args[1]]), ''.join([printer._print(i) for i in self.args[2]]))","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns '{%s^{%s}_{%s}}' % (self.symbol, ''.join([printer._print(i) for i in self.args[1]]), ''.join([printer._print(i) for i in self.args[2]]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.AntiSymmetricTensor._latex_correct","statement":"Path(_latex(x), returns '{%s^{%s}_{%s}}' % (self.symbol, ''.join([printer._print(i) for i in self.args[1]]), ''.join([printer._print(i) for i in self.args[2]])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d473e4a78e8a504a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'{%s^{%s}_{%s}}' % (self.symbol, ''.join([printer._print(i) for i in self.args[1]]), ''.join([printer._print(i) for i in self.args[2]]))","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.args","self.symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         return "{%s^{%s}_{%s}}" % (
             self.symbol,
@@ -390,16 +481,22 @@ class AntiSymmetricTensor(TensorSymbol):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symbol(), returns the symbol attribute) over Any      ║
+# ║ Path(symbol(), self.args[0]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symbol : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 874150fb98fa61e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor.symbol","kind":"property","src_hash":"011112536edc2ce9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbol()","rhs":"returns the symbol attribute","over":{"base":"Any"},"name":"symbol_correct"},"guarantee":"returns the symbol attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"874150fb98fa61e1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor.symbol","kind":"property","src_hash":"011112536edc2ce9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symbol()","rhs":"self.args[0]","over":{"base":"Any"},"name":"symbol_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"874150fb98fa61e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def symbol(self):
         """
         Returns the symbol of the tensor.
@@ -421,16 +518,22 @@ class AntiSymmetricTensor(TensorSymbol):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(upper(), returns the upper attribute) over Any        ║
+# ║ Path(upper(), self.args[1]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ upper : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aedffdf58c268d50           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor.upper","kind":"property","src_hash":"6ddfb3901c829f6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upper()","rhs":"returns the upper attribute","over":{"base":"Any"},"name":"upper_correct"},"guarantee":"returns the upper attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aedffdf58c268d50"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor.upper","kind":"property","src_hash":"6ddfb3901c829f6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upper()","rhs":"self.args[1]","over":{"base":"Any"},"name":"upper_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aedffdf58c268d50","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def upper(self):
         """
         Returns the upper indices.
@@ -453,16 +556,22 @@ class AntiSymmetricTensor(TensorSymbol):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lower(), returns the lower attribute) over Any        ║
+# ║ Path(lower(), self.args[2]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lower : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4db51b8dd3481e47           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor.lower","kind":"property","src_hash":"026b189837e2bdbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower()","rhs":"returns the lower attribute","over":{"base":"Any"},"name":"lower_correct"},"guarantee":"returns the lower attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4db51b8dd3481e47"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor.lower","kind":"property","src_hash":"026b189837e2bdbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower()","rhs":"self.args[2]","over":{"base":"Any"},"name":"lower_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4db51b8dd3481e47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lower(self):
         """
         Returns the lower indices.
@@ -483,16 +592,22 @@ class AntiSymmetricTensor(TensorSymbol):
         return self.args[2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '%s(%s,%s)' % self.args) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s(%s,%s)' % self.args                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 144b113a6fa648e8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor.__str__","kind":"method","src_hash":"edb5ba9f52a301ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"144b113a6fa648e8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AntiSymmetricTensor.__str__","kind":"method","src_hash":"edb5ba9f52a301ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'%s(%s,%s)' % self.args","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '%s(%s,%s)' % self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"144b113a6fa648e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s(%s,%s)' % self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "%s(%s,%s)" % self.args
 
@@ -500,14 +615,20 @@ class AntiSymmetricTensor(TensorSymbol):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SqOperator instance) preserved by SqOperator(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SqOperator : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SqOperator : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e315fac75168e9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator","kind":"class","src_hash":"3a04a42780f67054","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SqOperator(*args)","rhs":"correctly constructs a SqOperator instance","over":{"base":"Any"},"name":"SqOperator_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SqOperator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["state","is_symbolic","__repr__","__str__","apply_operator"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e315fac75168e9c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator","kind":"class","src_hash":"3a04a42780f67054","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"SqOperator(*args)","rhs":"correctly constructs a SqOperator instance","over":{"base":"Any"},"name":"SqOperator_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["state","is_symbolic","__repr__","__str__","apply_operator"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e315fac75168e9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function SqOperator not found in source"]}}
 class SqOperator(Expr):
     """
     Base class for Second Quantization operators.
@@ -518,32 +639,44 @@ class SqOperator(Expr):
     is_commutative = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, k), <unspecified:__new__>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 34cbcd3f0ae97b47           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator.__new__","kind":"method","src_hash":"573debedf933692a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34cbcd3f0ae97b47"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator.__new__","kind":"method","src_hash":"573debedf933692a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, k)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34cbcd3f0ae97b47","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, k):
         obj = Basic.__new__(cls, sympify(k))
         return obj
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state(), returns the state attribute) over Any        ║
+# ║ Path(state(), self.args[0]) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ state : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b8640a85c695a06           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator.state","kind":"property","src_hash":"3c843ff4f046f194","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state()","rhs":"returns the state attribute","over":{"base":"Any"},"name":"state_correct"},"guarantee":"returns the state attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b8640a85c695a06"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator.state","kind":"property","src_hash":"3c843ff4f046f194","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state()","rhs":"self.args[0]","over":{"base":"Any"},"name":"state_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b8640a85c695a06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def state(self):
         """
         Returns the state index related to this operator.
@@ -568,16 +701,25 @@ class SqOperator(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_symbolic(), returns the is_symbolic attribute) over Any ║
+# ║ Path(is_symbolic(), result == (False if self.state.is_Integer else True) and result == False or result == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_symbolic : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (False if self.state.is_Integer...   ║
+# ║   ensures:  result == False or result == True              ║
+# ║   fiber[case_0]: self.state.is_Integer => False            ║
+# ║   fiber[case_1]: not (self.state.is_Integer) => True       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_symbolic : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 17619bc8de82250f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator.is_symbolic","kind":"property","src_hash":"37e59fa64abba1eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"returns the is_symbolic attribute","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns the is_symbolic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17619bc8de82250f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator.is_symbolic","kind":"property","src_hash":"37e59fa64abba1eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (False if self.state.is_Integer else True) and result == False or result == True"},"spec":{"lhs":"is_symbolic()","rhs":"result == (False if self.state.is_Integer else True) and result == False or result == True","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"result == (False if self.state.is_Integer else True); result == False or result == True; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"17619bc8de82250f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (False if self.state.is_Integer else True)","result == False or result == True"],"fibers":[{"name":"case_0","guard":"self.state.is_Integer","ensures":["result == False"],"decidability":"library","returns_expr":"False"},{"name":"case_1","guard":"not (self.state.is_Integer)","ensures":["result == True"],"decidability":"library","returns_expr":"True"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_symbolic(self):
         """
         Returns True if the state is a symbol (as opposed to a number).
@@ -600,44 +742,62 @@ class SqOperator(Expr):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), <unspecified:__repr__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 144635838aaccb05           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator.__repr__","kind":"method","src_hash":"fa1ed1c5e8e9cc45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"144635838aaccb05"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator.__repr__","kind":"method","src_hash":"fa1ed1c5e8e9cc45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"<unspecified:__repr__>","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"144635838aaccb05","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return NotImplemented
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '%s(%r)' % (self.op_symbol, self.state)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s(%r)' % (self.op_symbol, self.state)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c3b59d5355017c1c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator.__str__","kind":"method","src_hash":"b14c3f7f1dfbda3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3b59d5355017c1c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator.__str__","kind":"method","src_hash":"b14c3f7f1dfbda3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'%s(%r)' % (self.op_symbol, self.state)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '%s(%r)' % (self.op_symbol, self.state)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3b59d5355017c1c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s(%r)' % (self.op_symbol, self.state)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.op_symbol","self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "%s(%r)" % (self.op_symbol, self.state)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_operator(sta), applies an operator to itself) over Any ║
+# ║ Path(apply_operator(state), <unspecified:apply_operator>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_operator : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd4be24a5cc6a2ff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator.apply_operator","kind":"method","src_hash":"041c2ebf762ee07c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_operator(sta)","rhs":"applies an operator to itself","over":{"base":"Any"},"name":"apply_operator_correct"},"guarantee":"applies an operator to itself","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd4be24a5cc6a2ff"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.SqOperator.apply_operator","kind":"method","src_hash":"041c2ebf762ee07c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_operator(state)","rhs":"<unspecified:apply_operator>","over":{"base":"Any"},"name":"apply_operator_correct"},"guarantee":"applies an operator to itself","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd4be24a5cc6a2ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_operator(self, state):
         """
         Applies an operator to itself.
@@ -646,46 +806,64 @@ class SqOperator(Expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(BosonicOperator(), correctly constructs a BosonicOperator instance) over Any ║
+# ║ Path(BosonicOperator(), isinstance(self, SqOperator)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BosonicOperator : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SqOperator)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BosonicOperator : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 16c47bc27b4a90d5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.BosonicOperator","kind":"class","src_hash":"988ed8f875d877e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BosonicOperator()","rhs":"correctly constructs a BosonicOperator instance","over":{"base":"Any"},"name":"BosonicOperator_correct"},"guarantee":"correctly constructs a BosonicOperator instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16c47bc27b4a90d5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.BosonicOperator","kind":"class","src_hash":"988ed8f875d877e2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SqOperator)"},"spec":{"lhs":"BosonicOperator()","rhs":"isinstance(self, SqOperator)","over":{"base":"Any"},"name":"BosonicOperator_correct"},"guarantee":"isinstance(self, SqOperator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"16c47bc27b4a90d5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SqOperator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function BosonicOperator not found in source"]}}
 class BosonicOperator(SqOperator):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Annihilator(), correctly constructs a Annihilator instance) over Any ║
+# ║ Path(Annihilator(), isinstance(self, SqOperator)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Annihilator : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SqOperator)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Annihilator : Any → {Any | result satisfies: isinstan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc401aa67ed3497b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Annihilator","kind":"class","src_hash":"b57488e032e1e42f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Annihilator()","rhs":"correctly constructs a Annihilator instance","over":{"base":"Any"},"name":"Annihilator_correct"},"guarantee":"correctly constructs a Annihilator instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc401aa67ed3497b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Annihilator","kind":"class","src_hash":"b57488e032e1e42f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SqOperator)"},"spec":{"lhs":"Annihilator()","rhs":"isinstance(self, SqOperator)","over":{"base":"Any"},"name":"Annihilator_correct"},"guarantee":"isinstance(self, SqOperator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc401aa67ed3497b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SqOperator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Annihilator not found in source"]}}
 class Annihilator(SqOperator):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Creator(), correctly constructs a Creator instance) over Any ║
+# ║ Path(Creator(), isinstance(self, SqOperator)) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Creator : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SqOperator)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Creator : Any → {Any | result satisfies: isinstance(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1c5ce05c66b7640c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Creator","kind":"class","src_hash":"70964c59da0b2bb8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Creator()","rhs":"correctly constructs a Creator instance","over":{"base":"Any"},"name":"Creator_correct"},"guarantee":"correctly constructs a Creator instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c5ce05c66b7640c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Creator","kind":"class","src_hash":"70964c59da0b2bb8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SqOperator)"},"spec":{"lhs":"Creator()","rhs":"isinstance(self, SqOperator)","over":{"base":"Any"},"name":"Creator_correct"},"guarantee":"isinstance(self, SqOperator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1c5ce05c66b7640c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SqOperator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function Creator not found in source"]}}
 class Creator(SqOperator):
     pass
 
@@ -693,14 +871,21 @@ class Creator(SqOperator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AnnihilateBoson(*args), correctly constructs a AnnihilateBoson instance) over {Any | isinstance(state, FockStateKet)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BosonicOperator)              ║
+# ║   ensures:  isinstance(self, Annihilator)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AnnihilateBoson : {Any | isinstance(state, FockStateK...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7d8e84cee9d16006  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateBoson","kind":"class","src_hash":"21e4fe3ba6708e90","in":{"base":"Any","pred":"isinstance(state, FockStateKet)"},"out":{"base":"Any"},"spec":{"lhs":"AnnihilateBoson(*args)","rhs":"correctly constructs a AnnihilateBoson instance","over":{"base":"Any","pred":"isinstance(state, FockStateKet)"},"name":"AnnihilateBoson_class_invariant"},"guarantee":"correctly constructs a AnnihilateBoson instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d8e84cee9d16006"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateBoson","kind":"class","src_hash":"21e4fe3ba6708e90","in":{"base":"Any","pred":"isinstance(state, FockStateKet)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BosonicOperator) and isinstance(self, Annihilator)"},"spec":{"lhs":"AnnihilateBoson(*args)","rhs":"correctly constructs a AnnihilateBoson instance","over":{"base":"Any","pred":"isinstance(state, FockStateKet)"},"name":"AnnihilateBoson_class_invariant"},"guarantee":"isinstance(self, BosonicOperator); isinstance(self, Annihilator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7d8e84cee9d16006","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BosonicOperator)","isinstance(self, Annihilator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function AnnihilateBoson not found in source"]}}
 class AnnihilateBoson(BosonicOperator, Annihilator):
     """
     Bosonic annihilation operator.
@@ -717,30 +902,46 @@ class AnnihilateBoson(BosonicOperator, Annihilator):
     op_symbol = 'b'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dagger_(), internal helper behaves correctly) over Any ║
+# ║ Path(_dagger_(), CreateBoson(self.state)) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  CreateBoson(self.state)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dagger_ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b8a0a9feba50d0f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateBoson._dagger_","kind":"method","src_hash":"b30908761fac1e84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b8a0a9feba50d0f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateBoson._dagger_","kind":"method","src_hash":"b30908761fac1e84","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"CreateBoson(self.state)","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"returns CreateBoson(self.state)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b8a0a9feba50d0f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"CreateBoson(self.state)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _dagger_(self):
         return CreateBoson(self.state)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_operator(sta), apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state) over Any ║
+# ║ Path(apply_operator(state), result == (amp * state.down(element) if not self.is_symbolic and isinstance(state, FockStateKet) else Mul(self, state)) and result == amp * state.down(element) or result == Mul(self, state)) over {Any | hasattr(state, 'down')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply_operator : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(state, 'down')                         ║
+# ║   ensures:  result == (amp * state.down(element) if n...   ║
+# ║   ensures:  result == amp * state.down(element) or re...   ║
+# ║   fiber[FockStateKet]: not self.is_symbolic and isins...   ║
+# ║   fiber[FockStateKet]: not (not self.is_symbolic and ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply_operator : {Any | hasattr(state, 'down')} → {An...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fe9448373fecf14  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cc33a591711055c5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateBoson.apply_operator","kind":"method","src_hash":"ad68299fcaa62e5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_operator(sta)","rhs":"apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state","over":{"base":"Any"},"name":"apply_operator_correct"},"guarantee":"apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.AnnihilateBoson.apply_operator_correct","statement":"Path(apply_operator(x), apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fe9448373fecf14"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateBoson.apply_operator","kind":"method","src_hash":"ad68299fcaa62e5f","in":{"base":"Any","pred":"hasattr(state, 'down')"},"out":{"base":"Any","pred":"result satisfies: result == (amp * state.down(element) if not self.is_symbolic and isinstance(state, FockStateKet) else Mul(self, state)) and result == amp * state.down(element) or result == Mul(self, state)"},"spec":{"lhs":"apply_operator(state)","rhs":"result == (amp * state.down(element) if not self.is_symbolic and isinstance(state, FockStateKet) else Mul(self, state)) and result == amp * state.down(element) or result == Mul(self, state)","over":{"base":"Any","pred":"hasattr(state, 'down')"},"name":"apply_operator_correct"},"guarantee":"result == (amp * state.down(element) if not self.is_symbolic and isinstance(state, FockStateKet) else Mul(self, state)); result == amp * state.down(element) or result == Mul(self, state); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.AnnihilateBoson.apply_operator_correct","statement":"Path(apply_operator(x), result == (amp * state.down(element) if not self.is_symbolic and isinstance(state, FockStateKet) else Mul(self, state)); result == amp * state.down(element) or result == Mul(self, state); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cc33a591711055c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(state, 'down')"],"ensures":["result == (amp * state.down(element) if not self.is_symbolic and isinstance(state, FockStateKet) else Mul(self, state))","result == amp * state.down(element) or result == Mul(self, state)"],"fibers":[{"name":"FockStateKet","guard":"not self.is_symbolic and isinstance(state, FockStateKet)","ensures":["result == amp * state.down(element)"],"decidability":"structural","returns_expr":"amp * state.down(element)"},{"name":"FockStateKet","guard":"not (not self.is_symbolic and isinstance(state, FockStateKet))","ensures":["result == Mul(self, state)"],"decidability":"structural","returns_expr":"Mul(self, state)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_symbolic","self.state","state.down"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_operator(self, state):
         """
         Apply state to self if self is not symbolic and state is a FockStateKet, else
@@ -765,30 +966,46 @@ class AnnihilateBoson(BosonicOperator, Annihilator):
             return Mul(self, state)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'AnnihilateBoson(%s)' % self.state) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'AnnihilateBoson(%s)' % self.state             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 76cf789182f3d3c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateBoson.__repr__","kind":"method","src_hash":"1f544aea4d103536","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76cf789182f3d3c7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateBoson.__repr__","kind":"method","src_hash":"1f544aea4d103536","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'AnnihilateBoson(%s)' % self.state","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'AnnihilateBoson(%s)' % self.state","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"76cf789182f3d3c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'AnnihilateBoson(%s)' % self.state","pure":false,"effects":{"effect_type":"reads_state","reads":["self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "AnnihilateBoson(%s)" % self.state
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer), result == ('b_{0}' if self.state is S.Zero else 'b_{%s}' % printer._print(self.state)) and result == 'b_{0}' or result == 'b_{%s}' % printer._print(self.state)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ensures:  result == ('b_{0}' if self.state is S.Zer...   ║
+# ║   ensures:  result == 'b_{0}' or result == 'b_{%s}' %...   ║
+# ║   fiber[case_0]: self.state is S.Zero => 'b_{0}'           ║
+# ║   fiber[case_1]: not (self.state is S.Zero) => 'b_{%s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 836c8b86c0b0345d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf5d1c4739313eb5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateBoson._latex","kind":"method","src_hash":"9c75d79e90b84408","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.AnnihilateBoson._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"836c8b86c0b0345d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateBoson._latex","kind":"method","src_hash":"9c75d79e90b84408","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any","pred":"result satisfies: result == ('b_{0}' if self.state is S.Zero else 'b_{%s}' % printer._print(self.state)) and result == 'b_{0}' or result == 'b_{%s}' % printer._print(self.state)"},"spec":{"lhs":"_latex(printer)","rhs":"result == ('b_{0}' if self.state is S.Zero else 'b_{%s}' % printer._print(self.state)) and result == 'b_{0}' or result == 'b_{%s}' % printer._print(self.state)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"result == ('b_{0}' if self.state is S.Zero else 'b_{%s}' % printer._print(self.state)); result == 'b_{0}' or result == 'b_{%s}' % printer._print(self.state); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.AnnihilateBoson._latex_correct","statement":"Path(_latex(x), result == ('b_{0}' if self.state is S.Zero else 'b_{%s}' % printer._print(self.state)); result == 'b_{0}' or result == 'b_{%s}' % printer._print(self.state); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf5d1c4739313eb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"ensures":["result == ('b_{0}' if self.state is S.Zero else 'b_{%s}' % printer._print(self.state))","result == 'b_{0}' or result == 'b_{%s}' % printer._print(self.state)"],"fibers":[{"name":"case_0","guard":"self.state is S.Zero","ensures":["result == 'b_{0}'"],"decidability":"library","returns_expr":"'b_{0}'"},{"name":"case_1","guard":"not (self.state is S.Zero)","ensures":["result == 'b_{%s}' % printer._print(self.state)"],"decidability":"library","returns_expr":"'b_{%s}' % printer._print(self.state)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         if self.state is S.Zero:
             return "b_{0}"
@@ -798,14 +1015,21 @@ class AnnihilateBoson(BosonicOperator, Annihilator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CreateBoson(*args), correctly constructs a CreateBoson instance) over {Any | isinstance(state, FockStateKet)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BosonicOperator)              ║
+# ║   ensures:  isinstance(self, Creator)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CreateBoson : {Any | isinstance(state, FockStateKet)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cb6f8f68f02c8fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateBoson","kind":"class","src_hash":"d9499cd84b66b69a","in":{"base":"Any","pred":"isinstance(state, FockStateKet)"},"out":{"base":"Any"},"spec":{"lhs":"CreateBoson(*args)","rhs":"correctly constructs a CreateBoson instance","over":{"base":"Any","pred":"isinstance(state, FockStateKet)"},"name":"CreateBoson_class_invariant"},"guarantee":"correctly constructs a CreateBoson instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cb6f8f68f02c8fd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateBoson","kind":"class","src_hash":"d9499cd84b66b69a","in":{"base":"Any","pred":"isinstance(state, FockStateKet)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BosonicOperator) and isinstance(self, Creator)"},"spec":{"lhs":"CreateBoson(*args)","rhs":"correctly constructs a CreateBoson instance","over":{"base":"Any","pred":"isinstance(state, FockStateKet)"},"name":"CreateBoson_class_invariant"},"guarantee":"isinstance(self, BosonicOperator); isinstance(self, Creator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cb6f8f68f02c8fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BosonicOperator)","isinstance(self, Creator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function CreateBoson not found in source"]}}
 class CreateBoson(BosonicOperator, Creator):
     """
     Bosonic creation operator.
@@ -814,30 +1038,46 @@ class CreateBoson(BosonicOperator, Creator):
     op_symbol = 'b+'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dagger_(), internal helper behaves correctly) over Any ║
+# ║ Path(_dagger_(), AnnihilateBoson(self.state)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  AnnihilateBoson(self.state)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dagger_ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 95e79e507fb97cea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateBoson._dagger_","kind":"method","src_hash":"b7503dc020d96c59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95e79e507fb97cea"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateBoson._dagger_","kind":"method","src_hash":"b7503dc020d96c59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"AnnihilateBoson(self.state)","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"returns AnnihilateBoson(self.state)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95e79e507fb97cea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"AnnihilateBoson(self.state)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _dagger_(self):
         return AnnihilateBoson(self.state)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_operator(sta), apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state) over Any ║
+# ║ Path(apply_operator(state), result == (amp * state.up(element) if not self.is_symbolic and isinstance(state, FockStateKet) else Mul(self, state)) and result == amp * state.up(element) or result == Mul(self, state)) over {Any | hasattr(state, 'up')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply_operator : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(state, 'up')                           ║
+# ║   ensures:  result == (amp * state.up(element) if not...   ║
+# ║   ensures:  result == amp * state.up(element) or resu...   ║
+# ║   fiber[FockStateKet]: not self.is_symbolic and isins...   ║
+# ║   fiber[FockStateKet]: not (not self.is_symbolic and ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply_operator : {Any | hasattr(state, 'up')} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d84c80bf45dc1b37  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 048a1857cef7ec15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateBoson.apply_operator","kind":"method","src_hash":"9a6e66957f55cd32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_operator(sta)","rhs":"apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state","over":{"base":"Any"},"name":"apply_operator_correct"},"guarantee":"apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.CreateBoson.apply_operator_correct","statement":"Path(apply_operator(x), apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d84c80bf45dc1b37"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateBoson.apply_operator","kind":"method","src_hash":"9a6e66957f55cd32","in":{"base":"Any","pred":"hasattr(state, 'up')"},"out":{"base":"Any","pred":"result satisfies: result == (amp * state.up(element) if not self.is_symbolic and isinstance(state, FockStateKet) else Mul(self, state)) and result == amp * state.up(element) or result == Mul(self, state)"},"spec":{"lhs":"apply_operator(state)","rhs":"result == (amp * state.up(element) if not self.is_symbolic and isinstance(state, FockStateKet) else Mul(self, state)) and result == amp * state.up(element) or result == Mul(self, state)","over":{"base":"Any","pred":"hasattr(state, 'up')"},"name":"apply_operator_correct"},"guarantee":"result == (amp * state.up(element) if not self.is_symbolic and isinstance(state, FockStateKet) else Mul(self, state)); result == amp * state.up(element) or result == Mul(self, state); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.CreateBoson.apply_operator_correct","statement":"Path(apply_operator(x), result == (amp * state.up(element) if not self.is_symbolic and isinstance(state, FockStateKet) else Mul(self, state)); result == amp * state.up(element) or result == Mul(self, state); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"048a1857cef7ec15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(state, 'up')"],"ensures":["result == (amp * state.up(element) if not self.is_symbolic and isinstance(state, FockStateKet) else Mul(self, state))","result == amp * state.up(element) or result == Mul(self, state)"],"fibers":[{"name":"FockStateKet","guard":"not self.is_symbolic and isinstance(state, FockStateKet)","ensures":["result == amp * state.up(element)"],"decidability":"structural","returns_expr":"amp * state.up(element)"},{"name":"FockStateKet","guard":"not (not self.is_symbolic and isinstance(state, FockStateKet))","ensures":["result == Mul(self, state)"],"decidability":"structural","returns_expr":"Mul(self, state)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_symbolic","self.state","state.up"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_operator(self, state):
         """
         Apply state to self if self is not symbolic and state is a FockStateKet, else
@@ -861,30 +1101,46 @@ class CreateBoson(BosonicOperator, Creator):
             return Mul(self, state)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'CreateBoson(%s)' % self.state) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'CreateBoson(%s)' % self.state                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e54730bf47e5564           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateBoson.__repr__","kind":"method","src_hash":"b635c2331f0a3bd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e54730bf47e5564"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateBoson.__repr__","kind":"method","src_hash":"b635c2331f0a3bd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'CreateBoson(%s)' % self.state","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'CreateBoson(%s)' % self.state","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e54730bf47e5564","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'CreateBoson(%s)' % self.state","pure":false,"effects":{"effect_type":"reads_state","reads":["self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "CreateBoson(%s)" % self.state
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer), result == ('{b^\\dagger_{0}}' if self.state is S.Zero else '{b^\\dagger_{%s}}' % printer._print(self.state)) and result == '{b^\\dagger_{0}}' or result == '{b^\\dagger_{%s}}' % printer._print(self.state)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ensures:  result == ('{b^\\dagger_{0}}' if self.sta...   ║
+# ║   ensures:  result == '{b^\\dagger_{0}}' or result ==...   ║
+# ║   fiber[case_0]: self.state is S.Zero => '{b^\\dagger...   ║
+# ║   fiber[case_1]: not (self.state is S.Zero) => '{b^\\...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d54e44b95d2b39f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7042acaf84d373e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateBoson._latex","kind":"method","src_hash":"ed3853a80525562d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.CreateBoson._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d54e44b95d2b39f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateBoson._latex","kind":"method","src_hash":"ed3853a80525562d","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any","pred":"result satisfies: result == ('{b^\\\\dagger_{0}}' if self.state is S.Zero else '{b^\\\\dagger_{%s}}' % printer._print(self.state)) and result == '{b^\\\\dagger_{0}}' or result == '{b^\\\\dagger_{%s}}' % printer._print(self.state)"},"spec":{"lhs":"_latex(printer)","rhs":"result == ('{b^\\\\dagger_{0}}' if self.state is S.Zero else '{b^\\\\dagger_{%s}}' % printer._print(self.state)) and result == '{b^\\\\dagger_{0}}' or result == '{b^\\\\dagger_{%s}}' % printer._print(self.state)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"result == ('{b^\\\\dagger_{0}}' if self.state is S.Zero else '{b^\\\\dagger_{%s}}' % printer._print(self.state)); result == '{b^\\\\dagger_{0}}' or result == '{b^\\\\dagger_{%s}}' % printer._print(self.state); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.CreateBoson._latex_correct","statement":"Path(_latex(x), result == ('{b^\\\\dagger_{0}}' if self.state is S.Zero else '{b^\\\\dagger_{%s}}' % printer._print(self.state)); result == '{b^\\\\dagger_{0}}' or result == '{b^\\\\dagger_{%s}}' % printer._print(self.state); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7042acaf84d373e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"ensures":["result == ('{b^\\\\dagger_{0}}' if self.state is S.Zero else '{b^\\\\dagger_{%s}}' % printer._print(self.state))","result == '{b^\\\\dagger_{0}}' or result == '{b^\\\\dagger_{%s}}' % printer._print(self.state)"],"fibers":[{"name":"case_0","guard":"self.state is S.Zero","ensures":["result == '{b^\\\\dagger_{0}}'"],"decidability":"library","returns_expr":"'{b^\\\\dagger_{0}}'"},{"name":"case_1","guard":"not (self.state is S.Zero)","ensures":["result == '{b^\\\\dagger_{%s}}' % printer._print(self.state)"],"decidability":"library","returns_expr":"'{b^\\\\dagger_{%s}}' % printer._print(self.state)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         if self.state is S.Zero:
             return "{b^\\dagger_{0}}"
@@ -898,28 +1154,40 @@ Bd = CreateBoson
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FermionicOperator instance) preserved by FermionicOperator(*args) over {Any | isinstance(self, Annihilator) and isinstance(self, Creator)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SqOperator)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FermionicOperator : {Any | isinstance(self, Annihilat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35b2b8765f78ebfa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator","kind":"class","src_hash":"f5e6ea32f4b22711","in":{"base":"Any","pred":"isinstance(self, Annihilator) and isinstance(self, Creator)"},"out":{"base":"Any"},"spec":{"lhs":"FermionicOperator(*args)","rhs":"correctly constructs a FermionicOperator instance","over":{"base":"Any","pred":"isinstance(self, Annihilator) and isinstance(self, Creator)"},"name":"FermionicOperator_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FermionicOperator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_restricted","pred":"self.is_restricted","kind":"class"},{"name":"is_above_fermi","pred":"self.is_above_fermi","kind":"class"},{"name":"is_below_fermi","pred":"self.is_below_fermi","kind":"class"},{"name":"is_only_below_fermi","pred":"self.is_only_below_fermi","kind":"class"},{"name":"is_only_above_fermi","pred":"self.is_only_above_fermi","kind":"class"}],"methods_preserving":["is_restricted","is_above_fermi","is_below_fermi","is_only_below_fermi","is_only_above_fermi","_sortkey"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35b2b8765f78ebfa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator","kind":"class","src_hash":"f5e6ea32f4b22711","in":{"base":"Any","pred":"isinstance(self, Annihilator) and isinstance(self, Creator)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SqOperator)"},"spec":{"lhs":"FermionicOperator(*args)","rhs":"correctly constructs a FermionicOperator instance","over":{"base":"Any","pred":"isinstance(self, Annihilator) and isinstance(self, Creator)"},"name":"FermionicOperator_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, SqOperator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_restricted","pred":"self.is_restricted","kind":"class"},{"name":"is_above_fermi","pred":"self.is_above_fermi","kind":"class"},{"name":"is_below_fermi","pred":"self.is_below_fermi","kind":"class"},{"name":"is_only_below_fermi","pred":"self.is_only_below_fermi","kind":"class"},{"name":"is_only_above_fermi","pred":"self.is_only_above_fermi","kind":"class"}],"methods_preserving":["is_restricted","is_above_fermi","is_below_fermi","is_only_below_fermi","is_only_above_fermi","_sortkey"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35b2b8765f78ebfa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SqOperator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function FermionicOperator not found in source"]}}
 class FermionicOperator(SqOperator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_restricted(), returns the is_restricted attribute) over Any ║
+# ║ Path(is_restricted(), <unspecified:is_restricted>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_restricted : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2cc89186486a9b80           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator.is_restricted","kind":"property","src_hash":"00243eef99e7e021","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_restricted()","rhs":"returns the is_restricted attribute","over":{"base":"Any"},"name":"is_restricted_correct"},"guarantee":"returns the is_restricted attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2cc89186486a9b80"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator.is_restricted","kind":"property","src_hash":"00243eef99e7e021","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_restricted()","rhs":"<unspecified:is_restricted>","over":{"base":"Any"},"name":"is_restricted_correct"},"guarantee":"returns the is_restricted attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2cc89186486a9b80","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_restricted(self):
         """
         Is this FermionicOperator restricted with respect to fermi level?
@@ -963,16 +1231,22 @@ class FermionicOperator(SqOperator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_above_fermi(), returns the is_above_fermi attribute) over Any ║
+# ║ Path(is_above_fermi(), not self.args[0].assumptions0.get('below_fermi')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self.args[0].assumptions0.get('below_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_above_fermi : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e93dcef221bca850           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator.is_above_fermi","kind":"property","src_hash":"ff70b82804a83301","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_above_fermi()","rhs":"returns the is_above_fermi attribute","over":{"base":"Any"},"name":"is_above_fermi_correct"},"guarantee":"returns the is_above_fermi attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e93dcef221bca850"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator.is_above_fermi","kind":"property","src_hash":"ff70b82804a83301","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_above_fermi()","rhs":"not self.args[0].assumptions0.get('below_fermi')","over":{"base":"Any"},"name":"is_above_fermi_correct"},"guarantee":"returns not self.args[0].assumptions0.get('below_fermi')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e93dcef221bca850","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self.args[0].assumptions0.get('below_fermi')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_above_fermi(self):
         """
         Does the index of this FermionicOperator allow values above fermi?
@@ -1003,16 +1277,22 @@ class FermionicOperator(SqOperator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_below_fermi(), returns the is_below_fermi attribute) over Any ║
+# ║ Path(is_below_fermi(), not self.args[0].assumptions0.get('above_fermi')) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not self.args[0].assumptions0.get('above_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_below_fermi : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e958c619d7532627           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator.is_below_fermi","kind":"property","src_hash":"0bc59616b07fc04d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_below_fermi()","rhs":"returns the is_below_fermi attribute","over":{"base":"Any"},"name":"is_below_fermi_correct"},"guarantee":"returns the is_below_fermi attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e958c619d7532627"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator.is_below_fermi","kind":"property","src_hash":"0bc59616b07fc04d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_below_fermi()","rhs":"not self.args[0].assumptions0.get('above_fermi')","over":{"base":"Any"},"name":"is_below_fermi_correct"},"guarantee":"returns not self.args[0].assumptions0.get('above_fermi')","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e958c619d7532627","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not self.args[0].assumptions0.get('above_fermi')","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_below_fermi(self):
         """
         Does the index of this FermionicOperator allow values below fermi?
@@ -1040,16 +1320,22 @@ class FermionicOperator(SqOperator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_only_below_fermi(), returns the is_only_below_fermi attribute) over Any ║
+# ║ Path(is_only_below_fermi(), self.is_below_fermi and (not self.is_above_fermi)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_below_fermi and (not self.is_abov...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_only_below_fermi : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5ceb0977951fa49a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator.is_only_below_fermi","kind":"property","src_hash":"6a5e9eea17c0e890","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_below_fermi()","rhs":"returns the is_only_below_fermi attribute","over":{"base":"Any"},"name":"is_only_below_fermi_correct"},"guarantee":"returns the is_only_below_fermi attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ceb0977951fa49a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator.is_only_below_fermi","kind":"property","src_hash":"6a5e9eea17c0e890","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_below_fermi()","rhs":"self.is_below_fermi and (not self.is_above_fermi)","over":{"base":"Any"},"name":"is_only_below_fermi_correct"},"guarantee":"returns self.is_below_fermi and (not self.is_above_fermi)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ceb0977951fa49a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_below_fermi and (not self.is_above_fermi)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_above_fermi","self.is_below_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_only_below_fermi(self):
         """
         Is the index of this FermionicOperator restricted to values below fermi?
@@ -1076,16 +1362,22 @@ class FermionicOperator(SqOperator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_only_above_fermi(), returns the is_only_above_fermi attribute) over Any ║
+# ║ Path(is_only_above_fermi(), self.is_above_fermi and (not self.is_below_fermi)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_above_fermi and (not self.is_belo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_only_above_fermi : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d19be86999c1ea1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator.is_only_above_fermi","kind":"property","src_hash":"982d22175a9fa835","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_above_fermi()","rhs":"returns the is_only_above_fermi attribute","over":{"base":"Any"},"name":"is_only_above_fermi_correct"},"guarantee":"returns the is_only_above_fermi attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d19be86999c1ea1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator.is_only_above_fermi","kind":"property","src_hash":"982d22175a9fa835","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_above_fermi()","rhs":"self.is_above_fermi and (not self.is_below_fermi)","over":{"base":"Any"},"name":"is_only_above_fermi_correct"},"guarantee":"returns self.is_above_fermi and (not self.is_below_fermi)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d19be86999c1ea1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_above_fermi and (not self.is_below_fermi)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_above_fermi","self.is_below_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_only_above_fermi(self):
         """
         Is the index of this FermionicOperator restricted to values above fermi?
@@ -1111,16 +1403,22 @@ class FermionicOperator(SqOperator):
         return self.is_above_fermi and not self.is_below_fermi
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sortkey(), internal helper behaves correctly) over Any ║
+# ║ Path(_sortkey(), <unspecified:_sortkey>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sortkey : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5c27f914698e78e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator._sortkey","kind":"method","src_hash":"da5095f8995ee893","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sortkey()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sortkey_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FermionicOperator._sortkey_correct","statement":"Path(_sortkey(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5c27f914698e78e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionicOperator._sortkey","kind":"method","src_hash":"da5095f8995ee893","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sortkey()","rhs":"<unspecified:_sortkey>","over":{"base":"Any"},"name":"_sortkey_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FermionicOperator._sortkey_correct","statement":"Path(_sortkey(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5c27f914698e78e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.is_only_q_annihilator","self.is_only_q_creator"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sortkey(self):
         h = hash(self)
         label = str(self.args[0])
@@ -1138,14 +1436,21 @@ class FermionicOperator(SqOperator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a AnnihilateFermion instance) preserved by AnnihilateFermion(*args) over {Any | isinstance(state, FockStateFermionKet) and isinstance(state, Mul)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FermionicOperator)            ║
+# ║   ensures:  isinstance(self, Annihilator)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AnnihilateFermion : {Any | isinstance(state, FockStat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 69fa5a963dd30872  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion","kind":"class","src_hash":"0a938b0db1e35737","in":{"base":"Any","pred":"isinstance(state, FockStateFermionKet) and isinstance(state, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"AnnihilateFermion(*args)","rhs":"correctly constructs a AnnihilateFermion instance","over":{"base":"Any","pred":"isinstance(state, FockStateFermionKet) and isinstance(state, Mul)"},"name":"AnnihilateFermion_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a AnnihilateFermion instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_q_creator","pred":"self.is_q_creator","kind":"class"},{"name":"is_q_annihilator","pred":"self.is_q_annihilator","kind":"class"},{"name":"is_only_q_creator","pred":"self.is_only_q_creator","kind":"class"},{"name":"is_only_q_annihilator","pred":"self.is_only_q_annihilator","kind":"class"}],"methods_preserving":["_dagger_","apply_operator","is_q_creator","is_q_annihilator","is_only_q_creator","is_only_q_annihilator","__repr__","_latex"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69fa5a963dd30872"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion","kind":"class","src_hash":"0a938b0db1e35737","in":{"base":"Any","pred":"isinstance(state, FockStateFermionKet) and isinstance(state, Mul)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FermionicOperator) and isinstance(self, Annihilator)"},"spec":{"lhs":"AnnihilateFermion(*args)","rhs":"correctly constructs a AnnihilateFermion instance","over":{"base":"Any","pred":"isinstance(state, FockStateFermionKet) and isinstance(state, Mul)"},"name":"AnnihilateFermion_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, FermionicOperator); isinstance(self, Annihilator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_q_creator","pred":"self.is_q_creator","kind":"class"},{"name":"is_q_annihilator","pred":"self.is_q_annihilator","kind":"class"},{"name":"is_only_q_creator","pred":"self.is_only_q_creator","kind":"class"},{"name":"is_only_q_annihilator","pred":"self.is_only_q_annihilator","kind":"class"}],"methods_preserving":["_dagger_","apply_operator","is_q_creator","is_q_annihilator","is_only_q_creator","is_only_q_annihilator","__repr__","_latex"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"69fa5a963dd30872","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FermionicOperator)","isinstance(self, Annihilator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function AnnihilateFermion not found in source"]}}
 class AnnihilateFermion(FermionicOperator, Annihilator):
     """
     Fermionic annihilation operator.
@@ -1154,30 +1459,46 @@ class AnnihilateFermion(FermionicOperator, Annihilator):
     op_symbol = 'f'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dagger_(), internal helper behaves correctly) over Any ║
+# ║ Path(_dagger_(), CreateFermion(self.state)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  CreateFermion(self.state)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dagger_ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 094888727b83a58e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion._dagger_","kind":"method","src_hash":"2875dc32f2f92d05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"094888727b83a58e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion._dagger_","kind":"method","src_hash":"2875dc32f2f92d05","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"CreateFermion(self.state)","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"returns CreateFermion(self.state)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"094888727b83a58e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"CreateFermion(self.state)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _dagger_(self):
         return CreateFermion(self.state)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_operator(sta), apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state) over Any ║
+# ║ Path(apply_operator(state), <unspecified:apply_operator>) over {Any | hasattr(state, 'down') and hasattr(state, 'args_cnc')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply_operator : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(state, 'down')                         ║
+# ║   requires: hasattr(state, 'args_cnc')                     ║
+# ║   fiber[FockStateFermionKet]: isinstance(state, FockS...   ║
+# ║   fiber[Mul]: isinstance(state, Mul)                       ║
+# ║   fiber[FockStateFermionKet]: not (isinstance(state, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply_operator : {Any | hasattr(state, 'down') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1211f31c3b34ace4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44fcd5a0b534bd7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion.apply_operator","kind":"method","src_hash":"70a0fd166c7953d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_operator(sta)","rhs":"apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state","over":{"base":"Any"},"name":"apply_operator_correct"},"guarantee":"apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.AnnihilateFermion.apply_operator_correct","statement":"Path(apply_operator(x), apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1211f31c3b34ace4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion.apply_operator","kind":"method","src_hash":"70a0fd166c7953d1","in":{"base":"Any","pred":"hasattr(state, 'down') and hasattr(state, 'args_cnc')"},"out":{"base":"Any"},"spec":{"lhs":"apply_operator(state)","rhs":"<unspecified:apply_operator>","over":{"base":"Any","pred":"hasattr(state, 'down') and hasattr(state, 'args_cnc')"},"name":"apply_operator_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.AnnihilateFermion.apply_operator_correct","statement":"Path(apply_operator(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44fcd5a0b534bd7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(state, 'down')","hasattr(state, 'args_cnc')"],"fibers":[{"name":"FockStateFermionKet","guard":"isinstance(state, FockStateFermionKet)","ensures":["result == state.down(element)"],"decidability":"structural","returns_expr":"state.down(element)"},{"name":"Mul","guard":"isinstance(state, Mul)","ensures":[],"decidability":"structural"},{"name":"FockStateFermionKet","guard":"not (isinstance(state, FockStateFermionKet)) and not (isinstance(state, Mul))","ensures":["result == Mul(self, state)"],"decidability":"structural","returns_expr":"Mul(self, state)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.state","state.args_cnc","state.down"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_operator(self, state):
         """
         Apply state to self if self is not symbolic and state is a FockStateKet, else
@@ -1210,16 +1531,22 @@ class AnnihilateFermion(FermionicOperator, Annihilator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_q_creator(), returns the is_q_creator attribute) over Any ║
+# ║ Path(is_q_creator(), <unspecified:is_q_creator>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_q_creator : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1fcc0827c446660           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion.is_q_creator","kind":"property","src_hash":"f99aecb60ac4d446","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_q_creator()","rhs":"returns the is_q_creator attribute","over":{"base":"Any"},"name":"is_q_creator_correct"},"guarantee":"returns the is_q_creator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1fcc0827c446660"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion.is_q_creator","kind":"property","src_hash":"f99aecb60ac4d446","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_q_creator()","rhs":"<unspecified:is_q_creator>","over":{"base":"Any"},"name":"is_q_creator_correct"},"guarantee":"returns the is_q_creator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1fcc0827c446660","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_below_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_q_creator(self):
         """
         Can we create a quasi-particle?  (create hole or create particle)
@@ -1248,16 +1575,22 @@ class AnnihilateFermion(FermionicOperator, Annihilator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_q_annihilator(), returns the is_q_annihilator attribute) over Any ║
+# ║ Path(is_q_annihilator(), <unspecified:is_q_annihilator>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_q_annihilator : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 42d7513ca87768d5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion.is_q_annihilator","kind":"property","src_hash":"5622baad54966479","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_q_annihilator()","rhs":"returns the is_q_annihilator attribute","over":{"base":"Any"},"name":"is_q_annihilator_correct"},"guarantee":"returns the is_q_annihilator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42d7513ca87768d5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion.is_q_annihilator","kind":"property","src_hash":"5622baad54966479","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_q_annihilator()","rhs":"<unspecified:is_q_annihilator>","over":{"base":"Any"},"name":"is_q_annihilator_correct"},"guarantee":"returns the is_q_annihilator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"42d7513ca87768d5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_above_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_q_annihilator(self):
         """
         Can we destroy a quasi-particle?  (annihilate hole or annihilate particle)
@@ -1286,16 +1619,22 @@ class AnnihilateFermion(FermionicOperator, Annihilator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_only_q_creator(), returns the is_only_q_creator attribute) over Any ║
+# ║ Path(is_only_q_creator(), self.is_only_below_fermi) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_only_below_fermi                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_only_q_creator : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a073e1848ffde69           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion.is_only_q_creator","kind":"property","src_hash":"ea37390b7d152dc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_q_creator()","rhs":"returns the is_only_q_creator attribute","over":{"base":"Any"},"name":"is_only_q_creator_correct"},"guarantee":"returns the is_only_q_creator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a073e1848ffde69"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion.is_only_q_creator","kind":"property","src_hash":"ea37390b7d152dc2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_q_creator()","rhs":"self.is_only_below_fermi","over":{"base":"Any"},"name":"is_only_q_creator_correct"},"guarantee":"returns self.is_only_below_fermi","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a073e1848ffde69","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_only_below_fermi","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_only_below_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_only_q_creator(self):
         """
         Always create a quasi-particle?  (create hole or create particle)
@@ -1321,16 +1660,22 @@ class AnnihilateFermion(FermionicOperator, Annihilator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_only_q_annihilator(), returns the is_only_q_annihilator attribute) over Any ║
+# ║ Path(is_only_q_annihilator(), self.is_only_above_fermi) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_only_above_fermi                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_only_q_annihilator : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a575433875111ca9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion.is_only_q_annihilator","kind":"property","src_hash":"b36b2161e90b4a9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_q_annihilator()","rhs":"returns the is_only_q_annihilator attribute","over":{"base":"Any"},"name":"is_only_q_annihilator_correct"},"guarantee":"returns the is_only_q_annihilator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a575433875111ca9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion.is_only_q_annihilator","kind":"property","src_hash":"b36b2161e90b4a9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_q_annihilator()","rhs":"self.is_only_above_fermi","over":{"base":"Any"},"name":"is_only_q_annihilator_correct"},"guarantee":"returns self.is_only_above_fermi","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a575433875111ca9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_only_above_fermi","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_only_above_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_only_q_annihilator(self):
         """
         Always destroy a quasi-particle?  (annihilate hole or annihilate particle)
@@ -1355,30 +1700,46 @@ class AnnihilateFermion(FermionicOperator, Annihilator):
         return self.is_only_above_fermi
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'AnnihilateFermion(%s)' % self.state) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'AnnihilateFermion(%s)' % self.state           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f34985db8279b6d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion.__repr__","kind":"method","src_hash":"7304adc2be4f6258","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f34985db8279b6d0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion.__repr__","kind":"method","src_hash":"7304adc2be4f6258","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'AnnihilateFermion(%s)' % self.state","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'AnnihilateFermion(%s)' % self.state","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f34985db8279b6d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'AnnihilateFermion(%s)' % self.state","pure":false,"effects":{"effect_type":"reads_state","reads":["self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "AnnihilateFermion(%s)" % self.state
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer), result == ('a_{0}' if self.state is S.Zero else 'a_{%s}' % printer._print(self.state)) and result == 'a_{0}' or result == 'a_{%s}' % printer._print(self.state)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ensures:  result == ('a_{0}' if self.state is S.Zer...   ║
+# ║   ensures:  result == 'a_{0}' or result == 'a_{%s}' %...   ║
+# ║   fiber[case_0]: self.state is S.Zero => 'a_{0}'           ║
+# ║   fiber[case_1]: not (self.state is S.Zero) => 'a_{%s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 36f954e333bbd3f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ec94f0b4c1646c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion._latex","kind":"method","src_hash":"6c5c9d05a9679c4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.AnnihilateFermion._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"36f954e333bbd3f7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.AnnihilateFermion._latex","kind":"method","src_hash":"6c5c9d05a9679c4d","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any","pred":"result satisfies: result == ('a_{0}' if self.state is S.Zero else 'a_{%s}' % printer._print(self.state)) and result == 'a_{0}' or result == 'a_{%s}' % printer._print(self.state)"},"spec":{"lhs":"_latex(printer)","rhs":"result == ('a_{0}' if self.state is S.Zero else 'a_{%s}' % printer._print(self.state)) and result == 'a_{0}' or result == 'a_{%s}' % printer._print(self.state)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"result == ('a_{0}' if self.state is S.Zero else 'a_{%s}' % printer._print(self.state)); result == 'a_{0}' or result == 'a_{%s}' % printer._print(self.state); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.AnnihilateFermion._latex_correct","statement":"Path(_latex(x), result == ('a_{0}' if self.state is S.Zero else 'a_{%s}' % printer._print(self.state)); result == 'a_{0}' or result == 'a_{%s}' % printer._print(self.state); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ec94f0b4c1646c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"ensures":["result == ('a_{0}' if self.state is S.Zero else 'a_{%s}' % printer._print(self.state))","result == 'a_{0}' or result == 'a_{%s}' % printer._print(self.state)"],"fibers":[{"name":"case_0","guard":"self.state is S.Zero","ensures":["result == 'a_{0}'"],"decidability":"library","returns_expr":"'a_{0}'"},{"name":"case_1","guard":"not (self.state is S.Zero)","ensures":["result == 'a_{%s}' % printer._print(self.state)"],"decidability":"library","returns_expr":"'a_{%s}' % printer._print(self.state)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         if self.state is S.Zero:
             return "a_{0}"
@@ -1389,14 +1750,21 @@ class AnnihilateFermion(FermionicOperator, Annihilator):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a CreateFermion instance) preserved by CreateFermion(*args) over {Any | isinstance(state, FockStateFermionKet) and isinstance(state, Mul)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FermionicOperator)            ║
+# ║   ensures:  isinstance(self, Creator)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ CreateFermion : {Any | isinstance(state, FockStateFer...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54ed9c5e6e344468  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion","kind":"class","src_hash":"c0f6f9f92691265c","in":{"base":"Any","pred":"isinstance(state, FockStateFermionKet) and isinstance(state, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"CreateFermion(*args)","rhs":"correctly constructs a CreateFermion instance","over":{"base":"Any","pred":"isinstance(state, FockStateFermionKet) and isinstance(state, Mul)"},"name":"CreateFermion_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a CreateFermion instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_q_creator","pred":"self.is_q_creator","kind":"class"},{"name":"is_q_annihilator","pred":"self.is_q_annihilator","kind":"class"},{"name":"is_only_q_creator","pred":"self.is_only_q_creator","kind":"class"},{"name":"is_only_q_annihilator","pred":"self.is_only_q_annihilator","kind":"class"}],"methods_preserving":["_dagger_","apply_operator","is_q_creator","is_q_annihilator","is_only_q_creator","is_only_q_annihilator","__repr__","_latex"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54ed9c5e6e344468"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion","kind":"class","src_hash":"c0f6f9f92691265c","in":{"base":"Any","pred":"isinstance(state, FockStateFermionKet) and isinstance(state, Mul)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FermionicOperator) and isinstance(self, Creator)"},"spec":{"lhs":"CreateFermion(*args)","rhs":"correctly constructs a CreateFermion instance","over":{"base":"Any","pred":"isinstance(state, FockStateFermionKet) and isinstance(state, Mul)"},"name":"CreateFermion_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, FermionicOperator); isinstance(self, Creator)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_q_creator","pred":"self.is_q_creator","kind":"class"},{"name":"is_q_annihilator","pred":"self.is_q_annihilator","kind":"class"},{"name":"is_only_q_creator","pred":"self.is_only_q_creator","kind":"class"},{"name":"is_only_q_annihilator","pred":"self.is_only_q_annihilator","kind":"class"}],"methods_preserving":["_dagger_","apply_operator","is_q_creator","is_q_annihilator","is_only_q_creator","is_only_q_annihilator","__repr__","_latex"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54ed9c5e6e344468","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FermionicOperator)","isinstance(self, Creator)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function CreateFermion not found in source"]}}
 class CreateFermion(FermionicOperator, Creator):
     """
     Fermionic creation operator.
@@ -1405,30 +1773,45 @@ class CreateFermion(FermionicOperator, Creator):
     op_symbol = 'f+'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dagger_(), internal helper behaves correctly) over Any ║
+# ║ Path(_dagger_(), AnnihilateFermion(self.state)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  AnnihilateFermion(self.state)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dagger_ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e36abd53630fc34a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion._dagger_","kind":"method","src_hash":"dfbf2af660f404f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e36abd53630fc34a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion._dagger_","kind":"method","src_hash":"dfbf2af660f404f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"AnnihilateFermion(self.state)","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"returns AnnihilateFermion(self.state)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e36abd53630fc34a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"AnnihilateFermion(self.state)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _dagger_(self):
         return AnnihilateFermion(self.state)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_operator(sta), apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state) over Any ║
+# ║ Path(apply_operator(state), <unspecified:apply_operator>) over {Any | hasattr(state, 'up') and hasattr(state, 'args_cnc')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply_operator : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(state, 'up')                           ║
+# ║   requires: hasattr(state, 'args_cnc')                     ║
+# ║   fiber[FockStateFermionKet]: isinstance(state, FockS...   ║
+# ║   fiber[Mul]: isinstance(state, Mul)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply_operator : {Any | hasattr(state, 'up') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56dc6e890a14cb95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3dc2c9ef96be9b6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion.apply_operator","kind":"method","src_hash":"b7d2100e41a88a08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_operator(sta)","rhs":"apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state","over":{"base":"Any"},"name":"apply_operator_correct"},"guarantee":"apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.CreateFermion.apply_operator_correct","statement":"Path(apply_operator(x), apply state to self if self is not symbolic and state is a fockstateket, else multiply self by state)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56dc6e890a14cb95"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion.apply_operator","kind":"method","src_hash":"b7d2100e41a88a08","in":{"base":"Any","pred":"hasattr(state, 'up') and hasattr(state, 'args_cnc')"},"out":{"base":"Any"},"spec":{"lhs":"apply_operator(state)","rhs":"<unspecified:apply_operator>","over":{"base":"Any","pred":"hasattr(state, 'up') and hasattr(state, 'args_cnc')"},"name":"apply_operator_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.CreateFermion.apply_operator_correct","statement":"Path(apply_operator(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3dc2c9ef96be9b6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(state, 'up')","hasattr(state, 'args_cnc')"],"fibers":[{"name":"FockStateFermionKet","guard":"isinstance(state, FockStateFermionKet)","ensures":["result == state.up(element)"],"decidability":"structural","returns_expr":"state.up(element)"},{"name":"Mul","guard":"isinstance(state, Mul)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.state","state.args_cnc","state.up"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_operator(self, state):
         """
         Apply state to self if self is not symbolic and state is a FockStateKet, else
@@ -1458,16 +1841,22 @@ class CreateFermion(FermionicOperator, Creator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_q_creator(), returns the is_q_creator attribute) over Any ║
+# ║ Path(is_q_creator(), <unspecified:is_q_creator>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_q_creator : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 577a031ffb9dfafb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion.is_q_creator","kind":"property","src_hash":"d8f5c5fd7705f357","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_q_creator()","rhs":"returns the is_q_creator attribute","over":{"base":"Any"},"name":"is_q_creator_correct"},"guarantee":"returns the is_q_creator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"577a031ffb9dfafb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion.is_q_creator","kind":"property","src_hash":"d8f5c5fd7705f357","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_q_creator()","rhs":"<unspecified:is_q_creator>","over":{"base":"Any"},"name":"is_q_creator_correct"},"guarantee":"returns the is_q_creator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"577a031ffb9dfafb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_above_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_q_creator(self):
         """
         Can we create a quasi-particle?  (create hole or create particle)
@@ -1496,16 +1885,22 @@ class CreateFermion(FermionicOperator, Creator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_q_annihilator(), returns the is_q_annihilator attribute) over Any ║
+# ║ Path(is_q_annihilator(), <unspecified:is_q_annihilator>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_q_annihilator : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 203a01361c890f34           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion.is_q_annihilator","kind":"property","src_hash":"33917dd4f4b53397","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_q_annihilator()","rhs":"returns the is_q_annihilator attribute","over":{"base":"Any"},"name":"is_q_annihilator_correct"},"guarantee":"returns the is_q_annihilator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"203a01361c890f34"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion.is_q_annihilator","kind":"property","src_hash":"33917dd4f4b53397","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_q_annihilator()","rhs":"<unspecified:is_q_annihilator>","over":{"base":"Any"},"name":"is_q_annihilator_correct"},"guarantee":"returns the is_q_annihilator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"203a01361c890f34","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_below_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_q_annihilator(self):
         """
         Can we destroy a quasi-particle?  (annihilate hole or annihilate particle)
@@ -1534,16 +1929,22 @@ class CreateFermion(FermionicOperator, Creator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_only_q_creator(), returns the is_only_q_creator attribute) over Any ║
+# ║ Path(is_only_q_creator(), self.is_only_above_fermi) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_only_above_fermi                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_only_q_creator : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 64fc5b308f447e8e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion.is_only_q_creator","kind":"property","src_hash":"fc8cf6baa1886393","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_q_creator()","rhs":"returns the is_only_q_creator attribute","over":{"base":"Any"},"name":"is_only_q_creator_correct"},"guarantee":"returns the is_only_q_creator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64fc5b308f447e8e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion.is_only_q_creator","kind":"property","src_hash":"fc8cf6baa1886393","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_q_creator()","rhs":"self.is_only_above_fermi","over":{"base":"Any"},"name":"is_only_q_creator_correct"},"guarantee":"returns self.is_only_above_fermi","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"64fc5b308f447e8e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_only_above_fermi","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_only_above_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_only_q_creator(self):
         """
         Always create a quasi-particle?  (create hole or create particle)
@@ -1569,16 +1970,22 @@ class CreateFermion(FermionicOperator, Creator):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_only_q_annihilator(), returns the is_only_q_annihilator attribute) over Any ║
+# ║ Path(is_only_q_annihilator(), self.is_only_below_fermi) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_only_below_fermi                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_only_q_annihilator : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6880a9e7759de296           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion.is_only_q_annihilator","kind":"property","src_hash":"14409d2f71017189","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_q_annihilator()","rhs":"returns the is_only_q_annihilator attribute","over":{"base":"Any"},"name":"is_only_q_annihilator_correct"},"guarantee":"returns the is_only_q_annihilator attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6880a9e7759de296"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion.is_only_q_annihilator","kind":"property","src_hash":"14409d2f71017189","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_only_q_annihilator()","rhs":"self.is_only_below_fermi","over":{"base":"Any"},"name":"is_only_q_annihilator_correct"},"guarantee":"returns self.is_only_below_fermi","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6880a9e7759de296","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_only_below_fermi","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_only_below_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_only_q_annihilator(self):
         """
         Always destroy a quasi-particle?  (annihilate hole or annihilate particle)
@@ -1603,30 +2010,46 @@ class CreateFermion(FermionicOperator, Creator):
         return self.is_only_below_fermi
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'CreateFermion(%s)' % self.state) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'CreateFermion(%s)' % self.state               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f89ae851828a246d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion.__repr__","kind":"method","src_hash":"b137c01f6aeb7d55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f89ae851828a246d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion.__repr__","kind":"method","src_hash":"b137c01f6aeb7d55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'CreateFermion(%s)' % self.state","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'CreateFermion(%s)' % self.state","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f89ae851828a246d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'CreateFermion(%s)' % self.state","pure":false,"effects":{"effect_type":"reads_state","reads":["self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "CreateFermion(%s)" % self.state
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer), result == ('{a^\\dagger_{0}}' if self.state is S.Zero else '{a^\\dagger_{%s}}' % printer._print(self.state)) and result == '{a^\\dagger_{0}}' or result == '{a^\\dagger_{%s}}' % printer._print(self.state)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ensures:  result == ('{a^\\dagger_{0}}' if self.sta...   ║
+# ║   ensures:  result == '{a^\\dagger_{0}}' or result ==...   ║
+# ║   fiber[case_0]: self.state is S.Zero => '{a^\\dagger...   ║
+# ║   fiber[case_1]: not (self.state is S.Zero) => '{a^\\...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 857aec659d2fccd9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27b9dd4244a0cb84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion._latex","kind":"method","src_hash":"212318a2a194b9d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.CreateFermion._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"857aec659d2fccd9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.CreateFermion._latex","kind":"method","src_hash":"212318a2a194b9d6","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any","pred":"result satisfies: result == ('{a^\\\\dagger_{0}}' if self.state is S.Zero else '{a^\\\\dagger_{%s}}' % printer._print(self.state)) and result == '{a^\\\\dagger_{0}}' or result == '{a^\\\\dagger_{%s}}' % printer._print(self.state)"},"spec":{"lhs":"_latex(printer)","rhs":"result == ('{a^\\\\dagger_{0}}' if self.state is S.Zero else '{a^\\\\dagger_{%s}}' % printer._print(self.state)) and result == '{a^\\\\dagger_{0}}' or result == '{a^\\\\dagger_{%s}}' % printer._print(self.state)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"result == ('{a^\\\\dagger_{0}}' if self.state is S.Zero else '{a^\\\\dagger_{%s}}' % printer._print(self.state)); result == '{a^\\\\dagger_{0}}' or result == '{a^\\\\dagger_{%s}}' % printer._print(self.state); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.CreateFermion._latex_correct","statement":"Path(_latex(x), result == ('{a^\\\\dagger_{0}}' if self.state is S.Zero else '{a^\\\\dagger_{%s}}' % printer._print(self.state)); result == '{a^\\\\dagger_{0}}' or result == '{a^\\\\dagger_{%s}}' % printer._print(self.state); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27b9dd4244a0cb84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"ensures":["result == ('{a^\\\\dagger_{0}}' if self.state is S.Zero else '{a^\\\\dagger_{%s}}' % printer._print(self.state))","result == '{a^\\\\dagger_{0}}' or result == '{a^\\\\dagger_{%s}}' % printer._print(self.state)"],"fibers":[{"name":"case_0","guard":"self.state is S.Zero","ensures":["result == '{a^\\\\dagger_{0}}'"],"decidability":"library","returns_expr":"'{a^\\\\dagger_{0}}'"},{"name":"case_1","guard":"not (self.state is S.Zero)","ensures":["result == '{a^\\\\dagger_{%s}}' % printer._print(self.state)"],"decidability":"library","returns_expr":"'{a^\\\\dagger_{%s}}' % printer._print(self.state)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         if self.state is S.Zero:
             return "{a^\\dagger_{0}}"
@@ -1640,14 +2063,20 @@ F = AnnihilateFermion
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FockState(*args), correctly constructs a FockState instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FockState : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FockState : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d875f470643f772c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState","kind":"class","src_hash":"1ab6fc0a7ebcf470","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FockState(*args)","rhs":"correctly constructs a FockState instance","over":{"base":"Any"},"name":"FockState_class_invariant"},"guarantee":"correctly constructs a FockState instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d875f470643f772c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState","kind":"class","src_hash":"1ab6fc0a7ebcf470","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"FockState(*args)","rhs":"correctly constructs a FockState instance","over":{"base":"Any"},"name":"FockState_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d875f470643f772c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function FockState not found in source"]}}
 class FockState(Expr):
     """
     Many particle Fock state with a sequence of occupation numbers.
@@ -1660,16 +2089,22 @@ class FockState(Expr):
     is_commutative = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), occupations is a list with two possible meanings:) over Any ║
+# ║ Path(__new__(cls, occupations), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 83d797775bddd7da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState.__new__","kind":"method","src_hash":"dcb6a616109f7c78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"occupations is a list with two possible meanings:","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"occupations is a list with two possible meanings:","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83d797775bddd7da"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState.__new__","kind":"method","src_hash":"dcb6a616109f7c78","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, occupations)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"occupations is a list with two possible meanings:","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"83d797775bddd7da","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, occupations):
         """
         occupations is a list with two possible meanings:
@@ -1686,87 +2121,124 @@ class FockState(Expr):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(i), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(i), self.args[0][i]) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0][i]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fc6e5a8900d30992           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState.__getitem__","kind":"method","src_hash":"b5127e59e8ef7760","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc6e5a8900d30992"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState.__getitem__","kind":"method","src_hash":"b5127e59e8ef7760","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"self.args[0][i]","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self.args[0][i]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc6e5a8900d30992","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0][i]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, i):
         i = int(i)
         return self.args[0][i]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'FockState(%r)' % self.args) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'FockState(%r)' % self.args                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3898d7413f584f68           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState.__repr__","kind":"method","src_hash":"f9400b1e4f3279a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3898d7413f584f68"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState.__repr__","kind":"method","src_hash":"f9400b1e4f3279a4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'FockState(%r)' % self.args","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'FockState(%r)' % self.args","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3898d7413f584f68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'FockState(%r)' % self.args","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return ("FockState(%r)") % (self.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '%s%r%s' % (getattr(self, 'lbracket', ''), self._labels(), getattr(self, 'rbracket', ''))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s%r%s' % (getattr(self, 'lbracket', '')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3b205f437444a751           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState.__str__","kind":"method","src_hash":"be10583a21d02613","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b205f437444a751"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState.__str__","kind":"method","src_hash":"be10583a21d02613","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'%s%r%s' % (getattr(self, 'lbracket', ''), self._labels(), getattr(self, 'rbracket', ''))","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '%s%r%s' % (getattr(self, 'lbracket', ''), self._labels(), getattr(self, 'rbracket', ''))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3b205f437444a751","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s%r%s' % (getattr(self, 'lbracket', ''), self._labels(), getattr(self, 'rbracket', ''))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._labels"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "%s%r%s" % (getattr(self, 'lbracket', ""), self._labels(), getattr(self, 'rbracket', ""))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_labels(), internal helper behaves correctly) over Any ║
+# ║ Path(_labels(), self.args[0]) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _labels : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2152856d122d282e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState._labels","kind":"method","src_hash":"9044ad0950277cc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_labels()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_labels_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2152856d122d282e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState._labels","kind":"method","src_hash":"9044ad0950277cc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_labels()","rhs":"self.args[0]","over":{"base":"Any"},"name":"_labels_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2152856d122d282e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _labels(self):
         return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self.args[0])) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.args[0])                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 29a118950a4f64b9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState.__len__","kind":"method","src_hash":"d4a0a718dfa7daeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29a118950a4f64b9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState.__len__","kind":"method","src_hash":"d4a0a718dfa7daeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"len(self.args[0])","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self.args[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29a118950a4f64b9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.args[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return len(self.args[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer), '%s%s%s' % (getattr(self, 'lbracket_latex', ''), printer._print(self._labels()), getattr(self, 'rbracket_latex', ''))) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '%s%s%s' % (getattr(self, 'lbracket_latex...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 286ed35b8c75c65b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState._latex","kind":"method","src_hash":"1d72de6426866679","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"286ed35b8c75c65b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockState._latex","kind":"method","src_hash":"1d72de6426866679","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer)","rhs":"'%s%s%s' % (getattr(self, 'lbracket_latex', ''), printer._print(self._labels()), getattr(self, 'rbracket_latex', ''))","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns '%s%s%s' % (getattr(self, 'lbracket_latex', ''), printer._print(self._labels()), getattr(self, 'rbracket_latex', ''))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"286ed35b8c75c65b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'%s%s%s' % (getattr(self, 'lbracket_latex', ''), printer._print(self._labels()), getattr(self, 'rbracket_latex', ''))","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self._labels"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         return "%s%s%s" % (getattr(self, 'lbracket_latex', ""), printer._print(self._labels()), getattr(self, 'rbracket_latex', ""))
 
@@ -1774,30 +2246,42 @@ class FockState(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BosonState(*args), correctly constructs a BosonState instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BosonState : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FockState)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BosonState : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bb846956330a392  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.BosonState","kind":"class","src_hash":"e5da191d0101073f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BosonState(*args)","rhs":"correctly constructs a BosonState instance","over":{"base":"Any"},"name":"BosonState_class_invariant"},"guarantee":"correctly constructs a BosonState instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bb846956330a392"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.BosonState","kind":"class","src_hash":"e5da191d0101073f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FockState)"},"spec":{"lhs":"BosonState(*args)","rhs":"correctly constructs a BosonState instance","over":{"base":"Any"},"name":"BosonState_class_invariant"},"guarantee":"isinstance(self, FockState)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bb846956330a392","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FockState)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function BosonState not found in source"]}}
 class BosonState(FockState):
     """
     Base class for FockStateBoson(Ket/Bra).
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(up(i), performs the action of a creation operator) over Any ║
+# ║ Path(up(i), self.__class__(new_occs)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__(new_occs)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ up : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 170f8c2e4495e0bc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2ad2f244f4bb337  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.BosonState.up","kind":"method","src_hash":"6e2562d0dcc03730","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"up(i)","rhs":"performs the action of a creation operator","over":{"base":"Any"},"name":"up_correct"},"guarantee":"performs the action of a creation operator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.BosonState.up_correct","statement":"Path(up(x), performs the action of a creation operator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"170f8c2e4495e0bc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.BosonState.up","kind":"method","src_hash":"6e2562d0dcc03730","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"up(i)","rhs":"self.__class__(new_occs)","over":{"base":"Any"},"name":"up_correct"},"guarantee":"returns self.__class__(new_occs)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.BosonState.up_correct","statement":"Path(up(x), returns self.__class__(new_occs))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2ad2f244f4bb337","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__(new_occs)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def up(self, i):
         """
         Performs the action of a creation operator.
@@ -1818,16 +2302,25 @@ class BosonState(FockState):
         return self.__class__(new_occs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(down(i), performs the action of an annihilation operator) over Any ║
+# ║ Path(down(i), result == (S.Zero if new_occs[i] == S.Zero else self.__class__(new_occs)) and result == S.Zero or result == self.__class__(new_occs)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ down : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.Zero if new_occs[i] == S.Zer...   ║
+# ║   ensures:  result == S.Zero or result == self.__clas...   ║
+# ║   fiber[case_0]: new_occs[i] == S.Zero => S.Zero           ║
+# ║   fiber[case_1]: not (new_occs[i] == S.Zero) => self....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ down : Any → {Any | result satisfies: result == (S.Ze...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17f9566352ba6b21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26a3d0e90fb638e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.BosonState.down","kind":"method","src_hash":"ef569da1bb1d514b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"down(i)","rhs":"performs the action of an annihilation operator","over":{"base":"Any"},"name":"down_correct"},"guarantee":"performs the action of an annihilation operator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.BosonState.down_correct","statement":"Path(down(x), performs the action of an annihilation operator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17f9566352ba6b21"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.BosonState.down","kind":"method","src_hash":"ef569da1bb1d514b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.Zero if new_occs[i] == S.Zero else self.__class__(new_occs)) and result == S.Zero or result == self.__class__(new_occs)"},"spec":{"lhs":"down(i)","rhs":"result == (S.Zero if new_occs[i] == S.Zero else self.__class__(new_occs)) and result == S.Zero or result == self.__class__(new_occs)","over":{"base":"Any"},"name":"down_correct"},"guarantee":"result == (S.Zero if new_occs[i] == S.Zero else self.__class__(new_occs)); result == S.Zero or result == self.__class__(new_occs); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.BosonState.down_correct","statement":"Path(down(x), result == (S.Zero if new_occs[i] == S.Zero else self.__class__(new_occs)); result == S.Zero or result == self.__class__(new_occs); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26a3d0e90fb638e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.Zero if new_occs[i] == S.Zero else self.__class__(new_occs))","result == S.Zero or result == self.__class__(new_occs)"],"fibers":[{"name":"case_0","guard":"new_occs[i] == S.Zero","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"case_1","guard":"not (new_occs[i] == S.Zero)","ensures":["result == self.__class__(new_occs)"],"decidability":"z3","returns_expr":"self.__class__(new_occs)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def down(self, i):
         """
         Performs the action of an annihilation operator.
@@ -1854,14 +2347,20 @@ class BosonState(FockState):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FermionState(*args), correctly constructs a FermionState instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FermionState : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FockState)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FermionState : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d158ec6d3d847d75  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState","kind":"class","src_hash":"240f00e3a9846ba6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FermionState(*args)","rhs":"correctly constructs a FermionState instance","over":{"base":"Any"},"name":"FermionState_class_invariant"},"guarantee":"correctly constructs a FermionState instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d158ec6d3d847d75"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState","kind":"class","src_hash":"240f00e3a9846ba6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FockState)"},"spec":{"lhs":"FermionState(*args)","rhs":"correctly constructs a FermionState instance","over":{"base":"Any"},"name":"FermionState_class_invariant"},"guarantee":"isinstance(self, FockState)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d158ec6d3d847d75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FockState)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function FermionState not found in source"]}}
 class FermionState(FockState):
     """
     Base class for FockStateFermion(Ket/Bra).
@@ -1870,16 +2369,22 @@ class FermionState(FockState):
     fermi_level = 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, occupations, fermi_level), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 54c17f5de06e1705           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState.__new__","kind":"method","src_hash":"4b19f3623eed5135","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54c17f5de06e1705"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState.__new__","kind":"method","src_hash":"4b19f3623eed5135","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, occupations, fermi_level)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"54c17f5de06e1705","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","reads":["cls._count_holes"],"writes":["cls.fermi_level"],"catches":["ViolationOfPauliPrinciple"]},"state_contract":{"modifies":["cls.fermi_level"],"old_bindings":{"old_cls_fermi_level":"cls.fermi_level"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, occupations, fermi_level=0):
         occupations = list(map(sympify, occupations))
         if len(occupations) > 1:
@@ -1902,16 +2407,24 @@ class FermionState(FockState):
             return FockState.__new__(cls, occupations)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(up(i), performs the action of a creation operator) over Any ║
+# ║ Path(up(i), <unspecified:up>) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: self._only_above_fermi(i)                 ║
+# ║   fiber[case_1]: self._only_below_fermi(i)                 ║
+# ║   fiber[case_2]: present => KroneckerDelta(i, hole) *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ up : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e39e91881fd8fa8b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17ef6bca1d274554  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState.up","kind":"method","src_hash":"d3ea8692b629b94d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"up(i)","rhs":"performs the action of a creation operator","over":{"base":"Any"},"name":"up_correct"},"guarantee":"performs the action of a creation operator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FermionState.up_correct","statement":"Path(up(x), performs the action of a creation operator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e39e91881fd8fa8b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState.up","kind":"method","src_hash":"d3ea8692b629b94d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"up(i)","rhs":"<unspecified:up>","over":{"base":"Any"},"name":"up_correct"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FermionState.up_correct","statement":"Path(up(x), 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17ef6bca1d274554","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"self._only_above_fermi(i)","ensures":[],"decidability":"library"},{"name":"case_1","guard":"self._only_below_fermi(i)","ensures":[],"decidability":"library"},{"name":"case_2","guard":"present","ensures":["result == KroneckerDelta(i, hole) * self._remove_orbit(i)"],"decidability":"library","returns_expr":"KroneckerDelta(i, hole) * self._remove_orbit(i)"},{"name":"case_3","guard":"not (self._only_above_fermi(i)) and not (self._only_below_fermi(i)) and not (present)","ensures":["result == KroneckerDelta(i, particle) * self._add_orbit(i)"],"decidability":"library","returns_expr":"KroneckerDelta(i, particle) * self._add_orbit(i)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_orbit","self._only_above_fermi","self._only_below_fermi","self._remove_orbit","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def up(self, i):
         """
         Performs the action of a creation operator.
@@ -1965,16 +2478,24 @@ class FermionState(FockState):
                 return KroneckerDelta(i, particle)*self._add_orbit(i)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(down(i), performs the action of an annihilation operator) over Any ║
+# ║ Path(down(i), <unspecified:down>) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: self._only_above_fermi(i)                 ║
+# ║   fiber[case_1]: self._only_below_fermi(i)                 ║
+# ║   fiber[case_2]: present => KroneckerDelta(i, hole) *...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ down : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 593cf7f5356f7188  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6728893fa325b1a0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState.down","kind":"method","src_hash":"77828d5e88289a69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"down(i)","rhs":"performs the action of an annihilation operator","over":{"base":"Any"},"name":"down_correct"},"guarantee":"performs the action of an annihilation operator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FermionState.down_correct","statement":"Path(down(x), performs the action of an annihilation operator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"593cf7f5356f7188"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState.down","kind":"method","src_hash":"77828d5e88289a69","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"down(i)","rhs":"<unspecified:down>","over":{"base":"Any"},"name":"down_correct"},"guarantee":"4-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FermionState.down_correct","statement":"Path(down(x), 4-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6728893fa325b1a0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"self._only_above_fermi(i)","ensures":[],"decidability":"library"},{"name":"case_1","guard":"self._only_below_fermi(i)","ensures":[],"decidability":"library"},{"name":"case_2","guard":"present","ensures":["result == KroneckerDelta(i, hole) * self._add_orbit(i)"],"decidability":"library","returns_expr":"KroneckerDelta(i, hole) * self._add_orbit(i)"},{"name":"case_3","guard":"not (self._only_above_fermi(i)) and not (self._only_below_fermi(i)) and not (present)","ensures":["result == KroneckerDelta(i, particle) * self._remove_orbit(i)"],"decidability":"library","returns_expr":"KroneckerDelta(i, particle) * self._remove_orbit(i)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._add_orbit","self._only_above_fermi","self._only_below_fermi","self._remove_orbit","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def down(self, i):
         """
         Performs the action of an annihilation operator.
@@ -2033,16 +2554,24 @@ class FermionState(FockState):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_only_below_fermi(cls), tests if given orbit is only below fermi surface) over Any ║
+# ║ Path(_only_below_fermi(cls, i), <unspecified:_only_below_fermi>) over {Any | hasattr(i, 'is_number') and hasattr(i, 'assumptions0')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _only_below_fermi : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(i, 'is_number')                        ║
+# ║   requires: hasattr(i, 'assumptions0')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _only_below_fermi : {Any | hasattr(i, 'is_number') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ac36b7ca8f805bda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._only_below_fermi","kind":"classmethod","src_hash":"c46b421d7e128dc8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_only_below_fermi(cls)","rhs":"tests if given orbit is only below fermi surface","over":{"base":"Any"},"name":"_only_below_fermi_correct"},"guarantee":"tests if given orbit is only below fermi surface","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FermionState._only_below_fermi_correct","statement":"Path(_only_below_fermi(x), tests if given orbit is only below fermi surface)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac36b7ca8f805bda"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._only_below_fermi","kind":"classmethod","src_hash":"c46b421d7e128dc8","in":{"base":"Any","pred":"hasattr(i, 'is_number') and hasattr(i, 'assumptions0')"},"out":{"base":"Any"},"spec":{"lhs":"_only_below_fermi(cls, i)","rhs":"<unspecified:_only_below_fermi>","over":{"base":"Any","pred":"hasattr(i, 'is_number') and hasattr(i, 'assumptions0')"},"name":"_only_below_fermi_correct"},"guarantee":"tests if given orbit is only below fermi surface","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FermionState._only_below_fermi_correct","statement":"Path(_only_below_fermi(x), tests if given orbit is only below fermi surface)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ac36b7ca8f805bda","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(i, 'is_number')","hasattr(i, 'assumptions0')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.fermi_level","i.assumptions0","i.is_number"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _only_below_fermi(cls, i):
         """
         Tests if given orbit is only below fermi surface.
@@ -2057,16 +2586,24 @@ class FermionState(FockState):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_only_above_fermi(cls), tests if given orbit is only above fermi surface) over Any ║
+# ║ Path(_only_above_fermi(cls, i), <unspecified:_only_above_fermi>) over {Any | hasattr(i, 'is_number') and hasattr(i, 'assumptions0')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _only_above_fermi : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(i, 'is_number')                        ║
+# ║   requires: hasattr(i, 'assumptions0')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _only_above_fermi : {Any | hasattr(i, 'is_number') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cb5230552df5018  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._only_above_fermi","kind":"classmethod","src_hash":"594f7559fda74ab1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_only_above_fermi(cls)","rhs":"tests if given orbit is only above fermi surface","over":{"base":"Any"},"name":"_only_above_fermi_correct"},"guarantee":"tests if given orbit is only above fermi surface","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FermionState._only_above_fermi_correct","statement":"Path(_only_above_fermi(x), tests if given orbit is only above fermi surface)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cb5230552df5018"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._only_above_fermi","kind":"classmethod","src_hash":"594f7559fda74ab1","in":{"base":"Any","pred":"hasattr(i, 'is_number') and hasattr(i, 'assumptions0')"},"out":{"base":"Any"},"spec":{"lhs":"_only_above_fermi(cls, i)","rhs":"<unspecified:_only_above_fermi>","over":{"base":"Any","pred":"hasattr(i, 'is_number') and hasattr(i, 'assumptions0')"},"name":"_only_above_fermi_correct"},"guarantee":"tests if given orbit is only above fermi surface","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FermionState._only_above_fermi_correct","statement":"Path(_only_above_fermi(x), tests if given orbit is only above fermi surface)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cb5230552df5018","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(i, 'is_number')","hasattr(i, 'assumptions0')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.fermi_level","i.assumptions0","i.is_number"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _only_above_fermi(cls, i):
         """
         Tests if given orbit is only above fermi surface.
@@ -2081,16 +2618,25 @@ class FermionState(FockState):
         return not cls.fermi_level
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_remove_orbit(i), removes particle/fills hole in orbit i) over Any ║
+# ║ Path(_remove_orbit(i), result == (S.NegativeOne * self.__class__(new_occs, self.fermi_level) if pos % 2 else self.__class__(new_occs, self.fermi_level)) and result == S.NegativeOne * self.__class__(new_occs, self.fermi_level) or result == self.__class__(new_occs, self.fermi_level)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _remove_orbit : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.NegativeOne * self.__class__...   ║
+# ║   ensures:  result == S.NegativeOne * self.__class__(...   ║
+# ║   fiber[case_0]: pos % 2 => S.NegativeOne * self.__cl...   ║
+# ║   fiber[case_1]: not (pos % 2) => self.__class__(new_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _remove_orbit : Any → {Any | result satisfies: result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8b6fca347c2e69b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa01c0e5dada2833  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._remove_orbit","kind":"method","src_hash":"4eea54d79f3cee17","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_orbit(i)","rhs":"removes particle/fills hole in orbit i","over":{"base":"Any"},"name":"_remove_orbit_correct"},"guarantee":"removes particle/fills hole in orbit i","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FermionState._remove_orbit_correct","statement":"Path(_remove_orbit(x), removes particle/fills hole in orbit i)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8b6fca347c2e69b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._remove_orbit","kind":"method","src_hash":"4eea54d79f3cee17","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.NegativeOne * self.__class__(new_occs, self.fermi_level) if pos % 2 else self.__class__(new_occs, self.fermi_level)) and result == S.NegativeOne * self.__class__(new_occs, self.fermi_level) or result == self.__class__(new_occs, self.fermi_level)"},"spec":{"lhs":"_remove_orbit(i)","rhs":"result == (S.NegativeOne * self.__class__(new_occs, self.fermi_level) if pos % 2 else self.__class__(new_occs, self.fermi_level)) and result == S.NegativeOne * self.__class__(new_occs, self.fermi_level) or result == self.__class__(new_occs, self.fermi_level)","over":{"base":"Any"},"name":"_remove_orbit_correct"},"guarantee":"result == (S.NegativeOne * self.__class__(new_occs, self.fermi_level) if pos % 2 else self.__class__(new_occs, self.fermi_level)); result == S.NegativeOne * self.__class__(new_occs, self.fermi_level) or result == self.__class__(new_occs, self.fermi_level); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FermionState._remove_orbit_correct","statement":"Path(_remove_orbit(x), result == (S.NegativeOne * self.__class__(new_occs, self.fermi_level) if pos % 2 else self.__class__(new_occs, self.fermi_level)); result == S.NegativeOne * self.__class__(new_occs, self.fermi_level) or result == self.__class__(new_occs, self.fermi_level); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa01c0e5dada2833","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.NegativeOne * self.__class__(new_occs, self.fermi_level) if pos % 2 else self.__class__(new_occs, self.fermi_level))","result == S.NegativeOne * self.__class__(new_occs, self.fermi_level) or result == self.__class__(new_occs, self.fermi_level)"],"fibers":[{"name":"case_0","guard":"pos % 2","ensures":["result == S.NegativeOne * self.__class__(new_occs, self.fermi_level)"],"decidability":"library","returns_expr":"S.NegativeOne * self.__class__(new_occs, self.fermi_level)"},{"name":"case_1","guard":"not (pos % 2)","ensures":["result == self.__class__(new_occs, self.fermi_level)"],"decidability":"library","returns_expr":"self.__class__(new_occs, self.fermi_level)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.args","self.fermi_level"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _remove_orbit(self, i):
         """
         Removes particle/fills hole in orbit i. No input tests performed here.
@@ -2104,16 +2650,22 @@ class FermionState(FockState):
             return self.__class__(new_occs, self.fermi_level)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_orbit(i), adds particle/creates hole in orbit i) over Any ║
+# ║ Path(_add_orbit(i), self.__class__((i,) + self.args[0], self.fermi_level)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__class__((i,) + self.args[0], self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _add_orbit : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa29d2cd796e591f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._add_orbit","kind":"method","src_hash":"0d81c413bb114783","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_orbit(i)","rhs":"adds particle/creates hole in orbit i","over":{"base":"Any"},"name":"_add_orbit_correct"},"guarantee":"adds particle/creates hole in orbit i","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa29d2cd796e591f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._add_orbit","kind":"method","src_hash":"0d81c413bb114783","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_add_orbit(i)","rhs":"self.__class__((i,) + self.args[0], self.fermi_level)","over":{"base":"Any"},"name":"_add_orbit_correct"},"guarantee":"returns self.__class__((i,) + self.args[0], self.fermi_level)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa29d2cd796e591f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__class__((i,) + self.args[0], self.fermi_level)","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.args","self.fermi_level"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _add_orbit(self, i):
         """
         Adds particle/creates hole in orbit i. No input tests performed here.
@@ -2122,16 +2674,22 @@ class FermionState(FockState):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_count_holes(cls), returns the number of identified hole states in occupations list) over Any ║
+# ║ Path(_count_holes(cls, occupations), len([i for i in occupations if cls._only_below_fermi(i)])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len([i for i in occupations if cls._only_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _count_holes : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a796668fb01712a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._count_holes","kind":"classmethod","src_hash":"97a78473c23ab435","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_count_holes(cls)","rhs":"returns the number of identified hole states in occupations list","over":{"base":"Any"},"name":"_count_holes_correct"},"guarantee":"returns the number of identified hole states in occupations list","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a796668fb01712a7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._count_holes","kind":"classmethod","src_hash":"97a78473c23ab435","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_count_holes(cls, occupations)","rhs":"len([i for i in occupations if cls._only_below_fermi(i)])","over":{"base":"Any"},"name":"_count_holes_correct"},"guarantee":"returns len([i for i in occupations if cls._only_below_fermi(i)])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a796668fb01712a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len([i for i in occupations if cls._only_below_fermi(i)])","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._only_below_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _count_holes(cls, occupations):
         """
         Returns the number of identified hole states in occupations list.
@@ -2139,16 +2697,22 @@ class FermionState(FockState):
         return len([i for i in occupations if cls._only_below_fermi(i)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_negate_holes(occ), returns the occupations list where states below the fermi level have negative labels) over Any ║
+# ║ Path(_negate_holes(occupations), tuple([-i if self._only_below_fermi(i) and i.is_number else i for i in occupations])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  tuple([-i if self._only_below_fermi(i) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _negate_holes : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 667131c303cd837f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._negate_holes","kind":"method","src_hash":"f14d7a777e8e04c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_negate_holes(occ)","rhs":"returns the occupations list where states below the fermi level have negative labels","over":{"base":"Any"},"name":"_negate_holes_correct"},"guarantee":"returns the occupations list where states below the fermi level have negative labels","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"667131c303cd837f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._negate_holes","kind":"method","src_hash":"f14d7a777e8e04c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_negate_holes(occupations)","rhs":"tuple([-i if self._only_below_fermi(i) and i.is_number else i for i in occupations])","over":{"base":"Any"},"name":"_negate_holes_correct"},"guarantee":"returns tuple([-i if self._only_below_fermi(i) and i.is_number else i for i in occupations])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"667131c303cd837f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"tuple([-i if self._only_below_fermi(i) and i.is_number else i for i in occupations])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._only_below_fermi"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _negate_holes(self, occupations):
         """
         Returns the occupations list where states below the fermi level have negative labels.
@@ -2158,16 +2722,25 @@ class FermionState(FockState):
         return tuple([-i if self._only_below_fermi(i) and i.is_number else i for i in occupations])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), result == ('FockStateKet(%r, fermi_level=%s)' % (self.args[0], self.fermi_level) if self.fermi_level else 'FockStateKet(%r)' % (self.args[0],)) and result == 'FockStateKet(%r, fermi_level=%s)' % (self.args[0], self.fermi_level) or result == 'FockStateKet(%r)' % (self.args[0],)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __repr__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('FockStateKet(%r, fermi_level=...   ║
+# ║   ensures:  result == 'FockStateKet(%r, fermi_level=%...   ║
+# ║   fiber[case_0]: self.fermi_level => 'FockStateKet(%r...   ║
+# ║   fiber[case_1]: not (self.fermi_level) => 'FockState...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __repr__ : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9910b8805016630e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState.__repr__","kind":"method","src_hash":"2fd6529e45d216aa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9910b8805016630e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState.__repr__","kind":"method","src_hash":"2fd6529e45d216aa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('FockStateKet(%r, fermi_level=%s)' % (self.args[0], self.fermi_level) if self.fermi_level else 'FockStateKet(%r)' % (self.args[0],)) and result == 'FockStateKet(%r, fermi_level=%s)' % (self.args[0], self.fermi_level) or result == 'FockStateKet(%r)' % (self.args[0],)"},"spec":{"lhs":"__repr__()","rhs":"result == ('FockStateKet(%r, fermi_level=%s)' % (self.args[0], self.fermi_level) if self.fermi_level else 'FockStateKet(%r)' % (self.args[0],)) and result == 'FockStateKet(%r, fermi_level=%s)' % (self.args[0], self.fermi_level) or result == 'FockStateKet(%r)' % (self.args[0],)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"result == ('FockStateKet(%r, fermi_level=%s)' % (self.args[0], self.fermi_level) if self.fermi_level else 'FockStateKet(%r)' % (self.args[0],)); result == 'FockStateKet(%r, fermi_level=%s)' % (self.args[0], self.fermi_level) or result == 'FockStateKet(%r)' % (self.args[0],); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9910b8805016630e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('FockStateKet(%r, fermi_level=%s)' % (self.args[0], self.fermi_level) if self.fermi_level else 'FockStateKet(%r)' % (self.args[0],))","result == 'FockStateKet(%r, fermi_level=%s)' % (self.args[0], self.fermi_level) or result == 'FockStateKet(%r)' % (self.args[0],)"],"fibers":[{"name":"case_0","guard":"self.fermi_level","ensures":["result == 'FockStateKet(%r, fermi_level=%s)' % (self.args[0], self.fermi_level)"],"decidability":"library","returns_expr":"'FockStateKet(%r, fermi_level=%s)' % (self.args[0], self.fermi_level)"},{"name":"case_1","guard":"not (self.fermi_level)","ensures":["result == 'FockStateKet(%r)' % (self.args[0],)"],"decidability":"library","returns_expr":"'FockStateKet(%r)' % (self.args[0],)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.fermi_level"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         if self.fermi_level:
             return "FockStateKet(%r, fermi_level=%s)" % (self.args[0], self.fermi_level)
@@ -2175,31 +2748,43 @@ class FermionState(FockState):
             return "FockStateKet(%r)" % (self.args[0],)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_labels(), internal helper behaves correctly) over Any ║
+# ║ Path(_labels(), self._negate_holes(self.args[0])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._negate_holes(self.args[0])               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _labels : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc6ff059464983e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._labels","kind":"method","src_hash":"5fb5811742f8525c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_labels()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_labels_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc6ff059464983e6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FermionState._labels","kind":"method","src_hash":"5fb5811742f8525c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_labels()","rhs":"self._negate_holes(self.args[0])","over":{"base":"Any"},"name":"_labels_correct"},"guarantee":"returns self._negate_holes(self.args[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc6ff059464983e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._negate_holes(self.args[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._negate_holes","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _labels(self):
         return self._negate_holes(self.args[0])
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(FockStateKet(), correctly constructs a FockStateKet instance) over Any ║
+# ║ Path(FockStateKet(), isinstance(self, FockState)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FockStateKet : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FockState)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FockStateKet : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1f5aaaa6091d950           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateKet","kind":"class","src_hash":"9514ddc6f92d0622","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FockStateKet()","rhs":"correctly constructs a FockStateKet instance","over":{"base":"Any"},"name":"FockStateKet_correct"},"guarantee":"correctly constructs a FockStateKet instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1f5aaaa6091d950"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateKet","kind":"class","src_hash":"9514ddc6f92d0622","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FockState)"},"spec":{"lhs":"FockStateKet()","rhs":"isinstance(self, FockState)","over":{"base":"Any"},"name":"FockStateKet_correct"},"guarantee":"isinstance(self, FockState)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1f5aaaa6091d950","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FockState)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function FockStateKet not found in source"]}}
 class FockStateKet(FockState):
     """
     Representation of a ket.
@@ -2213,14 +2798,20 @@ class FockStateKet(FockState):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(FockStateBra(*args), correctly constructs a FockStateBra instance) over {Any | isinstance(other, FockStateKet)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FockState)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ FockStateBra : {Any | isinstance(other, FockStateKet)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e732df0dd7a2bc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateBra","kind":"class","src_hash":"4988cb7ae2122881","in":{"base":"Any","pred":"isinstance(other, FockStateKet)"},"out":{"base":"Any"},"spec":{"lhs":"FockStateBra(*args)","rhs":"correctly constructs a FockStateBra instance","over":{"base":"Any","pred":"isinstance(other, FockStateKet)"},"name":"FockStateBra_class_invariant"},"guarantee":"correctly constructs a FockStateBra instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e732df0dd7a2bc8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateBra","kind":"class","src_hash":"4988cb7ae2122881","in":{"base":"Any","pred":"isinstance(other, FockStateKet)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FockState)"},"spec":{"lhs":"FockStateBra(*args)","rhs":"correctly constructs a FockStateBra instance","over":{"base":"Any","pred":"isinstance(other, FockStateKet)"},"name":"FockStateBra_class_invariant"},"guarantee":"isinstance(self, FockState)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e732df0dd7a2bc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FockState)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function FockStateBra not found in source"]}}
 class FockStateBra(FockState):
     """
     Representation of a bra.
@@ -2231,16 +2822,25 @@ class FockStateBra(FockState):
     rbracket_latex = r'\right|'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), result == (InnerProduct(self, other) if isinstance(other, FockStateKet) else Expr.__mul__(self, other)) and result == InnerProduct(self, other) or result == Expr.__mul__(self, other)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (InnerProduct(self, other) if i...   ║
+# ║   ensures:  result == InnerProduct(self, other) or re...   ║
+# ║   fiber[FockStateKet]: isinstance(other, FockStateKet...   ║
+# ║   fiber[FockStateKet]: not (isinstance(other, FockSta...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : Any → {Any | result satisfies: result == (I...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0dadeb20703d2e7a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateBra.__mul__","kind":"method","src_hash":"bd06482304d1c28d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0dadeb20703d2e7a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateBra.__mul__","kind":"method","src_hash":"bd06482304d1c28d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (InnerProduct(self, other) if isinstance(other, FockStateKet) else Expr.__mul__(self, other)) and result == InnerProduct(self, other) or result == Expr.__mul__(self, other)"},"spec":{"lhs":"__mul__(other)","rhs":"result == (InnerProduct(self, other) if isinstance(other, FockStateKet) else Expr.__mul__(self, other)) and result == InnerProduct(self, other) or result == Expr.__mul__(self, other)","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"result == (InnerProduct(self, other) if isinstance(other, FockStateKet) else Expr.__mul__(self, other)); result == InnerProduct(self, other) or result == Expr.__mul__(self, other); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0dadeb20703d2e7a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (InnerProduct(self, other) if isinstance(other, FockStateKet) else Expr.__mul__(self, other))","result == InnerProduct(self, other) or result == Expr.__mul__(self, other)"],"fibers":[{"name":"FockStateKet","guard":"isinstance(other, FockStateKet)","ensures":["result == InnerProduct(self, other)"],"decidability":"structural","returns_expr":"InnerProduct(self, other)"},{"name":"FockStateKet","guard":"not (isinstance(other, FockStateKet))","ensures":["result == Expr.__mul__(self, other)"],"decidability":"structural","returns_expr":"Expr.__mul__(self, other)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         if isinstance(other, FockStateKet):
             return InnerProduct(self, other)
@@ -2249,16 +2849,23 @@ class FockStateBra(FockState):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(FockStateBosonKet(), correctly constructs a FockStateBosonKet instance) over Any ║
+# ║ Path(FockStateBosonKet(), isinstance(self, BosonState) and isinstance(self, FockStateKet)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FockStateBosonKet : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BosonState)                   ║
+# ║   ensures:  isinstance(self, FockStateKet)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FockStateBosonKet : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 84b074fbc8d5556c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateBosonKet","kind":"class","src_hash":"6db193e882a13839","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FockStateBosonKet()","rhs":"correctly constructs a FockStateBosonKet instance","over":{"base":"Any"},"name":"FockStateBosonKet_correct"},"guarantee":"correctly constructs a FockStateBosonKet instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84b074fbc8d5556c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateBosonKet","kind":"class","src_hash":"6db193e882a13839","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BosonState) and isinstance(self, FockStateKet)"},"spec":{"lhs":"FockStateBosonKet()","rhs":"isinstance(self, BosonState) and isinstance(self, FockStateKet)","over":{"base":"Any"},"name":"FockStateBosonKet_correct"},"guarantee":"isinstance(self, BosonState); isinstance(self, FockStateKet)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84b074fbc8d5556c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BosonState)","isinstance(self, FockStateKet)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function FockStateBosonKet not found in source"]}}
 class FockStateBosonKet(BosonState, FockStateKet):
     """
     Many particle Fock state with a sequence of occupation numbers.
@@ -2273,31 +2880,44 @@ class FockStateBosonKet(BosonState, FockStateKet):
     FockStateBosonKet((1, 2))
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dagger_(), internal helper behaves correctly) over Any ║
+# ║ Path(_dagger_(), FockStateBosonBra(*self.args)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FockStateBosonBra(*self.args)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dagger_ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 427da3b1165eb816           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateBosonKet._dagger_","kind":"method","src_hash":"d3459773350ca71e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"427da3b1165eb816"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateBosonKet._dagger_","kind":"method","src_hash":"d3459773350ca71e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"FockStateBosonBra(*self.args)","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"returns FockStateBosonBra(*self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"427da3b1165eb816","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FockStateBosonBra(*self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _dagger_(self):
         return FockStateBosonBra(*self.args)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(FockStateBosonBra(), correctly constructs a FockStateBosonBra instance) over Any ║
+# ║ Path(FockStateBosonBra(), isinstance(self, BosonState) and isinstance(self, FockStateBra)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FockStateBosonBra : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BosonState)                   ║
+# ║   ensures:  isinstance(self, FockStateBra)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FockStateBosonBra : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b5d369f5f4ace002           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateBosonBra","kind":"class","src_hash":"92a0004d6125716a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FockStateBosonBra()","rhs":"correctly constructs a FockStateBosonBra instance","over":{"base":"Any"},"name":"FockStateBosonBra_correct"},"guarantee":"correctly constructs a FockStateBosonBra instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5d369f5f4ace002"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateBosonBra","kind":"class","src_hash":"92a0004d6125716a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BosonState) and isinstance(self, FockStateBra)"},"spec":{"lhs":"FockStateBosonBra()","rhs":"isinstance(self, BosonState) and isinstance(self, FockStateBra)","over":{"base":"Any"},"name":"FockStateBosonBra_correct"},"guarantee":"isinstance(self, BosonState); isinstance(self, FockStateBra)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b5d369f5f4ace002","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BosonState)","isinstance(self, FockStateBra)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function FockStateBosonBra not found in source"]}}
 class FockStateBosonBra(BosonState, FockStateBra):
     """
     Describes a collection of BosonBra particles.
@@ -2310,31 +2930,44 @@ class FockStateBosonBra(BosonState, FockStateBra):
     FockStateBosonBra((1, 2))
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dagger_(), internal helper behaves correctly) over Any ║
+# ║ Path(_dagger_(), FockStateBosonKet(*self.args)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FockStateBosonKet(*self.args)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dagger_ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 506c1e5793904e70           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateBosonBra._dagger_","kind":"method","src_hash":"43c1acc7cd9da7bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"506c1e5793904e70"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateBosonBra._dagger_","kind":"method","src_hash":"43c1acc7cd9da7bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"FockStateBosonKet(*self.args)","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"returns FockStateBosonKet(*self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"506c1e5793904e70","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FockStateBosonKet(*self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _dagger_(self):
         return FockStateBosonKet(*self.args)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(FockStateFermionKet(), correctly constructs a FockStateFermionKet instance) over Any ║
+# ║ Path(FockStateFermionKet(), isinstance(self, FermionState) and isinstance(self, FockStateKet)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FockStateFermionKet : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FermionState)                 ║
+# ║   ensures:  isinstance(self, FockStateKet)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FockStateFermionKet : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 39e4f05dc19f7066           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateFermionKet","kind":"class","src_hash":"f1fe932138744707","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FockStateFermionKet()","rhs":"correctly constructs a FockStateFermionKet instance","over":{"base":"Any"},"name":"FockStateFermionKet_correct"},"guarantee":"correctly constructs a FockStateFermionKet instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39e4f05dc19f7066"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateFermionKet","kind":"class","src_hash":"f1fe932138744707","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FermionState) and isinstance(self, FockStateKet)"},"spec":{"lhs":"FockStateFermionKet()","rhs":"isinstance(self, FermionState) and isinstance(self, FockStateKet)","over":{"base":"Any"},"name":"FockStateFermionKet_correct"},"guarantee":"isinstance(self, FermionState); isinstance(self, FockStateKet)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"39e4f05dc19f7066","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FermionState)","isinstance(self, FockStateKet)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function FockStateFermionKet not found in source"]}}
 class FockStateFermionKet(FermionState, FockStateKet):
     """
     Many-particle Fock state with a sequence of occupied orbits.
@@ -2359,31 +2992,44 @@ class FockStateFermionKet(FermionState, FockStateKet):
     FockStateFermionKet((1, 2))
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dagger_(), internal helper behaves correctly) over Any ║
+# ║ Path(_dagger_(), FockStateFermionBra(*self.args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FockStateFermionBra(*self.args)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dagger_ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c82dd1cfb28f7c4d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateFermionKet._dagger_","kind":"method","src_hash":"e064f6d3a0e3e31f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c82dd1cfb28f7c4d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateFermionKet._dagger_","kind":"method","src_hash":"e064f6d3a0e3e31f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"FockStateFermionBra(*self.args)","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"returns FockStateFermionBra(*self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c82dd1cfb28f7c4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FockStateFermionBra(*self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _dagger_(self):
         return FockStateFermionBra(*self.args)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(FockStateFermionBra(), correctly constructs a FockStateFermionBra instance) over Any ║
+# ║ Path(FockStateFermionBra(), isinstance(self, FermionState) and isinstance(self, FockStateBra)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FockStateFermionBra : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FermionState)                 ║
+# ║   ensures:  isinstance(self, FockStateBra)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FockStateFermionBra : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e080da1b4df4c43           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateFermionBra","kind":"class","src_hash":"a20fa96f22513fd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FockStateFermionBra()","rhs":"correctly constructs a FockStateFermionBra instance","over":{"base":"Any"},"name":"FockStateFermionBra_correct"},"guarantee":"correctly constructs a FockStateFermionBra instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e080da1b4df4c43"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateFermionBra","kind":"class","src_hash":"a20fa96f22513fd9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FermionState) and isinstance(self, FockStateBra)"},"spec":{"lhs":"FockStateFermionBra()","rhs":"isinstance(self, FermionState) and isinstance(self, FockStateBra)","over":{"base":"Any"},"name":"FockStateFermionBra_correct"},"guarantee":"isinstance(self, FermionState); isinstance(self, FockStateBra)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e080da1b4df4c43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FermionState)","isinstance(self, FockStateBra)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function FockStateFermionBra not found in source"]}}
 class FockStateFermionBra(FermionState, FockStateBra):
     """
     See Also
@@ -2399,16 +3045,22 @@ class FockStateFermionBra(FermionState, FockStateBra):
     FockStateFermionBra((1, 2))
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_dagger_(), internal helper behaves correctly) over Any ║
+# ║ Path(_dagger_(), FockStateFermionKet(*self.args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FockStateFermionKet(*self.args)                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _dagger_ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 784539d20ae7dec6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateFermionBra._dagger_","kind":"method","src_hash":"065360658923527f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"784539d20ae7dec6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FockStateFermionBra._dagger_","kind":"method","src_hash":"065360658923527f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_dagger_()","rhs":"FockStateFermionKet(*self.args)","over":{"base":"Any"},"name":"_dagger__correct"},"guarantee":"returns FockStateFermionKet(*self.args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"784539d20ae7dec6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FockStateFermionKet(*self.args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _dagger_(self):
         return FockStateFermionKet(*self.args)
 
@@ -2419,7 +3071,11 @@ FKet = FockStateFermionKet
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_Mul(m), take a mul instance with operators and apply them to states) over {Any | isinstance(m, Mul) and isinstance(last, FockStateKet) and isinstance(next_to_last, SqOperator)} ║
+# ║ Path(_apply_Mul(m), # HINT: _apply_Mul may be idempotent: _apply_Mul(_apply_Mul(x)) == _apply_Mul(x)) over {Any | isinstance(m, Mul) and isinstance(last, FockStateKet) and isinstance(next_to_last, SqOperator) and hasattr(m, 'args_cnc')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(m, 'args_cnc')                         ║
+# ║   ensures:  # HINT: _apply_Mul may be idempotent: _ap...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_Mul : {Any | isinstance(m, Mul) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -2435,9 +3091,12 @@ FKet = FockStateFermionKet
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?5 ✗8 VCs | 22.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ceb8151b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._apply_Mul","kind":"function","src_hash":"fb8ce9e953c7d8b5","in":{"base":"Any","pred":"isinstance(m, Mul) and isinstance(last, FockStateKet) and isinstance(next_to_last, SqOperator)"},"out":{"base":"Any"},"spec":{"lhs":"_apply_Mul(m)","rhs":"take a mul instance with operators and apply them to states","over":{"base":"Any","pred":"isinstance(m, Mul) and isinstance(last, FockStateKet) and isinstance(next_to_last, SqOperator)"},"name":"_apply_Mul_correct"},"guarantee":"take a mul instance with operators and apply them to states","fibers":[{"name":"Mul","pred":"isinstance(m, Mul)","path":{"lhs":"_apply_Mul(x)","rhs":"take a mul instance with operators and apply them to states","over":{"base":"Mul","pred":"isinstance(m, Mul)"},"name":"_apply_Mul_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._apply_Mul_Mul_correct","statement":"_apply_Mul satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"FockStateKet","pred":"isinstance(last, FockStateKet)","path":{"lhs":"_apply_Mul(x)","rhs":"take a mul instance with operators and apply them to states","over":{"base":"FockStateKet","pred":"isinstance(last, FockStateKet)"},"name":"_apply_Mul_FockStateKet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._apply_Mul_FockStateKet_correct","statement":"_apply_Mul satisfies spec on FockStateKet inputs"},"trust":"LIBRARY"},{"name":"SqOperator","pred":"isinstance(next_to_last, SqOperator)","path":{"lhs":"_apply_Mul(x)","rhs":"take a mul instance with operators and apply them to states","over":{"base":"SqOperator","pred":"isinstance(next_to_last, SqOperator)"},"name":"_apply_Mul_SqOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._apply_Mul_SqOperator_correct","statement":"_apply_Mul satisfies spec on SqOperator inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(next_to_last, Pow)","path":{"lhs":"_apply_Mul(x)","rhs":"take a mul instance with operators and apply them to states","over":{"base":"Pow","pred":"isinstance(next_to_last, Pow)"},"name":"_apply_Mul_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._apply_Mul_Pow_correct","statement":"_apply_Mul satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"FockStateBra","pred":"isinstance(next_to_last, FockStateBra)","path":{"lhs":"_apply_Mul(x)","rhs":"take a mul instance with operators and apply them to states","over":{"base":"FockStateBra","pred":"isinstance(next_to_last, FockStateBra)"},"name":"_apply_Mul_FockStateBra_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._apply_Mul_FockStateBra_correct","statement":"_apply_Mul satisfies spec on FockStateBra inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ceb8151b29b0ec4a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._apply_Mul","kind":"function","src_hash":"fb8ce9e953c7d8b5","in":{"base":"Any","pred":"isinstance(m, Mul) and isinstance(last, FockStateKet) and isinstance(next_to_last, SqOperator) and hasattr(m, 'args_cnc')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _apply_Mul may be idempotent: _apply_Mul(_apply_Mul(x)) == _apply_Mul(x)"},"spec":{"lhs":"_apply_Mul(m)","rhs":"# HINT: _apply_Mul may be idempotent: _apply_Mul(_apply_Mul(x)) == _apply_Mul(x)","over":{"base":"Any","pred":"isinstance(m, Mul) and isinstance(last, FockStateKet) and isinstance(next_to_last, SqOperator) and hasattr(m, 'args_cnc')"},"name":"_apply_Mul_correct"},"guarantee":"# HINT: _apply_Mul may be idempotent: _apply_Mul(_apply_Mul(x)) == _apply_Mul(x)","fibers":[{"name":"Mul","pred":"isinstance(m, Mul)","path":{"lhs":"_apply_Mul(x)","rhs":"# HINT: _apply_Mul may be idempotent: _apply_Mul(_apply_Mul(x)) == _apply_Mul(x)","over":{"base":"Mul","pred":"isinstance(m, Mul)"},"name":"_apply_Mul_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._apply_Mul_Mul_correct","statement":"_apply_Mul satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"FockStateKet","pred":"isinstance(last, FockStateKet)","path":{"lhs":"_apply_Mul(x)","rhs":"# HINT: _apply_Mul may be idempotent: _apply_Mul(_apply_Mul(x)) == _apply_Mul(x)","over":{"base":"FockStateKet","pred":"isinstance(last, FockStateKet)"},"name":"_apply_Mul_FockStateKet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._apply_Mul_FockStateKet_correct","statement":"_apply_Mul satisfies spec on FockStateKet inputs"},"trust":"LIBRARY"},{"name":"SqOperator","pred":"isinstance(next_to_last, SqOperator)","path":{"lhs":"_apply_Mul(x)","rhs":"# HINT: _apply_Mul may be idempotent: _apply_Mul(_apply_Mul(x)) == _apply_Mul(x)","over":{"base":"SqOperator","pred":"isinstance(next_to_last, SqOperator)"},"name":"_apply_Mul_SqOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._apply_Mul_SqOperator_correct","statement":"_apply_Mul satisfies spec on SqOperator inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(next_to_last, Pow)","path":{"lhs":"_apply_Mul(x)","rhs":"# HINT: _apply_Mul may be idempotent: _apply_Mul(_apply_Mul(x)) == _apply_Mul(x)","over":{"base":"Pow","pred":"isinstance(next_to_last, Pow)"},"name":"_apply_Mul_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._apply_Mul_Pow_correct","statement":"_apply_Mul satisfies spec on Pow inputs"},"trust":"LIBRARY"},{"name":"FockStateBra","pred":"isinstance(next_to_last, FockStateBra)","path":{"lhs":"_apply_Mul(x)","rhs":"# HINT: _apply_Mul may be idempotent: _apply_Mul(_apply_Mul(x)) == _apply_Mul(x)","over":{"base":"FockStateBra","pred":"isinstance(next_to_last, FockStateBra)"},"name":"_apply_Mul_FockStateBra_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._apply_Mul_FockStateBra_correct","statement":"_apply_Mul satisfies spec on FockStateBra inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ceb8151b29b0ec4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(m, 'args_cnc')"],"ensures":["# HINT: _apply_Mul may be idempotent: _apply_Mul(_apply_Mul(x)) == _apply_Mul(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["m.args_cnc"]}},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":4,"n_assumed":5,"n_failed":8,"trust_level":"LIBRARY_ASSUMED","compile_ms":22.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(last, FockStateKet)', 'isinstance(next_to_last, FockStateBra)', 'not isinstance(m, Mul)', 'isinstance(next_to_last, Pow)', 'isinstance(next_to_last, SqOperator)', 'isinstance(next_to_last.base, SqOperator) and next_to_last.exp.is_Integer', 'result == 0'}, fibers={'Pow', 'SqOperator', 'FockStateKet', 'FockStateBra', 'Mul'})"]}}
 def _apply_Mul(m):
     """
     Take a Mul instance with operators and apply them to states.
@@ -2504,16 +3163,25 @@ def _apply_Mul(m):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_operators(e), take a sympy expression with operators and states and apply the operators) over Any ║
+# ║ Path(apply_operators(e), e.subs(subs_list)) over {Any | hasattr(e, 'expand') and hasattr(e, 'atoms') and hasattr(e, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ apply_operators : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'expand')                           ║
+# ║   requires: hasattr(e, 'atoms')                            ║
+# ║   requires: hasattr(e, 'subs')                             ║
+# ║   returns:  e.subs(subs_list)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ apply_operators : {Any | hasattr(e, 'expand') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 965e3d894b709233  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c9ea6435f02d34e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.apply_operators","kind":"function","src_hash":"c28d7cda0c2906f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_operators(e)","rhs":"take a sympy expression with operators and states and apply the operators","over":{"base":"Any"},"name":"apply_operators_correct"},"guarantee":"take a sympy expression with operators and states and apply the operators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.apply_operators_correct","statement":"Path(apply_operators(x), take a sympy expression with operators and states and apply the operators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"965e3d894b709233"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.apply_operators","kind":"function","src_hash":"c28d7cda0c2906f4","in":{"base":"Any","pred":"hasattr(e, 'expand') and hasattr(e, 'atoms') and hasattr(e, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"apply_operators(e)","rhs":"e.subs(subs_list)","over":{"base":"Any","pred":"hasattr(e, 'expand') and hasattr(e, 'atoms') and hasattr(e, 'subs')"},"name":"apply_operators_correct"},"guarantee":"returns e.subs(subs_list)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.apply_operators_correct","statement":"Path(apply_operators(x), returns e.subs(subs_list))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c9ea6435f02d34e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'expand')","hasattr(e, 'atoms')","hasattr(e, 'subs')"],"returns_expr":"e.subs(subs_list)","pure":false,"effects":{"effect_type":"reads_state","reads":["e.atoms","e.expand","e.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def apply_operators(e):
     """
     Take a SymPy expression with operators and states and apply the operators.
@@ -2535,14 +3203,20 @@ def apply_operators(e):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(InnerProduct(*args), correctly constructs a InnerProduct instance) over {Any | isinstance(bra, FockStateBra) and isinstance(ket, FockStateKet)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ InnerProduct : {Any | isinstance(bra, FockStateBra) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2754400b0b4b9197  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct","kind":"class","src_hash":"663454280beba5e1","in":{"base":"Any","pred":"isinstance(bra, FockStateBra) and isinstance(ket, FockStateKet)"},"out":{"base":"Any"},"spec":{"lhs":"InnerProduct(*args)","rhs":"correctly constructs a InnerProduct instance","over":{"base":"Any","pred":"isinstance(bra, FockStateBra) and isinstance(ket, FockStateKet)"},"name":"InnerProduct_class_invariant"},"guarantee":"correctly constructs a InnerProduct instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2754400b0b4b9197"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct","kind":"class","src_hash":"663454280beba5e1","in":{"base":"Any","pred":"isinstance(bra, FockStateBra) and isinstance(ket, FockStateKet)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"InnerProduct(*args)","rhs":"correctly constructs a InnerProduct instance","over":{"base":"Any","pred":"isinstance(bra, FockStateBra) and isinstance(ket, FockStateKet)"},"name":"InnerProduct_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2754400b0b4b9197","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function InnerProduct not found in source"]}}
 class InnerProduct(Basic):
     """
     An unevaluated inner product between a bra and ket.
@@ -2559,16 +3233,24 @@ class InnerProduct(Basic):
     is_commutative = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, bra, ket), cls.eval(bra, ket)) over {Any | isinstance(bra, FockStateBra) and isinstance(ket, FockStateKet)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(bra, FockStateBra)                  ║
+# ║   requires: isinstance(ket, FockStateKet)                  ║
+# ║   returns:  cls.eval(bra, ket)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(bra, FockStateBra) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae608ac4c49c8798           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct.__new__","kind":"method","src_hash":"fee979dac7f4de3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae608ac4c49c8798"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct.__new__","kind":"method","src_hash":"fee979dac7f4de3d","in":{"base":"Any","pred":"isinstance(bra, FockStateBra) and isinstance(ket, FockStateKet)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, bra, ket)","rhs":"cls.eval(bra, ket)","over":{"base":"Any","pred":"isinstance(bra, FockStateBra) and isinstance(ket, FockStateKet)"},"name":"__new___correct"},"guarantee":"returns cls.eval(bra, ket)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae608ac4c49c8798","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(bra, FockStateBra)","isinstance(ket, FockStateKet)"],"returns_expr":"cls.eval(bra, ket)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls.eval"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, bra, ket):
         if not isinstance(bra, FockStateBra):
             raise TypeError("must be a bra")
@@ -2578,16 +3260,24 @@ class InnerProduct(Basic):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, bra, ket), <unspecified:eval>) over {Any | hasattr(bra, 'args') and hasattr(ket, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(bra, 'args')                           ║
+# ║   requires: hasattr(ket, 'args')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(bra, 'args') and hasattr(ket, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c95b6b55a77e2b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct.eval","kind":"classmethod","src_hash":"7676aa4c1f094193","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.InnerProduct.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c95b6b55a77e2b1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct.eval","kind":"classmethod","src_hash":"7676aa4c1f094193","in":{"base":"Any","pred":"hasattr(bra, 'args') and hasattr(ket, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, bra, ket)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(bra, 'args') and hasattr(ket, 'args')"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.InnerProduct.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c95b6b55a77e2b1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(bra, 'args')","hasattr(ket, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["bra.args","ket.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, bra, ket):
         result = S.One
         for i, j in zip(bra.args[0], ket.args[0]):
@@ -2598,78 +3288,108 @@ class InnerProduct(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bra(), returns the bra attribute) over Any            ║
+# ║ Path(bra(), self.args[0]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bra : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | df6883066ac42613           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct.bra","kind":"property","src_hash":"168c957b8d7ec2a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bra()","rhs":"returns the bra attribute","over":{"base":"Any"},"name":"bra_correct"},"guarantee":"returns the bra attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df6883066ac42613"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct.bra","kind":"property","src_hash":"168c957b8d7ec2a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bra()","rhs":"self.args[0]","over":{"base":"Any"},"name":"bra_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"df6883066ac42613","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bra(self):
         """Returns the bra part of the state"""
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ket(), returns the ket attribute) over Any            ║
+# ║ Path(ket(), self.args[1]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ket : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3f04633eddef2d72           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct.ket","kind":"property","src_hash":"c372219840ee33c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ket()","rhs":"returns the ket attribute","over":{"base":"Any"},"name":"ket_correct"},"guarantee":"returns the ket attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f04633eddef2d72"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct.ket","kind":"property","src_hash":"c372219840ee33c9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ket()","rhs":"self.args[1]","over":{"base":"Any"},"name":"ket_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3f04633eddef2d72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ket(self):
         """Returns the ket part of the state"""
         return self.args[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), '%s|%s' % (sbra[:-1], sket[1:])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '%s|%s' % (sbra[:-1], sket[1:])                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1b39f1cfb649d80           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct.__repr__","kind":"method","src_hash":"7b1977a25b1b877b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1b39f1cfb649d80"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct.__repr__","kind":"method","src_hash":"7b1977a25b1b877b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'%s|%s' % (sbra[:-1], sket[1:])","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns '%s|%s' % (sbra[:-1], sket[1:])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1b39f1cfb649d80","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'%s|%s' % (sbra[:-1], sket[1:])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.bra","self.ket"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         sbra = repr(self.bra)
         sket = repr(self.ket)
         return "%s|%s" % (sbra[:-1], sket[1:])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), self.__repr__()) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__repr__()                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3a923ae7e0fa9d2d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct.__str__","kind":"method","src_hash":"9f53c407987a13c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a923ae7e0fa9d2d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.InnerProduct.__str__","kind":"method","src_hash":"9f53c407987a13c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"self.__repr__()","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns self.__repr__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3a923ae7e0fa9d2d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__repr__()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__repr__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return self.__repr__()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(matrix_rep(op,), find the representation of an operator in a basis) over Any ║
+# ║ Path(matrix_rep(op, basis), <unspecified:matrix_rep>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ matrix_rep : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28af0db395d799db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.matrix_rep","kind":"function","src_hash":"51840f95dde31956","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_rep(op,)","rhs":"find the representation of an operator in a basis","over":{"base":"Any"},"name":"matrix_rep_correct"},"guarantee":"find the representation of an operator in a basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.matrix_rep_correct","statement":"Path(matrix_rep(x), find the representation of an operator in a basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28af0db395d799db"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.matrix_rep","kind":"function","src_hash":"51840f95dde31956","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"matrix_rep(op, basis)","rhs":"<unspecified:matrix_rep>","over":{"base":"Any"},"name":"matrix_rep_correct"},"guarantee":"find the representation of an operator in a basis","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.matrix_rep_correct","statement":"Path(matrix_rep(x), find the representation of an operator in a basis)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28af0db395d799db","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def matrix_rep(op, basis):
     """
     Find the representation of an operator in a basis.
@@ -2696,16 +3416,22 @@ def matrix_rep(op, basis):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(BosonicBasis(), correctly constructs a BosonicBasis instance) over Any ║
+# ║ Path(BosonicBasis(), <unspecified:BosonicBasis>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ BosonicBasis : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 00705adccfe3c732           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.BosonicBasis","kind":"class","src_hash":"885a51fec2b889d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BosonicBasis()","rhs":"correctly constructs a BosonicBasis instance","over":{"base":"Any"},"name":"BosonicBasis_correct"},"guarantee":"correctly constructs a BosonicBasis instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00705adccfe3c732"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.BosonicBasis","kind":"class","src_hash":"885a51fec2b889d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BosonicBasis()","rhs":"<unspecified:BosonicBasis>","over":{"base":"Any"},"name":"BosonicBasis_correct"},"guarantee":"correctly constructs a BosonicBasis instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"00705adccfe3c732","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function BosonicBasis not found in source"]}}
 class BosonicBasis:
     """
     Base class for a basis set of bosonic Fock states.
@@ -2716,14 +3442,19 @@ class BosonicBasis:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a VarBosonicBasis instance) preserved by VarBosonicBasis(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ VarBosonicBasis : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7958bc85144bea16  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis","kind":"class","src_hash":"c5efd53610d22467","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"VarBosonicBasis(*args)","rhs":"correctly constructs a VarBosonicBasis instance","over":{"base":"Any"},"name":"VarBosonicBasis_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a VarBosonicBasis instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'n_max')","kind":"class","induction":"structural on n_max"}],"methods_preserving":["__init__","_build_states","index","state","__getitem__","__len__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7958bc85144bea16"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis","kind":"class","src_hash":"c5efd53610d22467","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"VarBosonicBasis(*args)","rhs":"correctly constructs a VarBosonicBasis instance","over":{"base":"Any"},"name":"VarBosonicBasis_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'n_max')","kind":"class","induction":"structural on n_max"}],"methods_preserving":["__init__","_build_states","index","state","__getitem__","__len__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7958bc85144bea16","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'n_max')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function VarBosonicBasis not found in source"]}}
 class VarBosonicBasis:
     """
     A single state, variable particle number basis set.
@@ -2739,31 +3470,43 @@ class VarBosonicBasis:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(n_m), initializes the instance correctly) over Any ║
+# ║ Path(__init__(n_max), self.n_max == n_max) over Any        ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.n_max == n_max                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.n_max ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cf0a891422abc21e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis.__init__","kind":"method","src_hash":"7935e8c0a8c8ddc4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(n_m)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf0a891422abc21e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis.__init__","kind":"method","src_hash":"7935e8c0a8c8ddc4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.n_max == n_max"},"spec":{"lhs":"__init__(n_max)","rhs":"self.n_max == n_max","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.n_max == n_max","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cf0a891422abc21e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.n_max == n_max"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, n_max):
         self.n_max = n_max
         self._build_states()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_build_states(), internal helper behaves correctly) over Any ║
+# ║ Path(_build_states(), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _build_states : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _build_states : Any → {Any | result satisfies: len(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1c6fc07c7f95c12  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c7e0e73a87c386f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis._build_states","kind":"method","src_hash":"d04c5880123a09e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_build_states()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_build_states_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.VarBosonicBasis._build_states_correct","statement":"Path(_build_states(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1c6fc07c7f95c12"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis._build_states","kind":"method","src_hash":"d04c5880123a09e9","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"_build_states()","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"_build_states_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.VarBosonicBasis._build_states_correct","statement":"Path(_build_states(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c7e0e73a87c386f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.basis","self.n_max"],"writes":["self.basis","self.n_basis"],"calls_mutating":["self.basis.append"]},"state_contract":{"modifies":["self.*","self.basis","self.n_basis"],"old_bindings":{"old_self_basis":"self.basis","old_self_n_basis":"self.n_basis","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _build_states(self):
         self.basis = []
         for i in range(self.n_max):
@@ -2771,16 +3514,22 @@ class VarBosonicBasis:
         self.n_basis = len(self.basis)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(sta), returns the index of state in basis) over Any ║
+# ║ Path(index(state), self.basis.index(state)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.basis.index(state)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ index : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e49c861133ac2838           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis.index","kind":"method","src_hash":"76498f1a0c79bb2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(sta)","rhs":"returns the index of state in basis","over":{"base":"Any"},"name":"index_correct"},"guarantee":"returns the index of state in basis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e49c861133ac2838"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis.index","kind":"method","src_hash":"76498f1a0c79bb2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(state)","rhs":"self.basis.index(state)","over":{"base":"Any"},"name":"index_correct"},"guarantee":"returns self.basis.index(state)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e49c861133ac2838","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.basis.index(state)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self, state):
         """
         Returns the index of state in basis.
@@ -2801,16 +3550,22 @@ class VarBosonicBasis:
         return self.basis.index(state)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state(i), the state of a single basis) over Any       ║
+# ║ Path(state(i), self.basis[i]) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.basis[i]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ state : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47b787c76c3bd6f0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis.state","kind":"method","src_hash":"39ac38a66a0b54c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state(i)","rhs":"the state of a single basis","over":{"base":"Any"},"name":"state_correct"},"guarantee":"the state of a single basis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47b787c76c3bd6f0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis.state","kind":"method","src_hash":"39ac38a66a0b54c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state(i)","rhs":"self.basis[i]","over":{"base":"Any"},"name":"state_correct"},"guarantee":"returns self.basis[i]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47b787c76c3bd6f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.basis[i]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def state(self, i):
         """
         The state of a single basis.
@@ -2826,44 +3581,62 @@ class VarBosonicBasis:
         return self.basis[i]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(i), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(i), self.state(i)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.state(i)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b7a20adff403fa57           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis.__getitem__","kind":"method","src_hash":"a35c49931743c85f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7a20adff403fa57"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis.__getitem__","kind":"method","src_hash":"a35c49931743c85f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"self.state(i)","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self.state(i)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b7a20adff403fa57","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.state(i)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, i):
         return self.state(i)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self.basis)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.basis)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 85c24774437d5aa7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis.__len__","kind":"method","src_hash":"1a22ca17369c23d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85c24774437d5aa7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis.__len__","kind":"method","src_hash":"1a22ca17369c23d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"len(self.basis)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self.basis)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"85c24774437d5aa7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.basis)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return len(self.basis)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), repr(self.basis)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  repr(self.basis)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 58d7028945e3d09f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis.__repr__","kind":"method","src_hash":"aa1f7ac73e57c266","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58d7028945e3d09f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.VarBosonicBasis.__repr__","kind":"method","src_hash":"aa1f7ac73e57c266","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"repr(self.basis)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns repr(self.basis)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"58d7028945e3d09f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"repr(self.basis)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return repr(self.basis)
 
@@ -2871,14 +3644,20 @@ class VarBosonicBasis:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a FixedBosonicBasis instance) preserved by FixedBosonicBasis(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ FixedBosonicBasis : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, BosonicBasis)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ FixedBosonicBasis : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | abec514d37aef6b1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis","kind":"class","src_hash":"aa27797cac5898fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"FixedBosonicBasis(*args)","rhs":"correctly constructs a FixedBosonicBasis instance","over":{"base":"Any"},"name":"FixedBosonicBasis_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a FixedBosonicBasis instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'n_particles') and hasattr(self, 'n_levels')","kind":"class","induction":"structural on n_particles, n_levels"}],"methods_preserving":["__init__","_build_particle_locations","_build_states","index","state","__getitem__","__len__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abec514d37aef6b1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis","kind":"class","src_hash":"aa27797cac5898fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, BosonicBasis)"},"spec":{"lhs":"FixedBosonicBasis(*args)","rhs":"correctly constructs a FixedBosonicBasis instance","over":{"base":"Any"},"name":"FixedBosonicBasis_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, BosonicBasis); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'n_particles') and hasattr(self, 'n_levels')","kind":"class","induction":"structural on n_particles, n_levels"}],"methods_preserving":["__init__","_build_particle_locations","_build_states","index","state","__getitem__","__len__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"abec514d37aef6b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, BosonicBasis)"],"invariants":["hasattr(self, 'n_particles')","hasattr(self, 'n_levels')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function FixedBosonicBasis not found in source"]}}
 class FixedBosonicBasis(BosonicBasis):
     """
     Fixed particle number basis set.
@@ -2897,16 +3676,23 @@ class FixedBosonicBasis(BosonicBasis):
     1
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(n_p), initializes the instance correctly) over Any ║
+# ║ Path(__init__(n_particles, n_levels), self.n_particles == n_particles and self.n_levels == n_levels) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.n_particles == n_particles                ║
+# ║   ensures:  self.n_levels == n_levels                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.n_part...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 32d0858c7d1ee89e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis.__init__","kind":"method","src_hash":"2b1535e5302ec920","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(n_p)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32d0858c7d1ee89e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis.__init__","kind":"method","src_hash":"2b1535e5302ec920","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.n_particles == n_particles and self.n_levels == n_levels"},"spec":{"lhs":"__init__(n_particles, n_levels)","rhs":"self.n_particles == n_particles and self.n_levels == n_levels","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.n_particles == n_particles; self.n_levels == n_levels","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"32d0858c7d1ee89e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.n_particles == n_particles","self.n_levels == n_levels"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, n_particles, n_levels):
         self.n_particles = n_particles
         self.n_levels = n_levels
@@ -2914,16 +3700,22 @@ class FixedBosonicBasis(BosonicBasis):
         self._build_states()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_build_particle_locations(), internal helper behaves correctly) over Any ║
+# ║ Path(_build_particle_locations(), <unspecified:_build_particle_locations>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _build_particle_locations : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 42c25e0b623029d2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis._build_particle_locations","kind":"method","src_hash":"394494f44d1f3d32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_build_particle_locations()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_build_particle_locations_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FixedBosonicBasis._build_particle_locations_correct","statement":"Path(_build_particle_locations(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42c25e0b623029d2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis._build_particle_locations","kind":"method","src_hash":"394494f44d1f3d32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_build_particle_locations()","rhs":"<unspecified:_build_particle_locations>","over":{"base":"Any"},"name":"_build_particle_locations_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FixedBosonicBasis._build_particle_locations_correct","statement":"Path(_build_particle_locations(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"42c25e0b623029d2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.n_levels","self.n_particles"],"writes":["self.particle_locations"]},"state_contract":{"modifies":["self.particle_locations"],"old_bindings":{"old_self_particle_locations":"self.particle_locations"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _build_particle_locations(self):
         tup = ["i%i" % i for i in range(self.n_particles)]
         first_loop = "for i0 in range(%i)" % self.n_levels
@@ -2939,16 +3731,22 @@ class FixedBosonicBasis(BosonicBasis):
         self.particle_locations = result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_build_states(), internal helper behaves correctly) over Any ║
+# ║ Path(_build_states(), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _build_states : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _build_states : Any → {Any | result satisfies: len(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a100546b609dc011  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6b62332269759ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis._build_states","kind":"method","src_hash":"e36358024accf4e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_build_states()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_build_states_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FixedBosonicBasis._build_states_correct","statement":"Path(_build_states(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a100546b609dc011"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis._build_states","kind":"method","src_hash":"e36358024accf4e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"_build_states()","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"_build_states_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.FixedBosonicBasis._build_states_correct","statement":"Path(_build_states(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6b62332269759ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.basis","self.n_levels","self.particle_locations"],"writes":["self.basis","self.n_basis"],"calls_mutating":["self.basis.append"]},"state_contract":{"modifies":["self.*","self.basis","self.n_basis"],"old_bindings":{"old_self_basis":"self.basis","old_self_n_basis":"self.n_basis","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _build_states(self):
         self.basis = []
         for tuple_of_indices in self.particle_locations:
@@ -2959,16 +3757,22 @@ class FixedBosonicBasis(BosonicBasis):
         self.n_basis = len(self.basis)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(sta), returns the index of state in basis) over Any ║
+# ║ Path(index(state), self.basis.index(state)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.basis.index(state)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ index : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 90acb8aa9e692b13           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis.index","kind":"method","src_hash":"bb784901782f78e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(sta)","rhs":"returns the index of state in basis","over":{"base":"Any"},"name":"index_correct"},"guarantee":"returns the index of state in basis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90acb8aa9e692b13"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis.index","kind":"method","src_hash":"bb784901782f78e7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(state)","rhs":"self.basis.index(state)","over":{"base":"Any"},"name":"index_correct"},"guarantee":"returns self.basis.index(state)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"90acb8aa9e692b13","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.basis.index(state)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self, state):
         """Returns the index of state in basis.
 
@@ -2983,16 +3787,22 @@ class FixedBosonicBasis(BosonicBasis):
         return self.basis.index(state)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(state(i), returns the state that lies at index i of the basis) over Any ║
+# ║ Path(state(i), self.basis[i]) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.basis[i]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ state : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ea7418c6d16eb76           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis.state","kind":"method","src_hash":"90ab56bf87957169","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state(i)","rhs":"returns the state that lies at index i of the basis","over":{"base":"Any"},"name":"state_correct"},"guarantee":"returns the state that lies at index i of the basis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ea7418c6d16eb76"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis.state","kind":"method","src_hash":"90ab56bf87957169","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"state(i)","rhs":"self.basis[i]","over":{"base":"Any"},"name":"state_correct"},"guarantee":"returns self.basis[i]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ea7418c6d16eb76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.basis[i]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def state(self, i):
         """Returns the state that lies at index i of the basis
 
@@ -3007,44 +3817,62 @@ class FixedBosonicBasis(BosonicBasis):
         return self.basis[i]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(i), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(i), self.state(i)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.state(i)                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ecf8f7485ec56f42           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis.__getitem__","kind":"method","src_hash":"a35c49931743c85f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ecf8f7485ec56f42"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis.__getitem__","kind":"method","src_hash":"a35c49931743c85f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"self.state(i)","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self.state(i)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ecf8f7485ec56f42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.state(i)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, i):
         return self.state(i)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self.basis)) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.basis)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6c8523c87018bfb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis.__len__","kind":"method","src_hash":"1a22ca17369c23d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6c8523c87018bfb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis.__len__","kind":"method","src_hash":"1a22ca17369c23d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"len(self.basis)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self.basis)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6c8523c87018bfb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.basis)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return len(self.basis)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), repr(self.basis)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  repr(self.basis)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | acd27de00585af53           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis.__repr__","kind":"method","src_hash":"aa1f7ac73e57c266","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acd27de00585af53"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.FixedBosonicBasis.__repr__","kind":"method","src_hash":"aa1f7ac73e57c266","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"repr(self.basis)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns repr(self.basis)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acd27de00585af53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"repr(self.basis)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.basis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return repr(self.basis)
 
@@ -3052,14 +3880,20 @@ class FixedBosonicBasis(BosonicBasis):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Commutator(*args), correctly constructs a Commutator instance) over {Any | isinstance(a, Add) and isinstance(a, BosonicOperator) and isinstance(a, FermionicOperator)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Function)                     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Commutator : {Any | isinstance(a, Add) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da8397358ae7115e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Commutator","kind":"class","src_hash":"3213ee6078230e15","in":{"base":"Any","pred":"isinstance(a, Add) and isinstance(a, BosonicOperator) and isinstance(a, FermionicOperator)"},"out":{"base":"Any"},"spec":{"lhs":"Commutator(*args)","rhs":"correctly constructs a Commutator instance","over":{"base":"Any","pred":"isinstance(a, Add) and isinstance(a, BosonicOperator) and isinstance(a, FermionicOperator)"},"name":"Commutator_class_invariant"},"guarantee":"correctly constructs a Commutator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da8397358ae7115e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Commutator","kind":"class","src_hash":"3213ee6078230e15","in":{"base":"Any","pred":"isinstance(a, Add) and isinstance(a, BosonicOperator) and isinstance(a, FermionicOperator)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Function)"},"spec":{"lhs":"Commutator(*args)","rhs":"correctly constructs a Commutator instance","over":{"base":"Any","pred":"isinstance(a, Add) and isinstance(a, BosonicOperator) and isinstance(a, FermionicOperator)"},"name":"Commutator_class_invariant"},"guarantee":"isinstance(self, Function)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da8397358ae7115e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Function)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Commutator not found in source"]}}
 class Commutator(Function):
     """
     The Commutator:  [A, B] = A*B - B*A
@@ -3109,16 +3943,25 @@ class Commutator(Function):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), the commutator [a,b] is on canonical form if a < b) over Any ║
+# ║ Path(eval(cls, a, b), <unspecified:eval>) over {Any | hasattr(a, 'is_commutative') and hasattr(b, 'is_commutative') and hasattr(a, 'expand') and hasattr(b, 'expand') and hasattr(a, 'args_cnc') and hasattr(b, 'args_cnc') and hasattr(a, 'sort_key') and hasattr(b, 'sort_key') and hasattr(a, 'state') and hasattr(b, 'state') and hasattr(a, 'args') and hasattr(b, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'is_commutative')                   ║
+# ║   requires: hasattr(b, 'is_commutative')                   ║
+# ║   requires: hasattr(a, 'expand')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(a, 'is_commutative') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6aae5c6561aee2e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Commutator.eval","kind":"classmethod","src_hash":"4bacfd72405ff0b2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"the commutator [a,b] is on canonical form if a < b","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"the commutator [a,b] is on canonical form if a < b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.Commutator.eval_correct","statement":"Path(eval(x), the commutator [a,b] is on canonical form if a < b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6aae5c6561aee2e3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Commutator.eval","kind":"classmethod","src_hash":"4bacfd72405ff0b2","in":{"base":"Any","pred":"hasattr(a, 'is_commutative') and hasattr(b, 'is_commutative') and hasattr(a, 'expand') and hasattr(b, 'expand') and hasattr(a, 'args_cnc') and hasattr(b, 'args_cnc') and hasattr(a, 'sort_key') and hasattr(b, 'sort_key') and hasattr(a, 'state') and hasattr(b, 'state') and hasattr(a, 'args') and hasattr(b, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, a, b)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"hasattr(a, 'is_commutative') and hasattr(b, 'is_commutative') and hasattr(a, 'expand') and hasattr(b, 'expand') and hasattr(a, 'args_cnc') and hasattr(b, 'args_cnc') and hasattr(a, 'sort_key') and hasattr(b, 'sort_key') and hasattr(a, 'state') and hasattr(b, 'state') and hasattr(a, 'args') and hasattr(b, 'args')"},"name":"eval_correct"},"guarantee":"the commutator [a,b] is on canonical form if a < b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.Commutator.eval_correct","statement":"Path(eval(x), the commutator [a,b] is on canonical form if a < b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6aae5c6561aee2e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'is_commutative')","hasattr(b, 'is_commutative')","hasattr(a, 'expand')","hasattr(b, 'expand')","hasattr(a, 'args_cnc')","hasattr(b, 'args_cnc')","hasattr(a, 'sort_key')","hasattr(b, 'sort_key')","hasattr(a, 'state')","hasattr(b, 'state')","hasattr(a, 'args')","hasattr(b, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.args","a.args_cnc","a.expand","a.is_commutative","a.sort_key","a.state","b.args","b.args_cnc","b.expand","b.is_commutative","b.sort_key","b.state"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, a, b):
         """
         The Commutator [A,B] is on canonical form if A < B.
@@ -3179,16 +4022,22 @@ class Commutator(Function):
             return S.NegativeOne*cls(b, a)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), id) over Any                               ║
+# ║ Path(doit(**hints), id) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5033cb61cb50de4b   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Commutator.doit","kind":"method","src_hash":"ade5f729049d9e74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"enables the computation of complex expressions","over":{"base":"Any"},"name":"doit_correct","kind":"composition"},"guarantee":"enables the computation of complex expressions","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"wicks","by":"library_axiom"},{"fn":"wicks","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5033cb61cb50de4b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Commutator.doit","kind":"method","src_hash":"ade5f729049d9e74","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"<unspecified:doit>","over":{"base":"Any"},"name":"doit_correct","kind":"composition"},"guarantee":"enables the computation of complex expressions","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"wicks","by":"library_axiom"},{"fn":"wicks","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5033cb61cb50de4b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"],"catches":["ContractionAppliesOnlyToFermions","WicksTheoremDoesNotApply"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """
         Enables the computation of complex expressions.
@@ -3220,44 +4069,63 @@ class Commutator(Function):
         return (a*b - b*a).doit(**hints)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'Commutator(%s,%s)' % (self.args[0], self.args[1])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'Commutator(%s,%s)' % (self.args[0], self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 821796e97493871a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Commutator.__repr__","kind":"method","src_hash":"3e89bec8a1684692","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"821796e97493871a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Commutator.__repr__","kind":"method","src_hash":"3e89bec8a1684692","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'Commutator(%s,%s)' % (self.args[0], self.args[1])","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'Commutator(%s,%s)' % (self.args[0], self.args[1])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"821796e97493871a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'Commutator(%s,%s)' % (self.args[0], self.args[1])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "Commutator(%s,%s)" % (self.args[0], self.args[1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), '[%s,%s]' % (self.args[0], self.args[1])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '[%s,%s]' % (self.args[0], self.args[1])       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7d768b09cf890c35           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Commutator.__str__","kind":"method","src_hash":"f4ad0d90da605dae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d768b09cf890c35"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Commutator.__str__","kind":"method","src_hash":"f4ad0d90da605dae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"'[%s,%s]' % (self.args[0], self.args[1])","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns '[%s,%s]' % (self.args[0], self.args[1])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7d768b09cf890c35","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'[%s,%s]' % (self.args[0], self.args[1])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return "[%s,%s]" % (self.args[0], self.args[1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer), '\\left[%s,%s\\right]' % tuple([printer._print(arg) for arg in self.args])) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '\\left[%s,%s\\right]' % tuple([printer._...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cbf9401cd970f36  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10d4bcda2b23be51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Commutator._latex","kind":"method","src_hash":"b0bee638d4cff0db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.Commutator._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cbf9401cd970f36"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.Commutator._latex","kind":"method","src_hash":"b0bee638d4cff0db","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer)","rhs":"'\\\\left[%s,%s\\\\right]' % tuple([printer._print(arg) for arg in self.args])","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns '\\\\left[%s,%s\\\\right]' % tuple([printer._print(arg) for arg in self.args])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.Commutator._latex_correct","statement":"Path(_latex(x), returns '\\\\left[%s,%s\\\\right]' % tuple([printer._print(arg) for arg in self.args]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10d4bcda2b23be51","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'\\\\left[%s,%s\\\\right]' % tuple([printer._print(arg) for arg in self.args])","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         return "\\left[%s,%s\\right]" % tuple([
             printer._print(arg) for arg in self.args])
@@ -3266,14 +4134,20 @@ class Commutator(Function):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(NO(*args), correctly constructs a NO instance) over {Any | isinstance(arg, NO) and isinstance(i, slice) and isinstance(seq[0], BosonicOperator)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ NO : {Any | isinstance(arg, NO) and isinstance(i, sli...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85ad39fe9245996a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO","kind":"class","src_hash":"a5a1507c918fc087","in":{"base":"Any","pred":"isinstance(arg, NO) and isinstance(i, slice) and isinstance(seq[0], BosonicOperator)"},"out":{"base":"Any"},"spec":{"lhs":"NO(*args)","rhs":"correctly constructs a NO instance","over":{"base":"Any","pred":"isinstance(arg, NO) and isinstance(i, slice) and isinstance(seq[0], BosonicOperator)"},"name":"NO_class_invariant"},"guarantee":"correctly constructs a NO instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85ad39fe9245996a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO","kind":"class","src_hash":"a5a1507c918fc087","in":{"base":"Any","pred":"isinstance(arg, NO) and isinstance(i, slice) and isinstance(seq[0], BosonicOperator)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"NO(*args)","rhs":"correctly constructs a NO instance","over":{"base":"Any","pred":"isinstance(arg, NO) and isinstance(i, slice) and isinstance(seq[0], BosonicOperator)"},"name":"NO_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85ad39fe9245996a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function NO not found in source"]}}
 class NO(Expr):
     """
     This Object is used to represent normal ordering brackets.
@@ -3312,16 +4186,25 @@ class NO(Expr):
     is_commutative = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), use anticommutation to get canonical form of operators) over Any ║
+# ║ Path(__new__(cls, arg), len(newseq) == old_len_newseq + 1) over {Any | hasattr(arg, 'is_Add') and hasattr(arg, 'is_Mul') and hasattr(arg, 'expand') and hasattr(arg, 'args_cnc') and hasattr(arg, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(arg, 'is_Add')                         ║
+# ║   requires: hasattr(arg, 'is_Mul')                         ║
+# ║   requires: hasattr(arg, 'expand')                         ║
+# ║   ensures:  len(newseq) == old_len_newseq + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | hasattr(arg, 'is_Add') and hasattr(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f874a3638dc4232           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.__new__","kind":"method","src_hash":"3ee27021b37d57a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"use anticommutation to get canonical form of operators","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"use anticommutation to get canonical form of operators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f874a3638dc4232"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.__new__","kind":"method","src_hash":"3ee27021b37d57a0","in":{"base":"Any","pred":"hasattr(arg, 'is_Add') and hasattr(arg, 'is_Mul') and hasattr(arg, 'expand') and hasattr(arg, 'args_cnc') and hasattr(arg, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(newseq) == old_len_newseq + 1"},"spec":{"lhs":"__new__(cls, arg)","rhs":"len(newseq) == old_len_newseq + 1","over":{"base":"Any","pred":"hasattr(arg, 'is_Add') and hasattr(arg, 'is_Mul') and hasattr(arg, 'expand') and hasattr(arg, 'args_cnc') and hasattr(arg, 'args')"},"name":"__new___correct"},"guarantee":"len(newseq) == old_len_newseq + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f874a3638dc4232","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(arg, 'is_Add')","hasattr(arg, 'is_Mul')","hasattr(arg, 'expand')","hasattr(arg, 'args_cnc')","hasattr(arg, 'args')"],"ensures":["len(newseq) == old_len_newseq + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["arg.args","arg.args_cnc","arg.expand","arg.is_Add","arg.is_Mul"],"calls_mutating":["newseq.append","newseq.extend"],"raises":["NotImplementedError"],"catches":["ViolationOfPauliPrinciple"]},"state_contract":{"modifies":["newseq.*"],"old_bindings":{"old_len_newseq":"len(newseq)"},"post_ensures":["len(newseq) == old_len_newseq + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, arg):
         """
         Use anticommutation to get canonical form of operators.
@@ -3397,16 +4280,22 @@ class NO(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_q_creators(), returns the has_q_creators attribute) over Any ║
+# ║ Path(has_q_creators(), self.args[0].args[0].is_q_creator) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].args[0].is_q_creator              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_q_creators : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 620398b59f8f6981           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.has_q_creators","kind":"property","src_hash":"630b9caa2c9d2697","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_q_creators()","rhs":"returns the has_q_creators attribute","over":{"base":"Any"},"name":"has_q_creators_correct"},"guarantee":"returns the has_q_creators attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"620398b59f8f6981"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.has_q_creators","kind":"property","src_hash":"630b9caa2c9d2697","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_q_creators()","rhs":"self.args[0].args[0].is_q_creator","over":{"base":"Any"},"name":"has_q_creators_correct"},"guarantee":"returns self.args[0].args[0].is_q_creator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"620398b59f8f6981","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].args[0].is_q_creator","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_q_creators(self):
         """
         Return 0 if the leftmost argument of the first argument is a not a
@@ -3432,16 +4321,22 @@ class NO(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(has_q_annihilators(), returns the has_q_annihilators attribute) over Any ║
+# ║ Path(has_q_annihilators(), self.args[0].args[-1].is_q_annihilator) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0].args[-1].is_q_annihilator         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ has_q_annihilators : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b82e6682d636c025           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.has_q_annihilators","kind":"property","src_hash":"295c80f9b39d66c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_q_annihilators()","rhs":"returns the has_q_annihilators attribute","over":{"base":"Any"},"name":"has_q_annihilators_correct"},"guarantee":"returns the has_q_annihilators attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b82e6682d636c025"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.has_q_annihilators","kind":"property","src_hash":"295c80f9b39d66c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"has_q_annihilators()","rhs":"self.args[0].args[-1].is_q_annihilator","over":{"base":"Any"},"name":"has_q_annihilators_correct"},"guarantee":"returns self.args[0].args[-1].is_q_annihilator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b82e6682d636c025","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0].args[-1].is_q_annihilator","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def has_q_annihilators(self):
         """
         Return 0 if the rightmost argument of the first argument is a not a
@@ -3466,16 +4361,25 @@ class NO(Expr):
         return self.args[0].args[-1].is_q_annihilator
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), either removes the brackets or enables complex computations in its arguments) over Any ║
+# ║ Path(doit(**hints), result == (self._remove_brackets() if hints.get('remove_brackets', True) else self.__new__(type(self), self.args[0].doit(**hints))) and result == self._remove_brackets() or result == self.__new__(type(self), self.args[0].doit(**hints))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doit : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self._remove_brackets() if hin...   ║
+# ║   ensures:  result == self._remove_brackets() or resu...   ║
+# ║   fiber[case_0]: hints.get('remove_brackets', True) =...   ║
+# ║   fiber[case_1]: not (hints.get('remove_brackets', Tr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doit : Any → {Any | result satisfies: result == (self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09f1a467ee24dea7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b6daee2341f9fe5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.doit","kind":"method","src_hash":"9dd984e2af2a5c5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"either removes the brackets or enables complex computations in its arguments","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"either removes the brackets or enables complex computations in its arguments","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.NO.doit_correct","statement":"Path(doit(x), either removes the brackets or enables complex computations in its arguments)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09f1a467ee24dea7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.doit","kind":"method","src_hash":"9dd984e2af2a5c5b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self._remove_brackets() if hints.get('remove_brackets', True) else self.__new__(type(self), self.args[0].doit(**hints))) and result == self._remove_brackets() or result == self.__new__(type(self), self.args[0].doit(**hints))"},"spec":{"lhs":"doit(**hints)","rhs":"result == (self._remove_brackets() if hints.get('remove_brackets', True) else self.__new__(type(self), self.args[0].doit(**hints))) and result == self._remove_brackets() or result == self.__new__(type(self), self.args[0].doit(**hints))","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"result == (self._remove_brackets() if hints.get('remove_brackets', True) else self.__new__(type(self), self.args[0].doit(**hints))); result == self._remove_brackets() or result == self.__new__(type(self), self.args[0].doit(**hints)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.NO.doit_correct","statement":"Path(doit(x), result == (self._remove_brackets() if hints.get('remove_brackets', True) else self.__new__(type(self), self.args[0].doit(**hints))); result == self._remove_brackets() or result == self.__new__(type(self), self.args[0].doit(**hints)); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b6daee2341f9fe5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self._remove_brackets() if hints.get('remove_brackets', True) else self.__new__(type(self), self.args[0].doit(**hints)))","result == self._remove_brackets() or result == self.__new__(type(self), self.args[0].doit(**hints))"],"fibers":[{"name":"case_0","guard":"hints.get('remove_brackets', True)","ensures":["result == self._remove_brackets()"],"decidability":"library","returns_expr":"self._remove_brackets()"},{"name":"case_1","guard":"not (hints.get('remove_brackets', True))","ensures":["result == self.__new__(type(self), self.args[0].doit(**hints))"],"decidability":"library","returns_expr":"self.__new__(type(self), self.args[0].doit(**hints))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.__new__","self._remove_brackets","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         """
         Either removes the brackets or enables complex computations
@@ -3502,16 +4406,26 @@ class NO(Expr):
             return self.__new__(type(self), self.args[0].doit(**hints))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_remove_brackets(), id) over Any                      ║
+# ║ Path(_remove_brackets(), id) over {Any | len(assume) > 0}  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _remove_brackets : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(assume) > 0                                ║
+# ║   ensures:  len(assume) == old_len_assume - 1              ║
+# ║   ensures:  len(subslist) == old_len_subslist + 1          ║
+# ║   fiber[case_0]: subslist                                  ║
+# ║   fiber[case_1]: not (subslist) => self.args[0]            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _remove_brackets : {Any | len(assume) > 0} → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 027b2293ed3a76bd   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO._remove_brackets","kind":"method","src_hash":"69edde466005d119","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_remove_brackets()","rhs":"returns the sorted string without normal order brackets","over":{"base":"Any"},"name":"_remove_brackets_correct","kind":"composition"},"guarantee":"returns the sorted string without normal order brackets","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"027b2293ed3a76bd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO._remove_brackets","kind":"method","src_hash":"69edde466005d119","in":{"base":"Any","pred":"len(assume) > 0"},"out":{"base":"Any","pred":"result satisfies: len(assume) == old_len_assume - 1 and len(subslist) == old_len_subslist + 1"},"spec":{"lhs":"_remove_brackets()","rhs":"len(assume) == old_len_assume - 1 and len(subslist) == old_len_subslist + 1","over":{"base":"Any","pred":"len(assume) > 0"},"name":"_remove_brackets_correct","kind":"composition"},"guarantee":"len(assume) == old_len_assume - 1; len(subslist) == old_len_subslist + 1; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Add","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"027b2293ed3a76bd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(assume) > 0"],"ensures":["len(assume) == old_len_assume - 1","len(subslist) == old_len_subslist + 1"],"fibers":[{"name":"case_0","guard":"subslist","ensures":[],"decidability":"library"},{"name":"case_1","guard":"not (subslist)","ensures":["result == self.args[0]"],"decidability":"library","returns_expr":"self.args[0]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.iter_q_creators","self.subs"],"calls_mutating":["assume.pop","subslist.append"],"raises":["SubstitutionOfAmbigousOperatorFailed"]},"state_contract":{"modifies":["assume.*","subslist.*"],"old_bindings":{"old_len_assume":"len(assume)","old_len_subslist":"len(subslist)"},"pre_requires":["len(assume) > 0"],"post_ensures":["len(assume) == old_len_assume - 1","len(subslist) == old_len_subslist + 1"],"exceptional_post":{"SubstitutionOfAmbigousOperatorFailed":["isinstance(raised, SubstitutionOfAmbigousOperatorFailed)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _remove_brackets(self):
         """
         Returns the sorted string without normal order brackets.
@@ -3555,16 +4469,22 @@ class NO(Expr):
             return self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_expand_operators(), returns a sum of no objects that contain no ambiguous q-operators) over Any ║
+# ║ Path(_expand_operators(), NO(self._remove_brackets)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  NO(self._remove_brackets)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _expand_operators : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 34bb07e90cbff6d4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO._expand_operators","kind":"method","src_hash":"80d6aa3dedea76e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand_operators()","rhs":"returns a sum of no objects that contain no ambiguous q-operators","over":{"base":"Any"},"name":"_expand_operators_correct"},"guarantee":"returns a sum of no objects that contain no ambiguous q-operators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34bb07e90cbff6d4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO._expand_operators","kind":"method","src_hash":"80d6aa3dedea76e2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_expand_operators()","rhs":"NO(self._remove_brackets)","over":{"base":"Any"},"name":"_expand_operators_correct"},"guarantee":"returns NO(self._remove_brackets)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"34bb07e90cbff6d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"NO(self._remove_brackets)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._remove_brackets"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _expand_operators(self):
         """
         Returns a sum of NO objects that contain no ambiguous q-operators.
@@ -3584,16 +4504,26 @@ class NO(Expr):
         return NO(self._remove_brackets)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(i), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(i), result == ([self.args[0].args[i] for i in range(*indices)] if isinstance(i, slice) else self.args[0].args[i]) and result == [self.args[0].args[i] for i in range(*indices)] or result == self.args[0].args[i]) over {Any | hasattr(i, 'indices')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(i, 'indices')                          ║
+# ║   ensures:  result == ([self.args[0].args[i] for i in...   ║
+# ║   ensures:  result == [self.args[0].args[i] for i in ...   ║
+# ║   fiber[slice]: isinstance(i, slice) => [self.args[0]...   ║
+# ║   fiber[slice]: not (isinstance(i, slice)) => self.ar...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : {Any | hasattr(i, 'indices')} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 44a66ea0a2388eb9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.__getitem__","kind":"method","src_hash":"2b7d49dbb0b3d1d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44a66ea0a2388eb9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.__getitem__","kind":"method","src_hash":"2b7d49dbb0b3d1d3","in":{"base":"Any","pred":"hasattr(i, 'indices')"},"out":{"base":"Any","pred":"result satisfies: result == ([self.args[0].args[i] for i in range(*indices)] if isinstance(i, slice) else self.args[0].args[i]) and result == [self.args[0].args[i] for i in range(*indices)] or result == self.args[0].args[i]"},"spec":{"lhs":"__getitem__(i)","rhs":"result == ([self.args[0].args[i] for i in range(*indices)] if isinstance(i, slice) else self.args[0].args[i]) and result == [self.args[0].args[i] for i in range(*indices)] or result == self.args[0].args[i]","over":{"base":"Any","pred":"hasattr(i, 'indices')"},"name":"__getitem___correct"},"guarantee":"result == ([self.args[0].args[i] for i in range(*indices)] if isinstance(i, slice) else self.args[0].args[i]); result == [self.args[0].args[i] for i in range(*indices)] or result == self.args[0].args[i]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"44a66ea0a2388eb9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(i, 'indices')"],"ensures":["result == ([self.args[0].args[i] for i in range(*indices)] if isinstance(i, slice) else self.args[0].args[i])","result == [self.args[0].args[i] for i in range(*indices)] or result == self.args[0].args[i]"],"fibers":[{"name":"slice","guard":"isinstance(i, slice)","ensures":["result == [self.args[0].args[i] for i in range(*indices)]"],"decidability":"structural","returns_expr":"[self.args[0].args[i] for i in range(*indices)]"},{"name":"slice","guard":"not (isinstance(i, slice))","ensures":["result == self.args[0].args[i]"],"decidability":"structural","returns_expr":"self.args[0].args[i]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["i.indices","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, i):
         if isinstance(i, slice):
             indices = i.indices(len(self))
@@ -3602,30 +4532,42 @@ class NO(Expr):
             return self.args[0].args[i]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self.args[0].args)) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.args[0].args)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d8abcd4ac59cb52           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.__len__","kind":"method","src_hash":"b60b45181ccab06c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d8abcd4ac59cb52"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.__len__","kind":"method","src_hash":"b60b45181ccab06c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"len(self.args[0].args)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self.args[0].args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d8abcd4ac59cb52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.args[0].args)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return len(self.args[0].args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iter_q_annihilators(), iterates over the annihilation operators) over Any ║
+# ║ Path(iter_q_annihilators(), <unspecified:iter_q_annihilators>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ iter_q_annihilators : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c96aec930075fa8d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.iter_q_annihilators","kind":"method","src_hash":"c5767f43dc75c7da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iter_q_annihilators()","rhs":"iterates over the annihilation operators","over":{"base":"Any"},"name":"iter_q_annihilators_correct"},"guarantee":"iterates over the annihilation operators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.NO.iter_q_annihilators_correct","statement":"Path(iter_q_annihilators(x), iterates over the annihilation operators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c96aec930075fa8d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.iter_q_annihilators","kind":"method","src_hash":"c5767f43dc75c7da","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iter_q_annihilators()","rhs":"<unspecified:iter_q_annihilators>","over":{"base":"Any"},"name":"iter_q_annihilators_correct"},"guarantee":"iterates over the annihilation operators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.NO.iter_q_annihilators_correct","statement":"Path(iter_q_annihilators(x), iterates over the annihilation operators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c96aec930075fa8d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def iter_q_annihilators(self):
         """
         Iterates over the annihilation operators.
@@ -3656,16 +4598,22 @@ class NO(Expr):
                 break
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(iter_q_creators(), iterates over the creation operators) over Any ║
+# ║ Path(iter_q_creators(), <unspecified:iter_q_creators>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ iter_q_creators : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 199728c71bce88cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.iter_q_creators","kind":"method","src_hash":"1f4493ef1224528f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iter_q_creators()","rhs":"iterates over the creation operators","over":{"base":"Any"},"name":"iter_q_creators_correct"},"guarantee":"iterates over the creation operators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.NO.iter_q_creators_correct","statement":"Path(iter_q_creators(x), iterates over the creation operators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"199728c71bce88cb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.iter_q_creators","kind":"method","src_hash":"1f4493ef1224528f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"iter_q_creators()","rhs":"<unspecified:iter_q_creators>","over":{"base":"Any"},"name":"iter_q_creators_correct"},"guarantee":"iterates over the creation operators","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.NO.iter_q_creators_correct","statement":"Path(iter_q_creators(x), iterates over the creation operators)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"199728c71bce88cb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def iter_q_creators(self):
         """
         Iterates over the creation operators.
@@ -3697,16 +4645,22 @@ class NO(Expr):
                 break
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_subNO(i), returns a no() without fermionicoperator at index i) over Any ║
+# ║ Path(get_subNO(i), NO(mul)) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  NO(mul)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ get_subNO : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1151fd2417d48a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd1d310401f9567d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.get_subNO","kind":"method","src_hash":"af9c2429d81edd5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_subNO(i)","rhs":"returns a no() without fermionicoperator at index i","over":{"base":"Any"},"name":"get_subNO_correct"},"guarantee":"returns a no() without fermionicoperator at index i","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.NO.get_subNO_correct","statement":"Path(get_subNO(x), returns a no() without fermionicoperator at index i)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1151fd2417d48a6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.get_subNO","kind":"method","src_hash":"af9c2429d81edd5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_subNO(i)","rhs":"NO(mul)","over":{"base":"Any"},"name":"get_subNO_correct"},"guarantee":"returns NO(mul)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.NO.get_subNO_correct","statement":"Path(get_subNO(x), returns NO(mul))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd1d310401f9567d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"NO(mul)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_subNO(self, i):
         """
         Returns a NO() without FermionicOperator at index i.
@@ -3727,50 +4681,75 @@ class NO(Expr):
         return NO(mul)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer), '\\left\\{%s\\right\\}' % printer._print(self.args[0])) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '\\left\\{%s\\right\\}' % printer._print(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 498120555dc1b330           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO._latex","kind":"method","src_hash":"08eb18715d0a1de7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"498120555dc1b330"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO._latex","kind":"method","src_hash":"08eb18715d0a1de7","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer)","rhs":"'\\\\left\\\\{%s\\\\right\\\\}' % printer._print(self.args[0])","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns '\\\\left\\\\{%s\\\\right\\\\}' % printer._print(self.args[0])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"498120555dc1b330","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'\\\\left\\\\{%s\\\\right\\\\}' % printer._print(self.args[0])","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         return "\\left\\{%s\\right\\}" % printer._print(self.args[0])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'NO(%s)' % self.args[0]) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'NO(%s)' % self.args[0]                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f75e032707405172           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.__repr__","kind":"method","src_hash":"68ff1b8608715edf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f75e032707405172"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.__repr__","kind":"method","src_hash":"68ff1b8608715edf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'NO(%s)' % self.args[0]","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'NO(%s)' % self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f75e032707405172","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'NO(%s)' % self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "NO(%s)" % self.args[0]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), ':%s:' % self.args[0]) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ':%s:' % self.args[0]                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5237b47f6c817929           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.__str__","kind":"method","src_hash":"26b8a848ec6db540","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5237b47f6c817929"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.NO.__str__","kind":"method","src_hash":"26b8a848ec6db540","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"':%s:' % self.args[0]","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns ':%s:' % self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5237b47f6c817929","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"':%s:' % self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return ":%s:" % self.args[0]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contraction(a, ), calculates contraction of fermionic operators a and b) over {Any | isinstance(b, FermionicOperator) and isinstance(a, AnnihilateFermion) and isinstance(b, CreateFermion)} ║
+# ║ Path(contraction(a, b), <unspecified:contraction>) over {Any | isinstance(b, FermionicOperator) and isinstance(a, AnnihilateFermion) and isinstance(b, CreateFermion) and hasattr(a, 'state') and hasattr(b, 'state')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'state')                            ║
+# ║   requires: hasattr(b, 'state')                            ║
+# ║   fiber[FermionicOperator]: isinstance(b, FermionicOp...   ║
+# ║   fiber[FermionicOperator]: not (isinstance(b, Fermio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ contraction : {Any | isinstance(b, FermionicOperator)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3784,9 +4763,12 @@ class NO(Expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 8.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 671c4972...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.contraction","kind":"function","src_hash":"acf0c10e6e67a983","in":{"base":"Any","pred":"isinstance(b, FermionicOperator) and isinstance(a, AnnihilateFermion) and isinstance(b, CreateFermion)"},"out":{"base":"Any"},"spec":{"lhs":"contraction(a, )","rhs":"calculates contraction of fermionic operators a and b","over":{"base":"Any","pred":"isinstance(b, FermionicOperator) and isinstance(a, AnnihilateFermion) and isinstance(b, CreateFermion)"},"name":"contraction_correct"},"guarantee":"calculates contraction of fermionic operators a and b","fibers":[{"name":"FermionicOperator","pred":"isinstance(b, FermionicOperator)","path":{"lhs":"contraction(x)","rhs":"calculates contraction of fermionic operators a and b","over":{"base":"FermionicOperator","pred":"isinstance(b, FermionicOperator)"},"name":"contraction_FermionicOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.contraction_FermionicOperator_correct","statement":"contraction satisfies spec on FermionicOperator inputs"},"trust":"LIBRARY"},{"name":"AnnihilateFermion","pred":"isinstance(a, AnnihilateFermion)","path":{"lhs":"contraction(x)","rhs":"calculates contraction of fermionic operators a and b","over":{"base":"AnnihilateFermion","pred":"isinstance(a, AnnihilateFermion)"},"name":"contraction_AnnihilateFermion_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.contraction_AnnihilateFermion_correct","statement":"contraction satisfies spec on AnnihilateFermion inputs"},"trust":"LIBRARY"},{"name":"CreateFermion","pred":"isinstance(b, CreateFermion)","path":{"lhs":"contraction(x)","rhs":"calculates contraction of fermionic operators a and b","over":{"base":"CreateFermion","pred":"isinstance(b, CreateFermion)"},"name":"contraction_CreateFermion_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.contraction_CreateFermion_correct","statement":"contraction satisfies spec on CreateFermion inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"671c4972bf1f6a78"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.contraction","kind":"function","src_hash":"acf0c10e6e67a983","in":{"base":"Any","pred":"isinstance(b, FermionicOperator) and isinstance(a, AnnihilateFermion) and isinstance(b, CreateFermion) and hasattr(a, 'state') and hasattr(b, 'state')"},"out":{"base":"Any"},"spec":{"lhs":"contraction(a, b)","rhs":"<unspecified:contraction>","over":{"base":"Any","pred":"isinstance(b, FermionicOperator) and isinstance(a, AnnihilateFermion) and isinstance(b, CreateFermion) and hasattr(a, 'state') and hasattr(b, 'state')"},"name":"contraction_correct"},"guarantee":"2-fiber decomposition","fibers":[{"name":"FermionicOperator","pred":"isinstance(b, FermionicOperator)","path":{"lhs":"contraction(x)","rhs":"2-fiber decomposition","over":{"base":"FermionicOperator","pred":"isinstance(b, FermionicOperator)"},"name":"contraction_FermionicOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.contraction_FermionicOperator_correct","statement":"contraction satisfies spec on FermionicOperator inputs"},"trust":"LIBRARY"},{"name":"AnnihilateFermion","pred":"isinstance(a, AnnihilateFermion)","path":{"lhs":"contraction(x)","rhs":"2-fiber decomposition","over":{"base":"AnnihilateFermion","pred":"isinstance(a, AnnihilateFermion)"},"name":"contraction_AnnihilateFermion_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.contraction_AnnihilateFermion_correct","statement":"contraction satisfies spec on AnnihilateFermion inputs"},"trust":"LIBRARY"},{"name":"CreateFermion","pred":"isinstance(b, CreateFermion)","path":{"lhs":"contraction(x)","rhs":"2-fiber decomposition","over":{"base":"CreateFermion","pred":"isinstance(b, CreateFermion)"},"name":"contraction_CreateFermion_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.contraction_CreateFermion_correct","statement":"contraction satisfies spec on CreateFermion inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"671c4972bf1f6a78","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'state')","hasattr(b, 'state')"],"fibers":[{"name":"FermionicOperator","guard":"isinstance(b, FermionicOperator) and isinstance(a, FermionicOperator)","ensures":["result == S.Zero"],"decidability":"structural","returns_expr":"S.Zero"},{"name":"FermionicOperator","guard":"not (isinstance(b, FermionicOperator) and isinstance(a, FermionicOperator))","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.state","b.state"],"raises":["ContractionAppliesOnlyToFermions"]},"state_contract":{"exceptional_post":{"ContractionAppliesOnlyToFermions":["isinstance(raised, ContractionAppliesOnlyToFermions)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":8.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(b, FermionicOperator) and isinstance(a, FermionicOperator)', 'isinstance(b, AnnihilateFermion) and isinstance(a, CreateFermion)', 'isinstance(a, AnnihilateFermion) and isinstance(b, CreateFermion)'}, fibers={'AnnihilateFermion', 'CreateFermion', 'FermionicOperator'})"]}}
 def contraction(a, b):
     """
     Calculates contraction of Fermionic operators a and b.
@@ -3860,24 +4842,35 @@ def contraction(a, b):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sqkey_operator(sq_), generates key for canonical sorting of sq operators) over Any ║
+# ║ Path(_sqkey_operator(sq_operator), sq_operator._sortkey()) over {Any | hasattr(sq_operator, '_sortkey')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sqkey_operator : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(sq_operator, '_sortkey')               ║
+# ║   returns:  sq_operator._sortkey()                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sqkey_operator : {Any | hasattr(sq_operator, '_sortk...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ebbc7a6a9c2286fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._sqkey_operator","kind":"function","src_hash":"bd4069f7ccc08b40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sqkey_operator(sq_)","rhs":"generates key for canonical sorting of sq operators","over":{"base":"Any"},"name":"_sqkey_operator_correct"},"guarantee":"generates key for canonical sorting of sq operators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebbc7a6a9c2286fc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._sqkey_operator","kind":"function","src_hash":"bd4069f7ccc08b40","in":{"base":"Any","pred":"hasattr(sq_operator, '_sortkey')"},"out":{"base":"Any"},"spec":{"lhs":"_sqkey_operator(sq_operator)","rhs":"sq_operator._sortkey()","over":{"base":"Any","pred":"hasattr(sq_operator, '_sortkey')"},"name":"_sqkey_operator_correct"},"guarantee":"returns sq_operator._sortkey()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ebbc7a6a9c2286fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(sq_operator, '_sortkey')"],"returns_expr":"sq_operator._sortkey()","pure":false,"effects":{"effect_type":"reads_state","reads":["sq_operator._sortkey"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _sqkey_operator(sq_operator):
     """Generates key for canonical sorting of SQ operators."""
     return sq_operator._sortkey()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sqkey_index(ind), key for sorting of indices) over {Any | isinstance(index, Dummy)} ║
+# ║ Path(_sqkey_index(index), <unspecified:_sqkey_index>) over {Any | isinstance(index, Dummy) and hasattr(index, 'assumptions0')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sqkey_index : {Any | isinstance(index, Dummy)} → Any      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(index, 'assumptions0')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sqkey_index : {Any | isinstance(index, Dummy) and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Dummy: {isinstance(index, Dummy)} → library_axiom        ║
@@ -3887,9 +4880,12 @@ def _sqkey_operator(sq_operator):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c2569a56...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._sqkey_index","kind":"function","src_hash":"8585a9bc6fd9dc52","in":{"base":"Any","pred":"isinstance(index, Dummy)"},"out":{"base":"Any"},"spec":{"lhs":"_sqkey_index(ind)","rhs":"key for sorting of indices","over":{"base":"Any","pred":"isinstance(index, Dummy)"},"name":"_sqkey_index_correct"},"guarantee":"key for sorting of indices","fibers":[{"name":"Dummy","pred":"isinstance(index, Dummy)","path":{"lhs":"_sqkey_index(x)","rhs":"key for sorting of indices","over":{"base":"Dummy","pred":"isinstance(index, Dummy)"},"name":"_sqkey_index_Dummy_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._sqkey_index_Dummy_correct","statement":"_sqkey_index satisfies spec on Dummy inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c2569a56e1409c14"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._sqkey_index","kind":"function","src_hash":"8585a9bc6fd9dc52","in":{"base":"Any","pred":"isinstance(index, Dummy) and hasattr(index, 'assumptions0')"},"out":{"base":"Any"},"spec":{"lhs":"_sqkey_index(index)","rhs":"<unspecified:_sqkey_index>","over":{"base":"Any","pred":"isinstance(index, Dummy) and hasattr(index, 'assumptions0')"},"name":"_sqkey_index_correct"},"guarantee":"key for sorting of indices","fibers":[{"name":"Dummy","pred":"isinstance(index, Dummy)","path":{"lhs":"_sqkey_index(x)","rhs":"key for sorting of indices","over":{"base":"Dummy","pred":"isinstance(index, Dummy)"},"name":"_sqkey_index_Dummy_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._sqkey_index_Dummy_correct","statement":"_sqkey_index satisfies spec on Dummy inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c2569a56e1409c14","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(index, 'assumptions0')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["index.assumptions0"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(index, Dummy)'}, fibers={'Dummy'})"]}}
 def _sqkey_index(index):
     """Key for sorting of indices.
 
@@ -3917,16 +4913,22 @@ def _sqkey_index(index):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sort_anticommuting_fermions(str), sort fermionic operators to canonical order, assuming all pairs anticommute) over Any ║
+# ║ Path(_sort_anticommuting_fermions(string1, key), (string1, sign)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (string1, sign)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sort_anticommuting_fermions : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a32580c68c9ca7d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b738dfaffcf9b747  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._sort_anticommuting_fermions","kind":"function","src_hash":"996d290028a8d49a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sort_anticommuting_fermions(str)","rhs":"sort fermionic operators to canonical order, assuming all pairs anticommute","over":{"base":"Any"},"name":"_sort_anticommuting_fermions_correct"},"guarantee":"sort fermionic operators to canonical order, assuming all pairs anticommute","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._sort_anticommuting_fermions_correct","statement":"Path(_sort_anticommuting_fermions(x), sort fermionic operators to canonical order, assuming all pairs anticommute)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a32580c68c9ca7d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._sort_anticommuting_fermions","kind":"function","src_hash":"996d290028a8d49a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sort_anticommuting_fermions(string1, key)","rhs":"(string1, sign)","over":{"base":"Any"},"name":"_sort_anticommuting_fermions_correct"},"guarantee":"returns (string1, sign)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._sort_anticommuting_fermions_correct","statement":"Path(_sort_anticommuting_fermions(x), returns (string1, sign))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b738dfaffcf9b747","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(string1, sign)","pure":false,"effects":{"effect_type":"reads_state","raises":["ViolationOfPauliPrinciple"]},"state_contract":{"exceptional_post":{"ViolationOfPauliPrinciple":["isinstance(raised, ViolationOfPauliPrinciple)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _sort_anticommuting_fermions(string1, key=_sqkey_operator):
     """Sort fermionic operators to canonical order, assuming all pairs anticommute.
 
@@ -3984,7 +4986,17 @@ def _sort_anticommuting_fermions(string1, key=_sqkey_operator):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evaluate_deltas(e), we evaluate kroneckerdelta symbols in the expression assuming einstein summation) over {Any | isinstance(e, accepted_functions) and isinstance(e, Mul) and isinstance(i, KroneckerDelta)} ║
+# ║ Path(evaluate_deltas(e), result == (e.func(*[evaluate_deltas(arg) for arg in e.args]) if isinstance(e, accepted_functions) else e if isinstance(e, Mul) else e) and result == e.func(*[evaluate_deltas(arg) for arg in e.args]) or result == e) over {Any | isinstance(e, accepted_functions) and isinstance(e, Mul) and isinstance(i, KroneckerDelta) and hasattr(e, 'func') and hasattr(e, 'args') and hasattr(e, 'subs')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'func')                             ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   requires: hasattr(e, 'subs')                             ║
+# ║   ensures:  result == (e.func(*[evaluate_deltas(arg) ...   ║
+# ║   ensures:  result == e.func(*[evaluate_deltas(arg) f...   ║
+# ║   fiber[accepted_functions]: isinstance(e, accepted_f...   ║
+# ║   fiber[Mul]: isinstance(e, Mul) => e                      ║
+# ║   fiber[accepted_functions]: not (isinstance(e, accep...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ evaluate_deltas : {Any | isinstance(e, accepted_funct...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -3998,9 +5010,12 @@ def _sort_anticommuting_fermions(string1, key=_sqkey_operator):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 7.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3b48d5ec...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.evaluate_deltas","kind":"function","src_hash":"d44356114b7873e9","in":{"base":"Any","pred":"isinstance(e, accepted_functions) and isinstance(e, Mul) and isinstance(i, KroneckerDelta)"},"out":{"base":"Any"},"spec":{"lhs":"evaluate_deltas(e)","rhs":"we evaluate kroneckerdelta symbols in the expression assuming einstein summation","over":{"base":"Any","pred":"isinstance(e, accepted_functions) and isinstance(e, Mul) and isinstance(i, KroneckerDelta)"},"name":"evaluate_deltas_correct"},"guarantee":"we evaluate kroneckerdelta symbols in the expression assuming einstein summation","fibers":[{"name":"accepted_functions","pred":"isinstance(e, accepted_functions)","path":{"lhs":"evaluate_deltas(x)","rhs":"we evaluate kroneckerdelta symbols in the expression assuming einstein summation","over":{"base":"accepted_functions","pred":"isinstance(e, accepted_functions)"},"name":"evaluate_deltas_accepted_functions_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.evaluate_deltas_accepted_functions_correct","statement":"evaluate_deltas satisfies spec on accepted_functions inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(e, Mul)","path":{"lhs":"evaluate_deltas(x)","rhs":"we evaluate kroneckerdelta symbols in the expression assuming einstein summation","over":{"base":"Mul","pred":"isinstance(e, Mul)"},"name":"evaluate_deltas_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.evaluate_deltas_Mul_correct","statement":"evaluate_deltas satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"KroneckerDelta","pred":"isinstance(i, KroneckerDelta)","path":{"lhs":"evaluate_deltas(x)","rhs":"we evaluate kroneckerdelta symbols in the expression assuming einstein summation","over":{"base":"KroneckerDelta","pred":"isinstance(i, KroneckerDelta)"},"name":"evaluate_deltas_KroneckerDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.evaluate_deltas_KroneckerDelta_correct","statement":"evaluate_deltas satisfies spec on KroneckerDelta inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3b48d5ec90a0eebd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.evaluate_deltas","kind":"function","src_hash":"d44356114b7873e9","in":{"base":"Any","pred":"isinstance(e, accepted_functions) and isinstance(e, Mul) and isinstance(i, KroneckerDelta) and hasattr(e, 'func') and hasattr(e, 'args') and hasattr(e, 'subs')"},"out":{"base":"Any","pred":"result satisfies: result == (e.func(*[evaluate_deltas(arg) for arg in e.args]) if isinstance(e, accepted_functions) else e if isinstance(e, Mul) else e) and result == e.func(*[evaluate_deltas(arg) for arg in e.args]) or result == e"},"spec":{"lhs":"evaluate_deltas(e)","rhs":"result == (e.func(*[evaluate_deltas(arg) for arg in e.args]) if isinstance(e, accepted_functions) else e if isinstance(e, Mul) else e) and result == e.func(*[evaluate_deltas(arg) for arg in e.args]) or result == e","over":{"base":"Any","pred":"isinstance(e, accepted_functions) and isinstance(e, Mul) and isinstance(i, KroneckerDelta) and hasattr(e, 'func') and hasattr(e, 'args') and hasattr(e, 'subs')"},"name":"evaluate_deltas_correct"},"guarantee":"result == (e.func(*[evaluate_deltas(arg) for arg in e.args]) if isinstance(e, accepted_functions) else e if isinstance(e, Mul) else e); result == e.func(*[evaluate_deltas(arg) for arg in e.args]) or result == e; 3-fiber decomposition","fibers":[{"name":"accepted_functions","pred":"isinstance(e, accepted_functions)","path":{"lhs":"evaluate_deltas(x)","rhs":"result == (e.func(*[evaluate_deltas(arg) for arg in e.args]) if isinstance(e, accepted_functions) else e if isinstance(e, Mul) else e); result == e.func(*[evaluate_deltas(arg) for arg in e.args]) or result == e; 3-fiber decomposition","over":{"base":"accepted_functions","pred":"isinstance(e, accepted_functions)"},"name":"evaluate_deltas_accepted_functions_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.evaluate_deltas_accepted_functions_correct","statement":"evaluate_deltas satisfies spec on accepted_functions inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(e, Mul)","path":{"lhs":"evaluate_deltas(x)","rhs":"result == (e.func(*[evaluate_deltas(arg) for arg in e.args]) if isinstance(e, accepted_functions) else e if isinstance(e, Mul) else e); result == e.func(*[evaluate_deltas(arg) for arg in e.args]) or result == e; 3-fiber decomposition","over":{"base":"Mul","pred":"isinstance(e, Mul)"},"name":"evaluate_deltas_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.evaluate_deltas_Mul_correct","statement":"evaluate_deltas satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"KroneckerDelta","pred":"isinstance(i, KroneckerDelta)","path":{"lhs":"evaluate_deltas(x)","rhs":"result == (e.func(*[evaluate_deltas(arg) for arg in e.args]) if isinstance(e, accepted_functions) else e if isinstance(e, Mul) else e); result == e.func(*[evaluate_deltas(arg) for arg in e.args]) or result == e; 3-fiber decomposition","over":{"base":"KroneckerDelta","pred":"isinstance(i, KroneckerDelta)"},"name":"evaluate_deltas_KroneckerDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.evaluate_deltas_KroneckerDelta_correct","statement":"evaluate_deltas satisfies spec on KroneckerDelta inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3b48d5ec90a0eebd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'func')","hasattr(e, 'args')","hasattr(e, 'subs')"],"ensures":["result == (e.func(*[evaluate_deltas(arg) for arg in e.args]) if isinstance(e, accepted_functions) else e if isinstance(e, Mul) else e)","result == e.func(*[evaluate_deltas(arg) for arg in e.args]) or result == e"],"fibers":[{"name":"accepted_functions","guard":"isinstance(e, accepted_functions)","ensures":["result == e.func(*[evaluate_deltas(arg) for arg in e.args])"],"decidability":"structural","returns_expr":"e.func(*[evaluate_deltas(arg) for arg in e.args])"},{"name":"Mul","guard":"isinstance(e, Mul)","ensures":["result == e"],"decidability":"structural","returns_expr":"e"},{"name":"accepted_functions","guard":"not (isinstance(e, accepted_functions)) and not (isinstance(e, Mul))","ensures":["result == e"],"decidability":"structural","returns_expr":"e"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(e, accepted_functions)', 'len(deltas) > 1', 'isinstance(i, KroneckerDelta)', 'isinstance(e, Mul)'}, fibers={'KroneckerDelta', 'accepted_functions', 'Mul'})"]}}
 def evaluate_deltas(e):
     """
     We evaluate KroneckerDelta symbols in the expression assuming Einstein summation.
@@ -4113,16 +5128,25 @@ def evaluate_deltas(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(substitute_dummies(exp), collect terms by substitution of dummy variables) over Any ║
+# ║ Path(substitute_dummies(expr, new_indices, pretty_indices), <unspecified:substitute_dummies>) over {Any | hasattr(expr, 'atoms') and hasattr(expr, 'expand') and hasattr(pretty_indices, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ substitute_dummies : Any → Any                             ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   requires: hasattr(expr, 'expand')                        ║
+# ║   requires: hasattr(pretty_indices, 'get')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ substitute_dummies : {Any | hasattr(expr, 'atoms') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 94876124bf477d33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.substitute_dummies","kind":"function","src_hash":"4f3dc58f2bc23514","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"substitute_dummies(exp)","rhs":"collect terms by substitution of dummy variables","over":{"base":"Any"},"name":"substitute_dummies_correct"},"guarantee":"collect terms by substitution of dummy variables","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.substitute_dummies_correct","statement":"Path(substitute_dummies(x), collect terms by substitution of dummy variables)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94876124bf477d33"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.substitute_dummies","kind":"function","src_hash":"4f3dc58f2bc23514","in":{"base":"Any","pred":"hasattr(expr, 'atoms') and hasattr(expr, 'expand') and hasattr(pretty_indices, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"substitute_dummies(expr, new_indices, pretty_indices)","rhs":"<unspecified:substitute_dummies>","over":{"base":"Any","pred":"hasattr(expr, 'atoms') and hasattr(expr, 'expand') and hasattr(pretty_indices, 'get')"},"name":"substitute_dummies_correct"},"guarantee":"collect terms by substitution of dummy variables","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.substitute_dummies_correct","statement":"Path(substitute_dummies(x), collect terms by substitution of dummy variables)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"94876124bf477d33","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'atoms')","hasattr(expr, 'expand')","hasattr(pretty_indices, 'get')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def substitute_dummies(expr, new_indices=False, pretty_indices={}):
     """
     Collect terms by substitution of dummy variables.
@@ -4292,51 +5316,74 @@ def substitute_dummies(expr, new_indices=False, pretty_indices={}):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(KeyPrinter(), correctly constructs a KeyPrinter instance) over Any ║
+# ║ Path(KeyPrinter(), isinstance(self, StrPrinter)) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ KeyPrinter : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, StrPrinter)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ KeyPrinter : Any → {Any | result satisfies: isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9ede22599e72c2ec           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.KeyPrinter","kind":"class","src_hash":"bc1263ded787401a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"KeyPrinter()","rhs":"correctly constructs a KeyPrinter instance","over":{"base":"Any"},"name":"KeyPrinter_correct"},"guarantee":"correctly constructs a KeyPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ede22599e72c2ec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.KeyPrinter","kind":"class","src_hash":"bc1263ded787401a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, StrPrinter)"},"spec":{"lhs":"KeyPrinter()","rhs":"isinstance(self, StrPrinter)","over":{"base":"Any"},"name":"KeyPrinter_correct"},"guarantee":"isinstance(self, StrPrinter)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9ede22599e72c2ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, StrPrinter)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function KeyPrinter not found in source"]}}
 class KeyPrinter(StrPrinter):
     """Printer for which only equal objects are equal in print"""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Dummy(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Dummy(expr), '(%s_%i)' % (expr.name, expr.dummy_index)) over {Any | hasattr(expr, 'name') and hasattr(expr, 'dummy_index')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Dummy : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'name')                          ║
+# ║   requires: hasattr(expr, 'dummy_index')                   ║
+# ║   returns:  '(%s_%i)' % (expr.name, expr.dummy_index)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Dummy : {Any | hasattr(expr, 'name') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd7622e34fcb72c3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.KeyPrinter._print_Dummy","kind":"method","src_hash":"602bac090e7dbc00","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Dummy(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Dummy_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd7622e34fcb72c3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.KeyPrinter._print_Dummy","kind":"method","src_hash":"602bac090e7dbc00","in":{"base":"Any","pred":"hasattr(expr, 'name') and hasattr(expr, 'dummy_index')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Dummy(expr)","rhs":"'(%s_%i)' % (expr.name, expr.dummy_index)","over":{"base":"Any","pred":"hasattr(expr, 'name') and hasattr(expr, 'dummy_index')"},"name":"_print_Dummy_correct"},"guarantee":"returns '(%s_%i)' % (expr.name, expr.dummy_index)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd7622e34fcb72c3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'name')","hasattr(expr, 'dummy_index')"],"returns_expr":"'(%s_%i)' % (expr.name, expr.dummy_index)","pure":false,"effects":{"effect_type":"reads_state","reads":["expr.dummy_index","expr.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Dummy(self, expr):
         return "(%s_%i)" % (expr.name, expr.dummy_index)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__kprint(exp), internal helper behaves correctly) over Any ║
+# ║ Path(__kprint(expr), p.doprint(expr)) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  p.doprint(expr)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __kprint : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1f756b8b314ed6e4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.__kprint","kind":"function","src_hash":"79fb4f9d3190c3a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__kprint(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__kprint_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f756b8b314ed6e4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.__kprint","kind":"function","src_hash":"79fb4f9d3190c3a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__kprint(expr)","rhs":"p.doprint(expr)","over":{"base":"Any"},"name":"__kprint_correct"},"guarantee":"returns p.doprint(expr)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1f756b8b314ed6e4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"p.doprint(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def __kprint(expr):
     p = KeyPrinter()
     return p.doprint(expr)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_ordered_dummies(mul), returns all dummies in the mul sorted in canonical order) over {Any | isinstance(fac, AntiSymmetricTensor) and isinstance(fac, Creator) and isinstance(fac, Annihilator)} ║
+# ║ Path(_get_ordered_dummies(mul, verbose), <unspecified:_get_ordered_dummies>) over {Any | isinstance(fac, AntiSymmetricTensor) and isinstance(fac, Creator) and isinstance(fac, Annihilator)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_ordered_dummies : {Any | isinstance(fac, AntiSym...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4351,9 +5398,12 @@ def __kprint(expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 5.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 62988bf2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._get_ordered_dummies","kind":"function","src_hash":"31ff9fdb4699eaab","in":{"base":"Any","pred":"isinstance(fac, AntiSymmetricTensor) and isinstance(fac, Creator) and isinstance(fac, Annihilator)"},"out":{"base":"Any"},"spec":{"lhs":"_get_ordered_dummies(mul)","rhs":"returns all dummies in the mul sorted in canonical order","over":{"base":"Any","pred":"isinstance(fac, AntiSymmetricTensor) and isinstance(fac, Creator) and isinstance(fac, Annihilator)"},"name":"_get_ordered_dummies_correct"},"guarantee":"returns all dummies in the mul sorted in canonical order","fibers":[{"name":"AntiSymmetricTensor","pred":"isinstance(fac, AntiSymmetricTensor)","path":{"lhs":"_get_ordered_dummies(x)","rhs":"returns all dummies in the mul sorted in canonical order","over":{"base":"AntiSymmetricTensor","pred":"isinstance(fac, AntiSymmetricTensor)"},"name":"_get_ordered_dummies_AntiSymmetricTensor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._get_ordered_dummies_AntiSymmetricTensor_correct","statement":"_get_ordered_dummies satisfies spec on AntiSymmetricTensor inputs"},"trust":"LIBRARY"},{"name":"Creator","pred":"isinstance(fac, Creator)","path":{"lhs":"_get_ordered_dummies(x)","rhs":"returns all dummies in the mul sorted in canonical order","over":{"base":"Creator","pred":"isinstance(fac, Creator)"},"name":"_get_ordered_dummies_Creator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._get_ordered_dummies_Creator_correct","statement":"_get_ordered_dummies satisfies spec on Creator inputs"},"trust":"LIBRARY"},{"name":"Annihilator","pred":"isinstance(fac, Annihilator)","path":{"lhs":"_get_ordered_dummies(x)","rhs":"returns all dummies in the mul sorted in canonical order","over":{"base":"Annihilator","pred":"isinstance(fac, Annihilator)"},"name":"_get_ordered_dummies_Annihilator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._get_ordered_dummies_Annihilator_correct","statement":"_get_ordered_dummies satisfies spec on Annihilator inputs"},"trust":"LIBRARY"},{"name":"NO","pred":"isinstance(fac, NO)","path":{"lhs":"_get_ordered_dummies(x)","rhs":"returns all dummies in the mul sorted in canonical order","over":{"base":"NO","pred":"isinstance(fac, NO)"},"name":"_get_ordered_dummies_NO_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._get_ordered_dummies_NO_correct","statement":"_get_ordered_dummies satisfies spec on NO inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"62988bf2691796e0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._get_ordered_dummies","kind":"function","src_hash":"31ff9fdb4699eaab","in":{"base":"Any","pred":"isinstance(fac, AntiSymmetricTensor) and isinstance(fac, Creator) and isinstance(fac, Annihilator)"},"out":{"base":"Any"},"spec":{"lhs":"_get_ordered_dummies(mul, verbose)","rhs":"<unspecified:_get_ordered_dummies>","over":{"base":"Any","pred":"isinstance(fac, AntiSymmetricTensor) and isinstance(fac, Creator) and isinstance(fac, Annihilator)"},"name":"_get_ordered_dummies_correct"},"guarantee":"returns all dummies in the mul sorted in canonical order","fibers":[{"name":"AntiSymmetricTensor","pred":"isinstance(fac, AntiSymmetricTensor)","path":{"lhs":"_get_ordered_dummies(x)","rhs":"returns all dummies in the mul sorted in canonical order","over":{"base":"AntiSymmetricTensor","pred":"isinstance(fac, AntiSymmetricTensor)"},"name":"_get_ordered_dummies_AntiSymmetricTensor_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._get_ordered_dummies_AntiSymmetricTensor_correct","statement":"_get_ordered_dummies satisfies spec on AntiSymmetricTensor inputs"},"trust":"LIBRARY"},{"name":"Creator","pred":"isinstance(fac, Creator)","path":{"lhs":"_get_ordered_dummies(x)","rhs":"returns all dummies in the mul sorted in canonical order","over":{"base":"Creator","pred":"isinstance(fac, Creator)"},"name":"_get_ordered_dummies_Creator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._get_ordered_dummies_Creator_correct","statement":"_get_ordered_dummies satisfies spec on Creator inputs"},"trust":"LIBRARY"},{"name":"Annihilator","pred":"isinstance(fac, Annihilator)","path":{"lhs":"_get_ordered_dummies(x)","rhs":"returns all dummies in the mul sorted in canonical order","over":{"base":"Annihilator","pred":"isinstance(fac, Annihilator)"},"name":"_get_ordered_dummies_Annihilator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._get_ordered_dummies_Annihilator_correct","statement":"_get_ordered_dummies satisfies spec on Annihilator inputs"},"trust":"LIBRARY"},{"name":"NO","pred":"isinstance(fac, NO)","path":{"lhs":"_get_ordered_dummies(x)","rhs":"returns all dummies in the mul sorted in canonical order","over":{"base":"NO","pred":"isinstance(fac, NO)"},"name":"_get_ordered_dummies_NO_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._get_ordered_dummies_NO_correct","statement":"_get_ordered_dummies satisfies spec on NO inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"62988bf2691796e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(op, Creator)', 'isinstance(fac, Creator)', 'isinstance(fac, NO)', 'isinstance(fac, Annihilator)', 'facpos == -1', 'isinstance(fac, AntiSymmetricTensor)'}, fibers={'AntiSymmetricTensor', 'NO', 'Annihilator', 'Creator'})"]}}
 def _get_ordered_dummies(mul, verbose=False):
     """Returns all dummies in the mul sorted in canonical order.
 
@@ -4502,16 +5552,24 @@ def _get_ordered_dummies(mul, verbose=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_determine_ambiguous(ter), internal helper behaves correctly) over Any ║
+# ║ Path(_determine_ambiguous(term, ordered, ambiguous_groups), ordered) over {Any | hasattr(term, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _determine_ambiguous : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(term, 'subs')                          ║
+# ║   ensures:  result == ordered                              ║
+# ║   returns:  ordered                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _determine_ambiguous : {Any | hasattr(term, 'subs')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eadabf5dd58eb67a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b88fba73fa933f10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._determine_ambiguous","kind":"function","src_hash":"919e25cbca60e8a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_determine_ambiguous(ter)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_determine_ambiguous_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._determine_ambiguous_correct","statement":"Path(_determine_ambiguous(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eadabf5dd58eb67a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._determine_ambiguous","kind":"function","src_hash":"919e25cbca60e8a0","in":{"base":"Any","pred":"hasattr(term, 'subs')"},"out":{"base":"Any","pred":"result satisfies: result == (ordered)"},"spec":{"lhs":"_determine_ambiguous(term, ordered, ambiguous_groups)","rhs":"ordered","over":{"base":"Any","pred":"hasattr(term, 'subs')"},"name":"_determine_ambiguous_correct"},"guarantee":"returns ordered; result == ordered","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._determine_ambiguous_correct","statement":"Path(_determine_ambiguous(x), returns ordered; result == ordered)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b88fba73fa933f10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(term, 'subs')"],"ensures":["result == ordered"],"returns_expr":"ordered","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _determine_ambiguous(term, ordered, ambiguous_groups):
     # We encountered a term for which the dummy substitution is ambiguous.
     # This happens for terms with 2 or more contractions between factors that
@@ -4572,41 +5630,58 @@ def _determine_ambiguous(term, ordered, ambiguous_groups):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a _SymbolFactory instance) preserved by _SymbolFactory(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _SymbolFactory : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96a219bf182bcbd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._SymbolFactory","kind":"class","src_hash":"1a930e42821b84ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_SymbolFactory(*args)","rhs":"correctly constructs a _SymbolFactory instance","over":{"base":"Any"},"name":"_SymbolFactory_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a _SymbolFactory instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_counterVar') and hasattr(self, '_label')","kind":"class","induction":"structural on _counterVar, _label"}],"methods_preserving":["__init__","_set_counter","_counter","_next"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96a219bf182bcbd2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._SymbolFactory","kind":"class","src_hash":"1a930e42821b84ac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_SymbolFactory(*args)","rhs":"correctly constructs a _SymbolFactory instance","over":{"base":"Any"},"name":"_SymbolFactory_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_counterVar') and hasattr(self, '_label')","kind":"class","induction":"structural on _counterVar, _label"}],"methods_preserving":["__init__","_set_counter","_counter","_next"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96a219bf182bcbd2","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, '_counterVar')","hasattr(self, '_label')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function _SymbolFactory not found in source"]}}
 class _SymbolFactory:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(lab), initializes the instance correctly) over Any ║
+# ║ Path(__init__(label), self._label == label) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self._label == label                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self._label...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c0c1527a42e78b1a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._SymbolFactory.__init__","kind":"method","src_hash":"4daea65018a526c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(lab)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0c1527a42e78b1a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._SymbolFactory.__init__","kind":"method","src_hash":"4daea65018a526c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self._label == label"},"spec":{"lhs":"__init__(label)","rhs":"self._label == label","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self._label == label","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c0c1527a42e78b1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self._label == label"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, label):
         self._counterVar = 0
         self._label = label
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_set_counter(val), sets counter to value) over Any    ║
+# ║ Path(_set_counter(value), <unspecified:_set_counter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _set_counter : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 816e74b41ad0e018  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._SymbolFactory._set_counter","kind":"method","src_hash":"5bcb034a822ddf32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_counter(val)","rhs":"sets counter to value","over":{"base":"Any"},"name":"_set_counter_correct"},"guarantee":"sets counter to value","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._SymbolFactory._set_counter_correct","statement":"Path(_set_counter(x), sets counter to value)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"816e74b41ad0e018"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._SymbolFactory._set_counter","kind":"method","src_hash":"5bcb034a822ddf32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_set_counter(value)","rhs":"<unspecified:_set_counter>","over":{"base":"Any"},"name":"_set_counter_correct"},"guarantee":"sets counter to value","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._SymbolFactory._set_counter_correct","statement":"Path(_set_counter(x), sets counter to value)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"816e74b41ad0e018","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._counterVar"]},"state_contract":{"modifies":["self._counterVar"],"old_bindings":{"old_self__counterVar":"self._counterVar"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _set_counter(self, value):
         """
         Sets counter to value.
@@ -4615,16 +5690,22 @@ class _SymbolFactory:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_counter(), returns the _counter attribute) over Any  ║
+# ║ Path(_counter(), self._counterVar) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._counterVar                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _counter : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ac325579a87f30cb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._SymbolFactory._counter","kind":"property","src_hash":"7619df40505e42eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_counter()","rhs":"returns the _counter attribute","over":{"base":"Any"},"name":"_counter_correct"},"guarantee":"returns the _counter attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac325579a87f30cb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._SymbolFactory._counter","kind":"property","src_hash":"7619df40505e42eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_counter()","rhs":"self._counterVar","over":{"base":"Any"},"name":"_counter_correct"},"guarantee":"returns self._counterVar","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ac325579a87f30cb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._counterVar","pure":false,"effects":{"effect_type":"reads_state","reads":["self._counterVar"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _counter(self):
         """
         What counter is currently at.
@@ -4632,16 +5713,22 @@ class _SymbolFactory:
         return self._counterVar
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_next(), generates the next symbols and increments counter by 1) over Any ║
+# ║ Path(_next(), <unspecified:_next>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _next : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bfde5a897a06418  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._SymbolFactory._next","kind":"method","src_hash":"249f59a35ff2cdd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_next()","rhs":"generates the next symbols and increments counter by 1","over":{"base":"Any"},"name":"_next_correct"},"guarantee":"generates the next symbols and increments counter by 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._SymbolFactory._next_correct","statement":"Path(_next(x), generates the next symbols and increments counter by 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bfde5a897a06418"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._SymbolFactory._next","kind":"method","src_hash":"249f59a35ff2cdd7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_next()","rhs":"<unspecified:_next>","over":{"base":"Any"},"name":"_next_correct"},"guarantee":"generates the next symbols and increments counter by 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._SymbolFactory._next_correct","statement":"Path(_next(x), generates the next symbols and increments counter by 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bfde5a897a06418","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._counterVar","self._label"],"writes":["self._counterVar"]},"state_contract":{"modifies":["self._counterVar"],"old_bindings":{"old_self__counterVar":"self._counterVar"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _next(self):
         """
         Generates the next symbols and increments counter by 1.
@@ -4654,16 +5741,22 @@ _symbol_factory = _SymbolFactory('_]"]_')  # most certainly a unique label
 
 @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_contractions(str), returns add-object with contracted terms) over Any ║
+# ║ Path(_get_contractions(string1, keep_only_fully_contracted), Add(*result)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Add(*result)                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_contractions : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60d84fb9b08072bb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e191a60ebfdb603  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._get_contractions","kind":"function","src_hash":"d8481bab9c21436c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_contractions(str)","rhs":"returns add-object with contracted terms","over":{"base":"Any"},"name":"_get_contractions_correct"},"guarantee":"returns add-object with contracted terms","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._get_contractions_correct","statement":"Path(_get_contractions(x), returns add-object with contracted terms)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60d84fb9b08072bb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant._get_contractions","kind":"function","src_hash":"d8481bab9c21436c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_contractions(string1, keep_only_fully_contracted)","rhs":"Add(*result)","over":{"base":"Any"},"name":"_get_contractions_correct"},"guarantee":"returns Add(*result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant._get_contractions_correct","statement":"Path(_get_contractions(x), returns Add(*result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e191a60ebfdb603","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Add(*result)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _get_contractions(string1, keep_only_fully_contracted=False):
     """
     Returns Add-object with contracted terms.
@@ -4725,7 +5818,14 @@ def _get_contractions(string1, keep_only_fully_contracted=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(wicks(e, ), returns the normal ordered equivalent of an expression using wicks theorem) over {Any | isinstance(e, NO) and isinstance(e, Add) and isinstance(e, Mul)} ║
+# ║ Path(wicks(e, **kw_args), len(c_part) == old_len_c_part + 1 and len(string1) == old_len_string1 + 1) over {Any | isinstance(e, NO) and isinstance(e, Add) and isinstance(e, Mul) and hasattr(e, 'doit') and hasattr(e, 'expand') and hasattr(e, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'doit')                             ║
+# ║   requires: hasattr(e, 'expand')                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  len(c_part) == old_len_c_part + 1              ║
+# ║   ensures:  len(string1) == old_len_string1 + 1            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ wicks : {Any | isinstance(e, NO) and isinstance(e, Ad...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4741,9 +5841,12 @@ def _get_contractions(string1, keep_only_fully_contracted=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?5 ✗5 VCs | 4.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e2f42f62...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.wicks","kind":"function","src_hash":"c75d25061516fabf","in":{"base":"Any","pred":"isinstance(e, NO) and isinstance(e, Add) and isinstance(e, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"wicks(e, )","rhs":"returns the normal ordered equivalent of an expression using wicks theorem","over":{"base":"Any","pred":"isinstance(e, NO) and isinstance(e, Add) and isinstance(e, Mul)"},"name":"wicks_correct"},"guarantee":"returns the normal ordered equivalent of an expression using wicks theorem","fibers":[{"name":"NO","pred":"isinstance(e, NO)","path":{"lhs":"wicks(x)","rhs":"returns the normal ordered equivalent of an expression using wicks theorem","over":{"base":"NO","pred":"isinstance(e, NO)"},"name":"wicks_NO_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.wicks_NO_correct","statement":"wicks satisfies spec on NO inputs"},"trust":"LIBRARY"},{"name":"Add","pred":"isinstance(e, Add)","path":{"lhs":"wicks(x)","rhs":"returns the normal ordered equivalent of an expression using wicks theorem","over":{"base":"Add","pred":"isinstance(e, Add)"},"name":"wicks_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.wicks_Add_correct","statement":"wicks satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(e, Mul)","path":{"lhs":"wicks(x)","rhs":"returns the normal ordered equivalent of an expression using wicks theorem","over":{"base":"Mul","pred":"isinstance(e, Mul)"},"name":"wicks_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.wicks_Mul_correct","statement":"wicks satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"FermionicOperator","pred":"isinstance(e, FermionicOperator)","path":{"lhs":"wicks(x)","rhs":"returns the normal ordered equivalent of an expression using wicks theorem","over":{"base":"FermionicOperator","pred":"isinstance(e, FermionicOperator)"},"name":"wicks_FermionicOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.wicks_FermionicOperator_correct","statement":"wicks satisfies spec on FermionicOperator inputs"},"trust":"LIBRARY"},{"name":"BosonicOperator","pred":"isinstance(string1[0], BosonicOperator)","path":{"lhs":"wicks(x)","rhs":"returns the normal ordered equivalent of an expression using wicks theorem","over":{"base":"BosonicOperator","pred":"isinstance(string1[0], BosonicOperator)"},"name":"wicks_BosonicOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.wicks_BosonicOperator_correct","statement":"wicks satisfies spec on BosonicOperator inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e2f42f623c7244f2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.wicks","kind":"function","src_hash":"c75d25061516fabf","in":{"base":"Any","pred":"isinstance(e, NO) and isinstance(e, Add) and isinstance(e, Mul) and hasattr(e, 'doit') and hasattr(e, 'expand') and hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: len(c_part) == old_len_c_part + 1 and len(string1) == old_len_string1 + 1"},"spec":{"lhs":"wicks(e, **kw_args)","rhs":"len(c_part) == old_len_c_part + 1 and len(string1) == old_len_string1 + 1","over":{"base":"Any","pred":"isinstance(e, NO) and isinstance(e, Add) and isinstance(e, Mul) and hasattr(e, 'doit') and hasattr(e, 'expand') and hasattr(e, 'args')"},"name":"wicks_correct"},"guarantee":"len(c_part) == old_len_c_part + 1; len(string1) == old_len_string1 + 1","fibers":[{"name":"NO","pred":"isinstance(e, NO)","path":{"lhs":"wicks(x)","rhs":"len(c_part) == old_len_c_part + 1; len(string1) == old_len_string1 + 1","over":{"base":"NO","pred":"isinstance(e, NO)"},"name":"wicks_NO_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.wicks_NO_correct","statement":"wicks satisfies spec on NO inputs"},"trust":"LIBRARY"},{"name":"Add","pred":"isinstance(e, Add)","path":{"lhs":"wicks(x)","rhs":"len(c_part) == old_len_c_part + 1; len(string1) == old_len_string1 + 1","over":{"base":"Add","pred":"isinstance(e, Add)"},"name":"wicks_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.wicks_Add_correct","statement":"wicks satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(e, Mul)","path":{"lhs":"wicks(x)","rhs":"len(c_part) == old_len_c_part + 1; len(string1) == old_len_string1 + 1","over":{"base":"Mul","pred":"isinstance(e, Mul)"},"name":"wicks_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.wicks_Mul_correct","statement":"wicks satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"FermionicOperator","pred":"isinstance(e, FermionicOperator)","path":{"lhs":"wicks(x)","rhs":"len(c_part) == old_len_c_part + 1; len(string1) == old_len_string1 + 1","over":{"base":"FermionicOperator","pred":"isinstance(e, FermionicOperator)"},"name":"wicks_FermionicOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.wicks_FermionicOperator_correct","statement":"wicks satisfies spec on FermionicOperator inputs"},"trust":"LIBRARY"},{"name":"BosonicOperator","pred":"isinstance(string1[0], BosonicOperator)","path":{"lhs":"wicks(x)","rhs":"len(c_part) == old_len_c_part + 1; len(string1) == old_len_string1 + 1","over":{"base":"BosonicOperator","pred":"isinstance(string1[0], BosonicOperator)"},"name":"wicks_BosonicOperator_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.wicks_BosonicOperator_correct","statement":"wicks satisfies spec on BosonicOperator inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e2f42f623c7244f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'doit')","hasattr(e, 'expand')","hasattr(e, 'args')"],"ensures":["len(c_part) == old_len_c_part + 1","len(string1) == old_len_string1 + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.doit","e.expand"],"calls_mutating":["c_part.append","opts.update","string1.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["c_part.*","opts.*","string1.*"],"old_bindings":{"old_len_c_part":"len(c_part)","old_len_opts":"len(opts)","old_len_string1":"len(string1)"},"post_ensures":["len(c_part) == old_len_c_part + 1","len(string1) == old_len_string1 + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":7,"n_assumed":5,"n_failed":5,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.4,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['e'], spec=['e', '**kw_args']","Poor branch-fiber coverage: 0% (branches={'isinstance(e, NO)', 'isinstance(string1[0], BosonicOperator)', 'isinstance(e, Mul)', 'n == 1', 'isinstance(e, FermionicOperator)', 'n == 0', 'isinstance(e, Add)'}, fibers={'BosonicOperator', 'FermionicOperator', 'Mul', 'Add', 'NO'})"]}}
 def wicks(e, **kw_args):
     """
     Returns the normal ordered equivalent of an expression using Wicks Theorem.
@@ -4858,14 +5961,20 @@ def wicks(e, **kw_args):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(PermutationOperator(*args), correctly constructs a PermutationOperator instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PermutationOperator : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PermutationOperator : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b12d2e6dd1a6dc68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.PermutationOperator","kind":"class","src_hash":"a309a4a4d125852e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PermutationOperator(*args)","rhs":"correctly constructs a PermutationOperator instance","over":{"base":"Any"},"name":"PermutationOperator_class_invariant"},"guarantee":"correctly constructs a PermutationOperator instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b12d2e6dd1a6dc68"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.PermutationOperator","kind":"class","src_hash":"a309a4a4d125852e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"PermutationOperator(*args)","rhs":"correctly constructs a PermutationOperator instance","over":{"base":"Any"},"name":"PermutationOperator_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b12d2e6dd1a6dc68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function PermutationOperator not found in source"]}}
 class PermutationOperator(Expr):
     """
     Represents the index permutation operator P(ij).
@@ -4875,32 +5984,49 @@ class PermutationOperator(Expr):
     is_commutative = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, i, j), <unspecified:__new__>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9354d55b30d2f3a4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.PermutationOperator.__new__","kind":"method","src_hash":"37b032b523b61410","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9354d55b30d2f3a4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.PermutationOperator.__new__","kind":"method","src_hash":"37b032b523b61410","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, i, j)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9354d55b30d2f3a4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, i, j):
         i, j = sorted(map(sympify, (i, j)), key=default_sort_key)
         obj = Basic.__new__(cls, i, j)
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(get_permuted(exp), returns -expr with permuted indices) over Any ║
+# ║ Path(get_permuted(expr), result == (S.NegativeOne * expr if expr.has(i) and expr.has(j) else expr) and result == S.NegativeOne * expr or result == expr) over {Any | hasattr(expr, 'has') and hasattr(expr, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ get_permuted : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ensures:  result == (S.NegativeOne * expr if expr.h...   ║
+# ║   ensures:  result == S.NegativeOne * expr or result ...   ║
+# ║   fiber[case_0]: expr.has(i) and expr.has(j) => S.Neg...   ║
+# ║   fiber[case_1]: not (expr.has(i) and expr.has(j)) =>...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ get_permuted : {Any | hasattr(expr, 'has') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c430a29d67da846c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5833cf14fefbe36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.PermutationOperator.get_permuted","kind":"method","src_hash":"75d630b5a49cb69c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"get_permuted(exp)","rhs":"returns -expr with permuted indices","over":{"base":"Any"},"name":"get_permuted_correct"},"guarantee":"returns -expr with permuted indices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.PermutationOperator.get_permuted_correct","statement":"Path(get_permuted(x), returns -expr with permuted indices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c430a29d67da846c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.PermutationOperator.get_permuted","kind":"method","src_hash":"75d630b5a49cb69c","in":{"base":"Any","pred":"hasattr(expr, 'has') and hasattr(expr, 'subs')"},"out":{"base":"Any","pred":"result satisfies: result == (S.NegativeOne * expr if expr.has(i) and expr.has(j) else expr) and result == S.NegativeOne * expr or result == expr"},"spec":{"lhs":"get_permuted(expr)","rhs":"result == (S.NegativeOne * expr if expr.has(i) and expr.has(j) else expr) and result == S.NegativeOne * expr or result == expr","over":{"base":"Any","pred":"hasattr(expr, 'has') and hasattr(expr, 'subs')"},"name":"get_permuted_correct"},"guarantee":"result == (S.NegativeOne * expr if expr.has(i) and expr.has(j) else expr); result == S.NegativeOne * expr or result == expr; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.PermutationOperator.get_permuted_correct","statement":"Path(get_permuted(x), result == (S.NegativeOne * expr if expr.has(i) and expr.has(j) else expr); result == S.NegativeOne * expr or result == expr; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5833cf14fefbe36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'has')","hasattr(expr, 'subs')"],"ensures":["result == (S.NegativeOne * expr if expr.has(i) and expr.has(j) else expr)","result == S.NegativeOne * expr or result == expr"],"fibers":[{"name":"case_0","guard":"expr.has(i) and expr.has(j)","ensures":["result == S.NegativeOne * expr"],"decidability":"library","returns_expr":"S.NegativeOne * expr"},{"name":"case_1","guard":"not (expr.has(i) and expr.has(j))","ensures":["result == expr"],"decidability":"library","returns_expr":"expr"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.has","expr.subs","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def get_permuted(self, expr):
         """
         Returns -expr with permuted indices.
@@ -4928,22 +6054,34 @@ class PermutationOperator(Expr):
             return expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer), 'P(%s%s)' % tuple((printer._print(i) for i in self.args))) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  'P(%s%s)' % tuple((printer._print(i) for ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a223844dbd7886a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.PermutationOperator._latex","kind":"method","src_hash":"31707fb8ffdad37b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a223844dbd7886a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.PermutationOperator._latex","kind":"method","src_hash":"31707fb8ffdad37b","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer)","rhs":"'P(%s%s)' % tuple((printer._print(i) for i in self.args))","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns 'P(%s%s)' % tuple((printer._print(i) for i in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a223844dbd7886a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'P(%s%s)' % tuple((printer._print(i) for i in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         return "P(%s%s)" % tuple(printer._print(i) for i in self.args)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(simplify_index_permutations(exp), performs simplification by introducing permutationoperators where appropriate) over {Any | isinstance(expr, Add)} ║
+# ║ Path(simplify_index_permutations(expr, permutation_operators), <unspecified:simplify_index_permutations>) over {Any | isinstance(expr, Add) and hasattr(expr, 'args') and hasattr(expr, 'expand')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'expand')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ simplify_index_permutations : {Any | isinstance(expr,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -4955,9 +6093,12 @@ class PermutationOperator(Expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ac9b6659...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.simplify_index_permutations","kind":"function","src_hash":"d9b82b5b0fae6234","in":{"base":"Any","pred":"isinstance(expr, Add)"},"out":{"base":"Any"},"spec":{"lhs":"simplify_index_permutations(exp)","rhs":"performs simplification by introducing permutationoperators where appropriate","over":{"base":"Any","pred":"isinstance(expr, Add)"},"name":"simplify_index_permutations_correct"},"guarantee":"performs simplification by introducing permutationoperators where appropriate","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"simplify_index_permutations(x)","rhs":"performs simplification by introducing permutationoperators where appropriate","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"simplify_index_permutations_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.simplify_index_permutations_Add_correct","statement":"simplify_index_permutations satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ac9b6659d564c407"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.secondquant.simplify_index_permutations","kind":"function","src_hash":"d9b82b5b0fae6234","in":{"base":"Any","pred":"isinstance(expr, Add) and hasattr(expr, 'args') and hasattr(expr, 'expand')"},"out":{"base":"Any"},"spec":{"lhs":"simplify_index_permutations(expr, permutation_operators)","rhs":"<unspecified:simplify_index_permutations>","over":{"base":"Any","pred":"isinstance(expr, Add) and hasattr(expr, 'args') and hasattr(expr, 'expand')"},"name":"simplify_index_permutations_correct"},"guarantee":"performs simplification by introducing permutationoperators where appropriate","fibers":[{"name":"Add","pred":"isinstance(expr, Add)","path":{"lhs":"simplify_index_permutations(x)","rhs":"performs simplification by introducing permutationoperators where appropriate","over":{"base":"Add","pred":"isinstance(expr, Add)"},"name":"simplify_index_permutations_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.secondquant.simplify_index_permutations_Add_correct","statement":"simplify_index_permutations satisfies spec on Add inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ac9b6659d564c407","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')","hasattr(expr, 'expand')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'permuted1 == permuted', 'isinstance(expr, Add)'}, fibers={'Add'})"]}}
 def simplify_index_permutations(expr, permutation_operators):
     """
     Performs simplification by introducing PermutationOperators where appropriate.

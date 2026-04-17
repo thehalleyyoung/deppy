@@ -23,16 +23,22 @@ from sympy.stats import Binomial, sample, Die, FiniteRV, DiscreteUniform, Bernou
 from sympy.testing.pytest import skip, raises
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_given_sample(), test_given_sample produces the expected output) over Any ║
+# ║ Path(test_given_sample(), sample(X, X > 5) == 6) over Any  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_given_sample : Any → {Any | sample(X, X > 5) == 6}    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sample(X, X > 5) == 6                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_given_sample : Any → {Any | result satisfies: sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 414d56b8f3be29bf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e00601e3420323fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_finite_rv.test_given_sample","kind":"function","src_hash":"e3219b26e5e57998","in":{"base":"Any"},"out":{"base":"Any","pred":"sample(X, X > 5) == 6"},"spec":{"lhs":"test_given_sample()","rhs":"test_given_sample produces the expected output","over":{"base":"Any"},"name":"test_given_sample_correct"},"guarantee":"test_given_sample produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_finite_rv.test_given_sample_correct","statement":"Path(test_given_sample(x), test_given_sample produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"414d56b8f3be29bf"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_finite_rv.test_given_sample","kind":"function","src_hash":"e3219b26e5e57998","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sample(X, X > 5) == 6"},"spec":{"lhs":"test_given_sample()","rhs":"sample(X, X > 5) == 6","over":{"base":"Any"},"name":"test_given_sample_correct"},"guarantee":"sample(X, X > 5) == 6","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_finite_rv.test_given_sample_correct","statement":"Path(test_given_sample(x), sample(X, X > 5) == 6)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e00601e3420323fc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sample(X, X > 5) == 6"],"pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_given_sample():
     X = Die('X', 6)
     scipy = import_module('scipy')
@@ -41,16 +47,22 @@ def test_given_sample():
     assert sample(X, X > 5) == 6
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_numpy(), test_sample_numpy produces the expected output) over Any ║
+# ║ Path(test_sample_numpy(), <unspecified:test_sample_numpy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_numpy : Any → {Any | sam in X.pspace.doma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc8fa2142da5694f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_numpy","kind":"function","src_hash":"00dcdaeeed722725","in":{"base":"Any"},"out":{"base":"Any","pred":"sam in X.pspace.domain.set"},"spec":{"lhs":"test_sample_numpy()","rhs":"test_sample_numpy produces the expected output","over":{"base":"Any"},"name":"test_sample_numpy_correct"},"guarantee":"test_sample_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_numpy_correct","statement":"Path(test_sample_numpy(x), test_sample_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc8fa2142da5694f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_numpy","kind":"function","src_hash":"00dcdaeeed722725","in":{"base":"Any"},"out":{"base":"Any","pred":"sam in X.pspace.domain.set"},"spec":{"lhs":"test_sample_numpy()","rhs":"<unspecified:test_sample_numpy>","over":{"base":"Any"},"name":"test_sample_numpy_correct"},"guarantee":"test_sample_numpy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_numpy_correct","statement":"Path(test_sample_numpy(x), test_sample_numpy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc8fa2142da5694f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sample_numpy():
     distribs_numpy = [
         Binomial("B", 5, 0.4),
@@ -72,16 +84,22 @@ def test_sample_numpy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_scipy(), test_sample_scipy produces the expected output) over Any ║
+# ║ Path(test_sample_scipy(), <unspecified:test_sample_scipy>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_scipy : Any → {Any | sam in X.pspace.doma...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e8d76282c0f550f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_scipy","kind":"function","src_hash":"7e85675cfb33cb18","in":{"base":"Any"},"out":{"base":"Any","pred":"sam in X.pspace.domain.set and samps2[i][j] in X.pspace.domain.set"},"spec":{"lhs":"test_sample_scipy()","rhs":"test_sample_scipy produces the expected output","over":{"base":"Any"},"name":"test_sample_scipy_correct"},"guarantee":"test_sample_scipy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_scipy_correct","statement":"Path(test_sample_scipy(x), test_sample_scipy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e8d76282c0f550f"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_scipy","kind":"function","src_hash":"7e85675cfb33cb18","in":{"base":"Any"},"out":{"base":"Any","pred":"sam in X.pspace.domain.set and samps2[i][j] in X.pspace.domain.set"},"spec":{"lhs":"test_sample_scipy()","rhs":"<unspecified:test_sample_scipy>","over":{"base":"Any"},"name":"test_sample_scipy_correct"},"guarantee":"test_sample_scipy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_scipy_correct","statement":"Path(test_sample_scipy(x), test_sample_scipy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e8d76282c0f550f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sample_scipy():
     distribs_scipy = [
         FiniteRV('F', {1: S.Half, 2: Rational(1, 4), 3: Rational(1, 4)}),
@@ -110,16 +128,22 @@ def test_sample_scipy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_pymc(), test_sample_pymc produces the expected output) over Any ║
+# ║ Path(test_sample_pymc(), <unspecified:test_sample_pymc>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_pymc : Any → {Any | sam in X.pspace.domai...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43f32da2833fe289  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_pymc","kind":"function","src_hash":"52270b5e29c925b0","in":{"base":"Any"},"out":{"base":"Any","pred":"sam in X.pspace.domain.set"},"spec":{"lhs":"test_sample_pymc()","rhs":"test_sample_pymc produces the expected output","over":{"base":"Any"},"name":"test_sample_pymc_correct"},"guarantee":"test_sample_pymc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_pymc_correct","statement":"Path(test_sample_pymc(x), test_sample_pymc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43f32da2833fe289"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_pymc","kind":"function","src_hash":"52270b5e29c925b0","in":{"base":"Any"},"out":{"base":"Any","pred":"sam in X.pspace.domain.set"},"spec":{"lhs":"test_sample_pymc()","rhs":"<unspecified:test_sample_pymc>","over":{"base":"Any"},"name":"test_sample_pymc_correct"},"guarantee":"test_sample_pymc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_pymc_correct","statement":"Path(test_sample_pymc(x), test_sample_pymc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43f32da2833fe289","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sample_pymc():
     distribs_pymc = [
         Bernoulli('B', 0.2),
@@ -139,16 +163,22 @@ def test_sample_pymc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sample_seed(), test_sample_seed produces the expected output) over Any ║
+# ║ Path(test_sample_seed(), <unspecified:test_sample_seed>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sample_seed : Any → {Any | all(s0 == s1) and not...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5ac259cc6a05c92  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_seed","kind":"function","src_hash":"a4a3dc2b5a933182","in":{"base":"Any"},"out":{"base":"Any","pred":"all(s0 == s1) and not all(s1 == s2)"},"spec":{"lhs":"test_sample_seed()","rhs":"test_sample_seed produces the expected output","over":{"base":"Any"},"name":"test_sample_seed_correct"},"guarantee":"test_sample_seed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_seed_correct","statement":"Path(test_sample_seed(x), test_sample_seed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5ac259cc6a05c92"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_seed","kind":"function","src_hash":"a4a3dc2b5a933182","in":{"base":"Any"},"out":{"base":"Any","pred":"all(s0 == s1) and not all(s1 == s2)"},"spec":{"lhs":"test_sample_seed()","rhs":"<unspecified:test_sample_seed>","over":{"base":"Any"},"name":"test_sample_seed_correct"},"guarantee":"test_sample_seed produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.sampling.tests.test_sample_finite_rv.test_sample_seed_correct","statement":"Path(test_sample_seed(x), test_sample_seed produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5ac259cc6a05c92","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"nondeterministic","catches":["NotImplementedError"],"nondeterministic_sources":["sample"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_sample_seed():
     F = FiniteRV('F', {1: S.Half, 2: Rational(1, 4), 3: Rational(1, 4)})
     size = 10

@@ -60,9 +60,16 @@ __doctest_requires__ = {'plot_implicit': ['matplotlib']}
 
 @doctest_depends_on(modules=('matplotlib',))
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(plot_implicit(exp), a plot function to plot implicit equations / inequalities) over {Any | isinstance(s, Symbol)} ║
+# ║ Path(plot_implicit(expr, x_var, y_var), len(undeclared) == old_len_undeclared - 1 and len(xyvar) == old_len_xyvar + 1) over {Any | isinstance(s, Symbol) and not (len(free_symbols & range_symbols) > 2) and hasattr(expr, 'free_symbols') and len(undeclared) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ plot_implicit : {Any | isinstance(s, Symbol)} → Any        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(free_symbols & range_symbols) > 2)    ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: len(undeclared) > 0                            ║
+# ║   ensures:  len(undeclared) == old_len_undeclared - 1      ║
+# ║   ensures:  len(xyvar) == old_len_xyvar + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ plot_implicit : {Any | isinstance(s, Symbol) and not ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Symbol: {isinstance(s, Symbol)} → library_axiom          ║
@@ -72,9 +79,12 @@ __doctest_requires__ = {'plot_implicit': ['matplotlib']}
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.8ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c941a0e8...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.plot_implicit.plot_implicit","kind":"function","src_hash":"e3bcc16957c860bd","in":{"base":"Any","pred":"isinstance(s, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"plot_implicit(exp)","rhs":"a plot function to plot implicit equations / inequalities","over":{"base":"Any","pred":"isinstance(s, Symbol)"},"name":"plot_implicit_correct"},"guarantee":"a plot function to plot implicit equations / inequalities","fibers":[{"name":"Symbol","pred":"isinstance(s, Symbol)","path":{"lhs":"plot_implicit(x)","rhs":"a plot function to plot implicit equations / inequalities","over":{"base":"Symbol","pred":"isinstance(s, Symbol)"},"name":"plot_implicit_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot_implicit.plot_implicit_Symbol_correct","statement":"plot_implicit satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c941a0e85a712539"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.plot_implicit.plot_implicit","kind":"function","src_hash":"e3bcc16957c860bd","in":{"base":"Any","pred":"isinstance(s, Symbol) and not (len(free_symbols & range_symbols) > 2) and hasattr(expr, 'free_symbols') and len(undeclared) > 0"},"out":{"base":"Any","pred":"result satisfies: len(undeclared) == old_len_undeclared - 1 and len(xyvar) == old_len_xyvar + 1"},"spec":{"lhs":"plot_implicit(expr, x_var, y_var)","rhs":"len(undeclared) == old_len_undeclared - 1 and len(xyvar) == old_len_xyvar + 1","over":{"base":"Any","pred":"isinstance(s, Symbol) and not (len(free_symbols & range_symbols) > 2) and hasattr(expr, 'free_symbols') and len(undeclared) > 0"},"name":"plot_implicit_correct"},"guarantee":"len(undeclared) == old_len_undeclared - 1; len(xyvar) == old_len_xyvar + 1","fibers":[{"name":"Symbol","pred":"isinstance(s, Symbol)","path":{"lhs":"plot_implicit(x)","rhs":"len(undeclared) == old_len_undeclared - 1; len(xyvar) == old_len_xyvar + 1","over":{"base":"Symbol","pred":"isinstance(s, Symbol)"},"name":"plot_implicit_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.plot_implicit.plot_implicit_Symbol_correct","statement":"plot_implicit satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c941a0e85a712539","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(free_symbols & range_symbols) > 2)","hasattr(expr, 'free_symbols')","len(undeclared) > 0"],"ensures":["len(undeclared) == old_len_undeclared - 1","len(xyvar) == old_len_xyvar + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.free_symbols"],"calls_mutating":["kwargs.setdefault","undeclared.pop","xyvar.append"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"modifies":["kwargs.*","undeclared.*","xyvar.*"],"old_bindings":{"old_len_undeclared":"len(undeclared)","old_len_xyvar":"len(xyvar)"},"pre_requires":["len(undeclared) > 0"],"post_ensures":["len(undeclared) == old_len_undeclared - 1","len(xyvar) == old_len_xyvar + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['expr', 'x_var', 'y_var', 'adaptive', 'depth', 'n', 'line_color', 'show'], spec=['expr', 'x_var', 'y_var', 'adaptive', 'depth', 'n', 'line_color', 'show', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'len(s) == 3', 'isinstance(s, Symbol)', 'len(free_symbols & range_symbols) > 2', 'len(xyvar) == 0', 'len(xyvar) != 2'}, fibers={'Symbol'})"]}}
 def plot_implicit(expr, x_var=None, y_var=None, adaptive=True, depth=0,
                   n=300, line_color="blue", show=True, **kwargs):
     """A plot function to plot implicit equations / inequalities.

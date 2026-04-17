@@ -25,9 +25,15 @@ from sympy.core.traversal import preorder_traversal
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sub_pre(e), replace y - x with -(x - y) if -1 can be extracted from y - x) over {Any | isinstance(e, Basic)} ║
+# ║ Path(sub_pre(e), e) over {Any | isinstance(e, Basic) and hasattr(e, 'xreplace') and hasattr(e, 'atoms')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sub_pre : {Any | isinstance(e, Basic)} → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'xreplace')                         ║
+# ║   requires: hasattr(e, 'atoms')                            ║
+# ║   ensures:  result == e                                    ║
+# ║   returns:  e                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sub_pre : {Any | isinstance(e, Basic) and hasattr(e, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(e, Basic)} → library_axiom            ║
@@ -37,9 +43,12 @@ from sympy.core.traversal import preorder_traversal
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | aede4373...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_opts.sub_pre","kind":"function","src_hash":"8554da58b43dd19d","in":{"base":"Any","pred":"isinstance(e, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"sub_pre(e)","rhs":"replace y - x with -(x - y) if -1 can be extracted from y - x","over":{"base":"Any","pred":"isinstance(e, Basic)"},"name":"sub_pre_correct"},"guarantee":"replace y - x with -(x - y) if -1 can be extracted from y - x","fibers":[{"name":"Basic","pred":"isinstance(e, Basic)","path":{"lhs":"sub_pre(x)","rhs":"replace y - x with -(x - y) if -1 can be extracted from y - x","over":{"base":"Basic","pred":"isinstance(e, Basic)"},"name":"sub_pre_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_opts.sub_pre_Basic_correct","statement":"sub_pre satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aede4373bd4a03cd"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_opts.sub_pre","kind":"function","src_hash":"8554da58b43dd19d","in":{"base":"Any","pred":"isinstance(e, Basic) and hasattr(e, 'xreplace') and hasattr(e, 'atoms')"},"out":{"base":"Any","pred":"result satisfies: result == (e)"},"spec":{"lhs":"sub_pre(e)","rhs":"e","over":{"base":"Any","pred":"isinstance(e, Basic) and hasattr(e, 'xreplace') and hasattr(e, 'atoms')"},"name":"sub_pre_correct"},"guarantee":"returns e; result == e","fibers":[{"name":"Basic","pred":"isinstance(e, Basic)","path":{"lhs":"sub_pre(x)","rhs":"returns e; result == e","over":{"base":"Basic","pred":"isinstance(e, Basic)"},"name":"sub_pre_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_opts.sub_pre_Basic_correct","statement":"sub_pre satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aede4373bd4a03cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'xreplace')","hasattr(e, 'atoms')"],"ensures":["result == e"],"returns_expr":"e","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(e, Basic)'}, fibers={'Basic'})"]}}
 def sub_pre(e):
     """ Replace y - x with -(x - y) if -1 can be extracted from y - x.
     """
@@ -72,9 +81,14 @@ def sub_pre(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sub_post(e), replace 1*-1*x with -x) over {Any | isinstance(node, Mul)} ║
+# ║ Path(sub_post(e), e) over {Any | isinstance(node, Mul) and hasattr(e, 'xreplace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sub_post : {Any | isinstance(node, Mul)} → Any             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'xreplace')                         ║
+# ║   ensures:  result == e                                    ║
+# ║   returns:  e                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sub_post : {Any | isinstance(node, Mul) and hasattr(e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Mul: {isinstance(node, Mul)} → library_axiom             ║
@@ -84,9 +98,12 @@ def sub_pre(e):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 1eb4c323...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_opts.sub_post","kind":"function","src_hash":"d56e31e272dd8b57","in":{"base":"Any","pred":"isinstance(node, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"sub_post(e)","rhs":"replace 1*-1*x with -x","over":{"base":"Any","pred":"isinstance(node, Mul)"},"name":"sub_post_correct"},"guarantee":"replace 1*-1*x with -x","fibers":[{"name":"Mul","pred":"isinstance(node, Mul)","path":{"lhs":"sub_post(x)","rhs":"replace 1*-1*x with -x","over":{"base":"Mul","pred":"isinstance(node, Mul)"},"name":"sub_post_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_opts.sub_post_Mul_correct","statement":"sub_post satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1eb4c32381f470e5"}
+# @cctt_verify {"v":2,"sym":"sympy.simplify.cse_opts.sub_post","kind":"function","src_hash":"d56e31e272dd8b57","in":{"base":"Any","pred":"isinstance(node, Mul) and hasattr(e, 'xreplace')"},"out":{"base":"Any","pred":"result satisfies: result == (e)"},"spec":{"lhs":"sub_post(e)","rhs":"e","over":{"base":"Any","pred":"isinstance(node, Mul) and hasattr(e, 'xreplace')"},"name":"sub_post_correct"},"guarantee":"returns e; result == e","fibers":[{"name":"Mul","pred":"isinstance(node, Mul)","path":{"lhs":"sub_post(x)","rhs":"returns e; result == e","over":{"base":"Mul","pred":"isinstance(node, Mul)"},"name":"sub_post_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.simplify.cse_opts.sub_post_Mul_correct","statement":"sub_post satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"1eb4c32381f470e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'xreplace')"],"ensures":["result == e"],"returns_expr":"e","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(node, Mul) and node.args[0] is S.One and (node.args[1] is S.NegativeOne)'}, fibers={'Mul'})"]}}
 def sub_post(e):
     """ Replace 1*-1*x with -x.
     """

@@ -24,16 +24,24 @@ from sympy.physics.quantum.shor import CMod, getr
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_CMod(), test_CMod produces the expected output) over Any ║
+# ║ Path(test_CMod(), qapply(CMod(4, 2, 2) * Qubit(0, 0, 1, 0, 0, 0, 0, 0)) == Qubit(0, 0, 1, 0, 0, 0, 0, 0) and qapply(CMod(5, 5, 7) * Qubit(0, 0, 1, 0, 0, 0, 0, 0, 0, 0)) == Qubit(0, 0, 1, 0, 0, 0, 0, 0, 1, 0) and qapply(CMod(3, 2, 3) * Qubit(0, 1, 0, 0, 0, 0)) == Qubit(0, 1, 0, 0, 0, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_CMod : Any → {Any | qapply(CMod(3, 2, 3) * Qubit...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(CMod(4, 2, 2) * Qubit(0, 0, 1, 0, ...   ║
+# ║   ensures:  qapply(CMod(5, 5, 7) * Qubit(0, 0, 1, 0, ...   ║
+# ║   ensures:  qapply(CMod(3, 2, 3) * Qubit(0, 1, 0, 0, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_CMod : Any → {Any | result satisfies: qapply(CMo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2380aa5d4a06c91  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1215403693817f87  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_shor.test_CMod","kind":"function","src_hash":"a145099d19193016","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(CMod(3, 2, 3) * Qubit(0, 1, 0, 0, 0, 0)) == Qubit(0, 1, 0, 0, 0, 1)"},"spec":{"lhs":"test_CMod()","rhs":"test_CMod produces the expected output","over":{"base":"Any"},"name":"test_CMod_correct"},"guarantee":"test_CMod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_shor.test_CMod_correct","statement":"Path(test_CMod(x), test_CMod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2380aa5d4a06c91"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_shor.test_CMod","kind":"function","src_hash":"a145099d19193016","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(CMod(4, 2, 2) * Qubit(0, 0, 1, 0, 0, 0, 0, 0)) == Qubit(0, 0, 1, 0, 0, 0, 0, 0) and qapply(CMod(5, 5, 7) * Qubit(0, 0, 1, 0, 0, 0, 0, 0, 0, 0)) == Qubit(0, 0, 1, 0, 0, 0, 0, 0, 1, 0) and qapply(CMod(3, 2, 3) * Qubit(0, 1, 0, 0, 0, 0)) == Qubit(0, 1, 0, 0, 0, 1)"},"spec":{"lhs":"test_CMod()","rhs":"qapply(CMod(4, 2, 2) * Qubit(0, 0, 1, 0, 0, 0, 0, 0)) == Qubit(0, 0, 1, 0, 0, 0, 0, 0) and qapply(CMod(5, 5, 7) * Qubit(0, 0, 1, 0, 0, 0, 0, 0, 0, 0)) == Qubit(0, 0, 1, 0, 0, 0, 0, 0, 1, 0) and qapply(CMod(3, 2, 3) * Qubit(0, 1, 0, 0, 0, 0)) == Qubit(0, 1, 0, 0, 0, 1)","over":{"base":"Any"},"name":"test_CMod_correct"},"guarantee":"qapply(CMod(4, 2, 2) * Qubit(0, 0, 1, 0, 0, 0, 0, 0)) == Qubit(0, 0, 1, 0, 0, 0, 0, 0); qapply(CMod(5, 5, 7) * Qubit(0, 0, 1, 0, 0, 0, 0, 0, 0, 0)) == Qubit(0, 0, 1, 0, 0, 0, 0, 0, 1, 0); qapply(CMod(3, 2, 3) * Qubit(0, 1, 0, 0, 0, 0)) == Qubit(0, 1, 0, 0, 0, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_shor.test_CMod_correct","statement":"Path(test_CMod(x), qapply(CMod(4, 2, 2) * Qubit(0, 0, 1, 0, 0, 0, 0, 0)) == Qubit(0, 0, 1, 0, 0, 0, 0, 0); qapply(CMod(5, 5, 7) * Qubit(0, 0, 1, 0, 0, 0, 0, 0, 0, 0)) == Qubit(0, 0, 1, 0, 0, 0, 0, 0, 1, 0); qapply(CMod(3, 2, 3) * Qubit(0, 1, 0, 0, 0, 0)) == Qubit(0, 1, 0, 0, 0, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1215403693817f87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(CMod(4, 2, 2) * Qubit(0, 0, 1, 0, 0, 0, 0, 0)) == Qubit(0, 0, 1, 0, 0, 0, 0, 0)","qapply(CMod(5, 5, 7) * Qubit(0, 0, 1, 0, 0, 0, 0, 0, 0, 0)) == Qubit(0, 0, 1, 0, 0, 0, 0, 0, 1, 0)","qapply(CMod(3, 2, 3) * Qubit(0, 1, 0, 0, 0, 0)) == Qubit(0, 1, 0, 0, 0, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_CMod():
     assert qapply(CMod(4, 2, 2)*Qubit(0, 0, 1, 0, 0, 0, 0, 0)) == \
         Qubit(0, 0, 1, 0, 0, 0, 0, 0)
@@ -44,16 +52,24 @@ def test_CMod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_continued_frac(), test_continued_frac produces the expected output) over Any ║
+# ║ Path(test_continued_frac(), getr(513, 1024, 10) == 2 and getr(169, 1024, 11) == 6 and getr(314, 4096, 16) == 13) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_continued_frac : Any → {Any | getr(513, 1024, 10...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  getr(513, 1024, 10) == 2                       ║
+# ║   ensures:  getr(169, 1024, 11) == 6                       ║
+# ║   ensures:  getr(314, 4096, 16) == 13                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_continued_frac : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 846c1c420d5f20e2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cde45ea1a6499a6b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_shor.test_continued_frac","kind":"function","src_hash":"f63711d7463145ac","in":{"base":"Any"},"out":{"base":"Any","pred":"getr(513, 1024, 10) == 2 and getr(169, 1024, 11) == 6 and getr(314, 4096, 16) == 13"},"spec":{"lhs":"test_continued_frac()","rhs":"test_continued_frac produces the expected output","over":{"base":"Any"},"name":"test_continued_frac_correct"},"guarantee":"test_continued_frac produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_shor.test_continued_frac_correct","statement":"Path(test_continued_frac(x), test_continued_frac produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"846c1c420d5f20e2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_shor.test_continued_frac","kind":"function","src_hash":"f63711d7463145ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: getr(513, 1024, 10) == 2 and getr(169, 1024, 11) == 6 and getr(314, 4096, 16) == 13"},"spec":{"lhs":"test_continued_frac()","rhs":"getr(513, 1024, 10) == 2 and getr(169, 1024, 11) == 6 and getr(314, 4096, 16) == 13","over":{"base":"Any"},"name":"test_continued_frac_correct"},"guarantee":"getr(513, 1024, 10) == 2; getr(169, 1024, 11) == 6; getr(314, 4096, 16) == 13","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_shor.test_continued_frac_correct","statement":"Path(test_continued_frac(x), getr(513, 1024, 10) == 2; getr(169, 1024, 11) == 6; getr(314, 4096, 16) == 13)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cde45ea1a6499a6b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["getr(513, 1024, 10) == 2","getr(169, 1024, 11) == 6","getr(314, 4096, 16) == 13"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_continued_frac():
     assert getr(513, 1024, 10) == 2
     assert getr(169, 1024, 11) == 6

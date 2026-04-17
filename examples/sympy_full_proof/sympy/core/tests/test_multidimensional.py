@@ -24,16 +24,23 @@ f, g, h = list(map(Function, 'fgh'))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vectorize(), test_vectorize produces the expected output) over Any ║
+# ║ Path(test_vectorize(), vsin([1, x, y]) == [sin(1), sin(x), sin(y)] and vdiff([f(x, y, z), g(x, y, z), h(x, y, z)], [x, y, z]) == [[Derivative(f(x, y, z), x), Derivative(f(x, y, z), y), Derivative(f(x, y, z), z)], [Derivative(g(x, y, z), x), Derivative(g(x, y, z), y), Derivative(g(x, y, z), z)], [Derivative(h(x, y, z), x), Derivative(h(x, y, z), y), Derivative(h(x, y, z), z)]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vectorize : Any → {Any | vsin([1, x, y]) == [sin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  vsin([1, x, y]) == [sin(1), sin(x), sin(y)]    ║
+# ║   ensures:  vdiff([f(x, y, z), g(x, y, z), h(x, y, z)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vectorize : Any → {Any | result satisfies: vsin(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f93e27b9cc9bb6e7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 26fb49ac833b5561  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_multidimensional.test_vectorize","kind":"function","src_hash":"554dd1346a02e56e","in":{"base":"Any"},"out":{"base":"Any","pred":"vsin([1, x, y]) == [sin(1), sin(x), sin(y)]"},"spec":{"lhs":"test_vectorize()","rhs":"test_vectorize produces the expected output","over":{"base":"Any"},"name":"test_vectorize_correct"},"guarantee":"test_vectorize produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_multidimensional.test_vectorize_correct","statement":"Path(test_vectorize(x), test_vectorize produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f93e27b9cc9bb6e7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_multidimensional.test_vectorize","kind":"function","src_hash":"554dd1346a02e56e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: vsin([1, x, y]) == [sin(1), sin(x), sin(y)] and vdiff([f(x, y, z), g(x, y, z), h(x, y, z)], [x, y, z]) == [[Derivative(f(x, y, z), x), Derivative(f(x, y, z), y), Derivative(f(x, y, z), z)], [Derivative(g(x, y, z), x), Derivative(g(x, y, z), y), Derivative(g(x, y, z), z)], [Derivative(h(x, y, z), x), Derivative(h(x, y, z), y), Derivative(h(x, y, z), z)]]"},"spec":{"lhs":"test_vectorize()","rhs":"vsin([1, x, y]) == [sin(1), sin(x), sin(y)] and vdiff([f(x, y, z), g(x, y, z), h(x, y, z)], [x, y, z]) == [[Derivative(f(x, y, z), x), Derivative(f(x, y, z), y), Derivative(f(x, y, z), z)], [Derivative(g(x, y, z), x), Derivative(g(x, y, z), y), Derivative(g(x, y, z), z)], [Derivative(h(x, y, z), x), Derivative(h(x, y, z), y), Derivative(h(x, y, z), z)]]","over":{"base":"Any"},"name":"test_vectorize_correct"},"guarantee":"vsin([1, x, y]) == [sin(1), sin(x), sin(y)]; vdiff([f(x, y, z), g(x, y, z), h(x, y, z)], [x, y, z]) == [[Derivative(f(x, y, z), x), Derivative(f(x, y, z), y), Derivative(f(x, y, z), z)], [Derivative(g(x, y, z), x), Derivative(g(x, y, z), y), Derivative(g(x, y, z), z)], [Derivative(h(x, y, z), x), Derivative(h(x, y, z), y), Derivative(h(x, y, z), z)]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_multidimensional.test_vectorize_correct","statement":"Path(test_vectorize(x), vsin([1, x, y]) == [sin(1), sin(x), sin(y)]; vdiff([f(x, y, z), g(x, y, z), h(x, y, z)], [x, y, z]) == [[Derivative(f(x, y, z), x), Derivative(f(x, y, z), y), Derivative(f(x, y, z), z)], [Derivative(g(x, y, z), x), Derivative(g(x, y, z), y), Derivative(g(x, y, z), z)], [Derivative(h(x, y, z), x), Derivative(h(x, y, z), y), Derivative(h(x, y, z), z)]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"26fb49ac833b5561","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["vsin([1, x, y]) == [sin(1), sin(x), sin(y)]","vdiff([f(x, y, z), g(x, y, z), h(x, y, z)], [x, y, z]) == [[Derivative(f(x, y, z), x), Derivative(f(x, y, z), y), Derivative(f(x, y, z), z)], [Derivative(g(x, y, z), x), Derivative(g(x, y, z), y), Derivative(g(x, y, z), z)], [Derivative(h(x, y, z), x), Derivative(h(x, y, z), y), Derivative(h(x, y, z), z)]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_vectorize():
     @vectorize(0)
     def vsin(x):

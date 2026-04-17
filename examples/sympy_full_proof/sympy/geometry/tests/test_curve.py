@@ -26,16 +26,24 @@ from sympy.testing.pytest import raises, slow
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_curve(), test_curve produces the expected output) over Any ║
+# ║ Path(test_curve(), c.parameter == z and c.functions == (2 * s, s ** 2) and c.arbitrary_point() == Point(2 * s, s ** 2) and c.arbitrary_point(z) == Point(2 * s, s ** 2) and c.parameter == s and c.arbitrary_point() != Point(2 * t, t ** 2) and c.arbitrary_point() == Point(2 * t, t ** 2) and c.arbitrary_point(z) == Point(2 * z, z ** 2) and c.arbitrary_point(c.parameter) == Point(2 * s, s ** 2) and c.arbitrary_point(None) == Point(2 * s, s ** 2) and c.plot_interval() == [t, 0, 2] and c.plot_interval(z) == [z, 0, 2] and Curve([x, x], (x, 0, 1)).rotate(pi / 2) == Curve([-x, x], (x, 0, 1)) and Curve([x, x], (x, 0, 1)).rotate(pi / 2, (1, 2)).scale(2, 3).translate(1, 3).arbitrary_point(s) == Line((0, 0), (1, 1)).rotate(pi / 2, (1, 2)).scale(2, 3).translate(1, 3).arbitrary_point(s) == Point(-2 * s + 7, 3 * s + 6)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_curve : Any → {Any | c.parameter == z and c.func...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.parameter == z                               ║
+# ║   ensures:  c.functions == (2 * s, s ** 2)                 ║
+# ║   ensures:  c.arbitrary_point() == Point(2 * s, s ** 2)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_curve : Any → {Any | result satisfies: c.paramet...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 077463e9d8d50133  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75ea1c4b804f1f25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_curve.test_curve","kind":"function","src_hash":"48c75c6ef1f0fbee","in":{"base":"Any"},"out":{"base":"Any","pred":"c.parameter == z and c.functions == (2 * s, s ** 2) and c.arbitrary_point() == Point(2 * s, s ** 2) and c.arbitrary_point(z) == Point(2 * s, s ** 2) and c.parameter == s and c.functions == (2 * s, s ** 2) and c.arbitrary_point() != Point(2 * t, t ** 2) and c.arbitrary_point() == Point(2 * t, t ** 2) and c.arbitrary_point(z) == Point(2 * z, z ** 2) and c.arbitrary_point(c.parameter) == Point(2 * s, s ** 2) and c.arbitrary_point(None) == Point(2 * s, s ** 2) and c.plot_interval() == [t, 0, 2] and c.plot_interval(z) == [z, 0, 2] and Curve([x, x], (x, 0, 1)).rotate(pi / 2) == Curve([-x, x], (x, 0, 1))"},"spec":{"lhs":"test_curve()","rhs":"test_curve produces the expected output","over":{"base":"Any"},"name":"test_curve_correct"},"guarantee":"test_curve produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_curve.test_curve_correct","statement":"Path(test_curve(x), test_curve produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"077463e9d8d50133"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_curve.test_curve","kind":"function","src_hash":"48c75c6ef1f0fbee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.parameter == z and c.functions == (2 * s, s ** 2) and c.arbitrary_point() == Point(2 * s, s ** 2) and c.arbitrary_point(z) == Point(2 * s, s ** 2) and c.parameter == s and c.arbitrary_point() != Point(2 * t, t ** 2) and c.arbitrary_point() == Point(2 * t, t ** 2) and c.arbitrary_point(z) == Point(2 * z, z ** 2) and c.arbitrary_point(c.parameter) == Point(2 * s, s ** 2) and c.arbitrary_point(None) == Point(2 * s, s ** 2) and c.plot_interval() == [t, 0, 2] and c.plot_interval(z) == [z, 0, 2] and Curve([x, x], (x, 0, 1)).rotate(pi / 2) == Curve([-x, x], (x, 0, 1)) and Curve([x, x], (x, 0, 1)).rotate(pi / 2, (1, 2)).scale(2, 3).translate(1, 3).arbitrary_point(s) == Line((0, 0), (1, 1)).rotate(pi / 2, (1, 2)).scale(2, 3).translate(1, 3).arbitrary_point(s) == Point(-2 * s + 7, 3 * s + 6)"},"spec":{"lhs":"test_curve()","rhs":"c.parameter == z and c.functions == (2 * s, s ** 2) and c.arbitrary_point() == Point(2 * s, s ** 2) and c.arbitrary_point(z) == Point(2 * s, s ** 2) and c.parameter == s and c.arbitrary_point() != Point(2 * t, t ** 2) and c.arbitrary_point() == Point(2 * t, t ** 2) and c.arbitrary_point(z) == Point(2 * z, z ** 2) and c.arbitrary_point(c.parameter) == Point(2 * s, s ** 2) and c.arbitrary_point(None) == Point(2 * s, s ** 2) and c.plot_interval() == [t, 0, 2] and c.plot_interval(z) == [z, 0, 2] and Curve([x, x], (x, 0, 1)).rotate(pi / 2) == Curve([-x, x], (x, 0, 1)) and Curve([x, x], (x, 0, 1)).rotate(pi / 2, (1, 2)).scale(2, 3).translate(1, 3).arbitrary_point(s) == Line((0, 0), (1, 1)).rotate(pi / 2, (1, 2)).scale(2, 3).translate(1, 3).arbitrary_point(s) == Point(-2 * s + 7, 3 * s + 6)","over":{"base":"Any"},"name":"test_curve_correct"},"guarantee":"c.parameter == z; c.functions == (2 * s, s ** 2); c.arbitrary_point() == Point(2 * s, s ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_curve.test_curve_correct","statement":"Path(test_curve(x), c.parameter == z; c.functions == (2 * s, s ** 2); c.arbitrary_point() == Point(2 * s, s ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75ea1c4b804f1f25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.parameter == z","c.functions == (2 * s, s ** 2)","c.arbitrary_point() == Point(2 * s, s ** 2)","c.arbitrary_point(z) == Point(2 * s, s ** 2)","c.parameter == s","c.arbitrary_point() != Point(2 * t, t ** 2)","c.arbitrary_point() == Point(2 * t, t ** 2)","c.arbitrary_point(z) == Point(2 * z, z ** 2)","c.arbitrary_point(c.parameter) == Point(2 * s, s ** 2)","c.arbitrary_point(None) == Point(2 * s, s ** 2)","c.plot_interval() == [t, 0, 2]","c.plot_interval(z) == [z, 0, 2]","Curve([x, x], (x, 0, 1)).rotate(pi / 2) == Curve([-x, x], (x, 0, 1))","Curve([x, x], (x, 0, 1)).rotate(pi / 2, (1, 2)).scale(2, 3).translate(1, 3).arbitrary_point(s) == Line((0, 0), (1, 1)).rotate(pi / 2, (1, 2)).scale(2, 3).translate(1, 3).arbitrary_point(s) == Point(-2 * s + 7, 3 * s + 6)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_curve():
     x = Symbol('x', real=True)
     s = Symbol('s')
@@ -82,16 +90,24 @@ def test_curve():
 
 @slow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_free_symbols(), test_free_symbols produces the expected output) over Any ║
+# ║ Path(test_free_symbols(), Point(a, b).free_symbols == {a, b} and Line((a, b), (c, d)).free_symbols == {a, b, c, d} and Ray((a, b), (c, d)).free_symbols == {a, b, c, d} and Ray((a, b), angle=c).free_symbols == {a, b, c} and Segment((a, b), (c, d)).free_symbols == {a, b, c, d} and Line((a, b), slope=c).free_symbols == {a, b, c} and Curve((a * s, b * s), (s, c, d)).free_symbols == {a, b, c, d} and Ellipse((a, b), c, d).free_symbols == {a, b, c, d} and Ellipse((a, b), c, eccentricity=d).free_symbols == {a, b, c, d} and Ellipse((a, b), vradius=c, eccentricity=d).free_symbols == {a, b, c, d} and Circle((a, b), c).free_symbols == {a, b, c} and Circle((a, b), (c, d), (e, f)).free_symbols == {e, d, c, b, f, a} and Polygon((a, b), (c, d), (e, f)).free_symbols == {e, b, d, f, a, c} and RegularPolygon((a, b), c, d, e).free_symbols == {e, a, b, c, d}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_free_symbols : Any → {Any | Point(a, b).free_sym...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Point(a, b).free_symbols == {a, b}             ║
+# ║   ensures:  Line((a, b), (c, d)).free_symbols == {a, ...   ║
+# ║   ensures:  Ray((a, b), (c, d)).free_symbols == {a, b...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_free_symbols : Any → {Any | result satisfies: Po...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67fbf6104571d338  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd0a84e2a88e2c5f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_curve.test_free_symbols","kind":"function","src_hash":"265e2943086cf351","in":{"base":"Any"},"out":{"base":"Any","pred":"Point(a, b).free_symbols == {a, b} and Line((a, b), (c, d)).free_symbols == {a, b, c, d} and Ray((a, b), (c, d)).free_symbols == {a, b, c, d} and Ray((a, b), angle=c).free_symbols == {a, b, c} and Segment((a, b), (c, d)).free_symbols == {a, b, c, d} and Line((a, b), slope=c).free_symbols == {a, b, c} and Curve((a * s, b * s), (s, c, d)).free_symbols == {a, b, c, d} and Ellipse((a, b), c, d).free_symbols == {a, b, c, d} and Ellipse((a, b), c, eccentricity=d).free_symbols == {a, b, c, d} and Ellipse((a, b), vradius=c, eccentricity=d).free_symbols == {a, b, c, d} and Circle((a, b), c).free_symbols == {a, b, c} and Circle((a, b), (c, d), (e, f)).free_symbols == {e, d, c, b, f, a} and Polygon((a, b), (c, d), (e, f)).free_symbols == {e, b, d, f, a, c} and RegularPolygon((a, b), c, d, e).free_symbols == {e, a, b, c, d}"},"spec":{"lhs":"test_free_symbols()","rhs":"test_free_symbols produces the expected output","over":{"base":"Any"},"name":"test_free_symbols_correct"},"guarantee":"test_free_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_curve.test_free_symbols_correct","statement":"Path(test_free_symbols(x), test_free_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67fbf6104571d338"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_curve.test_free_symbols","kind":"function","src_hash":"265e2943086cf351","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Point(a, b).free_symbols == {a, b} and Line((a, b), (c, d)).free_symbols == {a, b, c, d} and Ray((a, b), (c, d)).free_symbols == {a, b, c, d} and Ray((a, b), angle=c).free_symbols == {a, b, c} and Segment((a, b), (c, d)).free_symbols == {a, b, c, d} and Line((a, b), slope=c).free_symbols == {a, b, c} and Curve((a * s, b * s), (s, c, d)).free_symbols == {a, b, c, d} and Ellipse((a, b), c, d).free_symbols == {a, b, c, d} and Ellipse((a, b), c, eccentricity=d).free_symbols == {a, b, c, d} and Ellipse((a, b), vradius=c, eccentricity=d).free_symbols == {a, b, c, d} and Circle((a, b), c).free_symbols == {a, b, c} and Circle((a, b), (c, d), (e, f)).free_symbols == {e, d, c, b, f, a} and Polygon((a, b), (c, d), (e, f)).free_symbols == {e, b, d, f, a, c} and RegularPolygon((a, b), c, d, e).free_symbols == {e, a, b, c, d}"},"spec":{"lhs":"test_free_symbols()","rhs":"Point(a, b).free_symbols == {a, b} and Line((a, b), (c, d)).free_symbols == {a, b, c, d} and Ray((a, b), (c, d)).free_symbols == {a, b, c, d} and Ray((a, b), angle=c).free_symbols == {a, b, c} and Segment((a, b), (c, d)).free_symbols == {a, b, c, d} and Line((a, b), slope=c).free_symbols == {a, b, c} and Curve((a * s, b * s), (s, c, d)).free_symbols == {a, b, c, d} and Ellipse((a, b), c, d).free_symbols == {a, b, c, d} and Ellipse((a, b), c, eccentricity=d).free_symbols == {a, b, c, d} and Ellipse((a, b), vradius=c, eccentricity=d).free_symbols == {a, b, c, d} and Circle((a, b), c).free_symbols == {a, b, c} and Circle((a, b), (c, d), (e, f)).free_symbols == {e, d, c, b, f, a} and Polygon((a, b), (c, d), (e, f)).free_symbols == {e, b, d, f, a, c} and RegularPolygon((a, b), c, d, e).free_symbols == {e, a, b, c, d}","over":{"base":"Any"},"name":"test_free_symbols_correct"},"guarantee":"Point(a, b).free_symbols == {a, b}; Line((a, b), (c, d)).free_symbols == {a, b, c, d}; Ray((a, b), (c, d)).free_symbols == {a, b, c, d}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_curve.test_free_symbols_correct","statement":"Path(test_free_symbols(x), Point(a, b).free_symbols == {a, b}; Line((a, b), (c, d)).free_symbols == {a, b, c, d}; Ray((a, b), (c, d)).free_symbols == {a, b, c, d})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd0a84e2a88e2c5f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Point(a, b).free_symbols == {a, b}","Line((a, b), (c, d)).free_symbols == {a, b, c, d}","Ray((a, b), (c, d)).free_symbols == {a, b, c, d}","Ray((a, b), angle=c).free_symbols == {a, b, c}","Segment((a, b), (c, d)).free_symbols == {a, b, c, d}","Line((a, b), slope=c).free_symbols == {a, b, c}","Curve((a * s, b * s), (s, c, d)).free_symbols == {a, b, c, d}","Ellipse((a, b), c, d).free_symbols == {a, b, c, d}","Ellipse((a, b), c, eccentricity=d).free_symbols == {a, b, c, d}","Ellipse((a, b), vradius=c, eccentricity=d).free_symbols == {a, b, c, d}","Circle((a, b), c).free_symbols == {a, b, c}","Circle((a, b), (c, d), (e, f)).free_symbols == {e, d, c, b, f, a}","Polygon((a, b), (c, d), (e, f)).free_symbols == {e, b, d, f, a, c}","RegularPolygon((a, b), c, d, e).free_symbols == {e, a, b, c, d}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_free_symbols():
     a, b, c, d, e, f, s = symbols('a:f,s')
     assert Point(a, b).free_symbols == {a, b}
@@ -115,16 +131,24 @@ def test_free_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_transform(), test_transform produces the expected output) over Any ║
+# ║ Path(test_transform(), c.scale(2, 3, (4, 5)) == cout and [c.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts and [cout.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts_out and Curve((x + y, 3 * x), (x, 0, 1)).subs(y, S.Half) == Curve((x + S.Half, 3 * x), (x, 0, 1)) and Curve((x, 3 * x), (x, 0, 1)).translate(4, 5) == Curve((x + 4, 3 * x + 5), (x, 0, 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_transform : Any → {Any | c.scale(2, 3, (4, 5)) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.scale(2, 3, (4, 5)) == cout                  ║
+# ║   ensures:  [c.subs(x, xi / 2) for xi in Tuple(0, 1, ...   ║
+# ║   ensures:  [cout.subs(x, xi / 2) for xi in Tuple(0, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_transform : Any → {Any | result satisfies: c.sca...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb16ff413a351f17  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f5b0017f8ffed22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_curve.test_transform","kind":"function","src_hash":"85f207d2fd187e9c","in":{"base":"Any"},"out":{"base":"Any","pred":"c.scale(2, 3, (4, 5)) == cout and [c.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts and [cout.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts_out"},"spec":{"lhs":"test_transform()","rhs":"test_transform produces the expected output","over":{"base":"Any"},"name":"test_transform_correct"},"guarantee":"test_transform produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_curve.test_transform_correct","statement":"Path(test_transform(x), test_transform produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb16ff413a351f17"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_curve.test_transform","kind":"function","src_hash":"85f207d2fd187e9c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.scale(2, 3, (4, 5)) == cout and [c.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts and [cout.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts_out and Curve((x + y, 3 * x), (x, 0, 1)).subs(y, S.Half) == Curve((x + S.Half, 3 * x), (x, 0, 1)) and Curve((x, 3 * x), (x, 0, 1)).translate(4, 5) == Curve((x + 4, 3 * x + 5), (x, 0, 1))"},"spec":{"lhs":"test_transform()","rhs":"c.scale(2, 3, (4, 5)) == cout and [c.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts and [cout.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts_out and Curve((x + y, 3 * x), (x, 0, 1)).subs(y, S.Half) == Curve((x + S.Half, 3 * x), (x, 0, 1)) and Curve((x, 3 * x), (x, 0, 1)).translate(4, 5) == Curve((x + 4, 3 * x + 5), (x, 0, 1))","over":{"base":"Any"},"name":"test_transform_correct"},"guarantee":"c.scale(2, 3, (4, 5)) == cout; [c.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts; [cout.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts_out","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_curve.test_transform_correct","statement":"Path(test_transform(x), c.scale(2, 3, (4, 5)) == cout; [c.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts; [cout.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts_out)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f5b0017f8ffed22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.scale(2, 3, (4, 5)) == cout","[c.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts","[cout.subs(x, xi / 2) for xi in Tuple(0, 1, 2)] == pts_out","Curve((x + y, 3 * x), (x, 0, 1)).subs(y, S.Half) == Curve((x + S.Half, 3 * x), (x, 0, 1))","Curve((x, 3 * x), (x, 0, 1)).translate(4, 5) == Curve((x + 4, 3 * x + 5), (x, 0, 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_transform():
     x = Symbol('x', real=True)
     y = Symbol('y', real=True)
@@ -143,16 +167,24 @@ def test_transform():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_length(), test_length produces the expected output) over Any ║
+# ║ Path(test_length(), c1.length == 1 and c2.length == sqrt(2) and c3.length == -sqrt(17) - asinh(4) / 4 + asinh(10) / 4 + 5 * sqrt(101) / 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_length : Any → {Any | c1.length == 1 and c2.leng...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c1.length == 1                                 ║
+# ║   ensures:  c2.length == sqrt(2)                           ║
+# ║   ensures:  c3.length == -sqrt(17) - asinh(4) / 4 + a...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_length : Any → {Any | result satisfies: c1.lengt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e29edb41c15d103  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71264acc1da79023  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_curve.test_length","kind":"function","src_hash":"73eccb0fed6fd50a","in":{"base":"Any"},"out":{"base":"Any","pred":"c1.length == 1 and c2.length == sqrt(2) and c3.length == -sqrt(17) - asinh(4) / 4 + asinh(10) / 4 + 5 * sqrt(101) / 2"},"spec":{"lhs":"test_length()","rhs":"test_length produces the expected output","over":{"base":"Any"},"name":"test_length_correct"},"guarantee":"test_length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_curve.test_length_correct","statement":"Path(test_length(x), test_length produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e29edb41c15d103"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_curve.test_length","kind":"function","src_hash":"73eccb0fed6fd50a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c1.length == 1 and c2.length == sqrt(2) and c3.length == -sqrt(17) - asinh(4) / 4 + asinh(10) / 4 + 5 * sqrt(101) / 2"},"spec":{"lhs":"test_length()","rhs":"c1.length == 1 and c2.length == sqrt(2) and c3.length == -sqrt(17) - asinh(4) / 4 + asinh(10) / 4 + 5 * sqrt(101) / 2","over":{"base":"Any"},"name":"test_length_correct"},"guarantee":"c1.length == 1; c2.length == sqrt(2); c3.length == -sqrt(17) - asinh(4) / 4 + asinh(10) / 4 + 5 * sqrt(101) / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_curve.test_length_correct","statement":"Path(test_length(x), c1.length == 1; c2.length == sqrt(2); c3.length == -sqrt(17) - asinh(4) / 4 + asinh(10) / 4 + 5 * sqrt(101) / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71264acc1da79023","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c1.length == 1","c2.length == sqrt(2)","c3.length == -sqrt(17) - asinh(4) / 4 + asinh(10) / 4 + 5 * sqrt(101) / 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_length():
     t = Symbol('t', real=True)
 
@@ -167,16 +199,22 @@ def test_length():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_parameter_value(), test_parameter_value produces the expected output) over Any ║
+# ║ Path(test_parameter_value(), C.parameter_value((2, 1), t) == {t: 1}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_parameter_value : Any → {Any | C.parameter_value...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  C.parameter_value((2, 1), t) == {t: 1}         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_parameter_value : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 010e689f69895a50  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d34851c50ca2f4b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_curve.test_parameter_value","kind":"function","src_hash":"1dc373eff585b875","in":{"base":"Any"},"out":{"base":"Any","pred":"C.parameter_value((2, 1), t) == {t: 1}"},"spec":{"lhs":"test_parameter_value()","rhs":"test_parameter_value produces the expected output","over":{"base":"Any"},"name":"test_parameter_value_correct"},"guarantee":"test_parameter_value produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_curve.test_parameter_value_correct","statement":"Path(test_parameter_value(x), test_parameter_value produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"010e689f69895a50"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_curve.test_parameter_value","kind":"function","src_hash":"1dc373eff585b875","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: C.parameter_value((2, 1), t) == {t: 1}"},"spec":{"lhs":"test_parameter_value()","rhs":"C.parameter_value((2, 1), t) == {t: 1}","over":{"base":"Any"},"name":"test_parameter_value_correct"},"guarantee":"C.parameter_value((2, 1), t) == {t: 1}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_curve.test_parameter_value_correct","statement":"Path(test_parameter_value(x), C.parameter_value((2, 1), t) == {t: 1})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d34851c50ca2f4b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["C.parameter_value((2, 1), t) == {t: 1}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_parameter_value():
     t = Symbol('t')
     C = Curve([2*t, t**2], (t, 0, 2))
@@ -185,16 +223,23 @@ def test_parameter_value():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_17997(), test_issue_17997 produces the expected output) over Any ║
+# ║ Path(test_issue_17997(), c(2) == Point(2, 4) and p(1) == Point(2, 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_17997 : Any → {Any | c(2) == Point(2, 4) a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c(2) == Point(2, 4)                            ║
+# ║   ensures:  p(1) == Point(2, 1)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_17997 : Any → {Any | result satisfies: c(2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 916721ce3e1ba13c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f790b9617c450c3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_curve.test_issue_17997","kind":"function","src_hash":"029870aa7300e5d8","in":{"base":"Any"},"out":{"base":"Any","pred":"c(2) == Point(2, 4) and p(1) == Point(2, 1)"},"spec":{"lhs":"test_issue_17997()","rhs":"test_issue_17997 produces the expected output","over":{"base":"Any"},"name":"test_issue_17997_correct"},"guarantee":"test_issue_17997 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_curve.test_issue_17997_correct","statement":"Path(test_issue_17997(x), test_issue_17997 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"916721ce3e1ba13c"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_curve.test_issue_17997","kind":"function","src_hash":"029870aa7300e5d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c(2) == Point(2, 4) and p(1) == Point(2, 1)"},"spec":{"lhs":"test_issue_17997()","rhs":"c(2) == Point(2, 4) and p(1) == Point(2, 1)","over":{"base":"Any"},"name":"test_issue_17997_correct"},"guarantee":"c(2) == Point(2, 4); p(1) == Point(2, 1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_curve.test_issue_17997_correct","statement":"Path(test_issue_17997(x), c(2) == Point(2, 4); p(1) == Point(2, 1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f790b9617c450c3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c(2) == Point(2, 4)","p(1) == Point(2, 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_17997():
     t, s = symbols('t s')
     c = Curve((t, t**2), (t, 0, 10))

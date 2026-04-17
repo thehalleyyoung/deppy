@@ -28,16 +28,24 @@ from sympy.core.kind import NumberKind
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixSet(), test_MatrixSet produces the expected output) over Any ║
+# ║ Path(test_MatrixSet(), M.shape == (2, 2) and M.set == S.Reals and X in M and A in M and (X in M) == S.false and (Y in M) == S.false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixSet : Any → {Any | M.shape == (2, 2) and M...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.shape == (2, 2)                              ║
+# ║   ensures:  M.set == S.Reals                               ║
+# ║   ensures:  X in M                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixSet : Any → {Any | result satisfies: M.sha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9791da72a9fe6c79  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 810979431cb7a6ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_sets.test_MatrixSet","kind":"function","src_hash":"e3cae81a7009996a","in":{"base":"Any"},"out":{"base":"Any","pred":"M.shape == (2, 2) and M.set == S.Reals and X in M and X in M and A in M and (X in M) == S.false and (Y in M) == S.false"},"spec":{"lhs":"test_MatrixSet()","rhs":"test_MatrixSet produces the expected output","over":{"base":"Any"},"name":"test_MatrixSet_correct"},"guarantee":"test_MatrixSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_sets.test_MatrixSet_correct","statement":"Path(test_MatrixSet(x), test_MatrixSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9791da72a9fe6c79"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_sets.test_MatrixSet","kind":"function","src_hash":"e3cae81a7009996a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.shape == (2, 2) and M.set == S.Reals and X in M and A in M and (X in M) == S.false and (Y in M) == S.false"},"spec":{"lhs":"test_MatrixSet()","rhs":"M.shape == (2, 2) and M.set == S.Reals and X in M and A in M and (X in M) == S.false and (Y in M) == S.false","over":{"base":"Any"},"name":"test_MatrixSet_correct"},"guarantee":"M.shape == (2, 2); M.set == S.Reals; X in M","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_sets.test_MatrixSet_correct","statement":"Path(test_MatrixSet(x), M.shape == (2, 2); M.set == S.Reals; X in M)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"810979431cb7a6ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.shape == (2, 2)","M.set == S.Reals","X in M","A in M","(X in M) == S.false","(Y in M) == S.false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_MatrixSet():
     n, m = symbols('n m', integer=True)
     A = MatrixSymbol('A', n, m)
@@ -67,15 +75,21 @@ def test_MatrixSet():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_SetKind_MatrixSet(), test_SetKind_MatrixSet produces the expected output) over Any ║
+# ║ Path(test_SetKind_MatrixSet(), MatrixSet(2, 2, set=S.Reals).kind is SetKind(MatrixKind(NumberKind))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_SetKind_MatrixSet : Any → {Any | MatrixSet(2, 2,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatrixSet(2, 2, set=S.Reals).kind is SetK...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_SetKind_MatrixSet : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f5f4864180a4e20  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5120d5cf582787f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_sets.test_SetKind_MatrixSet","kind":"function","src_hash":"fcace07dc5c1c141","in":{"base":"Any"},"out":{"base":"Any","pred":"MatrixSet(2, 2, set=S.Reals).kind is SetKind(MatrixKind(NumberKind))"},"spec":{"lhs":"test_SetKind_MatrixSet()","rhs":"test_SetKind_MatrixSet produces the expected output","over":{"base":"Any"},"name":"test_SetKind_MatrixSet_correct"},"guarantee":"test_SetKind_MatrixSet produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_sets.test_SetKind_MatrixSet_correct","statement":"Path(test_SetKind_MatrixSet(x), test_SetKind_MatrixSet produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f5f4864180a4e20"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_sets.test_SetKind_MatrixSet","kind":"function","src_hash":"fcace07dc5c1c141","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatrixSet(2, 2, set=S.Reals).kind is SetKind(MatrixKind(NumberKind))"},"spec":{"lhs":"test_SetKind_MatrixSet()","rhs":"MatrixSet(2, 2, set=S.Reals).kind is SetKind(MatrixKind(NumberKind))","over":{"base":"Any"},"name":"test_SetKind_MatrixSet_correct"},"guarantee":"MatrixSet(2, 2, set=S.Reals).kind is SetKind(MatrixKind(NumberKind))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_sets.test_SetKind_MatrixSet_correct","statement":"Path(test_SetKind_MatrixSet(x), MatrixSet(2, 2, set=S.Reals).kind is SetKind(MatrixKind(NumberKind)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5120d5cf582787f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatrixSet(2, 2, set=S.Reals).kind is SetKind(MatrixKind(NumberKind))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_SetKind_MatrixSet():
     assert MatrixSet(2, 2, set=S.Reals).kind is SetKind(MatrixKind(NumberKind))

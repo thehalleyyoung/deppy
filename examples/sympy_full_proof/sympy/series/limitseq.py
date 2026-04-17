@@ -34,16 +34,25 @@ from sympy.series.limits import Limit
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(difference_delta(exp), difference operator) over Any  ║
+# ║ Path(difference_delta(expr, n, step), len(f) == old_len_f - 1) over {Any | not (step.is_number is False or step.is_finite is False) and hasattr(expr, 'free_symbols') and hasattr(step, 'is_number') and hasattr(step, 'is_finite') and hasattr(expr, '_eval_difference_delta') and hasattr(expr, 'subs') and len(f) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ difference_delta : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (step.is_number is False or step.is_f...   ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: hasattr(step, 'is_number')                     ║
+# ║   ensures:  len(f) == old_len_f - 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ difference_delta : {Any | not (step.is_number is Fals...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec267015a15044fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6efe71e50e5e4f25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.limitseq.difference_delta","kind":"function","src_hash":"73645b7d102f0991","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"difference_delta(exp)","rhs":"difference operator","over":{"base":"Any"},"name":"difference_delta_correct"},"guarantee":"difference operator","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limitseq.difference_delta_correct","statement":"Path(difference_delta(x), difference operator)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec267015a15044fe"}
+# @cctt_verify {"v":2,"sym":"sympy.series.limitseq.difference_delta","kind":"function","src_hash":"73645b7d102f0991","in":{"base":"Any","pred":"not (step.is_number is False or step.is_finite is False) and hasattr(expr, 'free_symbols') and hasattr(step, 'is_number') and hasattr(step, 'is_finite') and hasattr(expr, '_eval_difference_delta') and hasattr(expr, 'subs') and len(f) > 0"},"out":{"base":"Any","pred":"result satisfies: len(f) == old_len_f - 1"},"spec":{"lhs":"difference_delta(expr, n, step)","rhs":"len(f) == old_len_f - 1","over":{"base":"Any","pred":"not (step.is_number is False or step.is_finite is False) and hasattr(expr, 'free_symbols') and hasattr(step, 'is_number') and hasattr(step, 'is_finite') and hasattr(expr, '_eval_difference_delta') and hasattr(expr, 'subs') and len(f) > 0"},"name":"difference_delta_correct"},"guarantee":"len(f) == old_len_f - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limitseq.difference_delta_correct","statement":"Path(difference_delta(x), len(f) == old_len_f - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6efe71e50e5e4f25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (step.is_number is False or step.is_finite is False)","hasattr(expr, 'free_symbols')","hasattr(step, 'is_number')","hasattr(step, 'is_finite')","hasattr(expr, '_eval_difference_delta')","hasattr(expr, 'subs')","len(f) > 0"],"ensures":["len(f) == old_len_f - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr._eval_difference_delta","expr.free_symbols","expr.subs","step.is_finite","step.is_number"],"calls_mutating":["f.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["f.*"],"old_bindings":{"old_len_f":"len(f)"},"pre_requires":["len(f) > 0"],"post_ensures":["len(f) == old_len_f - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def difference_delta(expr, n=None, step=1):
     """Difference Operator.
 
@@ -93,16 +102,23 @@ def difference_delta(expr, n=None, step=1):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dominant(exp), finds the dominant term in a sum, that is a term that dominates every other term) over Any ║
+# ║ Path(dominant(expr, n), <unspecified:dominant>) over {Any | hasattr(expr, 'expand')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dominant : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'expand')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dominant : {Any | hasattr(expr, 'expand')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56eb30342fb32f56  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.limitseq.dominant","kind":"function","src_hash":"1c8f019f03dc2cba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dominant(exp)","rhs":"finds the dominant term in a sum, that is a term that dominates every other term","over":{"base":"Any"},"name":"dominant_correct"},"guarantee":"finds the dominant term in a sum, that is a term that dominates every other term","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limitseq.dominant_correct","statement":"Path(dominant(x), finds the dominant term in a sum, that is a term that dominates every other term)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56eb30342fb32f56"}
+# @cctt_verify {"v":2,"sym":"sympy.series.limitseq.dominant","kind":"function","src_hash":"1c8f019f03dc2cba","in":{"base":"Any","pred":"hasattr(expr, 'expand')"},"out":{"base":"Any"},"spec":{"lhs":"dominant(expr, n)","rhs":"<unspecified:dominant>","over":{"base":"Any","pred":"hasattr(expr, 'expand')"},"name":"dominant_correct"},"guarantee":"finds the dominant term in a sum, that is a term that dominates every other term","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limitseq.dominant_correct","statement":"Path(dominant(x), finds the dominant term in a sum, that is a term that dominates every other term)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56eb30342fb32f56","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'expand')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dominant(expr, n):
     """Finds the dominant term in a sum, that is a term that dominates
     every other term.
@@ -154,16 +170,22 @@ def dominant(expr, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_limit_inf(exp), id) over Any                         ║
+# ║ Path(_limit_inf(expr, n), id) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _limit_inf : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 7e67c0dfe1ec0cc0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.limitseq._limit_inf","kind":"function","src_hash":"eced88de4e74a08a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_limit_inf(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_limit_inf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Limit","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e67c0dfe1ec0cc0"}
+# @cctt_verify {"v":2,"sym":"sympy.series.limitseq._limit_inf","kind":"function","src_hash":"eced88de4e74a08a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_limit_inf(expr, n)","rhs":"<unspecified:_limit_inf>","over":{"base":"Any"},"name":"_limit_inf_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Limit","by":"library_axiom"},{"fn":"doit","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e67c0dfe1ec0cc0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _limit_inf(expr, n):
     try:
         return Limit(expr, n, S.Infinity).doit(deep=False)
@@ -172,16 +194,25 @@ def _limit_inf(expr, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_limit_seq(exp), internal helper behaves correctly) over Any ║
+# ║ Path(_limit_seq(expr, n, trials), <unspecified:_limit_seq>) over {Any | hasattr(expr, 'as_numer_denom') and hasattr(expr, 'has') and hasattr(expr, 'doit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _limit_seq : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'as_numer_denom')                ║
+# ║   requires: hasattr(expr, 'has')                           ║
+# ║   requires: hasattr(expr, 'doit')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _limit_seq : {Any | hasattr(expr, 'as_numer_denom') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 217a950ec80e287b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.limitseq._limit_seq","kind":"function","src_hash":"03b4844b401c02c1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_limit_seq(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_limit_seq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limitseq._limit_seq_correct","statement":"Path(_limit_seq(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"217a950ec80e287b"}
+# @cctt_verify {"v":2,"sym":"sympy.series.limitseq._limit_seq","kind":"function","src_hash":"03b4844b401c02c1","in":{"base":"Any","pred":"hasattr(expr, 'as_numer_denom') and hasattr(expr, 'has') and hasattr(expr, 'doit')"},"out":{"base":"Any"},"spec":{"lhs":"_limit_seq(expr, n, trials)","rhs":"<unspecified:_limit_seq>","over":{"base":"Any","pred":"hasattr(expr, 'as_numer_denom') and hasattr(expr, 'has') and hasattr(expr, 'doit')"},"name":"_limit_seq_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limitseq._limit_seq_correct","statement":"Path(_limit_seq(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"217a950ec80e287b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'as_numer_denom')","hasattr(expr, 'has')","hasattr(expr, 'doit')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.as_numer_denom","expr.doit","expr.has"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _limit_seq(expr, n, trials):
     from sympy.concrete.summations import Sum
 
@@ -220,16 +251,27 @@ def _limit_seq(expr, n, trials):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(limit_seq(exp), finds the limit of a sequence as index ``n`` tends to infinity) over Any ║
+# ║ Path(limit_seq(expr, n, trials), len(free) == old_len_free - 1) over {Any | hasattr(expr, 'free_symbols') and hasattr(expr, 'rewrite') and hasattr(expr, 'is_Add') and hasattr(expr, 'has') and hasattr(expr, 'atoms') and hasattr(expr, 'xreplace') and hasattr(expr, 'args') and len(free) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ limit_seq : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: hasattr(expr, 'rewrite')                       ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   ensures:  len(free) == old_len_free - 1                  ║
+# ║   fiber[zero_or_none]: n is None                           ║
+# ║   fiber[case_1]: n not in expr.free_symbols => expr        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ limit_seq : {Any | hasattr(expr, 'free_symbols') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e408a9fe45ef068c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 964e87932cb17e47  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.limitseq.limit_seq","kind":"function","src_hash":"ea89826c269028d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"limit_seq(exp)","rhs":"finds the limit of a sequence as index ``n`` tends to infinity","over":{"base":"Any"},"name":"limit_seq_correct"},"guarantee":"finds the limit of a sequence as index ``n`` tends to infinity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limitseq.limit_seq_correct","statement":"Path(limit_seq(x), finds the limit of a sequence as index ``n`` tends to infinity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e408a9fe45ef068c"}
+# @cctt_verify {"v":2,"sym":"sympy.series.limitseq.limit_seq","kind":"function","src_hash":"ea89826c269028d2","in":{"base":"Any","pred":"hasattr(expr, 'free_symbols') and hasattr(expr, 'rewrite') and hasattr(expr, 'is_Add') and hasattr(expr, 'has') and hasattr(expr, 'atoms') and hasattr(expr, 'xreplace') and hasattr(expr, 'args') and len(free) > 0"},"out":{"base":"Any","pred":"result satisfies: len(free) == old_len_free - 1"},"spec":{"lhs":"limit_seq(expr, n, trials)","rhs":"len(free) == old_len_free - 1","over":{"base":"Any","pred":"hasattr(expr, 'free_symbols') and hasattr(expr, 'rewrite') and hasattr(expr, 'is_Add') and hasattr(expr, 'has') and hasattr(expr, 'atoms') and hasattr(expr, 'xreplace') and hasattr(expr, 'args') and len(free) > 0"},"name":"limit_seq_correct"},"guarantee":"len(free) == old_len_free - 1; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.limitseq.limit_seq_correct","statement":"Path(limit_seq(x), len(free) == old_len_free - 1; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"964e87932cb17e47","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'free_symbols')","hasattr(expr, 'rewrite')","hasattr(expr, 'is_Add')","hasattr(expr, 'has')","hasattr(expr, 'atoms')","hasattr(expr, 'xreplace')","hasattr(expr, 'args')","len(free) > 0"],"ensures":["len(free) == old_len_free - 1"],"fibers":[{"name":"zero_or_none","guard":"n is None","ensures":[],"decidability":"structural"},{"name":"case_1","guard":"n not in expr.free_symbols","ensures":["result == expr"],"decidability":"library","returns_expr":"expr"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.atoms","expr.free_symbols","expr.has","expr.is_Add","expr.rewrite","expr.xreplace"],"calls_mutating":["free.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["free.*"],"old_bindings":{"old_len_free":"len(free)"},"pre_requires":["len(free) > 0"],"post_ensures":["len(free) == old_len_free - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def limit_seq(expr, n=None, trials=5):
     """Finds the limit of a sequence as index ``n`` tends to infinity.
 

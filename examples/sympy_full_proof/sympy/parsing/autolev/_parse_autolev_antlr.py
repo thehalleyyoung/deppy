@@ -32,16 +32,24 @@ AutolevListener = getattr(autolevlistener, 'AutolevListener', None)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parse_autolev(aut), parse_autolev produces the expected output) over Any ║
+# ║ Path(parse_autolev(autolev_code, include_numeric), ''.join(my_listener.output_code)) over {Any | not (not antlr4 or not version('antlr4-python3-runtime').startswith('4.11')) and hasattr(autolev_code, 'readlines')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ parse_autolev : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not antlr4 or not version('antlr4-py...   ║
+# ║   requires: hasattr(autolev_code, 'readlines')             ║
+# ║   returns:  ''.join(my_listener.output_code)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ parse_autolev : {Any | not (not antlr4 or not version...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e171c9f54aa7305b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 218c345098346c68  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._parse_autolev_antlr.parse_autolev","kind":"function","src_hash":"cbd4fbddb08abc7b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"parse_autolev(aut)","rhs":"parse_autolev produces the expected output","over":{"base":"Any"},"name":"parse_autolev_correct"},"guarantee":"parse_autolev produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._parse_autolev_antlr.parse_autolev_correct","statement":"Path(parse_autolev(x), parse_autolev produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e171c9f54aa7305b"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._parse_autolev_antlr.parse_autolev","kind":"function","src_hash":"cbd4fbddb08abc7b","in":{"base":"Any","pred":"not (not antlr4 or not version('antlr4-python3-runtime').startswith('4.11')) and hasattr(autolev_code, 'readlines')"},"out":{"base":"Any"},"spec":{"lhs":"parse_autolev(autolev_code, include_numeric)","rhs":"''.join(my_listener.output_code)","over":{"base":"Any","pred":"not (not antlr4 or not version('antlr4-python3-runtime').startswith('4.11')) and hasattr(autolev_code, 'readlines')"},"name":"parse_autolev_correct"},"guarantee":"returns ''.join(my_listener.output_code)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._parse_autolev_antlr.parse_autolev_correct","statement":"Path(parse_autolev(x), returns ''.join(my_listener.output_code))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"218c345098346c68","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not antlr4 or not version('antlr4-python3-runtime').startswith('4.11'))","hasattr(autolev_code, 'readlines')"],"returns_expr":"''.join(my_listener.output_code)","pure":false,"effects":{"effect_type":"reads_state","reads":["autolev_code.readlines"],"raises":["ImportError"],"catches":["Exception"]},"state_contract":{"exceptional_post":{"ImportError":["isinstance(raised, ImportError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def parse_autolev(autolev_code, include_numeric):
     antlr4 = import_module('antlr4')
     if not antlr4 or not version('antlr4-python3-runtime').startswith('4.11'):

@@ -28,14 +28,20 @@ from sympy.core.singleton import S
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Prefix(*args), correctly constructs a Prefix instance) over {Any | isinstance(other, Prefix) and isinstance(other, (Quantity, Prefix))} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Prefix : {Any | isinstance(other, Prefix) and isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c67c3e8a25b9d828  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix","kind":"class","src_hash":"6cec0e00daaf34e7","in":{"base":"Any","pred":"isinstance(other, Prefix) and isinstance(other, (Quantity, Prefix))"},"out":{"base":"Any"},"spec":{"lhs":"Prefix(*args)","rhs":"correctly constructs a Prefix instance","over":{"base":"Any","pred":"isinstance(other, Prefix) and isinstance(other, (Quantity, Prefix))"},"name":"Prefix_class_invariant"},"guarantee":"correctly constructs a Prefix instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c67c3e8a25b9d828"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix","kind":"class","src_hash":"6cec0e00daaf34e7","in":{"base":"Any","pred":"isinstance(other, Prefix) and isinstance(other, (Quantity, Prefix))"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Prefix(*args)","rhs":"correctly constructs a Prefix instance","over":{"base":"Any","pred":"isinstance(other, Prefix) and isinstance(other, (Quantity, Prefix))"},"name":"Prefix_class_invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c67c3e8a25b9d828","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Prefix not found in source"]}}
 class Prefix(Expr):
     """
     This class represent prefixes, with their name, symbol and factor.
@@ -59,16 +65,22 @@ class Prefix(Expr):
     is_commutative = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, name, abbrev), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e2508f0b9b15e1a5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.__new__","kind":"method","src_hash":"09dbd04bdfe9bf45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2508f0b9b15e1a5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.__new__","kind":"method","src_hash":"09dbd04bdfe9bf45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, name, abbrev)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2508f0b9b15e1a5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, name, abbrev, exponent, base=sympify(10), latex_repr=None):
 
         name = sympify(name)
@@ -87,60 +99,84 @@ class Prefix(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(name(), returns the name attribute) over Any          ║
+# ║ Path(name(), self._name) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._name                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ name : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 735e5a648a6fd15c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.name","kind":"property","src_hash":"ffdfa4a4b030c060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"returns the name attribute","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns the name attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"735e5a648a6fd15c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.name","kind":"property","src_hash":"ffdfa4a4b030c060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"name()","rhs":"self._name","over":{"base":"Any"},"name":"name_correct"},"guarantee":"returns self._name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"735e5a648a6fd15c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._name","pure":false,"effects":{"effect_type":"reads_state","reads":["self._name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def name(self):
         return self._name
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(abbrev(), returns the abbrev attribute) over Any      ║
+# ║ Path(abbrev(), self._abbrev) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._abbrev                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ abbrev : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 096a295ec9ca8f20           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.abbrev","kind":"property","src_hash":"8291e604c6a2b8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"abbrev()","rhs":"returns the abbrev attribute","over":{"base":"Any"},"name":"abbrev_correct"},"guarantee":"returns the abbrev attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"096a295ec9ca8f20"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.abbrev","kind":"property","src_hash":"8291e604c6a2b8dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"abbrev()","rhs":"self._abbrev","over":{"base":"Any"},"name":"abbrev_correct"},"guarantee":"returns self._abbrev","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"096a295ec9ca8f20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._abbrev","pure":false,"effects":{"effect_type":"reads_state","reads":["self._abbrev"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def abbrev(self):
         return self._abbrev
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(scale_factor(), returns the scale_factor attribute) over Any ║
+# ║ Path(scale_factor(), self._scale_factor) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._scale_factor                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ scale_factor : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a121022b672bd01c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.scale_factor","kind":"property","src_hash":"acda16794b7f21bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale_factor()","rhs":"returns the scale_factor attribute","over":{"base":"Any"},"name":"scale_factor_correct"},"guarantee":"returns the scale_factor attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a121022b672bd01c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.scale_factor","kind":"property","src_hash":"acda16794b7f21bd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"scale_factor()","rhs":"self._scale_factor","over":{"base":"Any"},"name":"scale_factor_correct"},"guarantee":"returns self._scale_factor","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a121022b672bd01c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._scale_factor","pure":false,"effects":{"effect_type":"reads_state","reads":["self._scale_factor"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def scale_factor(self):
         return self._scale_factor
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer), <unspecified:_latex>) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _latex : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97eff01d6f4aac20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix._latex","kind":"method","src_hash":"80dd9caaf27e4a1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.prefixes.Prefix._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97eff01d6f4aac20"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix._latex","kind":"method","src_hash":"80dd9caaf27e4a1a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer)","rhs":"<unspecified:_latex>","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.prefixes.Prefix._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97eff01d6f4aac20","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._abbrev","self._latex_repr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer):
         if self._latex_repr is None:
             return r'\text{%s}' % self._abbrev
@@ -148,44 +184,65 @@ class Prefix(Expr):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base(), returns the base attribute) over Any          ║
+# ║ Path(base(), self._base) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._base                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f163fc470349944a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.base","kind":"property","src_hash":"1eaff8d0f17e39d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base()","rhs":"returns the base attribute","over":{"base":"Any"},"name":"base_correct"},"guarantee":"returns the base attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f163fc470349944a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.base","kind":"property","src_hash":"1eaff8d0f17e39d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base()","rhs":"self._base","over":{"base":"Any"},"name":"base_correct"},"guarantee":"returns self._base","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f163fc470349944a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._base","pure":false,"effects":{"effect_type":"reads_state","reads":["self._base"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base(self):
         return self._base
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), str(self._abbrev)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self._abbrev)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f1fec9dbebe208b8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.__str__","kind":"method","src_hash":"f556328d451f5f28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1fec9dbebe208b8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.__str__","kind":"method","src_hash":"f556328d451f5f28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"str(self._abbrev)","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns str(self._abbrev)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f1fec9dbebe208b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self._abbrev)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._abbrev"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return str(self._abbrev)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), result == ('Prefix(%r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent) if self.base == 10 else 'Prefix(%r, %r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent, self.base)) and result == 'Prefix(%r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent) or result == 'Prefix(%r, %r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent, self.base)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __repr__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ('Prefix(%r, %r, %r)' % (str(se...   ║
+# ║   ensures:  result == 'Prefix(%r, %r, %r)' % (str(sel...   ║
+# ║   fiber[case_0]: self.base == 10 => 'Prefix(%r, %r, %...   ║
+# ║   fiber[case_1]: not (self.base == 10) => 'Prefix(%r,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __repr__ : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c743f7e3cc28f325           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.__repr__","kind":"method","src_hash":"4b12c2bfcb607797","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c743f7e3cc28f325"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.__repr__","kind":"method","src_hash":"4b12c2bfcb607797","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ('Prefix(%r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent) if self.base == 10 else 'Prefix(%r, %r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent, self.base)) and result == 'Prefix(%r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent) or result == 'Prefix(%r, %r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent, self.base)"},"spec":{"lhs":"__repr__()","rhs":"result == ('Prefix(%r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent) if self.base == 10 else 'Prefix(%r, %r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent, self.base)) and result == 'Prefix(%r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent) or result == 'Prefix(%r, %r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent, self.base)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"result == ('Prefix(%r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent) if self.base == 10 else 'Prefix(%r, %r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent, self.base)); result == 'Prefix(%r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent) or result == 'Prefix(%r, %r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent, self.base); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c743f7e3cc28f325","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ('Prefix(%r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent) if self.base == 10 else 'Prefix(%r, %r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent, self.base))","result == 'Prefix(%r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent) or result == 'Prefix(%r, %r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent, self.base)"],"fibers":[{"name":"case_0","guard":"self.base == 10","ensures":["result == 'Prefix(%r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent)"],"decidability":"z3","returns_expr":"'Prefix(%r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent)"},{"name":"case_1","guard":"not (self.base == 10)","ensures":["result == 'Prefix(%r, %r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent, self.base)"],"decidability":"z3","returns_expr":"'Prefix(%r, %r, %r, %r)' % (str(self.name), str(self.abbrev), self._exponent, self.base)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._exponent","self.abbrev","self.base","self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         if self.base == 10:
             return "Prefix(%r, %r, %r)" % (
@@ -195,16 +252,23 @@ class Prefix(Expr):
                 str(self.name), str(self.abbrev), self._exponent, self.base)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, 'scale_factor')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'scale_factor')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, 'scale_factor')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2fb02d104b497e1c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.__mul__","kind":"method","src_hash":"6675fd21f234a2ce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2fb02d104b497e1c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.__mul__","kind":"method","src_hash":"6675fd21f234a2ce","in":{"base":"Any","pred":"hasattr(other, 'scale_factor')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, 'scale_factor')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2fb02d104b497e1c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'scale_factor')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.scale_factor","self.scale_factor"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         from sympy.physics.units import Quantity
         if not isinstance(other, (Quantity, Prefix)):
@@ -224,16 +288,23 @@ class Prefix(Expr):
         return self.scale_factor * other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__truediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__truediv__(other), <unspecified:__truediv__>) over {Any | hasattr(other, 'scale_factor')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __truediv__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'scale_factor')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __truediv__ : {Any | hasattr(other, 'scale_factor')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a0291dfeadc99cfd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.__truediv__","kind":"method","src_hash":"0ade515008ce7daf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0291dfeadc99cfd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.__truediv__","kind":"method","src_hash":"0ade515008ce7daf","in":{"base":"Any","pred":"hasattr(other, 'scale_factor')"},"out":{"base":"Any"},"spec":{"lhs":"__truediv__(other)","rhs":"<unspecified:__truediv__>","over":{"base":"Any","pred":"hasattr(other, 'scale_factor')"},"name":"__truediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0291dfeadc99cfd","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'scale_factor')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.scale_factor","self.scale_factor"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __truediv__(self, other):
         if not hasattr(other, "scale_factor"):
             return super().__truediv__(other)
@@ -251,16 +322,22 @@ class Prefix(Expr):
         return self.scale_factor / other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__rtruediv__(oth), internal helper behaves correctly) over Any ║
+# ║ Path(__rtruediv__(other), <unspecified:__rtruediv__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __rtruediv__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f57980c415f6d839           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.__rtruediv__","kind":"method","src_hash":"841f3e13753185ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f57980c415f6d839"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.Prefix.__rtruediv__","kind":"method","src_hash":"841f3e13753185ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__rtruediv__(other)","rhs":"<unspecified:__rtruediv__>","over":{"base":"Any"},"name":"__rtruediv___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f57980c415f6d839","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.scale_factor"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __rtruediv__(self, other):
         if other == 1:
             for p in PREFIXES:
@@ -270,16 +347,25 @@ class Prefix(Expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prefix_unit(uni), return a list of all units formed by unit and the given prefixes) over Any ║
+# ║ Path(prefix_unit(unit, prefixes), <unspecified:prefix_unit>) over {Any | hasattr(prefixes, 'values') and hasattr(unit, 'name') and hasattr(unit, 'abbrev')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ prefix_unit : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(prefixes, 'values')                    ║
+# ║   requires: hasattr(unit, 'name')                          ║
+# ║   requires: hasattr(unit, 'abbrev')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ prefix_unit : {Any | hasattr(prefixes, 'values') and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b31b3bb3bee712d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.prefix_unit","kind":"function","src_hash":"dbb002fdfd176c89","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prefix_unit(uni)","rhs":"return a list of all units formed by unit and the given prefixes","over":{"base":"Any"},"name":"prefix_unit_correct"},"guarantee":"return a list of all units formed by unit and the given prefixes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.prefixes.prefix_unit_correct","statement":"Path(prefix_unit(x), return a list of all units formed by unit and the given prefixes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b31b3bb3bee712d3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.units.prefixes.prefix_unit","kind":"function","src_hash":"dbb002fdfd176c89","in":{"base":"Any","pred":"hasattr(prefixes, 'values') and hasattr(unit, 'name') and hasattr(unit, 'abbrev')"},"out":{"base":"Any"},"spec":{"lhs":"prefix_unit(unit, prefixes)","rhs":"<unspecified:prefix_unit>","over":{"base":"Any","pred":"hasattr(prefixes, 'values') and hasattr(unit, 'name') and hasattr(unit, 'abbrev')"},"name":"prefix_unit_correct"},"guarantee":"return a list of all units formed by unit and the given prefixes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.units.prefixes.prefix_unit_correct","statement":"Path(prefix_unit(x), return a list of all units formed by unit and the given prefixes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b31b3bb3bee712d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(prefixes, 'values')","hasattr(unit, 'name')","hasattr(unit, 'abbrev')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def prefix_unit(unit, prefixes):
     """
     Return a list of all units formed by unit and the given prefixes.

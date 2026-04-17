@@ -47,16 +47,25 @@ from sympy.polys.sqfreetools import (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_sturm(f, ), computes the sturm sequence of ``f`` in ``f[x]``) over Any ║
+# ║ Path(dup_sturm(f, K), sturm[:-1]) over {Any | K.is_Field and hasattr(K, 'is_Field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_sturm : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: K.is_Field                                     ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   ensures:  len(sturm) == old_len_sturm + 1                ║
+# ║   returns:  sturm[:-1]                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_sturm : {Any | K.is_Field and hasattr(K, 'is_Fiel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06ac3f9ee854ad75  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccfc707272e2a399  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_sturm","kind":"function","src_hash":"0f3bc4ca7fb96833","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_sturm(f, )","rhs":"computes the sturm sequence of ``f`` in ``f[x]``","over":{"base":"Any"},"name":"dup_sturm_correct"},"guarantee":"computes the sturm sequence of ``f`` in ``f[x]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_sturm_correct","statement":"Path(dup_sturm(x), computes the sturm sequence of ``f`` in ``f[x]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06ac3f9ee854ad75"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_sturm","kind":"function","src_hash":"0f3bc4ca7fb96833","in":{"base":"Any","pred":"K.is_Field and hasattr(K, 'is_Field')"},"out":{"base":"Any","pred":"result satisfies: result == (sturm[:-1])"},"spec":{"lhs":"dup_sturm(f, K)","rhs":"sturm[:-1]","over":{"base":"Any","pred":"K.is_Field and hasattr(K, 'is_Field')"},"name":"dup_sturm_correct"},"guarantee":"returns sturm[:-1]; len(sturm) == old_len_sturm + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_sturm_correct","statement":"Path(dup_sturm(x), returns sturm[:-1]; len(sturm) == old_len_sturm + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccfc707272e2a399","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["K.is_Field","hasattr(K, 'is_Field')"],"ensures":["len(sturm) == old_len_sturm + 1"],"returns_expr":"sturm[:-1]","pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_Field"],"calls_mutating":["sturm.append"],"raises":["DomainError"]},"state_contract":{"modifies":["sturm.*"],"old_bindings":{"old_len_sturm":"len(sturm)"},"post_ensures":["len(sturm) == old_len_sturm + 1"],"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_sturm(f, K):
     """
     Computes the Sturm sequence of ``f`` in ``F[x]``.
@@ -96,16 +105,25 @@ def dup_sturm(f, K):
     return sturm[:-1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_root_upper_bound(f, ), compute the lmq upper bound for the positive roots of `f`; lmq (local max quadratic) was developed by akritas-strzebonski-vigklas) over Any ║
+# ║ Path(dup_root_upper_bound(f, K), <unspecified:dup_root_upper_bound>) over {Any | hasattr(K, 'one') and hasattr(K, 'log') and hasattr(K, 'get_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_root_upper_bound : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'log')                              ║
+# ║   requires: hasattr(K, 'get_field')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_root_upper_bound : {Any | hasattr(K, 'one') and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dea3e0a6d9fde335  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_root_upper_bound","kind":"function","src_hash":"58b399c639616a19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_root_upper_bound(f, )","rhs":"compute the lmq upper bound for the positive roots of `f`; lmq (local max quadratic) was developed by akritas-strzebonski-vigklas","over":{"base":"Any"},"name":"dup_root_upper_bound_correct"},"guarantee":"compute the lmq upper bound for the positive roots of `f`; lmq (local max quadratic) was developed by akritas-strzebonski-vigklas","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_root_upper_bound_correct","statement":"Path(dup_root_upper_bound(x), compute the lmq upper bound for the positive roots of `f`; lmq (local max quadratic) was developed by akritas-strzebonski-vigklas)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dea3e0a6d9fde335"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_root_upper_bound","kind":"function","src_hash":"58b399c639616a19","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'log') and hasattr(K, 'get_field')"},"out":{"base":"Any"},"spec":{"lhs":"dup_root_upper_bound(f, K)","rhs":"<unspecified:dup_root_upper_bound>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'log') and hasattr(K, 'get_field')"},"name":"dup_root_upper_bound_correct"},"guarantee":"compute the lmq upper bound for the positive roots of `f`; lmq (local max quadratic) was developed by akritas-strzebonski-vigklas","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_root_upper_bound_correct","statement":"Path(dup_root_upper_bound(x), compute the lmq upper bound for the positive roots of `f`; lmq (local max quadratic) was developed by akritas-strzebonski-vigklas)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dea3e0a6d9fde335","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'log')","hasattr(K, 'get_field')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dup_root_upper_bound(f, K):
     """Compute the LMQ upper bound for the positive roots of `f`;
        LMQ (Local Max Quadratic) was developed by Akritas-Strzebonski-Vigklas.
@@ -151,16 +169,25 @@ def dup_root_upper_bound(f, K):
         return K.get_field()(2)**(max(P) + 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_root_lower_bound(f, ), compute the lmq lower bound for the positive roots of `f`; lmq (local max quadratic) was developed by akritas-strzebonski-vigklas) over Any ║
+# ║ Path(dup_root_lower_bound(f, K), result == (1 / bound if bound is not None else None) and result == 1 / bound or result == None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_root_lower_bound : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (1 / bound if bound is not None...   ║
+# ║   ensures:  result == 1 / bound or result == None          ║
+# ║   fiber[case_0]: bound is not None => 1 / bound            ║
+# ║   fiber[case_1]: not (bound is not None) => None           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_root_lower_bound : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 276183814783fecd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 614f41f670ab0a23  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_root_lower_bound","kind":"function","src_hash":"a56c375e11d65dce","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_root_lower_bound(f, )","rhs":"compute the lmq lower bound for the positive roots of `f`; lmq (local max quadratic) was developed by akritas-strzebonski-vigklas","over":{"base":"Any"},"name":"dup_root_lower_bound_correct"},"guarantee":"compute the lmq lower bound for the positive roots of `f`; lmq (local max quadratic) was developed by akritas-strzebonski-vigklas","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_root_lower_bound_correct","statement":"Path(dup_root_lower_bound(x), compute the lmq lower bound for the positive roots of `f`; lmq (local max quadratic) was developed by akritas-strzebonski-vigklas)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"276183814783fecd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_root_lower_bound","kind":"function","src_hash":"a56c375e11d65dce","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (1 / bound if bound is not None else None) and result == 1 / bound or result == None"},"spec":{"lhs":"dup_root_lower_bound(f, K)","rhs":"result == (1 / bound if bound is not None else None) and result == 1 / bound or result == None","over":{"base":"Any"},"name":"dup_root_lower_bound_correct"},"guarantee":"result == (1 / bound if bound is not None else None); result == 1 / bound or result == None; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_root_lower_bound_correct","statement":"Path(dup_root_lower_bound(x), result == (1 / bound if bound is not None else None); result == 1 / bound or result == None; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"614f41f670ab0a23","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (1 / bound if bound is not None else None)","result == 1 / bound or result == None"],"fibers":[{"name":"case_0","guard":"bound is not None","ensures":["result == 1 / bound"],"decidability":"library","returns_expr":"1 / bound"},{"name":"case_1","guard":"not (bound is not None)","ensures":["result == None"],"decidability":"library","returns_expr":"None"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_root_lower_bound(f, K):
     """Compute the LMQ lower bound for the positive roots of `f`;
        LMQ (Local Max Quadratic) was developed by Akritas-Strzebonski-Vigklas.
@@ -179,16 +206,25 @@ def dup_root_lower_bound(f, K):
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_cauchy_upper_bound(f, ), compute the cauchy upper bound on the absolute value of all roots of f, real or complex) over Any ║
+# ║ Path(dup_cauchy_upper_bound(f, K), len(f) == old_len_f - 1) over {Any | not (n < 1) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_zero') and hasattr(K, 'zero') and hasattr(K, 'one') and hasattr(K, 'get_field') and hasattr(K, 'is_RR') and hasattr(K, 'is_CC') and hasattr(f, 'pop') and hasattr(K, 'is_QQ') and len(f) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_cauchy_upper_bound : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 1)                                    ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   requires: hasattr(K, 'is_zero')                          ║
+# ║   ensures:  len(f) == old_len_f - 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_cauchy_upper_bound : {Any | not (n < 1) and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1215a7df6c922d62  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccbdd718c58bd89f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_cauchy_upper_bound","kind":"function","src_hash":"8dfa2831560fcd08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_cauchy_upper_bound(f, )","rhs":"compute the cauchy upper bound on the absolute value of all roots of f, real or complex","over":{"base":"Any"},"name":"dup_cauchy_upper_bound_correct"},"guarantee":"compute the cauchy upper bound on the absolute value of all roots of f, real or complex","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_cauchy_upper_bound_correct","statement":"Path(dup_cauchy_upper_bound(x), compute the cauchy upper bound on the absolute value of all roots of f, real or complex)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1215a7df6c922d62"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_cauchy_upper_bound","kind":"function","src_hash":"8dfa2831560fcd08","in":{"base":"Any","pred":"not (n < 1) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_zero') and hasattr(K, 'zero') and hasattr(K, 'one') and hasattr(K, 'get_field') and hasattr(K, 'is_RR') and hasattr(K, 'is_CC') and hasattr(f, 'pop') and hasattr(K, 'is_QQ') and len(f) > 0"},"out":{"base":"Any","pred":"result satisfies: len(f) == old_len_f - 1"},"spec":{"lhs":"dup_cauchy_upper_bound(f, K)","rhs":"len(f) == old_len_f - 1","over":{"base":"Any","pred":"not (n < 1) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_zero') and hasattr(K, 'zero') and hasattr(K, 'one') and hasattr(K, 'get_field') and hasattr(K, 'is_RR') and hasattr(K, 'is_CC') and hasattr(f, 'pop') and hasattr(K, 'is_QQ') and len(f) > 0"},"name":"dup_cauchy_upper_bound_correct"},"guarantee":"len(f) == old_len_f - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_cauchy_upper_bound_correct","statement":"Path(dup_cauchy_upper_bound(x), len(f) == old_len_f - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccbdd718c58bd89f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 1)","hasattr(K, 'is_ZZ')","hasattr(K, 'is_zero')","hasattr(K, 'zero')","hasattr(K, 'one')","hasattr(K, 'get_field')","hasattr(K, 'is_RR')","hasattr(K, 'is_CC')","hasattr(f, 'pop')","hasattr(K, 'is_QQ')","len(f) > 0"],"ensures":["len(f) == old_len_f - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["K.get_field","K.is_CC","K.is_QQ","K.is_RR","K.is_ZZ","K.is_zero","K.one","K.zero","f.pop"],"calls_mutating":["f.pop"],"raises":["DomainError","PolynomialError"]},"state_contract":{"modifies":["f.*"],"old_bindings":{"old_len_f":"len(f)"},"pre_requires":["len(f) > 0"],"post_ensures":["len(f) == old_len_f - 1"],"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"],"PolynomialError":["isinstance(raised, PolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_cauchy_upper_bound(f, K):
     """
     Compute the Cauchy upper bound on the absolute value of all roots of f,
@@ -222,16 +258,25 @@ def dup_cauchy_upper_bound(f, K):
     return K.one + max(abs(n / lc) for n in f[1:])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_cauchy_lower_bound(f, ), compute the cauchy lower bound on the absolute value of all non-zero roots of f, real or complex) over Any ║
+# ║ Path(dup_cauchy_lower_bound(f, K), K.one / b) over {Any | not (len(g) < 2) and hasattr(K, 'is_ZZ') and hasattr(K, 'one') and hasattr(K, 'get_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_cauchy_lower_bound : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(g) < 2)                               ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   returns:  K.one / b                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_cauchy_lower_bound : {Any | not (len(g) < 2) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfceb4af8ed52740  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8e7567db058ebab6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_cauchy_lower_bound","kind":"function","src_hash":"2fcf75dc2f149b5a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_cauchy_lower_bound(f, )","rhs":"compute the cauchy lower bound on the absolute value of all non-zero roots of f, real or complex","over":{"base":"Any"},"name":"dup_cauchy_lower_bound_correct"},"guarantee":"compute the cauchy lower bound on the absolute value of all non-zero roots of f, real or complex","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_cauchy_lower_bound_correct","statement":"Path(dup_cauchy_lower_bound(x), compute the cauchy lower bound on the absolute value of all non-zero roots of f, real or complex)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfceb4af8ed52740"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_cauchy_lower_bound","kind":"function","src_hash":"2fcf75dc2f149b5a","in":{"base":"Any","pred":"not (len(g) < 2) and hasattr(K, 'is_ZZ') and hasattr(K, 'one') and hasattr(K, 'get_field')"},"out":{"base":"Any"},"spec":{"lhs":"dup_cauchy_lower_bound(f, K)","rhs":"K.one / b","over":{"base":"Any","pred":"not (len(g) < 2) and hasattr(K, 'is_ZZ') and hasattr(K, 'one') and hasattr(K, 'get_field')"},"name":"dup_cauchy_lower_bound_correct"},"guarantee":"returns K.one / b","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_cauchy_lower_bound_correct","statement":"Path(dup_cauchy_lower_bound(x), returns K.one / b)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8e7567db058ebab6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(g) < 2)","hasattr(K, 'is_ZZ')","hasattr(K, 'one')","hasattr(K, 'get_field')"],"returns_expr":"K.one / b","pure":false,"effects":{"effect_type":"reads_state","reads":["K.get_field","K.is_ZZ","K.one"],"raises":["PolynomialError"]},"state_contract":{"exceptional_post":{"PolynomialError":["isinstance(raised, PolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_cauchy_lower_bound(f, K):
     """Compute the Cauchy lower bound on the absolute value of all non-zero
        roots of f, real or complex."""
@@ -244,16 +289,25 @@ def dup_cauchy_lower_bound(f, K):
     return K.one / b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_mignotte_sep_bound_squared(f, ), id) over Any     ║
+# ║ Path(dup_mignotte_sep_bound_squared(f, K), id) over {Any | not (n < 2) and hasattr(K, 'is_ZZ') and hasattr(K, 'get_field') and hasattr(K, 'is_RR') and hasattr(K, 'is_CC') and hasattr(K, 'is_QQ') and hasattr(K, 'abs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_mignotte_sep_bound_squared : Any → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 2)                                    ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   requires: hasattr(K, 'get_field')                        ║
+# ║   returns:  K(3) * K.abs(D) / (K(n) ** (n + 1) * l2sq...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_mignotte_sep_bound_squared : {Any | not (n < 2) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 1eaf62cf0fad2879   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_mignotte_sep_bound_squared","kind":"function","src_hash":"60c422b12f869da8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_mignotte_sep_bound_squared(f, )","rhs":"return the square of the mignotte lower bound on separation between distinct roots of f","over":{"base":"Any"},"name":"dup_mignotte_sep_bound_squared_correct","kind":"composition"},"guarantee":"return the square of the mignotte lower bound on separation between distinct roots of f","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"K","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"K","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1eaf62cf0fad2879"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_mignotte_sep_bound_squared","kind":"function","src_hash":"60c422b12f869da8","in":{"base":"Any","pred":"not (n < 2) and hasattr(K, 'is_ZZ') and hasattr(K, 'get_field') and hasattr(K, 'is_RR') and hasattr(K, 'is_CC') and hasattr(K, 'is_QQ') and hasattr(K, 'abs')"},"out":{"base":"Any"},"spec":{"lhs":"dup_mignotte_sep_bound_squared(f, K)","rhs":"K(3) * K.abs(D) / (K(n) ** (n + 1) * l2sq ** (n - 1))","over":{"base":"Any","pred":"not (n < 2) and hasattr(K, 'is_ZZ') and hasattr(K, 'get_field') and hasattr(K, 'is_RR') and hasattr(K, 'is_CC') and hasattr(K, 'is_QQ') and hasattr(K, 'abs')"},"name":"dup_mignotte_sep_bound_squared_correct","kind":"composition"},"guarantee":"returns K(3) * K.abs(D) / (K(n) ** (n + 1) * l2sq ** (n - 1))","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"K","by":"library_axiom"},{"fn":"abs","by":"library_axiom"},{"fn":"K","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1eaf62cf0fad2879","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 2)","hasattr(K, 'is_ZZ')","hasattr(K, 'get_field')","hasattr(K, 'is_RR')","hasattr(K, 'is_CC')","hasattr(K, 'is_QQ')","hasattr(K, 'abs')"],"returns_expr":"K(3) * K.abs(D) / (K(n) ** (n + 1) * l2sq ** (n - 1))","pure":false,"effects":{"effect_type":"reads_state","reads":["K.abs","K.get_field","K.is_CC","K.is_QQ","K.is_RR","K.is_ZZ"],"raises":["DomainError","PolynomialError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"],"PolynomialError":["isinstance(raised, PolynomialError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_mignotte_sep_bound_squared(f, K):
     """
     Return the square of the Mignotte lower bound on separation between
@@ -284,16 +338,24 @@ def dup_mignotte_sep_bound_squared(f, K):
     return K(3)*K.abs(D) / ( K(n)**(n+1) * l2sq**(n-1) )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mobius_from_interval(I, ), convert an open interval to a mobius transform) over Any ║
+# ║ Path(_mobius_from_interval(I, field), (a, b, c, d)) over {Any | hasattr(field, 'numer') and hasattr(field, 'denom')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _mobius_from_interval : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(field, 'numer')                        ║
+# ║   requires: hasattr(field, 'denom')                        ║
+# ║   returns:  (a, b, c, d)                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _mobius_from_interval : {Any | hasattr(field, 'numer'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 280113cd0943cfd3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 039c4fb3b4dd7566  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._mobius_from_interval","kind":"function","src_hash":"072ab9674b0936a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mobius_from_interval(I, )","rhs":"convert an open interval to a mobius transform","over":{"base":"Any"},"name":"_mobius_from_interval_correct"},"guarantee":"convert an open interval to a mobius transform","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._mobius_from_interval_correct","statement":"Path(_mobius_from_interval(x), convert an open interval to a mobius transform)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"280113cd0943cfd3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._mobius_from_interval","kind":"function","src_hash":"072ab9674b0936a3","in":{"base":"Any","pred":"hasattr(field, 'numer') and hasattr(field, 'denom')"},"out":{"base":"Any"},"spec":{"lhs":"_mobius_from_interval(I, field)","rhs":"(a, b, c, d)","over":{"base":"Any","pred":"hasattr(field, 'numer') and hasattr(field, 'denom')"},"name":"_mobius_from_interval_correct"},"guarantee":"returns (a, b, c, d)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._mobius_from_interval_correct","statement":"Path(_mobius_from_interval(x), returns (a, b, c, d))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"039c4fb3b4dd7566","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(field, 'numer')","hasattr(field, 'denom')"],"returns_expr":"(a, b, c, d)","pure":false,"effects":{"effect_type":"reads_state","reads":["field.denom","field.numer"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _mobius_from_interval(I, field):
     """Convert an open interval to a Mobius transform. """
     s, t = I
@@ -304,16 +366,25 @@ def _mobius_from_interval(I, field):
     return a, b, c, d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_mobius_to_interval(M, ), convert a mobius transform to an open interval) over Any ║
+# ║ Path(_mobius_to_interval(M, field), result == ((s, t) if s <= t else (t, s)) and result == (s, t) or result == (t, s)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _mobius_to_interval : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == ((s, t) if s <= t else (t, s))       ║
+# ║   ensures:  result == (s, t) or result == (t, s)           ║
+# ║   fiber[case_0]: s <= t => (s, t)                          ║
+# ║   fiber[case_1]: not (s <= t) => (t, s)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _mobius_to_interval : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 192def84883aa05f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ed140b53ddc6777  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._mobius_to_interval","kind":"function","src_hash":"efc3271b70585d93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_mobius_to_interval(M, )","rhs":"convert a mobius transform to an open interval","over":{"base":"Any"},"name":"_mobius_to_interval_correct"},"guarantee":"convert a mobius transform to an open interval","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._mobius_to_interval_correct","statement":"Path(_mobius_to_interval(x), convert a mobius transform to an open interval)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"192def84883aa05f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._mobius_to_interval","kind":"function","src_hash":"efc3271b70585d93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == ((s, t) if s <= t else (t, s)) and result == (s, t) or result == (t, s)"},"spec":{"lhs":"_mobius_to_interval(M, field)","rhs":"result == ((s, t) if s <= t else (t, s)) and result == (s, t) or result == (t, s)","over":{"base":"Any"},"name":"_mobius_to_interval_correct"},"guarantee":"result == ((s, t) if s <= t else (t, s)); result == (s, t) or result == (t, s); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._mobius_to_interval_correct","statement":"Path(_mobius_to_interval(x), result == ((s, t) if s <= t else (t, s)); result == (s, t) or result == (t, s); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ed140b53ddc6777","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == ((s, t) if s <= t else (t, s))","result == (s, t) or result == (t, s)"],"fibers":[{"name":"case_0","guard":"s <= t","ensures":["result == (s, t)"],"decidability":"z3","returns_expr":"(s, t)"},{"name":"case_1","guard":"not (s <= t)","ensures":["result == (t, s)"],"decidability":"z3","returns_expr":"(t, s)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _mobius_to_interval(M, field):
     """Convert a Mobius transform to an open interval. """
     a, b, c, d = M
@@ -326,16 +397,24 @@ def _mobius_to_interval(M, field):
         return (t, s)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_step_refine_real_root(f, ), one step of positive real root refinement algorithm) over Any ║
+# ║ Path(dup_step_refine_real_root(f, M, K), <unspecified:dup_step_refine_real_root>) over {Any | hasattr(K, 'zero') and hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_step_refine_real_root : Any → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_step_refine_real_root : {Any | hasattr(K, 'zero')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f1a5a4086747ccc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_step_refine_real_root","kind":"function","src_hash":"a902cc9437b44e28","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_step_refine_real_root(f, )","rhs":"one step of positive real root refinement algorithm","over":{"base":"Any"},"name":"dup_step_refine_real_root_correct"},"guarantee":"one step of positive real root refinement algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_step_refine_real_root_correct","statement":"Path(dup_step_refine_real_root(x), one step of positive real root refinement algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f1a5a4086747ccc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_step_refine_real_root","kind":"function","src_hash":"a902cc9437b44e28","in":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dup_step_refine_real_root(f, M, K)","rhs":"<unspecified:dup_step_refine_real_root>","over":{"base":"Any","pred":"hasattr(K, 'zero') and hasattr(K, 'one')"},"name":"dup_step_refine_real_root_correct"},"guarantee":"one step of positive real root refinement algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_step_refine_real_root_correct","statement":"Path(dup_step_refine_real_root(x), one step of positive real root refinement algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f1a5a4086747ccc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'zero')","hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def dup_step_refine_real_root(f, M, K, fast=False):
     """One step of positive real root refinement algorithm. """
     a, b, c, d = M
@@ -383,16 +462,23 @@ def dup_step_refine_real_root(f, M, K, fast=False):
     return f, (a, b, c, d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_inner_refine_real_root(f, ), refine a positive root of `f` given a mobius transform or an interval) over Any ║
+# ║ Path(dup_inner_refine_real_root(f, M, K), <unspecified:dup_inner_refine_real_root>) over {Any | hasattr(K, 'get_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_inner_refine_real_root : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'get_field')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_inner_refine_real_root : {Any | hasattr(K, 'get_f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 669cee46ba10dad2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_inner_refine_real_root","kind":"function","src_hash":"0f161834b232ca25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_refine_real_root(f, )","rhs":"refine a positive root of `f` given a mobius transform or an interval","over":{"base":"Any"},"name":"dup_inner_refine_real_root_correct"},"guarantee":"refine a positive root of `f` given a mobius transform or an interval","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_inner_refine_real_root_correct","statement":"Path(dup_inner_refine_real_root(x), refine a positive root of `f` given a mobius transform or an interval)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"669cee46ba10dad2"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_inner_refine_real_root","kind":"function","src_hash":"0f161834b232ca25","in":{"base":"Any","pred":"hasattr(K, 'get_field')"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_refine_real_root(f, M, K)","rhs":"<unspecified:dup_inner_refine_real_root>","over":{"base":"Any","pred":"hasattr(K, 'get_field')"},"name":"dup_inner_refine_real_root_correct"},"guarantee":"refine a positive root of `f` given a mobius transform or an interval","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_inner_refine_real_root_correct","statement":"Path(dup_inner_refine_real_root(x), refine a positive root of `f` given a mobius transform or an interval)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"669cee46ba10dad2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'get_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.get_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def dup_inner_refine_real_root(f, M, K, eps=None, steps=None, disjoint=None, fast=False, mobius=False):
     """Refine a positive root of `f` given a Mobius transform or an interval. """
     F = K.get_field()
@@ -436,16 +522,24 @@ def dup_inner_refine_real_root(f, M, K, eps=None, steps=None, disjoint=None, fas
         return f, (a, b, c, d)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_outer_refine_real_root(f, ), refine a positive root of `f` given an interval `(s, t)`) over Any ║
+# ║ Path(dup_outer_refine_real_root(f, s, t), dup_inner_refine_real_root(f, (a, b, c, d), K, eps=eps, steps=steps, disjoint=disjoint, fast=fast)) over {Any | not (dup_sign_variations(f, K) != 1) and hasattr(K, 'get_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_outer_refine_real_root : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (dup_sign_variations(f, K) != 1)           ║
+# ║   requires: hasattr(K, 'get_field')                        ║
+# ║   returns:  dup_inner_refine_real_root(f, (a, b, c, d...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_outer_refine_real_root : {Any | not (dup_sign_var...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39a1771da7d04122  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59574cc54a4d0b38  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_outer_refine_real_root","kind":"function","src_hash":"32797f2af6072060","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_outer_refine_real_root(f, )","rhs":"refine a positive root of `f` given an interval `(s, t)`","over":{"base":"Any"},"name":"dup_outer_refine_real_root_correct"},"guarantee":"refine a positive root of `f` given an interval `(s, t)`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_outer_refine_real_root_correct","statement":"Path(dup_outer_refine_real_root(x), refine a positive root of `f` given an interval `(s, t)`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39a1771da7d04122"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_outer_refine_real_root","kind":"function","src_hash":"32797f2af6072060","in":{"base":"Any","pred":"not (dup_sign_variations(f, K) != 1) and hasattr(K, 'get_field')"},"out":{"base":"Any"},"spec":{"lhs":"dup_outer_refine_real_root(f, s, t)","rhs":"dup_inner_refine_real_root(f, (a, b, c, d), K, eps=eps, steps=steps, disjoint=disjoint, fast=fast)","over":{"base":"Any","pred":"not (dup_sign_variations(f, K) != 1) and hasattr(K, 'get_field')"},"name":"dup_outer_refine_real_root_correct"},"guarantee":"returns dup_inner_refine_real_root(f, (a, b, c, d), K, eps=eps, steps=steps, disjoint=disjoint, fast=fast)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_outer_refine_real_root_correct","statement":"Path(dup_outer_refine_real_root(x), returns dup_inner_refine_real_root(f, (a, b, c, d), K, eps=eps, steps=steps, disjoint=disjoint, fast=fast))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59574cc54a4d0b38","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (dup_sign_variations(f, K) != 1)","hasattr(K, 'get_field')"],"returns_expr":"dup_inner_refine_real_root(f, (a, b, c, d), K, eps=eps, steps=steps, disjoint=disjoint, fast=fast)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.get_field"],"raises":["RefinementFailed"]},"state_contract":{"exceptional_post":{"RefinementFailed":["isinstance(raised, RefinementFailed)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_outer_refine_real_root(f, s, t, K, eps=None, steps=None, disjoint=None, fast=False):
     """Refine a positive root of `f` given an interval `(s, t)`. """
     a, b, c, d = _mobius_from_interval((s, t), K.get_field())
@@ -459,16 +553,25 @@ def dup_outer_refine_real_root(f, s, t, K, eps=None, steps=None, disjoint=None, 
     return dup_inner_refine_real_root(f, (a, b, c, d), K, eps=eps, steps=steps, disjoint=disjoint, fast=fast)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_refine_real_root(f, ), refine real root's approximating interval to the given precision) over Any ║
+# ║ Path(dup_refine_real_root(f, s, t), <unspecified:dup_refine_real_root>) over {Any | hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ') and hasattr(K, 'get_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_refine_real_root : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_QQ')                            ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   requires: hasattr(K, 'get_ring')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_refine_real_root : {Any | hasattr(K, 'is_QQ') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b856b4e805e9fc0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_refine_real_root","kind":"function","src_hash":"c777a63d935d72b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_refine_real_root(f, )","rhs":"refine real root's approximating interval to the given precision","over":{"base":"Any"},"name":"dup_refine_real_root_correct"},"guarantee":"refine real root's approximating interval to the given precision","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_refine_real_root_correct","statement":"Path(dup_refine_real_root(x), refine real root's approximating interval to the given precision)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b856b4e805e9fc0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_refine_real_root","kind":"function","src_hash":"c777a63d935d72b0","in":{"base":"Any","pred":"hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ') and hasattr(K, 'get_ring')"},"out":{"base":"Any"},"spec":{"lhs":"dup_refine_real_root(f, s, t)","rhs":"<unspecified:dup_refine_real_root>","over":{"base":"Any","pred":"hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ') and hasattr(K, 'get_ring')"},"name":"dup_refine_real_root_correct"},"guarantee":"refine real root's approximating interval to the given precision","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_refine_real_root_correct","statement":"Path(dup_refine_real_root(x), refine real root's approximating interval to the given precision)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b856b4e805e9fc0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_QQ')","hasattr(K, 'is_ZZ')","hasattr(K, 'get_ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.get_ring","K.is_QQ","K.is_ZZ"],"raises":["DomainError","ValueError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dup_refine_real_root(f, s, t, K, eps=None, steps=None, disjoint=None, fast=False):
     """Refine real root's approximating interval to the given precision. """
     if K.is_QQ:
@@ -505,16 +608,24 @@ def dup_refine_real_root(f, s, t, K, eps=None, steps=None, disjoint=None, fast=F
         return ( s, t)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_inner_isolate_real_roots(f, ), internal function for isolation positive roots up to given precision) over Any ║
+# ║ Path(dup_inner_isolate_real_roots(f, K, eps), <unspecified:dup_inner_isolate_real_roots>) over {Any | hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_inner_isolate_real_roots : Any → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_inner_isolate_real_roots : {Any | hasattr(K, 'one...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25576f1cba9bc6fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_inner_isolate_real_roots","kind":"function","src_hash":"35b31f75bd5720e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_isolate_real_roots(f, )","rhs":"internal function for isolation positive roots up to given precision","over":{"base":"Any"},"name":"dup_inner_isolate_real_roots_correct"},"guarantee":"internal function for isolation positive roots up to given precision","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_inner_isolate_real_roots_correct","statement":"Path(dup_inner_isolate_real_roots(x), internal function for isolation positive roots up to given precision)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25576f1cba9bc6fb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_inner_isolate_real_roots","kind":"function","src_hash":"35b31f75bd5720e6","in":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_isolate_real_roots(f, K, eps)","rhs":"<unspecified:dup_inner_isolate_real_roots>","over":{"base":"Any","pred":"hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"dup_inner_isolate_real_roots_correct"},"guarantee":"internal function for isolation positive roots up to given precision","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_inner_isolate_real_roots_correct","statement":"Path(dup_inner_isolate_real_roots(x), internal function for isolation positive roots up to given precision)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25576f1cba9bc6fb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def dup_inner_isolate_real_roots(f, K, eps=None, fast=False):
     """Internal function for isolation positive roots up to given precision.
 
@@ -630,16 +741,23 @@ def dup_inner_isolate_real_roots(f, K, eps=None, fast=False):
     return roots
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_discard_if_outside_interval(f, ), discard an isolating interval if outside ``(inf, sup)``) over Any ║
+# ║ Path(_discard_if_outside_interval(f, M, inf), <unspecified:_discard_if_outside_interval>) over {Any | hasattr(K, 'get_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _discard_if_outside_interval : Any → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'get_field')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _discard_if_outside_interval : {Any | hasattr(K, 'get...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7012ae58acfb946  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._discard_if_outside_interval","kind":"function","src_hash":"fe2dd201fa3461d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_discard_if_outside_interval(f, )","rhs":"discard an isolating interval if outside ``(inf, sup)``","over":{"base":"Any"},"name":"_discard_if_outside_interval_correct"},"guarantee":"discard an isolating interval if outside ``(inf, sup)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._discard_if_outside_interval_correct","statement":"Path(_discard_if_outside_interval(x), discard an isolating interval if outside ``(inf, sup)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7012ae58acfb946"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._discard_if_outside_interval","kind":"function","src_hash":"fe2dd201fa3461d9","in":{"base":"Any","pred":"hasattr(K, 'get_field')"},"out":{"base":"Any"},"spec":{"lhs":"_discard_if_outside_interval(f, M, inf)","rhs":"<unspecified:_discard_if_outside_interval>","over":{"base":"Any","pred":"hasattr(K, 'get_field')"},"name":"_discard_if_outside_interval_correct"},"guarantee":"discard an isolating interval if outside ``(inf, sup)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._discard_if_outside_interval_correct","statement":"Path(_discard_if_outside_interval(x), discard an isolating interval if outside ``(inf, sup)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7012ae58acfb946","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'get_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.get_field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _discard_if_outside_interval(f, M, inf, sup, K, negative, fast, mobius):
     """Discard an isolating interval if outside ``(inf, sup)``. """
     F = K.get_field()
@@ -661,16 +779,23 @@ def _discard_if_outside_interval(f, M, inf, sup, K, negative, fast, mobius):
             f, M = dup_step_refine_real_root(f, M, K, fast=fast)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_inner_isolate_positive_roots(f, ), iteratively compute disjoint positive root isolation intervals) over Any ║
+# ║ Path(dup_inner_isolate_positive_roots(f, K, eps), <unspecified:dup_inner_isolate_positive_roots>) over {Any | hasattr(K, 'get_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_inner_isolate_positive_roots : Any → Any               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'get_field')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_inner_isolate_positive_roots : {Any | hasattr(K, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a49251be638350f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_inner_isolate_positive_roots","kind":"function","src_hash":"8d3a6ee053f96c86","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_isolate_positive_roots(f, )","rhs":"iteratively compute disjoint positive root isolation intervals","over":{"base":"Any"},"name":"dup_inner_isolate_positive_roots_correct"},"guarantee":"iteratively compute disjoint positive root isolation intervals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_inner_isolate_positive_roots_correct","statement":"Path(dup_inner_isolate_positive_roots(x), iteratively compute disjoint positive root isolation intervals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a49251be638350f1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_inner_isolate_positive_roots","kind":"function","src_hash":"8d3a6ee053f96c86","in":{"base":"Any","pred":"hasattr(K, 'get_field')"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_isolate_positive_roots(f, K, eps)","rhs":"<unspecified:dup_inner_isolate_positive_roots>","over":{"base":"Any","pred":"hasattr(K, 'get_field')"},"name":"dup_inner_isolate_positive_roots_correct"},"guarantee":"iteratively compute disjoint positive root isolation intervals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_inner_isolate_positive_roots_correct","statement":"Path(dup_inner_isolate_positive_roots(x), iteratively compute disjoint positive root isolation intervals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a49251be638350f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'get_field')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_inner_isolate_positive_roots(f, K, eps=None, inf=None, sup=None, fast=False, mobius=False):
     """Iteratively compute disjoint positive root isolation intervals. """
     if sup is not None and sup < 0:
@@ -694,16 +819,23 @@ def dup_inner_isolate_positive_roots(f, K, eps=None, inf=None, sup=None, fast=Fa
     return results
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_inner_isolate_negative_roots(f, ), iteratively compute disjoint negative root isolation intervals) over Any ║
+# ║ Path(dup_inner_isolate_negative_roots(f, K, inf), <unspecified:dup_inner_isolate_negative_roots>) over {Any | hasattr(K, 'get_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_inner_isolate_negative_roots : Any → Any               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'get_field')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_inner_isolate_negative_roots : {Any | hasattr(K, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a05a02d639aa70d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_inner_isolate_negative_roots","kind":"function","src_hash":"8cfbe6b87529e401","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_isolate_negative_roots(f, )","rhs":"iteratively compute disjoint negative root isolation intervals","over":{"base":"Any"},"name":"dup_inner_isolate_negative_roots_correct"},"guarantee":"iteratively compute disjoint negative root isolation intervals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_inner_isolate_negative_roots_correct","statement":"Path(dup_inner_isolate_negative_roots(x), iteratively compute disjoint negative root isolation intervals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a05a02d639aa70d5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_inner_isolate_negative_roots","kind":"function","src_hash":"8cfbe6b87529e401","in":{"base":"Any","pred":"hasattr(K, 'get_field')"},"out":{"base":"Any"},"spec":{"lhs":"dup_inner_isolate_negative_roots(f, K, inf)","rhs":"<unspecified:dup_inner_isolate_negative_roots>","over":{"base":"Any","pred":"hasattr(K, 'get_field')"},"name":"dup_inner_isolate_negative_roots_correct"},"guarantee":"iteratively compute disjoint negative root isolation intervals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_inner_isolate_negative_roots_correct","statement":"Path(dup_inner_isolate_negative_roots(x), iteratively compute disjoint negative root isolation intervals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a05a02d639aa70d5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'get_field')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_inner_isolate_negative_roots(f, K, inf=None, sup=None, eps=None, fast=False, mobius=False):
     """Iteratively compute disjoint negative root isolation intervals. """
     if inf is not None and inf >= 0:
@@ -729,16 +861,25 @@ def dup_inner_isolate_negative_roots(f, K, inf=None, sup=None, eps=None, fast=Fa
     return results
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_isolate_zero(f, ), handle special case of cf algorithm when ``f`` is homogeneous) over Any ║
+# ║ Path(_isolate_zero(f, K, inf), <unspecified:_isolate_zero>) over {Any | hasattr(K, 'get_field') and hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _isolate_zero : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'get_field')                        ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   requires: hasattr(K, 'zero')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _isolate_zero : {Any | hasattr(K, 'get_field') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c45b7d0dbf09608c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._isolate_zero","kind":"function","src_hash":"47996beaf01bc2b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_isolate_zero(f, )","rhs":"handle special case of cf algorithm when ``f`` is homogeneous","over":{"base":"Any"},"name":"_isolate_zero_correct"},"guarantee":"handle special case of cf algorithm when ``f`` is homogeneous","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._isolate_zero_correct","statement":"Path(_isolate_zero(x), handle special case of cf algorithm when ``f`` is homogeneous)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c45b7d0dbf09608c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._isolate_zero","kind":"function","src_hash":"47996beaf01bc2b8","in":{"base":"Any","pred":"hasattr(K, 'get_field') and hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"_isolate_zero(f, K, inf)","rhs":"<unspecified:_isolate_zero>","over":{"base":"Any","pred":"hasattr(K, 'get_field') and hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"_isolate_zero_correct"},"guarantee":"handle special case of cf algorithm when ``f`` is homogeneous","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._isolate_zero_correct","statement":"Path(_isolate_zero(x), handle special case of cf algorithm when ``f`` is homogeneous)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c45b7d0dbf09608c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'get_field')","hasattr(K, 'one')","hasattr(K, 'zero')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.get_field","K.one","K.zero"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _isolate_zero(f, K, inf, sup, basis=False, sqf=False):
     """Handle special case of CF algorithm when ``f`` is homogeneous. """
     j, f = dup_terms_gcd(f, K)
@@ -758,16 +899,25 @@ def _isolate_zero(f, K, inf, sup, basis=False, sqf=False):
     return [], f
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_isolate_real_roots_sqf(f, ), isolate real roots of a square-free polynomial using the vincent-akritas-strzebonski (vas) cf approach) over Any ║
+# ║ Path(dup_isolate_real_roots_sqf(f, K, eps), <unspecified:dup_isolate_real_roots_sqf>) over {Any | hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ') and hasattr(K, 'get_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_isolate_real_roots_sqf : Any → Any                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_QQ')                            ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   requires: hasattr(K, 'get_ring')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_isolate_real_roots_sqf : {Any | hasattr(K, 'is_QQ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e97ddc7fea8a0f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_isolate_real_roots_sqf","kind":"function","src_hash":"cde78f68d5bd2c18","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_real_roots_sqf(f, )","rhs":"isolate real roots of a square-free polynomial using the vincent-akritas-strzebonski (vas) cf approach","over":{"base":"Any"},"name":"dup_isolate_real_roots_sqf_correct"},"guarantee":"isolate real roots of a square-free polynomial using the vincent-akritas-strzebonski (vas) cf approach","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_isolate_real_roots_sqf_correct","statement":"Path(dup_isolate_real_roots_sqf(x), isolate real roots of a square-free polynomial using the vincent-akritas-strzebonski (vas) cf approach)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e97ddc7fea8a0f8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_isolate_real_roots_sqf","kind":"function","src_hash":"cde78f68d5bd2c18","in":{"base":"Any","pred":"hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ') and hasattr(K, 'get_ring')"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_real_roots_sqf(f, K, eps)","rhs":"<unspecified:dup_isolate_real_roots_sqf>","over":{"base":"Any","pred":"hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ') and hasattr(K, 'get_ring')"},"name":"dup_isolate_real_roots_sqf_correct"},"guarantee":"isolate real roots of a square-free polynomial using the vincent-akritas-strzebonski (vas) cf approach","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_isolate_real_roots_sqf_correct","statement":"Path(dup_isolate_real_roots_sqf(x), isolate real roots of a square-free polynomial using the vincent-akritas-strzebonski (vas) cf approach)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e97ddc7fea8a0f8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_QQ')","hasattr(K, 'is_ZZ')","hasattr(K, 'get_ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.get_ring","K.is_QQ","K.is_ZZ"],"raises":["DomainError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_isolate_real_roots_sqf(f, K, eps=None, inf=None, sup=None, fast=False, blackbox=False):
     """Isolate real roots of a square-free polynomial using the Vincent-Akritas-Strzebonski (VAS) CF approach.
 
@@ -803,16 +953,25 @@ def dup_isolate_real_roots_sqf(f, K, eps=None, inf=None, sup=None, fast=False, b
         return [ RealInterval((a, b), f, K) for (a, b) in roots ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_isolate_real_roots(f, ), isolate real roots using vincent-akritas-strzebonski (vas) continued fractions approach) over Any ║
+# ║ Path(dup_isolate_real_roots(f, K, eps), <unspecified:dup_isolate_real_roots>) over {Any | hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ') and hasattr(K, 'get_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_isolate_real_roots : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_QQ')                            ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   requires: hasattr(K, 'get_ring')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_isolate_real_roots : {Any | hasattr(K, 'is_QQ') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80f1b1386023ec9b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_isolate_real_roots","kind":"function","src_hash":"d021ea8dfbe3ff23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_real_roots(f, )","rhs":"isolate real roots using vincent-akritas-strzebonski (vas) continued fractions approach","over":{"base":"Any"},"name":"dup_isolate_real_roots_correct"},"guarantee":"isolate real roots using vincent-akritas-strzebonski (vas) continued fractions approach","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_isolate_real_roots_correct","statement":"Path(dup_isolate_real_roots(x), isolate real roots using vincent-akritas-strzebonski (vas) continued fractions approach)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80f1b1386023ec9b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_isolate_real_roots","kind":"function","src_hash":"d021ea8dfbe3ff23","in":{"base":"Any","pred":"hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ') and hasattr(K, 'get_ring')"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_real_roots(f, K, eps)","rhs":"<unspecified:dup_isolate_real_roots>","over":{"base":"Any","pred":"hasattr(K, 'is_QQ') and hasattr(K, 'is_ZZ') and hasattr(K, 'get_ring')"},"name":"dup_isolate_real_roots_correct"},"guarantee":"isolate real roots using vincent-akritas-strzebonski (vas) continued fractions approach","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_isolate_real_roots_correct","statement":"Path(dup_isolate_real_roots(x), isolate real roots using vincent-akritas-strzebonski (vas) continued fractions approach)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80f1b1386023ec9b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_QQ')","hasattr(K, 'is_ZZ')","hasattr(K, 'get_ring')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.get_ring","K.is_QQ","K.is_ZZ"],"raises":["DomainError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dup_isolate_real_roots(f, K, eps=None, inf=None, sup=None, basis=False, fast=False):
     """Isolate real roots using Vincent-Akritas-Strzebonski (VAS) continued fractions approach.
 
@@ -855,16 +1014,25 @@ def dup_isolate_real_roots(f, K, eps=None, inf=None, sup=None, basis=False, fast
     return sorted(I_neg + I_zero + I_pos)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_isolate_real_roots_list(pol), isolate real roots of a list of polynomial using vincent-akritas-strzebonski (vas) cf approach) over Any ║
+# ║ Path(dup_isolate_real_roots_list(polys, K, eps), sorted(I_neg + I_zero + I_pos)) over {Any | hasattr(K, 'is_QQ') and hasattr(K, 'get_field') and hasattr(K, 'is_ZZ') and hasattr(K, 'get_ring') and hasattr(K, 'one') and hasattr(K, 'zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_isolate_real_roots_list : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'is_QQ')                            ║
+# ║   requires: hasattr(K, 'get_field')                        ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   returns:  sorted(I_neg + I_zero + I_pos)                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_isolate_real_roots_list : {Any | hasattr(K, 'is_Q...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1357d8bccf392721  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5b1a6e69f5f7a7b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_isolate_real_roots_list","kind":"function","src_hash":"8ca274a4bb35d4ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_real_roots_list(pol)","rhs":"isolate real roots of a list of polynomial using vincent-akritas-strzebonski (vas) cf approach","over":{"base":"Any"},"name":"dup_isolate_real_roots_list_correct"},"guarantee":"isolate real roots of a list of polynomial using vincent-akritas-strzebonski (vas) cf approach","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_isolate_real_roots_list_correct","statement":"Path(dup_isolate_real_roots_list(x), isolate real roots of a list of polynomial using vincent-akritas-strzebonski (vas) cf approach)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1357d8bccf392721"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_isolate_real_roots_list","kind":"function","src_hash":"8ca274a4bb35d4ad","in":{"base":"Any","pred":"hasattr(K, 'is_QQ') and hasattr(K, 'get_field') and hasattr(K, 'is_ZZ') and hasattr(K, 'get_ring') and hasattr(K, 'one') and hasattr(K, 'zero')"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_real_roots_list(polys, K, eps)","rhs":"sorted(I_neg + I_zero + I_pos)","over":{"base":"Any","pred":"hasattr(K, 'is_QQ') and hasattr(K, 'get_field') and hasattr(K, 'is_ZZ') and hasattr(K, 'get_ring') and hasattr(K, 'one') and hasattr(K, 'zero')"},"name":"dup_isolate_real_roots_list_correct"},"guarantee":"returns sorted(I_neg + I_zero + I_pos)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_isolate_real_roots_list_correct","statement":"Path(dup_isolate_real_roots_list(x), returns sorted(I_neg + I_zero + I_pos))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5b1a6e69f5f7a7b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'is_QQ')","hasattr(K, 'get_field')","hasattr(K, 'is_ZZ')","hasattr(K, 'get_ring')","hasattr(K, 'one')","hasattr(K, 'zero')"],"returns_expr":"sorted(I_neg + I_zero + I_pos)","pure":false,"effects":{"effect_type":"mutates_args","reads":["K.get_field","K.get_ring","K.is_QQ","K.is_ZZ","K.one","K.zero"],"writes":["polys[*]"],"raises":["DomainError"]},"state_contract":{"modifies":["polys[*]"],"old_bindings":{"old_polys_star":"polys[*]"},"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def dup_isolate_real_roots_list(polys, K, eps=None, inf=None, sup=None, strict=False, basis=False, fast=False):
     """Isolate real roots of a list of polynomial using Vincent-Akritas-Strzebonski (VAS) CF approach.
 
@@ -924,16 +1092,22 @@ def dup_isolate_real_roots_list(polys, K, eps=None, inf=None, sup=None, strict=F
     return sorted(I_neg + I_zero + I_pos)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_disjoint_p(M, ), check if mobius transforms define disjoint intervals) over Any ║
+# ║ Path(_disjoint_p(M, N, strict), <unspecified:_disjoint_p>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _disjoint_p : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a780411b7078332  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._disjoint_p","kind":"function","src_hash":"5a5963251cce2168","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_disjoint_p(M, )","rhs":"check if mobius transforms define disjoint intervals","over":{"base":"Any"},"name":"_disjoint_p_correct"},"guarantee":"check if mobius transforms define disjoint intervals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._disjoint_p_correct","statement":"Path(_disjoint_p(x), check if mobius transforms define disjoint intervals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a780411b7078332"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._disjoint_p","kind":"function","src_hash":"5a5963251cce2168","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_disjoint_p(M, N, strict)","rhs":"<unspecified:_disjoint_p>","over":{"base":"Any"},"name":"_disjoint_p_correct"},"guarantee":"check if mobius transforms define disjoint intervals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._disjoint_p_correct","statement":"Path(_disjoint_p(x), check if mobius transforms define disjoint intervals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a780411b7078332","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _disjoint_p(M, N, strict=False):
     """Check if Mobius transforms define disjoint intervals. """
     a1, b1, c1, d1 = M
@@ -957,16 +1131,23 @@ def _disjoint_p(M, N, strict=False):
         return a2*d1 > c2*b1 or b2*c1 < d2*a1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_real_isolate_and_disjoin(fac), isolate real roots of a list of polynomials and disjoin intervals) over Any ║
+# ║ Path(_real_isolate_and_disjoin(factors, K, eps), (I_neg, I_pos)) over {Any | hasattr(K, 'get_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _real_isolate_and_disjoin : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'get_field')                        ║
+# ║   returns:  (I_neg, I_pos)                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _real_isolate_and_disjoin : {Any | hasattr(K, 'get_fi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eea8256c56a5d4b5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 938f8dc77ca23659  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._real_isolate_and_disjoin","kind":"function","src_hash":"708fc49554e84646","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_real_isolate_and_disjoin(fac)","rhs":"isolate real roots of a list of polynomials and disjoin intervals","over":{"base":"Any"},"name":"_real_isolate_and_disjoin_correct"},"guarantee":"isolate real roots of a list of polynomials and disjoin intervals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._real_isolate_and_disjoin_correct","statement":"Path(_real_isolate_and_disjoin(x), isolate real roots of a list of polynomials and disjoin intervals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eea8256c56a5d4b5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._real_isolate_and_disjoin","kind":"function","src_hash":"708fc49554e84646","in":{"base":"Any","pred":"hasattr(K, 'get_field')"},"out":{"base":"Any"},"spec":{"lhs":"_real_isolate_and_disjoin(factors, K, eps)","rhs":"(I_neg, I_pos)","over":{"base":"Any","pred":"hasattr(K, 'get_field')"},"name":"_real_isolate_and_disjoin_correct"},"guarantee":"returns (I_neg, I_pos)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._real_isolate_and_disjoin_correct","statement":"Path(_real_isolate_and_disjoin(x), returns (I_neg, I_pos))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"938f8dc77ca23659","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'get_field')"],"returns_expr":"(I_neg, I_pos)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def _real_isolate_and_disjoin(factors, K, eps=None, inf=None, sup=None, strict=False, basis=False, fast=False):
     """Isolate real roots of a list of polynomials and disjoin intervals. """
     I_pos, I_neg = [], []
@@ -1029,16 +1210,24 @@ def _real_isolate_and_disjoin(factors, K, eps=None, inf=None, sup=None, strict=F
     return I_neg, I_pos
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_count_real_roots(f, ), returns the number of distinct real roots of ``f`` in ``[inf, sup]``) over Any ║
+# ║ Path(dup_count_real_roots(f, K, inf), <unspecified:dup_count_real_roots>) over {Any | hasattr(K, 'is_Field') and hasattr(K, 'get_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_count_real_roots : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'is_Field')                         ║
+# ║   requires: hasattr(K, 'get_field')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_count_real_roots : {Any | hasattr(K, 'is_Field') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1856ef260c0b3148  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_count_real_roots","kind":"function","src_hash":"7503752a364befed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_count_real_roots(f, )","rhs":"returns the number of distinct real roots of ``f`` in ``[inf, sup]``","over":{"base":"Any"},"name":"dup_count_real_roots_correct"},"guarantee":"returns the number of distinct real roots of ``f`` in ``[inf, sup]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_count_real_roots_correct","statement":"Path(dup_count_real_roots(x), returns the number of distinct real roots of ``f`` in ``[inf, sup]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1856ef260c0b3148"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_count_real_roots","kind":"function","src_hash":"7503752a364befed","in":{"base":"Any","pred":"hasattr(K, 'is_Field') and hasattr(K, 'get_field')"},"out":{"base":"Any"},"spec":{"lhs":"dup_count_real_roots(f, K, inf)","rhs":"<unspecified:dup_count_real_roots>","over":{"base":"Any","pred":"hasattr(K, 'is_Field') and hasattr(K, 'get_field')"},"name":"dup_count_real_roots_correct"},"guarantee":"returns the number of distinct real roots of ``f`` in ``[inf, sup]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_count_real_roots_correct","statement":"Path(dup_count_real_roots(x), returns the number of distinct real roots of ``f`` in ``[inf, sup]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1856ef260c0b3148","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'is_Field')","hasattr(K, 'get_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.get_field","K.is_Field"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dup_count_real_roots(f, K, inf=None, sup=None):
     """Returns the number of distinct real roots of ``f`` in ``[inf, sup]``. """
     if dup_degree(f) <= 0:
@@ -1288,16 +1477,22 @@ _values = {
 }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_classify_point(re,), return the half-axis (or origin) on which (re, im) point is located) over Any ║
+# ║ Path(_classify_point(re, im), <unspecified:_classify_point>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _classify_point : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58c9a872c035e15a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._classify_point","kind":"function","src_hash":"c0ce7ff9de422c99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_classify_point(re,)","rhs":"return the half-axis (or origin) on which (re, im) point is located","over":{"base":"Any"},"name":"_classify_point_correct"},"guarantee":"return the half-axis (or origin) on which (re, im) point is located","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._classify_point_correct","statement":"Path(_classify_point(x), return the half-axis (or origin) on which (re, im) point is located)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58c9a872c035e15a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._classify_point","kind":"function","src_hash":"c0ce7ff9de422c99","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_classify_point(re, im)","rhs":"<unspecified:_classify_point>","over":{"base":"Any"},"name":"_classify_point_correct"},"guarantee":"return the half-axis (or origin) on which (re, im) point is located","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._classify_point_correct","statement":"Path(_classify_point(x), return the half-axis (or origin) on which (re, im) point is located)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58c9a872c035e15a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _classify_point(re, im):
     """Return the half-axis (or origin) on which (re, im) point is located. """
     if not re and not im:
@@ -1315,16 +1510,22 @@ def _classify_point(re, im):
             return A3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_intervals_to_quadrants(int), generate a sequence of extended quadrants from a list of critical points) over Any ║
+# ║ Path(_intervals_to_quadrants(intervals, f1, f2), <unspecified:_intervals_to_quadrants>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _intervals_to_quadrants : Any → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1379e535f6ffbb5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._intervals_to_quadrants","kind":"function","src_hash":"48d4e48459d075c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_intervals_to_quadrants(int)","rhs":"generate a sequence of extended quadrants from a list of critical points","over":{"base":"Any"},"name":"_intervals_to_quadrants_correct"},"guarantee":"generate a sequence of extended quadrants from a list of critical points","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._intervals_to_quadrants_correct","statement":"Path(_intervals_to_quadrants(x), generate a sequence of extended quadrants from a list of critical points)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1379e535f6ffbb5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._intervals_to_quadrants","kind":"function","src_hash":"48d4e48459d075c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_intervals_to_quadrants(intervals, f1, f2)","rhs":"<unspecified:_intervals_to_quadrants>","over":{"base":"Any"},"name":"_intervals_to_quadrants_correct"},"guarantee":"generate a sequence of extended quadrants from a list of critical points","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._intervals_to_quadrants_correct","statement":"Path(_intervals_to_quadrants(x), generate a sequence of extended quadrants from a list of critical points)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1379e535f6ffbb5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":true}}
 def _intervals_to_quadrants(intervals, f1, f2, s, t, F):
     """Generate a sequence of extended quadrants from a list of critical points. """
     if not intervals:
@@ -1476,16 +1677,22 @@ def _intervals_to_quadrants(intervals, f1, f2, s, t, F):
     return Q
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_traverse_quadrants(Q_L), transform sequences of quadrants to a sequence of rules) over Any ║
+# ║ Path(_traverse_quadrants(Q_L1, Q_L2, Q_L3), len(rules) == old_len_rules + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _traverse_quadrants : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(rules) == old_len_rules + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _traverse_quadrants : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90f40660318156f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dc7c0ecb58e871a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._traverse_quadrants","kind":"function","src_hash":"c1c773937fc078c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_traverse_quadrants(Q_L)","rhs":"transform sequences of quadrants to a sequence of rules","over":{"base":"Any"},"name":"_traverse_quadrants_correct"},"guarantee":"transform sequences of quadrants to a sequence of rules","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._traverse_quadrants_correct","statement":"Path(_traverse_quadrants(x), transform sequences of quadrants to a sequence of rules)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90f40660318156f4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._traverse_quadrants","kind":"function","src_hash":"c1c773937fc078c4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(rules) == old_len_rules + 1"},"spec":{"lhs":"_traverse_quadrants(Q_L1, Q_L2, Q_L3)","rhs":"len(rules) == old_len_rules + 1","over":{"base":"Any"},"name":"_traverse_quadrants_correct"},"guarantee":"len(rules) == old_len_rules + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._traverse_quadrants_correct","statement":"Path(_traverse_quadrants(x), len(rules) == old_len_rules + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dc7c0ecb58e871a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(rules) == old_len_rules + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["rules.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["rules.*"],"old_bindings":{"old_len_rules":"len(rules)"},"post_ensures":["len(rules) == old_len_rules + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _traverse_quadrants(Q_L1, Q_L2, Q_L3, Q_L4, exclude=None):
     """Transform sequences of quadrants to a sequence of rules. """
     if exclude is True:
@@ -1563,46 +1770,67 @@ def _traverse_quadrants(Q_L1, Q_L2, Q_L3, Q_L4, exclude=None):
     return rules
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_reverse_intervals(int), reverse intervals for traversal from right to left and from top to bottom) over Any ║
+# ║ Path(_reverse_intervals(intervals), [((b, a), indices, f) for (a, b), indices, f in reversed(intervals)]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [((b, a), indices, f) for (a, b), indices...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _reverse_intervals : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5b39472148278d9f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._reverse_intervals","kind":"function","src_hash":"cf32a2fc9040491b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_reverse_intervals(int)","rhs":"reverse intervals for traversal from right to left and from top to bottom","over":{"base":"Any"},"name":"_reverse_intervals_correct"},"guarantee":"reverse intervals for traversal from right to left and from top to bottom","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b39472148278d9f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._reverse_intervals","kind":"function","src_hash":"cf32a2fc9040491b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_reverse_intervals(intervals)","rhs":"[((b, a), indices, f) for (a, b), indices, f in reversed(intervals)]","over":{"base":"Any"},"name":"_reverse_intervals_correct"},"guarantee":"returns [((b, a), indices, f) for (a, b), indices, f in reversed(intervals)]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5b39472148278d9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[((b, a), indices, f) for (a, b), indices, f in reversed(intervals)]","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _reverse_intervals(intervals):
     """Reverse intervals for traversal from right to left and from top to bottom. """
     return [ ((b, a), indices, f) for (a, b), indices, f in reversed(intervals) ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_winding_number(T, ), compute the winding number of the input polynomial, i.e) over Any ║
+# ║ Path(_winding_number(T, field), int(sum((field(*_values[t][i]) for t, i in T)) / field(2))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  int(sum((field(*_values[t][i]) for t, i i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _winding_number : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c6678ea15a1fd546           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._winding_number","kind":"function","src_hash":"f77d62496b8c1932","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_winding_number(T, )","rhs":"compute the winding number of the input polynomial, i.e","over":{"base":"Any"},"name":"_winding_number_correct"},"guarantee":"compute the winding number of the input polynomial, i.e","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6678ea15a1fd546"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._winding_number","kind":"function","src_hash":"f77d62496b8c1932","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_winding_number(T, field)","rhs":"int(sum((field(*_values[t][i]) for t, i in T)) / field(2))","over":{"base":"Any"},"name":"_winding_number_correct"},"guarantee":"returns int(sum((field(*_values[t][i]) for t, i in T)) / field(2))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c6678ea15a1fd546","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"int(sum((field(*_values[t][i]) for t, i in T)) / field(2))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def _winding_number(T, field):
     """Compute the winding number of the input polynomial, i.e. the number of roots. """
     return int(sum(field(*_values[t][i]) for t, i in T) / field(2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_count_complex_roots(f, ), count all roots in [u + v*i, s + t*i] rectangle using collins-krandick algorithm) over Any ║
+# ║ Path(dup_count_complex_roots(f, K, inf), _winding_number(T, F)) over {Any | not (not K.is_ZZ and (not K.is_QQ)) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ') and hasattr(K, 'get_field') and hasattr(K, 'get_ring')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_count_complex_roots : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not K.is_ZZ and (not K.is_QQ))            ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   requires: hasattr(K, 'is_QQ')                            ║
+# ║   returns:  _winding_number(T, F)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_count_complex_roots : {Any | not (not K.is_ZZ and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c37d1e46896e8e58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73f7071c2cc9450a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_count_complex_roots","kind":"function","src_hash":"ba7dbc8c4d32fffc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_count_complex_roots(f, )","rhs":"count all roots in [u + v*i, s + t*i] rectangle using collins-krandick algorithm","over":{"base":"Any"},"name":"dup_count_complex_roots_correct"},"guarantee":"count all roots in [u + v*i, s + t*i] rectangle using collins-krandick algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_count_complex_roots_correct","statement":"Path(dup_count_complex_roots(x), count all roots in [u + v*i, s + t*i] rectangle using collins-krandick algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c37d1e46896e8e58"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_count_complex_roots","kind":"function","src_hash":"ba7dbc8c4d32fffc","in":{"base":"Any","pred":"not (not K.is_ZZ and (not K.is_QQ)) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ') and hasattr(K, 'get_field') and hasattr(K, 'get_ring')"},"out":{"base":"Any"},"spec":{"lhs":"dup_count_complex_roots(f, K, inf)","rhs":"_winding_number(T, F)","over":{"base":"Any","pred":"not (not K.is_ZZ and (not K.is_QQ)) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ') and hasattr(K, 'get_field') and hasattr(K, 'get_ring')"},"name":"dup_count_complex_roots_correct"},"guarantee":"returns _winding_number(T, F)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_count_complex_roots_correct","statement":"Path(dup_count_complex_roots(x), returns _winding_number(T, F))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73f7071c2cc9450a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not K.is_ZZ and (not K.is_QQ))","hasattr(K, 'is_ZZ')","hasattr(K, 'is_QQ')","hasattr(K, 'get_field')","hasattr(K, 'get_ring')"],"returns_expr":"_winding_number(T, F)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.get_field","K.get_ring","K.is_QQ","K.is_ZZ"],"raises":["DomainError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def dup_count_complex_roots(f, K, inf=None, sup=None, exclude=None):
     """Count all roots in [u + v*I, s + t*I] rectangle using Collins-Krandick algorithm. """
     if not K.is_ZZ and not K.is_QQ:
@@ -1678,16 +1906,22 @@ def dup_count_complex_roots(f, K, inf=None, sup=None, exclude=None):
     return _winding_number(T, F)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_vertical_bisection(N, ), vertical bisection step in collins-krandick root isolation algorithm) over Any ║
+# ║ Path(_vertical_bisection(N, a, b), (D_L, D_R)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (D_L, D_R)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _vertical_bisection : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59cd174285fab9ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8867c502731f55b4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._vertical_bisection","kind":"function","src_hash":"b69ced3f47031132","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vertical_bisection(N, )","rhs":"vertical bisection step in collins-krandick root isolation algorithm","over":{"base":"Any"},"name":"_vertical_bisection_correct"},"guarantee":"vertical bisection step in collins-krandick root isolation algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._vertical_bisection_correct","statement":"Path(_vertical_bisection(x), vertical bisection step in collins-krandick root isolation algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59cd174285fab9ea"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._vertical_bisection","kind":"function","src_hash":"b69ced3f47031132","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vertical_bisection(N, a, b)","rhs":"(D_L, D_R)","over":{"base":"Any"},"name":"_vertical_bisection_correct"},"guarantee":"returns (D_L, D_R)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._vertical_bisection_correct","statement":"Path(_vertical_bisection(x), returns (D_L, D_R))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8867c502731f55b4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(D_L, D_R)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def _vertical_bisection(N, a, b, I, Q, F1, F2, f1, f2, F):
     """Vertical bisection step in Collins-Krandick root isolation algorithm. """
     (u, v), (s, t) = a, b
@@ -1795,16 +2029,22 @@ def _vertical_bisection(N, a, b, I, Q, F1, F2, f1, f2, F):
     return D_L, D_R
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_horizontal_bisection(N, ), horizontal bisection step in collins-krandick root isolation algorithm) over Any ║
+# ║ Path(_horizontal_bisection(N, a, b), (D_B, D_U)) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (D_B, D_U)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _horizontal_bisection : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90bdd7180eae18b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7425b287f9d5ffe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._horizontal_bisection","kind":"function","src_hash":"3f4e3f6c00ab06b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_horizontal_bisection(N, )","rhs":"horizontal bisection step in collins-krandick root isolation algorithm","over":{"base":"Any"},"name":"_horizontal_bisection_correct"},"guarantee":"horizontal bisection step in collins-krandick root isolation algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._horizontal_bisection_correct","statement":"Path(_horizontal_bisection(x), horizontal bisection step in collins-krandick root isolation algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90bdd7180eae18b7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._horizontal_bisection","kind":"function","src_hash":"3f4e3f6c00ab06b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_horizontal_bisection(N, a, b)","rhs":"(D_B, D_U)","over":{"base":"Any"},"name":"_horizontal_bisection_correct"},"guarantee":"returns (D_B, D_U)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._horizontal_bisection_correct","statement":"Path(_horizontal_bisection(x), returns (D_B, D_U))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7425b287f9d5ffe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(D_B, D_U)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def _horizontal_bisection(N, a, b, I, Q, F1, F2, f1, f2, F):
     """Horizontal bisection step in Collins-Krandick root isolation algorithm. """
     (u, v), (s, t) = a, b
@@ -1912,16 +2152,25 @@ def _horizontal_bisection(N, a, b, I, Q, F1, F2, f1, f2, F):
     return D_B, D_U
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_depth_first_select(rec), find a rectangle of minimum area for bisection) over Any ║
+# ║ Path(_depth_first_select(rectangles), rectangles.pop(j)) over {Any | hasattr(rectangles, 'pop') and len(rectangles) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _depth_first_select : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(rectangles, 'pop')                     ║
+# ║   requires: len(rectangles) > 0                            ║
+# ║   ensures:  len(rectangles) == old_len_rectangles - 1      ║
+# ║   returns:  rectangles.pop(j)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _depth_first_select : {Any | hasattr(rectangles, 'pop...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 084f2919f6f135e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45d93dc2f31d98ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._depth_first_select","kind":"function","src_hash":"5c9c000bf758bf34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_depth_first_select(rec)","rhs":"find a rectangle of minimum area for bisection","over":{"base":"Any"},"name":"_depth_first_select_correct"},"guarantee":"find a rectangle of minimum area for bisection","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._depth_first_select_correct","statement":"Path(_depth_first_select(x), find a rectangle of minimum area for bisection)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"084f2919f6f135e5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._depth_first_select","kind":"function","src_hash":"5c9c000bf758bf34","in":{"base":"Any","pred":"hasattr(rectangles, 'pop') and len(rectangles) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (rectangles.pop(j))"},"spec":{"lhs":"_depth_first_select(rectangles)","rhs":"rectangles.pop(j)","over":{"base":"Any","pred":"hasattr(rectangles, 'pop') and len(rectangles) > 0"},"name":"_depth_first_select_correct"},"guarantee":"returns rectangles.pop(j); len(rectangles) == old_len_rectangles - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._depth_first_select_correct","statement":"Path(_depth_first_select(x), returns rectangles.pop(j); len(rectangles) == old_len_rectangles - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45d93dc2f31d98ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(rectangles, 'pop')","len(rectangles) > 0"],"ensures":["len(rectangles) == old_len_rectangles - 1"],"returns_expr":"rectangles.pop(j)","pure":false,"effects":{"effect_type":"mutates_args","reads":["rectangles.pop"],"calls_mutating":["rectangles.pop"]},"state_contract":{"modifies":["rectangles.*"],"old_bindings":{"old_len_rectangles":"len(rectangles)"},"pre_requires":["len(rectangles) > 0"],"post_ensures":["len(rectangles) == old_len_rectangles - 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _depth_first_select(rectangles):
     """Find a rectangle of minimum area for bisection. """
     min_area, j = None, None
@@ -1935,16 +2184,25 @@ def _depth_first_select(rectangles):
     return rectangles.pop(j)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rectangle_small_p(a, ), return ``true`` if the given rectangle is small enough) over Any ║
+# ║ Path(_rectangle_small_p(a, b, eps), result == (s - u < eps and t - v < eps if eps is not None else True) and result == s - u < eps and t - v < eps or result == True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rectangle_small_p : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (s - u < eps and t - v < eps if...   ║
+# ║   ensures:  result == s - u < eps and t - v < eps or ...   ║
+# ║   fiber[case_0]: eps is not None => s - u < eps and t...   ║
+# ║   fiber[case_1]: not (eps is not None) => True             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rectangle_small_p : Any → {Any | result satisfies: r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34482362b420e9b7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be86d9effeca92e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._rectangle_small_p","kind":"function","src_hash":"8fa692e6f50338ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rectangle_small_p(a, )","rhs":"return ``true`` if the given rectangle is small enough","over":{"base":"Any"},"name":"_rectangle_small_p_correct"},"guarantee":"return ``true`` if the given rectangle is small enough","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._rectangle_small_p_correct","statement":"Path(_rectangle_small_p(x), return ``true`` if the given rectangle is small enough)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34482362b420e9b7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation._rectangle_small_p","kind":"function","src_hash":"8fa692e6f50338ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (s - u < eps and t - v < eps if eps is not None else True) and result == s - u < eps and t - v < eps or result == True"},"spec":{"lhs":"_rectangle_small_p(a, b, eps)","rhs":"result == (s - u < eps and t - v < eps if eps is not None else True) and result == s - u < eps and t - v < eps or result == True","over":{"base":"Any"},"name":"_rectangle_small_p_correct"},"guarantee":"result == (s - u < eps and t - v < eps if eps is not None else True); result == s - u < eps and t - v < eps or result == True; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation._rectangle_small_p_correct","statement":"Path(_rectangle_small_p(x), result == (s - u < eps and t - v < eps if eps is not None else True); result == s - u < eps and t - v < eps or result == True; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be86d9effeca92e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (s - u < eps and t - v < eps if eps is not None else True)","result == s - u < eps and t - v < eps or result == True"],"fibers":[{"name":"case_0","guard":"eps is not None","ensures":["result == s - u < eps and t - v < eps"],"decidability":"library","returns_expr":"s - u < eps and t - v < eps"},{"name":"case_1","guard":"not (eps is not None)","ensures":["result == True"],"decidability":"library","returns_expr":"True"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rectangle_small_p(a, b, eps):
     """Return ``True`` if the given rectangle is small enough. """
     (u, v), (s, t) = a, b
@@ -1955,16 +2213,26 @@ def _rectangle_small_p(a, b, eps):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_isolate_complex_roots_sqf(f, ), isolate complex roots of a square-free polynomial using collins-krandick algorithm) over Any ║
+# ║ Path(dup_isolate_complex_roots_sqf(f, K, eps), len(rectangles) == old_len_rectangles + 1 and len(roots) == old_len_roots + 1) over {Any | not (not K.is_ZZ and (not K.is_QQ)) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ') and hasattr(K, 'get_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_isolate_complex_roots_sqf : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not K.is_ZZ and (not K.is_QQ))            ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   requires: hasattr(K, 'is_QQ')                            ║
+# ║   ensures:  len(rectangles) == old_len_rectangles + 1      ║
+# ║   ensures:  len(roots) == old_len_roots + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_isolate_complex_roots_sqf : {Any | not (not K.is_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9977f03233f3bca0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a793915024eada73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_isolate_complex_roots_sqf","kind":"function","src_hash":"de60ed9e4c081696","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_complex_roots_sqf(f, )","rhs":"isolate complex roots of a square-free polynomial using collins-krandick algorithm","over":{"base":"Any"},"name":"dup_isolate_complex_roots_sqf_correct"},"guarantee":"isolate complex roots of a square-free polynomial using collins-krandick algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_isolate_complex_roots_sqf_correct","statement":"Path(dup_isolate_complex_roots_sqf(x), isolate complex roots of a square-free polynomial using collins-krandick algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9977f03233f3bca0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_isolate_complex_roots_sqf","kind":"function","src_hash":"de60ed9e4c081696","in":{"base":"Any","pred":"not (not K.is_ZZ and (not K.is_QQ)) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ') and hasattr(K, 'get_field')"},"out":{"base":"Any","pred":"result satisfies: len(rectangles) == old_len_rectangles + 1 and len(roots) == old_len_roots + 1"},"spec":{"lhs":"dup_isolate_complex_roots_sqf(f, K, eps)","rhs":"len(rectangles) == old_len_rectangles + 1 and len(roots) == old_len_roots + 1","over":{"base":"Any","pred":"not (not K.is_ZZ and (not K.is_QQ)) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ') and hasattr(K, 'get_field')"},"name":"dup_isolate_complex_roots_sqf_correct"},"guarantee":"len(rectangles) == old_len_rectangles + 1; len(roots) == old_len_roots + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_isolate_complex_roots_sqf_correct","statement":"Path(dup_isolate_complex_roots_sqf(x), len(rectangles) == old_len_rectangles + 1; len(roots) == old_len_roots + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a793915024eada73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not K.is_ZZ and (not K.is_QQ))","hasattr(K, 'is_ZZ')","hasattr(K, 'is_QQ')","hasattr(K, 'get_field')"],"ensures":["len(rectangles) == old_len_rectangles + 1","len(roots) == old_len_roots + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.get_field","K.is_QQ","K.is_ZZ"],"calls_mutating":["rectangles.append","roots.append","roots.extend"],"raises":["DomainError","ValueError"]},"state_contract":{"modifies":["rectangles.*","roots.*"],"old_bindings":{"old_len_rectangles":"len(rectangles)","old_len_roots":"len(roots)"},"post_ensures":["len(rectangles) == old_len_rectangles + 1","len(roots) == old_len_roots + 1"],"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":true}}
 def dup_isolate_complex_roots_sqf(f, K, eps=None, inf=None, sup=None, blackbox=False):
     """Isolate complex roots of a square-free polynomial using Collins-Krandick algorithm. """
     if not K.is_ZZ and not K.is_QQ:
@@ -2091,16 +2359,22 @@ def dup_isolate_complex_roots_sqf(f, K, eps=None, inf=None, sup=None, blackbox=F
         return [ r.as_tuple() for r in roots ]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_isolate_all_roots_sqf(f, ), isolate real and complex roots of a square-free polynomial ``f``) over Any ║
+# ║ Path(dup_isolate_all_roots_sqf(f, K, eps), (dup_isolate_real_roots_sqf(f, K, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox), dup_isolate_complex_roots_sqf(f, K, eps=eps, inf=inf, sup=sup, blackbox=blackbox))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (dup_isolate_real_roots_sqf(f, K, eps=eps...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dup_isolate_all_roots_sqf : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7118926a7c306050  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bab751dc6e50bfce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_isolate_all_roots_sqf","kind":"function","src_hash":"e61b6f76417a16ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_all_roots_sqf(f, )","rhs":"isolate real and complex roots of a square-free polynomial ``f``","over":{"base":"Any"},"name":"dup_isolate_all_roots_sqf_correct"},"guarantee":"isolate real and complex roots of a square-free polynomial ``f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_isolate_all_roots_sqf_correct","statement":"Path(dup_isolate_all_roots_sqf(x), isolate real and complex roots of a square-free polynomial ``f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7118926a7c306050"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_isolate_all_roots_sqf","kind":"function","src_hash":"e61b6f76417a16ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_all_roots_sqf(f, K, eps)","rhs":"(dup_isolate_real_roots_sqf(f, K, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox), dup_isolate_complex_roots_sqf(f, K, eps=eps, inf=inf, sup=sup, blackbox=blackbox))","over":{"base":"Any"},"name":"dup_isolate_all_roots_sqf_correct"},"guarantee":"returns (dup_isolate_real_roots_sqf(f, K, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox), dup_isolate_complex_roots_sqf(f, K, eps=eps, inf=inf, sup=sup, blackbox=blackbox))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_isolate_all_roots_sqf_correct","statement":"Path(dup_isolate_all_roots_sqf(x), returns (dup_isolate_real_roots_sqf(f, K, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox), dup_isolate_complex_roots_sqf(f, K, eps=eps, inf=inf, sup=sup, blackbox=blackbox)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bab751dc6e50bfce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(dup_isolate_real_roots_sqf(f, K, eps=eps, inf=inf, sup=sup, fast=fast, blackbox=blackbox), dup_isolate_complex_roots_sqf(f, K, eps=eps, inf=inf, sup=sup, blackbox=blackbox))","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def dup_isolate_all_roots_sqf(f, K, eps=None, inf=None, sup=None, fast=False, blackbox=False):
     """Isolate real and complex roots of a square-free polynomial ``f``. """
     return (
@@ -2108,16 +2382,25 @@ def dup_isolate_all_roots_sqf(f, K, eps=None, inf=None, sup=None, fast=False, bl
         dup_isolate_complex_roots_sqf(f, K, eps=eps, inf=inf, sup=sup, blackbox=blackbox))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dup_isolate_all_roots(f, ), isolate real and complex roots of a non-square-free polynomial ``f``) over Any ║
+# ║ Path(dup_isolate_all_roots(f, K, eps), (real_part, complex_part)) over {Any | not (not K.is_ZZ and (not K.is_QQ)) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dup_isolate_all_roots : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not K.is_ZZ and (not K.is_QQ))            ║
+# ║   requires: hasattr(K, 'is_ZZ')                            ║
+# ║   requires: hasattr(K, 'is_QQ')                            ║
+# ║   returns:  (real_part, complex_part)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dup_isolate_all_roots : {Any | not (not K.is_ZZ and (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea71ebf4f21aae5c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbc2ead9a720243a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_isolate_all_roots","kind":"function","src_hash":"56e34fed42448a81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_all_roots(f, )","rhs":"isolate real and complex roots of a non-square-free polynomial ``f``","over":{"base":"Any"},"name":"dup_isolate_all_roots_correct"},"guarantee":"isolate real and complex roots of a non-square-free polynomial ``f``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_isolate_all_roots_correct","statement":"Path(dup_isolate_all_roots(x), isolate real and complex roots of a non-square-free polynomial ``f``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea71ebf4f21aae5c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.dup_isolate_all_roots","kind":"function","src_hash":"56e34fed42448a81","in":{"base":"Any","pred":"not (not K.is_ZZ and (not K.is_QQ)) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ')"},"out":{"base":"Any"},"spec":{"lhs":"dup_isolate_all_roots(f, K, eps)","rhs":"(real_part, complex_part)","over":{"base":"Any","pred":"not (not K.is_ZZ and (not K.is_QQ)) and hasattr(K, 'is_ZZ') and hasattr(K, 'is_QQ')"},"name":"dup_isolate_all_roots_correct"},"guarantee":"returns (real_part, complex_part)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.dup_isolate_all_roots_correct","statement":"Path(dup_isolate_all_roots(x), returns (real_part, complex_part))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbc2ead9a720243a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not K.is_ZZ and (not K.is_QQ))","hasattr(K, 'is_ZZ')","hasattr(K, 'is_QQ')"],"returns_expr":"(real_part, complex_part)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.is_QQ","K.is_ZZ"],"raises":["DomainError","NotImplementedError"]},"state_contract":{"exceptional_post":{"DomainError":["isinstance(raised, DomainError)"],"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dup_isolate_all_roots(f, K, eps=None, inf=None, sup=None, fast=False):
     """Isolate real and complex roots of a non-square-free polynomial ``f``. """
     if not K.is_ZZ and not K.is_QQ:
@@ -2141,28 +2424,40 @@ def dup_isolate_all_roots(f, K, eps=None, inf=None, sup=None, fast=False):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a RealInterval instance) preserved by RealInterval(*args) over {Any | isinstance(item, tuple) and isinstance(other, RealInterval) and isinstance(other, ComplexInterval)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ RealInterval : {Any | isinstance(item, tuple) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3b928651168c2a7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval","kind":"class","src_hash":"98e48279bb4034c0","in":{"base":"Any","pred":"isinstance(item, tuple) and isinstance(other, RealInterval) and isinstance(other, ComplexInterval)"},"out":{"base":"Any","pred":"isinstance(other, ComplexInterval)"},"spec":{"lhs":"RealInterval(*args)","rhs":"correctly constructs a RealInterval instance","over":{"base":"Any","pred":"isinstance(item, tuple) and isinstance(other, RealInterval) and isinstance(other, ComplexInterval)"},"name":"RealInterval_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a RealInterval instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'neg') and hasattr(self, 'neg') and hasattr(self, 'mobius') and hasattr(self, 'mobius') and hasattr(self, 'neg') and hasattr(self, 'dom')","kind":"class","induction":"structural on neg, neg, mobius, mobius"}],"methods_preserving":["__init__","func","args","__eq__","a","b","dx","center","max_denom","as_tuple","__repr__","__contains__","is_disjoint","_inner_refine","refine_disjoint","refine_size","refine_step","refine"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3b928651168c2a7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval","kind":"class","src_hash":"98e48279bb4034c0","in":{"base":"Any","pred":"isinstance(item, tuple) and isinstance(other, RealInterval) and isinstance(other, ComplexInterval)"},"out":{"base":"Any","pred":"isinstance(other, ComplexInterval)"},"spec":{"lhs":"RealInterval(*args)","rhs":"correctly constructs a RealInterval instance","over":{"base":"Any","pred":"isinstance(item, tuple) and isinstance(other, RealInterval) and isinstance(other, ComplexInterval)"},"name":"RealInterval_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'neg') and hasattr(self, 'neg') and hasattr(self, 'mobius') and hasattr(self, 'mobius') and hasattr(self, 'neg') and hasattr(self, 'dom')","kind":"class","induction":"structural on neg, neg, mobius, mobius"}],"methods_preserving":["__init__","func","args","__eq__","a","b","dx","center","max_denom","as_tuple","__repr__","__contains__","is_disjoint","_inner_refine","refine_disjoint","refine_size","refine_step","refine"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3b928651168c2a7","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'neg')","hasattr(self, 'mobius')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function RealInterval not found in source"]}}
 class RealInterval:
     """A fully qualified representation of a real isolation interval. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(dat), initializes the instance correctly) over Any ║
+# ║ Path(__init__(data, f, dom), <unspecified:__init__>) over {Any | hasattr(dom, 'get_field')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(dom, 'get_field')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | hasattr(dom, 'get_field')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc684f21198dbba4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.__init__","kind":"method","src_hash":"fd463fee8d547fc6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(dat)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc684f21198dbba4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.__init__","kind":"method","src_hash":"fd463fee8d547fc6","in":{"base":"Any","pred":"hasattr(dom, 'get_field')"},"out":{"base":"Any"},"spec":{"lhs":"__init__(data, f, dom)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"hasattr(dom, 'get_field')"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc684f21198dbba4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(dom, 'get_field')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dom.get_field"],"writes":["self.mobius","self.neg"],"raises":["ValueError"]},"state_contract":{"modifies":["self.mobius","self.neg"],"old_bindings":{"old_self_mobius":"self.mobius","old_self_neg":"self.neg"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, data, f, dom):
         """Initialize new real interval with complete information. """
         if len(data) == 2:
@@ -2190,46 +2485,65 @@ class RealInterval:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(func(), returns the func attribute) over Any          ║
+# ║ Path(func(), <unspecified:func>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ func : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08757f3df673155f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.func","kind":"property","src_hash":"4e335f647a25d054","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func()","rhs":"returns the func attribute","over":{"base":"Any"},"name":"func_correct"},"guarantee":"returns the func attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08757f3df673155f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.func","kind":"property","src_hash":"4e335f647a25d054","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func()","rhs":"<unspecified:func>","over":{"base":"Any"},"name":"func_correct"},"guarantee":"returns the func attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08757f3df673155f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def func(self):
         return RealInterval
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(args(), returns the args attribute) over Any          ║
+# ║ Path(args(), (i.mobius + (i.neg,), i.f, i.dom)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (i.mobius + (i.neg,), i.f, i.dom)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ args : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a6ff8c179100ff60           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.args","kind":"property","src_hash":"9bc4a74ed1f10919","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"returns the args attribute","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns the args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6ff8c179100ff60"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.args","kind":"property","src_hash":"9bc4a74ed1f10919","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"(i.mobius + (i.neg,), i.f, i.dom)","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns (i.mobius + (i.neg,), i.f, i.dom)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a6ff8c179100ff60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(i.mobius + (i.neg,), i.f, i.dom)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def args(self):
         i = self
         return (i.mobius + (i.neg,), i.f, i.dom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a3fb2959944ee0b7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.__eq__","kind":"method","src_hash":"55c5bff827451cca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3fb2959944ee0b7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.__eq__","kind":"method","src_hash":"55c5bff827451cca","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a3fb2959944ee0b7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if type(other) is not type(self):
             return False
@@ -2237,16 +2551,25 @@ class RealInterval:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(a(), returns the a attribute) over Any                ║
+# ║ Path(a(), result == (field(b, d) if not self.neg else -field(b, d)) and result == field(b, d) or result == -field(b, d)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ a : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (field(b, d) if not self.neg el...   ║
+# ║   ensures:  result == field(b, d) or result == -field...   ║
+# ║   fiber[case_0]: not self.neg => field(b, d)               ║
+# ║   fiber[case_1]: not (not self.neg) => -field(b, d)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ a : Any → {Any | result satisfies: result == (field(b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ec734ed080ad261           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.a","kind":"property","src_hash":"d38833118bb64b95","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"a()","rhs":"returns the a attribute","over":{"base":"Any"},"name":"a_correct"},"guarantee":"returns the a attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ec734ed080ad261"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.a","kind":"property","src_hash":"d38833118bb64b95","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (field(b, d) if not self.neg else -field(b, d)) and result == field(b, d) or result == -field(b, d)"},"spec":{"lhs":"a()","rhs":"result == (field(b, d) if not self.neg else -field(b, d)) and result == field(b, d) or result == -field(b, d)","over":{"base":"Any"},"name":"a_correct"},"guarantee":"result == (field(b, d) if not self.neg else -field(b, d)); result == field(b, d) or result == -field(b, d); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ec734ed080ad261","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (field(b, d) if not self.neg else -field(b, d))","result == field(b, d) or result == -field(b, d)"],"fibers":[{"name":"case_0","guard":"not self.neg","ensures":["result == field(b, d)"],"decidability":"library","returns_expr":"field(b, d)"},{"name":"case_1","guard":"not (not self.neg)","ensures":["result == -field(b, d)"],"decidability":"library","returns_expr":"-field(b, d)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.mobius","self.neg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def a(self):
         """Return the position of the left end. """
         field = self.dom.get_field()
@@ -2263,16 +2586,22 @@ class RealInterval:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(b(), returns the b attribute) over Any                ║
+# ║ Path(b(), <unspecified:b>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ b : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b3850427305b639f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.b","kind":"property","src_hash":"4896e24624e8a6bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"returns the b attribute","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns the b attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3850427305b639f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.b","kind":"property","src_hash":"4896e24624e8a6bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"b()","rhs":"<unspecified:b>","over":{"base":"Any"},"name":"b_correct"},"guarantee":"returns the b attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3850427305b639f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.a","self.neg"],"writes":["self.neg"]},"state_contract":{"modifies":["self.neg"],"old_bindings":{"old_self_neg":"self.neg"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def b(self):
         """Return the position of the right end. """
         was = self.neg
@@ -2283,92 +2612,128 @@ class RealInterval:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dx(), returns the dx attribute) over Any              ║
+# ║ Path(dx(), self.b - self.a) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.b - self.a                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dx : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 628884e6242a685d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.dx","kind":"property","src_hash":"3e2354a70bd3eed8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dx()","rhs":"returns the dx attribute","over":{"base":"Any"},"name":"dx_correct"},"guarantee":"returns the dx attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"628884e6242a685d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.dx","kind":"property","src_hash":"3e2354a70bd3eed8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dx()","rhs":"self.b - self.a","over":{"base":"Any"},"name":"dx_correct"},"guarantee":"returns self.b - self.a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"628884e6242a685d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.b - self.a","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dx(self):
         """Return width of the real isolating interval. """
         return self.b - self.a
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(center(), returns the center attribute) over Any      ║
+# ║ Path(center(), (self.a + self.b) / 2) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.a + self.b) / 2                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ center : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 37a4cc214fd4f751           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.center","kind":"property","src_hash":"e9c171cd6a6de234","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"returns the center attribute","over":{"base":"Any"},"name":"center_correct"},"guarantee":"returns the center attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37a4cc214fd4f751"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.center","kind":"property","src_hash":"e9c171cd6a6de234","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"(self.a + self.b) / 2","over":{"base":"Any"},"name":"center_correct"},"guarantee":"returns (self.a + self.b) / 2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"37a4cc214fd4f751","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.a + self.b) / 2","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def center(self):
         """Return the center of the real isolating interval. """
         return (self.a + self.b)/2
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max_denom(), returns the max_denom attribute) over Any ║
+# ║ Path(max_denom(), max(self.a.denominator, self.b.denominator)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  max(self.a.denominator, self.b.denominator)    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max_denom : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e0daf5eda4a28dde           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.max_denom","kind":"property","src_hash":"0779e2ef924591d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_denom()","rhs":"returns the max_denom attribute","over":{"base":"Any"},"name":"max_denom_correct"},"guarantee":"returns the max_denom attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0daf5eda4a28dde"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.max_denom","kind":"property","src_hash":"0779e2ef924591d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_denom()","rhs":"max(self.a.denominator, self.b.denominator)","over":{"base":"Any"},"name":"max_denom_correct"},"guarantee":"returns max(self.a.denominator, self.b.denominator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e0daf5eda4a28dde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"max(self.a.denominator, self.b.denominator)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max_denom(self):
         """Return the largest denominator occurring in either endpoint. """
         return max(self.a.denominator, self.b.denominator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_tuple(), return tuple representation of real isolating interval) over Any ║
+# ║ Path(as_tuple(), (self.a, self.b)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (self.a, self.b)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_tuple : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6b85f01155108619           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.as_tuple","kind":"method","src_hash":"2d122f094b40a63e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_tuple()","rhs":"return tuple representation of real isolating interval","over":{"base":"Any"},"name":"as_tuple_correct"},"guarantee":"return tuple representation of real isolating interval","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b85f01155108619"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.as_tuple","kind":"method","src_hash":"2d122f094b40a63e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_tuple()","rhs":"(self.a, self.b)","over":{"base":"Any"},"name":"as_tuple_correct"},"guarantee":"returns (self.a, self.b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b85f01155108619","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(self.a, self.b)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_tuple(self):
         """Return tuple representation of real isolating interval. """
         return (self.a, self.b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), '(%s, %s)' % (self.a, self.b)) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '(%s, %s)' % (self.a, self.b)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bec22c9875103e9c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.__repr__","kind":"method","src_hash":"0c1e11a524e1cf8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bec22c9875103e9c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.__repr__","kind":"method","src_hash":"0c1e11a524e1cf8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'(%s, %s)' % (self.a, self.b)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns '(%s, %s)' % (self.a, self.b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bec22c9875103e9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'(%s, %s)' % (self.a, self.b)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "(%s, %s)" % (self.a, self.b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(ite), correctly tests membership) over Any ║
+# ║ Path(__contains__(item), im == 0 and self.a <= re <= self.b) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  im == 0 and self.a <= re <= self.b             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d893b50c2aafdcad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.__contains__","kind":"method","src_hash":"19b5286be25709df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(ite)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d893b50c2aafdcad"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.__contains__","kind":"method","src_hash":"19b5286be25709df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(item)","rhs":"im == 0 and self.a <= re <= self.b","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns im == 0 and self.a <= re <= self.b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d893b50c2aafdcad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"im == 0 and self.a <= re <= self.b","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, item):
         """
         Say whether a complex number belongs to this real interval.
@@ -2388,16 +2753,25 @@ class RealInterval:
         return im == 0 and self.a <= re <= self.b
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_disjoint(oth), return ``true`` if two isolation intervals are disjoint) over Any ║
+# ║ Path(is_disjoint(other), isinstance(other, ComplexInterval)) over {Any | hasattr(other, 'ax') and hasattr(other, 'bx') and hasattr(other, 'a') and hasattr(other, 'b') and hasattr(other, 'ay') and hasattr(other, 'by')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_disjoint : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'ax')                           ║
+# ║   requires: hasattr(other, 'bx')                           ║
+# ║   requires: hasattr(other, 'a')                            ║
+# ║   ensures:  isinstance(other, ComplexInterval)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_disjoint : {Any | hasattr(other, 'ax') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff9960ee79b129cd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4f7de950283bc2a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.is_disjoint","kind":"method","src_hash":"a106099779578b6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_disjoint(oth)","rhs":"return ``true`` if two isolation intervals are disjoint","over":{"base":"Any"},"name":"is_disjoint_correct"},"guarantee":"return ``true`` if two isolation intervals are disjoint","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.RealInterval.is_disjoint_correct","statement":"Path(is_disjoint(x), return ``true`` if two isolation intervals are disjoint)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff9960ee79b129cd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.is_disjoint","kind":"method","src_hash":"a106099779578b6c","in":{"base":"Any","pred":"hasattr(other, 'ax') and hasattr(other, 'bx') and hasattr(other, 'a') and hasattr(other, 'b') and hasattr(other, 'ay') and hasattr(other, 'by')"},"out":{"base":"Any","pred":"result satisfies: isinstance(other, ComplexInterval)"},"spec":{"lhs":"is_disjoint(other)","rhs":"isinstance(other, ComplexInterval)","over":{"base":"Any","pred":"hasattr(other, 'ax') and hasattr(other, 'bx') and hasattr(other, 'a') and hasattr(other, 'b') and hasattr(other, 'ay') and hasattr(other, 'by')"},"name":"is_disjoint_correct"},"guarantee":"isinstance(other, ComplexInterval)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.RealInterval.is_disjoint_correct","statement":"Path(is_disjoint(x), isinstance(other, ComplexInterval))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4f7de950283bc2a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'ax')","hasattr(other, 'bx')","hasattr(other, 'a')","hasattr(other, 'b')","hasattr(other, 'ay')","hasattr(other, 'by')"],"ensures":["isinstance(other, ComplexInterval)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.a","other.ax","other.ay","other.b","other.bx","other.by","self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_disjoint(self, other):
         """Return ``True`` if two isolation intervals are disjoint. """
         if isinstance(other, RealInterval):
@@ -2407,16 +2781,22 @@ class RealInterval:
             or other.ay*other.by > 0)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inner_refine(), internal one step real root refinement procedure) over Any ║
+# ║ Path(_inner_refine(), <unspecified:_inner_refine>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inner_refine : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a0e3a42f0b0691f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval._inner_refine","kind":"method","src_hash":"aa33be68622a45d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inner_refine()","rhs":"internal one step real root refinement procedure","over":{"base":"Any"},"name":"_inner_refine_correct"},"guarantee":"internal one step real root refinement procedure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.RealInterval._inner_refine_correct","statement":"Path(_inner_refine(x), internal one step real root refinement procedure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a0e3a42f0b0691f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval._inner_refine","kind":"method","src_hash":"aa33be68622a45d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inner_refine()","rhs":"<unspecified:_inner_refine>","over":{"base":"Any"},"name":"_inner_refine_correct"},"guarantee":"internal one step real root refinement procedure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.RealInterval._inner_refine_correct","statement":"Path(_inner_refine(x), internal one step real root refinement procedure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a0e3a42f0b0691f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.dom","self.f","self.mobius","self.neg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _inner_refine(self):
         """Internal one step real root refinement procedure. """
         if self.mobius is None:
@@ -2428,16 +2808,23 @@ class RealInterval:
         return RealInterval(mobius + (self.neg,), f, self.dom)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_disjoint(oth), refine an isolating interval until it is disjoint with another one) over Any ║
+# ║ Path(refine_disjoint(other), (expr, other)) over {Any | hasattr(other, '_inner_refine')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ refine_disjoint : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_inner_refine')                ║
+# ║   returns:  (expr, other)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ refine_disjoint : {Any | hasattr(other, '_inner_refin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0139e649700faf61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b92e322f0d72ccb2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.refine_disjoint","kind":"method","src_hash":"ad4408bc2f741634","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_disjoint(oth)","rhs":"refine an isolating interval until it is disjoint with another one","over":{"base":"Any"},"name":"refine_disjoint_correct"},"guarantee":"refine an isolating interval until it is disjoint with another one","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.RealInterval.refine_disjoint_correct","statement":"Path(refine_disjoint(x), refine an isolating interval until it is disjoint with another one)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0139e649700faf61"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.refine_disjoint","kind":"method","src_hash":"ad4408bc2f741634","in":{"base":"Any","pred":"hasattr(other, '_inner_refine')"},"out":{"base":"Any"},"spec":{"lhs":"refine_disjoint(other)","rhs":"(expr, other)","over":{"base":"Any","pred":"hasattr(other, '_inner_refine')"},"name":"refine_disjoint_correct"},"guarantee":"returns (expr, other)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.RealInterval.refine_disjoint_correct","statement":"Path(refine_disjoint(x), returns (expr, other))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b92e322f0d72ccb2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_inner_refine')"],"returns_expr":"(expr, other)","pure":false,"effects":{"effect_type":"reads_state","reads":["other._inner_refine"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def refine_disjoint(self, other):
         """Refine an isolating interval until it is disjoint with another one. """
         expr = self
@@ -2447,16 +2834,22 @@ class RealInterval:
         return expr, other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_size(dx), refine an isolating interval until it is of sufficiently small size) over Any ║
+# ║ Path(refine_size(dx), <unspecified:refine_size>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ refine_size : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 90ec09a73d0d0a95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.refine_size","kind":"method","src_hash":"f6f5c61c33ebd316","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_size(dx)","rhs":"refine an isolating interval until it is of sufficiently small size","over":{"base":"Any"},"name":"refine_size_correct"},"guarantee":"refine an isolating interval until it is of sufficiently small size","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.RealInterval.refine_size_correct","statement":"Path(refine_size(x), refine an isolating interval until it is of sufficiently small size)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90ec09a73d0d0a95"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.refine_size","kind":"method","src_hash":"f6f5c61c33ebd316","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_size(dx)","rhs":"<unspecified:refine_size>","over":{"base":"Any"},"name":"refine_size_correct"},"guarantee":"refine an isolating interval until it is of sufficiently small size","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.RealInterval.refine_size_correct","statement":"Path(refine_size(x), refine an isolating interval until it is of sufficiently small size)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"90ec09a73d0d0a95","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def refine_size(self, dx):
         """Refine an isolating interval until it is of sufficiently small size. """
         expr = self
@@ -2466,16 +2859,22 @@ class RealInterval:
         return expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_step(ste), perform several steps of real root refinement algorithm) over Any ║
+# ║ Path(refine_step(steps), <unspecified:refine_step>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ refine_step : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f61ad03db7677772  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.refine_step","kind":"method","src_hash":"12721fbd658091d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_step(ste)","rhs":"perform several steps of real root refinement algorithm","over":{"base":"Any"},"name":"refine_step_correct"},"guarantee":"perform several steps of real root refinement algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.RealInterval.refine_step_correct","statement":"Path(refine_step(x), perform several steps of real root refinement algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f61ad03db7677772"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.refine_step","kind":"method","src_hash":"12721fbd658091d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_step(steps)","rhs":"<unspecified:refine_step>","over":{"base":"Any"},"name":"refine_step_correct"},"guarantee":"perform several steps of real root refinement algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.RealInterval.refine_step_correct","statement":"Path(refine_step(x), perform several steps of real root refinement algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f61ad03db7677772","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def refine_step(self, steps=1):
         """Perform several steps of real root refinement algorithm. """
         expr = self
@@ -2485,16 +2884,22 @@ class RealInterval:
         return expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine(), perform one step of real root refinement algorithm) over Any ║
+# ║ Path(refine(), self._inner_refine()) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._inner_refine()                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ refine : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b97ebd6c5bc4378           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.refine","kind":"method","src_hash":"b8c061b7a2bf5726","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine()","rhs":"perform one step of real root refinement algorithm","over":{"base":"Any"},"name":"refine_correct"},"guarantee":"perform one step of real root refinement algorithm","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b97ebd6c5bc4378"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.RealInterval.refine","kind":"method","src_hash":"b8c061b7a2bf5726","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine()","rhs":"self._inner_refine()","over":{"base":"Any"},"name":"refine_correct"},"guarantee":"returns self._inner_refine()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b97ebd6c5bc4378","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._inner_refine()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._inner_refine"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def refine(self):
         """Perform one step of real root refinement algorithm. """
         return self._inner_refine()
@@ -2503,14 +2908,19 @@ class RealInterval:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a ComplexInterval instance) preserved by ComplexInterval(*args) over {Any | isinstance(item, tuple) and isinstance(other, RealInterval)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ComplexInterval : {Any | isinstance(item, tuple) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd6e7ff2ad5f6959  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval","kind":"class","src_hash":"0f1c9c4d474174f3","in":{"base":"Any","pred":"isinstance(item, tuple) and isinstance(other, RealInterval)"},"out":{"base":"Any"},"spec":{"lhs":"ComplexInterval(*args)","rhs":"correctly constructs a ComplexInterval instance","over":{"base":"Any","pred":"isinstance(item, tuple) and isinstance(other, RealInterval)"},"name":"ComplexInterval_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a ComplexInterval instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'b') and hasattr(self, 'Q') and hasattr(self, 'F1') and hasattr(self, 'F2') and hasattr(self, 'dom') and hasattr(self, 'conj')","kind":"class","induction":"structural on b, Q, F1, F2"}],"methods_preserving":["__init__","func","args","__eq__","ax","ay","bx","by","dx","dy","center","max_denom","as_tuple","__repr__","conjugate","__contains__","is_disjoint","_inner_refine","refine_disjoint","refine_size","refine_step","refine"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd6e7ff2ad5f6959"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval","kind":"class","src_hash":"0f1c9c4d474174f3","in":{"base":"Any","pred":"isinstance(item, tuple) and isinstance(other, RealInterval)"},"out":{"base":"Any"},"spec":{"lhs":"ComplexInterval(*args)","rhs":"correctly constructs a ComplexInterval instance","over":{"base":"Any","pred":"isinstance(item, tuple) and isinstance(other, RealInterval)"},"name":"ComplexInterval_class_invariant","kind":"invariant"},"guarantee":"preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'b') and hasattr(self, 'Q') and hasattr(self, 'F1') and hasattr(self, 'F2') and hasattr(self, 'dom') and hasattr(self, 'conj')","kind":"class","induction":"structural on b, Q, F1, F2"}],"methods_preserving":["__init__","func","args","__eq__","ax","ay","bx","by","dx","dy","center","max_denom","as_tuple","__repr__","conjugate","__contains__","is_disjoint","_inner_refine","refine_disjoint","refine_size","refine_step","refine"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd6e7ff2ad5f6959","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'dom')","hasattr(self, 'conj')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function ComplexInterval not found in source"]}}
 class ComplexInterval:
     """A fully qualified representation of a complex isolation interval.
     The printed form is shown as (ax, bx) x (ay, by) where (ax, ay)
@@ -2644,16 +3054,22 @@ class ComplexInterval:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(a, ), initializes the instance correctly) over Any ║
+# ║ Path(__init__(a, b, I), <unspecified:__init__>) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 812aa1c48bd12490           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.__init__","kind":"method","src_hash":"f87c664ed0385d33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(a, )","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"812aa1c48bd12490"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.__init__","kind":"method","src_hash":"f87c664ed0385d33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(a, b, I)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"812aa1c48bd12490","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, a, b, I, Q, F1, F2, f1, f2, dom, conj=False):
         """Initialize new complex interval with complete information. """
         # a and b are the SW and NE corner of the bounding interval,
@@ -2672,46 +3088,65 @@ class ComplexInterval:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(func(), returns the func attribute) over Any          ║
+# ║ Path(func(), <unspecified:func>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ func : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bddf4c6514b1f8c6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.func","kind":"property","src_hash":"c8f16bbe8521e9d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func()","rhs":"returns the func attribute","over":{"base":"Any"},"name":"func_correct"},"guarantee":"returns the func attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bddf4c6514b1f8c6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.func","kind":"property","src_hash":"c8f16bbe8521e9d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"func()","rhs":"<unspecified:func>","over":{"base":"Any"},"name":"func_correct"},"guarantee":"returns the func attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bddf4c6514b1f8c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def func(self):
         return ComplexInterval
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(args(), returns the args attribute) over Any          ║
+# ║ Path(args(), (i.a, i.b, i.I, i.Q, i.F1, i.F2, i.f1, i.f2, i.dom, i.conj)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (i.a, i.b, i.I, i.Q, i.F1, i.F2, i.f1, i....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ args : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ed3f0a6c61f918e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.args","kind":"property","src_hash":"0deb36f547d00a29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"returns the args attribute","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns the args attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed3f0a6c61f918e0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.args","kind":"property","src_hash":"0deb36f547d00a29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"args()","rhs":"(i.a, i.b, i.I, i.Q, i.F1, i.F2, i.f1, i.f2, i.dom, i.conj)","over":{"base":"Any"},"name":"args_correct"},"guarantee":"returns (i.a, i.b, i.I, i.Q, i.F1, i.F2, i.f1, i.f2, i.dom, i.conj)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ed3f0a6c61f918e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(i.a, i.b, i.I, i.Q, i.F1, i.F2, i.f1, i.f2, i.dom, i.conj)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def args(self):
         i = self
         return (i.a, i.b, i.I, i.Q, i.F1, i.F2, i.f1, i.f2, i.dom, i.conj)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__eq__(oth), correctly determines equality) over Any  ║
+# ║ Path(__eq__(other), <unspecified:__eq__>) over {Any | hasattr(other, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __eq__ : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'args')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __eq__ : {Any | hasattr(other, 'args')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7fbd4215aa9eb913           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.__eq__","kind":"method","src_hash":"55c5bff827451cca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(oth)","rhs":"correctly determines equality","over":{"base":"Any"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7fbd4215aa9eb913"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.__eq__","kind":"method","src_hash":"55c5bff827451cca","in":{"base":"Any","pred":"hasattr(other, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"__eq__(other)","rhs":"<unspecified:__eq__>","over":{"base":"Any","pred":"hasattr(other, 'args')"},"name":"__eq___correct"},"guarantee":"correctly determines equality","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7fbd4215aa9eb913","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.args","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __eq__(self, other):
         if type(other) is not type(self):
             return False
@@ -2719,32 +3154,47 @@ class ComplexInterval:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ax(), returns the ax attribute) over Any              ║
+# ║ Path(ax(), self.a[0]) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.a[0]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ax : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 82353d6f3f3c998c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.ax","kind":"property","src_hash":"da48301d61f6c575","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ax()","rhs":"returns the ax attribute","over":{"base":"Any"},"name":"ax_correct"},"guarantee":"returns the ax attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82353d6f3f3c998c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.ax","kind":"property","src_hash":"da48301d61f6c575","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ax()","rhs":"self.a[0]","over":{"base":"Any"},"name":"ax_correct"},"guarantee":"returns self.a[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"82353d6f3f3c998c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.a[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ax(self):
         """Return ``x`` coordinate of south-western corner. """
         return self.a[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ay(), returns the ay attribute) over Any              ║
+# ║ Path(ay(), result == (self.a[1] if not self.conj else -self.b[1]) and result == self.a[1] or result == -self.b[1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ay : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.a[1] if not self.conj els...   ║
+# ║   ensures:  result == self.a[1] or result == -self.b[1]    ║
+# ║   fiber[case_0]: not self.conj => self.a[1]                ║
+# ║   fiber[case_1]: not (not self.conj) => -self.b[1]         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ay : Any → {Any | result satisfies: result == (self.a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1f23fc7d0fb277f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.ay","kind":"property","src_hash":"435b8ee9a0823864","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ay()","rhs":"returns the ay attribute","over":{"base":"Any"},"name":"ay_correct"},"guarantee":"returns the ay attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1f23fc7d0fb277f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.ay","kind":"property","src_hash":"435b8ee9a0823864","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.a[1] if not self.conj else -self.b[1]) and result == self.a[1] or result == -self.b[1]"},"spec":{"lhs":"ay()","rhs":"result == (self.a[1] if not self.conj else -self.b[1]) and result == self.a[1] or result == -self.b[1]","over":{"base":"Any"},"name":"ay_correct"},"guarantee":"result == (self.a[1] if not self.conj else -self.b[1]); result == self.a[1] or result == -self.b[1]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1f23fc7d0fb277f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.a[1] if not self.conj else -self.b[1])","result == self.a[1] or result == -self.b[1]"],"fibers":[{"name":"case_0","guard":"not self.conj","ensures":["result == self.a[1]"],"decidability":"library","returns_expr":"self.a[1]"},{"name":"case_1","guard":"not (not self.conj)","ensures":["result == -self.b[1]"],"decidability":"library","returns_expr":"-self.b[1]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.conj"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ay(self):
         """Return ``y`` coordinate of south-western corner. """
         if not self.conj:
@@ -2754,32 +3204,47 @@ class ComplexInterval:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bx(), returns the bx attribute) over Any              ║
+# ║ Path(bx(), self.b[0]) over Any                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.b[0]                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bx : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bed2742f17ef37a1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.bx","kind":"property","src_hash":"a66a266213e932ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bx()","rhs":"returns the bx attribute","over":{"base":"Any"},"name":"bx_correct"},"guarantee":"returns the bx attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bed2742f17ef37a1"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.bx","kind":"property","src_hash":"a66a266213e932ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bx()","rhs":"self.b[0]","over":{"base":"Any"},"name":"bx_correct"},"guarantee":"returns self.b[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bed2742f17ef37a1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.b[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bx(self):
         """Return ``x`` coordinate of north-eastern corner. """
         return self.b[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(by(), returns the by attribute) over Any              ║
+# ║ Path(by(), result == (self.b[1] if not self.conj else -self.a[1]) and result == self.b[1] or result == -self.a[1]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ by : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (self.b[1] if not self.conj els...   ║
+# ║   ensures:  result == self.b[1] or result == -self.a[1]    ║
+# ║   fiber[case_0]: not self.conj => self.b[1]                ║
+# ║   fiber[case_1]: not (not self.conj) => -self.a[1]         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ by : Any → {Any | result satisfies: result == (self.b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8a1f2396e5406360           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.by","kind":"property","src_hash":"abd02f3f4de20578","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"by()","rhs":"returns the by attribute","over":{"base":"Any"},"name":"by_correct"},"guarantee":"returns the by attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a1f2396e5406360"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.by","kind":"property","src_hash":"abd02f3f4de20578","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self.b[1] if not self.conj else -self.a[1]) and result == self.b[1] or result == -self.a[1]"},"spec":{"lhs":"by()","rhs":"result == (self.b[1] if not self.conj else -self.a[1]) and result == self.b[1] or result == -self.a[1]","over":{"base":"Any"},"name":"by_correct"},"guarantee":"result == (self.b[1] if not self.conj else -self.a[1]); result == self.b[1] or result == -self.a[1]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a1f2396e5406360","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (self.b[1] if not self.conj else -self.a[1])","result == self.b[1] or result == -self.a[1]"],"fibers":[{"name":"case_0","guard":"not self.conj","ensures":["result == self.b[1]"],"decidability":"library","returns_expr":"self.b[1]"},{"name":"case_1","guard":"not (not self.conj)","ensures":["result == -self.a[1]"],"decidability":"library","returns_expr":"-self.a[1]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b","self.conj"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def by(self):
         """Return ``y`` coordinate of north-eastern corner. """
         if not self.conj:
@@ -2789,126 +3254,174 @@ class ComplexInterval:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dx(), returns the dx attribute) over Any              ║
+# ║ Path(dx(), self.b[0] - self.a[0]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.b[0] - self.a[0]                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dx : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 05e7a5aa5ae9d62a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.dx","kind":"property","src_hash":"f5f62c0c10f7ed72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dx()","rhs":"returns the dx attribute","over":{"base":"Any"},"name":"dx_correct"},"guarantee":"returns the dx attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05e7a5aa5ae9d62a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.dx","kind":"property","src_hash":"f5f62c0c10f7ed72","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dx()","rhs":"self.b[0] - self.a[0]","over":{"base":"Any"},"name":"dx_correct"},"guarantee":"returns self.b[0] - self.a[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"05e7a5aa5ae9d62a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.b[0] - self.a[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dx(self):
         """Return width of the complex isolating interval. """
         return self.b[0] - self.a[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dy(), returns the dy attribute) over Any              ║
+# ║ Path(dy(), self.b[1] - self.a[1]) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.b[1] - self.a[1]                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dy : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ea60a2340c25c417           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.dy","kind":"property","src_hash":"4a07eaf7feac91df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dy()","rhs":"returns the dy attribute","over":{"base":"Any"},"name":"dy_correct"},"guarantee":"returns the dy attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea60a2340c25c417"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.dy","kind":"property","src_hash":"4a07eaf7feac91df","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dy()","rhs":"self.b[1] - self.a[1]","over":{"base":"Any"},"name":"dy_correct"},"guarantee":"returns self.b[1] - self.a[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ea60a2340c25c417","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.b[1] - self.a[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.a","self.b"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dy(self):
         """Return height of the complex isolating interval. """
         return self.b[1] - self.a[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(center(), returns the center attribute) over Any      ║
+# ║ Path(center(), ((self.ax + self.bx) / 2, (self.ay + self.by) / 2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ((self.ax + self.bx) / 2, (self.ay + self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ center : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc21bbb3bf1e280c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.center","kind":"property","src_hash":"4f7b2d2fadffb1b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"returns the center attribute","over":{"base":"Any"},"name":"center_correct"},"guarantee":"returns the center attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc21bbb3bf1e280c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.center","kind":"property","src_hash":"4f7b2d2fadffb1b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"((self.ax + self.bx) / 2, (self.ay + self.by) / 2)","over":{"base":"Any"},"name":"center_correct"},"guarantee":"returns ((self.ax + self.bx) / 2, (self.ay + self.by) / 2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc21bbb3bf1e280c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"((self.ax + self.bx) / 2, (self.ay + self.by) / 2)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ax","self.ay","self.bx","self.by"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def center(self):
         """Return the center of the complex isolating interval. """
         return ((self.ax + self.bx)/2, (self.ay + self.by)/2)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max_denom(), returns the max_denom attribute) over Any ║
+# ║ Path(max_denom(), max(self.ax.denominator, self.bx.denominator, self.ay.denominator, self.by.denominator)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  max(self.ax.denominator, self.bx.denomina...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max_denom : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5eb2f77c68df7bf6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.max_denom","kind":"property","src_hash":"85788cfc99be9983","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_denom()","rhs":"returns the max_denom attribute","over":{"base":"Any"},"name":"max_denom_correct"},"guarantee":"returns the max_denom attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5eb2f77c68df7bf6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.max_denom","kind":"property","src_hash":"85788cfc99be9983","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_denom()","rhs":"max(self.ax.denominator, self.bx.denominator, self.ay.denominator, self.by.denominator)","over":{"base":"Any"},"name":"max_denom_correct"},"guarantee":"returns max(self.ax.denominator, self.bx.denominator, self.ay.denominator, self.by.denominator)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5eb2f77c68df7bf6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"max(self.ax.denominator, self.bx.denominator, self.ay.denominator, self.by.denominator)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ax","self.ay","self.bx","self.by"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max_denom(self):
         """Return the largest denominator occurring in either endpoint. """
         return max(self.ax.denominator, self.bx.denominator,
                    self.ay.denominator, self.by.denominator)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_tuple(), return tuple representation of the complex isolating interval's sw and ne corners, respectively) over Any ║
+# ║ Path(as_tuple(), ((self.ax, self.ay), (self.bx, self.by))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ((self.ax, self.ay), (self.bx, self.by))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_tuple : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a2f47d92764a902           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.as_tuple","kind":"method","src_hash":"e9a463ad57caa992","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_tuple()","rhs":"return tuple representation of the complex isolating interval's sw and ne corners, respectively","over":{"base":"Any"},"name":"as_tuple_correct"},"guarantee":"return tuple representation of the complex isolating interval's sw and ne corners, respectively","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a2f47d92764a902"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.as_tuple","kind":"method","src_hash":"e9a463ad57caa992","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_tuple()","rhs":"((self.ax, self.ay), (self.bx, self.by))","over":{"base":"Any"},"name":"as_tuple_correct"},"guarantee":"returns ((self.ax, self.ay), (self.bx, self.by))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a2f47d92764a902","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"((self.ax, self.ay), (self.bx, self.by))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ax","self.ay","self.bx","self.by"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_tuple(self):
         """Return tuple representation of the complex isolating
         interval's SW and NE corners, respectively. """
         return ((self.ax, self.ay), (self.bx, self.by))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), '(%s, %s) x (%s, %s)' % (self.ax, self.bx, self.ay, self.by)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '(%s, %s) x (%s, %s)' % (self.ax, self.bx...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6aacf5ec1394c210           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.__repr__","kind":"method","src_hash":"494d9af848e6244a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6aacf5ec1394c210"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.__repr__","kind":"method","src_hash":"494d9af848e6244a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'(%s, %s) x (%s, %s)' % (self.ax, self.bx, self.ay, self.by)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns '(%s, %s) x (%s, %s)' % (self.ax, self.bx, self.ay, self.by)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6aacf5ec1394c210","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'(%s, %s) x (%s, %s)' % (self.ax, self.bx, self.ay, self.by)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ax","self.ay","self.bx","self.by"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "(%s, %s) x (%s, %s)" % (self.ax, self.bx, self.ay, self.by)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(conjugate(), this complex interval really is located in lower half-plane) over Any ║
+# ║ Path(conjugate(), ComplexInterval(self.a, self.b, self.I, self.Q, self.F1, self.F2, self.f1, self.f2, self.dom, conj=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ComplexInterval(self.a, self.b, self.I, s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ conjugate : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9857100701187669  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 089b2b3abc420041  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.conjugate","kind":"method","src_hash":"2e2c2f4f2eccf087","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjugate()","rhs":"this complex interval really is located in lower half-plane","over":{"base":"Any"},"name":"conjugate_correct"},"guarantee":"this complex interval really is located in lower half-plane","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.ComplexInterval.conjugate_correct","statement":"Path(conjugate(x), this complex interval really is located in lower half-plane)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9857100701187669"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.conjugate","kind":"method","src_hash":"2e2c2f4f2eccf087","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjugate()","rhs":"ComplexInterval(self.a, self.b, self.I, self.Q, self.F1, self.F2, self.f1, self.f2, self.dom, conj=True)","over":{"base":"Any"},"name":"conjugate_correct"},"guarantee":"returns ComplexInterval(self.a, self.b, self.I, self.Q, self.F1, self.F2, self.f1, self.f2, self.dom, conj=True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.ComplexInterval.conjugate_correct","statement":"Path(conjugate(x), returns ComplexInterval(self.a, self.b, self.I, self.Q, self.F1, self.F2, self.f1, self.f2, self.dom, conj=True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"089b2b3abc420041","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ComplexInterval(self.a, self.b, self.I, self.Q, self.F1, self.F2, self.f1, self.f2, self.dom, conj=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.F1","self.F2","self.I","self.Q","self.a","self.b","self.dom","self.f1","self.f2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def conjugate(self):
         """This complex interval really is located in lower half-plane. """
         return ComplexInterval(self.a, self.b, self.I, self.Q,
             self.F1, self.F2, self.f1, self.f2, self.dom, conj=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(ite), correctly tests membership) over Any ║
+# ║ Path(__contains__(item), self.ax <= re <= self.bx and self.ay <= im <= self.by) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.ax <= re <= self.bx and self.ay <= i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __contains__ : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 80efd03a10234f3d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.__contains__","kind":"method","src_hash":"5d5df73c0c514109","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(ite)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80efd03a10234f3d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.__contains__","kind":"method","src_hash":"5d5df73c0c514109","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(item)","rhs":"self.ax <= re <= self.bx and self.ay <= im <= self.by","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"returns self.ax <= re <= self.bx and self.ay <= im <= self.by","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"80efd03a10234f3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.ax <= re <= self.bx and self.ay <= im <= self.by","pure":false,"effects":{"effect_type":"reads_state","reads":["self.ax","self.ay","self.bx","self.by"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, item):
         """
         Say whether a complex number belongs to this complex rectangular
@@ -2929,16 +3442,25 @@ class ComplexInterval:
         return self.ax <= re <= self.bx and self.ay <= im <= self.by
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_disjoint(oth), return ``true`` if two isolation intervals are disjoint) over Any ║
+# ║ Path(is_disjoint(other), <unspecified:is_disjoint>) over {Any | hasattr(other, 'conj') and hasattr(other, 'is_disjoint') and hasattr(other, 'ax') and hasattr(other, 'bx') and hasattr(other, 'ay') and hasattr(other, 'by')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_disjoint : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'conj')                         ║
+# ║   requires: hasattr(other, 'is_disjoint')                  ║
+# ║   requires: hasattr(other, 'ax')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_disjoint : {Any | hasattr(other, 'conj') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cef2b9a92671c5e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.is_disjoint","kind":"method","src_hash":"662968c1d7d094b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_disjoint(oth)","rhs":"return ``true`` if two isolation intervals are disjoint","over":{"base":"Any"},"name":"is_disjoint_correct"},"guarantee":"return ``true`` if two isolation intervals are disjoint","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.ComplexInterval.is_disjoint_correct","statement":"Path(is_disjoint(x), return ``true`` if two isolation intervals are disjoint)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cef2b9a92671c5e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.is_disjoint","kind":"method","src_hash":"662968c1d7d094b0","in":{"base":"Any","pred":"hasattr(other, 'conj') and hasattr(other, 'is_disjoint') and hasattr(other, 'ax') and hasattr(other, 'bx') and hasattr(other, 'ay') and hasattr(other, 'by')"},"out":{"base":"Any"},"spec":{"lhs":"is_disjoint(other)","rhs":"<unspecified:is_disjoint>","over":{"base":"Any","pred":"hasattr(other, 'conj') and hasattr(other, 'is_disjoint') and hasattr(other, 'ax') and hasattr(other, 'bx') and hasattr(other, 'ay') and hasattr(other, 'by')"},"name":"is_disjoint_correct"},"guarantee":"return ``true`` if two isolation intervals are disjoint","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.ComplexInterval.is_disjoint_correct","statement":"Path(is_disjoint(x), return ``true`` if two isolation intervals are disjoint)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cef2b9a92671c5e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'conj')","hasattr(other, 'is_disjoint')","hasattr(other, 'ax')","hasattr(other, 'bx')","hasattr(other, 'ay')","hasattr(other, 'by')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.ax","other.ay","other.bx","other.by","other.conj","other.is_disjoint","self.ax","self.ay","self.bx","self.by","self.conj"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_disjoint(self, other):
         """Return ``True`` if two isolation intervals are disjoint. """
         if isinstance(other, RealInterval):
@@ -2952,16 +3474,22 @@ class ComplexInterval:
         return im_distinct
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_inner_refine(), internal one step complex root refinement procedure) over Any ║
+# ║ Path(_inner_refine(), ComplexInterval(a, b, I, Q, F1, F2, f1, f2, dom, self.conj)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ComplexInterval(a, b, I, Q, F1, F2, f1, f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _inner_refine : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6867d2f0e6801a27  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34dc0f2c22981df9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval._inner_refine","kind":"method","src_hash":"01c32f45041e80e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inner_refine()","rhs":"internal one step complex root refinement procedure","over":{"base":"Any"},"name":"_inner_refine_correct"},"guarantee":"internal one step complex root refinement procedure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.ComplexInterval._inner_refine_correct","statement":"Path(_inner_refine(x), internal one step complex root refinement procedure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6867d2f0e6801a27"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval._inner_refine","kind":"method","src_hash":"01c32f45041e80e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_inner_refine()","rhs":"ComplexInterval(a, b, I, Q, F1, F2, f1, f2, dom, self.conj)","over":{"base":"Any"},"name":"_inner_refine_correct"},"guarantee":"returns ComplexInterval(a, b, I, Q, F1, F2, f1, f2, dom, self.conj)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.ComplexInterval._inner_refine_correct","statement":"Path(_inner_refine(x), returns ComplexInterval(a, b, I, Q, F1, F2, f1, f2, dom, self.conj))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34dc0f2c22981df9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ComplexInterval(a, b, I, Q, F1, F2, f1, f2, dom, self.conj)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.F1","self.F2","self.I","self.Q","self.a","self.b","self.conj","self.dom","self.f1","self.f2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _inner_refine(self):
         """Internal one step complex root refinement procedure. """
         (u, v), (s, t) = self.a, self.b
@@ -2991,16 +3519,23 @@ class ComplexInterval:
         return ComplexInterval(a, b, I, Q, F1, F2, f1, f2, dom, self.conj)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_disjoint(oth), refine an isolating interval until it is disjoint with another one) over Any ║
+# ║ Path(refine_disjoint(other), (expr, other)) over {Any | hasattr(other, '_inner_refine')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ refine_disjoint : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, '_inner_refine')                ║
+# ║   returns:  (expr, other)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ refine_disjoint : {Any | hasattr(other, '_inner_refin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5ca2a69052a51f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24e8aac84ff6907f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.refine_disjoint","kind":"method","src_hash":"ad4408bc2f741634","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_disjoint(oth)","rhs":"refine an isolating interval until it is disjoint with another one","over":{"base":"Any"},"name":"refine_disjoint_correct"},"guarantee":"refine an isolating interval until it is disjoint with another one","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.ComplexInterval.refine_disjoint_correct","statement":"Path(refine_disjoint(x), refine an isolating interval until it is disjoint with another one)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5ca2a69052a51f4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.refine_disjoint","kind":"method","src_hash":"ad4408bc2f741634","in":{"base":"Any","pred":"hasattr(other, '_inner_refine')"},"out":{"base":"Any"},"spec":{"lhs":"refine_disjoint(other)","rhs":"(expr, other)","over":{"base":"Any","pred":"hasattr(other, '_inner_refine')"},"name":"refine_disjoint_correct"},"guarantee":"returns (expr, other)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.ComplexInterval.refine_disjoint_correct","statement":"Path(refine_disjoint(x), returns (expr, other))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24e8aac84ff6907f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, '_inner_refine')"],"returns_expr":"(expr, other)","pure":false,"effects":{"effect_type":"reads_state","reads":["other._inner_refine"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def refine_disjoint(self, other):
         """Refine an isolating interval until it is disjoint with another one. """
         expr = self
@@ -3010,16 +3545,22 @@ class ComplexInterval:
         return expr, other
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_size(dx,), refine an isolating interval until it is of sufficiently small size) over Any ║
+# ║ Path(refine_size(dx, dy), <unspecified:refine_size>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ refine_size : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3551ebf89649621  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.refine_size","kind":"method","src_hash":"da5659171143d1c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_size(dx,)","rhs":"refine an isolating interval until it is of sufficiently small size","over":{"base":"Any"},"name":"refine_size_correct"},"guarantee":"refine an isolating interval until it is of sufficiently small size","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.ComplexInterval.refine_size_correct","statement":"Path(refine_size(x), refine an isolating interval until it is of sufficiently small size)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3551ebf89649621"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.refine_size","kind":"method","src_hash":"da5659171143d1c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_size(dx, dy)","rhs":"<unspecified:refine_size>","over":{"base":"Any"},"name":"refine_size_correct"},"guarantee":"refine an isolating interval until it is of sufficiently small size","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.ComplexInterval.refine_size_correct","statement":"Path(refine_size(x), refine an isolating interval until it is of sufficiently small size)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3551ebf89649621","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def refine_size(self, dx, dy=None):
         """Refine an isolating interval until it is of sufficiently small size. """
         if dy is None:
@@ -3031,16 +3572,22 @@ class ComplexInterval:
         return expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine_step(ste), perform several steps of complex root refinement algorithm) over Any ║
+# ║ Path(refine_step(steps), <unspecified:refine_step>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ refine_step : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 99a547698468bc57  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.refine_step","kind":"method","src_hash":"ce457cdd44f93c81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_step(ste)","rhs":"perform several steps of complex root refinement algorithm","over":{"base":"Any"},"name":"refine_step_correct"},"guarantee":"perform several steps of complex root refinement algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.ComplexInterval.refine_step_correct","statement":"Path(refine_step(x), perform several steps of complex root refinement algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99a547698468bc57"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.refine_step","kind":"method","src_hash":"ce457cdd44f93c81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine_step(steps)","rhs":"<unspecified:refine_step>","over":{"base":"Any"},"name":"refine_step_correct"},"guarantee":"perform several steps of complex root refinement algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rootisolation.ComplexInterval.refine_step_correct","statement":"Path(refine_step(x), perform several steps of complex root refinement algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"99a547698468bc57","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def refine_step(self, steps=1):
         """Perform several steps of complex root refinement algorithm. """
         expr = self
@@ -3050,16 +3597,22 @@ class ComplexInterval:
         return expr
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(refine(), perform one step of complex root refinement algorithm) over Any ║
+# ║ Path(refine(), self._inner_refine()) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._inner_refine()                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ refine : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 26fc6b98d8b8ff33           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.refine","kind":"method","src_hash":"6a815d629693c668","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine()","rhs":"perform one step of complex root refinement algorithm","over":{"base":"Any"},"name":"refine_correct"},"guarantee":"perform one step of complex root refinement algorithm","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26fc6b98d8b8ff33"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rootisolation.ComplexInterval.refine","kind":"method","src_hash":"6a815d629693c668","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"refine()","rhs":"self._inner_refine()","over":{"base":"Any"},"name":"refine_correct"},"guarantee":"returns self._inner_refine()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"26fc6b98d8b8ff33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._inner_refine()","pure":false,"effects":{"effect_type":"reads_state","reads":["self._inner_refine"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def refine(self):
         """Perform one step of complex root refinement algorithm. """
         return self._inner_refine()

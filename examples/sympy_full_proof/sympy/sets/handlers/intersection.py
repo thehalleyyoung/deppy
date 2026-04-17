@@ -40,91 +40,134 @@ intersection_sets = Dispatcher('intersection_sets')
 
 @intersection_sets.register(ConditionSet, ConditionSet)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), None) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 59dac8223ec3403a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"5af7072e92d3bcbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59dac8223ec3403a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"5af7072e92d3bcbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"None","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59dac8223ec3403a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return None
 
 @intersection_sets.register(ConditionSet, Set)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), ConditionSet(a.sym, a.condition, Intersection(a.base_set, b))) over {Any | hasattr(a, 'sym') and hasattr(a, 'condition') and hasattr(a, 'base_set')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, 'sym')                              ║
+# ║   requires: hasattr(a, 'condition')                        ║
+# ║   requires: hasattr(a, 'base_set')                         ║
+# ║   returns:  ConditionSet(a.sym, a.condition, Intersec...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(a, 'sym') and hasattr(a, 'conditio...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b43f00b895ec88fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"3da7fc0e8ac46104","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b43f00b895ec88fa"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"3da7fc0e8ac46104","in":{"base":"Any","pred":"hasattr(a, 'sym') and hasattr(a, 'condition') and hasattr(a, 'base_set')"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"ConditionSet(a.sym, a.condition, Intersection(a.base_set, b))","over":{"base":"Any","pred":"hasattr(a, 'sym') and hasattr(a, 'condition') and hasattr(a, 'base_set')"},"name":"__correct"},"guarantee":"returns ConditionSet(a.sym, a.condition, Intersection(a.base_set, b))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b43f00b895ec88fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, 'sym')","hasattr(a, 'condition')","hasattr(a, 'base_set')"],"returns_expr":"ConditionSet(a.sym, a.condition, Intersection(a.base_set, b))","pure":false,"effects":{"effect_type":"reads_state","reads":["a.base_set","a.condition","a.sym"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return ConditionSet(a.sym, a.condition, Intersection(a.base_set, b))
 
 @intersection_sets.register(Naturals, Integers)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), a) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : Any → {Any | result satisfies: result == (a)}          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46326c226fd7c254           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"_(a, b)","rhs":"a","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return a
 
 @intersection_sets.register(Naturals, Naturals)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), a if a is S.Naturals else b) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a if a is S.Naturals else b                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 95ccbde3a520a823           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"9bbd7f4383a458e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95ccbde3a520a823"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"9bbd7f4383a458e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"a if a is S.Naturals else b","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns a if a is S.Naturals else b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"95ccbde3a520a823","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a if a is S.Naturals else b","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return a if a is S.Naturals else b
 
 @intersection_sets.register(Interval, Naturals)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), intersection_sets(b, a)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  intersection_sets(b, a)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e9acb925715abf86           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"2ef28cda05a01012","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9acb925715abf86"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"2ef28cda05a01012","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"intersection_sets(b, a)","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns intersection_sets(b, a)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9acb925715abf86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"intersection_sets(b, a)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return intersection_sets(b, a)
 
 @intersection_sets.register(ComplexRegion, Set)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(oth), id) over Any                                  ║
+# ║ Path(_(other), id) over {Any | hasattr(other, 'is_ComplexRegion') and hasattr(other, 'is_subset') and hasattr(other, 'polar') and hasattr(other, 'sets') and hasattr(other, 'a_interval') and hasattr(other, 'b_interval')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'is_ComplexRegion')             ║
+# ║   requires: hasattr(other, 'is_subset')                    ║
+# ║   requires: hasattr(other, 'polar')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(other, 'is_ComplexRegion') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d290a658a1795753   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"7e9e988165c51073","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ComplexRegion","by":"library_axiom"},{"fn":"Intersection","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d290a658a1795753"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"7e9e988165c51073","in":{"base":"Any","pred":"hasattr(other, 'is_ComplexRegion') and hasattr(other, 'is_subset') and hasattr(other, 'polar') and hasattr(other, 'sets') and hasattr(other, 'a_interval') and hasattr(other, 'b_interval')"},"out":{"base":"Any"},"spec":{"lhs":"_(other)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(other, 'is_ComplexRegion') and hasattr(other, 'is_subset') and hasattr(other, 'polar') and hasattr(other, 'sets') and hasattr(other, 'a_interval') and hasattr(other, 'b_interval')"},"name":"__correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"ComplexRegion","by":"library_axiom"},{"fn":"Intersection","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d290a658a1795753","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'is_ComplexRegion')","hasattr(other, 'is_subset')","hasattr(other, 'polar')","hasattr(other, 'sets')","hasattr(other, 'a_interval')","hasattr(other, 'b_interval')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _(self, other):
     if other.is_ComplexRegion:
         # self in rectangular form
@@ -173,31 +216,47 @@ def _(self, other):
 
 @intersection_sets.register(Integers, Reals)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), a) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : Any → {Any | result satisfies: result == (a)}          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46326c226fd7c254           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"_(a, b)","rhs":"a","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return a
 
 @intersection_sets.register(Range, Interval)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), <unspecified:_>) over {Any | hasattr(a, 'size') and hasattr(b, 'inf') and hasattr(a, 'inf') and hasattr(b, 'sup') and hasattr(a, 'sup') and hasattr(a, 'args') and hasattr(b, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'size')                             ║
+# ║   requires: hasattr(b, 'inf')                              ║
+# ║   requires: hasattr(a, 'inf')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(a, 'size') and hasattr(b, 'inf') a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73cd5b183f99b9c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"602ed1c2c0377428","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73cd5b183f99b9c8"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"602ed1c2c0377428","in":{"base":"Any","pred":"hasattr(a, 'size') and hasattr(b, 'inf') and hasattr(a, 'inf') and hasattr(b, 'sup') and hasattr(a, 'sup') and hasattr(a, 'args') and hasattr(b, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(a, 'size') and hasattr(b, 'inf') and hasattr(a, 'inf') and hasattr(b, 'sup') and hasattr(a, 'sup') and hasattr(a, 'args') and hasattr(b, 'args')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73cd5b183f99b9c8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'size')","hasattr(b, 'inf')","hasattr(a, 'inf')","hasattr(b, 'sup')","hasattr(a, 'sup')","hasattr(a, 'args')","hasattr(b, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.args","a.inf","a.size","a.sup","b.args","b.inf","b.sup"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(a, b):
     # Check that there are no symbolic arguments
     if not all(i.is_number for i in a.args + b.args[:2]):
@@ -219,31 +278,47 @@ def _(a, b):
 
 @intersection_sets.register(Range, Naturals)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), intersection_sets(a, Interval(b.inf, S.Infinity))) over {Any | hasattr(b, 'inf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(b, 'inf')                              ║
+# ║   returns:  intersection_sets(a, Interval(b.inf, S.In...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(b, 'inf')} → Any                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c2a3696b729f0297           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"594a7c86a3b56010","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2a3696b729f0297"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"594a7c86a3b56010","in":{"base":"Any","pred":"hasattr(b, 'inf')"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"intersection_sets(a, Interval(b.inf, S.Infinity))","over":{"base":"Any","pred":"hasattr(b, 'inf')"},"name":"__correct"},"guarantee":"returns intersection_sets(a, Interval(b.inf, S.Infinity))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c2a3696b729f0297","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(b, 'inf')"],"returns_expr":"intersection_sets(a, Interval(b.inf, S.Infinity))","pure":false,"effects":{"effect_type":"reads_state","reads":["b.inf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return intersection_sets(a, Interval(b.inf, S.Infinity))
 
 @intersection_sets.register(Range, Range)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), <unspecified:_>) over {Any | hasattr(b, 'sup') and hasattr(a, 'inf') and hasattr(b, 'inf') and hasattr(a, 'sup')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(b, 'sup')                              ║
+# ║   requires: hasattr(a, 'inf')                              ║
+# ║   requires: hasattr(b, 'inf')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(b, 'sup') and hasattr(a, 'inf') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f9bb0446a4c4072  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"68939c38b71e7791","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f9bb0446a4c4072"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"68939c38b71e7791","in":{"base":"Any","pred":"hasattr(b, 'sup') and hasattr(a, 'inf') and hasattr(b, 'inf') and hasattr(a, 'sup')"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(b, 'sup') and hasattr(a, 'inf') and hasattr(b, 'inf') and hasattr(a, 'sup')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f9bb0446a4c4072","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(b, 'sup')","hasattr(a, 'inf')","hasattr(b, 'inf')","hasattr(a, 'sup')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.inf","a.sup","b.inf","b.sup"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _(a, b):
     # Check that there are no symbolic range arguments
     if not all(all(v.is_number for v in r.args) for r in [a, b]):
@@ -360,39 +435,59 @@ def _(a, b):
 
 @intersection_sets.register(Range, Integers)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), a) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : Any → {Any | result satisfies: result == (a)}          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46326c226fd7c254           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"_(a, b)","rhs":"a","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return a
 
 
 @intersection_sets.register(Range, Rationals)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), a) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : Any → {Any | result satisfies: result == (a)}          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46326c226fd7c254           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"_(a, b)","rhs":"a","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return a
 
 
 @intersection_sets.register(ImageSet, Set)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(oth), internal helper behaves correctly) over {Any | isinstance(other, Interval) and isinstance(other, ImageSet) and isinstance(i, FiniteSet)} ║
+# ║ Path(_(other), <unspecified:_>) over {Any | isinstance(other, Interval) and isinstance(other, ImageSet) and isinstance(i, FiniteSet) and hasattr(other, 'base_sets') and hasattr(other, 'lamda') and hasattr(other, 'left_open') and hasattr(other, 'right_open') and hasattr(other, 'inf') and hasattr(other, 'sup') and hasattr(other, 'is_subset')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'base_sets')                    ║
+# ║   requires: hasattr(other, 'lamda')                        ║
+# ║   requires: hasattr(other, 'left_open')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : {Any | isinstance(other, Interval) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -408,9 +503,12 @@ def _(a, b):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓3 ?5 ✗9 VCs | 24.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9bddf933...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"d2e7b766fe873fbf","in":{"base":"Any","pred":"isinstance(other, Interval) and isinstance(other, ImageSet) and isinstance(i, FiniteSet)"},"out":{"base":"Any"},"spec":{"lhs":"_(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(other, Interval) and isinstance(other, ImageSet) and isinstance(i, FiniteSet)"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Interval","pred":"isinstance(other, Interval)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Interval","pred":"isinstance(other, Interval)"},"name":"__Interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__Interval_correct","statement":"_ satisfies spec on Interval inputs"},"trust":"LIBRARY"},{"name":"ImageSet","pred":"isinstance(other, ImageSet)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ImageSet","pred":"isinstance(other, ImageSet)"},"name":"__ImageSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__ImageSet_correct","statement":"_ satisfies spec on ImageSet inputs"},"trust":"LIBRARY"},{"name":"FiniteSet","pred":"isinstance(i, FiniteSet)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"FiniteSet","pred":"isinstance(i, FiniteSet)"},"name":"__FiniteSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__FiniteSet_correct","statement":"_ satisfies spec on FiniteSet inputs"},"trust":"LIBRARY"},{"name":"Range","pred":"isinstance(range_set, Range)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Range","pred":"isinstance(range_set, Range)"},"name":"__Range_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__Range_correct","statement":"_ satisfies spec on Range inputs"},"trust":"LIBRARY"},{"name":"(ImageSet","pred":"isinstance(range_set, (ImageSet, ConditionSet))","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"(ImageSet","pred":"isinstance(range_set, (ImageSet, ConditionSet))"},"name":"__(ImageSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__(ImageSet_correct","statement":"_ satisfies spec on (ImageSet inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9bddf9336b53679a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"d2e7b766fe873fbf","in":{"base":"Any","pred":"isinstance(other, Interval) and isinstance(other, ImageSet) and isinstance(i, FiniteSet) and hasattr(other, 'base_sets') and hasattr(other, 'lamda') and hasattr(other, 'left_open') and hasattr(other, 'right_open') and hasattr(other, 'inf') and hasattr(other, 'sup') and hasattr(other, 'is_subset')"},"out":{"base":"Any"},"spec":{"lhs":"_(other)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"isinstance(other, Interval) and isinstance(other, ImageSet) and isinstance(i, FiniteSet) and hasattr(other, 'base_sets') and hasattr(other, 'lamda') and hasattr(other, 'left_open') and hasattr(other, 'right_open') and hasattr(other, 'inf') and hasattr(other, 'sup') and hasattr(other, 'is_subset')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Interval","pred":"isinstance(other, Interval)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Interval","pred":"isinstance(other, Interval)"},"name":"__Interval_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__Interval_correct","statement":"_ satisfies spec on Interval inputs"},"trust":"LIBRARY"},{"name":"ImageSet","pred":"isinstance(other, ImageSet)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"ImageSet","pred":"isinstance(other, ImageSet)"},"name":"__ImageSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__ImageSet_correct","statement":"_ satisfies spec on ImageSet inputs"},"trust":"LIBRARY"},{"name":"FiniteSet","pred":"isinstance(i, FiniteSet)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"FiniteSet","pred":"isinstance(i, FiniteSet)"},"name":"__FiniteSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__FiniteSet_correct","statement":"_ satisfies spec on FiniteSet inputs"},"trust":"LIBRARY"},{"name":"Range","pred":"isinstance(range_set, Range)","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"Range","pred":"isinstance(range_set, Range)"},"name":"__Range_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__Range_correct","statement":"_ satisfies spec on Range inputs"},"trust":"LIBRARY"},{"name":"(ImageSet","pred":"isinstance(range_set, (ImageSet, ConditionSet))","path":{"lhs":"_(x)","rhs":"internal helper behaves correctly","over":{"base":"(ImageSet","pred":"isinstance(range_set, (ImageSet, ConditionSet))"},"name":"__(ImageSet_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__(ImageSet_correct","statement":"_ satisfies spec on (ImageSet inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":5,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9bddf9336b53679a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'base_sets')","hasattr(other, 'lamda')","hasattr(other, 'left_open')","hasattr(other, 'right_open')","hasattr(other, 'inf')","hasattr(other, 'sup')","hasattr(other, 'is_subset')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":17,"n_verified":3,"n_assumed":5,"n_failed":9,"trust_level":"LIBRARY_ASSUMED","compile_ms":24.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(solns) == 1', 'new_inf > new_sup', 'g2 == n', 'other == S.Reals', 'any((i is None for i in (new_sup, new_inf)))', 'isinstance(other, ImageSet) and other.base_sets == (S.Integers,)', 'len(h2) == 1', 'len(self.lamda.variables) > 1 or self.lamda.signature != self.lamda.variables', 'len(solns) == 0', 'g1 == n', 'len(h1) == 1', 'all((isinstance(i, FiniteSet) for i in (h1, h2)))', 'ifree != {n}', 'isinstance(range_set, Range) and range_set.size is not S.Infinity', 'x == sym', 'isinstance(other, Interval)', 'not isinstance(range_set, (ImageSet, ConditionSet))'}, fibers={'(ImageSet', 'Range', 'FiniteSet', 'ImageSet', 'Interval'})"]}}
 def _(self, other):
     from sympy.solvers.diophantine import diophantine
 
@@ -576,16 +674,25 @@ def _(self, other):
 
 @intersection_sets.register(ProductSet, ProductSet)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), <unspecified:_>) over {Any | hasattr(b, 'args') and hasattr(a, 'args') and hasattr(a, 'sets') and hasattr(b, 'sets')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(b, 'args')                             ║
+# ║   requires: hasattr(a, 'args')                             ║
+# ║   requires: hasattr(a, 'sets')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(b, 'args') and hasattr(a, 'args') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b651a4c98d56e07c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"aad54c63fc24f8d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b651a4c98d56e07c"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"aad54c63fc24f8d0","in":{"base":"Any","pred":"hasattr(b, 'args') and hasattr(a, 'args') and hasattr(a, 'sets') and hasattr(b, 'sets')"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(b, 'args') and hasattr(a, 'args') and hasattr(a, 'sets') and hasattr(b, 'sets')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b651a4c98d56e07c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(b, 'args')","hasattr(a, 'args')","hasattr(a, 'sets')","hasattr(b, 'sets')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.args","a.sets","b.args","b.sets"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _(a, b):
     if len(b.args) != len(a.args):
         return S.EmptySet
@@ -594,16 +701,25 @@ def _(a, b):
 
 @intersection_sets.register(Interval, Interval)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), <unspecified:_>) over {Any | hasattr(a, 'left') and hasattr(a, 'right') and hasattr(a, '_is_comparable') and hasattr(a, 'start') and hasattr(b, 'end') and hasattr(b, 'start') and hasattr(a, 'end') and hasattr(b, 'left_open') and hasattr(a, 'right_open') and hasattr(a, 'left_open') and hasattr(b, 'right_open')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(a, 'left')                             ║
+# ║   requires: hasattr(a, 'right')                            ║
+# ║   requires: hasattr(a, '_is_comparable')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(a, 'left') and hasattr(a, 'right')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28b334be67b231ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"715439162932bef6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28b334be67b231ee"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"715439162932bef6","in":{"base":"Any","pred":"hasattr(a, 'left') and hasattr(a, 'right') and hasattr(a, '_is_comparable') and hasattr(a, 'start') and hasattr(b, 'end') and hasattr(b, 'start') and hasattr(a, 'end') and hasattr(b, 'left_open') and hasattr(a, 'right_open') and hasattr(a, 'left_open') and hasattr(b, 'right_open')"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"<unspecified:_>","over":{"base":"Any","pred":"hasattr(a, 'left') and hasattr(a, 'right') and hasattr(a, '_is_comparable') and hasattr(a, 'start') and hasattr(b, 'end') and hasattr(b, 'start') and hasattr(a, 'end') and hasattr(b, 'left_open') and hasattr(a, 'right_open') and hasattr(a, 'left_open') and hasattr(b, 'right_open')"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28b334be67b231ee","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(a, 'left')","hasattr(a, 'right')","hasattr(a, '_is_comparable')","hasattr(a, 'start')","hasattr(b, 'end')","hasattr(b, 'start')","hasattr(a, 'end')","hasattr(b, 'left_open')","hasattr(a, 'right_open')","hasattr(a, 'left_open')","hasattr(b, 'right_open')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a._is_comparable","a.end","a.left","a.left_open","a.right","a.right_open","a.start","b.end","b.left_open","b.right_open","b.start"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _(a, b):
     # handle (-oo, oo)
     infty = S.NegativeInfinity, S.Infinity
@@ -673,61 +789,88 @@ def _(a, b):
 
 @intersection_sets.register(EmptySet, Set)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), S.EmptySet) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  S.EmptySet                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8a7d9dbf0860c25f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"bacd41f848b19848","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a7d9dbf0860c25f"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"bacd41f848b19848","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"S.EmptySet","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns S.EmptySet","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8a7d9dbf0860c25f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"S.EmptySet","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return S.EmptySet
 
 @intersection_sets.register(UniversalSet, Set)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), b) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == b                                    ║
+# ║   returns:  b                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : Any → {Any | result satisfies: result == (b)}          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 74b0197d55ba97e1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"a57b1fcb74e6fa36","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74b0197d55ba97e1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"a57b1fcb74e6fa36","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (b)"},"spec":{"lhs":"_(a, b)","rhs":"b","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns b; result == b","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74b0197d55ba97e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == b"],"returns_expr":"b","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return b
 
 @intersection_sets.register(FiniteSet, FiniteSet)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), FiniteSet(*a._elements & b._elements)) over {Any | hasattr(a, '_elements') and hasattr(b, '_elements')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(a, '_elements')                        ║
+# ║   requires: hasattr(b, '_elements')                        ║
+# ║   returns:  FiniteSet(*a._elements & b._elements)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : {Any | hasattr(a, '_elements') and hasattr(b, '_e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 368056fb5a605bc5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"af048cdc4f1bc5f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"368056fb5a605bc5"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"af048cdc4f1bc5f0","in":{"base":"Any","pred":"hasattr(a, '_elements') and hasattr(b, '_elements')"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"FiniteSet(*a._elements & b._elements)","over":{"base":"Any","pred":"hasattr(a, '_elements') and hasattr(b, '_elements')"},"name":"__correct"},"guarantee":"returns FiniteSet(*a._elements & b._elements)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"368056fb5a605bc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(a, '_elements')","hasattr(b, '_elements')"],"returns_expr":"FiniteSet(*a._elements & b._elements)","pure":false,"effects":{"effect_type":"reads_state","reads":["a._elements","b._elements"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return FiniteSet(*(a._elements & b._elements))
 
 @intersection_sets.register(FiniteSet, Set)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), <unspecified:_>) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1f9ae250ab0bee8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"463fbea3c79ca55c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1f9ae250ab0bee8"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"463fbea3c79ca55c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"<unspecified:_>","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection.__correct","statement":"Path(_(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1f9ae250ab0bee8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _(a, b):
     try:
         return FiniteSet(*[el for el in a if el in b])
@@ -736,75 +879,111 @@ def _(a, b):
 
 @intersection_sets.register(Set, Set)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), None) over Any                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  None                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 59dac8223ec3403a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"5af7072e92d3bcbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59dac8223ec3403a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"5af7072e92d3bcbc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"None","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns None","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"59dac8223ec3403a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"None","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return None
 
 @intersection_sets.register(Integers, Rationals)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), a) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : Any → {Any | result satisfies: result == (a)}          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46326c226fd7c254           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"_(a, b)","rhs":"a","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return a
 
 @intersection_sets.register(Naturals, Rationals)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), a) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : Any → {Any | result satisfies: result == (a)}          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46326c226fd7c254           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"_(a, b)","rhs":"a","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return a
 
 @intersection_sets.register(Rationals, Reals)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), a) over Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == a                                    ║
+# ║   returns:  a                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ : Any → {Any | result satisfies: result == (a)}          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 46326c226fd7c254           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"0928d337dc1b23e8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (a)"},"spec":{"lhs":"_(a, b)","rhs":"a","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns a; result == a","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"46326c226fd7c254","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == a"],"returns_expr":"a","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return a
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_intlike_interval(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_intlike_interval(a, b), <unspecified:_intlike_interval>) over {Any | hasattr(b, '_inf') and hasattr(b, '_sup') and hasattr(a, 'inf') and hasattr(b, 'left') and hasattr(b, 'right')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _intlike_interval : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(b, '_inf')                             ║
+# ║   requires: hasattr(b, '_sup')                             ║
+# ║   requires: hasattr(a, 'inf')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _intlike_interval : {Any | hasattr(b, '_inf') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 54dd29b5551ce3ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._intlike_interval","kind":"function","src_hash":"e45fb1854dede028","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_intlike_interval(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_intlike_interval_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection._intlike_interval_correct","statement":"Path(_intlike_interval(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54dd29b5551ce3ba"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._intlike_interval","kind":"function","src_hash":"e45fb1854dede028","in":{"base":"Any","pred":"hasattr(b, '_inf') and hasattr(b, '_sup') and hasattr(a, 'inf') and hasattr(b, 'left') and hasattr(b, 'right')"},"out":{"base":"Any"},"spec":{"lhs":"_intlike_interval(a, b)","rhs":"<unspecified:_intlike_interval>","over":{"base":"Any","pred":"hasattr(b, '_inf') and hasattr(b, '_sup') and hasattr(a, 'inf') and hasattr(b, 'left') and hasattr(b, 'right')"},"name":"_intlike_interval_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.handlers.intersection._intlike_interval_correct","statement":"Path(_intlike_interval(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"54dd29b5551ce3ba","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(b, '_inf')","hasattr(b, '_sup')","hasattr(a, 'inf')","hasattr(b, 'left')","hasattr(b, 'right')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["a.inf","b._inf","b._sup","b.left","b.right"],"catches":["ValueError"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _intlike_interval(a, b):
     try:
         if b._inf is S.NegativeInfinity and b._sup is S.Infinity:
@@ -816,30 +995,42 @@ def _intlike_interval(a, b):
 
 @intersection_sets.register(Integers, Interval)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), _intlike_interval(a, b)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _intlike_interval(a, b)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c771fc6db103a4af           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"cffaf966d9c8af51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c771fc6db103a4af"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"cffaf966d9c8af51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"_intlike_interval(a, b)","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns _intlike_interval(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c771fc6db103a4af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_intlike_interval(a, b)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return _intlike_interval(a, b)
 
 @intersection_sets.register(Naturals, Interval)
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_(a, ), internal helper behaves correctly) over Any   ║
+# ║ Path(_(a, b), _intlike_interval(a, b)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _intlike_interval(a, b)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _ : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c771fc6db103a4af           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"cffaf966d9c8af51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c771fc6db103a4af"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.handlers.intersection._","kind":"function","src_hash":"cffaf966d9c8af51","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_(a, b)","rhs":"_intlike_interval(a, b)","over":{"base":"Any"},"name":"__correct"},"guarantee":"returns _intlike_interval(a, b)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c771fc6db103a4af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_intlike_interval(a, b)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _(a, b):
     return _intlike_interval(a, b)

@@ -26,9 +26,15 @@ from sympy.utilities.iterables import iterable
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(together(exp), denest and combine rational expressions using symbolic methods) over {Any | isinstance(expr, Basic)} ║
+# ║ Path(together(expr, deep, fraction), <unspecified:together>) over {Any | isinstance(expr, Basic) and hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Function') and hasattr(expr, 'is_Pow') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'func') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ together : {Any | isinstance(expr, Basic)} → Any           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_Atom')                       ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'is_Function')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ together : {Any | isinstance(expr, Basic) and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Basic: {isinstance(expr, Basic)} → library_axiom         ║
@@ -38,9 +44,12 @@ from sympy.utilities.iterables import iterable
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | eb9c0fca...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.rationaltools.together","kind":"function","src_hash":"f2ab9611441980cc","in":{"base":"Any","pred":"isinstance(expr, Basic)"},"out":{"base":"Any"},"spec":{"lhs":"together(exp)","rhs":"denest and combine rational expressions using symbolic methods","over":{"base":"Any","pred":"isinstance(expr, Basic)"},"name":"together_correct"},"guarantee":"denest and combine rational expressions using symbolic methods","fibers":[{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"together(x)","rhs":"denest and combine rational expressions using symbolic methods","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"together_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rationaltools.together_Basic_correct","statement":"together satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"eb9c0fcabdff7519"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.rationaltools.together","kind":"function","src_hash":"f2ab9611441980cc","in":{"base":"Any","pred":"isinstance(expr, Basic) and hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Function') and hasattr(expr, 'is_Pow') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'func') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"together(expr, deep, fraction)","rhs":"<unspecified:together>","over":{"base":"Any","pred":"isinstance(expr, Basic) and hasattr(expr, 'is_Atom') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Function') and hasattr(expr, 'is_Pow') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'func') and hasattr(expr, 'args')"},"name":"together_correct"},"guarantee":"denest and combine rational expressions using symbolic methods","fibers":[{"name":"Basic","pred":"isinstance(expr, Basic)","path":{"lhs":"together(x)","rhs":"denest and combine rational expressions using symbolic methods","over":{"base":"Basic","pred":"isinstance(expr, Basic)"},"name":"together_Basic_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.rationaltools.together_Basic_correct","statement":"together satisfies spec on Basic inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"eb9c0fcabdff7519","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_Atom')","hasattr(expr, 'is_Add')","hasattr(expr, 'is_Function')","hasattr(expr, 'is_Pow')","hasattr(expr, 'base')","hasattr(expr, 'exp')","hasattr(expr, 'func')","hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","expr.__class__","expr.args","expr.base","expr.exp","expr.func","expr.is_Add","expr.is_Atom","expr.is_Function","expr.is_Pow"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, Basic)'}, fibers={'Basic'})"]}}
 def together(expr, deep=False, fraction=True):
     """
     Denest and combine rational expressions using symbolic methods.

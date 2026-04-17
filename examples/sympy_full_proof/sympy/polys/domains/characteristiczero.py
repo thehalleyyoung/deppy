@@ -23,32 +23,44 @@ from sympy.utilities import public
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(CharacteristicZero(), correctly constructs a CharacteristicZero instance) over Any ║
+# ║ Path(CharacteristicZero(), isinstance(self, Domain)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CharacteristicZero : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Domain)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CharacteristicZero : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5c48226709c5ff40           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.characteristiczero.CharacteristicZero","kind":"class","src_hash":"cab18c3ee9a62ed8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CharacteristicZero()","rhs":"correctly constructs a CharacteristicZero instance","over":{"base":"Any"},"name":"CharacteristicZero_correct"},"guarantee":"correctly constructs a CharacteristicZero instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c48226709c5ff40"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.characteristiczero.CharacteristicZero","kind":"class","src_hash":"cab18c3ee9a62ed8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Domain)"},"spec":{"lhs":"CharacteristicZero()","rhs":"isinstance(self, Domain)","over":{"base":"Any"},"name":"CharacteristicZero_correct"},"guarantee":"isinstance(self, Domain)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5c48226709c5ff40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Domain)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function CharacteristicZero not found in source"]}}
 class CharacteristicZero(Domain):
     """Domain that has infinite number of elements. """
 
     has_CharacteristicZero = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(characteristic(), return the characteristic of this domain) over Any ║
+# ║ Path(characteristic(), 0) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  0                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ characteristic : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4a32a46a6f2cd33f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.characteristiczero.CharacteristicZero.characteristic","kind":"method","src_hash":"9cda4d12a16934ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"characteristic()","rhs":"return the characteristic of this domain","over":{"base":"Any"},"name":"characteristic_correct"},"guarantee":"return the characteristic of this domain","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a32a46a6f2cd33f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.characteristiczero.CharacteristicZero.characteristic","kind":"method","src_hash":"9cda4d12a16934ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"characteristic()","rhs":"0","over":{"base":"Any"},"name":"characteristic_correct"},"guarantee":"returns 0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4a32a46a6f2cd33f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"0","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def characteristic(self):
         """Return the characteristic of this domain. """
         return 0

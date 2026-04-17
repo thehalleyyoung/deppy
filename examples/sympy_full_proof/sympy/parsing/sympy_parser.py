@@ -44,16 +44,23 @@ DICT = dict[str, Any]
 TRANS = Callable[[list[TOKEN], DICT, DICT], list[TOKEN]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_token_splittable(tok), predicate for whether a token name can be split into multiple tokens) over str ║
+# ║ Path(_token_splittable(token_name), isinstance(result, bool)) over {str | isinstance(token_name, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _token_splittable : str → bool                             ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(token_name, str)                    ║
+# ║   ensures:  isinstance(result, bool)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _token_splittable : {str | isinstance(token_name, str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1eef6e9940513bf7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93757f739da0ea69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._token_splittable","kind":"function","src_hash":"80ee4870187e2d1e","in":{"base":"str"},"out":{"base":"bool"},"spec":{"lhs":"_token_splittable(tok)","rhs":"predicate for whether a token name can be split into multiple tokens","over":{"base":"str"},"name":"_token_splittable_correct"},"guarantee":"predicate for whether a token name can be split into multiple tokens","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._token_splittable_correct","statement":"Path(_token_splittable(x), predicate for whether a token name can be split into multiple tokens)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1eef6e9940513bf7"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._token_splittable","kind":"function","src_hash":"80ee4870187e2d1e","in":{"base":"str","pred":"isinstance(token_name, str)"},"out":{"base":"bool","pred":"result satisfies: isinstance(result, bool)"},"spec":{"lhs":"_token_splittable(token_name)","rhs":"isinstance(result, bool)","over":{"base":"str","pred":"isinstance(token_name, str)"},"name":"_token_splittable_correct"},"guarantee":"isinstance(result, bool)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._token_splittable_correct","statement":"Path(_token_splittable(x), isinstance(result, bool))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93757f739da0ea69","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(token_name, str)"],"ensures":["isinstance(result, bool)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _token_splittable(token_name: str) -> bool:
     """
     Predicate for whether a token name can be split into multiple tokens.
@@ -71,9 +78,15 @@ def _token_splittable(token_name: str) -> bool:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_token_callable(tok), predicate for whether a token name represents a callable function) over {TOKEN | isinstance(func, Symbol)} ║
+# ║ Path(_token_callable(token, local_dict, global_dict), callable(func) and (not isinstance(func, Symbol))) over {TOKEN | isinstance(func, Symbol) and isinstance(token, TOKEN) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT) and hasattr(local_dict, 'get') and hasattr(global_dict, 'get')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _token_callable : {TOKEN | isinstance(func, Symbol)} ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(token, TOKEN)                       ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   returns:  callable(func) and (not isinstance(func, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _token_callable : {TOKEN | isinstance(func, Symbol) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Symbol: {isinstance(func, Symbol)} → library_axiom       ║
@@ -83,9 +96,12 @@ def _token_splittable(token_name: str) -> bool:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 054c2f73...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._token_callable","kind":"function","src_hash":"e8b57570f2184904","in":{"base":"TOKEN","pred":"isinstance(func, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"_token_callable(tok)","rhs":"predicate for whether a token name represents a callable function","over":{"base":"TOKEN","pred":"isinstance(func, Symbol)"},"name":"_token_callable_correct"},"guarantee":"predicate for whether a token name represents a callable function","fibers":[{"name":"Symbol","pred":"isinstance(func, Symbol)","path":{"lhs":"_token_callable(x)","rhs":"predicate for whether a token name represents a callable function","over":{"base":"Symbol","pred":"isinstance(func, Symbol)"},"name":"_token_callable_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._token_callable_Symbol_correct","statement":"_token_callable satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"054c2f73744cc4ce"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._token_callable","kind":"function","src_hash":"e8b57570f2184904","in":{"base":"TOKEN","pred":"isinstance(func, Symbol) and isinstance(token, TOKEN) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT) and hasattr(local_dict, 'get') and hasattr(global_dict, 'get')"},"out":{"base":"Any"},"spec":{"lhs":"_token_callable(token, local_dict, global_dict)","rhs":"callable(func) and (not isinstance(func, Symbol))","over":{"base":"TOKEN","pred":"isinstance(func, Symbol) and isinstance(token, TOKEN) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT) and hasattr(local_dict, 'get') and hasattr(global_dict, 'get')"},"name":"_token_callable_correct"},"guarantee":"returns callable(func) and (not isinstance(func, Symbol))","fibers":[{"name":"Symbol","pred":"isinstance(func, Symbol)","path":{"lhs":"_token_callable(x)","rhs":"returns callable(func) and (not isinstance(func, Symbol))","over":{"base":"Symbol","pred":"isinstance(func, Symbol)"},"name":"_token_callable_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._token_callable_Symbol_correct","statement":"_token_callable satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"054c2f73744cc4ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(token, TOKEN)","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)","hasattr(local_dict, 'get')","hasattr(global_dict, 'get')"],"returns_expr":"callable(func) and (not isinstance(func, Symbol))","pure":false,"effects":{"effect_type":"reads_state","reads":["global_dict.get","local_dict.get"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":true}}
 def _token_callable(token: TOKEN, local_dict: DICT, global_dict: DICT, nextToken=None):
     """
     Predicate for whether a token name represents a callable function.
@@ -100,16 +116,26 @@ def _token_callable(token: TOKEN, local_dict: DICT, global_dict: DICT, nextToken
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_add_factorial_tokens(nam), internal helper behaves correctly) over str ║
+# ║ Path(_add_factorial_tokens(name, result), isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)) over {str | isinstance(name, str) and isinstance(result, list[TOKEN]) and not (result == [] or result[-1][1] == '(')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _add_factorial_tokens : str → list[TOKEN]                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(name, str)                          ║
+# ║   requires: isinstance(result, list[TOKEN])                ║
+# ║   requires: not (result == [] or result[-1][1] == '(')     ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, TOKEN) for x in result)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _add_factorial_tokens : {str | isinstance(name, str) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6dfb61c3c8fbcdc2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 800d2efd7941f755  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._add_factorial_tokens","kind":"function","src_hash":"417a69982eb41450","in":{"base":"str"},"out":{"base":"list[TOKEN]"},"spec":{"lhs":"_add_factorial_tokens(nam)","rhs":"internal helper behaves correctly","over":{"base":"str"},"name":"_add_factorial_tokens_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._add_factorial_tokens_correct","statement":"Path(_add_factorial_tokens(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6dfb61c3c8fbcdc2"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._add_factorial_tokens","kind":"function","src_hash":"417a69982eb41450","in":{"base":"str","pred":"isinstance(name, str) and isinstance(result, list[TOKEN]) and not (result == [] or result[-1][1] == '(')"},"out":{"base":"list[TOKEN]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)"},"spec":{"lhs":"_add_factorial_tokens(name, result)","rhs":"isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)","over":{"base":"str","pred":"isinstance(name, str) and isinstance(result, list[TOKEN]) and not (result == [] or result[-1][1] == '(')"},"name":"_add_factorial_tokens_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, TOKEN) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._add_factorial_tokens_correct","statement":"Path(_add_factorial_tokens(x), isinstance(result, list); all(isinstance(x, TOKEN) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"800d2efd7941f755","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(name, str)","isinstance(result, list[TOKEN])","not (result == [] or result[-1][1] == '(')"],"ensures":["isinstance(result, list)","all(isinstance(x, TOKEN) for x in result)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TokenError"]},"state_contract":{"exceptional_post":{"TokenError":["isinstance(raised, TokenError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _add_factorial_tokens(name: str, result: list[TOKEN]) -> list[TOKEN]:
     if result == [] or result[-1][1] == '(':
         raise TokenError()
@@ -139,16 +165,22 @@ def _add_factorial_tokens(name: str, result: list[TOKEN]) -> list[TOKEN]:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ParenthesisGroup(), correctly constructs a ParenthesisGroup instance) over Any ║
+# ║ Path(ParenthesisGroup(), isinstance(self, list[TOKEN])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ParenthesisGroup : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, list[TOKEN])                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ParenthesisGroup : Any → {Any | result satisfies: isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 74acaf55edcb19c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.ParenthesisGroup","kind":"class","src_hash":"71a6bae03c3d8e4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ParenthesisGroup()","rhs":"correctly constructs a ParenthesisGroup instance","over":{"base":"Any"},"name":"ParenthesisGroup_correct"},"guarantee":"correctly constructs a ParenthesisGroup instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74acaf55edcb19c8"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.ParenthesisGroup","kind":"class","src_hash":"71a6bae03c3d8e4a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, list[TOKEN])"},"spec":{"lhs":"ParenthesisGroup()","rhs":"isinstance(self, list[TOKEN])","over":{"base":"Any"},"name":"ParenthesisGroup_correct"},"guarantee":"isinstance(self, list[TOKEN])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"74acaf55edcb19c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, list[TOKEN])"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function ParenthesisGroup not found in source"]}}
 class ParenthesisGroup(list[TOKEN]):
     """List of tokens representing an expression in parentheses."""
     pass
@@ -157,14 +189,19 @@ class ParenthesisGroup(list[TOKEN]):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a AppliedFunction instance) preserved by AppliedFunction(*args) over TOKEN ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AppliedFunction : TOKEN → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f55978ad2382892  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.AppliedFunction","kind":"class","src_hash":"f17fbb7db8633c03","in":{"base":"TOKEN"},"out":{"base":"Any"},"spec":{"lhs":"AppliedFunction(*args)","rhs":"correctly constructs a AppliedFunction instance","over":{"base":"TOKEN"},"name":"AppliedFunction_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a AppliedFunction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'function') and hasattr(self, 'args') and hasattr(self, 'exponent') and hasattr(self, 'items')","kind":"class","induction":"structural on function, args, exponent, items"}],"methods_preserving":["__init__","expand","__getitem__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f55978ad2382892"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.AppliedFunction","kind":"class","src_hash":"f17fbb7db8633c03","in":{"base":"TOKEN"},"out":{"base":"Any"},"spec":{"lhs":"AppliedFunction(*args)","rhs":"correctly constructs a AppliedFunction instance","over":{"base":"TOKEN"},"name":"AppliedFunction_class_invariant","kind":"invariant"},"guarantee":"preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'function') and hasattr(self, 'args') and hasattr(self, 'exponent') and hasattr(self, 'items')","kind":"class","induction":"structural on function, args, exponent, items"}],"methods_preserving":["__init__","expand","__getitem__","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f55978ad2382892","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'function')","hasattr(self, 'args')","hasattr(self, 'exponent')","hasattr(self, 'items')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function AppliedFunction not found in source"]}}
 class AppliedFunction:
     """
     A group of tokens representing a function and its arguments.
@@ -172,16 +209,26 @@ class AppliedFunction:
     `exponent` is for handling the shorthand sin^2, ln^2, etc.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(fun), initializes the instance correctly) over Any ║
+# ║ Path(__init__(function, args, exponent), self.function == function and self.args == args and self.exponent == exponent) over {Any | isinstance(function, TOKEN) and isinstance(args, ParenthesisGroup)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(function, TOKEN)                    ║
+# ║   requires: isinstance(args, ParenthesisGroup)             ║
+# ║   ensures:  self.function == function                      ║
+# ║   ensures:  self.args == args                              ║
+# ║   ensures:  self.exponent == exponent                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(function, TOKEN) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd76927190943664           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.AppliedFunction.__init__","kind":"method","src_hash":"659e7dfa7fe1bc0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(fun)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd76927190943664"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.AppliedFunction.__init__","kind":"method","src_hash":"659e7dfa7fe1bc0c","in":{"base":"Any","pred":"isinstance(function, TOKEN) and isinstance(args, ParenthesisGroup)"},"out":{"base":"Any","pred":"result satisfies: self.function == function and self.args == args and self.exponent == exponent"},"spec":{"lhs":"__init__(function, args, exponent)","rhs":"self.function == function and self.args == args and self.exponent == exponent","over":{"base":"Any","pred":"isinstance(function, TOKEN) and isinstance(args, ParenthesisGroup)"},"name":"__init___correct"},"guarantee":"self.function == function; self.args == args; self.exponent == exponent","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd76927190943664","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(function, TOKEN)","isinstance(args, ParenthesisGroup)"],"ensures":["self.function == function","self.args == args","self.exponent == exponent"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, function: TOKEN, args: ParenthesisGroup, exponent=None):
         if exponent is None:
             exponent = []
@@ -191,52 +238,76 @@ class AppliedFunction:
         self.items = ['function', 'args', 'exponent']
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(expand(), return a list of tokens representing the function) over Any ║
+# ║ Path(expand(), [self.function, *self.args]) over Any       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ expand : Any → list[TOKEN]                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, TOKEN) for x in result)      ║
+# ║   returns:  [self.function, *self.args]                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ expand : Any → {list[TOKEN] | result satisfies: resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9b2c1b8c1044e73b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.AppliedFunction.expand","kind":"method","src_hash":"2e4bd580ee4ec05a","in":{"base":"Any"},"out":{"base":"list[TOKEN]"},"spec":{"lhs":"expand()","rhs":"return a list of tokens representing the function","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"return a list of tokens representing the function","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b2c1b8c1044e73b"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.AppliedFunction.expand","kind":"method","src_hash":"2e4bd580ee4ec05a","in":{"base":"Any"},"out":{"base":"list[TOKEN]","pred":"result satisfies: result == ([self.function, *self.args])"},"spec":{"lhs":"expand()","rhs":"[self.function, *self.args]","over":{"base":"Any"},"name":"expand_correct"},"guarantee":"returns [self.function, *self.args]; isinstance(result, list); all(isinstance(x, TOKEN) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9b2c1b8c1044e73b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(result, list)","all(isinstance(x, TOKEN) for x in result)"],"returns_expr":"[self.function, *self.args]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def expand(self) -> list[TOKEN]:
         """Return a list of tokens representing the function"""
         return [self.function, *self.args]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(ind), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(index), getattr(self, self.items[index])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  getattr(self, self.items[index])               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 103f0d2a8cf403e6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.AppliedFunction.__getitem__","kind":"method","src_hash":"dec6518031012d57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(ind)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"103f0d2a8cf403e6"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.AppliedFunction.__getitem__","kind":"method","src_hash":"dec6518031012d57","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(index)","rhs":"getattr(self, self.items[index])","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns getattr(self, self.items[index])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"103f0d2a8cf403e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"getattr(self, self.items[index])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.items"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, index):
         return getattr(self, self.items[index])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), 'AppliedFunction(%s, %s, %s)' % (self.function, self.args, self.exponent)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  'AppliedFunction(%s, %s, %s)' % (self.fun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | facd48ad96f4e3ad           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.AppliedFunction.__repr__","kind":"method","src_hash":"b152ea94f629b1ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"facd48ad96f4e3ad"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.AppliedFunction.__repr__","kind":"method","src_hash":"b152ea94f629b1ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'AppliedFunction(%s, %s, %s)' % (self.function, self.args, self.exponent)","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns 'AppliedFunction(%s, %s, %s)' % (self.function, self.args, self.exponent)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"facd48ad96f4e3ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'AppliedFunction(%s, %s, %s)' % (self.function, self.args, self.exponent)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.exponent","self.function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "AppliedFunction(%s, %s, %s)" % (self.function, self.args,
                                                 self.exponent)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_flatten(res), internal helper behaves correctly) over {list[TOKEN | AppliedFunction] | isinstance(tok, AppliedFunction)} ║
+# ║ Path(_flatten(result), <unspecified:_flatten>) over {list[TOKEN | AppliedFunction] | isinstance(tok, AppliedFunction) and isinstance(result, list[TOKEN | AppliedFunction])} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(result, list[TOKEN | AppliedFu...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _flatten : {list[TOKEN | AppliedFunction] | isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -248,9 +319,12 @@ class AppliedFunction:
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9e2bbbe2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._flatten","kind":"function","src_hash":"5e1bd8c4fa8db32a","in":{"base":"list[TOKEN | AppliedFunction]","pred":"isinstance(tok, AppliedFunction)"},"out":{"base":"Any"},"spec":{"lhs":"_flatten(res)","rhs":"internal helper behaves correctly","over":{"base":"list[TOKEN | AppliedFunction]","pred":"isinstance(tok, AppliedFunction)"},"name":"_flatten_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"AppliedFunction","pred":"isinstance(tok, AppliedFunction)","path":{"lhs":"_flatten(x)","rhs":"internal helper behaves correctly","over":{"base":"AppliedFunction","pred":"isinstance(tok, AppliedFunction)"},"name":"_flatten_AppliedFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._flatten_AppliedFunction_correct","statement":"_flatten satisfies spec on AppliedFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9e2bbbe26271486f"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._flatten","kind":"function","src_hash":"5e1bd8c4fa8db32a","in":{"base":"list[TOKEN | AppliedFunction]","pred":"isinstance(tok, AppliedFunction) and isinstance(result, list[TOKEN | AppliedFunction])"},"out":{"base":"Any"},"spec":{"lhs":"_flatten(result)","rhs":"<unspecified:_flatten>","over":{"base":"list[TOKEN | AppliedFunction]","pred":"isinstance(tok, AppliedFunction) and isinstance(result, list[TOKEN | AppliedFunction])"},"name":"_flatten_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"AppliedFunction","pred":"isinstance(tok, AppliedFunction)","path":{"lhs":"_flatten(x)","rhs":"internal helper behaves correctly","over":{"base":"AppliedFunction","pred":"isinstance(tok, AppliedFunction)"},"name":"_flatten_AppliedFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._flatten_AppliedFunction_correct","statement":"_flatten satisfies spec on AppliedFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9e2bbbe26271486f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(result, list[TOKEN | AppliedFunction])"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(tok, AppliedFunction)'}, fibers={'AppliedFunction'})"]}}
 def _flatten(result: list[TOKEN | AppliedFunction]):
     result2: list[TOKEN] = []
     for tok in result:
@@ -262,16 +336,26 @@ def _flatten(result: list[TOKEN | AppliedFunction]):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_group_parentheses(rec), internal helper behaves correctly) over TRANS ║
+# ║ Path(_group_parentheses(recursor), len(result) == old_len_result + 1 and len(stacks) == old_len_stacks + 1 and len(stacks) == old_len_stacks - 1) over {TRANS | isinstance(recursor, TRANS) and len(stacks) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _group_parentheses : TRANS → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(recursor, TRANS)                    ║
+# ║   requires: len(stacks) > 0                                ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ║   ensures:  len(stacks) == old_len_stacks + 1              ║
+# ║   ensures:  len(stacks) == old_len_stacks - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _group_parentheses : {TRANS | isinstance(recursor, TR...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98f6467d1ee692e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a089065919e6d15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._group_parentheses","kind":"function","src_hash":"e6b2f4e85101b355","in":{"base":"TRANS"},"out":{"base":"Any"},"spec":{"lhs":"_group_parentheses(rec)","rhs":"internal helper behaves correctly","over":{"base":"TRANS"},"name":"_group_parentheses_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._group_parentheses_correct","statement":"Path(_group_parentheses(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98f6467d1ee692e0"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._group_parentheses","kind":"function","src_hash":"e6b2f4e85101b355","in":{"base":"TRANS","pred":"isinstance(recursor, TRANS) and len(stacks) > 0"},"out":{"base":"Any","pred":"result satisfies: len(result) == old_len_result + 1 and len(stacks) == old_len_stacks + 1 and len(stacks) == old_len_stacks - 1"},"spec":{"lhs":"_group_parentheses(recursor)","rhs":"len(result) == old_len_result + 1 and len(stacks) == old_len_stacks + 1 and len(stacks) == old_len_stacks - 1","over":{"base":"TRANS","pred":"isinstance(recursor, TRANS) and len(stacks) > 0"},"name":"_group_parentheses_correct"},"guarantee":"len(result) == old_len_result + 1; len(stacks) == old_len_stacks + 1; len(stacks) == old_len_stacks - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._group_parentheses_correct","statement":"Path(_group_parentheses(x), len(result) == old_len_result + 1; len(stacks) == old_len_stacks + 1; len(stacks) == old_len_stacks - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a089065919e6d15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(recursor, TRANS)","len(stacks) > 0"],"ensures":["len(result) == old_len_result + 1","len(stacks) == old_len_stacks + 1","len(stacks) == old_len_stacks - 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["result.append","stacks.append","stacks.pop"],"raises":["TokenError"]},"state_contract":{"modifies":["result.*","stacks.*"],"old_bindings":{"old_len_result":"len(result)","old_len_stacks":"len(stacks)"},"pre_requires":["len(stacks) > 0"],"post_ensures":["len(result) == old_len_result + 1","len(stacks) == old_len_stacks + 1","len(stacks) == old_len_stacks - 1"],"exceptional_post":{"TokenError":["isinstance(raised, TokenError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _group_parentheses(recursor: TRANS):
     def _inner(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
         """Group tokens between parentheses with ParenthesisGroup.
@@ -317,7 +401,13 @@ def _group_parentheses(recursor: TRANS):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_apply_functions(tok), convert a name token + parenthesisgroup into an appliedfunction) over {list[TOKEN | ParenthesisGroup] | isinstance(tok, ParenthesisGroup)} ║
+# ║ Path(_apply_functions(tokens, local_dict, global_dict), <unspecified:_apply_functions>) over {list[TOKEN | ParenthesisGroup] | isinstance(tok, ParenthesisGroup) and isinstance(tokens, list[TOKEN | ParenthesisGroup]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(tokens, list[TOKEN | Parenthes...   ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _apply_functions : {list[TOKEN | ParenthesisGroup] | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -329,9 +419,12 @@ def _group_parentheses(recursor: TRANS):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6acc88c6...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._apply_functions","kind":"function","src_hash":"a8aee6681892464f","in":{"base":"list[TOKEN | ParenthesisGroup]","pred":"isinstance(tok, ParenthesisGroup)"},"out":{"base":"Any"},"spec":{"lhs":"_apply_functions(tok)","rhs":"convert a name token + parenthesisgroup into an appliedfunction","over":{"base":"list[TOKEN | ParenthesisGroup]","pred":"isinstance(tok, ParenthesisGroup)"},"name":"_apply_functions_correct"},"guarantee":"convert a name token + parenthesisgroup into an appliedfunction","fibers":[{"name":"ParenthesisGroup","pred":"isinstance(tok, ParenthesisGroup)","path":{"lhs":"_apply_functions(x)","rhs":"convert a name token + parenthesisgroup into an appliedfunction","over":{"base":"ParenthesisGroup","pred":"isinstance(tok, ParenthesisGroup)"},"name":"_apply_functions_ParenthesisGroup_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._apply_functions_ParenthesisGroup_correct","statement":"_apply_functions satisfies spec on ParenthesisGroup inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6acc88c6c3d36c02"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._apply_functions","kind":"function","src_hash":"a8aee6681892464f","in":{"base":"list[TOKEN | ParenthesisGroup]","pred":"isinstance(tok, ParenthesisGroup) and isinstance(tokens, list[TOKEN | ParenthesisGroup]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"Any"},"spec":{"lhs":"_apply_functions(tokens, local_dict, global_dict)","rhs":"<unspecified:_apply_functions>","over":{"base":"list[TOKEN | ParenthesisGroup]","pred":"isinstance(tok, ParenthesisGroup) and isinstance(tokens, list[TOKEN | ParenthesisGroup]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"_apply_functions_correct"},"guarantee":"convert a name token + parenthesisgroup into an appliedfunction","fibers":[{"name":"ParenthesisGroup","pred":"isinstance(tok, ParenthesisGroup)","path":{"lhs":"_apply_functions(x)","rhs":"convert a name token + parenthesisgroup into an appliedfunction","over":{"base":"ParenthesisGroup","pred":"isinstance(tok, ParenthesisGroup)"},"name":"_apply_functions_ParenthesisGroup_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._apply_functions_ParenthesisGroup_correct","statement":"_apply_functions satisfies spec on ParenthesisGroup inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6acc88c6c3d36c02","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(tokens, list[TOKEN | ParenthesisGroup])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'tok[0] == NAME', 'isinstance(tok, ParenthesisGroup)'}, fibers={'ParenthesisGroup'})"]}}
 def _apply_functions(tokens: list[TOKEN | ParenthesisGroup], local_dict: DICT, global_dict: DICT):
     """Convert a NAME token + ParenthesisGroup into an AppliedFunction.
 
@@ -358,7 +451,13 @@ def _apply_functions(tokens: list[TOKEN | ParenthesisGroup], local_dict: DICT, g
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_implicit_multiplication(tok), implicitly adds '*' tokens) over {list[TOKEN | AppliedFunction] | isinstance(tok, AppliedFunction)} ║
+# ║ Path(_implicit_multiplication(tokens, local_dict, global_dict), <unspecified:_implicit_multiplication>) over {list[TOKEN | AppliedFunction] | isinstance(tok, AppliedFunction) and isinstance(tokens, list[TOKEN | AppliedFunction]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(tokens, list[TOKEN | AppliedFu...   ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _implicit_multiplication : {list[TOKEN | AppliedFunct...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -370,9 +469,12 @@ def _apply_functions(tokens: list[TOKEN | ParenthesisGroup], local_dict: DICT, g
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3ce2554c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._implicit_multiplication","kind":"function","src_hash":"cd01281a250777bd","in":{"base":"list[TOKEN | AppliedFunction]","pred":"isinstance(tok, AppliedFunction)"},"out":{"base":"Any"},"spec":{"lhs":"_implicit_multiplication(tok)","rhs":"implicitly adds '*' tokens","over":{"base":"list[TOKEN | AppliedFunction]","pred":"isinstance(tok, AppliedFunction)"},"name":"_implicit_multiplication_correct"},"guarantee":"implicitly adds '*' tokens","fibers":[{"name":"AppliedFunction","pred":"isinstance(tok, AppliedFunction)","path":{"lhs":"_implicit_multiplication(x)","rhs":"implicitly adds '*' tokens","over":{"base":"AppliedFunction","pred":"isinstance(tok, AppliedFunction)"},"name":"_implicit_multiplication_AppliedFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._implicit_multiplication_AppliedFunction_correct","statement":"_implicit_multiplication satisfies spec on AppliedFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3ce2554cd7b37097"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._implicit_multiplication","kind":"function","src_hash":"cd01281a250777bd","in":{"base":"list[TOKEN | AppliedFunction]","pred":"isinstance(tok, AppliedFunction) and isinstance(tokens, list[TOKEN | AppliedFunction]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"Any"},"spec":{"lhs":"_implicit_multiplication(tokens, local_dict, global_dict)","rhs":"<unspecified:_implicit_multiplication>","over":{"base":"list[TOKEN | AppliedFunction]","pred":"isinstance(tok, AppliedFunction) and isinstance(tokens, list[TOKEN | AppliedFunction]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"_implicit_multiplication_correct"},"guarantee":"implicitly adds '*' tokens","fibers":[{"name":"AppliedFunction","pred":"isinstance(tok, AppliedFunction)","path":{"lhs":"_implicit_multiplication(x)","rhs":"implicitly adds '*' tokens","over":{"base":"AppliedFunction","pred":"isinstance(tok, AppliedFunction)"},"name":"_implicit_multiplication_AppliedFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._implicit_multiplication_AppliedFunction_correct","statement":"_implicit_multiplication satisfies spec on AppliedFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3ce2554cd7b37097","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(tokens, list[TOKEN | AppliedFunction])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(tok, AppliedFunction)', 'nextTok[0] == NAME', 'isinstance(nextTok, AppliedFunction) or (nextTok[0] == NAME and _token_callable(nextTok, local_dict, global_dict))', \"tok == (OP, ')')\", 'isinstance(nextTok, AppliedFunction)', \"tok[0] == OP and tok[1] == '.' and (nextTok[0] == NAME)\", \"tok.function[1] == 'Function'\", 'tok[0] == NAME and (not _token_callable(tok, local_dict, global_dict))', \"nextTok == (OP, '(')\"}, fibers={'AppliedFunction'})"]}}
 def _implicit_multiplication(tokens: list[TOKEN | AppliedFunction], local_dict: DICT, global_dict: DICT):
     """Implicitly adds '*' tokens.
 
@@ -439,7 +541,13 @@ def _implicit_multiplication(tokens: list[TOKEN | AppliedFunction], local_dict: 
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_implicit_application(tok), adds parentheses as needed after functions) over {list[TOKEN | AppliedFunction] | isinstance(tok, AppliedFunction)} ║
+# ║ Path(_implicit_application(tokens, local_dict, global_dict), <unspecified:_implicit_application>) over {list[TOKEN | AppliedFunction] | isinstance(tok, AppliedFunction) and isinstance(tokens, list[TOKEN | AppliedFunction]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(tokens, list[TOKEN | AppliedFu...   ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _implicit_application : {list[TOKEN | AppliedFunction...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -451,9 +559,12 @@ def _implicit_multiplication(tokens: list[TOKEN | AppliedFunction], local_dict: 
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 48ca079a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._implicit_application","kind":"function","src_hash":"0299dab97ed1d426","in":{"base":"list[TOKEN | AppliedFunction]","pred":"isinstance(tok, AppliedFunction)"},"out":{"base":"Any"},"spec":{"lhs":"_implicit_application(tok)","rhs":"adds parentheses as needed after functions","over":{"base":"list[TOKEN | AppliedFunction]","pred":"isinstance(tok, AppliedFunction)"},"name":"_implicit_application_correct"},"guarantee":"adds parentheses as needed after functions","fibers":[{"name":"AppliedFunction","pred":"isinstance(tok, AppliedFunction)","path":{"lhs":"_implicit_application(x)","rhs":"adds parentheses as needed after functions","over":{"base":"AppliedFunction","pred":"isinstance(tok, AppliedFunction)"},"name":"_implicit_application_AppliedFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._implicit_application_AppliedFunction_correct","statement":"_implicit_application satisfies spec on AppliedFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"48ca079ad8ece451"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._implicit_application","kind":"function","src_hash":"0299dab97ed1d426","in":{"base":"list[TOKEN | AppliedFunction]","pred":"isinstance(tok, AppliedFunction) and isinstance(tokens, list[TOKEN | AppliedFunction]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"Any"},"spec":{"lhs":"_implicit_application(tokens, local_dict, global_dict)","rhs":"<unspecified:_implicit_application>","over":{"base":"list[TOKEN | AppliedFunction]","pred":"isinstance(tok, AppliedFunction) and isinstance(tokens, list[TOKEN | AppliedFunction]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"_implicit_application_correct"},"guarantee":"adds parentheses as needed after functions","fibers":[{"name":"AppliedFunction","pred":"isinstance(tok, AppliedFunction)","path":{"lhs":"_implicit_application(x)","rhs":"adds parentheses as needed after functions","over":{"base":"AppliedFunction","pred":"isinstance(tok, AppliedFunction)"},"name":"_implicit_application_AppliedFunction_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._implicit_application_AppliedFunction_correct","statement":"_implicit_application satisfies spec on AppliedFunction inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"48ca079ad8ece451","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(tokens, list[TOKEN | AppliedFunction])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"isinstance(tok, AppliedFunction) or (tok[0] == OP and tok[1] == '*')\", \"not (nextTok[0] == OP and nextTok[1] == '*')\", 'tok[0] == NAME and nextTok[0] not in [OP, ENDMARKER, NEWLINE]', \"not (nextTok[0] == OP and nextTok[1] == '(')\", \"nextTok[0] == OP and nextTok[1] in ('^', '**', '*')\", \"tok[0] == NAME and nextTok[0] == OP and (nextTok[1] == '**')\"}, fibers={'AppliedFunction'})"]}}
 def _implicit_application(tokens: list[TOKEN | AppliedFunction], local_dict: DICT, global_dict: DICT):
     """Adds parentheses as needed after functions."""
     result: list[TOKEN | AppliedFunction] = []
@@ -506,16 +617,25 @@ def _implicit_application(tokens: list[TOKEN | AppliedFunction], local_dict: DIC
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(function_exponentiation(tok), allows functions to be exponentiated, e.g) over list[TOKEN] ║
+# ║ Path(function_exponentiation(tokens, local_dict, global_dict), <unspecified:function_exponentiation>) over {list[TOKEN] | isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ function_exponentiation : list[TOKEN] → Any                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(tokens, list[TOKEN])                ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ function_exponentiation : {list[TOKEN] | isinstance(t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 622da72ae04695b3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.function_exponentiation","kind":"function","src_hash":"f05d8a7f205b5949","in":{"base":"list[TOKEN]"},"out":{"base":"Any"},"spec":{"lhs":"function_exponentiation(tok)","rhs":"allows functions to be exponentiated, e.g","over":{"base":"list[TOKEN]"},"name":"function_exponentiation_correct"},"guarantee":"allows functions to be exponentiated, e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.function_exponentiation_correct","statement":"Path(function_exponentiation(x), allows functions to be exponentiated, e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"622da72ae04695b3"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.function_exponentiation","kind":"function","src_hash":"f05d8a7f205b5949","in":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"Any"},"spec":{"lhs":"function_exponentiation(tokens, local_dict, global_dict)","rhs":"<unspecified:function_exponentiation>","over":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"function_exponentiation_correct"},"guarantee":"allows functions to be exponentiated, e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.function_exponentiation_correct","statement":"Path(function_exponentiation(x), allows functions to be exponentiated, e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"622da72ae04695b3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(tokens, list[TOKEN])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def function_exponentiation(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
     """Allows functions to be exponentiated, e.g. ``cos**2(x)``.
 
@@ -569,16 +689,23 @@ def function_exponentiation(tokens: list[TOKEN], local_dict: DICT, global_dict: 
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(split_symbols_custom(pre), creates a transformation that splits symbol names) over Callable[[str], bool] ║
+# ║ Path(split_symbols_custom(predicate), <unspecified:split_symbols_custom>) over {Callable[[str], bool] | isinstance(predicate, Callable[[str], bool])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ split_symbols_custom : Callable[[str], bool] → Any         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(predicate, Callable[[str], bool])   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ split_symbols_custom : {Callable[[str], bool] | isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d8615b02d506096  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.split_symbols_custom","kind":"function","src_hash":"1d8356af5628c197","in":{"base":"Callable[[str], bool]"},"out":{"base":"Any"},"spec":{"lhs":"split_symbols_custom(pre)","rhs":"creates a transformation that splits symbol names","over":{"base":"Callable[[str], bool]"},"name":"split_symbols_custom_correct"},"guarantee":"creates a transformation that splits symbol names","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.split_symbols_custom_correct","statement":"Path(split_symbols_custom(x), creates a transformation that splits symbol names)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d8615b02d506096"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.split_symbols_custom","kind":"function","src_hash":"1d8356af5628c197","in":{"base":"Callable[[str], bool]","pred":"isinstance(predicate, Callable[[str], bool])"},"out":{"base":"Any"},"spec":{"lhs":"split_symbols_custom(predicate)","rhs":"<unspecified:split_symbols_custom>","over":{"base":"Callable[[str], bool]","pred":"isinstance(predicate, Callable[[str], bool])"},"name":"split_symbols_custom_correct"},"guarantee":"creates a transformation that splits symbol names","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.split_symbols_custom_correct","statement":"Path(split_symbols_custom(x), creates a transformation that splits symbol names)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d8615b02d506096","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(predicate, Callable[[str], bool])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def split_symbols_custom(predicate: Callable[[str], bool]):
     """Creates a transformation that splits symbol names.
 
@@ -670,16 +797,26 @@ split_symbols = split_symbols_custom(_token_splittable)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(implicit_multiplication(tok), makes the multiplication operator optional in most cases) over list[TOKEN] ║
+# ║ Path(implicit_multiplication(tokens, local_dict, global_dict), isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)) over {list[TOKEN] | isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ implicit_multiplication : list[TOKEN] → list[TOKEN]        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(tokens, list[TOKEN])                ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, TOKEN) for x in result)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ implicit_multiplication : {list[TOKEN] | isinstance(t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6276c676cec82d56  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 399cd502b530fa65  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.implicit_multiplication","kind":"function","src_hash":"b52c0c7761983076","in":{"base":"list[TOKEN]"},"out":{"base":"list[TOKEN]"},"spec":{"lhs":"implicit_multiplication(tok)","rhs":"makes the multiplication operator optional in most cases","over":{"base":"list[TOKEN]"},"name":"implicit_multiplication_correct"},"guarantee":"makes the multiplication operator optional in most cases","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.implicit_multiplication_correct","statement":"Path(implicit_multiplication(x), makes the multiplication operator optional in most cases)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6276c676cec82d56"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.implicit_multiplication","kind":"function","src_hash":"b52c0c7761983076","in":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"list[TOKEN]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)"},"spec":{"lhs":"implicit_multiplication(tokens, local_dict, global_dict)","rhs":"isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)","over":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"implicit_multiplication_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, TOKEN) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.implicit_multiplication_correct","statement":"Path(implicit_multiplication(x), isinstance(result, list); all(isinstance(x, TOKEN) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"399cd502b530fa65","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(tokens, list[TOKEN])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"ensures":["isinstance(result, list)","all(isinstance(x, TOKEN) for x in result)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def implicit_multiplication(tokens: list[TOKEN], local_dict: DICT,
                             global_dict: DICT) -> list[TOKEN]:
     """Makes the multiplication operator optional in most cases.
@@ -705,16 +842,26 @@ def implicit_multiplication(tokens: list[TOKEN], local_dict: DICT,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(implicit_application(tok), makes parentheses optional in some cases for function calls) over list[TOKEN] ║
+# ║ Path(implicit_application(tokens, local_dict, global_dict), isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)) over {list[TOKEN] | isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ implicit_application : list[TOKEN] → list[TOKEN]           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(tokens, list[TOKEN])                ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, TOKEN) for x in result)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ implicit_application : {list[TOKEN] | isinstance(toke...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 595cede07b9e5b20  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 763e8d2ac14fd530  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.implicit_application","kind":"function","src_hash":"7a5ef9c0b9d5ef94","in":{"base":"list[TOKEN]"},"out":{"base":"list[TOKEN]"},"spec":{"lhs":"implicit_application(tok)","rhs":"makes parentheses optional in some cases for function calls","over":{"base":"list[TOKEN]"},"name":"implicit_application_correct"},"guarantee":"makes parentheses optional in some cases for function calls","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.implicit_application_correct","statement":"Path(implicit_application(x), makes parentheses optional in some cases for function calls)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"595cede07b9e5b20"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.implicit_application","kind":"function","src_hash":"7a5ef9c0b9d5ef94","in":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"list[TOKEN]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)"},"spec":{"lhs":"implicit_application(tokens, local_dict, global_dict)","rhs":"isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)","over":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"implicit_application_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, TOKEN) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.implicit_application_correct","statement":"Path(implicit_application(x), isinstance(result, list); all(isinstance(x, TOKEN) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"763e8d2ac14fd530","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(tokens, list[TOKEN])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"ensures":["isinstance(result, list)","all(isinstance(x, TOKEN) for x in result)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def implicit_application(tokens: list[TOKEN], local_dict: DICT,
                          global_dict: DICT) -> list[TOKEN]:
     """Makes parentheses optional in some cases for function calls.
@@ -740,16 +887,26 @@ def implicit_application(tokens: list[TOKEN], local_dict: DICT,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(implicit_multiplication_application(res), allows a slightly relaxed syntax) over list[TOKEN] ║
+# ║ Path(implicit_multiplication_application(result, local_dict, global_dict), isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)) over {list[TOKEN] | isinstance(result, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ implicit_multiplication_application : list[TOKEN] → l...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(result, list[TOKEN])                ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, TOKEN) for x in result)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ implicit_multiplication_application : {list[TOKEN] | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a416daa5f22acac  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7341c3d296888970  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.implicit_multiplication_application","kind":"function","src_hash":"a73be7ecf0e6ca60","in":{"base":"list[TOKEN]"},"out":{"base":"list[TOKEN]"},"spec":{"lhs":"implicit_multiplication_application(res)","rhs":"allows a slightly relaxed syntax","over":{"base":"list[TOKEN]"},"name":"implicit_multiplication_application_correct"},"guarantee":"allows a slightly relaxed syntax","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.implicit_multiplication_application_correct","statement":"Path(implicit_multiplication_application(x), allows a slightly relaxed syntax)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a416daa5f22acac"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.implicit_multiplication_application","kind":"function","src_hash":"a73be7ecf0e6ca60","in":{"base":"list[TOKEN]","pred":"isinstance(result, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"list[TOKEN]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)"},"spec":{"lhs":"implicit_multiplication_application(result, local_dict, global_dict)","rhs":"isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)","over":{"base":"list[TOKEN]","pred":"isinstance(result, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"implicit_multiplication_application_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, TOKEN) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.implicit_multiplication_application_correct","statement":"Path(implicit_multiplication_application(x), isinstance(result, list); all(isinstance(x, TOKEN) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7341c3d296888970","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(result, list[TOKEN])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"ensures":["isinstance(result, list)","all(isinstance(x, TOKEN) for x in result)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def implicit_multiplication_application(result: list[TOKEN], local_dict: DICT,
                                         global_dict: DICT) -> list[TOKEN]:
     """Allows a slightly relaxed syntax.
@@ -782,7 +939,14 @@ def implicit_multiplication_application(result: list[TOKEN], local_dict: DICT,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(auto_symbol(tok), inserts calls to ``symbol``/``function`` for undefined variables) over {list[TOKEN] | isinstance(obj, (AssumptionKeys, Basic, type))} ║
+# ║ Path(auto_symbol(tokens, local_dict, global_dict), len(result) == old_len_result + 1 and len(tokens) == old_len_tokens + 1) over {list[TOKEN] | isinstance(obj, (AssumptionKeys, Basic, type)) and isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT) and hasattr(tokens, 'append') and hasattr(local_dict, 'setdefault')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(tokens, list[TOKEN])                ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ║   ensures:  len(tokens) == old_len_tokens + 1              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ auto_symbol : {list[TOKEN] | isinstance(obj, (Assumpt...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -794,9 +958,12 @@ def implicit_multiplication_application(result: list[TOKEN], local_dict: DICT,
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | e021bfe1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.auto_symbol","kind":"function","src_hash":"fd2d16f0ee9060ae","in":{"base":"list[TOKEN]","pred":"isinstance(obj, (AssumptionKeys, Basic, type))"},"out":{"base":"Any"},"spec":{"lhs":"auto_symbol(tok)","rhs":"inserts calls to ``symbol``/``function`` for undefined variables","over":{"base":"list[TOKEN]","pred":"isinstance(obj, (AssumptionKeys, Basic, type))"},"name":"auto_symbol_correct"},"guarantee":"inserts calls to ``symbol``/``function`` for undefined variables","fibers":[{"name":"(AssumptionKeys","pred":"isinstance(obj, (AssumptionKeys, Basic, type))","path":{"lhs":"auto_symbol(x)","rhs":"inserts calls to ``symbol``/``function`` for undefined variables","over":{"base":"(AssumptionKeys","pred":"isinstance(obj, (AssumptionKeys, Basic, type))"},"name":"auto_symbol_(AssumptionKeys_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.auto_symbol_(AssumptionKeys_correct","statement":"auto_symbol satisfies spec on (AssumptionKeys inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e021bfe1709c4d60"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.auto_symbol","kind":"function","src_hash":"fd2d16f0ee9060ae","in":{"base":"list[TOKEN]","pred":"isinstance(obj, (AssumptionKeys, Basic, type)) and isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT) and hasattr(tokens, 'append') and hasattr(local_dict, 'setdefault')"},"out":{"base":"Any","pred":"result satisfies: len(result) == old_len_result + 1 and len(tokens) == old_len_tokens + 1"},"spec":{"lhs":"auto_symbol(tokens, local_dict, global_dict)","rhs":"len(result) == old_len_result + 1 and len(tokens) == old_len_tokens + 1","over":{"base":"list[TOKEN]","pred":"isinstance(obj, (AssumptionKeys, Basic, type)) and isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT) and hasattr(tokens, 'append') and hasattr(local_dict, 'setdefault')"},"name":"auto_symbol_correct"},"guarantee":"len(result) == old_len_result + 1; len(tokens) == old_len_tokens + 1","fibers":[{"name":"(AssumptionKeys","pred":"isinstance(obj, (AssumptionKeys, Basic, type))","path":{"lhs":"auto_symbol(x)","rhs":"len(result) == old_len_result + 1; len(tokens) == old_len_tokens + 1","over":{"base":"(AssumptionKeys","pred":"isinstance(obj, (AssumptionKeys, Basic, type))"},"name":"auto_symbol_(AssumptionKeys_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.auto_symbol_(AssumptionKeys_correct","statement":"auto_symbol satisfies spec on (AssumptionKeys inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"e021bfe1709c4d60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(tokens, list[TOKEN])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)","hasattr(tokens, 'append')","hasattr(local_dict, 'setdefault')"],"ensures":["len(result) == old_len_result + 1","len(tokens) == old_len_tokens + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["local_dict.setdefault","tokens.append"],"writes":["local_dict[*]"],"calls_mutating":["local_dict.setdefault","result.append","result.extend","tokens.append"]},"state_contract":{"modifies":["local_dict.*","local_dict[*]","result.*","tokens.*"],"old_bindings":{"old_local_dict_star":"local_dict[*]","old_len_result":"len(result)","old_len_tokens":"len(tokens)"},"post_ensures":["len(result) == old_len_result + 1","len(tokens) == old_len_tokens + 1"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={\"name in ['True', 'False', 'None'] or iskeyword(name) or (prevTok[0] == OP and prevTok[1] == '.') or (prevTok[0] == OP and prevTok[1] in ('(', ',') and (nextTokNum == OP) and (nextTokVal == '=')) or (name in local_dict and local_dict[name] is not null)\", 'tokNum == NAME', 'isinstance(obj, (AssumptionKeys, Basic, type)) or callable(obj)', \"nextTokVal == '('\"}, fibers={'(AssumptionKeys'})"]}}
 def auto_symbol(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
     """Inserts calls to ``Symbol``/``Function`` for undefined variables."""
     result: list[TOKEN] = []
@@ -849,16 +1016,25 @@ def auto_symbol(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lambda_notation(tok), substitutes "lambda" with its sympy equivalent lambda(). however, the conversion does not take place if only "lambda" is passed because that is a syntax error) over list[TOKEN] ║
+# ║ Path(lambda_notation(tokens, local_dict, global_dict), <unspecified:lambda_notation>) over {list[TOKEN] | isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lambda_notation : list[TOKEN] → Any                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(tokens, list[TOKEN])                ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lambda_notation : {list[TOKEN] | isinstance(tokens, l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a6fc4757f749116  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.lambda_notation","kind":"function","src_hash":"912862c4ea5f19b2","in":{"base":"list[TOKEN]"},"out":{"base":"Any"},"spec":{"lhs":"lambda_notation(tok)","rhs":"substitutes \"lambda\" with its sympy equivalent lambda(). however, the conversion does not take place if only \"lambda\" is passed because that is a syntax error","over":{"base":"list[TOKEN]"},"name":"lambda_notation_correct"},"guarantee":"substitutes \"lambda\" with its sympy equivalent lambda(). however, the conversion does not take place if only \"lambda\" is passed because that is a syntax error","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.lambda_notation_correct","statement":"Path(lambda_notation(x), substitutes \"lambda\" with its sympy equivalent lambda(). however, the conversion does not take place if only \"lambda\" is passed because that is a syntax error)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a6fc4757f749116"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.lambda_notation","kind":"function","src_hash":"912862c4ea5f19b2","in":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"Any"},"spec":{"lhs":"lambda_notation(tokens, local_dict, global_dict)","rhs":"<unspecified:lambda_notation>","over":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"lambda_notation_correct"},"guarantee":"substitutes \"lambda\" with its sympy equivalent lambda(). however, the conversion does not take place if only \"lambda\" is passed because that is a syntax error","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.lambda_notation_correct","statement":"Path(lambda_notation(x), substitutes \"lambda\" with its sympy equivalent lambda(). however, the conversion does not take place if only \"lambda\" is passed because that is a syntax error)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a6fc4757f749116","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(tokens, list[TOKEN])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["result.extend","result.insert"],"raises":["TokenError"]},"state_contract":{"modifies":["result.*"],"old_bindings":{"old_len_result":"len(result)"},"exceptional_post":{"TokenError":["isinstance(raised, TokenError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def lambda_notation(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
     """Substitutes "lambda" with its SymPy equivalent Lambda().
     However, the conversion does not take place if only "lambda"
@@ -900,16 +1076,25 @@ def lambda_notation(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(factorial_notation(tok), allows standard notation for factorial) over list[TOKEN] ║
+# ║ Path(factorial_notation(tokens, local_dict, global_dict), len(result) == old_len_result + 1) over {list[TOKEN] | isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ factorial_notation : list[TOKEN] → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(tokens, list[TOKEN])                ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ensures:  len(result) == old_len_result + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ factorial_notation : {list[TOKEN] | isinstance(tokens...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ccc4776671ded70f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e7527c81e021ab2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.factorial_notation","kind":"function","src_hash":"988a8e564dcaac36","in":{"base":"list[TOKEN]"},"out":{"base":"Any"},"spec":{"lhs":"factorial_notation(tok)","rhs":"allows standard notation for factorial","over":{"base":"list[TOKEN]"},"name":"factorial_notation_correct"},"guarantee":"allows standard notation for factorial","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.factorial_notation_correct","statement":"Path(factorial_notation(x), allows standard notation for factorial)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ccc4776671ded70f"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.factorial_notation","kind":"function","src_hash":"988a8e564dcaac36","in":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"Any","pred":"result satisfies: len(result) == old_len_result + 1"},"spec":{"lhs":"factorial_notation(tokens, local_dict, global_dict)","rhs":"len(result) == old_len_result + 1","over":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"factorial_notation_correct"},"guarantee":"len(result) == old_len_result + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.factorial_notation_correct","statement":"Path(factorial_notation(x), len(result) == old_len_result + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e7527c81e021ab2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(tokens, list[TOKEN])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"ensures":["len(result) == old_len_result + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["result.append"],"raises":["TokenError"]},"state_contract":{"modifies":["result.*"],"old_bindings":{"old_len_result":"len(result)"},"post_ensures":["len(result) == old_len_result + 1"],"exceptional_post":{"TokenError":["isinstance(raised, TokenError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def factorial_notation(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
     """Allows standard notation for factorial."""
     result: list[TOKEN] = []
@@ -938,16 +1123,25 @@ def factorial_notation(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_xor(tok), treats xor, ``^``, as exponentiation, ``**``) over list[TOKEN] ║
+# ║ Path(convert_xor(tokens, local_dict, global_dict), <unspecified:convert_xor>) over {list[TOKEN] | isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convert_xor : list[TOKEN] → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(tokens, list[TOKEN])                ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convert_xor : {list[TOKEN] | isinstance(tokens, list[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49eaae0fe4c56c19  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.convert_xor","kind":"function","src_hash":"99f3ecd617123502","in":{"base":"list[TOKEN]"},"out":{"base":"Any"},"spec":{"lhs":"convert_xor(tok)","rhs":"treats xor, ``^``, as exponentiation, ``**``","over":{"base":"list[TOKEN]"},"name":"convert_xor_correct"},"guarantee":"treats xor, ``^``, as exponentiation, ``**``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.convert_xor_correct","statement":"Path(convert_xor(x), treats xor, ``^``, as exponentiation, ``**``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49eaae0fe4c56c19"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.convert_xor","kind":"function","src_hash":"99f3ecd617123502","in":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"Any"},"spec":{"lhs":"convert_xor(tokens, local_dict, global_dict)","rhs":"<unspecified:convert_xor>","over":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"convert_xor_correct"},"guarantee":"treats xor, ``^``, as exponentiation, ``**``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.convert_xor_correct","statement":"Path(convert_xor(x), treats xor, ``^``, as exponentiation, ``**``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49eaae0fe4c56c19","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(tokens, list[TOKEN])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def convert_xor(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
     """Treats XOR, ``^``, as exponentiation, ``**``."""
     result: list[TOKEN] = []
@@ -964,16 +1158,25 @@ def convert_xor(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(repeated_decimals(tok), allows 0.2[1] notation to represent the repeated decimal 0.2111) over list[TOKEN] ║
+# ║ Path(repeated_decimals(tokens, local_dict, global_dict), <unspecified:repeated_decimals>) over {list[TOKEN] | isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ repeated_decimals : list[TOKEN] → Any                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(tokens, list[TOKEN])                ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ repeated_decimals : {list[TOKEN] | isinstance(tokens,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fee86777560ac22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.repeated_decimals","kind":"function","src_hash":"ce7fc31089c9faeb","in":{"base":"list[TOKEN]"},"out":{"base":"Any"},"spec":{"lhs":"repeated_decimals(tok)","rhs":"allows 0.2[1] notation to represent the repeated decimal 0.2111","over":{"base":"list[TOKEN]"},"name":"repeated_decimals_correct"},"guarantee":"allows 0.2[1] notation to represent the repeated decimal 0.2111","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.repeated_decimals_correct","statement":"Path(repeated_decimals(x), allows 0.2[1] notation to represent the repeated decimal 0.2111)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fee86777560ac22"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.repeated_decimals","kind":"function","src_hash":"ce7fc31089c9faeb","in":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"Any"},"spec":{"lhs":"repeated_decimals(tokens, local_dict, global_dict)","rhs":"<unspecified:repeated_decimals>","over":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"repeated_decimals_correct"},"guarantee":"allows 0.2[1] notation to represent the repeated decimal 0.2111","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.repeated_decimals_correct","statement":"Path(repeated_decimals(x), allows 0.2[1] notation to represent the repeated decimal 0.2111)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fee86777560ac22","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(tokens, list[TOKEN])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def repeated_decimals(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
     """
     Allows 0.2[1] notation to represent the repeated decimal 0.2111... (19/90)
@@ -1063,16 +1266,25 @@ def repeated_decimals(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(auto_number(tok), converts numeric literals to use sympy equivalents) over list[TOKEN] ║
+# ║ Path(auto_number(tokens, local_dict, global_dict), <unspecified:auto_number>) over {list[TOKEN] | isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ auto_number : list[TOKEN] → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(tokens, list[TOKEN])                ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ auto_number : {list[TOKEN] | isinstance(tokens, list[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3575adcfca76d66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.auto_number","kind":"function","src_hash":"4511f7c183625620","in":{"base":"list[TOKEN]"},"out":{"base":"Any"},"spec":{"lhs":"auto_number(tok)","rhs":"converts numeric literals to use sympy equivalents","over":{"base":"list[TOKEN]"},"name":"auto_number_correct"},"guarantee":"converts numeric literals to use sympy equivalents","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.auto_number_correct","statement":"Path(auto_number(x), converts numeric literals to use sympy equivalents)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3575adcfca76d66"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.auto_number","kind":"function","src_hash":"4511f7c183625620","in":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"Any"},"spec":{"lhs":"auto_number(tokens, local_dict, global_dict)","rhs":"<unspecified:auto_number>","over":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"auto_number_correct"},"guarantee":"converts numeric literals to use sympy equivalents","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.auto_number_correct","statement":"Path(auto_number(x), converts numeric literals to use sympy equivalents)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3575adcfca76d66","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(tokens, list[TOKEN])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def auto_number(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
     """
     Converts numeric literals to use SymPy equivalents.
@@ -1108,16 +1320,25 @@ def auto_number(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rationalize(tok), converts floats into ``rational``) over list[TOKEN] ║
+# ║ Path(rationalize(tokens, local_dict, global_dict), <unspecified:rationalize>) over {list[TOKEN] | isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ rationalize : list[TOKEN] → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(tokens, list[TOKEN])                ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ rationalize : {list[TOKEN] | isinstance(tokens, list[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db0f44d45e69df53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.rationalize","kind":"function","src_hash":"1d969cb479a343a6","in":{"base":"list[TOKEN]"},"out":{"base":"Any"},"spec":{"lhs":"rationalize(tok)","rhs":"converts floats into ``rational``","over":{"base":"list[TOKEN]"},"name":"rationalize_correct"},"guarantee":"converts floats into ``rational``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.rationalize_correct","statement":"Path(rationalize(x), converts floats into ``rational``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db0f44d45e69df53"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.rationalize","kind":"function","src_hash":"1d969cb479a343a6","in":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"Any"},"spec":{"lhs":"rationalize(tokens, local_dict, global_dict)","rhs":"<unspecified:rationalize>","over":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"rationalize_correct"},"guarantee":"converts floats into ``rational``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.rationalize_correct","statement":"Path(rationalize(x), converts floats into ``rational``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db0f44d45e69df53","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(tokens, list[TOKEN])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def rationalize(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
     """Converts floats into ``Rational``. Run AFTER ``auto_number``."""
     result: list[TOKEN] = []
@@ -1138,16 +1359,25 @@ def rationalize(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_transform_equals_sign(tok), transforms the equals sign ``=`` to instances of eq) over list[TOKEN] ║
+# ║ Path(_transform_equals_sign(tokens, local_dict, global_dict), <unspecified:_transform_equals_sign>) over {list[TOKEN] | isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _transform_equals_sign : list[TOKEN] → Any                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(tokens, list[TOKEN])                ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _transform_equals_sign : {list[TOKEN] | isinstance(to...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d08ddeb57fdf3ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._transform_equals_sign","kind":"function","src_hash":"6d3e3b365ade67ae","in":{"base":"list[TOKEN]"},"out":{"base":"Any"},"spec":{"lhs":"_transform_equals_sign(tok)","rhs":"transforms the equals sign ``=`` to instances of eq","over":{"base":"list[TOKEN]"},"name":"_transform_equals_sign_correct"},"guarantee":"transforms the equals sign ``=`` to instances of eq","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._transform_equals_sign_correct","statement":"Path(_transform_equals_sign(x), transforms the equals sign ``=`` to instances of eq)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d08ddeb57fdf3ab"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._transform_equals_sign","kind":"function","src_hash":"6d3e3b365ade67ae","in":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"Any"},"spec":{"lhs":"_transform_equals_sign(tokens, local_dict, global_dict)","rhs":"<unspecified:_transform_equals_sign>","over":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"_transform_equals_sign_correct"},"guarantee":"transforms the equals sign ``=`` to instances of eq","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser._transform_equals_sign_correct","statement":"Path(_transform_equals_sign(x), transforms the equals sign ``=`` to instances of eq)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d08ddeb57fdf3ab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(tokens, list[TOKEN])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _transform_equals_sign(tokens: list[TOKEN], local_dict: DICT, global_dict: DICT):
     """Transforms the equals sign ``=`` to instances of Eq.
 
@@ -1178,16 +1408,26 @@ def _transform_equals_sign(tokens: list[TOKEN], local_dict: DICT, global_dict: D
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(convert_equals_signs(tok), transforms all the equals signs ``=`` to instances of eq) over list[TOKEN] ║
+# ║ Path(convert_equals_signs(tokens, local_dict, global_dict), isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)) over {list[TOKEN] | isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ convert_equals_signs : list[TOKEN] → list[TOKEN]           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(tokens, list[TOKEN])                ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ensures:  isinstance(result, list)                       ║
+# ║   ensures:  all(isinstance(x, TOKEN) for x in result)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ convert_equals_signs : {list[TOKEN] | isinstance(toke...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a58f12d674dc217  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 844bb35f16514e5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.convert_equals_signs","kind":"function","src_hash":"0de193c16b01689c","in":{"base":"list[TOKEN]"},"out":{"base":"list[TOKEN]"},"spec":{"lhs":"convert_equals_signs(tok)","rhs":"transforms all the equals signs ``=`` to instances of eq","over":{"base":"list[TOKEN]"},"name":"convert_equals_signs_correct"},"guarantee":"transforms all the equals signs ``=`` to instances of eq","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.convert_equals_signs_correct","statement":"Path(convert_equals_signs(x), transforms all the equals signs ``=`` to instances of eq)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a58f12d674dc217"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.convert_equals_signs","kind":"function","src_hash":"0de193c16b01689c","in":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"list[TOKEN]","pred":"result satisfies: isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)"},"spec":{"lhs":"convert_equals_signs(tokens, local_dict, global_dict)","rhs":"isinstance(result, list) and all(isinstance(x, TOKEN) for x in result)","over":{"base":"list[TOKEN]","pred":"isinstance(tokens, list[TOKEN]) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"convert_equals_signs_correct"},"guarantee":"isinstance(result, list); all(isinstance(x, TOKEN) for x in result)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.convert_equals_signs_correct","statement":"Path(convert_equals_signs(x), isinstance(result, list); all(isinstance(x, TOKEN) for x in result))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"844bb35f16514e5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(tokens, list[TOKEN])","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"ensures":["isinstance(result, list)","all(isinstance(x, TOKEN) for x in result)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def convert_equals_signs(tokens: list[TOKEN], local_dict: DICT,
                          global_dict: DICT) -> list[TOKEN]:
     """ Transforms all the equals signs ``=`` to instances of Eq.
@@ -1233,16 +1473,26 @@ standard_transformations: tuple[TRANS, ...] \
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stringify_expr(s, ), converts the string ``s`` to python code, in ``local_dict``) over str ║
+# ║ Path(stringify_expr(s, local_dict, global_dict), untokenize(tokens)) over {str | isinstance(s, str) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT) and isinstance(transformations, tuple[TRANS, ...]) and hasattr(s, 'strip')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ stringify_expr : str → str                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(s, str)                             ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ensures:  isinstance(result, str)                        ║
+# ║   returns:  untokenize(tokens)                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ stringify_expr : {str | isinstance(s, str) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74a74f7f0a8426e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7759ee6a2dd6cf3f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.stringify_expr","kind":"function","src_hash":"cdfe0b356368a484","in":{"base":"str"},"out":{"base":"str"},"spec":{"lhs":"stringify_expr(s, )","rhs":"converts the string ``s`` to python code, in ``local_dict``","over":{"base":"str"},"name":"stringify_expr_correct"},"guarantee":"converts the string ``s`` to python code, in ``local_dict``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.stringify_expr_correct","statement":"Path(stringify_expr(x), converts the string ``s`` to python code, in ``local_dict``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74a74f7f0a8426e6"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.stringify_expr","kind":"function","src_hash":"cdfe0b356368a484","in":{"base":"str","pred":"isinstance(s, str) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT) and isinstance(transformations, tuple[TRANS, ...]) and hasattr(s, 'strip')"},"out":{"base":"str","pred":"result satisfies: result == (untokenize(tokens))"},"spec":{"lhs":"stringify_expr(s, local_dict, global_dict)","rhs":"untokenize(tokens)","over":{"base":"str","pred":"isinstance(s, str) and isinstance(local_dict, DICT) and isinstance(global_dict, DICT) and isinstance(transformations, tuple[TRANS, ...]) and hasattr(s, 'strip')"},"name":"stringify_expr_correct"},"guarantee":"returns untokenize(tokens); isinstance(result, str)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.stringify_expr_correct","statement":"Path(stringify_expr(x), returns untokenize(tokens); isinstance(result, str))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7759ee6a2dd6cf3f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(s, str)","isinstance(local_dict, DICT)","isinstance(global_dict, DICT)","isinstance(transformations, tuple[TRANS, ...])","hasattr(s, 'strip')"],"ensures":["isinstance(result, str)"],"returns_expr":"untokenize(tokens)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def stringify_expr(s: str, local_dict: DICT, global_dict: DICT,
         transformations: tuple[TRANS, ...]) -> str:
     """
@@ -1263,16 +1513,24 @@ def stringify_expr(s: str, local_dict: DICT, global_dict: DICT,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval_expr(cod), evaluate python code generated by ``stringify_expr``) over Any ║
+# ║ Path(eval_expr(code, local_dict, global_dict), <unspecified:eval_expr>) over {Any | isinstance(local_dict, DICT) and isinstance(global_dict, DICT)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval_expr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(local_dict, DICT)                   ║
+# ║   requires: isinstance(global_dict, DICT)                  ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval_expr : {Any | isinstance(local_dict, DICT) and i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bbf34bd1a966a19  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.eval_expr","kind":"function","src_hash":"11a97f4bf849a08c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval_expr(cod)","rhs":"evaluate python code generated by ``stringify_expr``","over":{"base":"Any"},"name":"eval_expr_correct"},"guarantee":"evaluate python code generated by ``stringify_expr``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.eval_expr_correct","statement":"Path(eval_expr(x), evaluate python code generated by ``stringify_expr``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bbf34bd1a966a19"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.eval_expr","kind":"function","src_hash":"11a97f4bf849a08c","in":{"base":"Any","pred":"isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"out":{"base":"Any"},"spec":{"lhs":"eval_expr(code, local_dict, global_dict)","rhs":"<unspecified:eval_expr>","over":{"base":"Any","pred":"isinstance(local_dict, DICT) and isinstance(global_dict, DICT)"},"name":"eval_expr_correct"},"guarantee":"evaluate python code generated by ``stringify_expr``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.eval_expr_correct","statement":"Path(eval_expr(x), evaluate python code generated by ``stringify_expr``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bbf34bd1a966a19","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(local_dict, DICT)","isinstance(global_dict, DICT)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def eval_expr(code, local_dict: DICT, global_dict: DICT):
     """
     Evaluate Python code generated by ``stringify_expr``.
@@ -1285,7 +1543,13 @@ def eval_expr(code, local_dict: DICT, global_dict: DICT):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(parse_expr(s, ), converts the string ``s`` to a sympy expression, in ``local_dict``) over {str | isinstance(transformations, str) and isinstance(local_dict, dict) and isinstance(obj, types.BuiltinFunctionType)} ║
+# ║ Path(parse_expr(s, local_dict, transformations), len(local_dict) == old_len_local_dict - 1) over {str | isinstance(transformations, str) and isinstance(local_dict, dict) and isinstance(obj, types.BuiltinFunctionType) and isinstance(s, str) and isinstance(local_dict, DICT | None) and isinstance(transformations, tuple[TRANS, ...] | str) and isinstance(global_dict, DICT | None) and hasattr(local_dict, 'pop') and len(local_dict) > 0} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(s, str)                             ║
+# ║   requires: isinstance(local_dict, DICT | None)            ║
+# ║   requires: isinstance(transformations, tuple[TRANS, ...   ║
+# ║   ensures:  len(local_dict) == old_len_local_dict - 1      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ parse_expr : {str | isinstance(transformations, str) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1299,9 +1563,12 @@ def eval_expr(code, local_dict: DICT, global_dict: DICT):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?3 ✗4 VCs | 11.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 113afae7...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.parse_expr","kind":"function","src_hash":"b1ccdc227d28f81a","in":{"base":"str","pred":"isinstance(transformations, str) and isinstance(local_dict, dict) and isinstance(obj, types.BuiltinFunctionType)"},"out":{"base":"Any"},"spec":{"lhs":"parse_expr(s, )","rhs":"converts the string ``s`` to a sympy expression, in ``local_dict``","over":{"base":"str","pred":"isinstance(transformations, str) and isinstance(local_dict, dict) and isinstance(obj, types.BuiltinFunctionType)"},"name":"parse_expr_correct"},"guarantee":"converts the string ``s`` to a sympy expression, in ``local_dict``","fibers":[{"name":"str","pred":"isinstance(transformations, str)","path":{"lhs":"parse_expr(x)","rhs":"converts the string ``s`` to a sympy expression, in ``local_dict``","over":{"base":"str","pred":"isinstance(transformations, str)"},"name":"parse_expr_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.parse_expr_str_correct","statement":"parse_expr satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(local_dict, dict)","path":{"lhs":"parse_expr(x)","rhs":"converts the string ``s`` to a sympy expression, in ``local_dict``","over":{"base":"dict","pred":"isinstance(local_dict, dict)"},"name":"parse_expr_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.parse_expr_dict_correct","statement":"parse_expr satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"types_BuiltinFunctionType","pred":"isinstance(obj, types.BuiltinFunctionType)","path":{"lhs":"parse_expr(x)","rhs":"converts the string ``s`` to a sympy expression, in ``local_dict``","over":{"base":"types.BuiltinFunctionType","pred":"isinstance(obj, types.BuiltinFunctionType)"},"name":"parse_expr_types.BuiltinFunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.parse_expr_types.BuiltinFunctionType_correct","statement":"parse_expr satisfies spec on types.BuiltinFunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"113afae7b499b0e7"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.parse_expr","kind":"function","src_hash":"b1ccdc227d28f81a","in":{"base":"str","pred":"isinstance(transformations, str) and isinstance(local_dict, dict) and isinstance(obj, types.BuiltinFunctionType) and isinstance(s, str) and isinstance(local_dict, DICT | None) and isinstance(transformations, tuple[TRANS, ...] | str) and isinstance(global_dict, DICT | None) and hasattr(local_dict, 'pop') and len(local_dict) > 0"},"out":{"base":"Any","pred":"result satisfies: len(local_dict) == old_len_local_dict - 1"},"spec":{"lhs":"parse_expr(s, local_dict, transformations)","rhs":"len(local_dict) == old_len_local_dict - 1","over":{"base":"str","pred":"isinstance(transformations, str) and isinstance(local_dict, dict) and isinstance(obj, types.BuiltinFunctionType) and isinstance(s, str) and isinstance(local_dict, DICT | None) and isinstance(transformations, tuple[TRANS, ...] | str) and isinstance(global_dict, DICT | None) and hasattr(local_dict, 'pop') and len(local_dict) > 0"},"name":"parse_expr_correct"},"guarantee":"len(local_dict) == old_len_local_dict - 1","fibers":[{"name":"str","pred":"isinstance(transformations, str)","path":{"lhs":"parse_expr(x)","rhs":"len(local_dict) == old_len_local_dict - 1","over":{"base":"str","pred":"isinstance(transformations, str)"},"name":"parse_expr_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.parse_expr_str_correct","statement":"parse_expr satisfies spec on str inputs"},"trust":"LIBRARY"},{"name":"dict","pred":"isinstance(local_dict, dict)","path":{"lhs":"parse_expr(x)","rhs":"len(local_dict) == old_len_local_dict - 1","over":{"base":"dict","pred":"isinstance(local_dict, dict)"},"name":"parse_expr_dict_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.parse_expr_dict_correct","statement":"parse_expr satisfies spec on dict inputs"},"trust":"LIBRARY"},{"name":"types_BuiltinFunctionType","pred":"isinstance(obj, types.BuiltinFunctionType)","path":{"lhs":"parse_expr(x)","rhs":"len(local_dict) == old_len_local_dict - 1","over":{"base":"types.BuiltinFunctionType","pred":"isinstance(obj, types.BuiltinFunctionType)"},"name":"parse_expr_types.BuiltinFunctionType_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.parse_expr_types.BuiltinFunctionType_correct","statement":"parse_expr satisfies spec on types.BuiltinFunctionType inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"113afae7b499b0e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(s, str)","isinstance(local_dict, DICT | None)","isinstance(transformations, tuple[TRANS, ...] | str)","isinstance(global_dict, DICT | None)","hasattr(local_dict, 'pop')","len(local_dict) > 0"],"ensures":["len(local_dict) == old_len_local_dict - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["local_dict.pop"],"writes":["global_dict[*]","local_dict[*]"],"calls_mutating":["local_dict.pop"],"raises":["TypeError","ValueError","e"],"catches":["Exception"]},"state_contract":{"modifies":["global_dict[*]","local_dict.*","local_dict[*]"],"old_bindings":{"old_global_dict_star":"global_dict[*]","old_local_dict_star":"local_dict[*]","old_len_local_dict":"len(local_dict)"},"pre_requires":["len(local_dict) > 0"],"post_ensures":["len(local_dict) == old_len_local_dict - 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"],"e":["isinstance(raised, e)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":1,"n_assumed":3,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":11.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'local_dict is None', 'isinstance(obj, types.BuiltinFunctionType)', 'not isinstance(local_dict, dict)', \"transformations == 'implicit'\", 'not isinstance(global_dict, dict)', 'isinstance(transformations, str)', \"transformations == 'all'\", 'global_dict is None'}, fibers={'dict', 'str', 'types_BuiltinFunctionType'})"]}}
 def parse_expr(s: str, local_dict: DICT | None = None,
                transformations: tuple[TRANS, ...] | str \
                    = standard_transformations,
@@ -1486,16 +1753,23 @@ def parse_expr(s: str, local_dict: DICT | None = None,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(evaluateFalse(s), replaces operators with the sympy equivalent and sets evaluate=false) over str ║
+# ║ Path(evaluateFalse(s), ast.fix_missing_locations(transformed_node)) over {str | isinstance(s, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ evaluateFalse : str → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(s, str)                             ║
+# ║   returns:  ast.fix_missing_locations(transformed_node)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ evaluateFalse : {str | isinstance(s, str)} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef9d78c5eec15c0a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6287092c4393a528  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.evaluateFalse","kind":"function","src_hash":"d07552ca70bdba7c","in":{"base":"str"},"out":{"base":"Any"},"spec":{"lhs":"evaluateFalse(s)","rhs":"replaces operators with the sympy equivalent and sets evaluate=false","over":{"base":"str"},"name":"evaluateFalse_correct"},"guarantee":"replaces operators with the sympy equivalent and sets evaluate=false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.evaluateFalse_correct","statement":"Path(evaluateFalse(x), replaces operators with the sympy equivalent and sets evaluate=false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef9d78c5eec15c0a"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.evaluateFalse","kind":"function","src_hash":"d07552ca70bdba7c","in":{"base":"str","pred":"isinstance(s, str)"},"out":{"base":"Any"},"spec":{"lhs":"evaluateFalse(s)","rhs":"ast.fix_missing_locations(transformed_node)","over":{"base":"str","pred":"isinstance(s, str)"},"name":"evaluateFalse_correct"},"guarantee":"returns ast.fix_missing_locations(transformed_node)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.evaluateFalse_correct","statement":"Path(evaluateFalse(x), returns ast.fix_missing_locations(transformed_node))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6287092c4393a528","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(s, str)"],"returns_expr":"ast.fix_missing_locations(transformed_node)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def evaluateFalse(s: str):
     """
     Replaces operators with the SymPy equivalent and sets evaluate=False.
@@ -1511,14 +1785,20 @@ def evaluateFalse(s: str):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(EvaluateFalseTransformer(*args), correctly constructs a EvaluateFalseTransformer instance) over {Any | isinstance(arg, ast.Call) and isinstance(node.op, ast.Sub) and isinstance(node.func, ast.Name)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ast.NodeTransformer)          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ EvaluateFalseTransformer : {Any | isinstance(arg, ast...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea2bb7014af1f73b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.EvaluateFalseTransformer","kind":"class","src_hash":"0626b2b8323f7224","in":{"base":"Any","pred":"isinstance(arg, ast.Call) and isinstance(node.op, ast.Sub) and isinstance(node.func, ast.Name)"},"out":{"base":"Any"},"spec":{"lhs":"EvaluateFalseTransformer(*args)","rhs":"correctly constructs a EvaluateFalseTransformer instance","over":{"base":"Any","pred":"isinstance(arg, ast.Call) and isinstance(node.op, ast.Sub) and isinstance(node.func, ast.Name)"},"name":"EvaluateFalseTransformer_class_invariant"},"guarantee":"correctly constructs a EvaluateFalseTransformer instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea2bb7014af1f73b"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.EvaluateFalseTransformer","kind":"class","src_hash":"0626b2b8323f7224","in":{"base":"Any","pred":"isinstance(arg, ast.Call) and isinstance(node.op, ast.Sub) and isinstance(node.func, ast.Name)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ast.NodeTransformer)"},"spec":{"lhs":"EvaluateFalseTransformer(*args)","rhs":"correctly constructs a EvaluateFalseTransformer instance","over":{"base":"Any","pred":"isinstance(arg, ast.Call) and isinstance(node.op, ast.Sub) and isinstance(node.func, ast.Name)"},"name":"EvaluateFalseTransformer_class_invariant"},"guarantee":"isinstance(self, ast.NodeTransformer)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea2bb7014af1f73b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ast.NodeTransformer)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function EvaluateFalseTransformer not found in source"]}}
 class EvaluateFalseTransformer(ast.NodeTransformer):
     operators = {
         ast.Add: 'Add',
@@ -1548,16 +1828,25 @@ class EvaluateFalseTransformer(ast.NodeTransformer):
         ast.Eq: 'Eq'
     }
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(visit_Compare(nod), visit_Compare produces the expected output) over Any ║
+# ║ Path(visit_Compare(node), <unspecified:visit_Compare>) over {Any | hasattr(node, 'ops') and hasattr(node, 'comparators') and hasattr(node, 'left')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ visit_Compare : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(node, 'ops')                           ║
+# ║   requires: hasattr(node, 'comparators')                   ║
+# ║   requires: hasattr(node, 'left')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ visit_Compare : {Any | hasattr(node, 'ops') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 236094aac39e03c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.visit_Compare","kind":"method","src_hash":"9f221ec579f4022d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"visit_Compare(nod)","rhs":"visit_Compare produces the expected output","over":{"base":"Any"},"name":"visit_Compare_correct"},"guarantee":"visit_Compare produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.visit_Compare_correct","statement":"Path(visit_Compare(x), visit_Compare produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"236094aac39e03c2"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.visit_Compare","kind":"method","src_hash":"9f221ec579f4022d","in":{"base":"Any","pred":"hasattr(node, 'ops') and hasattr(node, 'comparators') and hasattr(node, 'left')"},"out":{"base":"Any"},"spec":{"lhs":"visit_Compare(node)","rhs":"<unspecified:visit_Compare>","over":{"base":"Any","pred":"hasattr(node, 'ops') and hasattr(node, 'comparators') and hasattr(node, 'left')"},"name":"visit_Compare_correct"},"guarantee":"visit_Compare produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.visit_Compare_correct","statement":"Path(visit_Compare(x), visit_Compare produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"236094aac39e03c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(node, 'ops')","hasattr(node, 'comparators')","hasattr(node, 'left')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","node.comparators","node.left","node.ops","self.operators","self.relational_operators","self.visit"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def visit_Compare(self, node):
         def reducer(acc, op_right):
             result, left = acc
@@ -1585,16 +1874,22 @@ class EvaluateFalseTransformer(ast.NodeTransformer):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flatten(arg), flatten produces the expected output) over Any ║
+# ║ Path(flatten(args, func), <unspecified:flatten>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ flatten : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02f6eaf372e87339  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.flatten","kind":"method","src_hash":"7c568c8fbc1d2d7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten(arg)","rhs":"flatten produces the expected output","over":{"base":"Any"},"name":"flatten_correct"},"guarantee":"flatten produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.flatten_correct","statement":"Path(flatten(x), flatten produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02f6eaf372e87339"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.flatten","kind":"method","src_hash":"7c568c8fbc1d2d7f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten(args, func)","rhs":"<unspecified:flatten>","over":{"base":"Any"},"name":"flatten_correct"},"guarantee":"flatten produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.flatten_correct","statement":"Path(flatten(x), flatten produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02f6eaf372e87339","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def flatten(self, args, func):
         result = []
         for arg in args:
@@ -1611,16 +1906,25 @@ class EvaluateFalseTransformer(ast.NodeTransformer):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(visit_BinOp(nod), visit_BinOp produces the expected output) over Any ║
+# ║ Path(visit_BinOp(node), <unspecified:visit_BinOp>) over {Any | hasattr(node, 'op') and hasattr(node, 'right') and hasattr(node, 'left')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ visit_BinOp : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(node, 'op')                            ║
+# ║   requires: hasattr(node, 'right')                         ║
+# ║   requires: hasattr(node, 'left')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ visit_BinOp : {Any | hasattr(node, 'op') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e7fed9dfdac32692  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.visit_BinOp","kind":"method","src_hash":"4043fd918a839979","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"visit_BinOp(nod)","rhs":"visit_BinOp produces the expected output","over":{"base":"Any"},"name":"visit_BinOp_correct"},"guarantee":"visit_BinOp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.visit_BinOp_correct","statement":"Path(visit_BinOp(x), visit_BinOp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7fed9dfdac32692"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.visit_BinOp","kind":"method","src_hash":"4043fd918a839979","in":{"base":"Any","pred":"hasattr(node, 'op') and hasattr(node, 'right') and hasattr(node, 'left')"},"out":{"base":"Any"},"spec":{"lhs":"visit_BinOp(node)","rhs":"<unspecified:visit_BinOp>","over":{"base":"Any","pred":"hasattr(node, 'op') and hasattr(node, 'right') and hasattr(node, 'left')"},"name":"visit_BinOp_correct"},"guarantee":"visit_BinOp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.visit_BinOp_correct","statement":"Path(visit_BinOp(x), visit_BinOp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e7fed9dfdac32692","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(node, 'op')","hasattr(node, 'right')","hasattr(node, 'left')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","node.left","node.op","node.right","self.flatten","self.operators","self.visit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def visit_BinOp(self, node):
         if node.op.__class__ in self.operators:
             sympy_class = self.operators[node.op.__class__]
@@ -1666,16 +1970,23 @@ class EvaluateFalseTransformer(ast.NodeTransformer):
         return node
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(visit_Call(nod), visit_Call produces the expected output) over Any ║
+# ║ Path(visit_Call(node), <unspecified:visit_Call>) over {Any | hasattr(node, 'func')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ visit_Call : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(node, 'func')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ visit_Call : {Any | hasattr(node, 'func')} → Any           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c33f4f239bcd3a6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.visit_Call","kind":"method","src_hash":"b2835d52ae72e629","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"visit_Call(nod)","rhs":"visit_Call produces the expected output","over":{"base":"Any"},"name":"visit_Call_correct"},"guarantee":"visit_Call produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.visit_Call_correct","statement":"Path(visit_Call(x), visit_Call produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c33f4f239bcd3a6"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.visit_Call","kind":"method","src_hash":"b2835d52ae72e629","in":{"base":"Any","pred":"hasattr(node, 'func')"},"out":{"base":"Any"},"spec":{"lhs":"visit_Call(node)","rhs":"<unspecified:visit_Call>","over":{"base":"Any","pred":"hasattr(node, 'func')"},"name":"visit_Call_correct"},"guarantee":"visit_Call produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.sympy_parser.EvaluateFalseTransformer.visit_Call_correct","statement":"Path(visit_Call(x), visit_Call produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c33f4f239bcd3a6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(node, 'func')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def visit_Call(self, node):
         new_node = self.generic_visit(node)
         if isinstance(node.func, ast.Name) and node.func.id in self.functions:
@@ -1703,14 +2014,19 @@ transformations = '\n'.join('%s: %s' % (i, func_name(f)) for i, f in _transforma
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a _T instance) preserved by _T(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ _T : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96dcf6ca1ca58438  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._T","kind":"class","src_hash":"21c0d0e42945295a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_T(*args)","rhs":"correctly constructs a _T instance","over":{"base":"Any"},"name":"_T_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a _T instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'N')","kind":"class","induction":"structural on N"}],"methods_preserving":["__init__","__str__","__getitem__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96dcf6ca1ca58438"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._T","kind":"class","src_hash":"21c0d0e42945295a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_T(*args)","rhs":"correctly constructs a _T instance","over":{"base":"Any"},"name":"_T_class_invariant","kind":"invariant"},"guarantee":"preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'N')","kind":"class","induction":"structural on N"}],"methods_preserving":["__init__","__str__","__getitem__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96dcf6ca1ca58438","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'N')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function _T not found in source"]}}
 class _T():
     """class to retrieve transformations from a given slice
 
@@ -1721,44 +2037,63 @@ class _T():
     >>> assert T[:5] == standard_transformations
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(), initializes the instance correctly) over Any ║
+# ║ Path(__init__(), <unspecified:__init__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 61cffb956fb8e6d3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._T.__init__","kind":"method","src_hash":"93c7fd4f513d2d63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61cffb956fb8e6d3"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._T.__init__","kind":"method","src_hash":"93c7fd4f513d2d63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__()","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"61cffb956fb8e6d3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self):
         self.N = len(_transformation)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__str__(), returns a human-readable string) over Any  ║
+# ║ Path(__str__(), <unspecified:__str__>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __str__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e184a68435025c09           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._T.__str__","kind":"method","src_hash":"0d67178c11c4d11a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"returns a human-readable string","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e184a68435025c09"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._T.__str__","kind":"method","src_hash":"0d67178c11c4d11a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__str__()","rhs":"<unspecified:__str__>","over":{"base":"Any"},"name":"__str___correct"},"guarantee":"returns a human-readable string","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e184a68435025c09","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __str__(self):
         return transformations
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(t), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(t), tuple([_transformation[_] for _ in i])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __getitem__ : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(i) == old_len_i + 1                        ║
+# ║   returns:  tuple([_transformation[_] for _ in i])         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __getitem__ : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | eb771a2c5656c340           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._T.__getitem__","kind":"method","src_hash":"297256696eedf83a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(t)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb771a2c5656c340"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.sympy_parser._T.__getitem__","kind":"method","src_hash":"297256696eedf83a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (tuple([_transformation[_] for _ in i]))"},"spec":{"lhs":"__getitem__(t)","rhs":"tuple([_transformation[_] for _ in i])","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns tuple([_transformation[_] for _ in i]); len(i) == old_len_i + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"eb771a2c5656c340","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(i) == old_len_i + 1"],"returns_expr":"tuple([_transformation[_] for _ in i])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.N"],"calls_mutating":["i.append","i.extend"],"raises":["TypeError"]},"state_contract":{"modifies":["i.*"],"old_bindings":{"old_len_i":"len(i)"},"post_ensures":["len(i) == old_len_i + 1"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, t):
         if not type(t) is tuple:
             t = (t,)

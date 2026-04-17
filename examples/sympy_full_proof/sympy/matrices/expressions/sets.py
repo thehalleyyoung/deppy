@@ -27,14 +27,20 @@ from .matexpr import MatrixExpr
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(MatrixSet(*args), correctly constructs a MatrixSet instance) over {Any | isinstance(set, Set) and isinstance(other, MatrixExpr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Set)                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ MatrixSet : {Any | isinstance(set, Set) and isinstanc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f428dde4b91bc58c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet","kind":"class","src_hash":"0ed228e0387b73c0","in":{"base":"Any","pred":"isinstance(set, Set) and isinstance(other, MatrixExpr)"},"out":{"base":"Any"},"spec":{"lhs":"MatrixSet(*args)","rhs":"correctly constructs a MatrixSet instance","over":{"base":"Any","pred":"isinstance(set, Set) and isinstance(other, MatrixExpr)"},"name":"MatrixSet_class_invariant"},"guarantee":"correctly constructs a MatrixSet instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f428dde4b91bc58c"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet","kind":"class","src_hash":"0ed228e0387b73c0","in":{"base":"Any","pred":"isinstance(set, Set) and isinstance(other, MatrixExpr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Set)"},"spec":{"lhs":"MatrixSet(*args)","rhs":"correctly constructs a MatrixSet instance","over":{"base":"Any","pred":"isinstance(set, Set) and isinstance(other, MatrixExpr)"},"name":"MatrixSet_class_invariant"},"guarantee":"isinstance(self, Set)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f428dde4b91bc58c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Set)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function MatrixSet not found in source"]}}
 class MatrixSet(Set):
     """
     MatrixSet represents the set of matrices with ``shape = (n, m)`` over the
@@ -57,16 +63,23 @@ class MatrixSet(Set):
     is_empty = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, n, m), Set.__new__(cls, n, m, set)) over {Any | isinstance(set, Set)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(set, Set)                           ║
+# ║   returns:  Set.__new__(cls, n, m, set)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(set, Set)} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 451f7a6e6ed18b0d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet.__new__","kind":"method","src_hash":"65082e221916b390","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"451f7a6e6ed18b0d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet.__new__","kind":"method","src_hash":"65082e221916b390","in":{"base":"Any","pred":"isinstance(set, Set)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, n, m)","rhs":"Set.__new__(cls, n, m, set)","over":{"base":"Any","pred":"isinstance(set, Set)"},"name":"__new___correct"},"guarantee":"returns Set.__new__(cls, n, m, set)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"451f7a6e6ed18b0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(set, Set)"],"returns_expr":"Set.__new__(cls, n, m, set)","pure":false,"effects":{"effect_type":"reads_state","reads":["cls._check_dim"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, n, m, set):
         n, m, set = _sympify(n), _sympify(m), _sympify(set)
         cls._check_dim(n)
@@ -77,45 +90,65 @@ class MatrixSet(Set):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shape(), returns the shape attribute) over Any        ║
+# ║ Path(shape(), self.args[:2]) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[:2]                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ shape : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e76716062bb39d92           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet.shape","kind":"property","src_hash":"174248f983136e65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"returns the shape attribute","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns the shape attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e76716062bb39d92"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet.shape","kind":"property","src_hash":"174248f983136e65","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shape()","rhs":"self.args[:2]","over":{"base":"Any"},"name":"shape_correct"},"guarantee":"returns self.args[:2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e76716062bb39d92","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[:2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def shape(self):
         return self.args[:2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set(), returns the set attribute) over Any            ║
+# ║ Path(set(), self.args[2]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ set : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03c4c547c39f4e9e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet.set","kind":"property","src_hash":"298ee785becaf72a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"returns the set attribute","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns the set attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03c4c547c39f4e9e"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet.set","kind":"property","src_hash":"298ee785becaf72a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set()","rhs":"self.args[2]","over":{"base":"Any"},"name":"set_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03c4c547c39f4e9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set(self):
         return self.args[2]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_contains(oth), internal helper behaves correctly) over Any ║
+# ║ Path(_contains(other), <unspecified:_contains>) over {Any | isinstance(other, MatrixExpr) and hasattr(other, 'shape')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _contains : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(other, MatrixExpr)                  ║
+# ║   requires: hasattr(other, 'shape')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _contains : {Any | isinstance(other, MatrixExpr) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cbe0018b151adc5d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet._contains","kind":"method","src_hash":"1e96835e028e86ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_contains(oth)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.sets.MatrixSet._contains_correct","statement":"Path(_contains(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbe0018b151adc5d"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet._contains","kind":"method","src_hash":"1e96835e028e86ea","in":{"base":"Any","pred":"isinstance(other, MatrixExpr) and hasattr(other, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"_contains(other)","rhs":"<unspecified:_contains>","over":{"base":"Any","pred":"isinstance(other, MatrixExpr) and hasattr(other, 'shape')"},"name":"_contains_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.sets.MatrixSet._contains_correct","statement":"Path(_contains(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cbe0018b151adc5d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(other, MatrixExpr)","hasattr(other, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.shape","self.set","self.shape"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _contains(self, other):
         if not isinstance(other, MatrixExpr):
             raise TypeError("{} should be an instance of MatrixExpr.".format(other))
@@ -128,16 +161,24 @@ class MatrixSet(Set):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_dim(cls), helper function to check invalid matrix dimensions) over Any ║
+# ║ Path(_check_dim(cls, dim), <unspecified:_check_dim>) over {Any | not (ok is False) and hasattr(dim, 'is_Float')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_dim : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (ok is False)                              ║
+# ║   requires: hasattr(dim, 'is_Float')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_dim : {Any | not (ok is False) and hasattr(dim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d44853eef158a29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet._check_dim","kind":"classmethod","src_hash":"4b5d0df078938bc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_dim(cls)","rhs":"helper function to check invalid matrix dimensions","over":{"base":"Any"},"name":"_check_dim_correct"},"guarantee":"helper function to check invalid matrix dimensions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.sets.MatrixSet._check_dim_correct","statement":"Path(_check_dim(x), helper function to check invalid matrix dimensions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d44853eef158a29"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet._check_dim","kind":"classmethod","src_hash":"4b5d0df078938bc7","in":{"base":"Any","pred":"not (ok is False) and hasattr(dim, 'is_Float')"},"out":{"base":"Any"},"spec":{"lhs":"_check_dim(cls, dim)","rhs":"<unspecified:_check_dim>","over":{"base":"Any","pred":"not (ok is False) and hasattr(dim, 'is_Float')"},"name":"_check_dim_correct"},"guarantee":"helper function to check invalid matrix dimensions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.sets.MatrixSet._check_dim_correct","statement":"Path(_check_dim(x), helper function to check invalid matrix dimensions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d44853eef158a29","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (ok is False)","hasattr(dim, 'is_Float')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dim.is_Float"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _check_dim(cls, dim):
         """Helper function to check invalid matrix dimensions"""
         ok = not dim.is_Float and check_assumptions(
@@ -148,15 +189,21 @@ class MatrixSet(Set):
                 "a nonnegative integer.".format(dim))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_kind(), internal helper behaves correctly) over Any  ║
+# ║ Path(_kind(), SetKind(MatrixKind(NumberKind))) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SetKind(MatrixKind(NumberKind))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _kind : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c769fee8cba6d443           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet._kind","kind":"method","src_hash":"598f23dd11cd8cef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c769fee8cba6d443"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.sets.MatrixSet._kind","kind":"method","src_hash":"598f23dd11cd8cef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_kind()","rhs":"SetKind(MatrixKind(NumberKind))","over":{"base":"Any"},"name":"_kind_correct"},"guarantee":"returns SetKind(MatrixKind(NumberKind))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c769fee8cba6d443","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SetKind(MatrixKind(NumberKind))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _kind(self):
         return SetKind(MatrixKind(NumberKind))

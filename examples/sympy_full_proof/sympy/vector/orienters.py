@@ -26,32 +26,44 @@ import sympy.vector
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(Orienter(), correctly constructs a Orienter instance) over Any ║
+# ║ Path(Orienter(), isinstance(self, Basic)) over Any         ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Orienter : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Orienter : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d014c47fa8aed73           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.Orienter","kind":"class","src_hash":"0e553c78b5529f9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Orienter()","rhs":"correctly constructs a Orienter instance","over":{"base":"Any"},"name":"Orienter_correct"},"guarantee":"correctly constructs a Orienter instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d014c47fa8aed73"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.Orienter","kind":"class","src_hash":"0e553c78b5529f9e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Orienter()","rhs":"isinstance(self, Basic)","over":{"base":"Any"},"name":"Orienter_correct"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d014c47fa8aed73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function Orienter not found in source"]}}
 class Orienter(Basic):
     """
     Super-class for all orienter classes.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotation_matrix(), the rotation matrix corresponding to this orienter instance) over Any ║
+# ║ Path(rotation_matrix(), self._parent_orient) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._parent_orient                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotation_matrix : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a67b32b53d20191           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.Orienter.rotation_matrix","kind":"method","src_hash":"230677cec46403be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_matrix()","rhs":"the rotation matrix corresponding to this orienter instance","over":{"base":"Any"},"name":"rotation_matrix_correct"},"guarantee":"the rotation matrix corresponding to this orienter instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a67b32b53d20191"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.Orienter.rotation_matrix","kind":"method","src_hash":"230677cec46403be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_matrix()","rhs":"self._parent_orient","over":{"base":"Any"},"name":"rotation_matrix_correct"},"guarantee":"returns self._parent_orient","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a67b32b53d20191","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._parent_orient","pure":false,"effects":{"effect_type":"reads_state","reads":["self._parent_orient"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotation_matrix(self):
         """
         The rotation matrix corresponding to this orienter
@@ -63,30 +75,43 @@ class Orienter(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AxisOrienter(*args), correctly constructs a AxisOrienter instance) over {Any | isinstance(axis, sympy.vector.Vector)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Orienter)                     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AxisOrienter : {Any | isinstance(axis, sympy.vector.V...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5429a1941f0fa012  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.AxisOrienter","kind":"class","src_hash":"ae88a4f25c601fcf","in":{"base":"Any","pred":"isinstance(axis, sympy.vector.Vector)"},"out":{"base":"Any"},"spec":{"lhs":"AxisOrienter(*args)","rhs":"correctly constructs a AxisOrienter instance","over":{"base":"Any","pred":"isinstance(axis, sympy.vector.Vector)"},"name":"AxisOrienter_class_invariant"},"guarantee":"correctly constructs a AxisOrienter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5429a1941f0fa012"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.AxisOrienter","kind":"class","src_hash":"ae88a4f25c601fcf","in":{"base":"Any","pred":"isinstance(axis, sympy.vector.Vector)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Orienter)"},"spec":{"lhs":"AxisOrienter(*args)","rhs":"correctly constructs a AxisOrienter instance","over":{"base":"Any","pred":"isinstance(axis, sympy.vector.Vector)"},"name":"AxisOrienter_class_invariant"},"guarantee":"isinstance(self, Orienter)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5429a1941f0fa012","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Orienter)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function AxisOrienter not found in source"]}}
 class AxisOrienter(Orienter):
     """
     Class to denote an axis orienter.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, angle, axis), <unspecified:__new__>) over {Any | isinstance(axis, sympy.vector.Vector)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(axis, sympy.vector.Vector)          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(axis, sympy.vector.Vector...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f8838f0f2c858aa3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.AxisOrienter.__new__","kind":"method","src_hash":"86f19fd26e2c6633","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8838f0f2c858aa3"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.AxisOrienter.__new__","kind":"method","src_hash":"86f19fd26e2c6633","in":{"base":"Any","pred":"isinstance(axis, sympy.vector.Vector)"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, angle, axis)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"isinstance(axis, sympy.vector.Vector)"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f8838f0f2c858aa3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(axis, sympy.vector.Vector)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, angle, axis):
         if not isinstance(axis, sympy.vector.Vector):
             raise TypeError("axis should be a Vector")
@@ -99,16 +124,22 @@ class AxisOrienter(Orienter):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ang), initializes the instance correctly) over Any ║
+# ║ Path(__init__(angle, axis), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 15c58f827bfb43c7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.AxisOrienter.__init__","kind":"method","src_hash":"6f1d78150c8c84e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ang)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15c58f827bfb43c7"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.AxisOrienter.__init__","kind":"method","src_hash":"6f1d78150c8c84e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(angle, axis)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"15c58f827bfb43c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, angle, axis):
         """
         Axis rotation is a rotation about an arbitrary axis by
@@ -141,16 +172,22 @@ class AxisOrienter(Orienter):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rotation_matrix(sys), the rotation matrix corresponding to this orienter instance) over Any ║
+# ║ Path(rotation_matrix(system), <unspecified:rotation_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rotation_matrix : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37339998acf8241e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.AxisOrienter.rotation_matrix","kind":"method","src_hash":"4d57664ebfe66017","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_matrix(sys)","rhs":"the rotation matrix corresponding to this orienter instance","over":{"base":"Any"},"name":"rotation_matrix_correct"},"guarantee":"the rotation matrix corresponding to this orienter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.orienters.AxisOrienter.rotation_matrix_correct","statement":"Path(rotation_matrix(x), the rotation matrix corresponding to this orienter instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37339998acf8241e"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.AxisOrienter.rotation_matrix","kind":"method","src_hash":"4d57664ebfe66017","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rotation_matrix(system)","rhs":"<unspecified:rotation_matrix>","over":{"base":"Any"},"name":"rotation_matrix_correct"},"guarantee":"the rotation matrix corresponding to this orienter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.vector.orienters.AxisOrienter.rotation_matrix_correct","statement":"Path(rotation_matrix(x), the rotation matrix corresponding to this orienter instance)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37339998acf8241e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.angle","self.axis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rotation_matrix(self, system):
         """
         The rotation matrix corresponding to this orienter
@@ -177,31 +214,43 @@ class AxisOrienter(Orienter):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angle(), returns the angle attribute) over Any        ║
+# ║ Path(angle(), self._angle) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._angle                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angle : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f09ec2352cea4e90           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.AxisOrienter.angle","kind":"property","src_hash":"7028124f8d0394b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle()","rhs":"returns the angle attribute","over":{"base":"Any"},"name":"angle_correct"},"guarantee":"returns the angle attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f09ec2352cea4e90"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.AxisOrienter.angle","kind":"property","src_hash":"7028124f8d0394b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle()","rhs":"self._angle","over":{"base":"Any"},"name":"angle_correct"},"guarantee":"returns self._angle","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f09ec2352cea4e90","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._angle","pure":false,"effects":{"effect_type":"reads_state","reads":["self._angle"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angle(self):
         return self._angle
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(axis(), returns the axis attribute) over Any          ║
+# ║ Path(axis(), self._axis) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._axis                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ axis : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 51fdb5fa66ae0c16           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.AxisOrienter.axis","kind":"property","src_hash":"2243adf4a8616394","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axis()","rhs":"returns the axis attribute","over":{"base":"Any"},"name":"axis_correct"},"guarantee":"returns the axis attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51fdb5fa66ae0c16"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.AxisOrienter.axis","kind":"property","src_hash":"2243adf4a8616394","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axis()","rhs":"self._axis","over":{"base":"Any"},"name":"axis_correct"},"guarantee":"returns self._axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"51fdb5fa66ae0c16","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._axis","pure":false,"effects":{"effect_type":"reads_state","reads":["self._axis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def axis(self):
         return self._axis
 
@@ -209,30 +258,44 @@ class AxisOrienter(Orienter):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ThreeAngleOrienter(*args), correctly constructs a ThreeAngleOrienter instance) over {Any | isinstance(rot_order, Str)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Orienter)                     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ThreeAngleOrienter : {Any | isinstance(rot_order, Str...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b09dd9a38db4be22  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.ThreeAngleOrienter","kind":"class","src_hash":"d98880d6d9f6b58c","in":{"base":"Any","pred":"isinstance(rot_order, Str)"},"out":{"base":"Any"},"spec":{"lhs":"ThreeAngleOrienter(*args)","rhs":"correctly constructs a ThreeAngleOrienter instance","over":{"base":"Any","pred":"isinstance(rot_order, Str)"},"name":"ThreeAngleOrienter_class_invariant"},"guarantee":"correctly constructs a ThreeAngleOrienter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b09dd9a38db4be22"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.ThreeAngleOrienter","kind":"class","src_hash":"d98880d6d9f6b58c","in":{"base":"Any","pred":"isinstance(rot_order, Str)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Orienter)"},"spec":{"lhs":"ThreeAngleOrienter(*args)","rhs":"correctly constructs a ThreeAngleOrienter instance","over":{"base":"Any","pred":"isinstance(rot_order, Str)"},"name":"ThreeAngleOrienter_class_invariant"},"guarantee":"isinstance(self, Orienter)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b09dd9a38db4be22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Orienter)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function ThreeAngleOrienter not found in source"]}}
 class ThreeAngleOrienter(Orienter):
     """
     Super-class for Body and Space orienters.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, angle1, angle2), <unspecified:__new__>) over {Any | len(rot_order) == 3 and hasattr(rot_order, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: len(rot_order) == 3                            ║
+# ║   requires: hasattr(rot_order, 'name')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | len(rot_order) == 3 and hasattr(rot_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f9f43482f6d541b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.ThreeAngleOrienter.__new__","kind":"method","src_hash":"1377bbd01361ca1f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f9f43482f6d541b"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.ThreeAngleOrienter.__new__","kind":"method","src_hash":"1377bbd01361ca1f","in":{"base":"Any","pred":"len(rot_order) == 3 and hasattr(rot_order, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, angle1, angle2)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"len(rot_order) == 3 and hasattr(rot_order, 'name')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f9f43482f6d541b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["len(rot_order) == 3","hasattr(rot_order, 'name')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._in_order","rot_order.name"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, angle1, angle2, angle3, rot_order):
         if isinstance(rot_order, Str):
             rot_order = rot_order.name
@@ -278,61 +341,85 @@ class ThreeAngleOrienter(Orienter):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angle1(), returns the angle1 attribute) over Any      ║
+# ║ Path(angle1(), self._angle1) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._angle1                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angle1 : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a7fabd7730a6ebf1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.ThreeAngleOrienter.angle1","kind":"property","src_hash":"78f3141cd7ffa9d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle1()","rhs":"returns the angle1 attribute","over":{"base":"Any"},"name":"angle1_correct"},"guarantee":"returns the angle1 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7fabd7730a6ebf1"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.ThreeAngleOrienter.angle1","kind":"property","src_hash":"78f3141cd7ffa9d7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle1()","rhs":"self._angle1","over":{"base":"Any"},"name":"angle1_correct"},"guarantee":"returns self._angle1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a7fabd7730a6ebf1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._angle1","pure":false,"effects":{"effect_type":"reads_state","reads":["self._angle1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angle1(self):
         return self._angle1
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angle2(), returns the angle2 attribute) over Any      ║
+# ║ Path(angle2(), self._angle2) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._angle2                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angle2 : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bea3d3154601fdbd           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.ThreeAngleOrienter.angle2","kind":"property","src_hash":"cf9a30aef1be1240","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle2()","rhs":"returns the angle2 attribute","over":{"base":"Any"},"name":"angle2_correct"},"guarantee":"returns the angle2 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bea3d3154601fdbd"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.ThreeAngleOrienter.angle2","kind":"property","src_hash":"cf9a30aef1be1240","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle2()","rhs":"self._angle2","over":{"base":"Any"},"name":"angle2_correct"},"guarantee":"returns self._angle2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bea3d3154601fdbd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._angle2","pure":false,"effects":{"effect_type":"reads_state","reads":["self._angle2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angle2(self):
         return self._angle2
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(angle3(), returns the angle3 attribute) over Any      ║
+# ║ Path(angle3(), self._angle3) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._angle3                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ angle3 : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d408d17ab443716f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.ThreeAngleOrienter.angle3","kind":"property","src_hash":"88c18656c774fdfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle3()","rhs":"returns the angle3 attribute","over":{"base":"Any"},"name":"angle3_correct"},"guarantee":"returns the angle3 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d408d17ab443716f"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.ThreeAngleOrienter.angle3","kind":"property","src_hash":"88c18656c774fdfb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"angle3()","rhs":"self._angle3","over":{"base":"Any"},"name":"angle3_correct"},"guarantee":"returns self._angle3","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d408d17ab443716f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._angle3","pure":false,"effects":{"effect_type":"reads_state","reads":["self._angle3"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def angle3(self):
         return self._angle3
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rot_order(), returns the rot_order attribute) over Any ║
+# ║ Path(rot_order(), self._rot_order) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._rot_order                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rot_order : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 244a8f8b128c5bb4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.ThreeAngleOrienter.rot_order","kind":"property","src_hash":"6b095735882fded8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_order()","rhs":"returns the rot_order attribute","over":{"base":"Any"},"name":"rot_order_correct"},"guarantee":"returns the rot_order attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"244a8f8b128c5bb4"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.ThreeAngleOrienter.rot_order","kind":"property","src_hash":"6b095735882fded8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rot_order()","rhs":"self._rot_order","over":{"base":"Any"},"name":"rot_order_correct"},"guarantee":"returns self._rot_order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"244a8f8b128c5bb4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._rot_order","pure":false,"effects":{"effect_type":"reads_state","reads":["self._rot_order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rot_order(self):
         return self._rot_order
 
@@ -340,14 +427,20 @@ class ThreeAngleOrienter(Orienter):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(BodyOrienter(*args), correctly constructs a BodyOrienter instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ BodyOrienter : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ThreeAngleOrienter)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ BodyOrienter : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb832059b1dc42f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.BodyOrienter","kind":"class","src_hash":"085492414e3fbad5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"BodyOrienter(*args)","rhs":"correctly constructs a BodyOrienter instance","over":{"base":"Any"},"name":"BodyOrienter_class_invariant"},"guarantee":"correctly constructs a BodyOrienter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb832059b1dc42f2"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.BodyOrienter","kind":"class","src_hash":"085492414e3fbad5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ThreeAngleOrienter)"},"spec":{"lhs":"BodyOrienter(*args)","rhs":"correctly constructs a BodyOrienter instance","over":{"base":"Any"},"name":"BodyOrienter_class_invariant"},"guarantee":"isinstance(self, ThreeAngleOrienter)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb832059b1dc42f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ThreeAngleOrienter)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function BodyOrienter not found in source"]}}
 class BodyOrienter(ThreeAngleOrienter):
     """
     Class to denote a body-orienter.
@@ -356,32 +449,44 @@ class BodyOrienter(ThreeAngleOrienter):
     _in_order = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, angle1, angle2), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b1bb209c40b04b0a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.BodyOrienter.__new__","kind":"method","src_hash":"064ea82bc9247eca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1bb209c40b04b0a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.BodyOrienter.__new__","kind":"method","src_hash":"064ea82bc9247eca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, angle1, angle2)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b1bb209c40b04b0a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, angle1, angle2, angle3, rot_order):
         obj = ThreeAngleOrienter.__new__(cls, angle1, angle2, angle3,
                                          rot_order)
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ang), initializes the instance correctly) over Any ║
+# ║ Path(__init__(angle1, angle2, angle3), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fc7dd8955afe7c56           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.BodyOrienter.__init__","kind":"method","src_hash":"8bb1498deeea5fae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ang)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc7dd8955afe7c56"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.BodyOrienter.__init__","kind":"method","src_hash":"8bb1498deeea5fae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(angle1, angle2, angle3)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fc7dd8955afe7c56","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, angle1, angle2, angle3, rot_order):
         """
         Body orientation takes this coordinate system through three
@@ -443,14 +548,20 @@ class BodyOrienter(ThreeAngleOrienter):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SpaceOrienter(*args), correctly constructs a SpaceOrienter instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SpaceOrienter : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ThreeAngleOrienter)           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SpaceOrienter : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d8737b34cbf7595  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.SpaceOrienter","kind":"class","src_hash":"686414f88c7fa7ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SpaceOrienter(*args)","rhs":"correctly constructs a SpaceOrienter instance","over":{"base":"Any"},"name":"SpaceOrienter_class_invariant"},"guarantee":"correctly constructs a SpaceOrienter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d8737b34cbf7595"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.SpaceOrienter","kind":"class","src_hash":"686414f88c7fa7ae","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ThreeAngleOrienter)"},"spec":{"lhs":"SpaceOrienter(*args)","rhs":"correctly constructs a SpaceOrienter instance","over":{"base":"Any"},"name":"SpaceOrienter_class_invariant"},"guarantee":"isinstance(self, ThreeAngleOrienter)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d8737b34cbf7595","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ThreeAngleOrienter)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function SpaceOrienter not found in source"]}}
 class SpaceOrienter(ThreeAngleOrienter):
     """
     Class to denote a space-orienter.
@@ -459,32 +570,44 @@ class SpaceOrienter(ThreeAngleOrienter):
     _in_order = False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, angle1, angle2), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1325bc301af659ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.SpaceOrienter.__new__","kind":"method","src_hash":"064ea82bc9247eca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1325bc301af659ae"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.SpaceOrienter.__new__","kind":"method","src_hash":"064ea82bc9247eca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, angle1, angle2)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1325bc301af659ae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, angle1, angle2, angle3, rot_order):
         obj = ThreeAngleOrienter.__new__(cls, angle1, angle2, angle3,
                                          rot_order)
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ang), initializes the instance correctly) over Any ║
+# ║ Path(__init__(angle1, angle2, angle3), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1bd6b4cb29681ee3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.SpaceOrienter.__init__","kind":"method","src_hash":"6366645da86b51f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ang)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bd6b4cb29681ee3"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.SpaceOrienter.__init__","kind":"method","src_hash":"6366645da86b51f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(angle1, angle2, angle3)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1bd6b4cb29681ee3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, angle1, angle2, angle3, rot_order):
         """
         Space rotation is similar to Body rotation, but the rotations
@@ -539,30 +662,42 @@ class SpaceOrienter(ThreeAngleOrienter):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(QuaternionOrienter(*args), correctly constructs a QuaternionOrienter instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ QuaternionOrienter : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Orienter)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ QuaternionOrienter : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c489dee24b72c05c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter","kind":"class","src_hash":"af447dac667ac6ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"QuaternionOrienter(*args)","rhs":"correctly constructs a QuaternionOrienter instance","over":{"base":"Any"},"name":"QuaternionOrienter_class_invariant"},"guarantee":"correctly constructs a QuaternionOrienter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c489dee24b72c05c"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter","kind":"class","src_hash":"af447dac667ac6ab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Orienter)"},"spec":{"lhs":"QuaternionOrienter(*args)","rhs":"correctly constructs a QuaternionOrienter instance","over":{"base":"Any"},"name":"QuaternionOrienter_class_invariant"},"guarantee":"isinstance(self, Orienter)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c489dee24b72c05c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Orienter)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function QuaternionOrienter not found in source"]}}
 class QuaternionOrienter(Orienter):
     """
     Class to denote a quaternion-orienter.
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, q0, q1), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 278849efe3f0d0bb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter.__new__","kind":"method","src_hash":"bbd13b7c05862a62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"278849efe3f0d0bb"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter.__new__","kind":"method","src_hash":"bbd13b7c05862a62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, q0, q1)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"278849efe3f0d0bb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, q0, q1, q2, q3):
         q0 = sympify(q0)
         q1 = sympify(q1)
@@ -592,16 +727,22 @@ class QuaternionOrienter(Orienter):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ang), initializes the instance correctly) over Any ║
+# ║ Path(__init__(angle1, angle2, angle3), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a61b367bd95287de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter.__init__","kind":"method","src_hash":"e4a377ece535a40f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ang)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a61b367bd95287de"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter.__init__","kind":"method","src_hash":"e4a377ece535a40f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(angle1, angle2, angle3)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a61b367bd95287de","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, angle1, angle2, angle3, rot_order):
         """
         Quaternion orientation orients the new CoordSys3D with
@@ -643,76 +784,110 @@ class QuaternionOrienter(Orienter):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(q0(), returns the q0 attribute) over Any              ║
+# ║ Path(q0(), self._q0) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._q0                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ q0 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2c1172ef845f229d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter.q0","kind":"property","src_hash":"1ca16ac1e6e39518","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q0()","rhs":"returns the q0 attribute","over":{"base":"Any"},"name":"q0_correct"},"guarantee":"returns the q0 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c1172ef845f229d"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter.q0","kind":"property","src_hash":"1ca16ac1e6e39518","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q0()","rhs":"self._q0","over":{"base":"Any"},"name":"q0_correct"},"guarantee":"returns self._q0","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c1172ef845f229d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._q0","pure":false,"effects":{"effect_type":"reads_state","reads":["self._q0"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def q0(self):
         return self._q0
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(q1(), returns the q1 attribute) over Any              ║
+# ║ Path(q1(), self._q1) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._q1                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ q1 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03cdf7576d55fc6c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter.q1","kind":"property","src_hash":"fa36091f43cad7d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q1()","rhs":"returns the q1 attribute","over":{"base":"Any"},"name":"q1_correct"},"guarantee":"returns the q1 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03cdf7576d55fc6c"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter.q1","kind":"property","src_hash":"fa36091f43cad7d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q1()","rhs":"self._q1","over":{"base":"Any"},"name":"q1_correct"},"guarantee":"returns self._q1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03cdf7576d55fc6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._q1","pure":false,"effects":{"effect_type":"reads_state","reads":["self._q1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def q1(self):
         return self._q1
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(q2(), returns the q2 attribute) over Any              ║
+# ║ Path(q2(), self._q2) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._q2                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ q2 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dfba0af02d0b863f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter.q2","kind":"property","src_hash":"8e03e01f8ec29387","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q2()","rhs":"returns the q2 attribute","over":{"base":"Any"},"name":"q2_correct"},"guarantee":"returns the q2 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dfba0af02d0b863f"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter.q2","kind":"property","src_hash":"8e03e01f8ec29387","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q2()","rhs":"self._q2","over":{"base":"Any"},"name":"q2_correct"},"guarantee":"returns self._q2","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dfba0af02d0b863f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._q2","pure":false,"effects":{"effect_type":"reads_state","reads":["self._q2"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def q2(self):
         return self._q2
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(q3(), returns the q3 attribute) over Any              ║
+# ║ Path(q3(), self._q3) over Any                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._q3                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ q3 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 60d70fa0339336d0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter.q3","kind":"property","src_hash":"ac10a0983eaae42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q3()","rhs":"returns the q3 attribute","over":{"base":"Any"},"name":"q3_correct"},"guarantee":"returns the q3 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60d70fa0339336d0"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters.QuaternionOrienter.q3","kind":"property","src_hash":"ac10a0983eaae42c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q3()","rhs":"self._q3","over":{"base":"Any"},"name":"q3_correct"},"guarantee":"returns self._q3","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"60d70fa0339336d0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._q3","pure":false,"effects":{"effect_type":"reads_state","reads":["self._q3"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def q3(self):
         return self._q3
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_rot(axi), id) over Any                               ║
+# ║ Path(_rot(axis, angle), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _rot : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Matrix(rot_axis1(angle).T) if ...   ║
+# ║   ensures:  result == Matrix(rot_axis1(angle).T) or r...   ║
+# ║   fiber[case_0]: axis == 1 => Matrix(rot_axis1(angle).T)   ║
+# ║   fiber[case_1]: axis == 2 => Matrix(rot_axis2(angle).T)   ║
+# ║   fiber[case_2]: axis == 3 => Matrix(rot_axis3(angle).T)   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _rot : Any → {Any | result satisfies: result == (Matr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ed889415f6fd4bb5   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.orienters._rot","kind":"function","src_hash":"86f7e79adadece6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_rot(axi)","rhs":"dcm for simple axis 1, 2 or 3 rotations","over":{"base":"Any"},"name":"_rot_correct","kind":"composition"},"guarantee":"dcm for simple axis 1, 2 or 3 rotations","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"rot_axis1","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed889415f6fd4bb5"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.orienters._rot","kind":"function","src_hash":"86f7e79adadece6f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Matrix(rot_axis1(angle).T) if axis == 1 else Matrix(rot_axis2(angle).T) if axis == 2 else Matrix(rot_axis3(angle).T)) and result == Matrix(rot_axis1(angle).T) or result == Matrix(rot_axis2(angle).T) or result == Matrix(rot_axis3(angle).T)"},"spec":{"lhs":"_rot(axis, angle)","rhs":"result == (Matrix(rot_axis1(angle).T) if axis == 1 else Matrix(rot_axis2(angle).T) if axis == 2 else Matrix(rot_axis3(angle).T)) and result == Matrix(rot_axis1(angle).T) or result == Matrix(rot_axis2(angle).T) or result == Matrix(rot_axis3(angle).T)","over":{"base":"Any"},"name":"_rot_correct","kind":"composition"},"guarantee":"result == (Matrix(rot_axis1(angle).T) if axis == 1 else Matrix(rot_axis2(angle).T) if axis == 2 else Matrix(rot_axis3(angle).T)); result == Matrix(rot_axis1(angle).T) or result == Matrix(rot_axis2(angle).T) or result == Matrix(rot_axis3(angle).T); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"rot_axis1","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed889415f6fd4bb5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Matrix(rot_axis1(angle).T) if axis == 1 else Matrix(rot_axis2(angle).T) if axis == 2 else Matrix(rot_axis3(angle).T))","result == Matrix(rot_axis1(angle).T) or result == Matrix(rot_axis2(angle).T) or result == Matrix(rot_axis3(angle).T)"],"fibers":[{"name":"case_0","guard":"axis == 1","ensures":["result == Matrix(rot_axis1(angle).T)"],"decidability":"z3","returns_expr":"Matrix(rot_axis1(angle).T)"},{"name":"case_1","guard":"axis == 2","ensures":["result == Matrix(rot_axis2(angle).T)"],"decidability":"z3","returns_expr":"Matrix(rot_axis2(angle).T)"},{"name":"case_2","guard":"axis == 3","ensures":["result == Matrix(rot_axis3(angle).T)"],"decidability":"z3","returns_expr":"Matrix(rot_axis3(angle).T)"}],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _rot(axis, angle):
     """DCM for simple axis 1, 2 or 3 rotations. """
     if axis == 1:

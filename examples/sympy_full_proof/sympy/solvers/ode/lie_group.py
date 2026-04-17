@@ -69,16 +69,24 @@ lie_heuristics = (
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ode_lie_group_try_heuristic(eq,), internal helper behaves correctly) over Any ║
+# ║ Path(_ode_lie_group_try_heuristic(eq, heuristic, func), <unspecified:_ode_lie_group_try_heuristic>) over {Any | hasattr(func, 'func') and hasattr(func, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ode_lie_group_try_heuristic : Any → Any                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ode_lie_group_try_heuristic : {Any | hasattr(func, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15de25a1e8b0656f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group._ode_lie_group_try_heuristic","kind":"function","src_hash":"23a8594f4cdbd490","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ode_lie_group_try_heuristic(eq,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ode_lie_group_try_heuristic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group._ode_lie_group_try_heuristic_correct","statement":"Path(_ode_lie_group_try_heuristic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15de25a1e8b0656f"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group._ode_lie_group_try_heuristic","kind":"function","src_hash":"23a8594f4cdbd490","in":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_ode_lie_group_try_heuristic(eq, heuristic, func)","rhs":"<unspecified:_ode_lie_group_try_heuristic>","over":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args')"},"name":"_ode_lie_group_try_heuristic_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group._ode_lie_group_try_heuristic_correct","statement":"Path(_ode_lie_group_try_heuristic(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15de25a1e8b0656f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(func, 'func')","hasattr(func, 'args')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def _ode_lie_group_try_heuristic(eq, heuristic, func, match, inf):
 
     xi = Function("xi")
@@ -152,16 +160,25 @@ def _ode_lie_group_try_heuristic(eq, heuristic, func, match, inf):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ode_lie_group(s, ), internal helper behaves correctly) over Any ║
+# ║ Path(_ode_lie_group(s, func, order), len(match) == old_len_match - 1) over {Any | hasattr(func, 'func') and hasattr(func, 'args') and hasattr(func, 'diff') and hasattr(match, 'pop') and hasattr(s, 'subs') and len(match) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ode_lie_group : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: hasattr(func, 'diff')                          ║
+# ║   ensures:  len(match) == old_len_match - 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ode_lie_group : {Any | hasattr(func, 'func') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d49f569e12bd9dad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12bfa0330a0f8180  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group._ode_lie_group","kind":"function","src_hash":"cc2cfc43c80d999b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ode_lie_group(s, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_ode_lie_group_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group._ode_lie_group_correct","statement":"Path(_ode_lie_group(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d49f569e12bd9dad"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group._ode_lie_group","kind":"function","src_hash":"cc2cfc43c80d999b","in":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args') and hasattr(func, 'diff') and hasattr(match, 'pop') and hasattr(s, 'subs') and len(match) > 0"},"out":{"base":"Any","pred":"result satisfies: len(match) == old_len_match - 1"},"spec":{"lhs":"_ode_lie_group(s, func, order)","rhs":"len(match) == old_len_match - 1","over":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args') and hasattr(func, 'diff') and hasattr(match, 'pop') and hasattr(s, 'subs') and len(match) > 0"},"name":"_ode_lie_group_correct"},"guarantee":"len(match) == old_len_match - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group._ode_lie_group_correct","statement":"Path(_ode_lie_group(x), len(match) == old_len_match - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12bfa0330a0f8180","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'func')","hasattr(func, 'args')","hasattr(func, 'diff')","hasattr(match, 'pop')","hasattr(s, 'subs')","len(match) > 0"],"ensures":["len(match) == old_len_match - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["func.args","func.diff","func.func","match.pop","s.subs"],"calls_mutating":["match.pop"]},"state_contract":{"modifies":["match.*"],"old_bindings":{"old_len_match":"len(match)"},"pre_requires":["len(match) > 0"],"post_ensures":["len(match) == old_len_match - 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _ode_lie_group( s, func, order, match):
 
     heuristics = lie_heuristics
@@ -199,9 +216,15 @@ def _ode_lie_group( s, func, order, match):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(infinitesimals(eq,), the infinitesimal functions of an ordinary differential equation, `\xi(x,y)` and `\eta(x,y)`, are the infinitesimals of the lie group of point transformations for which the differential equation is in) over {Any | isinstance(eq, Equality)} ║
+# ║ Path(infinitesimals(eq, func, order), <unspecified:infinitesimals>) over {Any | isinstance(eq, Equality) and not (len(variables) != 1) and hasattr(func, 'args') and hasattr(eq, 'lhs') and hasattr(eq, 'rhs') and hasattr(func, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ infinitesimals : {Any | isinstance(eq, Equality)} → Any    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (len(variables) != 1)                      ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: hasattr(eq, 'lhs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ infinitesimals : {Any | isinstance(eq, Equality) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Equality: {isinstance(eq, Equality)} → library_axiom     ║
@@ -211,9 +234,12 @@ def _ode_lie_group( s, func, order, match):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b3123646...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.infinitesimals","kind":"function","src_hash":"ae21ab3d733ef666","in":{"base":"Any","pred":"isinstance(eq, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"infinitesimals(eq,)","rhs":"the infinitesimal functions of an ordinary differential equation, `\\xi(x,y)` and `\\eta(x,y)`, are the infinitesimals of the lie group of point transformations for which the differential equation is in","over":{"base":"Any","pred":"isinstance(eq, Equality)"},"name":"infinitesimals_correct"},"guarantee":"the infinitesimal functions of an ordinary differential equation, `\\xi(x,y)` and `\\eta(x,y)`, are the infinitesimals of the lie group of point transformations for which the differential equation is in","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"infinitesimals(x)","rhs":"the infinitesimal functions of an ordinary differential equation, `\\xi(x,y)` and `\\eta(x,y)`, are the infinitesimals of the lie group of point transformations for which the differential equation is in","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"infinitesimals_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.infinitesimals_Equality_correct","statement":"infinitesimals satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b312364646cd444d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.infinitesimals","kind":"function","src_hash":"ae21ab3d733ef666","in":{"base":"Any","pred":"isinstance(eq, Equality) and not (len(variables) != 1) and hasattr(func, 'args') and hasattr(eq, 'lhs') and hasattr(eq, 'rhs') and hasattr(func, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"infinitesimals(eq, func, order)","rhs":"<unspecified:infinitesimals>","over":{"base":"Any","pred":"isinstance(eq, Equality) and not (len(variables) != 1) and hasattr(func, 'args') and hasattr(eq, 'lhs') and hasattr(eq, 'rhs') and hasattr(func, 'diff')"},"name":"infinitesimals_correct"},"guarantee":"the infinitesimal functions of an ordinary differential equation, `\\xi(x,y)` and `\\eta(x,y)`, are the infinitesimals of the lie group of point transformations for which the differential equation is in","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"infinitesimals(x)","rhs":"the infinitesimal functions of an ordinary differential equation, `\\xi(x,y)` and `\\eta(x,y)`, are the infinitesimals of the lie group of point transformations for which the differential equation is in","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"infinitesimals_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.infinitesimals_Equality_correct","statement":"infinitesimals satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b312364646cd444d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (len(variables) != 1)","hasattr(func, 'args')","hasattr(eq, 'lhs')","hasattr(eq, 'rhs')","hasattr(func, 'diff')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["eq.lhs","eq.rhs","func.args","func.diff"],"calls_mutating":["xieta.extend"],"raises":["NotImplementedError","ValueError"],"catches":["NotImplementedError"]},"state_contract":{"modifies":["xieta.*"],"old_bindings":{"old_len_xieta":"len(xieta)"},"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'order != 1', 'isinstance(eq, Equality)', 'len(variables) != 1', \"hint == 'default'\", \"hint == 'all'\"}, fibers={'Equality'})"]}}
 def infinitesimals(eq, func=None, order=None, hint='default', match=None):
     r"""
     The infinitesimal functions of an ordinary differential equation, `\xi(x,y)`
@@ -355,16 +381,22 @@ def infinitesimals(eq, func=None, order=None, hint='default', match=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lie_heuristic_abaco1_simple(mat), the first heuristic uses the following four sets of assumptions on `\xi` and `\eta`) over Any ║
+# ║ Path(lie_heuristic_abaco1_simple(match, comp), <unspecified:lie_heuristic_abaco1_simple>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lie_heuristic_abaco1_simple : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b436ef020fc3f422  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_abaco1_simple","kind":"function","src_hash":"9f52a8e0f630f47c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_abaco1_simple(mat)","rhs":"the first heuristic uses the following four sets of assumptions on `\\xi` and `\\eta`","over":{"base":"Any"},"name":"lie_heuristic_abaco1_simple_correct"},"guarantee":"the first heuristic uses the following four sets of assumptions on `\\xi` and `\\eta`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_abaco1_simple_correct","statement":"Path(lie_heuristic_abaco1_simple(x), the first heuristic uses the following four sets of assumptions on `\\xi` and `\\eta`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b436ef020fc3f422"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_abaco1_simple","kind":"function","src_hash":"9f52a8e0f630f47c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_abaco1_simple(match, comp)","rhs":"<unspecified:lie_heuristic_abaco1_simple>","over":{"base":"Any"},"name":"lie_heuristic_abaco1_simple_correct"},"guarantee":"the first heuristic uses the following four sets of assumptions on `\\xi` and `\\eta`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_abaco1_simple_correct","statement":"Path(lie_heuristic_abaco1_simple(x), the first heuristic uses the following four sets of assumptions on `\\xi` and `\\eta`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b436ef020fc3f422","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def lie_heuristic_abaco1_simple(match, comp=False):
     r"""
     The first heuristic uses the following four sets of
@@ -469,16 +501,22 @@ def lie_heuristic_abaco1_simple(match, comp=False):
         return xieta
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lie_heuristic_abaco1_product(mat), the second heuristic uses the following two assumptions on `\xi` and `\eta`) over Any ║
+# ║ Path(lie_heuristic_abaco1_product(match, comp), <unspecified:lie_heuristic_abaco1_product>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lie_heuristic_abaco1_product : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 833d5f3dbe0c8bab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_abaco1_product","kind":"function","src_hash":"95571bd750a7ebe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_abaco1_product(mat)","rhs":"the second heuristic uses the following two assumptions on `\\xi` and `\\eta`","over":{"base":"Any"},"name":"lie_heuristic_abaco1_product_correct"},"guarantee":"the second heuristic uses the following two assumptions on `\\xi` and `\\eta`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_abaco1_product_correct","statement":"Path(lie_heuristic_abaco1_product(x), the second heuristic uses the following two assumptions on `\\xi` and `\\eta`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"833d5f3dbe0c8bab"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_abaco1_product","kind":"function","src_hash":"95571bd750a7ebe7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_abaco1_product(match, comp)","rhs":"<unspecified:lie_heuristic_abaco1_product>","over":{"base":"Any"},"name":"lie_heuristic_abaco1_product_correct"},"guarantee":"the second heuristic uses the following two assumptions on `\\xi` and `\\eta`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_abaco1_product_correct","statement":"Path(lie_heuristic_abaco1_product(x), the second heuristic uses the following two assumptions on `\\xi` and `\\eta`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"833d5f3dbe0c8bab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def lie_heuristic_abaco1_product(match, comp=False):
     r"""
     The second heuristic uses the following two assumptions on `\xi` and `\eta`
@@ -553,7 +591,10 @@ def lie_heuristic_abaco1_product(match, comp=False):
         return xieta
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lie_heuristic_bivariate(mat), the third heuristic assumes the infinitesimals `\xi` and `\eta` to be bi-variate polynomials in `x` and `y`) over {Any | isinstance(soldict, list)} ║
+# ║ Path(lie_heuristic_bivariate(match, comp), [inf]) over {Any | isinstance(soldict, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [inf]                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lie_heuristic_bivariate : {Any | isinstance(soldict, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -565,9 +606,12 @@ def lie_heuristic_abaco1_product(match, comp=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 59fae376...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_bivariate","kind":"function","src_hash":"537787e6409b89d4","in":{"base":"Any","pred":"isinstance(soldict, list)"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_bivariate(mat)","rhs":"the third heuristic assumes the infinitesimals `\\xi` and `\\eta` to be bi-variate polynomials in `x` and `y`","over":{"base":"Any","pred":"isinstance(soldict, list)"},"name":"lie_heuristic_bivariate_correct"},"guarantee":"the third heuristic assumes the infinitesimals `\\xi` and `\\eta` to be bi-variate polynomials in `x` and `y`","fibers":[{"name":"list","pred":"isinstance(soldict, list)","path":{"lhs":"lie_heuristic_bivariate(x)","rhs":"the third heuristic assumes the infinitesimals `\\xi` and `\\eta` to be bi-variate polynomials in `x` and `y`","over":{"base":"list","pred":"isinstance(soldict, list)"},"name":"lie_heuristic_bivariate_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_bivariate_list_correct","statement":"lie_heuristic_bivariate satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"59fae376a42feba2"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_bivariate","kind":"function","src_hash":"537787e6409b89d4","in":{"base":"Any","pred":"isinstance(soldict, list)"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_bivariate(match, comp)","rhs":"[inf]","over":{"base":"Any","pred":"isinstance(soldict, list)"},"name":"lie_heuristic_bivariate_correct"},"guarantee":"returns [inf]","fibers":[{"name":"list","pred":"isinstance(soldict, list)","path":{"lhs":"lie_heuristic_bivariate(x)","rhs":"returns [inf]","over":{"base":"list","pred":"isinstance(soldict, list)"},"name":"lie_heuristic_bivariate_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_bivariate_list_correct","statement":"lie_heuristic_bivariate satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"59fae376a42feba2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[inf]","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(soldict, list)'}, fibers={'list'})"]}}
 def lie_heuristic_bivariate(match, comp=False):
     r"""
     The third heuristic assumes the infinitesimals `\xi` and `\eta`
@@ -641,7 +685,10 @@ def lie_heuristic_bivariate(match, comp=False):
                     return [inf]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lie_heuristic_chi(mat), the aim of the fourth heuristic is to find the function `\chi(x, y)` that satisfies the pde `\frac{d\chi}{dx} + h\frac{d\chi}{dx} - \frac{\partial h}{\partial y}\chi = 0`) over {Any | isinstance(soldict, list)} ║
+# ║ Path(lie_heuristic_chi(match, comp), [inf]) over {Any | isinstance(soldict, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [inf]                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lie_heuristic_chi : {Any | isinstance(soldict, list)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -653,9 +700,12 @@ def lie_heuristic_bivariate(match, comp=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4a3fe749...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_chi","kind":"function","src_hash":"d6961a73fb4106de","in":{"base":"Any","pred":"isinstance(soldict, list)"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_chi(mat)","rhs":"the aim of the fourth heuristic is to find the function `\\chi(x, y)` that satisfies the pde `\\frac{d\\chi}{dx} + h\\frac{d\\chi}{dx} - \\frac{\\partial h}{\\partial y}\\chi = 0`","over":{"base":"Any","pred":"isinstance(soldict, list)"},"name":"lie_heuristic_chi_correct"},"guarantee":"the aim of the fourth heuristic is to find the function `\\chi(x, y)` that satisfies the pde `\\frac{d\\chi}{dx} + h\\frac{d\\chi}{dx} - \\frac{\\partial h}{\\partial y}\\chi = 0`","fibers":[{"name":"list","pred":"isinstance(soldict, list)","path":{"lhs":"lie_heuristic_chi(x)","rhs":"the aim of the fourth heuristic is to find the function `\\chi(x, y)` that satisfies the pde `\\frac{d\\chi}{dx} + h\\frac{d\\chi}{dx} - \\frac{\\partial h}{\\partial y}\\chi = 0`","over":{"base":"list","pred":"isinstance(soldict, list)"},"name":"lie_heuristic_chi_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_chi_list_correct","statement":"lie_heuristic_chi satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4a3fe7498f83f82d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_chi","kind":"function","src_hash":"d6961a73fb4106de","in":{"base":"Any","pred":"isinstance(soldict, list)"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_chi(match, comp)","rhs":"[inf]","over":{"base":"Any","pred":"isinstance(soldict, list)"},"name":"lie_heuristic_chi_correct"},"guarantee":"returns [inf]","fibers":[{"name":"list","pred":"isinstance(soldict, list)","path":{"lhs":"lie_heuristic_chi(x)","rhs":"returns [inf]","over":{"base":"list","pred":"isinstance(soldict, list)"},"name":"lie_heuristic_chi_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_chi_list_correct","statement":"lie_heuristic_chi satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4a3fe7498f83f82d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[inf]","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(soldict, list)'}, fibers={'list'})"]}}
 def lie_heuristic_chi(match, comp=False):
     r"""
     The aim of the fourth heuristic is to find the function `\chi(x, y)`
@@ -728,16 +778,22 @@ def lie_heuristic_chi(match, comp=False):
                         return [inf]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lie_heuristic_function_sum(mat), this heuristic uses the following two assumptions on `\xi` and `\eta`) over Any ║
+# ║ Path(lie_heuristic_function_sum(match, comp), <unspecified:lie_heuristic_function_sum>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lie_heuristic_function_sum : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f40806e2747c4e3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_function_sum","kind":"function","src_hash":"4456b5a39f967843","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_function_sum(mat)","rhs":"this heuristic uses the following two assumptions on `\\xi` and `\\eta`","over":{"base":"Any"},"name":"lie_heuristic_function_sum_correct"},"guarantee":"this heuristic uses the following two assumptions on `\\xi` and `\\eta`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_function_sum_correct","statement":"Path(lie_heuristic_function_sum(x), this heuristic uses the following two assumptions on `\\xi` and `\\eta`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f40806e2747c4e3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_function_sum","kind":"function","src_hash":"4456b5a39f967843","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_function_sum(match, comp)","rhs":"<unspecified:lie_heuristic_function_sum>","over":{"base":"Any"},"name":"lie_heuristic_function_sum_correct"},"guarantee":"this heuristic uses the following two assumptions on `\\xi` and `\\eta`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_function_sum_correct","statement":"Path(lie_heuristic_function_sum(x), this heuristic uses the following two assumptions on `\\xi` and `\\eta`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f40806e2747c4e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def lie_heuristic_function_sum(match, comp=False):
     r"""
     This heuristic uses the following two assumptions on `\xi` and `\eta`
@@ -829,16 +885,22 @@ def lie_heuristic_function_sum(match, comp=False):
             return xieta
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lie_heuristic_abaco2_similar(mat), this heuristic uses the following two assumptions on `\xi` and `\eta`) over Any ║
+# ║ Path(lie_heuristic_abaco2_similar(match, comp), <unspecified:lie_heuristic_abaco2_similar>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lie_heuristic_abaco2_similar : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f09d6bb639a925c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_abaco2_similar","kind":"function","src_hash":"18f26620f6073110","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_abaco2_similar(mat)","rhs":"this heuristic uses the following two assumptions on `\\xi` and `\\eta`","over":{"base":"Any"},"name":"lie_heuristic_abaco2_similar_correct"},"guarantee":"this heuristic uses the following two assumptions on `\\xi` and `\\eta`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_abaco2_similar_correct","statement":"Path(lie_heuristic_abaco2_similar(x), this heuristic uses the following two assumptions on `\\xi` and `\\eta`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f09d6bb639a925c7"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_abaco2_similar","kind":"function","src_hash":"18f26620f6073110","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_abaco2_similar(match, comp)","rhs":"<unspecified:lie_heuristic_abaco2_similar>","over":{"base":"Any"},"name":"lie_heuristic_abaco2_similar_correct"},"guarantee":"this heuristic uses the following two assumptions on `\\xi` and `\\eta`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_abaco2_similar_correct","statement":"Path(lie_heuristic_abaco2_similar(x), this heuristic uses the following two assumptions on `\\xi` and `\\eta`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f09d6bb639a925c7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def lie_heuristic_abaco2_similar(match, comp=False):
     r"""
     This heuristic uses the following two assumptions on `\xi` and `\eta`
@@ -948,16 +1010,22 @@ def lie_heuristic_abaco2_similar(match, comp=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lie_heuristic_abaco2_unique_unknown(mat), this heuristic assumes the presence of unknown functions or known functions with non-integer powers) over Any ║
+# ║ Path(lie_heuristic_abaco2_unique_unknown(match, comp), <unspecified:lie_heuristic_abaco2_unique_unknown>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lie_heuristic_abaco2_unique_unknown : Any → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adcf181ed25833a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_abaco2_unique_unknown","kind":"function","src_hash":"c41261c3a03c51ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_abaco2_unique_unknown(mat)","rhs":"this heuristic assumes the presence of unknown functions or known functions with non-integer powers","over":{"base":"Any"},"name":"lie_heuristic_abaco2_unique_unknown_correct"},"guarantee":"this heuristic assumes the presence of unknown functions or known functions with non-integer powers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_abaco2_unique_unknown_correct","statement":"Path(lie_heuristic_abaco2_unique_unknown(x), this heuristic assumes the presence of unknown functions or known functions with non-integer powers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adcf181ed25833a3"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_abaco2_unique_unknown","kind":"function","src_hash":"c41261c3a03c51ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_abaco2_unique_unknown(match, comp)","rhs":"<unspecified:lie_heuristic_abaco2_unique_unknown>","over":{"base":"Any"},"name":"lie_heuristic_abaco2_unique_unknown_correct"},"guarantee":"this heuristic assumes the presence of unknown functions or known functions with non-integer powers","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_abaco2_unique_unknown_correct","statement":"Path(lie_heuristic_abaco2_unique_unknown(x), this heuristic assumes the presence of unknown functions or known functions with non-integer powers)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adcf181ed25833a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def lie_heuristic_abaco2_unique_unknown(match, comp=False):
     r"""
     This heuristic assumes the presence of unknown functions or known functions
@@ -1037,16 +1105,22 @@ def lie_heuristic_abaco2_unique_unknown(match, comp=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lie_heuristic_abaco2_unique_general(mat), this heuristic finds if infinitesimals of the form `\eta = f(x)`, `\xi = g(y)` without making any assumptions on `h`) over Any ║
+# ║ Path(lie_heuristic_abaco2_unique_general(match, comp), <unspecified:lie_heuristic_abaco2_unique_general>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lie_heuristic_abaco2_unique_general : Any → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cf8d1de99301634  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_abaco2_unique_general","kind":"function","src_hash":"913b3c50a76c629d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_abaco2_unique_general(mat)","rhs":"this heuristic finds if infinitesimals of the form `\\eta = f(x)`, `\\xi = g(y)` without making any assumptions on `h`","over":{"base":"Any"},"name":"lie_heuristic_abaco2_unique_general_correct"},"guarantee":"this heuristic finds if infinitesimals of the form `\\eta = f(x)`, `\\xi = g(y)` without making any assumptions on `h`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_abaco2_unique_general_correct","statement":"Path(lie_heuristic_abaco2_unique_general(x), this heuristic finds if infinitesimals of the form `\\eta = f(x)`, `\\xi = g(y)` without making any assumptions on `h`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cf8d1de99301634"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_abaco2_unique_general","kind":"function","src_hash":"913b3c50a76c629d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_abaco2_unique_general(match, comp)","rhs":"<unspecified:lie_heuristic_abaco2_unique_general>","over":{"base":"Any"},"name":"lie_heuristic_abaco2_unique_general_correct"},"guarantee":"this heuristic finds if infinitesimals of the form `\\eta = f(x)`, `\\xi = g(y)` without making any assumptions on `h`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_abaco2_unique_general_correct","statement":"Path(lie_heuristic_abaco2_unique_general(x), this heuristic finds if infinitesimals of the form `\\eta = f(x)`, `\\xi = g(y)` without making any assumptions on `h`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cf8d1de99301634","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def lie_heuristic_abaco2_unique_general(match, comp=False):
     r"""
     This heuristic finds if infinitesimals of the form `\eta = f(x)`, `\xi = g(y)`
@@ -1123,7 +1197,10 @@ def lie_heuristic_abaco2_unique_general(match, comp=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lie_heuristic_linear(mat), this heuristic assumes) over {Any | isinstance(soldict, list)} ║
+# ║ Path(lie_heuristic_linear(match, comp), [{xi: xival, eta: etaval}]) over {Any | isinstance(soldict, list)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [{xi: xival, eta: etaval}]                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lie_heuristic_linear : {Any | isinstance(soldict, lis...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1135,9 +1212,12 @@ def lie_heuristic_abaco2_unique_general(match, comp=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c385467c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_linear","kind":"function","src_hash":"82d6af42e96256a3","in":{"base":"Any","pred":"isinstance(soldict, list)"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_linear(mat)","rhs":"this heuristic assumes","over":{"base":"Any","pred":"isinstance(soldict, list)"},"name":"lie_heuristic_linear_correct"},"guarantee":"this heuristic assumes","fibers":[{"name":"list","pred":"isinstance(soldict, list)","path":{"lhs":"lie_heuristic_linear(x)","rhs":"this heuristic assumes","over":{"base":"list","pred":"isinstance(soldict, list)"},"name":"lie_heuristic_linear_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_linear_list_correct","statement":"lie_heuristic_linear satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c385467c8f3af34e"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group.lie_heuristic_linear","kind":"function","src_hash":"82d6af42e96256a3","in":{"base":"Any","pred":"isinstance(soldict, list)"},"out":{"base":"Any"},"spec":{"lhs":"lie_heuristic_linear(match, comp)","rhs":"[{xi: xival, eta: etaval}]","over":{"base":"Any","pred":"isinstance(soldict, list)"},"name":"lie_heuristic_linear_correct"},"guarantee":"returns [{xi: xival, eta: etaval}]","fibers":[{"name":"list","pred":"isinstance(soldict, list)","path":{"lhs":"lie_heuristic_linear(x)","rhs":"returns [{xi: xival, eta: etaval}]","over":{"base":"list","pred":"isinstance(soldict, list)"},"name":"lie_heuristic_linear_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group.lie_heuristic_linear_list_correct","statement":"lie_heuristic_linear satisfies spec on list inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c385467c8f3af34e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[{xi: xival, eta: etaval}]","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(soldict, list)'}, fibers={'list'})"]}}
 def lie_heuristic_linear(match, comp=False):
     r"""
     This heuristic assumes
@@ -1212,7 +1292,17 @@ def lie_heuristic_linear(match, comp=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_lie_group_remove(coo), this function is strictly meant for internal use by the lie group ode solving method) over {Any | isinstance(coords, AppliedUndef)} ║
+# ║ Path(_lie_group_remove(coords), result == (coords.args[0] if isinstance(coords, AppliedUndef) else coords if coords.is_Add else base ** expr if coords.is_Pow else Mul(*mulargs)) and result == coords.args[0] or result == coords or result == base ** expr or result == Mul(*mulargs)) over {Any | isinstance(coords, AppliedUndef) and hasattr(coords, 'is_Add') and hasattr(coords, 'args') and hasattr(coords, 'is_Pow') and hasattr(coords, 'atoms') and hasattr(coords, 'is_Mul') and hasattr(coords, 'as_base_exp') and hasattr(coords, 'subs')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(coords, 'is_Add')                      ║
+# ║   requires: hasattr(coords, 'args')                        ║
+# ║   requires: hasattr(coords, 'is_Pow')                      ║
+# ║   ensures:  result == (coords.args[0] if isinstance(c...   ║
+# ║   ensures:  result == coords.args[0] or result == coo...   ║
+# ║   fiber[AppliedUndef]: isinstance(coords, AppliedUnde...   ║
+# ║   fiber[case_1]: coords.is_Add => coords                   ║
+# ║   fiber[case_2]: coords.is_Pow => base ** expr             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _lie_group_remove : {Any | isinstance(coords, Applied...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1224,9 +1314,12 @@ def lie_heuristic_linear(match, comp=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 921c0528...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group._lie_group_remove","kind":"function","src_hash":"1b3a9e01b217971a","in":{"base":"Any","pred":"isinstance(coords, AppliedUndef)"},"out":{"base":"Any"},"spec":{"lhs":"_lie_group_remove(coo)","rhs":"this function is strictly meant for internal use by the lie group ode solving method","over":{"base":"Any","pred":"isinstance(coords, AppliedUndef)"},"name":"_lie_group_remove_correct"},"guarantee":"this function is strictly meant for internal use by the lie group ode solving method","fibers":[{"name":"AppliedUndef","pred":"isinstance(coords, AppliedUndef)","path":{"lhs":"_lie_group_remove(x)","rhs":"this function is strictly meant for internal use by the lie group ode solving method","over":{"base":"AppliedUndef","pred":"isinstance(coords, AppliedUndef)"},"name":"_lie_group_remove_AppliedUndef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group._lie_group_remove_AppliedUndef_correct","statement":"_lie_group_remove satisfies spec on AppliedUndef inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"921c0528e7ea9f54"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.lie_group._lie_group_remove","kind":"function","src_hash":"1b3a9e01b217971a","in":{"base":"Any","pred":"isinstance(coords, AppliedUndef) and hasattr(coords, 'is_Add') and hasattr(coords, 'args') and hasattr(coords, 'is_Pow') and hasattr(coords, 'atoms') and hasattr(coords, 'is_Mul') and hasattr(coords, 'as_base_exp') and hasattr(coords, 'subs')"},"out":{"base":"Any","pred":"result satisfies: result == (coords.args[0] if isinstance(coords, AppliedUndef) else coords if coords.is_Add else base ** expr if coords.is_Pow else Mul(*mulargs)) and result == coords.args[0] or result == coords or result == base ** expr or result == Mul(*mulargs)"},"spec":{"lhs":"_lie_group_remove(coords)","rhs":"result == (coords.args[0] if isinstance(coords, AppliedUndef) else coords if coords.is_Add else base ** expr if coords.is_Pow else Mul(*mulargs)) and result == coords.args[0] or result == coords or result == base ** expr or result == Mul(*mulargs)","over":{"base":"Any","pred":"isinstance(coords, AppliedUndef) and hasattr(coords, 'is_Add') and hasattr(coords, 'args') and hasattr(coords, 'is_Pow') and hasattr(coords, 'atoms') and hasattr(coords, 'is_Mul') and hasattr(coords, 'as_base_exp') and hasattr(coords, 'subs')"},"name":"_lie_group_remove_correct"},"guarantee":"result == (coords.args[0] if isinstance(coords, AppliedUndef) else coords if coords.is_Add else base ** expr if coords.is_Pow else Mul(*mulargs)); result == coords.args[0] or result == coords or result == base ** expr or result == Mul(*mulargs); 4-fiber decomposition","fibers":[{"name":"AppliedUndef","pred":"isinstance(coords, AppliedUndef)","path":{"lhs":"_lie_group_remove(x)","rhs":"result == (coords.args[0] if isinstance(coords, AppliedUndef) else coords if coords.is_Add else base ** expr if coords.is_Pow else Mul(*mulargs)); result == coords.args[0] or result == coords or result == base ** expr or result == Mul(*mulargs); 4-fiber decomposition","over":{"base":"AppliedUndef","pred":"isinstance(coords, AppliedUndef)"},"name":"_lie_group_remove_AppliedUndef_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.lie_group._lie_group_remove_AppliedUndef_correct","statement":"_lie_group_remove satisfies spec on AppliedUndef inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"921c0528e7ea9f54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(coords, 'is_Add')","hasattr(coords, 'args')","hasattr(coords, 'is_Pow')","hasattr(coords, 'atoms')","hasattr(coords, 'is_Mul')","hasattr(coords, 'as_base_exp')","hasattr(coords, 'subs')"],"ensures":["result == (coords.args[0] if isinstance(coords, AppliedUndef) else coords if coords.is_Add else base ** expr if coords.is_Pow else Mul(*mulargs))","result == coords.args[0] or result == coords or result == base ** expr or result == Mul(*mulargs)"],"fibers":[{"name":"AppliedUndef","guard":"isinstance(coords, AppliedUndef)","ensures":["result == coords.args[0]"],"decidability":"structural","returns_expr":"coords.args[0]"},{"name":"case_1","guard":"coords.is_Add","ensures":["result == coords"],"decidability":"library","returns_expr":"coords"},{"name":"case_2","guard":"coords.is_Pow","ensures":["result == base ** expr"],"decidability":"library","returns_expr":"base ** expr"},{"name":"case_3","guard":"coords.is_Mul","ensures":["result == Mul(*mulargs)"],"decidability":"library","returns_expr":"Mul(*mulargs)"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(coords, AppliedUndef)', 'isinstance(coords, AppliedUndef)'}, fibers={'AppliedUndef'})"]}}
 def _lie_group_remove(coords):
     r"""
     This function is strictly meant for internal use by the Lie group ODE solving

@@ -29,7 +29,12 @@ from sympy.abc import x, y
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_polymatrix(), internal helper behaves correctly) over {Any | isinstance(pm1 * v1, PolyMatrix)} ║
+# ║ Path(_test_polymatrix(), A.ring == ZZ[x] and isinstance(pm1 * v1, PolyMatrix) and pm1 * v1 == A and pm1 * m1 == A and v1 * pm1 == B and pm2.ring == QQ[x] and pm2 * v2 == C and pm2 * m2 == C and v3 == PolyMatrix([[Poly(S.Half * x ** 2, x, domain='QQ'), S.Half]], ring='QQ[x]') and pm3 * S.Half == v3 and v3.ring == QQ[x] and pm4 * v4 == PolyMatrix([[Poly(2 * x ** 2, x, domain='ZZ')]]) and len(PolyMatrix(ring=ZZ[x])) == 0 and PolyMatrix([1, 0, 0, 1], x) / -1 == PolyMatrix([-1, 0, 0, -1], x)) over {Any | isinstance(pm1 * v1, PolyMatrix)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.ring == ZZ[x]                                ║
+# ║   ensures:  isinstance(pm1 * v1, PolyMatrix)               ║
+# ║   ensures:  pm1 * v1 == A                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _test_polymatrix : {Any | isinstance(pm1 * v1, PolyMa...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -41,9 +46,12 @@ from sympy.abc import x, y
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 3.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6d6bd13f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix._test_polymatrix","kind":"function","src_hash":"00a07c7e9779bf46","in":{"base":"Any","pred":"isinstance(pm1 * v1, PolyMatrix)"},"out":{"base":"Any","pred":"A.ring == ZZ[x] and isinstance(pm1 * v1, PolyMatrix) and pm1 * v1 == A and pm1 * m1 == A and v1 * pm1 == B and pm2.ring == QQ[x] and pm2 * v2 == C and pm2 * m2 == C and pm3 * S.Half == v3 and v3.ring == QQ[x] and pm4 * v4 == PolyMatrix([[Poly(2 * x ** 2, x, domain='ZZ')]]) and len(PolyMatrix(ring=ZZ[x])) == 0 and PolyMatrix([1, 0, 0, 1], x) / -1 == PolyMatrix([-1, 0, 0, -1], x)"},"spec":{"lhs":"_test_polymatrix()","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(pm1 * v1, PolyMatrix)"},"name":"_test_polymatrix_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"PolyMatrix","pred":"isinstance(pm1 * v1, PolyMatrix)","path":{"lhs":"_test_polymatrix(x)","rhs":"internal helper behaves correctly","over":{"base":"PolyMatrix","pred":"isinstance(pm1 * v1, PolyMatrix)"},"name":"_test_polymatrix_PolyMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix._test_polymatrix_PolyMatrix_correct","statement":"_test_polymatrix satisfies spec on PolyMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6d6bd13fe1374a5c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix._test_polymatrix","kind":"function","src_hash":"00a07c7e9779bf46","in":{"base":"Any","pred":"isinstance(pm1 * v1, PolyMatrix)"},"out":{"base":"Any","pred":"result satisfies: A.ring == ZZ[x] and isinstance(pm1 * v1, PolyMatrix) and pm1 * v1 == A and pm1 * m1 == A and v1 * pm1 == B and pm2.ring == QQ[x] and pm2 * v2 == C and pm2 * m2 == C and v3 == PolyMatrix([[Poly(S.Half * x ** 2, x, domain='QQ'), S.Half]], ring='QQ[x]') and pm3 * S.Half == v3 and v3.ring == QQ[x] and pm4 * v4 == PolyMatrix([[Poly(2 * x ** 2, x, domain='ZZ')]]) and len(PolyMatrix(ring=ZZ[x])) == 0 and PolyMatrix([1, 0, 0, 1], x) / -1 == PolyMatrix([-1, 0, 0, -1], x)"},"spec":{"lhs":"_test_polymatrix()","rhs":"A.ring == ZZ[x] and isinstance(pm1 * v1, PolyMatrix) and pm1 * v1 == A and pm1 * m1 == A and v1 * pm1 == B and pm2.ring == QQ[x] and pm2 * v2 == C and pm2 * m2 == C and v3 == PolyMatrix([[Poly(S.Half * x ** 2, x, domain='QQ'), S.Half]], ring='QQ[x]') and pm3 * S.Half == v3 and v3.ring == QQ[x] and pm4 * v4 == PolyMatrix([[Poly(2 * x ** 2, x, domain='ZZ')]]) and len(PolyMatrix(ring=ZZ[x])) == 0 and PolyMatrix([1, 0, 0, 1], x) / -1 == PolyMatrix([-1, 0, 0, -1], x)","over":{"base":"Any","pred":"isinstance(pm1 * v1, PolyMatrix)"},"name":"_test_polymatrix_correct"},"guarantee":"A.ring == ZZ[x]; isinstance(pm1 * v1, PolyMatrix); pm1 * v1 == A","fibers":[{"name":"PolyMatrix","pred":"isinstance(pm1 * v1, PolyMatrix)","path":{"lhs":"_test_polymatrix(x)","rhs":"A.ring == ZZ[x]; isinstance(pm1 * v1, PolyMatrix); pm1 * v1 == A","over":{"base":"PolyMatrix","pred":"isinstance(pm1 * v1, PolyMatrix)"},"name":"_test_polymatrix_PolyMatrix_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix._test_polymatrix_PolyMatrix_correct","statement":"_test_polymatrix satisfies spec on PolyMatrix inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6d6bd13fe1374a5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.ring == ZZ[x]","isinstance(pm1 * v1, PolyMatrix)","pm1 * v1 == A","pm1 * m1 == A","v1 * pm1 == B","pm2.ring == QQ[x]","pm2 * v2 == C","pm2 * m2 == C","v3 == PolyMatrix([[Poly(S.Half * x ** 2, x, domain='QQ'), S.Half]], ring='QQ[x]')","pm3 * S.Half == v3","v3.ring == QQ[x]","pm4 * v4 == PolyMatrix([[Poly(2 * x ** 2, x, domain='ZZ')]])","len(PolyMatrix(ring=ZZ[x])) == 0","PolyMatrix([1, 0, 0, 1], x) / -1 == PolyMatrix([-1, 0, 0, -1], x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":3.0,"verdict_class":"failed","binding":true}}
 def _test_polymatrix():
     pm1 = PolyMatrix([[Poly(x**2, x), Poly(-x, x)], [Poly(x**3, x), Poly(-1 + x, x)]])
     v1 = PolyMatrix([[1, 0], [-1, 0]], ring='ZZ[x]')
@@ -81,16 +89,24 @@ def _test_polymatrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polymatrix_constructor(), test_polymatrix_constructor produces the expected output) over Any ║
+# ║ Path(test_polymatrix_constructor(), M1.ring == QQ[x, y] and M1.domain == QQ and M1.gens == (x, y) and M1.shape == (1, 2) and M1.rows == 1 and M1.cols == 2 and len(M1) == 2 and list(M1) == [Poly(x, (x, y), domain=QQ), Poly(y, (x, y), domain=QQ)] and M2.ring == QQ[x][y] and M2.domain == QQ[x] and M2.gens == (y,) and M2.shape == (1, 2) and M2.rows == 1 and M2.cols == 2 and len(M2) == 2 and list(M2) == [Poly(x, (y,), domain=QQ[x]), Poly(y, (y,), domain=QQ[x])] and PolyMatrix([[x, y]], y) == PolyMatrix([[x, y]], ring=ZZ.frac_field(x)[y]) and PolyMatrix([[x, y]], ring='ZZ[x,y]') == PolyMatrix([[x, y]], ring=ZZ[x, y]) and PolyMatrix([[x, y]], (x, y)) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix([[x, y]], x, y) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix([x, y]) == PolyMatrix([[x], [y]], ring=QQ[x, y]) and PolyMatrix(1, 2, [x, y]) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix(1, 2, lambda i, j: [x, y][j]) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix(0, 2, [], x, y).shape == (0, 2) and PolyMatrix(2, 0, [], x, y).shape == (2, 0) and PolyMatrix([[], []], x, y).shape == (2, 0) and PolyMatrix(ring=QQ[x, y]) == PolyMatrix(0, 0, [], ring=QQ[x, y]) == PolyMatrix([], ring=QQ[x, y]) and PolyMatrix([Poly(x), Poly(y)]) == PolyMatrix([[x], [y]], ring=ZZ[x, y]) and PolyMatrix([Poly(y, x), 1]) == PolyMatrix([[y], [1]], ring=QQ[y])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polymatrix_constructor : Any → {Any | M1.ring ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M1.ring == QQ[x, y]                            ║
+# ║   ensures:  M1.domain == QQ                                ║
+# ║   ensures:  M1.gens == (x, y)                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polymatrix_constructor : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d878a6b6129cb08  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de28170d3ec22e7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_constructor","kind":"function","src_hash":"b4bf303121ea020b","in":{"base":"Any"},"out":{"base":"Any","pred":"M1.ring == QQ[x, y] and M1.domain == QQ and M1.gens == (x, y) and M1.shape == (1, 2) and M1.rows == 1 and M1.cols == 2 and len(M1) == 2 and list(M1) == [Poly(x, (x, y), domain=QQ), Poly(y, (x, y), domain=QQ)] and M2.ring == QQ[x][y] and M2.domain == QQ[x] and M2.gens == (y,) and M2.shape == (1, 2) and M2.rows == 1 and M2.cols == 2 and len(M2) == 2 and list(M2) == [Poly(x, (y,), domain=QQ[x]), Poly(y, (y,), domain=QQ[x])] and PolyMatrix([[x, y]], y) == PolyMatrix([[x, y]], ring=ZZ.frac_field(x)[y]) and PolyMatrix([[x, y]], ring='ZZ[x,y]') == PolyMatrix([[x, y]], ring=ZZ[x, y]) and PolyMatrix([[x, y]], (x, y)) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix([[x, y]], x, y) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix([x, y]) == PolyMatrix([[x], [y]], ring=QQ[x, y]) and PolyMatrix(1, 2, [x, y]) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix(1, 2, lambda i, j: [x, y][j]) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix(0, 2, [], x, y).shape == (0, 2) and PolyMatrix(2, 0, [], x, y).shape == (2, 0) and PolyMatrix([[], []], x, y).shape == (2, 0) and PolyMatrix([Poly(x), Poly(y)]) == PolyMatrix([[x], [y]], ring=ZZ[x, y]) and PolyMatrix([Poly(y, x), 1]) == PolyMatrix([[y], [1]], ring=QQ[y])"},"spec":{"lhs":"test_polymatrix_constructor()","rhs":"test_polymatrix_constructor produces the expected output","over":{"base":"Any"},"name":"test_polymatrix_constructor_correct"},"guarantee":"test_polymatrix_constructor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_constructor_correct","statement":"Path(test_polymatrix_constructor(x), test_polymatrix_constructor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d878a6b6129cb08"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_constructor","kind":"function","src_hash":"b4bf303121ea020b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M1.ring == QQ[x, y] and M1.domain == QQ and M1.gens == (x, y) and M1.shape == (1, 2) and M1.rows == 1 and M1.cols == 2 and len(M1) == 2 and list(M1) == [Poly(x, (x, y), domain=QQ), Poly(y, (x, y), domain=QQ)] and M2.ring == QQ[x][y] and M2.domain == QQ[x] and M2.gens == (y,) and M2.shape == (1, 2) and M2.rows == 1 and M2.cols == 2 and len(M2) == 2 and list(M2) == [Poly(x, (y,), domain=QQ[x]), Poly(y, (y,), domain=QQ[x])] and PolyMatrix([[x, y]], y) == PolyMatrix([[x, y]], ring=ZZ.frac_field(x)[y]) and PolyMatrix([[x, y]], ring='ZZ[x,y]') == PolyMatrix([[x, y]], ring=ZZ[x, y]) and PolyMatrix([[x, y]], (x, y)) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix([[x, y]], x, y) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix([x, y]) == PolyMatrix([[x], [y]], ring=QQ[x, y]) and PolyMatrix(1, 2, [x, y]) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix(1, 2, lambda i, j: [x, y][j]) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix(0, 2, [], x, y).shape == (0, 2) and PolyMatrix(2, 0, [], x, y).shape == (2, 0) and PolyMatrix([[], []], x, y).shape == (2, 0) and PolyMatrix(ring=QQ[x, y]) == PolyMatrix(0, 0, [], ring=QQ[x, y]) == PolyMatrix([], ring=QQ[x, y]) and PolyMatrix([Poly(x), Poly(y)]) == PolyMatrix([[x], [y]], ring=ZZ[x, y]) and PolyMatrix([Poly(y, x), 1]) == PolyMatrix([[y], [1]], ring=QQ[y])"},"spec":{"lhs":"test_polymatrix_constructor()","rhs":"M1.ring == QQ[x, y] and M1.domain == QQ and M1.gens == (x, y) and M1.shape == (1, 2) and M1.rows == 1 and M1.cols == 2 and len(M1) == 2 and list(M1) == [Poly(x, (x, y), domain=QQ), Poly(y, (x, y), domain=QQ)] and M2.ring == QQ[x][y] and M2.domain == QQ[x] and M2.gens == (y,) and M2.shape == (1, 2) and M2.rows == 1 and M2.cols == 2 and len(M2) == 2 and list(M2) == [Poly(x, (y,), domain=QQ[x]), Poly(y, (y,), domain=QQ[x])] and PolyMatrix([[x, y]], y) == PolyMatrix([[x, y]], ring=ZZ.frac_field(x)[y]) and PolyMatrix([[x, y]], ring='ZZ[x,y]') == PolyMatrix([[x, y]], ring=ZZ[x, y]) and PolyMatrix([[x, y]], (x, y)) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix([[x, y]], x, y) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix([x, y]) == PolyMatrix([[x], [y]], ring=QQ[x, y]) and PolyMatrix(1, 2, [x, y]) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix(1, 2, lambda i, j: [x, y][j]) == PolyMatrix([[x, y]], ring=QQ[x, y]) and PolyMatrix(0, 2, [], x, y).shape == (0, 2) and PolyMatrix(2, 0, [], x, y).shape == (2, 0) and PolyMatrix([[], []], x, y).shape == (2, 0) and PolyMatrix(ring=QQ[x, y]) == PolyMatrix(0, 0, [], ring=QQ[x, y]) == PolyMatrix([], ring=QQ[x, y]) and PolyMatrix([Poly(x), Poly(y)]) == PolyMatrix([[x], [y]], ring=ZZ[x, y]) and PolyMatrix([Poly(y, x), 1]) == PolyMatrix([[y], [1]], ring=QQ[y])","over":{"base":"Any"},"name":"test_polymatrix_constructor_correct"},"guarantee":"M1.ring == QQ[x, y]; M1.domain == QQ; M1.gens == (x, y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_constructor_correct","statement":"Path(test_polymatrix_constructor(x), M1.ring == QQ[x, y]; M1.domain == QQ; M1.gens == (x, y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de28170d3ec22e7c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M1.ring == QQ[x, y]","M1.domain == QQ","M1.gens == (x, y)","M1.shape == (1, 2)","M1.rows == 1","M1.cols == 2","len(M1) == 2","list(M1) == [Poly(x, (x, y), domain=QQ), Poly(y, (x, y), domain=QQ)]","M2.ring == QQ[x][y]","M2.domain == QQ[x]","M2.gens == (y,)","M2.shape == (1, 2)","M2.rows == 1","M2.cols == 2","len(M2) == 2","list(M2) == [Poly(x, (y,), domain=QQ[x]), Poly(y, (y,), domain=QQ[x])]","PolyMatrix([[x, y]], y) == PolyMatrix([[x, y]], ring=ZZ.frac_field(x)[y])","PolyMatrix([[x, y]], ring='ZZ[x,y]') == PolyMatrix([[x, y]], ring=ZZ[x, y])","PolyMatrix([[x, y]], (x, y)) == PolyMatrix([[x, y]], ring=QQ[x, y])","PolyMatrix([[x, y]], x, y) == PolyMatrix([[x, y]], ring=QQ[x, y])","PolyMatrix([x, y]) == PolyMatrix([[x], [y]], ring=QQ[x, y])","PolyMatrix(1, 2, [x, y]) == PolyMatrix([[x, y]], ring=QQ[x, y])","PolyMatrix(1, 2, lambda i, j: [x, y][j]) == PolyMatrix([[x, y]], ring=QQ[x, y])","PolyMatrix(0, 2, [], x, y).shape == (0, 2)","PolyMatrix(2, 0, [], x, y).shape == (2, 0)","PolyMatrix([[], []], x, y).shape == (2, 0)","PolyMatrix(ring=QQ[x, y]) == PolyMatrix(0, 0, [], ring=QQ[x, y]) == PolyMatrix([], ring=QQ[x, y])","PolyMatrix([Poly(x), Poly(y)]) == PolyMatrix([[x], [y]], ring=ZZ[x, y])","PolyMatrix([Poly(y, x), 1]) == PolyMatrix([[y], [1]], ring=QQ[y])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":true}}
 def test_polymatrix_constructor():
     M1 = PolyMatrix([[x, y]], ring=QQ[x,y])
     assert M1.ring == QQ[x,y]
@@ -134,16 +150,24 @@ def test_polymatrix_constructor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polymatrix_eq(), test_polymatrix_eq produces the expected output) over Any ║
+# ║ Path(test_polymatrix_eq(), (PolyMatrix([x]) == PolyMatrix([x])) is True and (PolyMatrix([y]) == PolyMatrix([x])) is False and (PolyMatrix([x]) != PolyMatrix([x])) is False and (PolyMatrix([y]) != PolyMatrix([x])) is True and PolyMatrix([[x, y]]) != PolyMatrix([x, y]) == PolyMatrix([[x], [y]]) and PolyMatrix([x], ring=QQ[x]) != PolyMatrix([x], ring=ZZ[x]) and PolyMatrix([x]) != Matrix([x]) and PolyMatrix([x]).to_Matrix() == Matrix([x]) and PolyMatrix([1], x) == PolyMatrix([1], x) and PolyMatrix([1], x) != PolyMatrix([1], y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polymatrix_eq : Any → {Any | (PolyMatrix([x]) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (PolyMatrix([x]) == PolyMatrix([x])) is True   ║
+# ║   ensures:  (PolyMatrix([y]) == PolyMatrix([x])) is F...   ║
+# ║   ensures:  (PolyMatrix([x]) != PolyMatrix([x])) is F...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polymatrix_eq : Any → {Any | result satisfies: (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e38d7262add18fdd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41742ced100eec84  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_eq","kind":"function","src_hash":"580318288d6c65a8","in":{"base":"Any"},"out":{"base":"Any","pred":"(PolyMatrix([x]) == PolyMatrix([x])) is True and (PolyMatrix([y]) == PolyMatrix([x])) is False and (PolyMatrix([x]) != PolyMatrix([x])) is False and (PolyMatrix([y]) != PolyMatrix([x])) is True and PolyMatrix([[x, y]]) != PolyMatrix([x, y]) == PolyMatrix([[x], [y]]) and PolyMatrix([x], ring=QQ[x]) != PolyMatrix([x], ring=ZZ[x]) and PolyMatrix([x]) != Matrix([x]) and PolyMatrix([x]).to_Matrix() == Matrix([x]) and PolyMatrix([1], x) == PolyMatrix([1], x) and PolyMatrix([1], x) != PolyMatrix([1], y)"},"spec":{"lhs":"test_polymatrix_eq()","rhs":"test_polymatrix_eq produces the expected output","over":{"base":"Any"},"name":"test_polymatrix_eq_correct"},"guarantee":"test_polymatrix_eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_eq_correct","statement":"Path(test_polymatrix_eq(x), test_polymatrix_eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e38d7262add18fdd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_eq","kind":"function","src_hash":"580318288d6c65a8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (PolyMatrix([x]) == PolyMatrix([x])) is True and (PolyMatrix([y]) == PolyMatrix([x])) is False and (PolyMatrix([x]) != PolyMatrix([x])) is False and (PolyMatrix([y]) != PolyMatrix([x])) is True and PolyMatrix([[x, y]]) != PolyMatrix([x, y]) == PolyMatrix([[x], [y]]) and PolyMatrix([x], ring=QQ[x]) != PolyMatrix([x], ring=ZZ[x]) and PolyMatrix([x]) != Matrix([x]) and PolyMatrix([x]).to_Matrix() == Matrix([x]) and PolyMatrix([1], x) == PolyMatrix([1], x) and PolyMatrix([1], x) != PolyMatrix([1], y)"},"spec":{"lhs":"test_polymatrix_eq()","rhs":"(PolyMatrix([x]) == PolyMatrix([x])) is True and (PolyMatrix([y]) == PolyMatrix([x])) is False and (PolyMatrix([x]) != PolyMatrix([x])) is False and (PolyMatrix([y]) != PolyMatrix([x])) is True and PolyMatrix([[x, y]]) != PolyMatrix([x, y]) == PolyMatrix([[x], [y]]) and PolyMatrix([x], ring=QQ[x]) != PolyMatrix([x], ring=ZZ[x]) and PolyMatrix([x]) != Matrix([x]) and PolyMatrix([x]).to_Matrix() == Matrix([x]) and PolyMatrix([1], x) == PolyMatrix([1], x) and PolyMatrix([1], x) != PolyMatrix([1], y)","over":{"base":"Any"},"name":"test_polymatrix_eq_correct"},"guarantee":"(PolyMatrix([x]) == PolyMatrix([x])) is True; (PolyMatrix([y]) == PolyMatrix([x])) is False; (PolyMatrix([x]) != PolyMatrix([x])) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_eq_correct","statement":"Path(test_polymatrix_eq(x), (PolyMatrix([x]) == PolyMatrix([x])) is True; (PolyMatrix([y]) == PolyMatrix([x])) is False; (PolyMatrix([x]) != PolyMatrix([x])) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41742ced100eec84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(PolyMatrix([x]) == PolyMatrix([x])) is True","(PolyMatrix([y]) == PolyMatrix([x])) is False","(PolyMatrix([x]) != PolyMatrix([x])) is False","(PolyMatrix([y]) != PolyMatrix([x])) is True","PolyMatrix([[x, y]]) != PolyMatrix([x, y]) == PolyMatrix([[x], [y]])","PolyMatrix([x], ring=QQ[x]) != PolyMatrix([x], ring=ZZ[x])","PolyMatrix([x]) != Matrix([x])","PolyMatrix([x]).to_Matrix() == Matrix([x])","PolyMatrix([1], x) == PolyMatrix([1], x)","PolyMatrix([1], x) != PolyMatrix([1], y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_polymatrix_eq():
     assert (PolyMatrix([x]) == PolyMatrix([x])) is True
     assert (PolyMatrix([y]) == PolyMatrix([x])) is False
@@ -162,16 +186,24 @@ def test_polymatrix_eq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polymatrix_from_Matrix(), test_polymatrix_from_Matrix produces the expected output) over Any ║
+# ║ Path(test_polymatrix_from_Matrix(), PolyMatrix.from_Matrix(Matrix([1, 2]), x) == PolyMatrix([1, 2], x, ring=QQ[x]) and PolyMatrix.from_Matrix(Matrix([1]), ring=QQ[x]) == PolyMatrix([1], x) and pmx != pmy and pmx.set_gens(y) == pmy) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polymatrix_from_Matrix : Any → {Any | PolyMatrix...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PolyMatrix.from_Matrix(Matrix([1, 2]), x)...   ║
+# ║   ensures:  PolyMatrix.from_Matrix(Matrix([1]), ring=...   ║
+# ║   ensures:  pmx != pmy                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polymatrix_from_Matrix : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f38345dac65fc55  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02dd3095a8ebdf29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_from_Matrix","kind":"function","src_hash":"4938ef32a43376f5","in":{"base":"Any"},"out":{"base":"Any","pred":"PolyMatrix.from_Matrix(Matrix([1, 2]), x) == PolyMatrix([1, 2], x, ring=QQ[x]) and PolyMatrix.from_Matrix(Matrix([1]), ring=QQ[x]) == PolyMatrix([1], x) and pmx != pmy and pmx.set_gens(y) == pmy"},"spec":{"lhs":"test_polymatrix_from_Matrix()","rhs":"test_polymatrix_from_Matrix produces the expected output","over":{"base":"Any"},"name":"test_polymatrix_from_Matrix_correct"},"guarantee":"test_polymatrix_from_Matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_from_Matrix_correct","statement":"Path(test_polymatrix_from_Matrix(x), test_polymatrix_from_Matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f38345dac65fc55"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_from_Matrix","kind":"function","src_hash":"4938ef32a43376f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PolyMatrix.from_Matrix(Matrix([1, 2]), x) == PolyMatrix([1, 2], x, ring=QQ[x]) and PolyMatrix.from_Matrix(Matrix([1]), ring=QQ[x]) == PolyMatrix([1], x) and pmx != pmy and pmx.set_gens(y) == pmy"},"spec":{"lhs":"test_polymatrix_from_Matrix()","rhs":"PolyMatrix.from_Matrix(Matrix([1, 2]), x) == PolyMatrix([1, 2], x, ring=QQ[x]) and PolyMatrix.from_Matrix(Matrix([1]), ring=QQ[x]) == PolyMatrix([1], x) and pmx != pmy and pmx.set_gens(y) == pmy","over":{"base":"Any"},"name":"test_polymatrix_from_Matrix_correct"},"guarantee":"PolyMatrix.from_Matrix(Matrix([1, 2]), x) == PolyMatrix([1, 2], x, ring=QQ[x]); PolyMatrix.from_Matrix(Matrix([1]), ring=QQ[x]) == PolyMatrix([1], x); pmx != pmy","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_from_Matrix_correct","statement":"Path(test_polymatrix_from_Matrix(x), PolyMatrix.from_Matrix(Matrix([1, 2]), x) == PolyMatrix([1, 2], x, ring=QQ[x]); PolyMatrix.from_Matrix(Matrix([1]), ring=QQ[x]) == PolyMatrix([1], x); pmx != pmy)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02dd3095a8ebdf29","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PolyMatrix.from_Matrix(Matrix([1, 2]), x) == PolyMatrix([1, 2], x, ring=QQ[x])","PolyMatrix.from_Matrix(Matrix([1]), ring=QQ[x]) == PolyMatrix([1], x)","pmx != pmy","pmx.set_gens(y) == pmy"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_polymatrix_from_Matrix():
     assert PolyMatrix.from_Matrix(Matrix([1, 2]), x) == PolyMatrix([1, 2], x, ring=QQ[x])
     assert PolyMatrix.from_Matrix(Matrix([1]), ring=QQ[x]) == PolyMatrix([1], x)
@@ -182,32 +214,47 @@ def test_polymatrix_from_Matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polymatrix_repr(), test_polymatrix_repr produces the expected output) over Any ║
+# ║ Path(test_polymatrix_repr(), repr(PolyMatrix([[1, 2]], x)) == 'PolyMatrix([[1, 2]], ring=QQ[x])' and repr(PolyMatrix(0, 2, [], x)) == 'PolyMatrix(0, 2, [], ring=QQ[x])') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polymatrix_repr : Any → {Any | repr(PolyMatrix([...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  repr(PolyMatrix([[1, 2]], x)) == 'PolyMat...   ║
+# ║   ensures:  repr(PolyMatrix(0, 2, [], x)) == 'PolyMat...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polymatrix_repr : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e7c975c4d8a8844  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 701ddbc75d89446f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_repr","kind":"function","src_hash":"531dbdd205df7cb7","in":{"base":"Any"},"out":{"base":"Any","pred":"repr(PolyMatrix([[1, 2]], x)) == 'PolyMatrix([[1, 2]], ring=QQ[x])' and repr(PolyMatrix(0, 2, [], x)) == 'PolyMatrix(0, 2, [], ring=QQ[x])'"},"spec":{"lhs":"test_polymatrix_repr()","rhs":"test_polymatrix_repr produces the expected output","over":{"base":"Any"},"name":"test_polymatrix_repr_correct"},"guarantee":"test_polymatrix_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_repr_correct","statement":"Path(test_polymatrix_repr(x), test_polymatrix_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e7c975c4d8a8844"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_repr","kind":"function","src_hash":"531dbdd205df7cb7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: repr(PolyMatrix([[1, 2]], x)) == 'PolyMatrix([[1, 2]], ring=QQ[x])' and repr(PolyMatrix(0, 2, [], x)) == 'PolyMatrix(0, 2, [], ring=QQ[x])'"},"spec":{"lhs":"test_polymatrix_repr()","rhs":"repr(PolyMatrix([[1, 2]], x)) == 'PolyMatrix([[1, 2]], ring=QQ[x])' and repr(PolyMatrix(0, 2, [], x)) == 'PolyMatrix(0, 2, [], ring=QQ[x])'","over":{"base":"Any"},"name":"test_polymatrix_repr_correct"},"guarantee":"repr(PolyMatrix([[1, 2]], x)) == 'PolyMatrix([[1, 2]], ring=QQ[x])'; repr(PolyMatrix(0, 2, [], x)) == 'PolyMatrix(0, 2, [], ring=QQ[x])'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_repr_correct","statement":"Path(test_polymatrix_repr(x), repr(PolyMatrix([[1, 2]], x)) == 'PolyMatrix([[1, 2]], ring=QQ[x])'; repr(PolyMatrix(0, 2, [], x)) == 'PolyMatrix(0, 2, [], ring=QQ[x])')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"701ddbc75d89446f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["repr(PolyMatrix([[1, 2]], x)) == 'PolyMatrix([[1, 2]], ring=QQ[x])'","repr(PolyMatrix(0, 2, [], x)) == 'PolyMatrix(0, 2, [], ring=QQ[x])'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_polymatrix_repr():
     assert repr(PolyMatrix([[1, 2]], x)) == 'PolyMatrix([[1, 2]], ring=QQ[x])'
     assert repr(PolyMatrix(0, 2, [], x)) == 'PolyMatrix(0, 2, [], ring=QQ[x])'
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polymatrix_getitem(), test_polymatrix_getitem produces the expected output) over Any ║
+# ║ Path(test_polymatrix_getitem(), M[:, :] == M and M[0, :] == PolyMatrix([[1, 2]], x) and M[:, 0] == PolyMatrix([1, 3], x) and M[0, 0] == Poly(1, x, domain=QQ) and M[0] == Poly(1, x, domain=QQ) and M[:2] == [Poly(1, x, domain=QQ), Poly(2, x, domain=QQ)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polymatrix_getitem : Any → {Any | M[:, :] == M a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M[:, :] == M                                   ║
+# ║   ensures:  M[0, :] == PolyMatrix([[1, 2]], x)             ║
+# ║   ensures:  M[:, 0] == PolyMatrix([1, 3], x)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polymatrix_getitem : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b232c3bf17ed93c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4a1dd2d1f8dbef8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_getitem","kind":"function","src_hash":"972604bfd979b043","in":{"base":"Any"},"out":{"base":"Any","pred":"M[:, :] == M and M[0, :] == PolyMatrix([[1, 2]], x) and M[:, 0] == PolyMatrix([1, 3], x) and M[0, 0] == Poly(1, x, domain=QQ) and M[0] == Poly(1, x, domain=QQ) and M[:2] == [Poly(1, x, domain=QQ), Poly(2, x, domain=QQ)]"},"spec":{"lhs":"test_polymatrix_getitem()","rhs":"test_polymatrix_getitem produces the expected output","over":{"base":"Any"},"name":"test_polymatrix_getitem_correct"},"guarantee":"test_polymatrix_getitem produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_getitem_correct","statement":"Path(test_polymatrix_getitem(x), test_polymatrix_getitem produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b232c3bf17ed93c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_getitem","kind":"function","src_hash":"972604bfd979b043","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M[:, :] == M and M[0, :] == PolyMatrix([[1, 2]], x) and M[:, 0] == PolyMatrix([1, 3], x) and M[0, 0] == Poly(1, x, domain=QQ) and M[0] == Poly(1, x, domain=QQ) and M[:2] == [Poly(1, x, domain=QQ), Poly(2, x, domain=QQ)]"},"spec":{"lhs":"test_polymatrix_getitem()","rhs":"M[:, :] == M and M[0, :] == PolyMatrix([[1, 2]], x) and M[:, 0] == PolyMatrix([1, 3], x) and M[0, 0] == Poly(1, x, domain=QQ) and M[0] == Poly(1, x, domain=QQ) and M[:2] == [Poly(1, x, domain=QQ), Poly(2, x, domain=QQ)]","over":{"base":"Any"},"name":"test_polymatrix_getitem_correct"},"guarantee":"M[:, :] == M; M[0, :] == PolyMatrix([[1, 2]], x); M[:, 0] == PolyMatrix([1, 3], x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_getitem_correct","statement":"Path(test_polymatrix_getitem(x), M[:, :] == M; M[0, :] == PolyMatrix([[1, 2]], x); M[:, 0] == PolyMatrix([1, 3], x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4a1dd2d1f8dbef8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M[:, :] == M","M[0, :] == PolyMatrix([[1, 2]], x)","M[:, 0] == PolyMatrix([1, 3], x)","M[0, 0] == Poly(1, x, domain=QQ)","M[0] == Poly(1, x, domain=QQ)","M[:2] == [Poly(1, x, domain=QQ), Poly(2, x, domain=QQ)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_polymatrix_getitem():
     M = PolyMatrix([[1, 2], [3, 4]], x)
     assert M[:, :] == M
@@ -219,16 +266,24 @@ def test_polymatrix_getitem():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polymatrix_arithmetic(), test_polymatrix_arithmetic produces the expected output) over Any ║
+# ║ Path(test_polymatrix_arithmetic(), M + M == PolyMatrix([[2, 4], [6, 8]], x) and M - M == PolyMatrix([[0, 0], [0, 0]], x) and -M == PolyMatrix([[-1, -2], [-3, -4]], x) and M * M == PolyMatrix([[7, 10], [15, 22]], x) and 2 * M == PolyMatrix([[2, 4], [6, 8]], x) and M * 2 == PolyMatrix([[2, 4], [6, 8]], x) and S(2) * M == PolyMatrix([[2, 4], [6, 8]], x) and M * S(2) == PolyMatrix([[2, 4], [6, 8]], x) and S.Half * M2 == PolyMatrix([[S.Half, 1]], ring=QQ[x]) and M2 * S.Half == PolyMatrix([[S.Half, 1]], ring=QQ[x]) and M / 2 == PolyMatrix([[S(1) / 2, 1], [S(3) / 2, 2]], x) and M / Poly(2, x) == PolyMatrix([[S(1) / 2, 1], [S(3) / 2, 2]], x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polymatrix_arithmetic : Any → {Any | M + M == Po...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M + M == PolyMatrix([[2, 4], [6, 8]], x)       ║
+# ║   ensures:  M - M == PolyMatrix([[0, 0], [0, 0]], x)       ║
+# ║   ensures:  -M == PolyMatrix([[-1, -2], [-3, -4]], x)      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polymatrix_arithmetic : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8628c836ccee387a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d6cd1814f4d628d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_arithmetic","kind":"function","src_hash":"cc3d8699f68e5e87","in":{"base":"Any"},"out":{"base":"Any","pred":"M + M == PolyMatrix([[2, 4], [6, 8]], x) and M - M == PolyMatrix([[0, 0], [0, 0]], x) and -M == PolyMatrix([[-1, -2], [-3, -4]], x) and M * M == PolyMatrix([[7, 10], [15, 22]], x) and 2 * M == PolyMatrix([[2, 4], [6, 8]], x) and M * 2 == PolyMatrix([[2, 4], [6, 8]], x) and S(2) * M == PolyMatrix([[2, 4], [6, 8]], x) and M * S(2) == PolyMatrix([[2, 4], [6, 8]], x) and S.Half * M2 == PolyMatrix([[S.Half, 1]], ring=QQ[x]) and M2 * S.Half == PolyMatrix([[S.Half, 1]], ring=QQ[x]) and M / 2 == PolyMatrix([[S(1) / 2, 1], [S(3) / 2, 2]], x) and M / Poly(2, x) == PolyMatrix([[S(1) / 2, 1], [S(3) / 2, 2]], x)"},"spec":{"lhs":"test_polymatrix_arithmetic()","rhs":"test_polymatrix_arithmetic produces the expected output","over":{"base":"Any"},"name":"test_polymatrix_arithmetic_correct"},"guarantee":"test_polymatrix_arithmetic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_arithmetic_correct","statement":"Path(test_polymatrix_arithmetic(x), test_polymatrix_arithmetic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8628c836ccee387a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_arithmetic","kind":"function","src_hash":"cc3d8699f68e5e87","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M + M == PolyMatrix([[2, 4], [6, 8]], x) and M - M == PolyMatrix([[0, 0], [0, 0]], x) and -M == PolyMatrix([[-1, -2], [-3, -4]], x) and M * M == PolyMatrix([[7, 10], [15, 22]], x) and 2 * M == PolyMatrix([[2, 4], [6, 8]], x) and M * 2 == PolyMatrix([[2, 4], [6, 8]], x) and S(2) * M == PolyMatrix([[2, 4], [6, 8]], x) and M * S(2) == PolyMatrix([[2, 4], [6, 8]], x) and S.Half * M2 == PolyMatrix([[S.Half, 1]], ring=QQ[x]) and M2 * S.Half == PolyMatrix([[S.Half, 1]], ring=QQ[x]) and M / 2 == PolyMatrix([[S(1) / 2, 1], [S(3) / 2, 2]], x) and M / Poly(2, x) == PolyMatrix([[S(1) / 2, 1], [S(3) / 2, 2]], x)"},"spec":{"lhs":"test_polymatrix_arithmetic()","rhs":"M + M == PolyMatrix([[2, 4], [6, 8]], x) and M - M == PolyMatrix([[0, 0], [0, 0]], x) and -M == PolyMatrix([[-1, -2], [-3, -4]], x) and M * M == PolyMatrix([[7, 10], [15, 22]], x) and 2 * M == PolyMatrix([[2, 4], [6, 8]], x) and M * 2 == PolyMatrix([[2, 4], [6, 8]], x) and S(2) * M == PolyMatrix([[2, 4], [6, 8]], x) and M * S(2) == PolyMatrix([[2, 4], [6, 8]], x) and S.Half * M2 == PolyMatrix([[S.Half, 1]], ring=QQ[x]) and M2 * S.Half == PolyMatrix([[S.Half, 1]], ring=QQ[x]) and M / 2 == PolyMatrix([[S(1) / 2, 1], [S(3) / 2, 2]], x) and M / Poly(2, x) == PolyMatrix([[S(1) / 2, 1], [S(3) / 2, 2]], x)","over":{"base":"Any"},"name":"test_polymatrix_arithmetic_correct"},"guarantee":"M + M == PolyMatrix([[2, 4], [6, 8]], x); M - M == PolyMatrix([[0, 0], [0, 0]], x); -M == PolyMatrix([[-1, -2], [-3, -4]], x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_arithmetic_correct","statement":"Path(test_polymatrix_arithmetic(x), M + M == PolyMatrix([[2, 4], [6, 8]], x); M - M == PolyMatrix([[0, 0], [0, 0]], x); -M == PolyMatrix([[-1, -2], [-3, -4]], x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d6cd1814f4d628d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M + M == PolyMatrix([[2, 4], [6, 8]], x)","M - M == PolyMatrix([[0, 0], [0, 0]], x)","-M == PolyMatrix([[-1, -2], [-3, -4]], x)","M * M == PolyMatrix([[7, 10], [15, 22]], x)","2 * M == PolyMatrix([[2, 4], [6, 8]], x)","M * 2 == PolyMatrix([[2, 4], [6, 8]], x)","S(2) * M == PolyMatrix([[2, 4], [6, 8]], x)","M * S(2) == PolyMatrix([[2, 4], [6, 8]], x)","S.Half * M2 == PolyMatrix([[S.Half, 1]], ring=QQ[x])","M2 * S.Half == PolyMatrix([[S.Half, 1]], ring=QQ[x])","M / 2 == PolyMatrix([[S(1) / 2, 1], [S(3) / 2, 2]], x)","M / Poly(2, x) == PolyMatrix([[S(1) / 2, 1], [S(3) / 2, 2]], x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_polymatrix_arithmetic():
     M = PolyMatrix([[1, 2], [3, 4]], x)
     assert M + M == PolyMatrix([[2, 4], [6, 8]], x)
@@ -256,16 +311,24 @@ def test_polymatrix_arithmetic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polymatrix_manipulations(), test_polymatrix_manipulations produces the expected output) over Any ║
+# ║ Path(test_polymatrix_manipulations(), M1.transpose() == PolyMatrix([[1, 3], [2, 4]], x) and M1.row_join(M2) == PolyMatrix([[1, 2, 5, 6], [3, 4, 7, 8]], x) and M1.col_join(M2) == PolyMatrix([[1, 2], [3, 4], [5, 6], [7, 8]], x) and M1.applyfunc(lambda e: 2 * e) == PolyMatrix([[2, 4], [6, 8]], x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polymatrix_manipulations : Any → {Any | M1.trans...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M1.transpose() == PolyMatrix([[1, 3], [2,...   ║
+# ║   ensures:  M1.row_join(M2) == PolyMatrix([[1, 2, 5, ...   ║
+# ║   ensures:  M1.col_join(M2) == PolyMatrix([[1, 2], [3...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polymatrix_manipulations : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc91f750ca29bf61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7a43f9dad72a007  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_manipulations","kind":"function","src_hash":"5021c8fabd6ce32e","in":{"base":"Any"},"out":{"base":"Any","pred":"M1.transpose() == PolyMatrix([[1, 3], [2, 4]], x) and M1.row_join(M2) == PolyMatrix([[1, 2, 5, 6], [3, 4, 7, 8]], x) and M1.col_join(M2) == PolyMatrix([[1, 2], [3, 4], [5, 6], [7, 8]], x) and M1.applyfunc(lambda e: 2 * e) == PolyMatrix([[2, 4], [6, 8]], x)"},"spec":{"lhs":"test_polymatrix_manipulations()","rhs":"test_polymatrix_manipulations produces the expected output","over":{"base":"Any"},"name":"test_polymatrix_manipulations_correct"},"guarantee":"test_polymatrix_manipulations produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_manipulations_correct","statement":"Path(test_polymatrix_manipulations(x), test_polymatrix_manipulations produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc91f750ca29bf61"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_manipulations","kind":"function","src_hash":"5021c8fabd6ce32e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M1.transpose() == PolyMatrix([[1, 3], [2, 4]], x) and M1.row_join(M2) == PolyMatrix([[1, 2, 5, 6], [3, 4, 7, 8]], x) and M1.col_join(M2) == PolyMatrix([[1, 2], [3, 4], [5, 6], [7, 8]], x) and M1.applyfunc(lambda e: 2 * e) == PolyMatrix([[2, 4], [6, 8]], x)"},"spec":{"lhs":"test_polymatrix_manipulations()","rhs":"M1.transpose() == PolyMatrix([[1, 3], [2, 4]], x) and M1.row_join(M2) == PolyMatrix([[1, 2, 5, 6], [3, 4, 7, 8]], x) and M1.col_join(M2) == PolyMatrix([[1, 2], [3, 4], [5, 6], [7, 8]], x) and M1.applyfunc(lambda e: 2 * e) == PolyMatrix([[2, 4], [6, 8]], x)","over":{"base":"Any"},"name":"test_polymatrix_manipulations_correct"},"guarantee":"M1.transpose() == PolyMatrix([[1, 3], [2, 4]], x); M1.row_join(M2) == PolyMatrix([[1, 2, 5, 6], [3, 4, 7, 8]], x); M1.col_join(M2) == PolyMatrix([[1, 2], [3, 4], [5, 6], [7, 8]], x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_manipulations_correct","statement":"Path(test_polymatrix_manipulations(x), M1.transpose() == PolyMatrix([[1, 3], [2, 4]], x); M1.row_join(M2) == PolyMatrix([[1, 2, 5, 6], [3, 4, 7, 8]], x); M1.col_join(M2) == PolyMatrix([[1, 2], [3, 4], [5, 6], [7, 8]], x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7a43f9dad72a007","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M1.transpose() == PolyMatrix([[1, 3], [2, 4]], x)","M1.row_join(M2) == PolyMatrix([[1, 2, 5, 6], [3, 4, 7, 8]], x)","M1.col_join(M2) == PolyMatrix([[1, 2], [3, 4], [5, 6], [7, 8]], x)","M1.applyfunc(lambda e: 2 * e) == PolyMatrix([[2, 4], [6, 8]], x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_polymatrix_manipulations():
     M1 = PolyMatrix([[1, 2], [3, 4]], x)
     assert M1.transpose() == PolyMatrix([[1, 3], [2, 4]], x)
@@ -276,32 +339,45 @@ def test_polymatrix_manipulations():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polymatrix_ones_zeros(), test_polymatrix_ones_zeros produces the expected output) over Any ║
+# ║ Path(test_polymatrix_ones_zeros(), PolyMatrix.zeros(1, 2, x) == PolyMatrix([[0, 0]], x) and PolyMatrix.eye(2, x) == PolyMatrix([[1, 0], [0, 1]], x)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polymatrix_ones_zeros : Any → {Any | PolyMatrix....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PolyMatrix.zeros(1, 2, x) == PolyMatrix([...   ║
+# ║   ensures:  PolyMatrix.eye(2, x) == PolyMatrix([[1, 0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polymatrix_ones_zeros : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af10cc5f84193fb7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d39783a5ae6b59f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_ones_zeros","kind":"function","src_hash":"4caaae36a4883801","in":{"base":"Any"},"out":{"base":"Any","pred":"PolyMatrix.zeros(1, 2, x) == PolyMatrix([[0, 0]], x) and PolyMatrix.eye(2, x) == PolyMatrix([[1, 0], [0, 1]], x)"},"spec":{"lhs":"test_polymatrix_ones_zeros()","rhs":"test_polymatrix_ones_zeros produces the expected output","over":{"base":"Any"},"name":"test_polymatrix_ones_zeros_correct"},"guarantee":"test_polymatrix_ones_zeros produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_ones_zeros_correct","statement":"Path(test_polymatrix_ones_zeros(x), test_polymatrix_ones_zeros produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af10cc5f84193fb7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_ones_zeros","kind":"function","src_hash":"4caaae36a4883801","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PolyMatrix.zeros(1, 2, x) == PolyMatrix([[0, 0]], x) and PolyMatrix.eye(2, x) == PolyMatrix([[1, 0], [0, 1]], x)"},"spec":{"lhs":"test_polymatrix_ones_zeros()","rhs":"PolyMatrix.zeros(1, 2, x) == PolyMatrix([[0, 0]], x) and PolyMatrix.eye(2, x) == PolyMatrix([[1, 0], [0, 1]], x)","over":{"base":"Any"},"name":"test_polymatrix_ones_zeros_correct"},"guarantee":"PolyMatrix.zeros(1, 2, x) == PolyMatrix([[0, 0]], x); PolyMatrix.eye(2, x) == PolyMatrix([[1, 0], [0, 1]], x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_ones_zeros_correct","statement":"Path(test_polymatrix_ones_zeros(x), PolyMatrix.zeros(1, 2, x) == PolyMatrix([[0, 0]], x); PolyMatrix.eye(2, x) == PolyMatrix([[1, 0], [0, 1]], x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d39783a5ae6b59f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PolyMatrix.zeros(1, 2, x) == PolyMatrix([[0, 0]], x)","PolyMatrix.eye(2, x) == PolyMatrix([[1, 0], [0, 1]], x)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_polymatrix_ones_zeros():
     assert PolyMatrix.zeros(1, 2, x) == PolyMatrix([[0, 0]], x)
     assert PolyMatrix.eye(2, x) == PolyMatrix([[1, 0], [0, 1]], x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polymatrix_rref(), test_polymatrix_rref produces the expected output) over Any ║
+# ║ Path(test_polymatrix_rref(), M.rref() == (PolyMatrix.eye(2, x), (0, 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polymatrix_rref : Any → {Any | M.rref() == (Poly...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.rref() == (PolyMatrix.eye(2, x), (0, 1))     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polymatrix_rref : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3071c83e576b4c4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a3dcc1367a4648e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_rref","kind":"function","src_hash":"551dbc4165758788","in":{"base":"Any"},"out":{"base":"Any","pred":"M.rref() == (PolyMatrix.eye(2, x), (0, 1))"},"spec":{"lhs":"test_polymatrix_rref()","rhs":"test_polymatrix_rref produces the expected output","over":{"base":"Any"},"name":"test_polymatrix_rref_correct"},"guarantee":"test_polymatrix_rref produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_rref_correct","statement":"Path(test_polymatrix_rref(x), test_polymatrix_rref produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3071c83e576b4c4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_rref","kind":"function","src_hash":"551dbc4165758788","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.rref() == (PolyMatrix.eye(2, x), (0, 1))"},"spec":{"lhs":"test_polymatrix_rref()","rhs":"M.rref() == (PolyMatrix.eye(2, x), (0, 1))","over":{"base":"Any"},"name":"test_polymatrix_rref_correct"},"guarantee":"M.rref() == (PolyMatrix.eye(2, x), (0, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_rref_correct","statement":"Path(test_polymatrix_rref(x), M.rref() == (PolyMatrix.eye(2, x), (0, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a3dcc1367a4648e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.rref() == (PolyMatrix.eye(2, x), (0, 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_polymatrix_rref():
     M = PolyMatrix([[1, 2], [3, 4]], x)
     assert M.rref() == (PolyMatrix.eye(2, x), (0, 1))
@@ -310,16 +386,23 @@ def test_polymatrix_rref():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polymatrix_nullspace(), test_polymatrix_nullspace produces the expected output) over Any ║
+# ║ Path(test_polymatrix_nullspace(), M.nullspace() == [PolyMatrix([-2, 1], x)] and M.rank() == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polymatrix_nullspace : Any → {Any | M.nullspace(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  M.nullspace() == [PolyMatrix([-2, 1], x)]      ║
+# ║   ensures:  M.rank() == 1                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polymatrix_nullspace : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd5d6db6b90c75a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a164c29cf40ad5f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_nullspace","kind":"function","src_hash":"f77cba3e1484ce33","in":{"base":"Any"},"out":{"base":"Any","pred":"M.nullspace() == [PolyMatrix([-2, 1], x)] and M.rank() == 1"},"spec":{"lhs":"test_polymatrix_nullspace()","rhs":"test_polymatrix_nullspace produces the expected output","over":{"base":"Any"},"name":"test_polymatrix_nullspace_correct"},"guarantee":"test_polymatrix_nullspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_nullspace_correct","statement":"Path(test_polymatrix_nullspace(x), test_polymatrix_nullspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd5d6db6b90c75a6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.tests.test_polymatrix.test_polymatrix_nullspace","kind":"function","src_hash":"f77cba3e1484ce33","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: M.nullspace() == [PolyMatrix([-2, 1], x)] and M.rank() == 1"},"spec":{"lhs":"test_polymatrix_nullspace()","rhs":"M.nullspace() == [PolyMatrix([-2, 1], x)] and M.rank() == 1","over":{"base":"Any"},"name":"test_polymatrix_nullspace_correct"},"guarantee":"M.nullspace() == [PolyMatrix([-2, 1], x)]; M.rank() == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.tests.test_polymatrix.test_polymatrix_nullspace_correct","statement":"Path(test_polymatrix_nullspace(x), M.nullspace() == [PolyMatrix([-2, 1], x)]; M.rank() == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a164c29cf40ad5f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["M.nullspace() == [PolyMatrix([-2, 1], x)]","M.rank() == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_polymatrix_nullspace():
     M = PolyMatrix([[1, 2], [3, 6]], x)
     assert M.nullspace() == [PolyMatrix([-2, 1], x)]

@@ -23,16 +23,22 @@ from sympy.core.symbol import symbols
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sum_free_test(sub), checks if subset is sum-free(there are no x,y,z in the subset such that x + y = z)) over Any ║
+# ║ Path(_sum_free_test(subset), <unspecified:_sum_free_test>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sum_free_test : Any → {Any | (i + j in subset) is Fa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ae5fc102f313739  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_schur_number._sum_free_test","kind":"function","src_hash":"d6189d0e96c1d4f0","in":{"base":"Any"},"out":{"base":"Any","pred":"(i + j in subset) is False"},"spec":{"lhs":"_sum_free_test(sub)","rhs":"checks if subset is sum-free(there are no x,y,z in the subset such that x + y = z)","over":{"base":"Any"},"name":"_sum_free_test_correct"},"guarantee":"checks if subset is sum-free(there are no x,y,z in the subset such that x + y = z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_schur_number._sum_free_test_correct","statement":"Path(_sum_free_test(x), checks if subset is sum-free(there are no x,y,z in the subset such that x + y = z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ae5fc102f313739"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_schur_number._sum_free_test","kind":"function","src_hash":"d6189d0e96c1d4f0","in":{"base":"Any"},"out":{"base":"Any","pred":"(i + j in subset) is False"},"spec":{"lhs":"_sum_free_test(subset)","rhs":"<unspecified:_sum_free_test>","over":{"base":"Any"},"name":"_sum_free_test_correct"},"guarantee":"checks if subset is sum-free(there are no x,y,z in the subset such that x + y = z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_schur_number._sum_free_test_correct","statement":"Path(_sum_free_test(x), checks if subset is sum-free(there are no x,y,z in the subset such that x + y = z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ae5fc102f313739","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _sum_free_test(subset):
     """
     Checks if subset is sum-free(There are no x,y,z in the subset such that
@@ -44,16 +50,22 @@ def _sum_free_test(subset):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_schur_partition(), test_schur_partition produces the expected output) over Any ║
+# ║ Path(test_schur_partition(), schur_partition(2) == [[1, 2]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_schur_partition : Any → {Any | schur_partition(2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  schur_partition(2) == [[1, 2]]                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_schur_partition : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2532ae2f09fb854e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e35ccd5eb26e391b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_schur_number.test_schur_partition","kind":"function","src_hash":"9179b43f36b3f96e","in":{"base":"Any"},"out":{"base":"Any","pred":"schur_partition(2) == [[1, 2]] and n == t and (l in numbers) is False"},"spec":{"lhs":"test_schur_partition()","rhs":"test_schur_partition produces the expected output","over":{"base":"Any"},"name":"test_schur_partition_correct"},"guarantee":"test_schur_partition produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_schur_number.test_schur_partition_correct","statement":"Path(test_schur_partition(x), test_schur_partition produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2532ae2f09fb854e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_schur_number.test_schur_partition","kind":"function","src_hash":"9179b43f36b3f96e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: schur_partition(2) == [[1, 2]]"},"spec":{"lhs":"test_schur_partition()","rhs":"schur_partition(2) == [[1, 2]]","over":{"base":"Any"},"name":"test_schur_partition_correct"},"guarantee":"schur_partition(2) == [[1, 2]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_schur_number.test_schur_partition_correct","statement":"Path(test_schur_partition(x), schur_partition(2) == [[1, 2]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e35ccd5eb26e391b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["schur_partition(2) == [[1, 2]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_schur_partition():
     raises(ValueError, lambda: schur_partition(S.Infinity))
     raises(ValueError, lambda: schur_partition(-1))
@@ -81,16 +93,24 @@ def test_schur_partition():
     raises(ValueError, lambda: schur_partition(x))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_schur_number(), test_schur_number produces the expected output) over Any ║
+# ║ Path(test_schur_number(), SchurNumber(S.Infinity) == S.Infinity and SchurNumber(0) == 0 and SchurNumber(n).lower_bound() == 3 ** n / 2 - Rational(1, 2) and SchurNumber(8).lower_bound() == 5039) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_schur_number : Any → {Any | SchurNumber(S.Infini...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  SchurNumber(S.Infinity) == S.Infinity          ║
+# ║   ensures:  SchurNumber(0) == 0                            ║
+# ║   ensures:  SchurNumber(n).lower_bound() == 3 ** n / ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_schur_number : Any → {Any | result satisfies: Sc...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad58e1f83a237cbf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cbe06a6e1ce511b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_schur_number.test_schur_number","kind":"function","src_hash":"d33bd9f9ce7d1fe7","in":{"base":"Any"},"out":{"base":"Any","pred":"SchurNumber(S.Infinity) == S.Infinity and SchurNumber(0) == 0 and SchurNumber(n).lower_bound() == 3 ** n / 2 - Rational(1, 2) and SchurNumber(8).lower_bound() == 5039 and SchurNumber(k) == first_known_schur_numbers[k]"},"spec":{"lhs":"test_schur_number()","rhs":"test_schur_number produces the expected output","over":{"base":"Any"},"name":"test_schur_number_correct"},"guarantee":"test_schur_number produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_schur_number.test_schur_number_correct","statement":"Path(test_schur_number(x), test_schur_number produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad58e1f83a237cbf"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_schur_number.test_schur_number","kind":"function","src_hash":"d33bd9f9ce7d1fe7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: SchurNumber(S.Infinity) == S.Infinity and SchurNumber(0) == 0 and SchurNumber(n).lower_bound() == 3 ** n / 2 - Rational(1, 2) and SchurNumber(8).lower_bound() == 5039"},"spec":{"lhs":"test_schur_number()","rhs":"SchurNumber(S.Infinity) == S.Infinity and SchurNumber(0) == 0 and SchurNumber(n).lower_bound() == 3 ** n / 2 - Rational(1, 2) and SchurNumber(8).lower_bound() == 5039","over":{"base":"Any"},"name":"test_schur_number_correct"},"guarantee":"SchurNumber(S.Infinity) == S.Infinity; SchurNumber(0) == 0; SchurNumber(n).lower_bound() == 3 ** n / 2 - Rational(1, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_schur_number.test_schur_number_correct","statement":"Path(test_schur_number(x), SchurNumber(S.Infinity) == S.Infinity; SchurNumber(0) == 0; SchurNumber(n).lower_bound() == 3 ** n / 2 - Rational(1, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cbe06a6e1ce511b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["SchurNumber(S.Infinity) == S.Infinity","SchurNumber(0) == 0","SchurNumber(n).lower_bound() == 3 ** n / 2 - Rational(1, 2)","SchurNumber(8).lower_bound() == 5039"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_schur_number():
     first_known_schur_numbers = {1: 1, 2: 4, 3: 13, 4: 44, 5: 160}
     for k in first_known_schur_numbers:

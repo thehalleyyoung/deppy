@@ -32,16 +32,23 @@ from sympy.functions.combinatorial.factorials import factorial
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(richardson(A, ), calculate an approximation for lim k->oo a(k) using richardson extrapolation with the terms a(n), a(n+1), ..., a(n+n+1). choosing n ~= 2*n often gives good results) over Any ║
+# ║ Path(richardson(A, k, n), <unspecified:richardson>) over {Any | hasattr(A, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ richardson : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(A, 'subs')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ richardson : {Any | hasattr(A, 'subs')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d070b927bc26b4fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.acceleration.richardson","kind":"function","src_hash":"e06bdff155428a23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"richardson(A, )","rhs":"calculate an approximation for lim k->oo a(k) using richardson extrapolation with the terms a(n), a(n+1), ..., a(n+n+1). choosing n ~= 2*n often gives good results","over":{"base":"Any"},"name":"richardson_correct"},"guarantee":"calculate an approximation for lim k->oo a(k) using richardson extrapolation with the terms a(n), a(n+1), ..., a(n+n+1). choosing n ~= 2*n often gives good results","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.acceleration.richardson_correct","statement":"Path(richardson(x), calculate an approximation for lim k->oo a(k) using richardson extrapolation with the terms a(n), a(n+1), ..., a(n+n+1). choosing n ~= 2*n often gives good results)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d070b927bc26b4fb"}
+# @cctt_verify {"v":2,"sym":"sympy.series.acceleration.richardson","kind":"function","src_hash":"e06bdff155428a23","in":{"base":"Any","pred":"hasattr(A, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"richardson(A, k, n)","rhs":"<unspecified:richardson>","over":{"base":"Any","pred":"hasattr(A, 'subs')"},"name":"richardson_correct"},"guarantee":"calculate an approximation for lim k->oo a(k) using richardson extrapolation with the terms a(n), a(n+1), ..., a(n+n+1). choosing n ~= 2*n often gives good results","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.acceleration.richardson_correct","statement":"Path(richardson(x), calculate an approximation for lim k->oo a(k) using richardson extrapolation with the terms a(n), a(n+1), ..., a(n+n+1). choosing n ~= 2*n often gives good results)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d070b927bc26b4fb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(A, 'subs')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["A.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def richardson(A, k, n, N):
     """
     Calculate an approximation for lim k->oo A(k) using Richardson
@@ -97,16 +104,23 @@ def richardson(A, k, n, N):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shanks(A, ), calculate an approximation for lim k->oo a(k) using the n-term shanks transformation s(a)(n)) over Any ║
+# ║ Path(shanks(A, k, n), table[n]) over {Any | hasattr(A, 'subs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ shanks : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(A, 'subs')                             ║
+# ║   returns:  table[n]                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ shanks : {Any | hasattr(A, 'subs')} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2d49ebc80101227a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18d21a81336196dc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.series.acceleration.shanks","kind":"function","src_hash":"f09cff254c932713","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shanks(A, )","rhs":"calculate an approximation for lim k->oo a(k) using the n-term shanks transformation s(a)(n)","over":{"base":"Any"},"name":"shanks_correct"},"guarantee":"calculate an approximation for lim k->oo a(k) using the n-term shanks transformation s(a)(n)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.acceleration.shanks_correct","statement":"Path(shanks(x), calculate an approximation for lim k->oo a(k) using the n-term shanks transformation s(a)(n))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2d49ebc80101227a"}
+# @cctt_verify {"v":2,"sym":"sympy.series.acceleration.shanks","kind":"function","src_hash":"f09cff254c932713","in":{"base":"Any","pred":"hasattr(A, 'subs')"},"out":{"base":"Any"},"spec":{"lhs":"shanks(A, k, n)","rhs":"table[n]","over":{"base":"Any","pred":"hasattr(A, 'subs')"},"name":"shanks_correct"},"guarantee":"returns table[n]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.series.acceleration.shanks_correct","statement":"Path(shanks(x), returns table[n])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18d21a81336196dc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(A, 'subs')"],"returns_expr":"table[n]","pure":false,"effects":{"effect_type":"reads_state","reads":["A.subs"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def shanks(A, k, n, m=1):
     """
     Calculate an approximation for lim k->oo A(k) using the n-term Shanks

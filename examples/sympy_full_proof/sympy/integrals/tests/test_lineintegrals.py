@@ -26,16 +26,22 @@ s, t, x, y, z = symbols('s,t,x,y,z')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lineintegral(), test_lineintegral produces the expected output) over Any ║
+# ║ Path(test_lineintegral(), line_integrate(x + y, c, [x, y]) == 3 * sqrt(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lineintegral : Any → {Any | line_integrate(x + y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  line_integrate(x + y, c, [x, y]) == 3 * s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lineintegral : Any → {Any | result satisfies: li...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1432f1eee1d857ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1caeb75e6142ab5a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_lineintegrals.test_lineintegral","kind":"function","src_hash":"e9ceb13f134f11e5","in":{"base":"Any"},"out":{"base":"Any","pred":"line_integrate(x + y, c, [x, y]) == 3 * sqrt(2)"},"spec":{"lhs":"test_lineintegral()","rhs":"test_lineintegral produces the expected output","over":{"base":"Any"},"name":"test_lineintegral_correct"},"guarantee":"test_lineintegral produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_lineintegrals.test_lineintegral_correct","statement":"Path(test_lineintegral(x), test_lineintegral produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1432f1eee1d857ba"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.tests.test_lineintegrals.test_lineintegral","kind":"function","src_hash":"e9ceb13f134f11e5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: line_integrate(x + y, c, [x, y]) == 3 * sqrt(2)"},"spec":{"lhs":"test_lineintegral()","rhs":"line_integrate(x + y, c, [x, y]) == 3 * sqrt(2)","over":{"base":"Any"},"name":"test_lineintegral_correct"},"guarantee":"line_integrate(x + y, c, [x, y]) == 3 * sqrt(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.tests.test_lineintegrals.test_lineintegral_correct","statement":"Path(test_lineintegral(x), line_integrate(x + y, c, [x, y]) == 3 * sqrt(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1caeb75e6142ab5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["line_integrate(x + y, c, [x, y]) == 3 * sqrt(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_lineintegral():
     c = Curve([E**t + 1, E**t - 1], (t, 0, log(2)))
     assert line_integrate(x + y, c, [x, y]) == 3*sqrt(2)

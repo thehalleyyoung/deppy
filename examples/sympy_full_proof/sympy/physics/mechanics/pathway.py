@@ -32,14 +32,20 @@ __all__ = ['PathwayBase', 'LinearPathway', 'ObstacleSetPathway',
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PathwayBase instance) preserved by PathwayBase(*args) over {Any | isinstance(point, Point)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PathwayBase : {Any | isinstance(point, Point)} → Any       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PathwayBase : {Any | isinstance(point, Point)} → {Any...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 944ee2c75f09851c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase","kind":"class","src_hash":"94f52183d5f437b5","in":{"base":"Any","pred":"isinstance(point, Point)"},"out":{"base":"Any"},"spec":{"lhs":"PathwayBase(*args)","rhs":"correctly constructs a PathwayBase instance","over":{"base":"Any","pred":"isinstance(point, Point)"},"name":"PathwayBase_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PathwayBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'attachments')","kind":"class","induction":"structural on attachments"}],"methods_preserving":["__init__","attachments","attachments","length","extension_velocity","to_loads","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"944ee2c75f09851c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase","kind":"class","src_hash":"94f52183d5f437b5","in":{"base":"Any","pred":"isinstance(point, Point)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ABC)"},"spec":{"lhs":"PathwayBase(*args)","rhs":"correctly constructs a PathwayBase instance","over":{"base":"Any","pred":"isinstance(point, Point)"},"name":"PathwayBase_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, ABC); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'attachments')","kind":"class","induction":"structural on attachments"}],"methods_preserving":["__init__","attachments","attachments","length","extension_velocity","to_loads","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"944ee2c75f09851c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ABC)"],"invariants":["hasattr(self, 'attachments')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function PathwayBase not found in source"]}}
 class PathwayBase(ABC):
     """Abstract base class for all pathway classes to inherit from.
 
@@ -52,48 +58,66 @@ class PathwayBase(ABC):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*at), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*attachments), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a53a6baf61e7e679           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.__init__","kind":"method","src_hash":"717640ceeacc5174","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*at)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a53a6baf61e7e679"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.__init__","kind":"method","src_hash":"717640ceeacc5174","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*attachments)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a53a6baf61e7e679","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *attachments):
         """Initializer for ``PathwayBase``."""
         self.attachments = attachments
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(attachments(), returns the attachments attribute) over Any ║
+# ║ Path(attachments(), self._attachments) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._attachments                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ attachments : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1aa9a6664d4c28d4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.attachments","kind":"property","src_hash":"ec3094b2c547910f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"attachments()","rhs":"returns the attachments attribute","over":{"base":"Any"},"name":"attachments_correct"},"guarantee":"returns the attachments attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1aa9a6664d4c28d4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.attachments","kind":"property","src_hash":"ec3094b2c547910f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"attachments()","rhs":"self._attachments","over":{"base":"Any"},"name":"attachments_correct"},"guarantee":"returns self._attachments","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1aa9a6664d4c28d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._attachments","pure":false,"effects":{"effect_type":"reads_state","reads":["self._attachments"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def attachments(self):
         """The pair of points defining a pathway's ends."""
         return self._attachments
 
     @attachments.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(attachments(att), attachments produces the expected output) over Any ║
+# ║ Path(attachments(attachments), <unspecified:attachments>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ attachments : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0778f019ba516362  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.attachments","kind":"method","src_hash":"bb4f3bb64399784e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"attachments(att)","rhs":"attachments produces the expected output","over":{"base":"Any"},"name":"attachments_correct"},"guarantee":"attachments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.pathway.PathwayBase.attachments_correct","statement":"Path(attachments(x), attachments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0778f019ba516362"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.attachments","kind":"method","src_hash":"bb4f3bb64399784e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"attachments(attachments)","rhs":"<unspecified:attachments>","over":{"base":"Any"},"name":"attachments_correct"},"guarantee":"attachments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.pathway.PathwayBase.attachments_correct","statement":"Path(attachments(x), attachments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0778f019ba516362","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._attachments"],"raises":["AttributeError","TypeError","ValueError"]},"state_contract":{"modifies":["self._attachments"],"old_bindings":{"old_self__attachments":"self._attachments"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def attachments(self, attachments):
         if hasattr(self, '_attachments'):
             msg = (
@@ -120,16 +144,22 @@ class PathwayBase(ABC):
     @property
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), <unspecified:length>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a2abdbe61f2b008           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.length","kind":"property","src_hash":"2d9917f240e8a699","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a2abdbe61f2b008"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.length","kind":"property","src_hash":"2d9917f240e8a699","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"<unspecified:length>","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a2abdbe61f2b008","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """An expression representing the pathway's length."""
         pass
@@ -137,32 +167,44 @@ class PathwayBase(ABC):
     @property
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extension_velocity(), returns the extension_velocity attribute) over Any ║
+# ║ Path(extension_velocity(), <unspecified:extension_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extension_velocity : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d6be4b97f7a3032a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.extension_velocity","kind":"property","src_hash":"007fd877e56a7936","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extension_velocity()","rhs":"returns the extension_velocity attribute","over":{"base":"Any"},"name":"extension_velocity_correct"},"guarantee":"returns the extension_velocity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6be4b97f7a3032a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.extension_velocity","kind":"property","src_hash":"007fd877e56a7936","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extension_velocity()","rhs":"<unspecified:extension_velocity>","over":{"base":"Any"},"name":"extension_velocity_correct"},"guarantee":"returns the extension_velocity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6be4b97f7a3032a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extension_velocity(self):
         """An expression representing the pathway's extension velocity."""
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_loads(for), loads required by the equations of motion method classes) over Any ║
+# ║ Path(to_loads(force), <unspecified:to_loads>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_loads : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ab7210e7723f56e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.to_loads","kind":"method","src_hash":"f6672002f29e222c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads(for)","rhs":"loads required by the equations of motion method classes","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"loads required by the equations of motion method classes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab7210e7723f56e0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.to_loads","kind":"method","src_hash":"f6672002f29e222c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads(force)","rhs":"<unspecified:to_loads>","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"loads required by the equations of motion method classes","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ab7210e7723f56e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_loads(self, force):
         """Loads required by the equations of motion method classes.
 
@@ -182,16 +224,22 @@ class PathwayBase(ABC):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}({attachments})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}({attachments})'    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62d7ea1517356610           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.__repr__","kind":"method","src_hash":"0a1357758668238b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62d7ea1517356610"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.PathwayBase.__repr__","kind":"method","src_hash":"0a1357758668238b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}({attachments})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}({attachments})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62d7ea1517356610","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}({attachments})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.attachments"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Default representation of a pathway."""
         attachments = ', '.join(str(a) for a in self.attachments)
@@ -201,14 +249,20 @@ class PathwayBase(ABC):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LinearPathway(*args), correctly constructs a LinearPathway instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LinearPathway : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PathwayBase)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LinearPathway : Any → {Any | result satisfies: isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8b6f1590e606aa67  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.LinearPathway","kind":"class","src_hash":"fff84ea9a62859b0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"LinearPathway(*args)","rhs":"correctly constructs a LinearPathway instance","over":{"base":"Any"},"name":"LinearPathway_class_invariant"},"guarantee":"correctly constructs a LinearPathway instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b6f1590e606aa67"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.LinearPathway","kind":"class","src_hash":"fff84ea9a62859b0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PathwayBase)"},"spec":{"lhs":"LinearPathway(*args)","rhs":"correctly constructs a LinearPathway instance","over":{"base":"Any"},"name":"LinearPathway_class_invariant"},"guarantee":"isinstance(self, PathwayBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8b6f1590e606aa67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PathwayBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function LinearPathway not found in source"]}}
 class LinearPathway(PathwayBase):
     """Linear pathway between a pair of attachment points.
 
@@ -292,16 +346,22 @@ class LinearPathway(PathwayBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*at), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*attachments), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fcba34a3717376b2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.LinearPathway.__init__","kind":"method","src_hash":"7d9748df8ca75922","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*at)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fcba34a3717376b2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.LinearPathway.__init__","kind":"method","src_hash":"7d9748df8ca75922","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*attachments)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fcba34a3717376b2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *attachments):
         """Initializer for ``LinearPathway``.
 
@@ -319,47 +379,65 @@ class LinearPathway(PathwayBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), _point_pair_length(*self.attachments)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _point_pair_length(*self.attachments)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f59dbc7630bc5ea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.LinearPathway.length","kind":"property","src_hash":"fd3599bf2e4b0426","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f59dbc7630bc5ea"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.LinearPathway.length","kind":"property","src_hash":"fd3599bf2e4b0426","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"_point_pair_length(*self.attachments)","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns _point_pair_length(*self.attachments)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f59dbc7630bc5ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_point_pair_length(*self.attachments)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.attachments"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """Exact analytical expression for the pathway's length."""
         return _point_pair_length(*self.attachments)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extension_velocity(), returns the extension_velocity attribute) over Any ║
+# ║ Path(extension_velocity(), _point_pair_extension_velocity(*self.attachments)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _point_pair_extension_velocity(*self.atta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extension_velocity : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae7dcbdcf4130b5a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.LinearPathway.extension_velocity","kind":"property","src_hash":"30273d934019390f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extension_velocity()","rhs":"returns the extension_velocity attribute","over":{"base":"Any"},"name":"extension_velocity_correct"},"guarantee":"returns the extension_velocity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae7dcbdcf4130b5a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.LinearPathway.extension_velocity","kind":"property","src_hash":"30273d934019390f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extension_velocity()","rhs":"_point_pair_extension_velocity(*self.attachments)","over":{"base":"Any"},"name":"extension_velocity_correct"},"guarantee":"returns _point_pair_extension_velocity(*self.attachments)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae7dcbdcf4130b5a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_point_pair_extension_velocity(*self.attachments)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.attachments"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extension_velocity(self):
         """Exact analytical expression for the pathway's extension velocity."""
         return _point_pair_extension_velocity(*self.attachments)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_loads(for), loads required by the equations of motion method classes) over Any ║
+# ║ Path(to_loads(force), <unspecified:to_loads>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_loads : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f61b1613d89e0a4f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.LinearPathway.to_loads","kind":"method","src_hash":"b59c43665506aae2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads(for)","rhs":"loads required by the equations of motion method classes","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"loads required by the equations of motion method classes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.pathway.LinearPathway.to_loads_correct","statement":"Path(to_loads(x), loads required by the equations of motion method classes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f61b1613d89e0a4f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.LinearPathway.to_loads","kind":"method","src_hash":"b59c43665506aae2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads(force)","rhs":"<unspecified:to_loads>","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"loads required by the equations of motion method classes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.pathway.LinearPathway.to_loads_correct","statement":"Path(to_loads(x), loads required by the equations of motion method classes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f61b1613d89e0a4f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.attachments","self.length"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_loads(self, force):
         """Loads required by the equations of motion method classes.
 
@@ -424,14 +502,20 @@ class LinearPathway(PathwayBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(ObstacleSetPathway(*args), correctly constructs a ObstacleSetPathway instance) over {Any | isinstance(point, Point)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PathwayBase)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ ObstacleSetPathway : {Any | isinstance(point, Point)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41d9b801081bf0ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway","kind":"class","src_hash":"37d600f10ff92141","in":{"base":"Any","pred":"isinstance(point, Point)"},"out":{"base":"Any"},"spec":{"lhs":"ObstacleSetPathway(*args)","rhs":"correctly constructs a ObstacleSetPathway instance","over":{"base":"Any","pred":"isinstance(point, Point)"},"name":"ObstacleSetPathway_class_invariant"},"guarantee":"correctly constructs a ObstacleSetPathway instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41d9b801081bf0ef"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway","kind":"class","src_hash":"37d600f10ff92141","in":{"base":"Any","pred":"isinstance(point, Point)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PathwayBase)"},"spec":{"lhs":"ObstacleSetPathway(*args)","rhs":"correctly constructs a ObstacleSetPathway instance","over":{"base":"Any","pred":"isinstance(point, Point)"},"name":"ObstacleSetPathway_class_invariant"},"guarantee":"isinstance(self, PathwayBase)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41d9b801081bf0ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PathwayBase)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function ObstacleSetPathway not found in source"]}}
 class ObstacleSetPathway(PathwayBase):
     """Obstacle-set pathway between a set of attachment points.
 
@@ -500,16 +584,22 @@ class ObstacleSetPathway(PathwayBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*at), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*attachments), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ccaefb63b00b3484           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway.__init__","kind":"method","src_hash":"b445c131088ea2de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*at)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ccaefb63b00b3484"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway.__init__","kind":"method","src_hash":"b445c131088ea2de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*attachments)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ccaefb63b00b3484","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *attachments):
         """Initializer for ``ObstacleSetPathway``.
 
@@ -525,32 +615,44 @@ class ObstacleSetPathway(PathwayBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(attachments(), returns the attachments attribute) over Any ║
+# ║ Path(attachments(), self._attachments) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._attachments                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ attachments : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0844a5a485274b74           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway.attachments","kind":"property","src_hash":"00e96a48bed332b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"attachments()","rhs":"returns the attachments attribute","over":{"base":"Any"},"name":"attachments_correct"},"guarantee":"returns the attachments attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0844a5a485274b74"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway.attachments","kind":"property","src_hash":"00e96a48bed332b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"attachments()","rhs":"self._attachments","over":{"base":"Any"},"name":"attachments_correct"},"guarantee":"returns self._attachments","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0844a5a485274b74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._attachments","pure":false,"effects":{"effect_type":"reads_state","reads":["self._attachments"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def attachments(self):
         """The set of points defining a pathway's segmented path."""
         return self._attachments
 
     @attachments.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(attachments(att), attachments produces the expected output) over Any ║
+# ║ Path(attachments(attachments), <unspecified:attachments>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ attachments : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f09c296c5f2f5b43  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway.attachments","kind":"method","src_hash":"3744fea520608250","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"attachments(att)","rhs":"attachments produces the expected output","over":{"base":"Any"},"name":"attachments_correct"},"guarantee":"attachments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.pathway.ObstacleSetPathway.attachments_correct","statement":"Path(attachments(x), attachments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f09c296c5f2f5b43"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway.attachments","kind":"method","src_hash":"3744fea520608250","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"attachments(attachments)","rhs":"<unspecified:attachments>","over":{"base":"Any"},"name":"attachments_correct"},"guarantee":"attachments produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.pathway.ObstacleSetPathway.attachments_correct","statement":"Path(attachments(x), attachments produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f09c296c5f2f5b43","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._attachments"],"raises":["AttributeError","TypeError","ValueError"]},"state_contract":{"modifies":["self._attachments"],"old_bindings":{"old_self__attachments":"self._attachments"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def attachments(self, attachments):
         if hasattr(self, '_attachments'):
             msg = (
@@ -576,16 +678,22 @@ class ObstacleSetPathway(PathwayBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), <unspecified:length>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0a289f1f405b09c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway.length","kind":"property","src_hash":"639b33b63355199f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a289f1f405b09c9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway.length","kind":"property","src_hash":"639b33b63355199f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"<unspecified:length>","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0a289f1f405b09c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.attachments"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """Exact analytical expression for the pathway's length."""
         length = S.Zero
@@ -596,16 +704,22 @@ class ObstacleSetPathway(PathwayBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extension_velocity(), returns the extension_velocity attribute) over Any ║
+# ║ Path(extension_velocity(), <unspecified:extension_velocity>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extension_velocity : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ae469a5f95209797           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway.extension_velocity","kind":"property","src_hash":"35f88bd311d5022d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extension_velocity()","rhs":"returns the extension_velocity attribute","over":{"base":"Any"},"name":"extension_velocity_correct"},"guarantee":"returns the extension_velocity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae469a5f95209797"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway.extension_velocity","kind":"property","src_hash":"35f88bd311d5022d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extension_velocity()","rhs":"<unspecified:extension_velocity>","over":{"base":"Any"},"name":"extension_velocity_correct"},"guarantee":"returns the extension_velocity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ae469a5f95209797","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.attachments"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extension_velocity(self):
         """Exact analytical expression for the pathway's extension velocity."""
         extension_velocity = S.Zero
@@ -615,16 +729,22 @@ class ObstacleSetPathway(PathwayBase):
         return extension_velocity
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_loads(for), loads required by the equations of motion method classes) over Any ║
+# ║ Path(to_loads(force), <unspecified:to_loads>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_loads : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1736c716e93f0d5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway.to_loads","kind":"method","src_hash":"04dad3a1f6db7dba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads(for)","rhs":"loads required by the equations of motion method classes","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"loads required by the equations of motion method classes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.pathway.ObstacleSetPathway.to_loads_correct","statement":"Path(to_loads(x), loads required by the equations of motion method classes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1736c716e93f0d5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.ObstacleSetPathway.to_loads","kind":"method","src_hash":"04dad3a1f6db7dba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads(force)","rhs":"<unspecified:to_loads>","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"loads required by the equations of motion method classes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.pathway.ObstacleSetPathway.to_loads_correct","statement":"Path(to_loads(x), loads required by the equations of motion method classes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1736c716e93f0d5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_loads(self, force):
         """Loads required by the equations of motion method classes.
 
@@ -706,14 +826,20 @@ class ObstacleSetPathway(PathwayBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a WrappingPathway instance) preserved by WrappingPathway(*args) over {Any | isinstance(geometry, WrappingGeometryBase)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PathwayBase)                  ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ WrappingPathway : {Any | isinstance(geometry, Wrappin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67eee3a7c910dfe6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway","kind":"class","src_hash":"4ed9ddcb32699872","in":{"base":"Any","pred":"isinstance(geometry, WrappingGeometryBase)"},"out":{"base":"Any"},"spec":{"lhs":"WrappingPathway(*args)","rhs":"correctly constructs a WrappingPathway instance","over":{"base":"Any","pred":"isinstance(geometry, WrappingGeometryBase)"},"name":"WrappingPathway_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a WrappingPathway instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'geometry')","kind":"class","induction":"structural on geometry"}],"methods_preserving":["__init__","geometry","geometry","length","extension_velocity","to_loads","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67eee3a7c910dfe6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway","kind":"class","src_hash":"4ed9ddcb32699872","in":{"base":"Any","pred":"isinstance(geometry, WrappingGeometryBase)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PathwayBase)"},"spec":{"lhs":"WrappingPathway(*args)","rhs":"correctly constructs a WrappingPathway instance","over":{"base":"Any","pred":"isinstance(geometry, WrappingGeometryBase)"},"name":"WrappingPathway_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, PathwayBase); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'geometry')","kind":"class","induction":"structural on geometry"}],"methods_preserving":["__init__","geometry","geometry","length","extension_velocity","to_loads","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67eee3a7c910dfe6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PathwayBase)"],"invariants":["hasattr(self, 'geometry')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function WrappingPathway not found in source"]}}
 class WrappingPathway(PathwayBase):
     """Pathway that wraps a geometry object.
 
@@ -783,16 +909,22 @@ class WrappingPathway(PathwayBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(att), initializes the instance correctly) over Any ║
+# ║ Path(__init__(attachment_1, attachment_2, geometry), self.geometry == geometry) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.geometry == geometry                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.geomet...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c3f9892dd7d08965           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.__init__","kind":"method","src_hash":"7439dc3a461fd961","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(att)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3f9892dd7d08965"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.__init__","kind":"method","src_hash":"7439dc3a461fd961","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.geometry == geometry"},"spec":{"lhs":"__init__(attachment_1, attachment_2, geometry)","rhs":"self.geometry == geometry","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.geometry == geometry","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c3f9892dd7d08965","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.geometry == geometry"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, attachment_1, attachment_2, geometry):
         """Initializer for ``WrappingPathway``.
 
@@ -815,32 +947,44 @@ class WrappingPathway(PathwayBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(geometry(), returns the geometry attribute) over Any  ║
+# ║ Path(geometry(), self._geometry) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._geometry                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ geometry : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a0ad70e0e98a8e9e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.geometry","kind":"property","src_hash":"5da380e15087cd07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geometry()","rhs":"returns the geometry attribute","over":{"base":"Any"},"name":"geometry_correct"},"guarantee":"returns the geometry attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0ad70e0e98a8e9e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.geometry","kind":"property","src_hash":"5da380e15087cd07","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geometry()","rhs":"self._geometry","over":{"base":"Any"},"name":"geometry_correct"},"guarantee":"returns self._geometry","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a0ad70e0e98a8e9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._geometry","pure":false,"effects":{"effect_type":"reads_state","reads":["self._geometry"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def geometry(self):
         """Geometry around which the pathway wraps."""
         return self._geometry
 
     @geometry.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(geometry(geo), geometry produces the expected output) over Any ║
+# ║ Path(geometry(geometry), <unspecified:geometry>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ geometry : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9d3edd6e3b7bf5e4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.geometry","kind":"method","src_hash":"f0801a0926698b71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geometry(geo)","rhs":"geometry produces the expected output","over":{"base":"Any"},"name":"geometry_correct"},"guarantee":"geometry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.pathway.WrappingPathway.geometry_correct","statement":"Path(geometry(x), geometry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d3edd6e3b7bf5e4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.geometry","kind":"method","src_hash":"f0801a0926698b71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geometry(geometry)","rhs":"<unspecified:geometry>","over":{"base":"Any"},"name":"geometry_correct"},"guarantee":"geometry produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.pathway.WrappingPathway.geometry_correct","statement":"Path(geometry(x), geometry produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9d3edd6e3b7bf5e4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._geometry"],"raises":["AttributeError","TypeError"]},"state_contract":{"modifies":["self._geometry"],"old_bindings":{"old_self__geometry":"self._geometry"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"],"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def geometry(self, geometry):
         if hasattr(self, '_geometry'):
             msg = (
@@ -858,47 +1002,65 @@ class WrappingPathway(PathwayBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), returns the length attribute) over Any      ║
+# ║ Path(length(), self.geometry.geodesic_length(*self.attachments)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.geometry.geodesic_length(*self.attac...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e33212216f7aeca0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.length","kind":"property","src_hash":"08f7b38f548d5d3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"returns the length attribute","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns the length attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e33212216f7aeca0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.length","kind":"property","src_hash":"08f7b38f548d5d3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"self.geometry.geodesic_length(*self.attachments)","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns self.geometry.geodesic_length(*self.attachments)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e33212216f7aeca0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.geometry.geodesic_length(*self.attachments)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.attachments","self.geometry"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         """Exact analytical expression for the pathway's length."""
         return self.geometry.geodesic_length(*self.attachments)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extension_velocity(), returns the extension_velocity attribute) over Any ║
+# ║ Path(extension_velocity(), self.length.diff(dynamicsymbols._t)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.length.diff(dynamicsymbols._t)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extension_velocity : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 92be26766922c35a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.extension_velocity","kind":"property","src_hash":"73b6ad0201e0b3ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extension_velocity()","rhs":"returns the extension_velocity attribute","over":{"base":"Any"},"name":"extension_velocity_correct"},"guarantee":"returns the extension_velocity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"92be26766922c35a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.extension_velocity","kind":"property","src_hash":"73b6ad0201e0b3ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extension_velocity()","rhs":"self.length.diff(dynamicsymbols._t)","over":{"base":"Any"},"name":"extension_velocity_correct"},"guarantee":"returns self.length.diff(dynamicsymbols._t)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"92be26766922c35a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.length.diff(dynamicsymbols._t)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.length"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extension_velocity(self):
         """Exact analytical expression for the pathway's extension velocity."""
         return self.length.diff(dynamicsymbols._t)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_loads(for), loads required by the equations of motion method classes) over Any ║
+# ║ Path(to_loads(force), <unspecified:to_loads>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ to_loads : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 090fa0216c455fa6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.to_loads","kind":"method","src_hash":"b08f0929254a02a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads(for)","rhs":"loads required by the equations of motion method classes","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"loads required by the equations of motion method classes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.pathway.WrappingPathway.to_loads_correct","statement":"Path(to_loads(x), loads required by the equations of motion method classes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"090fa0216c455fa6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.to_loads","kind":"method","src_hash":"b08f0929254a02a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_loads(force)","rhs":"<unspecified:to_loads>","over":{"base":"Any"},"name":"to_loads_correct"},"guarantee":"loads required by the equations of motion method classes","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.pathway.WrappingPathway.to_loads_correct","statement":"Path(to_loads(x), loads required by the equations of motion method classes)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"090fa0216c455fa6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.attachments","self.geometry"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_loads(self, force):
         """Loads required by the equations of motion method classes.
 
@@ -979,16 +1141,22 @@ class WrappingPathway(PathwayBase):
         return loads
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}({attachments}, geometry={self.geometry})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}({attachments}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e1dc190536f89187           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.__repr__","kind":"method","src_hash":"0e21c45a33194956","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1dc190536f89187"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway.WrappingPathway.__repr__","kind":"method","src_hash":"0e21c45a33194956","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}({attachments}, geometry={self.geometry})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}({attachments}, geometry={self.geometry})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e1dc190536f89187","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}({attachments}, geometry={self.geometry})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.attachments","self.geometry"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Representation of a ``WrappingPathway``."""
         attachments = ', '.join(str(a) for a in self.attachments)
@@ -999,48 +1167,67 @@ class WrappingPathway(PathwayBase):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_point_pair_relative_position(poi), the relative position between a pair of points) over Any ║
+# ║ Path(_point_pair_relative_position(point_1, point_2), point_2.pos_from(point_1)) over {Any | hasattr(point_2, 'pos_from')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _point_pair_relative_position : Any → Any                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(point_2, 'pos_from')                   ║
+# ║   returns:  point_2.pos_from(point_1)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _point_pair_relative_position : {Any | hasattr(point_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6b5bffead33f1be6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway._point_pair_relative_position","kind":"function","src_hash":"c935ddb5804342f3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_point_pair_relative_position(poi)","rhs":"the relative position between a pair of points","over":{"base":"Any"},"name":"_point_pair_relative_position_correct"},"guarantee":"the relative position between a pair of points","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b5bffead33f1be6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway._point_pair_relative_position","kind":"function","src_hash":"c935ddb5804342f3","in":{"base":"Any","pred":"hasattr(point_2, 'pos_from')"},"out":{"base":"Any"},"spec":{"lhs":"_point_pair_relative_position(point_1, point_2)","rhs":"point_2.pos_from(point_1)","over":{"base":"Any","pred":"hasattr(point_2, 'pos_from')"},"name":"_point_pair_relative_position_correct"},"guarantee":"returns point_2.pos_from(point_1)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6b5bffead33f1be6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(point_2, 'pos_from')"],"returns_expr":"point_2.pos_from(point_1)","pure":false,"effects":{"effect_type":"reads_state","reads":["point_2.pos_from"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _point_pair_relative_position(point_1, point_2):
     """The relative position between a pair of points."""
     return point_2.pos_from(point_1)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_point_pair_length(poi), the length of the direct linear path between two points) over Any ║
+# ║ Path(_point_pair_length(point_1, point_2), _point_pair_relative_position(point_1, point_2).magnitude()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _point_pair_relative_position(point_1, po...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _point_pair_length : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fd52242cc01cd640           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway._point_pair_length","kind":"function","src_hash":"7d1e781e0caffd1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_point_pair_length(poi)","rhs":"the length of the direct linear path between two points","over":{"base":"Any"},"name":"_point_pair_length_correct"},"guarantee":"the length of the direct linear path between two points","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd52242cc01cd640"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway._point_pair_length","kind":"function","src_hash":"7d1e781e0caffd1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_point_pair_length(point_1, point_2)","rhs":"_point_pair_relative_position(point_1, point_2).magnitude()","over":{"base":"Any"},"name":"_point_pair_length_correct"},"guarantee":"returns _point_pair_relative_position(point_1, point_2).magnitude()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fd52242cc01cd640","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_point_pair_relative_position(point_1, point_2).magnitude()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _point_pair_length(point_1, point_2):
     """The length of the direct linear path between two points."""
     return _point_pair_relative_position(point_1, point_2).magnitude()
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_point_pair_extension_velocity(poi), the extension velocity of the direct linear path between two points) over Any ║
+# ║ Path(_point_pair_extension_velocity(point_1, point_2), _point_pair_length(point_1, point_2).diff(dynamicsymbols._t)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _point_pair_length(point_1, point_2).diff...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _point_pair_extension_velocity : Any → Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 23cf0c8ec761446c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway._point_pair_extension_velocity","kind":"function","src_hash":"8ce7ab883b6848a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_point_pair_extension_velocity(poi)","rhs":"the extension velocity of the direct linear path between two points","over":{"base":"Any"},"name":"_point_pair_extension_velocity_correct"},"guarantee":"the extension velocity of the direct linear path between two points","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23cf0c8ec761446c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.pathway._point_pair_extension_velocity","kind":"function","src_hash":"8ce7ab883b6848a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_point_pair_extension_velocity(point_1, point_2)","rhs":"_point_pair_length(point_1, point_2).diff(dynamicsymbols._t)","over":{"base":"Any"},"name":"_point_pair_extension_velocity_correct"},"guarantee":"returns _point_pair_length(point_1, point_2).diff(dynamicsymbols._t)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"23cf0c8ec761446c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_point_pair_length(point_1, point_2).diff(dynamicsymbols._t)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def _point_pair_extension_velocity(point_1, point_2):
     """The extension velocity of the direct linear path between two points."""
     return _point_pair_length(point_1, point_2).diff(dynamicsymbols._t)

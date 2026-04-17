@@ -36,7 +36,13 @@ from sympy.logic.algorithms.lra_theory import LRASolver
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dpll_satisfiable(exp), check satisfiability of a propositional sentence. it returns a model rather than true when it succeeds. returns a generator of all models if all_models is true) over {Any | isinstance(expr, EncodedCNF)} ║
+# ║ Path(dpll_satisfiable(expr, all_models, use_lra_theory), <unspecified:dpll_satisfiable>) over {Any | isinstance(expr, EncodedCNF) and hasattr(expr, 'data') and hasattr(expr, 'variables') and hasattr(expr, 'symbols')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'data')                          ║
+# ║   requires: hasattr(expr, 'variables')                     ║
+# ║   requires: hasattr(expr, 'symbols')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dpll_satisfiable : {Any | isinstance(expr, EncodedCNF...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -48,9 +54,12 @@ from sympy.logic.algorithms.lra_theory import LRASolver
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 491e690c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.dpll_satisfiable","kind":"function","src_hash":"078edef0cb2e9c11","in":{"base":"Any","pred":"isinstance(expr, EncodedCNF)"},"out":{"base":"Any"},"spec":{"lhs":"dpll_satisfiable(exp)","rhs":"check satisfiability of a propositional sentence. it returns a model rather than true when it succeeds. returns a generator of all models if all_models is true","over":{"base":"Any","pred":"isinstance(expr, EncodedCNF)"},"name":"dpll_satisfiable_correct"},"guarantee":"check satisfiability of a propositional sentence. it returns a model rather than true when it succeeds. returns a generator of all models if all_models is true","fibers":[{"name":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)","path":{"lhs":"dpll_satisfiable(x)","rhs":"check satisfiability of a propositional sentence. it returns a model rather than true when it succeeds. returns a generator of all models if all_models is true","over":{"base":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)"},"name":"dpll_satisfiable_EncodedCNF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.dpll_satisfiable_EncodedCNF_correct","statement":"dpll_satisfiable satisfies spec on EncodedCNF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"491e690c7681e9f2"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.dpll_satisfiable","kind":"function","src_hash":"078edef0cb2e9c11","in":{"base":"Any","pred":"isinstance(expr, EncodedCNF) and hasattr(expr, 'data') and hasattr(expr, 'variables') and hasattr(expr, 'symbols')"},"out":{"base":"Any"},"spec":{"lhs":"dpll_satisfiable(expr, all_models, use_lra_theory)","rhs":"<unspecified:dpll_satisfiable>","over":{"base":"Any","pred":"isinstance(expr, EncodedCNF) and hasattr(expr, 'data') and hasattr(expr, 'variables') and hasattr(expr, 'symbols')"},"name":"dpll_satisfiable_correct"},"guarantee":"check satisfiability of a propositional sentence. it returns a model rather than true when it succeeds. returns a generator of all models if all_models is true","fibers":[{"name":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)","path":{"lhs":"dpll_satisfiable(x)","rhs":"check satisfiability of a propositional sentence. it returns a model rather than true when it succeeds. returns a generator of all models if all_models is true","over":{"base":"EncodedCNF","pred":"isinstance(expr, EncodedCNF)"},"name":"dpll_satisfiable_EncodedCNF_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.dpll_satisfiable_EncodedCNF_correct","statement":"dpll_satisfiable satisfies spec on EncodedCNF inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"491e690c7681e9f2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'data')","hasattr(expr, 'variables')","hasattr(expr, 'symbols')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.data","expr.symbols","expr.variables"],"catches":["StopIteration"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, EncodedCNF)'}, fibers={'EncodedCNF'})"]}}
 def dpll_satisfiable(expr, all_models=False, use_lra_theory=False):
     """
     Check satisfiability of a propositional sentence.
@@ -102,16 +111,22 @@ def dpll_satisfiable(expr, all_models=False, use_lra_theory=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_all_models(mod), internal helper behaves correctly) over Any ║
+# ║ Path(_all_models(models), <unspecified:_all_models>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _all_models : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e73fdf0eb916cd7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2._all_models","kind":"function","src_hash":"768b25f8a16554c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_all_models(mod)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_all_models_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2._all_models_correct","statement":"Path(_all_models(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e73fdf0eb916cd7"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2._all_models","kind":"function","src_hash":"768b25f8a16554c4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_all_models(models)","rhs":"<unspecified:_all_models>","over":{"base":"Any"},"name":"_all_models_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2._all_models_correct","statement":"Path(_all_models(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e73fdf0eb916cd7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _all_models(models):
     satisfiable = False
     try:
@@ -126,14 +141,19 @@ def _all_models(models):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SATSolver instance) preserved by SATSolver(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SATSolver : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 965e06193e007164  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver","kind":"class","src_hash":"9e9e49a69bec8262","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SATSolver(*args)","rhs":"correctly constructs a SATSolver instance","over":{"base":"Any"},"name":"SATSolver_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SATSolver instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'var_settings') and hasattr(self, 'heuristic') and hasattr(self, 'is_unsatisfied') and hasattr(self, '_unit_prop_queue') and hasattr(self, 'update_functions') and hasattr(self, 'INTERVAL') and hasattr(self, 'symbols') and hasattr(self, 'symbols')","kind":"class","induction":"structural on var_settings, heuristic, is_unsatisfied, _unit_prop_queue"}],"methods_preserving":["__init__","_initialize_variables","_initialize_clauses","_find_model","_current_level","_clause_sat","_is_sentinel","_assign_literal","_undo","_simplify","_unit_prop","_pure_literal","_vsids_init","_vsids_decay","_vsids_calculate","_vsids_lit_assigned","_vsids_lit_unset","_vsids_clause_added","_simple_add_learned_clause","_simple_compute_conflict","_simple_clean_clauses"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"965e06193e007164"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver","kind":"class","src_hash":"9e9e49a69bec8262","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SATSolver(*args)","rhs":"correctly constructs a SATSolver instance","over":{"base":"Any"},"name":"SATSolver_class_invariant","kind":"invariant"},"guarantee":"preserves 18 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'var_settings') and hasattr(self, 'heuristic') and hasattr(self, 'is_unsatisfied') and hasattr(self, '_unit_prop_queue') and hasattr(self, 'update_functions') and hasattr(self, 'INTERVAL') and hasattr(self, 'symbols') and hasattr(self, 'symbols')","kind":"class","induction":"structural on var_settings, heuristic, is_unsatisfied, _unit_prop_queue"}],"methods_preserving":["__init__","_initialize_variables","_initialize_clauses","_find_model","_current_level","_clause_sat","_is_sentinel","_assign_literal","_undo","_simplify","_unit_prop","_pure_literal","_vsids_init","_vsids_decay","_vsids_calculate","_vsids_lit_assigned","_vsids_lit_unset","_vsids_clause_added","_simple_add_learned_clause","_simple_compute_conflict","_simple_clean_clauses"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"965e06193e007164","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'var_settings')","hasattr(self, 'heuristic')","hasattr(self, 'is_unsatisfied')","hasattr(self, '_unit_prop_queue')","hasattr(self, 'update_functions')","hasattr(self, 'INTERVAL')","hasattr(self, 'levels')","hasattr(self, 'num_decisions')","hasattr(self, 'num_learned_clauses')","hasattr(self, 'original_num_clauses')","hasattr(self, 'lra')","hasattr(self, 'symbols')","hasattr(self, 'heur_calculate')","hasattr(self, 'heur_lit_assigned')","hasattr(self, 'heur_lit_unset')","hasattr(self, 'heur_clause_added')","hasattr(self, 'add_learned_clause')","hasattr(self, 'compute_conflict')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function SATSolver not found in source"]}}
 class SATSolver:
     """
     Class for representing a SAT solver capable of
@@ -142,16 +162,22 @@ class SATSolver:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(cla), initializes the instance correctly) over Any ║
+# ║ Path(__init__(clauses, variables, var_settings), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: len(self) =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e6f8d593c1a1b03e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver.__init__","kind":"method","src_hash":"4752e297012c3add","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(cla)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6f8d593c1a1b03e"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver.__init__","kind":"method","src_hash":"4752e297012c3add","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"__init__(clauses, variables, var_settings)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e6f8d593c1a1b03e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._current_level","self._initialize_clauses","self._initialize_variables","self._simple_add_learned_clause","self._simple_clean_clauses","self._simple_compute_conflict","self._vsids_calculate","self._vsids_clause_added","self._vsids_init","self._vsids_lit_assigned","self._vsids_lit_unset","self.clauses","self.update_functions"],"writes":["self.INTERVAL","self._unit_prop_queue","self.add_learned_clause","self.compute_conflict","self.heur_calculate","self.heur_clause_added","self.heur_lit_assigned","self.heur_lit_unset","self.heuristic","self.is_unsatisfied","self.levels","self.lra","self.num_decisions","self.num_learned_clauses","self.original_num_clauses","self.symbols","self.update_functions","self.var_settings"],"calls_mutating":["self.update_functions.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["self.*","self.INTERVAL","self._unit_prop_queue","self.add_learned_clause","self.compute_conflict","self.heur_calculate","self.heur_clause_added","self.heur_lit_assigned","self.heur_lit_unset","self.heuristic","self.is_unsatisfied","self.levels","self.lra","self.num_decisions","self.num_learned_clauses","self.original_num_clauses","self.symbols","self.update_functions","self.var_settings"],"old_bindings":{"old_self_INTERVAL":"self.INTERVAL","old_self__unit_prop_queue":"self._unit_prop_queue","old_self_add_learned_clause":"self.add_learned_clause","old_self_compute_conflict":"self.compute_conflict","old_self_heur_calculate":"self.heur_calculate","old_self_heur_clause_added":"self.heur_clause_added","old_self_heur_lit_assigned":"self.heur_lit_assigned","old_self_heur_lit_unset":"self.heur_lit_unset","old_self_heuristic":"self.heuristic","old_self_is_unsatisfied":"self.is_unsatisfied","old_self_levels":"self.levels","old_self_lra":"self.lra","old_self_num_decisions":"self.num_decisions","old_self_num_learned_clauses":"self.num_learned_clauses","old_self_original_num_clauses":"self.original_num_clauses","old_self_symbols":"self.symbols","old_self_update_functions":"self.update_functions","old_self_var_settings":"self.var_settings","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, clauses, variables, var_settings, symbols=None,
                 heuristic='vsids', clause_learning='none', INTERVAL=500,
                  lra_theory = None):
@@ -206,16 +232,22 @@ class SATSolver:
         self.lra = lra_theory
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_initialize_variables(var), set up the variable data structures needed) over Any ║
+# ║ Path(_initialize_variables(variables), <unspecified:_initialize_variables>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _initialize_variables : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4eb3a087d02425d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._initialize_variables","kind":"method","src_hash":"8af174df174dd874","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_initialize_variables(var)","rhs":"set up the variable data structures needed","over":{"base":"Any"},"name":"_initialize_variables_correct"},"guarantee":"set up the variable data structures needed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._initialize_variables_correct","statement":"Path(_initialize_variables(x), set up the variable data structures needed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4eb3a087d02425d"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._initialize_variables","kind":"method","src_hash":"8af174df174dd874","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_initialize_variables(variables)","rhs":"<unspecified:_initialize_variables>","over":{"base":"Any"},"name":"_initialize_variables_correct"},"guarantee":"set up the variable data structures needed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._initialize_variables_correct","statement":"Path(_initialize_variables(x), set up the variable data structures needed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4eb3a087d02425d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self.occurrence_count","self.sentinels","self.variable_set"]},"state_contract":{"modifies":["self.occurrence_count","self.sentinels","self.variable_set"],"old_bindings":{"old_self_occurrence_count":"self.occurrence_count","old_self_sentinels":"self.sentinels","old_self_variable_set":"self.variable_set"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _initialize_variables(self, variables):
         """Set up the variable data structures needed."""
         self.sentinels = defaultdict(set)
@@ -223,16 +255,22 @@ class SATSolver:
         self.variable_set = [False] * (len(variables) + 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_initialize_clauses(cla), set up the clause data structures needed) over Any ║
+# ║ Path(_initialize_clauses(clauses), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _initialize_clauses : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _initialize_clauses : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c71cf990f1fae2c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d435c74bc3ab76e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._initialize_clauses","kind":"method","src_hash":"43debf8e6641af09","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_initialize_clauses(cla)","rhs":"set up the clause data structures needed","over":{"base":"Any"},"name":"_initialize_clauses_correct"},"guarantee":"set up the clause data structures needed","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._initialize_clauses_correct","statement":"Path(_initialize_clauses(x), set up the clause data structures needed)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c71cf990f1fae2c8"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._initialize_clauses","kind":"method","src_hash":"43debf8e6641af09","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"_initialize_clauses(clauses)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"_initialize_clauses_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._initialize_clauses_correct","statement":"Path(_initialize_clauses(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d435c74bc3ab76e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._unit_prop_queue","self.clauses","self.occurrence_count","self.sentinels"],"writes":["self.clauses"],"calls_mutating":["self._unit_prop_queue.append"]},"state_contract":{"modifies":["self.*","self.clauses"],"old_bindings":{"old_self_clauses":"self.clauses","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _initialize_clauses(self, clauses):
         """Set up the clause data structures needed.
 
@@ -257,16 +295,22 @@ class SATSolver:
                 self.occurrence_count[lit] += 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_find_model(), main dpll loop) over Any               ║
+# ║ Path(_find_model(), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _find_model : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _find_model : Any → {Any | result satisfies: len(self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f17b35d6d1e3bce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba873bcafbb94b9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._find_model","kind":"method","src_hash":"f30940b5c47fea93","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_find_model()","rhs":"main dpll loop","over":{"base":"Any"},"name":"_find_model_correct"},"guarantee":"main dpll loop","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._find_model_correct","statement":"Path(_find_model(x), main dpll loop)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f17b35d6d1e3bce"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._find_model","kind":"method","src_hash":"f30940b5c47fea93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"_find_model()","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"_find_model_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._find_model_correct","statement":"Path(_find_model(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba873bcafbb94b9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.INTERVAL","self._assign_literal","self._current_level","self._simple_add_learned_clause","self._simplify","self._undo","self.add_learned_clause","self.compute_conflict","self.heur_calculate","self.is_unsatisfied","self.levels","self.lra","self.num_decisions","self.symbols","self.update_functions","self.var_settings"],"writes":["self.is_unsatisfied","self.num_decisions"],"calls_mutating":["self.levels.append"]},"state_contract":{"modifies":["self.*","self.is_unsatisfied","self.num_decisions"],"old_bindings":{"old_self_is_unsatisfied":"self.is_unsatisfied","old_self_num_decisions":"self.num_decisions","old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _find_model(self):
         """
         Main DPLL loop. Returns a generator of models.
@@ -388,16 +432,22 @@ class SATSolver:
     ########################
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_current_level(), returns the _current_level attribute) over Any ║
+# ║ Path(_current_level(), self.levels[-1]) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.levels[-1]                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _current_level : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2d33c49a7770eb03           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._current_level","kind":"property","src_hash":"8955864f78d418ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_current_level()","rhs":"returns the _current_level attribute","over":{"base":"Any"},"name":"_current_level_correct"},"guarantee":"returns the _current_level attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d33c49a7770eb03"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._current_level","kind":"property","src_hash":"8955864f78d418ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_current_level()","rhs":"self.levels[-1]","over":{"base":"Any"},"name":"_current_level_correct"},"guarantee":"returns self.levels[-1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2d33c49a7770eb03","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.levels[-1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.levels"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _current_level(self):
         """The current decision level data structure
 
@@ -419,16 +469,22 @@ class SATSolver:
         return self.levels[-1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_clause_sat(cls), check if a clause is satisfied by the current variable setting) over Any ║
+# ║ Path(_clause_sat(cls), <unspecified:_clause_sat>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _clause_sat : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cba181ed9c2a5061  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._clause_sat","kind":"method","src_hash":"3fe976376ed074c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_clause_sat(cls)","rhs":"check if a clause is satisfied by the current variable setting","over":{"base":"Any"},"name":"_clause_sat_correct"},"guarantee":"check if a clause is satisfied by the current variable setting","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._clause_sat_correct","statement":"Path(_clause_sat(x), check if a clause is satisfied by the current variable setting)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cba181ed9c2a5061"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._clause_sat","kind":"method","src_hash":"3fe976376ed074c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_clause_sat(cls)","rhs":"<unspecified:_clause_sat>","over":{"base":"Any"},"name":"_clause_sat_correct"},"guarantee":"check if a clause is satisfied by the current variable setting","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._clause_sat_correct","statement":"Path(_clause_sat(x), check if a clause is satisfied by the current variable setting)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cba181ed9c2a5061","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.clauses","self.var_settings"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _clause_sat(self, cls):
         """Check if a clause is satisfied by the current variable setting.
 
@@ -453,16 +509,22 @@ class SATSolver:
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_sentinel(lit), check if a literal is a sentinel of a given clause) over Any ║
+# ║ Path(_is_sentinel(lit, cls), cls in self.sentinels[lit]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  cls in self.sentinels[lit]                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _is_sentinel : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 742476e2a4731333           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._is_sentinel","kind":"method","src_hash":"3d0538229ac60615","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_sentinel(lit)","rhs":"check if a literal is a sentinel of a given clause","over":{"base":"Any"},"name":"_is_sentinel_correct"},"guarantee":"check if a literal is a sentinel of a given clause","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"742476e2a4731333"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._is_sentinel","kind":"method","src_hash":"3d0538229ac60615","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_sentinel(lit, cls)","rhs":"cls in self.sentinels[lit]","over":{"base":"Any"},"name":"_is_sentinel_correct"},"guarantee":"returns cls in self.sentinels[lit]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"742476e2a4731333","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"cls in self.sentinels[lit]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.sentinels"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _is_sentinel(self, lit, cls):
         """Check if a literal is a sentinel of a given clause.
 
@@ -483,16 +545,22 @@ class SATSolver:
         return cls in self.sentinels[lit]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_assign_literal(lit), make a literal assignment) over Any ║
+# ║ Path(_assign_literal(lit), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _assign_literal : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _assign_literal : Any → {Any | result satisfies: len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b18331ad759d50f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0505cd815e9de666  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._assign_literal","kind":"method","src_hash":"2ff9fe1429b5e39f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_assign_literal(lit)","rhs":"make a literal assignment","over":{"base":"Any"},"name":"_assign_literal_correct"},"guarantee":"make a literal assignment","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._assign_literal_correct","statement":"Path(_assign_literal(x), make a literal assignment)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b18331ad759d50f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._assign_literal","kind":"method","src_hash":"2ff9fe1429b5e39f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"_assign_literal(lit)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"_assign_literal_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._assign_literal_correct","statement":"Path(_assign_literal(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0505cd815e9de666","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._clause_sat","self._current_level","self._is_sentinel","self._unit_prop_queue","self.clauses","self.heur_lit_assigned","self.sentinels","self.var_settings","self.variable_set"],"calls_mutating":["self._current_level.var_settings.add","self._unit_prop_queue.append","self.var_settings.add"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _assign_literal(self, lit):
         """Make a literal assignment.
 
@@ -549,16 +617,23 @@ class SATSolver:
                     self._unit_prop_queue.append(other_sentinel)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_undo(), _undo the changes of the most recent decision level) over Any ║
+# ║ Path(_undo(), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _undo : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _undo : {Any | len(self) > 0} → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b960132b7013d214  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a5d3c124bc713b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._undo","kind":"method","src_hash":"9e2d371f2a1749d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_undo()","rhs":"_undo the changes of the most recent decision level","over":{"base":"Any"},"name":"_undo_correct"},"guarantee":"_undo the changes of the most recent decision level","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._undo_correct","statement":"Path(_undo(x), _undo the changes of the most recent decision level)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b960132b7013d214"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._undo","kind":"method","src_hash":"9e2d371f2a1749d4","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"_undo()","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"_undo_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._undo_correct","statement":"Path(_undo(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a5d3c124bc713b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._current_level","self.heur_lit_unset","self.levels","self.var_settings","self.variable_set"],"calls_mutating":["self.levels.pop","self.var_settings.remove"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"pre_requires":["len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _undo(self):
         """
         _undo the changes of the most recent decision level.
@@ -598,16 +673,22 @@ class SATSolver:
       otherwise.
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simplify(), iterate over the various forms of propagation to simplify the theory) over Any ║
+# ║ Path(_simplify(), <unspecified:_simplify>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _simplify : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 347a0705181e3645  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._simplify","kind":"method","src_hash":"d91725bf4136282e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify()","rhs":"iterate over the various forms of propagation to simplify the theory","over":{"base":"Any"},"name":"_simplify_correct"},"guarantee":"iterate over the various forms of propagation to simplify the theory","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._simplify_correct","statement":"Path(_simplify(x), iterate over the various forms of propagation to simplify the theory)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"347a0705181e3645"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._simplify","kind":"method","src_hash":"d91725bf4136282e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simplify()","rhs":"<unspecified:_simplify>","over":{"base":"Any"},"name":"_simplify_correct"},"guarantee":"iterate over the various forms of propagation to simplify the theory","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._simplify_correct","statement":"Path(_simplify(x), iterate over the various forms of propagation to simplify the theory)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"347a0705181e3645","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._pure_literal","self._unit_prop"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _simplify(self):
         """Iterate over the various forms of propagation to simplify the theory.
 
@@ -638,16 +719,23 @@ class SATSolver:
             changed |= self._pure_literal()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_unit_prop(), perform unit propagation on the current theory) over Any ║
+# ║ Path(_unit_prop(), len(self) == old_len_self - 1) over {Any | len(self) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _unit_prop : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(self) > 0                                  ║
+# ║   ensures:  len(self) == old_len_self - 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _unit_prop : {Any | len(self) > 0} → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30e5938e61f2c356  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 03b772201e5a3c88  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._unit_prop","kind":"method","src_hash":"848668fca8796192","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_unit_prop()","rhs":"perform unit propagation on the current theory","over":{"base":"Any"},"name":"_unit_prop_correct"},"guarantee":"perform unit propagation on the current theory","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._unit_prop_correct","statement":"Path(_unit_prop(x), perform unit propagation on the current theory)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30e5938e61f2c356"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._unit_prop","kind":"method","src_hash":"848668fca8796192","in":{"base":"Any","pred":"len(self) > 0"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self - 1"},"spec":{"lhs":"_unit_prop()","rhs":"len(self) == old_len_self - 1","over":{"base":"Any","pred":"len(self) > 0"},"name":"_unit_prop_correct"},"guarantee":"len(self) == old_len_self - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._unit_prop_correct","statement":"Path(_unit_prop(x), len(self) == old_len_self - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"03b772201e5a3c88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(self) > 0"],"ensures":["len(self) == old_len_self - 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._assign_literal","self._unit_prop_queue","self.var_settings"],"writes":["self._unit_prop_queue","self.is_unsatisfied"],"calls_mutating":["self._unit_prop_queue.pop"]},"state_contract":{"modifies":["self.*","self._unit_prop_queue","self.is_unsatisfied"],"old_bindings":{"old_self__unit_prop_queue":"self._unit_prop_queue","old_self_is_unsatisfied":"self.is_unsatisfied","old_len_self":"len(self)"},"pre_requires":["len(self) > 0"],"post_ensures":["len(self) == old_len_self - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _unit_prop(self):
         """Perform unit propagation on the current theory."""
         result = len(self._unit_prop_queue) > 0
@@ -663,16 +751,22 @@ class SATSolver:
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pure_literal(), look for pure literals and assign them when found) over Any ║
+# ║ Path(_pure_literal(), False) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  False                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _pure_literal : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5cfe2169fcbdd4c5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._pure_literal","kind":"method","src_hash":"66b63e8e420df81e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pure_literal()","rhs":"look for pure literals and assign them when found","over":{"base":"Any"},"name":"_pure_literal_correct"},"guarantee":"look for pure literals and assign them when found","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5cfe2169fcbdd4c5"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._pure_literal","kind":"method","src_hash":"66b63e8e420df81e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pure_literal()","rhs":"False","over":{"base":"Any"},"name":"_pure_literal_correct"},"guarantee":"returns False","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5cfe2169fcbdd4c5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"False","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pure_literal(self):
         """Look for pure literals and assign them when found."""
         return False
@@ -681,16 +775,22 @@ class SATSolver:
     #      Heuristics       #
     #########################
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_vsids_init(), initialize the data structures needed for the vsids heuristic) over Any ║
+# ║ Path(_vsids_init(), <unspecified:_vsids_init>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _vsids_init : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79ac9c8002299021  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._vsids_init","kind":"method","src_hash":"967518eb2f78883d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vsids_init()","rhs":"initialize the data structures needed for the vsids heuristic","over":{"base":"Any"},"name":"_vsids_init_correct"},"guarantee":"initialize the data structures needed for the vsids heuristic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._vsids_init_correct","statement":"Path(_vsids_init(x), initialize the data structures needed for the vsids heuristic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79ac9c8002299021"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._vsids_init","kind":"method","src_hash":"967518eb2f78883d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vsids_init()","rhs":"<unspecified:_vsids_init>","over":{"base":"Any"},"name":"_vsids_init_correct"},"guarantee":"initialize the data structures needed for the vsids heuristic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._vsids_init_correct","statement":"Path(_vsids_init(x), initialize the data structures needed for the vsids heuristic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79ac9c8002299021","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.lit_heap","self.lit_scores","self.occurrence_count","self.variable_set"],"writes":["self.lit_heap","self.lit_scores"]},"state_contract":{"modifies":["self.lit_heap","self.lit_scores"],"old_bindings":{"old_self_lit_heap":"self.lit_heap","old_self_lit_scores":"self.lit_scores"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _vsids_init(self):
         """Initialize the data structures needed for the VSIDS heuristic."""
         self.lit_heap = []
@@ -703,16 +803,22 @@ class SATSolver:
             heappush(self.lit_heap, (self.lit_scores[-var], -var))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_vsids_decay(), decay the vsids scores for every literal) over Any ║
+# ║ Path(_vsids_decay(), <unspecified:_vsids_decay>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _vsids_decay : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82d5fe768b19edef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._vsids_decay","kind":"method","src_hash":"fc86f07549b67553","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vsids_decay()","rhs":"decay the vsids scores for every literal","over":{"base":"Any"},"name":"_vsids_decay_correct"},"guarantee":"decay the vsids scores for every literal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._vsids_decay_correct","statement":"Path(_vsids_decay(x), decay the vsids scores for every literal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82d5fe768b19edef"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._vsids_decay","kind":"method","src_hash":"fc86f07549b67553","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vsids_decay()","rhs":"<unspecified:_vsids_decay>","over":{"base":"Any"},"name":"_vsids_decay_correct"},"guarantee":"decay the vsids scores for every literal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._vsids_decay_correct","statement":"Path(_vsids_decay(x), decay the vsids scores for every literal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82d5fe768b19edef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.lit_scores"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _vsids_decay(self):
         """Decay the VSIDS scores for every literal.
 
@@ -738,16 +844,22 @@ class SATSolver:
             self.lit_scores[lit] /= 2.0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_vsids_calculate(), vsids heuristic calculation) over Any ║
+# ║ Path(_vsids_calculate(), <unspecified:_vsids_calculate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _vsids_calculate : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88ca393611914ea8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._vsids_calculate","kind":"method","src_hash":"26247e26a1c85ebe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vsids_calculate()","rhs":"vsids heuristic calculation","over":{"base":"Any"},"name":"_vsids_calculate_correct"},"guarantee":"vsids heuristic calculation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._vsids_calculate_correct","statement":"Path(_vsids_calculate(x), vsids heuristic calculation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88ca393611914ea8"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._vsids_calculate","kind":"method","src_hash":"26247e26a1c85ebe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vsids_calculate()","rhs":"<unspecified:_vsids_calculate>","over":{"base":"Any"},"name":"_vsids_calculate_correct"},"guarantee":"vsids heuristic calculation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._vsids_calculate_correct","statement":"Path(_vsids_calculate(x), vsids heuristic calculation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88ca393611914ea8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.lit_heap","self.variable_set"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _vsids_calculate(self):
         """
             VSIDS Heuristic Calculation
@@ -781,31 +893,43 @@ class SATSolver:
         return heappop(self.lit_heap)[1]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_vsids_lit_assigned(lit), handle the assignment of a literal for the vsids heuristic) over Any ║
+# ║ Path(_vsids_lit_assigned(lit), <unspecified:_vsids_lit_assigned>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _vsids_lit_assigned : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bf5d42e9609a9829           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._vsids_lit_assigned","kind":"method","src_hash":"6df0c214ec0f0a8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vsids_lit_assigned(lit)","rhs":"handle the assignment of a literal for the vsids heuristic","over":{"base":"Any"},"name":"_vsids_lit_assigned_correct"},"guarantee":"handle the assignment of a literal for the vsids heuristic","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf5d42e9609a9829"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._vsids_lit_assigned","kind":"method","src_hash":"6df0c214ec0f0a8f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vsids_lit_assigned(lit)","rhs":"<unspecified:_vsids_lit_assigned>","over":{"base":"Any"},"name":"_vsids_lit_assigned_correct"},"guarantee":"handle the assignment of a literal for the vsids heuristic","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bf5d42e9609a9829","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _vsids_lit_assigned(self, lit):
         """Handle the assignment of a literal for the VSIDS heuristic."""
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_vsids_lit_unset(lit), handle the unsetting of a literal for the vsids heuristic) over Any ║
+# ║ Path(_vsids_lit_unset(lit), <unspecified:_vsids_lit_unset>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _vsids_lit_unset : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c72c382f7ab75558  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._vsids_lit_unset","kind":"method","src_hash":"4845fdbe023df5ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vsids_lit_unset(lit)","rhs":"handle the unsetting of a literal for the vsids heuristic","over":{"base":"Any"},"name":"_vsids_lit_unset_correct"},"guarantee":"handle the unsetting of a literal for the vsids heuristic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._vsids_lit_unset_correct","statement":"Path(_vsids_lit_unset(x), handle the unsetting of a literal for the vsids heuristic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c72c382f7ab75558"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._vsids_lit_unset","kind":"method","src_hash":"4845fdbe023df5ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vsids_lit_unset(lit)","rhs":"<unspecified:_vsids_lit_unset>","over":{"base":"Any"},"name":"_vsids_lit_unset_correct"},"guarantee":"handle the unsetting of a literal for the vsids heuristic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._vsids_lit_unset_correct","statement":"Path(_vsids_lit_unset(x), handle the unsetting of a literal for the vsids heuristic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c72c382f7ab75558","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.lit_heap","self.lit_scores"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _vsids_lit_unset(self, lit):
         """Handle the unsetting of a literal for the VSIDS heuristic.
 
@@ -830,16 +954,22 @@ class SATSolver:
         heappush(self.lit_heap, (self.lit_scores[-var], -var))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_vsids_clause_added(cls), handle the addition of a new clause for the vsids heuristic) over Any ║
+# ║ Path(_vsids_clause_added(cls), <unspecified:_vsids_clause_added>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _vsids_clause_added : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 558630d3e01b5666  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._vsids_clause_added","kind":"method","src_hash":"5297d4fc390fe762","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vsids_clause_added(cls)","rhs":"handle the addition of a new clause for the vsids heuristic","over":{"base":"Any"},"name":"_vsids_clause_added_correct"},"guarantee":"handle the addition of a new clause for the vsids heuristic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._vsids_clause_added_correct","statement":"Path(_vsids_clause_added(x), handle the addition of a new clause for the vsids heuristic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"558630d3e01b5666"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._vsids_clause_added","kind":"method","src_hash":"5297d4fc390fe762","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_vsids_clause_added(cls)","rhs":"<unspecified:_vsids_clause_added>","over":{"base":"Any"},"name":"_vsids_clause_added_correct"},"guarantee":"handle the addition of a new clause for the vsids heuristic","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._vsids_clause_added_correct","statement":"Path(_vsids_clause_added(x), handle the addition of a new clause for the vsids heuristic)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"558630d3e01b5666","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.lit_scores"],"writes":["self.num_learned_clauses"]},"state_contract":{"modifies":["self.num_learned_clauses"],"old_bindings":{"old_self_num_learned_clauses":"self.num_learned_clauses"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _vsids_clause_added(self, cls):
         """Handle the addition of a new clause for the VSIDS heuristic.
 
@@ -871,16 +1001,22 @@ class SATSolver:
     #   Clause Learning    #
     ########################
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simple_add_learned_clause(cls), add a new clause to the theory) over Any ║
+# ║ Path(_simple_add_learned_clause(cls), len(self) == old_len_self + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _simple_add_learned_clause : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(self) == old_len_self + 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _simple_add_learned_clause : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0b817c79351c4be  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0671030a6099a70d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._simple_add_learned_clause","kind":"method","src_hash":"c5458d8d35127388","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simple_add_learned_clause(cls)","rhs":"add a new clause to the theory","over":{"base":"Any"},"name":"_simple_add_learned_clause_correct"},"guarantee":"add a new clause to the theory","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._simple_add_learned_clause_correct","statement":"Path(_simple_add_learned_clause(x), add a new clause to the theory)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0b817c79351c4be"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._simple_add_learned_clause","kind":"method","src_hash":"c5458d8d35127388","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(self) == old_len_self + 1"},"spec":{"lhs":"_simple_add_learned_clause(cls)","rhs":"len(self) == old_len_self + 1","over":{"base":"Any"},"name":"_simple_add_learned_clause_correct"},"guarantee":"len(self) == old_len_self + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.logic.algorithms.dpll2.SATSolver._simple_add_learned_clause_correct","statement":"Path(_simple_add_learned_clause(x), len(self) == old_len_self + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0671030a6099a70d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(self) == old_len_self + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.clauses","self.heur_clause_added","self.occurrence_count","self.sentinels"],"calls_mutating":["self.clauses.append"]},"state_contract":{"modifies":["self.*"],"old_bindings":{"old_len_self":"len(self)"},"post_ensures":["len(self) == old_len_self + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _simple_add_learned_clause(self, cls):
         """Add a new clause to the theory.
 
@@ -918,16 +1054,22 @@ class SATSolver:
         self.heur_clause_added(cls)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simple_compute_conflict(), build a clause representing the fact that at least one decision made so far is wrong) over Any ║
+# ║ Path(_simple_compute_conflict(), [-level.decision for level in self.levels[1:]]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [-level.decision for level in self.levels...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _simple_compute_conflict : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 986bfbce4c285bbf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._simple_compute_conflict","kind":"method","src_hash":"c4230c4233c0642c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simple_compute_conflict()","rhs":"build a clause representing the fact that at least one decision made so far is wrong","over":{"base":"Any"},"name":"_simple_compute_conflict_correct"},"guarantee":"build a clause representing the fact that at least one decision made so far is wrong","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"986bfbce4c285bbf"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._simple_compute_conflict","kind":"method","src_hash":"c4230c4233c0642c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simple_compute_conflict()","rhs":"[-level.decision for level in self.levels[1:]]","over":{"base":"Any"},"name":"_simple_compute_conflict_correct"},"guarantee":"returns [-level.decision for level in self.levels[1:]]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"986bfbce4c285bbf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[-level.decision for level in self.levels[1:]]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.levels"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _simple_compute_conflict(self):
         """ Build a clause representing the fact that at least one decision made
         so far is wrong.
@@ -947,16 +1089,22 @@ class SATSolver:
         return [-(level.decision) for level in self.levels[1:]]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_simple_clean_clauses(), clean up learned clauses) over Any ║
+# ║ Path(_simple_clean_clauses(), <unspecified:_simple_clean_clauses>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _simple_clean_clauses : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f0ba2abeeb81b542           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._simple_clean_clauses","kind":"method","src_hash":"8f08213ae2914d5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simple_clean_clauses()","rhs":"clean up learned clauses","over":{"base":"Any"},"name":"_simple_clean_clauses_correct"},"guarantee":"clean up learned clauses","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0ba2abeeb81b542"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.SATSolver._simple_clean_clauses","kind":"method","src_hash":"8f08213ae2914d5f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_simple_clean_clauses()","rhs":"<unspecified:_simple_clean_clauses>","over":{"base":"Any"},"name":"_simple_clean_clauses_correct"},"guarantee":"clean up learned clauses","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0ba2abeeb81b542","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _simple_clean_clauses(self):
         """Clean up learned clauses."""
         pass
@@ -965,14 +1113,19 @@ class SATSolver:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Level instance) preserved by Level(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Level : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f298ec1b985a3922  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.Level","kind":"class","src_hash":"409a475dcf469f3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Level(*args)","rhs":"correctly constructs a Level instance","over":{"base":"Any"},"name":"Level_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Level instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'decision') and hasattr(self, 'var_settings') and hasattr(self, 'flipped')","kind":"class","induction":"structural on decision, var_settings, flipped"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f298ec1b985a3922"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.Level","kind":"class","src_hash":"409a475dcf469f3f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Level(*args)","rhs":"correctly constructs a Level instance","over":{"base":"Any"},"name":"Level_class_invariant","kind":"invariant"},"guarantee":"preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'decision') and hasattr(self, 'var_settings') and hasattr(self, 'flipped')","kind":"class","induction":"structural on decision, var_settings, flipped"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f298ec1b985a3922","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'decision')","hasattr(self, 'var_settings')","hasattr(self, 'flipped')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function Level not found in source"]}}
 class Level:
     """
     Represents a single level in the DPLL algorithm, and contains
@@ -980,16 +1133,23 @@ class Level:
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(dec), initializes the instance correctly) over Any ║
+# ║ Path(__init__(decision, flipped), self.decision == decision and self.flipped == flipped) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.decision == decision                      ║
+# ║   ensures:  self.flipped == flipped                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.decisi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d3e701ab5d82e9f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.Level.__init__","kind":"method","src_hash":"e4d412fa03f0580f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(dec)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d3e701ab5d82e9f"}
+# @cctt_verify {"v":2,"sym":"sympy.logic.algorithms.dpll2.Level.__init__","kind":"method","src_hash":"e4d412fa03f0580f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.decision == decision and self.flipped == flipped"},"spec":{"lhs":"__init__(decision, flipped)","rhs":"self.decision == decision and self.flipped == flipped","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.decision == decision; self.flipped == flipped","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d3e701ab5d82e9f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.decision == decision","self.flipped == flipped"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, decision, flipped=False):
         self.decision = decision
         self.var_settings = set()

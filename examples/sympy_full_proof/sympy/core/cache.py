@@ -22,28 +22,40 @@ from typing import Callable
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_cache(*args), correctly constructs a _cache instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _cache : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, list)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _cache : Any → {Any | result satisfies: isinstance(se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17337e09b178d0f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.cache._cache","kind":"class","src_hash":"2f527b5faedf0962","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cache(*args)","rhs":"correctly constructs a _cache instance","over":{"base":"Any"},"name":"_cache_class_invariant"},"guarantee":"correctly constructs a _cache instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17337e09b178d0f7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.cache._cache","kind":"class","src_hash":"2f527b5faedf0962","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, list)"},"spec":{"lhs":"_cache(*args)","rhs":"correctly constructs a _cache instance","over":{"base":"Any"},"name":"_cache_class_invariant"},"guarantee":"isinstance(self, list)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17337e09b178d0f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, list)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function _cache not found in source"]}}
 class _cache(list):
     """ List of cached functions """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(print_cache(), print cache info) over Any             ║
+# ║ Path(print_cache(), <unspecified:print_cache>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ print_cache : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d575ae5688541820  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.cache._cache.print_cache","kind":"method","src_hash":"dd780a7f5d45958d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_cache()","rhs":"print cache info","over":{"base":"Any"},"name":"print_cache_correct"},"guarantee":"print cache info","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.cache._cache.print_cache_correct","statement":"Path(print_cache(x), print cache info)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d575ae5688541820"}
+# @cctt_verify {"v":2,"sym":"sympy.core.cache._cache.print_cache","kind":"method","src_hash":"dd780a7f5d45958d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"print_cache()","rhs":"<unspecified:print_cache>","over":{"base":"Any"},"name":"print_cache_correct"},"guarantee":"print cache info","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.cache._cache.print_cache_correct","statement":"Path(print_cache(x), print cache info)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d575ae5688541820","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def print_cache(self):
         """print cache info"""
 
@@ -62,16 +74,22 @@ class _cache(list):
             print(name, info)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(clear_cache(), clear cache content) over Any          ║
+# ║ Path(clear_cache(), <unspecified:clear_cache>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ clear_cache : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4bfae56b81b3b9c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.cache._cache.clear_cache","kind":"method","src_hash":"8d3bd562269d63d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clear_cache()","rhs":"clear cache content","over":{"base":"Any"},"name":"clear_cache_correct"},"guarantee":"clear cache content","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.cache._cache.clear_cache_correct","statement":"Path(clear_cache(x), clear cache content)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4bfae56b81b3b9c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.cache._cache.clear_cache","kind":"method","src_hash":"8d3bd562269d63d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"clear_cache()","rhs":"<unspecified:clear_cache>","over":{"base":"Any"},"name":"clear_cache_correct"},"guarantee":"clear cache content","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.cache._cache.clear_cache_correct","statement":"Path(clear_cache(x), clear cache content)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4bfae56b81b3b9c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def clear_cache(self):
         """clear cache content"""
         for item in self:
@@ -93,16 +111,22 @@ clear_cache = CACHE.clear_cache
 from functools import lru_cache, wraps
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__cacheit(max), caching decorator) over Any           ║
+# ║ Path(__cacheit(maxsize), <unspecified:__cacheit>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __cacheit : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57317600a7b121e3           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.cache.__cacheit","kind":"function","src_hash":"7e378c546628be7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__cacheit(max)","rhs":"caching decorator","over":{"base":"Any"},"name":"__cacheit_correct"},"guarantee":"caching decorator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57317600a7b121e3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.cache.__cacheit","kind":"function","src_hash":"7e378c546628be7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__cacheit(maxsize)","rhs":"<unspecified:__cacheit>","over":{"base":"Any"},"name":"__cacheit_correct"},"guarantee":"caching decorator","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57317600a7b121e3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.2,"verdict_class":"failed","binding":true}}
 def __cacheit(maxsize):
     """caching decorator.
 
@@ -148,31 +172,44 @@ def __cacheit(maxsize):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__cacheit_nocache(fun), internal helper behaves correctly) over Any ║
+# ║ Path(__cacheit_nocache(func), func) over Any               ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __cacheit_nocache : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == func                                 ║
+# ║   returns:  func                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __cacheit_nocache : Any → {Any | result satisfies: re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 55fba9773ed680cf           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.cache.__cacheit_nocache","kind":"function","src_hash":"6266d132dc37ae37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__cacheit_nocache(fun)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__cacheit_nocache_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55fba9773ed680cf"}
+# @cctt_verify {"v":2,"sym":"sympy.core.cache.__cacheit_nocache","kind":"function","src_hash":"6266d132dc37ae37","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (func)"},"spec":{"lhs":"__cacheit_nocache(func)","rhs":"func","over":{"base":"Any"},"name":"__cacheit_nocache_correct"},"guarantee":"returns func; result == func","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"55fba9773ed680cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == func"],"returns_expr":"func","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def __cacheit_nocache(func):
     return func
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__cacheit_debug(max), cacheit + code to check cache consistency) over Any ║
+# ║ Path(__cacheit_debug(maxsize), <unspecified:__cacheit_debug>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __cacheit_debug : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2184c101fc99de16           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.cache.__cacheit_debug","kind":"function","src_hash":"f999ab9aeecd5d81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__cacheit_debug(max)","rhs":"cacheit + code to check cache consistency","over":{"base":"Any"},"name":"__cacheit_debug_correct"},"guarantee":"cacheit + code to check cache consistency","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2184c101fc99de16"}
+# @cctt_verify {"v":2,"sym":"sympy.core.cache.__cacheit_debug","kind":"function","src_hash":"f999ab9aeecd5d81","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__cacheit_debug(maxsize)","rhs":"<unspecified:__cacheit_debug>","over":{"base":"Any"},"name":"__cacheit_debug_correct"},"guarantee":"cacheit + code to check cache consistency","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2184c101fc99de16","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["RuntimeError"]},"state_contract":{"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def __cacheit_debug(maxsize):
     """cacheit + code to check cache consistency"""
     def func_wrapper(func):
@@ -204,16 +241,22 @@ def __cacheit_debug(maxsize):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_getenv(key), internal helper behaves correctly) over Any ║
+# ║ Path(_getenv(key, default), getenv(key, default)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  getenv(key, default)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _getenv : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8525f695ad8167c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b278eb45442ae505  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.cache._getenv","kind":"function","src_hash":"2b97db4e62bb3c6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_getenv(key)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_getenv_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.cache._getenv_correct","statement":"Path(_getenv(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8525f695ad8167c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.cache._getenv","kind":"function","src_hash":"2b97db4e62bb3c6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_getenv(key, default)","rhs":"getenv(key, default)","over":{"base":"Any"},"name":"_getenv_correct"},"guarantee":"returns getenv(key, default)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.cache._getenv_correct","statement":"Path(_getenv(x), returns getenv(key, default))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b278eb45442ae505","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"getenv(key, default)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _getenv(key, default=None):
     from os import getenv
     return getenv(key, default)
@@ -247,16 +290,22 @@ else:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cached_property(fun), decorator to cache property method) over Any ║
+# ║ Path(cached_property(func), <unspecified:cached_property>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cached_property : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 502d6954b617630f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.cache.cached_property","kind":"function","src_hash":"6ceaf6d667b8c949","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cached_property(fun)","rhs":"decorator to cache property method","over":{"base":"Any"},"name":"cached_property_correct"},"guarantee":"decorator to cache property method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.cache.cached_property_correct","statement":"Path(cached_property(x), decorator to cache property method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"502d6954b617630f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.cache.cached_property","kind":"function","src_hash":"6ceaf6d667b8c949","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cached_property(func)","rhs":"<unspecified:cached_property>","over":{"base":"Any"},"name":"cached_property_correct"},"guarantee":"decorator to cache property method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.cache.cached_property_correct","statement":"Path(cached_property(x), decorator to cache property method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"502d6954b617630f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["func.__name__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def cached_property(func):
     '''Decorator to cache property method'''
     attrname = '__' + func.__name__
@@ -271,16 +320,24 @@ def cached_property(func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lazy_function(mod), create a lazy proxy for a function in a module) over str ║
+# ║ Path(lazy_function(module, name), isinstance(result, Callable)) over {str | isinstance(module, str) and isinstance(name, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ lazy_function : str → Callable                             ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(module, str)                        ║
+# ║   requires: isinstance(name, str)                          ║
+# ║   ensures:  isinstance(result, Callable)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ lazy_function : {str | isinstance(module, str) and is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 628768098902d346  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c24c1ec57d6a8dd9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.cache.lazy_function","kind":"function","src_hash":"b612116137e06775","in":{"base":"str"},"out":{"base":"Callable"},"spec":{"lhs":"lazy_function(mod)","rhs":"create a lazy proxy for a function in a module","over":{"base":"str"},"name":"lazy_function_correct"},"guarantee":"create a lazy proxy for a function in a module","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.cache.lazy_function_correct","statement":"Path(lazy_function(x), create a lazy proxy for a function in a module)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"628768098902d346"}
+# @cctt_verify {"v":2,"sym":"sympy.core.cache.lazy_function","kind":"function","src_hash":"b612116137e06775","in":{"base":"str","pred":"isinstance(module, str) and isinstance(name, str)"},"out":{"base":"Callable","pred":"result satisfies: isinstance(result, Callable)"},"spec":{"lhs":"lazy_function(module, name)","rhs":"isinstance(result, Callable)","over":{"base":"str","pred":"isinstance(module, str) and isinstance(name, str)"},"name":"lazy_function_correct"},"guarantee":"isinstance(result, Callable)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.cache.lazy_function_correct","statement":"Path(lazy_function(x), isinstance(result, Callable))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c24c1ec57d6a8dd9","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(module, str)","isinstance(name, str)"],"ensures":["isinstance(result, Callable)"],"pure":false,"effects":{"effect_type":"mutates_global","reads":["*.__class__"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def lazy_function(module : str, name : str) -> Callable:
     """Create a lazy proxy for a function in a module.
 

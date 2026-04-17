@@ -37,14 +37,20 @@ __all__ = [
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(WrappingGeometryBase(*args), correctly constructs a WrappingGeometryBase instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ WrappingGeometryBase : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ WrappingGeometryBase : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec834afb90787f62  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingGeometryBase","kind":"class","src_hash":"ffaec699664991d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"WrappingGeometryBase(*args)","rhs":"correctly constructs a WrappingGeometryBase instance","over":{"base":"Any"},"name":"WrappingGeometryBase_class_invariant"},"guarantee":"correctly constructs a WrappingGeometryBase instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec834afb90787f62"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingGeometryBase","kind":"class","src_hash":"ffaec699664991d4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ABC)"},"spec":{"lhs":"WrappingGeometryBase(*args)","rhs":"correctly constructs a WrappingGeometryBase instance","over":{"base":"Any"},"name":"WrappingGeometryBase_class_invariant"},"guarantee":"isinstance(self, ABC)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec834afb90787f62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ABC)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function WrappingGeometryBase not found in source"]}}
 class WrappingGeometryBase(ABC):
     """Abstract base class for all geometry classes to inherit from.
 
@@ -59,32 +65,44 @@ class WrappingGeometryBase(ABC):
     @property
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point(cls), returns the point attribute) over Any     ║
+# ║ Path(point(cls), <unspecified:point>) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ point : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c46bc953afb17515           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingGeometryBase.point","kind":"property","src_hash":"129faacb131f9827","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point(cls)","rhs":"returns the point attribute","over":{"base":"Any"},"name":"point_correct"},"guarantee":"returns the point attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c46bc953afb17515"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingGeometryBase.point","kind":"property","src_hash":"129faacb131f9827","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point(cls)","rhs":"<unspecified:point>","over":{"base":"Any"},"name":"point_correct"},"guarantee":"returns the point attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c46bc953afb17515","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def point(cls):
         """The point with which the geometry is associated."""
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point_on_surface(poi), returns ``true`` if a point is on the geometry's surface) over Any ║
+# ║ Path(point_on_surface(point), <unspecified:point_on_surface>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ point_on_surface : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d63133e0b678c9ea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingGeometryBase.point_on_surface","kind":"method","src_hash":"c94eadb263e1d36a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point_on_surface(poi)","rhs":"returns ``true`` if a point is on the geometry's surface","over":{"base":"Any"},"name":"point_on_surface_correct"},"guarantee":"returns ``true`` if a point is on the geometry's surface","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d63133e0b678c9ea"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingGeometryBase.point_on_surface","kind":"method","src_hash":"c94eadb263e1d36a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point_on_surface(point)","rhs":"<unspecified:point_on_surface>","over":{"base":"Any"},"name":"point_on_surface_correct"},"guarantee":"returns ``true`` if a point is on the geometry's surface","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d63133e0b678c9ea","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def point_on_surface(self, point):
         """Returns ``True`` if a point is on the geometry's surface.
 
@@ -99,16 +117,22 @@ class WrappingGeometryBase(ABC):
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(geodesic_length(poi), returns the shortest distance between two points on a geometry's surface) over Any ║
+# ║ Path(geodesic_length(point_1, point_2), <unspecified:geodesic_length>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ geodesic_length : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c76663b63bb2d931           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingGeometryBase.geodesic_length","kind":"method","src_hash":"b0869afc5017b3a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geodesic_length(poi)","rhs":"returns the shortest distance between two points on a geometry's surface","over":{"base":"Any"},"name":"geodesic_length_correct"},"guarantee":"returns the shortest distance between two points on a geometry's surface","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c76663b63bb2d931"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingGeometryBase.geodesic_length","kind":"method","src_hash":"b0869afc5017b3a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geodesic_length(point_1, point_2)","rhs":"<unspecified:geodesic_length>","over":{"base":"Any"},"name":"geodesic_length_correct"},"guarantee":"returns the shortest distance between two points on a geometry's surface","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c76663b63bb2d931","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def geodesic_length(self, point_1, point_2):
         """Returns the shortest distance between two points on a geometry's
         surface.
@@ -126,16 +150,22 @@ class WrappingGeometryBase(ABC):
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(geodesic_end_vectors(poi), the vectors parallel to the geodesic at the two end points) over Any ║
+# ║ Path(geodesic_end_vectors(point_1, point_2), <unspecified:geodesic_end_vectors>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ geodesic_end_vectors : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c48fda72030c3a8c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingGeometryBase.geodesic_end_vectors","kind":"method","src_hash":"ecfdc9c1c9aa2711","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geodesic_end_vectors(poi)","rhs":"the vectors parallel to the geodesic at the two end points","over":{"base":"Any"},"name":"geodesic_end_vectors_correct"},"guarantee":"the vectors parallel to the geodesic at the two end points","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c48fda72030c3a8c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingGeometryBase.geodesic_end_vectors","kind":"method","src_hash":"ecfdc9c1c9aa2711","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geodesic_end_vectors(point_1, point_2)","rhs":"<unspecified:geodesic_end_vectors>","over":{"base":"Any"},"name":"geodesic_end_vectors_correct"},"guarantee":"the vectors parallel to the geodesic at the two end points","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c48fda72030c3a8c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def geodesic_end_vectors(self, point_1, point_2):
         """The vectors parallel to the geodesic at the two end points.
 
@@ -151,16 +181,22 @@ class WrappingGeometryBase(ABC):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}()') over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}()'                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8056c5b72e7f7f9a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingGeometryBase.__repr__","kind":"method","src_hash":"c12dac5b246cd669","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8056c5b72e7f7f9a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingGeometryBase.__repr__","kind":"method","src_hash":"c12dac5b246cd669","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}()'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}()'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8056c5b72e7f7f9a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}()'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Default representation of a geometry object."""
         return f'{self.__class__.__name__}()'
@@ -169,14 +205,20 @@ class WrappingGeometryBase(ABC):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a WrappingSphere instance) preserved by WrappingSphere(*args) over {Any | isinstance(point_vector, Vector)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, WrappingGeometryBase)         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ WrappingSphere : {Any | isinstance(point_vector, Vect...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b58e037331ea2f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere","kind":"class","src_hash":"699de6f53c7bce8f","in":{"base":"Any","pred":"isinstance(point_vector, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"WrappingSphere(*args)","rhs":"correctly constructs a WrappingSphere instance","over":{"base":"Any","pred":"isinstance(point_vector, Vector)"},"name":"WrappingSphere_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a WrappingSphere instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'radius') and hasattr(self, 'point')","kind":"class","induction":"structural on radius, point"}],"methods_preserving":["__init__","radius","radius","point","point","point_on_surface","geodesic_length","geodesic_end_vectors","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b58e037331ea2f1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere","kind":"class","src_hash":"699de6f53c7bce8f","in":{"base":"Any","pred":"isinstance(point_vector, Vector)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, WrappingGeometryBase)"},"spec":{"lhs":"WrappingSphere(*args)","rhs":"correctly constructs a WrappingSphere instance","over":{"base":"Any","pred":"isinstance(point_vector, Vector)"},"name":"WrappingSphere_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, WrappingGeometryBase); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'radius') and hasattr(self, 'point')","kind":"class","induction":"structural on radius, point"}],"methods_preserving":["__init__","radius","radius","point","point","point_on_surface","geodesic_length","geodesic_end_vectors","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b58e037331ea2f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, WrappingGeometryBase)"],"invariants":["hasattr(self, 'radius')","hasattr(self, 'point')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function WrappingSphere not found in source"]}}
 class WrappingSphere(WrappingGeometryBase):
     """A solid spherical object.
 
@@ -221,16 +263,23 @@ class WrappingSphere(WrappingGeometryBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rad), initializes the instance correctly) over Any ║
+# ║ Path(__init__(radius, point), self.radius == radius and self.point == point) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.radius == radius                          ║
+# ║   ensures:  self.point == point                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.radius...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | fa1ca5169897db62           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.__init__","kind":"method","src_hash":"8418364e4707e3d8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rad)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa1ca5169897db62"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.__init__","kind":"method","src_hash":"8418364e4707e3d8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.radius == radius and self.point == point"},"spec":{"lhs":"__init__(radius, point)","rhs":"self.radius == radius and self.point == point","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.radius == radius; self.point == point","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"fa1ca5169897db62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.radius == radius","self.point == point"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, radius, point):
         """Initializer for ``WrappingSphere``.
 
@@ -248,77 +297,108 @@ class WrappingSphere(WrappingGeometryBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(radius(), returns the radius attribute) over Any      ║
+# ║ Path(radius(), self._radius) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._radius                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ radius : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ba239632f900a204           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.radius","kind":"property","src_hash":"cc09abf3562f8bd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius()","rhs":"returns the radius attribute","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"returns the radius attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba239632f900a204"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.radius","kind":"property","src_hash":"cc09abf3562f8bd9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius()","rhs":"self._radius","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"returns self._radius","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ba239632f900a204","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._radius","pure":false,"effects":{"effect_type":"reads_state","reads":["self._radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def radius(self):
         """Radius of the sphere."""
         return self._radius
 
     @radius.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(radius(rad), radius produces the expected output) over Any ║
+# ║ Path(radius(radius), <unspecified:radius>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ radius : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1bbd3da248c75da6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.radius","kind":"method","src_hash":"4169e54e6411cf66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius(rad)","rhs":"radius produces the expected output","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"radius produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.radius_correct","statement":"Path(radius(x), radius produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bbd3da248c75da6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.radius","kind":"method","src_hash":"4169e54e6411cf66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius(radius)","rhs":"<unspecified:radius>","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"radius produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.radius_correct","statement":"Path(radius(x), radius produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1bbd3da248c75da6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._radius"]},"state_contract":{"modifies":["self._radius"],"old_bindings":{"old_self__radius":"self._radius"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def radius(self, radius):
         self._radius = radius
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point(), returns the point attribute) over Any        ║
+# ║ Path(point(), self._point) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._point                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ point : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 405dc97fd6a76b45           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.point","kind":"property","src_hash":"7bf249868fbac1b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point()","rhs":"returns the point attribute","over":{"base":"Any"},"name":"point_correct"},"guarantee":"returns the point attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"405dc97fd6a76b45"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.point","kind":"property","src_hash":"7bf249868fbac1b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point()","rhs":"self._point","over":{"base":"Any"},"name":"point_correct"},"guarantee":"returns self._point","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"405dc97fd6a76b45","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._point","pure":false,"effects":{"effect_type":"reads_state","reads":["self._point"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def point(self):
         """A point on which the sphere is centered."""
         return self._point
 
     @point.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point(poi), point produces the expected output) over Any ║
+# ║ Path(point(point), <unspecified:point>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ point : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b1d0a9371f23a5f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.point","kind":"method","src_hash":"2c543461dd5d9819","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point(poi)","rhs":"point produces the expected output","over":{"base":"Any"},"name":"point_correct"},"guarantee":"point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.point_correct","statement":"Path(point(x), point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1d0a9371f23a5f1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.point","kind":"method","src_hash":"2c543461dd5d9819","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point(point)","rhs":"<unspecified:point>","over":{"base":"Any"},"name":"point_correct"},"guarantee":"point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.point_correct","statement":"Path(point(x), point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b1d0a9371f23a5f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._point"]},"state_contract":{"modifies":["self._point"],"old_bindings":{"old_self__point":"self._point"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def point(self, point):
         self._point = point
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point_on_surface(poi), returns ``true`` if a point is on the sphere's surface) over Any ║
+# ║ Path(point_on_surface(point), Eq(point_radius_squared, self.radius ** 2) == True) over {Any | hasattr(point, 'pos_from')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ point_on_surface : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(point, 'pos_from')                     ║
+# ║   returns:  Eq(point_radius_squared, self.radius ** 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ point_on_surface : {Any | hasattr(point, 'pos_from')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0c87178fd7a2419  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9436ae3f8b8f64fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.point_on_surface","kind":"method","src_hash":"f9a44153eaa2c346","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point_on_surface(poi)","rhs":"returns ``true`` if a point is on the sphere's surface","over":{"base":"Any"},"name":"point_on_surface_correct"},"guarantee":"returns ``true`` if a point is on the sphere's surface","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.point_on_surface_correct","statement":"Path(point_on_surface(x), returns ``true`` if a point is on the sphere's surface)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0c87178fd7a2419"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.point_on_surface","kind":"method","src_hash":"f9a44153eaa2c346","in":{"base":"Any","pred":"hasattr(point, 'pos_from')"},"out":{"base":"Any"},"spec":{"lhs":"point_on_surface(point)","rhs":"Eq(point_radius_squared, self.radius ** 2) == True","over":{"base":"Any","pred":"hasattr(point, 'pos_from')"},"name":"point_on_surface_correct"},"guarantee":"returns Eq(point_radius_squared, self.radius ** 2) == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.point_on_surface_correct","statement":"Path(point_on_surface(x), returns Eq(point_radius_squared, self.radius ** 2) == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9436ae3f8b8f64fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(point, 'pos_from')"],"returns_expr":"Eq(point_radius_squared, self.radius ** 2) == True","pure":false,"effects":{"effect_type":"reads_state","reads":["point.pos_from","self.point","self.radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def point_on_surface(self, point):
         """Returns ``True`` if a point is on the sphere's surface.
 
@@ -340,16 +420,24 @@ class WrappingSphere(WrappingGeometryBase):
         return Eq(point_radius_squared, self.radius**2) == True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(geodesic_length(poi), returns the shortest distance between two points on the sphere's surface) over Any ║
+# ║ Path(geodesic_length(point_1, point_2), <unspecified:geodesic_length>) over {Any | hasattr(point_1, 'pos_from') and hasattr(point_2, 'pos_from')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ geodesic_length : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(point_1, 'pos_from')                   ║
+# ║   requires: hasattr(point_2, 'pos_from')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ geodesic_length : {Any | hasattr(point_1, 'pos_from')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aac37d6528835a1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.geodesic_length","kind":"method","src_hash":"e068ae408200f396","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geodesic_length(poi)","rhs":"returns the shortest distance between two points on the sphere's surface","over":{"base":"Any"},"name":"geodesic_length_correct"},"guarantee":"returns the shortest distance between two points on the sphere's surface","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.geodesic_length_correct","statement":"Path(geodesic_length(x), returns the shortest distance between two points on the sphere's surface)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aac37d6528835a1a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.geodesic_length","kind":"method","src_hash":"e068ae408200f396","in":{"base":"Any","pred":"hasattr(point_1, 'pos_from') and hasattr(point_2, 'pos_from')"},"out":{"base":"Any"},"spec":{"lhs":"geodesic_length(point_1, point_2)","rhs":"<unspecified:geodesic_length>","over":{"base":"Any","pred":"hasattr(point_1, 'pos_from') and hasattr(point_2, 'pos_from')"},"name":"geodesic_length_correct"},"guarantee":"returns the shortest distance between two points on the sphere's surface","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.geodesic_length_correct","statement":"Path(geodesic_length(x), returns the shortest distance between two points on the sphere's surface)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aac37d6528835a1a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(point_1, 'pos_from')","hasattr(point_2, 'pos_from')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["point_1.pos_from","point_2.pos_from","self.point","self.point_on_surface","self.radius"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def geodesic_length(self, point_1, point_2):
         r"""Returns the shortest distance between two points on the sphere's
         surface.
@@ -434,16 +522,22 @@ class WrappingSphere(WrappingGeometryBase):
         return geodesic_length
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(geodesic_end_vectors(poi), the vectors parallel to the geodesic at the two end points) over Any ║
+# ║ Path(geodesic_end_vectors(point_1, point_2), (pA_vec.cross(pB.pos_from(pA)).cross(pA_vec).normalize(), pB_vec.cross(pA.pos_from(pB)).cross(pB_vec).normalize())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (pA_vec.cross(pB.pos_from(pA)).cross(pA_v...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ geodesic_end_vectors : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5eba995a553789b2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d35952f5f39170d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.geodesic_end_vectors","kind":"method","src_hash":"0da79ab11bf7293f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geodesic_end_vectors(poi)","rhs":"the vectors parallel to the geodesic at the two end points","over":{"base":"Any"},"name":"geodesic_end_vectors_correct"},"guarantee":"the vectors parallel to the geodesic at the two end points","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.geodesic_end_vectors_correct","statement":"Path(geodesic_end_vectors(x), the vectors parallel to the geodesic at the two end points)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5eba995a553789b2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.geodesic_end_vectors","kind":"method","src_hash":"0da79ab11bf7293f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geodesic_end_vectors(point_1, point_2)","rhs":"(pA_vec.cross(pB.pos_from(pA)).cross(pA_vec).normalize(), pB_vec.cross(pA.pos_from(pB)).cross(pB_vec).normalize())","over":{"base":"Any"},"name":"geodesic_end_vectors_correct"},"guarantee":"returns (pA_vec.cross(pB.pos_from(pA)).cross(pA_vec).normalize(), pB_vec.cross(pA.pos_from(pB)).cross(pB_vec).normalize())","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.geodesic_end_vectors_correct","statement":"Path(geodesic_end_vectors(x), returns (pA_vec.cross(pB.pos_from(pA)).cross(pA_vec).normalize(), pB_vec.cross(pA.pos_from(pB)).cross(pB_vec).normalize()))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d35952f5f39170d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(pA_vec.cross(pB.pos_from(pA)).cross(pA_vec).normalize(), pB_vec.cross(pA.pos_from(pB)).cross(pB_vec).normalize())","pure":false,"effects":{"effect_type":"reads_state","reads":["self.point"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def geodesic_end_vectors(self, point_1, point_2):
         """The vectors parallel to the geodesic at the two end points.
 
@@ -475,16 +569,22 @@ class WrappingSphere(WrappingGeometryBase):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}(radius={self.radius}, point={self.point})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}(radius={self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c5449957b419ae58           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.__repr__","kind":"method","src_hash":"184da7e09ee1d745","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5449957b419ae58"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingSphere.__repr__","kind":"method","src_hash":"184da7e09ee1d745","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}(radius={self.radius}, point={self.point})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}(radius={self.radius}, point={self.point})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c5449957b419ae58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}(radius={self.radius}, point={self.point})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.point","self.radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Representation of a ``WrappingSphere``."""
         return (
@@ -496,14 +596,20 @@ class WrappingSphere(WrappingGeometryBase):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a WrappingCylinder instance) preserved by WrappingCylinder(*args) over {Any | isinstance(point_vector, Vector)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, WrappingGeometryBase)         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ WrappingCylinder : {Any | isinstance(point_vector, Ve...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52ca730bce908691  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder","kind":"class","src_hash":"5a3a10b19e111157","in":{"base":"Any","pred":"isinstance(point_vector, Vector)"},"out":{"base":"Any"},"spec":{"lhs":"WrappingCylinder(*args)","rhs":"correctly constructs a WrappingCylinder instance","over":{"base":"Any","pred":"isinstance(point_vector, Vector)"},"name":"WrappingCylinder_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a WrappingCylinder instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'radius') and hasattr(self, 'point') and hasattr(self, 'axis')","kind":"class","induction":"structural on radius, point, axis"}],"methods_preserving":["__init__","radius","radius","point","point","axis","axis","point_on_surface","geodesic_length","geodesic_end_vectors","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52ca730bce908691"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder","kind":"class","src_hash":"5a3a10b19e111157","in":{"base":"Any","pred":"isinstance(point_vector, Vector)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, WrappingGeometryBase)"},"spec":{"lhs":"WrappingCylinder(*args)","rhs":"correctly constructs a WrappingCylinder instance","over":{"base":"Any","pred":"isinstance(point_vector, Vector)"},"name":"WrappingCylinder_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, WrappingGeometryBase); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'radius') and hasattr(self, 'point') and hasattr(self, 'axis')","kind":"class","induction":"structural on radius, point, axis"}],"methods_preserving":["__init__","radius","radius","point","point","axis","axis","point_on_surface","geodesic_length","geodesic_end_vectors","__repr__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52ca730bce908691","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, WrappingGeometryBase)"],"invariants":["hasattr(self, 'radius')","hasattr(self, 'point')","hasattr(self, 'axis')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function WrappingCylinder not found in source"]}}
 class WrappingCylinder(WrappingGeometryBase):
     """A solid (infinite) cylindrical object.
 
@@ -558,16 +664,24 @@ class WrappingCylinder(WrappingGeometryBase):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(rad), initializes the instance correctly) over Any ║
+# ║ Path(__init__(radius, point, axis), self.radius == radius and self.point == point and self.axis == axis) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.radius == radius                          ║
+# ║   ensures:  self.point == point                            ║
+# ║   ensures:  self.axis == axis                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.radius...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c970158056e2a3ae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.__init__","kind":"method","src_hash":"86ac7b9ff0eb6812","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(rad)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c970158056e2a3ae"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.__init__","kind":"method","src_hash":"86ac7b9ff0eb6812","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.radius == radius and self.point == point and self.axis == axis"},"spec":{"lhs":"__init__(radius, point, axis)","rhs":"self.radius == radius and self.point == point and self.axis == axis","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.radius == radius; self.point == point; self.axis == axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c970158056e2a3ae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.radius == radius","self.point == point","self.axis == axis"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, radius, point, axis):
         """Initializer for ``WrappingCylinder``.
 
@@ -589,108 +703,152 @@ class WrappingCylinder(WrappingGeometryBase):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(radius(), returns the radius attribute) over Any      ║
+# ║ Path(radius(), self._radius) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._radius                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ radius : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0ae95bcdbc44a30e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.radius","kind":"property","src_hash":"62e8965b012c8a37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius()","rhs":"returns the radius attribute","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"returns the radius attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ae95bcdbc44a30e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.radius","kind":"property","src_hash":"62e8965b012c8a37","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius()","rhs":"self._radius","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"returns self._radius","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0ae95bcdbc44a30e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._radius","pure":false,"effects":{"effect_type":"reads_state","reads":["self._radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def radius(self):
         """Radius of the cylinder."""
         return self._radius
 
     @radius.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(radius(rad), radius produces the expected output) over Any ║
+# ║ Path(radius(radius), <unspecified:radius>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ radius : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24beb4a4108fb2c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.radius","kind":"method","src_hash":"4169e54e6411cf66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius(rad)","rhs":"radius produces the expected output","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"radius produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.radius_correct","statement":"Path(radius(x), radius produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24beb4a4108fb2c2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.radius","kind":"method","src_hash":"4169e54e6411cf66","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"radius(radius)","rhs":"<unspecified:radius>","over":{"base":"Any"},"name":"radius_correct"},"guarantee":"radius produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.radius_correct","statement":"Path(radius(x), radius produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24beb4a4108fb2c2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._radius"]},"state_contract":{"modifies":["self._radius"],"old_bindings":{"old_self__radius":"self._radius"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def radius(self, radius):
         self._radius = radius
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point(), returns the point attribute) over Any        ║
+# ║ Path(point(), self._point) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._point                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ point : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 523b862e1229398f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.point","kind":"property","src_hash":"261530c57ddfbf59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point()","rhs":"returns the point attribute","over":{"base":"Any"},"name":"point_correct"},"guarantee":"returns the point attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"523b862e1229398f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.point","kind":"property","src_hash":"261530c57ddfbf59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point()","rhs":"self._point","over":{"base":"Any"},"name":"point_correct"},"guarantee":"returns self._point","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"523b862e1229398f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._point","pure":false,"effects":{"effect_type":"reads_state","reads":["self._point"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def point(self):
         """A point through which the cylinder's axis passes."""
         return self._point
 
     @point.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point(poi), point produces the expected output) over Any ║
+# ║ Path(point(point), <unspecified:point>) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ point : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08f1243717e5495b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.point","kind":"method","src_hash":"2c543461dd5d9819","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point(poi)","rhs":"point produces the expected output","over":{"base":"Any"},"name":"point_correct"},"guarantee":"point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.point_correct","statement":"Path(point(x), point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08f1243717e5495b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.point","kind":"method","src_hash":"2c543461dd5d9819","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point(point)","rhs":"<unspecified:point>","over":{"base":"Any"},"name":"point_correct"},"guarantee":"point produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.point_correct","statement":"Path(point(x), point produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08f1243717e5495b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._point"]},"state_contract":{"modifies":["self._point"],"old_bindings":{"old_self__point":"self._point"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def point(self, point):
         self._point = point
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(axis(), returns the axis attribute) over Any          ║
+# ║ Path(axis(), self._axis) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._axis                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ axis : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2c103193db037897           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.axis","kind":"property","src_hash":"d580e613b0e84d1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axis()","rhs":"returns the axis attribute","over":{"base":"Any"},"name":"axis_correct"},"guarantee":"returns the axis attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c103193db037897"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.axis","kind":"property","src_hash":"d580e613b0e84d1d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axis()","rhs":"self._axis","over":{"base":"Any"},"name":"axis_correct"},"guarantee":"returns self._axis","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c103193db037897","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._axis","pure":false,"effects":{"effect_type":"reads_state","reads":["self._axis"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def axis(self):
         """Axis along which the cylinder is aligned."""
         return self._axis
 
     @axis.setter
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(axis(axi), axis produces the expected output) over Any ║
+# ║ Path(axis(axis), <unspecified:axis>) over {Any | hasattr(axis, 'normalize')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ axis : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(axis, 'normalize')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ axis : {Any | hasattr(axis, 'normalize')} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 23aebfcd692635e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.axis","kind":"method","src_hash":"82da4138cc840fcb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"axis(axi)","rhs":"axis produces the expected output","over":{"base":"Any"},"name":"axis_correct"},"guarantee":"axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.axis_correct","statement":"Path(axis(x), axis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23aebfcd692635e7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.axis","kind":"method","src_hash":"82da4138cc840fcb","in":{"base":"Any","pred":"hasattr(axis, 'normalize')"},"out":{"base":"Any"},"spec":{"lhs":"axis(axis)","rhs":"<unspecified:axis>","over":{"base":"Any","pred":"hasattr(axis, 'normalize')"},"name":"axis_correct"},"guarantee":"axis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.axis_correct","statement":"Path(axis(x), axis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"23aebfcd692635e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(axis, 'normalize')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["axis.normalize"],"writes":["self._axis"]},"state_contract":{"modifies":["self._axis"],"old_bindings":{"old_self__axis":"self._axis"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def axis(self, axis):
         self._axis = axis.normalize()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(point_on_surface(poi), id) over Any                   ║
+# ║ Path(point_on_surface(point), id) over {Any | hasattr(point, 'pos_from')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ point_on_surface : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(point, 'pos_from')                     ║
+# ║   returns:  Eq(trigsimp(point_radius_squared), self.r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ point_on_surface : {Any | hasattr(point, 'pos_from')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 3cf1f2e0f449d9c4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.point_on_surface","kind":"method","src_hash":"9bbfaddcc644e156","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"point_on_surface(poi)","rhs":"returns ``true`` if a point is on the cylinder's surface","over":{"base":"Any"},"name":"point_on_surface_correct","kind":"composition"},"guarantee":"returns ``true`` if a point is on the cylinder's surface","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"trigsimp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cf1f2e0f449d9c4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.point_on_surface","kind":"method","src_hash":"9bbfaddcc644e156","in":{"base":"Any","pred":"hasattr(point, 'pos_from')"},"out":{"base":"Any"},"spec":{"lhs":"point_on_surface(point)","rhs":"Eq(trigsimp(point_radius_squared), self.radius ** 2) == True","over":{"base":"Any","pred":"hasattr(point, 'pos_from')"},"name":"point_on_surface_correct","kind":"composition"},"guarantee":"returns Eq(trigsimp(point_radius_squared), self.radius ** 2) == True","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"trigsimp","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cf1f2e0f449d9c4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(point, 'pos_from')"],"returns_expr":"Eq(trigsimp(point_radius_squared), self.radius ** 2) == True","pure":false,"effects":{"effect_type":"reads_state","reads":["point.pos_from","self.axis","self.point","self.radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def point_on_surface(self, point):
         """Returns ``True`` if a point is on the cylinder's surface.
 
@@ -714,16 +872,24 @@ class WrappingCylinder(WrappingGeometryBase):
         return Eq(trigsimp(point_radius_squared), self.radius**2) == True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(geodesic_length(poi), the shortest distance between two points on a geometry's surface) over Any ║
+# ║ Path(geodesic_length(point_1, point_2), <unspecified:geodesic_length>) over {Any | hasattr(point_2, 'pos_from') and hasattr(point_1, 'pos_from')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ geodesic_length : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(point_2, 'pos_from')                   ║
+# ║   requires: hasattr(point_1, 'pos_from')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ geodesic_length : {Any | hasattr(point_2, 'pos_from')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 029affd51b2edee8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.geodesic_length","kind":"method","src_hash":"5fb25330f2194d75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geodesic_length(poi)","rhs":"the shortest distance between two points on a geometry's surface","over":{"base":"Any"},"name":"geodesic_length_correct"},"guarantee":"the shortest distance between two points on a geometry's surface","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.geodesic_length_correct","statement":"Path(geodesic_length(x), the shortest distance between two points on a geometry's surface)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"029affd51b2edee8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.geodesic_length","kind":"method","src_hash":"5fb25330f2194d75","in":{"base":"Any","pred":"hasattr(point_2, 'pos_from') and hasattr(point_1, 'pos_from')"},"out":{"base":"Any"},"spec":{"lhs":"geodesic_length(point_1, point_2)","rhs":"<unspecified:geodesic_length>","over":{"base":"Any","pred":"hasattr(point_2, 'pos_from') and hasattr(point_1, 'pos_from')"},"name":"geodesic_length_correct"},"guarantee":"the shortest distance between two points on a geometry's surface","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.geodesic_length_correct","statement":"Path(geodesic_length(x), the shortest distance between two points on a geometry's surface)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"029affd51b2edee8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(point_2, 'pos_from')","hasattr(point_1, 'pos_from')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["point_1.pos_from","point_2.pos_from","self.axis","self.point","self.point_on_surface","self.radius"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def geodesic_length(self, point_1, point_2):
         """The shortest distance between two points on a geometry's surface.
 
@@ -829,16 +995,24 @@ class WrappingCylinder(WrappingGeometryBase):
         return geodesic_length
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(geodesic_end_vectors(poi), the vectors parallel to the geodesic at the two end points) over Any ║
+# ║ Path(geodesic_end_vectors(point_1, point_2), (point_1_vector, point_2_vector)) over {Any | hasattr(point_1, 'pos_from') and hasattr(point_2, 'pos_from')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ geodesic_end_vectors : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(point_1, 'pos_from')                   ║
+# ║   requires: hasattr(point_2, 'pos_from')                   ║
+# ║   returns:  (point_1_vector, point_2_vector)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ geodesic_end_vectors : {Any | hasattr(point_1, 'pos_f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c8e35025cfc0ab0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1882c3738a0ae7da  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.geodesic_end_vectors","kind":"method","src_hash":"5b00e22b0e28f33d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"geodesic_end_vectors(poi)","rhs":"the vectors parallel to the geodesic at the two end points","over":{"base":"Any"},"name":"geodesic_end_vectors_correct"},"guarantee":"the vectors parallel to the geodesic at the two end points","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.geodesic_end_vectors_correct","statement":"Path(geodesic_end_vectors(x), the vectors parallel to the geodesic at the two end points)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c8e35025cfc0ab0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.geodesic_end_vectors","kind":"method","src_hash":"5b00e22b0e28f33d","in":{"base":"Any","pred":"hasattr(point_1, 'pos_from') and hasattr(point_2, 'pos_from')"},"out":{"base":"Any"},"spec":{"lhs":"geodesic_end_vectors(point_1, point_2)","rhs":"(point_1_vector, point_2_vector)","over":{"base":"Any","pred":"hasattr(point_1, 'pos_from') and hasattr(point_2, 'pos_from')"},"name":"geodesic_end_vectors_correct"},"guarantee":"returns (point_1_vector, point_2_vector)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.geodesic_end_vectors_correct","statement":"Path(geodesic_end_vectors(x), returns (point_1_vector, point_2_vector))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1882c3738a0ae7da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(point_1, 'pos_from')","hasattr(point_2, 'pos_from')"],"returns_expr":"(point_1_vector, point_2_vector)","pure":false,"effects":{"effect_type":"reads_state","reads":["point_1.pos_from","point_2.pos_from","self.axis","self.geodesic_length","self.point"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def geodesic_end_vectors(self, point_1, point_2):
         """The vectors parallel to the geodesic at the two end points.
 
@@ -890,16 +1064,22 @@ class WrappingCylinder(WrappingGeometryBase):
         return (point_1_vector, point_2_vector)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), f'{self.__class__.__name__}(radius={self.radius}, point={self.point}, axis={self.axis})') over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  f'{self.__class__.__name__}(radius={self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dcfdec9e95b7083a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.__repr__","kind":"method","src_hash":"a33724da78c70287","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dcfdec9e95b7083a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry.WrappingCylinder.__repr__","kind":"method","src_hash":"a33724da78c70287","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"f'{self.__class__.__name__}(radius={self.radius}, point={self.point}, axis={self.axis})'","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns f'{self.__class__.__name__}(radius={self.radius}, point={self.point}, axis={self.axis})'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dcfdec9e95b7083a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"f'{self.__class__.__name__}(radius={self.radius}, point={self.point}, axis={self.axis})'","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__","self.axis","self.point","self.radius"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         """Representation of a ``WrappingCylinder``."""
         return (
@@ -909,9 +1089,14 @@ class WrappingCylinder(WrappingGeometryBase):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_directional_atan(num), compute atan in a directional sense as required for geodesics) over {Any | isinstance(ratio, tan)} ║
+# ║ Path(_directional_atan(numerator, denominator), <unspecified:_directional_atan>) over {Any | isinstance(ratio, tan) and hasattr(numerator, 'is_number') and hasattr(denominator, 'is_number')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _directional_atan : {Any | isinstance(ratio, tan)} → Any   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(numerator, 'is_number')                ║
+# ║   requires: hasattr(denominator, 'is_number')              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _directional_atan : {Any | isinstance(ratio, tan) and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   tan: {isinstance(ratio, tan)} → library_axiom            ║
@@ -921,9 +1106,12 @@ class WrappingCylinder(WrappingGeometryBase):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2740b951...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry._directional_atan","kind":"function","src_hash":"62bd5e6daf6cf067","in":{"base":"Any","pred":"isinstance(ratio, tan)"},"out":{"base":"Any"},"spec":{"lhs":"_directional_atan(num)","rhs":"compute atan in a directional sense as required for geodesics","over":{"base":"Any","pred":"isinstance(ratio, tan)"},"name":"_directional_atan_correct"},"guarantee":"compute atan in a directional sense as required for geodesics","fibers":[{"name":"tan","pred":"isinstance(ratio, tan)","path":{"lhs":"_directional_atan(x)","rhs":"compute atan in a directional sense as required for geodesics","over":{"base":"tan","pred":"isinstance(ratio, tan)"},"name":"_directional_atan_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry._directional_atan_tan_correct","statement":"_directional_atan satisfies spec on tan inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2740b9513024f339"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.wrapping_geometry._directional_atan","kind":"function","src_hash":"62bd5e6daf6cf067","in":{"base":"Any","pred":"isinstance(ratio, tan) and hasattr(numerator, 'is_number') and hasattr(denominator, 'is_number')"},"out":{"base":"Any"},"spec":{"lhs":"_directional_atan(numerator, denominator)","rhs":"<unspecified:_directional_atan>","over":{"base":"Any","pred":"isinstance(ratio, tan) and hasattr(numerator, 'is_number') and hasattr(denominator, 'is_number')"},"name":"_directional_atan_correct"},"guarantee":"compute atan in a directional sense as required for geodesics","fibers":[{"name":"tan","pred":"isinstance(ratio, tan)","path":{"lhs":"_directional_atan(x)","rhs":"compute atan in a directional sense as required for geodesics","over":{"base":"tan","pred":"isinstance(ratio, tan)"},"name":"_directional_atan_tan_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.wrapping_geometry._directional_atan_tan_correct","statement":"_directional_atan satisfies spec on tan inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2740b9513024f339","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(numerator, 'is_number')","hasattr(denominator, 'is_number')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["denominator.is_number","numerator.is_number"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'angle < 0', 'ratio.is_Mul and ratio.args[0] == Integer(-1) and isinstance(ratio.args[1], tan)', 'isinstance(ratio, tan)'}, fibers={'tan'})"]}}
 def _directional_atan(numerator, denominator):
     """Compute atan in a directional sense as required for geodesics.
 

@@ -32,16 +32,22 @@ FILE_DIR = os.path.dirname(
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_examples(in_), internal helper behaves correctly) over Any ║
+# ║ Path(_test_examples(in_filename, out_filename, test_name), <unspecified:_test_examples>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _test_examples : Any → {Any | line1.rstrip() == line2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17487cf1c0f0531b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_autolev._test_examples","kind":"function","src_hash":"eb9ca4cae8b8cd49","in":{"base":"Any"},"out":{"base":"Any","pred":"line1.rstrip() == line2.rstrip()"},"spec":{"lhs":"_test_examples(in_)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_test_examples_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_autolev._test_examples_correct","statement":"Path(_test_examples(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17487cf1c0f0531b"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_autolev._test_examples","kind":"function","src_hash":"eb9ca4cae8b8cd49","in":{"base":"Any"},"out":{"base":"Any","pred":"line1.rstrip() == line2.rstrip()"},"spec":{"lhs":"_test_examples(in_filename, out_filename, test_name)","rhs":"<unspecified:_test_examples>","over":{"base":"Any"},"name":"_test_examples_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_autolev._test_examples_correct","statement":"Path(_test_examples(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17487cf1c0f0531b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","raises":["AssertionError"],"catches":["Exception"],"io_operations":["open"]},"state_contract":{"exceptional_post":{"AssertionError":["isinstance(raised, AssertionError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _test_examples(in_filename, out_filename, test_name=""):
 
     in_file_path = os.path.join(FILE_DIR, 'autolev', 'test-examples',
@@ -64,16 +70,22 @@ def _test_examples(in_filename, out_filename, test_name=""):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rule_tests(), test_rule_tests produces the expected output) over Any ║
+# ║ Path(test_rule_tests(), <unspecified:test_rule_tests>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rule_tests : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcbbc946d9160a98  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_autolev.test_rule_tests","kind":"function","src_hash":"1e9c30c6272df6fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rule_tests()","rhs":"test_rule_tests produces the expected output","over":{"base":"Any"},"name":"test_rule_tests_correct"},"guarantee":"test_rule_tests produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_autolev.test_rule_tests_correct","statement":"Path(test_rule_tests(x), test_rule_tests produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcbbc946d9160a98"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_autolev.test_rule_tests","kind":"function","src_hash":"1e9c30c6272df6fd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_rule_tests()","rhs":"<unspecified:test_rule_tests>","over":{"base":"Any"},"name":"test_rule_tests_correct"},"guarantee":"test_rule_tests produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_autolev.test_rule_tests_correct","statement":"Path(test_rule_tests(x), test_rule_tests produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcbbc946d9160a98","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rule_tests():
 
     l = ["ruletest1", "ruletest2", "ruletest3", "ruletest4", "ruletest5",
@@ -87,16 +99,22 @@ def test_rule_tests():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pydy_examples(), test_pydy_examples produces the expected output) over Any ║
+# ║ Path(test_pydy_examples(), <unspecified:test_pydy_examples>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pydy_examples : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 34e7ff77faeaa6ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_autolev.test_pydy_examples","kind":"function","src_hash":"b07ab8fe2e3f1ae2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pydy_examples()","rhs":"test_pydy_examples produces the expected output","over":{"base":"Any"},"name":"test_pydy_examples_correct"},"guarantee":"test_pydy_examples produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_autolev.test_pydy_examples_correct","statement":"Path(test_pydy_examples(x), test_pydy_examples produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34e7ff77faeaa6ad"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_autolev.test_pydy_examples","kind":"function","src_hash":"b07ab8fe2e3f1ae2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_pydy_examples()","rhs":"<unspecified:test_pydy_examples>","over":{"base":"Any"},"name":"test_pydy_examples_correct"},"guarantee":"test_pydy_examples produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_autolev.test_pydy_examples_correct","statement":"Path(test_pydy_examples(x), test_pydy_examples produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"34e7ff77faeaa6ad","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_pydy_examples():
 
     l = ["mass_spring_damper", "chaos_pendulum", "double_pendulum",
@@ -109,16 +127,22 @@ def test_pydy_examples():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_autolev_tutorial(), test_autolev_tutorial produces the expected output) over Any ║
+# ║ Path(test_autolev_tutorial(), <unspecified:test_autolev_tutorial>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_autolev_tutorial : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b944725684363daf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_autolev.test_autolev_tutorial","kind":"function","src_hash":"aa34a002f7bcdd71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autolev_tutorial()","rhs":"test_autolev_tutorial produces the expected output","over":{"base":"Any"},"name":"test_autolev_tutorial_correct"},"guarantee":"test_autolev_tutorial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_autolev.test_autolev_tutorial_correct","statement":"Path(test_autolev_tutorial(x), test_autolev_tutorial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b944725684363daf"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_autolev.test_autolev_tutorial","kind":"function","src_hash":"aa34a002f7bcdd71","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_autolev_tutorial()","rhs":"<unspecified:test_autolev_tutorial>","over":{"base":"Any"},"name":"test_autolev_tutorial_correct"},"guarantee":"test_autolev_tutorial produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_autolev.test_autolev_tutorial_correct","statement":"Path(test_autolev_tutorial(x), test_autolev_tutorial produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b944725684363daf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_autolev_tutorial():
 
     dir_path = os.path.join(FILE_DIR, 'autolev', 'test-examples',
@@ -134,16 +158,22 @@ def test_autolev_tutorial():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dynamics_online(), test_dynamics_online produces the expected output) over Any ║
+# ║ Path(test_dynamics_online(), <unspecified:test_dynamics_online>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_dynamics_online : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b044a86f1f7860a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_autolev.test_dynamics_online","kind":"function","src_hash":"accd759266db44f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dynamics_online()","rhs":"test_dynamics_online produces the expected output","over":{"base":"Any"},"name":"test_dynamics_online_correct"},"guarantee":"test_dynamics_online produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_autolev.test_dynamics_online_correct","statement":"Path(test_dynamics_online(x), test_dynamics_online produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b044a86f1f7860a"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_autolev.test_dynamics_online","kind":"function","src_hash":"accd759266db44f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_dynamics_online()","rhs":"<unspecified:test_dynamics_online>","over":{"base":"Any"},"name":"test_dynamics_online_correct"},"guarantee":"test_dynamics_online produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_autolev.test_dynamics_online_correct","statement":"Path(test_dynamics_online(x), test_dynamics_online produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b044a86f1f7860a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_dynamics_online():
 
     dir_path = os.path.join(FILE_DIR, 'autolev', 'test-examples',
@@ -165,16 +195,24 @@ def test_dynamics_online():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_output_01(), autolev example calculates the position, velocity, and acceleration of a point and expresses in a single reference frame::) over Any ║
+# ║ Path(test_output_01(), (w_c_f - expected_w_c_f).simplify() == 0 and (p_o_e - expected_p_o_e).simplify() == 0 and (v_e_f - expected_v_e_f).simplify() == 0 and (a_e_f - expected_a_e_f).simplify() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_output_01 : Any → {Any | (w_c_f - expected_w_c_f...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (w_c_f - expected_w_c_f).simplify() == 0       ║
+# ║   ensures:  (p_o_e - expected_p_o_e).simplify() == 0       ║
+# ║   ensures:  (v_e_f - expected_v_e_f).simplify() == 0       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_output_01 : Any → {Any | result satisfies: (w_c_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6279205beaea3f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01b8cf06d978c01e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_autolev.test_output_01","kind":"function","src_hash":"73fda77c5a985dd6","in":{"base":"Any"},"out":{"base":"Any","pred":"(w_c_f - expected_w_c_f).simplify() == 0 and (p_o_e - expected_p_o_e).simplify() == 0 and (v_e_f - expected_v_e_f).simplify() == 0 and (a_e_f - expected_a_e_f).simplify() == 0"},"spec":{"lhs":"test_output_01()","rhs":"autolev example calculates the position, velocity, and acceleration of a point and expresses in a single reference frame::","over":{"base":"Any"},"name":"test_output_01_correct"},"guarantee":"autolev example calculates the position, velocity, and acceleration of a point and expresses in a single reference frame::","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_autolev.test_output_01_correct","statement":"Path(test_output_01(x), autolev example calculates the position, velocity, and acceleration of a point and expresses in a single reference frame::)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6279205beaea3f4"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.tests.test_autolev.test_output_01","kind":"function","src_hash":"73fda77c5a985dd6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (w_c_f - expected_w_c_f).simplify() == 0 and (p_o_e - expected_p_o_e).simplify() == 0 and (v_e_f - expected_v_e_f).simplify() == 0 and (a_e_f - expected_a_e_f).simplify() == 0"},"spec":{"lhs":"test_output_01()","rhs":"(w_c_f - expected_w_c_f).simplify() == 0 and (p_o_e - expected_p_o_e).simplify() == 0 and (v_e_f - expected_v_e_f).simplify() == 0 and (a_e_f - expected_a_e_f).simplify() == 0","over":{"base":"Any"},"name":"test_output_01_correct"},"guarantee":"(w_c_f - expected_w_c_f).simplify() == 0; (p_o_e - expected_p_o_e).simplify() == 0; (v_e_f - expected_v_e_f).simplify() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.tests.test_autolev.test_output_01_correct","statement":"Path(test_output_01(x), (w_c_f - expected_w_c_f).simplify() == 0; (p_o_e - expected_p_o_e).simplify() == 0; (v_e_f - expected_v_e_f).simplify() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01b8cf06d978c01e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(w_c_f - expected_w_c_f).simplify() == 0","(p_o_e - expected_p_o_e).simplify() == 0","(v_e_f - expected_v_e_f).simplify() == 0","(a_e_f - expected_a_e_f).simplify() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_output_01():
     """Autolev example calculates the position, velocity, and acceleration of a
     point and expresses in a single reference frame::

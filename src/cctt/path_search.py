@@ -183,9 +183,11 @@ def _congruence_rewrites(term: OTerm, ctx: FiberCtx) -> List[Tuple[OTerm, str]]:
             results.append((OCase(term.test, term.true_branch, new_f), f'{ax}@else'))
     elif isinstance(term, OFold):
         for new_init, ax in _all_rewrites(term.init, ctx):
-            results.append((OFold(term.op_name, new_init, term.collection), f'{ax}@init'))
+            results.append((OFold(term.op_name, new_init, term.collection,
+                                  body_fn=term.body_fn), f'{ax}@init'))
         for new_coll, ax in _all_rewrites(term.collection, ctx):
-            results.append((OFold(term.op_name, term.init, new_coll), f'{ax}@coll'))
+            results.append((OFold(term.op_name, term.init, new_coll,
+                                  body_fn=term.body_fn), f'{ax}@coll'))
     elif isinstance(term, OMap):
         for new_t, ax in _all_rewrites(term.transform, ctx):
             results.append((OMap(new_t, term.collection, term.filter_pred), f'{ax}@transform'))
@@ -383,7 +385,8 @@ def _axiom_d5_fold_universal(term: OTerm, ctx: FiberCtx) -> List[Tuple[OTerm, st
         # Hash-named fold — try to identify the operation
         canonical_op = _identify_fold_op(term)
         if canonical_op and canonical_op != term.op_name:
-            results.append((OFold(canonical_op, term.init, term.collection),
+            results.append((OFold(canonical_op, term.init, term.collection,
+                                  body_fn=term.body_fn),
                            'D5_fold_canonicalize'))
 
     return results
@@ -1495,8 +1498,11 @@ def _subst_deep(term: OTerm, var_name: str, replacement: OTerm) -> OTerm:
                      _subst_deep(term.true_branch, var_name, replacement),
                      _subst_deep(term.false_branch, var_name, replacement))
     if isinstance(term, OFold):
+        new_bfn = (_subst_deep(term.body_fn, var_name, replacement)
+                   if term.body_fn else None)
         return OFold(term.op_name, _subst_deep(term.init, var_name, replacement),
-                     _subst_deep(term.collection, var_name, replacement))
+                     _subst_deep(term.collection, var_name, replacement),
+                     body_fn=new_bfn)
     if isinstance(term, OFix):
         return OFix(term.name, _subst_deep(term.body, var_name, replacement))
     if isinstance(term, OSeq):
@@ -1666,9 +1672,49 @@ def _is_commutative_op(op_name: str) -> bool:
 
 
 def _identify_fold_op(term: OFold) -> Optional[str]:
-    """Try to identify a hash-named fold's actual operation."""
-    # Look at the fold body structure if available
-    # For now, return None — the normalizer handles most cases
+    """Identify a hash-named fold's actual operation from body_fn.
+
+    Analyzes the body lambda λ(acc, elem) → new_acc to determine
+    the fold's algebraic operation. This enables fold congruence
+    when two folds use the same operation but have different hashes.
+
+    IMPORTANT: Only returns an op name when the body lambda is EXACTLY
+    λ(acc, x) → op(acc, x) — a direct binary application with no
+    extra computation. This ensures the op_name fully determines the
+    step function (sound for fold universality).
+
+    Returns an algebraic name ('add', 'bitxor', etc.) or None.
+    """
+    body = term.body_fn
+    if body is None:
+        return None
+    if not isinstance(body, OLam) or len(body.params) < 2:
+        return None
+
+    acc_var = body.params[0]
+    elem_var = body.params[1]
+    inner = body.body
+
+    # λ(acc, x) → op(acc, x) where op is a pure binary operation
+    # Both args must be exactly the bound variables — no subexpressions.
+    if isinstance(inner, OOp) and len(inner.args) == 2:
+        a0, a1 = inner.args
+        # op(acc, elem) — direct binary
+        if (isinstance(a0, OVar) and a0.name == acc_var
+                and isinstance(a1, OVar) and a1.name == elem_var):
+            return inner.name
+        # op(elem, acc) — commutative binary
+        if (isinstance(a1, OVar) and a1.name == acc_var
+                and isinstance(a0, OVar) and a0.name == elem_var):
+            if inner.name in ('add', 'iadd', 'mul', 'imul', 'imult', 'mult',
+                              'min', 'max', 'gcd', 'bitand', 'bitor', 'bitxor',
+                              'and', 'or'):
+                return inner.name
+
+    # Do NOT identify append/concat folds by op name alone.
+    # λ(acc, x) → .append!(acc, f(x)) depends on f, so the op_name
+    # '.append!' does not fully determine the step function.
+
     return None
 
 
@@ -1926,18 +1972,34 @@ def _hit_path_core(a: OTerm, b: OTerm, ctx: FiberCtx,
         init_eq = hit_path_equiv(a.init, b.init, ctx, depth+1, memo) is True
         coll_eq = hit_path_equiv(a.collection, b.collection, ctx, depth+1, memo) is True
         if init_eq and coll_eq:
-            # Same init and collection — bodies may differ but compute same
+            # Same init and collection — check step function equivalence.
+            # For NAMED ops (like 'add', 'mul', etc.), the op_name fully
+            # determines the step function, so matching names suffice.
+            # For HASH-named ops with body_fn, must compare body_fns.
             if a.op_name == b.op_name:
-                return True
+                # If both have body_fn, verify they actually match.
+                # This prevents FPs when hash-named folds get canonicalized
+                # to the same op name but compute different functions.
+                if a.body_fn is not None and b.body_fn is not None:
+                    if hit_path_equiv(a.body_fn, b.body_fn, ctx, depth+1, memo) is True:
+                        return True
+                    # body_fns differ — op_name match alone is insufficient
+                else:
+                    # At most one has body_fn — op_name match is sufficient
+                    # (this covers named ops like 'add' which have no body_fn)
+                    return True
             # Hash-based keys that differ: try to show bodies are equivalent
             # by recognizing the fold operation
             op_a = _identify_fold_op(a)
             op_b = _identify_fold_op(b)
             if op_a and op_b and op_a == op_b:
                 return True
-            # NOTE: hash-different folds with same init+coll are NOT
-            # necessarily equivalent — the fold body IS the computation.
-            # Only trust op_name match or recognized canonical ops above.
+            # D5 fold universality: fold is determined by (init, collection, body).
+            # If bodies are structurally equivalent (via alpha-normalization +
+            # path search), the folds compute the same function.
+            if a.body_fn is not None and b.body_fn is not None:
+                if hit_path_equiv(a.body_fn, b.body_fn, ctx, depth+1, memo) is True:
+                    return True
 
     # ── OFix congruence (D16: recurrence normalization) ──
     if isinstance(a, OFix) and isinstance(b, OFix):

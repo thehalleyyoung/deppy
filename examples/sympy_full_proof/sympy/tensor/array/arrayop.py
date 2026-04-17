@@ -30,7 +30,10 @@ from sympy.tensor.array.sparse_ndim_array import SparseNDimArray
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_arrayfy(a), internal helper behaves correctly) over {Any | isinstance(a, NDimArray) and isinstance(a, (MatrixBase, list, tuple, Tuple))} ║
+# ║ Path(_arrayfy(a), <unspecified:_arrayfy>) over {Any | isinstance(a, NDimArray) and isinstance(a, (MatrixBase, list, tuple, Tuple))} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _arrayfy : {Any | isinstance(a, NDimArray) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -43,9 +46,12 @@ from sympy.tensor.array.sparse_ndim_array import SparseNDimArray
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 5686c81c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop._arrayfy","kind":"function","src_hash":"169affbafbedc439","in":{"base":"Any","pred":"isinstance(a, NDimArray) and isinstance(a, (MatrixBase, list, tuple, Tuple))"},"out":{"base":"Any"},"spec":{"lhs":"_arrayfy(a)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(a, NDimArray) and isinstance(a, (MatrixBase, list, tuple, Tuple))"},"name":"_arrayfy_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"NDimArray","pred":"isinstance(a, NDimArray)","path":{"lhs":"_arrayfy(x)","rhs":"internal helper behaves correctly","over":{"base":"NDimArray","pred":"isinstance(a, NDimArray)"},"name":"_arrayfy_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop._arrayfy_NDimArray_correct","statement":"_arrayfy satisfies spec on NDimArray inputs"},"trust":"LIBRARY"},{"name":"(MatrixBase","pred":"isinstance(a, (MatrixBase, list, tuple, Tuple))","path":{"lhs":"_arrayfy(x)","rhs":"internal helper behaves correctly","over":{"base":"(MatrixBase","pred":"isinstance(a, (MatrixBase, list, tuple, Tuple))"},"name":"_arrayfy_(MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop._arrayfy_(MatrixBase_correct","statement":"_arrayfy satisfies spec on (MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5686c81c85b22052"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop._arrayfy","kind":"function","src_hash":"169affbafbedc439","in":{"base":"Any","pred":"isinstance(a, NDimArray) and isinstance(a, (MatrixBase, list, tuple, Tuple))"},"out":{"base":"Any"},"spec":{"lhs":"_arrayfy(a)","rhs":"<unspecified:_arrayfy>","over":{"base":"Any","pred":"isinstance(a, NDimArray) and isinstance(a, (MatrixBase, list, tuple, Tuple))"},"name":"_arrayfy_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"NDimArray","pred":"isinstance(a, NDimArray)","path":{"lhs":"_arrayfy(x)","rhs":"internal helper behaves correctly","over":{"base":"NDimArray","pred":"isinstance(a, NDimArray)"},"name":"_arrayfy_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop._arrayfy_NDimArray_correct","statement":"_arrayfy satisfies spec on NDimArray inputs"},"trust":"LIBRARY"},{"name":"(MatrixBase","pred":"isinstance(a, (MatrixBase, list, tuple, Tuple))","path":{"lhs":"_arrayfy(x)","rhs":"internal helper behaves correctly","over":{"base":"(MatrixBase","pred":"isinstance(a, (MatrixBase, list, tuple, Tuple))"},"name":"_arrayfy_(MatrixBase_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop._arrayfy_(MatrixBase_correct","statement":"_arrayfy satisfies spec on (MatrixBase inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"5686c81c85b22052","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(a, NDimArray)', 'isinstance(a, (MatrixBase, list, tuple, Tuple))'}, fibers={'(MatrixBase', 'NDimArray'})"]}}
 def _arrayfy(a):
     from sympy.matrices import MatrixBase
 
@@ -57,7 +63,10 @@ def _arrayfy(a):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tensorproduct(*ar), tensor product among scalars or array-like objects) over {Any | isinstance(a, SparseNDimArray) and isinstance(arg, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and isinstance(a, NDimArray)} ║
+# ║ Path(tensorproduct(*args), # HINT: tensorproduct may be idempotent: tensorproduct(tensorproduct(x)) == tensorproduct(x)) over {Any | isinstance(a, SparseNDimArray) and isinstance(arg, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and isinstance(a, NDimArray)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  # HINT: tensorproduct may be idempotent: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tensorproduct : {Any | isinstance(a, SparseNDimArray)...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -71,9 +80,12 @@ def _arrayfy(a):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 7.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8412e81f...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.tensorproduct","kind":"function","src_hash":"055373aa0c5c7f16","in":{"base":"Any","pred":"isinstance(a, SparseNDimArray) and isinstance(arg, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and isinstance(a, NDimArray)"},"out":{"base":"Any"},"spec":{"lhs":"tensorproduct(*ar)","rhs":"tensor product among scalars or array-like objects","over":{"base":"Any","pred":"isinstance(a, SparseNDimArray) and isinstance(arg, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and isinstance(a, NDimArray)"},"name":"tensorproduct_correct"},"guarantee":"tensor product among scalars or array-like objects","fibers":[{"name":"SparseNDimArray","pred":"isinstance(a, SparseNDimArray)","path":{"lhs":"tensorproduct(x)","rhs":"tensor product among scalars or array-like objects","over":{"base":"SparseNDimArray","pred":"isinstance(a, SparseNDimArray)"},"name":"tensorproduct_SparseNDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.tensorproduct_SparseNDimArray_correct","statement":"tensorproduct satisfies spec on SparseNDimArray inputs"},"trust":"LIBRARY"},{"name":"(_ArrayExpr","pred":"isinstance(arg, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))","path":{"lhs":"tensorproduct(x)","rhs":"tensor product among scalars or array-like objects","over":{"base":"(_ArrayExpr","pred":"isinstance(arg, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))"},"name":"tensorproduct_(_ArrayExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.tensorproduct_(_ArrayExpr_correct","statement":"tensorproduct satisfies spec on (_ArrayExpr inputs"},"trust":"LIBRARY"},{"name":"NDimArray","pred":"isinstance(a, NDimArray)","path":{"lhs":"tensorproduct(x)","rhs":"tensor product among scalars or array-like objects","over":{"base":"NDimArray","pred":"isinstance(a, NDimArray)"},"name":"tensorproduct_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.tensorproduct_NDimArray_correct","statement":"tensorproduct satisfies spec on NDimArray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8412e81f8e4ff51e"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.tensorproduct","kind":"function","src_hash":"055373aa0c5c7f16","in":{"base":"Any","pred":"isinstance(a, SparseNDimArray) and isinstance(arg, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and isinstance(a, NDimArray)"},"out":{"base":"Any","pred":"result satisfies: # HINT: tensorproduct may be idempotent: tensorproduct(tensorproduct(x)) == tensorproduct(x)"},"spec":{"lhs":"tensorproduct(*args)","rhs":"# HINT: tensorproduct may be idempotent: tensorproduct(tensorproduct(x)) == tensorproduct(x)","over":{"base":"Any","pred":"isinstance(a, SparseNDimArray) and isinstance(arg, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and isinstance(a, NDimArray)"},"name":"tensorproduct_correct"},"guarantee":"# HINT: tensorproduct may be idempotent: tensorproduct(tensorproduct(x)) == tensorproduct(x)","fibers":[{"name":"SparseNDimArray","pred":"isinstance(a, SparseNDimArray)","path":{"lhs":"tensorproduct(x)","rhs":"# HINT: tensorproduct may be idempotent: tensorproduct(tensorproduct(x)) == tensorproduct(x)","over":{"base":"SparseNDimArray","pred":"isinstance(a, SparseNDimArray)"},"name":"tensorproduct_SparseNDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.tensorproduct_SparseNDimArray_correct","statement":"tensorproduct satisfies spec on SparseNDimArray inputs"},"trust":"LIBRARY"},{"name":"(_ArrayExpr","pred":"isinstance(arg, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))","path":{"lhs":"tensorproduct(x)","rhs":"# HINT: tensorproduct may be idempotent: tensorproduct(tensorproduct(x)) == tensorproduct(x)","over":{"base":"(_ArrayExpr","pred":"isinstance(arg, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))"},"name":"tensorproduct_(_ArrayExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.tensorproduct_(_ArrayExpr_correct","statement":"tensorproduct satisfies spec on (_ArrayExpr inputs"},"trust":"LIBRARY"},{"name":"NDimArray","pred":"isinstance(a, NDimArray)","path":{"lhs":"tensorproduct(x)","rhs":"# HINT: tensorproduct may be idempotent: tensorproduct(tensorproduct(x)) == tensorproduct(x)","over":{"base":"NDimArray","pred":"isinstance(a, NDimArray)"},"name":"tensorproduct_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.tensorproduct_NDimArray_correct","statement":"tensorproduct satisfies spec on NDimArray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8412e81f8e4ff51e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["# HINT: tensorproduct may be idempotent: tensorproduct(tensorproduct(x)) == tensorproduct(x)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.9,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*args']","Poor branch-fiber coverage: 0% (branches={'len(args) > 2', 'not isinstance(a, NDimArray) or not isinstance(b, NDimArray)', 'len(args) == 0', 'isinstance(a, SparseNDimArray) and isinstance(b, SparseNDimArray)', 'len(args) == 1', 'any((isinstance(arg, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) for arg in args))'}, fibers={'(_ArrayExpr', 'SparseNDimArray', 'NDimArray'})"]}}
 def tensorproduct(*args):
     """
     Tensor product among scalars or array-like objects.
@@ -140,7 +152,14 @@ def tensorproduct(*args):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_util_contraction_diagonal(arr), internal helper behaves correctly) over {Any | isinstance(axes_group, Iterable)} ║
+# ║ Path(_util_contraction_diagonal(array, *contraction_or_diagonal_axes), (array, remaining_indices, remaining_shape, summed_deltas)) over {Any | isinstance(axes_group, Iterable) and hasattr(array, 'rank') and hasattr(array, 'shape')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(array, 'rank')                         ║
+# ║   requires: hasattr(array, 'shape')                        ║
+# ║   ensures:  len(lidx) == old_len_lidx + 1                  ║
+# ║   ensures:  len(summed_deltas) == old_len_summed_delt...   ║
+# ║   returns:  (array, remaining_indices, remaining_shap...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _util_contraction_diagonal : {Any | isinstance(axes_g...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -152,9 +171,12 @@ def tensorproduct(*args):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 54b29001...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop._util_contraction_diagonal","kind":"function","src_hash":"7e25278f83ae1fe0","in":{"base":"Any","pred":"isinstance(axes_group, Iterable)"},"out":{"base":"Any"},"spec":{"lhs":"_util_contraction_diagonal(arr)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(axes_group, Iterable)"},"name":"_util_contraction_diagonal_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Iterable","pred":"isinstance(axes_group, Iterable)","path":{"lhs":"_util_contraction_diagonal(x)","rhs":"internal helper behaves correctly","over":{"base":"Iterable","pred":"isinstance(axes_group, Iterable)"},"name":"_util_contraction_diagonal_Iterable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop._util_contraction_diagonal_Iterable_correct","statement":"_util_contraction_diagonal satisfies spec on Iterable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"54b29001e34a0517"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop._util_contraction_diagonal","kind":"function","src_hash":"7e25278f83ae1fe0","in":{"base":"Any","pred":"isinstance(axes_group, Iterable) and hasattr(array, 'rank') and hasattr(array, 'shape')"},"out":{"base":"Any","pred":"result satisfies: result == ((array, remaining_indices, remaining_shape, summed_deltas))"},"spec":{"lhs":"_util_contraction_diagonal(array, *contraction_or_diagonal_axes)","rhs":"(array, remaining_indices, remaining_shape, summed_deltas)","over":{"base":"Any","pred":"isinstance(axes_group, Iterable) and hasattr(array, 'rank') and hasattr(array, 'shape')"},"name":"_util_contraction_diagonal_correct"},"guarantee":"returns (array, remaining_indices, remaining_shape, summed_deltas); len(lidx) == old_len_lidx + 1; len(summed_deltas) == old_len_summed_deltas + 1","fibers":[{"name":"Iterable","pred":"isinstance(axes_group, Iterable)","path":{"lhs":"_util_contraction_diagonal(x)","rhs":"returns (array, remaining_indices, remaining_shape, summed_deltas); len(lidx) == old_len_lidx + 1; len(summed_deltas) == old_len_summed_deltas + 1","over":{"base":"Iterable","pred":"isinstance(axes_group, Iterable)"},"name":"_util_contraction_diagonal_Iterable_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop._util_contraction_diagonal_Iterable_correct","statement":"_util_contraction_diagonal satisfies spec on Iterable inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"54b29001e34a0517","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(array, 'rank')","hasattr(array, 'shape')"],"ensures":["len(lidx) == old_len_lidx + 1","len(summed_deltas) == old_len_summed_deltas + 1"],"returns_expr":"(array, remaining_indices, remaining_shape, summed_deltas)","pure":false,"effects":{"effect_type":"reads_state","reads":["array.rank","array.shape"],"calls_mutating":["lidx.append","summed_deltas.append","taken_dims.add"],"raises":["ValueError"]},"state_contract":{"modifies":["lidx.*","summed_deltas.*","taken_dims.*"],"old_bindings":{"old_len_lidx":"len(lidx)","old_len_summed_deltas":"len(summed_deltas)"},"post_ensures":["len(lidx) == old_len_lidx + 1","len(summed_deltas) == old_len_summed_deltas + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.5,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['array'], spec=['array', '*contraction_or_diagonal_axes']","Poor branch-fiber coverage: 0% (branches={'not isinstance(axes_group, Iterable)', 'dim != array.shape[d]'}, fibers={'Iterable'})"]}}
 def _util_contraction_diagonal(array, *contraction_or_diagonal_axes):
     array = _arrayfy(array)
 
@@ -204,7 +226,11 @@ def _util_contraction_diagonal(array, *contraction_or_diagonal_axes):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tensorcontraction(arr), contraction of an array-like object on the specified axes) over {Any | isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))} ║
+# ║ Path(tensorcontraction(array, *contraction_axes), <unspecified:tensorcontraction>) over {Any | isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and hasattr(array, '_get_tuple_index')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(array, '_get_tuple_index')             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tensorcontraction : {Any | isinstance(array, (_ArrayE...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -216,9 +242,12 @@ def _util_contraction_diagonal(array, *contraction_or_diagonal_axes):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d9107a73...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.tensorcontraction","kind":"function","src_hash":"396270d0d5f21371","in":{"base":"Any","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))"},"out":{"base":"Any","pred":"len(contracted_array) == 1"},"spec":{"lhs":"tensorcontraction(arr)","rhs":"contraction of an array-like object on the specified axes","over":{"base":"Any","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))"},"name":"tensorcontraction_correct"},"guarantee":"contraction of an array-like object on the specified axes","fibers":[{"name":"(_ArrayExpr","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))","path":{"lhs":"tensorcontraction(x)","rhs":"contraction of an array-like object on the specified axes","over":{"base":"(_ArrayExpr","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))"},"name":"tensorcontraction_(_ArrayExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.tensorcontraction_(_ArrayExpr_correct","statement":"tensorcontraction satisfies spec on (_ArrayExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d9107a730c3863d5"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.tensorcontraction","kind":"function","src_hash":"396270d0d5f21371","in":{"base":"Any","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and hasattr(array, '_get_tuple_index')"},"out":{"base":"Any","pred":"len(contracted_array) == 1"},"spec":{"lhs":"tensorcontraction(array, *contraction_axes)","rhs":"<unspecified:tensorcontraction>","over":{"base":"Any","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and hasattr(array, '_get_tuple_index')"},"name":"tensorcontraction_correct"},"guarantee":"contraction of an array-like object on the specified axes","fibers":[{"name":"(_ArrayExpr","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))","path":{"lhs":"tensorcontraction(x)","rhs":"contraction of an array-like object on the specified axes","over":{"base":"(_ArrayExpr","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))"},"name":"tensorcontraction_(_ArrayExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.tensorcontraction_(_ArrayExpr_correct","statement":"tensorcontraction satisfies spec on (_ArrayExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d9107a730c3863d5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(array, '_get_tuple_index')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['array'], spec=['array', '*contraction_axes']","Poor branch-fiber coverage: 0% (branches={'isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))', 'len(remaining_indices) == 0'}, fibers={'(_ArrayExpr'})"]}}
 def tensorcontraction(array, *contraction_axes):
     """
     Contraction of an array-like object on the specified axes.
@@ -297,7 +326,13 @@ def tensorcontraction(array, *contraction_axes):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tensordiagonal(arr), diagonalization of an array-like object on the specified axes) over {Any | isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))} ║
+# ║ Path(tensordiagonal(array, *diagonal_axes), len(diagonalized_array) == old_len_diagonalized_array + 1 and len(isum) == old_len_isum + 1) over {Any | isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and not (any((len(i) <= 1 for i in diagonal_axes))) and hasattr(array, '_get_tuple_index')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (any((len(i) <= 1 for i in diagonal_a...   ║
+# ║   requires: hasattr(array, '_get_tuple_index')             ║
+# ║   ensures:  len(diagonalized_array) == old_len_diagon...   ║
+# ║   ensures:  len(isum) == old_len_isum + 1                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ tensordiagonal : {Any | isinstance(array, (_ArrayExpr...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -309,9 +344,12 @@ def tensorcontraction(array, *contraction_axes):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d84ed939...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.tensordiagonal","kind":"function","src_hash":"225943c2c94aaa6a","in":{"base":"Any","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))"},"out":{"base":"Any"},"spec":{"lhs":"tensordiagonal(arr)","rhs":"diagonalization of an array-like object on the specified axes","over":{"base":"Any","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))"},"name":"tensordiagonal_correct"},"guarantee":"diagonalization of an array-like object on the specified axes","fibers":[{"name":"(_ArrayExpr","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))","path":{"lhs":"tensordiagonal(x)","rhs":"diagonalization of an array-like object on the specified axes","over":{"base":"(_ArrayExpr","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))"},"name":"tensordiagonal_(_ArrayExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.tensordiagonal_(_ArrayExpr_correct","statement":"tensordiagonal satisfies spec on (_ArrayExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d84ed93930c7f6a3"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.tensordiagonal","kind":"function","src_hash":"225943c2c94aaa6a","in":{"base":"Any","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and not (any((len(i) <= 1 for i in diagonal_axes))) and hasattr(array, '_get_tuple_index')"},"out":{"base":"Any","pred":"result satisfies: len(diagonalized_array) == old_len_diagonalized_array + 1 and len(isum) == old_len_isum + 1"},"spec":{"lhs":"tensordiagonal(array, *diagonal_axes)","rhs":"len(diagonalized_array) == old_len_diagonalized_array + 1 and len(isum) == old_len_isum + 1","over":{"base":"Any","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and not (any((len(i) <= 1 for i in diagonal_axes))) and hasattr(array, '_get_tuple_index')"},"name":"tensordiagonal_correct"},"guarantee":"len(diagonalized_array) == old_len_diagonalized_array + 1; len(isum) == old_len_isum + 1","fibers":[{"name":"(_ArrayExpr","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))","path":{"lhs":"tensordiagonal(x)","rhs":"len(diagonalized_array) == old_len_diagonalized_array + 1; len(isum) == old_len_isum + 1","over":{"base":"(_ArrayExpr","pred":"isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))"},"name":"tensordiagonal_(_ArrayExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.tensordiagonal_(_ArrayExpr_correct","statement":"tensordiagonal satisfies spec on (_ArrayExpr inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d84ed93930c7f6a3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (any((len(i) <= 1 for i in diagonal_axes)))","hasattr(array, '_get_tuple_index')"],"ensures":["len(diagonalized_array) == old_len_diagonalized_array + 1","len(isum) == old_len_isum + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["array._get_tuple_index"],"calls_mutating":["diagonalized_array.append","isum.append"],"raises":["ValueError"]},"state_contract":{"modifies":["diagonalized_array.*","isum.*"],"old_bindings":{"old_len_diagonalized_array":"len(diagonalized_array)","old_len_isum":"len(isum)"},"post_ensures":["len(diagonalized_array) == old_len_diagonalized_array + 1","len(isum) == old_len_isum + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['array'], spec=['array', '*diagonal_axes']","Poor branch-fiber coverage: 0% (branches={'isinstance(array, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))', 'any((len(i) <= 1 for i in diagonal_axes))'}, fibers={'(_ArrayExpr'})"]}}
 def tensordiagonal(array, *diagonal_axes):
     """
     Diagonalization of an array-like object on the specified axes.
@@ -396,7 +434,13 @@ def tensordiagonal(array, *diagonal_axes):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(derive_by_array(exp), derivative by arrays) over {Any | isinstance(dx, array_types) and isinstance(expr, NDimArray) and isinstance(expr, SparseNDimArray)} ║
+# ║ Path(derive_by_array(expr, dx), <unspecified:derive_by_array>) over {Any | isinstance(dx, array_types) and isinstance(expr, NDimArray) and isinstance(expr, SparseNDimArray) and hasattr(expr, 'as_immutable') and hasattr(expr, 'diff') and hasattr(dx, 'shape') and hasattr(expr, 'shape')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'as_immutable')                  ║
+# ║   requires: hasattr(expr, 'diff')                          ║
+# ║   requires: hasattr(dx, 'shape')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ derive_by_array : {Any | isinstance(dx, array_types) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -410,9 +454,12 @@ def tensordiagonal(array, *diagonal_axes):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?3 ✗3 VCs | 7.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 22eeefbd...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.derive_by_array","kind":"function","src_hash":"aca1fcdf54ead5ac","in":{"base":"Any","pred":"isinstance(dx, array_types) and isinstance(expr, NDimArray) and isinstance(expr, SparseNDimArray)"},"out":{"base":"Any"},"spec":{"lhs":"derive_by_array(exp)","rhs":"derivative by arrays","over":{"base":"Any","pred":"isinstance(dx, array_types) and isinstance(expr, NDimArray) and isinstance(expr, SparseNDimArray)"},"name":"derive_by_array_correct"},"guarantee":"derivative by arrays","fibers":[{"name":"array_types","pred":"isinstance(dx, array_types)","path":{"lhs":"derive_by_array(x)","rhs":"derivative by arrays","over":{"base":"array_types","pred":"isinstance(dx, array_types)"},"name":"derive_by_array_array_types_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.derive_by_array_array_types_correct","statement":"derive_by_array satisfies spec on array_types inputs"},"trust":"LIBRARY"},{"name":"NDimArray","pred":"isinstance(expr, NDimArray)","path":{"lhs":"derive_by_array(x)","rhs":"derivative by arrays","over":{"base":"NDimArray","pred":"isinstance(expr, NDimArray)"},"name":"derive_by_array_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.derive_by_array_NDimArray_correct","statement":"derive_by_array satisfies spec on NDimArray inputs"},"trust":"LIBRARY"},{"name":"SparseNDimArray","pred":"isinstance(expr, SparseNDimArray)","path":{"lhs":"derive_by_array(x)","rhs":"derivative by arrays","over":{"base":"SparseNDimArray","pred":"isinstance(expr, SparseNDimArray)"},"name":"derive_by_array_SparseNDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.derive_by_array_SparseNDimArray_correct","statement":"derive_by_array satisfies spec on SparseNDimArray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"22eeefbd86a73525"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.derive_by_array","kind":"function","src_hash":"aca1fcdf54ead5ac","in":{"base":"Any","pred":"isinstance(dx, array_types) and isinstance(expr, NDimArray) and isinstance(expr, SparseNDimArray) and hasattr(expr, 'as_immutable') and hasattr(expr, 'diff') and hasattr(dx, 'shape') and hasattr(expr, 'shape')"},"out":{"base":"Any"},"spec":{"lhs":"derive_by_array(expr, dx)","rhs":"<unspecified:derive_by_array>","over":{"base":"Any","pred":"isinstance(dx, array_types) and isinstance(expr, NDimArray) and isinstance(expr, SparseNDimArray) and hasattr(expr, 'as_immutable') and hasattr(expr, 'diff') and hasattr(dx, 'shape') and hasattr(expr, 'shape')"},"name":"derive_by_array_correct"},"guarantee":"derivative by arrays","fibers":[{"name":"array_types","pred":"isinstance(dx, array_types)","path":{"lhs":"derive_by_array(x)","rhs":"derivative by arrays","over":{"base":"array_types","pred":"isinstance(dx, array_types)"},"name":"derive_by_array_array_types_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.derive_by_array_array_types_correct","statement":"derive_by_array satisfies spec on array_types inputs"},"trust":"LIBRARY"},{"name":"NDimArray","pred":"isinstance(expr, NDimArray)","path":{"lhs":"derive_by_array(x)","rhs":"derivative by arrays","over":{"base":"NDimArray","pred":"isinstance(expr, NDimArray)"},"name":"derive_by_array_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.derive_by_array_NDimArray_correct","statement":"derive_by_array satisfies spec on NDimArray inputs"},"trust":"LIBRARY"},{"name":"SparseNDimArray","pred":"isinstance(expr, SparseNDimArray)","path":{"lhs":"derive_by_array(x)","rhs":"derivative by arrays","over":{"base":"SparseNDimArray","pred":"isinstance(expr, SparseNDimArray)"},"name":"derive_by_array_SparseNDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.derive_by_array_SparseNDimArray_correct","statement":"derive_by_array satisfies spec on SparseNDimArray inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":3,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"22eeefbd86a73525","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'as_immutable')","hasattr(expr, 'diff')","hasattr(dx, 'shape')","hasattr(expr, 'shape')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["dx.shape","expr.as_immutable","expr.diff","expr.shape"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":8,"n_verified":2,"n_assumed":3,"n_failed":3,"trust_level":"LIBRARY_ASSUMED","compile_ms":7.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, array_types)', 'isinstance(expr, SparseNDimArray)', 'isinstance(expr, NDimArray)', 'isinstance(dx, array_types)'}, fibers={'array_types', 'SparseNDimArray', 'NDimArray'})"]}}
 def derive_by_array(expr, dx):
     r"""
     Derivative by arrays. Supports both arrays and scalars.
@@ -478,7 +525,13 @@ def derive_by_array(expr, dx):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(permutedims(exp), permutes the indices of an array) over {Any | isinstance(expr, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and isinstance(expr, SparseNDimArray) and isinstance(expr, NDimArray)} ║
+# ║ Path(permutedims(expr, perm, index_order_old), <unspecified:permutedims>) over {Any | isinstance(expr, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and isinstance(expr, SparseNDimArray) and isinstance(expr, NDimArray) and hasattr(perm, 'size') and hasattr(expr, 'shape') and hasattr(expr, 'rank') and hasattr(expr, '_get_tuple_index') and hasattr(expr, '_sparse_array')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(perm, 'size')                          ║
+# ║   requires: hasattr(expr, 'shape')                         ║
+# ║   requires: hasattr(expr, 'rank')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ permutedims : {Any | isinstance(expr, (_ArrayExpr, _C...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -493,9 +546,12 @@ def derive_by_array(expr, dx):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓4 ?4 ✗4 VCs | 11.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 18831a88...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.permutedims","kind":"function","src_hash":"30cdced151edf55d","in":{"base":"Any","pred":"isinstance(expr, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and isinstance(expr, SparseNDimArray) and isinstance(expr, NDimArray)"},"out":{"base":"Any"},"spec":{"lhs":"permutedims(exp)","rhs":"permutes the indices of an array","over":{"base":"Any","pred":"isinstance(expr, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and isinstance(expr, SparseNDimArray) and isinstance(expr, NDimArray)"},"name":"permutedims_correct"},"guarantee":"permutes the indices of an array","fibers":[{"name":"(_ArrayExpr","pred":"isinstance(expr, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))","path":{"lhs":"permutedims(x)","rhs":"permutes the indices of an array","over":{"base":"(_ArrayExpr","pred":"isinstance(expr, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))"},"name":"permutedims_(_ArrayExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.permutedims_(_ArrayExpr_correct","statement":"permutedims satisfies spec on (_ArrayExpr inputs"},"trust":"LIBRARY"},{"name":"SparseNDimArray","pred":"isinstance(expr, SparseNDimArray)","path":{"lhs":"permutedims(x)","rhs":"permutes the indices of an array","over":{"base":"SparseNDimArray","pred":"isinstance(expr, SparseNDimArray)"},"name":"permutedims_SparseNDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.permutedims_SparseNDimArray_correct","statement":"permutedims satisfies spec on SparseNDimArray inputs"},"trust":"LIBRARY"},{"name":"NDimArray","pred":"isinstance(expr, NDimArray)","path":{"lhs":"permutedims(x)","rhs":"permutes the indices of an array","over":{"base":"NDimArray","pred":"isinstance(expr, NDimArray)"},"name":"permutedims_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.permutedims_NDimArray_correct","statement":"permutedims satisfies spec on NDimArray inputs"},"trust":"LIBRARY"},{"name":"Permutation","pred":"isinstance(perm, Permutation)","path":{"lhs":"permutedims(x)","rhs":"permutes the indices of an array","over":{"base":"Permutation","pred":"isinstance(perm, Permutation)"},"name":"permutedims_Permutation_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.permutedims_Permutation_correct","statement":"permutedims satisfies spec on Permutation inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"18831a88891c63a0"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.permutedims","kind":"function","src_hash":"30cdced151edf55d","in":{"base":"Any","pred":"isinstance(expr, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and isinstance(expr, SparseNDimArray) and isinstance(expr, NDimArray) and hasattr(perm, 'size') and hasattr(expr, 'shape') and hasattr(expr, 'rank') and hasattr(expr, '_get_tuple_index') and hasattr(expr, '_sparse_array')"},"out":{"base":"Any"},"spec":{"lhs":"permutedims(expr, perm, index_order_old)","rhs":"<unspecified:permutedims>","over":{"base":"Any","pred":"isinstance(expr, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol)) and isinstance(expr, SparseNDimArray) and isinstance(expr, NDimArray) and hasattr(perm, 'size') and hasattr(expr, 'shape') and hasattr(expr, 'rank') and hasattr(expr, '_get_tuple_index') and hasattr(expr, '_sparse_array')"},"name":"permutedims_correct"},"guarantee":"permutes the indices of an array","fibers":[{"name":"(_ArrayExpr","pred":"isinstance(expr, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))","path":{"lhs":"permutedims(x)","rhs":"permutes the indices of an array","over":{"base":"(_ArrayExpr","pred":"isinstance(expr, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))"},"name":"permutedims_(_ArrayExpr_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.permutedims_(_ArrayExpr_correct","statement":"permutedims satisfies spec on (_ArrayExpr inputs"},"trust":"LIBRARY"},{"name":"SparseNDimArray","pred":"isinstance(expr, SparseNDimArray)","path":{"lhs":"permutedims(x)","rhs":"permutes the indices of an array","over":{"base":"SparseNDimArray","pred":"isinstance(expr, SparseNDimArray)"},"name":"permutedims_SparseNDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.permutedims_SparseNDimArray_correct","statement":"permutedims satisfies spec on SparseNDimArray inputs"},"trust":"LIBRARY"},{"name":"NDimArray","pred":"isinstance(expr, NDimArray)","path":{"lhs":"permutedims(x)","rhs":"permutes the indices of an array","over":{"base":"NDimArray","pred":"isinstance(expr, NDimArray)"},"name":"permutedims_NDimArray_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.permutedims_NDimArray_correct","statement":"permutedims satisfies spec on NDimArray inputs"},"trust":"LIBRARY"},{"name":"Permutation","pred":"isinstance(perm, Permutation)","path":{"lhs":"permutedims(x)","rhs":"permutes the indices of an array","over":{"base":"Permutation","pred":"isinstance(perm, Permutation)"},"name":"permutedims_Permutation_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.arrayop.permutedims_Permutation_correct","statement":"permutedims satisfies spec on Permutation inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"18831a88891c63a0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(perm, 'size')","hasattr(expr, 'shape')","hasattr(expr, 'rank')","hasattr(expr, '_get_tuple_index')","hasattr(expr, '_sparse_array')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr._get_tuple_index","expr._sparse_array","expr.rank","expr.shape","perm.size"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":4,"n_assumed":4,"n_failed":4,"trust_level":"LIBRARY_ASSUMED","compile_ms":11.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(expr, SparseNDimArray)', 'not isinstance(perm, Permutation)', 'not isinstance(expr, NDimArray)', 'isinstance(expr, (_ArrayExpr, _CodegenArrayAbstract, MatrixSymbol))', 'perm.size != expr.rank()'}, fibers={'(_ArrayExpr', 'Permutation', 'SparseNDimArray', 'NDimArray'})"]}}
 def permutedims(expr, perm=None, index_order_old=None, index_order_new=None):
     """
     Permutes the indices of an array.
@@ -595,14 +651,20 @@ def permutedims(expr, perm=None, index_order_old=None, index_order_new=None):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Flatten instance) preserved by Flatten(*args) over {Any | isinstance(iterable, list) and isinstance(iterable, (Iterable, MatrixBase)) and isinstance(self._iter, DenseNDimArray)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Printable)                    ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Flatten : {Any | isinstance(iterable, list) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f1352381b226c35  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.Flatten","kind":"class","src_hash":"e3163f33f3fe9b35","in":{"base":"Any","pred":"isinstance(iterable, list) and isinstance(iterable, (Iterable, MatrixBase)) and isinstance(self._iter, DenseNDimArray)"},"out":{"base":"Any"},"spec":{"lhs":"Flatten(*args)","rhs":"correctly constructs a Flatten instance","over":{"base":"Any","pred":"isinstance(iterable, list) and isinstance(iterable, (Iterable, MatrixBase)) and isinstance(self._iter, DenseNDimArray)"},"name":"Flatten_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Flatten instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_iter') and hasattr(self, '_idx')","kind":"class","induction":"structural on _iter, _idx"}],"methods_preserving":["__init__","__iter__","__next__","next","_sympystr"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f1352381b226c35"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.Flatten","kind":"class","src_hash":"e3163f33f3fe9b35","in":{"base":"Any","pred":"isinstance(iterable, list) and isinstance(iterable, (Iterable, MatrixBase)) and isinstance(self._iter, DenseNDimArray)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Printable)"},"spec":{"lhs":"Flatten(*args)","rhs":"correctly constructs a Flatten instance","over":{"base":"Any","pred":"isinstance(iterable, list) and isinstance(iterable, (Iterable, MatrixBase)) and isinstance(self._iter, DenseNDimArray)"},"name":"Flatten_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Printable); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_iter') and hasattr(self, '_idx')","kind":"class","induction":"structural on _iter, _idx"}],"methods_preserving":["__init__","__iter__","__next__","next","_sympystr"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f1352381b226c35","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Printable)"],"invariants":["hasattr(self, '_iter')","hasattr(self, '_idx')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function Flatten not found in source"]}}
 class Flatten(Printable):
     """
     Flatten an iterable object to a list in a lazy-evaluation way.
@@ -626,16 +688,23 @@ class Flatten(Printable):
     [0, 1, 2, 3, 4, 5]
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(ite), initializes the instance correctly) over Any ║
+# ║ Path(__init__(iterable), self._iter == iterable) over {Any | isinstance(iterable, (Iterable, MatrixBase))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(iterable, (Iterable, MatrixBase))   ║
+# ║   ensures:  self._iter == iterable                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(iterable, (Iterable, Mat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 337c94bf6eab349b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.Flatten.__init__","kind":"method","src_hash":"13d948667a024327","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(ite)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"337c94bf6eab349b"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.Flatten.__init__","kind":"method","src_hash":"13d948667a024327","in":{"base":"Any","pred":"isinstance(iterable, (Iterable, MatrixBase))"},"out":{"base":"Any","pred":"result satisfies: self._iter == iterable"},"spec":{"lhs":"__init__(iterable)","rhs":"self._iter == iterable","over":{"base":"Any","pred":"isinstance(iterable, (Iterable, MatrixBase))"},"name":"__init___correct"},"guarantee":"self._iter == iterable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"337c94bf6eab349b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(iterable, (Iterable, MatrixBase))"],"ensures":["self._iter == iterable"],"pure":false,"effects":{"effect_type":"reads_state","writes":["self._idx","self._iter"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["self._idx","self._iter"],"old_bindings":{"old_self__idx":"self._idx","old_self__iter":"self._iter"},"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, iterable):
         from sympy.matrices.matrixbase import MatrixBase
         from sympy.tensor.array import NDimArray
@@ -650,30 +719,43 @@ class Flatten(Printable):
         self._idx = 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__iter__(), yields all elements in order) over Any    ║
+# ║ Path(__iter__(), self) over Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __iter__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == self                                 ║
+# ║   returns:  self                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __iter__ : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a9ba79864c4f16ea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.Flatten.__iter__","kind":"method","src_hash":"ad419825cfa617c2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__iter__()","rhs":"yields all elements in order","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"yields all elements in order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9ba79864c4f16ea"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.Flatten.__iter__","kind":"method","src_hash":"ad419825cfa617c2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (self)"},"spec":{"lhs":"__iter__()","rhs":"self","over":{"base":"Any"},"name":"__iter___correct"},"guarantee":"returns self; result == self","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a9ba79864c4f16ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == self"],"returns_expr":"self","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __iter__(self):
         return self
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__next__(), internal helper behaves correctly) over Any ║
+# ║ Path(__next__(), <unspecified:__next__>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __next__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8f9c4726aeec9559           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.Flatten.__next__","kind":"method","src_hash":"285258316f9e0d3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__next__()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__next___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f9c4726aeec9559"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.Flatten.__next__","kind":"method","src_hash":"285258316f9e0d3c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__next__()","rhs":"<unspecified:__next__>","over":{"base":"Any"},"name":"__next___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8f9c4726aeec9559","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._idx","self._iter"],"writes":["self._idx"],"raises":["StopIteration"]},"state_contract":{"modifies":["self._idx"],"old_bindings":{"old_self__idx":"self._idx"},"exceptional_post":{"StopIteration":["isinstance(raised, StopIteration)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __next__(self):
         from sympy.matrices.matrixbase import MatrixBase
 
@@ -703,29 +785,42 @@ class Flatten(Printable):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(next(), next produces the expected output) over Any   ║
+# ║ Path(next(), self.__next__()) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.__next__()                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ next : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 21e52cf98b2c5458           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.Flatten.next","kind":"method","src_hash":"166a5ac90a92e19b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next()","rhs":"next produces the expected output","over":{"base":"Any"},"name":"next_correct"},"guarantee":"next produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21e52cf98b2c5458"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.Flatten.next","kind":"method","src_hash":"166a5ac90a92e19b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"next()","rhs":"self.__next__()","over":{"base":"Any"},"name":"next_correct"},"guarantee":"returns self.__next__()","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"21e52cf98b2c5458","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.__next__()","pure":false,"effects":{"effect_type":"reads_state","reads":["self.__next__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def next(self):
         return self.__next__()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer), type(self).__name__ + '(' + printer._print(self._iter) + ')') over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _sympystr : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  type(self).__name__ + '(' + printer._prin...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _sympystr : {Any | hasattr(printer, '_print')} → Any       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67168ad2618bcaf1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.Flatten._sympystr","kind":"method","src_hash":"05d88c6a3f2bceae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67168ad2618bcaf1"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.arrayop.Flatten._sympystr","kind":"method","src_hash":"05d88c6a3f2bceae","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer)","rhs":"type(self).__name__ + '(' + printer._print(self._iter) + ')'","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_sympystr_correct"},"guarantee":"returns type(self).__name__ + '(' + printer._print(self._iter) + ')'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67168ad2618bcaf1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"type(self).__name__ + '(' + printer._print(self._iter) + ')'","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self._iter"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer):
         return type(self).__name__ + '(' + printer._print(self._iter) + ')'

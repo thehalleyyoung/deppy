@@ -18,16 +18,22 @@
 from sympy.testing.pytest import warns_deprecated_sympy
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_compatibility_submodule(), test_compatibility_submodule produces the expected output) over Any ║
+# ║ Path(test_compatibility_submodule(), <unspecified:test_compatibility_submodule>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_compatibility_submodule : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ef7a9f8d5b95ff6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_compatibility.test_compatibility_submodule","kind":"function","src_hash":"070aaf587b690629","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_compatibility_submodule()","rhs":"test_compatibility_submodule produces the expected output","over":{"base":"Any"},"name":"test_compatibility_submodule_correct"},"guarantee":"test_compatibility_submodule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_compatibility.test_compatibility_submodule_correct","statement":"Path(test_compatibility_submodule(x), test_compatibility_submodule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ef7a9f8d5b95ff6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_compatibility.test_compatibility_submodule","kind":"function","src_hash":"070aaf587b690629","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_compatibility_submodule()","rhs":"<unspecified:test_compatibility_submodule>","over":{"base":"Any"},"name":"test_compatibility_submodule_correct"},"guarantee":"test_compatibility_submodule produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_compatibility.test_compatibility_submodule_correct","statement":"Path(test_compatibility_submodule(x), test_compatibility_submodule produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ef7a9f8d5b95ff6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_compatibility_submodule():
     # Test the sympy.core.compatibility deprecation warning
     with warns_deprecated_sympy():

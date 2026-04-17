@@ -24,16 +24,23 @@ from sympy.physics.mechanics import LagrangesMethod, Lagrangian
 ### is accurately formed with Lagrange method (see issue #8626)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lagrange_2forces(), test_lagrange_2forces produces the expected output) over Any ║
+# ║ Path(test_lagrange_2forces(), eq1.diff(q1d) == nu and eq2.diff(q2d) == nu) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lagrange_2forces : Any → {Any | eq1.diff(q1d) ==...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  eq1.diff(q1d) == nu                            ║
+# ║   ensures:  eq2.diff(q2d) == nu                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lagrange_2forces : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fb34df2fb4f8e06  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cecee3f293cf1cda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange2.test_lagrange_2forces","kind":"function","src_hash":"4592d8a1dd8abb76","in":{"base":"Any"},"out":{"base":"Any","pred":"eq1.diff(q1d) == nu and eq2.diff(q2d) == nu"},"spec":{"lhs":"test_lagrange_2forces()","rhs":"test_lagrange_2forces produces the expected output","over":{"base":"Any"},"name":"test_lagrange_2forces_correct"},"guarantee":"test_lagrange_2forces produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange2.test_lagrange_2forces_correct","statement":"Path(test_lagrange_2forces(x), test_lagrange_2forces produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fb34df2fb4f8e06"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_lagrange2.test_lagrange_2forces","kind":"function","src_hash":"4592d8a1dd8abb76","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: eq1.diff(q1d) == nu and eq2.diff(q2d) == nu"},"spec":{"lhs":"test_lagrange_2forces()","rhs":"eq1.diff(q1d) == nu and eq2.diff(q2d) == nu","over":{"base":"Any"},"name":"test_lagrange_2forces_correct"},"guarantee":"eq1.diff(q1d) == nu; eq2.diff(q2d) == nu","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_lagrange2.test_lagrange_2forces_correct","statement":"Path(test_lagrange_2forces(x), eq1.diff(q1d) == nu; eq2.diff(q2d) == nu)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cecee3f293cf1cda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["eq1.diff(q1d) == nu","eq2.diff(q2d) == nu"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_lagrange_2forces():
     ### Equations for two damped springs in series with two forces
 

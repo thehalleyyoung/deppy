@@ -22,16 +22,22 @@ from sympy.core.symbol import (Symbol, symbols)
 from sympy.testing.pytest import XFAIL
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SymbolInMulOnce(), correctly constructs a SymbolInMulOnce instance) over Any ║
+# ║ Path(SymbolInMulOnce(), isinstance(self, Symbol)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SymbolInMulOnce : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Symbol)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SymbolInMulOnce : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 20a381ece2d01bb6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.SymbolInMulOnce","kind":"class","src_hash":"450b7bdcd0438fa6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SymbolInMulOnce()","rhs":"correctly constructs a SymbolInMulOnce instance","over":{"base":"Any"},"name":"SymbolInMulOnce_correct"},"guarantee":"correctly constructs a SymbolInMulOnce instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20a381ece2d01bb6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.SymbolInMulOnce","kind":"class","src_hash":"450b7bdcd0438fa6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Symbol)"},"spec":{"lhs":"SymbolInMulOnce()","rhs":"isinstance(self, Symbol)","over":{"base":"Any"},"name":"SymbolInMulOnce_correct"},"guarantee":"isinstance(self, Symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"20a381ece2d01bb6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Symbol)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function SymbolInMulOnce not found in source"]}}
 class SymbolInMulOnce(Symbol):
     # Test class for a symbol that can only appear once in a `Mul` expression.
     pass
@@ -45,7 +51,11 @@ Basic._constructor_postprocessor_mapping[SymbolInMulOnce] = {
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_postprocess_SymbolRemovesOtherSymbols(exp), internal helper behaves correctly) over {Any | isinstance(i, SymbolRemovesOtherSymbols) and isinstance(i, Symbol)} ║
+# ║ Path(_postprocess_SymbolRemovesOtherSymbols(expr), <unspecified:_postprocess_SymbolRemovesOtherSymbols>) over {Any | isinstance(i, SymbolRemovesOtherSymbols) and isinstance(i, Symbol) and hasattr(expr, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _postprocess_SymbolRemovesOtherSymbols : {Any | isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -58,9 +68,12 @@ Basic._constructor_postprocessor_mapping[SymbolInMulOnce] = {
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4d4989e2...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor._postprocess_SymbolRemovesOtherSymbols","kind":"function","src_hash":"d8eea882b457d792","in":{"base":"Any","pred":"isinstance(i, SymbolRemovesOtherSymbols) and isinstance(i, Symbol)"},"out":{"base":"Any"},"spec":{"lhs":"_postprocess_SymbolRemovesOtherSymbols(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(i, SymbolRemovesOtherSymbols) and isinstance(i, Symbol)"},"name":"_postprocess_SymbolRemovesOtherSymbols_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"SymbolRemovesOtherSymbols","pred":"isinstance(i, SymbolRemovesOtherSymbols)","path":{"lhs":"_postprocess_SymbolRemovesOtherSymbols(x)","rhs":"internal helper behaves correctly","over":{"base":"SymbolRemovesOtherSymbols","pred":"isinstance(i, SymbolRemovesOtherSymbols)"},"name":"_postprocess_SymbolRemovesOtherSymbols_SymbolRemovesOtherSymbols_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_constructor_postprocessor._postprocess_SymbolRemovesOtherSymbols_SymbolRemovesOtherSymbols_correct","statement":"_postprocess_SymbolRemovesOtherSymbols satisfies spec on SymbolRemovesOtherSymbols inputs"},"trust":"LIBRARY"},{"name":"Symbol","pred":"isinstance(i, Symbol)","path":{"lhs":"_postprocess_SymbolRemovesOtherSymbols(x)","rhs":"internal helper behaves correctly","over":{"base":"Symbol","pred":"isinstance(i, Symbol)"},"name":"_postprocess_SymbolRemovesOtherSymbols_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_constructor_postprocessor._postprocess_SymbolRemovesOtherSymbols_Symbol_correct","statement":"_postprocess_SymbolRemovesOtherSymbols satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4d4989e2ba8da9fc"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor._postprocess_SymbolRemovesOtherSymbols","kind":"function","src_hash":"d8eea882b457d792","in":{"base":"Any","pred":"isinstance(i, SymbolRemovesOtherSymbols) and isinstance(i, Symbol) and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_postprocess_SymbolRemovesOtherSymbols(expr)","rhs":"<unspecified:_postprocess_SymbolRemovesOtherSymbols>","over":{"base":"Any","pred":"isinstance(i, SymbolRemovesOtherSymbols) and isinstance(i, Symbol) and hasattr(expr, 'args')"},"name":"_postprocess_SymbolRemovesOtherSymbols_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"SymbolRemovesOtherSymbols","pred":"isinstance(i, SymbolRemovesOtherSymbols)","path":{"lhs":"_postprocess_SymbolRemovesOtherSymbols(x)","rhs":"internal helper behaves correctly","over":{"base":"SymbolRemovesOtherSymbols","pred":"isinstance(i, SymbolRemovesOtherSymbols)"},"name":"_postprocess_SymbolRemovesOtherSymbols_SymbolRemovesOtherSymbols_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_constructor_postprocessor._postprocess_SymbolRemovesOtherSymbols_SymbolRemovesOtherSymbols_correct","statement":"_postprocess_SymbolRemovesOtherSymbols satisfies spec on SymbolRemovesOtherSymbols inputs"},"trust":"LIBRARY"},{"name":"Symbol","pred":"isinstance(i, Symbol)","path":{"lhs":"_postprocess_SymbolRemovesOtherSymbols(x)","rhs":"internal helper behaves correctly","over":{"base":"Symbol","pred":"isinstance(i, Symbol)"},"name":"_postprocess_SymbolRemovesOtherSymbols_Symbol_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_constructor_postprocessor._postprocess_SymbolRemovesOtherSymbols_Symbol_correct","statement":"_postprocess_SymbolRemovesOtherSymbols satisfies spec on Symbol inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4d4989e2ba8da9fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'args == expr.args'}, fibers={'SymbolRemovesOtherSymbols', 'Symbol'})"]}}
 def _postprocess_SymbolRemovesOtherSymbols(expr):
     args = tuple(i for i in expr.args if not isinstance(i, Symbol) or isinstance(i, SymbolRemovesOtherSymbols))
     if args == expr.args:
@@ -69,16 +82,22 @@ def _postprocess_SymbolRemovesOtherSymbols(expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SymbolRemovesOtherSymbols(), correctly constructs a SymbolRemovesOtherSymbols instance) over Any ║
+# ║ Path(SymbolRemovesOtherSymbols(), isinstance(self, Symbol)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SymbolRemovesOtherSymbols : Any → Any                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Symbol)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SymbolRemovesOtherSymbols : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 885e5831c0fb2164           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.SymbolRemovesOtherSymbols","kind":"class","src_hash":"0faabb0a8db02e55","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SymbolRemovesOtherSymbols()","rhs":"correctly constructs a SymbolRemovesOtherSymbols instance","over":{"base":"Any"},"name":"SymbolRemovesOtherSymbols_correct"},"guarantee":"correctly constructs a SymbolRemovesOtherSymbols instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"885e5831c0fb2164"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.SymbolRemovesOtherSymbols","kind":"class","src_hash":"0faabb0a8db02e55","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Symbol)"},"spec":{"lhs":"SymbolRemovesOtherSymbols()","rhs":"isinstance(self, Symbol)","over":{"base":"Any"},"name":"SymbolRemovesOtherSymbols_correct"},"guarantee":"isinstance(self, Symbol)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"885e5831c0fb2164","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Symbol)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function SymbolRemovesOtherSymbols not found in source"]}}
 class SymbolRemovesOtherSymbols(Symbol):
     # Test class for a symbol that removes other symbols in `Mul`.
     pass
@@ -88,36 +107,53 @@ Basic._constructor_postprocessor_mapping[SymbolRemovesOtherSymbols] = {
 }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SubclassSymbolInMulOnce(), correctly constructs a SubclassSymbolInMulOnce instance) over Any ║
+# ║ Path(SubclassSymbolInMulOnce(), isinstance(self, SymbolInMulOnce)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SubclassSymbolInMulOnce : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SymbolInMulOnce)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SubclassSymbolInMulOnce : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 346aeb119e19be9c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.SubclassSymbolInMulOnce","kind":"class","src_hash":"35630ddb0530c7f5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SubclassSymbolInMulOnce()","rhs":"correctly constructs a SubclassSymbolInMulOnce instance","over":{"base":"Any"},"name":"SubclassSymbolInMulOnce_correct"},"guarantee":"correctly constructs a SubclassSymbolInMulOnce instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"346aeb119e19be9c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.SubclassSymbolInMulOnce","kind":"class","src_hash":"35630ddb0530c7f5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SymbolInMulOnce)"},"spec":{"lhs":"SubclassSymbolInMulOnce()","rhs":"isinstance(self, SymbolInMulOnce)","over":{"base":"Any"},"name":"SubclassSymbolInMulOnce_correct"},"guarantee":"isinstance(self, SymbolInMulOnce)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"346aeb119e19be9c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SymbolInMulOnce)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function SubclassSymbolInMulOnce not found in source"]}}
 class SubclassSymbolInMulOnce(SymbolInMulOnce):
     pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(SubclassSymbolRemovesOtherSymbols(), correctly constructs a SubclassSymbolRemovesOtherSymbols instance) over Any ║
+# ║ Path(SubclassSymbolRemovesOtherSymbols(), isinstance(self, SymbolRemovesOtherSymbols)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SubclassSymbolRemovesOtherSymbols : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, SymbolRemovesOtherSymbols)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SubclassSymbolRemovesOtherSymbols : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 352252718e2d72b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.SubclassSymbolRemovesOtherSymbols","kind":"class","src_hash":"6e0caf757d4876a6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SubclassSymbolRemovesOtherSymbols()","rhs":"correctly constructs a SubclassSymbolRemovesOtherSymbols instance","over":{"base":"Any"},"name":"SubclassSymbolRemovesOtherSymbols_correct"},"guarantee":"correctly constructs a SubclassSymbolRemovesOtherSymbols instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"352252718e2d72b1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.SubclassSymbolRemovesOtherSymbols","kind":"class","src_hash":"6e0caf757d4876a6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, SymbolRemovesOtherSymbols)"},"spec":{"lhs":"SubclassSymbolRemovesOtherSymbols()","rhs":"isinstance(self, SymbolRemovesOtherSymbols)","over":{"base":"Any"},"name":"SubclassSymbolRemovesOtherSymbols_correct"},"guarantee":"isinstance(self, SymbolRemovesOtherSymbols)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"352252718e2d72b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, SymbolRemovesOtherSymbols)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function SubclassSymbolRemovesOtherSymbols not found in source"]}}
 class SubclassSymbolRemovesOtherSymbols(SymbolRemovesOtherSymbols):
     pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constructor_postprocessors1(), test_constructor_postprocessors1 produces the expected output) over {Any | isinstance(3 * x, Mul)} ║
+# ║ Path(test_constructor_postprocessors1(), isinstance(3 * x, Mul) and (3 * x).args == (3, x) and x * x == x and 3 * x * x == 3 * x and 2 * x * x + x == 3 * x and x ** 3 * y * y == x * y and x ** 5 + y * x ** 3 == x + x * y and x * w == w and (3 * w).args == (3, w) and set((w + x).args) == {x, w}) over {Any | isinstance(3 * x, Mul)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(3 * x, Mul)                         ║
+# ║   ensures:  (3 * x).args == (3, x)                         ║
+# ║   ensures:  x * x == x                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_constructor_postprocessors1 : {Any | isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -129,9 +165,12 @@ class SubclassSymbolRemovesOtherSymbols(SymbolRemovesOtherSymbols):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 5.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | ebc6017e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.test_constructor_postprocessors1","kind":"function","src_hash":"13d26387d80d5cb0","in":{"base":"Any","pred":"isinstance(3 * x, Mul)"},"out":{"base":"Any","pred":"isinstance(3 * x, Mul) and (3 * x).args == (3, x) and x * x == x and 3 * x * x == 3 * x and 2 * x * x + x == 3 * x and x ** 3 * y * y == x * y and x ** 5 + y * x ** 3 == x + x * y and x * w == w and (3 * w).args == (3, w) and set((w + x).args) == {x, w}"},"spec":{"lhs":"test_constructor_postprocessors1()","rhs":"test_constructor_postprocessors1 produces the expected output","over":{"base":"Any","pred":"isinstance(3 * x, Mul)"},"name":"test_constructor_postprocessors1_correct"},"guarantee":"test_constructor_postprocessors1 produces the expected output","fibers":[{"name":"Mul","pred":"isinstance(3 * x, Mul)","path":{"lhs":"test_constructor_postprocessors1(x)","rhs":"test_constructor_postprocessors1 produces the expected output","over":{"base":"Mul","pred":"isinstance(3 * x, Mul)"},"name":"test_constructor_postprocessors1_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_constructor_postprocessor.test_constructor_postprocessors1_Mul_correct","statement":"test_constructor_postprocessors1 satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ebc6017eb758d1a6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.test_constructor_postprocessors1","kind":"function","src_hash":"13d26387d80d5cb0","in":{"base":"Any","pred":"isinstance(3 * x, Mul)"},"out":{"base":"Any","pred":"result satisfies: isinstance(3 * x, Mul) and (3 * x).args == (3, x) and x * x == x and 3 * x * x == 3 * x and 2 * x * x + x == 3 * x and x ** 3 * y * y == x * y and x ** 5 + y * x ** 3 == x + x * y and x * w == w and (3 * w).args == (3, w) and set((w + x).args) == {x, w}"},"spec":{"lhs":"test_constructor_postprocessors1()","rhs":"isinstance(3 * x, Mul) and (3 * x).args == (3, x) and x * x == x and 3 * x * x == 3 * x and 2 * x * x + x == 3 * x and x ** 3 * y * y == x * y and x ** 5 + y * x ** 3 == x + x * y and x * w == w and (3 * w).args == (3, w) and set((w + x).args) == {x, w}","over":{"base":"Any","pred":"isinstance(3 * x, Mul)"},"name":"test_constructor_postprocessors1_correct"},"guarantee":"isinstance(3 * x, Mul); (3 * x).args == (3, x); x * x == x","fibers":[{"name":"Mul","pred":"isinstance(3 * x, Mul)","path":{"lhs":"test_constructor_postprocessors1(x)","rhs":"isinstance(3 * x, Mul); (3 * x).args == (3, x); x * x == x","over":{"base":"Mul","pred":"isinstance(3 * x, Mul)"},"name":"test_constructor_postprocessors1_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_constructor_postprocessor.test_constructor_postprocessors1_Mul_correct","statement":"test_constructor_postprocessors1 satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"ebc6017eb758d1a6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(3 * x, Mul)","(3 * x).args == (3, x)","x * x == x","3 * x * x == 3 * x","2 * x * x + x == 3 * x","x ** 3 * y * y == x * y","x ** 5 + y * x ** 3 == x + x * y","x * w == w","(3 * w).args == (3, w)","set((w + x).args) == {x, w}"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.2,"verdict_class":"failed","binding":true}}
 def test_constructor_postprocessors1():
     x = SymbolInMulOnce("x")
     y = SymbolInMulOnce("y")
@@ -149,7 +188,12 @@ def test_constructor_postprocessors1():
     assert set((w + x).args) == {x, w}
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_constructor_postprocessors2(), test_constructor_postprocessors2 produces the expected output) over {Any | isinstance(3 * x, Mul)} ║
+# ║ Path(test_constructor_postprocessors2(), isinstance(3 * x, Mul) and (3 * x).args == (3, x) and x * x == x and 3 * x * x == 3 * x and 2 * x * x + x == 3 * x and x ** 3 * y * y == x * y and x ** 5 + y * x ** 3 == x + x * y and x * w == w and (3 * w).args == (3, w) and set((w + x).args) == {x, w}) over {Any | isinstance(3 * x, Mul)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(3 * x, Mul)                         ║
+# ║   ensures:  (3 * x).args == (3, x)                         ║
+# ║   ensures:  x * x == x                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_constructor_postprocessors2 : {Any | isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -161,9 +205,12 @@ def test_constructor_postprocessors1():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9a3f48d1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.test_constructor_postprocessors2","kind":"function","src_hash":"4de0ff1e711a324f","in":{"base":"Any","pred":"isinstance(3 * x, Mul)"},"out":{"base":"Any","pred":"isinstance(3 * x, Mul) and (3 * x).args == (3, x) and x * x == x and 3 * x * x == 3 * x and 2 * x * x + x == 3 * x and x ** 3 * y * y == x * y and x ** 5 + y * x ** 3 == x + x * y and x * w == w and (3 * w).args == (3, w) and set((w + x).args) == {x, w}"},"spec":{"lhs":"test_constructor_postprocessors2()","rhs":"test_constructor_postprocessors2 produces the expected output","over":{"base":"Any","pred":"isinstance(3 * x, Mul)"},"name":"test_constructor_postprocessors2_correct"},"guarantee":"test_constructor_postprocessors2 produces the expected output","fibers":[{"name":"Mul","pred":"isinstance(3 * x, Mul)","path":{"lhs":"test_constructor_postprocessors2(x)","rhs":"test_constructor_postprocessors2 produces the expected output","over":{"base":"Mul","pred":"isinstance(3 * x, Mul)"},"name":"test_constructor_postprocessors2_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_constructor_postprocessor.test_constructor_postprocessors2_Mul_correct","statement":"test_constructor_postprocessors2 satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9a3f48d157f89067"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.test_constructor_postprocessors2","kind":"function","src_hash":"4de0ff1e711a324f","in":{"base":"Any","pred":"isinstance(3 * x, Mul)"},"out":{"base":"Any","pred":"result satisfies: isinstance(3 * x, Mul) and (3 * x).args == (3, x) and x * x == x and 3 * x * x == 3 * x and 2 * x * x + x == 3 * x and x ** 3 * y * y == x * y and x ** 5 + y * x ** 3 == x + x * y and x * w == w and (3 * w).args == (3, w) and set((w + x).args) == {x, w}"},"spec":{"lhs":"test_constructor_postprocessors2()","rhs":"isinstance(3 * x, Mul) and (3 * x).args == (3, x) and x * x == x and 3 * x * x == 3 * x and 2 * x * x + x == 3 * x and x ** 3 * y * y == x * y and x ** 5 + y * x ** 3 == x + x * y and x * w == w and (3 * w).args == (3, w) and set((w + x).args) == {x, w}","over":{"base":"Any","pred":"isinstance(3 * x, Mul)"},"name":"test_constructor_postprocessors2_correct"},"guarantee":"isinstance(3 * x, Mul); (3 * x).args == (3, x); x * x == x","fibers":[{"name":"Mul","pred":"isinstance(3 * x, Mul)","path":{"lhs":"test_constructor_postprocessors2(x)","rhs":"isinstance(3 * x, Mul); (3 * x).args == (3, x); x * x == x","over":{"base":"Mul","pred":"isinstance(3 * x, Mul)"},"name":"test_constructor_postprocessors2_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_constructor_postprocessor.test_constructor_postprocessors2_Mul_correct","statement":"test_constructor_postprocessors2 satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9a3f48d157f89067","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(3 * x, Mul)","(3 * x).args == (3, x)","x * x == x","3 * x * x == 3 * x","2 * x * x + x == 3 * x","x ** 3 * y * y == x * y","x ** 5 + y * x ** 3 == x + x * y","x * w == w","(3 * w).args == (3, w)","set((w + x).args) == {x, w}"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":true}}
 def test_constructor_postprocessors2():
     x = SubclassSymbolInMulOnce("x")
     y = SubclassSymbolInMulOnce("y")
@@ -183,16 +230,23 @@ def test_constructor_postprocessors2():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subexpression_postprocessors(), test_subexpression_postprocessors produces the expected output) over Any ║
+# ║ Path(test_subexpression_postprocessors(), 3 * a * w ** 2 == 3 * w ** 2 and 3 * a * x ** 3 * w ** 2 == 3 * w ** 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subexpression_postprocessors : Any → {Any | 3 * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  3 * a * w ** 2 == 3 * w ** 2                   ║
+# ║   ensures:  3 * a * x ** 3 * w ** 2 == 3 * w ** 2          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subexpression_postprocessors : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8107d3168c98a72c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88e6108af37088c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.test_subexpression_postprocessors","kind":"function","src_hash":"c0ea2a03e7050e74","in":{"base":"Any"},"out":{"base":"Any","pred":"3 * a * w ** 2 == 3 * w ** 2 and 3 * a * x ** 3 * w ** 2 == 3 * w ** 2 and 3 * a * w ** 2 == 3 * w ** 2 and 3 * a * x ** 3 * w ** 2 == 3 * w ** 2"},"spec":{"lhs":"test_subexpression_postprocessors()","rhs":"test_subexpression_postprocessors produces the expected output","over":{"base":"Any"},"name":"test_subexpression_postprocessors_correct"},"guarantee":"test_subexpression_postprocessors produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_constructor_postprocessor.test_subexpression_postprocessors_correct","statement":"Path(test_subexpression_postprocessors(x), test_subexpression_postprocessors produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8107d3168c98a72c"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_constructor_postprocessor.test_subexpression_postprocessors","kind":"function","src_hash":"c0ea2a03e7050e74","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 3 * a * w ** 2 == 3 * w ** 2 and 3 * a * x ** 3 * w ** 2 == 3 * w ** 2"},"spec":{"lhs":"test_subexpression_postprocessors()","rhs":"3 * a * w ** 2 == 3 * w ** 2 and 3 * a * x ** 3 * w ** 2 == 3 * w ** 2","over":{"base":"Any"},"name":"test_subexpression_postprocessors_correct"},"guarantee":"3 * a * w ** 2 == 3 * w ** 2; 3 * a * x ** 3 * w ** 2 == 3 * w ** 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_constructor_postprocessor.test_subexpression_postprocessors_correct","statement":"Path(test_subexpression_postprocessors(x), 3 * a * w ** 2 == 3 * w ** 2; 3 * a * x ** 3 * w ** 2 == 3 * w ** 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88e6108af37088c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["3 * a * w ** 2 == 3 * w ** 2","3 * a * x ** 3 * w ** 2 == 3 * w ** 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_subexpression_postprocessors():
     # The postprocessors used to work with subexpressions, but the
     # functionality was removed. See #15948.

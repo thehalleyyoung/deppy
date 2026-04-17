@@ -34,7 +34,12 @@ t = dynamicsymbols._t # type: ignore
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jointsmethod(), test_jointsmethod produces the expected output) over {Any | isinstance(method.method, KanesMethod)} ║
+# ║ Path(test_jointsmethod(), method.frame == P.frame and method.bodies == [C, P] and method.loads == [(P.masscenter, g * P.frame.y)] and method.q == Matrix([q]) and method.u == Matrix([u]) and method.kdes == Matrix([u - q.diff()]) and soln == Matrix([[-C_ixx * u.diff()]]) and method.forcing_full == Matrix([[u], [0]]) and method.mass_matrix_full == Matrix([[1, 0], [0, C_ixx]]) and isinstance(method.method, KanesMethod)) over {Any | isinstance(method.method, KanesMethod)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  method.frame == P.frame                        ║
+# ║   ensures:  method.bodies == [C, P]                        ║
+# ║   ensures:  method.loads == [(P.masscenter, g * P.fra...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_jointsmethod : {Any | isinstance(method.method, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -46,9 +51,12 @@ t = dynamicsymbols._t # type: ignore
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.6ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | de6d92ab...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_jointsmethod","kind":"function","src_hash":"e544c84d07f365b0","in":{"base":"Any","pred":"isinstance(method.method, KanesMethod)"},"out":{"base":"Any","pred":"method.frame == P.frame and method.bodies == [C, P] and method.loads == [(P.masscenter, g * P.frame.y)] and method.q == Matrix([q]) and method.u == Matrix([u]) and method.kdes == Matrix([u - q.diff()]) and soln == Matrix([[-C_ixx * u.diff()]]) and method.forcing_full == Matrix([[u], [0]]) and method.mass_matrix_full == Matrix([[1, 0], [0, C_ixx]]) and isinstance(method.method, KanesMethod)"},"spec":{"lhs":"test_jointsmethod()","rhs":"test_jointsmethod produces the expected output","over":{"base":"Any","pred":"isinstance(method.method, KanesMethod)"},"name":"test_jointsmethod_correct"},"guarantee":"test_jointsmethod produces the expected output","fibers":[{"name":"KanesMethod","pred":"isinstance(method.method, KanesMethod)","path":{"lhs":"test_jointsmethod(x)","rhs":"test_jointsmethod produces the expected output","over":{"base":"KanesMethod","pred":"isinstance(method.method, KanesMethod)"},"name":"test_jointsmethod_KanesMethod_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_jointsmethod_KanesMethod_correct","statement":"test_jointsmethod satisfies spec on KanesMethod inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"de6d92ab1ac8405a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_jointsmethod","kind":"function","src_hash":"e544c84d07f365b0","in":{"base":"Any","pred":"isinstance(method.method, KanesMethod)"},"out":{"base":"Any","pred":"result satisfies: method.frame == P.frame and method.bodies == [C, P] and method.loads == [(P.masscenter, g * P.frame.y)] and method.q == Matrix([q]) and method.u == Matrix([u]) and method.kdes == Matrix([u - q.diff()]) and soln == Matrix([[-C_ixx * u.diff()]]) and method.forcing_full == Matrix([[u], [0]]) and method.mass_matrix_full == Matrix([[1, 0], [0, C_ixx]]) and isinstance(method.method, KanesMethod)"},"spec":{"lhs":"test_jointsmethod()","rhs":"method.frame == P.frame and method.bodies == [C, P] and method.loads == [(P.masscenter, g * P.frame.y)] and method.q == Matrix([q]) and method.u == Matrix([u]) and method.kdes == Matrix([u - q.diff()]) and soln == Matrix([[-C_ixx * u.diff()]]) and method.forcing_full == Matrix([[u], [0]]) and method.mass_matrix_full == Matrix([[1, 0], [0, C_ixx]]) and isinstance(method.method, KanesMethod)","over":{"base":"Any","pred":"isinstance(method.method, KanesMethod)"},"name":"test_jointsmethod_correct"},"guarantee":"method.frame == P.frame; method.bodies == [C, P]; method.loads == [(P.masscenter, g * P.frame.y)]","fibers":[{"name":"KanesMethod","pred":"isinstance(method.method, KanesMethod)","path":{"lhs":"test_jointsmethod(x)","rhs":"method.frame == P.frame; method.bodies == [C, P]; method.loads == [(P.masscenter, g * P.frame.y)]","over":{"base":"KanesMethod","pred":"isinstance(method.method, KanesMethod)"},"name":"test_jointsmethod_KanesMethod_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_jointsmethod_KanesMethod_correct","statement":"test_jointsmethod satisfies spec on KanesMethod inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"de6d92ab1ac8405a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["method.frame == P.frame","method.bodies == [C, P]","method.loads == [(P.masscenter, g * P.frame.y)]","method.q == Matrix([q])","method.u == Matrix([u])","method.kdes == Matrix([u - q.diff()])","soln == Matrix([[-C_ixx * u.diff()]])","method.forcing_full == Matrix([[u], [0]])","method.mass_matrix_full == Matrix([[1, 0], [0, C_ixx]])","isinstance(method.method, KanesMethod)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"failed","binding":true}}
 def test_jointsmethod():
     with warns_deprecated_sympy():
         P = Body('P')
@@ -73,16 +81,22 @@ def test_jointsmethod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rigid_body_particle_compatibility(), test_rigid_body_particle_compatibility produces the expected output) over Any ║
+# ║ Path(test_rigid_body_particle_compatibility(), rhs[1] == -g * sin(q) / l) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rhs[1] == -g * sin(q) / l                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_rigid_body_particle_compatibility : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cc580d9f39bd7ec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa34df91abd28bf8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_rigid_body_particle_compatibility","kind":"function","src_hash":"d7007f8ce2e3b839","in":{"base":"Any"},"out":{"base":"Any","pred":"rhs[1] == -g * sin(q) / l"},"spec":{"lhs":"test_rigid_body_particle_compatibility()","rhs":"test_rigid_body_particle_compatibility produces the expected output","over":{"base":"Any"},"name":"test_rigid_body_particle_compatibility_correct"},"guarantee":"test_rigid_body_particle_compatibility produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_rigid_body_particle_compatibility_correct","statement":"Path(test_rigid_body_particle_compatibility(x), test_rigid_body_particle_compatibility produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cc580d9f39bd7ec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_rigid_body_particle_compatibility","kind":"function","src_hash":"d7007f8ce2e3b839","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rhs[1] == -g * sin(q) / l"},"spec":{"lhs":"test_rigid_body_particle_compatibility()","rhs":"rhs[1] == -g * sin(q) / l","over":{"base":"Any"},"name":"test_rigid_body_particle_compatibility_correct"},"guarantee":"rhs[1] == -g * sin(q) / l","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_rigid_body_particle_compatibility_correct","statement":"Path(test_rigid_body_particle_compatibility(x), rhs[1] == -g * sin(q) / l)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa34df91abd28bf8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rhs[1] == -g * sin(q) / l"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rigid_body_particle_compatibility():
     l, m, g = symbols('l m g')
     C = RigidBody('C')
@@ -100,16 +114,22 @@ def test_rigid_body_particle_compatibility():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_jointmethod_duplicate_coordinates_speeds(), test_jointmethod_duplicate_coordinates_speeds produces the expected output) over Any ║
+# ║ Path(test_jointmethod_duplicate_coordinates_speeds(), <unspecified:test_jointmethod_duplicate_coordinates_speeds>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_jointmethod_duplicate_coordinates_speeds : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db3d80d8b298c7a5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_jointmethod_duplicate_coordinates_speeds","kind":"function","src_hash":"d37104fdda4ca82c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_jointmethod_duplicate_coordinates_speeds()","rhs":"test_jointmethod_duplicate_coordinates_speeds produces the expected output","over":{"base":"Any"},"name":"test_jointmethod_duplicate_coordinates_speeds_correct"},"guarantee":"test_jointmethod_duplicate_coordinates_speeds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_jointmethod_duplicate_coordinates_speeds_correct","statement":"Path(test_jointmethod_duplicate_coordinates_speeds(x), test_jointmethod_duplicate_coordinates_speeds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db3d80d8b298c7a5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_jointmethod_duplicate_coordinates_speeds","kind":"function","src_hash":"d37104fdda4ca82c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_jointmethod_duplicate_coordinates_speeds()","rhs":"<unspecified:test_jointmethod_duplicate_coordinates_speeds>","over":{"base":"Any"},"name":"test_jointmethod_duplicate_coordinates_speeds_correct"},"guarantee":"test_jointmethod_duplicate_coordinates_speeds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_jointmethod_duplicate_coordinates_speeds_correct","statement":"Path(test_jointmethod_duplicate_coordinates_speeds(x), test_jointmethod_duplicate_coordinates_speeds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db3d80d8b298c7a5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_jointmethod_duplicate_coordinates_speeds():
     with warns_deprecated_sympy():
         P = Body('P')
@@ -132,16 +152,23 @@ def test_jointmethod_duplicate_coordinates_speeds():
         raises(ValueError, lambda: JointsMethod(P, P1, P2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_complete_simple_double_pendulum(), test_complete_simple_double_pendulum produces the expected output) over Any ║
+# ║ Path(test_complete_simple_double_pendulum(), expand(method.mass_matrix_full) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 2 * l ** 2 * m * cos(q2) + 3 * l ** 2 * m, l ** 2 * m * cos(q2) + l ** 2 * m], [0, 0, l ** 2 * m * cos(q2) + l ** 2 * m, l ** 2 * m]]) and trigsimp(method.forcing_full) == trigsimp(Matrix([[u1], [u2], [-g * l * m * (sin(q1 + q2) + sin(q1)) - g * l * m * sin(q1) + l ** 2 * m * (2 * u1 + u2) * u2 * sin(q2)], [-g * l * m * sin(q1 + q2) - l ** 2 * m * u1 ** 2 * sin(q2)]]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_complete_simple_double_pendulum : Any → Any           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expand(method.mass_matrix_full) == Matrix...   ║
+# ║   ensures:  trigsimp(method.forcing_full) == trigsimp...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_complete_simple_double_pendulum : Any → {Any | r...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d87b0321a44330a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c1ad173a33cf07e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_complete_simple_double_pendulum","kind":"function","src_hash":"550b148288ee84d0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_complete_simple_double_pendulum()","rhs":"test_complete_simple_double_pendulum produces the expected output","over":{"base":"Any"},"name":"test_complete_simple_double_pendulum_correct"},"guarantee":"test_complete_simple_double_pendulum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_complete_simple_double_pendulum_correct","statement":"Path(test_complete_simple_double_pendulum(x), test_complete_simple_double_pendulum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d87b0321a44330a2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_complete_simple_double_pendulum","kind":"function","src_hash":"550b148288ee84d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expand(method.mass_matrix_full) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 2 * l ** 2 * m * cos(q2) + 3 * l ** 2 * m, l ** 2 * m * cos(q2) + l ** 2 * m], [0, 0, l ** 2 * m * cos(q2) + l ** 2 * m, l ** 2 * m]]) and trigsimp(method.forcing_full) == trigsimp(Matrix([[u1], [u2], [-g * l * m * (sin(q1 + q2) + sin(q1)) - g * l * m * sin(q1) + l ** 2 * m * (2 * u1 + u2) * u2 * sin(q2)], [-g * l * m * sin(q1 + q2) - l ** 2 * m * u1 ** 2 * sin(q2)]]))"},"spec":{"lhs":"test_complete_simple_double_pendulum()","rhs":"expand(method.mass_matrix_full) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 2 * l ** 2 * m * cos(q2) + 3 * l ** 2 * m, l ** 2 * m * cos(q2) + l ** 2 * m], [0, 0, l ** 2 * m * cos(q2) + l ** 2 * m, l ** 2 * m]]) and trigsimp(method.forcing_full) == trigsimp(Matrix([[u1], [u2], [-g * l * m * (sin(q1 + q2) + sin(q1)) - g * l * m * sin(q1) + l ** 2 * m * (2 * u1 + u2) * u2 * sin(q2)], [-g * l * m * sin(q1 + q2) - l ** 2 * m * u1 ** 2 * sin(q2)]]))","over":{"base":"Any"},"name":"test_complete_simple_double_pendulum_correct"},"guarantee":"expand(method.mass_matrix_full) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 2 * l ** 2 * m * cos(q2) + 3 * l ** 2 * m, l ** 2 * m * cos(q2) + l ** 2 * m], [0, 0, l ** 2 * m * cos(q2) + l ** 2 * m, l ** 2 * m]]); trigsimp(method.forcing_full) == trigsimp(Matrix([[u1], [u2], [-g * l * m * (sin(q1 + q2) + sin(q1)) - g * l * m * sin(q1) + l ** 2 * m * (2 * u1 + u2) * u2 * sin(q2)], [-g * l * m * sin(q1 + q2) - l ** 2 * m * u1 ** 2 * sin(q2)]]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_complete_simple_double_pendulum_correct","statement":"Path(test_complete_simple_double_pendulum(x), expand(method.mass_matrix_full) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 2 * l ** 2 * m * cos(q2) + 3 * l ** 2 * m, l ** 2 * m * cos(q2) + l ** 2 * m], [0, 0, l ** 2 * m * cos(q2) + l ** 2 * m, l ** 2 * m]]); trigsimp(method.forcing_full) == trigsimp(Matrix([[u1], [u2], [-g * l * m * (sin(q1 + q2) + sin(q1)) - g * l * m * sin(q1) + l ** 2 * m * (2 * u1 + u2) * u2 * sin(q2)], [-g * l * m * sin(q1 + q2) - l ** 2 * m * u1 ** 2 * sin(q2)]])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c1ad173a33cf07e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expand(method.mass_matrix_full) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 2 * l ** 2 * m * cos(q2) + 3 * l ** 2 * m, l ** 2 * m * cos(q2) + l ** 2 * m], [0, 0, l ** 2 * m * cos(q2) + l ** 2 * m, l ** 2 * m]])","trigsimp(method.forcing_full) == trigsimp(Matrix([[u1], [u2], [-g * l * m * (sin(q1 + q2) + sin(q1)) - g * l * m * sin(q1) + l ** 2 * m * (2 * u1 + u2) * u2 * sin(q2)], [-g * l * m * sin(q1 + q2) - l ** 2 * m * u1 ** 2 * sin(q2)]]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_complete_simple_double_pendulum():
     q1, q2 = dynamicsymbols('q1 q2')
     u1, u2 = dynamicsymbols('u1 u2')
@@ -171,16 +198,23 @@ def test_complete_simple_double_pendulum():
                                           [-g*l*m*sin(q1 + q2) - l**2*m*u1**2*sin(q2)]]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_two_dof_joints(), test_two_dof_joints produces the expected output) over Any ║
+# ║ Path(test_two_dof_joints(), expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m) and expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_two_dof_joints : Any → {Any | expand(rhs[0]) == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expand(rhs[0]) == expand((-k1 * q1 - c1 *...   ║
+# ║   ensures:  expand(rhs[1]) == expand((k1 * q1 + c1 * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_two_dof_joints : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9123c7e68769e9dc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10637e72b6f45dd1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_two_dof_joints","kind":"function","src_hash":"1272b9c1e94909a3","in":{"base":"Any"},"out":{"base":"Any","pred":"expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m) and expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m)"},"spec":{"lhs":"test_two_dof_joints()","rhs":"test_two_dof_joints produces the expected output","over":{"base":"Any"},"name":"test_two_dof_joints_correct"},"guarantee":"test_two_dof_joints produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_two_dof_joints_correct","statement":"Path(test_two_dof_joints(x), test_two_dof_joints produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9123c7e68769e9dc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_two_dof_joints","kind":"function","src_hash":"1272b9c1e94909a3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m) and expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m)"},"spec":{"lhs":"test_two_dof_joints()","rhs":"expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m) and expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m)","over":{"base":"Any"},"name":"test_two_dof_joints_correct"},"guarantee":"expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m); expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_two_dof_joints_correct","statement":"Path(test_two_dof_joints(x), expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m); expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10637e72b6f45dd1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expand(rhs[0]) == expand((-k1 * q1 - c1 * u1 + k2 * q2 + c2 * u2) / m)","expand(rhs[1]) == expand((k1 * q1 + c1 * u1 - 2 * k2 * q2 - 2 * c2 * u2) / m)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_two_dof_joints():
     q1, q2, u1, u2 = dynamicsymbols('q1 q2 u1 u2')
     m, c1, c2, k1, k2 = symbols('m c1 c2 k1 k2')
@@ -205,16 +239,22 @@ def test_two_dof_joints():
                                     c2 * u2) / m)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_simple_pedulum(), test_simple_pedulum produces the expected output) over Any ║
+# ║ Path(test_simple_pedulum(), rhs[1] == -g * sin(q) / l) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_simple_pedulum : Any → {Any | rhs[1] == -g * sin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rhs[1] == -g * sin(q) / l                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_simple_pedulum : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dc42af597f85344  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 529e6bfd241e7b18  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_simple_pedulum","kind":"function","src_hash":"a8c13bf89143fd2a","in":{"base":"Any"},"out":{"base":"Any","pred":"rhs[1] == -g * sin(q) / l"},"spec":{"lhs":"test_simple_pedulum()","rhs":"test_simple_pedulum produces the expected output","over":{"base":"Any"},"name":"test_simple_pedulum_correct"},"guarantee":"test_simple_pedulum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_simple_pedulum_correct","statement":"Path(test_simple_pedulum(x), test_simple_pedulum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dc42af597f85344"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_simple_pedulum","kind":"function","src_hash":"a8c13bf89143fd2a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rhs[1] == -g * sin(q) / l"},"spec":{"lhs":"test_simple_pedulum()","rhs":"rhs[1] == -g * sin(q) / l","over":{"base":"Any"},"name":"test_simple_pedulum_correct"},"guarantee":"rhs[1] == -g * sin(q) / l","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_simple_pedulum_correct","statement":"Path(test_simple_pedulum(x), rhs[1] == -g * sin(q) / l)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"529e6bfd241e7b18","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rhs[1] == -g * sin(q) / l"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_simple_pedulum():
     l, m, g = symbols('l m g')
     with warns_deprecated_sympy():
@@ -231,16 +271,23 @@ def test_simple_pedulum():
     assert rhs[1] == -g*sin(q)/l
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_chaos_pendulum(), test_chaos_pendulum produces the expected output) over Any ║
+# ║ Path(test_chaos_pendulum(), (rhs[0] - xd).simplify() == 0 and (rhs[1] - xd).simplify() == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_chaos_pendulum : Any → {Any | (rhs[0] - xd).simp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (rhs[0] - xd).simplify() == 0                  ║
+# ║   ensures:  (rhs[1] - xd).simplify() == 0                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_chaos_pendulum : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43d468674c640ff4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cb213846f8dce78d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_chaos_pendulum","kind":"function","src_hash":"7d54293110843034","in":{"base":"Any"},"out":{"base":"Any","pred":"(rhs[0] - xd).simplify() == 0 and (rhs[1] - xd).simplify() == 0"},"spec":{"lhs":"test_chaos_pendulum()","rhs":"test_chaos_pendulum produces the expected output","over":{"base":"Any"},"name":"test_chaos_pendulum_correct"},"guarantee":"test_chaos_pendulum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_chaos_pendulum_correct","statement":"Path(test_chaos_pendulum(x), test_chaos_pendulum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43d468674c640ff4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_chaos_pendulum","kind":"function","src_hash":"7d54293110843034","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (rhs[0] - xd).simplify() == 0 and (rhs[1] - xd).simplify() == 0"},"spec":{"lhs":"test_chaos_pendulum()","rhs":"(rhs[0] - xd).simplify() == 0 and (rhs[1] - xd).simplify() == 0","over":{"base":"Any"},"name":"test_chaos_pendulum_correct"},"guarantee":"(rhs[0] - xd).simplify() == 0; (rhs[1] - xd).simplify() == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_chaos_pendulum_correct","statement":"Path(test_chaos_pendulum(x), (rhs[0] - xd).simplify() == 0; (rhs[1] - xd).simplify() == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb213846f8dce78d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(rhs[0] - xd).simplify() == 0","(rhs[1] - xd).simplify() == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_chaos_pendulum():
     #https://www.pydy.org/examples/chaos_pendulum.html
     mA, mB, lA, lB, IAxx, IBxx, IByy, IBzz, g = symbols('mA, mB, lA, lB, IAxx, IBxx, IByy, IBzz, g')
@@ -278,16 +325,24 @@ def test_chaos_pendulum():
     assert (rhs[1] - xd).simplify() == 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_four_bar_linkage_with_manual_constraints(), test_four_bar_linkage_with_manual_constraints produces the expected output) over Any ║
+# ║ Path(test_four_bar_linkage_with_manual_constraints(), fr == zeros(1) and all((abs(x) < eps for x in eval_fhd(q_vals, u_vals, p_vals))) and all((abs(x) < eps for x in Matrix(eval_m(q_vals, p_vals)) - mass_check)) and all((abs(x) < eps for x in Matrix(eval_f(q_vals, u_vals, p_vals)) - forcing_check))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  fr == zeros(1)                                 ║
+# ║   ensures:  all((abs(x) < eps for x in eval_fhd(q_val...   ║
+# ║   ensures:  all((abs(x) < eps for x in Matrix(eval_m(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_four_bar_linkage_with_manual_constraints : Any →...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4db1a4c1092a73d8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | be63c7758a0a0a96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_four_bar_linkage_with_manual_constraints","kind":"function","src_hash":"16364f67429a20ff","in":{"base":"Any"},"out":{"base":"Any","pred":"fr == zeros(1) and all((abs(x) < eps for x in eval_fhd(q_vals, u_vals, p_vals))) and all((abs(x) < eps for x in Matrix(eval_m(q_vals, p_vals)) - mass_check))"},"spec":{"lhs":"test_four_bar_linkage_with_manual_constraints()","rhs":"test_four_bar_linkage_with_manual_constraints produces the expected output","over":{"base":"Any"},"name":"test_four_bar_linkage_with_manual_constraints_correct"},"guarantee":"test_four_bar_linkage_with_manual_constraints produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_four_bar_linkage_with_manual_constraints_correct","statement":"Path(test_four_bar_linkage_with_manual_constraints(x), test_four_bar_linkage_with_manual_constraints produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4db1a4c1092a73d8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.tests.test_jointsmethod.test_four_bar_linkage_with_manual_constraints","kind":"function","src_hash":"16364f67429a20ff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: fr == zeros(1) and all((abs(x) < eps for x in eval_fhd(q_vals, u_vals, p_vals))) and all((abs(x) < eps for x in Matrix(eval_m(q_vals, p_vals)) - mass_check)) and all((abs(x) < eps for x in Matrix(eval_f(q_vals, u_vals, p_vals)) - forcing_check))"},"spec":{"lhs":"test_four_bar_linkage_with_manual_constraints()","rhs":"fr == zeros(1) and all((abs(x) < eps for x in eval_fhd(q_vals, u_vals, p_vals))) and all((abs(x) < eps for x in Matrix(eval_m(q_vals, p_vals)) - mass_check)) and all((abs(x) < eps for x in Matrix(eval_f(q_vals, u_vals, p_vals)) - forcing_check))","over":{"base":"Any"},"name":"test_four_bar_linkage_with_manual_constraints_correct"},"guarantee":"fr == zeros(1); all((abs(x) < eps for x in eval_fhd(q_vals, u_vals, p_vals))); all((abs(x) < eps for x in Matrix(eval_m(q_vals, p_vals)) - mass_check))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.tests.test_jointsmethod.test_four_bar_linkage_with_manual_constraints_correct","statement":"Path(test_four_bar_linkage_with_manual_constraints(x), fr == zeros(1); all((abs(x) < eps for x in eval_fhd(q_vals, u_vals, p_vals))); all((abs(x) < eps for x in Matrix(eval_m(q_vals, p_vals)) - mass_check)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"be63c7758a0a0a96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["fr == zeros(1)","all((abs(x) < eps for x in eval_fhd(q_vals, u_vals, p_vals)))","all((abs(x) < eps for x in Matrix(eval_m(q_vals, p_vals)) - mass_check))","all((abs(x) < eps for x in Matrix(eval_f(q_vals, u_vals, p_vals)) - forcing_check))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_four_bar_linkage_with_manual_constraints():
     q1, q2, q3, u1, u2, u3 = dynamicsymbols('q1:4, u1:4')
     l1, l2, l3, l4, rho = symbols('l1:5, rho')

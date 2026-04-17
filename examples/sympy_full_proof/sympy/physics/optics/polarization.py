@@ -112,16 +112,22 @@ from sympy.physics.quantum import TensorProduct
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(jones_vector(psi), id) over Any                       ║
+# ║ Path(jones_vector(psi, chi), id) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([-I * sin(chi) * sin(psi) + cos(ch...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ jones_vector : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 75b62c5fca43acd3   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.jones_vector","kind":"function","src_hash":"f8dc866e327f91e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jones_vector(psi)","rhs":"a jones vector corresponding to a polarization ellipse with `psi` tilt, and `chi` circularity","over":{"base":"Any"},"name":"jones_vector_correct","kind":"composition"},"guarantee":"a jones vector corresponding to a polarization ellipse with `psi` tilt, and `chi` circularity","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"cos","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75b62c5fca43acd3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.jones_vector","kind":"function","src_hash":"f8dc866e327f91e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jones_vector(psi, chi)","rhs":"Matrix([-I * sin(chi) * sin(psi) + cos(chi) * cos(psi), I * sin(chi) * cos(psi) + sin(psi) * cos(chi)])","over":{"base":"Any"},"name":"jones_vector_correct","kind":"composition"},"guarantee":"returns Matrix([-I * sin(chi) * sin(psi) + cos(chi) * cos(psi), I * sin(chi) * cos(psi) + sin(psi) * cos(chi)])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"sin","by":"library_axiom"},{"fn":"cos","by":"library_axiom"},{"fn":"cos","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75b62c5fca43acd3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([-I * sin(chi) * sin(psi) + cos(chi) * cos(psi), I * sin(chi) * cos(psi) + sin(psi) * cos(chi)])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def jones_vector(psi, chi):
     """A Jones vector corresponding to a polarization ellipse with `psi` tilt,
     and `chi` circularity.
@@ -222,16 +228,22 @@ def jones_vector(psi, chi):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stokes_vector(psi), a stokes vector corresponding to a polarization ellipse with ``psi`` tilt, and ``chi`` circularity) over Any ║
+# ║ Path(stokes_vector(psi, chi, p), Matrix([S0, S1, S2, S3])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([S0, S1, S2, S3])                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ stokes_vector : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3833e920fe93d351  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7f227ebf300ee15  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.stokes_vector","kind":"function","src_hash":"b64bccec5cc09d24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stokes_vector(psi)","rhs":"a stokes vector corresponding to a polarization ellipse with ``psi`` tilt, and ``chi`` circularity","over":{"base":"Any"},"name":"stokes_vector_correct"},"guarantee":"a stokes vector corresponding to a polarization ellipse with ``psi`` tilt, and ``chi`` circularity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.polarization.stokes_vector_correct","statement":"Path(stokes_vector(x), a stokes vector corresponding to a polarization ellipse with ``psi`` tilt, and ``chi`` circularity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3833e920fe93d351"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.stokes_vector","kind":"function","src_hash":"b64bccec5cc09d24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stokes_vector(psi, chi, p)","rhs":"Matrix([S0, S1, S2, S3])","over":{"base":"Any"},"name":"stokes_vector_correct"},"guarantee":"returns Matrix([S0, S1, S2, S3])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.polarization.stokes_vector_correct","statement":"Path(stokes_vector(x), returns Matrix([S0, S1, S2, S3]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7f227ebf300ee15","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([S0, S1, S2, S3])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def stokes_vector(psi, chi, p=1, I=1):
     """A Stokes vector corresponding to a polarization ellipse with ``psi``
     tilt, and ``chi`` circularity.
@@ -361,14 +373,20 @@ def stokes_vector(psi, chi, p=1, I=1):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(jones_2_stokes(e), id) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([Abs(ex) ** 2 + Abs(ey) ** 2, Abs(...   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ jones_2_stokes : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 609a870457801662   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.jones_2_stokes","kind":"function","src_hash":"05c530bfd7b45a50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jones_2_stokes(e)","rhs":"return the stokes vector for a jones vector ``e``","over":{"base":"Any"},"name":"jones_2_stokes_correct","kind":"composition"},"guarantee":"return the stokes vector for a jones vector ``e``","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"Abs","by":"library_axiom"},{"fn":"Abs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"609a870457801662"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.jones_2_stokes","kind":"function","src_hash":"05c530bfd7b45a50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"jones_2_stokes(e)","rhs":"Matrix([Abs(ex) ** 2 + Abs(ey) ** 2, Abs(ex) ** 2 - Abs(ey) ** 2, 2 * re(ex * ey.conjugate()), -2 * im(ex * ey.conjugate())])","over":{"base":"Any"},"name":"jones_2_stokes_correct","kind":"composition"},"guarantee":"returns Matrix([Abs(ex) ** 2 + Abs(ey) ** 2, Abs(ex) ** 2 - Abs(ey) ** 2, 2 * re(ex * ey.conjugate()), -2 * im(ex * ey.conjugate())])","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Matrix","by":"library_axiom"},{"fn":"Abs","by":"library_axiom"},{"fn":"Abs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"609a870457801662","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([Abs(ex) ** 2 + Abs(ey) ** 2, Abs(ex) ** 2 - Abs(ey) ** 2, 2 * re(ex * ey.conjugate()), -2 * im(ex * ey.conjugate())])","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def jones_2_stokes(e):
     """Return the Stokes vector for a Jones vector ``e``.
 
@@ -417,16 +435,22 @@ def jones_2_stokes(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linear_polarizer(the), a linear polarizer jones matrix with transmission axis at an angle ``theta``) over Any ║
+# ║ Path(linear_polarizer(theta), <unspecified:linear_polarizer>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ linear_polarizer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 987cd00da86f1e80  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.linear_polarizer","kind":"function","src_hash":"5895933a11996854","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_polarizer(the)","rhs":"a linear polarizer jones matrix with transmission axis at an angle ``theta``","over":{"base":"Any"},"name":"linear_polarizer_correct"},"guarantee":"a linear polarizer jones matrix with transmission axis at an angle ``theta``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.polarization.linear_polarizer_correct","statement":"Path(linear_polarizer(x), a linear polarizer jones matrix with transmission axis at an angle ``theta``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"987cd00da86f1e80"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.linear_polarizer","kind":"function","src_hash":"5895933a11996854","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linear_polarizer(theta)","rhs":"<unspecified:linear_polarizer>","over":{"base":"Any"},"name":"linear_polarizer_correct"},"guarantee":"a linear polarizer jones matrix with transmission axis at an angle ``theta``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.polarization.linear_polarizer_correct","statement":"Path(linear_polarizer(x), a linear polarizer jones matrix with transmission axis at an angle ``theta``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"987cd00da86f1e80","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def linear_polarizer(theta=0):
     """A linear polarizer Jones matrix with transmission axis at
     an angle ``theta``.
@@ -467,16 +491,22 @@ def linear_polarizer(theta=0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(phase_retarder(the), a phase retarder jones matrix with retardance ``delta`` at angle ``theta``) over Any ║
+# ║ Path(phase_retarder(theta, delta), R * exp(-I * delta / 2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  R * exp(-I * delta / 2)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ phase_retarder : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ec9825ace5d67d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ddd7fe8a41132ba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.phase_retarder","kind":"function","src_hash":"5d0400f26de8b3b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"phase_retarder(the)","rhs":"a phase retarder jones matrix with retardance ``delta`` at angle ``theta``","over":{"base":"Any"},"name":"phase_retarder_correct"},"guarantee":"a phase retarder jones matrix with retardance ``delta`` at angle ``theta``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.polarization.phase_retarder_correct","statement":"Path(phase_retarder(x), a phase retarder jones matrix with retardance ``delta`` at angle ``theta``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ec9825ace5d67d6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.phase_retarder","kind":"function","src_hash":"5d0400f26de8b3b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"phase_retarder(theta, delta)","rhs":"R * exp(-I * delta / 2)","over":{"base":"Any"},"name":"phase_retarder_correct"},"guarantee":"returns R * exp(-I * delta / 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.polarization.phase_retarder_correct","statement":"Path(phase_retarder(x), returns R * exp(-I * delta / 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ddd7fe8a41132ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"R * exp(-I * delta / 2)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def phase_retarder(theta=0, delta=0):
     """A phase retarder Jones matrix with retardance ``delta`` at angle ``theta``.
 
@@ -524,16 +554,22 @@ def phase_retarder(theta=0, delta=0):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(half_wave_retarder(the), a half-wave retarder jones matrix at angle ``theta``) over Any ║
+# ║ Path(half_wave_retarder(theta), phase_retarder(theta, pi)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  phase_retarder(theta, pi)                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ half_wave_retarder : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ccdd4ef5b0062d84           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.half_wave_retarder","kind":"function","src_hash":"80a82086a336a72e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"half_wave_retarder(the)","rhs":"a half-wave retarder jones matrix at angle ``theta``","over":{"base":"Any"},"name":"half_wave_retarder_correct"},"guarantee":"a half-wave retarder jones matrix at angle ``theta``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ccdd4ef5b0062d84"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.half_wave_retarder","kind":"function","src_hash":"80a82086a336a72e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"half_wave_retarder(theta)","rhs":"phase_retarder(theta, pi)","over":{"base":"Any"},"name":"half_wave_retarder_correct"},"guarantee":"returns phase_retarder(theta, pi)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ccdd4ef5b0062d84","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"phase_retarder(theta, pi)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def half_wave_retarder(theta):
     """A half-wave retarder Jones matrix at angle ``theta``.
 
@@ -570,16 +606,22 @@ def half_wave_retarder(theta):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(quarter_wave_retarder(the), a quarter-wave retarder jones matrix at angle ``theta``) over Any ║
+# ║ Path(quarter_wave_retarder(theta), phase_retarder(theta, pi / 2)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  phase_retarder(theta, pi / 2)                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ quarter_wave_retarder : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cab515282218f16c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.quarter_wave_retarder","kind":"function","src_hash":"a6afdeaec868ad3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quarter_wave_retarder(the)","rhs":"a quarter-wave retarder jones matrix at angle ``theta``","over":{"base":"Any"},"name":"quarter_wave_retarder_correct"},"guarantee":"a quarter-wave retarder jones matrix at angle ``theta``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cab515282218f16c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.quarter_wave_retarder","kind":"function","src_hash":"a6afdeaec868ad3a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"quarter_wave_retarder(theta)","rhs":"phase_retarder(theta, pi / 2)","over":{"base":"Any"},"name":"quarter_wave_retarder_correct"},"guarantee":"returns phase_retarder(theta, pi / 2)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cab515282218f16c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"phase_retarder(theta, pi / 2)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def quarter_wave_retarder(theta):
     """A quarter-wave retarder Jones matrix at angle ``theta``.
 
@@ -620,16 +662,22 @@ def quarter_wave_retarder(theta):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transmissive_filter(T), an attenuator jones matrix with transmittance ``t``) over Any ║
+# ║ Path(transmissive_filter(T), Matrix([[sqrt(T), 0], [0, sqrt(T)]])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([[sqrt(T), 0], [0, sqrt(T)]])           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transmissive_filter : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d74de00ea0181c0b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.transmissive_filter","kind":"function","src_hash":"4518ed252ce28d4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transmissive_filter(T)","rhs":"an attenuator jones matrix with transmittance ``t``","over":{"base":"Any"},"name":"transmissive_filter_correct"},"guarantee":"an attenuator jones matrix with transmittance ``t``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d74de00ea0181c0b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.transmissive_filter","kind":"function","src_hash":"4518ed252ce28d4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transmissive_filter(T)","rhs":"Matrix([[sqrt(T), 0], [0, sqrt(T)]])","over":{"base":"Any"},"name":"transmissive_filter_correct"},"guarantee":"returns Matrix([[sqrt(T), 0], [0, sqrt(T)]])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d74de00ea0181c0b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([[sqrt(T), 0], [0, sqrt(T)]])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def transmissive_filter(T):
     """An attenuator Jones matrix with transmittance ``T``.
 
@@ -664,16 +712,22 @@ def transmissive_filter(T):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reflective_filter(R), a reflective filter jones matrix with reflectance ``r``) over Any ║
+# ║ Path(reflective_filter(R), Matrix([[sqrt(R), 0], [0, -sqrt(R)]])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([[sqrt(R), 0], [0, -sqrt(R)]])          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reflective_filter : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8164edfce2812c4a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.reflective_filter","kind":"function","src_hash":"bde55b7ef5342a2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reflective_filter(R)","rhs":"a reflective filter jones matrix with reflectance ``r``","over":{"base":"Any"},"name":"reflective_filter_correct"},"guarantee":"a reflective filter jones matrix with reflectance ``r``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8164edfce2812c4a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.reflective_filter","kind":"function","src_hash":"bde55b7ef5342a2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reflective_filter(R)","rhs":"Matrix([[sqrt(R), 0], [0, -sqrt(R)]])","over":{"base":"Any"},"name":"reflective_filter_correct"},"guarantee":"returns Matrix([[sqrt(R), 0], [0, -sqrt(R)]])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8164edfce2812c4a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([[sqrt(R), 0], [0, -sqrt(R)]])","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def reflective_filter(R):
     """A reflective filter Jones matrix with reflectance ``R``.
 
@@ -707,16 +761,23 @@ def reflective_filter(R):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mueller_matrix(J), id) over Any                       ║
+# ║ Path(mueller_matrix(J), id) over {Any | hasattr(J, 'conjugate')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mueller_matrix : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(J, 'conjugate')                        ║
+# ║   returns:  simplify(A * TensorProduct(J, J.conjugate...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mueller_matrix : {Any | hasattr(J, 'conjugate')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | d58e48458a1ce6db   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.mueller_matrix","kind":"function","src_hash":"9255f2220ff3a4cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mueller_matrix(J)","rhs":"the mueller matrix corresponding to jones matrix `j`","over":{"base":"Any"},"name":"mueller_matrix_correct","kind":"composition"},"guarantee":"the mueller matrix corresponding to jones matrix `j`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"simplify","by":"library_axiom"},{"fn":"TensorProduct","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"inv","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d58e48458a1ce6db"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.mueller_matrix","kind":"function","src_hash":"9255f2220ff3a4cf","in":{"base":"Any","pred":"hasattr(J, 'conjugate')"},"out":{"base":"Any"},"spec":{"lhs":"mueller_matrix(J)","rhs":"simplify(A * TensorProduct(J, J.conjugate()) * A.inv())","over":{"base":"Any","pred":"hasattr(J, 'conjugate')"},"name":"mueller_matrix_correct","kind":"composition"},"guarantee":"returns simplify(A * TensorProduct(J, J.conjugate()) * A.inv())","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"simplify","by":"library_axiom"},{"fn":"TensorProduct","by":"library_axiom"},{"fn":"conjugate","by":"library_axiom"},{"fn":"inv","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d58e48458a1ce6db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(J, 'conjugate')"],"returns_expr":"simplify(A * TensorProduct(J, J.conjugate()) * A.inv())","pure":false,"effects":{"effect_type":"reads_state","reads":["J.conjugate"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def mueller_matrix(J):
     """The Mueller matrix corresponding to Jones matrix `J`.
 
@@ -797,16 +858,22 @@ def mueller_matrix(J):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(polarizing_beam_splitter(Tp,), a polarizing beam splitter jones matrix at angle `theta`) over Any ║
+# ║ Path(polarizing_beam_splitter(Tp, Rs, Ts), <unspecified:polarizing_beam_splitter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ polarizing_beam_splitter : Any → Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7298bb885744bfc3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.polarizing_beam_splitter","kind":"function","src_hash":"8e4778cd283a46c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polarizing_beam_splitter(Tp,)","rhs":"a polarizing beam splitter jones matrix at angle `theta`","over":{"base":"Any"},"name":"polarizing_beam_splitter_correct"},"guarantee":"a polarizing beam splitter jones matrix at angle `theta`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.polarization.polarizing_beam_splitter_correct","statement":"Path(polarizing_beam_splitter(x), a polarizing beam splitter jones matrix at angle `theta`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7298bb885744bfc3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.optics.polarization.polarizing_beam_splitter","kind":"function","src_hash":"8e4778cd283a46c7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polarizing_beam_splitter(Tp, Rs, Ts)","rhs":"<unspecified:polarizing_beam_splitter>","over":{"base":"Any"},"name":"polarizing_beam_splitter_correct"},"guarantee":"a polarizing beam splitter jones matrix at angle `theta`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.optics.polarization.polarizing_beam_splitter_correct","statement":"Path(polarizing_beam_splitter(x), a polarizing beam splitter jones matrix at angle `theta`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7298bb885744bfc3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def polarizing_beam_splitter(Tp=1, Rs=1, Ts=0, Rp=0, phia=0, phib=0):
     r"""A polarizing beam splitter Jones matrix at angle `theta`.
 

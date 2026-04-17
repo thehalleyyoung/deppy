@@ -26,14 +26,20 @@ import os
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(TmpFileManager(*args), correctly constructs a TmpFileManager instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ TmpFileManager : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7709d4a3eef252f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tmpfiles.TmpFileManager","kind":"class","src_hash":"1f5ed73878b867b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TmpFileManager(*args)","rhs":"correctly constructs a TmpFileManager instance","over":{"base":"Any"},"name":"TmpFileManager_class_invariant"},"guarantee":"correctly constructs a TmpFileManager instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7709d4a3eef252f"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tmpfiles.TmpFileManager","kind":"class","src_hash":"1f5ed73878b867b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"TmpFileManager(*args)","rhs":"correctly constructs a TmpFileManager instance","over":{"base":"Any"},"name":"TmpFileManager_class_invariant"},"guarantee":"correctly constructs a TmpFileManager instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7709d4a3eef252f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function TmpFileManager not found in source"]}}
 class TmpFileManager:
     """
     A class to track record of every temporary files created by the tests.
@@ -43,48 +49,69 @@ class TmpFileManager:
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tmp_file(cls), tmp_file produces the expected output) over Any ║
+# ║ Path(tmp_file(cls, name), name) over Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tmp_file : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == name                                 ║
+# ║   returns:  name                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tmp_file : Any → {Any | result satisfies: result == (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e0fe1b1aa3817e3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 481d5637fa2ef536  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tmpfiles.TmpFileManager.tmp_file","kind":"classmethod","src_hash":"91fa825ed0faaec8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tmp_file(cls)","rhs":"tmp_file produces the expected output","over":{"base":"Any"},"name":"tmp_file_correct"},"guarantee":"tmp_file produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tmpfiles.TmpFileManager.tmp_file_correct","statement":"Path(tmp_file(x), tmp_file produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e0fe1b1aa3817e3"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tmpfiles.TmpFileManager.tmp_file","kind":"classmethod","src_hash":"91fa825ed0faaec8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (name)"},"spec":{"lhs":"tmp_file(cls, name)","rhs":"name","over":{"base":"Any"},"name":"tmp_file_correct"},"guarantee":"returns name; result == name","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tmpfiles.TmpFileManager.tmp_file_correct","statement":"Path(tmp_file(x), returns name; result == name)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"481d5637fa2ef536","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == name"],"returns_expr":"name","pure":false,"effects":{"effect_type":"mutates_args","reads":["cls.tmp_files"],"calls_mutating":["cls.tmp_files.add"]},"state_contract":{"modifies":["cls.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tmp_file(cls, name=''):
         cls.tmp_files.add(name)
         return name
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(tmp_folder(cls), tmp_folder produces the expected output) over Any ║
+# ║ Path(tmp_folder(cls, name), name) over Any                 ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ tmp_folder : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == name                                 ║
+# ║   returns:  name                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ tmp_folder : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c27ce4d7ebded2ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71ac7fcf766ea817  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tmpfiles.TmpFileManager.tmp_folder","kind":"classmethod","src_hash":"5fd4496ceb2b9e43","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"tmp_folder(cls)","rhs":"tmp_folder produces the expected output","over":{"base":"Any"},"name":"tmp_folder_correct"},"guarantee":"tmp_folder produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tmpfiles.TmpFileManager.tmp_folder_correct","statement":"Path(tmp_folder(x), tmp_folder produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c27ce4d7ebded2ea"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tmpfiles.TmpFileManager.tmp_folder","kind":"classmethod","src_hash":"5fd4496ceb2b9e43","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (name)"},"spec":{"lhs":"tmp_folder(cls, name)","rhs":"name","over":{"base":"Any"},"name":"tmp_folder_correct"},"guarantee":"returns name; result == name","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tmpfiles.TmpFileManager.tmp_folder_correct","statement":"Path(tmp_folder(x), returns name; result == name)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71ac7fcf766ea817","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == name"],"returns_expr":"name","pure":false,"effects":{"effect_type":"mutates_args","reads":["cls.tmp_folders"],"calls_mutating":["cls.tmp_folders.add"]},"state_contract":{"modifies":["cls.*"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def tmp_folder(cls, name=''):
         cls.tmp_folders.add(name)
         return name
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cleanup(cls), cleanup produces the expected output) over Any ║
+# ║ Path(cleanup(cls), len(cls) == old_len_cls - 1) over {Any | len(cls) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cleanup : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(cls) > 0                                   ║
+# ║   ensures:  len(cls) == old_len_cls - 1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cleanup : {Any | len(cls) > 0} → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0561e0c0be4070e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c47ab3b9f51a2ec  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tmpfiles.TmpFileManager.cleanup","kind":"classmethod","src_hash":"0b98d22f0bc6a9ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cleanup(cls)","rhs":"cleanup produces the expected output","over":{"base":"Any"},"name":"cleanup_correct"},"guarantee":"cleanup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tmpfiles.TmpFileManager.cleanup_correct","statement":"Path(cleanup(x), cleanup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0561e0c0be4070e"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tmpfiles.TmpFileManager.cleanup","kind":"classmethod","src_hash":"0b98d22f0bc6a9ee","in":{"base":"Any","pred":"len(cls) > 0"},"out":{"base":"Any","pred":"result satisfies: len(cls) == old_len_cls - 1"},"spec":{"lhs":"cleanup(cls)","rhs":"len(cls) == old_len_cls - 1","over":{"base":"Any","pred":"len(cls) > 0"},"name":"cleanup_correct"},"guarantee":"len(cls) == old_len_cls - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tmpfiles.TmpFileManager.cleanup_correct","statement":"Path(cleanup(x), len(cls) == old_len_cls - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c47ab3b9f51a2ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(cls) > 0"],"ensures":["len(cls) == old_len_cls - 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["cls.tmp_files","cls.tmp_folders"],"calls_mutating":["cls.tmp_files.pop","cls.tmp_folders.pop","os.remove"]},"state_contract":{"modifies":["cls.*","os.*"],"old_bindings":{"old_len_cls":"len(cls)"},"pre_requires":["len(cls) > 0","len(cls) > 0"],"post_ensures":["len(cls) == old_len_cls - 1","len(cls) == old_len_cls - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cleanup(cls):
         while cls.tmp_files:
             file = cls.tmp_files.pop()
@@ -95,16 +122,22 @@ class TmpFileManager:
             shutil.rmtree(folder)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cleanup_tmp_files(tes), a decorator to help test codes remove temporary files after the tests) over Any ║
+# ║ Path(cleanup_tmp_files(test_func), <unspecified:cleanup_tmp_files>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cleanup_tmp_files : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c7516e93a1da149d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tmpfiles.cleanup_tmp_files","kind":"function","src_hash":"263e453eae345efc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cleanup_tmp_files(tes)","rhs":"a decorator to help test codes remove temporary files after the tests","over":{"base":"Any"},"name":"cleanup_tmp_files_correct"},"guarantee":"a decorator to help test codes remove temporary files after the tests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tmpfiles.cleanup_tmp_files_correct","statement":"Path(cleanup_tmp_files(x), a decorator to help test codes remove temporary files after the tests)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7516e93a1da149d"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tmpfiles.cleanup_tmp_files","kind":"function","src_hash":"263e453eae345efc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cleanup_tmp_files(test_func)","rhs":"<unspecified:cleanup_tmp_files>","over":{"base":"Any"},"name":"cleanup_tmp_files_correct"},"guarantee":"a decorator to help test codes remove temporary files after the tests","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tmpfiles.cleanup_tmp_files_correct","statement":"Path(cleanup_tmp_files(x), a decorator to help test codes remove temporary files after the tests)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c7516e93a1da149d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def cleanup_tmp_files(test_func):
     """
     A decorator to help test codes remove temporary files after the tests.

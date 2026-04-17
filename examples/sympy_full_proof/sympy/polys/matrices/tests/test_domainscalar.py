@@ -24,32 +24,44 @@ from sympy.polys.matrices.domainmatrix import DomainMatrix
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar___new__(), test_DomainScalar___new__ produces the expected output) over Any ║
+# ║ Path(test_DomainScalar___new__(), <unspecified:test_DomainScalar___new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_DomainScalar___new__ : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f4cef8e085cefb7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar___new__","kind":"function","src_hash":"f3a088932c8ed940","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_DomainScalar___new__()","rhs":"test_DomainScalar___new__ produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar___new___correct"},"guarantee":"test_DomainScalar___new__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar___new___correct","statement":"Path(test_DomainScalar___new__(x), test_DomainScalar___new__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f4cef8e085cefb7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar___new__","kind":"function","src_hash":"f3a088932c8ed940","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_DomainScalar___new__()","rhs":"<unspecified:test_DomainScalar___new__>","over":{"base":"Any"},"name":"test_DomainScalar___new___correct"},"guarantee":"test_DomainScalar___new__ produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar___new___correct","statement":"Path(test_DomainScalar___new__(x), test_DomainScalar___new__ produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f4cef8e085cefb7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar___new__():
     raises(TypeError, lambda: DomainScalar(ZZ(1), QQ))
     raises(TypeError, lambda: DomainScalar(ZZ(1), 1))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_new(), test_DomainScalar_new produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_new(), B == DomainScalar(ZZ(4), ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_new : Any → {Any | B == DomainScala...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B == DomainScalar(ZZ(4), ZZ)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_new : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1176e2a39f131d0d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3c686e6b96f77b0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_new","kind":"function","src_hash":"87f81cb6797ada6b","in":{"base":"Any"},"out":{"base":"Any","pred":"B == DomainScalar(ZZ(4), ZZ)"},"spec":{"lhs":"test_DomainScalar_new()","rhs":"test_DomainScalar_new produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_new_correct"},"guarantee":"test_DomainScalar_new produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_new_correct","statement":"Path(test_DomainScalar_new(x), test_DomainScalar_new produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1176e2a39f131d0d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_new","kind":"function","src_hash":"87f81cb6797ada6b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B == DomainScalar(ZZ(4), ZZ)"},"spec":{"lhs":"test_DomainScalar_new()","rhs":"B == DomainScalar(ZZ(4), ZZ)","over":{"base":"Any"},"name":"test_DomainScalar_new_correct"},"guarantee":"B == DomainScalar(ZZ(4), ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_new_correct","statement":"Path(test_DomainScalar_new(x), B == DomainScalar(ZZ(4), ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3c686e6b96f77b0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B == DomainScalar(ZZ(4), ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_new():
     A = DomainScalar(ZZ(1), ZZ)
     B = A.new(ZZ(4), ZZ)
@@ -57,32 +69,44 @@ def test_DomainScalar_new():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_repr(), test_DomainScalar_repr produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_repr(), repr(A) in {'1', 'mpz(1)'}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_repr : Any → {Any | repr(A) in {'1'...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  repr(A) in {'1', 'mpz(1)'}                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_repr : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64140a4629819eec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22c3c1766253ba66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_repr","kind":"function","src_hash":"5ab8a5bbd04b0821","in":{"base":"Any"},"out":{"base":"Any","pred":"repr(A) in {'1', 'mpz(1)'}"},"spec":{"lhs":"test_DomainScalar_repr()","rhs":"test_DomainScalar_repr produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_repr_correct"},"guarantee":"test_DomainScalar_repr produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_repr_correct","statement":"Path(test_DomainScalar_repr(x), test_DomainScalar_repr produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64140a4629819eec"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_repr","kind":"function","src_hash":"5ab8a5bbd04b0821","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: repr(A) in {'1', 'mpz(1)'}"},"spec":{"lhs":"test_DomainScalar_repr()","rhs":"repr(A) in {'1', 'mpz(1)'}","over":{"base":"Any"},"name":"test_DomainScalar_repr_correct"},"guarantee":"repr(A) in {'1', 'mpz(1)'}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_repr_correct","statement":"Path(test_DomainScalar_repr(x), repr(A) in {'1', 'mpz(1)'})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22c3c1766253ba66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["repr(A) in {'1', 'mpz(1)'}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_repr():
     A = DomainScalar(ZZ(1), ZZ)
     assert repr(A) in {'1', 'mpz(1)'}
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_from_sympy(), test_DomainScalar_from_sympy produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_from_sympy(), B == DomainScalar(ZZ(1), ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_from_sympy : Any → {Any | B == Doma...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B == DomainScalar(ZZ(1), ZZ)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_from_sympy : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc13fb25add78df4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae1e7f2bda7fa66c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_from_sympy","kind":"function","src_hash":"7d700bfee4303592","in":{"base":"Any"},"out":{"base":"Any","pred":"B == DomainScalar(ZZ(1), ZZ)"},"spec":{"lhs":"test_DomainScalar_from_sympy()","rhs":"test_DomainScalar_from_sympy produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_from_sympy_correct"},"guarantee":"test_DomainScalar_from_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_from_sympy_correct","statement":"Path(test_DomainScalar_from_sympy(x), test_DomainScalar_from_sympy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc13fb25add78df4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_from_sympy","kind":"function","src_hash":"7d700bfee4303592","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B == DomainScalar(ZZ(1), ZZ)"},"spec":{"lhs":"test_DomainScalar_from_sympy()","rhs":"B == DomainScalar(ZZ(1), ZZ)","over":{"base":"Any"},"name":"test_DomainScalar_from_sympy_correct"},"guarantee":"B == DomainScalar(ZZ(1), ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_from_sympy_correct","statement":"Path(test_DomainScalar_from_sympy(x), B == DomainScalar(ZZ(1), ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae1e7f2bda7fa66c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B == DomainScalar(ZZ(1), ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_from_sympy():
     expr = S(1)
     B = DomainScalar.from_sympy(expr)
@@ -90,16 +114,22 @@ def test_DomainScalar_from_sympy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_to_sympy(), test_DomainScalar_to_sympy produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_to_sympy(), expr.is_Integer and expr == 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_to_sympy : Any → {Any | expr.is_Int...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.is_Integer and expr == 1                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_to_sympy : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a385d517a700fb3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9301f7ee8b7f532  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_to_sympy","kind":"function","src_hash":"d3775f6715f06068","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.is_Integer and expr == 1"},"spec":{"lhs":"test_DomainScalar_to_sympy()","rhs":"test_DomainScalar_to_sympy produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_to_sympy_correct"},"guarantee":"test_DomainScalar_to_sympy produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_to_sympy_correct","statement":"Path(test_DomainScalar_to_sympy(x), test_DomainScalar_to_sympy produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a385d517a700fb3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_to_sympy","kind":"function","src_hash":"d3775f6715f06068","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.is_Integer and expr == 1"},"spec":{"lhs":"test_DomainScalar_to_sympy()","rhs":"expr.is_Integer and expr == 1","over":{"base":"Any"},"name":"test_DomainScalar_to_sympy_correct"},"guarantee":"expr.is_Integer and expr == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_to_sympy_correct","statement":"Path(test_DomainScalar_to_sympy(x), expr.is_Integer and expr == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9301f7ee8b7f532","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.is_Integer and expr == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_to_sympy():
     B = DomainScalar(ZZ(1), ZZ)
     expr = B.to_sympy()
@@ -107,16 +137,22 @@ def test_DomainScalar_to_sympy():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_to_domain(), test_DomainScalar_to_domain produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_to_domain(), B == DomainScalar(QQ(1), QQ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_to_domain : Any → {Any | B == Domai...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B == DomainScalar(QQ(1), QQ)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_to_domain : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2ba7a1d764370438  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35d7446faf93d479  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_to_domain","kind":"function","src_hash":"00deaa19c1692586","in":{"base":"Any"},"out":{"base":"Any","pred":"B == DomainScalar(QQ(1), QQ)"},"spec":{"lhs":"test_DomainScalar_to_domain()","rhs":"test_DomainScalar_to_domain produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_to_domain_correct"},"guarantee":"test_DomainScalar_to_domain produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_to_domain_correct","statement":"Path(test_DomainScalar_to_domain(x), test_DomainScalar_to_domain produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2ba7a1d764370438"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_to_domain","kind":"function","src_hash":"00deaa19c1692586","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B == DomainScalar(QQ(1), QQ)"},"spec":{"lhs":"test_DomainScalar_to_domain()","rhs":"B == DomainScalar(QQ(1), QQ)","over":{"base":"Any"},"name":"test_DomainScalar_to_domain_correct"},"guarantee":"B == DomainScalar(QQ(1), QQ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_to_domain_correct","statement":"Path(test_DomainScalar_to_domain(x), B == DomainScalar(QQ(1), QQ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35d7446faf93d479","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B == DomainScalar(QQ(1), QQ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_to_domain():
     A = DomainScalar(ZZ(1), ZZ)
     B = A.to_domain(QQ)
@@ -124,16 +160,22 @@ def test_DomainScalar_to_domain():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_convert_to(), test_DomainScalar_convert_to produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_convert_to(), B == DomainScalar(QQ(1), QQ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_convert_to : Any → {Any | B == Doma...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B == DomainScalar(QQ(1), QQ)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_convert_to : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3b22391d2485a3a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 41536439c3d83b06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_convert_to","kind":"function","src_hash":"a7d6a832e72c6faf","in":{"base":"Any"},"out":{"base":"Any","pred":"B == DomainScalar(QQ(1), QQ)"},"spec":{"lhs":"test_DomainScalar_convert_to()","rhs":"test_DomainScalar_convert_to produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_convert_to_correct"},"guarantee":"test_DomainScalar_convert_to produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_convert_to_correct","statement":"Path(test_DomainScalar_convert_to(x), test_DomainScalar_convert_to produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3b22391d2485a3a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_convert_to","kind":"function","src_hash":"a7d6a832e72c6faf","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B == DomainScalar(QQ(1), QQ)"},"spec":{"lhs":"test_DomainScalar_convert_to()","rhs":"B == DomainScalar(QQ(1), QQ)","over":{"base":"Any"},"name":"test_DomainScalar_convert_to_correct"},"guarantee":"B == DomainScalar(QQ(1), QQ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_convert_to_correct","statement":"Path(test_DomainScalar_convert_to(x), B == DomainScalar(QQ(1), QQ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41536439c3d83b06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B == DomainScalar(QQ(1), QQ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_convert_to():
     A = DomainScalar(ZZ(1), ZZ)
     B = A.convert_to(QQ)
@@ -141,16 +183,22 @@ def test_DomainScalar_convert_to():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_unify(), test_DomainScalar_unify produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_unify(), A.domain == B.domain == QQ) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_unify : Any → {Any | A.domain == B....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.domain == B.domain == QQ                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_unify : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e81909493cd1fbc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7948e4e53eb472b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_unify","kind":"function","src_hash":"7d8db92dd2db80fd","in":{"base":"Any"},"out":{"base":"Any","pred":"A.domain == B.domain == QQ"},"spec":{"lhs":"test_DomainScalar_unify()","rhs":"test_DomainScalar_unify produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_unify_correct"},"guarantee":"test_DomainScalar_unify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_unify_correct","statement":"Path(test_DomainScalar_unify(x), test_DomainScalar_unify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e81909493cd1fbc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_unify","kind":"function","src_hash":"7d8db92dd2db80fd","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.domain == B.domain == QQ"},"spec":{"lhs":"test_DomainScalar_unify()","rhs":"A.domain == B.domain == QQ","over":{"base":"Any"},"name":"test_DomainScalar_unify_correct"},"guarantee":"A.domain == B.domain == QQ","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_unify_correct","statement":"Path(test_DomainScalar_unify(x), A.domain == B.domain == QQ)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7948e4e53eb472b5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.domain == B.domain == QQ"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_unify():
     A = DomainScalar(ZZ(1), ZZ)
     B = DomainScalar(QQ(2), QQ)
@@ -159,16 +207,22 @@ def test_DomainScalar_unify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_add(), test_DomainScalar_add produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_add(), A + B == DomainScalar(QQ(3), QQ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_add : Any → {Any | A + B == DomainS...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A + B == DomainScalar(QQ(3), QQ)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_add : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 64814bab2ae476ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bf1100e9c43f425  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_add","kind":"function","src_hash":"99e118ab286fc707","in":{"base":"Any"},"out":{"base":"Any","pred":"A + B == DomainScalar(QQ(3), QQ)"},"spec":{"lhs":"test_DomainScalar_add()","rhs":"test_DomainScalar_add produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_add_correct"},"guarantee":"test_DomainScalar_add produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_add_correct","statement":"Path(test_DomainScalar_add(x), test_DomainScalar_add produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"64814bab2ae476ce"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_add","kind":"function","src_hash":"99e118ab286fc707","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A + B == DomainScalar(QQ(3), QQ)"},"spec":{"lhs":"test_DomainScalar_add()","rhs":"A + B == DomainScalar(QQ(3), QQ)","over":{"base":"Any"},"name":"test_DomainScalar_add_correct"},"guarantee":"A + B == DomainScalar(QQ(3), QQ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_add_correct","statement":"Path(test_DomainScalar_add(x), A + B == DomainScalar(QQ(3), QQ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bf1100e9c43f425","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A + B == DomainScalar(QQ(3), QQ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_add():
     A = DomainScalar(ZZ(1), ZZ)
     B = DomainScalar(QQ(2), QQ)
@@ -177,16 +231,22 @@ def test_DomainScalar_add():
     raises(TypeError, lambda: A + 1.5)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_sub(), test_DomainScalar_sub produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_sub(), A - B == DomainScalar(QQ(-1), QQ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_sub : Any → {Any | A - B == DomainS...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A - B == DomainScalar(QQ(-1), QQ)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_sub : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa708bb3ebee0dcd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28a46c1cfe31983a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_sub","kind":"function","src_hash":"df6356f9cf5cbfd0","in":{"base":"Any"},"out":{"base":"Any","pred":"A - B == DomainScalar(QQ(-1), QQ)"},"spec":{"lhs":"test_DomainScalar_sub()","rhs":"test_DomainScalar_sub produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_sub_correct"},"guarantee":"test_DomainScalar_sub produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_sub_correct","statement":"Path(test_DomainScalar_sub(x), test_DomainScalar_sub produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa708bb3ebee0dcd"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_sub","kind":"function","src_hash":"df6356f9cf5cbfd0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A - B == DomainScalar(QQ(-1), QQ)"},"spec":{"lhs":"test_DomainScalar_sub()","rhs":"A - B == DomainScalar(QQ(-1), QQ)","over":{"base":"Any"},"name":"test_DomainScalar_sub_correct"},"guarantee":"A - B == DomainScalar(QQ(-1), QQ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_sub_correct","statement":"Path(test_DomainScalar_sub(x), A - B == DomainScalar(QQ(-1), QQ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28a46c1cfe31983a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A - B == DomainScalar(QQ(-1), QQ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_sub():
     A = DomainScalar(ZZ(1), ZZ)
     B = DomainScalar(QQ(2), QQ)
@@ -195,16 +255,24 @@ def test_DomainScalar_sub():
     raises(TypeError, lambda: A - 1.5)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_mul(), test_DomainScalar_mul produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_mul(), A * B == DomainScalar(QQ(2), QQ) and A * dm == dm and B * 2 == DomainScalar(QQ(4), QQ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_mul : Any → {Any | A * B == DomainS...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A * B == DomainScalar(QQ(2), QQ)               ║
+# ║   ensures:  A * dm == dm                                   ║
+# ║   ensures:  B * 2 == DomainScalar(QQ(4), QQ)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_mul : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e57c97feb001f184  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e941a0bb8ad1f537  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_mul","kind":"function","src_hash":"50f0bf9b8aa863f4","in":{"base":"Any"},"out":{"base":"Any","pred":"A * B == DomainScalar(QQ(2), QQ) and A * dm == dm and B * 2 == DomainScalar(QQ(4), QQ)"},"spec":{"lhs":"test_DomainScalar_mul()","rhs":"test_DomainScalar_mul produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_mul_correct"},"guarantee":"test_DomainScalar_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_mul_correct","statement":"Path(test_DomainScalar_mul(x), test_DomainScalar_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e57c97feb001f184"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_mul","kind":"function","src_hash":"50f0bf9b8aa863f4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A * B == DomainScalar(QQ(2), QQ) and A * dm == dm and B * 2 == DomainScalar(QQ(4), QQ)"},"spec":{"lhs":"test_DomainScalar_mul()","rhs":"A * B == DomainScalar(QQ(2), QQ) and A * dm == dm and B * 2 == DomainScalar(QQ(4), QQ)","over":{"base":"Any"},"name":"test_DomainScalar_mul_correct"},"guarantee":"A * B == DomainScalar(QQ(2), QQ); A * dm == dm; B * 2 == DomainScalar(QQ(4), QQ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_mul_correct","statement":"Path(test_DomainScalar_mul(x), A * B == DomainScalar(QQ(2), QQ); A * dm == dm; B * 2 == DomainScalar(QQ(4), QQ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e941a0bb8ad1f537","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A * B == DomainScalar(QQ(2), QQ)","A * dm == dm","B * 2 == DomainScalar(QQ(4), QQ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_mul():
     A = DomainScalar(ZZ(1), ZZ)
     B = DomainScalar(QQ(2), QQ)
@@ -217,16 +285,23 @@ def test_DomainScalar_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_floordiv(), test_DomainScalar_floordiv produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_floordiv(), A // B == DomainScalar(QQ(-5, 2), QQ) and A // C == DomainScalar(ZZ(-3), ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_floordiv : Any → {Any | A // B == D...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A // B == DomainScalar(QQ(-5, 2), QQ)          ║
+# ║   ensures:  A // C == DomainScalar(ZZ(-3), ZZ)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_floordiv : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f62ff9f9ed80f9a3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2859ddfa6f40f9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_floordiv","kind":"function","src_hash":"86fa244759e4b939","in":{"base":"Any"},"out":{"base":"Any","pred":"A // B == DomainScalar(QQ(-5, 2), QQ) and A // C == DomainScalar(ZZ(-3), ZZ)"},"spec":{"lhs":"test_DomainScalar_floordiv()","rhs":"test_DomainScalar_floordiv produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_floordiv_correct"},"guarantee":"test_DomainScalar_floordiv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_floordiv_correct","statement":"Path(test_DomainScalar_floordiv(x), test_DomainScalar_floordiv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f62ff9f9ed80f9a3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_floordiv","kind":"function","src_hash":"86fa244759e4b939","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A // B == DomainScalar(QQ(-5, 2), QQ) and A // C == DomainScalar(ZZ(-3), ZZ)"},"spec":{"lhs":"test_DomainScalar_floordiv()","rhs":"A // B == DomainScalar(QQ(-5, 2), QQ) and A // C == DomainScalar(ZZ(-3), ZZ)","over":{"base":"Any"},"name":"test_DomainScalar_floordiv_correct"},"guarantee":"A // B == DomainScalar(QQ(-5, 2), QQ); A // C == DomainScalar(ZZ(-3), ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_floordiv_correct","statement":"Path(test_DomainScalar_floordiv(x), A // B == DomainScalar(QQ(-5, 2), QQ); A // C == DomainScalar(ZZ(-3), ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2859ddfa6f40f9e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A // B == DomainScalar(QQ(-5, 2), QQ)","A // C == DomainScalar(ZZ(-3), ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_floordiv():
     A = DomainScalar(ZZ(-5), ZZ)
     B = DomainScalar(QQ(2), QQ)
@@ -238,16 +313,23 @@ def test_DomainScalar_floordiv():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_mod(), test_DomainScalar_mod produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_mod(), A % B == DomainScalar(QQ(0), QQ) and A % C == DomainScalar(ZZ(1), ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_mod : Any → {Any | A % B == DomainS...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A % B == DomainScalar(QQ(0), QQ)               ║
+# ║   ensures:  A % C == DomainScalar(ZZ(1), ZZ)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_mod : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5751863d87280b4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea9b7ee7c1a698fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_mod","kind":"function","src_hash":"fdadeaf4a42af194","in":{"base":"Any"},"out":{"base":"Any","pred":"A % B == DomainScalar(QQ(0), QQ) and A % C == DomainScalar(ZZ(1), ZZ)"},"spec":{"lhs":"test_DomainScalar_mod()","rhs":"test_DomainScalar_mod produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_mod_correct"},"guarantee":"test_DomainScalar_mod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_mod_correct","statement":"Path(test_DomainScalar_mod(x), test_DomainScalar_mod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5751863d87280b4"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_mod","kind":"function","src_hash":"fdadeaf4a42af194","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A % B == DomainScalar(QQ(0), QQ) and A % C == DomainScalar(ZZ(1), ZZ)"},"spec":{"lhs":"test_DomainScalar_mod()","rhs":"A % B == DomainScalar(QQ(0), QQ) and A % C == DomainScalar(ZZ(1), ZZ)","over":{"base":"Any"},"name":"test_DomainScalar_mod_correct"},"guarantee":"A % B == DomainScalar(QQ(0), QQ); A % C == DomainScalar(ZZ(1), ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_mod_correct","statement":"Path(test_DomainScalar_mod(x), A % B == DomainScalar(QQ(0), QQ); A % C == DomainScalar(ZZ(1), ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea9b7ee7c1a698fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A % B == DomainScalar(QQ(0), QQ)","A % C == DomainScalar(ZZ(1), ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_mod():
     A = DomainScalar(ZZ(5), ZZ)
     B = DomainScalar(QQ(2), QQ)
@@ -259,16 +341,23 @@ def test_DomainScalar_mod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_divmod(), test_DomainScalar_divmod produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_divmod(), divmod(A, B) == (DomainScalar(QQ(5, 2), QQ), DomainScalar(QQ(0), QQ)) and divmod(A, C) == (DomainScalar(ZZ(2), ZZ), DomainScalar(ZZ(1), ZZ))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_divmod : Any → {Any | divmod(A, B) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  divmod(A, B) == (DomainScalar(QQ(5, 2), Q...   ║
+# ║   ensures:  divmod(A, C) == (DomainScalar(ZZ(2), ZZ),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_divmod : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45ab080449ecd62a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 16178684779324cf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_divmod","kind":"function","src_hash":"907a5b76c527fbcc","in":{"base":"Any"},"out":{"base":"Any","pred":"divmod(A, B) == (DomainScalar(QQ(5, 2), QQ), DomainScalar(QQ(0), QQ)) and divmod(A, C) == (DomainScalar(ZZ(2), ZZ), DomainScalar(ZZ(1), ZZ))"},"spec":{"lhs":"test_DomainScalar_divmod()","rhs":"test_DomainScalar_divmod produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_divmod_correct"},"guarantee":"test_DomainScalar_divmod produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_divmod_correct","statement":"Path(test_DomainScalar_divmod(x), test_DomainScalar_divmod produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45ab080449ecd62a"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_divmod","kind":"function","src_hash":"907a5b76c527fbcc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: divmod(A, B) == (DomainScalar(QQ(5, 2), QQ), DomainScalar(QQ(0), QQ)) and divmod(A, C) == (DomainScalar(ZZ(2), ZZ), DomainScalar(ZZ(1), ZZ))"},"spec":{"lhs":"test_DomainScalar_divmod()","rhs":"divmod(A, B) == (DomainScalar(QQ(5, 2), QQ), DomainScalar(QQ(0), QQ)) and divmod(A, C) == (DomainScalar(ZZ(2), ZZ), DomainScalar(ZZ(1), ZZ))","over":{"base":"Any"},"name":"test_DomainScalar_divmod_correct"},"guarantee":"divmod(A, B) == (DomainScalar(QQ(5, 2), QQ), DomainScalar(QQ(0), QQ)); divmod(A, C) == (DomainScalar(ZZ(2), ZZ), DomainScalar(ZZ(1), ZZ))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_divmod_correct","statement":"Path(test_DomainScalar_divmod(x), divmod(A, B) == (DomainScalar(QQ(5, 2), QQ), DomainScalar(QQ(0), QQ)); divmod(A, C) == (DomainScalar(ZZ(2), ZZ), DomainScalar(ZZ(1), ZZ)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"16178684779324cf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["divmod(A, B) == (DomainScalar(QQ(5, 2), QQ), DomainScalar(QQ(0), QQ))","divmod(A, C) == (DomainScalar(ZZ(2), ZZ), DomainScalar(ZZ(1), ZZ))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_divmod():
     A = DomainScalar(ZZ(5), ZZ)
     B = DomainScalar(QQ(2), QQ)
@@ -280,16 +369,22 @@ def test_DomainScalar_divmod():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_pow(), test_DomainScalar_pow produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_pow(), B == DomainScalar(ZZ(25), ZZ)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_pow : Any → {Any | B == DomainScala...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  B == DomainScalar(ZZ(25), ZZ)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_pow : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 831f9913bbad7656  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7cb8e8b9cfa5e53  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_pow","kind":"function","src_hash":"88850c8bd8033776","in":{"base":"Any"},"out":{"base":"Any","pred":"B == DomainScalar(ZZ(25), ZZ)"},"spec":{"lhs":"test_DomainScalar_pow()","rhs":"test_DomainScalar_pow produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_pow_correct"},"guarantee":"test_DomainScalar_pow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_pow_correct","statement":"Path(test_DomainScalar_pow(x), test_DomainScalar_pow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"831f9913bbad7656"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_pow","kind":"function","src_hash":"88850c8bd8033776","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: B == DomainScalar(ZZ(25), ZZ)"},"spec":{"lhs":"test_DomainScalar_pow()","rhs":"B == DomainScalar(ZZ(25), ZZ)","over":{"base":"Any"},"name":"test_DomainScalar_pow_correct"},"guarantee":"B == DomainScalar(ZZ(25), ZZ)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_pow_correct","statement":"Path(test_DomainScalar_pow(x), B == DomainScalar(ZZ(25), ZZ))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7cb8e8b9cfa5e53","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["B == DomainScalar(ZZ(25), ZZ)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_pow():
     A = DomainScalar(ZZ(-5), ZZ)
     B = A**(2)
@@ -299,16 +394,22 @@ def test_DomainScalar_pow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_pos(), test_DomainScalar_pos produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_pos(), +A == B) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_pos : Any → {Any | +A == B}              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  +A == B                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_pos : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9450063a6837f893  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 606635565cbf6496  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_pos","kind":"function","src_hash":"e82e6b672ade7224","in":{"base":"Any"},"out":{"base":"Any","pred":"+A == B"},"spec":{"lhs":"test_DomainScalar_pos()","rhs":"test_DomainScalar_pos produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_pos_correct"},"guarantee":"test_DomainScalar_pos produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_pos_correct","statement":"Path(test_DomainScalar_pos(x), test_DomainScalar_pos produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9450063a6837f893"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_pos","kind":"function","src_hash":"e82e6b672ade7224","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: +A == B"},"spec":{"lhs":"test_DomainScalar_pos()","rhs":"+A == B","over":{"base":"Any"},"name":"test_DomainScalar_pos_correct"},"guarantee":"+A == B","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_pos_correct","statement":"Path(test_DomainScalar_pos(x), +A == B)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"606635565cbf6496","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["+A == B"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_pos():
     A = DomainScalar(QQ(2), QQ)
     B = DomainScalar(QQ(2), QQ)
@@ -316,16 +417,22 @@ def test_DomainScalar_pos():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_neg(), test_DomainScalar_neg produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_neg(), -A == B) over Any            ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_neg : Any → {Any | -A == B}              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  -A == B                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_neg : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ca8afc151cac0c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d1d5698a8929213  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_neg","kind":"function","src_hash":"34aac9bca9ebb126","in":{"base":"Any"},"out":{"base":"Any","pred":"-A == B"},"spec":{"lhs":"test_DomainScalar_neg()","rhs":"test_DomainScalar_neg produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_neg_correct"},"guarantee":"test_DomainScalar_neg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_neg_correct","statement":"Path(test_DomainScalar_neg(x), test_DomainScalar_neg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ca8afc151cac0c8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_neg","kind":"function","src_hash":"34aac9bca9ebb126","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: -A == B"},"spec":{"lhs":"test_DomainScalar_neg()","rhs":"-A == B","over":{"base":"Any"},"name":"test_DomainScalar_neg_correct"},"guarantee":"-A == B","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_neg_correct","statement":"Path(test_DomainScalar_neg(x), -A == B)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d1d5698a8929213","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["-A == B"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_neg():
     A = DomainScalar(QQ(2), QQ)
     B = DomainScalar(QQ(-2), QQ)
@@ -333,16 +440,24 @@ def test_DomainScalar_neg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_eq(), test_DomainScalar_eq produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_eq(), A == A and A != B and A != C and A != D) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_eq : Any → {Any | A == A and A != B...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A == A                                         ║
+# ║   ensures:  A != B                                         ║
+# ║   ensures:  A != C                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_eq : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 642fb0ddb6515251  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9369f1ee925104e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_eq","kind":"function","src_hash":"2f5a99d8fa95e665","in":{"base":"Any"},"out":{"base":"Any","pred":"A == A and A != B and A != C and A != D"},"spec":{"lhs":"test_DomainScalar_eq()","rhs":"test_DomainScalar_eq produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_eq_correct"},"guarantee":"test_DomainScalar_eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_eq_correct","statement":"Path(test_DomainScalar_eq(x), test_DomainScalar_eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"642fb0ddb6515251"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_eq","kind":"function","src_hash":"2f5a99d8fa95e665","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A == A and A != B and A != C and A != D"},"spec":{"lhs":"test_DomainScalar_eq()","rhs":"A == A and A != B and A != C and A != D","over":{"base":"Any"},"name":"test_DomainScalar_eq_correct"},"guarantee":"A == A; A != B; A != C","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_eq_correct","statement":"Path(test_DomainScalar_eq(x), A == A; A != B; A != C)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9369f1ee925104e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A == A","A != B","A != C","A != D"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_eq():
     A = DomainScalar(QQ(2), QQ)
     assert A == A
@@ -355,16 +470,23 @@ def test_DomainScalar_eq():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_isZero(), test_DomainScalar_isZero produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_isZero(), A.is_zero() == True and B.is_zero() == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_isZero : Any → {Any | A.is_zero() =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.is_zero() == True                            ║
+# ║   ensures:  B.is_zero() == False                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_isZero : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e68d7141d6044cfc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e312be176cc44c2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_isZero","kind":"function","src_hash":"e4e5611b98d45aab","in":{"base":"Any"},"out":{"base":"Any","pred":"A.is_zero() == True and B.is_zero() == False"},"spec":{"lhs":"test_DomainScalar_isZero()","rhs":"test_DomainScalar_isZero produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_isZero_correct"},"guarantee":"test_DomainScalar_isZero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_isZero_correct","statement":"Path(test_DomainScalar_isZero(x), test_DomainScalar_isZero produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e68d7141d6044cfc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_isZero","kind":"function","src_hash":"e4e5611b98d45aab","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.is_zero() == True and B.is_zero() == False"},"spec":{"lhs":"test_DomainScalar_isZero()","rhs":"A.is_zero() == True and B.is_zero() == False","over":{"base":"Any"},"name":"test_DomainScalar_isZero_correct"},"guarantee":"A.is_zero() == True; B.is_zero() == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_isZero_correct","statement":"Path(test_DomainScalar_isZero(x), A.is_zero() == True; B.is_zero() == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e312be176cc44c2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.is_zero() == True","B.is_zero() == False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_isZero():
     A = DomainScalar(ZZ(0), ZZ)
     assert A.is_zero() == True
@@ -373,16 +495,23 @@ def test_DomainScalar_isZero():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_DomainScalar_isOne(), test_DomainScalar_isOne produces the expected output) over Any ║
+# ║ Path(test_DomainScalar_isOne(), A.is_one() == True and B.is_one() == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_DomainScalar_isOne : Any → {Any | A.is_one() == ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.is_one() == True                             ║
+# ║   ensures:  B.is_one() == False                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_DomainScalar_isOne : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 961a6972de979fc6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1b615a6b5da19d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_isOne","kind":"function","src_hash":"0adbd186bb1c98d0","in":{"base":"Any"},"out":{"base":"Any","pred":"A.is_one() == True and B.is_one() == False"},"spec":{"lhs":"test_DomainScalar_isOne()","rhs":"test_DomainScalar_isOne produces the expected output","over":{"base":"Any"},"name":"test_DomainScalar_isOne_correct"},"guarantee":"test_DomainScalar_isOne produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_isOne_correct","statement":"Path(test_DomainScalar_isOne(x), test_DomainScalar_isOne produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"961a6972de979fc6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_isOne","kind":"function","src_hash":"0adbd186bb1c98d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.is_one() == True and B.is_one() == False"},"spec":{"lhs":"test_DomainScalar_isOne()","rhs":"A.is_one() == True and B.is_one() == False","over":{"base":"Any"},"name":"test_DomainScalar_isOne_correct"},"guarantee":"A.is_one() == True; B.is_one() == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.matrices.tests.test_domainscalar.test_DomainScalar_isOne_correct","statement":"Path(test_DomainScalar_isOne(x), A.is_one() == True; B.is_one() == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1b615a6b5da19d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.is_one() == True","B.is_one() == False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_DomainScalar_isOne():
     A = DomainScalar(ZZ(1), ZZ)
     assert A.is_one() == True

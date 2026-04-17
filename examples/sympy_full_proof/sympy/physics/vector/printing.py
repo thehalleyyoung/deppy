@@ -32,28 +32,45 @@ __all__ = ['vprint', 'vsstrrepr', 'vsprint', 'vpprint', 'vlatex',
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(VectorStrPrinter(*args), correctly constructs a VectorStrPrinter instance) over {Any | isinstance(type(e), UndefinedFunction)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, StrPrinter)                   ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ VectorStrPrinter : {Any | isinstance(type(e), Undefin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffffdfb2d9016b54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorStrPrinter","kind":"class","src_hash":"ff62c0ce0ab0a4ff","in":{"base":"Any","pred":"isinstance(type(e), UndefinedFunction)"},"out":{"base":"Any"},"spec":{"lhs":"VectorStrPrinter(*args)","rhs":"correctly constructs a VectorStrPrinter instance","over":{"base":"Any","pred":"isinstance(type(e), UndefinedFunction)"},"name":"VectorStrPrinter_class_invariant"},"guarantee":"correctly constructs a VectorStrPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffffdfb2d9016b54"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorStrPrinter","kind":"class","src_hash":"ff62c0ce0ab0a4ff","in":{"base":"Any","pred":"isinstance(type(e), UndefinedFunction)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, StrPrinter)"},"spec":{"lhs":"VectorStrPrinter(*args)","rhs":"correctly constructs a VectorStrPrinter instance","over":{"base":"Any","pred":"isinstance(type(e), UndefinedFunction)"},"name":"VectorStrPrinter_class_invariant"},"guarantee":"isinstance(self, StrPrinter)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffffdfb2d9016b54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, StrPrinter)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function VectorStrPrinter not found in source"]}}
 class VectorStrPrinter(StrPrinter):
     """String Printer for vector expressions. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Derivative(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Derivative(e), result == (ol if bool(sum((i == t for i in e.variables))) & isinstance(type(e.args[0]), UndefinedFunction) else StrPrinter().doprint(e)) and result == ol or result == StrPrinter().doprint(e)) over {Any | hasattr(e, 'variables') and hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Derivative : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'variables')                        ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  result == (ol if bool(sum((i == t for i i...   ║
+# ║   ensures:  result == ol or result == StrPrinter().do...   ║
+# ║   fiber[case_0]: bool(sum((i == t for i in e.variable...   ║
+# ║   fiber[case_1]: not (bool(sum((i == t for i in e.var...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Derivative : {Any | hasattr(e, 'variables') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bfc081e46b9572a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 797fa817d3fe8431  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorStrPrinter._print_Derivative","kind":"method","src_hash":"fb45a0c2f24de037","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Derivative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.VectorStrPrinter._print_Derivative_correct","statement":"Path(_print_Derivative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bfc081e46b9572a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorStrPrinter._print_Derivative","kind":"method","src_hash":"fb45a0c2f24de037","in":{"base":"Any","pred":"hasattr(e, 'variables') and hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (ol if bool(sum((i == t for i in e.variables))) & isinstance(type(e.args[0]), UndefinedFunction) else StrPrinter().doprint(e)) and result == ol or result == StrPrinter().doprint(e)"},"spec":{"lhs":"_print_Derivative(e)","rhs":"result == (ol if bool(sum((i == t for i in e.variables))) & isinstance(type(e.args[0]), UndefinedFunction) else StrPrinter().doprint(e)) and result == ol or result == StrPrinter().doprint(e)","over":{"base":"Any","pred":"hasattr(e, 'variables') and hasattr(e, 'args')"},"name":"_print_Derivative_correct"},"guarantee":"result == (ol if bool(sum((i == t for i in e.variables))) & isinstance(type(e.args[0]), UndefinedFunction) else StrPrinter().doprint(e)); result == ol or result == StrPrinter().doprint(e); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.VectorStrPrinter._print_Derivative_correct","statement":"Path(_print_Derivative(x), result == (ol if bool(sum((i == t for i in e.variables))) & isinstance(type(e.args[0]), UndefinedFunction) else StrPrinter().doprint(e)); result == ol or result == StrPrinter().doprint(e); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"797fa817d3fe8431","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'variables')","hasattr(e, 'args')"],"ensures":["result == (ol if bool(sum((i == t for i in e.variables))) & isinstance(type(e.args[0]), UndefinedFunction) else StrPrinter().doprint(e))","result == ol or result == StrPrinter().doprint(e)"],"fibers":[{"name":"case_0","guard":"bool(sum((i == t for i in e.variables))) & isinstance(type(e.args[0]), UndefinedFunction)","ensures":["result == ol"],"decidability":"structural","returns_expr":"ol"},{"name":"case_1","guard":"not (bool(sum((i == t for i in e.variables))) & isinstance(type(e.args[0]), UndefinedFunction))","ensures":["result == StrPrinter().doprint(e)"],"decidability":"structural","returns_expr":"StrPrinter().doprint(e)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.variables"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Derivative(self, e):
         from sympy.physics.vector.functions import dynamicsymbols
         t = dynamicsymbols._t
@@ -67,16 +84,24 @@ class VectorStrPrinter(StrPrinter):
             return StrPrinter().doprint(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Function(e), id) over Any                      ║
+# ║ Path(_print_Function(e), id) over {Any | hasattr(e, 'func') and hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Function : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'func')                             ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Function : {Any | hasattr(e, 'func') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 31f11ba947cdcfec   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorStrPrinter._print_Function","kind":"method","src_hash":"4e8801e9a3c1fc39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Function_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"StrPrinter","by":"library_axiom"},{"fn":"doprint","by":"library_axiom"},{"fn":"replace","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31f11ba947cdcfec"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorStrPrinter._print_Function","kind":"method","src_hash":"4e8801e9a3c1fc39","in":{"base":"Any","pred":"hasattr(e, 'func') and hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(e)","rhs":"<unspecified:_print_Function>","over":{"base":"Any","pred":"hasattr(e, 'func') and hasattr(e, 'args')"},"name":"_print_Function_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"StrPrinter","by":"library_axiom"},{"fn":"doprint","by":"library_axiom"},{"fn":"replace","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31f11ba947cdcfec","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'func')","hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.func","self.stringify"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Function(self, e):
         from sympy.physics.vector.functions import dynamicsymbols
         t = dynamicsymbols._t
@@ -86,29 +111,41 @@ class VectorStrPrinter(StrPrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(VectorStrReprPrinter(), correctly constructs a VectorStrReprPrinter instance) over Any ║
+# ║ Path(VectorStrReprPrinter(), isinstance(self, VectorStrPrinter)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ VectorStrReprPrinter : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, VectorStrPrinter)             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ VectorStrReprPrinter : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 43000fac6bb7919e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorStrReprPrinter","kind":"class","src_hash":"7de1a0c141ce3ee1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"VectorStrReprPrinter()","rhs":"correctly constructs a VectorStrReprPrinter instance","over":{"base":"Any"},"name":"VectorStrReprPrinter_correct"},"guarantee":"correctly constructs a VectorStrReprPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43000fac6bb7919e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorStrReprPrinter","kind":"class","src_hash":"7de1a0c141ce3ee1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, VectorStrPrinter)"},"spec":{"lhs":"VectorStrReprPrinter()","rhs":"isinstance(self, VectorStrPrinter)","over":{"base":"Any"},"name":"VectorStrReprPrinter_correct"},"guarantee":"isinstance(self, VectorStrPrinter)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"43000fac6bb7919e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, VectorStrPrinter)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function VectorStrReprPrinter not found in source"]}}
 class VectorStrReprPrinter(VectorStrPrinter):
     """String repr printer for vector expressions."""
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_str(s), internal helper behaves correctly) over Any ║
+# ║ Path(_print_str(s), repr(s)) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  repr(s)                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_str : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 11bb196ab85d697c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorStrReprPrinter._print_str","kind":"method","src_hash":"26753ace77b9f8ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_str(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_str_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11bb196ab85d697c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorStrReprPrinter._print_str","kind":"method","src_hash":"26753ace77b9f8ca","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_str(s)","rhs":"repr(s)","over":{"base":"Any"},"name":"_print_str_correct"},"guarantee":"returns repr(s)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"11bb196ab85d697c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"repr(s)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_str(self, s):
         return repr(s)
 
@@ -116,28 +153,44 @@ class VectorStrReprPrinter(VectorStrPrinter):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(VectorLatexPrinter(*args), correctly constructs a VectorLatexPrinter instance) over {Any | isinstance(der_expr, Derivative) and isinstance(type(expr), UndefinedFunction)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, LatexPrinter)                 ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ VectorLatexPrinter : {Any | isinstance(der_expr, Deri...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1cd1ec0dbc734711  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorLatexPrinter","kind":"class","src_hash":"200eddaf8e3bf57e","in":{"base":"Any","pred":"isinstance(der_expr, Derivative) and isinstance(type(expr), UndefinedFunction)"},"out":{"base":"Any"},"spec":{"lhs":"VectorLatexPrinter(*args)","rhs":"correctly constructs a VectorLatexPrinter instance","over":{"base":"Any","pred":"isinstance(der_expr, Derivative) and isinstance(type(expr), UndefinedFunction)"},"name":"VectorLatexPrinter_class_invariant"},"guarantee":"correctly constructs a VectorLatexPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cd1ec0dbc734711"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorLatexPrinter","kind":"class","src_hash":"200eddaf8e3bf57e","in":{"base":"Any","pred":"isinstance(der_expr, Derivative) and isinstance(type(expr), UndefinedFunction)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, LatexPrinter)"},"spec":{"lhs":"VectorLatexPrinter(*args)","rhs":"correctly constructs a VectorLatexPrinter instance","over":{"base":"Any","pred":"isinstance(der_expr, Derivative) and isinstance(type(expr), UndefinedFunction)"},"name":"VectorLatexPrinter_class_invariant"},"guarantee":"isinstance(self, LatexPrinter)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1cd1ec0dbc734711","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, LatexPrinter)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function VectorLatexPrinter not found in source"]}}
 class VectorLatexPrinter(LatexPrinter):
     """Latex Printer for vector expressions. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Function(exp), id) over Any                    ║
+# ║ Path(_print_Function(expr, exp), id) over {Any | hasattr(expr, 'func') and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Function : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'func')                          ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   fiber[case_0]: hasattr(self, '_print_' + func) and ...   ║
+# ║   fiber[case_1]: isinstance(type(expr), UndefinedFunc...   ║
+# ║   fiber[case_2]: not (hasattr(self, '_print_' + func)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Function : {Any | hasattr(expr, 'func') and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b3f8e165d0700ee4   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorLatexPrinter._print_Function","kind":"method","src_hash":"9cc5003d0fe68523","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(exp)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Function_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"getattr","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3f8e165d0700ee4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorLatexPrinter._print_Function","kind":"method","src_hash":"9cc5003d0fe68523","in":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(expr, exp)","rhs":"<unspecified:_print_Function>","over":{"base":"Any","pred":"hasattr(expr, 'func') and hasattr(expr, 'args')"},"name":"_print_Function_correct","kind":"composition"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"getattr","by":"library_axiom"},{"fn":"func","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3f8e165d0700ee4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'func')","hasattr(expr, 'args')"],"fibers":[{"name":"case_0","guard":"hasattr(self, '_print_' + func) and (not isinstance(type(expr), UndefinedFunction))","ensures":["result == getattr(self, '_print_' + func)(expr, exp)"],"decidability":"structural","returns_expr":"getattr(self, '_print_' + func)(expr, exp)"},{"name":"case_1","guard":"isinstance(type(expr), UndefinedFunction) and expr.args == (t,)","ensures":[],"decidability":"structural"},{"name":"case_2","guard":"not (hasattr(self, '_print_' + func) and (not isinstance(type(expr), UndefinedFunction))) and not (isinstance(type(expr), UndefinedFunction) and expr.args == (t,))","ensures":["result == super()._print_Function(expr, exp)"],"decidability":"structural","returns_expr":"super()._print_Function(expr, exp)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.func","self.parenthesize","self.parenthesize_super"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Function(self, expr, exp=None):
         from sympy.physics.vector.functions import dynamicsymbols
         func = expr.func.__name__
@@ -161,16 +214,25 @@ class VectorLatexPrinter(LatexPrinter):
             return super()._print_Function(expr, exp)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Derivative(der), id) over Any                  ║
+# ║ Path(_print_Derivative(der_expr), id) over {Any | hasattr(der_expr, 'expr') and hasattr(der_expr, 'variables') and hasattr(der_expr, 'doit')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Derivative : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(der_expr, 'expr')                      ║
+# ║   requires: hasattr(der_expr, 'variables')                 ║
+# ║   requires: hasattr(der_expr, 'doit')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Derivative : {Any | hasattr(der_expr, 'expr') ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | cb98a1fa361cbc7d   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorLatexPrinter._print_Derivative","kind":"method","src_hash":"fb44391681a6b8fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(der)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Derivative_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"left","by":"library_axiom"},{"fn":"doprint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb98a1fa361cbc7d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorLatexPrinter._print_Derivative","kind":"method","src_hash":"fb44391681a6b8fe","in":{"base":"Any","pred":"hasattr(der_expr, 'expr') and hasattr(der_expr, 'variables') and hasattr(der_expr, 'doit')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(der_expr)","rhs":"<unspecified:_print_Derivative>","over":{"base":"Any","pred":"hasattr(der_expr, 'expr') and hasattr(der_expr, 'variables') and hasattr(der_expr, 'doit')"},"name":"_print_Derivative_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"left","by":"library_axiom"},{"fn":"doprint","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cb98a1fa361cbc7d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(der_expr, 'expr')","hasattr(der_expr, 'variables')","hasattr(der_expr, 'doit')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["der_expr.doit","der_expr.expr","der_expr.variables","self._print_Function","self.doprint"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Derivative(self, der_expr):
         from sympy.physics.vector.functions import dynamicsymbols
         # make sure it is in the right form
@@ -211,28 +273,43 @@ class VectorLatexPrinter(LatexPrinter):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(VectorPrettyPrinter(*args), correctly constructs a VectorPrettyPrinter instance) over {Any | isinstance(type(deriv.expr), UndefinedFunction)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, PrettyPrinter)                ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ VectorPrettyPrinter : {Any | isinstance(type(deriv.ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 460ac2572e234e46  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorPrettyPrinter","kind":"class","src_hash":"1c70a19837aa9026","in":{"base":"Any","pred":"isinstance(type(deriv.expr), UndefinedFunction)"},"out":{"base":"Any"},"spec":{"lhs":"VectorPrettyPrinter(*args)","rhs":"correctly constructs a VectorPrettyPrinter instance","over":{"base":"Any","pred":"isinstance(type(deriv.expr), UndefinedFunction)"},"name":"VectorPrettyPrinter_class_invariant"},"guarantee":"correctly constructs a VectorPrettyPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"460ac2572e234e46"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorPrettyPrinter","kind":"class","src_hash":"1c70a19837aa9026","in":{"base":"Any","pred":"isinstance(type(deriv.expr), UndefinedFunction)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, PrettyPrinter)"},"spec":{"lhs":"VectorPrettyPrinter(*args)","rhs":"correctly constructs a VectorPrettyPrinter instance","over":{"base":"Any","pred":"isinstance(type(deriv.expr), UndefinedFunction)"},"name":"VectorPrettyPrinter_class_invariant"},"guarantee":"isinstance(self, PrettyPrinter)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"460ac2572e234e46","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, PrettyPrinter)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function VectorPrettyPrinter not found in source"]}}
 class VectorPrettyPrinter(PrettyPrinter):
     """Pretty Printer for vectorialexpressions. """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Derivative(der), id) over Any                  ║
+# ║ Path(_print_Derivative(deriv), id) over {Any | hasattr(deriv, 'variables') and hasattr(deriv, 'expr')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Derivative : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(deriv, 'variables')                    ║
+# ║   requires: hasattr(deriv, 'expr')                         ║
+# ║   fiber[case_0]: not (isinstance(type(deriv.expr), Un...   ║
+# ║   fiber[case_1]: not (not (isinstance(type(deriv.expr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Derivative : {Any | hasattr(deriv, 'variables'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 5583a142c273b836   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorPrettyPrinter._print_Derivative","kind":"method","src_hash":"6b58ffc76ee1d3b5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(der)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Derivative_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_print_Derivative","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5583a142c273b836"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorPrettyPrinter._print_Derivative","kind":"method","src_hash":"6b58ffc76ee1d3b5","in":{"base":"Any","pred":"hasattr(deriv, 'variables') and hasattr(deriv, 'expr')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Derivative(deriv)","rhs":"<unspecified:_print_Derivative>","over":{"base":"Any","pred":"hasattr(deriv, 'variables') and hasattr(deriv, 'expr')"},"name":"_print_Derivative_correct","kind":"composition"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_print_Derivative","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5583a142c273b836","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(deriv, 'variables')","hasattr(deriv, 'expr')"],"fibers":[{"name":"case_0","guard":"not (isinstance(type(deriv.expr), UndefinedFunction) and deriv.expr.args == (t,))","ensures":["result == super()._print_Derivative(deriv)"],"decidability":"structural","returns_expr":"super()._print_Derivative(deriv)"},{"name":"case_1","guard":"not (not (isinstance(type(deriv.expr), UndefinedFunction) and deriv.expr.args == (t,)))","ensures":[],"decidability":"structural"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Derivative(self, deriv):
         from sympy.physics.vector.functions import dynamicsymbols
         # XXX use U('PARTIAL DIFFERENTIAL') here ?
@@ -282,16 +359,24 @@ class VectorPrettyPrinter(PrettyPrinter):
         return pform
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Function(e), id) over Any                      ║
+# ║ Path(_print_Function(e), id) over {Any | hasattr(e, 'func') and hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Function : Any → Any                                ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'func')                             ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Function : {Any | hasattr(e, 'func') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | b346184c339c9370   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorPrettyPrinter._print_Function","kind":"method","src_hash":"37e9315abedd8935","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Function_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_print_Function","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b346184c339c9370"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.VectorPrettyPrinter._print_Function","kind":"method","src_hash":"37e9315abedd8935","in":{"base":"Any","pred":"hasattr(e, 'func') and hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(e)","rhs":"<unspecified:_print_Function>","over":{"base":"Any","pred":"hasattr(e, 'func') and hasattr(e, 'args')"},"name":"_print_Function_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"super","by":"library_axiom"},{"fn":"_print_Function","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b346184c339c9370","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'func')","hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.func","self._print_Symbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Function(self, e):
         from sympy.physics.vector.functions import dynamicsymbols
         t = dynamicsymbols._t
@@ -309,16 +394,22 @@ class VectorPrettyPrinter(PrettyPrinter):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vprint(exp), function for printing of expressions generated in the sympy.physics vector package) over Any ║
+# ║ Path(vprint(expr, **settings), <unspecified:vprint>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vprint : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5824ab19ef6070d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.vprint","kind":"function","src_hash":"9d47a9918bf8ff64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vprint(exp)","rhs":"function for printing of expressions generated in the sympy.physics vector package","over":{"base":"Any"},"name":"vprint_correct"},"guarantee":"function for printing of expressions generated in the sympy.physics vector package","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.vprint_correct","statement":"Path(vprint(x), function for printing of expressions generated in the sympy.physics vector package)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5824ab19ef6070d4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.vprint","kind":"function","src_hash":"9d47a9918bf8ff64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vprint(expr, **settings)","rhs":"<unspecified:vprint>","over":{"base":"Any"},"name":"vprint_correct"},"guarantee":"function for printing of expressions generated in the sympy.physics vector package","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.vprint_correct","statement":"Path(vprint(x), function for printing of expressions generated in the sympy.physics vector package)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5824ab19ef6070d4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"io","io_operations":["print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**settings']"]}}
 def vprint(expr, **settings):
     r"""Function for printing of expressions generated in the
     sympy.physics vector package.
@@ -355,16 +446,22 @@ def vprint(expr, **settings):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vsstrrepr(exp), function for displaying expression representation's with vector printing enabled) over Any ║
+# ║ Path(vsstrrepr(expr, **settings), p.doprint(expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  p.doprint(expr)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vsstrrepr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0dee7f0576dddaa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b26948b36b560816  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.vsstrrepr","kind":"function","src_hash":"799e73332dd158ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vsstrrepr(exp)","rhs":"function for displaying expression representation's with vector printing enabled","over":{"base":"Any"},"name":"vsstrrepr_correct"},"guarantee":"function for displaying expression representation's with vector printing enabled","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.vsstrrepr_correct","statement":"Path(vsstrrepr(x), function for displaying expression representation's with vector printing enabled)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0dee7f0576dddaa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.vsstrrepr","kind":"function","src_hash":"799e73332dd158ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vsstrrepr(expr, **settings)","rhs":"p.doprint(expr)","over":{"base":"Any"},"name":"vsstrrepr_correct"},"guarantee":"returns p.doprint(expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.vsstrrepr_correct","statement":"Path(vsstrrepr(x), returns p.doprint(expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b26948b36b560816","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"p.doprint(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**settings']"]}}
 def vsstrrepr(expr, **settings):
     """Function for displaying expression representation's with vector
     printing enabled.
@@ -383,16 +480,22 @@ def vsstrrepr(expr, **settings):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vsprint(exp), function for displaying expressions generated in the sympy.physics vector package) over Any ║
+# ║ Path(vsprint(expr, **settings), string_printer.doprint(expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  string_printer.doprint(expr)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vsprint : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad2dac0725469a01  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3224fe50c2376752  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.vsprint","kind":"function","src_hash":"83ddad63d519a23f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vsprint(exp)","rhs":"function for displaying expressions generated in the sympy.physics vector package","over":{"base":"Any"},"name":"vsprint_correct"},"guarantee":"function for displaying expressions generated in the sympy.physics vector package","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.vsprint_correct","statement":"Path(vsprint(x), function for displaying expressions generated in the sympy.physics vector package)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad2dac0725469a01"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.vsprint","kind":"function","src_hash":"83ddad63d519a23f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vsprint(expr, **settings)","rhs":"string_printer.doprint(expr)","over":{"base":"Any"},"name":"vsprint_correct"},"guarantee":"returns string_printer.doprint(expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.vsprint_correct","statement":"Path(vsprint(x), returns string_printer.doprint(expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3224fe50c2376752","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"string_printer.doprint(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**settings']"]}}
 def vsprint(expr, **settings):
     r"""Function for displaying expressions generated in the
     sympy.physics vector package.
@@ -425,16 +528,22 @@ def vsprint(expr, **settings):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vpprint(exp), function for pretty printing of expressions generated in the sympy.physics vector package) over Any ║
+# ║ Path(vpprint(expr, **settings), pp.doprint(expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  pp.doprint(expr)                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vpprint : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f47e1cb26deb378  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b393b23797652f1a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.vpprint","kind":"function","src_hash":"3a6a2dc258b11987","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vpprint(exp)","rhs":"function for pretty printing of expressions generated in the sympy.physics vector package","over":{"base":"Any"},"name":"vpprint_correct"},"guarantee":"function for pretty printing of expressions generated in the sympy.physics vector package","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.vpprint_correct","statement":"Path(vpprint(x), function for pretty printing of expressions generated in the sympy.physics vector package)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f47e1cb26deb378"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.vpprint","kind":"function","src_hash":"3a6a2dc258b11987","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vpprint(expr, **settings)","rhs":"pp.doprint(expr)","over":{"base":"Any"},"name":"vpprint_correct"},"guarantee":"returns pp.doprint(expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.vpprint_correct","statement":"Path(vpprint(x), returns pp.doprint(expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b393b23797652f1a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"pp.doprint(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**settings']"]}}
 def vpprint(expr, **settings):
     r"""Function for pretty printing of expressions generated in the
     sympy.physics vector package.
@@ -470,16 +579,22 @@ def vpprint(expr, **settings):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(vlatex(exp), function for printing latex representation of sympy.physics.vector objects) over Any ║
+# ║ Path(vlatex(expr, **settings), latex_printer.doprint(expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  latex_printer.doprint(expr)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ vlatex : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db68e592f2fd3a34  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f850d98b793130e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.vlatex","kind":"function","src_hash":"89192196fb18a8e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vlatex(exp)","rhs":"function for printing latex representation of sympy.physics.vector objects","over":{"base":"Any"},"name":"vlatex_correct"},"guarantee":"function for printing latex representation of sympy.physics.vector objects","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.vlatex_correct","statement":"Path(vlatex(x), function for printing latex representation of sympy.physics.vector objects)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db68e592f2fd3a34"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.vlatex","kind":"function","src_hash":"89192196fb18a8e0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"vlatex(expr, **settings)","rhs":"latex_printer.doprint(expr)","over":{"base":"Any"},"name":"vlatex_correct"},"guarantee":"returns latex_printer.doprint(expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.vlatex_correct","statement":"Path(vlatex(x), returns latex_printer.doprint(expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f850d98b793130e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"latex_printer.doprint(expr)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['expr'], spec=['expr', '**settings']"]}}
 def vlatex(expr, **settings):
     r"""Function for printing latex representation of sympy.physics.vector
     objects.
@@ -522,16 +637,22 @@ def vlatex(expr, **settings):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(init_vprinting(**k), initializes time derivative printing for all sympy objects, i.e) over Any ║
+# ║ Path(init_vprinting(**kwargs), <unspecified:init_vprinting>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ init_vprinting : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db822d935c5f8e4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.init_vprinting","kind":"function","src_hash":"f60ba2fbd7baaf3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"init_vprinting(**k)","rhs":"initializes time derivative printing for all sympy objects, i.e","over":{"base":"Any"},"name":"init_vprinting_correct"},"guarantee":"initializes time derivative printing for all sympy objects, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.init_vprinting_correct","statement":"Path(init_vprinting(x), initializes time derivative printing for all sympy objects, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db822d935c5f8e4c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.printing.init_vprinting","kind":"function","src_hash":"f60ba2fbd7baaf3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"init_vprinting(**kwargs)","rhs":"<unspecified:init_vprinting>","over":{"base":"Any"},"name":"init_vprinting_correct"},"guarantee":"initializes time derivative printing for all sympy objects, i.e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.printing.init_vprinting_correct","statement":"Path(init_vprinting(x), initializes time derivative printing for all sympy objects, i.e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db822d935c5f8e4c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['**kwargs']"]}}
 def init_vprinting(**kwargs):
     """Initializes time derivative printing for all SymPy objects, i.e. any
     functions of time will be displayed in a more compact notation. The main

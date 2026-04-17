@@ -31,14 +31,20 @@ from sympy.functions.special.delta_functions import Heaviside
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(SingularityFunction(*args), correctly constructs a SingularityFunction instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ SingularityFunction : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ SingularityFunction : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3932d4d162203e97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction","kind":"class","src_hash":"6cac3cb2218aca46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"SingularityFunction(*args)","rhs":"correctly constructs a SingularityFunction instance","over":{"base":"Any"},"name":"SingularityFunction_class_invariant"},"guarantee":"correctly constructs a SingularityFunction instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3932d4d162203e97"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction","kind":"class","src_hash":"6cac3cb2218aca46","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"SingularityFunction(*args)","rhs":"correctly constructs a SingularityFunction instance","over":{"base":"Any"},"name":"SingularityFunction_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3932d4d162203e97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function SingularityFunction not found in source"]}}
 class SingularityFunction(DefinedFunction):
     r"""
     Singularity functions are a class of discontinuous functions.
@@ -114,16 +120,22 @@ class SingularityFunction(DefinedFunction):
     is_real = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fdiff(arg), returns the first derivative of a diracdelta function) over Any ║
+# ║ Path(fdiff(argindex), <unspecified:fdiff>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fdiff : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ff4cf7fe168c8732  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction.fdiff","kind":"method","src_hash":"461002d38713b632","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(arg)","rhs":"returns the first derivative of a diracdelta function","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"returns the first derivative of a diracdelta function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.singularity_functions.SingularityFunction.fdiff_correct","statement":"Path(fdiff(x), returns the first derivative of a diracdelta function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff4cf7fe168c8732"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction.fdiff","kind":"method","src_hash":"461002d38713b632","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fdiff(argindex)","rhs":"<unspecified:fdiff>","over":{"base":"Any"},"name":"fdiff_correct"},"guarantee":"returns the first derivative of a diracdelta function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.singularity_functions.SingularityFunction.fdiff_correct","statement":"Path(fdiff(x), returns the first derivative of a diracdelta function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ff4cf7fe168c8732","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"],"raises":["ArgumentIndexError"]},"state_contract":{"exceptional_post":{"ArgumentIndexError":["isinstance(raised, ArgumentIndexError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fdiff(self, argindex=1):
         """
         Returns the first derivative of a DiracDelta Function.
@@ -151,16 +163,23 @@ class SingularityFunction(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), returns a simplified form or a value of singularity function depending on the argument passed by the object) over Any ║
+# ║ Path(eval(cls, variable, offset), <unspecified:eval>) over {Any | not (fuzzy_not(im(shift).is_zero))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (fuzzy_not(im(shift).is_zero))             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | not (fuzzy_not(im(shift).is_zero))} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de9f7d044e789169  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction.eval","kind":"classmethod","src_hash":"0cba7613f35060dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"returns a simplified form or a value of singularity function depending on the argument passed by the object","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"returns a simplified form or a value of singularity function depending on the argument passed by the object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.singularity_functions.SingularityFunction.eval_correct","statement":"Path(eval(x), returns a simplified form or a value of singularity function depending on the argument passed by the object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de9f7d044e789169"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction.eval","kind":"classmethod","src_hash":"0cba7613f35060dd","in":{"base":"Any","pred":"not (fuzzy_not(im(shift).is_zero))"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls, variable, offset)","rhs":"<unspecified:eval>","over":{"base":"Any","pred":"not (fuzzy_not(im(shift).is_zero))"},"name":"eval_correct"},"guarantee":"returns a simplified form or a value of singularity function depending on the argument passed by the object","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.singularity_functions.SingularityFunction.eval_correct","statement":"Path(eval(x), returns a simplified form or a value of singularity function depending on the argument passed by the object)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de9f7d044e789169","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (fuzzy_not(im(shift).is_zero))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, variable, offset, exponent):
         """
         Returns a simplified form or a value of Singularity Function depending
@@ -230,16 +249,25 @@ class SingularityFunction(DefinedFunction):
                 return oo
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Piecewise(*ar), id) over Any         ║
+# ║ Path(_eval_rewrite_as_Piecewise(*args, **kwargs), id) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_rewrite_as_Piecewise : Any → Any                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (Piecewise((oo, Eq(x - a, 0)), ...   ║
+# ║   ensures:  result == Piecewise((oo, Eq(x - a, 0)), (...   ║
+# ║   fiber[case_0]: n in (S.NegativeOne, S(-2), S(-3), S...   ║
+# ║   fiber[case_1]: n.is_nonnegative => Piecewise(((x - ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_rewrite_as_Piecewise : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f2568159e448ed33   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction._eval_rewrite_as_Piecewise","kind":"method","src_hash":"f3deea60f9ea6d9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Piecewise(*ar)","rhs":"converts a singularity function expression into its piecewise form","over":{"base":"Any"},"name":"_eval_rewrite_as_Piecewise_correct","kind":"composition"},"guarantee":"converts a singularity function expression into its piecewise form","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2568159e448ed33"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction._eval_rewrite_as_Piecewise","kind":"method","src_hash":"f3deea60f9ea6d9e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (Piecewise((oo, Eq(x - a, 0)), (0, True)) if n in (S.NegativeOne, S(-2), S(-3), S(-4)) else Piecewise(((x - a) ** n, x - a >= 0), (0, True))) and result == Piecewise((oo, Eq(x - a, 0)), (0, True)) or result == Piecewise(((x - a) ** n, x - a >= 0), (0, True))"},"spec":{"lhs":"_eval_rewrite_as_Piecewise(*args, **kwargs)","rhs":"result == (Piecewise((oo, Eq(x - a, 0)), (0, True)) if n in (S.NegativeOne, S(-2), S(-3), S(-4)) else Piecewise(((x - a) ** n, x - a >= 0), (0, True))) and result == Piecewise((oo, Eq(x - a, 0)), (0, True)) or result == Piecewise(((x - a) ** n, x - a >= 0), (0, True))","over":{"base":"Any"},"name":"_eval_rewrite_as_Piecewise_correct","kind":"composition"},"guarantee":"result == (Piecewise((oo, Eq(x - a, 0)), (0, True)) if n in (S.NegativeOne, S(-2), S(-3), S(-4)) else Piecewise(((x - a) ** n, x - a >= 0), (0, True))); result == Piecewise((oo, Eq(x - a, 0)), (0, True)) or result == Piecewise(((x - a) ** n, x - a >= 0), (0, True)); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Piecewise","by":"library_axiom"},{"fn":"Eq","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2568159e448ed33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (Piecewise((oo, Eq(x - a, 0)), (0, True)) if n in (S.NegativeOne, S(-2), S(-3), S(-4)) else Piecewise(((x - a) ** n, x - a >= 0), (0, True)))","result == Piecewise((oo, Eq(x - a, 0)), (0, True)) or result == Piecewise(((x - a) ** n, x - a >= 0), (0, True))"],"fibers":[{"name":"case_0","guard":"n in (S.NegativeOne, S(-2), S(-3), S(-4))","ensures":["result == Piecewise((oo, Eq(x - a, 0)), (0, True))"],"decidability":"library","returns_expr":"Piecewise((oo, Eq(x - a, 0)), (0, True))"},{"name":"case_1","guard":"n.is_nonnegative","ensures":["result == Piecewise(((x - a) ** n, x - a >= 0), (0, True))"],"decidability":"library","returns_expr":"Piecewise(((x - a) ** n, x - a >= 0), (0, True))"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Piecewise(self, *args, **kwargs):
         '''
         Converts a Singularity Function expression into its Piecewise form.
@@ -253,16 +281,22 @@ class SingularityFunction(DefinedFunction):
             return Piecewise(((x - a)**n, x - a >= 0), (0, True))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_Heaviside(*ar), id) over Any         ║
+# ║ Path(_eval_rewrite_as_Heaviside(*args, **kwargs), id) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_Heaviside : Any → Any                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8ac518b618cdb1b0   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction._eval_rewrite_as_Heaviside","kind":"method","src_hash":"cbf468c02109d46c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Heaviside(*ar)","rhs":"rewrites a singularity function expression using heavisides and diracdeltas","over":{"base":"Any"},"name":"_eval_rewrite_as_Heaviside_correct","kind":"composition"},"guarantee":"rewrites a singularity function expression using heavisides and diracdeltas","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"diff","by":"library_axiom"},{"fn":"Heaviside","by":"library_axiom"},{"fn":"pop","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ac518b618cdb1b0"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction._eval_rewrite_as_Heaviside","kind":"method","src_hash":"cbf468c02109d46c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_Heaviside(*args, **kwargs)","rhs":"<unspecified:_eval_rewrite_as_Heaviside>","over":{"base":"Any"},"name":"_eval_rewrite_as_Heaviside_correct","kind":"composition"},"guarantee":"rewrites a singularity function expression using heavisides and diracdeltas","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"diff","by":"library_axiom"},{"fn":"Heaviside","by":"library_axiom"},{"fn":"pop","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ac518b618cdb1b0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_Heaviside(self, *args, **kwargs):
         '''
         Rewrites a Singularity Function expression using Heavisides and DiracDeltas.
@@ -282,16 +316,26 @@ class SingularityFunction(DefinedFunction):
             return (x - a)**n*Heaviside(x - a, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), result == (S.Zero if n < 0 else S.Zero if cdir == -1 else S.One if n.is_zero and shift.is_zero else shift ** n) and result == S.Zero or result == S.Zero if cdir == -1 else S.One or result == shift ** n) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_as_leading_term : Any → Any                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (S.Zero if n < 0 else S.Zero if...   ║
+# ║   ensures:  result == S.Zero or result == S.Zero if c...   ║
+# ║   fiber[negative]: n < 0 => S.Zero                         ║
+# ║   fiber[case_1]: n.is_zero and shift.is_zero => S.Zer...   ║
+# ║   fiber[case_2]: shift.is_positive => shift ** n           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_as_leading_term : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c70d617c8fb593c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ae9c2994eb4ad31a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction._eval_as_leading_term","kind":"method","src_hash":"89dcb35c743a811c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.singularity_functions.SingularityFunction._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c70d617c8fb593c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction._eval_as_leading_term","kind":"method","src_hash":"89dcb35c743a811c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (S.Zero if n < 0 else S.Zero if cdir == -1 else S.One if n.is_zero and shift.is_zero else shift ** n) and result == S.Zero or result == S.Zero if cdir == -1 else S.One or result == shift ** n"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"result == (S.Zero if n < 0 else S.Zero if cdir == -1 else S.One if n.is_zero and shift.is_zero else shift ** n) and result == S.Zero or result == S.Zero if cdir == -1 else S.One or result == shift ** n","over":{"base":"Any"},"name":"_eval_as_leading_term_correct"},"guarantee":"result == (S.Zero if n < 0 else S.Zero if cdir == -1 else S.One if n.is_zero and shift.is_zero else shift ** n); result == S.Zero or result == S.Zero if cdir == -1 else S.One or result == shift ** n; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.singularity_functions.SingularityFunction._eval_as_leading_term_correct","statement":"Path(_eval_as_leading_term(x), result == (S.Zero if n < 0 else S.Zero if cdir == -1 else S.One if n.is_zero and shift.is_zero else shift ** n); result == S.Zero or result == S.Zero if cdir == -1 else S.One or result == shift ** n; 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ae9c2994eb4ad31a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (S.Zero if n < 0 else S.Zero if cdir == -1 else S.One if n.is_zero and shift.is_zero else shift ** n)","result == S.Zero or result == S.Zero if cdir == -1 else S.One or result == shift ** n"],"fibers":[{"name":"negative","guard":"n < 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"case_1","guard":"n.is_zero and shift.is_zero","ensures":["result == S.Zero if cdir == -1 else S.One"],"decidability":"library","returns_expr":"S.Zero if cdir == -1 else S.One"},{"name":"case_2","guard":"shift.is_positive","ensures":["result == shift ** n"],"decidability":"library","returns_expr":"shift ** n"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         z, a, n = self.args
         shift = (z - a).subs(x, 0)
@@ -304,16 +348,27 @@ class SingularityFunction(DefinedFunction):
         return S.Zero
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_nseries(x, n, logx), result == (S.Zero if n < 0 else S.Zero if cdir == -1 else S.One if n.is_zero and shift.is_zero else ((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir)) and result == S.Zero or result == S.Zero if cdir == -1 else S.One or result == ((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir)) over {Any | hasattr(n, 'is_zero')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_nseries : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(n, 'is_zero')                          ║
+# ║   ensures:  result == (S.Zero if n < 0 else S.Zero if...   ║
+# ║   ensures:  result == S.Zero or result == S.Zero if c...   ║
+# ║   fiber[negative]: n < 0 => S.Zero                         ║
+# ║   fiber[case_1]: n.is_zero and shift.is_zero => S.Zer...   ║
+# ║   fiber[case_2]: shift.is_positive => ((z - a) ** n)....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_nseries : {Any | hasattr(n, 'is_zero')} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dc58d04288519969  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc5e43f48ad13e19  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction._eval_nseries","kind":"method","src_hash":"2b83743d1cdb90b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.singularity_functions.SingularityFunction._eval_nseries_correct","statement":"Path(_eval_nseries(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dc58d04288519969"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.special.singularity_functions.SingularityFunction._eval_nseries","kind":"method","src_hash":"2b83743d1cdb90b1","in":{"base":"Any","pred":"hasattr(n, 'is_zero')"},"out":{"base":"Any","pred":"result satisfies: result == (S.Zero if n < 0 else S.Zero if cdir == -1 else S.One if n.is_zero and shift.is_zero else ((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir)) and result == S.Zero or result == S.Zero if cdir == -1 else S.One or result == ((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir)"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"result == (S.Zero if n < 0 else S.Zero if cdir == -1 else S.One if n.is_zero and shift.is_zero else ((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir)) and result == S.Zero or result == S.Zero if cdir == -1 else S.One or result == ((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir)","over":{"base":"Any","pred":"hasattr(n, 'is_zero')"},"name":"_eval_nseries_correct"},"guarantee":"result == (S.Zero if n < 0 else S.Zero if cdir == -1 else S.One if n.is_zero and shift.is_zero else ((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir)); result == S.Zero or result == S.Zero if cdir == -1 else S.One or result == ((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.special.singularity_functions.SingularityFunction._eval_nseries_correct","statement":"Path(_eval_nseries(x), result == (S.Zero if n < 0 else S.Zero if cdir == -1 else S.One if n.is_zero and shift.is_zero else ((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir)); result == S.Zero or result == S.Zero if cdir == -1 else S.One or result == ((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc5e43f48ad13e19","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(n, 'is_zero')"],"ensures":["result == (S.Zero if n < 0 else S.Zero if cdir == -1 else S.One if n.is_zero and shift.is_zero else ((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir))","result == S.Zero or result == S.Zero if cdir == -1 else S.One or result == ((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir)"],"fibers":[{"name":"negative","guard":"n < 0","ensures":["result == S.Zero"],"decidability":"z3","returns_expr":"S.Zero"},{"name":"case_1","guard":"n.is_zero and shift.is_zero","ensures":["result == S.Zero if cdir == -1 else S.One"],"decidability":"library","returns_expr":"S.Zero if cdir == -1 else S.One"},{"name":"case_2","guard":"shift.is_positive","ensures":["result == ((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir)"],"decidability":"library","returns_expr":"((z - a) ** n)._eval_nseries(x, n, logx=logx, cdir=cdir)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["n.is_zero","self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx=None, cdir=0):
         z, a, n = self.args
         shift = (z - a).subs(x, 0)

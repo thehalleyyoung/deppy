@@ -20,147 +20,207 @@ from abc import ABC, abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(_Methods(*args), correctly constructs a _Methods instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _Methods : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, ABC)                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _Methods : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1c61e7efc2683ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods","kind":"class","src_hash":"df83b304a06ebda2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_Methods(*args)","rhs":"correctly constructs a _Methods instance","over":{"base":"Any"},"name":"_Methods_class_invariant"},"guarantee":"correctly constructs a _Methods instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1c61e7efc2683ef"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods","kind":"class","src_hash":"df83b304a06ebda2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, ABC)"},"spec":{"lhs":"_Methods(*args)","rhs":"correctly constructs a _Methods instance","over":{"base":"Any"},"name":"_Methods_class_invariant"},"guarantee":"isinstance(self, ABC)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1c61e7efc2683ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, ABC)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function _Methods not found in source"]}}
 class _Methods(ABC):
     """Abstract Base Class for all methods."""
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(q(), q produces the expected output) over Any         ║
+# ║ Path(q(), <unspecified:q>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ q : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b181caabaa8863fc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.q","kind":"method","src_hash":"39311d50b0a12ff7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q()","rhs":"q produces the expected output","over":{"base":"Any"},"name":"q_correct"},"guarantee":"q produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b181caabaa8863fc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.q","kind":"method","src_hash":"39311d50b0a12ff7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q()","rhs":"<unspecified:q>","over":{"base":"Any"},"name":"q_correct"},"guarantee":"q produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b181caabaa8863fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def q(self):
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(u(), u produces the expected output) over Any         ║
+# ║ Path(u(), <unspecified:u>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ u : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d1693dcde8d900be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.u","kind":"method","src_hash":"0d8a8540083ad1cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"u()","rhs":"u produces the expected output","over":{"base":"Any"},"name":"u_correct"},"guarantee":"u produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1693dcde8d900be"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.u","kind":"method","src_hash":"0d8a8540083ad1cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"u()","rhs":"<unspecified:u>","over":{"base":"Any"},"name":"u_correct"},"guarantee":"u produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d1693dcde8d900be","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def u(self):
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bodies(), bodies produces the expected output) over Any ║
+# ║ Path(bodies(), <unspecified:bodies>) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bodies : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e8dac3ba83ef8ce4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.bodies","kind":"method","src_hash":"3b53f2c6d3118e7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bodies()","rhs":"bodies produces the expected output","over":{"base":"Any"},"name":"bodies_correct"},"guarantee":"bodies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8dac3ba83ef8ce4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.bodies","kind":"method","src_hash":"3b53f2c6d3118e7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bodies()","rhs":"<unspecified:bodies>","over":{"base":"Any"},"name":"bodies_correct"},"guarantee":"bodies produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e8dac3ba83ef8ce4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bodies(self):
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(loads(), loads produces the expected output) over Any ║
+# ║ Path(loads(), <unspecified:loads>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ loads : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b3f7ad81669fe275           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.loads","kind":"method","src_hash":"5f1620919bffb454","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads()","rhs":"loads produces the expected output","over":{"base":"Any"},"name":"loads_correct"},"guarantee":"loads produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3f7ad81669fe275"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.loads","kind":"method","src_hash":"5f1620919bffb454","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads()","rhs":"<unspecified:loads>","over":{"base":"Any"},"name":"loads_correct"},"guarantee":"loads produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b3f7ad81669fe275","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def loads(self):
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mass_matrix(), mass_matrix produces the expected output) over Any ║
+# ║ Path(mass_matrix(), <unspecified:mass_matrix>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mass_matrix : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8b8ee2d700419465           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.mass_matrix","kind":"method","src_hash":"ef02b3c7b7b62083","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix()","rhs":"mass_matrix produces the expected output","over":{"base":"Any"},"name":"mass_matrix_correct"},"guarantee":"mass_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b8ee2d700419465"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.mass_matrix","kind":"method","src_hash":"ef02b3c7b7b62083","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix()","rhs":"<unspecified:mass_matrix>","over":{"base":"Any"},"name":"mass_matrix_correct"},"guarantee":"mass_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8b8ee2d700419465","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mass_matrix(self):
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(forcing(), forcing produces the expected output) over Any ║
+# ║ Path(forcing(), <unspecified:forcing>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ forcing : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 84f3aa475bb255f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.forcing","kind":"method","src_hash":"7485258ed968debe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing()","rhs":"forcing produces the expected output","over":{"base":"Any"},"name":"forcing_correct"},"guarantee":"forcing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84f3aa475bb255f1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.forcing","kind":"method","src_hash":"7485258ed968debe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing()","rhs":"<unspecified:forcing>","over":{"base":"Any"},"name":"forcing_correct"},"guarantee":"forcing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"84f3aa475bb255f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def forcing(self):
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mass_matrix_full(), mass_matrix_full produces the expected output) over Any ║
+# ║ Path(mass_matrix_full(), <unspecified:mass_matrix_full>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mass_matrix_full : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9774da43e428da39           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.mass_matrix_full","kind":"method","src_hash":"7169b6055c464bf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix_full()","rhs":"mass_matrix_full produces the expected output","over":{"base":"Any"},"name":"mass_matrix_full_correct"},"guarantee":"mass_matrix_full produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9774da43e428da39"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.mass_matrix_full","kind":"method","src_hash":"7169b6055c464bf4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix_full()","rhs":"<unspecified:mass_matrix_full>","over":{"base":"Any"},"name":"mass_matrix_full_correct"},"guarantee":"mass_matrix_full produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9774da43e428da39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mass_matrix_full(self):
         pass
 
     @abstractmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(forcing_full(), forcing_full produces the expected output) over Any ║
+# ║ Path(forcing_full(), <unspecified:forcing_full>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ forcing_full : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f735ccdaf876823           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.forcing_full","kind":"method","src_hash":"092ae2aca661de26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing_full()","rhs":"forcing_full produces the expected output","over":{"base":"Any"},"name":"forcing_full_correct"},"guarantee":"forcing_full produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f735ccdaf876823"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods.forcing_full","kind":"method","src_hash":"092ae2aca661de26","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing_full()","rhs":"<unspecified:forcing_full>","over":{"base":"Any"},"name":"forcing_full_correct"},"guarantee":"forcing_full produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f735ccdaf876823","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def forcing_full(self):
         pass
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_form_eoms(), internal helper behaves correctly) over Any ║
+# ║ Path(_form_eoms(), <unspecified:_form_eoms>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _form_eoms : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7805d36db8feea8f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods._form_eoms","kind":"method","src_hash":"0e9a24144197380b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_eoms()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_form_eoms_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7805d36db8feea8f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.method._Methods._form_eoms","kind":"method","src_hash":"0e9a24144197380b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_eoms()","rhs":"<unspecified:_form_eoms>","over":{"base":"Any"},"name":"_form_eoms_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7805d36db8feea8f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _form_eoms(self):
         raise NotImplementedError("Subclasses must implement this.")

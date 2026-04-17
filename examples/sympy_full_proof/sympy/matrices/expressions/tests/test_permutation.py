@@ -29,7 +29,12 @@ from sympy.core.symbol import Symbol
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PermutationMatrix_basic(), test_PermutationMatrix_basic produces the expected output) over {Any | isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)} ║
+# ║ Path(test_PermutationMatrix_basic(), unchanged(PermutationMatrix, p) and PermutationMatrix(p).as_explicit() == Matrix([[0, 1], [1, 0]]) and isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)) over {Any | isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unchanged(PermutationMatrix, p)                ║
+# ║   ensures:  PermutationMatrix(p).as_explicit() == Mat...   ║
+# ║   ensures:  isinstance(PermutationMatrix(p) * MatrixS...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_PermutationMatrix_basic : {Any | isinstance(Perm...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -41,9 +46,12 @@ from sympy.core.symbol import Symbol
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.4ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 4cefb412...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_basic","kind":"function","src_hash":"33770a6b1389c699","in":{"base":"Any","pred":"isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)"},"out":{"base":"Any","pred":"unchanged(PermutationMatrix, p) and PermutationMatrix(p).as_explicit() == Matrix([[0, 1], [1, 0]]) and isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)"},"spec":{"lhs":"test_PermutationMatrix_basic()","rhs":"test_PermutationMatrix_basic produces the expected output","over":{"base":"Any","pred":"isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)"},"name":"test_PermutationMatrix_basic_correct"},"guarantee":"test_PermutationMatrix_basic produces the expected output","fibers":[{"name":"2","pred":"isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)","path":{"lhs":"test_PermutationMatrix_basic(x)","rhs":"test_PermutationMatrix_basic produces the expected output","over":{"base":"2","pred":"isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)"},"name":"test_PermutationMatrix_basic_2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_basic_2_correct","statement":"test_PermutationMatrix_basic satisfies spec on 2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4cefb4120c094a74"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_basic","kind":"function","src_hash":"33770a6b1389c699","in":{"base":"Any","pred":"isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)"},"out":{"base":"Any","pred":"result satisfies: unchanged(PermutationMatrix, p) and PermutationMatrix(p).as_explicit() == Matrix([[0, 1], [1, 0]]) and isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)"},"spec":{"lhs":"test_PermutationMatrix_basic()","rhs":"unchanged(PermutationMatrix, p) and PermutationMatrix(p).as_explicit() == Matrix([[0, 1], [1, 0]]) and isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)","over":{"base":"Any","pred":"isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)"},"name":"test_PermutationMatrix_basic_correct"},"guarantee":"unchanged(PermutationMatrix, p); PermutationMatrix(p).as_explicit() == Matrix([[0, 1], [1, 0]]); isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)","fibers":[{"name":"2","pred":"isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)","path":{"lhs":"test_PermutationMatrix_basic(x)","rhs":"unchanged(PermutationMatrix, p); PermutationMatrix(p).as_explicit() == Matrix([[0, 1], [1, 0]]); isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)","over":{"base":"2","pred":"isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)"},"name":"test_PermutationMatrix_basic_2_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_basic_2_correct","statement":"test_PermutationMatrix_basic satisfies spec on 2 inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"4cefb4120c094a74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unchanged(PermutationMatrix, p)","PermutationMatrix(p).as_explicit() == Matrix([[0, 1], [1, 0]])","isinstance(PermutationMatrix(p) * MatrixSymbol('A', 2, 2), MatMul)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"failed","binding":true}}
 def test_PermutationMatrix_basic():
     p = Permutation([1, 0])
     assert unchanged(PermutationMatrix, p)
@@ -53,16 +61,24 @@ def test_PermutationMatrix_basic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PermutationMatrix_matmul(), test_PermutationMatrix_matmul produces the expected output) over Any ║
+# ║ Path(test_PermutationMatrix_matmul(), (P * M).as_explicit() == P.as_explicit() * M and (M * P).as_explicit() == M * P.as_explicit() and P1 * P2 == P3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PermutationMatrix_matmul : Any → {Any | (P * M)....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (P * M).as_explicit() == P.as_explicit() * M   ║
+# ║   ensures:  (M * P).as_explicit() == M * P.as_explicit()   ║
+# ║   ensures:  P1 * P2 == P3                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PermutationMatrix_matmul : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c75b2f14d9e4bd3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15d64c96855b4b14  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_matmul","kind":"function","src_hash":"59f89be0b4904367","in":{"base":"Any"},"out":{"base":"Any","pred":"(P * M).as_explicit() == P.as_explicit() * M and (M * P).as_explicit() == M * P.as_explicit() and P1 * P2 == P3"},"spec":{"lhs":"test_PermutationMatrix_matmul()","rhs":"test_PermutationMatrix_matmul produces the expected output","over":{"base":"Any"},"name":"test_PermutationMatrix_matmul_correct"},"guarantee":"test_PermutationMatrix_matmul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_matmul_correct","statement":"Path(test_PermutationMatrix_matmul(x), test_PermutationMatrix_matmul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c75b2f14d9e4bd3"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_matmul","kind":"function","src_hash":"59f89be0b4904367","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (P * M).as_explicit() == P.as_explicit() * M and (M * P).as_explicit() == M * P.as_explicit() and P1 * P2 == P3"},"spec":{"lhs":"test_PermutationMatrix_matmul()","rhs":"(P * M).as_explicit() == P.as_explicit() * M and (M * P).as_explicit() == M * P.as_explicit() and P1 * P2 == P3","over":{"base":"Any"},"name":"test_PermutationMatrix_matmul_correct"},"guarantee":"(P * M).as_explicit() == P.as_explicit() * M; (M * P).as_explicit() == M * P.as_explicit(); P1 * P2 == P3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_matmul_correct","statement":"Path(test_PermutationMatrix_matmul(x), (P * M).as_explicit() == P.as_explicit() * M; (M * P).as_explicit() == M * P.as_explicit(); P1 * P2 == P3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15d64c96855b4b14","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(P * M).as_explicit() == P.as_explicit() * M","(M * P).as_explicit() == M * P.as_explicit()","P1 * P2 == P3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_PermutationMatrix_matmul():
     p = Permutation([1, 2, 0])
     P = PermutationMatrix(p)
@@ -77,16 +93,23 @@ def test_PermutationMatrix_matmul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PermutationMatrix_matpow(), test_PermutationMatrix_matpow produces the expected output) over Any ║
+# ║ Path(test_PermutationMatrix_matpow(), P1 ** 2 == P2 and P1 ** 3 == Identity(3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PermutationMatrix_matpow : Any → {Any | P1 ** 2 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P1 ** 2 == P2                                  ║
+# ║   ensures:  P1 ** 3 == Identity(3)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PermutationMatrix_matpow : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2dbd6af351cc2ba0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2502d74f21ab3141  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_matpow","kind":"function","src_hash":"52321099c108676a","in":{"base":"Any"},"out":{"base":"Any","pred":"P1 ** 2 == P2 and P1 ** 3 == Identity(3)"},"spec":{"lhs":"test_PermutationMatrix_matpow()","rhs":"test_PermutationMatrix_matpow produces the expected output","over":{"base":"Any"},"name":"test_PermutationMatrix_matpow_correct"},"guarantee":"test_PermutationMatrix_matpow produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_matpow_correct","statement":"Path(test_PermutationMatrix_matpow(x), test_PermutationMatrix_matpow produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2dbd6af351cc2ba0"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_matpow","kind":"function","src_hash":"52321099c108676a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P1 ** 2 == P2 and P1 ** 3 == Identity(3)"},"spec":{"lhs":"test_PermutationMatrix_matpow()","rhs":"P1 ** 2 == P2 and P1 ** 3 == Identity(3)","over":{"base":"Any"},"name":"test_PermutationMatrix_matpow_correct"},"guarantee":"P1 ** 2 == P2; P1 ** 3 == Identity(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_matpow_correct","statement":"Path(test_PermutationMatrix_matpow(x), P1 ** 2 == P2; P1 ** 3 == Identity(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2502d74f21ab3141","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P1 ** 2 == P2","P1 ** 3 == Identity(3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PermutationMatrix_matpow():
     p1 = Permutation([1, 2, 0])
     P1 = PermutationMatrix(p1)
@@ -97,16 +120,23 @@ def test_PermutationMatrix_matpow():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PermutationMatrix_identity(), test_PermutationMatrix_identity produces the expected output) over Any ║
+# ║ Path(test_PermutationMatrix_identity(), PermutationMatrix(p).is_Identity and not PermutationMatrix(p).is_Identity) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PermutationMatrix_identity : Any → {Any | Permut...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  PermutationMatrix(p).is_Identity               ║
+# ║   ensures:  not PermutationMatrix(p).is_Identity           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PermutationMatrix_identity : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22a2f270a8876a87  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cdffd38beb8ad69e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_identity","kind":"function","src_hash":"0fa4b64559053acc","in":{"base":"Any"},"out":{"base":"Any","pred":"PermutationMatrix(p).is_Identity and not PermutationMatrix(p).is_Identity"},"spec":{"lhs":"test_PermutationMatrix_identity()","rhs":"test_PermutationMatrix_identity produces the expected output","over":{"base":"Any"},"name":"test_PermutationMatrix_identity_correct"},"guarantee":"test_PermutationMatrix_identity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_identity_correct","statement":"Path(test_PermutationMatrix_identity(x), test_PermutationMatrix_identity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22a2f270a8876a87"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_identity","kind":"function","src_hash":"0fa4b64559053acc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: PermutationMatrix(p).is_Identity and not PermutationMatrix(p).is_Identity"},"spec":{"lhs":"test_PermutationMatrix_identity()","rhs":"PermutationMatrix(p).is_Identity and not PermutationMatrix(p).is_Identity","over":{"base":"Any"},"name":"test_PermutationMatrix_identity_correct"},"guarantee":"PermutationMatrix(p).is_Identity; not PermutationMatrix(p).is_Identity","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_identity_correct","statement":"Path(test_PermutationMatrix_identity(x), PermutationMatrix(p).is_Identity; not PermutationMatrix(p).is_Identity)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cdffd38beb8ad69e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["PermutationMatrix(p).is_Identity","not PermutationMatrix(p).is_Identity"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PermutationMatrix_identity():
     p = Permutation([0, 1])
     assert PermutationMatrix(p).is_Identity
@@ -116,16 +146,23 @@ def test_PermutationMatrix_identity():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PermutationMatrix_determinant(), test_PermutationMatrix_determinant produces the expected output) over Any ║
+# ║ Path(test_PermutationMatrix_determinant(), Determinant(P).doit() == 1 and Determinant(P).doit() == -1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PermutationMatrix_determinant : Any → {Any | Det...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Determinant(P).doit() == 1                     ║
+# ║   ensures:  Determinant(P).doit() == -1                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PermutationMatrix_determinant : Any → {Any | res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ac1522347903f6a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad6a10a2d15433d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_determinant","kind":"function","src_hash":"52687372beadf71c","in":{"base":"Any"},"out":{"base":"Any","pred":"Determinant(P).doit() == 1 and Determinant(P).doit() == -1 and Determinant(P).doit() == 1"},"spec":{"lhs":"test_PermutationMatrix_determinant()","rhs":"test_PermutationMatrix_determinant produces the expected output","over":{"base":"Any"},"name":"test_PermutationMatrix_determinant_correct"},"guarantee":"test_PermutationMatrix_determinant produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_determinant_correct","statement":"Path(test_PermutationMatrix_determinant(x), test_PermutationMatrix_determinant produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ac1522347903f6a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_determinant","kind":"function","src_hash":"52687372beadf71c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Determinant(P).doit() == 1 and Determinant(P).doit() == -1"},"spec":{"lhs":"test_PermutationMatrix_determinant()","rhs":"Determinant(P).doit() == 1 and Determinant(P).doit() == -1","over":{"base":"Any"},"name":"test_PermutationMatrix_determinant_correct"},"guarantee":"Determinant(P).doit() == 1; Determinant(P).doit() == -1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_determinant_correct","statement":"Path(test_PermutationMatrix_determinant(x), Determinant(P).doit() == 1; Determinant(P).doit() == -1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad6a10a2d15433d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Determinant(P).doit() == 1","Determinant(P).doit() == -1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PermutationMatrix_determinant():
     P = PermutationMatrix(Permutation([0, 1, 2]))
     assert Determinant(P).doit() == 1
@@ -136,32 +173,46 @@ def test_PermutationMatrix_determinant():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PermutationMatrix_inverse(), test_PermutationMatrix_inverse produces the expected output) over Any ║
+# ║ Path(test_PermutationMatrix_inverse(), Inverse(P).doit() == PermutationMatrix(Permutation(0, 2, 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_PermutationMatrix_inverse : Any → {Any | Inverse...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Inverse(P).doit() == PermutationMatrix(Pe...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_PermutationMatrix_inverse : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cd458b2c30a4728  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 131496b447bed0f6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_inverse","kind":"function","src_hash":"d42c182d9f3ed28c","in":{"base":"Any"},"out":{"base":"Any","pred":"Inverse(P).doit() == PermutationMatrix(Permutation(0, 2, 1))"},"spec":{"lhs":"test_PermutationMatrix_inverse()","rhs":"test_PermutationMatrix_inverse produces the expected output","over":{"base":"Any"},"name":"test_PermutationMatrix_inverse_correct"},"guarantee":"test_PermutationMatrix_inverse produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_inverse_correct","statement":"Path(test_PermutationMatrix_inverse(x), test_PermutationMatrix_inverse produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cd458b2c30a4728"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_inverse","kind":"function","src_hash":"d42c182d9f3ed28c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Inverse(P).doit() == PermutationMatrix(Permutation(0, 2, 1))"},"spec":{"lhs":"test_PermutationMatrix_inverse()","rhs":"Inverse(P).doit() == PermutationMatrix(Permutation(0, 2, 1))","over":{"base":"Any"},"name":"test_PermutationMatrix_inverse_correct"},"guarantee":"Inverse(P).doit() == PermutationMatrix(Permutation(0, 2, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_inverse_correct","statement":"Path(test_PermutationMatrix_inverse(x), Inverse(P).doit() == PermutationMatrix(Permutation(0, 2, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"131496b447bed0f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Inverse(P).doit() == PermutationMatrix(Permutation(0, 2, 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_PermutationMatrix_inverse():
     P = PermutationMatrix(Permutation(0, 1, 2))
     assert Inverse(P).doit() == PermutationMatrix(Permutation(0, 2, 1))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_PermutationMatrix_rewrite_BlockDiagMatrix(), test_PermutationMatrix_rewrite_BlockDiagMatrix produces the expected output) over Any ║
+# ║ Path(test_PermutationMatrix_rewrite_BlockDiagMatrix(), P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P0, P0, P0, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P10, P0, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P10, P10, P10) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P3210, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P3120, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  P.rewrite(BlockDiagMatrix) == BlockDiagMa...   ║
+# ║   ensures:  P.rewrite(BlockDiagMatrix) == BlockDiagMa...   ║
+# ║   ensures:  P.rewrite(BlockDiagMatrix) == BlockDiagMa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_PermutationMatrix_rewrite_BlockDiagMatrix : Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 401fd56af6df4376  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 19c99cfe38e4a5df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_rewrite_BlockDiagMatrix","kind":"function","src_hash":"cd36e2e6d9698d3a","in":{"base":"Any"},"out":{"base":"Any","pred":"P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P0, P0, P0, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P10, P0, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P10, P10, P10) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P3210, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P3120, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P)"},"spec":{"lhs":"test_PermutationMatrix_rewrite_BlockDiagMatrix()","rhs":"test_PermutationMatrix_rewrite_BlockDiagMatrix produces the expected output","over":{"base":"Any"},"name":"test_PermutationMatrix_rewrite_BlockDiagMatrix_correct"},"guarantee":"test_PermutationMatrix_rewrite_BlockDiagMatrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_rewrite_BlockDiagMatrix_correct","statement":"Path(test_PermutationMatrix_rewrite_BlockDiagMatrix(x), test_PermutationMatrix_rewrite_BlockDiagMatrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"401fd56af6df4376"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_rewrite_BlockDiagMatrix","kind":"function","src_hash":"cd36e2e6d9698d3a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P0, P0, P0, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P10, P0, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P10, P10, P10) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P3210, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P3120, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P)"},"spec":{"lhs":"test_PermutationMatrix_rewrite_BlockDiagMatrix()","rhs":"P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P0, P0, P0, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P10, P0, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P10, P10, P10) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P3210, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P3120, P0) and P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P)","over":{"base":"Any"},"name":"test_PermutationMatrix_rewrite_BlockDiagMatrix_correct"},"guarantee":"P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P0, P0, P0, P0); P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P10, P0, P0); P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P10, P10, P10)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_PermutationMatrix_rewrite_BlockDiagMatrix_correct","statement":"Path(test_PermutationMatrix_rewrite_BlockDiagMatrix(x), P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P0, P0, P0, P0); P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P10, P0, P0); P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P10, P10, P10))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"19c99cfe38e4a5df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P0, P0, P0, P0)","P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P0, P10, P0, P0)","P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P10, P10, P10)","P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P3210, P0)","P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P0, P3120, P0)","P.rewrite(BlockDiagMatrix) == BlockDiagMatrix(P)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_PermutationMatrix_rewrite_BlockDiagMatrix():
     P = PermutationMatrix(Permutation([0, 1, 2, 3, 4, 5]))
     P0 = PermutationMatrix(Permutation([0]))
@@ -192,16 +243,23 @@ def test_PermutationMatrix_rewrite_BlockDiagMatrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MartrixPermute_basic(), test_MartrixPermute_basic produces the expected output) over Any ║
+# ║ Path(test_MartrixPermute_basic(), MatrixPermute(A, P) == MatrixPermute(A, p) and MatrixPermute(A, pp) == MatrixPermute(A, p)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MartrixPermute_basic : Any → {Any | MatrixPermut...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatrixPermute(A, P) == MatrixPermute(A, p)     ║
+# ║   ensures:  MatrixPermute(A, pp) == MatrixPermute(A, p)    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MartrixPermute_basic : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 396a53b582b09bfe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ddfcf122eae13705  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_MartrixPermute_basic","kind":"function","src_hash":"886284960b8db166","in":{"base":"Any"},"out":{"base":"Any","pred":"MatrixPermute(A, P) == MatrixPermute(A, p) and MatrixPermute(A, pp) == MatrixPermute(A, p)"},"spec":{"lhs":"test_MartrixPermute_basic()","rhs":"test_MartrixPermute_basic produces the expected output","over":{"base":"Any"},"name":"test_MartrixPermute_basic_correct"},"guarantee":"test_MartrixPermute_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_MartrixPermute_basic_correct","statement":"Path(test_MartrixPermute_basic(x), test_MartrixPermute_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"396a53b582b09bfe"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_MartrixPermute_basic","kind":"function","src_hash":"886284960b8db166","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatrixPermute(A, P) == MatrixPermute(A, p) and MatrixPermute(A, pp) == MatrixPermute(A, p)"},"spec":{"lhs":"test_MartrixPermute_basic()","rhs":"MatrixPermute(A, P) == MatrixPermute(A, p) and MatrixPermute(A, pp) == MatrixPermute(A, p)","over":{"base":"Any"},"name":"test_MartrixPermute_basic_correct"},"guarantee":"MatrixPermute(A, P) == MatrixPermute(A, p); MatrixPermute(A, pp) == MatrixPermute(A, p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_MartrixPermute_basic_correct","statement":"Path(test_MartrixPermute_basic(x), MatrixPermute(A, P) == MatrixPermute(A, p); MatrixPermute(A, pp) == MatrixPermute(A, p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ddfcf122eae13705","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatrixPermute(A, P) == MatrixPermute(A, p)","MatrixPermute(A, pp) == MatrixPermute(A, p)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_MartrixPermute_basic():
     p = Permutation(0, 1)
     P = PermutationMatrix(p)
@@ -220,16 +278,22 @@ def test_MartrixPermute_basic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixPermute_shape(), test_MatrixPermute_shape produces the expected output) over Any ║
+# ║ Path(test_MatrixPermute_shape(), MatrixPermute(A, p).shape == (2, 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixPermute_shape : Any → {Any | MatrixPermute...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatrixPermute(A, p).shape == (2, 3)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixPermute_shape : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5706459bc1b7180a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1ff6cb44ca4d7e1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_shape","kind":"function","src_hash":"c8be1ae8905480af","in":{"base":"Any"},"out":{"base":"Any","pred":"MatrixPermute(A, p).shape == (2, 3)"},"spec":{"lhs":"test_MatrixPermute_shape()","rhs":"test_MatrixPermute_shape produces the expected output","over":{"base":"Any"},"name":"test_MatrixPermute_shape_correct"},"guarantee":"test_MatrixPermute_shape produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_shape_correct","statement":"Path(test_MatrixPermute_shape(x), test_MatrixPermute_shape produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5706459bc1b7180a"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_shape","kind":"function","src_hash":"c8be1ae8905480af","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatrixPermute(A, p).shape == (2, 3)"},"spec":{"lhs":"test_MatrixPermute_shape()","rhs":"MatrixPermute(A, p).shape == (2, 3)","over":{"base":"Any"},"name":"test_MatrixPermute_shape_correct"},"guarantee":"MatrixPermute(A, p).shape == (2, 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_shape_correct","statement":"Path(test_MatrixPermute_shape(x), MatrixPermute(A, p).shape == (2, 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1ff6cb44ca4d7e1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatrixPermute(A, p).shape == (2, 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixPermute_shape():
     p = Permutation(0, 1)
     A = MatrixSymbol('A', 2, 3)
@@ -237,16 +301,23 @@ def test_MatrixPermute_shape():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixPermute_explicit(), test_MatrixPermute_explicit produces the expected output) over Any ║
+# ║ Path(test_MatrixPermute_explicit(), MatrixPermute(A, p, 0).as_explicit() == AA.permute(p, orientation='rows') and MatrixPermute(A, p, 1).as_explicit() == AA.permute(p, orientation='cols')) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixPermute_explicit : Any → {Any | MatrixPerm...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatrixPermute(A, p, 0).as_explicit() == A...   ║
+# ║   ensures:  MatrixPermute(A, p, 1).as_explicit() == A...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixPermute_explicit : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9928b9e80991b0e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6f75d4a27a5b5371  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_explicit","kind":"function","src_hash":"ab9d64e86f4c6d7e","in":{"base":"Any"},"out":{"base":"Any","pred":"MatrixPermute(A, p, 0).as_explicit() == AA.permute(p, orientation='rows') and MatrixPermute(A, p, 1).as_explicit() == AA.permute(p, orientation='cols')"},"spec":{"lhs":"test_MatrixPermute_explicit()","rhs":"test_MatrixPermute_explicit produces the expected output","over":{"base":"Any"},"name":"test_MatrixPermute_explicit_correct"},"guarantee":"test_MatrixPermute_explicit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_explicit_correct","statement":"Path(test_MatrixPermute_explicit(x), test_MatrixPermute_explicit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9928b9e80991b0e5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_explicit","kind":"function","src_hash":"ab9d64e86f4c6d7e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatrixPermute(A, p, 0).as_explicit() == AA.permute(p, orientation='rows') and MatrixPermute(A, p, 1).as_explicit() == AA.permute(p, orientation='cols')"},"spec":{"lhs":"test_MatrixPermute_explicit()","rhs":"MatrixPermute(A, p, 0).as_explicit() == AA.permute(p, orientation='rows') and MatrixPermute(A, p, 1).as_explicit() == AA.permute(p, orientation='cols')","over":{"base":"Any"},"name":"test_MatrixPermute_explicit_correct"},"guarantee":"MatrixPermute(A, p, 0).as_explicit() == AA.permute(p, orientation='rows'); MatrixPermute(A, p, 1).as_explicit() == AA.permute(p, orientation='cols')","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_explicit_correct","statement":"Path(test_MatrixPermute_explicit(x), MatrixPermute(A, p, 0).as_explicit() == AA.permute(p, orientation='rows'); MatrixPermute(A, p, 1).as_explicit() == AA.permute(p, orientation='cols'))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6f75d4a27a5b5371","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatrixPermute(A, p, 0).as_explicit() == AA.permute(p, orientation='rows')","MatrixPermute(A, p, 1).as_explicit() == AA.permute(p, orientation='cols')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixPermute_explicit():
     p = Permutation(0, 1, 2)
     A = MatrixSymbol('A', 3, 3)
@@ -258,16 +329,23 @@ def test_MatrixPermute_explicit():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixPermute_rewrite_MatMul(), test_MatrixPermute_rewrite_MatMul produces the expected output) over Any ║
+# ║ Path(test_MatrixPermute_rewrite_MatMul(), MatrixPermute(A, p, 0).rewrite(MatMul).as_explicit() == MatrixPermute(A, p, 0).as_explicit() and MatrixPermute(A, p, 1).rewrite(MatMul).as_explicit() == MatrixPermute(A, p, 1).as_explicit()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixPermute_rewrite_MatMul : Any → Any              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatrixPermute(A, p, 0).rewrite(MatMul).as...   ║
+# ║   ensures:  MatrixPermute(A, p, 1).rewrite(MatMul).as...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixPermute_rewrite_MatMul : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1b75e86c0cf203a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa39496b195f030b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_rewrite_MatMul","kind":"function","src_hash":"2fd8f02e2fd7ec87","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_MatrixPermute_rewrite_MatMul()","rhs":"test_MatrixPermute_rewrite_MatMul produces the expected output","over":{"base":"Any"},"name":"test_MatrixPermute_rewrite_MatMul_correct"},"guarantee":"test_MatrixPermute_rewrite_MatMul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_rewrite_MatMul_correct","statement":"Path(test_MatrixPermute_rewrite_MatMul(x), test_MatrixPermute_rewrite_MatMul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1b75e86c0cf203a5"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_rewrite_MatMul","kind":"function","src_hash":"2fd8f02e2fd7ec87","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatrixPermute(A, p, 0).rewrite(MatMul).as_explicit() == MatrixPermute(A, p, 0).as_explicit() and MatrixPermute(A, p, 1).rewrite(MatMul).as_explicit() == MatrixPermute(A, p, 1).as_explicit()"},"spec":{"lhs":"test_MatrixPermute_rewrite_MatMul()","rhs":"MatrixPermute(A, p, 0).rewrite(MatMul).as_explicit() == MatrixPermute(A, p, 0).as_explicit() and MatrixPermute(A, p, 1).rewrite(MatMul).as_explicit() == MatrixPermute(A, p, 1).as_explicit()","over":{"base":"Any"},"name":"test_MatrixPermute_rewrite_MatMul_correct"},"guarantee":"MatrixPermute(A, p, 0).rewrite(MatMul).as_explicit() == MatrixPermute(A, p, 0).as_explicit(); MatrixPermute(A, p, 1).rewrite(MatMul).as_explicit() == MatrixPermute(A, p, 1).as_explicit()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_rewrite_MatMul_correct","statement":"Path(test_MatrixPermute_rewrite_MatMul(x), MatrixPermute(A, p, 0).rewrite(MatMul).as_explicit() == MatrixPermute(A, p, 0).as_explicit(); MatrixPermute(A, p, 1).rewrite(MatMul).as_explicit() == MatrixPermute(A, p, 1).as_explicit())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa39496b195f030b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatrixPermute(A, p, 0).rewrite(MatMul).as_explicit() == MatrixPermute(A, p, 0).as_explicit()","MatrixPermute(A, p, 1).rewrite(MatMul).as_explicit() == MatrixPermute(A, p, 1).as_explicit()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_MatrixPermute_rewrite_MatMul():
     p = Permutation(0, 1, 2)
     A = MatrixSymbol('A', 3, 3)
@@ -279,16 +357,24 @@ def test_MatrixPermute_rewrite_MatMul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_MatrixPermute_doit(), test_MatrixPermute_doit produces the expected output) over Any ║
+# ║ Path(test_MatrixPermute_doit(), MatrixPermute(A, p).doit() == MatrixPermute(A, p) and MatrixPermute(A, p).doit().as_explicit() == MatrixPermute(A, p).as_explicit() and MatrixPermute(A, p, 0).doit().as_explicit() == MatrixPermute(A, p, 0).as_explicit() and MatrixPermute(A, p, 1).doit().as_explicit() == MatrixPermute(A, p, 1).as_explicit() and MatrixPermute(A, p).doit() == A and expr.as_explicit() == expr.doit().as_explicit()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_MatrixPermute_doit : Any → {Any | MatrixPermute(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MatrixPermute(A, p).doit() == MatrixPermu...   ║
+# ║   ensures:  MatrixPermute(A, p).doit().as_explicit() ...   ║
+# ║   ensures:  MatrixPermute(A, p, 0).doit().as_explicit...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_MatrixPermute_doit : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c9295f7c5c54189  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 628296dd2f0d7292  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_doit","kind":"function","src_hash":"71feece9e773cd07","in":{"base":"Any"},"out":{"base":"Any","pred":"MatrixPermute(A, p).doit() == MatrixPermute(A, p) and MatrixPermute(A, p).doit().as_explicit() == MatrixPermute(A, p).as_explicit() and MatrixPermute(A, p).doit() == A and MatrixPermute(A, p).doit() == A and expr.as_explicit() == expr.doit().as_explicit() and expr.as_explicit() == expr.doit().as_explicit()"},"spec":{"lhs":"test_MatrixPermute_doit()","rhs":"test_MatrixPermute_doit produces the expected output","over":{"base":"Any"},"name":"test_MatrixPermute_doit_correct"},"guarantee":"test_MatrixPermute_doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_doit_correct","statement":"Path(test_MatrixPermute_doit(x), test_MatrixPermute_doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c9295f7c5c54189"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_doit","kind":"function","src_hash":"71feece9e773cd07","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MatrixPermute(A, p).doit() == MatrixPermute(A, p) and MatrixPermute(A, p).doit().as_explicit() == MatrixPermute(A, p).as_explicit() and MatrixPermute(A, p, 0).doit().as_explicit() == MatrixPermute(A, p, 0).as_explicit() and MatrixPermute(A, p, 1).doit().as_explicit() == MatrixPermute(A, p, 1).as_explicit() and MatrixPermute(A, p).doit() == A and expr.as_explicit() == expr.doit().as_explicit()"},"spec":{"lhs":"test_MatrixPermute_doit()","rhs":"MatrixPermute(A, p).doit() == MatrixPermute(A, p) and MatrixPermute(A, p).doit().as_explicit() == MatrixPermute(A, p).as_explicit() and MatrixPermute(A, p, 0).doit().as_explicit() == MatrixPermute(A, p, 0).as_explicit() and MatrixPermute(A, p, 1).doit().as_explicit() == MatrixPermute(A, p, 1).as_explicit() and MatrixPermute(A, p).doit() == A and expr.as_explicit() == expr.doit().as_explicit()","over":{"base":"Any"},"name":"test_MatrixPermute_doit_correct"},"guarantee":"MatrixPermute(A, p).doit() == MatrixPermute(A, p); MatrixPermute(A, p).doit().as_explicit() == MatrixPermute(A, p).as_explicit(); MatrixPermute(A, p, 0).doit().as_explicit() == MatrixPermute(A, p, 0).as_explicit()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.expressions.tests.test_permutation.test_MatrixPermute_doit_correct","statement":"Path(test_MatrixPermute_doit(x), MatrixPermute(A, p).doit() == MatrixPermute(A, p); MatrixPermute(A, p).doit().as_explicit() == MatrixPermute(A, p).as_explicit(); MatrixPermute(A, p, 0).doit().as_explicit() == MatrixPermute(A, p, 0).as_explicit())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"628296dd2f0d7292","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MatrixPermute(A, p).doit() == MatrixPermute(A, p)","MatrixPermute(A, p).doit().as_explicit() == MatrixPermute(A, p).as_explicit()","MatrixPermute(A, p, 0).doit().as_explicit() == MatrixPermute(A, p, 0).as_explicit()","MatrixPermute(A, p, 1).doit().as_explicit() == MatrixPermute(A, p, 1).as_explicit()","MatrixPermute(A, p).doit() == A","expr.as_explicit() == expr.doit().as_explicit()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_MatrixPermute_doit():
     p = Permutation(0, 1, 2)
     A = MatrixSymbol('A', 3, 3)

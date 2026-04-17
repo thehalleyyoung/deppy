@@ -36,14 +36,20 @@ __all__ = ['KanesMethod']
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a KanesMethod instance) preserved by KanesMethod(*args) over {Any | isinstance(frame, ReferenceFrame) and isinstance(body, RigidBody) and isinstance(body, Particle)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, _Methods)                     ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ KanesMethod : {Any | isinstance(frame, ReferenceFrame...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 4.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b021cee8b43cf7e8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod","kind":"class","src_hash":"0b10c2a2ca22b4f6","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(body, RigidBody) and isinstance(body, Particle)"},"out":{"base":"Any"},"spec":{"lhs":"KanesMethod(*args)","rhs":"correctly constructs a KanesMethod instance","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(body, RigidBody) and isinstance(body, Particle)"},"name":"KanesMethod_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a KanesMethod instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_inertial') and hasattr(self, '_fr') and hasattr(self, '_frstar') and hasattr(self, '_forcelist') and hasattr(self, '_bodylist') and hasattr(self, 'explicit_kinematics') and hasattr(self, '_constraint_solver')","kind":"class","induction":"structural on _inertial, _fr, _frstar, _forcelist"}],"methods_preserving":["__init__","_initialize_vectors","_initialize_constraint_matrices","_initialize_kindiffeq_matrices","_form_fr","_form_frstar","to_linearizer","linearize","kanes_equations","_form_eoms","rhs","kindiffdict","auxiliary_eqs","mass_matrix_kin","forcing_kin","mass_matrix","forcing","mass_matrix_full","forcing_full","q","u","bodylist","forcelist","bodies","loads"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b021cee8b43cf7e8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod","kind":"class","src_hash":"0b10c2a2ca22b4f6","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(body, RigidBody) and isinstance(body, Particle)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, _Methods)"},"spec":{"lhs":"KanesMethod(*args)","rhs":"correctly constructs a KanesMethod instance","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame) and isinstance(body, RigidBody) and isinstance(body, Particle)"},"name":"KanesMethod_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, _Methods); preserves 7 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_inertial') and hasattr(self, '_fr') and hasattr(self, '_frstar') and hasattr(self, '_forcelist') and hasattr(self, '_bodylist') and hasattr(self, 'explicit_kinematics') and hasattr(self, '_constraint_solver')","kind":"class","induction":"structural on _inertial, _fr, _frstar, _forcelist"}],"methods_preserving":["__init__","_initialize_vectors","_initialize_constraint_matrices","_initialize_kindiffeq_matrices","_form_fr","_form_frstar","to_linearizer","linearize","kanes_equations","_form_eoms","rhs","kindiffdict","auxiliary_eqs","mass_matrix_kin","forcing_kin","mass_matrix","forcing","mass_matrix_full","forcing_full","q","u","bodylist","forcelist","bodies","loads"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b021cee8b43cf7e8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, _Methods)"],"invariants":["hasattr(self, '_inertial')","hasattr(self, '_fr')","hasattr(self, '_frstar')","hasattr(self, '_forcelist')","hasattr(self, '_bodylist')","hasattr(self, 'explicit_kinematics')","hasattr(self, '_constraint_solver')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function KanesMethod not found in source"]}}
 class KanesMethod(_Methods):
     r"""Kane's method object.
 
@@ -234,16 +240,23 @@ class KanesMethod(_Methods):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(fra), initializes the instance correctly) over Any ║
+# ║ Path(__init__(frame, q_ind, u_ind), self._inertial == frame) over {Any | isinstance(frame, ReferenceFrame)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(frame, ReferenceFrame)              ║
+# ║   ensures:  self._inertial == frame                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(frame, ReferenceFrame)} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa5cdae79fb48b60           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.__init__","kind":"method","src_hash":"d516ebaf461bb851","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(fra)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa5cdae79fb48b60"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.__init__","kind":"method","src_hash":"d516ebaf461bb851","in":{"base":"Any","pred":"isinstance(frame, ReferenceFrame)"},"out":{"base":"Any","pred":"result satisfies: self._inertial == frame"},"spec":{"lhs":"__init__(frame, q_ind, u_ind)","rhs":"self._inertial == frame","over":{"base":"Any","pred":"isinstance(frame, ReferenceFrame)"},"name":"__init___correct"},"guarantee":"self._inertial == frame","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa5cdae79fb48b60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(frame, ReferenceFrame)"],"ensures":["self._inertial == frame"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._initialize_constraint_matrices","self._initialize_kindiffeq_matrices","self._initialize_vectors","self.q","self.u"],"writes":["self._bodylist","self._constraint_solver","self._forcelist","self._fr","self._frstar","self._inertial","self.explicit_kinematics"],"raises":["TypeError"]},"state_contract":{"modifies":["self._bodylist","self._constraint_solver","self._forcelist","self._fr","self._frstar","self._inertial","self.explicit_kinematics"],"old_bindings":{"old_self__bodylist":"self._bodylist","old_self__constraint_solver":"self._constraint_solver","old_self__forcelist":"self._forcelist","old_self__fr":"self._fr","old_self__frstar":"self._frstar","old_self__inertial":"self._inertial","old_self_explicit_kinematics":"self.explicit_kinematics"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, frame, q_ind, u_ind, kd_eqs=None, q_dependent=None,
                  configuration_constraints=None, u_dependent=None,
                  velocity_constraints=None, acceleration_constraints=None,
@@ -277,16 +290,24 @@ class KanesMethod(_Methods):
             acceleration_constraints, constraint_solver)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_initialize_vectors(q_i), initialize the coordinate and speed vectors) over Any ║
+# ║ Path(_initialize_vectors(q_ind, q_dep, u_ind), <unspecified:_initialize_vectors>) over {Any | iterable(q_ind) and iterable(q_dep)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _initialize_vectors : Any → Any                            ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: iterable(q_ind)                                ║
+# ║   requires: iterable(q_dep)                                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _initialize_vectors : {Any | iterable(q_ind) and iter...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 024c208ba8f828cb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod._initialize_vectors","kind":"method","src_hash":"447baf8fa59b614f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_initialize_vectors(q_i)","rhs":"initialize the coordinate and speed vectors","over":{"base":"Any"},"name":"_initialize_vectors_correct"},"guarantee":"initialize the coordinate and speed vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod._initialize_vectors_correct","statement":"Path(_initialize_vectors(x), initialize the coordinate and speed vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"024c208ba8f828cb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod._initialize_vectors","kind":"method","src_hash":"447baf8fa59b614f","in":{"base":"Any","pred":"iterable(q_ind) and iterable(q_dep)"},"out":{"base":"Any"},"spec":{"lhs":"_initialize_vectors(q_ind, q_dep, u_ind)","rhs":"<unspecified:_initialize_vectors>","over":{"base":"Any","pred":"iterable(q_ind) and iterable(q_dep)"},"name":"_initialize_vectors_correct"},"guarantee":"initialize the coordinate and speed vectors","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod._initialize_vectors_correct","statement":"Path(_initialize_vectors(x), initialize the coordinate and speed vectors)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"024c208ba8f828cb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["iterable(q_ind)","iterable(q_dep)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.q","self.u"],"writes":["self._q","self._qdep","self._qdot","self._u","self._uaux","self._udep","self._udot"],"raises":["TypeError"]},"state_contract":{"modifies":["self._q","self._qdep","self._qdot","self._u","self._uaux","self._udep","self._udot"],"old_bindings":{"old_self__q":"self._q","old_self__qdep":"self._qdep","old_self__qdot":"self._qdot","old_self__u":"self._u","old_self__uaux":"self._uaux","old_self__udep":"self._udep","old_self__udot":"self._udot"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _initialize_vectors(self, q_ind, q_dep, u_ind, u_dep, u_aux):
         """Initialize the coordinate and speed vectors."""
 
@@ -316,16 +337,22 @@ class KanesMethod(_Methods):
         self._uaux = none_handler(u_aux)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_initialize_constraint_matrices(con), initializes constraint matrices) over Any ║
+# ║ Path(_initialize_constraint_matrices(config, vel, acc), <unspecified:_initialize_constraint_matrices>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _initialize_constraint_matrices : Any → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2231c1a6cb08d43  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod._initialize_constraint_matrices","kind":"method","src_hash":"10bb2f3b99e5ebac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_initialize_constraint_matrices(con)","rhs":"initializes constraint matrices","over":{"base":"Any"},"name":"_initialize_constraint_matrices_correct"},"guarantee":"initializes constraint matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod._initialize_constraint_matrices_correct","statement":"Path(_initialize_constraint_matrices(x), initializes constraint matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2231c1a6cb08d43"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod._initialize_constraint_matrices","kind":"method","src_hash":"10bb2f3b99e5ebac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_initialize_constraint_matrices(config, vel, acc)","rhs":"<unspecified:_initialize_constraint_matrices>","over":{"base":"Any"},"name":"_initialize_constraint_matrices_correct"},"guarantee":"initializes constraint matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod._initialize_constraint_matrices_correct","statement":"Path(_initialize_constraint_matrices(x), initializes constraint matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2231c1a6cb08d43","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._f_nh","self._k_nh","self._qdep","self._qdot_u_map","self._udep","self._udot","self.u"],"writes":["self._Ars","self._f_dnh","self._f_h","self._f_nh","self._k_dnh","self._k_nh"],"raises":["ValueError"]},"state_contract":{"modifies":["self._Ars","self._f_dnh","self._f_h","self._f_nh","self._k_dnh","self._k_nh"],"old_bindings":{"old_self__Ars":"self._Ars","old_self__f_dnh":"self._f_dnh","old_self__f_h":"self._f_h","old_self__f_nh":"self._f_nh","old_self__k_dnh":"self._k_dnh","old_self__k_nh":"self._k_nh"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _initialize_constraint_matrices(self, config, vel, acc, linear_solver='LU'):
         """Initializes constraint matrices."""
         linear_solver = _parse_linear_solver(linear_solver)
@@ -392,16 +419,24 @@ class KanesMethod(_Methods):
             self._Ars = Matrix()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_initialize_kindiffeq_matrices(kde), initialize the kinematic differential equation matrices) over Any ║
+# ║ Path(_initialize_kindiffeq_matrices(kdeqs, linear_solver), <unspecified:_initialize_kindiffeq_matrices>) over {Any | hasattr(kdeqs, 'jacobian') and hasattr(kdeqs, 'xreplace')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _initialize_kindiffeq_matrices : Any → Any                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(kdeqs, 'jacobian')                     ║
+# ║   requires: hasattr(kdeqs, 'xreplace')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _initialize_kindiffeq_matrices : {Any | hasattr(kdeqs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c662cda18d415680  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod._initialize_kindiffeq_matrices","kind":"method","src_hash":"fe4471e25d95036f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_initialize_kindiffeq_matrices(kde)","rhs":"initialize the kinematic differential equation matrices","over":{"base":"Any"},"name":"_initialize_kindiffeq_matrices_correct"},"guarantee":"initialize the kinematic differential equation matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod._initialize_kindiffeq_matrices_correct","statement":"Path(_initialize_kindiffeq_matrices(x), initialize the kinematic differential equation matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c662cda18d415680"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod._initialize_kindiffeq_matrices","kind":"method","src_hash":"fe4471e25d95036f","in":{"base":"Any","pred":"hasattr(kdeqs, 'jacobian') and hasattr(kdeqs, 'xreplace')"},"out":{"base":"Any"},"spec":{"lhs":"_initialize_kindiffeq_matrices(kdeqs, linear_solver)","rhs":"<unspecified:_initialize_kindiffeq_matrices>","over":{"base":"Any","pred":"hasattr(kdeqs, 'jacobian') and hasattr(kdeqs, 'xreplace')"},"name":"_initialize_kindiffeq_matrices_correct"},"guarantee":"initialize the kinematic differential equation matrices","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod._initialize_kindiffeq_matrices_correct","statement":"Path(_initialize_kindiffeq_matrices(x), initialize the kinematic differential equation matrices)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c662cda18d415680","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(kdeqs, 'jacobian')","hasattr(kdeqs, 'xreplace')"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["kdeqs.jacobian","kdeqs.xreplace","self._qdot","self._uaux","self.q","self.u"],"writes":["self._f_k","self._f_k_implicit","self._k_kqdot","self._k_kqdot_implicit","self._k_ku","self._k_ku_implicit","self._qdot_u_map"],"raises":["ValueError"]},"state_contract":{"modifies":["self._f_k","self._f_k_implicit","self._k_kqdot","self._k_kqdot_implicit","self._k_ku","self._k_ku_implicit","self._qdot_u_map"],"old_bindings":{"old_self__f_k":"self._f_k","old_self__f_k_implicit":"self._f_k_implicit","old_self__k_kqdot":"self._k_kqdot","old_self__k_kqdot_implicit":"self._k_kqdot_implicit","old_self__k_ku":"self._k_ku","old_self__k_ku_implicit":"self._k_ku_implicit","old_self__qdot_u_map":"self._qdot_u_map"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _initialize_kindiffeq_matrices(self, kdeqs, linear_solver='LU'):
         """Initialize the kinematic differential equation matrices.
 
@@ -475,16 +510,23 @@ class KanesMethod(_Methods):
             self._k_kqdot_implicit = self._k_kqdot = Matrix()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_form_fr(fl), form the generalized active force) over Any ║
+# ║ Path(_form_fr(fl), <unspecified:_form_fr>) over {Any | not (fl is not None and (len(fl) == 0 or not iterable(fl)))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _form_fr : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (fl is not None and (len(fl) == 0 or ...   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _form_fr : {Any | not (fl is not None and (len(fl) ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 937f66f1176a270c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod._form_fr","kind":"method","src_hash":"c42edad8f37021d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_fr(fl)","rhs":"form the generalized active force","over":{"base":"Any"},"name":"_form_fr_correct"},"guarantee":"form the generalized active force","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod._form_fr_correct","statement":"Path(_form_fr(x), form the generalized active force)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"937f66f1176a270c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod._form_fr","kind":"method","src_hash":"c42edad8f37021d5","in":{"base":"Any","pred":"not (fl is not None and (len(fl) == 0 or not iterable(fl)))"},"out":{"base":"Any"},"spec":{"lhs":"_form_fr(fl)","rhs":"<unspecified:_form_fr>","over":{"base":"Any","pred":"not (fl is not None and (len(fl) == 0 or not iterable(fl)))"},"name":"_form_fr_correct"},"guarantee":"form the generalized active force","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod._form_fr_correct","statement":"Path(_form_fr(x), form the generalized active force)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"937f66f1176a270c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (fl is not None and (len(fl) == 0 or not iterable(fl)))"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._Ars","self._inertial","self._qdot_u_map","self._udep","self.u"],"writes":["self._forcelist","self._fr"],"raises":["ValueError"]},"state_contract":{"modifies":["self._forcelist","self._fr"],"old_bindings":{"old_self__forcelist":"self._forcelist","old_self__fr":"self._fr"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _form_fr(self, fl):
         """Form the generalized active force."""
         if fl is not None and (len(fl) == 0 or not iterable(fl)):
@@ -518,16 +560,23 @@ class KanesMethod(_Methods):
         return FR
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_form_frstar(bl), form the generalized inertia force) over Any ║
+# ║ Path(_form_frstar(bl), <unspecified:_form_frstar>) over {Any | iterable(bl)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _form_frstar : Any → Any                                   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: iterable(bl)                                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _form_frstar : {Any | iterable(bl)} → Any                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0892c4b441c5ab9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod._form_frstar","kind":"method","src_hash":"b00c361d30d95963","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_frstar(bl)","rhs":"form the generalized inertia force","over":{"base":"Any"},"name":"_form_frstar_correct"},"guarantee":"form the generalized inertia force","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod._form_frstar_correct","statement":"Path(_form_frstar(x), form the generalized inertia force)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0892c4b441c5ab9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod._form_frstar","kind":"method","src_hash":"b00c361d30d95963","in":{"base":"Any","pred":"iterable(bl)"},"out":{"base":"Any"},"spec":{"lhs":"_form_frstar(bl)","rhs":"<unspecified:_form_frstar>","over":{"base":"Any","pred":"iterable(bl)"},"name":"_form_frstar_correct"},"guarantee":"form the generalized inertia force","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod._form_frstar_correct","statement":"Path(_form_frstar(x), form the generalized inertia force)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0892c4b441c5ab9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["iterable(bl)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._Ars","self._fr","self._inertial","self._qdot_u_map","self._uaux","self._udep","self._udot","self.u"],"writes":["self._bodylist","self._f_d","self._frstar","self._k_d"],"calls_mutating":["q_ddot_u_map.update"],"raises":["TypeError"]},"state_contract":{"modifies":["q_ddot_u_map.*","self._bodylist","self._f_d","self._frstar","self._k_d"],"old_bindings":{"old_self__bodylist":"self._bodylist","old_self__f_d":"self._f_d","old_self__frstar":"self._frstar","old_self__k_d":"self._k_d","old_len_q_ddot_u_map":"len(q_ddot_u_map)"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _form_frstar(self, bl):
         """Form the generalized inertia force."""
 
@@ -628,16 +677,24 @@ class KanesMethod(_Methods):
         return fr_star
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(to_linearizer(lin), returns an instance of the linearizer class, initiated from the data in the kanesmethod class) over Any ║
+# ║ Path(to_linearizer(linear_solver), Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, f_v, f_a, q, u, q_i, q_d, u_i, u_d, r, linear_solver=linear_solver)) over {Any | not (self._fr is None or self._frstar is None)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ to_linearizer : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self._fr is None or self._frstar is ...   ║
+# ║   ensures:  len(r) == old_len_r                            ║
+# ║   returns:  Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ to_linearizer : {Any | not (self._fr is None or self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | daf22c06524112b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b10013bea543b0eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.to_linearizer","kind":"method","src_hash":"60776911c1fd2786","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"to_linearizer(lin)","rhs":"returns an instance of the linearizer class, initiated from the data in the kanesmethod class","over":{"base":"Any"},"name":"to_linearizer_correct"},"guarantee":"returns an instance of the linearizer class, initiated from the data in the kanesmethod class","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod.to_linearizer_correct","statement":"Path(to_linearizer(x), returns an instance of the linearizer class, initiated from the data in the kanesmethod class)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"daf22c06524112b9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.to_linearizer","kind":"method","src_hash":"60776911c1fd2786","in":{"base":"Any","pred":"not (self._fr is None or self._frstar is None)"},"out":{"base":"Any","pred":"result satisfies: result == (Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, f_v, f_a, q, u, q_i, q_d, u_i, u_d, r, linear_solver=linear_solver))"},"spec":{"lhs":"to_linearizer(linear_solver)","rhs":"Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, f_v, f_a, q, u, q_i, q_d, u_i, u_d, r, linear_solver=linear_solver)","over":{"base":"Any","pred":"not (self._fr is None or self._frstar is None)"},"name":"to_linearizer_correct"},"guarantee":"returns Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, f_v, f_a, q, u, q_i, q_d, u_i, u_d, r, linear_solver=linear_solver); len(r) == old_len_r","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod.to_linearizer_correct","statement":"Path(to_linearizer(x), returns Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, f_v, f_a, q, u, q_i, q_d, u_i, u_d, r, linear_solver=linear_solver); len(r) == old_len_r)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b10013bea543b0eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self._fr is None or self._frstar is None)"],"ensures":["len(r) == old_len_r"],"returns_expr":"Linearizer(f_0, f_1, f_2, f_3, f_4, f_c, f_v, f_a, q, u, q_i, q_d, u_i, u_d, r, linear_solver=linear_solver)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._f_d","self._f_dnh","self._f_h","self._f_k","self._f_nh","self._fr","self._frstar","self._k_d","self._k_dnh","self._k_kqdot","self._k_ku","self._k_nh","self._qdep","self._qdot","self._uaux","self._udep","self._udot","self.q","self.u"],"calls_mutating":["r.sort"],"raises":["ValueError"]},"state_contract":{"modifies":["r.*"],"old_bindings":{"old_len_r":"len(r)"},"post_ensures":["len(r) == old_len_r"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def to_linearizer(self, linear_solver='LU'):
         """Returns an instance of the Linearizer class, initiated from the
         data in the KanesMethod class. This may be more desirable than using
@@ -734,16 +791,22 @@ class KanesMethod(_Methods):
 
     # TODO : Remove `new_method` after 1.1 has been released.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linearize(new), linearize the equations of motion about a symbolic operating point) over Any ║
+# ║ Path(linearize(new_method, linear_solver, **kwargs), result + (linearizer.r,)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  result + (linearizer.r,)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ linearize : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 274b0e7c99a66ebb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2179244fcfba6bb0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.linearize","kind":"method","src_hash":"fe5a4a965681abc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linearize(new)","rhs":"linearize the equations of motion about a symbolic operating point","over":{"base":"Any"},"name":"linearize_correct"},"guarantee":"linearize the equations of motion about a symbolic operating point","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod.linearize_correct","statement":"Path(linearize(x), linearize the equations of motion about a symbolic operating point)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"274b0e7c99a66ebb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.linearize","kind":"method","src_hash":"fe5a4a965681abc9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linearize(new_method, linear_solver, **kwargs)","rhs":"result + (linearizer.r,)","over":{"base":"Any"},"name":"linearize_correct"},"guarantee":"returns result + (linearizer.r,)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod.linearize_correct","statement":"Path(linearize(x), returns result + (linearizer.r,))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2179244fcfba6bb0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"result + (linearizer.r,)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.to_linearizer"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def linearize(self, *, new_method=None, linear_solver='LU', **kwargs):
         """ Linearize the equations of motion about a symbolic operating point.
 
@@ -797,16 +860,23 @@ class KanesMethod(_Methods):
         return result + (linearizer.r,)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kanes_equations(bod), method to form kane's equations, fr + fr* = 0) over Any ║
+# ║ Path(kanes_equations(bodies, loads), (self._fr, self._frstar)) over {Any | self._k_kqdot} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ kanes_equations : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self._k_kqdot                                  ║
+# ║   returns:  (self._fr, self._frstar)                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ kanes_equations : {Any | self._k_kqdot} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6cfd61684386f561  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ba638f0e72b6009  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.kanes_equations","kind":"method","src_hash":"2eda0b7b7b72e917","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kanes_equations(bod)","rhs":"method to form kane's equations, fr + fr* = 0","over":{"base":"Any"},"name":"kanes_equations_correct"},"guarantee":"method to form kane's equations, fr + fr* = 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod.kanes_equations_correct","statement":"Path(kanes_equations(x), method to form kane's equations, fr + fr* = 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6cfd61684386f561"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.kanes_equations","kind":"method","src_hash":"2eda0b7b7b72e917","in":{"base":"Any","pred":"self._k_kqdot"},"out":{"base":"Any"},"spec":{"lhs":"kanes_equations(bodies, loads)","rhs":"(self._fr, self._frstar)","over":{"base":"Any","pred":"self._k_kqdot"},"name":"kanes_equations_correct"},"guarantee":"returns (self._fr, self._frstar)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod.kanes_equations_correct","statement":"Path(kanes_equations(x), returns (self._fr, self._frstar))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ba638f0e72b6009","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self._k_kqdot"],"returns_expr":"(self._fr, self._frstar)","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._constraint_solver","self._f_dnh","self._f_nh","self._forcelist","self._form_fr","self._form_frstar","self._fr","self._frstar","self._inertial","self._k_dnh","self._k_kqdot","self._k_nh","self._qdot_u_map","self._uaux","self._udep","self._udot","self.bodies","self.q","self.u"],"writes":["self._aux_eq","self._fr","self._frstar","self._km"],"raises":["AttributeError"]},"state_contract":{"modifies":["self._aux_eq","self._fr","self._frstar","self._km"],"old_bindings":{"old_self__aux_eq":"self._aux_eq","old_self__fr":"self._fr","old_self__frstar":"self._frstar","old_self__km":"self._km"},"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kanes_equations(self, bodies=None, loads=None):
         """ Method to form Kane's equations, Fr + Fr* = 0.
 
@@ -866,31 +936,43 @@ class KanesMethod(_Methods):
         return (self._fr, self._frstar)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_form_eoms(), internal helper behaves correctly) over Any ║
+# ║ Path(_form_eoms(), fr + frstar) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  fr + frstar                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _form_eoms : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09dbbf5fc6fbb0c2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b66356d62c1f365  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod._form_eoms","kind":"method","src_hash":"94d218da7ae8fecb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_eoms()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_form_eoms_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod._form_eoms_correct","statement":"Path(_form_eoms(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09dbbf5fc6fbb0c2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod._form_eoms","kind":"method","src_hash":"94d218da7ae8fecb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_form_eoms()","rhs":"fr + frstar","over":{"base":"Any"},"name":"_form_eoms_correct"},"guarantee":"returns fr + frstar","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod._form_eoms_correct","statement":"Path(_form_eoms(x), returns fr + frstar)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b66356d62c1f365","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"fr + frstar","pure":false,"effects":{"effect_type":"reads_state","reads":["self.bodylist","self.forcelist","self.kanes_equations"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _form_eoms(self):
         fr, frstar = self.kanes_equations(self.bodylist, self.forcelist)
         return fr + frstar
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rhs(inv), returns the system's equations of motion in first order form) over Any ║
+# ║ Path(rhs(inv_method), <unspecified:rhs>) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rhs : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fe5d073ece5d466  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.rhs","kind":"method","src_hash":"4c89a66f28c46142","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs(inv)","rhs":"returns the system's equations of motion in first order form","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns the system's equations of motion in first order form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod.rhs_correct","statement":"Path(rhs(x), returns the system's equations of motion in first order form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fe5d073ece5d466"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.rhs","kind":"method","src_hash":"4c89a66f28c46142","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rhs(inv_method)","rhs":"<unspecified:rhs>","over":{"base":"Any"},"name":"rhs_correct"},"guarantee":"returns the system's equations of motion in first order form","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod.rhs_correct","statement":"Path(rhs(x), returns the system's equations of motion in first order form)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fe5d073ece5d466","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.forcing","self.kindiffdict","self.mass_matrix","self.q","self.u"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rhs(self, inv_method=None):
         """Returns the system's equations of motion in first order form. The
         output is the right hand side of::
@@ -925,16 +1007,23 @@ class KanesMethod(_Methods):
         return rhs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(kindiffdict(), returns a dictionary mapping q' to u) over Any ║
+# ║ Path(kindiffdict(), self._qdot_u_map) over {Any | self._qdot_u_map} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ kindiffdict : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self._qdot_u_map                               ║
+# ║   returns:  self._qdot_u_map                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ kindiffdict : {Any | self._qdot_u_map} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e8f38cfa9721670  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1e5b5927c86dbc7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.kindiffdict","kind":"method","src_hash":"b84aa01fd175b577","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"kindiffdict()","rhs":"returns a dictionary mapping q' to u","over":{"base":"Any"},"name":"kindiffdict_correct"},"guarantee":"returns a dictionary mapping q' to u","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod.kindiffdict_correct","statement":"Path(kindiffdict(x), returns a dictionary mapping q' to u)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e8f38cfa9721670"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.kindiffdict","kind":"method","src_hash":"b84aa01fd175b577","in":{"base":"Any","pred":"self._qdot_u_map"},"out":{"base":"Any"},"spec":{"lhs":"kindiffdict()","rhs":"self._qdot_u_map","over":{"base":"Any","pred":"self._qdot_u_map"},"name":"kindiffdict_correct"},"guarantee":"returns self._qdot_u_map","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.mechanics.kane.KanesMethod.kindiffdict_correct","statement":"Path(kindiffdict(x), returns self._qdot_u_map)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1e5b5927c86dbc7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self._qdot_u_map"],"returns_expr":"self._qdot_u_map","pure":false,"effects":{"effect_type":"reads_state","reads":["self._qdot_u_map"],"raises":["AttributeError"]},"state_contract":{"exceptional_post":{"AttributeError":["isinstance(raised, AttributeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def kindiffdict(self):
         """Returns a dictionary mapping q' to u."""
         if not self._qdot_u_map:
@@ -944,16 +1033,24 @@ class KanesMethod(_Methods):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(auxiliary_eqs(), returns the auxiliary_eqs attribute) over Any ║
+# ║ Path(auxiliary_eqs(), self._aux_eq) over {Any | not (not self._fr or not self._frstar) and self._uaux} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ auxiliary_eqs : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not self._fr or not self._frstar)         ║
+# ║   requires: self._uaux                                     ║
+# ║   returns:  self._aux_eq                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ auxiliary_eqs : {Any | not (not self._fr or not self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3e0c4678db11a8ce           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.auxiliary_eqs","kind":"property","src_hash":"e6c1ac37ff2f8c6f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"auxiliary_eqs()","rhs":"returns the auxiliary_eqs attribute","over":{"base":"Any"},"name":"auxiliary_eqs_correct"},"guarantee":"returns the auxiliary_eqs attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e0c4678db11a8ce"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.auxiliary_eqs","kind":"property","src_hash":"e6c1ac37ff2f8c6f","in":{"base":"Any","pred":"not (not self._fr or not self._frstar) and self._uaux"},"out":{"base":"Any"},"spec":{"lhs":"auxiliary_eqs()","rhs":"self._aux_eq","over":{"base":"Any","pred":"not (not self._fr or not self._frstar) and self._uaux"},"name":"auxiliary_eqs_correct"},"guarantee":"returns self._aux_eq","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3e0c4678db11a8ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not self._fr or not self._frstar)","self._uaux"],"returns_expr":"self._aux_eq","pure":false,"effects":{"effect_type":"reads_state","reads":["self._aux_eq","self._fr","self._frstar","self._uaux"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def auxiliary_eqs(self):
         """A matrix containing the auxiliary equations."""
         if not self._fr or not self._frstar:
@@ -964,32 +1061,47 @@ class KanesMethod(_Methods):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mass_matrix_kin(), returns the mass_matrix_kin attribute) over Any ║
+# ║ Path(mass_matrix_kin(), self._k_kqdot if self.explicit_kinematics else self._k_kqdot_implicit) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._k_kqdot if self.explicit_kinematics...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mass_matrix_kin : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5fcf89adba91736e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.mass_matrix_kin","kind":"property","src_hash":"39f12e13a7493551","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix_kin()","rhs":"returns the mass_matrix_kin attribute","over":{"base":"Any"},"name":"mass_matrix_kin_correct"},"guarantee":"returns the mass_matrix_kin attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fcf89adba91736e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.mass_matrix_kin","kind":"property","src_hash":"39f12e13a7493551","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix_kin()","rhs":"self._k_kqdot if self.explicit_kinematics else self._k_kqdot_implicit","over":{"base":"Any"},"name":"mass_matrix_kin_correct"},"guarantee":"returns self._k_kqdot if self.explicit_kinematics else self._k_kqdot_implicit","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5fcf89adba91736e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._k_kqdot if self.explicit_kinematics else self._k_kqdot_implicit","pure":false,"effects":{"effect_type":"reads_state","reads":["self._k_kqdot","self._k_kqdot_implicit","self.explicit_kinematics"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mass_matrix_kin(self):
         r"""The kinematic "mass matrix" $\mathbf{k_{k\dot{q}}}$ of the system."""
         return self._k_kqdot if self.explicit_kinematics else self._k_kqdot_implicit
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(forcing_kin(), returns the forcing_kin attribute) over Any ║
+# ║ Path(forcing_kin(), result == (-(self._k_ku * Matrix(self.u) + self._f_k) if self.explicit_kinematics else -(self._k_ku_implicit * Matrix(self.u) + self._f_k_implicit)) and result == -(self._k_ku * Matrix(self.u) + self._f_k) or result == -(self._k_ku_implicit * Matrix(self.u) + self._f_k_implicit)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ forcing_kin : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (-(self._k_ku * Matrix(self.u) ...   ║
+# ║   ensures:  result == -(self._k_ku * Matrix(self.u) +...   ║
+# ║   fiber[case_0]: self.explicit_kinematics => -(self._...   ║
+# ║   fiber[case_1]: not (self.explicit_kinematics) => -(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ forcing_kin : Any → {Any | result satisfies: result =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 67fdeab8e90c8b32           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.forcing_kin","kind":"property","src_hash":"8add8fd22c56075f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing_kin()","rhs":"returns the forcing_kin attribute","over":{"base":"Any"},"name":"forcing_kin_correct"},"guarantee":"returns the forcing_kin attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67fdeab8e90c8b32"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.forcing_kin","kind":"property","src_hash":"8add8fd22c56075f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (-(self._k_ku * Matrix(self.u) + self._f_k) if self.explicit_kinematics else -(self._k_ku_implicit * Matrix(self.u) + self._f_k_implicit)) and result == -(self._k_ku * Matrix(self.u) + self._f_k) or result == -(self._k_ku_implicit * Matrix(self.u) + self._f_k_implicit)"},"spec":{"lhs":"forcing_kin()","rhs":"result == (-(self._k_ku * Matrix(self.u) + self._f_k) if self.explicit_kinematics else -(self._k_ku_implicit * Matrix(self.u) + self._f_k_implicit)) and result == -(self._k_ku * Matrix(self.u) + self._f_k) or result == -(self._k_ku_implicit * Matrix(self.u) + self._f_k_implicit)","over":{"base":"Any"},"name":"forcing_kin_correct"},"guarantee":"result == (-(self._k_ku * Matrix(self.u) + self._f_k) if self.explicit_kinematics else -(self._k_ku_implicit * Matrix(self.u) + self._f_k_implicit)); result == -(self._k_ku * Matrix(self.u) + self._f_k) or result == -(self._k_ku_implicit * Matrix(self.u) + self._f_k_implicit); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"67fdeab8e90c8b32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (-(self._k_ku * Matrix(self.u) + self._f_k) if self.explicit_kinematics else -(self._k_ku_implicit * Matrix(self.u) + self._f_k_implicit))","result == -(self._k_ku * Matrix(self.u) + self._f_k) or result == -(self._k_ku_implicit * Matrix(self.u) + self._f_k_implicit)"],"fibers":[{"name":"case_0","guard":"self.explicit_kinematics","ensures":["result == -(self._k_ku * Matrix(self.u) + self._f_k)"],"decidability":"library","returns_expr":"-(self._k_ku * Matrix(self.u) + self._f_k)"},{"name":"case_1","guard":"not (self.explicit_kinematics)","ensures":["result == -(self._k_ku_implicit * Matrix(self.u) + self._f_k_implicit)"],"decidability":"library","returns_expr":"-(self._k_ku_implicit * Matrix(self.u) + self._f_k_implicit)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._f_k","self._f_k_implicit","self._k_ku","self._k_ku_implicit","self.explicit_kinematics","self.u"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def forcing_kin(self):
         """The kinematic "forcing vector" of the system."""
         if self.explicit_kinematics:
@@ -999,16 +1111,23 @@ class KanesMethod(_Methods):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mass_matrix(), returns the mass_matrix attribute) over Any ║
+# ║ Path(mass_matrix(), Matrix([self._k_d, self._k_dnh])) over {Any | not (not self._fr or not self._frstar)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mass_matrix : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not self._fr or not self._frstar)         ║
+# ║   returns:  Matrix([self._k_d, self._k_dnh])               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mass_matrix : {Any | not (not self._fr or not self._f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4f313c6b10d7ff27           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.mass_matrix","kind":"property","src_hash":"247ec3e7bd99025f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix()","rhs":"returns the mass_matrix attribute","over":{"base":"Any"},"name":"mass_matrix_correct"},"guarantee":"returns the mass_matrix attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f313c6b10d7ff27"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.mass_matrix","kind":"property","src_hash":"247ec3e7bd99025f","in":{"base":"Any","pred":"not (not self._fr or not self._frstar)"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix()","rhs":"Matrix([self._k_d, self._k_dnh])","over":{"base":"Any","pred":"not (not self._fr or not self._frstar)"},"name":"mass_matrix_correct"},"guarantee":"returns Matrix([self._k_d, self._k_dnh])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4f313c6b10d7ff27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not self._fr or not self._frstar)"],"returns_expr":"Matrix([self._k_d, self._k_dnh])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fr","self._frstar","self._k_d","self._k_dnh"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mass_matrix(self):
         """The mass matrix of the system."""
         if not self._fr or not self._frstar:
@@ -1017,16 +1136,23 @@ class KanesMethod(_Methods):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(forcing(), returns the forcing attribute) over Any    ║
+# ║ Path(forcing(), -Matrix([self._f_d, self._f_dnh])) over {Any | not (not self._fr or not self._frstar)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ forcing : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not self._fr or not self._frstar)         ║
+# ║   returns:  -Matrix([self._f_d, self._f_dnh])              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ forcing : {Any | not (not self._fr or not self._frsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b8c5d77c5acc5486           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.forcing","kind":"property","src_hash":"ff342ac32f96ff23","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing()","rhs":"returns the forcing attribute","over":{"base":"Any"},"name":"forcing_correct"},"guarantee":"returns the forcing attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8c5d77c5acc5486"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.forcing","kind":"property","src_hash":"ff342ac32f96ff23","in":{"base":"Any","pred":"not (not self._fr or not self._frstar)"},"out":{"base":"Any"},"spec":{"lhs":"forcing()","rhs":"-Matrix([self._f_d, self._f_dnh])","over":{"base":"Any","pred":"not (not self._fr or not self._frstar)"},"name":"forcing_correct"},"guarantee":"returns -Matrix([self._f_d, self._f_dnh])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b8c5d77c5acc5486","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not self._fr or not self._frstar)"],"returns_expr":"-Matrix([self._f_d, self._f_dnh])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._f_d","self._f_dnh","self._fr","self._frstar"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def forcing(self):
         """The forcing vector of the system."""
         if not self._fr or not self._frstar:
@@ -1035,16 +1161,23 @@ class KanesMethod(_Methods):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mass_matrix_full(), returns the mass_matrix_full attribute) over Any ║
+# ║ Path(mass_matrix_full(), self.mass_matrix_kin.row_join(zeros(n, o)).col_join(zeros(o, n).row_join(self.mass_matrix))) over {Any | not (not self._fr or not self._frstar)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ mass_matrix_full : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (not self._fr or not self._frstar)         ║
+# ║   returns:  self.mass_matrix_kin.row_join(zeros(n, o)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ mass_matrix_full : {Any | not (not self._fr or not se...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca646db181e708ba           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.mass_matrix_full","kind":"property","src_hash":"af8777ff92094766","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix_full()","rhs":"returns the mass_matrix_full attribute","over":{"base":"Any"},"name":"mass_matrix_full_correct"},"guarantee":"returns the mass_matrix_full attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca646db181e708ba"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.mass_matrix_full","kind":"property","src_hash":"af8777ff92094766","in":{"base":"Any","pred":"not (not self._fr or not self._frstar)"},"out":{"base":"Any"},"spec":{"lhs":"mass_matrix_full()","rhs":"self.mass_matrix_kin.row_join(zeros(n, o)).col_join(zeros(o, n).row_join(self.mass_matrix))","over":{"base":"Any","pred":"not (not self._fr or not self._frstar)"},"name":"mass_matrix_full_correct"},"guarantee":"returns self.mass_matrix_kin.row_join(zeros(n, o)).col_join(zeros(o, n).row_join(self.mass_matrix))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca646db181e708ba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (not self._fr or not self._frstar)"],"returns_expr":"self.mass_matrix_kin.row_join(zeros(n, o)).col_join(zeros(o, n).row_join(self.mass_matrix))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._fr","self._frstar","self.mass_matrix","self.mass_matrix_kin","self.q","self.u"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mass_matrix_full(self):
         """The mass matrix of the system, augmented by the kinematic
         differential equations in explicit or implicit form."""
@@ -1056,16 +1189,22 @@ class KanesMethod(_Methods):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(forcing_full(), returns the forcing_full attribute) over Any ║
+# ║ Path(forcing_full(), Matrix([self.forcing_kin, self.forcing])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Matrix([self.forcing_kin, self.forcing])       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ forcing_full : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ca856938ce12b12           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.forcing_full","kind":"property","src_hash":"1f6ad38defcd444c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing_full()","rhs":"returns the forcing_full attribute","over":{"base":"Any"},"name":"forcing_full_correct"},"guarantee":"returns the forcing_full attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ca856938ce12b12"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.forcing_full","kind":"property","src_hash":"1f6ad38defcd444c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcing_full()","rhs":"Matrix([self.forcing_kin, self.forcing])","over":{"base":"Any"},"name":"forcing_full_correct"},"guarantee":"returns Matrix([self.forcing_kin, self.forcing])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ca856938ce12b12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Matrix([self.forcing_kin, self.forcing])","pure":false,"effects":{"effect_type":"reads_state","reads":["self.forcing","self.forcing_kin"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def forcing_full(self):
         """The forcing vector of the system, augmented by the kinematic
         differential equations in explicit or implicit form."""
@@ -1073,90 +1212,126 @@ class KanesMethod(_Methods):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(q(), returns the q attribute) over Any                ║
+# ║ Path(q(), self._q) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._q                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ q : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | acc1973d91214ab5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.q","kind":"property","src_hash":"698a60c599fae369","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q()","rhs":"returns the q attribute","over":{"base":"Any"},"name":"q_correct"},"guarantee":"returns the q attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acc1973d91214ab5"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.q","kind":"property","src_hash":"698a60c599fae369","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"q()","rhs":"self._q","over":{"base":"Any"},"name":"q_correct"},"guarantee":"returns self._q","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"acc1973d91214ab5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._q","pure":false,"effects":{"effect_type":"reads_state","reads":["self._q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def q(self):
         return self._q
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(u(), returns the u attribute) over Any                ║
+# ║ Path(u(), self._u) over Any                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._u                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ u : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7e4bdf1cae84ee0c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.u","kind":"property","src_hash":"c585a863c3c80b2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"u()","rhs":"returns the u attribute","over":{"base":"Any"},"name":"u_correct"},"guarantee":"returns the u attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e4bdf1cae84ee0c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.u","kind":"property","src_hash":"c585a863c3c80b2e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"u()","rhs":"self._u","over":{"base":"Any"},"name":"u_correct"},"guarantee":"returns self._u","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7e4bdf1cae84ee0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._u","pure":false,"effects":{"effect_type":"reads_state","reads":["self._u"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def u(self):
         return self._u
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bodylist(), returns the bodylist attribute) over Any  ║
+# ║ Path(bodylist(), self._bodylist) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._bodylist                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bodylist : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9876091549cfd6a7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.bodylist","kind":"property","src_hash":"d04775c0a4a3adee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bodylist()","rhs":"returns the bodylist attribute","over":{"base":"Any"},"name":"bodylist_correct"},"guarantee":"returns the bodylist attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9876091549cfd6a7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.bodylist","kind":"property","src_hash":"d04775c0a4a3adee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bodylist()","rhs":"self._bodylist","over":{"base":"Any"},"name":"bodylist_correct"},"guarantee":"returns self._bodylist","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9876091549cfd6a7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._bodylist","pure":false,"effects":{"effect_type":"reads_state","reads":["self._bodylist"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bodylist(self):
         return self._bodylist
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(forcelist(), returns the forcelist attribute) over Any ║
+# ║ Path(forcelist(), self._forcelist) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._forcelist                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ forcelist : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3590466147f69b58           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.forcelist","kind":"property","src_hash":"58762de936e9e0b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcelist()","rhs":"returns the forcelist attribute","over":{"base":"Any"},"name":"forcelist_correct"},"guarantee":"returns the forcelist attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3590466147f69b58"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.forcelist","kind":"property","src_hash":"58762de936e9e0b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"forcelist()","rhs":"self._forcelist","over":{"base":"Any"},"name":"forcelist_correct"},"guarantee":"returns self._forcelist","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3590466147f69b58","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._forcelist","pure":false,"effects":{"effect_type":"reads_state","reads":["self._forcelist"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def forcelist(self):
         return self._forcelist
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bodies(), returns the bodies attribute) over Any      ║
+# ║ Path(bodies(), self._bodylist) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._bodylist                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bodies : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 7078e71dab55d768           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.bodies","kind":"property","src_hash":"ac120e5d953d7fa9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bodies()","rhs":"returns the bodies attribute","over":{"base":"Any"},"name":"bodies_correct"},"guarantee":"returns the bodies attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7078e71dab55d768"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.bodies","kind":"property","src_hash":"ac120e5d953d7fa9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bodies()","rhs":"self._bodylist","over":{"base":"Any"},"name":"bodies_correct"},"guarantee":"returns self._bodylist","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"7078e71dab55d768","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._bodylist","pure":false,"effects":{"effect_type":"reads_state","reads":["self._bodylist"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def bodies(self):
         return self._bodylist
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(loads(), returns the loads attribute) over Any        ║
+# ║ Path(loads(), self._forcelist) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._forcelist                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ loads : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 63444e6df3f49b43           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.loads","kind":"property","src_hash":"c01c276bd93773f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads()","rhs":"returns the loads attribute","over":{"base":"Any"},"name":"loads_correct"},"guarantee":"returns the loads attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63444e6df3f49b43"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.mechanics.kane.KanesMethod.loads","kind":"property","src_hash":"c01c276bd93773f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"loads()","rhs":"self._forcelist","over":{"base":"Any"},"name":"loads_correct"},"guarantee":"returns self._forcelist","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"63444e6df3f49b43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._forcelist","pure":false,"effects":{"effect_type":"reads_state","reads":["self._forcelist"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def loads(self):
         return self._forcelist

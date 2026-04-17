@@ -25,31 +25,45 @@ from sympy.ntheory.generate import nextprime
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gathen_poly(n, ), gathen_poly produces the expected output) over Any ║
+# ║ Path(gathen_poly(n, p, K), gf_from_dict({n: K.one, 1: K.one, 0: K.one}, p, K)) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ gathen_poly : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   returns:  gf_from_dict({n: K.one, 1: K.one, 0: K.on...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ gathen_poly : {Any | hasattr(K, 'one')} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bc2d846e2290dbfc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.gathen_poly","kind":"function","src_hash":"cb480f5c35b916ea","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gathen_poly(n, )","rhs":"gathen_poly produces the expected output","over":{"base":"Any"},"name":"gathen_poly_correct"},"guarantee":"gathen_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc2d846e2290dbfc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.gathen_poly","kind":"function","src_hash":"cb480f5c35b916ea","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"gathen_poly(n, p, K)","rhs":"gf_from_dict({n: K.one, 1: K.one, 0: K.one}, p, K)","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"gathen_poly_correct"},"guarantee":"returns gf_from_dict({n: K.one, 1: K.one, 0: K.one}, p, K)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bc2d846e2290dbfc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'one')"],"returns_expr":"gf_from_dict({n: K.one, 1: K.one, 0: K.one}, p, K)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":true}}
 def gathen_poly(n, p, K):
     return gf_from_dict({n: K.one, 1: K.one, 0: K.one}, p, K)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(shoup_poly(n, ), shoup_poly produces the expected output) over Any ║
+# ║ Path(shoup_poly(n, p, K), <unspecified:shoup_poly>) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ shoup_poly : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ shoup_poly : {Any | hasattr(K, 'one')} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb9df47d766e19b5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.shoup_poly","kind":"function","src_hash":"24e1d1053f8a75af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"shoup_poly(n, )","rhs":"shoup_poly produces the expected output","over":{"base":"Any"},"name":"shoup_poly_correct"},"guarantee":"shoup_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.shoup_poly_correct","statement":"Path(shoup_poly(x), shoup_poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb9df47d766e19b5"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.shoup_poly","kind":"function","src_hash":"24e1d1053f8a75af","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"shoup_poly(n, p, K)","rhs":"<unspecified:shoup_poly>","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"shoup_poly_correct"},"guarantee":"shoup_poly produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.shoup_poly_correct","statement":"Path(shoup_poly(x), shoup_poly produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb9df47d766e19b5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(K, 'one')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def shoup_poly(n, p, K):
     f = [K.one] * (n + 1)
     for i in range(1, n + 1):
@@ -58,16 +72,22 @@ def shoup_poly(n, p, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(genprime(n, ), genprime produces the expected output) over Any ║
+# ║ Path(genprime(n, K), K(nextprime(int((2 ** n * pi).evalf())))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  K(nextprime(int((2 ** n * pi).evalf())))       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ genprime : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 883fb86751a5d5de           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.genprime","kind":"function","src_hash":"f771f9e9c7026661","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"genprime(n, )","rhs":"genprime produces the expected output","over":{"base":"Any"},"name":"genprime_correct"},"guarantee":"genprime produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"883fb86751a5d5de"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.genprime","kind":"function","src_hash":"f771f9e9c7026661","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"genprime(n, K)","rhs":"K(nextprime(int((2 ** n * pi).evalf())))","over":{"base":"Any"},"name":"genprime_correct"},"guarantee":"returns K(nextprime(int((2 ** n * pi).evalf())))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"883fb86751a5d5de","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"K(nextprime(int((2 ** n * pi).evalf())))","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def genprime(n, K):
     return K(nextprime(int((2**n * pi).evalf())))
 
@@ -79,61 +99,85 @@ f_20 = gathen_poly(20, p_20, ZZ)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_gathen_poly_f10_zassenhaus(), timeit_gathen_poly_f10_zassenhaus produces the expected output) over Any ║
+# ║ Path(timeit_gathen_poly_f10_zassenhaus(), <unspecified:timeit_gathen_poly_f10_zassenhaus>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_gathen_poly_f10_zassenhaus : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b69ca7e1bc93523b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f10_zassenhaus","kind":"function","src_hash":"aa14efa76117a3ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_gathen_poly_f10_zassenhaus()","rhs":"timeit_gathen_poly_f10_zassenhaus produces the expected output","over":{"base":"Any"},"name":"timeit_gathen_poly_f10_zassenhaus_correct"},"guarantee":"timeit_gathen_poly_f10_zassenhaus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f10_zassenhaus_correct","statement":"Path(timeit_gathen_poly_f10_zassenhaus(x), timeit_gathen_poly_f10_zassenhaus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b69ca7e1bc93523b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f10_zassenhaus","kind":"function","src_hash":"aa14efa76117a3ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_gathen_poly_f10_zassenhaus()","rhs":"<unspecified:timeit_gathen_poly_f10_zassenhaus>","over":{"base":"Any"},"name":"timeit_gathen_poly_f10_zassenhaus_correct"},"guarantee":"timeit_gathen_poly_f10_zassenhaus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f10_zassenhaus_correct","statement":"Path(timeit_gathen_poly_f10_zassenhaus(x), timeit_gathen_poly_f10_zassenhaus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b69ca7e1bc93523b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_gathen_poly_f10_zassenhaus():
     gf_factor_sqf(f_10, p_10, ZZ, method='zassenhaus')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_gathen_poly_f10_shoup(), timeit_gathen_poly_f10_shoup produces the expected output) over Any ║
+# ║ Path(timeit_gathen_poly_f10_shoup(), <unspecified:timeit_gathen_poly_f10_shoup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_gathen_poly_f10_shoup : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3beaf92da5ee497b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f10_shoup","kind":"function","src_hash":"a822009420228711","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_gathen_poly_f10_shoup()","rhs":"timeit_gathen_poly_f10_shoup produces the expected output","over":{"base":"Any"},"name":"timeit_gathen_poly_f10_shoup_correct"},"guarantee":"timeit_gathen_poly_f10_shoup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f10_shoup_correct","statement":"Path(timeit_gathen_poly_f10_shoup(x), timeit_gathen_poly_f10_shoup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3beaf92da5ee497b"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f10_shoup","kind":"function","src_hash":"a822009420228711","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_gathen_poly_f10_shoup()","rhs":"<unspecified:timeit_gathen_poly_f10_shoup>","over":{"base":"Any"},"name":"timeit_gathen_poly_f10_shoup_correct"},"guarantee":"timeit_gathen_poly_f10_shoup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f10_shoup_correct","statement":"Path(timeit_gathen_poly_f10_shoup(x), timeit_gathen_poly_f10_shoup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3beaf92da5ee497b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_gathen_poly_f10_shoup():
     gf_factor_sqf(f_10, p_10, ZZ, method='shoup')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_gathen_poly_f20_zassenhaus(), timeit_gathen_poly_f20_zassenhaus produces the expected output) over Any ║
+# ║ Path(timeit_gathen_poly_f20_zassenhaus(), <unspecified:timeit_gathen_poly_f20_zassenhaus>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_gathen_poly_f20_zassenhaus : Any → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a86da821ac3a68d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f20_zassenhaus","kind":"function","src_hash":"45f1dc7ad5483792","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_gathen_poly_f20_zassenhaus()","rhs":"timeit_gathen_poly_f20_zassenhaus produces the expected output","over":{"base":"Any"},"name":"timeit_gathen_poly_f20_zassenhaus_correct"},"guarantee":"timeit_gathen_poly_f20_zassenhaus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f20_zassenhaus_correct","statement":"Path(timeit_gathen_poly_f20_zassenhaus(x), timeit_gathen_poly_f20_zassenhaus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a86da821ac3a68d6"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f20_zassenhaus","kind":"function","src_hash":"45f1dc7ad5483792","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_gathen_poly_f20_zassenhaus()","rhs":"<unspecified:timeit_gathen_poly_f20_zassenhaus>","over":{"base":"Any"},"name":"timeit_gathen_poly_f20_zassenhaus_correct"},"guarantee":"timeit_gathen_poly_f20_zassenhaus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f20_zassenhaus_correct","statement":"Path(timeit_gathen_poly_f20_zassenhaus(x), timeit_gathen_poly_f20_zassenhaus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a86da821ac3a68d6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_gathen_poly_f20_zassenhaus():
     gf_factor_sqf(f_20, p_20, ZZ, method='zassenhaus')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_gathen_poly_f20_shoup(), timeit_gathen_poly_f20_shoup produces the expected output) over Any ║
+# ║ Path(timeit_gathen_poly_f20_shoup(), <unspecified:timeit_gathen_poly_f20_shoup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_gathen_poly_f20_shoup : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eed562efd5b0f1e0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f20_shoup","kind":"function","src_hash":"4e3d58db32e0b75a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_gathen_poly_f20_shoup()","rhs":"timeit_gathen_poly_f20_shoup produces the expected output","over":{"base":"Any"},"name":"timeit_gathen_poly_f20_shoup_correct"},"guarantee":"timeit_gathen_poly_f20_shoup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f20_shoup_correct","statement":"Path(timeit_gathen_poly_f20_shoup(x), timeit_gathen_poly_f20_shoup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eed562efd5b0f1e0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f20_shoup","kind":"function","src_hash":"4e3d58db32e0b75a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_gathen_poly_f20_shoup()","rhs":"<unspecified:timeit_gathen_poly_f20_shoup>","over":{"base":"Any"},"name":"timeit_gathen_poly_f20_shoup_correct"},"guarantee":"timeit_gathen_poly_f20_shoup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_gathen_poly_f20_shoup_correct","statement":"Path(timeit_gathen_poly_f20_shoup(x), timeit_gathen_poly_f20_shoup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eed562efd5b0f1e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_gathen_poly_f20_shoup():
     gf_factor_sqf(f_20, p_20, ZZ, method='shoup')
 
@@ -145,60 +189,84 @@ F_20 = shoup_poly(20, P_18, ZZ)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_shoup_poly_F10_zassenhaus(), timeit_shoup_poly_F10_zassenhaus produces the expected output) over Any ║
+# ║ Path(timeit_shoup_poly_F10_zassenhaus(), <unspecified:timeit_shoup_poly_F10_zassenhaus>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_shoup_poly_F10_zassenhaus : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7a0138fccb650c69  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F10_zassenhaus","kind":"function","src_hash":"b114e1f16a2164fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_shoup_poly_F10_zassenhaus()","rhs":"timeit_shoup_poly_F10_zassenhaus produces the expected output","over":{"base":"Any"},"name":"timeit_shoup_poly_F10_zassenhaus_correct"},"guarantee":"timeit_shoup_poly_F10_zassenhaus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F10_zassenhaus_correct","statement":"Path(timeit_shoup_poly_F10_zassenhaus(x), timeit_shoup_poly_F10_zassenhaus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a0138fccb650c69"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F10_zassenhaus","kind":"function","src_hash":"b114e1f16a2164fa","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_shoup_poly_F10_zassenhaus()","rhs":"<unspecified:timeit_shoup_poly_F10_zassenhaus>","over":{"base":"Any"},"name":"timeit_shoup_poly_F10_zassenhaus_correct"},"guarantee":"timeit_shoup_poly_F10_zassenhaus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F10_zassenhaus_correct","statement":"Path(timeit_shoup_poly_F10_zassenhaus(x), timeit_shoup_poly_F10_zassenhaus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7a0138fccb650c69","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_shoup_poly_F10_zassenhaus():
     gf_factor_sqf(F_10, P_08, ZZ, method='zassenhaus')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_shoup_poly_F10_shoup(), timeit_shoup_poly_F10_shoup produces the expected output) over Any ║
+# ║ Path(timeit_shoup_poly_F10_shoup(), <unspecified:timeit_shoup_poly_F10_shoup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_shoup_poly_F10_shoup : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce5c1d0aad8af9eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F10_shoup","kind":"function","src_hash":"ced10679801e3b62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_shoup_poly_F10_shoup()","rhs":"timeit_shoup_poly_F10_shoup produces the expected output","over":{"base":"Any"},"name":"timeit_shoup_poly_F10_shoup_correct"},"guarantee":"timeit_shoup_poly_F10_shoup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F10_shoup_correct","statement":"Path(timeit_shoup_poly_F10_shoup(x), timeit_shoup_poly_F10_shoup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce5c1d0aad8af9eb"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F10_shoup","kind":"function","src_hash":"ced10679801e3b62","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_shoup_poly_F10_shoup()","rhs":"<unspecified:timeit_shoup_poly_F10_shoup>","over":{"base":"Any"},"name":"timeit_shoup_poly_F10_shoup_correct"},"guarantee":"timeit_shoup_poly_F10_shoup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F10_shoup_correct","statement":"Path(timeit_shoup_poly_F10_shoup(x), timeit_shoup_poly_F10_shoup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce5c1d0aad8af9eb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_shoup_poly_F10_shoup():
     gf_factor_sqf(F_10, P_08, ZZ, method='shoup')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_shoup_poly_F20_zassenhaus(), timeit_shoup_poly_F20_zassenhaus produces the expected output) over Any ║
+# ║ Path(timeit_shoup_poly_F20_zassenhaus(), <unspecified:timeit_shoup_poly_F20_zassenhaus>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_shoup_poly_F20_zassenhaus : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a04825933c86b80e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F20_zassenhaus","kind":"function","src_hash":"094b87e01394a902","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_shoup_poly_F20_zassenhaus()","rhs":"timeit_shoup_poly_F20_zassenhaus produces the expected output","over":{"base":"Any"},"name":"timeit_shoup_poly_F20_zassenhaus_correct"},"guarantee":"timeit_shoup_poly_F20_zassenhaus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F20_zassenhaus_correct","statement":"Path(timeit_shoup_poly_F20_zassenhaus(x), timeit_shoup_poly_F20_zassenhaus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a04825933c86b80e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F20_zassenhaus","kind":"function","src_hash":"094b87e01394a902","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_shoup_poly_F20_zassenhaus()","rhs":"<unspecified:timeit_shoup_poly_F20_zassenhaus>","over":{"base":"Any"},"name":"timeit_shoup_poly_F20_zassenhaus_correct"},"guarantee":"timeit_shoup_poly_F20_zassenhaus produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F20_zassenhaus_correct","statement":"Path(timeit_shoup_poly_F20_zassenhaus(x), timeit_shoup_poly_F20_zassenhaus produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a04825933c86b80e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_shoup_poly_F20_zassenhaus():
     gf_factor_sqf(F_20, P_18, ZZ, method='zassenhaus')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_shoup_poly_F20_shoup(), timeit_shoup_poly_F20_shoup produces the expected output) over Any ║
+# ║ Path(timeit_shoup_poly_F20_shoup(), <unspecified:timeit_shoup_poly_F20_shoup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_shoup_poly_F20_shoup : Any → Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee7b4012e35aea76  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F20_shoup","kind":"function","src_hash":"73d034aac3a670e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_shoup_poly_F20_shoup()","rhs":"timeit_shoup_poly_F20_shoup produces the expected output","over":{"base":"Any"},"name":"timeit_shoup_poly_F20_shoup_correct"},"guarantee":"timeit_shoup_poly_F20_shoup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F20_shoup_correct","statement":"Path(timeit_shoup_poly_F20_shoup(x), timeit_shoup_poly_F20_shoup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee7b4012e35aea76"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F20_shoup","kind":"function","src_hash":"73d034aac3a670e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_shoup_poly_F20_shoup()","rhs":"<unspecified:timeit_shoup_poly_F20_shoup>","over":{"base":"Any"},"name":"timeit_shoup_poly_F20_shoup_correct"},"guarantee":"timeit_shoup_poly_F20_shoup produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.benchmarks.bench_galoispolys.timeit_shoup_poly_F20_shoup_correct","statement":"Path(timeit_shoup_poly_F20_shoup(x), timeit_shoup_poly_F20_shoup produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee7b4012e35aea76","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_shoup_poly_F20_shoup():
     gf_factor_sqf(F_20, P_18, ZZ, method='shoup')

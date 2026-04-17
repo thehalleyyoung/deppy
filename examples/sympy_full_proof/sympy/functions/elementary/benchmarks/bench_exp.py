@@ -25,15 +25,21 @@ q = exp(3*x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(timeit_exp_subs(), timeit_exp_subs produces the expected output) over Any ║
+# ║ Path(timeit_exp_subs(), <unspecified:timeit_exp_subs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ timeit_exp_subs : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8987ae20f7bcbe1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.benchmarks.bench_exp.timeit_exp_subs","kind":"function","src_hash":"476ae7d933832b96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_exp_subs()","rhs":"timeit_exp_subs produces the expected output","over":{"base":"Any"},"name":"timeit_exp_subs_correct"},"guarantee":"timeit_exp_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.benchmarks.bench_exp.timeit_exp_subs_correct","statement":"Path(timeit_exp_subs(x), timeit_exp_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8987ae20f7bcbe1b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.benchmarks.bench_exp.timeit_exp_subs","kind":"function","src_hash":"476ae7d933832b96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"timeit_exp_subs()","rhs":"<unspecified:timeit_exp_subs>","over":{"base":"Any"},"name":"timeit_exp_subs_correct"},"guarantee":"timeit_exp_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.benchmarks.bench_exp.timeit_exp_subs_correct","statement":"Path(timeit_exp_subs(x), timeit_exp_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8987ae20f7bcbe1b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def timeit_exp_subs():
     e.subs(q, y)

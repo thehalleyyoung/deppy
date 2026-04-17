@@ -39,16 +39,23 @@ from sympy.utilities import subsets, public, filldedent
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(swinnerton_dyer_poly(n, ), id) over Any               ║
+# ║ Path(swinnerton_dyer_poly(n, x, polys), id) over {Any | not (n <= 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ swinnerton_dyer_poly : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n <= 0)                                   ║
+# ║   ensures:  len(a) == old_len_a + 1                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ swinnerton_dyer_poly : {Any | not (n <= 0)} → {Any | ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | dd108fe9e9d01738   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.swinnerton_dyer_poly","kind":"function","src_hash":"58b70a7e573651bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"swinnerton_dyer_poly(n, )","rhs":"generates n-th swinnerton-dyer polynomial in `x`","over":{"base":"Any"},"name":"swinnerton_dyer_poly_correct","kind":"composition"},"guarantee":"generates n-th swinnerton-dyer polynomial in `x`","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"minimal_polynomial","by":"library_axiom"},{"fn":"Add","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd108fe9e9d01738"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.swinnerton_dyer_poly","kind":"function","src_hash":"58b70a7e573651bb","in":{"base":"Any","pred":"not (n <= 0)"},"out":{"base":"Any","pred":"result satisfies: len(a) == old_len_a + 1"},"spec":{"lhs":"swinnerton_dyer_poly(n, x, polys)","rhs":"len(a) == old_len_a + 1","over":{"base":"Any","pred":"not (n <= 0)"},"name":"swinnerton_dyer_poly_correct","kind":"composition"},"guarantee":"len(a) == old_len_a + 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"minimal_polynomial","by":"library_axiom"},{"fn":"Add","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd108fe9e9d01738","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n <= 0)"],"ensures":["len(a) == old_len_a + 1"],"pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["a.append"],"raises":["ValueError"]},"state_contract":{"modifies":["a.*"],"old_bindings":{"old_len_a":"len(a)"},"post_ensures":["len(a) == old_len_a + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def swinnerton_dyer_poly(n, x=None, polys=False):
     """Generates n-th Swinnerton-Dyer polynomial in `x`.
 
@@ -92,16 +99,23 @@ def swinnerton_dyer_poly(n, x=None, polys=False):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cyclotomic_poly(n, ), generates cyclotomic polynomial of order `n` in `x`) over Any ║
+# ║ Path(cyclotomic_poly(n, x, polys), poly if polys else poly.as_expr()) over {Any | not (n <= 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ cyclotomic_poly : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n <= 0)                                   ║
+# ║   returns:  poly if polys else poly.as_expr()              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ cyclotomic_poly : {Any | not (n <= 0)} → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3cf215e43e874557  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37c15c4936159aaf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.cyclotomic_poly","kind":"function","src_hash":"97c1ff7a727ea4ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cyclotomic_poly(n, )","rhs":"generates cyclotomic polynomial of order `n` in `x`","over":{"base":"Any"},"name":"cyclotomic_poly_correct"},"guarantee":"generates cyclotomic polynomial of order `n` in `x`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.cyclotomic_poly_correct","statement":"Path(cyclotomic_poly(x), generates cyclotomic polynomial of order `n` in `x`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3cf215e43e874557"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.cyclotomic_poly","kind":"function","src_hash":"97c1ff7a727ea4ff","in":{"base":"Any","pred":"not (n <= 0)"},"out":{"base":"Any"},"spec":{"lhs":"cyclotomic_poly(n, x, polys)","rhs":"poly if polys else poly.as_expr()","over":{"base":"Any","pred":"not (n <= 0)"},"name":"cyclotomic_poly_correct"},"guarantee":"returns poly if polys else poly.as_expr()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.cyclotomic_poly_correct","statement":"Path(cyclotomic_poly(x), returns poly if polys else poly.as_expr())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37c15c4936159aaf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n <= 0)"],"returns_expr":"poly if polys else poly.as_expr()","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def cyclotomic_poly(n, x=None, polys=False):
     """Generates cyclotomic polynomial of order `n` in `x`.
 
@@ -130,16 +144,23 @@ def cyclotomic_poly(n, x=None, polys=False):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symmetric_poly(n, ), generates symmetric polynomial of order `n`) over Any ║
+# ║ Path(symmetric_poly(n, *gens, polys), Poly(poly, *gens) if polys else poly) over {Any | not (n < 0 or n > len(gens) or (not gens))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ symmetric_poly : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (n < 0 or n > len(gens) or (not gens))     ║
+# ║   returns:  Poly(poly, *gens) if polys else poly           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ symmetric_poly : {Any | not (n < 0 or n > len(gens) o...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74423e76a8d5c348  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b423e23d67804db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.symmetric_poly","kind":"function","src_hash":"e35278a49b5a2827","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetric_poly(n, )","rhs":"generates symmetric polynomial of order `n`","over":{"base":"Any"},"name":"symmetric_poly_correct"},"guarantee":"generates symmetric polynomial of order `n`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.symmetric_poly_correct","statement":"Path(symmetric_poly(x), generates symmetric polynomial of order `n`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74423e76a8d5c348"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.symmetric_poly","kind":"function","src_hash":"e35278a49b5a2827","in":{"base":"Any","pred":"not (n < 0 or n > len(gens) or (not gens))"},"out":{"base":"Any"},"spec":{"lhs":"symmetric_poly(n, *gens, polys)","rhs":"Poly(poly, *gens) if polys else poly","over":{"base":"Any","pred":"not (n < 0 or n > len(gens) or (not gens))"},"name":"symmetric_poly_correct"},"guarantee":"returns Poly(poly, *gens) if polys else poly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.symmetric_poly_correct","statement":"Path(symmetric_poly(x), returns Poly(poly, *gens) if polys else poly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b423e23d67804db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (n < 0 or n > len(gens) or (not gens))"],"returns_expr":"Poly(poly, *gens) if polys else poly","pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=['n'], spec=['n', '*gens', 'polys']"]}}
 def symmetric_poly(n, *gens, polys=False):
     """
     Generates symmetric polynomial of order `n`.
@@ -165,16 +186,22 @@ def symmetric_poly(n, *gens, polys=False):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random_poly(x, ), generates a polynomial of degree ``n`` with coefficients in ``[inf, sup]``) over Any ║
+# ║ Path(random_poly(x, n, inf), poly if polys else poly.as_expr()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  poly if polys else poly.as_expr()              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ random_poly : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f583fe25555b32ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5a6e5934a840b816  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.random_poly","kind":"function","src_hash":"d0e10db677d4b7e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_poly(x, )","rhs":"generates a polynomial of degree ``n`` with coefficients in ``[inf, sup]``","over":{"base":"Any"},"name":"random_poly_correct"},"guarantee":"generates a polynomial of degree ``n`` with coefficients in ``[inf, sup]``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.random_poly_correct","statement":"Path(random_poly(x), generates a polynomial of degree ``n`` with coefficients in ``[inf, sup]``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f583fe25555b32ba"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.random_poly","kind":"function","src_hash":"d0e10db677d4b7e3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_poly(x, n, inf)","rhs":"poly if polys else poly.as_expr()","over":{"base":"Any"},"name":"random_poly_correct"},"guarantee":"returns poly if polys else poly.as_expr()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.random_poly_correct","statement":"Path(random_poly(x), returns poly if polys else poly.as_expr())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5a6e5934a840b816","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"poly if polys else poly.as_expr()","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def random_poly(x, n, inf, sup, domain=ZZ, polys=False):
     """Generates a polynomial of degree ``n`` with coefficients in
     ``[inf, sup]``.
@@ -203,9 +230,14 @@ def random_poly(x, n, inf, sup, domain=ZZ, polys=False):
 
 @public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(interpolating_poly(n, ), construct lagrange interpolating polynomial for ``n`` data points) over {Any | isinstance(X, str)} ║
+# ║ Path(interpolating_poly(n, x, X), Add(*[coeff * y for coeff, y in zip(coeffs, Y)])) over {Any | isinstance(X, str) and ok} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ interpolating_poly : {Any | isinstance(X, str)} → Any      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: ok                                             ║
+# ║   ensures:  len(coeffs) == old_len_coeffs + 1              ║
+# ║   returns:  Add(*[coeff * y for coeff, y in zip(coeff...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ interpolating_poly : {Any | isinstance(X, str) and ok...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   str: {isinstance(X, str)} → library_axiom                ║
@@ -215,9 +247,12 @@ def random_poly(x, n, inf, sup, domain=ZZ, polys=False):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9f3c4b6e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.interpolating_poly","kind":"function","src_hash":"db703788fed7fda7","in":{"base":"Any","pred":"isinstance(X, str)"},"out":{"base":"Any"},"spec":{"lhs":"interpolating_poly(n, )","rhs":"construct lagrange interpolating polynomial for ``n`` data points","over":{"base":"Any","pred":"isinstance(X, str)"},"name":"interpolating_poly_correct"},"guarantee":"construct lagrange interpolating polynomial for ``n`` data points","fibers":[{"name":"str","pred":"isinstance(X, str)","path":{"lhs":"interpolating_poly(x)","rhs":"construct lagrange interpolating polynomial for ``n`` data points","over":{"base":"str","pred":"isinstance(X, str)"},"name":"interpolating_poly_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.interpolating_poly_str_correct","statement":"interpolating_poly satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9f3c4b6e4de50cc7"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.interpolating_poly","kind":"function","src_hash":"db703788fed7fda7","in":{"base":"Any","pred":"isinstance(X, str) and ok"},"out":{"base":"Any","pred":"result satisfies: result == (Add(*[coeff * y for coeff, y in zip(coeffs, Y)]))"},"spec":{"lhs":"interpolating_poly(n, x, X)","rhs":"Add(*[coeff * y for coeff, y in zip(coeffs, Y)])","over":{"base":"Any","pred":"isinstance(X, str) and ok"},"name":"interpolating_poly_correct"},"guarantee":"returns Add(*[coeff * y for coeff, y in zip(coeffs, Y)]); len(coeffs) == old_len_coeffs + 1","fibers":[{"name":"str","pred":"isinstance(X, str)","path":{"lhs":"interpolating_poly(x)","rhs":"returns Add(*[coeff * y for coeff, y in zip(coeffs, Y)]); len(coeffs) == old_len_coeffs + 1","over":{"base":"str","pred":"isinstance(X, str)"},"name":"interpolating_poly_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.interpolating_poly_str_correct","statement":"interpolating_poly satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9f3c4b6e4de50cc7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["ok"],"ensures":["len(coeffs) == old_len_coeffs + 1"],"returns_expr":"Add(*[coeff * y for coeff, y in zip(coeffs, Y)])","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["coeffs.append"],"raises":["ValueError"]},"state_contract":{"modifies":["coeffs.*"],"old_bindings":{"old_len_coeffs":"len(coeffs)"},"post_ensures":["len(coeffs) == old_len_coeffs + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(X, str)', 'isinstance(Y, str)'}, fibers={'str'})"]}}
 def interpolating_poly(n, x, X='x', Y='y'):
     """Construct Lagrange interpolating polynomial for ``n``
     data points. If a sequence of values are given for ``X`` and ``Y``
@@ -252,16 +287,22 @@ def interpolating_poly(n, x, X='x', Y='y'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fateman_poly_F_1(n), fateman's gcd benchmark: trivial gcd) over Any ║
+# ║ Path(fateman_poly_F_1(n), (F, G, H)) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (F, G, H)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fateman_poly_F_1 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1eedd8d7e412dc8c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbdbbbe87dbdcf59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.fateman_poly_F_1","kind":"function","src_hash":"1949255ec3fd3f2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fateman_poly_F_1(n)","rhs":"fateman's gcd benchmark: trivial gcd","over":{"base":"Any"},"name":"fateman_poly_F_1_correct"},"guarantee":"fateman's gcd benchmark: trivial gcd","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.fateman_poly_F_1_correct","statement":"Path(fateman_poly_F_1(x), fateman's gcd benchmark: trivial gcd)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1eedd8d7e412dc8c"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.fateman_poly_F_1","kind":"function","src_hash":"1949255ec3fd3f2d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fateman_poly_F_1(n)","rhs":"(F, G, H)","over":{"base":"Any"},"name":"fateman_poly_F_1_correct"},"guarantee":"returns (F, G, H)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.fateman_poly_F_1_correct","statement":"Path(fateman_poly_F_1(x), returns (F, G, H))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbdbbbe87dbdcf59","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(F, G, H)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def fateman_poly_F_1(n):
     """Fateman's GCD benchmark: trivial GCD """
     Y = [Symbol('y_' + str(i)) for i in range(n + 1)]
@@ -280,16 +321,22 @@ def fateman_poly_F_1(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_fateman_poly_F_1(n, ), fateman's gcd benchmark: trivial gcd) over Any ║
+# ║ Path(dmp_fateman_poly_F_1(n, K), (F, G, H)) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (F, G, H)                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_fateman_poly_F_1 : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4dfda957d2331e49  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a6bdc8eb718a4285  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.dmp_fateman_poly_F_1","kind":"function","src_hash":"ccd2fd92b520aa91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_fateman_poly_F_1(n, )","rhs":"fateman's gcd benchmark: trivial gcd","over":{"base":"Any"},"name":"dmp_fateman_poly_F_1_correct"},"guarantee":"fateman's gcd benchmark: trivial gcd","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.dmp_fateman_poly_F_1_correct","statement":"Path(dmp_fateman_poly_F_1(x), fateman's gcd benchmark: trivial gcd)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4dfda957d2331e49"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.dmp_fateman_poly_F_1","kind":"function","src_hash":"ccd2fd92b520aa91","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_fateman_poly_F_1(n, K)","rhs":"(F, G, H)","over":{"base":"Any"},"name":"dmp_fateman_poly_F_1_correct"},"guarantee":"returns (F, G, H)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.dmp_fateman_poly_F_1_correct","statement":"Path(dmp_fateman_poly_F_1(x), returns (F, G, H))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a6bdc8eb718a4285","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(F, G, H)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dmp_fateman_poly_F_1(n, K):
     """Fateman's GCD benchmark: trivial GCD """
     u = [K(1), K(0)]
@@ -321,16 +368,22 @@ def dmp_fateman_poly_F_1(n, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fateman_poly_F_2(n), fateman's gcd benchmark: linearly dense quartic inputs) over Any ║
+# ║ Path(fateman_poly_F_2(n), (H * F, H * G, H)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (H * F, H * G, H)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fateman_poly_F_2 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 419174cbce491bef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa45f8f263783b95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.fateman_poly_F_2","kind":"function","src_hash":"401175520e5247ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fateman_poly_F_2(n)","rhs":"fateman's gcd benchmark: linearly dense quartic inputs","over":{"base":"Any"},"name":"fateman_poly_F_2_correct"},"guarantee":"fateman's gcd benchmark: linearly dense quartic inputs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.fateman_poly_F_2_correct","statement":"Path(fateman_poly_F_2(x), fateman's gcd benchmark: linearly dense quartic inputs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"419174cbce491bef"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.fateman_poly_F_2","kind":"function","src_hash":"401175520e5247ba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fateman_poly_F_2(n)","rhs":"(H * F, H * G, H)","over":{"base":"Any"},"name":"fateman_poly_F_2_correct"},"guarantee":"returns (H * F, H * G, H)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.fateman_poly_F_2_correct","statement":"Path(fateman_poly_F_2(x), returns (H * F, H * G, H))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa45f8f263783b95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(H * F, H * G, H)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def fateman_poly_F_2(n):
     """Fateman's GCD benchmark: linearly dense quartic inputs """
     Y = [Symbol('y_' + str(i)) for i in range(n + 1)]
@@ -348,16 +401,22 @@ def fateman_poly_F_2(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_fateman_poly_F_2(n, ), id) over Any               ║
+# ║ Path(dmp_fateman_poly_F_2(n, K), id) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (dmp_mul(f, h, n, K), dmp_mul(g, h, n, K)...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dmp_fateman_poly_F_2 : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 764dc5de3fc10d67   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.dmp_fateman_poly_F_2","kind":"function","src_hash":"bdd7640ed5f62592","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_fateman_poly_F_2(n, )","rhs":"fateman's gcd benchmark: linearly dense quartic inputs","over":{"base":"Any"},"name":"dmp_fateman_poly_F_2_correct","kind":"composition"},"guarantee":"fateman's gcd benchmark: linearly dense quartic inputs","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dmp_mul","by":"library_axiom"},{"fn":"dmp_mul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"764dc5de3fc10d67"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.dmp_fateman_poly_F_2","kind":"function","src_hash":"bdd7640ed5f62592","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_fateman_poly_F_2(n, K)","rhs":"(dmp_mul(f, h, n, K), dmp_mul(g, h, n, K), h)","over":{"base":"Any"},"name":"dmp_fateman_poly_F_2_correct","kind":"composition"},"guarantee":"returns (dmp_mul(f, h, n, K), dmp_mul(g, h, n, K), h)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dmp_mul","by":"library_axiom"},{"fn":"dmp_mul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"764dc5de3fc10d67","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(dmp_mul(f, h, n, K), dmp_mul(g, h, n, K), h)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def dmp_fateman_poly_F_2(n, K):
     """Fateman's GCD benchmark: linearly dense quartic inputs """
     u = [K(1), K(0)]
@@ -380,16 +439,22 @@ def dmp_fateman_poly_F_2(n, K):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fateman_poly_F_3(n), fateman's gcd benchmark: sparse inputs (deg f ~ vars f)) over Any ║
+# ║ Path(fateman_poly_F_3(n), (H * F, H * G, H)) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (H * F, H * G, H)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fateman_poly_F_3 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ef056c7690444d46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb1926a76bb5b6c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.fateman_poly_F_3","kind":"function","src_hash":"74989a236a84dd14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fateman_poly_F_3(n)","rhs":"fateman's gcd benchmark: sparse inputs (deg f ~ vars f)","over":{"base":"Any"},"name":"fateman_poly_F_3_correct"},"guarantee":"fateman's gcd benchmark: sparse inputs (deg f ~ vars f)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.fateman_poly_F_3_correct","statement":"Path(fateman_poly_F_3(x), fateman's gcd benchmark: sparse inputs (deg f ~ vars f))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ef056c7690444d46"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.fateman_poly_F_3","kind":"function","src_hash":"74989a236a84dd14","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fateman_poly_F_3(n)","rhs":"(H * F, H * G, H)","over":{"base":"Any"},"name":"fateman_poly_F_3_correct"},"guarantee":"returns (H * F, H * G, H)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys.fateman_poly_F_3_correct","statement":"Path(fateman_poly_F_3(x), returns (H * F, H * G, H))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb1926a76bb5b6c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(H * F, H * G, H)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def fateman_poly_F_3(n):
     """Fateman's GCD benchmark: sparse inputs (deg f ~ vars f) """
     Y = [Symbol('y_' + str(i)) for i in range(n + 1)]
@@ -407,16 +472,23 @@ def fateman_poly_F_3(n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dmp_fateman_poly_F_3(n, ), id) over Any               ║
+# ║ Path(dmp_fateman_poly_F_3(n, K), id) over {Any | hasattr(K, 'one')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ dmp_fateman_poly_F_3 : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(K, 'one')                              ║
+# ║   returns:  (dmp_mul(f, h, n, K), dmp_mul(g, h, n, K)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ dmp_fateman_poly_F_3 : {Any | hasattr(K, 'one')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 244c46a6fcadf6cc   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.dmp_fateman_poly_F_3","kind":"function","src_hash":"2d6b22f317ccf8ee","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dmp_fateman_poly_F_3(n, )","rhs":"fateman's gcd benchmark: sparse inputs (deg f ~ vars f)","over":{"base":"Any"},"name":"dmp_fateman_poly_F_3_correct","kind":"composition"},"guarantee":"fateman's gcd benchmark: sparse inputs (deg f ~ vars f)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dmp_mul","by":"library_axiom"},{"fn":"dmp_mul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"244c46a6fcadf6cc"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.dmp_fateman_poly_F_3","kind":"function","src_hash":"2d6b22f317ccf8ee","in":{"base":"Any","pred":"hasattr(K, 'one')"},"out":{"base":"Any"},"spec":{"lhs":"dmp_fateman_poly_F_3(n, K)","rhs":"(dmp_mul(f, h, n, K), dmp_mul(g, h, n, K), h)","over":{"base":"Any","pred":"hasattr(K, 'one')"},"name":"dmp_fateman_poly_F_3_correct","kind":"composition"},"guarantee":"returns (dmp_mul(f, h, n, K), dmp_mul(g, h, n, K), h)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"dmp_mul","by":"library_axiom"},{"fn":"dmp_mul","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"244c46a6fcadf6cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(K, 'one')"],"returns_expr":"(dmp_mul(f, h, n, K), dmp_mul(g, h, n, K), h)","pure":false,"effects":{"effect_type":"reads_state","reads":["K.one"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def dmp_fateman_poly_F_3(n, K):
     """Fateman's GCD benchmark: sparse inputs (deg f ~ vars f) """
     u = dup_from_raw_dict({n + 1: K.one}, K)
@@ -441,164 +513,230 @@ def dmp_fateman_poly_F_3(n, K):
 from sympy.polys.rings import ring
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_f_0(), internal helper behaves correctly) over Any   ║
+# ║ Path(_f_0(), x ** 2 * y * z ** 2 + 2 * x ** 2 * y * z + 3 * x ** 2 * y + 2 * x ** 2 + 3 * x + 4 * y ** 2 * z ** 2 + 5 * y ** 2 * z + 6 * y ** 2 + y * z ** 2 + 2 * y * z + y + 1) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  x ** 2 * y * z ** 2 + 2 * x ** 2 * y * z ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _f_0 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 86fc0765bb040a39  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f3e672339b77911  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_0","kind":"function","src_hash":"2dc70fb42d4f982d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_0()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_f_0_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_0_correct","statement":"Path(_f_0(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"86fc0765bb040a39"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_0","kind":"function","src_hash":"2dc70fb42d4f982d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_0()","rhs":"x ** 2 * y * z ** 2 + 2 * x ** 2 * y * z + 3 * x ** 2 * y + 2 * x ** 2 + 3 * x + 4 * y ** 2 * z ** 2 + 5 * y ** 2 * z + 6 * y ** 2 + y * z ** 2 + 2 * y * z + y + 1","over":{"base":"Any"},"name":"_f_0_correct"},"guarantee":"returns x ** 2 * y * z ** 2 + 2 * x ** 2 * y * z + 3 * x ** 2 * y + 2 * x ** 2 + 3 * x + 4 * y ** 2 * z ** 2 + 5 * y ** 2 * z + 6 * y ** 2 + y * z ** 2 + 2 * y * z + y + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_0_correct","statement":"Path(_f_0(x), returns x ** 2 * y * z ** 2 + 2 * x ** 2 * y * z + 3 * x ** 2 * y + 2 * x ** 2 + 3 * x + 4 * y ** 2 * z ** 2 + 5 * y ** 2 * z + 6 * y ** 2 + y * z ** 2 + 2 * y * z + y + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f3e672339b77911","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"x ** 2 * y * z ** 2 + 2 * x ** 2 * y * z + 3 * x ** 2 * y + 2 * x ** 2 + 3 * x + 4 * y ** 2 * z ** 2 + 5 * y ** 2 * z + 6 * y ** 2 + y * z ** 2 + 2 * y * z + y + 1","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _f_0():
     R, x, y, z = ring("x,y,z", ZZ)
     return x**2*y*z**2 + 2*x**2*y*z + 3*x**2*y + 2*x**2 + 3*x + 4*y**2*z**2 + 5*y**2*z + 6*y**2 + y*z**2 + 2*y*z + y + 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_f_1(), internal helper behaves correctly) over Any   ║
+# ║ Path(_f_1(), <unspecified:_f_1>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _f_1 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09b585c47da3d45d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_1","kind":"function","src_hash":"40646b2a85375e88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_1()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_f_1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_1_correct","statement":"Path(_f_1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09b585c47da3d45d"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_1","kind":"function","src_hash":"40646b2a85375e88","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_1()","rhs":"<unspecified:_f_1>","over":{"base":"Any"},"name":"_f_1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_1_correct","statement":"Path(_f_1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09b585c47da3d45d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _f_1():
     R, x, y, z = ring("x,y,z", ZZ)
     return x**3*y*z + x**2*y**2*z**2 + x**2*y**2 + 20*x**2*y*z + 30*x**2*y + x**2*z**2 + 10*x**2*z + x*y**3*z + 30*x*y**2*z + 20*x*y**2 + x*y*z**3 + 10*x*y*z**2 + x*y*z + 610*x*y + 20*x*z**2 + 230*x*z + 300*x + y**2*z**2 + 10*y**2*z + 30*y*z**2 + 320*y*z + 200*y + 600*z + 6000
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_f_2(), internal helper behaves correctly) over Any   ║
+# ║ Path(_f_2(), <unspecified:_f_2>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _f_2 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec21141d99717d45  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_2","kind":"function","src_hash":"19baaac541174966","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_2()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_f_2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_2_correct","statement":"Path(_f_2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec21141d99717d45"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_2","kind":"function","src_hash":"19baaac541174966","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_2()","rhs":"<unspecified:_f_2>","over":{"base":"Any"},"name":"_f_2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_2_correct","statement":"Path(_f_2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec21141d99717d45","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _f_2():
     R, x, y, z = ring("x,y,z", ZZ)
     return x**5*y**3 + x**5*y**2*z + x**5*y*z**2 + x**5*z**3 + x**3*y**2 + x**3*y*z + 90*x**3*y + 90*x**3*z + x**2*y**2*z - 11*x**2*y**2 + x**2*z**3 - 11*x**2*z**2 + y*z - 11*y + 90*z - 990
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_f_3(), internal helper behaves correctly) over Any   ║
+# ║ Path(_f_3(), <unspecified:_f_3>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _f_3 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f84b55750c768cd9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_3","kind":"function","src_hash":"780dc13843bb2157","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_3()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_f_3_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_3_correct","statement":"Path(_f_3(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f84b55750c768cd9"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_3","kind":"function","src_hash":"780dc13843bb2157","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_3()","rhs":"<unspecified:_f_3>","over":{"base":"Any"},"name":"_f_3_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_3_correct","statement":"Path(_f_3(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f84b55750c768cd9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _f_3():
     R, x, y, z = ring("x,y,z", ZZ)
     return x**5*y**2 + x**4*z**4 + x**4 + x**3*y**3*z + x**3*z + x**2*y**4 + x**2*y**3*z**3 + x**2*y*z**5 + x**2*y*z + x*y**2*z**4 + x*y**2 + x*y*z**7 + x*y*z**3 + x*y*z**2 + y**2*z + y*z**4
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_f_4(), internal helper behaves correctly) over Any   ║
+# ║ Path(_f_4(), <unspecified:_f_4>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _f_4 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e6a2fdc0bf9d4f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_4","kind":"function","src_hash":"c4c86fdbb72c6930","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_4()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_f_4_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_4_correct","statement":"Path(_f_4(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e6a2fdc0bf9d4f0"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_4","kind":"function","src_hash":"c4c86fdbb72c6930","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_4()","rhs":"<unspecified:_f_4>","over":{"base":"Any"},"name":"_f_4_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_4_correct","statement":"Path(_f_4(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e6a2fdc0bf9d4f0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _f_4():
     R, x, y, z = ring("x,y,z", ZZ)
     return -x**9*y**8*z - x**8*y**5*z**3 - x**7*y**12*z**2 - 5*x**7*y**8 - x**6*y**9*z**4 + x**6*y**7*z**3 + 3*x**6*y**7*z - 5*x**6*y**5*z**2 - x**6*y**4*z**3 + x**5*y**4*z**5 + 3*x**5*y**4*z**3 - x**5*y*z**5 + x**4*y**11*z**4 + 3*x**4*y**11*z**2 - x**4*y**8*z**4 + 5*x**4*y**7*z**2 + 15*x**4*y**7 - 5*x**4*y**4*z**2 + x**3*y**8*z**6 + 3*x**3*y**8*z**4 - x**3*y**5*z**6 + 5*x**3*y**4*z**4 + 15*x**3*y**4*z**2 + x**3*y**3*z**5 + 3*x**3*y**3*z**3 - 5*x**3*y*z**4 + x**2*z**7 + 3*x**2*z**5 + x*y**7*z**6 + 3*x*y**7*z**4 + 5*x*y**3*z**4 + 15*x*y**3*z**2 + y**4*z**8 + 3*y**4*z**6 + 5*z**6 + 15*z**4
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_f_5(), internal helper behaves correctly) over Any   ║
+# ║ Path(_f_5(), -x ** 3 - 3 * x ** 2 * y + 3 * x ** 2 * z - 3 * x * y ** 2 + 6 * x * y * z - 3 * x * z ** 2 - y ** 3 + 3 * y ** 2 * z - 3 * y * z ** 2 + z ** 3) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  -x ** 3 - 3 * x ** 2 * y + 3 * x ** 2 * z...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _f_5 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 35e38929f43a36c3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ac8fed02ec29a6f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_5","kind":"function","src_hash":"e970e625d27a1571","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_5()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_f_5_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_5_correct","statement":"Path(_f_5(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"35e38929f43a36c3"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_5","kind":"function","src_hash":"e970e625d27a1571","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_5()","rhs":"-x ** 3 - 3 * x ** 2 * y + 3 * x ** 2 * z - 3 * x * y ** 2 + 6 * x * y * z - 3 * x * z ** 2 - y ** 3 + 3 * y ** 2 * z - 3 * y * z ** 2 + z ** 3","over":{"base":"Any"},"name":"_f_5_correct"},"guarantee":"returns -x ** 3 - 3 * x ** 2 * y + 3 * x ** 2 * z - 3 * x * y ** 2 + 6 * x * y * z - 3 * x * z ** 2 - y ** 3 + 3 * y ** 2 * z - 3 * y * z ** 2 + z ** 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_5_correct","statement":"Path(_f_5(x), returns -x ** 3 - 3 * x ** 2 * y + 3 * x ** 2 * z - 3 * x * y ** 2 + 6 * x * y * z - 3 * x * z ** 2 - y ** 3 + 3 * y ** 2 * z - 3 * y * z ** 2 + z ** 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ac8fed02ec29a6f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"-x ** 3 - 3 * x ** 2 * y + 3 * x ** 2 * z - 3 * x * y ** 2 + 6 * x * y * z - 3 * x * z ** 2 - y ** 3 + 3 * y ** 2 * z - 3 * y * z ** 2 + z ** 3","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _f_5():
     R, x, y, z = ring("x,y,z", ZZ)
     return -x**3 - 3*x**2*y + 3*x**2*z - 3*x*y**2 + 6*x*y*z - 3*x*z**2 - y**3 + 3*y**2*z - 3*y*z**2 + z**3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_f_6(), internal helper behaves correctly) over Any   ║
+# ║ Path(_f_6(), <unspecified:_f_6>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _f_6 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 038a97eb544c9f9e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_6","kind":"function","src_hash":"6350e749ada8f87c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_6()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_f_6_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_6_correct","statement":"Path(_f_6(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"038a97eb544c9f9e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._f_6","kind":"function","src_hash":"6350e749ada8f87c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_f_6()","rhs":"<unspecified:_f_6>","over":{"base":"Any"},"name":"_f_6_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._f_6_correct","statement":"Path(_f_6(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"038a97eb544c9f9e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _f_6():
     R, x, y, z, t = ring("x,y,z,t", ZZ)
     return 2115*x**4*y + 45*x**3*z**3*t**2 - 45*x**3*t**2 - 423*x*y**4 - 47*x*y**3 + 141*x*y*z**3 + 94*x*y*z*t - 9*y**3*z**3*t**2 + 9*y**3*t**2 - y**2*z**3*t**2 + y**2*t**2 + 3*z**6*t**2 + 2*z**4*t**3 - 3*z**3*t**2 - 2*z*t**3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_w_1(), internal helper behaves correctly) over Any   ║
+# ║ Path(_w_1(), <unspecified:_w_1>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _w_1 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4657b13eb775176f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._w_1","kind":"function","src_hash":"48e20889d9d50e67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_w_1()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_w_1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._w_1_correct","statement":"Path(_w_1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4657b13eb775176f"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._w_1","kind":"function","src_hash":"48e20889d9d50e67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_w_1()","rhs":"<unspecified:_w_1>","over":{"base":"Any"},"name":"_w_1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._w_1_correct","statement":"Path(_w_1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4657b13eb775176f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def _w_1():
     R, x, y, z = ring("x,y,z", ZZ)
     return 4*x**6*y**4*z**2 + 4*x**6*y**3*z**3 - 4*x**6*y**2*z**4 - 4*x**6*y*z**5 + x**5*y**4*z**3 + 12*x**5*y**3*z - x**5*y**2*z**5 + 12*x**5*y**2*z**2 - 12*x**5*y*z**3 - 12*x**5*z**4 + 8*x**4*y**4 + 6*x**4*y**3*z**2 + 8*x**4*y**3*z - 4*x**4*y**2*z**4 + 4*x**4*y**2*z**3 - 8*x**4*y**2*z**2 - 4*x**4*y*z**5 - 2*x**4*y*z**4 - 8*x**4*y*z**3 + 2*x**3*y**4*z + x**3*y**3*z**3 - x**3*y**2*z**5 - 2*x**3*y**2*z**3 + 9*x**3*y**2*z - 12*x**3*y*z**3 + 12*x**3*y*z**2 - 12*x**3*z**4 + 3*x**3*z**3 + 6*x**2*y**3 - 6*x**2*y**2*z**2 + 8*x**2*y**2*z - 2*x**2*y*z**4 - 8*x**2*y*z**3 + 2*x**2*y*z**2 + 2*x*y**3*z - 2*x*y**2*z**3 - 3*x*y*z + 3*x*z**3 - 2*y**2 + 2*y*z**2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_w_2(), internal helper behaves correctly) over Any   ║
+# ║ Path(_w_2(), <unspecified:_w_2>) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _w_2 : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dcb6f7ed4a95b3ae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._w_2","kind":"function","src_hash":"59f31a5948d5cc24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_w_2()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_w_2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._w_2_correct","statement":"Path(_w_2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcb6f7ed4a95b3ae"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys._w_2","kind":"function","src_hash":"59f31a5948d5cc24","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_w_2()","rhs":"<unspecified:_w_2>","over":{"base":"Any"},"name":"_w_2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.polys.specialpolys._w_2_correct","statement":"Path(_w_2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dcb6f7ed4a95b3ae","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _w_2():
     R, x, y = ring("x,y", ZZ)
     return 24*x**8*y**3 + 48*x**8*y**2 + 24*x**7*y**5 - 72*x**7*y**2 + 25*x**6*y**4 + 2*x**6*y**3 + 4*x**6*y + 8*x**6 + x**5*y**6 + x**5*y**3 - 12*x**5 + x**4*y**5 - x**4*y**4 - 2*x**4*y**3 + 292*x**4*y**2 - x**3*y**6 + 3*x**3*y**3 - x**2*y**5 + 12*x**2*y**3 + 48*x**2 - 12*y**3
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(f_polys(), f_polys produces the expected output) over Any ║
+# ║ Path(f_polys(), (_f_0(), _f_1(), _f_2(), _f_3(), _f_4(), _f_5(), _f_6())) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (_f_0(), _f_1(), _f_2(), _f_3(), _f_4(), ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ f_polys : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f0d2646aa7e05683           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.f_polys","kind":"function","src_hash":"501bda3070cd05fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"f_polys()","rhs":"f_polys produces the expected output","over":{"base":"Any"},"name":"f_polys_correct"},"guarantee":"f_polys produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0d2646aa7e05683"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.f_polys","kind":"function","src_hash":"501bda3070cd05fb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"f_polys()","rhs":"(_f_0(), _f_1(), _f_2(), _f_3(), _f_4(), _f_5(), _f_6())","over":{"base":"Any"},"name":"f_polys_correct"},"guarantee":"returns (_f_0(), _f_1(), _f_2(), _f_3(), _f_4(), _f_5(), _f_6())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f0d2646aa7e05683","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(_f_0(), _f_1(), _f_2(), _f_3(), _f_4(), _f_5(), _f_6())","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def f_polys():
     return _f_0(), _f_1(), _f_2(), _f_3(), _f_4(), _f_5(), _f_6()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(w_polys(), w_polys produces the expected output) over Any ║
+# ║ Path(w_polys(), (_w_1(), _w_2())) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (_w_1(), _w_2())                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ w_polys : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6d568d991d3e0da8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.w_polys","kind":"function","src_hash":"d4ac7d4d58c765d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"w_polys()","rhs":"w_polys produces the expected output","over":{"base":"Any"},"name":"w_polys_correct"},"guarantee":"w_polys produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d568d991d3e0da8"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.specialpolys.w_polys","kind":"function","src_hash":"d4ac7d4d58c765d9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"w_polys()","rhs":"(_w_1(), _w_2())","over":{"base":"Any"},"name":"w_polys_correct"},"guarantee":"returns (_w_1(), _w_2())","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6d568d991d3e0da8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(_w_1(), _w_2())","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def w_polys():
     return _w_1(), _w_2()

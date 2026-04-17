@@ -29,14 +29,20 @@ from .singleton import S
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Mod(*args), correctly constructs a Mod instance) over {Any | isinstance(p, cls) and isinstance(d, int) and isinstance(p, Add)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefinedFunction)              ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Mod : {Any | isinstance(p, cls) and isinstance(d, int...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9992c19875b7477  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod","kind":"class","src_hash":"d16e1552772b6599","in":{"base":"Any","pred":"isinstance(p, cls) and isinstance(d, int) and isinstance(p, Add)"},"out":{"base":"Any"},"spec":{"lhs":"Mod(*args)","rhs":"correctly constructs a Mod instance","over":{"base":"Any","pred":"isinstance(p, cls) and isinstance(d, int) and isinstance(p, Add)"},"name":"Mod_class_invariant"},"guarantee":"correctly constructs a Mod instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9992c19875b7477"}
+# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod","kind":"class","src_hash":"d16e1552772b6599","in":{"base":"Any","pred":"isinstance(p, cls) and isinstance(d, int) and isinstance(p, Add)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefinedFunction)"},"spec":{"lhs":"Mod(*args)","rhs":"correctly constructs a Mod instance","over":{"base":"Any","pred":"isinstance(p, cls) and isinstance(d, int) and isinstance(p, Add)"},"name":"Mod_class_invariant"},"guarantee":"isinstance(self, DefinedFunction)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9992c19875b7477","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefinedFunction)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function Mod not found in source"]}}
 class Mod(DefinedFunction):
     """Represents a modulo operation on symbolic expressions.
 
@@ -82,16 +88,27 @@ class Mod(DefinedFunction):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eval(cls), eval produces the expected output) over Any ║
+# ║ Path(eval(cls, p, q), len(args) == old_len_args + 1 and len(mod) == old_len_mod + 1 and len(non_mod) == old_len_non_mod + 1) over {Any | hasattr(p, 'is_Add') and hasattr(q, 'is_zero') and hasattr(q, 'is_Number') and hasattr(q, 'is_positive') and hasattr(p, 'args') and hasattr(p, 'is_Number') and hasattr(q, 'is_negative') and hasattr(p, 'as_coeff_Mul') and hasattr(q, 'as_coeff_Mul') and hasattr(p, 'could_extract_minus_sign') and hasattr(q, 'could_extract_minus_sign') and hasattr(p, 'is_finite') and hasattr(q, 'is_finite') and hasattr(p, 'is_integer') and hasattr(p, 'is_even') and hasattr(p, 'is_odd') and hasattr(q, 'is_integer') and hasattr(q, 'is_Integer')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ eval : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(p, 'is_Add')                           ║
+# ║   requires: hasattr(q, 'is_zero')                          ║
+# ║   requires: hasattr(q, 'is_Number')                        ║
+# ║   ensures:  len(args) == old_len_args + 1                  ║
+# ║   ensures:  len(mod) == old_len_mod + 1                    ║
+# ║   ensures:  len(non_mod) == old_len_non_mod + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ eval : {Any | hasattr(p, 'is_Add') and hasattr(q, 'is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | de9c00904455eabb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dd91f5e1c1789618  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod.eval","kind":"classmethod","src_hash":"e403f85401337474","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eval(cls)","rhs":"eval produces the expected output","over":{"base":"Any"},"name":"eval_correct"},"guarantee":"eval produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.mod.Mod.eval_correct","statement":"Path(eval(x), eval produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"de9c00904455eabb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod.eval","kind":"classmethod","src_hash":"e403f85401337474","in":{"base":"Any","pred":"hasattr(p, 'is_Add') and hasattr(q, 'is_zero') and hasattr(q, 'is_Number') and hasattr(q, 'is_positive') and hasattr(p, 'args') and hasattr(p, 'is_Number') and hasattr(q, 'is_negative') and hasattr(p, 'as_coeff_Mul') and hasattr(q, 'as_coeff_Mul') and hasattr(p, 'could_extract_minus_sign') and hasattr(q, 'could_extract_minus_sign') and hasattr(p, 'is_finite') and hasattr(q, 'is_finite') and hasattr(p, 'is_integer') and hasattr(p, 'is_even') and hasattr(p, 'is_odd') and hasattr(q, 'is_integer') and hasattr(q, 'is_Integer')"},"out":{"base":"Any","pred":"result satisfies: len(args) == old_len_args + 1 and len(mod) == old_len_mod + 1 and len(non_mod) == old_len_non_mod + 1"},"spec":{"lhs":"eval(cls, p, q)","rhs":"len(args) == old_len_args + 1 and len(mod) == old_len_mod + 1 and len(non_mod) == old_len_non_mod + 1","over":{"base":"Any","pred":"hasattr(p, 'is_Add') and hasattr(q, 'is_zero') and hasattr(q, 'is_Number') and hasattr(q, 'is_positive') and hasattr(p, 'args') and hasattr(p, 'is_Number') and hasattr(q, 'is_negative') and hasattr(p, 'as_coeff_Mul') and hasattr(q, 'as_coeff_Mul') and hasattr(p, 'could_extract_minus_sign') and hasattr(q, 'could_extract_minus_sign') and hasattr(p, 'is_finite') and hasattr(q, 'is_finite') and hasattr(p, 'is_integer') and hasattr(p, 'is_even') and hasattr(p, 'is_odd') and hasattr(q, 'is_integer') and hasattr(q, 'is_Integer')"},"name":"eval_correct"},"guarantee":"len(args) == old_len_args + 1; len(mod) == old_len_mod + 1; len(non_mod) == old_len_non_mod + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.mod.Mod.eval_correct","statement":"Path(eval(x), len(args) == old_len_args + 1; len(mod) == old_len_mod + 1; len(non_mod) == old_len_non_mod + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dd91f5e1c1789618","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(p, 'is_Add')","hasattr(q, 'is_zero')","hasattr(q, 'is_Number')","hasattr(q, 'is_positive')","hasattr(p, 'args')","hasattr(p, 'is_Number')","hasattr(q, 'is_negative')","hasattr(p, 'as_coeff_Mul')","hasattr(q, 'as_coeff_Mul')","hasattr(p, 'could_extract_minus_sign')","hasattr(q, 'could_extract_minus_sign')","hasattr(p, 'is_finite')","hasattr(q, 'is_finite')","hasattr(p, 'is_integer')","hasattr(p, 'is_even')","hasattr(p, 'is_odd')","hasattr(q, 'is_integer')","hasattr(q, 'is_Integer')"],"ensures":["len(args) == old_len_args + 1","len(mod) == old_len_mod + 1","len(non_mod) == old_len_non_mod + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["p.args","p.as_coeff_Mul","p.could_extract_minus_sign","p.is_Add","p.is_Number","p.is_even","p.is_finite","p.is_integer","p.is_odd","q.as_coeff_Mul","q.could_extract_minus_sign","q.is_Integer","q.is_Number","q.is_finite","q.is_integer","q.is_negative","q.is_positive","q.is_zero"],"calls_mutating":["args.append","mod.append","non_mod.append"],"raises":["ZeroDivisionError"],"catches":["PolynomialError","TypeError"]},"state_contract":{"modifies":["args.*","mod.*","non_mod.*"],"old_bindings":{"old_len_args":"len(args)","old_len_mod":"len(mod)","old_len_non_mod":"len(non_mod)"},"post_ensures":["len(args) == old_len_args + 1","len(mod) == old_len_mod + 1","len(non_mod) == old_len_non_mod + 1"],"exceptional_post":{"ZeroDivisionError":["isinstance(raised, ZeroDivisionError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eval(cls, p, q):
         def number_eval(p, q):
             """Try to return p % q if both are numbers or +/-p is known
@@ -274,92 +291,128 @@ class Mod(DefinedFunction):
         return G*cls(p, q, evaluate=(p, q) != (pwas, qwas))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_integer(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_integer(), True) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_integer : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81ebd0d82bcb1d32  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a4f3d4214acdfa1f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod._eval_is_integer","kind":"method","src_hash":"3a5ecca46866c50b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.mod.Mod._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81ebd0d82bcb1d32"}
+# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod._eval_is_integer","kind":"method","src_hash":"3a5ecca46866c50b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_integer()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_integer_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.mod.Mod._eval_is_integer_correct","statement":"Path(_eval_is_integer(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a4f3d4214acdfa1f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_integer(self):
         p, q = self.args
         if fuzzy_and([p.is_integer, q.is_integer, fuzzy_not(q.is_zero)]):
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_nonnegative(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_nonnegative(), True) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_nonnegative : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d03e6a28de4dcc3e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 876a494c6542764d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod._eval_is_nonnegative","kind":"method","src_hash":"e7f322fbf330344a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonnegative()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_nonnegative_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.mod.Mod._eval_is_nonnegative_correct","statement":"Path(_eval_is_nonnegative(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d03e6a28de4dcc3e"}
+# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod._eval_is_nonnegative","kind":"method","src_hash":"e7f322fbf330344a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonnegative()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_nonnegative_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.mod.Mod._eval_is_nonnegative_correct","statement":"Path(_eval_is_nonnegative(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"876a494c6542764d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_nonnegative(self):
         if self.args[1].is_positive:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_nonpositive(), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_is_nonpositive(), True) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  True                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_nonpositive : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbe99300e4cfe8cf  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bbf0255f633ce0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod._eval_is_nonpositive","kind":"method","src_hash":"66140d12872fc309","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonpositive()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_is_nonpositive_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.mod.Mod._eval_is_nonpositive_correct","statement":"Path(_eval_is_nonpositive(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbe99300e4cfe8cf"}
+# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod._eval_is_nonpositive","kind":"method","src_hash":"66140d12872fc309","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_nonpositive()","rhs":"True","over":{"base":"Any"},"name":"_eval_is_nonpositive_correct"},"guarantee":"returns True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.mod.Mod._eval_is_nonpositive_correct","statement":"Path(_eval_is_nonpositive(x), returns True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bbf0255f633ce0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"True","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_nonpositive(self):
         if self.args[1].is_negative:
             return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_rewrite_as_floor(a, ), internal helper behaves correctly) over Any ║
+# ║ Path(_eval_rewrite_as_floor(a, b, **kwargs), a - b * floor(a / b)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  a - b * floor(a / b)                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_rewrite_as_floor : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 56cea3992775610d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7409c47c1fa3287  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod._eval_rewrite_as_floor","kind":"method","src_hash":"4c9b049ebb976f4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_floor(a, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_rewrite_as_floor_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.mod.Mod._eval_rewrite_as_floor_correct","statement":"Path(_eval_rewrite_as_floor(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"56cea3992775610d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod._eval_rewrite_as_floor","kind":"method","src_hash":"4c9b049ebb976f4f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_rewrite_as_floor(a, b, **kwargs)","rhs":"a - b * floor(a / b)","over":{"base":"Any"},"name":"_eval_rewrite_as_floor_correct"},"guarantee":"returns a - b * floor(a / b)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.mod.Mod._eval_rewrite_as_floor_correct","statement":"Path(_eval_rewrite_as_floor(x), returns a - b * floor(a / b))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7409c47c1fa3287","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"a - b * floor(a / b)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_rewrite_as_floor(self, a, b, **kwargs):
         from sympy.functions.elementary.integers import floor
         return a - b*floor(a/b)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_as_leading_term(x, ), id) over Any              ║
+# ║ Path(_eval_as_leading_term(x, logx, cdir), id) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(floor)._eval_as_leading_term...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_as_leading_term : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | f1ba202dfc386acb   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod._eval_as_leading_term","kind":"method","src_hash":"353d27df2573c837","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1ba202dfc386acb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod._eval_as_leading_term","kind":"method","src_hash":"353d27df2573c837","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_as_leading_term(x, logx, cdir)","rhs":"self.rewrite(floor)._eval_as_leading_term(x, logx=logx, cdir=cdir)","over":{"base":"Any"},"name":"_eval_as_leading_term_correct","kind":"composition"},"guarantee":"returns self.rewrite(floor)._eval_as_leading_term(x, logx=logx, cdir=cdir)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_as_leading_term","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1ba202dfc386acb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(floor)._eval_as_leading_term(x, logx=logx, cdir=cdir)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_as_leading_term(self, x, logx, cdir):
         from sympy.functions.elementary.integers import floor
         return self.rewrite(floor)._eval_as_leading_term(x, logx=logx, cdir=cdir)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_nseries(x, ), id) over Any                      ║
+# ║ Path(_eval_nseries(x, n, logx), id) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.rewrite(floor)._eval_nseries(x, n, l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_nseries : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8011958be7859ba8   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod._eval_nseries","kind":"method","src_hash":"a970dbab64fc5453","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8011958be7859ba8"}
+# @cctt_verify {"v":2,"sym":"sympy.core.mod.Mod._eval_nseries","kind":"method","src_hash":"a970dbab64fc5453","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_nseries(x, n, logx)","rhs":"self.rewrite(floor)._eval_nseries(x, n, logx=logx, cdir=cdir)","over":{"base":"Any"},"name":"_eval_nseries_correct","kind":"composition"},"guarantee":"returns self.rewrite(floor)._eval_nseries(x, n, logx=logx, cdir=cdir)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"rewrite","by":"library_axiom"},{"fn":"_eval_nseries","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8011958be7859ba8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.rewrite(floor)._eval_nseries(x, n, logx=logx, cdir=cdir)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.rewrite"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_nseries(self, x, n, logx, cdir=0):
         from sympy.functions.elementary.integers import floor
         return self.rewrite(floor)._eval_nseries(x, n, logx=logx, cdir=cdir)

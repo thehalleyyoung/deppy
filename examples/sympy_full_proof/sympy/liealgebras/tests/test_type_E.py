@@ -20,16 +20,24 @@ from sympy.matrices import Matrix
 from sympy.core.backend import Rational
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_type_E(), test_type_E produces the expected output) over Any ║
+# ║ Path(test_type_E(), c.cartan_matrix() == m and c.dimension() == 8 and c.simple_root(6) == [0, 0, 0, -1, 1, 0, 0, 0] and c.roots() == 72 and c.basis() == 78 and c.dynkin_diagram() == diag and posroots[8] == [1, 0, 0, 0, 1, 0, 0, 0] and posroots[21] == [Rational(1, 2), Rational(1, 2), Rational(1, 2), Rational(1, 2), Rational(1, 2), Rational(-1, 2), Rational(-1, 2), Rational(1, 2)]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_type_E : Any → {Any | c.cartan_matrix() == m and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.cartan_matrix() == m                         ║
+# ║   ensures:  c.dimension() == 8                             ║
+# ║   ensures:  c.simple_root(6) == [0, 0, 0, -1, 1, 0, 0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_type_E : Any → {Any | result satisfies: c.cartan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13ac12d010fd668a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 887e1b56d70dfe4d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.tests.test_type_E.test_type_E","kind":"function","src_hash":"33338d05d64396e7","in":{"base":"Any"},"out":{"base":"Any","pred":"c.cartan_matrix() == m and c.dimension() == 8 and c.simple_root(6) == [0, 0, 0, -1, 1, 0, 0, 0] and c.roots() == 72 and c.basis() == 78 and c.dynkin_diagram() == diag and posroots[8] == [1, 0, 0, 0, 1, 0, 0, 0]"},"spec":{"lhs":"test_type_E()","rhs":"test_type_E produces the expected output","over":{"base":"Any"},"name":"test_type_E_correct"},"guarantee":"test_type_E produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.tests.test_type_E.test_type_E_correct","statement":"Path(test_type_E(x), test_type_E produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13ac12d010fd668a"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.tests.test_type_E.test_type_E","kind":"function","src_hash":"33338d05d64396e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.cartan_matrix() == m and c.dimension() == 8 and c.simple_root(6) == [0, 0, 0, -1, 1, 0, 0, 0] and c.roots() == 72 and c.basis() == 78 and c.dynkin_diagram() == diag and posroots[8] == [1, 0, 0, 0, 1, 0, 0, 0] and posroots[21] == [Rational(1, 2), Rational(1, 2), Rational(1, 2), Rational(1, 2), Rational(1, 2), Rational(-1, 2), Rational(-1, 2), Rational(1, 2)]"},"spec":{"lhs":"test_type_E()","rhs":"c.cartan_matrix() == m and c.dimension() == 8 and c.simple_root(6) == [0, 0, 0, -1, 1, 0, 0, 0] and c.roots() == 72 and c.basis() == 78 and c.dynkin_diagram() == diag and posroots[8] == [1, 0, 0, 0, 1, 0, 0, 0] and posroots[21] == [Rational(1, 2), Rational(1, 2), Rational(1, 2), Rational(1, 2), Rational(1, 2), Rational(-1, 2), Rational(-1, 2), Rational(1, 2)]","over":{"base":"Any"},"name":"test_type_E_correct"},"guarantee":"c.cartan_matrix() == m; c.dimension() == 8; c.simple_root(6) == [0, 0, 0, -1, 1, 0, 0, 0]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.tests.test_type_E.test_type_E_correct","statement":"Path(test_type_E(x), c.cartan_matrix() == m; c.dimension() == 8; c.simple_root(6) == [0, 0, 0, -1, 1, 0, 0, 0])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"887e1b56d70dfe4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.cartan_matrix() == m","c.dimension() == 8","c.simple_root(6) == [0, 0, 0, -1, 1, 0, 0, 0]","c.roots() == 72","c.basis() == 78","c.dynkin_diagram() == diag","posroots[8] == [1, 0, 0, 0, 1, 0, 0, 0]","posroots[21] == [Rational(1, 2), Rational(1, 2), Rational(1, 2), Rational(1, 2), Rational(1, 2), Rational(-1, 2), Rational(-1, 2), Rational(1, 2)]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_type_E():
     c = CartanType("E6")
     m = Matrix(6, 6, [2, 0, -1, 0, 0, 0, 0, 2, 0, -1, 0, 0,

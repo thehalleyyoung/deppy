@@ -30,16 +30,24 @@ dispatch = partial(dispatch, namespace=test_namespace)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_singledispatch(), test_singledispatch produces the expected output) over Any ║
+# ║ Path(test_singledispatch(), f(1) == 2 and g(1) == 3 and f(1.0) == 0 and raises(NotImplementedError, lambda: f('hello'))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_singledispatch : Any → {Any | f(1) == 2 and g(1)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(1) == 2                                      ║
+# ║   ensures:  g(1) == 3                                      ║
+# ║   ensures:  f(1.0) == 0                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_singledispatch : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 79287e0b60027b61  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ec7bca3ba0c64dae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_singledispatch","kind":"function","src_hash":"08011732d5b86021","in":{"base":"Any"},"out":{"base":"Any","pred":"f(1) == 2 and g(1) == 3 and f(1.0) == 0 and raises(NotImplementedError, lambda: f('hello'))"},"spec":{"lhs":"test_singledispatch()","rhs":"test_singledispatch produces the expected output","over":{"base":"Any"},"name":"test_singledispatch_correct"},"guarantee":"test_singledispatch produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_singledispatch_correct","statement":"Path(test_singledispatch(x), test_singledispatch produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"79287e0b60027b61"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_singledispatch","kind":"function","src_hash":"08011732d5b86021","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(1) == 2 and g(1) == 3 and f(1.0) == 0 and raises(NotImplementedError, lambda: f('hello'))"},"spec":{"lhs":"test_singledispatch()","rhs":"f(1) == 2 and g(1) == 3 and f(1.0) == 0 and raises(NotImplementedError, lambda: f('hello'))","over":{"base":"Any"},"name":"test_singledispatch_correct"},"guarantee":"f(1) == 2; g(1) == 3; f(1.0) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_singledispatch_correct","statement":"Path(test_singledispatch(x), f(1) == 2; g(1) == 3; f(1.0) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ec7bca3ba0c64dae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(1) == 2","g(1) == 3","f(1.0) == 0","raises(NotImplementedError, lambda: f('hello'))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_singledispatch():
     @dispatch(int)
     def f(x): # noqa:F811
@@ -61,16 +69,23 @@ def test_singledispatch():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multipledispatch(), test_multipledispatch produces the expected output) over Any ║
+# ║ Path(test_multipledispatch(), f(1, 2) == 3 and f(1.0, 2.0) == -1.0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multipledispatch : Any → {Any | f(1, 2) == 3 and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(1, 2) == 3                                   ║
+# ║   ensures:  f(1.0, 2.0) == -1.0                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multipledispatch : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 12917311e8736dcd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 368763e73ab11fda  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_multipledispatch","kind":"function","src_hash":"ff2917c1f72759b3","in":{"base":"Any"},"out":{"base":"Any","pred":"f(1, 2) == 3 and f(1.0, 2.0) == -1.0"},"spec":{"lhs":"test_multipledispatch()","rhs":"test_multipledispatch produces the expected output","over":{"base":"Any"},"name":"test_multipledispatch_correct"},"guarantee":"test_multipledispatch produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_multipledispatch_correct","statement":"Path(test_multipledispatch(x), test_multipledispatch produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"12917311e8736dcd"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_multipledispatch","kind":"function","src_hash":"ff2917c1f72759b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(1, 2) == 3 and f(1.0, 2.0) == -1.0"},"spec":{"lhs":"test_multipledispatch()","rhs":"f(1, 2) == 3 and f(1.0, 2.0) == -1.0","over":{"base":"Any"},"name":"test_multipledispatch_correct"},"guarantee":"f(1, 2) == 3; f(1.0, 2.0) == -1.0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_multipledispatch_correct","statement":"Path(test_multipledispatch(x), f(1, 2) == 3; f(1.0, 2.0) == -1.0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"368763e73ab11fda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(1, 2) == 3","f(1.0, 2.0) == -1.0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_multipledispatch():
     @dispatch(int, int)
     def f(x, y): # noqa:F811
@@ -85,78 +100,116 @@ def test_multipledispatch():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(A(), correctly constructs a A instance) over Any      ║
+# ║ Path(A(), <unspecified:A>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ A : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d81b6975b8e4099f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.A","kind":"class","src_hash":"bf3a70fd4aab9fc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"A()","rhs":"correctly constructs a A instance","over":{"base":"Any"},"name":"A_correct"},"guarantee":"correctly constructs a A instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d81b6975b8e4099f"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.A","kind":"class","src_hash":"bf3a70fd4aab9fc0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"A()","rhs":"<unspecified:A>","over":{"base":"Any"},"name":"A_correct"},"guarantee":"correctly constructs a A instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d81b6975b8e4099f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Function A not found in source"]}}
 class A: pass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(B(), correctly constructs a B instance) over Any      ║
+# ║ Path(B(), <unspecified:B>) over Any                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ B : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 641de107b4ed796f           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.B","kind":"class","src_hash":"4743a64e3ec80172","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"B()","rhs":"correctly constructs a B instance","over":{"base":"Any"},"name":"B_correct"},"guarantee":"correctly constructs a B instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"641de107b4ed796f"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.B","kind":"class","src_hash":"4743a64e3ec80172","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"B()","rhs":"<unspecified:B>","over":{"base":"Any"},"name":"B_correct"},"guarantee":"correctly constructs a B instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"641de107b4ed796f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function B not found in source"]}}
 class B: pass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(C(), correctly constructs a C instance) over Any      ║
+# ║ Path(C(), isinstance(self, A)) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ C : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, A)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C : Any → {Any | result satisfies: isinstance(self, A)}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57bd2fe3a4bbdf11           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.C","kind":"class","src_hash":"eaa74cd2e6b0798b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"C()","rhs":"correctly constructs a C instance","over":{"base":"Any"},"name":"C_correct"},"guarantee":"correctly constructs a C instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57bd2fe3a4bbdf11"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.C","kind":"class","src_hash":"eaa74cd2e6b0798b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, A)"},"spec":{"lhs":"C()","rhs":"isinstance(self, A)","over":{"base":"Any"},"name":"C_correct"},"guarantee":"isinstance(self, A)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57bd2fe3a4bbdf11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, A)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function C not found in source"]}}
 class C(A): pass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(D(), correctly constructs a D instance) over Any      ║
+# ║ Path(D(), isinstance(self, C)) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ D : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, C)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ D : Any → {Any | result satisfies: isinstance(self, C)}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1422f279bee35521           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.D","kind":"class","src_hash":"f0f260b3a8f6976f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"D()","rhs":"correctly constructs a D instance","over":{"base":"Any"},"name":"D_correct"},"guarantee":"correctly constructs a D instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1422f279bee35521"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.D","kind":"class","src_hash":"f0f260b3a8f6976f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, C)"},"spec":{"lhs":"D()","rhs":"isinstance(self, C)","over":{"base":"Any"},"name":"D_correct"},"guarantee":"isinstance(self, C)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1422f279bee35521","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, C)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function D not found in source"]}}
 class D(C): pass
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(E(), correctly constructs a E instance) over Any      ║
+# ║ Path(E(), isinstance(self, C)) over Any                    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ E : Any → Any                                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, C)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ E : Any → {Any | result satisfies: isinstance(self, C)}    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0be4f38440d30484           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.E","kind":"class","src_hash":"ee4b2785a704028a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"E()","rhs":"correctly constructs a E instance","over":{"base":"Any"},"name":"E_correct"},"guarantee":"correctly constructs a E instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0be4f38440d30484"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.E","kind":"class","src_hash":"ee4b2785a704028a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, C)"},"spec":{"lhs":"E()","rhs":"isinstance(self, C)","over":{"base":"Any"},"name":"E_correct"},"guarantee":"isinstance(self, C)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0be4f38440d30484","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, C)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function E not found in source"]}}
 class E(C): pass
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_inheritance(), test_inheritance produces the expected output) over Any ║
+# ║ Path(test_inheritance(), f(A()) == 'a' and f(B()) == 'b' and f(C()) == 'a') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_inheritance : Any → {Any | f(A()) == 'a' and f(B...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(A()) == 'a'                                  ║
+# ║   ensures:  f(B()) == 'b'                                  ║
+# ║   ensures:  f(C()) == 'a'                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_inheritance : Any → {Any | result satisfies: f(A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17bd2def9590c4d6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0966a0484ab53fed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_inheritance","kind":"function","src_hash":"83362f8f9a1e3425","in":{"base":"Any"},"out":{"base":"Any","pred":"f(A()) == 'a' and f(B()) == 'b' and f(C()) == 'a'"},"spec":{"lhs":"test_inheritance()","rhs":"test_inheritance produces the expected output","over":{"base":"Any"},"name":"test_inheritance_correct"},"guarantee":"test_inheritance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_inheritance_correct","statement":"Path(test_inheritance(x), test_inheritance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17bd2def9590c4d6"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_inheritance","kind":"function","src_hash":"83362f8f9a1e3425","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(A()) == 'a' and f(B()) == 'b' and f(C()) == 'a'"},"spec":{"lhs":"test_inheritance()","rhs":"f(A()) == 'a' and f(B()) == 'b' and f(C()) == 'a'","over":{"base":"Any"},"name":"test_inheritance_correct"},"guarantee":"f(A()) == 'a'; f(B()) == 'b'; f(C()) == 'a'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_inheritance_correct","statement":"Path(test_inheritance(x), f(A()) == 'a'; f(B()) == 'b'; f(C()) == 'a')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0966a0484ab53fed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(A()) == 'a'","f(B()) == 'b'","f(C()) == 'a'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_inheritance():
     @dispatch(A)
     def f(x): # noqa:F811
@@ -174,14 +227,22 @@ def test_inheritance():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(test_inheritance_and_multiple_dispatch(), id) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(A(), A()) == (A, A)                          ║
+# ║   ensures:  f(A(), C()) == (A, C)                          ║
+# ║   ensures:  f(A(), B()) == 0                               ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ test_inheritance_and_multiple_dispatch : Any → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 4b415d57447f95ec   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_inheritance_and_multiple_dispatch","kind":"function","src_hash":"9ac372b66da4800c","in":{"base":"Any"},"out":{"base":"Any","pred":"f(A(), A()) == (A, A) and f(A(), C()) == (A, C) and f(A(), B()) == 0 and f(C(), B()) == 0 and raises(NotImplementedError, lambda: f(B(), B()))"},"spec":{"lhs":"test_inheritance_and_multiple_dispatch()","rhs":"test_inheritance_and_multiple_dispatch produces the expected output","over":{"base":"Any"},"name":"test_inheritance_and_multiple_dispatch_correct","kind":"composition"},"guarantee":"test_inheritance_and_multiple_dispatch produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"type","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b415d57447f95ec"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_inheritance_and_multiple_dispatch","kind":"function","src_hash":"9ac372b66da4800c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(A(), A()) == (A, A) and f(A(), C()) == (A, C) and f(A(), B()) == 0 and f(C(), B()) == 0 and raises(NotImplementedError, lambda: f(B(), B()))"},"spec":{"lhs":"test_inheritance_and_multiple_dispatch()","rhs":"f(A(), A()) == (A, A) and f(A(), C()) == (A, C) and f(A(), B()) == 0 and f(C(), B()) == 0 and raises(NotImplementedError, lambda: f(B(), B()))","over":{"base":"Any"},"name":"test_inheritance_and_multiple_dispatch_correct","kind":"composition"},"guarantee":"f(A(), A()) == (A, A); f(A(), C()) == (A, C); f(A(), B()) == 0","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"type","by":"library_axiom"},{"fn":"type","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b415d57447f95ec","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(A(), A()) == (A, A)","f(A(), C()) == (A, C)","f(A(), B()) == 0","f(C(), B()) == 0","raises(NotImplementedError, lambda: f(B(), B()))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_inheritance_and_multiple_dispatch():
     @dispatch(A, A)
     def f(x, y): # noqa:F811
@@ -199,16 +260,22 @@ def test_inheritance_and_multiple_dispatch():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_competing_solutions(), test_competing_solutions produces the expected output) over Any ║
+# ║ Path(test_competing_solutions(), h(D()) == 2) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_competing_solutions : Any → {Any | h(D()) == 2}       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h(D()) == 2                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_competing_solutions : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 49ce93d04a018f13  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0acacee23a5d2b06  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_competing_solutions","kind":"function","src_hash":"219aae0691b03235","in":{"base":"Any"},"out":{"base":"Any","pred":"h(D()) == 2"},"spec":{"lhs":"test_competing_solutions()","rhs":"test_competing_solutions produces the expected output","over":{"base":"Any"},"name":"test_competing_solutions_correct"},"guarantee":"test_competing_solutions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_competing_solutions_correct","statement":"Path(test_competing_solutions(x), test_competing_solutions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"49ce93d04a018f13"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_competing_solutions","kind":"function","src_hash":"219aae0691b03235","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h(D()) == 2"},"spec":{"lhs":"test_competing_solutions()","rhs":"h(D()) == 2","over":{"base":"Any"},"name":"test_competing_solutions_correct"},"guarantee":"h(D()) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_competing_solutions_correct","statement":"Path(test_competing_solutions(x), h(D()) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0acacee23a5d2b06","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h(D()) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_competing_solutions():
     @dispatch(A)
     def h(x): # noqa:F811
@@ -222,16 +289,22 @@ def test_competing_solutions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_competing_multiple(), test_competing_multiple produces the expected output) over Any ║
+# ║ Path(test_competing_multiple(), h(D(), B()) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_competing_multiple : Any → {Any | h(D(), B()) == 2}   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  h(D(), B()) == 2                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_competing_multiple : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 185ac510cd44bff2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 953726ba8a3cb296  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_competing_multiple","kind":"function","src_hash":"3e200b5135453f3e","in":{"base":"Any"},"out":{"base":"Any","pred":"h(D(), B()) == 2"},"spec":{"lhs":"test_competing_multiple()","rhs":"test_competing_multiple produces the expected output","over":{"base":"Any"},"name":"test_competing_multiple_correct"},"guarantee":"test_competing_multiple produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_competing_multiple_correct","statement":"Path(test_competing_multiple(x), test_competing_multiple produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"185ac510cd44bff2"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_competing_multiple","kind":"function","src_hash":"3e200b5135453f3e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: h(D(), B()) == 2"},"spec":{"lhs":"test_competing_multiple()","rhs":"h(D(), B()) == 2","over":{"base":"Any"},"name":"test_competing_multiple_correct"},"guarantee":"h(D(), B()) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_competing_multiple_correct","statement":"Path(test_competing_multiple(x), h(D(), B()) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"953726ba8a3cb296","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["h(D(), B()) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_competing_multiple():
     @dispatch(A, B)
     def h(x, y): # noqa:F811
@@ -245,16 +318,22 @@ def test_competing_multiple():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_competing_ambiguous(), test_competing_ambiguous produces the expected output) over Any ║
+# ║ Path(test_competing_ambiguous(), f(A(), C()) == f(C(), A()) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_competing_ambiguous : Any → {Any | f(A(), C()) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(A(), C()) == f(C(), A()) == 2                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_competing_ambiguous : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8faa3fa456336023  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4114fe4e9b421f54  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_competing_ambiguous","kind":"function","src_hash":"27582a0c628856b2","in":{"base":"Any"},"out":{"base":"Any","pred":"f(A(), C()) == f(C(), A()) == 2"},"spec":{"lhs":"test_competing_ambiguous()","rhs":"test_competing_ambiguous produces the expected output","over":{"base":"Any"},"name":"test_competing_ambiguous_correct"},"guarantee":"test_competing_ambiguous produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_competing_ambiguous_correct","statement":"Path(test_competing_ambiguous(x), test_competing_ambiguous produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8faa3fa456336023"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_competing_ambiguous","kind":"function","src_hash":"27582a0c628856b2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(A(), C()) == f(C(), A()) == 2"},"spec":{"lhs":"test_competing_ambiguous()","rhs":"f(A(), C()) == f(C(), A()) == 2","over":{"base":"Any"},"name":"test_competing_ambiguous_correct"},"guarantee":"f(A(), C()) == f(C(), A()) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_competing_ambiguous_correct","statement":"Path(test_competing_ambiguous(x), f(A(), C()) == f(C(), A()) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4114fe4e9b421f54","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(A(), C()) == f(C(), A()) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_competing_ambiguous():
     test_namespace = {}
     dispatch = partial(orig_dispatch, namespace=test_namespace)
@@ -273,16 +352,23 @@ def test_competing_ambiguous():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_caching_correct_behavior(), test_caching_correct_behavior produces the expected output) over Any ║
+# ║ Path(test_caching_correct_behavior(), f(C()) == 1 and f(C()) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_caching_correct_behavior : Any → {Any | f(C()) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(C()) == 1                                    ║
+# ║   ensures:  f(C()) == 2                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_caching_correct_behavior : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 968e46464caeb2e9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9788f217310943ad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_caching_correct_behavior","kind":"function","src_hash":"19521b2a1f1e5048","in":{"base":"Any"},"out":{"base":"Any","pred":"f(C()) == 1 and f(C()) == 2"},"spec":{"lhs":"test_caching_correct_behavior()","rhs":"test_caching_correct_behavior produces the expected output","over":{"base":"Any"},"name":"test_caching_correct_behavior_correct"},"guarantee":"test_caching_correct_behavior produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_caching_correct_behavior_correct","statement":"Path(test_caching_correct_behavior(x), test_caching_correct_behavior produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"968e46464caeb2e9"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_caching_correct_behavior","kind":"function","src_hash":"19521b2a1f1e5048","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: f(C()) == 1 and f(C()) == 2"},"spec":{"lhs":"test_caching_correct_behavior()","rhs":"f(C()) == 1 and f(C()) == 2","over":{"base":"Any"},"name":"test_caching_correct_behavior_correct"},"guarantee":"f(C()) == 1; f(C()) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_caching_correct_behavior_correct","statement":"Path(test_caching_correct_behavior(x), f(C()) == 1; f(C()) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9788f217310943ad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(C()) == 1","f(C()) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_caching_correct_behavior():
     @dispatch(A)
     def f(x): # noqa:F811
@@ -298,16 +384,24 @@ def test_caching_correct_behavior():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_union_types(), test_union_types produces the expected output) over Any ║
+# ║ Path(test_union_types(), 1) over Any                       ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_union_types : Any → {Any | f(A()) == 1 and f(C()...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  f(A()) == 1                                    ║
+# ║   ensures:  f(C()) == 1                                    ║
+# ║   returns:  1                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_union_types : Any → {Any | result satisfies: res...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 667362aaf606333b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 88a1ea97507756ef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_union_types","kind":"function","src_hash":"b59c506cee8c5585","in":{"base":"Any"},"out":{"base":"Any","pred":"f(A()) == 1 and f(C()) == 1"},"spec":{"lhs":"test_union_types()","rhs":"test_union_types produces the expected output","over":{"base":"Any"},"name":"test_union_types_correct"},"guarantee":"test_union_types produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_union_types_correct","statement":"Path(test_union_types(x), test_union_types produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"667362aaf606333b"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_union_types","kind":"function","src_hash":"b59c506cee8c5585","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (1)"},"spec":{"lhs":"test_union_types()","rhs":"1","over":{"base":"Any"},"name":"test_union_types_correct"},"guarantee":"returns 1; f(A()) == 1; f(C()) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_union_types_correct","statement":"Path(test_union_types(x), returns 1; f(A()) == 1; f(C()) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"88a1ea97507756ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["f(A()) == 1","f(C()) == 1"],"returns_expr":"1","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_union_types():
     @dispatch((A, C))
     def f(x): # noqa:F811
@@ -318,16 +412,23 @@ def test_union_types():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_namespaces(), test_namespaces produces the expected output) over Any ║
+# ║ Path(test_namespaces(), foo1(0) == 1 and foo2(0) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_namespaces : Any → {Any | foo1(0) == 1 and foo2(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  foo1(0) == 1                                   ║
+# ║   ensures:  foo2(0) == 2                                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_namespaces : Any → {Any | result satisfies: foo1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5a98f7cc5499597  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fc01be69759239e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_namespaces","kind":"function","src_hash":"dbfddba39a106815","in":{"base":"Any"},"out":{"base":"Any","pred":"foo1(0) == 1 and foo2(0) == 2"},"spec":{"lhs":"test_namespaces()","rhs":"test_namespaces produces the expected output","over":{"base":"Any"},"name":"test_namespaces_correct"},"guarantee":"test_namespaces produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_namespaces_correct","statement":"Path(test_namespaces(x), test_namespaces produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5a98f7cc5499597"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_namespaces","kind":"function","src_hash":"dbfddba39a106815","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: foo1(0) == 1 and foo2(0) == 2"},"spec":{"lhs":"test_namespaces()","rhs":"foo1(0) == 1 and foo2(0) == 2","over":{"base":"Any"},"name":"test_namespaces_correct"},"guarantee":"foo1(0) == 1; foo2(0) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_namespaces_correct","statement":"Path(test_namespaces(x), foo1(0) == 1; foo2(0) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fc01be69759239e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["foo1(0) == 1","foo2(0) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_namespaces():
     ns1 = {}
     ns2 = {}
@@ -358,16 +459,24 @@ def test_dispatch_on_dispatch():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_methods(), test_methods produces the expected output) over Any ║
+# ║ Path(test_methods(), foo.f(1) == 2 and foo.f(1.0) == 0.0 and foo.g(1) == 4) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_methods : Any → {Any | foo.f(1) == 2 and foo.f(1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  foo.f(1) == 2                                  ║
+# ║   ensures:  foo.f(1.0) == 0.0                              ║
+# ║   ensures:  foo.g(1) == 4                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_methods : Any → {Any | result satisfies: foo.f(1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 599cca917acd95fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9be4ff309f52c24  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_methods","kind":"function","src_hash":"b83998ac40c863ba","in":{"base":"Any"},"out":{"base":"Any","pred":"foo.f(1) == 2 and foo.f(1.0) == 0.0 and foo.g(1) == 4"},"spec":{"lhs":"test_methods()","rhs":"test_methods produces the expected output","over":{"base":"Any"},"name":"test_methods_correct"},"guarantee":"test_methods produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_methods_correct","statement":"Path(test_methods(x), test_methods produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"599cca917acd95fc"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_methods","kind":"function","src_hash":"b83998ac40c863ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: foo.f(1) == 2 and foo.f(1.0) == 0.0 and foo.g(1) == 4"},"spec":{"lhs":"test_methods()","rhs":"foo.f(1) == 2 and foo.f(1.0) == 0.0 and foo.g(1) == 4","over":{"base":"Any"},"name":"test_methods_correct"},"guarantee":"foo.f(1) == 2; foo.f(1.0) == 0.0; foo.g(1) == 4","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_methods_correct","statement":"Path(test_methods(x), foo.f(1) == 2; foo.f(1.0) == 0.0; foo.g(1) == 4)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9be4ff309f52c24","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["foo.f(1) == 2","foo.f(1.0) == 0.0","foo.g(1) == 4"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_methods():
     class Foo:
         @dispatch(float)
@@ -390,16 +499,24 @@ def test_methods():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_methods_multiple_dispatch(), test_methods_multiple_dispatch produces the expected output) over Any ║
+# ║ Path(test_methods_multiple_dispatch(), foo.f(A(), A()) == 1 and foo.f(A(), C()) == 2 and foo.f(C(), C()) == 2) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_methods_multiple_dispatch : Any → {Any | foo.f(A...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  foo.f(A(), A()) == 1                           ║
+# ║   ensures:  foo.f(A(), C()) == 2                           ║
+# ║   ensures:  foo.f(C(), C()) == 2                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_methods_multiple_dispatch : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1d89e478cd473b9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b721ca90ae4cd30  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_methods_multiple_dispatch","kind":"function","src_hash":"106e007fa5a5c036","in":{"base":"Any"},"out":{"base":"Any","pred":"foo.f(A(), A()) == 1 and foo.f(A(), C()) == 2 and foo.f(C(), C()) == 2"},"spec":{"lhs":"test_methods_multiple_dispatch()","rhs":"test_methods_multiple_dispatch produces the expected output","over":{"base":"Any"},"name":"test_methods_multiple_dispatch_correct"},"guarantee":"test_methods_multiple_dispatch produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_methods_multiple_dispatch_correct","statement":"Path(test_methods_multiple_dispatch(x), test_methods_multiple_dispatch produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1d89e478cd473b9"}
+# @cctt_verify {"v":2,"sym":"sympy.multipledispatch.tests.test_core.test_methods_multiple_dispatch","kind":"function","src_hash":"106e007fa5a5c036","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: foo.f(A(), A()) == 1 and foo.f(A(), C()) == 2 and foo.f(C(), C()) == 2"},"spec":{"lhs":"test_methods_multiple_dispatch()","rhs":"foo.f(A(), A()) == 1 and foo.f(A(), C()) == 2 and foo.f(C(), C()) == 2","over":{"base":"Any"},"name":"test_methods_multiple_dispatch_correct"},"guarantee":"foo.f(A(), A()) == 1; foo.f(A(), C()) == 2; foo.f(C(), C()) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.multipledispatch.tests.test_core.test_methods_multiple_dispatch_correct","statement":"Path(test_methods_multiple_dispatch(x), foo.f(A(), A()) == 1; foo.f(A(), C()) == 2; foo.f(C(), C()) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b721ca90ae4cd30","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["foo.f(A(), A()) == 1","foo.f(A(), C()) == 2","foo.f(C(), C()) == 2"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_methods_multiple_dispatch():
     class Foo:
         @dispatch(A, A)

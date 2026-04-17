@@ -26,16 +26,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_contains_basic(), test_contains_basic produces the expected output) over Any ║
+# ║ Path(test_contains_basic(), Contains(2, S.Integers) is S.true and Contains(-2, S.Naturals) is S.false and Contains(i, S.Naturals) == Contains(i, S.Naturals, evaluate=False)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_contains_basic : Any → {Any | Contains(2, S.Inte...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Contains(2, S.Integers) is S.true              ║
+# ║   ensures:  Contains(-2, S.Naturals) is S.false            ║
+# ║   ensures:  Contains(i, S.Naturals) == Contains(i, S....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_contains_basic : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5c915f4ddd1b90d0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9f3016e6369a15f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_contains.test_contains_basic","kind":"function","src_hash":"087ab7ed3cbad215","in":{"base":"Any"},"out":{"base":"Any","pred":"Contains(2, S.Integers) is S.true and Contains(-2, S.Naturals) is S.false and Contains(i, S.Naturals) == Contains(i, S.Naturals, evaluate=False)"},"spec":{"lhs":"test_contains_basic()","rhs":"test_contains_basic produces the expected output","over":{"base":"Any"},"name":"test_contains_basic_correct"},"guarantee":"test_contains_basic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_contains.test_contains_basic_correct","statement":"Path(test_contains_basic(x), test_contains_basic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5c915f4ddd1b90d0"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_contains.test_contains_basic","kind":"function","src_hash":"087ab7ed3cbad215","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Contains(2, S.Integers) is S.true and Contains(-2, S.Naturals) is S.false and Contains(i, S.Naturals) == Contains(i, S.Naturals, evaluate=False)"},"spec":{"lhs":"test_contains_basic()","rhs":"Contains(2, S.Integers) is S.true and Contains(-2, S.Naturals) is S.false and Contains(i, S.Naturals) == Contains(i, S.Naturals, evaluate=False)","over":{"base":"Any"},"name":"test_contains_basic_correct"},"guarantee":"Contains(2, S.Integers) is S.true; Contains(-2, S.Naturals) is S.false; Contains(i, S.Naturals) == Contains(i, S.Naturals, evaluate=False)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_contains.test_contains_basic_correct","statement":"Path(test_contains_basic(x), Contains(2, S.Integers) is S.true; Contains(-2, S.Naturals) is S.false; Contains(i, S.Naturals) == Contains(i, S.Naturals, evaluate=False))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9f3016e6369a15f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Contains(2, S.Integers) is S.true","Contains(-2, S.Naturals) is S.false","Contains(i, S.Naturals) == Contains(i, S.Naturals, evaluate=False)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_contains_basic():
     raises(TypeError, lambda: Contains(S.Integers, 1))
     assert Contains(2, S.Integers) is S.true
@@ -46,16 +54,24 @@ def test_contains_basic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_6194(), test_issue_6194 produces the expected output) over Any ║
+# ║ Path(test_issue_6194(), unchanged(Contains, x, Interval(0, 1)) and Interval(0, 1).contains(x) == (S.Zero <= x) & (x <= 1) and Contains(x, FiniteSet(0)) != S.false and Contains(x, Interval(1, 1)) != S.false and Contains(x, S.Integers) != S.false) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_6194 : Any → {Any | unchanged(Contains, x,...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unchanged(Contains, x, Interval(0, 1))         ║
+# ║   ensures:  Interval(0, 1).contains(x) == (S.Zero <= ...   ║
+# ║   ensures:  Contains(x, FiniteSet(0)) != S.false           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_6194 : Any → {Any | result satisfies: unch...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bb4640139f64bef  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c099498cbf49f812  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_contains.test_issue_6194","kind":"function","src_hash":"c1262cbdc24ae970","in":{"base":"Any"},"out":{"base":"Any","pred":"unchanged(Contains, x, Interval(0, 1)) and Interval(0, 1).contains(x) == (S.Zero <= x) & (x <= 1) and Contains(x, FiniteSet(0)) != S.false and Contains(x, Interval(1, 1)) != S.false and Contains(x, S.Integers) != S.false"},"spec":{"lhs":"test_issue_6194()","rhs":"test_issue_6194 produces the expected output","over":{"base":"Any"},"name":"test_issue_6194_correct"},"guarantee":"test_issue_6194 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_contains.test_issue_6194_correct","statement":"Path(test_issue_6194(x), test_issue_6194 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bb4640139f64bef"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_contains.test_issue_6194","kind":"function","src_hash":"c1262cbdc24ae970","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unchanged(Contains, x, Interval(0, 1)) and Interval(0, 1).contains(x) == (S.Zero <= x) & (x <= 1) and Contains(x, FiniteSet(0)) != S.false and Contains(x, Interval(1, 1)) != S.false and Contains(x, S.Integers) != S.false"},"spec":{"lhs":"test_issue_6194()","rhs":"unchanged(Contains, x, Interval(0, 1)) and Interval(0, 1).contains(x) == (S.Zero <= x) & (x <= 1) and Contains(x, FiniteSet(0)) != S.false and Contains(x, Interval(1, 1)) != S.false and Contains(x, S.Integers) != S.false","over":{"base":"Any"},"name":"test_issue_6194_correct"},"guarantee":"unchanged(Contains, x, Interval(0, 1)); Interval(0, 1).contains(x) == (S.Zero <= x) & (x <= 1); Contains(x, FiniteSet(0)) != S.false","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_contains.test_issue_6194_correct","statement":"Path(test_issue_6194(x), unchanged(Contains, x, Interval(0, 1)); Interval(0, 1).contains(x) == (S.Zero <= x) & (x <= 1); Contains(x, FiniteSet(0)) != S.false)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c099498cbf49f812","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unchanged(Contains, x, Interval(0, 1))","Interval(0, 1).contains(x) == (S.Zero <= x) & (x <= 1)","Contains(x, FiniteSet(0)) != S.false","Contains(x, Interval(1, 1)) != S.false","Contains(x, S.Integers) != S.false"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_6194():
     x = Symbol('x')
     assert unchanged(Contains, x, Interval(0, 1))
@@ -66,32 +82,45 @@ def test_issue_6194():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_10326(), test_issue_10326 produces the expected output) over Any ║
+# ║ Path(test_issue_10326(), Contains(oo, Interval(-oo, oo)) == False and Contains(-oo, Interval(-oo, oo)) == False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_10326 : Any → {Any | Contains(oo, Interval...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Contains(oo, Interval(-oo, oo)) == False       ║
+# ║   ensures:  Contains(-oo, Interval(-oo, oo)) == False      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_10326 : Any → {Any | result satisfies: Con...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ceef8bdb6935a6e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4bf7bf982d54e108  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_contains.test_issue_10326","kind":"function","src_hash":"496f1a84895b166e","in":{"base":"Any"},"out":{"base":"Any","pred":"Contains(oo, Interval(-oo, oo)) == False and Contains(-oo, Interval(-oo, oo)) == False"},"spec":{"lhs":"test_issue_10326()","rhs":"test_issue_10326 produces the expected output","over":{"base":"Any"},"name":"test_issue_10326_correct"},"guarantee":"test_issue_10326 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_contains.test_issue_10326_correct","statement":"Path(test_issue_10326(x), test_issue_10326 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ceef8bdb6935a6e1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_contains.test_issue_10326","kind":"function","src_hash":"496f1a84895b166e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Contains(oo, Interval(-oo, oo)) == False and Contains(-oo, Interval(-oo, oo)) == False"},"spec":{"lhs":"test_issue_10326()","rhs":"Contains(oo, Interval(-oo, oo)) == False and Contains(-oo, Interval(-oo, oo)) == False","over":{"base":"Any"},"name":"test_issue_10326_correct"},"guarantee":"Contains(oo, Interval(-oo, oo)) == False; Contains(-oo, Interval(-oo, oo)) == False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_contains.test_issue_10326_correct","statement":"Path(test_issue_10326(x), Contains(oo, Interval(-oo, oo)) == False; Contains(-oo, Interval(-oo, oo)) == False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4bf7bf982d54e108","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Contains(oo, Interval(-oo, oo)) == False","Contains(-oo, Interval(-oo, oo)) == False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_10326():
     assert Contains(oo, Interval(-oo, oo)) == False
     assert Contains(-oo, Interval(-oo, oo)) == False
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_binary_symbols(), test_binary_symbols produces the expected output) over Any ║
+# ║ Path(test_binary_symbols(), Contains(x, FiniteSet(y, Eq(z, True))).binary_symbols == {y, z}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_binary_symbols : Any → {Any | Contains(x, Finite...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Contains(x, FiniteSet(y, Eq(z, True))).bi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_binary_symbols : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2e3bd5b780a4207  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 76d6708f9e7c0f3d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_contains.test_binary_symbols","kind":"function","src_hash":"58d259699b79b89d","in":{"base":"Any"},"out":{"base":"Any","pred":"Contains(x, FiniteSet(y, Eq(z, True))).binary_symbols == {y, z}"},"spec":{"lhs":"test_binary_symbols()","rhs":"test_binary_symbols produces the expected output","over":{"base":"Any"},"name":"test_binary_symbols_correct"},"guarantee":"test_binary_symbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_contains.test_binary_symbols_correct","statement":"Path(test_binary_symbols(x), test_binary_symbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2e3bd5b780a4207"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_contains.test_binary_symbols","kind":"function","src_hash":"58d259699b79b89d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Contains(x, FiniteSet(y, Eq(z, True))).binary_symbols == {y, z}"},"spec":{"lhs":"test_binary_symbols()","rhs":"Contains(x, FiniteSet(y, Eq(z, True))).binary_symbols == {y, z}","over":{"base":"Any"},"name":"test_binary_symbols_correct"},"guarantee":"Contains(x, FiniteSet(y, Eq(z, True))).binary_symbols == {y, z}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_contains.test_binary_symbols_correct","statement":"Path(test_binary_symbols(x), Contains(x, FiniteSet(y, Eq(z, True))).binary_symbols == {y, z})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"76d6708f9e7c0f3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Contains(x, FiniteSet(y, Eq(z, True))).binary_symbols == {y, z}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_binary_symbols():
     x = Symbol('x')
     y = Symbol('y')
@@ -101,16 +130,24 @@ def test_binary_symbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_as_set(), test_as_set produces the expected output) over Any ║
+# ║ Path(test_as_set(), Contains(x, FiniteSet(y)).as_set() == FiniteSet(y) and Contains(x, S.Integers).as_set() == S.Integers and Contains(x, S.Reals).as_set() == S.Reals) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_as_set : Any → {Any | Contains(x, FiniteSet(y))....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Contains(x, FiniteSet(y)).as_set() == Fin...   ║
+# ║   ensures:  Contains(x, S.Integers).as_set() == S.Int...   ║
+# ║   ensures:  Contains(x, S.Reals).as_set() == S.Reals       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_as_set : Any → {Any | result satisfies: Contains...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7add285f572a91f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f5f7f704cd03130  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_contains.test_as_set","kind":"function","src_hash":"00a566f8c55b4f06","in":{"base":"Any"},"out":{"base":"Any","pred":"Contains(x, FiniteSet(y)).as_set() == FiniteSet(y) and Contains(x, S.Integers).as_set() == S.Integers and Contains(x, S.Reals).as_set() == S.Reals"},"spec":{"lhs":"test_as_set()","rhs":"test_as_set produces the expected output","over":{"base":"Any"},"name":"test_as_set_correct"},"guarantee":"test_as_set produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_contains.test_as_set_correct","statement":"Path(test_as_set(x), test_as_set produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7add285f572a91f0"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_contains.test_as_set","kind":"function","src_hash":"00a566f8c55b4f06","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Contains(x, FiniteSet(y)).as_set() == FiniteSet(y) and Contains(x, S.Integers).as_set() == S.Integers and Contains(x, S.Reals).as_set() == S.Reals"},"spec":{"lhs":"test_as_set()","rhs":"Contains(x, FiniteSet(y)).as_set() == FiniteSet(y) and Contains(x, S.Integers).as_set() == S.Integers and Contains(x, S.Reals).as_set() == S.Reals","over":{"base":"Any"},"name":"test_as_set_correct"},"guarantee":"Contains(x, FiniteSet(y)).as_set() == FiniteSet(y); Contains(x, S.Integers).as_set() == S.Integers; Contains(x, S.Reals).as_set() == S.Reals","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_contains.test_as_set_correct","statement":"Path(test_as_set(x), Contains(x, FiniteSet(y)).as_set() == FiniteSet(y); Contains(x, S.Integers).as_set() == S.Integers; Contains(x, S.Reals).as_set() == S.Reals)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f5f7f704cd03130","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Contains(x, FiniteSet(y)).as_set() == FiniteSet(y)","Contains(x, S.Integers).as_set() == S.Integers","Contains(x, S.Reals).as_set() == S.Reals"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_as_set():
     x = Symbol('x')
     y = Symbol('y')
@@ -120,16 +157,22 @@ def test_as_set():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_type_error(), test_type_error produces the expected output) over Any ║
+# ║ Path(test_type_error(), <unspecified:test_type_error>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_type_error : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 828e7ba175e8ec9a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_contains.test_type_error","kind":"function","src_hash":"7d417a8fdada5334","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_type_error()","rhs":"test_type_error produces the expected output","over":{"base":"Any"},"name":"test_type_error_correct"},"guarantee":"test_type_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_contains.test_type_error_correct","statement":"Path(test_type_error(x), test_type_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"828e7ba175e8ec9a"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_contains.test_type_error","kind":"function","src_hash":"7d417a8fdada5334","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_type_error()","rhs":"<unspecified:test_type_error>","over":{"base":"Any"},"name":"test_type_error_correct"},"guarantee":"test_type_error produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_contains.test_type_error_correct","statement":"Path(test_type_error(x), test_type_error produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"828e7ba175e8ec9a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_type_error():
     # Pass in a parameter not of type "set"
     raises(TypeError, lambda: Contains(2, None))

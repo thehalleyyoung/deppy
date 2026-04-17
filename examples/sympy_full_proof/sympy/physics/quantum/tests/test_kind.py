@@ -37,16 +37,24 @@ B = Operator('B')
 x, y, z = symbols('x y z', integer=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bra_ket(), test_bra_ket produces the expected output) over Any ║
+# ║ Path(test_bra_ket(), k.kind == KetKind and b.kind == BraKind and (b * k).kind == NumberKind and (x * k).kind == KetKind and (x * b).kind == BraKind) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bra_ket : Any → {Any | k.kind == KetKind and b.k...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  k.kind == KetKind                              ║
+# ║   ensures:  b.kind == BraKind                              ║
+# ║   ensures:  (b * k).kind == NumberKind                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bra_ket : Any → {Any | result satisfies: k.kind ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc5a46a1734d9b24  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e5659880b8d737d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_bra_ket","kind":"function","src_hash":"1452bde4c36b2a72","in":{"base":"Any"},"out":{"base":"Any","pred":"k.kind == KetKind and b.kind == BraKind and (b * k).kind == NumberKind and (x * k).kind == KetKind and (x * b).kind == BraKind"},"spec":{"lhs":"test_bra_ket()","rhs":"test_bra_ket produces the expected output","over":{"base":"Any"},"name":"test_bra_ket_correct"},"guarantee":"test_bra_ket produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_bra_ket_correct","statement":"Path(test_bra_ket(x), test_bra_ket produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc5a46a1734d9b24"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_bra_ket","kind":"function","src_hash":"1452bde4c36b2a72","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: k.kind == KetKind and b.kind == BraKind and (b * k).kind == NumberKind and (x * k).kind == KetKind and (x * b).kind == BraKind"},"spec":{"lhs":"test_bra_ket()","rhs":"k.kind == KetKind and b.kind == BraKind and (b * k).kind == NumberKind and (x * k).kind == KetKind and (x * b).kind == BraKind","over":{"base":"Any"},"name":"test_bra_ket_correct"},"guarantee":"k.kind == KetKind; b.kind == BraKind; (b * k).kind == NumberKind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_bra_ket_correct","statement":"Path(test_bra_ket(x), k.kind == KetKind; b.kind == BraKind; (b * k).kind == NumberKind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e5659880b8d737d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["k.kind == KetKind","b.kind == BraKind","(b * k).kind == NumberKind","(x * k).kind == KetKind","(x * b).kind == BraKind"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bra_ket():
     assert k.kind == KetKind
     assert b.kind == BraKind
@@ -56,16 +64,24 @@ def test_bra_ket():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_operator_kind(), test_operator_kind produces the expected output) over Any ║
+# ║ Path(test_operator_kind(), A.kind == OperatorKind and (A * B).kind == OperatorKind and (x * A).kind == OperatorKind and (x * A * B).kind == OperatorKind and (x * k * b).kind == OperatorKind) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_operator_kind : Any → {Any | A.kind == OperatorK...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.kind == OperatorKind                         ║
+# ║   ensures:  (A * B).kind == OperatorKind                   ║
+# ║   ensures:  (x * A).kind == OperatorKind                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_operator_kind : Any → {Any | result satisfies: A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01d992c4c799408f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f5b84e6841318b9d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_operator_kind","kind":"function","src_hash":"0eea604afd5315fa","in":{"base":"Any"},"out":{"base":"Any","pred":"A.kind == OperatorKind and (A * B).kind == OperatorKind and (x * A).kind == OperatorKind and (x * A * B).kind == OperatorKind and (x * k * b).kind == OperatorKind"},"spec":{"lhs":"test_operator_kind()","rhs":"test_operator_kind produces the expected output","over":{"base":"Any"},"name":"test_operator_kind_correct"},"guarantee":"test_operator_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_operator_kind_correct","statement":"Path(test_operator_kind(x), test_operator_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01d992c4c799408f"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_operator_kind","kind":"function","src_hash":"0eea604afd5315fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: A.kind == OperatorKind and (A * B).kind == OperatorKind and (x * A).kind == OperatorKind and (x * A * B).kind == OperatorKind and (x * k * b).kind == OperatorKind"},"spec":{"lhs":"test_operator_kind()","rhs":"A.kind == OperatorKind and (A * B).kind == OperatorKind and (x * A).kind == OperatorKind and (x * A * B).kind == OperatorKind and (x * k * b).kind == OperatorKind","over":{"base":"Any"},"name":"test_operator_kind_correct"},"guarantee":"A.kind == OperatorKind; (A * B).kind == OperatorKind; (x * A).kind == OperatorKind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_operator_kind_correct","statement":"Path(test_operator_kind(x), A.kind == OperatorKind; (A * B).kind == OperatorKind; (x * A).kind == OperatorKind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f5b84e6841318b9d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.kind == OperatorKind","(A * B).kind == OperatorKind","(x * A).kind == OperatorKind","(x * A * B).kind == OperatorKind","(x * k * b).kind == OperatorKind"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_operator_kind():
     assert A.kind == OperatorKind
     assert (A*B).kind == OperatorKind
@@ -75,16 +91,24 @@ def test_operator_kind():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_undefind_kind(), test_undefind_kind produces the expected output) over Any ║
+# ║ Path(test_undefind_kind(), (A * k).kind == UndefinedKind and (b * A).kind == UndefinedKind and (x * b * A * k).kind == UndefinedKind) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_undefind_kind : Any → {Any | (A * k).kind == Und...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (A * k).kind == UndefinedKind                  ║
+# ║   ensures:  (b * A).kind == UndefinedKind                  ║
+# ║   ensures:  (x * b * A * k).kind == UndefinedKind          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_undefind_kind : Any → {Any | result satisfies: (...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a08fd727e8ae7106  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4a410b00739dc69d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_undefind_kind","kind":"function","src_hash":"2120604e4b39be9e","in":{"base":"Any"},"out":{"base":"Any","pred":"(A * k).kind == UndefinedKind and (b * A).kind == UndefinedKind and (x * b * A * k).kind == UndefinedKind"},"spec":{"lhs":"test_undefind_kind()","rhs":"test_undefind_kind produces the expected output","over":{"base":"Any"},"name":"test_undefind_kind_correct"},"guarantee":"test_undefind_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_undefind_kind_correct","statement":"Path(test_undefind_kind(x), test_undefind_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a08fd727e8ae7106"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_undefind_kind","kind":"function","src_hash":"2120604e4b39be9e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (A * k).kind == UndefinedKind and (b * A).kind == UndefinedKind and (x * b * A * k).kind == UndefinedKind"},"spec":{"lhs":"test_undefind_kind()","rhs":"(A * k).kind == UndefinedKind and (b * A).kind == UndefinedKind and (x * b * A * k).kind == UndefinedKind","over":{"base":"Any"},"name":"test_undefind_kind_correct"},"guarantee":"(A * k).kind == UndefinedKind; (b * A).kind == UndefinedKind; (x * b * A * k).kind == UndefinedKind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_undefind_kind_correct","statement":"Path(test_undefind_kind(x), (A * k).kind == UndefinedKind; (b * A).kind == UndefinedKind; (x * b * A * k).kind == UndefinedKind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4a410b00739dc69d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(A * k).kind == UndefinedKind","(b * A).kind == UndefinedKind","(x * b * A * k).kind == UndefinedKind"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_undefind_kind():
     # Because of limitations in the kind dispatcher API, we are currently
     # unable to have OperatorKind*KetKind -> KetKind (and similar for bras).
@@ -94,16 +118,24 @@ def test_undefind_kind():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_dagger_kind(), test_dagger_kind produces the expected output) over Any ║
+# ║ Path(test_dagger_kind(), Dagger(k).kind == BraKind and Dagger(b).kind == KetKind and Dagger(A).kind == OperatorKind) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_dagger_kind : Any → {Any | Dagger(k).kind == Bra...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Dagger(k).kind == BraKind                      ║
+# ║   ensures:  Dagger(b).kind == KetKind                      ║
+# ║   ensures:  Dagger(A).kind == OperatorKind                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_dagger_kind : Any → {Any | result satisfies: Dag...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c62dd3ce5d45c89b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3f7052d0f9b143cd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_dagger_kind","kind":"function","src_hash":"16310befc721e111","in":{"base":"Any"},"out":{"base":"Any","pred":"Dagger(k).kind == BraKind and Dagger(b).kind == KetKind and Dagger(A).kind == OperatorKind"},"spec":{"lhs":"test_dagger_kind()","rhs":"test_dagger_kind produces the expected output","over":{"base":"Any"},"name":"test_dagger_kind_correct"},"guarantee":"test_dagger_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_dagger_kind_correct","statement":"Path(test_dagger_kind(x), test_dagger_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c62dd3ce5d45c89b"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_dagger_kind","kind":"function","src_hash":"16310befc721e111","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Dagger(k).kind == BraKind and Dagger(b).kind == KetKind and Dagger(A).kind == OperatorKind"},"spec":{"lhs":"test_dagger_kind()","rhs":"Dagger(k).kind == BraKind and Dagger(b).kind == KetKind and Dagger(A).kind == OperatorKind","over":{"base":"Any"},"name":"test_dagger_kind_correct"},"guarantee":"Dagger(k).kind == BraKind; Dagger(b).kind == KetKind; Dagger(A).kind == OperatorKind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_dagger_kind_correct","statement":"Path(test_dagger_kind(x), Dagger(k).kind == BraKind; Dagger(b).kind == KetKind; Dagger(A).kind == OperatorKind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3f7052d0f9b143cd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Dagger(k).kind == BraKind","Dagger(b).kind == KetKind","Dagger(A).kind == OperatorKind"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_dagger_kind():
     assert Dagger(k).kind == BraKind
     assert Dagger(b).kind == KetKind
@@ -111,16 +143,24 @@ def test_dagger_kind():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_commutator_kind(), test_commutator_kind produces the expected output) over Any ║
+# ║ Path(test_commutator_kind(), Commutator(A, B).kind == OperatorKind and Commutator(A, x * B).kind == OperatorKind and Commutator(x * A, B).kind == OperatorKind and Commutator(x * A, x * B).kind == OperatorKind) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_commutator_kind : Any → {Any | Commutator(A, B)....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Commutator(A, B).kind == OperatorKind          ║
+# ║   ensures:  Commutator(A, x * B).kind == OperatorKind      ║
+# ║   ensures:  Commutator(x * A, B).kind == OperatorKind      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_commutator_kind : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8db744afee5364c0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca198f786d1fa28f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_commutator_kind","kind":"function","src_hash":"2ca5b687de89aa44","in":{"base":"Any"},"out":{"base":"Any","pred":"Commutator(A, B).kind == OperatorKind and Commutator(A, x * B).kind == OperatorKind and Commutator(x * A, B).kind == OperatorKind and Commutator(x * A, x * B).kind == OperatorKind"},"spec":{"lhs":"test_commutator_kind()","rhs":"test_commutator_kind produces the expected output","over":{"base":"Any"},"name":"test_commutator_kind_correct"},"guarantee":"test_commutator_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_commutator_kind_correct","statement":"Path(test_commutator_kind(x), test_commutator_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8db744afee5364c0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_commutator_kind","kind":"function","src_hash":"2ca5b687de89aa44","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Commutator(A, B).kind == OperatorKind and Commutator(A, x * B).kind == OperatorKind and Commutator(x * A, B).kind == OperatorKind and Commutator(x * A, x * B).kind == OperatorKind"},"spec":{"lhs":"test_commutator_kind()","rhs":"Commutator(A, B).kind == OperatorKind and Commutator(A, x * B).kind == OperatorKind and Commutator(x * A, B).kind == OperatorKind and Commutator(x * A, x * B).kind == OperatorKind","over":{"base":"Any"},"name":"test_commutator_kind_correct"},"guarantee":"Commutator(A, B).kind == OperatorKind; Commutator(A, x * B).kind == OperatorKind; Commutator(x * A, B).kind == OperatorKind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_commutator_kind_correct","statement":"Path(test_commutator_kind(x), Commutator(A, B).kind == OperatorKind; Commutator(A, x * B).kind == OperatorKind; Commutator(x * A, B).kind == OperatorKind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca198f786d1fa28f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Commutator(A, B).kind == OperatorKind","Commutator(A, x * B).kind == OperatorKind","Commutator(x * A, B).kind == OperatorKind","Commutator(x * A, x * B).kind == OperatorKind"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_commutator_kind():
     assert Commutator(A, B).kind == OperatorKind
     assert Commutator(A, x*B).kind == OperatorKind
@@ -129,16 +169,24 @@ def test_commutator_kind():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_anticommutator_kind(), test_anticommutator_kind produces the expected output) over Any ║
+# ║ Path(test_anticommutator_kind(), AntiCommutator(A, B).kind == OperatorKind and AntiCommutator(A, x * B).kind == OperatorKind and AntiCommutator(x * A, B).kind == OperatorKind and AntiCommutator(x * A, x * B).kind == OperatorKind) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_anticommutator_kind : Any → {Any | AntiCommutato...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  AntiCommutator(A, B).kind == OperatorKind      ║
+# ║   ensures:  AntiCommutator(A, x * B).kind == Operator...   ║
+# ║   ensures:  AntiCommutator(x * A, B).kind == Operator...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_anticommutator_kind : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba7eabf87b461394  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0695f98e2154914b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_anticommutator_kind","kind":"function","src_hash":"e8c05b29d395b2e0","in":{"base":"Any"},"out":{"base":"Any","pred":"AntiCommutator(A, B).kind == OperatorKind and AntiCommutator(A, x * B).kind == OperatorKind and AntiCommutator(x * A, B).kind == OperatorKind and AntiCommutator(x * A, x * B).kind == OperatorKind"},"spec":{"lhs":"test_anticommutator_kind()","rhs":"test_anticommutator_kind produces the expected output","over":{"base":"Any"},"name":"test_anticommutator_kind_correct"},"guarantee":"test_anticommutator_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_anticommutator_kind_correct","statement":"Path(test_anticommutator_kind(x), test_anticommutator_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba7eabf87b461394"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_anticommutator_kind","kind":"function","src_hash":"e8c05b29d395b2e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: AntiCommutator(A, B).kind == OperatorKind and AntiCommutator(A, x * B).kind == OperatorKind and AntiCommutator(x * A, B).kind == OperatorKind and AntiCommutator(x * A, x * B).kind == OperatorKind"},"spec":{"lhs":"test_anticommutator_kind()","rhs":"AntiCommutator(A, B).kind == OperatorKind and AntiCommutator(A, x * B).kind == OperatorKind and AntiCommutator(x * A, B).kind == OperatorKind and AntiCommutator(x * A, x * B).kind == OperatorKind","over":{"base":"Any"},"name":"test_anticommutator_kind_correct"},"guarantee":"AntiCommutator(A, B).kind == OperatorKind; AntiCommutator(A, x * B).kind == OperatorKind; AntiCommutator(x * A, B).kind == OperatorKind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_anticommutator_kind_correct","statement":"Path(test_anticommutator_kind(x), AntiCommutator(A, B).kind == OperatorKind; AntiCommutator(A, x * B).kind == OperatorKind; AntiCommutator(x * A, B).kind == OperatorKind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0695f98e2154914b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["AntiCommutator(A, B).kind == OperatorKind","AntiCommutator(A, x * B).kind == OperatorKind","AntiCommutator(x * A, B).kind == OperatorKind","AntiCommutator(x * A, x * B).kind == OperatorKind"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_anticommutator_kind():
     assert AntiCommutator(A, B).kind == OperatorKind
     assert AntiCommutator(A, x*B).kind == OperatorKind
@@ -147,16 +195,24 @@ def test_anticommutator_kind():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_tensorproduct_kind(), test_tensorproduct_kind produces the expected output) over Any ║
+# ║ Path(test_tensorproduct_kind(), TensorProduct(k, k).kind == KetKind and TensorProduct(b, b).kind == BraKind and TensorProduct(x * k, y * k).kind == KetKind and TensorProduct(x * b, y * b).kind == BraKind and TensorProduct(x * b * k, y * b * k).kind == NumberKind and TensorProduct(x * k * b, y * k * b).kind == OperatorKind and TensorProduct(A, B).kind == OperatorKind and TensorProduct(A, x * B).kind == OperatorKind and TensorProduct(x * A, B).kind == OperatorKind) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_tensorproduct_kind : Any → {Any | TensorProduct(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  TensorProduct(k, k).kind == KetKind            ║
+# ║   ensures:  TensorProduct(b, b).kind == BraKind            ║
+# ║   ensures:  TensorProduct(x * k, y * k).kind == KetKind    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_tensorproduct_kind : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 25a7c57b8ba1aea8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 644862edd5b3aeef  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_tensorproduct_kind","kind":"function","src_hash":"b3c8f68036f76724","in":{"base":"Any"},"out":{"base":"Any","pred":"TensorProduct(k, k).kind == KetKind and TensorProduct(b, b).kind == BraKind and TensorProduct(x * k, y * k).kind == KetKind and TensorProduct(x * b, y * b).kind == BraKind and TensorProduct(x * b * k, y * b * k).kind == NumberKind and TensorProduct(x * k * b, y * k * b).kind == OperatorKind and TensorProduct(A, B).kind == OperatorKind and TensorProduct(A, x * B).kind == OperatorKind and TensorProduct(x * A, B).kind == OperatorKind"},"spec":{"lhs":"test_tensorproduct_kind()","rhs":"test_tensorproduct_kind produces the expected output","over":{"base":"Any"},"name":"test_tensorproduct_kind_correct"},"guarantee":"test_tensorproduct_kind produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_tensorproduct_kind_correct","statement":"Path(test_tensorproduct_kind(x), test_tensorproduct_kind produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"25a7c57b8ba1aea8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_kind.test_tensorproduct_kind","kind":"function","src_hash":"b3c8f68036f76724","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: TensorProduct(k, k).kind == KetKind and TensorProduct(b, b).kind == BraKind and TensorProduct(x * k, y * k).kind == KetKind and TensorProduct(x * b, y * b).kind == BraKind and TensorProduct(x * b * k, y * b * k).kind == NumberKind and TensorProduct(x * k * b, y * k * b).kind == OperatorKind and TensorProduct(A, B).kind == OperatorKind and TensorProduct(A, x * B).kind == OperatorKind and TensorProduct(x * A, B).kind == OperatorKind"},"spec":{"lhs":"test_tensorproduct_kind()","rhs":"TensorProduct(k, k).kind == KetKind and TensorProduct(b, b).kind == BraKind and TensorProduct(x * k, y * k).kind == KetKind and TensorProduct(x * b, y * b).kind == BraKind and TensorProduct(x * b * k, y * b * k).kind == NumberKind and TensorProduct(x * k * b, y * k * b).kind == OperatorKind and TensorProduct(A, B).kind == OperatorKind and TensorProduct(A, x * B).kind == OperatorKind and TensorProduct(x * A, B).kind == OperatorKind","over":{"base":"Any"},"name":"test_tensorproduct_kind_correct"},"guarantee":"TensorProduct(k, k).kind == KetKind; TensorProduct(b, b).kind == BraKind; TensorProduct(x * k, y * k).kind == KetKind","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_kind.test_tensorproduct_kind_correct","statement":"Path(test_tensorproduct_kind(x), TensorProduct(k, k).kind == KetKind; TensorProduct(b, b).kind == BraKind; TensorProduct(x * k, y * k).kind == KetKind)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"644862edd5b3aeef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["TensorProduct(k, k).kind == KetKind","TensorProduct(b, b).kind == BraKind","TensorProduct(x * k, y * k).kind == KetKind","TensorProduct(x * b, y * b).kind == BraKind","TensorProduct(x * b * k, y * b * k).kind == NumberKind","TensorProduct(x * k * b, y * k * b).kind == OperatorKind","TensorProduct(A, B).kind == OperatorKind","TensorProduct(A, x * B).kind == OperatorKind","TensorProduct(x * A, B).kind == OperatorKind"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_tensorproduct_kind():
     assert TensorProduct(k,k).kind == KetKind
     assert TensorProduct(b,b).kind == BraKind

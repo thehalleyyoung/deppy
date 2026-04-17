@@ -25,16 +25,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_entity(), test_entity produces the expected output) over Any ║
+# ║ Path(test_entity(), GeometryEntity(x, y) in GeometryEntity(x, y) and GeometryEntity(x, y) == GeometryEntity(x, y) and GeometryEntity(x, y).equals(GeometryEntity(x, y)) and GeometryEntity.encloses(c, Point(0, 0)) and GeometryEntity.encloses(c, Segment((0, 0), (1, 1))) and GeometryEntity.encloses(c, Line((0, 0), (1, 1))) is False and GeometryEntity.encloses(c, Circle((0, 0), 4)) and GeometryEntity.encloses(c, Polygon(Point(0, 0), Point(1, 0), Point(0, 1))) and GeometryEntity.encloses(c, RegularPolygon(Point(8, 8), 1, 3)) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_entity : Any → {Any | GeometryEntity(x, y) in Ge...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  GeometryEntity(x, y) in GeometryEntity(x, y)   ║
+# ║   ensures:  GeometryEntity(x, y) == GeometryEntity(x, y)   ║
+# ║   ensures:  GeometryEntity(x, y).equals(GeometryEntit...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_entity : Any → {Any | result satisfies: Geometry...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | df26fe4b4ecad104  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9f4659b7a9691eb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_entity.test_entity","kind":"function","src_hash":"3af056a72e294f83","in":{"base":"Any"},"out":{"base":"Any","pred":"GeometryEntity(x, y) in GeometryEntity(x, y) and GeometryEntity(x, y) == GeometryEntity(x, y) and GeometryEntity(x, y).equals(GeometryEntity(x, y)) and GeometryEntity.encloses(c, Point(0, 0)) and GeometryEntity.encloses(c, Segment((0, 0), (1, 1))) and GeometryEntity.encloses(c, Line((0, 0), (1, 1))) is False and GeometryEntity.encloses(c, Circle((0, 0), 4)) and GeometryEntity.encloses(c, Polygon(Point(0, 0), Point(1, 0), Point(0, 1))) and GeometryEntity.encloses(c, RegularPolygon(Point(8, 8), 1, 3)) is False"},"spec":{"lhs":"test_entity()","rhs":"test_entity produces the expected output","over":{"base":"Any"},"name":"test_entity_correct"},"guarantee":"test_entity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_entity.test_entity_correct","statement":"Path(test_entity(x), test_entity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"df26fe4b4ecad104"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_entity.test_entity","kind":"function","src_hash":"3af056a72e294f83","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: GeometryEntity(x, y) in GeometryEntity(x, y) and GeometryEntity(x, y) == GeometryEntity(x, y) and GeometryEntity(x, y).equals(GeometryEntity(x, y)) and GeometryEntity.encloses(c, Point(0, 0)) and GeometryEntity.encloses(c, Segment((0, 0), (1, 1))) and GeometryEntity.encloses(c, Line((0, 0), (1, 1))) is False and GeometryEntity.encloses(c, Circle((0, 0), 4)) and GeometryEntity.encloses(c, Polygon(Point(0, 0), Point(1, 0), Point(0, 1))) and GeometryEntity.encloses(c, RegularPolygon(Point(8, 8), 1, 3)) is False"},"spec":{"lhs":"test_entity()","rhs":"GeometryEntity(x, y) in GeometryEntity(x, y) and GeometryEntity(x, y) == GeometryEntity(x, y) and GeometryEntity(x, y).equals(GeometryEntity(x, y)) and GeometryEntity.encloses(c, Point(0, 0)) and GeometryEntity.encloses(c, Segment((0, 0), (1, 1))) and GeometryEntity.encloses(c, Line((0, 0), (1, 1))) is False and GeometryEntity.encloses(c, Circle((0, 0), 4)) and GeometryEntity.encloses(c, Polygon(Point(0, 0), Point(1, 0), Point(0, 1))) and GeometryEntity.encloses(c, RegularPolygon(Point(8, 8), 1, 3)) is False","over":{"base":"Any"},"name":"test_entity_correct"},"guarantee":"GeometryEntity(x, y) in GeometryEntity(x, y); GeometryEntity(x, y) == GeometryEntity(x, y); GeometryEntity(x, y).equals(GeometryEntity(x, y))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_entity.test_entity_correct","statement":"Path(test_entity(x), GeometryEntity(x, y) in GeometryEntity(x, y); GeometryEntity(x, y) == GeometryEntity(x, y); GeometryEntity(x, y).equals(GeometryEntity(x, y)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9f4659b7a9691eb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["GeometryEntity(x, y) in GeometryEntity(x, y)","GeometryEntity(x, y) == GeometryEntity(x, y)","GeometryEntity(x, y).equals(GeometryEntity(x, y))","GeometryEntity.encloses(c, Point(0, 0))","GeometryEntity.encloses(c, Segment((0, 0), (1, 1)))","GeometryEntity.encloses(c, Line((0, 0), (1, 1))) is False","GeometryEntity.encloses(c, Circle((0, 0), 4))","GeometryEntity.encloses(c, Polygon(Point(0, 0), Point(1, 0), Point(0, 1)))","GeometryEntity.encloses(c, RegularPolygon(Point(8, 8), 1, 3)) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_entity():
     x = Symbol('x', real=True)
     y = Symbol('y', real=True)
@@ -55,16 +63,22 @@ def test_entity():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_svg(), test_svg produces the expected output) over Any ║
+# ║ Path(test_svg(), entity._repr_svg_() is None) over Any     ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_svg : Any → {Any | entity._repr_svg_() is None a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  entity._repr_svg_() is None                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_svg : Any → {Any | result satisfies: entity._rep...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 920fb996a44499f9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 105bcd0ae69fb61e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_entity.test_svg","kind":"function","src_hash":"dca351f6ca62b1e1","in":{"base":"Any"},"out":{"base":"Any","pred":"entity._repr_svg_() is None and entity._repr_svg_() is None"},"spec":{"lhs":"test_svg()","rhs":"test_svg produces the expected output","over":{"base":"Any"},"name":"test_svg_correct"},"guarantee":"test_svg produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_entity.test_svg_correct","statement":"Path(test_svg(x), test_svg produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"920fb996a44499f9"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_entity.test_svg","kind":"function","src_hash":"dca351f6ca62b1e1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: entity._repr_svg_() is None"},"spec":{"lhs":"test_svg()","rhs":"entity._repr_svg_() is None","over":{"base":"Any"},"name":"test_svg_correct"},"guarantee":"entity._repr_svg_() is None","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_entity.test_svg_correct","statement":"Path(test_svg(x), entity._repr_svg_() is None)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"105bcd0ae69fb61e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["entity._repr_svg_() is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_svg():
     a = Symbol('a')
     b = Symbol('b')
@@ -78,16 +92,24 @@ def test_svg():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs(), test_subs produces the expected output) over Any ║
+# ║ Path(test_subs(), p.subs({x: 1}) == Point(1, 2) and Point(1, 2).subs(Point(1, 2), Point(3, 4)) == Point(3, 4) and Point(1, 2).subs((1, 2), Point(3, 4)) == Point(3, 4) and Point(1, 2).subs({(1, 2)}) == Point(2, 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs : Any → {Any | p.subs({x: 1}) == Point(1, 2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  p.subs({x: 1}) == Point(1, 2)                  ║
+# ║   ensures:  Point(1, 2).subs(Point(1, 2), Point(3, 4)...   ║
+# ║   ensures:  Point(1, 2).subs((1, 2), Point(3, 4)) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs : Any → {Any | result satisfies: p.subs({x:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f9c5ec171f9b093  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09669d7d2a4a597e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_entity.test_subs","kind":"function","src_hash":"04d347ba1ede9df4","in":{"base":"Any"},"out":{"base":"Any","pred":"p.subs({x: 1}) == Point(1, 2) and Point(1, 2).subs(Point(1, 2), Point(3, 4)) == Point(3, 4) and Point(1, 2).subs((1, 2), Point(3, 4)) == Point(3, 4) and Point(1, 2).subs(Point(1, 2), Point(3, 4)) == Point(3, 4) and Point(1, 2).subs({(1, 2)}) == Point(2, 2) and 'y' in str(o.subs(x, y))"},"spec":{"lhs":"test_subs()","rhs":"test_subs produces the expected output","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"test_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_entity.test_subs_correct","statement":"Path(test_subs(x), test_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f9c5ec171f9b093"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_entity.test_subs","kind":"function","src_hash":"04d347ba1ede9df4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: p.subs({x: 1}) == Point(1, 2) and Point(1, 2).subs(Point(1, 2), Point(3, 4)) == Point(3, 4) and Point(1, 2).subs((1, 2), Point(3, 4)) == Point(3, 4) and Point(1, 2).subs({(1, 2)}) == Point(2, 2)"},"spec":{"lhs":"test_subs()","rhs":"p.subs({x: 1}) == Point(1, 2) and Point(1, 2).subs(Point(1, 2), Point(3, 4)) == Point(3, 4) and Point(1, 2).subs((1, 2), Point(3, 4)) == Point(3, 4) and Point(1, 2).subs({(1, 2)}) == Point(2, 2)","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"p.subs({x: 1}) == Point(1, 2); Point(1, 2).subs(Point(1, 2), Point(3, 4)) == Point(3, 4); Point(1, 2).subs((1, 2), Point(3, 4)) == Point(3, 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_entity.test_subs_correct","statement":"Path(test_subs(x), p.subs({x: 1}) == Point(1, 2); Point(1, 2).subs(Point(1, 2), Point(3, 4)) == Point(3, 4); Point(1, 2).subs((1, 2), Point(3, 4)) == Point(3, 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09669d7d2a4a597e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["p.subs({x: 1}) == Point(1, 2)","Point(1, 2).subs(Point(1, 2), Point(3, 4)) == Point(3, 4)","Point(1, 2).subs((1, 2), Point(3, 4)) == Point(3, 4)","Point(1, 2).subs({(1, 2)}) == Point(2, 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_subs():
     x = Symbol('x', real=True)
     y = Symbol('y', real=True)
@@ -115,32 +137,46 @@ def test_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_transform(), test_transform produces the expected output) over Any ║
+# ║ Path(test_transform(), scale(1, 2, (3, 4)).tolist() == [[1, 0, 0], [0, 2, 0], [0, -4, 1]]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_transform : Any → {Any | scale(1, 2, (3, 4)).tol...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  scale(1, 2, (3, 4)).tolist() == [[1, 0, 0...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_transform : Any → {Any | result satisfies: scale...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4b1c48708893c5c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa5d1c0f2595e937  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_entity.test_transform","kind":"function","src_hash":"f50a0943216d4d66","in":{"base":"Any"},"out":{"base":"Any","pred":"scale(1, 2, (3, 4)).tolist() == [[1, 0, 0], [0, 2, 0], [0, -4, 1]]"},"spec":{"lhs":"test_transform()","rhs":"test_transform produces the expected output","over":{"base":"Any"},"name":"test_transform_correct"},"guarantee":"test_transform produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_entity.test_transform_correct","statement":"Path(test_transform(x), test_transform produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4b1c48708893c5c"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_entity.test_transform","kind":"function","src_hash":"f50a0943216d4d66","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: scale(1, 2, (3, 4)).tolist() == [[1, 0, 0], [0, 2, 0], [0, -4, 1]]"},"spec":{"lhs":"test_transform()","rhs":"scale(1, 2, (3, 4)).tolist() == [[1, 0, 0], [0, 2, 0], [0, -4, 1]]","over":{"base":"Any"},"name":"test_transform_correct"},"guarantee":"scale(1, 2, (3, 4)).tolist() == [[1, 0, 0], [0, 2, 0], [0, -4, 1]]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_entity.test_transform_correct","statement":"Path(test_transform(x), scale(1, 2, (3, 4)).tolist() == [[1, 0, 0], [0, 2, 0], [0, -4, 1]])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa5d1c0f2595e937","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["scale(1, 2, (3, 4)).tolist() == [[1, 0, 0], [0, 2, 0], [0, -4, 1]]"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_transform():
     assert scale(1, 2, (3, 4)).tolist() == \
         [[1, 0, 0], [0, 2, 0], [0, -4, 1]]
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_reflect_entity_overrides(), test_reflect_entity_overrides produces the expected output) over Any ║
+# ║ Path(test_reflect_entity_overrides(), cr == Circle(r, -3) and c.area == -cr.area and rpent.center == pent.center.reflect(l) and not rvert and pent.area.equals(-rpent.area)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_reflect_entity_overrides : Any → {Any | cr == Ci...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  cr == Circle(r, -3)                            ║
+# ║   ensures:  c.area == -cr.area                             ║
+# ║   ensures:  rpent.center == pent.center.reflect(l)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_reflect_entity_overrides : Any → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 296b6058d25732af  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4ae48eac5cc32fe4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_entity.test_reflect_entity_overrides","kind":"function","src_hash":"aabe667bda97203e","in":{"base":"Any"},"out":{"base":"Any","pred":"cr == Circle(r, -3) and c.area == -cr.area and rpent.center == pent.center.reflect(l) and not rvert and pent.area.equals(-rpent.area)"},"spec":{"lhs":"test_reflect_entity_overrides()","rhs":"test_reflect_entity_overrides produces the expected output","over":{"base":"Any"},"name":"test_reflect_entity_overrides_correct"},"guarantee":"test_reflect_entity_overrides produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_entity.test_reflect_entity_overrides_correct","statement":"Path(test_reflect_entity_overrides(x), test_reflect_entity_overrides produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"296b6058d25732af"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_entity.test_reflect_entity_overrides","kind":"function","src_hash":"aabe667bda97203e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: cr == Circle(r, -3) and c.area == -cr.area and rpent.center == pent.center.reflect(l) and not rvert and pent.area.equals(-rpent.area)"},"spec":{"lhs":"test_reflect_entity_overrides()","rhs":"cr == Circle(r, -3) and c.area == -cr.area and rpent.center == pent.center.reflect(l) and not rvert and pent.area.equals(-rpent.area)","over":{"base":"Any"},"name":"test_reflect_entity_overrides_correct"},"guarantee":"cr == Circle(r, -3); c.area == -cr.area; rpent.center == pent.center.reflect(l)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_entity.test_reflect_entity_overrides_correct","statement":"Path(test_reflect_entity_overrides(x), cr == Circle(r, -3); c.area == -cr.area; rpent.center == pent.center.reflect(l))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4ae48eac5cc32fe4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["cr == Circle(r, -3)","c.area == -cr.area","rpent.center == pent.center.reflect(l)","not rvert","pent.area.equals(-rpent.area)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_reflect_entity_overrides():
     x = Symbol('x', real=True)
     y = Symbol('y', real=True)
@@ -173,16 +209,22 @@ def test_reflect_entity_overrides():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_geometry_EvalfMixin(), test_geometry_EvalfMixin produces the expected output) over Any ║
+# ║ Path(test_geometry_EvalfMixin(), <unspecified:test_geometry_EvalfMixin>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_geometry_EvalfMixin : Any → {Any | str(g).replac...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db551a80192bd602  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_entity.test_geometry_EvalfMixin","kind":"function","src_hash":"08a902c1bd2db0a5","in":{"base":"Any"},"out":{"base":"Any","pred":"str(g).replace('pi', '3.1') == str(g.n(2))"},"spec":{"lhs":"test_geometry_EvalfMixin()","rhs":"test_geometry_EvalfMixin produces the expected output","over":{"base":"Any"},"name":"test_geometry_EvalfMixin_correct"},"guarantee":"test_geometry_EvalfMixin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_entity.test_geometry_EvalfMixin_correct","statement":"Path(test_geometry_EvalfMixin(x), test_geometry_EvalfMixin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db551a80192bd602"}
+# @cctt_verify {"v":2,"sym":"sympy.geometry.tests.test_entity.test_geometry_EvalfMixin","kind":"function","src_hash":"08a902c1bd2db0a5","in":{"base":"Any"},"out":{"base":"Any","pred":"str(g).replace('pi', '3.1') == str(g.n(2))"},"spec":{"lhs":"test_geometry_EvalfMixin()","rhs":"<unspecified:test_geometry_EvalfMixin>","over":{"base":"Any"},"name":"test_geometry_EvalfMixin_correct"},"guarantee":"test_geometry_EvalfMixin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.geometry.tests.test_entity.test_geometry_EvalfMixin_correct","statement":"Path(test_geometry_EvalfMixin(x), test_geometry_EvalfMixin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db551a80192bd602","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_geometry_EvalfMixin():
     x = pi
     t = Symbol('t')

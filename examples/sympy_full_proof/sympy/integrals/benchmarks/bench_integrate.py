@@ -23,60 +23,84 @@ x = Symbol('x')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_integrate_sin(), bench_integrate_sin produces the expected output) over Any ║
+# ║ Path(bench_integrate_sin(), <unspecified:bench_integrate_sin>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_integrate_sin : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45f3f0049f27419f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_sin","kind":"function","src_hash":"d05b28ee7cc912f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_integrate_sin()","rhs":"bench_integrate_sin produces the expected output","over":{"base":"Any"},"name":"bench_integrate_sin_correct"},"guarantee":"bench_integrate_sin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_sin_correct","statement":"Path(bench_integrate_sin(x), bench_integrate_sin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45f3f0049f27419f"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_sin","kind":"function","src_hash":"d05b28ee7cc912f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_integrate_sin()","rhs":"<unspecified:bench_integrate_sin>","over":{"base":"Any"},"name":"bench_integrate_sin_correct"},"guarantee":"bench_integrate_sin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_sin_correct","statement":"Path(bench_integrate_sin(x), bench_integrate_sin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45f3f0049f27419f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def bench_integrate_sin():
     integrate(sin(x), x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_integrate_x1sin(), bench_integrate_x1sin produces the expected output) over Any ║
+# ║ Path(bench_integrate_x1sin(), <unspecified:bench_integrate_x1sin>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_integrate_x1sin : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 21a4b7971caa4221  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_x1sin","kind":"function","src_hash":"708f821e6ec49b67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_integrate_x1sin()","rhs":"bench_integrate_x1sin produces the expected output","over":{"base":"Any"},"name":"bench_integrate_x1sin_correct"},"guarantee":"bench_integrate_x1sin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_x1sin_correct","statement":"Path(bench_integrate_x1sin(x), bench_integrate_x1sin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21a4b7971caa4221"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_x1sin","kind":"function","src_hash":"708f821e6ec49b67","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_integrate_x1sin()","rhs":"<unspecified:bench_integrate_x1sin>","over":{"base":"Any"},"name":"bench_integrate_x1sin_correct"},"guarantee":"bench_integrate_x1sin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_x1sin_correct","statement":"Path(bench_integrate_x1sin(x), bench_integrate_x1sin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"21a4b7971caa4221","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def bench_integrate_x1sin():
     integrate(x**1*sin(x), x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_integrate_x2sin(), bench_integrate_x2sin produces the expected output) over Any ║
+# ║ Path(bench_integrate_x2sin(), <unspecified:bench_integrate_x2sin>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_integrate_x2sin : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 70db72ba39b47169  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_x2sin","kind":"function","src_hash":"bb9abe3ab831206d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_integrate_x2sin()","rhs":"bench_integrate_x2sin produces the expected output","over":{"base":"Any"},"name":"bench_integrate_x2sin_correct"},"guarantee":"bench_integrate_x2sin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_x2sin_correct","statement":"Path(bench_integrate_x2sin(x), bench_integrate_x2sin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70db72ba39b47169"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_x2sin","kind":"function","src_hash":"bb9abe3ab831206d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_integrate_x2sin()","rhs":"<unspecified:bench_integrate_x2sin>","over":{"base":"Any"},"name":"bench_integrate_x2sin_correct"},"guarantee":"bench_integrate_x2sin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_x2sin_correct","statement":"Path(bench_integrate_x2sin(x), bench_integrate_x2sin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"70db72ba39b47169","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def bench_integrate_x2sin():
     integrate(x**2*sin(x), x)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(bench_integrate_x3sin(), bench_integrate_x3sin produces the expected output) over Any ║
+# ║ Path(bench_integrate_x3sin(), <unspecified:bench_integrate_x3sin>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ bench_integrate_x3sin : Any → Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 242ddd3df4bf00ab  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_x3sin","kind":"function","src_hash":"7d279c3b114107a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_integrate_x3sin()","rhs":"bench_integrate_x3sin produces the expected output","over":{"base":"Any"},"name":"bench_integrate_x3sin_correct"},"guarantee":"bench_integrate_x3sin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_x3sin_correct","statement":"Path(bench_integrate_x3sin(x), bench_integrate_x3sin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"242ddd3df4bf00ab"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_x3sin","kind":"function","src_hash":"7d279c3b114107a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"bench_integrate_x3sin()","rhs":"<unspecified:bench_integrate_x3sin>","over":{"base":"Any"},"name":"bench_integrate_x3sin_correct"},"guarantee":"bench_integrate_x3sin produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.benchmarks.bench_integrate.bench_integrate_x3sin_correct","statement":"Path(bench_integrate_x3sin(x), bench_integrate_x3sin produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"242ddd3df4bf00ab","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def bench_integrate_x3sin():
     integrate(x**3*sin(x), x)

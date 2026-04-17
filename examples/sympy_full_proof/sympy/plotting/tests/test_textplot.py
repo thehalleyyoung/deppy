@@ -26,16 +26,23 @@ from sympy.utilities.exceptions import ignore_warnings
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_axes_alignment(), test_axes_alignment produces the expected output) over Any ║
+# ║ Path(test_axes_alignment(), lines == list(textplot_str(x, -1, 1)) and lines == list(textplot_str(x, -1, 1, H=17))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_axes_alignment : Any → {Any | lines == list(text...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lines == list(textplot_str(x, -1, 1))          ║
+# ║   ensures:  lines == list(textplot_str(x, -1, 1, H=17))    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_axes_alignment : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bede30687d6bbfe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80318a6438484173  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_textplot.test_axes_alignment","kind":"function","src_hash":"68646cf9be4552b3","in":{"base":"Any"},"out":{"base":"Any","pred":"lines == list(textplot_str(x, -1, 1)) and lines == list(textplot_str(x, -1, 1, H=17))"},"spec":{"lhs":"test_axes_alignment()","rhs":"test_axes_alignment produces the expected output","over":{"base":"Any"},"name":"test_axes_alignment_correct"},"guarantee":"test_axes_alignment produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_textplot.test_axes_alignment_correct","statement":"Path(test_axes_alignment(x), test_axes_alignment produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bede30687d6bbfe"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_textplot.test_axes_alignment","kind":"function","src_hash":"68646cf9be4552b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lines == list(textplot_str(x, -1, 1)) and lines == list(textplot_str(x, -1, 1, H=17))"},"spec":{"lhs":"test_axes_alignment()","rhs":"lines == list(textplot_str(x, -1, 1)) and lines == list(textplot_str(x, -1, 1, H=17))","over":{"base":"Any"},"name":"test_axes_alignment_correct"},"guarantee":"lines == list(textplot_str(x, -1, 1)); lines == list(textplot_str(x, -1, 1, H=17))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_textplot.test_axes_alignment_correct","statement":"Path(test_axes_alignment(x), lines == list(textplot_str(x, -1, 1)); lines == list(textplot_str(x, -1, 1, H=17)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80318a6438484173","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lines == list(textplot_str(x, -1, 1))","lines == list(textplot_str(x, -1, 1, H=17))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_axes_alignment():
     x = Symbol('x')
     lines = [
@@ -88,16 +95,22 @@ def test_axes_alignment():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_singularity(), test_singularity produces the expected output) over Any ║
+# ║ Path(test_singularity(), lines == list(textplot_str(1 / x, 0, 1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_singularity : Any → {Any | lines == list(textplo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  lines == list(textplot_str(1 / x, 0, 1))       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_singularity : Any → {Any | result satisfies: lin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bffd2245fc654cd1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b713111138c1f879  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_textplot.test_singularity","kind":"function","src_hash":"db2e6d6ee0fb193c","in":{"base":"Any"},"out":{"base":"Any","pred":"lines == list(textplot_str(1 / x, 0, 1)) and lines == list(textplot_str(log(x), 0, 1))"},"spec":{"lhs":"test_singularity()","rhs":"test_singularity produces the expected output","over":{"base":"Any"},"name":"test_singularity_correct"},"guarantee":"test_singularity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_textplot.test_singularity_correct","statement":"Path(test_singularity(x), test_singularity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bffd2245fc654cd1"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_textplot.test_singularity","kind":"function","src_hash":"db2e6d6ee0fb193c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: lines == list(textplot_str(1 / x, 0, 1))"},"spec":{"lhs":"test_singularity()","rhs":"lines == list(textplot_str(1 / x, 0, 1))","over":{"base":"Any"},"name":"test_singularity_correct"},"guarantee":"lines == list(textplot_str(1 / x, 0, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_textplot.test_singularity_correct","statement":"Path(test_singularity(x), lines == list(textplot_str(1 / x, 0, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b713111138c1f879","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["lines == list(textplot_str(1 / x, 0, 1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_singularity():
     x = Symbol('x')
     lines = [
@@ -155,16 +168,22 @@ def test_singularity():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sinc(), test_sinc produces the expected output) over Any ║
+# ║ Path(test_sinc(), <unspecified:test_sinc>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_sinc : Any → {Any | lines == list(textplot_str(s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c2049a058829c35b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_textplot.test_sinc","kind":"function","src_hash":"ae37866c2904c365","in":{"base":"Any"},"out":{"base":"Any","pred":"lines == list(textplot_str(sin(x) / x, -10, 10))"},"spec":{"lhs":"test_sinc()","rhs":"test_sinc produces the expected output","over":{"base":"Any"},"name":"test_sinc_correct"},"guarantee":"test_sinc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_textplot.test_sinc_correct","statement":"Path(test_sinc(x), test_sinc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2049a058829c35b"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_textplot.test_sinc","kind":"function","src_hash":"ae37866c2904c365","in":{"base":"Any"},"out":{"base":"Any","pred":"lines == list(textplot_str(sin(x) / x, -10, 10))"},"spec":{"lhs":"test_sinc()","rhs":"<unspecified:test_sinc>","over":{"base":"Any"},"name":"test_sinc_correct"},"guarantee":"test_sinc produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_textplot.test_sinc_correct","statement":"Path(test_sinc(x), test_sinc produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c2049a058829c35b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sinc():
     x = Symbol('x')
     lines = [
@@ -197,16 +216,22 @@ def test_sinc():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_imaginary(), test_imaginary produces the expected output) over Any ║
+# ║ Path(test_imaginary(), list(textplot_str(S.ImaginaryUnit, -1, 1)) == lines) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_imaginary : Any → {Any | list(textplot_str(S.Ima...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  list(textplot_str(S.ImaginaryUnit, -1, 1)...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_imaginary : Any → {Any | result satisfies: list(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9545875362521dad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | baae7425390da415  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_textplot.test_imaginary","kind":"function","src_hash":"e060f4c36c05113f","in":{"base":"Any"},"out":{"base":"Any","pred":"list(textplot_str(S.ImaginaryUnit, -1, 1)) == lines and list(textplot_str(sqrt(x), -1, 1)) == lines"},"spec":{"lhs":"test_imaginary()","rhs":"test_imaginary produces the expected output","over":{"base":"Any"},"name":"test_imaginary_correct"},"guarantee":"test_imaginary produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_textplot.test_imaginary_correct","statement":"Path(test_imaginary(x), test_imaginary produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9545875362521dad"}
+# @cctt_verify {"v":2,"sym":"sympy.plotting.tests.test_textplot.test_imaginary","kind":"function","src_hash":"e060f4c36c05113f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: list(textplot_str(S.ImaginaryUnit, -1, 1)) == lines"},"spec":{"lhs":"test_imaginary()","rhs":"list(textplot_str(S.ImaginaryUnit, -1, 1)) == lines","over":{"base":"Any"},"name":"test_imaginary_correct"},"guarantee":"list(textplot_str(S.ImaginaryUnit, -1, 1)) == lines","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plotting.tests.test_textplot.test_imaginary_correct","statement":"Path(test_imaginary(x), list(textplot_str(S.ImaginaryUnit, -1, 1)) == lines)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baae7425390da415","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["list(textplot_str(S.ImaginaryUnit, -1, 1)) == lines"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_imaginary():
     x = Symbol('x')
     lines = [

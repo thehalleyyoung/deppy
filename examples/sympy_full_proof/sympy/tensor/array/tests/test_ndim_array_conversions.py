@@ -21,16 +21,24 @@ from sympy.abc import x, y, z
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_NDim_array_conv(), test_NDim_array_conv produces the expected output) over Any ║
+# ║ Path(test_NDim_array_conv(), MD.as_immutable() == ID and MD.as_mutable() == MD and MS.as_immutable() == IS and MS.as_mutable() == MS and ID.as_immutable() == ID and ID.as_mutable() == MD and IS.as_immutable() == IS and IS.as_mutable() == MS) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_NDim_array_conv : Any → {Any | MD.as_immutable()...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  MD.as_immutable() == ID                        ║
+# ║   ensures:  MD.as_mutable() == MD                          ║
+# ║   ensures:  MS.as_immutable() == IS                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_NDim_array_conv : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 199c10f6d9473359  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05ced2de68af104f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_ndim_array_conversions.test_NDim_array_conv","kind":"function","src_hash":"18903a4b742a8dee","in":{"base":"Any"},"out":{"base":"Any","pred":"MD.as_immutable() == ID and MD.as_mutable() == MD and MS.as_immutable() == IS and MS.as_mutable() == MS and ID.as_immutable() == ID and ID.as_mutable() == MD and IS.as_immutable() == IS and IS.as_mutable() == MS"},"spec":{"lhs":"test_NDim_array_conv()","rhs":"test_NDim_array_conv produces the expected output","over":{"base":"Any"},"name":"test_NDim_array_conv_correct"},"guarantee":"test_NDim_array_conv produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_ndim_array_conversions.test_NDim_array_conv_correct","statement":"Path(test_NDim_array_conv(x), test_NDim_array_conv produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"199c10f6d9473359"}
+# @cctt_verify {"v":2,"sym":"sympy.tensor.array.tests.test_ndim_array_conversions.test_NDim_array_conv","kind":"function","src_hash":"18903a4b742a8dee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: MD.as_immutable() == ID and MD.as_mutable() == MD and MS.as_immutable() == IS and MS.as_mutable() == MS and ID.as_immutable() == ID and ID.as_mutable() == MD and IS.as_immutable() == IS and IS.as_mutable() == MS"},"spec":{"lhs":"test_NDim_array_conv()","rhs":"MD.as_immutable() == ID and MD.as_mutable() == MD and MS.as_immutable() == IS and MS.as_mutable() == MS and ID.as_immutable() == ID and ID.as_mutable() == MD and IS.as_immutable() == IS and IS.as_mutable() == MS","over":{"base":"Any"},"name":"test_NDim_array_conv_correct"},"guarantee":"MD.as_immutable() == ID; MD.as_mutable() == MD; MS.as_immutable() == IS","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.tensor.array.tests.test_ndim_array_conversions.test_NDim_array_conv_correct","statement":"Path(test_NDim_array_conv(x), MD.as_immutable() == ID; MD.as_mutable() == MD; MS.as_immutable() == IS)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05ced2de68af104f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["MD.as_immutable() == ID","MD.as_mutable() == MD","MS.as_immutable() == IS","MS.as_mutable() == MS","ID.as_immutable() == ID","ID.as_mutable() == MD","IS.as_immutable() == IS","IS.as_mutable() == MS"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_NDim_array_conv():
     MD = MutableDenseNDimArray([x, y, z])
     MS = MutableSparseNDimArray([x, y, z])

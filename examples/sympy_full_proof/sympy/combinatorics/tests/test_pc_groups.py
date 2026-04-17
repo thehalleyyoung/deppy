@@ -20,16 +20,22 @@ from sympy.combinatorics.named_groups import SymmetricGroup, AlternatingGroup, D
 from sympy.matrices import Matrix
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_pc_presentation(), test_pc_presentation produces the expected output) over Any ║
+# ║ Path(test_pc_presentation(), <unspecified:test_pc_presentation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_pc_presentation : Any → {Any | lhs == rhs and lh...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f19fa6b3f16ff9f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_pc_groups.test_pc_presentation","kind":"function","src_hash":"09dc9dfc437107dd","in":{"base":"Any"},"out":{"base":"Any","pred":"lhs == rhs and lhs.is_identity"},"spec":{"lhs":"test_pc_presentation()","rhs":"test_pc_presentation produces the expected output","over":{"base":"Any"},"name":"test_pc_presentation_correct"},"guarantee":"test_pc_presentation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_pc_groups.test_pc_presentation_correct","statement":"Path(test_pc_presentation(x), test_pc_presentation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f19fa6b3f16ff9f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_pc_groups.test_pc_presentation","kind":"function","src_hash":"09dc9dfc437107dd","in":{"base":"Any"},"out":{"base":"Any","pred":"lhs == rhs and lhs.is_identity"},"spec":{"lhs":"test_pc_presentation()","rhs":"<unspecified:test_pc_presentation>","over":{"base":"Any"},"name":"test_pc_presentation_correct"},"guarantee":"test_pc_presentation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_pc_groups.test_pc_presentation_correct","statement":"Path(test_pc_presentation(x), test_pc_presentation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f19fa6b3f16ff9f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_pc_presentation():
     Groups = [SymmetricGroup(3), SymmetricGroup(4), SymmetricGroup(9).sylow_subgroup(3),
          SymmetricGroup(9).sylow_subgroup(2), SymmetricGroup(8).sylow_subgroup(2), DihedralGroup(10)]
@@ -81,16 +87,22 @@ def test_pc_presentation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exponent_vector(), test_exponent_vector produces the expected output) over Any ║
+# ║ Path(test_exponent_vector(), <unspecified:test_exponent_vector>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_exponent_vector : Any → {Any | g == gen}              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4e1cea87d26bdee4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_pc_groups.test_exponent_vector","kind":"function","src_hash":"9053229355fb3373","in":{"base":"Any"},"out":{"base":"Any","pred":"g == gen"},"spec":{"lhs":"test_exponent_vector()","rhs":"test_exponent_vector produces the expected output","over":{"base":"Any"},"name":"test_exponent_vector_correct"},"guarantee":"test_exponent_vector produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_pc_groups.test_exponent_vector_correct","statement":"Path(test_exponent_vector(x), test_exponent_vector produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e1cea87d26bdee4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_pc_groups.test_exponent_vector","kind":"function","src_hash":"9053229355fb3373","in":{"base":"Any"},"out":{"base":"Any","pred":"g == gen"},"spec":{"lhs":"test_exponent_vector()","rhs":"<unspecified:test_exponent_vector>","over":{"base":"Any"},"name":"test_exponent_vector_correct"},"guarantee":"test_exponent_vector produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_pc_groups.test_exponent_vector_correct","statement":"Path(test_exponent_vector(x), test_exponent_vector produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4e1cea87d26bdee4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_exponent_vector():
 
     Groups = [SymmetricGroup(3), SymmetricGroup(4), SymmetricGroup(9).sylow_subgroup(3),
@@ -112,16 +124,22 @@ def test_exponent_vector():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_induced_pcgs(), test_induced_pcgs produces the expected output) over Any ║
+# ║ Path(test_induced_pcgs(), <unspecified:test_induced_pcgs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_induced_pcgs : Any → {Any | Matrix(m).is_upper}       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a2f26985a1707b86  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_pc_groups.test_induced_pcgs","kind":"function","src_hash":"131bf8bbb3d2135d","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix(m).is_upper"},"spec":{"lhs":"test_induced_pcgs()","rhs":"test_induced_pcgs produces the expected output","over":{"base":"Any"},"name":"test_induced_pcgs_correct"},"guarantee":"test_induced_pcgs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_pc_groups.test_induced_pcgs_correct","statement":"Path(test_induced_pcgs(x), test_induced_pcgs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2f26985a1707b86"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.tests.test_pc_groups.test_induced_pcgs","kind":"function","src_hash":"131bf8bbb3d2135d","in":{"base":"Any"},"out":{"base":"Any","pred":"Matrix(m).is_upper"},"spec":{"lhs":"test_induced_pcgs()","rhs":"<unspecified:test_induced_pcgs>","over":{"base":"Any"},"name":"test_induced_pcgs_correct"},"guarantee":"test_induced_pcgs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.tests.test_pc_groups.test_induced_pcgs_correct","statement":"Path(test_induced_pcgs(x), test_induced_pcgs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a2f26985a1707b86","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_induced_pcgs():
     G = [SymmetricGroup(9).sylow_subgroup(3), SymmetricGroup(20).sylow_subgroup(2), AlternatingGroup(4),
     DihedralGroup(4), DihedralGroup(10), DihedralGroup(9), SymmetricGroup(3), SymmetricGroup(4)]

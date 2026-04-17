@@ -31,9 +31,15 @@ from sympy.core.relational import Equality
 from sympy.core.symbol import Wild
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_preprocess(exp), prepare expr for solving by making sure that differentiation is done so that only func remains in unevaluated derivatives and (if hint does not end with _integral) that doit is applied to all other de) over {Any | isinstance(expr, Pow)} ║
+# ║ Path(_preprocess(expr, func, hint), len(funcs) == old_len_funcs - 1) over {Any | isinstance(expr, Pow) and hasattr(expr, 'atoms') and hasattr(func, 'args') and hasattr(expr, 'subs') and hasattr(expr, 'exp') and hasattr(expr, 'base') and hasattr(hint, 'endswith') and len(funcs) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _preprocess : {Any | isinstance(expr, Pow)} → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'atoms')                         ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   ensures:  len(funcs) == old_len_funcs - 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _preprocess : {Any | isinstance(expr, Pow) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Pow: {isinstance(expr, Pow)} → library_axiom             ║
@@ -43,9 +49,12 @@ from sympy.core.symbol import Wild
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 2d6b85b1...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.deutils._preprocess","kind":"function","src_hash":"e96afd04300d2253","in":{"base":"Any","pred":"isinstance(expr, Pow)"},"out":{"base":"Any"},"spec":{"lhs":"_preprocess(exp)","rhs":"prepare expr for solving by making sure that differentiation is done so that only func remains in unevaluated derivatives and (if hint does not end with _integral) that doit is applied to all other de","over":{"base":"Any","pred":"isinstance(expr, Pow)"},"name":"_preprocess_correct"},"guarantee":"prepare expr for solving by making sure that differentiation is done so that only func remains in unevaluated derivatives and (if hint does not end with _integral) that doit is applied to all other de","fibers":[{"name":"Pow","pred":"isinstance(expr, Pow)","path":{"lhs":"_preprocess(x)","rhs":"prepare expr for solving by making sure that differentiation is done so that only func remains in unevaluated derivatives and (if hint does not end with _integral) that doit is applied to all other de","over":{"base":"Pow","pred":"isinstance(expr, Pow)"},"name":"_preprocess_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.deutils._preprocess_Pow_correct","statement":"_preprocess satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2d6b85b1dcc0635d"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.deutils._preprocess","kind":"function","src_hash":"e96afd04300d2253","in":{"base":"Any","pred":"isinstance(expr, Pow) and hasattr(expr, 'atoms') and hasattr(func, 'args') and hasattr(expr, 'subs') and hasattr(expr, 'exp') and hasattr(expr, 'base') and hasattr(hint, 'endswith') and len(funcs) > 0"},"out":{"base":"Any","pred":"result satisfies: len(funcs) == old_len_funcs - 1"},"spec":{"lhs":"_preprocess(expr, func, hint)","rhs":"len(funcs) == old_len_funcs - 1","over":{"base":"Any","pred":"isinstance(expr, Pow) and hasattr(expr, 'atoms') and hasattr(func, 'args') and hasattr(expr, 'subs') and hasattr(expr, 'exp') and hasattr(expr, 'base') and hasattr(hint, 'endswith') and len(funcs) > 0"},"name":"_preprocess_correct"},"guarantee":"len(funcs) == old_len_funcs - 1","fibers":[{"name":"Pow","pred":"isinstance(expr, Pow)","path":{"lhs":"_preprocess(x)","rhs":"len(funcs) == old_len_funcs - 1","over":{"base":"Pow","pred":"isinstance(expr, Pow)"},"name":"_preprocess_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.deutils._preprocess_Pow_correct","statement":"_preprocess satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"2d6b85b1dcc0635d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'atoms')","hasattr(func, 'args')","hasattr(expr, 'subs')","hasattr(expr, 'exp')","hasattr(expr, 'base')","hasattr(hint, 'endswith')","len(funcs) > 0"],"ensures":["len(funcs) == old_len_funcs - 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.atoms","expr.base","expr.exp","expr.subs","func.args","hint.endswith"],"calls_mutating":["funcs.pop"],"raises":["ValueError"]},"state_contract":{"modifies":["funcs.*"],"old_bindings":{"old_len_funcs":"len(funcs)"},"pre_requires":["len(funcs) > 0"],"post_ensures":["len(funcs) == old_len_funcs - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'hint is None', 'isinstance(expr, Pow)', 'len(funcs) != 1'}, fibers={'Pow'})"]}}
 def _preprocess(expr, func=None, hint='_Integral'):
     """Prepare expr for solving by making sure that differentiation
     is done so that only func remains in unevaluated derivatives and
@@ -125,9 +134,15 @@ def _preprocess(expr, func=None, hint='_Integral'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ode_order(exp), returns the order of a given differential equation with respect to func) over {Any | isinstance(expr, Derivative)} ║
+# ║ Path(ode_order(expr, func), # HINT: ode_order may be idempotent: ode_order(ode_order(x)) == ode_order(x)) over {Any | isinstance(expr, Derivative) and hasattr(expr, 'match') and hasattr(expr, 'args') and hasattr(expr, 'variables')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ode_order : {Any | isinstance(expr, Derivative)} → Any     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'match')                         ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   requires: hasattr(expr, 'variables')                     ║
+# ║   ensures:  # HINT: ode_order may be idempotent: ode_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ode_order : {Any | isinstance(expr, Derivative) and h...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Derivative: {isinstance(expr, Derivative)} → librar...   ║
@@ -137,9 +152,12 @@ def _preprocess(expr, func=None, hint='_Integral'):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 9e414f90...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.deutils.ode_order","kind":"function","src_hash":"766ee3af4ce2f451","in":{"base":"Any","pred":"isinstance(expr, Derivative)"},"out":{"base":"Any"},"spec":{"lhs":"ode_order(exp)","rhs":"returns the order of a given differential equation with respect to func","over":{"base":"Any","pred":"isinstance(expr, Derivative)"},"name":"ode_order_correct"},"guarantee":"returns the order of a given differential equation with respect to func","fibers":[{"name":"Derivative","pred":"isinstance(expr, Derivative)","path":{"lhs":"ode_order(x)","rhs":"returns the order of a given differential equation with respect to func","over":{"base":"Derivative","pred":"isinstance(expr, Derivative)"},"name":"ode_order_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.deutils.ode_order_Derivative_correct","statement":"ode_order satisfies spec on Derivative inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9e414f906e684890"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.deutils.ode_order","kind":"function","src_hash":"766ee3af4ce2f451","in":{"base":"Any","pred":"isinstance(expr, Derivative) and hasattr(expr, 'match') and hasattr(expr, 'args') and hasattr(expr, 'variables')"},"out":{"base":"Any","pred":"result satisfies: # HINT: ode_order may be idempotent: ode_order(ode_order(x)) == ode_order(x)"},"spec":{"lhs":"ode_order(expr, func)","rhs":"# HINT: ode_order may be idempotent: ode_order(ode_order(x)) == ode_order(x)","over":{"base":"Any","pred":"isinstance(expr, Derivative) and hasattr(expr, 'match') and hasattr(expr, 'args') and hasattr(expr, 'variables')"},"name":"ode_order_correct"},"guarantee":"# HINT: ode_order may be idempotent: ode_order(ode_order(x)) == ode_order(x)","fibers":[{"name":"Derivative","pred":"isinstance(expr, Derivative)","path":{"lhs":"ode_order(x)","rhs":"# HINT: ode_order may be idempotent: ode_order(ode_order(x)) == ode_order(x)","over":{"base":"Derivative","pred":"isinstance(expr, Derivative)"},"name":"ode_order_Derivative_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.deutils.ode_order_Derivative_correct","statement":"ode_order satisfies spec on Derivative inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"9e414f906e684890","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'match')","hasattr(expr, 'args')","hasattr(expr, 'variables')"],"ensures":["# HINT: ode_order may be idempotent: ode_order(ode_order(x)) == ode_order(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args","expr.match","expr.variables"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'expr.args[0] == func', 'isinstance(expr, Derivative)'}, fibers={'Derivative'})"]}}
 def ode_order(expr, func):
     """
     Returns the order of a given differential
@@ -181,9 +199,14 @@ def ode_order(expr, func):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_desolve(eq,), this is a helper function to dsolve and pdsolve in the ode and pde modules) over {Any | isinstance(eq, Equality)} ║
+# ║ Path(_desolve(eq, func, hint), # HINT: _desolve may be idempotent: _desolve(_desolve(x)) == _desolve(x)) over {Any | isinstance(eq, Equality) and hasattr(eq, 'lhs') and hasattr(eq, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _desolve : {Any | isinstance(eq, Equality)} → Any          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(eq, 'lhs')                             ║
+# ║   requires: hasattr(eq, 'rhs')                             ║
+# ║   ensures:  # HINT: _desolve may be idempotent: _deso...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _desolve : {Any | isinstance(eq, Equality) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Equality: {isinstance(eq, Equality)} → library_axiom     ║
@@ -193,9 +216,12 @@ def ode_order(expr, func):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 6ee92670...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.deutils._desolve","kind":"function","src_hash":"c9077b84cfbb6b9d","in":{"base":"Any","pred":"isinstance(eq, Equality)"},"out":{"base":"Any"},"spec":{"lhs":"_desolve(eq,)","rhs":"this is a helper function to dsolve and pdsolve in the ode and pde modules","over":{"base":"Any","pred":"isinstance(eq, Equality)"},"name":"_desolve_correct"},"guarantee":"this is a helper function to dsolve and pdsolve in the ode and pde modules","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"_desolve(x)","rhs":"this is a helper function to dsolve and pdsolve in the ode and pde modules","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"_desolve_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.deutils._desolve_Equality_correct","statement":"_desolve satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6ee926706e842810"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.deutils._desolve","kind":"function","src_hash":"c9077b84cfbb6b9d","in":{"base":"Any","pred":"isinstance(eq, Equality) and hasattr(eq, 'lhs') and hasattr(eq, 'rhs')"},"out":{"base":"Any","pred":"result satisfies: # HINT: _desolve may be idempotent: _desolve(_desolve(x)) == _desolve(x)"},"spec":{"lhs":"_desolve(eq, func, hint)","rhs":"# HINT: _desolve may be idempotent: _desolve(_desolve(x)) == _desolve(x)","over":{"base":"Any","pred":"isinstance(eq, Equality) and hasattr(eq, 'lhs') and hasattr(eq, 'rhs')"},"name":"_desolve_correct"},"guarantee":"# HINT: _desolve may be idempotent: _desolve(_desolve(x)) == _desolve(x)","fibers":[{"name":"Equality","pred":"isinstance(eq, Equality)","path":{"lhs":"_desolve(x)","rhs":"# HINT: _desolve may be idempotent: _desolve(_desolve(x)) == _desolve(x)","over":{"base":"Equality","pred":"isinstance(eq, Equality)"},"name":"_desolve_Equality_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.deutils._desolve_Equality_correct","statement":"_desolve satisfies spec on Equality inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"6ee926706e842810","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(eq, 'lhs')","hasattr(eq, 'rhs')"],"ensures":["# HINT: _desolve may be idempotent: _desolve(_desolve(x)) == _desolve(x)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["eq.lhs","eq.rhs"],"calls_mutating":["gethints.remove","hints.update"],"raises":["NotImplementedError","ValueError"]},"state_contract":{"modifies":["gethints.*","hints.*"],"old_bindings":{"old_len_hints":"len(hints)"},"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"failed","binding":false,"binding_errors":["Param mismatch: code=['eq', 'func', 'hint', 'ics', 'simplify'], spec=['eq', 'func', 'hint', 'ics', 'simplify', 'prep', '**kwargs']","Poor branch-fiber coverage: 0% (branches={'prep or func is None', \"type == 'ode'\", 'isinstance(eq, Equality)', \"hint not in allhints and hint != 'default'\", \"hint == 'all_Integral'\", \"hint not in hints['ordered_hints'] and hint != 'default'\", \"hints['order'] == 0\", \"hint == 'default'\", \"type == 'pde'\"}, fibers={'Equality'})"]}}
 def _desolve(eq, func=None, hint="default", ics=None, simplify=True, *, prep=True, **kwargs):
     """This is a helper function to dsolve and pdsolve in the ode
     and pde modules.

@@ -38,14 +38,20 @@ from sympy.utilities.exceptions import (sympy_deprecation_warning,
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AssumptionKeys(*args), correctly constructs a AssumptionKeys instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AssumptionKeys : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1d6f8915628c679f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys","kind":"class","src_hash":"bac57a58157b8a4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AssumptionKeys(*args)","rhs":"correctly constructs a AssumptionKeys instance","over":{"base":"Any"},"name":"AssumptionKeys_class_invariant"},"guarantee":"correctly constructs a AssumptionKeys instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d6f8915628c679f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys","kind":"class","src_hash":"bac57a58157b8a4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AssumptionKeys(*args)","rhs":"correctly constructs a AssumptionKeys instance","over":{"base":"Any"},"name":"AssumptionKeys_class_invariant"},"guarantee":"correctly constructs a AssumptionKeys instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1d6f8915628c679f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function AssumptionKeys not found in source"]}}
 class AssumptionKeys:
     """
     This class contains all the supported keys by ``ask``.
@@ -59,896 +65,1232 @@ class AssumptionKeys:
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(hermitian(), hermitian produces the expected output) over Any ║
+# ║ Path(hermitian(), HermitianPredicate()) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  HermitianPredicate()                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ hermitian : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8f3e40696769a57d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 98ed05d1a98540bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.hermitian","kind":"method","src_hash":"2b1497ea6a3b98c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hermitian()","rhs":"hermitian produces the expected output","over":{"base":"Any"},"name":"hermitian_correct"},"guarantee":"hermitian produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.hermitian_correct","statement":"Path(hermitian(x), hermitian produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8f3e40696769a57d"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.hermitian","kind":"method","src_hash":"2b1497ea6a3b98c0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"hermitian()","rhs":"HermitianPredicate()","over":{"base":"Any"},"name":"hermitian_correct"},"guarantee":"returns HermitianPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.hermitian_correct","statement":"Path(hermitian(x), returns HermitianPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"98ed05d1a98540bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"HermitianPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def hermitian(self):
         from .handlers.sets import HermitianPredicate
         return HermitianPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(antihermitian(), antihermitian produces the expected output) over Any ║
+# ║ Path(antihermitian(), AntihermitianPredicate()) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  AntihermitianPredicate()                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ antihermitian : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55386e9994e4c691  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3075be4149b7760  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.antihermitian","kind":"method","src_hash":"8aae5380ee91a2f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"antihermitian()","rhs":"antihermitian produces the expected output","over":{"base":"Any"},"name":"antihermitian_correct"},"guarantee":"antihermitian produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.antihermitian_correct","statement":"Path(antihermitian(x), antihermitian produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55386e9994e4c691"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.antihermitian","kind":"method","src_hash":"8aae5380ee91a2f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"antihermitian()","rhs":"AntihermitianPredicate()","over":{"base":"Any"},"name":"antihermitian_correct"},"guarantee":"returns AntihermitianPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.antihermitian_correct","statement":"Path(antihermitian(x), returns AntihermitianPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3075be4149b7760","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"AntihermitianPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def antihermitian(self):
         from .handlers.sets import AntihermitianPredicate
         return AntihermitianPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(real(), real produces the expected output) over Any   ║
+# ║ Path(real(), RealPredicate()) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RealPredicate()                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ real : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c50cbdb71ca2878c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0359fcffad85171e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.real","kind":"method","src_hash":"7486fed9c9630cd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"real()","rhs":"real produces the expected output","over":{"base":"Any"},"name":"real_correct"},"guarantee":"real produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.real_correct","statement":"Path(real(x), real produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c50cbdb71ca2878c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.real","kind":"method","src_hash":"7486fed9c9630cd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"real()","rhs":"RealPredicate()","over":{"base":"Any"},"name":"real_correct"},"guarantee":"returns RealPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.real_correct","statement":"Path(real(x), returns RealPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0359fcffad85171e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RealPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def real(self):
         from .handlers.sets import RealPredicate
         return RealPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extended_real(), extended_real produces the expected output) over Any ║
+# ║ Path(extended_real(), ExtendedRealPredicate()) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ExtendedRealPredicate()                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extended_real : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dea5e2df1227a886  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f35f426b874d0173  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.extended_real","kind":"method","src_hash":"468069848daab422","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extended_real()","rhs":"extended_real produces the expected output","over":{"base":"Any"},"name":"extended_real_correct"},"guarantee":"extended_real produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.extended_real_correct","statement":"Path(extended_real(x), extended_real produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dea5e2df1227a886"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.extended_real","kind":"method","src_hash":"468069848daab422","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extended_real()","rhs":"ExtendedRealPredicate()","over":{"base":"Any"},"name":"extended_real_correct"},"guarantee":"returns ExtendedRealPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.extended_real_correct","statement":"Path(extended_real(x), returns ExtendedRealPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f35f426b874d0173","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ExtendedRealPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extended_real(self):
         from .handlers.sets import ExtendedRealPredicate
         return ExtendedRealPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(imaginary(), imaginary produces the expected output) over Any ║
+# ║ Path(imaginary(), ImaginaryPredicate()) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ImaginaryPredicate()                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ imaginary : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2710e788d9bdbb5f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87fdc9739ea896c9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.imaginary","kind":"method","src_hash":"6f3508852624cfdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"imaginary()","rhs":"imaginary produces the expected output","over":{"base":"Any"},"name":"imaginary_correct"},"guarantee":"imaginary produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.imaginary_correct","statement":"Path(imaginary(x), imaginary produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2710e788d9bdbb5f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.imaginary","kind":"method","src_hash":"6f3508852624cfdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"imaginary()","rhs":"ImaginaryPredicate()","over":{"base":"Any"},"name":"imaginary_correct"},"guarantee":"returns ImaginaryPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.imaginary_correct","statement":"Path(imaginary(x), returns ImaginaryPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87fdc9739ea896c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ImaginaryPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def imaginary(self):
         from .handlers.sets import ImaginaryPredicate
         return ImaginaryPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(complex(), complex produces the expected output) over Any ║
+# ║ Path(complex(), ComplexPredicate()) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ComplexPredicate()                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ complex : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 47edfbcab3f52b7d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27a5f90ab5899dd6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.complex","kind":"method","src_hash":"b6b3ccbcd7a02e54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"complex()","rhs":"complex produces the expected output","over":{"base":"Any"},"name":"complex_correct"},"guarantee":"complex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.complex_correct","statement":"Path(complex(x), complex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"47edfbcab3f52b7d"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.complex","kind":"method","src_hash":"b6b3ccbcd7a02e54","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"complex()","rhs":"ComplexPredicate()","over":{"base":"Any"},"name":"complex_correct"},"guarantee":"returns ComplexPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.complex_correct","statement":"Path(complex(x), returns ComplexPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27a5f90ab5899dd6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ComplexPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def complex(self):
         from .handlers.sets import ComplexPredicate
         return ComplexPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(algebraic(), algebraic produces the expected output) over Any ║
+# ║ Path(algebraic(), AlgebraicPredicate()) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  AlgebraicPredicate()                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ algebraic : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9ced5d86b1affd7f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5feba2a5ef229ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.algebraic","kind":"method","src_hash":"e0af55f0351159f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"algebraic()","rhs":"algebraic produces the expected output","over":{"base":"Any"},"name":"algebraic_correct"},"guarantee":"algebraic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.algebraic_correct","statement":"Path(algebraic(x), algebraic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9ced5d86b1affd7f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.algebraic","kind":"method","src_hash":"e0af55f0351159f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"algebraic()","rhs":"AlgebraicPredicate()","over":{"base":"Any"},"name":"algebraic_correct"},"guarantee":"returns AlgebraicPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.algebraic_correct","statement":"Path(algebraic(x), returns AlgebraicPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5feba2a5ef229ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"AlgebraicPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def algebraic(self):
         from .handlers.sets import AlgebraicPredicate
         return AlgebraicPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transcendental(), transcendental produces the expected output) over Any ║
+# ║ Path(transcendental(), TranscendentalPredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TranscendentalPredicate()                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ transcendental : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | adbcf204ca5dba3c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 22a9dcbfe09f9df3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.transcendental","kind":"method","src_hash":"ccf4b7f09d1fde04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transcendental()","rhs":"transcendental produces the expected output","over":{"base":"Any"},"name":"transcendental_correct"},"guarantee":"transcendental produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.transcendental_correct","statement":"Path(transcendental(x), transcendental produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"adbcf204ca5dba3c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.transcendental","kind":"method","src_hash":"ccf4b7f09d1fde04","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transcendental()","rhs":"TranscendentalPredicate()","over":{"base":"Any"},"name":"transcendental_correct"},"guarantee":"returns TranscendentalPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.transcendental_correct","statement":"Path(transcendental(x), returns TranscendentalPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"22a9dcbfe09f9df3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TranscendentalPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transcendental(self):
         from .predicates.sets import TranscendentalPredicate
         return TranscendentalPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integer(), integer produces the expected output) over Any ║
+# ║ Path(integer(), IntegerPredicate()) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  IntegerPredicate()                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ integer : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 465fa0b28ec73d52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52a5364fcfa73fdf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.integer","kind":"method","src_hash":"2d7f33fed6219f9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integer()","rhs":"integer produces the expected output","over":{"base":"Any"},"name":"integer_correct"},"guarantee":"integer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.integer_correct","statement":"Path(integer(x), integer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"465fa0b28ec73d52"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.integer","kind":"method","src_hash":"2d7f33fed6219f9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integer()","rhs":"IntegerPredicate()","over":{"base":"Any"},"name":"integer_correct"},"guarantee":"returns IntegerPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.integer_correct","statement":"Path(integer(x), returns IntegerPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52a5364fcfa73fdf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"IntegerPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def integer(self):
         from .handlers.sets import IntegerPredicate
         return IntegerPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(noninteger(), noninteger produces the expected output) over Any ║
+# ║ Path(noninteger(), NonIntegerPredicate()) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  NonIntegerPredicate()                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ noninteger : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aace2e2d73c4f170  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fadcedec8331714  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.noninteger","kind":"method","src_hash":"985aed52cd282e85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"noninteger()","rhs":"noninteger produces the expected output","over":{"base":"Any"},"name":"noninteger_correct"},"guarantee":"noninteger produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.noninteger_correct","statement":"Path(noninteger(x), noninteger produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aace2e2d73c4f170"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.noninteger","kind":"method","src_hash":"985aed52cd282e85","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"noninteger()","rhs":"NonIntegerPredicate()","over":{"base":"Any"},"name":"noninteger_correct"},"guarantee":"returns NonIntegerPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.noninteger_correct","statement":"Path(noninteger(x), returns NonIntegerPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fadcedec8331714","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"NonIntegerPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def noninteger(self):
         from .predicates.sets import NonIntegerPredicate
         return NonIntegerPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(rational(), rational produces the expected output) over Any ║
+# ║ Path(rational(), RationalPredicate()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RationalPredicate()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ rational : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cf91ef93d3cb26e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 874b90ddd1719a60  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.rational","kind":"method","src_hash":"691065f45d893f7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rational()","rhs":"rational produces the expected output","over":{"base":"Any"},"name":"rational_correct"},"guarantee":"rational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.rational_correct","statement":"Path(rational(x), rational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cf91ef93d3cb26e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.rational","kind":"method","src_hash":"691065f45d893f7e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"rational()","rhs":"RationalPredicate()","over":{"base":"Any"},"name":"rational_correct"},"guarantee":"returns RationalPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.rational_correct","statement":"Path(rational(x), returns RationalPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"874b90ddd1719a60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RationalPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def rational(self):
         from .handlers.sets import RationalPredicate
         return RationalPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(irrational(), irrational produces the expected output) over Any ║
+# ║ Path(irrational(), IrrationalPredicate()) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  IrrationalPredicate()                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ irrational : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 150fcb4d9e29fae4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd95e3d99cc0a32c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.irrational","kind":"method","src_hash":"b84cac73c2f76ff8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"irrational()","rhs":"irrational produces the expected output","over":{"base":"Any"},"name":"irrational_correct"},"guarantee":"irrational produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.irrational_correct","statement":"Path(irrational(x), irrational produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"150fcb4d9e29fae4"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.irrational","kind":"method","src_hash":"b84cac73c2f76ff8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"irrational()","rhs":"IrrationalPredicate()","over":{"base":"Any"},"name":"irrational_correct"},"guarantee":"returns IrrationalPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.irrational_correct","statement":"Path(irrational(x), returns IrrationalPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd95e3d99cc0a32c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"IrrationalPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def irrational(self):
         from .handlers.sets import IrrationalPredicate
         return IrrationalPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(finite(), finite produces the expected output) over Any ║
+# ║ Path(finite(), FinitePredicate()) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FinitePredicate()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ finite : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b11aa0517e22f436  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b41fd606ad6937d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.finite","kind":"method","src_hash":"a93584d9eae39cdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"finite()","rhs":"finite produces the expected output","over":{"base":"Any"},"name":"finite_correct"},"guarantee":"finite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.finite_correct","statement":"Path(finite(x), finite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b11aa0517e22f436"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.finite","kind":"method","src_hash":"a93584d9eae39cdf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"finite()","rhs":"FinitePredicate()","over":{"base":"Any"},"name":"finite_correct"},"guarantee":"returns FinitePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.finite_correct","statement":"Path(finite(x), returns FinitePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b41fd606ad6937d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FinitePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def finite(self):
         from .handlers.calculus import FinitePredicate
         return FinitePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(infinite(), infinite produces the expected output) over Any ║
+# ║ Path(infinite(), InfinitePredicate()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  InfinitePredicate()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ infinite : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32c0ace0d04c96f5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c620708984c113e9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.infinite","kind":"method","src_hash":"4015ece8e325646c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"infinite()","rhs":"infinite produces the expected output","over":{"base":"Any"},"name":"infinite_correct"},"guarantee":"infinite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.infinite_correct","statement":"Path(infinite(x), infinite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32c0ace0d04c96f5"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.infinite","kind":"method","src_hash":"4015ece8e325646c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"infinite()","rhs":"InfinitePredicate()","over":{"base":"Any"},"name":"infinite_correct"},"guarantee":"returns InfinitePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.infinite_correct","statement":"Path(infinite(x), returns InfinitePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c620708984c113e9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"InfinitePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def infinite(self):
         from .handlers.calculus import InfinitePredicate
         return InfinitePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(positive_infinite(), positive_infinite produces the expected output) over Any ║
+# ║ Path(positive_infinite(), PositiveInfinitePredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PositiveInfinitePredicate()                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ positive_infinite : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 070d48761cf69833  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31369848dcc3ac0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.positive_infinite","kind":"method","src_hash":"5253c5a33dbc3b0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"positive_infinite()","rhs":"positive_infinite produces the expected output","over":{"base":"Any"},"name":"positive_infinite_correct"},"guarantee":"positive_infinite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.positive_infinite_correct","statement":"Path(positive_infinite(x), positive_infinite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"070d48761cf69833"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.positive_infinite","kind":"method","src_hash":"5253c5a33dbc3b0e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"positive_infinite()","rhs":"PositiveInfinitePredicate()","over":{"base":"Any"},"name":"positive_infinite_correct"},"guarantee":"returns PositiveInfinitePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.positive_infinite_correct","statement":"Path(positive_infinite(x), returns PositiveInfinitePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31369848dcc3ac0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PositiveInfinitePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def positive_infinite(self):
         from .handlers.calculus import PositiveInfinitePredicate
         return PositiveInfinitePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(negative_infinite(), negative_infinite produces the expected output) over Any ║
+# ║ Path(negative_infinite(), NegativeInfinitePredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  NegativeInfinitePredicate()                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ negative_infinite : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80ad44c73b5daaee  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 38ea1a58b4da1f96  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.negative_infinite","kind":"method","src_hash":"5bac7112ed41ea8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negative_infinite()","rhs":"negative_infinite produces the expected output","over":{"base":"Any"},"name":"negative_infinite_correct"},"guarantee":"negative_infinite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.negative_infinite_correct","statement":"Path(negative_infinite(x), negative_infinite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80ad44c73b5daaee"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.negative_infinite","kind":"method","src_hash":"5bac7112ed41ea8b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negative_infinite()","rhs":"NegativeInfinitePredicate()","over":{"base":"Any"},"name":"negative_infinite_correct"},"guarantee":"returns NegativeInfinitePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.negative_infinite_correct","statement":"Path(negative_infinite(x), returns NegativeInfinitePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"38ea1a58b4da1f96","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"NegativeInfinitePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def negative_infinite(self):
         from .handlers.calculus import NegativeInfinitePredicate
         return NegativeInfinitePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(positive(), positive produces the expected output) over Any ║
+# ║ Path(positive(), PositivePredicate()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PositivePredicate()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ positive : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c70c2731495c341e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d4711758bbbd56ee  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.positive","kind":"method","src_hash":"231dd1edf807adb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"positive()","rhs":"positive produces the expected output","over":{"base":"Any"},"name":"positive_correct"},"guarantee":"positive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.positive_correct","statement":"Path(positive(x), positive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c70c2731495c341e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.positive","kind":"method","src_hash":"231dd1edf807adb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"positive()","rhs":"PositivePredicate()","over":{"base":"Any"},"name":"positive_correct"},"guarantee":"returns PositivePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.positive_correct","statement":"Path(positive(x), returns PositivePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d4711758bbbd56ee","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PositivePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def positive(self):
         from .handlers.order import PositivePredicate
         return PositivePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(negative(), negative produces the expected output) over Any ║
+# ║ Path(negative(), NegativePredicate()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  NegativePredicate()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ negative : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c9929e93cf1ae358  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18bc44a2f668b444  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.negative","kind":"method","src_hash":"786c96d30e62c146","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negative()","rhs":"negative produces the expected output","over":{"base":"Any"},"name":"negative_correct"},"guarantee":"negative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.negative_correct","statement":"Path(negative(x), negative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c9929e93cf1ae358"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.negative","kind":"method","src_hash":"786c96d30e62c146","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"negative()","rhs":"NegativePredicate()","over":{"base":"Any"},"name":"negative_correct"},"guarantee":"returns NegativePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.negative_correct","statement":"Path(negative(x), returns NegativePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18bc44a2f668b444","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"NegativePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def negative(self):
         from .handlers.order import NegativePredicate
         return NegativePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zero(), zero produces the expected output) over Any   ║
+# ║ Path(zero(), ZeroPredicate()) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ZeroPredicate()                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zero : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2e03ade7726c6f3f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb928758d84960f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.zero","kind":"method","src_hash":"7b5ca7c987ace183","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero()","rhs":"zero produces the expected output","over":{"base":"Any"},"name":"zero_correct"},"guarantee":"zero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.zero_correct","statement":"Path(zero(x), zero produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2e03ade7726c6f3f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.zero","kind":"method","src_hash":"7b5ca7c987ace183","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zero()","rhs":"ZeroPredicate()","over":{"base":"Any"},"name":"zero_correct"},"guarantee":"returns ZeroPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.zero_correct","statement":"Path(zero(x), returns ZeroPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb928758d84960f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ZeroPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zero(self):
         from .handlers.order import ZeroPredicate
         return ZeroPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extended_positive(), extended_positive produces the expected output) over Any ║
+# ║ Path(extended_positive(), ExtendedPositivePredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ExtendedPositivePredicate()                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extended_positive : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 089f6ef58557cee7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50be30ce76a9f933  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.extended_positive","kind":"method","src_hash":"eb7181b62370f996","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extended_positive()","rhs":"extended_positive produces the expected output","over":{"base":"Any"},"name":"extended_positive_correct"},"guarantee":"extended_positive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.extended_positive_correct","statement":"Path(extended_positive(x), extended_positive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"089f6ef58557cee7"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.extended_positive","kind":"method","src_hash":"eb7181b62370f996","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extended_positive()","rhs":"ExtendedPositivePredicate()","over":{"base":"Any"},"name":"extended_positive_correct"},"guarantee":"returns ExtendedPositivePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.extended_positive_correct","statement":"Path(extended_positive(x), returns ExtendedPositivePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50be30ce76a9f933","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ExtendedPositivePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extended_positive(self):
         from .handlers.order import ExtendedPositivePredicate
         return ExtendedPositivePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extended_negative(), extended_negative produces the expected output) over Any ║
+# ║ Path(extended_negative(), ExtendedNegativePredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ExtendedNegativePredicate()                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extended_negative : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 85c369f8430c908f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 128736c2b62e801c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.extended_negative","kind":"method","src_hash":"56f81dc7c71441c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extended_negative()","rhs":"extended_negative produces the expected output","over":{"base":"Any"},"name":"extended_negative_correct"},"guarantee":"extended_negative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.extended_negative_correct","statement":"Path(extended_negative(x), extended_negative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"85c369f8430c908f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.extended_negative","kind":"method","src_hash":"56f81dc7c71441c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extended_negative()","rhs":"ExtendedNegativePredicate()","over":{"base":"Any"},"name":"extended_negative_correct"},"guarantee":"returns ExtendedNegativePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.extended_negative_correct","statement":"Path(extended_negative(x), returns ExtendedNegativePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"128736c2b62e801c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ExtendedNegativePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extended_negative(self):
         from .handlers.order import ExtendedNegativePredicate
         return ExtendedNegativePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nonzero(), nonzero produces the expected output) over Any ║
+# ║ Path(nonzero(), NonZeroPredicate()) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  NonZeroPredicate()                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nonzero : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b71a01a1aacad49b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52c0d26998d28c6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.nonzero","kind":"method","src_hash":"bf2e2c0b0070b6f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nonzero()","rhs":"nonzero produces the expected output","over":{"base":"Any"},"name":"nonzero_correct"},"guarantee":"nonzero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.nonzero_correct","statement":"Path(nonzero(x), nonzero produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b71a01a1aacad49b"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.nonzero","kind":"method","src_hash":"bf2e2c0b0070b6f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nonzero()","rhs":"NonZeroPredicate()","over":{"base":"Any"},"name":"nonzero_correct"},"guarantee":"returns NonZeroPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.nonzero_correct","statement":"Path(nonzero(x), returns NonZeroPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52c0d26998d28c6d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"NonZeroPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nonzero(self):
         from .handlers.order import NonZeroPredicate
         return NonZeroPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nonpositive(), nonpositive produces the expected output) over Any ║
+# ║ Path(nonpositive(), NonPositivePredicate()) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  NonPositivePredicate()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nonpositive : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe0f0236980888a5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6877e538674be072  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.nonpositive","kind":"method","src_hash":"05144cde598004eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nonpositive()","rhs":"nonpositive produces the expected output","over":{"base":"Any"},"name":"nonpositive_correct"},"guarantee":"nonpositive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.nonpositive_correct","statement":"Path(nonpositive(x), nonpositive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe0f0236980888a5"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.nonpositive","kind":"method","src_hash":"05144cde598004eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nonpositive()","rhs":"NonPositivePredicate()","over":{"base":"Any"},"name":"nonpositive_correct"},"guarantee":"returns NonPositivePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.nonpositive_correct","statement":"Path(nonpositive(x), returns NonPositivePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6877e538674be072","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"NonPositivePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nonpositive(self):
         from .handlers.order import NonPositivePredicate
         return NonPositivePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(nonnegative(), nonnegative produces the expected output) over Any ║
+# ║ Path(nonnegative(), NonNegativePredicate()) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  NonNegativePredicate()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ nonnegative : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a8cfcdf17696f83  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c0bb30f12ade23bc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.nonnegative","kind":"method","src_hash":"9ac0d5520d2309e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nonnegative()","rhs":"nonnegative produces the expected output","over":{"base":"Any"},"name":"nonnegative_correct"},"guarantee":"nonnegative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.nonnegative_correct","statement":"Path(nonnegative(x), nonnegative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a8cfcdf17696f83"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.nonnegative","kind":"method","src_hash":"9ac0d5520d2309e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"nonnegative()","rhs":"NonNegativePredicate()","over":{"base":"Any"},"name":"nonnegative_correct"},"guarantee":"returns NonNegativePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.nonnegative_correct","statement":"Path(nonnegative(x), returns NonNegativePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c0bb30f12ade23bc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"NonNegativePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def nonnegative(self):
         from .handlers.order import NonNegativePredicate
         return NonNegativePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extended_nonzero(), extended_nonzero produces the expected output) over Any ║
+# ║ Path(extended_nonzero(), ExtendedNonZeroPredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ExtendedNonZeroPredicate()                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extended_nonzero : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | db911c554df58b74  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d40f197eb743733c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.extended_nonzero","kind":"method","src_hash":"faa922bc8c33b1dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extended_nonzero()","rhs":"extended_nonzero produces the expected output","over":{"base":"Any"},"name":"extended_nonzero_correct"},"guarantee":"extended_nonzero produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.extended_nonzero_correct","statement":"Path(extended_nonzero(x), extended_nonzero produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"db911c554df58b74"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.extended_nonzero","kind":"method","src_hash":"faa922bc8c33b1dd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extended_nonzero()","rhs":"ExtendedNonZeroPredicate()","over":{"base":"Any"},"name":"extended_nonzero_correct"},"guarantee":"returns ExtendedNonZeroPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.extended_nonzero_correct","statement":"Path(extended_nonzero(x), returns ExtendedNonZeroPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d40f197eb743733c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ExtendedNonZeroPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extended_nonzero(self):
         from .handlers.order import ExtendedNonZeroPredicate
         return ExtendedNonZeroPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extended_nonpositive(), extended_nonpositive produces the expected output) over Any ║
+# ║ Path(extended_nonpositive(), ExtendedNonPositivePredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ExtendedNonPositivePredicate()                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extended_nonpositive : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f9485b990e5f814  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 265d67fb326ab477  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.extended_nonpositive","kind":"method","src_hash":"1f357191a323ce82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extended_nonpositive()","rhs":"extended_nonpositive produces the expected output","over":{"base":"Any"},"name":"extended_nonpositive_correct"},"guarantee":"extended_nonpositive produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.extended_nonpositive_correct","statement":"Path(extended_nonpositive(x), extended_nonpositive produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f9485b990e5f814"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.extended_nonpositive","kind":"method","src_hash":"1f357191a323ce82","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extended_nonpositive()","rhs":"ExtendedNonPositivePredicate()","over":{"base":"Any"},"name":"extended_nonpositive_correct"},"guarantee":"returns ExtendedNonPositivePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.extended_nonpositive_correct","statement":"Path(extended_nonpositive(x), returns ExtendedNonPositivePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"265d67fb326ab477","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ExtendedNonPositivePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extended_nonpositive(self):
         from .handlers.order import ExtendedNonPositivePredicate
         return ExtendedNonPositivePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(extended_nonnegative(), extended_nonnegative produces the expected output) over Any ║
+# ║ Path(extended_nonnegative(), ExtendedNonNegativePredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ExtendedNonNegativePredicate()                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ extended_nonnegative : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cd579d3f4bee4549  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 30d48ae351d4fe6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.extended_nonnegative","kind":"method","src_hash":"79813e0b08b3e6bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extended_nonnegative()","rhs":"extended_nonnegative produces the expected output","over":{"base":"Any"},"name":"extended_nonnegative_correct"},"guarantee":"extended_nonnegative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.extended_nonnegative_correct","statement":"Path(extended_nonnegative(x), extended_nonnegative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cd579d3f4bee4549"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.extended_nonnegative","kind":"method","src_hash":"79813e0b08b3e6bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"extended_nonnegative()","rhs":"ExtendedNonNegativePredicate()","over":{"base":"Any"},"name":"extended_nonnegative_correct"},"guarantee":"returns ExtendedNonNegativePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.extended_nonnegative_correct","statement":"Path(extended_nonnegative(x), returns ExtendedNonNegativePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"30d48ae351d4fe6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ExtendedNonNegativePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def extended_nonnegative(self):
         from .handlers.order import ExtendedNonNegativePredicate
         return ExtendedNonNegativePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(even(), even produces the expected output) over Any   ║
+# ║ Path(even(), EvenPredicate()) over Any                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  EvenPredicate()                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ even : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d1aacc283a59f81  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63fbb8658d534135  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.even","kind":"method","src_hash":"ae8a84daefc287b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"even()","rhs":"even produces the expected output","over":{"base":"Any"},"name":"even_correct"},"guarantee":"even produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.even_correct","statement":"Path(even(x), even produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d1aacc283a59f81"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.even","kind":"method","src_hash":"ae8a84daefc287b4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"even()","rhs":"EvenPredicate()","over":{"base":"Any"},"name":"even_correct"},"guarantee":"returns EvenPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.even_correct","statement":"Path(even(x), returns EvenPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63fbb8658d534135","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"EvenPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def even(self):
         from .handlers.ntheory import EvenPredicate
         return EvenPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(odd(), odd produces the expected output) over Any     ║
+# ║ Path(odd(), OddPredicate()) over Any                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  OddPredicate()                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ odd : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cabbb2e982d93945  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52feaaac49e0b10b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.odd","kind":"method","src_hash":"9eecb47216d50480","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"odd()","rhs":"odd produces the expected output","over":{"base":"Any"},"name":"odd_correct"},"guarantee":"odd produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.odd_correct","statement":"Path(odd(x), odd produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cabbb2e982d93945"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.odd","kind":"method","src_hash":"9eecb47216d50480","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"odd()","rhs":"OddPredicate()","over":{"base":"Any"},"name":"odd_correct"},"guarantee":"returns OddPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.odd_correct","statement":"Path(odd(x), returns OddPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52feaaac49e0b10b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"OddPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def odd(self):
         from .handlers.ntheory import OddPredicate
         return OddPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(prime(), prime produces the expected output) over Any ║
+# ║ Path(prime(), PrimePredicate()) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PrimePredicate()                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ prime : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e843847e3c3b65f8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 817ced5f91d94e11  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.prime","kind":"method","src_hash":"c7ee73a66206201f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prime()","rhs":"prime produces the expected output","over":{"base":"Any"},"name":"prime_correct"},"guarantee":"prime produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.prime_correct","statement":"Path(prime(x), prime produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e843847e3c3b65f8"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.prime","kind":"method","src_hash":"c7ee73a66206201f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"prime()","rhs":"PrimePredicate()","over":{"base":"Any"},"name":"prime_correct"},"guarantee":"returns PrimePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.prime_correct","statement":"Path(prime(x), returns PrimePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"817ced5f91d94e11","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PrimePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def prime(self):
         from .handlers.ntheory import PrimePredicate
         return PrimePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(composite(), composite produces the expected output) over Any ║
+# ║ Path(composite(), CompositePredicate()) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  CompositePredicate()                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ composite : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5cbbc5b9a6ccf165  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 255b76e5539fb116  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.composite","kind":"method","src_hash":"18e9a691269a864d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"composite()","rhs":"composite produces the expected output","over":{"base":"Any"},"name":"composite_correct"},"guarantee":"composite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.composite_correct","statement":"Path(composite(x), composite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5cbbc5b9a6ccf165"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.composite","kind":"method","src_hash":"18e9a691269a864d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"composite()","rhs":"CompositePredicate()","over":{"base":"Any"},"name":"composite_correct"},"guarantee":"returns CompositePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.composite_correct","statement":"Path(composite(x), returns CompositePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"255b76e5539fb116","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"CompositePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def composite(self):
         from .handlers.ntheory import CompositePredicate
         return CompositePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(commutative(), commutative produces the expected output) over Any ║
+# ║ Path(commutative(), CommutativePredicate()) over Any       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  CommutativePredicate()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ commutative : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f647f80da04198e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cf186fe8d84ecf36  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.commutative","kind":"method","src_hash":"09af0bcee1e5ce08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"commutative()","rhs":"commutative produces the expected output","over":{"base":"Any"},"name":"commutative_correct"},"guarantee":"commutative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.commutative_correct","statement":"Path(commutative(x), commutative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f647f80da04198e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.commutative","kind":"method","src_hash":"09af0bcee1e5ce08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"commutative()","rhs":"CommutativePredicate()","over":{"base":"Any"},"name":"commutative_correct"},"guarantee":"returns CommutativePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.commutative_correct","statement":"Path(commutative(x), returns CommutativePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cf186fe8d84ecf36","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"CommutativePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def commutative(self):
         from .handlers.common import CommutativePredicate
         return CommutativePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_true(), is_true produces the expected output) over Any ║
+# ║ Path(is_true(), IsTruePredicate()) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  IsTruePredicate()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_true : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 705b81fe3c100ce6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da5d5c9f4db6d13d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.is_true","kind":"method","src_hash":"16d4e8b2c1b5812e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_true()","rhs":"is_true produces the expected output","over":{"base":"Any"},"name":"is_true_correct"},"guarantee":"is_true produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.is_true_correct","statement":"Path(is_true(x), is_true produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"705b81fe3c100ce6"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.is_true","kind":"method","src_hash":"16d4e8b2c1b5812e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_true()","rhs":"IsTruePredicate()","over":{"base":"Any"},"name":"is_true_correct"},"guarantee":"returns IsTruePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.is_true_correct","statement":"Path(is_true(x), returns IsTruePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da5d5c9f4db6d13d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"IsTruePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_true(self):
         from .handlers.common import IsTruePredicate
         return IsTruePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(symmetric(), symmetric produces the expected output) over Any ║
+# ║ Path(symmetric(), SymmetricPredicate()) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SymmetricPredicate()                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ symmetric : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dde71c57f98c37d3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53517f34e0c7af0e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.symmetric","kind":"method","src_hash":"ce8ab3f3cd62ec38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetric()","rhs":"symmetric produces the expected output","over":{"base":"Any"},"name":"symmetric_correct"},"guarantee":"symmetric produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.symmetric_correct","statement":"Path(symmetric(x), symmetric produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dde71c57f98c37d3"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.symmetric","kind":"method","src_hash":"ce8ab3f3cd62ec38","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"symmetric()","rhs":"SymmetricPredicate()","over":{"base":"Any"},"name":"symmetric_correct"},"guarantee":"returns SymmetricPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.symmetric_correct","statement":"Path(symmetric(x), returns SymmetricPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53517f34e0c7af0e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SymmetricPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def symmetric(self):
         from .handlers.matrices import SymmetricPredicate
         return SymmetricPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(invertible(), invertible produces the expected output) over Any ║
+# ║ Path(invertible(), InvertiblePredicate()) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  InvertiblePredicate()                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ invertible : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b2273a778a7bf325  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c08f8ac7b6fd350c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.invertible","kind":"method","src_hash":"ec88998fac5f7cf3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"invertible()","rhs":"invertible produces the expected output","over":{"base":"Any"},"name":"invertible_correct"},"guarantee":"invertible produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.invertible_correct","statement":"Path(invertible(x), invertible produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b2273a778a7bf325"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.invertible","kind":"method","src_hash":"ec88998fac5f7cf3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"invertible()","rhs":"InvertiblePredicate()","over":{"base":"Any"},"name":"invertible_correct"},"guarantee":"returns InvertiblePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.invertible_correct","statement":"Path(invertible(x), returns InvertiblePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c08f8ac7b6fd350c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"InvertiblePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def invertible(self):
         from .handlers.matrices import InvertiblePredicate
         return InvertiblePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orthogonal(), orthogonal produces the expected output) over Any ║
+# ║ Path(orthogonal(), OrthogonalPredicate()) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  OrthogonalPredicate()                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ orthogonal : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 89bda463d8e7ff3c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | eb17ae69aa5bcb49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.orthogonal","kind":"method","src_hash":"160c167995afd89f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orthogonal()","rhs":"orthogonal produces the expected output","over":{"base":"Any"},"name":"orthogonal_correct"},"guarantee":"orthogonal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.orthogonal_correct","statement":"Path(orthogonal(x), orthogonal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"89bda463d8e7ff3c"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.orthogonal","kind":"method","src_hash":"160c167995afd89f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orthogonal()","rhs":"OrthogonalPredicate()","over":{"base":"Any"},"name":"orthogonal_correct"},"guarantee":"returns OrthogonalPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.orthogonal_correct","statement":"Path(orthogonal(x), returns OrthogonalPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"eb17ae69aa5bcb49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"OrthogonalPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orthogonal(self):
         from .handlers.matrices import OrthogonalPredicate
         return OrthogonalPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unitary(), unitary produces the expected output) over Any ║
+# ║ Path(unitary(), UnitaryPredicate()) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  UnitaryPredicate()                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unitary : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0bd8c01268473da  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af674578cc4c1c3d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.unitary","kind":"method","src_hash":"0f1ee7be2192ea33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unitary()","rhs":"unitary produces the expected output","over":{"base":"Any"},"name":"unitary_correct"},"guarantee":"unitary produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.unitary_correct","statement":"Path(unitary(x), unitary produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0bd8c01268473da"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.unitary","kind":"method","src_hash":"0f1ee7be2192ea33","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unitary()","rhs":"UnitaryPredicate()","over":{"base":"Any"},"name":"unitary_correct"},"guarantee":"returns UnitaryPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.unitary_correct","statement":"Path(unitary(x), returns UnitaryPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af674578cc4c1c3d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"UnitaryPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unitary(self):
         from .handlers.matrices import UnitaryPredicate
         return UnitaryPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(positive_definite(), positive_definite produces the expected output) over Any ║
+# ║ Path(positive_definite(), PositiveDefinitePredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PositiveDefinitePredicate()                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ positive_definite : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 39b067e9b1b43ede  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f6a445423e9a7fd2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.positive_definite","kind":"method","src_hash":"5b681e42a424c8d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"positive_definite()","rhs":"positive_definite produces the expected output","over":{"base":"Any"},"name":"positive_definite_correct"},"guarantee":"positive_definite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.positive_definite_correct","statement":"Path(positive_definite(x), positive_definite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"39b067e9b1b43ede"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.positive_definite","kind":"method","src_hash":"5b681e42a424c8d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"positive_definite()","rhs":"PositiveDefinitePredicate()","over":{"base":"Any"},"name":"positive_definite_correct"},"guarantee":"returns PositiveDefinitePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.positive_definite_correct","statement":"Path(positive_definite(x), returns PositiveDefinitePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f6a445423e9a7fd2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PositiveDefinitePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def positive_definite(self):
         from .handlers.matrices import PositiveDefinitePredicate
         return PositiveDefinitePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(upper_triangular(), upper_triangular produces the expected output) over Any ║
+# ║ Path(upper_triangular(), UpperTriangularPredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  UpperTriangularPredicate()                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ upper_triangular : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6591bd84ebe633ea  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f0bf0eedc3a07a94  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.upper_triangular","kind":"method","src_hash":"6653482dfa06bcc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upper_triangular()","rhs":"upper_triangular produces the expected output","over":{"base":"Any"},"name":"upper_triangular_correct"},"guarantee":"upper_triangular produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.upper_triangular_correct","statement":"Path(upper_triangular(x), upper_triangular produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6591bd84ebe633ea"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.upper_triangular","kind":"method","src_hash":"6653482dfa06bcc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"upper_triangular()","rhs":"UpperTriangularPredicate()","over":{"base":"Any"},"name":"upper_triangular_correct"},"guarantee":"returns UpperTriangularPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.upper_triangular_correct","statement":"Path(upper_triangular(x), returns UpperTriangularPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f0bf0eedc3a07a94","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"UpperTriangularPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def upper_triangular(self):
         from .handlers.matrices import UpperTriangularPredicate
         return UpperTriangularPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lower_triangular(), lower_triangular produces the expected output) over Any ║
+# ║ Path(lower_triangular(), LowerTriangularPredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  LowerTriangularPredicate()                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lower_triangular : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6b3ac676f0de5d1f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 087e963df3b9ed73  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.lower_triangular","kind":"method","src_hash":"e57dd7328652db77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower_triangular()","rhs":"lower_triangular produces the expected output","over":{"base":"Any"},"name":"lower_triangular_correct"},"guarantee":"lower_triangular produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.lower_triangular_correct","statement":"Path(lower_triangular(x), lower_triangular produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6b3ac676f0de5d1f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.lower_triangular","kind":"method","src_hash":"e57dd7328652db77","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower_triangular()","rhs":"LowerTriangularPredicate()","over":{"base":"Any"},"name":"lower_triangular_correct"},"guarantee":"returns LowerTriangularPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.lower_triangular_correct","statement":"Path(lower_triangular(x), returns LowerTriangularPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"087e963df3b9ed73","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"LowerTriangularPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lower_triangular(self):
         from .handlers.matrices import LowerTriangularPredicate
         return LowerTriangularPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(diagonal(), diagonal produces the expected output) over Any ║
+# ║ Path(diagonal(), DiagonalPredicate()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  DiagonalPredicate()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ diagonal : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 08ca0b32dfa1f1ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c2e498908ce1d10  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.diagonal","kind":"method","src_hash":"28f82ae2145e424f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diagonal()","rhs":"diagonal produces the expected output","over":{"base":"Any"},"name":"diagonal_correct"},"guarantee":"diagonal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.diagonal_correct","statement":"Path(diagonal(x), diagonal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"08ca0b32dfa1f1ff"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.diagonal","kind":"method","src_hash":"28f82ae2145e424f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"diagonal()","rhs":"DiagonalPredicate()","over":{"base":"Any"},"name":"diagonal_correct"},"guarantee":"returns DiagonalPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.diagonal_correct","statement":"Path(diagonal(x), returns DiagonalPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c2e498908ce1d10","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"DiagonalPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def diagonal(self):
         from .handlers.matrices import DiagonalPredicate
         return DiagonalPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(fullrank(), fullrank produces the expected output) over Any ║
+# ║ Path(fullrank(), FullRankPredicate()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  FullRankPredicate()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ fullrank : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 309be151accf3a28  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fe1d62769e2f6624  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.fullrank","kind":"method","src_hash":"2b21e65e306ef554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fullrank()","rhs":"fullrank produces the expected output","over":{"base":"Any"},"name":"fullrank_correct"},"guarantee":"fullrank produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.fullrank_correct","statement":"Path(fullrank(x), fullrank produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"309be151accf3a28"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.fullrank","kind":"method","src_hash":"2b21e65e306ef554","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"fullrank()","rhs":"FullRankPredicate()","over":{"base":"Any"},"name":"fullrank_correct"},"guarantee":"returns FullRankPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.fullrank_correct","statement":"Path(fullrank(x), returns FullRankPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fe1d62769e2f6624","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"FullRankPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def fullrank(self):
         from .handlers.matrices import FullRankPredicate
         return FullRankPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(square(), square produces the expected output) over Any ║
+# ║ Path(square(), SquarePredicate()) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SquarePredicate()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ square : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 83732839a97fa2a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f327ca48a58de8e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.square","kind":"method","src_hash":"9b59e905cf8e97eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"square()","rhs":"square produces the expected output","over":{"base":"Any"},"name":"square_correct"},"guarantee":"square produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.square_correct","statement":"Path(square(x), square produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"83732839a97fa2a2"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.square","kind":"method","src_hash":"9b59e905cf8e97eb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"square()","rhs":"SquarePredicate()","over":{"base":"Any"},"name":"square_correct"},"guarantee":"returns SquarePredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.square_correct","statement":"Path(square(x), returns SquarePredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f327ca48a58de8e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SquarePredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def square(self):
         from .handlers.matrices import SquarePredicate
         return SquarePredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(integer_elements(), integer_elements produces the expected output) over Any ║
+# ║ Path(integer_elements(), IntegerElementsPredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  IntegerElementsPredicate()                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ integer_elements : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8474fd37f83a6915  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c9f33b60ebd05f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.integer_elements","kind":"method","src_hash":"2e3d90f15e112487","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integer_elements()","rhs":"integer_elements produces the expected output","over":{"base":"Any"},"name":"integer_elements_correct"},"guarantee":"integer_elements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.integer_elements_correct","statement":"Path(integer_elements(x), integer_elements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8474fd37f83a6915"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.integer_elements","kind":"method","src_hash":"2e3d90f15e112487","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"integer_elements()","rhs":"IntegerElementsPredicate()","over":{"base":"Any"},"name":"integer_elements_correct"},"guarantee":"returns IntegerElementsPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.integer_elements_correct","statement":"Path(integer_elements(x), returns IntegerElementsPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c9f33b60ebd05f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"IntegerElementsPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def integer_elements(self):
         from .handlers.matrices import IntegerElementsPredicate
         return IntegerElementsPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(real_elements(), real_elements produces the expected output) over Any ║
+# ║ Path(real_elements(), RealElementsPredicate()) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  RealElementsPredicate()                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ real_elements : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9aea1044795eb067  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 088f207ba6dae1b8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.real_elements","kind":"method","src_hash":"ca0d630697c2e0bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"real_elements()","rhs":"real_elements produces the expected output","over":{"base":"Any"},"name":"real_elements_correct"},"guarantee":"real_elements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.real_elements_correct","statement":"Path(real_elements(x), real_elements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9aea1044795eb067"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.real_elements","kind":"method","src_hash":"ca0d630697c2e0bb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"real_elements()","rhs":"RealElementsPredicate()","over":{"base":"Any"},"name":"real_elements_correct"},"guarantee":"returns RealElementsPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.real_elements_correct","statement":"Path(real_elements(x), returns RealElementsPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"088f207ba6dae1b8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"RealElementsPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def real_elements(self):
         from .handlers.matrices import RealElementsPredicate
         return RealElementsPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(complex_elements(), complex_elements produces the expected output) over Any ║
+# ║ Path(complex_elements(), ComplexElementsPredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  ComplexElementsPredicate()                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ complex_elements : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fb51e7e8e0eb9d4d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d62af9d3f5a675c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.complex_elements","kind":"method","src_hash":"50add83aaa0f185b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"complex_elements()","rhs":"complex_elements produces the expected output","over":{"base":"Any"},"name":"complex_elements_correct"},"guarantee":"complex_elements produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.complex_elements_correct","statement":"Path(complex_elements(x), complex_elements produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fb51e7e8e0eb9d4d"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.complex_elements","kind":"method","src_hash":"50add83aaa0f185b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"complex_elements()","rhs":"ComplexElementsPredicate()","over":{"base":"Any"},"name":"complex_elements_correct"},"guarantee":"returns ComplexElementsPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.complex_elements_correct","statement":"Path(complex_elements(x), returns ComplexElementsPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d62af9d3f5a675c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"ComplexElementsPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def complex_elements(self):
         from .handlers.matrices import ComplexElementsPredicate
         return ComplexElementsPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(singular(), singular produces the expected output) over Any ║
+# ║ Path(singular(), SingularPredicate()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  SingularPredicate()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ singular : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52f62894f5133d86  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | da3504d5adba3424  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.singular","kind":"method","src_hash":"2b16f320edff1f50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"singular()","rhs":"singular produces the expected output","over":{"base":"Any"},"name":"singular_correct"},"guarantee":"singular produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.singular_correct","statement":"Path(singular(x), singular produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52f62894f5133d86"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.singular","kind":"method","src_hash":"2b16f320edff1f50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"singular()","rhs":"SingularPredicate()","over":{"base":"Any"},"name":"singular_correct"},"guarantee":"returns SingularPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.singular_correct","statement":"Path(singular(x), returns SingularPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"da3504d5adba3424","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"SingularPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def singular(self):
         from .predicates.matrices import SingularPredicate
         return SingularPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normal(), normal produces the expected output) over Any ║
+# ║ Path(normal(), NormalPredicate()) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  NormalPredicate()                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ normal : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bd4847c60ca71d95  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6e8c5305e573134a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.normal","kind":"method","src_hash":"341f44572fafc0d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normal()","rhs":"normal produces the expected output","over":{"base":"Any"},"name":"normal_correct"},"guarantee":"normal produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.normal_correct","statement":"Path(normal(x), normal produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bd4847c60ca71d95"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.normal","kind":"method","src_hash":"341f44572fafc0d6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normal()","rhs":"NormalPredicate()","over":{"base":"Any"},"name":"normal_correct"},"guarantee":"returns NormalPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.normal_correct","statement":"Path(normal(x), returns NormalPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6e8c5305e573134a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"NormalPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normal(self):
         from .predicates.matrices import NormalPredicate
         return NormalPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(triangular(), triangular produces the expected output) over Any ║
+# ║ Path(triangular(), TriangularPredicate()) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  TriangularPredicate()                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ triangular : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e3b21db880584ade  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1df4addc8a2bfe33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.triangular","kind":"method","src_hash":"c84abdbfbf6da9f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"triangular()","rhs":"triangular produces the expected output","over":{"base":"Any"},"name":"triangular_correct"},"guarantee":"triangular produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.triangular_correct","statement":"Path(triangular(x), triangular produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e3b21db880584ade"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.triangular","kind":"method","src_hash":"c84abdbfbf6da9f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"triangular()","rhs":"TriangularPredicate()","over":{"base":"Any"},"name":"triangular_correct"},"guarantee":"returns TriangularPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.triangular_correct","statement":"Path(triangular(x), returns TriangularPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1df4addc8a2bfe33","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"TriangularPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def triangular(self):
         from .predicates.matrices import TriangularPredicate
         return TriangularPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(unit_triangular(), unit_triangular produces the expected output) over Any ║
+# ║ Path(unit_triangular(), UnitTriangularPredicate()) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  UnitTriangularPredicate()                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ unit_triangular : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 37aa668f16600d0a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8168cc50a2126923  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.unit_triangular","kind":"method","src_hash":"a003b5fb67d0454f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unit_triangular()","rhs":"unit_triangular produces the expected output","over":{"base":"Any"},"name":"unit_triangular_correct"},"guarantee":"unit_triangular produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.unit_triangular_correct","statement":"Path(unit_triangular(x), unit_triangular produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"37aa668f16600d0a"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.unit_triangular","kind":"method","src_hash":"a003b5fb67d0454f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"unit_triangular()","rhs":"UnitTriangularPredicate()","over":{"base":"Any"},"name":"unit_triangular_correct"},"guarantee":"returns UnitTriangularPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.unit_triangular_correct","statement":"Path(unit_triangular(x), returns UnitTriangularPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8168cc50a2126923","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"UnitTriangularPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def unit_triangular(self):
         from .predicates.matrices import UnitTriangularPredicate
         return UnitTriangularPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(eq(), eq produces the expected output) over Any       ║
+# ║ Path(eq(), EqualityPredicate()) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  EqualityPredicate()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ eq : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9be218905851151b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea68f024e665d9f8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.eq","kind":"method","src_hash":"692d97d3e86f32f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eq()","rhs":"eq produces the expected output","over":{"base":"Any"},"name":"eq_correct"},"guarantee":"eq produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.eq_correct","statement":"Path(eq(x), eq produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9be218905851151b"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.eq","kind":"method","src_hash":"692d97d3e86f32f6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"eq()","rhs":"EqualityPredicate()","over":{"base":"Any"},"name":"eq_correct"},"guarantee":"returns EqualityPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.eq_correct","statement":"Path(eq(x), returns EqualityPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea68f024e665d9f8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"EqualityPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def eq(self):
         from .relation.equality import EqualityPredicate
         return EqualityPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ne(), ne produces the expected output) over Any       ║
+# ║ Path(ne(), UnequalityPredicate()) over Any                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  UnequalityPredicate()                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ne : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1f37fcc0b27e6aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 739606d67ea9b5d8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.ne","kind":"method","src_hash":"b6a299f6ef3e10cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ne()","rhs":"ne produces the expected output","over":{"base":"Any"},"name":"ne_correct"},"guarantee":"ne produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.ne_correct","statement":"Path(ne(x), ne produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1f37fcc0b27e6aa"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.ne","kind":"method","src_hash":"b6a299f6ef3e10cb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ne()","rhs":"UnequalityPredicate()","over":{"base":"Any"},"name":"ne_correct"},"guarantee":"returns UnequalityPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.ne_correct","statement":"Path(ne(x), returns UnequalityPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"739606d67ea9b5d8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"UnequalityPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ne(self):
         from .relation.equality import UnequalityPredicate
         return UnequalityPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gt(), gt produces the expected output) over Any       ║
+# ║ Path(gt(), StrictGreaterThanPredicate()) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  StrictGreaterThanPredicate()                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gt : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1c57119b850e2a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59d66b50cd9409df  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.gt","kind":"method","src_hash":"0e49e9ef1c1eccc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gt()","rhs":"gt produces the expected output","over":{"base":"Any"},"name":"gt_correct"},"guarantee":"gt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.gt_correct","statement":"Path(gt(x), gt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1c57119b850e2a6"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.gt","kind":"method","src_hash":"0e49e9ef1c1eccc3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gt()","rhs":"StrictGreaterThanPredicate()","over":{"base":"Any"},"name":"gt_correct"},"guarantee":"returns StrictGreaterThanPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.gt_correct","statement":"Path(gt(x), returns StrictGreaterThanPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59d66b50cd9409df","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"StrictGreaterThanPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gt(self):
         from .relation.equality import StrictGreaterThanPredicate
         return StrictGreaterThanPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ge(), ge produces the expected output) over Any       ║
+# ║ Path(ge(), GreaterThanPredicate()) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  GreaterThanPredicate()                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ge : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fd3e1249e0b0b72  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba38d0cfd263eca1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.ge","kind":"method","src_hash":"795d37ef635aff53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ge()","rhs":"ge produces the expected output","over":{"base":"Any"},"name":"ge_correct"},"guarantee":"ge produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.ge_correct","statement":"Path(ge(x), ge produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fd3e1249e0b0b72"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.ge","kind":"method","src_hash":"795d37ef635aff53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ge()","rhs":"GreaterThanPredicate()","over":{"base":"Any"},"name":"ge_correct"},"guarantee":"returns GreaterThanPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.ge_correct","statement":"Path(ge(x), returns GreaterThanPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba38d0cfd263eca1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"GreaterThanPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def ge(self):
         from .relation.equality import GreaterThanPredicate
         return GreaterThanPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lt(), lt produces the expected output) over Any       ║
+# ║ Path(lt(), StrictLessThanPredicate()) over Any             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  StrictLessThanPredicate()                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lt : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 82ae28e7295b685f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b661a81b052ac161  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.lt","kind":"method","src_hash":"ec62cc50b06c7e3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lt()","rhs":"lt produces the expected output","over":{"base":"Any"},"name":"lt_correct"},"guarantee":"lt produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.lt_correct","statement":"Path(lt(x), lt produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"82ae28e7295b685f"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.lt","kind":"method","src_hash":"ec62cc50b06c7e3b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lt()","rhs":"StrictLessThanPredicate()","over":{"base":"Any"},"name":"lt_correct"},"guarantee":"returns StrictLessThanPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.lt_correct","statement":"Path(lt(x), returns StrictLessThanPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b661a81b052ac161","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"StrictLessThanPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lt(self):
         from .relation.equality import StrictLessThanPredicate
         return StrictLessThanPredicate()
 
     @memoize_property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(le(), le produces the expected output) over Any       ║
+# ║ Path(le(), LessThanPredicate()) over Any                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  LessThanPredicate()                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ le : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b15a5dc2a8a931cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0ca9c51054ad3257  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.le","kind":"method","src_hash":"39006e82090f33e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"le()","rhs":"le produces the expected output","over":{"base":"Any"},"name":"le_correct"},"guarantee":"le produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.le_correct","statement":"Path(le(x), le produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b15a5dc2a8a931cc"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.AssumptionKeys.le","kind":"method","src_hash":"39006e82090f33e5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"le()","rhs":"LessThanPredicate()","over":{"base":"Any"},"name":"le_correct"},"guarantee":"returns LessThanPredicate()","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.AssumptionKeys.le_correct","statement":"Path(le(x), returns LessThanPredicate())"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0ca9c51054ad3257","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"LessThanPredicate()","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def le(self):
         from .relation.equality import LessThanPredicate
         return LessThanPredicate()
@@ -957,7 +1299,11 @@ class AssumptionKeys:
 Q = AssumptionKeys()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_extract_all_facts(ass), extract all relevant assumptions from *assump* with respect to given *exprs*) over {Any | isinstance(literal.lit, AppliedPredicate)} ║
+# ║ Path(_extract_all_facts(assump, exprs), CNF(facts)) over {Any | isinstance(literal.lit, AppliedPredicate) and hasattr(assump, 'clauses')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(assump, 'clauses')                     ║
+# ║   returns:  CNF(facts)                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _extract_all_facts : {Any | isinstance(literal.lit, A...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -969,9 +1315,12 @@ Q = AssumptionKeys()
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.4ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | fe849714...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask._extract_all_facts","kind":"function","src_hash":"663cc9cc988c4710","in":{"base":"Any","pred":"isinstance(literal.lit, AppliedPredicate)"},"out":{"base":"Any"},"spec":{"lhs":"_extract_all_facts(ass)","rhs":"extract all relevant assumptions from *assump* with respect to given *exprs*","over":{"base":"Any","pred":"isinstance(literal.lit, AppliedPredicate)"},"name":"_extract_all_facts_correct"},"guarantee":"extract all relevant assumptions from *assump* with respect to given *exprs*","fibers":[{"name":"AppliedPredicate","pred":"isinstance(literal.lit, AppliedPredicate)","path":{"lhs":"_extract_all_facts(x)","rhs":"extract all relevant assumptions from *assump* with respect to given *exprs*","over":{"base":"AppliedPredicate","pred":"isinstance(literal.lit, AppliedPredicate)"},"name":"_extract_all_facts_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask._extract_all_facts_AppliedPredicate_correct","statement":"_extract_all_facts satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fe8497144cdac213"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask._extract_all_facts","kind":"function","src_hash":"663cc9cc988c4710","in":{"base":"Any","pred":"isinstance(literal.lit, AppliedPredicate) and hasattr(assump, 'clauses')"},"out":{"base":"Any"},"spec":{"lhs":"_extract_all_facts(assump, exprs)","rhs":"CNF(facts)","over":{"base":"Any","pred":"isinstance(literal.lit, AppliedPredicate) and hasattr(assump, 'clauses')"},"name":"_extract_all_facts_correct"},"guarantee":"returns CNF(facts)","fibers":[{"name":"AppliedPredicate","pred":"isinstance(literal.lit, AppliedPredicate)","path":{"lhs":"_extract_all_facts(x)","rhs":"returns CNF(facts)","over":{"base":"AppliedPredicate","pred":"isinstance(literal.lit, AppliedPredicate)"},"name":"_extract_all_facts_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask._extract_all_facts_AppliedPredicate_correct","statement":"_extract_all_facts satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"fe8497144cdac213","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(assump, 'clauses')"],"returns_expr":"CNF(facts)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(literal.lit, AppliedPredicate) and len(literal.lit.arguments) == 1'}, fibers={'AppliedPredicate'})"]}}
 def _extract_all_facts(assump, exprs):
     """
     Extract all relevant assumptions from *assump* with respect to given *exprs*.
@@ -1025,7 +1374,13 @@ def _extract_all_facts(assump, exprs):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ask(pro), function to evaluate the proposition with assumptions) over {Any | isinstance(proposition, AppliedPredicate) and isinstance(proposition, Predicate)} ║
+# ║ Path(ask(proposition, assumptions, context), <unspecified:ask>) over {Any | isinstance(proposition, AppliedPredicate) and isinstance(proposition, Predicate) and hasattr(proposition, 'kind') and hasattr(assumptions, 'kind') and hasattr(proposition, 'function') and hasattr(proposition, 'arguments') and hasattr(proposition, 'func') and hasattr(proposition, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(proposition, 'kind')                   ║
+# ║   requires: hasattr(assumptions, 'kind')                   ║
+# ║   requires: hasattr(proposition, 'function')               ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ ask : {Any | isinstance(proposition, AppliedPredicate...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1038,9 +1393,12 @@ def _extract_all_facts(assump, exprs):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 2.5ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 0cb0ec0b...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.ask","kind":"function","src_hash":"f80e9e644e84e4d0","in":{"base":"Any","pred":"isinstance(proposition, AppliedPredicate) and isinstance(proposition, Predicate)"},"out":{"base":"Any"},"spec":{"lhs":"ask(pro)","rhs":"function to evaluate the proposition with assumptions","over":{"base":"Any","pred":"isinstance(proposition, AppliedPredicate) and isinstance(proposition, Predicate)"},"name":"ask_correct"},"guarantee":"function to evaluate the proposition with assumptions","fibers":[{"name":"AppliedPredicate","pred":"isinstance(proposition, AppliedPredicate)","path":{"lhs":"ask(x)","rhs":"function to evaluate the proposition with assumptions","over":{"base":"AppliedPredicate","pred":"isinstance(proposition, AppliedPredicate)"},"name":"ask_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.ask_AppliedPredicate_correct","statement":"ask satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"},{"name":"Predicate","pred":"isinstance(proposition, Predicate)","path":{"lhs":"ask(x)","rhs":"function to evaluate the proposition with assumptions","over":{"base":"Predicate","pred":"isinstance(proposition, Predicate)"},"name":"ask_Predicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.ask_Predicate_correct","statement":"ask satisfies spec on Predicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0cb0ec0b1295dbf0"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.ask","kind":"function","src_hash":"f80e9e644e84e4d0","in":{"base":"Any","pred":"isinstance(proposition, AppliedPredicate) and isinstance(proposition, Predicate) and hasattr(proposition, 'kind') and hasattr(assumptions, 'kind') and hasattr(proposition, 'function') and hasattr(proposition, 'arguments') and hasattr(proposition, 'func') and hasattr(proposition, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"ask(proposition, assumptions, context)","rhs":"<unspecified:ask>","over":{"base":"Any","pred":"isinstance(proposition, AppliedPredicate) and isinstance(proposition, Predicate) and hasattr(proposition, 'kind') and hasattr(assumptions, 'kind') and hasattr(proposition, 'function') and hasattr(proposition, 'arguments') and hasattr(proposition, 'func') and hasattr(proposition, 'args')"},"name":"ask_correct"},"guarantee":"function to evaluate the proposition with assumptions","fibers":[{"name":"AppliedPredicate","pred":"isinstance(proposition, AppliedPredicate)","path":{"lhs":"ask(x)","rhs":"function to evaluate the proposition with assumptions","over":{"base":"AppliedPredicate","pred":"isinstance(proposition, AppliedPredicate)"},"name":"ask_AppliedPredicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.ask_AppliedPredicate_correct","statement":"ask satisfies spec on AppliedPredicate inputs"},"trust":"LIBRARY"},{"name":"Predicate","pred":"isinstance(proposition, Predicate)","path":{"lhs":"ask(x)","rhs":"function to evaluate the proposition with assumptions","over":{"base":"Predicate","pred":"isinstance(proposition, Predicate)"},"name":"ask_Predicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.ask_Predicate_correct","statement":"ask satisfies spec on Predicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"0cb0ec0b1295dbf0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(proposition, 'kind')","hasattr(assumptions, 'kind')","hasattr(proposition, 'function')","hasattr(proposition, 'arguments')","hasattr(proposition, 'func')","hasattr(proposition, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["assumptions.kind","proposition.args","proposition.arguments","proposition.func","proposition.function","proposition.kind"],"calls_mutating":["assump_cnf.extend"],"raises":["TypeError","ValueError"],"catches":["UnhandledInput"]},"state_contract":{"modifies":["assump_cnf.*"],"old_bindings":{"old_len_assump_cnf":"len(assump_cnf)"},"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.5,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(proposition, Predicate) or proposition.kind is not BooleanKind', 'isinstance(proposition, AppliedPredicate)', 'isinstance(assumptions, Predicate) or assumptions.kind is not BooleanKind'}, fibers={'AppliedPredicate', 'Predicate'})"]}}
 def ask(proposition, assumptions=True, context=global_assumptions):
     """
     Function to evaluate the proposition with assumptions.
@@ -1193,16 +1551,23 @@ def ask(proposition, assumptions=True, context=global_assumptions):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_ask_single_fact(key), compute the truth value of single predicate using assumptions) over Any ║
+# ║ Path(_ask_single_fact(key, local_facts), <unspecified:_ask_single_fact>) over {Any | hasattr(local_facts, 'clauses')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _ask_single_fact : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(local_facts, 'clauses')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _ask_single_fact : {Any | hasattr(local_facts, 'claus...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9382263745f4d79e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask._ask_single_fact","kind":"function","src_hash":"fbd248de430fcd9a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_ask_single_fact(key)","rhs":"compute the truth value of single predicate using assumptions","over":{"base":"Any"},"name":"_ask_single_fact_correct"},"guarantee":"compute the truth value of single predicate using assumptions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask._ask_single_fact_correct","statement":"Path(_ask_single_fact(x), compute the truth value of single predicate using assumptions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9382263745f4d79e"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask._ask_single_fact","kind":"function","src_hash":"fbd248de430fcd9a","in":{"base":"Any","pred":"hasattr(local_facts, 'clauses')"},"out":{"base":"Any"},"spec":{"lhs":"_ask_single_fact(key, local_facts)","rhs":"<unspecified:_ask_single_fact>","over":{"base":"Any","pred":"hasattr(local_facts, 'clauses')"},"name":"_ask_single_fact_correct"},"guarantee":"compute the truth value of single predicate using assumptions","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask._ask_single_fact_correct","statement":"Path(_ask_single_fact(x), compute the truth value of single predicate using assumptions)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9382263745f4d79e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(local_facts, 'clauses')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["local_facts.clauses"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _ask_single_fact(key, local_facts):
     """
     Compute the truth value of single predicate using assumptions.
@@ -1287,9 +1652,13 @@ def _ask_single_fact(key, local_facts):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(register_handler(key), register a handler in the ask system) over {Any | isinstance(key, Predicate)} ║
+# ║ Path(register_handler(key, handler), <unspecified:register_handler>) over {Any | isinstance(key, Predicate) and hasattr(key, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ register_handler : {Any | isinstance(key, Predicate)}...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(key, 'name')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ register_handler : {Any | isinstance(key, Predicate) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Predicate: {isinstance(key, Predicate)} → library_a...   ║
@@ -1299,9 +1668,12 @@ def _ask_single_fact(key, local_facts):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 047d2a31...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.register_handler","kind":"function","src_hash":"d25943d586df978a","in":{"base":"Any","pred":"isinstance(key, Predicate)"},"out":{"base":"Any"},"spec":{"lhs":"register_handler(key)","rhs":"register a handler in the ask system","over":{"base":"Any","pred":"isinstance(key, Predicate)"},"name":"register_handler_correct"},"guarantee":"register a handler in the ask system","fibers":[{"name":"Predicate","pred":"isinstance(key, Predicate)","path":{"lhs":"register_handler(x)","rhs":"register a handler in the ask system","over":{"base":"Predicate","pred":"isinstance(key, Predicate)"},"name":"register_handler_Predicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.register_handler_Predicate_correct","statement":"register_handler satisfies spec on Predicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"047d2a31fbc0e136"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.register_handler","kind":"function","src_hash":"d25943d586df978a","in":{"base":"Any","pred":"isinstance(key, Predicate) and hasattr(key, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"register_handler(key, handler)","rhs":"<unspecified:register_handler>","over":{"base":"Any","pred":"isinstance(key, Predicate) and hasattr(key, 'name')"},"name":"register_handler_correct"},"guarantee":"register a handler in the ask system","fibers":[{"name":"Predicate","pred":"isinstance(key, Predicate)","path":{"lhs":"register_handler(x)","rhs":"register a handler in the ask system","over":{"base":"Predicate","pred":"isinstance(key, Predicate)"},"name":"register_handler_Predicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.register_handler_Predicate_correct","statement":"register_handler satisfies spec on Predicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"047d2a31fbc0e136","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(key, 'name')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["key.name"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(key, Predicate)'}, fibers={'Predicate'})"]}}
 def register_handler(key, handler):
     """
     Register a handler in the ask system. key must be a string and handler a
@@ -1329,9 +1701,13 @@ def register_handler(key, handler):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(remove_handler(key), removes a handler from the ask system) over {Any | isinstance(key, Predicate)} ║
+# ║ Path(remove_handler(key, handler), <unspecified:remove_handler>) over {Any | isinstance(key, Predicate) and hasattr(key, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ remove_handler : {Any | isinstance(key, Predicate)} →...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(key, 'name')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ remove_handler : {Any | isinstance(key, Predicate) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Predicate: {isinstance(key, Predicate)} → library_a...   ║
@@ -1341,9 +1717,12 @@ def register_handler(key, handler):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b09e39bb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.remove_handler","kind":"function","src_hash":"846f2fd4490d11e2","in":{"base":"Any","pred":"isinstance(key, Predicate)"},"out":{"base":"Any"},"spec":{"lhs":"remove_handler(key)","rhs":"removes a handler from the ask system","over":{"base":"Any","pred":"isinstance(key, Predicate)"},"name":"remove_handler_correct"},"guarantee":"removes a handler from the ask system","fibers":[{"name":"Predicate","pred":"isinstance(key, Predicate)","path":{"lhs":"remove_handler(x)","rhs":"removes a handler from the ask system","over":{"base":"Predicate","pred":"isinstance(key, Predicate)"},"name":"remove_handler_Predicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.remove_handler_Predicate_correct","statement":"remove_handler satisfies spec on Predicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b09e39bb2c5296de"}
+# @cctt_verify {"v":2,"sym":"sympy.assumptions.ask.remove_handler","kind":"function","src_hash":"846f2fd4490d11e2","in":{"base":"Any","pred":"isinstance(key, Predicate) and hasattr(key, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"remove_handler(key, handler)","rhs":"<unspecified:remove_handler>","over":{"base":"Any","pred":"isinstance(key, Predicate) and hasattr(key, 'name')"},"name":"remove_handler_correct"},"guarantee":"removes a handler from the ask system","fibers":[{"name":"Predicate","pred":"isinstance(key, Predicate)","path":{"lhs":"remove_handler(x)","rhs":"removes a handler from the ask system","over":{"base":"Predicate","pred":"isinstance(key, Predicate)"},"name":"remove_handler_Predicate_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.assumptions.ask.remove_handler_Predicate_correct","statement":"remove_handler satisfies spec on Predicate inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b09e39bb2c5296de","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(key, 'name')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["key.name"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(key, Predicate)'}, fibers={'Predicate'})"]}}
 def remove_handler(key, handler):
     """
     Removes a handler from the ask system.

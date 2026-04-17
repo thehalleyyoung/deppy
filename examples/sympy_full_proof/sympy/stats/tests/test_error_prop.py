@@ -24,16 +24,22 @@ from sympy.stats.symbolic_probability import (RandomSymbol, Variance,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_variance_prop(), test_variance_prop produces the expected output) over Any ║
+# ║ Path(test_variance_prop(), <unspecified:test_variance_prop>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_variance_prop : Any → {Any | out == obs}              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 199c0a8e76f7bd51  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_error_prop.test_variance_prop","kind":"function","src_hash":"91b27701dc9ce11c","in":{"base":"Any"},"out":{"base":"Any","pred":"out == obs"},"spec":{"lhs":"test_variance_prop()","rhs":"test_variance_prop produces the expected output","over":{"base":"Any"},"name":"test_variance_prop_correct"},"guarantee":"test_variance_prop produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_error_prop.test_variance_prop_correct","statement":"Path(test_variance_prop(x), test_variance_prop produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"199c0a8e76f7bd51"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_error_prop.test_variance_prop","kind":"function","src_hash":"91b27701dc9ce11c","in":{"base":"Any"},"out":{"base":"Any","pred":"out == obs"},"spec":{"lhs":"test_variance_prop()","rhs":"<unspecified:test_variance_prop>","over":{"base":"Any"},"name":"test_variance_prop_correct"},"guarantee":"test_variance_prop produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_error_prop.test_variance_prop_correct","statement":"Path(test_variance_prop(x), test_variance_prop produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"199c0a8e76f7bd51","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_variance_prop():
     x, y, z = symbols('x y z')
     phi, t = consts = symbols('phi t')
@@ -60,16 +66,22 @@ def test_variance_prop():
         assert out == obs
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_variance_prop_with_covar(), test_variance_prop_with_covar produces the expected output) over Any ║
+# ║ Path(test_variance_prop_with_covar(), <unspecified:test_variance_prop_with_covar>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_variance_prop_with_covar : Any → {Any | out == obs}   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 97456a4b9c6fed1c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_error_prop.test_variance_prop_with_covar","kind":"function","src_hash":"b8f081cb94dc6792","in":{"base":"Any"},"out":{"base":"Any","pred":"out == obs"},"spec":{"lhs":"test_variance_prop_with_covar()","rhs":"test_variance_prop_with_covar produces the expected output","over":{"base":"Any"},"name":"test_variance_prop_with_covar_correct"},"guarantee":"test_variance_prop_with_covar produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_error_prop.test_variance_prop_with_covar_correct","statement":"Path(test_variance_prop_with_covar(x), test_variance_prop_with_covar produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97456a4b9c6fed1c"}
+# @cctt_verify {"v":2,"sym":"sympy.stats.tests.test_error_prop.test_variance_prop_with_covar","kind":"function","src_hash":"b8f081cb94dc6792","in":{"base":"Any"},"out":{"base":"Any","pred":"out == obs"},"spec":{"lhs":"test_variance_prop_with_covar()","rhs":"<unspecified:test_variance_prop_with_covar>","over":{"base":"Any"},"name":"test_variance_prop_with_covar_correct"},"guarantee":"test_variance_prop_with_covar produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.stats.tests.test_error_prop.test_variance_prop_with_covar_correct","statement":"Path(test_variance_prop_with_covar(x), test_variance_prop_with_covar produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"97456a4b9c6fed1c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_variance_prop_with_covar():
     x, y, z = symbols('x y z')
     phi, t = consts = symbols('phi t')

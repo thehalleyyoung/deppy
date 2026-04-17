@@ -22,16 +22,24 @@ from sympy.solvers import solve
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_columnspace_one(), test_columnspace_one produces the expected output) over Any ║
+# ║ Path(test_columnspace_one(), basis[0] == Matrix([1, -2, 0, 3]) and basis[1] == Matrix([2, -5, -3, 6]) and basis[2] == Matrix([2, -1, 4, -7]) and len(basis) == 3 and Matrix.hstack(m, *basis).columnspace() == basis) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_columnspace_one : Any → {Any | basis[0] == Matri...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  basis[0] == Matrix([1, -2, 0, 3])              ║
+# ║   ensures:  basis[1] == Matrix([2, -5, -3, 6])             ║
+# ║   ensures:  basis[2] == Matrix([2, -1, 4, -7])             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_columnspace_one : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 17fa7edfb8e0e06f  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e99476c082f4f506  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_subspaces.test_columnspace_one","kind":"function","src_hash":"7d6469769419cf2c","in":{"base":"Any"},"out":{"base":"Any","pred":"basis[0] == Matrix([1, -2, 0, 3]) and basis[1] == Matrix([2, -5, -3, 6]) and basis[2] == Matrix([2, -1, 4, -7]) and len(basis) == 3 and Matrix.hstack(m, *basis).columnspace() == basis"},"spec":{"lhs":"test_columnspace_one()","rhs":"test_columnspace_one produces the expected output","over":{"base":"Any"},"name":"test_columnspace_one_correct"},"guarantee":"test_columnspace_one produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_subspaces.test_columnspace_one_correct","statement":"Path(test_columnspace_one(x), test_columnspace_one produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"17fa7edfb8e0e06f"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_subspaces.test_columnspace_one","kind":"function","src_hash":"7d6469769419cf2c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: basis[0] == Matrix([1, -2, 0, 3]) and basis[1] == Matrix([2, -5, -3, 6]) and basis[2] == Matrix([2, -1, 4, -7]) and len(basis) == 3 and Matrix.hstack(m, *basis).columnspace() == basis"},"spec":{"lhs":"test_columnspace_one()","rhs":"basis[0] == Matrix([1, -2, 0, 3]) and basis[1] == Matrix([2, -5, -3, 6]) and basis[2] == Matrix([2, -1, 4, -7]) and len(basis) == 3 and Matrix.hstack(m, *basis).columnspace() == basis","over":{"base":"Any"},"name":"test_columnspace_one_correct"},"guarantee":"basis[0] == Matrix([1, -2, 0, 3]); basis[1] == Matrix([2, -5, -3, 6]); basis[2] == Matrix([2, -1, 4, -7])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_subspaces.test_columnspace_one_correct","statement":"Path(test_columnspace_one(x), basis[0] == Matrix([1, -2, 0, 3]); basis[1] == Matrix([2, -5, -3, 6]); basis[2] == Matrix([2, -1, 4, -7]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e99476c082f4f506","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["basis[0] == Matrix([1, -2, 0, 3])","basis[1] == Matrix([2, -5, -3, 6])","basis[2] == Matrix([2, -1, 4, -7])","len(basis) == 3","Matrix.hstack(m, *basis).columnspace() == basis"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_columnspace_one():
     m = Matrix([[ 1,  2,  0,  2,  5],
                 [-2, -5,  1, -1, -8],
@@ -48,16 +56,24 @@ def test_columnspace_one():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rowspace(), test_rowspace produces the expected output) over Any ║
+# ║ Path(test_rowspace(), basis[0] == Matrix([[1, 2, 0, 2, 5]]) and basis[1] == Matrix([[0, -1, 1, 3, 2]]) and basis[2] == Matrix([[0, 0, 0, 5, 5]]) and len(basis) == 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rowspace : Any → {Any | basis[0] == Matrix([[1, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  basis[0] == Matrix([[1, 2, 0, 2, 5]])          ║
+# ║   ensures:  basis[1] == Matrix([[0, -1, 1, 3, 2]])         ║
+# ║   ensures:  basis[2] == Matrix([[0, 0, 0, 5, 5]])          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rowspace : Any → {Any | result satisfies: basis[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2a57b4152be05622  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d429c3ddf9a2938  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_subspaces.test_rowspace","kind":"function","src_hash":"a8f8bd9e1acdcf67","in":{"base":"Any"},"out":{"base":"Any","pred":"basis[0] == Matrix([[1, 2, 0, 2, 5]]) and basis[1] == Matrix([[0, -1, 1, 3, 2]]) and basis[2] == Matrix([[0, 0, 0, 5, 5]]) and len(basis) == 3"},"spec":{"lhs":"test_rowspace()","rhs":"test_rowspace produces the expected output","over":{"base":"Any"},"name":"test_rowspace_correct"},"guarantee":"test_rowspace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_subspaces.test_rowspace_correct","statement":"Path(test_rowspace(x), test_rowspace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2a57b4152be05622"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_subspaces.test_rowspace","kind":"function","src_hash":"a8f8bd9e1acdcf67","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: basis[0] == Matrix([[1, 2, 0, 2, 5]]) and basis[1] == Matrix([[0, -1, 1, 3, 2]]) and basis[2] == Matrix([[0, 0, 0, 5, 5]]) and len(basis) == 3"},"spec":{"lhs":"test_rowspace()","rhs":"basis[0] == Matrix([[1, 2, 0, 2, 5]]) and basis[1] == Matrix([[0, -1, 1, 3, 2]]) and basis[2] == Matrix([[0, 0, 0, 5, 5]]) and len(basis) == 3","over":{"base":"Any"},"name":"test_rowspace_correct"},"guarantee":"basis[0] == Matrix([[1, 2, 0, 2, 5]]); basis[1] == Matrix([[0, -1, 1, 3, 2]]); basis[2] == Matrix([[0, 0, 0, 5, 5]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_subspaces.test_rowspace_correct","statement":"Path(test_rowspace(x), basis[0] == Matrix([[1, 2, 0, 2, 5]]); basis[1] == Matrix([[0, -1, 1, 3, 2]]); basis[2] == Matrix([[0, 0, 0, 5, 5]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d429c3ddf9a2938","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["basis[0] == Matrix([[1, 2, 0, 2, 5]])","basis[1] == Matrix([[0, -1, 1, 3, 2]])","basis[2] == Matrix([[0, 0, 0, 5, 5]])","len(basis) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_rowspace():
     m = Matrix([[ 1,  2,  0,  2,  5],
                 [-2, -5,  1, -1, -8],
@@ -73,16 +89,24 @@ def test_rowspace():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nullspace_one(), test_nullspace_one produces the expected output) over Any ║
+# ║ Path(test_nullspace_one(), basis[0] == Matrix([-2, 1, 1, 0, 0]) and basis[1] == Matrix([-1, -1, 0, -1, 1]) and all((e.is_zero for e in m * basis[0])) and all((e.is_zero for e in m * basis[1]))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nullspace_one : Any → {Any | basis[0] == Matrix(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  basis[0] == Matrix([-2, 1, 1, 0, 0])           ║
+# ║   ensures:  basis[1] == Matrix([-1, -1, 0, -1, 1])         ║
+# ║   ensures:  all((e.is_zero for e in m * basis[0]))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nullspace_one : Any → {Any | result satisfies: b...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 10b26204a8b3b035  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18544f6e619ec99b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_subspaces.test_nullspace_one","kind":"function","src_hash":"ed771e7bf64da09f","in":{"base":"Any"},"out":{"base":"Any","pred":"basis[0] == Matrix([-2, 1, 1, 0, 0]) and basis[1] == Matrix([-1, -1, 0, -1, 1]) and all((e.is_zero for e in m * basis[0])) and all((e.is_zero for e in m * basis[1]))"},"spec":{"lhs":"test_nullspace_one()","rhs":"test_nullspace_one produces the expected output","over":{"base":"Any"},"name":"test_nullspace_one_correct"},"guarantee":"test_nullspace_one produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_subspaces.test_nullspace_one_correct","statement":"Path(test_nullspace_one(x), test_nullspace_one produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"10b26204a8b3b035"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_subspaces.test_nullspace_one","kind":"function","src_hash":"ed771e7bf64da09f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: basis[0] == Matrix([-2, 1, 1, 0, 0]) and basis[1] == Matrix([-1, -1, 0, -1, 1]) and all((e.is_zero for e in m * basis[0])) and all((e.is_zero for e in m * basis[1]))"},"spec":{"lhs":"test_nullspace_one()","rhs":"basis[0] == Matrix([-2, 1, 1, 0, 0]) and basis[1] == Matrix([-1, -1, 0, -1, 1]) and all((e.is_zero for e in m * basis[0])) and all((e.is_zero for e in m * basis[1]))","over":{"base":"Any"},"name":"test_nullspace_one_correct"},"guarantee":"basis[0] == Matrix([-2, 1, 1, 0, 0]); basis[1] == Matrix([-1, -1, 0, -1, 1]); all((e.is_zero for e in m * basis[0]))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_subspaces.test_nullspace_one_correct","statement":"Path(test_nullspace_one(x), basis[0] == Matrix([-2, 1, 1, 0, 0]); basis[1] == Matrix([-1, -1, 0, -1, 1]); all((e.is_zero for e in m * basis[0])))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18544f6e619ec99b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["basis[0] == Matrix([-2, 1, 1, 0, 0])","basis[1] == Matrix([-1, -1, 0, -1, 1])","all((e.is_zero for e in m * basis[0]))","all((e.is_zero for e in m * basis[1]))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_nullspace_one():
     m = Matrix([[ 1,  2,  0,  2,  5],
                 [-2, -5,  1, -1, -8],
@@ -97,16 +121,24 @@ def test_nullspace_one():
     assert all(e.is_zero for e in m*basis[1])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_nullspace_second(), test_nullspace_second produces the expected output) over Any ║
+# ║ Path(test_nullspace_second(), out == Matrix([[1, 0, -R(2) / 23, R(13) / 23], [0, 1, R(8) / 23, R(-6) / 23]]) and M * M.nullspace()[0] == Matrix(5, 1, [0] * 5) and out == Matrix([[1, 3, 0, 0, 2, 0, 0], [0, 0, 0, 1, 2, 0, 0], [0, 0, 0, 0, 0, 1, R(1) / 3], [0, 0, 0, 0, 0, 0, 0]]) and basis[0] == Matrix([-3, 1, 0, 0, 0, 0, 0]) and basis[1] == Matrix([0, 0, 1, 0, 0, 0, 0]) and basis[2] == Matrix([-2, 0, 0, -2, 1, 0, 0]) and basis[3] == Matrix([0, 0, 0, 0, 0, R(-1) / 3, 1]) and M.nullspace()) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_nullspace_second : Any → {Any | out == Matrix([[...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  out == Matrix([[1, 0, -R(2) / 23, R(13) /...   ║
+# ║   ensures:  M * M.nullspace()[0] == Matrix(5, 1, [0] ...   ║
+# ║   ensures:  out == Matrix([[1, 3, 0, 0, 2, 0, 0], [0,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_nullspace_second : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce99c784b710ad79  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cab20572867e276a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_subspaces.test_nullspace_second","kind":"function","src_hash":"8204f644617a8cdc","in":{"base":"Any"},"out":{"base":"Any","pred":"out == Matrix([[1, 0, -R(2) / 23, R(13) / 23], [0, 1, R(8) / 23, R(-6) / 23]]) and M * M.nullspace()[0] == Matrix(5, 1, [0] * 5) and basis[0] == Matrix([-3, 1, 0, 0, 0, 0, 0]) and basis[1] == Matrix([0, 0, 1, 0, 0, 0, 0]) and basis[2] == Matrix([-2, 0, 0, -2, 1, 0, 0]) and basis[3] == Matrix([0, 0, 0, 0, 0, R(-1) / 3, 1]) and M.nullspace()"},"spec":{"lhs":"test_nullspace_second()","rhs":"test_nullspace_second produces the expected output","over":{"base":"Any"},"name":"test_nullspace_second_correct"},"guarantee":"test_nullspace_second produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_subspaces.test_nullspace_second_correct","statement":"Path(test_nullspace_second(x), test_nullspace_second produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce99c784b710ad79"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_subspaces.test_nullspace_second","kind":"function","src_hash":"8204f644617a8cdc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: out == Matrix([[1, 0, -R(2) / 23, R(13) / 23], [0, 1, R(8) / 23, R(-6) / 23]]) and M * M.nullspace()[0] == Matrix(5, 1, [0] * 5) and out == Matrix([[1, 3, 0, 0, 2, 0, 0], [0, 0, 0, 1, 2, 0, 0], [0, 0, 0, 0, 0, 1, R(1) / 3], [0, 0, 0, 0, 0, 0, 0]]) and basis[0] == Matrix([-3, 1, 0, 0, 0, 0, 0]) and basis[1] == Matrix([0, 0, 1, 0, 0, 0, 0]) and basis[2] == Matrix([-2, 0, 0, -2, 1, 0, 0]) and basis[3] == Matrix([0, 0, 0, 0, 0, R(-1) / 3, 1]) and M.nullspace()"},"spec":{"lhs":"test_nullspace_second()","rhs":"out == Matrix([[1, 0, -R(2) / 23, R(13) / 23], [0, 1, R(8) / 23, R(-6) / 23]]) and M * M.nullspace()[0] == Matrix(5, 1, [0] * 5) and out == Matrix([[1, 3, 0, 0, 2, 0, 0], [0, 0, 0, 1, 2, 0, 0], [0, 0, 0, 0, 0, 1, R(1) / 3], [0, 0, 0, 0, 0, 0, 0]]) and basis[0] == Matrix([-3, 1, 0, 0, 0, 0, 0]) and basis[1] == Matrix([0, 0, 1, 0, 0, 0, 0]) and basis[2] == Matrix([-2, 0, 0, -2, 1, 0, 0]) and basis[3] == Matrix([0, 0, 0, 0, 0, R(-1) / 3, 1]) and M.nullspace()","over":{"base":"Any"},"name":"test_nullspace_second_correct"},"guarantee":"out == Matrix([[1, 0, -R(2) / 23, R(13) / 23], [0, 1, R(8) / 23, R(-6) / 23]]); M * M.nullspace()[0] == Matrix(5, 1, [0] * 5); out == Matrix([[1, 3, 0, 0, 2, 0, 0], [0, 0, 0, 1, 2, 0, 0], [0, 0, 0, 0, 0, 1, R(1) / 3], [0, 0, 0, 0, 0, 0, 0]])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_subspaces.test_nullspace_second_correct","statement":"Path(test_nullspace_second(x), out == Matrix([[1, 0, -R(2) / 23, R(13) / 23], [0, 1, R(8) / 23, R(-6) / 23]]); M * M.nullspace()[0] == Matrix(5, 1, [0] * 5); out == Matrix([[1, 3, 0, 0, 2, 0, 0], [0, 0, 0, 1, 2, 0, 0], [0, 0, 0, 0, 0, 1, R(1) / 3], [0, 0, 0, 0, 0, 0, 0]]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cab20572867e276a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["out == Matrix([[1, 0, -R(2) / 23, R(13) / 23], [0, 1, R(8) / 23, R(-6) / 23]])","M * M.nullspace()[0] == Matrix(5, 1, [0] * 5)","out == Matrix([[1, 3, 0, 0, 2, 0, 0], [0, 0, 0, 1, 2, 0, 0], [0, 0, 0, 0, 0, 1, R(1) / 3], [0, 0, 0, 0, 0, 0, 0]])","basis[0] == Matrix([-3, 1, 0, 0, 0, 0, 0])","basis[1] == Matrix([0, 0, 1, 0, 0, 0, 0])","basis[2] == Matrix([-2, 0, 0, -2, 1, 0, 0])","basis[3] == Matrix([0, 0, 0, 0, 0, R(-1) / 3, 1])","M.nullspace()"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_nullspace_second():
     # first test reduced row-ech form
     R = Rational
@@ -147,16 +179,24 @@ def test_nullspace_second():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_columnspace_second(), test_columnspace_second produces the expected output) over Any ║
+# ║ Path(test_columnspace_second(), basis[0] == Matrix([1, -2, 0, 3]) and basis[1] == Matrix([2, -5, -3, 6]) and basis[2] == Matrix([2, -1, 4, -7]) and M.rank() == len(basis) and len(M.nullspace()) + len(M.columnspace()) == M.cols) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_columnspace_second : Any → {Any | basis[0] == Ma...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  basis[0] == Matrix([1, -2, 0, 3])              ║
+# ║   ensures:  basis[1] == Matrix([2, -5, -3, 6])             ║
+# ║   ensures:  basis[2] == Matrix([2, -1, 4, -7])             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_columnspace_second : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6a7d18caf36bc283  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c15b36132b1fe017  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_subspaces.test_columnspace_second","kind":"function","src_hash":"6315333ed434682c","in":{"base":"Any"},"out":{"base":"Any","pred":"basis[0] == Matrix([1, -2, 0, 3]) and basis[1] == Matrix([2, -5, -3, 6]) and basis[2] == Matrix([2, -1, 4, -7]) and M.rank() == len(basis) and len(M.nullspace()) + len(M.columnspace()) == M.cols and len(solve(eq, X)) != 0"},"spec":{"lhs":"test_columnspace_second()","rhs":"test_columnspace_second produces the expected output","over":{"base":"Any"},"name":"test_columnspace_second_correct"},"guarantee":"test_columnspace_second produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_subspaces.test_columnspace_second_correct","statement":"Path(test_columnspace_second(x), test_columnspace_second produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6a7d18caf36bc283"}
+# @cctt_verify {"v":2,"sym":"sympy.matrices.tests.test_subspaces.test_columnspace_second","kind":"function","src_hash":"6315333ed434682c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: basis[0] == Matrix([1, -2, 0, 3]) and basis[1] == Matrix([2, -5, -3, 6]) and basis[2] == Matrix([2, -1, 4, -7]) and M.rank() == len(basis) and len(M.nullspace()) + len(M.columnspace()) == M.cols"},"spec":{"lhs":"test_columnspace_second()","rhs":"basis[0] == Matrix([1, -2, 0, 3]) and basis[1] == Matrix([2, -5, -3, 6]) and basis[2] == Matrix([2, -1, 4, -7]) and M.rank() == len(basis) and len(M.nullspace()) + len(M.columnspace()) == M.cols","over":{"base":"Any"},"name":"test_columnspace_second_correct"},"guarantee":"basis[0] == Matrix([1, -2, 0, 3]); basis[1] == Matrix([2, -5, -3, 6]); basis[2] == Matrix([2, -1, 4, -7])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.matrices.tests.test_subspaces.test_columnspace_second_correct","statement":"Path(test_columnspace_second(x), basis[0] == Matrix([1, -2, 0, 3]); basis[1] == Matrix([2, -5, -3, 6]); basis[2] == Matrix([2, -1, 4, -7]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c15b36132b1fe017","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["basis[0] == Matrix([1, -2, 0, 3])","basis[1] == Matrix([2, -5, -3, 6])","basis[2] == Matrix([2, -1, 4, -7])","M.rank() == len(basis)","len(M.nullspace()) + len(M.columnspace()) == M.cols"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_columnspace_second():
     M = Matrix([[ 1,  2,  0,  2,  5],
                 [-2, -5,  1, -1, -8],

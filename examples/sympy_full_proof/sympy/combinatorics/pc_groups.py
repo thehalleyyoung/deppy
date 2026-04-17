@@ -24,30 +24,44 @@ from sympy.combinatorics.free_groups import free_group
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PolycyclicGroup instance) preserved by PolycyclicGroup(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ PolycyclicGroup : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefaultPrinting)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ PolycyclicGroup : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3e9203c4d922ecba  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.PolycyclicGroup","kind":"class","src_hash":"c24bdc10843edea6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PolycyclicGroup(*args)","rhs":"correctly constructs a PolycyclicGroup instance","over":{"base":"Any"},"name":"PolycyclicGroup_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PolycyclicGroup instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'pcgs') and hasattr(self, 'pc_series') and hasattr(self, 'relative_order') and hasattr(self, 'collector')","kind":"class","induction":"structural on pcgs, pc_series, relative_order, collector"}],"methods_preserving":["__init__","is_prime_order","length"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e9203c4d922ecba"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.PolycyclicGroup","kind":"class","src_hash":"c24bdc10843edea6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefaultPrinting)"},"spec":{"lhs":"PolycyclicGroup(*args)","rhs":"correctly constructs a PolycyclicGroup instance","over":{"base":"Any"},"name":"PolycyclicGroup_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, DefaultPrinting); preserves 4 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'pcgs') and hasattr(self, 'pc_series') and hasattr(self, 'relative_order') and hasattr(self, 'collector')","kind":"class","induction":"structural on pcgs, pc_series, relative_order, collector"}],"methods_preserving":["__init__","is_prime_order","length"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3e9203c4d922ecba","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefaultPrinting)"],"invariants":["hasattr(self, 'pcgs')","hasattr(self, 'pc_series')","hasattr(self, 'relative_order')","hasattr(self, 'collector')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function PolycyclicGroup not found in source"]}}
 class PolycyclicGroup(DefaultPrinting):
 
     is_group = True
     is_solvable = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pc_), initializes the instance correctly) over Any ║
+# ║ Path(__init__(pc_sequence, pc_series, relative_order), self.pcgs == pc_sequence and self.pc_series == pc_series and self.relative_order == relative_order) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.pcgs == pc_sequence                       ║
+# ║   ensures:  self.pc_series == pc_series                    ║
+# ║   ensures:  self.relative_order == relative_order          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.pcgs =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1a5b5185b9d0003b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.PolycyclicGroup.__init__","kind":"method","src_hash":"6219bba9253cba5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pc_)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a5b5185b9d0003b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.PolycyclicGroup.__init__","kind":"method","src_hash":"6219bba9253cba5b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.pcgs == pc_sequence and self.pc_series == pc_series and self.relative_order == relative_order"},"spec":{"lhs":"__init__(pc_sequence, pc_series, relative_order)","rhs":"self.pcgs == pc_sequence and self.pc_series == pc_series and self.relative_order == relative_order","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.pcgs == pc_sequence; self.pc_series == pc_series; self.relative_order == relative_order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1a5b5185b9d0003b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.pcgs == pc_sequence","self.pc_series == pc_series","self.relative_order == relative_order"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, pc_sequence, pc_series, relative_order, collector=None):
         """
 
@@ -72,30 +86,42 @@ class PolycyclicGroup(DefaultPrinting):
         self.collector = Collector(self.pcgs, pc_series, relative_order) if not collector else collector
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_prime_order(), is_prime_order produces the expected output) over Any ║
+# ║ Path(is_prime_order(), all((isprime(order) for order in self.relative_order))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  all((isprime(order) for order in self.rel...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_prime_order : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 019f827c8325cd95           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.PolycyclicGroup.is_prime_order","kind":"method","src_hash":"5c6922318e419953","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_prime_order()","rhs":"is_prime_order produces the expected output","over":{"base":"Any"},"name":"is_prime_order_correct"},"guarantee":"is_prime_order produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"019f827c8325cd95"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.PolycyclicGroup.is_prime_order","kind":"method","src_hash":"5c6922318e419953","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_prime_order()","rhs":"all((isprime(order) for order in self.relative_order))","over":{"base":"Any"},"name":"is_prime_order_correct"},"guarantee":"returns all((isprime(order) for order in self.relative_order))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"019f827c8325cd95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"all((isprime(order) for order in self.relative_order))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.relative_order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_prime_order(self):
         return all(isprime(order) for order in self.relative_order)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(length(), length produces the expected output) over Any ║
+# ║ Path(length(), len(self.pcgs)) over Any                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self.pcgs)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ length : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e9a98015bac154f4           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.PolycyclicGroup.length","kind":"method","src_hash":"f0bb4820fede4902","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"length produces the expected output","over":{"base":"Any"},"name":"length_correct"},"guarantee":"length produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9a98015bac154f4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.PolycyclicGroup.length","kind":"method","src_hash":"f0bb4820fede4902","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"length()","rhs":"len(self.pcgs)","over":{"base":"Any"},"name":"length_correct"},"guarantee":"returns len(self.pcgs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e9a98015bac154f4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self.pcgs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.pcgs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def length(self):
         return len(self.pcgs)
 
@@ -103,14 +129,20 @@ class PolycyclicGroup(DefaultPrinting):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Collector instance) preserved by Collector(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Collector : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, DefaultPrinting)              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Collector : Any → {Any | result satisfies: isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5842ff42edb65619  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector","kind":"class","src_hash":"15913e70c6d97395","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Collector(*args)","rhs":"correctly constructs a Collector instance","over":{"base":"Any"},"name":"Collector_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Collector instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'pcgs') and hasattr(self, 'pc_series') and hasattr(self, 'relative_order') and hasattr(self, 'free_group') and hasattr(self, 'index') and hasattr(self, 'pc_presentation')","kind":"class","induction":"structural on pcgs, pc_series, relative_order, free_group"}],"methods_preserving":["__init__","minimal_uncollected_subword","relations","subword_index","map_relation","collected_word","pc_relators","exponent_vector","depth","leading_exponent","_sift","induced_pcgs","constructive_membership_test"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5842ff42edb65619"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector","kind":"class","src_hash":"15913e70c6d97395","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, DefaultPrinting)"},"spec":{"lhs":"Collector(*args)","rhs":"correctly constructs a Collector instance","over":{"base":"Any"},"name":"Collector_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, DefaultPrinting); preserves 6 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'pcgs') and hasattr(self, 'pc_series') and hasattr(self, 'relative_order') and hasattr(self, 'free_group') and hasattr(self, 'index') and hasattr(self, 'pc_presentation')","kind":"class","induction":"structural on pcgs, pc_series, relative_order, free_group"}],"methods_preserving":["__init__","minimal_uncollected_subword","relations","subword_index","map_relation","collected_word","pc_relators","exponent_vector","depth","leading_exponent","_sift","induced_pcgs","constructive_membership_test"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5842ff42edb65619","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, DefaultPrinting)"],"invariants":["hasattr(self, 'pcgs')","hasattr(self, 'pc_series')","hasattr(self, 'relative_order')","hasattr(self, 'free_group')","hasattr(self, 'index')","hasattr(self, 'pc_presentation')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function Collector not found in source"]}}
 class Collector(DefaultPrinting):
 
     """
@@ -123,16 +155,24 @@ class Collector(DefaultPrinting):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(pcg), initializes the instance correctly) over Any ║
+# ║ Path(__init__(pcgs, pc_series, relative_order), self.pcgs == pcgs and self.pc_series == pc_series and self.relative_order == relative_order) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.pcgs == pcgs                              ║
+# ║   ensures:  self.pc_series == pc_series                    ║
+# ║   ensures:  self.relative_order == relative_order          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.pcgs =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 928286c4a4a206e5           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.__init__","kind":"method","src_hash":"3d6d21fd69361551","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(pcg)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"928286c4a4a206e5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.__init__","kind":"method","src_hash":"3d6d21fd69361551","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.pcgs == pcgs and self.pc_series == pc_series and self.relative_order == relative_order"},"spec":{"lhs":"__init__(pcgs, pc_series, relative_order)","rhs":"self.pcgs == pcgs and self.pc_series == pc_series and self.relative_order == relative_order","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.pcgs == pcgs; self.pc_series == pc_series; self.relative_order == relative_order","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"928286c4a4a206e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.pcgs == pcgs","self.pc_series == pc_series","self.relative_order == relative_order"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, pcgs, pc_series, relative_order, free_group_=None, pc_presentation=None):
         """
 
@@ -163,16 +203,23 @@ class Collector(DefaultPrinting):
         self.pc_presentation = self.pc_relators()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(minimal_uncollected_subword(wor), returns the minimal uncollected subwords) over Any ║
+# ║ Path(minimal_uncollected_subword(word), <unspecified:minimal_uncollected_subword>) over {Any | hasattr(word, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ minimal_uncollected_subword : Any → Any                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(word, 'array_form')                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ minimal_uncollected_subword : {Any | hasattr(word, 'a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7da825af0f411280  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.minimal_uncollected_subword","kind":"method","src_hash":"d269c52baa0c62af","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minimal_uncollected_subword(wor)","rhs":"returns the minimal uncollected subwords","over":{"base":"Any"},"name":"minimal_uncollected_subword_correct"},"guarantee":"returns the minimal uncollected subwords","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.minimal_uncollected_subword_correct","statement":"Path(minimal_uncollected_subword(x), returns the minimal uncollected subwords)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7da825af0f411280"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.minimal_uncollected_subword","kind":"method","src_hash":"d269c52baa0c62af","in":{"base":"Any","pred":"hasattr(word, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"minimal_uncollected_subword(word)","rhs":"<unspecified:minimal_uncollected_subword>","over":{"base":"Any","pred":"hasattr(word, 'array_form')"},"name":"minimal_uncollected_subword_correct"},"guarantee":"returns the minimal uncollected subwords","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.minimal_uncollected_subword_correct","statement":"Path(minimal_uncollected_subword(x), returns the minimal uncollected subwords)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7da825af0f411280","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(word, 'array_form')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.index","self.relative_order","word.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def minimal_uncollected_subword(self, word):
         r"""
         Returns the minimal uncollected subwords.
@@ -232,16 +279,22 @@ class Collector(DefaultPrinting):
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(relations(), separates the given relators of pc presentation in power and conjugate relations) over Any ║
+# ║ Path(relations(), (power_relators, conjugate_relators)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (power_relators, conjugate_relators)           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ relations : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8d06e2177e05b767  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 494917afe35a7a20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.relations","kind":"method","src_hash":"8b7fd52c12b6275f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"relations()","rhs":"separates the given relators of pc presentation in power and conjugate relations","over":{"base":"Any"},"name":"relations_correct"},"guarantee":"separates the given relators of pc presentation in power and conjugate relations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.relations_correct","statement":"Path(relations(x), separates the given relators of pc presentation in power and conjugate relations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8d06e2177e05b767"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.relations","kind":"method","src_hash":"8b7fd52c12b6275f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"relations()","rhs":"(power_relators, conjugate_relators)","over":{"base":"Any"},"name":"relations_correct"},"guarantee":"returns (power_relators, conjugate_relators)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.relations_correct","statement":"Path(relations(x), returns (power_relators, conjugate_relators))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"494917afe35a7a20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(power_relators, conjugate_relators)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.pc_presentation"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def relations(self):
         """
         Separates the given relators of pc presentation in power and
@@ -282,16 +335,23 @@ class Collector(DefaultPrinting):
         return power_relators, conjugate_relators
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subword_index(wor), returns the start and ending index of a given subword in a word) over Any ║
+# ║ Path(subword_index(word, w), (low, high)) over {Any | hasattr(word, 'subword')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ subword_index : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(word, 'subword')                       ║
+# ║   returns:  (low, high)                                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ subword_index : {Any | hasattr(word, 'subword')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0de6a0303f3bda52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8cfe0742f7d85924  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.subword_index","kind":"method","src_hash":"9024a48a1bc15929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subword_index(wor)","rhs":"returns the start and ending index of a given subword in a word","over":{"base":"Any"},"name":"subword_index_correct"},"guarantee":"returns the start and ending index of a given subword in a word","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.subword_index_correct","statement":"Path(subword_index(x), returns the start and ending index of a given subword in a word)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0de6a0303f3bda52"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.subword_index","kind":"method","src_hash":"9024a48a1bc15929","in":{"base":"Any","pred":"hasattr(word, 'subword')"},"out":{"base":"Any"},"spec":{"lhs":"subword_index(word, w)","rhs":"(low, high)","over":{"base":"Any","pred":"hasattr(word, 'subword')"},"name":"subword_index_correct"},"guarantee":"returns (low, high)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.subword_index_correct","statement":"Path(subword_index(x), returns (low, high))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8cfe0742f7d85924","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(word, 'subword')"],"returns_expr":"(low, high)","pure":false,"effects":{"effect_type":"reads_state","reads":["word.subword"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subword_index(self, word, w):
         """
         Returns the start and ending index of a given
@@ -345,16 +405,23 @@ class Collector(DefaultPrinting):
         return low, high
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(map_relation(w), return a conjugate relation) over Any ║
+# ║ Path(map_relation(w), self.pc_presentation[key]) over {Any | hasattr(w, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ map_relation : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(w, 'array_form')                       ║
+# ║   returns:  self.pc_presentation[key]                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ map_relation : {Any | hasattr(w, 'array_form')} → Any      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa74ea042fde7547  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5ba34e592976803  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.map_relation","kind":"method","src_hash":"52726943f6227915","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"map_relation(w)","rhs":"return a conjugate relation","over":{"base":"Any"},"name":"map_relation_correct"},"guarantee":"return a conjugate relation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.map_relation_correct","statement":"Path(map_relation(x), return a conjugate relation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa74ea042fde7547"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.map_relation","kind":"method","src_hash":"52726943f6227915","in":{"base":"Any","pred":"hasattr(w, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"map_relation(w)","rhs":"self.pc_presentation[key]","over":{"base":"Any","pred":"hasattr(w, 'array_form')"},"name":"map_relation_correct"},"guarantee":"returns self.pc_presentation[key]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.map_relation_correct","statement":"Path(map_relation(x), returns self.pc_presentation[key])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5ba34e592976803","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(w, 'array_form')"],"returns_expr":"self.pc_presentation[key]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_group","self.pc_presentation","w.array_form"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def map_relation(self, w):
         """
         Return a conjugate relation.
@@ -395,16 +462,25 @@ class Collector(DefaultPrinting):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(collected_word(wor), return the collected form of a word) over Any ║
+# ║ Path(collected_word(word), word) over {Any | hasattr(word, 'eliminate_word') and hasattr(word, 'substituted_word')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ collected_word : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(word, 'eliminate_word')                ║
+# ║   requires: hasattr(word, 'substituted_word')              ║
+# ║   ensures:  result == word                                 ║
+# ║   returns:  word                                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ collected_word : {Any | hasattr(word, 'eliminate_word...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5880a234c7021aa  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fcd1b9541bf1d4ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.collected_word","kind":"method","src_hash":"2373a110e25654a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"collected_word(wor)","rhs":"return the collected form of a word","over":{"base":"Any"},"name":"collected_word_correct"},"guarantee":"return the collected form of a word","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.collected_word_correct","statement":"Path(collected_word(x), return the collected form of a word)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5880a234c7021aa"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.collected_word","kind":"method","src_hash":"2373a110e25654a9","in":{"base":"Any","pred":"hasattr(word, 'eliminate_word') and hasattr(word, 'substituted_word')"},"out":{"base":"Any","pred":"result satisfies: result == (word)"},"spec":{"lhs":"collected_word(word)","rhs":"word","over":{"base":"Any","pred":"hasattr(word, 'eliminate_word') and hasattr(word, 'substituted_word')"},"name":"collected_word_correct"},"guarantee":"returns word; result == word","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.collected_word_correct","statement":"Path(collected_word(x), returns word; result == word)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fcd1b9541bf1d4ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(word, 'eliminate_word')","hasattr(word, 'substituted_word')"],"ensures":["result == word"],"returns_expr":"word","pure":false,"effects":{"effect_type":"reads_state","reads":["self.free_group","self.index","self.map_relation","self.minimal_uncollected_subword","self.pc_presentation","self.relative_order","self.subword_index","word.eliminate_word","word.substituted_word"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def collected_word(self, word):
         r"""
         Return the collected form of a word.
@@ -523,16 +599,23 @@ class Collector(DefaultPrinting):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pc_relators(), return the polycyclic presentation) over Any ║
+# ║ Path(pc_relators(), len(collected_gens) == old_len_collected_gens + 1 and len(l) == old_len_l) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ pc_relators : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(collected_gens) == old_len_collected_...   ║
+# ║   ensures:  len(l) == old_len_l                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ pc_relators : Any → {Any | result satisfies: len(coll...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 533b0af110d0dc1a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14b9adcdbb534181  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.pc_relators","kind":"method","src_hash":"6ff6425fd00c2596","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pc_relators()","rhs":"return the polycyclic presentation","over":{"base":"Any"},"name":"pc_relators_correct"},"guarantee":"return the polycyclic presentation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.pc_relators_correct","statement":"Path(pc_relators(x), return the polycyclic presentation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"533b0af110d0dc1a"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.pc_relators","kind":"method","src_hash":"6ff6425fd00c2596","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(collected_gens) == old_len_collected_gens + 1 and len(l) == old_len_l"},"spec":{"lhs":"pc_relators()","rhs":"len(collected_gens) == old_len_collected_gens + 1 and len(l) == old_len_l","over":{"base":"Any"},"name":"pc_relators_correct"},"guarantee":"len(collected_gens) == old_len_collected_gens + 1; len(l) == old_len_l","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.pc_relators_correct","statement":"Path(pc_relators(x), len(collected_gens) == old_len_collected_gens + 1; len(l) == old_len_l)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14b9adcdbb534181","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(collected_gens) == old_len_collected_gens + 1","len(l) == old_len_l"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.collected_word","self.free_group","self.pc_series","self.pcgs","self.relative_order"],"writes":["self.pc_presentation"],"calls_mutating":["collected_gens.append","l.reverse"]},"state_contract":{"modifies":["collected_gens.*","l.*","self.pc_presentation"],"old_bindings":{"old_self_pc_presentation":"self.pc_presentation","old_len_collected_gens":"len(collected_gens)","old_len_l":"len(l)"},"post_ensures":["len(collected_gens) == old_len_collected_gens + 1","len(l) == old_len_l"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pc_relators(self):
         r"""
         Return the polycyclic presentation.
@@ -655,16 +738,22 @@ class Collector(DefaultPrinting):
         return pc_relators
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(exponent_vector(ele), return the exponent vector of length equal to the length of polycyclic generating sequence) over Any ║
+# ║ Path(exponent_vector(element), <unspecified:exponent_vector>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ exponent_vector : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9b80d4ccb1910c1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.exponent_vector","kind":"method","src_hash":"1bf7da9976c26318","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exponent_vector(ele)","rhs":"return the exponent vector of length equal to the length of polycyclic generating sequence","over":{"base":"Any"},"name":"exponent_vector_correct"},"guarantee":"return the exponent vector of length equal to the length of polycyclic generating sequence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.exponent_vector_correct","statement":"Path(exponent_vector(x), return the exponent vector of length equal to the length of polycyclic generating sequence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9b80d4ccb1910c1"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.exponent_vector","kind":"method","src_hash":"1bf7da9976c26318","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"exponent_vector(element)","rhs":"<unspecified:exponent_vector>","over":{"base":"Any"},"name":"exponent_vector_correct"},"guarantee":"return the exponent vector of length equal to the length of polycyclic generating sequence","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.exponent_vector_correct","statement":"Path(exponent_vector(x), return the exponent vector of length equal to the length of polycyclic generating sequence)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9b80d4ccb1910c1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def exponent_vector(self, element):
         r"""
         Return the exponent vector of length equal to the
@@ -735,16 +824,22 @@ class Collector(DefaultPrinting):
         return exp_vector
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(depth(ele), id) over Any                              ║
+# ║ Path(depth(element), id) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  next((i + 1 for i, x in enumerate(exp_vec...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ depth : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 8dce8f4dafa75860   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.depth","kind":"method","src_hash":"e8340103b1da74c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"depth(ele)","rhs":"return the depth of a given element","over":{"base":"Any"},"name":"depth_correct","kind":"composition"},"guarantee":"return the depth of a given element","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"next","by":"library_axiom"},{"fn":"enumerate","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dce8f4dafa75860"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.depth","kind":"method","src_hash":"e8340103b1da74c3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"depth(element)","rhs":"next((i + 1 for i, x in enumerate(exp_vector) if x), len(self.pcgs) + 1)","over":{"base":"Any"},"name":"depth_correct","kind":"composition"},"guarantee":"returns next((i + 1 for i, x in enumerate(exp_vector) if x), len(self.pcgs) + 1)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"next","by":"library_axiom"},{"fn":"enumerate","by":"library_axiom"},{"fn":"len","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dce8f4dafa75860","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"next((i + 1 for i, x in enumerate(exp_vector) if x), len(self.pcgs) + 1)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.exponent_vector","self.pcgs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def depth(self, element):
         r"""
         Return the depth of a given element.
@@ -780,16 +875,22 @@ class Collector(DefaultPrinting):
         return next((i+1 for i, x in enumerate(exp_vector) if x), len(self.pcgs)+1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(leading_exponent(ele), return the leading non-zero exponent) over Any ║
+# ║ Path(leading_exponent(element), <unspecified:leading_exponent>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ leading_exponent : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 14c645db10020d29  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.leading_exponent","kind":"method","src_hash":"51ab653e30d1653e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"leading_exponent(ele)","rhs":"return the leading non-zero exponent","over":{"base":"Any"},"name":"leading_exponent_correct"},"guarantee":"return the leading non-zero exponent","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.leading_exponent_correct","statement":"Path(leading_exponent(x), return the leading non-zero exponent)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14c645db10020d29"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.leading_exponent","kind":"method","src_hash":"51ab653e30d1653e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"leading_exponent(element)","rhs":"<unspecified:leading_exponent>","over":{"base":"Any"},"name":"leading_exponent_correct"},"guarantee":"return the leading non-zero exponent","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.leading_exponent_correct","statement":"Path(leading_exponent(x), return the leading non-zero exponent)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"14c645db10020d29","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.depth","self.exponent_vector","self.pcgs"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def leading_exponent(self, element):
         r"""
         Return the leading non-zero exponent.
@@ -818,16 +919,22 @@ class Collector(DefaultPrinting):
         return None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sift(z, ), internal helper behaves correctly) over Any ║
+# ║ Path(_sift(z, g), <unspecified:_sift>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sift : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd71ffd861a6a3d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector._sift","kind":"method","src_hash":"d0b972836630ccbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sift(z, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sift_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector._sift_correct","statement":"Path(_sift(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd71ffd861a6a3d1"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector._sift","kind":"method","src_hash":"d0b972836630ccbd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sift(z, g)","rhs":"<unspecified:_sift>","over":{"base":"Any"},"name":"_sift_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector._sift_correct","statement":"Path(_sift(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd71ffd861a6a3d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.depth","self.leading_exponent","self.pcgs","self.relative_order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sift(self, z, g):
         h = g
         d = self.depth(h)
@@ -840,16 +947,22 @@ class Collector(DefaultPrinting):
         return h
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(induced_pcgs(gen), parameters ==========) over Any    ║
+# ║ Path(induced_pcgs(gens), <unspecified:induced_pcgs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ induced_pcgs : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fd3192ab606f7a95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.induced_pcgs","kind":"method","src_hash":"18d9a0225a92c350","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"induced_pcgs(gen)","rhs":"parameters ==========","over":{"base":"Any"},"name":"induced_pcgs_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.induced_pcgs_correct","statement":"Path(induced_pcgs(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd3192ab606f7a95"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.induced_pcgs","kind":"method","src_hash":"18d9a0225a92c350","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"induced_pcgs(gens)","rhs":"<unspecified:induced_pcgs>","over":{"base":"Any"},"name":"induced_pcgs_correct"},"guarantee":"parameters ==========","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.induced_pcgs_correct","statement":"Path(induced_pcgs(x), parameters ==========)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fd3192ab606f7a95","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def induced_pcgs(self, gens):
         """
 
@@ -896,16 +1009,22 @@ class Collector(DefaultPrinting):
         return z
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(constructive_membership_test(ipc), return the exponent vector for induced pcgs) over Any ║
+# ║ Path(constructive_membership_test(ipcgs, g), <unspecified:constructive_membership_test>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ constructive_membership_test : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 296033ab8848569f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.constructive_membership_test","kind":"method","src_hash":"4d1754125ca2a3e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"constructive_membership_test(ipc)","rhs":"return the exponent vector for induced pcgs","over":{"base":"Any"},"name":"constructive_membership_test_correct"},"guarantee":"return the exponent vector for induced pcgs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.constructive_membership_test_correct","statement":"Path(constructive_membership_test(x), return the exponent vector for induced pcgs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"296033ab8848569f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.pc_groups.Collector.constructive_membership_test","kind":"method","src_hash":"4d1754125ca2a3e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"constructive_membership_test(ipcgs, g)","rhs":"<unspecified:constructive_membership_test>","over":{"base":"Any"},"name":"constructive_membership_test_correct"},"guarantee":"return the exponent vector for induced pcgs","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.pc_groups.Collector.constructive_membership_test_correct","statement":"Path(constructive_membership_test(x), return the exponent vector for induced pcgs)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"296033ab8848569f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.depth","self.leading_exponent","self.relative_order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def constructive_membership_test(self, ipcgs, g):
         """
         Return the exponent vector for induced pcgs.

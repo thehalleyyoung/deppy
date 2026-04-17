@@ -18,16 +18,22 @@
 from sympy.testing.pytest import warns_deprecated_sympy
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_deprecated_testing_randtest(), test_deprecated_testing_randtest produces the expected output) over Any ║
+# ║ Path(test_deprecated_testing_randtest(), <unspecified:test_deprecated_testing_randtest>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_deprecated_testing_randtest : Any → Any               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8e4bc05aedd2efc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_deprecated.test_deprecated_testing_randtest","kind":"function","src_hash":"177b137f19f957dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_testing_randtest()","rhs":"test_deprecated_testing_randtest produces the expected output","over":{"base":"Any"},"name":"test_deprecated_testing_randtest_correct"},"guarantee":"test_deprecated_testing_randtest produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_deprecated.test_deprecated_testing_randtest_correct","statement":"Path(test_deprecated_testing_randtest(x), test_deprecated_testing_randtest produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8e4bc05aedd2efc"}
+# @cctt_verify {"v":2,"sym":"sympy.testing.tests.test_deprecated.test_deprecated_testing_randtest","kind":"function","src_hash":"177b137f19f957dc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_deprecated_testing_randtest()","rhs":"<unspecified:test_deprecated_testing_randtest>","over":{"base":"Any"},"name":"test_deprecated_testing_randtest_correct"},"guarantee":"test_deprecated_testing_randtest produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.testing.tests.test_deprecated.test_deprecated_testing_randtest_correct","statement":"Path(test_deprecated_testing_randtest(x), test_deprecated_testing_randtest produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8e4bc05aedd2efc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_deprecated_testing_randtest():
     with warns_deprecated_sympy():
         import sympy.testing.randtest  # noqa:F401

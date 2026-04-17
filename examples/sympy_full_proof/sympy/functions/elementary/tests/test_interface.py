@@ -30,16 +30,22 @@ from sympy.abc import x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_series1(), create our new "sin" function) over Any ║
+# ║ Path(test_function_series1(), <unspecified:test_function_series1>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_function_series1 : Any → {Any | my_function(x).s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9254b2e2fa7b1739  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_interface.test_function_series1","kind":"function","src_hash":"a37d33c1932ebe78","in":{"base":"Any"},"out":{"base":"Any","pred":"my_function(x).series(x, 0, 10) == sin(x).series(x, 0, 10) and limit(my_function(x) / x, x, 0) == 1"},"spec":{"lhs":"test_function_series1()","rhs":"create our new \"sin\" function","over":{"base":"Any"},"name":"test_function_series1_correct"},"guarantee":"create our new \"sin\" function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_interface.test_function_series1_correct","statement":"Path(test_function_series1(x), create our new \"sin\" function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9254b2e2fa7b1739"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_interface.test_function_series1","kind":"function","src_hash":"a37d33c1932ebe78","in":{"base":"Any"},"out":{"base":"Any","pred":"my_function(x).series(x, 0, 10) == sin(x).series(x, 0, 10) and limit(my_function(x) / x, x, 0) == 1"},"spec":{"lhs":"test_function_series1()","rhs":"<unspecified:test_function_series1>","over":{"base":"Any"},"name":"test_function_series1_correct"},"guarantee":"create our new \"sin\" function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_interface.test_function_series1_correct","statement":"Path(test_function_series1(x), create our new \"sin\" function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9254b2e2fa7b1739","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_function_series1():
     """Create our new "sin" function."""
 
@@ -62,16 +68,22 @@ def test_function_series1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_series2(), create our new "cos" function) over Any ║
+# ║ Path(test_function_series2(), <unspecified:test_function_series2>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_function_series2 : Any → {Any | my_function2(x)....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71ac582ae0bb2528  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_interface.test_function_series2","kind":"function","src_hash":"8ffac6b6099832ee","in":{"base":"Any"},"out":{"base":"Any","pred":"my_function2(x).series(x, 0, 10) == cos(x).series(x, 0, 10)"},"spec":{"lhs":"test_function_series2()","rhs":"create our new \"cos\" function","over":{"base":"Any"},"name":"test_function_series2_correct"},"guarantee":"create our new \"cos\" function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_interface.test_function_series2_correct","statement":"Path(test_function_series2(x), create our new \"cos\" function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71ac582ae0bb2528"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_interface.test_function_series2","kind":"function","src_hash":"8ffac6b6099832ee","in":{"base":"Any"},"out":{"base":"Any","pred":"my_function2(x).series(x, 0, 10) == cos(x).series(x, 0, 10)"},"spec":{"lhs":"test_function_series2()","rhs":"<unspecified:test_function_series2>","over":{"base":"Any"},"name":"test_function_series2_correct"},"guarantee":"create our new \"cos\" function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_interface.test_function_series2_correct","statement":"Path(test_function_series2(x), create our new \"cos\" function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71ac582ae0bb2528","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_function_series2():
     """Create our new "cos" function."""
 
@@ -93,16 +105,22 @@ def test_function_series2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_function_series3(), test our easy "tanh" function) over Any ║
+# ║ Path(test_function_series3(), <unspecified:test_function_series3>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_function_series3 : Any → {Any | e.series(x, 0, 6...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 59384dae029eede5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_interface.test_function_series3","kind":"function","src_hash":"eaf50b2c2803193c","in":{"base":"Any"},"out":{"base":"Any","pred":"e.series(x, 0, 6) == f.series(x, 0, 6)"},"spec":{"lhs":"test_function_series3()","rhs":"test our easy \"tanh\" function","over":{"base":"Any"},"name":"test_function_series3_correct"},"guarantee":"test our easy \"tanh\" function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_interface.test_function_series3_correct","statement":"Path(test_function_series3(x), test our easy \"tanh\" function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59384dae029eede5"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_interface.test_function_series3","kind":"function","src_hash":"eaf50b2c2803193c","in":{"base":"Any"},"out":{"base":"Any","pred":"e.series(x, 0, 6) == f.series(x, 0, 6)"},"spec":{"lhs":"test_function_series3()","rhs":"<unspecified:test_function_series3>","over":{"base":"Any"},"name":"test_function_series3_correct"},"guarantee":"test our easy \"tanh\" function","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_interface.test_function_series3_correct","statement":"Path(test_function_series3(x), test our easy \"tanh\" function)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"59384dae029eede5","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_function_series3():
     """
     Test our easy "tanh" function.

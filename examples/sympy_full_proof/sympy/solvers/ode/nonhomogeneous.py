@@ -44,16 +44,25 @@ from sympy.solvers.ode.ode import get_numbered_constants
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_test_term(coe), linear euler odes have the form k*x**order*diff(y(x), x, order) = f(x), where k is independent of x and y(x), order>= 0. so we need to check that for each term, coeff == k*x**order from some k) over Any ║
+# ║ Path(_test_term(coeff, func, order), <unspecified:_test_term>) over {Any | not (order < 0) and hasattr(func, 'func') and hasattr(coeff, 'is_Mul') and hasattr(func, 'args') and hasattr(coeff, 'is_Pow') and hasattr(coeff, 'free_symbols') and hasattr(coeff, 'has') and hasattr(coeff, 'args') and hasattr(coeff, 'as_base_exp')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _test_term : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (order < 0)                                ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(coeff, 'is_Mul')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _test_term : {Any | not (order < 0) and hasattr(func,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 50a73ded6c8be3fa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._test_term","kind":"function","src_hash":"a4e2717115aa3227","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_test_term(coe)","rhs":"linear euler odes have the form k*x**order*diff(y(x), x, order) = f(x), where k is independent of x and y(x), order>= 0. so we need to check that for each term, coeff == k*x**order from some k","over":{"base":"Any"},"name":"_test_term_correct"},"guarantee":"linear euler odes have the form k*x**order*diff(y(x), x, order) = f(x), where k is independent of x and y(x), order>= 0. so we need to check that for each term, coeff == k*x**order from some k","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.nonhomogeneous._test_term_correct","statement":"Path(_test_term(x), linear euler odes have the form k*x**order*diff(y(x), x, order) = f(x), where k is independent of x and y(x), order>= 0. so we need to check that for each term, coeff == k*x**order from some k)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50a73ded6c8be3fa"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._test_term","kind":"function","src_hash":"a4e2717115aa3227","in":{"base":"Any","pred":"not (order < 0) and hasattr(func, 'func') and hasattr(coeff, 'is_Mul') and hasattr(func, 'args') and hasattr(coeff, 'is_Pow') and hasattr(coeff, 'free_symbols') and hasattr(coeff, 'has') and hasattr(coeff, 'args') and hasattr(coeff, 'as_base_exp')"},"out":{"base":"Any"},"spec":{"lhs":"_test_term(coeff, func, order)","rhs":"<unspecified:_test_term>","over":{"base":"Any","pred":"not (order < 0) and hasattr(func, 'func') and hasattr(coeff, 'is_Mul') and hasattr(func, 'args') and hasattr(coeff, 'is_Pow') and hasattr(coeff, 'free_symbols') and hasattr(coeff, 'has') and hasattr(coeff, 'args') and hasattr(coeff, 'as_base_exp')"},"name":"_test_term_correct"},"guarantee":"linear euler odes have the form k*x**order*diff(y(x), x, order) = f(x), where k is independent of x and y(x), order>= 0. so we need to check that for each term, coeff == k*x**order from some k","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.nonhomogeneous._test_term_correct","statement":"Path(_test_term(x), linear euler odes have the form k*x**order*diff(y(x), x, order) = f(x), where k is independent of x and y(x), order>= 0. so we need to check that for each term, coeff == k*x**order from some k)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"50a73ded6c8be3fa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (order < 0)","hasattr(func, 'func')","hasattr(coeff, 'is_Mul')","hasattr(func, 'args')","hasattr(coeff, 'is_Pow')","hasattr(coeff, 'free_symbols')","hasattr(coeff, 'has')","hasattr(coeff, 'args')","hasattr(coeff, 'as_base_exp')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["coeff.args","coeff.as_base_exp","coeff.free_symbols","coeff.has","coeff.is_Mul","coeff.is_Pow","func.args","func.func"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _test_term(coeff, func, order):
     r"""
     Linear Euler ODEs have the form  K*x**order*diff(y(x), x, order) = F(x),
@@ -84,7 +93,16 @@ def _test_term(coeff, func, order):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_euler_characteristic_eq_sols(eq,), returns the solution of homogeneous part of the linear euler ode and the list of roots of characteristic equation) over {Any | isinstance(root, RootOf)} ║
+# ║ Path(_get_euler_characteristic_eq_sols(eq, func, match_obj), (gsol, gensols)) over {Any | isinstance(root, RootOf) and hasattr(func, 'func') and hasattr(func, 'args') and len(constants) > 0} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: len(constants) > 0                             ║
+# ║   ensures:  len(constants) == old_len_constants - 1        ║
+# ║   ensures:  len(constants) == old_len_constants            ║
+# ║   ensures:  len(gensols) == old_len_gensols + 1            ║
+# ║   returns:  (gsol, gensols)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_euler_characteristic_eq_sols : {Any | isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -96,9 +114,12 @@ def _test_term(coeff, func, order):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 68b2ac73...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._get_euler_characteristic_eq_sols","kind":"function","src_hash":"63a1eec453451cd2","in":{"base":"Any","pred":"isinstance(root, RootOf)"},"out":{"base":"Any"},"spec":{"lhs":"_get_euler_characteristic_eq_sols(eq,)","rhs":"returns the solution of homogeneous part of the linear euler ode and the list of roots of characteristic equation","over":{"base":"Any","pred":"isinstance(root, RootOf)"},"name":"_get_euler_characteristic_eq_sols_correct"},"guarantee":"returns the solution of homogeneous part of the linear euler ode and the list of roots of characteristic equation","fibers":[{"name":"RootOf","pred":"isinstance(root, RootOf)","path":{"lhs":"_get_euler_characteristic_eq_sols(x)","rhs":"returns the solution of homogeneous part of the linear euler ode and the list of roots of characteristic equation","over":{"base":"RootOf","pred":"isinstance(root, RootOf)"},"name":"_get_euler_characteristic_eq_sols_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.nonhomogeneous._get_euler_characteristic_eq_sols_RootOf_correct","statement":"_get_euler_characteristic_eq_sols satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"68b2ac730d625e90"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._get_euler_characteristic_eq_sols","kind":"function","src_hash":"63a1eec453451cd2","in":{"base":"Any","pred":"isinstance(root, RootOf) and hasattr(func, 'func') and hasattr(func, 'args') and len(constants) > 0"},"out":{"base":"Any","pred":"result satisfies: result == ((gsol, gensols))"},"spec":{"lhs":"_get_euler_characteristic_eq_sols(eq, func, match_obj)","rhs":"(gsol, gensols)","over":{"base":"Any","pred":"isinstance(root, RootOf) and hasattr(func, 'func') and hasattr(func, 'args') and len(constants) > 0"},"name":"_get_euler_characteristic_eq_sols_correct"},"guarantee":"returns (gsol, gensols); len(constants) == old_len_constants - 1; len(constants) == old_len_constants; len(gensols) == old_len_gensols + 1","fibers":[{"name":"RootOf","pred":"isinstance(root, RootOf)","path":{"lhs":"_get_euler_characteristic_eq_sols(x)","rhs":"returns (gsol, gensols); len(constants) == old_len_constants - 1; len(constants) == old_len_constants; len(gensols) == old_len_gensols + 1","over":{"base":"RootOf","pred":"isinstance(root, RootOf)"},"name":"_get_euler_characteristic_eq_sols_RootOf_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.nonhomogeneous._get_euler_characteristic_eq_sols_RootOf_correct","statement":"_get_euler_characteristic_eq_sols satisfies spec on RootOf inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"68b2ac730d625e90","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'func')","hasattr(func, 'args')","len(constants) > 0"],"ensures":["len(constants) == old_len_constants - 1","len(constants) == old_len_constants","len(gensols) == old_len_gensols + 1"],"returns_expr":"(gsol, gensols)","pure":false,"effects":{"effect_type":"reads_state","reads":["func.args","func.func"],"calls_mutating":["constants.pop","constants.reverse","gensols.append"],"raises":["ValueError"]},"state_contract":{"modifies":["constants.*","gensols.*"],"old_bindings":{"old_len_constants":"len(constants)","old_len_gensols":"len(gensols)"},"pre_requires":["len(constants) > 0"],"post_ensures":["len(constants) == old_len_constants - 1","len(constants) == old_len_constants","len(gensols) == old_len_gensols + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(root, RootOf)', 'i >= 0', 'multiplicity != 1', 'imroot == 0'}, fibers={'RootOf'})"]}}
 def _get_euler_characteristic_eq_sols(eq, func, match_obj):
     r"""
     Returns the solution of homogeneous part of the linear euler ODE and
@@ -166,16 +187,25 @@ def _get_euler_characteristic_eq_sols(eq, func, match_obj):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_variation_of_parameters(eq,), id) over Any     ║
+# ║ Path(_solve_variation_of_parameters(eq, func, roots), id) over {Any | hasattr(func, 'func') and hasattr(func, 'args') and hasattr(homogen_sol, 'rhs')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve_variation_of_parameters : Any → Any                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: hasattr(homogen_sol, 'rhs')                    ║
+# ║   returns:  Eq(f(x), homogen_sol.rhs + psol)               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve_variation_of_parameters : {Any | hasattr(func,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ab45cd195fd94484   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._solve_variation_of_parameters","kind":"function","src_hash":"222cf2552ea064ae","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_variation_of_parameters(eq,)","rhs":"helper function for the method of variation of parameters and nonhomogeneous euler eq","over":{"base":"Any"},"name":"_solve_variation_of_parameters_correct","kind":"composition"},"guarantee":"helper function for the method of variation of parameters and nonhomogeneous euler eq","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab45cd195fd94484"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._solve_variation_of_parameters","kind":"function","src_hash":"222cf2552ea064ae","in":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args') and hasattr(homogen_sol, 'rhs')"},"out":{"base":"Any"},"spec":{"lhs":"_solve_variation_of_parameters(eq, func, roots)","rhs":"Eq(f(x), homogen_sol.rhs + psol)","over":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args') and hasattr(homogen_sol, 'rhs')"},"name":"_solve_variation_of_parameters_correct","kind":"composition"},"guarantee":"returns Eq(f(x), homogen_sol.rhs + psol)","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ab45cd195fd94484","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'func')","hasattr(func, 'args')","hasattr(homogen_sol, 'rhs')"],"returns_expr":"Eq(f(x), homogen_sol.rhs + psol)","pure":false,"effects":{"effect_type":"reads_state","reads":["func.args","func.func","homogen_sol.rhs"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _solve_variation_of_parameters(eq, func, roots, homogen_sol, order, match_obj, simplify_flag=True):
     r"""
     Helper function for the method of variation of parameters and nonhomogeneous euler eq.
@@ -228,7 +258,12 @@ def _solve_variation_of_parameters(eq, func, roots, homogen_sol, order, match_ob
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_const_characteristic_eq_sols(r, ), returns the roots of characteristic equation of constant coefficient linear ode and list of collectterms which is later on used by simplification to use collect on solution) over {Any | isinstance(i, str)} ║
+# ║ Path(_get_const_characteristic_eq_sols(r, func, order), (gensols, collectterms)) over {Any | isinstance(i, str) and hasattr(func, 'args') and hasattr(r, 'keys')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: hasattr(r, 'keys')                             ║
+# ║   returns:  (gensols, collectterms)                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_const_characteristic_eq_sols : {Any | isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -240,9 +275,12 @@ def _solve_variation_of_parameters(eq, func, roots, homogen_sol, order, match_ob
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | d4016b12...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._get_const_characteristic_eq_sols","kind":"function","src_hash":"a7ca8bc073c27871","in":{"base":"Any","pred":"isinstance(i, str)"},"out":{"base":"Any"},"spec":{"lhs":"_get_const_characteristic_eq_sols(r, )","rhs":"returns the roots of characteristic equation of constant coefficient linear ode and list of collectterms which is later on used by simplification to use collect on solution","over":{"base":"Any","pred":"isinstance(i, str)"},"name":"_get_const_characteristic_eq_sols_correct"},"guarantee":"returns the roots of characteristic equation of constant coefficient linear ode and list of collectterms which is later on used by simplification to use collect on solution","fibers":[{"name":"str","pred":"isinstance(i, str)","path":{"lhs":"_get_const_characteristic_eq_sols(x)","rhs":"returns the roots of characteristic equation of constant coefficient linear ode and list of collectterms which is later on used by simplification to use collect on solution","over":{"base":"str","pred":"isinstance(i, str)"},"name":"_get_const_characteristic_eq_sols_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.nonhomogeneous._get_const_characteristic_eq_sols_str_correct","statement":"_get_const_characteristic_eq_sols satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d4016b12488f5a12"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._get_const_characteristic_eq_sols","kind":"function","src_hash":"a7ca8bc073c27871","in":{"base":"Any","pred":"isinstance(i, str) and hasattr(func, 'args') and hasattr(r, 'keys')"},"out":{"base":"Any"},"spec":{"lhs":"_get_const_characteristic_eq_sols(r, func, order)","rhs":"(gensols, collectterms)","over":{"base":"Any","pred":"isinstance(i, str) and hasattr(func, 'args') and hasattr(r, 'keys')"},"name":"_get_const_characteristic_eq_sols_correct"},"guarantee":"returns (gensols, collectterms)","fibers":[{"name":"str","pred":"isinstance(i, str)","path":{"lhs":"_get_const_characteristic_eq_sols(x)","rhs":"returns (gensols, collectterms)","over":{"base":"str","pred":"isinstance(i, str)"},"name":"_get_const_characteristic_eq_sols_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.nonhomogeneous._get_const_characteristic_eq_sols_str_correct","statement":"_get_const_characteristic_eq_sols satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"d4016b12488f5a12","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'args')","hasattr(r, 'keys')"],"returns_expr":"(gensols, collectterms)","pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'len(chareqroots) != order', 'imroot == 0', 'isinstance(i, str) or i < 0'}, fibers={'str'})"]}}
 def _get_const_characteristic_eq_sols(r, func, order):
     r"""
     Returns the roots of characteristic equation of constant coefficient
@@ -317,16 +355,27 @@ def _get_const_characteristic_eq_sols(r, func, order):
 # Ideally these kind of simplification functions shouldn't be part of solvers.
 # odesimp should be improved to handle these kind of specific simplifications.
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_simplified_sol(sol), id) over Any                ║
+# ║ Path(_get_simplified_sol(sol, func, collectterms), id) over {Any | hasattr(func, 'func') and hasattr(func, 'args') and hasattr(collectterms, 'sort') and hasattr(collectterms, 'reverse')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _get_simplified_sol : Any → {Any | len(sol) == 1 and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   requires: hasattr(collectterms, 'sort')                  ║
+# ║   ensures:  len(sol) == 1 and sol[0].lhs == f(x)           ║
+# ║   ensures:  len(collectterms) == old_len_collectterms      ║
+# ║   returns:  Eq(f(x), sol)                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _get_simplified_sol : {Any | hasattr(func, 'func') an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 96acd8e4a05f1c6c   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._get_simplified_sol","kind":"function","src_hash":"10581d2174086917","in":{"base":"Any"},"out":{"base":"Any","pred":"len(sol) == 1 and sol[0].lhs == f(x)"},"spec":{"lhs":"_get_simplified_sol(sol)","rhs":"helper function which collects the solution on collectterms","over":{"base":"Any"},"name":"_get_simplified_sol_correct","kind":"composition"},"guarantee":"helper function which collects the solution on collectterms","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96acd8e4a05f1c6c"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._get_simplified_sol","kind":"function","src_hash":"10581d2174086917","in":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args') and hasattr(collectterms, 'sort') and hasattr(collectterms, 'reverse')"},"out":{"base":"Any","pred":"result satisfies: result == (Eq(f(x), sol))"},"spec":{"lhs":"_get_simplified_sol(sol, func, collectterms)","rhs":"Eq(f(x), sol)","over":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args') and hasattr(collectterms, 'sort') and hasattr(collectterms, 'reverse')"},"name":"_get_simplified_sol_correct","kind":"composition"},"guarantee":"returns Eq(f(x), sol); len(sol) == 1 and sol[0].lhs == f(x); len(collectterms) == old_len_collectterms","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96acd8e4a05f1c6c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'func')","hasattr(func, 'args')","hasattr(collectterms, 'sort')","hasattr(collectterms, 'reverse')"],"ensures":["len(sol) == 1 and sol[0].lhs == f(x)","len(collectterms) == old_len_collectterms"],"returns_expr":"Eq(f(x), sol)","pure":false,"effects":{"effect_type":"mutates_args","reads":["collectterms.reverse","collectterms.sort","func.args","func.func"],"calls_mutating":["collectterms.reverse","collectterms.sort"]},"state_contract":{"modifies":["collectterms.*"],"old_bindings":{"old_len_collectterms":"len(collectterms)"},"post_ensures":["len(collectterms) == old_len_collectterms","len(collectterms) == old_len_collectterms"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _get_simplified_sol(sol, func, collectterms):
     r"""
     Helper function which collects the solution on
@@ -354,16 +403,25 @@ def _get_simplified_sol(sol, func, collectterms):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_undetermined_coefficients_match(exp), returns a trial function match if undetermined coefficients can be applied to ``expr``, and ``none`` otherwise) over Any ║
+# ║ Path(_undetermined_coefficients_match(expr, x, func), <unspecified:_undetermined_coefficients_match>) over {Any | hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Function') and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Symbol') and hasattr(expr, 'args') and hasattr(expr, 'has') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'is_number') and hasattr(expr, 'func') and hasattr(expr, 'diff')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _undetermined_coefficients_match : Any → Any               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   requires: hasattr(expr, 'is_Function')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _undetermined_coefficients_match : {Any | hasattr(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e5008600e5f8929  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._undetermined_coefficients_match","kind":"function","src_hash":"3ea53195212cec46","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_undetermined_coefficients_match(exp)","rhs":"returns a trial function match if undetermined coefficients can be applied to ``expr``, and ``none`` otherwise","over":{"base":"Any"},"name":"_undetermined_coefficients_match_correct"},"guarantee":"returns a trial function match if undetermined coefficients can be applied to ``expr``, and ``none`` otherwise","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.nonhomogeneous._undetermined_coefficients_match_correct","statement":"Path(_undetermined_coefficients_match(x), returns a trial function match if undetermined coefficients can be applied to ``expr``, and ``none`` otherwise)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e5008600e5f8929"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._undetermined_coefficients_match","kind":"function","src_hash":"3ea53195212cec46","in":{"base":"Any","pred":"hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Function') and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Symbol') and hasattr(expr, 'args') and hasattr(expr, 'has') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'is_number') and hasattr(expr, 'func') and hasattr(expr, 'diff')"},"out":{"base":"Any"},"spec":{"lhs":"_undetermined_coefficients_match(expr, x, func)","rhs":"<unspecified:_undetermined_coefficients_match>","over":{"base":"Any","pred":"hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'is_Function') and hasattr(expr, 'is_Pow') and hasattr(expr, 'is_Symbol') and hasattr(expr, 'args') and hasattr(expr, 'has') and hasattr(expr, 'base') and hasattr(expr, 'exp') and hasattr(expr, 'is_number') and hasattr(expr, 'func') and hasattr(expr, 'diff')"},"name":"_undetermined_coefficients_match_correct"},"guarantee":"returns a trial function match if undetermined coefficients can be applied to ``expr``, and ``none`` otherwise","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.solvers.ode.nonhomogeneous._undetermined_coefficients_match_correct","statement":"Path(_undetermined_coefficients_match(x), returns a trial function match if undetermined coefficients can be applied to ``expr``, and ``none`` otherwise)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e5008600e5f8929","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'is_Add')","hasattr(expr, 'is_Mul')","hasattr(expr, 'is_Function')","hasattr(expr, 'is_Pow')","hasattr(expr, 'is_Symbol')","hasattr(expr, 'args')","hasattr(expr, 'has')","hasattr(expr, 'base')","hasattr(expr, 'exp')","hasattr(expr, 'is_number')","hasattr(expr, 'func')","hasattr(expr, 'diff')"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def _undetermined_coefficients_match(expr, x, func=None, eq_homogeneous=S.Zero):
     r"""
     Returns a trial function match if undetermined coefficients can be applied
@@ -511,16 +569,25 @@ def _undetermined_coefficients_match(expr, x, func=None, eq_homogeneous=S.Zero):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_solve_undetermined_coefficients(eq,), id) over Any   ║
+# ║ Path(_solve_undetermined_coefficients(eq, func, order), id) over {Any | hasattr(func, 'func') and hasattr(func, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _solve_undetermined_coefficients : Any → Any               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(func, 'func')                          ║
+# ║   requires: hasattr(func, 'args')                          ║
+# ║   ensures:  len(coefflist) == old_len_coefflist + 1        ║
+# ║   returns:  Eq(f(x), gsol.rhs + psol)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _solve_undetermined_coefficients : {Any | hasattr(fun...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 899f08e9258801bf   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._solve_undetermined_coefficients","kind":"function","src_hash":"d71fb62df7eee0de","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_solve_undetermined_coefficients(eq,)","rhs":"helper function for the method of undetermined coefficients","over":{"base":"Any"},"name":"_solve_undetermined_coefficients_correct","kind":"composition"},"guarantee":"helper function for the method of undetermined coefficients","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"899f08e9258801bf"}
+# @cctt_verify {"v":2,"sym":"sympy.solvers.ode.nonhomogeneous._solve_undetermined_coefficients","kind":"function","src_hash":"d71fb62df7eee0de","in":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (Eq(f(x), gsol.rhs + psol))"},"spec":{"lhs":"_solve_undetermined_coefficients(eq, func, order)","rhs":"Eq(f(x), gsol.rhs + psol)","over":{"base":"Any","pred":"hasattr(func, 'func') and hasattr(func, 'args')"},"name":"_solve_undetermined_coefficients_correct","kind":"composition"},"guarantee":"returns Eq(f(x), gsol.rhs + psol); len(coefflist) == old_len_coefflist + 1","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"Eq","by":"library_axiom"},{"fn":"f","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"899f08e9258801bf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(func, 'func')","hasattr(func, 'args')"],"ensures":["len(coefflist) == old_len_coefflist + 1"],"returns_expr":"Eq(f(x), gsol.rhs + psol)","pure":false,"effects":{"effect_type":"reads_state","reads":["func.args","func.func"],"calls_mutating":["coefflist.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["coefflist.*"],"old_bindings":{"old_len_coefflist":"len(coefflist)"},"post_ensures":["len(coefflist) == old_len_coefflist + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _solve_undetermined_coefficients(eq, func, order, match, trialset):
     r"""
     Helper function for the method of undetermined coefficients.

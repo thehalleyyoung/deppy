@@ -23,9 +23,13 @@ from .integrals import Integral, integrate
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(change_mul(nod), change_mul(node, x)) over {Any | isinstance(arg.base, DiracDelta)} ║
+# ║ Path(change_mul(node, x), <unspecified:change_mul>) over {Any | isinstance(arg.base, DiracDelta) and hasattr(node, 'args_cnc')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ change_mul : {Any | isinstance(arg.base, DiracDelta)}...   ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(node, 'args_cnc')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ change_mul : {Any | isinstance(arg.base, DiracDelta) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   DiracDelta: {isinstance(arg.base, DiracDelta)} → li...   ║
@@ -35,9 +39,12 @@ from .integrals import Integral, integrate
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 0.7ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8abf668a...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.deltafunctions.change_mul","kind":"function","src_hash":"416ccb07ae9a6594","in":{"base":"Any","pred":"isinstance(arg.base, DiracDelta)"},"out":{"base":"Any","pred":"result satisfies: (dirac, new node)"},"spec":{"lhs":"change_mul(nod)","rhs":"change_mul(node, x)","over":{"base":"Any","pred":"isinstance(arg.base, DiracDelta)"},"name":"change_mul_correct"},"guarantee":"change_mul(node, x)","fibers":[{"name":"DiracDelta","pred":"isinstance(arg.base, DiracDelta)","path":{"lhs":"change_mul(x)","rhs":"change_mul(node, x)","over":{"base":"DiracDelta","pred":"isinstance(arg.base, DiracDelta)"},"name":"change_mul_DiracDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.deltafunctions.change_mul_DiracDelta_correct","statement":"change_mul satisfies spec on DiracDelta inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8abf668a69763bef"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.deltafunctions.change_mul","kind":"function","src_hash":"416ccb07ae9a6594","in":{"base":"Any","pred":"isinstance(arg.base, DiracDelta) and hasattr(node, 'args_cnc')"},"out":{"base":"Any","pred":"result satisfies: (dirac, new node)"},"spec":{"lhs":"change_mul(node, x)","rhs":"<unspecified:change_mul>","over":{"base":"Any","pred":"isinstance(arg.base, DiracDelta) and hasattr(node, 'args_cnc')"},"name":"change_mul_correct"},"guarantee":"change_mul(node, x)","fibers":[{"name":"DiracDelta","pred":"isinstance(arg.base, DiracDelta)","path":{"lhs":"change_mul(x)","rhs":"change_mul(node, x)","over":{"base":"DiracDelta","pred":"isinstance(arg.base, DiracDelta)"},"name":"change_mul_DiracDelta_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.deltafunctions.change_mul_DiracDelta_correct","statement":"change_mul satisfies spec on DiracDelta inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8abf668a69763bef","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(node, 'args_cnc')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'new_args != sorted_args', 'arg.is_Pow and isinstance(arg.base, DiracDelta)', 'dirac is None and (isinstance(arg, DiracDelta) and arg.is_simple(x))', 'isinstance(arg, DiracDelta)'}, fibers={'DiracDelta'})"]}}
 def change_mul(node, x):
     """change_mul(node, x)
 
@@ -112,9 +119,15 @@ def change_mul(node, x):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(deltaintegrate(f, ), deltaintegrate(f, x)) over {Any | isinstance(fh, Integral)} ║
+# ║ Path(deltaintegrate(f, x), <unspecified:deltaintegrate>) over {Any | isinstance(fh, Integral) and hasattr(f, 'func') and hasattr(f, 'has') and hasattr(f, 'expand') and hasattr(f, 'is_Mul') and hasattr(f, 'is_Pow') and hasattr(f, 'is_simple') and hasattr(f, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ deltaintegrate : {Any | isinstance(fh, Integral)} → Any    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(f, 'func')                             ║
+# ║   requires: hasattr(f, 'has')                              ║
+# ║   requires: hasattr(f, 'expand')                           ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ deltaintegrate : {Any | isinstance(fh, Integral) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Integral: {isinstance(fh, Integral)} → library_axiom     ║
@@ -124,9 +137,12 @@ def change_mul(node, x):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 8d377477...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.integrals.deltafunctions.deltaintegrate","kind":"function","src_hash":"bba26d8cfed6cbea","in":{"base":"Any","pred":"isinstance(fh, Integral)"},"out":{"base":"Any"},"spec":{"lhs":"deltaintegrate(f, )","rhs":"deltaintegrate(f, x)","over":{"base":"Any","pred":"isinstance(fh, Integral)"},"name":"deltaintegrate_correct"},"guarantee":"deltaintegrate(f, x)","fibers":[{"name":"Integral","pred":"isinstance(fh, Integral)","path":{"lhs":"deltaintegrate(x)","rhs":"deltaintegrate(f, x)","over":{"base":"Integral","pred":"isinstance(fh, Integral)"},"name":"deltaintegrate_Integral_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.deltafunctions.deltaintegrate_Integral_correct","statement":"deltaintegrate satisfies spec on Integral inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8d377477d568af6a"}
+# @cctt_verify {"v":2,"sym":"sympy.integrals.deltafunctions.deltaintegrate","kind":"function","src_hash":"bba26d8cfed6cbea","in":{"base":"Any","pred":"isinstance(fh, Integral) and hasattr(f, 'func') and hasattr(f, 'has') and hasattr(f, 'expand') and hasattr(f, 'is_Mul') and hasattr(f, 'is_Pow') and hasattr(f, 'is_simple') and hasattr(f, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"deltaintegrate(f, x)","rhs":"<unspecified:deltaintegrate>","over":{"base":"Any","pred":"isinstance(fh, Integral) and hasattr(f, 'func') and hasattr(f, 'has') and hasattr(f, 'expand') and hasattr(f, 'is_Mul') and hasattr(f, 'is_Pow') and hasattr(f, 'is_simple') and hasattr(f, 'args')"},"name":"deltaintegrate_correct"},"guarantee":"deltaintegrate(f, x)","fibers":[{"name":"Integral","pred":"isinstance(fh, Integral)","path":{"lhs":"deltaintegrate(x)","rhs":"deltaintegrate(f, x)","over":{"base":"Integral","pred":"isinstance(fh, Integral)"},"name":"deltaintegrate_Integral_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.integrals.deltafunctions.deltaintegrate_Integral_correct","statement":"deltaintegrate satisfies spec on Integral inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"8d377477d568af6a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(f, 'func')","hasattr(f, 'has')","hasattr(f, 'expand')","hasattr(f, 'is_Mul')","hasattr(f, 'is_Pow')","hasattr(f, 'is_simple')","hasattr(f, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["f.args","f.expand","f.func","f.has","f.is_Mul","f.is_Pow","f.is_simple"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'m == 0', 'len(f.args) <= 1 or f.args[1] == 0', 'f != g', 'fh is not None and (not isinstance(fh, Integral))', 'f.func == DiracDelta', 'h == f'}, fibers={'Integral'})"]}}
 def deltaintegrate(f, x):
     """
     deltaintegrate(f, x)

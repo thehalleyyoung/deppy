@@ -27,29 +27,41 @@ from sympy.utilities import public
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(GMPYFiniteField(*args), correctly constructs a GMPYFiniteField instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ GMPYFiniteField : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, FiniteField)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ GMPYFiniteField : Any → {Any | result satisfies: isin...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33324044f4bb891e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyfinitefield.GMPYFiniteField","kind":"class","src_hash":"11500edb76e49f34","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"GMPYFiniteField(*args)","rhs":"correctly constructs a GMPYFiniteField instance","over":{"base":"Any"},"name":"GMPYFiniteField_class_invariant"},"guarantee":"correctly constructs a GMPYFiniteField instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33324044f4bb891e"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyfinitefield.GMPYFiniteField","kind":"class","src_hash":"11500edb76e49f34","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, FiniteField)"},"spec":{"lhs":"GMPYFiniteField(*args)","rhs":"correctly constructs a GMPYFiniteField instance","over":{"base":"Any"},"name":"GMPYFiniteField_class_invariant"},"guarantee":"isinstance(self, FiniteField)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33324044f4bb891e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, FiniteField)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Function GMPYFiniteField not found in source"]}}
 class GMPYFiniteField(FiniteField):
     """Finite field based on GMPY integers. """
 
     alias = 'FF_gmpy'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(mod), initializes the instance correctly) over Any ║
+# ║ Path(__init__(mod, symmetric), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0586020d0e357908           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyfinitefield.GMPYFiniteField.__init__","kind":"method","src_hash":"8dbcf88dab4e7d47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(mod)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0586020d0e357908"}
+# @cctt_verify {"v":2,"sym":"sympy.polys.domains.gmpyfinitefield.GMPYFiniteField.__init__","kind":"method","src_hash":"8dbcf88dab4e7d47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(mod, symmetric)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0586020d0e357908","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, mod, symmetric=True):
         super().__init__(mod, GMPYIntegerRing(), symmetric)

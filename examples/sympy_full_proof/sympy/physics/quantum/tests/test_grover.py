@@ -25,46 +25,67 @@ from sympy.physics.quantum.grover import (apply_grover, superposition_basis,
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(return_one_on_two(qub), return_one_on_two produces the expected output) over Any ║
+# ║ Path(return_one_on_two(qubits), qubits == IntQubit(2, qubits.nqubits)) over {Any | hasattr(qubits, 'nqubits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ return_one_on_two : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(qubits, 'nqubits')                     ║
+# ║   returns:  qubits == IntQubit(2, qubits.nqubits)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ return_one_on_two : {Any | hasattr(qubits, 'nqubits')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a10d415965f38d4e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.return_one_on_two","kind":"function","src_hash":"a45c4ba14508b6ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"return_one_on_two(qub)","rhs":"return_one_on_two produces the expected output","over":{"base":"Any"},"name":"return_one_on_two_correct"},"guarantee":"return_one_on_two produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a10d415965f38d4e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.return_one_on_two","kind":"function","src_hash":"a45c4ba14508b6ed","in":{"base":"Any","pred":"hasattr(qubits, 'nqubits')"},"out":{"base":"Any"},"spec":{"lhs":"return_one_on_two(qubits)","rhs":"qubits == IntQubit(2, qubits.nqubits)","over":{"base":"Any","pred":"hasattr(qubits, 'nqubits')"},"name":"return_one_on_two_correct"},"guarantee":"returns qubits == IntQubit(2, qubits.nqubits)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a10d415965f38d4e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(qubits, 'nqubits')"],"returns_expr":"qubits == IntQubit(2, qubits.nqubits)","pure":false,"effects":{"effect_type":"reads_state","reads":["qubits.nqubits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def return_one_on_two(qubits):
     return qubits == IntQubit(2, qubits.nqubits)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(return_one_on_one(qub), return_one_on_one produces the expected output) over Any ║
+# ║ Path(return_one_on_one(qubits), qubits == IntQubit(1, nqubits=qubits.nqubits)) over {Any | hasattr(qubits, 'nqubits')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ return_one_on_one : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(qubits, 'nqubits')                     ║
+# ║   returns:  qubits == IntQubit(1, nqubits=qubits.nqub...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ return_one_on_one : {Any | hasattr(qubits, 'nqubits')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f6623c65e128e5f6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.return_one_on_one","kind":"function","src_hash":"7be4b94768417df8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"return_one_on_one(qub)","rhs":"return_one_on_one produces the expected output","over":{"base":"Any"},"name":"return_one_on_one_correct"},"guarantee":"return_one_on_one produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6623c65e128e5f6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.return_one_on_one","kind":"function","src_hash":"7be4b94768417df8","in":{"base":"Any","pred":"hasattr(qubits, 'nqubits')"},"out":{"base":"Any"},"spec":{"lhs":"return_one_on_one(qubits)","rhs":"qubits == IntQubit(1, nqubits=qubits.nqubits)","over":{"base":"Any","pred":"hasattr(qubits, 'nqubits')"},"name":"return_one_on_one_correct"},"guarantee":"returns qubits == IntQubit(1, nqubits=qubits.nqubits)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f6623c65e128e5f6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(qubits, 'nqubits')"],"returns_expr":"qubits == IntQubit(1, nqubits=qubits.nqubits)","pure":false,"effects":{"effect_type":"reads_state","reads":["qubits.nqubits"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":true}}
 def return_one_on_one(qubits):
     return qubits == IntQubit(1, nqubits=qubits.nqubits)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_superposition_basis(), test_superposition_basis produces the expected output) over Any ║
+# ║ Path(test_superposition_basis(), first_half_state + second_half_state == superposition_basis(nbits) and firstq + secondq + thirdq + fourthq == superposition_basis(nbits)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_superposition_basis : Any → {Any | first_half_st...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  first_half_state + second_half_state == s...   ║
+# ║   ensures:  firstq + secondq + thirdq + fourthq == su...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_superposition_basis : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5fd5e7f8f72acd0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 541b9a591711cee5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.test_superposition_basis","kind":"function","src_hash":"6d29e4689b726172","in":{"base":"Any"},"out":{"base":"Any","pred":"first_half_state + second_half_state == superposition_basis(nbits) and firstq + secondq + thirdq + fourthq == superposition_basis(nbits)"},"spec":{"lhs":"test_superposition_basis()","rhs":"test_superposition_basis produces the expected output","over":{"base":"Any"},"name":"test_superposition_basis_correct"},"guarantee":"test_superposition_basis produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_grover.test_superposition_basis_correct","statement":"Path(test_superposition_basis(x), test_superposition_basis produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5fd5e7f8f72acd0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.test_superposition_basis","kind":"function","src_hash":"6d29e4689b726172","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: first_half_state + second_half_state == superposition_basis(nbits) and firstq + secondq + thirdq + fourthq == superposition_basis(nbits)"},"spec":{"lhs":"test_superposition_basis()","rhs":"first_half_state + second_half_state == superposition_basis(nbits) and firstq + secondq + thirdq + fourthq == superposition_basis(nbits)","over":{"base":"Any"},"name":"test_superposition_basis_correct"},"guarantee":"first_half_state + second_half_state == superposition_basis(nbits); firstq + secondq + thirdq + fourthq == superposition_basis(nbits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_grover.test_superposition_basis_correct","statement":"Path(test_superposition_basis(x), first_half_state + second_half_state == superposition_basis(nbits); firstq + secondq + thirdq + fourthq == superposition_basis(nbits))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"541b9a591711cee5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["first_half_state + second_half_state == superposition_basis(nbits)","firstq + secondq + thirdq + fourthq == superposition_basis(nbits)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_superposition_basis():
     nbits = 2
     first_half_state = IntQubit(0, nqubits=nbits)/2 + IntQubit(1, nqubits=nbits)/2
@@ -80,16 +101,24 @@ def test_superposition_basis():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_OracleGate(), test_OracleGate produces the expected output) over Any ║
+# ║ Path(test_OracleGate(), qapply(v * IntQubit(0)) == -IntQubit(0) and qapply(v * IntQubit(1)) == IntQubit(1) and qapply(v * IntQubit(0, nbits)) == IntQubit(0, nqubits=nbits) and qapply(v * IntQubit(1, nbits)) == IntQubit(1, nqubits=nbits) and qapply(v * IntQubit(2, nbits)) == -IntQubit(2, nbits) and qapply(v * IntQubit(3, nbits)) == IntQubit(3, nbits) and represent(OracleGate(1, lambda qubits: qubits == IntQubit(0)), nqubits=1) == Matrix([[-1, 0], [0, 1]]) and represent(v, nqubits=2) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_OracleGate : Any → {Any | qapply(v * IntQubit(0)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(v * IntQubit(0)) == -IntQubit(0)        ║
+# ║   ensures:  qapply(v * IntQubit(1)) == IntQubit(1)         ║
+# ║   ensures:  qapply(v * IntQubit(0, nbits)) == IntQubi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_OracleGate : Any → {Any | result satisfies: qapp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aa7c4e4dde28b1e6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f1ccc3b97211a9f7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.test_OracleGate","kind":"function","src_hash":"343d8178ea97ef4d","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(v * IntQubit(0)) == -IntQubit(0) and qapply(v * IntQubit(1)) == IntQubit(1) and qapply(v * IntQubit(0, nbits)) == IntQubit(0, nqubits=nbits) and qapply(v * IntQubit(1, nbits)) == IntQubit(1, nqubits=nbits) and qapply(v * IntQubit(2, nbits)) == -IntQubit(2, nbits) and qapply(v * IntQubit(3, nbits)) == IntQubit(3, nbits)"},"spec":{"lhs":"test_OracleGate()","rhs":"test_OracleGate produces the expected output","over":{"base":"Any"},"name":"test_OracleGate_correct"},"guarantee":"test_OracleGate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_grover.test_OracleGate_correct","statement":"Path(test_OracleGate(x), test_OracleGate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aa7c4e4dde28b1e6"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.test_OracleGate","kind":"function","src_hash":"343d8178ea97ef4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(v * IntQubit(0)) == -IntQubit(0) and qapply(v * IntQubit(1)) == IntQubit(1) and qapply(v * IntQubit(0, nbits)) == IntQubit(0, nqubits=nbits) and qapply(v * IntQubit(1, nbits)) == IntQubit(1, nqubits=nbits) and qapply(v * IntQubit(2, nbits)) == -IntQubit(2, nbits) and qapply(v * IntQubit(3, nbits)) == IntQubit(3, nbits) and represent(OracleGate(1, lambda qubits: qubits == IntQubit(0)), nqubits=1) == Matrix([[-1, 0], [0, 1]]) and represent(v, nqubits=2) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])"},"spec":{"lhs":"test_OracleGate()","rhs":"qapply(v * IntQubit(0)) == -IntQubit(0) and qapply(v * IntQubit(1)) == IntQubit(1) and qapply(v * IntQubit(0, nbits)) == IntQubit(0, nqubits=nbits) and qapply(v * IntQubit(1, nbits)) == IntQubit(1, nqubits=nbits) and qapply(v * IntQubit(2, nbits)) == -IntQubit(2, nbits) and qapply(v * IntQubit(3, nbits)) == IntQubit(3, nbits) and represent(OracleGate(1, lambda qubits: qubits == IntQubit(0)), nqubits=1) == Matrix([[-1, 0], [0, 1]]) and represent(v, nqubits=2) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])","over":{"base":"Any"},"name":"test_OracleGate_correct"},"guarantee":"qapply(v * IntQubit(0)) == -IntQubit(0); qapply(v * IntQubit(1)) == IntQubit(1); qapply(v * IntQubit(0, nbits)) == IntQubit(0, nqubits=nbits)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_grover.test_OracleGate_correct","statement":"Path(test_OracleGate(x), qapply(v * IntQubit(0)) == -IntQubit(0); qapply(v * IntQubit(1)) == IntQubit(1); qapply(v * IntQubit(0, nbits)) == IntQubit(0, nqubits=nbits))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f1ccc3b97211a9f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(v * IntQubit(0)) == -IntQubit(0)","qapply(v * IntQubit(1)) == IntQubit(1)","qapply(v * IntQubit(0, nbits)) == IntQubit(0, nqubits=nbits)","qapply(v * IntQubit(1, nbits)) == IntQubit(1, nqubits=nbits)","qapply(v * IntQubit(2, nbits)) == -IntQubit(2, nbits)","qapply(v * IntQubit(3, nbits)) == IntQubit(3, nbits)","represent(OracleGate(1, lambda qubits: qubits == IntQubit(0)), nqubits=1) == Matrix([[-1, 0], [0, 1]])","represent(v, nqubits=2) == Matrix([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_OracleGate():
     v = OracleGate(1, lambda qubits: qubits == IntQubit(0))
     assert qapply(v*IntQubit(0)) == -IntQubit(0)
@@ -108,16 +137,23 @@ def test_OracleGate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_WGate(), test_WGate produces the expected output) over Any ║
+# ║ Path(test_WGate(), qapply(WGate(nqubits) * basis_states) == basis_states and qapply(WGate(nqubits) * IntQubit(1, nqubits=nqubits)) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_WGate : Any → {Any | qapply(WGate(nqubits) * bas...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(WGate(nqubits) * basis_states) == ...   ║
+# ║   ensures:  qapply(WGate(nqubits) * IntQubit(1, nqubi...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_WGate : Any → {Any | result satisfies: qapply(WG...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 02016cb0753900fb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ca946bde801b41fb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.test_WGate","kind":"function","src_hash":"e5047efc1bf6d292","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(WGate(nqubits) * basis_states) == basis_states and qapply(WGate(nqubits) * IntQubit(1, nqubits=nqubits)) == expected"},"spec":{"lhs":"test_WGate()","rhs":"test_WGate produces the expected output","over":{"base":"Any"},"name":"test_WGate_correct"},"guarantee":"test_WGate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_grover.test_WGate_correct","statement":"Path(test_WGate(x), test_WGate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"02016cb0753900fb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.test_WGate","kind":"function","src_hash":"e5047efc1bf6d292","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(WGate(nqubits) * basis_states) == basis_states and qapply(WGate(nqubits) * IntQubit(1, nqubits=nqubits)) == expected"},"spec":{"lhs":"test_WGate()","rhs":"qapply(WGate(nqubits) * basis_states) == basis_states and qapply(WGate(nqubits) * IntQubit(1, nqubits=nqubits)) == expected","over":{"base":"Any"},"name":"test_WGate_correct"},"guarantee":"qapply(WGate(nqubits) * basis_states) == basis_states; qapply(WGate(nqubits) * IntQubit(1, nqubits=nqubits)) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_grover.test_WGate_correct","statement":"Path(test_WGate(x), qapply(WGate(nqubits) * basis_states) == basis_states; qapply(WGate(nqubits) * IntQubit(1, nqubits=nqubits)) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca946bde801b41fb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(WGate(nqubits) * basis_states) == basis_states","qapply(WGate(nqubits) * IntQubit(1, nqubits=nqubits)) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_WGate():
     nqubits = 2
     basis_states = superposition_basis(nqubits)
@@ -128,16 +164,22 @@ def test_WGate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_grover_iteration_1(), test_grover_iteration_1 produces the expected output) over Any ║
+# ║ Path(test_grover_iteration_1(), qapply(grover_iteration(basis_states, v)) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_grover_iteration_1 : Any → {Any | qapply(grover_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(grover_iteration(basis_states, v))...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_grover_iteration_1 : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0f41b03f4afc5c8c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b5fa655de1e9570a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.test_grover_iteration_1","kind":"function","src_hash":"623f1cd19d0884fa","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(grover_iteration(basis_states, v)) == expected"},"spec":{"lhs":"test_grover_iteration_1()","rhs":"test_grover_iteration_1 produces the expected output","over":{"base":"Any"},"name":"test_grover_iteration_1_correct"},"guarantee":"test_grover_iteration_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_grover.test_grover_iteration_1_correct","statement":"Path(test_grover_iteration_1(x), test_grover_iteration_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0f41b03f4afc5c8c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.test_grover_iteration_1","kind":"function","src_hash":"623f1cd19d0884fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(grover_iteration(basis_states, v)) == expected"},"spec":{"lhs":"test_grover_iteration_1()","rhs":"qapply(grover_iteration(basis_states, v)) == expected","over":{"base":"Any"},"name":"test_grover_iteration_1_correct"},"guarantee":"qapply(grover_iteration(basis_states, v)) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_grover.test_grover_iteration_1_correct","statement":"Path(test_grover_iteration_1(x), qapply(grover_iteration(basis_states, v)) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b5fa655de1e9570a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(grover_iteration(basis_states, v)) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_grover_iteration_1():
     numqubits = 2
     basis_states = superposition_basis(numqubits)
@@ -147,16 +189,22 @@ def test_grover_iteration_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_grover_iteration_2(), test_grover_iteration_2 produces the expected output) over Any ║
+# ║ Path(test_grover_iteration_2(), qapply(expected) == iterated) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_grover_iteration_2 : Any → {Any | qapply(expecte...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  qapply(expected) == iterated                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_grover_iteration_2 : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a92d9c9c2ae1bae  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5fb1f88a2565abc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.test_grover_iteration_2","kind":"function","src_hash":"cd94e7672db33637","in":{"base":"Any"},"out":{"base":"Any","pred":"qapply(expected) == iterated"},"spec":{"lhs":"test_grover_iteration_2()","rhs":"test_grover_iteration_2 produces the expected output","over":{"base":"Any"},"name":"test_grover_iteration_2_correct"},"guarantee":"test_grover_iteration_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_grover.test_grover_iteration_2_correct","statement":"Path(test_grover_iteration_2(x), test_grover_iteration_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a92d9c9c2ae1bae"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.test_grover_iteration_2","kind":"function","src_hash":"cd94e7672db33637","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: qapply(expected) == iterated"},"spec":{"lhs":"test_grover_iteration_2()","rhs":"qapply(expected) == iterated","over":{"base":"Any"},"name":"test_grover_iteration_2_correct"},"guarantee":"qapply(expected) == iterated","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_grover.test_grover_iteration_2_correct","statement":"Path(test_grover_iteration_2(x), qapply(expected) == iterated)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5fb1f88a2565abc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["qapply(expected) == iterated"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_grover_iteration_2():
     numqubits = 4
     basis_states = superposition_basis(numqubits)
@@ -177,16 +225,23 @@ def test_grover_iteration_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_grover(), test_grover produces the expected output) over Any ║
+# ║ Path(test_grover(), apply_grover(return_one_on_one, nqubits) == IntQubit(1, nqubits=nqubits) and apply_grover(return_one_on_two, 4) == qapply(expected)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_grover : Any → {Any | apply_grover(return_one_on...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  apply_grover(return_one_on_one, nqubits) ...   ║
+# ║   ensures:  apply_grover(return_one_on_two, 4) == qap...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_grover : Any → {Any | result satisfies: apply_gr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20beac2ff7fc9dad  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67771d7a70390a88  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.test_grover","kind":"function","src_hash":"ca3a5372dc31b5b3","in":{"base":"Any"},"out":{"base":"Any","pred":"apply_grover(return_one_on_one, nqubits) == IntQubit(1, nqubits=nqubits) and apply_grover(return_one_on_two, 4) == qapply(expected)"},"spec":{"lhs":"test_grover()","rhs":"test_grover produces the expected output","over":{"base":"Any"},"name":"test_grover_correct"},"guarantee":"test_grover produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_grover.test_grover_correct","statement":"Path(test_grover(x), test_grover produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20beac2ff7fc9dad"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_grover.test_grover","kind":"function","src_hash":"ca3a5372dc31b5b3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: apply_grover(return_one_on_one, nqubits) == IntQubit(1, nqubits=nqubits) and apply_grover(return_one_on_two, 4) == qapply(expected)"},"spec":{"lhs":"test_grover()","rhs":"apply_grover(return_one_on_one, nqubits) == IntQubit(1, nqubits=nqubits) and apply_grover(return_one_on_two, 4) == qapply(expected)","over":{"base":"Any"},"name":"test_grover_correct"},"guarantee":"apply_grover(return_one_on_one, nqubits) == IntQubit(1, nqubits=nqubits); apply_grover(return_one_on_two, 4) == qapply(expected)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_grover.test_grover_correct","statement":"Path(test_grover(x), apply_grover(return_one_on_one, nqubits) == IntQubit(1, nqubits=nqubits); apply_grover(return_one_on_two, 4) == qapply(expected))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67771d7a70390a88","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["apply_grover(return_one_on_one, nqubits) == IntQubit(1, nqubits=nqubits)","apply_grover(return_one_on_two, 4) == qapply(expected)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_grover():
     nqubits = 2
     assert apply_grover(return_one_on_one, nqubits) == IntQubit(1, nqubits=nqubits)

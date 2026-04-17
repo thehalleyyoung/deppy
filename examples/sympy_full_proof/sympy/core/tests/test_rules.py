@@ -21,16 +21,24 @@ from sympy.testing.pytest import raises
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Transform(), test_Transform produces the expected output) over Any ║
+# ║ Path(test_Transform(), add1[1] == 2 and (1 in add1) is True and add1.get(1) == 2 and (2 in add1) is False and add1.get(2) is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Transform : Any → {Any | add1[1] == 2 and (1 in ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  add1[1] == 2                                   ║
+# ║   ensures:  (1 in add1) is True                            ║
+# ║   ensures:  add1.get(1) == 2                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Transform : Any → {Any | result satisfies: add1[...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa3d9b32b5a6af44  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 941583620a15dcf3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_rules.test_Transform","kind":"function","src_hash":"c67faee321bfaf23","in":{"base":"Any"},"out":{"base":"Any","pred":"add1[1] == 2 and (1 in add1) is True and add1.get(1) == 2 and (2 in add1) is False and add1.get(2) is None"},"spec":{"lhs":"test_Transform()","rhs":"test_Transform produces the expected output","over":{"base":"Any"},"name":"test_Transform_correct"},"guarantee":"test_Transform produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_rules.test_Transform_correct","statement":"Path(test_Transform(x), test_Transform produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa3d9b32b5a6af44"}
+# @cctt_verify {"v":2,"sym":"sympy.core.tests.test_rules.test_Transform","kind":"function","src_hash":"c67faee321bfaf23","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: add1[1] == 2 and (1 in add1) is True and add1.get(1) == 2 and (2 in add1) is False and add1.get(2) is None"},"spec":{"lhs":"test_Transform()","rhs":"add1[1] == 2 and (1 in add1) is True and add1.get(1) == 2 and (2 in add1) is False and add1.get(2) is None","over":{"base":"Any"},"name":"test_Transform_correct"},"guarantee":"add1[1] == 2; (1 in add1) is True; add1.get(1) == 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.tests.test_rules.test_Transform_correct","statement":"Path(test_Transform(x), add1[1] == 2; (1 in add1) is True; add1.get(1) == 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"941583620a15dcf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["add1[1] == 2","(1 in add1) is True","add1.get(1) == 2","(2 in add1) is False","add1.get(2) is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_Transform():
     add1 = Transform(lambda x: x + 1, lambda x: x % 2 == 1)
     assert add1[1] == 2

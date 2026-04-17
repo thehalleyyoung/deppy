@@ -25,16 +25,25 @@ from sympy.utilities.misc import as_int
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linrec(coe), evaluation of univariate linear recurrences of homogeneous type having coefficients independent of the recurrence variable) over Any ║
+# ║ Path(linrec(coeffs, init, n), <unspecified:linrec>) over {Any | iterable(coeffs) and iterable(init) and not (n < 0)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ linrec : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: iterable(coeffs)                               ║
+# ║   requires: iterable(init)                                 ║
+# ║   requires: not (n < 0)                                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ linrec : {Any | iterable(coeffs) and iterable(init) a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e1e6b468fa918f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.recurrences.linrec","kind":"function","src_hash":"000aae066111b3b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linrec(coe)","rhs":"evaluation of univariate linear recurrences of homogeneous type having coefficients independent of the recurrence variable","over":{"base":"Any"},"name":"linrec_correct"},"guarantee":"evaluation of univariate linear recurrences of homogeneous type having coefficients independent of the recurrence variable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.recurrences.linrec_correct","statement":"Path(linrec(x), evaluation of univariate linear recurrences of homogeneous type having coefficients independent of the recurrence variable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e1e6b468fa918f1"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.recurrences.linrec","kind":"function","src_hash":"000aae066111b3b7","in":{"base":"Any","pred":"iterable(coeffs) and iterable(init) and not (n < 0)"},"out":{"base":"Any"},"spec":{"lhs":"linrec(coeffs, init, n)","rhs":"<unspecified:linrec>","over":{"base":"Any","pred":"iterable(coeffs) and iterable(init) and not (n < 0)"},"name":"linrec_correct"},"guarantee":"evaluation of univariate linear recurrences of homogeneous type having coefficients independent of the recurrence variable","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.recurrences.linrec_correct","statement":"Path(linrec(x), evaluation of univariate linear recurrences of homogeneous type having coefficients independent of the recurrence variable)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e1e6b468fa918f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["iterable(coeffs)","iterable(init)","not (n < 0)"],"pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError","ValueError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def linrec(coeffs, init, n):
     r"""
     Evaluation of univariate linear recurrences of homogeneous type
@@ -145,16 +154,22 @@ def linrec(coeffs, init, n):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(linrec_coeffs(c, ), compute the coefficients of n'th term in linear recursion sequence defined by c) over Any ║
+# ║ Path(linrec_coeffs(c, n), <unspecified:linrec_coeffs>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ linrec_coeffs : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbdc25381cb9ea59  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.discrete.recurrences.linrec_coeffs","kind":"function","src_hash":"bbda09698b7a7bd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linrec_coeffs(c, )","rhs":"compute the coefficients of n'th term in linear recursion sequence defined by c","over":{"base":"Any"},"name":"linrec_coeffs_correct"},"guarantee":"compute the coefficients of n'th term in linear recursion sequence defined by c","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.recurrences.linrec_coeffs_correct","statement":"Path(linrec_coeffs(x), compute the coefficients of n'th term in linear recursion sequence defined by c)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbdc25381cb9ea59"}
+# @cctt_verify {"v":2,"sym":"sympy.discrete.recurrences.linrec_coeffs","kind":"function","src_hash":"bbda09698b7a7bd8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"linrec_coeffs(c, n)","rhs":"<unspecified:linrec_coeffs>","over":{"base":"Any"},"name":"linrec_coeffs_correct"},"guarantee":"compute the coefficients of n'th term in linear recursion sequence defined by c","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.discrete.recurrences.linrec_coeffs_correct","statement":"Path(linrec_coeffs(x), compute the coefficients of n'th term in linear recursion sequence defined by c)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbdc25381cb9ea59","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def linrec_coeffs(c, n):
     r"""
     Compute the coefficients of n'th term in linear recursion

@@ -19,16 +19,24 @@ from sympy.sets.ordinals import Ordinal, OmegaPower, ord0, omega
 from sympy.testing.pytest import raises
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_string_ordinals(), test_string_ordinals produces the expected output) over Any ║
+# ║ Path(test_string_ordinals(), str(omega) == 'w' and str(Ordinal(OmegaPower(5, 3), OmegaPower(3, 2))) == 'w**5*3 + w**3*2' and str(Ordinal(OmegaPower(5, 3), OmegaPower(0, 5))) == 'w**5*3 + 5' and str(Ordinal(OmegaPower(1, 3), OmegaPower(0, 5))) == 'w*3 + 5' and str(Ordinal(OmegaPower(omega + 1, 1), OmegaPower(3, 2))) == 'w**(w + 1) + w**3*2') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_string_ordinals : Any → {Any | str(omega) == 'w'...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  str(omega) == 'w'                              ║
+# ║   ensures:  str(Ordinal(OmegaPower(5, 3), OmegaPower(...   ║
+# ║   ensures:  str(Ordinal(OmegaPower(5, 3), OmegaPower(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_string_ordinals : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68696ee4cac850c8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c3a8e8e7d8715d32  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_string_ordinals","kind":"function","src_hash":"c339ab0072be0c0b","in":{"base":"Any"},"out":{"base":"Any","pred":"str(omega) == 'w' and str(Ordinal(OmegaPower(5, 3), OmegaPower(3, 2))) == 'w**5*3 + w**3*2' and str(Ordinal(OmegaPower(5, 3), OmegaPower(0, 5))) == 'w**5*3 + 5' and str(Ordinal(OmegaPower(1, 3), OmegaPower(0, 5))) == 'w*3 + 5'"},"spec":{"lhs":"test_string_ordinals()","rhs":"test_string_ordinals produces the expected output","over":{"base":"Any"},"name":"test_string_ordinals_correct"},"guarantee":"test_string_ordinals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_string_ordinals_correct","statement":"Path(test_string_ordinals(x), test_string_ordinals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68696ee4cac850c8"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_string_ordinals","kind":"function","src_hash":"c339ab0072be0c0b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: str(omega) == 'w' and str(Ordinal(OmegaPower(5, 3), OmegaPower(3, 2))) == 'w**5*3 + w**3*2' and str(Ordinal(OmegaPower(5, 3), OmegaPower(0, 5))) == 'w**5*3 + 5' and str(Ordinal(OmegaPower(1, 3), OmegaPower(0, 5))) == 'w*3 + 5' and str(Ordinal(OmegaPower(omega + 1, 1), OmegaPower(3, 2))) == 'w**(w + 1) + w**3*2'"},"spec":{"lhs":"test_string_ordinals()","rhs":"str(omega) == 'w' and str(Ordinal(OmegaPower(5, 3), OmegaPower(3, 2))) == 'w**5*3 + w**3*2' and str(Ordinal(OmegaPower(5, 3), OmegaPower(0, 5))) == 'w**5*3 + 5' and str(Ordinal(OmegaPower(1, 3), OmegaPower(0, 5))) == 'w*3 + 5' and str(Ordinal(OmegaPower(omega + 1, 1), OmegaPower(3, 2))) == 'w**(w + 1) + w**3*2'","over":{"base":"Any"},"name":"test_string_ordinals_correct"},"guarantee":"str(omega) == 'w'; str(Ordinal(OmegaPower(5, 3), OmegaPower(3, 2))) == 'w**5*3 + w**3*2'; str(Ordinal(OmegaPower(5, 3), OmegaPower(0, 5))) == 'w**5*3 + 5'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_string_ordinals_correct","statement":"Path(test_string_ordinals(x), str(omega) == 'w'; str(Ordinal(OmegaPower(5, 3), OmegaPower(3, 2))) == 'w**5*3 + w**3*2'; str(Ordinal(OmegaPower(5, 3), OmegaPower(0, 5))) == 'w**5*3 + 5')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c3a8e8e7d8715d32","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["str(omega) == 'w'","str(Ordinal(OmegaPower(5, 3), OmegaPower(3, 2))) == 'w**5*3 + w**3*2'","str(Ordinal(OmegaPower(5, 3), OmegaPower(0, 5))) == 'w**5*3 + 5'","str(Ordinal(OmegaPower(1, 3), OmegaPower(0, 5))) == 'w*3 + 5'","str(Ordinal(OmegaPower(omega + 1, 1), OmegaPower(3, 2))) == 'w**(w + 1) + w**3*2'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_string_ordinals():
     assert str(omega) == 'w'
     assert str(Ordinal(OmegaPower(5, 3), OmegaPower(3, 2))) == 'w**5*3 + w**3*2'
@@ -37,16 +45,24 @@ def test_string_ordinals():
     assert str(Ordinal(OmegaPower(omega + 1, 1), OmegaPower(3, 2))) == 'w**(w + 1) + w**3*2'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_addition_with_integers(), test_addition_with_integers produces the expected output) over Any ║
+# ║ Path(test_addition_with_integers(), 3 + Ordinal(OmegaPower(5, 3)) == Ordinal(OmegaPower(5, 3)) and Ordinal(OmegaPower(5, 3)) + 3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 3)) and Ordinal(OmegaPower(5, 3), OmegaPower(0, 2)) + 3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 5))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_addition_with_integers : Any → {Any | 3 + Ordina...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  3 + Ordinal(OmegaPower(5, 3)) == Ordinal(...   ║
+# ║   ensures:  Ordinal(OmegaPower(5, 3)) + 3 == Ordinal(...   ║
+# ║   ensures:  Ordinal(OmegaPower(5, 3), OmegaPower(0, 2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_addition_with_integers : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 58881f58b8615e57  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2204608b91627b60  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_addition_with_integers","kind":"function","src_hash":"dc981ae45c04675f","in":{"base":"Any"},"out":{"base":"Any","pred":"3 + Ordinal(OmegaPower(5, 3)) == Ordinal(OmegaPower(5, 3)) and Ordinal(OmegaPower(5, 3)) + 3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 3))"},"spec":{"lhs":"test_addition_with_integers()","rhs":"test_addition_with_integers produces the expected output","over":{"base":"Any"},"name":"test_addition_with_integers_correct"},"guarantee":"test_addition_with_integers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_addition_with_integers_correct","statement":"Path(test_addition_with_integers(x), test_addition_with_integers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"58881f58b8615e57"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_addition_with_integers","kind":"function","src_hash":"dc981ae45c04675f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 3 + Ordinal(OmegaPower(5, 3)) == Ordinal(OmegaPower(5, 3)) and Ordinal(OmegaPower(5, 3)) + 3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 3)) and Ordinal(OmegaPower(5, 3), OmegaPower(0, 2)) + 3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 5))"},"spec":{"lhs":"test_addition_with_integers()","rhs":"3 + Ordinal(OmegaPower(5, 3)) == Ordinal(OmegaPower(5, 3)) and Ordinal(OmegaPower(5, 3)) + 3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 3)) and Ordinal(OmegaPower(5, 3), OmegaPower(0, 2)) + 3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 5))","over":{"base":"Any"},"name":"test_addition_with_integers_correct"},"guarantee":"3 + Ordinal(OmegaPower(5, 3)) == Ordinal(OmegaPower(5, 3)); Ordinal(OmegaPower(5, 3)) + 3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 3)); Ordinal(OmegaPower(5, 3), OmegaPower(0, 2)) + 3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 5))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_addition_with_integers_correct","statement":"Path(test_addition_with_integers(x), 3 + Ordinal(OmegaPower(5, 3)) == Ordinal(OmegaPower(5, 3)); Ordinal(OmegaPower(5, 3)) + 3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 3)); Ordinal(OmegaPower(5, 3), OmegaPower(0, 2)) + 3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 5)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2204608b91627b60","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["3 + Ordinal(OmegaPower(5, 3)) == Ordinal(OmegaPower(5, 3))","Ordinal(OmegaPower(5, 3)) + 3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 3))","Ordinal(OmegaPower(5, 3), OmegaPower(0, 2)) + 3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 5))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_addition_with_integers():
     assert 3 + Ordinal(OmegaPower(5, 3)) == Ordinal(OmegaPower(5, 3))
     assert Ordinal(OmegaPower(5, 3))+3 == Ordinal(OmegaPower(5, 3), OmegaPower(0, 3))
@@ -55,16 +71,24 @@ def test_addition_with_integers():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_addition_with_ordinals(), test_addition_with_ordinals produces the expected output) over Any ║
+# ║ Path(test_addition_with_ordinals(), Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) + Ordinal(OmegaPower(3, 3)) == Ordinal(OmegaPower(5, 3), OmegaPower(3, 5)) and Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) + Ordinal(OmegaPower(4, 2)) == Ordinal(OmegaPower(5, 3), OmegaPower(4, 2)) and Ordinal(OmegaPower(omega, 2), OmegaPower(3, 2)) + Ordinal(OmegaPower(4, 2)) == Ordinal(OmegaPower(omega, 2), OmegaPower(4, 2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_addition_with_ordinals : Any → Any                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Ordinal(OmegaPower(5, 3), OmegaPower(3, 2...   ║
+# ║   ensures:  Ordinal(OmegaPower(5, 3), OmegaPower(3, 2...   ║
+# ║   ensures:  Ordinal(OmegaPower(omega, 2), OmegaPower(...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_addition_with_ordinals : Any → {Any | result sat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c6e9a7d9fea69a9e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f539dc6ec34e2a72  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_addition_with_ordinals","kind":"function","src_hash":"64300b8cdae83a75","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_addition_with_ordinals()","rhs":"test_addition_with_ordinals produces the expected output","over":{"base":"Any"},"name":"test_addition_with_ordinals_correct"},"guarantee":"test_addition_with_ordinals produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_addition_with_ordinals_correct","statement":"Path(test_addition_with_ordinals(x), test_addition_with_ordinals produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c6e9a7d9fea69a9e"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_addition_with_ordinals","kind":"function","src_hash":"64300b8cdae83a75","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) + Ordinal(OmegaPower(3, 3)) == Ordinal(OmegaPower(5, 3), OmegaPower(3, 5)) and Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) + Ordinal(OmegaPower(4, 2)) == Ordinal(OmegaPower(5, 3), OmegaPower(4, 2)) and Ordinal(OmegaPower(omega, 2), OmegaPower(3, 2)) + Ordinal(OmegaPower(4, 2)) == Ordinal(OmegaPower(omega, 2), OmegaPower(4, 2))"},"spec":{"lhs":"test_addition_with_ordinals()","rhs":"Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) + Ordinal(OmegaPower(3, 3)) == Ordinal(OmegaPower(5, 3), OmegaPower(3, 5)) and Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) + Ordinal(OmegaPower(4, 2)) == Ordinal(OmegaPower(5, 3), OmegaPower(4, 2)) and Ordinal(OmegaPower(omega, 2), OmegaPower(3, 2)) + Ordinal(OmegaPower(4, 2)) == Ordinal(OmegaPower(omega, 2), OmegaPower(4, 2))","over":{"base":"Any"},"name":"test_addition_with_ordinals_correct"},"guarantee":"Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) + Ordinal(OmegaPower(3, 3)) == Ordinal(OmegaPower(5, 3), OmegaPower(3, 5)); Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) + Ordinal(OmegaPower(4, 2)) == Ordinal(OmegaPower(5, 3), OmegaPower(4, 2)); Ordinal(OmegaPower(omega, 2), OmegaPower(3, 2)) + Ordinal(OmegaPower(4, 2)) == Ordinal(OmegaPower(omega, 2), OmegaPower(4, 2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_addition_with_ordinals_correct","statement":"Path(test_addition_with_ordinals(x), Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) + Ordinal(OmegaPower(3, 3)) == Ordinal(OmegaPower(5, 3), OmegaPower(3, 5)); Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) + Ordinal(OmegaPower(4, 2)) == Ordinal(OmegaPower(5, 3), OmegaPower(4, 2)); Ordinal(OmegaPower(omega, 2), OmegaPower(3, 2)) + Ordinal(OmegaPower(4, 2)) == Ordinal(OmegaPower(omega, 2), OmegaPower(4, 2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f539dc6ec34e2a72","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) + Ordinal(OmegaPower(3, 3)) == Ordinal(OmegaPower(5, 3), OmegaPower(3, 5))","Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) + Ordinal(OmegaPower(4, 2)) == Ordinal(OmegaPower(5, 3), OmegaPower(4, 2))","Ordinal(OmegaPower(omega, 2), OmegaPower(3, 2)) + Ordinal(OmegaPower(4, 2)) == Ordinal(OmegaPower(omega, 2), OmegaPower(4, 2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_addition_with_ordinals():
     assert Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) + Ordinal(OmegaPower(3, 3)) == \
         Ordinal(OmegaPower(5, 3), OmegaPower(3, 5))
@@ -74,16 +98,24 @@ def test_addition_with_ordinals():
         Ordinal(OmegaPower(omega, 2), OmegaPower(4, 2))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_comparison(), test_comparison produces the expected output) over Any ║
+# ║ Path(test_comparison(), Ordinal(OmegaPower(5, 3)) > Ordinal(OmegaPower(4, 3), OmegaPower(2, 1)) and Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) < Ordinal(OmegaPower(5, 4)) and Ordinal(OmegaPower(5, 4)) < Ordinal(OmegaPower(5, 5), OmegaPower(4, 1)) and Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) == Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) and not Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) == Ordinal(OmegaPower(5, 3)) and Ordinal(OmegaPower(omega, 3)) > Ordinal(OmegaPower(5, 3))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_comparison : Any → {Any | Ordinal(OmegaPower(5, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Ordinal(OmegaPower(5, 3)) > Ordinal(Omega...   ║
+# ║   ensures:  Ordinal(OmegaPower(5, 3), OmegaPower(3, 2...   ║
+# ║   ensures:  Ordinal(OmegaPower(5, 4)) < Ordinal(Omega...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_comparison : Any → {Any | result satisfies: Ordi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87e6ca126a6da2b1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9bca368b16e4213a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_comparison","kind":"function","src_hash":"409826de63a27f5d","in":{"base":"Any"},"out":{"base":"Any","pred":"Ordinal(OmegaPower(5, 3)) > Ordinal(OmegaPower(4, 3), OmegaPower(2, 1)) and Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) < Ordinal(OmegaPower(5, 4)) and Ordinal(OmegaPower(5, 4)) < Ordinal(OmegaPower(5, 5), OmegaPower(4, 1)) and not Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) == Ordinal(OmegaPower(5, 3)) and Ordinal(OmegaPower(omega, 3)) > Ordinal(OmegaPower(5, 3))"},"spec":{"lhs":"test_comparison()","rhs":"test_comparison produces the expected output","over":{"base":"Any"},"name":"test_comparison_correct"},"guarantee":"test_comparison produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_comparison_correct","statement":"Path(test_comparison(x), test_comparison produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87e6ca126a6da2b1"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_comparison","kind":"function","src_hash":"409826de63a27f5d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Ordinal(OmegaPower(5, 3)) > Ordinal(OmegaPower(4, 3), OmegaPower(2, 1)) and Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) < Ordinal(OmegaPower(5, 4)) and Ordinal(OmegaPower(5, 4)) < Ordinal(OmegaPower(5, 5), OmegaPower(4, 1)) and Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) == Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) and not Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) == Ordinal(OmegaPower(5, 3)) and Ordinal(OmegaPower(omega, 3)) > Ordinal(OmegaPower(5, 3))"},"spec":{"lhs":"test_comparison()","rhs":"Ordinal(OmegaPower(5, 3)) > Ordinal(OmegaPower(4, 3), OmegaPower(2, 1)) and Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) < Ordinal(OmegaPower(5, 4)) and Ordinal(OmegaPower(5, 4)) < Ordinal(OmegaPower(5, 5), OmegaPower(4, 1)) and Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) == Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) and not Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) == Ordinal(OmegaPower(5, 3)) and Ordinal(OmegaPower(omega, 3)) > Ordinal(OmegaPower(5, 3))","over":{"base":"Any"},"name":"test_comparison_correct"},"guarantee":"Ordinal(OmegaPower(5, 3)) > Ordinal(OmegaPower(4, 3), OmegaPower(2, 1)); Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) < Ordinal(OmegaPower(5, 4)); Ordinal(OmegaPower(5, 4)) < Ordinal(OmegaPower(5, 5), OmegaPower(4, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_comparison_correct","statement":"Path(test_comparison(x), Ordinal(OmegaPower(5, 3)) > Ordinal(OmegaPower(4, 3), OmegaPower(2, 1)); Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) < Ordinal(OmegaPower(5, 4)); Ordinal(OmegaPower(5, 4)) < Ordinal(OmegaPower(5, 5), OmegaPower(4, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9bca368b16e4213a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Ordinal(OmegaPower(5, 3)) > Ordinal(OmegaPower(4, 3), OmegaPower(2, 1))","Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) < Ordinal(OmegaPower(5, 4))","Ordinal(OmegaPower(5, 4)) < Ordinal(OmegaPower(5, 5), OmegaPower(4, 1))","Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) == Ordinal(OmegaPower(5, 3), OmegaPower(3, 2))","not Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) == Ordinal(OmegaPower(5, 3))","Ordinal(OmegaPower(omega, 3)) > Ordinal(OmegaPower(5, 3))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_comparison():
     assert Ordinal(OmegaPower(5, 3)) > Ordinal(OmegaPower(4, 3), OmegaPower(2, 1))
     assert Ordinal(OmegaPower(5, 3), OmegaPower(3, 2)) < Ordinal(OmegaPower(5, 4))
@@ -95,32 +127,47 @@ def test_comparison():
     assert Ordinal(OmegaPower(omega, 3)) > Ordinal(OmegaPower(5, 3))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiplication_with_integers(), test_multiplication_with_integers produces the expected output) over Any ║
+# ║ Path(test_multiplication_with_integers(), 3 * w == w and w * 9 == Ordinal(OmegaPower(1, 9))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiplication_with_integers : Any → {Any | 3 * ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  3 * w == w                                     ║
+# ║   ensures:  w * 9 == Ordinal(OmegaPower(1, 9))             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiplication_with_integers : Any → {Any | resu...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a1c2c39b9f8ebd00  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5be50ebd859a7bf0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_multiplication_with_integers","kind":"function","src_hash":"417a8afb1cc388d0","in":{"base":"Any"},"out":{"base":"Any","pred":"3 * w == w and w * 9 == Ordinal(OmegaPower(1, 9))"},"spec":{"lhs":"test_multiplication_with_integers()","rhs":"test_multiplication_with_integers produces the expected output","over":{"base":"Any"},"name":"test_multiplication_with_integers_correct"},"guarantee":"test_multiplication_with_integers produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_multiplication_with_integers_correct","statement":"Path(test_multiplication_with_integers(x), test_multiplication_with_integers produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a1c2c39b9f8ebd00"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_multiplication_with_integers","kind":"function","src_hash":"417a8afb1cc388d0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: 3 * w == w and w * 9 == Ordinal(OmegaPower(1, 9))"},"spec":{"lhs":"test_multiplication_with_integers()","rhs":"3 * w == w and w * 9 == Ordinal(OmegaPower(1, 9))","over":{"base":"Any"},"name":"test_multiplication_with_integers_correct"},"guarantee":"3 * w == w; w * 9 == Ordinal(OmegaPower(1, 9))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_multiplication_with_integers_correct","statement":"Path(test_multiplication_with_integers(x), 3 * w == w; w * 9 == Ordinal(OmegaPower(1, 9)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5be50ebd859a7bf0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["3 * w == w","w * 9 == Ordinal(OmegaPower(1, 9))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_multiplication_with_integers():
     w = omega
     assert 3*w == w
     assert w*9 == Ordinal(OmegaPower(1, 9))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_multiplication(), test_multiplication produces the expected output) over Any ║
+# ║ Path(test_multiplication(), w * (w + 1) == w * w + w and (w + 1) * (w + 1) == w * w + w + 1 and w * 1 == w and 1 * w == w and w * ord0 == ord0 and ord0 * w == ord0 and w ** w == w * w ** w and w ** w * w * w == w ** (w + 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_multiplication : Any → {Any | w * (w + 1) == w *...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  w * (w + 1) == w * w + w                       ║
+# ║   ensures:  (w + 1) * (w + 1) == w * w + w + 1             ║
+# ║   ensures:  w * 1 == w                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_multiplication : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 60c81497acf4a398  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3a7018cd0041ef7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_multiplication","kind":"function","src_hash":"2f027c5f350db92d","in":{"base":"Any"},"out":{"base":"Any","pred":"w * (w + 1) == w * w + w and (w + 1) * (w + 1) == w * w + w + 1 and w * 1 == w and 1 * w == w and w * ord0 == ord0 and ord0 * w == ord0 and w ** w == w * w ** w and w ** w * w * w == w ** (w + 2)"},"spec":{"lhs":"test_multiplication()","rhs":"test_multiplication produces the expected output","over":{"base":"Any"},"name":"test_multiplication_correct"},"guarantee":"test_multiplication produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_multiplication_correct","statement":"Path(test_multiplication(x), test_multiplication produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"60c81497acf4a398"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_multiplication","kind":"function","src_hash":"2f027c5f350db92d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: w * (w + 1) == w * w + w and (w + 1) * (w + 1) == w * w + w + 1 and w * 1 == w and 1 * w == w and w * ord0 == ord0 and ord0 * w == ord0 and w ** w == w * w ** w and w ** w * w * w == w ** (w + 2)"},"spec":{"lhs":"test_multiplication()","rhs":"w * (w + 1) == w * w + w and (w + 1) * (w + 1) == w * w + w + 1 and w * 1 == w and 1 * w == w and w * ord0 == ord0 and ord0 * w == ord0 and w ** w == w * w ** w and w ** w * w * w == w ** (w + 2)","over":{"base":"Any"},"name":"test_multiplication_correct"},"guarantee":"w * (w + 1) == w * w + w; (w + 1) * (w + 1) == w * w + w + 1; w * 1 == w","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_multiplication_correct","statement":"Path(test_multiplication(x), w * (w + 1) == w * w + w; (w + 1) * (w + 1) == w * w + w + 1; w * 1 == w)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3a7018cd0041ef7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["w * (w + 1) == w * w + w","(w + 1) * (w + 1) == w * w + w + 1","w * 1 == w","1 * w == w","w * ord0 == ord0","ord0 * w == ord0","w ** w == w * w ** w","w ** w * w * w == w ** (w + 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_multiplication():
     w = omega
     assert w*(w + 1) == w*w + w
@@ -133,16 +180,24 @@ def test_multiplication():
     assert (w**w)*w*w == w**(w + 2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exponentiation(), test_exponentiation produces the expected output) over Any ║
+# ║ Path(test_exponentiation(), w ** 2 == w * w and w ** 3 == w * w * w and w ** (w + 1) == Ordinal(OmegaPower(omega + 1, 1)) and w ** w * w ** w == w ** (w * 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exponentiation : Any → {Any | w ** 2 == w * w an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  w ** 2 == w * w                                ║
+# ║   ensures:  w ** 3 == w * w * w                            ║
+# ║   ensures:  w ** (w + 1) == Ordinal(OmegaPower(omega ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exponentiation : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee6bf9f12438acec  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e164cd6d97c8ab2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_exponentiation","kind":"function","src_hash":"09fa4550f59070ba","in":{"base":"Any"},"out":{"base":"Any","pred":"w ** 2 == w * w and w ** 3 == w * w * w and w ** (w + 1) == Ordinal(OmegaPower(omega + 1, 1)) and w ** w * w ** w == w ** (w * 2)"},"spec":{"lhs":"test_exponentiation()","rhs":"test_exponentiation produces the expected output","over":{"base":"Any"},"name":"test_exponentiation_correct"},"guarantee":"test_exponentiation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_exponentiation_correct","statement":"Path(test_exponentiation(x), test_exponentiation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee6bf9f12438acec"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_exponentiation","kind":"function","src_hash":"09fa4550f59070ba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: w ** 2 == w * w and w ** 3 == w * w * w and w ** (w + 1) == Ordinal(OmegaPower(omega + 1, 1)) and w ** w * w ** w == w ** (w * 2)"},"spec":{"lhs":"test_exponentiation()","rhs":"w ** 2 == w * w and w ** 3 == w * w * w and w ** (w + 1) == Ordinal(OmegaPower(omega + 1, 1)) and w ** w * w ** w == w ** (w * 2)","over":{"base":"Any"},"name":"test_exponentiation_correct"},"guarantee":"w ** 2 == w * w; w ** 3 == w * w * w; w ** (w + 1) == Ordinal(OmegaPower(omega + 1, 1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_exponentiation_correct","statement":"Path(test_exponentiation(x), w ** 2 == w * w; w ** 3 == w * w * w; w ** (w + 1) == Ordinal(OmegaPower(omega + 1, 1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e164cd6d97c8ab2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["w ** 2 == w * w","w ** 3 == w * w * w","w ** (w + 1) == Ordinal(OmegaPower(omega + 1, 1))","w ** w * w ** w == w ** (w * 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exponentiation():
     w = omega
     assert w**2 == w*w
@@ -151,16 +206,23 @@ def test_exponentiation():
     assert (w**w)*(w**w) == w**(w*2)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_comapre_not_instance(), test_comapre_not_instance produces the expected output) over Any ║
+# ║ Path(test_comapre_not_instance(), not w == None and not w < 5) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_comapre_not_instance : Any → {Any | not w == Non...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not w == None                                  ║
+# ║   ensures:  not w < 5                                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_comapre_not_instance : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e492b49bc10e9c9c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9f200cac103cd95  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_comapre_not_instance","kind":"function","src_hash":"fb5761da2025833b","in":{"base":"Any"},"out":{"base":"Any","pred":"not w == None and not w < 5"},"spec":{"lhs":"test_comapre_not_instance()","rhs":"test_comapre_not_instance produces the expected output","over":{"base":"Any"},"name":"test_comapre_not_instance_correct"},"guarantee":"test_comapre_not_instance produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_comapre_not_instance_correct","statement":"Path(test_comapre_not_instance(x), test_comapre_not_instance produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e492b49bc10e9c9c"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_comapre_not_instance","kind":"function","src_hash":"fb5761da2025833b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not w == None and not w < 5"},"spec":{"lhs":"test_comapre_not_instance()","rhs":"not w == None and not w < 5","over":{"base":"Any"},"name":"test_comapre_not_instance_correct"},"guarantee":"not w == None; not w < 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_comapre_not_instance_correct","statement":"Path(test_comapre_not_instance(x), not w == None; not w < 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9f200cac103cd95","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not w == None","not w < 5"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_comapre_not_instance():
     w = OmegaPower(omega + 1, 1)
     assert(not (w == None))
@@ -168,16 +230,22 @@ def test_comapre_not_instance():
     raises(TypeError, lambda: w < 6.66)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_successort(), test_is_successort produces the expected output) over Any ║
+# ║ Path(test_is_successort(), not w.is_successor_ordinal) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_successort : Any → {Any | not w.is_successor_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  not w.is_successor_ordinal                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_successort : Any → {Any | result satisfies: n...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0c82f9ddc87e973  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 11b57d5ac910feea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_is_successort","kind":"function","src_hash":"008e6904e8a5763f","in":{"base":"Any"},"out":{"base":"Any","pred":"not w.is_successor_ordinal"},"spec":{"lhs":"test_is_successort()","rhs":"test_is_successort produces the expected output","over":{"base":"Any"},"name":"test_is_successort_correct"},"guarantee":"test_is_successort produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_is_successort_correct","statement":"Path(test_is_successort(x), test_is_successort produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0c82f9ddc87e973"}
+# @cctt_verify {"v":2,"sym":"sympy.sets.tests.test_ordinals.test_is_successort","kind":"function","src_hash":"008e6904e8a5763f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: not w.is_successor_ordinal"},"spec":{"lhs":"test_is_successort()","rhs":"not w.is_successor_ordinal","over":{"base":"Any"},"name":"test_is_successort_correct"},"guarantee":"not w.is_successor_ordinal","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.sets.tests.test_ordinals.test_is_successort_correct","statement":"Path(test_is_successort(x), not w.is_successor_ordinal)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"11b57d5ac910feea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["not w.is_successor_ordinal"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_is_successort():
     w = Ordinal(OmegaPower(5, 1))
     assert not w.is_successor_ordinal

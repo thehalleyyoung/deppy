@@ -20,16 +20,24 @@ from sympy.liealgebras.cartan_type import CartanType
 from sympy.matrices import Matrix
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_type_G(), test_type_G produces the expected output) over Any ║
+# ║ Path(test_type_G(), c.cartan_matrix() == m and c.simple_root(2) == [1, -2, 1] and c.basis() == 14 and c.roots() == 12 and c.dimension() == 3 and diag == c.dynkin_diagram() and c.positive_roots() == {1: [0, 1, -1], 2: [1, -2, 1], 3: [1, -1, 0], 4: [1, 0, 1], 5: [1, 1, -2], 6: [2, -1, -1]}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_type_G : Any → {Any | c.cartan_matrix() == m and...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  c.cartan_matrix() == m                         ║
+# ║   ensures:  c.simple_root(2) == [1, -2, 1]                 ║
+# ║   ensures:  c.basis() == 14                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_type_G : Any → {Any | result satisfies: c.cartan...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b4438b09c59d2846  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 085d77baabaab021  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.liealgebras.tests.test_type_G.test_type_G","kind":"function","src_hash":"30b538f1f3d3baa8","in":{"base":"Any"},"out":{"base":"Any","pred":"c.cartan_matrix() == m and c.simple_root(2) == [1, -2, 1] and c.basis() == 14 and c.roots() == 12 and c.dimension() == 3 and diag == c.dynkin_diagram()"},"spec":{"lhs":"test_type_G()","rhs":"test_type_G produces the expected output","over":{"base":"Any"},"name":"test_type_G_correct"},"guarantee":"test_type_G produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.tests.test_type_G.test_type_G_correct","statement":"Path(test_type_G(x), test_type_G produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b4438b09c59d2846"}
+# @cctt_verify {"v":2,"sym":"sympy.liealgebras.tests.test_type_G.test_type_G","kind":"function","src_hash":"30b538f1f3d3baa8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: c.cartan_matrix() == m and c.simple_root(2) == [1, -2, 1] and c.basis() == 14 and c.roots() == 12 and c.dimension() == 3 and diag == c.dynkin_diagram() and c.positive_roots() == {1: [0, 1, -1], 2: [1, -2, 1], 3: [1, -1, 0], 4: [1, 0, 1], 5: [1, 1, -2], 6: [2, -1, -1]}"},"spec":{"lhs":"test_type_G()","rhs":"c.cartan_matrix() == m and c.simple_root(2) == [1, -2, 1] and c.basis() == 14 and c.roots() == 12 and c.dimension() == 3 and diag == c.dynkin_diagram() and c.positive_roots() == {1: [0, 1, -1], 2: [1, -2, 1], 3: [1, -1, 0], 4: [1, 0, 1], 5: [1, 1, -2], 6: [2, -1, -1]}","over":{"base":"Any"},"name":"test_type_G_correct"},"guarantee":"c.cartan_matrix() == m; c.simple_root(2) == [1, -2, 1]; c.basis() == 14","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.liealgebras.tests.test_type_G.test_type_G_correct","statement":"Path(test_type_G(x), c.cartan_matrix() == m; c.simple_root(2) == [1, -2, 1]; c.basis() == 14)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"085d77baabaab021","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["c.cartan_matrix() == m","c.simple_root(2) == [1, -2, 1]","c.basis() == 14","c.roots() == 12","c.dimension() == 3","diag == c.dynkin_diagram()","c.positive_roots() == {1: [0, 1, -1], 2: [1, -2, 1], 3: [1, -1, 0], 4: [1, 0, 1], 5: [1, 1, -2], 6: [2, -1, -1]}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_type_G():
     c = CartanType("G2")
     m = Matrix(2, 2, [2, -1, -3, 2])

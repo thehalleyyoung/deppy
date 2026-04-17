@@ -46,14 +46,20 @@ if TYPE_CHECKING:
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(AssocOp(*args), correctly constructs a AssocOp instance) over {Any | isinstance(self, (Mul, Add)) and isinstance(expr, cls) and isinstance(self, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AssocOp : {Any | isinstance(self, (Mul, Add)) and isi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1e6cc096a3328500  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp","kind":"class","src_hash":"a2413bebebd4d963","in":{"base":"Any","pred":"isinstance(self, (Mul, Add)) and isinstance(expr, cls) and isinstance(self, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"AssocOp(*args)","rhs":"correctly constructs a AssocOp instance","over":{"base":"Any","pred":"isinstance(self, (Mul, Add)) and isinstance(expr, cls) and isinstance(self, Expr)"},"name":"AssocOp_class_invariant"},"guarantee":"correctly constructs a AssocOp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e6cc096a3328500"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp","kind":"class","src_hash":"a2413bebebd4d963","in":{"base":"Any","pred":"isinstance(self, (Mul, Add)) and isinstance(expr, cls) and isinstance(self, Expr)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"AssocOp(*args)","rhs":"correctly constructs a AssocOp instance","over":{"base":"Any","pred":"isinstance(self, (Mul, Add)) and isinstance(expr, cls) and isinstance(self, Expr)"},"name":"AssocOp_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1e6cc096a3328500","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function AssocOp not found in source"]}}
 class AssocOp(Basic):
     """ Associative operations, can separate noncommutative and
     commutative parts.
@@ -89,16 +95,22 @@ class AssocOp(Basic):
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, evaluate), <unspecified:__new__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 833b8da7f49d59d8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.__new__","kind":"method","src_hash":"76a0871fadbd8e7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"833b8da7f49d59d8"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.__new__","kind":"method","src_hash":"76a0871fadbd8e7d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, evaluate)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"833b8da7f49d59d8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial"},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, evaluate=None, _sympify=True):
         # Allow faster processing by passing ``_sympify=False``, if all arguments
         # are already sympified.
@@ -156,16 +168,25 @@ this object, use the * or + operator instead.
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_from_args(cls), create new instance with already-processed args. if the args are not in canonical order, then a non-canonical result will be returned, so use with caution) over Any ║
+# ║ Path(_from_args(cls, args, is_commutative), result == (cls.identity if len(args) == 0 else args[0]) and result == cls.identity or result == args[0]) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _from_args : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (cls.identity if len(args) == 0...   ║
+# ║   ensures:  result == cls.identity or result == args[0]    ║
+# ║   fiber[zero_or_none]: len(args) == 0 => cls.identity      ║
+# ║   fiber[case_1]: len(args) == 1 => args[0]                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _from_args : Any → {Any | result satisfies: result ==...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a850d6c37a84b7a6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b7560375b268a299  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp._from_args","kind":"classmethod","src_hash":"3c89f80d47b028d3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_from_args(cls)","rhs":"create new instance with already-processed args. if the args are not in canonical order, then a non-canonical result will be returned, so use with caution","over":{"base":"Any"},"name":"_from_args_correct"},"guarantee":"create new instance with already-processed args. if the args are not in canonical order, then a non-canonical result will be returned, so use with caution","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp._from_args_correct","statement":"Path(_from_args(x), create new instance with already-processed args. if the args are not in canonical order, then a non-canonical result will be returned, so use with caution)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a850d6c37a84b7a6"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp._from_args","kind":"classmethod","src_hash":"3c89f80d47b028d3","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (cls.identity if len(args) == 0 else args[0]) and result == cls.identity or result == args[0]"},"spec":{"lhs":"_from_args(cls, args, is_commutative)","rhs":"result == (cls.identity if len(args) == 0 else args[0]) and result == cls.identity or result == args[0]","over":{"base":"Any"},"name":"_from_args_correct"},"guarantee":"result == (cls.identity if len(args) == 0 else args[0]); result == cls.identity or result == args[0]; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp._from_args_correct","statement":"Path(_from_args(x), result == (cls.identity if len(args) == 0 else args[0]); result == cls.identity or result == args[0]; 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b7560375b268a299","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (cls.identity if len(args) == 0 else args[0])","result == cls.identity or result == args[0]"],"fibers":[{"name":"zero_or_none","guard":"len(args) == 0","ensures":["result == cls.identity"],"decidability":"z3","returns_expr":"cls.identity"},{"name":"case_1","guard":"len(args) == 1","ensures":["result == args[0]"],"decidability":"z3","returns_expr":"args[0]"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls.identity"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _from_args(cls, args, is_commutative=None):
         """Create new instance with already-processed args.
         If the args are not in canonical order, then a non-canonical
@@ -183,16 +204,22 @@ this object, use the * or + operator instead.
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new_rawargs(*ar), create new instance of own class with args exactly as provided by caller but returning the self class identity if args is empty) over Any ║
+# ║ Path(_new_rawargs(*args, reeval, **kwargs), self._from_args(args, is_commutative)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._from_args(args, is_commutative)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new_rawargs : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acb3685f47911976  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3ca41b29d574ec76  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp._new_rawargs","kind":"method","src_hash":"dc2749cc6f44f976","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new_rawargs(*ar)","rhs":"create new instance of own class with args exactly as provided by caller but returning the self class identity if args is empty","over":{"base":"Any"},"name":"_new_rawargs_correct"},"guarantee":"create new instance of own class with args exactly as provided by caller but returning the self class identity if args is empty","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp._new_rawargs_correct","statement":"Path(_new_rawargs(x), create new instance of own class with args exactly as provided by caller but returning the self class identity if args is empty)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acb3685f47911976"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp._new_rawargs","kind":"method","src_hash":"dc2749cc6f44f976","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new_rawargs(*args, reeval, **kwargs)","rhs":"self._from_args(args, is_commutative)","over":{"base":"Any"},"name":"_new_rawargs_correct"},"guarantee":"returns self._from_args(args, is_commutative)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp._new_rawargs_correct","statement":"Path(_new_rawargs(x), returns self._from_args(args, is_commutative))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3ca41b29d574ec76","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._from_args(args, is_commutative)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._from_args","self.is_commutative"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new_rawargs(self, *args, reeval=True, **kwargs):
         """Create new instance of own class with args exactly as provided by
         caller but returning the self class identity if args is empty.
@@ -244,16 +271,28 @@ this object, use the * or + operator instead.
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(flatten(cls), return seq so that none of the elements are of type `cls`) over Any ║
+# ║ Path(flatten(cls, seq), ([], new_seq, None)) over {Any | hasattr(seq, 'pop') and hasattr(seq, 'extend') and len(seq) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ flatten : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(seq, 'pop')                            ║
+# ║   requires: hasattr(seq, 'extend')                         ║
+# ║   requires: len(seq) > 0                                   ║
+# ║   ensures:  len(new_seq) == old_len_new_seq + 1            ║
+# ║   ensures:  len(new_seq) == old_len_new_seq                ║
+# ║   ensures:  len(seq) == old_len_seq - 1                    ║
+# ║   returns:  ([], new_seq, None)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ flatten : {Any | hasattr(seq, 'pop') and hasattr(seq,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 222cfa8ead9d6d07  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8a5c53f95cfc0520  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.flatten","kind":"classmethod","src_hash":"fa49a471bbc4c3a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"flatten(cls)","rhs":"return seq so that none of the elements are of type `cls`","over":{"base":"Any"},"name":"flatten_correct"},"guarantee":"return seq so that none of the elements are of type `cls`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp.flatten_correct","statement":"Path(flatten(x), return seq so that none of the elements are of type `cls`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"222cfa8ead9d6d07"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.flatten","kind":"classmethod","src_hash":"fa49a471bbc4c3a2","in":{"base":"Any","pred":"hasattr(seq, 'pop') and hasattr(seq, 'extend') and len(seq) > 0"},"out":{"base":"Any","pred":"result satisfies: result == (([], new_seq, None))"},"spec":{"lhs":"flatten(cls, seq)","rhs":"([], new_seq, None)","over":{"base":"Any","pred":"hasattr(seq, 'pop') and hasattr(seq, 'extend') and len(seq) > 0"},"name":"flatten_correct"},"guarantee":"returns ([], new_seq, None); len(new_seq) == old_len_new_seq + 1; len(new_seq) == old_len_new_seq; len(seq) == old_len_seq - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp.flatten_correct","statement":"Path(flatten(x), returns ([], new_seq, None); len(new_seq) == old_len_new_seq + 1; len(new_seq) == old_len_new_seq; len(seq) == old_len_seq - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8a5c53f95cfc0520","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(seq, 'pop')","hasattr(seq, 'extend')","len(seq) > 0"],"ensures":["len(new_seq) == old_len_new_seq + 1","len(new_seq) == old_len_new_seq","len(seq) == old_len_seq - 1"],"returns_expr":"([], new_seq, None)","pure":false,"effects":{"effect_type":"mutates_args","reads":["*.__class__","seq.extend","seq.pop"],"calls_mutating":["new_seq.append","new_seq.reverse","seq.extend","seq.pop"]},"state_contract":{"modifies":["new_seq.*","seq.*"],"old_bindings":{"old_len_new_seq":"len(new_seq)","old_len_seq":"len(seq)"},"pre_requires":["len(seq) > 0"],"post_ensures":["len(new_seq) == old_len_new_seq + 1","len(new_seq) == old_len_new_seq","len(seq) == old_len_seq - 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def flatten(cls, seq):
         """Return seq so that none of the elements are of type `cls`. This is
         the vanilla routine that will be used if a class derived from AssocOp
@@ -272,16 +311,25 @@ this object, use the * or + operator instead.
         return [], new_seq, None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_matches_commutative(exp), matches add/mul "pattern" to an expression "expr") over Any ║
+# ║ Path(_matches_commutative(expr, repl_dict, old), <unspecified:_matches_commutative>) over {Any | hasattr(expr, 'free_symbols') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'count_ops') and hasattr(expr, 'is_Pow') and hasattr(expr, 'has') and hasattr(expr, 'exp') and hasattr(expr, 'as_coeff_Mul') and hasattr(expr, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _matches_commutative : Any → Any                           ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(expr, 'free_symbols')                  ║
+# ║   requires: hasattr(expr, 'is_Add')                        ║
+# ║   requires: hasattr(expr, 'is_Mul')                        ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _matches_commutative : {Any | hasattr(expr, 'free_sym...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a31c1ff1d3fd29e2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp._matches_commutative","kind":"method","src_hash":"c50dfd6624093bd3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_matches_commutative(exp)","rhs":"matches add/mul \"pattern\" to an expression \"expr\"","over":{"base":"Any"},"name":"_matches_commutative_correct"},"guarantee":"matches add/mul \"pattern\" to an expression \"expr\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp._matches_commutative_correct","statement":"Path(_matches_commutative(x), matches add/mul \"pattern\" to an expression \"expr\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a31c1ff1d3fd29e2"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp._matches_commutative","kind":"method","src_hash":"c50dfd6624093bd3","in":{"base":"Any","pred":"hasattr(expr, 'free_symbols') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'count_ops') and hasattr(expr, 'is_Pow') and hasattr(expr, 'has') and hasattr(expr, 'exp') and hasattr(expr, 'as_coeff_Mul') and hasattr(expr, 'base')"},"out":{"base":"Any"},"spec":{"lhs":"_matches_commutative(expr, repl_dict, old)","rhs":"<unspecified:_matches_commutative>","over":{"base":"Any","pred":"hasattr(expr, 'free_symbols') and hasattr(expr, 'is_Add') and hasattr(expr, 'is_Mul') and hasattr(expr, 'count_ops') and hasattr(expr, 'is_Pow') and hasattr(expr, 'has') and hasattr(expr, 'exp') and hasattr(expr, 'as_coeff_Mul') and hasattr(expr, 'base')"},"name":"_matches_commutative_correct"},"guarantee":"matches add/mul \"pattern\" to an expression \"expr\"","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp._matches_commutative_correct","statement":"Path(_matches_commutative(x), matches add/mul \"pattern\" to an expression \"expr\")"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a31c1ff1d3fd29e2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(expr, 'free_symbols')","hasattr(expr, 'is_Add')","hasattr(expr, 'is_Mul')","hasattr(expr, 'count_ops')","hasattr(expr, 'is_Pow')","hasattr(expr, 'has')","hasattr(expr, 'exp')","hasattr(expr, 'as_coeff_Mul')","hasattr(expr, 'base')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _matches_commutative(self, expr, repl_dict=None, old=False):
         """
         Matches Add/Mul "pattern" to an expression "expr".
@@ -436,16 +484,22 @@ this object, use the * or + operator instead.
         return
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_has_matcher(), helper for .has() that checks for containment of subexpressions within an expr by using sets of args of similar nodes, e.g) over Any ║
+# ║ Path(_has_matcher(), <unspecified:_has_matcher>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _has_matcher : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad863e596cafeefe  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp._has_matcher","kind":"method","src_hash":"43f0535a904a6f9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_has_matcher()","rhs":"helper for .has() that checks for containment of subexpressions within an expr by using sets of args of similar nodes, e.g","over":{"base":"Any"},"name":"_has_matcher_correct"},"guarantee":"helper for .has() that checks for containment of subexpressions within an expr by using sets of args of similar nodes, e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp._has_matcher_correct","statement":"Path(_has_matcher(x), helper for .has() that checks for containment of subexpressions within an expr by using sets of args of similar nodes, e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad863e596cafeefe"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp._has_matcher","kind":"method","src_hash":"43f0535a904a6f9c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_has_matcher()","rhs":"<unspecified:_has_matcher>","over":{"base":"Any"},"name":"_has_matcher_correct"},"guarantee":"helper for .has() that checks for containment of subexpressions within an expr by using sets of args of similar nodes, e.g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp._has_matcher_correct","statement":"Path(_has_matcher(x), helper for .has() that checks for containment of subexpressions within an expr by using sets of args of similar nodes, e.g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad863e596cafeefe","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["*.__class__","self.__class__"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _has_matcher(self):
         """Helper for .has() that checks for containment of
         subexpressions within an expr by using sets of args
@@ -479,16 +533,22 @@ this object, use the * or + operator instead.
         return is_in
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_evalf(pre), evaluate the parts of self that are numbers; if the whole thing was a number with no functions it would have been evaluated, but it wasn't so we must judiciously extract the numbers and reconstruct th) over Any ║
+# ║ Path(_eval_evalf(prec), <unspecified:_eval_evalf>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_evalf : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2cb491d1a67a2c2f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp._eval_evalf","kind":"method","src_hash":"4ef64bb1f3584d08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(pre)","rhs":"evaluate the parts of self that are numbers; if the whole thing was a number with no functions it would have been evaluated, but it wasn't so we must judiciously extract the numbers and reconstruct th","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"evaluate the parts of self that are numbers; if the whole thing was a number with no functions it would have been evaluated, but it wasn't so we must judiciously extract the numbers and reconstruct th","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp._eval_evalf_correct","statement":"Path(_eval_evalf(x), evaluate the parts of self that are numbers; if the whole thing was a number with no functions it would have been evaluated, but it wasn't so we must judiciously extract the numbers and reconstruct th)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cb491d1a67a2c2f"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp._eval_evalf","kind":"method","src_hash":"4ef64bb1f3584d08","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_evalf(prec)","rhs":"<unspecified:_eval_evalf>","over":{"base":"Any"},"name":"_eval_evalf_correct"},"guarantee":"evaluate the parts of self that are numbers; if the whole thing was a number with no functions it would have been evaluated, but it wasn't so we must judiciously extract the numbers and reconstruct th","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp._eval_evalf_correct","statement":"Path(_eval_evalf(x), evaluate the parts of self that are numbers; if the whole thing was a number with no functions it would have been evaluated, but it wasn't so we must judiciously extract the numbers and reconstruct th)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cb491d1a67a2c2f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_evalf(self, prec):
         """
         Evaluate the parts of self that are numbers; if the whole thing
@@ -544,72 +604,112 @@ this object, use the * or + operator instead.
     @overload
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_args(cls), make_args produces the expected output) over Any ║
+# ║ Path(make_args(cls, expr), isinstance(result, tuple)) over {Any | isinstance(expr, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ make_args : Any → tuple[Expr, ...]                         ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, Expr)                         ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ make_args : {Any | isinstance(expr, Expr)} → {tuple[E...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 03921b32ce066713           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.make_args","kind":"classmethod","src_hash":"d007d24a9b360314","in":{"base":"Any"},"out":{"base":"tuple[Expr, ...]"},"spec":{"lhs":"make_args(cls)","rhs":"make_args produces the expected output","over":{"base":"Any"},"name":"make_args_correct"},"guarantee":"make_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03921b32ce066713"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.make_args","kind":"classmethod","src_hash":"d007d24a9b360314","in":{"base":"Any","pred":"isinstance(expr, Expr)"},"out":{"base":"tuple[Expr, ...]","pred":"result satisfies: isinstance(result, tuple)"},"spec":{"lhs":"make_args(cls, expr)","rhs":"isinstance(result, tuple)","over":{"base":"Any","pred":"isinstance(expr, Expr)"},"name":"make_args_correct"},"guarantee":"isinstance(result, tuple)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"03921b32ce066713","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, Expr)"],"ensures":["isinstance(result, tuple)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def make_args(cls: type[Add], expr: Expr) -> tuple[Expr, ...]: ... # type: ignore
     @overload
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_args(cls), make_args produces the expected output) over Any ║
+# ║ Path(make_args(cls, expr), isinstance(result, tuple)) over {Any | isinstance(expr, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ make_args : Any → tuple[Expr, ...]                         ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, Expr)                         ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ make_args : {Any | isinstance(expr, Expr)} → {tuple[E...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8cbf6af8fbd9ad11           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.make_args","kind":"classmethod","src_hash":"a1dee1d6995ec84a","in":{"base":"Any"},"out":{"base":"tuple[Expr, ...]"},"spec":{"lhs":"make_args(cls)","rhs":"make_args produces the expected output","over":{"base":"Any"},"name":"make_args_correct"},"guarantee":"make_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cbf6af8fbd9ad11"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.make_args","kind":"classmethod","src_hash":"a1dee1d6995ec84a","in":{"base":"Any","pred":"isinstance(expr, Expr)"},"out":{"base":"tuple[Expr, ...]","pred":"result satisfies: isinstance(result, tuple)"},"spec":{"lhs":"make_args(cls, expr)","rhs":"isinstance(result, tuple)","over":{"base":"Any","pred":"isinstance(expr, Expr)"},"name":"make_args_correct"},"guarantee":"isinstance(result, tuple)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8cbf6af8fbd9ad11","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, Expr)"],"ensures":["isinstance(result, tuple)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def make_args(cls: type[Mul], expr: Expr) -> tuple[Expr, ...]: ... # type: ignore
     @overload
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_args(cls), make_args produces the expected output) over Any ║
+# ║ Path(make_args(cls, expr), isinstance(result, tuple)) over {Any | isinstance(expr, Boolean)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ make_args : Any → tuple[Boolean, ...]                      ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, Boolean)                      ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ make_args : {Any | isinstance(expr, Boolean)} → {tupl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 29b4707ffb2c4d87           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.make_args","kind":"classmethod","src_hash":"2a90bc0e9b2aa67f","in":{"base":"Any"},"out":{"base":"tuple[Boolean, ...]"},"spec":{"lhs":"make_args(cls)","rhs":"make_args produces the expected output","over":{"base":"Any"},"name":"make_args_correct"},"guarantee":"make_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29b4707ffb2c4d87"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.make_args","kind":"classmethod","src_hash":"2a90bc0e9b2aa67f","in":{"base":"Any","pred":"isinstance(expr, Boolean)"},"out":{"base":"tuple[Boolean, ...]","pred":"result satisfies: isinstance(result, tuple)"},"spec":{"lhs":"make_args(cls, expr)","rhs":"isinstance(result, tuple)","over":{"base":"Any","pred":"isinstance(expr, Boolean)"},"name":"make_args_correct"},"guarantee":"isinstance(result, tuple)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29b4707ffb2c4d87","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, Boolean)"],"ensures":["isinstance(result, tuple)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def make_args(cls: type[And], expr: Boolean) -> tuple[Boolean, ...]: ... # type: ignore
     @overload
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_args(cls), make_args produces the expected output) over Any ║
+# ║ Path(make_args(cls, expr), isinstance(result, tuple)) over {Any | isinstance(expr, Boolean)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ make_args : Any → tuple[Boolean, ...]                      ║
+# ║ C4 Spec [static] strength=partial                          ║
+# ║   requires: isinstance(expr, Boolean)                      ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ make_args : {Any | isinstance(expr, Boolean)} → {tupl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6f4255079d9bafbb           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.make_args","kind":"classmethod","src_hash":"271d2694acea3dc3","in":{"base":"Any"},"out":{"base":"tuple[Boolean, ...]"},"spec":{"lhs":"make_args(cls)","rhs":"make_args produces the expected output","over":{"base":"Any"},"name":"make_args_correct"},"guarantee":"make_args produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f4255079d9bafbb"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.make_args","kind":"classmethod","src_hash":"271d2694acea3dc3","in":{"base":"Any","pred":"isinstance(expr, Boolean)"},"out":{"base":"tuple[Boolean, ...]","pred":"result satisfies: isinstance(result, tuple)"},"spec":{"lhs":"make_args(cls, expr)","rhs":"isinstance(result, tuple)","over":{"base":"Any","pred":"isinstance(expr, Boolean)"},"name":"make_args_correct"},"guarantee":"isinstance(result, tuple)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6f4255079d9bafbb","spec_source":"static","formal_spec":{"source":"static","strength":"partial","requires":["isinstance(expr, Boolean)"],"ensures":["isinstance(result, tuple)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def make_args(cls: type[Or], expr: Boolean) -> tuple[Boolean, ...]: ... # type: ignore
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_args(cls), return a sequence of elements `args` such that cls(*args) == expr) over Any ║
+# ║ Path(make_args(cls, expr), isinstance(result, tuple) and result == (expr.args if isinstance(expr, cls) else (sympify(expr),)) and result == expr.args or result == (sympify(expr),)) over {Any | isinstance(expr, Basic) and hasattr(expr, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ make_args : Any → tuple[Basic, ...]                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(expr, Basic)                        ║
+# ║   requires: hasattr(expr, 'args')                          ║
+# ║   ensures:  isinstance(result, tuple)                      ║
+# ║   ensures:  result == (expr.args if isinstance(expr, ...   ║
+# ║   ensures:  result == expr.args or result == (sympify...   ║
+# ║   fiber[cls]: isinstance(expr, cls) => expr.args           ║
+# ║   fiber[cls]: not (isinstance(expr, cls)) => (sympify...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ make_args : {Any | isinstance(expr, Basic) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed1226581355f7c7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09e47bf0f4d7a299  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.make_args","kind":"classmethod","src_hash":"71a48184bf04383c","in":{"base":"Any"},"out":{"base":"tuple[Basic, ...]"},"spec":{"lhs":"make_args(cls)","rhs":"return a sequence of elements `args` such that cls(*args) == expr","over":{"base":"Any"},"name":"make_args_correct"},"guarantee":"return a sequence of elements `args` such that cls(*args) == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp.make_args_correct","statement":"Path(make_args(x), return a sequence of elements `args` such that cls(*args) == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed1226581355f7c7"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.make_args","kind":"classmethod","src_hash":"71a48184bf04383c","in":{"base":"Any","pred":"isinstance(expr, Basic) and hasattr(expr, 'args')"},"out":{"base":"tuple[Basic, ...]","pred":"result satisfies: isinstance(result, tuple) and result == (expr.args if isinstance(expr, cls) else (sympify(expr),)) and result == expr.args or result == (sympify(expr),)"},"spec":{"lhs":"make_args(cls, expr)","rhs":"isinstance(result, tuple) and result == (expr.args if isinstance(expr, cls) else (sympify(expr),)) and result == expr.args or result == (sympify(expr),)","over":{"base":"Any","pred":"isinstance(expr, Basic) and hasattr(expr, 'args')"},"name":"make_args_correct"},"guarantee":"isinstance(result, tuple); result == (expr.args if isinstance(expr, cls) else (sympify(expr),)); result == expr.args or result == (sympify(expr),); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp.make_args_correct","statement":"Path(make_args(x), isinstance(result, tuple); result == (expr.args if isinstance(expr, cls) else (sympify(expr),)); result == expr.args or result == (sympify(expr),); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09e47bf0f4d7a299","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(expr, Basic)","hasattr(expr, 'args')"],"ensures":["isinstance(result, tuple)","result == (expr.args if isinstance(expr, cls) else (sympify(expr),))","result == expr.args or result == (sympify(expr),)"],"fibers":[{"name":"cls","guard":"isinstance(expr, cls)","ensures":["result == expr.args"],"decidability":"structural","returns_expr":"expr.args"},{"name":"cls","guard":"not (isinstance(expr, cls))","ensures":["result == (sympify(expr),)"],"decidability":"structural","returns_expr":"(sympify(expr),)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def make_args(cls: type[Basic], expr: Basic) -> tuple[Basic, ...]:
         """
         Return a sequence of elements `args` such that cls(*args) == expr
@@ -634,16 +734,22 @@ this object, use the * or + operator instead.
             return (sympify(expr),)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), self.func(*terms, evaluate=True)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.func(*terms, evaluate=True)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ doit : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | efe50388f9da349d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f404af5b39aaf62a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.doit","kind":"method","src_hash":"695514140df446c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"efe50388f9da349d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOp.doit","kind":"method","src_hash":"695514140df446c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"self.func(*terms, evaluate=True)","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"returns self.func(*terms, evaluate=True)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOp.doit_correct","statement":"Path(doit(x), returns self.func(*terms, evaluate=True))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f404af5b39aaf62a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.func(*terms, evaluate=True)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args","self.func"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         if hints.get('deep', True):
             terms = [term.doit(**hints) for term in self.args]
@@ -652,16 +758,22 @@ this object, use the * or + operator instead.
         return self.func(*terms, evaluate=True)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(ShortCircuit(), correctly constructs a ShortCircuit instance) over Any ║
+# ║ Path(ShortCircuit(), isinstance(self, Exception)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ ShortCircuit : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Exception)                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ ShortCircuit : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a38af7ea74d0f173           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.ShortCircuit","kind":"class","src_hash":"1246bd25414b2aba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"ShortCircuit()","rhs":"correctly constructs a ShortCircuit instance","over":{"base":"Any"},"name":"ShortCircuit_correct"},"guarantee":"correctly constructs a ShortCircuit instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a38af7ea74d0f173"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.ShortCircuit","kind":"class","src_hash":"1246bd25414b2aba","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Exception)"},"spec":{"lhs":"ShortCircuit()","rhs":"isinstance(self, Exception)","over":{"base":"Any"},"name":"ShortCircuit_correct"},"guarantee":"isinstance(self, Exception)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a38af7ea74d0f173","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Exception)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Function ShortCircuit not found in source"]}}
 class ShortCircuit(Exception):
     pass
 
@@ -669,14 +781,20 @@ class ShortCircuit(Exception):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(LatticeOp(*args), correctly constructs a LatticeOp instance) over {Any | isinstance(expr, cls)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ LatticeOp : {Any | isinstance(expr, cls)} → Any            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, AssocOp)                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ LatticeOp : {Any | isinstance(expr, cls)} → {Any | re...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c234ea1ea08a18f9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.LatticeOp","kind":"class","src_hash":"8966f691da46bb07","in":{"base":"Any","pred":"isinstance(expr, cls)"},"out":{"base":"Any"},"spec":{"lhs":"LatticeOp(*args)","rhs":"correctly constructs a LatticeOp instance","over":{"base":"Any","pred":"isinstance(expr, cls)"},"name":"LatticeOp_class_invariant"},"guarantee":"correctly constructs a LatticeOp instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c234ea1ea08a18f9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.LatticeOp","kind":"class","src_hash":"8966f691da46bb07","in":{"base":"Any","pred":"isinstance(expr, cls)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, AssocOp)"},"spec":{"lhs":"LatticeOp(*args)","rhs":"correctly constructs a LatticeOp instance","over":{"base":"Any","pred":"isinstance(expr, cls)"},"name":"LatticeOp_class_invariant"},"guarantee":"isinstance(self, AssocOp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c234ea1ea08a18f9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, AssocOp)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function LatticeOp not found in source"]}}
 class LatticeOp(AssocOp):
     """
     Join/meet operations of an algebraic lattice[1].
@@ -719,16 +837,26 @@ class LatticeOp(AssocOp):
     is_commutative = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, *args, **options), result == (sympify(cls.identity) if not _args else set(_args).pop() if len(_args) == 1 else obj) and result == sympify(cls.identity) or result == set(_args).pop() or result == obj) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (sympify(cls.identity) if not _...   ║
+# ║   ensures:  result == sympify(cls.identity) or result...   ║
+# ║   fiber[case_0]: not _args => sympify(cls.identity)        ║
+# ║   fiber[case_1]: len(_args) == 1 => set(_args).pop()       ║
+# ║   fiber[case_2]: not (not _args) and not (len(_args) ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : Any → {Any | result satisfies: result == (s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5af1ab46857c2137           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.LatticeOp.__new__","kind":"method","src_hash":"6a5c81fbde689954","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5af1ab46857c2137"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.LatticeOp.__new__","kind":"method","src_hash":"6a5c81fbde689954","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (sympify(cls.identity) if not _args else set(_args).pop() if len(_args) == 1 else obj) and result == sympify(cls.identity) or result == set(_args).pop() or result == obj"},"spec":{"lhs":"__new__(cls, *args, **options)","rhs":"result == (sympify(cls.identity) if not _args else set(_args).pop() if len(_args) == 1 else obj) and result == sympify(cls.identity) or result == set(_args).pop() or result == obj","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"result == (sympify(cls.identity) if not _args else set(_args).pop() if len(_args) == 1 else obj); result == sympify(cls.identity) or result == set(_args).pop() or result == obj; 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5af1ab46857c2137","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (sympify(cls.identity) if not _args else set(_args).pop() if len(_args) == 1 else obj)","result == sympify(cls.identity) or result == set(_args).pop() or result == obj"],"fibers":[{"name":"case_0","guard":"not _args","ensures":["result == sympify(cls.identity)"],"decidability":"library","returns_expr":"sympify(cls.identity)"},{"name":"case_1","guard":"len(_args) == 1","ensures":["result == set(_args).pop()"],"decidability":"z3","returns_expr":"set(_args).pop()"},{"name":"case_2","guard":"not (not _args) and not (len(_args) == 1)","ensures":["result == obj"],"decidability":"z3","returns_expr":"obj"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["cls._new_args_filter","cls.identity","cls.zero"],"catches":["ShortCircuit"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, **options):
         args = (_sympify_(arg) for arg in args)
 
@@ -753,16 +881,22 @@ class LatticeOp(AssocOp):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_new_args_filter(cls), generator filtering args) over Any ║
+# ║ Path(_new_args_filter(cls, arg_sequence, call_cls), <unspecified:_new_args_filter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _new_args_filter : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9915e2a97f7545d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.LatticeOp._new_args_filter","kind":"classmethod","src_hash":"a91a6e4cde5d875e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new_args_filter(cls)","rhs":"generator filtering args","over":{"base":"Any"},"name":"_new_args_filter_correct"},"guarantee":"generator filtering args","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.LatticeOp._new_args_filter_correct","statement":"Path(_new_args_filter(x), generator filtering args)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9915e2a97f7545d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.LatticeOp._new_args_filter","kind":"classmethod","src_hash":"a91a6e4cde5d875e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_new_args_filter(cls, arg_sequence, call_cls)","rhs":"<unspecified:_new_args_filter>","over":{"base":"Any"},"name":"_new_args_filter_correct"},"guarantee":"generator filtering args","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.LatticeOp._new_args_filter_correct","statement":"Path(_new_args_filter(x), generator filtering args)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9915e2a97f7545d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["ShortCircuit"]},"state_contract":{"exceptional_post":{"ShortCircuit":["isinstance(raised, ShortCircuit)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _new_args_filter(cls, arg_sequence, call_cls=None):
         """Generator filtering args"""
         ncls = call_cls or cls
@@ -778,16 +912,26 @@ class LatticeOp(AssocOp):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_args(cls), return a set of args such that cls(*arg_set) == expr) over Any ║
+# ║ Path(make_args(cls, expr), result == (expr._argset if isinstance(expr, cls) else frozenset([sympify(expr)])) and result == expr._argset or result == frozenset([sympify(expr)])) over {Any | hasattr(expr, '_argset')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ make_args : Any → Any                                      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, '_argset')                       ║
+# ║   ensures:  result == (expr._argset if isinstance(exp...   ║
+# ║   ensures:  result == expr._argset or result == froze...   ║
+# ║   fiber[cls]: isinstance(expr, cls) => expr._argset        ║
+# ║   fiber[cls]: not (isinstance(expr, cls)) => frozense...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ make_args : {Any | hasattr(expr, '_argset')} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9137341fb79bfa46  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f73adfacedd39eeb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.LatticeOp.make_args","kind":"classmethod","src_hash":"2094879a800dc1a8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_args(cls)","rhs":"return a set of args such that cls(*arg_set) == expr","over":{"base":"Any"},"name":"make_args_correct"},"guarantee":"return a set of args such that cls(*arg_set) == expr","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.LatticeOp.make_args_correct","statement":"Path(make_args(x), return a set of args such that cls(*arg_set) == expr)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9137341fb79bfa46"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.LatticeOp.make_args","kind":"classmethod","src_hash":"2094879a800dc1a8","in":{"base":"Any","pred":"hasattr(expr, '_argset')"},"out":{"base":"Any","pred":"result satisfies: result == (expr._argset if isinstance(expr, cls) else frozenset([sympify(expr)])) and result == expr._argset or result == frozenset([sympify(expr)])"},"spec":{"lhs":"make_args(cls, expr)","rhs":"result == (expr._argset if isinstance(expr, cls) else frozenset([sympify(expr)])) and result == expr._argset or result == frozenset([sympify(expr)])","over":{"base":"Any","pred":"hasattr(expr, '_argset')"},"name":"make_args_correct"},"guarantee":"result == (expr._argset if isinstance(expr, cls) else frozenset([sympify(expr)])); result == expr._argset or result == frozenset([sympify(expr)]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.LatticeOp.make_args_correct","statement":"Path(make_args(x), result == (expr._argset if isinstance(expr, cls) else frozenset([sympify(expr)])); result == expr._argset or result == frozenset([sympify(expr)]); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f73adfacedd39eeb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, '_argset')"],"ensures":["result == (expr._argset if isinstance(expr, cls) else frozenset([sympify(expr)]))","result == expr._argset or result == frozenset([sympify(expr)])"],"fibers":[{"name":"cls","guard":"isinstance(expr, cls)","ensures":["result == expr._argset"],"decidability":"structural","returns_expr":"expr._argset"},{"name":"cls","guard":"not (isinstance(expr, cls))","ensures":["result == frozenset([sympify(expr)])"],"decidability":"structural","returns_expr":"frozenset([sympify(expr)])"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["expr._argset"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def make_args(cls, expr):
         """
         Return a set of args such that cls(*arg_set) == expr.
@@ -801,14 +945,19 @@ class LatticeOp(AssocOp):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a AssocOpDispatcher instance) preserved by AssocOpDispatcher(*args) over {Any | isinstance(typ, RaiseNotImplementedError) and isinstance(h, type)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ AssocOpDispatcher : {Any | isinstance(typ, RaiseNotIm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 700b5b6b212d0aa3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher","kind":"class","src_hash":"95980c21d990ee7b","in":{"base":"Any","pred":"isinstance(typ, RaiseNotImplementedError) and isinstance(h, type)"},"out":{"base":"Any"},"spec":{"lhs":"AssocOpDispatcher(*args)","rhs":"correctly constructs a AssocOpDispatcher instance","over":{"base":"Any","pred":"isinstance(typ, RaiseNotImplementedError) and isinstance(h, type)"},"name":"AssocOpDispatcher_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a AssocOpDispatcher instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'name') and hasattr(self, 'doc') and hasattr(self, 'handlerattr') and hasattr(self, '_handlergetter') and hasattr(self, '_dispatcher')","kind":"class","induction":"structural on name, doc, handlerattr, _handlergetter"}],"methods_preserving":["_add_handler","__init__","__repr__","register_handlerclass","__call__","dispatch","__doc__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700b5b6b212d0aa3"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher","kind":"class","src_hash":"95980c21d990ee7b","in":{"base":"Any","pred":"isinstance(typ, RaiseNotImplementedError) and isinstance(h, type)"},"out":{"base":"Any"},"spec":{"lhs":"AssocOpDispatcher(*args)","rhs":"correctly constructs a AssocOpDispatcher instance","over":{"base":"Any","pred":"isinstance(typ, RaiseNotImplementedError) and isinstance(h, type)"},"name":"AssocOpDispatcher_class_invariant","kind":"invariant"},"guarantee":"preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'name') and hasattr(self, 'doc') and hasattr(self, 'handlerattr') and hasattr(self, '_handlergetter') and hasattr(self, '_dispatcher')","kind":"class","induction":"structural on name, doc, handlerattr, _handlergetter"}],"methods_preserving":["_add_handler","__init__","__repr__","register_handlerclass","__call__","dispatch","__doc__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"700b5b6b212d0aa3","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'name')","hasattr(self, 'doc')","hasattr(self, 'handlerattr')","hasattr(self, '_handlergetter')","hasattr(self, '_dispatcher')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function AssocOpDispatcher not found in source"]}}
 class AssocOpDispatcher:
     """
     Handler dispatcher for associative operators
@@ -848,16 +997,23 @@ class AssocOpDispatcher:
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(nam), initializes the instance correctly) over Any ║
+# ║ Path(__init__(name, doc), self.name == name and self.doc == doc) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.name == name                              ║
+# ║   ensures:  self.doc == doc                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.name =...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 793b706ebcc29763           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher.__init__","kind":"method","src_hash":"b2e669d1b7b01b59","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(nam)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"793b706ebcc29763"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher.__init__","kind":"method","src_hash":"b2e669d1b7b01b59","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.name == name and self.doc == doc"},"spec":{"lhs":"__init__(name, doc)","rhs":"self.name == name and self.doc == doc","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.name == name; self.doc == doc","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"793b706ebcc29763","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.name == name","self.doc == doc"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, name, doc=None):
         self.name = name
         self.doc = doc
@@ -866,30 +1022,44 @@ class AssocOpDispatcher:
         self._dispatcher = Dispatcher(name)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__repr__(), returns a faithful string representation) over Any ║
+# ║ Path(__repr__(), '<dispatched %s>' % self.name) over Any   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '<dispatched %s>' % self.name                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __repr__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0b3c11f3647e05c8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher.__repr__","kind":"method","src_hash":"282d952a83d2fb06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"returns a faithful string representation","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns a faithful string representation","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b3c11f3647e05c8"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher.__repr__","kind":"method","src_hash":"282d952a83d2fb06","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__repr__()","rhs":"'<dispatched %s>' % self.name","over":{"base":"Any"},"name":"__repr___correct"},"guarantee":"returns '<dispatched %s>' % self.name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0b3c11f3647e05c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'<dispatched %s>' % self.name","pure":false,"effects":{"effect_type":"reads_state","reads":["self.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __repr__(self):
         return "<dispatched %s>" % self.name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(register_handlerclass(cla), register the handler class for two classes, in both straight and reversed order) over Any ║
+# ║ Path(register_handlerclass(classes, typ, on_ambiguity), <unspecified:register_handlerclass>) over {Any | len(classes) == 2 and not (len(set(classes)) == 1)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ register_handlerclass : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: len(classes) == 2                              ║
+# ║   requires: not (len(set(classes)) == 1)                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ register_handlerclass : {Any | len(classes) == 2 and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 581e06ad31fdd49d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher.register_handlerclass","kind":"method","src_hash":"da905070e5a7188b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"register_handlerclass(cla)","rhs":"register the handler class for two classes, in both straight and reversed order","over":{"base":"Any"},"name":"register_handlerclass_correct"},"guarantee":"register the handler class for two classes, in both straight and reversed order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOpDispatcher.register_handlerclass_correct","statement":"Path(register_handlerclass(x), register the handler class for two classes, in both straight and reversed order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"581e06ad31fdd49d"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher.register_handlerclass","kind":"method","src_hash":"da905070e5a7188b","in":{"base":"Any","pred":"len(classes) == 2 and not (len(set(classes)) == 1)"},"out":{"base":"Any"},"spec":{"lhs":"register_handlerclass(classes, typ, on_ambiguity)","rhs":"<unspecified:register_handlerclass>","over":{"base":"Any","pred":"len(classes) == 2 and not (len(set(classes)) == 1)"},"name":"register_handlerclass_correct"},"guarantee":"register the handler class for two classes, in both straight and reversed order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOpDispatcher.register_handlerclass_correct","statement":"Path(register_handlerclass(x), register the handler class for two classes, in both straight and reversed order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"581e06ad31fdd49d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["len(classes) == 2","not (len(set(classes)) == 1)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._dispatcher"],"calls_mutating":["self._dispatcher.add"],"raises":["RuntimeError"]},"state_contract":{"modifies":["self.*"],"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def register_handlerclass(self, classes, typ, on_ambiguity=ambiguity_register_error_ignore_dup):
         """
         Register the handler class for two classes, in both straight and reversed order.
@@ -918,16 +1088,22 @@ class AssocOpDispatcher:
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__call__(*ar), correctly applies the callable) over Any ║
+# ║ Path(__call__(*args, _sympify, **kwargs), self.dispatch(handlers)(*args, _sympify=False, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.dispatch(handlers)(*args, _sympify=F...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __call__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d6015b53feace3be           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher.__call__","kind":"method","src_hash":"322208f66d5e8490","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*ar)","rhs":"correctly applies the callable","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"correctly applies the callable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6015b53feace3be"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher.__call__","kind":"method","src_hash":"322208f66d5e8490","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__call__(*args, _sympify, **kwargs)","rhs":"self.dispatch(handlers)(*args, _sympify=False, **kwargs)","over":{"base":"Any"},"name":"__call___correct"},"guarantee":"returns self.dispatch(handlers)(*args, _sympify=False, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6015b53feace3be","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.dispatch(handlers)(*args, _sympify=False, **kwargs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._handlergetter","self.dispatch"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __call__(self, *args, _sympify=True, **kwargs):
         """
         Parameters
@@ -945,16 +1121,22 @@ class AssocOpDispatcher:
 
     @cacheit
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dispatch(han), select the handler class, and return its handler method) over Any ║
+# ║ Path(dispatch(handlers), <unspecified:dispatch>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dispatch : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f2327d4ab6fe2ef1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher.dispatch","kind":"method","src_hash":"b1a49cded0117fba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispatch(han)","rhs":"select the handler class, and return its handler method","over":{"base":"Any"},"name":"dispatch_correct"},"guarantee":"select the handler class, and return its handler method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOpDispatcher.dispatch_correct","statement":"Path(dispatch(x), select the handler class, and return its handler method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2327d4ab6fe2ef1"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher.dispatch","kind":"method","src_hash":"b1a49cded0117fba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dispatch(handlers)","rhs":"<unspecified:dispatch>","over":{"base":"Any"},"name":"dispatch_correct"},"guarantee":"select the handler class, and return its handler method","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.core.operations.AssocOpDispatcher.dispatch_correct","statement":"Path(dispatch(x), select the handler class, and return its handler method)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f2327d4ab6fe2ef1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dispatcher"],"raises":["RuntimeError"]},"state_contract":{"exceptional_post":{"RuntimeError":["isinstance(raised, RuntimeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dispatch(self, handlers):
         """
         Select the handler class, and return its handler method.
@@ -990,16 +1172,22 @@ class AssocOpDispatcher:
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__doc__(), returns the __doc__ attribute) over Any    ║
+# ║ Path(__doc__(), '\n\n'.join(docs)) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  '\n\n'.join(docs)                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __doc__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 91f1aa5cec1a90c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher.__doc__","kind":"property","src_hash":"dd731f344b34f648","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__doc__()","rhs":"returns the __doc__ attribute","over":{"base":"Any"},"name":"__doc___correct"},"guarantee":"returns the __doc__ attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91f1aa5cec1a90c9"}
+# @cctt_verify {"v":2,"sym":"sympy.core.operations.AssocOpDispatcher.__doc__","kind":"property","src_hash":"dd731f344b34f648","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__doc__()","rhs":"'\\n\\n'.join(docs)","over":{"base":"Any"},"name":"__doc___correct"},"guarantee":"returns '\\n\\n'.join(docs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91f1aa5cec1a90c9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"'\\n\\n'.join(docs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __doc__(self):
         docs = [
             "Multiply dispatched associative operator: %s" % self.name,

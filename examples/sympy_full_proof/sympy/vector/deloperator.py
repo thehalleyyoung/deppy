@@ -22,14 +22,20 @@ from sympy.vector.operators import gradient, divergence, curl
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(Del(*args), correctly constructs a Del instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Del : Any → Any                                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Del : Any → {Any | result satisfies: isinstance(self,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0574ed81efc1e761  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.deloperator.Del","kind":"class","src_hash":"3d9b171093ab6785","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Del(*args)","rhs":"correctly constructs a Del instance","over":{"base":"Any"},"name":"Del_class_invariant"},"guarantee":"correctly constructs a Del instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0574ed81efc1e761"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.deloperator.Del","kind":"class","src_hash":"3d9b171093ab6785","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Del(*args)","rhs":"correctly constructs a Del instance","over":{"base":"Any"},"name":"Del_class_invariant"},"guarantee":"isinstance(self, Basic)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0574ed81efc1e761","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function Del not found in source"]}}
 class Del(Basic):
     """
     Represents the vector differential operator, usually represented in
@@ -37,32 +43,44 @@ class Del(Basic):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls), <unspecified:__new__>) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 3ed7f4d284e8cff1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.deloperator.Del.__new__","kind":"method","src_hash":"e8e735cb5885550a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ed7f4d284e8cff1"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.deloperator.Del.__new__","kind":"method","src_hash":"e8e735cb5885550a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"3ed7f4d284e8cff1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls):
         obj = super().__new__(cls)
         obj._name = "delop"
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(gradient(sca), returns the gradient of the given scalar field, as a vector instance) over Any ║
+# ║ Path(gradient(scalar_field, doit), gradient(scalar_field, doit=doit)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  gradient(scalar_field, doit=doit)              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ gradient : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 94c627c026b88eff           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.deloperator.Del.gradient","kind":"method","src_hash":"63e2580b15d6912f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gradient(sca)","rhs":"returns the gradient of the given scalar field, as a vector instance","over":{"base":"Any"},"name":"gradient_correct"},"guarantee":"returns the gradient of the given scalar field, as a vector instance","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94c627c026b88eff"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.deloperator.Del.gradient","kind":"method","src_hash":"63e2580b15d6912f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"gradient(scalar_field, doit)","rhs":"gradient(scalar_field, doit=doit)","over":{"base":"Any"},"name":"gradient_correct"},"guarantee":"returns gradient(scalar_field, doit=doit)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"94c627c026b88eff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"gradient(scalar_field, doit=doit)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def gradient(self, scalar_field, doit=False):
         """
         Returns the gradient of the given scalar field, as a
@@ -98,16 +116,22 @@ class Del(Basic):
     __call__.__doc__ = gradient.__doc__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(dot(vec), represents the dot product between this operator and a given vector - equal to the divergence of the vector field) over Any ║
+# ║ Path(dot(vect, doit), divergence(vect, doit=doit)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  divergence(vect, doit=doit)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ dot : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9d0b307f0de53fda           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.deloperator.Del.dot","kind":"method","src_hash":"f7bb15b3e48f5a53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dot(vec)","rhs":"represents the dot product between this operator and a given vector - equal to the divergence of the vector field","over":{"base":"Any"},"name":"dot_correct"},"guarantee":"represents the dot product between this operator and a given vector - equal to the divergence of the vector field","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d0b307f0de53fda"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.deloperator.Del.dot","kind":"method","src_hash":"f7bb15b3e48f5a53","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"dot(vect, doit)","rhs":"divergence(vect, doit=doit)","over":{"base":"Any"},"name":"dot_correct"},"guarantee":"returns divergence(vect, doit=doit)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9d0b307f0de53fda","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"divergence(vect, doit=doit)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def dot(self, vect, doit=False):
         """
         Represents the dot product between this operator and a given
@@ -143,16 +167,22 @@ class Del(Basic):
     __and__.__doc__ = dot.__doc__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cross(vec), represents the cross product between this operator and a given vector - equal to the curl of the vector field) over Any ║
+# ║ Path(cross(vect, doit), curl(vect, doit=doit)) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  curl(vect, doit=doit)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cross : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bb60ae05137e72cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.deloperator.Del.cross","kind":"method","src_hash":"6cd4aa146ee16e6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cross(vec)","rhs":"represents the cross product between this operator and a given vector - equal to the curl of the vector field","over":{"base":"Any"},"name":"cross_correct"},"guarantee":"represents the cross product between this operator and a given vector - equal to the curl of the vector field","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb60ae05137e72cc"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.deloperator.Del.cross","kind":"method","src_hash":"6cd4aa146ee16e6b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"cross(vect, doit)","rhs":"curl(vect, doit=doit)","over":{"base":"Any"},"name":"cross_correct"},"guarantee":"returns curl(vect, doit=doit)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bb60ae05137e72cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"curl(vect, doit=doit)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def cross(self, vect, doit=False):
         """
         Represents the cross product between this operator and a given
@@ -190,15 +220,21 @@ class Del(Basic):
     __xor__.__doc__ = cross.__doc__
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sympystr(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_sympystr(printer), self._name) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._name                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sympystr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 326e8ed7061a682a           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.vector.deloperator.Del._sympystr","kind":"method","src_hash":"81dccc04ff69b929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"326e8ed7061a682a"}
+# @cctt_verify {"v":2,"sym":"sympy.vector.deloperator.Del._sympystr","kind":"method","src_hash":"81dccc04ff69b929","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sympystr(printer)","rhs":"self._name","over":{"base":"Any"},"name":"_sympystr_correct"},"guarantee":"returns self._name","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"326e8ed7061a682a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._name","pure":false,"effects":{"effect_type":"reads_state","reads":["self._name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sympystr(self, printer):
         return self._name

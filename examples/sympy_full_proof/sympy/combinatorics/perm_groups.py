@@ -43,14 +43,20 @@ _af_new = Permutation._af_new
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PermutationGroup instance) preserved by PermutationGroup(*args) over {Any | isinstance(other, Permutation) and isinstance(g, (Cycle, Permutation)) and isinstance(G, SymmetricPermutationGroup)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PermutationGroup : {Any | isinstance(other, Permutati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 22.2ms                        ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f9441669f6788187  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup","kind":"class","src_hash":"4726ca4f0856a801","in":{"base":"Any","pred":"isinstance(other, Permutation) and isinstance(g, (Cycle, Permutation)) and isinstance(G, SymmetricPermutationGroup)"},"out":{"base":"Any","pred":"None"},"spec":{"lhs":"PermutationGroup(*args)","rhs":"correctly constructs a PermutationGroup instance","over":{"base":"Any","pred":"isinstance(other, Permutation) and isinstance(g, (Cycle, Permutation)) and isinstance(G, SymmetricPermutationGroup)"},"name":"PermutationGroup_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PermutationGroup instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_perfect","pred":"self.is_perfect","kind":"class"},{"name":"is_abelian","pred":"self.is_abelian","kind":"class"},{"name":"is_nilpotent","pred":"self.is_nilpotent","kind":"class"},{"name":"is_solvable","pred":"self.is_solvable","kind":"class"},{"name":"is_polycyclic","pred":"self.is_polycyclic","kind":"class"},{"name":"is_trivial","pred":"self.is_trivial","kind":"class"},{"name":"is_symmetric","pred":"self.is_symmetric","kind":"class"},{"name":"is_alternating","pred":"self.is_alternating","kind":"class"},{"name":"is_cyclic","pred":"self.is_cyclic","kind":"class"},{"name":"is_dihedral","pred":"self.is_dihedral","kind":"class"},{"name":"representation","pred":"hasattr(self, '_generators') and hasattr(self, '_order') and hasattr(self, '_elements') and hasattr(self, '_center') and hasattr(self, '_is_abelian') and hasattr(self, '_is_transitive') and hasattr(self, '_is_sym') and hasattr(self, '_is_alt')","kind":"class","induction":"structural on _generators, _order, _elements, _center"}],"methods_preserving":["__init__","__getitem__","__contains__","__len__","equals","__mul__","_random_pr_init","_union_find_merge","_union_find_rep","base","baseswap","basic_orbits","basic_stabilizers","basic_transversals","composition_series","coset_transversal","_coset_representative","coset_table","center","centralizer","commutator","coset_factor","generator_product","coset_rank","coset_unrank","degree","identity","elements","derived_series","derived_subgroup","generate","generate_dimino","generate_schreier_sims","generators","contains","is_perfect","is_abelian","abelian_invariants","is_elementary","_eval_is_alt_sym_naive","_eval_is_alt_sym_monte_carlo","is_alt_sym","is_nilpotent","is_normal","is_primitive","minimal_blocks","is_solvable","is_subgroup","is_polycyclic","is_transitive","is_trivial","lower_central_series","max_div","minimal_block","conjugacy_class","conjugacy_classes","normal_closure","orbit","orbit_rep","orbit_transversal","orbits","order","index","is_symmetric","is_alternating","is_cyclic","is_dihedral","pointwise_stabilizer","make_perm","random","random_pr","random_stab","schreier_sims","_schreier_sims","schreier_sims_incremental","schreier_sims_random","schreier_vector","stabilizer","strong_gens","subgroup","subgroup_search","transitivity_degree","_p_elements_group","_sylow_alt_sym","sylow_subgroup","_block_verify","strong_presentation","presentation","polycyclic_group"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9441669f6788187"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup","kind":"class","src_hash":"4726ca4f0856a801","in":{"base":"Any","pred":"isinstance(other, Permutation) and isinstance(g, (Cycle, Permutation)) and isinstance(G, SymmetricPermutationGroup)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"PermutationGroup(*args)","rhs":"correctly constructs a PermutationGroup instance","over":{"base":"Any","pred":"isinstance(other, Permutation) and isinstance(g, (Cycle, Permutation)) and isinstance(G, SymmetricPermutationGroup)"},"name":"PermutationGroup_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Basic); preserves 27 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_perfect","pred":"self.is_perfect","kind":"class"},{"name":"is_abelian","pred":"self.is_abelian","kind":"class"},{"name":"is_nilpotent","pred":"self.is_nilpotent","kind":"class"},{"name":"is_solvable","pred":"self.is_solvable","kind":"class"},{"name":"is_polycyclic","pred":"self.is_polycyclic","kind":"class"},{"name":"is_trivial","pred":"self.is_trivial","kind":"class"},{"name":"is_symmetric","pred":"self.is_symmetric","kind":"class"},{"name":"is_alternating","pred":"self.is_alternating","kind":"class"},{"name":"is_cyclic","pred":"self.is_cyclic","kind":"class"},{"name":"is_dihedral","pred":"self.is_dihedral","kind":"class"},{"name":"representation","pred":"hasattr(self, '_generators') and hasattr(self, '_order') and hasattr(self, '_elements') and hasattr(self, '_center') and hasattr(self, '_is_abelian') and hasattr(self, '_is_transitive') and hasattr(self, '_is_sym') and hasattr(self, '_is_alt')","kind":"class","induction":"structural on _generators, _order, _elements, _center"}],"methods_preserving":["__init__","__getitem__","__contains__","__len__","equals","__mul__","_random_pr_init","_union_find_merge","_union_find_rep","base","baseswap","basic_orbits","basic_stabilizers","basic_transversals","composition_series","coset_transversal","_coset_representative","coset_table","center","centralizer","commutator","coset_factor","generator_product","coset_rank","coset_unrank","degree","identity","elements","derived_series","derived_subgroup","generate","generate_dimino","generate_schreier_sims","generators","contains","is_perfect","is_abelian","abelian_invariants","is_elementary","_eval_is_alt_sym_naive","_eval_is_alt_sym_monte_carlo","is_alt_sym","is_nilpotent","is_normal","is_primitive","minimal_blocks","is_solvable","is_subgroup","is_polycyclic","is_transitive","is_trivial","lower_central_series","max_div","minimal_block","conjugacy_class","conjugacy_classes","normal_closure","orbit","orbit_rep","orbit_transversal","orbits","order","index","is_symmetric","is_alternating","is_cyclic","is_dihedral","pointwise_stabilizer","make_perm","random","random_pr","random_stab","schreier_sims","_schreier_sims","schreier_sims_incremental","schreier_sims_random","schreier_vector","stabilizer","strong_gens","subgroup","subgroup_search","transitivity_degree","_p_elements_group","_sylow_alt_sym","sylow_subgroup","_block_verify","strong_presentation","presentation","polycyclic_group"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f9441669f6788187","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"],"invariants":["hasattr(self, '_generators')","hasattr(self, '_order')","hasattr(self, '_elements')","hasattr(self, '_center')","hasattr(self, '_is_abelian')","hasattr(self, '_is_transitive')","hasattr(self, '_is_sym')","hasattr(self, '_is_alt')","hasattr(self, '_is_primitive')","hasattr(self, '_is_nilpotent')","hasattr(self, '_is_solvable')","hasattr(self, '_is_trivial')","hasattr(self, '_transitivity_degree')","hasattr(self, '_max_div')","hasattr(self, '_is_perfect')","hasattr(self, '_is_cyclic')","hasattr(self, '_is_dihedral')","hasattr(self, '_r')","hasattr(self, '_degree')","hasattr(self, '_base')","hasattr(self, '_strong_gens')","hasattr(self, '_strong_gens_slp')","hasattr(self, '_basic_orbits')","hasattr(self, '_transversals')","hasattr(self, '_transversal_slp')","hasattr(self, '_random_gens')","hasattr(self, '_fp_presentation')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":22.2,"verdict_class":"assumed","binding":false,"binding_errors":["Function PermutationGroup not found in source"]}}
 class PermutationGroup(Basic):
     r"""The class defining a Permutation group.
 
@@ -150,16 +156,22 @@ class PermutationGroup(Basic):
     is_group = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), the default constructor) over Any       ║
+# ║ Path(__new__(cls, *args, dups), Basic.__new__(cls, *args, **kwargs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Basic.__new__(cls, *args, **kwargs)            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d861c43ec0a69b91           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.__new__","kind":"method","src_hash":"98c77f556294a567","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"the default constructor","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"the default constructor","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d861c43ec0a69b91"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.__new__","kind":"method","src_hash":"98c77f556294a567","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, *args, dups)","rhs":"Basic.__new__(cls, *args, **kwargs)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Basic.__new__(cls, *args, **kwargs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d861c43ec0a69b91","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Basic.__new__(cls, *args, **kwargs)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, *args, dups=True, **kwargs):
         """The default constructor. Accepts Cycle and Permutation forms.
         Removes duplicates unless ``dups`` keyword is ``False``.
@@ -186,16 +198,22 @@ class PermutationGroup(Basic):
         return Basic.__new__(cls, *args, **kwargs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 551f03a6ed22cff1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.__init__","kind":"method","src_hash":"ec062bb69706f3e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"551f03a6ed22cff1"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.__init__","kind":"method","src_hash":"ec062bb69706f3e8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"551f03a6ed22cff1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
         self._generators = list(self.args)
         self._order = None
@@ -232,30 +250,43 @@ class PermutationGroup(Basic):
         self._fp_presentation = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__getitem__(i), returns the element at the given index) over Any ║
+# ║ Path(__getitem__(i), self._generators[i]) over Any         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._generators[i]                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __getitem__ : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4c02e14fb4f54b75           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.__getitem__","kind":"method","src_hash":"bab63e1f62be43b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"returns the element at the given index","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns the element at the given index","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c02e14fb4f54b75"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.__getitem__","kind":"method","src_hash":"bab63e1f62be43b7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__getitem__(i)","rhs":"self._generators[i]","over":{"base":"Any"},"name":"__getitem___correct"},"guarantee":"returns self._generators[i]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4c02e14fb4f54b75","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._generators[i]","pure":false,"effects":{"effect_type":"reads_state","reads":["self._generators"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __getitem__(self, i):
         return self._generators[i]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(i), correctly tests membership) over Any ║
+# ║ Path(__contains__(i), self.contains(i)) over {Any | isinstance(i, Permutation)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(i, Permutation)                     ║
+# ║   returns:  self.contains(i)                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : {Any | isinstance(i, Permutation)} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 913eb2c899a232db           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.__contains__","kind":"method","src_hash":"60a398879931974b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(i)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"913eb2c899a232db"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.__contains__","kind":"method","src_hash":"60a398879931974b","in":{"base":"Any","pred":"isinstance(i, Permutation)"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(i)","rhs":"self.contains(i)","over":{"base":"Any","pred":"isinstance(i, Permutation)"},"name":"__contains___correct"},"guarantee":"returns self.contains(i)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"913eb2c899a232db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(i, Permutation)"],"returns_expr":"self.contains(i)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.contains"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, i):
         """Return ``True`` if *i* is contained in PermutationGroup.
 
@@ -274,30 +305,44 @@ class PermutationGroup(Basic):
         return self.contains(i)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__len__(), returns the number of elements) over Any   ║
+# ║ Path(__len__(), len(self._generators)) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  len(self._generators)                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __len__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | aa2c217e28cfb2e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.__len__","kind":"method","src_hash":"40c2e24ea4d96a21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"returns the number of elements","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns the number of elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa2c217e28cfb2e7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.__len__","kind":"method","src_hash":"40c2e24ea4d96a21","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__len__()","rhs":"len(self._generators)","over":{"base":"Any"},"name":"__len___correct"},"guarantee":"returns len(self._generators)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"aa2c217e28cfb2e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"len(self._generators)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._generators"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __len__(self):
         return len(self._generators)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(equals(oth), return ``true`` if permutationgroup generated by elements in the group are same i.e they represent the same permutationgroup) over Any ║
+# ║ Path(equals(other), <unspecified:equals>) over {Any | hasattr(other, 'generators') and hasattr(other, 'contains')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ equals : Any → Any                                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, 'generators')                   ║
+# ║   requires: hasattr(other, 'contains')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ equals : {Any | hasattr(other, 'generators') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ea1fa2f5b7109347  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.equals","kind":"method","src_hash":"a793a847bb31bebd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"equals(oth)","rhs":"return ``true`` if permutationgroup generated by elements in the group are same i.e they represent the same permutationgroup","over":{"base":"Any"},"name":"equals_correct"},"guarantee":"return ``true`` if permutationgroup generated by elements in the group are same i.e they represent the same permutationgroup","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.equals_correct","statement":"Path(equals(x), return ``true`` if permutationgroup generated by elements in the group are same i.e they represent the same permutationgroup)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea1fa2f5b7109347"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.equals","kind":"method","src_hash":"a793a847bb31bebd","in":{"base":"Any","pred":"hasattr(other, 'generators') and hasattr(other, 'contains')"},"out":{"base":"Any"},"spec":{"lhs":"equals(other)","rhs":"<unspecified:equals>","over":{"base":"Any","pred":"hasattr(other, 'generators') and hasattr(other, 'contains')"},"name":"equals_correct"},"guarantee":"return ``true`` if permutationgroup generated by elements in the group are same i.e they represent the same permutationgroup","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.equals_correct","statement":"Path(equals(x), return ``true`` if permutationgroup generated by elements in the group are same i.e they represent the same permutationgroup)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ea1fa2f5b7109347","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, 'generators')","hasattr(other, 'contains')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other.contains","other.generators","self.contains","self.generators"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def equals(self, other):
         """Return ``True`` if PermutationGroup generated by elements in the
         group are same i.e they represent the same PermutationGroup.
@@ -338,16 +383,24 @@ class PermutationGroup(Basic):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__mul__(oth), returns the product) over Any           ║
+# ║ Path(__mul__(other), <unspecified:__mul__>) over {Any | hasattr(other, '_degree') and hasattr(other, 'generators')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __mul__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(other, '_degree')                      ║
+# ║   requires: hasattr(other, 'generators')                   ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __mul__ : {Any | hasattr(other, '_degree') and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 847b73f652a004e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.__mul__","kind":"method","src_hash":"03132151b8d7ed0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(oth)","rhs":"returns the product","over":{"base":"Any"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"847b73f652a004e7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.__mul__","kind":"method","src_hash":"03132151b8d7ed0c","in":{"base":"Any","pred":"hasattr(other, '_degree') and hasattr(other, 'generators')"},"out":{"base":"Any"},"spec":{"lhs":"__mul__(other)","rhs":"<unspecified:__mul__>","over":{"base":"Any","pred":"hasattr(other, '_degree') and hasattr(other, 'generators')"},"name":"__mul___correct"},"guarantee":"returns the product","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"847b73f652a004e7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(other, '_degree')","hasattr(other, 'generators')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["other._degree","other.generators","self._degree","self.generators"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __mul__(self, other):
         """
         Return the direct product of two permutation groups as a permutation
@@ -392,16 +445,22 @@ class PermutationGroup(Basic):
         return PermutationGroup(gens)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_random_pr_init(r, ), initialize random generators for the product replacement algorithm) over Any ║
+# ║ Path(_random_pr_init(r, n, _random_prec_n), len(random_gens) == old_len_random_gens + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _random_pr_init : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(random_gens) == old_len_random_gens + 1    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _random_pr_init : Any → {Any | result satisfies: len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 06655ff1d5d24c26  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b36b04bdf533cf43  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._random_pr_init","kind":"method","src_hash":"6cfb3f630517f911","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_random_pr_init(r, )","rhs":"initialize random generators for the product replacement algorithm","over":{"base":"Any"},"name":"_random_pr_init_correct"},"guarantee":"initialize random generators for the product replacement algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._random_pr_init_correct","statement":"Path(_random_pr_init(x), initialize random generators for the product replacement algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"06655ff1d5d24c26"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._random_pr_init","kind":"method","src_hash":"6cfb3f630517f911","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(random_gens) == old_len_random_gens + 1"},"spec":{"lhs":"_random_pr_init(r, n, _random_prec_n)","rhs":"len(random_gens) == old_len_random_gens + 1","over":{"base":"Any"},"name":"_random_pr_init_correct"},"guarantee":"len(random_gens) == old_len_random_gens + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._random_pr_init_correct","statement":"Path(_random_pr_init(x), len(random_gens) == old_len_random_gens + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b36b04bdf533cf43","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(random_gens) == old_len_random_gens + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.degree","self.generators","self.random_pr"],"writes":["self._random_gens"],"calls_mutating":["random_gens.append"]},"state_contract":{"modifies":["random_gens.*","self._random_gens"],"old_bindings":{"old_self__random_gens":"self._random_gens","old_len_random_gens":"len(random_gens)"},"post_ensures":["len(random_gens) == old_len_random_gens + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _random_pr_init(self, r, n, _random_prec_n=None):
         r"""Initialize random generators for the product replacement algorithm.
 
@@ -463,16 +522,23 @@ class PermutationGroup(Basic):
                 self.random_pr(_random_prec=_random_prec_n[i])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_union_find_merge(fir), merges two classes in a union-find data structure) over Any ║
+# ║ Path(_union_find_merge(first, second, ranks), len(not_rep) == old_len_not_rep + 1) over {Any | hasattr(not_rep, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _union_find_merge : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(not_rep, 'append')                     ║
+# ║   ensures:  len(not_rep) == old_len_not_rep + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _union_find_merge : {Any | hasattr(not_rep, 'append')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e9c0eef5625c7beb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2baa3e121aee15ac  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._union_find_merge","kind":"method","src_hash":"def6b93cbeb07eb2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_union_find_merge(fir)","rhs":"merges two classes in a union-find data structure","over":{"base":"Any"},"name":"_union_find_merge_correct"},"guarantee":"merges two classes in a union-find data structure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._union_find_merge_correct","statement":"Path(_union_find_merge(x), merges two classes in a union-find data structure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e9c0eef5625c7beb"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._union_find_merge","kind":"method","src_hash":"def6b93cbeb07eb2","in":{"base":"Any","pred":"hasattr(not_rep, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(not_rep) == old_len_not_rep + 1"},"spec":{"lhs":"_union_find_merge(first, second, ranks)","rhs":"len(not_rep) == old_len_not_rep + 1","over":{"base":"Any","pred":"hasattr(not_rep, 'append')"},"name":"_union_find_merge_correct"},"guarantee":"len(not_rep) == old_len_not_rep + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._union_find_merge_correct","statement":"Path(_union_find_merge(x), len(not_rep) == old_len_not_rep + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2baa3e121aee15ac","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(not_rep, 'append')"],"ensures":["len(not_rep) == old_len_not_rep + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["not_rep.append","self._union_find_rep","self.max_div"],"writes":["parents[*]","ranks[*]"],"calls_mutating":["not_rep.append"]},"state_contract":{"modifies":["not_rep.*","parents[*]","ranks[*]"],"old_bindings":{"old_parents_star":"parents[*]","old_ranks_star":"ranks[*]","old_len_not_rep":"len(not_rep)"},"post_ensures":["len(not_rep) == old_len_not_rep + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _union_find_merge(self, first, second, ranks, parents, not_rep):
         """Merges two classes in a union-find data structure.
 
@@ -523,16 +589,22 @@ class PermutationGroup(Basic):
         return 0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_union_find_rep(num), find representative of a class in a union-find data structure) over Any ║
+# ║ Path(_union_find_rep(num, parents), <unspecified:_union_find_rep>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _union_find_rep : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 87eca8047fcea518  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._union_find_rep","kind":"method","src_hash":"99e6a448501c63fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_union_find_rep(num)","rhs":"find representative of a class in a union-find data structure","over":{"base":"Any"},"name":"_union_find_rep_correct"},"guarantee":"find representative of a class in a union-find data structure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._union_find_rep_correct","statement":"Path(_union_find_rep(x), find representative of a class in a union-find data structure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87eca8047fcea518"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._union_find_rep","kind":"method","src_hash":"99e6a448501c63fe","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_union_find_rep(num, parents)","rhs":"<unspecified:_union_find_rep>","over":{"base":"Any"},"name":"_union_find_rep_correct"},"guarantee":"find representative of a class in a union-find data structure","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._union_find_rep_correct","statement":"Path(_union_find_rep(x), find representative of a class in a union-find data structure)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"87eca8047fcea518","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_args","writes":["parents[*]"]},"state_contract":{"modifies":["parents[*]"],"old_bindings":{"old_parents_star":"parents[*]"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _union_find_rep(self, num, parents):
         """Find representative of a class in a union-find data structure.
 
@@ -578,16 +650,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(base(), returns the base attribute) over Any          ║
+# ║ Path(base(), self._base) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._base                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ base : Any → Any                                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1d7b9f6895e5ee4c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.base","kind":"property","src_hash":"106823371037912a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base()","rhs":"returns the base attribute","over":{"base":"Any"},"name":"base_correct"},"guarantee":"returns the base attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d7b9f6895e5ee4c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.base","kind":"property","src_hash":"106823371037912a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"base()","rhs":"self._base","over":{"base":"Any"},"name":"base_correct"},"guarantee":"returns self._base","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1d7b9f6895e5ee4c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._base","pure":false,"effects":{"effect_type":"reads_state","reads":["self._base","self.schreier_sims"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def base(self):
         r"""Return a base from the Schreier-Sims algorithm.
 
@@ -623,16 +701,22 @@ class PermutationGroup(Basic):
         return self._base
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(baseswap(bas), swap two consecutive base points in base and strong generating set) over Any ║
+# ║ Path(baseswap(base, strong_gens, pos), (base_new, strong_gens_new)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (base_new, strong_gens_new)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ baseswap : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d85ceee8b055438  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e890371c39c3bfc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.baseswap","kind":"method","src_hash":"712a8d4f087e96a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"baseswap(bas)","rhs":"swap two consecutive base points in base and strong generating set","over":{"base":"Any"},"name":"baseswap_correct"},"guarantee":"swap two consecutive base points in base and strong generating set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.baseswap_correct","statement":"Path(baseswap(x), swap two consecutive base points in base and strong generating set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d85ceee8b055438"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.baseswap","kind":"method","src_hash":"712a8d4f087e96a3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"baseswap(base, strong_gens, pos)","rhs":"(base_new, strong_gens_new)","over":{"base":"Any"},"name":"baseswap_correct"},"guarantee":"returns (base_new, strong_gens_new)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.baseswap_correct","statement":"Path(baseswap(x), returns (base_new, strong_gens_new))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e890371c39c3bfc8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(base_new, strong_gens_new)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def baseswap(self, base, strong_gens, pos, randomized=False,
                  transversals=None, basic_orbits=None, strong_gens_distr=None):
         r"""Swap two consecutive base points in base and strong generating set.
@@ -769,16 +853,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(basic_orbits(), returns the basic_orbits attribute) over Any ║
+# ║ Path(basic_orbits(), self._basic_orbits) over Any          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._basic_orbits                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ basic_orbits : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47690b2c956fc0af           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.basic_orbits","kind":"property","src_hash":"a6d2556850313289","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basic_orbits()","rhs":"returns the basic_orbits attribute","over":{"base":"Any"},"name":"basic_orbits_correct"},"guarantee":"returns the basic_orbits attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47690b2c956fc0af"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.basic_orbits","kind":"property","src_hash":"a6d2556850313289","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basic_orbits()","rhs":"self._basic_orbits","over":{"base":"Any"},"name":"basic_orbits_correct"},"guarantee":"returns self._basic_orbits","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47690b2c956fc0af","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._basic_orbits","pure":false,"effects":{"effect_type":"reads_state","reads":["self._basic_orbits","self.schreier_sims"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def basic_orbits(self):
         r"""
         Return the basic orbits relative to a base and strong generating set.
@@ -812,16 +902,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(basic_stabilizers(), returns the basic_stabilizers attribute) over Any ║
+# ║ Path(basic_stabilizers(), <unspecified:basic_stabilizers>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ basic_stabilizers : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 990f4acd0897542e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.basic_stabilizers","kind":"property","src_hash":"73be9b579cb447e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basic_stabilizers()","rhs":"returns the basic_stabilizers attribute","over":{"base":"Any"},"name":"basic_stabilizers_correct"},"guarantee":"returns the basic_stabilizers attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"990f4acd0897542e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.basic_stabilizers","kind":"property","src_hash":"73be9b579cb447e1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basic_stabilizers()","rhs":"<unspecified:basic_stabilizers>","over":{"base":"Any"},"name":"basic_stabilizers_correct"},"guarantee":"returns the basic_stabilizers attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"990f4acd0897542e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def basic_stabilizers(self):
         r"""
         Return a chain of stabilizers relative to a base and strong generating
@@ -872,16 +968,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(basic_transversals(), returns the basic_transversals attribute) over Any ║
+# ║ Path(basic_transversals(), self._transversals) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._transversals                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ basic_transversals : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d6e2ec9df22352f7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.basic_transversals","kind":"property","src_hash":"c9f6c5e5531b98ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basic_transversals()","rhs":"returns the basic_transversals attribute","over":{"base":"Any"},"name":"basic_transversals_correct"},"guarantee":"returns the basic_transversals attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6e2ec9df22352f7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.basic_transversals","kind":"property","src_hash":"c9f6c5e5531b98ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"basic_transversals()","rhs":"self._transversals","over":{"base":"Any"},"name":"basic_transversals_correct"},"guarantee":"returns self._transversals","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d6e2ec9df22352f7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._transversals","pure":false,"effects":{"effect_type":"reads_state","reads":["self._transversals","self.schreier_sims"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def basic_transversals(self):
         """
         Return basic transversals relative to a base and strong generating set.
@@ -915,16 +1017,24 @@ class PermutationGroup(Basic):
         return self._transversals
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(composition_series(), return the composition series for a group as a list of permutation groups) over Any ║
+# ║ Path(composition_series(), len(down_seg) == old_len_down_seg + 1 and len(series) == old_len_series + 1) over {Any | all((g.is_identity for g in der[-1].generators))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ composition_series : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: all((g.is_identity for g in der[-1].gener...   ║
+# ║   ensures:  len(down_seg) == old_len_down_seg + 1          ║
+# ║   ensures:  len(series) == old_len_series + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ composition_series : {Any | all((g.is_identity for g ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 27ea6803137b074b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3b6047b7927592c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.composition_series","kind":"method","src_hash":"4ae2ee93f4248673","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"composition_series()","rhs":"return the composition series for a group as a list of permutation groups","over":{"base":"Any"},"name":"composition_series_correct"},"guarantee":"return the composition series for a group as a list of permutation groups","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.composition_series_correct","statement":"Path(composition_series(x), return the composition series for a group as a list of permutation groups)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"27ea6803137b074b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.composition_series","kind":"method","src_hash":"4ae2ee93f4248673","in":{"base":"Any","pred":"all((g.is_identity for g in der[-1].generators))"},"out":{"base":"Any","pred":"result satisfies: len(down_seg) == old_len_down_seg + 1 and len(series) == old_len_series + 1"},"spec":{"lhs":"composition_series()","rhs":"len(down_seg) == old_len_down_seg + 1 and len(series) == old_len_series + 1","over":{"base":"Any","pred":"all((g.is_identity for g in der[-1].generators))"},"name":"composition_series_correct"},"guarantee":"len(down_seg) == old_len_down_seg + 1; len(series) == old_len_series + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.composition_series_correct","statement":"Path(composition_series(x), len(down_seg) == old_len_down_seg + 1; len(series) == old_len_series + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3b6047b7927592c6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["all((g.is_identity for g in der[-1].generators))"],"ensures":["len(down_seg) == old_len_down_seg + 1","len(series) == old_len_series + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.derived_series"],"calls_mutating":["down_seg.append","series.append","series.extend"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["down_seg.*","series.*"],"old_bindings":{"old_len_down_seg":"len(down_seg)","old_len_series":"len(series)"},"post_ensures":["len(down_seg) == old_len_down_seg + 1","len(series) == old_len_series + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def composition_series(self):
         r"""
         Return the composition series for a group as a list
@@ -1000,16 +1110,25 @@ class PermutationGroup(Basic):
         return series
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coset_transversal(H), return a transversal of the right cosets of self by its subgroup h using the second method described in [1], subsection 4.6.7) over Any ║
+# ║ Path(coset_transversal(H), len(T_next) == old_len_T_next + 1) over {Any | H.is_subgroup(self) and hasattr(H, 'basic_orbits') and hasattr(H, 'basic_stabilizers') and hasattr(H, 'is_subgroup') and hasattr(H, 'order') and hasattr(H, 'base')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ coset_transversal : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: H.is_subgroup(self)                            ║
+# ║   requires: hasattr(H, 'basic_orbits')                     ║
+# ║   requires: hasattr(H, 'basic_stabilizers')                ║
+# ║   ensures:  len(T_next) == old_len_T_next + 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ coset_transversal : {Any | H.is_subgroup(self) and ha...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbfe86bb031da6b6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d276404fcdd9b81d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.coset_transversal","kind":"method","src_hash":"fe3f780fee9c9b79","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_transversal(H)","rhs":"return a transversal of the right cosets of self by its subgroup h using the second method described in [1], subsection 4.6.7","over":{"base":"Any"},"name":"coset_transversal_correct"},"guarantee":"return a transversal of the right cosets of self by its subgroup h using the second method described in [1], subsection 4.6.7","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.coset_transversal_correct","statement":"Path(coset_transversal(x), return a transversal of the right cosets of self by its subgroup h using the second method described in [1], subsection 4.6.7)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbfe86bb031da6b6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.coset_transversal","kind":"method","src_hash":"fe3f780fee9c9b79","in":{"base":"Any","pred":"H.is_subgroup(self) and hasattr(H, 'basic_orbits') and hasattr(H, 'basic_stabilizers') and hasattr(H, 'is_subgroup') and hasattr(H, 'order') and hasattr(H, 'base')"},"out":{"base":"Any","pred":"result satisfies: len(T_next) == old_len_T_next + 1"},"spec":{"lhs":"coset_transversal(H)","rhs":"len(T_next) == old_len_T_next + 1","over":{"base":"Any","pred":"H.is_subgroup(self) and hasattr(H, 'basic_orbits') and hasattr(H, 'basic_stabilizers') and hasattr(H, 'is_subgroup') and hasattr(H, 'order') and hasattr(H, 'base')"},"name":"coset_transversal_correct"},"guarantee":"len(T_next) == old_len_T_next + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.coset_transversal_correct","statement":"Path(coset_transversal(x), len(T_next) == old_len_T_next + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d276404fcdd9b81d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["H.is_subgroup(self)","hasattr(H, 'basic_orbits')","hasattr(H, 'basic_stabilizers')","hasattr(H, 'is_subgroup')","hasattr(H, 'order')","hasattr(H, 'base')"],"ensures":["len(T_next) == old_len_T_next + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["H.base","H.basic_orbits","H.basic_stabilizers","H.is_subgroup","H.order","self._schreier_sims","self.base","self.basic_stabilizers","self.basic_transversals","self.degree","self.elements"],"calls_mutating":["T.remove","T_next.append"],"raises":["ValueError"]},"state_contract":{"modifies":["T.*","T_next.*"],"old_bindings":{"old_len_T_next":"len(T_next)"},"post_ensures":["len(T_next) == old_len_T_next + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coset_transversal(self, H):
         """Return a transversal of the right cosets of self by its subgroup H
         using the second method described in [1], Subsection 4.6.7
@@ -1074,16 +1193,25 @@ class PermutationGroup(Basic):
         return T
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_coset_representative(g, ), return the representative of hg from the transversal that would be computed by ``self.coset_transversal(h)``) over Any ║
+# ║ Path(_coset_representative(g, H), <unspecified:_coset_representative>) over {Any | hasattr(H, 'basic_orbits') and hasattr(H, 'order') and hasattr(H, 'base') and hasattr(H, 'basic_transversals')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _coset_representative : Any → Any                          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(H, 'basic_orbits')                     ║
+# ║   requires: hasattr(H, 'order')                            ║
+# ║   requires: hasattr(H, 'base')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _coset_representative : {Any | hasattr(H, 'basic_orbi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 81a865bb46a31f1d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._coset_representative","kind":"method","src_hash":"4288d663158819b8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_coset_representative(g, )","rhs":"return the representative of hg from the transversal that would be computed by ``self.coset_transversal(h)``","over":{"base":"Any"},"name":"_coset_representative_correct"},"guarantee":"return the representative of hg from the transversal that would be computed by ``self.coset_transversal(h)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._coset_representative_correct","statement":"Path(_coset_representative(x), return the representative of hg from the transversal that would be computed by ``self.coset_transversal(h)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81a865bb46a31f1d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._coset_representative","kind":"method","src_hash":"4288d663158819b8","in":{"base":"Any","pred":"hasattr(H, 'basic_orbits') and hasattr(H, 'order') and hasattr(H, 'base') and hasattr(H, 'basic_transversals')"},"out":{"base":"Any"},"spec":{"lhs":"_coset_representative(g, H)","rhs":"<unspecified:_coset_representative>","over":{"base":"Any","pred":"hasattr(H, 'basic_orbits') and hasattr(H, 'order') and hasattr(H, 'base') and hasattr(H, 'basic_transversals')"},"name":"_coset_representative_correct"},"guarantee":"return the representative of hg from the transversal that would be computed by ``self.coset_transversal(h)``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._coset_representative_correct","statement":"Path(_coset_representative(x), return the representative of hg from the transversal that would be computed by ``self.coset_transversal(h)``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"81a865bb46a31f1d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(H, 'basic_orbits')","hasattr(H, 'order')","hasattr(H, 'base')","hasattr(H, 'basic_transversals')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["H.base","H.basic_orbits","H.basic_transversals","H.order","self._schreier_sims","self.base","self.basic_transversals","self.degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _coset_representative(self, g, H):
         """Return the representative of Hg from the transversal that
         would be computed by ``self.coset_transversal(H)``.
@@ -1112,16 +1240,24 @@ class PermutationGroup(Basic):
         return step(0, g)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coset_table(H), return the standardised (right) coset table of self in h as a list of lists) over Any ║
+# ║ Path(coset_table(H), len(table) == old_len_table + 1) over {Any | H.is_subgroup(self) and hasattr(H, 'is_subgroup')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ coset_table : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: H.is_subgroup(self)                            ║
+# ║   requires: hasattr(H, 'is_subgroup')                      ║
+# ║   ensures:  len(table) == old_len_table + 1                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ coset_table : {Any | H.is_subgroup(self) and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7c5ca0b8d94ea2e5  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 805fae18f1f42450  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.coset_table","kind":"method","src_hash":"5a01614b90cb6765","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_table(H)","rhs":"return the standardised (right) coset table of self in h as a list of lists","over":{"base":"Any"},"name":"coset_table_correct"},"guarantee":"return the standardised (right) coset table of self in h as a list of lists","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.coset_table_correct","statement":"Path(coset_table(x), return the standardised (right) coset table of self in h as a list of lists)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7c5ca0b8d94ea2e5"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.coset_table","kind":"method","src_hash":"5a01614b90cb6765","in":{"base":"Any","pred":"H.is_subgroup(self) and hasattr(H, 'is_subgroup')"},"out":{"base":"Any","pred":"result satisfies: len(table) == old_len_table + 1"},"spec":{"lhs":"coset_table(H)","rhs":"len(table) == old_len_table + 1","over":{"base":"Any","pred":"H.is_subgroup(self) and hasattr(H, 'is_subgroup')"},"name":"coset_table_correct"},"guarantee":"len(table) == old_len_table + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.coset_table_correct","statement":"Path(coset_table(x), len(table) == old_len_table + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"805fae18f1f42450","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["H.is_subgroup(self)","hasattr(H, 'is_subgroup')"],"ensures":["len(table) == old_len_table + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["H.is_subgroup","self._coset_representative","self.coset_transversal","self.generators"],"calls_mutating":["table.append"],"raises":["ValueError"]},"state_contract":{"modifies":["table.*"],"old_bindings":{"old_len_table":"len(table)"},"post_ensures":["len(table) == old_len_table + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coset_table(self, H):
         """Return the standardised (right) coset table of self in H as
         a list of lists.
@@ -1167,16 +1303,22 @@ class PermutationGroup(Basic):
                 return table
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(center(), return the center of a permutation group) over Any ║
+# ║ Path(center(), self._center) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._center                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ center : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 323dfdcc73e0ac51  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fa7f9b8440a412b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.center","kind":"method","src_hash":"52fb42b462d47aa4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"return the center of a permutation group","over":{"base":"Any"},"name":"center_correct"},"guarantee":"return the center of a permutation group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.center_correct","statement":"Path(center(x), return the center of a permutation group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"323dfdcc73e0ac51"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.center","kind":"method","src_hash":"52fb42b462d47aa4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"center()","rhs":"self._center","over":{"base":"Any"},"name":"center_correct"},"guarantee":"returns self._center","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.center_correct","statement":"Path(center(x), returns self._center)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fa7f9b8440a412b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._center","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._center","self.centralizer"],"writes":["self._center"]},"state_contract":{"modifies":["self._center"],"old_bindings":{"old_self__center":"self._center"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def center(self):
         r"""
         Return the center of a permutation group.
@@ -1216,16 +1358,29 @@ class PermutationGroup(Basic):
         return self._center
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(centralizer(oth), return the centralizer of a group/set/element) over Any ║
+# ║ Path(centralizer(other), result == (self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests) if hasattr(other, 'generators') else self.centralizer(PermutationGroup(gens)) if hasattr(other, '__getitem__') else self.centralizer(PermutationGroup([other]))) and result == self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests) or result == self.centralizer(PermutationGroup(gens)) or result == self.centralizer(PermutationGroup([other]))) over {Any | hasattr(other, 'is_trivial') and hasattr(other, 'orbits') and hasattr(other, 'orbit_transversal') and hasattr(other, 'generators')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ centralizer : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'is_trivial')                   ║
+# ║   requires: hasattr(other, 'orbits')                       ║
+# ║   requires: hasattr(other, 'orbit_transversal')            ║
+# ║   ensures:  result == (self.subgroup_search(prop, bas...   ║
+# ║   ensures:  result == self.subgroup_search(prop, base...   ║
+# ║   fiber[case_0]: hasattr(other, 'generators') => self...   ║
+# ║   fiber[case_1]: hasattr(other, '__getitem__') => sel...   ║
+# ║   fiber[case_2]: hasattr(other, 'array_form') => self...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ centralizer : {Any | hasattr(other, 'is_trivial') and...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f3f1e438c3b754cc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2799ad7ff1c3efa6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.centralizer","kind":"method","src_hash":"0544528787474623","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"centralizer(oth)","rhs":"return the centralizer of a group/set/element","over":{"base":"Any"},"name":"centralizer_correct"},"guarantee":"return the centralizer of a group/set/element","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.centralizer_correct","statement":"Path(centralizer(x), return the centralizer of a group/set/element)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f3f1e438c3b754cc"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.centralizer","kind":"method","src_hash":"0544528787474623","in":{"base":"Any","pred":"hasattr(other, 'is_trivial') and hasattr(other, 'orbits') and hasattr(other, 'orbit_transversal') and hasattr(other, 'generators')"},"out":{"base":"Any","pred":"result satisfies: result == (self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests) if hasattr(other, 'generators') else self.centralizer(PermutationGroup(gens)) if hasattr(other, '__getitem__') else self.centralizer(PermutationGroup([other]))) and result == self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests) or result == self.centralizer(PermutationGroup(gens)) or result == self.centralizer(PermutationGroup([other]))"},"spec":{"lhs":"centralizer(other)","rhs":"result == (self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests) if hasattr(other, 'generators') else self.centralizer(PermutationGroup(gens)) if hasattr(other, '__getitem__') else self.centralizer(PermutationGroup([other]))) and result == self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests) or result == self.centralizer(PermutationGroup(gens)) or result == self.centralizer(PermutationGroup([other]))","over":{"base":"Any","pred":"hasattr(other, 'is_trivial') and hasattr(other, 'orbits') and hasattr(other, 'orbit_transversal') and hasattr(other, 'generators')"},"name":"centralizer_correct"},"guarantee":"result == (self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests) if hasattr(other, 'generators') else self.centralizer(PermutationGroup(gens)) if hasattr(other, '__getitem__') else self.centralizer(PermutationGroup([other]))); result == self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests) or result == self.centralizer(PermutationGroup(gens)) or result == self.centralizer(PermutationGroup([other])); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.centralizer_correct","statement":"Path(centralizer(x), result == (self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests) if hasattr(other, 'generators') else self.centralizer(PermutationGroup(gens)) if hasattr(other, '__getitem__') else self.centralizer(PermutationGroup([other]))); result == self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests) or result == self.centralizer(PermutationGroup(gens)) or result == self.centralizer(PermutationGroup([other])); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2799ad7ff1c3efa6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'is_trivial')","hasattr(other, 'orbits')","hasattr(other, 'orbit_transversal')","hasattr(other, 'generators')"],"ensures":["result == (self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests) if hasattr(other, 'generators') else self.centralizer(PermutationGroup(gens)) if hasattr(other, '__getitem__') else self.centralizer(PermutationGroup([other])))","result == self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests) or result == self.centralizer(PermutationGroup(gens)) or result == self.centralizer(PermutationGroup([other]))"],"fibers":[{"name":"case_0","guard":"hasattr(other, 'generators')","ensures":["result == self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests)"],"decidability":"structural","returns_expr":"self.subgroup_search(prop, base=base, strong_gens=strong_gens, tests=tests)"},{"name":"case_1","guard":"hasattr(other, '__getitem__')","ensures":["result == self.centralizer(PermutationGroup(gens))"],"decidability":"structural","returns_expr":"self.centralizer(PermutationGroup(gens))"},{"name":"case_2","guard":"hasattr(other, 'array_form')","ensures":["result == self.centralizer(PermutationGroup([other]))"],"decidability":"structural","returns_expr":"self.centralizer(PermutationGroup([other]))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def centralizer(self, other):
         r"""
         Return the centralizer of a group/set/element.
@@ -1346,16 +1501,24 @@ class PermutationGroup(Basic):
             return self.centralizer(PermutationGroup([other]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(commutator(G, ), return the commutator of two subgroups) over Any ║
+# ║ Path(commutator(G, H), <unspecified:commutator>) over {Any | hasattr(G, 'generators') and hasattr(H, 'generators')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ commutator : Any → Any                                     ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(G, 'generators')                       ║
+# ║   requires: hasattr(H, 'generators')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ commutator : {Any | hasattr(G, 'generators') and hasa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91223b612dbf8ae1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.commutator","kind":"method","src_hash":"c42dd9deeee6023d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"commutator(G, )","rhs":"return the commutator of two subgroups","over":{"base":"Any"},"name":"commutator_correct"},"guarantee":"return the commutator of two subgroups","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.commutator_correct","statement":"Path(commutator(x), return the commutator of two subgroups)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91223b612dbf8ae1"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.commutator","kind":"method","src_hash":"c42dd9deeee6023d","in":{"base":"Any","pred":"hasattr(G, 'generators') and hasattr(H, 'generators')"},"out":{"base":"Any"},"spec":{"lhs":"commutator(G, H)","rhs":"<unspecified:commutator>","over":{"base":"Any","pred":"hasattr(G, 'generators') and hasattr(H, 'generators')"},"name":"commutator_correct"},"guarantee":"return the commutator of two subgroups","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.commutator_correct","statement":"Path(commutator(x), return the commutator of two subgroups)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91223b612dbf8ae1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(G, 'generators')","hasattr(H, 'generators')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def commutator(self, G, H):
         """
         Return the commutator of two subgroups.
@@ -1404,16 +1567,24 @@ class PermutationGroup(Basic):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coset_factor(g, ), return ``g``'s (self's) coset factorization of ``g``) over Any ║
+# ║ Path(coset_factor(g, factor_index), len(factors) == old_len_factors + 1) over {Any | not (len(g) != self._degree) and hasattr(g, 'list')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ coset_factor : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (len(g) != self._degree)                   ║
+# ║   requires: hasattr(g, 'list')                             ║
+# ║   ensures:  len(factors) == old_len_factors + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ coset_factor : {Any | not (len(g) != self._degree) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e52986a6984b349  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c547283dc0a73550  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.coset_factor","kind":"method","src_hash":"0a138ae54b4efbeb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_factor(g, )","rhs":"return ``g``'s (self's) coset factorization of ``g``","over":{"base":"Any"},"name":"coset_factor_correct"},"guarantee":"return ``g``'s (self's) coset factorization of ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.coset_factor_correct","statement":"Path(coset_factor(x), return ``g``'s (self's) coset factorization of ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e52986a6984b349"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.coset_factor","kind":"method","src_hash":"0a138ae54b4efbeb","in":{"base":"Any","pred":"not (len(g) != self._degree) and hasattr(g, 'list')"},"out":{"base":"Any","pred":"result satisfies: len(factors) == old_len_factors + 1"},"spec":{"lhs":"coset_factor(g, factor_index)","rhs":"len(factors) == old_len_factors + 1","over":{"base":"Any","pred":"not (len(g) != self._degree) and hasattr(g, 'list')"},"name":"coset_factor_correct"},"guarantee":"len(factors) == old_len_factors + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.coset_factor_correct","statement":"Path(coset_factor(x), len(factors) == old_len_factors + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c547283dc0a73550","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (len(g) != self._degree)","hasattr(g, 'list')"],"ensures":["len(factors) == old_len_factors + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.list","self._degree","self._transversals","self.base","self.basic_orbits","self.basic_transversals"],"calls_mutating":["factors.append"],"raises":["ValueError"]},"state_contract":{"modifies":["factors.*"],"old_bindings":{"old_len_factors":"len(factors)"},"post_ensures":["len(factors) == old_len_factors + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coset_factor(self, g, factor_index=False):
         """Return ``G``'s (self's) coset factorization of ``g``
 
@@ -1506,16 +1677,23 @@ class PermutationGroup(Basic):
         return factors
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generator_product(g, ), return a list of strong generators `[s1, \dots, sn]` s.t `g = sn \times \dots \times s1`) over Any ║
+# ║ Path(generator_product(g, original), <unspecified:generator_product>) over {Any | hasattr(g, 'is_identity')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ generator_product : Any → Any                              ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g, 'is_identity')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ generator_product : {Any | hasattr(g, 'is_identity')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a0b539743c0e2d7c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.generator_product","kind":"method","src_hash":"9eedb599ff2f7feb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generator_product(g, )","rhs":"return a list of strong generators `[s1, \\dots, sn]` s.t `g = sn \\times \\dots \\times s1`","over":{"base":"Any"},"name":"generator_product_correct"},"guarantee":"return a list of strong generators `[s1, \\dots, sn]` s.t `g = sn \\times \\dots \\times s1`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.generator_product_correct","statement":"Path(generator_product(x), return a list of strong generators `[s1, \\dots, sn]` s.t `g = sn \\times \\dots \\times s1`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0b539743c0e2d7c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.generator_product","kind":"method","src_hash":"9eedb599ff2f7feb","in":{"base":"Any","pred":"hasattr(g, 'is_identity')"},"out":{"base":"Any"},"spec":{"lhs":"generator_product(g, original)","rhs":"<unspecified:generator_product>","over":{"base":"Any","pred":"hasattr(g, 'is_identity')"},"name":"generator_product_correct"},"guarantee":"return a list of strong generators `[s1, \\dots, sn]` s.t `g = sn \\times \\dots \\times s1`","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.generator_product_correct","statement":"Path(generator_product(x), return a list of strong generators `[s1, \\dots, sn]` s.t `g = sn \\times \\dots \\times s1`)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a0b539743c0e2d7c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g, 'is_identity')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def generator_product(self, g, original=False):
         r'''
         Return a list of strong generators `[s1, \dots, sn]`
@@ -1558,16 +1736,22 @@ class PermutationGroup(Basic):
         return product
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coset_rank(g), rank using schreier-sims representation) over Any ║
+# ║ Path(coset_rank(g), <unspecified:coset_rank>) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coset_rank : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 045b25e29a801034  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.coset_rank","kind":"method","src_hash":"462dc6ddb703538d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_rank(g)","rhs":"rank using schreier-sims representation","over":{"base":"Any"},"name":"coset_rank_correct"},"guarantee":"rank using schreier-sims representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.coset_rank_correct","statement":"Path(coset_rank(x), rank using schreier-sims representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"045b25e29a801034"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.coset_rank","kind":"method","src_hash":"462dc6ddb703538d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_rank(g)","rhs":"<unspecified:coset_rank>","over":{"base":"Any"},"name":"coset_rank_correct"},"guarantee":"rank using schreier-sims representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.coset_rank_correct","statement":"Path(coset_rank(x), rank using schreier-sims representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"045b25e29a801034","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._base","self._basic_orbits","self._transversals","self.coset_factor"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coset_rank(self, g):
         """rank using Schreier-Sims representation.
 
@@ -1616,16 +1800,22 @@ class PermutationGroup(Basic):
         return rank
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(coset_unrank(ran), unrank using schreier-sims representation) over Any ║
+# ║ Path(coset_unrank(rank, af), <unspecified:coset_unrank>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ coset_unrank : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 279db36f178b906c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.coset_unrank","kind":"method","src_hash":"db1d292b344d1eb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_unrank(ran)","rhs":"unrank using schreier-sims representation","over":{"base":"Any"},"name":"coset_unrank_correct"},"guarantee":"unrank using schreier-sims representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.coset_unrank_correct","statement":"Path(coset_unrank(x), unrank using schreier-sims representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"279db36f178b906c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.coset_unrank","kind":"method","src_hash":"db1d292b344d1eb3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"coset_unrank(rank, af)","rhs":"<unspecified:coset_unrank>","over":{"base":"Any"},"name":"coset_unrank_correct"},"guarantee":"unrank using schreier-sims representation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.coset_unrank_correct","statement":"Path(coset_unrank(x), unrank using schreier-sims representation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"279db36f178b906c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.base","self.basic_orbits","self.basic_transversals","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def coset_unrank(self, rank, af=False):
         """unrank using Schreier-Sims representation
 
@@ -1652,16 +1842,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(degree(), returns the degree attribute) over Any      ║
+# ║ Path(degree(), self._degree) over Any                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._degree                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ degree : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 29709b9b81bbce48           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.degree","kind":"property","src_hash":"0e221f6a5cc590c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"degree()","rhs":"returns the degree attribute","over":{"base":"Any"},"name":"degree_correct"},"guarantee":"returns the degree attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29709b9b81bbce48"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.degree","kind":"property","src_hash":"0e221f6a5cc590c8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"degree()","rhs":"self._degree","over":{"base":"Any"},"name":"degree_correct"},"guarantee":"returns self._degree","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"29709b9b81bbce48","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._degree","pure":false,"effects":{"effect_type":"reads_state","reads":["self._degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def degree(self):
         """Returns the size of the permutations in the group.
 
@@ -1696,16 +1892,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(identity(), returns the identity attribute) over Any  ║
+# ║ Path(identity(), _af_new(list(range(self.degree)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _af_new(list(range(self.degree)))              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ identity : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6a74925e8d37b35e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.identity","kind":"property","src_hash":"ac133ef17791e90b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity()","rhs":"returns the identity attribute","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"returns the identity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a74925e8d37b35e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.identity","kind":"property","src_hash":"ac133ef17791e90b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity()","rhs":"_af_new(list(range(self.degree)))","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"returns _af_new(list(range(self.degree)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6a74925e8d37b35e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_af_new(list(range(self.degree)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.degree"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def identity(self):
         '''
         Return the identity element of the permutation group.
@@ -1715,16 +1917,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(elements(), returns the elements attribute) over Any  ║
+# ║ Path(elements(), self._elements) over Any                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._elements                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ elements : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | d68850597d420289           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.elements","kind":"property","src_hash":"4aceb43266a25403","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elements()","rhs":"returns the elements attribute","over":{"base":"Any"},"name":"elements_correct"},"guarantee":"returns the elements attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d68850597d420289"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.elements","kind":"property","src_hash":"4aceb43266a25403","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"elements()","rhs":"self._elements","over":{"base":"Any"},"name":"elements_correct"},"guarantee":"returns self._elements","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"d68850597d420289","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._elements","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._elements","self.generate"],"writes":["self._elements"]},"state_contract":{"modifies":["self._elements"],"old_bindings":{"old_self__elements":"self._elements"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def elements(self):
         """Returns all the elements of the permutation group as a list
 
@@ -1743,16 +1951,22 @@ class PermutationGroup(Basic):
         return self._elements
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(derived_series(), return the derived series for the group) over Any ║
+# ║ Path(derived_series(), <unspecified:derived_series>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ derived_series : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2bc5ca5833435e1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.derived_series","kind":"method","src_hash":"bf06692a54ccce47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"derived_series()","rhs":"return the derived series for the group","over":{"base":"Any"},"name":"derived_series_correct"},"guarantee":"return the derived series for the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.derived_series_correct","statement":"Path(derived_series(x), return the derived series for the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bc5ca5833435e1e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.derived_series","kind":"method","src_hash":"bf06692a54ccce47","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"derived_series()","rhs":"<unspecified:derived_series>","over":{"base":"Any"},"name":"derived_series_correct"},"guarantee":"return the derived series for the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.derived_series_correct","statement":"Path(derived_series(x), return the derived series for the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2bc5ca5833435e1e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def derived_series(self):
         r"""Return the derived series for the group.
 
@@ -1803,16 +2017,22 @@ class PermutationGroup(Basic):
         return res
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(derived_subgroup(), compute the derived subgroup) over Any ║
+# ║ Path(derived_subgroup(), <unspecified:derived_subgroup>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ derived_subgroup : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0455e8be1e4fb1e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.derived_subgroup","kind":"method","src_hash":"d1c7371a076efcdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"derived_subgroup()","rhs":"compute the derived subgroup","over":{"base":"Any"},"name":"derived_subgroup_correct"},"guarantee":"compute the derived subgroup","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.derived_subgroup_correct","statement":"Path(derived_subgroup(x), compute the derived subgroup)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0455e8be1e4fb1e6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.derived_subgroup","kind":"method","src_hash":"d1c7371a076efcdb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"derived_subgroup()","rhs":"<unspecified:derived_subgroup>","over":{"base":"Any"},"name":"derived_subgroup_correct"},"guarantee":"compute the derived subgroup","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.derived_subgroup_correct","statement":"Path(derived_subgroup(x), compute the derived subgroup)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0455e8be1e4fb1e6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def derived_subgroup(self):
         r"""Compute the derived subgroup.
 
@@ -1861,16 +2081,24 @@ class PermutationGroup(Basic):
         return G2
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generate(met), return iterator to generate the elements of the group) over Any ║
+# ║ Path(generate(method, af), <unspecified:generate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: method == 'coset' => self.generate_s...   ║
+# ║   fiber[case_1]: method == 'dimino' => self.generate_...   ║
+# ║   fiber[case_2]: not (method == 'coset') and not (met...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generate : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 058f8519cceec906  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ffd7602d8ba27b42  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.generate","kind":"method","src_hash":"1a546df7bb3f9740","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate(met)","rhs":"return iterator to generate the elements of the group","over":{"base":"Any"},"name":"generate_correct"},"guarantee":"return iterator to generate the elements of the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.generate_correct","statement":"Path(generate(x), return iterator to generate the elements of the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"058f8519cceec906"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.generate","kind":"method","src_hash":"1a546df7bb3f9740","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate(method, af)","rhs":"<unspecified:generate>","over":{"base":"Any"},"name":"generate_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.generate_correct","statement":"Path(generate(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ffd7602d8ba27b42","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"method == 'coset'","ensures":["result == self.generate_schreier_sims(af)"],"decidability":"z3","returns_expr":"self.generate_schreier_sims(af)"},{"name":"case_1","guard":"method == 'dimino'","ensures":["result == self.generate_dimino(af)"],"decidability":"z3","returns_expr":"self.generate_dimino(af)"},{"name":"case_2","guard":"not (method == 'coset') and not (method == 'dimino')","ensures":[],"decidability":"z3"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.generate_dimino","self.generate_schreier_sims"],"raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def generate(self, method="coset", af=False):
         """Return iterator to generate the elements of the group.
 
@@ -1925,16 +2153,23 @@ class PermutationGroup(Basic):
             raise NotImplementedError('No generation defined for %s' % method)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generate_dimino(af), yield group elements using dimino's algorithm) over Any ║
+# ║ Path(generate_dimino(af), len(N) == old_len_N + 1 and len(element_list) == old_len_element_list + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ generate_dimino : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(N) == old_len_N + 1                        ║
+# ║   ensures:  len(element_list) == old_len_element_list...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ generate_dimino : Any → {Any | result satisfies: len(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 669c9bf783c8f67c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e48a200e7e109588  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.generate_dimino","kind":"method","src_hash":"bea788829c237677","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_dimino(af)","rhs":"yield group elements using dimino's algorithm","over":{"base":"Any"},"name":"generate_dimino_correct"},"guarantee":"yield group elements using dimino's algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.generate_dimino_correct","statement":"Path(generate_dimino(x), yield group elements using dimino's algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"669c9bf783c8f67c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.generate_dimino","kind":"method","src_hash":"bea788829c237677","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(N) == old_len_N + 1 and len(element_list) == old_len_element_list + 1"},"spec":{"lhs":"generate_dimino(af)","rhs":"len(N) == old_len_N + 1 and len(element_list) == old_len_element_list + 1","over":{"base":"Any"},"name":"generate_dimino_correct"},"guarantee":"len(N) == old_len_N + 1; len(element_list) == old_len_element_list + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.generate_dimino_correct","statement":"Path(generate_dimino(x), len(N) == old_len_N + 1; len(element_list) == old_len_element_list + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e48a200e7e109588","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(N) == old_len_N + 1","len(element_list) == old_len_element_list + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.degree","self.generators"],"writes":["self._order"],"calls_mutating":["N.append","element_list.append","set_element_list.add"]},"state_contract":{"modifies":["N.*","element_list.*","self._order","set_element_list.*"],"old_bindings":{"old_self__order":"self._order","old_len_N":"len(N)","old_len_element_list":"len(element_list)"},"post_ensures":["len(N) == old_len_N + 1","len(element_list) == old_len_element_list + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def generate_dimino(self, af=False):
         """Yield group elements using Dimino's algorithm.
 
@@ -1994,16 +2229,22 @@ class PermutationGroup(Basic):
         self._order = len(element_list)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generate_schreier_sims(af), yield group elements using the schreier-sims representation in coset_rank order) over Any ║
+# ║ Path(generate_schreier_sims(af), <unspecified:generate_schreier_sims>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generate_schreier_sims : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af55432f46d21c74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.generate_schreier_sims","kind":"method","src_hash":"08febbdde6abbf2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_schreier_sims(af)","rhs":"yield group elements using the schreier-sims representation in coset_rank order","over":{"base":"Any"},"name":"generate_schreier_sims_correct"},"guarantee":"yield group elements using the schreier-sims representation in coset_rank order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.generate_schreier_sims_correct","statement":"Path(generate_schreier_sims(x), yield group elements using the schreier-sims representation in coset_rank order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af55432f46d21c74"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.generate_schreier_sims","kind":"method","src_hash":"08febbdde6abbf2b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generate_schreier_sims(af)","rhs":"<unspecified:generate_schreier_sims>","over":{"base":"Any"},"name":"generate_schreier_sims_correct"},"guarantee":"yield group elements using the schreier-sims representation in coset_rank order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.generate_schreier_sims_correct","statement":"Path(generate_schreier_sims(x), yield group elements using the schreier-sims representation in coset_rank order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af55432f46d21c74","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def generate_schreier_sims(self, af=False):
         """Yield group elements using the Schreier-Sims representation
         in coset_rank order
@@ -2076,16 +2317,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(generators(), returns the generators attribute) over Any ║
+# ║ Path(generators(), self._generators) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._generators                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ generators : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | a46ea0449ff37754           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.generators","kind":"property","src_hash":"a1d248eb96ab91b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generators()","rhs":"returns the generators attribute","over":{"base":"Any"},"name":"generators_correct"},"guarantee":"returns the generators attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a46ea0449ff37754"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.generators","kind":"property","src_hash":"a1d248eb96ab91b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"generators()","rhs":"self._generators","over":{"base":"Any"},"name":"generators_correct"},"guarantee":"returns self._generators","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"a46ea0449ff37754","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._generators","pure":false,"effects":{"effect_type":"reads_state","reads":["self._generators"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def generators(self):
         """Returns the generators of the group.
 
@@ -2103,16 +2350,24 @@ class PermutationGroup(Basic):
         return self._generators
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(contains(g, ), test if permutation ``g`` belong to self, ``g``) over Any ║
+# ║ Path(contains(g, strict), <unspecified:contains>) over {Any | hasattr(g, 'size') and hasattr(g, 'array_form')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ contains : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(g, 'size')                             ║
+# ║   requires: hasattr(g, 'array_form')                       ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ contains : {Any | hasattr(g, 'size') and hasattr(g, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3c59ca2c9400887  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.contains","kind":"method","src_hash":"5ee3de3bf0395c50","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"contains(g, )","rhs":"test if permutation ``g`` belong to self, ``g``","over":{"base":"Any"},"name":"contains_correct"},"guarantee":"test if permutation ``g`` belong to self, ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.contains_correct","statement":"Path(contains(x), test if permutation ``g`` belong to self, ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3c59ca2c9400887"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.contains","kind":"method","src_hash":"5ee3de3bf0395c50","in":{"base":"Any","pred":"hasattr(g, 'size') and hasattr(g, 'array_form')"},"out":{"base":"Any"},"spec":{"lhs":"contains(g, strict)","rhs":"<unspecified:contains>","over":{"base":"Any","pred":"hasattr(g, 'size') and hasattr(g, 'array_form')"},"name":"contains_correct"},"guarantee":"test if permutation ``g`` belong to self, ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.contains_correct","statement":"Path(contains(x), test if permutation ``g`` belong to self, ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3c59ca2c9400887","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(g, 'size')","hasattr(g, 'array_form')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["g.array_form","g.size","self.coset_factor","self.degree","self.generators"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def contains(self, g, strict=True):
         """Test if permutation ``g`` belong to self, ``G``.
 
@@ -2177,16 +2432,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_perfect(), returns the is_perfect attribute) over Any ║
+# ║ Path(is_perfect(), self._is_perfect) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._is_perfect                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_perfect : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 568153f915ea6d87           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_perfect","kind":"property","src_hash":"d6dda6ea8c14a886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_perfect()","rhs":"returns the is_perfect attribute","over":{"base":"Any"},"name":"is_perfect_correct"},"guarantee":"returns the is_perfect attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"568153f915ea6d87"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_perfect","kind":"property","src_hash":"d6dda6ea8c14a886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_perfect()","rhs":"self._is_perfect","over":{"base":"Any"},"name":"is_perfect_correct"},"guarantee":"returns self._is_perfect","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"568153f915ea6d87","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._is_perfect","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._is_perfect","self.derived_subgroup","self.equals"],"writes":["self._is_perfect"]},"state_contract":{"modifies":["self._is_perfect"],"old_bindings":{"old_self__is_perfect":"self._is_perfect"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_perfect(self):
         """Return ``True`` if the group is perfect.
         A group is perfect if it equals to its derived subgroup.
@@ -2208,16 +2469,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_abelian(), returns the is_abelian attribute) over Any ║
+# ║ Path(is_abelian(), <unspecified:is_abelian>) over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_abelian : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 62b4f02f42d61e97           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_abelian","kind":"property","src_hash":"4ea3fd8b2f976d4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_abelian()","rhs":"returns the is_abelian attribute","over":{"base":"Any"},"name":"is_abelian_correct"},"guarantee":"returns the is_abelian attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62b4f02f42d61e97"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_abelian","kind":"property","src_hash":"4ea3fd8b2f976d4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_abelian()","rhs":"<unspecified:is_abelian>","over":{"base":"Any"},"name":"is_abelian_correct"},"guarantee":"returns the is_abelian attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"62b4f02f42d61e97","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._is_abelian","self.generators"],"writes":["self._is_abelian"]},"state_contract":{"modifies":["self._is_abelian"],"old_bindings":{"old_self__is_abelian":"self._is_abelian"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_abelian(self):
         """Test if the group is Abelian.
 
@@ -2251,16 +2518,22 @@ class PermutationGroup(Basic):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(abelian_invariants(), returns the abelian invariants for the given group. let ``g`` be a nontrivial finite abelian group) over Any ║
+# ║ Path(abelian_invariants(), <unspecified:abelian_invariants>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ abelian_invariants : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c60a6086c1b546d1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.abelian_invariants","kind":"method","src_hash":"efae2032ac0c29d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"abelian_invariants()","rhs":"returns the abelian invariants for the given group. let ``g`` be a nontrivial finite abelian group","over":{"base":"Any"},"name":"abelian_invariants_correct"},"guarantee":"returns the abelian invariants for the given group. let ``g`` be a nontrivial finite abelian group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.abelian_invariants_correct","statement":"Path(abelian_invariants(x), returns the abelian invariants for the given group. let ``g`` be a nontrivial finite abelian group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c60a6086c1b546d1"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.abelian_invariants","kind":"method","src_hash":"efae2032ac0c29d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"abelian_invariants()","rhs":"<unspecified:abelian_invariants>","over":{"base":"Any"},"name":"abelian_invariants_correct"},"guarantee":"returns the abelian invariants for the given group. let ``g`` be a nontrivial finite abelian group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.abelian_invariants_correct","statement":"Path(abelian_invariants(x), returns the abelian invariants for the given group. let ``g`` be a nontrivial finite abelian group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c60a6086c1b546d1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def abelian_invariants(self):
         """
         Returns the abelian invariants for the given group.
@@ -2336,16 +2609,22 @@ class PermutationGroup(Basic):
         return inv
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_elementary(p), return ``true`` if the group is elementary abelian) over Any ║
+# ║ Path(is_elementary(p), self.is_abelian and all((g.order() == p for g in self.generators))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_abelian and all((g.order() == p f...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_elementary : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e560fbae30fe5165           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_elementary","kind":"method","src_hash":"809fa59f9ca987e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_elementary(p)","rhs":"return ``true`` if the group is elementary abelian","over":{"base":"Any"},"name":"is_elementary_correct"},"guarantee":"return ``true`` if the group is elementary abelian","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e560fbae30fe5165"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_elementary","kind":"method","src_hash":"809fa59f9ca987e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_elementary(p)","rhs":"self.is_abelian and all((g.order() == p for g in self.generators))","over":{"base":"Any"},"name":"is_elementary_correct"},"guarantee":"returns self.is_abelian and all((g.order() == p for g in self.generators))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e560fbae30fe5165","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_abelian and all((g.order() == p for g in self.generators))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.generators","self.is_abelian"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_elementary(self, p):
         """Return ``True`` if the group is elementary abelian. An elementary
         abelian group is a finite abelian group, where every nontrivial
@@ -2371,16 +2650,23 @@ class PermutationGroup(Basic):
         return self.is_abelian and all(g.order() == p for g in self.generators)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_alt_sym_naive(onl), a naive test using the group order) over Any ║
+# ║ Path(_eval_is_alt_sym_naive(only_sym, only_alt), <unspecified:_eval_is_alt_sym_naive>) over {Any | not (only_sym and only_alt)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _eval_is_alt_sym_naive : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (only_sym and only_alt)                    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _eval_is_alt_sym_naive : {Any | not (only_sym and onl...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d37b4209f5090864  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._eval_is_alt_sym_naive","kind":"method","src_hash":"8c4442650e21aabd","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_alt_sym_naive(onl)","rhs":"a naive test using the group order","over":{"base":"Any"},"name":"_eval_is_alt_sym_naive_correct"},"guarantee":"a naive test using the group order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._eval_is_alt_sym_naive_correct","statement":"Path(_eval_is_alt_sym_naive(x), a naive test using the group order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d37b4209f5090864"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._eval_is_alt_sym_naive","kind":"method","src_hash":"8c4442650e21aabd","in":{"base":"Any","pred":"not (only_sym and only_alt)"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_alt_sym_naive(only_sym, only_alt)","rhs":"<unspecified:_eval_is_alt_sym_naive>","over":{"base":"Any","pred":"not (only_sym and only_alt)"},"name":"_eval_is_alt_sym_naive_correct"},"guarantee":"a naive test using the group order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._eval_is_alt_sym_naive_correct","statement":"Path(_eval_is_alt_sym_naive(x), a naive test using the group order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d37b4209f5090864","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (only_sym and only_alt)"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self.degree","self.order"],"writes":["self._is_alt","self._is_sym"],"raises":["ValueError"]},"state_contract":{"modifies":["self._is_alt","self._is_sym"],"old_bindings":{"old_self__is_alt":"self._is_alt","old_self__is_sym":"self._is_sym"},"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_alt_sym_naive(self, only_sym=False, only_alt=False):
         """A naive test using the group order."""
         if only_sym and only_alt:
@@ -2405,16 +2691,22 @@ class PermutationGroup(Basic):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_eval_is_alt_sym_monte_carlo(eps), a test using monte-carlo algorithm) over Any ║
+# ║ Path(_eval_is_alt_sym_monte_carlo(eps, perms), <unspecified:_eval_is_alt_sym_monte_carlo>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _eval_is_alt_sym_monte_carlo : Any → Any                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc2af01da573f02b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._eval_is_alt_sym_monte_carlo","kind":"method","src_hash":"aa858b3fddacd390","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_alt_sym_monte_carlo(eps)","rhs":"a test using monte-carlo algorithm","over":{"base":"Any"},"name":"_eval_is_alt_sym_monte_carlo_correct"},"guarantee":"a test using monte-carlo algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._eval_is_alt_sym_monte_carlo_correct","statement":"Path(_eval_is_alt_sym_monte_carlo(x), a test using monte-carlo algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc2af01da573f02b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._eval_is_alt_sym_monte_carlo","kind":"method","src_hash":"aa858b3fddacd390","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_eval_is_alt_sym_monte_carlo(eps, perms)","rhs":"<unspecified:_eval_is_alt_sym_monte_carlo>","over":{"base":"Any"},"name":"_eval_is_alt_sym_monte_carlo_correct"},"guarantee":"a test using monte-carlo algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._eval_is_alt_sym_monte_carlo_correct","statement":"Path(_eval_is_alt_sym_monte_carlo(x), a test using monte-carlo algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc2af01da573f02b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_is_alt_sym_monte_carlo","self.degree","self.random_pr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _eval_is_alt_sym_monte_carlo(self, eps=0.05, perms=None):
         """A test using monte-carlo algorithm.
 
@@ -2454,16 +2746,22 @@ class PermutationGroup(Basic):
         return False
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_alt_sym(eps), monte carlo test for the symmetric/alternating group for degrees >= 8) over Any ║
+# ║ Path(is_alt_sym(eps, _random_prec), <unspecified:is_alt_sym>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_alt_sym : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 43f93f16c96b6c6d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_alt_sym","kind":"method","src_hash":"20b0efffb2e296a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_alt_sym(eps)","rhs":"monte carlo test for the symmetric/alternating group for degrees >= 8","over":{"base":"Any"},"name":"is_alt_sym_correct"},"guarantee":"monte carlo test for the symmetric/alternating group for degrees >= 8","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.is_alt_sym_correct","statement":"Path(is_alt_sym(x), monte carlo test for the symmetric/alternating group for degrees >= 8)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43f93f16c96b6c6d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_alt_sym","kind":"method","src_hash":"20b0efffb2e296a1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_alt_sym(eps, _random_prec)","rhs":"<unspecified:is_alt_sym>","over":{"base":"Any"},"name":"is_alt_sym_correct"},"guarantee":"monte carlo test for the symmetric/alternating group for degrees >= 8","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.is_alt_sym_correct","statement":"Path(is_alt_sym(x), monte carlo test for the symmetric/alternating group for degrees >= 8)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"43f93f16c96b6c6d","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_is_alt_sym_monte_carlo","self._eval_is_alt_sym_naive","self._is_alt","self._is_sym","self.degree","self.is_transitive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_alt_sym(self, eps=0.05, _random_prec=None):
         r"""Monte Carlo test for the symmetric/alternating group for degrees
         >= 8.
@@ -2527,16 +2825,23 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_nilpotent(), returns the is_nilpotent attribute) over Any ║
+# ║ Path(is_nilpotent(), <unspecified:is_nilpotent>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[zero_or_none]: self._is_nilpotent is None          ║
+# ║   fiber[zero_or_none]: not (self._is_nilpotent is Non...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_nilpotent : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2c26c005482d16d2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_nilpotent","kind":"property","src_hash":"aff1b56271026c0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nilpotent()","rhs":"returns the is_nilpotent attribute","over":{"base":"Any"},"name":"is_nilpotent_correct"},"guarantee":"returns the is_nilpotent attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c26c005482d16d2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_nilpotent","kind":"property","src_hash":"aff1b56271026c0c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_nilpotent()","rhs":"<unspecified:is_nilpotent>","over":{"base":"Any"},"name":"is_nilpotent_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2c26c005482d16d2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"zero_or_none","guard":"self._is_nilpotent is None","ensures":[],"decidability":"structural"},{"name":"zero_or_none","guard":"not (self._is_nilpotent is None)","ensures":["result == self._is_nilpotent"],"decidability":"structural","returns_expr":"self._is_nilpotent"}],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._is_nilpotent","self.degree","self.lower_central_series"],"writes":["self._is_nilpotent","self._is_solvable"]},"state_contract":{"modifies":["self._is_nilpotent","self._is_solvable"],"old_bindings":{"old_self__is_nilpotent":"self._is_nilpotent","old_self__is_solvable":"self._is_solvable"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_nilpotent(self):
         """Test if the group is nilpotent.
 
@@ -2583,16 +2888,24 @@ class PermutationGroup(Basic):
             return self._is_nilpotent
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_normal(gr,), test if ``g=self`` is a normal subgroup of ``gr``) over Any ║
+# ║ Path(is_normal(gr, strict), <unspecified:is_normal>) over {Any | hasattr(gr, 'degree') and hasattr(gr, 'generators')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_normal : Any → Any                                      ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(gr, 'degree')                          ║
+# ║   requires: hasattr(gr, 'generators')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_normal : {Any | hasattr(gr, 'degree') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5bac018a55270bf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_normal","kind":"method","src_hash":"935fd45c953faaf7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_normal(gr,)","rhs":"test if ``g=self`` is a normal subgroup of ``gr``","over":{"base":"Any"},"name":"is_normal_correct"},"guarantee":"test if ``g=self`` is a normal subgroup of ``gr``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.is_normal_correct","statement":"Path(is_normal(x), test if ``g=self`` is a normal subgroup of ``gr``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5bac018a55270bf"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_normal","kind":"method","src_hash":"935fd45c953faaf7","in":{"base":"Any","pred":"hasattr(gr, 'degree') and hasattr(gr, 'generators')"},"out":{"base":"Any"},"spec":{"lhs":"is_normal(gr, strict)","rhs":"<unspecified:is_normal>","over":{"base":"Any","pred":"hasattr(gr, 'degree') and hasattr(gr, 'generators')"},"name":"is_normal_correct"},"guarantee":"test if ``g=self`` is a normal subgroup of ``gr``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.is_normal_correct","statement":"Path(is_normal(x), test if ``g=self`` is a normal subgroup of ``gr``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5bac018a55270bf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(gr, 'degree')","hasattr(gr, 'generators')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["gr.degree","gr.generators","self._is_abelian","self.copy","self.degree","self.is_subgroup","self.is_trivial"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_normal(self, gr, strict=True):
         """Test if ``G=self`` is a normal subgroup of ``gr``.
 
@@ -2640,16 +2953,24 @@ class PermutationGroup(Basic):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_primitive(ran), test if a group is primitive) over Any ║
+# ║ Path(is_primitive(randomized), len(orb) == old_len_orb - 1 and len(random_stab_gens) == old_len_random_stab_gens + 1) over {Any | len(orb) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_primitive : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: len(orb) > 0                                   ║
+# ║   ensures:  len(orb) == old_len_orb - 1                    ║
+# ║   ensures:  len(random_stab_gens) == old_len_random_s...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_primitive : {Any | len(orb) > 0} → {Any | result s...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4757a6df27e495bb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bc32a5f05984bd1b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_primitive","kind":"method","src_hash":"9e58e0a22c650e96","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_primitive(ran)","rhs":"test if a group is primitive","over":{"base":"Any"},"name":"is_primitive_correct"},"guarantee":"test if a group is primitive","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.is_primitive_correct","statement":"Path(is_primitive(x), test if a group is primitive)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4757a6df27e495bb"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_primitive","kind":"method","src_hash":"9e58e0a22c650e96","in":{"base":"Any","pred":"len(orb) > 0"},"out":{"base":"Any","pred":"result satisfies: len(orb) == old_len_orb - 1 and len(random_stab_gens) == old_len_random_stab_gens + 1"},"spec":{"lhs":"is_primitive(randomized)","rhs":"len(orb) == old_len_orb - 1 and len(random_stab_gens) == old_len_random_stab_gens + 1","over":{"base":"Any","pred":"len(orb) > 0"},"name":"is_primitive_correct"},"guarantee":"len(orb) == old_len_orb - 1; len(random_stab_gens) == old_len_random_stab_gens + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.is_primitive_correct","statement":"Path(is_primitive(x), len(orb) == old_len_orb - 1; len(random_stab_gens) == old_len_random_stab_gens + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bc32a5f05984bd1b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["len(orb) > 0"],"ensures":["len(orb) == old_len_orb - 1","len(random_stab_gens) == old_len_random_stab_gens + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._is_primitive","self.is_transitive","self.minimal_block","self.random_stab","self.schreier_vector","self.stabilizer"],"writes":["self._is_primitive"],"calls_mutating":["orb.pop","random_stab_gens.append"]},"state_contract":{"modifies":["orb.*","random_stab_gens.*","self._is_primitive"],"old_bindings":{"old_self__is_primitive":"self._is_primitive","old_len_orb":"len(orb)","old_len_random_stab_gens":"len(random_stab_gens)"},"pre_requires":["len(orb) > 0"],"post_ensures":["len(orb) == old_len_orb - 1","len(random_stab_gens) == old_len_random_stab_gens + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_primitive(self, randomized=True):
         r"""Test if a group is primitive.
 
@@ -2714,16 +3035,22 @@ class PermutationGroup(Basic):
         return True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(minimal_blocks(ran), for a transitive group, return the list of all minimal block systems) over Any ║
+# ║ Path(minimal_blocks(randomized), <unspecified:minimal_blocks>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ minimal_blocks : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 53a691e2b941b345  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.minimal_blocks","kind":"method","src_hash":"e1c5d1cdb2de1384","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minimal_blocks(ran)","rhs":"for a transitive group, return the list of all minimal block systems","over":{"base":"Any"},"name":"minimal_blocks_correct"},"guarantee":"for a transitive group, return the list of all minimal block systems","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.minimal_blocks_correct","statement":"Path(minimal_blocks(x), for a transitive group, return the list of all minimal block systems)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53a691e2b941b345"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.minimal_blocks","kind":"method","src_hash":"e1c5d1cdb2de1384","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minimal_blocks(randomized)","rhs":"<unspecified:minimal_blocks>","over":{"base":"Any"},"name":"minimal_blocks_correct"},"guarantee":"for a transitive group, return the list of all minimal block systems","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.minimal_blocks_correct","statement":"Path(minimal_blocks(x), for a transitive group, return the list of all minimal block systems)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"53a691e2b941b345","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def minimal_blocks(self, randomized=True):
         '''
         For a transitive group, return the list of all minimal
@@ -2809,16 +3136,23 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_solvable(), returns the is_solvable attribute) over Any ║
+# ║ Path(is_solvable(), <unspecified:is_solvable>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[zero_or_none]: self._is_solvable is None           ║
+# ║   fiber[zero_or_none]: not (self._is_solvable is None...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_solvable : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0274e36bc0f7c78d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_solvable","kind":"property","src_hash":"28ee91490ac6a309","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_solvable()","rhs":"returns the is_solvable attribute","over":{"base":"Any"},"name":"is_solvable_correct"},"guarantee":"returns the is_solvable attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0274e36bc0f7c78d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_solvable","kind":"property","src_hash":"28ee91490ac6a309","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_solvable()","rhs":"<unspecified:is_solvable>","over":{"base":"Any"},"name":"is_solvable_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0274e36bc0f7c78d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"zero_or_none","guard":"self._is_solvable is None","ensures":[],"decidability":"structural"},{"name":"zero_or_none","guard":"not (self._is_solvable is None)","ensures":["result == self._is_solvable"],"decidability":"structural","returns_expr":"self._is_solvable"}],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._is_solvable","self.degree","self.derived_series","self.order"],"writes":["self._is_solvable"]},"state_contract":{"modifies":["self._is_solvable"],"old_bindings":{"old_self__is_solvable":"self._is_solvable"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_solvable(self):
         """Test if the group is solvable.
 
@@ -2857,16 +3191,25 @@ class PermutationGroup(Basic):
             return self._is_solvable
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_subgroup(G, ), return ``true`` if all elements of ``self`` belong to ``g``) over Any ║
+# ║ Path(is_subgroup(G, strict), <unspecified:is_subgroup>) over {Any | hasattr(G, 'degree') and hasattr(G, 'order') and hasattr(G, 'contains')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_subgroup : Any → Any                                    ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(G, 'degree')                           ║
+# ║   requires: hasattr(G, 'order')                            ║
+# ║   requires: hasattr(G, 'contains')                         ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_subgroup : {Any | hasattr(G, 'degree') and hasattr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67cf95c06d992504  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_subgroup","kind":"method","src_hash":"ad391f93a2868a4b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_subgroup(G, )","rhs":"return ``true`` if all elements of ``self`` belong to ``g``","over":{"base":"Any"},"name":"is_subgroup_correct"},"guarantee":"return ``true`` if all elements of ``self`` belong to ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.is_subgroup_correct","statement":"Path(is_subgroup(x), return ``true`` if all elements of ``self`` belong to ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67cf95c06d992504"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_subgroup","kind":"method","src_hash":"ad391f93a2868a4b","in":{"base":"Any","pred":"hasattr(G, 'degree') and hasattr(G, 'order') and hasattr(G, 'contains')"},"out":{"base":"Any"},"spec":{"lhs":"is_subgroup(G, strict)","rhs":"<unspecified:is_subgroup>","over":{"base":"Any","pred":"hasattr(G, 'degree') and hasattr(G, 'order') and hasattr(G, 'contains')"},"name":"is_subgroup_correct"},"guarantee":"return ``true`` if all elements of ``self`` belong to ``g``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.is_subgroup_correct","statement":"Path(is_subgroup(x), return ``true`` if all elements of ``self`` belong to ``g``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67cf95c06d992504","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(G, 'degree')","hasattr(G, 'order')","hasattr(G, 'contains')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["G.contains","G.degree","G.order","self.degree","self.generators","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_subgroup(self, G, strict=True):
         """Return ``True`` if all elements of ``self`` belong to ``G``.
 
@@ -2929,16 +3272,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_polycyclic(), returns the is_polycyclic attribute) over Any ║
+# ║ Path(is_polycyclic(), self.is_solvable) over Any           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.is_solvable                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_polycyclic : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2a80b30d9541c634           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_polycyclic","kind":"property","src_hash":"3a8df41a448cd8b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_polycyclic()","rhs":"returns the is_polycyclic attribute","over":{"base":"Any"},"name":"is_polycyclic_correct"},"guarantee":"returns the is_polycyclic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a80b30d9541c634"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_polycyclic","kind":"property","src_hash":"3a8df41a448cd8b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_polycyclic()","rhs":"self.is_solvable","over":{"base":"Any"},"name":"is_polycyclic_correct"},"guarantee":"returns self.is_solvable","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2a80b30d9541c634","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.is_solvable","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_solvable"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_polycyclic(self):
         """Return ``True`` if a group is polycyclic. A group is polycyclic if
         it has a subnormal series with cyclic factors. For finite groups,
@@ -2958,16 +3307,22 @@ class PermutationGroup(Basic):
         return self.is_solvable
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_transitive(str), test if the group is transitive) over Any ║
+# ║ Path(is_transitive(strict), <unspecified:is_transitive>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_transitive : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7407671db3ce257f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_transitive","kind":"method","src_hash":"beee5bee844b24a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_transitive(str)","rhs":"test if the group is transitive","over":{"base":"Any"},"name":"is_transitive_correct"},"guarantee":"test if the group is transitive","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.is_transitive_correct","statement":"Path(is_transitive(x), test if the group is transitive)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7407671db3ce257f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_transitive","kind":"method","src_hash":"beee5bee844b24a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_transitive(strict)","rhs":"<unspecified:is_transitive>","over":{"base":"Any"},"name":"is_transitive_correct"},"guarantee":"test if the group is transitive","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.is_transitive_correct","statement":"Path(is_transitive(x), test if the group is transitive)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7407671db3ce257f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._is_transitive","self.degree","self.orbit","self.orbits"],"writes":["self._is_transitive"]},"state_contract":{"modifies":["self._is_transitive"],"old_bindings":{"old_self__is_transitive":"self._is_transitive"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_transitive(self, strict=True):
         """Test if the group is transitive.
 
@@ -3021,16 +3376,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_trivial(), returns the is_trivial attribute) over Any ║
+# ║ Path(is_trivial(), self._is_trivial) over Any              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._is_trivial                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_trivial : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 75576848a5dfb5ab           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_trivial","kind":"property","src_hash":"97f1092786d9d372","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_trivial()","rhs":"returns the is_trivial attribute","over":{"base":"Any"},"name":"is_trivial_correct"},"guarantee":"returns the is_trivial attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75576848a5dfb5ab"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_trivial","kind":"property","src_hash":"97f1092786d9d372","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_trivial()","rhs":"self._is_trivial","over":{"base":"Any"},"name":"is_trivial_correct"},"guarantee":"returns self._is_trivial","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"75576848a5dfb5ab","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._is_trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._is_trivial"],"writes":["self._is_trivial"]},"state_contract":{"modifies":["self._is_trivial"],"old_bindings":{"old_self__is_trivial":"self._is_trivial"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_trivial(self):
         """Test if the group is the trivial group.
 
@@ -3050,16 +3411,22 @@ class PermutationGroup(Basic):
         return self._is_trivial
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(lower_central_series(), return the lower central series for the group) over Any ║
+# ║ Path(lower_central_series(), <unspecified:lower_central_series>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ lower_central_series : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ec0c269436d486c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.lower_central_series","kind":"method","src_hash":"9a12e419b44e0c25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower_central_series()","rhs":"return the lower central series for the group","over":{"base":"Any"},"name":"lower_central_series_correct"},"guarantee":"return the lower central series for the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.lower_central_series_correct","statement":"Path(lower_central_series(x), return the lower central series for the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ec0c269436d486c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.lower_central_series","kind":"method","src_hash":"9a12e419b44e0c25","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"lower_central_series()","rhs":"<unspecified:lower_central_series>","over":{"base":"Any"},"name":"lower_central_series_correct"},"guarantee":"return the lower central series for the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.lower_central_series_correct","statement":"Path(lower_central_series(x), return the lower central series for the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ec0c269436d486c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def lower_central_series(self):
         r"""Return the lower central series for the group.
 
@@ -3101,16 +3468,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(max_div(), returns the max_div attribute) over Any    ║
+# ║ Path(max_div(), <unspecified:max_div>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ max_div : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bd7d2c59a3a2b4df           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.max_div","kind":"property","src_hash":"7ca27fe41fa2ec63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_div()","rhs":"returns the max_div attribute","over":{"base":"Any"},"name":"max_div_correct"},"guarantee":"returns the max_div attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd7d2c59a3a2b4df"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.max_div","kind":"property","src_hash":"7ca27fe41fa2ec63","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"max_div()","rhs":"<unspecified:max_div>","over":{"base":"Any"},"name":"max_div_correct"},"guarantee":"returns the max_div attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bd7d2c59a3a2b4df","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._max_div","self.degree"],"writes":["self._max_div"]},"state_contract":{"modifies":["self._max_div"],"old_bindings":{"old_self__max_div":"self._max_div"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def max_div(self):
         """Maximum proper divisor of the degree of a permutation group.
 
@@ -3149,16 +3522,22 @@ class PermutationGroup(Basic):
                 return d
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(minimal_block(poi), for a transitive group, finds the block system generated by ``points``) over Any ║
+# ║ Path(minimal_block(points), <unspecified:minimal_block>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ minimal_block : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 13a9a369d2cd940b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.minimal_block","kind":"method","src_hash":"5f564f90202d3f6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minimal_block(poi)","rhs":"for a transitive group, finds the block system generated by ``points``","over":{"base":"Any"},"name":"minimal_block_correct"},"guarantee":"for a transitive group, finds the block system generated by ``points``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.minimal_block_correct","statement":"Path(minimal_block(x), for a transitive group, finds the block system generated by ``points``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13a9a369d2cd940b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.minimal_block","kind":"method","src_hash":"5f564f90202d3f6c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"minimal_block(points)","rhs":"<unspecified:minimal_block>","over":{"base":"Any"},"name":"minimal_block_correct"},"guarantee":"for a transitive group, finds the block system generated by ``points``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.minimal_block_correct","statement":"Path(minimal_block(x), for a transitive group, finds the block system generated by ``points``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"13a9a369d2cd940b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def minimal_block(self, points):
         r"""For a transitive group, finds the block system generated by
         ``points``.
@@ -3249,16 +3628,22 @@ class PermutationGroup(Basic):
         return [new_reps.setdefault(r, i) for i, r in enumerate(parents)]
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(conjugacy_class(x), return the conjugacy class of an element in the group) over Any ║
+# ║ Path(conjugacy_class(x), <unspecified:conjugacy_class>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ conjugacy_class : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e05638e437c133c6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.conjugacy_class","kind":"method","src_hash":"67b53f33a15b3a90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjugacy_class(x)","rhs":"return the conjugacy class of an element in the group","over":{"base":"Any"},"name":"conjugacy_class_correct"},"guarantee":"return the conjugacy class of an element in the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.conjugacy_class_correct","statement":"Path(conjugacy_class(x), return the conjugacy class of an element in the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e05638e437c133c6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.conjugacy_class","kind":"method","src_hash":"67b53f33a15b3a90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjugacy_class(x)","rhs":"<unspecified:conjugacy_class>","over":{"base":"Any"},"name":"conjugacy_class_correct"},"guarantee":"return the conjugacy class of an element in the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.conjugacy_class_correct","statement":"Path(conjugacy_class(x), return the conjugacy class of an element in the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e05638e437c133c6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def conjugacy_class(self, x):
         r"""Return the conjugacy class of an element in the group.
 
@@ -3320,16 +3705,22 @@ class PermutationGroup(Basic):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(conjugacy_classes(), return the conjugacy classes of the group) over Any ║
+# ║ Path(conjugacy_classes(), <unspecified:conjugacy_classes>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ conjugacy_classes : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8ad3bffca8e541b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.conjugacy_classes","kind":"method","src_hash":"e7264b0518271b7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjugacy_classes()","rhs":"return the conjugacy classes of the group","over":{"base":"Any"},"name":"conjugacy_classes_correct"},"guarantee":"return the conjugacy classes of the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.conjugacy_classes_correct","statement":"Path(conjugacy_classes(x), return the conjugacy classes of the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8ad3bffca8e541b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.conjugacy_classes","kind":"method","src_hash":"e7264b0518271b7a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"conjugacy_classes()","rhs":"<unspecified:conjugacy_classes>","over":{"base":"Any"},"name":"conjugacy_classes_correct"},"guarantee":"return the conjugacy classes of the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.conjugacy_classes_correct","statement":"Path(conjugacy_classes(x), return the conjugacy classes of the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8ad3bffca8e541b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def conjugacy_classes(self):
         r"""Return the conjugacy classes of the group.
 
@@ -3362,16 +3753,27 @@ class PermutationGroup(Basic):
         return classes
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(normal_closure(oth), return the normal closure of a subgroup/set of permutations) over Any ║
+# ║ Path(normal_closure(other, k), result == (Z if hasattr(other, 'generators') else self.normal_closure(PermutationGroup(other)) if hasattr(other, '__getitem__') else self.normal_closure(PermutationGroup([other]))) and result == Z or result == self.normal_closure(PermutationGroup(other)) or result == self.normal_closure(PermutationGroup([other]))) over {Any | hasattr(other, 'generators')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ normal_closure : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(other, 'generators')                   ║
+# ║   ensures:  result == (Z if hasattr(other, 'generator...   ║
+# ║   ensures:  result == Z or result == self.normal_clos...   ║
+# ║   fiber[case_0]: hasattr(other, 'generators') => Z         ║
+# ║   fiber[case_1]: hasattr(other, '__getitem__') => sel...   ║
+# ║   fiber[case_2]: hasattr(other, 'array_form') => self...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ normal_closure : {Any | hasattr(other, 'generators')}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 95308f361a26e677  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8a4799a37f2d152  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.normal_closure","kind":"method","src_hash":"b0c45aa9f7597a76","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"normal_closure(oth)","rhs":"return the normal closure of a subgroup/set of permutations","over":{"base":"Any"},"name":"normal_closure_correct"},"guarantee":"return the normal closure of a subgroup/set of permutations","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.normal_closure_correct","statement":"Path(normal_closure(x), return the normal closure of a subgroup/set of permutations)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"95308f361a26e677"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.normal_closure","kind":"method","src_hash":"b0c45aa9f7597a76","in":{"base":"Any","pred":"hasattr(other, 'generators')"},"out":{"base":"Any","pred":"result satisfies: result == (Z if hasattr(other, 'generators') else self.normal_closure(PermutationGroup(other)) if hasattr(other, '__getitem__') else self.normal_closure(PermutationGroup([other]))) and result == Z or result == self.normal_closure(PermutationGroup(other)) or result == self.normal_closure(PermutationGroup([other]))"},"spec":{"lhs":"normal_closure(other, k)","rhs":"result == (Z if hasattr(other, 'generators') else self.normal_closure(PermutationGroup(other)) if hasattr(other, '__getitem__') else self.normal_closure(PermutationGroup([other]))) and result == Z or result == self.normal_closure(PermutationGroup(other)) or result == self.normal_closure(PermutationGroup([other]))","over":{"base":"Any","pred":"hasattr(other, 'generators')"},"name":"normal_closure_correct"},"guarantee":"result == (Z if hasattr(other, 'generators') else self.normal_closure(PermutationGroup(other)) if hasattr(other, '__getitem__') else self.normal_closure(PermutationGroup([other]))); result == Z or result == self.normal_closure(PermutationGroup(other)) or result == self.normal_closure(PermutationGroup([other])); 3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.normal_closure_correct","statement":"Path(normal_closure(x), result == (Z if hasattr(other, 'generators') else self.normal_closure(PermutationGroup(other)) if hasattr(other, '__getitem__') else self.normal_closure(PermutationGroup([other]))); result == Z or result == self.normal_closure(PermutationGroup(other)) or result == self.normal_closure(PermutationGroup([other])); 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8a4799a37f2d152","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(other, 'generators')"],"ensures":["result == (Z if hasattr(other, 'generators') else self.normal_closure(PermutationGroup(other)) if hasattr(other, '__getitem__') else self.normal_closure(PermutationGroup([other])))","result == Z or result == self.normal_closure(PermutationGroup(other)) or result == self.normal_closure(PermutationGroup([other]))"],"fibers":[{"name":"case_0","guard":"hasattr(other, 'generators')","ensures":["result == Z"],"decidability":"structural","returns_expr":"Z"},{"name":"case_1","guard":"hasattr(other, '__getitem__')","ensures":["result == self.normal_closure(PermutationGroup(other))"],"decidability":"structural","returns_expr":"self.normal_closure(PermutationGroup(other))"},{"name":"case_2","guard":"hasattr(other, 'array_form')","ensures":["result == self.normal_closure(PermutationGroup([other]))"],"decidability":"structural","returns_expr":"self.normal_closure(PermutationGroup([other]))"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def normal_closure(self, other, k=10):
         r"""Return the normal closure of a subgroup/set of permutations.
 
@@ -3474,16 +3876,22 @@ class PermutationGroup(Basic):
             return self.normal_closure(PermutationGroup([other]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orbit(alp), compute the orbit of alpha `\{g(\alpha) | g \in g\}` as a set) over Any ║
+# ║ Path(orbit(alpha, action), _orbit(self.degree, self.generators, alpha, action)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _orbit(self.degree, self.generators, alph...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ orbit : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 07b4a3c934abbc1e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.orbit","kind":"method","src_hash":"06ee80dff1a6265b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orbit(alp)","rhs":"compute the orbit of alpha `\\{g(\\alpha) | g \\in g\\}` as a set","over":{"base":"Any"},"name":"orbit_correct"},"guarantee":"compute the orbit of alpha `\\{g(\\alpha) | g \\in g\\}` as a set","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07b4a3c934abbc1e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.orbit","kind":"method","src_hash":"06ee80dff1a6265b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orbit(alpha, action)","rhs":"_orbit(self.degree, self.generators, alpha, action)","over":{"base":"Any"},"name":"orbit_correct"},"guarantee":"returns _orbit(self.degree, self.generators, alpha, action)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07b4a3c934abbc1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_orbit(self.degree, self.generators, alpha, action)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.degree","self.generators"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orbit(self, alpha, action='tuples'):
         r"""Compute the orbit of alpha `\{g(\alpha) | g \in G\}` as a set.
 
@@ -3523,16 +3931,22 @@ class PermutationGroup(Basic):
         return _orbit(self.degree, self.generators, alpha, action)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orbit_rep(alp), return a group element which sends ``alpha`` to ``beta``) over Any ║
+# ║ Path(orbit_rep(alpha, beta, schreier_vector), <unspecified:orbit_rep>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ orbit_rep : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4b48f0a0f226b332  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.orbit_rep","kind":"method","src_hash":"44634d0f3952b5b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orbit_rep(alp)","rhs":"return a group element which sends ``alpha`` to ``beta``","over":{"base":"Any"},"name":"orbit_rep_correct"},"guarantee":"return a group element which sends ``alpha`` to ``beta``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.orbit_rep_correct","statement":"Path(orbit_rep(x), return a group element which sends ``alpha`` to ``beta``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b48f0a0f226b332"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.orbit_rep","kind":"method","src_hash":"44634d0f3952b5b1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orbit_rep(alpha, beta, schreier_vector)","rhs":"<unspecified:orbit_rep>","over":{"base":"Any"},"name":"orbit_rep_correct"},"guarantee":"return a group element which sends ``alpha`` to ``beta``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.orbit_rep_correct","statement":"Path(orbit_rep(x), return a group element which sends ``alpha`` to ``beta``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4b48f0a0f226b332","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orbit_rep(self, alpha, beta, schreier_vector=None):
         """Return a group element which sends ``alpha`` to ``beta``.
 
@@ -3574,16 +3988,22 @@ class PermutationGroup(Basic):
             return _af_new(list(range(self._degree)))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orbit_transversal(alp), computes a transversal for the orbit of ``alpha`` as a set) over Any ║
+# ║ Path(orbit_transversal(alpha, pairs), _orbit_transversal(self._degree, self.generators, alpha, pairs)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _orbit_transversal(self._degree, self.gen...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ orbit_transversal : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 49c04874a8608ac2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.orbit_transversal","kind":"method","src_hash":"848051edb5854011","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orbit_transversal(alp)","rhs":"computes a transversal for the orbit of ``alpha`` as a set","over":{"base":"Any"},"name":"orbit_transversal_correct"},"guarantee":"computes a transversal for the orbit of ``alpha`` as a set","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49c04874a8608ac2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.orbit_transversal","kind":"method","src_hash":"848051edb5854011","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orbit_transversal(alpha, pairs)","rhs":"_orbit_transversal(self._degree, self.generators, alpha, pairs)","over":{"base":"Any"},"name":"orbit_transversal_correct"},"guarantee":"returns _orbit_transversal(self._degree, self.generators, alpha, pairs)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"49c04874a8608ac2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_orbit_transversal(self._degree, self.generators, alpha, pairs)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._degree","self.generators"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orbit_transversal(self, alpha, pairs=False):
         r"""Computes a transversal for the orbit of ``alpha`` as a set.
 
@@ -3614,16 +4034,22 @@ class PermutationGroup(Basic):
         return _orbit_transversal(self._degree, self.generators, alpha, pairs)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(orbits(rep), return the orbits of ``self``, ordered according to lowest element in each orbit) over Any ║
+# ║ Path(orbits(rep), _orbits(self._degree, self._generators)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _orbits(self._degree, self._generators)        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ orbits : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8aa76a4e22143d5e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.orbits","kind":"method","src_hash":"101807bedc0142a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orbits(rep)","rhs":"return the orbits of ``self``, ordered according to lowest element in each orbit","over":{"base":"Any"},"name":"orbits_correct"},"guarantee":"return the orbits of ``self``, ordered according to lowest element in each orbit","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8aa76a4e22143d5e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.orbits","kind":"method","src_hash":"101807bedc0142a0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"orbits(rep)","rhs":"_orbits(self._degree, self._generators)","over":{"base":"Any"},"name":"orbits_correct"},"guarantee":"returns _orbits(self._degree, self._generators)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8aa76a4e22143d5e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_orbits(self._degree, self._generators)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._degree","self._generators"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def orbits(self, rep=False):
         """Return the orbits of ``self``, ordered according to lowest element
         in each orbit.
@@ -3641,16 +4067,22 @@ class PermutationGroup(Basic):
         return _orbits(self._degree, self._generators)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(), return the order of the group: the number of permutations that can be generated from elements of the group) over Any ║
+# ║ Path(order(), <unspecified:order>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ order : Any → {Any | result satisfies: the number of ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e0d0894db1599bc8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.order","kind":"method","src_hash":"f0abc22187378fdb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: the number of permutations that"},"spec":{"lhs":"order()","rhs":"return the order of the group: the number of permutations that can be generated from elements of the group","over":{"base":"Any"},"name":"order_correct"},"guarantee":"return the order of the group: the number of permutations that can be generated from elements of the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.order_correct","statement":"Path(order(x), return the order of the group: the number of permutations that can be generated from elements of the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0d0894db1599bc8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.order","kind":"method","src_hash":"f0abc22187378fdb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: the number of permutations that"},"spec":{"lhs":"order()","rhs":"<unspecified:order>","over":{"base":"Any"},"name":"order_correct"},"guarantee":"return the order of the group: the number of permutations that can be generated from elements of the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.order_correct","statement":"Path(order(x), return the order of the group: the number of permutations that can be generated from elements of the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e0d0894db1599bc8","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._degree","self._is_alt","self._is_sym","self._order","self.basic_transversals"],"writes":["self._order"]},"state_contract":{"modifies":["self._order"],"old_bindings":{"old_self__order":"self._order"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self):
         """Return the order of the group: the number of permutations that
         can be generated from elements of the group.
@@ -3703,16 +4135,24 @@ class PermutationGroup(Basic):
         return m
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(index(H), id) over Any                                ║
+# ║ Path(index(H), id) over {Any | hasattr(H, 'is_subgroup') and hasattr(H, 'order')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ index : Any → Any                                          ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(H, 'is_subgroup')                      ║
+# ║   requires: hasattr(H, 'order')                            ║
+# ║   returns:  self.order() // H.order()                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ index : {Any | hasattr(H, 'is_subgroup') and hasattr(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | bcdb07f864b77d1e   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.index","kind":"method","src_hash":"5b49815479ac3a3d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"index(H)","rhs":"returns the index of a permutation group","over":{"base":"Any"},"name":"index_correct","kind":"composition"},"guarantee":"returns the index of a permutation group","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"order","by":"library_axiom"},{"fn":"order","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcdb07f864b77d1e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.index","kind":"method","src_hash":"5b49815479ac3a3d","in":{"base":"Any","pred":"hasattr(H, 'is_subgroup') and hasattr(H, 'order')"},"out":{"base":"Any"},"spec":{"lhs":"index(H)","rhs":"self.order() // H.order()","over":{"base":"Any","pred":"hasattr(H, 'is_subgroup') and hasattr(H, 'order')"},"name":"index_correct","kind":"composition"},"guarantee":"returns self.order() // H.order()","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"order","by":"library_axiom"},{"fn":"order","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bcdb07f864b77d1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(H, 'is_subgroup')","hasattr(H, 'order')"],"returns_expr":"self.order() // H.order()","pure":false,"effects":{"effect_type":"reads_state","reads":["H.is_subgroup","H.order","self.order"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def index(self, H):
         """
         Returns the index of a permutation group.
@@ -3734,16 +4174,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_symmetric(), returns the is_symmetric attribute) over Any ║
+# ║ Path(is_symmetric(), <unspecified:is_symmetric>) over Any  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_symmetric : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 272b2a366c5a10d7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_symmetric","kind":"property","src_hash":"5b103cae9b56b142","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symmetric()","rhs":"returns the is_symmetric attribute","over":{"base":"Any"},"name":"is_symmetric_correct"},"guarantee":"returns the is_symmetric attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"272b2a366c5a10d7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_symmetric","kind":"property","src_hash":"5b103cae9b56b142","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symmetric()","rhs":"<unspecified:is_symmetric>","over":{"base":"Any"},"name":"is_symmetric_correct"},"guarantee":"returns the is_symmetric attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"272b2a366c5a10d7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_is_alt_sym_monte_carlo","self._eval_is_alt_sym_naive","self._is_sym","self.degree","self.generators","self.is_transitive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_symmetric(self):
         """Return ``True`` if the group is symmetric.
 
@@ -3804,16 +4250,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_alternating(), returns the is_alternating attribute) over Any ║
+# ║ Path(is_alternating(), <unspecified:is_alternating>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_alternating : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cab57f031d11cb6e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_alternating","kind":"property","src_hash":"899c359af8441e1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_alternating()","rhs":"returns the is_alternating attribute","over":{"base":"Any"},"name":"is_alternating_correct"},"guarantee":"returns the is_alternating attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cab57f031d11cb6e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_alternating","kind":"property","src_hash":"899c359af8441e1c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_alternating()","rhs":"<unspecified:is_alternating>","over":{"base":"Any"},"name":"is_alternating_correct"},"guarantee":"returns the is_alternating attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cab57f031d11cb6e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._eval_is_alt_sym_monte_carlo","self._eval_is_alt_sym_naive","self._is_alt","self.degree","self.generators","self.is_transitive"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_alternating(self):
         """Return ``True`` if the group is alternating.
 
@@ -3873,16 +4325,22 @@ class PermutationGroup(Basic):
 
     @classmethod
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_distinct_primes_lemma(cls), subroutine to test if there is only one cyclic group for the order) over Any ║
+# ║ Path(_distinct_primes_lemma(cls, primes), <unspecified:_distinct_primes_lemma>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _distinct_primes_lemma : Any → Any                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c801af5b06e0c72f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._distinct_primes_lemma","kind":"classmethod","src_hash":"063954edaf16218f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_distinct_primes_lemma(cls)","rhs":"subroutine to test if there is only one cyclic group for the order","over":{"base":"Any"},"name":"_distinct_primes_lemma_correct"},"guarantee":"subroutine to test if there is only one cyclic group for the order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._distinct_primes_lemma_correct","statement":"Path(_distinct_primes_lemma(x), subroutine to test if there is only one cyclic group for the order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c801af5b06e0c72f"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._distinct_primes_lemma","kind":"classmethod","src_hash":"063954edaf16218f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_distinct_primes_lemma(cls, primes)","rhs":"<unspecified:_distinct_primes_lemma>","over":{"base":"Any"},"name":"_distinct_primes_lemma_correct"},"guarantee":"subroutine to test if there is only one cyclic group for the order","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._distinct_primes_lemma_correct","statement":"Path(_distinct_primes_lemma(x), subroutine to test if there is only one cyclic group for the order)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c801af5b06e0c72f","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _distinct_primes_lemma(cls, primes):
         """Subroutine to test if there is only one cyclic group for the
         order."""
@@ -3896,16 +4354,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_cyclic(), returns the is_cyclic attribute) over Any ║
+# ║ Path(is_cyclic(), <unspecified:is_cyclic>) over Any        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_cyclic : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 47f28ba54300f625           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_cyclic","kind":"property","src_hash":"875a75807af9b79d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_cyclic()","rhs":"returns the is_cyclic attribute","over":{"base":"Any"},"name":"is_cyclic_correct"},"guarantee":"returns the is_cyclic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47f28ba54300f625"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_cyclic","kind":"property","src_hash":"875a75807af9b79d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_cyclic()","rhs":"<unspecified:is_cyclic>","over":{"base":"Any"},"name":"is_cyclic_correct"},"guarantee":"returns the is_cyclic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"47f28ba54300f625","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._is_abelian","self._is_cyclic","self.generators","self.identity","self.is_abelian","self.order"],"writes":["self._is_abelian","self._is_cyclic"]},"state_contract":{"modifies":["self._is_abelian","self._is_cyclic"],"old_bindings":{"old_self__is_abelian":"self._is_abelian","old_self__is_cyclic":"self._is_cyclic"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_cyclic(self):
         r"""
         Return ``True`` if the group is Cyclic.
@@ -3994,16 +4458,23 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_dihedral(), returns the is_dihedral attribute) over Any ║
+# ║ Path(is_dihedral(), len(order_2) == old_len_order_2 + 1 and len(order_n) == old_len_order_n + 1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ is_dihedral : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  len(order_2) == old_len_order_2 + 1            ║
+# ║   ensures:  len(order_n) == old_len_order_n + 1            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ is_dihedral : Any → {Any | result satisfies: len(orde...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | dd0ca0611d46e89d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_dihedral","kind":"property","src_hash":"9a072405b9c493c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_dihedral()","rhs":"returns the is_dihedral attribute","over":{"base":"Any"},"name":"is_dihedral_correct"},"guarantee":"returns the is_dihedral attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd0ca0611d46e89d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.is_dihedral","kind":"property","src_hash":"9a072405b9c493c5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: len(order_2) == old_len_order_2 + 1 and len(order_n) == old_len_order_n + 1"},"spec":{"lhs":"is_dihedral()","rhs":"len(order_2) == old_len_order_2 + 1 and len(order_n) == old_len_order_n + 1","over":{"base":"Any"},"name":"is_dihedral_correct"},"guarantee":"len(order_2) == old_len_order_2 + 1; len(order_n) == old_len_order_n + 1","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"dd0ca0611d46e89d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["len(order_2) == old_len_order_2 + 1","len(order_n) == old_len_order_n + 1"],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._is_dihedral","self.elements","self.generators","self.is_abelian","self.is_cyclic","self.order"],"writes":["self._is_dihedral"],"calls_mutating":["order_2.append","order_n.append"]},"state_contract":{"modifies":["order_2.*","order_n.*","self._is_dihedral"],"old_bindings":{"old_self__is_dihedral":"self._is_dihedral","old_len_order_2":"len(order_2)","old_len_order_n":"len(order_n)"},"post_ensures":["len(order_2) == old_len_order_2 + 1","len(order_n) == old_len_order_n + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_dihedral(self):
         r"""
         Return ``True`` if the group is dihedral.
@@ -4101,16 +4572,23 @@ class PermutationGroup(Basic):
         return self._is_dihedral
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(pointwise_stabilizer(poi), return the pointwise stabilizer for a set of points) over Any ║
+# ║ Path(pointwise_stabilizer(points, incremental), <unspecified:pointwise_stabilizer>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   fiber[case_0]: incremental => PermutationGroup(stab...   ║
+# ║   fiber[case_1]: not (incremental)                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ pointwise_stabilizer : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fbc673e650a62c84  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5add208ce585c192  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.pointwise_stabilizer","kind":"method","src_hash":"faf720391852f230","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pointwise_stabilizer(poi)","rhs":"return the pointwise stabilizer for a set of points","over":{"base":"Any"},"name":"pointwise_stabilizer_correct"},"guarantee":"return the pointwise stabilizer for a set of points","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.pointwise_stabilizer_correct","statement":"Path(pointwise_stabilizer(x), return the pointwise stabilizer for a set of points)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fbc673e650a62c84"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.pointwise_stabilizer","kind":"method","src_hash":"faf720391852f230","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"pointwise_stabilizer(points, incremental)","rhs":"<unspecified:pointwise_stabilizer>","over":{"base":"Any"},"name":"pointwise_stabilizer_correct"},"guarantee":"2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.pointwise_stabilizer_correct","statement":"Path(pointwise_stabilizer(x), 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5add208ce585c192","spec_source":"static","formal_spec":{"source":"static","strength":"formal","fibers":[{"name":"case_0","guard":"incremental","ensures":["result == PermutationGroup(stab_gens)"],"decidability":"library","returns_expr":"PermutationGroup(stab_gens)"},{"name":"case_1","guard":"not (incremental)","ensures":[],"decidability":"library"}],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def pointwise_stabilizer(self, points, incremental=True):
         r"""Return the pointwise stabilizer for a set of points.
 
@@ -4165,16 +4643,22 @@ class PermutationGroup(Basic):
         return PermutationGroup(gens)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(make_perm(n, ), multiply ``n`` randomly selected permutations from pgroup together, starting with the identity permutation) over Any ║
+# ║ Path(make_perm(n, seed), <unspecified:make_perm>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ make_perm : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbc4b16a2c9ba508  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.make_perm","kind":"method","src_hash":"76cc40f62655c0e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_perm(n, )","rhs":"multiply ``n`` randomly selected permutations from pgroup together, starting with the identity permutation","over":{"base":"Any"},"name":"make_perm_correct"},"guarantee":"multiply ``n`` randomly selected permutations from pgroup together, starting with the identity permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.make_perm_correct","statement":"Path(make_perm(x), multiply ``n`` randomly selected permutations from pgroup together, starting with the identity permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbc4b16a2c9ba508"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.make_perm","kind":"method","src_hash":"76cc40f62655c0e9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"make_perm(n, seed)","rhs":"<unspecified:make_perm>","over":{"base":"Any"},"name":"make_perm_correct"},"guarantee":"multiply ``n`` randomly selected permutations from pgroup together, starting with the identity permutation","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.make_perm_correct","statement":"Path(make_perm(x), multiply ``n`` randomly selected permutations from pgroup together, starting with the identity permutation)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbc4b16a2c9ba508","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.degree"],"raises":["ValueError"],"catches":["TypeError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def make_perm(self, n, seed=None):
         """
         Multiply ``n`` randomly selected permutations from
@@ -4227,16 +4711,22 @@ class PermutationGroup(Basic):
         return result
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random(af), return a random group element) over Any   ║
+# ║ Path(random(af), self.coset_unrank(rank, af)) over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.coset_unrank(rank, af)                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ random : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6ffaa1efd9231521  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9b98fb8e86575157  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.random","kind":"method","src_hash":"f6b4ef355ef4e766","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random(af)","rhs":"return a random group element","over":{"base":"Any"},"name":"random_correct"},"guarantee":"return a random group element","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.random_correct","statement":"Path(random(x), return a random group element)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6ffaa1efd9231521"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.random","kind":"method","src_hash":"f6b4ef355ef4e766","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random(af)","rhs":"self.coset_unrank(rank, af)","over":{"base":"Any"},"name":"random_correct"},"guarantee":"returns self.coset_unrank(rank, af)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.random_correct","statement":"Path(random(x), returns self.coset_unrank(rank, af))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9b98fb8e86575157","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.coset_unrank(rank, af)","pure":false,"effects":{"effect_type":"nondeterministic","reads":["self.coset_unrank","self.order"],"nondeterministic_sources":["randrange"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def random(self, af=False):
         """Return a random group element
         """
@@ -4244,16 +4734,22 @@ class PermutationGroup(Basic):
         return self.coset_unrank(rank, af)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random_pr(gen), return a random group element using product replacement) over Any ║
+# ║ Path(random_pr(gen_count, iterations, _random_prec), _af_new(random_gens[r])) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _af_new(random_gens[r])                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ random_pr : Any → Any                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 909835ee7591f0b8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5a5d3400ad7e0a9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.random_pr","kind":"method","src_hash":"91ef7b32852e648e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_pr(gen)","rhs":"return a random group element using product replacement","over":{"base":"Any"},"name":"random_pr_correct"},"guarantee":"return a random group element using product replacement","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.random_pr_correct","statement":"Path(random_pr(x), return a random group element using product replacement)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"909835ee7591f0b8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.random_pr","kind":"method","src_hash":"91ef7b32852e648e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_pr(gen_count, iterations, _random_prec)","rhs":"_af_new(random_gens[r])","over":{"base":"Any"},"name":"random_pr_correct"},"guarantee":"returns _af_new(random_gens[r])","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.random_pr_correct","statement":"Path(random_pr(x), returns _af_new(random_gens[r]))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5a5d3400ad7e0a9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_af_new(random_gens[r])","pure":false,"effects":{"effect_type":"nondeterministic","reads":["self._random_gens","self._random_pr_init"],"nondeterministic_sources":["choice","randrange"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def random_pr(self, gen_count=11, iterations=50, _random_prec=None):
         """Return a random group element using product replacement.
 
@@ -4301,16 +4797,22 @@ class PermutationGroup(Basic):
         return _af_new(random_gens[r])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(random_stab(alp), random element from the stabilizer of ``alpha``) over Any ║
+# ║ Path(random_stab(alpha, schreier_vector, _random_prec), rmul(~h, rand)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  rmul(~h, rand)                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ random_stab : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f42752a11e1b12b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28b3501afba34063  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.random_stab","kind":"method","src_hash":"c9bb8be5418ef53e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_stab(alp)","rhs":"random element from the stabilizer of ``alpha``","over":{"base":"Any"},"name":"random_stab_correct"},"guarantee":"random element from the stabilizer of ``alpha``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.random_stab_correct","statement":"Path(random_stab(x), random element from the stabilizer of ``alpha``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f42752a11e1b12b0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.random_stab","kind":"method","src_hash":"c9bb8be5418ef53e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"random_stab(alpha, schreier_vector, _random_prec)","rhs":"rmul(~h, rand)","over":{"base":"Any"},"name":"random_stab_correct"},"guarantee":"returns rmul(~h, rand)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.random_stab_correct","statement":"Path(random_stab(x), returns rmul(~h, rand))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28b3501afba34063","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"rmul(~h, rand)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.orbit_rep","self.random_pr","self.schreier_vector"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def random_stab(self, alpha, schreier_vector=None, _random_prec=None):
         """Random element from the stabilizer of ``alpha``.
 
@@ -4334,16 +4836,22 @@ class PermutationGroup(Basic):
         return rmul(~h, rand)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(schreier_sims(), schreier-sims algorithm) over Any    ║
+# ║ Path(schreier_sims(), <unspecified:schreier_sims>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ schreier_sims : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9f12653cab1a7baa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_sims","kind":"method","src_hash":"8dab845dcc0cf86c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"schreier_sims()","rhs":"schreier-sims algorithm","over":{"base":"Any"},"name":"schreier_sims_correct"},"guarantee":"schreier-sims algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_sims_correct","statement":"Path(schreier_sims(x), schreier-sims algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f12653cab1a7baa"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_sims","kind":"method","src_hash":"8dab845dcc0cf86c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"schreier_sims()","rhs":"<unspecified:schreier_sims>","over":{"base":"Any"},"name":"schreier_sims_correct"},"guarantee":"schreier-sims algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_sims_correct","statement":"Path(schreier_sims(x), schreier-sims algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9f12653cab1a7baa","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._schreier_sims","self._transversals"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def schreier_sims(self):
         """Schreier-Sims algorithm.
 
@@ -4377,16 +4885,22 @@ class PermutationGroup(Basic):
         return
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_schreier_sims(bas), internal helper behaves correctly) over Any ║
+# ║ Path(_schreier_sims(base), <unspecified:_schreier_sims>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _schreier_sims : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 07eee4d3706cab33  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._schreier_sims","kind":"method","src_hash":"69e37068d097874b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_schreier_sims(bas)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_schreier_sims_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._schreier_sims_correct","statement":"Path(_schreier_sims(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07eee4d3706cab33"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._schreier_sims","kind":"method","src_hash":"69e37068d097874b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_schreier_sims(base)","rhs":"<unspecified:_schreier_sims>","over":{"base":"Any"},"name":"_schreier_sims_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._schreier_sims_correct","statement":"Path(_schreier_sims(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"07eee4d3706cab33","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self.schreier_sims_incremental"],"writes":["self._base","self._basic_orbits","self._strong_gens","self._strong_gens_slp","self._transversal_slp","self._transversals"]},"state_contract":{"modifies":["self._base","self._basic_orbits","self._strong_gens","self._strong_gens_slp","self._transversal_slp","self._transversals"],"old_bindings":{"old_self__base":"self._base","old_self__basic_orbits":"self._basic_orbits","old_self__strong_gens":"self._strong_gens","old_self__strong_gens_slp":"self._strong_gens_slp","old_self__transversal_slp":"self._transversal_slp","old_self__transversals":"self._transversals"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _schreier_sims(self, base=None):
         schreier = self.schreier_sims_incremental(base=base, slp_dict=True)
         base, strong_gens = schreier[:2]
@@ -4413,16 +4927,22 @@ class PermutationGroup(Basic):
         self._transversal_slp = slps
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(schreier_sims_incremental(bas), extend a sequence of points and generating set to a base and strong generating set) over Any ║
+# ║ Path(schreier_sims_incremental(base, gens, slp_dict), <unspecified:schreier_sims_incremental>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ schreier_sims_incremental : Any → Any                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c911bd9faa87da37  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_sims_incremental","kind":"method","src_hash":"c8f5fd346eb4684e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"schreier_sims_incremental(bas)","rhs":"extend a sequence of points and generating set to a base and strong generating set","over":{"base":"Any"},"name":"schreier_sims_incremental_correct"},"guarantee":"extend a sequence of points and generating set to a base and strong generating set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_sims_incremental_correct","statement":"Path(schreier_sims_incremental(x), extend a sequence of points and generating set to a base and strong generating set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c911bd9faa87da37"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_sims_incremental","kind":"method","src_hash":"c8f5fd346eb4684e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"schreier_sims_incremental(base, gens, slp_dict)","rhs":"<unspecified:schreier_sims_incremental>","over":{"base":"Any"},"name":"schreier_sims_incremental_correct"},"guarantee":"extend a sequence of points and generating set to a base and strong generating set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_sims_incremental_correct","statement":"Path(schreier_sims_incremental(x), extend a sequence of points and generating set to a base and strong generating set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c911bd9faa87da37","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def schreier_sims_incremental(self, base=None, gens=None, slp_dict=False):
         """Extend a sequence of points and generating set to a base and strong
         generating set.
@@ -4609,16 +5129,26 @@ class PermutationGroup(Basic):
         return _base, strong_gens
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(schreier_sims_random(bas), randomized schreier-sims algorithm) over Any ║
+# ║ Path(schreier_sims_random(base, gens, consec_succ), (base, strong_gens)) over {Any | hasattr(base, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ schreier_sims_random : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(base, 'append')                        ║
+# ║   ensures:  len(base) == old_len_base + 1                  ║
+# ║   ensures:  len(strong_gens) == old_len_strong_gens + 1    ║
+# ║   ensures:  len(strong_gens_distr) == old_len_strong_...   ║
+# ║   returns:  (base, strong_gens)                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ schreier_sims_random : {Any | hasattr(base, 'append')...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3c18faebf81fee10  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2976de5d2c9addff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_sims_random","kind":"method","src_hash":"fb6f47e783226f6e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"schreier_sims_random(bas)","rhs":"randomized schreier-sims algorithm","over":{"base":"Any"},"name":"schreier_sims_random_correct"},"guarantee":"randomized schreier-sims algorithm","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_sims_random_correct","statement":"Path(schreier_sims_random(x), randomized schreier-sims algorithm)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3c18faebf81fee10"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_sims_random","kind":"method","src_hash":"fb6f47e783226f6e","in":{"base":"Any","pred":"hasattr(base, 'append')"},"out":{"base":"Any","pred":"result satisfies: result == ((base, strong_gens))"},"spec":{"lhs":"schreier_sims_random(base, gens, consec_succ)","rhs":"(base, strong_gens)","over":{"base":"Any","pred":"hasattr(base, 'append')"},"name":"schreier_sims_random_correct"},"guarantee":"returns (base, strong_gens); len(base) == old_len_base + 1; len(strong_gens) == old_len_strong_gens + 1; len(strong_gens_distr) == old_len_strong_gens_distr + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_sims_random_correct","statement":"Path(schreier_sims_random(x), returns (base, strong_gens); len(base) == old_len_base + 1; len(strong_gens) == old_len_strong_gens + 1; len(strong_gens_distr) == old_len_strong_gens_distr + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2976de5d2c9addff","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(base, 'append')"],"ensures":["len(base) == old_len_base + 1","len(strong_gens) == old_len_strong_gens + 1","len(strong_gens_distr) == old_len_strong_gens_distr + 1"],"returns_expr":"(base, strong_gens)","pure":false,"effects":{"effect_type":"mutates_args","reads":["base.append","self.degree","self.generators","self.random_pr"],"calls_mutating":["base.append","strong_gens.append","strong_gens_distr.append"]},"state_contract":{"modifies":["base.*","strong_gens.*","strong_gens_distr.*"],"old_bindings":{"old_len_base":"len(base)","old_len_strong_gens":"len(strong_gens)","old_len_strong_gens_distr":"len(strong_gens_distr)"},"post_ensures":["len(base) == old_len_base + 1","len(strong_gens) == old_len_strong_gens + 1","len(strong_gens_distr) == old_len_strong_gens_distr + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def schreier_sims_random(self, base=None, gens=None, consec_succ=10,
                              _random_prec=None):
         r"""Randomized Schreier-Sims algorithm.
@@ -4752,16 +5282,22 @@ class PermutationGroup(Basic):
         return base, strong_gens
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(schreier_vector(alp), computes the schreier vector for ``alpha``) over Any ║
+# ║ Path(schreier_vector(alpha), <unspecified:schreier_vector>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ schreier_vector : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fe45ed1ba29b27e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_vector","kind":"method","src_hash":"f75d0e194fcbe18b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"schreier_vector(alp)","rhs":"computes the schreier vector for ``alpha``","over":{"base":"Any"},"name":"schreier_vector_correct"},"guarantee":"computes the schreier vector for ``alpha``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_vector_correct","statement":"Path(schreier_vector(x), computes the schreier vector for ``alpha``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fe45ed1ba29b27e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_vector","kind":"method","src_hash":"f75d0e194fcbe18b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"schreier_vector(alpha)","rhs":"<unspecified:schreier_vector>","over":{"base":"Any"},"name":"schreier_vector_correct"},"guarantee":"computes the schreier vector for ``alpha``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.schreier_vector_correct","statement":"Path(schreier_vector(x), computes the schreier vector for ``alpha``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fe45ed1ba29b27e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def schreier_vector(self, alpha):
         """Computes the schreier vector for ``alpha``.
 
@@ -4812,16 +5348,22 @@ class PermutationGroup(Basic):
         return v
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(stabilizer(alp), return the stabilizer subgroup of ``alpha``) over Any ║
+# ║ Path(stabilizer(alpha), PermGroup(_stabilizer(self._degree, self._generators, alpha))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PermGroup(_stabilizer(self._degree, self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ stabilizer : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 07c3a5c53eb1dc40           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.stabilizer","kind":"method","src_hash":"5c6b0fde748a5680","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stabilizer(alp)","rhs":"return the stabilizer subgroup of ``alpha``","over":{"base":"Any"},"name":"stabilizer_correct"},"guarantee":"return the stabilizer subgroup of ``alpha``","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07c3a5c53eb1dc40"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.stabilizer","kind":"method","src_hash":"5c6b0fde748a5680","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"stabilizer(alpha)","rhs":"PermGroup(_stabilizer(self._degree, self._generators, alpha))","over":{"base":"Any"},"name":"stabilizer_correct"},"guarantee":"returns PermGroup(_stabilizer(self._degree, self._generators, alpha))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"07c3a5c53eb1dc40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PermGroup(_stabilizer(self._degree, self._generators, alpha))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._degree","self._generators"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def stabilizer(self, alpha):
         r"""Return the stabilizer subgroup of ``alpha``.
 
@@ -4851,16 +5393,22 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(strong_gens(), returns the strong_gens attribute) over Any ║
+# ║ Path(strong_gens(), self._strong_gens) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._strong_gens                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ strong_gens : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5ba7ed7602961213           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.strong_gens","kind":"property","src_hash":"88a2cd01830f5886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strong_gens()","rhs":"returns the strong_gens attribute","over":{"base":"Any"},"name":"strong_gens_correct"},"guarantee":"returns the strong_gens attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ba7ed7602961213"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.strong_gens","kind":"property","src_hash":"88a2cd01830f5886","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strong_gens()","rhs":"self._strong_gens","over":{"base":"Any"},"name":"strong_gens_correct"},"guarantee":"returns self._strong_gens","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5ba7ed7602961213","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._strong_gens","pure":false,"effects":{"effect_type":"reads_state","reads":["self._strong_gens","self.schreier_sims"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def strong_gens(self):
         r"""Return a strong generating set from the Schreier-Sims algorithm.
 
@@ -4897,16 +5445,23 @@ class PermutationGroup(Basic):
         return self._strong_gens
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subgroup(gen), return the subgroup generated by `gens` which is a list of elements of the group) over Any ║
+# ║ Path(subgroup(gens), <unspecified:subgroup>) over {Any | all((g in self for g in gens))} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ subgroup : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: all((g in self for g in gens))                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ subgroup : {Any | all((g in self for g in gens))} → Any    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 68a7506488159311  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.subgroup","kind":"method","src_hash":"ccf972c273cc8b9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subgroup(gen)","rhs":"return the subgroup generated by `gens` which is a list of elements of the group","over":{"base":"Any"},"name":"subgroup_correct"},"guarantee":"return the subgroup generated by `gens` which is a list of elements of the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.subgroup_correct","statement":"Path(subgroup(x), return the subgroup generated by `gens` which is a list of elements of the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68a7506488159311"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.subgroup","kind":"method","src_hash":"ccf972c273cc8b9e","in":{"base":"Any","pred":"all((g in self for g in gens))"},"out":{"base":"Any"},"spec":{"lhs":"subgroup(gens)","rhs":"<unspecified:subgroup>","over":{"base":"Any","pred":"all((g in self for g in gens))"},"name":"subgroup_correct"},"guarantee":"return the subgroup generated by `gens` which is a list of elements of the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.subgroup_correct","statement":"Path(subgroup(x), return the subgroup generated by `gens` which is a list of elements of the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"68a7506488159311","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["all((g in self for g in gens))"],"pure":false,"effects":{"effect_type":"reads_state","raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subgroup(self, gens):
         """
            Return the subgroup generated by `gens` which is a list of
@@ -4920,16 +5475,25 @@ class PermutationGroup(Basic):
         return G
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(subgroup_search(pro), find the subgroup of all elements satisfying the property ``prop``) over Any ║
+# ║ Path(subgroup_search(prop, base, strong_gens), len(base_ordering) == old_len_base_ordering + 1 and len(res_generators) == old_len_res_generators + 1 and len(res_strong_gens) == old_len_res_strong_gens + 1 and len(temp_orbit) == old_len_temp_orbit and len(tests) == old_len_tests + 1) over {Any | hasattr(tests, 'append')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ subgroup_search : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(tests, 'append')                       ║
+# ║   ensures:  len(base_ordering) == old_len_base_orderi...   ║
+# ║   ensures:  len(res_generators) == old_len_res_genera...   ║
+# ║   ensures:  len(res_strong_gens) == old_len_res_stron...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ subgroup_search : {Any | hasattr(tests, 'append')} → ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0d8fdec6f19d5844  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a0935a1eb22ca25  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.subgroup_search","kind":"method","src_hash":"0603be969248fcda","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"subgroup_search(pro)","rhs":"find the subgroup of all elements satisfying the property ``prop``","over":{"base":"Any"},"name":"subgroup_search_correct"},"guarantee":"find the subgroup of all elements satisfying the property ``prop``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.subgroup_search_correct","statement":"Path(subgroup_search(x), find the subgroup of all elements satisfying the property ``prop``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0d8fdec6f19d5844"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.subgroup_search","kind":"method","src_hash":"0603be969248fcda","in":{"base":"Any","pred":"hasattr(tests, 'append')"},"out":{"base":"Any","pred":"result satisfies: len(base_ordering) == old_len_base_ordering + 1 and len(res_generators) == old_len_res_generators + 1 and len(res_strong_gens) == old_len_res_strong_gens + 1 and len(temp_orbit) == old_len_temp_orbit and len(tests) == old_len_tests + 1"},"spec":{"lhs":"subgroup_search(prop, base, strong_gens)","rhs":"len(base_ordering) == old_len_base_ordering + 1 and len(res_generators) == old_len_res_generators + 1 and len(res_strong_gens) == old_len_res_strong_gens + 1 and len(temp_orbit) == old_len_temp_orbit and len(tests) == old_len_tests + 1","over":{"base":"Any","pred":"hasattr(tests, 'append')"},"name":"subgroup_search_correct"},"guarantee":"len(base_ordering) == old_len_base_ordering + 1; len(res_generators) == old_len_res_generators + 1; len(res_strong_gens) == old_len_res_strong_gens + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.subgroup_search_correct","statement":"Path(subgroup_search(x), len(base_ordering) == old_len_base_ordering + 1; len(res_generators) == old_len_res_generators + 1; len(res_strong_gens) == old_len_res_strong_gens + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a0935a1eb22ca25","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(tests, 'append')"],"ensures":["len(base_ordering) == old_len_base_ordering + 1","len(res_generators) == old_len_res_generators + 1","len(res_strong_gens) == old_len_res_strong_gens + 1","len(temp_orbit) == old_len_temp_orbit","len(tests) == old_len_tests + 1"],"pure":false,"effects":{"effect_type":"mutates_args","reads":["self.degree","self.schreier_sims_incremental","tests.append"],"calls_mutating":["base_ordering.append","res_generators.append","res_strong_gens.append","temp_orbit.sort","tests.append"]},"state_contract":{"modifies":["base_ordering.*","res_generators.*","res_strong_gens.*","temp_orbit.*","tests.*"],"old_bindings":{"old_len_base_ordering":"len(base_ordering)","old_len_res_generators":"len(res_generators)","old_len_res_strong_gens":"len(res_strong_gens)","old_len_temp_orbit":"len(temp_orbit)","old_len_tests":"len(tests)"},"post_ensures":["len(base_ordering) == old_len_base_ordering + 1","len(res_generators) == old_len_res_generators + 1","len(res_strong_gens) == old_len_res_strong_gens + 1","len(temp_orbit) == old_len_temp_orbit","len(tests) == old_len_tests + 1"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def subgroup_search(self, prop, base=None, strong_gens=None, tests=None,
                         init_subgroup=None):
         """Find the subgroup of all elements satisfying the property ``prop``.
@@ -5185,16 +5749,25 @@ class PermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(transitivity_degree(), returns the transitivity_degree attribute) over Any ║
+# ║ Path(transitivity_degree(), result == (n if self._transitivity_degree is None else self._transitivity_degree) and result == n or result == self._transitivity_degree) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ transitivity_degree : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == (n if self._transitivity_degree...   ║
+# ║   ensures:  result == n or result == self._transitivi...   ║
+# ║   fiber[zero_or_none]: self._transitivity_degree is N...   ║
+# ║   fiber[zero_or_none]: not (self._transitivity_degree...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ transitivity_degree : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e2f0f4b9eba43bb7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.transitivity_degree","kind":"property","src_hash":"a3b9d5092cffe485","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"transitivity_degree()","rhs":"returns the transitivity_degree attribute","over":{"base":"Any"},"name":"transitivity_degree_correct"},"guarantee":"returns the transitivity_degree attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2f0f4b9eba43bb7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.transitivity_degree","kind":"property","src_hash":"a3b9d5092cffe485","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (n if self._transitivity_degree is None else self._transitivity_degree) and result == n or result == self._transitivity_degree"},"spec":{"lhs":"transitivity_degree()","rhs":"result == (n if self._transitivity_degree is None else self._transitivity_degree) and result == n or result == self._transitivity_degree","over":{"base":"Any"},"name":"transitivity_degree_correct"},"guarantee":"result == (n if self._transitivity_degree is None else self._transitivity_degree); result == n or result == self._transitivity_degree; 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e2f0f4b9eba43bb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == (n if self._transitivity_degree is None else self._transitivity_degree)","result == n or result == self._transitivity_degree"],"fibers":[{"name":"zero_or_none","guard":"self._transitivity_degree is None","ensures":["result == n"],"decidability":"structural","returns_expr":"n"},{"name":"zero_or_none","guard":"not (self._transitivity_degree is None)","ensures":["result == self._transitivity_degree"],"decidability":"structural","returns_expr":"self._transitivity_degree"}],"pure":false,"effects":{"effect_type":"mutates_self","reads":["self._transitivity_degree","self.degree"],"writes":["self._transitivity_degree"]},"state_contract":{"modifies":["self._transitivity_degree"],"old_bindings":{"old_self__transitivity_degree":"self._transitivity_degree"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def transitivity_degree(self):
         r"""Compute the degree of transitivity of the group.
 
@@ -5246,16 +5819,22 @@ class PermutationGroup(Basic):
             return self._transitivity_degree
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_p_elements_group(p), for an abelian p-group, return the subgroup consisting of all elements of order p (and the identity)) over Any ║
+# ║ Path(_p_elements_group(p), PermutationGroup(gens_r)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  PermutationGroup(gens_r)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _p_elements_group : Any → Any                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 91276ba4c6087e5b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 967b7890123642e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._p_elements_group","kind":"method","src_hash":"b8acf643dbd431f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_p_elements_group(p)","rhs":"for an abelian p-group, return the subgroup consisting of all elements of order p (and the identity)","over":{"base":"Any"},"name":"_p_elements_group_correct"},"guarantee":"for an abelian p-group, return the subgroup consisting of all elements of order p (and the identity)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._p_elements_group_correct","statement":"Path(_p_elements_group(x), for an abelian p-group, return the subgroup consisting of all elements of order p (and the identity))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"91276ba4c6087e5b"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._p_elements_group","kind":"method","src_hash":"b8acf643dbd431f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_p_elements_group(p)","rhs":"PermutationGroup(gens_r)","over":{"base":"Any"},"name":"_p_elements_group_correct"},"guarantee":"returns PermutationGroup(gens_r)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._p_elements_group_correct","statement":"Path(_p_elements_group(x), returns PermutationGroup(gens_r))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"967b7890123642e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"PermutationGroup(gens_r)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _p_elements_group(self, p):
         '''
         For an abelian p-group, return the subgroup consisting of
@@ -5295,16 +5874,22 @@ class PermutationGroup(Basic):
         return PermutationGroup(gens_r)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_sylow_alt_sym(p), return a p-sylow subgroup of a symmetric or an alternating group) over Any ║
+# ║ Path(_sylow_alt_sym(p), <unspecified:_sylow_alt_sym>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _sylow_alt_sym : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c8e80df16c37321  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._sylow_alt_sym","kind":"method","src_hash":"dd6690ffa414abad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sylow_alt_sym(p)","rhs":"return a p-sylow subgroup of a symmetric or an alternating group","over":{"base":"Any"},"name":"_sylow_alt_sym_correct"},"guarantee":"return a p-sylow subgroup of a symmetric or an alternating group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._sylow_alt_sym_correct","statement":"Path(_sylow_alt_sym(x), return a p-sylow subgroup of a symmetric or an alternating group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c8e80df16c37321"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._sylow_alt_sym","kind":"method","src_hash":"dd6690ffa414abad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_sylow_alt_sym(p)","rhs":"<unspecified:_sylow_alt_sym>","over":{"base":"Any"},"name":"_sylow_alt_sym_correct"},"guarantee":"return a p-sylow subgroup of a symmetric or an alternating group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._sylow_alt_sym_correct","statement":"Path(_sylow_alt_sym(x), return a p-sylow subgroup of a symmetric or an alternating group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c8e80df16c37321","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _sylow_alt_sym(self, p):
         '''
         Return a p-Sylow subgroup of a symmetric or an
@@ -5412,16 +5997,24 @@ class PermutationGroup(Basic):
         return gens
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(sylow_subgroup(p), return a p-sylow subgroup of the group) over Any ║
+# ║ Path(sylow_subgroup(p), len(orbits) == old_len_orbits - 1) over {Any | isprime(p) and len(orbits) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ sylow_subgroup : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isprime(p)                                     ║
+# ║   requires: len(orbits) > 0                                ║
+# ║   ensures:  len(orbits) == old_len_orbits - 1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ sylow_subgroup : {Any | isprime(p) and len(orbits) > ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d88269ed6e307f34  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c364c5c89b8bcbad  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.sylow_subgroup","kind":"method","src_hash":"8a6118e4a99c7444","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"sylow_subgroup(p)","rhs":"return a p-sylow subgroup of the group","over":{"base":"Any"},"name":"sylow_subgroup_correct"},"guarantee":"return a p-sylow subgroup of the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.sylow_subgroup_correct","statement":"Path(sylow_subgroup(x), return a p-sylow subgroup of the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d88269ed6e307f34"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.sylow_subgroup","kind":"method","src_hash":"8a6118e4a99c7444","in":{"base":"Any","pred":"isprime(p) and len(orbits) > 0"},"out":{"base":"Any","pred":"result satisfies: len(orbits) == old_len_orbits - 1"},"spec":{"lhs":"sylow_subgroup(p)","rhs":"len(orbits) == old_len_orbits - 1","over":{"base":"Any","pred":"isprime(p) and len(orbits) > 0"},"name":"sylow_subgroup_correct"},"guarantee":"len(orbits) == old_len_orbits - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.sylow_subgroup_correct","statement":"Path(sylow_subgroup(x), len(orbits) == old_len_orbits - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c364c5c89b8bcbad","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isprime(p)","len(orbits) > 0"],"ensures":["len(orbits) == old_len_orbits - 1"],"pure":false,"effects":{"effect_type":"nondeterministic","reads":["self._sylow_alt_sym","self.centralizer","self.identity","self.is_alt_sym","self.is_transitive","self.minimal_blocks","self.orbits","self.order","self.random","self.stabilizer"],"calls_mutating":["orbits.pop"],"raises":["ValueError"],"nondeterministic_sources":["P.random","self.random"]},"state_contract":{"modifies":["orbits.*"],"old_bindings":{"old_len_orbits":"len(orbits)"},"pre_requires":["len(orbits) > 0"],"post_ensures":["len(orbits) == old_len_orbits - 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def sylow_subgroup(self, p):
         '''
         Return a p-Sylow subgroup of the group.
@@ -5558,16 +6151,23 @@ class PermutationGroup(Basic):
         return C.sylow_subgroup(p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_block_verify(L, ), internal helper behaves correctly) over Any ║
+# ║ Path(_block_verify(L, alpha), <unspecified:_block_verify>) over {Any | hasattr(L, 'orbit_transversal')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _block_verify : Any → Any                                  ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(L, 'orbit_transversal')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _block_verify : {Any | hasattr(L, 'orbit_transversal'...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4e46583f8913fc6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._block_verify","kind":"method","src_hash":"d6a57a39eb593cf2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_block_verify(L, )","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_block_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._block_verify_correct","statement":"Path(_block_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4e46583f8913fc6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._block_verify","kind":"method","src_hash":"d6a57a39eb593cf2","in":{"base":"Any","pred":"hasattr(L, 'orbit_transversal')"},"out":{"base":"Any"},"spec":{"lhs":"_block_verify(L, alpha)","rhs":"<unspecified:_block_verify>","over":{"base":"Any","pred":"hasattr(L, 'orbit_transversal')"},"name":"_block_verify_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._block_verify_correct","statement":"Path(_block_verify(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4e46583f8913fc6","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(L, 'orbit_transversal')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _block_verify(self, L, alpha):
         delta = sorted(self.orbit(alpha))
         # p[i] will be the number of the block
@@ -5630,16 +6230,25 @@ class PermutationGroup(Basic):
         return True, blocks
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_verify(H, ), return a list of relators ``rels`` in generators ``gens`_h` that are mapped to ``h.generators`` by ``phi`` so that given a finite presentation <gens_k | rels_k> of ``k`` on a subset of ``gens_h`` <gen) over Any ║
+# ║ Path(_verify(H, K, phi), <unspecified:_verify>) over {Any | hasattr(H, 'orbit') and hasattr(K, 'stabilizer') and hasattr(K, 'orbit_transversal') and hasattr(phi, 'invert') and hasattr(H, 'identity') and hasattr(K, 'orbit') and hasattr(K, 'generator_product')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _verify : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(H, 'orbit')                            ║
+# ║   requires: hasattr(K, 'stabilizer')                       ║
+# ║   requires: hasattr(K, 'orbit_transversal')                ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _verify : {Any | hasattr(H, 'orbit') and hasattr(K, '...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6c1be13525e80114  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._verify","kind":"method","src_hash":"e766e30d06b465ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_verify(H, )","rhs":"return a list of relators ``rels`` in generators ``gens`_h` that are mapped to ``h.generators`` by ``phi`` so that given a finite presentation <gens_k | rels_k> of ``k`` on a subset of ``gens_h`` <gen","over":{"base":"Any"},"name":"_verify_correct"},"guarantee":"return a list of relators ``rels`` in generators ``gens`_h` that are mapped to ``h.generators`` by ``phi`` so that given a finite presentation <gens_k | rels_k> of ``k`` on a subset of ``gens_h`` <gen","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._verify_correct","statement":"Path(_verify(x), return a list of relators ``rels`` in generators ``gens`_h` that are mapped to ``h.generators`` by ``phi`` so that given a finite presentation <gens_k | rels_k> of ``k`` on a subset of ``gens_h`` <gen)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c1be13525e80114"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup._verify","kind":"method","src_hash":"e766e30d06b465ef","in":{"base":"Any","pred":"hasattr(H, 'orbit') and hasattr(K, 'stabilizer') and hasattr(K, 'orbit_transversal') and hasattr(phi, 'invert') and hasattr(H, 'identity') and hasattr(K, 'orbit') and hasattr(K, 'generator_product')"},"out":{"base":"Any"},"spec":{"lhs":"_verify(H, K, phi)","rhs":"<unspecified:_verify>","over":{"base":"Any","pred":"hasattr(H, 'orbit') and hasattr(K, 'stabilizer') and hasattr(K, 'orbit_transversal') and hasattr(phi, 'invert') and hasattr(H, 'identity') and hasattr(K, 'orbit') and hasattr(K, 'generator_product')"},"name":"_verify_correct"},"guarantee":"return a list of relators ``rels`` in generators ``gens`_h` that are mapped to ``h.generators`` by ``phi`` so that given a finite presentation <gens_k | rels_k> of ``k`` on a subset of ``gens_h`` <gen","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup._verify_correct","statement":"Path(_verify(x), return a list of relators ``rels`` in generators ``gens`_h` that are mapped to ``h.generators`` by ``phi`` so that given a finite presentation <gens_k | rels_k> of ``k`` on a subset of ``gens_h`` <gen)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6c1be13525e80114","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(H, 'orbit')","hasattr(K, 'stabilizer')","hasattr(K, 'orbit_transversal')","hasattr(phi, 'invert')","hasattr(H, 'identity')","hasattr(K, 'orbit')","hasattr(K, 'generator_product')"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _verify(H, K, phi, z, alpha):
         '''
         Return a list of relators ``rels`` in generators ``gens`_h` that
@@ -5759,16 +6368,22 @@ class PermutationGroup(Basic):
         return True, rels
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(strong_presentation(), return a strong finite presentation of group) over Any ║
+# ║ Path(strong_presentation(), simplify_presentation(group)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  simplify_presentation(group)                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ strong_presentation : Any → Any                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 15f8e576ff382b6c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a546fbbb36140c04  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.strong_presentation","kind":"method","src_hash":"a4bb9580bf88271c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strong_presentation()","rhs":"return a strong finite presentation of group","over":{"base":"Any"},"name":"strong_presentation_correct"},"guarantee":"return a strong finite presentation of group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.strong_presentation_correct","statement":"Path(strong_presentation(x), return a strong finite presentation of group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"15f8e576ff382b6c"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.strong_presentation","kind":"method","src_hash":"a4bb9580bf88271c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"strong_presentation()","rhs":"simplify_presentation(group)","over":{"base":"Any"},"name":"strong_presentation_correct"},"guarantee":"returns simplify_presentation(group)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.strong_presentation_correct","statement":"Path(strong_presentation(x), returns simplify_presentation(group))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a546fbbb36140c04","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"simplify_presentation(group)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def strong_presentation(self):
         '''
         Return a strong finite presentation of group. The generators
@@ -5892,16 +6507,22 @@ class PermutationGroup(Basic):
         return simplify_presentation(group)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(presentation(eli), return an `fpgroup` presentation of the group) over Any ║
+# ║ Path(presentation(eliminate_gens), <unspecified:presentation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ presentation : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb545a64e095790e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.presentation","kind":"method","src_hash":"ce4b8e082617730e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"presentation(eli)","rhs":"return an `fpgroup` presentation of the group","over":{"base":"Any"},"name":"presentation_correct"},"guarantee":"return an `fpgroup` presentation of the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.presentation_correct","statement":"Path(presentation(x), return an `fpgroup` presentation of the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb545a64e095790e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.presentation","kind":"method","src_hash":"ce4b8e082617730e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"presentation(eliminate_gens)","rhs":"<unspecified:presentation>","over":{"base":"Any"},"name":"presentation_correct"},"guarantee":"return an `fpgroup` presentation of the group","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.presentation_correct","statement":"Path(presentation(x), return an `fpgroup` presentation of the group)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb545a64e095790e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._fp_presentation","self.coset_table","self.generators","self.order"],"writes":["self._fp_presentation"],"calls_mutating":["rels.extend"]},"state_contract":{"modifies":["rels.*","self._fp_presentation"],"old_bindings":{"old_self__fp_presentation":"self._fp_presentation","old_len_rels":"len(rels)"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def presentation(self, eliminate_gens=True):
         '''
         Return an `FpGroup` presentation of the group.
@@ -6014,16 +6635,25 @@ class PermutationGroup(Basic):
         return self._fp_presentation
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(polycyclic_group(), return the polycyclicgroup instance with below parameters:) over Any ║
+# ║ Path(polycyclic_group(), PolycyclicGroup(pc_sequence, pc_series, relative_order, collector=None)) over {Any | self.is_polycyclic} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ polycyclic_group : Any → Any                               ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self.is_polycyclic                             ║
+# ║   ensures:  len(der) == old_len_der                        ║
+# ║   ensures:  len(pc_series) == old_len_pc_series + 1        ║
+# ║   returns:  PolycyclicGroup(pc_sequence, pc_series, r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ polycyclic_group : {Any | self.is_polycyclic} → {Any ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e758be8e4add20f2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 194f6c495d6f91db  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.polycyclic_group","kind":"method","src_hash":"913e155640e2a25e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"polycyclic_group()","rhs":"return the polycyclicgroup instance with below parameters:","over":{"base":"Any"},"name":"polycyclic_group_correct"},"guarantee":"return the polycyclicgroup instance with below parameters:","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.polycyclic_group_correct","statement":"Path(polycyclic_group(x), return the polycyclicgroup instance with below parameters:)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e758be8e4add20f2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.PermutationGroup.polycyclic_group","kind":"method","src_hash":"913e155640e2a25e","in":{"base":"Any","pred":"self.is_polycyclic"},"out":{"base":"Any","pred":"result satisfies: result == (PolycyclicGroup(pc_sequence, pc_series, relative_order, collector=None))"},"spec":{"lhs":"polycyclic_group()","rhs":"PolycyclicGroup(pc_sequence, pc_series, relative_order, collector=None)","over":{"base":"Any","pred":"self.is_polycyclic"},"name":"polycyclic_group_correct"},"guarantee":"returns PolycyclicGroup(pc_sequence, pc_series, relative_order, collector=None); len(der) == old_len_der; len(pc_series) == old_len_pc_series + 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.PermutationGroup.polycyclic_group_correct","statement":"Path(polycyclic_group(x), returns PolycyclicGroup(pc_sequence, pc_series, relative_order, collector=None); len(der) == old_len_der; len(pc_series) == old_len_pc_series + 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"194f6c495d6f91db","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self.is_polycyclic"],"ensures":["len(der) == old_len_der","len(pc_series) == old_len_pc_series + 1"],"returns_expr":"PolycyclicGroup(pc_sequence, pc_series, relative_order, collector=None)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.derived_series","self.is_polycyclic"],"calls_mutating":["der.reverse","pc_sequence.insert","pc_series.append","pc_series.insert","relative_order.insert"],"raises":["ValueError"]},"state_contract":{"modifies":["der.*","pc_sequence.*","pc_series.*","relative_order.*"],"old_bindings":{"old_len_der":"len(der)","old_len_pc_series":"len(pc_series)"},"post_ensures":["len(der) == old_len_der","len(pc_series) == old_len_pc_series + 1"],"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def polycyclic_group(self):
         """
         Return the PolycyclicGroup instance with below parameters:
@@ -6070,16 +6700,22 @@ class PermutationGroup(Basic):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_orbit(deg), compute the orbit of alpha `\{g(\alpha) | g \in g\}` as a set) over Any ║
+# ║ Path(_orbit(degree, generators, alpha), <unspecified:_orbit>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _orbit : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 84b65f2dc25e36f2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups._orbit","kind":"function","src_hash":"a977e5b6c398bef6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orbit(deg)","rhs":"compute the orbit of alpha `\\{g(\\alpha) | g \\in g\\}` as a set","over":{"base":"Any"},"name":"_orbit_correct"},"guarantee":"compute the orbit of alpha `\\{g(\\alpha) | g \\in g\\}` as a set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups._orbit_correct","statement":"Path(_orbit(x), compute the orbit of alpha `\\{g(\\alpha) | g \\in g\\}` as a set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84b65f2dc25e36f2"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups._orbit","kind":"function","src_hash":"a977e5b6c398bef6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orbit(degree, generators, alpha)","rhs":"<unspecified:_orbit>","over":{"base":"Any"},"name":"_orbit_correct"},"guarantee":"compute the orbit of alpha `\\{g(\\alpha) | g \\in g\\}` as a set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups._orbit_correct","statement":"Path(_orbit(x), compute the orbit of alpha `\\{g(\\alpha) | g \\in g\\}` as a set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"84b65f2dc25e36f2","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def _orbit(degree, generators, alpha, action='tuples'):
     r"""Compute the orbit of alpha `\{g(\alpha) | g \in G\}` as a set.
 
@@ -6158,16 +6794,22 @@ def _orbit(degree, generators, alpha, action='tuples'):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_orbits(deg), compute the orbits of g) over Any       ║
+# ║ Path(_orbits(degree, generators), <unspecified:_orbits>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _orbits : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c81b6b30c04aa667  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups._orbits","kind":"function","src_hash":"bc59a0f47004f969","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orbits(deg)","rhs":"compute the orbits of g","over":{"base":"Any"},"name":"_orbits_correct"},"guarantee":"compute the orbits of g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups._orbits_correct","statement":"Path(_orbits(x), compute the orbits of g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c81b6b30c04aa667"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups._orbits","kind":"function","src_hash":"bc59a0f47004f969","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orbits(degree, generators)","rhs":"<unspecified:_orbits>","over":{"base":"Any"},"name":"_orbits_correct"},"guarantee":"compute the orbits of g","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups._orbits_correct","statement":"Path(_orbits(x), compute the orbits of g)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c81b6b30c04aa667","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _orbits(degree, generators):
     """Compute the orbits of G.
 
@@ -6199,16 +6841,22 @@ def _orbits(degree, generators):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_orbit_transversal(deg), computes a transversal for the orbit of ``alpha`` as a set) over Any ║
+# ║ Path(_orbit_transversal(degree, generators, alpha), <unspecified:_orbit_transversal>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _orbit_transversal : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5baf32037831eab4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups._orbit_transversal","kind":"function","src_hash":"f61fe00fec1e8b4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orbit_transversal(deg)","rhs":"computes a transversal for the orbit of ``alpha`` as a set","over":{"base":"Any"},"name":"_orbit_transversal_correct"},"guarantee":"computes a transversal for the orbit of ``alpha`` as a set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups._orbit_transversal_correct","statement":"Path(_orbit_transversal(x), computes a transversal for the orbit of ``alpha`` as a set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5baf32037831eab4"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups._orbit_transversal","kind":"function","src_hash":"f61fe00fec1e8b4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_orbit_transversal(degree, generators, alpha)","rhs":"<unspecified:_orbit_transversal>","over":{"base":"Any"},"name":"_orbit_transversal_correct"},"guarantee":"computes a transversal for the orbit of ``alpha`` as a set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups._orbit_transversal_correct","statement":"Path(_orbit_transversal(x), computes a transversal for the orbit of ``alpha`` as a set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5baf32037831eab4","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _orbit_transversal(degree, generators, alpha, pairs, af=False, slp=False):
     r"""Computes a transversal for the orbit of ``alpha`` as a set.
 
@@ -6275,16 +6923,22 @@ def _orbit_transversal(degree, generators, alpha, pairs, af=False, slp=False):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_stabilizer(deg), return the stabilizer subgroup of ``alpha``) over Any ║
+# ║ Path(_stabilizer(degree, generators, alpha), [_af_new(x) for x in stab_gens]) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  [_af_new(x) for x in stab_gens]                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _stabilizer : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7960f1dcf9c6c328  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d0a49d302289f1b2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups._stabilizer","kind":"function","src_hash":"20bdadc541a3fcac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_stabilizer(deg)","rhs":"return the stabilizer subgroup of ``alpha``","over":{"base":"Any"},"name":"_stabilizer_correct"},"guarantee":"return the stabilizer subgroup of ``alpha``","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups._stabilizer_correct","statement":"Path(_stabilizer(x), return the stabilizer subgroup of ``alpha``)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7960f1dcf9c6c328"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups._stabilizer","kind":"function","src_hash":"20bdadc541a3fcac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_stabilizer(degree, generators, alpha)","rhs":"[_af_new(x) for x in stab_gens]","over":{"base":"Any"},"name":"_stabilizer_correct"},"guarantee":"returns [_af_new(x) for x in stab_gens]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups._stabilizer_correct","statement":"Path(_stabilizer(x), returns [_af_new(x) for x in stab_gens])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d0a49d302289f1b2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"[_af_new(x) for x in stab_gens]","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _stabilizer(degree, generators, alpha):
     r"""Return the stabilizer subgroup of ``alpha``.
 
@@ -6342,14 +6996,20 @@ PermGroup = PermutationGroup
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SymmetricPermutationGroup instance) preserved by SymmetricPermutationGroup(*args) over {Any | isinstance(i, Permutation)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SymmetricPermutationGroup : {Any | isinstance(i, Perm...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4cf7dcf57d98e7f0  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup","kind":"class","src_hash":"73437912abe9e5fd","in":{"base":"Any","pred":"isinstance(i, Permutation)"},"out":{"base":"Any"},"spec":{"lhs":"SymmetricPermutationGroup(*args)","rhs":"correctly constructs a SymmetricPermutationGroup instance","over":{"base":"Any","pred":"isinstance(i, Permutation)"},"name":"SymmetricPermutationGroup_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SymmetricPermutationGroup instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_deg') and hasattr(self, '_order')","kind":"class","induction":"structural on _deg, _order"}],"methods_preserving":["__init__","__contains__","order","degree","identity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cf7dcf57d98e7f0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup","kind":"class","src_hash":"73437912abe9e5fd","in":{"base":"Any","pred":"isinstance(i, Permutation)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"SymmetricPermutationGroup(*args)","rhs":"correctly constructs a SymmetricPermutationGroup instance","over":{"base":"Any","pred":"isinstance(i, Permutation)"},"name":"SymmetricPermutationGroup_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Basic); preserves 2 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_deg') and hasattr(self, '_order')","kind":"class","induction":"structural on _deg, _order"}],"methods_preserving":["__init__","__contains__","order","degree","identity"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4cf7dcf57d98e7f0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"],"invariants":["hasattr(self, '_deg')","hasattr(self, '_order')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":false,"binding_errors":["Function SymmetricPermutationGroup not found in source"]}}
 class SymmetricPermutationGroup(Basic):
     """
     The class defining the lazy form of SymmetricGroup.
@@ -6358,47 +7018,67 @@ class SymmetricPermutationGroup(Basic):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, deg), <unspecified:__new__>) over Any    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ad5e86a3a76022e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.__new__","kind":"method","src_hash":"75103f1973bcfbe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad5e86a3a76022e0"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.__new__","kind":"method","src_hash":"75103f1973bcfbe3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, deg)","rhs":"<unspecified:__new__>","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ad5e86a3a76022e0","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, deg):
         deg = _sympify(deg)
         obj = Basic.__new__(cls, deg)
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1106545eca2238c9           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.__init__","kind":"method","src_hash":"0e90969303aa801b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1106545eca2238c9"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.__init__","kind":"method","src_hash":"0e90969303aa801b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1106545eca2238c9","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
         self._deg = self.args[0]
         self._order = None
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__contains__(i), correctly tests membership) over Any ║
+# ║ Path(__contains__(i), i.size == self.degree) over {Any | isinstance(i, Permutation) and hasattr(i, 'size')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __contains__ : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(i, Permutation)                     ║
+# ║   requires: hasattr(i, 'size')                             ║
+# ║   returns:  i.size == self.degree                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __contains__ : {Any | isinstance(i, Permutation) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5420454bfddb49b6           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.__contains__","kind":"method","src_hash":"91d11a70157462a5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(i)","rhs":"correctly tests membership","over":{"base":"Any"},"name":"__contains___correct"},"guarantee":"correctly tests membership","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5420454bfddb49b6"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.__contains__","kind":"method","src_hash":"91d11a70157462a5","in":{"base":"Any","pred":"isinstance(i, Permutation) and hasattr(i, 'size')"},"out":{"base":"Any"},"spec":{"lhs":"__contains__(i)","rhs":"i.size == self.degree","over":{"base":"Any","pred":"isinstance(i, Permutation) and hasattr(i, 'size')"},"name":"__contains___correct"},"guarantee":"returns i.size == self.degree","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5420454bfddb49b6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(i, Permutation)","hasattr(i, 'size')"],"returns_expr":"i.size == self.degree","pure":false,"effects":{"effect_type":"reads_state","reads":["i.size","self.degree"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __contains__(self, i):
         """Return ``True`` if *i* is contained in SymmetricPermutationGroup.
 
@@ -6417,16 +7097,22 @@ class SymmetricPermutationGroup(Basic):
         return i.size == self.degree
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(order(), return the order of the symmetricpermutationgroup) over Any ║
+# ║ Path(order(), <unspecified:order>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ order : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ba25cfca434c5ddc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.order","kind":"method","src_hash":"26bb59c12177523e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"return the order of the symmetricpermutationgroup","over":{"base":"Any"},"name":"order_correct"},"guarantee":"return the order of the symmetricpermutationgroup","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.order_correct","statement":"Path(order(x), return the order of the symmetricpermutationgroup)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba25cfca434c5ddc"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.order","kind":"method","src_hash":"26bb59c12177523e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"order()","rhs":"<unspecified:order>","over":{"base":"Any"},"name":"order_correct"},"guarantee":"return the order of the symmetricpermutationgroup","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.order_correct","statement":"Path(order(x), return the order of the symmetricpermutationgroup)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ba25cfca434c5ddc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._deg","self._order"],"writes":["self._order"]},"state_contract":{"modifies":["self._order"],"old_bindings":{"old_self__order":"self._order"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def order(self):
         """
         Return the order of the SymmetricPermutationGroup.
@@ -6447,16 +7133,22 @@ class SymmetricPermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(degree(), returns the degree attribute) over Any      ║
+# ║ Path(degree(), self._deg) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._deg                                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ degree : Any → Any                                         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 850d152e646466ea           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.degree","kind":"property","src_hash":"560d9b54705954f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"degree()","rhs":"returns the degree attribute","over":{"base":"Any"},"name":"degree_correct"},"guarantee":"returns the degree attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"850d152e646466ea"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.degree","kind":"property","src_hash":"560d9b54705954f4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"degree()","rhs":"self._deg","over":{"base":"Any"},"name":"degree_correct"},"guarantee":"returns self._deg","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"850d152e646466ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._deg","pure":false,"effects":{"effect_type":"reads_state","reads":["self._deg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def degree(self):
         """
         Return the degree of the SymmetricPermutationGroup.
@@ -6474,16 +7166,22 @@ class SymmetricPermutationGroup(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(identity(), returns the identity attribute) over Any  ║
+# ║ Path(identity(), _af_new(list(range(self._deg)))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _af_new(list(range(self._deg)))                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ identity : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 57c763c30164bdd8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.identity","kind":"property","src_hash":"f989353835f33fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity()","rhs":"returns the identity attribute","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"returns the identity attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57c763c30164bdd8"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.SymmetricPermutationGroup.identity","kind":"property","src_hash":"f989353835f33fe2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"identity()","rhs":"_af_new(list(range(self._deg)))","over":{"base":"Any"},"name":"identity_correct"},"guarantee":"returns _af_new(list(range(self._deg)))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"57c763c30164bdd8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_af_new(list(range(self._deg)))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._deg"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def identity(self):
         '''
         Return the identity element of the SymmetricPermutationGroup.
@@ -6503,14 +7201,20 @@ class SymmetricPermutationGroup(Basic):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Coset instance) preserved by Coset(*args) over {Any | isinstance(dir, str) and isinstance(g, Permutation) and isinstance(H, PermutationGroup)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Basic)                        ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ Coset : {Any | isinstance(dir, str) and isinstance(g,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8bb443e3f6908099  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.Coset","kind":"class","src_hash":"ee0aa167c34105ba","in":{"base":"Any","pred":"isinstance(dir, str) and isinstance(g, Permutation) and isinstance(H, PermutationGroup)"},"out":{"base":"Any"},"spec":{"lhs":"Coset(*args)","rhs":"correctly constructs a Coset instance","over":{"base":"Any","pred":"isinstance(dir, str) and isinstance(g, Permutation) and isinstance(H, PermutationGroup)"},"name":"Coset_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Coset instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_left_coset","pred":"self.is_left_coset","kind":"class"},{"name":"is_right_coset","pred":"self.is_right_coset","kind":"class"},{"name":"representation","pred":"hasattr(self, '_dir')","kind":"class","induction":"structural on _dir"}],"methods_preserving":["__init__","is_left_coset","is_right_coset","as_list"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bb443e3f6908099"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.Coset","kind":"class","src_hash":"ee0aa167c34105ba","in":{"base":"Any","pred":"isinstance(dir, str) and isinstance(g, Permutation) and isinstance(H, PermutationGroup)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Basic)"},"spec":{"lhs":"Coset(*args)","rhs":"correctly constructs a Coset instance","over":{"base":"Any","pred":"isinstance(dir, str) and isinstance(g, Permutation) and isinstance(H, PermutationGroup)"},"name":"Coset_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Basic); preserves 1 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_left_coset","pred":"self.is_left_coset","kind":"class"},{"name":"is_right_coset","pred":"self.is_right_coset","kind":"class"},{"name":"representation","pred":"hasattr(self, '_dir')","kind":"class","induction":"structural on _dir"}],"methods_preserving":["__init__","is_left_coset","is_right_coset","as_list"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8bb443e3f6908099","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Basic)"],"invariants":["hasattr(self, '_dir')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":false,"binding_errors":["Function Coset not found in source"]}}
 class Coset(Basic):
     """A left coset of a permutation group with respect to an element.
 
@@ -6538,16 +7242,25 @@ class Coset(Basic):
     """
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, g, H), <unspecified:__new__>) over {Any | isinstance(g, Permutation) and isinstance(H, PermutationGroup) and hasattr(g, 'size') and hasattr(H, 'degree') and hasattr(H, 'is_subgroup')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __new__ : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(g, Permutation)                     ║
+# ║   requires: isinstance(H, PermutationGroup)                ║
+# ║   requires: hasattr(g, 'size')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __new__ : {Any | isinstance(g, Permutation) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 637795bae0d6796e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.Coset.__new__","kind":"method","src_hash":"2535da11e4602835","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"637795bae0d6796e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.Coset.__new__","kind":"method","src_hash":"2535da11e4602835","in":{"base":"Any","pred":"isinstance(g, Permutation) and isinstance(H, PermutationGroup) and hasattr(g, 'size') and hasattr(H, 'degree') and hasattr(H, 'is_subgroup')"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, g, H)","rhs":"<unspecified:__new__>","over":{"base":"Any","pred":"isinstance(g, Permutation) and isinstance(H, PermutationGroup) and hasattr(g, 'size') and hasattr(H, 'degree') and hasattr(H, 'is_subgroup')"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"637795bae0d6796e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(g, Permutation)","isinstance(H, PermutationGroup)","hasattr(g, 'size')","hasattr(H, 'degree')","hasattr(H, 'is_subgroup')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["H.degree","H.is_subgroup","g.size"],"raises":["NotImplementedError","TypeError","ValueError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"],"TypeError":["isinstance(raised, TypeError)"],"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, g, H, G=None, dir="+"):
         g = _sympify(g)
         if not isinstance(g, Permutation):
@@ -6586,31 +7299,43 @@ class Coset(Basic):
         return obj
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(*ar), initializes the instance correctly) over Any ║
+# ║ Path(__init__(*args, **kwargs), <unspecified:__init__>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __init__ : Any → Any                                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 603c4b572f504ba7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.Coset.__init__","kind":"method","src_hash":"51f8d6d5e70b23d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*ar)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"603c4b572f504ba7"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.Coset.__init__","kind":"method","src_hash":"51f8d6d5e70b23d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(*args, **kwargs)","rhs":"<unspecified:__init__>","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"603c4b572f504ba7","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, *args, **kwargs):
         self._dir = self.args[3]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_left_coset(), returns the is_left_coset attribute) over Any ║
+# ║ Path(is_left_coset(), str(self._dir) == '-') over Any      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self._dir) == '-'                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_left_coset : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f5f0140ad1704d4d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.Coset.is_left_coset","kind":"property","src_hash":"e618bf81b8edfc64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_left_coset()","rhs":"returns the is_left_coset attribute","over":{"base":"Any"},"name":"is_left_coset_correct"},"guarantee":"returns the is_left_coset attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5f0140ad1704d4d"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.Coset.is_left_coset","kind":"property","src_hash":"e618bf81b8edfc64","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_left_coset()","rhs":"str(self._dir) == '-'","over":{"base":"Any"},"name":"is_left_coset_correct"},"guarantee":"returns str(self._dir) == '-'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f5f0140ad1704d4d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self._dir) == '-'","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dir"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_left_coset(self):
         """
         Check if the coset is left coset that is ``gH``.
@@ -6631,16 +7356,22 @@ class Coset(Basic):
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_right_coset(), returns the is_right_coset attribute) over Any ║
+# ║ Path(is_right_coset(), str(self._dir) == '+') over Any     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  str(self._dir) == '+'                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_right_coset : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8620ccccb28261e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.Coset.is_right_coset","kind":"property","src_hash":"f8d332850fdb968a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_right_coset()","rhs":"returns the is_right_coset attribute","over":{"base":"Any"},"name":"is_right_coset_correct"},"guarantee":"returns the is_right_coset attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8620ccccb28261e"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.Coset.is_right_coset","kind":"property","src_hash":"f8d332850fdb968a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_right_coset()","rhs":"str(self._dir) == '+'","over":{"base":"Any"},"name":"is_right_coset_correct"},"guarantee":"returns str(self._dir) == '+'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8620ccccb28261e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"str(self._dir) == '+'","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dir"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_right_coset(self):
         """
         Check if the coset is right coset that is ``Hg``.
@@ -6660,16 +7391,22 @@ class Coset(Basic):
         return str(self._dir) == '+'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(as_list(), return all the elements of coset in the form of list) over Any ║
+# ║ Path(as_list(), <unspecified:as_list>) over Any            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ as_list : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1f88bdc3108b7753  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.Coset.as_list","kind":"method","src_hash":"6b3cddea156a6299","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_list()","rhs":"return all the elements of coset in the form of list","over":{"base":"Any"},"name":"as_list_correct"},"guarantee":"return all the elements of coset in the form of list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.Coset.as_list_correct","statement":"Path(as_list(x), return all the elements of coset in the form of list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f88bdc3108b7753"}
+# @cctt_verify {"v":2,"sym":"sympy.combinatorics.perm_groups.Coset.as_list","kind":"method","src_hash":"6b3cddea156a6299","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"as_list()","rhs":"<unspecified:as_list>","over":{"base":"Any"},"name":"as_list_correct"},"guarantee":"return all the elements of coset in the form of list","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.combinatorics.perm_groups.Coset.as_list_correct","statement":"Path(as_list(x), return all the elements of coset in the form of list)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1f88bdc3108b7753","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def as_list(self):
         """
         Return all the elements of coset in the form of list.

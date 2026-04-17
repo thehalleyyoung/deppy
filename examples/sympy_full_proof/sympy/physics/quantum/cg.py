@@ -55,14 +55,20 @@ __all__ = [
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Wigner3j instance) preserved by Wigner3j(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Wigner3j : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Wigner3j : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a953b6fcbff13513  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j","kind":"class","src_hash":"4e430f8566471b4d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Wigner3j(*args)","rhs":"correctly constructs a Wigner3j instance","over":{"base":"Any"},"name":"Wigner3j_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Wigner3j instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["j1","m1","j2","m2","j3","m3","is_symbolic","_pretty","_latex","doit"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a953b6fcbff13513"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j","kind":"class","src_hash":"4e430f8566471b4d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Wigner3j(*args)","rhs":"correctly constructs a Wigner3j instance","over":{"base":"Any"},"name":"Wigner3j_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["j1","m1","j2","m2","j3","m3","is_symbolic","_pretty","_latex","doit"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a953b6fcbff13513","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Wigner3j not found in source"]}}
 class Wigner3j(Expr):
     """Class for the Wigner-3j symbols.
 
@@ -107,137 +113,192 @@ class Wigner3j(Expr):
     is_commutative = True
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, j1, m1), Expr.__new__(cls, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Expr.__new__(cls, *args)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e65e44b8b46c3310           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.__new__","kind":"method","src_hash":"8f2afaec1d2a668d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e65e44b8b46c3310"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.__new__","kind":"method","src_hash":"8f2afaec1d2a668d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, j1, m1)","rhs":"Expr.__new__(cls, *args)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Expr.__new__(cls, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e65e44b8b46c3310","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Expr.__new__(cls, *args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, j1, m1, j2, m2, j3, m3):
         args = map(sympify, (j1, m1, j2, m2, j3, m3))
         return Expr.__new__(cls, *args)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j1(), returns the j1 attribute) over Any              ║
+# ║ Path(j1(), self.args[0]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j1 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 89a3d8342f7de570           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.j1","kind":"property","src_hash":"eb7cadd83af6bfc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j1()","rhs":"returns the j1 attribute","over":{"base":"Any"},"name":"j1_correct"},"guarantee":"returns the j1 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89a3d8342f7de570"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.j1","kind":"property","src_hash":"eb7cadd83af6bfc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j1()","rhs":"self.args[0]","over":{"base":"Any"},"name":"j1_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"89a3d8342f7de570","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j1(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(m1(), returns the m1 attribute) over Any              ║
+# ║ Path(m1(), self.args[1]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ m1 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b23fdb5a6ff03088           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.m1","kind":"property","src_hash":"5845be4cec6d52d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"m1()","rhs":"returns the m1 attribute","over":{"base":"Any"},"name":"m1_correct"},"guarantee":"returns the m1 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b23fdb5a6ff03088"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.m1","kind":"property","src_hash":"5845be4cec6d52d2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"m1()","rhs":"self.args[1]","over":{"base":"Any"},"name":"m1_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b23fdb5a6ff03088","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def m1(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j2(), returns the j2 attribute) over Any              ║
+# ║ Path(j2(), self.args[2]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j2 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | caf621e50021aed8           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.j2","kind":"property","src_hash":"4cce08713ec47aba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j2()","rhs":"returns the j2 attribute","over":{"base":"Any"},"name":"j2_correct"},"guarantee":"returns the j2 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"caf621e50021aed8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.j2","kind":"property","src_hash":"4cce08713ec47aba","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j2()","rhs":"self.args[2]","over":{"base":"Any"},"name":"j2_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"caf621e50021aed8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j2(self):
         return self.args[2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(m2(), returns the m2 attribute) over Any              ║
+# ║ Path(m2(), self.args[3]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[3]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ m2 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c79701966f06d56d           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.m2","kind":"property","src_hash":"c97efa24261aed9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"m2()","rhs":"returns the m2 attribute","over":{"base":"Any"},"name":"m2_correct"},"guarantee":"returns the m2 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c79701966f06d56d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.m2","kind":"property","src_hash":"c97efa24261aed9e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"m2()","rhs":"self.args[3]","over":{"base":"Any"},"name":"m2_correct"},"guarantee":"returns self.args[3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c79701966f06d56d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def m2(self):
         return self.args[3]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j3(), returns the j3 attribute) over Any              ║
+# ║ Path(j3(), self.args[4]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[4]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j3 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c8363f23798de9e0           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.j3","kind":"property","src_hash":"27290521b0b1db29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j3()","rhs":"returns the j3 attribute","over":{"base":"Any"},"name":"j3_correct"},"guarantee":"returns the j3 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8363f23798de9e0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.j3","kind":"property","src_hash":"27290521b0b1db29","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j3()","rhs":"self.args[4]","over":{"base":"Any"},"name":"j3_correct"},"guarantee":"returns self.args[4]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c8363f23798de9e0","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[4]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j3(self):
         return self.args[4]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(m3(), returns the m3 attribute) over Any              ║
+# ║ Path(m3(), self.args[5]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[5]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ m3 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 256a98fae4fc23fa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.m3","kind":"property","src_hash":"a0f0c870bb4ff261","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"m3()","rhs":"returns the m3 attribute","over":{"base":"Any"},"name":"m3_correct"},"guarantee":"returns the m3 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"256a98fae4fc23fa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.m3","kind":"property","src_hash":"a0f0c870bb4ff261","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"m3()","rhs":"self.args[5]","over":{"base":"Any"},"name":"m3_correct"},"guarantee":"returns self.args[5]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"256a98fae4fc23fa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[5]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def m3(self):
         return self.args[5]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_symbolic(), returns the is_symbolic attribute) over Any ║
+# ║ Path(is_symbolic(), not all((arg.is_number for arg in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not all((arg.is_number for arg in self.ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_symbolic : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2b57da8cd5167cb7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.is_symbolic","kind":"property","src_hash":"8066433ca79ae52e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"returns the is_symbolic attribute","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns the is_symbolic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b57da8cd5167cb7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.is_symbolic","kind":"property","src_hash":"8066433ca79ae52e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"not all((arg.is_number for arg in self.args))","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns not all((arg.is_number for arg in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2b57da8cd5167cb7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not all((arg.is_number for arg in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_symbolic(self):
         return not all(arg.is_number for arg in self.args)
 
     # This is modified from the _print_Matrix method
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), <unspecified:_pretty>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pretty : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pretty : {Any | hasattr(printer, '_print')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1668b3d0010ec07  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j._pretty","kind":"method","src_hash":"172723f3065b7946","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner3j._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1668b3d0010ec07"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j._pretty","kind":"method","src_hash":"172723f3065b7946","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"<unspecified:_pretty>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner3j._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1668b3d0010ec07","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.j1","self.j2","self.j3","self.m1","self.m2","self.m3"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         m = ((printer._print(self.j1), printer._print(self.m1)),
             (printer._print(self.j2), printer._print(self.m2)),
@@ -274,16 +335,23 @@ class Wigner3j(Expr):
         return D
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), '\\left(\\begin{array}{ccc} %s & %s & %s \\\\ %s & %s & %s \\end{array}\\right)' % tuple(label)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '\\left(\\begin{array}{ccc} %s & %s & %s ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0a01fc71b553a8a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0554aff543546ae6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j._latex","kind":"method","src_hash":"e59a4fca5d7cd76c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner3j._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0a01fc71b553a8a2"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j._latex","kind":"method","src_hash":"e59a4fca5d7cd76c","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"'\\\\left(\\\\begin{array}{ccc} %s & %s & %s \\\\\\\\ %s & %s & %s \\\\end{array}\\\\right)' % tuple(label)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns '\\\\left(\\\\begin{array}{ccc} %s & %s & %s \\\\\\\\ %s & %s & %s \\\\end{array}\\\\right)' % tuple(label)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner3j._latex_correct","statement":"Path(_latex(x), returns '\\\\left(\\\\begin{array}{ccc} %s & %s & %s \\\\\\\\ %s & %s & %s \\\\end{array}\\\\right)' % tuple(label))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0554aff543546ae6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'\\\\left(\\\\begin{array}{ccc} %s & %s & %s \\\\\\\\ %s & %s & %s \\\\end{array}\\\\right)' % tuple(label)","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.j1","self.j2","self.j3","self.m1","self.m2","self.m3"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         label = map(printer._print, (self.j1, self.j2, self.j3,
                     self.m1, self.m2, self.m3))
@@ -291,16 +359,23 @@ class Wigner3j(Expr):
             tuple(label)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), wigner_3j(self.j1, self.j2, self.j3, self.m1, self.m2, self.m3)) over {Any | not (self.is_symbolic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doit : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.is_symbolic)                         ║
+# ║   returns:  wigner_3j(self.j1, self.j2, self.j3, self...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doit : {Any | not (self.is_symbolic)} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 496cbef71e49ff11  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 33dc68d31cfcea3a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.doit","kind":"method","src_hash":"1753b2335d1c3257","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner3j.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"496cbef71e49ff11"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner3j.doit","kind":"method","src_hash":"1753b2335d1c3257","in":{"base":"Any","pred":"not (self.is_symbolic)"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"wigner_3j(self.j1, self.j2, self.j3, self.m1, self.m2, self.m3)","over":{"base":"Any","pred":"not (self.is_symbolic)"},"name":"doit_correct"},"guarantee":"returns wigner_3j(self.j1, self.j2, self.j3, self.m1, self.m2, self.m3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner3j.doit_correct","statement":"Path(doit(x), returns wigner_3j(self.j1, self.j2, self.j3, self.m1, self.m2, self.m3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"33dc68d31cfcea3a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.is_symbolic)"],"returns_expr":"wigner_3j(self.j1, self.j2, self.j3, self.m1, self.m2, self.m3)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_symbolic","self.j1","self.j2","self.j3","self.m1","self.m2","self.m3"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         if self.is_symbolic:
             raise ValueError("Coefficients must be numerical")
@@ -310,14 +385,20 @@ class Wigner3j(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Path(CG(*args), correctly constructs a CG instance) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ CG : Any → Any                                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Wigner3j)                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ CG : Any → {Any | result satisfies: isinstance(self, ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 579cc19e49bad593  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.CG","kind":"class","src_hash":"8b5de8839ca87322","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"CG(*args)","rhs":"correctly constructs a CG instance","over":{"base":"Any"},"name":"CG_class_invariant"},"guarantee":"correctly constructs a CG instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"579cc19e49bad593"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.CG","kind":"class","src_hash":"8b5de8839ca87322","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Wigner3j)"},"spec":{"lhs":"CG(*args)","rhs":"correctly constructs a CG instance","over":{"base":"Any"},"name":"CG_class_invariant"},"guarantee":"isinstance(self, Wigner3j)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"579cc19e49bad593","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Wigner3j)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":false,"binding_errors":["Function CG not found in source"]}}
 class CG(Wigner3j):
     r"""Class for Clebsch-Gordan coefficient.
 
@@ -376,32 +457,46 @@ class CG(Wigner3j):
     precedence = PRECEDENCE["Pow"] - 1
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), clebsch_gordan(self.j1, self.j2, self.j3, self.m1, self.m2, self.m3)) over {Any | not (self.is_symbolic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doit : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.is_symbolic)                         ║
+# ║   returns:  clebsch_gordan(self.j1, self.j2, self.j3,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doit : {Any | not (self.is_symbolic)} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96ef52314e747197  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1551858d6a4b093c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.CG.doit","kind":"method","src_hash":"2cdd121497e14edc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.CG.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96ef52314e747197"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.CG.doit","kind":"method","src_hash":"2cdd121497e14edc","in":{"base":"Any","pred":"not (self.is_symbolic)"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"clebsch_gordan(self.j1, self.j2, self.j3, self.m1, self.m2, self.m3)","over":{"base":"Any","pred":"not (self.is_symbolic)"},"name":"doit_correct"},"guarantee":"returns clebsch_gordan(self.j1, self.j2, self.j3, self.m1, self.m2, self.m3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.CG.doit_correct","statement":"Path(doit(x), returns clebsch_gordan(self.j1, self.j2, self.j3, self.m1, self.m2, self.m3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1551858d6a4b093c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.is_symbolic)"],"returns_expr":"clebsch_gordan(self.j1, self.j2, self.j3, self.m1, self.m2, self.m3)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_symbolic","self.j1","self.j2","self.j3","self.m1","self.m2","self.m3"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         if self.is_symbolic:
             raise ValueError("Coefficients must be numerical")
         return clebsch_gordan(self.j1, self.j2, self.j3, self.m1, self.m2, self.m3)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), <unspecified:_pretty>) over {Any | hasattr(printer, '_print_seq')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pretty : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print_seq')                 ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pretty : {Any | hasattr(printer, '_print_seq')} → Any     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9e36f55ea810d084  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.CG._pretty","kind":"method","src_hash":"c913f59168a82468","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.CG._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e36f55ea810d084"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.CG._pretty","kind":"method","src_hash":"c913f59168a82468","in":{"base":"Any","pred":"hasattr(printer, '_print_seq')"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"<unspecified:_pretty>","over":{"base":"Any","pred":"hasattr(printer, '_print_seq')"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.CG._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9e36f55ea810d084","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print_seq')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print_seq","self.j1","self.j2","self.j3","self.m1","self.m2","self.m3"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         bot = printer._print_seq(
             (self.j1, self.m1, self.j2, self.m2), delimiter=',')
@@ -421,16 +516,23 @@ class CG(Wigner3j):
         return s
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), 'C^{%s,%s}_{%s,%s,%s,%s}' % tuple(label)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  'C^{%s,%s}_{%s,%s,%s,%s}' % tuple(label)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc3c72b819319d58  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a81cc0bc1710bf6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.CG._latex","kind":"method","src_hash":"696d5f0a51589648","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.CG._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc3c72b819319d58"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.CG._latex","kind":"method","src_hash":"696d5f0a51589648","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"'C^{%s,%s}_{%s,%s,%s,%s}' % tuple(label)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns 'C^{%s,%s}_{%s,%s,%s,%s}' % tuple(label)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.CG._latex_correct","statement":"Path(_latex(x), returns 'C^{%s,%s}_{%s,%s,%s,%s}' % tuple(label))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a81cc0bc1710bf6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'C^{%s,%s}_{%s,%s,%s,%s}' % tuple(label)","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.j1","self.j2","self.j3","self.m1","self.m2","self.m3"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         label = map(printer._print, (self.j3, self.m3, self.j1,
                     self.m1, self.j2, self.m2))
@@ -440,14 +542,20 @@ class CG(Wigner3j):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Wigner6j instance) preserved by Wigner6j(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Wigner6j : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Wigner6j : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9c3b85dc7251bc74  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j","kind":"class","src_hash":"7f6b0755123a97bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Wigner6j(*args)","rhs":"correctly constructs a Wigner6j instance","over":{"base":"Any"},"name":"Wigner6j_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Wigner6j instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["j1","j2","j12","j3","j","j23","is_symbolic","_pretty","_latex","doit"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c3b85dc7251bc74"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j","kind":"class","src_hash":"7f6b0755123a97bc","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Wigner6j(*args)","rhs":"correctly constructs a Wigner6j instance","over":{"base":"Any"},"name":"Wigner6j_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["j1","j2","j12","j3","j","j23","is_symbolic","_pretty","_latex","doit"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9c3b85dc7251bc74","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":false,"binding_errors":["Function Wigner6j not found in source"]}}
 class Wigner6j(Expr):
     """Class for the Wigner-6j symbols
 
@@ -458,137 +566,192 @@ class Wigner6j(Expr):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, j1, j2), Expr.__new__(cls, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Expr.__new__(cls, *args)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5a717718c7aad18e           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.__new__","kind":"method","src_hash":"5ec25622a3bda0ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a717718c7aad18e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.__new__","kind":"method","src_hash":"5ec25622a3bda0ab","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, j1, j2)","rhs":"Expr.__new__(cls, *args)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Expr.__new__(cls, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5a717718c7aad18e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Expr.__new__(cls, *args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, j1, j2, j12, j3, j, j23):
         args = map(sympify, (j1, j2, j12, j3, j, j23))
         return Expr.__new__(cls, *args)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j1(), returns the j1 attribute) over Any              ║
+# ║ Path(j1(), self.args[0]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j1 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | c56109187e195cd7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.j1","kind":"property","src_hash":"eb7cadd83af6bfc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j1()","rhs":"returns the j1 attribute","over":{"base":"Any"},"name":"j1_correct"},"guarantee":"returns the j1 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c56109187e195cd7"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.j1","kind":"property","src_hash":"eb7cadd83af6bfc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j1()","rhs":"self.args[0]","over":{"base":"Any"},"name":"j1_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"c56109187e195cd7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j1(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j2(), returns the j2 attribute) over Any              ║
+# ║ Path(j2(), self.args[1]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j2 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2694e10174f129aa           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.j2","kind":"property","src_hash":"027c49f94a9ab754","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j2()","rhs":"returns the j2 attribute","over":{"base":"Any"},"name":"j2_correct"},"guarantee":"returns the j2 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2694e10174f129aa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.j2","kind":"property","src_hash":"027c49f94a9ab754","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j2()","rhs":"self.args[1]","over":{"base":"Any"},"name":"j2_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2694e10174f129aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j2(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j12(), returns the j12 attribute) over Any            ║
+# ║ Path(j12(), self.args[2]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j12 : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 197e37ebe003bead           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.j12","kind":"property","src_hash":"d33422c6c3f80639","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j12()","rhs":"returns the j12 attribute","over":{"base":"Any"},"name":"j12_correct"},"guarantee":"returns the j12 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"197e37ebe003bead"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.j12","kind":"property","src_hash":"d33422c6c3f80639","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j12()","rhs":"self.args[2]","over":{"base":"Any"},"name":"j12_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"197e37ebe003bead","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j12(self):
         return self.args[2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j3(), returns the j3 attribute) over Any              ║
+# ║ Path(j3(), self.args[3]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[3]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j3 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cc83608a6123232c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.j3","kind":"property","src_hash":"a58fd840f219c8f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j3()","rhs":"returns the j3 attribute","over":{"base":"Any"},"name":"j3_correct"},"guarantee":"returns the j3 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc83608a6123232c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.j3","kind":"property","src_hash":"a58fd840f219c8f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j3()","rhs":"self.args[3]","over":{"base":"Any"},"name":"j3_correct"},"guarantee":"returns self.args[3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cc83608a6123232c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j3(self):
         return self.args[3]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j(), returns the j attribute) over Any                ║
+# ║ Path(j(), self.args[4]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[4]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2da8be98fcdd5d40           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.j","kind":"property","src_hash":"b38b170204119925","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j()","rhs":"returns the j attribute","over":{"base":"Any"},"name":"j_correct"},"guarantee":"returns the j attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2da8be98fcdd5d40"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.j","kind":"property","src_hash":"b38b170204119925","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j()","rhs":"self.args[4]","over":{"base":"Any"},"name":"j_correct"},"guarantee":"returns self.args[4]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2da8be98fcdd5d40","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[4]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j(self):
         return self.args[4]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j23(), returns the j23 attribute) over Any            ║
+# ║ Path(j23(), self.args[5]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[5]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j23 : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1897f86d25e7f75c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.j23","kind":"property","src_hash":"c99524a9f6010422","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j23()","rhs":"returns the j23 attribute","over":{"base":"Any"},"name":"j23_correct"},"guarantee":"returns the j23 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1897f86d25e7f75c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.j23","kind":"property","src_hash":"c99524a9f6010422","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j23()","rhs":"self.args[5]","over":{"base":"Any"},"name":"j23_correct"},"guarantee":"returns self.args[5]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1897f86d25e7f75c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[5]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j23(self):
         return self.args[5]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_symbolic(), returns the is_symbolic attribute) over Any ║
+# ║ Path(is_symbolic(), not all((arg.is_number for arg in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not all((arg.is_number for arg in self.ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_symbolic : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | ca34437ba81076cc           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.is_symbolic","kind":"property","src_hash":"8066433ca79ae52e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"returns the is_symbolic attribute","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns the is_symbolic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca34437ba81076cc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.is_symbolic","kind":"property","src_hash":"8066433ca79ae52e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"not all((arg.is_number for arg in self.args))","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns not all((arg.is_number for arg in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"ca34437ba81076cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not all((arg.is_number for arg in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_symbolic(self):
         return not all(arg.is_number for arg in self.args)
 
     # This is modified from the _print_Matrix method
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), <unspecified:_pretty>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pretty : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pretty : {Any | hasattr(printer, '_print')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0b5b17f84eb764fc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j._pretty","kind":"method","src_hash":"520e8d285081d3a9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner6j._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b5b17f84eb764fc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j._pretty","kind":"method","src_hash":"520e8d285081d3a9","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"<unspecified:_pretty>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner6j._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0b5b17f84eb764fc","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.j","self.j1","self.j12","self.j2","self.j23","self.j3"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         m = ((printer._print(self.j1), printer._print(self.j3)),
             (printer._print(self.j2), printer._print(self.j)),
@@ -625,16 +788,23 @@ class Wigner6j(Expr):
         return D
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), '\\left\\{\\begin{array}{ccc} %s & %s & %s \\\\ %s & %s & %s \\end{array}\\right\\}' % tuple(label)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '\\left\\{\\begin{array}{ccc} %s & %s & %...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fec03db2ea8b7bb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bb2234dcede708d4  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j._latex","kind":"method","src_hash":"5f8f4bf868423ca9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner6j._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fec03db2ea8b7bb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j._latex","kind":"method","src_hash":"5f8f4bf868423ca9","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"'\\\\left\\\\{\\\\begin{array}{ccc} %s & %s & %s \\\\\\\\ %s & %s & %s \\\\end{array}\\\\right\\\\}' % tuple(label)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns '\\\\left\\\\{\\\\begin{array}{ccc} %s & %s & %s \\\\\\\\ %s & %s & %s \\\\end{array}\\\\right\\\\}' % tuple(label)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner6j._latex_correct","statement":"Path(_latex(x), returns '\\\\left\\\\{\\\\begin{array}{ccc} %s & %s & %s \\\\\\\\ %s & %s & %s \\\\end{array}\\\\right\\\\}' % tuple(label))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bb2234dcede708d4","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'\\\\left\\\\{\\\\begin{array}{ccc} %s & %s & %s \\\\\\\\ %s & %s & %s \\\\end{array}\\\\right\\\\}' % tuple(label)","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.j","self.j1","self.j12","self.j2","self.j23","self.j3"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         label = map(printer._print, (self.j1, self.j2, self.j12,
                     self.j3, self.j, self.j23))
@@ -642,16 +812,23 @@ class Wigner6j(Expr):
             tuple(label)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), wigner_6j(self.j1, self.j2, self.j12, self.j3, self.j, self.j23)) over {Any | not (self.is_symbolic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doit : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.is_symbolic)                         ║
+# ║   returns:  wigner_6j(self.j1, self.j2, self.j12, sel...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doit : {Any | not (self.is_symbolic)} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5453587c40d083b8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8aa0e9393ead9ea  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.doit","kind":"method","src_hash":"0b84967797501c2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner6j.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5453587c40d083b8"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner6j.doit","kind":"method","src_hash":"0b84967797501c2f","in":{"base":"Any","pred":"not (self.is_symbolic)"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"wigner_6j(self.j1, self.j2, self.j12, self.j3, self.j, self.j23)","over":{"base":"Any","pred":"not (self.is_symbolic)"},"name":"doit_correct"},"guarantee":"returns wigner_6j(self.j1, self.j2, self.j12, self.j3, self.j, self.j23)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner6j.doit_correct","statement":"Path(doit(x), returns wigner_6j(self.j1, self.j2, self.j12, self.j3, self.j, self.j23))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8aa0e9393ead9ea","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.is_symbolic)"],"returns_expr":"wigner_6j(self.j1, self.j2, self.j12, self.j3, self.j, self.j23)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_symbolic","self.j","self.j1","self.j12","self.j2","self.j23","self.j3"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         if self.is_symbolic:
             raise ValueError("Coefficients must be numerical")
@@ -661,14 +838,20 @@ class Wigner6j(Expr):
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a Wigner9j instance) preserved by Wigner9j(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ Wigner9j : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Expr)                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ Wigner9j : Any → {Any | result satisfies: isinstance(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.8ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | feb68c9cf4937aaa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j","kind":"class","src_hash":"f4304942d3e6184b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"Wigner9j(*args)","rhs":"correctly constructs a Wigner9j instance","over":{"base":"Any"},"name":"Wigner9j_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a Wigner9j instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["j1","j2","j12","j3","j4","j34","j13","j24","j","is_symbolic","_pretty","_latex","doit"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"feb68c9cf4937aaa"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j","kind":"class","src_hash":"f4304942d3e6184b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Expr)"},"spec":{"lhs":"Wigner9j(*args)","rhs":"correctly constructs a Wigner9j instance","over":{"base":"Any"},"name":"Wigner9j_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"is_symbolic","pred":"self.is_symbolic","kind":"class"}],"methods_preserving":["j1","j2","j12","j3","j4","j34","j13","j24","j","is_symbolic","_pretty","_latex","doit"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"feb68c9cf4937aaa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Expr)"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.8,"verdict_class":"assumed","binding":false,"binding_errors":["Function Wigner9j not found in source"]}}
 class Wigner9j(Expr):
     """Class for the Wigner-9j symbols
 
@@ -679,182 +862,255 @@ class Wigner9j(Expr):
 
     """
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__new__(cls), internal helper behaves correctly) over Any ║
+# ║ Path(__new__(cls, j1, j2), Expr.__new__(cls, *args)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  Expr.__new__(cls, *args)                       ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ __new__ : Any → Any                                        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4b40a303075d81b1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.__new__","kind":"method","src_hash":"c6dfd2335fd0afaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b40a303075d81b1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.__new__","kind":"method","src_hash":"c6dfd2335fd0afaf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__new__(cls, j1, j2)","rhs":"Expr.__new__(cls, *args)","over":{"base":"Any"},"name":"__new___correct"},"guarantee":"returns Expr.__new__(cls, *args)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4b40a303075d81b1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"Expr.__new__(cls, *args)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __new__(cls, j1, j2, j12, j3, j4, j34, j13, j24, j):
         args = map(sympify, (j1, j2, j12, j3, j4, j34, j13, j24, j))
         return Expr.__new__(cls, *args)
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j1(), returns the j1 attribute) over Any              ║
+# ║ Path(j1(), self.args[0]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[0]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j1 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | e4f62c9e0370f719           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j1","kind":"property","src_hash":"eb7cadd83af6bfc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j1()","rhs":"returns the j1 attribute","over":{"base":"Any"},"name":"j1_correct"},"guarantee":"returns the j1 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4f62c9e0370f719"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j1","kind":"property","src_hash":"eb7cadd83af6bfc5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j1()","rhs":"self.args[0]","over":{"base":"Any"},"name":"j1_correct"},"guarantee":"returns self.args[0]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"e4f62c9e0370f719","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[0]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j1(self):
         return self.args[0]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j2(), returns the j2 attribute) over Any              ║
+# ║ Path(j2(), self.args[1]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[1]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j2 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | cd0854070c3c1000           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j2","kind":"property","src_hash":"027c49f94a9ab754","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j2()","rhs":"returns the j2 attribute","over":{"base":"Any"},"name":"j2_correct"},"guarantee":"returns the j2 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd0854070c3c1000"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j2","kind":"property","src_hash":"027c49f94a9ab754","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j2()","rhs":"self.args[1]","over":{"base":"Any"},"name":"j2_correct"},"guarantee":"returns self.args[1]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"cd0854070c3c1000","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[1]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j2(self):
         return self.args[1]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j12(), returns the j12 attribute) over Any            ║
+# ║ Path(j12(), self.args[2]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[2]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j12 : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | db33df407ae4bace           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j12","kind":"property","src_hash":"d33422c6c3f80639","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j12()","rhs":"returns the j12 attribute","over":{"base":"Any"},"name":"j12_correct"},"guarantee":"returns the j12 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db33df407ae4bace"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j12","kind":"property","src_hash":"d33422c6c3f80639","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j12()","rhs":"self.args[2]","over":{"base":"Any"},"name":"j12_correct"},"guarantee":"returns self.args[2]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"db33df407ae4bace","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[2]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j12(self):
         return self.args[2]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j3(), returns the j3 attribute) over Any              ║
+# ║ Path(j3(), self.args[3]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[3]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j3 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 287d6ba2e24d6bbe           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j3","kind":"property","src_hash":"a58fd840f219c8f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j3()","rhs":"returns the j3 attribute","over":{"base":"Any"},"name":"j3_correct"},"guarantee":"returns the j3 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"287d6ba2e24d6bbe"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j3","kind":"property","src_hash":"a58fd840f219c8f7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j3()","rhs":"self.args[3]","over":{"base":"Any"},"name":"j3_correct"},"guarantee":"returns self.args[3]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"287d6ba2e24d6bbe","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[3]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j3(self):
         return self.args[3]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j4(), returns the j4 attribute) over Any              ║
+# ║ Path(j4(), self.args[4]) over Any                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[4]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j4 : Any → Any                                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 8df245d7b8788058           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j4","kind":"property","src_hash":"0986bcfa7dba2a90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j4()","rhs":"returns the j4 attribute","over":{"base":"Any"},"name":"j4_correct"},"guarantee":"returns the j4 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8df245d7b8788058"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j4","kind":"property","src_hash":"0986bcfa7dba2a90","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j4()","rhs":"self.args[4]","over":{"base":"Any"},"name":"j4_correct"},"guarantee":"returns self.args[4]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"8df245d7b8788058","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[4]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j4(self):
         return self.args[4]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j34(), returns the j34 attribute) over Any            ║
+# ║ Path(j34(), self.args[5]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[5]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j34 : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 69ba57137b5c42f1           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j34","kind":"property","src_hash":"685164ae370a54db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j34()","rhs":"returns the j34 attribute","over":{"base":"Any"},"name":"j34_correct"},"guarantee":"returns the j34 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69ba57137b5c42f1"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j34","kind":"property","src_hash":"685164ae370a54db","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j34()","rhs":"self.args[5]","over":{"base":"Any"},"name":"j34_correct"},"guarantee":"returns self.args[5]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"69ba57137b5c42f1","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[5]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j34(self):
         return self.args[5]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j13(), returns the j13 attribute) over Any            ║
+# ║ Path(j13(), self.args[6]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[6]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j13 : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 1812f6a1594e6073           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j13","kind":"property","src_hash":"042caa36ac7f3498","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j13()","rhs":"returns the j13 attribute","over":{"base":"Any"},"name":"j13_correct"},"guarantee":"returns the j13 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1812f6a1594e6073"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j13","kind":"property","src_hash":"042caa36ac7f3498","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j13()","rhs":"self.args[6]","over":{"base":"Any"},"name":"j13_correct"},"guarantee":"returns self.args[6]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"1812f6a1594e6073","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[6]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j13(self):
         return self.args[6]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j24(), returns the j24 attribute) over Any            ║
+# ║ Path(j24(), self.args[7]) over Any                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[7]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j24 : Any → Any                                            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 28c1856ec86443ef           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j24","kind":"property","src_hash":"7552763ae4252cb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j24()","rhs":"returns the j24 attribute","over":{"base":"Any"},"name":"j24_correct"},"guarantee":"returns the j24 attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28c1856ec86443ef"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j24","kind":"property","src_hash":"7552763ae4252cb6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j24()","rhs":"self.args[7]","over":{"base":"Any"},"name":"j24_correct"},"guarantee":"returns self.args[7]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"28c1856ec86443ef","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[7]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j24(self):
         return self.args[7]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(j(), returns the j attribute) over Any                ║
+# ║ Path(j(), self.args[8]) over Any                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self.args[8]                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ j : Any → Any                                              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | bcaaef9140d8233c           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j","kind":"property","src_hash":"82eb495954ef6053","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j()","rhs":"returns the j attribute","over":{"base":"Any"},"name":"j_correct"},"guarantee":"returns the j attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcaaef9140d8233c"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.j","kind":"property","src_hash":"82eb495954ef6053","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"j()","rhs":"self.args[8]","over":{"base":"Any"},"name":"j_correct"},"guarantee":"returns self.args[8]","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"bcaaef9140d8233c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self.args[8]","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def j(self):
         return self.args[8]
 
     @property
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(is_symbolic(), returns the is_symbolic attribute) over Any ║
+# ║ Path(is_symbolic(), not all((arg.is_number for arg in self.args))) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  not all((arg.is_number for arg in self.ar...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ is_symbolic : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 5546b9a9a5e14aae           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.is_symbolic","kind":"property","src_hash":"8066433ca79ae52e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"returns the is_symbolic attribute","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns the is_symbolic attribute","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5546b9a9a5e14aae"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.is_symbolic","kind":"property","src_hash":"8066433ca79ae52e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"is_symbolic()","rhs":"not all((arg.is_number for arg in self.args))","over":{"base":"Any"},"name":"is_symbolic_correct"},"guarantee":"returns not all((arg.is_number for arg in self.args))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"5546b9a9a5e14aae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"not all((arg.is_number for arg in self.args))","pure":false,"effects":{"effect_type":"reads_state","reads":["self.args"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def is_symbolic(self):
         return not all(arg.is_number for arg in self.args)
 
     # This is modified from the _print_Matrix method
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_pretty(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_pretty(printer, *args), <unspecified:_pretty>) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _pretty : Any → Any                                        ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _pretty : {Any | hasattr(printer, '_print')} → Any         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5e71ca96b1e3a390  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j._pretty","kind":"method","src_hash":"64c929c899c6f1b9","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner9j._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e71ca96b1e3a390"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j._pretty","kind":"method","src_hash":"64c929c899c6f1b9","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_pretty(printer, *args)","rhs":"<unspecified:_pretty>","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_pretty_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner9j._pretty_correct","statement":"Path(_pretty(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5e71ca96b1e3a390","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(printer, '_print')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.j","self.j1","self.j12","self.j13","self.j2","self.j24","self.j3","self.j34","self.j4"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _pretty(self, printer, *args):
         m = (
             (printer._print(
@@ -894,16 +1150,23 @@ class Wigner9j(Expr):
         return D
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_latex(pri), internal helper behaves correctly) over Any ║
+# ║ Path(_latex(printer, *args), '\\left\\{\\begin{array}{ccc} %s & %s & %s \\\\ %s & %s & %s \\\\ %s & %s & %s \\end{array}\\right\\}' % tuple(label)) over {Any | hasattr(printer, '_print')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _latex : Any → Any                                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(printer, '_print')                     ║
+# ║   returns:  '\\left\\{\\begin{array}{ccc} %s & %s & %...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _latex : {Any | hasattr(printer, '_print')} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3da1cf0717c27c43  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1c75a087d6514b66  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j._latex","kind":"method","src_hash":"7bee75c75996e6f0","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_latex(pri)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_latex_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner9j._latex_correct","statement":"Path(_latex(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3da1cf0717c27c43"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j._latex","kind":"method","src_hash":"7bee75c75996e6f0","in":{"base":"Any","pred":"hasattr(printer, '_print')"},"out":{"base":"Any"},"spec":{"lhs":"_latex(printer, *args)","rhs":"'\\\\left\\\\{\\\\begin{array}{ccc} %s & %s & %s \\\\\\\\ %s & %s & %s \\\\\\\\ %s & %s & %s \\\\end{array}\\\\right\\\\}' % tuple(label)","over":{"base":"Any","pred":"hasattr(printer, '_print')"},"name":"_latex_correct"},"guarantee":"returns '\\\\left\\\\{\\\\begin{array}{ccc} %s & %s & %s \\\\\\\\ %s & %s & %s \\\\\\\\ %s & %s & %s \\\\end{array}\\\\right\\\\}' % tuple(label)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner9j._latex_correct","statement":"Path(_latex(x), returns '\\\\left\\\\{\\\\begin{array}{ccc} %s & %s & %s \\\\\\\\ %s & %s & %s \\\\\\\\ %s & %s & %s \\\\end{array}\\\\right\\\\}' % tuple(label))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1c75a087d6514b66","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(printer, '_print')"],"returns_expr":"'\\\\left\\\\{\\\\begin{array}{ccc} %s & %s & %s \\\\\\\\ %s & %s & %s \\\\\\\\ %s & %s & %s \\\\end{array}\\\\right\\\\}' % tuple(label)","pure":false,"effects":{"effect_type":"reads_state","reads":["printer._print","self.j","self.j1","self.j12","self.j13","self.j2","self.j24","self.j3","self.j34","self.j4"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _latex(self, printer, *args):
         label = map(printer._print, (self.j1, self.j2, self.j12, self.j3,
                 self.j4, self.j34, self.j13, self.j24, self.j))
@@ -911,16 +1174,23 @@ class Wigner9j(Expr):
             tuple(label)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(doit(**h), doit produces the expected output) over Any ║
+# ║ Path(doit(**hints), wigner_9j(self.j1, self.j2, self.j12, self.j3, self.j4, self.j34, self.j13, self.j24, self.j)) over {Any | not (self.is_symbolic)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ doit : Any → Any                                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: not (self.is_symbolic)                         ║
+# ║   returns:  wigner_9j(self.j1, self.j2, self.j12, sel...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ doit : {Any | not (self.is_symbolic)} → Any                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 71697ed9d60de7b0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8195db93d4298fbc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.doit","kind":"method","src_hash":"f15c1806d43b5748","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"doit(**h)","rhs":"doit produces the expected output","over":{"base":"Any"},"name":"doit_correct"},"guarantee":"doit produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner9j.doit_correct","statement":"Path(doit(x), doit produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"71697ed9d60de7b0"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.Wigner9j.doit","kind":"method","src_hash":"f15c1806d43b5748","in":{"base":"Any","pred":"not (self.is_symbolic)"},"out":{"base":"Any"},"spec":{"lhs":"doit(**hints)","rhs":"wigner_9j(self.j1, self.j2, self.j12, self.j3, self.j4, self.j34, self.j13, self.j24, self.j)","over":{"base":"Any","pred":"not (self.is_symbolic)"},"name":"doit_correct"},"guarantee":"returns wigner_9j(self.j1, self.j2, self.j12, self.j3, self.j4, self.j34, self.j13, self.j24, self.j)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.Wigner9j.doit_correct","statement":"Path(doit(x), returns wigner_9j(self.j1, self.j2, self.j12, self.j3, self.j4, self.j34, self.j13, self.j24, self.j))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8195db93d4298fbc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["not (self.is_symbolic)"],"returns_expr":"wigner_9j(self.j1, self.j2, self.j12, self.j3, self.j4, self.j34, self.j13, self.j24, self.j)","pure":false,"effects":{"effect_type":"reads_state","reads":["self.is_symbolic","self.j","self.j1","self.j12","self.j13","self.j2","self.j24","self.j3","self.j34","self.j4"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def doit(self, **hints):
         if self.is_symbolic:
             raise ValueError("Coefficients must be numerical")
@@ -928,7 +1198,16 @@ class Wigner9j(Expr):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(cg_simp(e), simplify and combine cg coefficients) over {Any | isinstance(e, Add) and isinstance(e, Sum) and isinstance(e, Mul)} ║
+# ║ Path(cg_simp(e), result == (_cg_simp_add(e) if isinstance(e, Add) else _cg_simp_sum(e) if isinstance(e, Sum) else Mul(*[cg_simp(arg) for arg in e.args]) if isinstance(e, Mul) else Pow(cg_simp(e.base), e.exp) if isinstance(e, Pow) else e)) over {Any | isinstance(e, Add) and isinstance(e, Sum) and isinstance(e, Mul) and hasattr(e, 'exp') and hasattr(e, 'base') and hasattr(e, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'exp')                              ║
+# ║   requires: hasattr(e, 'base')                             ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  result == (_cg_simp_add(e) if isinstance(...   ║
+# ║   fiber[Add]: isinstance(e, Add) => _cg_simp_add(e)        ║
+# ║   fiber[Sum]: isinstance(e, Sum) => _cg_simp_sum(e)        ║
+# ║   fiber[Mul]: isinstance(e, Mul) => Mul(*[cg_simp(arg...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ cg_simp : {Any | isinstance(e, Add) and isinstance(e,...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -943,9 +1222,12 @@ class Wigner9j(Expr):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.6ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | cbd1bd1c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.cg_simp","kind":"function","src_hash":"f343f94b04125bc0","in":{"base":"Any","pred":"isinstance(e, Add) and isinstance(e, Sum) and isinstance(e, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"cg_simp(e)","rhs":"simplify and combine cg coefficients","over":{"base":"Any","pred":"isinstance(e, Add) and isinstance(e, Sum) and isinstance(e, Mul)"},"name":"cg_simp_correct"},"guarantee":"simplify and combine cg coefficients","fibers":[{"name":"Add","pred":"isinstance(e, Add)","path":{"lhs":"cg_simp(x)","rhs":"simplify and combine cg coefficients","over":{"base":"Add","pred":"isinstance(e, Add)"},"name":"cg_simp_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.cg_simp_Add_correct","statement":"cg_simp satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Sum","pred":"isinstance(e, Sum)","path":{"lhs":"cg_simp(x)","rhs":"simplify and combine cg coefficients","over":{"base":"Sum","pred":"isinstance(e, Sum)"},"name":"cg_simp_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.cg_simp_Sum_correct","statement":"cg_simp satisfies spec on Sum inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(e, Mul)","path":{"lhs":"cg_simp(x)","rhs":"simplify and combine cg coefficients","over":{"base":"Mul","pred":"isinstance(e, Mul)"},"name":"cg_simp_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.cg_simp_Mul_correct","statement":"cg_simp satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(e, Pow)","path":{"lhs":"cg_simp(x)","rhs":"simplify and combine cg coefficients","over":{"base":"Pow","pred":"isinstance(e, Pow)"},"name":"cg_simp_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.cg_simp_Pow_correct","statement":"cg_simp satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cbd1bd1c70cccde3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg.cg_simp","kind":"function","src_hash":"f343f94b04125bc0","in":{"base":"Any","pred":"isinstance(e, Add) and isinstance(e, Sum) and isinstance(e, Mul) and hasattr(e, 'exp') and hasattr(e, 'base') and hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (_cg_simp_add(e) if isinstance(e, Add) else _cg_simp_sum(e) if isinstance(e, Sum) else Mul(*[cg_simp(arg) for arg in e.args]) if isinstance(e, Mul) else Pow(cg_simp(e.base), e.exp) if isinstance(e, Pow) else e)"},"spec":{"lhs":"cg_simp(e)","rhs":"result == (_cg_simp_add(e) if isinstance(e, Add) else _cg_simp_sum(e) if isinstance(e, Sum) else Mul(*[cg_simp(arg) for arg in e.args]) if isinstance(e, Mul) else Pow(cg_simp(e.base), e.exp) if isinstance(e, Pow) else e)","over":{"base":"Any","pred":"isinstance(e, Add) and isinstance(e, Sum) and isinstance(e, Mul) and hasattr(e, 'exp') and hasattr(e, 'base') and hasattr(e, 'args')"},"name":"cg_simp_correct"},"guarantee":"result == (_cg_simp_add(e) if isinstance(e, Add) else _cg_simp_sum(e) if isinstance(e, Sum) else Mul(*[cg_simp(arg) for arg in e.args]) if isinstance(e, Mul) else Pow(cg_simp(e.base), e.exp) if isinstance(e, Pow) else e); 5-fiber decomposition","fibers":[{"name":"Add","pred":"isinstance(e, Add)","path":{"lhs":"cg_simp(x)","rhs":"result == (_cg_simp_add(e) if isinstance(e, Add) else _cg_simp_sum(e) if isinstance(e, Sum) else Mul(*[cg_simp(arg) for arg in e.args]) if isinstance(e, Mul) else Pow(cg_simp(e.base), e.exp) if isinstance(e, Pow) else e); 5-fiber decomposition","over":{"base":"Add","pred":"isinstance(e, Add)"},"name":"cg_simp_Add_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.cg_simp_Add_correct","statement":"cg_simp satisfies spec on Add inputs"},"trust":"LIBRARY"},{"name":"Sum","pred":"isinstance(e, Sum)","path":{"lhs":"cg_simp(x)","rhs":"result == (_cg_simp_add(e) if isinstance(e, Add) else _cg_simp_sum(e) if isinstance(e, Sum) else Mul(*[cg_simp(arg) for arg in e.args]) if isinstance(e, Mul) else Pow(cg_simp(e.base), e.exp) if isinstance(e, Pow) else e); 5-fiber decomposition","over":{"base":"Sum","pred":"isinstance(e, Sum)"},"name":"cg_simp_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.cg_simp_Sum_correct","statement":"cg_simp satisfies spec on Sum inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(e, Mul)","path":{"lhs":"cg_simp(x)","rhs":"result == (_cg_simp_add(e) if isinstance(e, Add) else _cg_simp_sum(e) if isinstance(e, Sum) else Mul(*[cg_simp(arg) for arg in e.args]) if isinstance(e, Mul) else Pow(cg_simp(e.base), e.exp) if isinstance(e, Pow) else e); 5-fiber decomposition","over":{"base":"Mul","pred":"isinstance(e, Mul)"},"name":"cg_simp_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.cg_simp_Mul_correct","statement":"cg_simp satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(e, Pow)","path":{"lhs":"cg_simp(x)","rhs":"result == (_cg_simp_add(e) if isinstance(e, Add) else _cg_simp_sum(e) if isinstance(e, Sum) else Mul(*[cg_simp(arg) for arg in e.args]) if isinstance(e, Mul) else Pow(cg_simp(e.base), e.exp) if isinstance(e, Pow) else e); 5-fiber decomposition","over":{"base":"Pow","pred":"isinstance(e, Pow)"},"name":"cg_simp_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg.cg_simp_Pow_correct","statement":"cg_simp satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"cbd1bd1c70cccde3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'exp')","hasattr(e, 'base')","hasattr(e, 'args')"],"ensures":["result == (_cg_simp_add(e) if isinstance(e, Add) else _cg_simp_sum(e) if isinstance(e, Sum) else Mul(*[cg_simp(arg) for arg in e.args]) if isinstance(e, Mul) else Pow(cg_simp(e.base), e.exp) if isinstance(e, Pow) else e)"],"fibers":[{"name":"Add","guard":"isinstance(e, Add)","ensures":["result == _cg_simp_add(e)"],"decidability":"structural","returns_expr":"_cg_simp_add(e)"},{"name":"Sum","guard":"isinstance(e, Sum)","ensures":["result == _cg_simp_sum(e)"],"decidability":"structural","returns_expr":"_cg_simp_sum(e)"},{"name":"Mul","guard":"isinstance(e, Mul)","ensures":["result == Mul(*[cg_simp(arg) for arg in e.args])"],"decidability":"structural","returns_expr":"Mul(*[cg_simp(arg) for arg in e.args])"},{"name":"Pow","guard":"isinstance(e, Pow)","ensures":["result == Pow(cg_simp(e.base), e.exp)"],"decidability":"structural","returns_expr":"Pow(cg_simp(e.base), e.exp)"},{"name":"Add","guard":"not (isinstance(e, Add)) and not (isinstance(e, Sum)) and not (isinstance(e, Mul)) and not (isinstance(e, Pow))","ensures":["result == e"],"decidability":"structural","returns_expr":"e"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.base","e.exp"]}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.6,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(e, Sum)', 'isinstance(e, Pow)', 'isinstance(e, Add)', 'isinstance(e, Mul)'}, fibers={'Add', 'Pow', 'Sum', 'Mul'})"]}}
 def cg_simp(e):
     """Simplify and combine CG coefficients.
 
@@ -992,7 +1274,11 @@ def cg_simp(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cg_simp_add(e), takes a sum of terms involving clebsch-gordan coefficients and simplifies the terms) over {Any | isinstance(arg, Sum) and isinstance(arg, Mul)} ║
+# ║ Path(_cg_simp_add(e), Add(*cg_part) + Add(*other_part)) over {Any | isinstance(arg, Sum) and isinstance(arg, Mul) and hasattr(e, 'args')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   returns:  Add(*cg_part) + Add(*other_part)               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _cg_simp_add : {Any | isinstance(arg, Sum) and isinst...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1005,9 +1291,12 @@ def cg_simp(e):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓2 ?2 ✗1 VCs | 1.9ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 3a3cd3c3...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._cg_simp_add","kind":"function","src_hash":"c9e32ec6646a0818","in":{"base":"Any","pred":"isinstance(arg, Sum) and isinstance(arg, Mul)"},"out":{"base":"Any"},"spec":{"lhs":"_cg_simp_add(e)","rhs":"takes a sum of terms involving clebsch-gordan coefficients and simplifies the terms","over":{"base":"Any","pred":"isinstance(arg, Sum) and isinstance(arg, Mul)"},"name":"_cg_simp_add_correct"},"guarantee":"takes a sum of terms involving clebsch-gordan coefficients and simplifies the terms","fibers":[{"name":"Sum","pred":"isinstance(arg, Sum)","path":{"lhs":"_cg_simp_add(x)","rhs":"takes a sum of terms involving clebsch-gordan coefficients and simplifies the terms","over":{"base":"Sum","pred":"isinstance(arg, Sum)"},"name":"_cg_simp_add_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_simp_add_Sum_correct","statement":"_cg_simp_add satisfies spec on Sum inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(arg, Mul)","path":{"lhs":"_cg_simp_add(x)","rhs":"takes a sum of terms involving clebsch-gordan coefficients and simplifies the terms","over":{"base":"Mul","pred":"isinstance(arg, Mul)"},"name":"_cg_simp_add_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_simp_add_Mul_correct","statement":"_cg_simp_add satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3a3cd3c31bf9d916"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._cg_simp_add","kind":"function","src_hash":"c9e32ec6646a0818","in":{"base":"Any","pred":"isinstance(arg, Sum) and isinstance(arg, Mul) and hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_cg_simp_add(e)","rhs":"Add(*cg_part) + Add(*other_part)","over":{"base":"Any","pred":"isinstance(arg, Sum) and isinstance(arg, Mul) and hasattr(e, 'args')"},"name":"_cg_simp_add_correct"},"guarantee":"returns Add(*cg_part) + Add(*other_part)","fibers":[{"name":"Sum","pred":"isinstance(arg, Sum)","path":{"lhs":"_cg_simp_add(x)","rhs":"returns Add(*cg_part) + Add(*other_part)","over":{"base":"Sum","pred":"isinstance(arg, Sum)"},"name":"_cg_simp_add_Sum_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_simp_add_Sum_correct","statement":"_cg_simp_add satisfies spec on Sum inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(arg, Mul)","path":{"lhs":"_cg_simp_add(x)","rhs":"returns Add(*cg_part) + Add(*other_part)","over":{"base":"Mul","pred":"isinstance(arg, Mul)"},"name":"_cg_simp_add_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_simp_add_Mul_correct","statement":"_cg_simp_add satisfies spec on Mul inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"3a3cd3c31bf9d916","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')"],"returns_expr":"Add(*cg_part) + Add(*other_part)","pure":true},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":2,"n_assumed":2,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, Sum)', 'isinstance(term, Sum)', 'isinstance(arg, Mul)'}, fibers={'Sum', 'Mul'})"]}}
 def _cg_simp_add(e):
     #TODO: Improve simplification method
     """Takes a sum of terms involving Clebsch-Gordan coefficients and
@@ -1055,16 +1344,22 @@ def _cg_simp_add(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_varsh_871_1(ter), internal helper behaves correctly) over Any ║
+# ║ Path(_check_varsh_871_1(term_list), _check_cg_simp(expr, simp, sign, lt, term_list, (a, alpha, b, lt), (a, b), build_expr, index_expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _check_cg_simp(expr, simp, sign, lt, term...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_varsh_871_1 : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0e3eab4b02341342  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1066715853692020  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_varsh_871_1","kind":"function","src_hash":"92c1e8d08ecfa76f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_varsh_871_1(ter)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_varsh_871_1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._check_varsh_871_1_correct","statement":"Path(_check_varsh_871_1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0e3eab4b02341342"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_varsh_871_1","kind":"function","src_hash":"92c1e8d08ecfa76f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_varsh_871_1(term_list)","rhs":"_check_cg_simp(expr, simp, sign, lt, term_list, (a, alpha, b, lt), (a, b), build_expr, index_expr)","over":{"base":"Any"},"name":"_check_varsh_871_1_correct"},"guarantee":"returns _check_cg_simp(expr, simp, sign, lt, term_list, (a, alpha, b, lt), (a, b), build_expr, index_expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._check_varsh_871_1_correct","statement":"Path(_check_varsh_871_1(x), returns _check_cg_simp(expr, simp, sign, lt, term_list, (a, alpha, b, lt), (a, b), build_expr, index_expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1066715853692020","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_check_cg_simp(expr, simp, sign, lt, term_list, (a, alpha, b, lt), (a, b), build_expr, index_expr)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _check_varsh_871_1(term_list):
     # Sum( CG(a,alpha,b,0,a,alpha), (alpha, -a, a)) == KroneckerDelta(b,0)
     a, alpha, b, lt = map(Wild, ('a', 'alpha', 'b', 'lt'))
@@ -1077,16 +1372,22 @@ def _check_varsh_871_1(term_list):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_varsh_871_2(ter), internal helper behaves correctly) over Any ║
+# ║ Path(_check_varsh_871_2(term_list), _check_cg_simp(expr, simp, sign, lt, term_list, (a, alpha, c, lt), (a, c), build_expr, index_expr)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  _check_cg_simp(expr, simp, sign, lt, term...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_varsh_871_2 : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8fef1ad86501e67d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93b055c729333f5b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_varsh_871_2","kind":"function","src_hash":"cd1170fef8f4271f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_varsh_871_2(ter)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_varsh_871_2_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._check_varsh_871_2_correct","statement":"Path(_check_varsh_871_2(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8fef1ad86501e67d"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_varsh_871_2","kind":"function","src_hash":"cd1170fef8f4271f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_varsh_871_2(term_list)","rhs":"_check_cg_simp(expr, simp, sign, lt, term_list, (a, alpha, c, lt), (a, c), build_expr, index_expr)","over":{"base":"Any"},"name":"_check_varsh_871_2_correct"},"guarantee":"returns _check_cg_simp(expr, simp, sign, lt, term_list, (a, alpha, c, lt), (a, c), build_expr, index_expr)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._check_varsh_871_2_correct","statement":"Path(_check_varsh_871_2(x), returns _check_cg_simp(expr, simp, sign, lt, term_list, (a, alpha, c, lt), (a, c), build_expr, index_expr))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93b055c729333f5b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"_check_cg_simp(expr, simp, sign, lt, term_list, (a, alpha, c, lt), (a, c), build_expr, index_expr)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def _check_varsh_871_2(term_list):
     # Sum((-1)**(a-alpha)*CG(a,alpha,a,-alpha,c,0),(alpha,-a,a))
     a, alpha, c, lt = map(Wild, ('a', 'alpha', 'c', 'lt'))
@@ -1099,16 +1400,22 @@ def _check_varsh_871_2(term_list):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_varsh_872_9(ter), internal helper behaves correctly) over Any ║
+# ║ Path(_check_varsh_872_9(term_list), (term_list, other1 + other2 + other4)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (term_list, other1 + other2 + other4)          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _check_varsh_872_9 : Any → Any                             ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ed2d84ff7818fbcc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0202dfedc36ceffc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_varsh_872_9","kind":"function","src_hash":"67325eaf87814687","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_varsh_872_9(ter)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_varsh_872_9_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._check_varsh_872_9_correct","statement":"Path(_check_varsh_872_9(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ed2d84ff7818fbcc"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_varsh_872_9","kind":"function","src_hash":"67325eaf87814687","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_varsh_872_9(term_list)","rhs":"(term_list, other1 + other2 + other4)","over":{"base":"Any"},"name":"_check_varsh_872_9_correct"},"guarantee":"returns (term_list, other1 + other2 + other4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._check_varsh_872_9_correct","statement":"Path(_check_varsh_872_9(x), returns (term_list, other1 + other2 + other4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0202dfedc36ceffc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(term_list, other1 + other2 + other4)","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def _check_varsh_872_9(term_list):
     # Sum( CG(a,alpha,b,beta,c,gamma)*CG(a,alpha',b,beta',c,gamma), (gamma, -c, c), (c, abs(a-b), a+b))
     a, alpha, alphap, b, beta, betap, c, gamma, lt = map(Wild, (
@@ -1155,16 +1462,28 @@ def _check_varsh_872_9(term_list):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_cg_simp(exp), checks for simplifications that can be made, returning a tuple of the simplified list of terms and any terms generated by simplification) over Any ║
+# ║ Path(_check_cg_simp(expr, simp, sign), (term_list, other_part)) over {Any | hasattr(expr, 'subs') and hasattr(lt, 'subs') and hasattr(term_list, 'pop') and hasattr(term_list, 'append') and hasattr(sign, 'subs') and len(term_list) > 0} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_cg_simp : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(expr, 'subs')                          ║
+# ║   requires: hasattr(lt, 'subs')                            ║
+# ║   requires: hasattr(term_list, 'pop')                      ║
+# ║   ensures:  len(indices) == old_len_indices                ║
+# ║   ensures:  len(term_list) == old_len_term_list + 1        ║
+# ║   ensures:  len(term_list) == old_len_term_list - 1        ║
+# ║   returns:  (term_list, other_part)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_cg_simp : {Any | hasattr(expr, 'subs') and has...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | aed68afe3ddaac5e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c5dc3810825e464a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_cg_simp","kind":"function","src_hash":"f4bf1f1474bcc72c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_cg_simp(exp)","rhs":"checks for simplifications that can be made, returning a tuple of the simplified list of terms and any terms generated by simplification","over":{"base":"Any"},"name":"_check_cg_simp_correct"},"guarantee":"checks for simplifications that can be made, returning a tuple of the simplified list of terms and any terms generated by simplification","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._check_cg_simp_correct","statement":"Path(_check_cg_simp(x), checks for simplifications that can be made, returning a tuple of the simplified list of terms and any terms generated by simplification)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"aed68afe3ddaac5e"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_cg_simp","kind":"function","src_hash":"f4bf1f1474bcc72c","in":{"base":"Any","pred":"hasattr(expr, 'subs') and hasattr(lt, 'subs') and hasattr(term_list, 'pop') and hasattr(term_list, 'append') and hasattr(sign, 'subs') and len(term_list) > 0"},"out":{"base":"Any","pred":"result satisfies: result == ((term_list, other_part))"},"spec":{"lhs":"_check_cg_simp(expr, simp, sign)","rhs":"(term_list, other_part)","over":{"base":"Any","pred":"hasattr(expr, 'subs') and hasattr(lt, 'subs') and hasattr(term_list, 'pop') and hasattr(term_list, 'append') and hasattr(sign, 'subs') and len(term_list) > 0"},"name":"_check_cg_simp_correct"},"guarantee":"returns (term_list, other_part); len(indices) == old_len_indices; len(term_list) == old_len_term_list + 1; len(term_list) == old_len_term_list - 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._check_cg_simp_correct","statement":"Path(_check_cg_simp(x), returns (term_list, other_part); len(indices) == old_len_indices; len(term_list) == old_len_term_list + 1; len(term_list) == old_len_term_list - 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c5dc3810825e464a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(expr, 'subs')","hasattr(lt, 'subs')","hasattr(term_list, 'pop')","hasattr(term_list, 'append')","hasattr(sign, 'subs')","len(term_list) > 0"],"ensures":["len(indices) == old_len_indices","len(term_list) == old_len_term_list + 1","len(term_list) == old_len_term_list - 1"],"returns_expr":"(term_list, other_part)","pure":false,"effects":{"effect_type":"mutates_args","reads":["build_index_expr.subs","expr.subs","index_expr.subs","lt.subs","sign.subs","term_list.append","term_list.pop"],"calls_mutating":["indices.reverse","indices.sort","term_list.append","term_list.pop"]},"state_contract":{"modifies":["indices.*","term_list.*"],"old_bindings":{"old_len_indices":"len(indices)","old_len_term_list":"len(term_list)"},"pre_requires":["len(term_list) > 0"],"post_ensures":["len(indices) == old_len_indices","len(indices) == old_len_indices","len(term_list) == old_len_term_list + 1","len(term_list) == old_len_term_list - 1"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def _check_cg_simp(expr, simp, sign, lt, term_list, variables, dep_variables, build_index_expr, index_expr):
     """ Checks for simplifications that can be made, returning a tuple of the
     simplified list of terms and any terms generated by simplification.
@@ -1241,9 +1560,13 @@ def _check_cg_simp(expr, simp, sign, lt, term_list, variables, dep_variables, bu
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_cg(cg_), checks whether a term matches the given expression) over {Any | isinstance(sign, tuple)} ║
+# ║ Path(_check_cg(cg_term, expr, length), <unspecified:_check_cg>) over {Any | isinstance(sign, tuple) and hasattr(cg_term, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_cg : {Any | isinstance(sign, tuple)} → Any          ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(cg_term, 'match')                      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_cg : {Any | isinstance(sign, tuple) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   tuple: {isinstance(sign, tuple)} → library_axiom         ║
@@ -1253,9 +1576,12 @@ def _check_cg_simp(expr, simp, sign, lt, term_list, variables, dep_variables, bu
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 891363d5...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_cg","kind":"function","src_hash":"6168d5e1141063e7","in":{"base":"Any","pred":"isinstance(sign, tuple)"},"out":{"base":"Any"},"spec":{"lhs":"_check_cg(cg_)","rhs":"checks whether a term matches the given expression","over":{"base":"Any","pred":"isinstance(sign, tuple)"},"name":"_check_cg_correct"},"guarantee":"checks whether a term matches the given expression","fibers":[{"name":"tuple","pred":"isinstance(sign, tuple)","path":{"lhs":"_check_cg(x)","rhs":"checks whether a term matches the given expression","over":{"base":"tuple","pred":"isinstance(sign, tuple)"},"name":"_check_cg_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._check_cg_tuple_correct","statement":"_check_cg satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"891363d573fb2bcb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_cg","kind":"function","src_hash":"6168d5e1141063e7","in":{"base":"Any","pred":"isinstance(sign, tuple) and hasattr(cg_term, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"_check_cg(cg_term, expr, length)","rhs":"<unspecified:_check_cg>","over":{"base":"Any","pred":"isinstance(sign, tuple) and hasattr(cg_term, 'match')"},"name":"_check_cg_correct"},"guarantee":"checks whether a term matches the given expression","fibers":[{"name":"tuple","pred":"isinstance(sign, tuple)","path":{"lhs":"_check_cg(x)","rhs":"checks whether a term matches the given expression","over":{"base":"tuple","pred":"isinstance(sign, tuple)"},"name":"_check_cg_tuple_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._check_cg_tuple_correct","statement":"_check_cg satisfies spec on tuple inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"891363d573fb2bcb","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(cg_term, 'match')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["cg_term.match"],"raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not sign[0] == sign[1].subs(matches)', 'len(matches) == length', 'matches is None', 'not isinstance(sign, tuple)'}, fibers={'tuple'})"]}}
 def _check_cg(cg_term, expr, length, sign=None):
     """Checks whether a term matches the given expression"""
     # TODO: Check for symmetries
@@ -1272,16 +1598,23 @@ def _check_cg(cg_term, expr, length, sign=None):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cg_simp_sum(e), internal helper behaves correctly) over Any ║
+# ║ Path(_cg_simp_sum(e), e) over Any                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _cg_simp_sum : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  result == e                                    ║
+# ║   returns:  e                                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _cg_simp_sum : Any → {Any | result satisfies: result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 28107abfb212af82  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 443f3b62d51a0bf3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._cg_simp_sum","kind":"function","src_hash":"e92af46eeec95e0b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_cg_simp_sum(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_cg_simp_sum_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_simp_sum_correct","statement":"Path(_cg_simp_sum(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"28107abfb212af82"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._cg_simp_sum","kind":"function","src_hash":"e92af46eeec95e0b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: result == (e)"},"spec":{"lhs":"_cg_simp_sum(e)","rhs":"e","over":{"base":"Any"},"name":"_cg_simp_sum_correct"},"guarantee":"returns e; result == e","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_simp_sum_correct","statement":"Path(_cg_simp_sum(x), returns e; result == e)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"443f3b62d51a0bf3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["result == e"],"returns_expr":"e","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def _cg_simp_sum(e):
     e = _check_varsh_sum_871_1(e)
     e = _check_varsh_sum_871_2(e)
@@ -1290,16 +1623,23 @@ def _cg_simp_sum(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_varsh_sum_871_1(e), id) over Any               ║
+# ║ Path(_check_varsh_sum_871_1(e), id) over {Any | hasattr(e, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_varsh_sum_871_1 : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'match')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_varsh_sum_871_1 : {Any | hasattr(e, 'match')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 6bcd855850d0e309   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_varsh_sum_871_1","kind":"function","src_hash":"24b1bacf4e47cf6a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_varsh_sum_871_1(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_varsh_sum_871_1_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"KroneckerDelta","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bcd855850d0e309"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_varsh_sum_871_1","kind":"function","src_hash":"24b1bacf4e47cf6a","in":{"base":"Any","pred":"hasattr(e, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"_check_varsh_sum_871_1(e)","rhs":"<unspecified:_check_varsh_sum_871_1>","over":{"base":"Any","pred":"hasattr(e, 'match')"},"name":"_check_varsh_sum_871_1_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"KroneckerDelta","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bcd855850d0e309","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'match')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.match"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _check_varsh_sum_871_1(e):
     a = Wild('a')
     alpha = symbols('alpha')
@@ -1311,16 +1651,23 @@ def _check_varsh_sum_871_1(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_varsh_sum_871_2(e), id) over Any               ║
+# ║ Path(_check_varsh_sum_871_2(e), id) over {Any | hasattr(e, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_varsh_sum_871_2 : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'match')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_varsh_sum_871_2 : {Any | hasattr(e, 'match')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 256dd2142fe36f97   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_varsh_sum_871_2","kind":"function","src_hash":"96b08de8bd5187b3","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_varsh_sum_871_2(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_varsh_sum_871_2_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"KroneckerDelta","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"256dd2142fe36f97"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_varsh_sum_871_2","kind":"function","src_hash":"96b08de8bd5187b3","in":{"base":"Any","pred":"hasattr(e, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"_check_varsh_sum_871_2(e)","rhs":"<unspecified:_check_varsh_sum_871_2>","over":{"base":"Any","pred":"hasattr(e, 'match')"},"name":"_check_varsh_sum_871_2_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"sqrt","by":"library_axiom"},{"fn":"KroneckerDelta","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"256dd2142fe36f97","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'match')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.match"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def _check_varsh_sum_871_2(e):
     a = Wild('a')
     alpha = symbols('alpha')
@@ -1333,16 +1680,23 @@ def _check_varsh_sum_871_2(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_check_varsh_sum_872_4(e), id) over Any               ║
+# ║ Path(_check_varsh_sum_872_4(e), id) over {Any | hasattr(e, 'match')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _check_varsh_sum_872_4 : Any → Any                         ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: hasattr(e, 'match')                            ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _check_varsh_sum_872_4 : {Any | hasattr(e, 'match')} ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | 41c8a6d9eae8d64a   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_varsh_sum_872_4","kind":"function","src_hash":"893712148d72e4cf","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_check_varsh_sum_872_4(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_check_varsh_sum_872_4_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"KroneckerDelta","by":"library_axiom"},{"fn":"KroneckerDelta","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41c8a6d9eae8d64a"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._check_varsh_sum_872_4","kind":"function","src_hash":"893712148d72e4cf","in":{"base":"Any","pred":"hasattr(e, 'match')"},"out":{"base":"Any"},"spec":{"lhs":"_check_varsh_sum_872_4(e)","rhs":"<unspecified:_check_varsh_sum_872_4>","over":{"base":"Any","pred":"hasattr(e, 'match')"},"name":"_check_varsh_sum_872_4_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"KroneckerDelta","by":"library_axiom"},{"fn":"KroneckerDelta","by":"library_axiom"},{"fn":"subs","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"41c8a6d9eae8d64a","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["hasattr(e, 'match')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.match"]}},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def _check_varsh_sum_872_4(e):
     alpha = symbols('alpha')
     beta = symbols('beta')
@@ -1364,7 +1718,13 @@ def _check_varsh_sum_872_4(e):
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_cg_list(ter), internal helper behaves correctly) over {Any | isinstance(term, CG) and isinstance(term, Mul) and isinstance(term, (Mul, Pow))} ║
+# ║ Path(_cg_list(term), len(cg) == old_len_cg + 1) over {Any | isinstance(term, CG) and isinstance(term, Mul) and isinstance(term, (Mul, Pow)) and isinstance(term, (Mul, Pow)) and hasattr(term, 'args') and hasattr(term, 'exp') and hasattr(term, 'base')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(term, (Mul, Pow))                   ║
+# ║   requires: hasattr(term, 'args')                          ║
+# ║   requires: hasattr(term, 'exp')                           ║
+# ║   ensures:  len(cg) == old_len_cg + 1                      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _cg_list : {Any | isinstance(term, CG) and isinstance...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -1379,9 +1739,12 @@ def _check_varsh_sum_872_4(e):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓7 ?4 ✗1 VCs | 4.3ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | c57a122c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._cg_list","kind":"function","src_hash":"fc84eb5c3276d494","in":{"base":"Any","pred":"isinstance(term, CG) and isinstance(term, Mul) and isinstance(term, (Mul, Pow))"},"out":{"base":"Any"},"spec":{"lhs":"_cg_list(ter)","rhs":"internal helper behaves correctly","over":{"base":"Any","pred":"isinstance(term, CG) and isinstance(term, Mul) and isinstance(term, (Mul, Pow))"},"name":"_cg_list_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"CG","pred":"isinstance(term, CG)","path":{"lhs":"_cg_list(x)","rhs":"internal helper behaves correctly","over":{"base":"CG","pred":"isinstance(term, CG)"},"name":"_cg_list_CG_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_list_CG_correct","statement":"_cg_list satisfies spec on CG inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(term, Mul)","path":{"lhs":"_cg_list(x)","rhs":"internal helper behaves correctly","over":{"base":"Mul","pred":"isinstance(term, Mul)"},"name":"_cg_list_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_list_Mul_correct","statement":"_cg_list satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(term, (Mul, Pow))","path":{"lhs":"_cg_list(x)","rhs":"internal helper behaves correctly","over":{"base":"(Mul","pred":"isinstance(term, (Mul, Pow))"},"name":"_cg_list_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_list_(Mul_correct","statement":"_cg_list satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(term, Pow)","path":{"lhs":"_cg_list(x)","rhs":"internal helper behaves correctly","over":{"base":"Pow","pred":"isinstance(term, Pow)"},"name":"_cg_list_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_list_Pow_correct","statement":"_cg_list satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c57a122c959a1a62"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.cg._cg_list","kind":"function","src_hash":"fc84eb5c3276d494","in":{"base":"Any","pred":"isinstance(term, CG) and isinstance(term, Mul) and isinstance(term, (Mul, Pow)) and isinstance(term, (Mul, Pow)) and hasattr(term, 'args') and hasattr(term, 'exp') and hasattr(term, 'base')"},"out":{"base":"Any","pred":"result satisfies: len(cg) == old_len_cg + 1"},"spec":{"lhs":"_cg_list(term)","rhs":"len(cg) == old_len_cg + 1","over":{"base":"Any","pred":"isinstance(term, CG) and isinstance(term, Mul) and isinstance(term, (Mul, Pow)) and isinstance(term, (Mul, Pow)) and hasattr(term, 'args') and hasattr(term, 'exp') and hasattr(term, 'base')"},"name":"_cg_list_correct"},"guarantee":"len(cg) == old_len_cg + 1","fibers":[{"name":"CG","pred":"isinstance(term, CG)","path":{"lhs":"_cg_list(x)","rhs":"len(cg) == old_len_cg + 1","over":{"base":"CG","pred":"isinstance(term, CG)"},"name":"_cg_list_CG_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_list_CG_correct","statement":"_cg_list satisfies spec on CG inputs"},"trust":"LIBRARY"},{"name":"Mul","pred":"isinstance(term, Mul)","path":{"lhs":"_cg_list(x)","rhs":"len(cg) == old_len_cg + 1","over":{"base":"Mul","pred":"isinstance(term, Mul)"},"name":"_cg_list_Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_list_Mul_correct","statement":"_cg_list satisfies spec on Mul inputs"},"trust":"LIBRARY"},{"name":"(Mul","pred":"isinstance(term, (Mul, Pow))","path":{"lhs":"_cg_list(x)","rhs":"len(cg) == old_len_cg + 1","over":{"base":"(Mul","pred":"isinstance(term, (Mul, Pow))"},"name":"_cg_list_(Mul_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_list_(Mul_correct","statement":"_cg_list satisfies spec on (Mul inputs"},"trust":"LIBRARY"},{"name":"Pow","pred":"isinstance(term, Pow)","path":{"lhs":"_cg_list(x)","rhs":"len(cg) == old_len_cg + 1","over":{"base":"Pow","pred":"isinstance(term, Pow)"},"name":"_cg_list_Pow_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.cg._cg_list_Pow_correct","statement":"_cg_list satisfies spec on Pow inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":4,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"c57a122c959a1a62","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(term, (Mul, Pow))","hasattr(term, 'args')","hasattr(term, 'exp')","hasattr(term, 'base')"],"ensures":["len(cg) == old_len_cg + 1"],"pure":false,"effects":{"effect_type":"reads_state","reads":["term.args","term.base","term.exp"],"calls_mutating":["cg.append"],"raises":["NotImplementedError"]},"state_contract":{"modifies":["cg.*"],"old_bindings":{"old_len_cg":"len(cg)"},"post_ensures":["len(cg) == old_len_cg + 1"],"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":12,"n_verified":7,"n_assumed":4,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":4.3,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(arg, CG)', 'isinstance(term, Pow) and term.exp.is_number', 'isinstance(term, Mul)', 'isinstance(term, CG)', 'not isinstance(term, (Mul, Pow))'}, fibers={'(Mul', 'Mul', 'Pow', 'CG'})"]}}
 def _cg_list(term):
     if isinstance(term, CG):
         return (term,), 1, 1

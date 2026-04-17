@@ -29,16 +29,24 @@ A = ReferenceFrame('A')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_free_dynamicsymbols(), test_free_dynamicsymbols produces the expected output) over Any ║
+# ║ Path(test_free_dynamicsymbols(), set(ordered(v.free_dynamicsymbols(A))) == {a, b, c, d, e, f} and set(ordered(v.free_dynamicsymbols(B))) == {b, c, d, e, f} and set(ordered(v.free_dynamicsymbols(C))) == {c, d, e, f} and set(ordered(v.free_dynamicsymbols(D))) == {d, e, f}) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_free_dynamicsymbols : Any → {Any | set(ordered(v...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(ordered(v.free_dynamicsymbols(A))) ==...   ║
+# ║   ensures:  set(ordered(v.free_dynamicsymbols(B))) ==...   ║
+# ║   ensures:  set(ordered(v.free_dynamicsymbols(C))) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_free_dynamicsymbols : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2665eb85a923cfa3  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 258ef35d1bba290d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_free_dynamicsymbols","kind":"function","src_hash":"87a4b46148cd4ee6","in":{"base":"Any"},"out":{"base":"Any","pred":"set(ordered(v.free_dynamicsymbols(A))) == {a, b, c, d, e, f} and set(ordered(v.free_dynamicsymbols(B))) == {b, c, d, e, f} and set(ordered(v.free_dynamicsymbols(C))) == {c, d, e, f} and set(ordered(v.free_dynamicsymbols(D))) == {d, e, f}"},"spec":{"lhs":"test_free_dynamicsymbols()","rhs":"test_free_dynamicsymbols produces the expected output","over":{"base":"Any"},"name":"test_free_dynamicsymbols_correct"},"guarantee":"test_free_dynamicsymbols produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_free_dynamicsymbols_correct","statement":"Path(test_free_dynamicsymbols(x), test_free_dynamicsymbols produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2665eb85a923cfa3"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_free_dynamicsymbols","kind":"function","src_hash":"87a4b46148cd4ee6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(ordered(v.free_dynamicsymbols(A))) == {a, b, c, d, e, f} and set(ordered(v.free_dynamicsymbols(B))) == {b, c, d, e, f} and set(ordered(v.free_dynamicsymbols(C))) == {c, d, e, f} and set(ordered(v.free_dynamicsymbols(D))) == {d, e, f}"},"spec":{"lhs":"test_free_dynamicsymbols()","rhs":"set(ordered(v.free_dynamicsymbols(A))) == {a, b, c, d, e, f} and set(ordered(v.free_dynamicsymbols(B))) == {b, c, d, e, f} and set(ordered(v.free_dynamicsymbols(C))) == {c, d, e, f} and set(ordered(v.free_dynamicsymbols(D))) == {d, e, f}","over":{"base":"Any"},"name":"test_free_dynamicsymbols_correct"},"guarantee":"set(ordered(v.free_dynamicsymbols(A))) == {a, b, c, d, e, f}; set(ordered(v.free_dynamicsymbols(B))) == {b, c, d, e, f}; set(ordered(v.free_dynamicsymbols(C))) == {c, d, e, f}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_free_dynamicsymbols_correct","statement":"Path(test_free_dynamicsymbols(x), set(ordered(v.free_dynamicsymbols(A))) == {a, b, c, d, e, f}; set(ordered(v.free_dynamicsymbols(B))) == {b, c, d, e, f}; set(ordered(v.free_dynamicsymbols(C))) == {c, d, e, f})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"258ef35d1bba290d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(ordered(v.free_dynamicsymbols(A))) == {a, b, c, d, e, f}","set(ordered(v.free_dynamicsymbols(B))) == {b, c, d, e, f}","set(ordered(v.free_dynamicsymbols(C))) == {c, d, e, f}","set(ordered(v.free_dynamicsymbols(D))) == {d, e, f}"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_free_dynamicsymbols():
     A, B, C, D = symbols('A, B, C, D', cls=ReferenceFrame)
     a, b, c, d, e, f = dynamicsymbols('a, b, c, d, e, f')
@@ -55,7 +63,12 @@ def test_free_dynamicsymbols():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Vector(), test_Vector produces the expected output) over {Any | isinstance(v1, Vector)} ║
+# ║ Path(test_Vector(), A.x != A.y and A.y != A.z and A.z != A.x and A.x + 0 == A.x and isinstance(v1, Vector) and dot(v1, A.x) == x and dot(v1, A.y) == y and dot(v1, A.z) == z and isinstance(v2, Vector) and dot(v2, A.x) == x ** 2 and dot(v2, A.y) == y ** 2 and dot(v2, A.z) == z ** 2 and isinstance(v3, Vector) and dot(v3, A.x) == x ** 2 + x and dot(v3, A.y) == y ** 2 + y and dot(v3, A.z) == z ** 2 + z and isinstance(v4, Vector) and dot(v4, A.x) == x - x ** 2 and dot(v4, A.y) == y - y ** 2 and dot(v4, A.z) == z - z ** 2 and v1.to_matrix(A) == Matrix([[x], [y], [z]]) and v1.to_matrix(B) == Matrix([[x], [y * cos(q) + z * sin(q)], [-y * sin(q) + z * cos(q)]]) and Vector(0).separate() == {} and v1.separate() == {A: v1} and v5.separate() == {A: x * A.x + y * A.y, B: z * B.z} and v6.free_symbols(A) == {x, y, z}) over {Any | isinstance(v1, Vector)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  A.x != A.y                                     ║
+# ║   ensures:  A.y != A.z                                     ║
+# ║   ensures:  A.z != A.x                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_Vector : {Any | isinstance(v1, Vector)} → {Any |...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -67,9 +80,12 @@ def test_free_dynamicsymbols():
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 2.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | a03074cb...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_Vector","kind":"function","src_hash":"58340bba50d6e154","in":{"base":"Any","pred":"isinstance(v1, Vector)"},"out":{"base":"Any","pred":"A.x != A.y and A.y != A.z and A.z != A.x and A.x + 0 == A.x and isinstance(v1, Vector) and dot(v1, A.x) == x and dot(v1, A.y) == y and dot(v1, A.z) == z and isinstance(v2, Vector) and dot(v2, A.x) == x ** 2 and dot(v2, A.y) == y ** 2 and dot(v2, A.z) == z ** 2 and isinstance(v3, Vector) and dot(v3, A.x) == x ** 2 + x and dot(v3, A.y) == y ** 2 + y and dot(v3, A.z) == z ** 2 + z and isinstance(v4, Vector) and dot(v4, A.x) == x - x ** 2 and dot(v4, A.y) == y - y ** 2 and dot(v4, A.z) == z - z ** 2 and v1.to_matrix(A) == Matrix([[x], [y], [z]]) and Vector(0).separate() == {} and v1.separate() == {A: v1} and v5.separate() == {A: x * A.x + y * A.y, B: z * B.z} and v6.free_symbols(A) == {x, y, z}"},"spec":{"lhs":"test_Vector()","rhs":"test_Vector produces the expected output","over":{"base":"Any","pred":"isinstance(v1, Vector)"},"name":"test_Vector_correct"},"guarantee":"test_Vector produces the expected output","fibers":[{"name":"Vector","pred":"isinstance(v1, Vector)","path":{"lhs":"test_Vector(x)","rhs":"test_Vector produces the expected output","over":{"base":"Vector","pred":"isinstance(v1, Vector)"},"name":"test_Vector_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_Vector_Vector_correct","statement":"test_Vector satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a03074cb00a77ede"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_Vector","kind":"function","src_hash":"58340bba50d6e154","in":{"base":"Any","pred":"isinstance(v1, Vector)"},"out":{"base":"Any","pred":"result satisfies: A.x != A.y and A.y != A.z and A.z != A.x and A.x + 0 == A.x and isinstance(v1, Vector) and dot(v1, A.x) == x and dot(v1, A.y) == y and dot(v1, A.z) == z and isinstance(v2, Vector) and dot(v2, A.x) == x ** 2 and dot(v2, A.y) == y ** 2 and dot(v2, A.z) == z ** 2 and isinstance(v3, Vector) and dot(v3, A.x) == x ** 2 + x and dot(v3, A.y) == y ** 2 + y and dot(v3, A.z) == z ** 2 + z and isinstance(v4, Vector) and dot(v4, A.x) == x - x ** 2 and dot(v4, A.y) == y - y ** 2 and dot(v4, A.z) == z - z ** 2 and v1.to_matrix(A) == Matrix([[x], [y], [z]]) and v1.to_matrix(B) == Matrix([[x], [y * cos(q) + z * sin(q)], [-y * sin(q) + z * cos(q)]]) and Vector(0).separate() == {} and v1.separate() == {A: v1} and v5.separate() == {A: x * A.x + y * A.y, B: z * B.z} and v6.free_symbols(A) == {x, y, z}"},"spec":{"lhs":"test_Vector()","rhs":"A.x != A.y and A.y != A.z and A.z != A.x and A.x + 0 == A.x and isinstance(v1, Vector) and dot(v1, A.x) == x and dot(v1, A.y) == y and dot(v1, A.z) == z and isinstance(v2, Vector) and dot(v2, A.x) == x ** 2 and dot(v2, A.y) == y ** 2 and dot(v2, A.z) == z ** 2 and isinstance(v3, Vector) and dot(v3, A.x) == x ** 2 + x and dot(v3, A.y) == y ** 2 + y and dot(v3, A.z) == z ** 2 + z and isinstance(v4, Vector) and dot(v4, A.x) == x - x ** 2 and dot(v4, A.y) == y - y ** 2 and dot(v4, A.z) == z - z ** 2 and v1.to_matrix(A) == Matrix([[x], [y], [z]]) and v1.to_matrix(B) == Matrix([[x], [y * cos(q) + z * sin(q)], [-y * sin(q) + z * cos(q)]]) and Vector(0).separate() == {} and v1.separate() == {A: v1} and v5.separate() == {A: x * A.x + y * A.y, B: z * B.z} and v6.free_symbols(A) == {x, y, z}","over":{"base":"Any","pred":"isinstance(v1, Vector)"},"name":"test_Vector_correct"},"guarantee":"A.x != A.y; A.y != A.z; A.z != A.x","fibers":[{"name":"Vector","pred":"isinstance(v1, Vector)","path":{"lhs":"test_Vector(x)","rhs":"A.x != A.y; A.y != A.z; A.z != A.x","over":{"base":"Vector","pred":"isinstance(v1, Vector)"},"name":"test_Vector_Vector_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_Vector_Vector_correct","statement":"test_Vector satisfies spec on Vector inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"a03074cb00a77ede","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["A.x != A.y","A.y != A.z","A.z != A.x","A.x + 0 == A.x","isinstance(v1, Vector)","dot(v1, A.x) == x","dot(v1, A.y) == y","dot(v1, A.z) == z","isinstance(v2, Vector)","dot(v2, A.x) == x ** 2","dot(v2, A.y) == y ** 2","dot(v2, A.z) == z ** 2","isinstance(v3, Vector)","dot(v3, A.x) == x ** 2 + x","dot(v3, A.y) == y ** 2 + y","dot(v3, A.z) == z ** 2 + z","isinstance(v4, Vector)","dot(v4, A.x) == x - x ** 2","dot(v4, A.y) == y - y ** 2","dot(v4, A.z) == z - z ** 2","v1.to_matrix(A) == Matrix([[x], [y], [z]])","v1.to_matrix(B) == Matrix([[x], [y * cos(q) + z * sin(q)], [-y * sin(q) + z * cos(q)]])","Vector(0).separate() == {}","v1.separate() == {A: v1}","v5.separate() == {A: x * A.x + y * A.y, B: z * B.z}","v6.free_symbols(A) == {x, y, z}"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.2,"verdict_class":"failed","binding":true}}
 def test_Vector():
     assert A.x != A.y
     assert A.y != A.z
@@ -126,16 +142,24 @@ def test_Vector():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_Vector_diffs(), test_Vector_diffs produces the expected output) over Any ║
+# ║ Path(test_Vector_diffs(), v1.dt(N) == q2d * A.x + q2 * q3d * A.y + q3d * N.y and v1.dt(A) == q2d * A.x + q3 * q3d * N.x + q3d * N.y and v1.dt(B) == q2d * A.x + q3 * q3d * N.x + q3d * N.y - q3 * cos(q3) * q2d * N.z and v2.dt(N) == q2d * A.x + (q2 + q3) * q3d * A.y + q3d * B.x + q3d * N.y and v2.dt(A) == q2d * A.x + q3d * B.x + q3 * q3d * N.x + q3d * N.y and v2.dt(B) == q2d * A.x + q3d * B.x + q3 * q3d * N.x + q3d * N.y - q3 * cos(q3) * q2d * N.z and v3.dt(N) == q2dd * A.x + q2d * q3d * A.y + (q3d ** 2 + q3 * q3dd) * N.x + q3dd * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z and v3.dt(A) == q2dd * A.x + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z and (v3.dt(B) - (q2dd * A.x - q3 * cos(q3) * q2d ** 2 * A.y + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (2 * q3 * sin(q3) * q2d * q3d - 2 * cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z)).express(B).simplify() == 0 and v4.dt(N) == q2dd * A.x + q3d * (q2d + q3d) * A.y + q3dd * B.x + (q3d ** 2 + q3 * q3dd) * N.x + q3dd * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z and v4.dt(A) == q2dd * A.x + q3dd * B.x + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z and (v4.dt(B) - (q2dd * A.x - q3 * cos(q3) * q2d ** 2 * A.y + q3dd * B.x + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (2 * q3 * sin(q3) * q2d * q3d - 2 * cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z)).express(B).simplify() == 0 and v5.dt(B) == q1d * A.x + (q3 * q2d + q2d) * A.y + (-q2 * q2d + q3d) * A.z and v5.dt(A) == q1d * A.x + q2d * A.y + q3d * A.z and v5.dt(N) == (-q2 * q3d + q1d) * A.x + (q1 * q3d + q2d) * A.y + q3d * A.z and v3.diff(q1d, N) == 0 and v3.diff(q2d, N) == A.x - q3 * cos(q3) * N.z and v3.diff(q3d, N) == q3 * N.x + N.y and v3.diff(q1d, A) == 0 and v3.diff(q2d, A) == A.x - q3 * cos(q3) * N.z and v3.diff(q3d, A) == q3 * N.x + N.y and v3.diff(q1d, B) == 0 and v3.diff(q2d, B) == A.x - q3 * cos(q3) * N.z and v3.diff(q3d, B) == q3 * N.x + N.y and v4.diff(q1d, N) == 0 and v4.diff(q2d, N) == A.x - q3 * cos(q3) * N.z and v4.diff(q3d, N) == B.x + q3 * N.x + N.y and v4.diff(q1d, A) == 0 and v4.diff(q2d, A) == A.x - q3 * cos(q3) * N.z and v4.diff(q3d, A) == B.x + q3 * N.x + N.y and v4.diff(q1d, B) == 0 and v4.diff(q2d, B) == A.x - q3 * cos(q3) * N.z and v4.diff(q3d, B) == B.x + q3 * N.x + N.y and len(v6.diff(q2, N).args) == 2 and n_comp[1] == N and a_comp[1] == A and n_comp[0] == Matrix([b_measx, b_measy + n_measy, b_measz]) and a_comp[0] == Matrix([0, a_measy, 0])) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_Vector_diffs : Any → {Any | v1.dt(N) == q2d * A....   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v1.dt(N) == q2d * A.x + q2 * q3d * A.y + ...   ║
+# ║   ensures:  v1.dt(A) == q2d * A.x + q3 * q3d * N.x + ...   ║
+# ║   ensures:  v1.dt(B) == q2d * A.x + q3 * q3d * N.x + ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_Vector_diffs : Any → {Any | result satisfies: v1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 996349d3798c26eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 2.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 63ed733a5d27c422  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_Vector_diffs","kind":"function","src_hash":"76e317f22398f4e7","in":{"base":"Any"},"out":{"base":"Any","pred":"v1.dt(N) == q2d * A.x + q2 * q3d * A.y + q3d * N.y and v1.dt(A) == q2d * A.x + q3 * q3d * N.x + q3d * N.y and v1.dt(B) == q2d * A.x + q3 * q3d * N.x + q3d * N.y - q3 * cos(q3) * q2d * N.z and v2.dt(N) == q2d * A.x + (q2 + q3) * q3d * A.y + q3d * B.x + q3d * N.y and v2.dt(A) == q2d * A.x + q3d * B.x + q3 * q3d * N.x + q3d * N.y and v5.dt(B) == q1d * A.x + (q3 * q2d + q2d) * A.y + (-q2 * q2d + q3d) * A.z and v5.dt(A) == q1d * A.x + q2d * A.y + q3d * A.z and v5.dt(N) == (-q2 * q3d + q1d) * A.x + (q1 * q3d + q2d) * A.y + q3d * A.z and v3.diff(q1d, N) == 0 and v3.diff(q2d, N) == A.x - q3 * cos(q3) * N.z and v3.diff(q3d, N) == q3 * N.x + N.y and v3.diff(q1d, A) == 0 and v3.diff(q2d, A) == A.x - q3 * cos(q3) * N.z and v3.diff(q3d, A) == q3 * N.x + N.y and v3.diff(q1d, B) == 0 and v3.diff(q2d, B) == A.x - q3 * cos(q3) * N.z and v3.diff(q3d, B) == q3 * N.x + N.y and v4.diff(q1d, N) == 0 and v4.diff(q2d, N) == A.x - q3 * cos(q3) * N.z and v4.diff(q3d, N) == B.x + q3 * N.x + N.y and v4.diff(q1d, A) == 0 and v4.diff(q2d, A) == A.x - q3 * cos(q3) * N.z and v4.diff(q3d, A) == B.x + q3 * N.x + N.y and v4.diff(q1d, B) == 0 and v4.diff(q2d, B) == A.x - q3 * cos(q3) * N.z and v4.diff(q3d, B) == B.x + q3 * N.x + N.y and len(v6.diff(q2, N).args) == 2 and n_comp[1] == N and a_comp[1] == A and n_comp[0] == Matrix([b_measx, b_measy + n_measy, b_measz]) and a_comp[0] == Matrix([0, a_measy, 0])"},"spec":{"lhs":"test_Vector_diffs()","rhs":"test_Vector_diffs produces the expected output","over":{"base":"Any"},"name":"test_Vector_diffs_correct"},"guarantee":"test_Vector_diffs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_Vector_diffs_correct","statement":"Path(test_Vector_diffs(x), test_Vector_diffs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"996349d3798c26eb"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_Vector_diffs","kind":"function","src_hash":"76e317f22398f4e7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v1.dt(N) == q2d * A.x + q2 * q3d * A.y + q3d * N.y and v1.dt(A) == q2d * A.x + q3 * q3d * N.x + q3d * N.y and v1.dt(B) == q2d * A.x + q3 * q3d * N.x + q3d * N.y - q3 * cos(q3) * q2d * N.z and v2.dt(N) == q2d * A.x + (q2 + q3) * q3d * A.y + q3d * B.x + q3d * N.y and v2.dt(A) == q2d * A.x + q3d * B.x + q3 * q3d * N.x + q3d * N.y and v2.dt(B) == q2d * A.x + q3d * B.x + q3 * q3d * N.x + q3d * N.y - q3 * cos(q3) * q2d * N.z and v3.dt(N) == q2dd * A.x + q2d * q3d * A.y + (q3d ** 2 + q3 * q3dd) * N.x + q3dd * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z and v3.dt(A) == q2dd * A.x + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z and (v3.dt(B) - (q2dd * A.x - q3 * cos(q3) * q2d ** 2 * A.y + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (2 * q3 * sin(q3) * q2d * q3d - 2 * cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z)).express(B).simplify() == 0 and v4.dt(N) == q2dd * A.x + q3d * (q2d + q3d) * A.y + q3dd * B.x + (q3d ** 2 + q3 * q3dd) * N.x + q3dd * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z and v4.dt(A) == q2dd * A.x + q3dd * B.x + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z and (v4.dt(B) - (q2dd * A.x - q3 * cos(q3) * q2d ** 2 * A.y + q3dd * B.x + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (2 * q3 * sin(q3) * q2d * q3d - 2 * cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z)).express(B).simplify() == 0 and v5.dt(B) == q1d * A.x + (q3 * q2d + q2d) * A.y + (-q2 * q2d + q3d) * A.z and v5.dt(A) == q1d * A.x + q2d * A.y + q3d * A.z and v5.dt(N) == (-q2 * q3d + q1d) * A.x + (q1 * q3d + q2d) * A.y + q3d * A.z and v3.diff(q1d, N) == 0 and v3.diff(q2d, N) == A.x - q3 * cos(q3) * N.z and v3.diff(q3d, N) == q3 * N.x + N.y and v3.diff(q1d, A) == 0 and v3.diff(q2d, A) == A.x - q3 * cos(q3) * N.z and v3.diff(q3d, A) == q3 * N.x + N.y and v3.diff(q1d, B) == 0 and v3.diff(q2d, B) == A.x - q3 * cos(q3) * N.z and v3.diff(q3d, B) == q3 * N.x + N.y and v4.diff(q1d, N) == 0 and v4.diff(q2d, N) == A.x - q3 * cos(q3) * N.z and v4.diff(q3d, N) == B.x + q3 * N.x + N.y and v4.diff(q1d, A) == 0 and v4.diff(q2d, A) == A.x - q3 * cos(q3) * N.z and v4.diff(q3d, A) == B.x + q3 * N.x + N.y and v4.diff(q1d, B) == 0 and v4.diff(q2d, B) == A.x - q3 * cos(q3) * N.z and v4.diff(q3d, B) == B.x + q3 * N.x + N.y and len(v6.diff(q2, N).args) == 2 and n_comp[1] == N and a_comp[1] == A and n_comp[0] == Matrix([b_measx, b_measy + n_measy, b_measz]) and a_comp[0] == Matrix([0, a_measy, 0])"},"spec":{"lhs":"test_Vector_diffs()","rhs":"v1.dt(N) == q2d * A.x + q2 * q3d * A.y + q3d * N.y and v1.dt(A) == q2d * A.x + q3 * q3d * N.x + q3d * N.y and v1.dt(B) == q2d * A.x + q3 * q3d * N.x + q3d * N.y - q3 * cos(q3) * q2d * N.z and v2.dt(N) == q2d * A.x + (q2 + q3) * q3d * A.y + q3d * B.x + q3d * N.y and v2.dt(A) == q2d * A.x + q3d * B.x + q3 * q3d * N.x + q3d * N.y and v2.dt(B) == q2d * A.x + q3d * B.x + q3 * q3d * N.x + q3d * N.y - q3 * cos(q3) * q2d * N.z and v3.dt(N) == q2dd * A.x + q2d * q3d * A.y + (q3d ** 2 + q3 * q3dd) * N.x + q3dd * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z and v3.dt(A) == q2dd * A.x + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z and (v3.dt(B) - (q2dd * A.x - q3 * cos(q3) * q2d ** 2 * A.y + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (2 * q3 * sin(q3) * q2d * q3d - 2 * cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z)).express(B).simplify() == 0 and v4.dt(N) == q2dd * A.x + q3d * (q2d + q3d) * A.y + q3dd * B.x + (q3d ** 2 + q3 * q3dd) * N.x + q3dd * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z and v4.dt(A) == q2dd * A.x + q3dd * B.x + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z and (v4.dt(B) - (q2dd * A.x - q3 * cos(q3) * q2d ** 2 * A.y + q3dd * B.x + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (2 * q3 * sin(q3) * q2d * q3d - 2 * cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z)).express(B).simplify() == 0 and v5.dt(B) == q1d * A.x + (q3 * q2d + q2d) * A.y + (-q2 * q2d + q3d) * A.z and v5.dt(A) == q1d * A.x + q2d * A.y + q3d * A.z and v5.dt(N) == (-q2 * q3d + q1d) * A.x + (q1 * q3d + q2d) * A.y + q3d * A.z and v3.diff(q1d, N) == 0 and v3.diff(q2d, N) == A.x - q3 * cos(q3) * N.z and v3.diff(q3d, N) == q3 * N.x + N.y and v3.diff(q1d, A) == 0 and v3.diff(q2d, A) == A.x - q3 * cos(q3) * N.z and v3.diff(q3d, A) == q3 * N.x + N.y and v3.diff(q1d, B) == 0 and v3.diff(q2d, B) == A.x - q3 * cos(q3) * N.z and v3.diff(q3d, B) == q3 * N.x + N.y and v4.diff(q1d, N) == 0 and v4.diff(q2d, N) == A.x - q3 * cos(q3) * N.z and v4.diff(q3d, N) == B.x + q3 * N.x + N.y and v4.diff(q1d, A) == 0 and v4.diff(q2d, A) == A.x - q3 * cos(q3) * N.z and v4.diff(q3d, A) == B.x + q3 * N.x + N.y and v4.diff(q1d, B) == 0 and v4.diff(q2d, B) == A.x - q3 * cos(q3) * N.z and v4.diff(q3d, B) == B.x + q3 * N.x + N.y and len(v6.diff(q2, N).args) == 2 and n_comp[1] == N and a_comp[1] == A and n_comp[0] == Matrix([b_measx, b_measy + n_measy, b_measz]) and a_comp[0] == Matrix([0, a_measy, 0])","over":{"base":"Any"},"name":"test_Vector_diffs_correct"},"guarantee":"v1.dt(N) == q2d * A.x + q2 * q3d * A.y + q3d * N.y; v1.dt(A) == q2d * A.x + q3 * q3d * N.x + q3d * N.y; v1.dt(B) == q2d * A.x + q3 * q3d * N.x + q3d * N.y - q3 * cos(q3) * q2d * N.z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_Vector_diffs_correct","statement":"Path(test_Vector_diffs(x), v1.dt(N) == q2d * A.x + q2 * q3d * A.y + q3d * N.y; v1.dt(A) == q2d * A.x + q3 * q3d * N.x + q3d * N.y; v1.dt(B) == q2d * A.x + q3 * q3d * N.x + q3d * N.y - q3 * cos(q3) * q2d * N.z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"63ed733a5d27c422","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v1.dt(N) == q2d * A.x + q2 * q3d * A.y + q3d * N.y","v1.dt(A) == q2d * A.x + q3 * q3d * N.x + q3d * N.y","v1.dt(B) == q2d * A.x + q3 * q3d * N.x + q3d * N.y - q3 * cos(q3) * q2d * N.z","v2.dt(N) == q2d * A.x + (q2 + q3) * q3d * A.y + q3d * B.x + q3d * N.y","v2.dt(A) == q2d * A.x + q3d * B.x + q3 * q3d * N.x + q3d * N.y","v2.dt(B) == q2d * A.x + q3d * B.x + q3 * q3d * N.x + q3d * N.y - q3 * cos(q3) * q2d * N.z","v3.dt(N) == q2dd * A.x + q2d * q3d * A.y + (q3d ** 2 + q3 * q3dd) * N.x + q3dd * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z","v3.dt(A) == q2dd * A.x + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z","(v3.dt(B) - (q2dd * A.x - q3 * cos(q3) * q2d ** 2 * A.y + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (2 * q3 * sin(q3) * q2d * q3d - 2 * cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z)).express(B).simplify() == 0","v4.dt(N) == q2dd * A.x + q3d * (q2d + q3d) * A.y + q3dd * B.x + (q3d ** 2 + q3 * q3dd) * N.x + q3dd * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z","v4.dt(A) == q2dd * A.x + q3dd * B.x + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (q3 * sin(q3) * q2d * q3d - cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z","(v4.dt(B) - (q2dd * A.x - q3 * cos(q3) * q2d ** 2 * A.y + q3dd * B.x + (2 * q3d ** 2 + q3 * q3dd) * N.x + (q3dd - q3 * q3d ** 2) * N.y + (2 * q3 * sin(q3) * q2d * q3d - 2 * cos(q3) * q2d * q3d - q3 * cos(q3) * q2dd) * N.z)).express(B).simplify() == 0","v5.dt(B) == q1d * A.x + (q3 * q2d + q2d) * A.y + (-q2 * q2d + q3d) * A.z","v5.dt(A) == q1d * A.x + q2d * A.y + q3d * A.z","v5.dt(N) == (-q2 * q3d + q1d) * A.x + (q1 * q3d + q2d) * A.y + q3d * A.z","v3.diff(q1d, N) == 0","v3.diff(q2d, N) == A.x - q3 * cos(q3) * N.z","v3.diff(q3d, N) == q3 * N.x + N.y","v3.diff(q1d, A) == 0","v3.diff(q2d, A) == A.x - q3 * cos(q3) * N.z","v3.diff(q3d, A) == q3 * N.x + N.y","v3.diff(q1d, B) == 0","v3.diff(q2d, B) == A.x - q3 * cos(q3) * N.z","v3.diff(q3d, B) == q3 * N.x + N.y","v4.diff(q1d, N) == 0","v4.diff(q2d, N) == A.x - q3 * cos(q3) * N.z","v4.diff(q3d, N) == B.x + q3 * N.x + N.y","v4.diff(q1d, A) == 0","v4.diff(q2d, A) == A.x - q3 * cos(q3) * N.z","v4.diff(q3d, A) == B.x + q3 * N.x + N.y","v4.diff(q1d, B) == 0","v4.diff(q2d, B) == A.x - q3 * cos(q3) * N.z","v4.diff(q3d, B) == B.x + q3 * N.x + N.y","len(v6.diff(q2, N).args) == 2","n_comp[1] == N","a_comp[1] == A","n_comp[0] == Matrix([b_measx, b_measy + n_measy, b_measz])","a_comp[0] == Matrix([0, a_measy, 0])"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":2.0,"verdict_class":"assumed","binding":true}}
 def test_Vector_diffs():
     q1, q2, q3, q4 = dynamicsymbols('q1 q2 q3 q4')
     q1d, q2d, q3d, q4d = dynamicsymbols('q1 q2 q3 q4', 1)
@@ -221,16 +245,24 @@ def test_Vector_diffs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_var_in_dcm(), test_vector_var_in_dcm produces the expected output) over Any ║
+# ║ Path(test_vector_var_in_dcm(), v.diff(u1, N, var_in_dcm=False) == u2 * A.x and v.diff(u1, A, var_in_dcm=False) == u2 * A.x and v.diff(u3, N, var_in_dcm=False) == N.y and v.diff(u3, A, var_in_dcm=False) == N.y and v.diff(u3, B, var_in_dcm=False) == N.y and v.diff(u4, N, var_in_dcm=False) == 2 * u4 * N.z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_var_in_dcm : Any → {Any | v.diff(u1, N, v...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v.diff(u1, N, var_in_dcm=False) == u2 * A.x    ║
+# ║   ensures:  v.diff(u1, A, var_in_dcm=False) == u2 * A.x    ║
+# ║   ensures:  v.diff(u3, N, var_in_dcm=False) == N.y         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_var_in_dcm : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c80d7a709470b67  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad636ef76b33c95d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_vector_var_in_dcm","kind":"function","src_hash":"ab59f8973294b11d","in":{"base":"Any"},"out":{"base":"Any","pred":"v.diff(u1, N, var_in_dcm=False) == u2 * A.x and v.diff(u1, A, var_in_dcm=False) == u2 * A.x and v.diff(u3, N, var_in_dcm=False) == N.y and v.diff(u3, A, var_in_dcm=False) == N.y and v.diff(u3, B, var_in_dcm=False) == N.y and v.diff(u4, N, var_in_dcm=False) == 2 * u4 * N.z"},"spec":{"lhs":"test_vector_var_in_dcm()","rhs":"test_vector_var_in_dcm produces the expected output","over":{"base":"Any"},"name":"test_vector_var_in_dcm_correct"},"guarantee":"test_vector_var_in_dcm produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_vector_var_in_dcm_correct","statement":"Path(test_vector_var_in_dcm(x), test_vector_var_in_dcm produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c80d7a709470b67"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_vector_var_in_dcm","kind":"function","src_hash":"ab59f8973294b11d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v.diff(u1, N, var_in_dcm=False) == u2 * A.x and v.diff(u1, A, var_in_dcm=False) == u2 * A.x and v.diff(u3, N, var_in_dcm=False) == N.y and v.diff(u3, A, var_in_dcm=False) == N.y and v.diff(u3, B, var_in_dcm=False) == N.y and v.diff(u4, N, var_in_dcm=False) == 2 * u4 * N.z"},"spec":{"lhs":"test_vector_var_in_dcm()","rhs":"v.diff(u1, N, var_in_dcm=False) == u2 * A.x and v.diff(u1, A, var_in_dcm=False) == u2 * A.x and v.diff(u3, N, var_in_dcm=False) == N.y and v.diff(u3, A, var_in_dcm=False) == N.y and v.diff(u3, B, var_in_dcm=False) == N.y and v.diff(u4, N, var_in_dcm=False) == 2 * u4 * N.z","over":{"base":"Any"},"name":"test_vector_var_in_dcm_correct"},"guarantee":"v.diff(u1, N, var_in_dcm=False) == u2 * A.x; v.diff(u1, A, var_in_dcm=False) == u2 * A.x; v.diff(u3, N, var_in_dcm=False) == N.y","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_vector_var_in_dcm_correct","statement":"Path(test_vector_var_in_dcm(x), v.diff(u1, N, var_in_dcm=False) == u2 * A.x; v.diff(u1, A, var_in_dcm=False) == u2 * A.x; v.diff(u3, N, var_in_dcm=False) == N.y)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad636ef76b33c95d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v.diff(u1, N, var_in_dcm=False) == u2 * A.x","v.diff(u1, A, var_in_dcm=False) == u2 * A.x","v.diff(u3, N, var_in_dcm=False) == N.y","v.diff(u3, A, var_in_dcm=False) == N.y","v.diff(u3, B, var_in_dcm=False) == N.y","v.diff(u4, N, var_in_dcm=False) == 2 * u4 * N.z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_vector_var_in_dcm():
 
     N = ReferenceFrame('N')
@@ -251,16 +283,24 @@ def test_vector_var_in_dcm():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_simplify(), test_vector_simplify produces the expected output) over Any ║
+# ║ Path(test_vector_simplify(), test1 & N.x != (x + y) / (x * y) and test1 & N.x == (x + y) / (x * y) and test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3) and test3 & N.x == 0 and test4 & N.x == -2 * y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_simplify : Any → {Any | test1 & N.x != (x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  test1 & N.x != (x + y) / (x * y)               ║
+# ║   ensures:  test1 & N.x == (x + y) / (x * y)               ║
+# ║   ensures:  test2 & N.x == A ** 2 * s ** 4 / (4 * pi ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_simplify : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 96d3030e146fa4f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5ffb14495cbbfe44  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_vector_simplify","kind":"function","src_hash":"7b4971a2615b9415","in":{"base":"Any"},"out":{"base":"Any","pred":"test1 & N.x != (x + y) / (x * y) and test1 & N.x == (x + y) / (x * y) and test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3) and test3 & N.x == 0 and test4 & N.x == -2 * y"},"spec":{"lhs":"test_vector_simplify()","rhs":"test_vector_simplify produces the expected output","over":{"base":"Any"},"name":"test_vector_simplify_correct"},"guarantee":"test_vector_simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_vector_simplify_correct","statement":"Path(test_vector_simplify(x), test_vector_simplify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"96d3030e146fa4f4"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_vector_simplify","kind":"function","src_hash":"7b4971a2615b9415","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: test1 & N.x != (x + y) / (x * y) and test1 & N.x == (x + y) / (x * y) and test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3) and test3 & N.x == 0 and test4 & N.x == -2 * y"},"spec":{"lhs":"test_vector_simplify()","rhs":"test1 & N.x != (x + y) / (x * y) and test1 & N.x == (x + y) / (x * y) and test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3) and test3 & N.x == 0 and test4 & N.x == -2 * y","over":{"base":"Any"},"name":"test_vector_simplify_correct"},"guarantee":"test1 & N.x != (x + y) / (x * y); test1 & N.x == (x + y) / (x * y); test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_vector_simplify_correct","statement":"Path(test_vector_simplify(x), test1 & N.x != (x + y) / (x * y); test1 & N.x == (x + y) / (x * y); test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5ffb14495cbbfe44","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["test1 & N.x != (x + y) / (x * y)","test1 & N.x == (x + y) / (x * y)","test2 & N.x == A ** 2 * s ** 4 / (4 * pi * k * m ** 3)","test3 & N.x == 0","test4 & N.x == -2 * y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_vector_simplify():
     x, y, z, k, n, m, w, f, s, A = symbols('x, y, z, k, n, m, w, f, s, A')
     N = ReferenceFrame('N')
@@ -284,16 +324,24 @@ def test_vector_simplify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_evalf(), test_vector_evalf produces the expected output) over Any ║
+# ║ Path(test_vector_evalf(), v.evalf(2) == Float('3.1416', 2) * A.x and v.evalf(3) == Float('3.1416', 3) * A.x + Float('5', 3) * a * A.y - b * A.z and v.evalf(5, subs={a: 1.234, b: 5.8973}) == Float('3.1415926536', 5) * A.x + Float('6.17', 5) * A.y - Float('5.8973', 5) * A.z) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_evalf : Any → {Any | v.evalf(2) == Float(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v.evalf(2) == Float('3.1416', 2) * A.x         ║
+# ║   ensures:  v.evalf(3) == Float('3.1416', 3) * A.x + ...   ║
+# ║   ensures:  v.evalf(5, subs={a: 1.234, b: 5.8973}) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_evalf : Any → {Any | result satisfies: v....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | acaaf4cad9b466c9  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 93fc73a7a9ad5cdf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_vector_evalf","kind":"function","src_hash":"5e057ead6f9846ca","in":{"base":"Any"},"out":{"base":"Any","pred":"v.evalf(2) == Float('3.1416', 2) * A.x and v.evalf(3) == Float('3.1416', 3) * A.x + Float('5', 3) * a * A.y - b * A.z"},"spec":{"lhs":"test_vector_evalf()","rhs":"test_vector_evalf produces the expected output","over":{"base":"Any"},"name":"test_vector_evalf_correct"},"guarantee":"test_vector_evalf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_vector_evalf_correct","statement":"Path(test_vector_evalf(x), test_vector_evalf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"acaaf4cad9b466c9"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_vector_evalf","kind":"function","src_hash":"5e057ead6f9846ca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v.evalf(2) == Float('3.1416', 2) * A.x and v.evalf(3) == Float('3.1416', 3) * A.x + Float('5', 3) * a * A.y - b * A.z and v.evalf(5, subs={a: 1.234, b: 5.8973}) == Float('3.1415926536', 5) * A.x + Float('6.17', 5) * A.y - Float('5.8973', 5) * A.z"},"spec":{"lhs":"test_vector_evalf()","rhs":"v.evalf(2) == Float('3.1416', 2) * A.x and v.evalf(3) == Float('3.1416', 3) * A.x + Float('5', 3) * a * A.y - b * A.z and v.evalf(5, subs={a: 1.234, b: 5.8973}) == Float('3.1415926536', 5) * A.x + Float('6.17', 5) * A.y - Float('5.8973', 5) * A.z","over":{"base":"Any"},"name":"test_vector_evalf_correct"},"guarantee":"v.evalf(2) == Float('3.1416', 2) * A.x; v.evalf(3) == Float('3.1416', 3) * A.x + Float('5', 3) * a * A.y - b * A.z; v.evalf(5, subs={a: 1.234, b: 5.8973}) == Float('3.1415926536', 5) * A.x + Float('6.17', 5) * A.y - Float('5.8973', 5) * A.z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_vector_evalf_correct","statement":"Path(test_vector_evalf(x), v.evalf(2) == Float('3.1416', 2) * A.x; v.evalf(3) == Float('3.1416', 3) * A.x + Float('5', 3) * a * A.y - b * A.z; v.evalf(5, subs={a: 1.234, b: 5.8973}) == Float('3.1415926536', 5) * A.x + Float('6.17', 5) * A.y - Float('5.8973', 5) * A.z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"93fc73a7a9ad5cdf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v.evalf(2) == Float('3.1416', 2) * A.x","v.evalf(3) == Float('3.1416', 3) * A.x + Float('5', 3) * a * A.y - b * A.z","v.evalf(5, subs={a: 1.234, b: 5.8973}) == Float('3.1415926536', 5) * A.x + Float('6.17', 5) * A.y - Float('5.8973', 5) * A.z"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_vector_evalf():
     a, b = symbols('a b')
     v = pi * A.x
@@ -304,16 +352,23 @@ def test_vector_evalf():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_angle(), test_vector_angle produces the expected output) over Any ║
+# ║ Path(test_vector_angle(), v1.angle_between(v2) == pi / 2 and v3.angle_between(v4) == 0) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_angle : Any → {Any | v1.angle_between(v2)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v1.angle_between(v2) == pi / 2                 ║
+# ║   ensures:  v3.angle_between(v4) == 0                      ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_angle : Any → {Any | result satisfies: v1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bf982aea3cd979ce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6bb440d75be13329  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_vector_angle","kind":"function","src_hash":"0f01fbdcb84bfd55","in":{"base":"Any"},"out":{"base":"Any","pred":"v1.angle_between(v2) == pi / 2 and v3.angle_between(v4) == 0"},"spec":{"lhs":"test_vector_angle()","rhs":"test_vector_angle produces the expected output","over":{"base":"Any"},"name":"test_vector_angle_correct"},"guarantee":"test_vector_angle produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_vector_angle_correct","statement":"Path(test_vector_angle(x), test_vector_angle produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bf982aea3cd979ce"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_vector_angle","kind":"function","src_hash":"0f01fbdcb84bfd55","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v1.angle_between(v2) == pi / 2 and v3.angle_between(v4) == 0"},"spec":{"lhs":"test_vector_angle()","rhs":"v1.angle_between(v2) == pi / 2 and v3.angle_between(v4) == 0","over":{"base":"Any"},"name":"test_vector_angle_correct"},"guarantee":"v1.angle_between(v2) == pi / 2; v3.angle_between(v4) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_vector_angle_correct","statement":"Path(test_vector_angle(x), v1.angle_between(v2) == pi / 2; v3.angle_between(v4) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6bb440d75be13329","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v1.angle_between(v2) == pi / 2","v3.angle_between(v4) == 0"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_vector_angle():
     A = ReferenceFrame('A')
     v1 = A.x + A.y
@@ -327,16 +382,24 @@ def test_vector_angle():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_xreplace(), test_vector_xreplace produces the expected output) over Any ║
+# ║ Path(test_vector_xreplace(), v.xreplace({x: cos(x)}) == cos(x) ** 2 * A.x + y * cos(x) * A.y + y * z * cos(x) * A.z and v.xreplace({x * y: pi}) == x ** 2 * A.x + pi * A.y + x * y * z * A.z and v.xreplace({x * y * z: 1}) == x ** 2 * A.x + x * y * A.y + A.z and v.xreplace({x: 1, z: 0}) == A.x + y * A.y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_xreplace : Any → {Any | v.xreplace({x * y...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v.xreplace({x: cos(x)}) == cos(x) ** 2 * ...   ║
+# ║   ensures:  v.xreplace({x * y: pi}) == x ** 2 * A.x +...   ║
+# ║   ensures:  v.xreplace({x * y * z: 1}) == x ** 2 * A....   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_xreplace : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2733165d19818a67  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b6f4799689c41f1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_vector_xreplace","kind":"function","src_hash":"67a5292763ea9d67","in":{"base":"Any"},"out":{"base":"Any","pred":"v.xreplace({x * y: pi}) == x ** 2 * A.x + pi * A.y + x * y * z * A.z and v.xreplace({x * y * z: 1}) == x ** 2 * A.x + x * y * A.y + A.z and v.xreplace({x: 1, z: 0}) == A.x + y * A.y"},"spec":{"lhs":"test_vector_xreplace()","rhs":"test_vector_xreplace produces the expected output","over":{"base":"Any"},"name":"test_vector_xreplace_correct"},"guarantee":"test_vector_xreplace produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_vector_xreplace_correct","statement":"Path(test_vector_xreplace(x), test_vector_xreplace produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2733165d19818a67"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_vector_xreplace","kind":"function","src_hash":"67a5292763ea9d67","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v.xreplace({x: cos(x)}) == cos(x) ** 2 * A.x + y * cos(x) * A.y + y * z * cos(x) * A.z and v.xreplace({x * y: pi}) == x ** 2 * A.x + pi * A.y + x * y * z * A.z and v.xreplace({x * y * z: 1}) == x ** 2 * A.x + x * y * A.y + A.z and v.xreplace({x: 1, z: 0}) == A.x + y * A.y"},"spec":{"lhs":"test_vector_xreplace()","rhs":"v.xreplace({x: cos(x)}) == cos(x) ** 2 * A.x + y * cos(x) * A.y + y * z * cos(x) * A.z and v.xreplace({x * y: pi}) == x ** 2 * A.x + pi * A.y + x * y * z * A.z and v.xreplace({x * y * z: 1}) == x ** 2 * A.x + x * y * A.y + A.z and v.xreplace({x: 1, z: 0}) == A.x + y * A.y","over":{"base":"Any"},"name":"test_vector_xreplace_correct"},"guarantee":"v.xreplace({x: cos(x)}) == cos(x) ** 2 * A.x + y * cos(x) * A.y + y * z * cos(x) * A.z; v.xreplace({x * y: pi}) == x ** 2 * A.x + pi * A.y + x * y * z * A.z; v.xreplace({x * y * z: 1}) == x ** 2 * A.x + x * y * A.y + A.z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_vector_xreplace_correct","statement":"Path(test_vector_xreplace(x), v.xreplace({x: cos(x)}) == cos(x) ** 2 * A.x + y * cos(x) * A.y + y * z * cos(x) * A.z; v.xreplace({x * y: pi}) == x ** 2 * A.x + pi * A.y + x * y * z * A.z; v.xreplace({x * y * z: 1}) == x ** 2 * A.x + x * y * A.y + A.z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b6f4799689c41f1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v.xreplace({x: cos(x)}) == cos(x) ** 2 * A.x + y * cos(x) * A.y + y * z * cos(x) * A.z","v.xreplace({x * y: pi}) == x ** 2 * A.x + pi * A.y + x * y * z * A.z","v.xreplace({x * y * z: 1}) == x ** 2 * A.x + x * y * A.y + A.z","v.xreplace({x: 1, z: 0}) == A.x + y * A.y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_vector_xreplace():
     x, y, z = symbols('x y z')
     v = x**2 * A.x + x*y * A.y + x*y*z * A.z
@@ -348,16 +411,22 @@ def test_vector_xreplace():
     raises(TypeError, lambda: v.xreplace([x, y]))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_23366(), test_issue_23366 produces the expected output) over Any ║
+# ║ Path(test_issue_23366(), <unspecified:test_issue_23366>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_issue_23366 : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1a37b25175ec3335  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_issue_23366","kind":"function","src_hash":"412856e107dab2d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_23366()","rhs":"test_issue_23366 produces the expected output","over":{"base":"Any"},"name":"test_issue_23366_correct"},"guarantee":"test_issue_23366 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_issue_23366_correct","statement":"Path(test_issue_23366(x), test_issue_23366 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a37b25175ec3335"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_issue_23366","kind":"function","src_hash":"412856e107dab2d4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_issue_23366()","rhs":"<unspecified:test_issue_23366>","over":{"base":"Any"},"name":"test_issue_23366_correct"},"guarantee":"test_issue_23366 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_issue_23366_correct","statement":"Path(test_issue_23366(x), test_issue_23366 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1a37b25175ec3335","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_23366():
     u1 = dynamicsymbols('u1')
     N = ReferenceFrame('N')
@@ -366,16 +435,24 @@ def test_issue_23366():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_vector_outer(), test_vector_outer produces the expected output) over Any ║
+# ║ Path(test_vector_outer(), v1.outer(v2).to_matrix(N) == v1v2 and (v1 | v2).to_matrix(N) == v1v2 and v2.outer(v1).to_matrix(N) == v2v1 and (v2 | v1).to_matrix(N) == v2v1) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_vector_outer : Any → {Any | v1.outer(v2).to_matr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v1.outer(v2).to_matrix(N) == v1v2              ║
+# ║   ensures:  (v1 | v2).to_matrix(N) == v1v2                 ║
+# ║   ensures:  v2.outer(v1).to_matrix(N) == v2v1              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_vector_outer : Any → {Any | result satisfies: v1...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7658be344332d91  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2c1bb13e7c4b880f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_vector_outer","kind":"function","src_hash":"615459dc68922ca4","in":{"base":"Any"},"out":{"base":"Any","pred":"v1.outer(v2).to_matrix(N) == v1v2 and (v1 | v2).to_matrix(N) == v1v2 and v2.outer(v1).to_matrix(N) == v2v1 and (v2 | v1).to_matrix(N) == v2v1"},"spec":{"lhs":"test_vector_outer()","rhs":"test_vector_outer produces the expected output","over":{"base":"Any"},"name":"test_vector_outer_correct"},"guarantee":"test_vector_outer produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_vector_outer_correct","statement":"Path(test_vector_outer(x), test_vector_outer produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7658be344332d91"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_vector_outer","kind":"function","src_hash":"615459dc68922ca4","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v1.outer(v2).to_matrix(N) == v1v2 and (v1 | v2).to_matrix(N) == v1v2 and v2.outer(v1).to_matrix(N) == v2v1 and (v2 | v1).to_matrix(N) == v2v1"},"spec":{"lhs":"test_vector_outer()","rhs":"v1.outer(v2).to_matrix(N) == v1v2 and (v1 | v2).to_matrix(N) == v1v2 and v2.outer(v1).to_matrix(N) == v2v1 and (v2 | v1).to_matrix(N) == v2v1","over":{"base":"Any"},"name":"test_vector_outer_correct"},"guarantee":"v1.outer(v2).to_matrix(N) == v1v2; (v1 | v2).to_matrix(N) == v1v2; v2.outer(v1).to_matrix(N) == v2v1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_vector_outer_correct","statement":"Path(test_vector_outer(x), v1.outer(v2).to_matrix(N) == v1v2; (v1 | v2).to_matrix(N) == v1v2; v2.outer(v1).to_matrix(N) == v2v1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2c1bb13e7c4b880f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v1.outer(v2).to_matrix(N) == v1v2","(v1 | v2).to_matrix(N) == v1v2","v2.outer(v1).to_matrix(N) == v2v1","(v2 | v1).to_matrix(N) == v2v1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_vector_outer():
     a, b, c, d, e, f = symbols('a, b, c, d, e, f')
     N = ReferenceFrame('N')
@@ -394,16 +471,24 @@ def test_vector_outer():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_overloaded_operators(), test_overloaded_operators produces the expected output) over Any ║
+# ║ Path(test_overloaded_operators(), v1 + v2 == v2 + v1 and v1 - v2 == -v2 + v1 and v1 & v2 == v2 & v1 and v1 ^ v2 == v1.cross(v2) and v2 ^ v1 == v2.cross(v1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_overloaded_operators : Any → {Any | v1 + v2 == v...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  v1 + v2 == v2 + v1                             ║
+# ║   ensures:  v1 - v2 == -v2 + v1                            ║
+# ║   ensures:  v1 & v2 == v2 & v1                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_overloaded_operators : Any → {Any | result satis...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8dde61d2f59c0787  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a5a1903b6338c6d3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_overloaded_operators","kind":"function","src_hash":"c4115fba58f4d33a","in":{"base":"Any"},"out":{"base":"Any","pred":"v1 + v2 == v2 + v1 and v1 - v2 == -v2 + v1 and v1 & v2 == v2 & v1 and v1 ^ v2 == v1.cross(v2) and v2 ^ v1 == v2.cross(v1)"},"spec":{"lhs":"test_overloaded_operators()","rhs":"test_overloaded_operators produces the expected output","over":{"base":"Any"},"name":"test_overloaded_operators_correct"},"guarantee":"test_overloaded_operators produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_overloaded_operators_correct","statement":"Path(test_overloaded_operators(x), test_overloaded_operators produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8dde61d2f59c0787"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.vector.tests.test_vector.test_overloaded_operators","kind":"function","src_hash":"c4115fba58f4d33a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: v1 + v2 == v2 + v1 and v1 - v2 == -v2 + v1 and v1 & v2 == v2 & v1 and v1 ^ v2 == v1.cross(v2) and v2 ^ v1 == v2.cross(v1)"},"spec":{"lhs":"test_overloaded_operators()","rhs":"v1 + v2 == v2 + v1 and v1 - v2 == -v2 + v1 and v1 & v2 == v2 & v1 and v1 ^ v2 == v1.cross(v2) and v2 ^ v1 == v2.cross(v1)","over":{"base":"Any"},"name":"test_overloaded_operators_correct"},"guarantee":"v1 + v2 == v2 + v1; v1 - v2 == -v2 + v1; v1 & v2 == v2 & v1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.vector.tests.test_vector.test_overloaded_operators_correct","statement":"Path(test_overloaded_operators(x), v1 + v2 == v2 + v1; v1 - v2 == -v2 + v1; v1 & v2 == v2 & v1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a5a1903b6338c6d3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["v1 + v2 == v2 + v1","v1 - v2 == -v2 + v1","v1 & v2 == v2 & v1","v1 ^ v2 == v1.cross(v2)","v2 ^ v1 == v2.cross(v1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_overloaded_operators():
     a, b, c, d, e, f = symbols('a, b, c, d, e, f')
     N = ReferenceFrame('N')

@@ -19,16 +19,22 @@ from sympy.codegen.ast import Print
 from sympy.codegen.pyutils import render_as_module
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_standard(), test_standard produces the expected output) over Any ║
+# ║ Path(test_standard(), render_as_module(ast, standard='python3') == '\n\nprint("coordinate: %12.5g %12.5g\\n" % (x, y), end="")') over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_standard : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  render_as_module(ast, standard='python3')...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_standard : Any → {Any | result satisfies: render...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 66d82d1ff9fc2960  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e72b854140a3294b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_pyutils.test_standard","kind":"function","src_hash":"45fb01afddeebe39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_standard()","rhs":"test_standard produces the expected output","over":{"base":"Any"},"name":"test_standard_correct"},"guarantee":"test_standard produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_pyutils.test_standard_correct","statement":"Path(test_standard(x), test_standard produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"66d82d1ff9fc2960"}
+# @cctt_verify {"v":2,"sym":"sympy.codegen.tests.test_pyutils.test_standard","kind":"function","src_hash":"45fb01afddeebe39","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: render_as_module(ast, standard='python3') == '\\n\\nprint(\"coordinate: %12.5g %12.5g\\\\n\" % (x, y), end=\"\")'"},"spec":{"lhs":"test_standard()","rhs":"render_as_module(ast, standard='python3') == '\\n\\nprint(\"coordinate: %12.5g %12.5g\\\\n\" % (x, y), end=\"\")'","over":{"base":"Any"},"name":"test_standard_correct"},"guarantee":"render_as_module(ast, standard='python3') == '\\n\\nprint(\"coordinate: %12.5g %12.5g\\\\n\" % (x, y), end=\"\")'","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.codegen.tests.test_pyutils.test_standard_correct","statement":"Path(test_standard(x), render_as_module(ast, standard='python3') == '\\n\\nprint(\"coordinate: %12.5g %12.5g\\\\n\" % (x, y), end=\"\")')"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e72b854140a3294b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["render_as_module(ast, standard='python3') == '\\n\\nprint(\"coordinate: %12.5g %12.5g\\\\n\" % (x, y), end=\"\")'"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_standard():
     ast = Print('x y'.split(), r"coordinate: %12.5g %12.5g\n")
     assert render_as_module(ast, standard='python3') == \

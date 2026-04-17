@@ -30,16 +30,22 @@ else:
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(serializedATN(), serializedATN produces the expected output) over Any ║
+# ║ Path(serializedATN(), <unspecified:serializedATN>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ serializedATN : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 5.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d3936965de3db6ff  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._antlr.autolevlexer.serializedATN","kind":"function","src_hash":"5d5c935a4d267b39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"serializedATN()","rhs":"serializedATN produces the expected output","over":{"base":"Any"},"name":"serializedATN_correct"},"guarantee":"serializedATN produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._antlr.autolevlexer.serializedATN_correct","statement":"Path(serializedATN(x), serializedATN produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3936965de3db6ff"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._antlr.autolevlexer.serializedATN","kind":"function","src_hash":"5d5c935a4d267b39","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"serializedATN()","rhs":"<unspecified:serializedATN>","over":{"base":"Any"},"name":"serializedATN_correct"},"guarantee":"serializedATN produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.parsing.autolev._antlr.autolevlexer.serializedATN_correct","statement":"Path(serializedATN(x), serializedATN produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d3936965de3db6ff","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.6,"verdict_class":"assumed","binding":true}}
 def serializedATN():
     return [
         4,0,49,393,6,-1,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,
@@ -191,14 +197,20 @@ def serializedATN():
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a AutolevLexer instance) preserved by AutolevLexer(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ AutolevLexer : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Lexer)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ AutolevLexer : Any → {Any | result satisfies: isinsta...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 390e68c760ff9f5c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._antlr.autolevlexer.AutolevLexer","kind":"class","src_hash":"9ce5489bbf4f7a1b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"AutolevLexer(*args)","rhs":"correctly constructs a AutolevLexer instance","over":{"base":"Any"},"name":"AutolevLexer_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a AutolevLexer instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_interp') and hasattr(self, '_actions') and hasattr(self, '_predicates')","kind":"class","induction":"structural on _interp, _actions, _predicates"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"390e68c760ff9f5c"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._antlr.autolevlexer.AutolevLexer","kind":"class","src_hash":"9ce5489bbf4f7a1b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Lexer)"},"spec":{"lhs":"AutolevLexer(*args)","rhs":"correctly constructs a AutolevLexer instance","over":{"base":"Any"},"name":"AutolevLexer_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Lexer); preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, '_interp') and hasattr(self, '_actions') and hasattr(self, '_predicates')","kind":"class","induction":"structural on _interp, _actions, _predicates"}],"methods_preserving":["__init__"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"390e68c760ff9f5c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Lexer)"],"invariants":["hasattr(self, '_interp')","hasattr(self, '_actions')","hasattr(self, '_predicates')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Function AutolevLexer not found in source"]}}
 class AutolevLexer(Lexer):
 
     atn = ATNDeserializer().deserialize(serializedATN())
@@ -283,16 +295,23 @@ class AutolevLexer(Lexer):
     grammarFileName = "Autolev.g4"
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(inp), initializes the instance correctly) over Any ║
+# ║ Path(__init__(input, output), <unspecified:__init__>) over {Any | isinstance(output, TextIO)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(output, TextIO)                     ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(output, TextIO)} → Any        ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 48470e2638daf414           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._antlr.autolevlexer.AutolevLexer.__init__","kind":"method","src_hash":"ff9be961bdc868ec","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(inp)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48470e2638daf414"}
+# @cctt_verify {"v":2,"sym":"sympy.parsing.autolev._antlr.autolevlexer.AutolevLexer.__init__","kind":"method","src_hash":"ff9be961bdc868ec","in":{"base":"Any","pred":"isinstance(output, TextIO)"},"out":{"base":"Any"},"spec":{"lhs":"__init__(input, output)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"isinstance(output, TextIO)"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"48470e2638daf414","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(output, TextIO)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, input=None, output:TextIO = sys.stdout):
         super().__init__(input, output)
         self.checkVersion("4.11.1")

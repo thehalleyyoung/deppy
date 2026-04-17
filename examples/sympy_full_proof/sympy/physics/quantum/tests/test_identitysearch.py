@@ -29,32 +29,46 @@ from sympy.testing.pytest import skip
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(create_gate_sequence(qub), create_gate_sequence produces the expected output) over Any ║
+# ║ Path(create_gate_sequence(qubit), <unspecified:create_gate_sequence>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ create_gate_sequence : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 692ec6ac380b2a70  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.create_gate_sequence","kind":"function","src_hash":"33ae24964a387b9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"create_gate_sequence(qub)","rhs":"create_gate_sequence produces the expected output","over":{"base":"Any"},"name":"create_gate_sequence_correct"},"guarantee":"create_gate_sequence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.create_gate_sequence_correct","statement":"Path(create_gate_sequence(x), create_gate_sequence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"692ec6ac380b2a70"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.create_gate_sequence","kind":"function","src_hash":"33ae24964a387b9d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"create_gate_sequence(qubit)","rhs":"<unspecified:create_gate_sequence>","over":{"base":"Any"},"name":"create_gate_sequence_correct"},"guarantee":"create_gate_sequence produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.create_gate_sequence_correct","statement":"Path(create_gate_sequence(x), create_gate_sequence produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"692ec6ac380b2a70","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def create_gate_sequence(qubit=0):
     gates = (X(qubit), Y(qubit), Z(qubit), H(qubit))
     return gates
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_generate_gate_rules_1(), test_generate_gate_rules_1 produces the expected output) over Any ║
+# ║ Path(test_generate_gate_rules_1(), generate_gate_rules((x,)) == {((x,), ())} and generate_gate_rules((x, x)) == gate_rules and generate_gate_rules((x, y, x)) == gate_rules and actual == gate_rules) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_generate_gate_rules_1 : Any → {Any | generate_ga...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  generate_gate_rules((x,)) == {((x,), ())}      ║
+# ║   ensures:  generate_gate_rules((x, x)) == gate_rules      ║
+# ║   ensures:  generate_gate_rules((x, y, x)) == gate_rules   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_generate_gate_rules_1 : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 32416e655be4d215  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 01d6ea6e3eed464c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_generate_gate_rules_1","kind":"function","src_hash":"c3b9748e525f3237","in":{"base":"Any"},"out":{"base":"Any","pred":"generate_gate_rules((x,)) == {((x,), ())} and generate_gate_rules((x, x)) == gate_rules and generate_gate_rules((x, y, x)) == gate_rules and actual == gate_rules and actual == gate_rules and actual == gate_rules and actual == gate_rules"},"spec":{"lhs":"test_generate_gate_rules_1()","rhs":"test_generate_gate_rules_1 produces the expected output","over":{"base":"Any"},"name":"test_generate_gate_rules_1_correct"},"guarantee":"test_generate_gate_rules_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_generate_gate_rules_1_correct","statement":"Path(test_generate_gate_rules_1(x), test_generate_gate_rules_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"32416e655be4d215"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_generate_gate_rules_1","kind":"function","src_hash":"c3b9748e525f3237","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: generate_gate_rules((x,)) == {((x,), ())} and generate_gate_rules((x, x)) == gate_rules and generate_gate_rules((x, y, x)) == gate_rules and actual == gate_rules"},"spec":{"lhs":"test_generate_gate_rules_1()","rhs":"generate_gate_rules((x,)) == {((x,), ())} and generate_gate_rules((x, x)) == gate_rules and generate_gate_rules((x, y, x)) == gate_rules and actual == gate_rules","over":{"base":"Any"},"name":"test_generate_gate_rules_1_correct"},"guarantee":"generate_gate_rules((x,)) == {((x,), ())}; generate_gate_rules((x, x)) == gate_rules; generate_gate_rules((x, y, x)) == gate_rules","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_generate_gate_rules_1_correct","statement":"Path(test_generate_gate_rules_1(x), generate_gate_rules((x,)) == {((x,), ())}; generate_gate_rules((x, x)) == gate_rules; generate_gate_rules((x, y, x)) == gate_rules)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"01d6ea6e3eed464c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["generate_gate_rules((x,)) == {((x,), ())}","generate_gate_rules((x, x)) == gate_rules","generate_gate_rules((x, y, x)) == gate_rules","actual == gate_rules"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_generate_gate_rules_1():
     # Test with tuples
     (x, y, z, h) = create_gate_sequence()
@@ -125,16 +139,24 @@ def test_generate_gate_rules_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_generate_gate_rules_2(), test_generate_gate_rules_2 produces the expected output) over Any ║
+# ║ Path(test_generate_gate_rules_2(), generate_gate_rules((x,), return_as_muls=True) == expected and generate_gate_rules(x * x, return_as_muls=True) == expected and generate_gate_rules(x * x, return_as_muls=False) == expected and generate_gate_rules(x * y * x, return_as_muls=True) == gate_rules and actual == gate_rules) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_generate_gate_rules_2 : Any → {Any | generate_ga...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  generate_gate_rules((x,), return_as_muls=...   ║
+# ║   ensures:  generate_gate_rules(x * x, return_as_muls...   ║
+# ║   ensures:  generate_gate_rules(x * x, return_as_muls...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_generate_gate_rules_2 : Any → {Any | result sati...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2cadd2bcfcc98292  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d589d624de99d25c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_generate_gate_rules_2","kind":"function","src_hash":"86e3a1678bf6c300","in":{"base":"Any"},"out":{"base":"Any","pred":"generate_gate_rules((x,), return_as_muls=True) == expected and generate_gate_rules(x * x, return_as_muls=True) == expected and generate_gate_rules(x * x, return_as_muls=False) == expected and generate_gate_rules(x * y * x, return_as_muls=True) == gate_rules and actual == gate_rules and actual == gate_rules and actual == gate_rules and actual == gate_rules"},"spec":{"lhs":"test_generate_gate_rules_2()","rhs":"test_generate_gate_rules_2 produces the expected output","over":{"base":"Any"},"name":"test_generate_gate_rules_2_correct"},"guarantee":"test_generate_gate_rules_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_generate_gate_rules_2_correct","statement":"Path(test_generate_gate_rules_2(x), test_generate_gate_rules_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2cadd2bcfcc98292"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_generate_gate_rules_2","kind":"function","src_hash":"86e3a1678bf6c300","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: generate_gate_rules((x,), return_as_muls=True) == expected and generate_gate_rules(x * x, return_as_muls=True) == expected and generate_gate_rules(x * x, return_as_muls=False) == expected and generate_gate_rules(x * y * x, return_as_muls=True) == gate_rules and actual == gate_rules"},"spec":{"lhs":"test_generate_gate_rules_2()","rhs":"generate_gate_rules((x,), return_as_muls=True) == expected and generate_gate_rules(x * x, return_as_muls=True) == expected and generate_gate_rules(x * x, return_as_muls=False) == expected and generate_gate_rules(x * y * x, return_as_muls=True) == gate_rules and actual == gate_rules","over":{"base":"Any"},"name":"test_generate_gate_rules_2_correct"},"guarantee":"generate_gate_rules((x,), return_as_muls=True) == expected; generate_gate_rules(x * x, return_as_muls=True) == expected; generate_gate_rules(x * x, return_as_muls=False) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_generate_gate_rules_2_correct","statement":"Path(test_generate_gate_rules_2(x), generate_gate_rules((x,), return_as_muls=True) == expected; generate_gate_rules(x * x, return_as_muls=True) == expected; generate_gate_rules(x * x, return_as_muls=False) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d589d624de99d25c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["generate_gate_rules((x,), return_as_muls=True) == expected","generate_gate_rules(x * x, return_as_muls=True) == expected","generate_gate_rules(x * x, return_as_muls=False) == expected","generate_gate_rules(x * y * x, return_as_muls=True) == gate_rules","actual == gate_rules"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_generate_gate_rules_2():
     # Test with Muls
     (x, y, z, h) = create_gate_sequence()
@@ -221,16 +243,24 @@ def test_generate_gate_rules_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_generate_equivalent_ids_1(), test_generate_equivalent_ids_1 produces the expected output) over Any ║
+# ║ Path(test_generate_equivalent_ids_1(), generate_equivalent_ids((x,)) == {(x,)} and generate_equivalent_ids((x, x)) == {(x, x)} and generate_equivalent_ids((x, y)) == {(x, y), (y, x)} and generate_equivalent_ids(gate_seq) == gate_ids and generate_equivalent_ids(gate_seq, return_as_muls=True) == gate_ids) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_generate_equivalent_ids_1 : Any → {Any | generat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  generate_equivalent_ids((x,)) == {(x,)}        ║
+# ║   ensures:  generate_equivalent_ids((x, x)) == {(x, x)}    ║
+# ║   ensures:  generate_equivalent_ids((x, y)) == {(x, y...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_generate_equivalent_ids_1 : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4016d6b7221d6c40  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 75d48708b2512520  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_generate_equivalent_ids_1","kind":"function","src_hash":"a06768bb13180458","in":{"base":"Any"},"out":{"base":"Any","pred":"generate_equivalent_ids((x,)) == {(x,)} and generate_equivalent_ids((x, x)) == {(x, x)} and generate_equivalent_ids((x, y)) == {(x, y), (y, x)} and generate_equivalent_ids(gate_seq) == gate_ids and generate_equivalent_ids(gate_seq, return_as_muls=True) == gate_ids and generate_equivalent_ids(gate_seq) == gate_ids and generate_equivalent_ids(gate_seq) == gate_ids and generate_equivalent_ids(gate_seq) == gate_ids and generate_equivalent_ids(gate_seq) == gate_ids"},"spec":{"lhs":"test_generate_equivalent_ids_1()","rhs":"test_generate_equivalent_ids_1 produces the expected output","over":{"base":"Any"},"name":"test_generate_equivalent_ids_1_correct"},"guarantee":"test_generate_equivalent_ids_1 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_generate_equivalent_ids_1_correct","statement":"Path(test_generate_equivalent_ids_1(x), test_generate_equivalent_ids_1 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4016d6b7221d6c40"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_generate_equivalent_ids_1","kind":"function","src_hash":"a06768bb13180458","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: generate_equivalent_ids((x,)) == {(x,)} and generate_equivalent_ids((x, x)) == {(x, x)} and generate_equivalent_ids((x, y)) == {(x, y), (y, x)} and generate_equivalent_ids(gate_seq) == gate_ids and generate_equivalent_ids(gate_seq, return_as_muls=True) == gate_ids"},"spec":{"lhs":"test_generate_equivalent_ids_1()","rhs":"generate_equivalent_ids((x,)) == {(x,)} and generate_equivalent_ids((x, x)) == {(x, x)} and generate_equivalent_ids((x, y)) == {(x, y), (y, x)} and generate_equivalent_ids(gate_seq) == gate_ids and generate_equivalent_ids(gate_seq, return_as_muls=True) == gate_ids","over":{"base":"Any"},"name":"test_generate_equivalent_ids_1_correct"},"guarantee":"generate_equivalent_ids((x,)) == {(x,)}; generate_equivalent_ids((x, x)) == {(x, x)}; generate_equivalent_ids((x, y)) == {(x, y), (y, x)}","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_generate_equivalent_ids_1_correct","statement":"Path(test_generate_equivalent_ids_1(x), generate_equivalent_ids((x,)) == {(x,)}; generate_equivalent_ids((x, x)) == {(x, x)}; generate_equivalent_ids((x, y)) == {(x, y), (y, x)})"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"75d48708b2512520","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["generate_equivalent_ids((x,)) == {(x,)}","generate_equivalent_ids((x, x)) == {(x, x)}","generate_equivalent_ids((x, y)) == {(x, y), (y, x)}","generate_equivalent_ids(gate_seq) == gate_ids","generate_equivalent_ids(gate_seq, return_as_muls=True) == gate_ids"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_generate_equivalent_ids_1():
     # Test with tuples
     (x, y, z, h) = create_gate_sequence()
@@ -273,16 +303,24 @@ def test_generate_equivalent_ids_1():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_generate_equivalent_ids_2(), test_generate_equivalent_ids_2 produces the expected output) over Any ║
+# ║ Path(test_generate_equivalent_ids_2(), generate_equivalent_ids((x,), return_as_muls=True) == {x} and generate_equivalent_ids(x * x, return_as_muls=True) == gate_ids and generate_equivalent_ids(x * y, return_as_muls=True) == gate_ids and generate_equivalent_ids(x * y) == gate_ids and generate_equivalent_ids(circuit, return_as_muls=True) == gate_ids) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_generate_equivalent_ids_2 : Any → {Any | generat...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  generate_equivalent_ids((x,), return_as_m...   ║
+# ║   ensures:  generate_equivalent_ids(x * x, return_as_...   ║
+# ║   ensures:  generate_equivalent_ids(x * y, return_as_...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_generate_equivalent_ids_2 : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9a0edd06eed42585  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8793446cf62f1851  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_generate_equivalent_ids_2","kind":"function","src_hash":"eaa430a1f1a40ca2","in":{"base":"Any"},"out":{"base":"Any","pred":"generate_equivalent_ids((x,), return_as_muls=True) == {x} and generate_equivalent_ids(x * x, return_as_muls=True) == gate_ids and generate_equivalent_ids(x * y, return_as_muls=True) == gate_ids and generate_equivalent_ids(x * y) == gate_ids and generate_equivalent_ids(circuit, return_as_muls=True) == gate_ids and generate_equivalent_ids(circuit, return_as_muls=True) == gate_ids and generate_equivalent_ids(circuit, return_as_muls=True) == gate_ids and generate_equivalent_ids(circuit, return_as_muls=True) == gate_ids and generate_equivalent_ids(circuit, return_as_muls=True) == gate_ids"},"spec":{"lhs":"test_generate_equivalent_ids_2()","rhs":"test_generate_equivalent_ids_2 produces the expected output","over":{"base":"Any"},"name":"test_generate_equivalent_ids_2_correct"},"guarantee":"test_generate_equivalent_ids_2 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_generate_equivalent_ids_2_correct","statement":"Path(test_generate_equivalent_ids_2(x), test_generate_equivalent_ids_2 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9a0edd06eed42585"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_generate_equivalent_ids_2","kind":"function","src_hash":"eaa430a1f1a40ca2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: generate_equivalent_ids((x,), return_as_muls=True) == {x} and generate_equivalent_ids(x * x, return_as_muls=True) == gate_ids and generate_equivalent_ids(x * y, return_as_muls=True) == gate_ids and generate_equivalent_ids(x * y) == gate_ids and generate_equivalent_ids(circuit, return_as_muls=True) == gate_ids"},"spec":{"lhs":"test_generate_equivalent_ids_2()","rhs":"generate_equivalent_ids((x,), return_as_muls=True) == {x} and generate_equivalent_ids(x * x, return_as_muls=True) == gate_ids and generate_equivalent_ids(x * y, return_as_muls=True) == gate_ids and generate_equivalent_ids(x * y) == gate_ids and generate_equivalent_ids(circuit, return_as_muls=True) == gate_ids","over":{"base":"Any"},"name":"test_generate_equivalent_ids_2_correct"},"guarantee":"generate_equivalent_ids((x,), return_as_muls=True) == {x}; generate_equivalent_ids(x * x, return_as_muls=True) == gate_ids; generate_equivalent_ids(x * y, return_as_muls=True) == gate_ids","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_generate_equivalent_ids_2_correct","statement":"Path(test_generate_equivalent_ids_2(x), generate_equivalent_ids((x,), return_as_muls=True) == {x}; generate_equivalent_ids(x * x, return_as_muls=True) == gate_ids; generate_equivalent_ids(x * y, return_as_muls=True) == gate_ids)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8793446cf62f1851","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["generate_equivalent_ids((x,), return_as_muls=True) == {x}","generate_equivalent_ids(x * x, return_as_muls=True) == gate_ids","generate_equivalent_ids(x * y, return_as_muls=True) == gate_ids","generate_equivalent_ids(x * y) == gate_ids","generate_equivalent_ids(circuit, return_as_muls=True) == gate_ids"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_generate_equivalent_ids_2():
     # Test with Muls
     (x, y, z, h) = create_gate_sequence()
@@ -328,16 +366,23 @@ def test_generate_equivalent_ids_2():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_scalar_nonsparse_matrix(), test_is_scalar_nonsparse_matrix produces the expected output) over Any ║
+# ║ Path(test_is_scalar_nonsparse_matrix(), actual is True and actual is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_scalar_nonsparse_matrix : Any → {Any | actual...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  actual is True                                 ║
+# ║   ensures:  actual is False                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_scalar_nonsparse_matrix : Any → {Any | result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0719ded4ccd6dff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f200c40b8f55b27  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_is_scalar_nonsparse_matrix","kind":"function","src_hash":"7303f1b31e721cc6","in":{"base":"Any"},"out":{"base":"Any","pred":"actual is True and actual is True and actual is False and actual is True and actual is True and actual is True and actual is True and actual is True and actual is False and actual is True and actual is True"},"spec":{"lhs":"test_is_scalar_nonsparse_matrix()","rhs":"test_is_scalar_nonsparse_matrix produces the expected output","over":{"base":"Any"},"name":"test_is_scalar_nonsparse_matrix_correct"},"guarantee":"test_is_scalar_nonsparse_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_is_scalar_nonsparse_matrix_correct","statement":"Path(test_is_scalar_nonsparse_matrix(x), test_is_scalar_nonsparse_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0719ded4ccd6dff"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_is_scalar_nonsparse_matrix","kind":"function","src_hash":"7303f1b31e721cc6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: actual is True and actual is False"},"spec":{"lhs":"test_is_scalar_nonsparse_matrix()","rhs":"actual is True and actual is False","over":{"base":"Any"},"name":"test_is_scalar_nonsparse_matrix_correct"},"guarantee":"actual is True; actual is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_is_scalar_nonsparse_matrix_correct","statement":"Path(test_is_scalar_nonsparse_matrix(x), actual is True; actual is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f200c40b8f55b27","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["actual is True","actual is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_is_scalar_nonsparse_matrix():
     numqubits = 2
     id_only = False
@@ -389,16 +434,24 @@ def test_is_scalar_nonsparse_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_scalar_sparse_matrix(), test_is_scalar_sparse_matrix produces the expected output) over Any ║
+# ║ Path(test_is_scalar_sparse_matrix(), is_scalar_sparse_matrix(id_gate, numqubits, id_only) is True and is_scalar_sparse_matrix(xx_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(xy_circuit, numqubits, id_only) is False and is_scalar_sparse_matrix(xyz_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(cnot_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(hh_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(xhzh_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(xyz_circuit, numqubits, id_only) is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_scalar_sparse_matrix : Any → {Any | is_scalar...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_scalar_sparse_matrix(id_gate, numqubit...   ║
+# ║   ensures:  is_scalar_sparse_matrix(xx_circuit, numqu...   ║
+# ║   ensures:  is_scalar_sparse_matrix(xy_circuit, numqu...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_scalar_sparse_matrix : Any → {Any | result sa...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3d2b6798d3ab1e76  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7849faa352bcb0ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_is_scalar_sparse_matrix","kind":"function","src_hash":"1ced91843ae6e700","in":{"base":"Any"},"out":{"base":"Any","pred":"is_scalar_sparse_matrix(id_gate, numqubits, id_only) is True and is_scalar_sparse_matrix(xx_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(xy_circuit, numqubits, id_only) is False and is_scalar_sparse_matrix(xyz_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(cnot_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(hh_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(xhzh_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(xhzh_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(xyz_circuit, numqubits, id_only) is False and is_scalar_sparse_matrix(cnot_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(hh_circuit, numqubits, id_only) is True"},"spec":{"lhs":"test_is_scalar_sparse_matrix()","rhs":"test_is_scalar_sparse_matrix produces the expected output","over":{"base":"Any"},"name":"test_is_scalar_sparse_matrix_correct"},"guarantee":"test_is_scalar_sparse_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_is_scalar_sparse_matrix_correct","statement":"Path(test_is_scalar_sparse_matrix(x), test_is_scalar_sparse_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3d2b6798d3ab1e76"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_is_scalar_sparse_matrix","kind":"function","src_hash":"1ced91843ae6e700","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_scalar_sparse_matrix(id_gate, numqubits, id_only) is True and is_scalar_sparse_matrix(xx_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(xy_circuit, numqubits, id_only) is False and is_scalar_sparse_matrix(xyz_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(cnot_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(hh_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(xhzh_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(xyz_circuit, numqubits, id_only) is False"},"spec":{"lhs":"test_is_scalar_sparse_matrix()","rhs":"is_scalar_sparse_matrix(id_gate, numqubits, id_only) is True and is_scalar_sparse_matrix(xx_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(xy_circuit, numqubits, id_only) is False and is_scalar_sparse_matrix(xyz_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(cnot_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(hh_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(xhzh_circuit, numqubits, id_only) is True and is_scalar_sparse_matrix(xyz_circuit, numqubits, id_only) is False","over":{"base":"Any"},"name":"test_is_scalar_sparse_matrix_correct"},"guarantee":"is_scalar_sparse_matrix(id_gate, numqubits, id_only) is True; is_scalar_sparse_matrix(xx_circuit, numqubits, id_only) is True; is_scalar_sparse_matrix(xy_circuit, numqubits, id_only) is False","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_is_scalar_sparse_matrix_correct","statement":"Path(test_is_scalar_sparse_matrix(x), is_scalar_sparse_matrix(id_gate, numqubits, id_only) is True; is_scalar_sparse_matrix(xx_circuit, numqubits, id_only) is True; is_scalar_sparse_matrix(xy_circuit, numqubits, id_only) is False)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7849faa352bcb0ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_scalar_sparse_matrix(id_gate, numqubits, id_only) is True","is_scalar_sparse_matrix(xx_circuit, numqubits, id_only) is True","is_scalar_sparse_matrix(xy_circuit, numqubits, id_only) is False","is_scalar_sparse_matrix(xyz_circuit, numqubits, id_only) is True","is_scalar_sparse_matrix(cnot_circuit, numqubits, id_only) is True","is_scalar_sparse_matrix(hh_circuit, numqubits, id_only) is True","is_scalar_sparse_matrix(xhzh_circuit, numqubits, id_only) is True","is_scalar_sparse_matrix(xyz_circuit, numqubits, id_only) is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_is_scalar_sparse_matrix():
     np = import_module('numpy')
     if not np:
@@ -450,16 +503,22 @@ def test_is_scalar_sparse_matrix():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_degenerate(), test_is_degenerate produces the expected output) over Any ║
+# ║ Path(test_is_degenerate(), is_degenerate(ids, another_id) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_degenerate : Any → {Any | is_degenerate(ids, ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_degenerate(ids, another_id) is True         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_degenerate : Any → {Any | result satisfies: i...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3928b3c0ba4b1430  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d47adc86a9c35263  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_is_degenerate","kind":"function","src_hash":"0c0f7da6915d4ecb","in":{"base":"Any"},"out":{"base":"Any","pred":"is_degenerate(ids, another_id) is True"},"spec":{"lhs":"test_is_degenerate()","rhs":"test_is_degenerate produces the expected output","over":{"base":"Any"},"name":"test_is_degenerate_correct"},"guarantee":"test_is_degenerate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_is_degenerate_correct","statement":"Path(test_is_degenerate(x), test_is_degenerate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3928b3c0ba4b1430"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_is_degenerate","kind":"function","src_hash":"0c0f7da6915d4ecb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_degenerate(ids, another_id) is True"},"spec":{"lhs":"test_is_degenerate()","rhs":"is_degenerate(ids, another_id) is True","over":{"base":"Any"},"name":"test_is_degenerate_correct"},"guarantee":"is_degenerate(ids, another_id) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_is_degenerate_correct","statement":"Path(test_is_degenerate(x), is_degenerate(ids, another_id) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d47adc86a9c35263","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_degenerate(ids, another_id) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_is_degenerate():
     (x, y, z, h) = create_gate_sequence()
 
@@ -471,16 +530,24 @@ def test_is_degenerate():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_is_reducible(), test_is_reducible produces the expected output) over Any ║
+# ║ Path(test_is_reducible(), is_reducible(circuit, nqubits, 1, 3) is True and is_reducible(circuit, nqubits, 1, 3) is False and is_reducible(circuit, nqubits, 0, 4) is True and is_reducible(circuit, nqubits, 1, 5) is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_is_reducible : Any → {Any | is_reducible(circuit...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  is_reducible(circuit, nqubits, 1, 3) is True   ║
+# ║   ensures:  is_reducible(circuit, nqubits, 1, 3) is F...   ║
+# ║   ensures:  is_reducible(circuit, nqubits, 0, 4) is True   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_is_reducible : Any → {Any | result satisfies: is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1fab7c69174952dd  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 091eb5dc7290c0c7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_is_reducible","kind":"function","src_hash":"287083fc0f694e5b","in":{"base":"Any"},"out":{"base":"Any","pred":"is_reducible(circuit, nqubits, 1, 3) is True and is_reducible(circuit, nqubits, 1, 3) is False and is_reducible(circuit, nqubits, 0, 4) is True and is_reducible(circuit, nqubits, 1, 3) is True and is_reducible(circuit, nqubits, 1, 5) is True"},"spec":{"lhs":"test_is_reducible()","rhs":"test_is_reducible produces the expected output","over":{"base":"Any"},"name":"test_is_reducible_correct"},"guarantee":"test_is_reducible produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_is_reducible_correct","statement":"Path(test_is_reducible(x), test_is_reducible produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1fab7c69174952dd"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_is_reducible","kind":"function","src_hash":"287083fc0f694e5b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: is_reducible(circuit, nqubits, 1, 3) is True and is_reducible(circuit, nqubits, 1, 3) is False and is_reducible(circuit, nqubits, 0, 4) is True and is_reducible(circuit, nqubits, 1, 5) is True"},"spec":{"lhs":"test_is_reducible()","rhs":"is_reducible(circuit, nqubits, 1, 3) is True and is_reducible(circuit, nqubits, 1, 3) is False and is_reducible(circuit, nqubits, 0, 4) is True and is_reducible(circuit, nqubits, 1, 5) is True","over":{"base":"Any"},"name":"test_is_reducible_correct"},"guarantee":"is_reducible(circuit, nqubits, 1, 3) is True; is_reducible(circuit, nqubits, 1, 3) is False; is_reducible(circuit, nqubits, 0, 4) is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_is_reducible_correct","statement":"Path(test_is_reducible(x), is_reducible(circuit, nqubits, 1, 3) is True; is_reducible(circuit, nqubits, 1, 3) is False; is_reducible(circuit, nqubits, 0, 4) is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"091eb5dc7290c0c7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["is_reducible(circuit, nqubits, 1, 3) is True","is_reducible(circuit, nqubits, 1, 3) is False","is_reducible(circuit, nqubits, 0, 4) is True","is_reducible(circuit, nqubits, 1, 5) is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_is_reducible():
     nqubits = 2
     (x, y, z, h) = create_gate_sequence()
@@ -502,16 +569,24 @@ def test_is_reducible():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bfs_identity_search(), test_bfs_identity_search produces the expected output) over Any ║
+# ║ Path(test_bfs_identity_search(), bfs_identity_search([], 1) == set() and bfs_identity_search(gate_list, 1, max_depth=2) == id_set and bfs_identity_search(gate_list, 1) == id_set and bfs_identity_search(gate_list, 1, max_depth=4) == id_set and bfs_identity_search(gate_list, 1, max_depth=5) == id_set and id_set == bfs_identity_search(gate_list, 1, max_depth=3, identity_only=True) and id_set == bfs_identity_search(gate_list, 1, max_depth=4, identity_only=True) and bfs_identity_search(gate_list, 2, max_depth=4) == id_set) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bfs_identity_search : Any → {Any | bfs_identity_...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bfs_identity_search([], 1) == set()            ║
+# ║   ensures:  bfs_identity_search(gate_list, 1, max_dep...   ║
+# ║   ensures:  bfs_identity_search(gate_list, 1) == id_set    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bfs_identity_search : Any → {Any | result satisf...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6aa4f2f4cea90615  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.9ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 437c3e177d2f1df2  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_bfs_identity_search","kind":"function","src_hash":"853134e1de359770","in":{"base":"Any"},"out":{"base":"Any","pred":"bfs_identity_search([], 1) == set() and bfs_identity_search(gate_list, 1, max_depth=2) == id_set and bfs_identity_search(gate_list, 1) == id_set and bfs_identity_search(gate_list, 1, max_depth=4) == id_set and bfs_identity_search(gate_list, 1, max_depth=5) == id_set and bfs_identity_search(gate_list, 1) == id_set and id_set == bfs_identity_search(gate_list, 1, max_depth=3, identity_only=True) and bfs_identity_search(gate_list, 1, max_depth=5) == id_set and id_set == bfs_identity_search(gate_list, 1, max_depth=4, identity_only=True) and bfs_identity_search(gate_list, 2, max_depth=4) == id_set and bfs_identity_search(gate_list, 2, max_depth=4) == id_set and bfs_identity_search(gate_list, 2, max_depth=4) == id_set and bfs_identity_search(gate_list, 1, max_depth=4) == id_set"},"spec":{"lhs":"test_bfs_identity_search()","rhs":"test_bfs_identity_search produces the expected output","over":{"base":"Any"},"name":"test_bfs_identity_search_correct"},"guarantee":"test_bfs_identity_search produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_bfs_identity_search_correct","statement":"Path(test_bfs_identity_search(x), test_bfs_identity_search produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6aa4f2f4cea90615"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_bfs_identity_search","kind":"function","src_hash":"853134e1de359770","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bfs_identity_search([], 1) == set() and bfs_identity_search(gate_list, 1, max_depth=2) == id_set and bfs_identity_search(gate_list, 1) == id_set and bfs_identity_search(gate_list, 1, max_depth=4) == id_set and bfs_identity_search(gate_list, 1, max_depth=5) == id_set and id_set == bfs_identity_search(gate_list, 1, max_depth=3, identity_only=True) and id_set == bfs_identity_search(gate_list, 1, max_depth=4, identity_only=True) and bfs_identity_search(gate_list, 2, max_depth=4) == id_set"},"spec":{"lhs":"test_bfs_identity_search()","rhs":"bfs_identity_search([], 1) == set() and bfs_identity_search(gate_list, 1, max_depth=2) == id_set and bfs_identity_search(gate_list, 1) == id_set and bfs_identity_search(gate_list, 1, max_depth=4) == id_set and bfs_identity_search(gate_list, 1, max_depth=5) == id_set and id_set == bfs_identity_search(gate_list, 1, max_depth=3, identity_only=True) and id_set == bfs_identity_search(gate_list, 1, max_depth=4, identity_only=True) and bfs_identity_search(gate_list, 2, max_depth=4) == id_set","over":{"base":"Any"},"name":"test_bfs_identity_search_correct"},"guarantee":"bfs_identity_search([], 1) == set(); bfs_identity_search(gate_list, 1, max_depth=2) == id_set; bfs_identity_search(gate_list, 1) == id_set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_bfs_identity_search_correct","statement":"Path(test_bfs_identity_search(x), bfs_identity_search([], 1) == set(); bfs_identity_search(gate_list, 1, max_depth=2) == id_set; bfs_identity_search(gate_list, 1) == id_set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"437c3e177d2f1df2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bfs_identity_search([], 1) == set()","bfs_identity_search(gate_list, 1, max_depth=2) == id_set","bfs_identity_search(gate_list, 1) == id_set","bfs_identity_search(gate_list, 1, max_depth=4) == id_set","bfs_identity_search(gate_list, 1, max_depth=5) == id_set","id_set == bfs_identity_search(gate_list, 1, max_depth=3, identity_only=True)","id_set == bfs_identity_search(gate_list, 1, max_depth=4, identity_only=True)","bfs_identity_search(gate_list, 2, max_depth=4) == id_set"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.9,"verdict_class":"assumed","binding":true}}
 def test_bfs_identity_search():
     assert bfs_identity_search([], 1) == set()
 
@@ -612,16 +687,22 @@ def test_bfs_identity_search():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_bfs_identity_search_xfail(), test_bfs_identity_search_xfail produces the expected output) over Any ║
+# ║ Path(test_bfs_identity_search_xfail(), bfs_identity_search(gate_list, 1, max_depth=3) == id_set) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_bfs_identity_search_xfail : Any → {Any | bfs_ide...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  bfs_identity_search(gate_list, 1, max_dep...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_bfs_identity_search_xfail : Any → {Any | result ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 825fb3f6c2fe5813  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c123db2600e790e5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_bfs_identity_search_xfail","kind":"function","src_hash":"b4aeb44c16a58387","in":{"base":"Any"},"out":{"base":"Any","pred":"bfs_identity_search(gate_list, 1, max_depth=3) == id_set"},"spec":{"lhs":"test_bfs_identity_search_xfail()","rhs":"test_bfs_identity_search_xfail produces the expected output","over":{"base":"Any"},"name":"test_bfs_identity_search_xfail_correct"},"guarantee":"test_bfs_identity_search_xfail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_bfs_identity_search_xfail_correct","statement":"Path(test_bfs_identity_search_xfail(x), test_bfs_identity_search_xfail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"825fb3f6c2fe5813"}
+# @cctt_verify {"v":2,"sym":"sympy.physics.quantum.tests.test_identitysearch.test_bfs_identity_search_xfail","kind":"function","src_hash":"b4aeb44c16a58387","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: bfs_identity_search(gate_list, 1, max_depth=3) == id_set"},"spec":{"lhs":"test_bfs_identity_search_xfail()","rhs":"bfs_identity_search(gate_list, 1, max_depth=3) == id_set","over":{"base":"Any"},"name":"test_bfs_identity_search_xfail_correct"},"guarantee":"bfs_identity_search(gate_list, 1, max_depth=3) == id_set","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.physics.quantum.tests.test_identitysearch.test_bfs_identity_search_xfail_correct","statement":"Path(test_bfs_identity_search_xfail(x), bfs_identity_search(gate_list, 1, max_depth=3) == id_set)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c123db2600e790e5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["bfs_identity_search(gate_list, 1, max_depth=3) == id_set"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_bfs_identity_search_xfail():
     s = PhaseGate(0)
     t = TGate(0)

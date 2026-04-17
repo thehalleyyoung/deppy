@@ -26,16 +26,24 @@ from sympy.abc import x
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rm_id(), test_rm_id produces the expected output) over Any ║
+# ║ Path(test_rm_id(), rmzeros(Basic(S(0), S(1))) == Basic(S(1)) and rmzeros(Basic(S(0), S(0))) == Basic(S(0)) and rmzeros(Basic(S(2), S(1))) == Basic(S(2), S(1))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rm_id : Any → {Any | rmzeros(Basic(S(0), S(1))) ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rmzeros(Basic(S(0), S(1))) == Basic(S(1))      ║
+# ║   ensures:  rmzeros(Basic(S(0), S(0))) == Basic(S(0))      ║
+# ║   ensures:  rmzeros(Basic(S(2), S(1))) == Basic(S(2),...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rm_id : Any → {Any | result satisfies: rmzeros(B...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4619a976d8394a92  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | cec15d8aa28f6faa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_rm_id","kind":"function","src_hash":"9f366c56b8ffd56b","in":{"base":"Any"},"out":{"base":"Any","pred":"rmzeros(Basic(S(0), S(1))) == Basic(S(1)) and rmzeros(Basic(S(0), S(0))) == Basic(S(0)) and rmzeros(Basic(S(2), S(1))) == Basic(S(2), S(1))"},"spec":{"lhs":"test_rm_id()","rhs":"test_rm_id produces the expected output","over":{"base":"Any"},"name":"test_rm_id_correct"},"guarantee":"test_rm_id produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_rm_id_correct","statement":"Path(test_rm_id(x), test_rm_id produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4619a976d8394a92"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_rm_id","kind":"function","src_hash":"9f366c56b8ffd56b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rmzeros(Basic(S(0), S(1))) == Basic(S(1)) and rmzeros(Basic(S(0), S(0))) == Basic(S(0)) and rmzeros(Basic(S(2), S(1))) == Basic(S(2), S(1))"},"spec":{"lhs":"test_rm_id()","rhs":"rmzeros(Basic(S(0), S(1))) == Basic(S(1)) and rmzeros(Basic(S(0), S(0))) == Basic(S(0)) and rmzeros(Basic(S(2), S(1))) == Basic(S(2), S(1))","over":{"base":"Any"},"name":"test_rm_id_correct"},"guarantee":"rmzeros(Basic(S(0), S(1))) == Basic(S(1)); rmzeros(Basic(S(0), S(0))) == Basic(S(0)); rmzeros(Basic(S(2), S(1))) == Basic(S(2), S(1))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_rm_id_correct","statement":"Path(test_rm_id(x), rmzeros(Basic(S(0), S(1))) == Basic(S(1)); rmzeros(Basic(S(0), S(0))) == Basic(S(0)); rmzeros(Basic(S(2), S(1))) == Basic(S(2), S(1)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"cec15d8aa28f6faa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rmzeros(Basic(S(0), S(1))) == Basic(S(1))","rmzeros(Basic(S(0), S(0))) == Basic(S(0))","rmzeros(Basic(S(2), S(1))) == Basic(S(2), S(1))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_rm_id():
     rmzeros = rm_id(lambda x: x == 0)
     assert rmzeros(Basic(S(0), S(1))) == Basic(S(1))
@@ -44,16 +52,22 @@ def test_rm_id():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_glom(), test_glom produces the expected output) over Any ║
+# ║ Path(test_glom(), set(result.args) == set(expected.args)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_glom : Any → {Any | set(result.args) == set(expe...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  set(result.args) == set(expected.args)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_glom : Any → {Any | result satisfies: set(result...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e1f75ca6a1ead30d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1641464290b91632  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_glom","kind":"function","src_hash":"9a40a8df29a9c934","in":{"base":"Any"},"out":{"base":"Any","pred":"set(result.args) == set(expected.args)"},"spec":{"lhs":"test_glom()","rhs":"test_glom produces the expected output","over":{"base":"Any"},"name":"test_glom_correct"},"guarantee":"test_glom produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_glom_correct","statement":"Path(test_glom(x), test_glom produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e1f75ca6a1ead30d"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_glom","kind":"function","src_hash":"9a40a8df29a9c934","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: set(result.args) == set(expected.args)"},"spec":{"lhs":"test_glom()","rhs":"set(result.args) == set(expected.args)","over":{"base":"Any"},"name":"test_glom_correct"},"guarantee":"set(result.args) == set(expected.args)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_glom_correct","statement":"Path(test_glom(x), set(result.args) == set(expected.args))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1641464290b91632","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["set(result.args) == set(expected.args)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_glom():
     def key(x):
         return x.as_coeff_Mul()[1]
@@ -72,63 +86,89 @@ def test_glom():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_flatten(), test_flatten produces the expected output) over Any ║
+# ║ Path(test_flatten(), flatten(Basic(S(1), S(2), Basic(S(3), S(4)))) == Basic(S(1), S(2), S(3), S(4))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_flatten : Any → {Any | flatten(Basic(S(1), S(2),...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  flatten(Basic(S(1), S(2), Basic(S(3), S(4...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_flatten : Any → {Any | result satisfies: flatten...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b809f68eb46e24de  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d95c2417bb578b1e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_flatten","kind":"function","src_hash":"4f75253e475f7d2f","in":{"base":"Any"},"out":{"base":"Any","pred":"flatten(Basic(S(1), S(2), Basic(S(3), S(4)))) == Basic(S(1), S(2), S(3), S(4))"},"spec":{"lhs":"test_flatten()","rhs":"test_flatten produces the expected output","over":{"base":"Any"},"name":"test_flatten_correct"},"guarantee":"test_flatten produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_flatten_correct","statement":"Path(test_flatten(x), test_flatten produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b809f68eb46e24de"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_flatten","kind":"function","src_hash":"4f75253e475f7d2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: flatten(Basic(S(1), S(2), Basic(S(3), S(4)))) == Basic(S(1), S(2), S(3), S(4))"},"spec":{"lhs":"test_flatten()","rhs":"flatten(Basic(S(1), S(2), Basic(S(3), S(4)))) == Basic(S(1), S(2), S(3), S(4))","over":{"base":"Any"},"name":"test_flatten_correct"},"guarantee":"flatten(Basic(S(1), S(2), Basic(S(3), S(4)))) == Basic(S(1), S(2), S(3), S(4))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_flatten_correct","statement":"Path(test_flatten(x), flatten(Basic(S(1), S(2), Basic(S(3), S(4)))) == Basic(S(1), S(2), S(3), S(4)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d95c2417bb578b1e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["flatten(Basic(S(1), S(2), Basic(S(3), S(4)))) == Basic(S(1), S(2), S(3), S(4))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_flatten():
     assert flatten(Basic(S(1), S(2), Basic(S(3), S(4)))) == \
         Basic(S(1), S(2), S(3), S(4))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_unpack(), test_unpack produces the expected output) over Any ║
+# ║ Path(test_unpack(), unpack(Basic(S(2))) == 2 and unpack(Basic(S(2), S(3))) == Basic(S(2), S(3))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_unpack : Any → {Any | unpack(Basic(S(2))) == 2 a...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  unpack(Basic(S(2))) == 2                       ║
+# ║   ensures:  unpack(Basic(S(2), S(3))) == Basic(S(2), ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_unpack : Any → {Any | result satisfies: unpack(B...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b06a7cfd80609eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3a0a33c95f886cf6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_unpack","kind":"function","src_hash":"3b820d0094477b2f","in":{"base":"Any"},"out":{"base":"Any","pred":"unpack(Basic(S(2))) == 2 and unpack(Basic(S(2), S(3))) == Basic(S(2), S(3))"},"spec":{"lhs":"test_unpack()","rhs":"test_unpack produces the expected output","over":{"base":"Any"},"name":"test_unpack_correct"},"guarantee":"test_unpack produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_unpack_correct","statement":"Path(test_unpack(x), test_unpack produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b06a7cfd80609eb"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_unpack","kind":"function","src_hash":"3b820d0094477b2f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: unpack(Basic(S(2))) == 2 and unpack(Basic(S(2), S(3))) == Basic(S(2), S(3))"},"spec":{"lhs":"test_unpack()","rhs":"unpack(Basic(S(2))) == 2 and unpack(Basic(S(2), S(3))) == Basic(S(2), S(3))","over":{"base":"Any"},"name":"test_unpack_correct"},"guarantee":"unpack(Basic(S(2))) == 2; unpack(Basic(S(2), S(3))) == Basic(S(2), S(3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_unpack_correct","statement":"Path(test_unpack(x), unpack(Basic(S(2))) == 2; unpack(Basic(S(2), S(3))) == Basic(S(2), S(3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3a0a33c95f886cf6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["unpack(Basic(S(2))) == 2","unpack(Basic(S(2), S(3))) == Basic(S(2), S(3))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_unpack():
     assert unpack(Basic(S(2))) == 2
     assert unpack(Basic(S(2), S(3))) == Basic(S(2), S(3))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_sort(), test_sort produces the expected output) over Any ║
+# ║ Path(test_sort(), sort(str)(Basic(S(3), S(1), S(2))) == Basic(S(1), S(2), S(3))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_sort : Any → {Any | sort(str)(Basic(S(3), S(1), ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sort(str)(Basic(S(3), S(1), S(2))) == Bas...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_sort : Any → {Any | result satisfies: sort(str)(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 67e74ab131a32c12  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d1cfae3ca7868304  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_sort","kind":"function","src_hash":"04c8ebade4601a98","in":{"base":"Any"},"out":{"base":"Any","pred":"sort(str)(Basic(S(3), S(1), S(2))) == Basic(S(1), S(2), S(3))"},"spec":{"lhs":"test_sort()","rhs":"test_sort produces the expected output","over":{"base":"Any"},"name":"test_sort_correct"},"guarantee":"test_sort produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_sort_correct","statement":"Path(test_sort(x), test_sort produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"67e74ab131a32c12"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_sort","kind":"function","src_hash":"04c8ebade4601a98","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sort(str)(Basic(S(3), S(1), S(2))) == Basic(S(1), S(2), S(3))"},"spec":{"lhs":"test_sort()","rhs":"sort(str)(Basic(S(3), S(1), S(2))) == Basic(S(1), S(2), S(3))","over":{"base":"Any"},"name":"test_sort_correct"},"guarantee":"sort(str)(Basic(S(3), S(1), S(2))) == Basic(S(1), S(2), S(3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_sort_correct","statement":"Path(test_sort(x), sort(str)(Basic(S(3), S(1), S(2))) == Basic(S(1), S(2), S(3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d1cfae3ca7868304","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sort(str)(Basic(S(3), S(1), S(2))) == Basic(S(1), S(2), S(3))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_sort():
     assert sort(str)(Basic(S(3), S(1), S(2))) == Basic(S(1), S(2), S(3))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_distribute(), test_distribute produces the expected output) over Any ║
+# ║ Path(test_distribute(), distribute_t12(T1(S(1), S(2), T2(S(3), S(4)), S(5))) == T2(T1(S(1), S(2), S(3), S(5)), T1(S(1), S(2), S(4), S(5))) and distribute_t12(T1(S(1), S(2), S(3))) == T1(S(1), S(2), S(3))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_distribute : Any → {Any | distribute_t12(T1(S(1)...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  distribute_t12(T1(S(1), S(2), T2(S(3), S(...   ║
+# ║   ensures:  distribute_t12(T1(S(1), S(2), S(3))) == T...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_distribute : Any → {Any | result satisfies: dist...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | baa4a4694113b758  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f31dd97c8b1b9575  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_distribute","kind":"function","src_hash":"a73b45e101352acb","in":{"base":"Any"},"out":{"base":"Any","pred":"distribute_t12(T1(S(1), S(2), S(3))) == T1(S(1), S(2), S(3))"},"spec":{"lhs":"test_distribute()","rhs":"test_distribute produces the expected output","over":{"base":"Any"},"name":"test_distribute_correct"},"guarantee":"test_distribute produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_distribute_correct","statement":"Path(test_distribute(x), test_distribute produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"baa4a4694113b758"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_distribute","kind":"function","src_hash":"a73b45e101352acb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: distribute_t12(T1(S(1), S(2), T2(S(3), S(4)), S(5))) == T2(T1(S(1), S(2), S(3), S(5)), T1(S(1), S(2), S(4), S(5))) and distribute_t12(T1(S(1), S(2), S(3))) == T1(S(1), S(2), S(3))"},"spec":{"lhs":"test_distribute()","rhs":"distribute_t12(T1(S(1), S(2), T2(S(3), S(4)), S(5))) == T2(T1(S(1), S(2), S(3), S(5)), T1(S(1), S(2), S(4), S(5))) and distribute_t12(T1(S(1), S(2), S(3))) == T1(S(1), S(2), S(3))","over":{"base":"Any"},"name":"test_distribute_correct"},"guarantee":"distribute_t12(T1(S(1), S(2), T2(S(3), S(4)), S(5))) == T2(T1(S(1), S(2), S(3), S(5)), T1(S(1), S(2), S(4), S(5))); distribute_t12(T1(S(1), S(2), S(3))) == T1(S(1), S(2), S(3))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_distribute_correct","statement":"Path(test_distribute(x), distribute_t12(T1(S(1), S(2), T2(S(3), S(4)), S(5))) == T2(T1(S(1), S(2), S(3), S(5)), T1(S(1), S(2), S(4), S(5))); distribute_t12(T1(S(1), S(2), S(3))) == T1(S(1), S(2), S(3)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f31dd97c8b1b9575","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["distribute_t12(T1(S(1), S(2), T2(S(3), S(4)), S(5))) == T2(T1(S(1), S(2), S(3), S(5)), T1(S(1), S(2), S(4), S(5)))","distribute_t12(T1(S(1), S(2), S(3))) == T1(S(1), S(2), S(3))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_distribute():
     class T1(Basic):
         pass
@@ -143,16 +183,22 @@ def test_distribute():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_distribute_add_mul(), test_distribute_add_mul produces the expected output) over Any ║
+# ║ Path(test_distribute_add_mul(), distribute_mul(expr) == expected) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_distribute_add_mul : Any → {Any | distribute_mul...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  distribute_mul(expr) == expected               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_distribute_add_mul : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fc2b51c68b848cce  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9fc3c95f9db12c0c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_distribute_add_mul","kind":"function","src_hash":"ac3bc5754f951f91","in":{"base":"Any"},"out":{"base":"Any","pred":"distribute_mul(expr) == expected"},"spec":{"lhs":"test_distribute_add_mul()","rhs":"test_distribute_add_mul produces the expected output","over":{"base":"Any"},"name":"test_distribute_add_mul_correct"},"guarantee":"test_distribute_add_mul produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_distribute_add_mul_correct","statement":"Path(test_distribute_add_mul(x), test_distribute_add_mul produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fc2b51c68b848cce"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_distribute_add_mul","kind":"function","src_hash":"ac3bc5754f951f91","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: distribute_mul(expr) == expected"},"spec":{"lhs":"test_distribute_add_mul()","rhs":"distribute_mul(expr) == expected","over":{"base":"Any"},"name":"test_distribute_add_mul_correct"},"guarantee":"distribute_mul(expr) == expected","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_distribute_add_mul_correct","statement":"Path(test_distribute_add_mul(x), distribute_mul(expr) == expected)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9fc3c95f9db12c0c","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["distribute_mul(expr) == expected"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_distribute_add_mul():
     x, y = symbols('x, y')
     expr = Mul(2, Add(x, y), evaluate=False)
@@ -162,16 +208,23 @@ def test_distribute_add_mul():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_subs(), test_subs produces the expected output) over Any ║
+# ║ Path(test_subs(), rl(1) == 2 and rl(3) == 3) over Any      ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_subs : Any → {Any | rl(1) == 2 and rl(3) == 3}        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rl(1) == 2                                     ║
+# ║   ensures:  rl(3) == 3                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_subs : Any → {Any | result satisfies: rl(1) == 2...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b33335789900d843  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce775b4760bae5ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_subs","kind":"function","src_hash":"a2d445d912022941","in":{"base":"Any"},"out":{"base":"Any","pred":"rl(1) == 2 and rl(3) == 3"},"spec":{"lhs":"test_subs()","rhs":"test_subs produces the expected output","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"test_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_subs_correct","statement":"Path(test_subs(x), test_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b33335789900d843"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_subs","kind":"function","src_hash":"a2d445d912022941","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rl(1) == 2 and rl(3) == 3"},"spec":{"lhs":"test_subs()","rhs":"rl(1) == 2 and rl(3) == 3","over":{"base":"Any"},"name":"test_subs_correct"},"guarantee":"rl(1) == 2; rl(3) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_subs_correct","statement":"Path(test_subs(x), rl(1) == 2; rl(3) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce775b4760bae5ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rl(1) == 2","rl(3) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_subs():
     rl = subs(1, 2)
     assert rl(1) == 2
@@ -179,16 +232,22 @@ def test_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_rebuild(), test_rebuild produces the expected output) over Any ║
+# ║ Path(test_rebuild(), rebuild(expr) == 3) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_rebuild : Any → {Any | rebuild(expr) == 3}            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  rebuild(expr) == 3                             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_rebuild : Any → {Any | result satisfies: rebuild...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 80926f2f6441c761  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 433decb086577ea6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_rebuild","kind":"function","src_hash":"ce86da35f3e386ee","in":{"base":"Any"},"out":{"base":"Any","pred":"rebuild(expr) == 3"},"spec":{"lhs":"test_rebuild()","rhs":"test_rebuild produces the expected output","over":{"base":"Any"},"name":"test_rebuild_correct"},"guarantee":"test_rebuild produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_rebuild_correct","statement":"Path(test_rebuild(x), test_rebuild produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"80926f2f6441c761"}
+# @cctt_verify {"v":2,"sym":"sympy.strategies.tests.test_rl.test_rebuild","kind":"function","src_hash":"ce86da35f3e386ee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: rebuild(expr) == 3"},"spec":{"lhs":"test_rebuild()","rhs":"rebuild(expr) == 3","over":{"base":"Any"},"name":"test_rebuild_correct"},"guarantee":"rebuild(expr) == 3","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.strategies.tests.test_rl.test_rebuild_correct","statement":"Path(test_rebuild(x), rebuild(expr) == 3)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"433decb086577ea6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["rebuild(expr) == 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_rebuild():
     expr = Basic.__new__(Add, S(1), S(2))
     assert rebuild(expr) == 3

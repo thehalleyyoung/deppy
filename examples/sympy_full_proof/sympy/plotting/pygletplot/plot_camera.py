@@ -24,14 +24,19 @@ from sympy.plotting.pygletplot.util import get_model_matrix, model_to_screen, \
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a PlotCamera instance) preserved by PlotCamera(*args) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=partial                          ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ PlotCamera : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8ccc730462ea686d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera","kind":"class","src_hash":"9be63f774770e0f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotCamera(*args)","rhs":"correctly constructs a PlotCamera instance","over":{"base":"Any"},"name":"PlotCamera_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a PlotCamera instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'window') and hasattr(self, 'axes') and hasattr(self, 'ortho')","kind":"class","induction":"structural on window, axes, ortho"}],"methods_preserving":["__init__","init_rot_matrix","set_rot_preset","reset","mult_rot_matrix","setup_projection","_get_scale","apply_transformation","spherical_rotate","euler_rotate","zoom_relative","mouse_translate"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ccc730462ea686d"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera","kind":"class","src_hash":"9be63f774770e0f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"PlotCamera(*args)","rhs":"correctly constructs a PlotCamera instance","over":{"base":"Any"},"name":"PlotCamera_class_invariant","kind":"invariant"},"guarantee":"preserves 3 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'window') and hasattr(self, 'axes') and hasattr(self, 'ortho')","kind":"class","induction":"structural on window, axes, ortho"}],"methods_preserving":["__init__","init_rot_matrix","set_rot_preset","reset","mult_rot_matrix","setup_projection","_get_scale","apply_transformation","spherical_rotate","euler_rotate","zoom_relative","mouse_translate"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8ccc730462ea686d","spec_source":"static","formal_spec":{"source":"static","strength":"partial","invariants":["hasattr(self, 'window')","hasattr(self, 'axes')","hasattr(self, 'ortho')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":false,"binding_errors":["Function PlotCamera not found in source"]}}
 class PlotCamera:
 
     min_dist = 0.05
@@ -51,16 +56,23 @@ class PlotCamera:
     }
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(win), initializes the instance correctly) over Any ║
+# ║ Path(__init__(window, ortho), self.window == window and self.ortho == ortho) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  self.window == window                          ║
+# ║   ensures:  self.ortho == ortho                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : Any → {Any | result satisfies: self.window...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0f30c134c9b713e7           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.__init__","kind":"method","src_hash":"b7e544f7d0fe52f8","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(win)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f30c134c9b713e7"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.__init__","kind":"method","src_hash":"b7e544f7d0fe52f8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: self.window == window and self.ortho == ortho"},"spec":{"lhs":"__init__(window, ortho)","rhs":"self.window == window and self.ortho == ortho","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"self.window == window; self.ortho == ortho","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0f30c134c9b713e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["self.window == window","self.ortho == ortho"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, window, ortho=False):
         self.window = window
         self.axes = self.window.plot.axes
@@ -68,16 +80,22 @@ class PlotCamera:
         self.reset()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(init_rot_matrix(), init_rot_matrix produces the expected output) over Any ║
+# ║ Path(init_rot_matrix(), <unspecified:init_rot_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ init_rot_matrix : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a076ff5b3e5082f1  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.init_rot_matrix","kind":"method","src_hash":"11387f638ceba580","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"init_rot_matrix()","rhs":"init_rot_matrix produces the expected output","over":{"base":"Any"},"name":"init_rot_matrix_correct"},"guarantee":"init_rot_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.init_rot_matrix_correct","statement":"Path(init_rot_matrix(x), init_rot_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a076ff5b3e5082f1"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.init_rot_matrix","kind":"method","src_hash":"11387f638ceba580","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"init_rot_matrix()","rhs":"<unspecified:init_rot_matrix>","over":{"base":"Any"},"name":"init_rot_matrix_correct"},"guarantee":"init_rot_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.init_rot_matrix_correct","statement":"Path(init_rot_matrix(x), init_rot_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a076ff5b3e5082f1","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","writes":["self._rot"]},"state_contract":{"modifies":["self._rot"],"old_bindings":{"old_self__rot":"self._rot"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def init_rot_matrix(self):
         pgl.glPushMatrix()
         pgl.glLoadIdentity()
@@ -85,16 +103,23 @@ class PlotCamera:
         pgl.glPopMatrix()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(set_rot_preset(pre), set_rot_preset produces the expected output) over Any ║
+# ║ Path(set_rot_preset(preset_name), <unspecified:set_rot_preset>) over {Any | not (preset_name not in self.rot_presets)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ set_rot_preset : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: not (preset_name not in self.rot_presets)      ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ set_rot_preset : {Any | not (preset_name not in self....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af44db76a2ff8208  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.set_rot_preset","kind":"method","src_hash":"32e2c5ccc9abe9f2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"set_rot_preset(pre)","rhs":"set_rot_preset produces the expected output","over":{"base":"Any"},"name":"set_rot_preset_correct"},"guarantee":"set_rot_preset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.set_rot_preset_correct","statement":"Path(set_rot_preset(x), set_rot_preset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af44db76a2ff8208"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.set_rot_preset","kind":"method","src_hash":"32e2c5ccc9abe9f2","in":{"base":"Any","pred":"not (preset_name not in self.rot_presets)"},"out":{"base":"Any"},"spec":{"lhs":"set_rot_preset(preset_name)","rhs":"<unspecified:set_rot_preset>","over":{"base":"Any","pred":"not (preset_name not in self.rot_presets)"},"name":"set_rot_preset_correct"},"guarantee":"set_rot_preset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.set_rot_preset_correct","statement":"Path(set_rot_preset(x), set_rot_preset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af44db76a2ff8208","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["not (preset_name not in self.rot_presets)"],"pure":false,"effects":{"effect_type":"reads_state","reads":["self.euler_rotate","self.init_rot_matrix","self.rot_presets"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def set_rot_preset(self, preset_name):
         self.init_rot_matrix()
         if preset_name not in self.rot_presets:
@@ -106,16 +131,22 @@ class PlotCamera:
         self.euler_rotate(r[2], 0, 0, 1)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(reset(), reset produces the expected output) over Any ║
+# ║ Path(reset(), <unspecified:reset>) over Any                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ reset : Any → Any                                          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 530e1c8eb1353a62  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.reset","kind":"method","src_hash":"dce7327875eb251e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reset()","rhs":"reset produces the expected output","over":{"base":"Any"},"name":"reset_correct"},"guarantee":"reset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.reset_correct","statement":"Path(reset(x), reset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"530e1c8eb1353a62"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.reset","kind":"method","src_hash":"dce7327875eb251e","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"reset()","rhs":"<unspecified:reset>","over":{"base":"Any"},"name":"reset_correct"},"guarantee":"reset produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.reset_correct","statement":"Path(reset(x), reset produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"530e1c8eb1353a62","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._default_dist","self._default_ortho_dist","self.init_rot_matrix","self.ortho"],"writes":["self._dist","self._rot"]},"state_contract":{"modifies":["self._dist","self._rot"],"old_bindings":{"old_self__dist":"self._dist","old_self__rot":"self._rot"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def reset(self):
         self._dist = 0.0
         self._x, self._y = 0.0, 0.0
@@ -127,16 +158,22 @@ class PlotCamera:
         self.init_rot_matrix()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mult_rot_matrix(rot), mult_rot_matrix produces the expected output) over Any ║
+# ║ Path(mult_rot_matrix(rot), <unspecified:mult_rot_matrix>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mult_rot_matrix : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ad0cd5980f34ecdf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.mult_rot_matrix","kind":"method","src_hash":"42451417bf97fbcb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mult_rot_matrix(rot)","rhs":"mult_rot_matrix produces the expected output","over":{"base":"Any"},"name":"mult_rot_matrix_correct"},"guarantee":"mult_rot_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.mult_rot_matrix_correct","statement":"Path(mult_rot_matrix(x), mult_rot_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad0cd5980f34ecdf"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.mult_rot_matrix","kind":"method","src_hash":"42451417bf97fbcb","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mult_rot_matrix(rot)","rhs":"<unspecified:mult_rot_matrix>","over":{"base":"Any"},"name":"mult_rot_matrix_correct"},"guarantee":"mult_rot_matrix produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.mult_rot_matrix_correct","statement":"Path(mult_rot_matrix(x), mult_rot_matrix produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ad0cd5980f34ecdf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._rot"],"writes":["self._rot"]},"state_contract":{"modifies":["self._rot"],"old_bindings":{"old_self__rot":"self._rot"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mult_rot_matrix(self, rot):
         pgl.glPushMatrix()
         pgl.glLoadMatrixf(rot)
@@ -145,16 +182,22 @@ class PlotCamera:
         pgl.glPopMatrix()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(setup_projection(), setup_projection produces the expected output) over Any ║
+# ║ Path(setup_projection(), <unspecified:setup_projection>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ setup_projection : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2fe50e271d9b51a3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.setup_projection","kind":"method","src_hash":"f3bc5557789a32ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"setup_projection()","rhs":"setup_projection produces the expected output","over":{"base":"Any"},"name":"setup_projection_correct"},"guarantee":"setup_projection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.setup_projection_correct","statement":"Path(setup_projection(x), setup_projection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fe50e271d9b51a3"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.setup_projection","kind":"method","src_hash":"f3bc5557789a32ff","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"setup_projection()","rhs":"<unspecified:setup_projection>","over":{"base":"Any"},"name":"setup_projection_correct"},"guarantee":"setup_projection produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.setup_projection_correct","statement":"Path(setup_projection(x), setup_projection produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2fe50e271d9b51a3","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.max_dist","self.max_ortho_dist","self.min_dist","self.min_ortho_dist","self.ortho","self.window"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def setup_projection(self):
         pgl.glMatrixMode(pgl.GL_PROJECTION)
         pgl.glLoadIdentity()
@@ -170,30 +213,42 @@ class PlotCamera:
         pgl.glMatrixMode(pgl.GL_MODELVIEW)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_get_scale(), internal helper behaves correctly) over Any ║
+# ║ Path(_get_scale(), (1.0, 1.0, 1.0)) over Any               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  (1.0, 1.0, 1.0)                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _get_scale : Any → Any                                     ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 9baac2f9e1d46272           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera._get_scale","kind":"method","src_hash":"c66699e8b09174e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_scale()","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_get_scale_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9baac2f9e1d46272"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera._get_scale","kind":"method","src_hash":"c66699e8b09174e4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_get_scale()","rhs":"(1.0, 1.0, 1.0)","over":{"base":"Any"},"name":"_get_scale_correct"},"guarantee":"returns (1.0, 1.0, 1.0)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"9baac2f9e1d46272","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"(1.0, 1.0, 1.0)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _get_scale(self):
         return 1.0, 1.0, 1.0
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(apply_transformation(), apply_transformation produces the expected output) over Any ║
+# ║ Path(apply_transformation(), <unspecified:apply_transformation>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ apply_transformation : Any → Any                           ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 556ae781df704783  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.apply_transformation","kind":"method","src_hash":"2a303fd4be23aa20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_transformation()","rhs":"apply_transformation produces the expected output","over":{"base":"Any"},"name":"apply_transformation_correct"},"guarantee":"apply_transformation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.apply_transformation_correct","statement":"Path(apply_transformation(x), apply_transformation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"556ae781df704783"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.apply_transformation","kind":"method","src_hash":"2a303fd4be23aa20","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"apply_transformation()","rhs":"<unspecified:apply_transformation>","over":{"base":"Any"},"name":"apply_transformation_correct"},"guarantee":"apply_transformation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.apply_transformation_correct","statement":"Path(apply_transformation(x), apply_transformation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"556ae781df704783","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self._dist","self._get_scale","self._rot","self._x","self._y"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def apply_transformation(self):
         pgl.glLoadIdentity()
         pgl.glTranslatef(self._x, self._y, -self._dist)
@@ -202,16 +257,22 @@ class PlotCamera:
         pgl.glScalef(*self._get_scale())
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(spherical_rotate(p1,), spherical_rotate produces the expected output) over Any ║
+# ║ Path(spherical_rotate(p1, p2, sensitivity), <unspecified:spherical_rotate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ spherical_rotate : Any → Any                               ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa4642bdadb4badf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.spherical_rotate","kind":"method","src_hash":"d4aabfd2e5c19e4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spherical_rotate(p1,)","rhs":"spherical_rotate produces the expected output","over":{"base":"Any"},"name":"spherical_rotate_correct"},"guarantee":"spherical_rotate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.spherical_rotate_correct","statement":"Path(spherical_rotate(x), spherical_rotate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa4642bdadb4badf"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.spherical_rotate","kind":"method","src_hash":"d4aabfd2e5c19e4a","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"spherical_rotate(p1, p2, sensitivity)","rhs":"<unspecified:spherical_rotate>","over":{"base":"Any"},"name":"spherical_rotate_correct"},"guarantee":"spherical_rotate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.spherical_rotate_correct","statement":"Path(spherical_rotate(x), spherical_rotate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa4642bdadb4badf","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","reads":["self.mult_rot_matrix","self.window"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def spherical_rotate(self, p1, p2, sensitivity=1.0):
         mat = get_spherical_rotatation(p1, p2, self.window.width,
                                        self.window.height, sensitivity)
@@ -219,16 +280,22 @@ class PlotCamera:
             self.mult_rot_matrix(mat)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(euler_rotate(ang), euler_rotate produces the expected output) over Any ║
+# ║ Path(euler_rotate(angle, x, y), <unspecified:euler_rotate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ euler_rotate : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6399404ec2a71257  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.euler_rotate","kind":"method","src_hash":"efb9848d5564ebd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"euler_rotate(ang)","rhs":"euler_rotate produces the expected output","over":{"base":"Any"},"name":"euler_rotate_correct"},"guarantee":"euler_rotate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.euler_rotate_correct","statement":"Path(euler_rotate(x), euler_rotate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6399404ec2a71257"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.euler_rotate","kind":"method","src_hash":"efb9848d5564ebd4","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"euler_rotate(angle, x, y)","rhs":"<unspecified:euler_rotate>","over":{"base":"Any"},"name":"euler_rotate_correct"},"guarantee":"euler_rotate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.euler_rotate_correct","statement":"Path(euler_rotate(x), euler_rotate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6399404ec2a71257","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._rot"],"writes":["self._rot"]},"state_contract":{"modifies":["self._rot"],"old_bindings":{"old_self__rot":"self._rot"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def euler_rotate(self, angle, x, y, z):
         pgl.glPushMatrix()
         pgl.glLoadMatrixf(self._rot)
@@ -237,16 +304,22 @@ class PlotCamera:
         pgl.glPopMatrix()
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(zoom_relative(cli), zoom_relative produces the expected output) over Any ║
+# ║ Path(zoom_relative(clicks, sensitivity), <unspecified:zoom_relative>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ zoom_relative : Any → Any                                  ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cddbc1309e07b4c  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.zoom_relative","kind":"method","src_hash":"a6129bc4e203b4ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zoom_relative(cli)","rhs":"zoom_relative produces the expected output","over":{"base":"Any"},"name":"zoom_relative_correct"},"guarantee":"zoom_relative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.zoom_relative_correct","statement":"Path(zoom_relative(x), zoom_relative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cddbc1309e07b4c"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.zoom_relative","kind":"method","src_hash":"a6129bc4e203b4ad","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"zoom_relative(clicks, sensitivity)","rhs":"<unspecified:zoom_relative>","over":{"base":"Any"},"name":"zoom_relative_correct"},"guarantee":"zoom_relative produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.zoom_relative_correct","statement":"Path(zoom_relative(x), zoom_relative produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cddbc1309e07b4c","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._dist","self.max_dist","self.max_ortho_dist","self.min_dist","self.min_ortho_dist","self.ortho"],"writes":["self._dist"]},"state_contract":{"modifies":["self._dist"],"old_bindings":{"old_self__dist":"self._dist"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def zoom_relative(self, clicks, sensitivity):
 
         if self.ortho:
@@ -263,16 +336,22 @@ class PlotCamera:
             self._dist = new_dist
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(mouse_translate(x, ), mouse_translate produces the expected output) over Any ║
+# ║ Path(mouse_translate(x, y, dx), <unspecified:mouse_translate>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ mouse_translate : Any → Any                                ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7bac7fbff0326a91  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.mouse_translate","kind":"method","src_hash":"a40f0f756cbb3c8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mouse_translate(x, )","rhs":"mouse_translate produces the expected output","over":{"base":"Any"},"name":"mouse_translate_correct"},"guarantee":"mouse_translate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.mouse_translate_correct","statement":"Path(mouse_translate(x), mouse_translate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bac7fbff0326a91"}
+# @cctt_verify {"v":2,"sym":"sympy.plottinggletplot.plot_camera.PlotCamera.mouse_translate","kind":"method","src_hash":"a40f0f756cbb3c8c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"mouse_translate(x, y, dx)","rhs":"<unspecified:mouse_translate>","over":{"base":"Any"},"name":"mouse_translate_correct"},"guarantee":"mouse_translate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.plottinggletplot.plot_camera.PlotCamera.mouse_translate_correct","statement":"Path(mouse_translate(x), mouse_translate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7bac7fbff0326a91","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"mutates_self","reads":["self._dist"],"writes":["self._x","self._y"]},"state_contract":{"modifies":["self._x","self._y"],"old_bindings":{"old_self__x":"self._x","old_self__y":"self._y"}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def mouse_translate(self, x, y, dx, dy):
         pgl.glPushMatrix()
         pgl.glLoadIdentity()

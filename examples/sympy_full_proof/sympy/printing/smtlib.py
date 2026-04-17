@@ -42,14 +42,20 @@ from sympy.assumptions.relation.equality import StrictGreaterThanPredicate, Stri
 # ╔══ CCTT ══════════════════════════════════════════════════╗
 # ║ Invariant(correctly constructs a SMTLibPrinter instance) preserved by SMTLibPrinter(*args) over {typing.Optional[dict] | isinstance(a, str) and isinstance(c, BooleanTrue) and isinstance(e, AppliedBinaryRelation)} ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  isinstance(self, Printer)                      ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ SMTLibPrinter : {typing.Optional[dict] | isinstance(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.9ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a372c99e511c1a86  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter","kind":"class","src_hash":"0558c20989cc8768","in":{"base":"typing.Optional[dict]","pred":"isinstance(a, str) and isinstance(c, BooleanTrue) and isinstance(e, AppliedBinaryRelation)"},"out":{"base":"Any","pred":"x.q == 1 and self._is_legal_name(x.name) and self._is_legal_name(x.name) and self._is_legal_name(_) and self._is_legal_name(_) and c is True or isinstance(c, BooleanTrue)"},"spec":{"lhs":"SMTLibPrinter(*args)","rhs":"correctly constructs a SMTLibPrinter instance","over":{"base":"typing.Optional[dict]","pred":"isinstance(a, str) and isinstance(c, BooleanTrue) and isinstance(e, AppliedBinaryRelation)"},"name":"SMTLibPrinter_class_invariant","kind":"invariant"},"guarantee":"correctly constructs a SMTLibPrinter instance","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'symbol_table') and hasattr(self, '_precision') and hasattr(self, '_known_types') and hasattr(self, '_known_constants') and hasattr(self, '_known_functions')","kind":"class","induction":"structural on symbol_table, _precision, _known_types, _known_constants"}],"methods_preserving":["__init__","_is_legal_name","_s_expr","_print_Function","_print_Relational","_print_BooleanFunction","_print_Expr","_print_Unequality","_print_Piecewise","_print_Interval","_print_AppliedPredicate","_print_AppliedBinaryRelation","_print_ForAll","_print_BooleanTrue","_print_BooleanFalse","_print_Float","_print_float","_print_Rational","_print_Integer","_print_int","_print_Symbol","_print_NumberSymbol","_print_UndefinedFunction","_print_Exp1","emptyPrinter"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a372c99e511c1a86"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter","kind":"class","src_hash":"0558c20989cc8768","in":{"base":"typing.Optional[dict]","pred":"isinstance(a, str) and isinstance(c, BooleanTrue) and isinstance(e, AppliedBinaryRelation)"},"out":{"base":"Any","pred":"result satisfies: isinstance(self, Printer)"},"spec":{"lhs":"SMTLibPrinter(*args)","rhs":"correctly constructs a SMTLibPrinter instance","over":{"base":"typing.Optional[dict]","pred":"isinstance(a, str) and isinstance(c, BooleanTrue) and isinstance(e, AppliedBinaryRelation)"},"name":"SMTLibPrinter_class_invariant","kind":"invariant"},"guarantee":"isinstance(self, Printer); preserves 5 invariant(s)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"invariants":[{"name":"representation","pred":"hasattr(self, 'symbol_table') and hasattr(self, '_precision') and hasattr(self, '_known_types') and hasattr(self, '_known_constants') and hasattr(self, '_known_functions')","kind":"class","induction":"structural on symbol_table, _precision, _known_types, _known_constants"}],"methods_preserving":["__init__","_is_legal_name","_s_expr","_print_Function","_print_Relational","_print_BooleanFunction","_print_Expr","_print_Unequality","_print_Piecewise","_print_Interval","_print_AppliedPredicate","_print_AppliedBinaryRelation","_print_ForAll","_print_BooleanTrue","_print_BooleanFalse","_print_Float","_print_float","_print_Rational","_print_Integer","_print_int","_print_Symbol","_print_NumberSymbol","_print_UndefinedFunction","_print_Exp1","emptyPrinter"]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a372c99e511c1a86","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["isinstance(self, Printer)"],"invariants":["hasattr(self, 'symbol_table')","hasattr(self, '_precision')","hasattr(self, '_known_types')","hasattr(self, '_known_constants')","hasattr(self, '_known_functions')"]},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.9,"verdict_class":"assumed","binding":false,"binding_errors":["Function SMTLibPrinter not found in source"]}}
 class SMTLibPrinter(Printer):
     printmethod = "_smtlib"
 
@@ -110,16 +116,23 @@ class SMTLibPrinter(Printer):
     symbol_table: dict
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(__init__(set), initializes the instance correctly) over Any ║
+# ║ Path(__init__(settings, symbol_table), <unspecified:__init__>) over {Any | isinstance(settings, typing.Optional[dict])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ __init__ : Any → Any                                       ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(settings, typing.Optional[dict])    ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ __init__ : {Any | isinstance(settings, typing.Optiona...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 2df026efe78b6624           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter.__init__","kind":"method","src_hash":"7efd51ea655644d5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"__init__(set)","rhs":"initializes the instance correctly","over":{"base":"Any"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2df026efe78b6624"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter.__init__","kind":"method","src_hash":"7efd51ea655644d5","in":{"base":"Any","pred":"isinstance(settings, typing.Optional[dict])"},"out":{"base":"Any"},"spec":{"lhs":"__init__(settings, symbol_table)","rhs":"<unspecified:__init__>","over":{"base":"Any","pred":"isinstance(settings, typing.Optional[dict])"},"name":"__init___correct"},"guarantee":"initializes the instance correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"2df026efe78b6624","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(settings, typing.Optional[dict])"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.1,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def __init__(self, settings: typing.Optional[dict] = None,
                  symbol_table=None):
         settings = settings or {}
@@ -135,32 +148,48 @@ class SMTLibPrinter(Printer):
         # for _ in self._known_functions.values(): assert self._is_legal_name(_)  # +, *, <, >, etc.
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_is_legal_name(s), internal helper behaves correctly) over Any ║
+# ║ Path(_is_legal_name(s), <unspecified:_is_legal_name>) over {Any | isinstance(s, str)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _is_legal_name : Any → Any                                 ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(s, str)                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _is_legal_name : {Any | isinstance(s, str)} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | fa1ec354faef6c39  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._is_legal_name","kind":"method","src_hash":"9ebc4619bf83412d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_is_legal_name(s)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_is_legal_name_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._is_legal_name_correct","statement":"Path(_is_legal_name(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa1ec354faef6c39"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._is_legal_name","kind":"method","src_hash":"9ebc4619bf83412d","in":{"base":"Any","pred":"isinstance(s, str)"},"out":{"base":"Any"},"spec":{"lhs":"_is_legal_name(s)","rhs":"<unspecified:_is_legal_name>","over":{"base":"Any","pred":"isinstance(s, str)"},"name":"_is_legal_name_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._is_legal_name_correct","statement":"Path(_is_legal_name(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"fa1ec354faef6c39","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(s, str)"],"pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _is_legal_name(self, s: str):
         if not s: return False
         if s[0].isnumeric(): return False
         return all(_.isalnum() or _ == '_' for _ in s)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_s_expr(op,), internal helper behaves correctly) over Any ║
+# ║ Path(_s_expr(op, args), f'({op} {args_str})') over {Any | isinstance(op, str) and isinstance(args, typing.Union[list, tuple])} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _s_expr : Any → str                                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(op, str)                            ║
+# ║   requires: isinstance(args, typing.Union[list, tuple])    ║
+# ║   ensures:  isinstance(result, str)                        ║
+# ║   returns:  f'({op} {args_str})'                           ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _s_expr : {Any | isinstance(op, str) and isinstance(a...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbb406d448f1c8f0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 619f6b8e84926973  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._s_expr","kind":"method","src_hash":"1d91efa75d93b1b7","in":{"base":"Any"},"out":{"base":"str"},"spec":{"lhs":"_s_expr(op,)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_s_expr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._s_expr_correct","statement":"Path(_s_expr(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbb406d448f1c8f0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._s_expr","kind":"method","src_hash":"1d91efa75d93b1b7","in":{"base":"Any","pred":"isinstance(op, str) and isinstance(args, typing.Union[list, tuple])"},"out":{"base":"str","pred":"result satisfies: result == (f'({op} {args_str})')"},"spec":{"lhs":"_s_expr(op, args)","rhs":"f'({op} {args_str})'","over":{"base":"Any","pred":"isinstance(op, str) and isinstance(args, typing.Union[list, tuple])"},"name":"_s_expr_correct"},"guarantee":"returns f'({op} {args_str})'; isinstance(result, str)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._s_expr_correct","statement":"Path(_s_expr(x), returns f'({op} {args_str})'; isinstance(result, str))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"619f6b8e84926973","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(op, str)","isinstance(args, typing.Union[list, tuple])"],"ensures":["isinstance(result, str)"],"returns_expr":"f'({op} {args_str})'","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _s_expr(self, op: str, args: typing.Union[list, tuple]) -> str:
         args_str = ' '.join(
             a if isinstance(a, str)
@@ -170,16 +199,27 @@ class SMTLibPrinter(Printer):
         return f'({op} {args_str})'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Function(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Function(e), <unspecified:_print_Function>) over {Any | hasattr(e, 'args') and hasattr(e, 'name') and hasattr(e, 'function') and hasattr(e, 'arguments')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Function : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   requires: hasattr(e, 'name')                             ║
+# ║   requires: hasattr(e, 'function')                         ║
+# ║   fiber[case_0]: e in self._known_functions                ║
+# ║   fiber[case_1]: type(e) in self._known_functions          ║
+# ║   fiber[case_2]: type(type(e)) == UndefinedFunction        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Function : {Any | hasattr(e, 'args') and hasat...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a10f904a9535695b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c056aecb952cf219  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Function","kind":"method","src_hash":"388197bcf862b3c5","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Function_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Function_correct","statement":"Path(_print_Function(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a10f904a9535695b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Function","kind":"method","src_hash":"388197bcf862b3c5","in":{"base":"Any","pred":"hasattr(e, 'args') and hasattr(e, 'name') and hasattr(e, 'function') and hasattr(e, 'arguments')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Function(e)","rhs":"<unspecified:_print_Function>","over":{"base":"Any","pred":"hasattr(e, 'args') and hasattr(e, 'name') and hasattr(e, 'function') and hasattr(e, 'arguments')"},"name":"_print_Function_correct"},"guarantee":"5-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Function_correct","statement":"Path(_print_Function(x), 5-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c056aecb952cf219","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(e, 'args')","hasattr(e, 'name')","hasattr(e, 'function')","hasattr(e, 'arguments')"],"fibers":[{"name":"case_0","guard":"e in self._known_functions","ensures":[],"decidability":"library"},{"name":"case_1","guard":"type(e) in self._known_functions","ensures":[],"decidability":"library"},{"name":"case_2","guard":"type(type(e)) == UndefinedFunction","ensures":[],"decidability":"z3"},{"name":"AppliedBinaryRelation","guard":"isinstance(e, AppliedBinaryRelation) and e.function in self._known_functions","ensures":["result == self._s_expr(op, e.arguments)"],"decidability":"structural","returns_expr":"self._s_expr(op, e.arguments)"},{"name":"AppliedBinaryRelation","guard":"not (e in self._known_functions) and not (type(e) in self._known_functions) and not (type(type(e)) == UndefinedFunction) and not (isinstance(e, AppliedBinaryRelation) and e.function in self._known_functions)","ensures":[],"decidability":"structural"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","e.arguments","e.function","e.name","self._known_functions","self._s_expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Function(self, e):
         if e in self._known_functions:
             op = self._known_functions[e]
@@ -196,58 +236,90 @@ class SMTLibPrinter(Printer):
         return self._s_expr(op, e.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Relational(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Relational(e), self._print_Function(e)) over {Any | isinstance(e, Relational)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Relational : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(e, Relational)                      ║
+# ║   returns:  self._print_Function(e)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Relational : {Any | isinstance(e, Relational)}...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 006d09973732ce22           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Relational","kind":"method","src_hash":"d72b760f778d0c45","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Relational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"006d09973732ce22"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Relational","kind":"method","src_hash":"d72b760f778d0c45","in":{"base":"Any","pred":"isinstance(e, Relational)"},"out":{"base":"Any"},"spec":{"lhs":"_print_Relational(e)","rhs":"self._print_Function(e)","over":{"base":"Any","pred":"isinstance(e, Relational)"},"name":"_print_Relational_correct"},"guarantee":"returns self._print_Function(e)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"006d09973732ce22","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(e, Relational)"],"returns_expr":"self._print_Function(e)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Relational(self, e: Relational):
         return self._print_Function(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BooleanFunction(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_BooleanFunction(e), self._print_Function(e)) over {Any | isinstance(e, BooleanFunction)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_BooleanFunction : Any → Any                         ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(e, BooleanFunction)                 ║
+# ║   returns:  self._print_Function(e)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_BooleanFunction : {Any | isinstance(e, Boolean...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 213047925e79a9f2           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_BooleanFunction","kind":"method","src_hash":"0a32a8ef2f137502","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanFunction(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BooleanFunction_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"213047925e79a9f2"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_BooleanFunction","kind":"method","src_hash":"0a32a8ef2f137502","in":{"base":"Any","pred":"isinstance(e, BooleanFunction)"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanFunction(e)","rhs":"self._print_Function(e)","over":{"base":"Any","pred":"isinstance(e, BooleanFunction)"},"name":"_print_BooleanFunction_correct"},"guarantee":"returns self._print_Function(e)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"213047925e79a9f2","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(e, BooleanFunction)"],"returns_expr":"self._print_Function(e)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BooleanFunction(self, e: BooleanFunction):
         return self._print_Function(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Expr(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Expr(e), self._print_Function(e)) over {Any | isinstance(e, Expr)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Expr : Any → Any                                    ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(e, Expr)                            ║
+# ║   returns:  self._print_Function(e)                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Expr : {Any | isinstance(e, Expr)} → Any            ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 6273c929f124e61b           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Expr","kind":"method","src_hash":"2c0ebdad7ef31cac","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Expr(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Expr_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6273c929f124e61b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Expr","kind":"method","src_hash":"2c0ebdad7ef31cac","in":{"base":"Any","pred":"isinstance(e, Expr)"},"out":{"base":"Any"},"spec":{"lhs":"_print_Expr(e)","rhs":"self._print_Function(e)","over":{"base":"Any","pred":"isinstance(e, Expr)"},"name":"_print_Expr_correct"},"guarantee":"returns self._print_Function(e)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"6273c929f124e61b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(e, Expr)"],"returns_expr":"self._print_Function(e)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print_Function"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Expr(self, e: Expr):
         return self._print_Function(e)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Unequality(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Unequality(e), result == (self._print_Relational(e) if type(e) in self._known_functions else self._s_expr(not_op, [self._s_expr(eq_op, e.args)])) and result == self._print_Relational(e) or result == self._s_expr(not_op, [self._s_expr(eq_op, e.args)])) over {Any | isinstance(e, Unequality) and hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Unequality : Any → Any                              ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(e, Unequality)                      ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ensures:  result == (self._print_Relational(e) if t...   ║
+# ║   ensures:  result == self._print_Relational(e) or re...   ║
+# ║   fiber[case_0]: type(e) in self._known_functions => ...   ║
+# ║   fiber[case_1]: not (type(e) in self._known_function...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Unequality : {Any | isinstance(e, Unequality) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78869b1b8aebfb7b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c28d37443dbb159  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Unequality","kind":"method","src_hash":"3e9d1ed322ff6453","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Unequality(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Unequality_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Unequality_correct","statement":"Path(_print_Unequality(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78869b1b8aebfb7b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Unequality","kind":"method","src_hash":"3e9d1ed322ff6453","in":{"base":"Any","pred":"isinstance(e, Unequality) and hasattr(e, 'args')"},"out":{"base":"Any","pred":"result satisfies: result == (self._print_Relational(e) if type(e) in self._known_functions else self._s_expr(not_op, [self._s_expr(eq_op, e.args)])) and result == self._print_Relational(e) or result == self._s_expr(not_op, [self._s_expr(eq_op, e.args)])"},"spec":{"lhs":"_print_Unequality(e)","rhs":"result == (self._print_Relational(e) if type(e) in self._known_functions else self._s_expr(not_op, [self._s_expr(eq_op, e.args)])) and result == self._print_Relational(e) or result == self._s_expr(not_op, [self._s_expr(eq_op, e.args)])","over":{"base":"Any","pred":"isinstance(e, Unequality) and hasattr(e, 'args')"},"name":"_print_Unequality_correct"},"guarantee":"result == (self._print_Relational(e) if type(e) in self._known_functions else self._s_expr(not_op, [self._s_expr(eq_op, e.args)])); result == self._print_Relational(e) or result == self._s_expr(not_op, [self._s_expr(eq_op, e.args)]); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Unequality_correct","statement":"Path(_print_Unequality(x), result == (self._print_Relational(e) if type(e) in self._known_functions else self._s_expr(not_op, [self._s_expr(eq_op, e.args)])); result == self._print_Relational(e) or result == self._s_expr(not_op, [self._s_expr(eq_op, e.args)]); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c28d37443dbb159","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(e, Unequality)","hasattr(e, 'args')"],"ensures":["result == (self._print_Relational(e) if type(e) in self._known_functions else self._s_expr(not_op, [self._s_expr(eq_op, e.args)]))","result == self._print_Relational(e) or result == self._s_expr(not_op, [self._s_expr(eq_op, e.args)])"],"fibers":[{"name":"case_0","guard":"type(e) in self._known_functions","ensures":["result == self._print_Relational(e)"],"decidability":"library","returns_expr":"self._print_Relational(e)"},{"name":"case_1","guard":"not (type(e) in self._known_functions)","ensures":["result == self._s_expr(not_op, [self._s_expr(eq_op, e.args)])"],"decidability":"library","returns_expr":"self._s_expr(not_op, [self._s_expr(eq_op, e.args)])"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._known_functions","self._print_Relational","self._s_expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Unequality(self, e: Unequality):
         if type(e) in self._known_functions:
             return self._print_Relational(e)  # default
@@ -257,16 +329,24 @@ class SMTLibPrinter(Printer):
             return self._s_expr(not_op, [self._s_expr(eq_op, e.args)])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Piecewise(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Piecewise(e), <unspecified:_print_Piecewise>) over {Any | isinstance(e, Piecewise) and hasattr(e, 'args')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Piecewise : Any → Any                               ║
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   requires: isinstance(e, Piecewise)                       ║
+# ║   requires: hasattr(e, 'args')                             ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Piecewise : {Any | isinstance(e, Piecewise) an...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e53081be9405dc7e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Piecewise","kind":"method","src_hash":"a440c8f5d7feb7d1","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e53081be9405dc7e"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Piecewise","kind":"method","src_hash":"a440c8f5d7feb7d1","in":{"base":"Any","pred":"isinstance(e, Piecewise) and hasattr(e, 'args')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Piecewise(e)","rhs":"<unspecified:_print_Piecewise>","over":{"base":"Any","pred":"isinstance(e, Piecewise) and hasattr(e, 'args')"},"name":"_print_Piecewise_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Piecewise_correct","statement":"Path(_print_Piecewise(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e53081be9405dc7e","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","requires":["isinstance(e, Piecewise)","hasattr(e, 'args')"],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.args","self._known_functions","self._print","self._s_expr"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Piecewise(self, e: Piecewise):
         def _print_Piecewise_recursive(args: typing.Union[list, tuple]):
             e, c = args[0]
@@ -282,16 +362,27 @@ class SMTLibPrinter(Printer):
         return _print_Piecewise_recursive(e.args)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Interval(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Interval(e), <unspecified:_print_Interval>) over {Any | isinstance(e, Interval) and hasattr(e, 'start') and hasattr(e, 'end')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Interval : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(e, Interval)                        ║
+# ║   requires: hasattr(e, 'start')                            ║
+# ║   requires: hasattr(e, 'end')                              ║
+# ║   fiber[case_0]: e.start.is_infinite and e.end.is_inf...   ║
+# ║   fiber[case_1]: e.start.is_infinite != e.end.is_infi...   ║
+# ║   fiber[case_2]: not (e.start.is_infinite and e.end.i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Interval : {Any | isinstance(e, Interval) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2472d41200fae4d1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9111b234ad21555f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Interval","kind":"method","src_hash":"252b846e1cd84a32","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Interval(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Interval_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Interval_correct","statement":"Path(_print_Interval(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2472d41200fae4d1"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Interval","kind":"method","src_hash":"252b846e1cd84a32","in":{"base":"Any","pred":"isinstance(e, Interval) and hasattr(e, 'start') and hasattr(e, 'end')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Interval(e)","rhs":"<unspecified:_print_Interval>","over":{"base":"Any","pred":"isinstance(e, Interval) and hasattr(e, 'start') and hasattr(e, 'end')"},"name":"_print_Interval_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Interval_correct","statement":"Path(_print_Interval(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9111b234ad21555f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(e, Interval)","hasattr(e, 'start')","hasattr(e, 'end')"],"fibers":[{"name":"case_0","guard":"e.start.is_infinite and e.end.is_infinite","ensures":["result == ''"],"decidability":"library","returns_expr":"''"},{"name":"case_1","guard":"e.start.is_infinite != e.end.is_infinite","ensures":[],"decidability":"z3"},{"name":"case_2","guard":"not (e.start.is_infinite and e.end.is_infinite) and not (e.start.is_infinite != e.end.is_infinite)","ensures":["result == f'[{e.start}, {e.end}]'"],"decidability":"z3","returns_expr":"f'[{e.start}, {e.end}]'"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.end","e.start"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Interval(self, e: Interval):
         if e.start.is_infinite and e.end.is_infinite:
             return ''
@@ -301,16 +392,25 @@ class SMTLibPrinter(Printer):
             return f'[{e.start}, {e.end}]'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_AppliedPredicate(e), internal helper behaves correctly) over Any ║
+# ║ Path(_print_AppliedPredicate(e), self._print_AppliedBinaryRelation(rel)) over {Any | isinstance(e, AppliedPredicate) and hasattr(e, 'function') and hasattr(e, 'arguments')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_AppliedPredicate : Any → Any                        ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(e, AppliedPredicate)                ║
+# ║   requires: hasattr(e, 'function')                         ║
+# ║   requires: hasattr(e, 'arguments')                        ║
+# ║   returns:  self._print_AppliedBinaryRelation(rel)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_AppliedPredicate : {Any | isinstance(e, Applie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 937387ecb84aa3e0  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7b0b35e685e8fc97  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_AppliedPredicate","kind":"method","src_hash":"af7cc21c641e201b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_AppliedPredicate(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_AppliedPredicate_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_AppliedPredicate_correct","statement":"Path(_print_AppliedPredicate(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"937387ecb84aa3e0"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_AppliedPredicate","kind":"method","src_hash":"af7cc21c641e201b","in":{"base":"Any","pred":"isinstance(e, AppliedPredicate) and hasattr(e, 'function') and hasattr(e, 'arguments')"},"out":{"base":"Any"},"spec":{"lhs":"_print_AppliedPredicate(e)","rhs":"self._print_AppliedBinaryRelation(rel)","over":{"base":"Any","pred":"isinstance(e, AppliedPredicate) and hasattr(e, 'function') and hasattr(e, 'arguments')"},"name":"_print_AppliedPredicate_correct"},"guarantee":"returns self._print_AppliedBinaryRelation(rel)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_AppliedPredicate_correct","statement":"Path(_print_AppliedPredicate(x), returns self._print_AppliedBinaryRelation(rel))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7b0b35e685e8fc97","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(e, AppliedPredicate)","hasattr(e, 'function')","hasattr(e, 'arguments')"],"returns_expr":"self._print_AppliedBinaryRelation(rel)","pure":false,"effects":{"effect_type":"reads_state","reads":["e.arguments","e.function","self._print_AppliedBinaryRelation"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_AppliedPredicate(self, e: AppliedPredicate):
         if e.function == Q.positive:
             rel = Q.gt(e.arguments[0],0)
@@ -330,16 +430,28 @@ class SMTLibPrinter(Printer):
         return self._print_AppliedBinaryRelation(rel)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_AppliedBinaryRelation(e), id) over Any         ║
+# ║ Path(_print_AppliedBinaryRelation(e), id) over {Any | isinstance(e, AppliedPredicate) and hasattr(e, 'function') and hasattr(e, 'arguments')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_AppliedBinaryRelation : Any → Any                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(e, AppliedPredicate)                ║
+# ║   requires: hasattr(e, 'function')                         ║
+# ║   requires: hasattr(e, 'arguments')                        ║
+# ║   ensures:  result == (self._print_Unequality(Unequal...   ║
+# ║   ensures:  result == self._print_Unequality(Unequali...   ║
+# ║   fiber[case_0]: e.function == Q.ne => self._print_Un...   ║
+# ║   fiber[case_1]: not (e.function == Q.ne) => self._pr...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_AppliedBinaryRelation : {Any | isinstance(e, A...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | path_compose | Compiled: ✓ | ca3438420749f810   ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_AppliedBinaryRelation","kind":"method","src_hash":"f63ecaa1d47ea4ed","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_AppliedBinaryRelation(e)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_AppliedBinaryRelation_correct","kind":"composition"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print_Unequality","by":"library_axiom"},{"fn":"Unequality","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca3438420749f810"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_AppliedBinaryRelation","kind":"method","src_hash":"f63ecaa1d47ea4ed","in":{"base":"Any","pred":"isinstance(e, AppliedPredicate) and hasattr(e, 'function') and hasattr(e, 'arguments')"},"out":{"base":"Any","pred":"result satisfies: result == (self._print_Unequality(Unequality(*e.arguments)) if e.function == Q.ne else self._print_Function(e)) and result == self._print_Unequality(Unequality(*e.arguments)) or result == self._print_Function(e)"},"spec":{"lhs":"_print_AppliedBinaryRelation(e)","rhs":"result == (self._print_Unequality(Unequality(*e.arguments)) if e.function == Q.ne else self._print_Function(e)) and result == self._print_Unequality(Unequality(*e.arguments)) or result == self._print_Function(e)","over":{"base":"Any","pred":"isinstance(e, AppliedPredicate) and hasattr(e, 'function') and hasattr(e, 'arguments')"},"name":"_print_AppliedBinaryRelation_correct","kind":"composition"},"guarantee":"result == (self._print_Unequality(Unequality(*e.arguments)) if e.function == Q.ne else self._print_Function(e)); result == self._print_Unequality(Unequality(*e.arguments)) or result == self._print_Function(e); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"path_compose","details":{"steps":[{"fn":"_print_Unequality","by":"library_axiom"},{"fn":"Unequality","by":"library_axiom"}]},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ca3438420749f810","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(e, AppliedPredicate)","hasattr(e, 'function')","hasattr(e, 'arguments')"],"ensures":["result == (self._print_Unequality(Unequality(*e.arguments)) if e.function == Q.ne else self._print_Function(e))","result == self._print_Unequality(Unequality(*e.arguments)) or result == self._print_Function(e)"],"fibers":[{"name":"case_0","guard":"e.function == Q.ne","ensures":["result == self._print_Unequality(Unequality(*e.arguments))"],"decidability":"z3","returns_expr":"self._print_Unequality(Unequality(*e.arguments))"},{"name":"case_1","guard":"not (e.function == Q.ne)","ensures":["result == self._print_Function(e)"],"decidability":"z3","returns_expr":"self._print_Function(e)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.arguments","e.function","self._print_Function","self._print_Unequality"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_AppliedBinaryRelation(self, e: AppliedPredicate):
         if e.function == Q.ne:
             return self._print_Unequality(Unequality(*e.arguments))
@@ -360,44 +472,69 @@ class SMTLibPrinter(Printer):
     #     ])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BooleanTrue(x), internal helper behaves correctly) over Any ║
+# ║ Path(_print_BooleanTrue(x), 'true') over {Any | isinstance(x, BooleanTrue)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_BooleanTrue : Any → Any                             ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, BooleanTrue)                     ║
+# ║   returns:  'true'                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_BooleanTrue : {Any | isinstance(x, BooleanTrue...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | b76afeb8aa1168da           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_BooleanTrue","kind":"method","src_hash":"eed1f5108d952bc7","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanTrue(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BooleanTrue_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b76afeb8aa1168da"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_BooleanTrue","kind":"method","src_hash":"eed1f5108d952bc7","in":{"base":"Any","pred":"isinstance(x, BooleanTrue)"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanTrue(x)","rhs":"'true'","over":{"base":"Any","pred":"isinstance(x, BooleanTrue)"},"name":"_print_BooleanTrue_correct"},"guarantee":"returns 'true'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"b76afeb8aa1168da","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, BooleanTrue)"],"returns_expr":"'true'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BooleanTrue(self, x: BooleanTrue):
         return 'true'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_BooleanFalse(x), internal helper behaves correctly) over Any ║
+# ║ Path(_print_BooleanFalse(x), 'false') over {Any | isinstance(x, BooleanFalse)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_BooleanFalse : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, BooleanFalse)                    ║
+# ║   returns:  'false'                                        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_BooleanFalse : {Any | isinstance(x, BooleanFal...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | f2e0a5975cd13893           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_BooleanFalse","kind":"method","src_hash":"c38e28838d6fa19d","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanFalse(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_BooleanFalse_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2e0a5975cd13893"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_BooleanFalse","kind":"method","src_hash":"c38e28838d6fa19d","in":{"base":"Any","pred":"isinstance(x, BooleanFalse)"},"out":{"base":"Any"},"spec":{"lhs":"_print_BooleanFalse(x)","rhs":"'false'","over":{"base":"Any","pred":"isinstance(x, BooleanFalse)"},"name":"_print_BooleanFalse_correct"},"guarantee":"returns 'false'","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"f2e0a5975cd13893","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, BooleanFalse)"],"returns_expr":"'false'","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_BooleanFalse(self, x: BooleanFalse):
         return 'false'
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Float(x), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Float(x), <unspecified:_print_Float>) over {Any | isinstance(x, Float) and hasattr(x, '_prec') and hasattr(x, '_mpf_')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Float : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, Float)                           ║
+# ║   requires: hasattr(x, '_prec')                            ║
+# ║   requires: hasattr(x, '_mpf_')                            ║
+# ║   fiber[case_0]: 'e' in str_real => '(%s %s (%s 10 %s...   ║
+# ║   fiber[case_1]: str_real in ['+inf', '-inf']              ║
+# ║   fiber[case_2]: not ('e' in str_real) and not (str_r...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Float : {Any | isinstance(x, Float) and hasatt...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 55393bc25399d3f7  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4152fa308da48d7f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Float","kind":"method","src_hash":"721f917f95e0866f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Float(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Float_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Float_correct","statement":"Path(_print_Float(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"55393bc25399d3f7"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Float","kind":"method","src_hash":"721f917f95e0866f","in":{"base":"Any","pred":"isinstance(x, Float) and hasattr(x, '_prec') and hasattr(x, '_mpf_')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Float(x)","rhs":"<unspecified:_print_Float>","over":{"base":"Any","pred":"isinstance(x, Float) and hasattr(x, '_prec') and hasattr(x, '_mpf_')"},"name":"_print_Float_correct"},"guarantee":"3-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Float_correct","statement":"Path(_print_Float(x), 3-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4152fa308da48d7f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, Float)","hasattr(x, '_prec')","hasattr(x, '_mpf_')"],"fibers":[{"name":"case_0","guard":"'e' in str_real","ensures":["result == '(%s %s (%s 10 %s))' % (mul, mant, pow, exp)"],"decidability":"library","returns_expr":"'(%s %s (%s 10 %s))' % (mul, mant, pow, exp)"},{"name":"case_1","guard":"str_real in ['+inf', '-inf']","ensures":[],"decidability":"library"},{"name":"case_2","guard":"not ('e' in str_real) and not (str_real in ['+inf', '-inf'])","ensures":["result == str_real"],"decidability":"library","returns_expr":"str_real"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._known_functions","x._mpf_","x._prec"],"raises":["ValueError"]},"state_contract":{"exceptional_post":{"ValueError":["isinstance(raised, ValueError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Float(self, x: Float):
         dps = prec_to_dps(x._prec)
         str_real = mlib_to_str(x._mpf_, dps, strip_zeros=True, min_fixed=None, max_fixed=None)
@@ -418,88 +555,139 @@ class SMTLibPrinter(Printer):
             return str_real
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_float(x), internal helper behaves correctly) over Any ║
+# ║ Path(_print_float(x), self._print(Float(x))) over {Any | isinstance(x, float)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_float : Any → Any                                   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, float)                           ║
+# ║   returns:  self._print(Float(x))                          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_float : {Any | isinstance(x, float)} → Any          ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 08914a96f8ad8f52           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_float","kind":"method","src_hash":"e28897de820d7557","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_float(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_float_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08914a96f8ad8f52"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_float","kind":"method","src_hash":"e28897de820d7557","in":{"base":"Any","pred":"isinstance(x, float)"},"out":{"base":"Any"},"spec":{"lhs":"_print_float(x)","rhs":"self._print(Float(x))","over":{"base":"Any","pred":"isinstance(x, float)"},"name":"_print_float_correct"},"guarantee":"returns self._print(Float(x))","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"08914a96f8ad8f52","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, float)"],"returns_expr":"self._print(Float(x))","pure":false,"effects":{"effect_type":"reads_state","reads":["self._print"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_float(self, x: float):
         return self._print(Float(x))
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Rational(x), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Rational(x), self._s_expr('/', [x.p, x.q])) over {Any | isinstance(x, Rational) and hasattr(x, 'p') and hasattr(x, 'q')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Rational : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, Rational)                        ║
+# ║   requires: hasattr(x, 'p')                                ║
+# ║   requires: hasattr(x, 'q')                                ║
+# ║   returns:  self._s_expr('/', [x.p, x.q])                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Rational : {Any | isinstance(x, Rational) and ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 4d953a93eac68529           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Rational","kind":"method","src_hash":"84108409f7be218c","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Rational_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d953a93eac68529"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Rational","kind":"method","src_hash":"84108409f7be218c","in":{"base":"Any","pred":"isinstance(x, Rational) and hasattr(x, 'p') and hasattr(x, 'q')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Rational(x)","rhs":"self._s_expr('/', [x.p, x.q])","over":{"base":"Any","pred":"isinstance(x, Rational) and hasattr(x, 'p') and hasattr(x, 'q')"},"name":"_print_Rational_correct"},"guarantee":"returns self._s_expr('/', [x.p, x.q])","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"4d953a93eac68529","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, Rational)","hasattr(x, 'p')","hasattr(x, 'q')"],"returns_expr":"self._s_expr('/', [x.p, x.q])","pure":false,"effects":{"effect_type":"reads_state","reads":["self._s_expr","x.p","x.q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Rational(self, x: Rational):
         return self._s_expr('/', [x.p, x.q])
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Integer(x), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Integer(x), str(x.p)) over {Any | isinstance(x, Integer) and x.q == 1 and hasattr(x, 'q') and hasattr(x, 'p')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Integer : Any → Any                                 ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, Integer)                         ║
+# ║   requires: x.q == 1                                       ║
+# ║   requires: hasattr(x, 'q')                                ║
+# ║   returns:  str(x.p)                                       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Integer : {Any | isinstance(x, Integer) and x....   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a7358f0572fae888  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 05f5e33925f47883  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Integer","kind":"method","src_hash":"f8fa4f806a135c40","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Integer(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Integer_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Integer_correct","statement":"Path(_print_Integer(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a7358f0572fae888"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Integer","kind":"method","src_hash":"f8fa4f806a135c40","in":{"base":"Any","pred":"isinstance(x, Integer) and x.q == 1 and hasattr(x, 'q') and hasattr(x, 'p')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Integer(x)","rhs":"str(x.p)","over":{"base":"Any","pred":"isinstance(x, Integer) and x.q == 1 and hasattr(x, 'q') and hasattr(x, 'p')"},"name":"_print_Integer_correct"},"guarantee":"returns str(x.p)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Integer_correct","statement":"Path(_print_Integer(x), returns str(x.p))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"05f5e33925f47883","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, Integer)","x.q == 1","hasattr(x, 'q')","hasattr(x, 'p')"],"returns_expr":"str(x.p)","pure":false,"effects":{"effect_type":"reads_state","reads":["x.p","x.q"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Integer(self, x: Integer):
         assert x.q == 1
         return str(x.p)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_int(x), internal helper behaves correctly) over Any ║
+# ║ Path(_print_int(x), str(x)) over {Any | isinstance(x, int)} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_int : Any → Any                                     ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, int)                             ║
+# ║   returns:  str(x)                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_int : {Any | isinstance(x, int)} → Any              ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 0e9da1acfc808b17           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_int","kind":"method","src_hash":"4ce43432e89db446","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_int(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_int_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e9da1acfc808b17"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_int","kind":"method","src_hash":"4ce43432e89db446","in":{"base":"Any","pred":"isinstance(x, int)"},"out":{"base":"Any"},"spec":{"lhs":"_print_int(x)","rhs":"str(x)","over":{"base":"Any","pred":"isinstance(x, int)"},"name":"_print_int_correct"},"guarantee":"returns str(x)","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"0e9da1acfc808b17","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, int)"],"returns_expr":"str(x)","pure":true},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_int(self, x: int):
         return str(x)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Symbol(x), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Symbol(x), x.name) over {Any | isinstance(x, Symbol) and self._is_legal_name(x.name) and hasattr(x, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_Symbol : Any → Any                                  ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(x, Symbol)                          ║
+# ║   requires: self._is_legal_name(x.name)                    ║
+# ║   requires: hasattr(x, 'name')                             ║
+# ║   returns:  x.name                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_Symbol : {Any | isinstance(x, Symbol) and self...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 09acba5ee0f84130  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7f0391422903ed0d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Symbol","kind":"method","src_hash":"66a7b80c1c42d1bc","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Symbol(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Symbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"09acba5ee0f84130"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Symbol","kind":"method","src_hash":"66a7b80c1c42d1bc","in":{"base":"Any","pred":"isinstance(x, Symbol) and self._is_legal_name(x.name) and hasattr(x, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_print_Symbol(x)","rhs":"x.name","over":{"base":"Any","pred":"isinstance(x, Symbol) and self._is_legal_name(x.name) and hasattr(x, 'name')"},"name":"_print_Symbol_correct"},"guarantee":"returns x.name","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Symbol_correct","statement":"Path(_print_Symbol(x), returns x.name)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7f0391422903ed0d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(x, Symbol)","self._is_legal_name(x.name)","hasattr(x, 'name')"],"returns_expr":"x.name","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_legal_name","x.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Symbol(self, x: Symbol):
         assert self._is_legal_name(x.name)
         return x.name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_NumberSymbol(x), internal helper behaves correctly) over Any ║
+# ║ Path(_print_NumberSymbol(x), result == (name if name else self._print_Float(f)) and result == name or result == self._print_Float(f)) over {Any | hasattr(x, 'evalf')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_NumberSymbol : Any → Any                            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: hasattr(x, 'evalf')                            ║
+# ║   ensures:  result == (name if name else self._print_...   ║
+# ║   ensures:  result == name or result == self._print_F...   ║
+# ║   fiber[case_0]: name => name                              ║
+# ║   fiber[case_1]: not (name) => self._print_Float(f)        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_NumberSymbol : {Any | hasattr(x, 'evalf')} → {...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a134ade41e8e08a8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dbac14016893c6c8  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_NumberSymbol","kind":"method","src_hash":"14ad789e3c7288be","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_NumberSymbol(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_NumberSymbol_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_NumberSymbol_correct","statement":"Path(_print_NumberSymbol(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a134ade41e8e08a8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_NumberSymbol","kind":"method","src_hash":"14ad789e3c7288be","in":{"base":"Any","pred":"hasattr(x, 'evalf')"},"out":{"base":"Any","pred":"result satisfies: result == (name if name else self._print_Float(f)) and result == name or result == self._print_Float(f)"},"spec":{"lhs":"_print_NumberSymbol(x)","rhs":"result == (name if name else self._print_Float(f)) and result == name or result == self._print_Float(f)","over":{"base":"Any","pred":"hasattr(x, 'evalf')"},"name":"_print_NumberSymbol_correct"},"guarantee":"result == (name if name else self._print_Float(f)); result == name or result == self._print_Float(f); 2-fiber decomposition","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_NumberSymbol_correct","statement":"Path(_print_NumberSymbol(x), result == (name if name else self._print_Float(f)); result == name or result == self._print_Float(f); 2-fiber decomposition)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dbac14016893c6c8","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["hasattr(x, 'evalf')"],"ensures":["result == (name if name else self._print_Float(f))","result == name or result == self._print_Float(f)"],"fibers":[{"name":"case_0","guard":"name","ensures":["result == name"],"decidability":"library","returns_expr":"name"},{"name":"case_1","guard":"not (name)","ensures":["result == self._print_Float(f)"],"decidability":"library","returns_expr":"self._print_Float(f)"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["self._known_constants","self._precision","self._print_Float","x.evalf"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_NumberSymbol(self, x):
         name = self._known_constants.get(x)
         if name:
@@ -509,31 +697,45 @@ class SMTLibPrinter(Printer):
             return self._print_Float(f)
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_UndefinedFunction(x), internal helper behaves correctly) over Any ║
+# ║ Path(_print_UndefinedFunction(x), x.name) over {Any | self._is_legal_name(x.name) and hasattr(x, 'name')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _print_UndefinedFunction : Any → Any                       ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: self._is_legal_name(x.name)                    ║
+# ║   requires: hasattr(x, 'name')                             ║
+# ║   returns:  x.name                                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _print_UndefinedFunction : {Any | self._is_legal_name...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 1ff62f6bb3319e37  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6eed64a6248393d6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_UndefinedFunction","kind":"method","src_hash":"0e252650d2570195","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_UndefinedFunction(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_UndefinedFunction_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_UndefinedFunction_correct","statement":"Path(_print_UndefinedFunction(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"1ff62f6bb3319e37"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_UndefinedFunction","kind":"method","src_hash":"0e252650d2570195","in":{"base":"Any","pred":"self._is_legal_name(x.name) and hasattr(x, 'name')"},"out":{"base":"Any"},"spec":{"lhs":"_print_UndefinedFunction(x)","rhs":"x.name","over":{"base":"Any","pred":"self._is_legal_name(x.name) and hasattr(x, 'name')"},"name":"_print_UndefinedFunction_correct"},"guarantee":"returns x.name","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_UndefinedFunction_correct","statement":"Path(_print_UndefinedFunction(x), returns x.name)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6eed64a6248393d6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["self._is_legal_name(x.name)","hasattr(x, 'name')"],"returns_expr":"x.name","pure":false,"effects":{"effect_type":"reads_state","reads":["self._is_legal_name","x.name"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_UndefinedFunction(self, x):
         assert self._is_legal_name(x.name)
         return x.name
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_print_Exp1(x), internal helper behaves correctly) over Any ║
+# ║ Path(_print_Exp1(x), self._print_Function(exp(1, evaluate=False)) if exp in self._known_functions else self._print_NumberSymbol(x)) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   returns:  self._print_Function(exp(1, evaluate=Fals...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _print_Exp1 : Any → Any                                    ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d23082d3e66f9ab8  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4c920e3c0a172a6a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Exp1","kind":"method","src_hash":"ae7e7b768650dd2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(x)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Exp1_correct","statement":"Path(_print_Exp1(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d23082d3e66f9ab8"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter._print_Exp1","kind":"method","src_hash":"ae7e7b768650dd2f","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"_print_Exp1(x)","rhs":"self._print_Function(exp(1, evaluate=False)) if exp in self._known_functions else self._print_NumberSymbol(x)","over":{"base":"Any"},"name":"_print_Exp1_correct"},"guarantee":"returns self._print_Function(exp(1, evaluate=False)) if exp in self._known_functions else self._print_NumberSymbol(x)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.SMTLibPrinter._print_Exp1_correct","statement":"Path(_print_Exp1(x), returns self._print_Function(exp(1, evaluate=False)) if exp in self._known_functions else self._print_NumberSymbol(x))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4c920e3c0a172a6a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","returns_expr":"self._print_Function(exp(1, evaluate=False)) if exp in self._known_functions else self._print_NumberSymbol(x)","pure":false,"effects":{"effect_type":"reads_state","reads":["self._known_functions","self._print_Function","self._print_NumberSymbol"]}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def _print_Exp1(self, x):
         return (
             self._print_Function(exp(1, evaluate=False))
@@ -542,22 +744,31 @@ class SMTLibPrinter(Printer):
         )
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(emptyPrinter(exp), emptyPrinter produces the expected output) over Any ║
+# ║ Path(emptyPrinter(expr), <unspecified:emptyPrinter>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ emptyPrinter : Any → Any                                   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   lean.C4.Reduction.ReducesStar.refl                       ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓0 ?0 ✗1 VCs | 0.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refl | Compiled: ✓ | 91c1b70723aaaa42           ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter.emptyPrinter","kind":"method","src_hash":"458a2f4816a1bc5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"emptyPrinter(exp)","rhs":"emptyPrinter produces the expected output","over":{"base":"Any"},"name":"emptyPrinter_correct"},"guarantee":"emptyPrinter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91c1b70723aaaa42"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.SMTLibPrinter.emptyPrinter","kind":"method","src_hash":"458a2f4816a1bc5b","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"emptyPrinter(expr)","rhs":"<unspecified:emptyPrinter>","over":{"base":"Any"},"name":"emptyPrinter_correct"},"guarantee":"emptyPrinter produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"refl","details":{},"assumes":[],"trust":["lean.C4.Reduction.ReducesStar.refl"],"compiled":true,"vhash":"91c1b70723aaaa42","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["NotImplementedError"]},"state_contract":{"exceptional_post":{"NotImplementedError":["isinstance(raised, NotImplementedError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":0,"n_failed":1,"trust_level":"KERNEL","compile_ms":0.0,"verdict_class":"failed","binding":false,"binding_errors":["Parse error: unexpected indent (<unknown>, line 1)"]}}
     def emptyPrinter(self, expr):
         raise NotImplementedError(f'Cannot convert `{repr(expr)}` of type `{type(expr)}` to SMT.')
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(smtlib_code(exp), converts ``expr`` to a string of smtlib code) over {Any | isinstance(expr, list) and isinstance(e, str)} ║
+# ║ Path(smtlib_code(expr, auto_assert, auto_declare), <unspecified:smtlib_code>) over {Any | isinstance(expr, list) and isinstance(e, str)} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ smtlib_code : {Any | isinstance(expr, list) and isins...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -570,9 +781,12 @@ class SMTLibPrinter(Printer):
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?2 ✗2 VCs | 5.0ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | aefbf32e...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.smtlib_code","kind":"function","src_hash":"0a977296e6672b98","in":{"base":"Any","pred":"isinstance(expr, list) and isinstance(e, str)"},"out":{"base":"Any"},"spec":{"lhs":"smtlib_code(exp)","rhs":"converts ``expr`` to a string of smtlib code","over":{"base":"Any","pred":"isinstance(expr, list) and isinstance(e, str)"},"name":"smtlib_code_correct"},"guarantee":"converts ``expr`` to a string of smtlib code","fibers":[{"name":"list","pred":"isinstance(expr, list)","path":{"lhs":"smtlib_code(x)","rhs":"converts ``expr`` to a string of smtlib code","over":{"base":"list","pred":"isinstance(expr, list)"},"name":"smtlib_code_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.smtlib_code_list_correct","statement":"smtlib_code satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(e, str)","path":{"lhs":"smtlib_code(x)","rhs":"converts ``expr`` to a string of smtlib code","over":{"base":"str","pred":"isinstance(e, str)"},"name":"smtlib_code_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.smtlib_code_str_correct","statement":"smtlib_code satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aefbf32e19d44f35"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib.smtlib_code","kind":"function","src_hash":"0a977296e6672b98","in":{"base":"Any","pred":"isinstance(expr, list) and isinstance(e, str)"},"out":{"base":"Any"},"spec":{"lhs":"smtlib_code(expr, auto_assert, auto_declare)","rhs":"<unspecified:smtlib_code>","over":{"base":"Any","pred":"isinstance(expr, list) and isinstance(e, str)"},"name":"smtlib_code_correct"},"guarantee":"converts ``expr`` to a string of smtlib code","fibers":[{"name":"list","pred":"isinstance(expr, list)","path":{"lhs":"smtlib_code(x)","rhs":"converts ``expr`` to a string of smtlib code","over":{"base":"list","pred":"isinstance(expr, list)"},"name":"smtlib_code_list_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.smtlib_code_list_correct","statement":"smtlib_code satisfies spec on list inputs"},"trust":"LIBRARY"},{"name":"str","pred":"isinstance(e, str)","path":{"lhs":"smtlib_code(x)","rhs":"converts ``expr`` to a string of smtlib code","over":{"base":"str","pred":"isinstance(e, str)"},"name":"smtlib_code_str_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib.smtlib_code_str_correct","statement":"smtlib_code satisfies spec on str inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":2,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"aefbf32e19d44f35","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","raises":["TypeError"]},"state_contract":{"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":5,"n_verified":1,"n_assumed":2,"n_failed":2,"trust_level":"LIBRARY_ASSUMED","compile_ms":5.0,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'not isinstance(expr, list)'}, fibers={'str', 'list'})"]}}
 def smtlib_code(
     expr,
     auto_assert=True, auto_declare=True,
@@ -761,7 +975,17 @@ def smtlib_code(
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_auto_declare_smtlib(sym), internal helper behaves correctly) over {typing.Union[Symbol, Function] | isinstance(type_signature, type)} ║
+# ║ Path(_auto_declare_smtlib(sym, p, log_warn), result == (p._s_expr('declare-const', [sym, type_signature]) if sym.is_Symbol else p._s_expr('declare-fun', [type(sym), params_signature, return_signature]) if sym.is_Function else None) and result == p._s_expr('declare-const', [sym, type_signature]) or result == p._s_expr('declare-fun', [type(sym), params_signature, return_signature]) or result == None) over {typing.Union[Symbol, Function] | isinstance(type_signature, type) and isinstance(sym, typing.Union[Symbol, Function]) and isinstance(p, SMTLibPrinter) and isinstance(log_warn, typing.Callable[[str], None]) and hasattr(sym, 'is_Symbol') and hasattr(sym, 'is_Function') and hasattr(p, 'symbol_table') and hasattr(p, '_known_types') and hasattr(p, '_s_expr')} ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(sym, typing.Union[Symbol, Func...   ║
+# ║   requires: isinstance(p, SMTLibPrinter)                   ║
+# ║   requires: isinstance(log_warn, typing.Callable[[str...   ║
+# ║   ensures:  result == (p._s_expr('declare-const', [sy...   ║
+# ║   ensures:  result == p._s_expr('declare-const', [sym...   ║
+# ║   fiber[case_0]: sym.is_Symbol => p._s_expr('declare-...   ║
+# ║   fiber[case_1]: sym.is_Function => p._s_expr('declar...   ║
+# ║   fiber[case_2]: not (sym.is_Symbol) and not (sym.is_...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _auto_declare_smtlib : {typing.Union[Symbol, Function...   ║
 # ╠════════════════════════════════════════════════════════════╣
@@ -773,9 +997,12 @@ def smtlib_code(
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.2ms                          ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | b3bbc38c...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib._auto_declare_smtlib","kind":"function","src_hash":"71fce80658e2e61f","in":{"base":"typing.Union[Symbol, Function]","pred":"isinstance(type_signature, type)"},"out":{"base":"Any","pred":"isinstance(type_signature, type) and callable(type_signature) and len(type_signature) > 0"},"spec":{"lhs":"_auto_declare_smtlib(sym)","rhs":"internal helper behaves correctly","over":{"base":"typing.Union[Symbol, Function]","pred":"isinstance(type_signature, type)"},"name":"_auto_declare_smtlib_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"type","pred":"isinstance(type_signature, type)","path":{"lhs":"_auto_declare_smtlib(x)","rhs":"internal helper behaves correctly","over":{"base":"type","pred":"isinstance(type_signature, type)"},"name":"_auto_declare_smtlib_type_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib._auto_declare_smtlib_type_correct","statement":"_auto_declare_smtlib satisfies spec on type inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b3bbc38ceef1d197"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib._auto_declare_smtlib","kind":"function","src_hash":"71fce80658e2e61f","in":{"base":"typing.Union[Symbol, Function]","pred":"isinstance(type_signature, type) and isinstance(sym, typing.Union[Symbol, Function]) and isinstance(p, SMTLibPrinter) and isinstance(log_warn, typing.Callable[[str], None]) and hasattr(sym, 'is_Symbol') and hasattr(sym, 'is_Function') and hasattr(p, 'symbol_table') and hasattr(p, '_known_types') and hasattr(p, '_s_expr')"},"out":{"base":"Any","pred":"result satisfies: result == (p._s_expr('declare-const', [sym, type_signature]) if sym.is_Symbol else p._s_expr('declare-fun', [type(sym), params_signature, return_signature]) if sym.is_Function else None) and result == p._s_expr('declare-const', [sym, type_signature]) or result == p._s_expr('declare-fun', [type(sym), params_signature, return_signature]) or result == None"},"spec":{"lhs":"_auto_declare_smtlib(sym, p, log_warn)","rhs":"result == (p._s_expr('declare-const', [sym, type_signature]) if sym.is_Symbol else p._s_expr('declare-fun', [type(sym), params_signature, return_signature]) if sym.is_Function else None) and result == p._s_expr('declare-const', [sym, type_signature]) or result == p._s_expr('declare-fun', [type(sym), params_signature, return_signature]) or result == None","over":{"base":"typing.Union[Symbol, Function]","pred":"isinstance(type_signature, type) and isinstance(sym, typing.Union[Symbol, Function]) and isinstance(p, SMTLibPrinter) and isinstance(log_warn, typing.Callable[[str], None]) and hasattr(sym, 'is_Symbol') and hasattr(sym, 'is_Function') and hasattr(p, 'symbol_table') and hasattr(p, '_known_types') and hasattr(p, '_s_expr')"},"name":"_auto_declare_smtlib_correct"},"guarantee":"result == (p._s_expr('declare-const', [sym, type_signature]) if sym.is_Symbol else p._s_expr('declare-fun', [type(sym), params_signature, return_signature]) if sym.is_Function else None); result == p._s_expr('declare-const', [sym, type_signature]) or result == p._s_expr('declare-fun', [type(sym), params_signature, return_signature]) or result == None; 3-fiber decomposition","fibers":[{"name":"type","pred":"isinstance(type_signature, type)","path":{"lhs":"_auto_declare_smtlib(x)","rhs":"result == (p._s_expr('declare-const', [sym, type_signature]) if sym.is_Symbol else p._s_expr('declare-fun', [type(sym), params_signature, return_signature]) if sym.is_Function else None); result == p._s_expr('declare-const', [sym, type_signature]) or result == p._s_expr('declare-fun', [type(sym), params_signature, return_signature]) or result == None; 3-fiber decomposition","over":{"base":"type","pred":"isinstance(type_signature, type)"},"name":"_auto_declare_smtlib_type_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib._auto_declare_smtlib_type_correct","statement":"_auto_declare_smtlib satisfies spec on type inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"b3bbc38ceef1d197","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(sym, typing.Union[Symbol, Function])","isinstance(p, SMTLibPrinter)","isinstance(log_warn, typing.Callable[[str], None])","hasattr(sym, 'is_Symbol')","hasattr(sym, 'is_Function')","hasattr(p, 'symbol_table')","hasattr(p, '_known_types')","hasattr(p, '_s_expr')"],"ensures":["result == (p._s_expr('declare-const', [sym, type_signature]) if sym.is_Symbol else p._s_expr('declare-fun', [type(sym), params_signature, return_signature]) if sym.is_Function else None)","result == p._s_expr('declare-const', [sym, type_signature]) or result == p._s_expr('declare-fun', [type(sym), params_signature, return_signature]) or result == None"],"fibers":[{"name":"case_0","guard":"sym.is_Symbol","ensures":["result == p._s_expr('declare-const', [sym, type_signature])"],"decidability":"library","returns_expr":"p._s_expr('declare-const', [sym, type_signature])"},{"name":"case_1","guard":"sym.is_Function","ensures":["result == p._s_expr('declare-fun', [type(sym), params_signature, return_signature])"],"decidability":"library","returns_expr":"p._s_expr('declare-fun', [type(sym), params_signature, return_signature])"},{"name":"case_2","guard":"not (sym.is_Symbol) and not (sym.is_Function)","ensures":["result == None"],"decidability":"library","returns_expr":"None"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["p._known_types","p._s_expr","p.symbol_table","sym.is_Function","sym.is_Symbol"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"failed","binding":true}}
 def _auto_declare_smtlib(sym: typing.Union[Symbol, Function], p: SMTLibPrinter, log_warn: typing.Callable[[str], None]):
     if sym.is_Symbol:
         type_signature = p.symbol_table[sym]
@@ -798,9 +1025,18 @@ def _auto_declare_smtlib(sym: typing.Union[Symbol, Function], p: SMTLibPrinter, 
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_auto_assert_smtlib(e, ), internal helper behaves correctly) over {Expr | isinstance(e, Boolean)} ║
+# ║ Path(_auto_assert_smtlib(e, p, log_warn), result == (p._s_expr('assert', [e]) if isinstance(e, Boolean) or (e in p.symbol_table and p.symbol_table[e] == bool) or (e.is_Function and type(e) in p.symbol_table and (p.symbol_table[type(e)].__args__[-1] == bool)) else e) and result == p._s_expr('assert', [e]) or result == e) over {Expr | isinstance(e, Boolean) and isinstance(e, Expr) and isinstance(p, SMTLibPrinter) and isinstance(log_warn, typing.Callable[[str], None]) and hasattr(e, 'is_Function') and hasattr(p, '_s_expr') and hasattr(p, 'symbol_table')} ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ _auto_assert_smtlib : {Expr | isinstance(e, Boolean)}...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   requires: isinstance(e, Expr)                            ║
+# ║   requires: isinstance(p, SMTLibPrinter)                   ║
+# ║   requires: isinstance(log_warn, typing.Callable[[str...   ║
+# ║   ensures:  result == (p._s_expr('assert', [e]) if is...   ║
+# ║   ensures:  result == p._s_expr('assert', [e]) or res...   ║
+# ║   fiber[Boolean]: isinstance(e, Boolean) or (e in p.s...   ║
+# ║   fiber[Boolean]: not (isinstance(e, Boolean) or (e i...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ _auto_assert_smtlib : {Expr | isinstance(e, Boolean) ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Čech Cover:                                                ║
 # ║   Boolean: {isinstance(e, Boolean)} → library_axiom        ║
@@ -810,9 +1046,12 @@ def _auto_declare_smtlib(sym: typing.Union[Symbol, Function], p: SMTLibPrinter, 
 # ║   lean.C4.Descent.descent_soundness                        ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: failed | ✓1 ?1 ✗1 VCs | 1.1ms                          ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | refinement_descent | Compiled: ✓ | 49574ef4...  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib._auto_assert_smtlib","kind":"function","src_hash":"fb46ecd557f81e4b","in":{"base":"Expr","pred":"isinstance(e, Boolean)"},"out":{"base":"Any"},"spec":{"lhs":"_auto_assert_smtlib(e, )","rhs":"internal helper behaves correctly","over":{"base":"Expr","pred":"isinstance(e, Boolean)"},"name":"_auto_assert_smtlib_correct"},"guarantee":"internal helper behaves correctly","fibers":[{"name":"Boolean","pred":"isinstance(e, Boolean)","path":{"lhs":"_auto_assert_smtlib(x)","rhs":"internal helper behaves correctly","over":{"base":"Boolean","pred":"isinstance(e, Boolean)"},"name":"_auto_assert_smtlib_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib._auto_assert_smtlib_Boolean_correct","statement":"_auto_assert_smtlib satisfies spec on Boolean inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"49574ef42842a8aa"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib._auto_assert_smtlib","kind":"function","src_hash":"fb46ecd557f81e4b","in":{"base":"Expr","pred":"isinstance(e, Boolean) and isinstance(e, Expr) and isinstance(p, SMTLibPrinter) and isinstance(log_warn, typing.Callable[[str], None]) and hasattr(e, 'is_Function') and hasattr(p, '_s_expr') and hasattr(p, 'symbol_table')"},"out":{"base":"Any","pred":"result satisfies: result == (p._s_expr('assert', [e]) if isinstance(e, Boolean) or (e in p.symbol_table and p.symbol_table[e] == bool) or (e.is_Function and type(e) in p.symbol_table and (p.symbol_table[type(e)].__args__[-1] == bool)) else e) and result == p._s_expr('assert', [e]) or result == e"},"spec":{"lhs":"_auto_assert_smtlib(e, p, log_warn)","rhs":"result == (p._s_expr('assert', [e]) if isinstance(e, Boolean) or (e in p.symbol_table and p.symbol_table[e] == bool) or (e.is_Function and type(e) in p.symbol_table and (p.symbol_table[type(e)].__args__[-1] == bool)) else e) and result == p._s_expr('assert', [e]) or result == e","over":{"base":"Expr","pred":"isinstance(e, Boolean) and isinstance(e, Expr) and isinstance(p, SMTLibPrinter) and isinstance(log_warn, typing.Callable[[str], None]) and hasattr(e, 'is_Function') and hasattr(p, '_s_expr') and hasattr(p, 'symbol_table')"},"name":"_auto_assert_smtlib_correct"},"guarantee":"result == (p._s_expr('assert', [e]) if isinstance(e, Boolean) or (e in p.symbol_table and p.symbol_table[e] == bool) or (e.is_Function and type(e) in p.symbol_table and (p.symbol_table[type(e)].__args__[-1] == bool)) else e); result == p._s_expr('assert', [e]) or result == e; 2-fiber decomposition","fibers":[{"name":"Boolean","pred":"isinstance(e, Boolean)","path":{"lhs":"_auto_assert_smtlib(x)","rhs":"result == (p._s_expr('assert', [e]) if isinstance(e, Boolean) or (e in p.symbol_table and p.symbol_table[e] == bool) or (e.is_Function and type(e) in p.symbol_table and (p.symbol_table[type(e)].__args__[-1] == bool)) else e); result == p._s_expr('assert', [e]) or result == e; 2-fiber decomposition","over":{"base":"Boolean","pred":"isinstance(e, Boolean)"},"name":"_auto_assert_smtlib_Boolean_case"},"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib._auto_assert_smtlib_Boolean_correct","statement":"_auto_assert_smtlib satisfies spec on Boolean inputs"},"trust":"LIBRARY"}],"h1":0,"paths":[],"strategy":"refinement_descent","details":{"exhaustiveness":"z3_proved","n_fibers":1,"h1":0},"assumes":[],"trust":["lean.C4.Descent.descent_soundness","z3.Solver.check"],"compiled":true,"vhash":"49574ef42842a8aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","requires":["isinstance(e, Expr)","isinstance(p, SMTLibPrinter)","isinstance(log_warn, typing.Callable[[str], None])","hasattr(e, 'is_Function')","hasattr(p, '_s_expr')","hasattr(p, 'symbol_table')"],"ensures":["result == (p._s_expr('assert', [e]) if isinstance(e, Boolean) or (e in p.symbol_table and p.symbol_table[e] == bool) or (e.is_Function and type(e) in p.symbol_table and (p.symbol_table[type(e)].__args__[-1] == bool)) else e)","result == p._s_expr('assert', [e]) or result == e"],"fibers":[{"name":"Boolean","guard":"isinstance(e, Boolean) or (e in p.symbol_table and p.symbol_table[e] == bool) or (e.is_Function and type(e) in p.symbol_table and (p.symbol_table[type(e)].__args__[-1] == bool))","ensures":["result == p._s_expr('assert', [e])"],"decidability":"structural","returns_expr":"p._s_expr('assert', [e])"},{"name":"Boolean","guard":"not (isinstance(e, Boolean) or (e in p.symbol_table and p.symbol_table[e] == bool) or (e.is_Function and type(e) in p.symbol_table and (p.symbol_table[type(e)].__args__[-1] == bool)))","ensures":["result == e"],"decidability":"structural","returns_expr":"e"}],"pure":false,"effects":{"effect_type":"reads_state","reads":["e.is_Function","p._s_expr","p.symbol_table"]}},"c4_verdict":{"valid":false,"n_vcs":3,"n_verified":1,"n_assumed":1,"n_failed":1,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.1,"verdict_class":"failed","binding":false,"binding_errors":["Poor branch-fiber coverage: 0% (branches={'isinstance(e, Boolean) or (e in p.symbol_table and p.symbol_table[e] == bool) or (e.is_Function and type(e) in p.symbol_table and (p.symbol_table[type(e)].__args__[-1] == bool))'}, fibers={'Boolean'})"]}}
 def _auto_assert_smtlib(e: Expr, p: SMTLibPrinter, log_warn: typing.Callable[[str], None]):
     if isinstance(e, Boolean) or (
         e in p.symbol_table and p.symbol_table[e] == bool
@@ -828,16 +1067,22 @@ def _auto_assert_smtlib(e: Expr, p: SMTLibPrinter, log_warn: typing.Callable[[st
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(_auto_infer_smtlib_types(*ex), internal helper behaves correctly) over Any ║
+# ║ Path(_auto_infer_smtlib_types(*exprs, symbol_table), <unspecified:_auto_infer_smtlib_types>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ _auto_infer_smtlib_types : Any → {dict | s.is_Symbol}      ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✗                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7e6f00ea3f80668b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib._auto_infer_smtlib_types","kind":"function","src_hash":"f64670748ce61d52","in":{"base":"Any"},"out":{"base":"dict","pred":"s.is_Symbol"},"spec":{"lhs":"_auto_infer_smtlib_types(*ex)","rhs":"internal helper behaves correctly","over":{"base":"Any"},"name":"_auto_infer_smtlib_types_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib._auto_infer_smtlib_types_correct","statement":"Path(_auto_infer_smtlib_types(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e6f00ea3f80668b"}
+# @cctt_verify {"v":2,"sym":"sympy.printing.smtlib._auto_infer_smtlib_types","kind":"function","src_hash":"f64670748ce61d52","in":{"base":"Any"},"out":{"base":"dict","pred":"s.is_Symbol"},"spec":{"lhs":"_auto_infer_smtlib_types(*exprs, symbol_table)","rhs":"<unspecified:_auto_infer_smtlib_types>","over":{"base":"Any"},"name":"_auto_infer_smtlib_types_correct"},"guarantee":"internal helper behaves correctly","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.printing.smtlib._auto_infer_smtlib_types_correct","statement":"Path(_auto_infer_smtlib_types(x), internal helper behaves correctly)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7e6f00ea3f80668b","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":false,"effects":{"effect_type":"reads_state","calls_mutating":["_symbols.setdefault"],"raises":["TypeError"]},"state_contract":{"modifies":["_symbols.*"],"exceptional_post":{"TypeError":["isinstance(raised, TypeError)"]}}},"c4_verdict":{"valid":false,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":false,"binding_errors":["Param mismatch: code=[], spec=['*exprs', 'symbol_table']"]}}
 def _auto_infer_smtlib_types(
     *exprs: Basic,
     symbol_table: typing.Optional[dict] = None

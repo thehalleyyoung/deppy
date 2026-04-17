@@ -43,16 +43,24 @@ from sympy.testing.pytest import raises, XFAIL, _both_exp_pow
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_values(), test_exp_values produces the expected output) over Any ║
+# ║ Path(test_exp_values(), exp(nan) is nan and exp(oo) is oo and exp(-oo) == 0 and exp(0) == 1 and exp(1) == E and exp(-1 + x).as_base_exp() == (S.Exp1, x - 1) and exp(1 + x).as_base_exp() == (S.Exp1, x + 1) and exp(pi * I / 2) == I and exp(pi * I) == -1 and exp(pi * I * Rational(3, 2)) == -I and exp(2 * pi * I) == 1 and refine(exp(pi * I * 2 * k)) == 1 and refine(exp(pi * I * 2 * (k + S.Half))) == -1 and refine(exp(pi * I * 2 * (k + Rational(1, 4)))) == I and refine(exp(pi * I * 2 * (k + Rational(3, 4)))) == -I and exp(log(x)) == x and exp(2 * log(x)) == x ** 2 and exp(pi * log(x)) == x ** pi and exp(17 * log(x) + E * log(y)) == x ** 17 * y ** E and exp(x * log(x)) != x ** x and exp(sin(x) * log(x)) != x and exp(3 * log(x) + oo * x) == exp(oo * x) * x ** 3 and exp(4 * log(x) * log(y) + 3 * log(x)) == x ** 3 * exp(4 * log(x) * log(y)) and exp(-oo, evaluate=False).is_finite is True and exp(oo, evaluate=False).is_finite is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_values : Any → {Any | exp(nan) is nan and ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(nan) is nan                                ║
+# ║   ensures:  exp(oo) is oo                                  ║
+# ║   ensures:  exp(-oo) == 0                                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_values : Any → {Any | result satisfies: exp(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d5c5ba1b4dd4b020  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bfe9b11638da527e  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_values","kind":"function","src_hash":"2cede9ecfa40f156","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(nan) is nan and exp(oo) is oo and exp(-oo) == 0 and exp(0) == 1 and exp(1) == E and exp(-1 + x).as_base_exp() == (S.Exp1, x - 1) and exp(1 + x).as_base_exp() == (S.Exp1, x + 1) and exp(pi * I / 2) == I and exp(pi * I) == -1 and exp(pi * I * Rational(3, 2)) == -I and exp(2 * pi * I) == 1 and refine(exp(pi * I * 2 * k)) == 1 and refine(exp(pi * I * 2 * (k + S.Half))) == -1 and refine(exp(pi * I * 2 * (k + Rational(1, 4)))) == I and refine(exp(pi * I * 2 * (k + Rational(3, 4)))) == -I and exp(log(x)) == x and exp(2 * log(x)) == x ** 2 and exp(pi * log(x)) == x ** pi and exp(17 * log(x) + E * log(y)) == x ** 17 * y ** E and exp(x * log(x)) != x ** x and exp(sin(x) * log(x)) != x and exp(3 * log(x) + oo * x) == exp(oo * x) * x ** 3 and exp(4 * log(x) * log(y) + 3 * log(x)) == x ** 3 * exp(4 * log(x) * log(y)) and exp(-oo, evaluate=False).is_finite is True and exp(oo, evaluate=False).is_finite is False and type(exp(x)) is Pow and type(exp(x)) is exp"},"spec":{"lhs":"test_exp_values()","rhs":"test_exp_values produces the expected output","over":{"base":"Any"},"name":"test_exp_values_correct"},"guarantee":"test_exp_values produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_values_correct","statement":"Path(test_exp_values(x), test_exp_values produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d5c5ba1b4dd4b020"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_values","kind":"function","src_hash":"2cede9ecfa40f156","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(nan) is nan and exp(oo) is oo and exp(-oo) == 0 and exp(0) == 1 and exp(1) == E and exp(-1 + x).as_base_exp() == (S.Exp1, x - 1) and exp(1 + x).as_base_exp() == (S.Exp1, x + 1) and exp(pi * I / 2) == I and exp(pi * I) == -1 and exp(pi * I * Rational(3, 2)) == -I and exp(2 * pi * I) == 1 and refine(exp(pi * I * 2 * k)) == 1 and refine(exp(pi * I * 2 * (k + S.Half))) == -1 and refine(exp(pi * I * 2 * (k + Rational(1, 4)))) == I and refine(exp(pi * I * 2 * (k + Rational(3, 4)))) == -I and exp(log(x)) == x and exp(2 * log(x)) == x ** 2 and exp(pi * log(x)) == x ** pi and exp(17 * log(x) + E * log(y)) == x ** 17 * y ** E and exp(x * log(x)) != x ** x and exp(sin(x) * log(x)) != x and exp(3 * log(x) + oo * x) == exp(oo * x) * x ** 3 and exp(4 * log(x) * log(y) + 3 * log(x)) == x ** 3 * exp(4 * log(x) * log(y)) and exp(-oo, evaluate=False).is_finite is True and exp(oo, evaluate=False).is_finite is False"},"spec":{"lhs":"test_exp_values()","rhs":"exp(nan) is nan and exp(oo) is oo and exp(-oo) == 0 and exp(0) == 1 and exp(1) == E and exp(-1 + x).as_base_exp() == (S.Exp1, x - 1) and exp(1 + x).as_base_exp() == (S.Exp1, x + 1) and exp(pi * I / 2) == I and exp(pi * I) == -1 and exp(pi * I * Rational(3, 2)) == -I and exp(2 * pi * I) == 1 and refine(exp(pi * I * 2 * k)) == 1 and refine(exp(pi * I * 2 * (k + S.Half))) == -1 and refine(exp(pi * I * 2 * (k + Rational(1, 4)))) == I and refine(exp(pi * I * 2 * (k + Rational(3, 4)))) == -I and exp(log(x)) == x and exp(2 * log(x)) == x ** 2 and exp(pi * log(x)) == x ** pi and exp(17 * log(x) + E * log(y)) == x ** 17 * y ** E and exp(x * log(x)) != x ** x and exp(sin(x) * log(x)) != x and exp(3 * log(x) + oo * x) == exp(oo * x) * x ** 3 and exp(4 * log(x) * log(y) + 3 * log(x)) == x ** 3 * exp(4 * log(x) * log(y)) and exp(-oo, evaluate=False).is_finite is True and exp(oo, evaluate=False).is_finite is False","over":{"base":"Any"},"name":"test_exp_values_correct"},"guarantee":"exp(nan) is nan; exp(oo) is oo; exp(-oo) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_values_correct","statement":"Path(test_exp_values(x), exp(nan) is nan; exp(oo) is oo; exp(-oo) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bfe9b11638da527e","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(nan) is nan","exp(oo) is oo","exp(-oo) == 0","exp(0) == 1","exp(1) == E","exp(-1 + x).as_base_exp() == (S.Exp1, x - 1)","exp(1 + x).as_base_exp() == (S.Exp1, x + 1)","exp(pi * I / 2) == I","exp(pi * I) == -1","exp(pi * I * Rational(3, 2)) == -I","exp(2 * pi * I) == 1","refine(exp(pi * I * 2 * k)) == 1","refine(exp(pi * I * 2 * (k + S.Half))) == -1","refine(exp(pi * I * 2 * (k + Rational(1, 4)))) == I","refine(exp(pi * I * 2 * (k + Rational(3, 4)))) == -I","exp(log(x)) == x","exp(2 * log(x)) == x ** 2","exp(pi * log(x)) == x ** pi","exp(17 * log(x) + E * log(y)) == x ** 17 * y ** E","exp(x * log(x)) != x ** x","exp(sin(x) * log(x)) != x","exp(3 * log(x) + oo * x) == exp(oo * x) * x ** 3","exp(4 * log(x) * log(y) + 3 * log(x)) == x ** 3 * exp(4 * log(x) * log(y))","exp(-oo, evaluate=False).is_finite is True","exp(oo, evaluate=False).is_finite is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_exp_values():
     if global_parameters.exp_is_pow:
         assert type(exp(x)) is Pow
@@ -99,16 +107,24 @@ def test_exp_values():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_period(), test_exp_period produces the expected output) over Any ║
+# ║ Path(test_exp_period(), exp(I * pi * Rational(9, 4)) == exp(I * pi / 4) and exp(I * pi * Rational(46, 18)) == exp(I * pi * Rational(5, 9)) and exp(I * pi * Rational(25, 7)) == exp(I * pi * Rational(-3, 7)) and exp(I * pi * Rational(-19, 3)) == exp(-I * pi / 3) and exp(I * pi * Rational(37, 8)) - exp(I * pi * Rational(-11, 8)) == 0 and exp(I * pi * Rational(-5, 3)) / exp(I * pi * Rational(11, 5)) * exp(I * pi * Rational(148, 15)) == 1 and exp(2 - I * pi * Rational(17, 5)) == exp(2 + I * pi * Rational(3, 5)) and exp(log(3) + I * pi * Rational(29, 9)) == 3 * exp(I * pi * Rational(-7, 9)) and exp(e * I * pi) == 1 and exp((e + 1) * I * pi) == -1 and exp((1 + 4 * n) * I * pi / 2) == I and exp((-1 + 4 * n) * I * pi / 2) == -I) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_period : Any → {Any | exp(I * pi * Rational(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(I * pi * Rational(9, 4)) == exp(I * p...   ║
+# ║   ensures:  exp(I * pi * Rational(46, 18)) == exp(I *...   ║
+# ║   ensures:  exp(I * pi * Rational(25, 7)) == exp(I * ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_period : Any → {Any | result satisfies: exp(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e75c58845e9df4ff  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ce3bf620f48d55f3  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_period","kind":"function","src_hash":"df8ed33fc09786ac","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(I * pi * Rational(9, 4)) == exp(I * pi / 4) and exp(I * pi * Rational(46, 18)) == exp(I * pi * Rational(5, 9)) and exp(I * pi * Rational(25, 7)) == exp(I * pi * Rational(-3, 7)) and exp(I * pi * Rational(-19, 3)) == exp(-I * pi / 3) and exp(I * pi * Rational(37, 8)) - exp(I * pi * Rational(-11, 8)) == 0 and exp(2 - I * pi * Rational(17, 5)) == exp(2 + I * pi * Rational(3, 5)) and exp(log(3) + I * pi * Rational(29, 9)) == 3 * exp(I * pi * Rational(-7, 9)) and exp(e * I * pi) == 1 and exp((e + 1) * I * pi) == -1 and exp((1 + 4 * n) * I * pi / 2) == I and exp((-1 + 4 * n) * I * pi / 2) == -I"},"spec":{"lhs":"test_exp_period()","rhs":"test_exp_period produces the expected output","over":{"base":"Any"},"name":"test_exp_period_correct"},"guarantee":"test_exp_period produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_period_correct","statement":"Path(test_exp_period(x), test_exp_period produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e75c58845e9df4ff"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_period","kind":"function","src_hash":"df8ed33fc09786ac","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(I * pi * Rational(9, 4)) == exp(I * pi / 4) and exp(I * pi * Rational(46, 18)) == exp(I * pi * Rational(5, 9)) and exp(I * pi * Rational(25, 7)) == exp(I * pi * Rational(-3, 7)) and exp(I * pi * Rational(-19, 3)) == exp(-I * pi / 3) and exp(I * pi * Rational(37, 8)) - exp(I * pi * Rational(-11, 8)) == 0 and exp(I * pi * Rational(-5, 3)) / exp(I * pi * Rational(11, 5)) * exp(I * pi * Rational(148, 15)) == 1 and exp(2 - I * pi * Rational(17, 5)) == exp(2 + I * pi * Rational(3, 5)) and exp(log(3) + I * pi * Rational(29, 9)) == 3 * exp(I * pi * Rational(-7, 9)) and exp(e * I * pi) == 1 and exp((e + 1) * I * pi) == -1 and exp((1 + 4 * n) * I * pi / 2) == I and exp((-1 + 4 * n) * I * pi / 2) == -I"},"spec":{"lhs":"test_exp_period()","rhs":"exp(I * pi * Rational(9, 4)) == exp(I * pi / 4) and exp(I * pi * Rational(46, 18)) == exp(I * pi * Rational(5, 9)) and exp(I * pi * Rational(25, 7)) == exp(I * pi * Rational(-3, 7)) and exp(I * pi * Rational(-19, 3)) == exp(-I * pi / 3) and exp(I * pi * Rational(37, 8)) - exp(I * pi * Rational(-11, 8)) == 0 and exp(I * pi * Rational(-5, 3)) / exp(I * pi * Rational(11, 5)) * exp(I * pi * Rational(148, 15)) == 1 and exp(2 - I * pi * Rational(17, 5)) == exp(2 + I * pi * Rational(3, 5)) and exp(log(3) + I * pi * Rational(29, 9)) == 3 * exp(I * pi * Rational(-7, 9)) and exp(e * I * pi) == 1 and exp((e + 1) * I * pi) == -1 and exp((1 + 4 * n) * I * pi / 2) == I and exp((-1 + 4 * n) * I * pi / 2) == -I","over":{"base":"Any"},"name":"test_exp_period_correct"},"guarantee":"exp(I * pi * Rational(9, 4)) == exp(I * pi / 4); exp(I * pi * Rational(46, 18)) == exp(I * pi * Rational(5, 9)); exp(I * pi * Rational(25, 7)) == exp(I * pi * Rational(-3, 7))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_period_correct","statement":"Path(test_exp_period(x), exp(I * pi * Rational(9, 4)) == exp(I * pi / 4); exp(I * pi * Rational(46, 18)) == exp(I * pi * Rational(5, 9)); exp(I * pi * Rational(25, 7)) == exp(I * pi * Rational(-3, 7)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ce3bf620f48d55f3","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(I * pi * Rational(9, 4)) == exp(I * pi / 4)","exp(I * pi * Rational(46, 18)) == exp(I * pi * Rational(5, 9))","exp(I * pi * Rational(25, 7)) == exp(I * pi * Rational(-3, 7))","exp(I * pi * Rational(-19, 3)) == exp(-I * pi / 3)","exp(I * pi * Rational(37, 8)) - exp(I * pi * Rational(-11, 8)) == 0","exp(I * pi * Rational(-5, 3)) / exp(I * pi * Rational(11, 5)) * exp(I * pi * Rational(148, 15)) == 1","exp(2 - I * pi * Rational(17, 5)) == exp(2 + I * pi * Rational(3, 5))","exp(log(3) + I * pi * Rational(29, 9)) == 3 * exp(I * pi * Rational(-7, 9))","exp(e * I * pi) == 1","exp((e + 1) * I * pi) == -1","exp((1 + 4 * n) * I * pi / 2) == I","exp((-1 + 4 * n) * I * pi / 2) == -I"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_exp_period():
     assert exp(I*pi*Rational(9, 4)) == exp(I*pi/4)
     assert exp(I*pi*Rational(46, 18)) == exp(I*pi*Rational(5, 9))
@@ -130,16 +146,24 @@ def test_exp_period():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_log(), test_exp_log produces the expected output) over Any ║
+# ║ Path(test_exp_log(), log(exp(x)) == x and exp(log(x)) == x and log(exp_polar(z)) == z and exp(log(y)) == y) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_log : Any → {Any | log(exp(x)) == x and exp(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(exp(x)) == x                               ║
+# ║   ensures:  exp(log(x)) == x                               ║
+# ║   ensures:  log(exp_polar(z)) == z                         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_log : Any → {Any | result satisfies: log(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a07ec9bdb4203c44  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 657ec8d48fd9d697  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_log","kind":"function","src_hash":"b17fd91558449524","in":{"base":"Any"},"out":{"base":"Any","pred":"log(exp(x)) == x and exp(log(x)) == x and log(exp_polar(z)) == z and exp(log(y)) == y and log(x).inverse() == exp and exp(x).inverse() == log"},"spec":{"lhs":"test_exp_log()","rhs":"test_exp_log produces the expected output","over":{"base":"Any"},"name":"test_exp_log_correct"},"guarantee":"test_exp_log produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_log_correct","statement":"Path(test_exp_log(x), test_exp_log produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a07ec9bdb4203c44"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_log","kind":"function","src_hash":"b17fd91558449524","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(exp(x)) == x and exp(log(x)) == x and log(exp_polar(z)) == z and exp(log(y)) == y"},"spec":{"lhs":"test_exp_log()","rhs":"log(exp(x)) == x and exp(log(x)) == x and log(exp_polar(z)) == z and exp(log(y)) == y","over":{"base":"Any"},"name":"test_exp_log_correct"},"guarantee":"log(exp(x)) == x; exp(log(x)) == x; log(exp_polar(z)) == z","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_log_correct","statement":"Path(test_exp_log(x), log(exp(x)) == x; exp(log(x)) == x; log(exp_polar(z)) == z)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"657ec8d48fd9d697","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(exp(x)) == x","exp(log(x)) == x","log(exp_polar(z)) == z","exp(log(y)) == y"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp_log():
     x = Symbol("x", real=True)
     assert log(exp(x)) == x
@@ -156,16 +180,24 @@ def test_exp_log():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_expand(), test_exp_expand produces the expected output) over Any ║
+# ║ Path(test_exp_expand(), e.expand() == 2 and exp(x + y) != exp(x) * exp(y) and exp(x + y).expand() == exp(x) * exp(y)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_expand : Any → {Any | e.expand() == 2 and ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.expand() == 2                                ║
+# ║   ensures:  exp(x + y) != exp(x) * exp(y)                  ║
+# ║   ensures:  exp(x + y).expand() == exp(x) * exp(y)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_expand : Any → {Any | result satisfies: e.ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e62f82953e57dfe6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f353717a1ad25095  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_expand","kind":"function","src_hash":"261516f59941c933","in":{"base":"Any"},"out":{"base":"Any","pred":"e.expand() == 2 and exp(x + y) != exp(x) * exp(y) and exp(x + y).expand() == exp(x) * exp(y)"},"spec":{"lhs":"test_exp_expand()","rhs":"test_exp_expand produces the expected output","over":{"base":"Any"},"name":"test_exp_expand_correct"},"guarantee":"test_exp_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_expand_correct","statement":"Path(test_exp_expand(x), test_exp_expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e62f82953e57dfe6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_expand","kind":"function","src_hash":"261516f59941c933","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.expand() == 2 and exp(x + y) != exp(x) * exp(y) and exp(x + y).expand() == exp(x) * exp(y)"},"spec":{"lhs":"test_exp_expand()","rhs":"e.expand() == 2 and exp(x + y) != exp(x) * exp(y) and exp(x + y).expand() == exp(x) * exp(y)","over":{"base":"Any"},"name":"test_exp_expand_correct"},"guarantee":"e.expand() == 2; exp(x + y) != exp(x) * exp(y); exp(x + y).expand() == exp(x) * exp(y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_expand_correct","statement":"Path(test_exp_expand(x), e.expand() == 2; exp(x + y) != exp(x) * exp(y); exp(x + y).expand() == exp(x) * exp(y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f353717a1ad25095","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.expand() == 2","exp(x + y) != exp(x) * exp(y)","exp(x + y).expand() == exp(x) * exp(y)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp_expand():
     e = exp(log(Rational(2))*(1 + x) - log(Rational(2))*x)
     assert e.expand() == 2
@@ -175,16 +207,24 @@ def test_exp_expand():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp__as_base_exp(), test_exp__as_base_exp produces the expected output) over Any ║
+# ║ Path(test_exp__as_base_exp(), exp(x).as_base_exp() == (E, x) and exp(2 * x).as_base_exp() == (E, 2 * x) and exp(x * y).as_base_exp() == (E, x * y) and exp(-x).as_base_exp() == (E, -x) and E ** x == exp(x) and E ** (2 * x) == exp(2 * x) and E ** (x * y) == exp(x * y) and exp(x).base is S.Exp1 and exp(x).exp == x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp__as_base_exp : Any → {Any | exp(x).as_base_e...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(x).as_base_exp() == (E, x)                 ║
+# ║   ensures:  exp(2 * x).as_base_exp() == (E, 2 * x)         ║
+# ║   ensures:  exp(x * y).as_base_exp() == (E, x * y)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp__as_base_exp : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5f7a20666147369b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 139fabd6b671dbfa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp__as_base_exp","kind":"function","src_hash":"c28a1aeb31ac681e","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(x).as_base_exp() == (E, x) and exp(2 * x).as_base_exp() == (E, 2 * x) and exp(x * y).as_base_exp() == (E, x * y) and exp(-x).as_base_exp() == (E, -x) and E ** x == exp(x) and E ** (2 * x) == exp(2 * x) and E ** (x * y) == exp(x * y) and exp(x).base is S.Exp1 and exp(x).exp == x"},"spec":{"lhs":"test_exp__as_base_exp()","rhs":"test_exp__as_base_exp produces the expected output","over":{"base":"Any"},"name":"test_exp__as_base_exp_correct"},"guarantee":"test_exp__as_base_exp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp__as_base_exp_correct","statement":"Path(test_exp__as_base_exp(x), test_exp__as_base_exp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5f7a20666147369b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp__as_base_exp","kind":"function","src_hash":"c28a1aeb31ac681e","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(x).as_base_exp() == (E, x) and exp(2 * x).as_base_exp() == (E, 2 * x) and exp(x * y).as_base_exp() == (E, x * y) and exp(-x).as_base_exp() == (E, -x) and E ** x == exp(x) and E ** (2 * x) == exp(2 * x) and E ** (x * y) == exp(x * y) and exp(x).base is S.Exp1 and exp(x).exp == x"},"spec":{"lhs":"test_exp__as_base_exp()","rhs":"exp(x).as_base_exp() == (E, x) and exp(2 * x).as_base_exp() == (E, 2 * x) and exp(x * y).as_base_exp() == (E, x * y) and exp(-x).as_base_exp() == (E, -x) and E ** x == exp(x) and E ** (2 * x) == exp(2 * x) and E ** (x * y) == exp(x * y) and exp(x).base is S.Exp1 and exp(x).exp == x","over":{"base":"Any"},"name":"test_exp__as_base_exp_correct"},"guarantee":"exp(x).as_base_exp() == (E, x); exp(2 * x).as_base_exp() == (E, 2 * x); exp(x * y).as_base_exp() == (E, x * y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp__as_base_exp_correct","statement":"Path(test_exp__as_base_exp(x), exp(x).as_base_exp() == (E, x); exp(2 * x).as_base_exp() == (E, 2 * x); exp(x * y).as_base_exp() == (E, x * y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"139fabd6b671dbfa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(x).as_base_exp() == (E, x)","exp(2 * x).as_base_exp() == (E, 2 * x)","exp(x * y).as_base_exp() == (E, x * y)","exp(-x).as_base_exp() == (E, -x)","E ** x == exp(x)","E ** (2 * x) == exp(2 * x)","E ** (x * y) == exp(x * y)","exp(x).base is S.Exp1","exp(x).exp == x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_exp__as_base_exp():
     assert exp(x).as_base_exp() == (E, x)
     assert exp(2*x).as_base_exp() == (E, 2*x)
@@ -202,16 +242,24 @@ def test_exp__as_base_exp():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_infinity(), test_exp_infinity produces the expected output) over Any ║
+# ║ Path(test_exp_infinity(), exp(I * y) != nan and refine(exp(I * oo)) is nan and refine(exp(-I * oo)) is nan and exp(y * I * oo) != nan and exp(zoo) is nan and exp(x).is_complex is None) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_infinity : Any → {Any | exp(I * y) != nan an...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(I * y) != nan                              ║
+# ║   ensures:  refine(exp(I * oo)) is nan                     ║
+# ║   ensures:  refine(exp(-I * oo)) is nan                    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_infinity : Any → {Any | result satisfies: ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 937ef9ea564848eb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4962523c9a67b616  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_infinity","kind":"function","src_hash":"c6b28a60895ca7c1","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(I * y) != nan and refine(exp(I * oo)) is nan and refine(exp(-I * oo)) is nan and exp(y * I * oo) != nan and exp(zoo) is nan and exp(x).is_complex is None"},"spec":{"lhs":"test_exp_infinity()","rhs":"test_exp_infinity produces the expected output","over":{"base":"Any"},"name":"test_exp_infinity_correct"},"guarantee":"test_exp_infinity produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_infinity_correct","statement":"Path(test_exp_infinity(x), test_exp_infinity produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"937ef9ea564848eb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_infinity","kind":"function","src_hash":"c6b28a60895ca7c1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(I * y) != nan and refine(exp(I * oo)) is nan and refine(exp(-I * oo)) is nan and exp(y * I * oo) != nan and exp(zoo) is nan and exp(x).is_complex is None"},"spec":{"lhs":"test_exp_infinity()","rhs":"exp(I * y) != nan and refine(exp(I * oo)) is nan and refine(exp(-I * oo)) is nan and exp(y * I * oo) != nan and exp(zoo) is nan and exp(x).is_complex is None","over":{"base":"Any"},"name":"test_exp_infinity_correct"},"guarantee":"exp(I * y) != nan; refine(exp(I * oo)) is nan; refine(exp(-I * oo)) is nan","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_infinity_correct","statement":"Path(test_exp_infinity(x), exp(I * y) != nan; refine(exp(I * oo)) is nan; refine(exp(-I * oo)) is nan)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4962523c9a67b616","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(I * y) != nan","refine(exp(I * oo)) is nan","refine(exp(-I * oo)) is nan","exp(y * I * oo) != nan","exp(zoo) is nan","exp(x).is_complex is None"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp_infinity():
     assert exp(I*y) != nan
     assert refine(exp(I*oo)) is nan
@@ -224,16 +272,24 @@ def test_exp_infinity():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_subs(), test_exp_subs produces the expected output) over Any ║
+# ║ Path(test_exp_subs(), e.subs(x ** 3, y ** 3) == e and e.subs(x ** 2, 5) == e and (x ** 3).subs(x ** 2, y) != y ** Rational(3, 2) and exp(exp(x) + exp(x ** 2)).subs(exp(exp(x)), y) == y * exp(exp(x ** 2)) and exp(x).subs(E, y) == y ** x and exp(5 * x).subs(exp(7 * x), y) == y ** Rational(5, 7) and exp(2 * x + 7).subs(exp(3 * x), y) == y ** Rational(2, 3) * exp(7) and exp(3 * log(x)).subs(x ** 2, y) == y ** Rational(3, 2) and exp(exp(x + E)).subs(exp, 3) == 3 ** 3 ** (x + E) and exp(exp(x + E)).subs(exp, sin) == sin(sin(x + E)) and exp(exp(x + E)).subs(E, 3) == 3 ** 3 ** (x + 3) and exp(3).subs(E, sin) == sin(3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_subs : Any → {Any | e.subs(x ** 3, y ** 3) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.subs(x ** 3, y ** 3) == e                    ║
+# ║   ensures:  e.subs(x ** 2, 5) == e                         ║
+# ║   ensures:  (x ** 3).subs(x ** 2, y) != y ** Rational...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_subs : Any → {Any | result satisfies: e.subs...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6454ba4f8534a8e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c1e82339a985b810  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_subs","kind":"function","src_hash":"7f0002ca6da31b93","in":{"base":"Any"},"out":{"base":"Any","pred":"e.subs(x ** 3, y ** 3) == e and e.subs(x ** 2, 5) == e and (x ** 3).subs(x ** 2, y) != y ** Rational(3, 2) and exp(exp(x) + exp(x ** 2)).subs(exp(exp(x)), y) == y * exp(exp(x ** 2)) and exp(x).subs(E, y) == y ** x and exp(5 * x).subs(exp(7 * x), y) == y ** Rational(5, 7) and exp(2 * x + 7).subs(exp(3 * x), y) == y ** Rational(2, 3) * exp(7) and exp(3 * log(x)).subs(x ** 2, y) == y ** Rational(3, 2) and exp(exp(x + E)).subs(exp, 3) == 3 ** 3 ** (x + E) and exp(exp(x + E)).subs(exp, sin) == sin(sin(x + E)) and exp(exp(x + E)).subs(E, 3) == 3 ** 3 ** (x + 3) and exp(3).subs(E, sin) == sin(3)"},"spec":{"lhs":"test_exp_subs()","rhs":"test_exp_subs produces the expected output","over":{"base":"Any"},"name":"test_exp_subs_correct"},"guarantee":"test_exp_subs produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_subs_correct","statement":"Path(test_exp_subs(x), test_exp_subs produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6454ba4f8534a8e1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_subs","kind":"function","src_hash":"7f0002ca6da31b93","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.subs(x ** 3, y ** 3) == e and e.subs(x ** 2, 5) == e and (x ** 3).subs(x ** 2, y) != y ** Rational(3, 2) and exp(exp(x) + exp(x ** 2)).subs(exp(exp(x)), y) == y * exp(exp(x ** 2)) and exp(x).subs(E, y) == y ** x and exp(5 * x).subs(exp(7 * x), y) == y ** Rational(5, 7) and exp(2 * x + 7).subs(exp(3 * x), y) == y ** Rational(2, 3) * exp(7) and exp(3 * log(x)).subs(x ** 2, y) == y ** Rational(3, 2) and exp(exp(x + E)).subs(exp, 3) == 3 ** 3 ** (x + E) and exp(exp(x + E)).subs(exp, sin) == sin(sin(x + E)) and exp(exp(x + E)).subs(E, 3) == 3 ** 3 ** (x + 3) and exp(3).subs(E, sin) == sin(3)"},"spec":{"lhs":"test_exp_subs()","rhs":"e.subs(x ** 3, y ** 3) == e and e.subs(x ** 2, 5) == e and (x ** 3).subs(x ** 2, y) != y ** Rational(3, 2) and exp(exp(x) + exp(x ** 2)).subs(exp(exp(x)), y) == y * exp(exp(x ** 2)) and exp(x).subs(E, y) == y ** x and exp(5 * x).subs(exp(7 * x), y) == y ** Rational(5, 7) and exp(2 * x + 7).subs(exp(3 * x), y) == y ** Rational(2, 3) * exp(7) and exp(3 * log(x)).subs(x ** 2, y) == y ** Rational(3, 2) and exp(exp(x + E)).subs(exp, 3) == 3 ** 3 ** (x + E) and exp(exp(x + E)).subs(exp, sin) == sin(sin(x + E)) and exp(exp(x + E)).subs(E, 3) == 3 ** 3 ** (x + 3) and exp(3).subs(E, sin) == sin(3)","over":{"base":"Any"},"name":"test_exp_subs_correct"},"guarantee":"e.subs(x ** 3, y ** 3) == e; e.subs(x ** 2, 5) == e; (x ** 3).subs(x ** 2, y) != y ** Rational(3, 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_subs_correct","statement":"Path(test_exp_subs(x), e.subs(x ** 3, y ** 3) == e; e.subs(x ** 2, 5) == e; (x ** 3).subs(x ** 2, y) != y ** Rational(3, 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c1e82339a985b810","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.subs(x ** 3, y ** 3) == e","e.subs(x ** 2, 5) == e","(x ** 3).subs(x ** 2, y) != y ** Rational(3, 2)","exp(exp(x) + exp(x ** 2)).subs(exp(exp(x)), y) == y * exp(exp(x ** 2))","exp(x).subs(E, y) == y ** x","exp(5 * x).subs(exp(7 * x), y) == y ** Rational(5, 7)","exp(2 * x + 7).subs(exp(3 * x), y) == y ** Rational(2, 3) * exp(7)","exp(3 * log(x)).subs(x ** 2, y) == y ** Rational(3, 2)","exp(exp(x + E)).subs(exp, 3) == 3 ** 3 ** (x + E)","exp(exp(x + E)).subs(exp, sin) == sin(sin(x + E))","exp(exp(x + E)).subs(E, 3) == 3 ** 3 ** (x + 3)","exp(3).subs(E, sin) == sin(3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_exp_subs():
     x = Symbol('x')
     e = (exp(3*log(x), evaluate=False))  # evaluates to x**3
@@ -255,64 +311,90 @@ def test_exp_subs():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_adjoint(), test_exp_adjoint produces the expected output) over Any ║
+# ║ Path(test_exp_adjoint(), adjoint(exp(x)) == exp(adjoint(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_adjoint : Any → {Any | adjoint(exp(x)) == ex...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  adjoint(exp(x)) == exp(adjoint(x))             ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_adjoint : Any → {Any | result satisfies: adj...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31cd903d858b2d52  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7870c6b7ab0674ce  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_adjoint","kind":"function","src_hash":"ce2327e2e370ec67","in":{"base":"Any"},"out":{"base":"Any","pred":"adjoint(exp(x)) == exp(adjoint(x))"},"spec":{"lhs":"test_exp_adjoint()","rhs":"test_exp_adjoint produces the expected output","over":{"base":"Any"},"name":"test_exp_adjoint_correct"},"guarantee":"test_exp_adjoint produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_adjoint_correct","statement":"Path(test_exp_adjoint(x), test_exp_adjoint produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31cd903d858b2d52"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_adjoint","kind":"function","src_hash":"ce2327e2e370ec67","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: adjoint(exp(x)) == exp(adjoint(x))"},"spec":{"lhs":"test_exp_adjoint()","rhs":"adjoint(exp(x)) == exp(adjoint(x))","over":{"base":"Any"},"name":"test_exp_adjoint_correct"},"guarantee":"adjoint(exp(x)) == exp(adjoint(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_adjoint_correct","statement":"Path(test_exp_adjoint(x), adjoint(exp(x)) == exp(adjoint(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7870c6b7ab0674ce","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["adjoint(exp(x)) == exp(adjoint(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp_adjoint():
     x = Symbol('x', commutative=False)
     assert adjoint(exp(x)) == exp(adjoint(x))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_conjugate(), test_exp_conjugate produces the expected output) over Any ║
+# ║ Path(test_exp_conjugate(), conjugate(exp(x)) == exp(conjugate(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_conjugate : Any → {Any | conjugate(exp(x)) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  conjugate(exp(x)) == exp(conjugate(x))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_conjugate : Any → {Any | result satisfies: c...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2524b626ae8b7784  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57122f9be915546d  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_conjugate","kind":"function","src_hash":"7a8e387149775a41","in":{"base":"Any"},"out":{"base":"Any","pred":"conjugate(exp(x)) == exp(conjugate(x))"},"spec":{"lhs":"test_exp_conjugate()","rhs":"test_exp_conjugate produces the expected output","over":{"base":"Any"},"name":"test_exp_conjugate_correct"},"guarantee":"test_exp_conjugate produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_conjugate_correct","statement":"Path(test_exp_conjugate(x), test_exp_conjugate produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2524b626ae8b7784"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_conjugate","kind":"function","src_hash":"7a8e387149775a41","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: conjugate(exp(x)) == exp(conjugate(x))"},"spec":{"lhs":"test_exp_conjugate()","rhs":"conjugate(exp(x)) == exp(conjugate(x))","over":{"base":"Any"},"name":"test_exp_conjugate_correct"},"guarantee":"conjugate(exp(x)) == exp(conjugate(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_conjugate_correct","statement":"Path(test_exp_conjugate(x), conjugate(exp(x)) == exp(conjugate(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57122f9be915546d","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["conjugate(exp(x)) == exp(conjugate(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_exp_conjugate():
     assert conjugate(exp(x)) == exp(conjugate(x))
 
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_transpose(), test_exp_transpose produces the expected output) over Any ║
+# ║ Path(test_exp_transpose(), transpose(exp(x)) == exp(transpose(x))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_transpose : Any → {Any | transpose(exp(x)) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  transpose(exp(x)) == exp(transpose(x))         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_transpose : Any → {Any | result satisfies: t...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0910848ab011395d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4947d63e2255cdc5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_transpose","kind":"function","src_hash":"4f7961ed04963aa0","in":{"base":"Any"},"out":{"base":"Any","pred":"transpose(exp(x)) == exp(transpose(x))"},"spec":{"lhs":"test_exp_transpose()","rhs":"test_exp_transpose produces the expected output","over":{"base":"Any"},"name":"test_exp_transpose_correct"},"guarantee":"test_exp_transpose produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_transpose_correct","statement":"Path(test_exp_transpose(x), test_exp_transpose produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0910848ab011395d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_transpose","kind":"function","src_hash":"4f7961ed04963aa0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: transpose(exp(x)) == exp(transpose(x))"},"spec":{"lhs":"test_exp_transpose()","rhs":"transpose(exp(x)) == exp(transpose(x))","over":{"base":"Any"},"name":"test_exp_transpose_correct"},"guarantee":"transpose(exp(x)) == exp(transpose(x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_transpose_correct","statement":"Path(test_exp_transpose(x), transpose(exp(x)) == exp(transpose(x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4947d63e2255cdc5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["transpose(exp(x)) == exp(transpose(x))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_exp_transpose():
     assert transpose(exp(x)) == exp(transpose(x))
 
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_rewrite(), test_exp_rewrite produces the expected output) over Any ║
+# ║ Path(test_exp_rewrite(), exp(x).rewrite(sin) == sinh(x) + cosh(x) and exp(x * I).rewrite(cos) == cos(x) + I * sin(x) and exp(1).rewrite(cos) == sinh(1) + cosh(1) and exp(1).rewrite(sin) == sinh(1) + cosh(1) and exp(x).rewrite(tanh) == (1 + tanh(x / 2)) / (1 - tanh(x / 2)) and exp(pi * I / 4).rewrite(sqrt) == sqrt(2) / 2 + sqrt(2) * I / 2 and exp(pi * I / 3).rewrite(sqrt) == S.Half + sqrt(3) * I / 2 and Sum((exp(pi * I / 2) / 2) ** n, (n, 0, oo)).rewrite(sqrt).doit() == Rational(4, 5) + I * 2 / 5 and Sum((exp(pi * I / 4) / 2) ** n, (n, 0, oo)).rewrite(sqrt).doit() == 1 / (1 - sqrt(2) * (1 + I) / 4) and Sum((exp(pi * I / 3) / 2) ** n, (n, 0, oo)).rewrite(sqrt).doit().cancel() == 4 * I / (sqrt(3) + 3 * I)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_rewrite : Any → {Any | exp(x).rewrite(sin) =...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(x).rewrite(sin) == sinh(x) + cosh(x)       ║
+# ║   ensures:  exp(x * I).rewrite(cos) == cos(x) + I * s...   ║
+# ║   ensures:  exp(1).rewrite(cos) == sinh(1) + cosh(1)       ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_rewrite : Any → {Any | result satisfies: exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 20862a6e88f66e1d  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6fddc0e5fc36d6ed  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_rewrite","kind":"function","src_hash":"eee917411d86a7eb","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(x).rewrite(sin) == sinh(x) + cosh(x) and exp(x * I).rewrite(cos) == cos(x) + I * sin(x) and exp(1).rewrite(cos) == sinh(1) + cosh(1) and exp(1).rewrite(sin) == sinh(1) + cosh(1) and exp(1).rewrite(sin) == sinh(1) + cosh(1) and exp(x).rewrite(tanh) == (1 + tanh(x / 2)) / (1 - tanh(x / 2)) and exp(pi * I / 4).rewrite(sqrt) == sqrt(2) / 2 + sqrt(2) * I / 2 and exp(pi * I / 3).rewrite(sqrt) == S.Half + sqrt(3) * I / 2 and exp(x * log(y)).rewrite(Pow) == y ** x and exp(log(x) * log(y)).rewrite(Pow) in [x ** log(y), y ** log(x)] and exp(log(log(x)) * y).rewrite(Pow) == log(x) ** y"},"spec":{"lhs":"test_exp_rewrite()","rhs":"test_exp_rewrite produces the expected output","over":{"base":"Any"},"name":"test_exp_rewrite_correct"},"guarantee":"test_exp_rewrite produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_rewrite_correct","statement":"Path(test_exp_rewrite(x), test_exp_rewrite produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"20862a6e88f66e1d"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_rewrite","kind":"function","src_hash":"eee917411d86a7eb","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(x).rewrite(sin) == sinh(x) + cosh(x) and exp(x * I).rewrite(cos) == cos(x) + I * sin(x) and exp(1).rewrite(cos) == sinh(1) + cosh(1) and exp(1).rewrite(sin) == sinh(1) + cosh(1) and exp(x).rewrite(tanh) == (1 + tanh(x / 2)) / (1 - tanh(x / 2)) and exp(pi * I / 4).rewrite(sqrt) == sqrt(2) / 2 + sqrt(2) * I / 2 and exp(pi * I / 3).rewrite(sqrt) == S.Half + sqrt(3) * I / 2 and Sum((exp(pi * I / 2) / 2) ** n, (n, 0, oo)).rewrite(sqrt).doit() == Rational(4, 5) + I * 2 / 5 and Sum((exp(pi * I / 4) / 2) ** n, (n, 0, oo)).rewrite(sqrt).doit() == 1 / (1 - sqrt(2) * (1 + I) / 4) and Sum((exp(pi * I / 3) / 2) ** n, (n, 0, oo)).rewrite(sqrt).doit().cancel() == 4 * I / (sqrt(3) + 3 * I)"},"spec":{"lhs":"test_exp_rewrite()","rhs":"exp(x).rewrite(sin) == sinh(x) + cosh(x) and exp(x * I).rewrite(cos) == cos(x) + I * sin(x) and exp(1).rewrite(cos) == sinh(1) + cosh(1) and exp(1).rewrite(sin) == sinh(1) + cosh(1) and exp(x).rewrite(tanh) == (1 + tanh(x / 2)) / (1 - tanh(x / 2)) and exp(pi * I / 4).rewrite(sqrt) == sqrt(2) / 2 + sqrt(2) * I / 2 and exp(pi * I / 3).rewrite(sqrt) == S.Half + sqrt(3) * I / 2 and Sum((exp(pi * I / 2) / 2) ** n, (n, 0, oo)).rewrite(sqrt).doit() == Rational(4, 5) + I * 2 / 5 and Sum((exp(pi * I / 4) / 2) ** n, (n, 0, oo)).rewrite(sqrt).doit() == 1 / (1 - sqrt(2) * (1 + I) / 4) and Sum((exp(pi * I / 3) / 2) ** n, (n, 0, oo)).rewrite(sqrt).doit().cancel() == 4 * I / (sqrt(3) + 3 * I)","over":{"base":"Any"},"name":"test_exp_rewrite_correct"},"guarantee":"exp(x).rewrite(sin) == sinh(x) + cosh(x); exp(x * I).rewrite(cos) == cos(x) + I * sin(x); exp(1).rewrite(cos) == sinh(1) + cosh(1)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_rewrite_correct","statement":"Path(test_exp_rewrite(x), exp(x).rewrite(sin) == sinh(x) + cosh(x); exp(x * I).rewrite(cos) == cos(x) + I * sin(x); exp(1).rewrite(cos) == sinh(1) + cosh(1))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6fddc0e5fc36d6ed","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(x).rewrite(sin) == sinh(x) + cosh(x)","exp(x * I).rewrite(cos) == cos(x) + I * sin(x)","exp(1).rewrite(cos) == sinh(1) + cosh(1)","exp(1).rewrite(sin) == sinh(1) + cosh(1)","exp(x).rewrite(tanh) == (1 + tanh(x / 2)) / (1 - tanh(x / 2))","exp(pi * I / 4).rewrite(sqrt) == sqrt(2) / 2 + sqrt(2) * I / 2","exp(pi * I / 3).rewrite(sqrt) == S.Half + sqrt(3) * I / 2","Sum((exp(pi * I / 2) / 2) ** n, (n, 0, oo)).rewrite(sqrt).doit() == Rational(4, 5) + I * 2 / 5","Sum((exp(pi * I / 4) / 2) ** n, (n, 0, oo)).rewrite(sqrt).doit() == 1 / (1 - sqrt(2) * (1 + I) / 4)","Sum((exp(pi * I / 3) / 2) ** n, (n, 0, oo)).rewrite(sqrt).doit().cancel() == 4 * I / (sqrt(3) + 3 * I)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_exp_rewrite():
     assert exp(x).rewrite(sin) == sinh(x) + cosh(x)
     assert exp(x*I).rewrite(cos) == cos(x) + I*sin(x)
@@ -337,16 +419,24 @@ def test_exp_rewrite():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_leading_term(), test_exp_leading_term produces the expected output) over Any ║
+# ║ Path(test_exp_leading_term(), exp(x).as_leading_term(x) == 1 and exp(2 + x).as_leading_term(x) == exp(2) and exp((2 * x + 3) / (x + 1)).as_leading_term(x) == exp(3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_leading_term : Any → {Any | exp(x).as_leadin...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(x).as_leading_term(x) == 1                 ║
+# ║   ensures:  exp(2 + x).as_leading_term(x) == exp(2)        ║
+# ║   ensures:  exp((2 * x + 3) / (x + 1)).as_leading_ter...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_leading_term : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 576cdc231387fc26  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 214cf47e6638f00f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_leading_term","kind":"function","src_hash":"35173c4cae89a8ca","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(x).as_leading_term(x) == 1 and exp(2 + x).as_leading_term(x) == exp(2) and exp((2 * x + 3) / (x + 1)).as_leading_term(x) == exp(3)"},"spec":{"lhs":"test_exp_leading_term()","rhs":"test_exp_leading_term produces the expected output","over":{"base":"Any"},"name":"test_exp_leading_term_correct"},"guarantee":"test_exp_leading_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_leading_term_correct","statement":"Path(test_exp_leading_term(x), test_exp_leading_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"576cdc231387fc26"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_leading_term","kind":"function","src_hash":"35173c4cae89a8ca","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(x).as_leading_term(x) == 1 and exp(2 + x).as_leading_term(x) == exp(2) and exp((2 * x + 3) / (x + 1)).as_leading_term(x) == exp(3)"},"spec":{"lhs":"test_exp_leading_term()","rhs":"exp(x).as_leading_term(x) == 1 and exp(2 + x).as_leading_term(x) == exp(2) and exp((2 * x + 3) / (x + 1)).as_leading_term(x) == exp(3)","over":{"base":"Any"},"name":"test_exp_leading_term_correct"},"guarantee":"exp(x).as_leading_term(x) == 1; exp(2 + x).as_leading_term(x) == exp(2); exp((2 * x + 3) / (x + 1)).as_leading_term(x) == exp(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_leading_term_correct","statement":"Path(test_exp_leading_term(x), exp(x).as_leading_term(x) == 1; exp(2 + x).as_leading_term(x) == exp(2); exp((2 * x + 3) / (x + 1)).as_leading_term(x) == exp(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"214cf47e6638f00f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(x).as_leading_term(x) == 1","exp(2 + x).as_leading_term(x) == exp(2)","exp((2 * x + 3) / (x + 1)).as_leading_term(x) == exp(3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp_leading_term():
     assert exp(x).as_leading_term(x) == 1
     assert exp(2 + x).as_leading_term(x) == exp(2)
@@ -362,16 +452,24 @@ def test_exp_leading_term():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_taylor_term(), test_exp_taylor_term produces the expected output) over Any ║
+# ║ Path(test_exp_taylor_term(), exp(x).taylor_term(1, x) == x and exp(x).taylor_term(3, x) == x ** 3 / 6 and exp(x).taylor_term(4, x) == x ** 4 / 24 and exp(x).taylor_term(-1, x) is S.Zero) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_taylor_term : Any → {Any | exp(x).taylor_ter...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(x).taylor_term(1, x) == x                  ║
+# ║   ensures:  exp(x).taylor_term(3, x) == x ** 3 / 6         ║
+# ║   ensures:  exp(x).taylor_term(4, x) == x ** 4 / 24        ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_taylor_term : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d29d138d0728fd21  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 500b60fbe1616434  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_taylor_term","kind":"function","src_hash":"01eb4e9a78d6f0d1","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(x).taylor_term(1, x) == x and exp(x).taylor_term(3, x) == x ** 3 / 6 and exp(x).taylor_term(4, x) == x ** 4 / 24 and exp(x).taylor_term(-1, x) is S.Zero"},"spec":{"lhs":"test_exp_taylor_term()","rhs":"test_exp_taylor_term produces the expected output","over":{"base":"Any"},"name":"test_exp_taylor_term_correct"},"guarantee":"test_exp_taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_taylor_term_correct","statement":"Path(test_exp_taylor_term(x), test_exp_taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d29d138d0728fd21"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_taylor_term","kind":"function","src_hash":"01eb4e9a78d6f0d1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(x).taylor_term(1, x) == x and exp(x).taylor_term(3, x) == x ** 3 / 6 and exp(x).taylor_term(4, x) == x ** 4 / 24 and exp(x).taylor_term(-1, x) is S.Zero"},"spec":{"lhs":"test_exp_taylor_term()","rhs":"exp(x).taylor_term(1, x) == x and exp(x).taylor_term(3, x) == x ** 3 / 6 and exp(x).taylor_term(4, x) == x ** 4 / 24 and exp(x).taylor_term(-1, x) is S.Zero","over":{"base":"Any"},"name":"test_exp_taylor_term_correct"},"guarantee":"exp(x).taylor_term(1, x) == x; exp(x).taylor_term(3, x) == x ** 3 / 6; exp(x).taylor_term(4, x) == x ** 4 / 24","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_taylor_term_correct","statement":"Path(test_exp_taylor_term(x), exp(x).taylor_term(1, x) == x; exp(x).taylor_term(3, x) == x ** 3 / 6; exp(x).taylor_term(4, x) == x ** 4 / 24)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"500b60fbe1616434","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(x).taylor_term(1, x) == x","exp(x).taylor_term(3, x) == x ** 3 / 6","exp(x).taylor_term(4, x) == x ** 4 / 24","exp(x).taylor_term(-1, x) is S.Zero"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp_taylor_term():
     x = symbols('x')
     assert exp(x).taylor_term(1, x) == x
@@ -381,48 +479,68 @@ def test_exp_taylor_term():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_MatrixSymbol(), test_exp_MatrixSymbol produces the expected output) over Any ║
+# ║ Path(test_exp_MatrixSymbol(), exp(A).has(exp)) over Any    ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_MatrixSymbol : Any → {Any | exp(A).has(exp)}      ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(A).has(exp)                                ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_MatrixSymbol : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f0386acf665dc3a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | bbefab0413930bae  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_MatrixSymbol","kind":"function","src_hash":"d889edf114f802e0","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(A).has(exp)"},"spec":{"lhs":"test_exp_MatrixSymbol()","rhs":"test_exp_MatrixSymbol produces the expected output","over":{"base":"Any"},"name":"test_exp_MatrixSymbol_correct"},"guarantee":"test_exp_MatrixSymbol produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_MatrixSymbol_correct","statement":"Path(test_exp_MatrixSymbol(x), test_exp_MatrixSymbol produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f0386acf665dc3a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_MatrixSymbol","kind":"function","src_hash":"d889edf114f802e0","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(A).has(exp)"},"spec":{"lhs":"test_exp_MatrixSymbol()","rhs":"exp(A).has(exp)","over":{"base":"Any"},"name":"test_exp_MatrixSymbol_correct"},"guarantee":"exp(A).has(exp)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_MatrixSymbol_correct","statement":"Path(test_exp_MatrixSymbol(x), exp(A).has(exp))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"bbefab0413930bae","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(A).has(exp)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_exp_MatrixSymbol():
     A = MatrixSymbol("A", 2, 2)
     assert exp(A).has(exp)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_fdiff(), test_exp_fdiff produces the expected output) over Any ║
+# ║ Path(test_exp_fdiff(), <unspecified:test_exp_fdiff>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_exp_fdiff : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e8954af483d476de  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_fdiff","kind":"function","src_hash":"c291d43f7cf38f19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_exp_fdiff()","rhs":"test_exp_fdiff produces the expected output","over":{"base":"Any"},"name":"test_exp_fdiff_correct"},"guarantee":"test_exp_fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_fdiff_correct","statement":"Path(test_exp_fdiff(x), test_exp_fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8954af483d476de"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_fdiff","kind":"function","src_hash":"c291d43f7cf38f19","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_exp_fdiff()","rhs":"<unspecified:test_exp_fdiff>","over":{"base":"Any"},"name":"test_exp_fdiff_correct"},"guarantee":"test_exp_fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_fdiff_correct","statement":"Path(test_exp_fdiff(x), test_exp_fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e8954af483d476de","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_exp_fdiff():
     x = Symbol('x')
     raises(ArgumentIndexError, lambda: exp(x).fdiff(2))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_values(), test_log_values produces the expected output) over Any ║
+# ║ Path(test_log_values(), log(nan) is nan and log(oo) is oo and log(-oo) is oo and log(zoo) is zoo and log(-zoo) is zoo and log(0) is zoo and log(1) == 0 and log(-1) == I * pi and log(E) == 1 and log(-E).expand() == 1 + I * pi and unchanged(log, pi) and log(-pi).expand() == log(pi) + I * pi and unchanged(log, 17) and log(-17) == log(17) + I * pi and log(I) == I * pi / 2 and log(-I) == -I * pi / 2 and log(17 * I) == I * pi / 2 + log(17) and log(-17 * I).expand() == -I * pi / 2 + log(17) and log(oo * I) is oo and log(-oo * I) is oo and log(0, 2) is zoo and log(0, 5) is zoo and exp(-log(3)) ** (-1) == 3 and log(S.Half) == -log(2) and log(2 * 3).func is log and log(2 * 3 ** 2).func is log) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_values : Any → {Any | log(nan) is nan and lo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(nan) is nan                                ║
+# ║   ensures:  log(oo) is oo                                  ║
+# ║   ensures:  log(-oo) is oo                                 ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_values : Any → {Any | result satisfies: log(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 78f1013949e1c49a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f4ff6e09d8bde1fd  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_values","kind":"function","src_hash":"8d2adcb0bb93fd78","in":{"base":"Any"},"out":{"base":"Any","pred":"log(nan) is nan and log(oo) is oo and log(-oo) is oo and log(zoo) is zoo and log(-zoo) is zoo and log(0) is zoo and log(1) == 0 and log(-1) == I * pi and log(E) == 1 and log(-E).expand() == 1 + I * pi and unchanged(log, pi) and log(-pi).expand() == log(pi) + I * pi and unchanged(log, 17) and log(-17) == log(17) + I * pi and log(I) == I * pi / 2 and log(-I) == -I * pi / 2 and log(17 * I) == I * pi / 2 + log(17) and log(-17 * I).expand() == -I * pi / 2 + log(17) and log(oo * I) is oo and log(-oo * I) is oo and log(0, 2) is zoo and log(0, 5) is zoo and exp(-log(3)) ** (-1) == 3 and log(S.Half) == -log(2) and log(2 * 3).func is log and log(2 * 3 ** 2).func is log"},"spec":{"lhs":"test_log_values()","rhs":"test_log_values produces the expected output","over":{"base":"Any"},"name":"test_log_values_correct"},"guarantee":"test_log_values produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_values_correct","statement":"Path(test_log_values(x), test_log_values produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"78f1013949e1c49a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_values","kind":"function","src_hash":"8d2adcb0bb93fd78","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(nan) is nan and log(oo) is oo and log(-oo) is oo and log(zoo) is zoo and log(-zoo) is zoo and log(0) is zoo and log(1) == 0 and log(-1) == I * pi and log(E) == 1 and log(-E).expand() == 1 + I * pi and unchanged(log, pi) and log(-pi).expand() == log(pi) + I * pi and unchanged(log, 17) and log(-17) == log(17) + I * pi and log(I) == I * pi / 2 and log(-I) == -I * pi / 2 and log(17 * I) == I * pi / 2 + log(17) and log(-17 * I).expand() == -I * pi / 2 + log(17) and log(oo * I) is oo and log(-oo * I) is oo and log(0, 2) is zoo and log(0, 5) is zoo and exp(-log(3)) ** (-1) == 3 and log(S.Half) == -log(2) and log(2 * 3).func is log and log(2 * 3 ** 2).func is log"},"spec":{"lhs":"test_log_values()","rhs":"log(nan) is nan and log(oo) is oo and log(-oo) is oo and log(zoo) is zoo and log(-zoo) is zoo and log(0) is zoo and log(1) == 0 and log(-1) == I * pi and log(E) == 1 and log(-E).expand() == 1 + I * pi and unchanged(log, pi) and log(-pi).expand() == log(pi) + I * pi and unchanged(log, 17) and log(-17) == log(17) + I * pi and log(I) == I * pi / 2 and log(-I) == -I * pi / 2 and log(17 * I) == I * pi / 2 + log(17) and log(-17 * I).expand() == -I * pi / 2 + log(17) and log(oo * I) is oo and log(-oo * I) is oo and log(0, 2) is zoo and log(0, 5) is zoo and exp(-log(3)) ** (-1) == 3 and log(S.Half) == -log(2) and log(2 * 3).func is log and log(2 * 3 ** 2).func is log","over":{"base":"Any"},"name":"test_log_values_correct"},"guarantee":"log(nan) is nan; log(oo) is oo; log(-oo) is oo","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_values_correct","statement":"Path(test_log_values(x), log(nan) is nan; log(oo) is oo; log(-oo) is oo)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f4ff6e09d8bde1fd","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(nan) is nan","log(oo) is oo","log(-oo) is oo","log(zoo) is zoo","log(-zoo) is zoo","log(0) is zoo","log(1) == 0","log(-1) == I * pi","log(E) == 1","log(-E).expand() == 1 + I * pi","unchanged(log, pi)","log(-pi).expand() == log(pi) + I * pi","unchanged(log, 17)","log(-17) == log(17) + I * pi","log(I) == I * pi / 2","log(-I) == -I * pi / 2","log(17 * I) == I * pi / 2 + log(17)","log(-17 * I).expand() == -I * pi / 2 + log(17)","log(oo * I) is oo","log(-oo * I) is oo","log(0, 2) is zoo","log(0, 5) is zoo","exp(-log(3)) ** (-1) == 3","log(S.Half) == -log(2)","log(2 * 3).func is log","log(2 * 3 ** 2).func is log"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_log_values():
     assert log(nan) is nan
 
@@ -465,16 +583,24 @@ def test_log_values():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_match_real_imag(), test_match_real_imag produces the expected output) over Any ║
+# ║ Path(test_match_real_imag(), match_real_imag(S.One) == (1, 0) and match_real_imag(I) == (0, 1) and match_real_imag(3 - 5 * I) == (3, -5) and match_real_imag(-sqrt(3) + S.Half * I) == (-sqrt(3), S.Half) and match_real_imag(x + y * I) == (x, y) and match_real_imag(x * I + y * I) == (0, x + y) and match_real_imag((x + y) * I) == (0, x + y) and match_real_imag(Rational(-2, 3) * i * I) == (None, None) and match_real_imag(1 - 2 * i) == (None, None) and match_real_imag(sqrt(2) * (3 - 5 * I)) == (None, None)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_match_real_imag : Any → {Any | match_real_imag(S...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  match_real_imag(S.One) == (1, 0)               ║
+# ║   ensures:  match_real_imag(I) == (0, 1)                   ║
+# ║   ensures:  match_real_imag(3 - 5 * I) == (3, -5)          ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_match_real_imag : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e6f7580970149be2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5e04d8a360ec424  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_match_real_imag","kind":"function","src_hash":"35851e4dea7a1332","in":{"base":"Any"},"out":{"base":"Any","pred":"match_real_imag(S.One) == (1, 0) and match_real_imag(I) == (0, 1) and match_real_imag(3 - 5 * I) == (3, -5) and match_real_imag(-sqrt(3) + S.Half * I) == (-sqrt(3), S.Half) and match_real_imag(x + y * I) == (x, y) and match_real_imag(x * I + y * I) == (0, x + y) and match_real_imag((x + y) * I) == (0, x + y) and match_real_imag(Rational(-2, 3) * i * I) == (None, None) and match_real_imag(1 - 2 * i) == (None, None) and match_real_imag(sqrt(2) * (3 - 5 * I)) == (None, None)"},"spec":{"lhs":"test_match_real_imag()","rhs":"test_match_real_imag produces the expected output","over":{"base":"Any"},"name":"test_match_real_imag_correct"},"guarantee":"test_match_real_imag produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_match_real_imag_correct","statement":"Path(test_match_real_imag(x), test_match_real_imag produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e6f7580970149be2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_match_real_imag","kind":"function","src_hash":"35851e4dea7a1332","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: match_real_imag(S.One) == (1, 0) and match_real_imag(I) == (0, 1) and match_real_imag(3 - 5 * I) == (3, -5) and match_real_imag(-sqrt(3) + S.Half * I) == (-sqrt(3), S.Half) and match_real_imag(x + y * I) == (x, y) and match_real_imag(x * I + y * I) == (0, x + y) and match_real_imag((x + y) * I) == (0, x + y) and match_real_imag(Rational(-2, 3) * i * I) == (None, None) and match_real_imag(1 - 2 * i) == (None, None) and match_real_imag(sqrt(2) * (3 - 5 * I)) == (None, None)"},"spec":{"lhs":"test_match_real_imag()","rhs":"match_real_imag(S.One) == (1, 0) and match_real_imag(I) == (0, 1) and match_real_imag(3 - 5 * I) == (3, -5) and match_real_imag(-sqrt(3) + S.Half * I) == (-sqrt(3), S.Half) and match_real_imag(x + y * I) == (x, y) and match_real_imag(x * I + y * I) == (0, x + y) and match_real_imag((x + y) * I) == (0, x + y) and match_real_imag(Rational(-2, 3) * i * I) == (None, None) and match_real_imag(1 - 2 * i) == (None, None) and match_real_imag(sqrt(2) * (3 - 5 * I)) == (None, None)","over":{"base":"Any"},"name":"test_match_real_imag_correct"},"guarantee":"match_real_imag(S.One) == (1, 0); match_real_imag(I) == (0, 1); match_real_imag(3 - 5 * I) == (3, -5)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_match_real_imag_correct","statement":"Path(test_match_real_imag(x), match_real_imag(S.One) == (1, 0); match_real_imag(I) == (0, 1); match_real_imag(3 - 5 * I) == (3, -5))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5e04d8a360ec424","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["match_real_imag(S.One) == (1, 0)","match_real_imag(I) == (0, 1)","match_real_imag(3 - 5 * I) == (3, -5)","match_real_imag(-sqrt(3) + S.Half * I) == (-sqrt(3), S.Half)","match_real_imag(x + y * I) == (x, y)","match_real_imag(x * I + y * I) == (0, x + y)","match_real_imag((x + y) * I) == (0, x + y)","match_real_imag(Rational(-2, 3) * i * I) == (None, None)","match_real_imag(1 - 2 * i) == (None, None)","match_real_imag(sqrt(2) * (3 - 5 * I)) == (None, None)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_match_real_imag():
     x, y = symbols('x,y', real=True)
     i = Symbol('i', imaginary=True)
@@ -491,16 +617,24 @@ def test_match_real_imag():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_exact(), test_log_exact produces the expected output) over Any ║
+# ║ Path(test_log_exact(), log(S.Half - I * sqrt(3) / 2) == -I * pi / 3 and log(Rational(-1, 2) + I * sqrt(3) / 2) == I * pi * Rational(2, 3) and log(-sqrt(2) / 2 - I * sqrt(2) / 2) == -I * pi * Rational(3, 4) and log(-sqrt(3) / 2 - I * S.Half) == -I * pi * Rational(5, 6) and log(Rational(-1, 4) + sqrt(5) / 4 - I * sqrt(sqrt(5) / 8 + Rational(5, 8))) == -I * pi * Rational(2, 5) and log(sqrt(Rational(5, 8) - sqrt(5) / 8) + I * (Rational(1, 4) + sqrt(5) / 4)) == I * pi * Rational(3, 10) and log(-sqrt(sqrt(2) / 4 + S.Half) + I * sqrt(S.Half - sqrt(2) / 4)) == I * pi * Rational(7, 8) and log(-sqrt(6) / 4 - sqrt(2) / 4 + I * (-sqrt(6) / 4 + sqrt(2) / 4)) == -I * pi * Rational(11, 12) and log(-1 + I * sqrt(3)) == log(2) + I * pi * Rational(2, 3) and log(5 + 5 * I) == log(5 * sqrt(2)) + I * pi / 4 and log(sqrt(-12)) == log(2 * sqrt(3)) + I * pi / 2 and log(-sqrt(6) + sqrt(2) - I * sqrt(6) - I * sqrt(2)) == log(4) - I * pi * Rational(7, 12) and log(-sqrt(6 - 3 * sqrt(2)) - I * sqrt(6 + 3 * sqrt(2))) == log(2 * sqrt(3)) - I * pi * Rational(5, 8) and log(1 + I * sqrt(2 - sqrt(2)) / sqrt(2 + sqrt(2))) == log(2 / sqrt(sqrt(2) + 2)) + I * pi / 8 and log(cos(pi * Rational(7, 12)) + I * sin(pi * Rational(7, 12))) == I * pi * Rational(7, 12) and log(cos(pi * Rational(6, 5)) + I * sin(pi * Rational(6, 5))) == I * pi * Rational(-4, 5) and log(5 * (1 + I) / sqrt(2)) == log(5) + I * pi / 4 and log(sqrt(2) * (-sqrt(3) + 1 - sqrt(3) * I - I)) == log(4) - I * pi * Rational(7, 12) and log(-sqrt(2) * (1 - I * sqrt(3))) == log(2 * sqrt(2)) + I * pi * Rational(2, 3) and log(sqrt(3) * I * (-sqrt(6 - 3 * sqrt(2)) - I * sqrt(3 * sqrt(2) + 6))) == log(6) - I * pi / 8 and log(zero - I * sqrt(3)) == log(sqrt(3)) - I * pi / 2 and unchanged(log, zero + I * zero) or log(zero + zero * I) is zoo and unchanged(log, (sqrt(2) - 1 / sqrt(sqrt(3) + I)) ** 1000) and unchanged(log, sqrt(2 - sqrt(5)) * (1 + I))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_exact : Any → {Any | log(S.Half - I * sqrt(3...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(S.Half - I * sqrt(3) / 2) == -I * pi / 3   ║
+# ║   ensures:  log(Rational(-1, 2) + I * sqrt(3) / 2) ==...   ║
+# ║   ensures:  log(-sqrt(2) / 2 - I * sqrt(2) / 2) == -I...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_exact : Any → {Any | result satisfies: log(S...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5b45b30157958c27  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e5495210f60d8ed9  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_exact","kind":"function","src_hash":"57a8635550c6c96f","in":{"base":"Any"},"out":{"base":"Any","pred":"log(S.Half - I * sqrt(3) / 2) == -I * pi / 3 and log(Rational(-1, 2) + I * sqrt(3) / 2) == I * pi * Rational(2, 3) and log(-sqrt(2) / 2 - I * sqrt(2) / 2) == -I * pi * Rational(3, 4) and log(-sqrt(3) / 2 - I * S.Half) == -I * pi * Rational(5, 6) and log(-1 + I * sqrt(3)) == log(2) + I * pi * Rational(2, 3) and log(5 + 5 * I) == log(5 * sqrt(2)) + I * pi / 4 and log(sqrt(-12)) == log(2 * sqrt(3)) + I * pi / 2 and log(5 * (1 + I) / sqrt(2)) == log(5) + I * pi / 4 and log(-sqrt(2) * (1 - I * sqrt(3))) == log(2 * sqrt(2)) + I * pi * Rational(2, 3) and log(zero - I * sqrt(3)) == log(sqrt(3)) - I * pi / 2 and unchanged(log, zero + I * zero) or log(zero + zero * I) is zoo and unchanged(log, (sqrt(2) - 1 / sqrt(sqrt(3) + I)) ** 1000) and unchanged(log, sqrt(2 - sqrt(5)) * (1 + I)) and log(exp(n * I * pi / 24).rewrite(sqrt)) == n * I * pi / 24 and log(exp(n * I * pi / 10).rewrite(sqrt)) == n * I * pi / 10"},"spec":{"lhs":"test_log_exact()","rhs":"test_log_exact produces the expected output","over":{"base":"Any"},"name":"test_log_exact_correct"},"guarantee":"test_log_exact produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_exact_correct","statement":"Path(test_log_exact(x), test_log_exact produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5b45b30157958c27"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_exact","kind":"function","src_hash":"57a8635550c6c96f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(S.Half - I * sqrt(3) / 2) == -I * pi / 3 and log(Rational(-1, 2) + I * sqrt(3) / 2) == I * pi * Rational(2, 3) and log(-sqrt(2) / 2 - I * sqrt(2) / 2) == -I * pi * Rational(3, 4) and log(-sqrt(3) / 2 - I * S.Half) == -I * pi * Rational(5, 6) and log(Rational(-1, 4) + sqrt(5) / 4 - I * sqrt(sqrt(5) / 8 + Rational(5, 8))) == -I * pi * Rational(2, 5) and log(sqrt(Rational(5, 8) - sqrt(5) / 8) + I * (Rational(1, 4) + sqrt(5) / 4)) == I * pi * Rational(3, 10) and log(-sqrt(sqrt(2) / 4 + S.Half) + I * sqrt(S.Half - sqrt(2) / 4)) == I * pi * Rational(7, 8) and log(-sqrt(6) / 4 - sqrt(2) / 4 + I * (-sqrt(6) / 4 + sqrt(2) / 4)) == -I * pi * Rational(11, 12) and log(-1 + I * sqrt(3)) == log(2) + I * pi * Rational(2, 3) and log(5 + 5 * I) == log(5 * sqrt(2)) + I * pi / 4 and log(sqrt(-12)) == log(2 * sqrt(3)) + I * pi / 2 and log(-sqrt(6) + sqrt(2) - I * sqrt(6) - I * sqrt(2)) == log(4) - I * pi * Rational(7, 12) and log(-sqrt(6 - 3 * sqrt(2)) - I * sqrt(6 + 3 * sqrt(2))) == log(2 * sqrt(3)) - I * pi * Rational(5, 8) and log(1 + I * sqrt(2 - sqrt(2)) / sqrt(2 + sqrt(2))) == log(2 / sqrt(sqrt(2) + 2)) + I * pi / 8 and log(cos(pi * Rational(7, 12)) + I * sin(pi * Rational(7, 12))) == I * pi * Rational(7, 12) and log(cos(pi * Rational(6, 5)) + I * sin(pi * Rational(6, 5))) == I * pi * Rational(-4, 5) and log(5 * (1 + I) / sqrt(2)) == log(5) + I * pi / 4 and log(sqrt(2) * (-sqrt(3) + 1 - sqrt(3) * I - I)) == log(4) - I * pi * Rational(7, 12) and log(-sqrt(2) * (1 - I * sqrt(3))) == log(2 * sqrt(2)) + I * pi * Rational(2, 3) and log(sqrt(3) * I * (-sqrt(6 - 3 * sqrt(2)) - I * sqrt(3 * sqrt(2) + 6))) == log(6) - I * pi / 8 and log(zero - I * sqrt(3)) == log(sqrt(3)) - I * pi / 2 and unchanged(log, zero + I * zero) or log(zero + zero * I) is zoo and unchanged(log, (sqrt(2) - 1 / sqrt(sqrt(3) + I)) ** 1000) and unchanged(log, sqrt(2 - sqrt(5)) * (1 + I))"},"spec":{"lhs":"test_log_exact()","rhs":"log(S.Half - I * sqrt(3) / 2) == -I * pi / 3 and log(Rational(-1, 2) + I * sqrt(3) / 2) == I * pi * Rational(2, 3) and log(-sqrt(2) / 2 - I * sqrt(2) / 2) == -I * pi * Rational(3, 4) and log(-sqrt(3) / 2 - I * S.Half) == -I * pi * Rational(5, 6) and log(Rational(-1, 4) + sqrt(5) / 4 - I * sqrt(sqrt(5) / 8 + Rational(5, 8))) == -I * pi * Rational(2, 5) and log(sqrt(Rational(5, 8) - sqrt(5) / 8) + I * (Rational(1, 4) + sqrt(5) / 4)) == I * pi * Rational(3, 10) and log(-sqrt(sqrt(2) / 4 + S.Half) + I * sqrt(S.Half - sqrt(2) / 4)) == I * pi * Rational(7, 8) and log(-sqrt(6) / 4 - sqrt(2) / 4 + I * (-sqrt(6) / 4 + sqrt(2) / 4)) == -I * pi * Rational(11, 12) and log(-1 + I * sqrt(3)) == log(2) + I * pi * Rational(2, 3) and log(5 + 5 * I) == log(5 * sqrt(2)) + I * pi / 4 and log(sqrt(-12)) == log(2 * sqrt(3)) + I * pi / 2 and log(-sqrt(6) + sqrt(2) - I * sqrt(6) - I * sqrt(2)) == log(4) - I * pi * Rational(7, 12) and log(-sqrt(6 - 3 * sqrt(2)) - I * sqrt(6 + 3 * sqrt(2))) == log(2 * sqrt(3)) - I * pi * Rational(5, 8) and log(1 + I * sqrt(2 - sqrt(2)) / sqrt(2 + sqrt(2))) == log(2 / sqrt(sqrt(2) + 2)) + I * pi / 8 and log(cos(pi * Rational(7, 12)) + I * sin(pi * Rational(7, 12))) == I * pi * Rational(7, 12) and log(cos(pi * Rational(6, 5)) + I * sin(pi * Rational(6, 5))) == I * pi * Rational(-4, 5) and log(5 * (1 + I) / sqrt(2)) == log(5) + I * pi / 4 and log(sqrt(2) * (-sqrt(3) + 1 - sqrt(3) * I - I)) == log(4) - I * pi * Rational(7, 12) and log(-sqrt(2) * (1 - I * sqrt(3))) == log(2 * sqrt(2)) + I * pi * Rational(2, 3) and log(sqrt(3) * I * (-sqrt(6 - 3 * sqrt(2)) - I * sqrt(3 * sqrt(2) + 6))) == log(6) - I * pi / 8 and log(zero - I * sqrt(3)) == log(sqrt(3)) - I * pi / 2 and unchanged(log, zero + I * zero) or log(zero + zero * I) is zoo and unchanged(log, (sqrt(2) - 1 / sqrt(sqrt(3) + I)) ** 1000) and unchanged(log, sqrt(2 - sqrt(5)) * (1 + I))","over":{"base":"Any"},"name":"test_log_exact_correct"},"guarantee":"log(S.Half - I * sqrt(3) / 2) == -I * pi / 3; log(Rational(-1, 2) + I * sqrt(3) / 2) == I * pi * Rational(2, 3); log(-sqrt(2) / 2 - I * sqrt(2) / 2) == -I * pi * Rational(3, 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_exact_correct","statement":"Path(test_log_exact(x), log(S.Half - I * sqrt(3) / 2) == -I * pi / 3; log(Rational(-1, 2) + I * sqrt(3) / 2) == I * pi * Rational(2, 3); log(-sqrt(2) / 2 - I * sqrt(2) / 2) == -I * pi * Rational(3, 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e5495210f60d8ed9","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(S.Half - I * sqrt(3) / 2) == -I * pi / 3","log(Rational(-1, 2) + I * sqrt(3) / 2) == I * pi * Rational(2, 3)","log(-sqrt(2) / 2 - I * sqrt(2) / 2) == -I * pi * Rational(3, 4)","log(-sqrt(3) / 2 - I * S.Half) == -I * pi * Rational(5, 6)","log(Rational(-1, 4) + sqrt(5) / 4 - I * sqrt(sqrt(5) / 8 + Rational(5, 8))) == -I * pi * Rational(2, 5)","log(sqrt(Rational(5, 8) - sqrt(5) / 8) + I * (Rational(1, 4) + sqrt(5) / 4)) == I * pi * Rational(3, 10)","log(-sqrt(sqrt(2) / 4 + S.Half) + I * sqrt(S.Half - sqrt(2) / 4)) == I * pi * Rational(7, 8)","log(-sqrt(6) / 4 - sqrt(2) / 4 + I * (-sqrt(6) / 4 + sqrt(2) / 4)) == -I * pi * Rational(11, 12)","log(-1 + I * sqrt(3)) == log(2) + I * pi * Rational(2, 3)","log(5 + 5 * I) == log(5 * sqrt(2)) + I * pi / 4","log(sqrt(-12)) == log(2 * sqrt(3)) + I * pi / 2","log(-sqrt(6) + sqrt(2) - I * sqrt(6) - I * sqrt(2)) == log(4) - I * pi * Rational(7, 12)","log(-sqrt(6 - 3 * sqrt(2)) - I * sqrt(6 + 3 * sqrt(2))) == log(2 * sqrt(3)) - I * pi * Rational(5, 8)","log(1 + I * sqrt(2 - sqrt(2)) / sqrt(2 + sqrt(2))) == log(2 / sqrt(sqrt(2) + 2)) + I * pi / 8","log(cos(pi * Rational(7, 12)) + I * sin(pi * Rational(7, 12))) == I * pi * Rational(7, 12)","log(cos(pi * Rational(6, 5)) + I * sin(pi * Rational(6, 5))) == I * pi * Rational(-4, 5)","log(5 * (1 + I) / sqrt(2)) == log(5) + I * pi / 4","log(sqrt(2) * (-sqrt(3) + 1 - sqrt(3) * I - I)) == log(4) - I * pi * Rational(7, 12)","log(-sqrt(2) * (1 - I * sqrt(3))) == log(2 * sqrt(2)) + I * pi * Rational(2, 3)","log(sqrt(3) * I * (-sqrt(6 - 3 * sqrt(2)) - I * sqrt(3 * sqrt(2) + 6))) == log(6) - I * pi / 8","log(zero - I * sqrt(3)) == log(sqrt(3)) - I * pi / 2","unchanged(log, zero + I * zero) or log(zero + zero * I) is zoo","unchanged(log, (sqrt(2) - 1 / sqrt(sqrt(3) + I)) ** 1000)","unchanged(log, sqrt(2 - sqrt(5)) * (1 + I))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.2,"verdict_class":"assumed","binding":true}}
 def test_log_exact():
     # check for pi/2, pi/3, pi/4, pi/6, pi/8, pi/12; pi/5, pi/10:
     for n in range(-23, 24):
@@ -544,16 +678,24 @@ def test_log_exact():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_base(), test_log_base produces the expected output) over Any ║
+# ║ Path(test_log_base(), log(1, 2) == 0 and log(2, 2) == 1 and log(3, 2) == log(3) / log(2) and log(6, 2) == 1 + log(3) / log(2) and log(6, 3) == 1 + log(2) / log(3) and log(2 ** 3, 2) == 3 and log(3 ** 3, 3) == 3 and log(5, 1) is zoo and log(1, 1) is nan and log(Rational(2, 3), 10) == log(Rational(2, 3)) / log(10) and log(Rational(2, 3), Rational(1, 3)) == -log(2) / log(3) + 1 and log(Rational(2, 3), Rational(2, 5)) == log(Rational(2, 3)) / log(Rational(2, 5)) and log(Rational(8, 3), 2) == -log(3) / log(2) + 3) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_base : Any → {Any | log(1, 2) == 0 and log(2...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(1, 2) == 0                                 ║
+# ║   ensures:  log(2, 2) == 1                                 ║
+# ║   ensures:  log(3, 2) == log(3) / log(2)                   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_base : Any → {Any | result satisfies: log(1,...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d90d3188db9f70e1  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | def561de4d3d2697  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_base","kind":"function","src_hash":"f82b5f99da8c14a5","in":{"base":"Any"},"out":{"base":"Any","pred":"log(1, 2) == 0 and log(2, 2) == 1 and log(3, 2) == log(3) / log(2) and log(6, 2) == 1 + log(3) / log(2) and log(6, 3) == 1 + log(2) / log(3) and log(2 ** 3, 2) == 3 and log(3 ** 3, 3) == 3 and log(5, 1) is zoo and log(1, 1) is nan and log(Rational(2, 3), 10) == log(Rational(2, 3)) / log(10) and log(Rational(2, 3), Rational(1, 3)) == -log(2) / log(3) + 1 and log(Rational(8, 3), 2) == -log(3) / log(2) + 3"},"spec":{"lhs":"test_log_base()","rhs":"test_log_base produces the expected output","over":{"base":"Any"},"name":"test_log_base_correct"},"guarantee":"test_log_base produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_base_correct","statement":"Path(test_log_base(x), test_log_base produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d90d3188db9f70e1"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_base","kind":"function","src_hash":"f82b5f99da8c14a5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(1, 2) == 0 and log(2, 2) == 1 and log(3, 2) == log(3) / log(2) and log(6, 2) == 1 + log(3) / log(2) and log(6, 3) == 1 + log(2) / log(3) and log(2 ** 3, 2) == 3 and log(3 ** 3, 3) == 3 and log(5, 1) is zoo and log(1, 1) is nan and log(Rational(2, 3), 10) == log(Rational(2, 3)) / log(10) and log(Rational(2, 3), Rational(1, 3)) == -log(2) / log(3) + 1 and log(Rational(2, 3), Rational(2, 5)) == log(Rational(2, 3)) / log(Rational(2, 5)) and log(Rational(8, 3), 2) == -log(3) / log(2) + 3"},"spec":{"lhs":"test_log_base()","rhs":"log(1, 2) == 0 and log(2, 2) == 1 and log(3, 2) == log(3) / log(2) and log(6, 2) == 1 + log(3) / log(2) and log(6, 3) == 1 + log(2) / log(3) and log(2 ** 3, 2) == 3 and log(3 ** 3, 3) == 3 and log(5, 1) is zoo and log(1, 1) is nan and log(Rational(2, 3), 10) == log(Rational(2, 3)) / log(10) and log(Rational(2, 3), Rational(1, 3)) == -log(2) / log(3) + 1 and log(Rational(2, 3), Rational(2, 5)) == log(Rational(2, 3)) / log(Rational(2, 5)) and log(Rational(8, 3), 2) == -log(3) / log(2) + 3","over":{"base":"Any"},"name":"test_log_base_correct"},"guarantee":"log(1, 2) == 0; log(2, 2) == 1; log(3, 2) == log(3) / log(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_base_correct","statement":"Path(test_log_base(x), log(1, 2) == 0; log(2, 2) == 1; log(3, 2) == log(3) / log(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"def561de4d3d2697","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(1, 2) == 0","log(2, 2) == 1","log(3, 2) == log(3) / log(2)","log(6, 2) == 1 + log(3) / log(2)","log(6, 3) == 1 + log(2) / log(3)","log(2 ** 3, 2) == 3","log(3 ** 3, 3) == 3","log(5, 1) is zoo","log(1, 1) is nan","log(Rational(2, 3), 10) == log(Rational(2, 3)) / log(10)","log(Rational(2, 3), Rational(1, 3)) == -log(2) / log(3) + 1","log(Rational(2, 3), Rational(2, 5)) == log(Rational(2, 3)) / log(Rational(2, 5))","log(Rational(8, 3), 2) == -log(3) / log(2) + 3"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_log_base():
     assert log(1, 2) == 0
     assert log(2, 2) == 1
@@ -573,16 +715,24 @@ def test_log_base():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_symbolic(), test_log_symbolic produces the expected output) over Any ║
+# ║ Path(test_log_symbolic(), log(x, exp(1)) == log(x) and log(exp(x)) != x and log(x * y) != log(x) + log(y) and log(x / y).expand() != log(x) - log(y) and log(x / y).expand(force=True) == log(x) - log(y) and log(x ** y).expand() != y * log(x) and log(x ** y).expand(force=True) == y * log(x) and log(x, 2) == log(x) / log(2) and log(E, 2) == 1 / log(2) and log(p ** 2) != 2 * log(p) and log(p ** 2).expand() == 2 * log(p) and log(x ** 2).expand() != 2 * log(x) and log(p ** q) != q * log(p) and log(exp(p)) == p and log(p * q) != log(p) + log(q) and log(p * q).expand() == log(p) + log(q) and log(-sqrt(3)) == log(sqrt(3)) + I * pi and log(-exp(p)) != p + I * pi and log(-exp(x)).expand() != x + I * pi and log(-exp(r)).expand() == r + I * pi and log(x ** y) != y * log(x) and (log(x ** (-5)) ** (-1)).expand() != -1 / log(x) / 5 and (log(p ** (-5)) ** (-1)).expand() == -1 / log(p) / 5 and log(-x).func is log and log(-x).args[0] == -x and log(-p).func is log and log(-p).args[0] == -p) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_symbolic : Any → {Any | log(x, exp(1)) == lo...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(x, exp(1)) == log(x)                       ║
+# ║   ensures:  log(exp(x)) != x                               ║
+# ║   ensures:  log(x * y) != log(x) + log(y)                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_symbolic : Any → {Any | result satisfies: lo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45bac10f2ab4dcd4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.6ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b783afc88bcbc055  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_symbolic","kind":"function","src_hash":"d4d913f26404edd8","in":{"base":"Any"},"out":{"base":"Any","pred":"log(x, exp(1)) == log(x) and log(exp(x)) != x and log(x, exp(1)) == log(x) and log(x * y) != log(x) + log(y) and log(x / y).expand() != log(x) - log(y) and log(x / y).expand(force=True) == log(x) - log(y) and log(x ** y).expand() != y * log(x) and log(x ** y).expand(force=True) == y * log(x) and log(x, 2) == log(x) / log(2) and log(E, 2) == 1 / log(2) and log(p ** 2) != 2 * log(p) and log(p ** 2).expand() == 2 * log(p) and log(x ** 2).expand() != 2 * log(x) and log(p ** q) != q * log(p) and log(exp(p)) == p and log(p * q) != log(p) + log(q) and log(p * q).expand() == log(p) + log(q) and log(-sqrt(3)) == log(sqrt(3)) + I * pi and log(-exp(p)) != p + I * pi and log(-exp(x)).expand() != x + I * pi and log(-exp(r)).expand() == r + I * pi and log(x ** y) != y * log(x) and (log(x ** (-5)) ** (-1)).expand() != -1 / log(x) / 5 and (log(p ** (-5)) ** (-1)).expand() == -1 / log(p) / 5 and log(-x).func is log and log(-x).args[0] == -x and log(-p).func is log and log(-p).args[0] == -p"},"spec":{"lhs":"test_log_symbolic()","rhs":"test_log_symbolic produces the expected output","over":{"base":"Any"},"name":"test_log_symbolic_correct"},"guarantee":"test_log_symbolic produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_symbolic_correct","statement":"Path(test_log_symbolic(x), test_log_symbolic produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45bac10f2ab4dcd4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_symbolic","kind":"function","src_hash":"d4d913f26404edd8","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(x, exp(1)) == log(x) and log(exp(x)) != x and log(x * y) != log(x) + log(y) and log(x / y).expand() != log(x) - log(y) and log(x / y).expand(force=True) == log(x) - log(y) and log(x ** y).expand() != y * log(x) and log(x ** y).expand(force=True) == y * log(x) and log(x, 2) == log(x) / log(2) and log(E, 2) == 1 / log(2) and log(p ** 2) != 2 * log(p) and log(p ** 2).expand() == 2 * log(p) and log(x ** 2).expand() != 2 * log(x) and log(p ** q) != q * log(p) and log(exp(p)) == p and log(p * q) != log(p) + log(q) and log(p * q).expand() == log(p) + log(q) and log(-sqrt(3)) == log(sqrt(3)) + I * pi and log(-exp(p)) != p + I * pi and log(-exp(x)).expand() != x + I * pi and log(-exp(r)).expand() == r + I * pi and log(x ** y) != y * log(x) and (log(x ** (-5)) ** (-1)).expand() != -1 / log(x) / 5 and (log(p ** (-5)) ** (-1)).expand() == -1 / log(p) / 5 and log(-x).func is log and log(-x).args[0] == -x and log(-p).func is log and log(-p).args[0] == -p"},"spec":{"lhs":"test_log_symbolic()","rhs":"log(x, exp(1)) == log(x) and log(exp(x)) != x and log(x * y) != log(x) + log(y) and log(x / y).expand() != log(x) - log(y) and log(x / y).expand(force=True) == log(x) - log(y) and log(x ** y).expand() != y * log(x) and log(x ** y).expand(force=True) == y * log(x) and log(x, 2) == log(x) / log(2) and log(E, 2) == 1 / log(2) and log(p ** 2) != 2 * log(p) and log(p ** 2).expand() == 2 * log(p) and log(x ** 2).expand() != 2 * log(x) and log(p ** q) != q * log(p) and log(exp(p)) == p and log(p * q) != log(p) + log(q) and log(p * q).expand() == log(p) + log(q) and log(-sqrt(3)) == log(sqrt(3)) + I * pi and log(-exp(p)) != p + I * pi and log(-exp(x)).expand() != x + I * pi and log(-exp(r)).expand() == r + I * pi and log(x ** y) != y * log(x) and (log(x ** (-5)) ** (-1)).expand() != -1 / log(x) / 5 and (log(p ** (-5)) ** (-1)).expand() == -1 / log(p) / 5 and log(-x).func is log and log(-x).args[0] == -x and log(-p).func is log and log(-p).args[0] == -p","over":{"base":"Any"},"name":"test_log_symbolic_correct"},"guarantee":"log(x, exp(1)) == log(x); log(exp(x)) != x; log(x * y) != log(x) + log(y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_symbolic_correct","statement":"Path(test_log_symbolic(x), log(x, exp(1)) == log(x); log(exp(x)) != x; log(x * y) != log(x) + log(y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b783afc88bcbc055","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(x, exp(1)) == log(x)","log(exp(x)) != x","log(x * y) != log(x) + log(y)","log(x / y).expand() != log(x) - log(y)","log(x / y).expand(force=True) == log(x) - log(y)","log(x ** y).expand() != y * log(x)","log(x ** y).expand(force=True) == y * log(x)","log(x, 2) == log(x) / log(2)","log(E, 2) == 1 / log(2)","log(p ** 2) != 2 * log(p)","log(p ** 2).expand() == 2 * log(p)","log(x ** 2).expand() != 2 * log(x)","log(p ** q) != q * log(p)","log(exp(p)) == p","log(p * q) != log(p) + log(q)","log(p * q).expand() == log(p) + log(q)","log(-sqrt(3)) == log(sqrt(3)) + I * pi","log(-exp(p)) != p + I * pi","log(-exp(x)).expand() != x + I * pi","log(-exp(r)).expand() == r + I * pi","log(x ** y) != y * log(x)","(log(x ** (-5)) ** (-1)).expand() != -1 / log(x) / 5","(log(p ** (-5)) ** (-1)).expand() == -1 / log(p) / 5","log(-x).func is log and log(-x).args[0] == -x","log(-p).func is log and log(-p).args[0] == -p"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.6,"verdict_class":"assumed","binding":true}}
 def test_log_symbolic():
     assert log(x, exp(1)) == log(x)
     assert log(exp(x)) != x
@@ -622,16 +772,24 @@ def test_log_symbolic():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_exp(), test_log_exp produces the expected output) over Any ║
+# ║ Path(test_log_exp(), log(exp(4 * I * pi)) == 0 and log(exp(-5 * I * pi)) == I * pi and log(exp(I * pi * Rational(19, 4))) == I * pi * Rational(3, 4) and log(exp(I * pi * Rational(25, 7))) == I * pi * Rational(-3, 7) and log(exp(-5 * I)) == -5 * I + 2 * I * pi) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_exp : Any → {Any | log(exp(4 * I * pi)) == 0...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(exp(4 * I * pi)) == 0                      ║
+# ║   ensures:  log(exp(-5 * I * pi)) == I * pi                ║
+# ║   ensures:  log(exp(I * pi * Rational(19, 4))) == I *...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_exp : Any → {Any | result satisfies: log(exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c183e84ba530cb1e  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6322e202e281dabf  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_exp","kind":"function","src_hash":"0f35994901d8a7d5","in":{"base":"Any"},"out":{"base":"Any","pred":"log(exp(4 * I * pi)) == 0 and log(exp(-5 * I * pi)) == I * pi and log(exp(I * pi * Rational(19, 4))) == I * pi * Rational(3, 4) and log(exp(I * pi * Rational(25, 7))) == I * pi * Rational(-3, 7) and log(exp(-5 * I)) == -5 * I + 2 * I * pi"},"spec":{"lhs":"test_log_exp()","rhs":"test_log_exp produces the expected output","over":{"base":"Any"},"name":"test_log_exp_correct"},"guarantee":"test_log_exp produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_exp_correct","statement":"Path(test_log_exp(x), test_log_exp produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c183e84ba530cb1e"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_exp","kind":"function","src_hash":"0f35994901d8a7d5","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(exp(4 * I * pi)) == 0 and log(exp(-5 * I * pi)) == I * pi and log(exp(I * pi * Rational(19, 4))) == I * pi * Rational(3, 4) and log(exp(I * pi * Rational(25, 7))) == I * pi * Rational(-3, 7) and log(exp(-5 * I)) == -5 * I + 2 * I * pi"},"spec":{"lhs":"test_log_exp()","rhs":"log(exp(4 * I * pi)) == 0 and log(exp(-5 * I * pi)) == I * pi and log(exp(I * pi * Rational(19, 4))) == I * pi * Rational(3, 4) and log(exp(I * pi * Rational(25, 7))) == I * pi * Rational(-3, 7) and log(exp(-5 * I)) == -5 * I + 2 * I * pi","over":{"base":"Any"},"name":"test_log_exp_correct"},"guarantee":"log(exp(4 * I * pi)) == 0; log(exp(-5 * I * pi)) == I * pi; log(exp(I * pi * Rational(19, 4))) == I * pi * Rational(3, 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_exp_correct","statement":"Path(test_log_exp(x), log(exp(4 * I * pi)) == 0; log(exp(-5 * I * pi)) == I * pi; log(exp(I * pi * Rational(19, 4))) == I * pi * Rational(3, 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6322e202e281dabf","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(exp(4 * I * pi)) == 0","log(exp(-5 * I * pi)) == I * pi","log(exp(I * pi * Rational(19, 4))) == I * pi * Rational(3, 4)","log(exp(I * pi * Rational(25, 7))) == I * pi * Rational(-3, 7)","log(exp(-5 * I)) == -5 * I + 2 * I * pi"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_log_exp():
     assert log(exp(4*I*pi)) == 0     # exp evaluates
     assert log(exp(-5*I*pi)) == I*pi # exp evaluates
@@ -642,16 +800,24 @@ def test_log_exp():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_assumptions(), test_exp_assumptions produces the expected output) over Any ║
+# ║ Path(test_exp_assumptions(), Pow(E, I * pi, evaluate=False).is_imaginary == False and Pow(E, 2 * I * pi, evaluate=False).is_imaginary == False and Pow(E, I * pi / 2, evaluate=False).is_imaginary == True and Pow(E, I * pi / 3, evaluate=False).is_imaginary is None and exp(0, evaluate=False).is_algebraic and exp(a).is_algebraic is None and exp(an).is_algebraic is False and exp(pi * r).is_algebraic is None and exp(pi * rn).is_algebraic is False and exp(0, evaluate=False).is_algebraic is True and exp(I * pi / 3, evaluate=False).is_algebraic is True and exp(I * pi * r, evaluate=False).is_algebraic is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_assumptions : Any → {Any | Pow(E, I * pi, ev...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  Pow(E, I * pi, evaluate=False).is_imagina...   ║
+# ║   ensures:  Pow(E, 2 * I * pi, evaluate=False).is_ima...   ║
+# ║   ensures:  Pow(E, I * pi / 2, evaluate=False).is_ima...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_assumptions : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 401a7d5a8ad7e90a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8c4272ad88054889  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_assumptions","kind":"function","src_hash":"a790b29c8839ddd2","in":{"base":"Any"},"out":{"base":"Any","pred":"Pow(E, I * pi, evaluate=False).is_imaginary == False and Pow(E, 2 * I * pi, evaluate=False).is_imaginary == False and Pow(E, I * pi / 2, evaluate=False).is_imaginary == True and Pow(E, I * pi / 3, evaluate=False).is_imaginary is None and exp(0, evaluate=False).is_algebraic and exp(a).is_algebraic is None and exp(an).is_algebraic is False and exp(pi * r).is_algebraic is None and exp(pi * rn).is_algebraic is False and exp(0, evaluate=False).is_algebraic is True and exp(I * pi / 3, evaluate=False).is_algebraic is True and exp(I * pi * r, evaluate=False).is_algebraic is True and e(x).is_real is None and e(x).is_imaginary is None and e(i).is_real is None and e(i).is_imaginary is None and e(r).is_real is True and e(r).is_imaginary is False and e(re(x)).is_extended_real is True and e(re(x)).is_imaginary is False"},"spec":{"lhs":"test_exp_assumptions()","rhs":"test_exp_assumptions produces the expected output","over":{"base":"Any"},"name":"test_exp_assumptions_correct"},"guarantee":"test_exp_assumptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_assumptions_correct","statement":"Path(test_exp_assumptions(x), test_exp_assumptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"401a7d5a8ad7e90a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_assumptions","kind":"function","src_hash":"a790b29c8839ddd2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: Pow(E, I * pi, evaluate=False).is_imaginary == False and Pow(E, 2 * I * pi, evaluate=False).is_imaginary == False and Pow(E, I * pi / 2, evaluate=False).is_imaginary == True and Pow(E, I * pi / 3, evaluate=False).is_imaginary is None and exp(0, evaluate=False).is_algebraic and exp(a).is_algebraic is None and exp(an).is_algebraic is False and exp(pi * r).is_algebraic is None and exp(pi * rn).is_algebraic is False and exp(0, evaluate=False).is_algebraic is True and exp(I * pi / 3, evaluate=False).is_algebraic is True and exp(I * pi * r, evaluate=False).is_algebraic is True"},"spec":{"lhs":"test_exp_assumptions()","rhs":"Pow(E, I * pi, evaluate=False).is_imaginary == False and Pow(E, 2 * I * pi, evaluate=False).is_imaginary == False and Pow(E, I * pi / 2, evaluate=False).is_imaginary == True and Pow(E, I * pi / 3, evaluate=False).is_imaginary is None and exp(0, evaluate=False).is_algebraic and exp(a).is_algebraic is None and exp(an).is_algebraic is False and exp(pi * r).is_algebraic is None and exp(pi * rn).is_algebraic is False and exp(0, evaluate=False).is_algebraic is True and exp(I * pi / 3, evaluate=False).is_algebraic is True and exp(I * pi * r, evaluate=False).is_algebraic is True","over":{"base":"Any"},"name":"test_exp_assumptions_correct"},"guarantee":"Pow(E, I * pi, evaluate=False).is_imaginary == False; Pow(E, 2 * I * pi, evaluate=False).is_imaginary == False; Pow(E, I * pi / 2, evaluate=False).is_imaginary == True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_assumptions_correct","statement":"Path(test_exp_assumptions(x), Pow(E, I * pi, evaluate=False).is_imaginary == False; Pow(E, 2 * I * pi, evaluate=False).is_imaginary == False; Pow(E, I * pi / 2, evaluate=False).is_imaginary == True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8c4272ad88054889","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["Pow(E, I * pi, evaluate=False).is_imaginary == False","Pow(E, 2 * I * pi, evaluate=False).is_imaginary == False","Pow(E, I * pi / 2, evaluate=False).is_imaginary == True","Pow(E, I * pi / 3, evaluate=False).is_imaginary is None","exp(0, evaluate=False).is_algebraic","exp(a).is_algebraic is None","exp(an).is_algebraic is False","exp(pi * r).is_algebraic is None","exp(pi * rn).is_algebraic is False","exp(0, evaluate=False).is_algebraic is True","exp(I * pi / 3, evaluate=False).is_algebraic is True","exp(I * pi * r, evaluate=False).is_algebraic is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_exp_assumptions():
     r = Symbol('r', real=True)
     i = Symbol('i', imaginary=True)
@@ -688,31 +854,45 @@ def test_exp_assumptions():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_AccumBounds(), test_exp_AccumBounds produces the expected output) over Any ║
+# ║ Path(test_exp_AccumBounds(), exp(AccumBounds(1, 2)) == AccumBounds(E, E ** 2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_AccumBounds : Any → {Any | exp(AccumBounds(1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(AccumBounds(1, 2)) == AccumBounds(E, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_AccumBounds : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c4824874e7de01f4  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 18efd941272a09e6  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_AccumBounds","kind":"function","src_hash":"bc992d3a8a1d40f7","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(AccumBounds(1, 2)) == AccumBounds(E, E ** 2)"},"spec":{"lhs":"test_exp_AccumBounds()","rhs":"test_exp_AccumBounds produces the expected output","over":{"base":"Any"},"name":"test_exp_AccumBounds_correct"},"guarantee":"test_exp_AccumBounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_AccumBounds_correct","statement":"Path(test_exp_AccumBounds(x), test_exp_AccumBounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c4824874e7de01f4"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_AccumBounds","kind":"function","src_hash":"bc992d3a8a1d40f7","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(AccumBounds(1, 2)) == AccumBounds(E, E ** 2)"},"spec":{"lhs":"test_exp_AccumBounds()","rhs":"exp(AccumBounds(1, 2)) == AccumBounds(E, E ** 2)","over":{"base":"Any"},"name":"test_exp_AccumBounds_correct"},"guarantee":"exp(AccumBounds(1, 2)) == AccumBounds(E, E ** 2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_AccumBounds_correct","statement":"Path(test_exp_AccumBounds(x), exp(AccumBounds(1, 2)) == AccumBounds(E, E ** 2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"18efd941272a09e6","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(AccumBounds(1, 2)) == AccumBounds(E, E ** 2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_exp_AccumBounds():
     assert exp(AccumBounds(1, 2)) == AccumBounds(E, E**2)
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_assumptions(), test_log_assumptions produces the expected output) over Any ║
+# ║ Path(test_log_assumptions(), log(z).is_positive is False and log(x).is_extended_positive is True and log(2) > 0 and log(1, evaluate=False).is_zero and log(1 + z).is_zero and log(p).is_zero is None and log(n).is_zero is False and log(0.5).is_negative is True and log(exp(p) + 1).is_positive and log(1, evaluate=False).is_algebraic and log(42, evaluate=False).is_algebraic is False and log(1 + z).is_rational) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_assumptions : Any → {Any | log(z).is_positiv...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(z).is_positive is False                    ║
+# ║   ensures:  log(x).is_extended_positive is True            ║
+# ║   ensures:  log(2) > 0                                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_assumptions : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f40a7f0ecfb0c6fc  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b63a4b519c278983  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_assumptions","kind":"function","src_hash":"de6a20e36b739d55","in":{"base":"Any"},"out":{"base":"Any","pred":"log(z).is_positive is False and log(x).is_extended_positive is True and log(2) > 0 and log(1, evaluate=False).is_zero and log(1 + z).is_zero and log(p).is_zero is None and log(n).is_zero is False and log(0.5).is_negative is True and log(exp(p) + 1).is_positive and log(1, evaluate=False).is_algebraic and log(42, evaluate=False).is_algebraic is False and log(1 + z).is_rational"},"spec":{"lhs":"test_log_assumptions()","rhs":"test_log_assumptions produces the expected output","over":{"base":"Any"},"name":"test_log_assumptions_correct"},"guarantee":"test_log_assumptions produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_assumptions_correct","statement":"Path(test_log_assumptions(x), test_log_assumptions produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f40a7f0ecfb0c6fc"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_assumptions","kind":"function","src_hash":"de6a20e36b739d55","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(z).is_positive is False and log(x).is_extended_positive is True and log(2) > 0 and log(1, evaluate=False).is_zero and log(1 + z).is_zero and log(p).is_zero is None and log(n).is_zero is False and log(0.5).is_negative is True and log(exp(p) + 1).is_positive and log(1, evaluate=False).is_algebraic and log(42, evaluate=False).is_algebraic is False and log(1 + z).is_rational"},"spec":{"lhs":"test_log_assumptions()","rhs":"log(z).is_positive is False and log(x).is_extended_positive is True and log(2) > 0 and log(1, evaluate=False).is_zero and log(1 + z).is_zero and log(p).is_zero is None and log(n).is_zero is False and log(0.5).is_negative is True and log(exp(p) + 1).is_positive and log(1, evaluate=False).is_algebraic and log(42, evaluate=False).is_algebraic is False and log(1 + z).is_rational","over":{"base":"Any"},"name":"test_log_assumptions_correct"},"guarantee":"log(z).is_positive is False; log(x).is_extended_positive is True; log(2) > 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_assumptions_correct","statement":"Path(test_log_assumptions(x), log(z).is_positive is False; log(x).is_extended_positive is True; log(2) > 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b63a4b519c278983","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(z).is_positive is False","log(x).is_extended_positive is True","log(2) > 0","log(1, evaluate=False).is_zero","log(1 + z).is_zero","log(p).is_zero is None","log(n).is_zero is False","log(0.5).is_negative is True","log(exp(p) + 1).is_positive","log(1, evaluate=False).is_algebraic","log(42, evaluate=False).is_algebraic is False","log(1 + z).is_rational"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_log_assumptions():
     p = symbols('p', positive=True)
     n = symbols('n', negative=True)
@@ -736,16 +916,24 @@ def test_log_assumptions():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_hashing(), test_log_hashing produces the expected output) over Any ║
+# ║ Path(test_log_hashing(), x != log(log(x)) and hash(x) != hash(log(log(x))) and log(x) != log(log(log(x))) and e.base.func is log and e.func is log and x.func is not log and hash(log(log(x))) != hash(x) and e != x) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_hashing : Any → {Any | x != log(log(x)) and ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  x != log(log(x))                               ║
+# ║   ensures:  hash(x) != hash(log(log(x)))                   ║
+# ║   ensures:  log(x) != log(log(log(x)))                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_hashing : Any → {Any | result satisfies: x !...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 600ab3050336ee83  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 40370125a490ee49  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_hashing","kind":"function","src_hash":"a6e9620d6787d642","in":{"base":"Any"},"out":{"base":"Any","pred":"x != log(log(x)) and hash(x) != hash(log(log(x))) and log(x) != log(log(log(x))) and e.base.func is log and e.base.func is log and e.func is log and x.func is not log and hash(log(log(x))) != hash(x) and e != x"},"spec":{"lhs":"test_log_hashing()","rhs":"test_log_hashing produces the expected output","over":{"base":"Any"},"name":"test_log_hashing_correct"},"guarantee":"test_log_hashing produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_hashing_correct","statement":"Path(test_log_hashing(x), test_log_hashing produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"600ab3050336ee83"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_hashing","kind":"function","src_hash":"a6e9620d6787d642","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: x != log(log(x)) and hash(x) != hash(log(log(x))) and log(x) != log(log(log(x))) and e.base.func is log and e.func is log and x.func is not log and hash(log(log(x))) != hash(x) and e != x"},"spec":{"lhs":"test_log_hashing()","rhs":"x != log(log(x)) and hash(x) != hash(log(log(x))) and log(x) != log(log(log(x))) and e.base.func is log and e.func is log and x.func is not log and hash(log(log(x))) != hash(x) and e != x","over":{"base":"Any"},"name":"test_log_hashing_correct"},"guarantee":"x != log(log(x)); hash(x) != hash(log(log(x))); log(x) != log(log(log(x)))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_hashing_correct","statement":"Path(test_log_hashing(x), x != log(log(x)); hash(x) != hash(log(log(x))); log(x) != log(log(log(x))))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"40370125a490ee49","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["x != log(log(x))","hash(x) != hash(log(log(x)))","log(x) != log(log(log(x)))","e.base.func is log","e.func is log","x.func is not log","hash(log(log(x))) != hash(x)","e != x"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_log_hashing():
     assert x != log(log(x))
     assert hash(x) != hash(log(log(x)))
@@ -764,63 +952,90 @@ def test_log_hashing():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_sign(), test_log_sign produces the expected output) over Any ║
+# ║ Path(test_log_sign(), sign(log(2)) == 1) over Any          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_sign : Any → {Any | sign(log(2)) == 1}            ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  sign(log(2)) == 1                              ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_sign : Any → {Any | result satisfies: sign(l...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | dfa87dd92b19514b  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b0d2a5ecdb66080a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_sign","kind":"function","src_hash":"624bdc93df1cc235","in":{"base":"Any"},"out":{"base":"Any","pred":"sign(log(2)) == 1"},"spec":{"lhs":"test_log_sign()","rhs":"test_log_sign produces the expected output","over":{"base":"Any"},"name":"test_log_sign_correct"},"guarantee":"test_log_sign produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_sign_correct","statement":"Path(test_log_sign(x), test_log_sign produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"dfa87dd92b19514b"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_sign","kind":"function","src_hash":"624bdc93df1cc235","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: sign(log(2)) == 1"},"spec":{"lhs":"test_log_sign()","rhs":"sign(log(2)) == 1","over":{"base":"Any"},"name":"test_log_sign_correct"},"guarantee":"sign(log(2)) == 1","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_sign_correct","statement":"Path(test_log_sign(x), sign(log(2)) == 1)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b0d2a5ecdb66080a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["sign(log(2)) == 1"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_log_sign():
     assert sign(log(2)) == 1
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_expand_complex(), test_log_expand_complex produces the expected output) over Any ║
+# ║ Path(test_log_expand_complex(), log(1 + I).expand(complex=True) == log(2) / 2 + I * pi / 4 and log(1 - sqrt(2)).expand(complex=True) == log(sqrt(2) - 1) + I * pi) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_expand_complex : Any → {Any | log(1 + I).exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(1 + I).expand(complex=True) == log(2)...   ║
+# ║   ensures:  log(1 - sqrt(2)).expand(complex=True) == ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_expand_complex : Any → {Any | result satisfi...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 3bdf10f960d754a2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a3b996b21c8cb639  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_expand_complex","kind":"function","src_hash":"572d963da34ee84f","in":{"base":"Any"},"out":{"base":"Any","pred":"log(1 + I).expand(complex=True) == log(2) / 2 + I * pi / 4 and log(1 - sqrt(2)).expand(complex=True) == log(sqrt(2) - 1) + I * pi"},"spec":{"lhs":"test_log_expand_complex()","rhs":"test_log_expand_complex produces the expected output","over":{"base":"Any"},"name":"test_log_expand_complex_correct"},"guarantee":"test_log_expand_complex produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_expand_complex_correct","statement":"Path(test_log_expand_complex(x), test_log_expand_complex produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"3bdf10f960d754a2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_expand_complex","kind":"function","src_hash":"572d963da34ee84f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(1 + I).expand(complex=True) == log(2) / 2 + I * pi / 4 and log(1 - sqrt(2)).expand(complex=True) == log(sqrt(2) - 1) + I * pi"},"spec":{"lhs":"test_log_expand_complex()","rhs":"log(1 + I).expand(complex=True) == log(2) / 2 + I * pi / 4 and log(1 - sqrt(2)).expand(complex=True) == log(sqrt(2) - 1) + I * pi","over":{"base":"Any"},"name":"test_log_expand_complex_correct"},"guarantee":"log(1 + I).expand(complex=True) == log(2) / 2 + I * pi / 4; log(1 - sqrt(2)).expand(complex=True) == log(sqrt(2) - 1) + I * pi","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_expand_complex_correct","statement":"Path(test_log_expand_complex(x), log(1 + I).expand(complex=True) == log(2) / 2 + I * pi / 4; log(1 - sqrt(2)).expand(complex=True) == log(sqrt(2) - 1) + I * pi)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a3b996b21c8cb639","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(1 + I).expand(complex=True) == log(2) / 2 + I * pi / 4","log(1 - sqrt(2)).expand(complex=True) == log(sqrt(2) - 1) + I * pi"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log_expand_complex():
     assert log(1 + I).expand(complex=True) == log(2)/2 + I*pi/4
     assert log(1 - sqrt(2)).expand(complex=True) == log(sqrt(2) - 1) + I*pi
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_apply_evalf(), test_log_apply_evalf produces the expected output) over Any ║
+# ║ Path(test_log_apply_evalf(), value.epsilon_eq(Float('0.58496250072115618145373'))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_apply_evalf : Any → {Any | value.epsilon_eq(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  value.epsilon_eq(Float('0.584962500721156...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_apply_evalf : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b3b6c41772bb1865  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 6d5649a0b147c777  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_apply_evalf","kind":"function","src_hash":"1d6eef8321a05d77","in":{"base":"Any"},"out":{"base":"Any","pred":"value.epsilon_eq(Float('0.58496250072115618145373'))"},"spec":{"lhs":"test_log_apply_evalf()","rhs":"test_log_apply_evalf produces the expected output","over":{"base":"Any"},"name":"test_log_apply_evalf_correct"},"guarantee":"test_log_apply_evalf produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_apply_evalf_correct","statement":"Path(test_log_apply_evalf(x), test_log_apply_evalf produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b3b6c41772bb1865"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_apply_evalf","kind":"function","src_hash":"1d6eef8321a05d77","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: value.epsilon_eq(Float('0.58496250072115618145373'))"},"spec":{"lhs":"test_log_apply_evalf()","rhs":"value.epsilon_eq(Float('0.58496250072115618145373'))","over":{"base":"Any"},"name":"test_log_apply_evalf_correct"},"guarantee":"value.epsilon_eq(Float('0.58496250072115618145373'))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_apply_evalf_correct","statement":"Path(test_log_apply_evalf(x), value.epsilon_eq(Float('0.58496250072115618145373')))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"6d5649a0b147c777","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["value.epsilon_eq(Float('0.58496250072115618145373'))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log_apply_evalf():
     value = (log(3)/log(2) - 1).evalf()
     assert value.epsilon_eq(Float("0.58496250072115618145373"))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_leading_term(), test_log_leading_term produces the expected output) over Any ║
+# ║ Path(test_log_leading_term(), log(1 + x + x ** 2).as_leading_term(x, cdir=1) == x and log(2 * x).as_leading_term(x, cdir=1) == log(x) + log(2) and log(2 * x).as_leading_term(x, cdir=-1) == log(x) + log(2) and log(-2 * x).as_leading_term(x, cdir=1, logx=p) == p + log(2) + I * pi and log(-2 * x).as_leading_term(x, cdir=-1, logx=p) == p + log(2) - I * pi and log(-2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=1) == log(x) + log(2) - I * pi and log(-2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=-1) == log(x) + log(2) - I * pi and log(2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=1) == log(x) + log(2) and log(2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=-1) == log(x) + log(2) - 2 * I * pi and log(-1 + x - I * x ** 2 + I * x ** 3).as_leading_term(x, cdir=1) == -I * pi and log(-1 + x - I * x ** 2 + I * x ** 3).as_leading_term(x, cdir=-1) == -I * pi and log(-1 / (1 - x)).as_leading_term(x, cdir=1) == I * pi and log(-1 / (1 - x)).as_leading_term(x, cdir=-1) == I * pi) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_leading_term : Any → {Any | log(1 + x + x **...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(1 + x + x ** 2).as_leading_term(x, cd...   ║
+# ║   ensures:  log(2 * x).as_leading_term(x, cdir=1) == ...   ║
+# ║   ensures:  log(2 * x).as_leading_term(x, cdir=-1) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_leading_term : Any → {Any | result satisfies...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a97225f7f7184bf2  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 5d9e34b27b20c2bb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_leading_term","kind":"function","src_hash":"3352f416fb18eb8d","in":{"base":"Any"},"out":{"base":"Any","pred":"log(1 + x + x ** 2).as_leading_term(x, cdir=1) == x and log(2 * x).as_leading_term(x, cdir=1) == log(x) + log(2) and log(2 * x).as_leading_term(x, cdir=-1) == log(x) + log(2) and log(-2 * x).as_leading_term(x, cdir=1, logx=p) == p + log(2) + I * pi and log(-2 * x).as_leading_term(x, cdir=-1, logx=p) == p + log(2) - I * pi and log(2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=1) == log(x) + log(2) and log(-1 + x - I * x ** 2 + I * x ** 3).as_leading_term(x, cdir=1) == -I * pi and log(-1 + x - I * x ** 2 + I * x ** 3).as_leading_term(x, cdir=-1) == -I * pi and log(-1 / (1 - x)).as_leading_term(x, cdir=1) == I * pi and log(-1 / (1 - x)).as_leading_term(x, cdir=-1) == I * pi"},"spec":{"lhs":"test_log_leading_term()","rhs":"test_log_leading_term produces the expected output","over":{"base":"Any"},"name":"test_log_leading_term_correct"},"guarantee":"test_log_leading_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_leading_term_correct","statement":"Path(test_log_leading_term(x), test_log_leading_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a97225f7f7184bf2"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_leading_term","kind":"function","src_hash":"3352f416fb18eb8d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(1 + x + x ** 2).as_leading_term(x, cdir=1) == x and log(2 * x).as_leading_term(x, cdir=1) == log(x) + log(2) and log(2 * x).as_leading_term(x, cdir=-1) == log(x) + log(2) and log(-2 * x).as_leading_term(x, cdir=1, logx=p) == p + log(2) + I * pi and log(-2 * x).as_leading_term(x, cdir=-1, logx=p) == p + log(2) - I * pi and log(-2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=1) == log(x) + log(2) - I * pi and log(-2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=-1) == log(x) + log(2) - I * pi and log(2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=1) == log(x) + log(2) and log(2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=-1) == log(x) + log(2) - 2 * I * pi and log(-1 + x - I * x ** 2 + I * x ** 3).as_leading_term(x, cdir=1) == -I * pi and log(-1 + x - I * x ** 2 + I * x ** 3).as_leading_term(x, cdir=-1) == -I * pi and log(-1 / (1 - x)).as_leading_term(x, cdir=1) == I * pi and log(-1 / (1 - x)).as_leading_term(x, cdir=-1) == I * pi"},"spec":{"lhs":"test_log_leading_term()","rhs":"log(1 + x + x ** 2).as_leading_term(x, cdir=1) == x and log(2 * x).as_leading_term(x, cdir=1) == log(x) + log(2) and log(2 * x).as_leading_term(x, cdir=-1) == log(x) + log(2) and log(-2 * x).as_leading_term(x, cdir=1, logx=p) == p + log(2) + I * pi and log(-2 * x).as_leading_term(x, cdir=-1, logx=p) == p + log(2) - I * pi and log(-2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=1) == log(x) + log(2) - I * pi and log(-2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=-1) == log(x) + log(2) - I * pi and log(2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=1) == log(x) + log(2) and log(2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=-1) == log(x) + log(2) - 2 * I * pi and log(-1 + x - I * x ** 2 + I * x ** 3).as_leading_term(x, cdir=1) == -I * pi and log(-1 + x - I * x ** 2 + I * x ** 3).as_leading_term(x, cdir=-1) == -I * pi and log(-1 / (1 - x)).as_leading_term(x, cdir=1) == I * pi and log(-1 / (1 - x)).as_leading_term(x, cdir=-1) == I * pi","over":{"base":"Any"},"name":"test_log_leading_term_correct"},"guarantee":"log(1 + x + x ** 2).as_leading_term(x, cdir=1) == x; log(2 * x).as_leading_term(x, cdir=1) == log(x) + log(2); log(2 * x).as_leading_term(x, cdir=-1) == log(x) + log(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_leading_term_correct","statement":"Path(test_log_leading_term(x), log(1 + x + x ** 2).as_leading_term(x, cdir=1) == x; log(2 * x).as_leading_term(x, cdir=1) == log(x) + log(2); log(2 * x).as_leading_term(x, cdir=-1) == log(x) + log(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"5d9e34b27b20c2bb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(1 + x + x ** 2).as_leading_term(x, cdir=1) == x","log(2 * x).as_leading_term(x, cdir=1) == log(x) + log(2)","log(2 * x).as_leading_term(x, cdir=-1) == log(x) + log(2)","log(-2 * x).as_leading_term(x, cdir=1, logx=p) == p + log(2) + I * pi","log(-2 * x).as_leading_term(x, cdir=-1, logx=p) == p + log(2) - I * pi","log(-2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=1) == log(x) + log(2) - I * pi","log(-2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=-1) == log(x) + log(2) - I * pi","log(2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=1) == log(x) + log(2)","log(2 * x + (3 - I) * x ** 2).as_leading_term(x, cdir=-1) == log(x) + log(2) - 2 * I * pi","log(-1 + x - I * x ** 2 + I * x ** 3).as_leading_term(x, cdir=1) == -I * pi","log(-1 + x - I * x ** 2 + I * x ** 3).as_leading_term(x, cdir=-1) == -I * pi","log(-1 / (1 - x)).as_leading_term(x, cdir=1) == I * pi","log(-1 / (1 - x)).as_leading_term(x, cdir=-1) == I * pi"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_log_leading_term():
     p = Symbol('p')
 
@@ -843,16 +1058,24 @@ def test_log_leading_term():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_nseries(), test_log_nseries produces the expected output) over Any ║
+# ║ Path(test_log_nseries(), log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=1) == p and log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=-1) == p + 2 * I * pi and log(x - 1)._eval_nseries(x, 4, None, I) == I * pi - x - x ** 2 / 2 - x ** 3 / 3 + O(x ** 4) and log(x - 1)._eval_nseries(x, 4, None, -I) == -I * pi - x - x ** 2 / 2 - x ** 3 / 3 + O(x ** 4) and log(I * x + I * x ** 3 - 1)._eval_nseries(x, 3, None, 1) == I * pi - I * x + x ** 2 / 2 + O(x ** 3) and log(I * x + I * x ** 3 - 1)._eval_nseries(x, 3, None, -1) == -I * pi - I * x + x ** 2 / 2 + O(x ** 3) and log(I * x ** 2 + I * x ** 3 - 1)._eval_nseries(x, 3, None, 1) == I * pi - I * x ** 2 + O(x ** 3) and log(I * x ** 2 + I * x ** 3 - 1)._eval_nseries(x, 3, None, -1) == I * pi - I * x ** 2 + O(x ** 3) and log(2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, 1) == log(2) + log(x) + x * (S(3) / 2 - I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3) and log(2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, -1) == -2 * I * pi + log(2) + log(x) - x * (-S(3) / 2 + I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3) and log(-2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, 1) == -I * pi + log(2) + log(x) + x * (-S(3) / 2 + I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3) and log(-2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, -1) == -I * pi + log(2) + log(x) - x * (S(3) / 2 - I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3) and log(sqrt(-I * x ** 2 - 3) * sqrt(-I * x ** 2 - 1) - 2)._eval_nseries(x, 3, None, 1) == -I * pi + log(sqrt(3) + 2) + 2 * sqrt(3) * I * x ** 2 / (3 * sqrt(3) + 6) + O(x ** 3) and log(-1 / (1 - x))._eval_nseries(x, 3, None, 1) == I * pi + x + x ** 2 / 2 + O(x ** 3) and log(-1 / (1 - x))._eval_nseries(x, 3, None, -1) == I * pi + x + x ** 2 / 2 + O(x ** 3)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_nseries : Any → {Any | log(1 / x)._eval_nser...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(1 / x)._eval_nseries(x, 4, logx=-p, c...   ║
+# ║   ensures:  log(1 / x)._eval_nseries(x, 4, logx=-p, c...   ║
+# ║   ensures:  log(x - 1)._eval_nseries(x, 4, None, I) =...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_nseries : Any → {Any | result satisfies: log...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | c8a10e31ba304736  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 1.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 0cad3f2ff992a793  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_nseries","kind":"function","src_hash":"7c53f83e5b1e0c55","in":{"base":"Any"},"out":{"base":"Any","pred":"log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=1) == p and log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=-1) == p + 2 * I * pi"},"spec":{"lhs":"test_log_nseries()","rhs":"test_log_nseries produces the expected output","over":{"base":"Any"},"name":"test_log_nseries_correct"},"guarantee":"test_log_nseries produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_nseries_correct","statement":"Path(test_log_nseries(x), test_log_nseries produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"c8a10e31ba304736"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_nseries","kind":"function","src_hash":"7c53f83e5b1e0c55","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=1) == p and log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=-1) == p + 2 * I * pi and log(x - 1)._eval_nseries(x, 4, None, I) == I * pi - x - x ** 2 / 2 - x ** 3 / 3 + O(x ** 4) and log(x - 1)._eval_nseries(x, 4, None, -I) == -I * pi - x - x ** 2 / 2 - x ** 3 / 3 + O(x ** 4) and log(I * x + I * x ** 3 - 1)._eval_nseries(x, 3, None, 1) == I * pi - I * x + x ** 2 / 2 + O(x ** 3) and log(I * x + I * x ** 3 - 1)._eval_nseries(x, 3, None, -1) == -I * pi - I * x + x ** 2 / 2 + O(x ** 3) and log(I * x ** 2 + I * x ** 3 - 1)._eval_nseries(x, 3, None, 1) == I * pi - I * x ** 2 + O(x ** 3) and log(I * x ** 2 + I * x ** 3 - 1)._eval_nseries(x, 3, None, -1) == I * pi - I * x ** 2 + O(x ** 3) and log(2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, 1) == log(2) + log(x) + x * (S(3) / 2 - I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3) and log(2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, -1) == -2 * I * pi + log(2) + log(x) - x * (-S(3) / 2 + I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3) and log(-2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, 1) == -I * pi + log(2) + log(x) + x * (-S(3) / 2 + I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3) and log(-2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, -1) == -I * pi + log(2) + log(x) - x * (S(3) / 2 - I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3) and log(sqrt(-I * x ** 2 - 3) * sqrt(-I * x ** 2 - 1) - 2)._eval_nseries(x, 3, None, 1) == -I * pi + log(sqrt(3) + 2) + 2 * sqrt(3) * I * x ** 2 / (3 * sqrt(3) + 6) + O(x ** 3) and log(-1 / (1 - x))._eval_nseries(x, 3, None, 1) == I * pi + x + x ** 2 / 2 + O(x ** 3) and log(-1 / (1 - x))._eval_nseries(x, 3, None, -1) == I * pi + x + x ** 2 / 2 + O(x ** 3)"},"spec":{"lhs":"test_log_nseries()","rhs":"log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=1) == p and log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=-1) == p + 2 * I * pi and log(x - 1)._eval_nseries(x, 4, None, I) == I * pi - x - x ** 2 / 2 - x ** 3 / 3 + O(x ** 4) and log(x - 1)._eval_nseries(x, 4, None, -I) == -I * pi - x - x ** 2 / 2 - x ** 3 / 3 + O(x ** 4) and log(I * x + I * x ** 3 - 1)._eval_nseries(x, 3, None, 1) == I * pi - I * x + x ** 2 / 2 + O(x ** 3) and log(I * x + I * x ** 3 - 1)._eval_nseries(x, 3, None, -1) == -I * pi - I * x + x ** 2 / 2 + O(x ** 3) and log(I * x ** 2 + I * x ** 3 - 1)._eval_nseries(x, 3, None, 1) == I * pi - I * x ** 2 + O(x ** 3) and log(I * x ** 2 + I * x ** 3 - 1)._eval_nseries(x, 3, None, -1) == I * pi - I * x ** 2 + O(x ** 3) and log(2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, 1) == log(2) + log(x) + x * (S(3) / 2 - I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3) and log(2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, -1) == -2 * I * pi + log(2) + log(x) - x * (-S(3) / 2 + I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3) and log(-2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, 1) == -I * pi + log(2) + log(x) + x * (-S(3) / 2 + I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3) and log(-2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, -1) == -I * pi + log(2) + log(x) - x * (S(3) / 2 - I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3) and log(sqrt(-I * x ** 2 - 3) * sqrt(-I * x ** 2 - 1) - 2)._eval_nseries(x, 3, None, 1) == -I * pi + log(sqrt(3) + 2) + 2 * sqrt(3) * I * x ** 2 / (3 * sqrt(3) + 6) + O(x ** 3) and log(-1 / (1 - x))._eval_nseries(x, 3, None, 1) == I * pi + x + x ** 2 / 2 + O(x ** 3) and log(-1 / (1 - x))._eval_nseries(x, 3, None, -1) == I * pi + x + x ** 2 / 2 + O(x ** 3)","over":{"base":"Any"},"name":"test_log_nseries_correct"},"guarantee":"log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=1) == p; log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=-1) == p + 2 * I * pi; log(x - 1)._eval_nseries(x, 4, None, I) == I * pi - x - x ** 2 / 2 - x ** 3 / 3 + O(x ** 4)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_nseries_correct","statement":"Path(test_log_nseries(x), log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=1) == p; log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=-1) == p + 2 * I * pi; log(x - 1)._eval_nseries(x, 4, None, I) == I * pi - x - x ** 2 / 2 - x ** 3 / 3 + O(x ** 4))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"0cad3f2ff992a793","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=1) == p","log(1 / x)._eval_nseries(x, 4, logx=-p, cdir=-1) == p + 2 * I * pi","log(x - 1)._eval_nseries(x, 4, None, I) == I * pi - x - x ** 2 / 2 - x ** 3 / 3 + O(x ** 4)","log(x - 1)._eval_nseries(x, 4, None, -I) == -I * pi - x - x ** 2 / 2 - x ** 3 / 3 + O(x ** 4)","log(I * x + I * x ** 3 - 1)._eval_nseries(x, 3, None, 1) == I * pi - I * x + x ** 2 / 2 + O(x ** 3)","log(I * x + I * x ** 3 - 1)._eval_nseries(x, 3, None, -1) == -I * pi - I * x + x ** 2 / 2 + O(x ** 3)","log(I * x ** 2 + I * x ** 3 - 1)._eval_nseries(x, 3, None, 1) == I * pi - I * x ** 2 + O(x ** 3)","log(I * x ** 2 + I * x ** 3 - 1)._eval_nseries(x, 3, None, -1) == I * pi - I * x ** 2 + O(x ** 3)","log(2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, 1) == log(2) + log(x) + x * (S(3) / 2 - I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3)","log(2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, -1) == -2 * I * pi + log(2) + log(x) - x * (-S(3) / 2 + I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3)","log(-2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, 1) == -I * pi + log(2) + log(x) + x * (-S(3) / 2 + I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3)","log(-2 * x + (3 - I) * x ** 2)._eval_nseries(x, 3, None, -1) == -I * pi + log(2) + log(x) - x * (S(3) / 2 - I / 2) + x ** 2 * (-1 + 3 * I / 4) + O(x ** 3)","log(sqrt(-I * x ** 2 - 3) * sqrt(-I * x ** 2 - 1) - 2)._eval_nseries(x, 3, None, 1) == -I * pi + log(sqrt(3) + 2) + 2 * sqrt(3) * I * x ** 2 / (3 * sqrt(3) + 6) + O(x ** 3)","log(-1 / (1 - x))._eval_nseries(x, 3, None, 1) == I * pi + x + x ** 2 / 2 + O(x ** 3)","log(-1 / (1 - x))._eval_nseries(x, 3, None, -1) == I * pi + x + x ** 2 / 2 + O(x ** 3)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":1.0,"verdict_class":"assumed","binding":true}}
 def test_log_nseries():
     p = Symbol('p')
     assert log(1/x)._eval_nseries(x, 4, logx=-p, cdir=1) == p
@@ -878,16 +1101,24 @@ def test_log_nseries():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_series(), test_log_series produces the expected output) over Any ║
+# ║ Path(test_log_series(), expr1.series(x, x0=I * oo, n=4) == 1 / (3 * x ** 3) - 1 / (2 * x ** 2) + 1 / x + I * pi / 2 - log(I / x) + O(x ** (-4), (x, oo * I)) and expr1.series(x, x0=-I * oo, n=4) == 1 / (3 * x ** 3) - 1 / (2 * x ** 2) + 1 / x - I * pi / 2 - log(-I / x) + O(x ** (-4), (x, -oo * I)) and expr2.series(x, x0=I * oo, n=4) == 1 / (4 * x ** 2) + I * pi / 2 + log(2) - log(I / x) + O(x ** (-4), (x, oo * I)) and expr2.series(x, x0=-I * oo, n=4) == -1 / (4 * x ** 2) - I * pi / 2 - log(2) + log(-I / x) + O(x ** (-4), (x, -oo * I))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_series : Any → Any                                ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr1.series(x, x0=I * oo, n=4) == 1 / (3...   ║
+# ║   ensures:  expr1.series(x, x0=-I * oo, n=4) == 1 / (...   ║
+# ║   ensures:  expr2.series(x, x0=I * oo, n=4) == 1 / (4...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_series : Any → {Any | result satisfies: expr...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | a82b8864bba42191  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 45e1a26ae773c15a  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_series","kind":"function","src_hash":"c8b74b7463e336e6","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_log_series()","rhs":"test_log_series produces the expected output","over":{"base":"Any"},"name":"test_log_series_correct"},"guarantee":"test_log_series produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_series_correct","statement":"Path(test_log_series(x), test_log_series produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"a82b8864bba42191"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_series","kind":"function","src_hash":"c8b74b7463e336e6","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr1.series(x, x0=I * oo, n=4) == 1 / (3 * x ** 3) - 1 / (2 * x ** 2) + 1 / x + I * pi / 2 - log(I / x) + O(x ** (-4), (x, oo * I)) and expr1.series(x, x0=-I * oo, n=4) == 1 / (3 * x ** 3) - 1 / (2 * x ** 2) + 1 / x - I * pi / 2 - log(-I / x) + O(x ** (-4), (x, -oo * I)) and expr2.series(x, x0=I * oo, n=4) == 1 / (4 * x ** 2) + I * pi / 2 + log(2) - log(I / x) + O(x ** (-4), (x, oo * I)) and expr2.series(x, x0=-I * oo, n=4) == -1 / (4 * x ** 2) - I * pi / 2 - log(2) + log(-I / x) + O(x ** (-4), (x, -oo * I))"},"spec":{"lhs":"test_log_series()","rhs":"expr1.series(x, x0=I * oo, n=4) == 1 / (3 * x ** 3) - 1 / (2 * x ** 2) + 1 / x + I * pi / 2 - log(I / x) + O(x ** (-4), (x, oo * I)) and expr1.series(x, x0=-I * oo, n=4) == 1 / (3 * x ** 3) - 1 / (2 * x ** 2) + 1 / x - I * pi / 2 - log(-I / x) + O(x ** (-4), (x, -oo * I)) and expr2.series(x, x0=I * oo, n=4) == 1 / (4 * x ** 2) + I * pi / 2 + log(2) - log(I / x) + O(x ** (-4), (x, oo * I)) and expr2.series(x, x0=-I * oo, n=4) == -1 / (4 * x ** 2) - I * pi / 2 - log(2) + log(-I / x) + O(x ** (-4), (x, -oo * I))","over":{"base":"Any"},"name":"test_log_series_correct"},"guarantee":"expr1.series(x, x0=I * oo, n=4) == 1 / (3 * x ** 3) - 1 / (2 * x ** 2) + 1 / x + I * pi / 2 - log(I / x) + O(x ** (-4), (x, oo * I)); expr1.series(x, x0=-I * oo, n=4) == 1 / (3 * x ** 3) - 1 / (2 * x ** 2) + 1 / x - I * pi / 2 - log(-I / x) + O(x ** (-4), (x, -oo * I)); expr2.series(x, x0=I * oo, n=4) == 1 / (4 * x ** 2) + I * pi / 2 + log(2) - log(I / x) + O(x ** (-4), (x, oo * I))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_series_correct","statement":"Path(test_log_series(x), expr1.series(x, x0=I * oo, n=4) == 1 / (3 * x ** 3) - 1 / (2 * x ** 2) + 1 / x + I * pi / 2 - log(I / x) + O(x ** (-4), (x, oo * I)); expr1.series(x, x0=-I * oo, n=4) == 1 / (3 * x ** 3) - 1 / (2 * x ** 2) + 1 / x - I * pi / 2 - log(-I / x) + O(x ** (-4), (x, -oo * I)); expr2.series(x, x0=I * oo, n=4) == 1 / (4 * x ** 2) + I * pi / 2 + log(2) - log(I / x) + O(x ** (-4), (x, oo * I)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"45e1a26ae773c15a","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr1.series(x, x0=I * oo, n=4) == 1 / (3 * x ** 3) - 1 / (2 * x ** 2) + 1 / x + I * pi / 2 - log(I / x) + O(x ** (-4), (x, oo * I))","expr1.series(x, x0=-I * oo, n=4) == 1 / (3 * x ** 3) - 1 / (2 * x ** 2) + 1 / x - I * pi / 2 - log(-I / x) + O(x ** (-4), (x, -oo * I))","expr2.series(x, x0=I * oo, n=4) == 1 / (4 * x ** 2) + I * pi / 2 + log(2) - log(I / x) + O(x ** (-4), (x, oo * I))","expr2.series(x, x0=-I * oo, n=4) == -1 / (4 * x ** 2) - I * pi / 2 - log(2) + log(-I / x) + O(x ** (-4), (x, -oo * I))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_log_series():
     # Note Series at infinities other than oo/-oo were introduced as a part of
     # pull request 23798. Refer https://github.com/sympy/sympy/pull/23798 for
@@ -906,16 +1137,24 @@ def test_log_series():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_expand(), test_log_expand produces the expected output) over Any ║
+# ║ Path(test_log_expand(), e.expand() == log(5) / log(3) * log(w) and log(x * (y + z)).expand(mul=False) == log(x) + log(y + z) and log(log(x ** 2) * log(y * z)).expand() in [log(2 * log(x) * log(y) + 2 * log(x) * log(z)), log(log(x) * log(z) + log(y) * log(x)) + log(2), log((log(y) + log(z)) * log(x)) + log(2)] and log(x ** log(x ** 2)).expand(deep=False) == log(x) * log(x ** 2) and log(x ** log(x ** 2)).expand() == 2 * log(x) ** 2 and log(x * y).expand(force=True) == log(x) + log(y) and log(x ** y).expand(force=True) == y * log(x) and log(exp(x)).expand(force=True) == x and log(2 * 3 ** 2).expand() != 2 * log(3) + log(2)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_expand : Any → {Any | e.expand() == log(5) /...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.expand() == log(5) / log(3) * log(w)         ║
+# ║   ensures:  log(x * (y + z)).expand(mul=False) == log...   ║
+# ║   ensures:  log(log(x ** 2) * log(y * z)).expand() in...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_expand : Any → {Any | result satisfies: e.ex...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | d7ad314b58dcb1ba  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b9b2daa112c32885  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_expand","kind":"function","src_hash":"6bbed95a33108c51","in":{"base":"Any"},"out":{"base":"Any","pred":"e.expand() == log(5) / log(3) * log(w) and log(x * (y + z)).expand(mul=False) == log(x) + log(y + z) and log(x ** log(x ** 2)).expand(deep=False) == log(x) * log(x ** 2) and log(x ** log(x ** 2)).expand() == 2 * log(x) ** 2 and log(x * y).expand(force=True) == log(x) + log(y) and log(x ** y).expand(force=True) == y * log(x) and log(exp(x)).expand(force=True) == x and log(2 * 3 ** 2).expand() != 2 * log(3) + log(2)"},"spec":{"lhs":"test_log_expand()","rhs":"test_log_expand produces the expected output","over":{"base":"Any"},"name":"test_log_expand_correct"},"guarantee":"test_log_expand produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_expand_correct","statement":"Path(test_log_expand(x), test_log_expand produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"d7ad314b58dcb1ba"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_expand","kind":"function","src_hash":"6bbed95a33108c51","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.expand() == log(5) / log(3) * log(w) and log(x * (y + z)).expand(mul=False) == log(x) + log(y + z) and log(log(x ** 2) * log(y * z)).expand() in [log(2 * log(x) * log(y) + 2 * log(x) * log(z)), log(log(x) * log(z) + log(y) * log(x)) + log(2), log((log(y) + log(z)) * log(x)) + log(2)] and log(x ** log(x ** 2)).expand(deep=False) == log(x) * log(x ** 2) and log(x ** log(x ** 2)).expand() == 2 * log(x) ** 2 and log(x * y).expand(force=True) == log(x) + log(y) and log(x ** y).expand(force=True) == y * log(x) and log(exp(x)).expand(force=True) == x and log(2 * 3 ** 2).expand() != 2 * log(3) + log(2)"},"spec":{"lhs":"test_log_expand()","rhs":"e.expand() == log(5) / log(3) * log(w) and log(x * (y + z)).expand(mul=False) == log(x) + log(y + z) and log(log(x ** 2) * log(y * z)).expand() in [log(2 * log(x) * log(y) + 2 * log(x) * log(z)), log(log(x) * log(z) + log(y) * log(x)) + log(2), log((log(y) + log(z)) * log(x)) + log(2)] and log(x ** log(x ** 2)).expand(deep=False) == log(x) * log(x ** 2) and log(x ** log(x ** 2)).expand() == 2 * log(x) ** 2 and log(x * y).expand(force=True) == log(x) + log(y) and log(x ** y).expand(force=True) == y * log(x) and log(exp(x)).expand(force=True) == x and log(2 * 3 ** 2).expand() != 2 * log(3) + log(2)","over":{"base":"Any"},"name":"test_log_expand_correct"},"guarantee":"e.expand() == log(5) / log(3) * log(w); log(x * (y + z)).expand(mul=False) == log(x) + log(y + z); log(log(x ** 2) * log(y * z)).expand() in [log(2 * log(x) * log(y) + 2 * log(x) * log(z)), log(log(x) * log(z) + log(y) * log(x)) + log(2), log((log(y) + log(z)) * log(x)) + log(2)]","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_expand_correct","statement":"Path(test_log_expand(x), e.expand() == log(5) / log(3) * log(w); log(x * (y + z)).expand(mul=False) == log(x) + log(y + z); log(log(x ** 2) * log(y * z)).expand() in [log(2 * log(x) * log(y) + 2 * log(x) * log(z)), log(log(x) * log(z) + log(y) * log(x)) + log(2), log((log(y) + log(z)) * log(x)) + log(2)])"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b9b2daa112c32885","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.expand() == log(5) / log(3) * log(w)","log(x * (y + z)).expand(mul=False) == log(x) + log(y + z)","log(log(x ** 2) * log(y * z)).expand() in [log(2 * log(x) * log(y) + 2 * log(x) * log(z)), log(log(x) * log(z) + log(y) * log(x)) + log(2), log((log(y) + log(z)) * log(x)) + log(2)]","log(x ** log(x ** 2)).expand(deep=False) == log(x) * log(x ** 2)","log(x ** log(x ** 2)).expand() == 2 * log(x) ** 2","log(x * y).expand(force=True) == log(x) + log(y)","log(x ** y).expand(force=True) == y * log(x)","log(exp(x)).expand(force=True) == x","log(2 * 3 ** 2).expand() != 2 * log(3) + log(2)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_log_expand():
     w = Symbol("w", positive=True)
     e = log(w**(log(5)/log(3)))
@@ -940,16 +1179,22 @@ def test_log_expand():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_expand_fail(), test_log_expand_fail produces the expected output) over Any ║
+# ║ Path(test_log_expand_fail(), (log(x * (y + z)) * (x + y)).expand(mul=True, log=True) == y * log(x) + y * log(y + z) + z * log(x) + z * log(y + z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_expand_fail : Any → Any                           ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (log(x * (y + z)) * (x + y)).expand(mul=T...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_expand_fail : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f8f53763859de0fe  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 31f786299b1e1edc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_expand_fail","kind":"function","src_hash":"1c477ab8fa8ae1a2","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_log_expand_fail()","rhs":"test_log_expand_fail produces the expected output","over":{"base":"Any"},"name":"test_log_expand_fail_correct"},"guarantee":"test_log_expand_fail produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_expand_fail_correct","statement":"Path(test_log_expand_fail(x), test_log_expand_fail produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f8f53763859de0fe"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_expand_fail","kind":"function","src_hash":"1c477ab8fa8ae1a2","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (log(x * (y + z)) * (x + y)).expand(mul=True, log=True) == y * log(x) + y * log(y + z) + z * log(x) + z * log(y + z)"},"spec":{"lhs":"test_log_expand_fail()","rhs":"(log(x * (y + z)) * (x + y)).expand(mul=True, log=True) == y * log(x) + y * log(y + z) + z * log(x) + z * log(y + z)","over":{"base":"Any"},"name":"test_log_expand_fail_correct"},"guarantee":"(log(x * (y + z)) * (x + y)).expand(mul=True, log=True) == y * log(x) + y * log(y + z) + z * log(x) + z * log(y + z)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_expand_fail_correct","statement":"Path(test_log_expand_fail(x), (log(x * (y + z)) * (x + y)).expand(mul=True, log=True) == y * log(x) + y * log(y + z) + z * log(x) + z * log(y + z))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"31f786299b1e1edc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(log(x * (y + z)) * (x + y)).expand(mul=True, log=True) == y * log(x) + y * log(y + z) + z * log(x) + z * log(y + z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log_expand_fail():
     x, y, z = symbols('x,y,z', positive=True)
     assert (log(x*(y + z))*(x + y)).expand(mul=True, log=True) == y*log(
@@ -957,16 +1202,24 @@ def test_log_expand_fail():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_simplify(), test_log_simplify produces the expected output) over Any ║
+# ║ Path(test_log_simplify(), log(x ** 2).expand() == 2 * log(x) and expand_log(log(x ** (2 + log(2)))) == (2 + log(2)) * log(x) and log(sqrt(z)).expand() == log(z) / 2 and expand_log(log(z ** (log(2) - 1))) == (log(2) - 1) * log(z) and log(z ** (-1)).expand() != -log(z) and log(z ** (x / (x + 1))).expand() == x * log(z) / (x + 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_simplify : Any → {Any | log(x ** 2).expand()...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(x ** 2).expand() == 2 * log(x)             ║
+# ║   ensures:  expand_log(log(x ** (2 + log(2)))) == (2 ...   ║
+# ║   ensures:  log(sqrt(z)).expand() == log(z) / 2            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_simplify : Any → {Any | result satisfies: lo...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | f7ed1b90435e0df6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e4ecbbf3116378cc  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_simplify","kind":"function","src_hash":"d10570948362dd33","in":{"base":"Any"},"out":{"base":"Any","pred":"log(x ** 2).expand() == 2 * log(x) and expand_log(log(x ** (2 + log(2)))) == (2 + log(2)) * log(x) and log(sqrt(z)).expand() == log(z) / 2 and expand_log(log(z ** (log(2) - 1))) == (log(2) - 1) * log(z) and log(z ** (-1)).expand() != -log(z) and log(z ** (x / (x + 1))).expand() == x * log(z) / (x + 1)"},"spec":{"lhs":"test_log_simplify()","rhs":"test_log_simplify produces the expected output","over":{"base":"Any"},"name":"test_log_simplify_correct"},"guarantee":"test_log_simplify produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_simplify_correct","statement":"Path(test_log_simplify(x), test_log_simplify produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"f7ed1b90435e0df6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_simplify","kind":"function","src_hash":"d10570948362dd33","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(x ** 2).expand() == 2 * log(x) and expand_log(log(x ** (2 + log(2)))) == (2 + log(2)) * log(x) and log(sqrt(z)).expand() == log(z) / 2 and expand_log(log(z ** (log(2) - 1))) == (log(2) - 1) * log(z) and log(z ** (-1)).expand() != -log(z) and log(z ** (x / (x + 1))).expand() == x * log(z) / (x + 1)"},"spec":{"lhs":"test_log_simplify()","rhs":"log(x ** 2).expand() == 2 * log(x) and expand_log(log(x ** (2 + log(2)))) == (2 + log(2)) * log(x) and log(sqrt(z)).expand() == log(z) / 2 and expand_log(log(z ** (log(2) - 1))) == (log(2) - 1) * log(z) and log(z ** (-1)).expand() != -log(z) and log(z ** (x / (x + 1))).expand() == x * log(z) / (x + 1)","over":{"base":"Any"},"name":"test_log_simplify_correct"},"guarantee":"log(x ** 2).expand() == 2 * log(x); expand_log(log(x ** (2 + log(2)))) == (2 + log(2)) * log(x); log(sqrt(z)).expand() == log(z) / 2","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_simplify_correct","statement":"Path(test_log_simplify(x), log(x ** 2).expand() == 2 * log(x); expand_log(log(x ** (2 + log(2)))) == (2 + log(2)) * log(x); log(sqrt(z)).expand() == log(z) / 2)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e4ecbbf3116378cc","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(x ** 2).expand() == 2 * log(x)","expand_log(log(x ** (2 + log(2)))) == (2 + log(2)) * log(x)","log(sqrt(z)).expand() == log(z) / 2","expand_log(log(z ** (log(2) - 1))) == (log(2) - 1) * log(z)","log(z ** (-1)).expand() != -log(z)","log(z ** (x / (x + 1))).expand() == x * log(z) / (x + 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_log_simplify():
     x = Symbol("x", positive=True)
     assert log(x**2).expand() == 2*log(x)
@@ -980,16 +1233,24 @@ def test_log_simplify():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_AccumBounds(), test_log_AccumBounds produces the expected output) over Any ║
+# ║ Path(test_log_AccumBounds(), log(AccumBounds(1, E)) == AccumBounds(0, 1) and log(AccumBounds(0, E)) == AccumBounds(-oo, 1) and log(AccumBounds(-1, E)) == S.NaN and log(AccumBounds(0, oo)) == AccumBounds(-oo, oo) and log(AccumBounds(-oo, 0)) == S.NaN and log(AccumBounds(-oo, oo)) == S.NaN) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_AccumBounds : Any → {Any | log(AccumBounds(1...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(AccumBounds(1, E)) == AccumBounds(0, 1)    ║
+# ║   ensures:  log(AccumBounds(0, E)) == AccumBounds(-oo...   ║
+# ║   ensures:  log(AccumBounds(-1, E)) == S.NaN               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_AccumBounds : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 65a8cd4071917f4c  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8038710e994ce182  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_AccumBounds","kind":"function","src_hash":"9c1cc6f5f1b0373d","in":{"base":"Any"},"out":{"base":"Any","pred":"log(AccumBounds(1, E)) == AccumBounds(0, 1) and log(AccumBounds(0, E)) == AccumBounds(-oo, 1) and log(AccumBounds(-1, E)) == S.NaN and log(AccumBounds(0, oo)) == AccumBounds(-oo, oo) and log(AccumBounds(-oo, 0)) == S.NaN and log(AccumBounds(-oo, oo)) == S.NaN"},"spec":{"lhs":"test_log_AccumBounds()","rhs":"test_log_AccumBounds produces the expected output","over":{"base":"Any"},"name":"test_log_AccumBounds_correct"},"guarantee":"test_log_AccumBounds produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_AccumBounds_correct","statement":"Path(test_log_AccumBounds(x), test_log_AccumBounds produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"65a8cd4071917f4c"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_AccumBounds","kind":"function","src_hash":"9c1cc6f5f1b0373d","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(AccumBounds(1, E)) == AccumBounds(0, 1) and log(AccumBounds(0, E)) == AccumBounds(-oo, 1) and log(AccumBounds(-1, E)) == S.NaN and log(AccumBounds(0, oo)) == AccumBounds(-oo, oo) and log(AccumBounds(-oo, 0)) == S.NaN and log(AccumBounds(-oo, oo)) == S.NaN"},"spec":{"lhs":"test_log_AccumBounds()","rhs":"log(AccumBounds(1, E)) == AccumBounds(0, 1) and log(AccumBounds(0, E)) == AccumBounds(-oo, 1) and log(AccumBounds(-1, E)) == S.NaN and log(AccumBounds(0, oo)) == AccumBounds(-oo, oo) and log(AccumBounds(-oo, 0)) == S.NaN and log(AccumBounds(-oo, oo)) == S.NaN","over":{"base":"Any"},"name":"test_log_AccumBounds_correct"},"guarantee":"log(AccumBounds(1, E)) == AccumBounds(0, 1); log(AccumBounds(0, E)) == AccumBounds(-oo, 1); log(AccumBounds(-1, E)) == S.NaN","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_AccumBounds_correct","statement":"Path(test_log_AccumBounds(x), log(AccumBounds(1, E)) == AccumBounds(0, 1); log(AccumBounds(0, E)) == AccumBounds(-oo, 1); log(AccumBounds(-1, E)) == S.NaN)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8038710e994ce182","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(AccumBounds(1, E)) == AccumBounds(0, 1)","log(AccumBounds(0, E)) == AccumBounds(-oo, 1)","log(AccumBounds(-1, E)) == S.NaN","log(AccumBounds(0, oo)) == AccumBounds(-oo, oo)","log(AccumBounds(-oo, 0)) == S.NaN","log(AccumBounds(-oo, oo)) == S.NaN"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log_AccumBounds():
     assert log(AccumBounds(1, E)) == AccumBounds(0, 1)
     assert log(AccumBounds(0, E)) == AccumBounds(-oo, 1)
@@ -1001,16 +1262,24 @@ def test_log_AccumBounds():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_lambertw(), test_lambertw produces the expected output) over Any ║
+# ║ Path(test_lambertw(), LambertW(x, 0) == LambertW(x) and LambertW(x, 0, evaluate=False) != LambertW(x) and LambertW(0) == 0 and LambertW(E) == 1 and LambertW(-1 / E) == -1 and LambertW(-log(2) / 2) == -log(2) and LambertW(oo) is oo and LambertW(0, 1) is -oo and LambertW(0, 42) is -oo and LambertW(-pi / 2, -1) == -I * pi / 2 and LambertW(-1 / E, -1) == -1 and LambertW(-2 * exp(-2), -1) == -2 and LambertW(2 * log(2)) == log(2) and LambertW(-pi / 2) == I * pi / 2 and LambertW(exp(1 + E)) == E and LambertW(x ** 2).diff(x) == 2 * LambertW(x ** 2) / x / (1 + LambertW(x ** 2)) and LambertW(x, k).diff(x) == LambertW(x, k) / x / (1 + LambertW(x, k)) and LambertW(sqrt(2)).evalf(30).epsilon_eq(Float('0.701338383413663009202120278965', 30), 1e-29) and re(LambertW(2, -1)).evalf().epsilon_eq(Float('-0.834310366631110')) and LambertW(-1).is_real is False and LambertW(2, evaluate=False).is_real and LambertW(p, evaluate=False).is_real and LambertW(p - 1, evaluate=False).is_real is None and LambertW(-p - 2 / S.Exp1, evaluate=False).is_real is False and LambertW(S.Half, -1, evaluate=False).is_real is False and LambertW(Rational(-1, 10), -1, evaluate=False).is_real and LambertW(-10, -1, evaluate=False).is_real is False and LambertW(-2, 2, evaluate=False).is_real is False and LambertW(0, evaluate=False).is_algebraic and LambertW(na).is_algebraic is False and LambertW(p).is_zero is False and LambertW(n).is_zero is False) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_lambertw : Any → {Any | LambertW(x, 0) == Lamber...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  LambertW(x, 0) == LambertW(x)                  ║
+# ║   ensures:  LambertW(x, 0, evaluate=False) != Lambert...   ║
+# ║   ensures:  LambertW(0) == 0                               ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_lambertw : Any → {Any | result satisfies: Lamber...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 917b134441d2b706  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.7ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 57286ce81c84c17f  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_lambertw","kind":"function","src_hash":"83f9c55af2686989","in":{"base":"Any"},"out":{"base":"Any","pred":"LambertW(x, 0) == LambertW(x) and LambertW(x, 0, evaluate=False) != LambertW(x) and LambertW(0) == 0 and LambertW(E) == 1 and LambertW(-1 / E) == -1 and LambertW(-log(2) / 2) == -log(2) and LambertW(oo) is oo and LambertW(0, 1) is -oo and LambertW(0, 42) is -oo and LambertW(-pi / 2, -1) == -I * pi / 2 and LambertW(-1 / E, -1) == -1 and LambertW(-2 * exp(-2), -1) == -2 and LambertW(2 * log(2)) == log(2) and LambertW(-pi / 2) == I * pi / 2 and LambertW(exp(1 + E)) == E and LambertW(x ** 2).diff(x) == 2 * LambertW(x ** 2) / x / (1 + LambertW(x ** 2)) and LambertW(x, k).diff(x) == LambertW(x, k) / x / (1 + LambertW(x, k)) and re(LambertW(2, -1)).evalf().epsilon_eq(Float('-0.834310366631110')) and LambertW(-1).is_real is False and LambertW(2, evaluate=False).is_real and LambertW(p, evaluate=False).is_real and LambertW(p - 1, evaluate=False).is_real is None and LambertW(-p - 2 / S.Exp1, evaluate=False).is_real is False and LambertW(S.Half, -1, evaluate=False).is_real is False and LambertW(Rational(-1, 10), -1, evaluate=False).is_real and LambertW(-10, -1, evaluate=False).is_real is False and LambertW(-2, 2, evaluate=False).is_real is False and LambertW(0, evaluate=False).is_algebraic and LambertW(na).is_algebraic is False and LambertW(p).is_zero is False and LambertW(n).is_zero is False"},"spec":{"lhs":"test_lambertw()","rhs":"test_lambertw produces the expected output","over":{"base":"Any"},"name":"test_lambertw_correct"},"guarantee":"test_lambertw produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_lambertw_correct","statement":"Path(test_lambertw(x), test_lambertw produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"917b134441d2b706"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_lambertw","kind":"function","src_hash":"83f9c55af2686989","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: LambertW(x, 0) == LambertW(x) and LambertW(x, 0, evaluate=False) != LambertW(x) and LambertW(0) == 0 and LambertW(E) == 1 and LambertW(-1 / E) == -1 and LambertW(-log(2) / 2) == -log(2) and LambertW(oo) is oo and LambertW(0, 1) is -oo and LambertW(0, 42) is -oo and LambertW(-pi / 2, -1) == -I * pi / 2 and LambertW(-1 / E, -1) == -1 and LambertW(-2 * exp(-2), -1) == -2 and LambertW(2 * log(2)) == log(2) and LambertW(-pi / 2) == I * pi / 2 and LambertW(exp(1 + E)) == E and LambertW(x ** 2).diff(x) == 2 * LambertW(x ** 2) / x / (1 + LambertW(x ** 2)) and LambertW(x, k).diff(x) == LambertW(x, k) / x / (1 + LambertW(x, k)) and LambertW(sqrt(2)).evalf(30).epsilon_eq(Float('0.701338383413663009202120278965', 30), 1e-29) and re(LambertW(2, -1)).evalf().epsilon_eq(Float('-0.834310366631110')) and LambertW(-1).is_real is False and LambertW(2, evaluate=False).is_real and LambertW(p, evaluate=False).is_real and LambertW(p - 1, evaluate=False).is_real is None and LambertW(-p - 2 / S.Exp1, evaluate=False).is_real is False and LambertW(S.Half, -1, evaluate=False).is_real is False and LambertW(Rational(-1, 10), -1, evaluate=False).is_real and LambertW(-10, -1, evaluate=False).is_real is False and LambertW(-2, 2, evaluate=False).is_real is False and LambertW(0, evaluate=False).is_algebraic and LambertW(na).is_algebraic is False and LambertW(p).is_zero is False and LambertW(n).is_zero is False"},"spec":{"lhs":"test_lambertw()","rhs":"LambertW(x, 0) == LambertW(x) and LambertW(x, 0, evaluate=False) != LambertW(x) and LambertW(0) == 0 and LambertW(E) == 1 and LambertW(-1 / E) == -1 and LambertW(-log(2) / 2) == -log(2) and LambertW(oo) is oo and LambertW(0, 1) is -oo and LambertW(0, 42) is -oo and LambertW(-pi / 2, -1) == -I * pi / 2 and LambertW(-1 / E, -1) == -1 and LambertW(-2 * exp(-2), -1) == -2 and LambertW(2 * log(2)) == log(2) and LambertW(-pi / 2) == I * pi / 2 and LambertW(exp(1 + E)) == E and LambertW(x ** 2).diff(x) == 2 * LambertW(x ** 2) / x / (1 + LambertW(x ** 2)) and LambertW(x, k).diff(x) == LambertW(x, k) / x / (1 + LambertW(x, k)) and LambertW(sqrt(2)).evalf(30).epsilon_eq(Float('0.701338383413663009202120278965', 30), 1e-29) and re(LambertW(2, -1)).evalf().epsilon_eq(Float('-0.834310366631110')) and LambertW(-1).is_real is False and LambertW(2, evaluate=False).is_real and LambertW(p, evaluate=False).is_real and LambertW(p - 1, evaluate=False).is_real is None and LambertW(-p - 2 / S.Exp1, evaluate=False).is_real is False and LambertW(S.Half, -1, evaluate=False).is_real is False and LambertW(Rational(-1, 10), -1, evaluate=False).is_real and LambertW(-10, -1, evaluate=False).is_real is False and LambertW(-2, 2, evaluate=False).is_real is False and LambertW(0, evaluate=False).is_algebraic and LambertW(na).is_algebraic is False and LambertW(p).is_zero is False and LambertW(n).is_zero is False","over":{"base":"Any"},"name":"test_lambertw_correct"},"guarantee":"LambertW(x, 0) == LambertW(x); LambertW(x, 0, evaluate=False) != LambertW(x); LambertW(0) == 0","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_lambertw_correct","statement":"Path(test_lambertw(x), LambertW(x, 0) == LambertW(x); LambertW(x, 0, evaluate=False) != LambertW(x); LambertW(0) == 0)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"57286ce81c84c17f","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["LambertW(x, 0) == LambertW(x)","LambertW(x, 0, evaluate=False) != LambertW(x)","LambertW(0) == 0","LambertW(E) == 1","LambertW(-1 / E) == -1","LambertW(-log(2) / 2) == -log(2)","LambertW(oo) is oo","LambertW(0, 1) is -oo","LambertW(0, 42) is -oo","LambertW(-pi / 2, -1) == -I * pi / 2","LambertW(-1 / E, -1) == -1","LambertW(-2 * exp(-2), -1) == -2","LambertW(2 * log(2)) == log(2)","LambertW(-pi / 2) == I * pi / 2","LambertW(exp(1 + E)) == E","LambertW(x ** 2).diff(x) == 2 * LambertW(x ** 2) / x / (1 + LambertW(x ** 2))","LambertW(x, k).diff(x) == LambertW(x, k) / x / (1 + LambertW(x, k))","LambertW(sqrt(2)).evalf(30).epsilon_eq(Float('0.701338383413663009202120278965', 30), 1e-29)","re(LambertW(2, -1)).evalf().epsilon_eq(Float('-0.834310366631110'))","LambertW(-1).is_real is False","LambertW(2, evaluate=False).is_real","LambertW(p, evaluate=False).is_real","LambertW(p - 1, evaluate=False).is_real is None","LambertW(-p - 2 / S.Exp1, evaluate=False).is_real is False","LambertW(S.Half, -1, evaluate=False).is_real is False","LambertW(Rational(-1, 10), -1, evaluate=False).is_real","LambertW(-10, -1, evaluate=False).is_real is False","LambertW(-2, 2, evaluate=False).is_real is False","LambertW(0, evaluate=False).is_algebraic","LambertW(na).is_algebraic is False","LambertW(p).is_zero is False","LambertW(n).is_zero is False"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.7,"verdict_class":"assumed","binding":true}}
 def test_lambertw():
     k = Symbol('k')
 
@@ -1057,16 +1326,24 @@ def test_lambertw():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_5673(), test_issue_5673 produces the expected output) over Any ║
+# ║ Path(test_issue_5673(), e.is_comparable is False and e.is_positive is not True and e2.is_positive is not True and e3.is_nonzero is not True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_5673 : Any → {Any | e.is_comparable is Fal...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  e.is_comparable is False                       ║
+# ║   ensures:  e.is_positive is not True                      ║
+# ║   ensures:  e2.is_positive is not True                     ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_5673 : Any → {Any | result satisfies: e.is...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 391dc54305eae992  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 7fd27c327e608feb  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_issue_5673","kind":"function","src_hash":"7b2b8c6810a7466c","in":{"base":"Any"},"out":{"base":"Any","pred":"e.is_comparable is False and e.is_positive is not True and e2.is_positive is not True and e3.is_nonzero is not True"},"spec":{"lhs":"test_issue_5673()","rhs":"test_issue_5673 produces the expected output","over":{"base":"Any"},"name":"test_issue_5673_correct"},"guarantee":"test_issue_5673 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_issue_5673_correct","statement":"Path(test_issue_5673(x), test_issue_5673 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"391dc54305eae992"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_issue_5673","kind":"function","src_hash":"7b2b8c6810a7466c","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: e.is_comparable is False and e.is_positive is not True and e2.is_positive is not True and e3.is_nonzero is not True"},"spec":{"lhs":"test_issue_5673()","rhs":"e.is_comparable is False and e.is_positive is not True and e2.is_positive is not True and e3.is_nonzero is not True","over":{"base":"Any"},"name":"test_issue_5673_correct"},"guarantee":"e.is_comparable is False; e.is_positive is not True; e2.is_positive is not True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_issue_5673_correct","statement":"Path(test_issue_5673(x), e.is_comparable is False; e.is_positive is not True; e2.is_positive is not True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"7fd27c327e608feb","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["e.is_comparable is False","e.is_positive is not True","e2.is_positive is not True","e3.is_nonzero is not True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_issue_5673():
     e = LambertW(-1)
     assert e.is_comparable is False
@@ -1078,32 +1355,46 @@ def test_issue_5673():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_fdiff(), test_log_fdiff produces the expected output) over Any ║
+# ║ Path(test_log_fdiff(), <unspecified:test_log_fdiff>) over Any ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ C4 Spec [static] strength=trivial                          ║
+# ║   ⚠ UNSPECIFIED — no formal spec; proof is vacuous         ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ test_log_fdiff : Any → Any                                 ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
 # ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2672dd54363af447  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_fdiff","kind":"function","src_hash":"691c9ecf06fba3ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_log_fdiff()","rhs":"test_log_fdiff produces the expected output","over":{"base":"Any"},"name":"test_log_fdiff_correct"},"guarantee":"test_log_fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_fdiff_correct","statement":"Path(test_log_fdiff(x), test_log_fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2672dd54363af447"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_fdiff","kind":"function","src_hash":"691c9ecf06fba3ef","in":{"base":"Any"},"out":{"base":"Any"},"spec":{"lhs":"test_log_fdiff()","rhs":"<unspecified:test_log_fdiff>","over":{"base":"Any"},"name":"test_log_fdiff_correct"},"guarantee":"test_log_fdiff produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_fdiff_correct","statement":"Path(test_log_fdiff(x), test_log_fdiff produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2672dd54363af447","spec_source":"static","formal_spec":{"source":"static","strength":"trivial","pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_log_fdiff():
     x = Symbol('x')
     raises(ArgumentIndexError, lambda: log(x).fdiff(2))
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_taylor_term(), test_log_taylor_term produces the expected output) over Any ║
+# ║ Path(test_log_taylor_term(), log(x).taylor_term(0, x) == x and log(x).taylor_term(1, x) == -x ** 2 / 2 and log(x).taylor_term(4, x) == x ** 5 / 5 and log(x).taylor_term(-1, x) is S.Zero) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_taylor_term : Any → {Any | log(x).taylor_ter...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(x).taylor_term(0, x) == x                  ║
+# ║   ensures:  log(x).taylor_term(1, x) == -x ** 2 / 2        ║
+# ║   ensures:  log(x).taylor_term(4, x) == x ** 5 / 5         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_taylor_term : Any → {Any | result satisfies:...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 8405dddb93338beb  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 9463cd0dbf1d0d20  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_taylor_term","kind":"function","src_hash":"fc0c75e4445c5aee","in":{"base":"Any"},"out":{"base":"Any","pred":"log(x).taylor_term(0, x) == x and log(x).taylor_term(1, x) == -x ** 2 / 2 and log(x).taylor_term(4, x) == x ** 5 / 5 and log(x).taylor_term(-1, x) is S.Zero"},"spec":{"lhs":"test_log_taylor_term()","rhs":"test_log_taylor_term produces the expected output","over":{"base":"Any"},"name":"test_log_taylor_term_correct"},"guarantee":"test_log_taylor_term produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_taylor_term_correct","statement":"Path(test_log_taylor_term(x), test_log_taylor_term produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"8405dddb93338beb"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_taylor_term","kind":"function","src_hash":"fc0c75e4445c5aee","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(x).taylor_term(0, x) == x and log(x).taylor_term(1, x) == -x ** 2 / 2 and log(x).taylor_term(4, x) == x ** 5 / 5 and log(x).taylor_term(-1, x) is S.Zero"},"spec":{"lhs":"test_log_taylor_term()","rhs":"log(x).taylor_term(0, x) == x and log(x).taylor_term(1, x) == -x ** 2 / 2 and log(x).taylor_term(4, x) == x ** 5 / 5 and log(x).taylor_term(-1, x) is S.Zero","over":{"base":"Any"},"name":"test_log_taylor_term_correct"},"guarantee":"log(x).taylor_term(0, x) == x; log(x).taylor_term(1, x) == -x ** 2 / 2; log(x).taylor_term(4, x) == x ** 5 / 5","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_taylor_term_correct","statement":"Path(test_log_taylor_term(x), log(x).taylor_term(0, x) == x; log(x).taylor_term(1, x) == -x ** 2 / 2; log(x).taylor_term(4, x) == x ** 5 / 5)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"9463cd0dbf1d0d20","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(x).taylor_term(0, x) == x","log(x).taylor_term(1, x) == -x ** 2 / 2","log(x).taylor_term(4, x) == x ** 5 / 5","log(x).taylor_term(-1, x) is S.Zero"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_log_taylor_term():
     x = symbols('x')
     assert log(x).taylor_term(0, x) == x
@@ -1113,16 +1404,24 @@ def test_log_taylor_term():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_expand_NC(), test_exp_expand_NC produces the expected output) over Any ║
+# ║ Path(test_exp_expand_NC(), exp(A + B).expand() == exp(A + B) and exp(A + B + C).expand() == exp(A + B + C) and exp(x + y).expand() == exp(x) * exp(y) and exp(x + y + z).expand() == exp(x) * exp(y) * exp(z)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_expand_NC : Any → {Any | exp(A + B).expand()...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(A + B).expand() == exp(A + B)              ║
+# ║   ensures:  exp(A + B + C).expand() == exp(A + B + C)      ║
+# ║   ensures:  exp(x + y).expand() == exp(x) * exp(y)         ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_expand_NC : Any → {Any | result satisfies: e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | e661c864b5b59926  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b8e1cb7899f4c2aa  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_expand_NC","kind":"function","src_hash":"d7cca711653daa13","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(A + B).expand() == exp(A + B) and exp(A + B + C).expand() == exp(A + B + C) and exp(x + y).expand() == exp(x) * exp(y) and exp(x + y + z).expand() == exp(x) * exp(y) * exp(z)"},"spec":{"lhs":"test_exp_expand_NC()","rhs":"test_exp_expand_NC produces the expected output","over":{"base":"Any"},"name":"test_exp_expand_NC_correct"},"guarantee":"test_exp_expand_NC produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_expand_NC_correct","statement":"Path(test_exp_expand_NC(x), test_exp_expand_NC produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"e661c864b5b59926"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_expand_NC","kind":"function","src_hash":"d7cca711653daa13","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(A + B).expand() == exp(A + B) and exp(A + B + C).expand() == exp(A + B + C) and exp(x + y).expand() == exp(x) * exp(y) and exp(x + y + z).expand() == exp(x) * exp(y) * exp(z)"},"spec":{"lhs":"test_exp_expand_NC()","rhs":"exp(A + B).expand() == exp(A + B) and exp(A + B + C).expand() == exp(A + B + C) and exp(x + y).expand() == exp(x) * exp(y) and exp(x + y + z).expand() == exp(x) * exp(y) * exp(z)","over":{"base":"Any"},"name":"test_exp_expand_NC_correct"},"guarantee":"exp(A + B).expand() == exp(A + B); exp(A + B + C).expand() == exp(A + B + C); exp(x + y).expand() == exp(x) * exp(y)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_expand_NC_correct","statement":"Path(test_exp_expand_NC(x), exp(A + B).expand() == exp(A + B); exp(A + B + C).expand() == exp(A + B + C); exp(x + y).expand() == exp(x) * exp(y))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b8e1cb7899f4c2aa","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(A + B).expand() == exp(A + B)","exp(A + B + C).expand() == exp(A + B + C)","exp(x + y).expand() == exp(x) * exp(y)","exp(x + y + z).expand() == exp(x) * exp(y) * exp(z)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp_expand_NC():
     A, B, C = symbols('A,B,C', commutative=False)
 
@@ -1134,16 +1433,24 @@ def test_exp_expand_NC():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_as_numer_denom(), test_as_numer_denom produces the expected output) over Any ║
+# ║ Path(test_as_numer_denom(), exp(x).as_numer_denom() == (exp(x), 1) and exp(-x).as_numer_denom() == (1, exp(x)) and exp(-2 * x).as_numer_denom() == (1, exp(2 * x)) and exp(-2).as_numer_denom() == (1, exp(2)) and exp(n).as_numer_denom() == (1, exp(-n)) and exp(-n).as_numer_denom() == (exp(-n), 1) and exp(-I * x).as_numer_denom() == (1, exp(I * x)) and exp(-I * n).as_numer_denom() == (1, exp(I * n)) and exp(-a).as_numer_denom() == (exp(-a), 1)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_as_numer_denom : Any → {Any | exp(x).as_numer_de...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(x).as_numer_denom() == (exp(x), 1)         ║
+# ║   ensures:  exp(-x).as_numer_denom() == (1, exp(x))        ║
+# ║   ensures:  exp(-2 * x).as_numer_denom() == (1, exp(2...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_as_numer_denom : Any → {Any | result satisfies: ...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 44952a4775789d8a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 049e00b48aeda3e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_as_numer_denom","kind":"function","src_hash":"9d468c394a1e0a49","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(x).as_numer_denom() == (exp(x), 1) and exp(-x).as_numer_denom() == (1, exp(x)) and exp(-2 * x).as_numer_denom() == (1, exp(2 * x)) and exp(-2).as_numer_denom() == (1, exp(2)) and exp(n).as_numer_denom() == (1, exp(-n)) and exp(-n).as_numer_denom() == (exp(-n), 1) and exp(-I * x).as_numer_denom() == (1, exp(I * x)) and exp(-I * n).as_numer_denom() == (1, exp(I * n)) and exp(-n).as_numer_denom() == (exp(-n), 1) and exp(-a).as_numer_denom() == (exp(-a), 1)"},"spec":{"lhs":"test_as_numer_denom()","rhs":"test_as_numer_denom produces the expected output","over":{"base":"Any"},"name":"test_as_numer_denom_correct"},"guarantee":"test_as_numer_denom produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_as_numer_denom_correct","statement":"Path(test_as_numer_denom(x), test_as_numer_denom produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"44952a4775789d8a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_as_numer_denom","kind":"function","src_hash":"9d468c394a1e0a49","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(x).as_numer_denom() == (exp(x), 1) and exp(-x).as_numer_denom() == (1, exp(x)) and exp(-2 * x).as_numer_denom() == (1, exp(2 * x)) and exp(-2).as_numer_denom() == (1, exp(2)) and exp(n).as_numer_denom() == (1, exp(-n)) and exp(-n).as_numer_denom() == (exp(-n), 1) and exp(-I * x).as_numer_denom() == (1, exp(I * x)) and exp(-I * n).as_numer_denom() == (1, exp(I * n)) and exp(-a).as_numer_denom() == (exp(-a), 1)"},"spec":{"lhs":"test_as_numer_denom()","rhs":"exp(x).as_numer_denom() == (exp(x), 1) and exp(-x).as_numer_denom() == (1, exp(x)) and exp(-2 * x).as_numer_denom() == (1, exp(2 * x)) and exp(-2).as_numer_denom() == (1, exp(2)) and exp(n).as_numer_denom() == (1, exp(-n)) and exp(-n).as_numer_denom() == (exp(-n), 1) and exp(-I * x).as_numer_denom() == (1, exp(I * x)) and exp(-I * n).as_numer_denom() == (1, exp(I * n)) and exp(-a).as_numer_denom() == (exp(-a), 1)","over":{"base":"Any"},"name":"test_as_numer_denom_correct"},"guarantee":"exp(x).as_numer_denom() == (exp(x), 1); exp(-x).as_numer_denom() == (1, exp(x)); exp(-2 * x).as_numer_denom() == (1, exp(2 * x))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_as_numer_denom_correct","statement":"Path(test_as_numer_denom(x), exp(x).as_numer_denom() == (exp(x), 1); exp(-x).as_numer_denom() == (1, exp(x)); exp(-2 * x).as_numer_denom() == (1, exp(2 * x)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"049e00b48aeda3e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(x).as_numer_denom() == (exp(x), 1)","exp(-x).as_numer_denom() == (1, exp(x))","exp(-2 * x).as_numer_denom() == (1, exp(2 * x))","exp(-2).as_numer_denom() == (1, exp(2))","exp(n).as_numer_denom() == (1, exp(-n))","exp(-n).as_numer_denom() == (exp(-n), 1)","exp(-I * x).as_numer_denom() == (1, exp(I * x))","exp(-I * n).as_numer_denom() == (1, exp(I * n))","exp(-a).as_numer_denom() == (exp(-a), 1)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_as_numer_denom():
     n = symbols('n', negative=True)
     assert exp(x).as_numer_denom() == (exp(x), 1)
@@ -1162,16 +1469,24 @@ def test_as_numer_denom():
 
 @_both_exp_pow
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_polar(), test_polar produces the expected output) over Any ║
+# ║ Path(test_polar(), abs(exp_polar(I * 4)) == 1 and abs(exp_polar(0)) == 1 and abs(exp_polar(2 + 3 * I)) == exp(2) and exp_polar(I * 10).n() == exp_polar(I * 10) and log(exp_polar(z)) == z and log(x * y).expand() == log(x) + log(y) and log(x ** z).expand() == z * log(x) and exp_polar(3).exp == 3 and exp_polar(1.0 * pi * I).n(n=5).as_real_imag()[1] >= 0 and exp_polar(0).is_rational is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_polar : Any → {Any | abs(exp_polar(I * 4)) == 1 ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  abs(exp_polar(I * 4)) == 1                     ║
+# ║   ensures:  abs(exp_polar(0)) == 1                         ║
+# ║   ensures:  abs(exp_polar(2 + 3 * I)) == exp(2)            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_polar : Any → {Any | result satisfies: abs(exp_p...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4f7cbfd062c9b340  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 415d816ed7bb9bde  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_polar","kind":"function","src_hash":"7d1799ef3c7847f1","in":{"base":"Any"},"out":{"base":"Any","pred":"abs(exp_polar(I * 4)) == 1 and abs(exp_polar(0)) == 1 and abs(exp_polar(2 + 3 * I)) == exp(2) and exp_polar(I * 10).n() == exp_polar(I * 10) and log(exp_polar(z)) == z and log(x * y).expand() == log(x) + log(y) and log(x ** z).expand() == z * log(x) and exp_polar(3).exp == 3 and exp_polar(1.0 * pi * I).n(n=5).as_real_imag()[1] >= 0 and exp_polar(0).is_rational is True"},"spec":{"lhs":"test_polar()","rhs":"test_polar produces the expected output","over":{"base":"Any"},"name":"test_polar_correct"},"guarantee":"test_polar produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_polar_correct","statement":"Path(test_polar(x), test_polar produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4f7cbfd062c9b340"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_polar","kind":"function","src_hash":"7d1799ef3c7847f1","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: abs(exp_polar(I * 4)) == 1 and abs(exp_polar(0)) == 1 and abs(exp_polar(2 + 3 * I)) == exp(2) and exp_polar(I * 10).n() == exp_polar(I * 10) and log(exp_polar(z)) == z and log(x * y).expand() == log(x) + log(y) and log(x ** z).expand() == z * log(x) and exp_polar(3).exp == 3 and exp_polar(1.0 * pi * I).n(n=5).as_real_imag()[1] >= 0 and exp_polar(0).is_rational is True"},"spec":{"lhs":"test_polar()","rhs":"abs(exp_polar(I * 4)) == 1 and abs(exp_polar(0)) == 1 and abs(exp_polar(2 + 3 * I)) == exp(2) and exp_polar(I * 10).n() == exp_polar(I * 10) and log(exp_polar(z)) == z and log(x * y).expand() == log(x) + log(y) and log(x ** z).expand() == z * log(x) and exp_polar(3).exp == 3 and exp_polar(1.0 * pi * I).n(n=5).as_real_imag()[1] >= 0 and exp_polar(0).is_rational is True","over":{"base":"Any"},"name":"test_polar_correct"},"guarantee":"abs(exp_polar(I * 4)) == 1; abs(exp_polar(0)) == 1; abs(exp_polar(2 + 3 * I)) == exp(2)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_polar_correct","statement":"Path(test_polar(x), abs(exp_polar(I * 4)) == 1; abs(exp_polar(0)) == 1; abs(exp_polar(2 + 3 * I)) == exp(2))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"415d816ed7bb9bde","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["abs(exp_polar(I * 4)) == 1","abs(exp_polar(0)) == 1","abs(exp_polar(2 + 3 * I)) == exp(2)","exp_polar(I * 10).n() == exp_polar(I * 10)","log(exp_polar(z)) == z","log(x * y).expand() == log(x) + log(y)","log(x ** z).expand() == z * log(x)","exp_polar(3).exp == 3","exp_polar(1.0 * pi * I).n(n=5).as_real_imag()[1] >= 0","exp_polar(0).is_rational is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_polar():
     x, y = symbols('x y', polar=True)
 
@@ -1193,16 +1508,22 @@ def test_polar():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_exp_summation(), test_exp_summation produces the expected output) over Any ║
+# ║ Path(test_exp_summation(), expr.expand() == Product(exp(w * i), (i, 0, n), (j, 0, m))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_exp_summation : Any → {Any | expr.expand() == Pr...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  expr.expand() == Product(exp(w * i), (i, ...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_exp_summation : Any → {Any | result satisfies: e...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 4d69826b92cc0761  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.1ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 112edc3a79c4d667  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_summation","kind":"function","src_hash":"7d28f206efe7799f","in":{"base":"Any"},"out":{"base":"Any","pred":"expr.expand() == Product(exp(w * i), (i, 0, n), (j, 0, m))"},"spec":{"lhs":"test_exp_summation()","rhs":"test_exp_summation produces the expected output","over":{"base":"Any"},"name":"test_exp_summation_correct"},"guarantee":"test_exp_summation produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_summation_correct","statement":"Path(test_exp_summation(x), test_exp_summation produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"4d69826b92cc0761"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_exp_summation","kind":"function","src_hash":"7d28f206efe7799f","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: expr.expand() == Product(exp(w * i), (i, 0, n), (j, 0, m))"},"spec":{"lhs":"test_exp_summation()","rhs":"expr.expand() == Product(exp(w * i), (i, 0, n), (j, 0, m))","over":{"base":"Any"},"name":"test_exp_summation_correct"},"guarantee":"expr.expand() == Product(exp(w * i), (i, 0, n), (j, 0, m))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_exp_summation_correct","statement":"Path(test_exp_summation(x), expr.expand() == Product(exp(w * i), (i, 0, n), (j, 0, m)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"112edc3a79c4d667","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["expr.expand() == Product(exp(w * i), (i, 0, n), (j, 0, m))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.1,"verdict_class":"assumed","binding":true}}
 def test_exp_summation():
     w = symbols("w")
     m, n, i, j = symbols("m n i j")
@@ -1211,16 +1532,24 @@ def test_exp_summation():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_product(), test_log_product produces the expected output) over Any ║
+# ║ Path(test_log_product(), simplify(expr) == expr and expr.expand() == Sum(i * log(x), (i, 1, n)) and expr.expand() == Sum(i * log(x) + j * log(y), (i, 1, n), (j, 1, m)) and expr.expand() == expr and expr.expand(force=True) == Sum(log(-2), (n, 0, 4)) and expr.expand() == Sum(z * i, (i, 0, n)) and expr.expand(force=True) == Sum(w * i, (i, 0, n)) and expr.expand() == Sum(2 * log(i) + log(j), (i, 1, n), (j, 1, m))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_product : Any → {Any | simplify(expr) == exp...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(expr) == expr                         ║
+# ║   ensures:  expr.expand() == Sum(i * log(x), (i, 1, n))    ║
+# ║   ensures:  expr.expand() == Sum(i * log(x) + j * log...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_product : Any → {Any | result satisfies: sim...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 24c0b4a472170979  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.5ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 04d7364b3076c8e7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_product","kind":"function","src_hash":"087ae242b3a629fa","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(expr) == expr and expr.expand() == Sum(i * log(x), (i, 1, n)) and simplify(expr) == expr and expr.expand() == Sum(i * log(x) + j * log(y), (i, 1, n), (j, 1, m)) and simplify(expr) == expr and expr.expand() == expr and expr.expand(force=True) == Sum(log(-2), (n, 0, 4)) and expr.expand() == Sum(z * i, (i, 0, n)) and expr.expand() == expr and expr.expand(force=True) == Sum(w * i, (i, 0, n)) and expr.expand() == Sum(2 * log(i) + log(j), (i, 1, n), (j, 1, m))"},"spec":{"lhs":"test_log_product()","rhs":"test_log_product produces the expected output","over":{"base":"Any"},"name":"test_log_product_correct"},"guarantee":"test_log_product produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_product_correct","statement":"Path(test_log_product(x), test_log_product produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"24c0b4a472170979"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_product","kind":"function","src_hash":"087ae242b3a629fa","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(expr) == expr and expr.expand() == Sum(i * log(x), (i, 1, n)) and expr.expand() == Sum(i * log(x) + j * log(y), (i, 1, n), (j, 1, m)) and expr.expand() == expr and expr.expand(force=True) == Sum(log(-2), (n, 0, 4)) and expr.expand() == Sum(z * i, (i, 0, n)) and expr.expand(force=True) == Sum(w * i, (i, 0, n)) and expr.expand() == Sum(2 * log(i) + log(j), (i, 1, n), (j, 1, m))"},"spec":{"lhs":"test_log_product()","rhs":"simplify(expr) == expr and expr.expand() == Sum(i * log(x), (i, 1, n)) and expr.expand() == Sum(i * log(x) + j * log(y), (i, 1, n), (j, 1, m)) and expr.expand() == expr and expr.expand(force=True) == Sum(log(-2), (n, 0, 4)) and expr.expand() == Sum(z * i, (i, 0, n)) and expr.expand(force=True) == Sum(w * i, (i, 0, n)) and expr.expand() == Sum(2 * log(i) + log(j), (i, 1, n), (j, 1, m))","over":{"base":"Any"},"name":"test_log_product_correct"},"guarantee":"simplify(expr) == expr; expr.expand() == Sum(i * log(x), (i, 1, n)); expr.expand() == Sum(i * log(x) + j * log(y), (i, 1, n), (j, 1, m))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_product_correct","statement":"Path(test_log_product(x), simplify(expr) == expr; expr.expand() == Sum(i * log(x), (i, 1, n)); expr.expand() == Sum(i * log(x) + j * log(y), (i, 1, n), (j, 1, m)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"04d7364b3076c8e7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(expr) == expr","expr.expand() == Sum(i * log(x), (i, 1, n))","expr.expand() == Sum(i * log(x) + j * log(y), (i, 1, n), (j, 1, m))","expr.expand() == expr","expr.expand(force=True) == Sum(log(-2), (n, 0, 4))","expr.expand() == Sum(z * i, (i, 0, n))","expr.expand(force=True) == Sum(w * i, (i, 0, n))","expr.expand() == Sum(2 * log(i) + log(j), (i, 1, n), (j, 1, m))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.5,"verdict_class":"assumed","binding":true}}
 def test_log_product():
     from sympy.abc import n, m
 
@@ -1254,16 +1583,23 @@ def test_log_product():
 
 @XFAIL
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_product_simplify_to_sum(), test_log_product_simplify_to_sum produces the expected output) over Any ║
+# ║ Path(test_log_product_simplify_to_sum(), simplify(log(Product(x ** i, (i, 1, n)))) == Sum(i * log(x), (i, 1, n)) and simplify(log(Product(x ** i * y ** j, (i, 1, n), (j, 1, m)))) == Sum(i * log(x) + j * log(y), (i, 1, n), (j, 1, m))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_product_simplify_to_sum : Any → {Any | simpl...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(log(Product(x ** i, (i, 1, n))))...   ║
+# ║   ensures:  simplify(log(Product(x ** i * y ** j, (i,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_product_simplify_to_sum : Any → {Any | resul...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 73f3d5eb741f0521  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 52d418e26d4b9fd5  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_product_simplify_to_sum","kind":"function","src_hash":"8852025e67fc2d65","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(log(Product(x ** i, (i, 1, n)))) == Sum(i * log(x), (i, 1, n))"},"spec":{"lhs":"test_log_product_simplify_to_sum()","rhs":"test_log_product_simplify_to_sum produces the expected output","over":{"base":"Any"},"name":"test_log_product_simplify_to_sum_correct"},"guarantee":"test_log_product_simplify_to_sum produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_product_simplify_to_sum_correct","statement":"Path(test_log_product_simplify_to_sum(x), test_log_product_simplify_to_sum produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"73f3d5eb741f0521"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_product_simplify_to_sum","kind":"function","src_hash":"8852025e67fc2d65","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(log(Product(x ** i, (i, 1, n)))) == Sum(i * log(x), (i, 1, n)) and simplify(log(Product(x ** i * y ** j, (i, 1, n), (j, 1, m)))) == Sum(i * log(x) + j * log(y), (i, 1, n), (j, 1, m))"},"spec":{"lhs":"test_log_product_simplify_to_sum()","rhs":"simplify(log(Product(x ** i, (i, 1, n)))) == Sum(i * log(x), (i, 1, n)) and simplify(log(Product(x ** i * y ** j, (i, 1, n), (j, 1, m)))) == Sum(i * log(x) + j * log(y), (i, 1, n), (j, 1, m))","over":{"base":"Any"},"name":"test_log_product_simplify_to_sum_correct"},"guarantee":"simplify(log(Product(x ** i, (i, 1, n)))) == Sum(i * log(x), (i, 1, n)); simplify(log(Product(x ** i * y ** j, (i, 1, n), (j, 1, m)))) == Sum(i * log(x) + j * log(y), (i, 1, n), (j, 1, m))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_product_simplify_to_sum_correct","statement":"Path(test_log_product_simplify_to_sum(x), simplify(log(Product(x ** i, (i, 1, n)))) == Sum(i * log(x), (i, 1, n)); simplify(log(Product(x ** i * y ** j, (i, 1, n), (j, 1, m)))) == Sum(i * log(x) + j * log(y), (i, 1, n), (j, 1, m)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"52d418e26d4b9fd5","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(log(Product(x ** i, (i, 1, n)))) == Sum(i * log(x), (i, 1, n))","simplify(log(Product(x ** i * y ** j, (i, 1, n), (j, 1, m)))) == Sum(i * log(x) + j * log(y), (i, 1, n), (j, 1, m))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_log_product_simplify_to_sum():
     from sympy.abc import n, m
     i, j = symbols('i,j', positive=True, integer=True)
@@ -1274,16 +1610,24 @@ def test_log_product_simplify_to_sum():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_8866(), test_issue_8866 produces the expected output) over Any ║
+# ║ Path(test_issue_8866(), simplify(log(x, 10, evaluate=False)) == simplify(log(x, 10)) and expand_log(log(x, 10, evaluate=False)) == expand_log(log(x, 10)) and simplify(log(l1, b1)) == simplify(log(l2, b2)) and expand_log(log(l1, b1)) == expand_log(log(l2, b2))) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_8866 : Any → {Any | simplify(log(x, 10, ev...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  simplify(log(x, 10, evaluate=False)) == s...   ║
+# ║   ensures:  expand_log(log(x, 10, evaluate=False)) ==...   ║
+# ║   ensures:  simplify(log(l1, b1)) == simplify(log(l2,...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_8866 : Any → {Any | result satisfies: simp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 516ae03e41ada2c6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.2ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 74491b936852b359  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_issue_8866","kind":"function","src_hash":"a69eb7bf2e0c8b2b","in":{"base":"Any"},"out":{"base":"Any","pred":"simplify(log(x, 10, evaluate=False)) == simplify(log(x, 10)) and expand_log(log(x, 10, evaluate=False)) == expand_log(log(x, 10)) and simplify(log(l1, b1)) == simplify(log(l2, b2)) and expand_log(log(l1, b1)) == expand_log(log(l2, b2))"},"spec":{"lhs":"test_issue_8866()","rhs":"test_issue_8866 produces the expected output","over":{"base":"Any"},"name":"test_issue_8866_correct"},"guarantee":"test_issue_8866 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_issue_8866_correct","statement":"Path(test_issue_8866(x), test_issue_8866 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"516ae03e41ada2c6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_issue_8866","kind":"function","src_hash":"a69eb7bf2e0c8b2b","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: simplify(log(x, 10, evaluate=False)) == simplify(log(x, 10)) and expand_log(log(x, 10, evaluate=False)) == expand_log(log(x, 10)) and simplify(log(l1, b1)) == simplify(log(l2, b2)) and expand_log(log(l1, b1)) == expand_log(log(l2, b2))"},"spec":{"lhs":"test_issue_8866()","rhs":"simplify(log(x, 10, evaluate=False)) == simplify(log(x, 10)) and expand_log(log(x, 10, evaluate=False)) == expand_log(log(x, 10)) and simplify(log(l1, b1)) == simplify(log(l2, b2)) and expand_log(log(l1, b1)) == expand_log(log(l2, b2))","over":{"base":"Any"},"name":"test_issue_8866_correct"},"guarantee":"simplify(log(x, 10, evaluate=False)) == simplify(log(x, 10)); expand_log(log(x, 10, evaluate=False)) == expand_log(log(x, 10)); simplify(log(l1, b1)) == simplify(log(l2, b2))","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_issue_8866_correct","statement":"Path(test_issue_8866(x), simplify(log(x, 10, evaluate=False)) == simplify(log(x, 10)); expand_log(log(x, 10, evaluate=False)) == expand_log(log(x, 10)); simplify(log(l1, b1)) == simplify(log(l2, b2)))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"74491b936852b359","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["simplify(log(x, 10, evaluate=False)) == simplify(log(x, 10))","expand_log(log(x, 10, evaluate=False)) == expand_log(log(x, 10))","simplify(log(l1, b1)) == simplify(log(l2, b2))","expand_log(log(l1, b1)) == expand_log(log(l2, b2))"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.2,"verdict_class":"assumed","binding":true}}
 def test_issue_8866():
     assert simplify(log(x, 10, evaluate=False)) == simplify(log(x, 10))
     assert expand_log(log(x, 10, evaluate=False)) == expand_log(log(x, 10))
@@ -1298,16 +1642,24 @@ def test_issue_8866():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_log_expand_factor(), test_log_expand_factor produces the expected output) over Any ║
+# ║ Path(test_log_expand_factor(), (log(18) / log(3) - 2).expand(factor=True) == log(2) / log(3) and (log(12) / log(2)).expand(factor=True) == log(3) / log(2) + 2 and (log(15) / log(3)).expand(factor=True) == 1 + log(5) / log(3) and (log(2) / (-log(12) + log(24))).expand(factor=True) == 1 and expand_log(log(12), factor=True) == log(3) + 2 * log(2) and expand_log(log(21) / log(7), factor=False) == log(3) / log(7) + 1 and expand_log(log(45) / log(5) + log(20), factor=False) == 1 + 2 * log(3) / log(5) + log(20) and expand_log(log(45) / log(5) + log(26), factor=True) == log(2) + log(13) + (log(5) + 2 * log(3)) / log(5)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_log_expand_factor : Any → {Any | (log(18) / log(...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  (log(18) / log(3) - 2).expand(factor=True...   ║
+# ║   ensures:  (log(12) / log(2)).expand(factor=True) ==...   ║
+# ║   ensures:  (log(15) / log(3)).expand(factor=True) ==...   ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_log_expand_factor : Any → {Any | result satisfie...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 2f125125ea5a994a  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.3ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 662877926eb3638b  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_expand_factor","kind":"function","src_hash":"60defa03c0b38f6a","in":{"base":"Any"},"out":{"base":"Any","pred":"(log(18) / log(3) - 2).expand(factor=True) == log(2) / log(3) and (log(12) / log(2)).expand(factor=True) == log(3) / log(2) + 2 and (log(15) / log(3)).expand(factor=True) == 1 + log(5) / log(3) and (log(2) / (-log(12) + log(24))).expand(factor=True) == 1 and expand_log(log(12), factor=True) == log(3) + 2 * log(2) and expand_log(log(21) / log(7), factor=False) == log(3) / log(7) + 1"},"spec":{"lhs":"test_log_expand_factor()","rhs":"test_log_expand_factor produces the expected output","over":{"base":"Any"},"name":"test_log_expand_factor_correct"},"guarantee":"test_log_expand_factor produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_expand_factor_correct","statement":"Path(test_log_expand_factor(x), test_log_expand_factor produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"2f125125ea5a994a"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_log_expand_factor","kind":"function","src_hash":"60defa03c0b38f6a","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: (log(18) / log(3) - 2).expand(factor=True) == log(2) / log(3) and (log(12) / log(2)).expand(factor=True) == log(3) / log(2) + 2 and (log(15) / log(3)).expand(factor=True) == 1 + log(5) / log(3) and (log(2) / (-log(12) + log(24))).expand(factor=True) == 1 and expand_log(log(12), factor=True) == log(3) + 2 * log(2) and expand_log(log(21) / log(7), factor=False) == log(3) / log(7) + 1 and expand_log(log(45) / log(5) + log(20), factor=False) == 1 + 2 * log(3) / log(5) + log(20) and expand_log(log(45) / log(5) + log(26), factor=True) == log(2) + log(13) + (log(5) + 2 * log(3)) / log(5)"},"spec":{"lhs":"test_log_expand_factor()","rhs":"(log(18) / log(3) - 2).expand(factor=True) == log(2) / log(3) and (log(12) / log(2)).expand(factor=True) == log(3) / log(2) + 2 and (log(15) / log(3)).expand(factor=True) == 1 + log(5) / log(3) and (log(2) / (-log(12) + log(24))).expand(factor=True) == 1 and expand_log(log(12), factor=True) == log(3) + 2 * log(2) and expand_log(log(21) / log(7), factor=False) == log(3) / log(7) + 1 and expand_log(log(45) / log(5) + log(20), factor=False) == 1 + 2 * log(3) / log(5) + log(20) and expand_log(log(45) / log(5) + log(26), factor=True) == log(2) + log(13) + (log(5) + 2 * log(3)) / log(5)","over":{"base":"Any"},"name":"test_log_expand_factor_correct"},"guarantee":"(log(18) / log(3) - 2).expand(factor=True) == log(2) / log(3); (log(12) / log(2)).expand(factor=True) == log(3) / log(2) + 2; (log(15) / log(3)).expand(factor=True) == 1 + log(5) / log(3)","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_log_expand_factor_correct","statement":"Path(test_log_expand_factor(x), (log(18) / log(3) - 2).expand(factor=True) == log(2) / log(3); (log(12) / log(2)).expand(factor=True) == log(3) / log(2) + 2; (log(15) / log(3)).expand(factor=True) == 1 + log(5) / log(3))"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"662877926eb3638b","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["(log(18) / log(3) - 2).expand(factor=True) == log(2) / log(3)","(log(12) / log(2)).expand(factor=True) == log(3) / log(2) + 2","(log(15) / log(3)).expand(factor=True) == 1 + log(5) / log(3)","(log(2) / (-log(12) + log(24))).expand(factor=True) == 1","expand_log(log(12), factor=True) == log(3) + 2 * log(2)","expand_log(log(21) / log(7), factor=False) == log(3) / log(7) + 1","expand_log(log(45) / log(5) + log(20), factor=False) == 1 + 2 * log(3) / log(5) + log(20)","expand_log(log(45) / log(5) + log(26), factor=True) == log(2) + log(13) + (log(5) + 2 * log(3)) / log(5)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.3,"verdict_class":"assumed","binding":true}}
 def test_log_expand_factor():
     assert (log(18)/log(3) - 2).expand(factor=True) == log(2)/log(3)
     assert (log(12)/log(2)).expand(factor=True) == log(3)/log(2) + 2
@@ -1323,32 +1675,46 @@ def test_log_expand_factor():
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_9116(), test_issue_9116 produces the expected output) over Any ║
+# ║ Path(test_issue_9116(), log(n).is_nonnegative is True) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_9116 : Any → {Any | log(n).is_nonnegative ...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  log(n).is_nonnegative is True                  ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_9116 : Any → {Any | result satisfies: log(...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | b85c13640625bfe6  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.0ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | 353cf026f159d327  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_issue_9116","kind":"function","src_hash":"2e3930562deb4724","in":{"base":"Any"},"out":{"base":"Any","pred":"log(n).is_nonnegative is True"},"spec":{"lhs":"test_issue_9116()","rhs":"test_issue_9116 produces the expected output","over":{"base":"Any"},"name":"test_issue_9116_correct"},"guarantee":"test_issue_9116 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_issue_9116_correct","statement":"Path(test_issue_9116(x), test_issue_9116 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"b85c13640625bfe6"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_issue_9116","kind":"function","src_hash":"2e3930562deb4724","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: log(n).is_nonnegative is True"},"spec":{"lhs":"test_issue_9116()","rhs":"log(n).is_nonnegative is True","over":{"base":"Any"},"name":"test_issue_9116_correct"},"guarantee":"log(n).is_nonnegative is True","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_issue_9116_correct","statement":"Path(test_issue_9116(x), log(n).is_nonnegative is True)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"353cf026f159d327","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["log(n).is_nonnegative is True"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.0,"verdict_class":"assumed","binding":true}}
 def test_issue_9116():
     n = Symbol('n', positive=True, integer=True)
     assert log(n).is_nonnegative is True
 
 
 # ╔══ CCTT ══════════════════════════════════════════════════╗
-# ║ Path(test_issue_18473(), test_issue_18473 produces the expected output) over Any ║
+# ║ Path(test_issue_18473(), exp(x * log(cos(1 / x))).as_leading_term(x) == S.NaN and exp(x * log(tan(1 / x))).as_leading_term(x) == S.NaN and log(cos(1 / x)).as_leading_term(x) == S.NaN and log(tan(1 / x)).as_leading_term(x) == S.NaN and log(cos(1 / x) + 2).as_leading_term(x) == AccumBounds(0, log(3)) and exp(x * log(cos(1 / x) + 2)).as_leading_term(x) == 1 and log(cos(1 / x) - 2).as_leading_term(x) == S.NaN and exp(x * log(cos(1 / x) - 2)).as_leading_term(x) == S.NaN and log(cos(1 / x) + 1).as_leading_term(x) == AccumBounds(-oo, log(2)) and exp(x * log(cos(1 / x) + 1)).as_leading_term(x) == AccumBounds(0, 1) and log(sin(1 / x) ** 2).as_leading_term(x) == AccumBounds(-oo, 0) and exp(x * log(sin(1 / x) ** 2)).as_leading_term(x) == AccumBounds(0, 1) and log(tan(1 / x) ** 2).as_leading_term(x) == AccumBounds(-oo, oo) and exp(2 * x * log(tan(1 / x) ** 2)).as_leading_term(x) == AccumBounds(0, oo)) over Any ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ test_issue_18473 : Any → {Any | exp(x * log(cos(1 / x...   ║
+# ║ C4 Spec [static] strength=formal                           ║
+# ║   ensures:  exp(x * log(cos(1 / x))).as_leading_term(...   ║
+# ║   ensures:  exp(x * log(tan(1 / x))).as_leading_term(...   ║
+# ║   ensures:  log(cos(1 / x)).as_leading_term(x) == S.NaN    ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ test_issue_18473 : Any → {Any | result satisfies: exp...   ║
 # ╠════════════════════════════════════════════════════════════╣
 # ║ Trusted:                                                   ║
 # ║   z3.Solver.check                                          ║
 # ╠════════════════════════════════════════════════════════════╣
-# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | ee31879316ad8a69  ║
+# ║ C4: assumed | ✓0 ?1 ✗0 VCs | 0.4ms                         ║
+# ║   F* binding: ✓                                            ║
+# ╠════════════════════════════════════════════════════════════╣
+# ║ 🟢 KERNEL | library_axiom | Compiled: ✓ | af0bfc6c436539b7  ║
 # ╚════════════════════════════════════════════════════════════╝
-# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_issue_18473","kind":"function","src_hash":"27701feb7b69baff","in":{"base":"Any"},"out":{"base":"Any","pred":"exp(x * log(cos(1 / x))).as_leading_term(x) == S.NaN and exp(x * log(tan(1 / x))).as_leading_term(x) == S.NaN and log(cos(1 / x)).as_leading_term(x) == S.NaN and log(tan(1 / x)).as_leading_term(x) == S.NaN and log(cos(1 / x) + 2).as_leading_term(x) == AccumBounds(0, log(3)) and exp(x * log(cos(1 / x) + 2)).as_leading_term(x) == 1 and log(cos(1 / x) - 2).as_leading_term(x) == S.NaN and exp(x * log(cos(1 / x) - 2)).as_leading_term(x) == S.NaN and log(cos(1 / x) + 1).as_leading_term(x) == AccumBounds(-oo, log(2)) and exp(x * log(cos(1 / x) + 1)).as_leading_term(x) == AccumBounds(0, 1) and log(sin(1 / x) ** 2).as_leading_term(x) == AccumBounds(-oo, 0) and exp(x * log(sin(1 / x) ** 2)).as_leading_term(x) == AccumBounds(0, 1) and log(tan(1 / x) ** 2).as_leading_term(x) == AccumBounds(-oo, oo) and exp(2 * x * log(tan(1 / x) ** 2)).as_leading_term(x) == AccumBounds(0, oo)"},"spec":{"lhs":"test_issue_18473()","rhs":"test_issue_18473 produces the expected output","over":{"base":"Any"},"name":"test_issue_18473_correct"},"guarantee":"test_issue_18473 produces the expected output","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_issue_18473_correct","statement":"Path(test_issue_18473(x), test_issue_18473 produces the expected output)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"ee31879316ad8a69"}
+# @cctt_verify {"v":2,"sym":"sympy.functions.elementary.tests.test_exponential.test_issue_18473","kind":"function","src_hash":"27701feb7b69baff","in":{"base":"Any"},"out":{"base":"Any","pred":"result satisfies: exp(x * log(cos(1 / x))).as_leading_term(x) == S.NaN and exp(x * log(tan(1 / x))).as_leading_term(x) == S.NaN and log(cos(1 / x)).as_leading_term(x) == S.NaN and log(tan(1 / x)).as_leading_term(x) == S.NaN and log(cos(1 / x) + 2).as_leading_term(x) == AccumBounds(0, log(3)) and exp(x * log(cos(1 / x) + 2)).as_leading_term(x) == 1 and log(cos(1 / x) - 2).as_leading_term(x) == S.NaN and exp(x * log(cos(1 / x) - 2)).as_leading_term(x) == S.NaN and log(cos(1 / x) + 1).as_leading_term(x) == AccumBounds(-oo, log(2)) and exp(x * log(cos(1 / x) + 1)).as_leading_term(x) == AccumBounds(0, 1) and log(sin(1 / x) ** 2).as_leading_term(x) == AccumBounds(-oo, 0) and exp(x * log(sin(1 / x) ** 2)).as_leading_term(x) == AccumBounds(0, 1) and log(tan(1 / x) ** 2).as_leading_term(x) == AccumBounds(-oo, oo) and exp(2 * x * log(tan(1 / x) ** 2)).as_leading_term(x) == AccumBounds(0, oo)"},"spec":{"lhs":"test_issue_18473()","rhs":"exp(x * log(cos(1 / x))).as_leading_term(x) == S.NaN and exp(x * log(tan(1 / x))).as_leading_term(x) == S.NaN and log(cos(1 / x)).as_leading_term(x) == S.NaN and log(tan(1 / x)).as_leading_term(x) == S.NaN and log(cos(1 / x) + 2).as_leading_term(x) == AccumBounds(0, log(3)) and exp(x * log(cos(1 / x) + 2)).as_leading_term(x) == 1 and log(cos(1 / x) - 2).as_leading_term(x) == S.NaN and exp(x * log(cos(1 / x) - 2)).as_leading_term(x) == S.NaN and log(cos(1 / x) + 1).as_leading_term(x) == AccumBounds(-oo, log(2)) and exp(x * log(cos(1 / x) + 1)).as_leading_term(x) == AccumBounds(0, 1) and log(sin(1 / x) ** 2).as_leading_term(x) == AccumBounds(-oo, 0) and exp(x * log(sin(1 / x) ** 2)).as_leading_term(x) == AccumBounds(0, 1) and log(tan(1 / x) ** 2).as_leading_term(x) == AccumBounds(-oo, oo) and exp(2 * x * log(tan(1 / x) ** 2)).as_leading_term(x) == AccumBounds(0, oo)","over":{"base":"Any"},"name":"test_issue_18473_correct"},"guarantee":"exp(x * log(cos(1 / x))).as_leading_term(x) == S.NaN; exp(x * log(tan(1 / x))).as_leading_term(x) == S.NaN; log(cos(1 / x)).as_leading_term(x) == S.NaN","fibers":[],"h1":0,"paths":[],"strategy":"library_axiom","details":{"library":"sympy","axiom_name":"sympy.functions.elementary.tests.test_exponential.test_issue_18473_correct","statement":"Path(test_issue_18473(x), exp(x * log(cos(1 / x))).as_leading_term(x) == S.NaN; exp(x * log(tan(1 / x))).as_leading_term(x) == S.NaN; log(cos(1 / x)).as_leading_term(x) == S.NaN)"},"assumes":[],"trust":["z3.Solver.check"],"compiled":true,"vhash":"af0bfc6c436539b7","spec_source":"static","formal_spec":{"source":"static","strength":"formal","ensures":["exp(x * log(cos(1 / x))).as_leading_term(x) == S.NaN","exp(x * log(tan(1 / x))).as_leading_term(x) == S.NaN","log(cos(1 / x)).as_leading_term(x) == S.NaN","log(tan(1 / x)).as_leading_term(x) == S.NaN","log(cos(1 / x) + 2).as_leading_term(x) == AccumBounds(0, log(3))","exp(x * log(cos(1 / x) + 2)).as_leading_term(x) == 1","log(cos(1 / x) - 2).as_leading_term(x) == S.NaN","exp(x * log(cos(1 / x) - 2)).as_leading_term(x) == S.NaN","log(cos(1 / x) + 1).as_leading_term(x) == AccumBounds(-oo, log(2))","exp(x * log(cos(1 / x) + 1)).as_leading_term(x) == AccumBounds(0, 1)","log(sin(1 / x) ** 2).as_leading_term(x) == AccumBounds(-oo, 0)","exp(x * log(sin(1 / x) ** 2)).as_leading_term(x) == AccumBounds(0, 1)","log(tan(1 / x) ** 2).as_leading_term(x) == AccumBounds(-oo, oo)","exp(2 * x * log(tan(1 / x) ** 2)).as_leading_term(x) == AccumBounds(0, oo)"],"pure":true},"c4_verdict":{"valid":true,"n_vcs":1,"n_verified":0,"n_assumed":1,"n_failed":0,"trust_level":"LIBRARY_ASSUMED","compile_ms":0.4,"verdict_class":"assumed","binding":true}}
 def test_issue_18473():
     assert exp(x*log(cos(1/x))).as_leading_term(x) == S.NaN
     assert exp(x*log(tan(1/x))).as_leading_term(x) == S.NaN
